@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-void ParkItemFBoxMapObject(u32 fbox);
+typedef struct ItemFBox ItemFBox;
+
+void ParkItemFBoxMapObject(ItemFBox *fbox);

@@ -1,13 +1,12 @@
 #include "Main/Unknown/code_021052f0.h"
 #include "Main/Unknown/code_020d22c0.h"
+#include "Main/Unknown/code_020de588.h"
 
 #include "Main/Unknown/code_021052fc.h"
 #include "Main/Unknown/code_021053d8.h"
 
-void ParkPooledMapObject(u32 pooledMapObject) {
-    u32 parkedObject = pooledMapObject;
-    u32 value12;
-    ParkMapObject((void *) parkedObject);
+void ParkPooledMapObject(ItemBox *pooledMapObject) {
+    ParkMapObject(&pooledMapObject->mUnk_000);
 }
 
 void SetPooledMapObjectFromItem(ItemBox *object, s32 alpha, Vec3 *scale) {

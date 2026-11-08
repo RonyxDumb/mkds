@@ -2,8 +2,5 @@
 #include "Main/Unknown/unk_0217c000.h"
 
 u32 GetItemKouraWFarDistanceSquared(void) {
-    u32 value0;
-    value0 = (u32) &gSoundFalloffs;
-    value0 = *(const u32 *) ((value0) + (284));
-    return value0;
+    return gSoundFalloffs[7].mUnk_20;
 }

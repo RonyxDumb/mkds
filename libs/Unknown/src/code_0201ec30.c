@@ -39,11 +39,7 @@ void func_02020430(Unk02173290 *a) {
 }
 
 void func_0202041c(void) {
-    u32 value0;
-    u32 value1;
-    value0 = (u32) &data_02173294;
-    value1 = 1u;
-    *(u32 *) ((value0) + (0)) = value1;
+    data_02173294 = 1;
 }
 
 void func_020203e4(void) {
@@ -56,10 +52,7 @@ void func_020203e4(void) {
 }
 
 void func_020203d4(u32 arg0) {
-    u32 value0 = arg0;
-    u32 value1;
-    value1 = (u32) &data_02161ad8;
-    *(u8 *) ((value1) + (0)) = value0;
+    data_02161ad8 = arg0;
 }
 
 u8 func_0201ec30(void) {

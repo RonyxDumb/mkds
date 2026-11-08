@@ -14,13 +14,13 @@ u32 ReadNvramEntriesOffset(u16 *buffer) {
     if (readResult == 0) {
         return 0;
     }
-    *(s32 *) &gNvramEntriesOffset = *buffer * 8 - 0x400;
+    gNvramEntriesOffset = *buffer * 8 - 0x400;
     return 1;
 }
 
 u32 ReadNvramEntries(void *buffer) {
     int readResult;
-    readResult = readNvram((*(u32 *) &gNvramEntriesOffset), (0x00000400u), buffer);
+    readResult = readNvram(gNvramEntriesOffset, 0x400, buffer);
     if (readResult != 0) {
         return 1;
     }
@@ -34,7 +34,7 @@ u32 WriteFlaggedNvramEntries(int data, int *flags, void *verifyBuffer) {
     int *flagPointer;
     int entryIndex;
     v2 = 0x100;
-    address = *(s32 *) &gNvramEntriesOffset;
+    address = gNvramEntriesOffset;
     entryIndex = 0;
     flagPointer = flags;
     do {
@@ -56,23 +56,23 @@ u32 WriteFlaggedNvramEntries(int data, int *flags, void *verifyBuffer) {
     return 0;
 }
 
-u32 WriteNvramEntriesWithCrc16(int data) {
+u32 WriteNvramEntriesWithCrc16(u8 *data) {
     int entryIndex;
     int address;
-    int entry;
+    u8 *entry;
     int v4;
     int verifyResult;
     u16 crc;
     v4 = 0x100;
-    address = *(s32 *) &gNvramEntriesOffset;
+    address = gNvramEntriesOffset;
     entryIndex = 0;
     entry = data;
     do {
-        crc = Crc16((const u16 *) (data + 0x500), (const u8 *) entry, 0xfe);
-        *(u16 *) (entry + 0xfe) = crc;
+        crc = Crc16(OFFSET_PTR(const u16, data, 0x500), entry, 0xfe);
+        *OFFSET_PTR(u16, entry, 0xfe) = crc;
         do {
-            writeNvram(address, v4, (void *) entry);
-            verifyResult = verify((const u8 *) entry, address, v4, (const u8 *) (data + 0x400));
+            writeNvram(address, v4, entry);
+            verifyResult = verify(entry, address, v4, OFFSET_PTR(const u8, data, 0x400));
         } while (verifyResult == 0);
         entry = entry + v4;
         entryIndex = entryIndex + 1;
@@ -88,13 +88,7 @@ u32 WriteNvramEntriesWithCrc16(int data) {
 #pragma thumb off
 
 #pragma thumb on
-void WritePackedWiFiInfo(u32 packedWiFiInfo) {
-    u32 source = packedWiFiInfo;
-    u32 destination;
-    u32 size;
-    u32 value3;
-    destination = (u32) &gPackedWiFiInfo;
-    size = 14u;
-    MI_CpuCopy8((const void *) source, (void *) destination, size);
+void WritePackedWiFiInfo(const u8 *packedWiFiInfo) {
+    MI_CpuCopy8(packedWiFiInfo, gPackedWiFiInfo, 14);
 }
 #pragma thumb off

@@ -6,7 +6,7 @@
 
 u32 ReadNvramFirstThreeEntries(void *buffer) {
     int readResult;
-    readResult = readNvram((*(u32 *) &gNvramEntriesOffset), (0x00000300u), buffer);
+    readResult = readNvram(gNvramEntriesOffset, 0x300, buffer);
     if (readResult != 0) {
         return 1;
     }

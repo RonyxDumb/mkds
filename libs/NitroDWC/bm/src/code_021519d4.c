@@ -130,26 +130,26 @@ s32 DWC_BM_Init(u8 *work) {
         valid[3] = 1;
     }
     if (valid[0] != 0 && valid[1] != 0 && valid[2] != 0 && valid[3] != 0) {
-        WritePackedWiFiInfo((u32) (work + 0xf0));
+        WritePackedWiFiInfo(work + 0xf0);
         return 0;
     }
     if (valid[0] == 0 && valid[1] == 0 && valid[2] == 0 && valid[3] == 0) {
         init(work);
-        if (WriteNvramEntriesWithCrc16((int) work) != 0) {
+        if (WriteNvramEntriesWithCrc16(work) != 0) {
             return 0;
         }
         return -10000;
     }
     if ((valid[0] == 0 || valid[1] == 0) && (valid[2] == 0 || valid[3] == 0)) {
         init(work);
-        if (WriteNvramEntriesWithCrc16((int) work) != 0) {
+        if (WriteNvramEntriesWithCrc16(work) != 0) {
             return 0;
         }
         return -10000;
     }
     if (valid[0] == 0 && valid[1] == 0) {
         init(work);
-        if (WriteNvramEntriesWithCrc16((int) work) != 0) {
+        if (WriteNvramEntriesWithCrc16(work) != 0) {
             return -10003;
         }
         return -10000;
@@ -163,7 +163,7 @@ s32 DWC_BM_Init(u8 *work) {
         MI_CpuCopy8(work + 0xf0, work + 0x1f0, 0xd);
         work[0x1ef] = work[0xef];
     }
-    WritePackedWiFiInfo((u32) (work + 0xf0));
+    WritePackedWiFiInfo(work + 0xf0);
     if (valid[2] == 0) {
         initPage(work, 2);
     }
@@ -183,7 +183,7 @@ s32 DWC_BM_Init(u8 *work) {
             }
         }
     }
-    if (WriteNvramEntriesWithCrc16((int) work) == 0) {
+    if (WriteNvramEntriesWithCrc16(work) == 0) {
         return -10000;
     }
     if (dropped != 0) {

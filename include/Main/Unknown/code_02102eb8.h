@@ -4,6 +4,6 @@
 
 typedef struct ItemGesso ItemGesso;
 
-unsigned int SetupItemGesso();
+unsigned int SetupItemGesso(ItemGesso *gesso, s32 fromData);
 BOOL SetupNextItemGessoStep(ItemGesso *gesso);
 void ResetItemGesso(ItemGesso *gesso);

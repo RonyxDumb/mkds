@@ -46,7 +46,7 @@ extern u32 data_0217cbec[];
 extern u32 data_0217c780;
 extern u32 data_0217cc6c[];
 extern u32 data_0217c7fc[];
-extern u8 data_0217ccac[];
+extern s32 data_0217ccac;
 extern u32 data_0217cd30[];
 extern s32 gOrthoQuadHoldFrameCount;
 extern s32 gOrthoQuadFrames;

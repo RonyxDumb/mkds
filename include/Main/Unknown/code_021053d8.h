@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-void ParkPooledMapObject(u32 pooledMapObject);
+typedef struct ItemBox ItemBox;
+
+void ParkPooledMapObject(ItemBox *pooledMapObject);

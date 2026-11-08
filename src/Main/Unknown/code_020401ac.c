@@ -122,7 +122,7 @@ s16 ComputeRaceProgressKartScore(s32 kartIndex) {
     RaceProgress *raceProgress = gRaceProgress;
     RaceProgressScoreTerms *savedScoreTerms = &raceProgress->mScoreTerms;
     s32 score;
-    u8 *missionSettings;
+    Unk021759c0_28 *missionSettings;
 
     if ((raceProgress->mUnk_000[kartIndex].mFlags & 1) == 0) {
         return 0;
@@ -133,11 +133,10 @@ s16 ComputeRaceProgressKartScore(s32 kartIndex) {
             ComputeGrandPrixScoreTerms(&scoreTerms, kartIndex);
             break;
         case MODE_MISSION_RUN:
-            missionSettings = (u8 *) raceSetup + 0x28;
+            missionSettings = &raceSetup->mUnk_28_view;
             entryKartCounters = GetEntryKartCounters();
             scoreTerms.mTimeRemainingScore =
-                FX_Div(*(s16 *) (missionSettings + 4) *
-                               (*(u16 *) (missionSettings + 2) - raceProgress->mUnk_000[0].mElapsedFrames)
+                FX_Div(missionSettings->mUnk_04 * (missionSettings->mUnk_02 - raceProgress->mUnk_000[0].mElapsedFrames)
                            << 12,
                        0x3e8000) >>
                 12;

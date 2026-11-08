@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_0210bad4(u32 soundSource, u32 soundId);
+void func_0210bad4(void *soundSource, int soundId);

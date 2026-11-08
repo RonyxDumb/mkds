@@ -162,7 +162,7 @@ void ReleaseBouncingItemBox(BouncingItemBox *box) {
     if ((s32) gBouncingItemBoxTimers[kartIndex] > 0) {
         gBouncingItemBoxTimerRunning[kartIndex] = 1;
     }
-    ParkPooledMapObject((u32) box->mPooledMapObject);
+    ParkPooledMapObject(box->mPooledMapObject);
 }
 
 void CollideKartWithBouncingItemBox(BouncingItemBox *box, void *a) {

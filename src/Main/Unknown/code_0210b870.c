@@ -10,28 +10,23 @@
 #include "Main/Unknown/unk_0217c000.h"
 #include "code_0212bcac.h"
 
-u32 func_0210bac0(void) {
-    u32 counterAddress;
-    u32 zero;
-    counterAddress = (u32) &data_0217ccac;
-    zero = 0u;
-    *(u32 *) ((counterAddress) + (0)) = zero;
-    return counterAddress;
+void func_0210bac0(void) {
+    data_0217ccac = 0;
 }
 
 void func_0210ba78(void *mapSound, s32 baseSoundId) {
-    Kart *mapSoundCopy;
+    MapObjectSound *mapSoundCopy;
     s32 counter;
 
     mapSoundCopy = mapSound;
-    counter = *(s32 *) data_0217ccac;
+    counter = data_0217ccac;
     StartSound(&mapSoundCopy->mSoundSource, baseSoundId + counter, (0x7f - (counter >> 1)) & 0xff, 0);
-    *(u32 *) data_0217ccac = *(u32 *) (u32) data_0217ccac + 0xa;
+    data_0217ccac = data_0217ccac + 0xa;
 }
 
 void func_0210ba38(struct MapObjectSound *mapSound, s32 soundId) {
     AddSoundRequest(&data_0217d29c, mapSound->mSoundSource.mDistanceSquared + 0x15f90,
-                    (void (*)(void *, int)) func_0210bad4, mapSound, soundId);
+                    func_0210bad4, mapSound, soundId);
 }
 
 void func_0210b98c(struct MapObjectSound *mapSound, s32 soundId) {
@@ -82,25 +77,24 @@ void func_0210b8f4(void *position, s32 distanceSquared) {
     AddSoundRequest(&data_0217d29c, distanceSquared, func_0210b924, position, distanceSquared);
 }
 
-int func_0210b8bc(void *soundSource, s32 fixedValue) {
+void func_0210b8bc(struct MapObjectSound *soundSource, s32 fixedValue) {
     s32 clampedValue;
 
     clampedValue = fixedValue >> 12;
     if (clampedValue > 0x1e) {
         clampedValue = 0x1e;
     }
-    return (s32) StartSound(soundSource, 0x1ce, ((clampedValue * 2) + 0x3c) & 0xff, clampedValue - 0xa);
+    StartSound(&soundSource->mSoundSource, 0x1ce, ((clampedValue * 2) + 0x3c) & 0xff, clampedValue - 0xa);
 }
 
 void func_0210b874(struct MapObjectSound *mapSound, s32 fixedValue) {
     s32 pitchAndModSpeed;
-    NNSSndSeqPlayer **handle;
+    PlayingSound *sound;
 
     pitchAndModSpeed = (fixedValue >> 12) + 5;
-    handle =
-        (NNSSndSeqPlayer **) StartSoundWhileRequested(&mapSound->mSoundSource, 0x1cd, 0x7f, (s16) pitchAndModSpeed);
-    if (handle != NULL) {
-        NNS_SndPlayerSetTrackModSpeed(handle, 0xffff, pitchAndModSpeed);
+    sound = StartSoundWhileRequested(&mapSound->mSoundSource, 0x1cd, 0x7f, (s16) pitchAndModSpeed);
+    if (sound != NULL) {
+        NNS_SndPlayerSetTrackModSpeed(&sound->mSeqPlayer, 0xffff, pitchAndModSpeed);
     }
 }
 

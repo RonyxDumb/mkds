@@ -206,7 +206,7 @@ void CopyItemGessoData(void *data, ItemGesso *gesso, void *toData) {
 
 void InitItemGessoFromData(ItemGesso *gesso) {
     func_020f8e78(gesso);
-    SetupItemGesso((u32) gesso, 1);
+    SetupItemGesso(gesso, 1);
 }
 
 #pragma thumb on

@@ -22,7 +22,7 @@ void DWCi_BM_GetWiFiInfo(DWCWiFiInfo *info) {
 BOOL DWCi_BM_SetWiFiInfo(const DWCWiFiInfo *info, u8 *work) {
     u32 address;
     s32 page;
-    address = *(u32 *) gNvramEntriesOffset;
+    address = gNvramEntriesOffset;
     DWCi_BACKUPlConvWifiInfo(info);
     Crc16InitTable(OFFSET_PTR(u16, work, 0x200), 0xa001);
     for (page = 0; page < 2;) {

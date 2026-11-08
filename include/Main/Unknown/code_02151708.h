@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void WritePackedWiFiInfo(u32 packedWiFiInfo);
+void WritePackedWiFiInfo(const u8 *packedWiFiInfo);

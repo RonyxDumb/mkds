@@ -1,6 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_02100de4.h" // Unk02101d18
 
-unsigned int InitItemGesso(Unk02101d18 *itemInUse, unsigned int gesso);
+typedef struct ItemInUse ItemInUse;
+typedef struct ItemGesso ItemGesso;
+
+unsigned int InitItemGesso(ItemInUse *itemInUse, ItemGesso *gesso);

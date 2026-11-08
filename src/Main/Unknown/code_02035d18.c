@@ -198,14 +198,7 @@ void ReleaseWLMenuMessage(void) {
 #pragma thumb off
 
 void WriteSubDispcntBits(int bits) {
-    u32 value0 = bits;
-    u32 registerValue;
-    u32 registerAddress;
-    registerAddress = 0x4001000u;
-    registerValue = *(const u32 *) ((registerAddress) + (0));
-    registerValue = (registerValue) & ~(0x1f00u);
-    value0 = (registerValue) | ((value0 << 8));
-    *(u32 *) ((registerAddress) + (0)) = value0;
+    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | (bits << 8);
 }
 
 void WriteSubBg3Offset(u32 offsetX, int offsetY) {
