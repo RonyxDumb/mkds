@@ -35,8 +35,8 @@ typedef struct LabelCanvas {
     /* 00 */ u8 mUnk_00[0x18];
     /* 18 */ void (*mUnk_18)(struct LabelCanvas *a, s32 b);
     /* 1c */ u8 mUnk_1c[0x4];
-    /* 20 */ LabelTextCanvas mUnk_20;
-    /* 44 */ Unk020224e0_c *mUnk_44;
+    /* 20 */ LabelTextCanvas mTextCanvas;
+    /* 44 */ Unk020224e0_c *mCellData;
 } LabelCanvas;
 
 // 0x40-byte element of the tables InitLayoutTable allocates and InitLayoutTableEntries sets up: behind
@@ -72,13 +72,13 @@ typedef struct Unk02022eb0 {
 
 // 12-byte elements of the array func_0201ea58 indexes.
 typedef struct LabelLayoutEntry {
-    /* 00 */ Unk0201ea84 mUnk_00;
-    /* 02 */ Unk0201ea84 mUnk_02;
-    /* 04 */ s8 mUnk_04;
-    /* 05 */ s8 mUnk_05;
-    /* 06 */ u16 mUnk_06_0 : 8;
-    /* 06 */ u16 mUnk_06_8 : 4;
-    /* 06 */ u16 mUnk_06_12 : 4;
+    /* 00 */ Unk0201ea84 mAxisX;
+    /* 02 */ Unk0201ea84 mAxisY;
+    /* 04 */ s8 mCharSpacing;
+    /* 05 */ s8 mLineSpacing;
+    /* 06 */ u16 mColor : 8;
+    /* 06 */ u16 mPaletteIndex : 4;
+    /* 06 */ u16 mFontIndex : 4;
     /* 08 */ u8 mUnk_08[4];
 } LabelLayoutEntry;
 

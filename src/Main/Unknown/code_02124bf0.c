@@ -47,9 +47,9 @@ u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout, Unk0
     }
     if (index >= cellLayout->mUnk_06) {
         LabelLayoutEntry *labelEntry = func_0201ea58(labelLayout, index - cellLayout->mUnk_06);
-        cellData = entry->mLabelCanvas->mUnk_44;
-        axisRecords[0] = labelEntry->mUnk_00;
-        axisRecords[1] = labelEntry->mUnk_02;
+        cellData = entry->mLabelCanvas->mCellData;
+        axisRecords[0] = labelEntry->mAxisX;
+        axisRecords[1] = labelEntry->mAxisY;
         width = cellData->mUnk_08 - cellData->mUnk_0c;
         height = cellData->mUnk_0a - cellData->mUnk_0e;
         position[0] = axisRecords[0].mUnk_00_0 << 12;

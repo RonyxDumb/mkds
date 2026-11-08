@@ -156,9 +156,9 @@ void AdvancePlayerEntryListOffsets(void) {
         offsetX = InterpolateS16(1, gEntrySlotOffsetsX[gPlayerEntryList->mEntries[i].mSlotMove.mFromSlot],
                                  gEntrySlotOffsetsX[gPlayerEntryList->mEntries[i].mSlotMove.mToSlot],
                                  gPlayerEntryList->mEntries[i].mSlotMove.mMoveFrames, 10);
-        fileSet->mCellTable[cellCount + gEntryLabelTextRows[i].mUnk_00].mOffsetX = offsetX;
+        fileSet->mCellTable[cellCount + gEntryLabelTextRows[i].mLabelIndex].mOffsetX = offsetX;
         fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mOffsetX =
-            fileSet->mCellTable[cellCount + gEntryLabelTextRows[i].mUnk_00].mOffsetX;
+            fileSet->mCellTable[cellCount + gEntryLabelTextRows[i].mLabelIndex].mOffsetX;
         fileSet->mCellTable[gEntryCellIndices[i].mCharacterCellIndex].mOffsetX =
             fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mOffsetX;
         fileSet->mCellTable[gEntryCellIndices[i].mUnk_00].mOffsetX =
@@ -196,7 +196,7 @@ void PrintEntryName(s32 entryIndex, u16 *name) {
     MIi_CpuClear16(text[0], &text[1], 0x16);
     name[10] = 0;
     CopyTextWithinWidth(name, &text[1]);
-    func_0212426c(0, gEntryLabelTextRows[entryIndex].mUnk_00, entryList->mParts.mLabelLayout, &text[1],
+    func_0212426c(0, gEntryLabelTextRows[entryIndex].mLabelIndex, entryList->mParts.mLabelLayout, &text[1],
                   entryList->mParts.mCellLayout, entryList->mParts.mCellTable);
 }
 

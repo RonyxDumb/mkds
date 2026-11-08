@@ -17,9 +17,9 @@ char *BuildCharacterNsbmdPath(u16 a, s32 b) {
     const char *ext = "nsbmd";
     const char *name;
     if (b != 0) {
-        name = gCharacterPNames[a].mUnk_00;
+        name = gCharacterPNames[a].mName;
     } else {
-        name = gCharacterENames[a].mUnk_00;
+        name = gCharacterENames[a].mName;
     }
     snprintf(gKartModelPathBuffer, 0x100, "%s%s%s", gKartModelPathPrefix, gCharacterDirName, gCharacterSubDirNames[a]);
     snprintf(gKartModelPathBuffer, 0x100, "%s%s.%s", gKartModelPathBuffer, name, ext);
@@ -30,9 +30,9 @@ char *BuildCharacterNsbtxPath(u16 a, s32 b) {
     const char *ext = "nsbtx";
     const char *name;
     if (b != 0) {
-        name = gCharacterPNames[a].mUnk_00;
+        name = gCharacterPNames[a].mName;
     } else {
-        name = gCharacterENames[a].mUnk_00;
+        name = gCharacterENames[a].mName;
     }
     snprintf(gKartModelPathBuffer, 0x100, "%s%s%s", gKartModelPathPrefix, gCharacterDirName, gCharacterSubDirNames[a]);
     snprintf(gKartModelPathBuffer, 0x100, "%s%s.%s", gKartModelPathBuffer, name, ext);
@@ -73,9 +73,9 @@ char *BuildKartShadowNsbmdPath(u16 a) {
 
 const char *LookupCharacterPOrEName(s32 a, s32 b) {
     if (b != 0) {
-        return gCharacterPNames[a].mUnk_00;
+        return gCharacterPNames[a].mName;
     } else {
-        return gCharacterENames[a].mUnk_00;
+        return gCharacterENames[a].mName;
     }
 }
 
@@ -91,7 +91,7 @@ s8 *BuildPFaceanimNsbtpPath(void) {
 }
 
 char *BuildEmblemNsbtxPath(u16 a) {
-    snprintf(gKartModelPathBuffer, 0x100, gEmblemNsbtxFormat, gKartModelPathPrefix, gCharacterEmblemNames[a].mUnk_00);
+    snprintf(gKartModelPathBuffer, 0x100, gEmblemNsbtxFormat, gKartModelPathPrefix, gCharacterEmblemNames[a].mName);
     return gKartModelPathBuffer;
 }
 

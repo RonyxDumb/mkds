@@ -41,7 +41,7 @@ extern Vec3 data_02155ebc;
 
 // 12-byte entries; BuildEmblemNsbtxPath reads the string pointer at 0x00.
 typedef struct CharacterName {
-    /* 00 */ const char *mUnk_00;
+    /* 00 */ const char *mName;
     /* 04 */ u8 mUnk_04[8];
 } CharacterName;
 

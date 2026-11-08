@@ -319,20 +319,20 @@ s32 InitLabelCanvas(void *heap, s32 labelIndex, Unk0201ea30 *labelLayout, s32 wi
     widthBlocks = ((width - 1) >> 3) + 1;
     heightBlocks = ((height - 1) >> 3) + 1;
     blockCount = widthBlocks * heightBlocks;
-    canvas->mUnk_20.mUnk_14 = blockCount << 5;
-    canvas->mUnk_20.mUnk_18 = ((j - 0x100) >> 5) - blockCount;
-    canvas->mUnk_20.mUnk_10 = HeapAlloc(heap, canvas->mUnk_20.mUnk_14);
-    NNS_G2dCharCanvasInitForOBJ1D(canvas, canvas->mUnk_20.mUnk_10, widthBlocks, heightBlocks, 4);
+    canvas->mTextCanvas.mUnk_14 = blockCount << 5;
+    canvas->mTextCanvas.mUnk_18 = ((j - 0x100) >> 5) - blockCount;
+    canvas->mTextCanvas.mUnk_10 = HeapAlloc(heap, canvas->mTextCanvas.mUnk_14);
+    NNS_G2dCharCanvasInitForOBJ1D(canvas, canvas->mTextCanvas.mUnk_10, widthBlocks, heightBlocks, 4);
     canvas->mUnk_18(canvas, 0);
-    sb = labelEntry->mUnk_05;
-    sa = labelEntry->mUnk_04;
-    font = GetFontByIndex(labelEntry->mUnk_06_12);
-    canvas->mUnk_20.mCharCanvas = canvas;
-    canvas->mUnk_20.mFont = font;
-    canvas->mUnk_20.mCharSpacing = sa;
-    canvas->mUnk_20.mLineSpacing = sb;
-    canvas->mUnk_20.mUnk_1c = width;
-    canvas->mUnk_20.mUnk_20 = height;
+    sb = labelEntry->mLineSpacing;
+    sa = labelEntry->mCharSpacing;
+    font = GetFontByIndex(labelEntry->mFontIndex);
+    canvas->mTextCanvas.mCharCanvas = canvas;
+    canvas->mTextCanvas.mFont = font;
+    canvas->mTextCanvas.mCharSpacing = sa;
+    canvas->mTextCanvas.mLineSpacing = sb;
+    canvas->mTextCanvas.mUnk_1c = width;
+    canvas->mTextCanvas.mUnk_20 = height;
     m = 0;
     n = 0;
     if (entryIndex < cellEntryCount) {
@@ -343,7 +343,7 @@ s32 InitLabelCanvas(void *heap, s32 labelIndex, Unk0201ea30 *labelLayout, s32 wi
         u = func_021240d4(entryIndex, labelLayout, table, cellLayout);
         v = func_0212418c(entryIndex, labelLayout, table, cellLayout);
     }
-    switch (labelEntry->mUnk_00.mUnk_00_12) {
+    switch (labelEntry->mAxisX.mUnk_00_12) {
         case 1:
             m = -(widthBlocks << 2);
             break;
@@ -351,7 +351,7 @@ s32 InitLabelCanvas(void *heap, s32 labelIndex, Unk0201ea30 *labelLayout, s32 wi
             m = -(widthBlocks << 3);
             break;
     }
-    switch (labelEntry->mUnk_02.mUnk_00_12) {
+    switch (labelEntry->mAxisY.mUnk_00_12) {
         case 1:
             n = -(heightBlocks << 2);
             break;
@@ -359,7 +359,7 @@ s32 InitLabelCanvas(void *heap, s32 labelIndex, Unk0201ea30 *labelLayout, s32 wi
             n = -(heightBlocks << 3);
             break;
     }
-    oamCount = NNS_G2dArrangeOBJ1D(oamBuffer, widthBlocks, heightBlocks, m, n, 0, canvas->mUnk_20.mUnk_18, 0);
+    oamCount = NNS_G2dArrangeOBJ1D(oamBuffer, widthBlocks, heightBlocks, m, n, 0, canvas->mTextCanvas.mUnk_18, 0);
     cellData = HeapAlloc(heap, oamCount * 6 + 0x10);
     cellData->mUnk_00 = oamCount;
     cellData->mUnk_02 = 0;
@@ -371,11 +371,11 @@ s32 InitLabelCanvas(void *heap, s32 labelIndex, Unk0201ea30 *labelLayout, s32 wi
     for (k = 0; k < oamCount; k++) {
         oamBuffer[k].mUnk_04 = (oamBuffer[k].mUnk_04 & ~0xc00) | (u * 0x400);
         if (v != 0) {
-            m = labelEntry->mUnk_06_8;
+            m = labelEntry->mPaletteIndex;
             oamBuffer[k].mUnk_00 = (oamBuffer[k].mUnk_00 & ~0xc00) | 0x400;
             oamBuffer[k].mUnk_04 = (oamBuffer[k].mUnk_04 & ~0xf000) | (m * 0x1000);
         } else {
-            m = labelEntry->mUnk_06_8;
+            m = labelEntry->mPaletteIndex;
             oamBuffer[k].mUnk_00 &= ~0xc00;
             oamBuffer[k].mUnk_04 = (oamBuffer[k].mUnk_04 & ~0xf000) | (m * 0x1000);
         }
@@ -385,8 +385,8 @@ s32 InitLabelCanvas(void *heap, s32 labelIndex, Unk0201ea30 *labelLayout, s32 wi
         cellData->mUnk_04[k].mUnk_02 = oamBuffer[k].mUnk_00_2;
         cellData->mUnk_04[k].mUnk_04 = oamBuffer[k].mUnk_04;
     }
-    canvas->mUnk_44 = cellData;
-    return canvas->mUnk_20.mUnk_14;
+    canvas->mCellData = cellData;
+    return canvas->mTextCanvas.mUnk_14;
 }
 
 // Clears the character canvas of entry b, draws the string d into it and queues its upload.
@@ -406,37 +406,37 @@ void PrintLabelLayoutText(s32 queueSelector, s32 labelIndex, Unk0201ea30 *labelL
     s32 charBytes;
     labelEntry = func_0201ea58(labelLayout, labelIndex);
     canvas = (table + cellLayout->mUnk_06 + labelIndex)->mLabelCanvas;
-    canvasWidth = canvas->mUnk_20.mUnk_1c;
-    canvasHeight = canvas->mUnk_20.mUnk_20;
+    canvasWidth = canvas->mTextCanvas.mUnk_1c;
+    canvasHeight = canvas->mTextCanvas.mUnk_20;
     alignedWidth = ((canvasWidth - 1) >> 3) + 1 << 3;
     alignedHeight = ((canvasHeight - 1) >> 3) + 1 << 3;
     flags = 0;
     offsetX = 0;
     offsetY = 0;
-    if (labelEntry->mUnk_00.mUnk_00_12 == 0) {
+    if (labelEntry->mAxisX.mUnk_00_12 == 0) {
         flags |= 0x200;
-    } else if (labelEntry->mUnk_00.mUnk_00_12 == 1) {
+    } else if (labelEntry->mAxisX.mUnk_00_12 == 1) {
         flags |= 0x400;
         offsetX = (alignedWidth - canvasWidth) >> 1;
-    } else if (labelEntry->mUnk_00.mUnk_00_12 == 2) {
+    } else if (labelEntry->mAxisX.mUnk_00_12 == 2) {
         flags |= 0x800;
         offsetX = alignedWidth - canvasWidth;
     }
-    if (labelEntry->mUnk_02.mUnk_00_12 == 0) {
+    if (labelEntry->mAxisY.mUnk_00_12 == 0) {
         flags |= 0x40;
-    } else if (labelEntry->mUnk_02.mUnk_00_12 == 1) {
+    } else if (labelEntry->mAxisY.mUnk_00_12 == 1) {
         flags |= 0x80;
         offsetY = (alignedHeight - canvasHeight) >> 1;
-    } else if (labelEntry->mUnk_02.mUnk_00_12 == 2) {
+    } else if (labelEntry->mAxisY.mUnk_00_12 == 2) {
         flags |= 0x100;
         offsetY = alignedHeight - canvasHeight;
     }
     canvas->mUnk_18(canvas, 0);
-    func_02125808(&canvas->mUnk_20, offsetX, offsetY, canvasWidth, canvasHeight, labelEntry->mUnk_06_0, flags,
-                  labelEntry->mUnk_00.mUnk_00_14, text, g, h);
-    chars = canvas->mUnk_20.mUnk_10;
-    destOffset = canvas->mUnk_20.mUnk_18 << 5;
-    charBytes = canvas->mUnk_20.mUnk_14;
+    func_02125808(&canvas->mTextCanvas, offsetX, offsetY, canvasWidth, canvasHeight, labelEntry->mColor, flags,
+                  labelEntry->mAxisX.mUnk_00_14, text, g, h);
+    chars = canvas->mTextCanvas.mUnk_10;
+    destOffset = canvas->mTextCanvas.mUnk_18 << 5;
+    charBytes = canvas->mTextCanvas.mUnk_14;
     DC_FlushRange(chars, charBytes);
     if (queueSelector == 0) {
         CallQueueAppend(0x13, destOffset, chars, charBytes);
@@ -470,9 +470,9 @@ void ClearAndQueueLabelLayoutText(s32 queueSelector, s32 labelIndex, Unk0201ea30
     func_0201ea58(labelLayout, labelIndex);
     canvas = (table + cellLayout->mUnk_06 + labelIndex)->mLabelCanvas;
     canvas->mUnk_18(canvas, 0);
-    chars = canvas->mUnk_20.mUnk_10;
-    destOffset = canvas->mUnk_20.mUnk_18 << 5;
-    charBytes = canvas->mUnk_20.mUnk_14;
+    chars = canvas->mTextCanvas.mUnk_10;
+    destOffset = canvas->mTextCanvas.mUnk_18 << 5;
+    charBytes = canvas->mTextCanvas.mUnk_14;
     DC_FlushRange(chars, charBytes);
     if (queueSelector == 0) {
         CallQueueAppend(0x13, destOffset, chars, charBytes);
@@ -486,7 +486,7 @@ BOOL func_0212418c(s32 labelIndex, void *b, LayoutTableEntry *table, Unk0201ea30
     LayoutTableEntry *labelTableEntry;
     entry = table + labelIndex;
     labelTableEntry = entry + cellLayout->mUnk_06;
-    if ((labelTableEntry->mLabelCanvas->mUnk_44->mUnk_04->mUnk_00 & 0xc00) >> 10 == 1) {
+    if ((labelTableEntry->mLabelCanvas->mCellData->mUnk_04->mUnk_00 & 0xc00) >> 10 == 1) {
         return TRUE;
     }
     return FALSE;
@@ -501,7 +501,7 @@ void func_02124140(u32 labelIndex, u32 value, Unk0201ea30 *labelLayout, LayoutTa
     Unk020224e0_s *oamEntry;
     entry = table + labelIndex;
     labelTableEntry = entry + cellLayout->mUnk_06;
-    cellData = labelTableEntry->mLabelCanvas->mUnk_44;
+    cellData = labelTableEntry->mLabelCanvas->mCellData;
     oamEntry = cellData->mUnk_04;
     for (i = 0; i < cellData->mUnk_00; i++) {
         oamEntry->mUnk_00 &= ~0xc00;
@@ -521,7 +521,7 @@ void SetLabelPaletteIndex(s32 labelIndex, u8 paletteIndex, Unk0201ea30 *labelLay
     Unk020224e0_s *oamEntry;
     entry = table + labelIndex;
     labelTableEntry = entry + cellLayout->mUnk_06;
-    cellData = labelTableEntry->mLabelCanvas->mUnk_44;
+    cellData = labelTableEntry->mLabelCanvas->mCellData;
     oamEntry = cellData->mUnk_04;
     for (i = 0; i < cellData->mUnk_00; i++) {
         oamEntry->mUnk_04 &= ~0xf000;
@@ -535,7 +535,7 @@ u8 func_021240d4(s32 labelIndex, void *b, LayoutTableEntry *table, Unk0201ea30 *
     LayoutTableEntry *labelTableEntry;
     entry = table + labelIndex;
     labelTableEntry = entry + cellLayout->mUnk_06;
-    return (labelTableEntry->mLabelCanvas->mUnk_44->mUnk_04->mUnk_04 & 0xc00) >> 10;
+    return (labelTableEntry->mLabelCanvas->mCellData->mUnk_04->mUnk_04 & 0xc00) >> 10;
 }
 
 void func_02124094(u32 labelIndex, u32 value, Unk0201ea30 *labelLayout, LayoutTableEntry *table,
@@ -547,7 +547,7 @@ void func_02124094(u32 labelIndex, u32 value, Unk0201ea30 *labelLayout, LayoutTa
     Unk020224e0_s *oamEntry;
     entry = table + labelIndex;
     labelTableEntry = entry + cellLayout->mUnk_06;
-    cellData = labelTableEntry->mLabelCanvas->mUnk_44;
+    cellData = labelTableEntry->mLabelCanvas->mCellData;
     oamEntry = cellData->mUnk_04;
     for (i = 0; i < cellData->mUnk_00; i++) {
         oamEntry->mUnk_04 &= ~0xc00;
