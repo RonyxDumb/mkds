@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_020d0f60(void);
+void func_020d0f60(void);

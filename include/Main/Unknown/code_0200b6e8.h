@@ -20,6 +20,22 @@ typedef struct ScanErrorArgs {
 
 #include "code_02142eac.h"
 
+typedef struct MPLink {
+    /* 00 */ UnkFunc *mCallback;
+    /* 04 */ void *mSendBuffer;
+    /* 08 */ u8 *mReceiveBuffer;
+    /* 0c */ u32 mUnk_0c;
+    /* 10 */ u16 mSendBufferSize;
+    /* 12 */ u16 mReceiveBufferSize;
+    /* 14 */ u16 mUnk_14;
+    /* 16 */ u16 mUnk_16;
+    /* 18 */ u16 mUnk_18;
+    /* 1a */ u16 mMPStarted;
+    /* 1c */ u16 mResetting;
+    /* 1e */ u16 mUnk_1e;
+    /* 20 */ u16 mDataQueued;
+} MPLink;
+
 typedef struct ScanConnectWork {
     /* 0000 */ u8 mUnk_0000[0x20];
     /* 0020 */ u8 mReceiveBuffer[0x480];
@@ -27,7 +43,7 @@ typedef struct ScanConnectWork {
     /* 04c0 */ ScanBlock mScanBuffer;
     /* 0580 */ Unk02143a78 mScanParams;
     /* 0590 */ u8 mUnk_0590[0x10];
-    /* 05a0 */ u8 mMPLink[0x24];
+    /* 05a0 */ MPLink mMPLink;
     /* 05c4 */ u8 mUnk_05c4[0x18];
     /* 05dc */ void (*mScanCallback)(u32, void *);
     /* 05e0 */ void (*mStateCallback)(u32, void *);
@@ -44,22 +60,6 @@ typedef struct ScanConnectWork {
     /* 5f0e */ u16 mState;
 } ScanConnectWork;
 
-typedef struct MPLink {
-    /* 00 */ UnkFunc *mCallback;
-    /* 04 */ void *mSendBuffer;
-    /* 08 */ u8 *mReceiveBuffer;
-    /* 0c */ u8 mUnk_0c[4];
-    /* 10 */ u16 mSendBufferSize;
-    /* 12 */ u16 mReceiveBufferSize;
-    /* 14 */ u16 mUnk_14;
-    /* 16 */ u16 mUnk_16;
-    /* 18 */ u16 mUnk_18;
-    /* 1a */ u16 mMPStarted;
-    /* 1c */ u16 mResetting;
-    /* 1e */ u16 mUnk_1e;
-    /* 20 */ u16 mDataQueued;
-} MPLink;
-
 // Two halfwords that are passed on to the function at mUnk_00 of an MPLink.
 typedef struct CommandResult {
     /* 00 */ u16 mCommand;
@@ -73,7 +73,7 @@ void ScanConnectEndScan(void);
 void RequestEndScan(void);
 u32 PickScanChannel(void);
 void EntryCallback(u32 a, void *entry, u32 entryIndex);
-u32 ClearUseScanBssid(void);
+void ClearUseScanBssid(void);
 void SetScanBssid(const u8 *a);
 void ReportScanError(u16 a, u16 b);
 void CallScanCallbackWithEntry(u32 a, EntryRecord *entry, u32 entryIndex);
@@ -99,5 +99,5 @@ void ScanConnectStartMPCallback(Unk021425e8 *a);
 void SetPortCallbackAndStartMP(void *sendBuffer, u8 *receiveBuffer);
 void ScanConnectStartConnectCallback(Unk021425e8 *a);
 void ScanConnectStartConnect(ScanBlock *scanBuffer);
-void SetMPLinkCallback(unsigned int callback);
-u32 SetupMPLink(u32 arg0);
+void SetMPLinkCallback(UnkFunc *callback);
+void SetupMPLink(MPLink *link);

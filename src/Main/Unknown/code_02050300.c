@@ -578,14 +578,6 @@ BOOL QueueMPDataHalfwordAndWord(s32 kind, u16 destBitmap, s32 word) {
     return FALSE;
 }
 
-u32 QueueMPDataToPortCallback(void) {
-    u32 value0;
-    u32 flags;
-    value0 = (u32) &data_0217aa00;
-    value0 = *(const u32 *) ((value0) + (0));
-    value0 = (value0) + (0x400u);
-    flags = *(const u16 *) ((value0) + (84));
-    flags = (flags) | (1u);
-    *(u16 *) ((value0) + (84)) = flags;
-    return value0;
+void QueueMPDataToPortCallback(void) {
+    data_0217aa00->mUnk_0454 |= 1;
 }

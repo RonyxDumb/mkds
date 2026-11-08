@@ -67,7 +67,7 @@ extern const char *gRecordGpxSBnllName;
 extern const char *gRecordTrophySOBnclName;
 extern const char *gRecordGpxSBnblName;
 extern s32 data_0216ca40;
-extern u8 gPushedObjectStateTable[];
+extern UnkFunc *gPushedObjectStateTable[];
 extern s32 data_0216cb28;
 extern const char gBridgeNsbcaName[];
 extern const char gBridgeNsbmdName[];

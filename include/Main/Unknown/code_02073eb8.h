@@ -122,7 +122,7 @@ void UpdateCameraByEntryKind(Camera *camera);
 // when it differs from the last one, runs it and returns TRUE. UpdateRace calls it only while gRace->mUseChainCameras
 // is 0 and func_0203c5e4() is non-zero.
 BOOL TryUpdateEntryCamera(Camera *camera);
-u32 DisableEntryCameraUpdate(void);
+void DisableEntryCameraUpdate(void);
 void func_02075d08(s32 hold);
 // Does nothing when CourseMap.mFirstKind6Entry is NULL. Otherwise sets mKind6EntryRunning and makes that entry the
 // current entry of gEntryCamera (fresh mFovBlend, field of view pair and mShakeKind), sets up its mPosCurve (and

@@ -36,7 +36,7 @@ struct Unk0216fdac;
 extern struct Unk0216fdac *data_0216fdac;
 struct WorkerQueue;
 extern struct WorkerQueue *gWorkerQueue;
-extern u8 gScanConnectInitialized[];
+extern u16 gScanConnectInitialized;
 struct ScanConnectWork;
 extern struct ScanConnectWork *gScanConnectWork;
 struct MPLink;

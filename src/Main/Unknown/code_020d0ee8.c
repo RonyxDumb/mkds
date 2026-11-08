@@ -9,14 +9,8 @@
 #include "Main/Unknown/code_02057000.h"
 #include "Main/Unknown/unk_0217b000.h"
 
-u32 func_020d0f60(void) {
-    u32 value0;
-    u32 value1;
-    value0 = (u32) &gThreadFunctionQueue;
-    value1 = 1u;
-    value0 = *(const u32 *) ((value0) + (0));
-    *(u32 *) ((value0) + (248)) = value1;
-    return value0;
+void func_020d0f60(void) {
+    gThreadFunctionQueue->mRunRequested = 1;
 }
 
 #pragma thumb on

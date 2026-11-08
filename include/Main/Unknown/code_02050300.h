@@ -40,7 +40,7 @@ typedef struct Unk020504a4 {
 
 typedef struct Unk0217aa00_45c Unk0217aa00_45c;
 
-u32 QueueMPDataToPortCallback(void);
+void QueueMPDataToPortCallback(void);
 BOOL QueueMPDataHalfwordAndWord(s32 kind, u16 destBitmap, s32 word);
 BOOL func_020503cc(s32 playerIndex, u16 destBitmap);
 BOOL func_020504a4(s32 playerIndex, u16 destBitmap);

@@ -16,13 +16,8 @@
 #include "Main/Unknown/code_020d411c.h"
 #include "Main/Unknown/unk_0217a000.h"
 
-u32 func_0205e2b8(void) {
-    u32 value0;
-    u32 value1;
-    value0 = (u32) &data_0217aa24;
-    value1 = 0u;
-    *(u32 *) ((value0) + (0)) = value1;
-    return value0;
+void func_0205e2b8(void) {
+    data_0217aa24 = NULL;
 }
 
 s32 func_0205e1c4(void) {
@@ -93,15 +88,9 @@ void func_0205e0b0(void) {
 }
 
 int GetCurrentSceneNumber(void) {
-    u32 value0;
-    value0 = (u32) &gSceneNumbers;
-    value0 = *(const s16 *) ((value0) + (2));
-    return value0;
+    return gSceneNumbers[1];
 }
 
 u32 GetNextSceneNumber(void) {
-    u32 value0;
-    value0 = (u32) &gSceneNumbers;
-    value0 = *(const s16 *) ((value0) + (4));
-    return value0;
+    return gSceneNumbers[2];
 }

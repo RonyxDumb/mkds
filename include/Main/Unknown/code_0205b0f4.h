@@ -49,7 +49,7 @@ Unk0217aa14_104 *func_0205b978(s32 participant, u32 b);
 void func_0205b9a8(void);
 void func_0205ba60(void);
 u32 func_0205bba8(void);
-u32 func_0205bbe8(void);
+void func_0205bbe8(void);
 void func_0205bc08(void);
 void func_0205be0c(void);
 void func_0205c234(s32 dataSize);

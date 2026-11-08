@@ -905,7 +905,7 @@ typedef struct RaceHudSubScreenKarts {
 extern RaceHudSubScreenSecondHand *gRaceHudSubScreenSecondHand;
 extern RaceHudSubScreenKarts *gRaceHudSubScreenKarts;
 extern struct RaceGoalTimes *gRaceGoalTimes;
-extern u8 data_0217b4a8[];
+extern void *data_0217b4a8;
 extern struct EndingStaffRollObject *gEndingStaffRoll;
 extern RaceMNumberPair *gRaceMNumberPair;
 extern u16 data_0217b4c0;

@@ -663,16 +663,8 @@ void func_0205bc08(void) {
     }
 }
 
-u32 func_0205bbe8(void) {
-    u32 value0;
-    u32 value1;
-    value0 = (u32) &data_0217aa14;
-    value0 = *(const u32 *) ((value0) + (0));
-    value0 = (value0) + (0x700u);
-    value1 = *(const u16 *) ((value0) + (92));
-    value1 = (value1) & ~(0x100u);
-    *(u16 *) ((value0) + (92)) = value1;
-    return value0;
+void func_0205bbe8(void) {
+    data_0217aa14->mUnk_75c &= ~0x100;
 }
 
 u32 func_0205bba8(void) {

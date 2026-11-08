@@ -85,7 +85,7 @@ void func_020f9114(void *itemParam) {
     ItemObject *item = itemParam;
     enum { K0 } kind = item->mKind;
 
-    func_02109038(item, gItemKinds[kind].mUnk_a0, &item->mPos);
+    func_02109038(&item->mSoundSource, gItemKinds[kind].mUnk_a0, &item->mPos);
     SetSoundSourceEnabled(&item->mSoundSource, 1);
     item->mFlags |= 0x400000;
 }
@@ -152,7 +152,7 @@ void func_020f8e78(void *itemParam) {
     item->mAgeFrames = 1;
     if ((item->mFlags & 0x400000) == 0) {
         kind = item->mKind;
-        func_02109038(item, gItemKinds[kind].mUnk_a0, &item->mPos);
+        func_02109038(&item->mSoundSource, gItemKinds[kind].mUnk_a0, &item->mPos);
         SetSoundSourceEnabled(&item->mSoundSource, 1);
         item->mFlags |= 0x400000;
     }

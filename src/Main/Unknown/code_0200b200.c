@@ -27,8 +27,8 @@ u32 StartConnectToEntry(u32 entryIndex) {
     }
     gScanConnectWork->mUnk_5f08 = v1->mUnk_4b8;
     gScanConnectWork->mUnk_5f0c = v1->mUnk_4b5;
-    SetupMPLink((u32) gScanConnectWork->mMPLink);
-    SetMPLinkCallback((u32) MPLinkCallback);
+    SetupMPLink(&gScanConnectWork->mMPLink);
+    SetMPLinkCallback(MPLinkCallback);
     SetScanConnectStateAndNotify(1, 0);
     MI_CpuCopy8(v1->mScanBuffer, &gScanConnectWork->mScanBuffer, 0xc0);
     ScanConnectStartConnect(&gScanConnectWork->mScanBuffer);

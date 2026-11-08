@@ -14,37 +14,25 @@
 #include "03/code_021b94b8.h"
 
 #pragma thumb on
-u32 SetupMPLink(u32 arg0) {
-    u32 value0 = arg0;
-    u32 value1;
-    u32 value2;
-    value2 = (u32) &gMPLink;
-    *(u32 *) ((value2) + 0u) = value0;
-    value1 = 0u;
-    *(u32 *) ((value0) + 12u) = value1;
-    gMPLink->mMPStarted = value1;
-    gMPLink->mUnk_1e = value1;
-    gMPLink->mDataQueued = value1;
-    gMPLink->mResetting = value1;
-    value0 = *(const u32 *) ((value2) + 0u);
-    *(u32 *) ((value0) + 4u) = value1;
-    value0 = *(const u32 *) ((value2) + 0u);
-    *(u32 *) ((value0) + 8u) = value1;
-    value0 = *(const u32 *) ((value2) + 0u);
-    *(u32 *) ((value0) + 0u) = value1;
-    return value0;
+void SetupMPLink(MPLink *link) {
+    gMPLink = link;
+    link->mUnk_0c = 0;
+    gMPLink->mMPStarted = 0;
+    gMPLink->mUnk_1e = 0;
+    gMPLink->mDataQueued = 0;
+    gMPLink->mResetting = 0;
+    gMPLink->mSendBuffer = NULL;
+    gMPLink->mReceiveBuffer = NULL;
+    gMPLink->mCallback = NULL;
 }
 #pragma thumb off
 
 #pragma thumb on
 
-void SetMPLinkCallback(u32 callback) {
-    u32 v1 = ((callback) + (0x0u));
+void SetMPLinkCallback(UnkFunc *callback) {
     u32 v2 = (OS_DisableInterrupts());
-    u32 v3 = ((u32) (&gMPLink));
-    u32 v4 = (*(u32 *) ((v3) + (0)));
     u32 v6;
-    *(u32 *) ((v4) + (0)) = v1;
+    gMPLink->mCallback = callback;
     v6 = (OS_RestoreInterrupts(v2));
 }
 
@@ -312,8 +300,8 @@ void ClearPortCallback(void) {
 }
 
 void InitScanConnectWork(ScanConnectWork *a, void *b) {
-    if (*(u16 *) &gScanConnectInitialized == 0) {
-        *(u16 *) &gScanConnectInitialized = 1;
+    if (gScanConnectInitialized == 0) {
+        gScanConnectInitialized = 1;
         MI_CpuFill8(a, 0, 0x5f20);
         gScanConnectWork = a;
         a->mState = 0;
@@ -371,7 +359,7 @@ void CloseScanConnect(void) {
 #pragma thumb on
 
 void FinishScanConnect(void) {
-    *(u16 *) &gScanConnectInitialized = 0;
+    gScanConnectInitialized = 0;
     gScanConnectWork->mEndRequested = 0;
     ClearPortCallback();
     SetScanConnectStateAndNotify(0x14, NULL);
@@ -382,13 +370,9 @@ u32 GetScanConnectWorkSize(void) {
 }
 
 void SetScanConnectStateCallback(UnkFunc *callback) {
-    u32 v1 = (u32) callback;
     u32 v2 = (OS_DisableInterrupts());
-    u32 v3 = ((u32) (&gScanConnectWork));
-    u32 v4 = (*(u32 *) ((v3) + (0)));
-    u32 v5 = 0x5e0u;
     u32 v7;
-    *(u32 *) ((v4) + (0 + (v5))) = v1;
+    gScanConnectWork->mStateCallback = callback;
     v7 = (OS_RestoreInterrupts(v2));
 }
 
@@ -526,16 +510,8 @@ void SetScanBssid(const u8 *a) {
 #pragma thumb off
 
 #pragma thumb on
-u32 ClearUseScanBssid(void) {
-    u32 value0;
-    u32 value1;
-    u32 value2;
-    value2 = 0u;
-    value0 = (u32) &gScanConnectWork;
-    value1 = *(const u32 *) ((value0) + 0u);
-    value0 = 0x5f00u;
-    *(u32 *) ((value1) + (value0)) = value2;
-    return value0;
+void ClearUseScanBssid(void) {
+    gScanConnectWork->mUseScanBssid = 0;
 }
 #pragma thumb off
 

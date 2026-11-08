@@ -409,14 +409,8 @@ void func_02075d08(s32 hold) {
     gCameraEntryChanged = 1;
 }
 
-u32 DisableEntryCameraUpdate(void) {
-    u32 value0;
-    u32 disabled;
-    value0 = (u32) &gEntryCamera;
-    disabled = 1u;
-    value0 = *(const u32 *) ((value0) + (0));
-    *(u32 *) ((value0) + (564)) = disabled;
-    return value0;
+void DisableEntryCameraUpdate(void) {
+    gEntryCamera->mEntryUpdateDisabled = 1;
 }
 
 static inline void func_02074b00_inline(Vec3 *v, const Vec3 *u, s32 s) {
@@ -923,10 +917,7 @@ void SetCameraHalfFovAngleGoal(u32 halfFovAngleGoal) {
 // Chase camera (gChaseCamera) only.
 void ResetCameraHalfFovAngleGoal(void) {
     u32 value0;
-    u32 value1;
-    value1 = (u32) &gDefaultHalfFovAngle;
-    value1 = *(const u16 *) ((value1) + (0));
-    gChaseCamera->mHalfFovAngleGoal = value1;
+    gChaseCamera->mHalfFovAngleGoal = gDefaultHalfFovAngle;
 }
 
 // Chase camera only: resets the field-of-view angle goal to its default and the angle to default + 5.

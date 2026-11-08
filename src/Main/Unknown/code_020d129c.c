@@ -5,23 +5,10 @@
 #include "Main/Unknown/code_020d12b0.h"
 #include "Main/Unknown/unk_0217b000.h"
 
-u32 func_020d12b0(void) {
-    u32 value0;
-    u32 value1;
-    value0 = (u32) GetCurrentHeapCall();
-    value0 = (u32) GetHeap((void *) value0);
-    value1 = 4u;
-    value0 = (u32) HeapAlloc((void *) value0, value1);
-    value1 = (u32) &data_0217b4a8;
-    *(u32 *) ((value1) + (0)) = value0;
-    return value0;
+void func_020d12b0(void) {
+    data_0217b4a8 = HeapAlloc(GetHeap(GetCurrentHeapCall()), 4);
 }
 
-u32 func_020d129c(void) {
-    u32 address;
-    u32 zero;
-    address = (u32) &data_0217b4a8;
-    zero = 0u;
-    *(u32 *) ((address) + (0)) = zero;
-    return address;
+void func_020d129c(void) {
+    data_0217b4a8 = NULL;
 }
