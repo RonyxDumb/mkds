@@ -274,19 +274,19 @@ void ClampItemBombTimerByDistance(ItemBomb *bomb) {
     }
 }
 
-void AdvanceItemBombWithMapObject(ItemBomb *bomb, ItemBomb *bombAlias, PooledMapObject *pooledMapObject) {
-    PooledMapObject *mapObjectToPark;
+void AdvanceItemBombWithMapObject(ItemBomb *bomb, ItemBomb *bombAlias, ItemBox *pooledMapObject) {
+    ItemBox *mapObjectToPark;
 
     bombAlias->mUnk_000.mItemObject.mDistanceSquaredAndFlags |= data_02159f2c;
     AdvanceStateMachine(&bomb->mUnk_184);
-    if (pooledMapObject->mUnk_00.mFlags & 0x100) {
+    if (pooledMapObject->mUnk_000.mFlags & 0x100) {
         bomb->mPooledMapObject = NULL;
         ReleaseItemPoolObject(gItemPools + bomb->mUnk_000.mItemObject.mKind, &bomb->mUnk_000.mItemObject);
         return;
     }
     if ((bombAlias->mUnk_000.mItemObject.mFlags & 0x8000) == 0) {
-        pooledMapObject->mUnk_00.mPos = bombAlias->mUnk_000.mItemObject.mPos;
-        pooledMapObject->mUnk_00.mPos.y += bomb->mMapObjectOffsetY - bombAlias->mUnk_000.mItemObject.mUnk_dc;
+        pooledMapObject->mUnk_000.mPos = bombAlias->mUnk_000.mItemObject.mPos;
+        pooledMapObject->mUnk_000.mPos.y += bomb->mMapObjectOffsetY - bombAlias->mUnk_000.mItemObject.mUnk_dc;
     }
     if (bomb->mTimer <= 0) {
         if ((bombAlias->mUnk_000.mItemObject.mFlags & 0x8000) == 0) {
@@ -297,16 +297,16 @@ void AdvanceItemBombWithMapObject(ItemBomb *bomb, ItemBomb *bombAlias, PooledMap
         return;
     }
     bomb->mTimer--;
-    if (bomb->mTimer < pooledMapObject->mUnk_00.mAlpha) {
-        pooledMapObject->mUnk_00.mAlpha = bomb->mTimer;
+    if (bomb->mTimer < pooledMapObject->mUnk_000.mAlpha) {
+        pooledMapObject->mUnk_000.mAlpha = bomb->mTimer;
     }
     if (bomb->mTimer < 0x10) {
-        pooledMapObject->mUnk_00.mFlags |= data_02159f18;
+        pooledMapObject->mUnk_000.mFlags |= data_02159f18;
     }
     if (bomb->mTimer == 0) {
         mapObjectToPark = bomb->mPooledMapObject;
-        mapObjectToPark->mUnk_00.mFlags &= ~1;
-        ParkMapObject(&mapObjectToPark->mUnk_00);
+        mapObjectToPark->mUnk_000.mFlags &= ~1;
+        ParkMapObject(&mapObjectToPark->mUnk_000);
         bomb->mPooledMapObject = NULL;
         ReleaseItemPoolObject(gItemPools + bomb->mUnk_000.mItemObject.mKind, &bomb->mUnk_000.mItemObject);
     }
@@ -490,7 +490,7 @@ void func_020fd684(void *object, Vec3 *d, Vec3 *f) {
     ItemBomb *bomb;
     Vec3 *a;
     Vec3 *b;
-    PooledMapObject *pooledMapObject;
+    ItemBox *pooledMapObject;
 
     bomb = object;
     a = d;
@@ -512,17 +512,17 @@ void func_020fd684(void *object, Vec3 *d, Vec3 *f) {
     if (bomb->mPooledMapObject == NULL) {
         return;
     }
-    bomb->mPooledMapObject->mUnk_00.mPos = *b;
-    bomb->mPooledMapObject->mUnk_00.mPos.y += bomb->mMapObjectOffsetY;
+    bomb->mPooledMapObject->mUnk_000.mPos = *b;
+    bomb->mPooledMapObject->mUnk_000.mPos.y += bomb->mMapObjectOffsetY;
     pooledMapObject = bomb->mPooledMapObject;
-    pooledMapObject->mUnk_00.mFlags &= ~2;
-    pooledMapObject->mUnk_00.mFlags &= ~8;
-    pooledMapObject->mUnk_00.mAlpha = 0x1f;
+    pooledMapObject->mUnk_000.mFlags &= ~2;
+    pooledMapObject->mUnk_000.mFlags &= ~8;
+    pooledMapObject->mUnk_000.mAlpha = 0x1f;
 }
 
 void func_020fd540(void **bombSlot, Vec3 *v, s32 timerStart) {
     ItemBomb *bomb;
-    PooledMapObject *pooledMapObject;
+    ItemBox *pooledMapObject;
 
     bomb = *bombSlot;
     pooledMapObject = bomb->mPooledMapObject;
@@ -548,12 +548,12 @@ void func_020fd540(void **bombSlot, Vec3 *v, s32 timerStart) {
         bomb->mUnk_000.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemBomb;
     }
     if (pooledMapObject != NULL) {
-        pooledMapObject->mUnk_00.mFlags &= ~2;
-        pooledMapObject->mUnk_00.mFlags &= ~8;
-        pooledMapObject->mUnk_00.mAlpha = 0x1f;
-        pooledMapObject->mUnk_00.mFlags &= ~4;
-        if (pooledMapObject->mUnk_00.mKind != MAP_OBJECT_KIND_KURIBO) {
-            pooledMapObject->mUnk_00.mFlags &= ~1;
+        pooledMapObject->mUnk_000.mFlags &= ~2;
+        pooledMapObject->mUnk_000.mFlags &= ~8;
+        pooledMapObject->mUnk_000.mAlpha = 0x1f;
+        pooledMapObject->mUnk_000.mFlags &= ~4;
+        if (pooledMapObject->mUnk_000.mKind != MAP_OBJECT_KIND_KURIBO) {
+            pooledMapObject->mUnk_000.mFlags &= ~1;
         }
     }
     *bombSlot = NULL;
@@ -568,14 +568,14 @@ BOOL IsItemBombState2(ItemObject *object) {
 
 void ReleaseItemBomb(void **bombSlot) {
     ItemBomb *bomb;
-    PooledMapObject *pooledMapObject;
+    ItemBox *pooledMapObject;
 
     bomb = *bombSlot;
     SetStateMachineState(&bomb->mUnk_184, 0);
     pooledMapObject = bomb->mPooledMapObject;
     if (pooledMapObject != NULL) {
-        pooledMapObject->mUnk_00.mFlags &= ~1;
-        ParkMapObject(&pooledMapObject->mUnk_00);
+        pooledMapObject->mUnk_000.mFlags &= ~1;
+        ParkMapObject(&pooledMapObject->mUnk_000);
         bomb->mPooledMapObject = NULL;
         ReleaseItemPoolObject(gItemPools + bomb->mUnk_000.mItemObject.mKind, &bomb->mUnk_000.mItemObject);
     } else {
@@ -603,7 +603,7 @@ void *StartItemBomb(void) {
 
 void *StartItemBombWithMapObject(void *mapObject, s32 offsetY) {
     ItemBomb *bomb;
-    PooledMapObject *pooledMapObject;
+    ItemBox *pooledMapObject;
 
     pooledMapObject = mapObject;
     bomb = StartItemObjectOrZero(9, 8, data_02159f40, data_02159f40);
@@ -621,11 +621,11 @@ void *StartItemBombWithMapObject(void *mapObject, s32 offsetY) {
     if (bomb == NULL) {
         return NULL;
     }
-    UnparkMapObject(&pooledMapObject->mUnk_00);
-    pooledMapObject->mUnk_00.mFlags |= data_02159f18;
-    pooledMapObject->mUnk_00.mFlags |= data_02159f1c;
-    pooledMapObject->mUnk_00.mFlags |= data_02159f20;
-    pooledMapObject->mUnk_00.mFlags |= data_02159f24;
+    UnparkMapObject(&pooledMapObject->mUnk_000);
+    pooledMapObject->mUnk_000.mFlags |= data_02159f18;
+    pooledMapObject->mUnk_000.mFlags |= data_02159f1c;
+    pooledMapObject->mUnk_000.mFlags |= data_02159f20;
+    pooledMapObject->mUnk_000.mFlags |= data_02159f24;
     bomb->mPooledMapObject = pooledMapObject;
     bomb->mMapObjectOffsetY = offsetY;
     return bomb;

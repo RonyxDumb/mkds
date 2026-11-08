@@ -25,13 +25,6 @@ extern const Unk020e03f8 data_02158abc;
 extern const Unk020e03f8 data_02158afc;
 extern const Unk020e03f8 data_02158b3c;
 
-// Three vectors of twelve bytes each.
-typedef struct Unk020e38a0_28 {
-    /* 00 */ Vec3 mUnk_00;
-    /* 0c */ Vec3 mUnk_0c;
-    /* 18 */ Vec3 mUnk_18;
-} Unk020e38a0_28;
-
 // Object func_020e0bac and func_020e0764 compare against: seven words and a vector.
 typedef struct Unk020e0764 {
     /* 00 */ s32 mUnk_00;
@@ -158,8 +151,8 @@ typedef struct Unk0217b79c {
 // Object func_020e3ef4 fills.
 typedef struct Unk020e3ef4 {
     /* 000 */ MapObject mUnk_000;
-    /* 0a0 */ Unk020e38a0_28 mUnk_0a0;
-    /* 0c4 */ Unk020e38a0_28 mUnk_0c4;
+    /* 0a0 */ MtxFx33 mUnk_0a0;
+    /* 0c4 */ MtxFx33 mUnk_0c4;
     /* 0e8 */ Vec3 mUnk_0e8;
     /* 0f4 */ Vec3 mUnk_0f4;
     /* 100 */ s32 mUnk_100;

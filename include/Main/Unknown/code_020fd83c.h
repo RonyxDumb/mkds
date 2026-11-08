@@ -28,7 +28,7 @@ typedef struct ItemBomb {
     /* 192 */ u16 mState;
     /* 194 */ u16 mNextState;
     /* 196 */ u16 mNextStateRequested;
-    /* 198 */ PooledMapObject *mPooledMapObject;
+    /* 198 */ ItemBox *mPooledMapObject;
     /* 19c */ s32 mMapObjectOffsetY;
     /* 1a0 */ BOOL mVisible;
 } ItemBomb;
@@ -39,7 +39,7 @@ void DrawItemBomb(ItemBomb *bomb, Vec3 *a, NsbmdModel *model);
 void InitItemBombFromData(ItemBomb *bomb);
 void *func_020fda50(void *cursor, ItemBomb *bomb, void *toData);
 void AdvanceItemBomb(ItemBomb *bomb);
-void AdvanceItemBombWithMapObject(ItemBomb *bomb, ItemBomb *bombAlias, PooledMapObject *pooledMapObject);
+void AdvanceItemBombWithMapObject(ItemBomb *bomb, ItemBomb *bombAlias, ItemBox *pooledMapObject);
 void ClampItemBombTimerByDistance(ItemBomb *bomb);
 void AdvanceItemBombNearestKart(ItemBomb *bomb);
 void UpdateItemBombState2(ItemBomb *bomb);

@@ -39,15 +39,15 @@ void CreateBridge(void) {
     file = FindCourseMapObjFile(gBridgeNsbmdName);
     CreateNsbmd(&gBridge, file, NULL);
     CreateModelAnimation(0, gBridge, &gBridgeNsbca, file, FindCourseMapObjFile(gBridgeNsbcaName));
-    ((Unk020e1dc0 *) *(void **) data_0217b7c4)->mUnk_2c = GetModelAnimationFrameCountFixed(gBridgeNsbca);
+    data_0217b7c4->mUnk_2c = GetModelAnimationFrameCountFixed(gBridgeNsbca);
     func_02084968(gBridge, 0x3f, 2, 0x294a);
-    SetMapObjectsModel(*(void **) data_0217b7c4, gBridge);
+    SetMapObjectsModel(data_0217b7c4, gBridge);
 }
 
 void InitBridge(Bridge *bridge, struct CourseMapRow *courseRow) {
     bridge->mUnk_0e8 = bridge->mMapObject.mPos;
-    bridge->mUnk_0a0 = *(Unk020e38a0_28 *) &bridge->mMapObject.mMatrix;
-    bridge->mUnk_0c4 = *(Unk020e38a0_28 *) &bridge->mMapObject.mMatrix;
+    bridge->mUnk_0a0 = *(MtxFx33 *) &bridge->mMapObject.mMatrix;
+    bridge->mUnk_0c4 = *(MtxFx33 *) &bridge->mMapObject.mMatrix;
     bridge->mUnk_124.x = 0;
     bridge->mUnk_124.y = 0;
     bridge->mUnk_124.z = 0;

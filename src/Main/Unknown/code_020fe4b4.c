@@ -74,8 +74,8 @@ void func_020ff1d8(void) {
     objectCount = pool->mObjectCount;
     for (index = 0; index < objectCount; index++) {
         fbox = (ItemFBox *) objectCursor[0];
-        fbox->mPooledMapObject = (PooledMapObject *) AllocPooledMapObject();
-        fbox->mPooledMapObject->mUnk_fc = &fbox->mUnk_000.mItemObject.mPos;
+        fbox->mPooledMapObject = (ItemBox *) AllocPooledMapObject();
+        fbox->mPooledMapObject->mUnk_0fc = &fbox->mUnk_000.mItemObject.mPos;
         objectCursor++;
     }
     pool->mUnk_40 = 1;

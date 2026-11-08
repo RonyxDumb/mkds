@@ -150,7 +150,7 @@ void func_02104f84(s32 kartIndex) {
 
 void StartBouncingItemBox(BouncingItemBox *box) {
     if (box->mKartIsEntry != 0) {
-        (box->mPooledMapObject)->mUnk_b0 = 1;
+        (box->mPooledMapObject)->mUnk_0b0 = 1;
     }
     if ((box->mUnk_000.mItemObject.mFlags & 0x180000) == 0) {
         box->mUnk_000.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceBouncingItemBox;
@@ -174,14 +174,14 @@ void ResetBouncingItemBox(BouncingItemBox *box) {
     ResetPooledMapObject(box->mPooledMapObject);
     box->mKartIsEntry = (u16) (box->mUnk_000.mItemObject.mUnk_78 & ~0xff00) == gRaceSetup->mEntryIndex;
     if (box->mKartIsEntry != 0) {
-        (box->mPooledMapObject)->mUnk_b0 = 2;
+        (box->mPooledMapObject)->mUnk_0b0 = 2;
     }
     gBouncingItemBoxTimers[(u16) (box->mUnk_000.mItemObject.mUnk_78 & ~0xff00)] = 0x258;
 }
 
 void AdvanceBouncingItemBoxInUse(ItemInUse *itemInUse, BouncingItemBox *box) {
     Vec3 scale;
-    PooledMapObject *mapObject = box->mPooledMapObject;
+    ItemBox *mapObject = box->mPooledMapObject;
     s32 scaleRatio;
     if (box->mKartIsEntry != 0) {
         VEC_MultAdd(((s64) itemInUse->mKartScaleFactorTimesBase.z * -28877) >> 12, &itemInUse->mKartOrientation.mUnk_0c,
@@ -202,7 +202,7 @@ s32 InitBouncingItemBox(ItemInUse *itemInUse, BouncingItemBox *box) {
     func_020f9114(box);
     box->mUnk_000.mItemObject.mUnk_78 |= data_0215a584;
     if (box->mKartIsEntry != 0) {
-        (box->mPooledMapObject)->mUnk_b0 = 1;
+        (box->mPooledMapObject)->mUnk_0b0 = 1;
     }
     if ((itemInUse->mKartItems->mFlags & KART_ITEMS_THROW_FORWARD) != 0) {
         ThrowBouncingItem(&box->mUnk_000, itemInUse, 0, 1, 0x4000, 0x3000, 0x59a);
@@ -229,7 +229,7 @@ void AdvanceBouncingItemBox(BouncingItemBox *box) {
     s32 v;
     s32 scaleRatio;
     s32 kartIsEntry;
-    PooledMapObject *mapObject;
+    ItemBox *mapObject;
     if ((box->mUnk_000.mItemObject.mFlags & 0x180000) != 0) {
         if ((box->mUnk_000.mItemObject.mFlags & 0x80000) != 0) {
             func_020f6e58(&box->mUnk_000.mItemObject);

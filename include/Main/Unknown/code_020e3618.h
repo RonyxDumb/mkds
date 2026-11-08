@@ -15,8 +15,8 @@ typedef struct Unk020e039c {
 // mUnk_13c.
 typedef struct Bridge {
     /* 000 */ MapObject mMapObject;
-    /* 0a0 */ Unk020e38a0_28 mUnk_0a0;
-    /* 0c4 */ Unk020e38a0_28 mUnk_0c4;
+    /* 0a0 */ MtxFx33 mUnk_0a0;
+    /* 0c4 */ MtxFx33 mUnk_0c4;
     /* 0e8 */ Vec3 mUnk_0e8;
     /* 0f4 */ Vec3 mUnk_0f4;
     /* 100 */ s32 mUnk_100;

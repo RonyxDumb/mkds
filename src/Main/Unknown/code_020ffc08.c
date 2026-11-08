@@ -113,7 +113,7 @@ void UpdateDramState0(Dram *dram) {
     }
 }
 
-void EnterDramState2(Unk020ffd94 *dram) {
+void EnterDramState2(Dram *dram) {
     dram->mUnk_ac = 0x0u;
 }
 
@@ -141,7 +141,7 @@ void UpdateDramState3(Dram *dram) {
     }
 }
 
-void EnterDramState4(Unk020ffcf8 *dram) {
+void EnterDramState4(Dram *dram) {
     dram->mUnk_ac = 0x1000u;
 }
 

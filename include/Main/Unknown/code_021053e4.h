@@ -4,7 +4,7 @@
 #include "Main/Unknown/code_020de214.h" // MapObjectDrawList
 #include "Main/Unknown/code_02067cb0.h" // MapObject
 
-typedef struct PooledMapObject PooledMapObject;
+typedef struct ItemBox ItemBox;
 
 // 0x40-byte object behind data_0215a680.
 typedef struct Unk0215a680 {
@@ -31,4 +31,4 @@ u32 func_021054d0(void);
 Unk0215a680 *func_02105480(void);
 void func_02105464(void *mapObject, void *q);
 MapObject *AllocPooledMapObject(void);
-void ResetPooledMapObject(PooledMapObject *pooledObject);
+void ResetPooledMapObject(ItemBox *pooledObject);

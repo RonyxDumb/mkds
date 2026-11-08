@@ -149,8 +149,8 @@ void func_020e410c(Unk020e1dc0 *list) {
 void func_020e3ef4(Unk020e3ef4 *object, struct CourseMapRow *courseRow, Unk020e1e98_154 *kindInfo) {
     InitStateMachine(&object->mUnk_000.mStateMachine, (UnkFunc *const *) data_0216c168, 4, object);
     object->mUnk_0e8 = object->mUnk_000.mPos;
-    object->mUnk_0a0 = *(Unk020e38a0_28 *) &object->mUnk_000.mMatrix;
-    object->mUnk_0c4 = *(Unk020e38a0_28 *) &object->mUnk_000.mMatrix;
+    object->mUnk_0a0 = *(MtxFx33 *) &object->mUnk_000.mMatrix;
+    object->mUnk_0c4 = *(MtxFx33 *) &object->mUnk_000.mMatrix;
     object->mUnk_124.x = 0;
     object->mUnk_124.y = 0;
     object->mUnk_124.z = 0;
@@ -216,10 +216,10 @@ void *CreateBridgeDrawList(void) {
     void *drawList;
 
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x30);
-    *(void **) data_0217b7c4 = drawList;
+    data_0217b7c4 = drawList;
     *(Unk020e3e48 *) drawList = *(const Unk020e3e48 *) data_02158ce8;
     func_020d49d8(&data_0217b7c4);
-    return *(void **) data_0217b7c4;
+    return data_0217b7c4;
 }
 
 void *CreateBridgeUpdateList(void) {
@@ -252,10 +252,11 @@ void UpdateBridge(s32 a, Bridge *bridge) {
     bridge->mUnk_124.y = ((s64) bridge->mMapObject.mMatrix.mUnk_00[0].y * angleDelta) >> 12;
     bridge->mUnk_124.z = ((s64) bridge->mMapObject.mMatrix.mUnk_00[0].z * angleDelta) >> 12;
     bridge->mAngleX = y;
-    bridge->mUnk_0a0 = *(Unk020e38a0_28 *) &bridge->mMapObject.mMatrix;
-    MTX_RotX33_((s32 *) &bridge->mMapObject.mMatrix, gPairsByAngle[(y >> 4) * 2], gPairsByAngle[(y >> 4) * 2 + 1]);
-    MTX_Concat33((const s32 *) &bridge->mMapObject.mMatrix, (const s32 *) &bridge->mUnk_0c4,
-                 (s32 *) &bridge->mMapObject.mMatrix);
+    bridge->mUnk_0a0 = *(MtxFx33 *) &bridge->mMapObject.mMatrix;
+    MTX_RotX33_(&bridge->mMapObject.mMatrix.mUnk_00[0].x, gPairsByAngle[(y >> 4) * 2],
+                gPairsByAngle[(y >> 4) * 2 + 1]);
+    MTX_Concat33(&bridge->mMapObject.mMatrix.mUnk_00[0].x, bridge->mUnk_0c4.mUnk_00,
+                 &bridge->mMapObject.mMatrix.mUnk_00[0].x);
     VEC_MultAdd(-bridge->mUnk_104, &bridge->mMapObject.mMatrix.mUnk_00[1], &bridge->mMapObject.mPos, &bridge->mUnk_0f4);
     if (bridge->mPauseTimer != 0) {
         bridge->mPauseTimer--;
@@ -273,8 +274,8 @@ void UpdateBridge(s32 a, Bridge *bridge) {
     y = 0x10000 - bridge->mAngleX;
     bridge->mAnimationFrameIndex = (s32) ((((s64) (s32) (u16) (0x10000 - bridge->mAngleX) * 0x1680000) + 0x80000) >> 20)
                                    << 1;
-    if (bridge->mAnimationFrameIndex > ((Unk020e1dc0 *) *(void **) data_0217b7c4)->mUnk_2c) {
-        bridge->mAnimationFrameIndex = ((Unk020e1dc0 *) *(void **) data_0217b7c4)->mUnk_2c;
+    if (bridge->mAnimationFrameIndex > data_0217b7c4->mUnk_2c) {
+        bridge->mAnimationFrameIndex = data_0217b7c4->mUnk_2c;
     }
     if (bridge->mAnimationFrameIndex < 0) {
         bridge->mAnimationFrameIndex = 0;
@@ -294,5 +295,5 @@ void DrawBridge(Unk020e3ef4 *object, void *viewMatrix, u32 alpha) {
 }
 
 void DrawAllBridges(void *viewMatrix) {
-    func_020e1e38(*(void **) data_0217b7c4, viewMatrix, DrawBridge);
+    func_020e1e38(data_0217b7c4, viewMatrix, DrawBridge);
 }

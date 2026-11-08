@@ -922,7 +922,7 @@ extern u16 data_0217b4cc;
 extern u16 gNextPolygonId;
 extern GrpconfTblRow *gGrpconfTbl;
 extern MapObject **gFoundMapObjects;
-extern u8 data_0217b7c4[];
+extern struct Unk020e1dc0 *data_0217b7c4;
 extern u8 gMapObjectPositionByTableIndex[];
 // Indexed by object kind; 14 slots, 13 files (kind 8 aliases kind 7)
 extern NsbmdModel *gItemModels[];

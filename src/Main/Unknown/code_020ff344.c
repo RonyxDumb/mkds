@@ -185,12 +185,12 @@ void func_020ff6d8(ItemFBox *fbox, MtxFx43 *out) {
 void ResetItemFBox(ItemFBox *fbox) {
     *(MtxFx33 *) &fbox->mUnk_000.mItemObject.mUnk_94 = *(MtxFx33 *) &data_0217c600;
     ResetPooledMapObject(fbox->mPooledMapObject);
-    fbox->mPooledMapObject->mUnk_b0 = 2;
+    fbox->mPooledMapObject->mUnk_0b0 = 2;
     SetPooledMapObjectCallback(fbox->mPooledMapObject, SetItemFBoxDrawMatrix, fbox);
 }
 
 void StartItemFBox(ItemFBox *fbox) {
-    fbox->mPooledMapObject->mUnk_b0 = 1;
+    fbox->mPooledMapObject->mUnk_0b0 = 1;
     SetPooledMapObjectCallback(fbox->mPooledMapObject, func_020ff6d8, fbox);
 }
 
@@ -256,7 +256,7 @@ s32 func_020ff3c4(ItemFBox *fbox) {
     if ((s64) vector->x * vector->x + (s64) vector->y * vector->y + (s64) vector->z * vector->z >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(vector, &fbox->mUnk_130);
     }
-    fbox->mPooledMapObject->mUnk_b0 = 2;
+    fbox->mPooledMapObject->mUnk_0b0 = 2;
     if ((fbox->mUnk_000.mItemObject.mFlags & 0x180000) == 0) {
         fbox->mUnk_000.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemFBox;
     }

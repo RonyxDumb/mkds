@@ -41,7 +41,7 @@ typedef struct ItemFBox {
     /* 000 */ BouncingItemObject mUnk_000;
     /* 130 */ Vec3 mUnk_130;
     /* 13c */ s32 mThrownForward;
-    /* 140 */ PooledMapObject *mPooledMapObject;
+    /* 140 */ ItemBox *mPooledMapObject;
 } ItemFBox;
 
 void func_020ff344(ItemFBox *fbox);
