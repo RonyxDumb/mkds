@@ -37,7 +37,7 @@ void func_020e0584(Unk020e005c *object, Vec3 *position, Vec3 *velocity, Unk020e0
     link->mUnk_04.x = Vec3DotUnrounded(&offset, &object->mUnk_028);
     link->mUnk_04.y = g;
     link->mUnk_04.z = f;
-    if (velocity != NULL && object->mUnk_130 != FALSE) {
+    if (velocity != NULL && object->mUnk_a0.mUnk_130 != FALSE) {
         f = Vec3DotUnrounded(velocity, &object->mUnk_040);
         g = Vec3DotUnrounded(velocity, &object->mUnk_034);
         link->mUnk_10.x = Vec3DotUnrounded(velocity, &object->mUnk_028);
@@ -67,9 +67,9 @@ BOOL func_020e04b0(Unk020e04b0 *link, Vec3 *outPosition, Vec3 *outVelocity) {
     if (object != NULL) {
         MTX_MultVec33(&link->mUnk_04, &object->mUnk_028.x, outPosition);
         VEC_Add(&object->mPos, outPosition, outPosition);
-        if (object->mUnk_130 != FALSE) {
+        if (object->mUnk_a0.mUnk_130 != FALSE) {
             MTX_MultVec33(&link->mUnk_10, &object->mUnk_028.x, outVelocity);
-            if (outVelocity->y < object->mUnk_120) {
+            if (outVelocity->y < object->mUnk_a0.mUnk_120) {
                 return TRUE;
             }
         }
@@ -82,12 +82,12 @@ s32 func_020e0448(Unk020e0448 *link) {
     s64 horizontalDistanceSquared;
     s64 limitSquared;
 
-    if (object->mUnk_138 != 0 && object->mUnk_000.mKind == 0xcb) {
+    if (object->mUnk_a0.mUnk_138 != 0 && object->mUnk_000.mKind == 0xcb) {
         horizontalDistanceSquared = (s64) link->mUnk_04.x * link->mUnk_04.x + (s64) link->mUnk_04.z * link->mUnk_04.z;
         limitSquared = (s64) object->mUnk_154 * object->mUnk_154;
         return horizontalDistanceSquared >= limitSquared;
     }
-    return object->mUnk_138;
+    return object->mUnk_a0.mUnk_138;
 }
 
 void *CreateKoopaBlockKindData(void) {
@@ -149,11 +149,11 @@ void UpdateKoopaBlock(void *a0, Unk020e005c *koopaBlock) {
         }
         koopaBlock->mUnk_16c = follower->mFromEntry->mUnk_0e;
     }
-    koopaBlock->mUnk_0e8 = koopaBlock->mPos;
+    koopaBlock->mUnk_a0.mUnk_e8 = koopaBlock->mPos;
     GetGroupFollowerLinearPosition(follower, &koopaBlock->mPos);
     AdvanceStateMachine(&koopaBlock->mStateMachine);
-    VEC_Subtract(&koopaBlock->mPos, &koopaBlock->mUnk_0e8, &koopaBlock->mUnk_010);
-    VEC_MultAdd(-koopaBlock->mUnk_104, &koopaBlock->mUnk_034, &koopaBlock->mPos, &koopaBlock->mUnk_0f4);
+    VEC_Subtract(&koopaBlock->mPos, &koopaBlock->mUnk_a0.mUnk_e8, &koopaBlock->mUnk_010);
+    VEC_MultAdd(-koopaBlock->mUnk_a0.mUnk_104, &koopaBlock->mUnk_034, &koopaBlock->mPos, &koopaBlock->mUnk_a0.mUnk_f4);
 }
 
 u32 func_020e01ec(u32 value) {

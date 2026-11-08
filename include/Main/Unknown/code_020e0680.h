@@ -151,20 +151,7 @@ typedef struct Unk0217b79c {
 // Object func_020e3ef4 fills.
 typedef struct Unk020e3ef4 {
     /* 000 */ MapObject mUnk_000;
-    /* 0a0 */ MtxFx33 mUnk_0a0;
-    /* 0c4 */ MtxFx33 mUnk_0c4;
-    /* 0e8 */ Vec3 mUnk_0e8;
-    /* 0f4 */ Vec3 mUnk_0f4;
-    /* 100 */ s32 mUnk_100;
-    /* 104 */ s32 mUnk_104;
-    /* 108 */ u8 mUnk_108[0x8];
-    /* 110 */ BOOL mUnk_110;
-    /* 114 */ Vec3 mUnk_114;
-    /* 120 */ s32 mUnk_120;
-    /* 124 */ Vec3 mUnk_124;
-    /* 130 */ s32 mUnk_130;
-    /* 134 */ s32 mUnk_134;
-    /* 138 */ s32 mUnk_138;
+    /* 0a0 */ Unk020e005c_a0 mUnk_a0;
     /* 13c */ u8 mUnk_13c[0x4];
     /* 140 */ struct Nsbmd *mModel;
     /* 144 */ u16 mUnk_144;

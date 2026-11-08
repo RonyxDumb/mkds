@@ -39,20 +39,7 @@ typedef struct KartSound {
     /* 34 */ s32 mUnk_34;
     /* 38 */ s32 mUnk_38;
     /* 3c */ u8 mUnk_3c[4];
-    /* 40 */ union {
-        struct {
-            u8 mUnk_40[4];
-            s32 mUnk_44;
-            u8 mUnk_48[8];
-            s32 mUnk_50;
-            s32 mUnk_54;
-            s32 mUnk_58;
-            s32 mUnk_5c;
-            s32 mUnk_60;
-            s32 mUnk_64;
-        };
-        Unk02024eec_40 mUnk_40_m;
-    };
+    /* 40 */ Unk02024eec_40 mUnk_40;
     /* 68 */ s32 mUnk_68;
 } KartSound;
 

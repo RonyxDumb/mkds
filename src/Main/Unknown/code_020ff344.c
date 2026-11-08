@@ -69,27 +69,28 @@ BOOL func_020ffabc(u32 kind) {
 #pragma thumb on
 
 void func_020ff97c(Unk020ff97c *object) {
-    object->mUnk_a0 = *(MtxFx33 *) &object->mUnk_00.mMatrix;
-    object->mUnk_124 = 0;
-    object->mUnk_128 = 0;
-    object->mUnk_12c = 0;
-    object->mUnk_130 = 0;
-    object->mUnk_100 = ((s64) object->mUnk_00.mScale.x * 0x190000) >> 12;
-    object->mUnk_104 = (s32) (((s64) object->mUnk_00.mScale.y * 0x64000) >> 12) >> 1;
-    object->mUnk_108 = ((s64) object->mUnk_00.mScale.z * 0xaf000) >> 12;
-    object->mUnk_10c = ((s64) object->mUnk_00.mScale.z * 0xaf000) >> 12;
-    object->mUnk_110 = 0;
-    object->mUnk_114 = 1;
-    object->mUnk_118 = 0;
-    object->mUnk_11c = 0;
-    object->mUnk_120 = 0x800;
-    object->mUnk_e8 = object->mUnk_00.mPos;
+    object->mUnk_a0.mUnk_a0 = *(MtxFx33 *) &object->mUnk_00.mMatrix;
+    object->mUnk_a0.mUnk_124.x = 0;
+    object->mUnk_a0.mUnk_124.y = 0;
+    object->mUnk_a0.mUnk_124.z = 0;
+    object->mUnk_a0.mUnk_130 = 0;
+    object->mUnk_a0.mUnk_100 = ((s64) object->mUnk_00.mScale.x * 0x190000) >> 12;
+    object->mUnk_a0.mUnk_104 = (s32) (((s64) object->mUnk_00.mScale.y * 0x64000) >> 12) >> 1;
+    object->mUnk_a0.mUnk_108 = ((s64) object->mUnk_00.mScale.z * 0xaf000) >> 12;
+    object->mUnk_a0.mUnk_10c = ((s64) object->mUnk_00.mScale.z * 0xaf000) >> 12;
+    object->mUnk_a0.mUnk_110 = 0;
+    object->mUnk_a0.mUnk_114.x = 1;
+    object->mUnk_a0.mUnk_114.y = 0;
+    object->mUnk_a0.mUnk_114.z = 0;
+    object->mUnk_a0.mUnk_120 = 0x800;
+    object->mUnk_a0.mUnk_e8 = object->mUnk_00.mPos;
     object->mUnk_00.mUnk_10.x = 0;
     object->mUnk_00.mUnk_10.y = 0;
     object->mUnk_00.mUnk_10.z = 0;
-    VEC_MultAdd(-object->mUnk_104, &object->mUnk_00.mMatrix.mUnk_00[1], &object->mUnk_00.mPos, &object->mUnk_f4);
-    object->mUnk_134 = 0;
-    object->mUnk_138 = 0;
+    VEC_MultAdd(-object->mUnk_a0.mUnk_104, &object->mUnk_00.mMatrix.mUnk_00[1], &object->mUnk_00.mPos,
+                &object->mUnk_a0.mUnk_f4);
+    object->mUnk_a0.mUnk_134 = 0;
+    object->mUnk_a0.mUnk_138 = 0;
     object->mUnk_13c = 1;
     object->mUnk_00.mFlags |= data_0215a030;
 }

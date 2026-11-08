@@ -134,7 +134,7 @@ void func_020e410c(Unk020e1dc0 *list) {
         object = objects[index];
         if (object->mUnk_000.mKind == 0xcb) {
             if (previousIndex < 0) {
-                object->mUnk_138 = z;
+                object->mUnk_a0.mUnk_138 = z;
             } else {
                 VEC_Subtract(&objects[previousIndex]->mUnk_000.mPos, &object->mUnk_000.mPos, &offset);
                 offset.y = z2;
@@ -148,13 +148,13 @@ void func_020e410c(Unk020e1dc0 *list) {
 
 void func_020e3ef4(Unk020e3ef4 *object, struct CourseMapRow *courseRow, Unk020e1e98_154 *kindInfo) {
     InitStateMachine(&object->mUnk_000.mStateMachine, (UnkFunc *const *) data_0216c168, 4, object);
-    object->mUnk_0e8 = object->mUnk_000.mPos;
-    object->mUnk_0a0 = *(MtxFx33 *) &object->mUnk_000.mMatrix;
-    object->mUnk_0c4 = *(MtxFx33 *) &object->mUnk_000.mMatrix;
-    object->mUnk_124.x = 0;
-    object->mUnk_124.y = 0;
-    object->mUnk_124.z = 0;
-    object->mUnk_130 = kindInfo->mUnk_00 != 0 ? 0 : 1;
+    object->mUnk_a0.mUnk_e8 = object->mUnk_000.mPos;
+    object->mUnk_a0.mUnk_a0 = *(MtxFx33 *) &object->mUnk_000.mMatrix;
+    object->mUnk_a0.mUnk_c4 = *(MtxFx33 *) &object->mUnk_000.mMatrix;
+    object->mUnk_a0.mUnk_124.x = 0;
+    object->mUnk_a0.mUnk_124.y = 0;
+    object->mUnk_a0.mUnk_124.z = 0;
+    object->mUnk_a0.mUnk_130 = kindInfo->mUnk_00 != 0 ? 0 : 1;
     object->mUnk_144 = courseRow->mUnk_2c;
     object->mUnk_146 = courseRow->mUnk_2a;
     object->mUnk_148 = courseRow->mUnk_2e;
@@ -169,19 +169,19 @@ void func_020e3ef4(Unk020e3ef4 *object, struct CourseMapRow *courseRow, Unk020e1
         object->mUnk_150 = 0;
     }
     object->mUnk_14c = 0;
-    object->mUnk_100 = ((s64) kindInfo->mUnk_04 * object->mUnk_000.mScale.x) >> 12;
-    object->mUnk_104 = (s32) (((s64) kindInfo->mUnk_08 * object->mUnk_000.mScale.y) >> 12) >> 1;
+    object->mUnk_a0.mUnk_100 = ((s64) kindInfo->mUnk_04 * object->mUnk_000.mScale.x) >> 12;
+    object->mUnk_a0.mUnk_104 = (s32) (((s64) kindInfo->mUnk_08 * object->mUnk_000.mScale.y) >> 12) >> 1;
     if (kindInfo->mUnk_00 != 0) {
-        object->mUnk_110 = FALSE;
-        object->mUnk_114.x = 1;
+        object->mUnk_a0.mUnk_110 = FALSE;
+        object->mUnk_a0.mUnk_114.x = 1;
     } else {
-        object->mUnk_110 = TRUE;
-        object->mUnk_114.x = 0;
+        object->mUnk_a0.mUnk_110 = TRUE;
+        object->mUnk_a0.mUnk_114.x = 0;
     }
-    object->mUnk_114.z = 0;
-    object->mUnk_120 = kindInfo->mUnk_10;
-    object->mUnk_134 = 1;
-    object->mUnk_138 = kindInfo->mUnk_14;
+    object->mUnk_a0.mUnk_114.z = 0;
+    object->mUnk_a0.mUnk_120 = kindInfo->mUnk_10;
+    object->mUnk_a0.mUnk_134 = 1;
+    object->mUnk_a0.mUnk_138 = kindInfo->mUnk_14;
     object->mUnk_000.mFlags |= data_02158d58;
     object->mUnk_000.mStateMachine.mNextState = 0;
     object->mUnk_000.mStateMachine.mNextStateRequested = 1;
@@ -248,16 +248,17 @@ void UpdateBridge(s32 a, Bridge *bridge) {
     if (angleDelta < -0x8000) {
         angleDelta += 0x10000;
     }
-    bridge->mUnk_124.x = ((s64) bridge->mMapObject.mMatrix.mUnk_00[0].x * angleDelta) >> 12;
-    bridge->mUnk_124.y = ((s64) bridge->mMapObject.mMatrix.mUnk_00[0].y * angleDelta) >> 12;
-    bridge->mUnk_124.z = ((s64) bridge->mMapObject.mMatrix.mUnk_00[0].z * angleDelta) >> 12;
+    bridge->mUnk_a0.mUnk_124.x = ((s64) bridge->mMapObject.mMatrix.mUnk_00[0].x * angleDelta) >> 12;
+    bridge->mUnk_a0.mUnk_124.y = ((s64) bridge->mMapObject.mMatrix.mUnk_00[0].y * angleDelta) >> 12;
+    bridge->mUnk_a0.mUnk_124.z = ((s64) bridge->mMapObject.mMatrix.mUnk_00[0].z * angleDelta) >> 12;
     bridge->mAngleX = y;
-    bridge->mUnk_0a0 = *(MtxFx33 *) &bridge->mMapObject.mMatrix;
+    bridge->mUnk_a0.mUnk_a0 = *(MtxFx33 *) &bridge->mMapObject.mMatrix;
     MTX_RotX33_(&bridge->mMapObject.mMatrix.mUnk_00[0].x, gPairsByAngle[(y >> 4) * 2],
                 gPairsByAngle[(y >> 4) * 2 + 1]);
-    MTX_Concat33(&bridge->mMapObject.mMatrix.mUnk_00[0].x, bridge->mUnk_0c4.mUnk_00,
+    MTX_Concat33(&bridge->mMapObject.mMatrix.mUnk_00[0].x, bridge->mUnk_a0.mUnk_c4.mUnk_00,
                  &bridge->mMapObject.mMatrix.mUnk_00[0].x);
-    VEC_MultAdd(-bridge->mUnk_104, &bridge->mMapObject.mMatrix.mUnk_00[1], &bridge->mMapObject.mPos, &bridge->mUnk_0f4);
+    VEC_MultAdd(-bridge->mUnk_a0.mUnk_104, &bridge->mMapObject.mMatrix.mUnk_00[1], &bridge->mMapObject.mPos,
+                &bridge->mUnk_a0.mUnk_f4);
     if (bridge->mPauseTimer != 0) {
         bridge->mPauseTimer--;
         return;

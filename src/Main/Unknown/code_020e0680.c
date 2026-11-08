@@ -577,7 +577,7 @@ void SetMapObjectsModel(Unk020e1dc0 *list, void *model) {
 
 s32 func_020e1d10(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u16 d, Unk020e0764 *e, Unk020e0764 *f,
                   Vec3 *g, u16 *h, Vec3 *i, u16 *j) {
-    switch (object->mUnk_134) {
+    switch (object->mUnk_a0.mUnk_134) {
         case 0:
             return func_020e0bac(object, sphereCenter, sphereRadius, d, e, f, g, h, i, j);
         case 1:
@@ -601,7 +601,7 @@ void func_020e1a80(s32 a, s32 b, s32 c, u32 d, u16 e, u16 *f, s32 v, Unk020e005c
         } else {
             t = -h->y;
         }
-        if (t > object->mUnk_120) {
+        if (t > object->mUnk_a0.mUnk_120) {
             q = TRUE;
         }
     }
@@ -612,7 +612,7 @@ void func_020e1a80(s32 a, s32 b, s32 c, u32 d, u16 e, u16 *f, s32 v, Unk020e005c
     u.y = ((s64) u.y * b) >> 12;
     u.z = ((s64) u.z * b) >> 12;
     if (q) {
-        n = object->mUnk_114.z != 0 && (d & 8) ? 0x12 : 0;
+        n = object->mUnk_a0.mUnk_114.z != 0 && (d & 8) ? 0x12 : 0;
         *f = n;
         s = i;
     } else {
@@ -685,7 +685,7 @@ BOOL func_020e16dc(s32 a, s32 b, s32 c, u32 d, u16 e, u16 f, u16 *g, u16 h, s32 
         k = FALSE;
         if (i != 0) {
             t = (d & e) ? m->y : -m->y;
-            if (t > object->mUnk_120) {
+            if (t > object->mUnk_a0.mUnk_120) {
                 k = TRUE;
             }
         }
@@ -693,7 +693,7 @@ BOOL func_020e16dc(s32 a, s32 b, s32 c, u32 d, u16 e, u16 f, u16 *g, u16 h, s32 
             k = FALSE;
             if (j != 0) {
                 t = (d & f) ? n->y : -n->y;
-                if (t > object->mUnk_120) {
+                if (t > object->mUnk_a0.mUnk_120) {
                     k = TRUE;
                 }
             }
@@ -736,7 +736,7 @@ BOOL func_020e16dc(s32 a, s32 b, s32 c, u32 d, u16 e, u16 f, u16 *g, u16 h, s32 
         c = a;
     }
     if (u) {
-        if (object->mUnk_114.z != 0 && (d & 8)) {
+        if (object->mUnk_a0.mUnk_114.z != 0 && (d & 8)) {
             *g = 0x1e;
             x = p;
         } else {
@@ -805,22 +805,22 @@ BOOL func_020e0bac(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u1
     s32 t;
 
     n = 0;
-    VEC_Subtract(sphereCenter, &object->mUnk_0f4, &v);
+    VEC_Subtract(sphereCenter, &object->mUnk_a0.mUnk_f4, &v);
     f6 = Vec3DotUnrounded(&v, &object->mUnk_028);
     if (f6 > 0) {
-        if (f6 > object->mUnk_100 + sphereRadius) {
+        if (f6 > object->mUnk_a0.mUnk_100 + sphereRadius) {
             return FALSE;
         }
-        if (f6 > object->mUnk_100) {
+        if (f6 > object->mUnk_a0.mUnk_100) {
             n |= 0xa00;
         } else {
             n |= 0x900;
         }
     } else {
-        if (f6 < -(object->mUnk_100 + sphereRadius)) {
+        if (f6 < -(object->mUnk_a0.mUnk_100 + sphereRadius)) {
             return FALSE;
         }
-        if (f6 < -object->mUnk_100) {
+        if (f6 < -object->mUnk_a0.mUnk_100) {
             n |= 0x600;
         } else {
             n |= 0x500;
@@ -828,19 +828,19 @@ BOOL func_020e0bac(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u1
     }
     f5 = Vec3DotUnrounded(&v, &object->mUnk_034);
     if (f5 > 0) {
-        if (f5 > object->mUnk_104 + sphereRadius) {
+        if (f5 > object->mUnk_a0.mUnk_104 + sphereRadius) {
             return FALSE;
         }
-        if (f5 > object->mUnk_104) {
+        if (f5 > object->mUnk_a0.mUnk_104) {
             n |= 0xa0;
         } else {
             n |= 0x90;
         }
     } else {
-        if (f5 < -(object->mUnk_104 + sphereRadius)) {
+        if (f5 < -(object->mUnk_a0.mUnk_104 + sphereRadius)) {
             return FALSE;
         }
-        if (f5 < -object->mUnk_104) {
+        if (f5 < -object->mUnk_a0.mUnk_104) {
             n |= 0x60;
         } else {
             n |= 0x50;
@@ -848,19 +848,19 @@ BOOL func_020e0bac(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u1
     }
     f4 = Vec3DotUnrounded(&v, &object->mUnk_040);
     if (f4 > 0) {
-        if (f4 > object->mUnk_108 + sphereRadius) {
+        if (f4 > object->mUnk_a0.mUnk_108 + sphereRadius) {
             return FALSE;
         }
-        if (f4 > object->mUnk_108) {
+        if (f4 > object->mUnk_a0.mUnk_108) {
             n |= 0xa;
         } else {
             n |= 0x9;
         }
     } else {
-        if (f4 < -(object->mUnk_10c + sphereRadius)) {
+        if (f4 < -(object->mUnk_a0.mUnk_10c + sphereRadius)) {
             return FALSE;
         }
-        if (f4 < -object->mUnk_10c) {
+        if (f4 < -object->mUnk_a0.mUnk_10c) {
             n |= 0x6;
         } else {
             n |= 0x5;
@@ -872,20 +872,20 @@ BOOL func_020e0bac(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u1
     if (n & 0x100) {
         if (n & 0x10) {
             if (n & 0x8) {
-                f4 = (object->mUnk_108 + sphereRadius) - f4;
+                f4 = (object->mUnk_a0.mUnk_108 + sphereRadius) - f4;
             } else {
-                f4 = -(object->mUnk_10c + sphereRadius) - f4;
+                f4 = -(object->mUnk_a0.mUnk_10c + sphereRadius) - f4;
             }
             if (n & 0x1) {
                 if (n & 0x800) {
-                    k6 = (object->mUnk_100 + sphereRadius) - f6;
+                    k6 = (object->mUnk_a0.mUnk_100 + sphereRadius) - f6;
                 } else {
-                    k6 = -(object->mUnk_100 + sphereRadius) - f6;
+                    k6 = -(object->mUnk_a0.mUnk_100 + sphereRadius) - f6;
                 }
                 if (n & 0x80) {
-                    k5 = (object->mUnk_104 + sphereRadius) - f5;
+                    k5 = (object->mUnk_a0.mUnk_104 + sphereRadius) - f5;
                 } else {
-                    k5 = -(object->mUnk_104 + sphereRadius) - f5;
+                    k5 = -(object->mUnk_a0.mUnk_104 + sphereRadius) - f5;
                 }
                 m6 = k6 > 0 ? k6 : -k6;
                 m5 = k5 > 0 ? k5 : -k5;
@@ -896,9 +896,9 @@ BOOL func_020e0bac(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u1
             goto call_8;
         }
         if (n & 0x80) {
-            k5 = (object->mUnk_104 + sphereRadius) - f5;
+            k5 = (object->mUnk_a0.mUnk_104 + sphereRadius) - f5;
         } else {
-            k5 = -(object->mUnk_104 + sphereRadius) - f5;
+            k5 = -(object->mUnk_a0.mUnk_104 + sphereRadius) - f5;
         }
         if (!(n & 0x1)) {
             goto call_80_8;
@@ -907,9 +907,9 @@ BOOL func_020e0bac(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u1
         goto call_80;
     }
     if (n & 0x800) {
-        k6 = (object->mUnk_100 + sphereRadius) - f6;
+        k6 = (object->mUnk_a0.mUnk_100 + sphereRadius) - f6;
     } else {
-        k6 = -(object->mUnk_100 + sphereRadius) - f6;
+        k6 = -(object->mUnk_a0.mUnk_100 + sphereRadius) - f6;
     }
     if (n & 0x10) {
         if (!(n & 0x1)) {
@@ -923,16 +923,16 @@ BOOL func_020e0bac(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u1
         goto call_800_80;
     }
 call_800:
-    func_020e1a80(sphereRadius, k6, m6, n, 0x800, g, object->mUnk_110, object, sphereCenter, &object->mUnk_028, o, p, q,
-                  r, s);
+    func_020e1a80(sphereRadius, k6, m6, n, 0x800, g, object->mUnk_a0.mUnk_110, object, sphereCenter,
+                  &object->mUnk_028, o, p, q, r, s);
     return TRUE;
 call_80:
-    func_020e1a80(sphereRadius, k5, m5, n, 0x80, g, object->mUnk_114.x, object, sphereCenter, &object->mUnk_034, o, p,
-                  q, r, s);
+    func_020e1a80(sphereRadius, k5, m5, n, 0x80, g, object->mUnk_a0.mUnk_114.x, object, sphereCenter,
+                  &object->mUnk_034, o, p, q, r, s);
     return TRUE;
 call_8:
-    func_020e1a80(sphereRadius, f4, m4, n, 8, g, object->mUnk_114.y, object, sphereCenter, &object->mUnk_040, o, p, q,
-                  r, s);
+    func_020e1a80(sphereRadius, f4, m4, n, 8, g, object->mUnk_a0.mUnk_114.y, object, sphereCenter,
+                  &object->mUnk_040, o, p, q, r, s);
     return TRUE;
 smallest:
     if (m6 < m4) {
@@ -947,60 +947,63 @@ smallest:
     goto call_80;
 call_800_80:
     if (n & 0x800) {
-        f6 = f6 - object->mUnk_100;
+        f6 = f6 - object->mUnk_a0.mUnk_100;
     } else {
-        f6 = f6 + object->mUnk_100;
+        f6 = f6 + object->mUnk_a0.mUnk_100;
     }
     if (n & 0x80) {
-        f5 = f5 - object->mUnk_104;
+        f5 = f5 - object->mUnk_a0.mUnk_104;
     } else {
-        f5 = f5 + object->mUnk_104;
+        f5 = f5 + object->mUnk_a0.mUnk_104;
     }
-    return func_020e16dc(sphereRadius, f6, f5, n, 0x800, 0x80, g, d, object->mUnk_110, object->mUnk_114.x, object,
-                         sphereCenter, &object->mUnk_028, &object->mUnk_034, o, p, q, r, s);
+    return func_020e16dc(sphereRadius, f6, f5, n, 0x800, 0x80, g, d, object->mUnk_a0.mUnk_110,
+                         object->mUnk_a0.mUnk_114.x, object, sphereCenter, &object->mUnk_028, &object->mUnk_034, o, p,
+                         q, r, s);
 call_80_8:
     if (n & 0x80) {
-        f5 = f5 - object->mUnk_104;
+        f5 = f5 - object->mUnk_a0.mUnk_104;
     } else {
-        f5 = f5 + object->mUnk_104;
+        f5 = f5 + object->mUnk_a0.mUnk_104;
     }
     if (n & 0x8) {
-        f4 = f4 - object->mUnk_108;
+        f4 = f4 - object->mUnk_a0.mUnk_108;
     } else {
-        f4 = f4 + object->mUnk_10c;
+        f4 = f4 + object->mUnk_a0.mUnk_10c;
     }
-    return func_020e16dc(sphereRadius, f5, f4, n, 0x80, 0x8, g, d, object->mUnk_114.x, object->mUnk_114.y, object,
-                         sphereCenter, &object->mUnk_034, &object->mUnk_040, o, p, q, r, s);
+    return func_020e16dc(sphereRadius, f5, f4, n, 0x80, 0x8, g, d, object->mUnk_a0.mUnk_114.x,
+                         object->mUnk_a0.mUnk_114.y, object, sphereCenter, &object->mUnk_034, &object->mUnk_040, o, p,
+                         q, r, s);
 call_8_800:
     if (n & 0x8) {
-        f4 = f4 - object->mUnk_108;
+        f4 = f4 - object->mUnk_a0.mUnk_108;
     } else {
-        f4 = f4 + object->mUnk_10c;
+        f4 = f4 + object->mUnk_a0.mUnk_10c;
     }
     if (n & 0x800) {
-        f6 = f6 - object->mUnk_100;
+        f6 = f6 - object->mUnk_a0.mUnk_100;
     } else {
-        f6 = f6 + object->mUnk_100;
+        f6 = f6 + object->mUnk_a0.mUnk_100;
     }
-    return func_020e16dc(sphereRadius, f4, f6, n, 8, 0x800, g, d, object->mUnk_114.y, object->mUnk_110, object,
-                         sphereCenter, &object->mUnk_040, &object->mUnk_028, o, p, q, r, s);
+    return func_020e16dc(sphereRadius, f4, f6, n, 8, 0x800, g, d, object->mUnk_a0.mUnk_114.y,
+                         object->mUnk_a0.mUnk_110, object, sphereCenter, &object->mUnk_040, &object->mUnk_028, o, p, q,
+                         r, s);
 rest:
     u = FALSE;
     if ((d & 0x60) == 0) {
         e = TRUE;
         y = TRUE;
         h = FALSE;
-        if (object->mUnk_110 != 0) {
+        if (object->mUnk_a0.mUnk_110 != 0) {
             t = (n & 0x800) ? object->mUnk_028.y : -object->mUnk_028.y;
-            if (t > object->mUnk_120) {
+            if (t > object->mUnk_a0.mUnk_120) {
                 h = TRUE;
             }
         }
         if (h == FALSE) {
             h = FALSE;
-            if (object->mUnk_114.x != 0) {
+            if (object->mUnk_a0.mUnk_114.x != 0) {
                 t = (n & 0x80) ? object->mUnk_034.y : -object->mUnk_034.y;
-                if (t > object->mUnk_120) {
+                if (t > object->mUnk_a0.mUnk_120) {
                     h = TRUE;
                 }
             }
@@ -1010,9 +1013,9 @@ rest:
         }
         if (y == FALSE) {
             k5 = 0;
-            if (object->mUnk_114.y != 0) {
+            if (object->mUnk_a0.mUnk_114.y != 0) {
                 t = (n & 0x8) ? object->mUnk_040.y : -object->mUnk_040.y;
-                if (t > object->mUnk_120) {
+                if (t > object->mUnk_a0.mUnk_120) {
                     k5 = 1;
                 }
             }
@@ -1025,19 +1028,19 @@ rest:
         }
     }
     if (n & 0x800) {
-        f6 = f6 - object->mUnk_100;
+        f6 = f6 - object->mUnk_a0.mUnk_100;
     } else {
-        f6 = f6 + object->mUnk_100;
+        f6 = f6 + object->mUnk_a0.mUnk_100;
     }
     if (n & 0x80) {
-        f5 = f5 - object->mUnk_104;
+        f5 = f5 - object->mUnk_a0.mUnk_104;
     } else {
-        f5 = f5 + object->mUnk_104;
+        f5 = f5 + object->mUnk_a0.mUnk_104;
     }
     if (n & 0x8) {
-        f4 = f4 - object->mUnk_108;
+        f4 = f4 - object->mUnk_a0.mUnk_108;
     } else {
-        f4 = f4 + object->mUnk_10c;
+        f4 = f4 + object->mUnk_a0.mUnk_10c;
     }
     v.x = ((s64) object->mUnk_028.x * f6) >> 12;
     v.y = ((s64) object->mUnk_028.y * f6) >> 12;
@@ -1073,7 +1076,7 @@ rest:
         tmp.z = ((s64) w.z * sphereRadius) >> 12;
     }
     if (u) {
-        if (object->mUnk_114.z != 0 && (n & 0x8)) {
+        if (object->mUnk_a0.mUnk_114.z != 0 && (n & 0x8)) {
             *g = 0x1e;
             x = p;
         } else {
@@ -1134,34 +1137,34 @@ BOOL func_020e0764(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u1
     s32 n;
 
     fl = 0;
-    VEC_Subtract(sphereCenter, &object->mUnk_0f4, &v);
+    VEC_Subtract(sphereCenter, &object->mUnk_a0.mUnk_f4, &v);
     x = Vec3DotUnrounded(&v, &object->mUnk_028);
     y = Vec3DotUnrounded(&v, &object->mUnk_040);
     sq = (s64) x * x + (s64) y * y;
-    t = object->mUnk_100 + sphereRadius;
+    t = object->mUnk_a0.mUnk_100 + sphereRadius;
     if ((s64) t * t < sq) {
         return FALSE;
     }
-    if ((s64) object->mUnk_100 * object->mUnk_100 < sq) {
+    if ((s64) object->mUnk_a0.mUnk_100 * object->mUnk_a0.mUnk_100 < sq) {
         fl |= data_021588e8;
     } else {
         fl |= data_021588ec;
     }
     n = Vec3DotUnrounded(&v, &object->mUnk_034);
     if (n > 0) {
-        if (n > object->mUnk_104 + sphereRadius) {
+        if (n > object->mUnk_a0.mUnk_104 + sphereRadius) {
             return FALSE;
         }
-        if (n > object->mUnk_104) {
+        if (n > object->mUnk_a0.mUnk_104) {
             fl |= 0xa0;
         } else {
             fl |= 0x90;
         }
     } else {
-        if (n < -(object->mUnk_104 + sphereRadius)) {
+        if (n < -(object->mUnk_a0.mUnk_104 + sphereRadius)) {
             return FALSE;
         }
-        if (n < -object->mUnk_104) {
+        if (n < -object->mUnk_a0.mUnk_104) {
             fl |= 0x60;
         } else {
             fl |= 0x50;
@@ -1169,9 +1172,9 @@ BOOL func_020e0764(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u1
     }
     if (fl & 0x1000) {
         if (fl & 0x80) {
-            n = object->mUnk_104 + sphereRadius - n;
+            n = object->mUnk_a0.mUnk_104 + sphereRadius - n;
         } else {
-            n = -(object->mUnk_104 + sphereRadius) - n;
+            n = -(object->mUnk_a0.mUnk_104 + sphereRadius) - n;
         }
         if (n > 0) {
             d0 = n;
@@ -1214,21 +1217,21 @@ BOOL func_020e0764(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u1
     }
     goto tail;
 apply80:
-    func_020e1a80(sphereRadius, n, d0, fl, 0x80, g, object->mUnk_114.x, object, sphereCenter, &object->mUnk_034, o, p,
-                  q, r, s);
+    func_020e1a80(sphereRadius, n, d0, fl, 0x80, g, object->mUnk_a0.mUnk_114.x, object, sphereCenter,
+                  &object->mUnk_034, o, p, q, r, s);
     return TRUE;
 apply3000:
-    func_020e1a80(sphereRadius, k, x, fl, 0x3000, g, object->mUnk_110, object, sphereCenter, &w, o, p, q, r, s);
+    func_020e1a80(sphereRadius, k, x, fl, 0x3000, g, object->mUnk_a0.mUnk_110, object, sphereCenter, &w, o, p, q, r, s);
     return TRUE;
 tail:
-    x = x - object->mUnk_100;
+    x = x - object->mUnk_a0.mUnk_100;
     if (fl & 0x80) {
-        n = n - object->mUnk_104;
+        n = n - object->mUnk_a0.mUnk_104;
     } else {
-        n = n + object->mUnk_104;
+        n = n + object->mUnk_a0.mUnk_104;
     }
-    return func_020e16dc(sphereRadius, x, n, fl, 0x3000, 0x80, g, d, object->mUnk_110, object->mUnk_114.x, object,
-                         sphereCenter, &w, &object->mUnk_034, o, p, q, r, s);
+    return func_020e16dc(sphereRadius, x, n, fl, 0x3000, 0x80, g, d, object->mUnk_a0.mUnk_110,
+                         object->mUnk_a0.mUnk_114.x, object, sphereCenter, &w, &object->mUnk_034, o, p, q, r, s);
 cmp:
     if (k < d0) {
         goto apply3000;
@@ -1244,12 +1247,12 @@ void func_020e0680(Unk020e005c *object, Vec3 *position, Vec3 *c, Vec3 *d, u16 *e
         d->y = -object->mUnk_010.y;
         d->z = -object->mUnk_010.z;
         VEC_Subtract(position, &object->mPos, &offset);
-        VEC_MultAdd(Vec3DotUnrounded(&offset, &object->mUnk_028), &object->mUnk_0a0, d, d);
-        VEC_MultAdd(Vec3DotUnrounded(&offset, &object->mUnk_034), &object->mUnk_0ac, d, d);
-        VEC_MultAdd(Vec3DotUnrounded(&offset, &object->mUnk_040), &object->mUnk_0b8, d, d);
+        VEC_MultAdd(Vec3DotUnrounded(&offset, &object->mUnk_028), (Vec3 *) &object->mUnk_a0.mUnk_a0.mUnk_00[0], d, d);
+        VEC_MultAdd(Vec3DotUnrounded(&offset, &object->mUnk_034), (Vec3 *) &object->mUnk_a0.mUnk_a0.mUnk_00[3], d, d);
+        VEC_MultAdd(Vec3DotUnrounded(&offset, &object->mUnk_040), (Vec3 *) &object->mUnk_a0.mUnk_a0.mUnk_00[6], d, d);
         VEC_Subtract(&offset, d, d);
     }
     if (e != NULL) {
-        *e = Vec3DotUnrounded(&object->mUnk_124, c);
+        *e = Vec3DotUnrounded(&object->mUnk_a0.mUnk_124, c);
     }
 }

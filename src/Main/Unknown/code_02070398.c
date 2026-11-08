@@ -866,7 +866,7 @@ void func_020719d0(Kart *kart) {
     }
     t.mUnk_20 = b;
     t.mUnk_24 = a;
-    kartSound->mUnk_40_m = t;
+    kartSound->mUnk_40 = t;
 }
 
 PlayingSound *func_020719bc(SoundSource *soundSource, u32 soundId) {

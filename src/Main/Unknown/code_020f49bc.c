@@ -119,7 +119,7 @@ void AdvanceRestingItemObject(ItemObject *item) {
         if (func_020e04b0(item->mUnk_104, &item->mUnk_108, &item->mNormal) != FALSE) {
             StartFallingItemObject(item);
         }
-        if (item->mUnk_104->mUnk_00->mUnk_130 != FALSE) {
+        if (item->mUnk_104->mUnk_00->mUnk_a0.mUnk_130 != FALSE) {
             if (item->mNormal.y < 0xff4) {
                 item->mFlags |= 0x80;
             }
