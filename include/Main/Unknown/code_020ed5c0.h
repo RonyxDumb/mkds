@@ -13,7 +13,7 @@ typedef struct KartOffsetData {
     /* 00 */ char mTireName[0x10];
     /* 10 */ s32 mFirstTiresScale;
     /* 14 */ Vec3 mTireOffsets[4];
-    /* 44 */ Vec3 mUnk_44[13];
+    /* 44 */ Vec3 mCharacterOffsets[13];
 } KartOffsetData;
 
 // The object behind the word at 0x590 of a Kart from its first byte:

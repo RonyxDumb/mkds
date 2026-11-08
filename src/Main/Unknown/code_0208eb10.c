@@ -618,7 +618,7 @@ PosStrip *StartAwardKartPosStrip(s32 kartIndex) {
         if (strip != NULL) {
             kart = GetKart(kartIndex);
             kartModelsEntry = kart->mKartModelsEntry;
-            kartOffset = kartModelsEntry->mKartOffsetData->mUnk_44[kartModelsEntry->mCharacterIndex];
+            kartOffset = kartModelsEntry->mKartOffsetData->mCharacterOffsets[kartModelsEntry->mCharacterIndex];
             strip->mFollowedPos = &kart->mPos;
             strip->mStopped = 0;
             strip->mHeight = 0x400;

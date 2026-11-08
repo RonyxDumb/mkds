@@ -132,7 +132,7 @@ void DrawKart(Kart *kart) {
     if (modelsEntry->mUnk_05c != 0) {
         return;
     }
-    translation = modelsEntry->mKartOffsetData->mUnk_44[modelsEntry->mCharacterIndex];
+    translation = modelsEntry->mKartOffsetData->mCharacterOffsets[modelsEntry->mCharacterIndex];
     translation.y = translation.y + (kart->mModelOffsetY + kart->mUnk_4f0.z);
     func_02063cc4_inline(0x14, 0x1d);
     func_01ff9048(0x1c, &translation, 3);
