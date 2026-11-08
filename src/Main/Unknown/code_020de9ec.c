@@ -256,7 +256,7 @@ void func_020dec4c(void *unused, ItemBox *itemBox, u32 c, u32 d) {
         return;
     }
     if (itemBox->mShadowMode == 0) {
-        itemBox->mUnk_0b4.mUnk_030 = n;
+        itemBox->mUnk_0b4.mAlphaCap = n;
         func_020e54e4(&itemBox->mUnk_0b4, itemBox->mUnk_0a8 != 0 ? &data_0217b75c : 0, c, d);
         return;
     }

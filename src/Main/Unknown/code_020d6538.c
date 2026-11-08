@@ -563,7 +563,7 @@ RockUpdateList *CreateRockUpdateList(void) {
 
 void SetupDrawRock(void) {
     s32 pairIndex = (s32) (GetRaceUpdateFrames() << 25 >> 16) >> 4;
-    MTX_RotY33_(data_0217b650->mUnk_2c.mUnk_00, gPairsByAngle[pairIndex * 2], gPairsByAngle[pairIndex * 2 + 1]);
+    MTX_RotY33_(data_0217b650->mShadowMatrix.mUnk_00, gPairsByAngle[pairIndex * 2], gPairsByAngle[pairIndex * 2 + 1]);
 }
 
 void func_020d655c(void *a, RockObject *rock, void *c, s32 alpha) {
@@ -596,11 +596,11 @@ void func_020d655c(void *a, RockObject *rock, void *c, s32 alpha) {
     rock->mMapObject.mMatrix.mUnk_00[3].y = rock->mMapObject.mPos.y >> 4;
     rock->mMapObject.mMatrix.mUnk_00[3].z = rock->mMapObject.mPos.z >> 4;
     DrawNsbmdWithMatrixAndMaxAlpha(gRock, &rock->mMapObject.mMatrix, &rock->mMapObject.mScale, alpha);
-    shadowMatrix = &data_0217b650->mUnk_2c;
+    shadowMatrix = &data_0217b650->mShadowMatrix;
     shadowMatrix->mUnk_24.x = rock->mMapObject.mPos.x >> 4;
     shadowMatrix->mUnk_24.y = rock->mMapObject.mPos.y >> 4;
     shadowMatrix->mUnk_24.z = rock->mMapObject.mPos.z >> 4;
-    DrawShadowWithMaxAlpha(gRockShadow, &data_0217b650->mUnk_2c, &rock->mMapObject.mScale, alpha);
+    DrawShadowWithMaxAlpha(gRockShadow, &data_0217b650->mShadowMatrix, &rock->mMapObject.mScale, alpha);
 }
 
 void func_020d6538(Unk020d6538_a *emitter, EmitterParams *params) {

@@ -176,14 +176,14 @@ void DrawMkdEfBubble(void *a, MkdEfBubbleObject *bubble, void *c, s32 alpha) {
     v = bubble->mMapObject.mPos.y - bubble->mInitialY;
     if (v > 0x10000) {
         v = 0x1000 - ((v - 0x10000) >> 8);
-        bubble->mShadowMatrix.mUnk_030 = 0xd;
+        bubble->mShadowMatrix.mAlphaCap = 0xd;
     } else {
         n = 0xd - ((0x10000 - v) >> 13);
         v = 0x1000;
         if (n < 1) {
             n = 1;
         }
-        bubble->mShadowMatrix.mUnk_030 = n;
+        bubble->mShadowMatrix.mAlphaCap = n;
     }
     if (v <= 0) {
         return;

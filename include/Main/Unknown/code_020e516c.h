@@ -66,8 +66,8 @@ extern Unk020e54e4 *data_0217b818;
 
 // Destination of RefreshShadowMatrix.
 typedef struct ShadowMatrix {
-    /* 000 */ s32 mUnk_000[12];
-    /* 030 */ u16 mUnk_030;
+    /* 000 */ s32 mMatrix[12];
+    /* 030 */ u16 mAlphaCap;
 } ShadowMatrix;
 
 void func_020e5348(u32 a, u32 b);

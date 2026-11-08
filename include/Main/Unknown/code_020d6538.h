@@ -26,15 +26,15 @@ typedef struct RockShadowMatrix {
 // the address of its pointer at 0x28.
 typedef struct RockDrawList {
     /* 00 */ u8 mUnk_00[0x28];
-    /* 28 */ struct RockDrawList **mUnk_28;
-    /* 2c */ RockShadowMatrix mUnk_2c;
+    /* 28 */ struct RockDrawList **mListSlot;
+    /* 2c */ RockShadowMatrix mShadowMatrix;
 } RockDrawList;
 
 // 0x28-byte object that CreateRockUpdateList allocates and fills from a table; SetUpdateListSlot stores the address of
 // its pointer at 0x24.
 typedef struct RockUpdateList {
     /* 00 */ u8 mUnk_00[0x24];
-    /* 24 */ struct RockUpdateList **mUnk_24;
+    /* 24 */ struct RockUpdateList **mListSlot;
 } RockUpdateList;
 
 #include "Main/Unknown/code_020d50ec.h" // EmitterParams, RockObject

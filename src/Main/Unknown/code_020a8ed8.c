@@ -47,7 +47,7 @@ void DrawIronBallShadow(void *a, IronBall *ironBall, u32 c, u32 d) {
     if (((s32) ironBall->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0) >= 1000000) {
         return;
     }
-    shadowAlphaCap = ironBall->mShadowMatrix.mUnk_030;
+    shadowAlphaCap = ironBall->mShadowMatrix.mAlphaCap;
     if (shadowAlphaCap == 0) {
         return;
     }
@@ -316,7 +316,7 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
             } else {
                 v = 0;
             }
-            ironBall->mShadowMatrix.mUnk_030 = v;
+            ironBall->mShadowMatrix.mAlphaCap = v;
             SetShadowPositionRaised(&ironBall->mShadowMatrix, &ironBall->mUnk_11c);
         }
         ironBall->mUnk_000.mFlags &= ~1;
