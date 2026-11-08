@@ -1470,7 +1470,7 @@ BOOL TryHoldKartStill(Kart *kart, u32 b, void *c) {
             kart->mPos.x = kart->mPrevPos.x;
             kart->mPos.z = kart->mPrevPos.z;
         } else {
-            func_020d5aa0(c, b, (Unk020e04b0 *) kart->mUnk_208, &kart->mPos, NULL);
+            func_020d5aa0(c, b, kart->mUnk_208, &kart->mPos, NULL);
         }
         kart->mVelocity = data_02154f94;
         kart->mVelocityLength = 0;

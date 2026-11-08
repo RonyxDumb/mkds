@@ -148,10 +148,6 @@ typedef struct ParticipantKartRecordState {
     /* b4 */ u16 mUnk_b4;
 } ParticipantKartRecordState;
 
-typedef struct Unk0206c5e4_208 {
-    /* 0 */ BOOL mUnk_00;
-} Unk0206c5e4_208;
-
 // Bits of Kart.mUnk_7c.
 // Set once at set-up (func_02071e28) when mIndex == gRaceSetup->mEntryIndex, i.e. the selected entry.
 #define KART_7C_INDEX_IS_SELECTED_ENTRY 0x1
@@ -350,7 +346,7 @@ typedef struct Kart {
     /* 1e4 */ Vec3 mPrevPointAlongUp;
     /* 1f0 */ Vec3 mUnk_1f0;
     /* 1fc */ Vec3 mUnk_1fc;
-    /* 208 */ Unk0206c5e4_208 *mUnk_208;
+    /* 208 */ struct Unk020e04b0 *mUnk_208;
     // The functions of one Kart, one per slot index: 0 set-up at creation, 1 reset to the starting values, 2 stores the
     // squared distance in the sound source, 3 and 4 the two steps UpdateKarts runs for every Kart, 5 stores the
     // previous collision center, 6 respawn, 7 start placement, 8 does nothing. 7 and 8 are never called. InitKart fills

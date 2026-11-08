@@ -39,4 +39,4 @@ extern u32 data_usa_02156594;
 void func_02099020(void);
 void func_0209905c(void *a, Unk0209905c *p);
 u32 func_02099208(Unk0209905c *a, Kart *kart, u8 *c, u8 *d);
-void func_02099278(unsigned int mapObject);
+void func_02099278(MapObject *mapObject);

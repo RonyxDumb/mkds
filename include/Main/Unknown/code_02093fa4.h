@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-void InitNsKiller1(u32 arg0);
+typedef struct NsKiller1 NsKiller1;
+
+void InitNsKiller1(NsKiller1 *nsKiller1);

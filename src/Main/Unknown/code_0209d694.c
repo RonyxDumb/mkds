@@ -23,16 +23,13 @@
 #include "Main/Unknown/unk_02156000.h"
 #include "Main/Unknown/code_0209decc.h"
 
-void InitSunFireball(u32 mapObject) {
-    u32 flagBitsAddress = ((u32) (&data_021565e4));
-    u32 flags = (*(u16 *) ((mapObject) + (2)));
-    u32 flagBits = (*(u16 *) ((flagBitsAddress) + (0)));
+void InitSunFireball(MapObject *mapObject) {
+    u32 flags = mapObject->mFlags;
+    u32 flagBits = data_021565e4;
     u32 newFlags = ((flags) | (flagBits));
-    u32 unused1;
-    u32 unused2;
-    *(u16 *) ((mapObject) + (2)) = newFlags;
-    ParkMapObject((void *) mapObject);
-    CreateMapObjectSoundSourceFalloff2((MapObject *) mapObject);
+    mapObject->mFlags = newFlags;
+    ParkMapObject(mapObject);
+    CreateMapObjectSoundSourceFalloff2(mapObject);
 }
 
 u8 CollideKartWithSunFireball(SunFireball *sunFireball, Kart *kart, u8 *c, u8 *d) {

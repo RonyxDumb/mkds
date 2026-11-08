@@ -260,20 +260,12 @@ void InitRaceGoalS(void) {
     }
 }
 
-u32 ClearRaceGoalSPointer(void) {
-    u32 address;
-    u32 zero;
-    address = (u32) &gRaceGoalS;
-    zero = 0u;
-    *(u32 *) ((address) + (0)) = zero;
-    return address;
+void ClearRaceGoalSPointer(void) {
+    gRaceGoalS = NULL;
 }
 
 void UpdateRaceGoalS(void) {
-    u32 address = ((u32) (&gRaceGoalS));
-    u32 goal = (*(u32 *) ((address) + (0)));
-    u32 step = (*(u32 *) ((goal) + (172)));
-    u32 v5 = ((u32(*)(void))(step))();
+    gRaceGoalS->mUpdate();
     UpdateRaceGoalSOffset();
 }
 

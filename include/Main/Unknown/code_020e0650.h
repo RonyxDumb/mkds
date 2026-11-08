@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-void func_020e0650(u32 *slotPointer);
+typedef struct Unk020e04b0 Unk020e04b0;
+
+void func_020e0650(Unk020e04b0 **slotPointer);

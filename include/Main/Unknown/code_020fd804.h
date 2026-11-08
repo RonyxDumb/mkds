@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-void ParkItemBombMapObject(u32 bomb);
+typedef struct ItemBomb ItemBomb;
+
+void ParkItemBombMapObject(ItemBomb *bomb);

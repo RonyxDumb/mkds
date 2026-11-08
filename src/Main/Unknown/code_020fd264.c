@@ -60,7 +60,7 @@
 // Reset hook of the bomb kind.
 void ResetItemBomb(ItemBomb *bomb) {
     u32 initialDistanceSquared;
-    MTX_Identity43_((MtxFx43 *) bomb->mUnk_13c);
+    MTX_Identity43_(&bomb->mUnk_13c);
     InitStateMachine(bomb->mUnk_184, (UnkFunc *const *) &gItemBombStateTable, 4, bomb);
     SetStateMachineState(bomb->mUnk_184, 0);
     bomb->mTimer = 300;
@@ -102,12 +102,12 @@ u32 func_020fe264(u32 value) {
 }
 
 void UpdateItemBombState0(ItemBomb *bomb) {
-    s32 v;
+    u32 v;
 
     if (bomb->mUnk_130 != 0) {
-        AdvanceBouncingItem(&bomb->mUnk_000, 0x385, 0xff8, 0x733, (u32 *) &v);
+        AdvanceBouncingItem(&bomb->mUnk_000, 0x385, 0xff8, 0x733, &v);
     } else {
-        AdvanceBouncingItem(&bomb->mUnk_000, 0x47b, 0xf91, bomb->mUnk_134, (u32 *) &v);
+        AdvanceBouncingItem(&bomb->mUnk_000, 0x47b, 0xf91, bomb->mUnk_134, &v);
     }
     if (bomb->mUnk_000.mItemObject.mFlags & KART_ITEMS_THROW_FORWARD) {
         func_020f91fc(bomb, 0xe5);
@@ -433,25 +433,13 @@ void func_020fd83c(ItemBomb *bomb) {
 }
 
 // Release hook of the bomb kind: parks its map object, if it has one.
-void ParkItemBombMapObject(u32 bomb) {
-    u32 value0 = bomb;
-    u32 flags;
-    u32 compareLeft0;
-    u32 zero;
-    value0 = *(const u32 *) ((value0) + (408));
-    compareLeft0 = value0;
-    zero = 0u;
-    if (compareLeft0 == zero) {
-    }
-    if (compareLeft0 == zero) {
-    }
-    if (compareLeft0 == zero) {
+void ParkItemBombMapObject(ItemBomb *bomb) {
+    ItemBox *pooledMapObject = bomb->mPooledMapObject;
+    if (pooledMapObject == NULL) {
         return;
     }
-    flags = *(const u16 *) ((value0) + (2));
-    flags = (flags) & ~(1u);
-    *(u16 *) ((value0) + (2)) = flags;
-    ParkMapObject((void *) value0);
+    pooledMapObject->mUnk_000.mFlags &= ~1;
+    ParkMapObject(&pooledMapObject->mUnk_000);
 }
 
 u32 GetItemBombActiveCount(void) {

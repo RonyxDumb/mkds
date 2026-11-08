@@ -16,16 +16,13 @@
 #include "Main/Unknown/code_020d278c.h"
 #include "Main/Unknown/unk_02156000.h"
 
-void func_02099278(u32 mapObject) {
-    u32 addedFlagsAddress = ((u32) (&data_02156598));
-    u32 flags = (*(u16 *) ((mapObject) + (2)));
-    u32 addedFlags = (*(u16 *) ((addedFlagsAddress) + (0)));
+void func_02099278(MapObject *mapObject) {
+    u32 flags = mapObject->mFlags;
+    u32 addedFlags = data_02156598;
     u32 newFlags = ((flags) | (addedFlags));
-    u32 v7;
-    u32 v9;
-    *(u16 *) ((mapObject) + (2)) = newFlags;
-    ParkMapObject((void *) mapObject);
-    CreateMapObjectSoundSourceFalloff2((MapObject *) mapObject);
+    mapObject->mFlags = newFlags;
+    ParkMapObject(mapObject);
+    CreateMapObjectSoundSourceFalloff2(mapObject);
 }
 
 u32 func_02099208(Unk0209905c *a, Kart *kart, u8 *c, u8 *d) {

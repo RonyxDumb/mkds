@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-void InitSunFireball(unsigned int mapObject);
+typedef struct MapObject MapObject;
+
+void InitSunFireball(MapObject *mapObject);

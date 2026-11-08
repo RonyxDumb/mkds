@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-u32 StartStaffRollText(void);
+void StartStaffRollText(void);
 void InitStaffRollText(void *heap);
 void StartPaletteBlend(void);
 void StopPaletteBlend(void);

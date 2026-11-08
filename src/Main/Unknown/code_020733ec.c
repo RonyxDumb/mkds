@@ -137,7 +137,7 @@ void func_020733ec(Kart *kart) {
         SetKartSpeedLimitReciprocal(FX_Div(0x1000, kart->mPhysicalParam->mBaseSpeedLimit));
     }
     InitKartSound(kart);
-    func_020e0650((u32 *) &kart->mUnk_208);
+    func_020e0650(&kart->mUnk_208);
     kart->mAi = HeapAlloc(heap, 0x158);
     if (gCourseMap->mRaceRouteCount != 0 || gCourseMap->mBattleRouteCount != 0) {
         if (gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind == PLAYER_KIND_CPU) {

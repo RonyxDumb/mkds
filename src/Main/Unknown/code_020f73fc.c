@@ -219,7 +219,7 @@ void func_020f7430(ItemObject *item, s32 c) {
             return;
         }
         if (!(item->mFlags & 0x180000)) {
-            item->mAdvance = (void (*)(ItemObject *)) ReleaseItemObjectToItsPool;
+            item->mAdvance = ReleaseItemObjectToItsPool;
         }
         item->mFlags |= 0x100002;
         return;
@@ -237,7 +237,7 @@ void func_020f7430(ItemObject *item, s32 c) {
             started = FALSE;
         } else {
             if (!(item->mFlags & 0x180000)) {
-                item->mAdvance = (void (*)(ItemObject *)) ReleaseItemObjectToItsPool;
+                item->mAdvance = ReleaseItemObjectToItsPool;
             }
             item->mFlags |= 0x100002;
             started = TRUE;
@@ -257,7 +257,7 @@ void StartItemObjectRelease(ItemObject *item) {
         return;
     }
     if (!(item->mFlags & 0x180000)) {
-        item->mAdvance = (void (*)(ItemObject *)) ReleaseItemObjectToItsPool;
+        item->mAdvance = ReleaseItemObjectToItsPool;
     }
     item->mFlags |= 0x100002;
 }

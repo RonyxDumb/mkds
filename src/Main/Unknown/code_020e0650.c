@@ -1,18 +1,9 @@
 #include "Main/Unknown/code_020e0650.h"
 #include "Main/Unknown/code_020364e0.h"
 #include "Main/Unknown/code_02036820.h"
+#include "Main/Unknown/code_020e01f0.h"
 
-void func_020e0650(u32 *slotPointer) {
-    u32 value0 = (u32) slotPointer;
-    u32 value1;
-    u32 slot;
-    slot = value0;
-    value0 = (u32) GetCurrentHeapCall();
-    value0 = (u32) GetHeap((void *) value0);
-    value1 = 0x1cu;
-    value0 = (u32) HeapAlloc((void *) value0, value1);
-    *(u32 *) ((slot) + (0)) = value0;
-    value0 = *(const u32 *) ((slot) + (0));
-    value1 = 0u;
-    *(u32 *) ((value0) + (0)) = value1;
+void func_020e0650(Unk020e04b0 **slotPointer) {
+    *slotPointer = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x1c);
+    (*slotPointer)->mUnk_00 = NULL;
 }

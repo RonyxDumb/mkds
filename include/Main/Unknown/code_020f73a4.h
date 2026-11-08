@@ -2,5 +2,7 @@
 
 #include "types.h"
 
-u32 CreateItemPushVector(void);
-void ReleaseItemObjectToItsPool(u32 item);
+typedef struct ItemObject ItemObject;
+
+Vec3 *CreateItemPushVector(void);
+void ReleaseItemObjectToItsPool(ItemObject *item);

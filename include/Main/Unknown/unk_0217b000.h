@@ -692,7 +692,7 @@ typedef struct RaceGoalS {
     /* 00a0 */ s32 mOffsetX;
     /* 00a4 */ s32 mUnk_00a4;
     /* 00a8 */ s32 mHiddenRowCount;
-    /* 00ac */ void *mUpdate;
+    /* 00ac */ void (*mUpdate)(void);
     /* 00b0 */ s32 mUpdateFrames;
     /* 00b4 */ s32 mUnk_00b4;
     /* 00b8 */ struct Nclr *mRaceGoalSBNclr;

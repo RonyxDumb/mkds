@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_0206bcb0.h"
+#include "Main/Unknown/code_020e01f0.h" // Unk020e04b0
 #include "01/code_0218155c.h"
 #include "code_02147cd8.h"
 #include "code_0201c528.h"
@@ -297,8 +298,8 @@ recheck:
     kart->mTurnCountTimer = 0;
     GetKartForward(kart, &kart->mHopStartForward);
     GetKartUp(kart, &kart->mHopStartUp);
-    if (kart->mUnk_208->mUnk_00 != FALSE) {
-        kart->mUnk_208->mUnk_00 = FALSE;
+    if (kart->mUnk_208->mUnk_00 != NULL) {
+        kart->mUnk_208->mUnk_00 = NULL;
     }
     if (kart->mUnk_7c & 0x200) {
         kart->mUnk_514->mUnk_2c ^= 0x1;

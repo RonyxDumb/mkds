@@ -47,11 +47,7 @@ void InitPaletteBlend(void *heap, Nclr *nclr, u32 paletteIndex) {
 
 #pragma thumb on
 void ClearPaletteBlendPointer(void) {
-    u32 address;
-    u32 zero;
-    zero = 0u;
-    address = (u32) &gPaletteBlend;
-    *(u32 *) ((address) + 0u) = zero;
+    gPaletteBlend = NULL;
 }
 #pragma thumb off
 
@@ -153,13 +149,8 @@ void InitStaffRollText(void *heap) {
     gStaffRollText->mTextPosition = GetBmgEntry(FindSceneFile(gStaffRollBmgName), 0);
 }
 
-u32 ClearStaffRollTextPointer(void) {
-    u32 address;
-    u32 zero;
-    address = (u32) &gStaffRollText;
-    zero = 0u;
-    *(u32 *) ((address) + (0)) = zero;
-    return address;
+void ClearStaffRollTextPointer(void) {
+    gStaffRollText = NULL;
 }
 
 void AdvanceStaffRollTextState1(void) {
@@ -300,12 +291,6 @@ void SetStaffRollScrollAndDrainQueue(void) {
     CallQueueDrain();
 }
 
-u32 StartStaffRollText(void) {
-    u32 address;
-    u32 one;
-    address = (u32) &gStaffRollText;
-    one = 1u;
-    address = *(const u32 *) ((address) + (0));
-    *(u32 *) ((address) + (4)) = one;
-    return address;
+void StartStaffRollText(void) {
+    gStaffRollText->mNextState = 1;
 }

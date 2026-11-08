@@ -10,7 +10,7 @@ extern char gRaceEffectSpaName[];
 extern char gRaceEffectFogOffSpaName[];
 extern char gMissionEffectSpaName[];
 
-u32 func_0208b484(u32 outIndex, u32 effectId);
+SPLManager *func_0208b484(s32 *outIndex, s32 effectId);
 void *StartEffectWithKartVelocity(u32 effectId, Vec3 *position, u32 kartIndex, s32 velocityScale);
 void PlaceEffect(void *emitter, const Vec3 *position);
 Unk0201ca6c *func_0208b60c(s32 resourceId, Vec3 *position);
@@ -22,4 +22,4 @@ void *StartEffect(u32 effectId, const Vec3 *position);
 void DrawEffects(MtxFx43 *viewMatrix);
 void UpdateEffects(void);
 void InitEffects(void *defaultHeap);
-u32 HeapAllocForSPLManager(u32 size);
+void *HeapAllocForSPLManager(u32 size);

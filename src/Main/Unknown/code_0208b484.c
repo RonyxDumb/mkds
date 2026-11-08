@@ -23,17 +23,8 @@
 #include "code_02147cd8.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-u32 HeapAllocForSPLManager(u32 size) {
-    u32 value0 = size;
-    u32 sizeCopy;
-    u32 heapGlobalAddress;
-    u32 heapAllocAddress;
-    heapGlobalAddress = (u32) &gSPLManagerHeap;
-    heapAllocAddress = (u32) &HeapAlloc;
-    sizeCopy = value0;
-    value0 = *(const u32 *) ((heapGlobalAddress) + (0));
-    value0 = (u32) HeapAlloc((void *) value0, sizeCopy);
-    return value0;
+void *HeapAllocForSPLManager(u32 size) {
+    return HeapAlloc(gSPLManagerHeap, size);
 }
 
 void InitEffects(void *defaultHeap) {
@@ -49,11 +40,11 @@ void InitEffects(void *defaultHeap) {
     RaceSetup *raceSetup;
     Vec3 *emitterDirection;
 
-    *(u32 *) &gGetSPLManagerFunction = (u32) func_0208b484;
+    gGetSPLManagerFunction = func_0208b484;
     if (GetCurrentSceneNumber() == 2) {
         raceSetup = gRaceSetup;
         if (raceSetup->mMode == MODE_MISSION_RUN) {
-            *(u32 *) &gGetSPLManagerFunction = (u32) GetSPLManagerForEffectId;
+            gGetSPLManagerFunction = GetSPLManagerForEffectId;
             effectHeap = data_0217aa10->mExpHeap;
             maxParticles = 0x96;
         }
@@ -64,13 +55,13 @@ void InitEffects(void *defaultHeap) {
     }
     gSPLManagerHeap = effectHeap;
     data_0217b044 =
-        SPLManager_New((void *(*) (u32)) HeapAllocForSPLManager, maxEmitters, maxParticles, 3, 0xe, GetSplMaxPolyId());
+        SPLManager_New(HeapAllocForSPLManager, maxEmitters, maxParticles, 3, 0xe, GetSplMaxPolyId());
     raceEffectFile = FindMainRaceOrMainEffectFile(gRaceEffectSpaName);
     SPLManager_LoadResources(data_0217b044, raceEffectFile);
     SPLManager_UploadTextures(data_0217b044);
     SPLManager_UploadPalettes(data_0217b044);
     ResizeMainEffectArchiveBlock(raceEffectFile, *OFFSET_PTR(u32, raceEffectFile, 0x18));
-    data_0217b04c = SPLManager_New((void *(*) (u32)) HeapAllocForSPLManager, 0x1e, 0x64, 3, 0xe, 0x1e);
+    data_0217b04c = SPLManager_New(HeapAllocForSPLManager, 0x1e, 0x64, 3, 0xe, 0x1e);
     raceEffectFogOffFile = FindMainRaceOrMainEffectFile(gRaceEffectFogOffSpaName);
     SPLManager_LoadResources(data_0217b04c, raceEffectFogOffFile);
     SPLManager_UploadTextures(data_0217b04c);
@@ -83,7 +74,7 @@ void InitEffects(void *defaultHeap) {
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         missionEffectFile = NULL;
-        gMissionRunSPLManager = SPLManager_New((void *(*) (u32)) HeapAllocForSPLManager, 0x32, 0xc8, 3, 0xe, 0x1e);
+        gMissionRunSPLManager = SPLManager_New(HeapAllocForSPLManager, 0x32, 0xc8, 3, 0xe, 0x1e);
         LoadFileIntoHeap(gMissionEffectSpaName, effectHeap, &missionEffectFile);
         SPLManager_LoadResources(gMissionRunSPLManager, missionEffectFile);
         SPLManager_UploadTextures(gMissionRunSPLManager);
@@ -115,7 +106,7 @@ void InitEffects(void *defaultHeap) {
                 }
             }
             data_0217b048->mEmitterTimer = 1;
-            data_0217b054 = (UnkFunc *) AdvanceStadiumEmitters;
+            data_0217b054 = AdvanceStadiumEmitters;
             break;
         case COURSE_ID_AWARD:
             CreateAwardEmitters();
@@ -173,17 +164,17 @@ void StartEffectWithCallback(u32 effectId, const Vec3 *position, void *callbackP
 }
 
 void DeleteEffect(Unk0201ca6c *emitter) {
-    u32 splManager;
-    u8 indexBuffer[8];
-    splManager = (*(UnkWordFunc *) (u32) gGetSPLManagerFunction)(indexBuffer, 0);
-    SPLManager_DeleteEmitter((SPLManager *) splManager, emitter);
+    SPLManager *splManager;
+    s32 indexBuffer[2];
+    splManager = gGetSPLManagerFunction(indexBuffer, 0);
+    SPLManager_DeleteEmitter(splManager, emitter);
 }
 
 void DeleteEffectAndClearPointer(Unk0201ca6c **emitterSlot) {
-    u32 splManager;
-    u8 indexBuffer[8];
-    splManager = (*(UnkWordFunc *) (u32) gGetSPLManagerFunction)(indexBuffer, 0);
-    SPLManager_DeleteEmitter((SPLManager *) splManager, *emitterSlot);
+    SPLManager *splManager;
+    s32 indexBuffer[2];
+    splManager = gGetSPLManagerFunction(indexBuffer, 0);
+    SPLManager_DeleteEmitter(splManager, *emitterSlot);
     *emitterSlot = NULL;
 }
 
@@ -247,12 +238,7 @@ void *StartEffectWithKartVelocity(u32 effectId, Vec3 *position, u32 kartIndex, s
     return emitter;
 }
 
-u32 func_0208b484(u32 outIndex, u32 effectId) {
-    u32 value0 = outIndex;
-    u32 effectIdCopy = effectId;
-    u32 managerGlobalAddress;
-    managerGlobalAddress = (u32) &data_0217b044;
-    *(u32 *) ((value0) + (0)) = effectIdCopy;
-    value0 = *(const u32 *) ((managerGlobalAddress) + (0));
-    return value0;
+SPLManager *func_0208b484(s32 *outIndex, s32 effectId) {
+    *outIndex = effectId;
+    return data_0217b044;
 }
