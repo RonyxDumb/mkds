@@ -43,10 +43,10 @@ typedef struct ItemPointLinkRef {
 
 // Four positions and pointers to them.
 typedef struct {
-    /* 00 */ SegmentProgress mUnk_00;
-    /* 60 */ s32 mUnk_60;
-    /* 64 */ Vec3 *mUnk_64[4];
-    /* 74 */ Vec3 mUnk_74[4];
+    /* 00 */ SegmentProgress mSegmentProgress;
+    /* 60 */ s32 mWriteIndex;
+    /* 64 */ Vec3 *mPointPointers[4];
+    /* 74 */ Vec3 mPoints[4];
 } SegmentPoints;
 
 extern SegmentPoints data_0217bb88;

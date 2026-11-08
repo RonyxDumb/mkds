@@ -17,10 +17,10 @@ typedef struct GroupFollowerWithSpeeds {
 
 // An Segment (BuildSegment and GetSegmentCurveXzLinearY), then three words.
 typedef struct SegmentProgress {
-    /* 00 */ Segment mUnk_00;
-    /* 54 */ s32 mUnk_54;
-    /* 58 */ s32 mUnk_58;
-    /* 5c */ s32 mUnk_5c;
+    /* 00 */ Segment mSegment;
+    /* 54 */ s32 mRate;
+    /* 58 */ s32 mProgressStep;
+    /* 5c */ s32 mProgress;
 } SegmentProgress;
 
 void ReverseGroupFollower(GroupFollower *follower);

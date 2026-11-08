@@ -407,7 +407,7 @@ void func_0210174c(ItemTeresa *teresa) {
     if (teresa->mPointIndex >= 0xb) {
         return;
     }
-    if (AdvanceSegmentProgress(&teresa->mUnk_1a4.mUnk_00) != FALSE) {
+    if (AdvanceSegmentProgress(&teresa->mUnk_1a4.mSegmentProgress) != FALSE) {
         do {
             teresa->mPointIndex++;
             if (teresa->mPointIndex >= 0xb) {
@@ -416,7 +416,7 @@ void func_0210174c(ItemTeresa *teresa) {
         } while (PushSegmentPoint(&teresa->mUnk_1a4, &data_0215a1c0[teresa->mPointIndex]) != 0);
     }
     GetSegmentProgressPoint(&teresa->mUnk_1a4, &s);
-    SetSegmentProgressRate(&teresa->mUnk_1a4.mUnk_00, s.y);
+    SetSegmentProgressRate(&teresa->mUnk_1a4.mSegmentProgress, s.y);
     if (teresa->mUnk_000.mUnk_d0 == &teresa->mUnk_000.mDrawPos) {
         v = (Vec3){s.x};
     } else {

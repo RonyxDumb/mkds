@@ -238,8 +238,8 @@ void func_020ec9c0(LinkFollowingItemObject *follower, s32 targetSpeed, s32 speed
     f = (follower->mUnk_000.mUnk_000.mFlags & 0x40000000) != 0;
     targetSpeed -= follower->mUnk_000.mSpeed;
     follower->mUnk_000.mSpeed = follower->mUnk_000.mSpeed + (s32) (((u64) ((s64) targetSpeed * speedEase)) >> 12);
-    SetSegmentProgressRate(&segmentPoints->mUnk_00, follower->mUnk_000.mSpeed);
-    if (AdvanceSegmentProgress(&segmentPoints->mUnk_00) != FALSE) {
+    SetSegmentProgressRate(&segmentPoints->mSegmentProgress, follower->mUnk_000.mSpeed);
+    if (AdvanceSegmentProgress(&segmentPoints->mSegmentProgress) != FALSE) {
         do {
             follower->mPreviousLink = follower->mTargetLink;
             PickNextItemPointLink(&follower->mPreviousLink, &follower->mTargetLink, targetKartIndex, e);
@@ -264,7 +264,7 @@ void func_020ec9c0(LinkFollowingItemObject *follower, s32 targetSpeed, s32 speed
                 pos->y = v28.y;
             }
         } else {
-            GetSegmentProgressPointXz(&segmentPoints->mUnk_00, pos);
+            GetSegmentProgressPointXz(&segmentPoints->mSegmentProgress, pos);
         }
         pos->y = pos->y + velocity->y;
     }

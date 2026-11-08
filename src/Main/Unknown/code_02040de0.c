@@ -467,8 +467,8 @@ s32 IsKartInCourseMapKind3ShapeList(s32 kartIndex, u32 listIndex) {
 
     node = gCourseMap->mKind3ShapeLists[listIndex];
     GetKartPos(&kartPos, kartIndex);
-    for (; found == FALSE && node != NULL; node = node->mUnk_04) {
-        shape = node->mUnk_00;
+    for (; found == FALSE && node != NULL; node = node->mNext) {
+        shape = node->mShape;
         inside = 0;
         switch (shape->mShapeKind) {
             case 0:

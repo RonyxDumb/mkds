@@ -49,13 +49,13 @@ s32 AdvanceGroupFollowerWithSpeeds(GroupFollowerWithSpeeds *follower) {
 }
 
 void SetSegmentProgressRate(SegmentProgress *segmentProgress, s32 a) {
-    s32 inverseLength = segmentProgress->mUnk_00.mInverseProgressLength;
-    segmentProgress->mUnk_54 = a;
+    s32 inverseLength = segmentProgress->mSegment.mInverseProgressLength;
+    segmentProgress->mRate = a;
     a = inverseLength != 0 ? (s32) (((s64) a * inverseLength) >> 12) : 0x1000000;
-    segmentProgress->mUnk_58 = a;
+    segmentProgress->mProgressStep = a;
 }
 
 BOOL AdvanceSegmentProgress(SegmentProgress *segmentProgress) {
-    segmentProgress->mUnk_5c = segmentProgress->mUnk_5c + segmentProgress->mUnk_58;
-    return segmentProgress->mUnk_5c >= 0x1000000;
+    segmentProgress->mProgress = segmentProgress->mProgress + segmentProgress->mProgressStep;
+    return segmentProgress->mProgress >= 0x1000000;
 }

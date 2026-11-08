@@ -251,25 +251,25 @@ void BuildCourseMapRaceRouteLinks(RacePointLink *previousLink, CourseMapRoute *r
     racePoint = gCourseMap->mRacePoints + pointIndex;
     link = gCourseMap->mRacePointLinks + pointIndex;
     for (k = 0; k < 3; k++) {
-        if (previousLink != NULL && link->mUnk_0c[k] == previousLink) {
+        if (previousLink != NULL && link->mPreviousLinks[k] == previousLink) {
             return;
         }
     }
-    link->mUnk_18 = racePoint;
+    link->mPoint = racePoint;
     link->mUnk_1c = racePoint->mUnk_0c;
     link->mUnk_20 = racePoint->mUnk_10;
     if (previousLink != NULL) {
         for (k = 0; k < 3; k++) {
-            if (previousLink->mUnk_00[k] == NULL) {
-                previousLink->mUnk_00[k] = link;
-                previousLink->mUnk_24++;
+            if (previousLink->mNextLinks[k] == NULL) {
+                previousLink->mNextLinks[k] = link;
+                previousLink->mNextCount++;
                 break;
             }
         }
         for (k = 0; k < 3; k++) {
-            if (link->mUnk_0c[k] == NULL) {
-                link->mUnk_0c[k] = previousLink;
-                link->mUnk_26++;
+            if (link->mPreviousLinks[k] == NULL) {
+                link->mPreviousLinks[k] = previousLink;
+                link->mPreviousCount++;
                 break;
             }
         }
@@ -305,12 +305,12 @@ void BuildCourseMapRacePointLinks(void *heap) {
     for (i = 0; i < gCourseMap->mRacePointCount; i++) {
         link = q[0] + i;
         for (k = 0; k < 3; k++) {
-            link->mUnk_0c[k] = NULL;
-            link->mUnk_00[k] = NULL;
+            link->mPreviousLinks[k] = NULL;
+            link->mNextLinks[k] = NULL;
         }
-        link->mUnk_24 = 0;
-        link->mUnk_26 = 0;
-        link->mUnk_18 = NULL;
+        link->mNextCount = 0;
+        link->mPreviousCount = 0;
+        link->mPoint = NULL;
         link->mUnk_20 = NULL;
         link->mUnk_1c = 0;
     }
@@ -320,7 +320,7 @@ void BuildCourseMapRacePointLinks(void *heap) {
     BuildCourseMapRaceRouteLinks(q[0] + lastEntry, firstRoute, firstRoute->mFirstEntry);
     for (i = 0; i < gCourseMap->mRaceRouteCount; i++) {
         t = gCourseMap->mRaceRoutes + (u16) i;
-        if (q[0][t->mFirstEntry].mUnk_24 == 0) {
+        if (q[0][t->mFirstEntry].mNextCount == 0) {
             BuildCourseMapRaceRouteLinks(NULL, t, t->mFirstEntry);
         }
     }
@@ -366,35 +366,35 @@ void BuildCourseMapBattlePointLinks(void *heap) {
         for (routeIndex = 0; routeIndex < gCourseMap->mBattleRouteCount; routeIndex++) {
             t = gCourseMap->mBattleRoutes;
             route = t + routeIndex;
-            if (pointIndex >= t[routeIndex].mUnk_00 && pointIndex < route->mUnk_00 + route->mUnk_02) {
+            if (pointIndex >= t[routeIndex].mFirstEntry && pointIndex < route->mFirstEntry + route->mEntryCount) {
                 break;
             }
         }
         pointLink->mUnk_2e = 0;
-        lastPoint = route->mUnk_00 + route->mUnk_02 - 1;
-        if (pointIndex == route->mUnk_00) {
+        lastPoint = route->mFirstEntry + route->mEntryCount - 1;
+        if (pointIndex == route->mFirstEntry) {
             for (b = 0; b < 8; b++) {
-                if (route->mUnk_0c[b] != 0xff) {
+                if (route->mPreviousPoints[b] != 0xff) {
                     pointLink->mUnk_2e |= 1 << linkCount;
-                    pointLink->mLinks[linkCount++] = q[0] + route->mUnk_0c[b];
+                    pointLink->mLinks[linkCount++] = q[0] + route->mPreviousPoints[b];
                 }
             }
-            if (route->mUnk_02 > 1) {
+            if (route->mEntryCount > 1) {
                 pointLink->mLinks[linkCount++] = pointLink + 1;
             }
         }
         if (pointIndex == lastPoint) {
             for (c = 0; c < 8; c++) {
-                if (route->mUnk_04[c] != 0xff) {
+                if (route->mNextPoints[c] != 0xff) {
                     pointLink->mUnk_2e |= 1 << linkCount;
-                    pointLink->mLinks[linkCount++] = q[0] + route->mUnk_04[c];
+                    pointLink->mLinks[linkCount++] = q[0] + route->mNextPoints[c];
                 }
             }
-            if (route->mUnk_02 > 1) {
+            if (route->mEntryCount > 1) {
                 pointLink->mLinks[linkCount++] = pointLink - 1;
             }
         }
-        if (pointIndex != route->mUnk_00 && pointIndex != lastPoint) {
+        if (pointIndex != route->mFirstEntry && pointIndex != lastPoint) {
             linkCount = 0;
             pointLink->mLinks[linkCount++] = pointLink + 1;
             pointLink->mLinks[linkCount++] = pointLink - 1;
@@ -694,11 +694,11 @@ void BuildCourseMapKind3ShapeLists(void) {
         if (shape->mKind == 3) {
             nodeSlot = &gCourseMap->mKind3ShapeLists[(s16) shape->mUnk_3c];
             while (*nodeSlot != NULL) {
-                nodeSlot = &(*nodeSlot)->mUnk_04;
+                nodeSlot = &(*nodeSlot)->mNext;
             }
             *nodeSlot = HeapAlloc(heap, 8);
-            (*nodeSlot)->mUnk_00 = shape;
-            (*nodeSlot)->mUnk_04 = NULL;
+            (*nodeSlot)->mShape = shape;
+            (*nodeSlot)->mNext = NULL;
         }
     }
 }

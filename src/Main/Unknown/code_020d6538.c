@@ -38,27 +38,28 @@ void func_020d7d4c(GroupFollowerWithSpeeds *follower, struct CourseMapRow *cours
 }
 
 void func_020d7d18(SegmentProgress *segmentProgress, s32 a, Vec3 **points, s32 rate) {
-    BuildSegment(&segmentProgress->mUnk_00, a, 0, points[0], points[1], points[2], points[3]);
+    BuildSegment(&segmentProgress->mSegment, a, 0, points[0], points[1], points[2], points[3]);
     SetSegmentProgressRate(segmentProgress, rate);
-    segmentProgress->mUnk_5c = 0;
+    segmentProgress->mProgress = 0;
 }
 
 BOOL func_020d7c84(SegmentProgress *segmentProgress, s32 a, Vec3 **points) {
     s32 v;
-    segmentProgress->mUnk_5c = segmentProgress->mUnk_5c - 0x1000000;
-    segmentProgress->mUnk_5c = ((s64) segmentProgress->mUnk_5c * (s64) segmentProgress->mUnk_00.mProgressLength) >> 12;
-    BuildSegment(&segmentProgress->mUnk_00, a, 0, points[0], points[1], points[2], points[3]);
-    v = segmentProgress->mUnk_00.mInverseProgressLength;
+    segmentProgress->mProgress = segmentProgress->mProgress - 0x1000000;
+    segmentProgress->mProgress =
+        ((s64) segmentProgress->mProgress * (s64) segmentProgress->mSegment.mProgressLength) >> 12;
+    BuildSegment(&segmentProgress->mSegment, a, 0, points[0], points[1], points[2], points[3]);
+    v = segmentProgress->mSegment.mInverseProgressLength;
     if (v != 0) {
-        segmentProgress->mUnk_5c = ((s64) segmentProgress->mUnk_5c * (s64) v) >> 24;
+        segmentProgress->mProgress = ((s64) segmentProgress->mProgress * (s64) v) >> 24;
     }
     if (v != 0) {
-        v = ((s64) segmentProgress->mUnk_54 * (s64) v) >> 12;
+        v = ((s64) segmentProgress->mRate * (s64) v) >> 12;
     } else {
         v = 0x1000000;
     }
-    segmentProgress->mUnk_58 = v;
-    if (segmentProgress->mUnk_5c >= 0x1000000) {
+    segmentProgress->mProgressStep = v;
+    if (segmentProgress->mProgress >= 0x1000000) {
         return TRUE;
     }
     return FALSE;

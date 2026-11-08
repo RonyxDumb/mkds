@@ -196,10 +196,10 @@ typedef struct {
 
 // 0x14-byte entries of the table at CourseMap.mBattleRoutes.
 typedef struct {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u8 mUnk_04[8];
-    /* 0c */ u8 mUnk_0c[8];
+    /* 00 */ u16 mFirstEntry;
+    /* 02 */ u16 mEntryCount;
+    /* 04 */ u8 mNextPoints[8];
+    /* 0c */ u8 mPreviousPoints[8];
 } CourseMapBattleRoute;
 
 // 8-byte entries of the table at CourseMap.mEntryGroupTable.
@@ -210,19 +210,19 @@ typedef struct {
 
 // 0x28-byte nodes of the table at CourseMap.mRacePointLinks: two lists of node pointers.
 typedef struct RacePointLink {
-    /* 00 */ struct RacePointLink *mUnk_00[3];
-    /* 0c */ struct RacePointLink *mUnk_0c[3];
-    /* 18 */ CourseMapPoint *mUnk_18;
+    /* 00 */ struct RacePointLink *mNextLinks[3];
+    /* 0c */ struct RacePointLink *mPreviousLinks[3];
+    /* 18 */ CourseMapPoint *mPoint;
     /* 1c */ s32 mUnk_1c;
     /* 20 */ s16 *mUnk_20;
-    /* 24 */ u16 mUnk_24;
-    /* 26 */ u16 mUnk_26;
+    /* 24 */ u16 mNextCount;
+    /* 26 */ u16 mPreviousCount;
 } RacePointLink;
 
 // Node of the lists at CourseMap.mKind3ShapeLists: an entry of the table at mShapes and the next node.
 typedef struct CourseMapKind3ShapeNode {
-    /* 00 */ CourseMapShape *mUnk_00;
-    /* 04 */ struct CourseMapKind3ShapeNode *mUnk_04;
+    /* 00 */ CourseMapShape *mShape;
+    /* 04 */ struct CourseMapKind3ShapeNode *mNext;
 } CourseMapKind3ShapeNode;
 
 // Object behind the word at 0x3c of the object behind gCourseMap: two vectors and the halfword at 0x1a.
