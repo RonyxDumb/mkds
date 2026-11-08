@@ -134,15 +134,15 @@ void AdvanceWiFiAikotobaCheckState1(void) {
     if ((u16) (data_02175628[i].mPressedBits & PAD_KEY_B) == 0) {
         a = FALSE;
         b = FALSE;
-        c = data_02175628[i].mHasPair;
-        if (c == 0 && data_02175628[i].mNoPairCount < 5) {
+        c = data_02175628[i].mUnk_48.mHasPair;
+        if (c == 0 && data_02175628[i].mUnk_48.mNoPairCount < 5) {
             b = TRUE;
         }
-        if (b == FALSE && data_02175628[i].mPrevHasPair == 0 && c != 0) {
+        if (b == FALSE && data_02175628[i].mUnk_48.mPrevHasPair == 0 && c != 0) {
             a = TRUE;
         }
-        if (a == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[i].mPairX,
-                                                                          data_02175628[i].mPairY) == FALSE) {
+        if (a == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[i].mUnk_48.mPairX,
+                                                                          data_02175628[i].mUnk_48.mPairY) == FALSE) {
             return;
         }
     }

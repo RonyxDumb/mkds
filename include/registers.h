@@ -28,6 +28,7 @@
 #define reg_G3X_DISP3DCNT (*(vu16 *) 0x04000060)
 #define reg_GX_DISPCAPCNT (*(vu32 *) 0x04000064)
 #define reg_GX_MASTER_BRIGHT (*(vu16 *) 0x0400006c)
+#define reg_OS_TM0CNT_L (*(vu16 *) 0x04000100)
 #define reg_PAD_KEYINPUT (*(vu16 *) 0x04000130)
 #define reg_PXI_SUBPINTF (*(vu16 *) 0x04000180)
 #define reg_PXI_SUBP_FIFO_CNT (*(vu16 *) 0x04000184)

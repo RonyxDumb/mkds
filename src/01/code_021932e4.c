@@ -145,28 +145,28 @@ void AdvanceOptionTopMenuState3(void) {
     s32 old;
     s32 flagB;
 
-    if (data_02175628[idx].mHasPair == 0 && data_02175628[idx].mNoPairCount < 5) {
+    if (data_02175628[idx].mUnk_48.mHasPair == 0 && data_02175628[idx].mUnk_48.mNoPairCount < 5) {
         a = TRUE;
     }
-    if (a == FALSE && data_02175628[idx].mPrevHasPair == 0 && data_02175628[idx].mHasPair != 0) {
+    if (a == FALSE && data_02175628[idx].mUnk_48.mPrevHasPair == 0 && data_02175628[idx].mUnk_48.mHasPair != 0) {
         b = TRUE;
     }
     if (b != FALSE) {
-        result = RectTableFindContaining(gOptionTopMenu->mOptionTopMenuSBnbl, data_02175628[idx].mPairX,
-                                         data_02175628[idx].mPairY);
+        result = RectTableFindContaining(gOptionTopMenu->mOptionTopMenuSBnbl, data_02175628[idx].mUnk_48.mPairX,
+                                         data_02175628[idx].mUnk_48.mPairY);
     }
     flagA = data_02175628[idx].mPressedBits & PAD_KEY_B;
     if (flagA == 0) {
         BOOL b2 = FALSE;
         BOOL a2 = FALSE;
-        if (data_02175628[idx].mHasPair == 0 && data_02175628[idx].mNoPairCount < 5) {
+        if (data_02175628[idx].mUnk_48.mHasPair == 0 && data_02175628[idx].mUnk_48.mNoPairCount < 5) {
             a2 = TRUE;
         }
-        if (a2 == FALSE && data_02175628[idx].mPrevHasPair == 0 && data_02175628[idx].mHasPair != 0) {
+        if (a2 == FALSE && data_02175628[idx].mUnk_48.mPrevHasPair == 0 && data_02175628[idx].mUnk_48.mHasPair != 0) {
             b2 = TRUE;
         }
-        if (b2 != FALSE && IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[idx].mPairX,
-                                                                           data_02175628[idx].mPairY) != FALSE) {
+        if (b2 != FALSE && IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[idx].mUnk_48.mPairX,
+                                                                           data_02175628[idx].mUnk_48.mPairY) != FALSE) {
             goto leave;
         }
     } else {

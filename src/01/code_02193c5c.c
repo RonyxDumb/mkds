@@ -524,25 +524,25 @@ void AdvanceRecordGpxState2(void) {
     AdvanceRecordGpxOffsetTimers();
     x1 = TRUE;
     y1 = FALSE;
-    if (data_02175628[idx].mHasPair == 0 && data_02175628[idx].mNoPairCount < 5) {
+    if (data_02175628[idx].mUnk_48.mHasPair == 0 && data_02175628[idx].mUnk_48.mNoPairCount < 5) {
         y1 = TRUE;
     }
-    if (y1 == FALSE && data_02175628[idx].mHasPair == 0) {
+    if (y1 == FALSE && data_02175628[idx].mUnk_48.mHasPair == 0) {
         x1 = FALSE;
     }
     if (x1 != FALSE) {
-        a = RectTableFindContaining(gRecordGpx->mRecordGpxSBnbl, data_02175628[idx].mPairX, data_02175628[idx].mPairY);
+        a = RectTableFindContaining(gRecordGpx->mRecordGpxSBnbl, data_02175628[idx].mUnk_48.mPairX, data_02175628[idx].mUnk_48.mPairY);
     }
     x2 = FALSE;
     y2 = FALSE;
-    if (data_02175628[idx].mHasPair == 0 && data_02175628[idx].mNoPairCount < 5) {
+    if (data_02175628[idx].mUnk_48.mHasPair == 0 && data_02175628[idx].mUnk_48.mNoPairCount < 5) {
         y2 = TRUE;
     }
-    if (y2 == FALSE && data_02175628[idx].mPrevHasPair == 0 && data_02175628[idx].mHasPair != 0) {
+    if (y2 == FALSE && data_02175628[idx].mUnk_48.mPrevHasPair == 0 && data_02175628[idx].mUnk_48.mHasPair != 0) {
         x2 = TRUE;
     }
     if (x2 != FALSE) {
-        b = RectTableFindContaining(gRecordGpx->mRecordGpxSBnbl, data_02175628[idx].mPairX, data_02175628[idx].mPairY);
+        b = RectTableFindContaining(gRecordGpx->mRecordGpxSBnbl, data_02175628[idx].mUnk_48.mPairX, data_02175628[idx].mUnk_48.mPairY);
     }
     if (a != 0) {
         gRecordGpx->mUnk_88 = FALSE;
@@ -553,14 +553,14 @@ void AdvanceRecordGpxState2(void) {
     if ((u16) (data_02175628[idx].mPressedBits & PAD_KEY_B) == 0) {
         x3 = FALSE;
         y3 = FALSE;
-        if (data_02175628[idx].mHasPair == 0 && data_02175628[idx].mNoPairCount < 5) {
+        if (data_02175628[idx].mUnk_48.mHasPair == 0 && data_02175628[idx].mUnk_48.mNoPairCount < 5) {
             y3 = TRUE;
         }
-        if (y3 == FALSE && data_02175628[idx].mPrevHasPair == 0 && data_02175628[idx].mHasPair != 0) {
+        if (y3 == FALSE && data_02175628[idx].mUnk_48.mPrevHasPair == 0 && data_02175628[idx].mUnk_48.mHasPair != 0) {
             x3 = TRUE;
         }
-        if (x3 == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[idx].mPairX,
-                                                                           data_02175628[idx].mPairY) == FALSE) {
+        if (x3 == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[idx].mUnk_48.mPairX,
+                                                                           data_02175628[idx].mUnk_48.mPairY) == FALSE) {
             goto next;
         }
     }

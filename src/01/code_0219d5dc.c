@@ -140,16 +140,16 @@ void AdvanceOptionEmbremSelectState3(void) {
     u16 value;
     u16 flags;
 
-    value = data_02175628[index].mHasPair;
-    if (value == 0 && data_02175628[index].mNoPairCount < 5) {
+    value = data_02175628[index].mUnk_48.mHasPair;
+    if (value == 0 && data_02175628[index].mUnk_48.mNoPairCount < 5) {
         cond1 = TRUE;
     }
-    if (cond1 == FALSE && data_02175628[index].mPrevHasPair == 0 && value != 0) {
+    if (cond1 == FALSE && data_02175628[index].mUnk_48.mPrevHasPair == 0 && value != 0) {
         cond2 = TRUE;
     }
     if (cond2 != FALSE) {
-        result = RectTableFindContaining(gOptionEmbremSelect->mOptionEmbremSelectSBnbl, data_02175628[index].mPairX,
-                                         data_02175628[index].mPairY);
+        result = RectTableFindContaining(gOptionEmbremSelect->mOptionEmbremSelectSBnbl, data_02175628[index].mUnk_48.mPairX,
+                                         data_02175628[index].mUnk_48.mPairY);
     }
     flags = data_02175628[index].mPressedBits & PAD_KEY_B;
     if (flags != 0) {
@@ -157,15 +157,15 @@ void AdvanceOptionEmbremSelectState3(void) {
     }
     cond2 = FALSE;
     cond1 = FALSE;
-    value = data_02175628[index].mHasPair;
-    if (value == 0 && data_02175628[index].mNoPairCount < 5) {
+    value = data_02175628[index].mUnk_48.mHasPair;
+    if (value == 0 && data_02175628[index].mUnk_48.mNoPairCount < 5) {
         cond1 = TRUE;
     }
-    if (cond1 == FALSE && data_02175628[index].mPrevHasPair == 0 && value != 0) {
+    if (cond1 == FALSE && data_02175628[index].mUnk_48.mPrevHasPair == 0 && value != 0) {
         cond2 = TRUE;
     }
-    if (cond2 != FALSE && IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[index].mPairX,
-                                                                          data_02175628[index].mPairY) != FALSE) {
+    if (cond2 != FALSE && IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[index].mUnk_48.mPairX,
+                                                                          data_02175628[index].mUnk_48.mPairY) != FALSE) {
     next:
         gOptionEmbremSelect->mNextState = 5;
         gOptionEmbremSelect->mNextOptionState = 2;

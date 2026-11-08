@@ -59,8 +59,8 @@ static inline void func_02043c14_inline(void) {
         inputSlot->mRequestedBits = 0;
         inputSlot->mUnk_44 = 0;
         inputSlot->mBitMask = 0x2fff;
-        ResetKeyRecording((KeyRecording *) &inputSlot->mUnk_28);
-        ResetInputSlotPair((InputSlotPair *) &inputSlot->mPairX);
+        ResetKeyRecording(&inputSlot->mUnk_28);
+        ResetInputSlotPair(&inputSlot->mUnk_48);
     }
     data_02175628[8].mSourceKind = 5;
     data_02175628[9].mSourceKind = 6;
@@ -234,10 +234,10 @@ void func_02043d10(void *heap) {
     InitTouchPanelAndSetCalibration();
     InitTouchMicInput(heap);
     for (i = 0; i <= 1; i++) {
-        InitKeyRecordingBuffer((KeyRecording *) &data_02175628[i].mUnk_28, heap);
+        InitKeyRecordingBuffer(&data_02175628[i].mUnk_28, heap);
     }
     for (; i < 10; i++) {
-        func_0204a9f8((KeyRecording *) &data_02175628[i].mUnk_28);
+        func_0204a9f8(&data_02175628[i].mUnk_28);
     }
     data_02175624 = HeapAlloc(heap, 0x10);
     func_02043c14_inline();
@@ -348,7 +348,7 @@ void func_02043648(void) {
     k = gTouchMicInput->mMicOverThreshold;
     if (func_02043648_inline(data_0217aa00) != 0) {
         a = func_0204ffe8(GetParticipantIndex(data_02175624->mUnk_08));
-        b = *(u16 *) &data_0217aa00->mUnk_15bc_view.mUnk_0c[GetParticipantIndex(data_02175624->mUnk_08)].mUnk_00[2];
+        b = data_0217aa00->mUnk_15bc_view.mUnk_0c[GetParticipantIndex(data_02175624->mUnk_08)].mUnk_00_2;
         GetParticipantIndex(data_02175624->mUnk_08);
     }
     for (slotIndex = 0; slotIndex < 10; slotIndex++) {
@@ -369,7 +369,7 @@ void func_02043648(void) {
                 case 1:
                     if (f == 0) {
                         if (c != 0) {
-                            slotKeys = ReadKeysFromKeyRecording((KeyRecording *) &inputSlot->mUnk_28);
+                            slotKeys = ReadKeysFromKeyRecording(&inputSlot->mUnk_28);
                         }
                     } else {
                         skipUpdate = TRUE;
@@ -390,7 +390,7 @@ void func_02043648(void) {
                                     slotKeys |= PAD_KEY_LEFT;
                                 }
                             }
-                            AppendKeysToKeyRecording((KeyRecording *) &inputSlot->mUnk_28, slotKeys);
+                            AppendKeysToKeyRecording(&inputSlot->mUnk_28, slotKeys);
                         }
                     } else {
                         skipUpdate = TRUE;
@@ -432,7 +432,7 @@ void func_02043648(void) {
                     } else {
                         skipUpdate = TRUE;
                     }
-                    n = *(u16 *) &data_0217aa00->mUnk_15bc_view.mUnk_0c[GetParticipantIndex(slotIndex)].mUnk_00[2];
+                    n = data_0217aa00->mUnk_15bc_view.mUnk_0c[GetParticipantIndex(slotIndex)].mUnk_00_2;
                     o = data_0217aa00->mUnk_15bc_view.mUnk_0c[GetParticipantIndex(slotIndex)].mUnk_06_7;
                     break;
                 case 6:
@@ -451,7 +451,7 @@ void func_02043648(void) {
         if (skipUpdate == FALSE) {
             UpdateInputSlot(t, inputSlot);
         }
-        func_02046ca8((InputSlotPair *) &inputSlot->mPairX, n, o);
+        func_02046ca8(&inputSlot->mUnk_48, n, o);
     }
 }
 

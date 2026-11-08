@@ -1101,16 +1101,16 @@ void AdvanceSelectRaceRuleTeamInput(void) {
             newPair = FALSE;
             noPairForFewCalls = FALSE;
             inputSlot = &data_02175628[slotIndex];
-            hasPair = inputSlot->mHasPair;
-            if (hasPair == 0 && inputSlot->mNoPairCount < 5) {
+            hasPair = inputSlot->mUnk_48.mHasPair;
+            if (hasPair == 0 && inputSlot->mUnk_48.mNoPairCount < 5) {
                 noPairForFewCalls = TRUE;
             }
-            if (noPairForFewCalls == FALSE && inputSlot->mPrevHasPair == 0 && hasPair != 0) {
+            if (noPairForFewCalls == FALSE && inputSlot->mUnk_48.mPrevHasPair == 0 && hasPair != 0) {
                 newPair = TRUE;
             }
             if (newPair != FALSE) {
-                hitRectIndex = RectTableFindContaining(gSelectRaceRule->mBnbl, inputSlot->mPairX,
-                                                       inputSlot->mPairY - gSelectRaceRule->mOffsetY);
+                hitRectIndex = RectTableFindContaining(gSelectRaceRule->mBnbl, inputSlot->mUnk_48.mPairX,
+                                                       inputSlot->mUnk_48.mPairY - gSelectRaceRule->mOffsetY);
             }
             if (GetNewOrRepeatBits(slotIndex, PAD_KEY_L) != 0 || hitRectIndex == 0x11) {
                 if (i == 0) {

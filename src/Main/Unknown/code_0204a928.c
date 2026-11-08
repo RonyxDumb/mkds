@@ -2,8 +2,7 @@
 #include "Main/Unknown/unk_02175000.h" // KeyRecording
 #include "code_0200eddc.h"
 
-void FinishKeyRecording(void *record) {
-    KeyRecording *keyRecording = record;
+void FinishKeyRecording(KeyRecording *keyRecording) {
     if (keyRecording->mStatus != 1) {
         return;
     }

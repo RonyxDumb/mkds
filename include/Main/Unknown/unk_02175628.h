@@ -32,8 +32,21 @@ typedef struct KeyRecording {
 // 0 idle, 1 recording, 2 playing, 3 buffer full.
     /* 08 */ s32 mStatus;
     /* 0c */ BOOL mUnk_0c;
-    /* 10 */ u8 mUnk_10[0x4c];
 } KeyRecording;
+
+// The 0x14 bytes at 0x48 of an element of data_02175628 (the same bytes as its mUnk_48 to mUnk_5b).
+typedef struct InputSlotPair {
+    /* 00 */ u16 mPairX;
+    /* 02 */ u16 mPairY;
+    /* 04 */ u16 mHasPair;
+    /* 06 */ u16 mValidity;
+    /* 08 */ u16 mPrevPairX;
+    /* 0a */ u16 mPrevPairY;
+    /* 0c */ u16 mPrevHasPair;
+    /* 0e */ u16 mPrevValidity;
+    /* 10 */ u16 mNoPairCount;
+    /* 12 */ u8 mUnk_12[0x2];
+} InputSlotPair;
 
 // One 0x5c-byte element of the array at data_02175628.
 typedef struct InputSlot {
@@ -56,41 +69,14 @@ typedef struct InputSlot {
     /* 18 */ u64 mHoldStartTick;
     /* 20 */ s32 mUnk_20;
     /* 24 */ s32 mUnk_24;
-    /* 28 */ void *mUnk_28;
-    /* 2c */ u16 mUnk_2c;
-    /* 2e */ u16 mUnk_2e;
-    /* 30 */ s32 mUnk_30;
-    /* 34 */ u8 mUnk_34[0x8];
+    /* 28 */ KeyRecording mUnk_28;
+    /* 38 */ u8 mUnk_38[0x4];
     /* 3c */ s32 mSourceKind;
     /* 40 */ u16 mRequestedBits;
     /* 42 */ u16 mBitMask;
     /* 44 */ s32 mUnk_44;
-    /* 48 */ u16 mPairX;
-    /* 4a */ u16 mPairY;
-    /* 4c */ u16 mHasPair;
-    /* 4e */ u16 mValidity;
-    /* 50 */ u16 mPrevPairX;
-    /* 52 */ u16 mPrevPairY;
-    /* 54 */ u16 mPrevHasPair;
-    /* 56 */ u16 mPrevValidity;
-    /* 58 */ u16 mNoPairCount;
-    /* 5a */ u8 mUnk_5a;
-    /* 5b */ u8 mUnk_5b;
+    /* 48 */ InputSlotPair mUnk_48;
 } InputSlot;
-
-// The 0x14 bytes at 0x48 of an element of data_02175628 (the same bytes as its mUnk_48 to mUnk_5b).
-typedef struct InputSlotPair {
-    /* 00 */ u16 mPairX;
-    /* 02 */ u16 mPairY;
-    /* 04 */ u16 mHasPair;
-    /* 06 */ u16 mValidity;
-    /* 08 */ u16 mPrevPairX;
-    /* 0a */ u16 mPrevPairY;
-    /* 0c */ u16 mPrevHasPair;
-    /* 0e */ u16 mPrevValidity;
-    /* 10 */ u16 mNoPairCount;
-    /* 12 */ u8 mUnk_12[0x2];
-} InputSlotPair;
 
 extern InputSlot data_0217562c[];
 

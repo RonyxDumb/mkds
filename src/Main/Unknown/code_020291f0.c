@@ -107,5 +107,5 @@ u32 func_02029210(InputSlotPair *pair) {
 }
 
 u32 func_020291f0(u32 slot) {
-    return func_02029210((InputSlotPair *) &data_02175628[slot].mPairX);
+    return func_02029210(&data_02175628[slot].mUnk_48);
 }

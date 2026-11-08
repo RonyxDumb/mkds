@@ -21,7 +21,7 @@ void OS_InitTick(void) {
     OSi_SetTimerReserved(0);
     gTickOverflowCount = 0;
     *(vu16 *) 0x4000102 = 0;
-    *(vu16 *) 0x4000100 = 0;
+    reg_OS_TM0CNT_L = 0;
     *(vu16 *) 0x4000102 = 0xc1;
     OS_SetIrqFunction(8, OSi_CountUpTick);
     OS_EnableIrqMask(8);
@@ -38,7 +38,7 @@ void OSi_CountUpTick(void) {
     gTickOverflowCount++;
     if (data_02170250 != 0) {
         *(vu16 *) 0x4000102 = 0;
-        *(vu16 *) 0x4000100 = 0;
+        reg_OS_TM0CNT_L = 0;
         *(vu16 *) 0x4000102 = 0xc1;
         data_02170250 = 0;
     }
@@ -53,7 +53,7 @@ u64 OS_GetTick(void) {
     volatile u64 overflows;
 
     enabled = OS_DisableInterrupts();
-    count = *(vu16 *) 0x4000100;
+    count = reg_OS_TM0CNT_L;
     overflows = gTickOverflowCount & 0xffffffffffffULL;
     if ((reg_OS_IF & 8) && !(count & 0x8000)) {
         overflows++;

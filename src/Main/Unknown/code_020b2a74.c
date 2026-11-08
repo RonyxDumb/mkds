@@ -25,5 +25,5 @@ u32 func_020b2a94(InputSlotPair *inputSlotPair) {
 }
 
 u32 func_020b2a74(s32 slotIndex) {
-    return func_020b2a94((InputSlotPair *) &data_02175628[slotIndex].mPairX);
+    return func_020b2a94(&data_02175628[slotIndex].mUnk_48);
 }

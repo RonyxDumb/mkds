@@ -594,7 +594,7 @@ void DrawRaceModeCount(RaceHudOamBuffer *oamBuffer) {
             if (data_02175628[0].mSourceKind != 2) {
                 return;
             }
-            if (IsKeyRecordingFull(&data_02175650[0]) == FALSE) {
+            if (IsKeyRecordingFull(&data_02175628[0].mUnk_28) == FALSE) {
                 return;
             }
             gRaceModeCount->mKeyRecordingNotFull = 0;

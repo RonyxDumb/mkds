@@ -644,29 +644,29 @@ void AdvanceMissionRunMSselState3(void) {
     func_ov001_021a0620();
     flag_b = FALSE;
     flag_a = FALSE;
-    value = data_02175628[slot].mHasPair;
-    if (value == 0 && data_02175628[slot].mNoPairCount < 5) {
+    value = data_02175628[slot].mUnk_48.mHasPair;
+    if (value == 0 && data_02175628[slot].mUnk_48.mNoPairCount < 5) {
         flag_a = TRUE;
     }
-    if (flag_a == FALSE && data_02175628[slot].mPrevHasPair == 0 && value != 0) {
+    if (flag_a == FALSE && data_02175628[slot].mUnk_48.mPrevHasPair == 0 && value != 0) {
         flag_b = TRUE;
     }
     if (flag_b) {
-        result = RectTableFindContaining(gMissionRunMSsel->mMissionRunMSselSBnbl, data_02175628[slot].mPairX,
-                                         data_02175628[slot].mPairY);
+        result = RectTableFindContaining(gMissionRunMSsel->mMissionRunMSselSBnbl, data_02175628[slot].mUnk_48.mPairX,
+                                         data_02175628[slot].mUnk_48.mPairY);
     }
     if ((u16) (data_02175628[slot].mPressedBits & PAD_KEY_B) == 0) {
         flag_b = FALSE;
         flag_a = FALSE;
-        value = data_02175628[slot].mHasPair;
-        if (value == 0 && data_02175628[slot].mNoPairCount < 5) {
+        value = data_02175628[slot].mUnk_48.mHasPair;
+        if (value == 0 && data_02175628[slot].mUnk_48.mNoPairCount < 5) {
             flag_a = TRUE;
         }
-        if (flag_a == FALSE && data_02175628[slot].mPrevHasPair == 0 && value != 0) {
+        if (flag_a == FALSE && data_02175628[slot].mUnk_48.mPrevHasPair == 0 && value != 0) {
             flag_b = TRUE;
         }
-        if (!flag_b || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[slot].mPairX,
-                                                                       data_02175628[slot].mPairY) == FALSE) {
+        if (!flag_b || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[slot].mUnk_48.mPairX,
+                                                                       data_02175628[slot].mUnk_48.mPairY) == FALSE) {
             goto skip;
         }
     }

@@ -392,27 +392,27 @@ void AdvanceMissionRunLVselState3(void) {
     func_021059e0();
     f2 = FALSE;
     f1 = FALSE;
-    if (data_02175628[i].mHasPair == 0 && data_02175628[i].mNoPairCount < 5) {
+    if (data_02175628[i].mUnk_48.mHasPair == 0 && data_02175628[i].mUnk_48.mNoPairCount < 5) {
         f1 = TRUE;
     }
-    if (f1 == FALSE && data_02175628[i].mPrevHasPair == 0 && data_02175628[i].mHasPair != 0) {
+    if (f1 == FALSE && data_02175628[i].mUnk_48.mPrevHasPair == 0 && data_02175628[i].mUnk_48.mHasPair != 0) {
         f2 = TRUE;
     }
     if (f2 != FALSE) {
-        sel = RectTableFindContaining(gMissionRunLVsel->mMissionRunLVselS7Or6Bnbl, data_02175628[i].mPairX,
-                                      data_02175628[i].mPairY);
+        sel = RectTableFindContaining(gMissionRunLVsel->mMissionRunLVselS7Or6Bnbl, data_02175628[i].mUnk_48.mPairX,
+                                      data_02175628[i].mUnk_48.mPairY);
     }
     if ((u16) (data_02175628[i].mPressedBits & PAD_KEY_B) == 0) {
         BOOL g2 = FALSE;
         BOOL g1 = FALSE;
-        if (data_02175628[i].mHasPair == 0 && data_02175628[i].mNoPairCount < 5) {
+        if (data_02175628[i].mUnk_48.mHasPair == 0 && data_02175628[i].mUnk_48.mNoPairCount < 5) {
             g1 = TRUE;
         }
-        if (g1 == FALSE && data_02175628[i].mPrevHasPair == 0 && data_02175628[i].mHasPair != 0) {
+        if (g1 == FALSE && data_02175628[i].mUnk_48.mPrevHasPair == 0 && data_02175628[i].mUnk_48.mHasPair != 0) {
             g2 = TRUE;
         }
-        if (g2 == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[i].mPairX,
-                                                                           data_02175628[i].mPairY) == FALSE) {
+        if (g2 == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[i].mUnk_48.mPairX,
+                                                                           data_02175628[i].mUnk_48.mPairY) == FALSE) {
             goto next;
         }
     }

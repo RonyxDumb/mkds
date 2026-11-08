@@ -1,8 +1,8 @@
 #include "code_0200f59c.h"
+#include "registers.h"
 
 u32 OS_GetTickLo(void) {
     u32 value0;
-    value0 = 0x4000100u;
-    value0 = *(const u16 *) ((value0) + (0));
+    value0 = reg_OS_TM0CNT_L;
     return value0;
 }

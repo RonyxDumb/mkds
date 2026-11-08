@@ -498,7 +498,10 @@ typedef struct Unk0217aa00_ac {
 typedef struct Unk0217aa00_15c8 {
     /* 00 */ union {
         u8 mUnk_00[6];
-        u16 mUnk_00_0;
+        struct {
+            u16 mUnk_00_0;
+            u16 mUnk_00_2;
+        };
     };
     /* 06 */ union {
         u8 mUnk_06;

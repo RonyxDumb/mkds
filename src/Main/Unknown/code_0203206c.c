@@ -278,16 +278,16 @@ s32 AdvanceSelectGame(void) {
             touchInReturnRect = 0;
             pairIsNew = FALSE;
             pairRecentlyGone = FALSE;
-            hasPair = data_02175628[slotIndex].mHasPair;
-            if (hasPair == 0 && data_02175628[slotIndex].mNoPairCount < 5) {
+            hasPair = data_02175628[slotIndex].mUnk_48.mHasPair;
+            if (hasPair == 0 && data_02175628[slotIndex].mUnk_48.mNoPairCount < 5) {
                 pairRecentlyGone = TRUE;
             }
-            if (pairRecentlyGone == FALSE && data_02175628[slotIndex].mPrevHasPair == 0 && hasPair != 0) {
+            if (pairRecentlyGone == FALSE && data_02175628[slotIndex].mUnk_48.mPrevHasPair == 0 && hasPair != 0) {
                 pairIsNew = TRUE;
             }
             if (pairIsNew != FALSE) {
-                d = data_02175628[slotIndex].mPairX;
-                pairY = data_02175628[slotIndex].mPairY;
+                d = data_02175628[slotIndex].mUnk_48.mPairX;
+                pairY = data_02175628[slotIndex].mUnk_48.mPairY;
                 touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(d, pairY);
                 d = RectTableFindContaining(subFileSet->mRects, d, pairY);
             }

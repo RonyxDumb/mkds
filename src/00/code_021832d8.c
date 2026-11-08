@@ -297,15 +297,15 @@ void AdvanceWiFiVSMatchingState1(void) {
     }
     a = FALSE;
     b = FALSE;
-    v = data_02175628[idx].mHasPair;
-    if (v == 0 && data_02175628[idx].mNoPairCount < 5) {
+    v = data_02175628[idx].mUnk_48.mHasPair;
+    if (v == 0 && data_02175628[idx].mUnk_48.mNoPairCount < 5) {
         b = TRUE;
     }
-    if (b == FALSE && data_02175628[idx].mPrevHasPair == 0 && v != 0) {
+    if (b == FALSE && data_02175628[idx].mUnk_48.mPrevHasPair == 0 && v != 0) {
         a = TRUE;
     }
     if (a != FALSE &&
-        IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[idx].mPairX, data_02175628[idx].mPairY) !=
+        IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[idx].mUnk_48.mPairX, data_02175628[idx].mUnk_48.mPairY) !=
             FALSE &&
         func_021213a0() != FALSE) {
     hit:
@@ -573,17 +573,17 @@ void AdvanceWiFiVSMatchingState9(void) {
         if ((u16) (data_02175628[idx].mPressedBits & PAD_KEY_B) == 0) {
             a = FALSE;
             b = FALSE;
-            v = data_02175628[idx].mHasPair;
-            if (v == 0 && data_02175628[idx].mNoPairCount < 5) {
+            v = data_02175628[idx].mUnk_48.mHasPair;
+            if (v == 0 && data_02175628[idx].mUnk_48.mNoPairCount < 5) {
                 b = TRUE;
             }
-            if (b == FALSE && data_02175628[idx].mPrevHasPair == 0 && v != 0) {
+            if (b == FALSE && data_02175628[idx].mUnk_48.mPrevHasPair == 0 && v != 0) {
                 a = TRUE;
             }
             if (a == FALSE) {
                 return;
             }
-            if (IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[idx].mPairX, data_02175628[idx].mPairY) ==
+            if (IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[idx].mUnk_48.mPairX, data_02175628[idx].mUnk_48.mPairY) ==
                 FALSE) {
                 return;
             }

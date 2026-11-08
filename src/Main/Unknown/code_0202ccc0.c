@@ -335,16 +335,16 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
     AdvanceInterpolation(&gTimeAttackGhostSend->mInterpolation);
     b = returnTouched;
     a = b;
-    hasPair = data_02175628[slotIndex].mHasPair;
-    if (hasPair == 0 && data_02175628[slotIndex].mNoPairCount < 5) {
+    hasPair = data_02175628[slotIndex].mUnk_48.mHasPair;
+    if (hasPair == 0 && data_02175628[slotIndex].mUnk_48.mNoPairCount < 5) {
         a = 1;
     }
-    if (a == 0 && data_02175628[slotIndex].mPrevHasPair == 0 && hasPair != 0) {
+    if (a == 0 && data_02175628[slotIndex].mUnk_48.mPrevHasPair == 0 && hasPair != 0) {
         b = 1;
     }
     if (b != 0) {
-        returnTouched = IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[slotIndex].mPairX,
-                                                                        data_02175628[slotIndex].mPairY);
+        returnTouched = IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[slotIndex].mUnk_48.mPairX,
+                                                                        data_02175628[slotIndex].mUnk_48.mPairY);
     }
     switch (gTimeAttackGhostSend->mState) {
         case 0:

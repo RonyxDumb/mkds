@@ -65,7 +65,7 @@ u32 func_0203c0bc(void) {
     if (gRaceProgress->mUnk_000[0].mUnk_0a >= 7) {
         return 1;
     }
-    if (func_0204a620((KeyRecording *) &data_02175628[entryIndex].mUnk_28) != FALSE) {
+    if (func_0204a620(&data_02175628[entryIndex].mUnk_28) != FALSE) {
         return 1;
     }
     if (TryGetRaceUpdateFramesSinceEntryEnd(&framesSinceEntryEnd) != 0) {

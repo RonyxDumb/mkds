@@ -12,10 +12,10 @@ void StartRaceInput(void) {
         InputSlot *inputSlot = &data_02175628[gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mIndex];
         if (inputSlot->mSourceKind != 1) {
             if (inputSlot->mSourceKind == 2) {
-                StartKeyRecording((KeyRecording *) &inputSlot->mUnk_28);
+                StartKeyRecording(&inputSlot->mUnk_28);
             }
         } else {
-            StartReadingKeyRecording((KeyRecording *) &inputSlot->mUnk_28);
+            StartReadingKeyRecording(&inputSlot->mUnk_28);
         }
     }
 }

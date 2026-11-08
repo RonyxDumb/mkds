@@ -237,7 +237,7 @@ BOOL func_020ae2b0(InputSlotPair *inputSlotPair) {
 }
 
 BOOL IsSlotPairNew(u32 slotIndex) {
-    return func_020ae2b0((InputSlotPair *) &data_02175628[slotIndex].mPairX);
+    return func_020ae2b0(&data_02175628[slotIndex].mUnk_48);
 }
 
 #pragma thumb on
@@ -264,7 +264,7 @@ u32 GetPairX(InputSlotPair *pair) {
 }
 
 u32 GetSlotPairX(u32 slotIndex) {
-    return GetPairX((InputSlotPair *) &data_02175628[slotIndex].mPairX);
+    return GetPairX(&data_02175628[slotIndex].mUnk_48);
 }
 
 u32 GetPairY(InputSlotPair *pair) {
@@ -272,7 +272,7 @@ u32 GetPairY(InputSlotPair *pair) {
 }
 
 u32 GetSlotPairY(u32 slotIndex) {
-    return GetPairY((InputSlotPair *) &data_02175628[slotIndex].mPairX);
+    return GetPairY(&data_02175628[slotIndex].mUnk_48);
 }
 
 #pragma thumb on

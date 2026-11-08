@@ -94,7 +94,7 @@ void FillAndWriteCourseGhostRecord(s32 courseId, u16 entryIndex) {
     ghostRecord->mSecond = kartTime.mSecond;
     ghostRecord->mMillisecond = kartTime.mMillisecond;
     MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, ghostRecord->mName, 0x14);
-    MI_CpuCopy8(data_02175628[playerIndex].mUnk_28, ghostRecord->mUnk_30, 0xdcc);
+    MI_CpuCopy8(data_02175628[playerIndex].mUnk_28.mBuffer, ghostRecord->mUnk_30, 0xdcc);
     MI_CpuFill8(lapBytes, 0, 0xf);
     for (lapNumber = 1; lapNumber <= GetLapCount(); lapNumber++) {
         byteOffset = (lapNumber - 1) * 3;

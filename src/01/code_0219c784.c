@@ -235,16 +235,16 @@ void AdvanceSelectBattleStageState2(void) {
     u16 x;
 
     a = FALSE;
-    x = data_02175628[idx].mHasPair;
-    if (x == 0 && data_02175628[idx].mNoPairCount < 5) {
+    x = data_02175628[idx].mUnk_48.mHasPair;
+    if (x == 0 && data_02175628[idx].mUnk_48.mNoPairCount < 5) {
         a = TRUE;
     }
-    if (a == FALSE && data_02175628[idx].mPrevHasPair == 0 && x != 0) {
+    if (a == FALSE && data_02175628[idx].mUnk_48.mPrevHasPair == 0 && x != 0) {
         b = TRUE;
     }
     if (b != FALSE) {
-        res = RectTableFindContaining(gSelectBattleStage->mSelectBattleStageBnbls[1], data_02175628[idx].mPairX,
-                                      data_02175628[idx].mPairY);
+        res = RectTableFindContaining(gSelectBattleStage->mSelectBattleStageBnbls[1], data_02175628[idx].mUnk_48.mPairX,
+                                      data_02175628[idx].mUnk_48.mPairY);
     }
     for (i = 0; i < 6; i++) {
         if (res == gSelectBattleStageBnblRectIndices[i]) {
@@ -254,15 +254,15 @@ void AdvanceSelectBattleStageState2(void) {
     if ((u16) (data_02175628[idx].mPressedBits & PAD_KEY_B) == 0) {
         b = FALSE;
         a = FALSE;
-        x = data_02175628[idx].mHasPair;
-        if (x == 0 && data_02175628[idx].mNoPairCount < 5) {
+        x = data_02175628[idx].mUnk_48.mHasPair;
+        if (x == 0 && data_02175628[idx].mUnk_48.mNoPairCount < 5) {
             a = TRUE;
         }
-        if (a == FALSE && data_02175628[idx].mPrevHasPair == 0 && x != 0) {
+        if (a == FALSE && data_02175628[idx].mUnk_48.mPrevHasPair == 0 && x != 0) {
             b = TRUE;
         }
-        if (b == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[idx].mPairX,
-                                                                          data_02175628[idx].mPairY) == FALSE) {
+        if (b == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[idx].mUnk_48.mPairX,
+                                                                          data_02175628[idx].mUnk_48.mPairY) == FALSE) {
             goto next;
         }
     }

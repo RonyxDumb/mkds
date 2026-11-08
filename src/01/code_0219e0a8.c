@@ -218,11 +218,11 @@ void AdvanceEndingSceneState5(void) {
         if (flags == 0) {
             a = FALSE;
             b = FALSE;
-            x = data_02175628[idx].mHasPair;
-            if (x == 0 && data_02175628[idx].mNoPairCount < 5) {
+            x = data_02175628[idx].mUnk_48.mHasPair;
+            if (x == 0 && data_02175628[idx].mUnk_48.mNoPairCount < 5) {
                 b = TRUE;
             }
-            if (b == FALSE && data_02175628[idx].mPrevHasPair == 0 && x != 0) {
+            if (b == FALSE && data_02175628[idx].mUnk_48.mPrevHasPair == 0 && x != 0) {
                 a = TRUE;
             }
             if (a == FALSE) {

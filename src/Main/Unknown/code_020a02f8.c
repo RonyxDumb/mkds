@@ -834,7 +834,7 @@ void UpdateStandings(void) {
             } else if (IsRaceStarted() == 1) {
                 if ((u16) (data_02175628[(u32) kart->mEntryIndex].mBits & 4) != 0) {
                     gStandings->mKarts[i].mUnk_68 = 1;
-                } else if (data_02175628[kart->mEntryIndex].mUnk_5a != 0) {
+                } else if (data_02175628[kart->mEntryIndex].mUnk_48.mUnk_12[0] != 0) {
                     gStandings->mKarts[i].mUnk_64 = 10;
                 }
             }

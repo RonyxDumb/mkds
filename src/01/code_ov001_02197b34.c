@@ -227,28 +227,28 @@ void AdvanceTimeAttackTopMenuState3(void) {
     BOOL flag4;
     s32 flag3;
 
-    if (data_02175628[i].mHasPair == 0 && data_02175628[i].mNoPairCount < 5) {
+    if (data_02175628[i].mUnk_48.mHasPair == 0 && data_02175628[i].mUnk_48.mNoPairCount < 5) {
         flag1 = TRUE;
     }
-    if (flag1 == FALSE && data_02175628[i].mPrevHasPair == 0 && data_02175628[i].mHasPair != 0) {
+    if (flag1 == FALSE && data_02175628[i].mUnk_48.mPrevHasPair == 0 && data_02175628[i].mUnk_48.mHasPair != 0) {
         flag2 = TRUE;
     }
     if (flag2 != FALSE) {
-        sel = RectTableFindContaining(gTimeAttackTopMenu->mTimeAttackTopMenuSBnbl, data_02175628[i].mPairX,
-                                      data_02175628[i].mPairY);
+        sel = RectTableFindContaining(gTimeAttackTopMenu->mTimeAttackTopMenuSBnbl, data_02175628[i].mUnk_48.mPairX,
+                                      data_02175628[i].mUnk_48.mPairY);
     }
     e = &data_02175628[i];
     bits = e->mPressedBits & PAD_KEY_B;
     if ((u16) bits == 0) {
         flag3 = flag4 = FALSE;
-        if (data_02175628[i].mHasPair == 0 && data_02175628[i].mNoPairCount < 5) {
+        if (data_02175628[i].mUnk_48.mHasPair == 0 && data_02175628[i].mUnk_48.mNoPairCount < 5) {
             flag3 = 1;
         }
-        if (flag3 == 0 && data_02175628[i].mPrevHasPair == 0 && data_02175628[i].mHasPair != 0) {
+        if (flag3 == 0 && data_02175628[i].mUnk_48.mPrevHasPair == 0 && data_02175628[i].mUnk_48.mHasPair != 0) {
             flag4 = TRUE;
         }
-        if (flag4 == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[i].mPairX,
-                                                                              data_02175628[i].mPairY) == FALSE) {
+        if (flag4 == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[i].mUnk_48.mPairX,
+                                                                              data_02175628[i].mUnk_48.mPairY) == FALSE) {
             goto next;
         }
     }

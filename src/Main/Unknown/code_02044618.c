@@ -255,7 +255,7 @@ BOOL func_02044e9c(s32 courseId, s32 entryIndex) {
     if (ghostRecord->mFilled == 1) {
         SetNextRaceEntry(entryIndex, ghostRecord->mCharacterIndex, ghostRecord->mKartIndex, PLAYER_KIND_GHOST, -1, 3);
         gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = result;
-        MI_CpuCopy8(ghostRecord->mUnk_30, data_02175650[entryIndex].mBuffer, 0xdcc);
+        MI_CpuCopy8(ghostRecord->mUnk_30, data_02175628[entryIndex].mUnk_28.mBuffer, 0xdcc);
         result = TRUE;
         GetGhostFinishTimeByIndex(0, &gRaceSetup->mGhostTime);
         for (i = 1; i <= 5; i++) {
@@ -278,7 +278,7 @@ s32 func_02044d4c(s32 courseId, s32 entryIndex) {
     if (filled != 0) {
         SetNextRaceEntry(entryIndex, ghostRecord->mCharacterIndex, ghostRecord->mKartIndex, PLAYER_KIND_GHOST, -1, 3);
         gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = 1;
-        MI_CpuCopy8(&ghostRecord->mUnk_30[0x200], data_02175650[entryIndex].mBuffer, 0xdcc);
+        MI_CpuCopy8(&ghostRecord->mUnk_30[0x200], data_02175628[entryIndex].mUnk_28.mBuffer, 0xdcc);
         GetGhostFinishTimeByIndex(1, &gRaceSetup->mGhostTime);
         for (i = 1; i <= 5; i++) {
             GetGhostLapTimeByIndex(1, i, &gRaceSetup->mGhostLapTimes[i - 1]);
@@ -300,7 +300,7 @@ BOOL func_02044bf8(s32 courseId, s32 entryIndex) {
     if (ghostRecord != NULL && ghostRecord->mFilled == 1) {
         SetNextRaceEntry(entryIndex, ghostRecord->mCharacterIndex, ghostRecord->mKartIndex, PLAYER_KIND_GHOST, -1, 3);
         gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = 2;
-        MI_CpuCopy8(&ghostRecord->mUnk_30[0x200], data_02175650[entryIndex].mBuffer, 0xdcc);
+        MI_CpuCopy8(&ghostRecord->mUnk_30[0x200], data_02175628[entryIndex].mUnk_28.mBuffer, 0xdcc);
         GetGhostFinishTime(ghostRecord, &gRaceSetup->mGhostTime);
         for (i = 1; i <= 5; i++) {
             GetGhostLapTime(ghostRecord, i, &gRaceSetup->mGhostLapTimes[i - 1]);

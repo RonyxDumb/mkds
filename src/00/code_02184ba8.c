@@ -148,28 +148,28 @@ void AdvanceWiFiAikotobaState3(void) {
 
     b = FALSE;
     c = FALSE;
-    d = data_02175628[i].mHasPair;
-    if (d == 0 && data_02175628[i].mNoPairCount < 5) {
+    d = data_02175628[i].mUnk_48.mHasPair;
+    if (d == 0 && data_02175628[i].mUnk_48.mNoPairCount < 5) {
         c = TRUE;
     }
-    if (c == FALSE && data_02175628[i].mPrevHasPair == 0 && d != 0) {
+    if (c == FALSE && data_02175628[i].mUnk_48.mPrevHasPair == 0 && d != 0) {
         b = TRUE;
     }
     if (b != FALSE) {
-        a = RectTableFindContaining(gWiFiAikotoba->mWiFiAikotobaBnbl, data_02175628[i].mPairX, data_02175628[i].mPairY);
+        a = RectTableFindContaining(gWiFiAikotoba->mWiFiAikotobaBnbl, data_02175628[i].mUnk_48.mPairX, data_02175628[i].mUnk_48.mPairY);
     }
     if ((u16) (data_02175628[i].mPressedBits & PAD_KEY_B) == 0) {
         b = FALSE;
         c = FALSE;
-        d = data_02175628[i].mHasPair;
-        if (d == 0 && data_02175628[i].mNoPairCount < 5) {
+        d = data_02175628[i].mUnk_48.mHasPair;
+        if (d == 0 && data_02175628[i].mUnk_48.mNoPairCount < 5) {
             c = TRUE;
         }
-        if (c == FALSE && data_02175628[i].mPrevHasPair == 0 && d != 0) {
+        if (c == FALSE && data_02175628[i].mUnk_48.mPrevHasPair == 0 && d != 0) {
             b = TRUE;
         }
-        if (b == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[i].mPairX,
-                                                                          data_02175628[i].mPairY) == FALSE) {
+        if (b == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[i].mUnk_48.mPairX,
+                                                                          data_02175628[i].mUnk_48.mPairY) == FALSE) {
             goto next;
         }
     }

@@ -26,5 +26,5 @@ BOOL func_020cb13c(u16 *pair) {
 }
 
 s32 func_020cb11c(u32 slotIndex) {
-    return func_020cb13c(&data_02175628[slotIndex].mPairX);
+    return func_020cb13c(&data_02175628[slotIndex].mUnk_48.mPairX);
 }

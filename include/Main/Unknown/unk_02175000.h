@@ -306,10 +306,6 @@ typedef struct Unk021755e4 {
 
 extern Unk021755e4 data_usa_021755e4;
 
-// Object func_0204a620 to StartKeyRecording take: a buffer, two halfword counters and two words. The buffer holds a
-// word at 0x00 and byte pairs from 0x04; its size is 0xdcc bytes.
-extern KeyRecording data_02175650[];
-
 // Entry of the table at 0x440 of gRomArchiveTransfer: a four-bit part in the low bits of the first word, then two
 // words.
 typedef struct RomArchiveParentViewEntry {
