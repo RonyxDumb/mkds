@@ -15,8 +15,8 @@ void InitLayoutTableEntries(LayoutTableEntry *entry, s32 count) {
         entry->mPositionX = 0;
         entry->mPositionY = 0;
         entry->mUseMatrix = 0;
-        MTX_Identity22_(entry->mUnk_14);
-        MTX_Identity22_(entry->mMatrix);
+        MTX_Identity22_(&entry->mUnk_14);
+        MTX_Identity22_(&entry->mMatrix);
         entry->mUnk_34 = 1;
         entry->mLabelIndex = -1;
         entry->mLabelCanvas = NULL;

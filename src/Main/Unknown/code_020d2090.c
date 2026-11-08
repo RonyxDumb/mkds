@@ -86,7 +86,7 @@ void InitRaceMNumberPair(void) {
     } else {
         gRaceMNumberPair->mCourseCount = 0;
     }
-    Matrix2x2ReciprocalScale(gRaceMNumberPair->mScaleMatrix, 0x1000);
+    Matrix2x2ReciprocalScale(&gRaceMNumberPair->mScaleMatrix, 0x1000);
     gRaceMNumberPair->mCellMatrix = NULL;
     gRaceMNumberPair->mScale = 0;
     gRaceMNumberPair->mMatrixIndex = 0;

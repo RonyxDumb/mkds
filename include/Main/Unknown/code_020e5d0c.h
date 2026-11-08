@@ -3,6 +3,7 @@
 #include "types.h"
 #include "code_02013bdc.h"
 #include "Main/Unknown/code_020e43a8.h"
+#include "Main/Unknown/code_020d6dc0.h" // Quaternion
 #include "Main/Unknown/code_020e6fd4.h" // MapObject
 #include "Main/Unknown/code_020e516c.h"
 #include "Main/Unknown/code_020e5684.h"
@@ -22,7 +23,7 @@ typedef struct Unk020e5e24_2 {
 // DrawPendulum; at least 0x110 bytes.
 typedef struct PendulumObject {
     /* 00 */ MapObject mMapObject;
-    /* a0 */ u32 mRotationQuaternion[4];
+    /* a0 */ Quaternion mRotationQuaternion;
     /* b0 */ Vec3 mPrevPos;
     /* bc */ Vec3 mCourseRowPos;
     /* c8 */ Unk020e43a8_28 mShadowMatrix;

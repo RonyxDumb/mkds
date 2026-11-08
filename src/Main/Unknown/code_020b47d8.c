@@ -30,7 +30,7 @@ u16 GetFollowedKartLastEndedLap(void) {
     return lap;
 }
 
-void Matrix2x2ReciprocalScale(s32 *matrix, s32 scale) {
+void Matrix2x2ReciprocalScale(MtxFx22 *matrix, s32 scale) {
     s32 reciprocal;
 
     if (scale != 0) {
@@ -38,34 +38,34 @@ void Matrix2x2ReciprocalScale(s32 *matrix, s32 scale) {
     } else {
         reciprocal = 0x1000;
     }
-    matrix[3] = reciprocal;
-    matrix[0] = matrix[3];
-    matrix[2] = 0;
-    matrix[1] = matrix[2];
+    matrix->mUnk_00[3] = reciprocal;
+    matrix->mUnk_00[0] = matrix->mUnk_00[3];
+    matrix->mUnk_00[2] = 0;
+    matrix->mUnk_00[1] = matrix->mUnk_00[2];
 }
 
-void Matrix2x2Rotation(s32 *matrix, s32 angle) {
+void Matrix2x2Rotation(MtxFx22 *matrix, s32 angle) {
     s32 anglePairFirst = gPairsByAngle[(angle >> 4) * 2];
     s32 anglePairSecond = gPairsByAngle[(angle >> 4) * 2 + 1];
 
-    matrix[0] = anglePairSecond;
-    matrix[1] = anglePairFirst;
-    matrix[2] = -anglePairFirst;
-    matrix[3] = anglePairSecond;
+    matrix->mUnk_00[0] = anglePairSecond;
+    matrix->mUnk_00[1] = anglePairFirst;
+    matrix->mUnk_00[2] = -anglePairFirst;
+    matrix->mUnk_00[3] = anglePairSecond;
 }
 
-void Matrix2x2ReflectedRotation(s32 *matrix, s32 angle) {
+void Matrix2x2ReflectedRotation(MtxFx22 *matrix, s32 angle) {
     s32 anglePairSecond = gPairsByAngle[(angle >> 4) * 2 + 1];
     s32 anglePairFirst;
 
-    matrix[0] = -anglePairSecond;
+    matrix->mUnk_00[0] = -anglePairSecond;
     anglePairFirst = gPairsByAngle[(angle >> 4) * 2];
-    matrix[1] = anglePairFirst;
-    matrix[2] = anglePairFirst;
-    matrix[3] = anglePairSecond;
+    matrix->mUnk_00[1] = anglePairFirst;
+    matrix->mUnk_00[2] = anglePairFirst;
+    matrix->mUnk_00[3] = anglePairSecond;
 }
 
-void Matrix2x2RotationReciprocalScale(s32 *matrix, s32 scale, s32 angle) {
+void Matrix2x2RotationReciprocalScale(MtxFx22 *matrix, s32 scale, s32 angle) {
     s32 angleIndex = angle >> 4;
     s32 anglePairFirst = gPairsByAngle[angleIndex * 2];
     s32 anglePairSecond = gPairsByAngle[angleIndex * 2 + 1];
@@ -76,10 +76,10 @@ void Matrix2x2RotationReciprocalScale(s32 *matrix, s32 scale, s32 angle) {
     } else {
         reciprocal = 0x1000;
     }
-    matrix[0] = ((s64) anglePairSecond * reciprocal) >> 12;
-    matrix[1] = ((s64) anglePairFirst * reciprocal) >> 12;
-    matrix[2] = -matrix[1];
-    matrix[3] = matrix[0];
+    matrix->mUnk_00[0] = ((s64) anglePairSecond * reciprocal) >> 12;
+    matrix->mUnk_00[1] = ((s64) anglePairFirst * reciprocal) >> 12;
+    matrix->mUnk_00[2] = -matrix->mUnk_00[1];
+    matrix->mUnk_00[3] = matrix->mUnk_00[0];
 }
 
 BOOL func_020b4b98(s32 number) {

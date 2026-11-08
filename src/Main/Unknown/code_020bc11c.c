@@ -74,10 +74,10 @@ void InitRaceRankList(void) {
     }
     gRaceRankList->mSlideX = 0;
     gRaceRankList->mOamMatrixIndex = 0;
-    gRaceRankList->mMatrix[0] = 0xc4e;
-    gRaceRankList->mMatrix[1] = 0;
-    gRaceRankList->mMatrix[2] = 0;
-    gRaceRankList->mMatrix[3] = 0xc4e;
+    gRaceRankList->mMatrix.mUnk_00[0] = 0xc4e;
+    gRaceRankList->mMatrix.mUnk_00[1] = 0;
+    gRaceRankList->mMatrix.mUnk_00[2] = 0;
+    gRaceRankList->mMatrix.mUnk_00[3] = 0xc4e;
     gRaceRankList->mMoveFrames = 0;
 }
 
@@ -171,7 +171,7 @@ void UpdateRaceRankList(void) {
 }
 
 void DrawRaceRankList(RaceHudOamBuffer *oamBuffer) {
-    s32 *matrix;
+    MtxFx22 *matrix;
     GXOamAttr *oams;
 
     if (GetRaceStartSequenceFrames() < 0x168) {
@@ -197,12 +197,12 @@ void DrawRaceRankList(RaceHudOamBuffer *oamBuffer) {
             }
             break;
     }
-    matrix = gRaceRankList->mMatrix;
+    matrix = &gRaceRankList->mMatrix;
     oams = &oamBuffer->mOams[gRaceRankList->mOamMatrixIndex * 4];
-    oams[0].mUnk_00[3] = matrix[0] >> 4;
-    oams[1].mUnk_00[3] = matrix[1] >> 4;
-    oams[2].mUnk_00[3] = matrix[2] >> 4;
-    oams[3].mUnk_00[3] = matrix[3] >> 4;
+    oams[0].mUnk_00[3] = matrix->mUnk_00[0] >> 4;
+    oams[1].mUnk_00[3] = matrix->mUnk_00[1] >> 4;
+    oams[2].mUnk_00[3] = matrix->mUnk_00[2] >> 4;
+    oams[3].mUnk_00[3] = matrix->mUnk_00[3] >> 4;
 }
 
 // Returns the cell index beside the kart (0xc9 = none): cell 0x24 or 0x25, the item just used, the held item or 0x16.
@@ -300,7 +300,7 @@ void DrawRaceRankListState0Rows(RaceHudOamBuffer *oamBuffer) {
     RaceRankListPos position;
     s32 itemCellIndex;
     u16 matrixIndex;
-    s32 *matrix;
+    MtxFx22 *matrix;
     s32 secondKartCellBase;
     s32 itemDrawPosition[2];
     s32 kartDrawPosition[2];
@@ -328,7 +328,7 @@ void DrawRaceRankListState0Rows(RaceHudOamBuffer *oamBuffer) {
             matrixIndex = 0;
         }
         if (gRaceRankList->mPrevRanks[kartIndex] > gRaceRankList->mRanks[kartIndex]) {
-            matrix = gRaceRankList->mMatrix;
+            matrix = &gRaceRankList->mMatrix;
         } else {
             matrix = NULL;
         }
@@ -381,7 +381,7 @@ void DrawRaceRankListState1To3Rows(RaceHudOamBuffer *oamBuffer) {
     s32 kartIndex;
     RaceRankListPos position;
     s32 itemCellIndex;
-    s32 *matrix;
+    MtxFx22 *matrix;
     u16 matrixIndex;
     s32 itemDrawPosition[2];
     s32 kartDrawPosition[2];
@@ -408,7 +408,7 @@ void DrawRaceRankListState1To3Rows(RaceHudOamBuffer *oamBuffer) {
             matrixIndex = 0;
         }
         if (gRaceRankList->mPrevRanks[kartIndex] > gRaceRankList->mRanks[kartIndex]) {
-            matrix = gRaceRankList->mMatrix;
+            matrix = &gRaceRankList->mMatrix;
         } else {
             matrix = NULL;
         }
@@ -462,7 +462,7 @@ void DrawRaceRankListBattleState0Rows(RaceHudOamBuffer *oamBuffer) {
     u16 i;
     u16 matrixIndex;
     RaceRankListPos position;
-    s32 *matrix;
+    MtxFx22 *matrix;
     s32 kartIndex;
     s32 itemDrawPosition[2];
     s32 kartDrawPosition[2];
@@ -496,7 +496,7 @@ void DrawRaceRankListBattleState0Rows(RaceHudOamBuffer *oamBuffer) {
             matrixIndex = 0;
         }
         if (gRaceRankList->mPrevRanks[kartIndex] > gRaceRankList->mRanks[kartIndex]) {
-            matrix = gRaceRankList->mMatrix;
+            matrix = &gRaceRankList->mMatrix;
         } else {
             matrix = NULL;
         }
@@ -586,7 +586,7 @@ void DrawRaceRankListBattleState1To3Rows(RaceHudOamBuffer *oamBuffer) {
     u16 i;
     u16 matrixIndex;
     RaceRankListPos position;
-    s32 *matrix;
+    MtxFx22 *matrix;
     s32 kartIndex;
     s32 itemDrawPosition[2];
     s32 kartDrawPosition[2];
@@ -619,7 +619,7 @@ void DrawRaceRankListBattleState1To3Rows(RaceHudOamBuffer *oamBuffer) {
             matrixIndex = 0;
         }
         if (gRaceRankList->mPrevRanks[kartIndex] > gRaceRankList->mRanks[kartIndex]) {
-            matrix = gRaceRankList->mMatrix;
+            matrix = &gRaceRankList->mMatrix;
         } else {
             matrix = NULL;
         }

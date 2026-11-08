@@ -93,22 +93,22 @@ void AdvanceLld(Lld *lld, OamBuffer *oamBuffer) {
             if (screenX >= -64 && screenX <= 0x140 && screenY >= -48 && screenY <= 0xf0) {
                 if (entry->mScale != 0x1000) {
                     u16 idx = AllocOamMatrixIndex(oamBuffer);
-                    s32 mtx[4] = {0, 0, 0, 0};
+                    MtxFx22 mtx = {{0, 0, 0, 0}};
 
-                    mtx[0] = FX_Div(0x1000, entry->mScale);
-                    mtx[3] = FX_Div(0x1000, entry->mScale);
-                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mUnk_06 = mtx[0] >> 4;
-                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mUnk_0e = mtx[1] >> 4;
-                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mUnk_16 = mtx[2] >> 4;
-                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mUnk_1e = mtx[3] >> 4;
-                    mtx[0] = entry->mScale;
-                    mtx[3] = entry->mScale;
+                    mtx.mUnk_00[0] = FX_Div(0x1000, entry->mScale);
+                    mtx.mUnk_00[3] = FX_Div(0x1000, entry->mScale);
+                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mUnk_06 = mtx.mUnk_00[0] >> 4;
+                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mUnk_0e = mtx.mUnk_00[1] >> 4;
+                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mUnk_16 = mtx.mUnk_00[2] >> 4;
+                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mUnk_1e = mtx.mUnk_00[3] >> 4;
+                    mtx.mUnk_00[0] = entry->mScale;
+                    mtx.mUnk_00[3] = entry->mScale;
                     cell = (Unk021a5a58_2c_2c *) entry->mUnk_2c.mUnk_2c;
                     pos_a[0] = screenX << 12;
                     pos_a[1] = screenY << 12;
                     oamBuffer->mOamCount +=
                         NNS_G2dMakeCellToOams((GXOamAttr *) &oamBuffer->mOams[oamBuffer->mOamCount * 8],
-                                              0x80 - oamBuffer->mOamCount, (Unk020224e0_c *) cell, mtx, pos_a, idx, 1);
+                                              0x80 - oamBuffer->mOamCount, (Unk020224e0_c *) cell, &mtx, pos_a, idx, 1);
                 } else {
                     cell = (Unk021a5a58_2c_2c *) entry->mUnk_2c.mUnk_2c;
                     pos_b[0] = screenX << 12;

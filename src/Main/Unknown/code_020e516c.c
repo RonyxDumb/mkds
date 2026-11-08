@@ -129,23 +129,23 @@ s32 RefreshShadowMatrix(void *shadow, Vec3 *position, s32 scale, u32 alphaCap) {
         0) {
         hit = TRUE;
         QuaternionFromYAxisToVec3(&direction, &rotation);
-        Matrix3x3FromQuaternion(shadow, &rotation);
+        Matrix3x3FromQuaternion(&shadowCopy->mMatrix.mUnk_00_m, &rotation);
         scaleTenth = scale / 10;
-        shadowCopy->mMatrix[0] = ((s64) shadowCopy->mMatrix[0] * scaleTenth) >> 12;
-        shadowCopy->mMatrix[1] = ((s64) shadowCopy->mMatrix[1] * scaleTenth) >> 12;
-        shadowCopy->mMatrix[2] = ((s64) shadowCopy->mMatrix[2] * scaleTenth) >> 12;
-        shadowCopy->mMatrix[3] = ((s64) shadowCopy->mMatrix[3] * scaleTenth) >> 12;
-        shadowCopy->mMatrix[4] = ((s64) shadowCopy->mMatrix[4] * scaleTenth) >> 12;
-        shadowCopy->mMatrix[5] = ((s64) shadowCopy->mMatrix[5] * scaleTenth) >> 12;
-        shadowCopy->mMatrix[6] = ((s64) shadowCopy->mMatrix[6] * scaleTenth) >> 12;
-        shadowCopy->mMatrix[7] = ((s64) shadowCopy->mMatrix[7] * scaleTenth) >> 12;
-        shadowCopy->mMatrix[8] = ((s64) shadowCopy->mMatrix[8] * scaleTenth) >> 12;
+        shadowCopy->mMatrix.mUnk_00[0].x = ((s64) shadowCopy->mMatrix.mUnk_00[0].x * scaleTenth) >> 12;
+        shadowCopy->mMatrix.mUnk_00[0].y = ((s64) shadowCopy->mMatrix.mUnk_00[0].y * scaleTenth) >> 12;
+        shadowCopy->mMatrix.mUnk_00[0].z = ((s64) shadowCopy->mMatrix.mUnk_00[0].z * scaleTenth) >> 12;
+        shadowCopy->mMatrix.mUnk_00[1].x = ((s64) shadowCopy->mMatrix.mUnk_00[1].x * scaleTenth) >> 12;
+        shadowCopy->mMatrix.mUnk_00[1].y = ((s64) shadowCopy->mMatrix.mUnk_00[1].y * scaleTenth) >> 12;
+        shadowCopy->mMatrix.mUnk_00[1].z = ((s64) shadowCopy->mMatrix.mUnk_00[1].z * scaleTenth) >> 12;
+        shadowCopy->mMatrix.mUnk_00[2].x = ((s64) shadowCopy->mMatrix.mUnk_00[2].x * scaleTenth) >> 12;
+        shadowCopy->mMatrix.mUnk_00[2].y = ((s64) shadowCopy->mMatrix.mUnk_00[2].y * scaleTenth) >> 12;
+        shadowCopy->mMatrix.mUnk_00[2].z = ((s64) shadowCopy->mMatrix.mUnk_00[2].z * scaleTenth) >> 12;
     } else {
-        MTX_Identity33_(shadow);
+        MTX_Identity33_(&shadowCopy->mMatrix.mUnk_00_m);
     }
-    shadowCopy->mMatrix[9] = raisedPosition.x >> 4;
-    shadowCopy->mMatrix[10] = raisedPosition.y >> 4;
-    shadowCopy->mMatrix[11] = raisedPosition.z >> 4;
+    shadowCopy->mMatrix.mUnk_00[3].x = raisedPosition.x >> 4;
+    shadowCopy->mMatrix.mUnk_00[3].y = raisedPosition.y >> 4;
+    shadowCopy->mMatrix.mUnk_00[3].z = raisedPosition.z >> 4;
     shadowCopy->mAlphaCap = alphaCap;
     return hit;
 }

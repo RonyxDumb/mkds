@@ -333,7 +333,7 @@ void DrawRaceItemSlot(RaceHudOamBuffer *oamBuffer) {
     s32 scaledUpperItemPos[2];
     s32 scaledLowerItemPos[2];
     s32 lastPos[2];
-    s32 matrix[4];
+    MtxFx22 matrix;
     s32 scrollY;
     s32 upperItem;
     Unk020224e0_c *cell;
@@ -390,17 +390,17 @@ void DrawRaceItemSlot(RaceHudOamBuffer *oamBuffer) {
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, lowerItemPos, 0, 1);
     } else {
         matrixIndex = AllocOamMatrixIndex(oamBuffer);
-        matrix[0] = FX_Div(0x1000, gRaceItemSlot->mScale.mScaleX);
-        matrix[1] = 0;
-        matrix[2] = 0;
-        matrix[3] = FX_Div(0x1000, gRaceItemSlot->mScale.mScaleY);
+        matrix.mUnk_00[0] = FX_Div(0x1000, gRaceItemSlot->mScale.mScaleX);
+        matrix.mUnk_00[1] = 0;
+        matrix.mUnk_00[2] = 0;
+        matrix.mUnk_00[3] = FX_Div(0x1000, gRaceItemSlot->mScale.mScaleY);
         cell = GetRaceMNcerEntry(LookupRaceMNcerIndex(upperItem));
         oamIndex = oamBuffer->mOamCount;
         scaledUpperItemPos[0] = 0x18000;
         scaledUpperItemPos[1] = (scrollY - 8) << 12;
         oam = &oamBuffer->mOams[oamIndex];
         oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(oam, 0x80 - oamIndex, cell, matrix, scaledUpperItemPos, matrixIndex, 1);
+            NNS_G2dMakeCellToOams(oam, 0x80 - oamIndex, cell, &matrix, scaledUpperItemPos, matrixIndex, 1);
         for (; oamIndex < oamBuffer->mOamCount; oamIndex++, oam++) {
             ((u32 *) oam)[1] = (((u32 *) oam)[1] & ~0xc00) | 0x400;
         }
@@ -410,15 +410,15 @@ void DrawRaceItemSlot(RaceHudOamBuffer *oamBuffer) {
         scaledLowerItemPos[1] = (scrollY + 0x18) << 12;
         oam = &oamBuffer->mOams[oamIndex];
         oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(oam, 0x80 - oamIndex, cell, matrix, scaledLowerItemPos, matrixIndex, 1);
+            NNS_G2dMakeCellToOams(oam, 0x80 - oamIndex, cell, &matrix, scaledLowerItemPos, matrixIndex, 1);
         for (; oamIndex < oamBuffer->mOamCount; oamIndex++, oam++) {
             ((u32 *) oam)[1] = (((u32 *) oam)[1] & ~0xc00) | 0x400;
         }
         matrixOams = &oamBuffer->mOams[matrixIndex * 4];
-        matrixOams[0].mUnk_00[3] = matrix[0] >> 4;
-        matrixOams[1].mUnk_00[3] = matrix[1] >> 4;
-        matrixOams[2].mUnk_00[3] = matrix[2] >> 4;
-        matrixOams[3].mUnk_00[3] = matrix[3] >> 4;
+        matrixOams[0].mUnk_00[3] = matrix.mUnk_00[0] >> 4;
+        matrixOams[1].mUnk_00[3] = matrix.mUnk_00[1] >> 4;
+        matrixOams[2].mUnk_00[3] = matrix.mUnk_00[2] >> 4;
+        matrixOams[3].mUnk_00[3] = matrix.mUnk_00[3] >> 4;
     }
     cell = GetRaceMNcerEntry(0xb);
     lastPos[0] = 0x18000;

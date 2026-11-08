@@ -66,7 +66,7 @@ void ClearTxtSystemCanvasInUse(void) {
     }
 }
 
-static inline void func_021274ec_inline(Unk0217d3f0_2178 *textCanvas, CharCanvas *charCanvas, u32 font) {
+static inline void func_021274ec_inline(Unk0217d3f0_2178 *textCanvas, Unk02023374 *charCanvas, u32 font) {
     textCanvas->mUnk_00 = charCanvas;
     textCanvas->mUnk_04 = font;
     textCanvas->mUnk_08 = 1;
@@ -76,7 +76,7 @@ static inline void func_021274ec_inline(Unk0217d3f0_2178 *textCanvas, CharCanvas
 s32 InitTxtSystem(void *heap, TxtSystemArgs *args) {
     s32 subCharOffset;
     s32 i;
-    CharCanvas *charCanvas;
+    Unk02023374 *charCanvas;
 
     subCharOffset = args->mSubCharOffset;
     gTxtSystem = HeapAlloc(heap, 0x2278);
@@ -648,7 +648,7 @@ void func_021266e4(void *text) {
 
 void func_02126638(void *text, s32 mainBlendPlanes, s32 subBlendPlanes, s32 openFromIndex, s32 closeToIndex,
                    s32 mainAnim, s32 subAnim) {
-    CharCanvas *charCanvas;
+    Unk02023374 *charCanvas;
 
     charCanvas = &gTxtSystem->mCharCanvases[0];
     charCanvas->mUnk_18(charCanvas, 0xf);
@@ -669,7 +669,7 @@ void func_02126638(void *text, s32 mainBlendPlanes, s32 subBlendPlanes, s32 open
 
 void func_0212658c(void *text, u32 mainBlendPlanes, u32 subBlendPlanes, u32 openFromIndex, u32 closeToIndex,
                    u32 mainAnim, u32 subAnim) {
-    CharCanvas *charCanvas;
+    Unk02023374 *charCanvas;
 
     charCanvas = &gTxtSystem->mCharCanvases[1];
     charCanvas->mUnk_18(charCanvas, 0xf);
@@ -702,7 +702,7 @@ void SetupTxtSystemMainTextButton(void *text, void *buttonText) {
 
 void SetupTxtSystemMainTextButtonEx(void *text, void *buttonText, u32 mainBlendPlanes, u32 subBlendPlanes,
                                     u32 openFromIndex, u32 closeToIndex, u32 mainAnim) {
-    CharCanvas *charCanvas;
+    Unk02023374 *charCanvas;
 
     charCanvas = &gTxtSystem->mCharCanvases[0];
     charCanvas->mUnk_18(charCanvas, 0xf);
@@ -734,7 +734,7 @@ void SetupTxtSystemMainTextTwoButtons(void *text, void *buttonText, void *second
 void SetupTxtSystemMainTextTwoButtonsEx(void *text, void *buttonText, void *secondButtonText, u32 selectedIndex,
                                         u32 mainBlendPlanes, u32 subBlendPlanes, u32 openFromIndex, u32 closeToIndex,
                                         u32 mainAnim) {
-    CharCanvas *charCanvas;
+    Unk02023374 *charCanvas;
 
     charCanvas = &gTxtSystem->mCharCanvases[0];
     charCanvas->mUnk_18(charCanvas, 0xf);
@@ -778,7 +778,7 @@ void SetupTxtSystemSubText(void *text) {
 
 void SetupTxtSystemSubTextEx(void *text, u32 mainBlendPlanes, u32 subBlendPlanes, u32 openFromIndex, u32 closeToIndex,
                              u32 subAnim) {
-    CharCanvas *charCanvas;
+    Unk02023374 *charCanvas;
 
     charCanvas = &gTxtSystem->mCharCanvases[2];
     charCanvas->mUnk_18(charCanvas, 0xf);
@@ -812,7 +812,7 @@ void SetupTxtSystemSubTextButton(void *text, void *buttonText) {
 
 void SetupTxtSystemSubTextButtonEx(void *text, void *buttonText, u32 mainBlendPlanes, u32 subBlendPlanes,
                                    u32 openFromIndex, u32 closeToIndex) {
-    CharCanvas *charCanvas;
+    Unk02023374 *charCanvas;
 
     charCanvas = &gTxtSystem->mCharCanvases[2];
     charCanvas->mUnk_18(charCanvas, 0xf);
@@ -843,7 +843,7 @@ void SetupTxtSystemSubTextTwoButtons(void *text, void *buttonText, void *secondB
 
 void SetupTxtSystemSubTextTwoButtonsEx(void *text, void *buttonText, void *secondButtonText, u32 selectedIndex,
                                        u32 mainBlendPlanes, u32 subBlendPlanes, u32 openFromIndex, u32 closeToIndex) {
-    CharCanvas *charCanvas;
+    Unk02023374 *charCanvas;
 
     charCanvas = &gTxtSystem->mCharCanvases[2];
     charCanvas->mUnk_18(charCanvas, 0xf);

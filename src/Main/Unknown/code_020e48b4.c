@@ -44,10 +44,10 @@
 #include "Main/Unknown/code_020e6f50.h"
 #include "Main/Unknown/unk_0217b000.h"
 
-PukupukuKindData *CreatePukupukuKindData(void) {
-    PukupukuKindData *kindData;
+MapObjectKindData *CreatePukupukuKindData(void) {
+    MapObjectKindData *kindData;
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *kindData = *(PukupukuKindData *) data_02159070;
+    *kindData = data_02159070;
     return kindData;
 }
 

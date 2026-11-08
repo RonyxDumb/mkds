@@ -33,7 +33,7 @@ extern u8 data_02159114[];
 extern u8 data_02159140[];
 extern u8 data_02159018[];
 extern u8 data_02159044[];
-extern u8 data_02159070[];
+extern struct MapObjectKindData data_02159070;
 extern u16 data_021590b0;
 extern u32 data_021590e8;
 extern u8 data_021590ec[];

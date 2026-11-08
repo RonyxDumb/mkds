@@ -51,24 +51,24 @@ void func_020d1de8(RaceHudOamBuffer *oamBuffer, s32 startFrames) {
         return;
     }
     if (startFrames < 0x14) {
-        s32 *matrix;
+        MtxFx22 *matrix;
 
         scale = scaleTable[startFrames];
-        Matrix2x2ReciprocalScale(gRaceMNumberPair->mScaleMatrix, scale);
+        Matrix2x2ReciprocalScale(&gRaceMNumberPair->mScaleMatrix, scale);
         gRaceMNumberPair->mOffsetX = 0;
-        gRaceMNumberPair->mCellMatrix = gRaceMNumberPair->mScaleMatrix;
+        gRaceMNumberPair->mCellMatrix = &gRaceMNumberPair->mScaleMatrix;
         gRaceMNumberPair->mScale = scale;
         gRaceMNumberPair->mMatrixIndex = AllocOamMatrixIndex(oamBuffer);
         matrix = gRaceMNumberPair->mCellMatrix;
         matrixOams = &oamBuffer->mOams[gRaceMNumberPair->mMatrixIndex * 4];
-        matrixOams[0].mUnk_00[3] = matrix[0] >> 4;
-        matrixOams[1].mUnk_00[3] = matrix[1] >> 4;
-        matrixOams[2].mUnk_00[3] = matrix[2] >> 4;
-        matrixOams[3].mUnk_00[3] = matrix[3] >> 4;
-        gRaceMNumberPair->mCellMatrix[3] = gRaceMNumberPair->mScale;
-        gRaceMNumberPair->mCellMatrix[0] = gRaceMNumberPair->mCellMatrix[3];
-        gRaceMNumberPair->mCellMatrix[2] = 0;
-        gRaceMNumberPair->mCellMatrix[1] = gRaceMNumberPair->mCellMatrix[2];
+        matrixOams[0].mUnk_00[3] = matrix->mUnk_00[0] >> 4;
+        matrixOams[1].mUnk_00[3] = matrix->mUnk_00[1] >> 4;
+        matrixOams[2].mUnk_00[3] = matrix->mUnk_00[2] >> 4;
+        matrixOams[3].mUnk_00[3] = matrix->mUnk_00[3] >> 4;
+        gRaceMNumberPair->mCellMatrix->mUnk_00[3] = gRaceMNumberPair->mScale;
+        gRaceMNumberPair->mCellMatrix->mUnk_00[0] = gRaceMNumberPair->mCellMatrix->mUnk_00[3];
+        gRaceMNumberPair->mCellMatrix->mUnk_00[2] = 0;
+        gRaceMNumberPair->mCellMatrix->mUnk_00[1] = gRaceMNumberPair->mCellMatrix->mUnk_00[2];
         return;
     }
     if (startFrames < 0x78) {
@@ -87,7 +87,7 @@ void func_020d1de8(RaceHudOamBuffer *oamBuffer, s32 startFrames) {
 void DrawRaceMNumberPairTwoDigit(RaceHudOamBuffer *oamBuffer) {
     s32 spriteX[5] = {175, 190, 203, 216, 231};
     Unk020224e0_c *cell;
-    s32 *matrix = NULL;
+    MtxFx22 *matrix = NULL;
     u16 matrixIndex;
     s32 position0[2];
     s32 position1[2];
@@ -138,7 +138,7 @@ void DrawRaceMNumberPairTwoDigit(RaceHudOamBuffer *oamBuffer) {
 void DrawRaceMNumberPairOneDigit(RaceHudOamBuffer *oamBuffer) {
     s32 spriteX[3] = {205, 218, 231};
     Unk020224e0_c *cell;
-    s32 *matrix;
+    MtxFx22 *matrix;
     u16 matrixIndex;
     s32 position0[2];
     s32 position1[2];

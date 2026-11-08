@@ -16,18 +16,12 @@ typedef struct Unk020d6538_a {
 #include "code_02146d78.h"
 #include "Main/Unknown/code_020e6fd4.h"
 
-// Second half of the 0x5c-byte object behind data_0217b650: the words from 0x2c, then three more.
-typedef struct RockShadowMatrix {
-    /* 00 */ MtxFx33 mUnk_00;
-    /* 24 */ Vec3 mUnk_24;
-} RockShadowMatrix;
-
 // 0x5c-byte object that CreateRock2DrawList and CreateRockDrawList allocate and fill from a table; func_020d49d8 stores
 // the address of its pointer at 0x28.
 typedef struct RockDrawList {
     /* 00 */ u8 mUnk_00[0x28];
     /* 28 */ struct RockDrawList **mListSlot;
-    /* 2c */ RockShadowMatrix mShadowMatrix;
+    /* 2c */ MtxFx43 mShadowMatrix;
 } RockDrawList;
 
 // 0x28-byte object that CreateRockUpdateList allocates and fills from a table; SetUpdateListSlot stores the address of

@@ -1,8 +1,7 @@
 #pragma once
 
 #include "types.h"
-
-typedef struct MtxFx43 MtxFx43;
+#include "code_02012b30.h" // MtxFx43
 
 // Object behind gJgShadow; only the field at 0x6e is used here.
 typedef struct Unk020e5348 {
@@ -66,7 +65,7 @@ extern Unk020e54e4 *data_0217b818;
 
 // Destination of RefreshShadowMatrix.
 typedef struct ShadowMatrix {
-    /* 000 */ s32 mMatrix[12];
+    /* 000 */ MtxFx43 mMatrix;
     /* 030 */ u16 mAlphaCap;
 } ShadowMatrix;
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "code_02012b30.h" // MtxFx22
 #include "Main/Unknown/unk_02165000.h" // Unk02165ff0
 #include "Main/Unknown/code_020846c0.h" // ResFileEntry
 #include "code_0212d214.h"
@@ -14,7 +15,7 @@
 #include "Main/Unknown/code_0209bc74.h" // MapObjectModel
 #include "Main/Unknown/unk_02158000.h"
 #include "Main/Unknown/code_0208fd8c.h"
-#include "Main/Unknown/unk_0217d000.h" // CharCanvas
+#include "Main/Unknown/unk_0217d000.h" // Unk02023374
 #include "Main/Unknown/types_02180728.h" // TextCanvas
 #include "Main/Unknown/code_020ae000.h"
 #include "Main/Unknown/code_020ae630.h"
@@ -122,8 +123,8 @@ typedef struct RaceMNumberPair {
     // drawn). mUnk_3d8 has another meaning (score threshold) in mode 2 and for mUnk_1c == 1; this member never copies
     // that one.
     /* 04 */ s32 mCourseCount;
-    /* 08 */ s32 mScaleMatrix[4];
-    /* 18 */ s32 *mCellMatrix;
+    /* 08 */ MtxFx22 mScaleMatrix;
+    /* 18 */ MtxFx22 *mCellMatrix;
     /* 1c */ s32 mScale;
     /* 20 */ u16 mMatrixIndex;
     /* 22 */ u8 mUnk_22[2];
@@ -162,7 +163,7 @@ typedef struct EmblemChoises {
     /* 24 */ s32 mUnk_24;
     /* 28 */ s32 mChoisesCount;
     /* 2c */ void *mUnk_2c;
-    /* 30 */ CharCanvas mUnk_30;
+    /* 30 */ Unk02023374 mUnk_30;
     /* 50 */ TextCanvas mUnk_50;
     /* 60 */ struct Nclr *mChoisesSBNclr;
     /* 64 */ struct Ncgr *mChoisesSBNcgr;
@@ -662,7 +663,7 @@ typedef struct RaceRankList {
     /* 0e0 */ s32 mSlideX;
     /* 0e4 */ u16 mOamMatrixIndex;
     /* 0e6 */ u8 mUnk_0e6[2];
-    /* 0e8 */ s32 mMatrix[4];
+    /* 0e8 */ MtxFx22 mMatrix;
     /* 0f8 */ u16 mMoveFrames;
     /* 0fa */ u8 mUnk_0fa[2];
     /* 0fc */ RaceRankListItemInUse mItemsInUse[8];
@@ -851,14 +852,6 @@ typedef struct Unk0217b3e4_790 {
     /* 34 */ s32 mUnk_34[3];
 } Unk0217b3e4_790;
 
-// 0x10-byte elements of the table at member 0x810 of RaceTaPositions.
-typedef struct Matrix2x2 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-} Matrix2x2;
-
 // Object behind gRaceTaPositions, 0x910 bytes, allocated by InitRaceTaPositions.
 typedef struct RaceTaPositions {
     /* 000 */ s32 mVisible;
@@ -866,7 +859,7 @@ typedef struct RaceTaPositions {
     /* 00c */ s32 mSampleFrames;
     /* 010 */ RaceTaPositionSample mSamples[2][0x28];
     /* 790 */ Unk0217b3e4_790 mUnk_790[2];
-    /* 810 */ Matrix2x2 mRotations[16];
+    /* 810 */ MtxFx22 mRotations[16];
 } RaceTaPositions;
 
 extern RaceTaPositions *gRaceTaPositions;

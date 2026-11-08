@@ -20,26 +20,26 @@
 
 void SetLayoutEntryAngleAndScale(LayoutTableEntry *entry, s32 angle, s32 scale) {
     s32 pairIndex;
-    s32 *dividedValues;
-    s32 *matrix;
+    MtxFx22 *dividedValues;
+    MtxFx22 *matrix;
     s64 inverseScale;
     s32 cosine;
     s32 sine;
     pairIndex = (angle >> 4) * 2;
-    dividedValues = entry->mUnk_14;
-    matrix = entry->mMatrix;
+    dividedValues = &entry->mUnk_14;
+    matrix = &entry->mMatrix;
     inverseScale = FX_Div(0x1000, scale);
     cosine = gPairsByAngle[pairIndex + 1];
-    entry->mUnk_14[0] = ((s64) cosine * inverseScale) >> 12;
+    entry->mUnk_14.mUnk_00[0] = ((s64) cosine * inverseScale) >> 12;
     sine = gPairsByAngle[pairIndex];
-    dividedValues[1] = ((s64) sine * inverseScale) >> 12;
-    dividedValues[2] = -dividedValues[1];
-    dividedValues[3] = entry->mUnk_14[0];
+    dividedValues->mUnk_00[1] = ((s64) sine * inverseScale) >> 12;
+    dividedValues->mUnk_00[2] = -dividedValues->mUnk_00[1];
+    dividedValues->mUnk_00[3] = entry->mUnk_14.mUnk_00[0];
     MTX_Rot22_(matrix, sine, cosine);
-    entry->mMatrix[0] = FX_MulFunc(entry->mMatrix[0], scale);
-    matrix[1] = FX_MulFunc(matrix[1], scale);
-    matrix[2] = FX_MulFunc(matrix[2], scale);
-    matrix[3] = FX_MulFunc(matrix[3], scale);
+    entry->mMatrix.mUnk_00[0] = FX_MulFunc(entry->mMatrix.mUnk_00[0], scale);
+    matrix->mUnk_00[1] = FX_MulFunc(matrix->mUnk_00[1], scale);
+    matrix->mUnk_00[2] = FX_MulFunc(matrix->mUnk_00[2], scale);
+    matrix->mUnk_00[3] = FX_MulFunc(matrix->mUnk_00[3], scale);
 }
 
 BOOL func_02124ae4(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout) {
@@ -323,11 +323,11 @@ s32 InitLabelCanvas(void *heap, s32 labelIndex, Unk0201ea30 *labelLayout, s32 wi
     canvas->mTextCanvas.mUnk_18 = ((j - 0x100) >> 5) - blockCount;
     canvas->mTextCanvas.mUnk_10 = HeapAlloc(heap, canvas->mTextCanvas.mUnk_14);
     NNS_G2dCharCanvasInitForOBJ1D(canvas, canvas->mTextCanvas.mUnk_10, widthBlocks, heightBlocks, 4);
-    canvas->mUnk_18(canvas, 0);
+    canvas->mUnk_00.mUnk_18(&canvas->mUnk_00, 0);
     sb = labelEntry->mLineSpacing;
     sa = labelEntry->mCharSpacing;
     font = GetFontByIndex(labelEntry->mFontIndex);
-    canvas->mTextCanvas.mCharCanvas = canvas;
+    canvas->mTextCanvas.mCharCanvas = &canvas->mUnk_00;
     canvas->mTextCanvas.mFont = font;
     canvas->mTextCanvas.mCharSpacing = sa;
     canvas->mTextCanvas.mLineSpacing = sb;
@@ -431,7 +431,7 @@ void PrintLabelLayoutText(s32 queueSelector, s32 labelIndex, Unk0201ea30 *labelL
         flags |= 0x100;
         offsetY = alignedHeight - canvasHeight;
     }
-    canvas->mUnk_18(canvas, 0);
+    canvas->mUnk_00.mUnk_18(&canvas->mUnk_00, 0);
     func_02125808(&canvas->mTextCanvas, offsetX, offsetY, canvasWidth, canvasHeight, labelEntry->mColor, flags,
                   labelEntry->mAxisX.mUnk_00_14, text, g, h);
     chars = canvas->mTextCanvas.mUnk_10;
@@ -469,7 +469,7 @@ void ClearAndQueueLabelLayoutText(s32 queueSelector, s32 labelIndex, Unk0201ea30
     s32 charBytes;
     func_0201ea58(labelLayout, labelIndex);
     canvas = (table + cellLayout->mUnk_06 + labelIndex)->mLabelCanvas;
-    canvas->mUnk_18(canvas, 0);
+    canvas->mUnk_00.mUnk_18(&canvas->mUnk_00, 0);
     chars = canvas->mTextCanvas.mUnk_10;
     destOffset = canvas->mTextCanvas.mUnk_18 << 5;
     charBytes = canvas->mTextCanvas.mUnk_14;

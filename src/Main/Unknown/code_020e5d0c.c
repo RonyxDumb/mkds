@@ -168,7 +168,7 @@ void UpdatePendulum(u32 param_1, PendulumObject *pendulum) {
             func_0210b7a8(&soundRequest);
         }
     }
-    QuaternionMultiplyAngleAroundZ(pendulum->mRotationQuaternion, swingAngle, swingRotation);
+    QuaternionMultiplyAngleAroundZ(&pendulum->mRotationQuaternion, swingAngle, swingRotation);
     Matrix3x3FromQuaternion(&pendulum->mMapObject.mMatrix.mUnk_00_m, swingRotation);
     VEC_MultAdd(-pendulum->mCourseRowDistance, &pendulum->mMapObject.mMatrix.mUnk_00[1], &pendulum->mCourseRowPos,
                 &pendulum->mMapObject.mPos);
@@ -243,7 +243,7 @@ void InitPendulum(PendulumObject *pendulum, Unk020e5e24_2 *courseRow) {
     s32 m;
 
     pendulum->mMapObject.mExtent.y = ((s64) pendulum->mMapObject.mKindData->mUnk_10 * courseRow->mUnk_20) >> 12;
-    QuaternionFromVec3Degrees(&courseRow->mUnk_0c, pendulum->mRotationQuaternion);
+    QuaternionFromVec3Degrees(&courseRow->mUnk_0c, &pendulum->mRotationQuaternion);
     pendulum->mShadowMatrix = *(Unk020e43a8_28 *) &pendulum->mMapObject.mMatrix;
     pendulum->mCourseRowDistance = ((s64) pendulum->mMapObject.mScale.y * 0x1f4000) >> 12;
     pendulum->mSwingAngle = 0;

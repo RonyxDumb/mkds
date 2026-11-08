@@ -71,7 +71,6 @@ typedef struct Unk02022b10 {
     /* 04 */ s32 mUnk_04;
 } Unk02022b10;
 
-#include "Main/Unknown/code_02124094.h" // Unk02022eb0
 
 #include "g2d_NSC_load.h" // Unk02021f9c
 

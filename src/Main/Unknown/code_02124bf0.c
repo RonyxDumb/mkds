@@ -28,7 +28,7 @@ u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout, Unk0
                     LayoutTableEntry *entry, s32 incrementFlag) {
     s32 width;
     s32 height;
-    s32 *matrix;
+    MtxFx22 *matrix;
     Unk0201ea84 axisRecords[3];
     s32 position[2];
     Unk020224e0_c *cellData;
@@ -82,12 +82,12 @@ u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout, Unk0
     }
     groupIndex = GetOamMatrixCount(oamList);
     if (entry->mUseMatrix != 0) {
-        matrix = entry->mMatrix;
+        matrix = &entry->mMatrix;
         group = &oamList->mUnk_000[groupIndex];
-        group->mUnk_00[0].mUnk_00[3] = entry->mUnk_14[0] >> 4;
-        group->mUnk_00[1].mUnk_00[3] = entry->mUnk_14[1] >> 4;
-        group->mUnk_00[2].mUnk_00[3] = entry->mUnk_14[2] >> 4;
-        group->mUnk_00[3].mUnk_00[3] = entry->mUnk_14[3] >> 4;
+        group->mUnk_00[0].mUnk_00[3] = entry->mUnk_14.mUnk_00[0] >> 4;
+        group->mUnk_00[1].mUnk_00[3] = entry->mUnk_14.mUnk_00[1] >> 4;
+        group->mUnk_00[2].mUnk_00[3] = entry->mUnk_14.mUnk_00[2] >> 4;
+        group->mUnk_00[3].mUnk_00[3] = entry->mUnk_14.mUnk_00[3] >> 4;
         if (incrementFlag != 0) {
             IncrementOamMatrixCount(oamList);
         }

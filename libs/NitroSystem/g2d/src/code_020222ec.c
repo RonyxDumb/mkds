@@ -86,7 +86,7 @@ static inline u32 G2_GetOBJEffect(u32 attr) {
     return (effect == 0x100 || effect == 0x300) ? effect : (effect | (attr & 0x30000000));
 }
 
-static inline void MulMtx22(const s32 *mtx, const s32 *pSrc, s32 *pDst) {
+static inline void MulMtx22(const MtxFx22 *mtx, const s32 *pSrc, s32 *pDst) {
     s32 buffer[2];
     s32 *result;
 
@@ -94,15 +94,15 @@ static inline void MulMtx22(const s32 *mtx, const s32 *pSrc, s32 *pDst) {
     if (pSrc == pDst) {
         result = buffer;
     }
-    result[0] = ((s64) mtx[2] * pSrc[1] + 0x1000 + (s64) mtx[0] * pSrc[0]) >> 12;
-    result[1] = ((s64) mtx[3] * pSrc[1] + 0x1000 + (s64) mtx[1] * pSrc[0]) >> 12;
+    result[0] = ((s64) mtx->mUnk_00[2] * pSrc[1] + 0x1000 + (s64) mtx->mUnk_00[0] * pSrc[0]) >> 12;
+    result[1] = ((s64) mtx->mUnk_00[3] * pSrc[1] + 0x1000 + (s64) mtx->mUnk_00[1] * pSrc[0]) >> 12;
     if (result == buffer) {
         pDst[0] = buffer[0];
         pDst[1] = buffer[1];
     }
 }
 
-u16 NNS_G2dMakeCellToOams(GXOamAttr *pDstOams, u16 numDstOam, Unk020224e0_c *pCell, s32 *pMtxSR, s32 *pBaseTrans,
+u16 NNS_G2dMakeCellToOams(GXOamAttr *pDstOams, u16 numDstOam, Unk020224e0_c *pCell, MtxFx22 *pMtxSR, s32 *pBaseTrans,
                           u16 affineIndex, s32 bDoubleAffine) {
     u16 i;
     u16 numAttrs;
@@ -165,8 +165,10 @@ u16 NNS_G2dMakeCellToOams(GXOamAttr *pDstOams, u16 numDstOam, Unk020224e0_c *pCe
                 size = (sizeBits & 0xc0000000) >> 30;
                 halfWidth = data_021530d0[shape][size] >> 1;
                 halfHeight = data_021530b8[shape][size] >> 1;
-                oamOffset[0] += pMtxSR[0] * halfWidth + (s32) - (halfWidth << 12) + pMtxSR[2] * halfHeight;
-                oamOffset[1] += pMtxSR[1] * halfWidth + (s32) - (halfHeight << 12) + pMtxSR[3] * halfHeight;
+                oamOffset[0] +=
+                    pMtxSR->mUnk_00[0] * halfWidth + (s32) - (halfWidth << 12) + pMtxSR->mUnk_00[2] * halfHeight;
+                oamOffset[1] +=
+                    pMtxSR->mUnk_00[1] * halfWidth + (s32) - (halfHeight << 12) + pMtxSR->mUnk_00[3] * halfHeight;
                 if (shouldAdjust != 0) {
                     oamOffset[0] -= halfWidth << 12;
                     oamOffset[1] -= halfHeight << 12;

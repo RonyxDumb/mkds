@@ -620,10 +620,10 @@ void InitRaceTaPositions(void) {
     for (a = 0; a < 16; a++) {
         s32 pairFirst = gPairsByAngle[((u16) (a * 0x10000 / 16) >> 4) * 2];
         s32 pairSecond = gPairsByAngle[((u16) (a * 0x10000 / 16) >> 4) * 2 + 1];
-        gRaceTaPositions->mRotations[a].mUnk_00 = pairSecond;
-        gRaceTaPositions->mRotations[a].mUnk_04 = pairFirst;
-        gRaceTaPositions->mRotations[a].mUnk_08 = -pairFirst;
-        gRaceTaPositions->mRotations[a].mUnk_0c = pairSecond;
+        gRaceTaPositions->mRotations[a].mUnk_00[0] = pairSecond;
+        gRaceTaPositions->mRotations[a].mUnk_00[1] = pairFirst;
+        gRaceTaPositions->mRotations[a].mUnk_00[2] = -pairFirst;
+        gRaceTaPositions->mRotations[a].mUnk_00[3] = pairSecond;
     }
 }
 
@@ -787,7 +787,7 @@ void DrawRaceTaPositions(RaceHudOamBuffer *oamBuffer) {
                         sampleOam = &oamBuffer->mOamBits[sampleOamIndex];
                         oamBuffer->mOamCount +=
                             NNS_G2dMakeCellToOams((GXOamAttr *) sampleOam, 0x80 - sampleOamIndex, sampleCell,
-                                                  &gRaceTaPositions->mRotations[rotationIndex].mUnk_00,
+                                                  &gRaceTaPositions->mRotations[rotationIndex],
                                                   sampleCellPosition, rotationIndex + firstRotationSlot, 1);
                         for (; sampleOamIndex < oamBuffer->mOamCount; sampleOamIndex++, sampleOam++) {
                             if ((i != 0 ? 1 : -1) != -1) {
@@ -803,10 +803,10 @@ void DrawRaceTaPositions(RaceHudOamBuffer *oamBuffer) {
         }
     }
     for (i = 0; i < 16; i++) {
-        Matrix2x2 *rotation = &gRaceTaPositions->mRotations[i];
-        (oamBuffer->mMatrices + firstRotationSlot)[i].mUnk_06 = rotation->mUnk_00 >> 4;
-        (oamBuffer->mMatrices + firstRotationSlot)[i].mUnk_0e = rotation->mUnk_04 >> 4;
-        (oamBuffer->mMatrices + firstRotationSlot)[i].mUnk_16 = rotation->mUnk_08 >> 4;
-        (oamBuffer->mMatrices + firstRotationSlot)[i].mUnk_1e = rotation->mUnk_0c >> 4;
+        MtxFx22 *rotation = &gRaceTaPositions->mRotations[i];
+        (oamBuffer->mMatrices + firstRotationSlot)[i].mUnk_06 = rotation->mUnk_00[0] >> 4;
+        (oamBuffer->mMatrices + firstRotationSlot)[i].mUnk_0e = rotation->mUnk_00[1] >> 4;
+        (oamBuffer->mMatrices + firstRotationSlot)[i].mUnk_16 = rotation->mUnk_00[2] >> 4;
+        (oamBuffer->mMatrices + firstRotationSlot)[i].mUnk_1e = rotation->mUnk_00[3] >> 4;
     }
 }

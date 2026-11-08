@@ -301,7 +301,7 @@ void DrawTextLines(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, 
             }
         } else {
             if (fixedAdvance == -1 || (fixedDigitsOnly != 0 && !func_021253f8_inline(charCode))) {
-                x += NNS_G2dCharCanvasDrawChar((Unk02023374 *) textCanvas->mCharCanvas, textCanvas->mFont, x, y, color,
+                x += NNS_G2dCharCanvasDrawChar(textCanvas->mCharCanvas, textCanvas->mFont, x, y, color,
                                                charCode);
             } else {
                 glyphIndex = NNS_G2dFontFindGlyphIndex(font, charCode);
@@ -310,7 +310,7 @@ void DrawTextLines(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, 
                 }
                 charWidths = NNS_G2dFontGetCharWidthsFromIndex(font, glyphIndex);
                 x += (fixedAdvance - charWidths->mCharWidth) >> 1;
-                NNS_G2dCharCanvasDrawChar((Unk02023374 *) textCanvas->mCharCanvas, textCanvas->mFont, x, y, color,
+                NNS_G2dCharCanvasDrawChar(textCanvas->mCharCanvas, textCanvas->mFont, x, y, color,
                                           charCode);
                 x += fixedAdvance - ((fixedAdvance - charWidths->mCharWidth) >> 1);
             }

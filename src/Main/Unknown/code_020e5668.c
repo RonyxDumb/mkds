@@ -1,13 +1,7 @@
 #include "Main/Unknown/code_020e5668.h"
+#include "Main/Unknown/code_020e516c.h"
 
 void SetShadowPositionXZ(ShadowMatrix *shadow, Vec3 *position) {
-    u32 shadowAddress = (u32) shadow;
-    u32 value1 = (u32) position;
-    u32 shadowX;
-    shadowX = position->x;
-    shadowX = ((s32) shadowX >> 4);
-    *(u32 *) ((shadowAddress) + (36)) = shadowX;
-    value1 = position->z;
-    value1 = ((s32) value1 >> 4);
-    *(u32 *) ((shadowAddress) + (44)) = value1;
+    shadow->mMatrix.mUnk_00[3].x = position->x >> 4;
+    shadow->mMatrix.mUnk_00[3].z = position->z >> 4;
 }

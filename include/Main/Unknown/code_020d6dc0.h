@@ -33,7 +33,7 @@ void func_020d76a8(Quaternion *quaternion, s32 angle, Quaternion *result);
 // Blends p toward q by d, toward the negated q when their dot product is negative.
 void QuaternionBlendTowardNearerSign(void *fromPtr, void *toPtr, void *resultPtr, s32 amount);
 void QuaternionNormalizeUnlessNearOne(Quaternion *input, Quaternion *output);
-void QuaternionFromVec3Degrees(Vec3 *degrees, u32 *resultWords);
+void QuaternionFromVec3Degrees(Vec3 *degrees, Quaternion *result);
 s32 Vec3NormalizeAndGetLengthOrZero(Vec3 *vector, Vec3 *result);
 s32 Vec3NormalizeXZAndGetLengthOrZero(Vec3 *vector, Vec3 *result);
 // Writes to c the vector a rotated about the Y axis by the angle b (0x10000 per turn).
