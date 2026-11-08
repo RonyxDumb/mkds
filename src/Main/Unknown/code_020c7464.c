@@ -185,20 +185,20 @@ s32 CreateRaceHudSubScreenKarts(void) {
     s32 i;
 
     gRaceHudSubScreenKarts = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x194);
-    CreateRaceHudSubScreenCellsWithCount(&gRaceHudSubScreenKarts->mUnk_190, 0x18);
+    CreateRaceHudSubScreenCellsWithCount(&gRaceHudSubScreenKarts->mCells, 0x18);
     for (i = 0; i < 8; i++) {
-        gRaceHudSubScreenKarts->mUnk_000[i] = 0;
-        gRaceHudSubScreenKarts->mUnk_020[i] = 0;
-        gRaceHudSubScreenKarts->mUnk_060[i].mUnk_00 = 0;
-        gRaceHudSubScreenKarts->mUnk_060[i].mUnk_04 = 0;
-        gRaceHudSubScreenKarts->mUnk_100[i] = 0;
-        gRaceHudSubScreenKarts->mUnk_130[i] = 0;
+        gRaceHudSubScreenKarts->mVisible[i] = 0;
+        gRaceHudSubScreenKarts->mSpriteHidden[i] = 0;
+        gRaceHudSubScreenKarts->mScreenPos[i].mUnk_00 = 0;
+        gRaceHudSubScreenKarts->mScreenPos[i].mUnk_04 = 0;
+        gRaceHudSubScreenKarts->mAngle[i] = 0;
+        gRaceHudSubScreenKarts->mDrawOrder[i] = 0;
     }
     return 1;
 }
 
 void ClearRaceHudSubScreenKarts(void) {
-    ClearRaceHudSubScreenCells(&gRaceHudSubScreenKarts->mUnk_190);
+    ClearRaceHudSubScreenCells(&gRaceHudSubScreenKarts->mCells);
     gRaceHudSubScreenKarts = NULL;
 }
 
@@ -223,31 +223,32 @@ void UpdateRaceHudSubScreenKarts(void) {
 
     a = GetRaceHudSubScreenScale();
     for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
-        gRaceHudSubScreenKarts->mUnk_000[i] = 0;
-        gRaceHudSubScreenKarts->mUnk_130[i] = i;
+        gRaceHudSubScreenKarts->mVisible[i] = 0;
+        gRaceHudSubScreenKarts->mDrawOrder[i] = i;
         sortKeys[i] = GetKartRank(i & 0xff);
     }
     switch (GetRaceHudSubScreenState()) {
         case 0:
             for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
-                ComputeSubScreenState0KartPosition(i, &gRaceHudSubScreenKarts->mUnk_060[i]);
-                screenX = gRaceHudSubScreenKarts->mUnk_060[i].mUnk_00;
-                screenY = gRaceHudSubScreenKarts->mUnk_060[i].mUnk_04;
+                ComputeSubScreenState0KartPosition(i, &gRaceHudSubScreenKarts->mScreenPos[i]);
+                screenX = gRaceHudSubScreenKarts->mScreenPos[i].mUnk_00;
+                screenY = gRaceHudSubScreenKarts->mScreenPos[i].mUnk_04;
                 if (screenX > -0x10 && screenX < 0x110 && screenY > -0x10 && screenY < 0xd0 && func_0207a84c(i) == 0) {
-                    gRaceHudSubScreenKarts->mUnk_000[i] = 1;
+                    gRaceHudSubScreenKarts->mVisible[i] = 1;
                     if (gRaceSetup->mMode == MODE_TIME_ATTACK &&
                         gRaceSetup->mCurrentEntries[i].mPlayer.mKind == PLAYER_KIND_GHOST) {
                         gRaceHudSubScreenKarts->mUnk_040[i] = 1;
                     } else {
                         gRaceHudSubScreenKarts->mUnk_040[i] = 0;
                     }
-                    GetKartScale(&gRaceHudSubScreenKarts->mUnk_0a0[i], i);
+                    GetKartScale(&gRaceHudSubScreenKarts->mScale[i], i);
                     if (GetKart(i)->mState != KART_STATE_NORMAL) {
-                        gRaceHudSubScreenKarts->mUnk_110[i]++;
-                        gRaceHudSubScreenKarts->mUnk_100[i] = (gRaceHudSubScreenKarts->mUnk_110[i] << 12) % 0x10000;
+                        gRaceHudSubScreenKarts->mNonNormalStateFrames[i]++;
+                        gRaceHudSubScreenKarts->mAngle[i] =
+                            (gRaceHudSubScreenKarts->mNonNormalStateFrames[i] << 12) % 0x10000;
                     } else {
-                        gRaceHudSubScreenKarts->mUnk_100[i] = 0;
-                        gRaceHudSubScreenKarts->mUnk_110[i] = 0;
+                        gRaceHudSubScreenKarts->mAngle[i] = 0;
+                        gRaceHudSubScreenKarts->mNonNormalStateFrames[i] = 0;
                     }
                 }
             }
@@ -255,28 +256,29 @@ void UpdateRaceHudSubScreenKarts(void) {
         case 1:
         case 2:
         case 3:
-            gRaceHudSubScreenKarts->mUnk_190->mCellCount = 0;
+            gRaceHudSubScreenKarts->mCells->mCellCount = 0;
             for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
                 GetKartPos(&kartPosition, i & 0xff);
-                ComputeRaceHudSubScreenKartPosition(i, &gRaceHudSubScreenKarts->mUnk_060[i], a);
-                screenX = gRaceHudSubScreenKarts->mUnk_060[i].mUnk_00;
-                screenY = gRaceHudSubScreenKarts->mUnk_060[i].mUnk_04;
+                ComputeRaceHudSubScreenKartPosition(i, &gRaceHudSubScreenKarts->mScreenPos[i], a);
+                screenX = gRaceHudSubScreenKarts->mScreenPos[i].mUnk_00;
+                screenY = gRaceHudSubScreenKarts->mScreenPos[i].mUnk_04;
                 if (screenX > -0x10 && screenX < 0x110 && screenY > -0x10 && screenY < 0xd0 && func_0207a84c(i) == 0) {
-                    gRaceHudSubScreenKarts->mUnk_000[i] = 1;
+                    gRaceHudSubScreenKarts->mVisible[i] = 1;
                     gRaceHudSubScreenKarts->mUnk_040[i] = func_020b4dc4(i);
-                    GetKartScale(&gRaceHudSubScreenKarts->mUnk_0a0[i], i);
+                    GetKartScale(&gRaceHudSubScreenKarts->mScale[i], i);
                     if (GetKart(i)->mState != KART_STATE_NORMAL) {
-                        gRaceHudSubScreenKarts->mUnk_110[i]++;
-                        gRaceHudSubScreenKarts->mUnk_100[i] = (gRaceHudSubScreenKarts->mUnk_110[i] << 12) % 0x10000;
+                        gRaceHudSubScreenKarts->mNonNormalStateFrames[i]++;
+                        gRaceHudSubScreenKarts->mAngle[i] =
+                            (gRaceHudSubScreenKarts->mNonNormalStateFrames[i] << 12) % 0x10000;
                     } else {
-                        gRaceHudSubScreenKarts->mUnk_100[i] = 0;
-                        gRaceHudSubScreenKarts->mUnk_110[i] = 0;
+                        gRaceHudSubScreenKarts->mAngle[i] = 0;
+                        gRaceHudSubScreenKarts->mNonNormalStateFrames[i] = 0;
                     }
                     gRaceHudSubScreenKarts->mUnk_150[i] = IsPositionOutsideBox(&kartPosition) != 0 ? 2 : 3;
                     itemInUse = &gKartItems[i].mItemInUse;
                     objects = itemInUse->mObjects;
                     objectCount = itemInUse->mObjectCount;
-                    cellCount = gRaceHudSubScreenKarts->mUnk_190->mCellCount;
+                    cellCount = gRaceHudSubScreenKarts->mCells->mCellCount;
                     b = GetRaceHudSubScreenScale();
                     for (j = 0; j < objectCount; j++) {
                         object = objects[j];
@@ -290,51 +292,51 @@ void UpdateRaceHudSubScreenKarts(void) {
                             ComputePointAlongLine(&t, &kartPosition, position);
                             w = t;
                             if (ComputeRaceHudSubScreenPosition(
-                                    &w, &gRaceHudSubScreenKarts->mUnk_190->mCells[cellCount].mDrawPos, b, 0, 1) !=
+                                    &w, &gRaceHudSubScreenKarts->mCells->mCells[cellCount].mDrawPos, b, 0, 1) !=
                                 FALSE) {
                                 switch (object->mKind) {
                                     case 0:
-                                        gRaceHudSubScreenKarts->mUnk_190->mCells[cellCount].mCell =
+                                        gRaceHudSubScreenKarts->mCells->mCells[cellCount].mCell =
                                             GetRaceSNcerEntry(0x4c);
                                         break;
                                     case 1:
-                                        gRaceHudSubScreenKarts->mUnk_190->mCells[cellCount].mCell =
+                                        gRaceHudSubScreenKarts->mCells->mCells[cellCount].mCell =
                                             GetRaceSNcerEntry(0x4d);
                                         break;
                                     case 2:
-                                        gRaceHudSubScreenKarts->mUnk_190->mCells[cellCount].mCell =
+                                        gRaceHudSubScreenKarts->mCells->mCells[cellCount].mCell =
                                             GetRaceSNcerEntry(0x4b);
                                         break;
                                     case 5:
-                                        gRaceHudSubScreenKarts->mUnk_190->mCells[cellCount].mCell =
+                                        gRaceHudSubScreenKarts->mCells->mCells[cellCount].mCell =
                                             GetRaceSNcerEntry(0x56);
                                         break;
                                     case 9:
-                                        gRaceHudSubScreenKarts->mUnk_190->mCells[cellCount].mCell =
+                                        gRaceHudSubScreenKarts->mCells->mCells[cellCount].mCell =
                                             GetRaceSNcerEntry(0x55);
                                         break;
                                     case 7:
-                                        gRaceHudSubScreenKarts->mUnk_190->mCells[cellCount].mCell =
+                                        gRaceHudSubScreenKarts->mCells->mCells[cellCount].mCell =
                                             GetRaceSNcerEntry(0x54);
                                         break;
                                     case 8:
-                                        gRaceHudSubScreenKarts->mUnk_190->mCells[cellCount].mCell =
+                                        gRaceHudSubScreenKarts->mCells->mCells[cellCount].mCell =
                                             GetRaceSNcerEntry(0x4e);
                                         break;
                                     default:
-                                        gRaceHudSubScreenKarts->mUnk_190->mCells[cellCount].mCell =
+                                        gRaceHudSubScreenKarts->mCells->mCells[cellCount].mCell =
                                             GetRaceSNcerEntry(0x4c);
                                         break;
                                 }
-                                gRaceHudSubScreenKarts->mUnk_190->mCells[cellCount].mUnk_0c =
+                                gRaceHudSubScreenKarts->mCells->mCells[cellCount].mUnk_0c =
                                     IsPositionOutsideBox(&w) != 0 ? 2 : 3;
-                                gRaceHudSubScreenKarts->mUnk_190->mCells[cellCount].mUnk_0e =
+                                gRaceHudSubScreenKarts->mCells->mCells[cellCount].mUnk_0e =
                                     (object->mFlags & 0x40000) != 0 ? 1 : 0;
                                 cellCount++;
                             }
                         }
                     }
-                    gRaceHudSubScreenKarts->mUnk_190->mCellCount = cellCount;
+                    gRaceHudSubScreenKarts->mCells->mCellCount = cellCount;
                 }
             }
             break;
@@ -346,9 +348,9 @@ void UpdateRaceHudSubScreenKarts(void) {
             gRaceHudSubScreenKarts->mUnk_170[i] = 0;
         }
         if (i != GetFollowedKartOrEntryIndex() && (GetKart(i)->mUnk_7c & 0x402000) != 0) {
-            gRaceHudSubScreenKarts->mUnk_020[i] = 1;
+            gRaceHudSubScreenKarts->mSpriteHidden[i] = 1;
         } else {
-            gRaceHudSubScreenKarts->mUnk_020[i] = 0;
+            gRaceHudSubScreenKarts->mSpriteHidden[i] = 0;
         }
     }
     for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
@@ -362,7 +364,7 @@ void UpdateRaceHudSubScreenKarts(void) {
     if (gRaceSetup->mMode == MODE_TIME_ATTACK) {
         return;
     }
-    SortIndicesByKey(gRaceHudSubScreenKarts->mUnk_130, sortKeys, gRaceSetup->mKartCount);
+    SortIndicesByKey(gRaceHudSubScreenKarts->mDrawOrder, sortKeys, gRaceSetup->mKartCount);
 }
 
 static inline void func_020c8dbc_inline(RaceHudOamBuffer *oamBuffer, Unk020224e0_c *cell, s32 *matrix, s32 x, s32 y,
@@ -410,8 +412,8 @@ static inline void func_020c8dbc_inline3(RaceHudOamBuffer *oamBuffer, s32 kartIn
         offsetX = (s16) gPairsByAngle[angleIndex * 2 + 1] * 11 >> 12;
         offsetY = (s16) gPairsByAngle[angleIndex * 2] * 11 >> 12;
         cell = GetRaceSNcerEntry(frame % 12 < 6 ? 93 + j * 2 : 94 + j * 2);
-        func_020c8dbc_inline2(oamBuffer, cell, gRaceHudSubScreenKarts->mUnk_060[kartIndex].mUnk_00 + offsetX,
-                              gRaceHudSubScreenKarts->mUnk_060[kartIndex].mUnk_04 + offsetY);
+        func_020c8dbc_inline2(oamBuffer, cell, gRaceHudSubScreenKarts->mScreenPos[kartIndex].mUnk_00 + offsetX,
+                              gRaceHudSubScreenKarts->mScreenPos[kartIndex].mUnk_04 + offsetY);
     }
 }
 
@@ -434,24 +436,25 @@ void DrawRaceHudSubScreenKarts(RaceHudOamBuffer *oamBuffer) {
     switch (GetRaceHudSubScreenState()) {
         case 0:
             for (drawOrderIndex = 0; drawOrderIndex < gRaceSetup->mKartCount; drawOrderIndex++) {
-                kartIndex = gRaceHudSubScreenKarts->mUnk_130[drawOrderIndex];
-                if (gRaceHudSubScreenKarts->mUnk_000[kartIndex] != 0) {
+                kartIndex = gRaceHudSubScreenKarts->mDrawOrder[drawOrderIndex];
+                if (gRaceHudSubScreenKarts->mVisible[kartIndex] != 0) {
                     f = gRaceHudSubScreenKarts->mUnk_040[kartIndex];
-                    if (gRaceHudSubScreenKarts->mUnk_020[kartIndex] == 0) {
-                        if (gRaceHudSubScreenKarts->mUnk_0a0[kartIndex].y != 0x1000 ||
-                            gRaceHudSubScreenKarts->mUnk_110[kartIndex] != 0) {
+                    if (gRaceHudSubScreenKarts->mSpriteHidden[kartIndex] == 0) {
+                        if (gRaceHudSubScreenKarts->mScale[kartIndex].y != 0x1000 ||
+                            gRaceHudSubScreenKarts->mNonNormalStateFrames[kartIndex] != 0) {
                             rotationSlot = AllocOamMatrixIndex(oamBuffer);
                             Matrix2x2RotationReciprocalScale(rotationMatrix,
-                                                             gRaceHudSubScreenKarts->mUnk_0a0[kartIndex].y,
-                                                             gRaceHudSubScreenKarts->mUnk_100[kartIndex]);
+                                                             gRaceHudSubScreenKarts->mScale[kartIndex].y,
+                                                             gRaceHudSubScreenKarts->mAngle[kartIndex]);
                             if (GetKartItemEffect((u16) kartIndex) == 3) {
                                 cell = GetRaceSNcerEntry(0x10);
                             } else {
                                 cell = GetRaceSNcerEntry(kartIndex);
                             }
-                            func_020c8dbc_inline(
-                                oamBuffer, cell, rotationMatrix, gRaceHudSubScreenKarts->mUnk_060[kartIndex].mUnk_00,
-                                gRaceHudSubScreenKarts->mUnk_060[kartIndex].mUnk_04, rotationSlot, f != 0 ? 1 : -1, -1);
+                            func_020c8dbc_inline(oamBuffer, cell, rotationMatrix,
+                                                 gRaceHudSubScreenKarts->mScreenPos[kartIndex].mUnk_00,
+                                                 gRaceHudSubScreenKarts->mScreenPos[kartIndex].mUnk_04, rotationSlot,
+                                                 f != 0 ? 1 : -1, -1);
                             oamBuffer->mMatrices[rotationSlot].mUnk_06 = rotationMatrix[0] >> 4;
                             oamBuffer->mMatrices[rotationSlot].mUnk_0e = rotationMatrix[1] >> 4;
                             oamBuffer->mMatrices[rotationSlot].mUnk_16 = rotationMatrix[2] >> 4;
@@ -463,8 +466,8 @@ void DrawRaceHudSubScreenKarts(RaceHudOamBuffer *oamBuffer) {
                                 cell = GetRaceSNcerEntry(kartIndex);
                             }
                             func_020c8dbc_inline(
-                                oamBuffer, cell, NULL, gRaceHudSubScreenKarts->mUnk_060[kartIndex].mUnk_00,
-                                gRaceHudSubScreenKarts->mUnk_060[kartIndex].mUnk_04, 0, f != 0 ? 1 : -1, -1);
+                                oamBuffer, cell, NULL, gRaceHudSubScreenKarts->mScreenPos[kartIndex].mUnk_00,
+                                gRaceHudSubScreenKarts->mScreenPos[kartIndex].mUnk_04, 0, f != 0 ? 1 : -1, -1);
                         }
                     }
                     if (gRaceHudSubScreenKarts->mUnk_170[kartIndex] != 0) {
@@ -478,23 +481,23 @@ void DrawRaceHudSubScreenKarts(RaceHudOamBuffer *oamBuffer) {
         case 3:
             a = func_020c0dc4();
             for (drawOrderIndex = 0; drawOrderIndex < gRaceSetup->mKartCount; drawOrderIndex++) {
-                kartIndex = gRaceHudSubScreenKarts->mUnk_130[drawOrderIndex];
+                kartIndex = gRaceHudSubScreenKarts->mDrawOrder[drawOrderIndex];
                 g = gRaceHudSubScreenKarts->mUnk_150[kartIndex];
-                if (gRaceHudSubScreenKarts->mUnk_000[kartIndex] != 0 && a <= g) {
-                    if (gRaceHudSubScreenKarts->mUnk_020[kartIndex] == 0) {
-                        screenX = gRaceHudSubScreenKarts->mUnk_060[kartIndex].mUnk_00;
-                        screenY = gRaceHudSubScreenKarts->mUnk_060[kartIndex].mUnk_04;
+                if (gRaceHudSubScreenKarts->mVisible[kartIndex] != 0 && a <= g) {
+                    if (gRaceHudSubScreenKarts->mSpriteHidden[kartIndex] == 0) {
+                        screenX = gRaceHudSubScreenKarts->mScreenPos[kartIndex].mUnk_00;
+                        screenY = gRaceHudSubScreenKarts->mScreenPos[kartIndex].mUnk_04;
                         b = gRaceHudSubScreenKarts->mUnk_040[kartIndex];
-                        if (gRaceHudSubScreenKarts->mUnk_0a0[kartIndex].y != 0x1000 ||
-                            gRaceHudSubScreenKarts->mUnk_110[kartIndex] != 0) {
+                        if (gRaceHudSubScreenKarts->mScale[kartIndex].y != 0x1000 ||
+                            gRaceHudSubScreenKarts->mNonNormalStateFrames[kartIndex] != 0) {
                             n = AllocOamMatrixIndex(oamBuffer);
-                            if (gRaceHudSubScreenKarts->mUnk_110[kartIndex] != 0) {
-                                angle = gRaceHudSubScreenKarts->mUnk_100[kartIndex] +
-                                        GetSubScreenAngleAndClearScrollTimer();
+                            if (gRaceHudSubScreenKarts->mNonNormalStateFrames[kartIndex] != 0) {
+                                angle =
+                                    gRaceHudSubScreenKarts->mAngle[kartIndex] + GetSubScreenAngleAndClearScrollTimer();
                             } else {
                                 angle = 0;
                             }
-                            Matrix2x2RotationReciprocalScale(r1, gRaceHudSubScreenKarts->mUnk_0a0[kartIndex].y, angle);
+                            Matrix2x2RotationReciprocalScale(r1, gRaceHudSubScreenKarts->mScale[kartIndex].y, angle);
                             if (GetKartItemEffect((u16) kartIndex) == 3) {
                                 cell = GetRaceSNcerEntry(0x10);
                             } else {
@@ -519,7 +522,7 @@ void DrawRaceHudSubScreenKarts(RaceHudOamBuffer *oamBuffer) {
                     }
                 }
             }
-            DrawRaceHudSubScreenCells(oamBuffer, gRaceHudSubScreenKarts->mUnk_190, 0);
+            DrawRaceHudSubScreenCells(oamBuffer, gRaceHudSubScreenKarts->mCells, 0);
             break;
     }
 }

@@ -46,7 +46,7 @@
 static inline GrpconfTblRow *func_020d34e4_inline(u16 kind) {
     s32 j;
     for (j = 0; j < 1000; j++) {
-        if (kind == gGrpconfTbl[j].mUnk_00) {
+        if (kind == gGrpconfTbl[j].mKind) {
             return &gGrpconfTbl[j];
         }
     }
@@ -151,8 +151,8 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
                     descriptor->mKindData->mUnk_30 =
                         tableValue != 0 ? (tableValue << 12) + 0.5f : (tableValue << 12) - 0.5f;
                 }
-                if (grpconfRow->mUnk_08 != 0) {
-                    descriptor->mKindData->mShapeKind = grpconfRow->mUnk_08;
+                if (grpconfRow->mShapeKind != 0) {
+                    descriptor->mKindData->mShapeKind = grpconfRow->mShapeKind;
                     tableValue = grpconfRow->mUnk_0a;
                     descriptor->mKindData->mUnk_0c =
                         tableValue != 0 ? (tableValue << 12) + 0.5f : (tableValue << 12) - 0.5f;

@@ -171,11 +171,11 @@ typedef struct EmblemChoises {
 
 // 16-byte rows of the table behind gGrpconfTbl (CreateMapObject reads the halfwords).
 typedef struct GrpconfTblRow {
-    /* 00 */ u16 mUnk_00;
+    /* 00 */ u16 mKind;
     /* 02 */ u16 mUnk_02;
     /* 04 */ u16 mUnk_04;
     /* 06 */ u16 mUnk_06;
-    /* 08 */ u16 mUnk_08;
+    /* 08 */ u16 mShapeKind;
     /* 0a */ u16 mUnk_0a;
     /* 0c */ u16 mUnk_0c;
     /* 0e */ u16 mUnk_0e;
@@ -896,17 +896,17 @@ typedef struct RaceHudSubScreenSecondHand {
 // Object behind gRaceHudSubScreenKarts, 0x194 bytes allocated by CreateRaceHudSubScreenKarts: arrays of eight entries
 // and an RaceHudSubScreenCells pointer at 0x190.
 typedef struct RaceHudSubScreenKarts {
-    /* 000 */ s32 mUnk_000[8];
-    /* 020 */ s32 mUnk_020[8];
+    /* 000 */ s32 mVisible[8];
+    /* 020 */ s32 mSpriteHidden[8];
     /* 040 */ s32 mUnk_040[8];
-    /* 060 */ Unk0217b498_0c mUnk_060[8];
-    /* 0a0 */ Vec3 mUnk_0a0[8];
-    /* 100 */ u16 mUnk_100[8];
-    /* 110 */ s32 mUnk_110[8];
-    /* 130 */ s32 mUnk_130[8];
+    /* 060 */ Unk0217b498_0c mScreenPos[8];
+    /* 0a0 */ Vec3 mScale[8];
+    /* 100 */ u16 mAngle[8];
+    /* 110 */ s32 mNonNormalStateFrames[8];
+    /* 130 */ s32 mDrawOrder[8];
     /* 150 */ s32 mUnk_150[8];
     /* 170 */ s32 mUnk_170[8];
-    /* 190 */ RaceHudSubScreenCells *mUnk_190;
+    /* 190 */ RaceHudSubScreenCells *mCells;
 } RaceHudSubScreenKarts;
 
 extern RaceHudSubScreenSecondHand *gRaceHudSubScreenSecondHand;

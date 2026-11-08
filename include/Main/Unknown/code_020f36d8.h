@@ -215,8 +215,8 @@ typedef struct Unk0217561c_000 {
 
 // Nine words.
 typedef struct RaceProgressScoreTerms {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
+    /* 00 */ s32 mTimeRemainingScore;
+    /* 04 */ s32 mFirstPlaceScore;
     /* 08 */ s32 mUnk_08;
     /* 0c */ s32 mUnk_0c;
     /* 10 */ s32 mUnk_10;

@@ -89,17 +89,17 @@ void ComputeGrandPrixScoreTerms(RaceProgressScoreTerms *scoreTerms, s32 kartInde
     RankTimeGp *rankTimeGpFile = raceProgress->mRankTimeGpFile;
 
     if (raceProgress->mUnk_000[0].mRankTime == 0) {
-        scoreTerms->mUnk_00 = 0;
+        scoreTerms->mTimeRemainingScore = 0;
     } else {
-        scoreTerms->mUnk_00 = (FX_Div(rankTimeGpFile->mUnk_0a * (raceProgress->mUnk_000[0].mRankTime -
-                                                                 raceProgress->mUnk_000[0].mElapsedFrames),
-                                      raceProgress->mUnk_000[0].mRankTime) +
-                               0x800) >>
-                              12;
+        scoreTerms->mTimeRemainingScore = (FX_Div(rankTimeGpFile->mUnk_0a * (raceProgress->mUnk_000[0].mRankTime -
+                                                                             raceProgress->mUnk_000[0].mElapsedFrames),
+                                                  raceProgress->mUnk_000[0].mRankTime) +
+                                           0x800) >>
+                                          12;
     }
-    scoreTerms->mUnk_04 = (rankTimeGpFile->mUnk_0c * FX_Div(raceProgressKart->mFirstPlaceFrames << 12,
-                                                            gRaceProgress->mUnk_000[0].mRankTime << 12)) >>
-                          12;
+    scoreTerms->mFirstPlaceScore = (rankTimeGpFile->mUnk_0c * FX_Div(raceProgressKart->mFirstPlaceFrames << 12,
+                                                                     gRaceProgress->mUnk_000[0].mRankTime << 12)) >>
+                                   12;
     if (entryKartCounters->mUnk_00 != 0) {
         scoreTerms->mUnk_08 = rankTimeGpFile->mUnk_0e;
     } else {
@@ -135,12 +135,13 @@ s16 ComputeRaceProgressKartScore(s32 kartIndex) {
         case MODE_MISSION_RUN:
             missionSettings = (u8 *) raceSetup + 0x28;
             entryKartCounters = GetEntryKartCounters();
-            scoreTerms.mUnk_00 = FX_Div(*(s16 *) (missionSettings + 4) * (*(u16 *) (missionSettings + 2) -
-                                                                          raceProgress->mUnk_000[0].mElapsedFrames)
-                                            << 12,
-                                        0x3e8000) >>
-                                 12;
-            scoreTerms.mUnk_04 = 0;
+            scoreTerms.mTimeRemainingScore =
+                FX_Div(*(s16 *) (missionSettings + 4) *
+                               (*(u16 *) (missionSettings + 2) - raceProgress->mUnk_000[0].mElapsedFrames)
+                           << 12,
+                       0x3e8000) >>
+                12;
+            scoreTerms.mFirstPlaceScore = 0;
             scoreTerms.mUnk_08 = 0;
             scoreTerms.mUnk_0c = 0;
             scoreTerms.mUnk_10 = entryKartCounters->mUnk_08 * -5;
@@ -153,9 +154,9 @@ s16 ComputeRaceProgressKartScore(s32 kartIndex) {
             return 0;
     }
     *savedScoreTerms = scoreTerms;
-    score = savedScoreTerms->mUnk_00 + savedScoreTerms->mUnk_04 + savedScoreTerms->mUnk_08 + savedScoreTerms->mUnk_0c +
-            savedScoreTerms->mUnk_10 + savedScoreTerms->mUnk_14 + savedScoreTerms->mUnk_18 + savedScoreTerms->mUnk_1c +
-            savedScoreTerms->mUnk_20;
+    score = savedScoreTerms->mTimeRemainingScore + savedScoreTerms->mFirstPlaceScore + savedScoreTerms->mUnk_08 +
+            savedScoreTerms->mUnk_0c + savedScoreTerms->mUnk_10 + savedScoreTerms->mUnk_14 + savedScoreTerms->mUnk_18 +
+            savedScoreTerms->mUnk_1c + savedScoreTerms->mUnk_20;
     if (score < -9999) {
         score = -9999;
     }
