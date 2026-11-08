@@ -18,21 +18,16 @@ void func_020cab8c(void) {
 #pragma thumb off
 
 u32 func_020cab74(void) {
-    return ((*(u32 *) (0x04001000u & 0xfffffffc) >> (0x04001000u & 3) * 8 | *(u32 *) (0x04001000u & 0xfffffffc)
-                                                                                << (0x04001000u & 3) * -8 + 0x20) &
-            0x1f00) >>
-           8;
+    return (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
 }
 
 u32 func_020cab58(u32 bits) {
     u32 value0 = bits;
     u32 registerValue;
-    u32 registerAddress;
-    registerAddress = 0x4001000u;
-    registerValue = *(const u32 *) ((registerAddress) + (0));
+    registerValue = reg_GXS_DB_DISPCNT;
     registerValue = (registerValue) & ~(0x1f00u);
     value0 = (registerValue) | ((value0 << 8));
-    *(u32 *) ((registerAddress) + (0)) = value0;
+    reg_GXS_DB_DISPCNT = value0;
     return value0;
 }
 

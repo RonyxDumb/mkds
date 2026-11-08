@@ -71,13 +71,8 @@ void InitRaceItemSlot(void) {
     gRaceItemSlot->mScale.mScaleYTarget = 0x800;
 }
 
-u32 ClearRaceItemSlotPointer(void) {
-    u32 address;
-    u32 zero;
-    address = (u32) &gRaceItemSlot;
-    zero = 0u;
-    *(u32 *) ((address) + (0)) = zero;
-    return address;
+void ClearRaceItemSlotPointer(void) {
+    gRaceItemSlot = NULL;
 }
 
 static inline KartItems *GetKartItemsAtOffset(u32 offset) {
@@ -467,13 +462,8 @@ void InitRaceModeCount(void) {
     gRaceModeCount->mKeyRecordingNotFull = 1;
 }
 
-u32 ClearRaceModeCountPointer(void) {
-    u32 address;
-    u32 zero;
-    address = (u32) &gRaceModeCount;
-    zero = 0u;
-    *(u32 *) ((address) + (0)) = zero;
-    return address;
+void ClearRaceModeCountPointer(void) {
+    gRaceModeCount = NULL;
 }
 
 void UpdateRaceModeCount(void) {

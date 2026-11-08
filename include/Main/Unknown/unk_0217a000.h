@@ -199,7 +199,8 @@ typedef struct BuddyRecord {
 // 60 BuddyRecord entries from 0x04, then the 60 buddy friend data of 0xc bytes each from 0x874.
 typedef struct BuddyRecordBlock {
     /* 00 */ u8 mUnk_00[4];
-    /* 04 */ BuddyRecord mRecords[1];
+    /* 04 */ BuddyRecord mRecords[60];
+    /* 874 */ u8 mUnk_874[60][0xc];
 } BuddyRecordBlock;
 
 // 0xb00 bytes behind member 0x24 of Unk0217aa08: a byte at 0x04 and five 0x200-byte rows from 0x08.

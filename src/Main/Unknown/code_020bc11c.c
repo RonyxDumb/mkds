@@ -81,13 +81,8 @@ void InitRaceRankList(void) {
     gRaceRankList->mMoveFrames = 0;
 }
 
-u32 ClearRaceRankListPointer(void) {
-    u32 pointerAddress;
-    u32 nullValue;
-    pointerAddress = (u32) &gRaceRankList;
-    nullValue = 0u;
-    *(u32 *) ((pointerAddress) + (0)) = nullValue;
-    return pointerAddress;
+void ClearRaceRankListPointer(void) {
+    gRaceRankList = NULL;
 }
 
 // Every 0x1c calls it re-reads each kart's rank and slides its row from the old rank slot to the new one.
@@ -700,13 +695,8 @@ void InitRaceLapNumber(void) {
     gRaceLapNumber->mUnk_10 = 1;
 }
 
-u32 ClearRaceLapNumberPointer(void) {
-    u32 pointerAddress;
-    u32 nullValue;
-    pointerAddress = (u32) &gRaceLapNumber;
-    nullValue = 0u;
-    *(u32 *) ((pointerAddress) + (0)) = nullValue;
-    return pointerAddress;
+void ClearRaceLapNumberPointer(void) {
+    gRaceLapNumber = NULL;
 }
 
 // Values of the first argument DrawRaceLapAndTimeDifference passes to GetRaceTaMNcerEntry.

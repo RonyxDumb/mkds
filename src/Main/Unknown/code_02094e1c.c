@@ -17,15 +17,8 @@
 #include "Main/Unknown/code_02077bc0.h"
 #include "Main/Unknown/code_021000d0.h"
 
-void func_020954e4(u32 mapObject) {
-    u32 value0 = mapObject;
-    u32 value1;
-    u32 value2;
-    value2 = value0;
-    value1 = *(const u32 *) ((value2) + (156));
-    value0 = MAP_OBJECT_KIND_TERESA;
-    value1 = *(const s16 *) ((value1) + (42));
-    CreateParkedMapObjects(value0, value1, (void *) value2);
+void func_020954e4(Unk02094e8c *mapObject) {
+    CreateParkedMapObjects(MAP_OBJECT_KIND_TERESA, mapObject->mUnk_00.mCourseMapRow->mUnk_2a, mapObject);
 }
 
 static inline u32 func_02095228_inline(RandomState64 *randomState64, u32 n) {

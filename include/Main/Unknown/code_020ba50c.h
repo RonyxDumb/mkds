@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 ClearRaceModeCountPointer(void);
+void ClearRaceModeCountPointer(void);

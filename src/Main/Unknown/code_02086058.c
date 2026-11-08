@@ -381,13 +381,7 @@ void DrawKartNameTagTexture(TexPlttEntry *texPlttEntry, KartNameTag *kartObject,
 }
 
 u32 GetKartCameraDistanceSquared(int kartIndex) {
-    u32 value0 = kartIndex;
-    u32 value1;
-    value1 = (u32) &data_0217aed0;
-    value1 = *(const u32 *) ((value1) + (0));
-    value0 = (value1) + ((value0 << 2));
-    value0 = *(const u32 *) ((value0) + (292));
-    return value0;
+    return data_0217aed0->mDistanceSquared[kartIndex];
 }
 
 u16 func_0208606c(int index) {

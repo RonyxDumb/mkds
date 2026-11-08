@@ -13,4 +13,4 @@ void InitRaceModeCount(void);
 BOOL IsRaceKeyRecordingNotFull(void);
 void DrawRaceItemSlot(RaceHudOamBuffer *oamBuffer);
 void UpdateRaceItemSlot(void);
-u32 ClearRaceItemSlotPointer(void);
+void ClearRaceItemSlotPointer(void);

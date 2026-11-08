@@ -25,4 +25,4 @@ u16 func_020951b4(RandomState64 *randomState64);
 RandomState64 *GetRaceLocalRandom(void);
 void func_02095228(MapObjectList *mapObjectList);
 void func_020952dc(Unk02094e8c *a, s32 teresaCountLimit, s32 spawnCount, s32 distanceLimit, s32 timerLimit);
-void func_020954e4(u32 mapObject);
+void func_020954e4(Unk02094e8c *mapObject);
