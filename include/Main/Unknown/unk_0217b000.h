@@ -33,17 +33,17 @@ struct KartBalloons;
 
 // Element of 0x14 bytes of the table behind gBoxRotations.
 typedef struct BoxRotation {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ s32 mUnk_10;
+    /* 00 */ s32 mCosine;
+    /* 04 */ s32 mSine;
+    /* 08 */ s32 mCosineSquared;
+    /* 0c */ s32 mSineSquared;
+    /* 10 */ s32 mCosineSineProduct;
 } BoxRotation;
 
 // Element of 8 bytes of the table behind gQuestionRotations.
 typedef struct QuestionRotation {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
+    /* 00 */ s32 mCosine;
+    /* 04 */ s32 mSine;
 } QuestionRotation;
 
 // UnkPair020b502c of code_020b502c.h is this type.

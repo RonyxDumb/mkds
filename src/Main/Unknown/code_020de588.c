@@ -38,17 +38,17 @@ void CreateBoxAndQuestion(void) {
         angleIndex = (u16) (((u32) boxIndex << 16) / 0x12c) >> 4;
         cosine = gPairsByAngle[angleIndex * 2 + 1];
         sine = gPairsByAngle[angleIndex * 2];
-        gBoxRotations[boxIndex].mUnk_00 = cosine;
-        gBoxRotations[boxIndex].mUnk_04 = sine;
-        gBoxRotations[boxIndex].mUnk_08 = ((s64) cosine * cosine) >> 12;
-        gBoxRotations[boxIndex].mUnk_0c = ((s64) sine * sine) >> 12;
-        gBoxRotations[boxIndex].mUnk_10 = ((s64) cosine * sine) >> 12;
+        gBoxRotations[boxIndex].mCosine = cosine;
+        gBoxRotations[boxIndex].mSine = sine;
+        gBoxRotations[boxIndex].mCosineSquared = ((s64) cosine * cosine) >> 12;
+        gBoxRotations[boxIndex].mSineSquared = ((s64) sine * sine) >> 12;
+        gBoxRotations[boxIndex].mCosineSineProduct = ((s64) cosine * sine) >> 12;
     }
     gQuestionRotations = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x410);
     for (questionIndex = 0; questionIndex < 0x82; questionIndex++) {
         angleIndex = (u16) (((u32) questionIndex << 16) / 0x82) >> 4;
-        gQuestionRotations[questionIndex].mUnk_00 = gPairsByAngle[angleIndex * 2 + 1];
-        gQuestionRotations[questionIndex].mUnk_04 = gPairsByAngle[angleIndex * 2];
+        gQuestionRotations[questionIndex].mCosine = gPairsByAngle[angleIndex * 2 + 1];
+        gQuestionRotations[questionIndex].mSine = gPairsByAngle[angleIndex * 2];
     }
     if (gRaceSetup->mCourseId == COURSE_ID_RAINBOW) {
         gBox->mUnk_14 &= 0xffff7fff;

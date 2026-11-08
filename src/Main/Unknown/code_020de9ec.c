@@ -118,16 +118,16 @@ void DrawBox(void *unused0, ItemBox *itemBox, void *unused1, u16 d) {
         model->mUnk_14 = model->mUnk_14 | newPolygonId << 24;
     } else {
         rotation = &gBoxRotations[itemBox->mBoxRotationIndex];
-        cosine = rotation->mUnk_00;
+        cosine = rotation->mCosine;
         matrix.mUnk_00[0].x = cosine;
-        sine = rotation->mUnk_04;
+        sine = rotation->mSine;
         matrix.mUnk_00[0].y = sine;
         matrix.mUnk_00[0].z = 0;
-        negatedProduct = -rotation->mUnk_10;
+        negatedProduct = -rotation->mCosineSineProduct;
         matrix.mUnk_00[1].x = negatedProduct;
-        matrix.mUnk_00[1].y = rotation->mUnk_08;
+        matrix.mUnk_00[1].y = rotation->mCosineSquared;
         matrix.mUnk_00[1].z = sine;
-        matrix.mUnk_00[2].x = rotation->mUnk_0c;
+        matrix.mUnk_00[2].x = rotation->mSineSquared;
         matrix.mUnk_00[2].y = negatedProduct;
         matrix.mUnk_00[2].z = cosine;
         position = itemBox->mPositionSource;
@@ -181,10 +181,10 @@ void DrawQuestion(void *unused0, ItemBox *itemBox, void *unused1, u16 d) {
         return;
     }
     rotation = &gQuestionRotations[itemBox->mQuestionRotationIndex];
-    cosine = rotation->mUnk_00;
+    cosine = rotation->mCosine;
     matrix.mUnk_00[0].x = cosine;
     matrix.mUnk_00[0].y = 0;
-    negatedSine = -rotation->mUnk_04;
+    negatedSine = -rotation->mSine;
     matrix.mUnk_00[0].z = negatedSine;
     matrix.mUnk_00[1].x = 0;
     matrix.mUnk_00[1].y = 0x1000;
