@@ -46,8 +46,8 @@ void CreateBridge(void) {
 
 void InitBridge(Bridge *bridge, struct CourseMapRow *courseRow) {
     bridge->mUnk_a0.mUnk_e8 = bridge->mMapObject.mPos;
-    bridge->mUnk_a0.mUnk_a0 = *(MtxFx33 *) &bridge->mMapObject.mMatrix;
-    bridge->mUnk_a0.mUnk_c4 = *(MtxFx33 *) &bridge->mMapObject.mMatrix;
+    bridge->mUnk_a0.mUnk_a0 = bridge->mMapObject.mMatrix.mUnk_00_m;
+    bridge->mUnk_a0.mUnk_c4 = bridge->mMapObject.mMatrix.mUnk_00_m;
     bridge->mUnk_a0.mUnk_124.x = 0;
     bridge->mUnk_a0.mUnk_124.y = 0;
     bridge->mUnk_a0.mUnk_124.z = 0;

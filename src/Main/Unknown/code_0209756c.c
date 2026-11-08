@@ -151,8 +151,8 @@ void InitFlipperObjects(MapObjectList *mapObjectList) {
     u32 e;
     Flipper *flipper;
     MtxFx43 *q;
-    s32 m2[9];
-    s32 m1[9];
+    MtxFx33 m2;
+    MtxFx33 m1;
 
     if (mapObjectList == NULL) {
         return;
@@ -165,14 +165,14 @@ void InitFlipperObjects(MapObjectList *mapObjectList) {
                 flipper->mUnk_00.mFlags &= ~0x400;
                 flipper->mUnk_00.mAngle = 0x2000;
                 flipper->mState1Timer = 0x1e;
-                MTX_RotY33_(m2, data_usa_02160fb4[0x74], data_usa_02160fb4[0x75]);
+                MTX_RotY33_(&m2, data_usa_02160fb4[0x74], data_usa_02160fb4[0x75]);
                 break;
             case 1:
                 flipper->mMirror = 1;
                 flipper->mUnk_00.mFlags |= data_usa_02156584;
                 flipper->mUnk_00.mAngle = 0x2000;
                 flipper->mState1Timer = 0x1e;
-                MTX_RotY33_(m2, data_usa_0215d8b4[10], data_usa_0215d8b4[11]);
+                MTX_RotY33_(&m2, data_usa_0215d8b4[10], data_usa_0215d8b4[11]);
                 break;
         }
         flipper->mUnk_ec8 = 0;
@@ -189,10 +189,10 @@ void InitFlipperObjects(MapObjectList *mapObjectList) {
             }
             e = e - d;
             k = (u16) e >> 4;
-            MTX_RotY33_(m1, gPairsByAngle[k * 2], gPairsByAngle[k * 2 + 1]);
+            MTX_RotY33_(&m1, gPairsByAngle[k * 2], gPairsByAngle[k * 2 + 1]);
             q = &flipper->mUnk_a8[j];
-            MTX_Concat33(m1, &flipper->mUnk_00.mMatrix.mUnk_00[0].x, &q->mUnk_00[0].x);
-            MTX_Concat33(m2, &q->mUnk_00[0].x, &flipper->mUnk_648[j].mUnk_00[0].x);
+            MTX_Concat33(&m1, &flipper->mUnk_00.mMatrix.mUnk_00_m, &q->mUnk_00_m);
+            MTX_Concat33(&m2, &q->mUnk_00_m, &flipper->mUnk_648[j].mUnk_00_m);
             flipper->mUnk_be8[j].x = flipper->mUnk_00.mPos.x >> 4;
             flipper->mUnk_be8[j].y = flipper->mUnk_00.mPos.y >> 4;
             flipper->mUnk_be8[j].z = flipper->mUnk_00.mPos.z >> 4;

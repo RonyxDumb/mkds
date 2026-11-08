@@ -169,7 +169,7 @@ void UpdatePendulum(u32 param_1, PendulumObject *pendulum) {
         }
     }
     QuaternionMultiplyAngleAroundZ(pendulum->mRotationQuaternion, swingAngle, swingRotation);
-    Matrix3x3FromQuaternion(&pendulum->mMapObject.mMatrix, swingRotation);
+    Matrix3x3FromQuaternion(&pendulum->mMapObject.mMatrix.mUnk_00_m, swingRotation);
     VEC_MultAdd(-pendulum->mCourseRowDistance, &pendulum->mMapObject.mMatrix.mUnk_00[1], &pendulum->mCourseRowPos,
                 &pendulum->mMapObject.mPos);
     pendulum->mUnk_ec.x = pendulum->mMapObject.mPos.x >> 4;

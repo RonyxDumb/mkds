@@ -129,7 +129,7 @@ void ResetKartToRespawnPoint(Kart *kart) {
     Vec3 respawnForward;
     Vec3 respawnAngles;
     Vec3 sideDirection;
-    s32 rotationMatrix[9];
+    MtxFx33 rotationMatrix;
     PointLink *respawnLink;
     s32 x;
     s32 forwardOffset;
@@ -153,8 +153,8 @@ void ResetKartToRespawnPoint(Kart *kart) {
         respawnLink = GetCourseMapRespawnRacePointLink(i, &respawnPos, &respawnAngles);
     }
     i = ((u16) ((s32) (((s64) respawnAngles.y * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12)) >> 4;
-    MTX_RotY33_(rotationMatrix, gPairsByAngle[i * 2], gPairsByAngle[i * 2 + 1]);
-    MTX_MultVec33(&data_02154f70, rotationMatrix, &respawnForward);
+    MTX_RotY33_(&rotationMatrix, gPairsByAngle[i * 2], gPairsByAngle[i * 2 + 1]);
+    MTX_MultVec33(&data_02154f70, &rotationMatrix, &respawnForward);
     if (gRaceSetup->mMode != MODE_BATTLE && gCourseMap->mItemRouteCount != 0) {
         (kartItems = &gKartItems[kart->mIndex])->mUnk_1f0.mLink =
             GetCourseMapRespawnItemPointLink((u16) kart->mRespawnSlot);
@@ -1215,7 +1215,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
     Vec3 flatForward;
     Vec3 l;
     MtxFx43 m2;
-    s32 rotationMatrix[9];
+    MtxFx33 rotationMatrix;
     Vec3 axis;
 
     placementAngles = data_02154f94;
@@ -1227,8 +1227,8 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
     placementAngles.y = gCourseMap->mKeyedPlacements[*gCourseMap->mKeyedPlacementIndexByKey].mUnk_0c.y;
     placementAngles.z = gCourseMap->mKeyedPlacements[*gCourseMap->mKeyedPlacementIndexByKey].mUnk_0c.z;
     angleIndex = (u16) (((s64) placementAngles.y * 0xb60b60b60bLL + 0x80000000LL) >> 44) >> 4;
-    MTX_RotY33_(rotationMatrix, gPairsByAngle[angleIndex * 2], gPairsByAngle[angleIndex * 2 + 1]);
-    MTX_MultVec33(&data_02154f70, rotationMatrix, &placementForward);
+    MTX_RotY33_(&rotationMatrix, gPairsByAngle[angleIndex * 2], gPairsByAngle[angleIndex * 2 + 1]);
+    MTX_MultVec33(&data_02154f70, &rotationMatrix, &placementForward);
     SkipOrthoQuadsHoldAndSetVelocities(kart->mIndex);
 
     flags = kart->mUnk_4c;
@@ -1335,9 +1335,9 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
                 kart->mAirTiltAngle = -5000;
             }
         }
-        MTX_RotAxis33(&m2, &kart->mUnk_120, gPairsByAngle[((u16) kart->mAirTiltAngle >> 4) * 2],
+        MTX_RotAxis33(&m2.mUnk_00_m, &kart->mUnk_120, gPairsByAngle[((u16) kart->mAirTiltAngle >> 4) * 2],
                       gPairsByAngle[((u16) kart->mAirTiltAngle >> 4) * 2 + 1]);
-        MTX_MultVec33(&groundNormal, &m2.mUnk_00[0].x, &groundNormal);
+        MTX_MultVec33(&groundNormal, &m2.mUnk_00_m, &groundNormal);
         kart->mGroundNormal = groundNormal;
         AdvanceKartOrientation(kart, &groundNormal);
     }
@@ -1361,7 +1361,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
 void PlaceKartAtKeyedPlacement(Kart *kart, u32 key) {
     Vec3 placementPos;
     Vec3 placementForward;
-    s32 rotationMatrix[9];
+    MtxFx33 rotationMatrix;
     Vec3 offset;
     Vec3 axis;
     NNSSndSeqPlayer **sndHandle;
@@ -1379,8 +1379,8 @@ void PlaceKartAtKeyedPlacement(Kart *kart, u32 key) {
                          0x80000000LL) >>
                         44) >>
                  4;
-    MTX_RotY33_(rotationMatrix, gPairsByAngle[angleIndex * 2], gPairsByAngle[angleIndex * 2 + 1]);
-    MTX_MultVec33(&data_02154f70, rotationMatrix, &placementForward);
+    MTX_RotY33_(&rotationMatrix, gPairsByAngle[angleIndex * 2], gPairsByAngle[angleIndex * 2 + 1]);
+    MTX_MultVec33(&data_02154f70, &rotationMatrix, &placementForward);
     if (gRaceSetup->mMode == MODE_BATTLE) {
         VEC_Subtract(&placementPos, &kart->mPos, &offset);
         CallStandingsKartOffsetCallback(kart->mIndex, (s32) &offset);

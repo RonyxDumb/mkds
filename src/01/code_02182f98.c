@@ -28,7 +28,7 @@ void func_ov001_02182f98(void *f, Coin *coin, void *h, u32 l) {
     s32 a;
     s32 scaleFactor;
     Vec3 b;
-    s32 m[9];
+    MtxFx33 m;
     Vec3 scale;
     Vec3 d;
 
@@ -48,9 +48,9 @@ void func_ov001_02182f98(void *f, Coin *coin, void *h, u32 l) {
             func_01ff9048(0x1b, &scale, 3);
         }
         func_01ff9048(0x1b, &coin->mUnk_000.mScale, 3);
-        MTX_RotY33_(m, gPairsByAngle[(data_ov001_021a656c[data_ov001_021a9b94] >> 4) * 2 + 1],
+        MTX_RotY33_(&m, gPairsByAngle[(data_ov001_021a656c[data_ov001_021a9b94] >> 4) * 2 + 1],
                     gPairsByAngle[(data_ov001_021a656c[data_ov001_021a9b94] >> 4) * 2]);
-        func_01ff9048(0x1a, m, 9);
+        func_01ff9048(0x1a, &m, 9);
         d.x = 0x199a;
         d.y = 0x2000;
         d.z = 0x199a;

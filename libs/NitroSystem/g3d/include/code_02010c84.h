@@ -142,7 +142,7 @@ typedef struct NNSG3dGlb {
     /* 0a4 */ u32 mCmd3;
     /* 0a8 */ u32 mLightColor[4];
     /* 0b8 */ u32 mCmd4;
-    /* 0bc */ Vec3 mPrmBaseRot[3];
+    /* 0bc */ MtxFx33 mPrmBaseRot;
     /* 0e0 */ Vec3 mPrmBaseTrans;
     /* 0ec */ Vec3 mPrmBaseScale;
     /* 0f8 */ u32 mPrmTexImageParam;

@@ -161,7 +161,7 @@ void CreateNsKiller2AndNsKiller2S(void *a) {
 
 void DrawNsKiller2(void *a, NsKiller2 *nsKiller2) {
     s32 t;
-    s32 rotationMatrix[9];
+    MtxFx33 rotationMatrix;
     s32 angleIndex;
 
     if (nsKiller2->mParkTimer <= 0) {
@@ -171,8 +171,8 @@ void DrawNsKiller2(void *a, NsKiller2 *nsKiller2) {
     func_01ff9048(0x14, &t, 1);
     func_01ff9048(0x19, SetTranslationMatrixPos(&nsKiller2->mUnk_00.mPos), 12);
     angleIndex = nsKiller2->mUnk_00.mAngle >> 4;
-    MTX_RotY33_(rotationMatrix, gPairsByAngle[angleIndex * 2], gPairsByAngle[angleIndex * 2 + 1]);
-    func_01ff9048(0x1a, rotationMatrix, 9);
+    MTX_RotY33_(&rotationMatrix, gPairsByAngle[angleIndex * 2], gPairsByAngle[angleIndex * 2 + 1]);
+    func_01ff9048(0x1a, &rotationMatrix, 9);
     func_01ff9048(0x1b, &nsKiller2->mUnk_00.mScale, 3);
     DrawMapObjectModel(a, gNsKiller2S, nsKiller2);
     DrawMapObjectModel(a, gNsKiller2, nsKiller2);

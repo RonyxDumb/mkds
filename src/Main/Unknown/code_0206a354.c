@@ -172,8 +172,8 @@ void AdvanceKartState6(Kart *p) {
             p->mUnk_334 = gPairsByAngle[(p->mUnk_338 >> 4) * 2];
         }
         i = ((s64) p->mUnk_334 * 0xce4) >> 12;
-        MTX_RotAxis33((MtxFx43 *) &m, &p->mLaunchForward, gPairsByAngle[(i >> 4) * 2], gPairsByAngle[(i >> 4) * 2 + 1]);
-        MTX_MultVec33(&p->mRotationAxis, m.mUnk_00, &a);
+        MTX_RotAxis33(&m, &p->mLaunchForward, gPairsByAngle[(i >> 4) * 2], gPairsByAngle[(i >> 4) * 2 + 1]);
+        MTX_MultVec33(&p->mRotationAxis, &m, &a);
         QuaternionFromAxisAngle(&a, p->mRotationAngle, &p->mRotationQuaternion);
     } else {
         Vec4 q;

@@ -18,7 +18,7 @@ void CreateAirship(void *a) {
 
 void DrawAirship(void *a, Airship *airship) {
     s32 v;
-    s32 rotationMatrix[9];
+    MtxFx33 rotationMatrix;
     Vec3 w;
 
     v = 0x1e;
@@ -32,9 +32,9 @@ void DrawAirship(void *a, Airship *airship) {
     airship->mUnk_00.mMatrix.mUnk_00[3].z = airship->mUnk_00.mPos.z >> 4;
     func_01ff9048(0x19, &airship->mUnk_00.mMatrix, 0xc);
     if (airship->mUnk_00.mAngle != 0) {
-        MTX_RotY33_(rotationMatrix, gPairsByAngle[((airship->mUnk_00.mAngle >> 4) << 1)],
+        MTX_RotY33_(&rotationMatrix, gPairsByAngle[((airship->mUnk_00.mAngle >> 4) << 1)],
                     gPairsByAngle[((airship->mUnk_00.mAngle >> 4) << 1) + 1]);
-        func_01ff9048(0x1a, rotationMatrix, 9);
+        func_01ff9048(0x1a, &rotationMatrix, 9);
     }
     func_01ff9048(0x1b, &airship->mUnk_00.mScale, 3);
     DrawMapObjectModel(a, gAirship, airship);

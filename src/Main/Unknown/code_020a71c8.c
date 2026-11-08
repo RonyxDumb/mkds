@@ -112,8 +112,8 @@ void DrawSanbo(void *a, Sanbo *p) {
     s32 w0;
     s32 w1;
     s32 w2;
-    s32 m0[9];
-    s32 m1[9];
+    MtxFx33 m0;
+    MtxFx33 m1;
     s32 f0[3];
     s32 f1[3];
     s32 f2[3];
@@ -135,8 +135,8 @@ void DrawSanbo(void *a, Sanbo *p) {
             for (i = 0; i < p->mPieceCount; i++) {
                 if (p->mPieces[i].mRotateZAngle != 0) {
                     k = ((u16) p->mPieces[i].mRotateZAngle >> 4) * 2;
-                    MTX_RotZ33_(m0, gPairsByAngle[k], gPairsByAngle[k + 1]);
-                    func_01ff9048(0x1a, m0, 9);
+                    MTX_RotZ33_(&m0, gPairsByAngle[k], gPairsByAngle[k + 1]);
+                    func_01ff9048(0x1a, &m0, 9);
                 }
                 if (i != 0) {
                     f1[0] = 0;
@@ -164,8 +164,8 @@ void DrawSanbo(void *a, Sanbo *p) {
                 func_01ff9048(0x19, SetViewTransposeMatrixPos(&p->mPieces[i].mPos), 12);
                 if ((p->mUnk_000.mFlags & 0x12) == 0 && p->mPieces[i].mRotateZAngle != 0) {
                     k = ((u16) p->mPieces[i].mRotateZAngle >> 4) * 2;
-                    MTX_RotZ33_(m1, gPairsByAngle[k], gPairsByAngle[k + 1]);
-                    func_01ff9048(0x1a, m1, 9);
+                    MTX_RotZ33_(&m1, gPairsByAngle[k], gPairsByAngle[k + 1]);
+                    func_01ff9048(0x1a, &m1, 9);
                 }
                 t = p->mPieces[i].mDrawScale;
                 if (t < 0x1000) {

@@ -118,12 +118,6 @@ typedef struct KartModelsEntry {
     /* 0b0 */ s32 mUnk_0b0;
 } KartModelsEntry;
 
-// Three vectors at 0x00, 0x0c and 0x18.
-typedef struct {
-    /* 00 */ Vec3 mUnk_00;
-    /* 0c */ Vec3 mUnk_0c;
-    /* 18 */ Vec3 mUnk_18;
-} KartOrientation;
 // The item a kart is using: its objects and how they are carried. (replaces the two-line comment above the struct)
 
 // Object at 0x58 of a KartItems (that KartItems at 0x0c), passed first to the function pointers in the
@@ -142,7 +136,7 @@ typedef struct ItemInUse {
     /* 024 */ s32 mObjectStartFramesLeft;
     /* 028 */ u16 mKartIndex;
     /* 02a */ u8 mUnk_02a[2];
-    /* 02c */ KartOrientation mKartOrientation;
+    /* 02c */ MtxFx33 mKartOrientation;
     /* 050 */ Vec3 mKartDrawMatrixPos;
     /* 05c */ Vec3 mKartVelocity;
     /* 068 */ s32 mKartVelocityLength;

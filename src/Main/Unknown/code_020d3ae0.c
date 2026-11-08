@@ -70,23 +70,23 @@ u32 GetViewTestRefreshPending(void) {
 }
 
 void UpdateViewFrustum(Unk020d4f94 *viewMatrix) {
-    s32 buf[10];
+    MtxFx33 buf;
 
-    MTX_Transpose33_(viewMatrix, buf);
-    MTX_MultVec33(&viewMatrix->mUnk_24, buf, &gViewFrustum.mCameraPos);
+    MTX_Transpose33_(viewMatrix, &buf);
+    MTX_MultVec33(&viewMatrix->mUnk_24, &buf, &gViewFrustum.mCameraPos);
     gViewFrustum.mCameraPos.x = -gViewFrustum.mCameraPos.x;
     gViewFrustum.mCameraPos.y = -gViewFrustum.mCameraPos.y;
     gViewFrustum.mCameraPos.z = -gViewFrustum.mCameraPos.z;
     gViewFrustum.mCameraPos.x = gViewFrustum.mCameraPos.x << 4;
     gViewFrustum.mCameraPos.y = gViewFrustum.mCameraPos.y << 4;
     gViewFrustum.mCameraPos.z = gViewFrustum.mCameraPos.z << 4;
-    gViewFrustum.mViewDirection.x = -buf[6];
-    gViewFrustum.mViewDirection.y = -buf[7];
-    gViewFrustum.mViewDirection.z = -buf[8];
-    MTX_MultVec33(&gViewFrustumBeforeRotation.mUnk_20, buf, &gViewFrustum.mUnk_20);
-    MTX_MultVec33(&gViewFrustumBeforeRotation.mUnk_2c, buf, &gViewFrustum.mUnk_2c);
-    MTX_MultVec33(&gViewFrustumBeforeRotation.mUnk_38, buf, &gViewFrustum.mUnk_38);
-    MTX_MultVec33(&gViewFrustumBeforeRotation.mUnk_44, buf, &gViewFrustum.mUnk_44);
+    gViewFrustum.mViewDirection.x = -buf.mUnk_00[2].x;
+    gViewFrustum.mViewDirection.y = -buf.mUnk_00[2].y;
+    gViewFrustum.mViewDirection.z = -buf.mUnk_00[2].z;
+    MTX_MultVec33(&gViewFrustumBeforeRotation.mUnk_20, &buf, &gViewFrustum.mUnk_20);
+    MTX_MultVec33(&gViewFrustumBeforeRotation.mUnk_2c, &buf, &gViewFrustum.mUnk_2c);
+    MTX_MultVec33(&gViewFrustumBeforeRotation.mUnk_38, &buf, &gViewFrustum.mUnk_38);
+    MTX_MultVec33(&gViewFrustumBeforeRotation.mUnk_44, &buf, &gViewFrustum.mUnk_44);
     if (gViewFrustum.mViewTestRefreshRequested != FALSE) {
         gViewFrustum.mViewTestRefreshRequested = FALSE;
         gViewFrustum.mViewTestRefreshPending = TRUE;

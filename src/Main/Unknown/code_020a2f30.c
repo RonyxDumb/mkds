@@ -76,8 +76,8 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
     s32 w0;
     s32 w1;
     s32 w2;
-    s32 m0[9];
-    s32 m1[9];
+    MtxFx33 m0;
+    MtxFx33 m1;
     s32 f0[3];
     s32 g0[3];
     s32 f1[3];
@@ -112,8 +112,8 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
         func_01ff9048(0x19, SetViewTransposeMatrixPos(&balloon->mDrawPos), 12);
         if (balloon->mUnk_00.mAngle != 0) {
             i = (balloon->mUnk_00.mAngle >> 4) * 2;
-            MTX_RotZ33_(m0, gPairsByAngle[i + 1], gPairsByAngle[i]);
-            func_01ff9048(0x1a, m0, 9);
+            MTX_RotZ33_(&m0, gPairsByAngle[i + 1], gPairsByAngle[i]);
+            func_01ff9048(0x1a, &m0, 9);
         }
         drawScale = balloon->mDrawScale;
         f0[0] = drawScale;
@@ -159,8 +159,8 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
             listBalloon = balloon->mDrawList[i];
             func_01ff9048(0x11, NULL, 0);
             k = data_02156700[drawCount - 1][i];
-            MTX_RotZ33_(m1, gPairsByAngle[(k >> 4) * 2 + 1], gPairsByAngle[(k >> 4) * 2]);
-            func_01ff9048(0x1a, m1, 9);
+            MTX_RotZ33_(&m1, gPairsByAngle[(k >> 4) * 2 + 1], gPairsByAngle[(k >> 4) * 2]);
+            func_01ff9048(0x1a, &m1, 9);
             t = listBalloon->mScaleFactor;
             if (t != 0x1000) {
                 g1[0] = t;

@@ -31,7 +31,7 @@ void SetViewMatrices(MtxFx43 *viewMatrix) {
     data_0217b850->mUnk_00[2].y = -viewMatrix->mUnk_00[1].z;
     data_0217b850->mUnk_00[2].z = viewMatrix->mUnk_00[1].y;
     MTX_Transpose33_(viewMatrix, gViewTransposeMatrix);
-    MTX_Concat33((const s32 *) data_0217b850, (const s32 *) gViewTransposeMatrix, (s32 *) data_0217b860);
+    MTX_Concat33(&data_0217b850->mUnk_00_m, &gViewTransposeMatrix->mUnk_00_m, &data_0217b860->mUnk_00_m);
     {
         MtxFx43 *matrix;
         Vec3 *axis2;

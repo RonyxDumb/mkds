@@ -184,8 +184,8 @@ void AdvanceBouncingItemBoxInUse(ItemInUse *itemInUse, BouncingItemBox *box) {
     ItemBox *mapObject = box->mPooledMapObject;
     s32 scaleRatio;
     if (box->mKartIsEntry != 0) {
-        VEC_MultAdd(((s64) itemInUse->mKartScaleFactorTimesBase.z * -28877) >> 12, &itemInUse->mKartOrientation.mUnk_0c,
-                    &box->mUnk_000.mItemObject.mPos, &box->mMapObjectPos);
+        VEC_MultAdd(((s64) itemInUse->mKartScaleFactorTimesBase.z * -28877) >> 12,
+                    &itemInUse->mKartOrientation.mUnk_00[1], &box->mUnk_000.mItemObject.mPos, &box->mMapObjectPos);
         scaleRatio = box->mScaleRatio;
         scale.x = ((s64) box->mUnk_000.mItemObject.mScale.x * scaleRatio) >> 12;
         scale.y = ((s64) box->mUnk_000.mItemObject.mScale.y * scaleRatio) >> 12;

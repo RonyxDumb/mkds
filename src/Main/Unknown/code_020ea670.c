@@ -320,7 +320,7 @@ void EnterWoodbox1State2(Woodbox1 *woodbox) {
     VEC_Add(&woodbox->mGroundUp, &woodbox->mTiltOffset, &woodbox->mTiltedUp);
     woodbox->mMatrixHeadingAngle = woodbox->mHeadingAngle + woodbox->mHeadingAngleOffset;
     QuaternionFromVec3AndAngleAroundY(&woodbox->mTiltedUp, woodbox->mMatrixHeadingAngle, &rotation);
-    Matrix3x3FromQuaternion(&woodbox->mUnk_000.mMatrix, &rotation);
+    Matrix3x3FromQuaternion(&woodbox->mUnk_000.mMatrix.mUnk_00_m, &rotation);
 }
 
 void UpdateWoodbox1State2(Woodbox1 *woodbox) {
@@ -358,7 +358,7 @@ void UpdateWoodbox1State3(Woodbox1 *woodbox) {
     }
     woodbox->mMatrixHeadingAngle = woodbox->mHeadingAngle + woodbox->mHeadingAngleOffset;
     QuaternionFromVec3AndAngleAroundY(&woodbox->mTiltedUp, woodbox->mMatrixHeadingAngle, &rotation);
-    Matrix3x3FromQuaternion(&woodbox->mUnk_000.mMatrix, &rotation);
+    Matrix3x3FromQuaternion(&woodbox->mUnk_000.mMatrix.mUnk_00_m, &rotation);
     if (woodbox->mUnk_000.mStateMachine.mStateFrames >= 90) {
         data_0217bbf0 = NULL;
         woodbox->mUnk_000.mStateMachine.mNextState = 0;
@@ -439,7 +439,7 @@ void InitWoodbox1(Woodbox1 *woodbox, Unk020eb498 *courseRow) {
     woodbox->mUnk_000.mUnk_10.z = 0;
     woodbox->mHeadingAngle = (((s64) courseRow->mUnk_010 * 0xB60B60B60BLL) + 0x80000000000LL) >> 44;
     QuaternionFromVec3AndAngleAroundY(&woodbox->mGroundUp, woodbox->mHeadingAngle, &rotation);
-    Matrix3x3FromQuaternion(&woodbox->mUnk_000.mMatrix, &rotation);
+    Matrix3x3FromQuaternion(&woodbox->mUnk_000.mMatrix.mUnk_00_m, &rotation);
     woodbox->mUnk_0f4.x = -woodbox->mGroundUp.x;
     woodbox->mUnk_0f4.y = 0;
     woodbox->mUnk_0f4.z = -woodbox->mGroundUp.z;

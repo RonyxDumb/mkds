@@ -81,7 +81,7 @@ void SetupDrawIronBall(void *a) {
 
 void DrawIronBall(void *a, IronBall *ironBall) {
     u32 v;
-    u8 rotationMatrix[0x28];
+    MtxFx33 rotationMatrix;
     s32 pairIndex;
 
     v = 0x1e;
@@ -89,8 +89,8 @@ void DrawIronBall(void *a, IronBall *ironBall) {
     func_01ff9048(0x19, SetViewTransposeMatrixPos(&ironBall->mUnk_000.mPos), 0xc);
     if (ironBall->mRotateZAngle != 0) {
         pairIndex = (u16) ironBall->mRotateZAngle >> 4;
-        MTX_RotZ33_((s32 *) rotationMatrix, gPairsByAngle[pairIndex * 2], gPairsByAngle[pairIndex * 2 + 1]);
-        func_01ff9048(0x1a, rotationMatrix, 9);
+        MTX_RotZ33_(&rotationMatrix, gPairsByAngle[pairIndex * 2], gPairsByAngle[pairIndex * 2 + 1]);
+        func_01ff9048(0x1a, &rotationMatrix, 9);
     }
     func_01ff9048(0x1b, &ironBall->mUnk_000.mScale, 3);
     DrawMapObjectModel(a, gIronBall, ironBall);

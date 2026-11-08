@@ -690,7 +690,7 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
     s32 dy;
     s32 dz;
 
-    n = Vec3DotUnrounded(&itemInUse->mKartMovement, &itemInUse->mKartOrientation.mUnk_18);
+    n = Vec3DotUnrounded(&itemInUse->mKartMovement, &itemInUse->mKartOrientation.mUnk_00[2]);
     m = (itemInUse->mKart->mUnk_48 & 1) != 0;
     n = ((s64) n * 0x1ec) >> 12;
     if (n < 0x666) {
@@ -722,19 +722,19 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
             dx = itemInUse->mKartMovement.y > 0 ? 0x666 : 0x1333;
             n += (s32) (((s64) dx * itemInUse->mKartMovement.y) >> 12);
         }
-        VEC_MultAdd(n, &itemInUse->mKartOrientation.mUnk_0c, &v, &item->mItemObject.mVelocity);
+        VEC_MultAdd(n, &itemInUse->mKartOrientation.mUnk_00[1], &v, &item->mItemObject.mVelocity);
     }
     if (throwForward == 0) {
         VEC_Add(&item->mItemObject.mVelocity, &itemInUse->mKart->mUnk_1fc, &item->mItemObject.mVelocity);
     }
     if (throwForward != 0) {
         item->mItemObject.mPos = itemInUse->mKart->mCollisionCenter;
-        VEC_MultAdd(item->mItemObject.mScale.z * 10, &itemInUse->mKartOrientation.mUnk_18, &item->mItemObject.mPos,
+        VEC_MultAdd(item->mItemObject.mScale.z * 10, &itemInUse->mKartOrientation.mUnk_00[2], &item->mItemObject.mPos,
                     &item->mItemObject.mPos);
     } else {
         if (itemInUse->mKartHopHeight != 0 && itemInUse->mKartVelocityLength < 0x2000 &&
             item->mItemObject.mScale.z < 0xccd) {
-            VEC_Subtract(&itemInUse->mKartOrientation.mUnk_0c, &itemInUse->mKartOrientation.mUnk_18, &v);
+            VEC_Subtract(&itemInUse->mKartOrientation.mUnk_00[1], &itemInUse->mKartOrientation.mUnk_00[2], &v);
             VEC_MultAdd(0x2000, &v, &item->mItemObject.mPos, &item->mItemObject.mPos);
         }
     }
@@ -750,14 +750,14 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
     if (!m) {
         return;
     }
-    n = VEC_DotProduct(&itemInUse->mKartOrientation.mUnk_0c, &item->mItemObject.mVelocity);
-    dx = ((s64) itemInUse->mKartOrientation.mUnk_0c.x * n) >> 12;
-    dy = ((s64) itemInUse->mKartOrientation.mUnk_0c.y * n) >> 12;
-    dz = ((s64) itemInUse->mKartOrientation.mUnk_0c.z * n) >> 12;
+    n = VEC_DotProduct(&itemInUse->mKartOrientation.mUnk_00[1], &item->mItemObject.mVelocity);
+    dx = ((s64) itemInUse->mKartOrientation.mUnk_00[1].x * n) >> 12;
+    dy = ((s64) itemInUse->mKartOrientation.mUnk_00[1].y * n) >> 12;
+    dz = ((s64) itemInUse->mKartOrientation.mUnk_00[1].z * n) >> 12;
     item->mItemObject.mVelocity.x -= dx;
     item->mItemObject.mVelocity.y -= dy;
     item->mItemObject.mVelocity.z -= dz;
-    VEC_MultAdd(throwForward != 0 ? 0x8800 : -0x1000, &itemInUse->mKartOrientation.mUnk_0c,
+    VEC_MultAdd(throwForward != 0 ? 0x8800 : -0x1000, &itemInUse->mKartOrientation.mUnk_00[1],
                 &item->mItemObject.mVelocity, &item->mItemObject.mVelocity);
     item->mBouncesRemaining = 0;
 }

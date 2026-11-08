@@ -26,7 +26,7 @@
 Unk0219b250 *gMissionGate;
 
 void InitMissionGate(MissionGateObject *missionGateObject) {
-    s32 mtx[9];
+    MtxFx33 mtx;
     s32 sideExtentX;
     s32 sideExtentY;
     s16 saved;
@@ -34,10 +34,10 @@ void InitMissionGate(MissionGateObject *missionGateObject) {
     RefreshMapObjectMatrixFromHitNormal(missionGateObject);
     missionGateObject->mMapObject.mAngle =
         (missionGateObject->mMapObject.mCourseMapRow->mUnk_0c.y * 0xB60B60B60BLL + 0x80000000000LL) >> 44;
-    MTX_RotY33_(mtx, gPairsByAngle[(missionGateObject->mMapObject.mAngle >> 4) * 2],
+    MTX_RotY33_(&mtx, gPairsByAngle[(missionGateObject->mMapObject.mAngle >> 4) * 2],
                 gPairsByAngle[(missionGateObject->mMapObject.mAngle >> 4) * 2 + 1]);
-    MTX_Concat33(mtx, &missionGateObject->mMapObject.mMatrix.mUnk_00[0].x,
-                 &missionGateObject->mMapObject.mMatrix.mUnk_00[0].x);
+    MTX_Concat33(&mtx, &missionGateObject->mMapObject.mMatrix.mUnk_00_m,
+                 &missionGateObject->mMapObject.mMatrix.mUnk_00_m);
     sideExtentX = (missionGateObject->mMapObject.mScale.x * 0xA000LL) >> 12;
     sideExtentY = (missionGateObject->mMapObject.mScale.y * 0xF000LL) >> 12;
     saved = missionGateObject->mMapObject.mCourseMapRow->mUnk_28;

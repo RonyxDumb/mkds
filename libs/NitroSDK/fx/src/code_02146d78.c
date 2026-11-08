@@ -1,7 +1,7 @@
 #include "code_02146d78.h"
 
 // Scales the rows of the 3x3 matrix at src by x, y and z and writes the result to dst.
-void MTX_ScaleApply33(const MtxFx43 *src, MtxFx43 *dst, s32 x, s32 y, s32 z) {
+void MTX_ScaleApply33(const MtxFx33 *src, MtxFx33 *dst, s32 x, s32 y, s32 z) {
     dst->mUnk_00[0].x = ((s64) x * src->mUnk_00[0].x) >> 12;
     dst->mUnk_00[0].y = ((s64) x * src->mUnk_00[0].y) >> 12;
     dst->mUnk_00[0].z = ((s64) x * src->mUnk_00[0].z) >> 12;
@@ -14,7 +14,7 @@ void MTX_ScaleApply33(const MtxFx43 *src, MtxFx43 *dst, s32 x, s32 y, s32 z) {
 }
 
 // Sets dst to the rotation by sinVal and cosVal about the axis vec.
-void MTX_RotAxis33(MtxFx43 *dst, const Vec3 *vec, s32 sinVal, s32 cosVal) {
+void MTX_RotAxis33(MtxFx33 *dst, const Vec3 *vec, s32 sinVal, s32 cosVal) {
     s32 x;
     s32 y;
     s32 z;
@@ -60,9 +60,9 @@ void MTX_RotAxis33(MtxFx43 *dst, const Vec3 *vec, s32 sinVal, s32 cosVal) {
 }
 
 // Multiplies the 3x3 matrices a and b and writes the product to ab; ab may be the same as a or b.
-void MTX_Concat33(const s32 *a, const s32 *b, s32 *ab) {
+void MTX_Concat33(const MtxFx33 *a, const MtxFx33 *b, MtxFx33 *ab) {
     MtxFx33 tmp;
-    s32 *result;
+    MtxFx33 *result;
     s32 x0;
     s32 x1;
     s32 x2;
@@ -72,39 +72,39 @@ void MTX_Concat33(const s32 *a, const s32 *b, s32 *ab) {
 
     result = ab;
     if (result == b) {
-        result = tmp.mUnk_00;
+        result = &tmp;
     }
-    x0 = a[0];
-    x1 = a[1];
-    x2 = a[2];
-    result[0] = ((s64) x0 * b[0] + (s64) x1 * b[3] + (s64) x2 * b[6]) >> 12;
-    result[1] = ((s64) x0 * b[1] + (s64) x1 * b[4] + (s64) x2 * b[7]) >> 12;
-    y0 = b[2];
-    y1 = b[5];
-    y2 = b[8];
-    result[2] = ((s64) x0 * y0 + (s64) x1 * y1 + (s64) x2 * y2) >> 12;
-    x0 = a[3];
-    x1 = a[4];
-    x2 = a[5];
-    result[5] = ((s64) x0 * y0 + (s64) x1 * y1 + (s64) x2 * y2) >> 12;
-    result[4] = ((s64) x0 * b[1] + (s64) x1 * b[4] + (s64) x2 * b[7]) >> 12;
-    y0 = b[0];
-    y1 = b[3];
-    y2 = b[6];
-    result[3] = ((s64) x0 * y0 + (s64) x1 * y1 + (s64) x2 * y2) >> 12;
-    x0 = a[6];
-    x1 = a[7];
-    x2 = a[8];
-    result[6] = ((s64) x0 * y0 + (s64) x1 * y1 + (s64) x2 * y2) >> 12;
-    result[7] = ((s64) x0 * b[1] + (s64) x1 * b[4] + (s64) x2 * b[7]) >> 12;
-    result[8] = ((s64) x0 * b[2] + (s64) x1 * b[5] + (s64) x2 * b[8]) >> 12;
-    if (result == tmp.mUnk_00) {
-        *(MtxFx33 *) ab = tmp;
+    x0 = a->mUnk_00[0].x;
+    x1 = a->mUnk_00[0].y;
+    x2 = a->mUnk_00[0].z;
+    result->mUnk_00[0].x = ((s64) x0 * b->mUnk_00[0].x + (s64) x1 * b->mUnk_00[1].x + (s64) x2 * b->mUnk_00[2].x) >> 12;
+    result->mUnk_00[0].y = ((s64) x0 * b->mUnk_00[0].y + (s64) x1 * b->mUnk_00[1].y + (s64) x2 * b->mUnk_00[2].y) >> 12;
+    y0 = b->mUnk_00[0].z;
+    y1 = b->mUnk_00[1].z;
+    y2 = b->mUnk_00[2].z;
+    result->mUnk_00[0].z = ((s64) x0 * y0 + (s64) x1 * y1 + (s64) x2 * y2) >> 12;
+    x0 = a->mUnk_00[1].x;
+    x1 = a->mUnk_00[1].y;
+    x2 = a->mUnk_00[1].z;
+    result->mUnk_00[1].z = ((s64) x0 * y0 + (s64) x1 * y1 + (s64) x2 * y2) >> 12;
+    result->mUnk_00[1].y = ((s64) x0 * b->mUnk_00[0].y + (s64) x1 * b->mUnk_00[1].y + (s64) x2 * b->mUnk_00[2].y) >> 12;
+    y0 = b->mUnk_00[0].x;
+    y1 = b->mUnk_00[1].x;
+    y2 = b->mUnk_00[2].x;
+    result->mUnk_00[1].x = ((s64) x0 * y0 + (s64) x1 * y1 + (s64) x2 * y2) >> 12;
+    x0 = a->mUnk_00[2].x;
+    x1 = a->mUnk_00[2].y;
+    x2 = a->mUnk_00[2].z;
+    result->mUnk_00[2].x = ((s64) x0 * y0 + (s64) x1 * y1 + (s64) x2 * y2) >> 12;
+    result->mUnk_00[2].y = ((s64) x0 * b->mUnk_00[0].y + (s64) x1 * b->mUnk_00[1].y + (s64) x2 * b->mUnk_00[2].y) >> 12;
+    result->mUnk_00[2].z = ((s64) x0 * b->mUnk_00[0].z + (s64) x1 * b->mUnk_00[1].z + (s64) x2 * b->mUnk_00[2].z) >> 12;
+    if (result == &tmp) {
+        *ab = tmp;
     }
 }
 
 // Multiplies the vector vec by the 3x3 matrix m and writes the result to dst.
-void MTX_MultVec33(const Vec3 *vec, const s32 *m, Vec3 *dst) {
+void MTX_MultVec33(const Vec3 *vec, const MtxFx33 *m, Vec3 *dst) {
     s32 x;
     s32 y;
     s32 z;
@@ -112,7 +112,7 @@ void MTX_MultVec33(const Vec3 *vec, const s32 *m, Vec3 *dst) {
     x = vec->x;
     y = vec->y;
     z = vec->z;
-    dst->x = ((s64) x * m[0] + (s64) y * m[3] + (s64) z * m[6]) >> 12;
-    dst->y = ((s64) x * m[1] + (s64) y * m[4] + (s64) z * m[7]) >> 12;
-    dst->z = ((s64) x * m[2] + (s64) y * m[5] + (s64) z * m[8]) >> 12;
+    dst->x = ((s64) x * m->mUnk_00[0].x + (s64) y * m->mUnk_00[1].x + (s64) z * m->mUnk_00[2].x) >> 12;
+    dst->y = ((s64) x * m->mUnk_00[0].y + (s64) y * m->mUnk_00[1].y + (s64) z * m->mUnk_00[2].y) >> 12;
+    dst->z = ((s64) x * m->mUnk_00[0].z + (s64) y * m->mUnk_00[1].z + (s64) z * m->mUnk_00[2].z) >> 12;
 }

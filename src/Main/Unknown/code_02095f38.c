@@ -266,7 +266,7 @@ void DrawCoverPooHole(void *a, CoverPooHole *coverPooHole) {
     s32 w0;
     s32 w1;
     s32 w2;
-    s32 m[9];
+    MtxFx33 m;
     s32 f0[3];
     s32 f1[3];
     s32 f2[3];
@@ -342,10 +342,10 @@ void DrawCoverPooHole(void *a, CoverPooHole *coverPooHole) {
         f3[2] = 0;
         func_01ff9048(0x1c, f3, 3);
         j = (e >> 4) * 2;
-        MTX_RotY33_(m, gPairsByAngle[j], gPairsByAngle[j + 1]);
-        func_01ff9048(0x1a, m, 9);
-        MTX_RotZ33_(m, v1, gPairsByAngle[k + 1]);
-        func_01ff9048(0x1a, m, 9);
+        MTX_RotY33_(&m, gPairsByAngle[j], gPairsByAngle[j + 1]);
+        func_01ff9048(0x1a, &m, 9);
+        MTX_RotZ33_(&m, v1, gPairsByAngle[k + 1]);
+        func_01ff9048(0x1a, &m, 9);
     } else {
         t = coverPooHole->mUnk_a0 >> 4;
         f4[0] = 0;

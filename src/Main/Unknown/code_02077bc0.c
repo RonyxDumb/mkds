@@ -1501,8 +1501,8 @@ void SetupLightFrustumAndLookAt(s32 param_1, s32 yOffset) {
 
 void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32 mirrored) {
     Vec3 scale;
-    s32 m1[9];
-    s32 m2[9];
+    MtxFx33 m1;
+    MtxFx33 m2;
     MtxFx43 m3;
     Vec3 t;
     Vec3 u;
@@ -1519,12 +1519,12 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
     scale.x = k;
     scale.y = k;
     scale.z = k;
-    MTX_RotY33_(m1, gPairsByAngle[(view->mYawAngle >> 4) * 2], gPairsByAngle[(view->mYawAngle >> 4) * 2 + 1]);
-    MTX_RotX33_(m2, gPairsByAngle[(((u16) (data_usa_021656dc + view->mUnk_1a)) >> 4) * 2],
+    MTX_RotY33_(&m1, gPairsByAngle[(view->mYawAngle >> 4) * 2], gPairsByAngle[(view->mYawAngle >> 4) * 2 + 1]);
+    MTX_RotX33_(&m2, gPairsByAngle[(((u16) (data_usa_021656dc + view->mUnk_1a)) >> 4) * 2],
                 gPairsByAngle[(((u16) (data_usa_021656dc + view->mUnk_1a)) >> 4) * 2 + 1]);
-    MTX_Concat33(m1, m2, m1);
+    MTX_Concat33(&m1, &m2, &m1);
     if (slot->mKartOffsetData != NULL) {
-        MTX_Copy33To43_(m1, &m3.mUnk_00[0].x);
+        MTX_Copy33To43_(&m1, &m3);
         m3.mUnk_00[3] = t;
         MTX_ScaleApply43(&m3, &m3, scale.x, scale.y, scale.z);
     } else {
@@ -1532,13 +1532,13 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
     }
     NNS_G3dGlbSetBaseScale(&scale);
     NNS_G3dGlbSetBaseTrans(&t);
-    MI_Copy36B(m2, data_0217029c.mPrmBaseRot);
+    MI_Copy36B(&m2, &data_0217029c.mPrmBaseRot);
     data_0217029c.mFlag &= ~0xa4;
     NNS_G3dGlbFlushP();
     if (gKartModelMenu->mSelectModel != NULL) {
         func_01ff8cf0(gKartModelMenu->mSelectModel);
     }
-    MI_Copy36B(m1, data_0217029c.mPrmBaseRot);
+    MI_Copy36B(&m1, &data_0217029c.mPrmBaseRot);
     data_0217029c.mFlag &= ~0xa4;
     NNS_G3dGlbSetBaseTrans(&t);
     NNS_G3dGlbFlushP();

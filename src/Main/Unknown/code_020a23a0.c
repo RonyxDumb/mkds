@@ -224,9 +224,9 @@ void AdvanceTrophy(void) {
 }
 
 void DrawTrophy(void) {
-    s32 rotateXMatrix[9];
-    s32 rotateYMatrix[9];
-    s32 rotateZMatrix[9];
+    MtxFx33 rotateXMatrix;
+    MtxFx33 rotateYMatrix;
+    MtxFx33 rotateZMatrix;
     s32 scale[3];
     s32 translation[3];
     s32 v3[3];
@@ -247,13 +247,13 @@ void DrawTrophy(void) {
     translation[2] = -0x2000;
     func_01ff9048(0x1c, translation, 3);
     rotateZAngle = gTrophy->mRotateZWobble.mValue;
-    MTX_RotX33_(rotateXMatrix, data_0215d6b4[0x76], data_0215d6b4[0x77]);
-    MTX_RotY33_(rotateYMatrix, gPairsByAngle[(gTrophy->mRotateYAngle >> 4) * 2],
+    MTX_RotX33_(&rotateXMatrix, data_0215d6b4[0x76], data_0215d6b4[0x77]);
+    MTX_RotY33_(&rotateYMatrix, gPairsByAngle[(gTrophy->mRotateYAngle >> 4) * 2],
                 gPairsByAngle[(gTrophy->mRotateYAngle >> 4) * 2 + 1]);
-    MTX_RotZ33_(rotateZMatrix, gPairsByAngle[(rotateZAngle >> 4) * 2], gPairsByAngle[(rotateZAngle >> 4) * 2 + 1]);
-    func_01ff9048(0x1a, rotateXMatrix, 9);
-    func_01ff9048(0x1a, rotateYMatrix, 9);
-    func_01ff9048(0x1a, rotateZMatrix, 9);
+    MTX_RotZ33_(&rotateZMatrix, gPairsByAngle[(rotateZAngle >> 4) * 2], gPairsByAngle[(rotateZAngle >> 4) * 2 + 1]);
+    func_01ff9048(0x1a, &rotateXMatrix, 9);
+    func_01ff9048(0x1a, &rotateYMatrix, 9);
+    func_01ff9048(0x1a, &rotateZMatrix, 9);
     v3[0] = 0;
     v3[1] = 0;
     v3[2] = 0;

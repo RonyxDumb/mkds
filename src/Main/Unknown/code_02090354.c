@@ -56,7 +56,7 @@ void SetupDrawSmanTop(void *a) {
 
 void DrawSmanTop(void *mapObjectList, Sman *sman) {
     s32 c;
-    s32 matrix[9];
+    MtxFx33 matrix;
     s32 topOffset[3];
     c = 0x1e;
     func_01ff9048(0x14, &c, 1);
@@ -66,9 +66,9 @@ void DrawSmanTop(void *mapObjectList, Sman *sman) {
     topOffset[2] = 0;
     func_01ff9048(0x1c, topOffset, 3);
     func_01ff9048(0x1b, &sman->mMapObject.mScale, 3);
-    MTX_RotZ33_(matrix, gPairsByAngle[((u16) sman->mAngleZ >> 4) * 2],
+    MTX_RotZ33_(&matrix, gPairsByAngle[((u16) sman->mAngleZ >> 4) * 2],
                 gPairsByAngle[((u16) sman->mAngleZ >> 4) * 2 + 1]);
-    func_01ff9048(0x1a, matrix, 9);
+    func_01ff9048(0x1a, &matrix, 9);
     DrawMapObjectModel(mapObjectList, gSmanTop, sman);
 }
 

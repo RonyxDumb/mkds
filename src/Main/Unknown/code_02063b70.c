@@ -50,8 +50,8 @@ void DrawKart(Kart *kart) {
     Unk0206bcb0_590_54 *f;
     s32 killerItemShown;
     s32 h;
-    s32 spinMatrix[9];
-    s32 k[9];
+    MtxFx33 spinMatrix;
+    MtxFx33 k;
     Vec3 translation;
     s32 pairIndex;
 
@@ -104,8 +104,8 @@ void DrawKart(Kart *kart) {
             func_02063cc4_inline(0x14, 0x1c);
             func_01ff9048(0x1c, &f->mUnk_18, 3);
             pairIndex = (kart->mTireSpinAngle >> 4) * 2;
-            MTX_RotX33_(spinMatrix, gPairsByAngle[pairIndex], gPairsByAngle[pairIndex + 1]);
-            func_01ff9048(0x1a, spinMatrix, 9);
+            MTX_RotX33_(&spinMatrix, gPairsByAngle[pairIndex], gPairsByAngle[pairIndex + 1]);
+            func_01ff9048(0x1a, &spinMatrix, 9);
             DrawNsbmd(modelsEntry->mModels[2]);
             if (f->mUnk_18 != 0) {
                 func_02063cc4_inline2(0x1c, f->mUnk_24, 0, 0);
@@ -116,15 +116,15 @@ void DrawKart(Kart *kart) {
             func_02063cc4_inline2(0x1b, h, h, h);
             func_01ff9048(0x11, NULL, 0);
             pairIndex = (kart->mUnk_4cc >> 4) * 2;
-            MTX_RotY33_(k, gPairsByAngle[pairIndex], gPairsByAngle[pairIndex + 1]);
-            func_01ff9048(0x1a, k, 9);
-            func_01ff9048(0x1a, spinMatrix, 9);
+            MTX_RotY33_(&k, gPairsByAngle[pairIndex], gPairsByAngle[pairIndex + 1]);
+            func_01ff9048(0x1a, &k, 9);
+            func_01ff9048(0x1a, &spinMatrix, 9);
             DrawNsbmd(modelsEntry->mModels[2]);
             if (f->mUnk_00 != 0) {
                 func_02063cc4_inline(0x12, 1);
                 func_02063cc4_inline2(0x1c, f->mUnk_0c, 0, 0);
-                func_01ff9048(0x1a, k, 9);
-                func_01ff9048(0x1a, spinMatrix, 9);
+                func_01ff9048(0x1a, &k, 9);
+                func_01ff9048(0x1a, &spinMatrix, 9);
                 DrawNsbmd(modelsEntry->mModels[2]);
             }
         }

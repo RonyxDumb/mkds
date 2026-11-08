@@ -135,13 +135,13 @@ void func_01ffb130(Kart *p) {
         }
     }
     if ((p->mUnk_44 & KART_44_ON_GROUND) || (p->mUnk_4c & 0x10000000)) {
-        MTX_RotAxis33((MtxFx43 *) &m1, &p->mGroundNormal, gPairsByAngle[((u16) p->mTurnAngle >> 4) * 2],
+        MTX_RotAxis33(&m1, &p->mGroundNormal, gPairsByAngle[((u16) p->mTurnAngle >> 4) * 2],
                       gPairsByAngle[((u16) p->mTurnAngle >> 4) * 2 + 1]);
         if (p->mUnk_48 & 1) {
-            MTX_RotAxis33((MtxFx43 *) &m2, &p->mUnk_120, gPairsByAngle[0xba], gPairsByAngle[0xbb]);
-            MTX_Concat33(m2.mUnk_00, m1.mUnk_00, m1.mUnk_00);
+            MTX_RotAxis33(&m2, &p->mUnk_120, gPairsByAngle[0xba], gPairsByAngle[0xbb]);
+            MTX_Concat33(&m2, &m1, &m1);
         }
-        MTX_MultVec33(&p->mForward, m1.mUnk_00, &p->mTurnedForward);
+        MTX_MultVec33(&p->mForward, &m1, &p->mTurnedForward);
         d = VEC_DotProduct(&p->mGroundNormal, &p->mTurnedForward);
         v3.x = p->mTurnedForward.x - (s32) (((s64) p->mGroundNormal.x * d) >> 12);
         v3.y = p->mTurnedForward.y - (s32) (((s64) p->mGroundNormal.y * d) >> 12);

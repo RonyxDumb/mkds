@@ -157,7 +157,7 @@ Unk020dfc44 *CreateMkdEfBubbleUpdateList(void) {
 void DrawMkdEfBubble(void *a, MkdEfBubbleObject *bubble, void *c, s32 alpha) {
     s32 v;
     s32 w;
-    s32 rotationMatrix[9];
+    MtxFx33 rotationMatrix;
     s32 n;
 
     if (bubble->mMapObject.mStateMachine.mState != 0) {
@@ -168,8 +168,8 @@ void DrawMkdEfBubble(void *a, MkdEfBubbleObject *bubble, void *c, s32 alpha) {
     func_01ff9048(0x19, SetViewTransposeMatrixPos(&bubble->mMapObject.mPos), 0xc);
     if (bubble->mAngleZ != 0) {
         n = bubble->mAngleZ >> 4;
-        MTX_RotZ33_(rotationMatrix, gPairsByAngle[n * 2], gPairsByAngle[n * 2 + 1]);
-        func_01ff9048(0x1a, rotationMatrix, 9);
+        MTX_RotZ33_(&rotationMatrix, gPairsByAngle[n * 2], gPairsByAngle[n * 2 + 1]);
+        func_01ff9048(0x1a, &rotationMatrix, 9);
     }
     func_01ff9048(0x1b, &bubble->mMapObject.mScale, 3);
     DrawNsbmdWithMaxAlpha(gMkdEfBubble, alpha);

@@ -81,7 +81,7 @@ void ApplyCameraLookAt(Camera *camera) {
 void SetupCameraBehindKart(void) {
     Kart *kart;
     Camera *chaseCamera;
-    Vec3 axes[3];
+    MtxFx33 axes;
     Vec3 offset;
     s32 behindDistance;
 
@@ -95,9 +95,9 @@ void SetupCameraBehindKart(void) {
     chaseCamera = gChaseCamera;
     Matrix3x3FromQuaternion(&axes, &kart->mUnk_e0);
     behindDistance = ((s64) -gDefaultFollowDistance * chaseCamera->mFollowDirectionSign + 0x800) >> 12;
-    offset.x = ((s64) axes[2].x * behindDistance) >> 12;
-    offset.y = ((s64) axes[2].y * behindDistance) >> 12;
-    offset.z = ((s64) axes[2].z * behindDistance) >> 12;
+    offset.x = ((s64) axes.mUnk_00[2].x * behindDistance) >> 12;
+    offset.y = ((s64) axes.mUnk_00[2].y * behindDistance) >> 12;
+    offset.z = ((s64) axes.mUnk_00[2].z * behindDistance) >> 12;
     VEC_Add(&kart->mPos, &offset, &chaseCamera->mPos);
     chaseCamera->mPos.y = chaseCamera->mPos.y + gFollowHeight;
     chaseCamera->mBaseUp = data_usa_02154fc4;
@@ -679,13 +679,13 @@ void UpdateCameraAngleEntry(Camera *camera) {
     Vec3 a;
     Vec3 d;
     Vec3 t;
-    s32 m3[9];
-    s32 m2[9];
-    s32 m4[9];
-    s32 m0[9];
-    s32 m6[9];
-    s32 m5[9];
-    s32 m7[9];
+    MtxFx33 m3;
+    MtxFx33 m2;
+    MtxFx33 m4;
+    MtxFx33 m0;
+    MtxFx33 m6;
+    MtxFx33 m5;
+    MtxFx33 m7;
     Vec3 f;
     Vec3 g;
     Vec3 c;
@@ -711,19 +711,19 @@ void UpdateCameraAngleEntry(Camera *camera) {
     j = (u16) ((s32) (((s64) courseMapCamera->mUnk_18.y * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12);
     k = (u16) ((s32) (((s64) courseMapCamera->mUnk_24.x * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12);
     l = (u16) ((s32) (((s64) courseMapCamera->mUnk_24.y * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12);
-    MTX_RotAxis33((MtxFx43 *) m0, &kart->mUnk_120, gPairsByAngle[(kart->mHopTiltAngle >> 4) * 2],
+    MTX_RotAxis33(&m0, &kart->mUnk_120, gPairsByAngle[(kart->mHopTiltAngle >> 4) * 2],
                   gPairsByAngle[(kart->mHopTiltAngle >> 4) * 2 + 1]);
-    MTX_MultVec33(&a, m0, &a);
+    MTX_MultVec33(&a, &m0, &a);
     b = a;
     c = b;
     d = b;
     func_02074b00_inline(&n, &d, -courseMapCamera->mUnk_18.z);
     Vec3CrossUnrounded(&data_usa_02154fc4, &a, &f);
     Vec3CrossUnrounded(&c, &f, &g);
-    MTX_RotAxis33((MtxFx43 *) m2, &g, gPairsByAngle[(i >> 4) * 2], gPairsByAngle[(i >> 4) * 2 + 1]);
-    MTX_RotAxis33((MtxFx43 *) m3, &f, gPairsByAngle[(j >> 4) * 2], gPairsByAngle[(j >> 4) * 2 + 1]);
-    MTX_Concat33(m3, m2, m4);
-    MTX_MultVec33(&d, m4, &d);
+    MTX_RotAxis33(&m2, &g, gPairsByAngle[(i >> 4) * 2], gPairsByAngle[(i >> 4) * 2 + 1]);
+    MTX_RotAxis33(&m3, &f, gPairsByAngle[(j >> 4) * 2], gPairsByAngle[(j >> 4) * 2 + 1]);
+    MTX_Concat33(&m3, &m2, &m4);
+    MTX_MultVec33(&d, &m4, &d);
     func_02074b00_inline(&t, &d, courseMapCamera->mUnk_18.z);
     VEC_Add(&camera->mLookAt, &t, &camera->mPos);
     f.x = -f.x;
@@ -732,12 +732,12 @@ void UpdateCameraAngleEntry(Camera *camera) {
     g.x = -g.x;
     g.y = -g.y;
     g.z = -g.z;
-    MTX_RotAxis33((MtxFx43 *) m5, &g, gPairsByAngle[(k >> 4) * 2], gPairsByAngle[(k >> 4) * 2 + 1]);
-    MTX_RotAxis33((MtxFx43 *) m6, &f, gPairsByAngle[(l >> 4) * 2], gPairsByAngle[(l >> 4) * 2 + 1]);
-    MTX_Concat33(m5, m2, m5);
-    MTX_Concat33(m6, m3, m6);
-    MTX_Concat33(m6, m5, m7);
-    MTX_MultVec33(&n, m7, &n);
+    MTX_RotAxis33(&m5, &g, gPairsByAngle[(k >> 4) * 2], gPairsByAngle[(k >> 4) * 2 + 1]);
+    MTX_RotAxis33(&m6, &f, gPairsByAngle[(l >> 4) * 2], gPairsByAngle[(l >> 4) * 2 + 1]);
+    MTX_Concat33(&m5, &m2, &m5);
+    MTX_Concat33(&m6, &m3, &m6);
+    MTX_Concat33(&m6, &m5, &m7);
+    MTX_MultVec33(&n, &m7, &n);
     VEC_Add(&camera->mPos, &n, &camera->mLookAt);
     camera->mLookAt.y = camera->mLookAt.y - kart->mHopHeight;
     camera->mPos.y = camera->mPos.y - kart->mHopHeight;
@@ -763,7 +763,7 @@ void UpdateStaffRollCameraAndLight(Camera *camera) {
     Vec3 newLookAt;
     Vec3 offset;
     Vec3 lightDirection;
-    s32 m[9];
+    MtxFx33 m;
 
     camera->mUnk_0b4 = camera->mLookAt;
     newLookAt = kart->mPos;
@@ -797,9 +797,9 @@ void UpdateStaffRollCameraAndLight(Camera *camera) {
         0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&lightDirection, &lightDirection);
     }
-    MTX_RotAxis33((MtxFx43 *) m, &data_usa_02154fc4, gPairsByAngle[(data_usa_021656a0 >> 4) * 2],
+    MTX_RotAxis33(&m, &data_usa_02154fc4, gPairsByAngle[(data_usa_021656a0 >> 4) * 2],
                   gPairsByAngle[(data_usa_021656a0 >> 4) * 2 + 1]);
-    MTX_MultVec33(&lightDirection, m, &lightDirection);
+    MTX_MultVec33(&lightDirection, &m, &lightDirection);
     lightDirection.x = ((s64) lightDirection.x * 0xfae) >> 12;
     lightDirection.y = ((s64) lightDirection.y * 0xfae) >> 12;
     lightDirection.z = ((s64) lightDirection.z * 0xfae) >> 12;
@@ -1082,16 +1082,16 @@ void UpdateChaseCameraPos(Vec3 *pos, Vec3 *posOffset, Camera *camera, Kart *kart
 // Puts the chase camera at a minus mFollowDistance along axis 2 of the matrix b (the kart's).
 void ResetCameraBehind(const Vec3 *kartPos, void *quaternion) {
     Camera *chaseCamera;
-    Vec3 axes[3];
+    MtxFx33 axes;
     Vec3 offset;
     s32 behindDistance;
 
     chaseCamera = gChaseCamera;
-    Matrix3x3FromQuaternion(axes, quaternion);
+    Matrix3x3FromQuaternion(&axes, quaternion);
     behindDistance = ((s64) -gDefaultFollowDistance * chaseCamera->mFollowDirectionSign + 0x800) >> 12;
-    offset.x = ((s64) axes[2].x * behindDistance) >> 12;
-    offset.y = ((s64) axes[2].y * behindDistance) >> 12;
-    offset.z = ((s64) axes[2].z * behindDistance) >> 12;
+    offset.x = ((s64) axes.mUnk_00[2].x * behindDistance) >> 12;
+    offset.y = ((s64) axes.mUnk_00[2].y * behindDistance) >> 12;
+    offset.z = ((s64) axes.mUnk_00[2].z * behindDistance) >> 12;
     VEC_Add(kartPos, &offset, &chaseCamera->mPos);
     chaseCamera->mPos.y = chaseCamera->mPos.y + gFollowHeight;
     chaseCamera->mBaseUp = data_usa_02154fc4;

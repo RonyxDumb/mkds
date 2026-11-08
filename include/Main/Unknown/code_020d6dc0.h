@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "code_02012b30.h" // MtxFx43
+#include "code_02146d78.h" // MtxFx33
 
 typedef struct GroupFollowerWithSpeeds GroupFollowerWithSpeeds;
 typedef struct SegmentProgress SegmentProgress;
@@ -39,5 +40,5 @@ s32 Vec3NormalizeXZAndGetLengthOrZero(Vec3 *vector, Vec3 *result);
 void Vec3RotateAroundY(Vec3 *vector, s32 angle, Vec3 *result);
 // Writes to b (a 3x3 matrix, nine words with 12 fractional bits) the rotation given by the three angles of a in degrees
 // with 12 fractional bits: the X rotation, then the Y rotation, then the Z rotation multiplied on.
-void Matrix3x3FromVec3Degrees(Vec3 *degrees, s32 *matrix);
+void Matrix3x3FromVec3Degrees(Vec3 *degrees, MtxFx33 *matrix);
 u32 GetKartMapObjectResponseByKind(s32 flagBit, s32 itemEffect, s32 kindHundreds, s32 kindRemainder);

@@ -2,9 +2,17 @@
 
 #include "types.h"
 
+// Three rows of three words.
+typedef struct MtxFx33 {
+    /* 00 */ Vec3 mUnk_00[3];
+} MtxFx33;
+
 // Matrix of three direction vectors and a position.
 typedef struct MtxFx43 {
-    /* 00 */ Vec3 mUnk_00[4];
+    union {
+        /* 00 */ Vec3 mUnk_00[4];
+        /* 00 */ MtxFx33 mUnk_00_m;
+    };
 } MtxFx43;
 
 typedef struct NNSG3dResDictTreeNode {

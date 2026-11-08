@@ -18,7 +18,7 @@ typedef struct Unk020d6538_a {
 
 // Second half of the 0x5c-byte object behind data_0217b650: the words from 0x2c, then three more.
 typedef struct RockShadowMatrix {
-    /* 00 */ s32 mUnk_00[9];
+    /* 00 */ MtxFx33 mUnk_00;
     /* 24 */ Vec3 mUnk_24;
 } RockShadowMatrix;
 

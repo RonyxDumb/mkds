@@ -883,7 +883,7 @@ void StartItemInUseOne(ItemInUse *itemInUse) {
 
     inUseAlias = itemInUse;
     object = itemInUse->mObjects[0];
-    forwardAxis = &itemInUse->mKartOrientation.mUnk_18;
+    forwardAxis = &itemInUse->mKartOrientation.mUnk_00[2];
     inUseAlias->mUnk_090 = *forwardAxis;
     inUseAlias->mBehindDirection.x = -forwardAxis->x;
     inUseAlias->mBehindDirection.y = -forwardAxis->y;
@@ -892,7 +892,7 @@ void StartItemInUseOne(ItemInUse *itemInUse) {
     VEC_MultAdd(itemInUse->mUnk_078 + scaleOffset, &inUseAlias->mBehindDirection, &itemInUse->mKartDrawMatrixPos,
                 &inUseAlias->mBehindPos);
     VEC_MultAdd(((s64) itemInUse->mUnk_0e8 * itemInUse->mKartScaleFactorTimesBase.z) >> 12,
-                &itemInUse->mKartOrientation.mUnk_0c, &inUseAlias->mBehindPos, &object->mPos);
+                &itemInUse->mKartOrientation.mUnk_00[1], &inUseAlias->mBehindPos, &object->mPos);
 }
 
 void StartItemInUseOneWithOrientation(ItemInUse *itemInUse) {
@@ -903,7 +903,7 @@ void StartItemInUseOneWithOrientation(ItemInUse *itemInUse) {
 
     inUseAlias = itemInUse;
     object = itemInUse->mObjects[0];
-    forwardAxis = &itemInUse->mKartOrientation.mUnk_18;
+    forwardAxis = &itemInUse->mKartOrientation.mUnk_00[2];
     inUseAlias->mUnk_090 = *forwardAxis;
     inUseAlias->mBehindDirection.x = -forwardAxis->x;
     inUseAlias->mBehindDirection.y = -forwardAxis->y;
@@ -912,8 +912,8 @@ void StartItemInUseOneWithOrientation(ItemInUse *itemInUse) {
     VEC_MultAdd(itemInUse->mUnk_078 + scaleOffset, &inUseAlias->mBehindDirection, &itemInUse->mKartDrawMatrixPos,
                 &inUseAlias->mBehindPos);
     VEC_MultAdd(((s64) itemInUse->mUnk_0e8 * itemInUse->mKartScaleFactorTimesBase.z) >> 12,
-                &itemInUse->mKartOrientation.mUnk_0c, &inUseAlias->mBehindPos, &object->mPos);
-    object->mUnk_94.mUnk_00[1] = itemInUse->mKartOrientation.mUnk_0c;
+                &itemInUse->mKartOrientation.mUnk_00[1], &inUseAlias->mBehindPos, &object->mPos);
+    object->mUnk_94.mUnk_00[1] = itemInUse->mKartOrientation.mUnk_00[1];
     object->mUnk_94.mUnk_00[2].x = -inUseAlias->mBehindDirection.x;
     object->mUnk_94.mUnk_00[2].y = -inUseAlias->mBehindDirection.y;
     object->mUnk_94.mUnk_00[2].z = -inUseAlias->mBehindDirection.z;
@@ -929,7 +929,7 @@ void ComputeItemInUseObjectPosition(ItemInUse *itemInUse, Vec3 *objectPos, Vec3 
 
     inUseAlias = itemInUse;
     smoothedDirection = &inUseAlias->mUnk_090;
-    direction = itemInUse->mKartOrientation.mUnk_18;
+    direction = itemInUse->mKartOrientation.mUnk_00[2];
     if (itemInUse->mMovingForward != 0) {
         VEC_MultAdd(0x19a, &itemInUse->mKartMovement, &direction, &direction);
     }
@@ -958,7 +958,7 @@ void ComputeItemInUseObjectPosition(ItemInUse *itemInUse, Vec3 *objectPos, Vec3 
     }
     VEC_MultAdd(inUseAlias->mUnk_0e4 - itemInUse->mKartHopHeight +
                     (s32) (((s64) itemInUse->mUnk_0e8 * itemInUse->mKartScaleFactorTimesBase.z) >> 12),
-                &itemInUse->mKartOrientation.mUnk_0c, behindPos, objectPos);
+                &itemInUse->mKartOrientation.mUnk_00[1], behindPos, objectPos);
 }
 
 void AdvanceItemInUseOne(ItemInUse *itemInUse) {
@@ -1015,7 +1015,7 @@ void AdvanceItemInUseOneWithOrientation(ItemInUse *itemInUse) {
         direction.x = ((s64) inUseAlias->mBehindDirection.x << 13) >> 12;
         direction.y = ((s64) inUseAlias->mBehindDirection.y << 13) >> 12;
         direction.z = ((s64) inUseAlias->mBehindDirection.z << 13) >> 12;
-        VEC_Add(&direction, &itemInUse->mKartOrientation.mUnk_18, &direction);
+        VEC_Add(&direction, &itemInUse->mKartOrientation.mUnk_00[2], &direction);
         lengthSquared =
             (s64) direction.x * direction.x + (s64) direction.y * direction.y + (s64) direction.z * direction.z;
         if (lengthSquared >= 0x10) {
@@ -1024,7 +1024,7 @@ void AdvanceItemInUseOneWithOrientation(ItemInUse *itemInUse) {
         object->mUnk_94.mUnk_00[2].x = -direction.x;
         object->mUnk_94.mUnk_00[2].y = -direction.y;
         object->mUnk_94.mUnk_00[2].z = -direction.z;
-        object->mUnk_94.mUnk_00[1] = itemInUse->mKartOrientation.mUnk_0c;
+        object->mUnk_94.mUnk_00[1] = itemInUse->mKartOrientation.mUnk_00[1];
         Vec3CrossUnrounded(&object->mUnk_94.mUnk_00[1], &object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0]);
     }
     kind = object->mKind;
@@ -1049,16 +1049,16 @@ void StartItemInUseTrail(ItemInUse *itemInUse) {
     objects = itemInUse->mObjects;
     object = objects[0];
     objectPos = &object->mPos;
-    forwardAxis = &itemInUse->mKartOrientation.mUnk_18;
+    forwardAxis = &itemInUse->mKartOrientation.mUnk_00[2];
     itemInUse->mUnk_090 = *forwardAxis;
-    itemInUse->mBehindDirection.x = -itemInUse->mKartOrientation.mUnk_18.x;
+    itemInUse->mBehindDirection.x = -itemInUse->mKartOrientation.mUnk_00[2].x;
     itemInUse->mBehindDirection.y = -forwardAxis->y;
     itemInUse->mBehindDirection.z = -forwardAxis->z;
     scaleOffset = ((s64) itemInUse->mKartScaleFactorTimesBase.z << 14) >> 12;
     VEC_MultAdd(itemInUse->mUnk_078 + scaleOffset, &itemInUse->mBehindDirection, &itemInUse->mKartDrawMatrixPos,
                 &itemInUse->mBehindPos);
     VEC_MultAdd(((s64) itemInUse->mUnk_0e8 * itemInUse->mKartScaleFactorTimesBase.z) >> 12,
-                &itemInUse->mKartOrientation.mUnk_0c, &itemInUse->mBehindPos, objectPos);
+                &itemInUse->mKartOrientation.mUnk_00[1], &itemInUse->mBehindPos, objectPos);
     objects[1]->mPos = itemInUse->mObjects[0]->mPos;
     objects[2]->mPos = objects[1]->mPos;
     itemInUse->mUnk_0b4 = itemInUse->mBehindPos;
@@ -1066,7 +1066,7 @@ void StartItemInUseTrail(ItemInUse *itemInUse) {
     itemInUse->mUnk_0cc[0] = 0xee1;
     itemInUse->mUnk_0cc[1] = itemInUse->mUnk_0cc[0];
     itemInUse->mUnk_0cc[2] = itemInUse->mUnk_0cc[1];
-    itemInUse->mUnk_0d8 = itemInUse->mKartOrientation.mUnk_18;
+    itemInUse->mUnk_0d8 = itemInUse->mKartOrientation.mUnk_00[2];
     itemInUse->mUnk_16c = 0;
     for (i = 0; i < 0x10; i++) {
         itemInUse->mUnk_0ec[0][i] = 0;
@@ -1175,7 +1175,7 @@ void AdvanceItemInUseTrail(ItemInUse *itemInUse) {
             }
         }
         VEC_MultAdd(d + (s32) (((s64) itemInUse->mKartScaleFactorTimesBase.z * 0x4333) >> 12),
-                    &itemInUse->mKartOrientation.mUnk_0c, trailPos, &object->mPos);
+                    &itemInUse->mKartOrientation.mUnk_00[1], trailPos, &object->mPos);
         previousPos = trailPos;
         if (GrowItemObjectScale(object, scaleLimit, 0x19a + i * 0xcd) != 0) {
             SetItemObjectScaleByRatios(object, itemInUse->mKartScaleFactorTimesBase.x,
@@ -1239,8 +1239,8 @@ void PlaceItemInUseCircleObjects(ItemInUse *itemInUse) {
     t = -offsetY >> 1;
     u = -offsetX >> 1;
     objects = itemInUse->mObjects;
-    thirdAxis = &itemInUse->mKartOrientation.mUnk_18;
-    firstAxis = &itemInUse->mKartOrientation.mUnk_00;
+    thirdAxis = &itemInUse->mKartOrientation.mUnk_00[2];
+    firstAxis = &itemInUse->mKartOrientation.mUnk_00[0];
     center = &itemInUse->mCircleCenter;
     k = ((s64) offsetY * 0xddb) >> 12;
     m = ((s64) offsetX * 0xddb) >> 12;
@@ -1269,7 +1269,7 @@ void StartItemInUseCircle(ItemInUse *itemInUse) {
     for (i = 0; i < 3; i++) {
         itemInUse->mCircleSlots[i] = i;
     }
-    VEC_MultAdd(((s64) itemInUse->mKartScaleFactorTimesBase.z * 0x4333) >> 12, &itemInUse->mKartOrientation.mUnk_0c,
+    VEC_MultAdd(((s64) itemInUse->mKartScaleFactorTimesBase.z * 0x4333) >> 12, &itemInUse->mKartOrientation.mUnk_00[1],
                 &itemInUse->mKartDrawMatrixPos, &itemInUse->mCircleCenter);
     PlaceItemInUseCircleObjects(itemInUse);
     if (itemInUse->mKartIndex == gRaceSetup->mEntryIndex) {
@@ -1305,7 +1305,7 @@ void AdvanceItemInUseCircle(ItemInUse *itemInUse) {
     itemInUse->mUnk_17c = itemInUse->mUnk_17c - (s32) (((s64) itemInUse->mUnk_17c * 0x333) >> 12);
     VEC_MultAdd((itemInUse->mUnk_17c - itemInUse->mKartHopHeight) +
                     (s32) (((s64) itemInUse->mKartScaleFactorTimesBase.z * 0x4333) >> 12),
-                &itemInUse->mKartOrientation.mUnk_0c, &itemInUse->mKartDrawMatrixPos, &itemInUse->mCircleCenter);
+                &itemInUse->mKartOrientation.mUnk_00[1], &itemInUse->mKartDrawMatrixPos, &itemInUse->mCircleCenter);
     itemInUse->mCircleRadius =
         itemInUse->mCircleRadius +
         (s32) (((s64) ((itemInUse->mUnk_078 + (s32) (((s64) itemInUse->mKartScaleFactorTimesBase.z * 0x3000) >> 12)) -

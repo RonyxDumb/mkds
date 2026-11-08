@@ -65,7 +65,7 @@ void func_02063a68(Kart *kart) {
 
 void PlaceKartKillerEffectCallback(Unk0206390c *renderState) {
     u32 killerItemKartIndex;
-    Vec3 c[3];
+    MtxFx33 c;
     MtxFx43 positionMatrix;
     Vec3 effectPosition;
     Vec3 offset;
@@ -81,12 +81,12 @@ void PlaceKartKillerEffectCallback(Unk0206390c *renderState) {
         return;
     }
     currentViewMatrix = GetCurrentViewMatrix();
-    NNS_G3dGetCurrentMtx(&positionMatrix, c);
+    NNS_G3dGetCurrentMtx(&positionMatrix, &c);
     MTX_Inverse43(currentViewMatrix, &inverseViewMatrix);
     MTX_Concat43(&positionMatrix, &inverseViewMatrix, &positionMatrix);
-    MTX_Concat33((const s32 *) c, (const s32 *) &inverseViewMatrix, (s32 *) c);
+    MTX_Concat33(&c, &inverseViewMatrix.mUnk_00_m, &c);
     effectPosition = positionMatrix.mUnk_00[3];
-    offset = c[2];
+    offset = c.mUnk_00[2];
     kart = GetKart(killerItemKartIndex);
     offsetScale = (s32) ((s64) kart->mRadiusFactor * -0xd000 + 0x800 >> 12) >> 4;
     offset.x = (s64) offset.x * offsetScale >> 12;

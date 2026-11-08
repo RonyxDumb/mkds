@@ -69,7 +69,7 @@ BOOL func_020ffabc(u32 kind) {
 #pragma thumb on
 
 void func_020ff97c(Unk020ff97c *object) {
-    object->mUnk_a0.mUnk_a0 = *(MtxFx33 *) &object->mUnk_00.mMatrix;
+    object->mUnk_a0.mUnk_a0 = object->mUnk_00.mMatrix.mUnk_00_m;
     object->mUnk_a0.mUnk_124.x = 0;
     object->mUnk_a0.mUnk_124.y = 0;
     object->mUnk_a0.mUnk_124.z = 0;
@@ -105,7 +105,7 @@ void SetItemFBoxDrawMatrix(ItemFBox *fbox, MtxFx43 *out) {
     fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[3].y = position->y >> 4;
     fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[3].z = position->z >> 4;
     *out = fbox->mUnk_000.mItemObject.mUnk_94;
-    MTX_Concat33((const s32 *) &data_0217c600, (const s32 *) out, (s32 *) out);
+    MTX_Concat33(&data_0217c600.mUnk_00_m, &out->mUnk_00_m, &out->mUnk_00_m);
 }
 
 void func_020ff6d8(ItemFBox *fbox, MtxFx43 *out) {
@@ -184,7 +184,7 @@ void func_020ff6d8(ItemFBox *fbox, MtxFx43 *out) {
 }
 
 void ResetItemFBox(ItemFBox *fbox) {
-    *(MtxFx33 *) &fbox->mUnk_000.mItemObject.mUnk_94 = *(MtxFx33 *) &data_0217c600;
+    fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00_m = data_0217c600.mUnk_00_m;
     ResetPooledMapObject(fbox->mPooledMapObject);
     fbox->mPooledMapObject->mShadowMode = 2;
     SetPooledMapObjectCallback(fbox->mPooledMapObject, SetItemFBoxDrawMatrix, fbox);
@@ -203,8 +203,8 @@ void AdvanceItemFBoxInUse(ItemInUse *inUse, ItemFBox *fbox) {
 u32 InitItemFBox(ItemInUse *inUse, ItemFBox *fbox) {
     func_020f9114(fbox);
     fbox->mUnk_000.mItemObject.mUnk_78 |= data_0215a02c;
-    MTX_Concat33((const s32 *) &data_0217c600, (const s32 *) &fbox->mUnk_000.mItemObject.mUnk_94,
-                 (s32 *) &fbox->mUnk_000.mItemObject.mUnk_94);
+    MTX_Concat33(&data_0217c600.mUnk_00_m, &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00_m,
+                 &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00_m);
     fbox->mUnk_130.x = 0;
     fbox->mUnk_130.y = 0;
     fbox->mUnk_130.z = 0;
@@ -274,8 +274,8 @@ void func_020ff344(ItemFBox *fbox) {
     }
     Vec3CrossUnrounded(&fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0], &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1],
                        &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2]);
-    MTX_Concat33((const s32 *) &data_0217c600, (const s32 *) &fbox->mUnk_000.mItemObject.mUnk_94,
-                 (s32 *) &fbox->mUnk_000.mItemObject.mUnk_94);
+    MTX_Concat33(&data_0217c600.mUnk_00_m, &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00_m,
+                 &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00_m);
     if ((fbox->mUnk_000.mItemObject.mFlags & 0x180000) == 0) {
         fbox->mUnk_000.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemFBox;
     }

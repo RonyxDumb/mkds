@@ -83,7 +83,7 @@ void ComputeKartSidePoints(Kart *kart) {
         kartEffects->mSidePositions[i].x = kartEffects->mSidePositions[i].x >> 4;
         kartEffects->mSidePositions[i].y = kartEffects->mSidePositions[i].y >> 4;
         kartEffects->mSidePositions[i].z = kartEffects->mSidePositions[i].z >> 4;
-        MTX_MultVec33(&gKartSideDirectionVectors[i], &kart->mUnk_150.x, &sideDirection);
+        MTX_MultVec33(&gKartSideDirectionVectors[i], &kart->mUnk_150_m.mUnk_00_m, &sideDirection);
         kartEffects->mSideDirections[i].x = sideDirection.x;
         kartEffects->mSideDirections[i].y = sideDirection.y;
         kartEffects->mSideDirections[i].z = sideDirection.z;
@@ -909,8 +909,8 @@ void func_02082750(Unk0201ca6c *effect, s32 a) {
         k = data_02165938;
     }
     angle = (s32) (((s64) speedRatio * 0x38e3 + 0x800) >> 12);
-    MTX_RotAxis33((MtxFx43 *) &rotation, &axis, gPairsByAngle[(angle >> 4) * 2], gPairsByAngle[(angle >> 4) * 2 + 1]);
-    MTX_MultVec33(&rotatedVector, rotation.mUnk_00, &rotatedVector);
+    MTX_RotAxis33(&rotation, &axis, gPairsByAngle[(angle >> 4) * 2], gPairsByAngle[(angle >> 4) * 2 + 1]);
+    MTX_MultVec33(&rotatedVector, &rotation, &rotatedVector);
     h.x = rotatedVector.x;
     h.y = rotatedVector.y;
     h.z = rotatedVector.z;

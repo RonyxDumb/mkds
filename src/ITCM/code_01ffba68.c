@@ -96,8 +96,8 @@ void Matrix4x3FromQuaternion(void *a, const Vec4 *b) {
     o[11] = 0;
 }
 
-void Matrix3x3FromQuaternion(void *a, void *b) {
-    s32 *o = a;
+void Matrix3x3FromQuaternion(MtxFx33 *a, void *b) {
+    s32 *o = &a->mUnk_00[0].x;
     const Vec4 *q = b;
     s32 w;
     s32 x;

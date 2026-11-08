@@ -149,8 +149,8 @@ void func_020e410c(Unk020e1dc0 *list) {
 void func_020e3ef4(Unk020e3ef4 *object, struct CourseMapRow *courseRow, Unk020e1e98_154 *kindInfo) {
     InitStateMachine(&object->mUnk_000.mStateMachine, (UnkFunc *const *) data_0216c168, 4, object);
     object->mUnk_a0.mUnk_e8 = object->mUnk_000.mPos;
-    object->mUnk_a0.mUnk_a0 = *(MtxFx33 *) &object->mUnk_000.mMatrix;
-    object->mUnk_a0.mUnk_c4 = *(MtxFx33 *) &object->mUnk_000.mMatrix;
+    object->mUnk_a0.mUnk_a0 = object->mUnk_000.mMatrix.mUnk_00_m;
+    object->mUnk_a0.mUnk_c4 = object->mUnk_000.mMatrix.mUnk_00_m;
     object->mUnk_a0.mUnk_124.x = 0;
     object->mUnk_a0.mUnk_124.y = 0;
     object->mUnk_a0.mUnk_124.z = 0;
@@ -252,11 +252,10 @@ void UpdateBridge(s32 a, Bridge *bridge) {
     bridge->mUnk_a0.mUnk_124.y = ((s64) bridge->mMapObject.mMatrix.mUnk_00[0].y * angleDelta) >> 12;
     bridge->mUnk_a0.mUnk_124.z = ((s64) bridge->mMapObject.mMatrix.mUnk_00[0].z * angleDelta) >> 12;
     bridge->mAngleX = y;
-    bridge->mUnk_a0.mUnk_a0 = *(MtxFx33 *) &bridge->mMapObject.mMatrix;
-    MTX_RotX33_(&bridge->mMapObject.mMatrix.mUnk_00[0].x, gPairsByAngle[(y >> 4) * 2],
-                gPairsByAngle[(y >> 4) * 2 + 1]);
-    MTX_Concat33(&bridge->mMapObject.mMatrix.mUnk_00[0].x, bridge->mUnk_a0.mUnk_c4.mUnk_00,
-                 &bridge->mMapObject.mMatrix.mUnk_00[0].x);
+    bridge->mUnk_a0.mUnk_a0 = bridge->mMapObject.mMatrix.mUnk_00_m;
+    MTX_RotX33_(&bridge->mMapObject.mMatrix.mUnk_00_m, gPairsByAngle[(y >> 4) * 2], gPairsByAngle[(y >> 4) * 2 + 1]);
+    MTX_Concat33(&bridge->mMapObject.mMatrix.mUnk_00_m, &bridge->mUnk_a0.mUnk_c4,
+                 &bridge->mMapObject.mMatrix.mUnk_00_m);
     VEC_MultAdd(-bridge->mUnk_a0.mUnk_104, &bridge->mMapObject.mMatrix.mUnk_00[1], &bridge->mMapObject.mPos,
                 &bridge->mUnk_a0.mUnk_f4);
     if (bridge->mPauseTimer != 0) {

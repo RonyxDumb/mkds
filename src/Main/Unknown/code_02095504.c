@@ -194,7 +194,7 @@ void CreateBakubakuAndBakuShadow(void *a) {
 
 void DrawBakubaku(void *a, Bakubaku *bakubaku) {
     s32 t;
-    s32 m[9];
+    MtxFx33 m;
     s32 i;
 
     if (bakubaku->mState != 2) {
@@ -209,8 +209,8 @@ void DrawBakubaku(void *a, Bakubaku *bakubaku) {
     func_01ff9048(0x1b, &bakubaku->mUnk_00.mScale, 3);
     DrawMapObjectModel(a, gBakuShadow, bakubaku);
     i = (u16) (u32) FX_Atan2Idx(-bakubaku->mUnk_00.mUnk_10.y, 0xc000) >> 4;
-    MTX_RotX33_(m, gPairsByAngle[i * 2], gPairsByAngle[i * 2 + 1]);
-    func_01ff9048(0x1a, m, 9);
+    MTX_RotX33_(&m, gPairsByAngle[i * 2], gPairsByAngle[i * 2 + 1]);
+    func_01ff9048(0x1a, &m, 9);
     DrawMapObjectModel(a, gBakubaku, bakubaku);
 }
 

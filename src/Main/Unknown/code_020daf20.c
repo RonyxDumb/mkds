@@ -84,10 +84,10 @@ void DrawDossun(void *unused0, Dossun *dossun, void *unused1, s32 maxAlpha) {
     drawMatrix = &dossun->mUnk_00.mMatrix;
     if (dossun->mUnk_b4 != 0) {
         drawMatrix = &gDossunDrawMatrix;
-        MTX_RotY33_((s32 *) &gDossunDrawMatrix, gPairsByAngle[((u16) dossun->mUnk_ba >> 4) * 2],
+        MTX_RotY33_(&gDossunDrawMatrix.mUnk_00_m, gPairsByAngle[((u16) dossun->mUnk_ba >> 4) * 2],
                     gPairsByAngle[((u16) dossun->mUnk_ba >> 4) * 2 + 1]);
-        MTX_Concat33((const s32 *) &gDossunDrawMatrix, (const s32 *) &dossun->mUnk_00.mMatrix,
-                     (s32 *) &gDossunDrawMatrix);
+        MTX_Concat33(&gDossunDrawMatrix.mUnk_00_m, &dossun->mUnk_00.mMatrix.mUnk_00_m,
+                     &gDossunDrawMatrix.mUnk_00_m);
     }
     drawMatrix->mUnk_00[3].x = dossun->mUnk_00.mPos.x >> 4;
     drawMatrix->mUnk_00[3].y = dossun->mUnk_00.mPos.y >> 4;
@@ -457,7 +457,7 @@ void DrawKuribo(void *unused0, Kuribo *kuribo, void *unused1, u16 d) {
     NsbmdModel *model;
     if (kuribo->mFollower.mGroupIndex == 0xffff) {
         func_020d7938(&kuribo->mOrientation, &gViewYawQuaternion, &orientation);
-        Matrix3x3FromQuaternion(&kuribo->mMapObject.mMatrix, &orientation);
+        Matrix3x3FromQuaternion(&kuribo->mMapObject.mMatrix.mUnk_00_m, &orientation);
     } else {
         func_020e6d34(GetGroupFollowerSegmentUp(&kuribo->mFollower), &kuribo->mMapObject.mMatrix);
     }

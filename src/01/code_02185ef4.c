@@ -753,9 +753,9 @@ void AdvanceMissionRunMapObject(u32 a, Unk02188950 *mapObject) {
             StepIntTowardTarget(mapObject->mScaleTarget, mapObject->mScalePerCall, mapObject->mUnk_000.mScale.x);
     }
     if (mapObject->mCollisionShape == 1) {
-        MTX_RotY33_(&mapObject->mUnk_000.mMatrix.mUnk_00[0].x, gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2],
+        MTX_RotY33_(&mapObject->mUnk_000.mMatrix.mUnk_00_m, gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2],
                     gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2 + 1]);
-        MTX_MultVec33(&mapObject->mOffset, &mapObject->mUnk_000.mMatrix.mUnk_00[0].x, &mapObject->mPosWithOffset);
+        MTX_MultVec33(&mapObject->mOffset, &mapObject->mUnk_000.mMatrix.mUnk_00_m, &mapObject->mPosWithOffset);
         VEC_Add(&mapObject->mPosWithOffset, &mapObject->mUnk_000.mPos, &mapObject->mPosWithOffset);
     } else {
         mapObject->mPosWithOffset.x = mapObject->mUnk_000.mPos.x + mapObject->mOffset.x;
@@ -847,7 +847,7 @@ void DrawMissionRunMapObject(void *mapObjectList, Unk02188950 *mapObject) {
     s32 alpha;
     s32 value;
     Vec3 shiftedPosition;
-    s32 rotationMatrix[9];
+    MtxFx33 rotationMatrix;
     s32 pairIndex;
 
     alphaLimit = mapObject->mAlphaLimit >> 12;
@@ -880,8 +880,8 @@ void DrawMissionRunMapObject(void *mapObjectList, Unk02188950 *mapObject) {
         func_01ff9048(0x19, SetTranslationMatrixPos(&mapObject->mUnk_000.mPos), 0xc);
         if (mapObject->mUnk_000.mAngle != 0) {
             pairIndex = mapObject->mUnk_000.mAngle >> 4;
-            MTX_RotY33_(rotationMatrix, gPairsByAngle[pairIndex * 2], gPairsByAngle[pairIndex * 2 + 1]);
-            func_01ff9048(0x1a, rotationMatrix, 9);
+            MTX_RotY33_(&rotationMatrix, gPairsByAngle[pairIndex * 2], gPairsByAngle[pairIndex * 2 + 1]);
+            func_01ff9048(0x1a, &rotationMatrix, 9);
         }
         func_01ff9048(0x1b, &mapObject->mUnk_000.mScale.x, 3);
         SetMapObjectModelAlpha(mapObject->mNsbmd, alpha);
@@ -924,7 +924,7 @@ void DrawMissionRunMapObjectShadow(void *mapObjectList, Unk02188950 *mapObject, 
         depth = 0x14 - depth;
     }
     if (depth > 0) {
-        s32 rotationMatrix[9];
+        MtxFx33 rotationMatrix;
         Vec3 w;
         Vec3 u;
         s32 pairIndex;
@@ -936,8 +936,8 @@ void DrawMissionRunMapObjectShadow(void *mapObjectList, Unk02188950 *mapObject, 
         func_01ff9048(0x14, &value, 1);
         func_01ff9048(0x19, SetTranslationMatrixPos(&shadowPosition), 0xc);
         pairIndex = (u16) mapObject->mAngle >> 4;
-        MTX_RotY33_(rotationMatrix, gPairsByAngle[pairIndex * 2], gPairsByAngle[pairIndex * 2 + 1]);
-        func_01ff9048(0x1a, rotationMatrix, 9);
+        MTX_RotY33_(&rotationMatrix, gPairsByAngle[pairIndex * 2], gPairsByAngle[pairIndex * 2 + 1]);
+        func_01ff9048(0x1a, &rotationMatrix, 9);
         c = mapObject->mShadowOffsetZ >> 4;
         b = mapObject->mShadowOffsetY >> 4;
         a = mapObject->mShadowOffsetX >> 4;

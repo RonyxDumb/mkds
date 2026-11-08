@@ -68,7 +68,7 @@ void func_020ff1d8(void) {
         return;
     }
     axis = data_0216c734;
-    MTX_RotAxis33(&data_0217c600, &axis, 0xb50, 0xb50);
+    MTX_RotAxis33(&data_0217c600.mUnk_00_m, &axis, 0xb50, 0xb50);
     pool = &gItemPools[7];
     objectCursor = pool->mObjects;
     objectCount = pool->mObjectCount;

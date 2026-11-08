@@ -176,7 +176,7 @@ s32 InitItemKouraW(ItemInUse *itemInUse, ItemKouraW *item) {
     }
     func_020fc94c(item);
     // one 36-byte copy of the three vectors (three Vec3 assignments give 0x160 bytes against 0x150)
-    *(MtxFx33 *) &item->mUnk_000.mUnk_94 = *(MtxFx33 *) &itemInUse->mKartOrientation.mUnk_00;
+    item->mUnk_000.mUnk_94.mUnk_00_m = itemInUse->mKartOrientation;
     if (item->mUnk_000.mFlags & 0x8000000) {
         item->mNextState = 0;
         item->mNextStateRequested = 1;
@@ -736,7 +736,7 @@ void InitItemKouraWFromData(ItemKouraW *item) {
         Vec3NormalizeAndGetLengthUnchecked(&item->mUnk_000.mVelocity, &directionQuaternion.mDirection);
     }
     QuaternionFromYAxisToVec3(&directionQuaternion.mDirection, &directionQuaternion.mQuaternion);
-    Matrix3x3FromQuaternion(&item->mUnk_000.mUnk_94, &directionQuaternion.mQuaternion);
+    Matrix3x3FromQuaternion(&item->mUnk_000.mUnk_94.mUnk_00_m, &directionQuaternion.mQuaternion);
 }
 
 void DrawItemKouraWModel(ItemKouraW *item, s32 param_2, s32 param_3) {

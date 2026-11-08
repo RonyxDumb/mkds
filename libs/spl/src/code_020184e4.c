@@ -121,20 +121,20 @@ void SPLBehavior_ApplyMagnet(const Unk0201e248 *magnet, Unk0201e3c8 *ptcl, Vec3 
 }
 
 void SPLBehavior_ApplySpin(const Unk0201e170 *spin, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr) {
-    s32 buf[9];
+    MtxFx33 buf;
 
     switch (spin->mUnk_02) {
         case 0:
-            MTX_RotX33_(buf, gPairsByAngle[(spin->mUnk_00 >> 4) * 2], gPairsByAngle[(spin->mUnk_00 >> 4) * 2 + 1]);
+            MTX_RotX33_(&buf, gPairsByAngle[(spin->mUnk_00 >> 4) * 2], gPairsByAngle[(spin->mUnk_00 >> 4) * 2 + 1]);
             break;
         case 1:
-            MTX_RotY33_(buf, gPairsByAngle[(spin->mUnk_00 >> 4) * 2], gPairsByAngle[(spin->mUnk_00 >> 4) * 2 + 1]);
+            MTX_RotY33_(&buf, gPairsByAngle[(spin->mUnk_00 >> 4) * 2], gPairsByAngle[(spin->mUnk_00 >> 4) * 2 + 1]);
             break;
         case 2:
-            MTX_RotZ33_(buf, gPairsByAngle[(spin->mUnk_00 >> 4) * 2], gPairsByAngle[(spin->mUnk_00 >> 4) * 2 + 1]);
+            MTX_RotZ33_(&buf, gPairsByAngle[(spin->mUnk_00 >> 4) * 2], gPairsByAngle[(spin->mUnk_00 >> 4) * 2 + 1]);
             break;
     }
-    MTX_MultVec33(&ptcl->mUnk_08, buf, &ptcl->mUnk_08);
+    MTX_MultVec33(&ptcl->mUnk_08, &buf, &ptcl->mUnk_08);
 }
 
 void SPLBehavior_ApplyCollisionPlane(const Unk0201e054 *plane, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr) {
@@ -1056,7 +1056,7 @@ void SPLDraw_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
     Vec3 pos;
     Vec3 v;
     Vec3 col;
-    s32 m33[9];
+    MtxFx33 m33;
     s32 buf[12];
     MtxFx43 *m;
     s32 a;
@@ -1107,8 +1107,8 @@ void SPLDraw_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
             return;
         }
         VEC_Normalize(&v, &v);
-        MI_Copy36B(m, m33);
-        MTX_MultVec33(&v, m33, &v);
+        MI_Copy36B(m, &m33);
+        MTX_MultVec33(&v, &m33, &v);
         MTX_MultVec43(&pos, m, &pos);
         c = ptcl->mUnk_14;
         VEC_Normalize(&c, &c);
@@ -1146,8 +1146,8 @@ void SPLDraw_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
             return;
         }
         VEC_Normalize(&v, &v);
-        MI_Copy36B(m, m33);
-        MTX_MultVec33(&v, m33, &v);
+        MI_Copy36B(m, &m33);
+        MTX_MultVec33(&v, &m33, &v);
         MTX_MultVec43(&pos, m, &pos);
         c = ptcl->mUnk_14;
         VEC_Normalize(&c, &c);
@@ -1193,7 +1193,7 @@ void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
     Vec3 pos;
     Vec3 v;
     Vec3 col;
-    s32 m33[9];
+    MtxFx33 m33;
     s32 buf[12];
     MtxFx43 *m;
     s32 a;
@@ -1244,8 +1244,8 @@ void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
             return;
         }
         VEC_Normalize(&v, &v);
-        MI_Copy36B(m, m33);
-        MTX_MultVec33(&v, m33, &v);
+        MI_Copy36B(m, &m33);
+        MTX_MultVec33(&v, &m33, &v);
         MTX_MultVec43(&pos, m, &pos);
         c = ptcl->mUnk_14;
         VEC_Normalize(&c, &c);
@@ -1283,8 +1283,8 @@ void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
             return;
         }
         VEC_Normalize(&v, &v);
-        MI_Copy36B(m, m33);
-        MTX_MultVec33(&v, m33, &v);
+        MI_Copy36B(m, &m33);
+        MTX_MultVec33(&v, &m33, &v);
         MTX_MultVec43(&pos, m, &pos);
         c = ptcl->mUnk_14;
         VEC_Normalize(&c, &c);

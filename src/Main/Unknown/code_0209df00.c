@@ -115,9 +115,9 @@ void DrawFireball2(void *a, Fireball2 *b) {
     s32 s1;
     s32 s2;
     s32 s3;
-    s32 m1[9];
-    s32 m2[9];
-    s32 m3[9];
+    MtxFx33 m1;
+    MtxFx33 m2;
+    MtxFx33 m3;
     s32 i;
     s32 c;
     s32 j;
@@ -144,9 +144,9 @@ void DrawFireball2(void *a, Fireball2 *b) {
                 func_01ff9048(0x14, &s1, 1);
                 func_01ff9048(0x19, SetViewTransposeMatrixPos(&b->mElements[i][j].mUnk_00), 0xc);
                 if (b->mElements[i][j].mUnk_0e != 0) {
-                    MTX_RotZ33_(m1, gPairsByAngle[(b->mElements[i][j].mUnk_0e >> 4) * 2],
+                    MTX_RotZ33_(&m1, gPairsByAngle[(b->mElements[i][j].mUnk_0e >> 4) * 2],
                                 gPairsByAngle[(b->mElements[i][j].mUnk_0e >> 4) * 2 + 1]);
-                    func_01ff9048(0x1a, m1, 9);
+                    func_01ff9048(0x1a, &m1, 9);
                 }
                 func_01ff9048(0x1b, &b->mMapObject.mScale, 3);
                 SetMapObjectModelPolygonId(gFireball2, AllocPolygonIdWrapping());
@@ -159,9 +159,9 @@ void DrawFireball2(void *a, Fireball2 *b) {
         func_01ff9048(0x14, &s2, 1);
         func_01ff9048(0x19, SetViewTransposeMatrixPos(&b->mCenterPos), 0xc);
         if (b->mCenterRotationAngle != 0) {
-            MTX_RotZ33_(m2, gPairsByAngle[(b->mCenterRotationAngle >> 4) * 2],
+            MTX_RotZ33_(&m2, gPairsByAngle[(b->mCenterRotationAngle >> 4) * 2],
                         gPairsByAngle[(b->mCenterRotationAngle >> 4) * 2 + 1]);
-            func_01ff9048(0x1a, m2, 9);
+            func_01ff9048(0x1a, &m2, 9);
         }
         func_01ff9048(0x1b, &b->mMapObject.mScale, 3);
         SetMapObjectModelPolygonId(gFireball2, AllocPolygonIdWrapping());
@@ -184,9 +184,9 @@ void DrawFireball2(void *a, Fireball2 *b) {
                 func_01ff9048(0x14, &s3, 1);
                 func_01ff9048(0x19, SetViewTransposeMatrixPos(&b->mElements[i][j].mUnk_00), 0xc);
                 if (b->mElements[i][j].mUnk_0e != 0) {
-                    MTX_RotZ33_(m3, gPairsByAngle[(b->mElements[i][j].mUnk_0e >> 4) * 2],
+                    MTX_RotZ33_(&m3, gPairsByAngle[(b->mElements[i][j].mUnk_0e >> 4) * 2],
                                 gPairsByAngle[(b->mElements[i][j].mUnk_0e >> 4) * 2 + 1]);
-                    func_01ff9048(0x1a, m3, 9);
+                    func_01ff9048(0x1a, &m3, 9);
                 }
                 func_01ff9048(0x1b, &b->mMapObject.mScale, 3);
                 SetMapObjectModelPolygonId(gFireball2, AllocPolygonIdWrapping());

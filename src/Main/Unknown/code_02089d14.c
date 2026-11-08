@@ -255,14 +255,14 @@ void DrawStemSets(void) {
         if (gStemSets->mShownIndex == 2) {
             baseTransform.mUnk_00[3].y = 0x50000;
         }
-        MTX_Identity33_(&baseTransform);
+        MTX_Identity33_(&baseTransform.mUnk_00_m);
         for (nsbmdIndex = 0; nsbmdIndex < gStemSets->mSets[8]->mNsbmdCount; nsbmdIndex++) {
             nsbmd = &gStemSets->mSets[8]->mNsbmds[nsbmdIndex];
             G3i_OrthoW_(0x60000, -0x60000, -0x80000, 0x80000, 0, 0x1000, 0x1f6, 0,
                         (Unk0214ad4c *) data_0217029c.mProjMtx);
             data_0217029c.mFlag &= ~0x50;
             NNS_G3dGlbSetBaseScale(&baseScale);
-            MI_Copy36B(&baseTransform, data_0217029c.mPrmBaseRot);
+            MI_Copy36B(&baseTransform, &data_0217029c.mPrmBaseRot);
             data_0217029c.mFlag &= ~0xa4;
             NNS_G3dGlbSetBaseTrans(&baseTransform.mUnk_00[3]);
             NNS_G3dGlbFlushP();

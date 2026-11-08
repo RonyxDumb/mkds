@@ -11,7 +11,7 @@ void RefreshMapObjectMatrixFromHitNormal(void *mapObject) {
                         NULL, NULL, NULL);
     if (hit != 0) {
         QuaternionFromYAxisToVec3((Vec3 *) normal, ((u32 *) (void *) quaternion));
-        Matrix3x3FromQuaternion(((s32 *) (mapObject + 0x28)), quaternion);
+        Matrix3x3FromQuaternion(OFFSET_PTR(MtxFx33, mapObject, 0x28), quaternion);
         return;
     }
 }

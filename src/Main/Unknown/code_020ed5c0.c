@@ -41,13 +41,14 @@ BOOL CopyKartToItemInUse(ItemInUse *itemInUse) {
     s32 scaleUnchanged;
 
     kart = itemInUse->mKart;
-    itemInUse->mKartOrientation = *(KartOrientation *) &kart->mUnk_150;
+    itemInUse->mKartOrientation = kart->mUnk_150_m.mUnk_00_m;
     itemInUse->mKartDrawMatrixPos = kart->mDrawMatrixPos;
     itemInUse->mKartVelocity = kart->mVelocity;
     itemInUse->mKartVelocityLength = kart->mVelocityLength;
     itemInUse->mUnk_078 = ((s64) kart->mPhysicalParam->mUnk_08 * kart->mScale.z + 0x800) >> 12;
     itemInUse->mKartHopHeight = kart->mHopHeight;
-    itemInUse->mMovingForward = Vec3DotUnrounded(&itemInUse->mKartOrientation.mUnk_18, &itemInUse->mKartVelocity) > 0;
+    itemInUse->mMovingForward =
+        Vec3DotUnrounded(&itemInUse->mKartOrientation.mUnk_00[2], &itemInUse->mKartVelocity) > 0;
     VEC_Subtract(&itemInUse->mKartDrawMatrixPos, &kart->mPrevPos, &itemInUse->mKartMovement);
     scale.x = ((s64) kart->mScaleFactor.x * kart->mScaleBase.x) >> 12;
     scale.y = ((s64) kart->mScaleFactor.y * kart->mScaleBase.y) >> 12;
@@ -199,7 +200,7 @@ void UpdateItemInUseObjects(ItemInUse *itemInUse) {
         VEC_Subtract(&object->mPos, &object->mPrevPos, &object->mVelocity);
         object->mPrevPos = object->mPos;
         if (itemInUse->mObjectStartFramesLeft == 0) {
-            object->mNormal = itemInUse->mKartOrientation.mUnk_0c;
+            object->mNormal = itemInUse->mKartOrientation.mUnk_00[1];
             if (object->mNormal.y < 0xff4) {
                 object->mFlags |= 0x80;
             }
@@ -307,7 +308,7 @@ s32 ComputeItemThrowForward(ItemInUse *itemInUse, s32 baseSpeed, s32 speedFactor
     kartMoveLength = VEC_Mag(&itemInUse->mKartMovement);
     if (itemInUse->mMovingForward != 0) {
         speed = baseSpeed + (s32) (((s64) kartMoveLength * speedFactor) >> 12);
-        VEC_MultAdd(forwardWeight, &itemInUse->mKartOrientation.mUnk_18, &itemInUse->mKartMovement, &throwDirection);
+        VEC_MultAdd(forwardWeight, &itemInUse->mKartOrientation.mUnk_00[2], &itemInUse->mKartMovement, &throwDirection);
     } else {
         Vec3 *kartVector;
 
@@ -316,10 +317,10 @@ s32 ComputeItemThrowForward(ItemInUse *itemInUse, s32 baseSpeed, s32 speedFactor
                 (s64) kartVector->z * kartVector->z >=
             0x10) {
             speed = baseSpeed + (s32) (((s64) kartMoveLength * speedFactor) >> 12);
-            VEC_MultAdd(forwardWeight, &itemInUse->mKartOrientation.mUnk_18, kartVector, &throwDirection);
+            VEC_MultAdd(forwardWeight, &itemInUse->mKartOrientation.mUnk_00[2], kartVector, &throwDirection);
         } else {
             speed = baseSpeed - kartMoveLength;
-            throwDirection = itemInUse->mKartOrientation.mUnk_18;
+            throwDirection = itemInUse->mKartOrientation.mUnk_00[2];
         }
     }
     if ((itemInUse->mKart->mUnk_48 & 1) == 0) {
@@ -341,15 +342,15 @@ s32 ComputeItemThrowBackward(ItemInUse *itemInUse, s32 speed, s32 speedFactor, s
     if (itemInUse->mMovingForward != 0) {
         speed -= kartMoveLength;
         VEC_Subtract(&itemInUse->mKartMovement, &itemInUse->mKart->mUnk_1fc, &throwDirection);
-        VEC_MultAdd(forwardWeight, &itemInUse->mKartOrientation.mUnk_18, &throwDirection, &throwDirection);
+        VEC_MultAdd(forwardWeight, &itemInUse->mKartOrientation.mUnk_00[2], &throwDirection, &throwDirection);
         throwDirection.x = -throwDirection.x;
         throwDirection.y = -throwDirection.y;
         throwDirection.z = -throwDirection.z;
     } else {
         speed += (s32) (((s64) kartMoveLength * speedFactor) >> 12);
-        throwDirection.x = -itemInUse->mKartOrientation.mUnk_18.x;
-        throwDirection.y = -itemInUse->mKartOrientation.mUnk_18.y;
-        throwDirection.z = -itemInUse->mKartOrientation.mUnk_18.z;
+        throwDirection.x = -itemInUse->mKartOrientation.mUnk_00[2].x;
+        throwDirection.y = -itemInUse->mKartOrientation.mUnk_00[2].y;
+        throwDirection.z = -itemInUse->mKartOrientation.mUnk_00[2].z;
     }
     if ((itemInUse->mKart->mUnk_48 & 1) == 0) {
         throwDirection.y = 0;

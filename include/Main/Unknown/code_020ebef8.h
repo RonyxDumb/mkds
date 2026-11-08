@@ -41,7 +41,8 @@ typedef struct Unk020ec194 {
     /* 004 */ Vec3 mUnk_004;
     /* 010 */ Vec3 mUnk_010;
     /* 01c */ u8 mUnk_01c[0xc];
-    /* 028 */ u8 mUnk_028[0x88];
+    /* 028 */ MtxFx33 mUnk_028;
+    /* 04c */ u8 mUnk_04c[0x64];
     /* 0b0 */ Vec3 mUnk_0b0;
     /* 0bc */ u8 mUnk_0bc[0xc];
     /* 0c8 */ u16 mUnk_0c8;

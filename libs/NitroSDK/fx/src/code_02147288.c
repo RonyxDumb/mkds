@@ -7,7 +7,7 @@
 // Scales the first three rows of the 4x3 matrix at src by x, y and z, copies the translation row, and writes the result
 // to dst.
 void MTX_ScaleApply43(const MtxFx43 *src, MtxFx43 *dst, s32 x, s32 y, s32 z) {
-    MTX_ScaleApply33(src, dst, x, y, z);
+    MTX_ScaleApply33(&src->mUnk_00_m, &dst->mUnk_00_m, x, y, z);
     dst->mUnk_00[3].x = src->mUnk_00[3].x;
     dst->mUnk_00[3].y = src->mUnk_00[3].y;
     dst->mUnk_00[3].z = src->mUnk_00[3].z;
@@ -15,7 +15,7 @@ void MTX_ScaleApply43(const MtxFx43 *src, MtxFx43 *dst, s32 x, s32 y, s32 z) {
 
 // Sets dst to the rotation by sinVal and cosVal about the axis vec, with a zero translation.
 void MTX_RotAxis43(MtxFx43 *dst, const Vec3 *vec, s32 sinVal, s32 cosVal) {
-    MTX_RotAxis33(dst, vec, sinVal, cosVal);
+    MTX_RotAxis33(&dst->mUnk_00_m, vec, sinVal, cosVal);
     dst->mUnk_00[3].x = 0;
     dst->mUnk_00[3].y = 0;
     dst->mUnk_00[3].z = 0;

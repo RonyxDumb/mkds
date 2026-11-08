@@ -39,18 +39,18 @@ void InitItemObjectThrow(void *objectParam, ItemInUse *inUseParam, s32 hitLimit,
         VEC_Add(&object->mUnk_000.mVelocity, &inUse->mKart->mUnk_1fc, &object->mUnk_000.mVelocity);
     }
     if (inUse->mKart->mUnk_48 & 1) {
-        dot = VEC_DotProduct(&inUse->mKartOrientation.mUnk_0c, &object->mUnk_000.mVelocity);
+        dot = VEC_DotProduct(&inUse->mKartOrientation.mUnk_00[1], &object->mUnk_000.mVelocity);
         {
             s32 alongX, alongY, alongZ;
 
-            alongX = ((s64) inUse->mKartOrientation.mUnk_0c.x * dot) >> 12;
-            alongY = ((s64) inUse->mKartOrientation.mUnk_0c.y * dot) >> 12;
-            alongZ = ((s64) inUse->mKartOrientation.mUnk_0c.z * dot) >> 12;
+            alongX = ((s64) inUse->mKartOrientation.mUnk_00[1].x * dot) >> 12;
+            alongY = ((s64) inUse->mKartOrientation.mUnk_00[1].y * dot) >> 12;
+            alongZ = ((s64) inUse->mKartOrientation.mUnk_00[1].z * dot) >> 12;
             object->mUnk_000.mVelocity.x = (s32) (object->mUnk_000.mVelocity.x - alongX);
             object->mUnk_000.mVelocity.y -= alongY;
             object->mUnk_000.mVelocity.z -= alongZ;
         }
-        VEC_MultAdd(-0x1000, &inUse->mKartOrientation.mUnk_0c, &object->mUnk_000.mVelocity,
+        VEC_MultAdd(-0x1000, &inUse->mKartOrientation.mUnk_00[1], &object->mUnk_000.mVelocity,
                     &object->mUnk_000.mVelocity);
     }
     if (object->mUnk_000.mScale.z < 0xccd) {
@@ -59,7 +59,7 @@ void InitItemObjectThrow(void *objectParam, ItemInUse *inUseParam, s32 hitLimit,
         object->mUnk_000.mScale.z = 0xccd;
         if (throwForward != 0) {
             object->mUnk_000.mPos = inUse->mKart->mCollisionCenter;
-            VEC_MultAdd(object->mUnk_000.mScale.z * 10, &inUse->mKartOrientation.mUnk_18, &object->mUnk_000.mPos,
+            VEC_MultAdd(object->mUnk_000.mScale.z * 10, &inUse->mKartOrientation.mUnk_00[2], &object->mUnk_000.mPos,
                         &object->mUnk_000.mPos);
         }
     }

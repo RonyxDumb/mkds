@@ -88,7 +88,7 @@ void func_020dd6c8(void *unused0, Wanwan *wanwan, void *unused1, u32 maxAlpha) {
     wanwan->mUnk_00.mMatrix.mUnk_00[3].y = wanwan->mUnk_00.mPos.y >> 4;
     wanwan->mUnk_00.mMatrix.mUnk_00[3].z = wanwan->mUnk_00.mPos.z >> 4;
     DrawNsbmdWithMatrixAndMaxAlpha(gWanwan, &wanwan->mUnk_00.mMatrix, &wanwan->mUnk_00.mScale, maxAlpha);
-    Matrix3x3FromQuaternion(&shadowMatrix, &wanwan->mUnk_d4);
+    Matrix3x3FromQuaternion(&shadowMatrix.mUnk_00_m, &wanwan->mUnk_d4);
     shadowMatrix.mUnk_00[3].x = wanwan->mUnk_00.mPos.x >> 4;
     shadowMatrix.mUnk_00[3].y = wanwan->mUnk_00.mPos.y >> 4;
     shadowMatrix.mUnk_00[3].z = wanwan->mUnk_00.mPos.z >> 4;
@@ -225,7 +225,7 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
     }
     QuaternionBlendTowardNearerSign(&wanwan->mUnk_b4, &targetOrientation, &wanwan->mUnk_b4, wanwan->mUnk_ec);
     QuaternionNormalizeUnlessNearOne(&wanwan->mUnk_b4, &wanwan->mUnk_b4);
-    Matrix3x3FromQuaternion(&wanwan->mUnk_00.mMatrix, &wanwan->mUnk_b4);
+    Matrix3x3FromQuaternion(&wanwan->mUnk_00.mMatrix.mUnk_00_m, &wanwan->mUnk_b4);
     if (wanwan->mUnk_00.mPos.y >= 0) {
         return;
     }

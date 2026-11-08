@@ -147,8 +147,8 @@ static inline u32 func_020983c4_inline(u32 n) {
 
 void DrawPakkunMouth(void *a, Pakkun *pakkun) {
     s32 w;
-    s32 m[9];
-    s32 n[9];
+    MtxFx33 m;
+    MtxFx33 n;
     s32 f[3];
     s32 g[3];
     s32 t;
@@ -163,14 +163,14 @@ void DrawPakkunMouth(void *a, Pakkun *pakkun) {
     f[2] = 0;
     func_01ff9048(0x1c, f, 3);
     if (pakkun->mUnk_1dc != 0) {
-        MTX_RotY33_(m, gPairsByAngle[((u16) pakkun->mUnk_1dc >> 4) * 2],
+        MTX_RotY33_(&m, gPairsByAngle[((u16) pakkun->mUnk_1dc >> 4) * 2],
                     gPairsByAngle[((u16) pakkun->mUnk_1dc >> 4) * 2 + 1]);
-        func_01ff9048(0x1a, m, 9);
+        func_01ff9048(0x1a, &m, 9);
     }
     if (pakkun->mUnk_1e0 != 0) {
-        MTX_RotX33_(n, gPairsByAngle[((u16) pakkun->mUnk_1e0 >> 4) * 2],
+        MTX_RotX33_(&n, gPairsByAngle[((u16) pakkun->mUnk_1e0 >> 4) * 2],
                     gPairsByAngle[((u16) pakkun->mUnk_1e0 >> 4) * 2 + 1]);
-        func_01ff9048(0x1a, n, 9);
+        func_01ff9048(0x1a, &n, 9);
     }
     t = pakkun->mUnk_1f0;
     g[0] = t;

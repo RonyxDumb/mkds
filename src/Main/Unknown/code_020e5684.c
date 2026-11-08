@@ -149,7 +149,7 @@ void DrawSecondHand(u32 a, Unk020e43a8 *secondHand, u32 b, u32 alpha) {
 void UpdateSecondHand(u32 a, Unk020e43a8 *secondHand) {
     AdvanceStateMachine(&secondHand->mUnk_00.mStateMachine);
     QuaternionMultiplyAngleAroundY(&secondHand->mUnk_a0.mUnk_0c.y, secondHand->mUnk_00.mAngle, &secondHand->mUnk_a0);
-    Matrix3x3FromQuaternion(&secondHand->mUnk_00.mMatrix, &secondHand->mUnk_a0);
+    Matrix3x3FromQuaternion(&secondHand->mUnk_00.mMatrix.mUnk_00_m, &secondHand->mUnk_a0);
 }
 
 void EnterSecondHandState0(Unk020e58b8 *secondHand) {

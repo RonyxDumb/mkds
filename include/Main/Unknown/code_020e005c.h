@@ -76,9 +76,7 @@ typedef struct Unk020e005c {
     /* 01c */ s32 mUnk_01c;
     /* 020 */ s32 mUnk_020;
     /* 024 */ s32 mUnk_024;
-    /* 028 */ Vec3 mUnk_028;
-    /* 034 */ Vec3 mUnk_034;
-    /* 040 */ Vec3 mUnk_040;
+    /* 028 */ MtxFx33 mUnk_028;
     /* 04c */ u8 mUnk_04c[0x1a];
     // Alpha of the object, the same bytes as MapObject.mAlpha.
     /* 066 */ u16 mAlpha;

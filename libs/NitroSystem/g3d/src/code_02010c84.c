@@ -484,7 +484,7 @@ void NNSi_G3dFuncSbc_ENVMAP(NNSG3dRS *state) {
             func_01ff9048(0x10, &texMode2, 1);
             if (data_0217029c.mFlag & 1) {
                 func_01ff9048(0x1a, &data_0217029c.mCameraMtx, 9);
-                func_01ff9048(0x1a, data_0217029c.mPrmBaseRot, 9);
+                func_01ff9048(0x1a, &data_0217029c.mPrmBaseRot, 9);
                 func_01ff9048(0x1a, &nrm, 9);
             } else if (data_0217029c.mFlag & 2) {
                 func_01ff9048(0x1a, &data_0217029c.mCameraMtx, 9);
@@ -566,7 +566,7 @@ void NNSi_G3dFuncSbc_PRJMAP(NNSG3dRS *state) {
         if (timing == 0) {
             if (data_0217029c.mFlag & 1) {
                 func_01ff9048(0x1c, &data_0217029c.mPrmBaseTrans, 3);
-                func_01ff9048(0x1a, data_0217029c.mPrmBaseRot, 9);
+                func_01ff9048(0x1a, &data_0217029c.mPrmBaseRot, 9);
                 func_01ff9048(0x19, &curMatrix, 0xc);
             } else if (data_0217029c.mFlag & 2) {
                 func_01ff9048(0x19, &curMatrix, 0xc);
@@ -747,7 +747,7 @@ void NNS_G3dGlbInit(void) {
     data_0217029c.mPrmBaseTrans.x = 0;
     data_0217029c.mPrmBaseTrans.y = 0;
     data_0217029c.mPrmBaseTrans.z = 0;
-    MTX_Identity33_((MtxFx43 *) data_0217029c.mPrmBaseRot);
+    MTX_Identity33_(&data_0217029c.mPrmBaseRot);
     data_0217029c.mPrmBaseScale.x = 0x1000;
     data_0217029c.mPrmBaseScale.y = 0x1000;
     data_0217029c.mPrmBaseScale.z = 0x1000;
@@ -824,7 +824,7 @@ MtxFx43 *NNS_G3dGlbGetInvV(void) {
 
 // Computes the camera matrix with the base transform applied, and its inverse.
 void calcSrtCameraMtx_(void) {
-    MTX_Concat43((MtxFx43 *) data_0217029c.mPrmBaseRot, &data_0217029c.mCameraMtx, &data_0217029c.mSrtCameraMtx);
+    MTX_Concat43((MtxFx43 *) &data_0217029c.mPrmBaseRot, &data_0217029c.mCameraMtx, &data_0217029c.mSrtCameraMtx);
     MTX_ScaleApply43(&data_0217029c.mSrtCameraMtx, &data_0217029c.mSrtCameraMtx, data_0217029c.mPrmBaseScale.x,
                      data_0217029c.mPrmBaseScale.y, data_0217029c.mPrmBaseScale.z);
     MTX_Inverse43(&data_0217029c.mSrtCameraMtx, &data_0217029c.mInvSrtCameraMtx);

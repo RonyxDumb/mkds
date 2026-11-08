@@ -185,15 +185,14 @@ void func_020653d0(Kart *kart, ParticipantKartRecord *record, s32 stepCount) {
                     stateAgain->mEasedTurnAngle +
                     (s32) (((s64) (stateAgain->mTargetTurnAngle - stateAgain->mEasedTurnAngle) * 0x333 + 0x800) >> 12);
                 kart->mTurnAngle = stateAgain->mEasedTurnAngle;
-                MTX_RotAxis33((MtxFx43 *) &turnMatrix, &kart->mUnk_12c,
+                MTX_RotAxis33(&turnMatrix, &kart->mUnk_12c,
                               gPairsByAngle[((u16) kart->mTurnAngle >> 4) * 2],
                               gPairsByAngle[((u16) kart->mTurnAngle >> 4) * 2 + 1]);
                 if (kart->mUnk_48 & 1) {
-                    MTX_RotAxis33((MtxFx43 *) &fixedAngleMatrix, &kart->mUnk_120, gPairsByAngle[0xba],
-                                  gPairsByAngle[0xbb]);
-                    MTX_Concat33(fixedAngleMatrix.mUnk_00, turnMatrix.mUnk_00, turnMatrix.mUnk_00);
+                    MTX_RotAxis33(&fixedAngleMatrix, &kart->mUnk_120, gPairsByAngle[0xba], gPairsByAngle[0xbb]);
+                    MTX_Concat33(&fixedAngleMatrix, &turnMatrix, &turnMatrix);
                 }
-                MTX_MultVec33(&kart->mForward, turnMatrix.mUnk_00, &kart->mTurnedForward);
+                MTX_MultVec33(&kart->mForward, &turnMatrix, &kart->mTurnedForward);
                 k = kart->mForwardSpeed;
                 moveStep.x = ((s64) kart->mTurnedForward.x * k) >> 12;
                 moveStep.y = ((s64) kart->mTurnedForward.y * k) >> 12;

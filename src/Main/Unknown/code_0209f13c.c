@@ -120,7 +120,7 @@ void CreateRainStar(void *a) {
 
 void DrawRainStar(void *a, Unk0209f1c8 *b) {
     u32 l;
-    s32 m[9];
+    MtxFx33 m;
     s32 i;
 
     l = 0x1e;
@@ -131,8 +131,8 @@ void DrawRainStar(void *a, Unk0209f1c8 *b) {
     func_01ff9048(0x19, &b->mUnk_00.mMatrix, 0xc);
     if (b->mUnk_00.mAngle != 0) {
         i = b->mUnk_00.mAngle >> 4;
-        MTX_RotY33_(m, gPairsByAngle[i * 2], gPairsByAngle[i * 2 + 1]);
-        func_01ff9048(0x1a, m, 9);
+        MTX_RotY33_(&m, gPairsByAngle[i * 2], gPairsByAngle[i * 2 + 1]);
+        func_01ff9048(0x1a, &m, 9);
     }
     func_01ff9048(0x1b, &b->mUnk_00.mScale, 3);
     SetMapObjectModelNsbtaFrameIndex(gRainStar, b->mUnk_a0);

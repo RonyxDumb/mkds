@@ -80,7 +80,7 @@ void SetupDrawBasabasa(void *a) {
 
 void DrawBasabasa(void *a, Basabasa *basabasa) {
     s32 s;
-    s32 rotationMatrix[9];
+    MtxFx33 rotationMatrix;
     s32 drawAngle;
 
     drawAngle = 0x1fe0 - basabasa->mUnk_c4;
@@ -88,13 +88,13 @@ void DrawBasabasa(void *a, Basabasa *basabasa) {
     func_01ff9048(0x14, &s, 1);
     func_01ff9048(0x19, SetViewTransposeMatrixPos(&basabasa->mUnk_00.mPos), 0xc);
     if (basabasa->mRotateZNegated != 0) {
-        MTX_RotZ33_(rotationMatrix, gPairsByAngle[((u16) -drawAngle >> 4) * 2],
+        MTX_RotZ33_(&rotationMatrix, gPairsByAngle[((u16) -drawAngle >> 4) * 2],
                     gPairsByAngle[((u16) -drawAngle >> 4) * 2 + 1]);
     } else {
-        MTX_RotZ33_(rotationMatrix, gPairsByAngle[((u16) drawAngle >> 4) * 2],
+        MTX_RotZ33_(&rotationMatrix, gPairsByAngle[((u16) drawAngle >> 4) * 2],
                     gPairsByAngle[((u16) drawAngle >> 4) * 2 + 1]);
     }
-    func_01ff9048(0x1a, rotationMatrix, 9);
+    func_01ff9048(0x1a, &rotationMatrix, 9);
     func_01ff9048(0x1b, &basabasa->mUnk_00.mScale, 3);
     SetMapObjectModelNsbtpFrameIndex(gBasabasa, basabasa->mNsbtpFrameIndex);
     DrawMapObjectModel(a, gBasabasa, basabasa);

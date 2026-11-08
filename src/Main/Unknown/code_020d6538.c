@@ -334,14 +334,14 @@ s32 Vec3NormalizeXZAndGetLengthOrZero(Vec3 *vector, Vec3 *result) {
 }
 
 void Vec3RotateAroundY(Vec3 *vector, s32 angle, Vec3 *result) {
-    s32 matrix[9];
+    MtxFx33 matrix;
     s32 pairIndex = angle >> 4;
-    MTX_RotY33_(matrix, gPairsByAngle[pairIndex * 2], gPairsByAngle[pairIndex * 2 + 1]);
-    MTX_MultVec33(vector, matrix, result);
+    MTX_RotY33_(&matrix, gPairsByAngle[pairIndex * 2], gPairsByAngle[pairIndex * 2 + 1]);
+    MTX_MultVec33(vector, &matrix, result);
 }
 
-void Matrix3x3FromVec3Degrees(Vec3 *degrees, s32 *matrix) {
-    s32 rotation[9];
+void Matrix3x3FromVec3Degrees(Vec3 *degrees, MtxFx33 *matrix) {
+    MtxFx33 rotation;
     s32 angleX;
     s32 angleY;
     s32 angleZ;
@@ -349,10 +349,10 @@ void Matrix3x3FromVec3Degrees(Vec3 *degrees, s32 *matrix) {
     angleY = (u16) ((((s64) degrees->y * 0xB60B60B60BLL) + 0x80000000000LL) >> 44);
     angleZ = (u16) ((((s64) degrees->z * 0xB60B60B60BLL) + 0x80000000000LL) >> 44);
     MTX_RotX33_(matrix, gPairsByAngle[(angleX >> 4) * 2], gPairsByAngle[(angleX >> 4) * 2 + 1]);
-    MTX_RotY33_(rotation, gPairsByAngle[(angleY >> 4) * 2], gPairsByAngle[(angleY >> 4) * 2 + 1]);
-    MTX_Concat33(matrix, rotation, matrix);
-    MTX_RotZ33_(rotation, gPairsByAngle[(angleZ >> 4) * 2], gPairsByAngle[(angleZ >> 4) * 2 + 1]);
-    MTX_Concat33(matrix, rotation, matrix);
+    MTX_RotY33_(&rotation, gPairsByAngle[(angleY >> 4) * 2], gPairsByAngle[(angleY >> 4) * 2 + 1]);
+    MTX_Concat33(matrix, &rotation, matrix);
+    MTX_RotZ33_(&rotation, gPairsByAngle[(angleZ >> 4) * 2], gPairsByAngle[(angleZ >> 4) * 2 + 1]);
+    MTX_Concat33(matrix, &rotation, matrix);
 }
 
 u32 GetKartMapObjectResponseByKind(s32 flagBit, s32 itemEffect, s32 kindHundreds, s32 kindRemainder) {
@@ -563,7 +563,7 @@ RockUpdateList *CreateRockUpdateList(void) {
 
 void SetupDrawRock(void) {
     s32 pairIndex = (s32) (GetRaceUpdateFrames() << 25 >> 16) >> 4;
-    MTX_RotY33_(data_0217b650->mShadowMatrix.mUnk_00, gPairsByAngle[pairIndex * 2], gPairsByAngle[pairIndex * 2 + 1]);
+    MTX_RotY33_(&data_0217b650->mShadowMatrix.mUnk_00, gPairsByAngle[pairIndex * 2], gPairsByAngle[pairIndex * 2 + 1]);
 }
 
 void func_020d655c(void *a, RockObject *rock, void *c, s32 alpha) {

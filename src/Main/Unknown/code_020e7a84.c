@@ -250,7 +250,7 @@ void UpdateJg(void) {
 // Draws the cloud, gJgMain and the model gJgKind selects; counts gJgAlpha up to 0x1f while visible.
 void DrawJg(void) {
     s32 commandArg1, commandArg2, commandArg3, commandArg4, commandArg5, commandArg6, commandArg7, commandArg8;
-    s32 rotation[9];
+    MtxFx33 rotation;
     Vec3 smallScale, tableOffset, baseScale, tableScale, mainOffset, mirrorScale1, mirrorScale2;
     BOOL sentOpening;
     s32 tableScaleX;
@@ -334,8 +334,8 @@ void DrawJg(void) {
     mainOffset.y = 0;
     mainOffset.z = 0xa4;
     func_01ff9048(0x1c, &mainOffset, 3);
-    MTX_RotZ33_(rotation, data_0217b8a8[gJgTableIndex], data_0217b8a0[gJgTableIndex]);
-    func_01ff9048(0x1a, rotation, 9);
+    MTX_RotZ33_(&rotation, data_0217b8a8[gJgTableIndex], data_0217b8a0[gJgTableIndex]);
+    func_01ff9048(0x1a, &rotation, 9);
     func_020e6a18(&gJgMain);
     func_020e6854(&gJgMain, NULL, 0, 0x1f);
     if (kindModel != NULL) {
@@ -412,7 +412,7 @@ void ComputeJgMatrixAndInverse(void) {
     }
     Vec3CrossUnrounded(&gJgMatrix.mUnk_00[0], &gJgMatrix.mUnk_00[1], &gJgMatrix.mUnk_00[2]);
     MTX_Transpose33_(&gJgMatrix, &gJgInverseMatrix);
-    MTX_MultVec33(&gJgMatrix.mUnk_00[3], (const s32 *) &gJgInverseMatrix, &gJgInverseMatrixPos);
+    MTX_MultVec33(&gJgMatrix.mUnk_00[3], &gJgInverseMatrix.mUnk_00_m, &gJgInverseMatrixPos);
     gJgInverseMatrix.mUnk_00[3].x = -gJgInverseMatrix.mUnk_00[3].x;
     gJgInverseMatrix.mUnk_00[3].y = -gJgInverseMatrix.mUnk_00[3].y;
     gJgInverseMatrix.mUnk_00[3].z = -gJgInverseMatrix.mUnk_00[3].z;
@@ -614,7 +614,7 @@ void UpdateJgPosition(void) {
             }
             gJgVelocity.x += v.x;
             gJgVelocity.z += v.z;
-            MTX_MultVec33(&gJgVelocity, (const s32 *) &gJgMatrix.mUnk_00[0], &u);
+            MTX_MultVec33(&gJgVelocity, &gJgMatrix.mUnk_00_m, &u);
         }
         gJgVelocity.y = gJgVelocity.y + ((s32) (((s64) data_021593bc.y * t.y) >> 12) -
                                          (s32) (((s64) data_021593b0.y * gJgVelocity.y) >> 12));

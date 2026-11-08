@@ -781,7 +781,7 @@ extern MtxFx43 *gViewTransposeMatrix;
 extern MtxFx43 *data_0217b84c;
 extern MtxFx43 *data_0217b850;
 extern MtxFx43 *gViewMatrix;
-extern s32 *data_0217b858;
+extern MtxFx33 *data_0217b858;
 extern MtxFx43 *data_0217b85c;
 extern MtxFx43 *data_0217b860;
 extern u16 *data_0217b868;

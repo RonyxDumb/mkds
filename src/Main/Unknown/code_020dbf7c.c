@@ -142,7 +142,7 @@ void ResetWanwan(Wanwan *wanwan) {
                44),
         &wanwan->mUnk_d4);
     func_020d7938(&wanwan->mUnk_c4, &wanwan->mUnk_d4, &wanwan->mUnk_b4);
-    Matrix3x3FromQuaternion(&wanwan->mUnk_00.mMatrix, &wanwan->mUnk_b4);
+    Matrix3x3FromQuaternion(&wanwan->mUnk_00.mMatrix.mUnk_00_m, &wanwan->mUnk_b4);
     wanwan->mUnk_e4 = 0;
     if (wanwan->mUnk_fc == 0) {
         ResetWanwanChainPoints((WanwanChainObject *) wanwan->mChainObject);
