@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "Main/Unknown/code_020e5684.h"
+#include "Main/Unknown/code_020e6fd4.h" // MapObjectList, Unk020e7410
 
 // Objects whose layout isn't known yet.
 extern u16 data_021594d8;
@@ -44,8 +45,8 @@ extern Unk020e59e4 data_0215927c;
 extern Unk020e5a40 data_021592a4;
 extern Unk020e5a9c data_021592d0;
 extern u32 data_02159310;
-extern u8 data_02159348[];
-extern u8 data_02159370[];
+extern MapObjectList data_02159348;
+extern Unk020e7410 data_02159370;
 extern Vec3 data_02159440[];
 extern Vec3 data_021593bc;
 extern Vec3 data_021593e0;

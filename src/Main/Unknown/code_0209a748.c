@@ -29,15 +29,8 @@
 #include "Main/Unknown/code_020d7da8.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-void InitCrab(u32 crab) {
-    u32 value0 = crab;
-    u32 courseMapRow;
-    u32 speed;
-    u32 value12;
-    courseMapRow = *(const u32 *) ((value0) + (156));
-    value0 = (value0) + (0xf0u);
-    speed = 0u;
-    InitGroupFollower((GroupFollower *) value0, (CourseMapRow *) courseMapRow, speed);
+void InitCrab(Crab *crab) {
+    InitGroupFollower(&crab->mFollower, crab->mUnk_000.mCourseMapRow, 0);
 }
 
 static inline u32 func_0209b388_inline(RandomState64 *random, u32 limit) {

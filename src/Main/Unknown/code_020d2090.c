@@ -93,13 +93,8 @@ void InitRaceMNumberPair(void) {
     gRaceMNumberPair->mOffsetX = 0;
 }
 
-u32 ClearRaceMNumberPairPointer(void) {
-    u32 address;
-    u32 zero;
-    address = (u32) &gRaceMNumberPair;
-    zero = 0u;
-    *(u32 *) ((address) + (0)) = zero;
-    return address;
+void ClearRaceMNumberPairPointer(void) {
+    gRaceMNumberPair = NULL;
 }
 
 void func_020d2090(void) {}

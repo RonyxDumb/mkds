@@ -35,13 +35,9 @@
 #include "Main/Unknown/code_020a3f18.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-void InitBalloon(u32 balloon) {
-    u32 balloonAddress = balloon;
-    u32 noKartIndex;
-    u32 value12;
-    noKartIndex = ~(0u);
-    *(u32 *) ((balloonAddress) + (164)) = noKartIndex;
-    ParkMapObject((void *) balloonAddress);
+void InitBalloon(Balloon *balloon) {
+    balloon->mKartIndex = -1;
+    ParkMapObject(&balloon->mUnk_00);
 }
 
 void CreateBalloon(Unk020a3eb8 *a) {

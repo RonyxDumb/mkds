@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 ClearRaceMNumberPairPointer(void);
+void ClearRaceMNumberPairPointer(void);

@@ -38,10 +38,7 @@
 #include "Main/Unknown/code_021000d0.h"
 
 void ClearRaceHudSubScreenFireball2Cells(void) {
-    u32 cellsPointerAddress;
-    u32 value12;
-    cellsPointerAddress = (u32) &gRaceHudSubScreenFireball2Cells;
-    ClearRaceHudSubScreenCells((RaceHudSubScreenCells **) cellsPointerAddress);
+    ClearRaceHudSubScreenCells(&gRaceHudSubScreenFireball2Cells);
 }
 
 void UpdateRaceHudSubScreenFireball2Cells(void) {
@@ -105,13 +102,8 @@ void InitRaceGoalTimes(void) {
     gRaceGoalTimes->mCellIndexAdd = 0;
 }
 
-u32 ClearRaceGoalTimesPointer(void) {
-    u32 value0;
-    u32 value1;
-    value0 = (u32) &gRaceGoalTimes;
-    value1 = 0u;
-    *(u32 *) ((value0) + (0)) = value1;
-    return value0;
+void ClearRaceGoalTimesPointer(void) {
+    gRaceGoalTimes = NULL;
 }
 
 void UpdateRaceGoalTimes(void) {
@@ -281,10 +273,7 @@ s32 CreateRaceHudSubScreenBerryCells(void) {
 }
 
 void ClearRaceHudSubScreenBerryCells(void) {
-    u32 cellsPointerAddress;
-    u32 value12;
-    cellsPointerAddress = (u32) &gRaceHudSubScreenBerryCells;
-    ClearRaceHudSubScreenCells((RaceHudSubScreenCells **) cellsPointerAddress);
+    ClearRaceHudSubScreenCells(&gRaceHudSubScreenBerryCells);
 }
 
 void UpdateRaceHudSubScreenBerryCells(void) {
@@ -321,10 +310,7 @@ s32 CreateRaceHudSubScreenCreamCells(void) {
 }
 
 void ClearRaceHudSubScreenCreamCells(void) {
-    u32 cellsPointerAddress;
-    u32 value12;
-    cellsPointerAddress = (u32) &gRaceHudSubScreenCreamCells;
-    ClearRaceHudSubScreenCells((RaceHudSubScreenCells **) cellsPointerAddress);
+    ClearRaceHudSubScreenCells(&gRaceHudSubScreenCreamCells);
 }
 
 void UpdateRaceHudSubScreenCreamCells(void) {

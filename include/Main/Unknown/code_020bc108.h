@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 ClearRaceTimeDigitsPointer(void);
+void ClearRaceTimeDigitsPointer(void);

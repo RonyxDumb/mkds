@@ -1,5 +1,6 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_02100de4.h" // Unk02101d18
 
-unsigned int InitItemGesso(unsigned int itemInUse, unsigned int gesso);
+unsigned int InitItemGesso(Unk02101d18 *itemInUse, unsigned int gesso);

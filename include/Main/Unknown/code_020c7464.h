@@ -63,7 +63,7 @@ void ClearRaceHudSubScreenCarCells(void);
 BOOL CreateRaceHudSubScreenCarCells(void);
 void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer);
 void UpdateRaceHudSubScreenSecondHand(void);
-u32 ClearRaceHudSubScreenSecondHandPointer(void);
+void ClearRaceHudSubScreenSecondHandPointer(void);
 BOOL CreateRaceHudSubScreenSecondHand(void);
 void DrawRaceHudSubScreenKarts(RaceHudOamBuffer *oamBuffer);
 void UpdateRaceHudSubScreenKarts(void);

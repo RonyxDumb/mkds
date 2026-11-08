@@ -61,7 +61,7 @@ void AdvanceItemGesso(ItemGesso *p) {
                 continue;
             }
             StartKartGesso(kartAtIndex, p->mOrthoQuadCounts[i]);
-            func_020f8e3c((u32) kartAtIndex, 0xf0);
+            func_020f8e3c(kartAtIndex, 0xf0);
         }
     }
     if (p->mUnk_160 != FALSE) {
@@ -76,7 +76,7 @@ void AdvanceItemGesso(ItemGesso *p) {
             p->mStepIndex = 0xd;
             SetupNextItemGessoStep(p);
             if (p->mVisible != FALSE) {
-                func_020f8e3c((u32) kart, 0xf3);
+                func_020f8e3c(kart, 0xf3);
             }
         }
     }

@@ -546,13 +546,8 @@ BOOL CreateRaceHudSubScreenSecondHand(void) {
     return TRUE;
 }
 
-u32 ClearRaceHudSubScreenSecondHandPointer(void) {
-    u32 address;
-    u32 zero;
-    address = (u32) &gRaceHudSubScreenSecondHand;
-    zero = 0u;
-    *(u32 *) ((address) + (0)) = zero;
-    return address;
+void ClearRaceHudSubScreenSecondHandPointer(void) {
+    gRaceHudSubScreenSecondHand = NULL;
 }
 
 void UpdateRaceHudSubScreenSecondHand(void) {

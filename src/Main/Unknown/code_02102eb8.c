@@ -79,7 +79,7 @@ BOOL SetupNextItemGessoStep(ItemGesso *gesso) {
     }
     gesso->mUnk_194 = f;
     if (step->mTargetVelocityY > 0 && gesso->mStepIndex != 0 && gesso->mStepIndex != 0xe && gesso->mVisible != FALSE) {
-        func_020f8e3c((u32) gesso->mKart, 0xf1);
+        func_020f8e3c(gesso->mKart, 0xf1);
     }
     return FALSE;
 done:

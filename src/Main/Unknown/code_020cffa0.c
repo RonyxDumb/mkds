@@ -3,14 +3,6 @@
 #include "Main/Unknown/code_02036820.h"
 #include "Main/Unknown/unk_0217b000.h"
 
-u32 func_020cffa0(void) {
-    u32 value0;
-    u32 value1;
-    value0 = (u32) GetCurrentHeapCall();
-    value0 = (u32) GetHeap((void *) value0);
-    value1 = 0x38u;
-    value0 = (u32) HeapAlloc((void *) value0, value1);
-    value1 = (u32) &data_0217b490;
-    *(u32 *) ((value1) + (0)) = value0;
-    return value0;
+void func_020cffa0(void) {
+    data_0217b490 = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
 }

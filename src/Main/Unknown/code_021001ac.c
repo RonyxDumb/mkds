@@ -274,7 +274,7 @@ void InitItemTeresa(Unk02101d18 *inUse, ItemTeresa *teresa) {
 
     kart = inUse->mUnk_10;
     StartKartTeresa(kart);
-    func_020f8e3c((u32) kart, 0xf6);
+    func_020f8e3c(kart, 0xf6);
     SetActiveItem(inUse->mUnk_0c, 0x10);
     InitCourseColorBlend(&teresa->mUnk_000.mColorBlend, 1);
     if (inUse->mUnk_0c->mFlags & 0x20) {
@@ -600,7 +600,7 @@ void EnterItemTeresaState2(ItemTeresa *teresa) {
         teresa->mKartDrawMatrixPos = teresa->mKart->mDrawMatrixPos;
         teresa->mKartVelocity = teresa->mKart->mVelocity;
         teresa->mUnk_144 = FALSE;
-        func_020f8e3c((u32) teresa->mKart, 0xf4);
+        func_020f8e3c(teresa->mKart, 0xf4);
         if (teresa->mKart->mUnk_48 & 1) {
             teresa->mUnk_000.mUnk_d0 = &teresa->mUnk_000.mDrawPos;
         }
@@ -759,7 +759,7 @@ void UpdateItemTeresaState3(ItemTeresa *teresa) {
         if (teresa->mOffsetVelocityY >= -teresa->mUnk_19c) {
             return;
         }
-        func_020f8e3c((u32) teresa->mKart, 0xf5);
+        func_020f8e3c(teresa->mKart, 0xf5);
     } else {
         teresa->mOffsetX += teresa->mOffsetVelocityX;
         teresa->mOffsetZ += teresa->mOffsetVelocityZ;
@@ -846,7 +846,7 @@ void EnterItemTeresaState5(ItemTeresa *teresa) {
         teresa->mOffsetY = teresa->mSavedOffsetY;
     }
     if (teresa->mUnk_144 == FALSE) {
-        func_020f8e3c((u32) teresa->mKart, 0xf7);
+        func_020f8e3c(teresa->mKart, 0xf7);
     }
     teresa->mStallFrames = 0;
     positionFunction = (teresa->mKart->mUnk_48 & 1) ? SetItemTeresaPosPointerToDrawPos : func_02100b54;
@@ -912,7 +912,7 @@ void UpdateItemTeresaState5(ItemTeresa *teresa) {
                     teresa->mItemInfoIndex = 0x13;
                     teresa->mItemCount = -0x40;
                     teresa->mItemObjectKind = 0xe;
-                    func_020f8e3c((u32) ownerKartItems->mKart, 0xf8);
+                    func_020f8e3c(ownerKartItems->mKart, 0xf8);
                 } else {
                     teresa->mItemCount = -0x40;
                     teresa->mItemObjectKind = 0xe;

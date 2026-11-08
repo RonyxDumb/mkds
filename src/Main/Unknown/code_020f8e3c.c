@@ -12,34 +12,12 @@
 #include "Main/Unknown/code_020b502c.h"
 #include "Main/Unknown/code_02070398.h"
 
-u32 func_020f8e3c(u32 kart, u32 soundId) {
-    u32 kartCopy = kart;
-    u32 soundIdCopy = soundId;
-    u32 flagBit;
-    u32 kartCompared;
-    u32 zero;
-    u32 flagBitCompared;
-    u32 zeroAgain;
-    kartCompared = kartCopy;
-    zero = 0u;
-    if (kartCompared == zero) {
+void func_020f8e3c(Kart *kart, u32 soundId) {
+    if (kart == NULL) {
+        return;
     }
-    if (kartCompared == zero) {
+    if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) == 0) {
+        return;
     }
-    if (kartCompared == zero) {
-        return kartCopy;
-    }
-    flagBit = *(const u32 *) ((kartCopy) + (124));
-    flagBit = (flagBit) & (1u);
-    flagBitCompared = flagBit;
-    zeroAgain = 0u;
-    if (flagBitCompared == zeroAgain) {
-    }
-    if (flagBitCompared == zeroAgain) {
-    }
-    if (flagBitCompared == zeroAgain) {
-        return kartCopy;
-    }
-    kartCopy = (u32) func_020719bc((SoundSource *) kartCopy, soundIdCopy);
-    return kartCopy;
+    func_020719bc(&kart->mSoundSource, soundId);
 }

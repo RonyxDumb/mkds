@@ -710,5 +710,5 @@ void func_021031f4(ItemGesso *gesso) {
     }
     gesso->mVisible = TRUE;
     gesso->mKart = GetKart(entryIndex);
-    func_020f8e3c((u32) gesso->mKart, 0xf3);
+    func_020f8e3c(gesso->mKart, 0xf3);
 }

@@ -31,13 +31,8 @@
 #include "Main/Unknown/code_0203c8dc.h"
 #include "Main/Unknown/code_0203c5f8.h"
 
-u32 ClearRaceTimeDigitsPointer(void) {
-    u32 address;
-    u32 zero;
-    address = (u32) &gRaceTimeDigits;
-    zero = 0u;
-    *(u32 *) ((address) + (0)) = zero;
-    return address;
+void ClearRaceTimeDigitsPointer(void) {
+    gRaceTimeDigits = NULL;
 }
 
 void UpdateRaceTimeDigits(void) {

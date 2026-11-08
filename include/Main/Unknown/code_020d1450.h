@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 ClearEndingStaffRollPointer(void);
+void ClearEndingStaffRollPointer(void);

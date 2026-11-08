@@ -55,13 +55,8 @@ void InitEndingStaffRoll(void) {
     reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffcfffef) | 0x10;
 }
 
-u32 ClearEndingStaffRollPointer(void) {
-    u32 address;
-    u32 zero;
-    address = (u32) &gEndingStaffRoll;
-    zero = 0u;
-    *(u32 *) ((address) + (0)) = zero;
-    return address;
+void ClearEndingStaffRollPointer(void) {
+    gEndingStaffRoll = NULL;
 }
 
 u16 UpdateEndingStaffRoll(void) {

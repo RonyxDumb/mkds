@@ -1,5 +1,6 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_020a7000.h" // Sanbo
 
-void InitSanbo(u32 arg0); /* starts the path follower at +0x1d8 */
+void InitSanbo(Sanbo *sanbo); /* starts the path follower (InitGroupFollower) */

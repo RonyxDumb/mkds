@@ -441,4 +441,4 @@ u16 GetRaceHudSubScreenKartAngle(s32 kartIndex);
 u16 GetSubScreenAngleAndClearScrollTimer(void);
 BOOL IsCourseWithSubBg3CntBit13(void);
 BOOL IsCourseWithMap2DLocal3(void);
-u32 ClearRaceHudSubScreenProjection(void);
+void ClearRaceHudSubScreenProjection(void);

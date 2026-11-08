@@ -27,7 +27,7 @@ s32 CreateRaceHudSubScreenBerryCells(void);
 void DrawRaceGoalTimeDigits(RaceHudOamBuffer *oamBuffer, s32 originX, s32 originY, TimeDigits *digits, s32 cellOffset);
 void DrawRaceGoalTimes(RaceHudOamBuffer *oamBuffer);
 void UpdateRaceGoalTimes(void);
-u32 ClearRaceGoalTimesPointer(void);
+void ClearRaceGoalTimesPointer(void);
 void InitRaceGoalTimes(void);
 void DrawRaceHudSubScreenFireball2Cells(void *oamBuffer);
 void UpdateRaceHudSubScreenFireball2Cells(void);

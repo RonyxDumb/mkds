@@ -32,13 +32,8 @@ void InitRaceStartSequence(void) {
     gRaceStartSequence->mSequenceFrames = 0;
 }
 
-u32 ClearRaceStartSequencePointer(void) {
-    u32 pointerAddress;
-    u32 nullValue;
-    pointerAddress = (u32) &gRaceStartSequence;
-    nullValue = 0u;
-    *(u32 *) ((pointerAddress) + (0)) = nullValue;
-    return pointerAddress;
+void ClearRaceStartSequencePointer(void) {
+    gRaceStartSequence = NULL;
 }
 
 void ResetRaceStartSequenceFrames(void) {

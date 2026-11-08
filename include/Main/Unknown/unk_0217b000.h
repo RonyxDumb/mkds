@@ -916,7 +916,7 @@ extern u16 gNextPolygonId;
 extern GrpconfTblRow *gGrpconfTbl;
 extern MapObject **gFoundMapObjects;
 extern struct Unk020e1dc0 *data_0217b7c4;
-extern u8 gMapObjectPositionByTableIndex[];
+extern Vec3 **gMapObjectPositionByTableIndex;
 // Indexed by object kind; 14 slots, 13 files (kind 8 aliases kind 7)
 extern NsbmdModel *gItemModels[];
 struct ItemObject;
@@ -1052,7 +1052,7 @@ extern Vec3 gPukupukuDrawScale;
 extern void *gPendulum;
 extern void *gPendulumShadow;
 extern void *gSecondHand;
-extern void *data_0217b864;
+extern struct MapObjectList *data_0217b864;
 extern s32 data_0217b8b4;
 extern u16 gJgFinalLap;
 extern u16 gJgState2FrameCount;

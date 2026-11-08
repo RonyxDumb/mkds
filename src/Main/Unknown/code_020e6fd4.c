@@ -49,7 +49,6 @@
 
 void func_020e7a40(void) {
     u32 value0;
-    u32 requestedState;
     u32 raceKind;
     u32 staffRollKind;
     value0 = gRaceSetup->mRaceKind;
@@ -62,9 +61,7 @@ void func_020e7a40(void) {
     if (raceKind == staffRollKind) {
         return;
     }
-    value0 = (u32) &gJgStateMachine;
-    requestedState = 4u;
-    SetStateMachineState((void *) value0, requestedState);
+    SetStateMachineState(&gJgStateMachine, 4);
 }
 
 #pragma thumb off
@@ -271,7 +268,7 @@ Unk020e7410 *func_020e7410(void) {
     Unk020e7410 *kindData;
 
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *kindData = *(Unk020e7410 *) data_02159370;
+    *kindData = data_02159370;
     return kindData;
 }
 
@@ -280,23 +277,17 @@ MapObjectList *func_020e73b4(void) {
 
     list = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
     data_0217b864 = list;
-    *list = *(MapObjectList *) data_02159348;
+    *list = data_02159348;
     SetUpdateListSlot(&data_0217b864);
     return data_0217b864;
 }
 
 Vec3 *GetMapObjectPositionByTableIndex(u32 index) {
-    return (*(Vec3 ***) gMapObjectPositionByTableIndex)[index];
+    return gMapObjectPositionByTableIndex[index];
 }
 
 u16 func_020e7388(int index) {
-    u32 value0 = index;
-    u32 value1;
-    value1 = (u32) &data_0217b868;
-    value0 = (value0 << 1);
-    value1 = *(const u32 *) ((value1) + (0));
-    value0 = *(const u16 *) ((value1) + (value0));
-    return value0;
+    return data_0217b868[index];
 }
 
 #pragma thumb on
@@ -305,15 +296,15 @@ void func_020e730c(void) {
     s32 objectCount;
     s32 i;
 
-    objectCount = ((MapObjectList *) data_0217b864)->mMapObjectCount;
-    *(void **) gMapObjectPositionByTableIndex = HeapAlloc(GetHeap(GetCurrentHeapCall()), objectCount * 4);
+    objectCount = data_0217b864->mMapObjectCount;
+    gMapObjectPositionByTableIndex = HeapAlloc(GetHeap(GetCurrentHeapCall()), objectCount * 4);
     data_0217b868 = HeapAlloc(GetHeap(GetCurrentHeapCall()), objectCount * 2);
-    for (i = 0; i < ((MapObjectList *) data_0217b864)->mMapObjectCount; i++) {
+    for (i = 0; i < data_0217b864->mMapObjectCount; i++) {
         s32 tableIndex;
 
-        object = ((MapObjectList *) data_0217b864)->mMapObjects[i];
+        object = data_0217b864->mMapObjects[i];
         tableIndex = object->mTableIndex;
-        (*(Vec3 ***) gMapObjectPositionByTableIndex)[tableIndex] = &object->mUnk_00.mPos;
+        gMapObjectPositionByTableIndex[tableIndex] = &object->mUnk_00.mPos;
         data_0217b868[tableIndex] = object->mEntryValue;
     }
 }

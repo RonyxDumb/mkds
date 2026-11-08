@@ -1,5 +1,6 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_0206bcb0.h" // Kart
 
-unsigned int func_020f8e3c(unsigned int kart, unsigned int soundId);
+void func_020f8e3c(Kart *kart, u32 soundId);

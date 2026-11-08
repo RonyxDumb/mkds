@@ -65,13 +65,8 @@ void InitRaceHudSubScreenProjection(void) {
     gRaceHudSubScreenProjection->mScrollPosition = data_02156874;
 }
 
-u32 ClearRaceHudSubScreenProjection(void) {
-    u32 pointerAddress;
-    u32 nullValue;
-    pointerAddress = (u32) &gRaceHudSubScreenProjection;
-    nullValue = 0u;
-    *(u32 *) ((pointerAddress) + (0)) = nullValue;
-    return pointerAddress;
+void ClearRaceHudSubScreenProjection(void) {
+    gRaceHudSubScreenProjection = NULL;
 }
 
 BOOL IsCourseWithMap2DLocal3(void) {
