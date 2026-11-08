@@ -32,41 +32,22 @@
 #include "Main/Unknown/code_02128210.h"
 #include "Main/Unknown/code_02128274.h"
 #include "Main/Unknown/unk_02174000.h"
+#include "registers.h"
 
-u32 func_02030700(u32 p0) {
-    return (*OFFSET_PTR(const u16, p0, 0));
+u32 func_02030700(InputSlotPair *pair) {
+    return pair->mPairX;
 }
 
 u32 func_020306e0(u32 slotIndex) {
-    u32 value0 = slotIndex;
-    u32 value1;
-    u32 slotsAddress;
-    u32 calleeAddress;
-    slotsAddress = (u32) &data_02175628;
-    value1 = 0x5cu;
-    value1 = (value0) * (value1) + (slotsAddress);
-    calleeAddress = (u32) &func_02030700;
-    value0 = (value1) + (0x48u);
-    value0 = func_02030700(value0);
-    return value0;
+    return func_02030700((InputSlotPair *) &data_02175628[slotIndex].mPairX);
 }
 
-u32 func_020306d8(u32 p0) {
-    return (*OFFSET_PTR(const u16, p0, 2));
+u32 func_020306d8(InputSlotPair *pair) {
+    return pair->mPairY;
 }
 
 u32 func_020306b8(u32 slotIndex) {
-    u32 value0 = slotIndex;
-    u32 value1;
-    u32 slotsAddress;
-    u32 calleeAddress;
-    slotsAddress = (u32) &data_02175628;
-    value1 = 0x5cu;
-    value1 = (value0) * (value1) + (slotsAddress);
-    calleeAddress = (u32) &func_020306d8;
-    value0 = (value1) + (0x48u);
-    value0 = func_020306d8(value0);
-    return value0;
+    return func_020306d8((InputSlotPair *) &data_02175628[slotIndex].mPairX);
 }
 
 u16 func_020306a4(InputSlot *slot, u32 mask) {
@@ -78,19 +59,13 @@ u32 func_02030688(u32 slotIndex, u32 mask) {
 }
 
 void func_02030654(u32 index) {
-    NNS_SndArcSetCurrent((NNSSndArc *) (((u32) (&data_0217c868))));
+    NNS_SndArcSetCurrent(&data_0217c868);
     func_0203063c(index, 0);
-    NNS_SndArcSetCurrent((NNSSndArc *) (((u32) (&data_0217d0a0))));
+    NNS_SndArcSetCurrent(&data_0217d0a0);
 }
 
 void func_0203063c(u32 index, u32 seqArcNo) {
-    u32 value0 = index;
-    u32 value1 = seqArcNo;
-    u32 indexCopy;
-    u32 value12;
-    indexCopy = value0;
-    value0 = (u32) &data_0217d068;
-    value0 = NNS_SndArcPlayerStartSeqArc((const void *) value0, value1, indexCopy);
+    NNS_SndArcPlayerStartSeqArc(&data_0217d068, seqArcNo, index);
 }
 
 void func_0203062c(u32 index) {
@@ -210,66 +185,28 @@ void ReleaseMultiSelectNS(void) {
 
 #pragma thumb off
 
-u32 func_020303a8(u32 bits) {
-    u32 value0 = bits;
-    u32 maskedRegister;
-    u32 registerAddress;
-    registerAddress = 0x4001000u;
-    maskedRegister = *(const u32 *) ((registerAddress) + (0));
-    maskedRegister = (maskedRegister) & ~(0x1f00u);
-    value0 = (maskedRegister) | ((value0 << 8));
-    *(u32 *) ((registerAddress) + (0)) = value0;
-    return value0;
+void func_020303a8(u32 bits) {
+    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | (bits << 8);
 }
 
-u32 func_0203038c(u32 bits) {
-    u32 value0 = bits;
-    u32 maskedRegister;
-    u32 registerAddress;
-    registerAddress = 0x4001000u;
-    maskedRegister = *(const u32 *) ((registerAddress) + (0));
-    maskedRegister = (maskedRegister) & ~(0xe000u);
-    value0 = (maskedRegister) | ((value0 << 13));
-    *(u32 *) ((registerAddress) + (0)) = value0;
-    return value0;
+void func_0203038c(u32 bits) {
+    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0xe000) | (bits << 13);
 }
 
-u32 func_02030364(u32 lowBits, u32 extraBitFlag) {
-    u32 value0 = lowBits;
-    u32 value1 = extraBitFlag;
-    u32 registerAddress;
-    u32 flagCopy;
-    u32 zero;
-    registerAddress = 0x4001048u;
-    flagCopy = value1;
-    zero = 0u;
-    value1 = *(const u16 *) ((registerAddress) + (0));
-    value1 = (value1) & ~(0x3fu);
-    value1 = (value1) | (value0);
-    value0 = 0x4001048u;
-    if (flagCopy != zero) {
-        value1 = (value1) | (0x20u);
+void func_02030364(u32 lowBits, u32 extraBitFlag) {
+    u32 value = (reg_G2S_DB_WININ & ~0x3f) | lowBits;
+
+    if (extraBitFlag != 0) {
+        value |= 0x20;
     }
-    *(u16 *) ((value0) + (0)) = value1;
-    return value0;
+    reg_G2S_DB_WININ = value;
 }
 
-u32 func_0203033c(u32 lowBits, u32 extraBitFlag) {
-    u32 value0 = lowBits;
-    u32 value1 = extraBitFlag;
-    u32 registerAddress;
-    u32 flagCopy;
-    u32 zero;
-    registerAddress = 0x400104au;
-    flagCopy = value1;
-    zero = 0u;
-    value1 = *(const u16 *) ((registerAddress) + (0));
-    value1 = (value1) & ~(0x3fu);
-    value1 = (value1) | (value0);
-    value0 = 0x400104au;
-    if (flagCopy != zero) {
-        value1 = (value1) | (0x20u);
+void func_0203033c(u32 lowBits, u32 extraBitFlag) {
+    u32 value = (reg_G2S_DB_WINOUT & ~0x3f) | lowBits;
+
+    if (extraBitFlag != 0) {
+        value |= 0x20;
     }
-    *(u16 *) ((value0) + (0)) = value1;
-    return value0;
+    reg_G2S_DB_WINOUT = value;
 }

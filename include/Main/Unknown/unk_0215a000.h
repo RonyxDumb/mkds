@@ -16,4 +16,4 @@ extern u16 data_0215a6fc[][8];
 extern u16 data_0215a6d8[];
 extern u16 data_0215a02c;
 extern u16 data_0215a030;
-extern u8 data_0215a0a8[][6];
+extern u16 data_0215a0a8[][3];

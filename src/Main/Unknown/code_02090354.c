@@ -552,7 +552,7 @@ void AdvanceKartKillerAlongPointLinks(KartKillerCursor *kartKillerCursor) {
     kart->mSpeedLimitGoal = kart->mForwardSpeed;
     kart->mSpeedLimit = kart->mSpeedLimitGoal;
     if (isPastOrNearLink != 0) {
-        AdvancePointLinkCursorToFirstNext((u32) kartKillerCursor);
+        AdvancePointLinkCursorToFirstNext(&kartKillerCursor->mPointLinkCursor);
     } else {
         TurnKartKillerTowardPointLink(kartKillerCursor);
     }

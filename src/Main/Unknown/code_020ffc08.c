@@ -91,19 +91,15 @@ void func_020ffdd4(MapObjectList *list) {
     rowIndex = ((u64) (u32) (random->mValue >> 32) * 6) >> 32;
     for (index = 0; index < count; index++) {
         dram = dramObjects[index];
-        row = (u16 *) data_0215a0a8[rowIndex];
+        row = data_0215a0a8[rowIndex];
         dram->mUnk_a8 = dram->mUnk_b4[row[index]];
         dram->mUnk_00.mStateMachine.mNextState = 0;
         dram->mUnk_00.mStateMachine.mNextStateRequested = 1;
     }
 }
 
-void UpdateDram(u32 arg0, u32 dram) {
-    u32 value0;
-    u32 dramAddress = dram;
-    u32 value12;
-    value0 = (dramAddress) + (0x80u);
-    AdvanceStateMachine((void *) value0);
+void UpdateDram(u32 arg0, Dram *dram) {
+    AdvanceStateMachine(&dram->mUnk_00.mStateMachine);
 }
 
 u32 func_020ffdc0(u32 value) {
@@ -171,33 +167,14 @@ void EnterDramState5(Dram *dram) {
     dram->mUnk_bc = 0x1999 - angle % 0x1999;
 }
 
-// Raw stores of 1 at +0x90 and +0x92 are mNextState and mNextStateRequested (MapObject +0x80 + 0x10 / 0x12): it asks
-// for state 1.
-void UpdateDramState5(u32 dram) {
-    u32 dramAddress = dram;
-    u32 value1;
-    u32 value2;
-    u32 value3;
-    u32 anglePointer;
-    s32 compareLeft0;
-    s32 zero;
-    value1 = *(const u16 *) ((dramAddress) + (166));
-    anglePointer = (dramAddress) + (0xa6u);
-    value1 = (value1) + (0x96u);
-    *(u16 *) ((dramAddress) + (166)) = value1;
-    value1 = *(const u32 *) ((dramAddress) + (188));
-    value1 = (value1) - (0x96u);
-    *(u32 *) ((dramAddress) + (188)) = value1;
-    value3 = *(const u32 *) ((dramAddress) + (188));
-    compareLeft0 = value3;
-    zero = 0u;
-    if (compareLeft0 >= zero) {
+// Asks for state 1 once mUnk_bc has run out.
+void UpdateDramState5(Dram *dram) {
+    dram->mUnk_a6 += 0x96;
+    dram->mUnk_bc -= 0x96;
+    if (dram->mUnk_bc >= 0) {
         return;
     }
-    value2 = *(const u16 *) ((anglePointer) + (0));
-    value1 = 1u;
-    value2 = (value2) + (value3);
-    *(u16 *) ((anglePointer) + (0)) = value2;
-    *(u16 *) ((dramAddress) + (144)) = value1;
-    *(u16 *) ((dramAddress) + (146)) = value1;
+    dram->mUnk_a6 += dram->mUnk_bc;
+    dram->mUnk_00.mStateMachine.mNextState = 1;
+    dram->mUnk_00.mStateMachine.mNextStateRequested = 1;
 }

@@ -163,22 +163,22 @@ u32 func_020ae3f4(void) {
     return (data_021759d0->mUnk_20);
 }
 
-u32 func_020ae3d8(void) {
-    return ((u32) &data_0217aa00->mUnk_1ee8);
+RandomState64 *func_020ae3d8(void) {
+    return &data_0217aa00->mUnk_1ee8;
 }
 
 #pragma thumb on
 
 u32 func_020ae3b4(u32 limit) {
     int v1;
-    u32 randomState;
+    RandomState64 *randomState;
     v1 = func_020ae3f4();
     if (v1 == 0) {
-        randomState = (u32) GetRandomState();
+        randomState = GetRandomState();
     } else {
         randomState = func_020ae3d8();
     }
-    return func_02046524((RandomState64 *) randomState, limit);
+    return func_02046524(randomState, limit);
 }
 
 #pragma thumb off
@@ -259,40 +259,20 @@ BOOL IsNewPairInRect(u32 slotIndex, PairRect pairRect) {
 
 #pragma thumb off
 
-u32 GetPairX(u32 pair) {
-    return (*OFFSET_PTR(const u16, pair, 0));
+u32 GetPairX(InputSlotPair *pair) {
+    return pair->mPairX;
 }
 
 u32 GetSlotPairX(u32 slotIndex) {
-    u32 value0 = slotIndex;
-    u32 value1;
-    u32 inputSlots;
-    u32 value12;
-    inputSlots = (u32) &data_02175628;
-    value1 = 0x5cu;
-    value1 = (value0) * (value1) + (inputSlots);
-    value12 = (u32) &GetPairX;
-    value0 = (value1) + (0x48u);
-    value0 = GetPairX(value0);
-    return value0;
+    return GetPairX((InputSlotPair *) &data_02175628[slotIndex].mPairX);
 }
 
-u32 GetPairY(u32 pair) {
-    return (*OFFSET_PTR(const u16, pair, 2));
+u32 GetPairY(InputSlotPair *pair) {
+    return pair->mPairY;
 }
 
 u32 GetSlotPairY(u32 slotIndex) {
-    u32 value0 = slotIndex;
-    u32 value1;
-    u32 inputSlots;
-    u32 value12;
-    inputSlots = (u32) &data_02175628;
-    value1 = 0x5cu;
-    value1 = (value0) * (value1) + (inputSlots);
-    value12 = (u32) &GetPairY;
-    value0 = (value1) + (0x48u);
-    value0 = GetPairY(value0);
-    return value0;
+    return GetPairY((InputSlotPair *) &data_02175628[slotIndex].mPairX);
 }
 
 #pragma thumb on
@@ -318,15 +298,7 @@ void *GetCharacterBmgEntry(u32 characterIndex, u32 b) {
 #pragma thumb off
 
 u32 func_020ae15c(u32 entryIndex) {
-    u32 value0 = entryIndex;
-    u32 value1;
-    u32 value2;
-    value2 = (u32) &gRaceSetup;
-    value1 = 0x30u;
-    value2 = *(const u32 *) ((value2) + (0));
-    value1 = (value0) * (value1) + (value2);
-    value0 = *(const u32 *) ((value1) + (112));
-    return value0;
+    return gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind;
 }
 
 BOOL func_020ae114(u32 entryIndex) {
@@ -336,16 +308,8 @@ BOOL func_020ae114(u32 entryIndex) {
     return 0;
 }
 
-u32 GetKartEntryName(u32 entryIndex) {
-    u32 value0 = entryIndex;
-    u32 value1;
-    u32 value2;
-    value2 = (u32) &gRaceSetup;
-    value1 = 0x30u;
-    value2 = *(const u32 *) ((value2) + (0));
-    value1 = (value0) * (value1) + (value2);
-    value0 = *(const u32 *) ((value1) + (136));
-    return value0;
+void *GetKartEntryName(u32 entryIndex) {
+    return gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mName;
 }
 
 u32 func_020ae0e4(void) {
@@ -353,27 +317,11 @@ u32 func_020ae0e4(void) {
 }
 
 u32 func_020ae0c8(u32 entryIndex) {
-    u32 value0 = entryIndex;
-    u32 value1;
-    u32 value2;
-    value2 = (u32) &gRaceSetup;
-    value1 = 0x30u;
-    value2 = *(const u32 *) ((value2) + (0));
-    value1 = (value0) * (value1) + (value2);
-    value0 = *(const u32 *) ((value1) + (104));
-    return value0;
+    return gRaceSetup->mCurrentEntries[entryIndex].mCharacterIndex;
 }
 
 int GetKartEntryNumber(int entryIndex) {
-    u32 value0 = entryIndex;
-    u32 value1;
-    u32 value2;
-    value2 = (u32) &gRaceSetup;
-    value1 = 0x30u;
-    value2 = *(const u32 *) ((value2) + (0));
-    value1 = (value0) * (value1) + (value2);
-    value0 = *(const s8 *) ((value1) + (134));
-    return value0;
+    return gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mNumber;
 }
 
 #pragma thumb on
@@ -390,7 +338,7 @@ void CopyKartEntryName(u32 entryIndex, u16 *nameOut, u32 c) {
         nameOut[i] = 0;
     }
     if (func_020ae114(entryIndex) != 0) {
-        source = (u16 *) GetKartEntryName(entryIndex);
+        source = GetKartEntryName(entryIndex);
         if (source == NULL) {
             return;
         }

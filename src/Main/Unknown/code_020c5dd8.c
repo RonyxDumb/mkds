@@ -515,43 +515,23 @@ void SlideInRaceNewRecordTa(void) {
         gRaceNewRecordTa->mOffsetX = InterpolateS16(1, -0x100, 0, n, 0x14);
     } else {
         gRaceNewRecordTa->mOffsetX = 0;
-        gRaceNewRecordTa->mUpdate = (void (*)(void)) func_020c5df0;
+        gRaceNewRecordTa->mUpdate = func_020c5df0;
         gRaceNewRecordTa->mUpdateFrames = 0;
     }
 }
 
-u32 func_020c5df0(void) {
-    u32 value0;
-    u32 value1;
-    u32 value2;
-    u32 value3;
-    s32 frame;
-    s32 limit;
-    value0 = (u32) &gRaceNewRecordTa;
-    value3 = *(const u32 *) ((value0) + (0));
-    value2 = gRaceNewRecordTa->mUpdateFrames;
-    value1 = (value2) + (1u);
-    gRaceNewRecordTa->mUpdateFrames = value1;
-    frame = value2;
-    limit = 0x3cu;
-    if (frame < limit) {
-        return value0;
+void func_020c5df0(void) {
+    s32 n;
+
+    n = gRaceNewRecordTa->mUpdateFrames;
+    gRaceNewRecordTa->mUpdateFrames = n + 1;
+    if (n < 0x3c) {
+        return;
     }
-    value2 = *(const u32 *) ((value0) + (0));
-    value3 = (u32) &func_020c5dd8;
-    value1 = 0u;
-    *(u32 *) ((value2) + (0)) = value3;
-    value0 = *(const u32 *) ((value0) + (0));
-    *(u32 *) ((value0) + (4)) = value1;
-    return value0;
+    gRaceNewRecordTa->mUpdate = func_020c5dd8;
+    gRaceNewRecordTa->mUpdateFrames = 0;
 }
 
-u32 func_020c5dd8(void) {
-    u32 value0;
-    u32 zero;
-    value0 = (u32) &gRaceNewRecordTa;
-    zero = 0u;
-    value0 = *(const u32 *) ((value0) + (0));
-    *(u32 *) ((value0) + (220)) = zero;
-    return value0;
+void func_020c5dd8(void) {
+    gRaceNewRecordTa->mUnk_dc = 0;
 }
