@@ -40,13 +40,6 @@ typedef struct Dossun {
     /* 108 */ s32 mUnk_108;
 } Dossun;
 
-// 0x28 bytes: a function at 0x10.
-typedef struct Unk020db1b0 {
-    /* 00 */ u8 mUnk_00[0x10];
-    /* 10 */ void (*mUnk_10)(void *a, Kuribo *p);
-    /* 14 */ u8 mUnk_14[0x14];
-} Unk020db1b0;
-
 // 0x2c bytes: three functions at 0x08, 0x0c and 0x10.
 typedef struct Unk020db20c {
     /* 00 */ u8 mUnk_00[8];
@@ -55,20 +48,6 @@ typedef struct Unk020db20c {
     /* 10 */ void (*mUnk_10)(void *a, Kuribo *p, void *c, u16 d);
     /* 14 */ u8 mUnk_14[0x18];
 } Unk020db20c;
-
-// 0x40 bytes: two functions at 0x00 and 0x04.
-typedef struct Unk020db268 {
-    /* 00 */ u32 (*mUnk_00)(Kuribo *p, Kart *a, u8 *b, u8 *c);
-    /* 04 */ u32 (*mUnk_04)(Kuribo *p, Kart *a, u8 *b, u8 *c);
-    /* 08 */ u8 mUnk_08[0x38];
-} Unk020db268;
-
-// 0x28 bytes: a function at 0x10.
-typedef struct Unk020dbe74 {
-    /* 00 */ u8 mUnk_00[0x10];
-    /* 10 */ void (*mUnk_10)(void *a, Dossun *p);
-    /* 14 */ u8 mUnk_14[0x14];
-} Unk020dbe74;
 
 // 0x2c bytes: functions at 0x08 and 0x10.
 typedef struct Unk020dbed0 {
@@ -79,18 +58,12 @@ typedef struct Unk020dbed0 {
     /* 14 */ u8 mUnk_14[0x18];
 } Unk020dbed0;
 
-// 0x40 bytes: a function at 0x00.
-typedef struct Unk020dbf2c {
-    /* 00 */ u32 (*mUnk_00)(Dossun *p, Kart *a, u8 *b, u8 *c);
-    /* 04 */ u8 mUnk_04[0x3c];
-} Unk020dbf2c;
-
-Unk020dbf2c *CreateDossunKindData(void);
+MapObjectKindData *CreateDossunKindData(void);
 Unk020dbed0 *CreateDossunDrawList(void);
-Unk020dbe74 *CreateDossunUpdateList(void);
-Unk020db268 *CreateKuriboKindData(void);
+MapObjectList *CreateDossunUpdateList(void);
+MapObjectKindData *CreateKuriboKindData(void);
 Unk020db20c *CreateKuriboDrawList(void);
-Unk020db1b0 *CreateKuriboUpdateList(void);
+MapObjectList *CreateKuriboUpdateList(void);
 s32 GetDossunMapDotOffset(Dossun *dossun);
 void SetupDossunAtStartEntry(Dossun *dossun);
 void CreateDossunAndDossunShadow(void);

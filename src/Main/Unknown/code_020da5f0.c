@@ -5,6 +5,7 @@
 #include "Main/Unknown/code_020da414.h"
 
 #include "Main/Unknown/code_020da628.h"
+#include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/code_020d2000.h"
 #include "Main/Unknown/code_020d4000.h"
 #include "Main/Unknown/code_02039860.h"
@@ -236,7 +237,7 @@ u32 CollideKartWithKuribo(Kuribo *kuribo, Kart *kart, u8 *firstResponsePtr, u8 *
     return *secondResponsePtr;
 }
 
-u32 CollideItemObjectWithKuribo(Kuribo *kuribo, Kart *itemObject, u8 *firstResponsePtr, u8 *secondResponsePtr) {
+u32 CollideItemObjectWithKuribo(Kuribo *kuribo, ItemObject *itemObject, u8 *firstResponsePtr, u8 *secondResponsePtr) {
     switch (*firstResponsePtr) {
         case 0:
             if (kuribo->mScaleFactorY == 0x1000) {
@@ -252,7 +253,7 @@ u32 CollideItemObjectWithKuribo(Kuribo *kuribo, Kart *itemObject, u8 *firstRespo
                 kuribo->mMapObject.mStateMachine.mNextStateRequested = 1;
                 func_020f8ddc(itemObject);
                 if (itemObject != NULL) {
-                    StartItemKinokoFromKuribo(kuribo, &itemObject->mSignedTurnedForward);
+                    StartItemKinokoFromKuribo(kuribo, &itemObject->mVelocity);
                 }
                 kuribo->mMapObject.mFlags = kuribo->mMapObject.mFlags | data_02158160;
             }

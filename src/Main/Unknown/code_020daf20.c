@@ -54,8 +54,8 @@
 
 #pragma thumb off
 
-Unk020dbf2c *CreateDossunKindData(void) {
-    Unk020dbf2c *kindData;
+MapObjectKindData *CreateDossunKindData(void) {
+    MapObjectKindData *kindData;
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
     *kindData = data_0215828c;
     return kindData;
@@ -70,8 +70,8 @@ Unk020dbed0 *CreateDossunDrawList(void) {
     return gDossunDrawList;
 }
 
-Unk020dbe74 *CreateDossunUpdateList(void) {
-    Unk020dbe74 *updateList;
+MapObjectList *CreateDossunUpdateList(void) {
+    MapObjectList *updateList;
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
     gDossunUpdateList = updateList;
     *updateList = data_02158238;
@@ -420,8 +420,8 @@ void InitDossun(Dossun *dossun, CourseMapRow *row) {
 }
 #pragma thumb off
 
-Unk020db268 *CreateKuriboKindData(void) {
-    Unk020db268 *kindData;
+MapObjectKindData *CreateKuriboKindData(void) {
+    MapObjectKindData *kindData;
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
     *kindData = data_021581b8;
     return kindData;
@@ -436,8 +436,8 @@ Unk020db20c *CreateKuriboDrawList(void) {
     return gKuriboDrawList;
 }
 
-Unk020db1b0 *CreateKuriboUpdateList(void) {
-    Unk020db1b0 *updateList;
+MapObjectList *CreateKuriboUpdateList(void) {
+    MapObjectList *updateList;
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
     gKuriboUpdateList = updateList;
     *updateList = data_02158164;

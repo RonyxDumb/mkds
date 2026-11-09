@@ -7,11 +7,6 @@
 
 typedef struct CourseMapRow CourseMapRow;
 
-// Object allocated by CreateWaterKindData; 0x40 bytes.
-typedef struct Unk020da414 {
-    /* 00 */ s32 mUnk_00[0x10];
-} Unk020da414;
-
 // Object of kind 0x191 (Kuribo), at least 0x108 bytes; also created in pools by ov001.
 typedef struct Kuribo {
     /* 00 */ MapObject mMapObject;
@@ -34,4 +29,4 @@ typedef struct Kuribo {
 
 /* also runs for source-created objects with row == NULL (no path follower; starts in state 1) */
 void InitKuribo(Kuribo *kuribo, CourseMapRow *row);
-Unk020da414 *CreateWaterKindData(void);
+MapObjectKindData *CreateWaterKindData(void);

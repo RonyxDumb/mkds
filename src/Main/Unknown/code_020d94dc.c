@@ -182,11 +182,11 @@ void DrawWater(Water *water, struct MtxFx43 *unused) {
     }
 }
 
-Unk020d9de0 *CreateWaterEfctKindData(void) {
-    Unk020d9de0 *kindData;
+MapObjectKindData *CreateWaterEfctKindData(void) {
+    MapObjectKindData *kindData;
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
     {
-        Unk020d9de0 v = {0};
+        MapObjectKindData v = {0};
         *kindData = v;
     }
     return kindData;

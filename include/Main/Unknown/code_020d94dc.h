@@ -131,15 +131,10 @@ typedef struct Water {
     /* 17c */ void *mEfctNsbmaFile;
 } Water;
 
-// Object allocated by CreateWaterEfctKindData; 0x40 bytes.
-typedef struct Unk020d9de0 {
-    /* 00 */ s32 mUnk_00[0x10];
-} Unk020d9de0;
-
 void InitWater(MapObject *mapObject, void *unused, void (*createWater)(void));
 void UpdateWater(Water *water);
 void DrawWater(Water *water, struct MtxFx43 *unused);
-Unk020d9de0 *CreateWaterEfctKindData(void);
+MapObjectKindData *CreateWaterEfctKindData(void);
 void InitWaterFields(s32 highHeight, s32 lowHeight, s32 modelARadius, s32 modelCRadius, s32 e, u16 modelCAngleOffset,
                      u16 g, u16 framesPerCycle, u16 highHoldFrameCount, u16 lowHoldFrameCount, u16 drawModelAFirst,
                      u16 modelAAlpha, u16 modelCMaterialAlpha, u16 n, s32 o);

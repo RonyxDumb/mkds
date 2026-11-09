@@ -89,11 +89,11 @@ void InitKuribo(Kuribo *kuribo, CourseMapRow *row) {
 
 #pragma thumb off
 
-Unk020da414 *CreateWaterKindData(void) {
-    Unk020da414 *object;
+MapObjectKindData *CreateWaterKindData(void) {
+    MapObjectKindData *object;
     object = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
     {
-        Unk020da414 zeros = {0};
+        MapObjectKindData zeros = {0};
         *object = zeros;
     }
     return object;
