@@ -13,10 +13,10 @@
 #pragma opt_rebuildconditionals off
 
 static inline u32 func_02050080_inline(void) {
-    if (data_0217aa00 == NULL) {
+    if (gConnectionWork == NULL) {
         return 0;
     }
-    return data_0217aa00->mUnk_0000;
+    return gConnectionWork->mUnk_0000;
 }
 
 u32 func_020501b0(u32 entryIndex) {
@@ -28,13 +28,13 @@ u32 func_020501b0(u32 entryIndex) {
     if (entryIndex >= 4) {
         return 0;
     }
-    if ((data_0217aa00->mUnk_0454 & 0x40) != 0) {
+    if ((gConnectionWork->mUnk_0454 & 0x40) != 0) {
         entryValid = result;
         if (func_02050080_inline() != 2) {
             entryValid = 0;
         } else if (gBootInfo->mUnk_00 == 2) {
             entryValid = 0;
-        } else if (data_0217aa00->mUnk_00ac[entryIndex].mInUse != 0) {
+        } else if (gConnectionWork->mUnk_00ac[entryIndex].mInUse != 0) {
             entryValid = 1;
         }
         if (entryValid != 0) {
@@ -42,14 +42,14 @@ u32 func_020501b0(u32 entryIndex) {
             result = 1;
         }
     } else {
-        data_0217aa00->mUnk_043b = 0;
-        data_0217aa00->mUnk_0438 = 0;
-        entry = &data_0217aa00->mUnk_00ac[entryIndex];
-        data_0217aa00->mUnk_0436 &= ~1;
+        gConnectionWork->mUnk_043b = 0;
+        gConnectionWork->mUnk_0438 = 0;
+        entry = &gConnectionWork->mUnk_00ac[entryIndex];
+        gConnectionWork->mUnk_0436 &= ~1;
         if (entry->mInUse != 0) {
-            MI_CpuCopy8(entry, data_0217aa00->mUnk_0024, 0xc0);
-            DC_StoreRange(data_0217aa00->mUnk_0024, 0xc0);
-            q = data_0217aa00;
+            MI_CpuCopy8(entry, gConnectionWork->mUnk_0024, 0xc0);
+            DC_StoreRange(gConnectionWork->mUnk_0024, 0xc0);
+            q = gConnectionWork;
             q->mUnk_042c = entry->mKey;
             q->mUnk_043c = entry->mLanguageIndex;
             result = 1;
@@ -64,7 +64,7 @@ void func_02050080(void) {
     u16 participantCount;
 
     proceed = FALSE;
-    if (func_02050080_inline() != 0 && data_0217aa00->mUnk_0004 != 13) {
+    if (func_02050080_inline() != 0 && gConnectionWork->mUnk_0004 != 13) {
         proceed = TRUE;
     }
     if (proceed == FALSE) {
@@ -73,18 +73,18 @@ void func_02050080(void) {
     index = 0;
     participantCount = 0;
     for (; index < 8; index++) {
-        if ((data_0217aa00->mParticipantMask & (1 << index)) != 0) {
-            data_0217aa00->mUnk_1e52[index].mEntryIndex = participantCount;
-            data_0217aa00->mUnk_1e8c[participantCount] = index;
-            data_0217aa00->mParticipantIndices[participantCount] = index;
+        if ((gConnectionWork->mParticipantMask & (1 << index)) != 0) {
+            gConnectionWork->mUnk_1e52[index].mEntryIndex = participantCount;
+            gConnectionWork->mUnk_1e8c[participantCount] = index;
+            gConnectionWork->mParticipantIndices[participantCount] = index;
             participantCount++;
         } else {
-            data_0217aa00->mUnk_1e52[index].mEntryIndex = 0xffff;
+            gConnectionWork->mUnk_1e52[index].mEntryIndex = 0xffff;
         }
     }
     for (; participantCount < 8; participantCount++) {
-        data_0217aa00->mUnk_1e8c[participantCount] = 0xffff;
-        data_0217aa00->mParticipantIndices[participantCount] = 0xffff;
+        gConnectionWork->mUnk_1e8c[participantCount] = 0xffff;
+        gConnectionWork->mParticipantIndices[participantCount] = 0xffff;
     }
     if (GetCurrentSceneNumber() == 2) {
         func_020431e4();

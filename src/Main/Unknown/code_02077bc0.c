@@ -1678,7 +1678,7 @@ void AdvanceKartModelMenuInput(void) {
     if (gThreadFunctionQueue->mRunRequested == 0 && files->mLoadRequested == FALSE) {
         characterIndex = ~a;
         inputSlot = UNK_02175628_INDEX_8;
-        buttons = data_02175628[inputSlot].mPressedBits;
+        buttons = gInputSlots[inputSlot].mPressedBits;
         if ((u16) (buttons & PAD_KEY_R) != 0) {
             d = a;
             do {
@@ -1721,7 +1721,7 @@ void AdvanceKartModelMenuInput(void) {
     d = b;
     GetSndHandleSlot(2);
     inputSlot = UNK_02175628_INDEX_8;
-    buttons = data_02175628[inputSlot].mBits;
+    buttons = gInputSlots[inputSlot].mBits;
     if ((u16) (buttons & PAD_KEY_RIGHT) != 0) {
         view->mYawAngle += 0x1c2;
         b = TRUE;
@@ -1730,7 +1730,7 @@ void AdvanceKartModelMenuInput(void) {
         b = TRUE;
     }
     inputSlot = UNK_02175628_INDEX_8;
-    buttons = data_02175628[inputSlot].mBits;
+    buttons = gInputSlots[inputSlot].mBits;
     if ((u16) (buttons & PAD_KEY_DOWN) != 0) {
         view->mUnk_18 += 0x1c2;
         if (view->mUnk_18 > 0x1b58) {
@@ -1751,7 +1751,7 @@ void AdvanceKartModelMenuInput(void) {
     }
     GetSndHandleSlot(1);
     inputSlot = UNK_02175628_INDEX_8;
-    buttons = data_02175628[inputSlot].mBits;
+    buttons = gInputSlots[inputSlot].mBits;
     if ((u16) (buttons & PAD_KEY_X) != 0) {
         view->mScale += 0x7b;
         if (view->mScale > data_usa_021656e0) {
@@ -1761,7 +1761,7 @@ void AdvanceKartModelMenuInput(void) {
         }
     } else {
         inputSlot = UNK_02175628_INDEX_8;
-        buttons = data_02175628[inputSlot].mBits;
+        buttons = gInputSlots[inputSlot].mBits;
         if ((u16) (buttons & PAD_KEY_B) != 0) {
             view->mScale -= 0x7b;
             if (view->mScale < 0x800) {

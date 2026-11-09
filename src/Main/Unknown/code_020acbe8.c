@@ -28,7 +28,7 @@ u32 func_020ace0c(InputSlotPair *pair) {
 }
 
 u32 func_020acdec(u32 slotIndex) {
-    return func_020ace0c(&data_02175628[slotIndex].mUnk_48);
+    return func_020ace0c(&gInputSlots[slotIndex].mPair);
 }
 
 u32 func_020acde4(InputSlotPair *pair) {
@@ -36,7 +36,7 @@ u32 func_020acde4(InputSlotPair *pair) {
 }
 
 u32 func_020acdc4(u32 slotIndex) {
-    return func_020acde4(&data_02175628[slotIndex].mUnk_48);
+    return func_020acde4(&gInputSlots[slotIndex].mPair);
 }
 
 #pragma thumb on

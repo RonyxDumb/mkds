@@ -142,7 +142,7 @@ s32 func_02035e64(u32 sceneNumbers) {
 #pragma thumb off
 
 u32 func_02035e44(void) {
-    return data_0217aa00->mUnk_0457 != 0;
+    return gConnectionWork->mUnk_0457 != 0;
 }
 
 void func_02035e38(void) {

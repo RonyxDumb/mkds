@@ -453,7 +453,7 @@ u16 RaceHudSubScreenGetSlotDownBits(InputSlot *inputSlot, s32 mask) {
 }
 
 u16 RaceHudSubScreenGetDownBits(s32 slotIndex, s32 mask) {
-    return RaceHudSubScreenGetSlotDownBits(&data_02175628[slotIndex], mask);
+    return RaceHudSubScreenGetSlotDownBits(&gInputSlots[slotIndex], mask);
 }
 
 void UpdateRaceHudSubScreenScroll(void) {

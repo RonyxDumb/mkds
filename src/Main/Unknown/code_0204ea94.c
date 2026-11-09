@@ -10,27 +10,27 @@
 #pragma thumb on
 
 void func_0204eca0(void) {
-    data_0217aa00->mUnk_000c = 0x2d;
-    data_0217aa00->mRequestPending = 1;
+    gConnectionWork->mUnk_000c = 0x2d;
+    gConnectionWork->mRequestPending = 1;
     StopBlockTransfer();
-    data_0217aa00->mUnk_0454 &= ~0x200;
-    data_0217aa00->mRequestPending = 0;
+    gConnectionWork->mUnk_0454 &= ~0x200;
+    gConnectionWork->mRequestPending = 0;
 }
 
 void SetScanGhostInfo(u32 entryIndex, Unk0217aa00_24_50 *gameInfo) {
-    data_0217aa00->mScanGhostInfos[entryIndex].mKartIndex = gameInfo->mUnk_0e.mKartIndex;
-    data_0217aa00->mScanGhostInfos[entryIndex].mCharacterIndex = gameInfo->mCharacterIndex;
-    data_0217aa00->mScanGhostInfos[entryIndex].mCourseId = GetCupCourseIdAtIndex((u8) gameInfo->mCupCourseIndex);
-    data_0217aa00->mScanGhostInfos[entryIndex].mMinute = gameInfo->mMinute;
-    data_0217aa00->mScanGhostInfos[entryIndex].mSecond = gameInfo->mSecond;
-    data_0217aa00->mScanGhostInfos[entryIndex].mMillisecond = gameInfo->mMillisecond;
+    gConnectionWork->mScanGhostInfos[entryIndex].mKartIndex = gameInfo->mUnk_0e.mKartIndex;
+    gConnectionWork->mScanGhostInfos[entryIndex].mCharacterIndex = gameInfo->mCharacterIndex;
+    gConnectionWork->mScanGhostInfos[entryIndex].mCourseId = GetCupCourseIdAtIndex((u8) gameInfo->mCupCourseIndex);
+    gConnectionWork->mScanGhostInfos[entryIndex].mMinute = gameInfo->mMinute;
+    gConnectionWork->mScanGhostInfos[entryIndex].mSecond = gameInfo->mSecond;
+    gConnectionWork->mScanGhostInfos[entryIndex].mMillisecond = gameInfo->mMillisecond;
 }
 
 static inline u32 func_0204eb08_inline(void) {
-    if (data_0217aa00 == NULL) {
+    if (gConnectionWork == NULL) {
         return 0;
     }
-    return data_0217aa00->mUnk_0000;
+    return gConnectionWork->mUnk_0000;
 }
 
 BOOL TryGetScanGhostInfo(u8 entryIndex, void *destination, u8 *kartIndex, u8 *characterIndex, u8 *courseId, u8 *minute,
@@ -38,12 +38,12 @@ BOOL TryGetScanGhostInfo(u8 entryIndex, void *destination, u8 *kartIndex, u8 *ch
     if (func_0204ff14(entryIndex, destination) == 0) {
         return FALSE;
     }
-    *kartIndex = data_0217aa00->mScanGhostInfos[entryIndex].mKartIndex;
-    *characterIndex = data_0217aa00->mScanGhostInfos[entryIndex].mCharacterIndex;
-    *courseId = data_0217aa00->mScanGhostInfos[entryIndex].mCourseId;
-    *minute = data_0217aa00->mScanGhostInfos[entryIndex].mMinute;
-    *second = data_0217aa00->mScanGhostInfos[entryIndex].mSecond;
-    *millisecond = data_0217aa00->mScanGhostInfos[entryIndex].mMillisecond;
+    *kartIndex = gConnectionWork->mScanGhostInfos[entryIndex].mKartIndex;
+    *characterIndex = gConnectionWork->mScanGhostInfos[entryIndex].mCharacterIndex;
+    *courseId = gConnectionWork->mScanGhostInfos[entryIndex].mCourseId;
+    *minute = gConnectionWork->mScanGhostInfos[entryIndex].mMinute;
+    *second = gConnectionWork->mScanGhostInfos[entryIndex].mSecond;
+    *millisecond = gConnectionWork->mScanGhostInfos[entryIndex].mMillisecond;
     return TRUE;
 }
 
@@ -55,10 +55,10 @@ BOOL func_0204eb08(void *destination) {
 
     found = FALSE;
     if (func_0204eb08_inline() == 1) {
-        if ((data_0217aa00->mUnk_0454 & 0x40) != 0) {
-            childCount = data_0217aa00->mUnk_1699;
+        if ((gConnectionWork->mUnk_0454 & 0x40) != 0) {
+            childCount = gConnectionWork->mUnk_1699;
         } else {
-            childCount = data_0217aa00->mUnk_0044.mChildCount;
+            childCount = gConnectionWork->mUnk_0044.mChildCount;
         }
     } else {
         childCount = 0;
@@ -70,10 +70,10 @@ BOOL func_0204eb08(void *destination) {
         return FALSE;
     }
     index = 1;
-    childMask = data_0217aa00->mUnk_0044.mChildMask;
+    childMask = gConnectionWork->mUnk_0044.mChildMask;
     do {
         if ((childMask & (1 << index)) != 0) {
-            MI_CpuCopy8(&data_0217aa00->mUnk_045c[index], destination, 0x14);
+            MI_CpuCopy8(&gConnectionWork->mUnk_045c[index], destination, 0x14);
             found = TRUE;
             break;
         }
@@ -86,17 +86,17 @@ void func_0204ead0(u16 a, s32 b) {
     s32 v;
 
     v = b;
-    data_0217aa00->mUnk_000c = 0x2e;
-    data_0217aa00->mRequestPending = 1;
+    gConnectionWork->mUnk_000c = 0x2e;
+    gConnectionWork->mRequestPending = 1;
     if (RequestSendBytes(a, &v, 4, func_0204ea94) == 0) {
-        data_0217aa00->mRequestPending = 0;
+        gConnectionWork->mRequestPending = 0;
     }
 }
 
 void func_0204ea94(BlockTransferRecord *record) {
     if (record->mKind == 10) {
         if (record->mCallbackCode == 11) {
-            data_0217aa00->mRequestPending = 0;
+            gConnectionWork->mRequestPending = 0;
             return;
         }
         func_02050e60(8);

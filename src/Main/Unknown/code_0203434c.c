@@ -200,7 +200,7 @@ s32 func_02034370(Unk0203a0dc *sceneNumbers) {
                         data_02174e64->mUnk_18c = TRUE;
                         data_02174e64->mStateFrames = 0;
                         data_02174e64->mState = 3;
-                    } else if ((u16) (data_02175628[slotIndex].mPressedBits & PAD_KEY_A) != 0 &&
+                    } else if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0 &&
                                data_02174e64->mSelectedIndex >= 0) {
                         SetupGhostSubTextTwoButtons();
                         func_02035228(0);
@@ -209,8 +209,7 @@ s32 func_02034370(Unk0203a0dc *sceneNumbers) {
                         data_02174e64->mUnk_18c = TRUE;
                         data_02174e64->mStateFrames = 0;
                         data_02174e64->mState = 3;
-                    } else if ((u16) (data_02175628[slotIndex].mPressedBits & PAD_KEY_B) != 0 ||
-                               touchInReturnRect != 0) {
+                    } else if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
                         data_02174e64->mState = 12;
                         RequestSelectReturnState3WithSound(0);
                     } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_UP)) {

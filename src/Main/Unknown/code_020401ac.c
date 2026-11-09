@@ -321,7 +321,7 @@ void InitRaceProgress(void) {
                     seed = 0x5b12f73;
                     break;
                 default:
-                    p = data_0217aa00;
+                    p = gConnectionWork;
                     v = 0;
                     if (func_020401ac_inline(p) != 0) {
                         if (p->mUnk_0004 != 0xd) {

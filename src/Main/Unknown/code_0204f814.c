@@ -14,10 +14,10 @@
 #pragma opt_rebuildconditionals off
 
 static inline u32 func_0204f814_inline(void) {
-    if (data_0217aa00 == NULL) {
+    if (gConnectionWork == NULL) {
         return 0;
     }
-    return data_0217aa00->mUnk_0000;
+    return gConnectionWork->mUnk_0000;
 }
 
 static inline u32 func_0204ff14_inline(ConnectionWork *p) {
@@ -32,14 +32,14 @@ u16 func_0204ffe8(u32 participantIndex) {
     u32 result;
 
     stateMatches = FALSE;
-    switch (data_0217aa00->mUnk_0004) {
+    switch (gConnectionWork->mUnk_0004) {
         case 8:
         case 9:
             stateMatches = TRUE;
             break;
     }
     if (stateMatches != FALSE) {
-        result = data_0217aa00->mUnk_15c8[participantIndex].mUnk_00_0;
+        result = gConnectionWork->mUnk_15c8[participantIndex].mUnk_00_0;
     } else {
         result = 0;
     }
@@ -50,7 +50,7 @@ BOOL func_0204ffbc(void) {
     BOOL result;
 
     result = FALSE;
-    switch (data_0217aa00->mUnk_0004) {
+    switch (gConnectionWork->mUnk_0004) {
         case 8:
         case 9:
             result = TRUE;
@@ -63,7 +63,7 @@ BOOL func_0204ff14(u16 entryIndex, void *destination) {
     ConnectionWork *t;
     BOOL result;
 
-    t = data_0217aa00;
+    t = gConnectionWork;
     result = FALSE;
     if (func_0204ff14_inline(t) != 2) {
         return FALSE;
@@ -90,11 +90,11 @@ BOOL func_0204fe90(u16 entryIndex) {
         entryValid = FALSE;
     } else if (gBootInfo->mUnk_00 == 2) {
         entryValid = FALSE;
-    } else if (data_0217aa00->mUnk_00ac[entryIndex].mInUse != 0) {
+    } else if (gConnectionWork->mUnk_00ac[entryIndex].mInUse != 0) {
         entryValid = TRUE;
     }
     if (entryValid != FALSE) {
-        if (data_0217aa00->mUnk_00ac[entryIndex].mUnk_dc_5 != 0) {
+        if (gConnectionWork->mUnk_00ac[entryIndex].mUnk_dc_5 != 0) {
             result = TRUE;
         }
     }
@@ -111,11 +111,11 @@ s32 func_0204fe1c(u16 entryIndex) {
         entryValid = FALSE;
     } else if (gBootInfo->mUnk_00 == 2) {
         entryValid = FALSE;
-    } else if (data_0217aa00->mUnk_00ac[entryIndex].mInUse != 0) {
+    } else if (gConnectionWork->mUnk_00ac[entryIndex].mInUse != 0) {
         entryValid = TRUE;
     }
     if (entryValid != FALSE) {
-        result = data_0217aa00->mUnk_00ac[entryIndex].mUnk_da;
+        result = gConnectionWork->mUnk_00ac[entryIndex].mUnk_da;
     }
     return result;
 }
@@ -128,26 +128,26 @@ BOOL func_0204fcec(u16 entryIndex, void *destination) {
     switch (func_0204f814_inline()) {
         case 1:
             result = FALSE;
-            if ((data_0217aa00->mUnk_0454 & 0x40) != 0) {
+            if ((gConnectionWork->mUnk_0454 & 0x40) != 0) {
                 p = func_02007e38(entryIndex);
-                if ((data_0217aa00->mUnk_1696 & (1 << entryIndex)) != 0 && p != NULL) {
+                if ((gConnectionWork->mUnk_1696 & (1 << entryIndex)) != 0 && p != NULL) {
                     if (destination != NULL) {
                         MI_CpuCopy8((u8 *) p + 2, destination, 0x14);
                     }
                     result = TRUE;
                 }
-            } else if ((data_0217aa00->mUnk_0044.mChildMask & (1 << entryIndex)) != 0) {
+            } else if ((gConnectionWork->mUnk_0044.mChildMask & (1 << entryIndex)) != 0) {
                 if (destination != NULL) {
-                    MI_CpuCopy8(&data_0217aa00->mUnk_045c[entryIndex], destination, 0x14);
+                    MI_CpuCopy8(&gConnectionWork->mUnk_045c[entryIndex], destination, 0x14);
                 }
                 result = TRUE;
             }
             break;
         case 2:
             result = FALSE;
-            if ((data_0217aa00->mUnk_043d & (1 << entryIndex)) != 0) {
+            if ((gConnectionWork->mUnk_043d & (1 << entryIndex)) != 0) {
                 if (destination != NULL) {
-                    MI_CpuCopy8(&data_0217aa00->mUnk_045c[entryIndex], destination, 0x14);
+                    MI_CpuCopy8(&gConnectionWork->mUnk_045c[entryIndex], destination, 0x14);
                 }
                 result = TRUE;
             }
@@ -165,9 +165,9 @@ void FillParentParameter(s32 a) {
     u64 generatorState;
     u64 highWord;
 
-    parentParameter = data_0217aa00->mParentParameter;
+    parentParameter = gConnectionWork->mParentParameter;
     MIi_CpuCopy32(data_02154788, parentParameter, 0x40);
-    gameInfo = data_0217aa00->mUnk_0044.mUnk_38;
+    gameInfo = gConnectionWork->mUnk_0044.mUnk_38;
     gameInfo->mUnk_0e.mUnk_07_0 = 0;
     gameInfo->mUnk_0e.mKartIndex = 0;
     gameInfo->mCharacterIndex = 0;
@@ -176,8 +176,8 @@ void FillParentParameter(s32 a) {
     gameInfo->mSecond = 0;
     gameInfo->mMillisecond = 0;
     gameInfo->mUnk_0e.mUnk_06_0 = 0;
-    if ((data_0217aa00->mUnk_0454 & 0x40) != 0) {
-        parentParameter->mUnk_0c = (data_0217aa00->mUnk_1690 + 7) & 0x7fff;
+    if ((gConnectionWork->mUnk_0454 & 0x40) != 0) {
+        parentParameter->mUnk_0c = (gConnectionWork->mUnk_1690 + 7) & 0x7fff;
     } else {
         GetClockTimeOrZero(&time);
         hour = time.mHour;
@@ -190,9 +190,9 @@ void FillParentParameter(s32 a) {
         highWord = generatorState >> 32;
         parentParameter->mUnk_0c = (u16) (highWord * 0x10000 >> 32) | 0x8000;
     }
-    parentParameter->mUnk_32 = data_0217aa00->mUnk_0088;
+    parentParameter->mUnk_32 = gConnectionWork->mUnk_0088;
     parentParameter->mUnk_18 = WM_GetDispersionBeaconPeriod();
-    parentParameter->mUnk_00 = data_0217aa00->mUnk_0044.mUnk_38;
+    parentParameter->mUnk_00 = gConnectionWork->mUnk_0044.mUnk_38;
     parentParameter->mUnk_04 = 0x1c;
     parentParameter->mUnk_10 = 7;
     parentParameter->mUnk_0e = a != 0 ? 1 : 0;
@@ -207,9 +207,9 @@ void FillGhostParentParameter(GhostRecordHead *ghostRecord) {
     u64 generatorState;
     u64 highWord;
 
-    parentParameter = data_0217aa00->mParentParameter;
+    parentParameter = gConnectionWork->mParentParameter;
     MIi_CpuCopy32(data_02154788, parentParameter, 0x40);
-    gameInfo = data_0217aa00->mUnk_0044.mUnk_38;
+    gameInfo = gConnectionWork->mUnk_0044.mUnk_38;
     gameInfo->mUnk_0e.mUnk_07_0 = 1;
     MI_CpuCopy8(ghostRecord->mName, gameInfo, 0x14);
     gameInfo->mUnk_0e.mKartIndex = ghostRecord->mKartIndex;
@@ -228,9 +228,9 @@ void FillGhostParentParameter(GhostRecordHead *ghostRecord) {
     generatorState = generatorState * 0x5d588b656c078965ull + 0x269ec3;
     highWord = generatorState >> 32;
     parentParameter->mUnk_0c = (u16) (highWord * 0x10000 >> 32) | 0x8000;
-    parentParameter->mUnk_32 = data_0217aa00->mUnk_0088;
+    parentParameter->mUnk_32 = gConnectionWork->mUnk_0088;
     parentParameter->mUnk_18 = WM_GetDispersionBeaconPeriod();
-    parentParameter->mUnk_00 = data_0217aa00->mUnk_0044.mUnk_38;
+    parentParameter->mUnk_00 = gConnectionWork->mUnk_0044.mUnk_38;
     parentParameter->mUnk_04 = 0x1c;
     parentParameter->mUnk_10 = 1;
     parentParameter->mUnk_34 = 0x1b6;
@@ -242,7 +242,7 @@ void func_0204f8a0(u8 a) {
     BOOL allowed;
 
     proceed = FALSE;
-    if ((data_0217aa00->mUnk_0454 & 0x40) != 0) {
+    if ((gConnectionWork->mUnk_0454 & 0x40) != 0) {
         allowed = TRUE;
         if (func_0204f814_inline() != 1) {
             if (gBootInfo->mUnk_00 != 2) {
@@ -271,17 +271,17 @@ void func_0204f814(void) {
     lowestIndex = -1;
     lowest = 0x7fff;
     for (index = 1; index < 14; index++) {
-        value = data_0217aa00->mUnk_008c[index];
+        value = gConnectionWork->mUnk_008c[index];
         if (value != -1 && value < lowest) {
             lowest = value;
             lowestIndex = index;
         }
     }
     if (lowestIndex != -1) {
-        data_0217aa00->mUnk_0088 = lowestIndex;
+        gConnectionWork->mUnk_0088 = lowestIndex;
         return;
     }
-    data_0217aa00->mUnk_0088 = -1;
-    data_0217aa00->mUnk_0008 = 3;
-    data_0217aa00->mRequestPending = 0;
+    gConnectionWork->mUnk_0088 = -1;
+    gConnectionWork->mUnk_0008 = 3;
+    gConnectionWork->mRequestPending = 0;
 }

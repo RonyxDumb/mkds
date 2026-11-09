@@ -129,8 +129,8 @@ void func_02031e80(void) {
     for (i = 1, labelMessageRow = data_usa_02153d88; i < 8; labelMessageRow++, i++) {
         nameBuffer[0] = 0;
         MIi_CpuClear16(nameBuffer[0], &nameBuffer[1], 0x16);
-        if (&data_0217aa00->mUnk_045c[(u16) i] != NULL) {
-            MIi_CpuCopy16(&data_0217aa00->mUnk_045c[(u16) i], &nameBuffer[1], 0x14);
+        if (&gConnectionWork->mUnk_045c[(u16) i] != NULL) {
+            MIi_CpuCopy16(&gConnectionWork->mUnk_045c[(u16) i], &nameBuffer[1], 0x14);
             if (nameBuffer[1] != 0) {
                 func_0212426c(1, labelMessageRow->mLabelIndex, subFileSet->mLabelLayout, &nameBuffer[1],
                               subFileSet->mCellLayout, subFileSet->mCellTable);
@@ -335,7 +335,7 @@ void func_02031960(void) {
             switch (func_02058cac()) {
                 case 1:
                     if (gMultiSelectMember->mTimer == 0) {
-                        if ((u8) ((data_0217aa00->mParticipantMask & ~data_0217aa00->mUnk_0457) & 0xfe) != 0) {
+                        if ((u8) ((gConnectionWork->mParticipantMask & ~gConnectionWork->mUnk_0457) & 0xfe) != 0) {
                             SetupTxtSystemSubText(GetBmgEntry(gMultiSelectMember->mCommonMessages, 0x81));
                             gMultiSelectMember->mTimer = 0x78;
                         } else {
@@ -387,8 +387,8 @@ void func_020317a0(void) {
             }
             switch (func_02055730(func_0202f14c()->mUnk_00)) {
                 case 1:
-                    if (data_021759d0->mUnk_20 == 2) {
-                        func_0204aa28((data_0217aa00->mUnk_0454 & 0x40) != 0 ? 1 : 0);
+                    if (data_021759d0->mConnectionKind == 2) {
+                        func_0204aa28((gConnectionWork->mUnk_0454 & 0x40) != 0 ? 1 : 0);
                     }
                     gMultiSelectMember->mUnk_70 = 4;
                     if (gMultiSelectMember->mUnk_84 == 0) {
@@ -529,7 +529,7 @@ void func_0203147c(void *parentHeap, void *mainOam, void *subOam) {
     func_0212426c(1, data_usa_02153dbc[16], subFileSet->mLabelLayout,
                   GetBmgEntry(gMultiSelectMember->mBannerMessages, data_usa_02153d7c[8].mMessageIndex),
                   subFileSet->mCellLayout, subFileSet->mCellTable);
-    data_021759d0->mUnk_20 = 1;
+    data_021759d0->mConnectionKind = 1;
     func_02126638(GetBmgEntry(gMultiSelectMember->mBannerMessages, 9), 0, 0, 1, 0, 0, 0);
     subFileSet->mCellTable[0x11].mVisible = 0;
     subFileSet->mCellTable[0x10].mVisible = subFileSet->mCellTable[0x11].mVisible;
@@ -661,16 +661,16 @@ s32 func_02030ea4(Unk02030b18 *sceneNumbers) {
     func_02031960();
     if (gMultiSelectMember->mState != 0 && gMultiSelectMember->mState != 3 && gMultiSelectMember->mState != 4 &&
         gMultiSelectMember->mState != 5 && gMultiSelectMember->mState != 6) {
-        if (data_0217aa00 == NULL) {
+        if (gConnectionWork == NULL) {
             x = 0;
         } else {
-            x = data_0217aa00->mUnk_0000;
+            x = gConnectionWork->mUnk_0000;
         }
         if (x == 1) {
-            if ((data_0217aa00->mUnk_0454 & 0x40) != 0) {
-                x = data_0217aa00->mUnk_1699;
+            if ((gConnectionWork->mUnk_0454 & 0x40) != 0) {
+                x = gConnectionWork->mUnk_1699;
             } else {
-                x = data_0217aa00->mUnk_0044.mChildCount;
+                x = gConnectionWork->mUnk_0044.mChildCount;
             }
         } else {
             x = 0;
@@ -725,7 +725,7 @@ s32 func_02030ea4(Unk02030b18 *sceneNumbers) {
                 touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(x, pairY);
                 rectIndex = RectTableFindContaining(subFileSet->mRects, x, pairY);
             }
-            if ((u16) (data_02175628[slotIndex].mPressedBits & PAD_KEY_A) != 0 || rectIndex == 0) {
+            if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0 || rectIndex == 0) {
                 if (gMultiSelectMember->mChildCount > 0 && gMultiSelectMember->mInterpolations[3].mState == 1) {
                     func_02031b30(0);
                     RequestSelectReturnState4();
@@ -739,7 +739,7 @@ s32 func_02030ea4(Unk02030b18 *sceneNumbers) {
                     break;
                 }
             }
-            if ((u16) (data_02175628[slotIndex].mPressedBits & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
+            if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
                 gMultiSelectMember->mUnk_6c = 1;
                 gMultiSelectMember->mState = 3;
                 gMultiSelectMember->mUnk_7c = TRUE;
@@ -877,7 +877,7 @@ s32 func_02030b18(Unk02030b18 *sceneNumbers) {
             }
             y = gMultiSelectMember->mUnk_90;
             if (y == 0) {
-                switch (data_0217aa00->mUnk_0004) {
+                switch (gConnectionWork->mUnk_0004) {
                     case 7:
                     case 8:
                     case 9:
@@ -908,7 +908,7 @@ s32 func_02030b18(Unk02030b18 *sceneNumbers) {
                 }
                 gMultiSelectMember->mState = 7;
             } else if (y == 0) {
-                if ((u16) (data_02175628[slotIndex].mPressedBits & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
+                if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
                     gMultiSelectMember->mUnk_6c = 0;
                     gMultiSelectMember->mState = 3;
                     gMultiSelectMember->mUnk_7c = TRUE;

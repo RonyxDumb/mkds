@@ -42,15 +42,15 @@
 #pragma opt_rebuildconditionals off
 
 static inline u32 func_020487fc_inline(void) {
-    if (data_0217aa00 == NULL) {
+    if (gConnectionWork == NULL) {
         return 0;
     }
-    return data_0217aa00->mUnk_0000;
+    return gConnectionWork->mUnk_0000;
 }
 
 static inline s32 func_020487fc_inline2(void) {
     BOOL r = FALSE;
-    if (func_020487fc_inline() != 0 && data_0217aa00->mUnk_0004 != 13) {
+    if (func_020487fc_inline() != 0 && gConnectionWork->mUnk_0004 != 13) {
         r = TRUE;
     }
     return r;
@@ -58,7 +58,7 @@ static inline s32 func_020487fc_inline2(void) {
 
 static inline s32 func_020487fc_inline3(void) {
     BOOL r = FALSE;
-    if (func_020487fc_inline2() && !(data_0217aa00->mUnk_0454 & 0x80)) {
+    if (func_020487fc_inline2() && !(gConnectionWork->mUnk_0454 & 0x80)) {
         r = TRUE;
     }
     return r;
@@ -66,7 +66,7 @@ static inline s32 func_020487fc_inline3(void) {
 
 static inline s32 func_020487fc_inline4(void) {
     BOOL r = FALSE;
-    if (func_020487fc_inline3() && (data_0217aa00->mUnk_0454 & 0x10)) {
+    if (func_020487fc_inline3() && (gConnectionWork->mUnk_0454 & 0x10)) {
         r = TRUE;
     }
     return r;
@@ -136,7 +136,7 @@ static inline u32 func_020487fc_inline8(void) {
 }
 
 static inline BOOL func_020487fc_inline12(void) {
-    return func_020487fc_inline() != 0 && data_0217aa00->mUnk_0004 != 13;
+    return func_020487fc_inline() != 0 && gConnectionWork->mUnk_0004 != 13;
 }
 
 static inline void func_020487fc_inline9(const SceneCallbacks *b) {
@@ -215,7 +215,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
     InitSceneSounds(0);
     func_02043410();
     if (func_020487fc_inline2()) {
-        data_0217aa00->mUnk_0454 |= 4;
+        gConnectionWork->mUnk_0454 |= 4;
     }
     LoadFontAndPlayerCharacterData();
     func_02043b48();
@@ -284,7 +284,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
     if ((v != 0 || GetNextSceneNumber() == 0) && gBootInfo->mUnk_00 == 2) {
         func_02049e38(0);
     }
-    if (data_021759d0->mUnk_20 == 4) {
+    if (data_021759d0->mConnectionKind == 4) {
         StartFadeToFadedPositive(b->mFadeToFadedFrameCount);
     } else {
         StartFadeToFadedNegative(b->mFadeToFadedFrameCount);
@@ -314,7 +314,7 @@ end:
     func_02043ae0();
     if (func_020487fc_inline13() && (v != 0 || GetNextSceneNumber() == 0)) {
         gSceneRunState->mUnk_10c = 4;
-        data_021759d0->mUnk_20 = 0;
+        data_021759d0->mConnectionKind = 0;
         c = FALSE;
         func_0204f7f4();
         do {
@@ -336,7 +336,7 @@ end:
     gSceneRunState->mUnk_10c = 5;
     gDisplaySettings->mIrqCallback = NULL;
     if (func_020487fc_inline2()) {
-        data_0217aa00->mUnk_0454 &= ~4;
+        gConnectionWork->mUnk_0454 &= ~4;
     }
     StartDataSharingSync();
     func_02055340();

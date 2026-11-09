@@ -530,7 +530,7 @@ void InitSelectCupGrid(void *heap, void *mainOam, void *subOam, s32 mode) {
     SetupSelectCupGridIndex();
     RequestSelectCupGridState0();
     FrmHeapShrinkInParent(gSelectCupGrid->mHeap);
-    if (data_021759d0->mUnk_20 == 2) {
+    if (data_021759d0->mConnectionKind == 2) {
         ClearSelectReturnDisplayBitOn();
     }
 }
@@ -664,8 +664,8 @@ void AdvanceSelectCupGridState3(void) {
             RectTableFindContaining(gSelectCupGrid->mSelectCupSBnbl, data_02175670[inputIndex].mPressedBits,
                                     data_02175672[inputIndex].mPressedBits);
     }
-    q = &data_02175628[inputIndex];
-    if ((u16) (data_02175628[inputIndex].mPressedBits & PAD_KEY_B) != 0) {
+    q = &gInputSlots[inputIndex];
+    if ((u16) (gInputSlots[inputIndex].mPressedBits & PAD_KEY_B) != 0) {
         goto L1;
     }
     b = 0;

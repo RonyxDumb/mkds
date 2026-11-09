@@ -278,28 +278,28 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
                 break;
             case 1:
                 t = TRUE;
-                if (data_0217aa00->mUnk_0004 != 8 && data_0217aa00->mUnk_0004 != 9) {
+                if (gConnectionWork->mUnk_0004 != 8 && gConnectionWork->mUnk_0004 != 9) {
                     t = FALSE;
                 }
                 if (t != FALSE) {
-                    i = CountSetBits(data_0217aa00->mParticipantMask);
+                    i = CountSetBits(gConnectionWork->mParticipantMask);
                 } else {
                     i = 0;
                 }
                 gPlayerEntryList->mPlayerCount = (u8) i;
-                if (data_0217aa00->mUnk_0000 == 2) {
-                    i = data_0217aa00->mOwnIndex;
+                if (gConnectionWork->mUnk_0000 == 2) {
+                    i = gConnectionWork->mOwnIndex;
                 } else {
                     i = 0;
                 }
-                gPlayerEntryList->mEntryIndex = data_0217aa00->mUnk_1e52[(u16) i].mEntryIndex;
+                gPlayerEntryList->mEntryIndex = gConnectionWork->mUnk_1e52[(u16) i].mEntryIndex;
                 for (j = 0; j < (n = gPlayerEntryList->mPlayerCount); j++) {
                     GetRaceSetupCopy()->mEntries[j].mPlayerKind = PLAYER_KIND_HUMAN;
                     clearValue = 0;
                     MIi_CpuClear16(clearValue, gPlayerEntryList->mEntries[j].mName, 0x16);
-                    func_0202c0d4_inline(data_0217aa00->mUnk_1e8c[(u16) j] == 0xffff
+                    func_0202c0d4_inline(gConnectionWork->mUnk_1e8c[(u16) j] == 0xffff
                                              ? (void *) 0
-                                             : &data_0217aa00->mUnk_045c[data_0217aa00->mUnk_1e8c[(u16) j]],
+                                             : &gConnectionWork->mUnk_045c[gConnectionWork->mUnk_1e8c[(u16) j]],
                                          gPlayerEntryList->mEntries[j].mName, 0x14);
                 }
                 for (; n < 8; n++) {
@@ -457,9 +457,9 @@ void AdvancePlayerEntryList(void) {
                 s32 d;
 
                 for (i = 0; i < gPlayerEntryList->mPlayerCount; i++) {
-                    if (data_0217aa00->mUnk_0004 == 8 &&
-                        (data_0217aa00->mParticipantMask & (1 << data_0217aa00->mUnk_1e8c[(u16) i])) != 0) {
-                        c = data_0217aa00->mUnk_15c8[data_0217aa00->mUnk_1e8c[(u16) i]].mUnk_00[5];
+                    if (gConnectionWork->mUnk_0004 == 8 &&
+                        (gConnectionWork->mParticipantMask & (1 << gConnectionWork->mUnk_1e8c[(u16) i])) != 0) {
+                        c = gConnectionWork->mUnk_15c8[gConnectionWork->mUnk_1e8c[(u16) i]].mUnk_00[5];
                     } else {
                         c = 0;
                     }

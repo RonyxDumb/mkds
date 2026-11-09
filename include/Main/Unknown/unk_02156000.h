@@ -95,7 +95,7 @@ typedef struct Unk02156808 {
 
 extern Unk02156808 data_02156808[];
 extern u16 gKeyboardLayoutRectCounts[6];
-extern const s16 data_02156868[6];
+extern const s16 gFrameOffsets[6];
 extern const u16 data_02156840[20];
 extern u16 data_usa_0215646c;
 extern u32 data_usa_02156470;

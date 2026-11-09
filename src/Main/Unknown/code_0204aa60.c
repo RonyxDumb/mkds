@@ -91,14 +91,14 @@ RandomState64 *GetRandomState(void) {
     void *random = NULL;
     Unk021759d0 *p = data_021759d0;
 
-    switch (p->mUnk_20) {
+    switch (p->mConnectionKind) {
         case 0:
         case 3:
             random = &p->mRandom;
             break;
         case 1:
         case 2:
-            random = &data_0217aa00->mUnk_1ee8;
+            random = &gConnectionWork->mRandomState;
             break;
     }
     return random;

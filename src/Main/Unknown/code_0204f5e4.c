@@ -11,7 +11,7 @@ void ResetPendingFiles(void) {
     u32 clearPendingMask;
     flagBitsMask = (0xe0000000u);
     clearPendingMask = (0xdfffffffu);
-    view = &data_0217aa00->mUnk_16a0_view;
+    view = &gConnectionWork->mUnk_16a0_view;
     i = 0;
     entry = view->mBlockEntries;
     do {

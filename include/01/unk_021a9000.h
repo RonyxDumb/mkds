@@ -177,8 +177,8 @@ typedef struct OptionEmbremSelect {
     /* 18 */ Unk021a9bfc_18 mUnk_18[2];
     /* 20 */ s32 mNextOptionState;
     /* 24 */ BOOL mUnk_24;
-    // Set to 6 by a press; counts down to 0 only while mUnk_08 == 1. 6 - timer indexes a table through func_020adc64
-    // (a displacement that returns to 0); [0] is subtracted from a row member, [1] added to one.
+    // Set to 6 by a press; counts down to 0 only while mUnk_08 == 1. 6 - timer indexes a table through
+    // LookupFrameOffset (a displacement that returns to 0); [0] is subtracted from a row member, [1] added to one.
     /* 28 */ s32 mOffsetTimers[2];
     /* 30 */ void *mUnk_30;
     /* 34 */ LayoutTableEntry *mOptionEmbremSelectSTable;

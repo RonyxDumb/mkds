@@ -279,18 +279,18 @@ void func_01ffc6c0(Kart *p) {
         a = 0;
         if (func_01ffc67c(p) != FALSE) {
             k = p->mEntryIndex;
-            data_02175628[k].mBitMask = 0xe04;
+            gInputSlots[k].mBitMask = 0xe04;
             if (p->mUnk_4c & 0x10000000) {
                 k = p->mEntryIndex;
-                data_02175628[k].mBitMask = 0xe34;
+                gInputSlots[k].mBitMask = 0xe34;
             }
             if (p->mUnk_48 & 0x2000000) {
                 k = p->mEntryIndex;
-                data_02175628[k].mBitMask = 0xe05;
+                gInputSlots[k].mBitMask = 0xe05;
             }
         } else {
             k = p->mEntryIndex;
-            data_02175628[k].mBitMask = 0xff7;
+            gInputSlots[k].mBitMask = 0xff7;
             func_01ffc558(p);
         }
         func_01ffc5a0(p);
@@ -317,7 +317,7 @@ void func_01ffc6c0(Kart *p) {
     func_01ffc558(p);
     func_01ffc5a0(p);
     k = p->mEntryIndex;
-    a = data_02175628[k].mBits;
+    a = gInputSlots[k].mBits;
     if ((u16) (a & PAD_KEY_LEFT)) {
         p->mUnk_48 |= KART_48_TURN_LEFT;
     } else if ((u16) (a & PAD_KEY_RIGHT)) {
@@ -343,11 +343,11 @@ void func_01ffc5a0(Kart *p) {
     p->mUnk_44 &= ~0x40500;
     q = (u32 *) &p->mUnk_48;
     k = p->mEntryIndex;
-    if ((u16) (data_02175628[k].mBits & PAD_KEY_A)) {
+    if ((u16) (gInputSlots[k].mBits & PAD_KEY_A)) {
         *q |= 2;
     }
     k = p->mEntryIndex;
-    if ((u16) (data_02175628[k].mBits & PAD_KEY_B)) {
+    if ((u16) (gInputSlots[k].mBits & PAD_KEY_B)) {
         r = (u32 *) &p->mUnk_48;
         p->mUnk_48 |= 4;
         f = p->mUnk_48;
@@ -373,7 +373,7 @@ void func_01ffc558(Kart *p) {
         return;
     }
     k = p->mEntryIndex;
-    data_02175628[k].mBitMask = 0xff6;
+    gInputSlots[k].mBitMask = 0xff6;
 }
 
 void DecayValueToZero(s32 *p) {
@@ -415,7 +415,7 @@ s32 func_01ffc27c(Kart *p, s32 a) {
         }
         p->mHeadingAngle = p->mHeadingAngle - t;
         k = p->mEntryIndex;
-        w = data_02175628[k].mBits;
+        w = gInputSlots[k].mBits;
         if ((u16) (w & PAD_KEY_LEFT)) {
             p->mUnk_48 |= KART_48_TURN_LEFT;
         } else if ((u16) (w & PAD_KEY_RIGHT)) {
@@ -425,7 +425,7 @@ s32 func_01ffc27c(Kart *p, s32 a) {
     }
     if (!(f & KART_44_ON_GROUND)) {
         k = p->mEntryIndex;
-        w = data_02175628[k].mBits;
+        w = gInputSlots[k].mBits;
         if ((u16) (w & PAD_KEY_UP)) {
             p->mAirTiltAngle += 0x96;
             if (p->mAirTiltAngle > 0x157c) {
@@ -441,12 +441,12 @@ s32 func_01ffc27c(Kart *p, s32 a) {
     }
     c = p->mUnk_44;
     f = c;
-    if (((f & 0x100) && (u16) (data_02175628[k = p->mEntryIndex].mBits & PAD_KEY_B)) || ((f & 0x100) && !(f & 0xa))) {
+    if (((f & 0x100) && (u16) (gInputSlots[k = p->mEntryIndex].mBits & PAD_KEY_B)) || ((f & 0x100) && !(f & 0xa))) {
         b = -1;
         x = (s16) ((s16) x * (s16) b);
     }
     k = p->mEntryIndex;
-    w = data_02175628[k].mBits;
+    w = gInputSlots[k].mBits;
     if ((u16) (w & PAD_KEY_LEFT)) {
         r = ((s32(*)(Kart *, s32, s32, s32, s32, u32)) ApplyKartTurn)(p, x, b, 1, d, KART_48_TURN_LEFT);
     } else if ((u16) (w & PAD_KEY_RIGHT)) {

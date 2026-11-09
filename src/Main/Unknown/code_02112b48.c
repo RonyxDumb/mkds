@@ -537,8 +537,8 @@ void AdvanceRecordVSOffsetTimers(void) {
     u16 firstIndex;
 
     firstIndex = GetRecordVSFirstRecordIndex();
-    gRecordVS->mRecordVSSTable[data_0215c3ac[0]].mOffsetX = -func_020adc64(6 - gRecordVS->mOffsetTimers[0]);
-    gRecordVS->mRecordVSSTable[data_0215c3ac[1]].mOffsetX = func_020adc64(6 - gRecordVS->mOffsetTimers[1]);
+    gRecordVS->mRecordVSSTable[data_0215c3ac[0]].mOffsetX = -LookupFrameOffset(6 - gRecordVS->mOffsetTimers[0]);
+    gRecordVS->mRecordVSSTable[data_0215c3ac[1]].mOffsetX = LookupFrameOffset(6 - gRecordVS->mOffsetTimers[1]);
     for (i = 0; i < 2; i++) {
         if (gRecordVS->mOffsetTimers[i] > 0) {
             gRecordVS->mOffsetTimers[i]--;

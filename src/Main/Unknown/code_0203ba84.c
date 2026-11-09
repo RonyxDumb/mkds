@@ -26,11 +26,11 @@ void PickRandomKarts(CharacterKartPicks *picks) {
 
     givenBits = picks->mKartGivenBits;
     useSharedRandom = FALSE;
-    if ((data_0217aa00 == NULL ? 0 : data_0217aa00->mUnk_0000) != 0 && data_0217aa00->mUnk_0004 != 0xd) {
+    if ((gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000) != 0 && gConnectionWork->mUnk_0004 != 0xd) {
         useSharedRandom = TRUE;
     }
     if (useSharedRandom != FALSE) {
-        random = &data_0217aa00->mUnk_1ee8;
+        random = &gConnectionWork->mRandomState;
     } else {
         firstTick = OS_GetTick();
         secondTick = OS_GetTick();
@@ -113,16 +113,16 @@ void PickRandomCharacters(CharacterKartPicks *picks) {
     availableBits = 0;
     givenBits = picks->mCharacterGivenBits;
     useSharedRandom = FALSE;
-    if (data_0217aa00 == NULL) {
+    if (gConnectionWork == NULL) {
         x = 0;
     } else {
-        x = data_0217aa00->mUnk_0000;
+        x = gConnectionWork->mUnk_0000;
     }
-    if (x != 0 && data_0217aa00->mUnk_0004 != 0xd) {
+    if (x != 0 && gConnectionWork->mUnk_0004 != 0xd) {
         useSharedRandom = TRUE;
     }
     if (useSharedRandom != FALSE) {
-        random = &data_0217aa00->mUnk_1ee8;
+        random = &gConnectionWork->mRandomState;
     } else {
         firstTick = OS_GetTick();
         secondTick = OS_GetTick();

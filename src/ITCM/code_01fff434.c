@@ -27,7 +27,7 @@ void UpdateKartItems(KartItems *p) {
     u32 g;
     f = p->mFlags;
     g = f & 0x1000;
-    t = data_02175628[p->mEntryIndex].mBits & ITEM_BITS;
+    t = gInputSlots[p->mEntryIndex].mBits & ITEM_BITS;
     q = p->mKart;
     p->mFlags &= ~0xf200;
     if (t) {

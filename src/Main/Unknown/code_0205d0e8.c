@@ -35,7 +35,7 @@ void ResetCupRecords(void) {
         }
     }
     x = FALSE;
-    if ((data_0217aa00 == NULL ? 0 : data_0217aa00->mUnk_0000) != 0 && data_0217aa00->mUnk_0004 != 13) {
+    if ((gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000) != 0 && gConnectionWork->mUnk_0004 != 13) {
         x = TRUE;
     }
     if (x != FALSE) {

@@ -17,7 +17,7 @@
 #include "Main/Unknown/code_0211d4a8.h"
 
 u32 func_0202811c(void) {
-    return (data_021759d0->mUnk_20);
+    return (data_021759d0->mConnectionKind);
 }
 
 u16 *func_02028110(void) {

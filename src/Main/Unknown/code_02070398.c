@@ -105,7 +105,7 @@ void AdvanceKartScaleFactor(Kart *kart) {
     enum { K0 } entryIndex;
 
     entryIndex = kart->mEntryIndex;
-    data_02175628[entryIndex].mBitMask = 0xff7;
+    gInputSlots[entryIndex].mBitMask = 0xff7;
     if (kart->mUnk_7c & 0x20) {
         AdvanceKartRemovalShrink(kart);
         return;
@@ -1298,7 +1298,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
         }
     }
 
-    data_02175628[kart->mEntryIndex].mBitMask = 0xe04;
+    gInputSlots[kart->mEntryIndex].mBitMask = 0xe04;
     Vec3CrossUnrounded(&data_02154f7c, &placementForward, &side);
     VEC_Subtract(&kart->mPos, &placementPos, &toKart);
     toKart.y = 0;

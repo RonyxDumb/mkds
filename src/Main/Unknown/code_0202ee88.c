@@ -32,7 +32,7 @@ u32 func_0202efe8(InputSlotPair *pair) {
 }
 
 u32 func_0202efc8(u32 slotIndex) {
-    return func_0202efe8(&data_02175628[slotIndex].mUnk_48);
+    return func_0202efe8(&gInputSlots[slotIndex].mPair);
 }
 
 #pragma thumb on

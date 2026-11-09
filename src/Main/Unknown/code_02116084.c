@@ -19,9 +19,9 @@ void AdvanceRecordVSEraseOffsetTimers(void) {
 
     v = GetRecordVSEraseFirstRecordIndex();
     gRecordVSErase->mRecordVSSEraseTable[data_0215c4a8[0]].mOffsetX =
-        -func_020adc64(6 - gRecordVSErase->mOffsetTimers[0]);
+        -LookupFrameOffset(6 - gRecordVSErase->mOffsetTimers[0]);
     gRecordVSErase->mRecordVSSEraseTable[data_0215c4a8[1]].mOffsetX =
-        func_020adc64(6 - gRecordVSErase->mOffsetTimers[1]);
+        LookupFrameOffset(6 - gRecordVSErase->mOffsetTimers[1]);
     a = FALSE;
     b = FALSE;
     for (i = 0; i < 2; i++) {

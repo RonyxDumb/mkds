@@ -34,7 +34,7 @@
 static inline BOOL func_0205f218_inline(void) {
     ConnectionWork *connectionWork;
 
-    connectionWork = data_0217aa00;
+    connectionWork = gConnectionWork;
     return (connectionWork == NULL ? 0 : connectionWork->mUnk_0000) != 0 && connectionWork->mUnk_0004 != 13;
 }
 
@@ -287,7 +287,8 @@ void AddVSBuddyRecordResults(void) {
         } else {
             outcome = func_0205f700_inline(entryIndex, ownRank);
         }
-        if ((data_0217aa00->mUnk_0457 & (1 << data_0217aa00->mUnk_1e8c[data_0217aa00->mUnk_1e8c[entryIndex]])) == 0) {
+        if ((gConnectionWork->mUnk_0457 & (1 << gConnectionWork->mUnk_1e8c[gConnectionWork->mUnk_1e8c[entryIndex]])) ==
+            0) {
             AddBuddyRecordResult(entryIndex, date, 0, outcome);
         }
         if (outcome == 0) {
@@ -354,7 +355,8 @@ void AddBattleBuddyRecordResults(void) {
                 outcome = 1;
             }
         }
-        if ((data_0217aa00->mUnk_0457 & (1 << data_0217aa00->mUnk_1e8c[data_0217aa00->mUnk_1e8c[entryIndex]])) == 0) {
+        if ((gConnectionWork->mUnk_0457 & (1 << gConnectionWork->mUnk_1e8c[gConnectionWork->mUnk_1e8c[entryIndex]])) ==
+            0) {
             AddBuddyRecordResult(entryIndex, date, 1, outcome);
         }
         if (outcome == 0) {
@@ -422,7 +424,8 @@ void func_0205f218(void) {
                 outcome = 1;
             }
         }
-        if ((data_0217aa00->mUnk_0457 & (1 << data_0217aa00->mUnk_1e8c[data_0217aa00->mUnk_1e8c[entryIndex]])) == 0) {
+        if ((gConnectionWork->mUnk_0457 & (1 << gConnectionWork->mUnk_1e8c[gConnectionWork->mUnk_1e8c[entryIndex]])) ==
+            0) {
             AddBuddyRecordResult(entryIndex, date, 1, outcome);
         }
         if (outcome == 0) {

@@ -23,14 +23,14 @@ s32 RunResultScene(SceneNumbers *sceneNumbers) {
 #pragma thumb on
 
 static inline u32 func_02059878_inline(void) {
-    if (data_0217aa00 == NULL) {
+    if (gConnectionWork == NULL) {
         return 0;
     }
-    return data_0217aa00->mUnk_0000;
+    return gConnectionWork->mUnk_0000;
 }
 
 static inline void func_02059878_inline2(u16 v) {
-    MPStateMachine *p = &data_0217aa00->mUnk_1608;
+    MPStateMachine *p = &gConnectionWork->mUnk_1608;
     p->mStateMachine.mNextState = v;
     p->mStateMachine.mNextStateRequested = 1;
 }
@@ -41,7 +41,7 @@ u32 IsAllMPChunksReceived(u32 slot) {
     u32 allReceived;
     u32 chunkIndex;
 
-    receivedFlags = data_0217aa00->mChunkReceivedFlags[slot];
+    receivedFlags = gConnectionWork->mChunkReceivedFlags[slot];
     allReceived = 1;
     if (func_02059878_inline() == 1) {
         chunkCount = 0x12;
@@ -66,7 +66,7 @@ void ProcessMPChunk(u8 *chunk) {
     u8 playerBit;
 
     playerIndex = chunk[0];
-    entry = &data_0217aa00->mUnk_045c[playerIndex];
+    entry = &gConnectionWork->mUnk_045c[playerIndex];
     finished = 0;
     if (func_02059878_inline() == 1) {
         byteOffset = chunk[1] << 5;
@@ -81,25 +81,25 @@ void ProcessMPChunk(u8 *chunk) {
             break;
         case 0xfe:
             if (func_02059878_inline() == 2) {
-                data_0217aa00->mUnk_043a = *(u16 *) (chunk + 2);
+                gConnectionWork->mUnk_043a = *(u16 *) (chunk + 2);
             }
             break;
         case 0xfd:
             if (func_02059878_inline() == 1) {
-                data_0217aa00->mUnk_162a |= 1 << playerIndex;
-                if (data_0217aa00->mUnk_0044.mChildMask ==
-                    (data_0217aa00->mUnk_0044.mChildMask & data_0217aa00->mUnk_162a)) {
+                gConnectionWork->mUnk_162a |= 1 << playerIndex;
+                if (gConnectionWork->mUnk_0044.mChildMask ==
+                    (gConnectionWork->mUnk_0044.mChildMask & gConnectionWork->mUnk_162a)) {
                     func_02059878_inline2(10);
                 }
             }
             break;
         case 0xfc:
-            data_0217aa00->mUnk_045c[playerIndex].mUnk_214 = 0;
+            gConnectionWork->mUnk_045c[playerIndex].mUnk_214 = 0;
             finished = 1;
             break;
         default:
             MI_CpuCopy8(chunk + 4, entry->mName + byteOffset, *(u16 *) (chunk + 2));
-            data_0217aa00->mChunkReceivedFlags[chunk[0]][chunk[1]] = 1;
+            gConnectionWork->mChunkReceivedFlags[chunk[0]][chunk[1]] = 1;
             if (IsAllMPChunksReceived(chunk[0]) != 0) {
                 finished = 1;
             }
@@ -109,13 +109,13 @@ void ProcessMPChunk(u8 *chunk) {
         playerBit = 1U << chunk[0];
         if (func_02059878_inline() == 1) {
             if (QueueMPChunk(0xff, NULL, 0, 0, playerBit) != FALSE) {
-                data_0217aa00->mUnk_162a |= 1 << chunk[0];
+                gConnectionWork->mUnk_162a |= 1 << chunk[0];
                 return;
             }
         } else {
-            data_0217aa00->mUnk_162a |= 1 << chunk[0];
-            if (data_0217aa00->mUnk_043a == (data_0217aa00->mUnk_043a & data_0217aa00->mUnk_162a)) {
-                ownIndex = data_0217aa00->mUnk_0000 == 2 ? data_0217aa00->mOwnIndex : 0;
+            gConnectionWork->mUnk_162a |= 1 << chunk[0];
+            if (gConnectionWork->mUnk_043a == (gConnectionWork->mUnk_043a & gConnectionWork->mUnk_162a)) {
+                ownIndex = gConnectionWork->mUnk_0000 == 2 ? gConnectionWork->mOwnIndex : 0;
                 if (QueueMPChunk(0xfd, NULL, 0, ownIndex, 1) != FALSE) {
                     func_02059878_inline2(10);
                 }
@@ -142,14 +142,14 @@ void func_02059878(void) {
     ConnectionWork *p;
     u32 v;
 
-    InitStateMachine(&data_0217aa00->mUnk_1608.mStateMachine, gMPStateTable, 0x17, NULL);
-    data_0217aa00->mUnk_164e = 0;
-    data_0217aa00->mUnk_1608.mUnk_14 = 0;
-    data_0217aa00->mUnk_1608.mUnk_1a = 0;
-    data_0217aa00->mEntryChunkIndex = 0;
-    data_0217aa00->mUnk_162a = 0;
-    data_0217aa00->mUnk_164c = 0;
-    p = data_0217aa00;
+    InitStateMachine(&gConnectionWork->mUnk_1608.mStateMachine, gMPStateTable, 0x17, NULL);
+    gConnectionWork->mUnk_164e = 0;
+    gConnectionWork->mUnk_1608.mUnk_14 = 0;
+    gConnectionWork->mUnk_1608.mUnk_1a = 0;
+    gConnectionWork->mEntryChunkIndex = 0;
+    gConnectionWork->mUnk_162a = 0;
+    gConnectionWork->mUnk_164c = 0;
+    p = gConnectionWork;
     v = 0;
     if (p != NULL) {
         v = p->mUnk_0000;
@@ -157,7 +157,7 @@ void func_02059878(void) {
     if (v == 1) {
         p->mUnk_0044.mUnk_42 = (p->mUnk_0454 & 0x40) != 0 ? p->mUnk_1695 : p->mUnk_0044.mChildMask;
     }
-    data_0217aa00->mUnk_1eb0 = 0;
+    gConnectionWork->mUnk_1eb0 = 0;
 }
 
 #pragma thumb off

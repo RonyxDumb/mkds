@@ -10,29 +10,29 @@
 #pragma thumb on
 
 void UncompressPendingFile(void) {
-    s16 index = data_0217aa00->mNextLoadIndex - 1;
-    u32 uncompressedSize = *data_0217aa00->mBlockEntries[index].mBuffer >> 8;
-    void *destination = data_0217aa00->mBlockEntries[index].mUncompressedBuffer;
+    s16 index = gConnectionWork->mNextLoadIndex - 1;
+    u32 uncompressedSize = *gConnectionWork->mBlockEntries[index].mBuffer >> 8;
+    void *destination = gConnectionWork->mBlockEntries[index].mUncompressedBuffer;
     if (destination == NULL) {
-        destination = HeapAllocAligned(data_0217aa00->mBlockEntries[index].mHeap, uncompressedSize, 0x20);
-        *data_0217aa00->mBlockEntries[index].mDataOutput = destination;
+        destination = HeapAllocAligned(gConnectionWork->mBlockEntries[index].mHeap, uncompressedSize, 0x20);
+        *gConnectionWork->mBlockEntries[index].mDataOutput = destination;
     }
-    MI_UncompressLZ8(data_0217aa00->mBlockEntries[index].mBuffer, destination);
-    data_0217aa00->mBlockEntries[index].mUncompressPending = 0;
+    MI_UncompressLZ8(gConnectionWork->mBlockEntries[index].mBuffer, destination);
+    gConnectionWork->mBlockEntries[index].mUncompressPending = 0;
 }
 
 // Staged: one step per call; returns TRUE when no queued file is left.
 BOOL LoadPendingFiles(void) {
-    u16 nextIndex = data_0217aa00->mNextLoadIndex;
+    u16 nextIndex = gConnectionWork->mNextLoadIndex;
     s16 previousIndex = nextIndex - 1;
-    FSFile *file = &data_0217aa00->mFile;
+    FSFile *file = &gConnectionWork->mFile;
     void *q;
     s32 size;
     u32 *buffer;
     if (((file->mStat & 1) ? 1 : 0) != 0) {
         return FALSE;
     }
-    if (previousIndex >= 0 && data_0217aa00->mBlockEntries[previousIndex].mUncompressPending != 0) {
+    if (previousIndex >= 0 && gConnectionWork->mBlockEntries[previousIndex].mUncompressPending != 0) {
         if (gThreadFunctionQueue->mRunRequested != 0) {
             return FALSE;
         }
@@ -40,24 +40,24 @@ BOOL LoadPendingFiles(void) {
         gThreadFunctionQueue->mRunRequested = 1;
         return FALSE;
     }
-    if (nextIndex >= 12 || data_0217aa00->mBlockEntries[nextIndex].mPath == 0) {
+    if (nextIndex >= 12 || gConnectionWork->mBlockEntries[nextIndex].mPath == 0) {
         return TRUE;
     }
-    q = &data_0217aa00->mBlockEntries[nextIndex].mPath;
+    q = &gConnectionWork->mBlockEntries[nextIndex].mPath;
     if (((file->mStat & 0x10) ? 1 : 0) != 0) {
         FS_CloseFile(file);
     }
     FS_InitFile(file);
     if (FS_OpenFile(file, q) != 0) {
-        q = data_0217aa00;
+        q = gConnectionWork;
         size = file->mProp.p.mUnk_08 - file->mProp.p.mUnk_04;
         buffer = ((ConnectionWork *) q)->mBlockEntries[nextIndex].mBuffer;
         if (buffer == NULL) {
-            buffer = HeapAllocAligned(data_0217aa00->mBlockEntries[nextIndex].mHeap, size, 0x20);
-            *data_0217aa00->mBlockEntries[nextIndex].mDataOutput = buffer;
+            buffer = HeapAllocAligned(gConnectionWork->mBlockEntries[nextIndex].mHeap, size, 0x20);
+            *gConnectionWork->mBlockEntries[nextIndex].mDataOutput = buffer;
         }
         FS_ReadFileAsync(file, buffer, size);
-        data_0217aa00->mNextLoadIndex++;
+        gConnectionWork->mNextLoadIndex++;
     }
     return FALSE;
 }

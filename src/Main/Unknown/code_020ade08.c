@@ -56,7 +56,7 @@ u16 AllocOamMatrixIndex(void *oamList) {
     return matrixIndex;
 }
 
-s32 func_020ae584(s32 index) {
+s32 LookupRowOffset(s32 index) {
     s32 values[15] = {4, 8, 10, 13, 12, 12, 12, 4, -4, -8, -12, -16, -16, -24, -40};
 
     if (index < 0) {
@@ -70,21 +70,22 @@ s32 func_020ae584(s32 index) {
 
 #pragma thumb off
 
-s16 func_020ae564(s32 angle) {
+s16 InterpolateGetAnglePairSecond(s32 angle) {
     return gPairsByAngle[(angle >> 4) * 2 + 1];
 }
 
-s32 func_020ae554(s32 value, s32 factor) {
+s32 InterpolateMulFixed12NoRound(s32 value, s32 factor) {
     return ((s64) value * factor) >> 12;
 }
 
-s32 func_020ae54c(s32 value) {
+s32 InterpolateGetFixed12Whole(s32 value) {
     return value >> 12;
 }
 
 #pragma thumb on
 
-// Mode 0 is linear, mode 1 eases the difference; returns b for d <= 0 and c for d >= e.
+// Mode 0 is linear, mode 1 eases the difference; returns start while elapsedFrames <= 0 and end once it reaches
+// durationFrames.
 s16 InterpolateS16(s32 mode, s16 start, s16 end, s32 elapsedFrames, s32 durationFrames) {
     s32 easeValue;
     s32 difference;
@@ -100,18 +101,19 @@ s16 InterpolateS16(s32 mode, s16 start, s16 end, s32 elapsedFrames, s32 duration
         case 0:
             return start + elapsedFrames * (end - start) / durationFrames;
         case 1:
-            easeValue = func_020ae564((elapsedFrames << 15) / durationFrames);
+            easeValue = InterpolateGetAnglePairSecond((elapsedFrames << 15) / durationFrames);
             difference = end - start;
             if (difference > 0) {
                 scaledDifference = 0.5f + (difference << 12);
             } else {
                 scaledDifference = (difference << 12) - 0.5f;
             }
-            return start + func_020ae54c(func_020ae554(scaledDifference, 0x1000 - easeValue)) / 2;
+            return start +
+                   InterpolateGetFixed12Whole(InterpolateMulFixed12NoRound(scaledDifference, 0x1000 - easeValue)) / 2;
     }
 }
 
-s16 func_020ae488(s32 frame) {
+s16 GetSelectedPressOffset(s32 frame) {
     if (frame < 0) {
         return 0;
     }
@@ -129,22 +131,22 @@ s16 func_020ae488(s32 frame) {
 
 #pragma thumb off
 
-u16 func_020ae474(InputSlot *inputSlot, u32 mask) {
+u16 GetInputSlotNewBits(InputSlot *inputSlot, u32 mask) {
     return inputSlot->mPressedBits & mask;
 }
 
 u16 GetNewBits(u32 slotIndex, u32 mask) {
-    return func_020ae474(&data_02175628[slotIndex], mask);
+    return GetInputSlotNewBits(&gInputSlots[slotIndex], mask);
 }
 
 // Returns the masked bits in place, not 0 or 1.
-u16 func_020ae444(InputSlot *inputSlot, u32 mask) {
+u16 GetInputSlotRepeatBits(InputSlot *inputSlot, u32 mask) {
     return inputSlot->mRepeatBits & mask;
 }
 
 // Returns the masked bits in place, not 0 or 1.
 u16 GetRepeatBits(u32 slotIndex, u32 mask) {
-    return func_020ae444(&data_02175628[slotIndex], mask);
+    return GetInputSlotRepeatBits(&gInputSlots[slotIndex], mask);
 }
 
 #pragma thumb on
@@ -159,24 +161,26 @@ u16 GetNewOrRepeatBits(u32 slotIndex, u32 mask) {
 
 #pragma thumb off
 
-u32 func_020ae3f4(void) {
-    return (data_021759d0->mUnk_20);
+u32 GetConnectionKind(void) {
+    return (data_021759d0->mConnectionKind);
 }
 
-RandomState64 *func_020ae3d8(void) {
-    return &data_0217aa00->mUnk_1ee8;
+RandomState64 *GetConnectionWorkRandomState(void) {
+    return &gConnectionWork->mRandomState;
 }
 
 #pragma thumb on
 
-u32 func_020ae3b4(u32 limit) {
-    int v1;
+// Connection kind 0 draws from the random state in data_021759d0 (GetRandomState), any other kind from the one in
+// ConnectionWork.
+u32 NextRandomBelowByConnectionKind(u32 limit) {
+    int connectionKind;
     RandomState64 *randomState;
-    v1 = func_020ae3f4();
-    if (v1 == 0) {
+    connectionKind = GetConnectionKind();
+    if (connectionKind == 0) {
         randomState = GetRandomState();
     } else {
-        randomState = func_020ae3d8();
+        randomState = GetConnectionWorkRandomState();
     }
     return NextRandomBelowU16(randomState, limit);
 }
@@ -211,12 +215,12 @@ void FindMissionTableCell(u32 value, u8 *outRow, u8 *outColumn) {
 
 #pragma thumb off
 
-u32 func_020ae338(InputSlotPair *inputSlotPair) {
+u32 GetPairHasPair(InputSlotPair *inputSlotPair) {
     return inputSlotPair->mHasPair;
 }
 
-BOOL func_020ae308(InputSlotPair *inputSlotPair) {
-    if (func_020ae338(inputSlotPair) == 0 && inputSlotPair->mNoPairCount < 5) {
+BOOL IsPairRecentlyLost(InputSlotPair *inputSlotPair) {
+    if (GetPairHasPair(inputSlotPair) == 0 && inputSlotPair->mNoPairCount < 5) {
         return 1;
     }
     return 0;
@@ -229,15 +233,15 @@ BOOL IsPairNew(InputSlotPair *inputSlotPair) {
     return 0;
 }
 
-BOOL func_020ae2b0(InputSlotPair *inputSlotPair) {
-    if (func_020ae308(inputSlotPair) == 0 && IsPairNew(inputSlotPair) != 0) {
+BOOL IsPairNewUnlessRecentlyLost(InputSlotPair *inputSlotPair) {
+    if (IsPairRecentlyLost(inputSlotPair) == 0 && IsPairNew(inputSlotPair) != 0) {
         return 1;
     }
     return 0;
 }
 
 BOOL IsSlotPairNew(u32 slotIndex) {
-    return func_020ae2b0(&data_02175628[slotIndex].mUnk_48);
+    return IsPairNewUnlessRecentlyLost(&gInputSlots[slotIndex].mPair);
 }
 
 #pragma thumb on
@@ -264,7 +268,7 @@ u32 GetPairX(InputSlotPair *pair) {
 }
 
 u32 GetSlotPairX(u32 slotIndex) {
-    return GetPairX(&data_02175628[slotIndex].mUnk_48);
+    return GetPairX(&gInputSlots[slotIndex].mPair);
 }
 
 u32 GetPairY(InputSlotPair *pair) {
@@ -272,7 +276,7 @@ u32 GetPairY(InputSlotPair *pair) {
 }
 
 u32 GetSlotPairY(u32 slotIndex) {
-    return GetPairY(&data_02175628[slotIndex].mUnk_48);
+    return GetPairY(&gInputSlots[slotIndex].mPair);
 }
 
 #pragma thumb on
@@ -297,12 +301,13 @@ void *GetCharacterBmgEntry(u32 characterIndex, u32 b) {
 
 #pragma thumb off
 
-u32 func_020ae15c(u32 entryIndex) {
+u32 KartEntryGetCurrentPlayerKind(u32 entryIndex) {
     return gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind;
 }
 
-BOOL func_020ae114(u32 entryIndex) {
-    if (func_020ae15c(entryIndex) == 0 || func_020ae15c(entryIndex) == 2 || func_020ae15c(entryIndex) == 3) {
+BOOL IsKartEntryHumanGhostOrPeer(u32 entryIndex) {
+    if (KartEntryGetCurrentPlayerKind(entryIndex) == PLAYER_KIND_HUMAN || KartEntryGetCurrentPlayerKind(entryIndex) == PLAYER_KIND_GHOST ||
+        KartEntryGetCurrentPlayerKind(entryIndex) == PLAYER_KIND_PEER) {
         return 1;
     }
     return 0;
@@ -312,11 +317,11 @@ void *GetKartEntryName(u32 entryIndex) {
     return gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mName;
 }
 
-u32 func_020ae0e4(void) {
+u32 KartEntryGetCurrentMode(void) {
     return (gRaceSetup->mMode);
 }
 
-u32 func_020ae0c8(u32 entryIndex) {
+u32 KartEntryGetCurrentCharacterIndex(u32 entryIndex) {
     return gRaceSetup->mCurrentEntries[entryIndex].mCharacterIndex;
 }
 
@@ -329,7 +334,7 @@ int GetKartEntryNumber(int entryIndex) {
 void CopyKartEntryName(u32 entryIndex, u16 *nameOut, u32 c) {
     u16 numberText[2];
     u16 numberedName[10];
-    u16 x[12];
+    u16 nameChars[12];
     u16 i;
     u32 charCount;
     u16 *source;
@@ -337,7 +342,7 @@ void CopyKartEntryName(u32 entryIndex, u16 *nameOut, u32 c) {
     for (i = 0; i < 11; i++) {
         nameOut[i] = 0;
     }
-    if (func_020ae114(entryIndex) != 0) {
+    if (IsKartEntryHumanGhostOrPeer(entryIndex) != 0) {
         source = GetKartEntryName(entryIndex);
         if (source == NULL) {
             return;
@@ -345,11 +350,11 @@ void CopyKartEntryName(u32 entryIndex, u16 *nameOut, u32 c) {
         if (c != 0) {
             charCount = 10;
         } else {
-            charCount = CopyTextWithinWidth(source, &x[1]);
+            charCount = CopyTextWithinWidth(source, &nameChars[1]);
         }
     } else {
-        if (func_020ae0e4() == MODE_GRAND_PRIX || func_020ae0e4() == MODE_MISSION_RUN) {
-            source = GetCharacterBmgEntry(func_020ae0c8(entryIndex), c);
+        if (KartEntryGetCurrentMode() == MODE_GRAND_PRIX || KartEntryGetCurrentMode() == MODE_MISSION_RUN) {
+            source = GetCharacterBmgEntry(KartEntryGetCurrentCharacterIndex(entryIndex), c);
             charCount = 20;
         } else {
             wcsncpy(numberedName, GetBmgEntry(FindFileInLoadedArchivesWrapper("common.bmg"), 0x72), 9);
@@ -409,10 +414,10 @@ void RenderKartEntryName(u32 entryIndex) {
 
 void SetPixel2Bit(u16 *pixels, s32 pixelX, s32 pixelY, s32 value) {
     u16 halfword;
-    s32 o;
+    s32 byteOffset;
     s32 shift;
 
-    o = (pixelX + pixelY * 64) / 8 * 2;
+    byteOffset = (pixelX + pixelY * 64) / 8 * 2;
     halfword = pixels[(pixelX + pixelY * 64) / 8];
     shift = pixelX % 8 * 2;
     halfword &= ~(3 << shift);
@@ -424,28 +429,28 @@ void PlotNibblePixels(const u16 *sourcePixels, u16 *dest, s32 colorForValue1, s3
     s32 i;
     s32 j;
     s32 k;
-    s32 p;
-    s32 q;
-    s32 u;
-    s32 w;
+    s32 tileRow;
+    s32 tileColumn;
+    s32 rowInTile;
+    s32 halfOfRow;
     u16 nibbles;
 
     for (i = 0; i < 16; i++) {
-        p = i / 8;
-        q = i % 8;
+        tileRow = i / 8;
+        tileColumn = i % 8;
         for (j = 0; j < 16; j++) {
-            u = j / 2;
-            w = j % 2;
+            rowInTile = j / 2;
+            halfOfRow = j % 2;
             nibbles = sourcePixels[i * 16 + j];
             for (k = 0; k < 4; k++) {
                 switch ((u8) ((nibbles >> (k * 4)) % 16)) {
                     case 0:
                         break;
                     case 1:
-                        pixelSetFunc(dest, q * 8 + w * 4 + k, p * 8 + u, colorForValue1);
+                        pixelSetFunc(dest, tileColumn * 8 + halfOfRow * 4 + k, tileRow * 8 + rowInTile, colorForValue1);
                         break;
                     case 2:
-                        pixelSetFunc(dest, q * 8 + w * 4 + k, p * 8 + u, colorForValue2);
+                        pixelSetFunc(dest, tileColumn * 8 + halfOfRow * 4 + k, tileRow * 8 + rowInTile, colorForValue2);
                         break;
                 }
             }

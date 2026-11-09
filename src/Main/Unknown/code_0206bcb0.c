@@ -150,7 +150,7 @@ void AdvanceKartDrift(Kart *kart) {
     }
     if (kart->mAirborneFrames >= 5 && !(bits44 & 0x1a)) {
         entryIndex = kart->mEntryIndex;
-        if ((u16) (data_02175628[entryIndex].mBits & PAD_KEY_R)) {
+        if ((u16) (gInputSlots[entryIndex].mBits & PAD_KEY_R)) {
             if (bits44 & 1) {
                 goto recheck;
             }
@@ -185,7 +185,7 @@ recheck:
     if (!(bits44 & KART_44_DRIFTING) && (bits44 & KART_44_ON_GROUND)) {
         if ((bits44 & 3) &&
             kart->mVelocityLength > (s32) (((s64) kart->mPhysicalParam->mBaseSpeedLimit * 0x8cd) >> 12) && g != 0 &&
-            (u16) (data_02175628[entryIndex = kart->mEntryIndex].mBits & PAD_KEY_R)) {
+            (u16) (gInputSlots[entryIndex = kart->mEntryIndex].mBits & PAD_KEY_R)) {
             kart->mUnk_44 |= KART_44_DRIFTING;
             kart->mDriftCharge = 1;
             if (kart->mTurnDirection > 0) {
@@ -208,7 +208,7 @@ recheck:
     bits44 = kart->mUnk_44;
     if (bits44 & KART_44_DRIFTING) {
         entryIndex = kart->mEntryIndex;
-        if (!((u16) (data_02175628[entryIndex].mBits & PAD_KEY_R) && (kart->mUnk_48 & 2) &&
+        if (!((u16) (gInputSlots[entryIndex].mBits & PAD_KEY_R) && (kart->mUnk_48 & 2) &&
               kart->mVelocityLength >= kart->mPhysicalParam->mBaseSpeedLimit / 2 && !(bits44 & 0x2000c0))) {
             if (!(bits44 & KART_44_ON_GROUND)) {
                 kart->mUnk_44 |= 0x8000;
@@ -271,7 +271,7 @@ recheck:
         return;
     }
     entryIndex = kart->mEntryIndex;
-    if (!(u16) (data_02175628[entryIndex].mPressedBits & PAD_KEY_R)) {
+    if (!(u16) (gInputSlots[entryIndex].mPressedBits & PAD_KEY_R)) {
         if (!(kart->mUnk_44 & 0x20000000)) {
             return;
         }
@@ -324,7 +324,7 @@ int TryTurnKartAtLowSpeed(Kart *kart) {
         result = TRUE;
         pending = FALSE;
         entryIndex = kart->mEntryIndex;
-        bits = data_02175628[entryIndex].mBits;
+        bits = gInputSlots[entryIndex].mBits;
         if ((u16) (bits & PAD_KEY_LEFT)) {
             dir = TRUE;
             kart->mTurnDirection = -1;

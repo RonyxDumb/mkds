@@ -424,7 +424,7 @@ void AdvanceKartDriftCharge(Kart *kart) {
             return;
         }
         entryIndex = kart->mEntryIndex;
-        pressedBits = data_02175628[entryIndex].mPressedBits;
+        pressedBits = gInputSlots[entryIndex].mPressedBits;
         if ((u16) (pressedBits & PAD_KEY_LEFT) != 0) {
             leftTurnCounts = &kart->mLeftTurnCount;
             if (kart->mAwayTurnCounter == leftTurnCounts) {

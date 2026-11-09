@@ -77,7 +77,7 @@ void AdvanceSelectCupCourseState3(void) {
             RectTableFindContaining(gSelectCupCourse->mSelectCupMBnbl, data_02175670[inputIndex].mPressedBits,
                                     data_02175672[inputIndex].mPressedBits + 0x20);
     }
-    if ((u16) (data_02175628[inputIndex].mPressedBits & PAD_KEY_B) != 0 ||
+    if ((u16) (gInputSlots[inputIndex].mPressedBits & PAD_KEY_B) != 0 ||
         (func_02119340_inline(inputIndex) != 0 &&
          IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175670[inputIndex].mPressedBits,
                                                          data_02175672[inputIndex].mPressedBits) != FALSE)) {
@@ -106,7 +106,7 @@ void AdvanceSelectCupCourseState3(void) {
         RequestSelectCupCourseState4();
         return;
     }
-    if ((u16) (data_02175628[inputIndex].mPressedBits & PAD_KEY_A) != 0) {
+    if ((u16) (gInputSlots[inputIndex].mPressedBits & PAD_KEY_A) != 0) {
         RequestSelectCupCourseState4();
         gSelectCupCourse->mUnk_54 = FALSE;
         return;

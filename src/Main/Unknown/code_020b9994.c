@@ -591,10 +591,10 @@ void DrawRaceModeCount(RaceHudOamBuffer *oamBuffer) {
             }
             break;
         case MODE_TIME_ATTACK:
-            if (data_02175628[0].mSourceKind != 2) {
+            if (gInputSlots[0].mSourceKind != 2) {
                 return;
             }
-            if (IsKeyRecordingFull(&data_02175628[0].mUnk_28) == FALSE) {
+            if (IsKeyRecordingFull(&gInputSlots[0].mUnk_28) == FALSE) {
                 return;
             }
             gRaceModeCount->mKeyRecordingNotFull = 0;

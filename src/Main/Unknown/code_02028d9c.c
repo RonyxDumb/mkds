@@ -57,8 +57,8 @@ void func_02028e00(void *destination, u32 size) {
 
 u16 func_02028dd4(void) {
     int index;
-    if (data_0217aa00->mUnk_0000 == 2) {
-        index = data_0217aa00->mOwnIndex;
+    if (gConnectionWork->mUnk_0000 == 2) {
+        index = gConnectionWork->mOwnIndex;
     } else {
         index = 0;
     }
@@ -66,7 +66,7 @@ u16 func_02028dd4(void) {
 }
 
 u32 GetParticipantEntryIndex(u32 participantIndex) {
-    return (data_0217aa00->mUnk_1e52[participantIndex].mEntryIndex);
+    return (gConnectionWork->mUnk_1e52[participantIndex].mEntryIndex);
 }
 
 u32 GetOwnEntryIndex(void) {

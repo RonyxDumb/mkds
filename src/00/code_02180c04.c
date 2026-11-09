@@ -381,17 +381,17 @@ void func_ov000_02180cdc(void) {
     BOOL b;
     u32 v;
     if (IsTxtSystemState2NoCloseRequest() != 0 && IsSelectReturnState2NoState3Or4Request() != 0) {
-        if ((u16) (data_02175628[i].mPressedBits & PAD_KEY_B) == 0) {
+        if ((u16) (gInputSlots[i].mPressedBits & PAD_KEY_B) == 0) {
             a = b = FALSE;
-            v = data_02175628[i].mUnk_48.mHasPair;
-            if (v == 0 && data_02175628[i].mUnk_48.mNoPairCount < 5) {
+            v = gInputSlots[i].mPair.mHasPair;
+            if (v == 0 && gInputSlots[i].mPair.mNoPairCount < 5) {
                 a = 1;
             }
-            if (a == 0 && data_02175628[i].mUnk_48.mPrevHasPair == 0 && v != 0) {
+            if (a == 0 && gInputSlots[i].mPair.mPrevHasPair == 0 && v != 0) {
                 b = TRUE;
             }
-            if (b == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[i].mUnk_48.mPairX,
-                                                                              data_02175628[i].mUnk_48.mPairY) == FALSE) {
+            if (b == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[i].mPair.mPairX,
+                                                                              gInputSlots[i].mPair.mPairY) == FALSE) {
                 goto next;
             }
         }

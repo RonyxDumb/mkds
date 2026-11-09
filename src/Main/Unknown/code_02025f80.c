@@ -167,8 +167,8 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
             SetupInterpolation(&gSelectCharacter->mInterpolations[2], 1, 10, 0x60, 0);
             switch (gSelectCharacter->mUnk_080) {
                 case 1:
-                    if (data_0217aa00->mUnk_0004 == 8) {
-                        data_0217aa00->mUnk_15f7 = 0xff;
+                    if (gConnectionWork->mUnk_0004 == 8) {
+                        gConnectionWork->mUnk_15f7 = 0xff;
                     }
                     break;
                 case 2:
@@ -207,7 +207,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
             break;
         case 1:
             selectCharacter->mEntryIndex =
-                data_0217aa00->mUnk_1e52[(u16) (data_0217aa00->mUnk_0000 == 2 ? data_0217aa00->mOwnIndex : 0)]
+                gConnectionWork->mUnk_1e52[(u16) (gConnectionWork->mUnk_0000 == 2 ? gConnectionWork->mOwnIndex : 0)]
                     .mEntryIndex;
             break;
         case 2:
@@ -447,15 +447,15 @@ int AdvanceSelectCharacter(void) {
             gSelectCharacter->mUnk_08c = 1;
             if (GetRaceSetupCopy()->mMode == 3) {
                 flaggedCharacterIndex = gSelectCharacter->mCharacterIndex | 0x40;
-                if (data_0217aa00->mUnk_0004 == 8) {
-                    data_0217aa00->mUnk_15f7 = flaggedCharacterIndex;
+                if (gConnectionWork->mUnk_0004 == 8) {
+                    gConnectionWork->mUnk_15f7 = flaggedCharacterIndex;
                 }
                 func_02027424(1);
                 gSelectCharacter->mUnk_06c = 8;
             } else if (GetRaceSetupCopy()->mMode == 2) {
                 flaggedCharacterIndex = gSelectCharacter->mCharacterIndex | 0xc0;
-                if (data_0217aa00->mUnk_0004 == 8) {
-                    data_0217aa00->mUnk_15f7 = flaggedCharacterIndex;
+                if (gConnectionWork->mUnk_0004 == 8) {
+                    gConnectionWork->mUnk_15f7 = flaggedCharacterIndex;
                 }
                 gSelectCharacter->mUnk_06c = 6;
             }
@@ -495,13 +495,13 @@ int AdvanceSelectCharacter(void) {
                         break;
                     case 1:
                         flaggedCharacterIndex = selectCharacterReload->mCharacterIndex | 0xc0;
-                        if (data_0217aa00->mUnk_0004 == 8) {
-                            data_0217aa00->mUnk_15f7 = flaggedCharacterIndex;
+                        if (gConnectionWork->mUnk_0004 == 8) {
+                            gConnectionWork->mUnk_15f7 = flaggedCharacterIndex;
                         }
                         break;
                 }
             } else {
-                keyBits = data_02175628[inputSlot].mPressedBits;
+                keyBits = gInputSlots[inputSlot].mPressedBits;
                 if ((u16) (keyBits & PAD_KEY_A) != 0) {
                     gSelectCharacter->mUnk_068 = 0;
                     gSelectCharacter->mUnk_06c = 5;
@@ -582,8 +582,8 @@ int AdvanceSelectCharacter(void) {
                     case 1:
                         if (GetRaceSetupCopy()->mMode == 3) {
                             flaggedCharacterIndex = gSelectCharacter->mCharacterIndex | 0x40;
-                            if (data_0217aa00->mUnk_0004 == 8) {
-                                data_0217aa00->mUnk_15f7 = flaggedCharacterIndex;
+                            if (gConnectionWork->mUnk_0004 == 8) {
+                                gConnectionWork->mUnk_15f7 = flaggedCharacterIndex;
                             }
                             func_02025f14(&gSelectCharacter->mInterpolations[1], 2);
                             func_02027424(1);
@@ -591,8 +591,8 @@ int AdvanceSelectCharacter(void) {
                             func_02077f5c();
                         } else if (GetRaceSetupCopy()->mMode == 2) {
                             flaggedCharacterIndex = gSelectCharacter->mCharacterIndex | 0xc0;
-                            if (data_0217aa00->mUnk_0004 == 8) {
-                                data_0217aa00->mUnk_15f7 = flaggedCharacterIndex;
+                            if (gConnectionWork->mUnk_0004 == 8) {
+                                gConnectionWork->mUnk_15f7 = flaggedCharacterIndex;
                             }
                             func_02077f48(1);
                             gSelectCharacter->mUnk_06c = 6;

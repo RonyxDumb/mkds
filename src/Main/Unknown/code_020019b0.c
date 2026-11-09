@@ -141,7 +141,7 @@ void UpdateLogoState0(void) {
         stateMachine->mNextStateRequested = 1;
     }
     slotIndex = func_020435bc();
-    if ((data_02175628[slotIndex].mBits & 0xf03) != 0xf03) {
+    if ((gInputSlots[slotIndex].mBits & 0xf03) != 0xf03) {
         return;
     }
     gLogoScene->mUnk_2c_0 = 1;

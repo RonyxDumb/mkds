@@ -14,21 +14,21 @@
 #pragma opt_rebuildconditionals off
 
 static inline u32 func_02058b38_inline(void) {
-    if (data_0217aa00 == NULL) {
+    if (gConnectionWork == NULL) {
         return 0;
     }
-    return data_0217aa00->mUnk_0000;
+    return gConnectionWork->mUnk_0000;
 }
 
 static inline void func_02058b74_inline(u16 nextState) {
-    MPStateMachine *stateMachine = &data_0217aa00->mUnk_1608;
+    MPStateMachine *stateMachine = &gConnectionWork->mUnk_1608;
     stateMachine->mStateMachine.mNextState = nextState;
     stateMachine->mStateMachine.mNextStateRequested = 1;
 }
 
 static inline s32 func_02058cac_inline2(void) {
     BOOL r = FALSE;
-    if (func_02058b38_inline() != 0 && data_0217aa00->mUnk_0004 != 13) {
+    if (func_02058b38_inline() != 0 && gConnectionWork->mUnk_0004 != 13) {
         r = TRUE;
     }
     return r;
@@ -36,7 +36,7 @@ static inline s32 func_02058cac_inline2(void) {
 
 static inline s32 func_02058cac_inline3(void) {
     BOOL r = FALSE;
-    if (func_02058cac_inline2() && !(data_0217aa00->mUnk_0454 & 0x80)) {
+    if (func_02058cac_inline2() && !(gConnectionWork->mUnk_0454 & 0x80)) {
         r = TRUE;
     }
     return r;
@@ -44,7 +44,7 @@ static inline s32 func_02058cac_inline3(void) {
 
 static inline s32 func_02058cac_inline4(void) {
     BOOL r = FALSE;
-    if (func_02058cac_inline3() && data_0217aa00->mUnk_0008 != 9) {
+    if (func_02058cac_inline3() && gConnectionWork->mUnk_0008 != 9) {
         r = TRUE;
     }
     return r;
@@ -56,29 +56,29 @@ s32 func_02058dc0(void (*callback)(void)) {
     BOOL done;
 
     done = FALSE;
-    switch (data_0217aa00->mUnk_1e34) {
+    switch (gConnectionWork->mUnk_1e34) {
         case 0:
-            if (data_0217aa00->mUnk_0454 & 1) {
+            if (gConnectionWork->mUnk_0454 & 1) {
                 switch (func_02058b38_inline()) {
                     case 1:
-                        data_0217aa00->mUnk_1e34 = 6;
+                        gConnectionWork->mUnk_1e34 = 6;
                         break;
                     case 2:
-                        data_0217aa00->mUnk_1e34 = 2;
+                        gConnectionWork->mUnk_1e34 = 2;
                         break;
                 }
             }
             break;
         case 7:
             QueueMPDataHalfword(5, 0xff);
-            data_0217aa00->mUnk_1e44 |= 2;
-            data_0217aa00->mUnk_1d54 = done;
-            data_0217aa00->mUnk_1e34 = 1;
+            gConnectionWork->mUnk_1e44 |= 2;
+            gConnectionWork->mUnk_1d54 = done;
+            gConnectionWork->mUnk_1e34 = 1;
             break;
         case 6:
-            if (data_0217aa00->mUnk_0044.mChildMask ==
-                (data_0217aa00->mUnk_0044.mChildMask & data_0217aa00->mUnk_1d54)) {
-                data_0217aa00->mUnk_1e34 = 7;
+            if (gConnectionWork->mUnk_0044.mChildMask ==
+                (gConnectionWork->mUnk_0044.mChildMask & gConnectionWork->mUnk_1d54)) {
+                gConnectionWork->mUnk_1e34 = 7;
             }
             break;
         case 2:
@@ -86,25 +86,25 @@ s32 func_02058dc0(void (*callback)(void)) {
                 QueueThreadFunction(callback);
                 gThreadFunctionQueue->mRunRequested = 1;
             }
-            data_0217aa00->mUnk_1e34 = 3;
+            gConnectionWork->mUnk_1e34 = 3;
             QueueMPDataHalfword(3, 1);
             break;
         case 3:
             if (gThreadFunctionQueue->mRunRequested == 0) {
-                if (data_0217aa00->mUnk_164f != 0) {
+                if (gConnectionWork->mUnk_164f != 0) {
                     func_02050e60(7);
                 } else {
-                    data_0217aa00->mUnk_1e34 = 5;
+                    gConnectionWork->mUnk_1e34 = 5;
                 }
             }
             break;
         case 5:
             if (QueueMPDataHalfword(4, 1) != FALSE) {
-                data_0217aa00->mUnk_1e34 = 1;
+                gConnectionWork->mUnk_1e34 = 1;
             }
             break;
         case 1:
-            if (data_0217aa00->mUnk_1e44 & 2) {
+            if (gConnectionWork->mUnk_1e44 & 2) {
                 done = TRUE;
             }
             break;
@@ -120,7 +120,7 @@ s32 func_02058cac(void) {
     if (!func_02058cac_inline2()) {
         return 1;
     }
-    ownIndex = ((const ConnectionWork *) data_0217aa00)->mUnk_0000 == 2 ? data_0217aa00->mOwnIndex : 0;
+    ownIndex = ((const ConnectionWork *) gConnectionWork)->mUnk_0000 == 2 ? gConnectionWork->mOwnIndex : 0;
     if (ownIndex == 0xffff && func_02058b38_inline() == 2) {
         if (gBootInfo->mUnk_00 == 2) {
             func_02050e60(0);
@@ -128,13 +128,13 @@ s32 func_02058cac(void) {
         }
         return 2;
     }
-    AdvanceStateMachine(&data_0217aa00->mUnk_1608.mStateMachine);
+    AdvanceStateMachine(&gConnectionWork->mUnk_1608.mStateMachine);
     if (!func_02058cac_inline4()) {
-        if (func_02058b38_inline() == 1 && data_0217aa00->mUnk_0044.mChildCount == 0) {
+        if (func_02058b38_inline() == 1 && gConnectionWork->mUnk_0044.mChildCount == 0) {
             func_02050e60(7);
         }
     }
-    if (data_0217aa00->mUnk_1608.mStateMachine.mState == 0xf) {
+    if (gConnectionWork->mUnk_1608.mStateMachine.mState == 0xf) {
         finished = TRUE;
     }
     return finished;
@@ -143,19 +143,19 @@ s32 func_02058cac(void) {
 void func_02058c74(void) {
     u16 ownIndex;
 
-    ownIndex = data_0217aa00->mUnk_0000 == 2 ? data_0217aa00->mOwnIndex : 0;
-    FillPlayerRecord(&data_0217aa00->mUnk_045c[ownIndex]);
+    ownIndex = gConnectionWork->mUnk_0000 == 2 ? gConnectionWork->mOwnIndex : 0;
+    FillPlayerRecord(&gConnectionWork->mUnk_045c[ownIndex]);
 }
 
 void func_02058c10(void) {
-    if (data_0217aa00->mRequestPending != 0) {
+    if (gConnectionWork->mRequestPending != 0) {
         return;
     }
     if (func_02058b38_inline() != 1) {
         func_02058b74_inline(0x16);
         return;
     }
-    switch (data_0217aa00->mUnk_000c) {
+    switch (gConnectionWork->mUnk_000c) {
         case 11:
         case 15:
             SetEntry(0);
@@ -173,24 +173,24 @@ void func_02058ba4(void) {
     v = (u32) v & ~(u32) (v >> 32);
     if (gBootInfo->mUnk_00 == 2) {
         v = v * 0x5d588b656c078965ull + 0x269ec3;
-        data_0217aa00->mUnk_1608.mUnk_18 = (u16) (((v >> 32) * 0xb4) >> 32) + 0x78;
+        gConnectionWork->mUnk_1608.mUnk_18 = (u16) (((v >> 32) * 0xb4) >> 32) + 0x78;
     } else {
-        data_0217aa00->mUnk_1608.mUnk_18 = 0xb4;
+        gConnectionWork->mUnk_1608.mUnk_18 = 0xb4;
     }
 }
 
 void func_02058b74(void) {
-    data_0217aa00->mUnk_1608.mUnk_18 = data_0217aa00->mUnk_1608.mUnk_18 - 1;
-    if (data_0217aa00->mUnk_1608.mUnk_18 < 0) {
+    gConnectionWork->mUnk_1608.mUnk_18 = gConnectionWork->mUnk_1608.mUnk_18 - 1;
+    if (gConnectionWork->mUnk_1608.mUnk_18 < 0) {
         func_02058b74_inline(7);
     }
 }
 
 void func_02058b38(void) {
     if (func_02058b38_inline() == 1) {
-        data_0217aa00->mParticipantMask = data_0217aa00->mUnk_0044.mChildMask | 1;
+        gConnectionWork->mParticipantMask = gConnectionWork->mUnk_0044.mChildMask | 1;
     }
-    data_0217aa00->mUnk_1608.mUnk_14 = 0;
+    gConnectionWork->mUnk_1608.mUnk_14 = 0;
 }
 
 #pragma thumb off

@@ -37,15 +37,15 @@
 #pragma opt_rebuildconditionals off
 
 static inline u32 func_0204984c_inline(void) {
-    if (data_0217aa00 == NULL) {
+    if (gConnectionWork == NULL) {
         return 0;
     }
-    return data_0217aa00->mUnk_0000;
+    return gConnectionWork->mUnk_0000;
 }
 
 static inline s32 func_0204984c_inline2(void) {
     BOOL result = FALSE;
-    if (func_0204984c_inline() != 0 && data_0217aa00->mUnk_0004 != 13) {
+    if (func_0204984c_inline() != 0 && gConnectionWork->mUnk_0004 != 13) {
         result = TRUE;
     }
     return result;
@@ -53,7 +53,7 @@ static inline s32 func_0204984c_inline2(void) {
 
 static inline s32 func_0204984c_inline3(void) {
     BOOL result = FALSE;
-    if (func_0204984c_inline2() && !(data_0217aa00->mUnk_0454 & 0x80)) {
+    if (func_0204984c_inline2() && !(gConnectionWork->mUnk_0454 & 0x80)) {
         result = TRUE;
     }
     return result;
@@ -61,7 +61,7 @@ static inline s32 func_0204984c_inline3(void) {
 
 static inline s32 func_0204984c_inline4(void) {
     BOOL result = FALSE;
-    if (func_0204984c_inline3() && (data_0217aa00->mUnk_0454 & 0x10)) {
+    if (func_0204984c_inline3() && (gConnectionWork->mUnk_0454 & 0x10)) {
         result = TRUE;
     }
     return result;
@@ -99,7 +99,7 @@ static inline s32 func_0204984c_inline8(void) {
 
 static inline s32 func_0204984c_inline9(void) {
     BOOL result = FALSE;
-    if (func_0204984c_inline3() && data_0217aa00->mUnk_0008 != 9) {
+    if (func_0204984c_inline3() && gConnectionWork->mUnk_0008 != 9) {
         result = TRUE;
     }
     return result;
@@ -531,7 +531,7 @@ s32 func_0204984c(SceneNumbers *sceneNumbers, s32 b) {
     } else if (b != 0 && func_0204984c_inline9()) {
         func_02049e38(0);
         result = TRUE;
-        data_0217aa00->mUnk_0008 = 9;
+        gConnectionWork->mUnk_0008 = 9;
     } else {
         func_02055340();
     }

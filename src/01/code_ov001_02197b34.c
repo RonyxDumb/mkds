@@ -196,7 +196,7 @@ void AdvanceTimeAttackTopMenuState1(void) {
     s32 i;
 
     gTimeAttackTopMenu->mStateFrames++;
-    v = func_020ae488(gTimeAttackTopMenu->mStateFrames);
+    v = GetSelectedPressOffset(gTimeAttackTopMenu->mStateFrames);
     for (i = 0; i < 3; i++) {
         gTimeAttackTopMenu->mTimeAttackTopMenuSTable[data_ov001_021a6a08[i]].mOffsetX = v;
         gTimeAttackTopMenu->mTimeAttackTopMenuSTable[data_ov001_021a6a10[i]].mOffsetX = v;
@@ -227,28 +227,28 @@ void AdvanceTimeAttackTopMenuState3(void) {
     BOOL flag4;
     s32 flag3;
 
-    if (data_02175628[i].mUnk_48.mHasPair == 0 && data_02175628[i].mUnk_48.mNoPairCount < 5) {
+    if (gInputSlots[i].mPair.mHasPair == 0 && gInputSlots[i].mPair.mNoPairCount < 5) {
         flag1 = TRUE;
     }
-    if (flag1 == FALSE && data_02175628[i].mUnk_48.mPrevHasPair == 0 && data_02175628[i].mUnk_48.mHasPair != 0) {
+    if (flag1 == FALSE && gInputSlots[i].mPair.mPrevHasPair == 0 && gInputSlots[i].mPair.mHasPair != 0) {
         flag2 = TRUE;
     }
     if (flag2 != FALSE) {
-        sel = RectTableFindContaining(gTimeAttackTopMenu->mTimeAttackTopMenuSBnbl, data_02175628[i].mUnk_48.mPairX,
-                                      data_02175628[i].mUnk_48.mPairY);
+        sel = RectTableFindContaining(gTimeAttackTopMenu->mTimeAttackTopMenuSBnbl, gInputSlots[i].mPair.mPairX,
+                                      gInputSlots[i].mPair.mPairY);
     }
-    e = &data_02175628[i];
+    e = &gInputSlots[i];
     bits = e->mPressedBits & PAD_KEY_B;
     if ((u16) bits == 0) {
         flag3 = flag4 = FALSE;
-        if (data_02175628[i].mUnk_48.mHasPair == 0 && data_02175628[i].mUnk_48.mNoPairCount < 5) {
+        if (gInputSlots[i].mPair.mHasPair == 0 && gInputSlots[i].mPair.mNoPairCount < 5) {
             flag3 = 1;
         }
-        if (flag3 == 0 && data_02175628[i].mUnk_48.mPrevHasPair == 0 && data_02175628[i].mUnk_48.mHasPair != 0) {
+        if (flag3 == 0 && gInputSlots[i].mPair.mPrevHasPair == 0 && gInputSlots[i].mPair.mHasPair != 0) {
             flag4 = TRUE;
         }
-        if (flag4 == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[i].mUnk_48.mPairX,
-                                                                              data_02175628[i].mUnk_48.mPairY) == FALSE) {
+        if (flag4 == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[i].mPair.mPairX,
+                                                                              gInputSlots[i].mPair.mPairY) == FALSE) {
             goto next;
         }
     }
@@ -317,7 +317,7 @@ void AdvanceTimeAttackTopMenuState4(void) {
     s16 v;
 
     gTimeAttackTopMenu->mStateFrames++;
-    v = func_020ae488(gTimeAttackTopMenu->mStateFrames);
+    v = GetSelectedPressOffset(gTimeAttackTopMenu->mStateFrames);
     gTimeAttackTopMenu->mTimeAttackTopMenuSTable[data_ov001_021a6a08[gTimeAttackTopMenu->mIndex]].mOffsetX = v;
     gTimeAttackTopMenu->mTimeAttackTopMenuSTable[data_ov001_021a6a10[gTimeAttackTopMenu->mIndex]].mOffsetX = v;
     gTimeAttackTopMenu->mTimeAttackTopMenuSTable[data_ov001_021a6a00[gTimeAttackTopMenu->mIndex]].mOffsetX = v;

@@ -65,7 +65,7 @@ u32 func_0203c0bc(void) {
     if (gRaceProgress->mUnk_00_header.mUnk_0a >= 7) {
         return 1;
     }
-    if (func_0204a620(&data_02175628[entryIndex].mUnk_28) != FALSE) {
+    if (func_0204a620(&gInputSlots[entryIndex].mUnk_28) != FALSE) {
         return 1;
     }
     if (TryGetRaceUpdateFramesSinceEntryEnd(&framesSinceEntryEnd) != 0) {
@@ -90,7 +90,7 @@ void ReleaseTitleScene(void) {
 
 void func_0203c07c(void) {
     u32 unused;
-    func_020ada94();
+    WriteTitleSceneRegisters();
 }
 
 void UpdateTitleScene(s32 a) {

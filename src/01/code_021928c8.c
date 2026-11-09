@@ -56,8 +56,8 @@ void AdvanceEmblemInput(void) {
     idx = UNK_02175628_INDEX_8;
     f1 = TRUE;
     f0 = 0;
-    v = data_02175628[idx].mUnk_48.mHasPair;
-    if (v == 0 && data_02175628[idx].mUnk_48.mNoPairCount < 5) {
+    v = gInputSlots[idx].mPair.mHasPair;
+    if (v == 0 && gInputSlots[idx].mPair.mNoPairCount < 5) {
         f0 = f1;
     }
     if (f0 == 0 && v == 0) {

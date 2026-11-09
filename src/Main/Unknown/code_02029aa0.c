@@ -251,7 +251,7 @@ void AdvanceResultsGp(Unk0203a0dc *sceneNumbers) {
             if (frames >= frameLimit) {
                 void *commonMessage;
                 u32 messageMask;
-                if (!(u16) (data_02175628[inputSlotIndex].mPressedBits & PAD_KEY_A)) {
+                if (!(u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_A)) {
                     BOOL y;
                     BOOL x;
                     u16 z;

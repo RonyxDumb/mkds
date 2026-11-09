@@ -42,14 +42,14 @@ s32 CopyTextWithinWidth(const u16 *source, u16 *destination) {
     return 10;
 }
 
-s16 func_020adc64(s32 index) {
+s16 LookupFrameOffset(s32 index) {
     if (index < 0) {
         index = 0;
     }
     if (index >= 6) {
         index = 5;
     }
-    return data_02156868[index];
+    return gFrameOffsets[index];
 }
 
 BOOL IsTimeLessThan(MinuteSecondMillisecondTime *firstTime, MinuteSecondMillisecondTime *secondTime) {
@@ -69,21 +69,21 @@ BOOL IsMissionRunRecordFilled(void) {
     s32 row;
     s32 column;
 
-    row = func_020adbe4();
-    column = func_020adbc4();
+    row = MissionRecordGetMissionRunTableRow();
+    column = MissionRecordGetMissionRunTableColumn();
     return GetMissionRecordValue(row, column, &value);
 }
 
 #pragma thumb off
 
-s32 func_020adbe4(void) {
+s32 MissionRecordGetMissionRunTableRow(void) {
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         return gRaceSetup->mMissionTableRow;
     }
     return -1;
 }
 
-s32 func_020adbc4(void) {
+s32 MissionRecordGetMissionRunTableColumn(void) {
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         return gRaceSetup->mMissionTableColumn;
     }
@@ -98,13 +98,14 @@ BOOL func_020adb34(void) {
     s32 isFilled;
     s32 value;
 
-    if (func_020adbe4() < 1 || func_020adbe4() > 6 || func_020adbc4() < 1 || func_020adbc4() > 9) {
+    if (MissionRecordGetMissionRunTableRow() < 1 || MissionRecordGetMissionRunTableRow() > 6 ||
+        MissionRecordGetMissionRunTableColumn() < 1 || MissionRecordGetMissionRunTableColumn() > 9) {
         return FALSE;
     }
     for (row = 1; row <= 6; row++) {
         for (column = 1; column <= 9; column++) {
             isFilled = GetMissionRecordValue(row, column, &value);
-            if (row == func_020adbe4() && column == func_020adbc4()) {
+            if (row == MissionRecordGetMissionRunTableRow() && column == MissionRecordGetMissionRunTableColumn()) {
                 if (isFilled != 0 && (u32) (value - 5) <= 2) {
                     return FALSE;
                 }

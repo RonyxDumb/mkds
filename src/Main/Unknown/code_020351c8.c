@@ -327,7 +327,7 @@ s32 func_0203551c(u16 *sceneNumbers) {
                 SetupGhostNameSubTextTwoButtons();
                 RequestSelectReturnState4();
                 data_02174e68->mState = 2;
-            } else if ((u16) (data_02175628[slotIndex].mPressedBits & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
+            } else if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
                 message = GetBmgEntry(data_02174e68->mGhostMessages, 0x54);
                 buttonText = GetBmgEntry(data_02174e68->mCommonMessages, 4);
                 SetTxtSystemSoundId(0, 5);

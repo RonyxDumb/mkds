@@ -335,16 +335,16 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
     AdvanceInterpolation(&gTimeAttackGhostSend->mInterpolation);
     b = returnTouched;
     a = b;
-    hasPair = data_02175628[slotIndex].mUnk_48.mHasPair;
-    if (hasPair == 0 && data_02175628[slotIndex].mUnk_48.mNoPairCount < 5) {
+    hasPair = gInputSlots[slotIndex].mPair.mHasPair;
+    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
         a = 1;
     }
-    if (a == 0 && data_02175628[slotIndex].mUnk_48.mPrevHasPair == 0 && hasPair != 0) {
+    if (a == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
         b = 1;
     }
     if (b != 0) {
-        returnTouched = IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[slotIndex].mUnk_48.mPairX,
-                                                                        data_02175628[slotIndex].mUnk_48.mPairY);
+        returnTouched = IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                                        gInputSlots[slotIndex].mPair.mPairY);
     }
     switch (gTimeAttackGhostSend->mState) {
         case 0:
@@ -397,7 +397,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
                     func_02108c1c();
                     gTimeAttackGhostSend->mState = 4;
                 } else {
-                    keyB = data_02175628[slotIndex].mPressedBits & PAD_KEY_B;
+                    keyB = gInputSlots[slotIndex].mPressedBits & PAD_KEY_B;
                     if (keyB != 0 || returnTouched != 0) {
                         data_0217b488->mUnk_08 = 5;
                         if (advanceArg != NULL) {
@@ -437,7 +437,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
             }
             break;
         case 6:
-            keyB = data_02175628[slotIndex].mPressedBits & PAD_KEY_B;
+            keyB = gInputSlots[slotIndex].mPressedBits & PAD_KEY_B;
             if (keyB != 0 || returnTouched != 0) {
                 RequestSelectReturnState3WithSound(0);
                 SetSelectReturnSoundId(0xf);

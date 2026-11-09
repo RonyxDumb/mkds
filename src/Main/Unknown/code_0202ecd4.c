@@ -54,5 +54,5 @@ u16 func_0202ecf0(InputSlot *slot, u32 mask) {
 }
 
 u16 func_0202ecd4(u32 slotIndex, u32 mask) {
-    return func_0202ecf0(&data_02175628[slotIndex], mask);
+    return func_0202ecf0(&gInputSlots[slotIndex], mask);
 }

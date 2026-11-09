@@ -135,29 +135,29 @@ void AdvanceOptionHensyuMenuState3(void) {
     r = -1;
     b = FALSE;
     a = FALSE;
-    v = data_02175628[i].mUnk_48.mHasPair;
-    if (v == 0 && data_02175628[i].mUnk_48.mNoPairCount < 5) {
+    v = gInputSlots[i].mPair.mHasPair;
+    if (v == 0 && gInputSlots[i].mPair.mNoPairCount < 5) {
         a = TRUE;
     }
-    if (a == FALSE && data_02175628[i].mUnk_48.mPrevHasPair == 0 && v != 0) {
+    if (a == FALSE && gInputSlots[i].mPair.mPrevHasPair == 0 && v != 0) {
         b = TRUE;
     }
     if (b != FALSE) {
-        r = RectTableFindContaining(gOptionHensyuMenu->mOptionHensyuMenuSBnbl, data_02175628[i].mUnk_48.mPairX,
-                                    data_02175628[i].mUnk_48.mPairY);
+        r = RectTableFindContaining(gOptionHensyuMenu->mOptionHensyuMenuSBnbl, gInputSlots[i].mPair.mPairX,
+                                    gInputSlots[i].mPair.mPairY);
     }
-    if ((u16) (data_02175628[i].mPressedBits & PAD_KEY_B) == 0) {
+    if ((u16) (gInputSlots[i].mPressedBits & PAD_KEY_B) == 0) {
         b = FALSE;
         a = FALSE;
-        v = data_02175628[i].mUnk_48.mHasPair;
-        if (v == 0 && data_02175628[i].mUnk_48.mNoPairCount < 5) {
+        v = gInputSlots[i].mPair.mHasPair;
+        if (v == 0 && gInputSlots[i].mPair.mNoPairCount < 5) {
             a = TRUE;
         }
-        if (a == FALSE && data_02175628[i].mUnk_48.mPrevHasPair == 0 && v != 0) {
+        if (a == FALSE && gInputSlots[i].mPair.mPrevHasPair == 0 && v != 0) {
             b = TRUE;
         }
-        if (b != FALSE && IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[i].mUnk_48.mPairX,
-                                                                          data_02175628[i].mUnk_48.mPairY) != FALSE) {
+        if (b != FALSE && IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[i].mPair.mPairX,
+                                                                          gInputSlots[i].mPair.mPairY) != FALSE) {
             goto leave;
         }
     } else {
@@ -167,10 +167,10 @@ void AdvanceOptionHensyuMenuState3(void) {
         RequestSelectReturnState3WithSound(0);
         return;
     }
-    if ((u16) (data_02175628[i].mPressedBits & PAD_KEY_A) != 0 || r <= 1) {
+    if ((u16) (gInputSlots[i].mPressedBits & PAD_KEY_A) != 0 || r <= 1) {
         p = gOptionHensyuMenu;
         oldv = p->mIndex;
-        if ((u16) (data_02175628[i].mPressedBits & PAD_KEY_A) == 0) {
+        if ((u16) (gInputSlots[i].mPressedBits & PAD_KEY_A) == 0) {
             switch (r) {
                 case 0:
                     p->mIndex = 0;

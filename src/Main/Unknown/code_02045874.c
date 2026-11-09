@@ -125,10 +125,10 @@ void BuildCourseList(s32 isVersus) {
     for (i = 0; i < 0x21; i++) {
         gRaceSetup->mCourseList[i] = 0;
     }
-    switch (data_021759d0->mUnk_20) {
+    switch (data_021759d0->mConnectionKind) {
         case 1:
         case 2:
-            f = (data_0217aa00->mUnk_0454 & 0x40) != 0;
+            f = (gConnectionWork->mUnk_0454 & 0x40) != 0;
             break;
     }
     switch (gRaceSetup->mNextHeader.mCourseListMode) {

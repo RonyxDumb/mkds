@@ -25,7 +25,7 @@ typedef struct Unk021759d0 {
             s32 mUnk_1c_3 : 1;
         };
     };
-    /* 20 */ s32 mUnk_20;
+    /* 20 */ s32 mConnectionKind;
     /* 24 */ NNSiFndHeapHead *mHeap;
     /* 28 */ s16 mUnk_28;
     /* 2a */ u8 mOwnerText[0x14];
@@ -82,7 +82,7 @@ typedef struct SceneRunState {
     /* 0d8 */ PMSleepCallbackInfo mPostSleepCallback;
     // Passes of RunScene's update loop and fade-out loop since they began (RunScene zeroes it at
     // :192 and :376); not counted while func_020487fc_inline6 is true (mode 5 with a flag, or the
-    // data_0217aa00 flag tests). Only the Race slots use it (kind 6: the first 0x708 frames,
+    // gConnectionWork flag tests). Only the Race slots use it (kind 6: the first 0x708 frames,
     // thresholds 0x5a ...).
     /* 0e4 */ s32 mSceneFrames;
     /* 0e8 */ s32 mPassCount;

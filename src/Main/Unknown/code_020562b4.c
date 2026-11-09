@@ -14,9 +14,9 @@ void CombineParticipantBits(void) {
 
     ClearParticipantBits();
     for (i = 0; i < 8; i++) {
-        if ((data_0217aa00->mParticipantMask & (1 << i)) != 0) {
+        if ((gConnectionWork->mParticipantMask & (1 << i)) != 0) {
             for (j = 0; j < 4; j++) {
-                entry = &data_0217aa00->mUnk_045c[i];
+                entry = &gConnectionWork->mUnk_045c[i];
                 bitsByte = &entry->mBits[j];
                 if (i == 0) {
                     data_0217aa08->mParticipantAndBits[j] = *bitsByte;
@@ -26,7 +26,7 @@ void CombineParticipantBits(void) {
                     data_0217aa08->mParticipantOrBits[j] |= *bitsByte;
                 }
             }
-            entry = &data_0217aa00->mUnk_045c[i];
+            entry = &gConnectionWork->mUnk_045c[i];
             value = func_02056dac(entry->mBits);
             if (i == 0) {
                 data_0217aa08->mParticipantMaxValue = value;

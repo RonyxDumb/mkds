@@ -214,15 +214,15 @@ void AdvanceEndingSceneState5(void) {
     gEndingScene->mUnk_008++;
     if (gEndingScene->mUnk_008 > gEndingSceneStateTable[gEndingScene->mState]) {
         gEndingScene->mUnk_008 = gEndingSceneStateTable[gEndingScene->mState];
-        flags = data_02175628[idx].mPressedBits & 0xc0f;
+        flags = gInputSlots[idx].mPressedBits & 0xc0f;
         if (flags == 0) {
             a = FALSE;
             b = FALSE;
-            x = data_02175628[idx].mUnk_48.mHasPair;
-            if (x == 0 && data_02175628[idx].mUnk_48.mNoPairCount < 5) {
+            x = gInputSlots[idx].mPair.mHasPair;
+            if (x == 0 && gInputSlots[idx].mPair.mNoPairCount < 5) {
                 b = TRUE;
             }
-            if (b == FALSE && data_02175628[idx].mUnk_48.mPrevHasPair == 0 && x != 0) {
+            if (b == FALSE && gInputSlots[idx].mPair.mPrevHasPair == 0 && x != 0) {
                 a = TRUE;
             }
             if (a == FALSE) {

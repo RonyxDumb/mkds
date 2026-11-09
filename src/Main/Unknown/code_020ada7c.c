@@ -7,7 +7,7 @@
 
 #pragma thumb on
 
-void func_020ada94(void) {
+void WriteTitleSceneRegisters(void) {
     gTitleScene->mStateHandlers[gTitleScene->mState].mUnk_00();
     gTitleScene->mStateChanged = FALSE;
     func_021258f0();

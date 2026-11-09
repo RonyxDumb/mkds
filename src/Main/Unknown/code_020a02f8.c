@@ -828,13 +828,13 @@ void UpdateStandings(void) {
             kartStanding->mUnk_64 = v;
             gStandings->mKarts[i].mUnk_68 = -(gStandings->mKarts[i].mUnk_68 <= 0);
             if (func_01ffc67c(kart) != FALSE ||
-                (u16) (data_02175628[kart->mEntryIndex].mBits & (PAD_KEY_A | PAD_KEY_B)) != 0) {
+                (u16) (gInputSlots[kart->mEntryIndex].mBits & (PAD_KEY_A | PAD_KEY_B)) != 0) {
                 gStandings->mKarts[i].mUnk_68 = -1;
                 gStandings->mKarts[i].mUnk_64 = -1;
             } else if (IsRaceStarted() == 1) {
-                if ((u16) (data_02175628[(u32) kart->mEntryIndex].mBits & 4) != 0) {
+                if ((u16) (gInputSlots[(u32) kart->mEntryIndex].mBits & 4) != 0) {
                     gStandings->mKarts[i].mUnk_68 = 1;
-                } else if (data_02175628[kart->mEntryIndex].mUnk_48.mUnk_12[0] != 0) {
+                } else if (gInputSlots[kart->mEntryIndex].mPair.mUnk_12[0] != 0) {
                     gStandings->mKarts[i].mUnk_64 = 10;
                 }
             }

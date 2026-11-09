@@ -10,7 +10,7 @@ u32 func_020cb114(InputSlotPair *pairAddress) {
 }
 
 u32 func_020cb0f4(u32 slotIndex) {
-    return func_020cb114(&data_02175628[slotIndex].mUnk_48);
+    return func_020cb114(&gInputSlots[slotIndex].mPair);
 }
 
 u32 func_020cb0ec(InputSlotPair *pairAddress) {
@@ -18,5 +18,5 @@ u32 func_020cb0ec(InputSlotPair *pairAddress) {
 }
 
 u32 func_020cb0cc(u32 slotIndex) {
-    return func_020cb0ec(&data_02175628[slotIndex].mUnk_48);
+    return func_020cb0ec(&gInputSlots[slotIndex].mPair);
 }

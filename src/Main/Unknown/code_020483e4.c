@@ -186,7 +186,7 @@ u32 GetLanguageCode(void) {
 
 u32 GetMPLanguageCode(void) {
     u32 languageIndex;
-    languageIndex = data_0217aa00->mUnk_043c;
+    languageIndex = gConnectionWork->mUnk_043c;
     if ((data_021759d0->mUnk_00 == 2) && (((s32 *) data_021759d0)[1] == 1)) {
         languageIndex = languageIndex + 5;
     }

@@ -50,8 +50,8 @@ static inline u32 func_0203a908_inline(void) {
     InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
     u32 result = 1;
     u32 briefNoPair = 0;
-    u16 hasPair = data_02175628[slotIndex].mUnk_48.mHasPair;
-    if (hasPair == 0 && data_02175628[slotIndex].mUnk_48.mNoPairCount < 5) {
+    u16 hasPair = gInputSlots[slotIndex].mPair.mHasPair;
+    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
         briefNoPair = 1;
     }
     if (briefNoPair == 0 && hasPair == 0) {
@@ -255,7 +255,7 @@ u32 ShouldEndAwardRace(u32 sceneFrames) {
     }
     if (func_0203a9ec_inline() != 0) {
         InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
-        if ((u16) (data_02175628[slotIndex].mPressedBits & PAD_KEY_A) != 0) {
+        if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0) {
             return 1;
         }
     }
@@ -278,7 +278,7 @@ u32 ShouldEndStaffRoll(u32 sceneFrames) {
     result = 0;
     if (IsBackupFlagSet(flagIndex) != 0 && sceneFrames > 0xb4) {
         InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
-        if ((u16) (data_02175628[slotIndex].mBits & 0xc0f) != 0 || func_0203a908_inline() != 0) {
+        if ((u16) (gInputSlots[slotIndex].mBits & 0xc0f) != 0 || func_0203a908_inline() != 0) {
             result = 1;
         }
     }
@@ -309,7 +309,7 @@ void SetNextSceneFromPickedValue(Unk0203a0dc *sceneNumbers, u32 pickedValue) {
                 u32 f;
                 ConnectionWork *q;
                 f = 0;
-                q = data_0217aa00;
+                q = gConnectionWork;
                 if (q == NULL) {
                     t = 0;
                 } else {
@@ -465,7 +465,7 @@ u32 func_0203a4cc(void) {
 
 u16 GetDownBits(u32 slotIndex, u32 mask) {
     u32 bits;
-    bits = data_02175628[slotIndex].mBits;
+    bits = gInputSlots[slotIndex].mBits;
     return bits & mask;
 }
 
@@ -479,8 +479,8 @@ u32 func_0203a440(u32 slotIndex) {
     u16 hasPair;
     result = 1;
     briefNoPair = 0;
-    hasPair = data_02175628[slotIndex].mUnk_48.mHasPair;
-    if (hasPair == 0 && data_02175628[slotIndex].mUnk_48.mNoPairCount < 5) {
+    hasPair = gInputSlots[slotIndex].mPair.mHasPair;
+    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
         briefNoPair = 1;
     }
     if (briefNoPair == 0 && hasPair == 0) {
@@ -498,11 +498,11 @@ u32 func_0203a3cc(u32 slotIndex) {
     u32 briefNoPair;
     result = 0;
     briefNoPair = 0;
-    if (data_02175628[slotIndex].mUnk_48.mHasPair == 0 && data_02175628[slotIndex].mUnk_48.mNoPairCount < 5) {
+    if (gInputSlots[slotIndex].mPair.mHasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
         briefNoPair = 1;
     }
-    if (briefNoPair == 0 && data_02175628[slotIndex].mUnk_48.mPrevHasPair == 0 &&
-        data_02175628[slotIndex].mUnk_48.mHasPair != 0) {
+    if (briefNoPair == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
+        gInputSlots[slotIndex].mPair.mHasPair != 0) {
         result = 1;
     }
     return result;

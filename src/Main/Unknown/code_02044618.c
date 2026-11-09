@@ -163,7 +163,7 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
     }
     switch (gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind) {
         case PLAYER_KIND_HUMAN:
-            q = data_0217aa00;
+            q = gConnectionWork;
             t = FALSE;
             if ((q == NULL ? 0 : q->mUnk_0000) != 0 && q->mUnk_0004 != 13) {
                 t = TRUE;
@@ -175,14 +175,14 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
                 return;
             }
             *nameSlot = func_02045084_inline(q, entryIndex);
-            *emblemDataSlot = &func_02045084_inline(data_0217aa00, entryIndex)->mEmblem[0];
-            *b2 = func_02045084_inline(data_0217aa00, entryIndex)->mUnk_214;
-            *b3 = func_02045084_inline(data_0217aa00, entryIndex)->mRegion;
-            *b5 =
-                func_02045084_inline2() || (data_0217aa00->mUnk_0457 & (1 << data_0217aa00->mUnk_1e8c[entryIndex])) != 0
-                    ? 0
-                    : &func_02045084_inline(data_0217aa00, entryIndex)->mUnk_218;
-            *b4 = func_02045084_inline(data_0217aa00, entryIndex)->mUnk_229;
+            *emblemDataSlot = &func_02045084_inline(gConnectionWork, entryIndex)->mEmblem[0];
+            *b2 = func_02045084_inline(gConnectionWork, entryIndex)->mUnk_214;
+            *b3 = func_02045084_inline(gConnectionWork, entryIndex)->mRegion;
+            *b5 = func_02045084_inline2() ||
+                          (gConnectionWork->mUnk_0457 & (1 << gConnectionWork->mUnk_1e8c[entryIndex])) != 0
+                      ? 0
+                      : &func_02045084_inline(gConnectionWork, entryIndex)->mUnk_218;
+            *b4 = func_02045084_inline(gConnectionWork, entryIndex)->mUnk_229;
             break;
         case PLAYER_KIND_GHOST:
             switch (gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mGhostRecordIndex) {
@@ -256,7 +256,7 @@ BOOL func_02044e9c(s32 courseId, s32 entryIndex) {
         SetNextRaceEntry(entryIndex, ghostRecord->mHead.mCharacterIndex, ghostRecord->mHead.mKartIndex,
                          PLAYER_KIND_GHOST, -1, 3);
         gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = result;
-        MI_CpuCopy8(ghostRecord->mUnk_030, data_02175628[entryIndex].mUnk_28.mBuffer, 0xdcc);
+        MI_CpuCopy8(ghostRecord->mUnk_030, gInputSlots[entryIndex].mUnk_28.mBuffer, 0xdcc);
         result = TRUE;
         GetGhostFinishTimeByIndex(0, &gRaceSetup->mGhostTime);
         for (i = 1; i <= 5; i++) {
@@ -280,7 +280,7 @@ s32 func_02044d4c(s32 courseId, s32 entryIndex) {
         SetNextRaceEntry(entryIndex, ghostRecord->mHead.mCharacterIndex, ghostRecord->mHead.mKartIndex,
                          PLAYER_KIND_GHOST, -1, 3);
         gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = 1;
-        MI_CpuCopy8(ghostRecord->mUnk_230, data_02175628[entryIndex].mUnk_28.mBuffer, 0xdcc);
+        MI_CpuCopy8(ghostRecord->mUnk_230, gInputSlots[entryIndex].mUnk_28.mBuffer, 0xdcc);
         GetGhostFinishTimeByIndex(1, &gRaceSetup->mGhostTime);
         for (i = 1; i <= 5; i++) {
             GetGhostLapTimeByIndex(1, i, &gRaceSetup->mGhostLapTimes[i - 1]);
@@ -303,7 +303,7 @@ BOOL func_02044bf8(s32 courseId, s32 entryIndex) {
         SetNextRaceEntry(entryIndex, ghostRecord->mHead.mCharacterIndex, ghostRecord->mHead.mKartIndex,
                          PLAYER_KIND_GHOST, -1, 3);
         gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = 2;
-        MI_CpuCopy8(ghostRecord->mUnk_230, data_02175628[entryIndex].mUnk_28.mBuffer, 0xdcc);
+        MI_CpuCopy8(ghostRecord->mUnk_230, gInputSlots[entryIndex].mUnk_28.mBuffer, 0xdcc);
         GetGhostFinishTime(&ghostRecord->mHead, &gRaceSetup->mGhostTime);
         for (i = 1; i <= 5; i++) {
             GetGhostLapTime(&ghostRecord->mHead, i, &gRaceSetup->mGhostLapTimes[i - 1]);
@@ -392,7 +392,7 @@ void SetCurrentRaceFromNext(void) {
                     break;
                 }
             }
-            q = data_0217aa00;
+            q = gConnectionWork;
             f = FALSE;
             if ((q == NULL ? 0 : q->mUnk_0000) != 0 && q->mUnk_0004 != 13) {
                 f = TRUE;

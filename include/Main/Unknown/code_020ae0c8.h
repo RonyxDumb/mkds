@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_020ae0c8(u32 entryIndex);
+u32 KartEntryGetCurrentCharacterIndex(u32 entryIndex);

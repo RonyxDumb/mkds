@@ -637,7 +637,7 @@ void UpdateWiFiRaceSyncState4(void) {
     UpdateWiFiRaceSyncRanks();
     if (IsKartEnded(*(u8 *) &gParticipantKartMap->mKartOfParticipant[GetOwnParticipantIndex()]) == 0 &&
         (gWiFiRaceSync->mFlags & 0x200) == 0) {
-        if (data_02175628[func_020435bc()].mBits == 0) {
+        if (gInputSlots[func_020435bc()].mBits == 0) {
             gWiFiRaceSync->mUnk_738 = gWiFiRaceSync->mUnk_738 + 1;
             if (gWiFiRaceSync->mUnk_738 > 0x708) {
                 gWiFiRaceSync->mFlags = gWiFiRaceSync->mFlags | 0x200;

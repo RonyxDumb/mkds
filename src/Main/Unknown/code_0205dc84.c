@@ -110,7 +110,7 @@ s32 RunScenes(s16 *sceneNumber) {
         } else {
             *sceneNumber = 9;
         }
-        switch (data_021759d0->mUnk_20) {
+        switch (data_021759d0->mConnectionKind) {
             case 0:
             case 1:
             case 2:
@@ -121,7 +121,7 @@ s32 RunScenes(s16 *sceneNumber) {
                 break;
             case 4:
                 func_0205dee0();
-                data_021759d0->mUnk_20 = 3;
+                data_021759d0->mConnectionKind = 3;
                 break;
         }
     }
@@ -147,7 +147,7 @@ void RunScenesForever(void) {
     gRunScenesState->mSceneNumber = 9;
     gRunScenesState->mUnk_00 = 0;
     if (gBootInfo->mUnk_00 == 2) {
-        data_021759d0->mUnk_20 = 2;
+        data_021759d0->mConnectionKind = 2;
         data_0217b488->mUnk_74 = 0;
         gRunScenesState->mSceneNumber = 6;
     }

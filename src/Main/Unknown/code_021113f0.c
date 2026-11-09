@@ -202,8 +202,8 @@ void AdvanceRecordVSState4(void) {
     if (a != 11) {
         gRecordVS->mUnk_8c = FALSE;
     }
-    keySlot = &data_02175628[inputSlotIndex];
-    if ((u16) (data_02175628[inputSlotIndex].mPressedBits & PAD_KEY_B) == 0) {
+    keySlot = &gInputSlots[inputSlotIndex];
+    if ((u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_B) == 0) {
         g = FALSE;
         f = FALSE;
         x = touchSlot->mPressedBits;
@@ -233,7 +233,7 @@ void AdvanceRecordVSState4(void) {
     return;
 l1:
     if ((a == 10 && gRecordVS->mUnk_88 != FALSE) || (b == 10 && gRecordVS->mUnk_88 == FALSE) ||
-        (u16) (data_02175628[inputSlotIndex].mBits & PAD_KEY_LEFT) != 0) {
+        (u16) (gInputSlots[inputSlotIndex].mBits & PAD_KEY_LEFT) != 0) {
         if (IsRecordVSIndexChangeRunning() != 0) {
             return;
         }
@@ -248,7 +248,7 @@ l1:
         return;
     }
     if ((a == 11 && gRecordVS->mUnk_8c != FALSE) || (b == 11 && gRecordVS->mUnk_8c == FALSE) ||
-        (u16) (data_02175628[inputSlotIndex].mBits & PAD_KEY_RIGHT) != 0) {
+        (u16) (gInputSlots[inputSlotIndex].mBits & PAD_KEY_RIGHT) != 0) {
         if (IsRecordVSIndexChangeRunning() != 0) {
             return;
         }
@@ -490,7 +490,7 @@ void AdvanceRecordVSState9(void) {
     s16 offset;
     u16 subBase;
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
-    offset = func_020ae488(gRecordVS->mStateFrames);
+    offset = GetSelectedPressOffset(gRecordVS->mStateFrames);
     subBase = gRecordVS->mRecordVSSBncl->mUnk_06;
     gRecordVS->mRecordVSSTable[24].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[25].mOffsetX = offset;

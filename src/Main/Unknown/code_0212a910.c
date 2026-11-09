@@ -229,7 +229,7 @@ void InitLinkLevelIcons(void *heap, void *oamList) {
     }
     switch (GetCurrentSceneNumber()) {
         case 1:
-            if ((u32) (data_021759d0->mUnk_20 - 1) <= 1) {
+            if ((u32) (data_021759d0->mConnectionKind - 1) <= 1) {
                 gLinkLevelIcons->mIconEnabled[0] = 1;
             }
             break;
@@ -241,15 +241,15 @@ void InitLinkLevelIcons(void *heap, void *oamList) {
             gLinkLevelIcons->mIconEnabled[4] = 1;
             break;
         case 10:
-            if (data_021759d0->mUnk_20 == 3) {
+            if (data_021759d0->mConnectionKind == 3) {
                 gLinkLevelIcons->mIconEnabled[1] = 1;
                 gLinkLevelIcons->mIconEnabled[4] = 1;
-            } else if ((u32) (data_021759d0->mUnk_20 - 1) <= 1) {
+            } else if ((u32) (data_021759d0->mConnectionKind - 1) <= 1) {
                 gLinkLevelIcons->mIconEnabled[0] = 1;
             }
             break;
         case 8:
-            if (data_021759d0->mUnk_20 == 3) {
+            if (data_021759d0->mConnectionKind == 3) {
                 gLinkLevelIcons->mIconEnabled[1] = 1;
                 gLinkLevelIcons->mIconEnabled[4] = 1;
             }
@@ -327,7 +327,7 @@ void UpdateLinkLevelIconTiles(void) {
     if (gLinkLevelIcons->mIconEnabled[0] != 0) {
         gLinkLevelIcons->mIconKind[slotCount] = 0;
         linkLevel = 0;
-        if (data_0217aa00->mUnk_0004 != 0) {
+        if (gConnectionWork->mUnk_0004 != 0) {
             linkLevel = WM_GetLinkLevel();
         }
         gLinkLevelIcons->mIconLevel[slotCount] = linkLevel;

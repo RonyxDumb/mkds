@@ -392,27 +392,27 @@ void AdvanceMissionRunLVselState3(void) {
     StartSceneSeqIfIdle();
     f2 = FALSE;
     f1 = FALSE;
-    if (data_02175628[i].mUnk_48.mHasPair == 0 && data_02175628[i].mUnk_48.mNoPairCount < 5) {
+    if (gInputSlots[i].mPair.mHasPair == 0 && gInputSlots[i].mPair.mNoPairCount < 5) {
         f1 = TRUE;
     }
-    if (f1 == FALSE && data_02175628[i].mUnk_48.mPrevHasPair == 0 && data_02175628[i].mUnk_48.mHasPair != 0) {
+    if (f1 == FALSE && gInputSlots[i].mPair.mPrevHasPair == 0 && gInputSlots[i].mPair.mHasPair != 0) {
         f2 = TRUE;
     }
     if (f2 != FALSE) {
-        sel = RectTableFindContaining(gMissionRunLVsel->mMissionRunLVselS7Or6Bnbl, data_02175628[i].mUnk_48.mPairX,
-                                      data_02175628[i].mUnk_48.mPairY);
+        sel = RectTableFindContaining(gMissionRunLVsel->mMissionRunLVselS7Or6Bnbl, gInputSlots[i].mPair.mPairX,
+                                      gInputSlots[i].mPair.mPairY);
     }
-    if ((u16) (data_02175628[i].mPressedBits & PAD_KEY_B) == 0) {
+    if ((u16) (gInputSlots[i].mPressedBits & PAD_KEY_B) == 0) {
         BOOL g2 = FALSE;
         BOOL g1 = FALSE;
-        if (data_02175628[i].mUnk_48.mHasPair == 0 && data_02175628[i].mUnk_48.mNoPairCount < 5) {
+        if (gInputSlots[i].mPair.mHasPair == 0 && gInputSlots[i].mPair.mNoPairCount < 5) {
             g1 = TRUE;
         }
-        if (g1 == FALSE && data_02175628[i].mUnk_48.mPrevHasPair == 0 && data_02175628[i].mUnk_48.mHasPair != 0) {
+        if (g1 == FALSE && gInputSlots[i].mPair.mPrevHasPair == 0 && gInputSlots[i].mPair.mHasPair != 0) {
             g2 = TRUE;
         }
-        if (g2 == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[i].mUnk_48.mPairX,
-                                                                           data_02175628[i].mUnk_48.mPairY) == FALSE) {
+        if (g2 == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[i].mPair.mPairX,
+                                                                           gInputSlots[i].mPair.mPairY) == FALSE) {
             goto next;
         }
     }
@@ -434,7 +434,7 @@ next:
         }
         return;
     }
-    if ((u16) (data_02175628[i].mPressedBits & PAD_KEY_A) != 0) {
+    if ((u16) (gInputSlots[i].mPressedBits & PAD_KEY_A) != 0) {
         gMissionRunLVsel->mUnk_28[gMissionRunLVsel->mIndex] = 5;
         func_ov001_0219f1f4();
         return;

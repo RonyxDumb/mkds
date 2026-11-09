@@ -379,7 +379,7 @@ void AdvanceRecordTopMenuState2(void) {
     s32 i;
 
     gRecordTopMenu->mStateFrames++;
-    v = func_020ae488(gRecordTopMenu->mStateFrames);
+    v = GetSelectedPressOffset(gRecordTopMenu->mStateFrames);
     for (i = 0; i < 3; i++) {
         gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ab4[i]].mOffsetX = v;
         gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ac4[i]].mOffsetX = v;
@@ -413,28 +413,28 @@ void AdvanceRecordTopMenuState4(void) {
     sel = -1;
     i = UNK_02175628_INDEX_8;
     a = FALSE;
-    if (data_02175628[i].mUnk_48.mHasPair == 0 && data_02175628[i].mUnk_48.mNoPairCount < 5) {
+    if (gInputSlots[i].mPair.mHasPair == 0 && gInputSlots[i].mPair.mNoPairCount < 5) {
         a = TRUE;
     }
-    if (a == FALSE && data_02175628[i].mUnk_48.mPrevHasPair == 0 && data_02175628[i].mUnk_48.mHasPair != 0) {
+    if (a == FALSE && gInputSlots[i].mPair.mPrevHasPair == 0 && gInputSlots[i].mPair.mHasPair != 0) {
         b = TRUE;
     }
     if (b != FALSE) {
-        sel = RectTableFindContaining(gRecordTopMenu->mRecordTopMenuSBnbl, data_02175628[i].mUnk_48.mPairX,
-                                      data_02175628[i].mUnk_48.mPairY);
+        sel = RectTableFindContaining(gRecordTopMenu->mRecordTopMenuSBnbl, gInputSlots[i].mPair.mPairX,
+                                      gInputSlots[i].mPair.mPairY);
     }
-    flags = data_02175628[i].mPressedBits & PAD_KEY_B;
+    flags = gInputSlots[i].mPressedBits & PAD_KEY_B;
     if (flags == 0) {
         b2 = FALSE;
         a2 = FALSE;
-        if (data_02175628[i].mUnk_48.mHasPair == 0 && data_02175628[i].mUnk_48.mNoPairCount < 5) {
+        if (gInputSlots[i].mPair.mHasPair == 0 && gInputSlots[i].mPair.mNoPairCount < 5) {
             a2 = TRUE;
         }
-        if (a2 == FALSE && data_02175628[i].mUnk_48.mPrevHasPair == 0 && data_02175628[i].mUnk_48.mHasPair != 0) {
+        if (a2 == FALSE && gInputSlots[i].mPair.mPrevHasPair == 0 && gInputSlots[i].mPair.mHasPair != 0) {
             b2 = TRUE;
         }
-        if (b2 == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[i].mUnk_48.mPairX,
-                                                                           data_02175628[i].mUnk_48.mPairY) == FALSE) {
+        if (b2 == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[i].mPair.mPairX,
+                                                                           gInputSlots[i].mPair.mPairY) == FALSE) {
             goto skip;
         }
     }
@@ -458,7 +458,7 @@ skip:
             RequestRecordTopMenuState5();
         }
     } else {
-        flags = data_02175628[i].mPressedBits & PAD_KEY_A;
+        flags = gInputSlots[i].mPressedBits & PAD_KEY_A;
         if (flags != 0) {
             SetRecordTopMenuRowOff(gRecordTopMenu->mIndex);
             RequestRecordTopMenuState5();
@@ -478,7 +478,7 @@ void AdvanceRecordTopMenuState5(void) {
     s16 v;
 
     gRecordTopMenu->mStateFrames++;
-    v = func_020ae488(gRecordTopMenu->mStateFrames);
+    v = GetSelectedPressOffset(gRecordTopMenu->mStateFrames);
     gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ab4[gRecordTopMenu->mIndex]].mOffsetX = v;
     gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ac4[gRecordTopMenu->mIndex]].mOffsetX = v;
     gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6a9c[gRecordTopMenu->mIndex]].mOffsetX = v;
@@ -567,20 +567,21 @@ void AdvanceRecordTopMenuState9(void) {
     BOOL a;
     u16 v;
 
-    RectTableFindContaining(gRecordTopMenu->mRecordTopMenuSBnbl, data_02175628[i].mUnk_48.mPairX, data_02175628[i].mUnk_48.mPairY);
-    flags = data_02175628[i].mPressedBits & PAD_KEY_B;
+    RectTableFindContaining(gRecordTopMenu->mRecordTopMenuSBnbl, gInputSlots[i].mPair.mPairX,
+                            gInputSlots[i].mPair.mPairY);
+    flags = gInputSlots[i].mPressedBits & PAD_KEY_B;
     if (flags == 0) {
         b = FALSE;
         a = FALSE;
-        v = data_02175628[i].mUnk_48.mHasPair;
-        if (v == 0 && data_02175628[i].mUnk_48.mNoPairCount < 5) {
+        v = gInputSlots[i].mPair.mHasPair;
+        if (v == 0 && gInputSlots[i].mPair.mNoPairCount < 5) {
             a = TRUE;
         }
-        if (a == FALSE && data_02175628[i].mUnk_48.mPrevHasPair == 0 && v != 0) {
+        if (a == FALSE && gInputSlots[i].mPair.mPrevHasPair == 0 && v != 0) {
             b = TRUE;
         }
-        if (b == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[i].mUnk_48.mPairX,
-                                                                          data_02175628[i].mUnk_48.mPairY) == FALSE) {
+        if (b == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[i].mPair.mPairX,
+                                                                          gInputSlots[i].mPair.mPairY) == FALSE) {
             return;
         }
     }

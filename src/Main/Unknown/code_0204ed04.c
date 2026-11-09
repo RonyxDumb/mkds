@@ -12,13 +12,13 @@
 
 #pragma thumb on
 void SetBlockEntryBuffer(u32 entryIndex, void *buffer) {
-    data_0217aa00->mBlockEntries[entryIndex].mBuffer = buffer;
+    gConnectionWork->mBlockEntries[entryIndex].mBuffer = buffer;
 }
 #pragma thumb off
 
 #pragma thumb on
 void func_0204ee30(void) {
-    data_0217aa00->mUnk_1e44 &= ~1;
+    gConnectionWork->mUnk_1e44 &= ~1;
 }
 #pragma thumb off
 
@@ -27,28 +27,29 @@ void func_0204ee30(void) {
 void func_0204ed84(void) {
     u16 packetSize;
     u16 destMask;
-    if (!(data_0217aa00->mUnk_1e44 & 1)) {
+    if (!(gConnectionWork->mUnk_1e44 & 1)) {
         u32 v;
-        if (data_0217aa00 == NULL) {
+        if (gConnectionWork == NULL) {
             v = 0;
         } else {
-            v = data_0217aa00->mUnk_0000;
+            v = gConnectionWork->mUnk_0000;
         }
         switch (v) {
             case 1:
                 data_usa_0216522c.mMaxDataSize = 0x192;
-                packetSize = BuildParentPacket(data_0217aa00->mPacketBuffer, 0x192);
-                destMask = data_0217aa00->mUnk_0044.mChildMask;
+                packetSize = BuildParentPacket(gConnectionWork->mPacketBuffer, 0x192);
+                destMask = gConnectionWork->mUnk_0044.mChildMask;
                 break;
             case 2:
                 data_usa_0216522c.mMaxDataSize = 0xe;
-                packetSize = BuildChildPacket(data_0217aa00->mPacketBuffer, 0xe);
+                packetSize = BuildChildPacket(gConnectionWork->mPacketBuffer, 0xe);
                 destMask = 1;
                 break;
         }
-        if (QueueMPDataToPort(data_0217aa00->mPacketBuffer, packetSize, destMask, NULL, &data_usa_0216522c) == FALSE) {
-            data_0217aa00->mSendTimer = data_usa_02165228;
-            data_0217aa00->mUnk_1e44 &= ~1;
+        if (QueueMPDataToPort(gConnectionWork->mPacketBuffer, packetSize, destMask, NULL, &data_usa_0216522c) ==
+            FALSE) {
+            gConnectionWork->mSendTimer = data_usa_02165228;
+            gConnectionWork->mUnk_1e44 &= ~1;
         }
     }
 }
@@ -66,10 +67,10 @@ void PacketPortCallback(Unk021425e8 *result) {
             return;
         }
         if (result->mUnk_04 == 0x15) {
-            if (data_0217aa00 == NULL) {
+            if (gConnectionWork == NULL) {
                 v = 0;
             } else {
-                v = data_0217aa00->mUnk_0000;
+                v = gConnectionWork->mUnk_0000;
             }
             switch (v) {
                 case 1:

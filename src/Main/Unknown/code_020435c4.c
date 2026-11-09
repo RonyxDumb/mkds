@@ -54,7 +54,7 @@ static inline void func_02043c14_inline(void) {
     InputSlot *slot;
 
     for (i = 0; i < 10; i++) {
-        inputSlot = &data_02175628[(u32) i];
+        inputSlot = &gInputSlots[(u32) i];
         ResetInputSlot(inputSlot);
         SetInputSlotRepeat(inputSlot, 0xff3, 0x1e, 0xa);
         inputSlot->mSourceKind = 0;
@@ -62,13 +62,13 @@ static inline void func_02043c14_inline(void) {
         inputSlot->mUnk_44 = 0;
         inputSlot->mBitMask = 0x2fff;
         ResetKeyRecording(&inputSlot->mUnk_28);
-        ResetInputSlotPair(&inputSlot->mUnk_48);
+        ResetInputSlotPair(&inputSlot->mPair);
     }
-    data_02175628[8].mSourceKind = 5;
-    data_02175628[9].mSourceKind = 6;
+    gInputSlots[8].mSourceKind = 5;
+    gInputSlots[9].mSourceKind = 6;
     data_02175624->mUnk_08 = 0;
     data_02175624->mUnk_0c = FALSE;
-    slot = data_02175628;
+    slot = gInputSlots;
     for (k = 0; k < 10; k++) {
         ResetInputSlot(slot);
         slot->mRequestedBits = 0;
@@ -236,10 +236,10 @@ void func_02043d10(void *heap) {
     InitTouchPanelAndSetCalibration();
     InitTouchMicInput(heap);
     for (i = 0; i <= 1; i++) {
-        InitKeyRecordingBuffer(&data_02175628[i].mUnk_28, heap);
+        InitKeyRecordingBuffer(&gInputSlots[i].mUnk_28, heap);
     }
     for (; i < 10; i++) {
-        func_0204a9f8(&data_02175628[i].mUnk_28);
+        func_0204a9f8(&gInputSlots[i].mUnk_28);
     }
     data_02175624 = HeapAlloc(heap, 0x10);
     func_02043c14_inline();
@@ -257,7 +257,7 @@ void func_02043b48(void) {
     InputSlot *inputSlot;
     InputSlot *slot;
 
-    inputSlot = data_02175628;
+    inputSlot = gInputSlots;
     for (i = 0; i < 10; i++) {
         ResetInputSlot(inputSlot);
         inputSlot->mRequestedBits = 0;
@@ -266,7 +266,7 @@ void func_02043b48(void) {
     }
     StartTouchAutoSampling();
     func_02043648();
-    slot = data_02175628;
+    slot = gInputSlots;
     for (j = 0; j < 10; j++) {
         slot->mHoldLong = 0;
         slot->mUnk_14 = 0;
@@ -285,7 +285,7 @@ void func_02043b04(void) {
     s32 i;
     InputSlot *inputSlot;
 
-    inputSlot = data_02175628;
+    inputSlot = gInputSlots;
     for (i = 0; i < 10; i++) {
         ClearInputSlotBitsAndRepeat(inputSlot);
         inputSlot++;
@@ -348,9 +348,9 @@ void func_02043648(void) {
     a = padKeys;
     b = y;
     k = gTouchMicInput->mMicOverThreshold;
-    if (func_02043648_inline(data_0217aa00) != 0) {
+    if (func_02043648_inline(gConnectionWork) != 0) {
         a = func_0204ffe8(GetParticipantIndex(data_02175624->mUnk_08));
-        b = data_0217aa00->mUnk_15bc_view.mUnk_0c[GetParticipantIndex(data_02175624->mUnk_08)].mUnk_00_2;
+        b = gConnectionWork->mUnk_15bc_view.mUnk_0c[GetParticipantIndex(data_02175624->mUnk_08)].mUnk_00_2;
         GetParticipantIndex(data_02175624->mUnk_08);
     }
     for (slotIndex = 0; slotIndex < 10; slotIndex++) {
@@ -360,7 +360,7 @@ void func_02043648(void) {
         f = (data_02175624->mFlags & INPUT_STATE_OPEN_DURING_RACE) ? 1 : 0;
         skipUpdate = FALSE;
         c = (GetCurrentSceneNumber() != 2 || (data_02175624->mFlags & INPUT_STATE_READ_RACE_KEYS)) ? 1 : 0;
-        inputSlot = &data_02175628[slotIndex];
+        inputSlot = &gInputSlots[slotIndex];
         flags = data_02175624->mFlags;
         if (!(flags & 8)) {
             sourceKind = inputSlot->mSourceKind;
@@ -434,8 +434,8 @@ void func_02043648(void) {
                     } else {
                         skipUpdate = TRUE;
                     }
-                    n = data_0217aa00->mUnk_15bc_view.mUnk_0c[GetParticipantIndex(slotIndex)].mUnk_00_2;
-                    o = data_0217aa00->mUnk_15bc_view.mUnk_0c[GetParticipantIndex(slotIndex)].mUnk_06_7;
+                    n = gConnectionWork->mUnk_15bc_view.mUnk_0c[GetParticipantIndex(slotIndex)].mUnk_00_2;
+                    o = gConnectionWork->mUnk_15bc_view.mUnk_0c[GetParticipantIndex(slotIndex)].mUnk_06_7;
                     break;
                 case 6:
                     slotKeys = padKeys;
@@ -453,14 +453,14 @@ void func_02043648(void) {
         if (skipUpdate == FALSE) {
             UpdateInputSlot(t, inputSlot);
         }
-        func_02046ca8(&inputSlot->mUnk_48, n, o);
+        func_02046ca8(&inputSlot->mPair, n, o);
     }
 }
 
 // Takes effect only for slots whose source kind is 3 or 7.
 void RequestBits(s32 slotIndex, u32 bits) {
-    if (data_02175628[slotIndex].mSourceKind == 3 || data_02175628[slotIndex].mSourceKind == 7) {
-        data_02175628[slotIndex].mRequestedBits |= bits;
+    if (gInputSlots[slotIndex].mSourceKind == 3 || gInputSlots[slotIndex].mSourceKind == 7) {
+        gInputSlots[slotIndex].mRequestedBits |= bits;
     }
 }
 

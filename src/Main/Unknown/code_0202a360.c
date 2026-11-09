@@ -37,18 +37,18 @@ u32 func_0202a360(void) {
         }
         return 1;
     }
-    switch (data_021759d0->mUnk_20) {
+    switch (data_021759d0->mConnectionKind) {
         case 0:
             ownEntryIndex = 0;
             break;
         case 1:
         case 2:
-            if (data_0217aa00->mUnk_0000 == 2) {
-                ownIndex = data_0217aa00->mOwnIndex;
+            if (gConnectionWork->mUnk_0000 == 2) {
+                ownIndex = gConnectionWork->mOwnIndex;
             } else {
                 ownIndex = 0;
             }
-            ownEntryIndex = data_0217aa00->mUnk_1e52[(u16) ownIndex].mEntryIndex;
+            ownEntryIndex = gConnectionWork->mUnk_1e52[(u16) ownIndex].mEntryIndex;
             break;
         case 3:
             ownEntryIndex = (u16) GetPackedIndex(GetOwnParticipantIndex());
@@ -84,7 +84,7 @@ u32 func_0202a360(void) {
     maxScore = -1;
     allEqual = 1;
     for (; i < kartCount; i++) {
-        if (data_021759d0->mUnk_20 == 3 || gRaceSetup->mRuleKind == 2) {
+        if (data_021759d0->mConnectionKind == 3 || gRaceSetup->mRuleKind == 2) {
             kartIndex = GetLowByte((u16) i);
             courseIndex = GetCourseIndexInCup();
             record = &gCupRecords->mKartResults[courseIndex][GetLowByte(kartIndex)];

@@ -29,5 +29,5 @@ void func_02029a38(void *destination, u32 size) {
 }
 
 u32 func_02029a24(void) {
-    return (data_021759d0->mUnk_20);
+    return (data_021759d0->mConnectionKind);
 }

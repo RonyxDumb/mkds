@@ -148,28 +148,29 @@ void AdvanceWiFiAikotobaState3(void) {
 
     b = FALSE;
     c = FALSE;
-    d = data_02175628[i].mUnk_48.mHasPair;
-    if (d == 0 && data_02175628[i].mUnk_48.mNoPairCount < 5) {
+    d = gInputSlots[i].mPair.mHasPair;
+    if (d == 0 && gInputSlots[i].mPair.mNoPairCount < 5) {
         c = TRUE;
     }
-    if (c == FALSE && data_02175628[i].mUnk_48.mPrevHasPair == 0 && d != 0) {
+    if (c == FALSE && gInputSlots[i].mPair.mPrevHasPair == 0 && d != 0) {
         b = TRUE;
     }
     if (b != FALSE) {
-        a = RectTableFindContaining(gWiFiAikotoba->mWiFiAikotobaBnbl, data_02175628[i].mUnk_48.mPairX, data_02175628[i].mUnk_48.mPairY);
+        a = RectTableFindContaining(gWiFiAikotoba->mWiFiAikotobaBnbl, gInputSlots[i].mPair.mPairX,
+                                    gInputSlots[i].mPair.mPairY);
     }
-    if ((u16) (data_02175628[i].mPressedBits & PAD_KEY_B) == 0) {
+    if ((u16) (gInputSlots[i].mPressedBits & PAD_KEY_B) == 0) {
         b = FALSE;
         c = FALSE;
-        d = data_02175628[i].mUnk_48.mHasPair;
-        if (d == 0 && data_02175628[i].mUnk_48.mNoPairCount < 5) {
+        d = gInputSlots[i].mPair.mHasPair;
+        if (d == 0 && gInputSlots[i].mPair.mNoPairCount < 5) {
             c = TRUE;
         }
-        if (c == FALSE && data_02175628[i].mUnk_48.mPrevHasPair == 0 && d != 0) {
+        if (c == FALSE && gInputSlots[i].mPair.mPrevHasPair == 0 && d != 0) {
             b = TRUE;
         }
-        if (b == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[i].mUnk_48.mPairX,
-                                                                          data_02175628[i].mUnk_48.mPairY) == FALSE) {
+        if (b == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[i].mPair.mPairX,
+                                                                          gInputSlots[i].mPair.mPairY) == FALSE) {
             goto next;
         }
     }
@@ -178,7 +179,7 @@ void AdvanceWiFiAikotobaState3(void) {
     RequestSelectReturnState3WithSound(0);
     return;
 next:
-    e = data_02175628[i].mPressedBits & PAD_KEY_A;
+    e = gInputSlots[i].mPressedBits & PAD_KEY_A;
     if ((u16) e != 0 || a <= 1) {
         p = gWiFiAikotoba;
         f = p->mUnk_08;

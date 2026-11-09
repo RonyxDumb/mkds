@@ -9,7 +9,7 @@ void StartRaceInput(void) {
     u32 entryIndex;
     SetReadRaceKeys(1);
     for (entryIndex = 0; entryIndex < gRaceSetup->mKartCount; entryIndex = (u16) (entryIndex + 1)) {
-        InputSlot *inputSlot = &data_02175628[gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mIndex];
+        InputSlot *inputSlot = &gInputSlots[gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mIndex];
         if (inputSlot->mSourceKind != 1) {
             if (inputSlot->mSourceKind == 2) {
                 StartKeyRecording(&inputSlot->mUnk_28);

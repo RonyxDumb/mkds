@@ -331,7 +331,7 @@ void InitMultiSelectMemberGroup(void *parentHeap, void *scene, void *oamList) {
     }
     RefreshMultiSelectMemberGroup(1);
     SetSelectReturnSoundId(0xf);
-    data_021759d0->mUnk_20 = 2;
+    data_021759d0->mConnectionKind = 2;
     FrmHeapShrinkInParent(gMultiSelectMemberGroup->mHeap);
 }
 
@@ -389,20 +389,20 @@ s32 AdvanceMultiSelectMemberGroup(Unk0203a0dc *sceneNumbers) {
             rectIndex = -1;
             pairIsNew = FALSE;
             pairRecentlyGone = FALSE;
-            v = data_02175628[slotIndex].mUnk_48.mHasPair;
-            if (v == 0 && data_02175628[slotIndex].mUnk_48.mNoPairCount < 5) {
+            v = gInputSlots[slotIndex].mPair.mHasPair;
+            if (v == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
                 pairRecentlyGone = TRUE;
             }
-            if (pairRecentlyGone == FALSE && data_02175628[slotIndex].mUnk_48.mPrevHasPair == 0 && v != 0) {
+            if (pairRecentlyGone == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && v != 0) {
                 pairIsNew = TRUE;
             }
             if (pairIsNew != FALSE) {
-                pairX = data_02175628[slotIndex].mUnk_48.mPairX;
-                pairY = data_02175628[slotIndex].mUnk_48.mPairY;
+                pairX = gInputSlots[slotIndex].mPair.mPairX;
+                pairY = gInputSlots[slotIndex].mPair.mPairY;
                 touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(pairX, pairY);
                 rectIndex = RectTableFindContaining(cellFileSet->mRects, pairX, pairY);
             }
-            v = data_02175628[slotIndex].mPressedBits;
+            v = gInputSlots[slotIndex].mPressedBits;
             if ((u16) (v & PAD_KEY_A) != 0) {
                 if (func_0203023c() != 0) {
                     gMultiSelectMemberGroup->mUnk_88 = TRUE;
@@ -412,8 +412,8 @@ s32 AdvanceMultiSelectMemberGroup(Unk0203a0dc *sceneNumbers) {
                     if (gMultiSelectMemberGroup->mSelectedIndex == 4) {
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x4e);
                     } else {
-                        if ((data_0217aa00 == NULL ? 0 : data_0217aa00->mUnk_0000) == 2) {
-                            data_0217aa00->mUnk_0436 |= 1;
+                        if ((gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000) == 2) {
+                            gConnectionWork->mUnk_0436 |= 1;
                         }
                         NNS_SndArcSetCurrent(&gOnMemorySndArc);
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 2);

@@ -37,14 +37,14 @@ void func_021170f8(void) {
     u32 zeroValue, noIndex;
 
     InitCharacterKartPicks(gPicksHolder->mPicks);
-    if (data_021759d0->mUnk_20 == 0) {
+    if (data_021759d0->mConnectionKind == 0) {
         n = 1;
     } else {
         isEightOrNine = TRUE;
-        if (data_0217aa00->mUnk_0004 != 8 && data_0217aa00->mUnk_0004 != 9) {
+        if (gConnectionWork->mUnk_0004 != 8 && gConnectionWork->mUnk_0004 != 9) {
             isEightOrNine = FALSE;
         }
-        n = (u8) (isEightOrNine != FALSE ? CountSetBits(data_0217aa00->mParticipantMask) : 0);
+        n = (u8) (isEightOrNine != FALSE ? CountSetBits(gConnectionWork->mParticipantMask) : 0);
     }
     zeroValue = 0;
     noIndex = ~0;
@@ -61,14 +61,14 @@ void func_02117060(void) {
     u32 zeroValue, noIndex;
 
     InitCharacterKartPicks(gPicksHolder->mPicks);
-    if (data_021759d0->mUnk_20 == 0) {
+    if (data_021759d0->mConnectionKind == 0) {
         n = 1;
     } else {
         isEightOrNine = TRUE;
-        if (data_0217aa00->mUnk_0004 != 8 && data_0217aa00->mUnk_0004 != 9) {
+        if (gConnectionWork->mUnk_0004 != 8 && gConnectionWork->mUnk_0004 != 9) {
             isEightOrNine = FALSE;
         }
-        n = (u8) (isEightOrNine != FALSE ? CountSetBits(data_0217aa00->mParticipantMask) : 0);
+        n = (u8) (isEightOrNine != FALSE ? CountSetBits(gConnectionWork->mParticipantMask) : 0);
     }
     for (i = 0; i < 8; i++) {
         SetGivenCharacter(gPicksHolder->mPicks, (u8) i, GetCharacterIndex(i));
@@ -88,14 +88,14 @@ void FillRandomCharacterIndices(void) {
     u32 pickedIndex;
 
     pickedIndex = ~0;
-    if (data_021759d0->mUnk_20 == 0) {
+    if (data_021759d0->mConnectionKind == 0) {
         n = 1;
     } else {
         isEightOrNine = TRUE;
-        if (data_0217aa00->mUnk_0004 != 8 && data_0217aa00->mUnk_0004 != 9) {
+        if (gConnectionWork->mUnk_0004 != 8 && gConnectionWork->mUnk_0004 != 9) {
             isEightOrNine = FALSE;
         }
-        n = (u8) (isEightOrNine != FALSE ? CountSetBits(data_0217aa00->mParticipantMask) : 0);
+        n = (u8) (isEightOrNine != FALSE ? CountSetBits(gConnectionWork->mParticipantMask) : 0);
     }
     for (i = 0; i < n; i++) {
         SetGivenCharacter(gPicksHolder->mPicks, (u8) i, GetCharacterIndex(i));
@@ -114,14 +114,14 @@ void FillRandomKartIndices(void) {
     u32 pickedIndex;
 
     pickedIndex = ~0;
-    if (data_021759d0->mUnk_20 == 0) {
+    if (data_021759d0->mConnectionKind == 0) {
         n = 1;
     } else {
         isEightOrNine = TRUE;
-        if (data_0217aa00->mUnk_0004 != 8 && data_0217aa00->mUnk_0004 != 9) {
+        if (gConnectionWork->mUnk_0004 != 8 && gConnectionWork->mUnk_0004 != 9) {
             isEightOrNine = FALSE;
         }
-        n = (u8) (isEightOrNine != FALSE ? CountSetBits(data_0217aa00->mParticipantMask) : 0);
+        n = (u8) (isEightOrNine != FALSE ? CountSetBits(gConnectionWork->mParticipantMask) : 0);
     }
     for (i = 0; i < n; i++) {
         SetGivenKart(gPicksHolder->mPicks, (u8) i, GetKartIndex(i));

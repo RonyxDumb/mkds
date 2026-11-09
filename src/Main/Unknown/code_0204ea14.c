@@ -16,8 +16,8 @@ u32 func_0204ea3c(void) {
     result = 0;
     size = func_02008880(NULL);
     if ((0x00010000u) <= size) {
-        v2 = func_02008570(NULL, data_0217aa00->mUnk_1658, data_0217aa00->mUnk_168c);
-        if ((v2 != 0) && (v2 = func_02008310(data_0215472c, data_0217aa00->mUnk_1658), v2 != 0)) {
+        v2 = func_02008570(NULL, gConnectionWork->mUnk_1658, gConnectionWork->mUnk_168c);
+        if ((v2 != 0) && (v2 = func_02008310(data_0215472c, gConnectionWork->mUnk_1658), v2 != 0)) {
             result = 1;
         }
     }

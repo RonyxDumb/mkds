@@ -371,7 +371,7 @@ typedef struct ChildList {
     /* 43 */ u8 mChildMask;
 } ChildList;
 
-// 8-byte entries behind member 0x1e48 of data_0217aa00.
+// 8-byte entries behind member 0x1e48 of gConnectionWork.
 typedef struct ScanGhostInfo {
     /* 00 */ u8 mKartIndex;
     /* 01 */ u8 mCharacterIndex;
@@ -382,7 +382,7 @@ typedef struct ScanGhostInfo {
     /* 06 */ u16 mMillisecond;
 } ScanGhostInfo;
 
-// Elements of the array at member 0x1e52 of data_0217aa00.
+// Elements of the array at member 0x1e52 of gConnectionWork.
 typedef struct Unk0217aa00_1e52 {
     /* 00 */ u16 mEntryIndex;
     /* 02 */ u8 mUnk_02[6];
@@ -398,7 +398,7 @@ typedef struct MPStateMachine {
     /* 1b */ u8 mUnk_1b[0x1];
 } MPStateMachine;
 
-// Object behind data_0217aa00.
+// Object behind gConnectionWork.
 // One of the 12 entries at 0x16a0: a block to offer to the other consoles, or a file path to read in.
 typedef struct BlockEntry {
     /* 00 */ BlockListNode mNode;
@@ -771,10 +771,10 @@ typedef struct ConnectionWork {
         };
         Unk0217aa00_16a0_view mUnk_16a0_view;
     };
-    /* 1ee8 */ RandomState64 mUnk_1ee8;
+    /* 1ee8 */ RandomState64 mRandomState;
 } ConnectionWork;
 
-extern ConnectionWork *data_0217aa00;
+extern ConnectionWork *gConnectionWork;
 extern Unk0217aa08 *data_0217aa08;
 // Object behind gThreadFunctionQueue; the OSThread at 0x2c is passed to OS_CreateThread and OS_WakeupThreadDirect.
 typedef struct ThreadFunctionQueue {

@@ -636,7 +636,7 @@ void AdvanceSelectChoisesState1(void) {
             hit = 1;
         }
     }
-    keys = data_02175628[inputSlotIndex].mPressedBits;
+    keys = gInputSlots[inputSlotIndex].mPressedBits;
     if ((u16) (keys & PAD_KEY_A) != 0 || hit != -1) {
         if (hit == -1 || gSelectChoises->mIndex == hit) {
             func_02127d28();

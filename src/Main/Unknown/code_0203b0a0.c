@@ -185,7 +185,7 @@ void func_0203b0f8(void *heap) {
     } else {
         bannerFile = FindSceneFile(data_usa_0216478c);
     }
-    t = data_021759d0->mUnk_20;
+    t = data_021759d0->mConnectionKind;
     f = 1;
     if (t != 1 && t != 2) {
         f = 0;

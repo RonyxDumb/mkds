@@ -16,7 +16,7 @@ u16 func_020ca9c8(InputSlot *slot, u32 mask) {
 }
 
 u16 func_020ca9ac(u32 slotIndex, u32 mask) {
-    return func_020ca9c8(&data_02175628[slotIndex], mask);
+    return func_020ca9c8(&gInputSlots[slotIndex], mask);
 }
 
 u32 func_020ca994(u32 seqIndex, u32 seqArcNo) {

@@ -121,7 +121,7 @@ void AdvanceWiFiTopMenuState1(void) {
         gWiFiTopMenu->mStateFrames = v;
         RequestSelectReturnState1();
     } else if (gWiFiTopMenu->mStateFrames >= 10) {
-        v = func_020ae488(gWiFiTopMenu->mStateFrames - 10);
+        v = GetSelectedPressOffset(gWiFiTopMenu->mStateFrames - 10);
     } else {
         v = InterpolateS16(1, 0xdc, v, gWiFiTopMenu->mStateFrames, 10);
     }
@@ -161,7 +161,7 @@ void AdvanceWiFiTopMenuState3(void) {
         v2 = RectTableFindContaining(gWiFiTopMenu->mWiFiTopMenuBnbl, data_02175670[i].mPressedBits,
                                      data_02175672[i].mPressedBits);
     }
-    v5 = data_02175628[i].mPressedBits & PAD_KEY_B;
+    v5 = gInputSlots[i].mPressedBits & PAD_KEY_B;
     if ((u16) v5 == 0) {
         v7 = v6 = FALSE;
         if (data_02175674[i].mPressedBits == 0 && data_02175680[i].mPressedBits < 5) {
@@ -182,7 +182,7 @@ void AdvanceWiFiTopMenuState3(void) {
     }
     return;
 next:
-    v5 = data_02175628[i].mPressedBits & PAD_KEY_A;
+    v5 = gInputSlots[i].mPressedBits & PAD_KEY_A;
     if ((u16) v5 != 0 || v2 <= 2) {
         v4 = gWiFiTopMenu->mIndex;
         if ((u16) v5 == 0) {
@@ -240,7 +240,7 @@ void AdvanceWiFiTopMenuState4(void) {
     s32 v;
 
     gWiFiTopMenu->mStateFrames = gWiFiTopMenu->mStateFrames + 1;
-    v = func_020ae488(gWiFiTopMenu->mStateFrames);
+    v = GetSelectedPressOffset(gWiFiTopMenu->mStateFrames);
     for (i = 0; i < data_ov000_021b05cc[gWiFiTopMenu->mIndex]; i++) {
         gWiFiTopMenu->mWiFiTopMenuTable[data_ov000_021b05d8[gWiFiTopMenu->mIndex][i]].mOffsetX = v;
     }
@@ -263,7 +263,7 @@ void AdvanceWiFiTopMenuState5(void) {
         if (gWiFiTopMenu->mPendingWiFiState == 10 && GetWiFiSessionLoginResult() != 1) {
             SetWiFiNextScene(0);
         } else if (gWiFiTopMenu->mPendingWiFiState == 13) {
-            data_021759d0->mUnk_20 = 4;
+            data_021759d0->mConnectionKind = 4;
             SetWiFiNextScene(12);
         }
     }
@@ -338,17 +338,17 @@ void AdvanceWiFiTopMenuState8(void) {
         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x15);
     }
     if (IsTxtSystemState2NoCloseRequest() != 0 && IsSelectReturnState2NoState3Or4Request() != 0) {
-        if ((u16) (data_02175628[i].mPressedBits & PAD_KEY_B) == 0) {
+        if ((u16) (gInputSlots[i].mPressedBits & PAD_KEY_B) == 0) {
             a = b = FALSE;
-            v = data_02175628[i].mUnk_48.mHasPair;
-            if (v == 0 && data_02175628[i].mUnk_48.mNoPairCount < 5) {
+            v = gInputSlots[i].mPair.mHasPair;
+            if (v == 0 && gInputSlots[i].mPair.mNoPairCount < 5) {
                 a = 1;
             }
-            if (a == 0 && data_02175628[i].mUnk_48.mPrevHasPair == 0 && v != 0) {
+            if (a == 0 && gInputSlots[i].mPair.mPrevHasPair == 0 && v != 0) {
                 b = TRUE;
             }
-            if (b == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[i].mUnk_48.mPairX,
-                                                                              data_02175628[i].mUnk_48.mPairY) == FALSE) {
+            if (b == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[i].mPair.mPairX,
+                                                                              gInputSlots[i].mPair.mPairY) == FALSE) {
                 return;
             }
         }

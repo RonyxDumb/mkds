@@ -104,7 +104,7 @@ void func_020641f0(Kart *kart) {
             k = (s64) k * 0xfa0 >> 12;
             if (GetAbsoluteValue(GetKartForwardSpeedRatio()) < 0x29) {
                 k = 0;
-                if ((u16) (data_02175628[o = kart->mEntryIndex].mBits & (PAD_KEY_A | PAD_KEY_B)) != 0 &&
+                if ((u16) (gInputSlots[o = kart->mEntryIndex].mBits & (PAD_KEY_A | PAD_KEY_B)) != 0 &&
                     IsRaceStarted() == 1) {
                     k = k + 0x190;
                 }

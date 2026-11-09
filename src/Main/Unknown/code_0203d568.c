@@ -46,10 +46,10 @@ static inline void func_0203d568_b_inline(void) {
     u16 entryIndex;
 
     if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL && GetNextSceneNumber() != 10 &&
-        (GetNextSceneNumber() != 6 || data_0217b488->mUnk_74 != 2) && func_0203d568_inline(data_0217aa00) != 0) {
+        (GetNextSceneNumber() != 6 || data_0217b488->mUnk_74 != 2) && func_0203d568_inline(gConnectionWork) != 0) {
         for (entryIndex = 0; entryIndex < (u32) gRaceSetup->mKartCount; entryIndex++) {
             if (gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind == PLAYER_KIND_HUMAN &&
-                (data_0217aa00->mParticipantMask & (1 << data_0217aa00->mUnk_1e8c[entryIndex])) == 0) {
+                (gConnectionWork->mParticipantMask & (1 << gConnectionWork->mUnk_1e8c[entryIndex])) == 0) {
                 func_0204451c(entryIndex);
             }
         }
@@ -512,6 +512,6 @@ void func_0203d568(void) {
     }
     for (entryIndex = 0; entryIndex < (u32) gRaceSetup->mKartCount; entryIndex++) {
         inputSlotIndex = gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mIndex;
-        FinishKeyRecording(&data_02175628[inputSlotIndex].mUnk_28);
+        FinishKeyRecording(&gInputSlots[inputSlotIndex].mUnk_28);
     }
 }

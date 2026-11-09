@@ -46,7 +46,7 @@ typedef struct SelectGhost {
     /* 48 */ s32 mState;
     /* 4c */ s32 mNextState;
     /* 50 */ s32 mStateFrames;
-    // Set to 6 by the index steps, counts down to 0; 6 - timer indexes data_02156868 through func_020adc64.
+    // Set to 6 by the index steps, counts down to 0; 6 - timer indexes gFrameOffsets through LookupFrameOffset.
     /* 54 */ s16 mOffsetTimers[2];
     // Negated and shifted into the upper half-word of the BG0 offset register.
     /* 58 */ s32 mBg0Offset;

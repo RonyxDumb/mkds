@@ -21,7 +21,7 @@ u16 func_020acee0(InputSlot *slot, u32 mask) {
 }
 
 u16 func_020acec4(u32 slotIndex, u32 mask) {
-    return func_020acee0(&data_02175628[slotIndex], mask);
+    return func_020acee0(&gInputSlots[slotIndex], mask);
 }
 
 u32 func_020acebc(const void *pair) {

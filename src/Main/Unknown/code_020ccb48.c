@@ -19,8 +19,8 @@ void SetNextGrandPrixEntries(void) {
     u32 characterIndex;
     u32 kartIndex;
 
-    a = func_020ae3b4(7) + 1;
-    b = func_020ae3b4(6) + 1;
+    a = NextRandomBelowByConnectionKind(7) + 1;
+    b = NextRandomBelowByConnectionKind(6) + 1;
     if (a <= b) {
         b++;
     }

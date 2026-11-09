@@ -22,7 +22,7 @@ void UpdateTitleState4(void) {
     s32 titleStateFrames;
 
     titleStateFrames = GetTitleStateFrames();
-    gTitleScene->mSelectedOffset = func_020ae488(titleStateFrames);
+    gTitleScene->mSelectedOffset = GetSelectedPressOffset(titleStateFrames);
     if (titleStateFrames >= 10) {
         SetTitleState(3, 5);
     }
@@ -34,7 +34,7 @@ void func_020acacc(void) {}
 #pragma thumb off
 
 void func_020acab8(u32 p0) {
-    data_021759d0->mUnk_20 = p0;
+    data_021759d0->mConnectionKind = p0;
 }
 
 void func_020acaa4(u32 p0) {

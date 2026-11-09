@@ -645,29 +645,29 @@ void AdvanceMissionRunMSselState3(void) {
     func_ov001_021a0620();
     flag_b = FALSE;
     flag_a = FALSE;
-    value = data_02175628[slot].mUnk_48.mHasPair;
-    if (value == 0 && data_02175628[slot].mUnk_48.mNoPairCount < 5) {
+    value = gInputSlots[slot].mPair.mHasPair;
+    if (value == 0 && gInputSlots[slot].mPair.mNoPairCount < 5) {
         flag_a = TRUE;
     }
-    if (flag_a == FALSE && data_02175628[slot].mUnk_48.mPrevHasPair == 0 && value != 0) {
+    if (flag_a == FALSE && gInputSlots[slot].mPair.mPrevHasPair == 0 && value != 0) {
         flag_b = TRUE;
     }
     if (flag_b) {
-        result = RectTableFindContaining(gMissionRunMSsel->mMissionRunMSselSBnbl, data_02175628[slot].mUnk_48.mPairX,
-                                         data_02175628[slot].mUnk_48.mPairY);
+        result = RectTableFindContaining(gMissionRunMSsel->mMissionRunMSselSBnbl, gInputSlots[slot].mPair.mPairX,
+                                         gInputSlots[slot].mPair.mPairY);
     }
-    if ((u16) (data_02175628[slot].mPressedBits & PAD_KEY_B) == 0) {
+    if ((u16) (gInputSlots[slot].mPressedBits & PAD_KEY_B) == 0) {
         flag_b = FALSE;
         flag_a = FALSE;
-        value = data_02175628[slot].mUnk_48.mHasPair;
-        if (value == 0 && data_02175628[slot].mUnk_48.mNoPairCount < 5) {
+        value = gInputSlots[slot].mPair.mHasPair;
+        if (value == 0 && gInputSlots[slot].mPair.mNoPairCount < 5) {
             flag_a = TRUE;
         }
-        if (flag_a == FALSE && data_02175628[slot].mUnk_48.mPrevHasPair == 0 && value != 0) {
+        if (flag_a == FALSE && gInputSlots[slot].mPair.mPrevHasPair == 0 && value != 0) {
             flag_b = TRUE;
         }
-        if (!flag_b || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[slot].mUnk_48.mPairX,
-                                                                       data_02175628[slot].mUnk_48.mPairY) == FALSE) {
+        if (!flag_b || IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slot].mPair.mPairX,
+                                                                       gInputSlots[slot].mPair.mPairY) == FALSE) {
             goto skip;
         }
     }
@@ -692,7 +692,7 @@ skip:
         func_ov001_021a0488();
         return;
     }
-    if ((u16) (data_02175628[slot].mPressedBits & PAD_KEY_A) != 0) {
+    if ((u16) (gInputSlots[slot].mPressedBits & PAD_KEY_A) != 0) {
         gMissionRunMSsel->mUnk_6c[gMissionRunMSsel->mIndex] = 5;
         func_ov001_021a0488();
         return;

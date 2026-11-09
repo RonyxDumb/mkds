@@ -201,7 +201,7 @@ void AdvanceSelectBattleStageState0(void) {
         for (i = 0; i < 6; i++) {
             for (j = 0; j < 3; j++) {
                 gSelectBattleStage->mSelectBattleStageTables[1][gSelectBattleStageSTableIndices[i][j]].mOffsetX =
-                    func_020ae488(gSelectBattleStage->mStateFrames - 10);
+                    GetSelectedPressOffset(gSelectBattleStage->mStateFrames - 10);
             }
         }
     } else {
@@ -235,34 +235,34 @@ void AdvanceSelectBattleStageState2(void) {
     u16 x;
 
     a = FALSE;
-    x = data_02175628[idx].mUnk_48.mHasPair;
-    if (x == 0 && data_02175628[idx].mUnk_48.mNoPairCount < 5) {
+    x = gInputSlots[idx].mPair.mHasPair;
+    if (x == 0 && gInputSlots[idx].mPair.mNoPairCount < 5) {
         a = TRUE;
     }
-    if (a == FALSE && data_02175628[idx].mUnk_48.mPrevHasPair == 0 && x != 0) {
+    if (a == FALSE && gInputSlots[idx].mPair.mPrevHasPair == 0 && x != 0) {
         b = TRUE;
     }
     if (b != FALSE) {
-        res = RectTableFindContaining(gSelectBattleStage->mSelectBattleStageBnbls[1], data_02175628[idx].mUnk_48.mPairX,
-                                      data_02175628[idx].mUnk_48.mPairY);
+        res = RectTableFindContaining(gSelectBattleStage->mSelectBattleStageBnbls[1], gInputSlots[idx].mPair.mPairX,
+                                      gInputSlots[idx].mPair.mPairY);
     }
     for (i = 0; i < 6; i++) {
         if (res == gSelectBattleStageBnblRectIndices[i]) {
             sel = i;
         }
     }
-    if ((u16) (data_02175628[idx].mPressedBits & PAD_KEY_B) == 0) {
+    if ((u16) (gInputSlots[idx].mPressedBits & PAD_KEY_B) == 0) {
         b = FALSE;
         a = FALSE;
-        x = data_02175628[idx].mUnk_48.mHasPair;
-        if (x == 0 && data_02175628[idx].mUnk_48.mNoPairCount < 5) {
+        x = gInputSlots[idx].mPair.mHasPair;
+        if (x == 0 && gInputSlots[idx].mPair.mNoPairCount < 5) {
             a = TRUE;
         }
-        if (a == FALSE && data_02175628[idx].mUnk_48.mPrevHasPair == 0 && x != 0) {
+        if (a == FALSE && gInputSlots[idx].mPair.mPrevHasPair == 0 && x != 0) {
             b = TRUE;
         }
-        if (b == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[idx].mUnk_48.mPairX,
-                                                                          data_02175628[idx].mUnk_48.mPairY) == FALSE) {
+        if (b == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[idx].mPair.mPairX,
+                                                                          gInputSlots[idx].mPair.mPairY) == FALSE) {
             goto next;
         }
     }
@@ -274,7 +274,7 @@ void AdvanceSelectBattleStageState2(void) {
     }
     gSelectBattleStage->mNextState = 6;
     gSelectBattleStage->mPendingResult = -3;
-    if (data_021759d0->mUnk_20 == 0) {
+    if (data_021759d0->mConnectionKind == 0) {
         RequestSelectReturnState3WithSound(0);
         gSelectBattleStage->mUnk_2c = FALSE;
         return;
@@ -283,9 +283,9 @@ void AdvanceSelectBattleStageState2(void) {
     gSelectBattleStage->mUnk_2c = TRUE;
     return;
 next:
-    if ((u16) (data_02175628[idx].mPressedBits & PAD_KEY_A) != 0 || sel != -4) {
+    if ((u16) (gInputSlots[idx].mPressedBits & PAD_KEY_A) != 0 || sel != -4) {
         prev = gSelectBattleStage->mIndex;
-        if ((u16) (data_02175628[idx].mPressedBits & PAD_KEY_A) == 0) {
+        if ((u16) (gInputSlots[idx].mPressedBits & PAD_KEY_A) == 0) {
             gSelectBattleStage->mIndex = sel;
         }
         if (gSelectBattleStage->mIndex == prev) {
@@ -321,7 +321,7 @@ void AdvanceSelectBattleStageState3(void) {
     s16 v;
 
     gSelectBattleStage->mStateFrames++;
-    v = func_020ae488(gSelectBattleStage->mStateFrames);
+    v = GetSelectedPressOffset(gSelectBattleStage->mStateFrames);
     for (i = 0; i < 3; i++) {
         gSelectBattleStage->mSelectBattleStageTables[1][gSelectBattleStageSTableIndices[gSelectBattleStage->mIndex][i]]
             .mOffsetX = v;

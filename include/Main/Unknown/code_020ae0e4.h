@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int func_020ae0e4(void);
+unsigned int KartEntryGetCurrentMode(void);

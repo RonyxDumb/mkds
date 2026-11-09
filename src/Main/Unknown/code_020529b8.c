@@ -41,24 +41,24 @@ void func_02053d00(void) {
     BlockEntry *blockEntry;
     s32 i;
 
-    if (data_0217aa00 == NULL) {
+    if (gConnectionWork == NULL) {
         return;
     }
-    data_0217aa00->mUnk_0000 = 0;
-    data_0217aa00->mUnk_0004 = 0;
-    data_0217aa00->mUnk_0008 = 9;
-    data_0217aa00->mUnk_000c = 0;
-    data_0217aa00->mRequestPending = 0;
-    data_0217aa00->mUnk_0454 = 0;
-    scanParams = data_0217aa00->mUnk_001c;
-    scanParams->mUnk_00 = data_0217aa00->mUnk_0028;
+    gConnectionWork->mUnk_0000 = 0;
+    gConnectionWork->mUnk_0004 = 0;
+    gConnectionWork->mUnk_0008 = 9;
+    gConnectionWork->mUnk_000c = 0;
+    gConnectionWork->mRequestPending = 0;
+    gConnectionWork->mUnk_0454 = 0;
+    scanParams = gConnectionWork->mUnk_001c;
+    scanParams->mUnk_00 = gConnectionWork->mUnk_0028;
     scanParams->mUnk_04 = 0;
     scanParams->mUnk_06 = 0;
     for (i = 0; i < 6; i++) {
         scanParams->mUnk_08[i] = 0xff;
     }
-    scanExParams = data_0217aa00->mUnk_0020;
-    scanExParams->mUnk_00 = data_0217aa00->mUnk_002c;
+    scanExParams = gConnectionWork->mUnk_0020;
+    scanExParams->mUnk_00 = gConnectionWork->mUnk_002c;
     scanExParams->mUnk_04 = 0x400;
     scanExParams->mUnk_06 = 0;
     scanExParams->mUnk_08 = 0;
@@ -68,7 +68,7 @@ void func_02053d00(void) {
         scanExParams->mUnk_0a[i] = 0xff;
     }
     ResetConnectionData();
-    blocks = &data_0217aa00->mUnk_16a0_view;
+    blocks = &gConnectionWork->mUnk_16a0_view;
     blockEntry = &blocks->mBlockEntries[0];
     for (i = 0; i < 0xc; i++) {
         blockEntry->mPath = 0;
@@ -79,7 +79,7 @@ void func_02053d00(void) {
     blocks->mUnk_660 = 0;
     blocks->mUnk_798 = FALSE;
     blocks->mUnk_79c = FALSE;
-    func_0204e65c(&data_0217aa00->mUnk_1658_view);
+    func_0204e65c(&gConnectionWork->mUnk_1658_view);
     func_02059878();
     FillParentParameter(1);
 }
@@ -91,20 +91,21 @@ void StepDataSharing(void) {
     s32 result;
 
     GetSceneFrames();
-    sendData = data_0217aa00->mUnk_15c4;
-    if (data_0217aa00->mUnk_0004 == 8) {
-        sendData->mUnk_05 = data_0217aa00->mUnk_15f7;
+    sendData = gConnectionWork->mUnk_15c4;
+    if (gConnectionWork->mUnk_0004 == 8) {
+        sendData->mUnk_05 = gConnectionWork->mUnk_15f7;
     } else {
         sendData->mUnk_05 = 0;
     }
-    sendData->mUnk_04 = (data_0217aa00 == NULL ? 0 : data_0217aa00->mUnk_0000) == 1 ? data_0217aa00->mUnk_1eac[0] : 0;
+    sendData->mUnk_04 =
+        (gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000) == 1 ? gConnectionWork->mUnk_1eac[0] : 0;
     sendData->mUnk_00 = GetPadKeys();
     sendData->mUnk_06_0 = 0;
     sendData->mUnk_07 = 0;
     role = 0;
-    if (data_0217aa00->mUnk_0004 == 9) {
-        if (data_0217aa00 != NULL) {
-            role = data_0217aa00->mUnk_0000;
+    if (gConnectionWork->mUnk_0004 == 9) {
+        if (gConnectionWork != NULL) {
+            role = gConnectionWork->mUnk_0000;
         }
         if (role == 1) {
             if (func_02055afc() != FALSE) {
@@ -114,9 +115,9 @@ void StepDataSharing(void) {
             }
         }
     }
-    role = data_0217aa00 == NULL ? 0 : data_0217aa00->mUnk_0000;
-    if (role != 1 || (data_0217aa00->mUnk_008b & 1) != 0) {
-        if (data_0217aa00->mUnk_15ec == 0) {
+    role = gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000;
+    if (role != 1 || (gConnectionWork->mUnk_008b & 1) != 0) {
+        if (gConnectionWork->mUnk_15ec == 0) {
             sendData->mUnk_06_0 |= 1;
             sendData->mUnk_06_0 &= ~2;
         } else {
@@ -126,13 +127,13 @@ void StepDataSharing(void) {
     }
     sendData->mUnk_06_7 = gTouchMicInput->mMicOverThreshold;
     sendData->mUnk_02 = GetPackedTouchPoint();
-    result = WM_StepDataSharing(data_0217aa00->mUnk_15bc, sendData, data_0217aa00->mUnk_15c0);
+    result = WM_StepDataSharing(gConnectionWork->mUnk_15bc, sendData, gConnectionWork->mUnk_15c0);
     if (result == 0) {
-        if (data_0217aa00->mUnk_0004 == 8) {
-            data_0217aa00->mUnk_15f7 = 0;
+        if (gConnectionWork->mUnk_0004 == 8) {
+            gConnectionWork->mUnk_15f7 = 0;
         }
     }
-    data_0217aa00->mUnk_15f0 = result;
+    gConnectionWork->mUnk_15f0 = result;
 }
 
 BOOL UpdateDataSharing(void) {
@@ -147,26 +148,27 @@ BOOL UpdateDataSharing(void) {
     u32 bit;
     u16 entryIndex;
 
-    dataSharing = &data_0217aa00->mUnk_15bc_view;
-    data_0217aa00->mUnk_1606 = data_0217aa00->mUnk_15bc->mDs[data_0217aa00->mUnk_15bc->mWriteIndex].mArrivedMembers;
-    data_0217aa00->mUnk_0454 &= ~0x10;
-    switch (data_0217aa00 == NULL ? 0 : data_0217aa00->mUnk_0000) {
+    dataSharing = &gConnectionWork->mUnk_15bc_view;
+    gConnectionWork->mUnk_1606 =
+        gConnectionWork->mUnk_15bc->mDs[gConnectionWork->mUnk_15bc->mWriteIndex].mArrivedMembers;
+    gConnectionWork->mUnk_0454 &= ~0x10;
+    switch (gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000) {
         case 1:
-            if (data_0217aa00->mUnk_0044.mChildCount != 0) {
+            if (gConnectionWork->mUnk_0044.mChildCount != 0) {
                 StepDataSharing();
             } else {
                 return FALSE;
             }
             break;
         case 2:
-            if (data_0217aa00->mOwnIndex != 0xffff) {
+            if (gConnectionWork->mOwnIndex != 0xffff) {
                 StepDataSharing();
             } else {
                 return FALSE;
             }
             break;
     }
-    switch (data_0217aa00->mUnk_0004) {
+    switch (gConnectionWork->mUnk_0004) {
         case 8:
             if (dataSharing->mUnk_34 != 0 && dataSharing->mUnk_34 == 5) {
                 return FALSE;
@@ -178,10 +180,10 @@ BOOL UpdateDataSharing(void) {
                     return FALSE;
                 }
             } else {
-                if ((data_0217aa00 == NULL ? 0 : data_0217aa00->mUnk_0000) == 1) {
+                if ((gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000) == 1) {
                     for (j = 1; j < 8; j++) {
-                        if ((data_0217aa00->mParticipantMask & (1 << j)) != 0) {
-                            data_0217aa00->mUnk_15f8[j - 1] = 0;
+                        if ((gConnectionWork->mParticipantMask & (1 << j)) != 0) {
+                            gConnectionWork->mUnk_15f8[j - 1] = 0;
                         }
                     }
                 }
@@ -189,21 +191,21 @@ BOOL UpdateDataSharing(void) {
             break;
     }
     allRead = TRUE;
-    sharedData = WM_GetSharedDataAddress(data_0217aa00->mUnk_15bc, data_0217aa00->mUnk_15c0, 0);
+    sharedData = WM_GetSharedDataAddress(gConnectionWork->mUnk_15bc, gConnectionWork->mUnk_15c0, 0);
     if (sharedData != NULL) {
         m = sharedData[4];
         if (m != 0) {
             for (i = 0; i < 8; i++) {
                 bit = 1 << i;
-                participantMask = data_0217aa00->mParticipantMask;
-                entryIndex = data_0217aa00->mUnk_1e52[i].mEntryIndex;
+                participantMask = gConnectionWork->mParticipantMask;
+                entryIndex = gConnectionWork->mUnk_1e52[i].mEntryIndex;
                 if ((participantMask & bit) != 0 && (m & bit) != 0) {
-                    data_0217aa00->mParticipantMask = participantMask & ~bit;
-                    if (data_0217aa00->mUnk_0004 == 9) {
+                    gConnectionWork->mParticipantMask = participantMask & ~bit;
+                    if (gConnectionWork->mUnk_0004 == 9) {
                         RemoveRaceProgressKart(entryIndex);
                     }
-                    if ((data_0217aa00 == NULL ? 0 : data_0217aa00->mUnk_0000) == 1) {
-                        data_0217aa00->mUnk_1eac[0] &= ~bit;
+                    if ((gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000) == 1) {
+                        gConnectionWork->mUnk_1eac[0] &= ~bit;
                     }
                 }
             }
@@ -214,8 +216,8 @@ BOOL UpdateDataSharing(void) {
     }
     if (allRead != FALSE) {
         for (i = 1; i < 8; i++) {
-            if ((data_0217aa00->mParticipantMask & (1 << i)) != 0) {
-                sharedData = WM_GetSharedDataAddress(data_0217aa00->mUnk_15bc, data_0217aa00->mUnk_15c0, i);
+            if ((gConnectionWork->mParticipantMask & (1 << i)) != 0) {
+                sharedData = WM_GetSharedDataAddress(gConnectionWork->mUnk_15bc, gConnectionWork->mUnk_15c0, i);
                 if (sharedData != NULL) {
                     MI_CpuCopy8(sharedData, &buf[i], 8);
                 } else {
@@ -226,7 +228,7 @@ BOOL UpdateDataSharing(void) {
         }
     }
     for (i = 0; i < 8; i++) {
-        if (allRead != FALSE && (data_0217aa00->mParticipantMask & (1 << i)) != 0) {
+        if (allRead != FALSE && (gConnectionWork->mParticipantMask & (1 << i)) != 0) {
             MI_CpuCopy8(&buf[i], &dataSharing->mUnk_0c[i], 8);
             dataSharing->mSharedDataCopied[i] = 1;
         } else {
@@ -237,10 +239,10 @@ BOOL UpdateDataSharing(void) {
 }
 
 void Initialize(void) {
-    data_0217aa00->mUnk_000c = 1;
-    data_0217aa00->mRequestPending = 1;
-    if (WM_Initialize(data_0217aa00->mUnk_0014, InitializeCallback, 2) != 2) {
-        data_0217aa00->mRequestPending = 0;
+    gConnectionWork->mUnk_000c = 1;
+    gConnectionWork->mRequestPending = 1;
+    if (WM_Initialize(gConnectionWork->mUnk_0014, InitializeCallback, 2) != 2) {
+        gConnectionWork->mRequestPending = 0;
     }
 }
 
@@ -248,14 +250,14 @@ void InitializeCallback(Unk021425e8 *event) {
     s32 result;
 
     result = WM_SetPortCallback(0xf, MPDataPortCallback, NULL);
-    data_0217aa00->mRequestPending = 0;
+    gConnectionWork->mRequestPending = 0;
     if (result != 0) {
         return;
     }
     if (event->mResultCode != 0) {
         return;
     }
-    if (data_0217aa00->mUnk_1d00 != 0) {
+    if (gConnectionWork->mUnk_1d00 != 0) {
         WM_SetPortCallback(1, PacketPortCallback, NULL);
     }
     ResetConnectionData();
@@ -266,13 +268,13 @@ void func_020533a0(void) {
     BOOL shouldStop;
     BOOL c;
 
-    if ((data_0217aa00->mUnk_0454 & 0x100) != 0) {
-        data_0217aa00->mUnk_000c = 0x26;
-        data_0217aa00->mRequestPending = 1;
+    if ((gConnectionWork->mUnk_0454 & 0x100) != 0) {
+        gConnectionWork->mUnk_000c = 0x26;
+        gConnectionWork->mRequestPending = 1;
         shouldStop = FALSE;
-        if ((data_0217aa00->mUnk_0454 & 0x40) != 0) {
+        if ((gConnectionWork->mUnk_0454 & 0x40) != 0) {
             c = TRUE;
-            role = data_0217aa00 == NULL ? 0 : data_0217aa00->mUnk_0000;
+            role = gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000;
             if (role != 1 && gBootInfo->mUnk_00 != 2) {
                 c = FALSE;
             }
@@ -282,28 +284,28 @@ void func_020533a0(void) {
         }
         if (shouldStop != FALSE) {
             StopRomArchive();
-            data_0217aa00->mUnk_0454 &= ~0x100;
+            gConnectionWork->mUnk_0454 &= ~0x100;
         }
-        data_0217aa00->mRequestPending = 0;
+        gConnectionWork->mRequestPending = 0;
         return;
     }
-    if ((data_0217aa00->mUnk_0454 & 0x200) != 0) {
+    if ((gConnectionWork->mUnk_0454 & 0x200) != 0) {
         func_0204eca0();
         return;
     }
-    data_0217aa00->mUnk_000c = 2;
-    data_0217aa00->mRequestPending = 1;
+    gConnectionWork->mUnk_000c = 2;
+    gConnectionWork->mRequestPending = 1;
     if (WM_Reset(ResetCallback) == 2) {
         return;
     }
-    data_0217aa00->mUnk_000c = 0x15;
-    data_0217aa00->mRequestPending = 1;
+    gConnectionWork->mUnk_000c = 0x15;
+    gConnectionWork->mRequestPending = 1;
     if (WM_End(EndCallback) == 2) {
         return;
     }
-    if ((data_0217aa00->mUnk_0454 & 0x100) != 0) {
-        data_0217aa00->mUnk_000c = 0x26;
-        data_0217aa00->mRequestPending = 1;
+    if ((gConnectionWork->mUnk_0454 & 0x100) != 0) {
+        gConnectionWork->mUnk_000c = 0x26;
+        gConnectionWork->mRequestPending = 1;
         if (func_020510e4() != FALSE && (func_020510c8() == 1 || func_020510ac() != FALSE)) {
             c = TRUE;
         } else {
@@ -311,30 +313,30 @@ void func_020533a0(void) {
         }
         if (c != FALSE) {
             StopRomArchive();
-            data_0217aa00->mUnk_0454 &= ~0x100;
+            gConnectionWork->mUnk_0454 &= ~0x100;
         }
-        data_0217aa00->mRequestPending = 0;
+        gConnectionWork->mRequestPending = 0;
         return;
     }
-    if ((data_0217aa00->mUnk_0454 & 0x200) != 0) {
+    if ((gConnectionWork->mUnk_0454 & 0x200) != 0) {
         func_0204eca0();
         return;
     }
-    data_0217aa00->mUnk_000c = 2;
-    data_0217aa00->mRequestPending = 1;
+    gConnectionWork->mUnk_000c = 2;
+    gConnectionWork->mRequestPending = 1;
     if (WM_Reset(ResetCallback) == 2) {
         return;
     }
-    data_0217aa00->mUnk_000c = 0x15;
-    data_0217aa00->mRequestPending = 1;
+    gConnectionWork->mUnk_000c = 0x15;
+    gConnectionWork->mRequestPending = 1;
     if (WM_End(EndCallback) == 2) {
         return;
     }
-    if ((data_0217aa00->mUnk_0454 & 0x100) != 0) {
+    if ((gConnectionWork->mUnk_0454 & 0x100) != 0) {
         StopRomArchiveTransfer();
         return;
     }
-    if ((data_0217aa00->mUnk_0454 & 0x200) != 0) {
+    if ((gConnectionWork->mUnk_0454 & 0x200) != 0) {
         func_0204eca0();
         return;
     }
@@ -346,25 +348,25 @@ void func_020533a0(void) {
 }
 
 void ResetCallback(Unk021425e8 *event) {
-    data_0217aa00->mRequestPending = 0;
+    gConnectionWork->mRequestPending = 0;
     if (event->mResultCode != 0) {
-        data_0217aa00->mUnk_0008 = 1;
-        data_0217aa00->mRequestPending = 0;
+        gConnectionWork->mUnk_0008 = 1;
+        gConnectionWork->mRequestPending = 0;
     } else {
         ResetConnectionData();
     }
 }
 
 void SetLifeTime(s32 camLifeTime) {
-    data_0217aa00->mUnk_000c = 3;
-    data_0217aa00->mRequestPending = 1;
+    gConnectionWork->mUnk_000c = 3;
+    gConnectionWork->mRequestPending = 1;
     if (WM_SetLifeTime(func_0205329c, 0xffff, camLifeTime, 0xffff, 0xf) != 2) {
         func_020533a0();
     }
 }
 
 void func_0205329c(Unk021425e8 *event) {
-    data_0217aa00->mRequestPending = 0;
+    gConnectionWork->mRequestPending = 0;
     if (event->mResultCode != 0) {
         func_020533a0();
     }
@@ -376,45 +378,45 @@ void MeasureChannel(u16 measuredChannel) {
     u16 channel;
     s32 i;
 
-    data_0217aa00->mUnk_000c = 4;
-    data_0217aa00->mRequestPending = 1;
+    gConnectionWork->mUnk_000c = 4;
+    gConnectionWork->mRequestPending = 1;
     channel = measuredChannel;
     allowedChannels = WM_GetAllowedChannel();
     if (allowedChannels == 0) {
-        data_0217aa00->mRequestPending = 0;
-        data_0217aa00->mUnk_0008 = 3;
-        data_0217aa00->mRequestPending = 0;
+        gConnectionWork->mRequestPending = 0;
+        gConnectionWork->mUnk_0008 = 3;
+        gConnectionWork->mRequestPending = 0;
     } else if (allowedChannels == 0x8000) {
-        data_0217aa00->mRequestPending = 0;
-        data_0217aa00->mUnk_0008 = 8;
-        data_0217aa00->mRequestPending = 0;
+        gConnectionWork->mRequestPending = 0;
+        gConnectionWork->mUnk_0008 = 8;
+        gConnectionWork->mRequestPending = 0;
     }
     if (channel == 0) {
-        data_0217aa00->mUnk_0089_0 = 1;
-        data_0217aa00->mUnk_0089_4 = 1;
+        gConnectionWork->mUnk_0089_0 = 1;
+        gConnectionWork->mUnk_0089_4 = 1;
         for (i = 1; i < 0xe; i++) {
-            data_0217aa00->mUnk_008c[i] = -1;
+            gConnectionWork->mUnk_008c[i] = -1;
         }
         channel = 1;
-    } else if (data_0217aa00->mUnk_0089_0 >= 7) {
+    } else if (gConnectionWork->mUnk_0089_0 >= 7) {
         channel = channel + 1;
-        data_0217aa00->mUnk_0089_0 = 1;
+        gConnectionWork->mUnk_0089_0 = 1;
         if (((1 << (channel - 1)) & allowedChannels) == 0) {
             do {
                 channel = channel + 1;
                 if (channel > 0xe) {
-                    if (data_0217aa00->mUnk_0089_4 >= 2) {
-                        data_0217aa00->mRequestPending = 0;
+                    if (gConnectionWork->mUnk_0089_4 >= 2) {
+                        gConnectionWork->mRequestPending = 0;
                         return;
                     }
-                    data_0217aa00->mUnk_0089_4 += 1;
+                    gConnectionWork->mUnk_0089_4 += 1;
                     channel = 1;
-                    data_0217aa00->mUnk_0089_0 = 1;
+                    gConnectionWork->mUnk_0089_0 = 1;
                 }
             } while (((1 << (channel - 1)) & allowedChannels) == 0);
         }
     } else {
-        data_0217aa00->mUnk_0089_0 += 1;
+        gConnectionWork->mUnk_0089_0 += 1;
     }
     if (WM_MeasureChannel(MeasureChannelCallback, 3, 0x11, channel, 0x14) != 2) {
         func_020533a0();
@@ -428,7 +430,7 @@ void MeasureChannelCallback(Unk021425e8 *event) {
         func_020533a0();
         return;
     }
-    channelSum = &data_0217aa00->mUnk_008c[event->mUnk_08_0];
+    channelSum = &gConnectionWork->mUnk_008c[event->mUnk_08_0];
     if (*channelSum < 0) {
         *channelSum = 0;
     }
@@ -443,9 +445,9 @@ void *RomArchiveAllocFunc(s32 a, u32 size, void *block) {
     allocated = NULL;
     savedInterrupts = OS_DisableInterrupts();
     if (block != NULL) {
-        HeapFree(data_0217aa00->mHeap, block);
+        HeapFree(gConnectionWork->mHeap, block);
     } else {
-        allocated = HeapAllocAligned(data_0217aa00->mHeap, size, -0x20);
+        allocated = HeapAllocAligned(gConnectionWork->mHeap, size, -0x20);
     }
     OS_RestoreInterrupts(savedInterrupts);
     return allocated;
@@ -456,12 +458,12 @@ void StartRomArchiveTransfer(void) {
     BOOL c;
     BOOL shouldStart;
 
-    data_0217aa00->mUnk_000c = 0x24;
-    data_0217aa00->mRequestPending = 1;
+    gConnectionWork->mUnk_000c = 0x24;
+    gConnectionWork->mRequestPending = 1;
     shouldStart = FALSE;
-    if ((data_0217aa00->mUnk_0454 & 0x40) != 0) {
+    if ((gConnectionWork->mUnk_0454 & 0x40) != 0) {
         c = TRUE;
-        role = data_0217aa00 == NULL ? 0 : data_0217aa00->mUnk_0000;
+        role = gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000;
         if (role != 1 && gBootInfo->mUnk_00 != 2) {
             c = FALSE;
         }
@@ -470,21 +472,21 @@ void StartRomArchiveTransfer(void) {
         }
     }
     if (shouldStart != FALSE) {
-        role = data_0217aa00 == NULL ? 0 : data_0217aa00->mUnk_0000;
+        role = gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000;
         StartRomArchive(role == 1 ? 1 : 0, 4, 0x154, RomArchiveStateCallback, RomArchiveAllocFunc, 0);
     }
-    data_0217aa00->mRequestPending = 0;
+    gConnectionWork->mRequestPending = 0;
     ResetPendingFiles();
 }
 
 void RomArchiveStateCallback(s32 a) {
-    if (data_0217aa00->mUnk_000c == 0x24) {
+    if (gConnectionWork->mUnk_000c == 0x24) {
         if (GetRomArchiveState() == 2) {
-            data_0217aa00->mRequestPending = 0;
+            gConnectionWork->mRequestPending = 0;
             ResetPendingFiles();
         }
     } else {
-        data_0217aa00->mRequestPending = 0;
+        gConnectionWork->mRequestPending = 0;
     }
 }
 
@@ -493,12 +495,12 @@ void func_02052da4(void) {
     BOOL c;
     BOOL shouldStart;
 
-    data_0217aa00->mUnk_000c = 0x25;
-    data_0217aa00->mRequestPending = 1;
+    gConnectionWork->mUnk_000c = 0x25;
+    gConnectionWork->mRequestPending = 1;
     shouldStart = FALSE;
-    if ((data_0217aa00->mUnk_0454 & 0x40) != 0) {
+    if ((gConnectionWork->mUnk_0454 & 0x40) != 0) {
         c = TRUE;
-        role = data_0217aa00 == NULL ? 0 : data_0217aa00->mUnk_0000;
+        role = gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000;
         if (role != 1 && gBootInfo->mUnk_00 != 2) {
             c = FALSE;
         }
@@ -508,10 +510,10 @@ void func_02052da4(void) {
     }
     if (shouldStart != FALSE) {
         func_0204be0c();
-        data_0217aa00->mUnk_1e34 = 0;
-        data_0217aa00->mUnk_0454 |= 0x100;
+        gConnectionWork->mUnk_1e34 = 0;
+        gConnectionWork->mUnk_0454 |= 0x100;
     }
-    data_0217aa00->mRequestPending = 0;
+    gConnectionWork->mRequestPending = 0;
 }
 
 void StopRomArchiveTransfer(void) {
@@ -519,12 +521,12 @@ void StopRomArchiveTransfer(void) {
     BOOL c;
     BOOL shouldStop;
 
-    data_0217aa00->mUnk_000c = 0x26;
-    data_0217aa00->mRequestPending = 1;
+    gConnectionWork->mUnk_000c = 0x26;
+    gConnectionWork->mRequestPending = 1;
     shouldStop = FALSE;
-    if ((data_0217aa00->mUnk_0454 & 0x40) != 0) {
+    if ((gConnectionWork->mUnk_0454 & 0x40) != 0) {
         c = TRUE;
-        role = data_0217aa00 == NULL ? 0 : data_0217aa00->mUnk_0000;
+        role = gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000;
         if (role != 1 && gBootInfo->mUnk_00 != 2) {
             c = FALSE;
         }
@@ -534,9 +536,9 @@ void StopRomArchiveTransfer(void) {
     }
     if (shouldStop != FALSE) {
         StopRomArchive();
-        data_0217aa00->mUnk_0454 &= ~0x100;
+        gConnectionWork->mUnk_0454 &= ~0x100;
     }
-    data_0217aa00->mRequestPending = 0;
+    gConnectionWork->mRequestPending = 0;
 }
 
 u16 func_02052c5c(u32 a) {
@@ -560,16 +562,16 @@ u16 func_02052c5c(u32 a) {
 
 // Calls WM_SetParentParameter; also stores 1 in the first session word.
 void SetParentParameter(void) {
-    data_0217aa00->mUnk_0000 = 1;
-    data_0217aa00->mUnk_000c = 5;
-    data_0217aa00->mRequestPending = 1;
-    if (WM_SetParentParameter(func_02052bb8, data_0217aa00->mParentParameter) != 2) {
+    gConnectionWork->mUnk_0000 = 1;
+    gConnectionWork->mUnk_000c = 5;
+    gConnectionWork->mRequestPending = 1;
+    if (WM_SetParentParameter(func_02052bb8, gConnectionWork->mParentParameter) != 2) {
         func_020533a0();
     }
 }
 
 void func_02052bb8(Unk021425e8 *event) {
-    data_0217aa00->mRequestPending = 0;
+    gConnectionWork->mRequestPending = 0;
     if (event->mResultCode != 0) {
         func_020533a0();
     }
@@ -579,8 +581,8 @@ void StartParent(Unk021425e8Func callback) {
     if (callback == NULL) {
         callback = StartParentCallback;
     }
-    data_0217aa00->mUnk_000c = 6;
-    data_0217aa00->mRequestPending = 1;
+    gConnectionWork->mUnk_000c = 6;
+    gConnectionWork->mRequestPending = 1;
     if (WM_StartParent(callback) != 2) {
         func_020533a0();
     }
@@ -599,30 +601,30 @@ void StartParentCallback(Unk021425e8 *event) {
                 AddChild(event->mUnk_10, &event->mUnk_0a[0], (Unk0217aa00_45c *) event->mUnk_14);
                 break;
             case 0:
-                MI_CpuCopy8(&data_0217aa08->mFirstBlock->mPlayerName, &data_0217aa00->mUnk_045c[0], 0x14);
-                MI_CpuCopy8(&data_0217aa08->mFirstBlock->mFlags, &data_0217aa00->mUnk_045c[0].mBits, 4);
+                MI_CpuCopy8(&data_0217aa08->mFirstBlock->mPlayerName, &gConnectionWork->mUnk_045c[0], 0x14);
+                MI_CpuCopy8(&data_0217aa08->mFirstBlock->mFlags, &gConnectionWork->mUnk_045c[0].mBits, 4);
                 v = 0;
-                role = data_0217aa00 == NULL ? 0 : data_0217aa00->mUnk_0000;
+                role = gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000;
                 switch (role) {
                     case 1:
-                        v = data_0217aa00->mParentParameter->mUnk_0c;
+                        v = gConnectionWork->mParentParameter->mUnk_0c;
                         break;
                     case 2:
-                        v = data_0217aa00->mUnk_0024->mUnk_48;
+                        v = gConnectionWork->mUnk_0024->mUnk_48;
                         break;
                 }
-                randomState = &data_0217aa00->mUnk_1ee8;
+                randomState = &gConnectionWork->mRandomState;
                 randomState->mValue = (u32) (v * 3 | v << 16);
                 randomState->mMultiplier = 0x5d588b656c078965ull;
                 randomState->mIncrement = 0x269ec3;
-                data_0217aa00->mRequestPending = 0;
+                gConnectionWork->mRequestPending = 0;
                 break;
             case 9:
                 RemoveChild(event->mUnk_10);
                 aid = event->mUnk_10;
-                role = data_0217aa00 == NULL ? 0 : data_0217aa00->mUnk_0000;
-                if (role == 1 && data_0217aa00->mUnk_0004 == 9) {
-                    data_0217aa00->mUnk_1eac[0] |= 1 << aid;
+                role = gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000;
+                if (role == 1 && gConnectionWork->mUnk_0004 == 9) {
+                    gConnectionWork->mUnk_1eac[0] |= 1 << aid;
                 }
                 break;
         }

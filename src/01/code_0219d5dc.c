@@ -140,32 +140,32 @@ void AdvanceOptionEmbremSelectState3(void) {
     u16 value;
     u16 flags;
 
-    value = data_02175628[index].mUnk_48.mHasPair;
-    if (value == 0 && data_02175628[index].mUnk_48.mNoPairCount < 5) {
+    value = gInputSlots[index].mPair.mHasPair;
+    if (value == 0 && gInputSlots[index].mPair.mNoPairCount < 5) {
         cond1 = TRUE;
     }
-    if (cond1 == FALSE && data_02175628[index].mUnk_48.mPrevHasPair == 0 && value != 0) {
+    if (cond1 == FALSE && gInputSlots[index].mPair.mPrevHasPair == 0 && value != 0) {
         cond2 = TRUE;
     }
     if (cond2 != FALSE) {
-        result = RectTableFindContaining(gOptionEmbremSelect->mOptionEmbremSelectSBnbl,
-                                         data_02175628[index].mUnk_48.mPairX, data_02175628[index].mUnk_48.mPairY);
+        result = RectTableFindContaining(gOptionEmbremSelect->mOptionEmbremSelectSBnbl, gInputSlots[index].mPair.mPairX,
+                                         gInputSlots[index].mPair.mPairY);
     }
-    flags = data_02175628[index].mPressedBits & PAD_KEY_B;
+    flags = gInputSlots[index].mPressedBits & PAD_KEY_B;
     if (flags != 0) {
         goto next;
     }
     cond2 = FALSE;
     cond1 = FALSE;
-    value = data_02175628[index].mUnk_48.mHasPair;
-    if (value == 0 && data_02175628[index].mUnk_48.mNoPairCount < 5) {
+    value = gInputSlots[index].mPair.mHasPair;
+    if (value == 0 && gInputSlots[index].mPair.mNoPairCount < 5) {
         cond1 = TRUE;
     }
-    if (cond1 == FALSE && data_02175628[index].mUnk_48.mPrevHasPair == 0 && value != 0) {
+    if (cond1 == FALSE && gInputSlots[index].mPair.mPrevHasPair == 0 && value != 0) {
         cond2 = TRUE;
     }
-    if (cond2 != FALSE && IsSelectReturnState2NoState3Or4RequestAndInRect(
-                              data_02175628[index].mUnk_48.mPairX, data_02175628[index].mUnk_48.mPairY) != FALSE) {
+    if (cond2 != FALSE && IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[index].mPair.mPairX,
+                                                                          gInputSlots[index].mPair.mPairY) != FALSE) {
     next:
         gOptionEmbremSelect->mNextState = 5;
         gOptionEmbremSelect->mNextOptionState = 2;
@@ -181,7 +181,7 @@ void AdvanceOptionEmbremSelectState3(void) {
         }
         WriteBackupFirstBlockWrapper();
     } else {
-        flags = data_02175628[index].mPressedBits & PAD_KEY_A;
+        flags = gInputSlots[index].mPressedBits & PAD_KEY_A;
         if ((flags != 0 && gOptionEmbremSelect->mUnk_08 == 0) || result == 0) {
             if (gOptionEmbremSelect->mUnk_08 == 0) {
                 gOptionEmbremSelect->mUnk_24 = FALSE;
@@ -334,9 +334,9 @@ void func_ov001_0219d858(void) {
     gOptionEmbremSelect->mOptionEmbremSelectSTable[index].mOffsetY = gOptionEmbremSelect->mUnk_18[1].mUnk_02;
     for (k = 0; k < 3; k++) {
         gOptionEmbremSelect->mOptionEmbremSelectSTable[data_ov001_021a6c20[k][0]].mOffsetX -=
-            func_020adc64(6 - gOptionEmbremSelect->mOffsetTimers[0]);
+            LookupFrameOffset(6 - gOptionEmbremSelect->mOffsetTimers[0]);
         gOptionEmbremSelect->mOptionEmbremSelectSTable[data_ov001_021a6c20[k][1]].mOffsetX +=
-            func_020adc64(6 - gOptionEmbremSelect->mOffsetTimers[1]);
+            LookupFrameOffset(6 - gOptionEmbremSelect->mOffsetTimers[1]);
     }
 }
 

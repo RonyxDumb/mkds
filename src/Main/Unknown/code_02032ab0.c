@@ -105,7 +105,7 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
     MemFillWordsByBlock_inline(gResultsBattle, 0x154);
     gResultsBattle->mUnk_0b8[0] = b;
     gResultsBattle->mUnk_0b8[1] = c;
-    gResultsBattle->mMode = data_021759d0->mUnk_20;
+    gResultsBattle->mMode = data_021759d0->mConnectionKind;
     if (gResultsBattle->mMode == 3) {
         SetupWiFiSession(3);
     }
@@ -141,7 +141,7 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
         case 2:
             SetSelectChoisesSoundId(1, 0xf);
             gResultsBattle->mOwnEntryIndex =
-                data_0217aa00->mUnk_1e52[(u16) (data_0217aa00->mUnk_0000 == 2 ? data_0217aa00->mOwnIndex : 0)]
+                gConnectionWork->mUnk_1e52[(u16) (gConnectionWork->mUnk_0000 == 2 ? gConnectionWork->mOwnIndex : 0)]
                     .mEntryIndex;
             gResultsBattle->mKartCount = gRaceSetup->mKartCount;
             gResultsBattle->mState = 0;
@@ -369,7 +369,7 @@ void AdvanceResultsBattle(Unk0203a0dc *sceneNumbers) {
         case 3:
             switch (gResultsBattle->mMode) {
                 case 0:
-                    if ((u16) (data_02175628[func_020435bc()].mPressedBits & PAD_KEY_A) != 0) {
+                    if ((u16) (gInputSlots[func_020435bc()].mPressedBits & PAD_KEY_A) != 0) {
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
                         if (sceneNumbers != NULL) {
                             sceneNumbers->mNextScene = 1;
@@ -380,7 +380,7 @@ void AdvanceResultsBattle(Unk0203a0dc *sceneNumbers) {
                 case 1:
                 case 2:
                     inputSlotIndex = UNK_02175628_INDEX_8;
-                    if ((u16) (data_02175628[inputSlotIndex].mPressedBits & PAD_KEY_A) != 0) {
+                    if ((u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_A) != 0) {
                         StartResultsBattleChoices();
                         gResultsBattle->mState = 4;
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
@@ -390,7 +390,7 @@ void AdvanceResultsBattle(Unk0203a0dc *sceneNumbers) {
                     if (IsResultsBattleTimerRunOut() != 0) {
                         func_02121dec(1);
                         gResultsBattle->mState = 5;
-                    } else if ((u16) (data_02175628[func_020435bc()].mPressedBits & PAD_KEY_A) != 0 ||
+                    } else if ((u16) (gInputSlots[func_020435bc()].mPressedBits & PAD_KEY_A) != 0 ||
                                func_02033dd0() != 0) {
                         StartResultsBattleChoices();
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
@@ -421,7 +421,7 @@ void AdvanceResultsBattle(Unk0203a0dc *sceneNumbers) {
                                 gResultsBattle->mState = 7;
                                 break;
                             case 1:
-                                data_0217aa00->mUnk_0454 = data_0217aa00->mUnk_0454 | 0x80;
+                                gConnectionWork->mUnk_0454 = gConnectionWork->mUnk_0454 | 0x80;
                                 gResultsBattle->mState = 6;
                                 break;
                             case -1:

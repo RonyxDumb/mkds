@@ -17,10 +17,10 @@
 #include "Main/Unknown/code_0211d4a8.h"
 
 static inline u32 func_02051658_inline(void) {
-    if (data_0217aa00 == NULL) {
+    if (gConnectionWork == NULL) {
         return 0;
     }
-    return data_0217aa00->mUnk_0000;
+    return gConnectionWork->mUnk_0000;
 }
 
 void StartScan(s32 a, s32 (*b)(), s32 (*c)()) {
@@ -31,24 +31,24 @@ void StartScan(s32 a, s32 (*b)(), s32 (*c)()) {
     s32 i;
     u16 allowedChannels;
 
-    connection = data_0217aa00;
+    connection = gConnectionWork;
     s = &connection->mUnk_00ac_view;
     channel = s->mUnk_38d;
     scanParams = connection->mUnk_001c;
     connection->mUnk_0000 = 2;
-    data_0217aa00->mUnk_000c = 7;
-    data_0217aa00->mRequestPending = 1;
+    gConnectionWork->mUnk_000c = 7;
+    gConnectionWork->mRequestPending = 1;
     allowedChannels = WM_GetAllowedChannel();
     if (allowedChannels == 0) {
-        data_0217aa00->mRequestPending = 0;
-        data_0217aa00->mUnk_0008 = 3;
-        data_0217aa00->mRequestPending = 0;
+        gConnectionWork->mRequestPending = 0;
+        gConnectionWork->mUnk_0008 = 3;
+        gConnectionWork->mRequestPending = 0;
         return;
     }
     if (allowedChannels == 0x8000) {
-        data_0217aa00->mRequestPending = 0;
-        data_0217aa00->mUnk_0008 = 8;
-        data_0217aa00->mRequestPending = 0;
+        gConnectionWork->mRequestPending = 0;
+        gConnectionWork->mUnk_0008 = 8;
+        gConnectionWork->mRequestPending = 0;
         return;
     }
     if (s->mUnk_38c == 0) {
@@ -76,13 +76,13 @@ void StartScan(s32 a, s32 (*b)(), s32 (*c)()) {
     }
     scanParams->mUnk_06 = WM_GetDispersionScanPeriod();
     if (WM_StartScan(StartScanCallback, scanParams) != 2) {
-        data_0217aa00->mUnk_0436 &= ~1;
+        gConnectionWork->mUnk_0436 &= ~1;
         func_020533a0();
         return;
     }
-    data_0217aa00->mUnk_0436 |= 1;
-    data_0217aa00->mUnk_0440 = b;
-    data_0217aa00->mUnk_0444 = c;
+    gConnectionWork->mUnk_0436 |= 1;
+    gConnectionWork->mUnk_0440 = b;
+    gConnectionWork->mUnk_0444 = c;
     if (a != 0) {
         s->mUnk_38f = 1;
     } else {
@@ -100,7 +100,7 @@ void func_020525a8(ScanSlot *slot, ScanBlock *scanBuffer, Unk0217aa00_42c *key, 
     }
     k = d->mUnk_0e.mUnk_07_0;
     if (k != 0) {
-        if (data_0217aa00->mUnk_1d00 != 2) {
+        if (gConnectionWork->mUnk_1d00 != 2) {
             return;
         }
         n1 = d->mUnk_0e.mUnk_06_4;
@@ -121,7 +121,7 @@ void func_020525a8(ScanSlot *slot, ScanBlock *scanBuffer, Unk0217aa00_42c *key, 
         s32 m0;
         u8 m1;
 
-        if (data_0217aa00->mUnk_1d00 == 2) {
+        if (gConnectionWork->mUnk_1d00 == 2) {
             return;
         }
         m1 = d->mUnk_0e.mUnk_06_4;
@@ -154,7 +154,7 @@ void FindOrAddScanSlot(ScanBlock *scanBuffer, Unk0217aa00_42c *key, Unk0217aa00_
     Unk0217aa00_24_50 *t;
     s8 v;
 
-    connection = data_0217aa00;
+    connection = gConnectionWork;
     chosenSlot = NULL;
     g = connection->mUnk_00ac;
     n = 0;
@@ -208,7 +208,7 @@ void FindOrAddScanSlot(ScanBlock *scanBuffer, Unk0217aa00_42c *key, Unk0217aa00_
                 chosenSlot->mUnk_dc_5 = 1;
                 chosenSlot->mUnk_dc_6 = 0;
                 MI_CpuCopy8(x->mUnk_02, chosenSlot->mUnk_c6, 0x14);
-                data_0217aa00->mUnk_0438 = 0;
+                gConnectionWork->mUnk_0438 = 0;
             } else if (t->mUnk_07 == 9) {
                 if (chosenSlot->mInUse != 0) {
                     chosenSlot->mUnk_da = t->mUnk_0a - 1;
@@ -216,7 +216,7 @@ void FindOrAddScanSlot(ScanBlock *scanBuffer, Unk0217aa00_42c *key, Unk0217aa00_
             } else if (chosenSlot->mInUse != 0) {
                 chosenSlot->mAge = 0;
             } else {
-                connection = data_0217aa00;
+                connection = gConnectionWork;
                 connection->mUnk_042c = *key;
                 connection->mUnk_0438 = 0xf;
             }
@@ -224,7 +224,7 @@ void FindOrAddScanSlot(ScanBlock *scanBuffer, Unk0217aa00_42c *key, Unk0217aa00_
     } else if (scanBuffer->mUnk_4a == 0x1c) {
         func_020525a8(chosenSlot, scanBuffer, key, c, i);
     }
-    s = &data_0217aa00->mUnk_00ac_view;
+    s = &gConnectionWork->mUnk_00ac_view;
     s->mUnk_388 = 0;
     for (i = 0, slot = s->mUnk_000; i < 4; i++, slot++) {
         if (slot->mInUse != 0) {
@@ -245,43 +245,43 @@ void StartScanCallback(Unk021425e8 *event) {
     BOOL accepted;
     ScanSlot *e;
 
-    if (data_0217aa00->mUnk_000c != 7) {
+    if (gConnectionWork->mUnk_000c != 7) {
         return;
     }
     if (event->mResultCode == 0) {
         switch (event->mUnk_08_0) {
             case 5:
-                DC_InvalidateRange(data_0217aa00->mUnk_0028, 0xc0);
-                MI_CpuCopy8(data_0217aa00->mUnk_0028, &scanBuffer, 0xc0);
+                DC_InvalidateRange(gConnectionWork->mUnk_0028, 0xc0);
+                MI_CpuCopy8(gConnectionWork->mUnk_0028, &scanBuffer, 0xc0);
                 DC_StoreRange(&scanBuffer, 0xc0);
-                if (data_0217aa00->mUnk_0004 == 0xd) {
+                if (gConnectionWork->mUnk_0004 == 0xd) {
                     v = event->mUnk_12;
                     if (func_020204c0(&scanBuffer) != 0) {
-                        data_0217aa00->mUnk_1ed0 = 1;
-                        data_0217aa00->mUnk_1ed4 = v;
-                        data_0217aa00->mUnk_1ed6 = 0;
+                        gConnectionWork->mUnk_1ed0 = 1;
+                        gConnectionWork->mUnk_1ed4 = v;
+                        gConnectionWork->mUnk_1ed6 = 0;
                     } else if (scanBuffer.mUnk_3c >= 8 && scanBuffer.mUnk_44 == 0x25 && (scanBuffer.mFlags & 1) != 0) {
                         if ((scanBuffer.mFlags & 2) != 0) {
-                            data_0217aa00->mUnk_1ed8 = 2;
+                            gConnectionWork->mUnk_1ed8 = 2;
                         } else {
-                            data_0217aa00->mUnk_1ed8 = 3;
+                            gConnectionWork->mUnk_1ed8 = 3;
                         }
-                        data_0217aa00->mUnk_1edc = v;
-                        data_0217aa00->mUnk_1ede = 0;
+                        gConnectionWork->mUnk_1edc = v;
+                        gConnectionWork->mUnk_1ede = 0;
                     }
                 } else {
                     accepted = TRUE;
                     if (scanBuffer.mUnk_3c < 8 || scanBuffer.mUnk_44 != 0x25 || (scanBuffer.mFlags & 1) == 0) {
                         accepted = FALSE;
-                    } else if (data_0217aa00->mUnk_0444 != 0) {
-                        if (data_0217aa00->mUnk_0444(&scanBuffer) == 0) {
+                    } else if (gConnectionWork->mUnk_0444 != 0) {
+                        if (gConnectionWork->mUnk_0444(&scanBuffer) == 0) {
                             accepted = FALSE;
                         }
                     }
                     if (accepted != FALSE) {
-                        if (data_0217aa00->mUnk_0440 != 0) {
-                            data_0217aa00->mUnk_0440(event, &scanBuffer);
-                        } else if ((data_0217aa00->mUnk_0436 & 1) != 0) {
+                        if (gConnectionWork->mUnk_0440 != 0) {
+                            gConnectionWork->mUnk_0440(event, &scanBuffer);
+                        } else if ((gConnectionWork->mUnk_0436 & 1) != 0) {
                             if ((scanBuffer.mUnk_48 & 0x8000) != 0) {
                                 key.mUnk_00[0] = event->mUnk_0a[0];
                                 key.mUnk_00[1] = event->mUnk_0a[1];
@@ -290,28 +290,28 @@ void StartScanCallback(Unk021425e8 *event) {
                                 key.mUnk_00[4] = event->mUnk_0a[4];
                                 key.mUnk_00[5] = event->mUnk_0a[5];
                                 FindOrAddScanSlot(&scanBuffer, &key, &scanBuffer.mUnk_50);
-                                *data_0217aa00->mUnk_0024 = scanBuffer;
+                                *gConnectionWork->mUnk_0024 = scanBuffer;
                             }
                         }
-                    } else if (data_0217aa00->mUnk_0438 == 0) {
-                        data_0217aa00->mUnk_0439 += 1;
+                    } else if (gConnectionWork->mUnk_0438 == 0) {
+                        gConnectionWork->mUnk_0439 += 1;
                     }
                 }
                 break;
             case 4:
-                if (data_0217aa00->mUnk_0438 == 0) {
-                    data_0217aa00->mUnk_0439 += 1;
+                if (gConnectionWork->mUnk_0438 == 0) {
+                    gConnectionWork->mUnk_0439 += 1;
                 }
                 break;
         }
-        connection = data_0217aa00;
+        connection = gConnectionWork;
         if ((connection->mUnk_0436 & 1) != 0 && connection->mUnk_0004 != 0xd) {
             for (i = 0, e = connection->mUnk_00ac; i < 4; i++, e++) {
                 if (e->mInUse != 0) {
                     e->mAge += 1;
                     if (e->mAge > 0xc8) {
                         e->mInUse = 0;
-                        s = &data_0217aa00->mUnk_00ac_view;
+                        s = &gConnectionWork->mUnk_00ac_view;
                         s->mUnk_388 = 0;
                         for (j = 0, q = s->mUnk_000; j < 4; j++, q++) {
                             if (q->mInUse != 0) {
@@ -322,20 +322,20 @@ void StartScanCallback(Unk021425e8 *event) {
                 }
             }
         }
-        if (data_0217aa00->mUnk_043b == 0) {
-            data_0217aa00->mRequestPending = 0;
+        if (gConnectionWork->mUnk_043b == 0) {
+            gConnectionWork->mRequestPending = 0;
             return;
         }
-        StartScan(1, data_0217aa00->mUnk_0440, data_0217aa00->mUnk_0444);
+        StartScan(1, gConnectionWork->mUnk_0440, gConnectionWork->mUnk_0444);
     } else {
         func_020533a0();
     }
 }
 
 void EndScan(void) {
-    data_0217aa00->mUnk_0436 &= ~1;
-    data_0217aa00->mUnk_000c = 9;
-    data_0217aa00->mRequestPending = 1;
+    gConnectionWork->mUnk_0436 &= ~1;
+    gConnectionWork->mUnk_000c = 9;
+    gConnectionWork->mRequestPending = 1;
     if (WM_EndScan(EndScanCallback) == 2) {
         return;
     }
@@ -343,7 +343,7 @@ void EndScan(void) {
 }
 
 void EndScanCallback(Unk021425e8 *event) {
-    data_0217aa00->mRequestPending = 0;
+    gConnectionWork->mRequestPending = 0;
     if (event->mResultCode == 0) {
         return;
     }
@@ -356,7 +356,7 @@ void StartConnect(ScanBlock *a, void *b, void (*c)(), void (*d)(), void (*e)()) 
     MI_CpuFill8(v1, 0, 0x18);
     MI_CpuCopy8(&data_0217aa08->mFirstBlock->mPlayerName, v1, 0x14);
     if (a != NULL) {
-        *data_0217aa00->mUnk_0024 = *a;
+        *gConnectionWork->mUnk_0024 = *a;
     }
     if (b == NULL) {
         v1[0x14] = 0;
@@ -366,15 +366,15 @@ void StartConnect(ScanBlock *a, void *b, void (*c)(), void (*d)(), void (*e)()) 
     } else {
         MI_CpuCopy8(b, v1, 0x18);
     }
-    data_0217aa00->mUnk_000c = 10;
-    data_0217aa00->mRequestPending = 1;
-    if (WM_StartConnectEx(StartConnectCallback, (u16 *) data_0217aa00->mUnk_0024, v1, 1, 0) != 2) {
+    gConnectionWork->mUnk_000c = 10;
+    gConnectionWork->mRequestPending = 1;
+    if (WM_StartConnectEx(StartConnectCallback, (u16 *) gConnectionWork->mUnk_0024, v1, 1, 0) != 2) {
         func_020533a0();
         return;
     }
-    data_0217aa00->mUnk_0448 = c;
-    data_0217aa00->mUnk_044c = d;
-    data_0217aa00->mUnk_0450 = e;
+    gConnectionWork->mUnk_0448 = c;
+    gConnectionWork->mUnk_044c = d;
+    gConnectionWork->mUnk_0450 = e;
 }
 
 void StartConnectCallback(Unk021425e8 *event) {
@@ -387,33 +387,33 @@ void StartConnectCallback(Unk021425e8 *event) {
         case 0:
             switch (event->mUnk_08_0) {
                 case 7:
-                    data_0217aa00->mOwnIndex = event->mUnk_08_2;
-                    data_0217aa00->mUnk_043a = shouldReset;
+                    gConnectionWork->mOwnIndex = event->mUnk_08_2;
+                    gConnectionWork->mUnk_043a = shouldReset;
                     v = shouldReset;
                     switch (func_02051658_inline()) {
                         case 1:
-                            v = data_0217aa00->mParentParameter->mUnk_0c;
+                            v = gConnectionWork->mParentParameter->mUnk_0c;
                             break;
                         case 2:
-                            v = data_0217aa00->mUnk_0024->mUnk_48;
+                            v = gConnectionWork->mUnk_0024->mUnk_48;
                             break;
                     }
-                    randomState = &data_0217aa00->mUnk_1ee8;
+                    randomState = &gConnectionWork->mRandomState;
                     randomState->mValue = (u32) (v * 3 | v << 16);
                     randomState->mMultiplier = 0x5d588b656c078965;
                     randomState->mIncrement = 0x269ec3;
-                    if (data_0217aa00->mUnk_0448 != 0) {
-                        data_0217aa00->mUnk_0448();
+                    if (gConnectionWork->mUnk_0448 != 0) {
+                        gConnectionWork->mUnk_0448();
                     }
-                    data_0217aa00->mRequestPending = 0;
+                    gConnectionWork->mRequestPending = 0;
                     break;
                 case 9:
                     if (gBootInfo->mUnk_00 == 2) {
                         shouldReset = TRUE;
-                    } else if (data_0217aa00->mUnk_0450 != 0) {
-                        data_0217aa00->mUnk_0450();
+                    } else if (gConnectionWork->mUnk_0450 != 0) {
+                        gConnectionWork->mUnk_0450();
                     } else {
-                        switch (data_0217aa00->mUnk_0004) {
+                        switch (gConnectionWork->mUnk_0004) {
                             case 2:
                             case 3:
                             case 4:
@@ -444,11 +444,11 @@ void StartConnectCallback(Unk021425e8 *event) {
         case 1:
         case 0xb:
         case 0xc:
-            if (data_0217aa00->mUnk_044c == 0) {
+            if (gConnectionWork->mUnk_044c == 0) {
                 shouldReset = TRUE;
             } else {
-                data_0217aa00->mUnk_044c();
-                data_0217aa00->mRequestPending = 0;
+                gConnectionWork->mUnk_044c();
+                gConnectionWork->mRequestPending = 0;
             }
             break;
         default:
@@ -459,19 +459,19 @@ void StartConnectCallback(Unk021425e8 *event) {
         return;
     }
     ResetConnectionData();
-    data_0217aa00->mUnk_0008 = 0;
-    data_0217aa00->mRequestPending = 0;
+    gConnectionWork->mUnk_0008 = 0;
+    gConnectionWork->mRequestPending = 0;
 }
 
 void StartMP(void) {
-    data_0217aa00->mUnk_000c = 0xb;
-    data_0217aa00->mRequestPending = 1;
-    if (WM_StartMPEx(StartMPCallback, data_0217aa00->mUnk_003c, data_0217aa00->mUnk_0038, data_0217aa00->mUnk_0034,
-                     data_0217aa00->mUnk_0030, 1, 0, 0, 0, 0, 0) == 2) {
+    gConnectionWork->mUnk_000c = 0xb;
+    gConnectionWork->mRequestPending = 1;
+    if (WM_StartMPEx(StartMPCallback, gConnectionWork->mUnk_003c, gConnectionWork->mUnk_0038,
+                     gConnectionWork->mUnk_0034, gConnectionWork->mUnk_0030, 1, 0, 0, 0, 0, 0) == 2) {
         return;
     }
-    data_0217aa00->mUnk_0008 = 2;
-    data_0217aa00->mRequestPending = 0;
+    gConnectionWork->mUnk_0008 = 2;
+    gConnectionWork->mRequestPending = 0;
 }
 
 void StartMPCallback(Unk021425e8 *event) {
@@ -479,9 +479,9 @@ void StartMPCallback(Unk021425e8 *event) {
         case 0:
             switch (event->mUnk_04) {
                 case 0xa:
-                    data_0217aa00->mUnk_0454 |= 1;
-                    data_0217aa00->mUnk_1d54 = 0;
-                    data_0217aa00->mRequestPending = 0;
+                    gConnectionWork->mUnk_0454 |= 1;
+                    gConnectionWork->mUnk_1d54 = 0;
+                    gConnectionWork->mRequestPending = 0;
                     break;
                 case 0xb:
                 case 0xc:
@@ -493,9 +493,9 @@ void StartMPCallback(Unk021425e8 *event) {
         case 0xf:
             break;
         default:
-            data_0217aa00->mUnk_0454 |= 1;
-            data_0217aa00->mUnk_0008 = 2;
-            data_0217aa00->mRequestPending = 0;
+            gConnectionWork->mUnk_0454 |= 1;
+            gConnectionWork->mUnk_0008 = 2;
+            gConnectionWork->mRequestPending = 0;
             break;
     }
 }
@@ -503,36 +503,36 @@ void StartMPCallback(Unk021425e8 *event) {
 void SetMPFrequency(u32 mpFreq) {
     s32 result;
 
-    data_0217aa00->mUnk_000c = 0xc;
-    data_0217aa00->mRequestPending = 1;
+    gConnectionWork->mUnk_000c = 0xc;
+    gConnectionWork->mRequestPending = 1;
     result = WM_SetMPFrequency(SetMPFrequencyCallback, mpFreq);
     if (result == 0) {
-        data_0217aa00->mRequestPending = 0;
+        gConnectionWork->mRequestPending = 0;
         return;
     }
     if (result == 2) {
         return;
     }
-    data_0217aa00->mUnk_0008 = 2;
-    data_0217aa00->mRequestPending = 0;
+    gConnectionWork->mUnk_0008 = 2;
+    gConnectionWork->mRequestPending = 0;
 }
 
 void SetMPFrequencyCallback(Unk021425e8 *event) {
-    data_0217aa00->mRequestPending = 0;
+    gConnectionWork->mRequestPending = 0;
     if (event->mResultCode != 0) {
-        data_0217aa00->mUnk_0008 = 2;
-        data_0217aa00->mRequestPending = 0;
+        gConnectionWork->mUnk_0008 = 2;
+        gConnectionWork->mRequestPending = 0;
     }
 }
 
 void SetEntry(s32 enabled) {
     s32 result;
 
-    if ((data_0217aa00->mParentParameter->mUnk_0e != 0) == enabled) {
+    if ((gConnectionWork->mParentParameter->mUnk_0e != 0) == enabled) {
         return;
     }
-    data_0217aa00->mUnk_000c = 0xd;
-    data_0217aa00->mRequestPending = 1;
+    gConnectionWork->mUnk_000c = 0xd;
+    gConnectionWork->mRequestPending = 1;
     result = WM_SetEntry(SetEntryCallback, enabled);
     if (result == 2) {
         return;
@@ -541,7 +541,7 @@ void SetEntry(s32 enabled) {
 }
 
 void SetEntryCallback(Unk021425e8 *event) {
-    data_0217aa00->mRequestPending = 0;
+    gConnectionWork->mRequestPending = 0;
     if (event->mResultCode == 0) {
         return;
     }
@@ -551,16 +551,16 @@ void SetEntryCallback(Unk021425e8 *event) {
 void StartDataSharing(void) {
     s32 result;
 
-    data_0217aa00->mUnk_000c = 0xe;
-    data_0217aa00->mRequestPending = 1;
-    result = WM_StartDataSharing(data_0217aa00->mUnk_15bc, 0xc, 0xff, 8, 1);
-    data_0217aa00->mRequestPending = 0;
+    gConnectionWork->mUnk_000c = 0xe;
+    gConnectionWork->mRequestPending = 1;
+    result = WM_StartDataSharing(gConnectionWork->mUnk_15bc, 0xc, 0xff, 8, 1);
+    gConnectionWork->mRequestPending = 0;
     if (result != 0) {
-        data_0217aa00->mUnk_0008 = 2;
-        data_0217aa00->mRequestPending = 0;
+        gConnectionWork->mUnk_0008 = 2;
+        gConnectionWork->mRequestPending = 0;
         return;
     }
-    ResetDataSharing(&data_0217aa00->mUnk_15bc_view);
+    ResetDataSharing(&gConnectionWork->mUnk_15bc_view);
 }
 
 void SetGameInfo(void) {
@@ -571,16 +571,16 @@ void SetGameInfo(void) {
     if (func_02051658_inline() != 1) {
         return;
     }
-    data_0217aa00->mUnk_000c = 0xf;
-    data_0217aa00->mRequestPending = 1;
-    children = &data_0217aa00->mUnk_0044;
+    gConnectionWork->mUnk_000c = 0xf;
+    gConnectionWork->mRequestPending = 1;
+    children = &gConnectionWork->mUnk_0044;
     children->mUnk_38->mUnk_0e.mUnk_06_0 = children->mChildCount;
     r = TRUE;
-    if (data_0217aa00->mUnk_0004 != 8 && data_0217aa00->mUnk_0004 != 9) {
+    if (gConnectionWork->mUnk_0004 != 8 && gConnectionWork->mUnk_0004 != 9) {
         r = FALSE;
     }
-    if (WM_SetGameInfo(ClearRequestPending, children->mUnk_38, 0x1c, 0x25, data_0217aa00->mParentParameter->mUnk_0c,
+    if (WM_SetGameInfo(ClearRequestPending, children->mUnk_38, 0x1c, 0x25, gConnectionWork->mParentParameter->mUnk_0c,
                        r == FALSE) != 2) {
-        data_0217aa00->mRequestPending = 0;
+        gConnectionWork->mRequestPending = 0;
     }
 }

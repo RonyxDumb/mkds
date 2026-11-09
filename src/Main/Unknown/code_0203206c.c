@@ -279,20 +279,20 @@ s32 AdvanceSelectGame(void) {
             touchInReturnRect = 0;
             pairIsNew = FALSE;
             pairRecentlyGone = FALSE;
-            hasPair = data_02175628[slotIndex].mUnk_48.mHasPair;
-            if (hasPair == 0 && data_02175628[slotIndex].mUnk_48.mNoPairCount < 5) {
+            hasPair = gInputSlots[slotIndex].mPair.mHasPair;
+            if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
                 pairRecentlyGone = TRUE;
             }
-            if (pairRecentlyGone == FALSE && data_02175628[slotIndex].mUnk_48.mPrevHasPair == 0 && hasPair != 0) {
+            if (pairRecentlyGone == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
                 pairIsNew = TRUE;
             }
             if (pairIsNew != FALSE) {
-                d = data_02175628[slotIndex].mUnk_48.mPairX;
-                pairY = data_02175628[slotIndex].mUnk_48.mPairY;
+                d = gInputSlots[slotIndex].mPair.mPairX;
+                pairY = gInputSlots[slotIndex].mPair.mPairY;
                 touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(d, pairY);
                 d = RectTableFindContaining(subFileSet->mRects, d, pairY);
             }
-            if ((u16) (data_02175628[slotIndex].mPressedBits & PAD_KEY_A) != 0) {
+            if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0) {
                 SetSelectGameSelectedRowVisible(0);
                 func_02032a20();
             } else if (d >= 0) {
@@ -304,7 +304,7 @@ s32 AdvanceSelectGame(void) {
                         break;
                     }
                 }
-            } else if ((u16) (data_02175628[slotIndex].mPressedBits & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
+            } else if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
                 if (gSelectGame->mMode == 0) {
                     gSelectGame->mResult = 2;
                     gSelectGame->mState = 9;
@@ -347,7 +347,7 @@ s32 AdvanceSelectGame(void) {
                 if (GetSelectChoisesIndex() == 0 || GetSelectChoisesIndex() == ~a) {
                     gSelectGame->mState = 4;
                 } else {
-                    data_0217aa00->mUnk_0454 |= 0x80;
+                    gConnectionWork->mUnk_0454 |= 0x80;
                     gSelectGame->mResult = 3;
                     gSelectGame->mState = 8;
                 }
@@ -372,7 +372,7 @@ s32 AdvanceSelectGame(void) {
         case 6:
             selectGame->mStateFrames = selectGame->mStateFrames + 1;
             if (gSelectGame->mStateFrames < 10) {
-                gSelectGame->mSubOffsetX = func_020ae488(gSelectGame->mStateFrames);
+                gSelectGame->mSubOffsetX = GetSelectedPressOffset(gSelectGame->mStateFrames);
             } else {
                 gSelectGame->mStateFrames = a;
                 gSelectGame->mState = 9;

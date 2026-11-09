@@ -15,7 +15,7 @@ void func_020cae8c(void) {
     s32 framesSinceSwitch;
 
     framesSinceSwitch = GetFramesSinceMenuScreenSwitch();
-    data_0217b43c->mUnk_938 = func_020ae488(framesSinceSwitch);
+    data_0217b43c->mUnk_938 = GetSelectedPressOffset(framesSinceSwitch);
     if (framesSinceSwitch >= 10) {
         SwitchMenuScreen(2, nextScreenAndModeTable[data_0217b43c->mSinglePlaySelectModeIndex][0]);
         ResetRaceSetupCopy();

@@ -81,7 +81,7 @@ void func_0204ad44(void) {
             data_021759d0->mLanguageIndex = 1;
             break;
     }
-    data_021759d0->mUnk_20 = 0;
+    data_021759d0->mConnectionKind = 0;
     data_021759d0->mUnk_28 = -1;
     data_021759d0->mUnk_44 = -1;
     data_021759d0->mSoundSetSeqPlaying = 0;

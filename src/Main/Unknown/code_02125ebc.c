@@ -473,7 +473,7 @@ void AdvanceTxtSystemState2(void) {
             }
         }
     }
-    keys = data_02175628[inputSlotIndex].mPressedBits;
+    keys = gInputSlots[inputSlotIndex].mPressedBits;
     if ((u16) (keys & PAD_KEY_A) == 0) {
         if (func_02126a00_inline2(inputSlotIndex) == 0 || buttonCount != 1 ||
             func_02126a00_inline(touchX, clampedTouchY, gTxtSystemHitRects[4].mMinX, gTxtSystemHitRects[4].mMaxX,

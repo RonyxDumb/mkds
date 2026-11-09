@@ -292,21 +292,21 @@ void AdvanceWiFiVSMatchingState1(void) {
         }
     }
     if (IsTxtSystemState2NoCloseRequest() != 0 && IsSelectReturnState2NoState3Or4Request() != 0 &&
-        (u16) (data_02175628[idx].mPressedBits & PAD_KEY_B) != 0) {
+        (u16) (gInputSlots[idx].mPressedBits & PAD_KEY_B) != 0) {
         goto hit;
     }
     a = FALSE;
     b = FALSE;
-    v = data_02175628[idx].mUnk_48.mHasPair;
-    if (v == 0 && data_02175628[idx].mUnk_48.mNoPairCount < 5) {
+    v = gInputSlots[idx].mPair.mHasPair;
+    if (v == 0 && gInputSlots[idx].mPair.mNoPairCount < 5) {
         b = TRUE;
     }
-    if (b == FALSE && data_02175628[idx].mUnk_48.mPrevHasPair == 0 && v != 0) {
+    if (b == FALSE && gInputSlots[idx].mPair.mPrevHasPair == 0 && v != 0) {
         a = TRUE;
     }
     if (a != FALSE &&
-        IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[idx].mUnk_48.mPairX,
-                                                        data_02175628[idx].mUnk_48.mPairY) != FALSE &&
+        IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[idx].mPair.mPairX, gInputSlots[idx].mPair.mPairY) !=
+            FALSE &&
         func_021213a0() != FALSE) {
     hit:
         func_021213e8();
@@ -570,21 +570,21 @@ void AdvanceWiFiVSMatchingState9(void) {
         func_02126638(GetBmgEntry(gWiFiVSMatching->mWiFiMessages, 13), 0, 0, 1, 0, 0, 0);
     }
     if (IsTxtSystemState2NoCloseRequest() != 0) {
-        if ((u16) (data_02175628[idx].mPressedBits & PAD_KEY_B) == 0) {
+        if ((u16) (gInputSlots[idx].mPressedBits & PAD_KEY_B) == 0) {
             a = FALSE;
             b = FALSE;
-            v = data_02175628[idx].mUnk_48.mHasPair;
-            if (v == 0 && data_02175628[idx].mUnk_48.mNoPairCount < 5) {
+            v = gInputSlots[idx].mPair.mHasPair;
+            if (v == 0 && gInputSlots[idx].mPair.mNoPairCount < 5) {
                 b = TRUE;
             }
-            if (b == FALSE && data_02175628[idx].mUnk_48.mPrevHasPair == 0 && v != 0) {
+            if (b == FALSE && gInputSlots[idx].mPair.mPrevHasPair == 0 && v != 0) {
                 a = TRUE;
             }
             if (a == FALSE) {
                 return;
             }
-            if (IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[idx].mUnk_48.mPairX,
-                                                                data_02175628[idx].mUnk_48.mPairY) == FALSE) {
+            if (IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[idx].mPair.mPairX,
+                                                                gInputSlots[idx].mPair.mPairY) == FALSE) {
                 return;
             }
         }

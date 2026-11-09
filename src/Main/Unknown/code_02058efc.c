@@ -14,10 +14,10 @@
 
 void func_02059034(void) {
     int v1;
-    if (data_0217aa00 == NULL) {
+    if (gConnectionWork == NULL) {
         v1 = 0;
     } else {
-        v1 = data_0217aa00->mUnk_0000;
+        v1 = gConnectionWork->mUnk_0000;
     }
     if (v1 == 1) {
         SetMPFrequency(0);
@@ -29,7 +29,7 @@ void UpdateMPState21(void) {
     MPStateMachine *stateMachine;
     result = func_0205910c();
     if (result == 1) {
-        stateMachine = &data_0217aa00->mUnk_1608;
+        stateMachine = &gConnectionWork->mUnk_1608;
         stateMachine->mStateMachine.mNextState = 0x14;
         stateMachine->mStateMachine.mNextStateRequested = 1;
     }
@@ -37,10 +37,10 @@ void UpdateMPState21(void) {
 
 void func_02058fe0(void) {
     int v1;
-    if (data_0217aa00 == NULL) {
+    if (gConnectionWork == NULL) {
         v1 = 0;
     } else {
-        v1 = data_0217aa00->mUnk_0000;
+        v1 = gConnectionWork->mUnk_0000;
     }
     if (v1 == 1) {
         SetMPFrequency(0);
@@ -52,7 +52,7 @@ void UpdateMPState18(void) {
     MPStateMachine *stateMachine;
     result = func_0205905c();
     if (result == 1) {
-        stateMachine = &data_0217aa00->mUnk_1608;
+        stateMachine = &gConnectionWork->mUnk_1608;
         stateMachine->mStateMachine.mNextState = 0x13;
         stateMachine->mStateMachine.mNextStateRequested = 1;
     }
@@ -63,14 +63,14 @@ void UpdateMPState18(void) {
 #pragma thumb on
 
 void func_02058f7c(void) {
-    data_0217aa00->mUnk_1e34 = 0;
-    data_0217aa00->mUnk_1e44 &= ~2;
-    data_0217aa00->mUnk_164f = 0;
+    gConnectionWork->mUnk_1e34 = 0;
+    gConnectionWork->mUnk_1e44 &= ~2;
+    gConnectionWork->mUnk_164f = 0;
 }
 
 void func_02058f58(void) {
     if (func_0210e524() == 0) {
-        data_0217aa00->mUnk_164f = 1;
+        gConnectionWork->mUnk_164f = 1;
     }
 }
 
@@ -83,7 +83,7 @@ void UpdateMPState19(void) {
     MPStateMachine *stateMachine;
     result = func_02058dc0(func_02058f58);
     if (result == 1) {
-        stateMachine = &data_0217aa00->mUnk_1608;
+        stateMachine = &gConnectionWork->mUnk_1608;
         stateMachine->mStateMachine.mNextState = 0xf;
         stateMachine->mStateMachine.mNextStateRequested = 1;
     }
@@ -105,7 +105,7 @@ void func_02058efc(void) {
     int result;
     result = LoadSndDataFromFile();
     if (result == 0) {
-        data_0217aa00->mUnk_164f = 1;
+        gConnectionWork->mUnk_164f = 1;
     }
 }
 

@@ -186,8 +186,9 @@ void SetupRecordGpxDashes(s32 a) {
 void AdvanceRecordGpxOffsetTimers(void) {
     s32 i;
 
-    gRecordGpx->mRecordGpxSTable[data_ov001_021a65fc[0]].mOffsetX = -func_020adc64(6 - gRecordGpx->mOffsetTimers[0]);
-    gRecordGpx->mRecordGpxSTable[data_ov001_021a65fc[1]].mOffsetX = func_020adc64(6 - gRecordGpx->mOffsetTimers[1]);
+    gRecordGpx->mRecordGpxSTable[data_ov001_021a65fc[0]].mOffsetX =
+        -LookupFrameOffset(6 - gRecordGpx->mOffsetTimers[0]);
+    gRecordGpx->mRecordGpxSTable[data_ov001_021a65fc[1]].mOffsetX = LookupFrameOffset(6 - gRecordGpx->mOffsetTimers[1]);
     for (i = 0; i < 2; i++) {
         if (gRecordGpx->mOffsetTimers[i] > 0) {
             gRecordGpx->mOffsetTimers[i]--;
@@ -524,25 +525,27 @@ void AdvanceRecordGpxState2(void) {
     AdvanceRecordGpxOffsetTimers();
     x1 = TRUE;
     y1 = FALSE;
-    if (data_02175628[idx].mUnk_48.mHasPair == 0 && data_02175628[idx].mUnk_48.mNoPairCount < 5) {
+    if (gInputSlots[idx].mPair.mHasPair == 0 && gInputSlots[idx].mPair.mNoPairCount < 5) {
         y1 = TRUE;
     }
-    if (y1 == FALSE && data_02175628[idx].mUnk_48.mHasPair == 0) {
+    if (y1 == FALSE && gInputSlots[idx].mPair.mHasPair == 0) {
         x1 = FALSE;
     }
     if (x1 != FALSE) {
-        a = RectTableFindContaining(gRecordGpx->mRecordGpxSBnbl, data_02175628[idx].mUnk_48.mPairX, data_02175628[idx].mUnk_48.mPairY);
+        a = RectTableFindContaining(gRecordGpx->mRecordGpxSBnbl, gInputSlots[idx].mPair.mPairX,
+                                    gInputSlots[idx].mPair.mPairY);
     }
     x2 = FALSE;
     y2 = FALSE;
-    if (data_02175628[idx].mUnk_48.mHasPair == 0 && data_02175628[idx].mUnk_48.mNoPairCount < 5) {
+    if (gInputSlots[idx].mPair.mHasPair == 0 && gInputSlots[idx].mPair.mNoPairCount < 5) {
         y2 = TRUE;
     }
-    if (y2 == FALSE && data_02175628[idx].mUnk_48.mPrevHasPair == 0 && data_02175628[idx].mUnk_48.mHasPair != 0) {
+    if (y2 == FALSE && gInputSlots[idx].mPair.mPrevHasPair == 0 && gInputSlots[idx].mPair.mHasPair != 0) {
         x2 = TRUE;
     }
     if (x2 != FALSE) {
-        b = RectTableFindContaining(gRecordGpx->mRecordGpxSBnbl, data_02175628[idx].mUnk_48.mPairX, data_02175628[idx].mUnk_48.mPairY);
+        b = RectTableFindContaining(gRecordGpx->mRecordGpxSBnbl, gInputSlots[idx].mPair.mPairX,
+                                    gInputSlots[idx].mPair.mPairY);
     }
     if (a != 0) {
         gRecordGpx->mUnk_88 = FALSE;
@@ -550,17 +553,17 @@ void AdvanceRecordGpxState2(void) {
     if (a != 1) {
         gRecordGpx->mUnk_8c = FALSE;
     }
-    if ((u16) (data_02175628[idx].mPressedBits & PAD_KEY_B) == 0) {
+    if ((u16) (gInputSlots[idx].mPressedBits & PAD_KEY_B) == 0) {
         x3 = FALSE;
         y3 = FALSE;
-        if (data_02175628[idx].mUnk_48.mHasPair == 0 && data_02175628[idx].mUnk_48.mNoPairCount < 5) {
+        if (gInputSlots[idx].mPair.mHasPair == 0 && gInputSlots[idx].mPair.mNoPairCount < 5) {
             y3 = TRUE;
         }
-        if (y3 == FALSE && data_02175628[idx].mUnk_48.mPrevHasPair == 0 && data_02175628[idx].mUnk_48.mHasPair != 0) {
+        if (y3 == FALSE && gInputSlots[idx].mPair.mPrevHasPair == 0 && gInputSlots[idx].mPair.mHasPair != 0) {
             x3 = TRUE;
         }
-        if (x3 == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[idx].mUnk_48.mPairX,
-                                                                           data_02175628[idx].mUnk_48.mPairY) == FALSE) {
+        if (x3 == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[idx].mPair.mPairX,
+                                                                           gInputSlots[idx].mPair.mPairY) == FALSE) {
             goto next;
         }
     }
@@ -570,7 +573,7 @@ void AdvanceRecordGpxState2(void) {
     return;
 next:
     if ((a == 0 && gRecordGpx->mUnk_88 != FALSE) || (b == 0 && gRecordGpx->mUnk_88 == FALSE) ||
-        (u16) (data_02175628[idx].mBits & PAD_KEY_LEFT) != 0) {
+        (u16) (gInputSlots[idx].mBits & PAD_KEY_LEFT) != 0) {
         gRecordGpx->mUnk_7c = 1;
         gRecordGpx->mOffsetTimers[0] = 6;
         gRecordGpx->mUnk_88 = TRUE;
@@ -579,7 +582,7 @@ next:
         return;
     }
     if ((a == 1 && gRecordGpx->mUnk_8c != FALSE) || (b == 1 && gRecordGpx->mUnk_8c == FALSE) ||
-        (u16) (data_02175628[idx].mBits & PAD_KEY_RIGHT) != 0) {
+        (u16) (gInputSlots[idx].mBits & PAD_KEY_RIGHT) != 0) {
         gRecordGpx->mUnk_7c = 0;
         gRecordGpx->mOffsetTimers[1] = 6;
         gRecordGpx->mUnk_8c = TRUE;

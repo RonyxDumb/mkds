@@ -39,7 +39,7 @@ u32 func_02030700(InputSlotPair *pair) {
 }
 
 u32 func_020306e0(u32 slotIndex) {
-    return func_02030700(&data_02175628[slotIndex].mUnk_48);
+    return func_02030700(&gInputSlots[slotIndex].mPair);
 }
 
 u32 func_020306d8(InputSlotPair *pair) {
@@ -47,7 +47,7 @@ u32 func_020306d8(InputSlotPair *pair) {
 }
 
 u32 func_020306b8(u32 slotIndex) {
-    return func_020306d8(&data_02175628[slotIndex].mUnk_48);
+    return func_020306d8(&gInputSlots[slotIndex].mPair);
 }
 
 u16 func_020306a4(InputSlot *slot, u32 mask) {
@@ -55,7 +55,7 @@ u16 func_020306a4(InputSlot *slot, u32 mask) {
 }
 
 u32 func_02030688(u32 slotIndex, u32 mask) {
-    return func_020306a4(&data_02175628[slotIndex], mask);
+    return func_020306a4(&gInputSlots[slotIndex], mask);
 }
 
 void func_02030654(u32 index) {

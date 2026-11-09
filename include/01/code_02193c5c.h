@@ -74,8 +74,8 @@ typedef struct RecordGpx {
     /* 74 */ s32 mBg3OffsetY;
     /* 78 */ s32 mIndex;
     /* 7c */ s32 mUnk_7c;
-    // Set to 6, counted down while above 0; the row member is set to -func_020adc64(6 - timer) for [0] and
-    // +func_020adc64(6 - timer) for [1] (stored, not added).
+    // Set to 6, counted down while above 0; the row member is set to -LookupFrameOffset(6 - timer) for [0] and
+    // +LookupFrameOffset(6 - timer) for [1] (stored, not added).
     /* 80 */ s32 mOffsetTimers[2];
     /* 88 */ BOOL mUnk_88;
     /* 8c */ BOOL mUnk_8c;

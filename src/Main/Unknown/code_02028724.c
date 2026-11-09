@@ -6,7 +6,7 @@ u32 func_0202876c(InputSlotPair *p0) {
 }
 
 u32 func_0202874c(u32 slot) {
-    return func_0202876c(&data_02175628[slot].mUnk_48);
+    return func_0202876c(&gInputSlots[slot].mPair);
 }
 
 u32 func_02028744(InputSlotPair *p0) {
@@ -14,5 +14,5 @@ u32 func_02028744(InputSlotPair *p0) {
 }
 
 u32 func_02028724(u32 slot) {
-    return func_02028744(&data_02175628[slot].mUnk_48);
+    return func_02028744(&gInputSlots[slot].mPair);
 }

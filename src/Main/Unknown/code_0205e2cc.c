@@ -88,15 +88,15 @@ void CopyOtherPlayerEmblemsToBlocks(void) {
     }
     for (playerIndex = 0; playerIndex < 8; playerIndex++) {
         buddyIndexOfPlayer[playerIndex] = -1;
-        if (data_0217aa00->mUnk_0000 == 2) {
-            ownIndex = data_0217aa00->mOwnIndex;
+        if (gConnectionWork->mUnk_0000 == 2) {
+            ownIndex = gConnectionWork->mOwnIndex;
         } else {
             ownIndex = 0;
         }
         if (playerIndex != (u16) ownIndex) {
-            if ((data_0217aa00->mUnk_0457 & (1 << data_0217aa00->mUnk_1e8c[playerIndex])) == 0) {
-                if ((data_0217aa00->mParticipantMask & (1 << playerIndex)) != 0) {
-                    playerEntry = &data_0217aa00->mUnk_045c[playerIndex];
+            if ((gConnectionWork->mUnk_0457 & (1 << gConnectionWork->mUnk_1e8c[playerIndex])) == 0) {
+                if ((gConnectionWork->mParticipantMask & (1 << playerIndex)) != 0) {
+                    playerEntry = &gConnectionWork->mUnk_045c[playerIndex];
                     buddyIndex = SetBuddyRecordFromPlayer(playerEntry, 1);
                     if (buddyIndex != -1) {
                         if (playerEntry->mUnk_214 != 0) {
@@ -132,7 +132,7 @@ void CopyOtherPlayerEmblemsToBlocks(void) {
                 if (buddyIndex >= firstBuddyIndex && buddyIndex < endBuddyIndex) {
                     slotIndex = buddyIndex % 5;
                     blockData->mFilledBits |= 1 << slotIndex;
-                    MI_CpuCopy8((u8 *) &data_0217aa00->mUnk_045c[k] + 0x14, blockData->mEmblems[slotIndex], 0x200);
+                    MI_CpuCopy8((u8 *) &gConnectionWork->mUnk_045c[k] + 0x14, blockData->mEmblems[slotIndex], 0x200);
                 }
             }
             WriteBackupEmblemBlock(blockData, blockIndex);
@@ -219,10 +219,10 @@ void CopyWiFiOtherEmblemsToBlocks(void) {
 }
 
 static inline s32 func_0205e5c4_inline(void) {
-    if (data_0217aa00 == NULL) {
+    if (gConnectionWork == NULL) {
         return 0;
     }
-    return data_0217aa00->mUnk_0000;
+    return gConnectionWork->mUnk_0000;
 }
 
 void StartCopyOtherEmblems(s32 useConnection) {
@@ -233,7 +233,7 @@ void StartCopyOtherEmblems(s32 useConnection) {
         connectionReady = FALSE;
         d = func_0205e5c4_inline();
         if (d != 0) {
-            if (data_0217aa00->mUnk_0004 != 13) {
+            if (gConnectionWork->mUnk_0004 != 13) {
                 connectionReady = TRUE;
             }
         }

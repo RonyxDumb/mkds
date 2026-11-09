@@ -263,31 +263,31 @@ void AdvanceOptionSelectMenuState2(void) {
     hasB = FALSE;
     r5 = -1;
     hasA = FALSE;
-    v = data_02175628[idx].mUnk_48.mHasPair;
-    if (v == 0 && data_02175628[idx].mUnk_48.mNoPairCount < 5) {
+    v = gInputSlots[idx].mPair.mHasPair;
+    if (v == 0 && gInputSlots[idx].mPair.mNoPairCount < 5) {
         hasA = TRUE;
     }
-    if (hasA == FALSE && data_02175628[idx].mUnk_48.mPrevHasPair == 0 && v != 0) {
+    if (hasA == FALSE && gInputSlots[idx].mPair.mPrevHasPair == 0 && v != 0) {
         hasB = TRUE;
     }
     if (hasB != FALSE) {
-        r5 = RectTableFindContaining(p->mOptionSelectMenuSBnbl, data_02175628[idx].mUnk_48.mPairX,
-                                     data_02175628[idx].mUnk_48.mPairY);
+        r5 = RectTableFindContaining(p->mOptionSelectMenuSBnbl, gInputSlots[idx].mPair.mPairX,
+                                     gInputSlots[idx].mPair.mPairY);
     }
-    if ((u16) (data_02175628[idx].mPressedBits & PAD_KEY_B) != 0) {
+    if ((u16) (gInputSlots[idx].mPressedBits & PAD_KEY_B) != 0) {
         goto L1;
     } else {
         BOOL c = FALSE;
         BOOL d = FALSE;
-        v = data_02175628[idx].mUnk_48.mHasPair;
-        if (v == 0 && data_02175628[idx].mUnk_48.mNoPairCount < 5) {
+        v = gInputSlots[idx].mPair.mHasPair;
+        if (v == 0 && gInputSlots[idx].mPair.mNoPairCount < 5) {
             d = TRUE;
         }
-        if (d == FALSE && data_02175628[idx].mUnk_48.mPrevHasPair == 0 && v != 0) {
+        if (d == FALSE && gInputSlots[idx].mPair.mPrevHasPair == 0 && v != 0) {
             c = TRUE;
         }
-        if (c != FALSE && IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[idx].mUnk_48.mPairX,
-                                                                          data_02175628[idx].mUnk_48.mPairY) != FALSE) {
+        if (c != FALSE && IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[idx].mPair.mPairX,
+                                                                          gInputSlots[idx].mPair.mPairY) != FALSE) {
         L1:
             gOptionSelectMenu->mNextState = 4;
             gOptionSelectMenu->mNextOptionState = 0;
@@ -298,7 +298,7 @@ void AdvanceOptionSelectMenuState2(void) {
             goto end;
         }
     }
-    if (((u16) (data_02175628[idx].mPressedBits & PAD_KEY_A) != 0 && gOptionSelectMenu->mIndex == 2) || r5 == 2) {
+    if (((u16) (gInputSlots[idx].mPressedBits & PAD_KEY_A) != 0 && gOptionSelectMenu->mIndex == 2) || r5 == 2) {
         SetSoundModeFromOptionRow();
         if (gOptionSelectMenu->mRowValues[1] == 0) {
             data_0217aa08->mFirstBlock->mUnk_31 &= ~0x10;
@@ -330,7 +330,7 @@ void AdvanceOptionSelectMenuState2(void) {
         }
         StartSoundOncePerFrame(0);
     } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0 ||
-               (gOptionSelectMenu->mIndex != 2 && (u16) (data_02175628[idx].mPressedBits & PAD_KEY_A) != 0)) {
+               (gOptionSelectMenu->mIndex != 2 && (u16) (gInputSlots[idx].mPressedBits & PAD_KEY_A) != 0)) {
         gOptionSelectMenu->mIndex++;
         if (gOptionSelectMenu->mIndex > 2) {
             gOptionSelectMenu->mIndex = 0;
@@ -496,9 +496,9 @@ void WriteOptionSelectMenuTableOffsets(void) {
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 3; j++) {
             gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuTimerSTableIndices[i][j][0]].mOffsetX -=
-                func_020adc64(6 - gOptionSelectMenu->mOffsetTimers[i][0]);
+                LookupFrameOffset(6 - gOptionSelectMenu->mOffsetTimers[i][0]);
             gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuTimerSTableIndices[i][j][1]].mOffsetX +=
-                func_020adc64(6 - gOptionSelectMenu->mOffsetTimers[i][1]);
+                LookupFrameOffset(6 - gOptionSelectMenu->mOffsetTimers[i][1]);
         }
     }
 }

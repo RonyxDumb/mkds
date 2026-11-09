@@ -17,7 +17,7 @@
 
 s32 func_0204dd24(u16 a) {
     s32 result = 0;
-    ConnectionWork *g = data_0217aa00;
+    ConnectionWork *g = gConnectionWork;
 
     switch (g->mUnk_000c) {
         case 29:
@@ -32,7 +32,7 @@ s32 func_0204dd24(u16 a) {
             break;
         case 10:
             g->mUnk_1692 = g->mUnk_1692 + 1;
-            if (data_0217aa00->mUnk_1692 > 0x4b0) {
+            if (gConnectionWork->mUnk_1692 > 0x4b0) {
                 func_02050e60(5);
                 return 3;
             }
@@ -43,19 +43,19 @@ s32 func_0204dd24(u16 a) {
         case 30: {
             s32 scanEntryIndex;
             g->mUnk_1692 = g->mUnk_1692 + 1;
-            if (data_0217aa00->mUnk_1692 > 0x4b0) {
+            if (gConnectionWork->mUnk_1692 > 0x4b0) {
                 func_02050e60(5);
             } else {
                 scanEntryIndex = FindScanEntryIndex(a);
                 if (scanEntryIndex != -1) {
-                    data_0217aa00->mScanEntryIndex = scanEntryIndex;
+                    gConnectionWork->mScanEntryIndex = scanEntryIndex;
                     StartRequestEndScan();
                 }
             }
             break;
         }
     }
-    g = data_0217aa00;
+    g = gConnectionWork;
     if (g->mRequestPending != 0) {
         return 0;
     }
@@ -146,7 +146,7 @@ u8 CompactMaskBits(u8 mask) {
 
 s32 func_0204dc8c(void) {
     BOOL result = FALSE;
-    ConnectionWork *g = data_0217aa00;
+    ConnectionWork *g = gConnectionWork;
     u32 a = g->mUnk_1695;
     u8 childMask = g->mUnk_0044.mChildMask;
 
@@ -156,7 +156,7 @@ s32 func_0204dc8c(void) {
         if (childMask == 0) {
             func_02050e60(5);
         } else {
-            data_0217aa00->mUnk_1695 = CompactMaskBits(childMask);
+            gConnectionWork->mUnk_1695 = CompactMaskBits(childMask);
             result = TRUE;
         }
     } else {
@@ -167,9 +167,9 @@ s32 func_0204dc8c(void) {
 
 s32 func_0204db6c(void) {
     BOOL result = FALSE;
-    switch (data_0217aa00->mUnk_0004) {
+    switch (gConnectionWork->mUnk_0004) {
         case 2:
-            data_0217aa00->mUnk_0004 = 5;
+            gConnectionWork->mUnk_0004 = 5;
             break;
         case 5:
             break;
@@ -178,10 +178,10 @@ s32 func_0204db6c(void) {
         default:
             return 3;
     }
-    if (data_0217aa00->mRequestPending != 0) {
+    if (gConnectionWork->mRequestPending != 0) {
         return 0;
     }
-    switch (data_0217aa00->mUnk_000c) {
+    switch (gConnectionWork->mUnk_000c) {
         case 22:
             func_0204e128();
             break;
@@ -210,8 +210,8 @@ s32 func_0204db6c(void) {
             StartParent(NULL);
             break;
         case 6:
-            data_0217aa00->mUnk_1695 = CompactMaskBits(data_0217aa00->mUnk_1695);
-            data_0217aa00->mUnk_1692 = 0;
+            gConnectionWork->mUnk_1695 = CompactMaskBits(gConnectionWork->mUnk_1695);
+            gConnectionWork->mUnk_1692 = 0;
             StartMP();
             break;
         case 11:

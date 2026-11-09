@@ -219,7 +219,7 @@ u16 func_ov001_021805d8(InputSlot *inputSlot, u32 mask) {
 }
 
 u32 func_ov001_021805bc(u32 slotIndex, u32 mask) {
-    return func_ov001_021805d8(&data_02175628[slotIndex], mask);
+    return func_ov001_021805d8(&gInputSlots[slotIndex], mask);
 }
 
 #pragma thumb on

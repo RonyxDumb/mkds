@@ -88,15 +88,15 @@ void ClearDispCapPointer(void) {
 }
 
 static inline u32 func_02055808_inline(void) {
-    if (data_0217aa00 == NULL) {
+    if (gConnectionWork == NULL) {
         return 0;
     }
-    return data_0217aa00->mUnk_0000;
+    return gConnectionWork->mUnk_0000;
 }
 
 static inline s32 func_02055808_inline2(void) {
     BOOL r = FALSE;
-    if (func_02055808_inline() != 0 && data_0217aa00->mUnk_0004 != 13) {
+    if (func_02055808_inline() != 0 && gConnectionWork->mUnk_0004 != 13) {
         r = TRUE;
     }
     return r;
@@ -104,7 +104,7 @@ static inline s32 func_02055808_inline2(void) {
 
 static inline s32 func_02055808_inline3(void) {
     BOOL r = FALSE;
-    if (func_02055808_inline2() && !(data_0217aa00->mUnk_0454 & 0x80)) {
+    if (func_02055808_inline2() && !(gConnectionWork->mUnk_0454 & 0x80)) {
         r = TRUE;
     }
     return r;
@@ -112,7 +112,7 @@ static inline s32 func_02055808_inline3(void) {
 
 static inline s32 func_02055808_inline4(void) {
     BOOL r = FALSE;
-    if (func_02055808_inline3() && data_0217aa00->mUnk_0008 != 9) {
+    if (func_02055808_inline3() && gConnectionWork->mUnk_0008 != 9) {
         r = TRUE;
     }
     return r;
@@ -263,13 +263,13 @@ void StartDispCapBlend(u8 blendMin) {
 static inline s32 func_02055b1c_inline(void) {
     BOOL r = FALSE;
     u32 t;
-    if (data_0217aa00 == NULL) {
+    if (gConnectionWork == NULL) {
         t = 0;
         r = FALSE;
     } else {
-        t = data_0217aa00->mUnk_0000;
+        t = gConnectionWork->mUnk_0000;
     }
-    if (t != 0 && data_0217aa00->mUnk_0004 != 13) {
+    if (t != 0 && gConnectionWork->mUnk_0004 != 13) {
         r = TRUE;
     }
     return r;
@@ -300,7 +300,7 @@ void StartDispCapFadeToClear(u32 frameCount) {
 BOOL func_02055b1c(void) {
     if (func_02055b1c_inline()) {
         if (func_0204ffbc() != 0) {
-            return (data_0217aa00->mUnk_15bc_view.mUnk_0c->mUnk_06_0 & 4) != 0;
+            return (gConnectionWork->mUnk_15bc_view.mUnk_0c->mUnk_06_0 & 4) != 0;
         }
         return FALSE;
     }
@@ -328,26 +328,26 @@ s32 RunRecordScene(SceneNumbers *sceneNumbers) {
 void func_020559ec(const void *entryName, s32 entryIndex, s32 keepMask) {
     u8 keptBits;
 
-    keptBits = data_0217aa00->mUnk_043d & keepMask;
-    MI_CpuCopy8(entryName, &data_0217aa00->mUnk_045c[entryIndex], 0x14);
-    data_0217aa00->mUnk_043d = keptBits | (1 << entryIndex);
+    keptBits = gConnectionWork->mUnk_043d & keepMask;
+    MI_CpuCopy8(entryName, &gConnectionWork->mUnk_045c[entryIndex], 0x14);
+    gConnectionWork->mUnk_043d = keptBits | (1 << entryIndex);
 }
 
 s32 func_02055808(s32 a) {
     BOOL result;
 
     result = FALSE;
-    if (data_0217aa00->mRequestPending != 0) {
+    if (gConnectionWork->mRequestPending != 0) {
         return result;
     }
     if (func_02055808_inline4()) {
         return 3;
     }
-    switch (data_0217aa00->mUnk_000c) {
+    switch (gConnectionWork->mUnk_000c) {
         case 0:
         case 21:
-            data_0217aa00->mUnk_0454 &= ~0x40;
-            data_0217aa00->mUnk_0004 = 1;
+            gConnectionWork->mUnk_0454 &= ~0x40;
+            gConnectionWork->mUnk_0004 = 1;
             Initialize();
             break;
         case 1:
@@ -359,7 +359,7 @@ s32 func_02055808(s32 a) {
                 SetLifeTime(0x14);
             } else {
                 result = TRUE;
-                data_0217aa00->mUnk_0004 = 3;
+                gConnectionWork->mUnk_0004 = 3;
                 StartScan(1, NULL, NULL);
             }
             break;
@@ -378,10 +378,10 @@ s32 func_02055808(s32 a) {
             StartMP();
             break;
         case 11:
-            data_0217aa00->mUnk_0004 = 2;
-            data_0217aa00->mUnk_0044.mUnk_3e = 0;
+            gConnectionWork->mUnk_0004 = 2;
+            gConnectionWork->mUnk_0044.mUnk_3e = 0;
             result = TRUE;
-            data_0217aa00->mUnk_008b &= ~8;
+            gConnectionWork->mUnk_008b &= ~8;
             break;
         default:
             func_020533a0();
@@ -404,8 +404,8 @@ s32 func_0205579c(s32 a, s32 b) {
 }
 
 s32 func_02055730(u16 a) {
-    if (data_0217aa00->mUnk_0436 & 1) {
-        data_0217aa00->mUnk_0436 &= ~1;
+    if (gConnectionWork->mUnk_0436 & 1) {
+        gConnectionWork->mUnk_0436 &= ~1;
     }
     if (gBootInfo->mUnk_00 == 2 || func_0204fe90(a) != 0) {
         return func_0204dd24(a);

@@ -633,12 +633,12 @@ BOOL func_020f0154(KartItems *kartItems) {
         kartItems->mFlags |= data_021595c0;
     }
     entryIndex = kartItems->mEntryIndex;
-    padBits = data_02175628[entryIndex].mBits & ITEM_THROW_FORWARD_BIT;
+    padBits = gInputSlots[entryIndex].mBits & ITEM_THROW_FORWARD_BIT;
     if (padBits != 0) {
         kartItems->mFlags |= data_021595c4;
     }
     entryIndex = kartItems->mEntryIndex;
-    padBits = data_02175628[entryIndex].mBits & PAD_KEY_DOWN;
+    padBits = gInputSlots[entryIndex].mBits & PAD_KEY_DOWN;
     if (padBits != 0) {
         kartItems->mFlags |= data_021595c8;
     }
@@ -989,11 +989,11 @@ void AdvanceItemInUseOne(ItemInUse *itemInUse) {
     if (itemInUse->mUnk_170 != NULL) {
         kartItems->mActiveItem = 0x13;
         entryIndex = kartItems->mEntryIndex;
-        if ((u16) (data_02175628[entryIndex].mBits & ITEM_THROW_FORWARD_BIT) != 0) {
+        if ((u16) (gInputSlots[entryIndex].mBits & ITEM_THROW_FORWARD_BIT) != 0) {
             kartItems->mFlags |= data_021595a0;
         }
         entryIndex = kartItems->mEntryIndex;
-        if ((u16) (data_02175628[entryIndex].mBits & PAD_KEY_DOWN) != 0) {
+        if ((u16) (gInputSlots[entryIndex].mBits & PAD_KEY_DOWN) != 0) {
             kartItems->mFlags |= data_021595a4;
         }
         StartLastItemInUseObjectAndInit(itemInUse, 1);

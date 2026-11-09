@@ -349,7 +349,7 @@ void UpdateRaceLinkLevel(void) {
     if (gRaceLinkLevel == NULL) {
         return;
     }
-    if (data_021759d0->mUnk_20 == 0) {
+    if (data_021759d0->mConnectionKind == 0) {
         return;
     }
     if (gRaceSetup->mMode == 5) {
@@ -370,7 +370,7 @@ void UpdateRaceLinkLevel(void) {
             gRaceLinkLevel->mUnk_10 = 0;
         }
     } else {
-        gRaceLinkLevel->mUnk_00 = data_0217aa00->mUnk_0004 == 0 ? 0 : WM_GetLinkLevel();
+        gRaceLinkLevel->mUnk_00 = gConnectionWork->mUnk_0004 == 0 ? 0 : WM_GetLinkLevel();
     }
 }
 
@@ -381,7 +381,7 @@ void DrawRaceLinkLevel(RaceHudOamBuffer *oamBuffer) {
     if (gRaceLinkLevel == NULL) {
         return;
     }
-    if (data_021759d0->mUnk_20 != 0) {
+    if (data_021759d0->mConnectionKind != 0) {
         if (func_020b1d20() == 0) {
             if (gRaceSetup->mMode == 5) {
                 levelCell = GetRaceMNcerEntry(gRaceLinkLevel->mUnk_04 + 0x28);
@@ -625,7 +625,7 @@ void UpdateRaceTaPositions(void) {
     if (IsRaceStartSequenceDone() == 0) {
         return;
     }
-    if ((u16) (data_02175628[func_020435bc()].mPressedBits & 4) != 0) {
+    if ((u16) (gInputSlots[func_020435bc()].mPressedBits & 4) != 0) {
         gRaceTaPositions->mVisible = gRaceTaPositions->mVisible == 0 ? 1 : 0;
     }
     for (i = 0; i < gRaceSetup->mKartCount; i = (u16) (i + 1)) {

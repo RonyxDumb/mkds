@@ -16,7 +16,7 @@
 #define PAD_KEY_A 0x1
 // The four direction keys together.
 #define PAD_KEY_DIRECTIONS 0xf0
-// Slot of data_02175628 that the code addresses through a constant.
+// Slot of gInputSlots that the code addresses through a constant.
 typedef enum InputSlotIndex { UNK_02175628_INDEX_8 = 8 } InputSlotIndex;
 
 typedef struct KeyRecordingBuffer {
@@ -34,7 +34,7 @@ typedef struct KeyRecording {
     /* 0c */ BOOL mUnk_0c;
 } KeyRecording;
 
-// The 0x14 bytes at 0x48 of an element of data_02175628 (the same bytes as its mUnk_48 to mUnk_5b).
+// The 0x14 bytes at 0x48 of an element of gInputSlots (the same bytes as its mUnk_48 to mUnk_5b).
 typedef struct InputSlotPair {
     /* 00 */ u16 mPairX;
     /* 02 */ u16 mPairY;
@@ -48,7 +48,7 @@ typedef struct InputSlotPair {
     /* 12 */ u8 mUnk_12[0x2];
 } InputSlotPair;
 
-// One 0x5c-byte element of the array at data_02175628.
+// One 0x5c-byte element of the array at gInputSlots.
 typedef struct InputSlot {
     /* 00 */ u16 mPressedBits;
     /* 02 */ u16 mBits;
@@ -75,7 +75,7 @@ typedef struct InputSlot {
     /* 40 */ u16 mRequestedBits;
     /* 42 */ u16 mBitMask;
     /* 44 */ s32 mUnk_44;
-    /* 48 */ InputSlotPair mUnk_48;
+    /* 48 */ InputSlotPair mPair;
 } InputSlot;
 
 extern InputSlot data_0217562c[];
@@ -90,4 +90,4 @@ extern InputSlot data_02175672[];
 
 extern InputSlot data_02175670[];
 
-extern InputSlot data_02175628[];
+extern InputSlot gInputSlots[];

@@ -53,7 +53,7 @@ u16 func_02028710(InputSlot *a, u32 b) {
 }
 
 u16 func_020286f4(u32 a, u32 b) {
-    return func_02028710(&data_02175628[a], b);
+    return func_02028710(&gInputSlots[a], b);
 }
 
 #pragma thumb on
@@ -164,7 +164,7 @@ int AdvanceSelectKart(void) {
                 p->mCellTable[3].mVisible = 0;
                 p->mCellTable[2].mVisible = 0;
             } else {
-                v = func_020adc64(gSelectKart->mStateFrames);
+                v = LookupFrameOffset(gSelectKart->mStateFrames);
                 if (gSelectKart->mUnk_114 == 2) {
                     v = -v;
                 }
