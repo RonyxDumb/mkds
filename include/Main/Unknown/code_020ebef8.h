@@ -36,18 +36,5 @@ typedef struct Woodbox1 {
 
 extern Woodbox1 *data_0217bbf0;
 
-// Argument of EnterWoodbox1State0.
-typedef struct Unk020ec194 {
-    /* 000 */ u8 mUnk_000[4];
-    /* 004 */ Vec3 mUnk_004;
-    /* 010 */ Vec3 mUnk_010;
-    /* 01c */ u8 mUnk_01c[0xc];
-    /* 028 */ MtxFx33 mUnk_028;
-    /* 04c */ u8 mUnk_04c[0x64];
-    /* 0b0 */ Vec3 mUnk_0b0;
-    /* 0bc */ u8 mUnk_0bc[0xc];
-    /* 0c8 */ u16 mUnk_0c8;
-} Unk020ec194;
-
 void StartWoodbox1ItemObject(Woodbox1 *woodbox, Vec3 *velocity);
-void EnterWoodbox1State0(Unk020ec194 *woodbox);
+void EnterWoodbox1State0(Woodbox1 *woodbox);

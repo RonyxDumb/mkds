@@ -1,5 +1,7 @@
 #include "Main/Unknown/code_020ec538.h"
 #include "Main/Unknown/code_020d6dc0.h"
+#include "Main/Unknown/code_020f36d8.h"
+#include "Main/Unknown/code_0206bcb0.h"
 
 #include "Main/Unknown/code_020d6000.h"
 #include "code_02147cd8.h"
@@ -29,21 +31,21 @@ BOOL AdvancePushedMotion(Unk020ec538 *object) {
     return object->mUnk_00.mPos.y < object->mUnk_a0.mUnk_0a0;
 }
 
-void SetPushedMotionFromKart(Unk020ec538 *object, Unk020ec6e4 *other) {
+void SetPushedMotionFromKart(Unk020ec538 *object, Kart *other) {
     Vec3 offset;
     s32 pushSpeed;
 
-    VEC_Subtract(&object->mUnk_00.mPos, &other->mUnk_080, &offset);
-    if ((s64) offset.z * other->mUnk_0a4 - (s64) offset.x * other->mUnk_0ac < 0) {
-        s32 x = other->mUnk_050.x;
-        s32 z = other->mUnk_050.z;
+    VEC_Subtract(&object->mUnk_00.mPos, &other->mPos, &offset);
+    if ((s64) offset.z * other->mVelocity.x - (s64) offset.x * other->mVelocity.z < 0) {
+        s32 x = other->mTurnedForward.x;
+        s32 z = other->mTurnedForward.z;
         offset.z = -x;
         offset.x = z;
         offset.y = 0;
         object->mUnk_a0.mUnk_0a8 = 1;
     } else {
-        s32 x = other->mUnk_050.x;
-        s32 z = -other->mUnk_050.z;
+        s32 x = other->mTurnedForward.x;
+        s32 z = -other->mTurnedForward.z;
         offset.z = x;
         offset.x = z;
         offset.y = 0;
@@ -53,19 +55,19 @@ void SetPushedMotionFromKart(Unk020ec538 *object, Unk020ec6e4 *other) {
     object->mUnk_00.mUnk_10.x = ((s64) offset.x * pushSpeed) >> 12;
     object->mUnk_00.mUnk_10.y = ((s64) offset.y * pushSpeed) >> 12;
     object->mUnk_00.mUnk_10.z = ((s64) offset.z * pushSpeed) >> 12;
-    object->mUnk_00.mUnk_10.x = object->mUnk_00.mUnk_10.x + (other->mUnk_0a4 >> 1);
-    object->mUnk_00.mUnk_10.z = object->mUnk_00.mUnk_10.z + (other->mUnk_0ac >> 1);
+    object->mUnk_00.mUnk_10.x = object->mUnk_00.mUnk_10.x + (other->mVelocity.x >> 1);
+    object->mUnk_00.mUnk_10.z = object->mUnk_00.mUnk_10.z + (other->mVelocity.z >> 1);
     object->mUnk_00.mUnk_10.y = object->mUnk_a0.mUnk_0b0;
 }
 
-void SetPushedMotionFromItemObject(Unk020ec538 *object, const Unk020ec6e4 *other) {
+void SetPushedMotionFromItemObject(Unk020ec538 *object, const ItemObject *other) {
     Vec3 out;
     Vec3 otherPoint;
     Vec3 otherVector;
     s32 pushSpeed;
 
-    otherPoint = other ? other->mUnk_050 : object->mUnk_00.mPos;
-    otherVector = other ? other->mUnk_05c : data_02159594;
+    otherPoint = other ? other->mPos : object->mUnk_00.mPos;
+    otherVector = other ? other->mVelocity : data_02159594;
     VEC_Subtract(&object->mUnk_00.mPos, &otherPoint, &out);
     if ((s64) out.z * otherVector.x - (s64) out.x * otherVector.z < 0) {
         if (Vec3NormalizeXZAndGetLengthOrZero(&otherVector, &out) == 0) {

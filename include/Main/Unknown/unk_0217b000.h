@@ -730,7 +730,7 @@ extern s32 data_0217b4f4;
 extern ViewFrustum gViewFrustum;
 extern ViewFrustum gViewFrustumBeforeRotation;
 extern struct RockDrawList *data_0217b650;
-extern struct RockUpdateList *data_0217b654;
+extern struct MapObjectList *data_0217b654;
 extern struct ShadowModel *gRockShadow;
 extern struct Nsbmd *gRock;
 extern struct Quaternion gViewYawQuaternion;

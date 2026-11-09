@@ -55,7 +55,7 @@ extern s32 data_02156960[4];
 extern Vec3 data_021569d8;
 extern Vec3 data_021569e4;
 extern Vec3 data_021569f0;
-extern struct RockUpdateList data_021569fc;
+extern struct MapObjectList data_021569fc;
 extern struct RockDrawList data_02156a24;
 extern struct RockDrawList data_02156a80;
 extern struct MapObjectKindData data_02156adc;

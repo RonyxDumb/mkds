@@ -1,38 +1,26 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_020e6fd4.h" // MapObjectList
 
 typedef struct Unk020ec538 Unk020ec538;
 typedef struct Woodbox1 Woodbox1;
 
-// Initialiser stored into the 0x28-byte object CreateWoodbox1UpdateList allocates.
-typedef struct Unk021594e4 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
-    /* 18 */ u32 mUnk_18;
-    /* 1c */ u32 mUnk_1c;
-    /* 20 */ u32 mUnk_20;
-    /* 24 */ u32 mUnk_24;
-} Unk021594e4;
+extern MapObjectList *data_0217bbf4;
 
-extern Unk021594e4 *data_0217bbf4;
-
-// Initialiser stored into the 0x2c-byte object CreateWoodbox1DrawList allocates.
+// Initialiser stored into the 0x2c-byte object CreateWoodbox1DrawList allocates: a MapObjectList followed by the slot.
 typedef struct Woodbox1DrawList {
-    /* 00 */ u32 mMapObjects;
-    /* 04 */ u32 mMapObjectCount;
-    /* 08 */ u32 mInit;
-    /* 0c */ u32 mBeforeObjects;
-    /* 10 */ u32 mForEachObject;
-    /* 14 */ u32 mAfterObjects;
+    /* 00 */ void **mMapObjects;
+    /* 04 */ u16 mMapObjectCount;
+    /* 06 */ u8 mUnk_06[2];
+    /* 08 */ void (*mInit)(struct MapObjectList *p);
+    /* 0c */ void (*mBeforeObjects)(struct MapObjectList *p);
+    /* 10 */ UnkFunc *mForEachObject;
+    /* 14 */ void (*mAfterObjects)(struct MapObjectList *p);
     /* 18 */ u32 mDrawPass;
     /* 1c */ u32 mUnk_1c;
     /* 20 */ u32 mUnk_20;
-    /* 24 */ u32 mDrawObjects;
+    /* 24 */ void **mDrawObjects;
     /* 28 */ u32 mListSlot;
 } Woodbox1DrawList;
 
@@ -58,12 +46,12 @@ typedef struct Unk02159538 {
     /* 3c */ u32 mUnk_3c;
 } Unk02159538;
 
-extern const Unk021594e4 data_021594e4;
+extern const MapObjectList data_021594e4;
 extern const Woodbox1DrawList data_0215950c;
 extern const Unk02159538 data_02159538;
 
 void DrawWoodbox1(void *a, Woodbox1 *woodbox, void *c, u32 maxAlpha);
-Unk021594e4 *CreateWoodbox1UpdateList(void);
+MapObjectList *CreateWoodbox1UpdateList(void);
 Woodbox1DrawList *CreateWoodbox1DrawList(void);
 Unk02159538 *CreateWoodbox1KindData(void);
 BOOL func_020ec41c(Unk020ec538 *mapObject, void *other, u8 *firstResponse);

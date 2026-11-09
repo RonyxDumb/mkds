@@ -553,8 +553,8 @@ RockDrawList *CreateRock2DrawList(void) {
     return data_0217b650;
 }
 
-RockUpdateList *CreateRockUpdateList(void) {
-    RockUpdateList *updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
+MapObjectList *CreateRockUpdateList(void) {
+    MapObjectList *updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
     data_0217b654 = updateList;
     *updateList = data_021569fc;
     SetUpdateListSlot(&data_0217b654);

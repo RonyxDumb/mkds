@@ -255,10 +255,10 @@ void func_020e7460(void) {
         sourceRow++;
         kindRow++;
     }
-    func_020e6488((NsbmdModel **) gJgKindRowLapModels, FindSceneFile(data_0216c3a4), FindSceneFile(data_0216c3b4), 0);
+    func_020e6488(&gJgKindRows[0].mLapModel, FindSceneFile(data_0216c3a4), FindSceneFile(data_0216c3b4), 0);
     func_020e6ab8(gJgKindRows[0].mLapModel);
     gJgKindRows[0].mLapModel->mUnk_14 |= 0xc0;
-    func_020e6488((NsbmdModel **) data_0217bb04, FindSceneFile(data_0216c3c4), 0, 0);
+    func_020e6488(&gJgKindRows[1].mLapModel, FindSceneFile(data_0216c3c4), 0, 0);
     func_020e6ab8(gJgKindRows[1].mLapModel);
     gJgKindRows[1].mLapModel->mUnk_14 |= 0xc0;
 }

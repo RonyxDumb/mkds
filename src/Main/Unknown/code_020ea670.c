@@ -53,12 +53,12 @@
 #include "Main/Unknown/code_020ec538.h"
 #include "01/code_0218155c.h"
 
-const Unk021594e4 data_021594e4 = {
-    0, 0, (u32) &ClearWoodbox1Pointer, 0, (u32) &AdvanceWoodbox1, 0, 0, 0, 0, 0,
+const MapObjectList data_021594e4 = {
+    0, 0, {0, 0}, &ClearWoodbox1Pointer, 0, &AdvanceWoodbox1, 0, 0, 0, 0, 0,
 };
 
 const Woodbox1DrawList data_0215950c = {
-    0, 0, (u32) &CreateWoodbox1, 0, (u32) &DrawWoodbox1, 0, 1, 0, 0, 0, 0,
+    0, 0, {0, 0}, &CreateWoodbox1, 0, &DrawWoodbox1, 0, 1, 0, 0, 0, 0,
 };
 
 const Unk02159538 data_02159538 = {
@@ -118,8 +118,8 @@ Woodbox1DrawList *CreateWoodbox1DrawList(void) {
     return data_0217bbec;
 }
 
-Unk021594e4 *CreateWoodbox1UpdateList(void) {
-    Unk021594e4 *updateList;
+MapObjectList *CreateWoodbox1UpdateList(void) {
+    MapObjectList *updateList;
 
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
     data_0217bbf4 = updateList;
@@ -159,17 +159,17 @@ void AdvanceWoodbox1(u32 unused, u32 woodbox) {
     AdvanceStateMachine((void *) stateMachineAddress);
 }
 
-void EnterWoodbox1State0(Unk020ec194 *woodbox) {
+void EnterWoodbox1State0(Woodbox1 *woodbox) {
     Vec3 rotation;
     Vec3 *velocity;
 
-    velocity = &woodbox->mUnk_010;
+    velocity = &woodbox->mUnk_000.mUnk_10;
     velocity->x = 0;
     velocity->y = 0;
     velocity->z = 0;
-    woodbox->mUnk_004 = woodbox->mUnk_0b0;
-    QuaternionFromVec3AndAngleAroundY(&woodbox->mUnk_0bc, woodbox->mUnk_0c8, &rotation);
-    Matrix3x3FromQuaternion(&woodbox->mUnk_028, &rotation);
+    woodbox->mUnk_000.mPos = woodbox->mBasePos;
+    QuaternionFromVec3AndAngleAroundY(&woodbox->mGroundUp, woodbox->mHeadingAngle, &rotation);
+    Matrix3x3FromQuaternion(&woodbox->mUnk_000.mMatrix.mUnk_00_m, &rotation);
 }
 
 // With a chance given by the box, starts one item object that moves off with the given velocity.
@@ -414,12 +414,12 @@ u32 CollideItemObjectWithWoodbox1(Woodbox1 *woodbox, Unk020eb498 *itemObject, u8
 
 #pragma thumb on
 
-void CreateWoodbox1(void) {
+void CreateWoodbox1(MapObjectList *list) {
     CreateNsbmd((void **) &gWoodbox1, FindCourseMapObjFile(gWoodbox1NsbmdName), NULL);
     func_02084968(gWoodbox1, 0x3f, 2, 0x294a);
 }
 
-void ClearWoodbox1Pointer(void) {
+void ClearWoodbox1Pointer(MapObjectList *list) {
     data_0217bbf0 = NULL;
 }
 
@@ -867,7 +867,7 @@ void func_020ea670(Nsbmd *model, s32 maxAlpha) {
         ((Unk020ea670_0c *) (modelData +
                              ((Unk020ea670_08 *) (modelData + ((Unk020ea670_0a *) modelData)->mUnk_00a))->mUnk_008))
             ->mUnk_00c;
-    NNS_G3dRenderObjSetCallBack((NNSG3dRenderObj *) model, (NNSG3dSbcCallBackFunc) func_020ea84c, 0, 4, 3);
+    NNS_G3dRenderObjSetCallBack(&model->mRenderObj, (NNSG3dSbcCallBackFunc) func_020ea84c, 0, 4, 3);
     DrawNsbmd(model);
     savedAlpha = data_0216c3d4;
     if (maxAlpha < savedAlpha) {

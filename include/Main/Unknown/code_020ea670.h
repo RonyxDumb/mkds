@@ -6,6 +6,7 @@
 
 typedef struct NNSG3dResMdl NNSG3dResMdl;
 typedef struct Woodbox1 Woodbox1;
+typedef struct MapObjectList MapObjectList;
 
 extern Nsbmd *gWoodbox1;
 
@@ -54,7 +55,7 @@ s32 ComputeSphereHitOnRotatedCylinder(Vec3 *sphereCenter, Vec3 *cylinderCenter, 
 // or 4 (z axis), and writes the move out to param_7 unless it is NULL.
 s32 ComputeSphereHitOnRotatedBox(Vec3 *sphereCenter, Vec3 *boxCenter, Vec3 *axes, Vec3 *halfSizesPositive,
                                  Vec3 *halfSizesNegative, s32 radius, Vec3 *pushOut);
-void CreateWoodbox1(void);
+void CreateWoodbox1(MapObjectList *list);
 
 void func_020ea670(Nsbmd *model, s32 maxAlpha);
 // Draws the model with its alpha capped at param_2 (put back afterwards), through NNS_G3dDraw1Mat1Shp.
@@ -80,7 +81,7 @@ void ComputeCylinderOverlapOffset(Vec3 *position, Vec3 *center, s32 radius, s32 
 // Writes to param_4 the move that puts point param_1 exactly param_3 away from param_2.
 void ComputeSphereOverlapOffset(Vec3 *position, Vec3 *center, s32 radius, Vec3 *offset);
 void InitWoodbox1(Woodbox1 *woodbox, Unk020eb498 *courseRow);
-void ClearWoodbox1Pointer(void);
+void ClearWoodbox1Pointer(MapObjectList *list);
 u32 CollideItemObjectWithWoodbox1(Woodbox1 *woodbox, Unk020eb498 *itemObject, u8 *firstResponse, u8 *response);
 u32 CollideKartWithWoodbox1(Woodbox1 *woodbox, Unk020eb498 *kart, u8 *firstResponse, u8 *response);
 void UpdateWoodbox1State3(Woodbox1 *woodbox);

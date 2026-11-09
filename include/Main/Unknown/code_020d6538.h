@@ -19,24 +19,17 @@ typedef struct Unk020d6538_a {
 // 0x5c-byte object that CreateRock2DrawList and CreateRockDrawList allocate and fill from a table; func_020d49d8 stores
 // the address of its pointer at 0x28.
 typedef struct RockDrawList {
-    /* 00 */ u8 mUnk_00[0x28];
+    /* 00 */ MapObjectList mUnk_00;
     /* 28 */ struct RockDrawList **mListSlot;
     /* 2c */ MtxFx43 mShadowMatrix;
 } RockDrawList;
-
-// 0x28-byte object that CreateRockUpdateList allocates and fills from a table; SetUpdateListSlot stores the address of
-// its pointer at 0x24.
-typedef struct RockUpdateList {
-    /* 00 */ u8 mUnk_00[0x24];
-    /* 24 */ struct RockUpdateList **mListSlot;
-} RockUpdateList;
 
 #include "Main/Unknown/code_020d50ec.h" // EmitterParams, RockObject
 
 void func_020d6538(Unk020d6538_a *emitter, EmitterParams *params);
 void func_020d655c(void *a, RockObject *rock, void *c, s32 alpha);
 void SetupDrawRock(void);
-RockUpdateList *CreateRockUpdateList(void);
+MapObjectList *CreateRockUpdateList(void);
 RockDrawList *CreateRock2DrawList(void);
 RockDrawList *CreateRockDrawList(void);
 MapObjectKindData *CreateRockKindData(void);

@@ -86,4 +86,4 @@ extern u8 data_02158ec4[];
 extern u8 data_02158ef0[];
 extern u8 data_02158f30[];
 extern u8 data_02158f70[];
-extern u8 data_02158ff0[];
+extern struct MapObjectList data_02158ff0;

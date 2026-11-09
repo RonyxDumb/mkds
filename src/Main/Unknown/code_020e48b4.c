@@ -54,7 +54,7 @@ PukupukuDrawList *CreatePukupukuDrawList(void) {
     PukupukuDrawList *drawList;
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     gPukupukuDrawList = drawList;
-    *drawList = *(PukupukuDrawList *) data_02159044;
+    *drawList = data_02159044;
     func_020d49d8(&gPukupukuDrawList);
     return gPukupukuDrawList;
 }
@@ -63,16 +63,16 @@ PukupukuShadowDrawList *CreatePukupukuShadowDrawList(void) {
     PukupukuShadowDrawList *shadowDrawList;
     shadowDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     gPukupukuShadowDrawList = shadowDrawList;
-    *shadowDrawList = *(PukupukuShadowDrawList *) data_02159018;
+    *shadowDrawList = data_02159018;
     func_020d49d8(&gPukupukuShadowDrawList);
     return gPukupukuShadowDrawList;
 }
 
-PukupukuUpdateList *CreatePukupukuUpdateList(void) {
-    PukupukuUpdateList *updateList;
+MapObjectList *CreatePukupukuUpdateList(void) {
+    MapObjectList *updateList;
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
     gPukupukuUpdateList = updateList;
-    *updateList = *(PukupukuUpdateList *) data_02158ff0;
+    *updateList = data_02158ff0;
     SetUpdateListSlot(&gPukupukuUpdateList);
     return gPukupukuUpdateList;
 }
@@ -271,13 +271,13 @@ void UpdatePukupukuState3(Unk020e47c8 *pukupuku) {
     }
 }
 
-u8 CollideKartWithPukupuku(Unk020e47c8 *pukupuku, Unk020ec6e4 *kart, u8 *c, u8 *d) {
+u8 CollideKartWithPukupuku(Unk020e47c8 *pukupuku, Kart *kart, u8 *c, u8 *d) {
     if (*c == 1) {
         SetPushedMotionFromKart(&pukupuku->mUnk_00, kart);
         pukupuku->mUnk_00.mUnk_00.mStateMachine.mNextState = 1;
         pukupuku->mUnk_00.mUnk_00.mStateMachine.mNextStateRequested = 1;
         pukupuku->mUnk_00.mUnk_00.mFlags = pukupuku->mUnk_00.mUnk_00.mFlags | (data_02158fe4);
-        StartSoundIfKartStarOrKiller(&pukupuku->mUnk_00.mUnk_00, (void *) kart);
+        StartSoundIfKartStarOrKiller(&pukupuku->mUnk_00.mUnk_00, kart);
     }
     return *d;
 }
