@@ -91,8 +91,8 @@ void InitJgOffsets(void) {
 }
 
 static inline s32 AdvanceJgPointsAndSetTarget_inline(s32 start, s32 end, s32 fraction) {
-    s32 d = end - start;
-    return start + MUL_FIXED12_NO_ROUND(d, fraction);
+    s32 delta = end - start;
+    return start + MUL_FIXED12_NO_ROUND(delta, fraction);
 }
 
 // Moves gJgPointPointers along gJgPoints, advances gJgAngle and stores gJgTargetPos.
@@ -502,9 +502,10 @@ void UpdateJgPosition(void) {
             if (data_0217b8bc != 0 || data_0217b8f0 != 0) {
                 FindCollisionSlotsAroundPos(&data_0217b93c, 0x12000, 0x2000);
                 for (i = 0; i < gFoundCollisionSlotCount; i++) {
-                    MapObject *q = gFoundCollisionSlotObjects[i];
+                    MapObject *foundObject = gFoundCollisionSlotObjects[i];
 
-                    if ((q->mFlags & 0x40) == 0 && IsSphereHittingMapObject(&data_0217b93c, 0x12000, q, &t) != FALSE) {
+                    if ((foundObject->mFlags & 0x40) == 0 &&
+                        IsSphereHittingMapObject(&data_0217b93c, 0x12000, foundObject, &t) != FALSE) {
                         UpdateJgPosition_inline(&pushMin, &t, &pushMin);
                         UpdateJgPosition_inline_2(&pushMax, &t, &pushMax);
                         pushed = TRUE;
@@ -594,8 +595,8 @@ void UpdateJgPosition(void) {
             u.x = Vec3DotUnrounded(&t, &gJgMatrix.mUnk_00[0]);
             u.z = Vec3DotUnrounded(&t, &gJgMatrixAxis2);
             gJgVelocity.x = MUL_FIXED12_NO_ROUND(data_0217b908, u.x);
-            gJgVelocity.z += MUL_FIXED12_NO_ROUND(data_021593bc.z, u.z) -
-                             MUL_FIXED12_NO_ROUND(data_021593b0.z, gJgVelocity.z);
+            gJgVelocity.z +=
+                MUL_FIXED12_NO_ROUND(data_021593bc.z, u.z) - MUL_FIXED12_NO_ROUND(data_021593b0.z, gJgVelocity.z);
             v.x = Vec3DotUnrounded(&data_0217b9b4, &gJgMatrix.mUnk_00[0]);
             v.z = Vec3DotUnrounded(&data_0217b9b4, &gJgMatrixAxis2);
             gJgVelocity.x -= v.x;
@@ -649,7 +650,7 @@ s32 *EnterJgState0(void) {
     return &data_0217b8ac;
 }
 
-u32 func_020e8a74(u32 value) {
+u32 JgState0ReturnArgument(u32 value) {
     return value;
 }
 
@@ -741,8 +742,8 @@ void UpdateJgState1(void) {
         if (rotatedZ > 0) {
             gJgTargetPos.z = rotatedZ * 3;
         }
-        gJgTargetPos.x = MUL_FIXED12_NO_ROUND(gJgKind2Offset.z, anglePair0) +
-                         MUL_FIXED12_NO_ROUND(gJgKind2Offset.x, anglePair1);
+        gJgTargetPos.x =
+            MUL_FIXED12_NO_ROUND(gJgKind2Offset.z, anglePair0) + MUL_FIXED12_NO_ROUND(gJgKind2Offset.x, anglePair1);
         gJgTargetPos.y = gJgKind2Offset.y;
         MTX_MultVec43(&gJgTargetPos, &gJgMatrix, &gJgTargetPos);
         if (data_0217b8f8 != 0) {

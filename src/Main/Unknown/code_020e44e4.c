@@ -72,7 +72,7 @@ Unk020e46c8 *func_020e46c8(void) {
     return kindData;
 }
 
-Unk020e466c *func_020e466c(void) {
+Unk020e466c *CreateRotaryDrawList(void) {
     Unk020e466c *drawList;
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     gRotaryDrawList = drawList;
@@ -81,16 +81,16 @@ Unk020e466c *func_020e466c(void) {
     return gRotaryDrawList;
 }
 
-Unk020e4610 *func_020e4610(void) {
+Unk020e4610 *CreateRotaryUpdateList(void) {
     Unk020e4610 *updateList;
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
-    data_0217b7dc = updateList;
+    gRotaryUpdateList = updateList;
     *updateList = data_02158e9c;
-    SetUpdateListSlot(&data_0217b7dc);
-    return data_0217b7dc;
+    SetUpdateListSlot(&gRotaryUpdateList);
+    return gRotaryUpdateList;
 }
 
-void func_020e44e4(u32 unused, Rotary *object) {
+void UpdateRotary(u32 unused, Rotary *object) {
     s32 previousAngle;
     s32 angleChange;
     previousAngle = object->mUnk_000.mMapObject.mAngle;

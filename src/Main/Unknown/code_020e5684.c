@@ -80,16 +80,16 @@ void UpdateObPakkunSf(u32 a, ObPakkunSf *obPakkunSf) {
     AdvanceStateMachine(&obPakkunSf->mPushedObject.mMapObject.mStateMachine);
 }
 
-u8 CollideKartWithObPakkunSf(ObPakkunSf *obPakkunSf, void *kart, u8 *b, u8 *c) {
-    if (func_020ec450(&obPakkunSf->mPushedObject, kart, b) != FALSE) {
+u8 CollideKartWithObPakkunSf(ObPakkunSf *obPakkunSf, void *kart, u8 *firstResponse, u8 *response) {
+    if (HitPushedObjectByKart(&obPakkunSf->mPushedObject, kart, firstResponse) != FALSE) {
         StartSoundIfKartStarOrKiller(&obPakkunSf->mPushedObject.mMapObject, kart);
     }
-    return *c;
+    return *response;
 }
 
-u8 CollideItemObjectWithObPakkunSf(ObPakkunSf *obPakkunSf, void *itemObject, u8 *b, u8 *c) {
-    func_020ec41c(&obPakkunSf->mPushedObject, itemObject, b);
-    return *c;
+u8 CollideItemObjectWithObPakkunSf(ObPakkunSf *obPakkunSf, void *itemObject, u8 *firstResponse, u8 *response) {
+    HitPushedObjectByItemObject(&obPakkunSf->mPushedObject, itemObject, firstResponse);
+    return *response;
 }
 
 #pragma thumb on
@@ -99,7 +99,7 @@ void CreateObPakkunSf(void) {
     void *nsbtpFile;
     nsbmdFile = FindCourseMapObjFile(gObPakkunSfNsbmdName);
     nsbtpFile = FindCourseMapObjFile(gObPakkunSfNsbtpName);
-    func_020e6488(&gObPakkunSf, nsbmdFile, nsbtpFile, 0);
+    CreateNsbmdModel(&gObPakkunSf, nsbmdFile, nsbtpFile, 0);
     SetNsbmdModelFixedAttributes(gObPakkunSf);
 }
 
@@ -129,113 +129,114 @@ MapObjectKindData *CreateSecondHandKindData(void) {
 MapObjectDrawList *CreateSecondHandDrawList(void) {
     MapObjectDrawList *drawList;
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    data_0217b824 = drawList;
+    gSecondHandDrawList = drawList;
     *drawList = data_02159114;
-    SetDrawListSlot(&data_0217b824);
-    return data_0217b824;
+    SetDrawListSlot(&gSecondHandDrawList);
+    return gSecondHandDrawList;
 }
 
 MapObjectList *CreateSecondHandUpdateList(void) {
     MapObjectList *updateList;
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
-    data_0217b81c = updateList;
+    gSecondHandUpdateList = updateList;
     *updateList = data_021590ec;
-    SetUpdateListSlot(&data_0217b81c);
-    return data_0217b81c;
+    SetUpdateListSlot(&gSecondHandUpdateList);
+    return gSecondHandUpdateList;
 }
 
 void DrawSecondHand(u32 a, SecondHand *secondHand, u32 b, u32 alpha) {
-    secondHand->mUnk_00.mMatrix.mUnk_00[3].x = secondHand->mUnk_00.mPos.x >> 4;
-    secondHand->mUnk_00.mMatrix.mUnk_00[3].y = secondHand->mUnk_00.mPos.y >> 4;
-    secondHand->mUnk_00.mMatrix.mUnk_00[3].z = secondHand->mUnk_00.mPos.z >> 4;
-    DrawNsbmdWithMatrixAndMaxAlpha(gSecondHand, &secondHand->mUnk_00.mMatrix, &secondHand->mUnk_00.mScale, alpha);
+    secondHand->mMapObject.mMatrix.mUnk_00[3].x = secondHand->mMapObject.mPos.x >> 4;
+    secondHand->mMapObject.mMatrix.mUnk_00[3].y = secondHand->mMapObject.mPos.y >> 4;
+    secondHand->mMapObject.mMatrix.mUnk_00[3].z = secondHand->mMapObject.mPos.z >> 4;
+    DrawNsbmdWithMatrixAndMaxAlpha(gSecondHand, &secondHand->mMapObject.mMatrix, &secondHand->mMapObject.mScale, alpha);
 }
 
 void UpdateSecondHand(u32 a, SecondHand *secondHand) {
-    AdvanceStateMachine(&secondHand->mUnk_00.mStateMachine);
-    QuaternionMultiplyAngleAroundY(&secondHand->mUnk_b0, secondHand->mUnk_00.mAngle, &secondHand->mUnk_a0);
-    Matrix3x3FromQuaternion(&secondHand->mUnk_00.mMatrix.mUnk_00_m, &secondHand->mUnk_a0);
+    AdvanceStateMachine(&secondHand->mMapObject.mStateMachine);
+    QuaternionMultiplyAngleAroundY(&secondHand->mInitialRotationQuaternion, secondHand->mMapObject.mAngle,
+                                   &secondHand->mRotationQuaternion);
+    Matrix3x3FromQuaternion(&secondHand->mMapObject.mMatrix.mUnk_00_m, &secondHand->mRotationQuaternion);
 }
 
 void EnterSecondHandState0(SecondHand *secondHand) {
-    secondHand->mUnk_c8 = 0x0u;
+    secondHand->mSpeedFraction = 0x0u;
 }
 
 void UpdateSecondHandState0(SecondHand *secondHand) {
-    secondHand->mUnk_c8 = secondHand->mUnk_c8 + secondHand->mUnk_cc;
-    secondHand->mUnk_00.mAngle =
-        secondHand->mUnk_00.mAngle + (s16) MUL_FIXED12_NO_ROUND(secondHand->mUnk_c8, secondHand->mUnk_c6);
-    if (secondHand->mUnk_00.mStateMachine.mStateFrames > secondHand->mUnk_c0) {
-        secondHand->mUnk_00.mStateMachine.mNextState = 1;
-        secondHand->mUnk_00.mStateMachine.mNextStateRequested = 1;
+    secondHand->mSpeedFraction = secondHand->mSpeedFraction + secondHand->mSpeedFractionPerFrame;
+    secondHand->mMapObject.mAngle = secondHand->mMapObject.mAngle +
+                                    (s16) MUL_FIXED12_NO_ROUND(secondHand->mSpeedFraction, secondHand->mAnglePerFrame);
+    if (secondHand->mMapObject.mStateMachine.mStateFrames > secondHand->mRampFrameCount) {
+        secondHand->mMapObject.mStateMachine.mNextState = 1;
+        secondHand->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
-u32 func_020e58fc(u32 value) {
+u32 SecondHandState1ReturnArgument(u32 value) {
     return value;
 }
 
 void UpdateSecondHandState1(SecondHand *secondHand) {
-    secondHand->mUnk_00.mAngle = secondHand->mUnk_00.mAngle + secondHand->mUnk_c6;
-    if (secondHand->mUnk_c2 == 0) {
+    secondHand->mMapObject.mAngle = secondHand->mMapObject.mAngle + secondHand->mAnglePerFrame;
+    if (secondHand->mSteadyFrameCount == 0) {
         return;
     }
-    if (secondHand->mUnk_00.mStateMachine.mStateFrames > secondHand->mUnk_c2) {
-        secondHand->mUnk_00.mStateMachine.mNextState = 2;
-        secondHand->mUnk_00.mStateMachine.mNextStateRequested = 1;
+    if (secondHand->mMapObject.mStateMachine.mStateFrames > secondHand->mSteadyFrameCount) {
+        secondHand->mMapObject.mStateMachine.mNextState = 2;
+        secondHand->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
 void EnterSecondHandState2(SecondHand *secondHand) {
-    secondHand->mUnk_c8 = 0x4000u;
+    secondHand->mSpeedFraction = 0x4000u;
 }
 
 void UpdateSecondHandState2(SecondHand *secondHand) {
-    secondHand->mUnk_c8 = secondHand->mUnk_c8 - secondHand->mUnk_cc;
-    secondHand->mUnk_00.mAngle =
-        secondHand->mUnk_00.mAngle + (s16) MUL_FIXED12_NO_ROUND(secondHand->mUnk_c8, secondHand->mUnk_c6);
-    if (secondHand->mUnk_00.mStateMachine.mStateFrames > secondHand->mUnk_c0) {
-        secondHand->mUnk_c6 = -secondHand->mUnk_c6;
-        secondHand->mUnk_00.mStateMachine.mNextState = 3;
-        secondHand->mUnk_00.mStateMachine.mNextStateRequested = 1;
+    secondHand->mSpeedFraction = secondHand->mSpeedFraction - secondHand->mSpeedFractionPerFrame;
+    secondHand->mMapObject.mAngle = secondHand->mMapObject.mAngle +
+                                    (s16) MUL_FIXED12_NO_ROUND(secondHand->mSpeedFraction, secondHand->mAnglePerFrame);
+    if (secondHand->mMapObject.mStateMachine.mStateFrames > secondHand->mRampFrameCount) {
+        secondHand->mAnglePerFrame = -secondHand->mAnglePerFrame;
+        secondHand->mMapObject.mStateMachine.mNextState = 3;
+        secondHand->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
-u32 func_020e5850(u32 value) {
+u32 SecondHandState3ReturnArgument(u32 value) {
     return value;
 }
 
 void UpdateSecondHandState3(SecondHand *secondHand) {
-    if (secondHand->mUnk_00.mStateMachine.mStateFrames > secondHand->mUnk_c4) {
-        secondHand->mUnk_00.mStateMachine.mNextState = 0;
-        secondHand->mUnk_00.mStateMachine.mNextStateRequested = 1;
+    if (secondHand->mMapObject.mStateMachine.mStateFrames > secondHand->mPauseFrameCount) {
+        secondHand->mMapObject.mStateMachine.mNextState = 0;
+        secondHand->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
-s32 CollideKartWithSecondHand(SecondHand *secondHand, Kart *kart, s32 a, u8 *b) {
-    u32 x;
+s32 CollideKartWithSecondHand(SecondHand *secondHand, Kart *kart, s32 a, u8 *response) {
+    u32 itemEffect;
 
-    x = kart->mItemEffect;
-    if (x == 1 || x == 3) {
-        secondHand->mUnk_00.mDistanceSquaredAndFlags |= data_021590e8;
+    itemEffect = kart->mItemEffect;
+    if (itemEffect == 1 || itemEffect == 3) {
+        secondHand->mMapObject.mDistanceSquaredAndFlags |= data_021590e8;
     }
-    return *b;
+    return *response;
 }
 
-u32 func_020e57f4(u32 p0, u32 p1, u32 p2, u32 p3) {
-    return (*OFFSET_PTR(const u8, p3, 0));
+u32 CollideItemObjectWithSecondHand(u32 secondHand, u32 itemObject, u32 firstResponse, u32 response) {
+    return (*OFFSET_PTR(const u8, response, 0));
 }
 
 void ComputeSphereHitOnSecondHand(SecondHand *secondHand, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *overlapOffset) {
-    Vec3 s;
-    s32 y;
+    Vec3 halfSizesNegative;
+    s32 extentY;
 
-    y = secondHand->mUnk_00.mExtent.y;
-    s.x = secondHand->mUnk_00.mExtent.x;
-    s.y = y;
-    s.z = 0;
-    ComputeSphereHitOnRotatedBox(sphereCenter, &secondHand->mUnk_00.mPos, &secondHand->mUnk_00.mMatrix.mUnk_00[0],
-                                 &secondHand->mUnk_00.mExtent, &s, sphereRadius, overlapOffset);
+    extentY = secondHand->mMapObject.mExtent.y;
+    halfSizesNegative.x = secondHand->mMapObject.mExtent.x;
+    halfSizesNegative.y = extentY;
+    halfSizesNegative.z = 0;
+    ComputeSphereHitOnRotatedBox(sphereCenter, &secondHand->mMapObject.mPos, &secondHand->mMapObject.mMatrix.mUnk_00[0],
+                                 &secondHand->mMapObject.mExtent, &halfSizesNegative, sphereRadius, overlapOffset);
 }
 
 #pragma thumb on
@@ -246,27 +247,27 @@ void CreateSecondHand(void) {
 }
 
 void InitSecondHand(SecondHand *secondHand, Unk020e5684 *courseRow) {
-    secondHand->mUnk_00.mExtent.y = MUL_FIXED12_NO_ROUND(secondHand->mUnk_00.mScale.x, 0x4b000);
-    InitStateMachine(&secondHand->mUnk_00.mStateMachine, data_0216c240, 4, secondHand);
-    QuaternionFromVec3Degrees(&courseRow->mUnk_0c, &secondHand->mUnk_a0);
-    secondHand->mUnk_b0 = secondHand->mUnk_a0;
-    secondHand->mUnk_c0 = courseRow->mUnk_2c;
-    secondHand->mUnk_c2 = courseRow->mUnk_2a;
-    secondHand->mUnk_c4 = courseRow->mUnk_2e;
-    secondHand->mUnk_c6 = (courseRow->mUnk_28 << 7) / 0x64;
+    secondHand->mMapObject.mExtent.y = MUL_FIXED12_NO_ROUND(secondHand->mMapObject.mScale.x, 0x4b000);
+    InitStateMachine(&secondHand->mMapObject.mStateMachine, data_0216c240, 4, secondHand);
+    QuaternionFromVec3Degrees(&courseRow->mUnk_0c, &secondHand->mRotationQuaternion);
+    secondHand->mInitialRotationQuaternion = secondHand->mRotationQuaternion;
+    secondHand->mRampFrameCount = courseRow->mUnk_2c;
+    secondHand->mSteadyFrameCount = courseRow->mUnk_2a;
+    secondHand->mPauseFrameCount = courseRow->mUnk_2e;
+    secondHand->mAnglePerFrame = (courseRow->mUnk_28 << 7) / 0x64;
     if (courseRow->mUnk_30 != 0) {
-        secondHand->mUnk_c6 = -secondHand->mUnk_c6;
+        secondHand->mAnglePerFrame = -secondHand->mAnglePerFrame;
     }
-    secondHand->mUnk_00.mAngle = 0;
-    if (secondHand->mUnk_c0 != 0) {
-        secondHand->mUnk_cc = 0x1000 / secondHand->mUnk_c0;
+    secondHand->mMapObject.mAngle = 0;
+    if (secondHand->mRampFrameCount != 0) {
+        secondHand->mSpeedFractionPerFrame = 0x1000 / secondHand->mRampFrameCount;
     } else {
-        secondHand->mUnk_cc = 0;
+        secondHand->mSpeedFractionPerFrame = 0;
     }
-    secondHand->mUnk_c8 = 0;
-    secondHand->mUnk_00.mStateMachine.mNextState = 0;
-    secondHand->mUnk_00.mStateMachine.mNextStateRequested = 1;
-    secondHand->mUnk_00.mFlags |= data_021590b0;
+    secondHand->mSpeedFraction = 0;
+    secondHand->mMapObject.mStateMachine.mNextState = 0;
+    secondHand->mMapObject.mStateMachine.mNextStateRequested = 1;
+    secondHand->mMapObject.mFlags |= data_021590b0;
 }
 
 #pragma thumb off

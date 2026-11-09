@@ -8,15 +8,15 @@
 
 // Object InitSecondHand sets up, 0xd0 bytes.
 typedef struct SecondHand {
-    /* 00 */ MapObject mUnk_00;
-    /* a0 */ Quaternion mUnk_a0;
-    /* b0 */ Quaternion mUnk_b0;
-    /* c0 */ u16 mUnk_c0;
-    /* c2 */ u16 mUnk_c2;
-    /* c4 */ u16 mUnk_c4;
-    /* c6 */ s16 mUnk_c6;
-    /* c8 */ s32 mUnk_c8;
-    /* cc */ s32 mUnk_cc;
+    /* 00 */ MapObject mMapObject;
+    /* a0 */ Quaternion mRotationQuaternion;
+    /* b0 */ Quaternion mInitialRotationQuaternion;
+    /* c0 */ u16 mRampFrameCount;
+    /* c2 */ u16 mSteadyFrameCount;
+    /* c4 */ u16 mPauseFrameCount;
+    /* c6 */ s16 mAnglePerFrame;
+    /* c8 */ s32 mSpeedFraction;
+    /* cc */ s32 mSpeedFractionPerFrame;
 } SecondHand;
 
 // Object InitObPakkunSf sets up.
@@ -41,12 +41,12 @@ void CreateSecondHand(void);
 
 void CreateObPakkunSf(void);
 
-extern MapObjectList *data_0217b81c;
-extern MapObjectDrawList *data_0217b824;
-extern MapObjectList *data_0217b828;
-extern MapObjectDrawList *data_0217b82c;
-extern MapObjectList *data_0217b834;
-extern MapObjectDrawList *data_0217b840;
+extern MapObjectList *gSecondHandUpdateList;
+extern MapObjectDrawList *gSecondHandDrawList;
+extern MapObjectList *gObPakkunSfUpdateList;
+extern MapObjectDrawList *gObPakkunSfDrawList;
+extern MapObjectList *gPendulumUpdateList;
+extern MapObjectDrawList *gPendulumDrawList;
 
 void InitSecondHand(SecondHand *secondHand, Unk020e5684 *courseRow);
 void ComputeSphereHitOnSecondHand(SecondHand *secondHand, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *overlapOffset);

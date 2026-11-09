@@ -179,7 +179,7 @@ BOOL UpdateItemObject(ItemPool *a, ItemObject *p, s32 f) {
     } else {
         p->mFlags |= 0x20000;
         if (p->mNormal.y < 0xfae && !(p->mFlags & 0x40000080)) {
-            func_020eac20(&p->mNormal, 0xcd);
+            BlendDirectionTowardUp(&p->mNormal, 0xcd);
         }
     }
     if (p->mUnk_116 < 5) {

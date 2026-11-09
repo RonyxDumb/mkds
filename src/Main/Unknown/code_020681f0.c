@@ -393,7 +393,7 @@ void func_02068494(Kart *kart, s32 b, s32 c) {
         return;
     }
     StartDispCapFadeToClear(0);
-    func_020e79c4();
+    ReleaseJg();
 }
 
 void SetKartDriftCharge(Kart *kart, s32 charge) {

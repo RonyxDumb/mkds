@@ -47,11 +47,11 @@ void ResetWanwanChainPoints(WanwanChainObject *chainObject) {
 void CreateWanwanChainAndWanwanKui(void) {
     void *kuiFile;
 
-    func_020e6488(&gWanwanChain, FindCourseMapObjFile("wanwan_chain.nsbmd"), 0, 0);
+    CreateNsbmdModel(&gWanwanChain, FindCourseMapObjFile("wanwan_chain.nsbmd"), 0, 0);
     SetNsbmdModelFixedAttributes(gWanwanChain);
     kuiFile = FindCourseFile("MapObj/wanwan_kui.nsbmd");
     if (kuiFile != NULL) {
-        func_020e6488(&gWanwanKui, kuiFile, 0, 0);
+        CreateNsbmdModel(&gWanwanKui, kuiFile, 0, 0);
         SetNsbmdModelFixedAttributes(gWanwanKui);
     }
 }

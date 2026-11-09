@@ -279,7 +279,7 @@ void CreateKuribo(void) {
     void *nsbtpFile;
     nsbmdFile = FindCourseMapObjFile(gKuriboNsbmdName);
     nsbtpFile = FindCourseMapObjFile(gKuriboNsbtpName);
-    func_020e6488(&gKuribo, nsbmdFile, nsbtpFile, 0);
+    CreateNsbmdModel(&gKuribo, nsbmdFile, nsbtpFile, 0);
     SetNsbmdModelFixedAttributes(gKuribo);
 }
 

@@ -609,7 +609,7 @@ OrthoQuadModel *ClearOrthoQuadCreamEffectPointer(void) {
 void CreateOrthoQuadCreamEffect(const char *fileName) {
     NsbmdModel *model;
 
-    func_020e6488(&model, FindCourseMapObjFile(fileName), 0, 0);
+    CreateNsbmdModel(&model, FindCourseMapObjFile(fileName), 0, 0);
     SetNsbmdModelFixedAttributes(model);
     SetupOrthoQuadModel(&gOrthoQuadCreamEffect, model);
 }
@@ -646,10 +646,10 @@ void SetupOrthoQuadModel(OrthoQuadModel *quadModel, NsbmdModel *model) {
     quadModel->mModel = model;
     quadModel->mPolygonAttr = 0x51f80c0;
     quadModel->mPolygonAttr = quadModel->mPolygonAttr & 0xc0ffffff;
-    quadModel->mTeximageParam = *model->mUnk_1c;
-    quadModel->mPlttBase = *model->mUnk_20;
-    quadModel->mDifAmb = model->mUnk_0c;
-    quadModel->mSpeEmi = model->mUnk_10;
+    quadModel->mTeximageParam = *model->mTexImageParams;
+    quadModel->mPlttBase = *model->mTexPlttBases;
+    quadModel->mDifAmb = model->mDiffAmb;
+    quadModel->mSpeEmi = model->mSpecEmi;
     teximageParam = quadModel->mTeximageParam;
     quadModel->mUnk_18 = 1 << (((teximageParam & 0x3800000) >> 0x17) + 0xf);
     quadModel->mUnk_1c = 1 << (((teximageParam & 0x700000) >> 0x14) + 0xf);

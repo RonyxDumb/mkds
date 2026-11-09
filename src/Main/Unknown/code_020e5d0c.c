@@ -33,77 +33,77 @@
 
 #pragma thumb on
 
-void func_020e6514(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record) {
-    NNSG3dResMdl *a;
-    NNSG3dResMat *b;
-    NNSG3dResShp *c;
-    NNSG3dResMatData *d;
-    NNSG3dResShpData *e;
-    Unk020e6514_8 x;
+void FillNsbmdModel(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record) {
+    NNSG3dResMdl *resMdl;
+    NNSG3dResMat *resMat;
+    NNSG3dResShp *resShp;
+    NNSG3dResMatData *matData;
+    NNSG3dResShpData *shpData;
+    Unk020e6514_8 frameWork;
     u16 frameCount;
     u16 frame;
-    void *t;
+    void *heap;
     enum { K0 } k;
 
-    a = model->mResMdl;
-    b = OFFSET_PTR(NNSG3dResMat, a, a->mOfsMat);
-    d = OFFSET_PTR(NNSG3dResMatData, b, ((u32 *) OFFSET_PTR(u8, b, b->mDict.mOfsEntry))[2]);
-    c = OFFSET_PTR(NNSG3dResShp, a, a->mOfsShp);
-    e = OFFSET_PTR(NNSG3dResShpData, c, ((u32 *) OFFSET_PTR(u8, c, c->mDict.mOfsEntry))[1]);
-    record->mUnk_00 = (u8 *) e + e->mOfsDL;
-    record->mUnk_04 = e->mSizeDL;
+    resMdl = model->mResMdl;
+    resMat = OFFSET_PTR(NNSG3dResMat, resMdl, resMdl->mOfsMat);
+    matData = OFFSET_PTR(NNSG3dResMatData, resMat, ((u32 *) OFFSET_PTR(u8, resMat, resMat->mDict.mOfsEntry))[2]);
+    resShp = OFFSET_PTR(NNSG3dResShp, resMdl, resMdl->mOfsShp);
+    shpData = OFFSET_PTR(NNSG3dResShpData, resShp, ((u32 *) OFFSET_PTR(u8, resShp, resShp->mDict.mOfsEntry))[1]);
+    record->mDisplayList = (u8 *) shpData + shpData->mOfsDL;
+    record->mDisplayListSize = shpData->mSizeDL;
     record->mScale = model->mResMdl->mInfo.mPosScale;
-    record->mUnk_0c = d->mDiffAmb;
-    record->mUnk_10 = d->mSpecEmi;
-    record->mPolygonAttributes = d->mPolyAttr & 0xfffffff0;
+    record->mDiffAmb = matData->mDiffAmb;
+    record->mSpecEmi = matData->mSpecEmi;
+    record->mPolygonAttributes = matData->mPolyAttr & 0xfffffff0;
     record->mFrameIndex = 0;
     if (animation != NULL) {
-        x.mUnk_00 = d->mTexImageParam;
+        frameWork.mUnk_00 = matData->mTexImageParam;
         frameCount = GetModelAnimationFrameCountFixed(animation) >> 12;
         record->mFrameCount = frameCount;
-        t = GetHeap(GetCurrentHeapCall());
-        record->mUnk_1c = HeapAlloc(t, frameCount * 4);
-        t = GetHeap(GetCurrentHeapCall());
-        record->mUnk_20 = HeapAlloc(t, frameCount * 4);
+        heap = GetHeap(GetCurrentHeapCall());
+        record->mTexImageParams = HeapAlloc(heap, frameCount * 4);
+        heap = GetHeap(GetCurrentHeapCall());
+        record->mTexPlttBases = HeapAlloc(heap, frameCount * 4);
         frame = 0;
         if (frame < frameCount) {
             k = 0xc00f0000;
-            x.mUnk_00 &= k;
-            x.mUnk_04 = 0;
+            frameWork.mUnk_00 &= k;
+            frameWork.mUnk_04 = 0;
             do {
                 animation->mHead.mFrameIndex = frame << 12;
                 animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
-                NNSi_G3dAnmCalcNsBtp(&x.mUnk_08, animation->mAnmObjs[0], x.mUnk_04);
-                record->mUnk_1c[frame] = x.mUnk_08.mUnk_10 & 0x3ff0ffff;
-                record->mUnk_1c[frame] |= x.mUnk_00;
-                record->mUnk_20[frame] = x.mUnk_08.mUnk_14;
+                NNSi_G3dAnmCalcNsBtp(&frameWork.mUnk_08, animation->mAnmObjs[0], frameWork.mUnk_04);
+                record->mTexImageParams[frame] = frameWork.mUnk_08.mUnk_10 & 0x3ff0ffff;
+                record->mTexImageParams[frame] |= frameWork.mUnk_00;
+                record->mTexPlttBases[frame] = frameWork.mUnk_08.mUnk_14;
                 frame++;
             } while (frame < frameCount);
         }
     } else {
         record->mFrameCount = 1;
-        record->mUnk_1c = HeapAlloc(GetHeap(GetCurrentHeapCall()), 4);
-        record->mUnk_20 = HeapAlloc(GetHeap(GetCurrentHeapCall()), 4);
-        record->mUnk_1c[0] = d->mTexImageParam;
-        record->mUnk_20[0] = d->mTexPlttBase;
+        record->mTexImageParams = HeapAlloc(GetHeap(GetCurrentHeapCall()), 4);
+        record->mTexPlttBases = HeapAlloc(GetHeap(GetCurrentHeapCall()), 4);
+        record->mTexImageParams[0] = matData->mTexImageParam;
+        record->mTexPlttBases[0] = matData->mTexPlttBase;
     }
 }
 
-void func_020e64b8(NsbmdModel *record, void *nsbmdFile, void *nsbtpFile, s32 c) {
-    record->mUnk_24 = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x6c);
-    InitNsbmd(record->mUnk_24, nsbmdFile);
+void InitNsbmdModel(NsbmdModel *record, void *nsbmdFile, void *nsbtpFile, s32 c) {
+    record->mNsbmd = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x6c);
+    InitNsbmd(record->mNsbmd, nsbmdFile);
     if (nsbtpFile != NULL) {
-        record->mUnk_28 = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
-        InitModelAnimationWithEntries(2, record->mUnk_24, record->mUnk_28, nsbmdFile, nsbtpFile);
+        record->mNsbtpAnimation = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
+        InitModelAnimationWithEntries(2, record->mNsbmd, record->mNsbtpAnimation, nsbmdFile, nsbtpFile);
     } else {
-        record->mUnk_28 = NULL;
+        record->mNsbtpAnimation = NULL;
     }
-    func_020e6514(record->mUnk_24, record->mUnk_28, record);
+    FillNsbmdModel(record->mNsbmd, record->mNsbtpAnimation, record);
 }
 
-void func_020e6488(NsbmdModel **recordSlot, void *nsbmdFile, void *nsbtpFile, u32 param_4) {
+void CreateNsbmdModel(NsbmdModel **recordSlot, void *nsbmdFile, void *nsbtpFile, u32 param_4) {
     *recordSlot = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    func_020e64b8(*recordSlot, nsbmdFile, nsbtpFile, param_4);
+    InitNsbmdModel(*recordSlot, nsbmdFile, nsbtpFile, param_4);
 }
 
 #pragma thumb off
@@ -118,22 +118,22 @@ MapObjectKindData *CreatePendulumKindData(void) {
 MapObjectDrawList *CreatePendulumDrawList(void) {
     MapObjectDrawList *drawList;
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    data_0217b840 = drawList;
+    gPendulumDrawList = drawList;
     *drawList = data_021592a4;
-    SetDrawListSlot(&data_0217b840);
-    return data_0217b840;
+    SetDrawListSlot(&gPendulumDrawList);
+    return gPendulumDrawList;
 }
 
 MapObjectList *CreatePendulumUpdateList(void) {
     MapObjectList *updateList;
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
-    data_0217b834 = updateList;
+    gPendulumUpdateList = updateList;
     *updateList = data_0215927c;
-    SetUpdateListSlot(&data_0217b834);
-    return data_0217b834;
+    SetUpdateListSlot(&gPendulumUpdateList);
+    return gPendulumUpdateList;
 }
 
-void DrawPendulum(u32 param_1, PendulumObject *pendulum, u32 param_3, u32 alpha) {
+void DrawPendulum(u32 unused0, PendulumObject *pendulum, u32 unused1, u32 alpha) {
     pendulum->mMapObject.mMatrix.mUnk_00[3].x = pendulum->mCourseRowPos.x >> 4;
     pendulum->mMapObject.mMatrix.mUnk_00[3].y = pendulum->mCourseRowPos.y >> 4;
     pendulum->mMapObject.mMatrix.mUnk_00[3].z = pendulum->mCourseRowPos.z >> 4;
@@ -141,7 +141,7 @@ void DrawPendulum(u32 param_1, PendulumObject *pendulum, u32 param_3, u32 alpha)
     DrawShadowWithMaxAlpha(gPendulumShadow, &pendulum->mShadowMatrix, &pendulum->mMapObject.mScale, alpha);
 }
 
-void UpdatePendulum(u32 param_1, PendulumObject *pendulum) {
+void UpdatePendulum(u32 list, PendulumObject *pendulum) {
     Quaternion swingRotation;
     SoundStartParams soundRequest;
     u32 previousAngle;
@@ -180,27 +180,28 @@ void UpdatePendulum(u32 param_1, PendulumObject *pendulum) {
 }
 
 BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *out) {
-    Vec3 v;
+    Vec3 sphereOffset;
     s32 axisDistance;
-    s32 t;
+    s32 axisOverlap;
     s32 d;
     s64 distanceSquared;
 
-    VEC_Subtract(sphereCenter, &pendulum->mMapObject.mPos, &v);
-    axisDistance = Vec3DotUnrounded(&v, &pendulum->mMapObject.mMatrix.mUnk_00[2]);
+    VEC_Subtract(sphereCenter, &pendulum->mMapObject.mPos, &sphereOffset);
+    axisDistance = Vec3DotUnrounded(&sphereOffset, &pendulum->mMapObject.mMatrix.mUnk_00[2]);
     if (axisDistance > 0) {
-        t = pendulum->mHalfSizeZ + sphereRadius - axisDistance;
-        if (t < 0) {
+        axisOverlap = pendulum->mHalfSizeZ + sphereRadius - axisDistance;
+        if (axisOverlap < 0) {
             return FALSE;
         }
     } else {
-        t = -(pendulum->mHalfSizeZ + sphereRadius) - axisDistance;
-        if (t > 0) {
+        axisOverlap = -(pendulum->mHalfSizeZ + sphereRadius) - axisDistance;
+        if (axisOverlap > 0) {
             return FALSE;
         }
     }
     d = sphereRadius + pendulum->mRadius;
-    distanceSquared = (s64) v.x * v.x + (s64) v.y * v.y + (s64) v.z * v.z;
+    distanceSquared = (s64) sphereOffset.x * sphereOffset.x + (s64) sphereOffset.y * sphereOffset.y +
+                      (s64) sphereOffset.z * sphereOffset.z;
     if (distanceSquared < (s64) d * d) {
         reg_CP_SQRTCNT = 1;
         reg_CP_SQRT_PARAM = distanceSquared;
@@ -210,22 +211,23 @@ BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s3
     } else {
         return FALSE;
     }
-    if ((t > 0 ? t : -t) < d) {
-        out->x = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mMatrix.mUnk_00[2].x, t);
-        out->y = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mMatrix.mUnk_00[2].y, t);
-        out->z = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mMatrix.mUnk_00[2].z, t);
+    if ((axisOverlap > 0 ? axisOverlap : -axisOverlap) < d) {
+        out->x = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mMatrix.mUnk_00[2].x, axisOverlap);
+        out->y = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mMatrix.mUnk_00[2].y, axisOverlap);
+        out->z = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mMatrix.mUnk_00[2].z, axisOverlap);
         pendulum->mUnk_10c = FALSE;
     } else {
-        if (v.y < 0) {
-            v.y = 0;
+        if (sphereOffset.y < 0) {
+            sphereOffset.y = 0;
         }
-        distanceSquared = (s64) v.x * v.x + (s64) v.y * v.y + (s64) v.z * v.z;
+        distanceSquared = (s64) sphereOffset.x * sphereOffset.x + (s64) sphereOffset.y * sphereOffset.y +
+                          (s64) sphereOffset.z * sphereOffset.z;
         if (distanceSquared >= 16) {
-            Vec3NormalizeAndGetLengthUnchecked(&v, &v);
+            Vec3NormalizeAndGetLengthUnchecked(&sphereOffset, &sphereOffset);
         }
-        out->x = MUL_FIXED12_NO_ROUND(v.x, d);
-        out->y = MUL_FIXED12_NO_ROUND(v.y, d);
-        out->z = MUL_FIXED12_NO_ROUND(v.z, d);
+        out->x = MUL_FIXED12_NO_ROUND(sphereOffset.x, d);
+        out->y = MUL_FIXED12_NO_ROUND(sphereOffset.y, d);
+        out->z = MUL_FIXED12_NO_ROUND(sphereOffset.z, d);
         pendulum->mUnk_10c = TRUE;
     }
     return TRUE;
@@ -240,7 +242,7 @@ void CreatePendulumAndPendulumShadow(void) {
 }
 
 void InitPendulum(PendulumObject *pendulum, Unk020e5e24_2 *courseRow) {
-    s32 m;
+    s32 amplitudeSetting;
 
     pendulum->mMapObject.mExtent.y = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mKindData->mUnk_10, courseRow->mUnk_20);
     QuaternionFromVec3Degrees(&courseRow->mUnk_0c, &pendulum->mRotationQuaternion);
@@ -256,9 +258,9 @@ void InitPendulum(PendulumObject *pendulum, Unk020e5e24_2 *courseRow) {
     pendulum->mUnk_ec.x = pendulum->mMapObject.mPos.x >> 4;
     pendulum->mUnk_ec.y = pendulum->mMapObject.mPos.y >> 4;
     pendulum->mUnk_ec.z = pendulum->mMapObject.mPos.z >> 4;
-    m = courseRow->mUnk_2a;
+    amplitudeSetting = courseRow->mUnk_2a;
     pendulum->mSwingAnglePerFrame = 0x640000u / (u32) courseRow->mUnk_28 / 0xf0u;
-    pendulum->mSwingAmplitude = (u32) (m * 0x1111) / 0x64u;
+    pendulum->mSwingAmplitude = (u32) (amplitudeSetting * 0x1111) / 0x64u;
     pendulum->mRadius = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mScale.x, 0x64000);
     pendulum->mHalfSizeZ = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mScale.z, 0x32000);
     pendulum->mUnk_10c = FALSE;
@@ -276,16 +278,16 @@ MapObjectKindData *CreateObPakkunSfKindData(void) {
 MapObjectDrawList *CreateObPakkunSfDrawList(void) {
     MapObjectDrawList *drawList;
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    data_0217b82c = drawList;
+    gObPakkunSfDrawList = drawList;
     *drawList = data_021591dc;
-    SetDrawListSlot(&data_0217b82c);
-    return data_0217b82c;
+    SetDrawListSlot(&gObPakkunSfDrawList);
+    return gObPakkunSfDrawList;
 }
 
 MapObjectList *CreateObPakkunSfUpdateList(void) {
     MapObjectList *updateList;
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
-    data_0217b828 = updateList;
+    gObPakkunSfUpdateList = updateList;
     *updateList = data_021591b4;
     return updateList;
 }

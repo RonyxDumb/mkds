@@ -7,4 +7,4 @@
 #include "Main/Unknown/code_020ec538.h"
 #include "Main/Unknown/unk_02158000.h"
 
-u8 CollideKartWithPukupuku(Pukupuku *pukupuku, Kart *kart, u8 *c, u8 *d);
+u8 CollideKartWithPukupuku(Pukupuku *pukupuku, Kart *kart, u8 *firstResponse, u8 *response);

@@ -49,13 +49,13 @@ NsbmdModel *CreateItemModel(u8 *modelName, u8 *animationName, u8 *textureName) {
     model = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     modelFile = FindItemFile(modelName);
     animationFile = FindItemFile(animationName);
-    func_020e64b8(model, modelFile, animationFile, 0);
+    InitNsbmdModel(model, modelFile, animationFile, 0);
     model->mPolygonAttributes &= 0xc0ffffff;
     model->mPolygonAttributes |= 0x04000000;
     model->mPolygonAttributes &= ~0xf;
     model->mPolygonAttributes |= 0x2;
-    model->mUnk_10 &= 0x8000ffff;
-    model->mUnk_10 |= 0x10840000;
+    model->mSpecEmi &= 0x8000ffff;
+    model->mSpecEmi |= 0x10840000;
     return model;
 }
 
@@ -216,7 +216,7 @@ void func_020ece1c(LinkFollowingItemObject *follower, s32 targetSpeed, s32 targe
     }
     s = 0x1000 - follower->mRampTimer * follower->mUnk_218;
     n = (follower->mUnk_224 != 0) ? 0x266 : 0x148;
-    func_020eacc0(direction, ((u64) ((s64) n * s)) >> 12, &toLink, &toLink);
+    BlendDirectionTowardVector(direction, ((u64) ((s64) n * s)) >> 12, &toLink, &toLink);
     SetItemObjectDirection(follower, &toLink);
 }
 

@@ -80,7 +80,7 @@ const Unk02159538 data_02159538 = {
     0,
 };
 
-BOOL func_020ec450(PushedObject *mapObject, void *other, u8 *firstResponse) {
+BOOL HitPushedObjectByKart(PushedObject *mapObject, void *other, u8 *firstResponse) {
     if (*firstResponse != 1) {
         return FALSE;
     }
@@ -90,7 +90,7 @@ BOOL func_020ec450(PushedObject *mapObject, void *other, u8 *firstResponse) {
     return TRUE;
 }
 
-BOOL func_020ec41c(PushedObject *mapObject, void *other, u8 *firstResponse) {
+BOOL HitPushedObjectByItemObject(PushedObject *mapObject, void *other, u8 *firstResponse) {
     if (*firstResponse != 1) {
         return FALSE;
     }
@@ -240,39 +240,39 @@ void UpdateWoodbox1State1(Woodbox1 *woodbox) {
 }
 
 BOOL BounceWoodbox1OffGround(Woodbox1 *woodbox) {
-    Vec3 v;
+    Vec3 cornerPos;
     Vec3 *axis;
     s32 dot;
     s32 extent;
 
-    v = woodbox->mUnk_000.mPos;
+    cornerPos = woodbox->mUnk_000.mPos;
     axis = &woodbox->mUnk_000.mMatrix.mUnk_00[0];
     extent = woodbox->mUnk_000.mExtent.x;
     dot = Vec3DotUnrounded(&woodbox->mGroundUp, axis);
     if (dot > 0) {
-        VEC_MultAdd(-extent, axis, &v, &v);
+        VEC_MultAdd(-extent, axis, &cornerPos, &cornerPos);
     } else {
-        VEC_MultAdd(extent, axis, &v, &v);
+        VEC_MultAdd(extent, axis, &cornerPos, &cornerPos);
     }
     axis = &woodbox->mUnk_000.mMatrix.mUnk_00[1];
     extent = woodbox->mUnk_000.mExtent.x;
     dot = Vec3DotUnrounded(&woodbox->mGroundUp, axis);
     if (dot > 0) {
-        VEC_MultAdd(-extent, axis, &v, &v);
+        VEC_MultAdd(-extent, axis, &cornerPos, &cornerPos);
     } else {
-        VEC_MultAdd(extent, axis, &v, &v);
+        VEC_MultAdd(extent, axis, &cornerPos, &cornerPos);
     }
     axis = &woodbox->mUnk_000.mMatrix.mUnk_00[2];
     extent = woodbox->mUnk_000.mExtent.x;
     dot = Vec3DotUnrounded(&woodbox->mGroundUp, axis);
     if (dot > 0) {
-        VEC_MultAdd(-extent, axis, &v, &v);
+        VEC_MultAdd(-extent, axis, &cornerPos, &cornerPos);
     } else {
-        VEC_MultAdd(extent, axis, &v, &v);
+        VEC_MultAdd(extent, axis, &cornerPos, &cornerPos);
     }
-    VEC_Subtract(&v, &woodbox->mBasePos, &v);
-    v.y = v.y + woodbox->mUnk_000.mExtent.x;
-    dot = -Vec3DotUnrounded(&v, &woodbox->mGroundUp);
+    VEC_Subtract(&cornerPos, &woodbox->mBasePos, &cornerPos);
+    cornerPos.y = cornerPos.y + woodbox->mUnk_000.mExtent.x;
+    dot = -Vec3DotUnrounded(&cornerPos, &woodbox->mGroundUp);
     if (dot > 0 && woodbox->mUnk_000.mUnk_10.y < 0) {
         woodbox->mPosOffset.y = woodbox->mPosOffset.y + dot;
         woodbox->mUnk_000.mUnk_10.y = MUL_FIXED12_NO_ROUND(-woodbox->mUnk_000.mUnk_10.y, 0x400);
@@ -642,22 +642,22 @@ s32 ComputeSphereHitOnRotatedCylinder(Vec3 *sphereCenter, Vec3 *cylinderCenter, 
         return 1;
     }
     if (pushOut != NULL) {
-        Vec3 w = {0};
+        Vec3 radialPush = {0};
 
         if ((s64) local.x * local.x + (s64) local.y * local.y + (s64) local.z * local.z >= 16) {
-            Vec3NormalizeAndGetLengthUnchecked(&local, &w);
+            Vec3NormalizeAndGetLengthUnchecked(&local, &radialPush);
         }
-        w.x = MUL_FIXED12_NO_ROUND(w.x, overlapRadial);
-        w.y = 0;
-        w.z = MUL_FIXED12_NO_ROUND(w.z, overlapRadial);
-        pushOut->x = MUL_FIXED12_NO_ROUND(axes->x, w.x) + MUL_FIXED12_NO_ROUND(axisZ->x, w.z);
-        pushOut->y = MUL_FIXED12_NO_ROUND(axes->y, w.x) + MUL_FIXED12_NO_ROUND(axisZ->y, w.z);
-        pushOut->z = MUL_FIXED12_NO_ROUND(axes->z, w.x) + MUL_FIXED12_NO_ROUND(axisZ->z, w.z);
+        radialPush.x = MUL_FIXED12_NO_ROUND(radialPush.x, overlapRadial);
+        radialPush.y = 0;
+        radialPush.z = MUL_FIXED12_NO_ROUND(radialPush.z, overlapRadial);
+        pushOut->x = MUL_FIXED12_NO_ROUND(axes->x, radialPush.x) + MUL_FIXED12_NO_ROUND(axisZ->x, radialPush.z);
+        pushOut->y = MUL_FIXED12_NO_ROUND(axes->y, radialPush.x) + MUL_FIXED12_NO_ROUND(axisZ->y, radialPush.z);
+        pushOut->z = MUL_FIXED12_NO_ROUND(axes->z, radialPush.x) + MUL_FIXED12_NO_ROUND(axisZ->z, radialPush.z);
     }
     return 2;
 }
 
-void func_020eacc0(Vec3 *direction, s32 blendFactor, Vec3 *target, Vec3 *result) {
+void BlendDirectionTowardVector(Vec3 *direction, s32 blendFactor, Vec3 *target, Vec3 *result) {
     Vec3 scaled;
     s32 negatedDot;
     s32 blend;
@@ -681,8 +681,8 @@ void func_020eacc0(Vec3 *direction, s32 blendFactor, Vec3 *target, Vec3 *result)
     VEC_MultAdd(blend + extra, target, &scaled, result);
 }
 
-void func_020eac20(Vec3 *direction, s32 blendFactor) {
-    s32 t;
+void BlendDirectionTowardUp(Vec3 *direction, s32 blendFactor) {
+    s32 blend;
     s32 n;
     s32 remaining;
     s32 blendProduct;
@@ -690,20 +690,20 @@ void func_020eac20(Vec3 *direction, s32 blendFactor) {
     s32 directionScale;
 
     n = -direction->y;
-    t = MUL_FIXED12_NO_ROUND(0x1000 - n, blendFactor);
-    if (t > 0x1000) {
-        t = 0x1000;
+    blend = MUL_FIXED12_NO_ROUND(0x1000 - n, blendFactor);
+    if (blend > 0x1000) {
+        blend = 0x1000;
     }
-    remaining = 0x1000 - t;
-    blendProduct = MUL_FIXED12_NO_ROUND(t, remaining);
+    remaining = 0x1000 - blend;
+    blendProduct = MUL_FIXED12_NO_ROUND(blend, remaining);
     n += 0x1000;
     extra = MUL_FIXED12_NO_ROUND(n, blendProduct >> 1);
     directionScale = remaining + extra;
-    t = t + extra;
+    blend = blend + extra;
     direction->x = MUL_FIXED12_NO_ROUND(direction->x, directionScale);
     direction->y = MUL_FIXED12_NO_ROUND(direction->y, directionScale);
     direction->z = MUL_FIXED12_NO_ROUND(direction->z, directionScale);
-    direction->y += t;
+    direction->y += blend;
 }
 
 void BounceVelocityOffSurface(Vec3 *velocity, Vec3 *surfaceNormal, s32 tangentScale, s32 bounceScale,
@@ -748,8 +748,8 @@ void BounceVelocityOffSurface(Vec3 *velocity, Vec3 *surfaceNormal, s32 tangentSc
     VEC_Add(&normalPart, result, result);
 }
 
-void func_020ea94c(Vec3 *velocity, Vec3 *surfaceNormal, s32 tangentScale, s32 bounceScale, s32 minNormalSpeed,
-                   Vec3 *result) {
+void BounceVelocityOffUnnormalizedSurface(Vec3 *velocity, Vec3 *surfaceNormal, s32 tangentScale, s32 bounceScale,
+                                          s32 minNormalSpeed, Vec3 *result) {
     Vec3 normal;
     s32 length;
 
@@ -801,7 +801,7 @@ void DrawShadowWithMaxAlpha(ShadowModel *shadow, void *matrix, Vec3 *scale, u32 
     }
 }
 
-void func_020ea84c(void) {
+void SendMaterialPolygonAttributes(void) {
     NNS_G3dGeBufferOP_N(0x29, &data_0217bbe8, 1);
 }
 
@@ -845,7 +845,7 @@ void DrawNsbmd1Mat1ShpWithMaxAlpha(Nsbmd *model, s32 maxAlpha) {
     data_0216c3d4 = -1;
 }
 
-void func_020ea670(Nsbmd *model, s32 maxAlpha) {
+void DrawNsbmdWithMaxAlphaAndMaterial(Nsbmd *model, s32 maxAlpha) {
     void *resMdl;
     u8 *modelData;
     s32 modelAlpha;
@@ -863,7 +863,7 @@ void func_020ea670(Nsbmd *model, s32 maxAlpha) {
         ((Unk020ea670_0c *) (modelData +
                              ((Unk020ea670_08 *) (modelData + ((Unk020ea670_0a *) modelData)->mUnk_00a))->mUnk_008))
             ->mUnk_00c;
-    NNS_G3dRenderObjSetCallBack(&model->mRenderObj, (NNSG3dSbcCallBackFunc) func_020ea84c, 0, 4, 3);
+    NNS_G3dRenderObjSetCallBack(&model->mRenderObj, (NNSG3dSbcCallBackFunc) SendMaterialPolygonAttributes, 0, 4, 3);
     DrawNsbmd(model);
     savedAlpha = data_0216c3d4;
     if (maxAlpha < savedAlpha) {

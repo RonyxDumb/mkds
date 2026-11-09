@@ -33,7 +33,7 @@ typedef struct Unk020e4610 {
     /* 24 */ u32 mUnk_24;
 } Unk020e4610;
 
-extern Unk020e4610 *data_0217b7dc;
+extern Unk020e4610 *gRotaryUpdateList;
 extern Unk020e4610 data_02158e9c;
 
 // 0x2c-byte object built from a table.
@@ -77,9 +77,9 @@ extern Unk020e46c8 data_02158ef0;
 extern Unk020e46c8 data_02158f30;
 extern Unk020e46c8 data_02158f70;
 
-void func_020e44e4(u32 unused, Rotary *object);
-Unk020e4610 *func_020e4610(void);
-Unk020e466c *func_020e466c(void);
+void UpdateRotary(u32 unused, Rotary *object);
+Unk020e4610 *CreateRotaryUpdateList(void);
+Unk020e466c *CreateRotaryDrawList(void);
 Unk020e46c8 *func_020e46c8(void);
 Unk020e46c8 *func_020e4718(void);
 Unk020e46c8 *func_020e4768(void);

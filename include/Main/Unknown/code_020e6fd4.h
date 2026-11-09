@@ -38,10 +38,10 @@ typedef struct MapObjectKindData {
     /* 3c */ s32 mUnk_3c;
 } MapObjectKindData;
 
-// Element object up to 0xa0, which every kind shares: UpdateMapObjectList and func_020e71a0 read 0x78 and 0x94 of every
-// object, DoesItemObjectRespondToMapObject reads 0x00, 0x02 and 0x98. InitKuribo and InitDram pass the StateMachine
-// at 0x80 to InitStateMachine. From 0xa0 on, the objects of func_020e72cc (Unk020e730c), InitDram (Dram), func_020ff97c
-// (Unk020ff97c) and InitItemBox (ItemBox) use the bytes in different ways.
+// Element object up to 0xa0, which every kind shares: UpdateMapObjectList and UpdateMapObjectSoundSource read 0x78 and
+// 0x94 of every object, DoesItemObjectRespondToMapObject reads 0x00, 0x02 and 0x98. InitKuribo and InitDram pass the
+// StateMachine at 0x80 to InitStateMachine. From 0xa0 on, the objects of func_020e72cc (Unk020e730c), InitDram (Dram),
+// func_020ff97c (Unk020ff97c) and InitItemBox (ItemBox) use the bytes in different ways.
 typedef struct MapObject {
     /* 00 */ u16 mKind;
     /* 02 */ u16 mFlags;
@@ -77,11 +77,12 @@ typedef struct MapObject {
     // the object as out of view while a bit is shared with the word GetKartKind3ShapeListMask returns.
     /* 74 */ u32 mDigitMask;
     // Result of the last view test of the object plus bits added by kinds. Bit 0: beyond mDrawDistance; bit 1: outside
-    // the view planes (set with bit 0 when mAlpha is 1 or less); bit 2: beyond mFarDistanceSquared (func_020e71a0 also
-    // sets it); bit 3: set when the object was tested in this pass; bit 4: set by kinds and kept by the test. Bits 5 to
-    // 29: the squared horizontal distance to the camera in whole units (read with the mask 0x3fffffe0; a far constant
-    // while mDigitMask is shared). Bit 30 is set by kinds and makes StartMapObjectKindSound skip the kind's sound; bit
-    // 31 is set by kinds and cleared by ItemObject code, which passes the object on as the one hit.
+    // the view planes (set with bit 0 when mAlpha is 1 or less); bit 2: beyond mFarDistanceSquared
+    // (UpdateMapObjectSoundSource also sets it); bit 3: set when the object was tested in this pass; bit 4: set by
+    // kinds and kept by the test. Bits 5 to 29: the squared horizontal distance to the camera in whole units (read with
+    // the mask 0x3fffffe0; a far constant while mDigitMask is shared). Bit 30 is set by kinds and makes
+    // StartMapObjectKindSound skip the kind's sound; bit 31 is set by kinds and cleared by ItemObject code, which
+    // passes the object on as the one hit.
     /* 78 */ u32 mDistanceSquaredAndFlags;
     // Non-zero when the view test of the object uses only two view planes (ComputeTwoPlaneViewTest) instead of five
     // (ComputeViewTest). Copied from the kind's data at creation.
@@ -135,13 +136,13 @@ typedef struct Unk020e7410 {
     /* 00 */ u32 mUnk_00[0x10];
 } Unk020e7410;
 
-// Source rows read by the second loop of func_020e7460, 0x0c bytes each; a
+// Source rows read by the second loop of CreateJg, 0x0c bytes each; a
 // row's non-zero words are names looked up by FindSceneFile.
-typedef struct Unk0216c324 {
-    /* 00 */ const char *mUnk_00;
-    /* 04 */ const char *mUnk_04;
-    /* 08 */ const char *mUnk_08;
-} Unk0216c324;
+typedef struct JgKindFileNames {
+    /* 00 */ const char *mNsbmdName;
+    /* 04 */ const char *mNsbcaName;
+    /* 08 */ const char *mNsbmaName;
+} JgKindFileNames;
 
 // A row of gJgKindRows, by gJgKind: rows 2 and 3 hold a model and one animation, rows 0 and 1 only mLapModel.
 typedef struct JgKindRow {
@@ -151,8 +152,8 @@ typedef struct JgKindRow {
     /* 0c */ NsbmdModel *mLapModel;
 } JgKindRow;
 
-extern Unk0216c324 data_0216c324[];
-// Filled in by func_020e7760; UpdateJgState1 stores GetHorizontalCameraDistanceSquared's return value
+extern JgKindFileNames data_0216c324[];
+// Filled in by InitJg; UpdateJgState1 stores GetHorizontalCameraDistanceSquared's return value
 // at 0x0c and hands it to func_0210b760.
 extern SoundStartParams data_0217b9dc;
 extern JgKindRow gJgKindRows[];
@@ -160,14 +161,14 @@ extern JgKindRow data_0217bb08[];
 
 void CallMapObjectListCallback(MapObjectList *list);
 void UpdateMapObjectList(MapObjectList *list);
-void func_020e71a0(MapObject *object);
+void UpdateMapObjectSoundSource(MapObject *object);
 void func_020e72cc(Unk020e730c *object, struct CourseMapRow *courseRow);
 void func_020e730c(void);
 u16 func_020e7388(int index);
 MapObjectList *func_020e73b4(void);
 Unk020e7410 *func_020e7410(void);
-void func_020e7460(void);
-void func_020e7760(void);
-void func_020e79c4(void);
+void CreateJg(void);
+void InitJg(void);
+void ReleaseJg(void);
 void func_020e7a18(void);
 void SetJgState4(void);

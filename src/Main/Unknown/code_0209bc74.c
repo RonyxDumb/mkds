@@ -87,10 +87,10 @@ MapObjectModel *CreateMapObjectModelNsbmd(MapObjectList *a, const char *b) {
         a->mUnk_18 = 2;
     }
     o->mNsbmdModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    func_020e64b8(o->mNsbmdModel, x, NULL, 0);
+    InitNsbmdModel(o->mNsbmdModel, x, NULL, 0);
     m = o->mNsbmdModel;
-    m->mUnk_10 &= 0x8000ffff;
-    m->mUnk_10 |= 0x294a0000;
+    m->mSpecEmi &= 0x8000ffff;
+    m->mSpecEmi |= 0x294a0000;
     m = o->mNsbmdModel;
     m->mPolygonAttributes &= ~0xf;
     m->mPolygonAttributes |= 2;
@@ -114,10 +114,10 @@ MapObjectModel *CreateMapObjectModelNsbmdNsbtp(MapObjectList *a, const char *b, 
         a->mUnk_18 = 2;
     }
     o->mNsbmdModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    func_020e64b8(o->mNsbmdModel, x, y, 0);
+    InitNsbmdModel(o->mNsbmdModel, x, y, 0);
     m = o->mNsbmdModel;
-    m->mUnk_10 &= 0x8000ffff;
-    m->mUnk_10 |= 0x294a0000;
+    m->mSpecEmi &= 0x8000ffff;
+    m->mSpecEmi |= 0x294a0000;
     m = o->mNsbmdModel;
     m->mPolygonAttributes &= ~0xf;
     m->mPolygonAttributes |= 2;

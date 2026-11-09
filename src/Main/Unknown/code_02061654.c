@@ -176,8 +176,8 @@ void InitRace(void) {
             break;
     }
     SetHeapGroupId(3);
-    func_020e7460();
-    func_020e7760();
+    CreateJg();
+    InitJg();
     InitMapObjects();
     InitItems();
     SetHeapGroupId(6);
@@ -586,8 +586,8 @@ void BuildFadeFog(s32 fadeLevel, s32 b) {
         data_0217aa28 = MUL_FIXED12_ROUNDED(data_0217aa40, courseWeight) +
                         (MUL_FIXED12_ROUNDED(data_0217aa34, courseWeight) << 5) +
                         (MUL_FIXED12_ROUNDED(data_0217aa3c, courseWeight) << 10);
-        data_0217aa68 = MUL_FIXED12_ROUNDED(courseWeight, data_0217aa50) +
-                        MUL_FIXED12_ROUNDED(fadeWeight, data_0217aa60);
+        data_0217aa68 =
+            MUL_FIXED12_ROUNDED(courseWeight, data_0217aa50) + MUL_FIXED12_ROUNDED(fadeWeight, data_0217aa60);
         gFadeFogOffset = MUL_FIXED12_ROUNDED(courseWeight, gCourseFogOffset);
         for (i = 0; i < 8; i++) {
             tableEntry = gCourseFogTable[i];

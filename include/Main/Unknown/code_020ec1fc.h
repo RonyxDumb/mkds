@@ -56,5 +56,5 @@ void DrawWoodbox1(void *a, Woodbox1 *woodbox, void *c, u32 maxAlpha);
 MapObjectList *CreateWoodbox1UpdateList(void);
 Woodbox1DrawList *CreateWoodbox1DrawList(void);
 Unk02159538 *CreateWoodbox1KindData(void);
-BOOL func_020ec41c(PushedObject *mapObject, void *other, u8 *firstResponse);
-BOOL func_020ec450(PushedObject *mapObject, void *other, u8 *firstResponse);
+BOOL HitPushedObjectByItemObject(PushedObject *mapObject, void *other, u8 *firstResponse);
+BOOL HitPushedObjectByKart(PushedObject *mapObject, void *other, u8 *firstResponse);

@@ -37,27 +37,27 @@ typedef struct PendulumObject {
     /* 10c */ BOOL mUnk_10c;
 } PendulumObject;
 
-// Allocated by func_020e6488 and CreateItemModel, filled in by func_020e6514, 0x2c bytes.
+// Allocated by CreateNsbmdModel and CreateItemModel, filled in by FillNsbmdModel, 0x2c bytes.
 typedef struct NsbmdModel {
-    /* 00 */ u8 *mUnk_00;
-    /* 04 */ u32 mUnk_04;
+    /* 00 */ u8 *mDisplayList;
+    /* 04 */ u32 mDisplayListSize;
     /* 08 */ u32 mScale;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ s32 mUnk_10;
+    /* 0c */ s32 mDiffAmb;
+    /* 10 */ s32 mSpecEmi;
     /* 14 */ u32 mPolygonAttributes;
     /* 18 */ u16 mFrameIndex;
     /* 1a */ u16 mFrameCount;
-    /* 1c */ u32 *mUnk_1c;
-    /* 20 */ u32 *mUnk_20;
-    /* 24 */ void *mUnk_24;
-    /* 28 */ void *mUnk_28;
+    /* 1c */ u32 *mTexImageParams;
+    /* 20 */ u32 *mTexPlttBases;
+    /* 24 */ void *mNsbmd;
+    /* 28 */ void *mNsbtpAnimation;
 } NsbmdModel;
 
 extern NsbmdModel gJgCloud;
 
 extern NsbmdModel gJgMain;
 
-// Work area of func_020e6514 on the stack: two words, then the object
+// Work area of FillNsbmdModel on the stack: two words, then the object
 // NNSi_G3dAnmCalcNsBtp fills in.
 typedef struct Unk020e6514_8 {
     /* 00 */ u32 mUnk_00;
@@ -72,11 +72,11 @@ MapObjectKindData *CreateObPakkunSfKindData(void);
 void InitPendulum(PendulumObject *pendulum, Unk020e5e24_2 *courseRow);
 void CreatePendulumAndPendulumShadow(void);
 BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *out);
-void UpdatePendulum(u32 param_1, PendulumObject *pendulum);
-void DrawPendulum(u32 param_1, PendulumObject *pendulum, u32 param_3, u32 alpha);
+void UpdatePendulum(u32 list, PendulumObject *pendulum);
+void DrawPendulum(u32 unused0, PendulumObject *pendulum, u32 unused1, u32 alpha);
 MapObjectList *CreatePendulumUpdateList(void);
 MapObjectDrawList *CreatePendulumDrawList(void);
 MapObjectKindData *CreatePendulumKindData(void);
-void func_020e6488(NsbmdModel **recordSlot, void *nsbmdFile, void *nsbtpFile, u32 param_4);
-void func_020e64b8(NsbmdModel *record, void *nsbmdFile, void *nsbtpFile, s32 c);
-void func_020e6514(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record);
+void CreateNsbmdModel(NsbmdModel **recordSlot, void *nsbmdFile, void *nsbtpFile, u32 param_4);
+void InitNsbmdModel(NsbmdModel *record, void *nsbmdFile, void *nsbtpFile, s32 c);
+void FillNsbmdModel(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record);

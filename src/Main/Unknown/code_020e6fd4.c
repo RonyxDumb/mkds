@@ -71,7 +71,7 @@ void func_020e7a18(void) {
     }
 }
 
-void func_020e79c4(void) {
+void ReleaseJg(void) {
     if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
         return;
     }
@@ -80,7 +80,7 @@ void func_020e79c4(void) {
 }
 
 #pragma thumb on
-void func_020e7760(void) {
+void InitJg(void) {
     Kart *kart;
     Vec3 *point;
     s32 i;
@@ -186,12 +186,12 @@ void func_020e7760(void) {
     SetStateMachineState(&gJgStateMachine, 0);
 }
 
-void func_020e7460(void) {
+void CreateJg(void) {
     s32 angle;
     s32 j;
     s32 i;
     void *heap;
-    Unk0216c324 *sourceRow;
+    JgKindFileNames *sourceRow;
     JgKindRow *kindRow;
     void *file;
     s32 n;
@@ -201,10 +201,10 @@ void func_020e7460(void) {
     if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
         return;
     }
-    func_020e64b8(&gJgMain, FindSceneFile(data_0216c374), FindSceneFile(data_0216c384), 0);
+    InitNsbmdModel(&gJgMain, FindSceneFile(gJgMainNsbmdName), FindSceneFile(gJgMainNsbtpName), 0);
     SetNsbmdModelFixedAttributes(&gJgMain);
     gJgMain.mPolygonAttributes |= 0xc0;
-    func_020e64b8(&gJgCloud, FindSceneFile(data_0216c394), NULL, 0);
+    InitNsbmdModel(&gJgCloud, FindSceneFile(gJgCloudNsbmdName), NULL, 0);
     SetNsbmdModelFixedAttributes(&gJgCloud);
     gJgCloud.mPolygonAttributes |= 0xc0;
     data_0217b8a4 = HeapAlloc(heap, 0x78);
@@ -227,27 +227,27 @@ void func_020e7460(void) {
     gJgTableIndex = 0;
     n = 2;
     for (j = n, sourceRow = data_0216c324, kindRow = data_0217bb08; j < 4; j++) {
-        if (sourceRow->mUnk_00 != NULL) {
+        if (sourceRow->mNsbmdName != NULL) {
             kindRow->mModel = HeapAlloc(heap, 0x6c);
-            file = FindSceneFile(sourceRow->mUnk_00);
+            file = FindSceneFile(sourceRow->mNsbmdName);
             InitNsbmd(kindRow->mModel, file);
             SetNsbmdPolygonIdLightEmiAll(kindRow->mModel, 0x3f, n, 0x294a);
             SetNsbmdCullModeAll(kindRow->mModel, 3);
         } else {
             kindRow->mModel = NULL;
         }
-        if (sourceRow->mUnk_04 != NULL) {
+        if (sourceRow->mNsbcaName != NULL) {
             kindRow->mNsbcaAnimation = HeapAlloc(heap, 0x38);
             InitModelAnimationWithEntries(0, kindRow->mModel, kindRow->mNsbcaAnimation, file,
-                                          FindSceneFile(sourceRow->mUnk_04));
+                                          FindSceneFile(sourceRow->mNsbcaName));
             func_02087cfc(kindRow->mNsbcaAnimation, 0, 1);
         } else {
             kindRow->mNsbcaAnimation = NULL;
         }
-        if (sourceRow->mUnk_08 != NULL) {
+        if (sourceRow->mNsbmaName != NULL) {
             kindRow->mNsbmaAnimation = HeapAlloc(heap, 0x38);
             InitModelAnimationWithEntries(4, kindRow->mModel, kindRow->mNsbmaAnimation, file,
-                                          FindSceneFile(sourceRow->mUnk_08));
+                                          FindSceneFile(sourceRow->mNsbmaName));
             func_02087cfc(kindRow->mNsbmaAnimation, 0, 1);
         } else {
             kindRow->mNsbmaAnimation = NULL;
@@ -255,10 +255,11 @@ void func_020e7460(void) {
         sourceRow++;
         kindRow++;
     }
-    func_020e6488(&gJgKindRows[0].mLapModel, FindSceneFile(data_0216c3a4), FindSceneFile(data_0216c3b4), 0);
+    CreateNsbmdModel(&gJgKindRows[0].mLapModel, FindSceneFile(gLapCountNsbmdName), FindSceneFile(gLapCountNsbtpName),
+                     0);
     SetNsbmdModelFixedAttributes(gJgKindRows[0].mLapModel);
     gJgKindRows[0].mLapModel->mPolygonAttributes |= 0xc0;
-    func_020e6488(&gJgKindRows[1].mLapModel, FindSceneFile(data_0216c3c4), 0, 0);
+    CreateNsbmdModel(&gJgKindRows[1].mLapModel, FindSceneFile(gLapFinalNsbmdName), 0, 0);
     SetNsbmdModelFixedAttributes(gJgKindRows[1].mLapModel);
     gJgKindRows[1].mLapModel->mPolygonAttributes |= 0xc0;
 }
@@ -325,7 +326,7 @@ void func_020e72cc(Unk020e730c *object, struct CourseMapRow *courseRow) {
 }
 #pragma thumb off
 
-void func_020e71a0(MapObject *object) {
+void UpdateMapObjectSoundSource(MapObject *object) {
     MapObjectSound *sound;
     BOOL resultIsFalse;
     BOOL hasSoundBit0;
@@ -382,7 +383,7 @@ void UpdateMapObjectList(MapObjectList *list) {
         for (i = 0; i < count; i++) {
             object = objects[i];
             if (object->mSound != NULL) {
-                func_020e71a0(object);
+                UpdateMapObjectSoundSource(object);
             }
         };
         return;
@@ -397,7 +398,7 @@ void UpdateMapObjectList(MapObjectList *list) {
                 callback(list, object);
                 VEC_Subtract(&object->mPos, &previousPos, &object->mUnk_10);
                 if (object->mSound != NULL) {
-                    func_020e71a0(object);
+                    UpdateMapObjectSoundSource(object);
                 }
             }
         };
@@ -411,7 +412,7 @@ void UpdateMapObjectList(MapObjectList *list) {
             if ((object->mFlags & 4) == 0) {
                 callback(list, object);
                 if (object->mSound != NULL) {
-                    func_020e71a0(object);
+                    UpdateMapObjectSoundSource(object);
                 }
             }
         }

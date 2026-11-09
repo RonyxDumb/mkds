@@ -84,7 +84,7 @@ void SetupDrawPukupuku(void) {
 void DrawPukupuku(u32 a, Pukupuku *pukupuku, u32 b, u16 alpha) {
     NsbmdModel *model;
     s32 mirrored;
-    u32 v;
+    u32 motionAngle;
 
     if (pukupuku->mPushedObject.mMapObject.mStateMachine.mState == 0) {
         MtxFx43 *matrix;
@@ -100,7 +100,7 @@ void DrawPukupuku(u32 a, Pukupuku *pukupuku, u32 b, u16 alpha) {
     } else {
         MtxFx43 *matrix;
         mirrored = pukupuku->mPushedObject.mMapObject.mCollisionSlotIndex & 1;
-        v = pukupuku->mPushedObject.mMotion.mAngle;
+        motionAngle = pukupuku->mPushedObject.mMotion.mAngle;
         matrix = SetViewTransposeMatrixPos(&pukupuku->mPushedObject.mMapObject.mPos);
         model = gPukupuku;
         model->mPolygonAttributes = model->mPolygonAttributes | 0xc0;
@@ -108,11 +108,11 @@ void DrawPukupuku(u32 a, Pukupuku *pukupuku, u32 b, u16 alpha) {
         if (mirrored) {
             gPukupukuDrawScale.x = -gPukupukuDrawScale.x;
         }
-        DrawNsbmdModelWithMatrixAndAngle(model, matrix, v, &gPukupukuDrawScale, 0, alpha);
+        DrawNsbmdModelWithMatrixAndAngle(model, matrix, motionAngle, &gPukupukuDrawScale, 0, alpha);
     }
 }
 
-void func_020e4e9c(void) {
+void SetupDrawPukupukuShadow(void) {
     u32 value12;
     SendObjShadowMaterial();
 }
@@ -132,7 +132,7 @@ void DrawPukupukuShadow(u32 a, Pukupuku *pukupuku, u32 b, u32 alpha) {
     DrawObjShadowAfterMaterial(&pukupuku->mShadowMatrix, &shadowParams, 0, alpha);
 }
 
-void func_020e4df8(u32 arg0, Pukupuku *pukupuku) {
+void UpdatePukupuku(u32 unused, Pukupuku *pukupuku) {
     AdvanceStateMachine(&pukupuku->mPushedObject.mMapObject.mStateMachine);
 }
 
@@ -157,9 +157,9 @@ void UpdatePukupukuState0(Pukupuku *pukupuku) {
             &pukupuku->mPushedObject.mMapObject.mPos);
     y = 0;
     y += MUL_FIXED12_NO_ROUND(pukupuku->mGroundSlopeX,
-                                    pukupuku->mPushedObject.mMapObject.mPos.x - pukupuku->mInitialPos.x);
+                              pukupuku->mPushedObject.mMapObject.mPos.x - pukupuku->mInitialPos.x);
     y += MUL_FIXED12_NO_ROUND(pukupuku->mGroundSlopeZ,
-                                    pukupuku->mPushedObject.mMapObject.mPos.z - pukupuku->mInitialPos.z);
+                              pukupuku->mPushedObject.mMapObject.mPos.z - pukupuku->mInitialPos.z);
     pukupuku->mGroundYOffset = y;
     y = pukupuku->mInitialPos.y + pukupuku->mGroundYOffset;
     if (pukupuku->mPushedObject.mMapObject.mPos.y >= y) {
@@ -273,25 +273,25 @@ void UpdatePukupukuState3(Pukupuku *pukupuku) {
     }
 }
 
-u8 CollideKartWithPukupuku(Pukupuku *pukupuku, Kart *kart, u8 *c, u8 *d) {
-    if (*c == 1) {
+u8 CollideKartWithPukupuku(Pukupuku *pukupuku, Kart *kart, u8 *firstResponse, u8 *response) {
+    if (*firstResponse == 1) {
         SetPushedMotionFromKart(&pukupuku->mPushedObject, kart);
         pukupuku->mPushedObject.mMapObject.mStateMachine.mNextState = 1;
         pukupuku->mPushedObject.mMapObject.mStateMachine.mNextStateRequested = 1;
         pukupuku->mPushedObject.mMapObject.mFlags = pukupuku->mPushedObject.mMapObject.mFlags | (data_02158fe4);
         StartSoundIfKartStarOrKiller(&pukupuku->mPushedObject.mMapObject, kart);
     }
-    return *d;
+    return *response;
 }
 
-s32 CollideItemObjectWithPukupuku(Pukupuku *pukupuku, void *itemObject, u8 *b, u8 *c) {
-    if (*b == 1) {
+s32 CollideItemObjectWithPukupuku(Pukupuku *pukupuku, void *itemObject, u8 *firstResponse, u8 *response) {
+    if (*firstResponse == 1) {
         SetPushedMotionFromItemObject(&pukupuku->mPushedObject, itemObject);
         pukupuku->mPushedObject.mMapObject.mFlags |= data_02158fe4;
         pukupuku->mPushedObject.mMapObject.mStateMachine.mNextState = 1;
         pukupuku->mPushedObject.mMapObject.mStateMachine.mNextStateRequested = 1;
     }
-    return *c;
+    return *response;
 }
 
 #pragma thumb on
@@ -299,7 +299,7 @@ s32 CollideItemObjectWithPukupuku(Pukupuku *pukupuku, void *itemObject, u8 *b, u
 void CreatePukupuku(void) {
     void *nsbmdFile;
     nsbmdFile = FindCourseMapObjFile(gPukupukuNsbmdName);
-    func_020e6488(&gPukupuku, nsbmdFile, 0, 0);
+    CreateNsbmdModel(&gPukupuku, nsbmdFile, 0, 0);
     SetNsbmdModelFixedAttributes(gPukupuku);
 }
 

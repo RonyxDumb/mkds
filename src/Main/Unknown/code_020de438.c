@@ -30,14 +30,14 @@ void UpdateEarthenPipe(u32 unused, PushedObject *pipe) {
 }
 
 u8 CollideKartWithEarthenPipe(PushedObject *pipe, void *kart, u8 *firstResponsePtr, u8 *secondResponsePtr) {
-    if (func_020ec450(pipe, kart, firstResponsePtr) != FALSE) {
+    if (HitPushedObjectByKart(pipe, kart, firstResponsePtr) != FALSE) {
         StartSoundIfKartStarOrKiller(&pipe->mMapObject, kart);
     }
     return *secondResponsePtr;
 }
 
 u8 CollideItemObjectWithEarthenPipe(PushedObject *pipe, void *itemObject, u8 *firstResponsePtr, u8 *secondResponsePtr) {
-    func_020ec41c(pipe, itemObject, firstResponsePtr);
+    HitPushedObjectByItemObject(pipe, itemObject, firstResponsePtr);
     return *secondResponsePtr;
 }
 
@@ -46,9 +46,9 @@ u8 CollideItemObjectWithEarthenPipe(PushedObject *pipe, void *itemObject, u8 *fi
 void CreateEarthenPipe1AndEarthenPipe2(void) {
     void *nsbmdFile;
     nsbmdFile = FindCourseMapObjFile(gEarthenPipe1NsbmdName);
-    func_020e6488(&gEarthenPipe1, nsbmdFile, 0, 0);
+    CreateNsbmdModel(&gEarthenPipe1, nsbmdFile, 0, 0);
     nsbmdFile = FindCourseMapObjFile(gEarthenPipe2NsbmdName);
-    func_020e6488(&gEarthenPipe2, nsbmdFile, 0, 0);
+    CreateNsbmdModel(&gEarthenPipe2, nsbmdFile, 0, 0);
     SetNsbmdModelFixedAttributes(gEarthenPipe1);
     SetNsbmdModelFixedAttributes(gEarthenPipe2);
 }

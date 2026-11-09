@@ -634,7 +634,7 @@ Expression shapes:
   init, after `k = 0` (func_ov003_021c1cd8).
 - Thumb: `movs rX, rY` copying a shared zero for a loop's induction variable, or a loop counter's constant stored before
   the pointer loads of the preheader: assign the counter first, `for (i = 0, x = 0; ...)` or `for (j = n, s = ..., q =
-  ...; ...)` (func_020e7460).
+  ...; ...)` (CreateJg).
 - Thumb: one `cmp #0; ble` guard with the pointer load after it and no second guard: `j = 0; if (j < N) { t = ..; do {
   .. j++; } while (j < N); }` (func_020357dc).
 - A pointer stepped only to pass as a call argument, with its own spill slot: pass `arr[j]`, not a second pointer

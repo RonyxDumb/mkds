@@ -490,7 +490,8 @@ void UpdateShine16(void *a, Shine16 *shine16) {
                 if (GetMapObjectHitResponse(&shine16->mUnk_00, 0, &b)) {
                     t = shine16->mUnk_00.mUnk_10.y;
                     VEC_Add(&shine16->mUnk_00.mPos, &b, &shine16->mUnk_00.mPos);
-                    func_020ea94c(&shine16->mUnk_00.mUnk_10, &b, 0x1000, 0x1000, 0x800, &shine16->mUnk_00.mUnk_10);
+                    BounceVelocityOffUnnormalizedSurface(&shine16->mUnk_00.mUnk_10, &b, 0x1000, 0x1000, 0x800,
+                                                         &shine16->mUnk_00.mUnk_10);
                     shine16->mUnk_00.mUnk_10.y = 0;
                     if ((s64) shine16->mUnk_00.mUnk_10.x * shine16->mUnk_00.mUnk_10.x +
                             (s64) shine16->mUnk_00.mUnk_10.y * shine16->mUnk_00.mUnk_10.y +

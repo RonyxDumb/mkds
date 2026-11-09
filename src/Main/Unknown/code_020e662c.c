@@ -169,8 +169,8 @@ Vec3 *GetViewTransposeMatrixAxis2(void) {
 }
 
 void SetNsbmdModelFixedAttributes(NsbmdModel *model) {
-    model->mUnk_10 = (u32) ((((model->mUnk_10)) & (0x8000ffffu)));
-    model->mUnk_10 = (u32) ((((model->mUnk_10)) | (0x294a0000u)));
+    model->mSpecEmi = (u32) ((((model->mSpecEmi)) & (0x8000ffffu)));
+    model->mSpecEmi = (u32) ((((model->mSpecEmi)) | (0x294a0000u)));
     model->mPolygonAttributes = (model->mPolygonAttributes & ~(0x3f000000u));
     model->mPolygonAttributes = (model->mPolygonAttributes | (0x3f000000u));
     model->mPolygonAttributes = (model->mPolygonAttributes & ~(0xfu));
@@ -186,11 +186,11 @@ void QueueViewMatrix(void) {
 
 void QueueNsbmdModelMaterial(NsbmdModel *model) {
     if (model->mFrameCount == 1) {
-        NNS_G3dGeBufferOP_N(0x2b, model->mUnk_20, 1);
-        NNS_G3dGeBufferOP_N(0x2a, model->mUnk_1c, 1);
+        NNS_G3dGeBufferOP_N(0x2b, model->mTexPlttBases, 1);
+        NNS_G3dGeBufferOP_N(0x2a, model->mTexImageParams, 1);
     }
-    NNS_G3dGeBufferOP_N(0x30, &model->mUnk_0c, 1);
-    NNS_G3dGeBufferOP_N(0x31, &model->mUnk_10, 1);
+    NNS_G3dGeBufferOP_N(0x30, &model->mDiffAmb, 1);
+    NNS_G3dGeBufferOP_N(0x31, &model->mSpecEmi, 1);
 }
 
 s32 ComputeViewDepthAlpha(Vec3 *position) {
@@ -245,10 +245,10 @@ void DrawNsbmdModelWithMaxAlpha(NsbmdModel *model, Vec3 *position, s32 usePositi
         u16 frameIndex;
 
         frameIndex = model->mFrameIndex;
-        NNS_G3dGeBufferOP_N(0x2b, model->mUnk_20 + frameIndex, 1);
-        NNS_G3dGeBufferOP_N(0x2a, model->mUnk_1c + frameIndex, 1);
+        NNS_G3dGeBufferOP_N(0x2b, model->mTexPlttBases + frameIndex, 1);
+        NNS_G3dGeBufferOP_N(0x2a, model->mTexImageParams + frameIndex, 1);
     }
-    NNS_G3dGeSendDL(model->mUnk_00, model->mUnk_04);
+    NNS_G3dGeSendDL(model->mDisplayList, model->mDisplayListSize);
 }
 
 void DrawNsbmdModelWithMatrixAndMaxAlpha(NsbmdModel *model, MtxFx43 *matrix, Vec3 *scale, s32 usePosition,
