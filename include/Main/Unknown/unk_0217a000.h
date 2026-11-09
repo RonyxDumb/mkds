@@ -1464,6 +1464,7 @@ extern const s32 *data_usa_0217ae2c;
 extern const s32 *gKartAiRaceStartBoostRandomLimits;
 extern const s32 *data_usa_0217ae34;
 extern u16 gKartEffectColor;
+// Written by InitKartEffects; nothing reads it.
 extern u16 gKartEffectsCount;
 extern struct Unk0201ca6c **gKartNearRankEffects;
 // Three objects per entry, 0xc bytes each.

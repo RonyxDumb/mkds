@@ -45,6 +45,7 @@ typedef struct KartSurfaceEffectRow {
 extern const OtherKartPairs gOtherKartPairs[];
 extern KartSurfaceEffectRow gKartSurfaceEffectRows[];
 extern KartSurfaceEffectRow gKartSurfaceEffectRow1;
+extern KartSurfaceEffectRow gKartSurfaceEffectRow2;
 extern KartSurfaceEffectRow gKartSurfaceEffectRow3;
 extern KartSurfaceEffectRow gKartSurfaceEffectRow4;
 extern KartSurfaceEffectRow gKartSurfaceEffectRow5;
