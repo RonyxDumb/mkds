@@ -8,6 +8,7 @@
 #include "Main/Unknown/unk_0217a000.h"
 #include "code_0200eddc.h"
 #include "code_0214d018.h"
+#include "Main/Unknown/code_0211d4a8.h"
 
 #pragma opt_rebuildconditionals off
 
@@ -31,7 +32,7 @@ u32 func_020501b0(u32 entryIndex) {
         entryValid = result;
         if (func_02050080_inline() != 2) {
             entryValid = 0;
-        } else if (*(u16 *) 0x027ffc40 == 2) {
+        } else if (gBootInfo->mUnk_00 == 2) {
             entryValid = 0;
         } else if (data_0217aa00->mUnk_00ac[entryIndex].mInUse != 0) {
             entryValid = 1;

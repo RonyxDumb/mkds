@@ -44,6 +44,7 @@
 #include "code_0201ea58.h"
 #include "code_0212df7c.h"
 #include "registers.h"
+#include "Main/Unknown/code_0211d4a8.h"
 
 #pragma thumb on
 static inline s32 func_02119340_inline(InputSlotIndex inputIndex) {
@@ -81,7 +82,7 @@ void AdvanceSelectCupCourseState3(void) {
          IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175670[inputIndex].mPressedBits,
                                                          data_02175672[inputIndex].mPressedBits) != FALSE)) {
         if (IsSelectCupCourseIndexChangeRunning() == 0) {
-            if (*(vu16 *) 0x027ffc40 == 2) {
+            if (gBootInfo->mUnk_00 == 2) {
                 SetSelectReturnSoundId(-1);
             } else {
                 SetSelectReturnSoundId(0xe);
@@ -115,7 +116,7 @@ void AdvanceSelectCupCourseState3(void) {
         if (gSelectCupCourse->mIndex < 0) {
             gSelectCupCourse->mIndex = 3;
         }
-        if (*(vu16 *) 0x027ffc40 != 2) {
+        if (gBootInfo->mUnk_00 != 2) {
             NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0);
         }
         return;
@@ -125,7 +126,7 @@ void AdvanceSelectCupCourseState3(void) {
         if (gSelectCupCourse->mIndex >= 4) {
             gSelectCupCourse->mIndex = 0;
         }
-        if (*(vu16 *) 0x027ffc40 != 2) {
+        if (gBootInfo->mUnk_00 != 2) {
             NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0);
         }
     }
@@ -181,7 +182,7 @@ void AdvanceSelectCupCourseState6(void) {
 
     if (GetSelectChoisesDone() != 0) {
         RequestSelectCupCourseState7();
-        if (*(vu16 *) 0x027ffc40 == 2) {
+        if (gBootInfo->mUnk_00 == 2) {
             choiceIndex = GetSelectChoisesIndex();
             switch (choiceIndex) {
                 case 0:
@@ -228,7 +229,7 @@ void AdvanceSelectCupCourseState7(void) {
                             SetCourseIdFromSelectCupCourse();
                             gSelectCupCourse->mResult = 1;
                             RequestSelectCupCourseState8();
-                            if (*(vu16 *) 0x027ffc40 == 2) {
+                            if (gBootInfo->mUnk_00 == 2) {
                                 func_0211f378();
                             }
                             break;
@@ -250,7 +251,7 @@ void AdvanceSelectCupCourseState8(void) {
     s32 i;
 
     gSelectCupCourse->mStateFrames++;
-    if (*(vu16 *) 0x027ffc40 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         return;
     }
     if (gSelectCupCourse->mMode == 0) {
@@ -338,7 +339,7 @@ s32 AdvanceSelectCupCourse(void) {
             break;
     }
     AdvanceSelectCupCourseHighlight();
-    if (*(vu16 *) 0x027ffc40 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         if (gSelectCupCourse->mCupPicturePending != FALSE && func_020d0ec4() != FALSE) {
             screenMap = GetCupPictureNscrData();
             CallQueueAppend(0x1f, 0, GetCupPictureNclrData(), 0xe0);
@@ -379,7 +380,7 @@ void LoadSelectCupGridData(void) {
     Nscr *selectCupMScreenMap = NULL;
     Nclr *selectCupMBPalette = NULL;
 
-    if (*(vu16 *) 0x027ffc40 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         LoadNcgrData(&selectCupMBChars, FindSceneFile(data_0216d690));
         LoadNclrData(&selectCupMBPalette, FindSceneFile(data_0216d6b8));
         LoadNscrData(&selectCupMScreenMap, FindSceneFile(data_0216d6bc));
@@ -405,7 +406,7 @@ void func_02118b48(void) {
     Nclr *selectCupMBPalette = NULL;
     u16 *paletteData;
 
-    if (*(vu16 *) 0x027ffc40 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         gSelectCupGrid->mSelectCupSBnbl = FindSceneFile(data_0216d6a4);
         return;
     }

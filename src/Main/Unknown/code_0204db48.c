@@ -11,6 +11,7 @@
 #include "Main/Unknown/code_0214d000.h"
 #include "Main/Unknown/unk_0217a000.h"
 #include "code_0214d018.h"
+#include "Main/Unknown/code_0211d4a8.h"
 
 #pragma thumb on
 
@@ -97,7 +98,7 @@ s32 func_0204dd24(u16 a) {
         case 1:
             g->mUnk_1692 = 0;
         case 2:
-            if (*(u16 *) 0x027ffc40 == 2) {
+            if (gBootInfo->mUnk_00 == 2) {
                 func_0204df90();
             } else {
                 StartConnect(NULL, NULL, NULL, (s32(*)()) func_0204df5c, NULL);

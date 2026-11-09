@@ -418,7 +418,7 @@ void EnterMPState10(void) {
 
     WM_SetPortCallback(14, NULL, NULL);
     data_0217aa00->mUnk_043c = data_0217aa00->mUnk_045c[0].mUnk_228_4;
-    if (*(u16 *) 0x027ffc40 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         data_021759d0->mLanguageIndex = data_0217aa00->mUnk_043c;
     }
     for (slot = 1; slot < 8; slot++) {

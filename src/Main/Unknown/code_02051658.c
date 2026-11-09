@@ -14,6 +14,7 @@
 #include "wm_etc.h"
 #include "code_02142eac.h"
 #include "code_0214d018.h"
+#include "Main/Unknown/code_0211d4a8.h"
 
 static inline u32 func_02051658_inline(void) {
     if (data_0217aa00 == NULL) {
@@ -359,7 +360,7 @@ void StartConnect(ScanBlock *a, void *b, s32 (*c)(), s32 (*d)(), s32 (*e)()) {
     }
     if (b == NULL) {
         v1[0x14] = 0;
-        if (*(u16 *) 0x027ffc40 == 2) {
+        if (gBootInfo->mUnk_00 == 2) {
             v1[0x14] = v1[0x14] | 1;
         }
     } else {
@@ -407,7 +408,7 @@ void StartConnectCallback(Unk021425e8 *event) {
                     data_0217aa00->mRequestPending = 0;
                     break;
                 case 9:
-                    if (*(u16 *) 0x027ffc40 == 2) {
+                    if (gBootInfo->mUnk_00 == 2) {
                         shouldReset = TRUE;
                     } else if (data_0217aa00->mUnk_0450 != 0) {
                         data_0217aa00->mUnk_0450();

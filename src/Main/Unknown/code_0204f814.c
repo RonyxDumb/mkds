@@ -9,6 +9,7 @@
 #include "Main/Unknown/code_0214d000.h"
 #include "Main/Unknown/unk_02154000.h"
 #include "Main/Unknown/unk_0217a000.h"
+#include "Main/Unknown/code_0211d4a8.h"
 
 #pragma opt_rebuildconditionals off
 
@@ -67,7 +68,7 @@ BOOL func_0204ff14(u16 entryIndex, void *destination) {
     if (func_0204ff14_inline(t) != 2) {
         return FALSE;
     }
-    if (*(u16 *) 0x027ffc40 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         return FALSE;
     }
     if (t->mUnk_00ac[entryIndex].mInUse != 0) {
@@ -87,7 +88,7 @@ BOOL func_0204fe90(u16 entryIndex) {
     entryValid = FALSE;
     if (func_0204f814_inline() != 2) {
         entryValid = FALSE;
-    } else if (*(u16 *) 0x027ffc40 == 2) {
+    } else if (gBootInfo->mUnk_00 == 2) {
         entryValid = FALSE;
     } else if (data_0217aa00->mUnk_00ac[entryIndex].mInUse != 0) {
         entryValid = TRUE;
@@ -108,7 +109,7 @@ s32 func_0204fe1c(u16 entryIndex) {
     entryValid = FALSE;
     if (func_0204f814_inline() != 2) {
         entryValid = FALSE;
-    } else if (*(u16 *) 0x027ffc40 == 2) {
+    } else if (gBootInfo->mUnk_00 == 2) {
         entryValid = FALSE;
     } else if (data_0217aa00->mUnk_00ac[entryIndex].mInUse != 0) {
         entryValid = TRUE;
@@ -244,7 +245,7 @@ void func_0204f8a0(u8 a) {
     if ((data_0217aa00->mUnk_0454 & 0x40) != 0) {
         allowed = TRUE;
         if (func_0204f814_inline() != 1) {
-            if (*(u16 *) 0x027ffc40 != 2) {
+            if (gBootInfo->mUnk_00 != 2) {
                 allowed = FALSE;
             }
         }

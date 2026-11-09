@@ -43,6 +43,7 @@
 #include "Main/Unknown/code_02029440.h"
 #include "Main/Unknown/code_02047104.h"
 #include "Main/Unknown/code_020ccc74.h"
+#include "Main/Unknown/code_0211d4a8.h"
 
 #pragma thumb on
 
@@ -64,7 +65,7 @@ void AdvanceSelectCupCourseIndexChange(void) {
         if (gSelectCupCourse->mIndexChangeTimer == 7) {
             gSelectCupCourse->mShownIndex = gSelectCupCourse->mIndex;
             RefreshSelectCupCourseForIndex();
-        } else if (*(vu16 *) 0x027ffc40 != 2) {
+        } else if (gBootInfo->mUnk_00 != 2) {
             taOrVsCellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mUnk_06;
             offsetY = LookupIndexChangeOffset(7 - gSelectCupCourse->mIndexChangeTimer, 1);
             gSelectCupCourse->mSelectCupCourseTaOrVsMTable[taOrVsCellCount].mOffsetY = offsetY;
@@ -84,7 +85,7 @@ void RequestSelectCupCourseState0(void) {
 
     gSelectCupCourse->mNextState = 0;
     gSelectCupCourse->mStateFrames = 0;
-    if (*(vu16 *) 0x027ffc40 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         if (GetPreviousMenuScreenNumber() != SCREEN_SELECT_GHOST) {
             taOrVsCellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mUnk_06;
             gSelectCupCourse->mBg0Offset = -0xc0;
@@ -146,7 +147,7 @@ void RequestSelectCupCourseState3(void) {
 void RequestSelectCupCourseState4(void) {
     gSelectCupCourse->mNextState = 4;
     gSelectCupCourse->mStateFrames = 0;
-    if (*(vu16 *) 0x027ffc40 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
     }
 }
@@ -168,7 +169,7 @@ void RequestSelectCupCourseState5(void) {
         case 2:
             StartSelectChoises(GetBmgEntry(selectCupCourse->mCommonMessages, 4),
                                GetBmgEntry(selectCupCourse->mCommonMessages, 2), 0);
-            if (*(vu16 *) 0x027ffc40 == 2) {
+            if (gBootInfo->mUnk_00 == 2) {
                 FormatMessageWithText(
                     GetBmgEntry(gSelectCupCourse->mGhostMessages,
                                 data_0215cb3c[data_0215cadc[GetCupIndex()]][gSelectCupCourse->mIndex]),
@@ -205,7 +206,7 @@ void RequestSelectCupCourseState7(void) {
             break;
         case 2:
             RequestSelectChoisesState0();
-            if (*(vu16 *) 0x027ffc40 == 2) {
+            if (gBootInfo->mUnk_00 == 2) {
                 RequestTxtSystemClose();
             }
             break;
@@ -251,7 +252,7 @@ void InitSelectCupCourse(void *parentHeap, void *mainOam, void *subOam, s32 mode
     gSelectCupCourse->mResult = 0;
     LocateAndQueueSelectCupCourse();
     gSelectCupCourse->mCommonMessages = FindFileInLoadedArchives("common.bmg");
-    if (*(vu16 *) 0x027ffc40 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         InitLayoutTable(gSelectCupCourse->mHeap, gSelectCupCourse->mSelectCupCourseTaOrVsMBncl,
                         gSelectCupCourse->mSelectCupCourseTaOrVsMBnll, &gSelectCupCourse->mSelectCupCourseTaOrVsMTable);
         InitLayoutTable(gSelectCupCourse->mHeap, gSelectCupCourse->mSelectCupMBncl, gSelectCupCourse->mSelectCupMBnll,
@@ -310,7 +311,7 @@ void ReleaseSelectCupCourse(void) {
             reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | 0x1800;
         }
     }
-    if (*(vu16 *) 0x027ffc40 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         ClearSelectCupNameMPointer();
         ClearCupMarkPointer();
     } else {
@@ -340,7 +341,7 @@ void AdvanceSelectCupCourseState1(void) {
     s32 i;
 
     gSelectCupCourse->mStateFrames++;
-    if (*(vu16 *) 0x027ffc40 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         InterpolateS16(1, 0x100, 0, gSelectCupCourse->mStateFrames, 10);
         offsetY = InterpolateS16(1, -0xc0, 0, gSelectCupCourse->mStateFrames, 10);
         if (GetPreviousMenuScreenNumber() != SCREEN_SELECT_GHOST) {

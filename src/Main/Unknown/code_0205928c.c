@@ -331,7 +331,7 @@ void func_0205933c(void) {
     u32 loaded;
 
     loaded = LoadCourseSoundSet((u32) data_0217aa00->mMode, (u32) data_0217aa00->mCourseId);
-    if (*(u16 *) 0x027ffc40 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         func_02043f28(0);
     }
     if (loaded == 0) {

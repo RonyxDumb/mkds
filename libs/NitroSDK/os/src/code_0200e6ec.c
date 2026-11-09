@@ -286,7 +286,7 @@ u32 ReadCartridgeMarkerBits(void) {
     do {
         v = -1;
         s = OS_DisableInterrupts();
-        if ((OS_ReadOwnerOfLockWord((OSLockWord *) 0x27fffe8) & 0x40) != 0 || (v = OS_TryLockCartridge(h)) == 0) {
+        if ((OS_ReadOwnerOfLockWord(HW_CTRDG_LOCK_BUF) & 0x40) != 0 || (v = OS_TryLockCartridge(h)) == 0) {
             if (*(u32 *) 0x8000000 == 0x544e494e && *(u32 *) 0x8000004 == 0x4f444e45) {
                 a = 0x1000000;
             } else {

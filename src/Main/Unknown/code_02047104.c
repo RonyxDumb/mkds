@@ -769,7 +769,7 @@ void func_02047274(void) {
 }
 
 s32 func_02047250(void) {
-    if (*(vu16 *) 0x027ffc40 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         return data_021759c8->mBuffers[7].mUnk_08 >> 31;
     }
     return 1;

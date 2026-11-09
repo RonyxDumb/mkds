@@ -5,6 +5,7 @@
 #include "Main/Unknown/code_0211127c.h"
 #include "Main/Unknown/unk_02153000.h"
 #include "Main/Unknown/unk_021759c0.h"
+#include "Main/Unknown/code_0211d4a8.h"
 
 SoundRow GetSoundRow(u32 rowIndex) {
     return gSoundRowTable[rowIndex];
@@ -257,7 +258,7 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, void *outputPointer) {
             rowIndex = 0x33;
             break;
         case 6:
-            if (*(u16 *) 0x027ffc40 == 2) {
+            if (gBootInfo->mUnk_00 == 2) {
                 rowIndex = 0x33;
             } else {
                 rowIndex = 0x2e;

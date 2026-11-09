@@ -22,6 +22,7 @@
 #include "code_02142eac.h"
 #include "code_021445e0.h"
 #include "code_0214d018.h"
+#include "Main/Unknown/code_0211d4a8.h"
 
 static inline u32 func_02050650_inline(void) {
     if (data_0217aa00 == NULL) {
@@ -212,7 +213,7 @@ static inline u32 func_02050ec0_inline(void) {
 }
 
 BOOL func_020510ac(void) {
-    return *(u16 *) 0x027ffc40 == 2;
+    return gBootInfo->mUnk_00 == 2;
 }
 
 void SetStepAndRequestPending(s32 a) {
@@ -322,7 +323,7 @@ static inline void func_0205081c_inline(u8 v) {
     if ((data_0217aa00->mUnk_0454 & 0x40) != 0) {
         b = 1;
         if (func_02050650_inline() != 1) {
-            if (*(u16 *) 0x027ffc40 != 2) {
+            if (gBootInfo->mUnk_00 != 2) {
                 b = 0;
             }
         }

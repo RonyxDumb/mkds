@@ -180,7 +180,7 @@ void CTRDGi_RestoreAccessCycle(Unk0200c4a4 *r) {
 void CTRDGi_LockByProcessor(u16 lockID, Unk0200c4a4 *info) {
     for (;;) {
         info->mUnk_04 = OS_DisableInterrupts();
-        info->mUnk_00 = OS_ReadOwnerOfLockWord((OSLockWord *) 0x027fffe8) & 0x40;
+        info->mUnk_00 = OS_ReadOwnerOfLockWord(HW_CTRDG_LOCK_BUF) & 0x40;
         if (info->mUnk_00 != 0) {
             break;
         }

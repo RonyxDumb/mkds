@@ -189,7 +189,7 @@ half:
 
 // Returns sine in the low halfword and cosine in the high halfword.
 u32 GetTexSRTAnmSinCosVal_(const NNSG3dResTexSRTAnm *pTexAnm, u32 info, u32 data, u32 frame) {
-    const u8 *values;
+    const FxPairS16 *values;
     u32 lastStep;
     u32 sample;
     s32 s;
@@ -200,8 +200,7 @@ u32 GetTexSRTAnmSinCosVal_(const NNSG3dResTexSRTAnm *pTexAnm, u32 info, u32 data
     if (info & 0x20000000) {
         return data;
     }
-    values = (const u8 *) pTexAnm;
-    values += data;
+    values = OFFSET_PTR(const FxPairS16, pTexAnm, data);
     if (info & 0xc0000000) {
         lastStep = info & 0xffff;
         if (info & 0x40000000) {
@@ -229,10 +228,10 @@ u32 GetTexSRTAnmSinCosVal_(const NNSG3dResTexSRTAnm *pTexAnm, u32 info, u32 data
                     sample = frame >> 2;
                     lastStep = sample + 1;
                 }
-                s = ((const FxPairS16 *) values)[sample].mFirst;
-                sSub = ((const FxPairS16 *) values)[lastStep].mFirst;
-                c = ((const FxPairS16 *) values)[sample].mSecond;
-                cSub = ((const FxPairS16 *) values)[lastStep].mSecond;
+                s = values[sample].mFirst;
+                sSub = values[lastStep].mFirst;
+                c = values[sample].mSecond;
+                cSub = values[lastStep].mSecond;
                 s = s * 3 + sSub;
                 c = c * 3 + cSub;
                 return (s >> 2 & 0xffff) | (c >> 2 << 16);
@@ -245,10 +244,10 @@ u32 GetTexSRTAnmSinCosVal_(const NNSG3dResTexSRTAnm *pTexAnm, u32 info, u32 data
 single:
     return ((const u32 *) values)[frame];
 half:
-    s = ((const FxPairS16 *) values)[sample].mFirst;
-    sSub = ((const FxPairS16 *) values + sample)[1].mFirst;
-    c = ((const FxPairS16 *) values + sample)->mSecond;
-    cSub = ((const FxPairS16 *) values + sample)[1].mSecond;
+    s = values[sample].mFirst;
+    sSub = (values + sample)[1].mFirst;
+    c = (values + sample)->mSecond;
+    cSub = (values + sample)[1].mSecond;
     return (((s + sSub) >> 1) & 0xffff) | ((c + cSub) >> 1 << 16);
 }
 
@@ -896,7 +895,8 @@ void getTransDataEx_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm
 
 void getScaleData_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm *jntAnm) {
     u32 info;
-    const u8 *values;
+    const FxPairS16 *values16;
+    const FxPairS32 *values32;
     u32 k;
     s32 y;
     u32 lastStep;
@@ -906,7 +906,8 @@ void getScaleData_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm *
     u32 i;
 
     i = frame >> 12;
-    values = (const u8 *) jntAnm + desc[1];
+    values16 = OFFSET_PTR(const FxPairS16, jntAnm, desc[1]);
+    values32 = OFFSET_PTR(const FxPairS32, jntAnm, desc[1]);
     info = desc[0];
     if (info & 0xc0000000) {
         lastStep = (info & 0x1fff0000) >> 16;
@@ -936,20 +937,20 @@ void getScaleData_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm *
                     i = k + 1;
                 }
                 if (info & 0x20000000) {
-                    e16 = (const FxPairS16 *) values + k;
-                    x = ((const FxPairS16 *) values)[k].mFirst;
-                    y = ((const FxPairS16 *) values)[i].mFirst;
+                    e16 = values16 + k;
+                    x = values16[k].mFirst;
+                    y = values16[i].mFirst;
                     out[0] = (x + (x << 1) + y) >> 2;
                     x = e16->mSecond;
-                    y = ((const FxPairS16 *) values + i)->mSecond;
+                    y = (values16 + i)->mSecond;
                     out[1] = (x + (x << 1) + y) >> 2;
                 } else {
-                    e32 = (const FxPairS32 *) values + k;
-                    x = ((const FxPairS32 *) values)[k].mFirst;
-                    y = ((const FxPairS32 *) values)[i].mFirst;
+                    e32 = values32 + k;
+                    x = values32[k].mFirst;
+                    y = values32[i].mFirst;
                     out[0] = ((s64) x + x + x + y) >> 2;
                     x = e32->mSecond;
-                    y = ((const FxPairS32 *) values + i)->mSecond;
+                    y = (values32 + i)->mSecond;
                     out[1] = ((s64) x + x + x + y) >> 2;
                 }
                 return;
@@ -961,27 +962,28 @@ void getScaleData_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm *
     }
 single:
     if (info & 0x20000000) {
-        out[0] = ((const FxPairS16 *) values)[i].mFirst;
-        out[1] = ((const FxPairS16 *) values)[i].mSecond;
+        out[0] = values16[i].mFirst;
+        out[1] = values16[i].mSecond;
     } else {
-        out[0] = ((const FxPairS32 *) values)[i].mFirst;
-        out[1] = ((const FxPairS32 *) values)[i].mSecond;
+        out[0] = values32[i].mFirst;
+        out[1] = values32[i].mSecond;
     }
     return;
 half:
     if (info & 0x20000000) {
-        e16 = (const FxPairS16 *) values + k;
+        e16 = values16 + k;
         out[0] = (e16->mFirst + e16[1].mFirst) >> 1;
         out[1] = (e16->mSecond + e16[1].mSecond) >> 1;
     } else {
-        e32 = (const FxPairS32 *) values + k;
+        e32 = values32 + k;
         out[0] = (e32->mFirst + e32[1].mFirst) >> 1;
         out[1] = (e32->mSecond + e32[1].mSecond) >> 1;
     }
 }
 
 void getScaleDataEx_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm *jntAnm) {
-    const u8 *values;
+    const FxPairS16 *values16;
+    const FxPairS32 *values32;
     u32 info;
     s32 y0;
     u32 i;
@@ -995,7 +997,8 @@ void getScaleDataEx_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm
     u32 lastStep;
 
     i = frame >> 12;
-    values = (const u8 *) jntAnm + desc[1];
+    values16 = OFFSET_PTR(const FxPairS16, jntAnm, desc[1]);
+    values32 = OFFSET_PTR(const FxPairS32, jntAnm, desc[1]);
     info = desc[0];
     if (i == jntAnm->mNumFrame - 1) {
         if (info & 0xc0000000) {
@@ -1010,11 +1013,11 @@ void getScaleDataEx_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm
             goto last;
         }
         if (info & 0x20000000) {
-            out[0] = ((const FxPairS16 *) values)[i].mFirst;
-            out[1] = ((const FxPairS16 *) values)[i].mSecond;
+            out[0] = values16[i].mFirst;
+            out[1] = values16[i].mSecond;
         } else {
-            out[0] = ((const FxPairS32 *) values)[i].mFirst;
-            out[1] = ((const FxPairS32 *) values)[i].mSecond;
+            out[0] = values32[i].mFirst;
+            out[1] = values32[i].mSecond;
         }
         return;
     }
@@ -1051,15 +1054,15 @@ void getScaleDataEx_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm
         sh = 0;
     }
     if (info & 0x20000000) {
-        x0 = ((const FxPairS16 *) values)[i].mFirst;
-        x1 = ((const FxPairS16 *) values)[i].mSecond;
-        y0 = ((const FxPairS16 *) values)[j].mFirst;
-        y1 = ((const FxPairS16 *) values)[j].mSecond;
+        x0 = values16[i].mFirst;
+        x1 = values16[i].mSecond;
+        y0 = values16[j].mFirst;
+        y1 = values16[j].mSecond;
     } else {
-        x0 = ((const FxPairS32 *) values)[i].mFirst;
-        x1 = ((const FxPairS32 *) values)[i].mSecond;
-        y0 = ((const FxPairS32 *) values)[j].mFirst;
-        y1 = ((const FxPairS32 *) values)[j].mSecond;
+        x0 = values32[i].mFirst;
+        x1 = values32[i].mSecond;
+        y0 = values32[j].mFirst;
+        y1 = values32[j].mSecond;
     }
     out[0] = (x0 * m + ((q * (y0 - x0)) >> 12)) >> sh;
     out[1] = (x1 * m + ((q * (y1 - x1)) >> 12)) >> sh;

@@ -88,6 +88,7 @@
 #include "Main/Unknown/unk_02161000.h"
 #include "Main/Unknown/unk_02174000.h"
 #include "Main/Unknown/code_02024974.h"
+#include "Main/Unknown/code_0211d4a8.h"
 
 const Vec3 data_0215a6c0 = {0x1000, 0x1000, 0x1000};
 const Vec3 data_0215a6cc = {0, 0, 0};
@@ -468,7 +469,7 @@ void InitSceneSounds(s32 e) {
     SoundRow buf;
     ScenePlayersSeqInfo s;
 
-    if (*(vu16 *) 0x027ffc40 == 2 && GetCurrentSceneNumber() == 6) {
+    if (gBootInfo->mUnk_00 == 2 && GetCurrentSceneNumber() == 6) {
         return;
     }
     ClearSurfaceSoundIds();
@@ -687,7 +688,7 @@ void InitSceneSounds(s32 e) {
             }
             { break; }
         case 1:
-            if (*(vu16 *) 0x027ffc40 != 2) {
+            if (gBootInfo->mUnk_00 != 2) {
                 savedHeap = data_0217d130;
                 if (gLoadedSoundBanks.mLoadMarker == 0xff00 || gLoadedSoundBanks.mBankMask != 0xffff) {
                     NNS_SndHeapClear(data_0217c77c);
@@ -733,16 +734,16 @@ void InitSceneSounds(s32 e) {
     InitKartSoundQueue();
     ResetSoundRequestQueues();
     ResetSeqPlayerControl();
-    if (*(vu16 *) 0x027ffc40 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         LoadSceneSoundSet(buf, 0);
     }
     if (currentSceneNumber != 1) {
         return;
     }
-    if (*(vu16 *) 0x027ffc40 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         NNS_SndArcLoadBank(2, data_0217d130);
     }
-    if (*(vu16 *) 0x027ffc40 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         return;
     }
     data_0217c798[0] = NNS_SndHeapSaveState(data_0217d130);
@@ -1372,7 +1373,7 @@ void UpdateSceneSoundState(void) {
             NNS_SndPlayerStopSeq(&data_0217d07c, 0x1b);
         }
     } else if (GetCurrentSceneNumber() == 1 || GetCurrentSceneNumber() == 0xc) {
-        if (*(vu16 *) 0x027ffc40 != 2) {
+        if (gBootInfo->mUnk_00 != 2) {
             UpdateSeqQueue();
         }
     } else if (GetCurrentSceneNumber() == 3) {
@@ -1390,7 +1391,7 @@ void StopSceneSounds(void) {
     s32 j;
     u8 *playerCursor;
 
-    if (*(vu16 *) 0x027ffc40 == 2 && GetCurrentSceneNumber() == 6) {
+    if (gBootInfo->mUnk_00 == 2 && GetCurrentSceneNumber() == 6) {
         return;
     }
     gPlayerVolumeFade.mTargetVolumeBeforeRaceStart = 0;
@@ -1416,7 +1417,7 @@ void StopSceneSoundsAtOnce(void) {
     u8 *playerCursor;
     SoundHandlePool *playerTable;
 
-    if (*(vu16 *) 0x027ffc40 == 2 && GetCurrentSceneNumber() == 6) {
+    if (gBootInfo->mUnk_00 == 2 && GetCurrentSceneNumber() == 6) {
         return;
     }
     gPlayerVolumeFade.mTargetVolumeBeforeRaceStart = 0;
