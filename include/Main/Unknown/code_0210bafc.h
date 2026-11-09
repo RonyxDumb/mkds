@@ -4,7 +4,7 @@
 
 // gSurfaceSoundIds is addressed in rows of eight words.
 typedef struct SurfaceSoundIdRow {
-    /* 0 */ u32 mIdArrays[8];
+    /* 0 */ void *mIdArrays[8];
 } SurfaceSoundIdRow;
 
 #include "code_0212d214.h"

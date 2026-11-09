@@ -16,15 +16,9 @@ void SetEntryTable(void *entryTable) {
 #pragma thumb off
 
 #pragma thumb on
-u32 SetScanBssidCallbacks(UnkFunc *setCallback, UnkFunc *clearCallback) {
-    u32 value0 = (u32) setCallback;
-    u32 clearCallbackCopy = (u32) clearCallback;
-    u32 setCallbackSlot;
-    setCallbackSlot = (u32) &gSetBssidCallback;
-    *(u32 *) ((setCallbackSlot) + 0u) = value0;
-    value0 = (u32) &gClearBssidCallback;
-    *(u32 *) ((value0) + 0u) = clearCallbackCopy;
-    return value0;
+void SetScanBssidCallbacks(void (*setCallback)(const u8 *), void (*clearCallback)(void)) {
+    gSetBssidCallback = setCallback;
+    gClearBssidCallback = clearCallback;
 }
 #pragma thumb off
 

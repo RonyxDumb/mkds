@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-u32 SetScanBssidCallbacks(UnkFunc *setCallback, UnkFunc *clearCallback);
+void SetScanBssidCallbacks(void (*setCallback)(const u8 *), void (*clearCallback)(void));
 void SetEntryTable(void *entryTable);

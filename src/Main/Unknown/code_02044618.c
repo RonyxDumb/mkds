@@ -124,7 +124,7 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
     u8 *b2;
     u8 *b3;
     u8 *b4;
-    s32 *b5;
+    DWCAccFriendData **b5;
     BOOL f;
     BOOL g;
     BOOL t;
@@ -181,7 +181,7 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
             *b5 =
                 func_02045084_inline2() || (data_0217aa00->mUnk_0457 & (1 << data_0217aa00->mUnk_1e8c[entryIndex])) != 0
                     ? 0
-                    : (s32) &func_02045084_inline(data_0217aa00, entryIndex)->mUnk_218;
+                    : &func_02045084_inline(data_0217aa00, entryIndex)->mUnk_218;
             *b4 = func_02045084_inline(data_0217aa00, entryIndex)->mUnk_229;
             break;
         case PLAYER_KIND_GHOST:

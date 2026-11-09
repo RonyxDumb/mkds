@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-s32 ResetOwnIndex(void);
+void ResetOwnIndex(void);

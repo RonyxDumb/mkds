@@ -692,7 +692,7 @@ s32 StartParentOnChannel(u16 channel) {
     SetCallback((UnkFunc *) v4);
     data_0216fdac->mUnk_1318 = gWirelessWork->mSendDataSize - 6;
     SetupPieceSizes(gWirelessWork->mReceiveDataSize);
-    SetupPieceBuffer((u32) data_0216fdac->mUnk_1538);
+    SetupPieceBuffer(&data_0216fdac->mUnk_1538);
     for (i = 0; i < 15; i++) {
         data_0216fdac->mUnk_14e8[i] = 0;
         data_0216fdac->mChildEntryIndex[i] = -1;
@@ -740,11 +740,7 @@ int StartWirelessReset(void) {
 
 #pragma thumb on
 u32 func_02009c90(void) {
-    u32 result;
-    u32 value3;
-    value3 = (u32) &StartWirelessReset;
-    result = StartWirelessReset();
-    return result;
+    return StartWirelessReset();
 }
 #pragma thumb off
 

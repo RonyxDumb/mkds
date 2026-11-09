@@ -352,25 +352,11 @@ u32 GetKartMapObjectResponseByKind(s32 flagBit, s32 itemEffect, s32 kindHundreds
 }
 
 u32 func_020d6d8c(u32 zeroResultFlag, u32 itemKind, u32 kindHundreds, u32 kindRemainder) {
-    u32 value0 = zeroResultFlag;
-    u32 value1 = itemKind;
-    u32 kindHundredsCopy = kindHundreds;
-    u32 kindRemainderCopy = kindRemainder;
-    u32 value12;
-    u32 tableAddress;
-    u32 flagCopy;
-    u32 zero;
-    tableAddress = (u32) &data_0216bb7c;
-    value12 = 0x38u;
-    value12 = (kindHundredsCopy) * (value12) + (tableAddress);
-    value1 = *(const u32 *) ((value12) + ((value1 << 2)));
-    flagCopy = value0;
-    zero = 0u;
-    value0 = *(const u8 *) ((value1) + (kindRemainderCopy));
-    if (flagCopy != zero) {
-        value0 = 0u;
+    u32 response = data_0216bb7c[kindHundreds][itemKind][kindRemainder];
+    if (zeroResultFlag != 0) {
+        response = 0;
     }
-    return value0;
+    return response;
 }
 
 u32 GetItemObjectResponseByKind(s32 flagBit, s32 itemKind, s32 kindHundreds, s32 kindRemainder, s32 kindDataValue) {

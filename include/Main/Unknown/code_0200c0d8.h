@@ -2,6 +2,8 @@
 
 #include "types.h"
 
+typedef struct PieceBuffer PieceBuffer;
+
 // Six bytes that ReadParentMessage fills and WriteParentMessage writes out.
 typedef struct ParentMessage {
     /* 0 */ u8 mKind;
@@ -36,5 +38,5 @@ u8 *StorePiece(ChildMessage *message, u32 child);
 u8 *ReadChildMessage(u8 *bytes, ChildMessage *message, u32 child);
 u8 *WriteParentMessage(u8 *input, u8 *output);
 void ClearChildPieces(s32 child);
-void SetupPieceBuffer(u32 buffer);
+void SetupPieceBuffer(PieceBuffer *buffer);
 void SetupPieceSizes(s32 packetSize);

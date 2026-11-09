@@ -1069,8 +1069,5 @@ u32 func_0204bcb4(u32 value) {
 }
 
 void WakeRomArchiveThread(void) {
-    u32 threadAddress;
-    u32 value12;
-    threadAddress = (u32) &data_02175dd8;
-    OS_WakeupThreadDirect((OSThread *) threadAddress);
+    OS_WakeupThreadDirect(&gFileReadThread.mThread);
 }

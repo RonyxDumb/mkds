@@ -2,5 +2,7 @@
 
 #include "types.h"
 
-u32 FadeSeqVolumeToZeroAfterKartRemoval(void);
-u32 ResetSeqPlayerControl(void);
+typedef struct SeqPlayerControl SeqPlayerControl;
+
+SeqPlayerControl *FadeSeqVolumeToZeroAfterKartRemoval(void);
+SeqPlayerControl *ResetSeqPlayerControl(void);

@@ -6,6 +6,7 @@
 #include "code_0200fc8c.h"
 #include "Main/Unknown/code_0200aeb4.h"
 #include "Main/Unknown/code_02008934.h"
+#include "Main/Unknown/unk_0216f000.h"
 
 struct Unk02008188;
 
@@ -36,7 +37,7 @@ typedef struct Unk0216fdac {
     /* 1526 */ s8 mChildEntryIndex[15];
     /* 1535 */ u8 mUnk_1535;
     /* 1536 */ u16 mUnk_1536;
-    /* 1538 */ u8 mUnk_1538[0x1754 - 0x1538];
+    /* 1538 */ PieceBuffer mUnk_1538;
     /* 1754 */ u16 mUnk_1754[15];
     /* 1772 */ u8 mUnk_1772[0x16];
     /* 1788 */ u8 mUnk_1788[0x1d1f - 0x1788];

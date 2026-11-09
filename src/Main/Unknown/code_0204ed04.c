@@ -17,19 +17,8 @@ void SetBlockEntryBuffer(u32 entryIndex, void *buffer) {
 #pragma thumb off
 
 #pragma thumb on
-u32 func_0204ee30(void) {
-    u32 value0;
-    u32 value1;
-    u32 value2;
-    value0 = (u32) &data_0217aa00;
-    value1 = *(const u32 *) ((value0) + 0u);
-    value0 = 0x1e44u;
-    value1 = (value1) + (value0);
-    value2 = *(const u8 *) ((value1) + 0u);
-    value0 = 1u;
-    value2 = (value2) & ~(value0);
-    *(u8 *) ((value1) + 0u) = value2;
-    return value0;
+void func_0204ee30(void) {
+    data_0217aa00->mUnk_1e44 &= ~1;
 }
 #pragma thumb off
 

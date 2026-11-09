@@ -21,8 +21,8 @@
 #include "00/unk_021b5000.h"
 #include "00/code_021a2ccc.h"
 
-u32 func_021202f0(u32 index) {
-    return (u32) &gWiFiSession->mPlayerRecords[index].mPlayer.mUnk_218;
+DWCAccFriendData *func_021202f0(u32 index) {
+    return &gWiFiSession->mPlayerRecords[index].mPlayer.mUnk_218;
 }
 
 u32 GetPlayerRecordRegion(u32 index) {

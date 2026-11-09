@@ -101,7 +101,7 @@ s32 func_0204dd24(u16 a) {
             if (gBootInfo->mUnk_00 == 2) {
                 func_0204df90();
             } else {
-                StartConnect(NULL, NULL, NULL, (s32(*)()) func_0204df5c, NULL);
+                StartConnect(NULL, NULL, NULL, func_0204df5c, NULL);
             }
             break;
         case 31:
@@ -116,7 +116,7 @@ s32 func_0204dd24(u16 a) {
             StartRomArchiveTransfer();
             break;
         case 36:
-            StartConnect(NULL, NULL, NULL, (s32(*)()) func_0204df5c, NULL);
+            StartConnect(NULL, NULL, NULL, func_0204df5c, NULL);
             break;
         case 10:
             StartMP();

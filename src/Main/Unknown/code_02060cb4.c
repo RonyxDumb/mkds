@@ -217,7 +217,7 @@ s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccF
     slot = slotIndex;
     GetBuddyRecord(slot, &buddyRecord);
     if (found == FALSE) {
-        ResetBuddyRecord((u32) &buddyRecord);
+        ResetBuddyRecord(&buddyRecord);
     }
     buddyRecord.mYear = year;
     buddyRecord.mMonth = month;

@@ -254,7 +254,6 @@ typedef struct FileReadThread {
 extern FileReadThread gFileReadThread;
 extern vu16 data_021758e8[];
 extern vu16 data_02175928[];
-extern u8 data_02175dd8[];
 // Object at data_02175614: a word and a function pointer.
 typedef struct WvrState {
     /* 00 */ volatile s32 mUnk_00;

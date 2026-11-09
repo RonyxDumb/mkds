@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 StoreKeyboardOffset(u32 offsetX, u32 offsetY);
+void StoreKeyboardOffset(s32 offsetX, s32 offsetY);

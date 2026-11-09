@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-void ResetBuddyRecord(u32 recordAddress);
+typedef struct BuddyRecord BuddyRecord;
+
+void ResetBuddyRecord(BuddyRecord *record);

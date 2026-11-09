@@ -610,8 +610,8 @@ typedef struct Unk0217d400_2c {
             // Mode of the screen as passed in by the scene (0xc, 7 or 0xb); element 2 of Keyboard.mUnk_2c only: in
             // element 0 these bytes are character 10 of the text.
             /* 14 */ s16 mMode;
-            // Scene to run when the keyboard ends, -1 until set, read by GetKeyboardNextScene through the raw offset
-            // 114; element 2 of Keyboard.mUnk_2c only: in element 0 these bytes are character 11 of the text.
+            // Scene to run when the keyboard ends, -1 until set; element 2 of Keyboard.mUnk_2c only: in element 0
+            // these bytes are character 11 of the text.
             /* 16 */ s16 mNextScene;
         };
     };

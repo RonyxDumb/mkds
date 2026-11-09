@@ -62,8 +62,8 @@ const Woodbox1DrawList data_0215950c = {
 };
 
 const Unk02159538 data_02159538 = {
-    (u32) &CollideKartWithWoodbox1,
-    (u32) &CollideItemObjectWithWoodbox1,
+    &CollideKartWithWoodbox1,
+    &CollideItemObjectWithWoodbox1,
     4,
     0xa000,
     0xa000,

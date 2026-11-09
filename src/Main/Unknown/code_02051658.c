@@ -217,7 +217,7 @@ void FindOrAddScanSlot(ScanBlock *scanBuffer, Unk0217aa00_42c *key, Unk0217aa00_
                 chosenSlot->mAge = 0;
             } else {
                 connection = data_0217aa00;
-                connection->mUnk_042c =*key;
+                connection->mUnk_042c = *key;
                 connection->mUnk_0438 = 0xf;
             }
         }
@@ -350,7 +350,7 @@ void EndScanCallback(Unk021425e8 *event) {
     func_020533a0();
 }
 
-void StartConnect(ScanBlock *a, void *b, s32 (*c)(), s32 (*d)(), s32 (*e)()) {
+void StartConnect(ScanBlock *a, void *b, void (*c)(), void (*d)(), void (*e)()) {
     u8 v1[0x18];
 
     MI_CpuFill8(v1, 0, 0x18);
@@ -579,8 +579,8 @@ void SetGameInfo(void) {
     if (data_0217aa00->mUnk_0004 != 8 && data_0217aa00->mUnk_0004 != 9) {
         r = FALSE;
     }
-    if (WM_SetGameInfo((Unk021425e8Func) ClearRequestPending, children->mUnk_38, 0x1c, 0x25,
-                       data_0217aa00->mParentParameter->mUnk_0c, r == FALSE) != 2) {
+    if (WM_SetGameInfo(ClearRequestPending, children->mUnk_38, 0x1c, 0x25, data_0217aa00->mParentParameter->mUnk_0c,
+                       r == FALSE) != 2) {
         data_0217aa00->mRequestPending = 0;
     }
 }

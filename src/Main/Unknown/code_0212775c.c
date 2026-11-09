@@ -356,16 +356,8 @@ void SetSelectReturnSoundId(u32 soundId) {
 
 #pragma thumb on
 // Zeroes the char buffer gate; StartSelectChoises sets it after taking the strings.
-u32 ClearSelectChoisesUseCharBuffers(void) {
-    u32 value0;
-    u32 object;
-    u32 zero;
-    zero = 0u;
-    value0 = (u32) &gSelectChoises;
-    object = *(const u32 *) ((value0) + 0u);
-    value0 = 0x8a0u;
-    *(u32 *) ((object) + (value0)) = zero;
-    return value0;
+void ClearSelectChoisesUseCharBuffers(void) {
+    gSelectChoises->mUseCharBuffers = 0;
 }
 #pragma thumb off
 

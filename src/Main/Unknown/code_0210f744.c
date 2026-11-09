@@ -525,25 +525,25 @@ void UpdateSeqPlayerControl(SeqPlayerControl *control, NNSSndSeqPlayer **handle)
     }
 }
 
-u32 ResetSeqPlayerControl(void) {
-    u32 controlAddress;
+SeqPlayerControl *ResetSeqPlayerControl(void) {
+    SeqPlayerControl *control;
     u32 zero;
-    controlAddress = (u32) &gSeqPlayerControl;
+    control = &gSeqPlayerControl;
     zero = 0u;
     gSeqPlayerControl.mPitchAngle = zero;
     gSeqPlayerControl.mFlags = zero;
     gSeqPlayerControl.mKartNear = zero;
     gSeqPlayerControl.mVolumeOverride = zero;
-    return controlAddress;
+    return control;
 }
 
-u32 FadeSeqVolumeToZeroAfterKartRemoval(void) {
-    u32 controlAddress;
+SeqPlayerControl *FadeSeqVolumeToZeroAfterKartRemoval(void) {
+    SeqPlayerControl *control;
     u32 overrideValue;
-    controlAddress = (u32) &gSeqPlayerControl;
+    control = &gSeqPlayerControl;
     overrideValue = 1u;
     gSeqPlayerControl.mVolumeOverride = overrideValue;
-    return controlAddress;
+    return control;
 }
 
 void StartKartRemovalSeqEffect(void) {
@@ -571,14 +571,14 @@ u32 IsKartNear(void) {
     return kartNear;
 }
 
-u32 func_0210faac(void) {
-    u32 controlAddress;
+SeqPlayerControl *func_0210faac(void) {
+    SeqPlayerControl *control;
     u32 flags;
-    controlAddress = (u32) &gSeqPlayerControl;
+    control = &gSeqPlayerControl;
     flags = gSeqPlayerControl.mFlags;
     flags = (flags) | (8u);
     gSeqPlayerControl.mFlags = flags;
-    return controlAddress;
+    return control;
 }
 
 void SetThunderShrinkSoundFlag(u32 enabled) {

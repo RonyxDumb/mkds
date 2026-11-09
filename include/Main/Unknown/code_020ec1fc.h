@@ -5,6 +5,8 @@
 
 typedef struct PushedObject PushedObject;
 typedef struct Woodbox1 Woodbox1;
+typedef struct Kart Kart;
+typedef struct ItemObject ItemObject;
 
 extern MapObjectList *data_0217bbf4;
 
@@ -28,8 +30,8 @@ extern Woodbox1DrawList *data_0217bbec;
 
 // Initialiser stored into the 0x40-byte object CreateWoodbox1KindData allocates.
 typedef struct Unk02159538 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
+    /* 00 */ u32 (*mUnk_00)(Woodbox1 *woodbox, Kart *kart, u8 *firstResponse, u8 *response);
+    /* 04 */ u32 (*mUnk_04)(Woodbox1 *woodbox, ItemObject *itemObject, u8 *firstResponse, u8 *response);
     /* 08 */ u32 mUnk_08;
     /* 0c */ u32 mUnk_0c;
     /* 10 */ u32 mUnk_10;

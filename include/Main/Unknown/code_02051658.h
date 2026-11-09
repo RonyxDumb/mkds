@@ -13,7 +13,7 @@ void SetMPFrequency(u32 mpFreq);
 void StartMPCallback(Unk021425e8 *event);
 void StartMP(void);
 void StartConnectCallback(Unk021425e8 *event);
-void StartConnect(ScanBlock *a, void *b, s32 (*c)(), s32 (*d)(), s32 (*e)());
+void StartConnect(ScanBlock *a, void *b, void (*c)(), void (*d)(), void (*e)());
 void EndScanCallback(Unk021425e8 *event);
 void EndScan(void);
 void StartScanCallback(Unk021425e8 *event);

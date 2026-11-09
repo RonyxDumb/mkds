@@ -2,5 +2,7 @@
 
 #include "types.h"
 
-u32 func_0210faac(void);
+typedef struct SeqPlayerControl SeqPlayerControl;
+
+SeqPlayerControl *func_0210faac(void);
 u32 IsKartNear(void);

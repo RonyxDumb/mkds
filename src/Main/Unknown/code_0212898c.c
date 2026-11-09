@@ -1110,12 +1110,6 @@ void func_0212899c(void) {
 
 #pragma thumb on
 u32 GetKeyboardNextScene(void) {
-    u32 value0;
-    u32 keyboard;
-    value0 = (u32) &gKeyboard;
-    keyboard = *(const u32 *) ((value0) + 0u);
-    value0 = 114u;
-    value0 = *(const s16 *) ((keyboard) + (value0));
-    return value0;
+    return gKeyboard->mUnk_2c[2].mNextScene;
 }
 #pragma thumb off

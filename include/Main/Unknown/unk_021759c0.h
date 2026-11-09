@@ -5,6 +5,7 @@
 #include "tp.h"
 
 typedef struct MicBuffer MicBuffer;
+typedef struct DWCAccFriendData DWCAccFriendData;
 
 // A time as three parts, minute, second and millisecond; IsTimeLessThanStaffGhostTime sums them in milliseconds.
 typedef struct MinuteSecondMillisecondTime {
@@ -31,7 +32,7 @@ typedef struct KartEntryPlayer {
     /* 17 */ u8 mUnk_17;
     /* 18 */ void *mName;
     /* 1c */ void *mEmblemData;
-    /* 20 */ s32 mUnk_20;
+    /* 20 */ DWCAccFriendData *mUnk_20;
     /* 24 */ u8 mUnk_24;
     /* 25 */ u8 mUnk_25;
     /* 26 */ u8 mUnk_26;

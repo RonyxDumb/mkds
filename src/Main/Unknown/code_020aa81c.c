@@ -914,15 +914,9 @@ void SetupKeyboardInputMasks(u16 a, u16 b, u16 c) {
 #pragma thumb off
 
 #pragma thumb on
-u32 StoreKeyboardOffset(u32 offsetX, u32 offsetY) {
-    u32 value0 = offsetX;
-    u32 value1 = offsetY;
-    u32 value2;
-    value2 = (u32) &gKeyboardOffsetX;
-    *(u32 *) ((value2) + 0u) = value0;
-    value0 = (u32) &gKeyboardOffsetY;
-    *(u32 *) ((value0) + 0u) = value1;
-    return value0;
+void StoreKeyboardOffset(s32 offsetX, s32 offsetY) {
+    gKeyboardOffsetX = offsetX;
+    gKeyboardOffsetY = offsetY;
 }
 #pragma thumb off
 
@@ -981,19 +975,13 @@ void func_020ab070(u32 arg0) {
 
 #pragma thumb on
 void SetKeyboardCursorCallback(u16 (*arg0)(s32, u16)) {
-    u32 value0 = (u32) arg0;
-    u32 value1;
-    value1 = (u32) &gKeyboardKeys;
-    *(u32 *) ((value1) + 76u) = value0;
+    gKeyboardKeys.mCursorCallback = arg0;
 }
 #pragma thumb off
 
 #pragma thumb on
 void SetKeyboardKeyCallback(s32 (*arg0)(u32, s32)) {
-    u32 value0 = (u32) arg0;
-    u32 value1;
-    value1 = (u32) &gKeyboardKeys;
-    *(u32 *) ((value1) + 80u) = value0;
+    gKeyboardKeys.mKeyCallback = arg0;
 }
 #pragma thumb off
 

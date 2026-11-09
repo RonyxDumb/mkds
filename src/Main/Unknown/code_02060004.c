@@ -188,7 +188,7 @@ void MergeBuddyRecords(u8 keptIndex, u8 mergedIndex) {
 
     GetBuddyRecord(keptIndex, &keptRecord);
     GetBuddyRecord(mergedIndex, &mergedRecord);
-    ResetBuddyRecord((u32) &combinedRecord);
+    ResetBuddyRecord(&combinedRecord);
     if (mergedRecord.mNotYetBuddy == 0) {
         combinedRecord.mResultCounts[0][0] = combinedRecord.mResultCounts[0][0] + mergedRecord.mResultCounts[0][0];
         combinedRecord.mResultCounts[0][1] = combinedRecord.mResultCounts[0][1] + mergedRecord.mResultCounts[0][1];

@@ -639,9 +639,9 @@ typedef struct ConnectionWork {
             /* 043e */ u8 mUnk_043e[0x2];
             /* 0440 */ s32 (*mUnk_0440)();
             /* 0444 */ s32 (*mUnk_0444)();
-            /* 0448 */ s32 (*mUnk_0448)();
-            /* 044c */ s32 (*mUnk_044c)();
-            /* 0450 */ s32 (*mUnk_0450)();
+            /* 0448 */ void (*mUnk_0448)();
+            /* 044c */ void (*mUnk_044c)();
+            /* 0450 */ void (*mUnk_0450)();
             /* 0454 */ u16 mUnk_0454;
             /* 0456 */ union {
                 u8 mUnk_0456;

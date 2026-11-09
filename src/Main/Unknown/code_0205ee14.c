@@ -172,14 +172,14 @@ void AddBuddyRecordResult(u32 entryIndex, s32 *date, u32 matchKind, u32 resultKi
     if (raceSetup->mCurrentEntries[entryIndex].mPlayer.mUnk_20 == 0) {
         return;
     }
-    foundIndex = FindBuddyIndexByFriendData((const void *) raceSetup->mCurrentEntries[entryIndex].mPlayer.mUnk_20);
+    foundIndex = FindBuddyIndexByFriendData(raceSetup->mCurrentEntries[entryIndex].mPlayer.mUnk_20);
     if (foundIndex == -1) {
         return;
     }
     buddyIndex = foundIndex;
     GetBuddyRecord(buddyIndex, &buddyRecord);
     if (buddyRecord.mFilled == 0) {
-        ResetBuddyRecord((u32) &buddyRecord);
+        ResetBuddyRecord(&buddyRecord);
     }
     if (gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mName != NULL) {
         MI_CpuCopy8(gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mName, buddyRecord.mName, 0x14);

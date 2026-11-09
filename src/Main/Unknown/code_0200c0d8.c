@@ -15,16 +15,9 @@ void SetupPieceSizes(s32 packetSize) {
 #pragma thumb off
 
 #pragma thumb on
-void SetupPieceBuffer(u32 buffer) {
-    u32 address = buffer;
-    u32 value1;
-    u32 byteCount;
-    u32 value3;
-    value1 = (u32) &gPieceBuffer;
-    *(u32 *) ((value1) + 0u) = address;
-    value1 = 0u;
-    byteCount = 0x21cu;
-    MI_CpuFill8((void *) address, value1, byteCount);
+void SetupPieceBuffer(PieceBuffer *buffer) {
+    gPieceBuffer = buffer;
+    MI_CpuFill8(buffer, 0, sizeof(PieceBuffer));
 }
 #pragma thumb off
 

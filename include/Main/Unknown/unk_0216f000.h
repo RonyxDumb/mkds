@@ -55,7 +55,7 @@ extern u8 OverlaySignatures[][0x14];
 extern u8 gDispOn[];
 extern u32 data_0216f074[];
 extern void (*gClearBssidCallback)(void);
-extern void (*gSetBssidCallback)(u8 *);
+extern void (*gSetBssidCallback)(const u8 *);
 extern Unk02143a78 gScanParams;
 
 extern u32 data_0216ff44;
