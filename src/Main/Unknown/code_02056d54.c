@@ -182,11 +182,11 @@ u8 func_02056dac(u8 *bytes) {
     return result;
 }
 
-u8 func_02056d98(void) {
+u8 GetKartAppearLimit(void) {
     return func_02056dac(data_0217aa08->mFirstBlock->mFlags);
 }
 
-void func_02056d54(u32 value) {
+void RaiseKartAppearLimit(u32 value) {
     u8 *flagBytes;
 
     if (value > 3) {

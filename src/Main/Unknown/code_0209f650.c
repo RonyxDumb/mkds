@@ -151,16 +151,16 @@ void func_0209fc78(MapObject *mapObject) {
     }
     switch (i) {
         case 0x10:
-            data_usa_0217b18c[i]->mUnk_24 = 0x127;
+            data_usa_0217b18c[i]->mSoundId = 0x127;
             break;
         case 0x11:
-            data_usa_0217b18c[i]->mUnk_24 = 0x100;
+            data_usa_0217b18c[i]->mSoundId = 0x100;
             break;
         case 0x12:
-            data_usa_0217b18c[i]->mUnk_24 = 0x1da;
+            data_usa_0217b18c[i]->mSoundId = 0x1da;
             break;
         default:
-            data_usa_0217b18c[i]->mUnk_24 = func_0210bafc(0, 8, i);
+            data_usa_0217b18c[i]->mSoundId = func_0210bafc(0, 8, i);
             break;
     }
     mapObject->mKindData = data_usa_0217b18c[i];
@@ -202,7 +202,7 @@ void DrawTownMonte(void *a, TownMonte *townMonte) {
     }
     NNS_G3dGeBufferOP_N(0x1b, &townMonte->mUnk_00.mScale, 3);
     SetMapObjectModelNsbtpFrameIndex(gTownMonte, townMonte->mNsbtpFrameIndex);
-    func_0209bbd0(a, gTownMonte);
+    QueueMapObjectModelMaterial(a, gTownMonte);
     DrawMapObjectModel(a, gTownMonte, townMonte);
 }
 
@@ -244,7 +244,7 @@ void InitTownMonteObjects(Unk0209f800 *a) {
 }
 
 void UpdateTownMonte(void *a, TownMonte *townMonte) {
-    Unk0210b7a8 s;
+    SoundStartParams s;
     s32 t;
     u16 w;
 
@@ -268,9 +268,9 @@ void UpdateTownMonte(void *a, TownMonte *townMonte) {
     }
     s.mSoundId = w;
     s.mPositionSource = &townMonte->mUnk_00.mPos;
-    s.mUnk_08 = t;
+    s.mFalloffIndex = t;
     s.mDistanceSquared = GetHorizontalCameraDistanceSquared(&townMonte->mUnk_00.mPos);
-    func_0210b7a8(&s);
+    StartSoundFromParams(&s);
 }
 
 void *CreateTownMonteDrawList(void) {

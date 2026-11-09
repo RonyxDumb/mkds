@@ -54,8 +54,8 @@ void InitWater(MapObject *mapObject, void *unused, void (*createWater)(void)) {
 void UpdateWater(Water *water) {
     s32 volume;
     NNSSndSeqPlayer **soundHandleSlot;
-    Unk0210b7a8 highSoundRequest;
-    Unk0210b7a8 lowSoundRequest;
+    SoundStartParams highSoundRequest;
+    SoundStartParams lowSoundRequest;
     u16 modelCAngle;
     s32 modelAIndex;
     s32 modelCIndex;
@@ -90,7 +90,7 @@ void UpdateWater(Water *water) {
                 if (water->mUnk_170 != 0 && volume >= 0) {
                     highSoundRequest.mSoundId = 0x114;
                     highSoundRequest.mPositionSource = NULL;
-                    highSoundRequest.mUnk_08 = 4;
+                    highSoundRequest.mFalloffIndex = 4;
                     highSoundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(NULL);
                     func_0210b760(&highSoundRequest, soundHandleSlot);
                 }
@@ -121,7 +121,7 @@ void UpdateWater(Water *water) {
                 if (water->mUnk_170 != 0 && volume >= 0) {
                     lowSoundRequest.mSoundId = 0x113;
                     lowSoundRequest.mPositionSource = NULL;
-                    lowSoundRequest.mUnk_08 = 4;
+                    lowSoundRequest.mFalloffIndex = 4;
                     lowSoundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(NULL);
                     func_0210b760(&lowSoundRequest, soundHandleSlot);
                 }

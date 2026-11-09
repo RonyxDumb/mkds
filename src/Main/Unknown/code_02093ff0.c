@@ -35,7 +35,7 @@ void CreateTeresa(MapObjectList *a) {
 }
 
 void SetupDrawTeresa(void *a) {
-    func_0209bbd0(a, gTeresa);
+    QueueMapObjectModelMaterial(a, gTeresa);
 }
 
 void DrawTeresa(void *a, Teresa *teresa) {

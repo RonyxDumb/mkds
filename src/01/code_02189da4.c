@@ -48,7 +48,7 @@
 #include "Main/Unknown/code_0210b000.h"
 
 void func_ov001_0218a30c(Unk02188950 *mapObject) {
-    Unk0210b7a8 soundRequest;
+    SoundStartParams soundRequest;
 
     func_ov001_02187218(mapObject, 8, NULL);
     ReleaseEffects(mapObject);

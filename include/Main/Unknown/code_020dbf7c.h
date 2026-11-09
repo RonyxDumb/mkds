@@ -3,12 +3,12 @@
 #include "types.h"
 #include "Main/Unknown/code_020467d0.h" // StateCallbacks
 #include "Main/Unknown/code_020d6dc0.h" // Quaternion
-#include "Main/Unknown/code_0210b000.h" // Unk0210b7a8
+#include "Main/Unknown/code_0210b000.h" // SoundStartParams
 #include "Main/Unknown/code_020dc474.h" // Wanwan
 
 typedef struct CourseMapRow CourseMapRow;
 
-extern Unk0210b7a8 data_0216bedc;
+extern SoundStartParams data_0216bedc;
 extern Quaternion data_0216beec;
 extern StateCallbacks data_0216befc[];
 

@@ -26,72 +26,72 @@
 #include "Main/Unknown/code_02045874.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-static inline u32 func_020919e8_inline(u32 n) {
+static inline u32 func_020919e8_inline(u32 limit) {
     RandomState64 *mapObjectRandom;
 
     mapObjectRandom = GetMapObjectRandom();
     mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-    return ((mapObjectRandom->mValue >> 32) * n) >> 32;
+    return ((mapObjectRandom->mValue >> 32) * limit) >> 32;
 }
 
-static inline u16 func_020919e8_inline_2(u32 n) {
+static inline u16 func_020919e8_inline_2(u32 limit) {
     RandomState64 *mapObjectRandom;
 
     mapObjectRandom = GetMapObjectRandom();
     mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-    return (u32) (((mapObjectRandom->mValue >> 32) * n) >> 32);
+    return (u32) (((mapObjectRandom->mValue >> 32) * limit) >> 32);
 }
 
-static inline void func_020919e8_inline_3(Unk020919e8 *p, s32 n) {
-    Unk0210b7a8 s;
-    s32 v;
+static inline void func_020919e8_inline_3(Kanoke64 *kanoke64, s32 soundId) {
+    SoundStartParams soundRequest;
+    s32 falloffIndex;
 
-    if (p->mUnk_00.mDistanceSquaredAndFlags & 4) {
+    if (kanoke64->mMapObject.mDistanceSquaredAndFlags & 4) {
         return;
     }
-    if (p->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
-        v = 2;
-    } else if (p->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
-        v = 3;
+    if (kanoke64->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+        falloffIndex = 2;
+    } else if (kanoke64->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+        falloffIndex = 3;
     } else {
-        v = 4;
+        falloffIndex = 4;
     }
-    s.mSoundId = n;
-    s.mPositionSource = &p->mUnk_00.mPos;
-    s.mUnk_08 = v;
-    s.mDistanceSquared = GetHorizontalCameraDistanceSquared(&p->mUnk_00.mPos);
-    func_0210b7a8(&s);
+    soundRequest.mSoundId = soundId;
+    soundRequest.mPositionSource = &kanoke64->mMapObject.mPos;
+    soundRequest.mFalloffIndex = falloffIndex;
+    soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&kanoke64->mMapObject.mPos);
+    StartSoundFromParams(&soundRequest);
 }
 
-void CreateKanoke64(void *a) {
-    gKanoke64 = CreateMapObjectModelAnimated(a, gKanoke64NsbmdName);
+void CreateKanoke64(void *mapObjectList) {
+    gKanoke64 = CreateMapObjectModelAnimated(mapObjectList, gKanoke64NsbmdName);
     CreateMapObjectModelNsbcaAnimation(gKanoke64, gKanoke64NsbcaName);
 }
 
-void DrawKanoke64(void *a, Unk020919e8 *p) {
-    s32 w;
+void DrawKanoke64(void *mapObjectList, Kanoke64 *kanoke64) {
+    s32 commandArg;
 
-    SetMapObjectModelNsbcaFrameIndex(gKanoke64, p->mUnk_a0);
-    w = 0x1e;
-    NNS_G3dGeBufferOP_N(0x14, &w, 1);
-    p->mUnk_00.mMatrix.mUnk_00[3].x = p->mUnk_00.mPos.x >> 4;
-    p->mUnk_00.mMatrix.mUnk_00[3].y = p->mUnk_00.mPos.y >> 4;
-    p->mUnk_00.mMatrix.mUnk_00[3].z = p->mUnk_00.mPos.z >> 4;
-    NNS_G3dGeBufferOP_N(0x19, &p->mUnk_00.mMatrix, 0xc);
-    NNS_G3dGeBufferOP_N(0x1b, &p->mUnk_00.mScale, 3);
-    DrawMapObjectModel(a, gKanoke64, p);
+    SetMapObjectModelNsbcaFrameIndex(gKanoke64, kanoke64->mNsbcaFrameIndex);
+    commandArg = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &commandArg, 1);
+    kanoke64->mMapObject.mMatrix.mUnk_00[3].x = kanoke64->mMapObject.mPos.x >> 4;
+    kanoke64->mMapObject.mMatrix.mUnk_00[3].y = kanoke64->mMapObject.mPos.y >> 4;
+    kanoke64->mMapObject.mMatrix.mUnk_00[3].z = kanoke64->mMapObject.mPos.z >> 4;
+    NNS_G3dGeBufferOP_N(0x19, &kanoke64->mMapObject.mMatrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &kanoke64->mMapObject.mScale, 3);
+    DrawMapObjectModel(mapObjectList, gKanoke64, kanoke64);
 }
 
 void InitKanoke64Objects(MapObjectList *mapObjectList) {
     s32 i;
-    Unk020919e8 *p;
+    Kanoke64 *kanoke64;
 
     if (mapObjectList == NULL) {
         return;
     }
-    for (i = 0; i < mapObjectList->mMapObjectCount && (p = mapObjectList->mMapObjects[i]) != NULL; i++) {
-        if (p->mUnk_00.mFlags & 0x800) {
-            p->mTimer = (u16) (func_020919e8_inline_2(25) + 200);
+    for (i = 0; i < mapObjectList->mMapObjectCount && (kanoke64 = mapObjectList->mMapObjects[i]) != NULL; i++) {
+        if (kanoke64->mMapObject.mFlags & 0x800) {
+            kanoke64->mTimer = (u16) (func_020919e8_inline_2(25) + 200);
         }
     }
 }
@@ -108,88 +108,90 @@ u32 NextRandomBelow(RandomState64 *randomState64, u32 limit) {
     return ((randomState64->mValue >> 32) * limit) >> 32;
 }
 
-s16 func_02091f54(s32 angle) {
+s16 Kanoke64GetAnglePairFirst(s32 angle) {
     return gPairsByAngle[(angle >> 4) * 2];
 }
 
-s32 func_02091f44(s32 a, s32 b) {
-    return ((s64) a * b) >> 12;
+s32 Kanoke64MulFixed12NoRound(s32 multiplicand, s32 multiplier) {
+    return ((s64) multiplicand * multiplier) >> 12;
 }
 
-static inline s64 func_020919e8_inline_5(const Vec3 *a, const Vec3 *b) {
-    s32 v1;
-    s32 v2;
+static inline s64 func_020919e8_inline_5(const Vec3 *firstPos, const Vec3 *secondPos) {
+    s32 deltaX;
+    s32 deltaZ;
 
-    v1 = a->x - b->x;
-    v2 = a->z - b->z;
-    return (s64) v1 * v1 + (s64) v2 * v2;
+    deltaX = firstPos->x - secondPos->x;
+    deltaZ = firstPos->z - secondPos->z;
+    return (s64) deltaX * deltaX + (s64) deltaZ * deltaZ;
 }
 
-static inline BOOL func_020919e8_inline_4(Unk020919e8 *p, s32 k) {
+static inline BOOL func_020919e8_inline_4(Kanoke64 *kanoke64, s32 objectAngle) {
     s32 i;
-    BOOL f;
-    s32 d;
+    BOOL isHumanGhostOrPeer;
+    s32 angleDifference;
     Kart *kart;
 
     for (i = 0; i < gRaceSetup->mKartCount; i++) {
-        f = FALSE;
+        isHumanGhostOrPeer = FALSE;
         if (gRaceSetup->mCurrentEntries[(u16) i].mPlayer.mKind <= 3 &&
             ((1 << gRaceSetup->mCurrentEntries[(u16) i].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
-            f = TRUE;
+            isHumanGhostOrPeer = TRUE;
         }
-        if (f == FALSE && i != gRaceSetup->mEntryIndex) {
+        if (isHumanGhostOrPeer == FALSE && i != gRaceSetup->mEntryIndex) {
             continue;
         }
         kart = GetKart((u16) i);
-        if (func_020919e8_inline_5(&kart->mPos, &p->mUnk_00.mPos) >= 0x225510000000LL) {
+        if (func_020919e8_inline_5(&kart->mPos, &kanoke64->mMapObject.mPos) >= 0x225510000000LL) {
             continue;
         }
-        d = FX_Atan2Idx(kart->mPos.x - p->mUnk_00.mPos.x, kart->mPos.z - p->mUnk_00.mPos.z) - k;
-        if (d < -0x1f40) {
+        angleDifference =
+            FX_Atan2Idx(kart->mPos.x - kanoke64->mMapObject.mPos.x, kart->mPos.z - kanoke64->mMapObject.mPos.z) -
+            objectAngle;
+        if (angleDifference < -0x1f40) {
             continue;
         }
-        if (d <= 0x1f40) {
+        if (angleDifference <= 0x1f40) {
             return TRUE;
         }
     }
     return FALSE;
 }
 
-static inline void func_020919e8_inline_6(Vec3 *v, s32 x, s32 y, s32 z) {
-    v->x = x - 0x5000 + func_020919e8_inline(0xa000);
+static inline void func_020919e8_inline_6(Vec3 *outPos, s32 baseX, s32 baseY, s32 baseZ) {
+    outPos->x = baseX - 0x5000 + func_020919e8_inline(0xa000);
     GetMapObjectRandom();
-    v->y = y;
-    v->z = z - 0x28000 + func_020919e8_inline(0x50000);
+    outPos->y = baseY;
+    outPos->z = baseZ - 0x28000 + func_020919e8_inline(0x50000);
 }
 
-s16 func_02091f24(s32 angle) {
+s16 Kanoke64GetAnglePairSecond(s32 angle) {
     return gPairsByAngle[(angle >> 4) * 2 + 1];
 }
 
-void UpdateKanoke64(void *a, Unk020919e8 *p) {
+void UpdateKanoke64(void *mapObjectList, Kanoke64 *kanoke64) {
     s32 i;
     s32 horizontalSpeed;
-    u16 k;
+    u16 angle;
     s32 nextFrameIndex;
     Vec3 basabasaPos;
     Vec3 basabasaVelocity;
 
-    switch (p->mState) {
+    switch (kanoke64->mState) {
         case 0:
             if (GetCurrentCameraKind() == 2) {
-                p->mState = 1;
+                kanoke64->mState = 1;
                 return;
             }
-            if (p->mUnk_00.mFlags & 0x800) {
-                if (p->mTimer-- <= 0) {
-                    p->mTimer = 8;
-                    p->mState = 1;
+            if (kanoke64->mMapObject.mFlags & 0x800) {
+                if (kanoke64->mTimer-- <= 0) {
+                    kanoke64->mTimer = 8;
+                    kanoke64->mState = 1;
                 }
                 return;
             }
-            if (func_020919e8_inline_4(p, p->mUnk_00.mAngle) != FALSE) {
-                p->mTimer = 8;
-                p->mState = 1;
+            if (func_020919e8_inline_4(kanoke64, kanoke64->mMapObject.mAngle) != FALSE) {
+                kanoke64->mTimer = 8;
+                kanoke64->mState = 1;
             }
             return;
         case 1:
@@ -197,44 +199,45 @@ void UpdateKanoke64(void *a, Unk020919e8 *p) {
         default:
             return;
     }
-    if (p->mUnk_a0 == 10) {
+    if (kanoke64->mNsbcaFrameIndex == 10) {
         for (i = 0; i < 3; i++) {
-            func_020919e8_inline_6(&basabasaPos, p->mUnk_00.mPos.x, p->mUnk_00.mPos.y + 0x19000, p->mUnk_00.mPos.z);
-            k = p->mUnk_00.mAngle;
+            func_020919e8_inline_6(&basabasaPos, kanoke64->mMapObject.mPos.x, kanoke64->mMapObject.mPos.y + 0x19000,
+                                   kanoke64->mMapObject.mPos.z);
+            angle = kanoke64->mMapObject.mAngle;
             horizontalSpeed = NextRandomBelow(GetMapObjectRandom(), 0x1000) + 0x800;
-            k = k - 0x3e8 + func_02046524(GetMapObjectRandom(), 0x7d0);
-            basabasaVelocity.x = func_02091f44(horizontalSpeed, func_02091f54(k));
+            angle = angle - 0x3e8 + NextRandomBelowU16(GetMapObjectRandom(), 0x7d0);
+            basabasaVelocity.x = Kanoke64MulFixed12NoRound(horizontalSpeed, Kanoke64GetAnglePairFirst(angle));
             basabasaVelocity.y = NextRandomBelow(GetMapObjectRandom(), 0x400) + 0x2200;
-            basabasaVelocity.z = func_02091f44(horizontalSpeed, func_02091f24(k));
-            if (i == 0 && p->mUnk_a8 == 0) {
+            basabasaVelocity.z = Kanoke64MulFixed12NoRound(horizontalSpeed, Kanoke64GetAnglePairSecond(angle));
+            if (i == 0 && kanoke64->mBurstCount == 0) {
                 StartBasabasa(0x50, &basabasaPos, &basabasaVelocity, 0x28, 1, i == 0 ? 3 : 0);
             } else {
                 StartBasabasa(0x50, &basabasaPos, &basabasaVelocity, 0x28, 0, i == 0 ? 3 : 0);
             }
         }
-        p->mUnk_a8 += 1;
-        if (p->mUnk_a8 >= 3) {
-            p->mUnk_a8 = 0;
+        kanoke64->mBurstCount += 1;
+        if (kanoke64->mBurstCount >= 3) {
+            kanoke64->mBurstCount = 0;
         }
     }
-    nextFrameIndex = p->mUnk_a0 + 1;
+    nextFrameIndex = kanoke64->mNsbcaFrameIndex + 1;
     if (nextFrameIndex >= GetMapObjectModelNsbcaFrameCount(gKanoke64)) {
         nextFrameIndex = 0;
     }
-    p->mUnk_a0 = nextFrameIndex;
-    if (p->mUnk_a0 == 0) {
-        if (p->mTimer-- <= 0) {
-            p->mUnk_a8 = 0;
-            p->mState = 0;
-            if (p->mUnk_00.mFlags & 0x800) {
-                p->mTimer = (u16) (func_020919e8_inline_2(25) + 200);
+    kanoke64->mNsbcaFrameIndex = nextFrameIndex;
+    if (kanoke64->mNsbcaFrameIndex == 0) {
+        if (kanoke64->mTimer-- <= 0) {
+            kanoke64->mBurstCount = 0;
+            kanoke64->mState = 0;
+            if (kanoke64->mMapObject.mFlags & 0x800) {
+                kanoke64->mTimer = (u16) (func_020919e8_inline_2(25) + 200);
             }
         }
     }
-    if (p->mUnk_a0 != 0) {
+    if (kanoke64->mNsbcaFrameIndex != 0) {
         return;
     }
-    func_020919e8_inline_3(p, 0x188);
+    func_020919e8_inline_3(kanoke64, 0x188);
 }
 
 void CreateKanoke64DrawList(void) {
@@ -245,24 +248,24 @@ void CreateKanoke64UpdateList(void) {
     CreateMapObjectUpdateList(InitKanoke64Objects, UpdateKanoke64, NULL);
 }
 
-void CreateCow(void *a) {
-    gCow = CreateMapObjectModelNsbmdNsbtp(a, gCowNsbmdName, gCowNsbtpName);
+void CreateCow(void *mapObjectList) {
+    gCow = CreateMapObjectModelNsbmdNsbtp(mapObjectList, gCowNsbmdName, gCowNsbtpName);
     SetMapObjectModelPolygonId(gCow, 0x3f);
 }
 
-void SetupDrawCow(void *a) {
-    func_0209bbd0(a, gCow);
+void SetupDrawCow(void *mapObjectList) {
+    QueueMapObjectModelMaterial(mapObjectList, gCow);
 }
 
-void DrawCow(void *a, MapObject *b) {
-    s32 w;
+void DrawCow(void *mapObjectList, MapObject *mapObject) {
+    s32 commandArg;
 
-    w = 0x1e;
-    NNS_G3dGeBufferOP_N(0x14, &w, 1);
-    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&b->mPos), 0xc);
-    NNS_G3dGeBufferOP_N(0x1b, &b->mScale, 3);
-    SetMapObjectModelNsbtpFrameIndex(gCow, b->mCourseMapRow->mUnk_28);
-    DrawMapObjectModel(a, gCow, b);
+    commandArg = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &commandArg, 1);
+    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&mapObject->mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
+    SetMapObjectModelNsbtpFrameIndex(gCow, mapObject->mCourseMapRow->mUnk_28);
+    DrawMapObjectModel(mapObjectList, gCow, mapObject);
 }
 
 void CreateCowDrawList(void) {

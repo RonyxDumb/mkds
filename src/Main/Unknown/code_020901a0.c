@@ -30,14 +30,14 @@ void UseItemAfterHeldOrOnTarget(KartAiItemUse *itemUse, KartAi *kartAi) {
     UseItemAndResetInUseTimer(itemUse, kartAi);
 }
 
-void func_0209024c(KartAiItemUse *itemUse, KartAi *kartAi) {
+void EasyUseItemAfterHeld(KartAiItemUse *itemUse, KartAi *kartAi) {
     if (DecrementHeldItemTimer(itemUse) == 0) {
         return;
     }
     UseItemAndResetInUseTimer(itemUse, kartAi);
 }
 
-void func_020901f0(KartAiItemUse *itemUse, KartAi *kartAi) {
+void UseItemAfterHeldOrOnTargetIfTurnUnder10(KartAiItemUse *itemUse, KartAi *kartAi) {
     if (DecrementHeldItemTimer(itemUse) == 0 && kartAi->mTargetKart == NULL) {
         return;
     }

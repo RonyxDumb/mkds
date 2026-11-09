@@ -28,7 +28,7 @@ void *UnparkFirstParkedMapObject(MapObjectList *mapObjectList) {
     return NULL;
 }
 
-void func_0209bbd0(void *a, MapObjectModel *mapObjectModel) {
+void QueueMapObjectModelMaterial(void *a, MapObjectModel *mapObjectModel) {
 
     if (mapObjectModel->mNsbmdModel == NULL) {
         return;

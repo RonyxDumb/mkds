@@ -24,5 +24,5 @@ void SetMapObjectModelLightEnableFlag(MapObjectModel *mapObjectModel, u32 light)
 void DrawMapObjectModel1Mat1Shp(void *a, MapObjectModel *mapObjectModel, void *c);
 void DrawMapObjectModelWithPos(u32 a, MapObjectModel *mapObjectModel, MapObject *mapObject);
 void DrawMapObjectModel(MapObjectList *mapObjectList, MapObjectModel *mapObjectModel, void *d);
-void func_0209bbd0(void *a, MapObjectModel *mapObjectModel);
+void QueueMapObjectModelMaterial(void *a, MapObjectModel *mapObjectModel);
 void *UnparkFirstParkedMapObject(MapObjectList *mapObjectList);

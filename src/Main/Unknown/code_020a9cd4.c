@@ -76,7 +76,7 @@ void CreateIronBall(void *a) {
 }
 
 void SetupDrawIronBall(void *a) {
-    func_0209bbd0(a, gIronBall);
+    QueueMapObjectModelMaterial(a, gIronBall);
 }
 
 void DrawIronBall(void *a, IronBall *ironBall) {

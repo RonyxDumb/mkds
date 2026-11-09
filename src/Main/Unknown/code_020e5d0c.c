@@ -143,7 +143,7 @@ void DrawPendulum(u32 param_1, PendulumObject *pendulum, u32 param_3, u32 alpha)
 
 void UpdatePendulum(u32 param_1, PendulumObject *pendulum) {
     Quaternion swingRotation;
-    Unk0210b7a8 soundRequest;
+    SoundStartParams soundRequest;
     u32 previousAngle;
     u16 swingAngle;
     s32 falloffIndex;
@@ -163,9 +163,9 @@ void UpdatePendulum(u32 param_1, PendulumObject *pendulum) {
             }
             soundRequest.mSoundId = 0x173;
             soundRequest.mPositionSource = &pendulum->mMapObject.mPos;
-            soundRequest.mUnk_08 = falloffIndex;
+            soundRequest.mFalloffIndex = falloffIndex;
             soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&pendulum->mMapObject.mPos);
-            func_0210b7a8(&soundRequest);
+            StartSoundFromParams(&soundRequest);
         }
     }
     QuaternionMultiplyAngleAroundZ(&pendulum->mRotationQuaternion, swingAngle, &swingRotation);

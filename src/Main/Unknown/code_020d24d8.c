@@ -22,7 +22,7 @@
 
 void StartMapObjectKindSound(MapObject *mapObject, SoundSource *soundSource, s32 d, s32 e) {
     s32 soundId;
-    soundId = mapObject->mKindData->mUnk_24;
+    soundId = mapObject->mKindData->mSoundId;
     if (soundId == -1) {
         return;
     }
@@ -38,16 +38,16 @@ void StartMapObjectKindSound(MapObject *mapObject, SoundSource *soundSource, s32
 
 void StartSoundAtPositionIfNear(s32 soundId, Vec3 *position, s32 falloffKind) {
     s32 distanceSquared;
-    Unk0210b7a8 request;
+    SoundStartParams request;
     distanceSquared = GetHorizontalCameraDistanceSquared(position);
     if (distanceSquared >= (falloffKind == 2 ? gSoundFalloffs[2].mUnk_20 : gSoundFalloffs[4].mUnk_20)) {
         return;
     }
     request.mSoundId = soundId;
     request.mPositionSource = position;
-    request.mUnk_08 = falloffKind;
+    request.mFalloffIndex = falloffKind;
     request.mDistanceSquared = distanceSquared;
-    func_0210b7a8(&request);
+    StartSoundFromParams(&request);
 }
 
 void SetMapObjectExtentY(MapObject *mapObject, s32 baseSize) {

@@ -119,7 +119,7 @@ void UpdateKoopaBlock(void *a0, Unk020e005c *koopaBlock) {
     GroupFollower *follower = &koopaBlock->mUnk_144;
 
     if (koopaBlock->mUnk_16c != 0) {
-        Unk0210b7a8 soundRequest;
+        SoundStartParams soundRequest;
         s32 falloffIndex;
 
         koopaBlock->mUnk_16c--;
@@ -137,9 +137,9 @@ void UpdateKoopaBlock(void *a0, Unk020e005c *koopaBlock) {
                            : (koopaBlock->mUnk_000.mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20 ? 3 : 4);
         soundRequest.mSoundId = 0x17e;
         soundRequest.mPositionSource = &koopaBlock->mUnk_000.mMapObject.mPos;
-        soundRequest.mUnk_08 = falloffIndex;
+        soundRequest.mFalloffIndex = falloffIndex;
         soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&koopaBlock->mUnk_000.mMapObject.mPos);
-        func_0210b7a8(&soundRequest);
+        StartSoundFromParams(&soundRequest);
         return;
     }
     if (AdvanceGroupFollower(follower) != FALSE) {

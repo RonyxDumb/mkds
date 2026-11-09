@@ -58,7 +58,7 @@ void DrawObPakkunSf(u32 a, ObPakkunSf *obPakkunSf, u32 c, u16 alpha) {
 }
 
 void UpdateObPakkunSf(u32 a, ObPakkunSf *obPakkunSf) {
-    Unk0210b7a8 soundRequest;
+    SoundStartParams soundRequest;
     s32 falloffIndex;
 
     obPakkunSf->mFramesSinceInit = obPakkunSf->mFramesSinceInit + 1;
@@ -73,9 +73,9 @@ void UpdateObPakkunSf(u32 a, ObPakkunSf *obPakkunSf) {
         }
         soundRequest.mSoundId = 0x163;
         soundRequest.mPositionSource = &obPakkunSf->mPushedObject.mMapObject.mPos;
-        soundRequest.mUnk_08 = falloffIndex;
+        soundRequest.mFalloffIndex = falloffIndex;
         soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&obPakkunSf->mPushedObject.mMapObject.mPos);
-        func_0210b7a8(&soundRequest);
+        StartSoundFromParams(&soundRequest);
     }
     AdvanceStateMachine(&obPakkunSf->mPushedObject.mMapObject.mStateMachine);
 }

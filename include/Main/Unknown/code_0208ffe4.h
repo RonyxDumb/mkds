@@ -3,4 +3,4 @@
 #include "types.h"
 #include "Main/Unknown/code_020888b4.h"
 
-void func_0208ffe4(KartAiItemUse *itemUse, KartAi *kartAi);
+void ThrowItemRandomAfterHeld(KartAiItemUse *itemUse, KartAi *kartAi);

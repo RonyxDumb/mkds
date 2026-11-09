@@ -330,7 +330,7 @@ void UpdateFlipper(void *a, Flipper *flipper) {
 }
 
 void CreateFlipperKindData(void) {
-    func_0209bf70(CollideKartWithFlipper, NULL, func_02097ed0, 0, 1, 0x1d0);
+    CreateMapObjectKindDataWithSound(CollideKartWithFlipper, NULL, func_02097ed0, 0, 1, 0x1d0);
 }
 
 void *CreateFlipperDrawList(void) {

@@ -31,9 +31,9 @@ void InitChandelierObjects(Unk0209f514 *a) {
 }
 
 void UpdateChandelier(void *a, Unk0209f338 *b) {
-    Unk0210b7a8 s1;
-    Unk0210b7a8 s2;
-    Unk0210b7a8 s3;
+    SoundStartParams s1;
+    SoundStartParams s2;
+    SoundStartParams s3;
     s32 t;
     s32 n;
 
@@ -59,9 +59,9 @@ void UpdateChandelier(void *a, Unk0209f338 *b) {
             }
             s1.mSoundId = 0x11a;
             s1.mPositionSource = &b->mUnk_00.mPos;
-            s1.mUnk_08 = t;
+            s1.mFalloffIndex = t;
             s1.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mUnk_00.mPos);
-            func_0210b7a8(&s1);
+            StartSoundFromParams(&s1);
         }
     } else if (b->mFrameIndex == 0x46 || b->mFrameIndex == 0xaf) {
         if ((b->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
@@ -74,9 +74,9 @@ void UpdateChandelier(void *a, Unk0209f338 *b) {
             }
             s2.mSoundId = 0x11b;
             s2.mPositionSource = &b->mUnk_00.mPos;
-            s2.mUnk_08 = t;
+            s2.mFalloffIndex = t;
             s2.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mUnk_00.mPos);
-            func_0210b7a8(&s2);
+            StartSoundFromParams(&s2);
         }
     } else if (b->mFrameIndex == 0xfa) {
         if ((b->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
@@ -89,9 +89,9 @@ void UpdateChandelier(void *a, Unk0209f338 *b) {
             }
             s3.mSoundId = 0x119;
             s3.mPositionSource = &b->mUnk_00.mPos;
-            s3.mUnk_08 = t;
+            s3.mFalloffIndex = t;
             s3.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mUnk_00.mPos);
-            func_0210b7a8(&s3);
+            StartSoundFromParams(&s3);
         }
     }
     n = b->mFrameIndex + 1;

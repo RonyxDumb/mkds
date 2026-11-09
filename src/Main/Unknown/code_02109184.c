@@ -319,7 +319,7 @@ s32 ComputeSoundVolume(SoundParams *p) {
             e = &gSoundFalloffs[k->mSoundSource.mFalloffIndex];
         }
     } else {
-        e = &gSoundFalloffs[p->mUnk_20->mUnk_08];
+        e = &gSoundFalloffs[p->mUnk_20->mFalloffIndex];
     }
     a = p->mDistance;
     if (a <= e->mInnerDistance) {
@@ -374,7 +374,7 @@ u32 ComputeSoundDistanceAndOffsets(SoundParams *p) {
     if (p->mSource != NULL) {
         a = ((Kart *) p->mSource)->mSoundSource.mDistanceSquared;
     } else {
-        a = p->mUnk_20->mUnk_0c;
+        a = p->mUnk_20->mDistanceSquared;
     }
     reg_CP_SQRTCNT = 0;
     reg_CP_SQRT_PARAM_LO = a;

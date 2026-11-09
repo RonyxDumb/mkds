@@ -20,17 +20,17 @@
 static inline void func_020a826c_inline(Unk020a826c_a0 *q) {
     s32 v;
 
-    if (q->mUnk_00.mUnk_08 == 2) {
+    if (q->mUnk_00.mFalloffIndex == 2) {
         v = gSoundFalloffs[2].mUnk_20;
-    } else if (q->mUnk_00.mUnk_08 == 3) {
+    } else if (q->mUnk_00.mFalloffIndex == 3) {
         v = gSoundFalloffs[3].mUnk_20;
-    } else if (q->mUnk_00.mUnk_08 == 4) {
+    } else if (q->mUnk_00.mFalloffIndex == 4) {
         v = gSoundFalloffs[4].mUnk_20;
-    } else if (q->mUnk_00.mUnk_08 == 5) {
+    } else if (q->mUnk_00.mFalloffIndex == 5) {
         v = gSoundFalloffs[5].mUnk_20;
-    } else if (q->mUnk_00.mUnk_08 == 6) {
+    } else if (q->mUnk_00.mFalloffIndex == 6) {
         v = gSoundFalloffs[6].mUnk_20;
-    } else if (q->mUnk_00.mUnk_08 == 8) {
+    } else if (q->mUnk_00.mFalloffIndex == 8) {
         v = gSoundFalloffs[8].mUnk_20;
     } else {
         v = 0;

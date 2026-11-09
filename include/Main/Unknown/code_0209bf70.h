@@ -39,7 +39,8 @@ typedef struct Bound {
     /* 120 */ s32 mKartTimers[8];
 } Bound;
 
-// Sun, kind 0x1ad: UpdateSun steps mState 0 to 4 and back; state 3 unparks a MAP_OBJECT_KIND_SUN_FIREBALL object twice per cycle.
+// Sun, kind 0x1ad: UpdateSun steps mState 0 to 4 and back; state 3 unparks a MAP_OBJECT_KIND_SUN_FIREBALL object twice
+// per cycle.
 typedef struct Sun {
     /* 000 */ MapObject mUnk_000;
     /* 0a0 */ u32 mUnk_0a0;
@@ -83,8 +84,8 @@ extern u32 data_usa_021565d0;
 extern u16 data_usa_021565d4;
 extern const char data_usa_02167328[];
 
-MapObjectKindData *func_0209bf70(void *collideKartCallback, void *collideItemObjectCallback, void *sphereHitCallback,
-                                 u32 d, u16 e, u16 f);
+MapObjectKindData *CreateMapObjectKindDataWithSound(void *collideKartCallback, void *collideItemObjectCallback,
+                                                    void *sphereHitCallback, u32 d, u16 e, u16 f);
 MapObjectKindData *CreateEmptyMapObjectKindData(void);
 void *CreateMapObjectKindData(void *collideKartCallback, void *collideItemObjectCallback, void *sphereHitCallback,
                               u32 param_4, u16 param_5);

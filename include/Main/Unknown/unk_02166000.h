@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/Unknown/unk_02165000.h" // Unk02165ff0
 #include "Main/Unknown/code_020846c0.h" // ResFileEntry
-#include "Main/Unknown/code_0210b000.h" // Unk0210b7a8
+#include "Main/Unknown/code_0210b000.h" // SoundStartParams
 
 struct ModelEffect;
 
@@ -38,7 +38,7 @@ extern const char data_021663a8[];
 extern const char data_021663c0[];
 
 extern u8 gPosStripFirstPolygonId;
-extern u8 data_021663dc;
+extern u8 gPosStripAlphaDecreasePerFrame;
 extern u16 gPosStripMaxAgeFrames;
 extern u16 gPosStripPointsPerStrip;
 extern s32 gPosStripDrawEnabled;
@@ -49,16 +49,17 @@ typedef struct PosStripTexture {
     /* 00 */ u32 mTexImageParam;
     /* 04 */ u8 mUnk_04[0x14];
     /* 18 */ u32 mPlttBase;
-    /* 1c */ s32 mUnk_1c;
-    /* 20 */ s32 mUnk_20;
+    /* 1c */ s32 mLowHalfTexCoord;
+    /* 20 */ s32 mHighHalfTexCoord;
 } PosStripTexture;
 
 extern PosStripTexture gPosStripTexture;
-extern s32 data_02166418[][2];
-extern s32 data_0216641c[][2];
-extern s32 data_02166480[];
-extern const char data_02166514[];
-extern const char data_02166530[];
+extern s32 gAwardStripCharacterYOffsets[][2];
+extern s32 gAwardStripCharacterZOffsets[][2];
+extern s32 gAwardStripKartYOffsets[];
+extern const char gAwardTrackNsbtxName[];
+// Hanegame: the texture the race position strips are drawn with (the award scene uses award_track instead).
+extern const char gHanegameNsbtxName[];
 extern Unk02165ff0 data_0216600c;
 extern Unk02165ff0 data_02166028;
 
@@ -74,7 +75,7 @@ extern const char gMkdEfBurnerNsbmdName[];
 extern const char gMkdEfBurnerNsbtaName[];
 extern const char gNsKiller2NsbmdName[];
 extern const char gNsKiller2SNsbmdName[];
-extern Unk0210b7a8 data_0216676c;
+extern SoundStartParams data_0216676c;
 extern const char gNsKiller1NsbmdName[];
 extern const char gBakubakuNsbmdName[];
 extern const char gBakuShadowNsbmdName[];

@@ -98,7 +98,7 @@ void EnterChoropuState3(Unk020e2f0c *choropu) {
 }
 
 void UpdateChoropuState3(Unk020e2f0c *choropu) {
-    Unk0210b7a8 soundRequest;
+    SoundStartParams soundRequest;
     s32 falloffIndex;
 
     choropu->mUnk_000.mPos.y = choropu->mUnk_000.mPos.y + choropu->mUnk_000.mUnk_10.y;
@@ -111,9 +111,9 @@ void UpdateChoropuState3(Unk020e2f0c *choropu) {
                            : (choropu->mUnk_000.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20 ? 3 : 4);
         soundRequest.mSoundId = 0x128;
         soundRequest.mPositionSource = &choropu->mUnk_000.mPos;
-        soundRequest.mUnk_08 = falloffIndex;
+        soundRequest.mFalloffIndex = falloffIndex;
         soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&choropu->mUnk_000.mPos);
-        func_0210b7a8(&soundRequest);
+        StartSoundFromParams(&soundRequest);
     }
     choropu->mUnk_000.mStateMachine.mNextState = 4;
     choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;

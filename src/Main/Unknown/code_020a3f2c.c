@@ -133,7 +133,7 @@ void CreateShine16(void *a) {
 }
 
 void SetupDrawShine16(void *a) {
-    func_0209bbd0(a, gShine16);
+    QueueMapObjectModelMaterial(a, gShine16);
 }
 
 void DrawShine16(void *a, Shine16 *p) {
@@ -745,7 +745,7 @@ s32 BalloonKartsHitEachOtherCallback(u16 a, u16 b) {
     Balloon *l;
     Balloon *g;
     Balloon *m;
-    Unk0210b7a8 s;
+    SoundStartParams s;
     s32 n;
 
     v1 = GetStandingsKartBalloons();
@@ -803,9 +803,9 @@ s32 BalloonKartsHitEachOtherCallback(u16 a, u16 b) {
     if (a == gRaceSetup->mEntryIndex || b == gRaceSetup->mEntryIndex) {
         s.mSoundId = 0x14f;
         s.mPositionSource = NULL;
-        s.mUnk_08 = 2;
+        s.mFalloffIndex = 2;
         s.mDistanceSquared = GetHorizontalCameraDistanceSquared(NULL);
-        func_0210b7a8(&s);
+        StartSoundFromParams(&s);
     }
     return 1;
 }

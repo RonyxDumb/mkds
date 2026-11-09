@@ -23,7 +23,7 @@ typedef struct Sman {
     /* c0 */ s32 mTopStartHeight;
     /* c4 */ s32 mTopLowHeight;
     // State of UpdateSman: 0 at rest, 1 top goes up and down, 2 waits, 3 both parts come back;
-    // func_02091828 and func_020917d0 set 1.
+    // CollideKartWithSman and CollideItemObjectWithSman set 1.
     /* c8 */ s32 mState;
 } Sman;
 
@@ -43,21 +43,21 @@ void SetupKartKillerCursor(KartKillerCursor *kartKillerCursor, u32 kartIndex);
 BOOL IsTimeLessThanStaffGhostTime(u32 entryNumber, MinuteSecondMillisecondTime *time);
 void LoadStaffGhostTime(void *heap);
 BOOL IsAllGrandPrixRecordsTopRank(void);
-s32 func_020909cc(void);
-u32 func_02090b24(void);
-u32 func_02090cf8(void);
-u32 func_02090ff4(void);
-u32 func_0209119c(void);
-u32 func_020911a8(void);
+s32 GetStaffRollKindAfterGp(void);
+u32 SetSecretMessageFlagsFromCups3And7(void);
+u32 SetSecretMessageFlagsPerEngineClass(void);
+u32 SetSecretMessageFlags(void);
+u32 SetSecretMessageFlagsWrapper(void);
+u32 SetAndWriteSecretMessageFlags(void);
 void *CreateSmanUpdateList(void);
 void *CreateSmanBottomDrawList(void);
 void *CreateSmanTopDrawList(void);
 void CreateSmanKindData(void);
-void UpdateSman(void *a, Sman *sman); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdateSman(void *mapObjectList, Sman *sman); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void InitSmanObjects(SmanList *smanList);
 void DrawSmanBottom(void *mapObjectList, Sman *sman);
-void SetupDrawSmanBottom(void *a);
-void CreateSmanBottom(void *a);
+void SetupDrawSmanBottom(void *mapObjectList);
+void CreateSmanBottom(void *mapObjectList);
 void DrawSmanTop(void *mapObjectList, Sman *sman);
-void SetupDrawSmanTop(void *a);
-void CreateSmanTop(void *a);
+void SetupDrawSmanTop(void *mapObjectList);
+void CreateSmanTop(void *mapObjectList);

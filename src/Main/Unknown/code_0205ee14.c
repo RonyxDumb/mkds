@@ -119,7 +119,7 @@ BOOL IsKartAppearWithinLimit(KartAppear *kartAppear, u32 characterIndex, u32 kar
     u8 limit;
     u8 appearValue;
 
-    limit = func_02056d98();
+    limit = GetKartAppearLimit();
     appearValue = kartAppear->mFileData->mValues[kartIndex][characterIndex];
     if (appearValue != 0 && appearValue <= limit) {
         return 1;
@@ -134,7 +134,7 @@ BOOL func_0205fc98(KartAppear *kartAppear, u32 characterIndex, u32 kartIndex) {
     if (func_0205f218_inline() != FALSE) {
         limit = data_0217aa08->mParticipantMinValue;
     } else {
-        limit = func_02056d98();
+        limit = GetKartAppearLimit();
     }
     appearValue = kartAppear->mFileData->mValues[kartIndex][characterIndex];
     if (appearValue != 0 && appearValue <= limit) {

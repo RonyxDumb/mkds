@@ -75,7 +75,7 @@ void CreateBasabasa(void *a) {
 }
 
 void SetupDrawBasabasa(void *a) {
-    func_0209bbd0(a, gBasabasa);
+    QueueMapObjectModelMaterial(a, gBasabasa);
 }
 
 void DrawBasabasa(void *a, Basabasa *basabasa) {

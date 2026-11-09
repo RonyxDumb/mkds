@@ -173,7 +173,7 @@ void ResetWanwan(Wanwan *wanwan) {
 #pragma thumb off
 
 Quaternion data_0216beec = {{0, 0, 0, 0x1000}};
-Unk0210b7a8 data_0216bedc = {0x12d, NULL, 2, 0};
+SoundStartParams data_0216bedc = {0x12d, NULL, 2, 0};
 // Shared by kinds 0x196 and 0x1a5 (class Wanwan). Only kind 0x196 objects reach states 0, 1, 3 and 4;
 // a kind 0x1a5 object starts in state 5 and moves between states 2 and 5.
 // func_020dc444 is an empty (bx lr) handler, left unnamed.

@@ -123,8 +123,8 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
                     if (descriptor->mKindData == NULL) {
                         return NULL;
                     }
-                    if (descriptor->mKindData->mUnk_24 == 0) {
-                        descriptor->mKindData->mUnk_24 = -1;
+                    if (descriptor->mKindData->mSoundId == 0) {
+                        descriptor->mKindData->mSoundId = -1;
                     }
                     if (descriptor->mKindData->mUnk_28 == 0) {
                         descriptor->mKindData->mUnk_28 = -1;

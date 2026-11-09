@@ -215,7 +215,7 @@ void UpdateMkdEfBubble(void *a, MkdEfBubbleObject *bubble) {
 }
 
 void EnterMkdEfBubbleState0(MkdEfBubbleObject *bubble) {
-    Unk0210b7a8 soundRequest;
+    SoundStartParams soundRequest;
     s32 falloffIndex;
     BOOL effectMissing;
 
@@ -235,9 +235,9 @@ void EnterMkdEfBubbleState0(MkdEfBubbleObject *bubble) {
         }
         soundRequest.mSoundId = 0x18c;
         soundRequest.mPositionSource = &bubble->mMapObject.mPos;
-        soundRequest.mUnk_08 = falloffIndex;
+        soundRequest.mFalloffIndex = falloffIndex;
         soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&bubble->mMapObject.mPos);
-        func_0210b7a8(&soundRequest);
+        StartSoundFromParams(&soundRequest);
     }
     bubble->mKartMask = 0;
     if (bubble->mFirstEffect == NULL) {

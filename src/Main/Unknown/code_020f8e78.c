@@ -32,7 +32,7 @@ BOOL func_020f9290(ItemObject *item, Vec3 *normal) {
 }
 
 void func_020f91fc(ItemObject *item, s32 soundId) {
-    Unk0210b7a8 request;
+    SoundStartParams request;
 
     if (soundId == 1) {
         return;
@@ -47,7 +47,7 @@ void func_020f91fc(ItemObject *item, s32 soundId) {
     request.mPositionSource = &item->mPos;
     request.mSoundId = soundId;
     request.mDistanceSquared = item->mDistanceSquaredAndFlags & ~0xc000001f;
-    func_0210b7a8(&request);
+    StartSoundFromParams(&request);
 }
 
 BOOL func_020f91e0(ItemObject *itemParam) {

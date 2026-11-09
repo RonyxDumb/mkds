@@ -139,7 +139,7 @@ void UpdateKuriboState4(Kuribo *kuribo) {
 }
 
 void EnterKuriboState5(Kuribo *kuribo) {
-    Unk0210b7a8 soundRequest;
+    SoundStartParams soundRequest;
     s32 falloffIndex;
     if ((kuribo->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
         if (kuribo->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
@@ -151,9 +151,9 @@ void EnterKuriboState5(Kuribo *kuribo) {
         }
         soundRequest.mSoundId = 0x183;
         soundRequest.mPositionSource = &kuribo->mMapObject.mPos;
-        soundRequest.mUnk_08 = falloffIndex;
+        soundRequest.mFalloffIndex = falloffIndex;
         soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&kuribo->mMapObject.mPos);
-        func_0210b7a8(&soundRequest);
+        StartSoundFromParams(&soundRequest);
     }
     kuribo->mMapObject.mFlags &= ~1;
     kuribo->mUnk_c8 = 0;

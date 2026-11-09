@@ -80,7 +80,7 @@ void func_ov001_02182d30(void) {
     RandomState64 *random;
     s32 angle;
     s32 speed;
-    Unk0210b7a8 soundArg;
+    SoundStartParams soundArg;
 
     kart = GetKart((u16) gRaceSetup->mEntryIndex);
     coin = UnparkFirstParkedMapObject(FindMapObjectKindUpdateList(0x68));
@@ -104,9 +104,9 @@ void func_ov001_02182d30(void) {
         coin->mUnk_000.mFlags &= ~1;
         soundArg.mSoundId = 0x1d9;
         soundArg.mPositionSource = NULL;
-        soundArg.mUnk_08 = 2;
+        soundArg.mFalloffIndex = 2;
         soundArg.mDistanceSquared = GetHorizontalCameraDistanceSquared(NULL);
-        func_0210b7a8(&soundArg);
+        StartSoundFromParams(&soundArg);
     }
 }
 
@@ -118,7 +118,7 @@ void func_ov001_02182bdc(void) {
     s32 speed;
     u8 kartCount;
     Unk02188950 *targetObject;
-    Unk0210b7a8 soundArg;
+    SoundStartParams soundArg;
 
     kart = GetKart((u16) gRaceSetup->mEntryIndex);
     coin = UnparkFirstParkedMapObject(FindMapObjectKindUpdateList(0x68));
@@ -150,9 +150,9 @@ void func_ov001_02182bdc(void) {
         coin->mUnk_000.mUnk_10.z = (((s64) speed * gPairsByAngle[(angle >> 4) * 2 + 1]) >> 12);
         soundArg.mSoundId = 0x1d9;
         soundArg.mPositionSource = NULL;
-        soundArg.mUnk_08 = 2;
+        soundArg.mFalloffIndex = 2;
         soundArg.mDistanceSquared = GetHorizontalCameraDistanceSquared(NULL);
-        func_0210b7a8(&soundArg);
+        StartSoundFromParams(&soundArg);
     }
 }
 
@@ -370,7 +370,7 @@ void DrawCoin(void *b, Coin *coin) {
         }
         SetMapObjectModelAlpha(data_ov001_021a9b98, alpha);
         SetMapObjectModelNsbtpFrameIndex(data_ov001_021a9b98, coin->mNsbtpFrameIndex);
-        func_0209bbd0(b, data_ov001_021a9b98);
+        QueueMapObjectModelMaterial(b, data_ov001_021a9b98);
         DrawMapObjectModel(b, data_ov001_021a9b98, coin);
     }
 }

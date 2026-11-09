@@ -67,7 +67,7 @@ void func_ov001_0218d2c4(Unk02188950 *a) {
     int i;
     MapObjectList *list;
     Unk02188950 *p;
-    Unk0210b7a8 local;
+    SoundStartParams local;
 
     func_ov001_02187218(a, 8, NULL);
     StartAnimationNoEndCallback(a, a->mPrm->mUnk_070, a->mPrm->mUnk_074);

@@ -108,7 +108,7 @@ void CreateFireball2(MapObjectList *a) {
 }
 
 void SetupDrawFireball2(void *a) {
-    func_0209bbd0(a, gFireball2);
+    QueueMapObjectModelMaterial(a, gFireball2);
 }
 
 void DrawFireball2(void *a, Fireball2 *b) {
@@ -298,7 +298,7 @@ void UpdateFireball2(void *a, Fireball2 *b) {
 }
 
 void CreateFireball2KindData(void) {
-    func_0209bf70(CollideKartWithFireball2, NULL, IsPosNearFireball2, 0, 0, 0x18d);
+    CreateMapObjectKindDataWithSound(CollideKartWithFireball2, NULL, IsPosNearFireball2, 0, 0, 0x18d);
 }
 
 void *CreateFireball2DrawList(void) {

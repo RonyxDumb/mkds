@@ -295,7 +295,7 @@ next:
         gWiFiVSSetting->mPendingWiFiState = 3;
         gWiFiVSSetting->mRow = 2;
         data_0217b488->mUnk_54 = data_ov000_021b05ec[gWiFiVSSetting->mSettingIndex];
-        if ((u16) (data_0217562a[i].mBits & PAD_KEY_R) != 0) {
+        if ((u16) (data_02175628[i].mBits & PAD_KEY_R) != 0) {
             func_ov000_02180638(1);
         }
         SetWiFiVSSettingIndex(gWiFiVSSetting->mSettingIndex);

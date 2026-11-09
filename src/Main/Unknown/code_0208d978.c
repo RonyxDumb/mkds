@@ -79,15 +79,15 @@ void DrawPosStripQuad(const MtxFx43 *viewMatrix, PosStripPoint *firstPoint, PosS
     MTX_Concat43(&secondMatrix, viewMatrix, &secondMatrix);
     reg_G3_BEGIN_VTXS = 1;
     G3_LoadMtx43(&firstMatrix);
-    reg_G3_TEXCOORD = (u16) ((posStripTexture->mUnk_1c << 8) >> 16);
+    reg_G3_TEXCOORD = (u16) ((posStripTexture->mLowHalfTexCoord << 8) >> 16);
     reg_G3_VTX_10 = 0x10000;
     reg_G3_TEXCOORD = 0;
     reg_G3_VTX_10 = 0xf0000;
     G3_LoadMtx43(&secondMatrix);
-    reg_G3_TEXCOORD = (u16) ((posStripTexture->mUnk_20 << 8) >> 16) << 16;
+    reg_G3_TEXCOORD = (u16) ((posStripTexture->mHighHalfTexCoord << 8) >> 16) << 16;
     reg_G3_VTX_10 = 0xf0000;
-    reg_G3_TEXCOORD = (u16) ((posStripTexture->mUnk_1c << 8) >> 16) | (u16) ((posStripTexture->mUnk_20 << 8) >> 16)
-                                                                          << 16;
+    reg_G3_TEXCOORD = (u16) ((posStripTexture->mLowHalfTexCoord << 8) >> 16) |
+                      (u16) ((posStripTexture->mHighHalfTexCoord << 8) >> 16) << 16;
     reg_G3_VTX_10 = 0x10000;
     reg_G3_END_VTXS = 0;
 }

@@ -31,11 +31,11 @@
 #include "Main/Unknown/code_02077bc0.h"
 #include "registers.h"
 
-void func_02090194(KartAiItemUse *itemUse) {
+void HardSetItemBitsEveryCall(KartAiItemUse *itemUse) {
     itemUse->mItemBitsEveryCall = 0x1u;
 }
 
-void func_02090088(KartAiItemUse *itemUse, KartAi *kartAi) {
+void ThrowItemRandomAfterHeldOrAtNearTarget(KartAiItemUse *itemUse, KartAi *kartAi) {
     RandomState64 *kartAiRandom;
     s32 randomValue;
 
@@ -63,7 +63,7 @@ void func_02090088(KartAiItemUse *itemUse, KartAi *kartAi) {
     }
 }
 
-void func_0208ffe4(KartAiItemUse *itemUse, KartAi *kartAi) {
+void ThrowItemRandomAfterHeld(KartAiItemUse *itemUse, KartAi *kartAi) {
     RandomState64 *kartAiRandom;
     s32 randomValue;
 
@@ -84,7 +84,7 @@ void SetItemBitsEveryCall(KartAiItemUse *itemUse) {
     itemUse->mItemBitsEveryCall = 0x1u;
 }
 
-void func_0208fefc(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void ThrowItemRandomAfterHeldOrBehindNearTarget(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     RandomState64 *kartAiRandom;
     s32 randomValue;
 
@@ -108,7 +108,7 @@ void func_0208fefc(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     }
 }
 
-void func_0208fe58(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void ThrowItemRandomMoreForwardAfterHeld(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     RandomState64 *kartAiRandom;
     s32 randomValue;
 
@@ -125,14 +125,14 @@ void func_0208fe58(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     }
 }
 
-void func_0208fe1c(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void BattleUseItemAfterHeld(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     if (DecrementHeldItemTimer(itemUse) == 0) {
         return;
     }
     UseItemAndResetInUseTimer(itemUse, kartAi);
 }
 
-void func_0208fdcc(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void UseItemAndResetHeldTimerAfterHeldIfTurnUnder10(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     if (DecrementHeldItemTimer(itemUse) == 0) {
         return;
     }
@@ -150,10 +150,9 @@ void SetupBattleItemInUseEntry(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     ResetItemInUseTimer(itemUse, itemInUseEntry);
 }
 
-u32 func_0208fd88(u32 value) {
+u32 BattleItemInUseReturnArgument(u32 value) {
     return value;
 }
-// Calls one of two handlers, by whether the item in use is the circling kind.
 
 void ThrowItemByCircleKind(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     if (gKartItems[kartAi->mIndex].mItemInUse.mUseKind == ITEM_USE_KIND_CIRCLE) {
@@ -177,7 +176,7 @@ void ThrowItemAtNearTarget(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     }
 }
 
-void func_0208fba0(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void ThrowItemRandomAfterInUseOrAtNearTarget(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     RandomState64 *kartAiRandom;
     s32 randomValue;
 
@@ -205,7 +204,7 @@ void func_0208fba0(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     }
 }
 
-void func_0208fafc(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void EasyThrowItemRandomAfterInUse(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     RandomState64 *kartAiRandom;
     s32 randomValue;
 
@@ -222,7 +221,7 @@ void func_0208fafc(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     }
 }
 
-void func_0208fa50(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void ThrowItemAtNearTargetAfterInUseEveryCall(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     itemUse->mItemBitsEveryCall = 1;
     if (DecrementItemInUseTimer(itemUse) == 0) {
         return;
@@ -240,7 +239,7 @@ void func_0208fa50(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     }
 }
 
-void func_0208f9ac(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void ThrowItemRandomAfterInUse(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     RandomState64 *kartAiRandom;
     s32 randomValue;
 
@@ -255,7 +254,6 @@ void func_0208f9ac(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     } else {
         UseItemBehindAndResetInUseTimer(itemUse, kartAi);
     }
-// Calls one of two handlers, by whether the item in use is the circling kind.
 }
 
 void UseItemByCircleKind(KartAiItemUse *itemUse, struct KartAi *kartAi) {
@@ -266,7 +264,7 @@ void UseItemByCircleKind(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     }
 }
 
-void func_0208f8ac(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void UseItemAfterInUseAtNearTargetAheadDot(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     if (DecrementItemInUseTimer(itemUse) == 0) {
         return;
     }
@@ -285,7 +283,7 @@ void func_0208f8ac(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     UseItemAndResetInUseTimer(itemUse, kartAi);
 }
 
-void func_0208f810(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void NormalUseItemAfterInUseAtNearTargetAheadDot(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     if (DecrementItemInUseTimer(itemUse) == 0) {
         return;
     }
@@ -311,7 +309,7 @@ void UseItemAfterInUse(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     UseItemAndResetInUseTimer(itemUse, kartAi);
 }
 
-void func_0208f754(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void HardUseItemAfterInUseAtNearTargetAhead(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     if (DecrementItemInUseTimer(itemUse) == 0) {
         return;
     }
@@ -327,7 +325,7 @@ void func_0208f754(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     UseItemAndResetInUseTimer(itemUse, kartAi);
 }
 
-void func_0208f6d4(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void UseItemAfterInUseAtNearTargetAhead(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     if (DecrementItemInUseTimer(itemUse) == 0) {
         return;
     }
@@ -341,7 +339,6 @@ void func_0208f6d4(KartAiItemUse *itemUse, struct KartAi *kartAi) {
         return;
     }
     UseItemAndResetInUseTimer(itemUse, kartAi);
-// Calls one of two handlers, by whether the item in use is the trail kind.
 }
 
 void ThrowItemByTrailKind(KartAiItemUse *itemUse, struct KartAi *kartAi) {
@@ -352,7 +349,7 @@ void ThrowItemByTrailKind(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     }
 }
 
-void func_0208f5c4(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void ThrowItemAtNearTargetAheadDotAfterInUse(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     if (DecrementItemInUseTimer(itemUse) == 0) {
         return;
     }
@@ -372,7 +369,7 @@ void func_0208f5c4(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     }
 }
 
-void func_0208f4e8(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void ThrowItemRandomAfterInUseOrBehindNearTarget(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     RandomState64 *kartAiRandom;
     s32 randomValue;
 
@@ -396,7 +393,7 @@ void func_0208f4e8(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     }
 }
 
-void func_0208f434(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void ThrowItemBehindNearTargetAfterInUseEveryCall(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     itemUse->mItemBitsEveryCall = 1;
     if (DecrementItemInUseTimer(itemUse) == 0) {
         return;
@@ -441,11 +438,11 @@ void InitPosStrips(void *heap) {
     NNSG3dResTex *effectTexture;
     s32 textureVramOffset;
 
-    mainRaceOrMainEffectFile =
-        FindMainRaceOrMainEffectFile(gRaceSetup->mRaceKind == RACE_KIND_AWARD ? data_02166514 : data_02166530);
+    mainRaceOrMainEffectFile = FindMainRaceOrMainEffectFile(
+        gRaceSetup->mRaceKind == RACE_KIND_AWARD ? gAwardTrackNsbtxName : gHanegameNsbtxName);
     gPosStripHeightDecreasePerFrame = 0x4d;
     gPosStripMaxAgeFrames = 8;
-    data_021663dc = 3;
+    gPosStripAlphaDecreasePerFrame = 3;
     gPosStripPointsPerStrip = 0xc;
     gSetPosStripPointFunction = (s32(*)()) SetPosStripPointFromPos;
     gPosStripFirstPolygonId = 0xe;
@@ -456,7 +453,7 @@ void InitPosStrips(void *heap) {
     } else if (gRaceSetup->mRaceKind == RACE_KIND_AWARD) {
         gPosStripHeightDecreasePerFrame = 0;
         gPosStripMaxAgeFrames = 0xe;
-        data_021663dc = 2;
+        gPosStripAlphaDecreasePerFrame = 2;
         gPosStripPointsPerStrip = 0x1e;
         gSetPosStripPointFunction = (s32(*)()) SetPosStripPointFromKart;
         gPosStripFirstPolygonId = 4;
@@ -486,8 +483,8 @@ void InitPosStrips(void *heap) {
     gPosStripTexture.mTexImageParam = gPosStripTexture.mTexImageParam & 0xffff0000;
     gPosStripTexture.mTexImageParam = gPosStripTexture.mTexImageParam | (((u32) textureVramOffset >> 3) & 0xffff);
     gPosStripTexture.mPlttBase = (effectTexture->mPlttInfo.mVramKey & 0xffff) << 3;
-    gPosStripTexture.mUnk_1c = 0x10000;
-    gPosStripTexture.mUnk_20 = 0x8000;
+    gPosStripTexture.mLowHalfTexCoord = 0x10000;
+    gPosStripTexture.mHighHalfTexCoord = 0x8000;
     gPosStrips->mPolygonAttrBits = gRaceSetup->mCourseId == COURSE_ID_RAINBOW ? 0 : 0x8000;
 }
 
@@ -532,7 +529,7 @@ void DrawPosStrips(const MtxFx43 *matrix) {
             nextPoint = NNS_FndGetNextListObject(&strip->mPoints, NULL);
             if (nextPoint != NULL) {
                 do {
-                    polygonAlpha = 0x1f - point->mSinceAddedFrames * data_021663dc;
+                    polygonAlpha = 0x1f - point->mSinceAddedFrames * gPosStripAlphaDecreasePerFrame;
                     reg_G3_POLYGON_ATTR = polygonId << 24 | (gPosStrips->mPolygonAttrBits | 0xc0) | polygonAlpha << 16;
                     DrawPosStripQuad(matrix, point, nextPoint, &gPosStripTexture);
                     point = nextPoint;
@@ -561,26 +558,26 @@ void SetPosStripPointFromKart(PosStripPoint *posStripPoint, PosStrip *posStrip) 
     Vec3 offsetVectorX;
     Vec3 offsetVectorY;
     Vec3 offsetVectorZ;
-    Vec3 *p;
-    s32 k;
+    Vec3 *kartVector;
+    s32 stripOffset;
 
     kart = GetKart(posStrip->mKartIndex);
     position = kart->mPos;
-    p = &kart->mUnk_120;
-    k = posStrip->mOffsetX;
-    offsetVectorX.x = ((s64) p->x * k) >> 12;
-    offsetVectorX.y = ((s64) p->y * k) >> 12;
-    offsetVectorX.z = ((s64) p->z * k) >> 12;
-    p = &kart->mUnk_12c;
-    k = posStrip->mOffsetY;
-    offsetVectorY.x = ((s64) p->x * k) >> 12;
-    offsetVectorY.y = ((s64) p->y * k) >> 12;
-    offsetVectorY.z = ((s64) p->z * k) >> 12;
-    p = &kart->mUnk_138;
-    k = posStrip->mOffsetZ;
-    offsetVectorZ.x = ((s64) p->x * k) >> 12;
-    offsetVectorZ.y = ((s64) p->y * k) >> 12;
-    offsetVectorZ.z = ((s64) p->z * k) >> 12;
+    kartVector = &kart->mUnk_120;
+    stripOffset = posStrip->mOffsetX;
+    offsetVectorX.x = ((s64) kartVector->x * stripOffset) >> 12;
+    offsetVectorX.y = ((s64) kartVector->y * stripOffset) >> 12;
+    offsetVectorX.z = ((s64) kartVector->z * stripOffset) >> 12;
+    kartVector = &kart->mUnk_12c;
+    stripOffset = posStrip->mOffsetY;
+    offsetVectorY.x = ((s64) kartVector->x * stripOffset) >> 12;
+    offsetVectorY.y = ((s64) kartVector->y * stripOffset) >> 12;
+    offsetVectorY.z = ((s64) kartVector->z * stripOffset) >> 12;
+    kartVector = &kart->mUnk_138;
+    stripOffset = posStrip->mOffsetZ;
+    offsetVectorZ.x = ((s64) kartVector->x * stripOffset) >> 12;
+    offsetVectorZ.y = ((s64) kartVector->y * stripOffset) >> 12;
+    offsetVectorZ.z = ((s64) kartVector->z * stripOffset) >> 12;
     VEC_Add(&position, &offsetVectorX, &position);
     VEC_Add(&position, &offsetVectorY, &position);
     VEC_Add(&position, &offsetVectorZ, &position);
@@ -623,13 +620,13 @@ PosStrip *StartAwardKartPosStrip(s32 kartIndex) {
             strip->mStopped = 0;
             strip->mHeight = 0x400;
             strip->mKartIndex = kartIndex;
-            stripHeight = (kartOffset.y + (data_02166418[kartModelsEntry->mCharacterIndex][0] >> 4) -
-                           data_02166480[kartModelsEntry->mKartIndex]) /
+            stripHeight = (kartOffset.y + (gAwardStripCharacterYOffsets[kartModelsEntry->mCharacterIndex][0] >> 4) -
+                           gAwardStripKartYOffsets[kartModelsEntry->mKartIndex]) /
                           2;
             strip->mHeight = stripHeight;
             strip->mOffsetX = kartOffset.x << 4;
-            strip->mOffsetY = (data_02166480[kartModelsEntry->mKartIndex] + stripHeight) << 4;
-            strip->mOffsetZ = data_0216641c[kartModelsEntry->mCharacterIndex][0] + (kartOffset.z << 4);
+            strip->mOffsetY = (gAwardStripKartYOffsets[kartModelsEntry->mKartIndex] + stripHeight) << 4;
+            strip->mOffsetZ = gAwardStripCharacterZOffsets[kartModelsEntry->mCharacterIndex][0] + (kartOffset.z << 4);
             NNS_FndRemoveListObject(&gPosStrips->mLists[1], strip);
             NNS_FndAppendListObject(&gPosStrips->mLists[0], strip);
         }

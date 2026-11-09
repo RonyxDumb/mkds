@@ -153,7 +153,7 @@ void func_02092b5c(void *a, Unk02092b5c *p) {
             func_02092b5c_inline_5(&basabasaPos, p->mUnk_00.mPos.x, p->mUnk_00.mPos.y + 0x23000, p->mUnk_00.mPos.z);
             k = p->mUnk_00.mAngle;
             horizontalSpeed = NextRandomBelow(GetMapObjectRandom(), 0x1000) + 0x2000;
-            k = k - 0xbb8 + func_02046524(GetMapObjectRandom(), 0x1770);
+            k = k - 0xbb8 + NextRandomBelowU16(GetMapObjectRandom(), 0x1770);
             basabasaVelocity.x = func_020930a0(horizontalSpeed, func_020930b0(k));
             basabasaVelocity.y = NextRandomBelow(GetMapObjectRandom(), 0x400) - 0xa00;
             basabasaVelocity.z = func_020930a0(horizontalSpeed, func_02093080(k));

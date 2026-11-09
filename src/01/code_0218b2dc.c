@@ -56,7 +56,7 @@ void func_ov001_0218b928(Unk02188950 *mapObject) {
     StartEffect(0x417, &mapObject->mUnk_000.mPos);
     StartEffect(0x416, &mapObject->mUnk_000.mPos);
     {
-        Unk0210b7a8 soundRequest = {0x225, 0, 0xf, 0};
+        SoundStartParams soundRequest = {0x225, 0, 0xf, 0};
 
         soundRequest.mPositionSource = &mapObject->mUnk_000.mPos;
         soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(soundRequest.mPositionSource);

@@ -87,15 +87,15 @@ void DrawSun(void *a, Unk0209d3fc *b) {
     }
     NNS_G3dGeBufferOP_N(0x1b, &b->mUnk_00.mScale, 3);
     if (GetCurrentCameraKind() == 2) {
-        func_0209bbd0(a, gSun);
+        QueueMapObjectModelMaterial(a, gSun);
         SetMapObjectModelNsbcaFrameIndex(gSun, b->mNsbcaFrameIndex);
         DrawMapObjectModel(a, gSun, b);
     } else if ((s32) (b->mUnk_00.mDistanceSquaredAndFlags & 0x3fffffe0) < 0x3d0900) {
-        func_0209bbd0(a, gSun);
+        QueueMapObjectModelMaterial(a, gSun);
         SetMapObjectModelNsbcaFrameIndex(gSun, b->mNsbcaFrameIndex);
         DrawMapObjectModel(a, gSun, b);
     } else {
-        func_0209bbd0(a, gSunLOD);
+        QueueMapObjectModelMaterial(a, gSunLOD);
         DrawMapObjectModel1Mat1Shp(a, gSunLOD, b);
     }
 }
@@ -664,7 +664,7 @@ void CreateBoundUpdateList(void) {
 // Starts the wobble of object a of the 0x1a8 list, with a sound unless the object is far; FALSE if already wobbling.
 BOOL StartBoundWobble(s32 a) {
     Bound *bound;
-    Unk0210b7a8 s;
+    SoundStartParams s;
     s32 k;
 
     bound = GetMapObjectFromList(FindMapObjectKindUpdateList(MAP_OBJECT_KIND_BOUND), a);
@@ -692,9 +692,9 @@ BOOL StartBoundWobble(s32 a) {
             }
             s.mSoundId = 0x1cf;
             s.mPositionSource = &bound->mUnk_000.mPos;
-            s.mUnk_08 = k;
+            s.mFalloffIndex = k;
             s.mDistanceSquared = GetHorizontalCameraDistanceSquared(&bound->mUnk_000.mPos);
-            func_0210b7a8(&s);
+            StartSoundFromParams(&s);
         }
         return TRUE;
     }
@@ -721,11 +721,11 @@ MapObjectKindData *CreateEmptyMapObjectKindData(void) {
     return CreateMapObjectKindData(NULL, NULL, NULL, 0, 1);
 }
 
-MapObjectKindData *func_0209bf70(void *collideKartCallback, void *collideItemObjectCallback, void *sphereHitCallback,
-                                 u32 d, u16 e, u16 f) {
+MapObjectKindData *CreateMapObjectKindDataWithSound(void *collideKartCallback, void *collideItemObjectCallback,
+                                                    void *sphereHitCallback, u32 d, u16 e, u16 f) {
     MapObjectKindData *kindData;
 
     kindData = CreateMapObjectKindData(collideKartCallback, collideItemObjectCallback, sphereHitCallback, d, e);
-    kindData->mUnk_24 = f;
+    kindData->mSoundId = f;
     return kindData;
 }

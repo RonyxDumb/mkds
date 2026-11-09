@@ -452,7 +452,7 @@ void AdvanceRecordVSEraseState4(void) {
         return;
     }
     if ((v == 5 && gRecordVSErase->mUnk_98 != FALSE) || (w == 5 && gRecordVSErase->mUnk_98 == FALSE) ||
-        (u16) (data_0217562a[i].mBits & PAD_KEY_LEFT) != 0) {
+        (u16) (data_02175628[i].mBits & PAD_KEY_LEFT) != 0) {
         if (IsRecordVSEraseIndexChangeRunning() != 0) {
             return;
         }
@@ -467,7 +467,7 @@ void AdvanceRecordVSEraseState4(void) {
         return;
     }
     if ((v == 6 && gRecordVSErase->mUnk_9c != FALSE) || (w == 6 && gRecordVSErase->mUnk_9c == FALSE) ||
-        (u16) (data_0217562a[i].mBits & PAD_KEY_RIGHT) != 0) {
+        (u16) (data_02175628[i].mBits & PAD_KEY_RIGHT) != 0) {
         if (IsRecordVSEraseIndexChangeRunning() != 0) {
             return;
         }

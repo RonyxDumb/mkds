@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_02090354.h"
+#include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/code_020483e4.h"
 #include "Main/Unknown/code_0207ffa4.h"
 #include "Main/Unknown/code_0206bcb0.h"
@@ -43,23 +44,23 @@
 #include "Main/Unknown/unk_027e0000.h"
 #include "Main/Unknown/code_0207e654.h"
 
-void CreateSmanTop(void *a) {
+void CreateSmanTop(void *mapObjectList) {
     MapObjectModel *mapObjectModelNsbmd;
-    mapObjectModelNsbmd = CreateMapObjectModelNsbmd(a, gSmanTopNsbmdName);
+    mapObjectModelNsbmd = CreateMapObjectModelNsbmd(mapObjectList, gSmanTopNsbmdName);
     gSmanTop = mapObjectModelNsbmd;
     SetMapObjectModelPolygonId(mapObjectModelNsbmd, 0x3f);
 }
 
-void SetupDrawSmanTop(void *a) {
-    func_0209bbd0(a, gSmanTop);
+void SetupDrawSmanTop(void *mapObjectList) {
+    QueueMapObjectModelMaterial(mapObjectList, gSmanTop);
 }
 
 void DrawSmanTop(void *mapObjectList, Sman *sman) {
-    s32 c;
+    s32 commandArg;
     MtxFx33 matrix;
     s32 topOffset[3];
-    c = 0x1e;
-    NNS_G3dGeBufferOP_N(0x14, &c, 1);
+    commandArg = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &commandArg, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&sman->mMapObject.mPos), 0xc);
     topOffset[1] = sman->mTopHeight >> 4;
     topOffset[0] = 0;
@@ -72,23 +73,23 @@ void DrawSmanTop(void *mapObjectList, Sman *sman) {
     DrawMapObjectModel(mapObjectList, gSmanTop, sman);
 }
 
-void CreateSmanBottom(void *a) {
+void CreateSmanBottom(void *mapObjectList) {
     MapObjectModel *mapObjectModelNsbmd;
-    mapObjectModelNsbmd = CreateMapObjectModelNsbmd(a, gSmanBottomNsbmdName);
+    mapObjectModelNsbmd = CreateMapObjectModelNsbmd(mapObjectList, gSmanBottomNsbmdName);
     gSmanBottom = mapObjectModelNsbmd;
     SetMapObjectModelPolygonId(mapObjectModelNsbmd, 0x3f);
 }
 
-void SetupDrawSmanBottom(void *a) {
-    func_0209bbd0(a, gSmanBottom);
+void SetupDrawSmanBottom(void *mapObjectList) {
+    QueueMapObjectModelMaterial(mapObjectList, gSmanBottom);
 }
 
 void DrawSmanBottom(void *mapObjectList, Sman *sman) {
-    s32 c;
+    s32 commandArg;
     s32 scale[3];
     s32 bottomScale;
-    c = 0x1e;
-    NNS_G3dGeBufferOP_N(0x14, &c, 1);
+    commandArg = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &commandArg, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&sman->mMapObject.mPos), 0xc);
     NNS_G3dGeBufferOP_N(0x1b, &sman->mMapObject.mScale, 3);
     bottomScale = sman->mBottomScale;
@@ -116,8 +117,8 @@ void InitSmanObjects(SmanList *smanList) {
     }
 }
 
-void UpdateSman(void *a, Sman *sman) {
-    Unk0210b7a8 soundRequest;
+void UpdateSman(void *mapObjectList, Sman *sman) {
+    SoundStartParams soundRequest;
     s32 falloffIndex;
     switch (sman->mState) {
         case 0:
@@ -148,9 +149,9 @@ void UpdateSman(void *a, Sman *sman) {
                     }
                     soundRequest.mSoundId = 0x162;
                     soundRequest.mPositionSource = &sman->mMapObject.mPos;
-                    soundRequest.mUnk_08 = falloffIndex;
+                    soundRequest.mFalloffIndex = falloffIndex;
                     soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&sman->mMapObject.mPos);
-                    func_0210b7a8(&soundRequest);
+                    StartSoundFromParams(&soundRequest);
                 }
             }
             sman->mAngleZEnabled = 0;
@@ -206,7 +207,7 @@ void UpdateSman(void *a, Sman *sman) {
 
 // Creates the kind record of Sman with two functions that put it into state 1 when their third argument points to 1.
 void CreateSmanKindData(void) {
-    func_0209bf70(func_02091828, func_020917d0, NULL, 0, 1, 0x161);
+    CreateMapObjectKindDataWithSound(CollideKartWithSman, CollideItemObjectWithSman, NULL, 0, 1, 0x161);
 }
 
 static inline BOOL func_02090940_inline(void) {
@@ -247,11 +248,11 @@ static inline BOOL func_02090cf8_inline(s32 cup, s32 engineClass) {
     return FALSE;
 }
 
-u32 func_020911a8(void) {
+u32 SetAndWriteSecretMessageFlags(void) {
     u32 setFlagBits;
     setFlagBits = 0;
     if (GetCurrentSceneNumber() == 10) {
-        setFlagBits = func_02090ff4();
+        setFlagBits = SetSecretMessageFlags();
         WriteBackupFirstBlockWrapper();
         WaitThreadFunctionsDone();
         if (gBackupAccess->mBackupEnabled != 0) {
@@ -261,30 +262,31 @@ u32 func_020911a8(void) {
     return setFlagBits;
 }
 
-u32 func_0209119c(void) {
-    return func_02090ff4();
+u32 SetSecretMessageFlagsWrapper(void) {
+    return SetSecretMessageFlags();
 }
 
-u32 func_02090ff4(void) {
+// Sets the backup flags and kart appear limit earned by top-rank records; returns one bit per new secret message.
+u32 SetSecretMessageFlags(void) {
     u32 setFlagBits;
-    u32 q;
-    BOOL t;
+    u32 limitRaiseBit;
+    BOOL isLimitRaised;
     setFlagBits = 0;
-    setFlagBits = setFlagBits | func_02090cf8();
-    setFlagBits = setFlagBits | func_02090b24();
-    q = 0;
-    t = FALSE;
-    if (func_02056d98() < 2) {
+    setFlagBits = setFlagBits | SetSecretMessageFlagsPerEngineClass();
+    setFlagBits = setFlagBits | SetSecretMessageFlagsFromCups3And7();
+    limitRaiseBit = 0;
+    isLimitRaised = FALSE;
+    if (GetKartAppearLimit() < 2) {
         if ((IsGrandPrixRecordFilled(3, 1) != 0 && GetGrandPrixRecordCupRank(3, 1) == 0) ? 1 : 0) {
-            func_02056d54(2);
-            t = TRUE;
+            RaiseKartAppearLimit(2);
+            isLimitRaised = TRUE;
         }
     }
-    if (t != FALSE) {
-        q = 0x200;
+    if (isLimitRaised != FALSE) {
+        limitRaiseBit = 0x200;
     }
-    t = FALSE;
-    if (func_02056d98() < 3) {
+    isLimitRaised = FALSE;
+    if (GetKartAppearLimit() < 3) {
         BOOL isFilledTopRank;
         if (IsGrandPrixRecordFilled(3, 2) != 0 && GetGrandPrixRecordCupRank(3, 2) == 0) {
             isFilledTopRank = TRUE;
@@ -301,32 +303,32 @@ u32 func_02090ff4(void) {
         }
         if (isFilledTopRank != FALSE) {
         l1:
-            func_02056d54(3);
-            t = TRUE;
+            RaiseKartAppearLimit(3);
+            isLimitRaised = TRUE;
         }
     }
-    if (t != FALSE) {
-        q = 0x400;
+    if (isLimitRaised != FALSE) {
+        limitRaiseBit = 0x400;
     }
-    t = FALSE;
-    if (func_02056d98() < 4) {
+    isLimitRaised = FALSE;
+    if (GetKartAppearLimit() < 4) {
         if ((IsGrandPrixRecordFilled(3, 3) != 0 && GetGrandPrixRecordCupRank(3, 3) == 0) ? 1 : 0) {
             if ((IsGrandPrixRecordFilled(7, 3) != 0 && GetGrandPrixRecordCupRank(7, 3) == 0) ? 1 : 0) {
-                func_02056d54(4);
-                t = TRUE;
+                RaiseKartAppearLimit(4);
+                isLimitRaised = TRUE;
             }
         }
     }
-    if (t != FALSE) {
-        q = 0x800;
+    if (isLimitRaised != FALSE) {
+        limitRaiseBit = 0x800;
     }
-    return setFlagBits | q;
+    return setFlagBits | limitRaiseBit;
 }
 
-u32 func_02090cf8(void) {
+u32 SetSecretMessageFlagsPerEngineClass(void) {
     enum { K0 } engineClass;
     u32 setFlagBits;
-    u32 q;
+    u32 lastGroupBit;
     u32 newBit;
     s32 j4;
     s32 j8;
@@ -369,17 +371,17 @@ u32 func_02090cf8(void) {
         }
         setFlagBits = setFlagBits | newBit;
     }
-    q = 0;
+    lastGroupBit = 0;
     if (IsBackupFlagSet(0x10) == 0) {
         if (func_02090cf8_inline(3, 2) != FALSE && func_02090cf8_inline(7, 2) != FALSE) {
             SetBackupFlag(0x10);
-            q = 0x10;
+            lastGroupBit = 0x10;
         }
     }
-    return setFlagBits | q;
+    return setFlagBits | lastGroupBit;
 }
 
-u32 func_02090b24(void) {
+u32 SetSecretMessageFlagsFromCups3And7(void) {
     u32 setFlagBits;
     BOOL t;
     setFlagBits = 0;
@@ -441,7 +443,8 @@ u32 func_02090b24(void) {
     return setFlagBits;
 }
 
-s32 func_020909cc(void) {
+// Returns 0 none, 1 the staff roll, 2 the true staff roll (all records top rank); both need cup 3 or 7 finished.
+s32 GetStaffRollKindAfterGp(void) {
     Unk0217b488 *p;
     s32 result;
     s32 n;
@@ -576,7 +579,7 @@ void TurnKartKillerTowardPointLink(KartKillerCursor *kartKillerCursor) {
     }
     targetHeadingAngle = kart->mHeadingAngle + (s16) (((s64) angleToLinkDegrees * 0xb6 + 0x800) >> 12);
     entryIndex = *(volatile s32 *) &kart->mEntryIndex;
-    padBits = data_0217562a[entryIndex].mBits;
+    padBits = data_02175628[entryIndex].mBits;
     if ((u16) (padBits & PAD_KEY_LEFT) != 0) {
         kart->mHeadingAngle = kart->mHeadingAngle + 0xa0;
     } else if ((u16) (padBits & PAD_KEY_RIGHT) != 0) {
@@ -628,44 +631,44 @@ s32 func_020905a8(KartKillerCursor *kartKillerCursor) {
 void SetupBattleItemEntries(void) {
     switch (gRaceSetup->mCpuDifficulty) {
         case CPU_DIFFICULTY_EASY:
-            gBattleHeldItemEntries = data_021561d0;
-            gBattleItemInUseEntries = data_02155fd8;
-            gThrowItemCircleKindCallback = func_0208fafc;
+            gBattleHeldItemEntries = gBattleEasyHeldItemEntries;
+            gBattleItemInUseEntries = gBattleEasyItemInUseEntries;
+            gThrowItemCircleKindCallback = EasyThrowItemRandomAfterInUse;
             gUseItemCircleKindCallback = UseItemAfterInUse;
-            gThrowItemNotCircleKindCallback = func_0208f9ac;
-            gUseItemNotCircleKindCallback = func_0208f6d4;
-            gThrowItemTrailKindCallback = func_0208f4e8;
+            gThrowItemNotCircleKindCallback = ThrowItemRandomAfterInUse;
+            gUseItemNotCircleKindCallback = UseItemAfterInUseAtNearTargetAhead;
+            gThrowItemTrailKindCallback = ThrowItemRandomAfterInUseOrBehindNearTarget;
             gThrowItemNotTrailKindCallback = UseItemBehindAfterInUseOrNearTarget;
             return;
         case CPU_DIFFICULTY_NORMAL:
-            gBattleHeldItemEntries = data_021562a8;
-            gBattleItemInUseEntries = data_02156128;
-            gThrowItemCircleKindCallback = func_0208fba0;
-            gUseItemCircleKindCallback = func_0208f810;
-            gThrowItemNotCircleKindCallback = func_0208f9ac;
-            gUseItemNotCircleKindCallback = func_0208f6d4;
-            gThrowItemTrailKindCallback = func_0208f4e8;
+            gBattleHeldItemEntries = gBattleNormalHeldItemEntries;
+            gBattleItemInUseEntries = gBattleNormalItemInUseEntries;
+            gThrowItemCircleKindCallback = ThrowItemRandomAfterInUseOrAtNearTarget;
+            gUseItemCircleKindCallback = NormalUseItemAfterInUseAtNearTargetAheadDot;
+            gThrowItemNotCircleKindCallback = ThrowItemRandomAfterInUse;
+            gUseItemNotCircleKindCallback = UseItemAfterInUseAtNearTargetAhead;
+            gThrowItemTrailKindCallback = ThrowItemRandomAfterInUseOrBehindNearTarget;
             gThrowItemNotTrailKindCallback = UseItemBehindAfterInUseOrNearTarget;
             return;
         case CPU_DIFFICULTY_HARD:
-            gBattleHeldItemEntries = data_02156380;
-            gBattleItemInUseEntries = data_02156080;
+            gBattleHeldItemEntries = gBattleHardHeldItemEntries;
+            gBattleItemInUseEntries = gBattleHardItemInUseEntries;
             gThrowItemCircleKindCallback = ThrowItemAtNearTarget;
-            gUseItemCircleKindCallback = func_0208f8ac;
-            gThrowItemNotCircleKindCallback = func_0208fa50;
-            gUseItemNotCircleKindCallback = func_0208f754;
-            gThrowItemTrailKindCallback = func_0208f5c4;
-            gThrowItemNotTrailKindCallback = func_0208f434;
+            gUseItemCircleKindCallback = UseItemAfterInUseAtNearTargetAheadDot;
+            gThrowItemNotCircleKindCallback = ThrowItemAtNearTargetAfterInUseEveryCall;
+            gUseItemNotCircleKindCallback = HardUseItemAfterInUseAtNearTargetAhead;
+            gThrowItemTrailKindCallback = ThrowItemAtNearTargetAheadDotAfterInUse;
+            gThrowItemNotTrailKindCallback = ThrowItemBehindNearTargetAfterInUseEveryCall;
             return;
         default:
-            gBattleHeldItemEntries = data_02156380;
-            gBattleItemInUseEntries = data_02156080;
+            gBattleHeldItemEntries = gBattleHardHeldItemEntries;
+            gBattleItemInUseEntries = gBattleHardItemInUseEntries;
             gThrowItemCircleKindCallback = ThrowItemAtNearTarget;
-            gUseItemCircleKindCallback = func_0208f8ac;
-            gThrowItemNotCircleKindCallback = func_0208fa50;
-            gUseItemNotCircleKindCallback = func_0208f754;
-            gThrowItemTrailKindCallback = func_0208f5c4;
-            gThrowItemNotTrailKindCallback = func_0208f434;
+            gUseItemCircleKindCallback = UseItemAfterInUseAtNearTargetAheadDot;
+            gThrowItemNotCircleKindCallback = ThrowItemAtNearTargetAfterInUseEveryCall;
+            gUseItemNotCircleKindCallback = HardUseItemAfterInUseAtNearTargetAhead;
+            gThrowItemTrailKindCallback = ThrowItemAtNearTargetAheadDotAfterInUse;
+            gThrowItemNotTrailKindCallback = ThrowItemBehindNearTargetAfterInUseEveryCall;
             return;
     }
 }

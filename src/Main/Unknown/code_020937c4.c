@@ -66,7 +66,7 @@ void InitNsKiller1Objects(MapObjectList *mapObjectList) {
 }
 
 void UpdateNsKiller1(void *a, NsKiller1 *nsKiller1) {
-    Unk0210b7a8 s;
+    SoundStartParams s;
 
     switch (nsKiller1->mState) {
         case 0:
@@ -217,7 +217,7 @@ void UpdateNsKiller2(void *a, NsKiller2 *nsKiller2) {
 void CreateNsKiller2KindData(void) {
     MapObjectKindData *o;
 
-    o = func_0209bf70(CollideKartWithNsKiller2, NULL, NULL, 1, 1, 0x17b);
+    o = CreateMapObjectKindDataWithSound(CollideKartWithNsKiller2, NULL, NULL, 1, 1, 0x17b);
     o->mUnk_38 = 0x32000;
     o->mUnk_3c = -0x64000;
 }

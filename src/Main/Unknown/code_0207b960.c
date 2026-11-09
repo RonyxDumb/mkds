@@ -432,9 +432,8 @@ void func_0207cb74(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     itemUse->mHeldItemTimer = itemUse->mHeldItemEntry->mTimerBase + (u16) randomPart;
 }
 
-u32 func_0207cb70(u32 value) {
+u32 RaceItemInUseReturnArgument(u32 value) {
     return value;
-// Calls one of two handlers, by whether the item in use is the circling kind.
 }
 
 void UseItemAfterInUseByCircleKind(KartAiItemUse *itemUse, struct KartAi *kartAi) {
@@ -443,7 +442,6 @@ void UseItemAfterInUseByCircleKind(KartAiItemUse *itemUse, struct KartAi *kartAi
     } else {
         data_0217ae44(itemUse, kartAi);
     }
-// Calls one of two handlers, by whether the item in use is the trail kind.
 }
 
 void UseItemAfterInUseByTrailKind(KartAiItemUse *itemUse, struct KartAi *kartAi) {

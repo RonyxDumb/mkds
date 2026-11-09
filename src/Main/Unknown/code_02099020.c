@@ -41,7 +41,7 @@ u32 func_02099208(Unk0209905c *a, Kart *kart, u8 *c, u8 *d) {
 
 void func_0209905c(void *a, Unk0209905c *p) {
     s32 falloffIndex;
-    Unk0210b7a8 soundRequest;
+    SoundStartParams soundRequest;
     Unk0209905c_d0_08 *entry;
     switch (p->mState) {
         case 0:
@@ -60,9 +60,9 @@ void func_0209905c(void *a, Unk0209905c *p) {
                     }
                     soundRequest.mSoundId = 0x1af;
                     soundRequest.mPositionSource = &p->mUnk_00.mPos;
-                    soundRequest.mUnk_08 = falloffIndex;
+                    soundRequest.mFalloffIndex = falloffIndex;
                     soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&p->mUnk_00.mPos);
-                    func_0210b7a8(&soundRequest);
+                    StartSoundFromParams(&soundRequest);
                 }
             }
             if (AdvanceGroupFollower(&p->mFollower) != FALSE && p->mFollower.mForward == 0) {
@@ -94,5 +94,5 @@ void func_0209905c(void *a, Unk0209905c *p) {
 }
 
 void func_02099020(void) {
-    func_0209bf70(&func_02099208, NULL, NULL, 1, 1, (0x0000018du));
+    CreateMapObjectKindDataWithSound(&func_02099208, NULL, NULL, 1, 1, (0x0000018du));
 }

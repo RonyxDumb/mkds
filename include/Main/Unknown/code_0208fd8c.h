@@ -37,7 +37,7 @@ typedef struct KartAiItemUse {
 } KartAiItemUse;
 
 void SetupBattleItemInUseEntry(KartAiItemUse *itemUse, struct KartAi *kartAi);
-void func_0208fdcc(KartAiItemUse *itemUse, struct KartAi *kartAi);
-void func_0208fe1c(KartAiItemUse *itemUse, struct KartAi *kartAi);
-void func_0208fe58(KartAiItemUse *itemUse, struct KartAi *kartAi);
-void func_0208fefc(KartAiItemUse *itemUse, struct KartAi *kartAi);
+void UseItemAndResetHeldTimerAfterHeldIfTurnUnder10(KartAiItemUse *itemUse, struct KartAi *kartAi);
+void BattleUseItemAfterHeld(KartAiItemUse *itemUse, struct KartAi *kartAi);
+void ThrowItemRandomMoreForwardAfterHeld(KartAiItemUse *itemUse, struct KartAi *kartAi);
+void ThrowItemRandomAfterHeldOrBehindNearTarget(KartAiItemUse *itemUse, struct KartAi *kartAi);

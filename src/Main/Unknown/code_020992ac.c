@@ -68,7 +68,7 @@ MapObjectKindData *func_0209a728(void) {
     MapObjectKindData *kindData;
 
     kindData = CreateEmptyMapObjectKindData();
-    kindData->mUnk_24 = 0x84;
+    kindData->mSoundId = 0x84;
     return kindData;
 }
 
@@ -78,7 +78,7 @@ void CreateBeachTree1(void *a) {
 }
 
 void SetupDrawBeachTree1(void *a) {
-    func_0209bbd0(a, gBeachTree1);
+    QueueMapObjectModelMaterial(a, gBeachTree1);
 }
 
 void DrawBeachTree1(u32 a, MapObject *mapObject) {
@@ -102,7 +102,7 @@ void CreateOpaTree1(void *a) {
 }
 
 void SetupDrawOpaTree1(void *a) {
-    func_0209bbd0(a, gOpaTree1);
+    QueueMapObjectModelMaterial(a, gOpaTree1);
 }
 
 void DrawOpaTree1(u32 a, MapObject *mapObject) {
@@ -126,7 +126,7 @@ void CreateOlgMush1(void *a) {
 }
 
 void SetupDrawOlgMush1(void *a) {
-    func_0209bbd0(a, gOlgMush1);
+    QueueMapObjectModelMaterial(a, gOlgMush1);
 }
 
 void DrawOlgMush1(u32 a, MapObject *mapObject) {
@@ -150,7 +150,7 @@ void CreateOlgPipe1(void *a) {
 }
 
 void SetupDrawOlgPipe1(void *a) {
-    func_0209bbd0(a, gOlgPipe1);
+    QueueMapObjectModelMaterial(a, gOlgPipe1);
 }
 
 void DrawOlgPipe1(u32 a, MapObject *mapObject) {
@@ -174,7 +174,7 @@ void CreateOf6yoshi1(void *a) {
 }
 
 void SetupDrawOf6yoshi1(void *a) {
-    func_0209bbd0(a, gOf6yoshi1);
+    QueueMapObjectModelMaterial(a, gOf6yoshi1);
 }
 
 void DrawOf6yoshi1(u32 a, MapObject *mapObject) {
@@ -198,7 +198,7 @@ void CreateNsCannon1(void *a) {
 }
 
 void SetupDrawNsCannon1(void *a) {
-    func_0209bbd0(a, gNsCannon1);
+    QueueMapObjectModelMaterial(a, gNsCannon1);
 }
 
 void DrawNsCannon1(u32 a, MapObject *mapObject) {
@@ -222,7 +222,7 @@ void CreateCrossTree1(void *a) {
 }
 
 void SetupDrawCrossTree1(void *a) {
-    func_0209bbd0(a, gCrossTree1);
+    QueueMapObjectModelMaterial(a, gCrossTree1);
 }
 
 void DrawCrossTree1(u32 a, MapObject *mapObject) {
@@ -246,7 +246,7 @@ void CreateBankTree1(void *a) {
 }
 
 void SetupDrawBankTree1(void *a) {
-    func_0209bbd0(a, gBankTree1);
+    QueueMapObjectModelMaterial(a, gBankTree1);
 }
 
 void DrawBankTree1(u32 a, MapObject *mapObject) {
@@ -270,7 +270,7 @@ void CreateGardenTree1(void *a) {
 }
 
 void SetupDrawGardenTree1(void *a) {
-    func_0209bbd0(a, gGardenTree1);
+    QueueMapObjectModelMaterial(a, gGardenTree1);
 }
 
 void DrawGardenTree1(u32 a, MapObject *mapObject) {
@@ -294,7 +294,7 @@ void CreateTownTree1(void *a) {
 }
 
 void SetupDrawTownTree1(void *a) {
-    func_0209bbd0(a, gTownTree1);
+    QueueMapObjectModelMaterial(a, gTownTree1);
 }
 
 void DrawTownTree1(u32 a, MapObject *mapObject) {
@@ -318,7 +318,7 @@ void CreateMarioTree3(void *a) {
 }
 
 void SetupDrawMarioTree3(void *a) {
-    func_0209bbd0(a, gMarioTree3);
+    QueueMapObjectModelMaterial(a, gMarioTree3);
 }
 
 void DrawMarioTree3(u32 a, MapObject *mapObject) {
@@ -342,7 +342,7 @@ void CreateSnowTree1(void *a) {
 }
 
 void SetupDrawSnowTree1(void *a) {
-    func_0209bbd0(a, gSnowTree1);
+    QueueMapObjectModelMaterial(a, gSnowTree1);
 }
 
 void DrawSnowTree1(u32 a, MapObject *mapObject) {
@@ -366,7 +366,7 @@ void CreateDeTree1(void *a) {
 }
 
 void SetupDrawDeTree1(void *a) {
-    func_0209bbd0(a, gDeTree1);
+    QueueMapObjectModelMaterial(a, gDeTree1);
 }
 
 void DrawDeTree1(u32 a, MapObject *mapObject) {
@@ -390,7 +390,7 @@ void CreateOlaTree1c(void *a) {
 }
 
 void SetupDrawOlaTree1c(void *a) {
-    func_0209bbd0(a, gOlaTree1c);
+    QueueMapObjectModelMaterial(a, gOlaTree1c);
 }
 
 void DrawOlaTree1c(u32 a, MapObject *mapObject) {
@@ -414,7 +414,7 @@ void CreateOsaTree1c(void *a) {
 }
 
 void SetupDrawOsaTree1c(void *a) {
-    func_0209bbd0(a, gOsaTree1c);
+    QueueMapObjectModelMaterial(a, gOsaTree1c);
 }
 
 void DrawOsaTree1c(u32 a, MapObject *mapObject) {
@@ -438,7 +438,7 @@ void CreateKinoHouse1(void *a) {
 }
 
 void SetupDrawKinoHouse1(void *a) {
-    func_0209bbd0(a, gKinoHouse1);
+    QueueMapObjectModelMaterial(a, gKinoHouse1);
 }
 
 void DrawKinoHouse1(u32 a, MapObject *mapObject) {
@@ -462,7 +462,7 @@ void CreateKinoHouse2(void *a) {
 }
 
 void SetupDrawKinoHouse2(void *a) {
-    func_0209bbd0(a, gKinoHouse2);
+    QueueMapObjectModelMaterial(a, gKinoHouse2);
 }
 
 void DrawKinoHouse2(u32 a, MapObject *mapObject) {
@@ -486,7 +486,7 @@ void CreateKinoMount1(void *a) {
 }
 
 void SetupDrawKinoMount1(void *a) {
-    func_0209bbd0(a, gKinoMount1);
+    QueueMapObjectModelMaterial(a, gKinoMount1);
 }
 
 void DrawKinoMount1(u32 a, MapObject *mapObject) {
@@ -510,7 +510,7 @@ void CreateKinoMount2(void *a) {
 }
 
 void SetupDrawKinoMount2(void *a) {
-    func_0209bbd0(a, gKinoMount2);
+    QueueMapObjectModelMaterial(a, gKinoMount2);
 }
 
 void DrawKinoMount2(u32 a, MapObject *mapObject) {
@@ -534,7 +534,7 @@ void CreateOm6Tree1(void *a) {
 }
 
 void SetupDrawOm6Tree1(void *a) {
-    func_0209bbd0(a, gOm6Tree1);
+    QueueMapObjectModelMaterial(a, gOm6Tree1);
 }
 
 void DrawOm6Tree1(u32 a, MapObject *mapObject) {
@@ -558,7 +558,7 @@ void CreateOf6Tree1(void *a) {
 }
 
 void SetupDrawOf6Tree1(void *a) {
-    func_0209bbd0(a, gOf6Tree1);
+    QueueMapObjectModelMaterial(a, gOf6Tree1);
 }
 
 void DrawOf6Tree1(u32 a, MapObject *mapObject) {
@@ -582,7 +582,7 @@ void CreateBankEgg1(void *a) {
 }
 
 void SetupDrawBankEgg1(void *a) {
-    func_0209bbd0(a, gBankEgg1);
+    QueueMapObjectModelMaterial(a, gBankEgg1);
 }
 
 void DrawBankEgg1(u32 a, MapObject *mapObject) {
@@ -606,7 +606,7 @@ void CreateMiniDokan(void *a) {
 }
 
 void SetupDrawMiniDokan(void *a) {
-    func_0209bbd0(a, gMiniDokan);
+    QueueMapObjectModelMaterial(a, gMiniDokan);
 }
 
 void DrawMiniDokan(u32 a, MapObject *mapObject) {

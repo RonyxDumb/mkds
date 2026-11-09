@@ -178,7 +178,7 @@ u32 func_020ae3b4(u32 limit) {
     } else {
         randomState = func_020ae3d8();
     }
-    return func_02046524(randomState, limit);
+    return NextRandomBelowU16(randomState, limit);
 }
 
 #pragma thumb off

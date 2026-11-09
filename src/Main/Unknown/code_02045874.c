@@ -90,7 +90,7 @@ void AssignCpuNumbers(void) {
     gRaceSetup->mNextCpuNumber = nextCpuNumber;
 }
 
-u32 func_02046524(RandomState64 *randomState64, u32 limit) {
+u32 NextRandomBelowU16(RandomState64 *randomState64, u32 limit) {
     u64 result;
     if (limit == 0) {
         result = 0;
@@ -216,7 +216,7 @@ void BuildCourseList(s32 isVersus) {
                 }
                 h = c * 2;
                 for (z = 0; z < h; z++) {
-                    w = func_02046524(g, (vu16) (c - 1));
+                    w = NextRandomBelowU16(g, (vu16) (c - 1));
                     x = z % c;
                     y = gRaceSetup->mCourseList[x];
                     if (w >= x) {
@@ -386,7 +386,7 @@ void SetupStaffRollRace(s32 useTrueStaffRoll) {
                 kartIndex = i * 3;
             }
         } else if (gRaceSetup->mMode == MODE_GRAND_PRIX) {
-            if (func_020909cc() != 2) {
+            if (GetStaffRollKindAfterGp() != 2) {
                 characterIndex = i;
                 kartIndex = i * 3;
             } else {

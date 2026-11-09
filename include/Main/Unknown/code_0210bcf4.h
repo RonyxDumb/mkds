@@ -56,12 +56,12 @@ typedef struct PlayingSound {
     /* 1a */ u8 mVolume;
 } PlayingSound;
 
-// Object at 0x20 of SoundParams: words at 0x08 and 0x0c.
-typedef struct Unk0210bcf4_20 {
-    /* 00 */ u8 mUnk_00[8];
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-} Unk0210bcf4_20;
+typedef struct SoundStartParams {
+    /* 00 */ s32 mSoundId;
+    /* 04 */ Vec3 *mPositionSource;
+    /* 08 */ s32 mFalloffIndex;
+    /* 0c */ u32 mDistanceSquared;
+} SoundStartParams;
 
 // Held on the stack by func_0210bcf4 and SetPlayingSoundsParams and passed to the three functions
 // data_0217d018, data_0217d014 and data_0217d01c point at.
@@ -74,7 +74,7 @@ typedef struct SoundParams {
     /* 14 */ s32 mVolume;
     /* 18 */ u32 mPan;
     /* 1c */ u32 mUnk_1c;
-    /* 20 */ Unk0210bcf4_20 *mUnk_20;
+    /* 20 */ SoundStartParams *mUnk_20;
 } SoundParams;
 
 u32 func_0210bcf4(u32 seqArcNo, u32 soundId, Vec3 *positionSource, NNSSndSeqPlayer **handle, void *request);

@@ -90,7 +90,7 @@ void func_ov001_02183f0c(Unk02188950 *donketu) {
         StartEffectAtWaterHeight(donketu, 0, 0, 0, 0x425, 0);
     }
     {
-        Unk0210b7a8 soundRequest = {0x212, 0, 0xc, 0};
+        SoundStartParams soundRequest = {0x212, 0, 0xc, 0};
 
         soundRequest.mPositionSource = &donketu->mUnk_000.mPos;
         soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&donketu->mUnk_000.mPos);

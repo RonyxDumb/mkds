@@ -47,7 +47,7 @@ void CreateMkdEfBurner(MapObjectList *p) {
 }
 
 void SetupDrawMkdEfBurner(void *a) {
-    func_0209bbd0(a, gMkdEfBurner);
+    QueueMapObjectModelMaterial(a, gMkdEfBurner);
 }
 
 void DrawMkdEfBurner(void *a, MkdEfBurner *mkdEfBurner) {
@@ -183,7 +183,7 @@ void UpdateMkdEfBurner(void *a, MkdEfBurner *mkdEfBurner) {
 }
 
 void CreateMkdEfBurnerKindData(void) {
-    func_0209bf70(&CollideKartWithMkdEfBurner, NULL, NULL, 2, 0, (0x0000018du));
+    CreateMapObjectKindDataWithSound(&CollideKartWithMkdEfBurner, NULL, NULL, 2, 0, (0x0000018du));
 }
 
 void CreateMkdEfBurnerDrawList(void) {

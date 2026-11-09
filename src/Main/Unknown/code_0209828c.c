@@ -189,7 +189,7 @@ void CreatePakkunZHead(void *a) {
 }
 
 void SetupDrawPakkunZHead(void *a) {
-    func_0209bbd0(a, gPakkunZHead);
+    QueueMapObjectModelMaterial(a, gPakkunZHead);
 }
 
 void DrawPakkunZHead(void *a, Pakkun *pakkun) {
@@ -220,7 +220,7 @@ void CreatePakkunBody(void *a) {
 }
 
 void SetupDrawPakkunBody(void *a) {
-    func_0209bbd0(a, gPakkunBody);
+    QueueMapObjectModelMaterial(a, gPakkunBody);
 }
 
 void DrawPakkunBody(void *a, Pakkun *pakkun) {
@@ -269,7 +269,7 @@ void UpdatePakkun(void *a, Pakkun *pakkun) {
     s32 t;
     s32 x;
     s32 y;
-    Unk0210b7a8 s;
+    SoundStartParams s;
     switch (pakkun->mState) {
         case 0:
             pakkun->mFollowerIndex += func_020983c4_inline((u16) (pakkun->mFollowerCount - 1)) + 1;
@@ -349,9 +349,9 @@ void UpdatePakkun(void *a, Pakkun *pakkun) {
                     }
                     s.mSoundId = 0x171;
                     s.mPositionSource = &pakkun->mUnk_000.mPos;
-                    s.mUnk_08 = t;
+                    s.mFalloffIndex = t;
                     s.mDistanceSquared = GetHorizontalCameraDistanceSquared(&pakkun->mUnk_000.mPos);
-                    func_0210b7a8(&s);
+                    StartSoundFromParams(&s);
                 }
             } else if (pakkun->mUnk_0a4 == 0) {
                 pakkun->mTimer = 0x1e;

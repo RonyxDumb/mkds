@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/Unknown/code_020467d0.h" // StateCallbacks
 #include "Main/Unknown/code_020e0680.h" // CollisionHitRecord
-#include "Main/Unknown/code_0210b000.h" // Unk0210b7a8
+#include "Main/Unknown/code_0210b000.h" // SoundStartParams
 
 extern CollisionHitRecord data_0216b8c4;
 extern CollisionHitRecord data_0216b8ec;

@@ -960,8 +960,8 @@ void func_020a0318(void *mapObjectList, Unk020a0318 *mapObject) {
     Kart *kart;
     NNSSndSeqPlayer **sndHandleSlot;
     RandomState64 *randomState;
-    Unk0210b7a8 slot8Request;
-    Unk0210b7a8 slot9Request;
+    SoundStartParams slot8Request;
+    SoundStartParams slot9Request;
     s32 v;
     s32 halfRadius;
     s32 radius;
@@ -1014,7 +1014,7 @@ void func_020a0318(void *mapObjectList, Unk020a0318 *mapObject) {
                 sndHandleSlot = GetSndHandleSlot(8);
                 slot8Request.mSoundId = mapObject->mSoundId;
                 slot8Request.mPositionSource = NULL;
-                slot8Request.mUnk_08 = 4;
+                slot8Request.mFalloffIndex = 4;
                 slot8Request.mDistanceSquared = GetHorizontalCameraDistanceSquared(NULL);
                 func_0210b760(&slot8Request, sndHandleSlot);
                 randomState = &gRaceProgress->mLocalRandom;
@@ -1039,7 +1039,7 @@ void func_020a0318(void *mapObjectList, Unk020a0318 *mapObject) {
             sndHandleSlot = GetSndHandleSlot(9);
             slot9Request.mSoundId = mapObject->mSecondSoundId;
             slot9Request.mPositionSource = NULL;
-            slot9Request.mUnk_08 = 4;
+            slot9Request.mFalloffIndex = 4;
             slot9Request.mDistanceSquared = GetHorizontalCameraDistanceSquared(NULL);
             func_0210b760(&slot9Request, sndHandleSlot);
         }

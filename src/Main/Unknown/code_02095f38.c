@@ -49,9 +49,9 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *b, u
     Vec3 effectPosition;
     s32 t;
     u8 kartMask = 1 << kart->mIndex;
-    Unk0210b7a8 s;
+    SoundStartParams s;
     u8 v3 = *c;
-    Unk0210b7a8 s2;
+    SoundStartParams s2;
     if (v2 == 3 || v2 == 4) {
         itemEffect = kart->mItemEffect;
         if (itemEffect != 1) {
@@ -77,9 +77,9 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *b, u
                         }
                         s.mSoundId = 0x16e;
                         s.mPositionSource = &coverPooHole->mUnk_00.mPos;
-                        s.mUnk_08 = t;
+                        s.mFalloffIndex = t;
                         s.mDistanceSquared = GetHorizontalCameraDistanceSquared(&coverPooHole->mUnk_00.mPos);
-                        func_0210b7a8(&s);
+                        StartSoundFromParams(&s);
                     }
                 }
                 coverPooHole->mUnk_00.mDistanceSquaredAndFlags =
@@ -162,9 +162,9 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *b, u
                         }
                         s2.mSoundId = 0x16f;
                         s2.mPositionSource = &coverPooHole->mUnk_00.mPos;
-                        s2.mUnk_08 = t;
+                        s2.mFalloffIndex = t;
                         s2.mDistanceSquared = GetHorizontalCameraDistanceSquared(&coverPooHole->mUnk_00.mPos);
-                        func_0210b7a8(&s2);
+                        StartSoundFromParams(&s2);
                     }
                 }
                 if ((coverPooHole->mUnk_00.mFlags & 0x800) == 0) {
@@ -286,7 +286,7 @@ void DrawCoverPooHole(void *a, CoverPooHole *coverPooHole) {
     f0[2] = 0;
     NNS_G3dGeBufferOP_N(0x1c, f0, 3);
     NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&coverPooHole->mUnk_00.mPos), 12);
-    func_0209bbd0(a, gHole);
+    QueueMapObjectModelMaterial(a, gHole);
     DrawMapObjectModel(a, gHole, coverPooHole);
     w1 = 1;
     NNS_G3dGeBufferOP_N(0x12, &w1, 1);
@@ -318,7 +318,7 @@ void DrawCoverPooHole(void *a, CoverPooHole *coverPooHole) {
             NNS_G3dGeBufferOP_N(0x1c, f2, 3);
         }
         NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&coverPooHole->mUnk_00.mPos), 12);
-        func_0209bbd0(a, gPoo);
+        QueueMapObjectModelMaterial(a, gPoo);
         DrawMapObjectModel(a, gPoo, coverPooHole);
         w2 = 1;
         NNS_G3dGeBufferOP_N(0x12, &w2, 1);
@@ -354,7 +354,7 @@ void DrawCoverPooHole(void *a, CoverPooHole *coverPooHole) {
         NNS_G3dGeBufferOP_N(0x1c, f4, 3);
         NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&coverPooHole->mUnk_00.mPos), 12);
     }
-    func_0209bbd0(a, gCover);
+    QueueMapObjectModelMaterial(a, gCover);
     DrawMapObjectModel(a, gCover, coverPooHole);
 }
 
@@ -401,7 +401,7 @@ static inline u16 func_02095fec_inline(u32 n) {
 }
 
 static inline void func_02095fec_inline_2(CoverPooHole *coverPooHole, s32 soundId) {
-    Unk0210b7a8 s;
+    SoundStartParams s;
     s32 v;
 
     if (coverPooHole->mUnk_00.mDistanceSquaredAndFlags & 4) {
@@ -416,9 +416,9 @@ static inline void func_02095fec_inline_2(CoverPooHole *coverPooHole, s32 soundI
     }
     s.mSoundId = soundId;
     s.mPositionSource = &coverPooHole->mUnk_00.mPos;
-    s.mUnk_08 = v;
+    s.mFalloffIndex = v;
     s.mDistanceSquared = GetHorizontalCameraDistanceSquared(&coverPooHole->mUnk_00.mPos);
-    func_0210b7a8(&s);
+    StartSoundFromParams(&s);
 }
 
 void UpdateCoverPooHole(void *a, CoverPooHole *coverPooHole) {
@@ -613,8 +613,8 @@ void UpdateCoverPooHole(void *a, CoverPooHole *coverPooHole) {
 
 void CreateCoverPooHoleKindData(void) {
     MapObjectKindData *o;
-    o = func_0209bf70(CollideKartWithCoverPooHole, CollideItemObjectWithCoverPooHole, TryGetCoverPooHolePushOut, 0, 1,
-                      0x16d);
+    o = CreateMapObjectKindDataWithSound(CollideKartWithCoverPooHole, CollideItemObjectWithCoverPooHole,
+                                         TryGetCoverPooHolePushOut, 0, 1, 0x16d);
     o->mUnk_28 = 0x1b0;
 }
 

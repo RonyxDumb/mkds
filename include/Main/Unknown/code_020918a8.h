@@ -6,26 +6,26 @@
 #include "Main/Unknown/code_020e6fd4.h"
 
 // Object of 0xb0 bytes: the MapObject it starts with, then a halfword and three words.
-typedef struct Unk020919e8 {
-    /* 00 */ MapObject mUnk_00;
-    /* a0 */ u16 mUnk_a0;
+typedef struct Kanoke64 {
+    /* 00 */ MapObject mMapObject;
+    /* a0 */ u16 mNsbcaFrameIndex;
     /* a2 */ u8 mUnk_a2[2];
     /* a4 */ s32 mTimer;
-    /* a8 */ s32 mUnk_a8;
+    /* a8 */ s32 mBurstCount;
     /* ac */ s32 mState;
-} Unk020919e8;
+} Kanoke64;
 
 void CreateCowDrawList(void);
-void DrawCow(void *a, MapObject *b);
-void SetupDrawCow(void *a);
-void CreateCow(void *a);
+void DrawCow(void *mapObjectList, MapObject *mapObject);
+void SetupDrawCow(void *mapObjectList);
+void CreateCow(void *mapObjectList);
 void CreateKanoke64UpdateList(void);
 void CreateKanoke64DrawList(void);
-void UpdateKanoke64(void *a, Unk020919e8 *p);
-s16 func_02091f24(s32 angle);
-s32 func_02091f44(s32 a, s32 b);
-s16 func_02091f54(s32 angle);
+void UpdateKanoke64(void *mapObjectList, Kanoke64 *kanoke64);
+s16 Kanoke64GetAnglePairSecond(s32 angle);
+s32 Kanoke64MulFixed12NoRound(s32 multiplicand, s32 multiplier);
+s16 Kanoke64GetAnglePairFirst(s32 angle);
 u32 NextRandomBelow(RandomState64 *randomState64, u32 limit);
 void InitKanoke64Objects(MapObjectList *mapObjectList);
-void DrawKanoke64(void *a, Unk020919e8 *p);
-void CreateKanoke64(void *a);
+void DrawKanoke64(void *mapObjectList, Kanoke64 *kanoke64);
+void CreateKanoke64(void *mapObjectList);

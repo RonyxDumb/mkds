@@ -46,10 +46,10 @@ void DrawPicture(void *a, Picture *b) {
 
 // mState stays 0: nothing in the code sets state 1.
 void UpdatePicture(void *a, Picture *b) {
-    Unk0210b7a8 s1;
-    Unk0210b7a8 s2;
-    Unk0210b7a8 s3;
-    Unk0210b7a8 s4;
+    SoundStartParams s1;
+    SoundStartParams s2;
+    SoundStartParams s3;
+    SoundStartParams s4;
     RandomState64 *randomState64;
     s32 nextFrameIndex;
     s32 t;
@@ -79,9 +79,9 @@ void UpdatePicture(void *a, Picture *b) {
                         }
                         s1.mSoundId = 0x116;
                         s1.mPositionSource = &b->mUnk_00.mPos;
-                        s1.mUnk_08 = t;
+                        s1.mFalloffIndex = t;
                         s1.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mUnk_00.mPos);
-                        func_0210b7a8(&s1);
+                        StartSoundFromParams(&s1);
                     }
                 } else if (b->mNsbcaFrameIndex == 8 || b->mNsbcaFrameIndex == 0x14 || b->mNsbcaFrameIndex == 0x2c ||
                            b->mNsbcaFrameIndex == 0x44) {
@@ -95,9 +95,9 @@ void UpdatePicture(void *a, Picture *b) {
                         }
                         s2.mSoundId = 0x117;
                         s2.mPositionSource = &b->mUnk_00.mPos;
-                        s2.mUnk_08 = t;
+                        s2.mFalloffIndex = t;
                         s2.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mUnk_00.mPos);
-                        func_0210b7a8(&s2);
+                        StartSoundFromParams(&s2);
                     }
                 } else if (b->mNsbcaFrameIndex == 0x78) {
                     if (IsMapObjectOutOfRange(&b->mUnk_00) == FALSE) {
@@ -110,9 +110,9 @@ void UpdatePicture(void *a, Picture *b) {
                         }
                         s3.mSoundId = 0x115;
                         s3.mPositionSource = &b->mUnk_00.mPos;
-                        s3.mUnk_08 = t;
+                        s3.mFalloffIndex = t;
                         s3.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mUnk_00.mPos);
-                        func_0210b7a8(&s3);
+                        StartSoundFromParams(&s3);
                     }
                 }
             } else if (b->mPictureIndex == 1) {
@@ -132,9 +132,9 @@ void UpdatePicture(void *a, Picture *b) {
                         }
                         s4.mSoundId = 0x118;
                         s4.mPositionSource = &b->mUnk_00.mPos;
-                        s4.mUnk_08 = t;
+                        s4.mFalloffIndex = t;
                         s4.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mUnk_00.mPos);
-                        func_0210b7a8(&s4);
+                        StartSoundFromParams(&s4);
                     }
                 }
             }
@@ -162,7 +162,7 @@ void CreatePuddle(void *a) {
 }
 
 void SetupDrawPuddle(void *a) {
-    func_0209bbd0(a, gPuddle);
+    QueueMapObjectModelMaterial(a, gPuddle);
 }
 
 void DrawPuddle(void *a, MapObject *b) {

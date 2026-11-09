@@ -58,7 +58,7 @@ void SetupDrawBalloon(void *mapObjectList) {
     data_0217b208.x = currentCamera->mPos.x >> 3;
     data_0217b208.y = currentCamera->mPos.y >> 3;
     data_0217b208.z = currentCamera->mPos.z >> 3;
-    func_0209bbd0(mapObjectList, gBalloon);
+    QueueMapObjectModelMaterial(mapObjectList, gBalloon);
 }
 
 void DrawBalloon(void *mapObjectList, Balloon *balloon) {

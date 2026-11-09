@@ -618,7 +618,7 @@ void func_ov001_02190ee0(Unk02188950 *a) {
     StartEffectAtOffset(a, 0, 0x1000, 0xffffdccd, 0x3f1, 0);
     StartEffectAtOffset(a, 0, 0x1000, 0xffffdccd, 0x3f2, 0);
     {
-        Unk0210b7a8 local = data_ov001_021a7de8;
+        SoundStartParams local = data_ov001_021a7de8;
 
         local.mPositionSource = &a->mUnk_000.mPos;
         local.mDistanceSquared = GetHorizontalCameraDistanceSquared(&a->mUnk_000.mPos);

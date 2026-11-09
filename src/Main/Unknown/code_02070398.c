@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_02070398.h"
+#include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/code_020401ac.h"
 #include "Main/Unknown/code_020b1dbc.h"
 #include "Main/Unknown/code_0207b960.h"
@@ -104,7 +105,7 @@ void AdvanceKartScaleFactor(Kart *kart) {
     enum { K0 } entryIndex;
 
     entryIndex = kart->mEntryIndex;
-    data_0217562a[entryIndex].mBitMask = 0xff7;
+    data_02175628[entryIndex].mBitMask = 0xff7;
     if (kart->mUnk_7c & 0x20) {
         AdvanceKartRemovalShrink(kart);
         return;
@@ -1297,7 +1298,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
         }
     }
 
-    data_0217562a[kart->mEntryIndex].mBitMask = 0xe04;
+    data_02175628[kart->mEntryIndex].mBitMask = 0xe04;
     Vec3CrossUnrounded(&data_02154f7c, &placementForward, &side);
     VEC_Subtract(&kart->mPos, &placementPos, &toKart);
     toKart.y = 0;

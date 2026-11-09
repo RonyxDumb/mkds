@@ -4,4 +4,4 @@
 
 typedef struct KartAiItemUse KartAiItemUse;
 
-void func_02090348(KartAiItemUse *itemUse);
+void ClearKartAiItemUseWrapper(KartAiItemUse *itemUse);

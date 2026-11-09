@@ -91,7 +91,7 @@ static inline u32 func_0209d84c_inline(RandomState64 *randomState64) {
 
 void UpdateSunFireball(void *a, SunFireball *sunFireball) {
     Vec3 v;
-    Unk0210b7a8 soundRequest;
+    SoundStartParams soundRequest;
     u32 f;
     s32 t;
     s32 k;
@@ -103,9 +103,9 @@ void UpdateSunFireball(void *a, SunFireball *sunFireball) {
                 sunFireball->mState = 1;
                 soundRequest.mSoundId = 0x195;
                 soundRequest.mPositionSource = &sunFireball->mUnk_00.mPos;
-                soundRequest.mUnk_08 = 2;
+                soundRequest.mFalloffIndex = 2;
                 soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&sunFireball->mUnk_00.mPos);
-                func_0210b7a8(&soundRequest);
+                StartSoundFromParams(&soundRequest);
             }
             break;
         case 1:
@@ -211,7 +211,8 @@ void UpdateSunFireball(void *a, SunFireball *sunFireball) {
 void CreateSunFireballKindData(void) {
     MapObjectKindData *kindData;
 
-    kindData = func_0209bf70(&CollideKartWithSunFireball, &CollideItemObjectWithSunFireball, NULL, 1, 0, 0x18d);
+    kindData = CreateMapObjectKindDataWithSound(&CollideKartWithSunFireball, &CollideItemObjectWithSunFireball, NULL, 1,
+                                                0, 0x18d);
     kindData->mUnk_28 = 0x196;
 }
 

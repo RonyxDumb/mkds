@@ -154,13 +154,13 @@ void DrawCrab(void *a, Crab *crab) {
     }
     NNS_G3dGeBufferOP_N(0x1b, &crab->mUnk_000.mScale, 3);
     SetMapObjectModelNsbtpFrameIndex(gCrab, crab->mCrabNsbtpFrameIndexFixed12 >> 12);
-    func_0209bbd0(a, gCrab);
+    QueueMapObjectModelMaterial(a, gCrab);
     DrawMapObjectModel(a, gCrab, crab);
     MTX_RotZ33_(&handRotation, gPairsByAngle[((u16) crab->mHandWobble.mValue >> 4) * 2],
                 gPairsByAngle[((u16) crab->mHandWobble.mValue >> 4) * 2 + 1]);
     NNS_G3dGeBufferOP_N(0x1a, &handRotation, 9);
     SetMapObjectModelNsbtpFrameIndex(gCrabHand, crab->mHandNsbtpFrameIndexFixed12 >> 12);
-    func_0209bbd0(a, gCrabHand);
+    QueueMapObjectModelMaterial(a, gCrabHand);
     DrawMapObjectModel(a, gCrabHand, crab);
 }
 
@@ -348,7 +348,7 @@ void UpdateCrab(void *a, Crab *crab) {
 void CreateCrabKindData(void) {
     MapObjectKindData *kindData;
 
-    kindData = func_0209bf70(CollideKartWithCrab, CollideItemObjectWithCrab, NULL, 2, 1, 0x10e);
+    kindData = CreateMapObjectKindDataWithSound(CollideKartWithCrab, CollideItemObjectWithCrab, NULL, 2, 1, 0x10e);
     kindData->mUnk_28 = 0x10f;
 }
 

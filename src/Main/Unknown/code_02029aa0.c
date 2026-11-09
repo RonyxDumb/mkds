@@ -220,7 +220,7 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
         if (gBackupAccess->mBackupEnabled != 0) {
             CARD_WaitBackupAsync();
         }
-        gResultsGp->mSecretMessageMask = func_020911a8();
+        gResultsGp->mSecretMessageMask = SetAndWriteSecretMessageFlags();
     }
 }
 
@@ -318,7 +318,7 @@ void AdvanceResultsGp(Unk0203a0dc *sceneNumbers) {
                     SetupTxtSystemSubTextButtonEx(secretMessage, commonMessage, 0, 1, 1, 0);
                     gResultsGp->mState = 1;
                 } else {
-                    switch (func_020909cc()) {
+                    switch (GetStaffRollKindAfterGp()) {
                         case 0:
                             if (sceneNumbers != NULL) {
                                 sceneNumbers->mNextScene = 0;

@@ -60,7 +60,7 @@ void ResetBackupFirstBlock(s32 copyOwnerName) {
     data_0217aa08->mFirstBlock->mUnk_31_3 = 0;
     data_0217aa08->mFirstBlock->mLocateFriendOff = 0;
     data_0217aa08->mFirstBlock->mElo = 0x1388;
-    func_0209119c();
+    SetSecretMessageFlagsWrapper();
     DWC_CreateUserData(&data_0217aa08->mFirstBlock->mUserData, 0x414d434a);
 }
 

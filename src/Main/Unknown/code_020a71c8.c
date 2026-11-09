@@ -42,7 +42,7 @@ void InitSanbo(Sanbo *sanbo) {
 }
 
 u8 CollideKartWithSanbo(Sanbo *p, Kart *a, u8 *b, u8 *c) {
-    Unk0210b7a8 s;
+    SoundStartParams s;
     u32 d;
 
     d = *c;
@@ -55,9 +55,9 @@ u8 CollideKartWithSanbo(Sanbo *p, Kart *a, u8 *b, u8 *c) {
         if (p->mFastWobbleTimer == 0) {
             s.mSoundId = 0x193;
             s.mPositionSource = &p->mUnk_000.mPos;
-            s.mUnk_08 = 2;
+            s.mFalloffIndex = 2;
             s.mDistanceSquared = GetHorizontalCameraDistanceSquared(&p->mUnk_000.mPos);
-            func_0210b7a8(&s);
+            StartSoundFromParams(&s);
             p->mSoundTimer = 0x14;
         }
         p->mFastWobbleTimer = 0x3c;
@@ -66,7 +66,7 @@ u8 CollideKartWithSanbo(Sanbo *p, Kart *a, u8 *b, u8 *c) {
 }
 
 u8 CollideItemObjectWithSanbo(Sanbo *p, ItemObject *a, u8 *b, u8 *c) {
-    Unk0210b7a8 s;
+    SoundStartParams s;
     u32 d;
 
     d = *c;
@@ -78,9 +78,9 @@ u8 CollideItemObjectWithSanbo(Sanbo *p, ItemObject *a, u8 *b, u8 *c) {
         if (p->mFastWobbleTimer == 0) {
             s.mSoundId = 0x193;
             s.mPositionSource = &p->mUnk_000.mPos;
-            s.mUnk_08 = 2;
+            s.mFalloffIndex = 2;
             s.mDistanceSquared = GetHorizontalCameraDistanceSquared(&p->mUnk_000.mPos);
-            func_0210b7a8(&s);
+            StartSoundFromParams(&s);
             p->mSoundTimer = 0x14;
         }
         p->mFastWobbleTimer = 0x3c;
@@ -138,10 +138,10 @@ void DrawSanbo(void *a, Sanbo *p) {
                     NNS_G3dGeBufferOP_N(0x1c, f1, 3);
                 }
                 if (i == 3) {
-                    func_0209bbd0(a, gSanboH);
+                    QueueMapObjectModelMaterial(a, gSanboH);
                     DrawMapObjectModel(a, gSanboH, p);
                 } else {
-                    func_0209bbd0(a, gSanboB);
+                    QueueMapObjectModelMaterial(a, gSanboB);
                     DrawMapObjectModel(a, gSanboB, p);
                 }
             }
@@ -168,10 +168,10 @@ void DrawSanbo(void *a, Sanbo *p) {
                     NNS_G3dGeBufferOP_N(0x1b, g2, 3);
                 }
                 if (i == 3) {
-                    func_0209bbd0(a, gSanboH);
+                    QueueMapObjectModelMaterial(a, gSanboH);
                     DrawMapObjectModel(a, gSanboH, p);
                 } else {
-                    func_0209bbd0(a, gSanboB);
+                    QueueMapObjectModelMaterial(a, gSanboB);
                     DrawMapObjectModel(a, gSanboB, p);
                 }
             }
@@ -193,10 +193,10 @@ void DrawSanbo(void *a, Sanbo *p) {
                     NNS_G3dGeBufferOP_N(0x1b, g3, 3);
                 }
                 if (i == 3) {
-                    func_0209bbd0(a, gSanboH);
+                    QueueMapObjectModelMaterial(a, gSanboH);
                     DrawMapObjectModel(a, gSanboH, p);
                 } else {
-                    func_0209bbd0(a, gSanboB);
+                    QueueMapObjectModelMaterial(a, gSanboB);
                     DrawMapObjectModel(a, gSanboB, p);
                 }
             }
@@ -238,7 +238,7 @@ s32 func_020a7894(s32 a, s32 b) {
 }
 
 void UpdateSanbo(void *a, Sanbo *p) {
-    Unk0210b7a8 s;
+    SoundStartParams s;
     s32 m;
     s32 k;
     s32 i;
@@ -336,9 +336,9 @@ void UpdateSanbo(void *a, Sanbo *p) {
             }
             s.mSoundId = 0x194;
             s.mPositionSource = &p->mUnk_000.mPos;
-            s.mUnk_08 = 2;
+            s.mFalloffIndex = 2;
             s.mDistanceSquared = GetHorizontalCameraDistanceSquared(&p->mUnk_000.mPos);
-            func_0210b7a8(&s);
+            StartSoundFromParams(&s);
             p->mSoundTimer = 0x14;
             break;
         case 2:

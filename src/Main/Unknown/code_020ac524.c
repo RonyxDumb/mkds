@@ -42,7 +42,7 @@ void CreateShineBalloon(void *a) {
 }
 
 void SetupDrawShineBalloon(void *a) {
-    func_0209bbd0(a, gShineBalloon);
+    QueueMapObjectModelMaterial(a, gShineBalloon);
 }
 
 void DrawShineBalloon(void *a, ShineBalloonObject *b) {

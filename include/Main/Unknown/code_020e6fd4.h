@@ -29,7 +29,7 @@ typedef struct MapObjectKindData {
     /* 18 */ s32 (*mSphereHitTest)(struct MapObject *a, Vec3 *b, s32 c, Vec3 *d);
     /* 1c */ s32 mUnk_1c;
     /* 20 */ s32 mUnk_20;
-    /* 24 */ s32 mUnk_24;
+    /* 24 */ s32 mSoundId;
     /* 28 */ s32 mUnk_28;
     /* 2c */ s32 mUnk_2c;
     /* 30 */ s32 mUnk_30;
@@ -128,7 +128,7 @@ typedef struct MapObjectList {
 typedef struct NsbmdModel NsbmdModel;
 typedef struct ModelAnimation ModelAnimation;
 typedef struct MapObjectList MapObjectList;
-typedef struct Unk0210b7a8 Unk0210b7a8;
+typedef struct SoundStartParams SoundStartParams;
 
 // 0x40-byte block that func_020e7410 takes from data_02159370.
 typedef struct Unk020e7410 {
@@ -154,7 +154,7 @@ typedef struct JgKindRow {
 extern Unk0216c324 data_0216c324[];
 // Filled in by func_020e7760; UpdateJgState1 stores GetHorizontalCameraDistanceSquared's return value
 // at 0x0c and hands it to func_0210b760.
-extern Unk0210b7a8 data_0217b9dc;
+extern SoundStartParams data_0217b9dc;
 extern JgKindRow gJgKindRows[];
 extern JgKindRow data_0217bb08[];
 

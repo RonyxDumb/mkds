@@ -233,7 +233,7 @@ void AdvanceRecordVSState4(void) {
     return;
 l1:
     if ((a == 10 && gRecordVS->mUnk_88 != FALSE) || (b == 10 && gRecordVS->mUnk_88 == FALSE) ||
-        (u16) (data_0217562a[inputSlotIndex].mBits & PAD_KEY_LEFT) != 0) {
+        (u16) (data_02175628[inputSlotIndex].mBits & PAD_KEY_LEFT) != 0) {
         if (IsRecordVSIndexChangeRunning() != 0) {
             return;
         }
@@ -248,7 +248,7 @@ l1:
         return;
     }
     if ((a == 11 && gRecordVS->mUnk_8c != FALSE) || (b == 11 && gRecordVS->mUnk_8c == FALSE) ||
-        (u16) (data_0217562a[inputSlotIndex].mBits & PAD_KEY_RIGHT) != 0) {
+        (u16) (data_02175628[inputSlotIndex].mBits & PAD_KEY_RIGHT) != 0) {
         if (IsRecordVSIndexChangeRunning() != 0) {
             return;
         }

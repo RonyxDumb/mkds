@@ -168,7 +168,7 @@ void UpdatePukupukuState0(Pukupuku *pukupuku) {
         return;
     }
     if (!(pukupuku->mPushedObject.mMapObject.mDistanceSquaredAndFlags & 4)) {
-        Unk0210b7a8 soundRequest;
+        SoundStartParams soundRequest;
         u32 falloffIndex;
 
         if (pukupuku->mPushedObject.mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
@@ -180,9 +180,9 @@ void UpdatePukupukuState0(Pukupuku *pukupuku) {
         }
         soundRequest.mSoundId = 0x10b;
         soundRequest.mPositionSource = &pukupuku->mPushedObject.mMapObject.mPos;
-        soundRequest.mUnk_08 = falloffIndex;
+        soundRequest.mFalloffIndex = falloffIndex;
         soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&pukupuku->mPushedObject.mMapObject.mPos);
-        func_0210b7a8(&soundRequest);
+        StartSoundFromParams(&soundRequest);
     }
     pukupuku->mPushedObject.mMapObject.mPos.y = y;
     pukupuku->mJumpsUntilHighJump = pukupuku->mJumpsUntilHighJump - 1;

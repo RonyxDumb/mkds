@@ -96,7 +96,7 @@ void DrawDossun(void *unused0, Dossun *dossun, void *unused1, s32 maxAlpha) {
 }
 
 void UpdateDossun(void *unused, Dossun *dossun) {
-    Unk0210b7a8 soundRequest;
+    SoundStartParams soundRequest;
     GroupFollower *follower;
     CourseMapGroupEntry *fromEntry;
     s32 n;
@@ -255,9 +255,9 @@ void UpdateDossun(void *unused, Dossun *dossun) {
                 }
                 soundRequest.mSoundId = 0x166;
                 soundRequest.mPositionSource = &dossun->mUnk_00.mPos;
-                soundRequest.mUnk_08 = n;
+                soundRequest.mFalloffIndex = n;
                 soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&dossun->mUnk_00.mPos);
-                func_0210b7a8(&soundRequest);
+                StartSoundFromParams(&soundRequest);
             }
             StartCameraWobbleAtDistance(dossun->mUnk_00.mDistanceSquaredAndFlags & ~0xc000001f, 0x1000);
             if ((dossun->mUnk_00.mDistanceSquaredAndFlags & 3) == 0) {
@@ -480,7 +480,7 @@ void DrawKuribo(void *unused0, Kuribo *kuribo, void *unused1, u16 d) {
 }
 
 void UpdateKuribo(void *unused, Kuribo *kuribo) {
-    Unk0210b7a8 soundRequest;
+    SoundStartParams soundRequest;
     RandomState64 *random;
     s32 falloffIndex;
     kuribo->mFrameIndex++;
@@ -495,9 +495,9 @@ void UpdateKuribo(void *unused, Kuribo *kuribo) {
             }
             soundRequest.mSoundId = 0x182;
             soundRequest.mPositionSource = &kuribo->mMapObject.mPos;
-            soundRequest.mUnk_08 = falloffIndex;
+            soundRequest.mFalloffIndex = falloffIndex;
             soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&kuribo->mMapObject.mPos);
-            func_0210b7a8(&soundRequest);
+            StartSoundFromParams(&soundRequest);
         }
     }
     if (kuribo->mFrameIndex >= 0x28) {

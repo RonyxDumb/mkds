@@ -79,8 +79,8 @@ void InitMoveTreeObjects(MapObjectList *mapObjectList) {
 }
 
 void UpdateMoveTree(void *a, MoveTree *moveTree) {
-    Unk0210b7a8 s1;
-    Unk0210b7a8 s2;
+    SoundStartParams s1;
+    SoundStartParams s2;
     u32 k;
     s32 speed;
 
@@ -124,9 +124,9 @@ void UpdateMoveTree(void *a, MoveTree *moveTree) {
             }
             s1.mSoundId = 0x11f;
             s1.mPositionSource = &moveTree->mUnk_00.mPos;
-            s1.mUnk_08 = k;
+            s1.mFalloffIndex = k;
             s1.mDistanceSquared = GetHorizontalCameraDistanceSquared(&moveTree->mUnk_00.mPos);
-            func_0210b7a8(&s1);
+            StartSoundFromParams(&s1);
             break;
         case 1:
             speed = moveTree->mUnk_a8;
@@ -167,14 +167,14 @@ void UpdateMoveTree(void *a, MoveTree *moveTree) {
             }
             s2.mSoundId = 0x11f;
             s2.mPositionSource = &moveTree->mUnk_00.mPos;
-            s2.mUnk_08 = k;
+            s2.mFalloffIndex = k;
             s2.mDistanceSquared = GetHorizontalCameraDistanceSquared(&moveTree->mUnk_00.mPos);
-            func_0210b7a8(&s2);
+            StartSoundFromParams(&s2);
     }
 }
 
 void CreateMoveTreeKindData(void) {
-    func_0209bf70(CollideKartWithMoveTree, NULL, NULL, 2, 1, 0x125);
+    CreateMapObjectKindDataWithSound(CollideKartWithMoveTree, NULL, NULL, 2, 1, 0x125);
 }
 
 void CreateMoveTreeDrawList(void) {
@@ -228,8 +228,8 @@ void InitBakubakuObjects(MapObjectList *mapObjectList) {
 }
 
 void UpdateBakubaku(void *a, Bakubaku *bakubaku) {
-    Unk0210b7a8 s1;
-    Unk0210b7a8 s2;
+    SoundStartParams s1;
+    SoundStartParams s2;
     Kart *kart;
     Vec3 *kartPos;
     s64 distanceSquared;
@@ -265,9 +265,9 @@ void UpdateBakubaku(void *a, Bakubaku *bakubaku) {
             StartModelEffect(3, &bakubaku->mUnk_00.mPos, 1);
             s1.mSoundId = 0x186;
             s1.mPositionSource = &bakubaku->mUnk_00.mPos;
-            s1.mUnk_08 = 4;
+            s1.mFalloffIndex = 4;
             s1.mDistanceSquared = GetHorizontalCameraDistanceSquared(&bakubaku->mUnk_00.mPos);
-            func_0210b7a8(&s1);
+            StartSoundFromParams(&s1);
             bakubaku->mState = 2;
             break;
         case 2:
@@ -279,9 +279,9 @@ void UpdateBakubaku(void *a, Bakubaku *bakubaku) {
             StartModelEffect(3, &bakubaku->mUnk_00.mPos, 1);
             s2.mSoundId = 0x187;
             s2.mPositionSource = &bakubaku->mUnk_00.mPos;
-            s2.mUnk_08 = 2;
+            s2.mFalloffIndex = 2;
             s2.mDistanceSquared = GetHorizontalCameraDistanceSquared(&bakubaku->mUnk_00.mPos);
-            func_0210b7a8(&s2);
+            StartSoundFromParams(&s2);
             bakubaku->mState = 3;
             break;
         case 3:

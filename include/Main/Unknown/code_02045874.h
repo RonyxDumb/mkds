@@ -12,6 +12,6 @@ void SetupStaffRollRace(s32 useTrueStaffRoll);
 BOOL func_02045bd4(void);
 void func_02045ed0(void);
 void BuildCourseList(s32 isVersus);
-u32 func_02046524(RandomState64 *randomState64, u32 limit);
+u32 NextRandomBelowU16(RandomState64 *randomState64, u32 limit);
 void AssignCpuNumbers(void);
 BOOL func_02046648(s32 a);
