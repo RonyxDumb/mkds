@@ -37,7 +37,7 @@ Water *gWater;
 // The mInitObject slot of the five water kinds (data_usa_021580a4): stores the map object in gWaterMapObject, clears
 // mFlags bits 2 and 8, sets mUnk_66 to 0x1f, runs the creator the kind row holds (third argument), then loads the three
 // water_efct files into gWater; once per water map object.
-void InitWater(MapObject *mapObject, void *unused, UnkFunc *createWater) {
+void InitWater(MapObject *mapObject, void *unused, void (*createWater)(void)) {
     gWaterMapObject = mapObject;
     mapObject->mFlags &= ~2;
     mapObject->mFlags &= ~8;

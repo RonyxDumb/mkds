@@ -23,7 +23,7 @@ extern RangeEntry *data_02173254;
 extern vu16 data_02173278;
 extern vu16 data_0217327c;
 extern u32 data_02173280;
-extern UnkFunc *data_02173284;
+extern void (*data_02173284)(u32, s32);
 
 extern u8 data_02173288;
 extern s32 data_0217328c;

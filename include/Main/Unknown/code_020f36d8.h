@@ -440,6 +440,10 @@ typedef enum {
     ITEM_USE_KIND_TRAIL,
     ITEM_USE_KIND_CIRCLE
 } ItemUseKind;
+
+struct ItemInUse;
+struct HeldItem;
+
 // One of the 18 items: the object kind and the number of objects it takes from the pool, the use kind and the hook
 // called after its use. gItemInfos holds the heap copy of 18 static records of this type; the roulette may roll an item
 // only while mEnabled is set.
@@ -452,7 +456,7 @@ typedef struct ItemInfo {
     /* 10 */ s32 mUnk_10;
     // ItemUseKind: how the objects are carried; 0 carries none. (above mUseKind)
     /* 14 */ s32 mUseKind;
-    /* 18 */ UnkFunc *mUseHook;
+    /* 18 */ void (*mUseHook)(struct ItemInUse *itemInUse, struct HeldItem *heldItem);
 } ItemInfo;
 
 extern ItemInfo data_0215a4c0;

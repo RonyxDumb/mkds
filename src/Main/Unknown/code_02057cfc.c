@@ -3,8 +3,8 @@
 #include "code_0214d018.h"
 
 #pragma thumb on
-void CopyBackupReadToBlock(u32 buffer, u32 length) {
-    u32 source = buffer;
+void CopyBackupReadToBlock(u32 *buffer, u32 length) {
+    u32 *source = buffer;
     u32 value1 = length;
     u32 size;
     u32 value3;
@@ -12,6 +12,6 @@ void CopyBackupReadToBlock(u32 buffer, u32 length) {
     value1 = (u32) &gBackupAccess;
     value1 = *(const u32 *) ((value1) + 0u);
     value1 = *(const u32 *) ((value1) + 104u);
-    MI_CpuCopy8((const void *) source, (void *) value1, size);
+    MI_CpuCopy8(source, (void *) value1, size);
 }
 #pragma thumb off

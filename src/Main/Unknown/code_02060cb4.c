@@ -38,7 +38,7 @@ void ReadGhostFileRecords(void) {
 void StartReadGhostFileRecords(void *records) {
     data_0217aa08->mReadDestination = records;
     SetBackupBusy();
-    QueueThreadFunction((void (*)(void)) ReadGhostFileRecords);
+    QueueThreadFunction(ReadGhostFileRecords);
     gThreadFunctionQueue->mRunRequested = 1;
 }
 
@@ -143,7 +143,8 @@ s32 FindBuddyIndexByFriendData(const void *friendData) {
     return foundIndex;
 }
 
-s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccFriendData *friendData, s32 notYetBuddy, s32 e, s32 allowAdd) {
+s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccFriendData *friendData, s32 notYetBuddy,
+                           s32 e, s32 allowAdd) {
     DateBytes oldestDate;
     DateBytes recordDate;
     BuddyRecord buddyRecord;

@@ -7,7 +7,7 @@
 #include "Main/Unknown/code_0200f000.h"
 #include "Main/Unknown/code_0200c000.h"
 
-s32 WVR_StartUpAsync(u32 vram, UnkFunc *callback, u32 arg) {
+s32 WVR_StartUpAsync(u32 vram, void (*callback)(u32, s32), u32 arg) {
     u32 enabled;
 
     PXI_Init();
@@ -83,7 +83,7 @@ s32 WVR_StartUpAsync(u32 vram, UnkFunc *callback, u32 arg) {
     return 1;
 }
 
-s32 WVR_TerminateAsync(UnkFunc *callback, u32 arg) {
+s32 WVR_TerminateAsync(void (*callback)(u32, s32), u32 arg) {
     u32 enabled;
 
     PXI_Init();
@@ -114,7 +114,7 @@ s32 WVR_TerminateAsync(UnkFunc *callback, u32 arg) {
 }
 
 void WvrReceiveCallback(u32 tag, u32 data) {
-    UnkFunc *callback;
+    void (*callback)(u32, s32);
     u32 callbackArg;
     u32 command;
     u32 result;
@@ -145,4 +145,4 @@ void WvrReceiveCallback(u32 tag, u32 data) {
     }
 }
 
-void WvrDummyAsyncCallback(void) {}
+void WvrDummyAsyncCallback(u32 arg, s32 result) {}

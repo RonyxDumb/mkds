@@ -9,6 +9,8 @@
 #include "Main/Unknown/code_020e516c.h"
 #include "Main/Unknown/code_020f9c6c.h" // CourseMapRow
 
+struct ItemFBox;
+
 // Object of 0x108 or more bytes handled by InitItemBox.
 typedef struct ItemBox {
     /* 000 */ MapObject mUnk_000;
@@ -29,8 +31,8 @@ typedef struct ItemBox {
     /* 0f6 */ u8 mUnk_0f6[2];
     /* 0f8 */ s32 mUnk_0f8;
     /* 0fc */ Vec3 *mPositionSource;
-    /* 100 */ UnkFunc *mDrawMatrixCallback;
-    /* 104 */ void *mDrawMatrixCallbackOwner;
+    /* 100 */ void (*mDrawMatrixCallback)(struct ItemFBox *owner, MtxFx43 *out);
+    /* 104 */ struct ItemFBox *mDrawMatrixCallbackOwner;
     /* 108 */ GroupFollowerWithSpeeds mFollower;
 } ItemBox;
 

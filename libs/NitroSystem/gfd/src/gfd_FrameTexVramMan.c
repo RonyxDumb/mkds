@@ -19,7 +19,7 @@ void NNS_GfdInitFrmTexVramManager(u16 numBanks, BOOL useAsDefault) {
     NNS_GfdResetFrmTexVramState();
     if (useAsDefault != 0) {
         data_021619ec = (u32(*)(s32, s32, s32)) NNS_GfdAllocFrmTexVram;
-        data_021619f0 = (void (*)(void *)) NNS_GfdFreeFrmTexVram;
+        data_021619f0 = NNS_GfdFreeFrmTexVram;
     }
 }
 

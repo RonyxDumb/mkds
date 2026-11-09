@@ -34,7 +34,7 @@ void func_0205786c(u32 isCourseGhost, u32 index, GhostRecordHead *ghostRecord) {
 }
 
 void func_02057800(u32 isCourseGhost, u32 index, GhostRecordHead *ghostRecord) {
-    void (*readCallback)(u32, u32);
+    void (*readCallback)(u32 *, u32);
     BackupAccess *backupAccess;
     u32 sectionOffset;
     u32 recordOffset;

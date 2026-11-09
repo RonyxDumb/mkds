@@ -175,7 +175,7 @@ found:
 
 void DrawItemPool(ItemPool *pool, void *viewAxis) {
     if (pool->mUnk_24 != NULL) {
-        DrawItemPoolWithCallback(pool, viewAxis, (void (*)(void *, void *, void *)) pool->mUnk_24);
+        DrawItemPoolWithCallback(pool, viewAxis, pool->mUnk_24);
     } else {
         DrawItemPoolModels(pool, viewAxis);
     }

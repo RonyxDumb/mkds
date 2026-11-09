@@ -393,9 +393,9 @@ s32 NNS_G3dResDefaultSetup(NNSG3dResFileHeader *file) {
                     plttKey = 0;
                 }
                 if (texOk == 0 || tex4x4Ok == 0 || plttOk == 0) {
-                    data_021619f8((void *) plttKey);
-                    data_021619f0((void *) tex4x4Key);
-                    data_021619f0((void *) texKey);
+                    data_021619f8(plttKey);
+                    data_021619f0(tex4x4Key);
+                    data_021619f0(texKey);
                     return 0;
                 }
                 NNS_G3dTexSetTexKey(tex, texKey, tex4x4Key);
@@ -454,12 +454,12 @@ void NNS_G3dResDefaultRelease(NNSG3dResFileHeader *file) {
     plttKey = NNS_G3dPlttReleasePlttKey(tex);
     NNS_G3dTexReleaseTexKey(tex, &texKey, &tex4x4Key);
     if (plttKey != 0) {
-        data_021619f8((void *) plttKey);
+        data_021619f8(plttKey);
     }
     if (tex4x4Key != 0) {
-        data_021619f0((void *) tex4x4Key);
+        data_021619f0(tex4x4Key);
     }
     if (texKey != 0) {
-        data_021619f0((void *) texKey);
+        data_021619f0(texKey);
     }
 }

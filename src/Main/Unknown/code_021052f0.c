@@ -31,7 +31,7 @@ void AdvancePooledMapObject(ItemBox *object) {
     }
 }
 
-void SetPooledMapObjectCallback(ItemBox *object, UnkFunc *callback, ItemFBox *owner) {
+void SetPooledMapObjectCallback(ItemBox *object, void (*callback)(ItemFBox *owner, MtxFx43 *out), ItemFBox *owner) {
     object->mDrawMatrixCallback = callback;
     object->mDrawMatrixCallbackOwner = owner;
 }

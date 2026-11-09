@@ -31,6 +31,6 @@ void ReadCourseGhostRecords(void) {
 void StartReadCourseGhostRecords(void *records) {
     data_0217aa08->mReadDestination = records;
     SetBackupBusy();
-    QueueThreadFunction((void (*)(void)) ReadCourseGhostRecords);
+    QueueThreadFunction(ReadCourseGhostRecords);
     gThreadFunctionQueue->mRunRequested = 1;
 }

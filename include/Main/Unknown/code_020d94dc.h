@@ -136,7 +136,7 @@ typedef struct Unk020d9de0 {
     /* 00 */ s32 mUnk_00[0x10];
 } Unk020d9de0;
 
-void InitWater(MapObject *mapObject, void *unused, UnkFunc *createWater);
+void InitWater(MapObject *mapObject, void *unused, void (*createWater)(void));
 void UpdateWater(Water *water);
 void DrawWater(Water *water, struct MtxFx43 *unused);
 Unk020d9de0 *CreateWaterEfctKindData(void);

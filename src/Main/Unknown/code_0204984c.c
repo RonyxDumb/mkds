@@ -448,8 +448,8 @@ void InitSceneRunState(void *heap) {
     gSceneRunState->mUnk_118 = -1;
     gSceneRunState->mUnk_11c = 0;
     func_02049c3c_inline(&gSceneRunState->mThreadQueue);
-    OS_CreateThread(&gSceneRunState->mThread, (void (*)(void *)) func_0204a1a8, NULL,
-                    (u8 *) gSceneRunState->mThreadStack + 0x400, 0x400, 15);
+    OS_CreateThread(&gSceneRunState->mThread, func_0204a1a8, NULL, (u8 *) gSceneRunState->mThreadStack + 0x400, 0x400,
+                    15);
     OS_WakeupThreadDirect(&gSceneRunState->mThread);
     func_02049c3c_inline2(&gSceneRunState->mPreSleepCallback, ScenePreSleepCallback);
     func_02049c3c_inline2(&gSceneRunState->mPostSleepCallback, (void (*)(void *)) ScenePostSleepCallback);

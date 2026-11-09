@@ -969,7 +969,7 @@ void InitKartBalloons(Unk020a3fa8 *a) {
         SetStandingsKartHitCallback(BalloonKartHitCallback);
         SetStandingsKartEliminatedCallback(BalloonKartEliminatedCallback);
         SetStandingsEndCallback(BalloonEndCallback);
-        SetStandingsKartOffsetCallback((void (*)(s32, s32)) BalloonKartOffsetCallback);
+        SetStandingsKartOffsetCallback(BalloonKartOffsetCallback);
     } else {
         ParkMapObject(&a->mUnk_000);
     }

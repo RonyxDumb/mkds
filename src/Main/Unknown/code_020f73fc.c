@@ -119,7 +119,7 @@ void func_020f77f8(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, Vec3 *oth
     if (soundId == -1) {
         return;
     }
-    soundCallback = (item->mFlags & 0x400000) ? (void (*)(ItemObject *, s32)) func_020f7c60 : func_020f91fc;
+    soundCallback = (item->mFlags & 0x400000) ? func_020f7c60 : func_020f91fc;
     soundCallback(item, soundId);
 }
 

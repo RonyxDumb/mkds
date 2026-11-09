@@ -4,7 +4,7 @@
 #include "Main/Unknown/unk_0217b000.h"
 #include "Main/Unknown/code_020a3fa8.h" // KartBalloons
 
-void SetStandingsKartOffsetCallback(void (*callback)(s32, s32));
+void SetStandingsKartOffsetCallback(void (*callback)(u16, Vec3 *));
 void SetStandingsEndCallback(void (*callback)(void));
 void SetStandingsKartEliminatedCallback(void (*callback)(u16 a));
 void SetStandingsKartHitCallback(s32 (*callback)(u16 a, u16 b));

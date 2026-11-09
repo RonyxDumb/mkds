@@ -89,9 +89,9 @@ u32 UploadResTexture(NNSG3dResTex *texture) {
             v2 = 0;
         }
         if (texOk == 0 || tex4x4Ok == 0 || plttOk == 0) {
-            data_021619f8((void *) v2);
-            data_021619f0((void *) v1);
-            data_021619f0((void *) v0);
+            data_021619f8(v2);
+            data_021619f0(v1);
+            data_021619f0(v0);
             return 0;
         }
         NNS_G3dTexSetTexKey(texture, v0, v1);

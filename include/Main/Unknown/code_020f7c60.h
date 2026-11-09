@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct SoundSource SoundSource;
+typedef struct ItemObject ItemObject;
 
-void *func_020f7c60(SoundSource *source, u32 soundId);
+void func_020f7c60(ItemObject *source, s32 soundId);

@@ -80,7 +80,7 @@ void SetStandingsEndCallback(void (*callback)(void)) {
     gStandings->mEndCallback = callback;
 }
 
-void SetStandingsKartOffsetCallback(void (*callback)(s32, s32)) {
+void SetStandingsKartOffsetCallback(void (*callback)(u16, Vec3 *)) {
     gStandings->mKartOffsetCallback = callback;
 }
 
@@ -120,7 +120,7 @@ u32 IsKartInflatingBalloon(u16 kartIndex) {
     return gStandings->mKarts[kartIndex].mInflatingBalloon;
 }
 
-void CallStandingsKartOffsetCallback(s32 a, s32 b) {
+void CallStandingsKartOffsetCallback(u16 a, Vec3 *b) {
     if (b == 0) {
         return;
     }

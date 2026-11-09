@@ -32,6 +32,6 @@ void ReadSlotGhostRecords(void) {
 void StartReadSlotGhostRecords(void *records) {
     data_0217aa08->mReadDestination = records;
     SetBackupBusy();
-    QueueThreadFunction((void (*)(void)) ReadSlotGhostRecords);
+    QueueThreadFunction(ReadSlotGhostRecords);
     gThreadFunctionQueue->mRunRequested = 1;
 }

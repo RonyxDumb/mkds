@@ -175,6 +175,8 @@ extern Unk02165ff0 *data_0217b030;
 
 // Objects whose layout isn't known yet.
 struct SPLManager;
+struct KartAi;
+struct KartAiItemUse;
 
 // Object behind gKartPhysicalParamTable (0x14 bytes), made once per race: the per-slot records (mKartParams) and
 // character rows (mCharParams) and the two loaded files. mFirstBaseSpeedLimit is a copy of file word 0x10.
@@ -192,16 +194,16 @@ extern struct SPLManager *gMissionRunSPLManager;
 
 extern struct SPLManager *data_0217b044;
 extern struct SPLManager *data_0217b04c;
-extern UnkFunc *data_0217b054;
+extern void (*data_0217b054)(void);
 
-// Function pointers set by RegisterKartAiCallbacks (the targets take different parameters).
-extern UnkFunc *gKartAiAdvanceCallback;
-extern UnkFunc *gKartAiSetupCallback;
+// Function pointers set by RegisterKartAiCallbacks (the reset targets take different parameters).
+extern void (*gKartAiAdvanceCallback)(struct KartAi *kartAi);
+extern void (*gKartAiSetupCallback)(struct KartAi *kartAi, s32 kartIndex);
 extern UnkFunc *gKartAiResetCallback;
-extern UnkFunc *gKartAiLinkPosAndDirectionCallback;
-extern UnkFunc *gKartAiSetupHeldItemEntryCallback;
-extern UnkFunc *gKartAiSetupItemInUseEntryCallback;
-extern UnkFunc *gKartAiRequestLinkCallback;
+extern void (*gKartAiLinkPosAndDirectionCallback)(Vec3 *position, Vec3 *direction, struct KartAi *kartAi);
+extern void (*gKartAiSetupHeldItemEntryCallback)(struct KartAi *kartAi);
+extern void (*gKartAiSetupItemInUseEntryCallback)(struct KartAi *kartAi);
+extern void (*gKartAiRequestLinkCallback)(struct KartAi *kartAi);
 extern s32 (*gKartAiIsLinkRequestedCallback)();
 // Table of KartTurnEffects, one per Kart, allocated by InitKartTurnEffects and indexed by Kart.mIndex.
 extern struct KartTurnEffects *gKartTurnEffects;
@@ -231,12 +233,12 @@ typedef struct PosStrips {
 } PosStrips;
 
 extern PosStrips *gPosStrips;
-extern UnkFunc *gUseItemCircleKindCallback;
-extern UnkFunc *gUseItemNotCircleKindCallback;
-extern UnkFunc *gThrowItemNotCircleKindCallback;
-extern UnkFunc *gThrowItemCircleKindCallback;
-extern UnkFunc *gThrowItemNotTrailKindCallback;
-extern UnkFunc *gThrowItemTrailKindCallback;
+extern void (*gUseItemCircleKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
+extern void (*gUseItemNotCircleKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
+extern void (*gThrowItemNotCircleKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
+extern void (*gThrowItemCircleKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
+extern void (*gThrowItemNotTrailKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
+extern void (*gThrowItemTrailKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
 extern KartAiItemUseEntry *gBattleHeldItemEntries;
 extern s32 *gStaffGhostTime;
 extern MapObjectModel *gSmanBottom;
@@ -332,7 +334,7 @@ typedef struct Standings {
     // change of a kart set to a checkpoint position, the position change in func_02068494, and the push vector of a map
     // object that a kart pushed; set by the balloon object, which adds that Vec3 to the positions of the kart's
     // balloons.
-    /* 39c */ void (*mKartOffsetCallback)(s32, s32);
+    /* 39c */ void (*mKartOffsetCallback)(u16, Vec3 *);
     // Number of Shine16 objects placed and not yet finished: AddShineCount changes it (+1 placed, -1 finished); the
     // spawner stops placing at 3. Parking every shine at once, as the shine mode's end callback does, does not
     // subtract.

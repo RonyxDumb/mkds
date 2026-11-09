@@ -1384,7 +1384,7 @@ void PlaceKartAtKeyedPlacement(Kart *kart, u32 key) {
     MTX_MultVec33(&data_02154f70, &rotationMatrix, &placementForward);
     if (gRaceSetup->mMode == MODE_BATTLE) {
         VEC_Subtract(&placementPos, &kart->mPos, &offset);
-        CallStandingsKartOffsetCallback(kart->mIndex, (s32) &offset);
+        CallStandingsKartOffsetCallback(kart->mIndex, &offset);
     }
     kart->mPos = placementPos;
     kart->mPrevPos = kart->mPos;

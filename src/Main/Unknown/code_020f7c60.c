@@ -1,12 +1,13 @@
 #include "Main/Unknown/code_020f7c60.h"
 #include "Main/Unknown/code_02109054.h"
+#include "Main/Unknown/code_020f36d8.h"
 
-void *func_020f7c60(SoundSource *source, u32 soundId) {
-    SoundSource *sourceCopy = source;
-    u32 soundIdCopy = soundId;
+void func_020f7c60(ItemObject *source, s32 soundId) {
+    SoundSource *sourceCopy = &source->mSoundSource;
+    s32 soundIdCopy = soundId;
     u32 volume;
     u32 zero;
-    u32 soundIdCompared;
+    s32 soundIdCompared;
     u32 skipId;
     soundIdCompared = soundIdCopy;
     skipId = 1u;
@@ -15,9 +16,9 @@ void *func_020f7c60(SoundSource *source, u32 soundId) {
     if (soundIdCompared == skipId) {
     }
     if (soundIdCompared == skipId) {
-        return sourceCopy;
+        return;
     }
     volume = 0x7fu;
     zero = 0u;
-    return StartSound(sourceCopy, soundIdCopy, volume, zero);
+    StartSound(sourceCopy, soundIdCopy, volume, zero);
 }

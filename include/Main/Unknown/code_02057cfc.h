@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void CopyBackupReadToBlock(u32 buffer, u32 length);
+void CopyBackupReadToBlock(u32 *buffer, u32 length);

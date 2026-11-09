@@ -73,8 +73,8 @@ void StartFileReadThread(void) {
     fileReadThread = (FileReadThread *) &gFileReadThread;
     fileReadThread->mUnk_4c4 = 0;
     fileReadThread->mUnk_4c0 = fileReadThread->mUnk_4c4;
-    OS_CreateThread(&fileReadThread->mThread, (void (*)(void *)) RunFileReadThread, fileReadThread,
-                    (u8 *) &fileReadThread->mThread, 0x400, 15);
+    OS_CreateThread(&fileReadThread->mThread, RunFileReadThread, fileReadThread, (u8 *) &fileReadThread->mThread, 0x400,
+                    15);
     OS_WakeupThreadDirect(&fileReadThread->mThread);
 }
 

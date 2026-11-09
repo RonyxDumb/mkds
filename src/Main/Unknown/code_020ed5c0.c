@@ -69,7 +69,7 @@ void StartItemInUse(ItemInUse *itemInUse, HeldItem *heldItem) {
     void (*startFunc)(void *);
     s32 useKind;
     s32 itemInfoIndex;
-    void (*useHook)(void *, void *);
+    void (*useHook)(struct ItemInUse *, struct HeldItem *);
     BOOL isMode5;
     ItemObject **objects;
     s32 objectCount;
