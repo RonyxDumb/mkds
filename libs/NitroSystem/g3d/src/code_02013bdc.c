@@ -47,8 +47,7 @@ void NNSi_G3dAnmObjInitNsBtp(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dR
     MIi_CpuClear16(zero, pAnmObj->mMapData, pAnmObj->mNumMapData * 2);
     for (i = 0; i < patAnim->mDict.mNumEntry; i++) {
         dictEntries = OFFSET_PTR(NNSG3dResDictEntryHeader, &patAnim->mDict, patAnim->mDict.mOfsEntry);
-        matIdx = NNS_G3dGetResDictIdxByName(matBlock + 4,
-                                            (const u32 *) ((u8 *) dictEntries + dictEntries->mOfsName + i * 16));
+        matIdx = NNS_G3dGetResDictIdxByName(matBlock + 4, DICT_ENTRY_NAME(dictEntries, i));
         if (matIdx >= 0) {
             pAnmObj->mMapData[matIdx] = i | 0x100;
         }
@@ -260,7 +259,7 @@ void GetTexSRTAnm_(const NNSG3dResTexSRTAnm *pTexAnm, u16 idx, u32 frame, NNSG3d
     u32 z;
 
     dictEntries = OFFSET_PTR(const NNSG3dResDictEntryHeader, &pTexAnm->mDict, pTexAnm->mDict.mOfsEntry);
-    srtData = (const NNSG3dResDictTexSRTAnmData *) (dictEntries->mData + dictEntries->mSizeUnit * idx);
+    srtData = DICT_ENTRY(const NNSG3dResDictTexSRTAnmData, dictEntries, idx);
     flag = pResult->mUnk_00;
     x = GetTexSRTAnmVectorVal_(pTexAnm, srtData->mTransS, srtData->mTransSEx, frame);
     y = GetTexSRTAnmVectorVal_(pTexAnm, srtData->mTransT, srtData->mTransTEx, frame);
@@ -307,8 +306,7 @@ void NNSi_G3dAnmObjInitNsBta(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dR
     MIi_CpuClear16(zero, pAnmObj->mMapData, pAnmObj->mNumMapData * 2);
     for (i = 0; i < srtAnim->mDict.mNumEntry; i++) {
         dictEntries = OFFSET_PTR(NNSG3dResDictEntryHeader, &srtAnim->mDict, srtAnim->mDict.mOfsEntry);
-        matIdx = NNS_G3dGetResDictIdxByName(matBlock + 4,
-                                            (const u32 *) ((u8 *) dictEntries + dictEntries->mOfsName + i * 16));
+        matIdx = NNS_G3dGetResDictIdxByName(matBlock + 4, DICT_ENTRY_NAME(dictEntries, i));
         if (matIdx >= 0) {
             pAnmObj->mMapData[matIdx] = i | 0x100;
         }
@@ -438,8 +436,7 @@ void NNSi_G3dAnmObjInitNsBma(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dR
     MIi_CpuClear16(zero, pAnmObj->mMapData, pAnmObj->mNumMapData * 2);
     for (i = 0; i < colorAnim->mDict.mNumEntry; i++) {
         dictEntries = OFFSET_PTR(NNSG3dResDictEntryHeader, &colorAnim->mDict, colorAnim->mDict.mOfsEntry);
-        matIdx = NNS_G3dGetResDictIdxByName(matBlock + 4,
-                                            (const u32 *) ((u8 *) dictEntries + dictEntries->mOfsName + i * 16));
+        matIdx = NNS_G3dGetResDictIdxByName(matBlock + 4, DICT_ENTRY_NAME(dictEntries, i));
         if (matIdx >= 0) {
             pAnmObj->mMapData[matIdx] = i | 0x100;
         }
@@ -448,15 +445,15 @@ void NNSi_G3dAnmObjInitNsBma(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dR
 
 void NNSi_G3dAnmCalcNsBma(NNSG3dMatAnmResult *pResult, const NNSG3dAnmObj *pAnmObj, u32 dataIdx) {
     u32 x;
-    u8 *t;
+    NNSG3dResDictEntryHeader *dictEntries;
     NNSG3dResMatCAnm *colorAnim;
     u32 frame;
     NNSG3dResDictMatCAnmData *colorData;
 
     colorAnim = pAnmObj->mResAnm;
     frame = pAnmObj->mFrame >> 12;
-    t = (u8 *) colorAnim + 8 + colorAnim->mDict.mOfsEntry;
-    colorData = (NNSG3dResDictMatCAnmData *) (t + 4 + *(u16 *) t * (u16) dataIdx);
+    dictEntries = OFFSET_PTR(NNSG3dResDictEntryHeader, &colorAnim->mDict, colorAnim->mDict.mOfsEntry);
+    colorData = DICT_ENTRY(NNSG3dResDictMatCAnmData, dictEntries, (u16) dataIdx);
     x = GetMatColAnmValue_(colorAnim, colorData->mDiffuse, frame);
     pResult->mUnk_04 =
         (pResult->mUnk_04 & 0x8000) | x | (GetMatColAnmValue_(colorAnim, colorData->mAmbient, frame) << 16);
@@ -1388,7 +1385,7 @@ NNSG3dResVisAnm *NNS_G3dGetVisAnmByIdx(NNSG3dResVisAnmSet *pAnmSet, u8 idx) {
     NNSG3dResDictAnmSetData *setEntry;
 
     dictEntries = OFFSET_PTR(NNSG3dResDictEntryHeader, &pAnmSet->mDict, pAnmSet->mDict.mOfsEntry);
-    setEntry = (NNSG3dResDictAnmSetData *) (dictEntries->mData + dictEntries->mSizeUnit * idx);
+    setEntry = DICT_ENTRY(NNSG3dResDictAnmSetData, dictEntries, idx);
     return OFFSET_PTR(NNSG3dResVisAnm, pAnmSet, setEntry->mOffset);
 }
 

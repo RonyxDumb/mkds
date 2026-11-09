@@ -45,6 +45,10 @@ typedef struct NNSG3dResDictEntryHeader {
     /* 04 */ u8 mData[4];
 } NNSG3dResDictEntryHeader;
 
+// Entry idx of a dictionary whose entries are all of type T, and the 16-byte name of entry idx.
+#define DICT_ENTRY(T, entries, idx) ((T *) ((entries)->mData + (entries)->mSizeUnit * (idx)))
+#define DICT_ENTRY_NAME(entries, idx) ((const u32 *) ((const u8 *) (entries) + (entries)->mOfsName + (idx) * 16))
+
 typedef struct NNSG3dResShp {
     /* 00 */ NNSG3dResDict mDict;
 } NNSG3dResShp;

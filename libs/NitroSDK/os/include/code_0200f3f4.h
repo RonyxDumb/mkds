@@ -2,6 +2,9 @@
 
 #include "types.h"
 
+// Word that keeps the debugger handler address (or the exception handler).
+#define HW_EXCP_VECTOR_MAIN ((u32 *) 0x027ffd9c)
+
 // Object at a fixed address in OS_InitException, which sets its word at 0xfdc.
 typedef struct Unk0200f4f0 {
     /* 000 */ u8 mUnk_000[0xfdc];

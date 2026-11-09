@@ -14,7 +14,7 @@ void OS_InitException(void) {
     u32 handler;
     Unk0200f4f0 *p;
 
-    handler = *(u32 *) 0x027ffd9c;
+    handler = *HW_EXCP_VECTOR_MAIN;
     if (handler >= 0x2600000 && handler < 0x2800000) {
         OSi_DebuggerHandler = (UnkFunc *) handler;
     } else {
@@ -22,8 +22,8 @@ void OS_InitException(void) {
     }
     p = (Unk0200f4f0 *) 0x027e3000;
     if (OSi_DebuggerHandler == 0 || (OS_GetConsoleType() & 0x40000000) == 0) {
-        *(UnkFunc **) 0x027ffd9c = (UnkFunc *) OSi_ExceptionHandler;
-        p->mUnk_fdc = (UnkFunc *) OSi_ExceptionHandler;
+        *HW_EXCP_VECTOR_MAIN = (u32) OSi_ExceptionHandler;
+        p->mUnk_fdc = OSi_ExceptionHandler;
     }
     OSi_UserExceptionHandler = 0;
 }

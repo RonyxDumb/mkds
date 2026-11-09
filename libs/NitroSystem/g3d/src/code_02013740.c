@@ -6,7 +6,7 @@ NNSG3dResTexPatAnm *NNS_G3dGetTexPatAnmByIdx(NNSG3dResTexPatAnmSet *pAnmSet, u8 
     NNSG3dResDictAnmSetData *setEntry;
 
     dictEntries = OFFSET_PTR(NNSG3dResDictEntryHeader, &pAnmSet->mDict, pAnmSet->mDict.mOfsEntry);
-    setEntry = (NNSG3dResDictAnmSetData *) (dictEntries->mData + dictEntries->mSizeUnit * idx);
+    setEntry = DICT_ENTRY(NNSG3dResDictAnmSetData, dictEntries, idx);
     return OFFSET_PTR(NNSG3dResTexPatAnm, pAnmSet, setEntry->mOffset);
 }
 
@@ -19,7 +19,7 @@ NNSG3dResTexSRTAnm *NNS_G3dGetTexSRTAnmByIdx(NNSG3dResTexSRTAnmSet *pTexSRTSet, 
     NNSG3dResDictAnmSetData *setEntry;
 
     dictEntries = OFFSET_PTR(NNSG3dResDictEntryHeader, &pTexSRTSet->mDict, pTexSRTSet->mDict.mOfsEntry);
-    setEntry = (NNSG3dResDictAnmSetData *) (dictEntries->mData + dictEntries->mSizeUnit * idx);
+    setEntry = DICT_ENTRY(NNSG3dResDictAnmSetData, dictEntries, idx);
     return OFFSET_PTR(NNSG3dResTexSRTAnm, pTexSRTSet, setEntry->mOffset);
 }
 
@@ -32,7 +32,7 @@ NNSG3dResMatCAnm *NNS_G3dGetMatCAnmByIdx(NNSG3dResMatCAnmSet *pAnmSet, u8 idx) {
     NNSG3dResDictAnmSetData *setEntry;
 
     dictEntries = OFFSET_PTR(NNSG3dResDictEntryHeader, &pAnmSet->mDict, pAnmSet->mDict.mOfsEntry);
-    setEntry = (NNSG3dResDictAnmSetData *) (dictEntries->mData + dictEntries->mSizeUnit * idx);
+    setEntry = DICT_ENTRY(NNSG3dResDictAnmSetData, dictEntries, idx);
     return OFFSET_PTR(NNSG3dResMatCAnm, pAnmSet, setEntry->mOffset);
 }
 
@@ -45,7 +45,7 @@ NNSG3dResJntAnm *NNS_G3dGetJntAnmByIdx(NNSG3dResJntAnmSet *pJntAnmSet, int idx) 
     NNSG3dResDictAnmSetData *setEntry;
 
     dictEntries = OFFSET_PTR(NNSG3dResDictEntryHeader, &pJntAnmSet->mDict, pJntAnmSet->mDict.mOfsEntry);
-    setEntry = (NNSG3dResDictAnmSetData *) (dictEntries->mData + dictEntries->mSizeUnit * idx);
+    setEntry = DICT_ENTRY(NNSG3dResDictAnmSetData, dictEntries, idx);
     return OFFSET_PTR(NNSG3dResJntAnm, pJntAnmSet, setEntry->mOffset);
 }
 
@@ -75,7 +75,7 @@ void *NNS_G3dGetResDataByName(const void *dict, const u32 *name) {
         k3 = name[3];
         for (i = 0; i < p->mNumEntry; i++) {
             dictEntries = OFFSET_PTR(const NNSG3dResDictEntryHeader, p, p->mOfsEntry);
-            entryName = (const u32 *) ((const u8 *) dictEntries + dictEntries->mOfsName + i * 16);
+            entryName = DICT_ENTRY_NAME(dictEntries, i);
             if (entryName[0] == k0 && entryName[1] == k1 && entryName[2] == k2 && entryName[3] == k3) {
                 dictEntries = OFFSET_PTR(const NNSG3dResDictEntryHeader, p, p->mOfsEntry);
                 return (dictEntries->mData + dictEntries->mSizeUnit * i);
@@ -91,7 +91,7 @@ void *NNS_G3dGetResDataByName(const void *dict, const u32 *name) {
                 node = base + (&node->mIdxLeft)[(name[node->mRefBit >> 5] >> (node->mRefBit & 0x1f)) & 1];
             }
             dictEntries = OFFSET_PTR(const NNSG3dResDictEntryHeader, p, p->mOfsEntry);
-            entryName = (const u32 *) ((const u8 *) dictEntries + dictEntries->mOfsName + node->mIdxEntry * 16);
+            entryName = DICT_ENTRY_NAME(dictEntries, node->mIdxEntry);
             if (entryName[0] == name[0] && entryName[1] == name[1] && entryName[2] == name[2] &&
                 entryName[3] == name[3]) {
                 dictEntries = OFFSET_PTR(const NNSG3dResDictEntryHeader, p, p->mOfsEntry);
@@ -124,7 +124,7 @@ int NNS_G3dGetResDictIdxByName(const void *dict, const u32 *name) {
         k3 = name[3];
         for (i = 0; i < p->mNumEntry; i++) {
             dictEntries = OFFSET_PTR(const NNSG3dResDictEntryHeader, p, p->mOfsEntry);
-            entryName = (const u32 *) ((const u8 *) dictEntries + dictEntries->mOfsName + i * 16);
+            entryName = DICT_ENTRY_NAME(dictEntries, i);
             if (entryName[0] == k0 && entryName[1] == k1 && entryName[2] == k2 && entryName[3] == k3) {
                 return i;
             }
@@ -139,7 +139,7 @@ int NNS_G3dGetResDictIdxByName(const void *dict, const u32 *name) {
                 node = base + (&node->mIdxLeft)[(name[node->mRefBit >> 5] >> (node->mRefBit & 0x1f)) & 1];
             }
             dictEntries = OFFSET_PTR(const NNSG3dResDictEntryHeader, p, p->mOfsEntry);
-            entryName = (const u32 *) ((const u8 *) dictEntries + dictEntries->mOfsName + node->mIdxEntry * 16);
+            entryName = DICT_ENTRY_NAME(dictEntries, node->mIdxEntry);
             if (entryName[0] == name[0] && entryName[1] == name[1] && entryName[2] == name[2] &&
                 entryName[3] == name[3]) {
                 return node->mIdxEntry;

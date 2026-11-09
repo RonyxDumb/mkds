@@ -4,28 +4,12 @@
 
 #pragma thumb on
 void func_020578e8(u32 *buffer, u32 length) {
-    u32 *source = buffer;
-    u32 value1;
-    u32 size;
-    u32 value3;
-    value1 = (u32) &gBackupAccess;
-    value1 = *(const u32 *) ((value1) + 0u);
-    value1 = *(const u32 *) ((value1) + 104u);
-    size = 48u;
-    MI_CpuCopy8(source, (void *) value1, size);
+    MI_CpuCopy8(buffer, gBackupAccess->mReadTarget, 48u);
 }
 #pragma thumb off
 
 #pragma thumb on
 void func_020578d0(u32 *buffer, u32 length) {
-    u32 *source = buffer;
-    u32 value1;
-    u32 size;
-    u32 value3;
-    value1 = (u32) &gBackupAccess;
-    value1 = *(const u32 *) ((value1) + 0u);
-    value1 = *(const u32 *) ((value1) + 104u);
-    size = 0x230u;
-    MI_CpuCopy8(source, (void *) value1, size);
+    MI_CpuCopy8(buffer, gBackupAccess->mReadTarget, 0x230u);
 }
 #pragma thumb off

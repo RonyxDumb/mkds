@@ -46,7 +46,7 @@ void NNS_G3dDraw1Mat1Shp(NNSG3dResMdl *resMdl, u32 matId, u32 shpId, BOOL sendMa
     if (sendMat != 0) {
         matBlock = OFFSET_PTR(NNSG3dResMat, resMdl, resMdl->mOfsMat);
         entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &matBlock->mDict, matBlock->mDict.mOfsEntry);
-        matData = OFFSET_PTR(NNSG3dResMatData, matBlock, *(u32 *) (entries->mData + entries->mSizeUnit * matId));
+        matData = OFFSET_PTR(NNSG3dResMatData, matBlock, *DICT_ENTRY(u32, entries, matId));
         if (!(matData->mPolyAttr & 0x1f0000)) {
             return;
         }
@@ -95,7 +95,7 @@ void NNS_G3dDraw1Mat1Shp(NNSG3dResMdl *resMdl, u32 matId, u32 shpId, BOOL sendMa
     }
     shpBlock = OFFSET_PTR(NNSG3dResShp, resMdl, resMdl->mOfsShp);
     entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &shpBlock->mDict, shpBlock->mDict.mOfsEntry);
-    shpData = OFFSET_PTR(NNSG3dResShpData, shpBlock, *(u32 *) (entries->mData + entries->mSizeUnit * shpId));
+    shpData = OFFSET_PTR(NNSG3dResShpData, shpBlock, *DICT_ENTRY(u32, entries, shpId));
     NNS_G3dGeSendDL((u8 *) shpData + shpData->mOfsDL, shpData->mSizeDL);
     posScale = resMdl->mInfo.mInvPosScale;
     if (posScale != 0x1000) {
@@ -849,8 +849,8 @@ MtxFx43 *NNS_G3dGlbGetInvWV(void) {
 }
 
 // Returns the size of an animation object for the animation and the model.
-u32 NNS_G3dAnmObjCalcSizeRequired(const void *anm, const NNSG3dResMdl *mdl) {
-    switch (((const NNSG3dResAnmHeader *) anm)->mCategory0) {
+u32 NNS_G3dAnmObjCalcSizeRequired(const NNSG3dResAnmHeader *anm, const NNSG3dResMdl *mdl) {
+    switch (anm->mCategory0) {
         case 'M':
             return ((mdl->mInfo.mNumMat << 1) + 0x1c) & ~3;
         case 'J':

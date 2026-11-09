@@ -163,7 +163,7 @@ typedef struct NNSG3dGlb {
 
 void NNS_G3dRenderObjInit(NNSG3dRenderObj *renderObj, NNSG3dResMdl *resMdl);
 void NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, void *resAnm, const NNSG3dResMdl *resMdl, void *resTex);
-u32 NNS_G3dAnmObjCalcSizeRequired(const void *anm, const NNSG3dResMdl *mdl);
+u32 NNS_G3dAnmObjCalcSizeRequired(const NNSG3dResAnmHeader *anm, const NNSG3dResMdl *mdl);
 MtxFx43 *NNS_G3dGlbGetInvWV(void);
 MtxFx43 *NNS_G3dGlbGetWV(void);
 void calcSrtCameraMtx_(void);
