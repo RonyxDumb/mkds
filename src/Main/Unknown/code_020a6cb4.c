@@ -18,36 +18,36 @@
 #include "Main/Unknown/code_0209bf70.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-void InitShineBattleObjects(MapObject *a) {
+void InitShineBattleObjects(MapObject *mapObject) {
     if (CountMapObjectsOfKind(MAP_OBJECT_KIND_SHINE16) == 0) {
-        CreateParkedMapObjects(MAP_OBJECT_KIND_SHINE16, 0x14, a);
-        CreateParkedMapObjects(MAP_OBJECT_KIND_SHINE_BALLOON, gRaceSetup->mKartCount, a);
+        CreateParkedMapObjects(MAP_OBJECT_KIND_SHINE16, 0x14, mapObject);
+        CreateParkedMapObjects(MAP_OBJECT_KIND_SHINE_BALLOON, gRaceSetup->mKartCount, mapObject);
         SetStandingsKartHitCallback(ShineKartHitCallback);
         SetStandingsKartEliminatedCallback(ShineKartEliminatedCallback);
         SetStandingsEndCallback(ShineEndCallback);
         return;
     }
-    ParkMapObject(a);
+    ParkMapObject(mapObject);
 }
 
-BOOL TryStartShine16AtRandomObject(MapObjectList *a) {
+BOOL TryStartShine16AtRandomObject(MapObjectList *mapObjectList) {
     s32 i;
     s32 v1;
-    Unk020a6cb4 *e;
+    ShineBattle *e;
     BOOL f;
     u32 n;
     u32 m;
     u32 r;
     u16 v2;
     u32 k;
-    RandomState64 *g;
+    RandomState64 *mapObjectRandom;
 
     v1 = 0;
-    if (a != NULL) {
-        for (i = 0; i < a->mMapObjectCount && (e = a->mMapObjects[i]) != NULL; i++) {
+    if (mapObjectList != NULL) {
+        for (i = 0; i < mapObjectList->mMapObjectCount && (e = mapObjectList->mMapObjects[i]) != NULL; i++) {
             f = FALSE;
             if (e->mHasShine == FALSE) {
-                if (e->mUnk_a4 == FALSE) {
+                if (e->mSkipRandomPick == FALSE) {
                     f = TRUE;
                 }
             }
@@ -57,28 +57,30 @@ BOOL TryStartShine16AtRandomObject(MapObjectList *a) {
     if (v1 > 0) {
         n = (u16) v1;
         if (n == 0x10000) {
-            g = GetMapObjectRandom();
-            g->mValue = (s64) g->mMultiplier * (s64) g->mValue + g->mIncrement;
-            v2 = ((u64) (u32) (g->mValue >> 32) * 0x10000) >> 32;
+            mapObjectRandom = GetMapObjectRandom();
+            mapObjectRandom->mValue =
+                (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;
+            v2 = ((u64) (u32) (mapObjectRandom->mValue >> 32) * 0x10000) >> 32;
         } else {
-            g = GetMapObjectRandom();
+            mapObjectRandom = GetMapObjectRandom();
             if ((u16) n == 0) {
                 r = 0;
             } else {
-                g->mValue = (s64) g->mMultiplier * (s64) g->mValue + g->mIncrement;
+                mapObjectRandom->mValue =
+                    (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;
                 m = (u16) n;
                 if (m == 0) {
-                    r = g->mValue >> 32;
+                    r = mapObjectRandom->mValue >> 32;
                 } else {
-                    r = ((g->mValue >> 32) * m) >> 32;
+                    r = ((mapObjectRandom->mValue >> 32) * m) >> 32;
                 }
             }
             v2 = r;
         }
         k = v2;
-        if (a != NULL) {
-            for (i = 0; i < a->mMapObjectCount && (e = a->mMapObjects[i]) != NULL; i++) {
-                if (e->mHasShine == FALSE && e->mUnk_a4 == FALSE) {
+        if (mapObjectList != NULL) {
+            for (i = 0; i < mapObjectList->mMapObjectCount && (e = mapObjectList->mMapObjects[i]) != NULL; i++) {
+                if (e->mHasShine == FALSE && e->mSkipRandomPick == FALSE) {
                     if (k-- == 0) {
                         StartShine16(&e->mUnk_00.mPos, i, 1);
                         e->mHasShine = TRUE;
@@ -91,13 +93,13 @@ BOOL TryStartShine16AtRandomObject(MapObjectList *a) {
     return FALSE;
 }
 
-void func_020a6e70(MapObjectList *a) {
+void StartShineBattle(MapObjectList *mapObjectList) {
     s32 i;
     s32 n;
     s32 j;
     s32 v;
     BOOL f;
-    Unk020a6cb4 *e;
+    ShineBattle *e;
 
     n = gRaceSetup->mKartCount;
     for (i = 0; i < n; i++) {
@@ -115,11 +117,11 @@ void func_020a6e70(MapObjectList *a) {
         }
         StartShineBalloon(GetKart((u16) i));
     }
-    if (a == NULL) {
+    if (mapObjectList == NULL) {
         return;
     }
-    for (j = 0; j < a->mMapObjectCount && (e = a->mMapObjects[j]) != NULL; j++) {
-        e->mUnk_a4 = TRUE;
+    for (j = 0; j < mapObjectList->mMapObjectCount && (e = mapObjectList->mMapObjects[j]) != NULL; j++) {
+        e->mSkipRandomPick = TRUE;
         if (e->mUnk_00.mCourseMapRow->mUnk_28 != 0) {
             n = gRaceSetup->mKartCount;
             v = GetShineCount();
@@ -131,7 +133,7 @@ void func_020a6e70(MapObjectList *a) {
     }
 }
 
-void func_020a6d8c(MapObjectList *a, Unk020a6cb4 *b) {
+void UpdateShineBattle(MapObjectList *mapObjectList, ShineBattle *shineBattle) {
     s32 n;
     s32 v;
 
@@ -143,14 +145,14 @@ void func_020a6d8c(MapObjectList *a, Unk020a6cb4 *b) {
     if (v + GetTotalBalloonOrShineCount() >= n + 1) {
         return;
     }
-    b->mShineStartFrames += 1;
-    if (b->mShineStartFrames <= 0x5a) {
+    shineBattle->mShineStartFrames += 1;
+    if (shineBattle->mShineStartFrames <= 0x5a) {
         return;
     }
-    b->mShineStartFrames = 0;
+    shineBattle->mShineStartFrames = 0;
     while (GetShineCount() < 3 &&
            (n = gRaceSetup->mKartCount, v = GetShineCount(), v + GetTotalBalloonOrShineCount() < n + 1)) {
-        if (TryStartShine16AtRandomObject(a) == FALSE) {
+        if (TryStartShine16AtRandomObject(mapObjectList) == FALSE) {
             return;
         }
     }
@@ -164,24 +166,24 @@ MapObjectKindData *CreateShineBattleKindData(void) {
 }
 
 void *CreateShineBattleUpdateList(void) {
-    return CreateMapObjectUpdateList(func_020a6e70, func_020a6d8c, NULL);
+    return CreateMapObjectUpdateList(StartShineBattle, UpdateShineBattle, NULL);
 }
 
-void func_020a6cb4(s32 a) {
-    MapObjectList *v1;
-    Unk020a6cb4 *e;
+void ClearShineBattleObjectShine(s32 spawnObjectIndex) {
+    MapObjectList *mapObjectList;
+    ShineBattle *e;
     s32 i;
 
-    v1 = FindMapObjectKindUpdateList(0x6b);
-    if (v1 == NULL) {
+    mapObjectList = FindMapObjectKindUpdateList(0x6b);
+    if (mapObjectList == NULL) {
         return;
     }
-    for (i = 0; i < v1->mMapObjectCount && (e = v1->mMapObjects[i]) != NULL; i++) {
-        if (i == a) {
+    for (i = 0; i < mapObjectList->mMapObjectCount && (e = mapObjectList->mMapObjects[i]) != NULL; i++) {
+        if (i == spawnObjectIndex) {
             e->mHasShine = FALSE;
-            e->mUnk_a4 = TRUE;
+            e->mSkipRandomPick = TRUE;
         } else {
-            e->mUnk_a4 = FALSE;
+            e->mSkipRandomPick = FALSE;
         }
     }
 }

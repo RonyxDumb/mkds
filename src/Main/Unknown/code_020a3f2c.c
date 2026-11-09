@@ -75,54 +75,55 @@
 #include "Main/Unknown/unk_0217c000.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-void InitShine16(MapObject *p) {
-    ParkMapObject(p);
-    p->mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
-    InitSoundSource(&p->mSound->mSoundSource, 0xb, &p->mPos);
-    func_0210bae8(&p->mSound->mSoundSource);
-    p->mFarDistanceSquared = gSoundFalloffs[0xb].mUnk_20;
+void InitShine16(MapObject *mapObject) {
+    ParkMapObject(mapObject);
+    mapObject->mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
+    InitSoundSource(&mapObject->mSound->mSoundSource, 0xb, &mapObject->mPos);
+    func_0210bae8(&mapObject->mSound->mSoundSource);
+    mapObject->mFarDistanceSquared = gSoundFalloffs[0xb].mUnk_20;
 }
 
-u32 CollideKartWithShine16(Shine16 *p, Kart *o, u8 *a, u8 *b) {
+u32 CollideKartWithShine16(Shine16 *shine16, Kart *kart, u8 *a, u8 *b) {
     u8 v1;
     u8 v2;
-    s32 r;
-    u16 c;
-    s32 n;
+    s32 isEntryKart;
+    u16 highestBalloonOrShineCount;
+    s32 balloonOrShineCount;
 
     v1 = *a;
     v2 = *b;
-    if (o->mState != KART_STATE_NORMAL || (o->mUnk_48 & 0x200) != 0 || IsKartEliminated(o->mIndex) != FALSE) {
+    if (kart->mState != KART_STATE_NORMAL || (kart->mUnk_48 & 0x200) != 0 || IsKartEliminated(kart->mIndex) != FALSE) {
         return 0;
     }
     if (v1 == 1) {
-        if ((o->mUnk_4c & 0x400000) != 0) {
+        if ((kart->mUnk_4c & 0x400000) != 0) {
             return v2;
         }
-        if (p->mPickupTimer > 0) {
+        if (shine16->mPickupTimer > 0) {
             return v2;
         }
-        p->mUnk_00.mFlags |= data_021567a0;
-        p->mPickupTimer = 0x19;
-        p->mUnk_00.mPos.x = o->mPos.x;
-        p->mUnk_00.mPos.y = o->mPos.y + func_020a23a0(o) + 0x7800;
-        p->mUnk_00.mPos.z = o->mPos.z;
-        p->mHeightAboveKart = 0;
-        p->mUnk_00.mUnk_10.x = 0;
-        p->mUnk_00.mUnk_10.y = 0x3000;
-        p->mUnk_00.mUnk_10.z = 0;
-        p->mDrawScale = 0;
-        p->mState = 2;
-        p->mKartIndex = o->mIndex;
-        p->mUnk_ca = o->mIndex;
-        AddBalloonsLeftToMake(o->mIndex, 1);
-        AddBalloonOrShineCountAndMoveRank(o->mIndex, 1);
-        r = o->mIndex == gRaceSetup->mEntryIndex ? 1 : 0;
-        c = GetHighestBalloonOrShineCount();
-        n = GetBalloonOrShineCount(o->mIndex);
-        func_0210b98c(p->mUnk_00.mSound, func_02024974(0, r, c, n));
-        p->mEffect = StartEffect(0x7d, &p->mUnk_00.mPos);
-        p->mEffectTimer = 0xe;
+        shine16->mUnk_00.mFlags |= data_021567a0;
+        shine16->mPickupTimer = 0x19;
+        shine16->mUnk_00.mPos.x = kart->mPos.x;
+        shine16->mUnk_00.mPos.y = kart->mPos.y + GetKartBalloonOrShineHeight(kart) + 0x7800;
+        shine16->mUnk_00.mPos.z = kart->mPos.z;
+        shine16->mHeightAboveKart = 0;
+        shine16->mUnk_00.mUnk_10.x = 0;
+        shine16->mUnk_00.mUnk_10.y = 0x3000;
+        shine16->mUnk_00.mUnk_10.z = 0;
+        shine16->mDrawScale = 0;
+        shine16->mState = 2;
+        shine16->mKartIndex = kart->mIndex;
+        shine16->mHitByKartIndex = kart->mIndex;
+        AddBalloonsLeftToMake(kart->mIndex, 1);
+        AddBalloonOrShineCountAndMoveRank(kart->mIndex, 1);
+        isEntryKart = kart->mIndex == gRaceSetup->mEntryIndex ? 1 : 0;
+        highestBalloonOrShineCount = GetHighestBalloonOrShineCount();
+        balloonOrShineCount = GetBalloonOrShineCount(kart->mIndex);
+        func_0210b98c(shine16->mUnk_00.mSound,
+                      func_02024974(0, isEntryKart, highestBalloonOrShineCount, balloonOrShineCount));
+        shine16->mEffect = StartEffect(0x7d, &shine16->mUnk_00.mPos);
+        shine16->mEffectTimer = 0xe;
     }
     return v2;
 }
@@ -136,429 +137,434 @@ void SetupDrawShine16(void *a) {
     QueueMapObjectModelMaterial(a, gShine16);
 }
 
-void DrawShine16(void *a, Shine16 *p) {
+void DrawShine16(void *a, Shine16 *shine16) {
     s32 t;
-    Vec3 s;
-    s32 n;
+    Vec3 scaleVector;
+    s32 drawScale;
 
-    if (p->mDrawScale <= 0) {
+    if (shine16->mDrawScale <= 0) {
         return;
     }
     t = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &t, 1);
-    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&p->mUnk_00.mPos), 0xc);
-    n = p->mDrawScale;
-    if (n != 0x1000) {
-        s.x = n;
-        s.y = n;
-        s.z = n;
-        NNS_G3dGeBufferOP_N(0x1b, &s, 3);
+    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&shine16->mUnk_00.mPos), 0xc);
+    drawScale = shine16->mDrawScale;
+    if (drawScale != 0x1000) {
+        scaleVector.x = drawScale;
+        scaleVector.y = drawScale;
+        scaleVector.z = drawScale;
+        NNS_G3dGeBufferOP_N(0x1b, &scaleVector, 3);
     }
-    NNS_G3dGeBufferOP_N(0x1b, &p->mUnk_00.mScale, 3);
-    SetMapObjectModelMirror(gShine16, p->mMirror, 0);
-    SetMapObjectModelNsbtpFrameIndex(gShine16, p->mNsbtpFrameIndex);
-    DrawMapObjectModel(a, gShine16, p);
+    NNS_G3dGeBufferOP_N(0x1b, &shine16->mUnk_00.mScale, 3);
+    SetMapObjectModelMirror(gShine16, shine16->mMirror, 0);
+    SetMapObjectModelNsbtpFrameIndex(gShine16, shine16->mNsbtpFrameIndex);
+    DrawMapObjectModel(a, gShine16, shine16);
 }
 
-u16 *func_020a69a0(void) {
-    data_0217b220 = 0;
-    return &data_0217b220;
+u16 *ResetShine16ShadowAngleIndex(void) {
+    gShine16ShadowAngleIndex = 0;
+    return &gShine16ShadowAngleIndex;
 }
 
-void func_020a697c(void) {
-    s32 v;
+void AdvanceShine16ShadowAngleIndex(void) {
+    s32 nextAngleIndex;
 
-    v = data_0217b220 + 1;
-    if (v >= 3) {
-        v = 0;
+    nextAngleIndex = gShine16ShadowAngleIndex + 1;
+    if (nextAngleIndex >= 3) {
+        nextAngleIndex = 0;
     }
-    data_0217b220 = v;
+    gShine16ShadowAngleIndex = nextAngleIndex;
 }
 
-void func_020a683c(void *a, Shine16 *p, void *b, s32 c) {
+void DrawShine16Shadow(void *a, Shine16 *shine16, void *b, s32 c) {
     s32 t;
-    MtxFx33 m;
-    Vec3 s;
-    Vec3 u;
-    s32 n;
-    s32 x;
+    MtxFx33 rotateYMatrix;
+    Vec3 drawScaleVector;
+    Vec3 shadowScaleVector;
+    s32 drawScale;
+    s32 pairIndex;
 
-    if (p->mDrawScale <= 0) {
+    if (shine16->mDrawScale <= 0) {
         return;
     }
-    if (p->mState == 2) {
+    if (shine16->mState == 2) {
         return;
     }
-    if (p->mState == 3) {
+    if (shine16->mState == 3) {
         return;
     }
     t = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &t, 1);
-    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&p->mUnk_00.mPos), 0xc);
-    n = p->mDrawScale;
-    if (n < 0x1000) {
-        s.x = n;
-        s.y = n;
-        s.z = n;
-        NNS_G3dGeBufferOP_N(0x1b, &s, 3);
+    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&shine16->mUnk_00.mPos), 0xc);
+    drawScale = shine16->mDrawScale;
+    if (drawScale < 0x1000) {
+        drawScaleVector.x = drawScale;
+        drawScaleVector.y = drawScale;
+        drawScaleVector.z = drawScale;
+        NNS_G3dGeBufferOP_N(0x1b, &drawScaleVector, 3);
     }
-    NNS_G3dGeBufferOP_N(0x1b, &p->mUnk_00.mScale, 3);
-    x = data_021567a4[data_0217b220] >> 4;
-    MTX_RotY33_(&m, gPairsByAngle[x * 2 + 1], gPairsByAngle[x * 2]);
-    NNS_G3dGeBufferOP_N(0x1a, &m, 9);
-    u.x = 0x2000;
-    u.y = 0x2000;
-    u.z = 0x2000;
-    NNS_G3dGeBufferOP_N(0x1b, &u, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &shine16->mUnk_00.mScale, 3);
+    pairIndex = gShine16ShadowAngles[gShine16ShadowAngleIndex] >> 4;
+    MTX_RotY33_(&rotateYMatrix, gPairsByAngle[pairIndex * 2 + 1], gPairsByAngle[pairIndex * 2]);
+    NNS_G3dGeBufferOP_N(0x1a, &rotateYMatrix, 9);
+    shadowScaleVector.x = 0x2000;
+    shadowScaleVector.y = 0x2000;
+    shadowScaleVector.z = 0x2000;
+    NNS_G3dGeBufferOP_N(0x1b, &shadowScaleVector, 3);
     func_020e5348(8, c);
 }
 
-void UpdateShine16(void *a, Shine16 *p) {
+void UpdateShine16(void *a, Shine16 *shine16) {
     Vec3 c;
     Vec3 b;
     Vec3 d;
     Vec3 e;
     u32 f;
-    Kart *v;
+    Kart *kart;
     s32 i;
-    CourseMapPoint *q;
+    CourseMapPoint *forwardBattlePoint;
     s32 n;
     s32 x;
     s32 z;
     s32 t;
     u16 r;
     s32 s;
-    RandomState64 *g;
+    RandomState64 *randomState;
 
-    switch (p->mState) {
+    switch (shine16->mState) {
         case 0:
-            p->mUnk_b4 += 1;
-            if (p->mUnk_b4 >= 3) {
-                p->mUnk_b4 -= 3;
-                p->mNsbtpFrameIndex++;
-                if (p->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gShine16)) {
-                    p->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gShine16);
+            shine16->mNsbtpFrameStepProgress += 1;
+            if (shine16->mNsbtpFrameStepProgress >= 3) {
+                shine16->mNsbtpFrameStepProgress -= 3;
+                shine16->mNsbtpFrameIndex++;
+                if (shine16->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gShine16)) {
+                    shine16->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gShine16);
                 }
-                p->mNsbtpFramesSinceMirror++;
-                if (p->mNsbtpFramesSinceMirror >= 8) {
-                    p->mNsbtpFramesSinceMirror -= 8;
-                    p->mMirror = p->mMirror == 0;
+                shine16->mNsbtpFramesSinceMirror++;
+                if (shine16->mNsbtpFramesSinceMirror >= 8) {
+                    shine16->mNsbtpFramesSinceMirror -= 8;
+                    shine16->mMirror = shine16->mMirror == 0;
                 }
             }
-            p->mDrawScale += 0x19a;
-            if (p->mDrawScale >= 0x1000) {
-                p->mDrawScale = 0x1000;
+            shine16->mDrawScale += 0x19a;
+            if (shine16->mDrawScale >= 0x1000) {
+                shine16->mDrawScale = 0x1000;
             }
-            p->mUnk_00.mUnk_10.y -= 0x19a;
-            VEC_Add(&p->mUnk_00.mPos, &p->mUnk_00.mUnk_10, &p->mUnk_00.mPos);
-            if (p->mUnk_00.mPos.y > p->mFloorY) {
+            shine16->mUnk_00.mUnk_10.y -= 0x19a;
+            VEC_Add(&shine16->mUnk_00.mPos, &shine16->mUnk_00.mUnk_10, &shine16->mUnk_00.mPos);
+            if (shine16->mUnk_00.mPos.y > shine16->mFloorY) {
                 return;
             }
-            p->mUnk_00.mPos.y = p->mFloorY;
-            p->mUnk_00.mUnk_10.y = ((s64) p->mUnk_00.mUnk_10.y * -0x333) >> 12;
-            if (p->mUnk_00.mUnk_10.y < 0x1000) {
-                p->mUnk_00.mUnk_10.y = 0;
-                p->mState = 1;
+            shine16->mUnk_00.mPos.y = shine16->mFloorY;
+            shine16->mUnk_00.mUnk_10.y = ((s64) shine16->mUnk_00.mUnk_10.y * -0x333) >> 12;
+            if (shine16->mUnk_00.mUnk_10.y < 0x1000) {
+                shine16->mUnk_00.mUnk_10.y = 0;
+                shine16->mState = 1;
             }
-            func_0210b98c(p->mUnk_00.mSound, 0x139);
+            func_0210b98c(shine16->mUnk_00.mSound, 0x139);
             return;
         case 1:
-            p->mUnk_b4 += 1;
-            if (p->mUnk_b4 >= 3) {
-                p->mUnk_b4 -= 3;
-                p->mNsbtpFrameIndex++;
-                if (p->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gShine16)) {
-                    p->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gShine16);
+            shine16->mNsbtpFrameStepProgress += 1;
+            if (shine16->mNsbtpFrameStepProgress >= 3) {
+                shine16->mNsbtpFrameStepProgress -= 3;
+                shine16->mNsbtpFrameIndex++;
+                if (shine16->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gShine16)) {
+                    shine16->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gShine16);
                 }
-                p->mNsbtpFramesSinceMirror++;
-                if (p->mNsbtpFramesSinceMirror >= 8) {
-                    p->mNsbtpFramesSinceMirror -= 8;
-                    p->mMirror = p->mMirror == 0;
+                shine16->mNsbtpFramesSinceMirror++;
+                if (shine16->mNsbtpFramesSinceMirror >= 8) {
+                    shine16->mNsbtpFramesSinceMirror -= 8;
+                    shine16->mMirror = shine16->mMirror == 0;
                 }
             }
-            p->mDrawScale += 0x19a;
-            if (p->mDrawScale >= 0x1000) {
-                p->mDrawScale = 0x1000;
+            shine16->mDrawScale += 0x19a;
+            if (shine16->mDrawScale >= 0x1000) {
+                shine16->mDrawScale = 0x1000;
             }
-            func_0210ba38(p->mUnk_00.mSound, 0x14e);
+            func_0210ba38(shine16->mUnk_00.mSound, 0x14e);
             return;
         case 6:
-            p->mUnk_b4 += 4;
-            if (p->mUnk_b4 >= 3) {
-                p->mUnk_b4 -= 3;
-                p->mNsbtpFrameIndex++;
-                if (p->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gShine16)) {
-                    p->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gShine16);
+            shine16->mNsbtpFrameStepProgress += 4;
+            if (shine16->mNsbtpFrameStepProgress >= 3) {
+                shine16->mNsbtpFrameStepProgress -= 3;
+                shine16->mNsbtpFrameIndex++;
+                if (shine16->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gShine16)) {
+                    shine16->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gShine16);
                 }
-                p->mNsbtpFramesSinceMirror++;
-                if (p->mNsbtpFramesSinceMirror >= 8) {
-                    p->mNsbtpFramesSinceMirror -= 8;
-                    p->mMirror = p->mMirror == 0;
+                shine16->mNsbtpFramesSinceMirror++;
+                if (shine16->mNsbtpFramesSinceMirror >= 8) {
+                    shine16->mNsbtpFramesSinceMirror -= 8;
+                    shine16->mMirror = shine16->mMirror == 0;
                 }
             }
-            p->mDrawScale -= 0x19a;
-            if (p->mDrawScale > 0) {
+            shine16->mDrawScale -= 0x19a;
+            if (shine16->mDrawScale > 0) {
                 return;
             }
-            p->mDrawScale = 0;
-            ParkMapObject(&p->mUnk_00);
+            shine16->mDrawScale = 0;
+            ParkMapObject(&shine16->mUnk_00);
             AddShineCount(-1);
-            if (p->mSpawnObjectIndex < 0) {
+            if (shine16->mSpawnObjectIndex < 0) {
                 return;
             }
-            func_020a6cb4(p->mSpawnObjectIndex);
+            ClearShineBattleObjectShine(shine16->mSpawnObjectIndex);
             return;
         case 2:
-            p->mUnk_b4 += 4;
-            if (p->mUnk_b4 >= 3) {
-                p->mUnk_b4 -= 3;
-                p->mNsbtpFrameIndex++;
-                if (p->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gShine16)) {
-                    p->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gShine16);
+            shine16->mNsbtpFrameStepProgress += 4;
+            if (shine16->mNsbtpFrameStepProgress >= 3) {
+                shine16->mNsbtpFrameStepProgress -= 3;
+                shine16->mNsbtpFrameIndex++;
+                if (shine16->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gShine16)) {
+                    shine16->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gShine16);
                 }
-                p->mNsbtpFramesSinceMirror++;
-                if (p->mNsbtpFramesSinceMirror >= 8) {
-                    p->mNsbtpFramesSinceMirror -= 8;
-                    p->mMirror = p->mMirror == 0;
+                shine16->mNsbtpFramesSinceMirror++;
+                if (shine16->mNsbtpFramesSinceMirror >= 8) {
+                    shine16->mNsbtpFramesSinceMirror -= 8;
+                    shine16->mMirror = shine16->mMirror == 0;
                 }
             }
-            v = GetKart(p->mKartIndex);
-            p->mHeightAboveKart += p->mUnk_00.mUnk_10.y;
-            p->mUnk_00.mPos = *GetKartStandingPos(p->mKartIndex);
-            p->mUnk_00.mPos.y += p->mHeightAboveKart + (func_020a23a0(v) + 0x7800);
-            p->mUnk_00.mUnk_10.y -= 0x333;
-            if (p->mPickupTimer-- <= 0) {
-                p->mPickupTimer = 0;
-                p->mDrawScale -= 0x19a;
-                if (p->mDrawScale <= 0) {
-                    p->mDrawScale = 0;
-                    ParkMapObject(&p->mUnk_00);
+            kart = GetKart(shine16->mKartIndex);
+            shine16->mHeightAboveKart += shine16->mUnk_00.mUnk_10.y;
+            shine16->mUnk_00.mPos = *GetKartStandingPos(shine16->mKartIndex);
+            shine16->mUnk_00.mPos.y += shine16->mHeightAboveKart + (GetKartBalloonOrShineHeight(kart) + 0x7800);
+            shine16->mUnk_00.mUnk_10.y -= 0x333;
+            if (shine16->mPickupTimer-- <= 0) {
+                shine16->mPickupTimer = 0;
+                shine16->mDrawScale -= 0x19a;
+                if (shine16->mDrawScale <= 0) {
+                    shine16->mDrawScale = 0;
+                    ParkMapObject(&shine16->mUnk_00);
                     AddShineCount(-1);
-                    if (p->mSpawnObjectIndex >= 0) {
-                        func_020a6cb4(p->mSpawnObjectIndex);
+                    if (shine16->mSpawnObjectIndex >= 0) {
+                        ClearShineBattleObjectShine(shine16->mSpawnObjectIndex);
                     }
                 }
-                if (p->mDrawScale <= 0) {
-                    SetupKartFollowEffect(StartEffect(0x7c, &v->mPos), v->mIndex, 0x16);
+                if (shine16->mDrawScale <= 0) {
+                    SetupKartFollowEffect(StartEffect(0x7c, &kart->mPos), kart->mIndex, 0x16);
                 }
             } else {
-                p->mDrawScale += 0x19a;
-                if (p->mDrawScale >= 0x1000) {
-                    p->mDrawScale = 0x1000;
+                shine16->mDrawScale += 0x19a;
+                if (shine16->mDrawScale >= 0x1000) {
+                    shine16->mDrawScale = 0x1000;
                 }
             }
-            if (p->mEffect == NULL) {
+            if (shine16->mEffect == NULL) {
                 return;
             }
-            PlaceEffect(p->mEffect, &p->mUnk_00.mPos);
-            p->mEffectTimer--;
-            if (p->mEffectTimer >= 0) {
+            PlaceEffect(shine16->mEffect, &shine16->mUnk_00.mPos);
+            shine16->mEffectTimer--;
+            if (shine16->mEffectTimer >= 0) {
                 return;
             }
-            func_0208b6b0(&p->mEffect);
+            func_0208b6b0(&shine16->mEffect);
             return;
         case 3:
-            p->mUnk_b4 += 4;
-            if (p->mUnk_b4 >= 3) {
-                p->mUnk_b4 -= 3;
-                p->mNsbtpFrameIndex++;
-                if (p->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gShine16)) {
-                    p->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gShine16);
+            shine16->mNsbtpFrameStepProgress += 4;
+            if (shine16->mNsbtpFrameStepProgress >= 3) {
+                shine16->mNsbtpFrameStepProgress -= 3;
+                shine16->mNsbtpFrameIndex++;
+                if (shine16->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gShine16)) {
+                    shine16->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gShine16);
                 }
-                p->mNsbtpFramesSinceMirror++;
-                if (p->mNsbtpFramesSinceMirror >= 8) {
-                    p->mNsbtpFramesSinceMirror -= 8;
-                    p->mMirror = p->mMirror == 0;
+                shine16->mNsbtpFramesSinceMirror++;
+                if (shine16->mNsbtpFramesSinceMirror >= 8) {
+                    shine16->mNsbtpFramesSinceMirror -= 8;
+                    shine16->mMirror = shine16->mMirror == 0;
                 }
             }
             for (i = 0; i < 2; i++) {
-                q = MoveToRandomForwardBattlePoint();
-                n = q->mPos.y - GetKartStandingPos(p->mKartIndex)->y;
+                forwardBattlePoint = MoveToRandomForwardBattlePoint();
+                n = forwardBattlePoint->mPos.y - GetKartStandingPos(shine16->mKartIndex)->y;
                 if (n <= 0) {
                     n = -n;
                 }
                 if (n < 0x14000) {
-                    x = (q->mPos.x - GetKartStandingPos(p->mUnk_ca)->x) >> 12;
-                    z = (q->mPos.z - GetKartStandingPos(p->mUnk_ca)->z) >> 12;
+                    x = (forwardBattlePoint->mPos.x - GetKartStandingPos(shine16->mHitByKartIndex)->x) >> 12;
+                    z = (forwardBattlePoint->mPos.z - GetKartStandingPos(shine16->mHitByKartIndex)->z) >> 12;
                     n = x * x + z * z;
-                    if (p->mUnk_ca == p->mKartIndex) {
-                        if (n < 0x9c400 && n > p->mUnk_d8) {
-                            p->mUnk_d8 = n;
-                            p->mUnk_cc.x = q->mPos.x;
-                            p->mUnk_cc.y = q->mPos.y;
-                            p->mUnk_cc.z = q->mPos.z;
-                            p->mUnk_dc++;
+                    if (shine16->mHitByKartIndex == shine16->mKartIndex) {
+                        if (n < 0x9c400 && n > shine16->mTargetDistanceSquared) {
+                            shine16->mTargetDistanceSquared = n;
+                            shine16->mTargetPos.x = forwardBattlePoint->mPos.x;
+                            shine16->mTargetPos.y = forwardBattlePoint->mPos.y;
+                            shine16->mTargetPos.z = forwardBattlePoint->mPos.z;
+                            shine16->mTargetPickCount++;
                         }
                     } else {
-                        if (n < 0x9c400 && n < p->mUnk_d8) {
-                            p->mUnk_d8 = n;
-                            p->mUnk_cc.x = q->mPos.x;
-                            p->mUnk_cc.y = q->mPos.y;
-                            p->mUnk_cc.z = q->mPos.z;
-                            p->mUnk_dc++;
+                        if (n < 0x9c400 && n < shine16->mTargetDistanceSquared) {
+                            shine16->mTargetDistanceSquared = n;
+                            shine16->mTargetPos.x = forwardBattlePoint->mPos.x;
+                            shine16->mTargetPos.y = forwardBattlePoint->mPos.y;
+                            shine16->mTargetPos.z = forwardBattlePoint->mPos.z;
+                            shine16->mTargetPickCount++;
                         }
                     }
                 }
             }
-            p->mHeightAboveKart += p->mUnk_00.mUnk_10.y;
-            p->mUnk_00.mPos = *GetKartStandingPos(p->mKartIndex);
-            p->mUnk_00.mPos.y += p->mHeightAboveKart + (func_020a23a0(GetKart(p->mKartIndex)) + 0x7800);
-            p->mUnk_00.mUnk_10.y -= 0x52;
-            p->mDrawScale += 0x19a;
-            if (p->mDrawScale >= 0x1000) {
-                p->mDrawScale = 0x1000;
+            shine16->mHeightAboveKart += shine16->mUnk_00.mUnk_10.y;
+            shine16->mUnk_00.mPos = *GetKartStandingPos(shine16->mKartIndex);
+            shine16->mUnk_00.mPos.y +=
+                shine16->mHeightAboveKart + (GetKartBalloonOrShineHeight(GetKart(shine16->mKartIndex)) + 0x7800);
+            shine16->mUnk_00.mUnk_10.y -= 0x52;
+            shine16->mDrawScale += 0x19a;
+            if (shine16->mDrawScale >= 0x1000) {
+                shine16->mDrawScale = 0x1000;
             }
-            if (p->mUnk_00.mUnk_10.y > 0) {
+            if (shine16->mUnk_00.mUnk_10.y > 0) {
                 return;
             }
-            if (p->mUnk_dc > 0) {
-                g = &gRaceProgress->mRandom;
-                g->mValue = g->mMultiplier * g->mValue + g->mIncrement;
-                r = ((u64) (u32) (g->mValue >> 32) * 0x10000) >> 32;
-                g = &gRaceProgress->mRandom;
-                g->mValue = g->mMultiplier * g->mValue + g->mIncrement;
-                s = ((u64) (u32) (g->mValue >> 32) * 0x14000) >> 32;
-                x = p->mUnk_cc.x + (s32) (((s64) s * gPairsByAngle[(r >> 4) * 2]) >> 12) - p->mUnk_00.mPos.x;
-                z = p->mUnk_cc.z + (s32) (((s64) s * gPairsByAngle[(r >> 4) * 2 + 1]) >> 12) - p->mUnk_00.mPos.z;
-                p->mState = 4;
-                p->mUnk_00.mUnk_10.x = ((s64) x * 0x25) >> 12;
-                p->mUnk_00.mUnk_10.y = 0x5000;
-                p->mUnk_00.mUnk_10.z = ((s64) z * 0x25) >> 12;
-                p->mDrawScale = 0x1000;
-                p->mUnk_00.mFlags &= ~1;
+            if (shine16->mTargetPickCount > 0) {
+                randomState = &gRaceProgress->mRandom;
+                randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
+                r = ((u64) (u32) (randomState->mValue >> 32) * 0x10000) >> 32;
+                randomState = &gRaceProgress->mRandom;
+                randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
+                s = ((u64) (u32) (randomState->mValue >> 32) * 0x14000) >> 32;
+                x = shine16->mTargetPos.x + (s32) (((s64) s * gPairsByAngle[(r >> 4) * 2]) >> 12) -
+                    shine16->mUnk_00.mPos.x;
+                z = shine16->mTargetPos.z + (s32) (((s64) s * gPairsByAngle[(r >> 4) * 2 + 1]) >> 12) -
+                    shine16->mUnk_00.mPos.z;
+                shine16->mState = 4;
+                shine16->mUnk_00.mUnk_10.x = ((s64) x * 0x25) >> 12;
+                shine16->mUnk_00.mUnk_10.y = 0x5000;
+                shine16->mUnk_00.mUnk_10.z = ((s64) z * 0x25) >> 12;
+                shine16->mDrawScale = 0x1000;
+                shine16->mUnk_00.mFlags &= ~1;
                 return;
             }
-            p->mState = 5;
-            p->mUnk_00.mUnk_10.x = 0;
-            p->mUnk_00.mUnk_10.y = 0x5000;
-            p->mUnk_00.mUnk_10.z = 0;
-            p->mDrawScale = 0x1000;
-            p->mUnk_00.mFlags &= ~1;
+            shine16->mState = 5;
+            shine16->mUnk_00.mUnk_10.x = 0;
+            shine16->mUnk_00.mUnk_10.y = 0x5000;
+            shine16->mUnk_00.mUnk_10.z = 0;
+            shine16->mDrawScale = 0x1000;
+            shine16->mUnk_00.mFlags &= ~1;
             return;
         case 5:
-            p->mUnk_b4 += 1;
-            if (p->mUnk_b4 >= 3) {
-                p->mUnk_b4 -= 3;
-                p->mNsbtpFrameIndex++;
-                if (p->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gShine16)) {
-                    p->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gShine16);
+            shine16->mNsbtpFrameStepProgress += 1;
+            if (shine16->mNsbtpFrameStepProgress >= 3) {
+                shine16->mNsbtpFrameStepProgress -= 3;
+                shine16->mNsbtpFrameIndex++;
+                if (shine16->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gShine16)) {
+                    shine16->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gShine16);
                 }
-                p->mNsbtpFramesSinceMirror++;
-                if (p->mNsbtpFramesSinceMirror >= 8) {
-                    p->mNsbtpFramesSinceMirror -= 8;
-                    p->mMirror = p->mMirror == 0;
+                shine16->mNsbtpFramesSinceMirror++;
+                if (shine16->mNsbtpFramesSinceMirror >= 8) {
+                    shine16->mNsbtpFramesSinceMirror -= 8;
+                    shine16->mMirror = shine16->mMirror == 0;
                 }
             }
-            p->mDrawScale += 0x19a;
-            if (p->mDrawScale >= 0x1000) {
-                p->mDrawScale = 0x1000;
+            shine16->mDrawScale += 0x19a;
+            if (shine16->mDrawScale >= 0x1000) {
+                shine16->mDrawScale = 0x1000;
             }
-            p->mUnk_00.mUnk_10.y -= 0x19a;
-            VEC_Add(&p->mUnk_00.mPos, &p->mUnk_00.mUnk_10, &p->mUnk_00.mPos);
-            if (p->mUnk_00.mUnk_10.y >= 0) {
+            shine16->mUnk_00.mUnk_10.y -= 0x19a;
+            VEC_Add(&shine16->mUnk_00.mPos, &shine16->mUnk_00.mUnk_10, &shine16->mUnk_00.mPos);
+            if (shine16->mUnk_00.mUnk_10.y >= 0) {
                 return;
             }
-            p->mState = 6;
-            p->mUnk_00.mFlags |= data_021567a0;
+            shine16->mState = 6;
+            shine16->mUnk_00.mFlags |= data_021567a0;
             return;
         case 4:
-            p->mUnk_b4 += 1;
-            if (p->mUnk_b4 >= 3) {
-                p->mUnk_b4 -= 3;
-                p->mNsbtpFrameIndex++;
-                if (p->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gShine16)) {
-                    p->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gShine16);
+            shine16->mNsbtpFrameStepProgress += 1;
+            if (shine16->mNsbtpFrameStepProgress >= 3) {
+                shine16->mNsbtpFrameStepProgress -= 3;
+                shine16->mNsbtpFrameIndex++;
+                if (shine16->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gShine16)) {
+                    shine16->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gShine16);
                 }
-                p->mNsbtpFramesSinceMirror++;
-                if (p->mNsbtpFramesSinceMirror >= 8) {
-                    p->mNsbtpFramesSinceMirror -= 8;
-                    p->mMirror = p->mMirror == 0;
+                shine16->mNsbtpFramesSinceMirror++;
+                if (shine16->mNsbtpFramesSinceMirror >= 8) {
+                    shine16->mNsbtpFramesSinceMirror -= 8;
+                    shine16->mMirror = shine16->mMirror == 0;
                 }
             }
-            p->mDrawScale += 0x19a;
-            if (p->mDrawScale >= 0x1000) {
-                p->mDrawScale = 0x1000;
+            shine16->mDrawScale += 0x19a;
+            if (shine16->mDrawScale >= 0x1000) {
+                shine16->mDrawScale = 0x1000;
             }
-            p->mUnk_00.mUnk_10.y -= 0x19a;
-            VEC_Add(&p->mUnk_00.mPos, &p->mUnk_00.mUnk_10, &p->mUnk_00.mPos);
-            if (p->mUnk_00.mUnk_10.y < 0 && p->mUnk_00.mPos.y <= p->mUnk_cc.y + p->mUnk_00.mExtent.x) {
-                if (GetMapObjectHitResponse(&p->mUnk_00, 0, &b)) {
-                    t = p->mUnk_00.mUnk_10.y;
-                    VEC_Add(&p->mUnk_00.mPos, &b, &p->mUnk_00.mPos);
-                    func_020ea94c(&p->mUnk_00.mUnk_10, &b, 0x1000, 0x1000, 0x800, &p->mUnk_00.mUnk_10);
-                    p->mUnk_00.mUnk_10.y = 0;
-                    if ((s64) p->mUnk_00.mUnk_10.x * p->mUnk_00.mUnk_10.x +
-                            (s64) p->mUnk_00.mUnk_10.y * p->mUnk_00.mUnk_10.y +
-                            (s64) p->mUnk_00.mUnk_10.z * p->mUnk_00.mUnk_10.z >=
+            shine16->mUnk_00.mUnk_10.y -= 0x19a;
+            VEC_Add(&shine16->mUnk_00.mPos, &shine16->mUnk_00.mUnk_10, &shine16->mUnk_00.mPos);
+            if (shine16->mUnk_00.mUnk_10.y < 0 &&
+                shine16->mUnk_00.mPos.y <= shine16->mTargetPos.y + shine16->mUnk_00.mExtent.x) {
+                if (GetMapObjectHitResponse(&shine16->mUnk_00, 0, &b)) {
+                    t = shine16->mUnk_00.mUnk_10.y;
+                    VEC_Add(&shine16->mUnk_00.mPos, &b, &shine16->mUnk_00.mPos);
+                    func_020ea94c(&shine16->mUnk_00.mUnk_10, &b, 0x1000, 0x1000, 0x800, &shine16->mUnk_00.mUnk_10);
+                    shine16->mUnk_00.mUnk_10.y = 0;
+                    if ((s64) shine16->mUnk_00.mUnk_10.x * shine16->mUnk_00.mUnk_10.x +
+                            (s64) shine16->mUnk_00.mUnk_10.y * shine16->mUnk_00.mUnk_10.y +
+                            (s64) shine16->mUnk_00.mUnk_10.z * shine16->mUnk_00.mUnk_10.z >=
                         0x10) {
-                        Vec3NormalizeAndGetLengthUnchecked(&p->mUnk_00.mUnk_10, &p->mUnk_00.mUnk_10);
+                        Vec3NormalizeAndGetLengthUnchecked(&shine16->mUnk_00.mUnk_10, &shine16->mUnk_00.mUnk_10);
                     }
-                    p->mUnk_00.mUnk_10.x = ((s64) p->mUnk_00.mUnk_10.x * 0x1000) >> 12;
-                    p->mUnk_00.mUnk_10.y = ((s64) p->mUnk_00.mUnk_10.y * 0x1000) >> 12;
-                    p->mUnk_00.mUnk_10.z = ((s64) p->mUnk_00.mUnk_10.z * 0x1000) >> 12;
-                    p->mUnk_00.mUnk_10.y = t;
+                    shine16->mUnk_00.mUnk_10.x = ((s64) shine16->mUnk_00.mUnk_10.x * 0x1000) >> 12;
+                    shine16->mUnk_00.mUnk_10.y = ((s64) shine16->mUnk_00.mUnk_10.y * 0x1000) >> 12;
+                    shine16->mUnk_00.mUnk_10.z = ((s64) shine16->mUnk_00.mUnk_10.z * 0x1000) >> 12;
+                    shine16->mUnk_00.mUnk_10.y = t;
                 }
-                c.x = p->mUnk_00.mPos.x;
-                c.y = p->mUnk_00.mExtent.x + (p->mUnk_00.mPos.y - 0x14000);
-                c.z = p->mUnk_00.mPos.z;
-                if (CollideSphereWithCourse(&c, NULL, 0, p->mUnk_00.mExtent.x, 8, -2, &b, &d, &e, &f, NULL, NULL, NULL,
-                                            NULL)) {
-                    VEC_Add(&p->mUnk_00.mPos, &b, &p->mUnk_00.mPos);
+                c.x = shine16->mUnk_00.mPos.x;
+                c.y = shine16->mUnk_00.mExtent.x + (shine16->mUnk_00.mPos.y - 0x14000);
+                c.z = shine16->mUnk_00.mPos.z;
+                if (CollideSphereWithCourse(&c, NULL, 0, shine16->mUnk_00.mExtent.x, 8, -2, &b, &d, &e, &f, NULL, NULL,
+                                            NULL, NULL)) {
+                    VEC_Add(&shine16->mUnk_00.mPos, &b, &shine16->mUnk_00.mPos);
                     if (f & 0x214300) {
-                        t = p->mUnk_00.mUnk_10.y;
-                        BounceVelocityOffSurface(&p->mUnk_00.mUnk_10, &e, 0x1000, 0x1000, 0x800, &p->mUnk_00.mUnk_10);
-                        p->mUnk_00.mUnk_10.y = 0;
-                        if ((s64) p->mUnk_00.mUnk_10.x * p->mUnk_00.mUnk_10.x +
-                                (s64) p->mUnk_00.mUnk_10.y * p->mUnk_00.mUnk_10.y +
-                                (s64) p->mUnk_00.mUnk_10.z * p->mUnk_00.mUnk_10.z >=
+                        t = shine16->mUnk_00.mUnk_10.y;
+                        BounceVelocityOffSurface(&shine16->mUnk_00.mUnk_10, &e, 0x1000, 0x1000, 0x800,
+                                                 &shine16->mUnk_00.mUnk_10);
+                        shine16->mUnk_00.mUnk_10.y = 0;
+                        if ((s64) shine16->mUnk_00.mUnk_10.x * shine16->mUnk_00.mUnk_10.x +
+                                (s64) shine16->mUnk_00.mUnk_10.y * shine16->mUnk_00.mUnk_10.y +
+                                (s64) shine16->mUnk_00.mUnk_10.z * shine16->mUnk_00.mUnk_10.z >=
                             0x10) {
-                            Vec3NormalizeAndGetLengthUnchecked(&p->mUnk_00.mUnk_10, &p->mUnk_00.mUnk_10);
+                            Vec3NormalizeAndGetLengthUnchecked(&shine16->mUnk_00.mUnk_10, &shine16->mUnk_00.mUnk_10);
                         }
-                        p->mUnk_00.mUnk_10.x = ((s64) p->mUnk_00.mUnk_10.x * 0x1000) >> 12;
-                        p->mUnk_00.mUnk_10.y = ((s64) p->mUnk_00.mUnk_10.y * 0x1000) >> 12;
-                        p->mUnk_00.mUnk_10.z = ((s64) p->mUnk_00.mUnk_10.z * 0x1000) >> 12;
-                        p->mUnk_00.mUnk_10.y = t;
+                        shine16->mUnk_00.mUnk_10.x = ((s64) shine16->mUnk_00.mUnk_10.x * 0x1000) >> 12;
+                        shine16->mUnk_00.mUnk_10.y = ((s64) shine16->mUnk_00.mUnk_10.y * 0x1000) >> 12;
+                        shine16->mUnk_00.mUnk_10.z = ((s64) shine16->mUnk_00.mUnk_10.z * 0x1000) >> 12;
+                        shine16->mUnk_00.mUnk_10.y = t;
                     }
                     if (f & 0x1e34ef) {
-                        p->mUnk_00.mUnk_10.x = ((s64) p->mUnk_00.mUnk_10.x * 0x19a) >> 12;
-                        p->mUnk_00.mUnk_10.y = ((s64) p->mUnk_00.mUnk_10.y * -0x333) >> 12;
-                        p->mUnk_00.mUnk_10.z = ((s64) p->mUnk_00.mUnk_10.z * 0x19a) >> 12;
-                        if (p->mUnk_00.mUnk_10.y < 0x1000) {
-                            p->mUnk_00.mUnk_10.y = 0;
-                            p->mState = 1;
+                        shine16->mUnk_00.mUnk_10.x = ((s64) shine16->mUnk_00.mUnk_10.x * 0x19a) >> 12;
+                        shine16->mUnk_00.mUnk_10.y = ((s64) shine16->mUnk_00.mUnk_10.y * -0x333) >> 12;
+                        shine16->mUnk_00.mUnk_10.z = ((s64) shine16->mUnk_00.mUnk_10.z * 0x19a) >> 12;
+                        if (shine16->mUnk_00.mUnk_10.y < 0x1000) {
+                            shine16->mUnk_00.mUnk_10.y = 0;
+                            shine16->mState = 1;
                         }
-                        func_0210b98c(p->mUnk_00.mSound, 0x139);
+                        func_0210b98c(shine16->mUnk_00.mSound, 0x139);
                     }
                     if (f & 0x1000000) {
-                        p->mUnk_00.mFlags |= data_021567ac;
+                        shine16->mUnk_00.mFlags |= data_021567ac;
                     } else {
-                        p->mUnk_00.mFlags &= ~0x20;
+                        shine16->mUnk_00.mFlags &= ~0x20;
                     }
                 }
             }
-            if (p->mUnk_00.mPos.y >= 0) {
+            if (shine16->mUnk_00.mPos.y >= 0) {
                 return;
             }
-            p->mState = 6;
-            p->mUnk_00.mFlags |= data_021567a0;
+            shine16->mState = 6;
+            shine16->mUnk_00.mFlags |= data_021567a0;
             return;
     }
 }
 
 void CreateShine16KindData(void) {
-    MapObjectKindData *p;
+    MapObjectKindData *mapObjectKindData;
 
-    p = CreateMapObjectKindData(CollideKartWithShine16, NULL, NULL, 1, 0);
-    p->mUnk_38 = 0x190000;
-    p->mUnk_3c = -0x190000;
+    mapObjectKindData = CreateMapObjectKindData(CollideKartWithShine16, NULL, NULL, 1, 0);
+    mapObjectKindData->mUnk_38 = 0x190000;
+    mapObjectKindData->mUnk_3c = -0x190000;
 }
 
 void *CreateShine16DrawList(void) {
     return CreateMapObjectDrawList2(CreateShine16, DrawShine16, SetupDrawShine16);
 }
 
-void *func_020a58d0(void) {
-    return CreateMapObjectDrawList1(func_020a69a0, func_020a683c, func_020a697c);
+void *CreateShine16ShadowDrawList(void) {
+    return CreateMapObjectDrawList1(ResetShine16ShadowAngleIndex, DrawShine16Shadow, AdvanceShine16ShadowAngleIndex);
 }
 
 void *CreateShine16UpdateList(void) {
@@ -568,169 +574,179 @@ void *CreateShine16UpdateList(void) {
 // Parks each map object of kind 0x6a (Shine16) that is not already parked.
 void ParkShine16Objects(void) {
     s32 i;
-    MapObject *o;
-    MapObjectList *l;
+    MapObject *mapObject;
+    MapObjectList *mapObjectList;
 
-    l = FindMapObjectKindUpdateList(MAP_OBJECT_KIND_SHINE16);
-    if (l == NULL) {
+    mapObjectList = FindMapObjectKindUpdateList(MAP_OBJECT_KIND_SHINE16);
+    if (mapObjectList == NULL) {
         return;
     }
-    for (i = 0; i < l->mMapObjectCount && (o = l->mMapObjects[i]) != NULL; i++) {
-        if ((o->mFlags & 0x100) == 0) {
-            ParkMapObject(o);
+    for (i = 0; i < mapObjectList->mMapObjectCount && (mapObject = mapObjectList->mMapObjects[i]) != NULL; i++) {
+        if ((mapObject->mFlags & 0x100) == 0) {
+            ParkMapObject(mapObject);
         }
     }
 }
 
 // Unparks a Shine16 at the position; a nonzero last argument drops it from above, zero leaves it resting.
-void StartShine16(Vec3 *a, s32 b, s32 c) {
-    Shine16 *p;
+void StartShine16(Vec3 *position, s32 spawnObjectIndex, s32 dropFromAbove) {
+    Shine16 *shine16;
 
-    p = UnparkFirstParkedMapObject(FindMapObjectKindUpdateList(MAP_OBJECT_KIND_SHINE16));
-    if (p == NULL) {
+    shine16 = UnparkFirstParkedMapObject(FindMapObjectKindUpdateList(MAP_OBJECT_KIND_SHINE16));
+    if (shine16 == NULL) {
         return;
     }
-    if (c != 0) {
-        p->mUnk_00.mPos.x = a->x;
-        p->mUnk_00.mPos.y = a->y + 0x32000;
-        p->mUnk_00.mPos.z = a->z;
-        p->mUnk_00.mUnk_10.x = 0;
-        p->mUnk_00.mUnk_10.y = 0x2800;
-        p->mUnk_00.mUnk_10.z = 0;
-        p->mHeightAboveKart = 0;
-        p->mFloorY = a->y + 0x14000;
-        p->mState = 0;
+    if (dropFromAbove != 0) {
+        shine16->mUnk_00.mPos.x = position->x;
+        shine16->mUnk_00.mPos.y = position->y + 0x32000;
+        shine16->mUnk_00.mPos.z = position->z;
+        shine16->mUnk_00.mUnk_10.x = 0;
+        shine16->mUnk_00.mUnk_10.y = 0x2800;
+        shine16->mUnk_00.mUnk_10.z = 0;
+        shine16->mHeightAboveKart = 0;
+        shine16->mFloorY = position->y + 0x14000;
+        shine16->mState = 0;
     } else {
-        p->mUnk_00.mPos.x = a->x;
-        p->mUnk_00.mPos.y = a->y + 0x14000;
-        p->mUnk_00.mPos.z = a->z;
-        p->mUnk_00.mUnk_10.x = 0;
-        p->mUnk_00.mUnk_10.y = 0;
-        p->mUnk_00.mUnk_10.z = 0;
-        p->mHeightAboveKart = 0;
-        p->mFloorY = 0;
-        p->mState = 1;
+        shine16->mUnk_00.mPos.x = position->x;
+        shine16->mUnk_00.mPos.y = position->y + 0x14000;
+        shine16->mUnk_00.mPos.z = position->z;
+        shine16->mUnk_00.mUnk_10.x = 0;
+        shine16->mUnk_00.mUnk_10.y = 0;
+        shine16->mUnk_00.mUnk_10.z = 0;
+        shine16->mHeightAboveKart = 0;
+        shine16->mFloorY = 0;
+        shine16->mState = 1;
     }
-    p->mDrawScale = 0;
-    p->mPickupTimer = 0;
-    p->mSpawnObjectIndex = b;
-    p->mUnk_00.mFlags &= ~1;
-    p->mUnk_00.mFlags &= ~0x20;
+    shine16->mDrawScale = 0;
+    shine16->mPickupTimer = 0;
+    shine16->mSpawnObjectIndex = spawnObjectIndex;
+    shine16->mUnk_00.mFlags &= ~1;
+    shine16->mUnk_00.mFlags &= ~0x20;
     AddShineCount(1);
-    func_0210b98c(p->mUnk_00.mSound, 0x138);
+    func_0210b98c(shine16->mUnk_00.mSound, 0x138);
 }
 
-void StartShine16FromKart(Kart *a, Kart *b) {
-    Shine16 *p;
-    s32 r;
-    u16 c;
-    s32 n;
+void StartShine16FromKart(Kart *hitKart, Kart *hitByKart) {
+    Shine16 *shine16;
+    s32 isEntryKart;
+    u16 highestBalloonOrShineCount;
+    s32 balloonOrShineCount;
 
-    p = UnparkFirstParkedMapObject(FindMapObjectKindUpdateList(MAP_OBJECT_KIND_SHINE16));
-    if (p == NULL) {
+    shine16 = UnparkFirstParkedMapObject(FindMapObjectKindUpdateList(MAP_OBJECT_KIND_SHINE16));
+    if (shine16 == NULL) {
         return;
     }
-    p->mUnk_00.mFlags = p->mUnk_00.mFlags | data_021567a0;
-    p->mUnk_00.mFlags &= ~0x20;
-    p->mUnk_00.mPos.x = a->mPos.x;
-    p->mUnk_00.mPos.y = a->mPos.y;
-    p->mUnk_00.mPos.z = a->mPos.z;
-    p->mUnk_00.mUnk_10.x = 0;
-    p->mUnk_00.mUnk_10.y = 0x1000;
-    p->mUnk_00.mUnk_10.z = 0;
-    p->mKartIndex = a->mIndex;
-    p->mUnk_ca = b->mIndex;
-    p->mHeightAboveKart = 0;
-    p->mFloorY = 0;
-    p->mDrawScale = 0;
-    p->mPickupTimer = 0;
-    p->mState = 3;
-    p->mUnk_cc = b->mPos;
-    if (b == a) {
-        p->mUnk_d8 = 0;
+    shine16->mUnk_00.mFlags = shine16->mUnk_00.mFlags | data_021567a0;
+    shine16->mUnk_00.mFlags &= ~0x20;
+    shine16->mUnk_00.mPos.x = hitKart->mPos.x;
+    shine16->mUnk_00.mPos.y = hitKart->mPos.y;
+    shine16->mUnk_00.mPos.z = hitKart->mPos.z;
+    shine16->mUnk_00.mUnk_10.x = 0;
+    shine16->mUnk_00.mUnk_10.y = 0x1000;
+    shine16->mUnk_00.mUnk_10.z = 0;
+    shine16->mKartIndex = hitKart->mIndex;
+    shine16->mHitByKartIndex = hitByKart->mIndex;
+    shine16->mHeightAboveKart = 0;
+    shine16->mFloorY = 0;
+    shine16->mDrawScale = 0;
+    shine16->mPickupTimer = 0;
+    shine16->mState = 3;
+    shine16->mTargetPos = hitByKart->mPos;
+    if (hitByKart == hitKart) {
+        shine16->mTargetDistanceSquared = 0;
     } else {
-        p->mUnk_d8 = 0x9c400;
+        shine16->mTargetDistanceSquared = 0x9c400;
     }
-    p->mUnk_dc = 0;
-    p->mSpawnObjectIndex = -1;
+    shine16->mTargetPickCount = 0;
+    shine16->mSpawnObjectIndex = -1;
     AddShineCount(1);
-    r = a->mIndex == gRaceSetup->mEntryIndex ? 1 : 0;
-    c = GetHighestBalloonOrShineCount();
-    n = GetBalloonOrShineCount(a->mIndex);
-    func_0210b98c(p->mUnk_00.mSound, func_02024974(1, r, c, n));
+    isEntryKart = hitKart->mIndex == gRaceSetup->mEntryIndex ? 1 : 0;
+    highestBalloonOrShineCount = GetHighestBalloonOrShineCount();
+    balloonOrShineCount = GetBalloonOrShineCount(hitKart->mIndex);
+    func_0210b98c(shine16->mUnk_00.mSound,
+                  func_02024974(1, isEntryKart, highestBalloonOrShineCount, balloonOrShineCount));
 }
 
-BOOL BalloonKartHitByKartCallback(u16 a, u16 b) {
-    Kart *o;
-    KartBalloons *e;
-    Balloon *f;
-    Balloon *l;
-    Vec3 v;
-    s32 n;
+BOOL BalloonKartHitByKartCallback(u16 hitKartIndex, u16 hitByKartIndex) {
+    Kart *kart;
+    KartBalloons *kartBalloons;
+    Balloon *inflatingBalloon;
+    Balloon *lastBalloon;
+    Vec3 balloonPos;
+    s32 balloonOrShineCount;
 
-    o = GetKart(a);
+    kart = GetKart(hitKartIndex);
     GetStandingsKartBalloons();
-    if (GetBalloonOrShineCount(b) >= 3 || GetBalloonOrShineCount(a) == 0) {
-        e = GetStandingsKartBalloons() + a;
-        f = IsKartInflatingBalloon(a) != 0 ? e->mBalloons[GetBalloonOrShineCount(a)] : 0;
-        l = GetBalloonOrShineCount(a) != 0 ? e->mBalloons[GetBalloonOrShineCount(a) - 1] : 0;
-        if (GetBalloonOrShineCount(a) != 0 && l != NULL) {
-            if (IsKartInflatingBalloon(a) != 0 && f != NULL) {
-                e->mBalloons[GetBalloonOrShineCount(a)] = l;
-                AddBalloonOrShineCountAndMoveRank(a, -1);
-                e->mBalloons[GetBalloonOrShineCount(a)] = f;
+    if (GetBalloonOrShineCount(hitByKartIndex) >= 3 || GetBalloonOrShineCount(hitKartIndex) == 0) {
+        kartBalloons = GetStandingsKartBalloons() + hitKartIndex;
+        inflatingBalloon = IsKartInflatingBalloon(hitKartIndex) != 0
+                               ? kartBalloons->mBalloons[GetBalloonOrShineCount(hitKartIndex)]
+                               : 0;
+        lastBalloon = GetBalloonOrShineCount(hitKartIndex) != 0
+                          ? kartBalloons->mBalloons[GetBalloonOrShineCount(hitKartIndex) - 1]
+                          : 0;
+        if (GetBalloonOrShineCount(hitKartIndex) != 0 && lastBalloon != NULL) {
+            if (IsKartInflatingBalloon(hitKartIndex) != 0 && inflatingBalloon != NULL) {
+                kartBalloons->mBalloons[GetBalloonOrShineCount(hitKartIndex)] = lastBalloon;
+                AddBalloonOrShineCountAndMoveRank(hitKartIndex, -1);
+                kartBalloons->mBalloons[GetBalloonOrShineCount(hitKartIndex)] = inflatingBalloon;
             } else {
-                AddBalloonOrShineCountAndMoveRank(a, -1);
+                AddBalloonOrShineCountAndMoveRank(hitKartIndex, -1);
             }
         }
-        if (l != NULL) {
-            if (a == gRaceSetup->mEntryIndex) {
-                func_020a2ebc(l, NULL);
+        if (lastBalloon != NULL) {
+            if (hitKartIndex == gRaceSetup->mEntryIndex) {
+                StartBalloonWithoutKart(lastBalloon, NULL);
             } else {
-                v.x = o->mPos.x;
-                v.y = o->mPos.y + func_020a23a0(o) - 0xf666;
-                v.z = o->mPos.z;
-                l->mUnk_00.mFlags &= ~4;
-                l->mUnk_00.mFlags &= ~2;
-                l->mUnk_00.mFlags &= ~8;
-                l->mUnk_00.mAlpha = 0x1f;
-                func_020a2ebc(l, &v);
+                balloonPos.x = kart->mPos.x;
+                balloonPos.y = kart->mPos.y + GetKartBalloonOrShineHeight(kart) - 0xf666;
+                balloonPos.z = kart->mPos.z;
+                lastBalloon->mUnk_00.mFlags &= ~4;
+                lastBalloon->mUnk_00.mFlags &= ~2;
+                lastBalloon->mUnk_00.mFlags &= ~8;
+                lastBalloon->mUnk_00.mAlpha = 0x1f;
+                StartBalloonWithoutKart(lastBalloon, &balloonPos);
             }
-            func_020d26ec(o, 0x153);
-            if (GetBalloonOrShineCount(a) == 0) {
-                EliminateKartAndCheckWinner(a);
+            func_020d26ec(kart, 0x153);
+            if (GetBalloonOrShineCount(hitKartIndex) == 0) {
+                EliminateKartAndCheckWinner(hitKartIndex);
             }
             return FALSE;
         }
     } else {
-        e = GetStandingsKartBalloons() + a;
-        f = IsKartInflatingBalloon(a) != 0 ? e->mBalloons[GetBalloonOrShineCount(a)] : 0;
-        l = GetBalloonOrShineCount(a) != 0 ? e->mBalloons[GetBalloonOrShineCount(a) - 1] : 0;
-        if (GetBalloonOrShineCount(a) != 0 && l != NULL) {
-            if (IsKartInflatingBalloon(a) != 0 && f != NULL) {
-                e->mBalloons[GetBalloonOrShineCount(a)] = l;
-                AddBalloonOrShineCountAndMoveRank(a, -1);
-                e->mBalloons[GetBalloonOrShineCount(a)] = f;
+        kartBalloons = GetStandingsKartBalloons() + hitKartIndex;
+        inflatingBalloon = IsKartInflatingBalloon(hitKartIndex) != 0
+                               ? kartBalloons->mBalloons[GetBalloonOrShineCount(hitKartIndex)]
+                               : 0;
+        lastBalloon = GetBalloonOrShineCount(hitKartIndex) != 0
+                          ? kartBalloons->mBalloons[GetBalloonOrShineCount(hitKartIndex) - 1]
+                          : 0;
+        if (GetBalloonOrShineCount(hitKartIndex) != 0 && lastBalloon != NULL) {
+            if (IsKartInflatingBalloon(hitKartIndex) != 0 && inflatingBalloon != NULL) {
+                kartBalloons->mBalloons[GetBalloonOrShineCount(hitKartIndex)] = lastBalloon;
+                AddBalloonOrShineCountAndMoveRank(hitKartIndex, -1);
+                kartBalloons->mBalloons[GetBalloonOrShineCount(hitKartIndex)] = inflatingBalloon;
             } else {
-                AddBalloonOrShineCountAndMoveRank(a, -1);
+                AddBalloonOrShineCountAndMoveRank(hitKartIndex, -1);
             }
         }
-        if (l != NULL) {
-            e = GetStandingsKartBalloons() + b;
-            n = GetBalloonOrShineCount(b);
-            e->mBalloons[n + 1] = e->mBalloons[GetBalloonOrShineCount(b)];
-            e->mBalloons[GetBalloonOrShineCount(b)] = l;
-            AddBalloonOrShineCountAndMoveRank(b, 1);
-            func_020a2e68(l);
-            SetBalloonKartIndex(l, b);
-            if (GetBalloonOrShineCount(b) >= 2 && IsKartInflatingBalloon(b) != 0) {
-                e->mState = 4;
+        if (lastBalloon != NULL) {
+            kartBalloons = GetStandingsKartBalloons() + hitByKartIndex;
+            balloonOrShineCount = GetBalloonOrShineCount(hitByKartIndex);
+            kartBalloons->mBalloons[balloonOrShineCount + 1] =
+                kartBalloons->mBalloons[GetBalloonOrShineCount(hitByKartIndex)];
+            kartBalloons->mBalloons[GetBalloonOrShineCount(hitByKartIndex)] = lastBalloon;
+            AddBalloonOrShineCountAndMoveRank(hitByKartIndex, 1);
+            func_020a2e68(lastBalloon);
+            SetBalloonKartIndex(lastBalloon, hitByKartIndex);
+            if (GetBalloonOrShineCount(hitByKartIndex) >= 2 && IsKartInflatingBalloon(hitByKartIndex) != 0) {
+                kartBalloons->mState = 4;
             }
-            SetupKartFollowEffect(StartEffect(0x7a, &o->mPos), o->mIndex, 0x20);
-            SetupKartFollowEffect(StartEffect(0x7b, &o->mPos), o->mIndex, 0x20);
-            func_020d26ec(GetKart(b), 0x14f);
-            if (GetBalloonOrShineCount(a) == 0) {
-                EliminateKartAndCheckWinner(a);
+            SetupKartFollowEffect(StartEffect(0x7a, &kart->mPos), kart->mIndex, 0x20);
+            SetupKartFollowEffect(StartEffect(0x7b, &kart->mPos), kart->mIndex, 0x20);
+            func_020d26ec(GetKart(hitByKartIndex), 0x14f);
+            if (GetBalloonOrShineCount(hitKartIndex) == 0) {
+                EliminateKartAndCheckWinner(hitKartIndex);
             }
             return TRUE;
         }
@@ -738,232 +754,246 @@ BOOL BalloonKartHitByKartCallback(u16 a, u16 b) {
     return FALSE;
 }
 
-s32 BalloonKartsHitEachOtherCallback(u16 a, u16 b) {
-    KartBalloons *v1;
-    KartBalloons *v2;
-    Balloon *f;
-    Balloon *l;
-    Balloon *g;
-    Balloon *m;
-    SoundStartParams s;
-    s32 n;
+s32 BalloonKartsHitEachOtherCallback(u16 firstKartIndex, u16 secondKartIndex) {
+    KartBalloons *firstKartBalloons;
+    KartBalloons *secondKartBalloons;
+    Balloon *firstInflatingBalloon;
+    Balloon *firstLastBalloon;
+    Balloon *secondInflatingBalloon;
+    Balloon *secondLastBalloon;
+    SoundStartParams soundStartParams;
+    s32 balloonOrShineCount;
 
-    v1 = GetStandingsKartBalloons();
-    v1 += a;
-    f = IsKartInflatingBalloon(a) != 0 ? v1->mBalloons[GetBalloonOrShineCount(a)] : 0;
-    l = GetBalloonOrShineCount(a) != 0 ? v1->mBalloons[GetBalloonOrShineCount(a) - 1] : 0;
-    if (GetBalloonOrShineCount(a) != 0 && l != NULL) {
-        if (IsKartInflatingBalloon(a) != 0 && f != NULL) {
-            v1->mBalloons[GetBalloonOrShineCount(a)] = l;
-            AddBalloonOrShineCountAndMoveRank(a, -1);
-            v1->mBalloons[GetBalloonOrShineCount(a)] = f;
+    firstKartBalloons = GetStandingsKartBalloons();
+    firstKartBalloons += firstKartIndex;
+    firstInflatingBalloon = IsKartInflatingBalloon(firstKartIndex) != 0
+                                ? firstKartBalloons->mBalloons[GetBalloonOrShineCount(firstKartIndex)]
+                                : 0;
+    firstLastBalloon = GetBalloonOrShineCount(firstKartIndex) != 0
+                           ? firstKartBalloons->mBalloons[GetBalloonOrShineCount(firstKartIndex) - 1]
+                           : 0;
+    if (GetBalloonOrShineCount(firstKartIndex) != 0 && firstLastBalloon != NULL) {
+        if (IsKartInflatingBalloon(firstKartIndex) != 0 && firstInflatingBalloon != NULL) {
+            firstKartBalloons->mBalloons[GetBalloonOrShineCount(firstKartIndex)] = firstLastBalloon;
+            AddBalloonOrShineCountAndMoveRank(firstKartIndex, -1);
+            firstKartBalloons->mBalloons[GetBalloonOrShineCount(firstKartIndex)] = firstInflatingBalloon;
         } else {
-            AddBalloonOrShineCountAndMoveRank(a, -1);
+            AddBalloonOrShineCountAndMoveRank(firstKartIndex, -1);
         }
     }
-    v2 = GetStandingsKartBalloons();
-    v2 += b;
-    g = IsKartInflatingBalloon(b) != 0 ? v2->mBalloons[GetBalloonOrShineCount(b)] : 0;
-    m = GetBalloonOrShineCount(b) != 0 ? v2->mBalloons[GetBalloonOrShineCount(b) - 1] : 0;
-    if (GetBalloonOrShineCount(b) != 0 && m != NULL) {
-        if (IsKartInflatingBalloon(b) != 0 && g != NULL) {
-            v2->mBalloons[GetBalloonOrShineCount(b)] = m;
-            AddBalloonOrShineCountAndMoveRank(b, -1);
-            v2->mBalloons[GetBalloonOrShineCount(b)] = g;
+    secondKartBalloons = GetStandingsKartBalloons();
+    secondKartBalloons += secondKartIndex;
+    secondInflatingBalloon = IsKartInflatingBalloon(secondKartIndex) != 0
+                                 ? secondKartBalloons->mBalloons[GetBalloonOrShineCount(secondKartIndex)]
+                                 : 0;
+    secondLastBalloon = GetBalloonOrShineCount(secondKartIndex) != 0
+                            ? secondKartBalloons->mBalloons[GetBalloonOrShineCount(secondKartIndex) - 1]
+                            : 0;
+    if (GetBalloonOrShineCount(secondKartIndex) != 0 && secondLastBalloon != NULL) {
+        if (IsKartInflatingBalloon(secondKartIndex) != 0 && secondInflatingBalloon != NULL) {
+            secondKartBalloons->mBalloons[GetBalloonOrShineCount(secondKartIndex)] = secondLastBalloon;
+            AddBalloonOrShineCountAndMoveRank(secondKartIndex, -1);
+            secondKartBalloons->mBalloons[GetBalloonOrShineCount(secondKartIndex)] = secondInflatingBalloon;
         } else {
-            AddBalloonOrShineCountAndMoveRank(b, -1);
+            AddBalloonOrShineCountAndMoveRank(secondKartIndex, -1);
         }
     }
-    if (l != NULL) {
-        v2 = GetStandingsKartBalloons();
-        v2 += b;
-        n = GetBalloonOrShineCount(b);
-        v2->mBalloons[n + 1] = v2->mBalloons[GetBalloonOrShineCount(b)];
-        v2->mBalloons[GetBalloonOrShineCount(b)] = l;
-        AddBalloonOrShineCountAndMoveRank(b, 1);
-        func_020a2e68(l);
-        SetBalloonKartIndex(l, b);
-        if (GetBalloonOrShineCount(b) >= 2 && IsKartInflatingBalloon(b) != 0) {
-            v2->mState = 4;
+    if (firstLastBalloon != NULL) {
+        secondKartBalloons = GetStandingsKartBalloons();
+        secondKartBalloons += secondKartIndex;
+        balloonOrShineCount = GetBalloonOrShineCount(secondKartIndex);
+        secondKartBalloons->mBalloons[balloonOrShineCount + 1] =
+            secondKartBalloons->mBalloons[GetBalloonOrShineCount(secondKartIndex)];
+        secondKartBalloons->mBalloons[GetBalloonOrShineCount(secondKartIndex)] = firstLastBalloon;
+        AddBalloonOrShineCountAndMoveRank(secondKartIndex, 1);
+        func_020a2e68(firstLastBalloon);
+        SetBalloonKartIndex(firstLastBalloon, secondKartIndex);
+        if (GetBalloonOrShineCount(secondKartIndex) >= 2 && IsKartInflatingBalloon(secondKartIndex) != 0) {
+            secondKartBalloons->mState = 4;
         }
     }
-    if (m != NULL) {
-        v1 = GetStandingsKartBalloons();
-        v1 += a;
-        n = GetBalloonOrShineCount(a);
-        v1->mBalloons[n + 1] = v1->mBalloons[GetBalloonOrShineCount(a)];
-        v1->mBalloons[GetBalloonOrShineCount(a)] = m;
-        AddBalloonOrShineCountAndMoveRank(a, 1);
-        func_020a2e68(m);
-        SetBalloonKartIndex(m, a);
-        if (GetBalloonOrShineCount(a) >= 2 && IsKartInflatingBalloon(a) != 0) {
-            v1->mState = 4;
+    if (secondLastBalloon != NULL) {
+        firstKartBalloons = GetStandingsKartBalloons();
+        firstKartBalloons += firstKartIndex;
+        balloonOrShineCount = GetBalloonOrShineCount(firstKartIndex);
+        firstKartBalloons->mBalloons[balloonOrShineCount + 1] =
+            firstKartBalloons->mBalloons[GetBalloonOrShineCount(firstKartIndex)];
+        firstKartBalloons->mBalloons[GetBalloonOrShineCount(firstKartIndex)] = secondLastBalloon;
+        AddBalloonOrShineCountAndMoveRank(firstKartIndex, 1);
+        func_020a2e68(secondLastBalloon);
+        SetBalloonKartIndex(secondLastBalloon, firstKartIndex);
+        if (GetBalloonOrShineCount(firstKartIndex) >= 2 && IsKartInflatingBalloon(firstKartIndex) != 0) {
+            firstKartBalloons->mState = 4;
         }
     }
-    if (a == gRaceSetup->mEntryIndex || b == gRaceSetup->mEntryIndex) {
-        s.mSoundId = 0x14f;
-        s.mPositionSource = NULL;
-        s.mFalloffIndex = 2;
-        s.mDistanceSquared = GetHorizontalCameraDistanceSquared(NULL);
-        StartSoundFromParams(&s);
+    if (firstKartIndex == gRaceSetup->mEntryIndex || secondKartIndex == gRaceSetup->mEntryIndex) {
+        soundStartParams.mSoundId = 0x14f;
+        soundStartParams.mPositionSource = NULL;
+        soundStartParams.mFalloffIndex = 2;
+        soundStartParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(NULL);
+        StartSoundFromParams(&soundStartParams);
     }
     return 1;
 }
 
-BOOL BalloonKartHitCallback(u16 a, u16 b) {
-    Kart *o;
-    KartBalloons *e;
-    Balloon *f;
-    Balloon *l;
-    Vec3 v;
+BOOL BalloonKartHitCallback(u16 kartIndex, u16 hitByKartIndex) {
+    Kart *kart;
+    KartBalloons *kartBalloons;
+    Balloon *inflatingBalloon;
+    Balloon *lastBalloon;
+    Vec3 balloonPos;
 
-    e = GetStandingsKartBalloons() + a;
-    f = IsKartInflatingBalloon(a) != 0 ? e->mBalloons[GetBalloonOrShineCount(a)] : 0;
-    l = GetBalloonOrShineCount(a) != 0 ? e->mBalloons[GetBalloonOrShineCount(a) - 1] : 0;
-    if (GetBalloonOrShineCount(a) != 0 && l != NULL) {
-        if (IsKartInflatingBalloon(a) != 0 && f != NULL) {
-            e->mBalloons[GetBalloonOrShineCount(a)] = l;
-            AddBalloonOrShineCountAndMoveRank(a, -1);
-            e->mBalloons[GetBalloonOrShineCount(a)] = f;
+    kartBalloons = GetStandingsKartBalloons() + kartIndex;
+    inflatingBalloon =
+        IsKartInflatingBalloon(kartIndex) != 0 ? kartBalloons->mBalloons[GetBalloonOrShineCount(kartIndex)] : 0;
+    lastBalloon =
+        GetBalloonOrShineCount(kartIndex) != 0 ? kartBalloons->mBalloons[GetBalloonOrShineCount(kartIndex) - 1] : 0;
+    if (GetBalloonOrShineCount(kartIndex) != 0 && lastBalloon != NULL) {
+        if (IsKartInflatingBalloon(kartIndex) != 0 && inflatingBalloon != NULL) {
+            kartBalloons->mBalloons[GetBalloonOrShineCount(kartIndex)] = lastBalloon;
+            AddBalloonOrShineCountAndMoveRank(kartIndex, -1);
+            kartBalloons->mBalloons[GetBalloonOrShineCount(kartIndex)] = inflatingBalloon;
         } else {
-            AddBalloonOrShineCountAndMoveRank(a, -1);
+            AddBalloonOrShineCountAndMoveRank(kartIndex, -1);
         }
     }
-    if (l != NULL) {
-        o = GetKart(a);
+    if (lastBalloon != NULL) {
+        kart = GetKart(kartIndex);
         GetStandingsKartBalloons();
-        if (a == gRaceSetup->mEntryIndex) {
-            func_020a2ebc(l, NULL);
+        if (kartIndex == gRaceSetup->mEntryIndex) {
+            StartBalloonWithoutKart(lastBalloon, NULL);
         } else {
-            v.x = o->mPos.x;
-            v.y = o->mPos.y + func_020a23a0(o) - 0xf666;
-            v.z = o->mPos.z;
-            l->mUnk_00.mFlags &= ~4;
-            l->mUnk_00.mFlags &= ~2;
-            l->mUnk_00.mFlags &= ~8;
-            l->mUnk_00.mAlpha = 0x1f;
-            func_020a2ebc(l, &v);
+            balloonPos.x = kart->mPos.x;
+            balloonPos.y = kart->mPos.y + GetKartBalloonOrShineHeight(kart) - 0xf666;
+            balloonPos.z = kart->mPos.z;
+            lastBalloon->mUnk_00.mFlags &= ~4;
+            lastBalloon->mUnk_00.mFlags &= ~2;
+            lastBalloon->mUnk_00.mFlags &= ~8;
+            lastBalloon->mUnk_00.mAlpha = 0x1f;
+            StartBalloonWithoutKart(lastBalloon, &balloonPos);
         }
-        func_020d26ec(o, 0x153);
-        if (GetBalloonOrShineCount(a) == 0) {
-            EliminateKartAndCheckWinner(a);
+        func_020d26ec(kart, 0x153);
+        if (GetBalloonOrShineCount(kartIndex) == 0) {
+            EliminateKartAndCheckWinner(kartIndex);
         }
         return TRUE;
     }
     return FALSE;
 }
 
-void BalloonKartEliminatedCallback(u16 a) {
-    KartBalloons *e;
-    Balloon *f;
-    Balloon *l;
+void BalloonKartEliminatedCallback(u16 kartIndex) {
+    KartBalloons *kartBalloons;
+    Balloon *inflatingBalloon;
+    Balloon *lastBalloon;
 
     if (gRaceSetup->mMode != MODE_BATTLE) {
         return;
     }
-    BalloonKartHitCallback(a, a);
-    if (GetBalloonOrShineCount(a) == 0) {
+    BalloonKartHitCallback(kartIndex, kartIndex);
+    if (GetBalloonOrShineCount(kartIndex) == 0) {
         return;
     }
     do {
-        e = GetStandingsKartBalloons() + a;
-        f = IsKartInflatingBalloon(a) != 0 ? e->mBalloons[GetBalloonOrShineCount(a)] : 0;
-        l = GetBalloonOrShineCount(a) != 0 ? e->mBalloons[GetBalloonOrShineCount(a) - 1] : 0;
-        if (GetBalloonOrShineCount(a) != 0 && l != NULL) {
-            if (IsKartInflatingBalloon(a) != 0 && f != NULL) {
-                e->mBalloons[GetBalloonOrShineCount(a)] = l;
-                AddBalloonOrShineCountAndMoveRank(a, -1);
-                e->mBalloons[GetBalloonOrShineCount(a)] = f;
+        kartBalloons = GetStandingsKartBalloons() + kartIndex;
+        inflatingBalloon =
+            IsKartInflatingBalloon(kartIndex) != 0 ? kartBalloons->mBalloons[GetBalloonOrShineCount(kartIndex)] : 0;
+        lastBalloon =
+            GetBalloonOrShineCount(kartIndex) != 0 ? kartBalloons->mBalloons[GetBalloonOrShineCount(kartIndex) - 1] : 0;
+        if (GetBalloonOrShineCount(kartIndex) != 0 && lastBalloon != NULL) {
+            if (IsKartInflatingBalloon(kartIndex) != 0 && inflatingBalloon != NULL) {
+                kartBalloons->mBalloons[GetBalloonOrShineCount(kartIndex)] = lastBalloon;
+                AddBalloonOrShineCountAndMoveRank(kartIndex, -1);
+                kartBalloons->mBalloons[GetBalloonOrShineCount(kartIndex)] = inflatingBalloon;
             } else {
-                AddBalloonOrShineCountAndMoveRank(a, -1);
+                AddBalloonOrShineCountAndMoveRank(kartIndex, -1);
             }
         }
-        if (l != NULL) {
-            ParkBalloon(l, a);
+        if (lastBalloon != NULL) {
+            ParkBalloon(lastBalloon, kartIndex);
         }
-    } while (GetBalloonOrShineCount(a) != 0);
+    } while (GetBalloonOrShineCount(kartIndex) != 0);
 }
 
 void BalloonEndCallback(void) {
     if (gRaceSetup->mMode != MODE_BATTLE) {
         return;
     }
-    func_020a305c();
+    ResetBalloons();
 }
 
-void BalloonKartOffsetCallback(u16 a, Vec3 *b) {
-    KartBalloons *e;
-    Balloon *p;
+void BalloonKartOffsetCallback(u16 kartIndex, Vec3 *offset) {
+    KartBalloons *kartBalloons;
+    Balloon *balloon;
     s32 i;
-    s32 n;
+    s32 balloonCount;
 
-    e = GetStandingsKartBalloons() + a;
-    if (b == NULL) {
+    kartBalloons = GetStandingsKartBalloons() + kartIndex;
+    if (offset == NULL) {
         return;
     }
-    n = (IsKartInflatingBalloon(a) != 0 ? 1 : 0) + GetBalloonOrShineCount(a);
+    balloonCount = (IsKartInflatingBalloon(kartIndex) != 0 ? 1 : 0) + GetBalloonOrShineCount(kartIndex);
     i = 0;
-    if (n <= 0) {
+    if (balloonCount <= 0) {
         return;
     }
     do {
-        p = e->mBalloons[i];
-        p->mUnk_00.mPos.x += b->x;
-        p->mUnk_00.mPos.y += b->y;
-        p->mUnk_00.mPos.z += b->z;
+        balloon = kartBalloons->mBalloons[i];
+        balloon->mUnk_00.mPos.x += offset->x;
+        balloon->mUnk_00.mPos.y += offset->y;
+        balloon->mUnk_00.mPos.z += offset->z;
         i++;
-    } while (i < n);
+    } while (i < balloonCount);
 }
 
 // Init of the kind 0x69 object: creates and parks the kind 0x6c balloon objects (0x20 in mode 2, else 4), fills the
 // frame indices, offsets and start timer, sets Standings.mKartBalloons and registers the callbacks in Standings (four
 // hit callbacks, the kart-eliminated and the end callback). If kind 0x6c already exists it parks itself instead.
-void InitKartBalloons(Unk020a3fa8 *a) {
-    RaceSetup *d;
-    s32 n;
+void InitKartBalloons(KartBalloonsObject *kartBalloonsObject) {
+    RaceSetup *raceSetup;
+    s32 kartCount;
     s32 i;
-    KartBalloons *p;
+    KartBalloons *kartBalloons;
     s32 j;
-    s32 w;
-    s32 v;
+    s32 rowOffset;
+    s32 offset;
 
     if (CountMapObjectsOfKind(MAP_OBJECT_KIND_BALLOON) == 0) {
-        d = gRaceSetup;
-        n = d->mKartCount;
-        if (d->mMode == MODE_BATTLE) {
-            CreateParkedMapObjects(MAP_OBJECT_KIND_BALLOON, 0x20, a);
+        raceSetup = gRaceSetup;
+        kartCount = raceSetup->mKartCount;
+        if (raceSetup->mMode == MODE_BATTLE) {
+            CreateParkedMapObjects(MAP_OBJECT_KIND_BALLOON, 0x20, kartBalloonsObject);
         } else {
-            CreateParkedMapObjects(MAP_OBJECT_KIND_BALLOON, 4, a);
+            CreateParkedMapObjects(MAP_OBJECT_KIND_BALLOON, 4, kartBalloonsObject);
         }
-        for (i = 0; i < n; i++) {
-            p = &a->mKartBalloons[i];
-            if (a->mUnk_000.mCourseMapRow->mUnk_2c != 0) {
-                p->mBalloonNsbtpFrameIndex = a->mUnk_000.mCourseMapRow->mUnk_2c;
+        for (i = 0; i < kartCount; i++) {
+            kartBalloons = &kartBalloonsObject->mKartBalloons[i];
+            if (kartBalloonsObject->mUnk_000.mCourseMapRow->mUnk_2c != 0) {
+                kartBalloons->mBalloonNsbtpFrameIndex = kartBalloonsObject->mUnk_000.mCourseMapRow->mUnk_2c;
             } else {
                 switch (gRaceSetup->mCurrentEntries[(u16) i].mPlayer.mTeamIndex) {
                     case 0:
-                        p->mBalloonNsbtpFrameIndex = 1;
+                        kartBalloons->mBalloonNsbtpFrameIndex = 1;
                         break;
                     case 1:
-                        p->mBalloonNsbtpFrameIndex = 3;
+                        kartBalloons->mBalloonNsbtpFrameIndex = 3;
                         break;
                     default:
-                        p->mBalloonNsbtpFrameIndex = i;
+                        kartBalloons->mBalloonNsbtpFrameIndex = i;
                         break;
                 }
             }
         }
-        for (i = 0, w = 0; i < 8; i++, w -= 0x600) {
-            for (j = 0, v = w; j < 8; j++, v += 0xc00) {
-                a->mBalloonOffsets[i][j] = v;
+        for (i = 0, rowOffset = 0; i < 8; i++, rowOffset -= 0x600) {
+            for (j = 0, offset = rowOffset; j < 8; j++, offset += 0xc00) {
+                kartBalloonsObject->mBalloonOffsets[i][j] = offset;
             }
         }
         if (GetRaceUseChainCameras() != 0) {
-            a->mStartTimer = 0xffff;
+            kartBalloonsObject->mStartTimer = 0xffff;
         } else {
-            a->mStartTimer = 0x3c;
+            kartBalloonsObject->mStartTimer = 0x3c;
         }
-        SetStandingsKartBalloons(a->mKartBalloons);
+        SetStandingsKartBalloons(kartBalloonsObject->mKartBalloons);
         SetStandingsKartHitByKartCallback((s32(*)(s32, s32)) BalloonKartHitByKartCallback);
         SetStandingsKartsHitEachOtherCallback((void (*)(s32, s32)) BalloonKartsHitEachOtherCallback);
         SetStandingsKartHitCallback(BalloonKartHitCallback);
@@ -971,40 +1001,42 @@ void InitKartBalloons(Unk020a3fa8 *a) {
         SetStandingsEndCallback(BalloonEndCallback);
         SetStandingsKartOffsetCallback(BalloonKartOffsetCallback);
     } else {
-        ParkMapObject(&a->mUnk_000);
+        ParkMapObject(&kartBalloonsObject->mUnk_000);
     }
 }
 
 // Per-frame step of the kind 0x69 object: after mStartTimer runs out it steps every kart's KartBalloons (makes,
 // inflates, holds and deflates its balloons), updates the kart's count and hands each balloon its kart index, target
 // position and velocity.
-void UpdateKartBalloons(void *b, Unk020a3fa8 *c) {
+void UpdateKartBalloons(void *mapObjectList, KartBalloonsObject *kartBalloonsObject) {
     Balloon *balloon;
     s32 i;
     s32 j;
     s32 kartCount;
     s32 balloonCount;
-    s32 a;
-    s32 s;
-    s32 d;
+    s32 sideOffset;
+    s32 swingStep;
+    s32 swingPerFrameDecrement;
     Vec3 balloonPos;
-    Vec3 t;
-    Vec3 t2;
-    Vec3 *q;
+    Vec3 addend;
+    Vec3 oddBalloonAddend;
+    Vec3 *kartVector;
 
     kartCount = gRaceSetup->mKartCount;
-    if (c->mStartTimer > 0) {
-        c->mStartTimer--;
-        if (c->mStartTimer > 0) {
+    if (kartBalloonsObject->mStartTimer > 0) {
+        kartBalloonsObject->mStartTimer--;
+        if (kartBalloonsObject->mStartTimer > 0) {
             return;
         }
         for (i = 0; i < kartCount; i++) {
-            KartBalloons *kartBalloons = &c->mKartBalloons[i];
+            KartBalloons *kartBalloons = &kartBalloonsObject->mKartBalloons[i];
             GetKart((u16) i);
             kartBalloons->mState = 1;
-            if (c->mUnk_000.mCourseMapRow->mUnk_28 != 0 || c->mUnk_000.mCourseMapRow->mUnk_2a != 0) {
-                kartBalloons->mRemainingSpawnCount = c->mUnk_000.mCourseMapRow->mUnk_28;
-                AddBalloonsLeftToMake(i, c->mUnk_000.mCourseMapRow->mUnk_28 + c->mUnk_000.mCourseMapRow->mUnk_2a);
+            if (kartBalloonsObject->mUnk_000.mCourseMapRow->mUnk_28 != 0 ||
+                kartBalloonsObject->mUnk_000.mCourseMapRow->mUnk_2a != 0) {
+                kartBalloons->mRemainingSpawnCount = kartBalloonsObject->mUnk_000.mCourseMapRow->mUnk_28;
+                AddBalloonsLeftToMake(i, kartBalloonsObject->mUnk_000.mCourseMapRow->mUnk_28 +
+                                             kartBalloonsObject->mUnk_000.mCourseMapRow->mUnk_2a);
             } else {
                 kartBalloons->mRemainingSpawnCount = 1;
                 AddBalloonsLeftToMake(i, 5);
@@ -1014,11 +1046,11 @@ void UpdateKartBalloons(void *b, Unk020a3fa8 *c) {
     }
     for (i = 0; i < kartCount; i++) {
         Kart *kart;
-        KartBalloons *kartBalloons = &c->mKartBalloons[i];
+        KartBalloons *kartBalloons = &kartBalloonsObject->mKartBalloons[i];
         GetChaseCamera();
         kart = GetKart((u16) i);
         balloonPos.x = kart->mPos.x;
-        balloonPos.y = kart->mPos.y + func_020a23a0(kart) - 0xf666;
+        balloonPos.y = kart->mPos.y + GetKartBalloonOrShineHeight(kart) - 0xf666;
         balloonPos.z = kart->mPos.z;
         switch (kartBalloons->mState) {
             case 0:
@@ -1040,14 +1072,14 @@ void UpdateKartBalloons(void *b, Unk020a3fa8 *c) {
                     break;
                 }
                 kartBalloons->mBalloons[GetBalloonOrShineCount(i)] = balloon;
-                func_020a2f9c(balloon, i, 0xcd);
+                UpdateBalloonInflating(balloon, i, 0xcd);
                 kartBalloons->mState = 2;
                 SetKartInflatingBalloon(i, 1);
                 AddBalloonsLeftToMake(i, -1);
                 break;
             case 1:
                 if (IsKartInflatingBalloon(i) != 0) {
-                    func_020a2f9c(kartBalloons->mBalloons[GetBalloonOrShineCount(i)], i, 0x266);
+                    UpdateBalloonInflating(kartBalloons->mBalloons[GetBalloonOrShineCount(i)], i, 0x266);
                     break;
                 }
                 if (GetBalloonsLeftToMake(i) != 0 && GetBalloonOrShineCount(i) < 3) {
@@ -1055,7 +1087,7 @@ void UpdateKartBalloons(void *b, Unk020a3fa8 *c) {
                         balloon = StartBalloon(kartBalloons->mBalloonNsbtpFrameIndex, &balloonPos);
                         if (balloon != NULL) {
                             kartBalloons->mBalloons[GetBalloonOrShineCount(i)] = balloon;
-                            func_020a2f9c(balloon, i, 0x266);
+                            UpdateBalloonInflating(balloon, i, 0x266);
                             SetKartInflatingBalloon(i, 1);
                             AddBalloonsLeftToMake(i, -1);
                             kartBalloons->mRemainingSpawnCount--;
@@ -1071,7 +1103,7 @@ void UpdateKartBalloons(void *b, Unk020a3fa8 *c) {
                     break;
                 }
                 balloon = kartBalloons->mBalloons[GetBalloonOrShineCount(i)];
-                func_020a2f9c(balloon, i, 0xcd);
+                UpdateBalloonInflating(balloon, i, 0xcd);
                 if (GetBalloonScaleFactor(balloon) >= 0x800) {
                     kartBalloons->mState = 3;
                 }
@@ -1082,19 +1114,19 @@ void UpdateKartBalloons(void *b, Unk020a3fa8 *c) {
                     break;
                 }
                 if (func_020a223c(i) > 0) {
-                    func_020a2f9c(kartBalloons->mBalloons[GetBalloonOrShineCount(i)], i, 0x10);
+                    UpdateBalloonInflating(kartBalloons->mBalloons[GetBalloonOrShineCount(i)], i, 0x10);
                 } else if (func_020a2264(i) > 0) {
-                    func_020a2f9c(kartBalloons->mBalloons[GetBalloonOrShineCount(i)], i, 0x29);
+                    UpdateBalloonInflating(kartBalloons->mBalloons[GetBalloonOrShineCount(i)], i, 0x29);
                 } else {
                     balloon = kartBalloons->mBalloons[GetBalloonOrShineCount(i)];
-                    func_020a2f30(balloon, i, 0xe);
+                    UpdateBalloonShrinking(balloon, i, 0xe);
                     if (GetBalloonScaleFactor(balloon) <= 0x400) {
                         kartBalloons->mState = 4;
                     }
                 }
                 break;
             case 4:
-                func_020a2f30(kartBalloons->mBalloons[GetBalloonOrShineCount(i)], i, 0x19a);
+                UpdateBalloonShrinking(kartBalloons->mBalloons[GetBalloonOrShineCount(i)], i, 0x19a);
                 break;
         }
         if (IsKartInflatingBalloon(i) != 0) {
@@ -1119,47 +1151,47 @@ void UpdateKartBalloons(void *b, Unk020a3fa8 *c) {
         }
         if (i == gRaceSetup->mEntryIndex) {
             if (func_020a2264(i) > 0 || func_020a223c(i) > 0) {
-                s = GetBalloonOrShineCount(i) >= 3 ? 600 : 300;
-                d = GetBalloonOrShineCount(i) >= 3 ? 200 : 100;
-                kartBalloons->mUnk_08 += kartBalloons->mUnk_0c;
-                if (kartBalloons->mUnk_08 >= 0) {
-                    if (kartBalloons->mUnk_0c < 0) {
-                        kartBalloons->mUnk_0c = -s;
+                swingStep = GetBalloonOrShineCount(i) >= 3 ? 600 : 300;
+                swingPerFrameDecrement = GetBalloonOrShineCount(i) >= 3 ? 200 : 100;
+                kartBalloons->mSwing += kartBalloons->mSwingPerFrame;
+                if (kartBalloons->mSwing >= 0) {
+                    if (kartBalloons->mSwingPerFrame < 0) {
+                        kartBalloons->mSwingPerFrame = -swingStep;
                     } else {
-                        kartBalloons->mUnk_0c -= d;
+                        kartBalloons->mSwingPerFrame -= swingPerFrameDecrement;
                     }
                 } else {
-                    if (kartBalloons->mUnk_0c >= 0) {
-                        kartBalloons->mUnk_0c = s;
+                    if (kartBalloons->mSwingPerFrame >= 0) {
+                        kartBalloons->mSwingPerFrame = swingStep;
                     } else {
-                        kartBalloons->mUnk_0c += d;
+                        kartBalloons->mSwingPerFrame += swingPerFrameDecrement;
                     }
                 }
             } else {
-                s = GetBalloonOrShineCount(i) >= 3 ? 600 : 300;
-                if (kartBalloons->mUnk_08 >= 0) {
-                    kartBalloons->mUnk_08 = kartBalloons->mUnk_08 < s ? 0 : kartBalloons->mUnk_08 - s;
+                swingStep = GetBalloonOrShineCount(i) >= 3 ? 600 : 300;
+                if (kartBalloons->mSwing >= 0) {
+                    kartBalloons->mSwing = kartBalloons->mSwing < swingStep ? 0 : kartBalloons->mSwing - swingStep;
                 } else {
-                    kartBalloons->mUnk_08 = kartBalloons->mUnk_08 > -s ? 0 : kartBalloons->mUnk_08 + s;
+                    kartBalloons->mSwing = kartBalloons->mSwing > -swingStep ? 0 : kartBalloons->mSwing + swingStep;
                 }
             }
             balloonCount = GetBalloonOrShineCount(i) + (IsKartInflatingBalloon(i) != 0 ? 1 : 0);
             for (j = 0; j < balloonCount; j++) {
                 Balloon *balloon = kartBalloons->mBalloons[j];
-                a = kartBalloons->mUnk_08 + c->mBalloonOffsets[balloonCount - 1][j];
-                if (a != 0) {
-                    q = &kart->mUnk_150;
-                    t.x = ((s64) q->x * a) >> 12;
-                    t.y = ((s64) q->y * a) >> 12;
-                    t.z = ((s64) q->z * a) >> 12;
-                    func_020a2e74(balloon, &t);
+                sideOffset = kartBalloons->mSwing + kartBalloonsObject->mBalloonOffsets[balloonCount - 1][j];
+                if (sideOffset != 0) {
+                    kartVector = &kart->mUnk_150;
+                    addend.x = ((s64) kartVector->x * sideOffset) >> 12;
+                    addend.y = ((s64) kartVector->y * sideOffset) >> 12;
+                    addend.z = ((s64) kartVector->z * sideOffset) >> 12;
+                    AddBalloonVelocity(balloon, &addend);
                 }
                 if ((j & 1) == 1) {
-                    q = &kart->mUnk_168;
-                    t2.x = ((s64) q->x * -0xcd) >> 12;
-                    t2.y = ((s64) q->y * -0xcd) >> 12;
-                    t2.z = ((s64) q->z * -0xcd) >> 12;
-                    func_020a2e74(balloon, &t2);
+                    kartVector = &kart->mUnk_168;
+                    oddBalloonAddend.x = ((s64) kartVector->x * -0xcd) >> 12;
+                    oddBalloonAddend.y = ((s64) kartVector->y * -0xcd) >> 12;
+                    oddBalloonAddend.z = ((s64) kartVector->z * -0xcd) >> 12;
+                    AddBalloonVelocity(balloon, &oddBalloonAddend);
                 }
                 SetBalloonTargetPosAndVelocity(balloon, &balloonPos, &kart->mVelocity);
                 SetBalloonKartIndex(balloon, i);
@@ -1193,15 +1225,15 @@ void UpdateKartBalloons(void *b, Unk020a3fa8 *c) {
 }
 
 MapObjectKindData *CreateKartBalloonsKindData(void) {
-    RaceSetup *d;
-    s32 k;
+    RaceSetup *raceSetup;
+    s32 mode;
 
-    d = gRaceSetup;
-    k = d->mMode;
-    if (k == MODE_BATTLE && d->mBattleKind == BATTLE_KIND_BALLOON) {
+    raceSetup = gRaceSetup;
+    mode = raceSetup->mMode;
+    if (mode == MODE_BATTLE && raceSetup->mBattleKind == BATTLE_KIND_BALLOON) {
         return CreateEmptyMapObjectKindData();
     }
-    if (k != MODE_MISSION_RUN) {
+    if (mode != MODE_MISSION_RUN) {
         return 0;
     }
     return CreateEmptyMapObjectKindData();

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u16 *func_020a69a0(void);
+u16 *ResetShine16ShadowAngleIndex(void);

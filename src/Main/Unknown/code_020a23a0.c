@@ -33,7 +33,7 @@
 #include "Main/Unknown/code_02093ff0.h"
 #include "code_021471bc.h"
 
-void func_020a29cc(void) {
+void SetupTrophy(void) {
     s32 x;
     s32 y;
     s32 v;
@@ -168,14 +168,14 @@ void InitTrophy(s32 modelIndex, u32 rankIndex) {
             gTrophy->mEffect0 = StartEffect(0, &w3);
         }
     }
-    func_020a29cc();
+    SetupTrophy();
 }
 
-s16 func_020a2684(s32 angle) {
+s16 TrophyGetAnglePairFirst(s32 angle) {
     return gPairsByAngle[(angle >> 4) * 2];
 }
 
-s32 func_020a2668(s32 a, s32 b) {
+s32 TrophyMulFixed12Rounded(s32 a, s32 b) {
     return ((s64) a * b + 0x800) >> 12;
 }
 
@@ -193,7 +193,9 @@ void AdvanceTrophy(void) {
     wobble = &trophy->mRotateZWobble;
     trophy->mRotateZWobble.mAngle += wobble->mAnglePerFrame;
     wobble->mUnk_08 =
-        wobble->mMid + func_020a2668(wobble->mAmplitude, func_020a2684(trophy->mRotateZWobble.mAngle)) - wobble->mValue;
+        wobble->mMid +
+        TrophyMulFixed12Rounded(wobble->mAmplitude, TrophyGetAnglePairFirst(trophy->mRotateZWobble.mAngle)) -
+        wobble->mValue;
     wobble->mValue += wobble->mUnk_08;
     if (wobble->mAmplitude > 0) {
         v = wobble->mAmplitude + wobble->mAmplitudePerFrame;
@@ -262,10 +264,10 @@ void DrawTrophy(void) {
     NNS_G3dGeFlushBuffer();
 }
 
-s32 func_020a23a0(Kart *kart) {
+s32 GetKartBalloonOrShineHeight(Kart *kart) {
     KartModelsEntry *kartModelsEntry;
 
     kartModelsEntry = kart->mKartModelsEntry;
-    return data_02156600[kartModelsEntry->mCharacterIndex] +
+    return gCharacterBalloonOrShineHeights[kartModelsEntry->mCharacterIndex] +
            kartModelsEntry->mKartOffsetData->mCharacterOffsets[kartModelsEntry->mCharacterIndex].y;
 }

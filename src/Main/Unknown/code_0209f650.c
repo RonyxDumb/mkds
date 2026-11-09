@@ -65,10 +65,10 @@ static inline void func_0209fdb4_inline(Airship *airship) {
     s32 t;
 
     airship->mWobbleAngle = (u16) airship->mWobbleAngle + airship->mWobbleAnglePerFrame;
-    airship->mUnk_b0 =
-        airship->mWobbleMid +
-        func_020a0028(airship->mWobbleAmplitude / 2, 0x1000 - func_020a0044((u16) airship->mWobbleAngle)) -
-        airship->mWobbleOffset;
+    airship->mUnk_b0 = airship->mWobbleMid +
+                       AirshipMulFixed12Rounded(airship->mWobbleAmplitude / 2,
+                                                0x1000 - AirshipGetAnglePairSecond((u16) airship->mWobbleAngle)) -
+                       airship->mWobbleOffset;
     airship->mWobbleOffset += airship->mUnk_b0;
     if (airship->mWobbleAmplitude > 0) {
         t = airship->mWobbleAmplitude + airship->mWobbleAmplitudePerFrame;

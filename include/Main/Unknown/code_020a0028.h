@@ -35,5 +35,5 @@ typedef struct AirshipObjectList {
 void CreateAirship(void *a);
 void DrawAirship(void *a, Airship *airship);
 void InitAirshipObjects(AirshipObjectList *list);
-s32 func_020a0044(s32 angle);
-s32 func_020a0028(s32 multiplicand, s32 multiplier);
+s32 AirshipGetAnglePairSecond(s32 angle);
+s32 AirshipMulFixed12Rounded(s32 multiplicand, s32 multiplier);

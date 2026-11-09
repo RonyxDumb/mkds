@@ -19,14 +19,14 @@ void CreateAirship(void *a) {
 void DrawAirship(void *a, Airship *airship) {
     s32 v;
     MtxFx33 rotationMatrix;
-    Vec3 w;
+    Vec3 translation;
 
     v = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &v, 1);
-    w.y = (airship->mUnk_a0 + airship->mWobbleOffset) >> 4;
-    w.x = 0;
-    w.z = 0;
-    NNS_G3dGeBufferOP_N(0x1c, &w, 3);
+    translation.y = (airship->mUnk_a0 + airship->mWobbleOffset) >> 4;
+    translation.x = 0;
+    translation.z = 0;
+    NNS_G3dGeBufferOP_N(0x1c, &translation, 3);
     airship->mUnk_00.mMatrix.mUnk_00[3].x = airship->mUnk_00.mPos.x >> 4;
     airship->mUnk_00.mMatrix.mUnk_00[3].y = airship->mUnk_00.mPos.y >> 4;
     airship->mUnk_00.mMatrix.mUnk_00[3].z = airship->mUnk_00.mPos.z >> 4;
@@ -44,7 +44,7 @@ void InitAirshipObjects(AirshipObjectList *list) {
     s32 i;
     Airship *airship;
     BOOL z;
-    s32 v;
+    s32 speed;
 
     if (list == NULL) {
         return;
@@ -53,10 +53,11 @@ void InitAirshipObjects(AirshipObjectList *list) {
     for (i = 0; i < list->mUnk_04 && (airship = list->mUnk_00[i]) != NULL; i++) {
         InitGroupFollower(&airship->mUnk_c8, airship->mUnk_00.mCourseMapRow, z);
         airship->mUnk_a4 = (airship->mUnk_00.mCourseMapRow->mUnk_28 * 0x5000L) / 100;
-        v = airship->mUnk_a4;
-        airship->mUnk_c8.mSpeed = v;
+        speed = airship->mUnk_a4;
+        airship->mUnk_c8.mSpeed = speed;
         airship->mUnk_c8.mProgressStep =
-            ((s64) v * airship->mUnk_c8.mPath->mSegments[airship->mUnk_c8.mSegmentIndex].mInverseProgressLength) >> 12;
+            ((s64) speed * airship->mUnk_c8.mPath->mSegments[airship->mUnk_c8.mSegmentIndex].mInverseProgressLength) >>
+            12;
         airship->mUnk_a0 = airship->mUnk_00.mPos.y;
         GetGroupFollowerCurvePosStep(&airship->mUnk_c8, &airship->mUnk_00.mPos, &airship->mUnk_00.mUnk_10);
         airship->mUnk_a0 = airship->mUnk_a0 - airship->mUnk_00.mPos.y;
@@ -74,10 +75,10 @@ void InitAirshipObjects(AirshipObjectList *list) {
     }
 }
 
-s32 func_020a0044(s32 angle) {
+s32 AirshipGetAnglePairSecond(s32 angle) {
     return gPairsByAngle[((angle >> 4) << 1) + 1];
 }
 
-s32 func_020a0028(s32 multiplicand, s32 multiplier) {
+s32 AirshipMulFixed12Rounded(s32 multiplicand, s32 multiplier) {
     return ((s64) multiplicand * multiplier + 0x800) >> 12;
 }

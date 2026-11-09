@@ -238,7 +238,7 @@ void SetKartHitByKartIndexFromItem(s32 kartIndex, ItemObject *itemObject) {
     gStandings->mKarts[kartIndex].mHitByKartIndex = v & ~0xff00;
 }
 
-u32 func_020a1e3c(u32 value) {
+u32 StandingsReturnArgument(u32 value) {
     return value;
 }
 
@@ -787,7 +787,7 @@ void UpdateStandings(void) {
     BOOL a;
     BOOL b;
     s32 v;
-    u32 f;
+    u32 kartFlags;
     s32 i;
     s32 kartCount;
     KartStanding *kartStanding = gStandings->mKarts;
@@ -840,9 +840,9 @@ void UpdateStandings(void) {
             }
             if (gStandings->mKartHitCallback != NULL) {
                 b = TRUE;
-                f = kart->mUnk_48;
-                a = (f & 0x200) != 0;
-                if (kart->mState == KART_STATE_NORMAL && (f & 0x4000000) == 0) {
+                kartFlags = kart->mUnk_48;
+                a = (kartFlags & 0x200) != 0;
+                if (kart->mState == KART_STATE_NORMAL && (kartFlags & 0x4000000) == 0) {
                     b = FALSE;
                 }
                 if (kartStanding->mUnk_04 == FALSE && a != FALSE && (kart->mUnk_4c & 0x400000) == 0) {
@@ -1006,9 +1006,10 @@ void func_020a0318(void *mapObjectList, Unk020a0318 *mapObject) {
         if (mapObject->mDistanceLevel != 0) {
             if (*GetSndHandleSlot(8) != NULL) {
                 kart = GetKart((u16) gRaceSetup->mEntryIndex);
-                mapObject->mUnk_a0 = mapObject->mUnk_a0 - (s32) (((s64) kart->mVelocityLengthRatio * 0x1000) >> 12);
-                if (mapObject->mUnk_a0 < 0xc000) {
-                    mapObject->mUnk_a0 = 0xc000;
+                mapObject->mSoundVolumeFixed12 =
+                    mapObject->mSoundVolumeFixed12 - (s32) (((s64) kart->mVelocityLengthRatio * 0x1000) >> 12);
+                if (mapObject->mSoundVolumeFixed12 < 0xc000) {
+                    mapObject->mSoundVolumeFixed12 = 0xc000;
                 }
             } else if (mapObject->mSoundTimer-- <= 0) {
                 sndHandleSlot = GetSndHandleSlot(8);
@@ -1020,14 +1021,14 @@ void func_020a0318(void *mapObjectList, Unk020a0318 *mapObject) {
                 randomState = &gRaceProgress->mLocalRandom;
                 randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
                 mapObject->mSoundTimer = (u16) (((u64) (u32) (randomState->mValue >> 32) * 0x3c) >> 32) + 0x78;
-                mapObject->mUnk_a0 = 0x7f000;
+                mapObject->mSoundVolumeFixed12 = 0x7f000;
             }
         } else if (mapObject->mSoundTimer > 0) {
             mapObject->mSoundTimer = mapObject->mSoundTimer - 1;
         }
         if (*GetSndHandleSlot(8) != NULL) {
-            v = mapObject->mDistanceVolumeFixed12 < mapObject->mUnk_a0 ? mapObject->mDistanceVolumeFixed12
-                                                                       : mapObject->mUnk_a0;
+            v = mapObject->mDistanceVolumeFixed12 < mapObject->mSoundVolumeFixed12 ? mapObject->mDistanceVolumeFixed12
+                                                                                   : mapObject->mSoundVolumeFixed12;
             SetSndHandleTrackVolume(GetSndHandleSlot(8), v >> 12);
         }
     }

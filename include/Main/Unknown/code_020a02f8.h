@@ -7,7 +7,7 @@
 // Object with the MapObject base at 0x00 (func_020a0318, func_020a066c, func_020a089c).
 typedef struct Unk020a0318 {
     /* 00 */ MapObject mUnk_00;
-    /* a0 */ s32 mUnk_a0;
+    /* a0 */ s32 mSoundVolumeFixed12;
     /* a4 */ s32 mDistanceVolumeFixed12;
     // Radius in whole units; the inner half-radius test uses w / 2 without the << 12.
     /* a8 */ s32 mRadius;
@@ -60,4 +60,4 @@ void MoveKartTowardLastRank(u16 kartIndex);
 void MoveKartTowardFirstRank(u16 kartIndex);
 u16 GetBattleItemRank(s32 kartIndex);
 void func_020a1ddc(s32 kartIndex);
-unsigned int func_020a1e3c(unsigned int value);
+unsigned int StandingsReturnArgument(unsigned int value);

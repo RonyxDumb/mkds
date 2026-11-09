@@ -252,7 +252,7 @@ void StartKartStar(Kart *kart) {
         StartKartStarSeq();
     }
     if (gRaceSetup->mMode == MODE_BATTLE) {
-        func_020a1e3c(kart->mIndex);
+        StandingsReturnArgument(kart->mIndex);
     }
     if (kart->mUnk_7c & 0x200) {
         kart->mUnk_514->mUnk_2c ^= 0x2000;

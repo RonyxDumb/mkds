@@ -22,7 +22,7 @@ typedef struct Shine16 {
     // Frame index of the shine's .nsbtp animation, stepped every few frames and wrapped at the animation's frame count;
     // the draw passes it to the frame setter.
     /* b0 */ s32 mNsbtpFrameIndex;
-    /* b4 */ s32 mUnk_b4;
+    /* b4 */ s32 mNsbtpFrameStepProgress;
     /* b8 */ s32 mMirror;
     /* bc */ s32 mNsbtpFramesSinceMirror;
     // Set to 0x19 when a kart takes the shine (a second pickup is refused while it is above 0), counted down while the
@@ -31,33 +31,33 @@ typedef struct Shine16 {
     /* c4 */ s32 mSpawnObjectIndex;
     // Index of the kart the shine follows in states 2 and 3: the kart that took it, or the kart it was released from.
     /* c8 */ u16 mKartIndex;
-    /* ca */ u16 mUnk_ca;
-    /* cc */ Vec3 mUnk_cc;
-    /* d8 */ s32 mUnk_d8;
-    /* dc */ s32 mUnk_dc;
+    /* ca */ u16 mHitByKartIndex;
+    /* cc */ Vec3 mTargetPos;
+    /* d8 */ s32 mTargetDistanceSquared;
+    /* dc */ s32 mTargetPickCount;
     /* State number of this kind's own per-frame switch in UpdateShine16; this object does not use
-       MapObject.mUnk_80's state machine; also read in the second draw callback func_020a683c */
+       MapObject.mUnk_80's state machine; also read in the shadow draw callback DrawShine16Shadow */
     /* e0 */ s32 mState;
     /* e4 */ void *mEffect;
     /* e8 */ s32 mEffectTimer;
 } Shine16;
 
-#include "Main/Unknown/code_020a3fa8.h" // Unk020a3fa8
+#include "Main/Unknown/code_020a3fa8.h" // KartBalloonsObject
 
 void *CreateKartBalloonsUpdateList(void);
 MapObjectKindData *CreateKartBalloonsKindData(void);
-void InitKartBalloons(Unk020a3fa8 *a);
-void BalloonKartOffsetCallback(u16 a, Vec3 *b);
+void InitKartBalloons(KartBalloonsObject *kartBalloonsObject);
+void BalloonKartOffsetCallback(u16 kartIndex, Vec3 *offset);
 void BalloonEndCallback(void);
-void BalloonKartEliminatedCallback(u16 a);
-BOOL BalloonKartHitCallback(u16 a, u16 b);
-s32 BalloonKartsHitEachOtherCallback(u16 a, u16 b);
-BOOL BalloonKartHitByKartCallback(u16 a, u16 b);
-void StartShine16FromKart(Kart *a, Kart *b);
-void StartShine16(Vec3 *a, s32 b, s32 c);
+void BalloonKartEliminatedCallback(u16 kartIndex);
+BOOL BalloonKartHitCallback(u16 kartIndex, u16 hitByKartIndex);
+s32 BalloonKartsHitEachOtherCallback(u16 firstKartIndex, u16 secondKartIndex);
+BOOL BalloonKartHitByKartCallback(u16 hitKartIndex, u16 hitByKartIndex);
+void StartShine16FromKart(Kart *hitKart, Kart *hitByKart);
+void StartShine16(Vec3 *position, s32 spawnObjectIndex, s32 dropFromAbove);
 void ParkShine16Objects(void);
 void *CreateShine16UpdateList(void);
-void *func_020a58d0(void);
+void *CreateShine16ShadowDrawList(void);
 void *CreateShine16DrawList(void);
 void CreateShine16KindData(void);
-void UpdateShine16(void *a, Shine16 *p); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdateShine16(void *a, Shine16 *shine16); /* skipped for objects with mFlags & 4 (parked pool objects) */

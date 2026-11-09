@@ -10,11 +10,11 @@
 // words up to 0xe4, a Vec3 at 0xe8 and words up to 0xfc; the pointer array at 0xf8 has the count at 0xf4.
 typedef struct Balloon {
     /* 00 */ MapObject mUnk_00;
-    // Frames left while the balloon has no kart: 0x1e from the let-go function, counted down in the update; at 0 the
+    // Frames left while the balloon has no kart: 0x1e from StartBalloonWithoutKart, counted down each update; at 0 the
     // end effects start and the object is parked.
     /* a0 */ s32 mNoKartTimer;
-    // Index of the kart whose list holds the balloon, -1 while it has no kart (set at creation and by the let-go
-    // function).
+    // Index of the kart whose list holds the balloon, -1 while it has no kart (set at creation and by
+    // StartBalloonWithoutKart).
     /* a4 */ s32 mKartIndex;
     // Frame index of the balloon's .nsbtp animation, stored at creation from the kart's mBalloonNsbtpFrameIndex and
     // held fixed; the draw passes it to the frame setter and the effect callback uses it as an index into a table.
@@ -25,14 +25,14 @@ typedef struct Balloon {
     /* b0 */ Vec3 mTargetPos;
     // Velocity of mTargetPos: the kart's velocity while attached; a balloon without a kart falls (y -0x2000 per frame).
     /* bc */ Vec3 mTargetVelocity;
-    /* c8 */ s32 mUnk_c8;
-    /* cc */ s32 mUnk_cc;
+    /* c8 */ s32 mSwingAngle;
+    /* cc */ s32 mSwingAnglePerFrame;
     // Size of the balloon in 20.12 fixed point (0x1000 = full size): grows while inflating; UpdateKartBalloons treats
     // <= 0 as gone and >= 0x1000 as full.
     /* d0 */ s32 mScaleFactor;
-    /* d4 */ s32 mUnk_d4;
-    /* d8 */ s32 mUnk_d8;
-    /* dc */ s32 mUnk_dc;
+    /* d4 */ s32 mScaleFactorPerFrame;
+    /* d8 */ s32 mScaleSwing;
+    /* dc */ s32 mScaleSwingPerFrame;
     /* e0 */ s32 mUnk_e0;
     /* e4 */ s32 mDrawScale;
     /* e8 */ Vec3 mDrawPos;

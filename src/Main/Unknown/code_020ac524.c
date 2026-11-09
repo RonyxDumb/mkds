@@ -60,7 +60,7 @@ void DrawShineBalloon(void *a, ShineBalloonObject *b) {
     s0 = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &s0, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&b->mUnk_00.mPos), 0xc);
-    v2.y = func_020a23a0(b->mUnk_ac) >> 4;
+    v2.y = GetKartBalloonOrShineHeight(b->mUnk_ac) >> 4;
     v2.x = 0;
     v2.z = 0;
     NNS_G3dGeBufferOP_N(0x1c, &v2, 3);

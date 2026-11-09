@@ -7,4 +7,4 @@ typedef struct MapObjectList MapObjectList;
 
 void DrawBalloon(void *mapObjectList, Balloon *balloon);
 void SetupDrawBalloon(void *mapObjectList);
-void CreateBalloon(MapObjectList *a); /* also sets word +0x1c of the group record to 1 */
+void CreateBalloon(MapObjectList *mapObjectList); /* also sets word +0x1c of the group record to 1 */

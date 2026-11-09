@@ -13,8 +13,8 @@ typedef struct KartBalloons {
     /* 00 */ s32 mSpawnTimer;
     // Balloons state 1 still makes: from the course row's word or 1; counted down by each balloon made.
     /* 04 */ s32 mRemainingSpawnCount;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
+    /* 08 */ s32 mSwing;
+    /* 0c */ s32 mSwingPerFrame;
     // The kart's balloons in order; the one being inflated is at the index equal to the kart's count.
     /* 10 */ Balloon *mBalloons[8];
     // Frame index every balloon of this kart is created with (Balloon.mNsbtpFrameIndex): the course row's word when it
@@ -27,7 +27,7 @@ typedef struct KartBalloons {
 
 // Object of map object kind 0x69: steps the balloons of every kart. A MapObject first, then mStartTimer, eight
 // KartBalloons and the balloon offsets; 0x364 bytes, the size in its kind descriptor.
-typedef struct Unk020a3fa8 {
+typedef struct KartBalloonsObject {
     /* 000 */ MapObject mUnk_000;
     // Frames left before the first balloons are made: the update does nothing until it reaches 0, then puts every entry
     // in state 1. Starts at 0x3c, or 0xffff when gRace->mUseChainCameras is non-zero.
@@ -37,6 +37,6 @@ typedef struct Unk020a3fa8 {
     // Sideways offsets of one kart's balloons, indexed [balloon count - 1][balloon index]: 0xc00 apart, centred on the
     // kart; added to the local kart's sway offset.
     /* 264 */ s32 mBalloonOffsets[8][8];
-} Unk020a3fa8;
+} KartBalloonsObject;
 
-void UpdateKartBalloons(void *b, Unk020a3fa8 *c);
+void UpdateKartBalloons(void *mapObjectList, KartBalloonsObject *kartBalloonsObject);

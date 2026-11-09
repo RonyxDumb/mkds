@@ -772,7 +772,7 @@ extern u16 *data_0217b868;
 extern s32 data_0217bc5c;
 extern s32 data_0217bc60;
 
-extern u16 data_0217b220;
+extern u16 gShine16ShadowAngleIndex;
 #include "Main/Unknown/unk_0217b358.h"
 #include "Main/Unknown/unk_0217b35c.h"
 // Object behind gRaceModeCount, 0xc bytes, allocated by InitRaceModeCount. The word at 0 is also read and written as

@@ -5,16 +5,16 @@
 #include "Main/Unknown/code_020e6fd4.h" // MapObject
 
 // Object of the list FindMapObjectKindUpdateList(0x6b): the shared MapObject part, then three words.
-typedef struct Unk020a6cb4 {
+typedef struct ShineBattle {
     /* 00 */ MapObject mUnk_00;
     /* a0 */ BOOL mHasShine;
-    /* a4 */ BOOL mUnk_a4;
+    /* a4 */ BOOL mSkipRandomPick;
     /* a8 */ s32 mShineStartFrames;
-} Unk020a6cb4;
+} ShineBattle;
 
-void func_020a6cb4(s32 a);
+void ClearShineBattleObjectShine(s32 spawnObjectIndex);
 void *CreateShineBattleUpdateList(void);
 MapObjectKindData *CreateShineBattleKindData(void);
-void func_020a6d8c(MapObjectList *a, Unk020a6cb4 *b);
-void func_020a6e70(MapObjectList *a);
-BOOL TryStartShine16AtRandomObject(MapObjectList *a);
+void UpdateShineBattle(MapObjectList *mapObjectList, ShineBattle *shineBattle);
+void StartShineBattle(MapObjectList *mapObjectList);
+BOOL TryStartShine16AtRandomObject(MapObjectList *mapObjectList);
