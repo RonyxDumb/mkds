@@ -34,7 +34,7 @@ void InitShineBalloon(u32 arg0) {
 }
 
 void CreateShineBalloon(void *a) {
-    void *p;
+    MapObjectModel *p;
 
     p = CreateMapObjectModelNsbmd(a, "shine_balloon.nsbmd");
     gShineBalloon = p;

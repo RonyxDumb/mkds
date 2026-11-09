@@ -11,7 +11,7 @@
 #include "Main/Unknown/code_020e6fd4.h" // MapObjectList
 
 #pragma thumb on
-void *CreateMapObjectModelAnimated(MapObjectList *a, const char *b) {
+MapObjectModel *CreateMapObjectModelAnimated(MapObjectList *a, const char *b) {
     MapObjectModel *o;
 
     o = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
@@ -59,7 +59,7 @@ void CreateMapObjectModelNsbtpAnimation(MapObjectModel *a, const char *b) {
 #pragma thumb off
 
 #pragma thumb on
-void *CreateMapObjectModelShadow(MapObjectList *a, const char *b) {
+MapObjectModel *CreateMapObjectModelShadow(MapObjectList *a, const char *b) {
     MapObjectModel *o;
     void *x;
 
@@ -76,7 +76,7 @@ void *CreateMapObjectModelShadow(MapObjectList *a, const char *b) {
 #pragma thumb off
 
 #pragma thumb on
-void *CreateMapObjectModelNsbmd(MapObjectList *a, const char *b) {
+MapObjectModel *CreateMapObjectModelNsbmd(MapObjectList *a, const char *b) {
     MapObjectModel *o;
     void *x;
     NsbmdModel *m;
@@ -101,7 +101,7 @@ void *CreateMapObjectModelNsbmd(MapObjectList *a, const char *b) {
 
 #pragma thumb on
 // Like CreateMapObjectModelNsbmd with a second file, the .nsbtp (named like Init<Kind><Kind>).
-void *CreateMapObjectModelNsbmdNsbtp(MapObjectList *a, const char *b, const char *c) {
+MapObjectModel *CreateMapObjectModelNsbmdNsbtp(MapObjectList *a, const char *b, const char *c) {
     MapObjectModel *o;
     void *x;
     void *y;

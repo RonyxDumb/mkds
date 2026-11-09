@@ -44,7 +44,7 @@
 #include "Main/Unknown/code_0207e654.h"
 
 void CreateSmanTop(void *a) {
-    void *mapObjectModelNsbmd;
+    MapObjectModel *mapObjectModelNsbmd;
     mapObjectModelNsbmd = CreateMapObjectModelNsbmd(a, gSmanTopNsbmdName);
     gSmanTop = mapObjectModelNsbmd;
     SetMapObjectModelPolygonId(mapObjectModelNsbmd, 0x3f);
@@ -73,7 +73,7 @@ void DrawSmanTop(void *mapObjectList, Sman *sman) {
 }
 
 void CreateSmanBottom(void *a) {
-    void *mapObjectModelNsbmd;
+    MapObjectModel *mapObjectModelNsbmd;
     mapObjectModelNsbmd = CreateMapObjectModelNsbmd(a, gSmanBottomNsbmdName);
     gSmanBottom = mapObjectModelNsbmd;
     SetMapObjectModelPolygonId(mapObjectModelNsbmd, 0x3f);

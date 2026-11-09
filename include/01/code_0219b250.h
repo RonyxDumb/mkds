@@ -3,6 +3,7 @@
 #include "types.h"
 #include "code_02012b30.h"
 #include "code_02010c84.h"
+#include "Main/Unknown/code_020846c0.h" // Nsbmd
 
 // Object at Unk0219b250.mNsbcaAnimation and mNsbtpAnimation (a 0x38-byte allocation).
 typedef struct ModelAnimationView {
@@ -24,7 +25,7 @@ typedef struct Unk0219b250 {
     // Not accessed through this view.
     /* 0c */ void *mNsbmdModel;
     // Overlay view of MapObjectModel.mAnimatedModel.
-    /* 10 */ NNSG3dRenderObj *mAnimatedModel;
+    /* 10 */ Nsbmd *mAnimatedModel;
     // Overlay view of MapObjectModel.mShadowModel.
     /* 14 */ void *mShadowModel;
     // Overlay view of MapObjectModel.mNsbmdFile.

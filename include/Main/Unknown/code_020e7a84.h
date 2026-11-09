@@ -2,6 +2,8 @@
 
 #include "types.h"
 
+typedef struct ModelAnimation ModelAnimation;
+
 void UpdateJgState6(void);
 void EnterJgState6(void);
 void UpdateJgState5(void);
@@ -21,4 +23,5 @@ void DrawJg(void);
 void UpdateJg(void);
 void AdvanceJgPointsAndSetTarget(Vec3 *offset, const Vec3 *endScale, const Vec3 *startScale);
 void InitJgOffsets(void);
-void CreateModelAnimation(u32 animationKind, void *model, void **animationSlot, void *nsbmdFile, void *animationFile);
+void CreateModelAnimation(u32 animationKind, void *model, ModelAnimation **animationSlot, void *nsbmdFile,
+                          void *animationFile);

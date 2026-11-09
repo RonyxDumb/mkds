@@ -142,7 +142,7 @@ void DrawVehicle(VehicleDrawList *drawList, Unk020e1e98 *vehicle, u32 c, u32 alp
     s16 dotLimit;
     Vec3 *shadowPosition;
     const s16 *anglePairs;
-    Unk020e1e98_12c *animation;
+    ModelAnimation *animation;
     MtxFx43 tireMatrix;
     s32 one;
     u32 angleIndex;
@@ -177,8 +177,8 @@ void DrawVehicle(VehicleDrawList *drawList, Unk020e1e98 *vehicle, u32 c, u32 alp
     vehicle->mUnk_000.mMatrix.mUnk_00[3].z = vehicle->mUnk_000.mPos.z >> 4;
     animation = vehicle->mUnk_12c;
     if (animation != NULL) {
-        animation->mUnk_0c = vehicle->mUnk_130 << 12;
-        *animation->mUnk_1c[animation->mUnk_1a] = animation->mUnk_0c;
+        animation->mHead.mFrameIndex = vehicle->mUnk_130 << 12;
+        animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
     }
     SendLight01Color(&vehicle->mUnk_132);
     DrawNsbmdWithMatrixAndMaxAlpha((void *) vehicle->mUnk_124, &vehicle->mUnk_000.mMatrix, &vehicle->mUnk_000.mScale,
@@ -455,7 +455,7 @@ void InitVehicleDrawList(VehicleDrawList *drawList) {
     s32 index;
     Unk020e1e98 *vehicle;
     u32 *modelSlot;
-    Unk020e1e98_12c **animationSlot;
+    ModelAnimation **animationSlot;
     s32 count;
 
     carFile = FindCourseMapObjFile(gCarANsbmdName);

@@ -109,7 +109,7 @@ void CreateObjShadowAndJgShadow(void) {
     c = OFFSET_PTR(NNSG3dResShp, a, a->mOfsShp);
     data_0217b818 = OFFSET_PTR(Unk020e54e4, c, ((u32 *) OFFSET_PTR(u8, c, c->mDict.mOfsEntry))[1]);
     if (gRaceSetup->mRaceKind != RACE_KIND_STAFF_ROLL) {
-        CreateShadowModel((void **) &gJgShadow, FindSceneFile(gJgShadowNsbmdName), 0x3f);
+        CreateShadowModel(&gJgShadow, FindSceneFile(gJgShadowNsbmdName), 0x3f);
     }
 }
 

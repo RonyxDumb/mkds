@@ -291,14 +291,14 @@ void UpdateBridge(s32 a, Bridge *bridge) {
 }
 
 void DrawBridge(Unk020e3ef4 *object, void *viewMatrix, u32 alpha) {
-    Unk020e1e98_12c *animation;
+    ModelAnimation *animation;
 
     object->mUnk_000.mMapObject.mMatrix.mUnk_00[3].x = object->mUnk_000.mMapObject.mPos.x >> 4;
     object->mUnk_000.mMapObject.mMatrix.mUnk_00[3].y = object->mUnk_000.mMapObject.mPos.y >> 4;
     object->mUnk_000.mMapObject.mMatrix.mUnk_00[3].z = object->mUnk_000.mMapObject.mPos.z >> 4;
     animation = gBridgeNsbca;
-    animation->mUnk_0c = object->mUnk_154;
-    *animation->mUnk_1c[animation->mUnk_1a] = animation->mUnk_0c;
+    animation->mHead.mFrameIndex = object->mUnk_154;
+    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
     DrawNsbmdWithMatrixAndMaxAlpha(object->mModel, &object->mUnk_000.mMapObject.mMatrix,
                                    &object->mUnk_000.mMapObject.mScale.x, alpha);
 }

@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-void CreateShadowModel(void **slot, void *file, u32 c);
+typedef struct ShadowModel ShadowModel;
+
+void CreateShadowModel(ShadowModel **slot, void *file, u32 c);

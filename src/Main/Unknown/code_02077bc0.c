@@ -127,9 +127,9 @@
 
 void DrawShadowModelIfDrawFlag(ShadowModel *shadowModel, u32 b, u32 c) {
     if ((shadowModel->mFlags & 1) != 0) {
-        SetNsbmdFirstDrawMaterial(shadowModel, shadowModel->mAlpha);
+        SetNsbmdFirstDrawMaterial(&shadowModel->mNsbmd, shadowModel->mAlpha);
         gNsbmdDrawFunctions[shadowModel->mNsbmd.mDrawKind](shadowModel);
-        SetNsbmdSecondDrawMaterial(shadowModel, shadowModel->mAlpha, shadowModel->mPolygonId);
+        SetNsbmdSecondDrawMaterial(&shadowModel->mNsbmd, shadowModel->mAlpha, shadowModel->mPolygonId);
         gNsbmdDrawFunctions[shadowModel->mNsbmd.mDrawKind](shadowModel);
     }
 }

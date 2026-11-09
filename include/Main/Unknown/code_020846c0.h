@@ -33,20 +33,20 @@ typedef struct Nsbmd {
 
 void func_020846c0(void *heap);
 void ReleaseAllResFiles(void);
-void SetNsbmdCullModeAll(void *object, u32 cullMode);
-void SetNsbmdPolygonIdLightEmiAll(void *object, u32 polygonId, u32 light, u32 color);
-void SetNsbmdEmiAll(void *object, u32 color);
-void SetNsbmdLightEnableFlagAll(void *object, u32 light);
-void SetNsbmdPolygonIdAll(void *object, u32 polygonId);
-void DrawNsbmd(void *object);
+void SetNsbmdCullModeAll(Nsbmd *nsbmd, u32 cullMode);
+void SetNsbmdPolygonIdLightEmiAll(Nsbmd *nsbmd, u32 polygonId, u32 light, u32 color);
+void SetNsbmdEmiAll(Nsbmd *nsbmd, u32 color);
+void SetNsbmdLightEnableFlagAll(Nsbmd *nsbmd, u32 light);
+void SetNsbmdPolygonIdAll(Nsbmd *nsbmd, u32 polygonId);
+void DrawNsbmd(Nsbmd *nsbmd);
 void DrawNsbmdWithMatrix(Nsbmd *object, MtxFx43 *matrix, u32 *scale);
-void SetNsbmdSecondDrawMaterial(void *object, u8 alpha, u8 polygonId);
-void SetNsbmdFirstDrawMaterial(void *object, u8 alpha);
+void SetNsbmdSecondDrawMaterial(Nsbmd *nsbmd, u8 alpha, u8 polygonId);
+void SetNsbmdFirstDrawMaterial(Nsbmd *nsbmd, u8 alpha);
 NNSG3dResMdl *InitNsbmdWithTextureInfoCopy(void *heap, Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile,
                                            NNSG3dResFileHeader *textureFile);
 NNSG3dResMdl *InitNsbmdWithoutCullSwap(Nsbmd *nsbmd, NNSG3dResFileHeader *file);
 NNSG3dResMdl *InitNsbmdWithTextureFile(Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile, NNSG3dResFileHeader *textureFile);
-NNSG3dResMdl *InitNsbmd(void *object, NNSG3dResFileHeader *file);
+NNSG3dResMdl *InitNsbmd(Nsbmd *nsbmd, NNSG3dResFileHeader *file);
 void func_02084f10(Nsbmd *nsbmd, NNSG3dResMdl *resMdl);
 void SetNsbmdCullModeUnmirrored(Nsbmd *nsbmd);
 void SetNsbmdCullModeMirrored(Nsbmd *nsbmd);

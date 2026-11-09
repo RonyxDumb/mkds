@@ -165,9 +165,9 @@ typedef struct GrpconfTblRow {
     /* 0e */ u16 mUnk_0e;
 } GrpconfTblRow;
 
-extern void *gHole;
-extern void *gCover;
-extern void *gPoo;
+extern MapObjectModel *gHole;
+extern MapObjectModel *gCover;
+extern MapObjectModel *gPoo;
 extern u16 gSearchStartIndex;
 extern s32 gEntryYDifferenceLimit;
 extern Unk02165ff0 *data_0217b030;
@@ -238,8 +238,8 @@ extern UnkFunc *gThrowItemNotTrailKindCallback;
 extern UnkFunc *gThrowItemTrailKindCallback;
 extern KartAiItemUseEntry *gBattleHeldItemEntries;
 extern s32 *gStaffGhostTime;
-extern void *gSmanBottom;
-extern void *gSmanTop;
+extern MapObjectModel *gSmanBottom;
+extern MapObjectModel *gSmanTop;
 
 // The 0x10 bytes at 0x784 of StemSets; the callbacks at 0x794 and 0x798 get their address.
 typedef struct TimedQuad {
@@ -268,7 +268,7 @@ typedef struct StemSets {
 
 extern StemSets *gStemSets;
 extern u32 gUnparkedTeresaCount;
-extern void *gChandelier;
+extern MapObjectModel *gChandelier;
 // One kart's entry of Standings (0x70 bytes, indexed by kart index): its count, rank, side id, elimination status and
 // last position, and the hit tracking of the kart (those members keep their address names). Slots past the kart count
 // are unused: status 2, count -1.
@@ -361,7 +361,7 @@ typedef struct Standings {
 
 // The Standings object, allocated by InitStandings in modes 2 and 4.
 extern Standings *gStandings;
-extern void *gBalloon;
+extern MapObjectModel *gBalloon;
 extern Vec3 data_0217b208;
 extern Vec3 data_0217b214;
 // 8-byte entries of the tables KeyboardKeys points to (FindKeyboardRectByValue returns one).
@@ -492,7 +492,7 @@ typedef struct KeyboardTextEntry {
 
 extern KeyboardTextEntry *gKeyboardTextEntry;
 extern u16 *gKbdmapHiragana;
-extern void *gShineBalloon;
+extern MapObjectModel *gShineBalloon;
 typedef struct TitleStateHandlers {
     /* 00 */ UnkFunc *mUnk_00;
     /* 04 */ void (*mUpdate)(s32);
@@ -752,7 +752,7 @@ extern Vec3 data_0217b760;
 extern Unk020dfc44 *data_0217b76c;
 extern struct Nsbmd *gMkdEfBubble;
 extern MapObjectDrawList *data_0217b774;
-extern void *gMkdEfBubbleNsbta;
+extern ModelAnimation *gMkdEfBubbleNsbta;
 extern struct Nsbmd *gKoopaBlock;
 extern NsbmdModel *gChoropu;
 extern NsbmdModel *gPukupuku;
@@ -995,24 +995,24 @@ typedef struct Unk0217b9ec {
 extern Unk0217b9ec gJgStateMachine;
 extern Vec3 *gItemPushVector;
 extern struct Nsbmd *gBridge;
-extern void *gBridgeNsbca;
-extern void *data_0217b7c0;
-extern void *data_0217b7bc;
-extern void *data_0217b7b4;
-extern void *data_0217b780;
+extern ModelAnimation *gBridgeNsbca;
+extern struct Unk020e039c *data_0217b7c0;
+extern struct Unk020e039c *data_0217b7bc;
+extern struct Unk020e0340 *data_0217b7b4;
+extern struct Unk020e0340 *data_0217b780;
 extern void *data_0217b784;
-extern void *gCarAShadow;
-extern void *gCarANsbtp;
+extern struct ShadowModel *gCarAShadow;
+extern ModelAnimation *gCarANsbtp;
 extern struct Nsbmd *gCarTire;
 extern struct Nsbmd *gTruckA;
-extern void *gTruckAShadow;
+extern struct ShadowModel *gTruckAShadow;
 extern struct VehicleDrawList *gVehicleDrawList;
 extern struct Nsbmd *gCarA;
-extern void *gVehicleUpdateList;
-extern void *gTruckANsbtp;
+extern struct Unk020e0340 *gVehicleUpdateList;
+extern ModelAnimation *gTruckANsbtp;
 extern struct Nsbmd *gBusA;
-extern void *gBusAShadow;
-extern void *data_0217b7c8;
+extern struct ShadowModel *gBusAShadow;
+extern struct Unk020e0340 *data_0217b7c8;
 extern struct Nsbmd *gGearWhite;
 extern struct Nsbmd *gGearBlack;
 extern struct Nsbmd *gRotaryBridge;
@@ -1031,7 +1031,7 @@ extern s16 *gCollisionSlotNextFree;
 extern s16 *gFoundCollisionSlotIndices;
 extern Vec3 gPukupukuDrawScale;
 extern struct Nsbmd *gPendulum;
-extern void *gPendulumShadow;
+extern struct ShadowModel *gPendulumShadow;
 extern struct Nsbmd *gSecondHand;
 extern struct MapObjectList *data_0217b864;
 extern s32 data_0217b8b4;
@@ -1124,33 +1124,33 @@ extern u8 gItemDataDelayedLinks[][2];
 extern u8 gItemDataBuffer[];
 extern u8 data_0217bdc1[];
 extern u8 data_0217bd81[];
-extern void *gShine16;
-extern void *gAirship;
-extern void *gSanboH;
-extern void *gSanboB;
-extern void *gIronBall;
+extern MapObjectModel *gShine16;
+extern MapObjectModel *gAirship;
+extern MapObjectModel *gSanboH;
+extern MapObjectModel *gSanboB;
+extern MapObjectModel *gIronBall;
 
 extern MapObjectModel *gFlipper;
-extern void *gBasabasa;
-extern void *gMkdEfBurner;
-extern void *gCow;
-extern void *gKanoke64;
-extern void *gNsKiller2;
-extern void *gNsKiller2S;
-extern void *gNsKiller1;
-extern void *gTeresa;
-extern void *gBakuShadow;
-extern void *gBakubaku;
-extern void *gMoveTree;
-extern void *gCrabHand;
-extern void *gCrab;
-extern void *gBerry;
-extern void *gCream;
-extern void *gBound;
-extern void *gSunLOD;
-extern void *gSun;
-extern void *gFireball2;
-extern void *gPuddle;
-extern void *gPicture1;
-extern void *gPicture2;
-extern void *gRainStar;
+extern MapObjectModel *gBasabasa;
+extern MapObjectModel *gMkdEfBurner;
+extern MapObjectModel *gCow;
+extern MapObjectModel *gKanoke64;
+extern MapObjectModel *gNsKiller2;
+extern MapObjectModel *gNsKiller2S;
+extern MapObjectModel *gNsKiller1;
+extern MapObjectModel *gTeresa;
+extern MapObjectModel *gBakuShadow;
+extern MapObjectModel *gBakubaku;
+extern MapObjectModel *gMoveTree;
+extern MapObjectModel *gCrabHand;
+extern MapObjectModel *gCrab;
+extern MapObjectModel *gBerry;
+extern MapObjectModel *gCream;
+extern MapObjectModel *gBound;
+extern MapObjectModel *gSunLOD;
+extern MapObjectModel *gSun;
+extern MapObjectModel *gFireball2;
+extern MapObjectModel *gPuddle;
+extern MapObjectModel *gPicture1;
+extern MapObjectModel *gPicture2;
+extern MapObjectModel *gRainStar;

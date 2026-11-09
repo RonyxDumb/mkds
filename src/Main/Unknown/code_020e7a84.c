@@ -58,7 +58,8 @@
 
 #pragma thumb on
 
-void CreateModelAnimation(u32 animationKind, void *model, void **animationSlot, void *nsbmdFile, void *animationFile) {
+void CreateModelAnimation(u32 animationKind, void *model, ModelAnimation **animationSlot, void *nsbmdFile,
+                          void *animationFile) {
     *animationSlot = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
     InitModelAnimation(animationKind, *animationSlot, model, 1, GetHeap(GetCurrentHeapCall()), nsbmdFile);
     InitModelAnimationEntries(*animationSlot, animationFile, GetHeap(GetCurrentHeapCall()));

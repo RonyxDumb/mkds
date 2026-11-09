@@ -154,8 +154,7 @@ void func_02084f10(Nsbmd *nsbmd, NNSG3dResMdl *resMdl) {
     InitNsbmdRenderObj(nsbmd, resMdl, 1);
 }
 
-NNSG3dResMdl *InitNsbmd(void *object, NNSG3dResFileHeader *file) {
-    Nsbmd *nsbmd = object;
+NNSG3dResMdl *InitNsbmd(Nsbmd *nsbmd, NNSG3dResFileHeader *file) {
 
     NNSG3dResMdlSet *modelSet;
     NNSG3dResTex *texture;
@@ -292,8 +291,7 @@ NNSG3dResMdl *InitNsbmdWithTextureInfoCopy(void *heap, Nsbmd *nsbmd, NNSG3dResFi
     return resMdl;
 }
 
-void SetNsbmdFirstDrawMaterial(void *object, u8 alpha) {
-    Nsbmd *nsbmd = object;
+void SetNsbmdFirstDrawMaterial(Nsbmd *nsbmd, u8 alpha) {
 
     NNSG3dResMdl *resMdl = nsbmd->mResMdl;
     u32 cullMode;
@@ -308,8 +306,7 @@ void SetNsbmdFirstDrawMaterial(void *object, u8 alpha) {
     NNS_G3dMdlSetMdlAlpha(resMdl, 0, alpha);
 }
 
-void SetNsbmdSecondDrawMaterial(void *object, u8 alpha, u8 polygonId) {
-    Nsbmd *nsbmd = object;
+void SetNsbmdSecondDrawMaterial(Nsbmd *nsbmd, u8 alpha, u8 polygonId) {
 
     NNSG3dResMdl *resMdl = nsbmd->mResMdl;
     u32 cullMode;
@@ -343,40 +340,34 @@ void DrawNsbmdWithMatrix(Nsbmd *object, MtxFx43 *matrix, u32 *scale) {
     gNsbmdDrawFunctions[object->mDrawKind](object);
 }
 
-void DrawNsbmd(void *object) {
-    Nsbmd *nsbmd = object;
+void DrawNsbmd(Nsbmd *nsbmd) {
 
     gNsbmdDrawFunctions[nsbmd->mDrawKind](nsbmd);
 }
 
-void SetNsbmdPolygonIdAll(void *object, u32 polygonId) {
-    Nsbmd *nsbmd = object;
+void SetNsbmdPolygonIdAll(Nsbmd *nsbmd, u32 polygonId) {
 
     NNS_G3dMdlSetMdlPolygonIDAll(nsbmd->mResMdl, polygonId);
 }
 
-void SetNsbmdLightEnableFlagAll(void *object, u32 light) {
-    Nsbmd *nsbmd = object;
+void SetNsbmdLightEnableFlagAll(Nsbmd *nsbmd, u32 light) {
 
     NNS_G3dMdlSetMdlLightEnableFlagAll(nsbmd->mResMdl, light);
 }
 
-void SetNsbmdEmiAll(void *object, u32 color) {
-    Nsbmd *nsbmd = object;
+void SetNsbmdEmiAll(Nsbmd *nsbmd, u32 color) {
 
     NNS_G3dMdlSetMdlEmiAll(nsbmd->mResMdl, color);
 }
 
-void SetNsbmdPolygonIdLightEmiAll(void *object, u32 polygonId, u32 light, u32 color) {
-    Nsbmd *nsbmd = object;
+void SetNsbmdPolygonIdLightEmiAll(Nsbmd *nsbmd, u32 polygonId, u32 light, u32 color) {
 
     NNS_G3dMdlSetMdlPolygonIDAll(nsbmd->mResMdl, polygonId);
     NNS_G3dMdlSetMdlLightEnableFlagAll(nsbmd->mResMdl, light);
     NNS_G3dMdlSetMdlEmiAll(nsbmd->mResMdl, color);
 }
 
-void SetNsbmdCullModeAll(void *object, u32 cullMode) {
-    Nsbmd *nsbmd = object;
+void SetNsbmdCullModeAll(Nsbmd *nsbmd, u32 cullMode) {
 
     NNS_G3dMdlSetMdlCullModeAll(nsbmd->mResMdl, cullMode);
 }

@@ -13,8 +13,7 @@
 #include "code_02012b30.h"
 
 // Unparks and returns the first parked map object of the list, or NULL if the list is NULL or has none.
-void *UnparkFirstParkedMapObject(void *b) {
-    MapObjectList *mapObjectList = b;
+void *UnparkFirstParkedMapObject(MapObjectList *mapObjectList) {
     MapObject *mapObject;
     s32 i;
 
@@ -87,8 +86,7 @@ void DrawMapObjectModelWithPos(u32 a, MapObjectModel *mapObjectModel, MapObject 
     DrawShadowModelWithMaxAlpha(o->mShadowModel, mapObject->mAlpha);
 }
 
-void DrawMapObjectModel1Mat1Shp(void *a, void *b, void *c) {
-    MapObjectModel *mapObjectModel = b;
+void DrawMapObjectModel1Mat1Shp(void *a, MapObjectModel *mapObjectModel, void *c) {
 
     if (mapObjectModel->mAnimatedModel == NULL) {
         return;
@@ -238,8 +236,7 @@ u16 GetMapObjectModelNsbtaFrameCount(MapObjectModel *mapObjectModel) {
 }
 
 // Sets the current frame of slot 3 in 20.12 fixed point (the track frame follows).
-void SetMapObjectModelNsbtaFrameIndex(void *a, s32 frameIndex) {
-    MapObjectModel *o = a;
+void SetMapObjectModelNsbtaFrameIndex(MapObjectModel *o, s32 frameIndex) {
     ModelAnimation *animation = o->mAnimations[3];
 
     animation->mHead.mFrameIndex = frameIndex << 12;

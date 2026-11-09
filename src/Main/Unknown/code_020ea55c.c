@@ -7,7 +7,7 @@
 
 #pragma thumb on
 
-void CreateShadowModel(void **slot, void *file, u32 c) {
+void CreateShadowModel(ShadowModel **slot, void *file, u32 c) {
     *slot = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x74);
     InitShadowModel(*slot, file, (u8) c);
 }

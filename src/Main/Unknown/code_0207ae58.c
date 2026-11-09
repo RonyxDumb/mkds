@@ -355,7 +355,7 @@ NNSG3dResMdl *InitShadowModel(void *model, NNSG3dResFileHeader *resFileHeader, u
     ShadowModel *shadowModel = model;
     NNSG3dResMdl *resMdl;
 
-    InitNsbmd(shadowModel, resFileHeader);
+    InitNsbmd(&shadowModel->mNsbmd, resFileHeader);
     resMdl = shadowModel->mNsbmd.mResMdl;
     shadowModel->mPolygonId = polygonId;
     shadowModel->mAlpha = 0xd;
@@ -385,9 +385,9 @@ void DrawShadowWithMatrix(ShadowModel *shadowModel, const void *matrix, Vec3 *ex
         copiedVector.z = z;
         NNS_G3dGeBufferOP_N(0x1b, &copiedVector, 3);
     }
-    SetNsbmdFirstDrawMaterial(shadowModel, shadowModel->mAlpha);
+    SetNsbmdFirstDrawMaterial(&shadowModel->mNsbmd, shadowModel->mAlpha);
     gNsbmdDrawFunctions[shadowModel->mNsbmd.mDrawKind](shadowModel);
-    SetNsbmdSecondDrawMaterial(shadowModel, shadowModel->mAlpha, shadowModel->mPolygonId);
+    SetNsbmdSecondDrawMaterial(&shadowModel->mNsbmd, shadowModel->mAlpha, shadowModel->mPolygonId);
     gNsbmdDrawFunctions[shadowModel->mNsbmd.mDrawKind](shadowModel);
 }
 
@@ -395,8 +395,8 @@ void func_0207ae58(ShadowModel *shadowModel) {
     if ((shadowModel->mFlags & 1) == 0) {
         return;
     }
-    SetNsbmdFirstDrawMaterial(shadowModel, shadowModel->mAlpha);
+    SetNsbmdFirstDrawMaterial(&shadowModel->mNsbmd, shadowModel->mAlpha);
     gNsbmdDrawFunctions[shadowModel->mNsbmd.mDrawKind](shadowModel);
-    SetNsbmdSecondDrawMaterial(shadowModel, shadowModel->mAlpha, shadowModel->mPolygonId);
+    SetNsbmdSecondDrawMaterial(&shadowModel->mNsbmd, shadowModel->mAlpha, shadowModel->mPolygonId);
     gNsbmdDrawFunctions[shadowModel->mNsbmd.mDrawKind](shadowModel);
 }

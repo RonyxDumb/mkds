@@ -3,6 +3,7 @@
 #include "types.h"
 #include "code_02146d78.h"
 #include "Main/Unknown/code_020e6fd4.h" // MapObject
+#include "Main/Unknown/code_02087d0c.h" // ModelAnimation
 #include "Main/Unknown/code_020e005c.h"
 #include "Main/Unknown/code_0206bcb0.h" // Kart
 #include "Main/Unknown/code_0210b000.h" // SoundDistanceSquaredChange
@@ -55,15 +56,6 @@ extern const VehicleDrawList data_02158a7c;
 
 typedef struct ItemObject ItemObject;
 
-// Object a pointer at 0x12c of Unk020e1e98 points to (also behind gBridgeNsbca).
-typedef struct Unk020e1e98_12c {
-    /* 00 */ u8 mUnk_00[0xc];
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ u8 mUnk_10[0xa];
-    /* 1a */ u16 mUnk_1a;
-    /* 1c */ s32 **mUnk_1c;
-} Unk020e1e98_12c;
-
 // Object a pointer at 0x154 of Unk020e1e98 points to.
 typedef struct Unk020e1e98_154 {
     /* 00 */ s32 mUnk_00;
@@ -76,7 +68,7 @@ typedef struct Unk020e1e98_154 {
     /* 1c */ s32 mUnk_1c;
     /* 20 */ u32 *mUnk_20;
     /* 24 */ u32 *mUnk_24;
-    /* 28 */ Unk020e1e98_12c **mUnk_28;
+    /* 28 */ ModelAnimation **mUnk_28;
     /* 2c */ s32 mUnk_2c;
     /* 30 */ s32 mUnk_30;
 } Unk020e1e98_154;
@@ -116,7 +108,7 @@ typedef struct Unk020e1e98 {
     /* 120 */ s32 mUnk_120;
     /* 124 */ u32 mUnk_124;
     /* 128 */ u32 mUnk_128;
-    /* 12c */ Unk020e1e98_12c *mUnk_12c;
+    /* 12c */ ModelAnimation *mUnk_12c;
     /* 130 */ u16 mUnk_130;
     /* 132 */ u16 mUnk_132;
     /* 134 */ u8 mUnk_134[0xc];
