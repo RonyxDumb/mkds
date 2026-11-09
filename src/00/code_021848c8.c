@@ -22,7 +22,7 @@ void InitWiFiSelectCharacterState(void *a) {
     func_ov000_02184934();
     if (GetWiFiPrevState() != 5) {
         func_02122728();
-        SetRaceSetupCopyEntryIndex((u8) GetPackedIndex(func_ov000_0219bb50()));
+        SetRaceSetupCopyEntryIndex((u8) GetPackedIndex(GetOwnParticipantIndex()));
         SetSessionKartCount(gWiFiSession->mKartCount);
     }
     b = func_ov000_021804f4();

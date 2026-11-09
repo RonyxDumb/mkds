@@ -149,7 +149,7 @@ void func_02068b5c(Kart *kart) {
     func_02068ec0(kart, 0);
 }
 
-void func_02068a64(Kart *kart, s32 b, s32 c) {
+void SetKartCharacterAnimation(Kart *kart, s32 b, s32 c) {
     u32 kartBits;
     u32 currentBits;
     KartModelsEntry *modelsEntry;
@@ -250,7 +250,7 @@ void func_020688a0(Kart *kart) {
                         EliminateKartAndCheckWinner(kart->mIndex);
                     }
                     kart->mUnk_7c = kart->mUnk_7c | 0x20000;
-                    func_02068a64(kart, 3, 1);
+                    SetKartCharacterAnimation(kart, 3, 1);
                 }
                 break;
         }
@@ -362,7 +362,7 @@ void func_02068494(Kart *kart, s32 b, s32 c) {
             return;
         }
     }
-    func_02072930(kart);
+    StopKartItemsAndEffects(kart);
     SetKartModelsEntryCourseColors(kart->mKartModelsEntry);
     kart->mSlotFunctions[1](kart);
     kart->mUnk_7c = kart->mUnk_7c & ~0xe000;
@@ -379,10 +379,10 @@ void func_02068494(Kart *kart, s32 b, s32 c) {
     if ((kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) != 0) {
         if (c != 0) {
             kart->mUnk_7c = kart->mUnk_7c | 0x10000;
-            func_02068a64(kart, 2, 1);
+            SetKartCharacterAnimation(kart, 2, 1);
         } else {
             kart->mUnk_7c = kart->mUnk_7c | 0x20000;
-            func_02068a64(kart, 3, 1);
+            SetKartCharacterAnimation(kart, 3, 1);
         }
     }
     if (gRaceSetup->mMode == MODE_BATTLE) {

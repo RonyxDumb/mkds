@@ -79,10 +79,9 @@ void AdvanceAwardPointLinkCursor(PointLinkCursor *pointLinkCursor) {
     pointLinkCursor->mLink = pointLinkCursor->mLink->mNextLinks[nextLinkIndex];
     animation = data_usa_021557dc[pointLinkCursor->mLink->mUnk_20[2]];
     if (animation != kart->mKartModelsEntry->mCharacterAnimation->mCurrentIndex) {
-        func_02068a64(kart, animation, 1);
+        SetKartCharacterAnimation(kart, animation, 1);
     }
-    VEC_Subtract(pointLinkCursor->mLink->mPoint, pointLinkCursor->mPreviousLink->mPoint,
-                 &pointLinkCursor->mDirection);
+    VEC_Subtract(pointLinkCursor->mLink->mPoint, pointLinkCursor->mPreviousLink->mPoint, &pointLinkCursor->mDirection);
     Vec3NormalizeAndGetLengthUnchecked(&pointLinkCursor->mDirection, &pointLinkCursor->mDirection);
 }
 
@@ -111,7 +110,7 @@ void AdvanceStaffRollPointLinkCursor(PointLinkCursor *pointLinkCursor) {
     pointLinkCursor->mLink = pointLinkCursor->mLink->mNextLinks[nextLinkIndex];
     animation = data_usa_021557dc[pointLinkCursor->mLink->mUnk_20[2]];
     if (animation != kart->mKartModelsEntry->mCharacterAnimation->mCurrentIndex) {
-        func_02068a64(kart, animation, 1);
+        SetKartCharacterAnimation(kart, animation, 1);
     }
     if (pointLinkCursor->mKartIndex != 0) {
         if (pointLinkCursor->mLink->mUnk_20[3] == 0) {
@@ -120,8 +119,7 @@ void AdvanceStaffRollPointLinkCursor(PointLinkCursor *pointLinkCursor) {
             kart->mUnk_7c |= 0x40;
         }
     }
-    VEC_Subtract(pointLinkCursor->mLink->mPoint, pointLinkCursor->mPreviousLink->mPoint,
-                 &pointLinkCursor->mDirection);
+    VEC_Subtract(pointLinkCursor->mLink->mPoint, pointLinkCursor->mPreviousLink->mPoint, &pointLinkCursor->mDirection);
     Vec3NormalizeAndGetLengthUnchecked(&pointLinkCursor->mDirection, &pointLinkCursor->mDirection);
 }
 
@@ -243,8 +241,8 @@ void AdvanceRaceKartAi(KartAi *kartAi) {
     PickKartAiTargetKart(kartAi);
 }
 
-void func_0207f6f0(KartAi *kartAi, PointLinkCursor *linkCursor, Kart *kart, RacePointLink *requestedLink,
-                   Vec3 *kartPos, Vec3 *kartForward) {
+void func_0207f6f0(KartAi *kartAi, PointLinkCursor *linkCursor, Kart *kart, RacePointLink *requestedLink, Vec3 *kartPos,
+                   Vec3 *kartForward) {
     Vec3 toLinkPos;
     Vec3 crossProduct;
     Vec3 *planeNormal;

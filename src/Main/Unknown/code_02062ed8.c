@@ -26,8 +26,8 @@
 #include "Main/Unknown/code_02147000.h"
 #include "code_021471bc.h"
 
-static inline void func_0206331c_inline(u32 animationKind, u8 *animation, Nsbmd *nsbmd, void *heap,
-                                        void *modelFile, const char *animationFile, u16 *animationCount) {
+static inline void func_0206331c_inline(u32 animationKind, u8 *animation, Nsbmd *nsbmd, void *heap, void *modelFile,
+                                        const char *animationFile, u16 *animationCount) {
     if (animationFile == NULL) {
         *animationCount = 0;
     } else {
@@ -40,7 +40,7 @@ static inline void func_0206331c_inline(u32 animationKind, u8 *animation, Nsbmd 
 
 void func_02063880(Kart *kart) {
     AdvanceKartCollision(kart);
-    if ((data_0217aa14->mUnk_75c & 2) != 0) {
+    if ((gWiFiRaceSync->mFlags & 2) != 0) {
         func_020636f8(kart);
     }
     func_020641f0(kart);
@@ -78,7 +78,7 @@ void func_020636f8(Kart *kart) {
     Unk0217aa14_754_04 *recordBase;
     Unk020636f8_B *record;
 
-    recordBase = &data_0217aa14->mUnk_754->mUnk_04;
+    recordBase = &gWiFiRaceSync->mSendBuffer->mUnk_04;
     record = OFFSET_PTR(Unk020636f8_B, recordBase, 8);
     b = kart->mUnk_514;
     record->mUnk_00 = kart->mPos.x >> 10;

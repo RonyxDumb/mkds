@@ -91,7 +91,7 @@ void ReceiveWiFiSessionMessage(u32 fromIndex, void *buffer, u32 size) {
         return;
     }
     gWiFiSession->mSinceCallbackFrames[fromIndex] = 0;
-    ownIndex = func_ov000_0219bb50();
+    ownIndex = GetOwnParticipantIndex();
     if (func_02121f4c_inline(message, fromIndex, size, ownIndex) == FALSE) {
         return;
     }
@@ -192,17 +192,17 @@ void ReceiveWiFiSessionMessage(u32 fromIndex, void *buffer, u32 size) {
 }
 
 void SetWiFiSessionOwnCharacterIndex(s32 characterIndex) {
-    gWiFiSession->mIndexMessages[func_ov000_0219bb50()].mCharacterIndex = characterIndex;
+    gWiFiSession->mIndexMessages[GetOwnParticipantIndex()].mCharacterIndex = characterIndex;
 }
 
 void SetWiFiSessionOwnCharacterIndexNone(void) {
-    gWiFiSession->mIndexMessages[func_ov000_0219bb50()].mCharacterIndex = -1;
+    gWiFiSession->mIndexMessages[GetOwnParticipantIndex()].mCharacterIndex = -1;
 }
 
 void SetWiFiSessionOwnKartIndex(s32 kartIndex) {
-    gWiFiSession->mIndexMessages[func_ov000_0219bb50()].mKartIndex = kartIndex;
+    gWiFiSession->mIndexMessages[GetOwnParticipantIndex()].mKartIndex = kartIndex;
 }
 
 void SetWiFiSessionOwnPickedCourseId(s32 pickedCourseId) {
-    gWiFiSession->mIndexMessages[func_ov000_0219bb50()].mPickedCourseId = pickedCourseId;
+    gWiFiSession->mIndexMessages[GetOwnParticipantIndex()].mPickedCourseId = pickedCourseId;
 }

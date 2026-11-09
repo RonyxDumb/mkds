@@ -74,7 +74,7 @@ static inline s32 func_020487fc_inline4(void) {
 
 static inline s32 func_020487fc_inline5(void) {
     BOOL r = FALSE;
-    if (data_0217aa14 != NULL && (data_0217aa14->mUnk_75c & 0x10)) {
+    if (gWiFiRaceSync != NULL && (gWiFiRaceSync->mFlags & 0x10)) {
         r = TRUE;
     }
     return r;

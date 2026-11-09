@@ -837,7 +837,7 @@ void AdvanceKeyboardState10(void) {
                 data_0217aa08->mFirstBlock->mUnk_31_0 = 1;
                 MI_CpuFill8(data_0217aa08->mFirstBlock->mPlayerName, 0, 0x14);
                 MI_CpuCopy8(&keyboard->mUnk_2c[1], data_0217aa08->mFirstBlock->mPlayerName, 0x14);
-                func_02056d40();
+                WriteBackupFirstBlockWrapper();
                 SetTxtSystemOpenSoundId(0x21);
                 message = GetBmgEntry(gKeyboard->mCommonMessages, 0x10);
                 buttonText = GetBmgEntry(gKeyboard->mCommonMessages, 4);

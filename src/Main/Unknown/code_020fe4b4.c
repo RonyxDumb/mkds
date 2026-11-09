@@ -294,7 +294,7 @@ void func_020fec30(void) {
         return;
     }
     do {
-        available = data_0217aa14->mUnk_724;
+        available = gWiFiRaceSync->mUnk_724;
         nextIndex = gItemDataQueueLinks[index][0];
         if (available < gItemDataQueueLinks[index][1]) {
             return;
@@ -406,7 +406,7 @@ u8 *func_020fe958(u32 kind) {
     s32 available;
 
     gItemDataBuffer[0] = GetRaceUpdateFrames();
-    available = data_0217aa14->mUnk_724;
+    available = gWiFiRaceSync->mUnk_724;
     if (available >= 1 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 0, gItemDataBuffer, 1);
     } else {
@@ -421,7 +421,7 @@ u8 *func_020fe8ac(u32 kind) {
 
     dataSize = gItemKinds[kind].mDataSize & 0xff;
     gItemDataBuffer[0] = GetRaceUpdateFrames();
-    available = data_0217aa14->mUnk_724;
+    available = gWiFiRaceSync->mUnk_724;
     if (available >= (u8) (dataSize + 1) && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 0, gItemDataBuffer, dataSize + 1);
     } else {
@@ -435,7 +435,7 @@ u8 *func_020fe828(u32 kind) {
 
     gItemDataBuffer[1] = 0xff;
     gItemDataBuffer[0] = GetRaceUpdateFrames();
-    available = data_0217aa14->mUnk_724;
+    available = gWiFiRaceSync->mUnk_724;
     if (available >= 2 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 0, gItemDataBuffer, 2);
     } else {
@@ -450,7 +450,7 @@ u8 *func_020fe7a0(u32 kind, u32 b, u32 c, u32 itemId) {
     gItemDataBuffer[1] = itemId;
     gItemDataBuffer[2] = b | (c << 4);
     gItemDataBuffer[0] = GetRaceUpdateFrames();
-    available = data_0217aa14->mUnk_724;
+    available = gWiFiRaceSync->mUnk_724;
     if (available >= 3 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 2, gItemDataBuffer, 3);
     } else {
@@ -465,7 +465,7 @@ u8 *func_020fe71c(u32 kind, u32 kartIndex, u32 itemId) {
     gItemDataBuffer[1] = itemId;
     gItemDataBuffer[2] = kartIndex;
     gItemDataBuffer[0] = GetRaceUpdateFrames();
-    available = data_0217aa14->mUnk_724;
+    available = gWiFiRaceSync->mUnk_724;
     if (available >= 3 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 3, gItemDataBuffer, 3);
     } else {
@@ -481,7 +481,7 @@ u8 *func_020fe694(u32 kind, u32 itemId, u32 c, u32 d) {
     gItemDataBuffer[2] = c;
     gItemDataBuffer[3] = d;
     gItemDataBuffer[0] = GetRaceUpdateFrames();
-    available = data_0217aa14->mUnk_724;
+    available = gWiFiRaceSync->mUnk_724;
     if (available >= 4 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 3, gItemDataBuffer, 4);
     } else {
@@ -537,7 +537,7 @@ void *func_020fe4c0(void *cursor, void *object, s32 toData) {
     }
     kind = item->mKind;
     gItemDataBuffer[0] = GetRaceUpdateFrames();
-    available = data_0217aa14->mUnk_724;
+    available = gWiFiRaceSync->mUnk_724;
     if (available >= 0x12 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 1, gItemDataBuffer, 0x12);
     } else {

@@ -36,10 +36,10 @@ void func_0211fef4(u32 fromIndex, void *message, u32 size) {
     if (gWiFiSession->mUnk_1f38 == FALSE) {
         return;
     }
-    if (DoesMessageHeaderMatch(message, size, fromIndex, func_ov000_0219bb50()) != FALSE) {
+    if (DoesMessageHeaderMatch(message, size, fromIndex, GetOwnParticipantIndex()) != FALSE) {
         return;
     }
-    func_0205b504(fromIndex, message, size, 0);
+    ReceiveWiFiRaceSyncPacket(fromIndex, message, size, 0);
 }
 
 void func_0211fe44(void) {
@@ -191,7 +191,7 @@ void WiFiSessionLoginCallback(s32 result) {
         if (DWCi_Acc_IsDirty(&gWiFiSession->mUserData) != 0) {
             DWCi_Acc_ClearDirty(&gWiFiSession->mUserData);
             MI_CpuCopy8(&gWiFiSession->mUserData, &data_0217aa08->mFirstBlock->mUserData, 0x40);
-            func_02056d40();
+            WriteBackupFirstBlockWrapper();
         }
         gWiFiSession->mLogin.mStep = 3;
     } else {

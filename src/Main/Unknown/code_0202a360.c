@@ -51,7 +51,7 @@ u32 func_0202a360(void) {
             ownEntryIndex = data_0217aa00->mUnk_1e52[(u16) ownIndex].mEntryIndex;
             break;
         case 3:
-            ownEntryIndex = (u16) GetPackedIndex(func_ov000_0219bb50());
+            ownEntryIndex = (u16) GetPackedIndex(GetOwnParticipantIndex());
             break;
     }
     if (gRaceSetup->mUseTeams != 0) {

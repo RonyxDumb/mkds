@@ -390,7 +390,7 @@ s32 func_ov000_0219bb68(void) {
     return GetMatchingLastParticipantPos() + 1;
 }
 
-u8 func_ov000_0219bb50(void) {
+u8 GetOwnParticipantIndex(void) {
     if (gWiFiConnection != NULL) {
         return gWiFiConnection->mOwnIndex;
     }

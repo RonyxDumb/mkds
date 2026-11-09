@@ -139,7 +139,7 @@ void UpdateWiFiSession(void) {
     AdvanceStateMachine(&gWiFiSession->mUnk_0008);
 }
 
-s32 func_02120340(u32 a, void *b, s32 c, u32 (*d)(void)) {
+s32 SendWiFiPacketToParticipant(u32 a, void *b, s32 c, u32 (*d)(void)) {
     return func_ov000_021a32a0(a, b, c);
 }
 

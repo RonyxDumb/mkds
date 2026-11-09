@@ -473,7 +473,7 @@ void func_0205ef70(void) {
 
     firstTotal = data_0217aa08->mFirstBlock->mUnk_34[4];
     secondTotal = data_0217aa08->mFirstBlock->mUnk_34[5];
-    func_0205b32c();
+    UpdateParticipantElos();
     if (gRaceSetup->mCourseNumber <= 3) {
         return;
     }
@@ -524,7 +524,7 @@ void func_0205ef70(void) {
             }
         }
     }
-    data_0217aa08->mFirstBlock->mElo = GetPlayerRecordElo(func_ov000_0219bb50());
+    data_0217aa08->mFirstBlock->mElo = GetPlayerRecordElo(GetOwnParticipantIndex());
     data_0217aa08->mFirstBlock->mUnk_34[4] = firstTotal;
     data_0217aa08->mFirstBlock->mUnk_34[5] = secondTotal;
     func_0205edcc();

@@ -37,7 +37,8 @@ void AdvanceKartBoost(s32 *acceleration, Kart *kart) {
     *acceleration = 0x1000;
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         secondArgument = (kart->mUnk_48 & 0x8000) ? 0xa0 : 0x9e;
-        AddSoundRequest(data_0217d26c, GetKartCameraDistanceSquared(kart->mIndex), func_020718c8, kart, secondArgument);
+        AddSoundRequest(data_0217d26c, GetKartCameraDistanceSquared(kart->mIndex), RequestKartSound, kart,
+                        secondArgument);
     }
     if (!(kart->mUnk_48 & 0x20000000)) {
         return;
@@ -283,7 +284,7 @@ recheck:
     }
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         distanceSquared = GetKartCameraDistanceSquared(kart->mIndex);
-        AddSoundRequest(&data_0217d284, distanceSquared + func_0210a578(), func_02071944, kart, 0xcf);
+        AddSoundRequest(&data_0217d284, distanceSquared + func_0210a578(), KartStartSoundFullVolume, kart, 0xcf);
     }
     kart->mUnk_44 |= 0x806;
     kart->mUnk_44 &= 0xffff7ff7;
@@ -469,7 +470,7 @@ void StartKartState(Kart *kart, KartState mode) {
         }
         StopDispCapBlend();
     }
-    func_02068a64(kart, 1, 0);
+    SetKartCharacterAnimation(kart, 1, 0);
     kart->mState = mode;
     kart->mUnk_44 &= 0xfffff7f4;
     kart->mTurnDirection = 0;

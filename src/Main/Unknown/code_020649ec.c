@@ -171,7 +171,7 @@ void func_02064d60(Kart *kart, Vec3 *groundNormal) {
     kart->mUnk_3f8 = 0x1000;
     if (kart->mAirborneFrames > 5 && (kart->mUnk_514->mUnk_44 & 1) == 0) {
         kart->mQuaternionBlendFactor = 0xf6;
-        func_02070484(kart, &kart->mUnk_100_q);
+        ComputeKartAirTiltQuaternion(kart, &kart->mUnk_100_q);
     } else {
         AdvanceKartQuaternionFromVector(kart, groundNormal);
     }
@@ -291,7 +291,7 @@ void InitKart(Kart *kart, void (**slotFunctions)(Kart *)) {
             characterAnimation->mAnmObjs[characterAnimation->mCurrentIndex]->mFrame = characterAnimation->mFrameIndex;
         }
     }
-    func_02071f44(kart);
+    ResetParticipantKartRecordPos(kart);
     if ((kart->mUnk_7c & 2) != 0) {
         CallKartAiSetup(kart->mAi, kart->mIndex);
     }

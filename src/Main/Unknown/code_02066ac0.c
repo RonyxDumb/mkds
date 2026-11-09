@@ -344,7 +344,7 @@ void func_02066fe0(Kart *kart) {
         StopKartStarModels(kart);
         kart->mItemEffect = 0;
         StopKartStarEffects(kart->mIndex);
-        func_02068a64(kart, 0, 1);
+        SetKartCharacterAnimation(kart, 0, 1);
         if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0 && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
             func_02106dc8();
         }
@@ -455,7 +455,7 @@ void func_02066ac0(Kart *kart) {
     ParticipantKartRecordState *state;
     ParticipantKartRecordNode *node;
     ParticipantKartRecordState *stateAgain;
-    Unk0217aa14_104 *entry;
+    WiFiRaceSyncEntry *entry;
     ParticipantKartRecord *record;
     s32 difference;
     s32 appliedNow;
@@ -466,13 +466,13 @@ void func_02066ac0(Kart *kart) {
 
     state = kart->mUnk_514;
     appliedNow = 0;
-    h = func_0205b954(((u8 *) gParticipantKartMap)[kart->mIndex & 0xff]);
+    h = GetParticipantSyncFrames(((u8 *) gParticipantKartMap)[kart->mIndex & 0xff]);
     state->mUnk_24 = IsRaceStarted() == 1 ? 0x333 : appliedNow;
     if (h > state->mUnk_20) {
-        entry = func_0205b978(((u8 *) gParticipantKartMap)[kart->mIndex & 0xff], h);
+        entry = GetParticipantEntryAtSyncFrames(((u8 *) gParticipantKartMap)[kart->mIndex & 0xff], h);
         record = entry != NULL ? &entry->mUnk_08 : 0;
         if (record != NULL) {
-            difference = data_0217aa14->mUnk_728 - h;
+            difference = gWiFiRaceSync->mSyncFrames - h;
             if (difference < 0) {
                 negatedDifference = -difference;
                 node = NNS_FndGetNthListObject(&state->mFreeRecords, 0);

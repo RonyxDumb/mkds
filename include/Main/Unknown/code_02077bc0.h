@@ -78,8 +78,8 @@ void RequestKartModelMenuKart(s32 kartIndex);
 void RequestKartModelMenuCharacter(s32 characterIndex);
 s16 *ComputeKartMenuParams(s32 kartIndex, s32 characterIndex);
 void InitKartModelMenu(void *heap);
-void func_02078c58(void *heap);
-void func_02078d64(void *heap);
+void InitKartModelMenuWithKartList(void *heap);
+void InitKartModelMenuWithParamFiles(void *heap);
 void QueueKartEmblemTexture(void *emblemData, void *emblemPalette);
 void InitKartModelMenuView(KartModelMenuView *view, int b);
 void InitKartModelMenuSlot(void *heap, KartModelMenuSlot *slot);
@@ -90,10 +90,10 @@ void CreateKartModelMenuTire(Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile, NNSG3
 void CreateKartModelMenuKart(Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile, NNSG3dResFileHeader *textureFile);
 void CreateKartModelMenuCharacter(void *heap, Nsbmd *nsbmd, void *animation, NNSG3dResFileHeader *modelFile,
                                   NNSG3dResFileHeader *textureFile, void *animationFile);
-void func_020790e0(void *heap, s32 createKartAppear);
+void InitKartModelMenuAppearAndPalette(void *heap, s32 createKartAppear);
 void UploadKartModelsEntryPalettes(KartModelsEntry *kartModelsEntry, s32 pNameUsed);
 void UploadKartAPaletteSlice(Nsbmd *nsbmd, s32 kartIndex, void *kartAPalette);
-void func_02079678(void *heap, s32 firstPass);
+void CreateKartModelsEntryModels(void *heap, s32 firstPass);
 void SetKartModelsEntryVariant(KartModelsEntry *kartModelsEntry, int kartIndex);
 void DrawKarts(void);
 Kart *GetKart(s32 idx);
@@ -117,7 +117,7 @@ void GetKartPosFromPosSourceCopy(Vec3 *dst, u8 idx);
 // Copies the position of Kart idx to dst, read through mPosSource (which points to mPos, or for a kind-3 entry in mode
 // 5 to a Vec3 of the received record).
 void GetKartPos(Vec3 *dst, s32 idx);
-void func_0207a990(void);
+void CallKartSlot8AndClearKarts(void);
 // Runs slot 2 of Kart.mSlotFunctions for every Kart each time UpdateRace runs; the slot stores the Kart's squared
 // distance in its sound source.
 void UpdateKartSoundDistancesSquared(void);

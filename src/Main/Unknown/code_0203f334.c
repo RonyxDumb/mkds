@@ -41,7 +41,7 @@ void UpdateRaceClock(void) {
             f = TRUE;
         }
         if (gRaceSetup->mMode == 5 && e > 0x4650) {
-            k = gParticipantKartMap->mKartOfParticipant[func_ov000_0219bb50()];
+            k = gParticipantKartMap->mKartOfParticipant[GetOwnParticipantIndex()];
             if (k >= 0) {
                 g = FALSE;
                 switch (gRaceProgress->mUnk_000[(u8) k].mStatus) {
@@ -188,7 +188,7 @@ BOOL TryGetKartCheckpointProgress(RaceProgressKart *a, s32 *b, Vec3 *c, u16 d, u
                 if (*b >= -2 && *b <= 0x1002) {
                     if ((gCourseMap->mCheckpoints[e].mUnk_23 & 1) != 0) {
                         if (gRaceSetup->mMode == 5) {
-                            *b = 0x1000 - (func_ov000_0219bb50() + 1) * 0x190;
+                            *b = 0x1000 - (GetOwnParticipantIndex() + 1) * 0x190;
                         } else {
                             *b = 0x1000 - ((u32) (a->mUnk_3c << 28) >> 28) * 0x190;
                         }

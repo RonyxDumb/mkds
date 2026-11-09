@@ -816,8 +816,8 @@ typedef struct OverlayLoader {
 } OverlayLoader;
 
 extern OverlayLoader *data_0217aa10;
-// 0x38-byte entries from 0x14 of Unk0217aa14.
-typedef struct Unk0217aa14_014 {
+// 0x38-byte entries from 0x14 of WiFiRaceSync.
+typedef struct WiFiRaceSyncPeer {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ s32 mUnk_04;
     /* 08 */ s32 mUnk_08;
@@ -830,14 +830,14 @@ typedef struct Unk0217aa14_014 {
     /* 24 */ s32 mUnk_24;
     /* 28 */ s32 mUnk_28;
     /* 2c */ s32 mUnk_2c;
-    /* 30 */ BOOL mUnk_30;
-    /* 34 */ u8 mUnk_34;
-    /* 35 */ u8 mUnk_35;
+    /* 30 */ BOOL mProbePending;
+    /* 34 */ u8 mSampleCount;
+    /* 35 */ u8 mRejectedSampleCount;
     /* 36 */ u8 mUnk_36;
     /* 37 */ u8 mUnk_37;
-} Unk0217aa14_014;
+} WiFiRaceSyncPeer;
 
-// Halfwords from 0x20 of Unk0217aa14_104: bits 7 to 11 and 12 to 13.
+// Halfwords from 0x20 of WiFiRaceSyncEntry: bits 7 to 11 and 12 to 13.
 typedef struct Unk0217aa14_104_20 {
     /* 00 */ union {
         u16 mUnk_00;
@@ -849,7 +849,7 @@ typedef struct Unk0217aa14_104_20 {
     };
 } Unk0217aa14_104_20;
 
-// The 0x20 bytes from 0x68 of Unk0217aa14_104.
+// The 0x20 bytes from 0x68 of WiFiRaceSyncEntry.
 typedef struct Unk0217aa14_104_68 {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s32 mUnk_04;
@@ -861,8 +861,8 @@ typedef struct Unk0217aa14_104_68 {
     /* 16 */ u8 mUnk_16[0xa];
 } Unk0217aa14_104_68;
 
-// 0x88-byte entries from 0x104 of Unk0217aa14.
-typedef struct Unk0217aa14_104 {
+// 0x88-byte entries from 0x104 of WiFiRaceSync.
+typedef struct WiFiRaceSyncEntry {
     /* 00 */ union {
         s32 mUnk_00;
         struct {
@@ -884,7 +884,7 @@ typedef struct Unk0217aa14_104 {
             /* 7c */ u16 mUnk_7c;
             /* 7e */ u8 mUnk_7e[2];
             /* 80 */ s32 mUnk_80;
-            /* 84 */ u16 mUnk_84;
+            /* 84 */ u16 mRoundTripAverage;
             /* 86 */ union {
                 u8 mUnk_86;
                 struct {
@@ -896,9 +896,9 @@ typedef struct Unk0217aa14_104 {
         };
         Unk0217aa14_104_68 mUnk_68_view;
     };
-} Unk0217aa14_104;
+} WiFiRaceSyncEntry;
 
-// 0xc-byte entries from 0x324 of Unk0217aa14.
+// 0xc-byte entries from 0x324 of WiFiRaceSync.
 typedef struct ItemDataSlot {
     /* 00 */ s32 mUnk_00;
     /* 04 */ void *mData;
@@ -920,7 +920,7 @@ typedef struct Unk0217aa14_754_04_20 {
     };
 } Unk0217aa14_754_04_20;
 
-// 0x68 bytes from 0x04 of what member 0x754 of Unk0217aa14 points to.
+// 0x68 bytes from 0x04 of what member 0x754 of WiFiRaceSync points to.
 typedef struct Unk0217aa14_754_04 {
     /* 00 */ union {
         u32 mUnk_00;
@@ -941,14 +941,14 @@ typedef struct Unk0217aa14_754_04 {
     /* 38 */ u8 mUnk_38[0x30];
 } Unk0217aa14_754_04;
 
-// What member 0x754 of Unk0217aa14 points to.
+// What member 0x754 of WiFiRaceSync points to.
 typedef struct Unk0217aa14_754 {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ Unk0217aa14_754_04 mUnk_04;
 } Unk0217aa14_754;
 
-// Object behind data_0217aa14.
-typedef struct Unk0217aa14 {
+// Object behind gWiFiRaceSync.
+typedef struct WiFiRaceSync {
     /* 000 */ void *mUnk_000;
     /* 004 */ s32 mUnk_004;
     /* 008 */ void *mUnk_008;
@@ -956,25 +956,25 @@ typedef struct Unk0217aa14 {
     /* 00e */ u16 mUnk_00e;
     /* 010 */ u16 mUnk_010;
     /* 012 */ u16 mUnk_012;
-    /* 014 */ Unk0217aa14_014 mUnk_014[4];
+    /* 014 */ WiFiRaceSyncPeer mPeers[4];
     /* 0f4 */ s32 mUnk_0f4;
-    /* 0f8 */ u16 mUnk_0f8;
-    /* 0fa */ u8 mUnk_0fa;
+    /* 0f8 */ u16 mSendParticipantIndex;
+    /* 0fa */ u8 mReadyMask;
     /* 0fb */ u8 mUnk_0fb;
-    /* 0fc */ u8 mUnk_0fc;
+    /* 0fc */ u8 mStartParticipantMask;
     /* 0fd */ u8 mUnk_0fd;
     /* 0fe */ u8 mUnk_0fe[6];
-    /* 104 */ Unk0217aa14_104 mUnk_104[4];
+    /* 104 */ WiFiRaceSyncEntry mEntries[4];
     /* 324 */ ItemDataSlot mUnk_324[16];
     /* 3e4 */ ItemDataSlot mUnk_3e4[16][4];
     /* 6e4 */ u8 mUnk_6e4[16][4];
     /* 724 */ u16 mUnk_724;
     /* 726 */ u8 mUnk_726[0x2];
-    /* 728 */ s32 mUnk_728;
+    /* 728 */ s32 mSyncFrames;
     /* 72c */ BOOL mUnk_72c;
     /* 730 */ u8 mUnk_730[0x4];
     /* 734 */ u16 mUnk_734;
-    /* 736 */ s16 mUnk_736;
+    /* 736 */ s16 mCountdownTimer;
     /* 738 */ u16 mUnk_738;
     /* 73a */ u8 mUnk_73a;
     /* 73b */ u8 mUnk_73b;
@@ -982,18 +982,18 @@ typedef struct Unk0217aa14 {
     /* 73d */ u8 mUnk_73d;
     /* 73e */ u8 mUnk_73e;
     /* 73f */ u8 mUnk_73f;
-    /* 740 */ u16 mUnk_740[4];
-    /* 748 */ u8 mUnk_748;
-    /* 749 */ u8 mUnk_749;
-    /* 74a */ u8 mUnk_74a[4];
-    /* 74e */ u8 mUnk_74e[4];
+    /* 740 */ u16 mTimeoutFrames[4];
+    /* 748 */ u8 mDroppedParticipantMask;
+    /* 749 */ u8 mParticipantMask;
+    /* 74a */ u8 mPeerDroppedMasks[4];
+    /* 74e */ u8 mPeerSharedStates[4];
     /* 752 */ u8 mUnk_752[2];
-    /* 754 */ Unk0217aa14_754 *mUnk_754;
-    /* 758 */ s32 mUnk_758;
-    /* 75c */ u16 mUnk_75c;
-} Unk0217aa14;
+    /* 754 */ Unk0217aa14_754 *mSendBuffer;
+    /* 758 */ s32 mSharedState;
+    /* 75c */ u16 mFlags;
+} WiFiRaceSync;
 
-extern Unk0217aa14 *data_0217aa14;
+extern WiFiRaceSync *gWiFiRaceSync;
 // Per-run state of the race scene, one record behind gRace (0x48 bytes, allocated by InitRace on the scene heap and
 // never cleared at the end of the scene): frame counters (mUpdateFrames and three phases derived from it), toon-table
 // cycle, fog/fade switch, kind flags derived from gRaceSetup->mUnk_00c (also live in the demo and credits kinds 3 to

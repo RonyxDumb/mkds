@@ -250,7 +250,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
                 if (!(kart->mUnk_4c & KART_4C_HEADING_SWING)) {
                     kart->mUnk_4c |= KART_4C_HEADING_SWING;
                     kart->mRaceStartFrameCount = 0x78;
-                    func_02068a64(kart, 1, 1);
+                    SetKartCharacterAnimation(kart, 1, 1);
                     g = data_usa_02165608;
                     bits7c = kart->mUnk_7c;
                     if ((bits7c & 0x10) && kart->mKartModelsEntry->mUnk_058 == 0) {
@@ -288,7 +288,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
                 if (!(kart->mUnk_4c & KART_4C_HEADING_SWING)) {
                     kart->mUnk_4c |= KART_4C_HEADING_SWING;
                     kart->mRaceStartFrameCount = 0x78;
-                    func_02068a64(kart, 1, 1);
+                    SetKartCharacterAnimation(kart, 1, 1);
                     h = data_usa_02165608;
                     bits7c = kart->mUnk_7c;
                     if ((bits7c & 0x10) && kart->mKartModelsEntry->mUnk_058 == 0) {

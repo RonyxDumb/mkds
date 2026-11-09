@@ -3,7 +3,7 @@
 #include "Main/Unknown/unk_0217a000.h"
 
 #pragma thumb on
-void func_02056d40(void) {
+void WriteBackupFirstBlockWrapper(void) {
     u32 value0;
     u32 value3;
     value0 = (u32) &data_0217aa08;

@@ -13,5 +13,5 @@ void SetRankTimeFromRankTimeGp(RankTimeGp *rankTimeGp);
 void UpdateRaceProgressKarts(void);
 void UpdateRaceProgressKart(Vec3 *position, RaceProgressKart *kart);
 void EnterRaceProgressKartCheckpoint(RaceProgressKart *kart, s32 checkpoint);
-void func_0203e4c4(u32 kartIndex, u32 b);
+void SetRaceProgressKartFinishRequest(u32 kartIndex, u32 b);
 void CompleteRaceProgressKartLap(RaceProgressKart *kart);

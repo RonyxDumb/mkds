@@ -36,7 +36,7 @@ void SetKartAiParamRow(void) {
     raceSetup = gRaceSetup;
     if (raceSetup->mRaceKind != RACE_KIND_AWARD && raceSetup->mMode != MODE_BATTLE &&
         raceSetup->mRaceKind != RACE_KIND_STAFF_ROLL) {
-        r = func_02047950(data_usa_02165990);
+        r = GetKartModelFile(data_usa_02165990);
         raceSetup = gRaceSetup;
         if (raceSetup->mMode == MODE_GRAND_PRIX) {
             r = &r[(raceSetup->mCourseId - 1) * 12 + raceSetup->mEngineIndex];

@@ -185,7 +185,7 @@ void StartKartWinOrLoseAnimation(Kart *kart) {
         KartModelsEntry *modelsEntry = kart->mKartModelsEntry;
         animationState = &modelsEntry->mAnimationState;
         func_02087cfc(modelsEntry->mCharacterAnimation, (u16) finishResult, 1);
-        func_02068a64(kart, 2, 1);
+        SetKartCharacterAnimation(kart, 2, 1);
         if (isRuleKindWinner != 0) {
             kart->mUnk_7c |= 0x10000;
         } else {
@@ -197,7 +197,7 @@ void StartKartWinOrLoseAnimation(Kart *kart) {
         }
     } else if (finishResult == 2) {
         kart->mUnk_7c |= 0x20000;
-        func_02068a64(kart, 3, 1);
+        SetKartCharacterAnimation(kart, 3, 1);
     }
     if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
         normalizedResult = 1;
@@ -226,9 +226,9 @@ void AdvanceKartAnimationChangeTimer(Kart *kart) {
     }
     modelsEntry = kart->mKartModelsEntry;
     if ((kart->mUnk_7c & 0x40) != 0 || modelsEntry->mCharacterAnimation->mCurrentIndex == 2) {
-        func_02068a64(kart, 0, 1);
+        SetKartCharacterAnimation(kart, 0, 1);
     } else if (modelsEntry->mCharacterAnimation->mCurrentIndex == 0) {
-        func_02068a64(kart, 2, 1);
+        SetKartCharacterAnimation(kart, 2, 1);
     }
     localRandom = &gRaceProgress->mLocalRandom;
     localRandom->mValue = localRandom->mMultiplier * localRandom->mValue + localRandom->mIncrement;

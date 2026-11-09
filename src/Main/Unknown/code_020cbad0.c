@@ -95,7 +95,7 @@ void InitMenu(void) {
     func_020629a4();
     SetHeapGroupId(9);
     if (func_020cbad0() == 0) {
-        func_02078d64(func_020cb99c());
+        InitKartModelMenuWithParamFiles(func_020cb99c());
         RequestKartModelMenuCharacter(-1);
         RequestKartModelMenuKart(-1);
     }

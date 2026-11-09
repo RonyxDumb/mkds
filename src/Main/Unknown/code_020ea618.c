@@ -12,10 +12,10 @@ void DrawShadowModelWithMaxAlpha(ShadowModel *model, int maxAlpha) {
         newPolygonId = AllocPolygonIdWrapping();
         model->mPolygonId = newPolygonId;
         model->mAlpha = maxAlpha;
-        func_0207ad88(model);
+        DrawShadowModelIfDrawFlag(model);
         model->mPolygonId = savedPolygonId;
         model->mAlpha = savedAlpha;
         return;
     }
-    func_0207ad88();
+    DrawShadowModelIfDrawFlag();
 }

@@ -12,5 +12,5 @@ void DeleteWiFiSessionHeap(void);
 void func_021204d0(void);
 void UpdateBuddyStatuses(void);
 void UpdateWiFiSession(void);
-s32 func_02120340(u32 a, void *b, s32 c, u32 (*d)(void));
+s32 SendWiFiPacketToParticipant(u32 a, void *b, s32 c, u32 (*d)(void));
 void *GetWiFiSessionPlayerRecordData(u32 index);

@@ -105,7 +105,7 @@ void UpdateWiFiMessageLayer(void) {
         n = func_ov000_0219bb04(&l);
         for (i = 0; i < n; i++) {
             d = l[i];
-            if (d != func_ov000_0219bb50() && func_ov000_021a2fc8(d) == 1) {
+            if (d != GetOwnParticipantIndex() && func_ov000_021a2fc8(d) == 1) {
                 e = func_ov000_021a2fdc(d);
                 m = e->mSendSize - e->mSentSize;
                 k = gWiFiMessageLayer->mSendChunkSize;

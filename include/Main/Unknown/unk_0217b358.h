@@ -11,7 +11,7 @@
 typedef struct RaceStartSequence {
     // Counter gate: FALSE at allocation and in ResetRaceStartSequenceFrames; set TRUE by UpdateRaceStartSequence when
     // FinishDataSharingSync()
-    // == 1 (in mode 5: when data_0217aa14->mUnk_75c & 2, with SetRaceUpdateFramesUnlimited /
+    // == 1 (in mode 5: when gWiFiRaceSync.mFlags & 2, with SetRaceUpdateFramesUnlimited /
     // SetMapObjectsRunUpdateLists) and never cleared otherwise.
     /* 00 */ BOOL mCounting;
     // Set to 1 once, at frame 180; 0 at allocation, never cleared; read by IsRaceStartSequenceDone.

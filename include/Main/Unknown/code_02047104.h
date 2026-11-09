@@ -70,7 +70,7 @@ void func_020476ac(void);
 void func_020476ec(void);
 void func_02047728(void);
 void func_0204775c(void);
-void *func_02047950(const char *path);
+void *GetKartModelFile(const char *path);
 void *FindFileInLoadedArchives(const char *name);
 void SetHeapGroupId(u32 groupId);
 void ReleaseArchiveSlots(void);

@@ -81,7 +81,7 @@ void func_02120150(void) {
     if (gWiFiSession->mUnk_1f38 == FALSE) {
         return;
     }
-    func_0205ccec();
+    AdvanceWiFiRaceSyncFrames();
 }
 
 void EnterWiFiSessionState1(void) {
@@ -121,11 +121,11 @@ void UpdateWiFiSessionState4(void) {
 }
 
 void EnterWiFiSessionState5(void) {
-    Unk0217aa14 *p;
+    WiFiRaceSync *p;
 
-    func_ov000_021a3250(func_0211ff74);
+    func_ov000_021a3250(FinishWiFiRaceSyncSend);
     func_ov000_021a323c(func_0211fef4);
-    p = data_0217aa14;
+    p = gWiFiRaceSync;
     p->mUnk_010 = 1;
     p->mUnk_012 = 1;
 }

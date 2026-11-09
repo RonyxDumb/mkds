@@ -16,12 +16,12 @@ void func_020d26ec(void *soundSource, u32 soundId) {
     void *value0 = soundSource;
     u32 soundIdCopy = soundId;
     u32 unused;
-    value0 = func_020719bc(value0, soundIdCopy);
+    value0 = StartSoundFullVolume(value0, soundIdCopy);
 }
 
 void func_020d26e0(void *soundSource, u32 soundId) {
     SoundSource *soundSourceCopy = soundSource;
     u32 soundIdCopy = soundId;
     u32 unused;
-    func_020719a8(soundSourceCopy, soundIdCopy);
+    StartSoundWhileRequestedFullVolume(soundSourceCopy, soundIdCopy);
 }

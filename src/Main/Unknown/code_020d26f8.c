@@ -21,7 +21,7 @@ u32 StartSoundIfKartStarOrKiller(MapObject *mapObject, Kart *kart) {
     if (mapObject->mSound != NULL) {
         StartSound(&mapObject->mSound->mSoundSource, 0xe8, 0x7f, 0);
     } else {
-        func_020719bc(&kart->mSoundSource, 0xe8);
+        StartSoundFullVolume(&kart->mSoundSource, 0xe8);
     }
     return 1;
 }

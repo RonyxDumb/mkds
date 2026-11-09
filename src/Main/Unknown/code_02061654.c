@@ -138,7 +138,7 @@ void InitRace(void) {
     func_020476ec();
     SetHeapGroupId(7);
     CreateRaceProgress(heap);
-    func_0205cd24(heap);
+    InitWiFiRaceSync(heap);
     SetHeapGroupId(2);
     InitCourseCollision();
     SetHeapGroupId(8);
@@ -466,7 +466,7 @@ void func_02062004(void) {
     BOOL heapCreated;
 
     func_020d2d94();
-    func_0207a990();
+    CallKartSlot8AndClearKarts();
     ReleaseAllResFiles();
     func_0203d568();
     heapCreated = FALSE;
@@ -475,9 +475,9 @@ void func_02062004(void) {
         heapCreated = TRUE;
     }
     if (heapCreated != FALSE) {
-        wiFiSession->mKartMask = data_0217aa14->mUnk_749;
+        wiFiSession->mKartMask = gWiFiRaceSync->mParticipantMask;
     }
-    data_0217aa14 = NULL;
+    gWiFiRaceSync = NULL;
 }
 
 void func_02062000(void) {}

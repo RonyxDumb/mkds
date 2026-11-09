@@ -252,7 +252,7 @@ u32 func_020911a8(void) {
     setFlagBits = 0;
     if (GetCurrentSceneNumber() == 10) {
         setFlagBits = func_02090ff4();
-        func_02056d40();
+        WriteBackupFirstBlockWrapper();
         WaitThreadFunctionsDone();
         if (gBackupAccess->mBackupEnabled != 0) {
             CARD_WaitBackupAsync();

@@ -204,7 +204,7 @@ void CompleteRaceProgressKartLap(RaceProgressKart *kart) {
     }
 }
 
-void func_0203e4c4(u32 kartIndex, u32 b) {
+void SetRaceProgressKartFinishRequest(u32 kartIndex, u32 b) {
     RaceProgressKart *kart;
     u16 finishRequest;
 

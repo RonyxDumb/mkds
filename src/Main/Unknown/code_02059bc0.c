@@ -39,7 +39,7 @@ void func_0205a4b0(Unk0217aa14_104_68 *a, s32 b) {
     s32 t;
 
     a->mUnk_0e = 0;
-    t = data_0217aa14->mUnk_728;
+    t = gWiFiRaceSync->mSyncFrames;
     a->mUnk_0c = 2;
     a->mUnk_00 = b;
     a->mUnk_08 = t + 0x78;
@@ -54,7 +54,7 @@ void func_0205a350(void) {
 
     for (i = 0; i < 4; i++) {
         if (func_0205a50c(i) != 0) {
-            p = &data_0217aa14->mUnk_104[i].mUnk_68_view;
+            p = &gWiFiRaceSync->mEntries[i].mUnk_68_view;
             h = func_0205a4e8(i, i);
             switch (p->mUnk_0c) {
                 case 0:
@@ -64,7 +64,7 @@ void func_0205a350(void) {
                     }
                     break;
                 case 2:
-                    d = p->mUnk_08 - data_0217aa14->mUnk_728;
+                    d = p->mUnk_08 - gWiFiRaceSync->mSyncFrames;
                     if ((s32) p->mUnk_0e < 100) {
                         func_0205a7dc(i, d, p->mUnk_00, 2);
                         p->mUnk_0e = p->mUnk_0e + 1;
@@ -92,9 +92,9 @@ void func_0205a350(void) {
 
 s32 func_0205a310(s32 a) {
     BOOL r;
-    Unk0217aa14_104 *e;
+    WiFiRaceSyncEntry *e;
 
-    e = &data_0217aa14->mUnk_104[a];
+    e = &gWiFiRaceSync->mEntries[a];
     r = FALSE;
     if ((u16) (e->mUnk_74 + 0xffff) <= 1) {
         r = TRUE;
@@ -108,11 +108,11 @@ s32 func_0205a2ac(s32 a) {
 
     r = 0x13;
     f = FALSE;
-    if ((u16) (data_0217aa14->mUnk_104[a].mUnk_74 + 0xffff) <= 1) {
+    if ((u16) (gWiFiRaceSync->mEntries[a].mUnk_74 + 0xffff) <= 1) {
         f = TRUE;
     }
     if (f == FALSE) {
-        r = data_0217aa14->mUnk_104[a].mUnk_68;
+        r = gWiFiRaceSync->mEntries[a].mUnk_68;
     }
     return r;
 }

@@ -223,7 +223,7 @@ void func_0203aacc(void) {
         }
         if (IsBackupFlagSet(flagIndex) == 0) {
             SetBackupFlag(flagIndex);
-            func_02056d40();
+            WriteBackupFirstBlockWrapper();
             WaitThreadFunctionsDone();
             if (gBackupAccess->mBackupEnabled != 0) {
                 CARD_WaitBackupAsync();
@@ -510,7 +510,8 @@ u32 func_0203a3cc(u32 slotIndex) {
     if (data_02175628[slotIndex].mUnk_48.mHasPair == 0 && data_02175628[slotIndex].mUnk_48.mNoPairCount < 5) {
         briefNoPair = 1;
     }
-    if (briefNoPair == 0 && data_02175628[slotIndex].mUnk_48.mPrevHasPair == 0 && data_02175628[slotIndex].mUnk_48.mHasPair != 0) {
+    if (briefNoPair == 0 && data_02175628[slotIndex].mUnk_48.mPrevHasPair == 0 &&
+        data_02175628[slotIndex].mUnk_48.mHasPair != 0) {
         result = 1;
     }
     return result;

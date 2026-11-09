@@ -402,14 +402,14 @@ void InitKartEmblemPointers(void) {
             } else {
                 path = BuildEmblemNsbtxPath(gRaceSetup->mCurrentEntries[i].mCharacterIndex);
             }
-            texture = NNS_G3dGetTex(func_02047950(path));
+            texture = NNS_G3dGetTex(GetKartModelFile(path));
             emblemPltt = OFFSET_PTR(u8, texture, texture->mPlttInfo.mOfsPlttData);
             emblemTex = OFFSET_PTR(u8, texture, texture->mTexInfo.mOfsTex);
             data_0217aed0->mEmblemTex[i] = emblemTex;
             data_0217aed0->mEmblemPltt[i] = emblemPltt;
         } else {
             emblemTex = (void *) gRaceSetup->mCurrentEntries[i].mPlayer.mEmblemData;
-            LoadNclrData(&nclr, func_02047950(gEmblemSBNclrName));
+            LoadNclrData(&nclr, GetKartModelFile(gEmblemSBNclrName));
             emblemPltt = (u8 *) nclr->mData;
             data_0217aed0->mEmblemTex[i] = emblemTex;
             data_0217aed0->mEmblemPltt[i] = emblemPltt;

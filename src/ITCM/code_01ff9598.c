@@ -187,7 +187,7 @@ void AdvanceKartOrientation(Kart *p, Vec3 *a) {
     p->mUnk_3f8 = 0x1000;
     if (p->mAirborneFrames > 5) {
         p->mQuaternionBlendFactor = 0xf6;
-        func_02070484(p, &p->mUnk_100_q);
+        ComputeKartAirTiltQuaternion(p, &p->mUnk_100_q);
     } else {
         AdvanceKartQuaternionFromVector(p, a);
     }

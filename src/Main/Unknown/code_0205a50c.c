@@ -5,7 +5,7 @@ s32 func_0205a50c(s32 bitIndex) {
     BOOL isSet;
 
     isSet = TRUE;
-    if (!(data_0217aa14->mUnk_749 & (1 << bitIndex))) {
+    if (!(gWiFiRaceSync->mParticipantMask & (1 << bitIndex))) {
         isSet = FALSE;
     }
     return isSet;

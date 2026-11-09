@@ -887,7 +887,7 @@ BOOL ReplaceUnavailableItem(s32 *itemInfoIndexPointer) {
         itemInfo = &gItemInfos[itemInfoIndex];
         objectCount = itemInfo->mObjectCount;
         v = objectCount * func_020fa0e8(itemInfo->mObjectKind, 0);
-        if (func_020fab34_inline(itemInfoIndex) != FALSE && data_0217aa14->mUnk_724 >= v) {
+        if (func_020fab34_inline(itemInfoIndex) != FALSE && gWiFiRaceSync->mUnk_724 >= v) {
             return FALSE;
         }
     } else {

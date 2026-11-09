@@ -19,5 +19,5 @@ void func_020f8e3c(Kart *kart, u32 soundId) {
     if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) == 0) {
         return;
     }
-    func_020719bc(&kart->mSoundSource, soundId);
+    StartSoundFullVolume(&kart->mSoundSource, soundId);
 }

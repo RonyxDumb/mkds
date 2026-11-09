@@ -132,7 +132,7 @@ void func_020733ec(Kart *kart) {
     heap = GetHeap(GetCurrentHeapCall());
     kart->mUnk_230 = func_02071568;
     InitKartPhysicalParams(kart);
-    func_02071e28(kart);
+    InitKartFlags(kart);
     if (kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) {
         SetKartSpeedLimitReciprocal(FX_Div(0x1000, kart->mPhysicalParam->mBaseSpeedLimit));
     }
@@ -171,10 +171,10 @@ void func_020733ec(Kart *kart) {
     kart->mUnk_44 |= KART_44_ON_GROUND;
     kart->mUnk_4d0 = 0x64;
     kart->mRadius = kart->mPhysicalParam->mRadius;
-    func_020719d0(kart);
+    InitKartSoundParams(kart);
     if (gRaceSetup->mMode == 5) {
         kart->mUnk_514 = HeapAlloc(heap, 0xb8);
-        func_02071fb8(kart, heap);
+        InitParticipantKartRecordState(kart, heap);
     }
     if (IsRaceAwardOrStaffRoll() != 0) {
         kart->mUnk_44 |= 0x1000000;

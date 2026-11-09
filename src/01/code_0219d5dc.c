@@ -148,8 +148,8 @@ void AdvanceOptionEmbremSelectState3(void) {
         cond2 = TRUE;
     }
     if (cond2 != FALSE) {
-        result = RectTableFindContaining(gOptionEmbremSelect->mOptionEmbremSelectSBnbl, data_02175628[index].mUnk_48.mPairX,
-                                         data_02175628[index].mUnk_48.mPairY);
+        result = RectTableFindContaining(gOptionEmbremSelect->mOptionEmbremSelectSBnbl,
+                                         data_02175628[index].mUnk_48.mPairX, data_02175628[index].mUnk_48.mPairY);
     }
     flags = data_02175628[index].mPressedBits & PAD_KEY_B;
     if (flags != 0) {
@@ -164,8 +164,8 @@ void AdvanceOptionEmbremSelectState3(void) {
     if (cond1 == FALSE && data_02175628[index].mUnk_48.mPrevHasPair == 0 && value != 0) {
         cond2 = TRUE;
     }
-    if (cond2 != FALSE && IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[index].mUnk_48.mPairX,
-                                                                          data_02175628[index].mUnk_48.mPairY) != FALSE) {
+    if (cond2 != FALSE && IsSelectReturnState2NoState3Or4RequestAndInRect(
+                              data_02175628[index].mUnk_48.mPairX, data_02175628[index].mUnk_48.mPairY) != FALSE) {
     next:
         gOptionEmbremSelect->mNextState = 5;
         gOptionEmbremSelect->mNextOptionState = 2;
@@ -179,7 +179,7 @@ void AdvanceOptionEmbremSelectState3(void) {
         } else {
             data_0217aa08->mFirstBlock->mUnk_31_3 = 1;
         }
-        func_02056d40();
+        WriteBackupFirstBlockWrapper();
     } else {
         flags = data_02175628[index].mPressedBits & PAD_KEY_A;
         if ((flags != 0 && gOptionEmbremSelect->mUnk_08 == 0) || result == 0) {

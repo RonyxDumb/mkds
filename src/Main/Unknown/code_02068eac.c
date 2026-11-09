@@ -257,7 +257,7 @@ void StartKartStar(Kart *kart) {
     if (kart->mUnk_7c & 0x200) {
         kart->mUnk_514->mUnk_2c ^= 0x2000;
     }
-    func_02068a64(kart, 2, 1);
+    SetKartCharacterAnimation(kart, 2, 1);
 }
 
 // Teresa: the Boo item (mItemEffect 2).
@@ -273,7 +273,7 @@ void StartKartTeresa(Kart *kart) {
         StopKartStarModels(kart);
         kart->mItemEffect = 0;
         StopKartStarEffects(kart->mIndex);
-        func_02068a64(kart, 0, 1);
+        SetKartCharacterAnimation(kart, 0, 1);
         if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
             func_02106dc8();
         }
@@ -415,7 +415,7 @@ void StartKartKiller(Kart *kart) {
         StopKartStarModels(kart);
         kart->mItemEffect = 0;
         StopKartStarEffects(kart->mIndex);
-        func_02068a64(kart, 0, 1);
+        SetKartCharacterAnimation(kart, 0, 1);
         if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
             func_02106dc8();
         }
@@ -668,7 +668,7 @@ s32 func_02068ec0(Kart *kart, s32 a) {
             }
         }
         kart->mUnk_3c8 = 0;
-        func_02072930(kart);
+        StopKartItemsAndEffects(kart);
     }
     return removed;
 }

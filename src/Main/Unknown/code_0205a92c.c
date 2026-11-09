@@ -17,12 +17,12 @@ void func_0205ae8c(u32 kartIndex) {
     s32 participantIndex;
     s32 otherParticipantIndex;
     ParticipantKartMap *g;
-    Unk0217aa14 *p;
+    WiFiRaceSync *p;
 
     g = gParticipantKartMap;
-    p = data_0217aa14;
+    p = gWiFiRaceSync;
     participantIndex = g->mParticipantOfKart[(u8) kartIndex];
-    rank = p->mUnk_104[participantIndex].mRank;
+    rank = p->mEntries[participantIndex].mRank;
     if (participantIndex < 0) {
         return;
     }
@@ -30,11 +30,11 @@ void func_0205ae8c(u32 kartIndex) {
     for (otherKartIndex = 0; otherKartIndex < (s32) gRaceSetup->mKartCount; otherKartIndex++) {
         if (otherKartIndex != kartIndex) {
             otherParticipantIndex = g->mParticipantOfKart[otherKartIndex];
-            otherRank = p->mUnk_104[otherParticipantIndex].mRank;
+            otherRank = p->mEntries[otherParticipantIndex].mRank;
             if (otherParticipantIndex >= 0 && otherRank < rank) {
                 f = 0;
-                if ((p->mUnk_0fc & (1 << (u8) otherParticipantIndex)) != 0 &&
-                    (p->mUnk_749 & (1 << (u8) otherParticipantIndex)) == 0) {
+                if ((p->mStartParticipantMask & (1 << (u8) otherParticipantIndex)) != 0 &&
+                    (p->mParticipantMask & (1 << (u8) otherParticipantIndex)) == 0) {
                     f = 1;
                 }
                 if (f != 0) {
@@ -43,7 +43,7 @@ void func_0205ae8c(u32 kartIndex) {
             }
         }
     }
-    p->mUnk_104[participantIndex].mRank = rank;
+    p->mEntries[participantIndex].mRank = rank;
 }
 
 void ResetItemDataSlots(void) {
@@ -53,16 +53,16 @@ void ResetItemDataSlots(void) {
 
     for (slotIndex = 0; slotIndex < 16; slotIndex++) {
         for (participantIndex = 0; participantIndex < 4; participantIndex++) {
-            slot = &data_0217aa14->mUnk_3e4[slotIndex][participantIndex];
+            slot = &gWiFiRaceSync->mUnk_3e4[slotIndex][participantIndex];
             slot->mUnk_08 = 0;
             slot->mUnk_00 = 0;
             slot->mItemKind = 15;
             slot->mMessageKind = 0;
             slot->mDataSize = 0;
             MI_CpuFill8(slot->mData, 0, 20);
-            data_0217aa14->mUnk_6e4[slotIndex][participantIndex] = 0;
+            gWiFiRaceSync->mUnk_6e4[slotIndex][participantIndex] = 0;
         }
-        slot = &data_0217aa14->mUnk_324[slotIndex];
+        slot = &gWiFiRaceSync->mUnk_324[slotIndex];
         slot->mUnk_08 = 0;
         slot->mUnk_00 = 0;
         slot->mItemKind = 15;
@@ -70,14 +70,14 @@ void ResetItemDataSlots(void) {
         slot->mDataSize = 0;
         MI_CpuFill8(slot->mData, 0, 20);
     }
-    data_0217aa14->mUnk_724 = 0x30;
+    gWiFiRaceSync->mUnk_724 = 0x30;
 }
 
 BOOL IsAnyItemDataSlotFree(void) {
     u16 slotIndex;
 
     for (slotIndex = 0; slotIndex < 16; slotIndex++) {
-        if (data_0217aa14->mUnk_324[slotIndex].mUnk_08 == 0) {
+        if (gWiFiRaceSync->mUnk_324[slotIndex].mUnk_08 == 0) {
             return TRUE;
         }
     }
@@ -94,11 +94,11 @@ void func_0205ac38(void) {
     u8 headerByte;
 
     usedSize = 0;
-    q = (void *) &data_0217aa14->mUnk_754->mUnk_04;
+    q = (void *) &gWiFiRaceSync->mSendBuffer->mUnk_04;
     headerCursor = q->mUnk_28;
     dataCursor = headerCursor + 16;
     for (slotIndex = 0; slotIndex < 16; slotIndex++) {
-        slot = &data_0217aa14->mUnk_324[slotIndex];
+        slot = &gWiFiRaceSync->mUnk_324[slotIndex];
         if (slot->mUnk_08 == 0 || slot->mUnk_08 == 2 || slot->mItemKind == 15) {
             headerByte = 15;
         } else {
@@ -119,7 +119,7 @@ void func_0205ac38(void) {
                 break;
         }
     }
-    data_0217aa14->mUnk_724 = 0x30 - usedSize;
+    gWiFiRaceSync->mUnk_724 = 0x30 - usedSize;
 }
 
 void ExpireItemDataSlots(void) {
@@ -127,7 +127,7 @@ void ExpireItemDataSlots(void) {
     ItemDataSlot *slot;
 
     for (slotIndex = 0; slotIndex < 16; slotIndex++) {
-        slot = &data_0217aa14->mUnk_324[slotIndex];
+        slot = &gWiFiRaceSync->mUnk_324[slotIndex];
         if (slot->mItemKind == 15) {
             continue;
         }
@@ -135,7 +135,7 @@ void ExpireItemDataSlots(void) {
             case 0:
                 break;
             case 2:
-                if (slot->mUnk_00 + 30 < (u32) data_0217aa14->mUnk_728) {
+                if (slot->mUnk_00 + 30 < (u32) gWiFiRaceSync->mSyncFrames) {
                     slot->mUnk_08 = 0;
                     slot->mUnk_00 = 0;
                     slot->mItemKind = 15;
@@ -145,7 +145,7 @@ void ExpireItemDataSlots(void) {
                 }
                 break;
             case 1:
-                if (slot->mUnk_00 < (u32) data_0217aa14->mUnk_728) {
+                if (slot->mUnk_00 < (u32) gWiFiRaceSync->mSyncFrames) {
                     slot->mUnk_08 = 2;
                 }
                 break;
@@ -162,13 +162,14 @@ void func_0205aa60(void) {
     u8 headerByte;
 
     for (participantIndex = 0; participantIndex < 4; participantIndex++) {
-        if (participantIndex != func_ov000_0219bb50() && (data_0217aa14->mUnk_749 & (1 << participantIndex)) != 0 &&
-            data_0217aa14->mUnk_104[participantIndex].mUnk_86_0 != 0) {
-            headerCursor = (u8 *) &data_0217aa14->mUnk_104[participantIndex] + 0x28;
+        if (participantIndex != GetOwnParticipantIndex() &&
+            (gWiFiRaceSync->mParticipantMask & (1 << participantIndex)) != 0 &&
+            gWiFiRaceSync->mEntries[participantIndex].mUnk_86_0 != 0) {
+            headerCursor = (u8 *) &gWiFiRaceSync->mEntries[participantIndex] + 0x28;
             dataCursor = headerCursor + 16;
             for (slotIndex = 0; slotIndex < 16; slotIndex++) {
                 headerByte = *headerCursor++;
-                slot = &data_0217aa14->mUnk_3e4[slotIndex][participantIndex];
+                slot = &gWiFiRaceSync->mUnk_3e4[slotIndex][participantIndex];
                 slot->mItemKind = headerByte & 0x1f;
                 slot->mMessageKind = (headerByte & 0xe0) >> 5;
                 if (slot->mItemKind == 15) {
@@ -188,23 +189,24 @@ void func_0205aa60(void) {
 void ProcessOtherParticipantItemData(void) {
     u8 participantIndex;
     u16 slotIndex;
-    Unk0217aa14 *p;
+    WiFiRaceSync *p;
     ItemDataSlot *slot;
     u8 *handledFlag;
     u8 *data;
 
     for (participantIndex = 0; participantIndex < 4; participantIndex++) {
-        if (participantIndex != func_ov000_0219bb50() && (data_0217aa14->mUnk_749 & (1 << participantIndex)) != 0 &&
-            data_0217aa14->mUnk_104[participantIndex].mUnk_86_0 != 0) {
+        if (participantIndex != GetOwnParticipantIndex() &&
+            (gWiFiRaceSync->mParticipantMask & (1 << participantIndex)) != 0 &&
+            gWiFiRaceSync->mEntries[participantIndex].mUnk_86_0 != 0) {
             for (slotIndex = 0; slotIndex < 16; slotIndex++) {
-                p = data_0217aa14;
+                p = gWiFiRaceSync;
                 slot = &p->mUnk_3e4[slotIndex][participantIndex];
                 handledFlag = &p->mUnk_6e4[slotIndex][participantIndex];
                 if (slot->mItemKind == 15) {
                     *handledFlag = 0;
                 } else if (*handledFlag == 0) {
                     data = NULL;
-                    func_0205b954(participantIndex);
+                    GetParticipantSyncFrames(participantIndex);
                     if (slot->mDataSize != 0) {
                         data = slot->mData;
                     }

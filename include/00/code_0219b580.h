@@ -48,7 +48,7 @@ typedef struct WiFiConnection {
     // State before the last SetWiFiConnectionState; WiFiBuddySyncCallback returns to it when the sync ends.
     /* 28 */ s32 mPrevState;
     // This player's index among the participants: 0 after Init, then taken from the participant table when a
-    // participant id equals mProfileId; read through func_ov000_0219bb50 (96 call sites).
+    // participant id equals mProfileId; read through GetOwnParticipantIndex.
     /* 2c */ u8 mOwnIndex;
     // 1 only while func_ov000_0219bbfc closes every peer connection of the socket (state 5 or 6, other participants
     // present); read by func_ov000_0219b27c (code_0219b1f8.c:113, :128, :151) to tell this close from a peer leaving.
@@ -136,7 +136,7 @@ s32 func_ov000_0219ba20(void);
 u32 GetWiFiConnectionState(void);
 BOOL func_ov000_0219bac8(u32 a);
 s32 func_ov000_0219bb04(u8 **a);
-u8 func_ov000_0219bb50(void);
+u8 GetOwnParticipantIndex(void);
 s32 func_ov000_0219bb68(void);
 s32 func_ov000_0219bbac(s32 a);
 s32 func_ov000_0219bbfc(void);

@@ -503,7 +503,7 @@ void *FindCourseFile(const char *path) {
     return file;
 }
 
-void *func_02047950(const char *path) {
+void *GetKartModelFile(const char *path) {
     int currentSceneNumber;
     currentSceneNumber = GetCurrentSceneNumber();
     if (currentSceneNumber == 3) {

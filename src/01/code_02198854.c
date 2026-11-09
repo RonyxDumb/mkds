@@ -271,7 +271,8 @@ void AdvanceOptionSelectMenuState2(void) {
         hasB = TRUE;
     }
     if (hasB != FALSE) {
-        r5 = RectTableFindContaining(p->mOptionSelectMenuSBnbl, data_02175628[idx].mUnk_48.mPairX, data_02175628[idx].mUnk_48.mPairY);
+        r5 = RectTableFindContaining(p->mOptionSelectMenuSBnbl, data_02175628[idx].mUnk_48.mPairX,
+                                     data_02175628[idx].mUnk_48.mPairY);
     }
     if ((u16) (data_02175628[idx].mPressedBits & PAD_KEY_B) != 0) {
         goto L1;
@@ -304,7 +305,7 @@ void AdvanceOptionSelectMenuState2(void) {
         } else {
             data_0217aa08->mFirstBlock->mUnk_31 |= 0x10;
         }
-        func_02056d40();
+        WriteBackupFirstBlockWrapper();
         if (gOptionSelectMenu->mIndex == 2) {
             gOptionSelectMenu->mUnk_38 = FALSE;
         }

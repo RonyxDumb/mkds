@@ -979,7 +979,7 @@ void AdvanceItemInUseOne(ItemInUse *itemInUse) {
         }
     }
     if (previousScale < 0xccd && object->mScale.z >= 0xccd && itemInUse->mKartIndex == gRaceSetup->mEntryIndex) {
-        func_020719bc(&kartItems->mKart->mSoundSource, 0xe7);
+        StartSoundFullVolume(&kartItems->mKart->mSoundSource, 0xe7);
     }
     if ((kartItems->mFlags & 0x284) == 0x284 && itemInUse->mObjectKind != 0xf &&
         itemInUse->mObjectStartFramesLeft == 0) {
@@ -1073,7 +1073,7 @@ void StartItemInUseTrail(ItemInUse *itemInUse) {
         itemInUse->mUnk_0ec[1][i] = 0;
     }
     if (itemInUse->mKartIndex == gRaceSetup->mEntryIndex) {
-        func_020719bc(&itemInUse->mKartItems->mKart->mSoundSource, 0xe7);
+        StartSoundFullVolume(&itemInUse->mKartItems->mKart->mSoundSource, 0xe7);
     }
 }
 
@@ -1273,7 +1273,7 @@ void StartItemInUseCircle(ItemInUse *itemInUse) {
                 &itemInUse->mKartDrawMatrixPos, &itemInUse->mCircleCenter);
     PlaceItemInUseCircleObjects(itemInUse);
     if (itemInUse->mKartIndex == gRaceSetup->mEntryIndex) {
-        func_020719bc(&itemInUse->mKartItems->mKart->mSoundSource, 0xe7);
+        StartSoundFullVolume(&itemInUse->mKartItems->mKart->mSoundSource, 0xe7);
     }
 }
 
@@ -1324,7 +1324,7 @@ void AdvanceItemInUseCircle(ItemInUse *itemInUse) {
         }
     }
     if (itemInUse->mKartIndex == gRaceSetup->mEntryIndex) {
-        func_020719a8(&kartItems->mKart->mSoundSource, objectCount + 0xe0);
+        StartSoundWhileRequestedFullVolume(&kartItems->mKart->mSoundSource, objectCount + 0xe0);
     }
     if ((kartItems->mFlags & 0x244) != 0x244) {
         return;

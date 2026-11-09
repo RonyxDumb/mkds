@@ -2,5 +2,5 @@
 #include "Main/Unknown/unk_0217a000.h"
 
 void func_0205af90(void) {
-    data_0217aa14->mUnk_72c = 1;
+    gWiFiRaceSync->mUnk_72c = 1;
 }

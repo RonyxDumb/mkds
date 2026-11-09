@@ -70,7 +70,7 @@ void UpdateRaceStartSequence(void) {
         return;
     }
     if (gRaceSetup->mMode == 5) {
-        if ((data_0217aa14->mUnk_75c & 2) == 0) {
+        if ((gWiFiRaceSync->mFlags & 2) == 0) {
             return;
         }
         sequence->mCounting = TRUE;

@@ -90,7 +90,7 @@ void DrawJgShadowWithMatrix(Vec3 *scale, MtxFx43 *matrix, u32 c, u32 d) {
 
 void func_020e5348(u32 a, u32 b) {
     gJgShadow->mUnk_06e = a < b ? a : b;
-    func_0207ad88(gJgShadow);
+    DrawShadowModelIfDrawFlag(gJgShadow);
 }
 
 #pragma thumb on

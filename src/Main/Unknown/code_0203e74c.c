@@ -77,7 +77,7 @@ s32 IsRaceEndConditionMet(void) {
             }
             break;
         case 5:
-            v = gParticipantKartMap->mKartOfParticipant[func_ov000_0219bb50()];
+            v = gParticipantKartMap->mKartOfParticipant[GetOwnParticipantIndex()];
             if (v < 0) {
                 endConditionMet = FALSE;
             } else {

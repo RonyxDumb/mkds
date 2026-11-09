@@ -27,7 +27,7 @@ u32 GetChoisesSPrevOpenDuringRace(void) {
     return (gChoisesS->mPrevOpenDuringRace);
 }
 
-int func_020b2e34(void) {
+int GetChoisesSPickedValue(void) {
     int v1;
     int pickedValue;
     pickedValue = gChoisesS->mPickedValue;

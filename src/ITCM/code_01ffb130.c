@@ -73,7 +73,7 @@ void func_01ffb130(Kart *p) {
     if (p->mUnk_4c & 0x2000) {
         q = &p->mUnk_538;
         if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-            AddSoundRequest(data_0217d26c, GetKartCameraDistanceSquared(p->mIndex), func_020718c8, p, 0xa3);
+            AddSoundRequest(data_0217d26c, GetKartCameraDistanceSquared(p->mIndex), RequestKartSound, p, 0xa3);
         }
         q->mUnk_0a++;
         if (q->mUnk_0a > 0xb4 && (p->mUnk_4c & 0x2000)) {
@@ -88,8 +88,9 @@ void func_01ffb130(Kart *p) {
     if (p->mUnk_4c & 0x40) {
         q = &p->mUnk_538;
         AdvanceKartStarEffects(p->mIndex);
-        if ((p->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) && p->mKartModelsEntry->mCharacterAnimation->mCurrentIndex == 0) {
-            func_02068a64(p, 2, 1);
+        if ((p->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) &&
+            p->mKartModelsEntry->mCharacterAnimation->mCurrentIndex == 0) {
+            SetKartCharacterAnimation(p, 2, 1);
         }
         q->mUnk_06++;
         if (q->mUnk_06 > 0x1c2) {
@@ -97,7 +98,7 @@ void func_01ffb130(Kart *p) {
             StopKartStarModels(p);
             p->mItemEffect = 0;
             StopKartStarEffects(p->mIndex);
-            func_02068a64(p, 0, 1);
+            SetKartCharacterAnimation(p, 0, 1);
             if ((p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
                 func_02106dc8();
             }

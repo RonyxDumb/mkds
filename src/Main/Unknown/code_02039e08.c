@@ -48,9 +48,9 @@ void UpdateRaceScene(Unk0203a0dc *sceneNumbers, u32 sceneFrames) {
         if (func_0204359c() == 0) {
             if (sceneNumbers != NULL) {
                 if (func_0203a8f4() == 5) {
-                    c = func_0205bba8();
+                    c = GetWiFiRaceSyncPickedValue();
                 } else {
-                    c = func_020b2e34();
+                    c = GetChoisesSPickedValue();
                 }
                 if (c != 0) {
                     func_0203a8e0(c);

@@ -305,8 +305,8 @@ void AdvanceWiFiVSMatchingState1(void) {
         a = TRUE;
     }
     if (a != FALSE &&
-        IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[idx].mUnk_48.mPairX, data_02175628[idx].mUnk_48.mPairY) !=
-            FALSE &&
+        IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[idx].mUnk_48.mPairX,
+                                                        data_02175628[idx].mUnk_48.mPairY) != FALSE &&
         func_021213a0() != FALSE) {
     hit:
         func_021213e8();
@@ -348,7 +348,7 @@ void AdvanceWiFiVSMatchingState1(void) {
         }
         gWiFiVSMatching->mOtherCount = gWiFiSession->mKartCount - 1;
         for (j = 0; j < gWiFiSession->mKartCount; j++) {
-            if (j != func_ov000_0219bb50()) {
+            if (j != GetOwnParticipantIndex()) {
                 gWiFiVSMatching->mOtherIndices[k] = j;
                 gWiFiVSMatching->mUnk_24[k] = 1;
                 k++;
@@ -583,8 +583,8 @@ void AdvanceWiFiVSMatchingState9(void) {
             if (a == FALSE) {
                 return;
             }
-            if (IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[idx].mUnk_48.mPairX, data_02175628[idx].mUnk_48.mPairY) ==
-                FALSE) {
+            if (IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[idx].mUnk_48.mPairX,
+                                                                data_02175628[idx].mUnk_48.mPairY) == FALSE) {
                 return;
             }
         }

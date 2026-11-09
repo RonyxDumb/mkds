@@ -9,18 +9,18 @@
 #include "00/code_0219b580.h"
 #include "Main/Unknown/code_0203c5f8.h"
 
-s32 func_0205afa8(void) {
+s32 PackOwnKartProgress(void) {
     u32 c;
     s32 kartStartRank;
     u16 kartIndex;
     s32 d;
     s32 lapBits;
 
-    kartIndex = gParticipantKartMap->mKartOfParticipant[func_ov000_0219bb50()];
+    kartIndex = gParticipantKartMap->mKartOfParticipant[GetOwnParticipantIndex()];
     kartStartRank = GetKartStartRank(kartIndex);
     c = GetKartFinishTimeMs(kartIndex) & 0x7ffff;
     if (IsKartEnded(kartIndex) != 0 && gRaceProgress->mUnk_000[kartIndex].mStatus != 1 &&
-        data_0217aa14->mUnk_72c == FALSE) {
+        gWiFiRaceSync->mUnk_72c == FALSE) {
         c = 0x7ffff;
     }
     if (c == 0) {
@@ -32,7 +32,7 @@ s32 func_0205afa8(void) {
         d = 6 - GetKartHighestLap(kartIndex);
     }
     lapBits = (d << 19) & 0x380000;
-    if (IsKartEnded(kartIndex) == 0 && data_0217aa14->mUnk_72c == FALSE) {
+    if (IsKartEnded(kartIndex) == 0 && gWiFiRaceSync->mUnk_72c == FALSE) {
         d = 1;
     } else {
         d = 0;

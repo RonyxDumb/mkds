@@ -53,7 +53,7 @@ void func_ov000_0218583c(void) {
                 }
             }
             p->mUnk_34[5] = a;
-            func_02056d40();
+            WriteBackupFirstBlockWrapper();
             WaitThreadFunctionsDone();
             if (gBackupAccess->mBackupEnabled != 0) {
                 CARD_WaitBackupAsync();
