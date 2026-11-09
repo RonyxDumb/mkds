@@ -101,7 +101,7 @@ void FillPlayerRecord(Unk0217aa00_45c *a) {
     a->mUnk_228_4 = data_021759d0->mLanguageIndex;
     a->mElo = data_0217aa08->mFirstBlock->mElo;
     a->mUnk_229 = func_02056208();
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         MI_CpuFill8(&a->mUnk_218, 0, 0xc);
     } else {
         DWC_CreateExchangeToken(&data_0217aa08->mFirstBlock->mUserData, &a->mUnk_218);

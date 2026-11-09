@@ -28,7 +28,7 @@ void InitArchiveSlots(void *heap) {
     for (index = 0; index < 20; index++) {
         data_021759c8->mUnk_00[index].mLoaded = 0;
     }
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         data_021759c8->mFileTableSize = FS_TryLoadTable(0, 0);
         data_021759c8->mFileTable = HeapAlloc(heap, data_021759c8->mFileTableSize);
         FS_TryLoadTable((u32) data_021759c8->mFileTable, data_021759c8->mFileTableSize);
@@ -154,7 +154,7 @@ void BuildCourseArchivePath(char *path, s32 courseId, s32 useTexture) {
     const char *dSuffix;
 
     d = FALSE;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2 && data_usa_02154228[courseId].mUnk_04 == 1) {
+    if (gBootInfo->mUnk_00 == 2 && data_usa_02154228[courseId].mUnk_04 == 1) {
         d = TRUE;
     }
     if (useTexture != 0) {

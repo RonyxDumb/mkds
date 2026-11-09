@@ -39,7 +39,7 @@ static inline Unk0217aa00_45c *func_02045084_inline(ConnectionWork *q, s32 entry
 }
 
 static inline BOOL func_02045084_inline2(void) {
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         return TRUE;
     }
     return FALSE;

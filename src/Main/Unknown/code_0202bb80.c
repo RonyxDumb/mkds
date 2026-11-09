@@ -134,7 +134,7 @@ void AdvancePlayerEntryListOffsets(void) {
     s32 onesCell;
     s32 d;
     s16 offsetX;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         AdvanceInterpolation(&gPlayerEntryList->mInterpolations[0]);
         fileSet->mCellTable[25].mOffsetY = GetInterpolatedValue(&gPlayerEntryList->mInterpolations[0]);
         AdvanceInterpolation(&gPlayerEntryList->mInterpolations[3]);
@@ -209,7 +209,7 @@ void InitPlayerEntryList(void *parentHeap, void *mainOam) {
     MemFillWordsByBlock_inline(gPlayerEntryList, 0x258);
     gPlayerEntryList->mHeap = heap;
     gPlayerEntryList->mMainOam = mainOam;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         gEntryCellIndices = gDownloadEntryCellIndices;
         gEntryLabelTextRows = gDownloadEntryLabelTextRows;
         gCharacterCellIndices = gDownloadCharacterCellIndices;
@@ -222,7 +222,7 @@ void InitPlayerEntryList(void *parentHeap, void *mainOam) {
     }
     objSizeLeft = GX_GetSizeOfOBJ();
     fileSet = &gPlayerEntryList->mParts;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         LocateCellFileSet(fileSet, data_usa_02162aac, data_usa_02162ad4, data_usa_02162afc,
                           gSelectMenuEtcDownloadMBnclName, gSelectMenuEtcDownloadMBnllName, NULL, FindSceneFile);
     } else {
@@ -242,7 +242,7 @@ void InitPlayerEntryList(void *parentHeap, void *mainOam) {
     SetupInterpolation(&gPlayerEntryList->mInterpolations[0], 0, 10, -0x40, 0);
     SetupInterpolation(&gPlayerEntryList->mInterpolations[2], 3, 10, 0x60, 0);
     SetupInterpolation(&gPlayerEntryList->mInterpolations[3], 3, 10, 0x40, 0);
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         LocateCellFileSet(&gPlayerEntryList->mTitleParts, data_usa_02162bf0, data_usa_02162c14, NULL,
                           gSelectMenuEtcTitleMBnclName, NULL, NULL, FindFileInLoadedArchives);
     }
@@ -348,7 +348,7 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
         }
         reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0xd08;
         reg_G2_BG1CNT = (reg_G2_BG1CNT & 0x43) | 0xc00;
-        if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+        if (gBootInfo->mUnk_00 == 2) {
             func_020258d4(0, screenMapFileSet, data_usa_02162904, data_usa_0216292c, data_usa_02162954, 0,
                           FindSceneFile);
             func_020258d4(0, screenMapFileSet, data_usa_02162980, data_usa_021629a8, data_usa_021629d0, 1,
@@ -373,7 +373,7 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
     CallQueueAppend(0x13, 0, gPlayerEntryList->mParts.mChars->mData, gPlayerEntryList->mParts.mChars->mDataSize);
     CallQueueAppend(0xe, 0, fileSet->mPalette->mData, 0x1a0);
     CallQueueAppend(0xe, 0x1c0, (u8 *) fileSet->mPalette->mData + 0x1c0, 0x40);
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         QueueCellChars(gTitleCellIndices[gPlayerEntryList->mScreenKind], titleFileSet->mCells, titleFileSet->mChars,
                        titleFileSet->mCellLayout, 0, 0x19, fileSet->mCells, fileSet->mCellLayout);
         func_02025f14(&gPlayerEntryList->mInterpolations[0], 0);

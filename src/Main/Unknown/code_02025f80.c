@@ -125,7 +125,7 @@ void func_02027084(void) {
     CellFileSet *sParts = &gSelectCharacter->mUnk_01c;
     s32 i;
     s32 elementCount;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         elementCount = sParts->mCellLayout->mUnk_06;
         for (i = 0; i < elementCount; i++) {
             SetLayoutEntryAngleAndScale(&sParts->mCellTable[i], gSelectCharacter->mUnk_074, gSelectCharacter->mUnk_070);
@@ -158,7 +158,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
         case 0:
             SetupInterpolation(&gSelectCharacter->mInterpolations[0], 0, 10, -0x80, 0);
             SetupInterpolation(&gSelectCharacter->mInterpolations[2], 0, 10, 0x60, 0);
-            if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+            if (gBootInfo->mUnk_00 != 2) {
                 StartKartModelMenuBg0Increase();
             }
             break;
@@ -233,7 +233,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
         selectCharacter->mUnk_000.mCellTable[5].mVisible = selectCharacter->mUnk_000.mCellTable[6].mVisible;
         selectCharacter->mUnk_000.mCellTable[4].mVisible = selectCharacter->mUnk_000.mCellTable[5].mVisible;
     }
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         sParts = &gSelectCharacter->mUnk_01c;
         LocateCellFileSet(sParts, gSelectCharacterSNcgrName, gSelectCharacterSNcerName, gSelectCharacterSONclrName,
                           gSelectCharacterSBnclName, NULL, gSelectCharacterSBnblName, FindFileInLoadedArchives);
@@ -302,7 +302,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mCharacterIndex = -1;
     GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mKartIndex = -1;
     GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mUnk_14 = 0;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         sParts = &gSelectCharacter->mUnk_01c;
         func_02025b84(0, &w);
         for (i = 0; i < gSelectCharacter->mUnk_07c; i++) {
@@ -310,7 +310,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
                           1, data_usa_02153554[i].mUnk_02, sParts->mCells, sParts->mCellLayout);
         }
     }
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         positions = NULL;
         sParts = &gSelectCharacter->mUnk_01c;
         switch (gSelectCharacter->mUnk_07c) {
@@ -366,7 +366,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
         StartFadeToClear(10);
         func_0202734c(0);
     }
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         func_02077f48(0);
     }
     FrmHeapShrinkInParent(gSelectCharacter->mHeap);
@@ -431,7 +431,7 @@ int AdvanceSelectCharacter(void) {
             } else {
                 selectCharacterReload->mUnk_070 = 0x1000;
                 gSelectCharacter->mUnk_068 = 0;
-                if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+                if (gBootInfo->mUnk_00 == 2) {
                     nextState = 2;
                 } else {
                     nextState = 3;
@@ -633,7 +633,7 @@ int AdvanceSelectCharacter(void) {
                     func_02027424(2);
                 }
                 func_02025f14(&gSelectCharacter->mInterpolations[1], 2);
-                if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+                if (gBootInfo->mUnk_00 != 2) {
                     StartKartModelMenuBg0Decrease();
                 } else if (GetRaceSetupCopy()->mMode == 2) {
                     func_0211f378();
@@ -667,7 +667,7 @@ int AdvanceSelectCharacter(void) {
     func_0202728c(GetInterpolatedValue(&gSelectCharacter->mInterpolations[0]));
     interpolatedValue = GetInterpolatedValue(&gSelectCharacter->mInterpolations[1]);
     func_020272c0(interpolatedValue, GetInterpolatedValue(&gSelectCharacter->mInterpolations[2]));
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         selectCharacterReload = gSelectCharacter;
         if (selectCharacterReload->mUnk_08c != 2) {
             RequestKartModelMenuCharacter(selectCharacterReload->mCharacterIndex);
@@ -681,13 +681,13 @@ int AdvanceSelectCharacter(void) {
         DrawLayoutTable(selectCharacter->mUnk_000.mCellLayout, selectCharacter->mUnk_000.mCells, NULL,
                         gSelectCharacter->mMainOam, selectCharacter->mUnk_000.mCellTable);
     }
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         func_02124bf0(sParts->mCellLayout, sParts->mCells, NULL, gSelectCharacter->mUnk_058, sParts->mCellTable);
         IncrementOamMatrixCount(gSelectCharacter->mUnk_058);
     } else if (GetRaceSetupCopy()->mMode == 2) {
         AdvanceSelectRaceRuleWait();
     }
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         DrawKartModelMenu();
     }
     switch (result) {
@@ -699,7 +699,7 @@ int AdvanceSelectCharacter(void) {
             }
             break;
         case 2:
-            if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+            if (gBootInfo->mUnk_00 != 2) {
                 RequestKartModelMenuCharacter(-1);
                 RequestKartModelMenuKart(-1);
             }

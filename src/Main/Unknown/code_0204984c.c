@@ -236,7 +236,7 @@ void func_0204a1a8(void *arg) {
         }
         OpenMessageScreen(gSceneRunState->mUnk_118, gSceneRunState->mUnk_11c);
         StopAllSeqPlayers();
-        if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+        if (gBootInfo->mUnk_00 == 2) {
             func_02108d00();
         } else {
             StartMessageScreenSeq();
@@ -301,7 +301,7 @@ void func_02049f60(void) {
     if (gDisplaySettings != NULL) {
         hasDisplaySettings = TRUE;
     }
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         OpenMessageScreen(gSceneRunState->mUnk_118, gSceneRunState->mUnk_11c);
     }
     func_02039478();
@@ -310,11 +310,11 @@ void func_02049f60(void) {
     if (func_0204984c_inline6()) {
         sessionHeapCreated = TRUE;
     }
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         OpenMessageScreen(gSceneRunState->mUnk_118, gSceneRunState->mUnk_11c);
     }
     StopAllSeqPlayers();
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         func_02108d00();
     } else {
         StartMessageScreenSeq();
@@ -374,7 +374,7 @@ void func_02049e38(s32 kind) {
     hasDisplaySettings = gDisplaySettings != NULL;
     switch (kind) {
         case 0:
-            if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+            if (gBootInfo->mUnk_00 != 2) {
                 c = TRUE;
             }
             break;
@@ -470,7 +470,7 @@ u32 func_02049b6c(void) {
 }
 
 BOOL ShouldGoSleepMode(void) {
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2 || func_0204984c_inline2() ||
+    if (gBootInfo->mUnk_00 == 2 || func_0204984c_inline2() ||
         (GetCurrentSceneNumber() == 12 && func_ov000_02180600() == FALSE) ||
         (GetCurrentSceneNumber() != 12 && gWiFiSession->mUnk_0008.mState != 0) || GetCurrentSceneNumber() == 13 ||
         GetCurrentSceneNumber() == 6) {
@@ -482,7 +482,7 @@ BOOL ShouldGoSleepMode(void) {
 u32 func_0204998c(void) {
     s32 v;
 
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2 || func_0204984c_inline2() || GetCurrentSceneNumber() == 6 ||
+    if (gBootInfo->mUnk_00 == 2 || func_0204984c_inline2() || GetCurrentSceneNumber() == 6 ||
         GetCurrentSceneNumber() == 13 || (GetCurrentSceneNumber() == 12 && func_ov000_02180608() == FALSE) ||
         (GetCurrentSceneNumber() != 12 && gWiFiSession->mUnk_0008.mState != 0)) {
         return 1;

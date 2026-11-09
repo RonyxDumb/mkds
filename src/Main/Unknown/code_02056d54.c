@@ -13,8 +13,8 @@
 #pragma thumb on
 
 void func_02057130(void) {
-    ResetBackupFirstBlockAndRecords(((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2);
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    ResetBackupFirstBlockAndRecords(gBootInfo->mUnk_00 == 2);
+    if (gBootInfo->mUnk_00 != 2) {
         SetBackupBusy();
         QueueThreadFunction(WriteBackupFirstBlockAndRecords);
         gThreadFunctionQueue->mRunRequested = 1;
@@ -131,7 +131,7 @@ void ResetFailedBackupBlocks(void) {
         }
     }
     if (data_0217aa08->mFailedBlockBits & 1) {
-        ResetBackupFirstBlock(((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2);
+        ResetBackupFirstBlock(gBootInfo->mUnk_00 == 2);
         WriteBackupFirstBlock(data_0217aa08->mFirstBlock);
         if (gBackupAccess->mBackupEnabled != 0) {
             CARD_WaitBackupAsync();

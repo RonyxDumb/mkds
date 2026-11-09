@@ -397,7 +397,7 @@ s32 func_0205579c(s32 a, s32 b) {
         }
         return func_02055808(a);
     }
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         return func_0204e1a8(a);
     }
     return func_02055808(a);
@@ -407,7 +407,7 @@ s32 func_02055730(u16 a) {
     if (data_0217aa00->mUnk_0436 & 1) {
         data_0217aa00->mUnk_0436 &= ~1;
     }
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2 || func_0204fe90(a) != 0) {
+    if (gBootInfo->mUnk_00 == 2 || func_0204fe90(a) != 0) {
         return func_0204dd24(a);
     }
     return func_02055564(a);

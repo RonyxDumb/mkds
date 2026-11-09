@@ -63,7 +63,7 @@ void func_0205e0b0(void) {
     h = GetHeap(GetCurrentHeapCall());
     switch (gRunScenesState->mUnk_00) {
         case 0:
-            if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+            if (gBootInfo->mUnk_00 == 2) {
                 m = 2;
             } else {
                 m = 0;

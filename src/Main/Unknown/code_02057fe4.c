@@ -133,7 +133,7 @@ void UpdateMPState1(void) {
         } else {
             v = p->mUnk_0000;
         }
-        if (v != 1 && ((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+        if (v != 1 && gBootInfo->mUnk_00 != 2) {
             a = FALSE;
         }
         if (a != FALSE) {
@@ -153,14 +153,14 @@ void UpdateMPState1(void) {
 }
 
 void EnterMPState2(void) {
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         StartLoadOverlay(2);
     }
 }
 
 void UpdateMPState2(void) {
     if (TryFinishOverlayLoad() != 0) {
-        if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+        if (gBootInfo->mUnk_00 == 2) {
             CreateOverlayFrmHeap();
             func_020474e4();
         }

@@ -428,7 +428,7 @@ void func_0202734c(s32 value) {
 
     selectCharacter = gSelectCharacter;
     sParts = &selectCharacter->mUnk_01c;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         for (i = 0; i < gSelectCharacter->mUnk_07c; i++) {
             sParts->mCellTable[data_usa_02153554[i].mUnk_04].mVisible = value;
             sParts->mCellTable[data_usa_02153554[i].mUnk_02].mVisible =
@@ -445,7 +445,7 @@ void func_020272ec(void) {
     CellFileSet *sParts;
     Unk02153554 *tableRow;
 
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         sParts = &gSelectCharacter->mUnk_01c;
         sParts->mCellTable[24].mVisible = 0;
         sParts->mCellTable[25].mVisible = 1;
@@ -461,7 +461,7 @@ void func_020272ec(void) {
 void func_020272c0(s16 firstValue, s16 secondValue) {
     SelectCharacter *selectCharacter;
 
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         selectCharacter = gSelectCharacter;
         if (selectCharacter->mUnk_128 == FALSE) {
             selectCharacter->mUnk_000.mCellTable[0].mOffsetY = firstValue;
@@ -473,7 +473,7 @@ void func_020272c0(s16 firstValue, s16 secondValue) {
 void func_0202728c(s16 value) {
     SelectCharacter *selectCharacter;
 
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         selectCharacter = gSelectCharacter;
         if (selectCharacter->mUnk_128 == FALSE) {
             selectCharacter->mUnk_000.mCellTable[1].mOffsetX = value;

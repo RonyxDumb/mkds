@@ -424,7 +424,7 @@ void ResetKartMotionVectorsAndFactors(Kart *kart) {
     kart->mSpeedLimitFactor = 0x1000;
     kart->mSpeedLimitHitFactor = 0x1000;
     zeroVector = data_02154f94;
-    *(Vec3 *) &kart->mUnk_25c = zeroVector;
+    kart->mUnk_25c = zeroVector;
     kart->mUnk_268 = zeroVector;
     kart->mUnk_274 = 0;
     kart->mForward = zeroVector;
@@ -432,7 +432,7 @@ void ResetKartMotionVectorsAndFactors(Kart *kart) {
     kart->mHitVelocity = zeroVector;
     kart->mPrevHitVelocity = zeroVector;
     kart->mUnk_2f0 = zeroVector;
-    *(Vec3 *) &kart->mUnk_25c = zeroVector;
+    kart->mUnk_25c = zeroVector;
     kart->mAirborneFrames = 0;
     kart->mTurnAngle = 0;
     kart->mUnk_38a = 0;
@@ -493,7 +493,7 @@ void ResetKart(Kart *kart) {
     kart->mTurnedForwardEaseFactor = 0x1000;
     kart->mGroundNormal = data_02154f7c;
     kart->mUnk_250 = zeroVector;
-    *(Vec3 *) &kart->mUnk_25c = zeroVector;
+    kart->mUnk_25c = zeroVector;
     kart->mUnk_268 = zeroVector;
     kart->mUnk_274 = 0;
     kart->mForward = zeroVector;

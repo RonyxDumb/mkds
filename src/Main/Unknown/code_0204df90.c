@@ -22,12 +22,12 @@ void func_0204e928(void *heap, u32 b, void *bmg) {
     u32 workSize;
     data_0217aa00->mUnk_1664 = heap;
     workSize = GetScanConnectWorkSize();
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2 && workSize < 0xc000) {
+    if (gBootInfo->mUnk_00 != 2 && workSize < 0xc000) {
         workSize = 0xc000;
     }
     data_0217aa00->mUnk_1660 = workSize;
     data_0217aa00->mUnk_165c = HeapAllocAligned(heap, data_0217aa00->mUnk_1660, 0x20);
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         data_0217aa00->mUnk_168c = func_02008880(NULL);
         if (data_0217aa00->mUnk_168c > 0x80000) {
             data_0217aa00->mUnk_168c = 0x80000;
@@ -298,7 +298,7 @@ s32 func_0204e29c(void) {
 s32 func_0204e204(void) {
     BOOL stepDone = FALSE;
     BOOL result = FALSE;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         switch (data_0217aa00->mUnk_000c) {
             case 0:
                 data_0217aa00->mUnk_0454 |= 0x40;

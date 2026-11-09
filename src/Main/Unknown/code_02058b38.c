@@ -82,7 +82,7 @@ s32 func_02058dc0(void (*callback)(void)) {
             }
             break;
         case 2:
-            if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+            if (gBootInfo->mUnk_00 == 2) {
                 QueueThreadFunction(callback);
                 gThreadFunctionQueue->mRunRequested = 1;
             }
@@ -122,7 +122,7 @@ s32 func_02058cac(void) {
     }
     ownIndex = ((const ConnectionWork *) data_0217aa00)->mUnk_0000 == 2 ? data_0217aa00->mOwnIndex : 0;
     if (ownIndex == 0xffff && func_02058b38_inline() == 2) {
-        if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+        if (gBootInfo->mUnk_00 == 2) {
             func_02050e60(0);
             return 3;
         }
@@ -171,7 +171,7 @@ void func_02058ba4(void) {
 
     v = (u32) OS_GetTick() << 8;
     v = (u32) v & ~(u32) (v >> 32);
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         v = v * 0x5d588b656c078965ull + 0x269ec3;
         data_0217aa00->mUnk_1608.mUnk_18 = (u16) (((v >> 32) * 0xb4) >> 32) + 0x78;
     } else {

@@ -225,7 +225,7 @@ void LoadArchiveSlot(s32 slotIndex, const char *path, u32 *sourceData, void *dat
     request->mUnk_90 = e;
     request->mUncompressSource = uncompressSource;
     request->mUnk_9c = g;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         if (request->mSourceData != NULL) {
             if (request->mUncompressSource != 0) {
                 bufferIndex = gArchiveSlotInfos[slotIndex].mBufferIndex;
@@ -321,7 +321,7 @@ void ReleaseArchiveSlot(int slotIndex) {
     shouldFree = TRUE;
     if (data_021759c8->mUnk_00[slotIndex].mLoaded != 0 && slotIndex != 0x13) {
         ArchiveUnload(&data_021759c8->mUnk_00[slotIndex].mArchive.mUnk_00);
-        if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+        if (gBootInfo->mUnk_00 == 2) {
             bufferIndex = gArchiveSlotInfos[slotIndex].mBufferIndex;
             if (bufferIndex != -1 && data_021759c8->mBuffers[bufferIndex].mUncompress != 0) {
                 shouldFree = FALSE;
@@ -339,7 +339,7 @@ void ReleaseArchiveSlot(int slotIndex) {
 }
 
 void LoadArchiveSlotsForScene(s32 sceneNumber) {
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2 && sceneNumber == 6 && data_0217b488->mUnk_74 == 0) {
+    if (gBootInfo->mUnk_00 == 2 && sceneNumber == 6 && data_0217b488->mUnk_74 == 0) {
     } else {
         LoadArchiveSlotForScene(1, sceneNumber);
     }
@@ -383,13 +383,13 @@ void LoadArchiveSlotsForScene(s32 sceneNumber) {
             LoadArchiveSlotForScene(16, sceneNumber);
             break;
         case 4:
-            if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+            if (gBootInfo->mUnk_00 != 2) {
                 LoadArchiveSlotForScene(5, sceneNumber);
                 LoadArchiveSlotForScene(16, sceneNumber);
             }
             break;
         case 6:
-            if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+            if (gBootInfo->mUnk_00 != 2) {
                 LoadArchiveSlotForScene(5, sceneNumber);
                 LoadArchiveSlotForScene(16, sceneNumber);
             }

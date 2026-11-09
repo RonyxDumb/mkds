@@ -68,7 +68,7 @@ void func_0205dee0(void) {
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2 && gRunScenesState->mSndHeapsBuffer != NULL) {
+    if (gBootInfo->mUnk_00 != 2 && gRunScenesState->mSndHeapsBuffer != NULL) {
         ReleaseSndHeaps();
         HeapFree(a, gRunScenesState->mSndHeapsBuffer);
         gRunScenesState->mSndHeapsBuffer = NULL;
@@ -126,7 +126,7 @@ s32 RunScenes(s16 *sceneNumber) {
         }
     }
     heap = GetHeap(GetCurrentHeapCall());
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2 && gRunScenesState->mSndHeapsBuffer != NULL) {
+    if (gBootInfo->mUnk_00 != 2 && gRunScenesState->mSndHeapsBuffer != NULL) {
         ReleaseSndHeaps();
         HeapFree(heap, gRunScenesState->mSndHeapsBuffer);
         gRunScenesState->mSndHeapsBuffer = NULL;
@@ -146,7 +146,7 @@ void RunScenesForever(void) {
     HeapCall heapCall;
     gRunScenesState->mSceneNumber = 9;
     gRunScenesState->mUnk_00 = 0;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         data_021759d0->mUnk_20 = 2;
         data_0217b488->mUnk_74 = 0;
         gRunScenesState->mSceneNumber = 6;

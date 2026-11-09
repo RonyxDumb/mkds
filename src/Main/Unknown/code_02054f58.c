@@ -68,7 +68,7 @@ s32 func_02055564(s32 a) {
         case 2:
         case 10:
             if (data_0217aa00->mOwnIndex == 0xffff) {
-                if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+                if (gBootInfo->mUnk_00 == 2) {
                     func_02050e60(5);
                     return 3;
                 }

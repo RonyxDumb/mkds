@@ -273,7 +273,7 @@ void func_020533a0(void) {
         if ((data_0217aa00->mUnk_0454 & 0x40) != 0) {
             c = TRUE;
             role = data_0217aa00 == NULL ? 0 : data_0217aa00->mUnk_0000;
-            if (role != 1 && ((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+            if (role != 1 && gBootInfo->mUnk_00 != 2) {
                 c = FALSE;
             }
             if (c != FALSE) {
@@ -462,7 +462,7 @@ void StartRomArchiveTransfer(void) {
     if ((data_0217aa00->mUnk_0454 & 0x40) != 0) {
         c = TRUE;
         role = data_0217aa00 == NULL ? 0 : data_0217aa00->mUnk_0000;
-        if (role != 1 && ((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+        if (role != 1 && gBootInfo->mUnk_00 != 2) {
             c = FALSE;
         }
         if (c != FALSE) {
@@ -499,7 +499,7 @@ void func_02052da4(void) {
     if ((data_0217aa00->mUnk_0454 & 0x40) != 0) {
         c = TRUE;
         role = data_0217aa00 == NULL ? 0 : data_0217aa00->mUnk_0000;
-        if (role != 1 && ((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+        if (role != 1 && gBootInfo->mUnk_00 != 2) {
             c = FALSE;
         }
         if (c != FALSE) {
@@ -525,7 +525,7 @@ void StopRomArchiveTransfer(void) {
     if ((data_0217aa00->mUnk_0454 & 0x40) != 0) {
         c = TRUE;
         role = data_0217aa00 == NULL ? 0 : data_0217aa00->mUnk_0000;
-        if (role != 1 && ((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+        if (role != 1 && gBootInfo->mUnk_00 != 2) {
             c = FALSE;
         }
         if (c != FALSE) {

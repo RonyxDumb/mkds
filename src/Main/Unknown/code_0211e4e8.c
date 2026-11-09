@@ -57,7 +57,7 @@ void LocateAndQueueSelectCupM(void) {
     h = NULL;
     i = NULL;
     j = NULL;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         return;
     }
     LocateNcgr(&e, FindSceneFile(gSelectCupMBNcgrName3));
@@ -107,7 +107,7 @@ void InitSelectCupMCellsAndRequestCupPicture(void) {
     s32 m;
     s32 a;
 
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         return;
     }
     c = gSelectCupM->mMainBncl->mUnk_06;
@@ -167,7 +167,7 @@ void StartSelectCupMState0(void) {
 
     gSelectCupM->mNextState = 0;
     gSelectCupM->mStateFrames = 0;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         return;
     }
     c = gSelectCupM->mMainBncl->mUnk_06;
@@ -207,7 +207,7 @@ void StartSelectCupMState1(void) {
 
     gSelectCupM->mNextState = 1;
     gSelectCupM->mStateFrames = 0;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         return;
     }
     c = gSelectCupM->mMainBncl->mUnk_06;
@@ -263,7 +263,7 @@ void InitSelectCupM(void *a, void *b, void *c) {
     }
     LocateAndQueueSelectCupM();
     gSelectCupM->mCommonMessages = FindFileInLoadedArchives(data_0216e09c);
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         InitLayoutTable(gSelectCupM->mHeap, gSelectCupM->mMainBncl, gSelectCupM->mMainBnll, &gSelectCupM->mMainTable);
         InitLayoutTable(gSelectCupM->mHeap, gSelectCupM->mSubBncl, gSelectCupM->mSubBnll, &gSelectCupM->mSubTable);
         m = 0x8000;
@@ -293,7 +293,7 @@ void InitSelectCupM(void *a, void *b, void *c) {
 }
 
 void ReleaseSelectCupM(void) {
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         ClearSelectCupNameMPointer();
     } else {
         func_0211f498();
@@ -310,7 +310,7 @@ void AdvanceSelectCupMState0(void) {
     u16 d;
 
     gSelectCupM->mStateFrames++;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         return;
     }
     a = InterpolateS16(1, 0, 0xc0, gSelectCupM->mStateFrames, 0xa);
@@ -353,7 +353,7 @@ void AdvanceSelectCupMState1(void) {
     u16 d;
 
     gSelectCupM->mStateFrames++;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         return;
     }
     a = InterpolateS16(1, 0xc0, 0, gSelectCupM->mStateFrames, 0xa);
@@ -404,7 +404,7 @@ s32 AdvanceSelectCupM(void) {
             AdvanceSelectCupMState1();
             break;
     }
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         if (gSelectCupM->mCupPicturePending != FALSE && func_020d0ec4() != FALSE) {
             p = GetCupPictureNscrData();
             CallQueueAppend(0xf, 0, GetCupPictureNclrData(), 0xe0);

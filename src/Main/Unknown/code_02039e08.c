@@ -194,7 +194,7 @@ u32 RunRaceScene(SceneNumbers *sceneNumbers) {
         callbacks.mFadeToClearFrameCount = 0x3c;
         callbacks.mFadeToFadedFrameCount = 0x78;
     }
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         func_02043f28(1);
     }
     RunScene(sceneNumbers, &callbacks);
@@ -229,12 +229,12 @@ u32 RunMenuScene(SceneNumbers *sceneNumbers) {
 u32 func_02039e08(NNSiFndHeapHead *heap, void **outBackHeap, void **outSoundBuffer, void **outFirstFrontHeap,
                   void **outSecondFrontHeap, void **outThirdFrontHeap) {
     u32 soundBufferSize;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         *outBackHeap = CreateFrmHeapFromBack(heap, 0x19000);
     } else {
         *outBackHeap = CreateFrmHeapFromBack(heap, 0x1b800);
     }
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         *outFirstFrontHeap = NULL;
         *outSecondFrontHeap = NULL;
         *outThirdFrontHeap = NULL;
@@ -243,7 +243,7 @@ u32 func_02039e08(NNSiFndHeapHead *heap, void **outBackHeap, void **outSoundBuff
         *outSecondFrontHeap = CreateFrmHeapFromFront(heap, 0x4b000);
         *outThirdFrontHeap = CreateFrmHeapFromFront(heap, 0x1b800);
     }
-    soundBufferSize = GetSndInitBufferSize(((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2 ? 2 : 0);
+    soundBufferSize = GetSndInitBufferSize(gBootInfo->mUnk_00 == 2 ? 2 : 0);
     *outSoundBuffer = HeapAlloc(heap, soundBufferSize);
     NNS_FndGetTotalFreeSizeForExpHeap(heap);
     return soundBufferSize;

@@ -7,7 +7,7 @@
 u32 func_0204aa28(u32 flag) {
     u32 value0 = flag;
     u32 value1;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         return value0;
     }
     value0 = (value0) & (1u);

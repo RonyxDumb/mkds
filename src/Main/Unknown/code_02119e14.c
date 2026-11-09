@@ -201,7 +201,7 @@ s32 AdvanceSelectRaceRule(void) {
             break;
     }
     AdvancePlayerEntryList();
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         AdvancePaletteBlend();
     }
     AdvanceSelectRaceRuleHighlight();
@@ -238,7 +238,7 @@ void LoadSelectCupCourseData(void) {
     Ncgr *bgChars = NULL;
     Nscr *screenMap = NULL;
     Nclr *bgPalette = NULL;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         LoadNcgrData(&bgChars, FindSceneFile(data_0216d894));
         LoadNclrData(&bgPalette, FindSceneFile(data_0216d88c));
         LoadNscrData(&screenMap, FindSceneFile(data_0216d8a4));
@@ -263,7 +263,7 @@ void LocateAndQueueSelectCupCourse(void) {
     Nscr *fixedScreenMap = NULL;
     Nclr *fixedPalette = NULL;
     u16 *courseCellPaletteData;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         gSelectCupCourse->mSelectCupMBnbl = FindSceneFile(data_0216d864);
         return;
     }
@@ -319,7 +319,7 @@ void SetupSelectCupCourseObjects(void) {
     u32 courseEntryCount;
     u32 cupEntryCount;
     SelectCupCourse *selectCupCourse;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         courseEntryCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mUnk_06;
         cupEntryCount = gSelectCupCourse->mSelectCupMBncl->mUnk_06;
         for (i = 0; i < 8; i++) {
@@ -398,7 +398,7 @@ void SetupSelectCupCourseObjects(void) {
 
 void AdvanceSelectCupCourseHighlight(void) {
     s32 i;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         for (i = 0; i < 4; i++) {
             if (gSelectCupCourse->mIndex == i && gSelectCupCourse->mUnk_54 != FALSE) {
                 gSelectCupCourse->mSelectCupMTable[data_0215caa4[i]].mVisible = 1;
@@ -417,7 +417,7 @@ void RefreshSelectCupCourseForIndex(void) {
     SelectCupCourse *selectCupCourse;
     u32 recordTime;
     u8 timeText[0x24];
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         selectCupCourse = gSelectCupCourse;
         func_0212426c(0, 0, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll,
                       GetBmgEntry(gSelectCupCourse->mCommonMessages,

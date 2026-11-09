@@ -45,12 +45,12 @@ void func_02039cbc(void) {
     InitArchiveSlots(backHeap);
     func_0204af70(backHeap);
     InitConnection(backHeap);
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         InitWiFiSession(backHeap);
     }
     func_02046a3c(backHeap);
     InitBackupBuffers(backHeap);
-    InitSound(soundBuffer, soundBufferSize, ((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2);
+    InitSound(soundBuffer, soundBufferSize, gBootInfo->mUnk_00 != 2);
     SetSoundOutputEffect(1);
     if (OS_IsRunOnEmulator() == 0) {
         RTC_Init();
@@ -63,7 +63,7 @@ void func_02039cbc(void) {
     func_020471b0(backHeap);
     InitMessageScreen(backHeap);
     func_02057ed4();
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         InitArchiveBuffers(firstFrontHeap, secondFrontHeap, thirdFrontHeap);
     }
     ResetRaceSetup();

@@ -281,7 +281,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
             StopSceneSoundSetSeq();
         }
     }
-    if ((v != 0 || GetNextSceneNumber() == 0) && ((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if ((v != 0 || GetNextSceneNumber() == 0) && gBootInfo->mUnk_00 == 2) {
         func_02049e38(0);
     }
     if (data_021759d0->mUnk_20 == 4) {

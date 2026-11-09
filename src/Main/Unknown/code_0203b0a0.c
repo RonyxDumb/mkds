@@ -156,21 +156,21 @@ u32 TrySetMissionRecord(void) {
 }
 
 void func_0203b1fc(void *heap) {
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         InitBlockEntries(heap, 1);
     }
     RequestMPState16ForNextRace();
 }
 
 void func_0203b1c8(void *heap) {
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         InitBlockEntries(heap, 1);
     }
     RequestMPState18();
 }
 
 void func_0203b194(void *heap) {
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         InitBlockEntries(heap, 1);
     }
     RequestMPState21();
@@ -180,7 +180,7 @@ void func_0203b0f8(void *heap) {
     void *bannerFile = NULL;
     s32 t;
     u32 f;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         InitBlockEntries(heap, 1);
     } else {
         bannerFile = FindSceneFile(data_usa_0216478c);

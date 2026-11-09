@@ -150,7 +150,7 @@ s32 func_020595e8(s32 a, void *b, void *c) {
             }
             break;
         case 2:
-            if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+            if (gBootInfo->mUnk_00 == 2) {
                 switch (a) {
                     case 0:
                         func_020473e4();

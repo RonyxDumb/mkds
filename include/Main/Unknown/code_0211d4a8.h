@@ -13,5 +13,7 @@ typedef struct Unk027ffc40 {
     /* 00 */ u16 mUnk_00;
 } Unk027ffc40;
 
+#define gBootInfo ((Unk027ffc40 *) 0x027ffc40)
+
 void MoveSelectRaceRuleRowPrevious(void);
 void MoveSelectRaceRuleRowNext(void);

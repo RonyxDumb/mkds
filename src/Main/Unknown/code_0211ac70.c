@@ -276,7 +276,7 @@ void MoveSelectRaceRuleRowNext(void) {
         if (gSelectRaceRule->mRow >= 5) {
             gSelectRaceRule->mRow--;
             gSelectRaceRule->mOnButton = a;
-            v = (Unk027ffc40 *) 0x027ffc40;
+            v = gBootInfo;
             if (v->mUnk_00 != 2) {
                 ResetPaletteBlendCycle();
             }
@@ -314,7 +314,7 @@ void MoveSelectRaceRuleRowPrevious(void) {
         if (gSelectRaceRule->mRow < 0) {
             gSelectRaceRule->mRow++;
             gSelectRaceRule->mOnButton = a;
-            v = (Unk027ffc40 *) 0x027ffc40;
+            v = gBootInfo;
             if (v->mUnk_00 != 2) {
                 ResetPaletteBlendCycle();
             }
@@ -1331,7 +1331,7 @@ void RequestSelectRaceRuleState3(void) {
 void RequestSelectRaceRuleState4(void) {
     gSelectRaceRule->mNextState = 4;
     gSelectRaceRule->mStateFrames = 0;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         StopPaletteBlend();
     }
     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
@@ -1594,7 +1594,7 @@ void InitSelectRaceRule(void *parentHeap, s32 b, void *oamList, s32 mode) {
     ResetSelectRaceRulePositions();
     selectRaceRule = gSelectRaceRule;
     CreateWait(selectRaceRule->mHeap, selectRaceRule->mNcer, selectRaceRule->mBncl, 0x2a, 0xe, 1);
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         InitPaletteBlend(gSelectRaceRule->mHeap, gSelectRaceRule->mNclr, 9);
     }
     FrmHeapShrinkInParent(gSelectRaceRule->mHeap);
@@ -1616,7 +1616,7 @@ void ReleaseSelectRaceRule(void) {
     (reg_G2_BG2CNT) = bg2Control;
     (reg_G2_BG2CNT) = ((reg_G2_BG2CNT) & 0x43) | 0x9e10;
     ClearWaitPointer();
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         ClearPaletteBlendPointer();
     }
     HeapDestroy(gSelectRaceRule->mHeap);

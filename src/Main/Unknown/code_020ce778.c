@@ -18,7 +18,7 @@ void UpdateVsSelectCupCourse(void) {
 #pragma thumb off
 
 Unk027ffc40 *func_020ce7ac(void) {
-    return (Unk027ffc40 *) 0x027ffc40;
+    return gBootInfo;
 }
 
 u32 func_020ce784(void) {
