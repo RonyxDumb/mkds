@@ -190,7 +190,7 @@ void func_020095c4(void) {
             gGameInfoList.mUnk_08 = (u8 *) entry;
         } else {
             gGameInfoList.mUnk_10 = 4;
-            gGameInfoList.mUnk_08 = (u8 *) entry + 0x220;
+            gGameInfoList.mUnk_08 = entry->mUnk_220;
         }
         gGameInfoList.mState = 3;
     }
@@ -201,7 +201,7 @@ void func_020094b8(u32 ggid, u16 tgid, u32 attr) {
     u8 *source;
     u8 *dataEnd;
     volatile u16 clearValue;
-    dataEnd = (u8 *) gGameInfoList.mCurrent + 0x358;
+    dataEnd = &gGameInfoList.mCurrent->mUnk_358;
     source = gGameInfoList.mUnk_08;
     if (source + 0x62 <= dataEnd) {
         gGameInfoBlock.mUnk_0c_b = 0x62;

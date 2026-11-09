@@ -263,7 +263,7 @@ void *FindCourseMapKind4ShapeRacePointLink(Vec3 *pos) {
                     break;
             }
             if (inside != 0) {
-                link = (u8 *) gCourseMap->mRacePointLinks + shape->mPointIndex * 0x28;
+                link = &gCourseMap->mRacePointLinks[shape->mPointIndex];
                 break;
             }
         }
@@ -405,7 +405,7 @@ void *GetCourseMapRespawnRacePointLink(u32 slot, Vec3 *outPos, Vec3 *outRotation
     if (pointIndex == -1) {
         return NULL;
     }
-    return (u8 *) gCourseMap->mRacePointLinks + pointIndex * 0x28;
+    return &gCourseMap->mRacePointLinks[pointIndex];
 }
 
 PointLink *GetCourseMapRespawnBattlePointLink(u32 slot, Vec3 *outPos, Vec3 *outRotation) {

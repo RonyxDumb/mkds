@@ -647,7 +647,7 @@ void InitSceneSounds(s32 e) {
             }
             SelectCourseSoundTable(v);
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-                u8 *w = (u8 *) gRaceSetup + 0x28;
+                Unk021759c0_28 *w = &gRaceSetup->mUnk_28_view;
                 switch (gRaceSetup->mMissionKind) {
                     case 1:
                         data_0217c770[0] = 0x1d7;
@@ -656,7 +656,7 @@ void InitSceneSounds(s32 e) {
                     case 7:
                         data_0217c770[0] = 0x1e0;
                         data_0217c76c[0] = 0x1e1;
-                        switch (w[6]) {
+                        switch (w->mMissionTableValue) {
                             case 9:
                             case 0xa:
                                 data_0217c76c[0] = 0xff;

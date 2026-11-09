@@ -803,10 +803,10 @@ void DisconnectChild(u32 childIndex) {
         if (entryIndex != v2) {
             childBit = 1 << childIndex;
             entryIndex = (u8) entryIndex;
-            ((Unk0216fdac *) ((u8 *) data_0216fdac + entryIndex * 0x5d4))->mUnk_1d4e &= ~childBit;
-            ((Unk0216fdac *) ((u8 *) data_0216fdac + entryIndex * 0x5d4))->mUnk_1d50 |= childBit;
+            OFFSET_PTR(Unk0216fdac, data_0216fdac, entryIndex * 0x5d4)->mUnk_1d4e &= ~childBit;
+            OFFSET_PTR(Unk0216fdac, data_0216fdac, entryIndex * 0x5d4)->mUnk_1d50 |= childBit;
             data_0216fdac->mChildEntryIndex[childIndex - 1] = v2;
-            ((Unk0216fdac *) ((u8 *) data_0216fdac + entryIndex * 0x5d4))->mUnk_1d4c &= ~childBit;
+            OFFSET_PTR(Unk0216fdac, data_0216fdac, entryIndex * 0x5d4)->mUnk_1d4c &= ~childBit;
         }
         if ((data_0216fdac->mUnk_1536 & (1 << childIndex)) != 0) {
             data_0216fdac->mUnk_1535--;

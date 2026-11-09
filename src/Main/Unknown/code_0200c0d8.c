@@ -68,7 +68,7 @@ u8 *ReadChildMessage(u8 *bytes, ChildMessage *message, u32 child) {
     switch (message->mKind) {
         case 7:
             if (AreAllPiecesReceived(child) != 0) {
-                return (u8 *) gPieceBuffer + (child - 1) * 0x20;
+                return &gPieceBuffer->mSlots[(child - 1) * 0x20];
             }
             *(u8 *) &message->mUnk_02 = bytes[1];
             if (*(u8 *) &message->mUnk_02 > gPieceSizes.mPieceCount) {
@@ -114,7 +114,7 @@ u8 *StorePiece(ChildMessage *message, u32 child) {
                 gPieceSizes.mPieceSize);
     gPieceBuffer->mReceivedPieceMasks[slotIndex] |= 1 << pieceIndex;
     if (AreAllPiecesReceived(child) != 0) {
-        return (u8 *) gPieceBuffer + slotOffset;
+        return &gPieceBuffer->mSlots[slotOffset];
     }
     return NULL;
 }
