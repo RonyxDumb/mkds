@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_02012b30.h" // MtxFx22
+#include "code_02012b30.h" // MtxFx22, NNSG3dResMatData
 #include "Main/Unknown/unk_02165000.h" // Unk02165ff0
 #include "Main/Unknown/code_020846c0.h" // ResFileEntry
 #include "code_0212d214.h"
@@ -759,7 +759,7 @@ extern ModelAnimation *gMkdEfBubbleNsbta;
 extern struct Nsbmd *gKoopaBlock;
 extern NsbmdModel *gChoropu;
 extern NsbmdModel *gPukupuku;
-extern Unk020e53ac *gObjShadowMaterial;
+extern NNSG3dResMatData *gObjShadowMaterial;
 extern NsbmdModel *gObPakkunSf;
 extern MtxFx43 *gTranslationMatrix;
 extern MtxFx43 *gViewTransposeMatrix;

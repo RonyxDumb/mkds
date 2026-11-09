@@ -37,8 +37,8 @@ void func_020e6514(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record) 
     NNSG3dResMdl *a;
     NNSG3dResMat *b;
     NNSG3dResShp *c;
-    Unk020e53ac *d;
-    Unk020e54e4 *e;
+    NNSG3dResMatData *d;
+    NNSG3dResShpData *e;
     Unk020e6514_8 x;
     u16 frameCount;
     u16 frame;
@@ -47,18 +47,18 @@ void func_020e6514(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record) 
 
     a = model->mResMdl;
     b = OFFSET_PTR(NNSG3dResMat, a, a->mOfsMat);
-    d = OFFSET_PTR(Unk020e53ac, b, ((u32 *) OFFSET_PTR(u8, b, b->mDict.mOfsEntry))[2]);
+    d = OFFSET_PTR(NNSG3dResMatData, b, ((u32 *) OFFSET_PTR(u8, b, b->mDict.mOfsEntry))[2]);
     c = OFFSET_PTR(NNSG3dResShp, a, a->mOfsShp);
-    e = OFFSET_PTR(Unk020e54e4, c, ((u32 *) OFFSET_PTR(u8, c, c->mDict.mOfsEntry))[1]);
-    record->mUnk_00 = &e->mUnk_000[e->mUnk_008];
-    record->mUnk_04 = e->mUnk_00c;
+    e = OFFSET_PTR(NNSG3dResShpData, c, ((u32 *) OFFSET_PTR(u8, c, c->mDict.mOfsEntry))[1]);
+    record->mUnk_00 = (u8 *) e + e->mOfsDL;
+    record->mUnk_04 = e->mSizeDL;
     record->mScale = model->mResMdl->mInfo.mPosScale;
-    record->mUnk_0c = d->mUnk_004;
-    record->mUnk_10 = d->mUnk_008;
-    record->mPolygonAttributes = d->mUnk_00c & 0xfffffff0;
+    record->mUnk_0c = d->mDiffAmb;
+    record->mUnk_10 = d->mSpecEmi;
+    record->mPolygonAttributes = d->mPolyAttr & 0xfffffff0;
     record->mFrameIndex = 0;
     if (animation != NULL) {
-        x.mUnk_00 = d->mUnk_014;
+        x.mUnk_00 = d->mTexImageParam;
         frameCount = GetModelAnimationFrameCountFixed(animation) >> 12;
         record->mFrameCount = frameCount;
         t = GetHeap(GetCurrentHeapCall());
@@ -84,8 +84,8 @@ void func_020e6514(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record) 
         record->mFrameCount = 1;
         record->mUnk_1c = HeapAlloc(GetHeap(GetCurrentHeapCall()), 4);
         record->mUnk_20 = HeapAlloc(GetHeap(GetCurrentHeapCall()), 4);
-        record->mUnk_1c[0] = d->mUnk_014;
-        record->mUnk_20[0] = d->mUnk_01c;
+        record->mUnk_1c[0] = d->mTexImageParam;
+        record->mUnk_20[0] = d->mTexPlttBase;
     }
 }
 

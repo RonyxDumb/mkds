@@ -21,11 +21,11 @@
 
 void SendObjShadowMaterial(void) {
     u32 plttBase;
-    plttBase = gObjShadowMaterial->mUnk_01c;
+    plttBase = gObjShadowMaterial->mTexPlttBase;
     NNS_G3dGeBufferOP_N(0x2b, &plttBase, 1);
-    NNS_G3dGeBufferOP_N(0x2a, &gObjShadowMaterial->mUnk_014, 1);
-    NNS_G3dGeBufferOP_N(0x30, &gObjShadowMaterial->mUnk_004, 1);
-    NNS_G3dGeBufferOP_N(0x31, &gObjShadowMaterial->mUnk_008, 1);
+    NNS_G3dGeBufferOP_N(0x2a, &gObjShadowMaterial->mTexImageParam, 1);
+    NNS_G3dGeBufferOP_N(0x30, &gObjShadowMaterial->mDiffAmb, 1);
+    NNS_G3dGeBufferOP_N(0x31, &gObjShadowMaterial->mSpecEmi, 1);
 }
 
 void DrawObjShadowAfterMaterial(ShadowMatrix *shadow, void *wordPointer, u32 unused, u32 alpha) {
@@ -44,12 +44,12 @@ void DrawObjShadowAfterMaterial(ShadowMatrix *shadow, void *wordPointer, u32 unu
         threeWords[2] = firstWord;
         NNS_G3dGeBufferOP_N(0x1b, threeWords, 3);
     }
-    polygonAttributes = gObjShadowMaterial->mUnk_00c;
+    polygonAttributes = gObjShadowMaterial->mPolyAttr;
     alpha = alpha < shadow->mAlphaCap ? alpha : shadow->mAlphaCap;
     polygonAttributes = polygonAttributes & ~0x1f0000;
     polygonAttributes = polygonAttributes | (alpha << 16);
     NNS_G3dGeBufferOP_N(0x29, &polygonAttributes, 1);
-    NNS_G3dGeSendDL(&gObjShadowShape->mUnk_000[gObjShadowShape->mUnk_008], gObjShadowShape->mUnk_00c);
+    NNS_G3dGeSendDL((u8 *) gObjShadowShape + gObjShadowShape->mOfsDL, gObjShadowShape->mSizeDL);
 }
 
 void DrawObjShadow(ShadowMatrix *shadow, void *wordPointer, u32 unused, u32 alpha) {
@@ -58,11 +58,11 @@ void DrawObjShadow(ShadowMatrix *shadow, void *wordPointer, u32 unused, u32 alph
     u32 value;
     u32 threeWords[3];
 
-    plttBase = gObjShadowMaterial->mUnk_01c;
+    plttBase = gObjShadowMaterial->mTexPlttBase;
     NNS_G3dGeBufferOP_N(0x2b, &plttBase, 1);
-    NNS_G3dGeBufferOP_N(0x2a, &gObjShadowMaterial->mUnk_014, 1);
-    NNS_G3dGeBufferOP_N(0x30, &gObjShadowMaterial->mUnk_004, 1);
-    NNS_G3dGeBufferOP_N(0x31, &gObjShadowMaterial->mUnk_008, 1);
+    NNS_G3dGeBufferOP_N(0x2a, &gObjShadowMaterial->mTexImageParam, 1);
+    NNS_G3dGeBufferOP_N(0x30, &gObjShadowMaterial->mDiffAmb, 1);
+    NNS_G3dGeBufferOP_N(0x31, &gObjShadowMaterial->mSpecEmi, 1);
     value = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &value, 1);
     NNS_G3dGeBufferOP_N(0x19, shadow, 0xc);
@@ -74,12 +74,12 @@ void DrawObjShadow(ShadowMatrix *shadow, void *wordPointer, u32 unused, u32 alph
         threeWords[2] = wordCopy;
         NNS_G3dGeBufferOP_N(0x1b, threeWords, 3);
     }
-    polygonAttributes = gObjShadowMaterial->mUnk_00c;
+    polygonAttributes = gObjShadowMaterial->mPolyAttr;
     alpha = alpha < shadow->mAlphaCap ? alpha : shadow->mAlphaCap;
     polygonAttributes = polygonAttributes & ~0x1f0000;
     polygonAttributes = polygonAttributes | (alpha << 16);
     NNS_G3dGeBufferOP_N(0x29, &polygonAttributes, 1);
-    NNS_G3dGeSendDL(&gObjShadowShape->mUnk_000[gObjShadowShape->mUnk_008], gObjShadowShape->mUnk_00c);
+    NNS_G3dGeSendDL((u8 *) gObjShadowShape + gObjShadowShape->mOfsDL, gObjShadowShape->mSizeDL);
 }
 
 void DrawJgShadowWithMatrix(Vec3 *scale, MtxFx43 *matrix, u32 alphaCap, u32 maxAlpha) {
@@ -104,10 +104,10 @@ void CreateObjShadowAndJgShadow(void) {
     SetNsbmdLightEnableFlagAll(gObjShadow, 0);
     resMdl = gObjShadow->mResMdl;
     resMat = OFFSET_PTR(NNSG3dResMat, resMdl, resMdl->mOfsMat);
-    gObjShadowMaterial = OFFSET_PTR(Unk020e53ac, resMat, ((u32 *) OFFSET_PTR(u8, resMat, resMat->mDict.mOfsEntry))[2]);
+    gObjShadowMaterial = OFFSET_PTR(NNSG3dResMatData, resMat, ((u32 *) OFFSET_PTR(u8, resMat, resMat->mDict.mOfsEntry))[2]);
     resMdl = gObjShadow->mResMdl;
     resShp = OFFSET_PTR(NNSG3dResShp, resMdl, resMdl->mOfsShp);
-    gObjShadowShape = OFFSET_PTR(Unk020e54e4, resShp, ((u32 *) OFFSET_PTR(u8, resShp, resShp->mDict.mOfsEntry))[1]);
+    gObjShadowShape = OFFSET_PTR(NNSG3dResShpData, resShp, ((u32 *) OFFSET_PTR(u8, resShp, resShp->mDict.mOfsEntry))[1]);
     if (gRaceSetup->mRaceKind != RACE_KIND_STAFF_ROLL) {
         CreateShadowModel(&gJgShadow, FindSceneFile(gJgShadowNsbmdName), 0x3f);
     }
