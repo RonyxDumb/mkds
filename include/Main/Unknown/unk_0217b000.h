@@ -1024,7 +1024,7 @@ extern void *gCarANsbtp;
 extern struct Nsbmd *gCarTire;
 extern struct Nsbmd *gTruckA;
 extern void *gTruckAShadow;
-extern struct Unk0217b79c *gVehicleDrawList;
+extern struct VehicleDrawList *gVehicleDrawList;
 extern struct Nsbmd *gCarA;
 extern void *gVehicleUpdateList;
 extern void *gTruckANsbtp;

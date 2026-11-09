@@ -553,7 +553,7 @@ void RomArchivePortCallback(RomArchivePortMessage *message) {
     }
 }
 
-void RomArchiveParentCallback(Unk0204c320 *record) {
+void RomArchiveParentCallback(BlockTransferRecord *record) {
     s32 fromIndex;
     Unk0204c320_14 *payload;
     s32 v7;
@@ -578,11 +578,11 @@ void RomArchiveParentCallback(Unk0204c320 *record) {
     s32 blockId;
     s32 v17;
 
-    fromIndex = GetLowestSetBitIndex(record->mUnk_0a);
-    if (record->mUnk_00 != 0xc) {
+    fromIndex = GetLowestSetBitIndex(record->mFromIndexMask);
+    if (record->mKind != 0xc) {
         return;
     }
-    switch (record->mUnk_04) {
+    switch (record->mCallbackCode) {
         case 2:
             break;
         case 8:
@@ -670,7 +670,7 @@ void RomArchiveParentCallback(Unk0204c320 *record) {
             if (node == NULL) {
                 return;
             }
-            v8 = ((Unk0204c320 *) ((u8 *) q - 0x14))->mUnk_20;
+            v8 = q->b.mUnk_20;
             v9 = node->mUnk_098;
             v10 = q->mUnk_0e.mUnk_04;
             if (node->mUnk_09c != 2) {
@@ -729,7 +729,7 @@ void RomArchiveParentCallback(Unk0204c320 *record) {
     }
 }
 
-void RomArchiveChildCallback(Unk0204c320 *record) {
+void RomArchiveChildCallback(BlockTransferRecord *record) {
     RomArchiveChildView *childView;
     s32 fromIndex;
     u32 previousMaxSize;
@@ -744,17 +744,17 @@ void RomArchiveChildCallback(Unk0204c320 *record) {
     u32 allocInterrupts;
     void *newBuffer;
 
-    fromIndex = GetLowestSetBitIndex(record->mUnk_0a);
+    fromIndex = GetLowestSetBitIndex(record->mFromIndexMask);
     childView = (RomArchiveChildView *) &data_usa_021762e0;
-    switch (record->mUnk_00) {
+    switch (record->mKind) {
         case 2:
-            if (record->mUnk_08 != 0) {
+            if (record->mIndexMask != 0) {
                 return;
             }
             gRomArchiveTransfer.mParentPacketSize = record->mUnk_14.h.mUnk_16 + 0xe;
             gRomArchiveTransfer.mChildPacketSize = record->mUnk_14.h.mUnk_18 + 0xe;
             if (gRomArchiveTransfer.mArchiveBlock == NULL) {
-                RequestBlockNode(1, 0, childView, (void (*)(BlockTransferRecord *)) RomArchiveChildCallback);
+                RequestBlockNode(1, 0, childView, RomArchiveChildCallback);
                 return;
             }
             if (gRomArchiveTransfer.mPendingFile == NULL) {
@@ -812,10 +812,10 @@ void RomArchiveChildCallback(Unk0204c320 *record) {
             }
             childView->mBlockBuffers[fromIndex] = (u32) gRomArchiveTransfer.mArchiveBlock;
             RequestBlockData(1, 0x20000, childView->mBlockBuffers, gRomArchiveTransfer.mArchiveBlockSize,
-                             childView->mChunkBitmaps, (void (*)(BlockTransferRecord *)) RomArchiveChildCallback);
+                             childView->mChunkBitmaps, RomArchiveChildCallback);
             return;
         case 4:
-            if (record->mUnk_08 != 0) {
+            if (record->mIndexMask != 0) {
                 return;
             }
             if (gRomArchiveTransfer.mState != 2) {
@@ -839,21 +839,21 @@ void RomArchiveChildCallback(Unk0204c320 *record) {
             OS_Terminate();
             return;
         case 12:
-            if (record->mUnk_04 != 0xa) {
+            if (record->mCallbackCode != 0xa) {
                 return;
             }
             received = &record->mUnk_14.mUnk_m;
             switch (received->mKind) {
                 case 1:
                     if (received->mUnk_00_8 == 0) {
-                        RequestBlockCount(1, (void (*)(BlockTransferRecord *)) RomArchiveChildCallback);
+                        RequestBlockCount(1, RomArchiveChildCallback);
                         return;
                     }
                     childView->mFileBlockId = received->mUnk_04;
                     childView->mBlockBuffers[fromIndex] = gRomArchiveTransfer.mPendingFile->mArg.w.mUnk_00;
                     RequestBlockData(1, childView->mFileBlockId, childView->mBlockBuffers,
                                      gRomArchiveTransfer.mPendingFile->mArg.w.mUnk_08, childView->mChunkBitmaps,
-                                     (void (*)(BlockTransferRecord *)) RomArchiveChildCallback);
+                                     RomArchiveChildCallback);
                     return;
                 case 3:
                     file = gRomArchiveTransfer.mPendingFile;
@@ -940,8 +940,7 @@ void StartRomArchiveParent(u32 port, void (*stateCallback)(s32 port),
     view->mUnk_46ec = transfer->mParentPacketSize;
     DC_FlushRange(view, 0x46f0);
     DC_WaitWriteBufferEmpty();
-    StartParentBlockTransfer(transfer->mParentPacketSize, transfer->mChildPacketSize,
-                             (void (*)(BlockTransferRecord *)) RomArchiveParentCallback);
+    StartParentBlockTransfer(transfer->mParentPacketSize, transfer->mChildPacketSize, RomArchiveParentCallback);
     CreateRomArchiveBlock(file, appendOverlays);
     archiveNode = view->mFreeHead;
     view->mFreeHead = archiveNode->mNext;
@@ -984,7 +983,7 @@ void StartRomArchiveChild(u32 port, void (*stateCallback)(s32 port),
     view->mFileBlockId = 0;
     DC_FlushRange(view, 0xb0c);
     DC_WaitWriteBufferEmpty();
-    StartChildBlockTransfer((void (*)(BlockTransferRecord *)) RomArchiveChildCallback);
+    StartChildBlockTransfer(RomArchiveChildCallback);
     transfer->mState = 1;
 }
 
@@ -1018,7 +1017,7 @@ void func_0204be0c(void) {
         childView = (Unk021762e0 *) &data_usa_021762e0;
         WM_ReadStatus(childView->mUnk_0340);
         SetOwnIndex(childView->mUnk_04c4);
-        RequestBlockCount(1, (void (*)(BlockTransferRecord *)) RomArchiveChildCallback);
+        RequestBlockCount(1, RomArchiveChildCallback);
     } else {
         gRomArchiveTransfer.mState = 2;
         if (gRomArchiveTransfer.mStateCallback != NULL) {

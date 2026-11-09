@@ -62,9 +62,9 @@ void func_020e4184(BridgeDrawList *list) {
     for (modelIndex = 0; modelIndex < 5; modelIndex++) {
         modelLoaded[modelIndex] = 0;
     }
-    objectCount = list->mMapObjectCount;
+    objectCount = list->mMapObjectList.mMapObjectCount;
     for (objectIndex = 0; objectIndex < objectCount; objectIndex++) {
-        object = list->mMapObjects[objectIndex];
+        object = list->mMapObjectList.mMapObjects[objectIndex];
         loadedFlagSlot = &modelLoaded[object->mUnk_158];
         if (modelLoaded[object->mUnk_158] == 0) {
             switch (object->mUnk_158) {
@@ -92,9 +92,9 @@ void func_020e4184(BridgeDrawList *list) {
             *loadedFlagSlot = 1;
         }
     }
-    l = list->mMapObjectCount;
+    l = list->mMapObjectList.mMapObjectCount;
     for (j = 0; j < l; j++) {
-        object = list->mMapObjects[j];
+        object = list->mMapObjectList.mMapObjects[j];
         switch (object->mUnk_158) {
             case 0:
                 object->mModel = gTestCylinder;
@@ -123,23 +123,26 @@ void func_020e410c(BridgeDrawList *list) {
     u32 z;
     u32 z2;
     Vec3 offset;
-    Unk020e3ef4 **objects;
+    void **objects;
+    Unk020e3ef4 *p;
 
-    objects = list->mMapObjects;
+    objects = list->mMapObjectList.mMapObjects;
     previousIndex = -1;
     z = 0;
     z2 = 0;
-    count = list->mMapObjectCount;
+    count = list->mMapObjectList.mMapObjectCount;
     for (index = 0; index < count; index++) {
         object = objects[index];
         if (object->mMapObject.mKind == 0xcb) {
             if (previousIndex < 0) {
                 object->mCollisionData.mUnk_138 = z;
             } else {
-                VEC_Subtract(&objects[previousIndex]->mMapObject.mPos, &object->mMapObject.mPos, &offset);
+                p = objects[previousIndex];
+                VEC_Subtract(&p->mMapObject.mPos, &object->mMapObject.mPos, &offset);
                 offset.y = z2;
                 object->mUnk_154 = VEC_Mag(&offset);
-                object->mUnk_154 -= objects[previousIndex]->mMapObject.mExtent.x;
+                p = objects[previousIndex];
+                object->mUnk_154 -= p->mMapObject.mExtent.x;
             }
             previousIndex = index;
         }
@@ -180,7 +183,7 @@ void func_020e3ef4(Unk020e3ef4 *object, struct CourseMapRow *courseRow, Unk020e1
     }
     object->mCollisionData.mUnk_114.z = 0;
     object->mCollisionData.mUnk_120 = kindInfo->mUnk_10;
-    object->mCollisionData.mUnk_134 = 1;
+    object->mCollisionData.mUnk_134 = COLLISION_SHAPE_CYLINDER;
     object->mCollisionData.mUnk_138 = kindInfo->mUnk_14;
     object->mMapObject.mFlags |= data_02158d58;
     object->mMapObject.mStateMachine.mNextState = 0;
@@ -295,5 +298,5 @@ void DrawBridge(Unk020e3ef4 *object, void *viewMatrix, u32 alpha) {
 }
 
 void DrawAllBridges(void *viewMatrix) {
-    DrawVisibleMapObjects(data_0217b7c4, viewMatrix, DrawBridge);
+    DrawVisibleMapObjects(&data_0217b7c4->mMapObjectList, viewMatrix, DrawBridge);
 }

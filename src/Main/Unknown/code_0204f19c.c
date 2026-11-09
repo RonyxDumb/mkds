@@ -7,7 +7,7 @@
 void ParentBlockTransferCallback(BlockTransferRecord *record) {
     s32 callbackCode = record->mCallbackCode;
     if (callbackCode == 10) {
-        func_0204f220(&record->mUnk_14, *((u8 *) &record->mUnk_1c[0] + 1));
+        func_0204f220(&record->mUnk_14.w.mUnk_14, record->mUnk_14.b.mUnk_1d);
         return;
     }
     switch (data_0217aa00->mUnk_1e46) {

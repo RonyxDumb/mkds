@@ -97,36 +97,40 @@ void CreateKoopaBlock(void) {
 }
 
 void InitKoopaBlock(Unk020e005c *koopaBlock, CourseMapRow *courseRow) {
-    InitStateMachine(&koopaBlock->mStateMachine, data_0216bff8, 3, koopaBlock);
+    InitStateMachine(&koopaBlock->mUnk_000.mMapObject.mStateMachine, data_0216bff8, 3, koopaBlock);
     koopaBlock->mUnk_168 = (courseRow->mUnk_28 << 12) / 100;
     InitGroupFollower(&koopaBlock->mUnk_144, courseRow, koopaBlock->mUnk_168);
     koopaBlock->mUnk_16c = 0;
-    koopaBlock->mCollisionData.mPrevMatrix = koopaBlock->mUnk_028;
-    koopaBlock->mCollisionData.mAngleChangeVector.x = 0;
-    koopaBlock->mCollisionData.mAngleChangeVector.y = 0;
-    koopaBlock->mCollisionData.mAngleChangeVector.z = 0;
-    koopaBlock->mCollisionData.mUnk_130 = FALSE;
-    koopaBlock->mCollisionData.mUnk_100 = ((s64) koopaBlock->mUnk_01c * 0x190000) >> 12;
-    koopaBlock->mCollisionData.mHalfSizeY = (s32) (((s64) koopaBlock->mUnk_020 * 0x64000) >> 12) >> 1;
-    koopaBlock->mCollisionData.mPositiveHalfSizeZ = ((s64) koopaBlock->mUnk_024 * 0xaf000) >> 12;
-    koopaBlock->mCollisionData.mNegativeHalfSizeZ = ((s64) koopaBlock->mUnk_024 * 0xaf000) >> 12;
-    koopaBlock->mCollisionData.mUnk_110 = 0;
-    koopaBlock->mCollisionData.mUnk_114.x = 1;
-    koopaBlock->mCollisionData.mUnk_114.y = 0;
-    koopaBlock->mCollisionData.mUnk_114.z = 0;
-    koopaBlock->mCollisionData.mUnk_120 = 0x800;
+    koopaBlock->mUnk_000.mCollisionData.mPrevMatrix = koopaBlock->mUnk_000.mMapObject.mMatrix.mUnk_00_m;
+    koopaBlock->mUnk_000.mCollisionData.mAngleChangeVector.x = 0;
+    koopaBlock->mUnk_000.mCollisionData.mAngleChangeVector.y = 0;
+    koopaBlock->mUnk_000.mCollisionData.mAngleChangeVector.z = 0;
+    koopaBlock->mUnk_000.mCollisionData.mUnk_130 = FALSE;
+    koopaBlock->mUnk_000.mCollisionData.mUnk_100 = ((s64) koopaBlock->mUnk_000.mMapObject.mScale.x * 0x190000) >> 12;
+    koopaBlock->mUnk_000.mCollisionData.mHalfSizeY =
+        (s32) (((s64) koopaBlock->mUnk_000.mMapObject.mScale.y * 0x64000) >> 12) >> 1;
+    koopaBlock->mUnk_000.mCollisionData.mPositiveHalfSizeZ =
+        ((s64) koopaBlock->mUnk_000.mMapObject.mScale.z * 0xaf000) >> 12;
+    koopaBlock->mUnk_000.mCollisionData.mNegativeHalfSizeZ =
+        ((s64) koopaBlock->mUnk_000.mMapObject.mScale.z * 0xaf000) >> 12;
+    koopaBlock->mUnk_000.mCollisionData.mUnk_110 = 0;
+    koopaBlock->mUnk_000.mCollisionData.mUnk_114.x = 1;
+    koopaBlock->mUnk_000.mCollisionData.mUnk_114.y = 0;
+    koopaBlock->mUnk_000.mCollisionData.mUnk_114.z = 0;
+    koopaBlock->mUnk_000.mCollisionData.mUnk_120 = 0x800;
     SetupGroupFollowerAtEntry(&koopaBlock->mUnk_144, 0, 1);
-    GetGroupFollowerLinearPosStep(&koopaBlock->mUnk_144, &koopaBlock->mPos, &koopaBlock->mUnk_010);
-    koopaBlock->mCollisionData.mUnk_e8 = koopaBlock->mPos;
-    koopaBlock->mCollisionData.mUnk_134 = 0;
-    koopaBlock->mCollisionData.mUnk_138 = 0;
-    koopaBlock->mFlags |= data_0215881c;
-    koopaBlock->mFlags &= ~2;
-    koopaBlock->mFlags &= ~8;
-    koopaBlock->mAlpha = 0x1f;
-    koopaBlock->mStateMachine.mNextState = 0;
-    koopaBlock->mStateMachine.mNextStateRequested = 1;
-    koopaBlock->mFarDistanceSquared = gSoundFalloffs[3].mUnk_20;
+    GetGroupFollowerLinearPosStep(&koopaBlock->mUnk_144, &koopaBlock->mUnk_000.mMapObject.mPos,
+                                  &koopaBlock->mUnk_000.mMapObject.mUnk_10);
+    koopaBlock->mUnk_000.mCollisionData.mUnk_e8 = koopaBlock->mUnk_000.mMapObject.mPos;
+    koopaBlock->mUnk_000.mCollisionData.mUnk_134 = COLLISION_SHAPE_BOX;
+    koopaBlock->mUnk_000.mCollisionData.mUnk_138 = 0;
+    koopaBlock->mUnk_000.mMapObject.mFlags |= data_0215881c;
+    koopaBlock->mUnk_000.mMapObject.mFlags &= ~2;
+    koopaBlock->mUnk_000.mMapObject.mFlags &= ~8;
+    koopaBlock->mUnk_000.mMapObject.mAlpha = 0x1f;
+    koopaBlock->mUnk_000.mMapObject.mStateMachine.mNextState = 0;
+    koopaBlock->mUnk_000.mMapObject.mStateMachine.mNextStateRequested = 1;
+    koopaBlock->mUnk_000.mMapObject.mFarDistanceSquared = gSoundFalloffs[3].mUnk_20;
 }
 #pragma thumb off
 

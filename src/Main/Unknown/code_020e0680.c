@@ -6,6 +6,7 @@
 #include "Main/Unknown/code_020d8cac.h"
 #include "Main/Unknown/code_020e7a84.h"
 #include "Main/Unknown/code_020f9c6c.h"
+#include "Main/Unknown/code_020f36d8.h" // ItemObject
 #include "Main/Unknown/code_0210a67c.h"
 #include "Main/Unknown/unk_02158000.h"
 #include "Main/Unknown/unk_0216c000.h"
@@ -64,7 +65,7 @@
 
 #pragma thumb on
 
-void InitChoropu(Unk020e1e98 *choropu, struct CourseMapRow *courseRow) {
+void InitChoropu(Unk020e2f0c *choropu, struct CourseMapRow *courseRow) {
     InitStateMachine(&choropu->mUnk_000.mStateMachine, (UnkFunc *const *) gChoropuStateTable, 8, choropu);
     choropu->mUnk_0a8 = choropu->mUnk_000.mPos.y;
     choropu->mUnk_0ac = choropu->mUnk_000.mPos.y - 0x12000;
@@ -73,8 +74,8 @@ void InitChoropu(Unk020e1e98 *choropu, struct CourseMapRow *courseRow) {
     choropu->mUnk_0a0 = courseRow->mUnk_2a;
     choropu->mUnk_000.mStateMachine.mNextState = 0;
     choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
-    RefreshShadowMatrix(&choropu->mUnk_0b4.mUnk_08, &choropu->mUnk_000.mPos,
-                        ((s64) choropu->mUnk_000.mScale.x * 0x1b000) >> 12, 0x1e);
+    RefreshShadowMatrix(&choropu->mUnk_0bc, &choropu->mUnk_000.mPos, ((s64) choropu->mUnk_000.mScale.x * 0x1b000) >> 12,
+                        0x1e);
     choropu->mUnk_000.mFlags |= data_02158b7c;
 }
 
@@ -102,9 +103,9 @@ void *CreateBusAKindData(void) {
 }
 
 void *CreateVehicleDrawList(void) {
-    Unk020e03f8 *drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    VehicleDrawList *drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
 
-    gVehicleDrawList = (Unk0217b79c *) drawList;
+    gVehicleDrawList = drawList;
     *drawList = data_02158a7c;
     SetDrawListSlot(&gVehicleDrawList);
     return gVehicleDrawList;
@@ -215,7 +216,7 @@ void UpdateVehicle(u32 a, Unk020e1e98 *vehicle) {
     enum { K0 } isInHitReaction;
     void *baseRotation;
     u32 hitFlags;
-    Unk020e1e98_0b4 targetRotation;
+    Quaternion targetRotation;
     Vec3 previousPosition;
     Vec3 probeOffset;
     Vec3 u;
@@ -256,9 +257,9 @@ void UpdateVehicle(u32 a, Unk020e1e98 *vehicle) {
                         vehicle->mUnk_000.mUnk_10.y = -(s32) (((s64) vehicle->mUnk_000.mUnk_10.y *
                                                                (0x733 + ((vehicle->mUnk_114.y - 0x14000) >> 9))) >>
                                                               12);
-                        vehicle->mUnk_0c4 = -vehicle->mUnk_0c4;
-                        vehicle->mUnk_0c8 = -vehicle->mUnk_0c8;
-                        vehicle->mUnk_0cc = -vehicle->mUnk_0cc;
+                        vehicle->mUnk_0c4.mComponents[0] = -vehicle->mUnk_0c4.mComponents[0];
+                        vehicle->mUnk_0c4.mComponents[1] = -vehicle->mUnk_0c4.mComponents[1];
+                        vehicle->mUnk_0c4.mComponents[2] = -vehicle->mUnk_0c4.mComponents[2];
                         QuaternionBlendTowardNearerSign(&vehicle->mUnk_0c4, &vehicle->mUnk_0b4, &vehicle->mUnk_0c4,
                                                         0x8cd);
                         vehicle->mUnk_152 = 0x320;
@@ -360,9 +361,9 @@ u8 CollideKartWithVehicle(Unk020e1e98 *vehicle, Kart *kart, u8 *c, u8 *d) {
     return *d;
 }
 
-u8 CollideItemObjectWithVehicle(Unk020e1e98 *vehicle, Unk020e246c *itemObject, u8 *c, u8 *d) {
+u8 CollideItemObjectWithVehicle(Unk020e1e98 *vehicle, ItemObject *itemObject, u8 *c, u8 *d) {
     if (*c == 1) {
-        StartVehicleHitReaction(vehicle, &itemObject->mUnk_050);
+        StartVehicleHitReaction(vehicle, &itemObject->mPos);
     }
     return *d;
 }
@@ -391,11 +392,11 @@ void ComputeSphereHitOnVehicle(Unk020e1e98 *vehicle, Vec3 *sphereCenter, s32 sph
 
 #pragma thumb on
 
-void InitVehicleUpdateList(Unk0217b79c *updateList) {
+void InitVehicleUpdateList(MapObjectList *updateList) {
     s32 index;
     s32 count;
     u32 seenGroupMask;
-    Unk020e1e98 **vehicleCursor;
+    void **vehicleCursor;
     u16 entryCount;
     u16 groupIndex;
     CourseMapGroupEntry *entry;
@@ -406,8 +407,8 @@ void InitVehicleUpdateList(Unk0217b79c *updateList) {
     s16 dotLimit;
     float scaledDegrees;
 
-    count = updateList->mUnk_04;
-    vehicleCursor = updateList->mUnk_00;
+    count = updateList->mMapObjectCount;
+    vehicleCursor = updateList->mMapObjects;
     seenGroupMask = 0;
     zero = 0;
     for (index = 0; index < count; index++) {
@@ -491,9 +492,9 @@ void InitVehicleDrawList(VehicleDrawList *drawList) {
         NNS_G3dMdlSetMdlPolygonID(tireModel, tireMaterialIndex, 7);
     }
     SetNsbmdLightEnableFlagAll(gCarTire, 0);
-    count = gVehicleDrawList->mUnk_04;
+    count = gVehicleDrawList->mMapObjectList.mMapObjectCount;
     for (index = 0; index < count; index++) {
-        vehicle = gVehicleDrawList->mUnk_00[index];
+        vehicle = gVehicleDrawList->mMapObjectList.mMapObjects[index];
         modelSlot = vehicle->mUnk_154->mUnk_20;
         vehicle->mUnk_124 = modelSlot != NULL ? *modelSlot : 0;
         modelSlot = vehicle->mUnk_154->mUnk_24;
@@ -547,7 +548,7 @@ void ResetVehicleToStartEntry(Unk020e1e98 *vehicle) {
 
 #pragma thumb off
 
-void DrawVisibleMapObjects(BridgeDrawList *list, void *viewMatrix, void (*drawObject)(Unk020e3ef4 *, void *, u32)) {
+void DrawVisibleMapObjects(MapObjectList *list, void *viewMatrix, void (*drawObject)(Unk020e3ef4 *, void *, u32)) {
     s32 index;
     s32 count = list->mMapObjectCount;
 
@@ -568,23 +569,25 @@ void DrawMapObjectModelAtPos(Unk020e3ef4 *mapObject, void *viewMatrix, u32 alpha
                                    alpha);
 }
 
-void SetMapObjectsModel(BridgeDrawList *list, void *model) {
+void SetMapObjectsModel(MapObjectList *list, void *model) {
     s32 index;
     s32 count = list->mMapObjectCount;
 
     for (index = 0; index < count; index++) {
-        list->mMapObjects[index]->mModel = model;
+        Unk020e3ef4 *mapObject = list->mMapObjects[index];
+
+        mapObject->mModel = model;
     }
 }
 
-s32 ComputeSphereHitOnCollisionData(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u16 queryFlags,
+s32 ComputeSphereHitOnCollisionData(Unk020e1d10 *object, Vec3 *sphereCenter, s32 sphereRadius, u16 queryFlags,
                                     CollisionHitRecord *firstHitRecord, CollisionHitRecord *secondHitRecord,
                                     Vec3 *lowestOffset, u16 *outFlags, Vec3 *pointMotion, u16 *angleChange) {
     switch (object->mCollisionData.mUnk_134) {
-        case 0:
+        case COLLISION_SHAPE_BOX:
             return ComputeSphereHitOnCollisionBox(object, sphereCenter, sphereRadius, queryFlags, firstHitRecord,
                                                   secondHitRecord, lowestOffset, outFlags, pointMotion, angleChange);
-        case 1:
+        case COLLISION_SHAPE_CYLINDER:
             return ComputeSphereHitOnCollisionCylinder(object, sphereCenter, sphereRadius, queryFlags, firstHitRecord,
                                                        secondHitRecord, lowestOffset, outFlags, pointMotion,
                                                        angleChange);
@@ -593,7 +596,7 @@ s32 ComputeSphereHitOnCollisionData(Unk020e005c *object, Vec3 *sphereCenter, s32
 }
 
 void AddCollisionHitOneAxis(s32 sphereRadius, s32 signedDepth, s32 depth, u32 regionFlags, u16 positiveSideBit,
-                            u16 *outFlags, s32 axisFlag, Unk020e005c *object, Vec3 *sphereCenter, Vec3 *normal,
+                            u16 *outFlags, s32 axisFlag, Unk020e1d10 *object, Vec3 *sphereCenter, Vec3 *normal,
                             CollisionHitRecord *firstHitRecord, CollisionHitRecord *secondHitRecord, Vec3 *lowestOffset,
                             Vec3 *pointMotion, u16 *angleChange) {
     BOOL normalAboveThreshold;
@@ -678,7 +681,7 @@ void AddCollisionHitOneAxis(s32 sphereRadius, s32 signedDepth, s32 depth, u32 re
 
 BOOL AddCollisionHitTwoAxes(s32 sphereRadius, s32 firstOffset, s32 c, u32 regionFlags, u16 firstPositiveSideBit,
                             u16 secondPositiveSideBit, u16 *outFlags, u16 queryFlags, s32 firstAxisFlag,
-                            s32 secondAxisFlag, Unk020e005c *object, Vec3 *sphereCenter, Vec3 *firstNormal,
+                            s32 secondAxisFlag, Unk020e1d10 *object, Vec3 *sphereCenter, Vec3 *firstNormal,
                             Vec3 *secondNormal, CollisionHitRecord *firstHitRecord, CollisionHitRecord *secondHitRecord,
                             Vec3 *lowestOffset, Vec3 *pointMotion, u16 *angleChange) {
     BOOL normalAboveThreshold;
@@ -794,7 +797,7 @@ BOOL AddCollisionHitTwoAxes(s32 sphereRadius, s32 firstOffset, s32 c, u32 region
     return TRUE;
 }
 
-BOOL ComputeSphereHitOnCollisionBox(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u16 queryFlags,
+BOOL ComputeSphereHitOnCollisionBox(Unk020e1d10 *object, Vec3 *sphereCenter, s32 sphereRadius, u16 queryFlags,
                                     CollisionHitRecord *firstHitRecord, CollisionHitRecord *secondHitRecord,
                                     Vec3 *lowestOffset, u16 *outFlags, Vec3 *pointMotion, u16 *angleChange) {
     Vec3 v;
@@ -818,7 +821,7 @@ BOOL ComputeSphereHitOnCollisionBox(Unk020e005c *object, Vec3 *sphereCenter, s32
 
     regionFlags = 0;
     VEC_Subtract(sphereCenter, &object->mCollisionData.mCenterPos, &v);
-    f6 = Vec3DotUnrounded(&v, &object->mUnk_028.mUnk_00[0]);
+    f6 = Vec3DotUnrounded(&v, &object->mMapObject.mMatrix.mUnk_00[0]);
     if (f6 > 0) {
         if (f6 > object->mCollisionData.mUnk_100 + sphereRadius) {
             return FALSE;
@@ -838,7 +841,7 @@ BOOL ComputeSphereHitOnCollisionBox(Unk020e005c *object, Vec3 *sphereCenter, s32
             regionFlags |= 0x500;
         }
     }
-    f5 = Vec3DotUnrounded(&v, &object->mUnk_028.mUnk_00[1]);
+    f5 = Vec3DotUnrounded(&v, &object->mMapObject.mMatrix.mUnk_00[1]);
     if (f5 > 0) {
         if (f5 > object->mCollisionData.mHalfSizeY + sphereRadius) {
             return FALSE;
@@ -858,7 +861,7 @@ BOOL ComputeSphereHitOnCollisionBox(Unk020e005c *object, Vec3 *sphereCenter, s32
             regionFlags |= 0x50;
         }
     }
-    f4 = Vec3DotUnrounded(&v, &object->mUnk_028.mUnk_00[2]);
+    f4 = Vec3DotUnrounded(&v, &object->mMapObject.mMatrix.mUnk_00[2]);
     if (f4 > 0) {
         if (f4 > object->mCollisionData.mPositiveHalfSizeZ + sphereRadius) {
             return FALSE;
@@ -936,18 +939,19 @@ BOOL ComputeSphereHitOnCollisionBox(Unk020e005c *object, Vec3 *sphereCenter, s32
     }
 call_800:
     AddCollisionHitOneAxis(sphereRadius, signedDepthAxis0, depthAxis0, regionFlags, 0x800, outFlags,
-                           object->mCollisionData.mUnk_110, object, sphereCenter, &object->mUnk_028.mUnk_00[0],
-                           firstHitRecord, secondHitRecord, lowestOffset, pointMotion, angleChange);
+                           object->mCollisionData.mUnk_110, object, sphereCenter,
+                           &object->mMapObject.mMatrix.mUnk_00[0], firstHitRecord, secondHitRecord, lowestOffset,
+                           pointMotion, angleChange);
     return TRUE;
 call_80:
     AddCollisionHitOneAxis(sphereRadius, k5, depthAxis1, regionFlags, 0x80, outFlags, object->mCollisionData.mUnk_114.x,
-                           object, sphereCenter, &object->mUnk_028.mUnk_00[1], firstHitRecord, secondHitRecord,
-                           lowestOffset, pointMotion, angleChange);
+                           object, sphereCenter, &object->mMapObject.mMatrix.mUnk_00[1], firstHitRecord,
+                           secondHitRecord, lowestOffset, pointMotion, angleChange);
     return TRUE;
 call_8:
     AddCollisionHitOneAxis(sphereRadius, f4, depthAxis2, regionFlags, 8, outFlags, object->mCollisionData.mUnk_114.y,
-                           object, sphereCenter, &object->mUnk_028.mUnk_00[2], firstHitRecord, secondHitRecord,
-                           lowestOffset, pointMotion, angleChange);
+                           object, sphereCenter, &object->mMapObject.mMatrix.mUnk_00[2], firstHitRecord,
+                           secondHitRecord, lowestOffset, pointMotion, angleChange);
     return TRUE;
 smallest:
     if (depthAxis0 < depthAxis2) {
@@ -973,8 +977,9 @@ call_800_80:
     }
     return AddCollisionHitTwoAxes(sphereRadius, f6, f5, regionFlags, 0x800, 0x80, outFlags, queryFlags,
                                   object->mCollisionData.mUnk_110, object->mCollisionData.mUnk_114.x, object,
-                                  sphereCenter, &object->mUnk_028.mUnk_00[0], &object->mUnk_028.mUnk_00[1],
-                                  firstHitRecord, secondHitRecord, lowestOffset, pointMotion, angleChange);
+                                  sphereCenter, &object->mMapObject.mMatrix.mUnk_00[0],
+                                  &object->mMapObject.mMatrix.mUnk_00[1], firstHitRecord, secondHitRecord, lowestOffset,
+                                  pointMotion, angleChange);
 call_80_8:
     if (regionFlags & 0x80) {
         f5 = f5 - object->mCollisionData.mHalfSizeY;
@@ -988,8 +993,9 @@ call_80_8:
     }
     return AddCollisionHitTwoAxes(sphereRadius, f5, f4, regionFlags, 0x80, 0x8, outFlags, queryFlags,
                                   object->mCollisionData.mUnk_114.x, object->mCollisionData.mUnk_114.y, object,
-                                  sphereCenter, &object->mUnk_028.mUnk_00[1], &object->mUnk_028.mUnk_00[2],
-                                  firstHitRecord, secondHitRecord, lowestOffset, pointMotion, angleChange);
+                                  sphereCenter, &object->mMapObject.mMatrix.mUnk_00[1],
+                                  &object->mMapObject.mMatrix.mUnk_00[2], firstHitRecord, secondHitRecord, lowestOffset,
+                                  pointMotion, angleChange);
 call_8_800:
     if (regionFlags & 0x8) {
         f4 = f4 - object->mCollisionData.mPositiveHalfSizeZ;
@@ -1003,8 +1009,9 @@ call_8_800:
     }
     return AddCollisionHitTwoAxes(sphereRadius, f4, f6, regionFlags, 8, 0x800, outFlags, queryFlags,
                                   object->mCollisionData.mUnk_114.y, object->mCollisionData.mUnk_110, object,
-                                  sphereCenter, &object->mUnk_028.mUnk_00[2], &object->mUnk_028.mUnk_00[0],
-                                  firstHitRecord, secondHitRecord, lowestOffset, pointMotion, angleChange);
+                                  sphereCenter, &object->mMapObject.mMatrix.mUnk_00[2],
+                                  &object->mMapObject.mMatrix.mUnk_00[0], firstHitRecord, secondHitRecord, lowestOffset,
+                                  pointMotion, angleChange);
 rest:
     normalAboveThreshold = FALSE;
     if ((queryFlags & 0x60) == 0) {
@@ -1012,7 +1019,8 @@ rest:
         firstTwoQualify = TRUE;
         axisQualifies = FALSE;
         if (object->mCollisionData.mUnk_110 != 0) {
-            t = (regionFlags & 0x800) ? object->mUnk_028.mUnk_00[0].y : -object->mUnk_028.mUnk_00[0].y;
+            t = (regionFlags & 0x800) ? object->mMapObject.mMatrix.mUnk_00[0].y
+                                      : -object->mMapObject.mMatrix.mUnk_00[0].y;
             if (t > object->mCollisionData.mUnk_120) {
                 axisQualifies = TRUE;
             }
@@ -1020,7 +1028,8 @@ rest:
         if (axisQualifies == FALSE) {
             axisQualifies = FALSE;
             if (object->mCollisionData.mUnk_114.x != 0) {
-                t = (regionFlags & 0x80) ? object->mUnk_028.mUnk_00[1].y : -object->mUnk_028.mUnk_00[1].y;
+                t = (regionFlags & 0x80) ? object->mMapObject.mMatrix.mUnk_00[1].y
+                                         : -object->mMapObject.mMatrix.mUnk_00[1].y;
                 if (t > object->mCollisionData.mUnk_120) {
                     axisQualifies = TRUE;
                 }
@@ -1032,7 +1041,8 @@ rest:
         if (firstTwoQualify == FALSE) {
             k5 = 0;
             if (object->mCollisionData.mUnk_114.y != 0) {
-                t = (regionFlags & 0x8) ? object->mUnk_028.mUnk_00[2].y : -object->mUnk_028.mUnk_00[2].y;
+                t = (regionFlags & 0x8) ? object->mMapObject.mMatrix.mUnk_00[2].y
+                                        : -object->mMapObject.mMatrix.mUnk_00[2].y;
                 if (t > object->mCollisionData.mUnk_120) {
                     k5 = 1;
                 }
@@ -1060,16 +1070,16 @@ rest:
     } else {
         f4 = f4 + object->mCollisionData.mNegativeHalfSizeZ;
     }
-    v.x = ((s64) object->mUnk_028.mUnk_00[0].x * f6) >> 12;
-    v.y = ((s64) object->mUnk_028.mUnk_00[0].y * f6) >> 12;
-    v.z = ((s64) object->mUnk_028.mUnk_00[0].z * f6) >> 12;
-    w.x = ((s64) object->mUnk_028.mUnk_00[1].x * f5) >> 12;
-    w.y = ((s64) object->mUnk_028.mUnk_00[1].y * f5) >> 12;
-    w.z = ((s64) object->mUnk_028.mUnk_00[1].z * f5) >> 12;
+    v.x = ((s64) object->mMapObject.mMatrix.mUnk_00[0].x * f6) >> 12;
+    v.y = ((s64) object->mMapObject.mMatrix.mUnk_00[0].y * f6) >> 12;
+    v.z = ((s64) object->mMapObject.mMatrix.mUnk_00[0].z * f6) >> 12;
+    w.x = ((s64) object->mMapObject.mMatrix.mUnk_00[1].x * f5) >> 12;
+    w.y = ((s64) object->mMapObject.mMatrix.mUnk_00[1].y * f5) >> 12;
+    w.z = ((s64) object->mMapObject.mMatrix.mUnk_00[1].z * f5) >> 12;
     VEC_Add(&w, &v, &v);
-    w.x = ((s64) object->mUnk_028.mUnk_00[2].x * f4) >> 12;
-    w.y = ((s64) object->mUnk_028.mUnk_00[2].y * f4) >> 12;
-    w.z = ((s64) object->mUnk_028.mUnk_00[2].z * f4) >> 12;
+    w.x = ((s64) object->mMapObject.mMatrix.mUnk_00[2].x * f4) >> 12;
+    w.y = ((s64) object->mMapObject.mMatrix.mUnk_00[2].y * f4) >> 12;
+    w.z = ((s64) object->mMapObject.mMatrix.mUnk_00[2].z * f4) >> 12;
     VEC_Add(&w, &v, &v);
     v.x <<= 10;
     v.y <<= 10;
@@ -1088,7 +1098,7 @@ rest:
         VEC_Subtract(&tmp, &v, &tmp);
         sphereRadius = VEC_Mag(&tmp);
     } else {
-        w = object->mUnk_028.mUnk_00[1];
+        w = object->mMapObject.mMatrix.mUnk_00[1];
         tmp.x = ((s64) w.x * sphereRadius) >> 12;
         tmp.y = ((s64) w.y * sphereRadius) >> 12;
         tmp.z = ((s64) w.z * sphereRadius) >> 12;
@@ -1141,7 +1151,7 @@ rest:
     return TRUE;
 }
 
-BOOL ComputeSphereHitOnCollisionCylinder(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u16 queryFlags,
+BOOL ComputeSphereHitOnCollisionCylinder(Unk020e1d10 *object, Vec3 *sphereCenter, s32 sphereRadius, u16 queryFlags,
                                          CollisionHitRecord *firstHitRecord, CollisionHitRecord *secondHitRecord,
                                          Vec3 *lowestOffset, u16 *outFlags, Vec3 *pointMotion, u16 *angleChange) {
     Vec3 v;
@@ -1157,8 +1167,8 @@ BOOL ComputeSphereHitOnCollisionCylinder(Unk020e005c *object, Vec3 *sphereCenter
 
     regionFlags = 0;
     VEC_Subtract(sphereCenter, &object->mCollisionData.mCenterPos, &v);
-    x = Vec3DotUnrounded(&v, &object->mUnk_028.mUnk_00[0]);
-    alongAxis2 = Vec3DotUnrounded(&v, &object->mUnk_028.mUnk_00[2]);
+    x = Vec3DotUnrounded(&v, &object->mMapObject.mMatrix.mUnk_00[0]);
+    alongAxis2 = Vec3DotUnrounded(&v, &object->mMapObject.mMatrix.mUnk_00[2]);
     squaredRadialDistance = (s64) x * x + (s64) alongAxis2 * alongAxis2;
     combinedRadius = object->mCollisionData.mUnk_100 + sphereRadius;
     if ((s64) combinedRadius * combinedRadius < squaredRadialDistance) {
@@ -1169,7 +1179,7 @@ BOOL ComputeSphereHitOnCollisionCylinder(Unk020e005c *object, Vec3 *sphereCenter
     } else {
         regionFlags |= data_021588ec;
     }
-    n = Vec3DotUnrounded(&v, &object->mUnk_028.mUnk_00[1]);
+    n = Vec3DotUnrounded(&v, &object->mMapObject.mMatrix.mUnk_00[1]);
     if (n > 0) {
         if (n > object->mCollisionData.mHalfSizeY + sphereRadius) {
             return FALSE;
@@ -1211,10 +1221,10 @@ BOOL ComputeSphereHitOnCollisionCylinder(Unk020e005c *object, Vec3 *sphereCenter
         if (x == 0) {
             w = data_021588f0;
         } else {
-            w.x = ((s64) object->mUnk_028.mUnk_00[0].x * v.x) >> 12;
-            w.y = ((s64) object->mUnk_028.mUnk_00[0].y * v.x) >> 12;
-            w.z = ((s64) object->mUnk_028.mUnk_00[0].z * v.x) >> 12;
-            VEC_MultAdd(v.z, &object->mUnk_028.mUnk_00[2], &w, &w);
+            w.x = ((s64) object->mMapObject.mMatrix.mUnk_00[0].x * v.x) >> 12;
+            w.y = ((s64) object->mMapObject.mMatrix.mUnk_00[0].y * v.x) >> 12;
+            w.z = ((s64) object->mMapObject.mMatrix.mUnk_00[0].z * v.x) >> 12;
+            VEC_MultAdd(v.z, &object->mMapObject.mMatrix.mUnk_00[2], &w, &w);
         }
         goto cmp;
     }
@@ -1226,10 +1236,10 @@ BOOL ComputeSphereHitOnCollisionCylinder(Unk020e005c *object, Vec3 *sphereCenter
     if (x == 0) {
         w = data_021588fc;
     } else {
-        w.x = ((s64) object->mUnk_028.mUnk_00[0].x * v.x) >> 12;
-        w.y = ((s64) object->mUnk_028.mUnk_00[0].y * v.x) >> 12;
-        w.z = ((s64) object->mUnk_028.mUnk_00[0].z * v.x) >> 12;
-        VEC_MultAdd(v.z, &object->mUnk_028.mUnk_00[2], &w, &w);
+        w.x = ((s64) object->mMapObject.mMatrix.mUnk_00[0].x * v.x) >> 12;
+        w.y = ((s64) object->mMapObject.mMatrix.mUnk_00[0].y * v.x) >> 12;
+        w.z = ((s64) object->mMapObject.mMatrix.mUnk_00[0].z * v.x) >> 12;
+        VEC_MultAdd(v.z, &object->mMapObject.mMatrix.mUnk_00[2], &w, &w);
     }
     if (regionFlags & 0x10) {
         goto apply3000;
@@ -1237,8 +1247,8 @@ BOOL ComputeSphereHitOnCollisionCylinder(Unk020e005c *object, Vec3 *sphereCenter
     goto tail;
 apply80:
     AddCollisionHitOneAxis(sphereRadius, n, axialDepth, regionFlags, 0x80, outFlags, object->mCollisionData.mUnk_114.x,
-                           object, sphereCenter, &object->mUnk_028.mUnk_00[1], firstHitRecord, secondHitRecord,
-                           lowestOffset, pointMotion, angleChange);
+                           object, sphereCenter, &object->mMapObject.mMatrix.mUnk_00[1], firstHitRecord,
+                           secondHitRecord, lowestOffset, pointMotion, angleChange);
     return TRUE;
 apply3000:
     AddCollisionHitOneAxis(sphereRadius, radialOverlap, x, regionFlags, 0x3000, outFlags,
@@ -1254,8 +1264,8 @@ tail:
     }
     return AddCollisionHitTwoAxes(sphereRadius, x, n, regionFlags, 0x3000, 0x80, outFlags, queryFlags,
                                   object->mCollisionData.mUnk_110, object->mCollisionData.mUnk_114.x, object,
-                                  sphereCenter, &w, &object->mUnk_028.mUnk_00[1], firstHitRecord, secondHitRecord,
-                                  lowestOffset, pointMotion, angleChange);
+                                  sphereCenter, &w, &object->mMapObject.mMatrix.mUnk_00[1], firstHitRecord,
+                                  secondHitRecord, lowestOffset, pointMotion, angleChange);
 cmp:
     if (radialOverlap < axialDepth) {
         goto apply3000;
@@ -1263,20 +1273,20 @@ cmp:
     goto apply80;
 }
 
-void ComputeCollisionPointMotion(Unk020e005c *object, Vec3 *position, Vec3 *contactNormal, Vec3 *pointMotion,
+void ComputeCollisionPointMotion(Unk020e1d10 *object, Vec3 *position, Vec3 *contactNormal, Vec3 *pointMotion,
                                  u16 *angleChange) {
     Vec3 offset;
 
     if (pointMotion != NULL) {
-        pointMotion->x = -object->mUnk_010.x;
-        pointMotion->y = -object->mUnk_010.y;
-        pointMotion->z = -object->mUnk_010.z;
-        VEC_Subtract(position, &object->mPos, &offset);
-        VEC_MultAdd(Vec3DotUnrounded(&offset, &object->mUnk_028.mUnk_00[0]),
+        pointMotion->x = -object->mMapObject.mUnk_10.x;
+        pointMotion->y = -object->mMapObject.mUnk_10.y;
+        pointMotion->z = -object->mMapObject.mUnk_10.z;
+        VEC_Subtract(position, &object->mMapObject.mPos, &offset);
+        VEC_MultAdd(Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mUnk_00[0]),
                     &object->mCollisionData.mPrevMatrix.mUnk_00[0], pointMotion, pointMotion);
-        VEC_MultAdd(Vec3DotUnrounded(&offset, &object->mUnk_028.mUnk_00[1]),
+        VEC_MultAdd(Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mUnk_00[1]),
                     &object->mCollisionData.mPrevMatrix.mUnk_00[1], pointMotion, pointMotion);
-        VEC_MultAdd(Vec3DotUnrounded(&offset, &object->mUnk_028.mUnk_00[2]),
+        VEC_MultAdd(Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mUnk_00[2]),
                     &object->mCollisionData.mPrevMatrix.mUnk_00[2], pointMotion, pointMotion);
         VEC_Subtract(&offset, pointMotion, pointMotion);
     }

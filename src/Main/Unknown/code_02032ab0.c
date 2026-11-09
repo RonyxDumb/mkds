@@ -1,5 +1,5 @@
 #include "Main/Unknown/code_02032ab0.h"
-#include "Main/Unknown/code_020019b0.h" // SceneNumbersView
+#include "Main/Unknown/code_02039e08.h" // Unk0203a0dc
 #include "Main/Unknown/code_0202578c.h"
 
 #include "00/code_021832d8.h"
@@ -304,7 +304,7 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
 
 #pragma thumb on
 
-void AdvanceResultsBattle(SceneNumbersView *sceneNumbers) {
+void AdvanceResultsBattle(Unk0203a0dc *sceneNumbers) {
     CellFileSet *mainCellFileSet;
     CellFileSet *subCellFileSet;
     InputSlotIndex inputSlotIndex;

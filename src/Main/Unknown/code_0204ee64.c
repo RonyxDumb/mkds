@@ -27,7 +27,7 @@ void StartBlockCountRequest(void) {
 void BlockCountRequestCallback(BlockTransferRecord *record) {
     if (record->mKind == 2) {
         if (record->mCallbackCode == 3) {
-            data_0217aa00->mBlockCount = *(s16 *) &record->mUnk_14;
+            data_0217aa00->mBlockCount = record->mUnk_14.h.mUnk_14;
             data_0217aa00->mRequestPending = 0;
         } else {
             func_02050e60(8);

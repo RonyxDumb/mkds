@@ -89,7 +89,7 @@ void func_020ff97c(Unk020ff97c *object) {
     object->mMapObject.mUnk_10.z = 0;
     VEC_MultAdd(-object->mCollisionData.mHalfSizeY, &object->mMapObject.mMatrix.mUnk_00[1], &object->mMapObject.mPos,
                 &object->mCollisionData.mCenterPos);
-    object->mCollisionData.mUnk_134 = 0;
+    object->mCollisionData.mUnk_134 = COLLISION_SHAPE_BOX;
     object->mCollisionData.mUnk_138 = 0;
     object->mUnk_13c = 1;
     object->mMapObject.mFlags |= data_0215a030;

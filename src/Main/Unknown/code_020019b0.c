@@ -118,7 +118,7 @@ void WriteLogoSceneRegisters(void) {
     G2x_SetBlendBrightness_(&reg_G2S_DB_BLDCNT, 2, brightness);
 }
 
-void UpdateLogoScene(SceneNumbersView *sceneNumbers) {
+void UpdateLogoScene(Unk0203a0dc *sceneNumbers) {
     AdvanceStateMachine(&gLogoScene->mStateMachine);
     if (sceneNumbers != NULL && gLogoScene->mStateMachine.mState == 11) {
         sceneNumbers->mNextScene = 0;

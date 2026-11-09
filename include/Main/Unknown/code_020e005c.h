@@ -46,7 +46,13 @@ typedef struct Unk020e005c_080 {
     /* 12 */ u16 mNextStateRequested;
 } Unk020e005c_080;
 
-// Collision-body block at 0xa0 of Unk020e005c, Bridge, Unk020e3ef4 and Unk020ff97c. Names carry the offset in the
+// Shape that the collision routines test a map object against.
+typedef enum {
+    COLLISION_SHAPE_BOX,
+    COLLISION_SHAPE_CYLINDER
+} CollisionShape;
+
+// Collision-body block at 0xa0 of Unk020e1d10, Bridge, Unk020e3ef4 and Unk020ff97c. Names carry the offset in the
 // object.
 typedef struct CollisionData {
     /* 00 */ MtxFx33 mPrevMatrix;
@@ -62,42 +68,12 @@ typedef struct CollisionData {
     /* 80 */ s32 mUnk_120;
     /* 84 */ Vec3 mAngleChangeVector;
     /* 90 */ BOOL mUnk_130;
-    /* 94 */ s32 mUnk_134;
+    /* 94 */ CollisionShape mUnk_134;
     /* 98 */ s32 mUnk_138;
 } CollisionData;
 
-typedef struct Unk020e005c {
-    /* 000 */ u16 mUnk_000;
-    // Flags of the map object, the same bytes as MapObject.mFlags.
-    /* 002 */ u16 mFlags;
-    // Position, the same bytes as MapObject.mPos.
-    /* 004 */ Vec3 mPos;
-    /* 010 */ Vec3 mUnk_010;
-    /* 01c */ s32 mUnk_01c;
-    /* 020 */ s32 mUnk_020;
-    /* 024 */ s32 mUnk_024;
-    /* 028 */ MtxFx33 mUnk_028;
-    /* 04c */ u8 mUnk_04c[0x1a];
-    // Alpha of the object, the same bytes as MapObject.mAlpha.
-    /* 066 */ u16 mAlpha;
-    /* 068 */ u8 mUnk_068[8];
-    // Squared distance beyond which bit 2 of mDistanceSquaredAndFlags is set, the same bytes as
-    // MapObject.mFarDistanceSquared.
-    /* 070 */ s32 mFarDistanceSquared;
-    /* 074 */ u8 mUnk_074[0x4];
-    // Squared distance and flags word, the same bytes as MapObject.mDistanceSquaredAndFlags.
-    /* 078 */ u32 mDistanceSquaredAndFlags;
-    /* 07c */ u8 mUnk_07c[0x4];
-    // State machine of the kind, the same bytes as MapObject.mStateMachine.
-    /* 080 */ Unk020e005c_080 mStateMachine;
-    /* 094 */ u8 mUnk_094[0xc];
-    /* 0a0 */ CollisionData mCollisionData;
-    /* 13c */ s32 mUnk_13c;
-    /* 140 */ void *mUnk_140;
-    /* 144 */ GroupFollower mUnk_144;
-    /* 168 */ s32 mUnk_168;
-    /* 16c */ u16 mUnk_16c;
-} Unk020e005c;
+typedef struct Unk020e005c Unk020e005c;
+typedef struct Unk020e1d10 Unk020e1d10;
 
 void UpdateKoopaBlockState1(Unk020e005c *koopaBlock);
 void EnterKoopaBlockState1(Unk020e005c *koopaBlock);

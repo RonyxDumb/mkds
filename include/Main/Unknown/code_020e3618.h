@@ -40,4 +40,4 @@ void *CreateChoropuDrawList(void);
 void *CreateChoropuShadowDrawList(void);
 void *CreateChoropuUpdateList(void);
 void SetupDrawChoropu(void);
-void DrawChoropu(s32 a, Unk020e1e98 *choropu, s32 c, u16 alpha);
+void DrawChoropu(s32 a, Unk020e2f0c *choropu, s32 c, u16 alpha);

@@ -45,7 +45,7 @@ typedef struct MultiSelectMemberGroup {
     /* a4 */ void *mHeap;
 } MultiSelectMemberGroup;
 
-typedef struct SceneNumbersView SceneNumbersView;
+typedef struct Unk0203a0dc Unk0203a0dc;
 
 #include "Main/Unknown/code_020b4000.h" // Ncgr, Nclr
 
@@ -71,7 +71,7 @@ typedef struct MultiSelectNS {
 
 void WriteMultiSelectMemberGroupRegisters(void);
 void ReleaseMultiSelectMemberGroup(void);
-s32 AdvanceMultiSelectMemberGroup(SceneNumbersView *sceneNumbers);
+s32 AdvanceMultiSelectMemberGroup(Unk0203a0dc *sceneNumbers);
 void InitMultiSelectMemberGroup(void *parentHeap, void *scene, void *oamList);
 void func_0202fd2c(void);
 void RefreshMultiSelectMemberGroup(s32 showSelected);

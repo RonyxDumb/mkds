@@ -26,21 +26,21 @@
 #include "Main/Unknown/code_0210b000.h"
 #include "Main/Unknown/unk_0217c000.h"
 
-void func_020e0584(Unk020e005c *object, Vec3 *position, Vec3 *velocity, Unk020e04b0 *link) {
+void func_020e0584(Unk020e1d10 *object, Vec3 *position, Vec3 *velocity, Unk020e04b0 *link) {
     Vec3 offset;
     s32 f;
     s32 g;
 
-    VEC_Subtract(position, &object->mPos, &offset);
-    f = Vec3DotUnrounded(&offset, &object->mUnk_028.mUnk_00[2]);
-    g = Vec3DotUnrounded(&offset, &object->mUnk_028.mUnk_00[1]);
-    link->mUnk_04.x = Vec3DotUnrounded(&offset, &object->mUnk_028.mUnk_00[0]);
+    VEC_Subtract(position, &object->mMapObject.mPos, &offset);
+    f = Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mUnk_00[2]);
+    g = Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mUnk_00[1]);
+    link->mUnk_04.x = Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mUnk_00[0]);
     link->mUnk_04.y = g;
     link->mUnk_04.z = f;
     if (velocity != NULL && object->mCollisionData.mUnk_130 != FALSE) {
-        f = Vec3DotUnrounded(velocity, &object->mUnk_028.mUnk_00[2]);
-        g = Vec3DotUnrounded(velocity, &object->mUnk_028.mUnk_00[1]);
-        link->mUnk_10.x = Vec3DotUnrounded(velocity, &object->mUnk_028.mUnk_00[0]);
+        f = Vec3DotUnrounded(velocity, &object->mMapObject.mMatrix.mUnk_00[2]);
+        g = Vec3DotUnrounded(velocity, &object->mMapObject.mMatrix.mUnk_00[1]);
+        link->mUnk_10.x = Vec3DotUnrounded(velocity, &object->mMapObject.mMatrix.mUnk_00[0]);
         link->mUnk_10.y = g;
         link->mUnk_10.z = f;
     } else {
@@ -52,23 +52,23 @@ void func_020e0584(Unk020e005c *object, Vec3 *position, Vec3 *velocity, Unk020e0
 }
 
 void func_020e0538(Unk020e04b0 *link, Vec3 *outPosition) {
-    Unk020e005c *object = link->mUnk_00;
+    Unk020e1d10 *object = link->mUnk_00;
 
     if (object == NULL) {
         return;
     }
-    MTX_MultVec33(&link->mUnk_04, &object->mUnk_028, outPosition);
-    VEC_Add(&object->mPos, outPosition, outPosition);
+    MTX_MultVec33(&link->mUnk_04, &object->mMapObject.mMatrix.mUnk_00_m, outPosition);
+    VEC_Add(&object->mMapObject.mPos, outPosition, outPosition);
 }
 
 BOOL func_020e04b0(Unk020e04b0 *link, Vec3 *outPosition, Vec3 *outVelocity) {
-    Unk020e005c *object = link->mUnk_00;
+    Unk020e1d10 *object = link->mUnk_00;
 
     if (object != NULL) {
-        MTX_MultVec33(&link->mUnk_04, &object->mUnk_028, outPosition);
-        VEC_Add(&object->mPos, outPosition, outPosition);
+        MTX_MultVec33(&link->mUnk_04, &object->mMapObject.mMatrix.mUnk_00_m, outPosition);
+        VEC_Add(&object->mMapObject.mPos, outPosition, outPosition);
         if (object->mCollisionData.mUnk_130 != FALSE) {
-            MTX_MultVec33(&link->mUnk_10, &object->mUnk_028, outVelocity);
+            MTX_MultVec33(&link->mUnk_10, &object->mMapObject.mMatrix.mUnk_00_m, outVelocity);
             if (outVelocity->y < object->mCollisionData.mUnk_120) {
                 return TRUE;
             }
@@ -123,38 +123,39 @@ void UpdateKoopaBlock(void *a0, Unk020e005c *koopaBlock) {
         s32 falloffIndex;
 
         koopaBlock->mUnk_16c--;
-        koopaBlock->mUnk_010.x = 0;
-        koopaBlock->mUnk_010.y = 0;
-        koopaBlock->mUnk_010.z = 0;
+        koopaBlock->mUnk_000.mMapObject.mUnk_10.x = 0;
+        koopaBlock->mUnk_000.mMapObject.mUnk_10.y = 0;
+        koopaBlock->mUnk_000.mMapObject.mUnk_10.z = 0;
         if (koopaBlock->mUnk_16c != 0) {
             return;
         }
-        if ((koopaBlock->mDistanceSquaredAndFlags & 4) != 0) {
+        if ((koopaBlock->mUnk_000.mMapObject.mDistanceSquaredAndFlags & 4) != 0) {
             return;
         }
-        falloffIndex = koopaBlock->mFarDistanceSquared == gSoundFalloffs[2].mUnk_20
+        falloffIndex = koopaBlock->mUnk_000.mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20
                            ? 2
-                           : (koopaBlock->mFarDistanceSquared == gSoundFalloffs[3].mUnk_20 ? 3 : 4);
+                           : (koopaBlock->mUnk_000.mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20 ? 3 : 4);
         soundRequest.mSoundId = 0x17e;
-        soundRequest.mPositionSource = &koopaBlock->mPos;
+        soundRequest.mPositionSource = &koopaBlock->mUnk_000.mMapObject.mPos;
         soundRequest.mUnk_08 = falloffIndex;
-        soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&koopaBlock->mPos);
+        soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&koopaBlock->mUnk_000.mMapObject.mPos);
         func_0210b7a8(&soundRequest);
         return;
     }
     if (AdvanceGroupFollower(follower) != FALSE) {
-        if (koopaBlock->mStateMachine.mState == 2) {
-            koopaBlock->mStateMachine.mNextState = 0;
-            koopaBlock->mStateMachine.mNextStateRequested = 1;
+        if (koopaBlock->mUnk_000.mMapObject.mStateMachine.mState == 2) {
+            koopaBlock->mUnk_000.mMapObject.mStateMachine.mNextState = 0;
+            koopaBlock->mUnk_000.mMapObject.mStateMachine.mNextStateRequested = 1;
         }
         koopaBlock->mUnk_16c = follower->mFromEntry->mUnk_0e;
     }
-    koopaBlock->mCollisionData.mUnk_e8 = koopaBlock->mPos;
-    GetGroupFollowerLinearPosition(follower, &koopaBlock->mPos);
-    AdvanceStateMachine(&koopaBlock->mStateMachine);
-    VEC_Subtract(&koopaBlock->mPos, &koopaBlock->mCollisionData.mUnk_e8, &koopaBlock->mUnk_010);
-    VEC_MultAdd(-koopaBlock->mCollisionData.mHalfSizeY, &koopaBlock->mUnk_028.mUnk_00[1], &koopaBlock->mPos,
-                &koopaBlock->mCollisionData.mCenterPos);
+    koopaBlock->mUnk_000.mCollisionData.mUnk_e8 = koopaBlock->mUnk_000.mMapObject.mPos;
+    GetGroupFollowerLinearPosition(follower, &koopaBlock->mUnk_000.mMapObject.mPos);
+    AdvanceStateMachine(&koopaBlock->mUnk_000.mMapObject.mStateMachine);
+    VEC_Subtract(&koopaBlock->mUnk_000.mMapObject.mPos, &koopaBlock->mUnk_000.mCollisionData.mUnk_e8,
+                 &koopaBlock->mUnk_000.mMapObject.mUnk_10);
+    VEC_MultAdd(-koopaBlock->mUnk_000.mCollisionData.mHalfSizeY, &koopaBlock->mUnk_000.mMapObject.mMatrix.mUnk_00[1],
+                &koopaBlock->mUnk_000.mMapObject.mPos, &koopaBlock->mUnk_000.mCollisionData.mCenterPos);
 }
 
 u32 func_020e01ec(u32 value) {
@@ -176,8 +177,8 @@ void UpdateKoopaBlockState0(Unk020e005c *koopaBlock) {
     }
     follower->mProgressStep = ((s64) speed * m) >> 12;
     if (GetGroupFollowerProgress(follower) >= 0x100) {
-        koopaBlock->mStateMachine.mNextState = 1;
-        koopaBlock->mStateMachine.mNextStateRequested = 1;
+        koopaBlock->mUnk_000.mMapObject.mStateMachine.mNextState = 1;
+        koopaBlock->mUnk_000.mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
@@ -214,8 +215,8 @@ void UpdateKoopaBlockState1(Unk020e005c *koopaBlock) {
         }
     }
     if (GetGroupFollowerProgress(follower) >= 0xf00) {
-        koopaBlock->mStateMachine.mNextState = 2;
-        koopaBlock->mStateMachine.mNextStateRequested = 1;
+        koopaBlock->mUnk_000.mMapObject.mStateMachine.mNextState = 2;
+        koopaBlock->mUnk_000.mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 

@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk020e1e98 Unk020e1e98;
+typedef struct Unk020e2f0c Unk020e2f0c;
 
-void DrawChoropuShadow(void *a, Unk020e1e98 *choropu, u32 c, u32 alpha);
+void DrawChoropuShadow(void *a, Unk020e2f0c *choropu, u32 c, u32 alpha);

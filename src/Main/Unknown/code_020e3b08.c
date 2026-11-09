@@ -3,5 +3,7 @@
 #include "Main/Unknown/code_020e0680.h"
 
 u32 func_020e3b08(void) {
-    return data_0217b7c4->mMapObjects[0]->mUnk_154 >> 12;
+    Unk020e3ef4 *p = data_0217b7c4->mMapObjectList.mMapObjects[0];
+
+    return p->mUnk_154 >> 12;
 }

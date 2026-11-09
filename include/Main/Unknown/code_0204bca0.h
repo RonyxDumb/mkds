@@ -47,29 +47,6 @@ typedef struct RomArchiveFileNode {
     /* 0c0 */ u8 mBuffers[2][0x400];
 } RomArchiveFileNode;
 
-// Words at 0x14 of the object that RomArchiveChildCallback and RomArchiveParentCallback receive.
-typedef union Unk0204c320_14 {
-    u32 mUnk_w;
-    struct {
-        u16 mUnk_14;
-        s16 mUnk_16;
-        s16 mUnk_18;
-    } h;
-    RomArchiveParentViewEntry mUnk_0e;
-    RomArchiveMessage mUnk_m;
-} Unk0204c320_14;
-
-// Object that RomArchiveChildCallback and RomArchiveParentCallback receive.
-typedef struct Unk0204c320 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ u16 mUnk_08;
-    /* 0a */ u16 mUnk_0a;
-    /* 0c */ u8 mUnk_0c[8];
-    /* 14 */ Unk0204c320_14 mUnk_14;
-    /* 20 */ s16 mUnk_20;
-} Unk0204c320;
-
 // Object that RomArchivePortCallback receives.
 typedef struct RomArchivePortMessage {
     /* 00 */ u8 mUnk_00[4];
@@ -103,8 +80,8 @@ void StartRomArchiveParent(u32 port, void (*stateCallback)(s32 port),
                            u32 parentPacketSize, FSFile *file, s32 appendOverlays);
 void InitRomArchive(u32 port, void (*stateCallback)(s32 port),
                     void *(*allocFunc)(s32 port, u32 stateCallback, void *allocFunc), u32 allocFuncArg);
-void RomArchiveChildCallback(Unk0204c320 *record);
-void RomArchiveParentCallback(Unk0204c320 *record);
+void RomArchiveChildCallback(BlockTransferRecord *record);
+void RomArchiveParentCallback(BlockTransferRecord *record);
 void RomArchivePortCallback(RomArchivePortMessage *message);
 void SendRomArchivePacket(void);
 void RequestRomArchiveBytes(FSFile *file);

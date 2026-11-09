@@ -2,15 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk020e3338 {
-    /* 00 */ u8 mUnk_00[0x2];
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u8 mUnk_04[0x4];
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u8 mUnk_0c[0x8];
-    /* 14 */ u32 mUnk_14;
-    /* 18 */ u8 mUnk_18[0x94];
-    /* ac */ u32 mUnk_ac;
-} Unk020e3338;
+typedef struct Unk020e2f0c Unk020e2f0c;
 
-void func_020e3338(Unk020e3338 *choropu);
+void func_020e3338(Unk020e2f0c *choropu);

@@ -2,9 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk020e34c0 {
-    /* 00 */ u8 mUnk_00[0x14];
-    /* 14 */ u32 mUnk_14;
-} Unk020e34c0;
+typedef struct Unk020e2f0c Unk020e2f0c;
 
-void EnterChoropuState3(Unk020e34c0 *choropu);
+void EnterChoropuState3(Unk020e2f0c *choropu);

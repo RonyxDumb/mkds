@@ -1,14 +1,9 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_02039e08.h" // Unk0203a0dc
 
 typedef struct Bg1Files Bg1Files;
-
-// Object whose halfword at 0x04 UpdateLogoScene clears.
-typedef struct SceneNumbersView {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ u16 mNextScene;
-} SceneNumbersView;
 
 extern const char data_usa_ov001_021a768c[];
 extern const char data_usa_ov001_021a76a8[];
@@ -20,7 +15,7 @@ extern const char data_usa_ov001_021a7720[];
 
 void UpdateLogoState0(void);
 void EnterLogoState0(void);
-void UpdateLogoScene(SceneNumbersView *sceneNumbers);
+void UpdateLogoScene(Unk0203a0dc *sceneNumbers);
 void WriteLogoSceneRegisters(void);
 void ApplySavedSoundMode(void);
 void InitLogoScene(void *heap);

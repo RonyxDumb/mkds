@@ -1,5 +1,5 @@
 #include "Main/Unknown/code_02029aa0.h"
-#include "Main/Unknown/code_020019b0.h" // SceneNumbersView
+#include "Main/Unknown/code_02039e08.h" // Unk0203a0dc
 #include "01/code_021804e0.h"
 #include "Main/Unknown/code_02025b84.h"
 #include "Main/Unknown/code_02025d5c.h"
@@ -226,7 +226,7 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
 
 // Draws the Grand Prix results; after a delay and a button press or touch, shows each pending secret message, then
 // picks the next scene.
-void AdvanceResultsGp(SceneNumbersView *sceneNumbers) {
+void AdvanceResultsGp(Unk0203a0dc *sceneNumbers) {
     u32 inputSlotIndex;
     void *secretMessage;
     s32 i;

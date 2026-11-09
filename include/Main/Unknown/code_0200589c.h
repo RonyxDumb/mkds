@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/unk_02175000.h" // RomArchiveParentViewEntry, RomArchiveMessage
 
 // Starts at offset 0x24 of an entry of BlockTransfer; 0x44 bytes (see PickMissingChunkIndex).
 typedef struct ChunkReceiveState {
@@ -35,6 +36,29 @@ typedef struct BlockTransferEntry {
     /* 24 */ ChunkReceiveState mReceive;
 } BlockTransferEntry;
 
+// Tail of a BlockTransferRecord from 0x14, which the kinds of request fill in different ways.
+typedef union Unk0204c320_14 {
+    u32 mUnk_w;
+    struct {
+        s16 mUnk_14;
+        s16 mUnk_16;
+        s16 mUnk_18;
+    } h;
+    RomArchiveParentViewEntry mUnk_0e;
+    RomArchiveMessage mUnk_m;
+    struct {
+        u32 mUnk_14;
+        u32 mUnk_18;
+        u32 mUnk_1c[16];
+    } w;
+    struct {
+        u8 mUnk_14[9];
+        u8 mUnk_1d;
+        u8 mUnk_1e[2];
+        s16 mUnk_20;
+    } b;
+} Unk0204c320_14;
+
 struct BlockTransferRecord;
 
 // Block of 0x9c bytes; BlockTransfer holds three of them.
@@ -49,9 +73,7 @@ typedef struct BlockTransferRecord {
     /* 10 */ void (*mCallback)(struct BlockTransferRecord *);
 // In mCallbackRecord, words 0x14 to 0x1c carry what the callback code brings: counts and chunk sizes, a block id
 // and chunk, or up to 9 bytes with their length at 0x1d.
-    /* 14 */ u32 mUnk_14;
-    /* 18 */ u32 mUnk_18;
-    /* 1c */ u32 mUnk_1c[16];
+    /* 14 */ Unk0204c320_14 mUnk_14;
     /* 5c */ void *mChunkBitmaps[16];
 } BlockTransferRecord;
 

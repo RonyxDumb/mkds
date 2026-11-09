@@ -123,7 +123,7 @@ BOOL TryGetBlockReceiveProgress(u32 blockId, s32 entryIndex, s32 *receivedChunkC
     ChunkReceiveState *receive;
     transfer = GetBlockTransfer();
     receive = &transfer->mEntries[entryIndex].mReceive;
-    if (transfer->mCurrentRequest.mKind == 4 && transfer->mCurrentRequest.mUnk_14 == blockId) {
+    if (transfer->mCurrentRequest.mKind == 4 && transfer->mCurrentRequest.mUnk_14.w.mUnk_14 == blockId) {
         *chunkCountOut = receive->mChunkCount;
         *receivedChunkCountOut = receive->mReceivedChunkCount;
         return TRUE;
@@ -230,9 +230,9 @@ u32 RequestBlockNode(u16 indexMask, u32 blockIdOrPosition, const void *buffers,
     request.mKind = 6;
     request.mIndexMask = indexMask;
     request.mCallback = callback;
-    request.mUnk_14 = blockIdOrPosition;
-    request.mUnk_18 = 0x28;
-    MIi_CpuCopy32(buffers, &request.mUnk_1c, 0x40);
+    request.mUnk_14.w.mUnk_14 = blockIdOrPosition;
+    request.mUnk_14.w.mUnk_18 = 0x28;
+    MIi_CpuCopy32(buffers, &request.mUnk_14.w.mUnk_1c, 0x40);
     return TrySetNextRequest(&request);
 }
 
@@ -242,9 +242,9 @@ u32 RequestBlockData(u16 indexMask, u32 blockId, const void *buffers, u32 blockS
     request.mKind = 4;
     request.mIndexMask = indexMask;
     request.mCallback = callback;
-    request.mUnk_14 = blockId;
-    request.mUnk_18 = blockSize;
-    MIi_CpuCopy32(buffers, &request.mUnk_1c, 0x40);
+    request.mUnk_14.w.mUnk_14 = blockId;
+    request.mUnk_14.w.mUnk_18 = blockSize;
+    MIi_CpuCopy32(buffers, &request.mUnk_14.w.mUnk_1c, 0x40);
     MIi_CpuCopy32(chunkBitmaps, &request.mChunkBitmaps, 0x40);
     return TrySetNextRequest(&request);
 }
@@ -259,7 +259,7 @@ u32 RequestSendBytes(u16 indexMask, const void *bytes, s32 byteCount, void (*cal
     requestPointer = &request;
     requestPointer->mIndexMask = indexMask;
     requestPointer->mCallback = callback;
-    MI_CpuCopy8(bytes, &requestPointer->mUnk_14, byteCount);
+    MI_CpuCopy8(bytes, &requestPointer->mUnk_14.w.mUnk_14, byteCount);
     *((u8 *) requestPointer + 0x1d) = byteCount;
     return TrySetNextRequest(&request);
 }
