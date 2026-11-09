@@ -12,6 +12,7 @@
 #include "Main/Unknown/code_020e57f4.h"
 #include "Main/Unknown/code_020e57fc.h"
 #include "Main/Unknown/code_0206bcb0.h" // Kart
+#include "Main/Unknown/code_020f9c6c.h"
 #include "Main/Unknown/code_020e5850.h"
 #include "Main/Unknown/code_020e5854.h"
 #include "Main/Unknown/code_020e58b8.h"
@@ -246,7 +247,7 @@ void CreateSecondHand(void) {
     SetNsbmdPolygonIdLightEmiAll(gSecondHand, 0x3f, 2, 0x294a);
 }
 
-void InitSecondHand(SecondHand *secondHand, Unk020e5684 *courseRow) {
+void InitSecondHand(SecondHand *secondHand, CourseMapRow *courseRow) {
     secondHand->mMapObject.mExtent.y = MUL_FIXED12_NO_ROUND(secondHand->mMapObject.mScale.x, 0x4b000);
     InitStateMachine(&secondHand->mMapObject.mStateMachine, data_0216c240, 4, secondHand);
     QuaternionFromVec3Degrees(&courseRow->mUnk_0c, &secondHand->mRotationQuaternion);

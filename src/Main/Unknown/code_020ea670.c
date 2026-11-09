@@ -846,8 +846,9 @@ void DrawNsbmd1Mat1ShpWithMaxAlpha(Nsbmd *model, s32 maxAlpha) {
 }
 
 void DrawNsbmdWithMaxAlphaAndMaterial(Nsbmd *model, s32 maxAlpha) {
-    void *resMdl;
-    u8 *modelData;
+    NNSG3dResMdl *resMdl;
+    NNSG3dResMat *resMat;
+    NNSG3dResMatData *matData;
     s32 modelAlpha;
     s32 savedAlpha;
 
@@ -858,11 +859,9 @@ void DrawNsbmdWithMaxAlphaAndMaterial(Nsbmd *model, s32 maxAlpha) {
         NNS_G3dMdlSetMdlPolygonIDAll(resMdl, AllocPolygonIdWrapping());
         NNS_G3dMdlSetMdlAlphaAll(resMdl, maxAlpha);
     }
-    modelData = (u8 *) resMdl + ((Unk020ea670_08 *) resMdl)->mUnk_008;
-    data_0217bbe8 =
-        ((Unk020ea670_0c *) (modelData +
-                             ((Unk020ea670_08 *) (modelData + ((Unk020ea670_0a *) modelData)->mUnk_00a))->mUnk_008))
-            ->mUnk_00c;
+    resMat = OFFSET_PTR(NNSG3dResMat, resMdl, resMdl->mOfsMat);
+    matData = OFFSET_PTR(NNSG3dResMatData, resMat, ((u32 *) OFFSET_PTR(u8, resMat, resMat->mDict.mOfsEntry))[2]);
+    data_0217bbe8 = matData->mPolyAttr;
     NNS_G3dRenderObjSetCallBack(&model->mRenderObj, (NNSG3dSbcCallBackFunc) SendMaterialPolygonAttributes, 0, 4, 3);
     DrawNsbmd(model);
     savedAlpha = data_0216c3d4;

@@ -265,8 +265,8 @@ void CreateJg(void) {
 }
 #pragma thumb off
 
-Unk020e7410 *func_020e7410(void) {
-    Unk020e7410 *kindData;
+MapObjectKindData *func_020e7410(void) {
+    MapObjectKindData *kindData;
 
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
     *kindData = data_02159370;

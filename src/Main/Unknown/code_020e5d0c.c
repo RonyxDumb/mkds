@@ -30,6 +30,7 @@
 #include "Main/Unknown/unk_0217c000.h"
 #include "Main/Unknown/code_020e337c.h"
 #include "registers.h"
+#include "Main/Unknown/code_020f9c6c.h"
 
 #pragma thumb on
 
@@ -241,10 +242,11 @@ void CreatePendulumAndPendulumShadow(void) {
     SetNsbmdPolygonIdLightEmiAll(gPendulum, 0x3f, 2, 0x294a);
 }
 
-void InitPendulum(PendulumObject *pendulum, Unk020e5e24_2 *courseRow) {
+void InitPendulum(PendulumObject *pendulum, CourseMapRow *courseRow) {
     s32 amplitudeSetting;
 
-    pendulum->mMapObject.mExtent.y = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mKindData->mUnk_10, courseRow->mUnk_20);
+    pendulum->mMapObject.mExtent.y =
+        MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mKindData->mUnk_10, courseRow->mUnk_18.z);
     QuaternionFromVec3Degrees(&courseRow->mUnk_0c, &pendulum->mRotationQuaternion);
     pendulum->mShadowMatrix = pendulum->mMapObject.mMatrix.mUnk_00_m;
     pendulum->mCourseRowDistance = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mScale.y, 0x1f4000);

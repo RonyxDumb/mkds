@@ -50,30 +50,30 @@ void InitPukupuku(Pukupuku *pukupuku, Vec3 *position) {
 
 #pragma thumb off
 
-Unk020e46c8 *func_020e4768(void) {
-    Unk020e46c8 *kindData;
+MapObjectKindData *func_020e4768(void) {
+    MapObjectKindData *kindData;
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
     *kindData = data_02158f70;
     kindData->mUnk_38 = 0x2bc000;
     return kindData;
 }
 
-Unk020e46c8 *func_020e4718(void) {
-    Unk020e46c8 *kindData;
+MapObjectKindData *func_020e4718(void) {
+    MapObjectKindData *kindData;
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
     *kindData = data_02158f30;
     return kindData;
 }
 
-Unk020e46c8 *func_020e46c8(void) {
-    Unk020e46c8 *kindData;
+MapObjectKindData *func_020e46c8(void) {
+    MapObjectKindData *kindData;
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
     *kindData = data_02158ef0;
     return kindData;
 }
 
-Unk020e466c *CreateRotaryDrawList(void) {
-    Unk020e466c *drawList;
+MapObjectDrawList *CreateRotaryDrawList(void) {
+    MapObjectDrawList *drawList;
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     gRotaryDrawList = drawList;
     *drawList = data_02158ec4;
@@ -81,8 +81,8 @@ Unk020e466c *CreateRotaryDrawList(void) {
     return gRotaryDrawList;
 }
 
-Unk020e4610 *CreateRotaryUpdateList(void) {
-    Unk020e4610 *updateList;
+MapObjectList *CreateRotaryUpdateList(void) {
+    MapObjectList *updateList;
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
     gRotaryUpdateList = updateList;
     *updateList = data_02158e9c;

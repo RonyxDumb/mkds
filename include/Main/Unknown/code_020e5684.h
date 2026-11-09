@@ -25,17 +25,7 @@ typedef struct ObPakkunSf {
     /* b8 */ u16 mFramesSinceInit;
 } ObPakkunSf;
 
-// Second argument of InitSecondHand: a vector at 0x0c, halfwords from 0x28.
-typedef struct Unk020e5684 {
-    /* 00 */ u8 mUnk_00[0x0c];
-    /* 0c */ Vec3 mUnk_0c;
-    /* 18 */ u8 mUnk_18[0x10];
-    /* 28 */ s16 mUnk_28;
-    /* 2a */ s16 mUnk_2a;
-    /* 2c */ s16 mUnk_2c;
-    /* 2e */ s16 mUnk_2e;
-    /* 30 */ s16 mUnk_30;
-} Unk020e5684;
+typedef struct CourseMapRow CourseMapRow;
 
 void CreateSecondHand(void);
 
@@ -48,7 +38,7 @@ extern MapObjectDrawList *gObPakkunSfDrawList;
 extern MapObjectList *gPendulumUpdateList;
 extern MapObjectDrawList *gPendulumDrawList;
 
-void InitSecondHand(SecondHand *secondHand, Unk020e5684 *courseRow);
+void InitSecondHand(SecondHand *secondHand, CourseMapRow *courseRow);
 void ComputeSphereHitOnSecondHand(SecondHand *secondHand, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *overlapOffset);
 void UpdateSecondHand(u32 a, SecondHand *secondHand);
 void DrawSecondHand(u32 a, SecondHand *secondHand, u32 b, u32 alpha);

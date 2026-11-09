@@ -131,11 +131,6 @@ typedef struct ModelAnimation ModelAnimation;
 typedef struct MapObjectList MapObjectList;
 typedef struct SoundStartParams SoundStartParams;
 
-// 0x40-byte block that func_020e7410 takes from data_02159370.
-typedef struct Unk020e7410 {
-    /* 00 */ u32 mUnk_00[0x10];
-} Unk020e7410;
-
 // Source rows read by the second loop of CreateJg, 0x0c bytes each; a
 // row's non-zero words are names looked up by FindSceneFile.
 typedef struct JgKindFileNames {
@@ -166,7 +161,7 @@ void func_020e72cc(Unk020e730c *object, struct CourseMapRow *courseRow);
 void func_020e730c(void);
 u16 func_020e7388(int index);
 MapObjectList *func_020e73b4(void);
-Unk020e7410 *func_020e7410(void);
+MapObjectKindData *func_020e7410(void);
 void CreateJg(void);
 void InitJg(void);
 void ReleaseJg(void);

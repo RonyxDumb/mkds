@@ -13,22 +13,6 @@ typedef struct ItemObject ItemObject;
 
 extern Nsbmd *gWoodbox1;
 
-// Objects read by DrawNsbmdWithMaxAlphaAndMaterial.
-typedef struct Unk020ea670_08 {
-    /* 000 */ u8 mUnk_000[8];
-    /* 008 */ u32 mUnk_008;
-} Unk020ea670_08;
-
-typedef struct Unk020ea670_0a {
-    /* 000 */ u8 mUnk_000[10];
-    /* 00a */ u16 mUnk_00a;
-} Unk020ea670_0a;
-
-typedef struct Unk020ea670_0c {
-    /* 000 */ u8 mUnk_000[12];
-    /* 00c */ u32 mUnk_00c;
-} Unk020ea670_0c;
-
 // Sphere (centre param_1, radius param_7) against the cylinder at param_2 whose axes are the rows of param_3; returns 0
 // for no hit, else 2, and writes the move out to param_8 unless it is NULL.
 s32 ComputeSphereHitOnRotatedCylinder(Vec3 *sphereCenter, Vec3 *cylinderCenter, Vec3 *axes, s32 cylinderRadius,

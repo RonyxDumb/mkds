@@ -7,17 +7,6 @@
 #include "Main/Unknown/code_020e516c.h"
 #include "Main/Unknown/code_020e5684.h"
 
-// Second argument of InitPendulum, read at 0x00..0x2b.
-typedef struct Unk020e5e24_2 {
-    /* 00 */ Vec3 mUnk_00;
-    /* 0c */ Vec3 mUnk_0c;
-    /* 18 */ u8 mUnk_18[0x08];
-    /* 20 */ s32 mUnk_20;
-    /* 24 */ u8 mUnk_24[0x04];
-    /* 28 */ s16 mUnk_28;
-    /* 2a */ s16 mUnk_2a;
-} Unk020e5e24_2;
-
 // Object handled by InitPendulum, ComputeSphereHitOnPendulum, UpdatePendulum and
 // DrawPendulum; at least 0x110 bytes.
 typedef struct PendulumObject {
@@ -69,7 +58,7 @@ void SetupDrawObPakkunSf(void);
 MapObjectList *CreateObPakkunSfUpdateList(void);
 MapObjectDrawList *CreateObPakkunSfDrawList(void);
 MapObjectKindData *CreateObPakkunSfKindData(void);
-void InitPendulum(PendulumObject *pendulum, Unk020e5e24_2 *courseRow);
+void InitPendulum(PendulumObject *pendulum, CourseMapRow *courseRow);
 void CreatePendulumAndPendulumShadow(void);
 BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *out);
 void UpdatePendulum(u32 list, PendulumObject *pendulum);
