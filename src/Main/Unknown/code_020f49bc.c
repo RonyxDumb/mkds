@@ -79,7 +79,7 @@ void StartRestingItemObject(ItemObject *item, void *b) {
     s32 k;
 
     VEC_MultAdd(-item->mUnk_dc, &item->mNormal, &item->mPos, &item->mUnk_108);
-    func_020d5aa0(b, item->mCollisionBits, item->mUnk_104, &item->mUnk_108, &item->mNormal);
+    UpdateCollisionHitLink(b, item->mCollisionBits, item->mUnk_104, &item->mUnk_108, &item->mNormal);
     if (item->mUnk_104->mUnk_00 != NULL && func_020e0448((Unk020e0448 *) item->mUnk_104) != 0) {
         item->mUnk_11a = 0xe10;
     } else {
@@ -134,7 +134,7 @@ void AdvanceRestingItemObject(ItemObject *item) {
                                         NULL, NULL, &item->mCollisionBits, NULL, NULL, NULL, &w) == 0) {
                 return;
             }
-            if (func_020d5a68(&w, item->mCollisionBits, item->mUnk_104) != FALSE) {
+            if (IsCollisionHitLinkOutdated(&w, item->mCollisionBits, item->mUnk_104) != FALSE) {
                 item->mVelocity.x = 0;
                 item->mVelocity.y = 0;
                 item->mVelocity.z = 0;

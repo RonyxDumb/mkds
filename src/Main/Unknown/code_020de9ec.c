@@ -329,7 +329,7 @@ void func_020deb2c(Vec3 *position, Kart *kart, u32 c, int d, u32 e) {
             SetupKartFollowEffect(effect, kartIndex, 0x1e);
         }
     }
-    func_020d26ec(kart, 0xd4);
+    StartSoundFullVolumeWrapper(kart, 0xd4);
     StartItemSlotForKart(kartIndex, c, e);
 }
 

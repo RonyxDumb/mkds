@@ -12,14 +12,14 @@
 #include "Main/Unknown/code_020b502c.h"
 #include "Main/Unknown/code_02070398.h"
 
-void func_020d26ec(void *soundSource, u32 soundId) {
+void StartSoundFullVolumeWrapper(void *soundSource, u32 soundId) {
     void *value0 = soundSource;
     u32 soundIdCopy = soundId;
     u32 unused;
     value0 = StartSoundFullVolume(value0, soundIdCopy);
 }
 
-void func_020d26e0(SoundSource *soundSource, u32 soundId) {
+void StartWhileRequestedFullVolumeWrapper(SoundSource *soundSource, u32 soundId) {
     u32 soundIdCopy = soundId;
     u32 unused;
     StartSoundWhileRequestedFullVolume(soundSource, soundIdCopy);

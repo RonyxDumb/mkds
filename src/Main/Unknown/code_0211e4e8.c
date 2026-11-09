@@ -405,7 +405,7 @@ s32 AdvanceSelectCupM(void) {
             break;
     }
     if (gBootInfo->mUnk_00 != 2) {
-        if (gSelectCupM->mCupPicturePending != FALSE && func_020d0ec4() != FALSE) {
+        if (gSelectCupM->mCupPicturePending != FALSE && IsCupPictureReady() != FALSE) {
             p = GetCupPictureNscrData();
             CallQueueAppend(0xf, 0, GetCupPictureNclrData(), 0xe0);
             CallQueueAppend(4, 0x20, GetCupPictureNcgrData(), 0xdc0);

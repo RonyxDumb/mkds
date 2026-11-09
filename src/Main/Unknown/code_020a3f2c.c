@@ -707,7 +707,7 @@ BOOL BalloonKartHitByKartCallback(u16 hitKartIndex, u16 hitByKartIndex) {
                 lastBalloon->mUnk_00.mAlpha = 0x1f;
                 StartBalloonWithoutKart(lastBalloon, &balloonPos);
             }
-            func_020d26ec(kart, 0x153);
+            StartSoundFullVolumeWrapper(kart, 0x153);
             if (GetBalloonOrShineCount(hitKartIndex) == 0) {
                 EliminateKartAndCheckWinner(hitKartIndex);
             }
@@ -744,7 +744,7 @@ BOOL BalloonKartHitByKartCallback(u16 hitKartIndex, u16 hitByKartIndex) {
             }
             SetupKartFollowEffect(StartEffect(0x7a, &kart->mPos), kart->mIndex, 0x20);
             SetupKartFollowEffect(StartEffect(0x7b, &kart->mPos), kart->mIndex, 0x20);
-            func_020d26ec(GetKart(hitByKartIndex), 0x14f);
+            StartSoundFullVolumeWrapper(GetKart(hitByKartIndex), 0x14f);
             if (GetBalloonOrShineCount(hitKartIndex) == 0) {
                 EliminateKartAndCheckWinner(hitKartIndex);
             }
@@ -872,7 +872,7 @@ BOOL BalloonKartHitCallback(u16 kartIndex, u16 hitByKartIndex) {
             lastBalloon->mUnk_00.mAlpha = 0x1f;
             StartBalloonWithoutKart(lastBalloon, &balloonPos);
         }
-        func_020d26ec(kart, 0x153);
+        StartSoundFullVolumeWrapper(kart, 0x153);
         if (GetBalloonOrShineCount(kartIndex) == 0) {
             EliminateKartAndCheckWinner(kartIndex);
         }
@@ -1144,7 +1144,7 @@ void UpdateKartBalloons(void *mapObjectList, KartBalloonsObject *kartBalloonsObj
                     kartBalloons->mSpawnTimer = 30;
                     kartBalloons->mState = 0;
                 }
-                func_020d26ec(GetKart((u16) i), 0x152);
+                StartSoundFullVolumeWrapper(GetKart((u16) i), 0x152);
             }
         } else if (kartBalloons->mRemainingSpawnCount <= 0) {
             kartBalloons->mState = 0;

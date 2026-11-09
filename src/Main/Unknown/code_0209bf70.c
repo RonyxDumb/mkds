@@ -341,13 +341,13 @@ s32 CollideKartWithBound(Bound *bound, Kart *kart, u8 *b, u8 *c) {
             bound->mWobbling = TRUE;
             switch (bound->mUnk_000.mKind) {
                 case MAP_OBJECT_KIND_CREAM:
-                    func_020d26ec(kart, 0x156);
+                    StartSoundFullVolumeWrapper(kart, 0x156);
                     break;
                 case MAP_OBJECT_KIND_BERRY:
-                    func_020d26ec(kart, 0x155);
+                    StartSoundFullVolumeWrapper(kart, 0x155);
                     break;
                 case 0x1a8:
-                    func_020d26ec(kart, 0x1cf);
+                    StartSoundFullVolumeWrapper(kart, 0x1cf);
                     break;
             }
             if ((u16) (bound->mUnk_000.mKind + 0xfe4c) <= 1) {

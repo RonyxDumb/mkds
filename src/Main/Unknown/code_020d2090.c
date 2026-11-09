@@ -15,7 +15,7 @@
 #include "Main/Unknown/code_020d6000.h"
 #include "Main/Unknown/code_020b4000.h"
 
-BOOL func_020d2234(MapObject *mapObject, ItemObject *itemObject) {
+BOOL DoesMapObjectRespondToItemObject(MapObject *mapObject, ItemObject *itemObject) {
     s32 kindRemainder;
     s32 kindHundreds;
     s32 itemKind;
@@ -97,4 +97,4 @@ void ClearRaceMNumberPairPointer(void) {
     gRaceMNumberPair = NULL;
 }
 
-void func_020d2090(void) {}
+void UpdateRaceMNumberPairNop(void) {}

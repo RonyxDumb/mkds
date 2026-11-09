@@ -1017,7 +1017,7 @@ s32 AdvanceSelectCupGrid(void) {
     UpdateSelectCupGridCupCells();
     UpdateSelectCupGridCourseCells();
     if (gBootInfo->mUnk_00 != 2) {
-        if (gSelectCupGrid->mCupPicturePending != FALSE && func_020d0ec4() != FALSE) {
+        if (gSelectCupGrid->mCupPicturePending != FALSE && IsCupPictureReady() != FALSE) {
             screenMap = GetCupPictureNscrData();
             CallQueueAppend(0xf, 0, GetCupPictureNclrData(), 0xe0);
             CallQueueAppend(4, 0x20, GetCupPictureNcgrData(), 0xdc0);

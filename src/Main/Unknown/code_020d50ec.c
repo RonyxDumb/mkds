@@ -28,13 +28,13 @@
 
 // Calls StartEffectWithCallback twice at the rock; skipped when bit 0 of mDistanceSquaredAndFlags is set, or when b is
 // 0 and bit 1 is set. Then resets the rock.
-void func_020d634c(RockObject *rock, s32 b) {
+void ResetRockWithEffects(RockObject *rock, s32 wasHit) {
     EmitterParams firstEmitterParams;
     EmitterParams secondEmitterParams;
     s32 scaleY;
     u32 distanceAndFlags;
-    s32 k;
-    s32 j;
+    s32 scaledRow;
+    s32 baseRow;
     s32 a;
     s16 c;
     s16 d;
@@ -47,30 +47,30 @@ void func_020d634c(RockObject *rock, s32 b) {
     distanceAndFlags = rock->mMapObject.mDistanceSquaredAndFlags;
     scaleY = rock->mMapObject.mScale.y;
     if (!(distanceAndFlags & 1)) {
-        if (b != 0 || !(distanceAndFlags & 3)) {
+        if (wasHit != 0 || !(distanceAndFlags & 3)) {
             if (scaleY > 0x1000) {
-                k = 1;
-                j = 0;
+                scaledRow = 1;
+                baseRow = 0;
             } else {
-                k = 3;
-                j = 2;
+                scaledRow = 3;
+                baseRow = 2;
             }
-            a = data_02156960[k];
-            d = data_02156938[k];
-            c = data_02156930[k];
-            g = data_02156928[k];
-            h = data_02156948[k];
-            firstEmitterParams.mUnk_00 = data_02156960[j] + (s32) (((s64) a * scaleY) >> 12);
-            i = data_02156940[k];
-            firstEmitterParams.mUnk_04 = data_02156940[j] + (s32) (((s64) i * scaleY) >> 12);
-            e = data_02156950[k];
-            firstEmitterParams.mUnk_06 = data_02156948[j] + (s32) (((s64) h * scaleY) >> 12);
-            secondEmitterParams.mUnk_00 = data_02156950[j] + (s32) (((s64) e * scaleY) >> 12);
-            f = data_02156920[k];
-            firstEmitterParams.mUnk_08 = data_02156920[j] + (s32) (((s64) f * scaleY) >> 12);
-            secondEmitterParams.mUnk_04 = data_02156928[j] + (s32) (((s64) g * scaleY) >> 12);
-            secondEmitterParams.mUnk_06 = data_02156930[j] + (s32) (((s64) c * scaleY) >> 12);
-            secondEmitterParams.mUnk_08 = data_02156938[j] + (s32) (((s64) d * scaleY) >> 12);
+            a = data_02156960[scaledRow];
+            d = data_02156938[scaledRow];
+            c = data_02156930[scaledRow];
+            g = data_02156928[scaledRow];
+            h = data_02156948[scaledRow];
+            firstEmitterParams.mUnk_00 = data_02156960[baseRow] + (s32) (((s64) a * scaleY) >> 12);
+            i = data_02156940[scaledRow];
+            firstEmitterParams.mUnk_04 = data_02156940[baseRow] + (s32) (((s64) i * scaleY) >> 12);
+            e = data_02156950[scaledRow];
+            firstEmitterParams.mUnk_06 = data_02156948[baseRow] + (s32) (((s64) h * scaleY) >> 12);
+            secondEmitterParams.mUnk_00 = data_02156950[baseRow] + (s32) (((s64) e * scaleY) >> 12);
+            f = data_02156920[scaledRow];
+            firstEmitterParams.mUnk_08 = data_02156920[baseRow] + (s32) (((s64) f * scaleY) >> 12);
+            secondEmitterParams.mUnk_04 = data_02156928[baseRow] + (s32) (((s64) g * scaleY) >> 12);
+            secondEmitterParams.mUnk_06 = data_02156930[baseRow] + (s32) (((s64) c * scaleY) >> 12);
+            secondEmitterParams.mUnk_08 = data_02156938[baseRow] + (s32) (((s64) d * scaleY) >> 12);
             if (rock->mMapObject.mKind == 0x192) {
                 StartEffectWithCallback(0x54, &rock->mMapObject.mPos, &firstEmitterParams, func_020d6538);
                 StartEffectWithCallback(0x57, &rock->mMapObject.mPos, &secondEmitterParams, func_020d6538);
@@ -169,24 +169,24 @@ void UpdateRock(void *a, RockObject *rock) {
         rock->mBottomOffsetReciprocal = FX_GetDivResult();
     }
     if (rock->mUnk_0a4.mUnk_00.mForward == 0) {
-        func_020d634c(rock, 0);
+        ResetRockWithEffects(rock, 0);
     } else if (rock->mMapObject.mPos.y < 0) {
-        func_020d634c(rock, 0);
+        ResetRockWithEffects(rock, 0);
     }
 }
 
-// Calls func_020d634c with b = 1 when the byte at c is 1; returns the byte at d.
-u8 func_020d5f8c(RockObject *rock, s32 b, u8 *firstResponsePtr, u8 *secondResponsePtr) {
+// Calls ResetRockWithEffects with b = 1 when the byte at c is 1; returns the byte at d.
+u8 CollideKartWithRock(RockObject *rock, s32 b, u8 *firstResponsePtr, u8 *secondResponsePtr) {
     if (*firstResponsePtr == 1) {
-        func_020d634c(rock, 1);
+        ResetRockWithEffects(rock, 1);
     }
     return *secondResponsePtr;
 }
 
-// Same body as func_020d5f8c.
-u8 func_020d5f64(RockObject *rock, s32 b, u8 *firstResponsePtr, u8 *secondResponsePtr) {
+// Same body as CollideKartWithRock.
+u8 CollideItemObjectWithRock(RockObject *rock, s32 b, u8 *firstResponsePtr, u8 *secondResponsePtr) {
     if (*firstResponsePtr == 1) {
-        func_020d634c(rock, 1);
+        ResetRockWithEffects(rock, 1);
     }
     return *secondResponsePtr;
 }
@@ -322,7 +322,7 @@ void InitCourseCollision(void) {
 
 // Keeps the link c on the first object of the hit list a: clears it when b has the top bit or the object changed, sets
 // it when b has a bit of 0x1e34ef.
-void func_020d5aa0(void *hitListPtr, u32 collisionBits, Unk020e04b0 *link, Vec3 *position, Vec3 *e) {
+void UpdateCollisionHitLink(void *hitListPtr, u32 collisionBits, Unk020e04b0 *link, Vec3 *position, Vec3 *normal) {
     Unk020d5a68 **hitList = hitListPtr;
     Unk020d5a68 *firstHit;
 
@@ -352,14 +352,14 @@ void func_020d5aa0(void *hitListPtr, u32 collisionBits, Unk020e04b0 *link, Vec3 
     if (!(collisionBits & 0x1e34ef)) {
         return;
     }
-    func_020e0584(firstHit->mUnk_00, position, e, link);
+    func_020e0584(firstHit->mUnk_00, position, normal, link);
 }
 
 // TRUE when b has the top bit, the hit list a has a non-zero word at 4, or its object differs from the link c.
-BOOL func_020d5a68(void *hitListPtr, u32 b, Unk020e04b0 *link) {
+BOOL IsCollisionHitLinkOutdated(void *hitListPtr, u32 collisionBits, Unk020e04b0 *link) {
     Unk020d5a68 **hitList = hitListPtr;
 
-    if ((b & 0x80000000) || (*hitList)->mUnk_04 != 0 || link->mUnk_00 != (*hitList)->mUnk_00) {
+    if ((collisionBits & 0x80000000) || (*hitList)->mUnk_04 != 0 || link->mUnk_00 != (*hitList)->mUnk_00) {
         return TRUE;
     }
     return FALSE;

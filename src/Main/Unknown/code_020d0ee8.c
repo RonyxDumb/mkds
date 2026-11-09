@@ -9,7 +9,7 @@
 #include "Main/Unknown/code_02057000.h"
 #include "Main/Unknown/unk_0217b000.h"
 
-void func_020d0f60(void) {
+void RequestThreadFunctionQueueRun(void) {
     gThreadFunctionQueue->mRunRequested = 1;
 }
 
@@ -20,13 +20,13 @@ u32 TrySetCupPictureIndexAndQueueLoads(int cupPictureIndex) {
     result = 1;
     if (data_0216aeac[cupPictureIndex * 2] == 0) {
         result = 0;
-    } else if (func_020d0ec4() != FALSE) {
+    } else if (IsCupPictureReady() != FALSE) {
         if (gCupPicture->mCupPictureIndex != cupPictureIndex) {
             gCupPicture->mCupPictureIndex = cupPictureIndex;
             QueueThreadFunction(LoadCupPictureNclr);
             QueueThreadFunction(LoadCupPictureNcgr);
             QueueThreadFunction(LoadCupPictureNscr);
-            func_020d0f60();
+            RequestThreadFunctionQueueRun();
         }
     } else {
         result = 0;
@@ -35,6 +35,6 @@ u32 TrySetCupPictureIndexAndQueueLoads(int cupPictureIndex) {
 }
 #pragma thumb off
 
-u32 func_020d0ee8(void) {
+u32 GetThreadFunctionQueueRunRequested(void) {
     return (gThreadFunctionQueue->mRunRequested);
 }

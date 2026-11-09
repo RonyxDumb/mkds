@@ -31,7 +31,8 @@ typedef struct CollisionSlotEnd {
 
 u32 FreeCollisionSlot(s32 slotIndex);
 s32 CreateCollisionSlot(Vec3 *centerPos, s32 radius, s32 flags, void *object);
-// Object behind the pointer func_020d5a68 and func_020d5aa0 read: a pointer at 0x00 and a word at 0x04.
+// Object behind the pointer IsCollisionHitLinkOutdated and UpdateCollisionHitLink read: a pointer at 0x00 and a word at
+// 0x04.
 typedef struct Unk020d5a68 {
     /* 00 */ Unk020e1d10 *mUnk_00;
     /* 04 */ s32 mUnk_04;
@@ -61,7 +62,7 @@ typedef struct RockObject {
     /* 120 */ s32 mBounceRatio;
 } RockObject;
 
-// Twelve bytes func_020d634c fills: a word and three halfwords.
+// Twelve bytes ResetRockWithEffects fills: a word and three halfwords.
 typedef struct EmitterParams {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s16 mUnk_04;
@@ -71,9 +72,9 @@ typedef struct EmitterParams {
 } EmitterParams;
 
 void UpdateRock(void *a, RockObject *rock);
-void func_020d634c(RockObject *rock, s32 b);
-u8 func_020d5f8c(RockObject *rock, s32 b, u8 *firstResponsePtr, u8 *secondResponsePtr);
-u8 func_020d5f64(RockObject *rock, s32 b, u8 *firstResponsePtr, u8 *secondResponsePtr);
+void ResetRockWithEffects(RockObject *rock, s32 wasHit);
+u8 CollideKartWithRock(RockObject *rock, s32 b, u8 *firstResponsePtr, u8 *secondResponsePtr);
+u8 CollideItemObjectWithRock(RockObject *rock, s32 b, u8 *firstResponsePtr, u8 *secondResponsePtr);
 void ResetRock(RockObject *rock);
 void InitRock(RockObject *rock, struct CourseMapRow *courseRow);
 void CreateNsbmdAndShadowNsbmd(void *a, const char *name, const char *shadowName);
@@ -81,8 +82,8 @@ void CreateRock(void *a);
 void CreateRock2(void *a);
 void LoadCourseCollisionData(CourseCollision *collision, CourseCollision *file);
 void InitCourseCollision(void);
-void func_020d5aa0(void *hitListPtr, u32 collisionBits, Unk020e04b0 *link, Vec3 *position, Vec3 *e);
-BOOL func_020d5a68(void *hitListPtr, u32 b, Unk020e04b0 *link);
+void UpdateCollisionHitLink(void *hitListPtr, u32 collisionBits, Unk020e04b0 *link, Vec3 *position, Vec3 *normal);
+BOOL IsCollisionHitLinkOutdated(void *hitListPtr, u32 collisionBits, Unk020e04b0 *link);
 u16 PickCollisionHitValue(u32 mask);
 void InitCollisionSlots(void);
 void FindCollisionSlotsAroundPos(Vec3 *position, s32 radius, s32 flagMask);

@@ -137,7 +137,7 @@ void *GetMessageScreenText(void) {
     }
     if (kind == 0) {
         if (gBootInfo->mUnk_00 == 2) {
-            return GetBmgEntry(func_020d1630()->mUnk_20, 0);
+            return GetBmgEntry(GetDownloadScreenFiles()->mUnk_20, 0);
         }
         return GetBmgEntry(messages, 0x82);
     }
@@ -148,7 +148,7 @@ void PrintMessageScreenText(void) {
     s32 i;
     ClearMessageScreenChars();
     if (gBootInfo->mUnk_00 == 2) {
-        gMessageScreen->mTextCanvas.mFont = &func_020d1630()->mUnk_14;
+        gMessageScreen->mTextCanvas.mFont = &GetDownloadScreenFiles()->mMBChildFont;
     } else {
         gMessageScreen->mTextCanvas.mFont = GetFontByIndex(0);
     }
@@ -283,15 +283,15 @@ void SetupLinkLevelIcons(void) {
     Nclr *palette;
     void *a;
     Unk0201ea30 *cellLayout;
-    Unk0217b4b0 *loadedFiles;
+    DownloadScreenFiles *loadedFiles;
     CellLayoutEntry *cellEntry;
     s32 j;
-    loadedFiles = func_020d1630();
-    a = loadedFiles->mUnk_00;
-    cellLayout = loadedFiles->mUnk_04;
-    chars = loadedFiles->mUnk_08;
-    cells = loadedFiles->mUnk_0c;
-    palette = loadedFiles->mUnk_10;
+    loadedFiles = GetDownloadScreenFiles();
+    a = loadedFiles->mSearchIconCellLayout;
+    cellLayout = loadedFiles->mSearchIconLayoutCellLayout;
+    chars = loadedFiles->mSearchIconChars;
+    cells = loadedFiles->mSearchIconCells;
+    palette = loadedFiles->mSearchIconPalette;
     for (i = 0; i < 5; i++) {
         for (j = 0; j < data_0215d168[i]; j++) {
             gLinkLevelIcons->mIconChars[i][j] =

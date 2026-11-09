@@ -142,7 +142,7 @@ void func_ov001_0218b72c(Unk02188950 *mapObject) {
 void func_ov001_0218b6f8(Unk02188950 *mapObject, void *kart) {
     SetKartCollisionCallback(mapObject, func_ov001_0218b6f8);
     if (mapObject->mTimer == 0) {
-        func_020d26ec(kart, 0x224);
+        StartSoundFullVolumeWrapper(kart, 0x224);
     }
 }
 
@@ -156,7 +156,7 @@ void func_ov001_0218b640(Unk02188950 *mapObject, void *kart) {
     StartCameraWobbleAtDistance(mapObject->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
     SetKartCollisionCallback(mapObject, func_ov001_0218b6f8);
     if (mapObject->mTimer == 0) {
-        func_020d26ec(kart, 0x224);
+        StartSoundFullVolumeWrapper(kart, 0x224);
     }
 }
 

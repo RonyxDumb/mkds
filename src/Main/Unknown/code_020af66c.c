@@ -146,7 +146,7 @@ void UploadRaceHud(void) {
     }
     if (v == RACE_KIND_STAFF_ROLL) {
         *(vu16 *) 0x05000000 = 0;
-        func_020d159c();
+        UploadEndingStaffRollOam();
         SetStaffRollScrollAndDrainQueue();
         return;
     }
@@ -370,9 +370,9 @@ void InitRaceHud(void) {
     InitRaceEnd();
     InitRaceHudSubScreenProjection();
     InitRaceNcerNclrNcgrTables();
-    func_020cffa0();
+    InitRaceHudSubScreenBgColors();
     if (gRaceSetup->mRaceKind == 4) {
-        func_020d12b0();
+        InitRaceStartBattle();
     }
     InitRaceItemSlot();
     InitRaceLinkLevel();
@@ -677,7 +677,7 @@ void SetupRaceHudScreens(void) {
     GXS_LoadBG2Scr(GetRaceGoalSNscr(1)->mData, 0, GetRaceGoalSNscr(1)->mDataSize);
     GXS_LoadBG3Scr(GetRaceGoalSNscr(2)->mData, 0, GetRaceGoalSNscr(2)->mDataSize);
     GXS_LoadBGPltt(gRaceHudSubScreenPalettes + 0x100, 0, 0x200);
-    func_020cfca4();
+    CopyRaceHudSubScreenBgColors();
     GX_SetBankForSubBGExtPltt(0x80);
     GXS_BeginLoadBGExtPltt();
     GXS_LoadBGExtPltt(gRaceHudSubScreenPalettes + 0x100, 0x4000, 0x200);
@@ -719,7 +719,7 @@ void ReleaseRaceHud(void) {
     ClearRaceHudSubScreenProjection();
     ClearRaceNcerNclrNcgrTablesPointer();
     if (gRaceSetup->mRaceKind == 4) {
-        func_020d129c();
+        ClearRaceStartBattlePointer();
     }
     ClearRaceItemSlotPointer();
     ClearRaceLinkLevelPointer();
@@ -770,7 +770,7 @@ void UpdateRaceHud(void) {
     UpdateRaceStartSequence();
     UpdateRaceEnd();
     if (gRaceSetup->mRaceKind == 4) {
-        func_020d1298();
+        UpdateRaceStartBattleNop();
     }
     v = gRaceSetup->mMode;
     if ((v == MODE_BATTLE ? gRaceProgress->mRaceDone
@@ -779,7 +779,7 @@ void UpdateRaceHud(void) {
              : (IsKartEnded(GetFollowedKartOrEntryIndex()) != 0 && gRaceHud->mShowLapTime == 0)) == 0) {
         UpdateRaceItemSlot();
         UpdateRaceLapNumber();
-        func_020d2090();
+        UpdateRaceMNumberPairNop();
         UpdateRaceGoalTimes();
         UpdateRaceModeCount();
         UpdateRaceGoalM();

@@ -9,5 +9,5 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
 MapObject *CreateMapObjectFromObject(MapObject *source, s32 kind);
 MapObject *CreateMapObjectFromCourseMapRow(CourseMapRow *courseRow, s32 kind);
 void InitMapObjects(void);
-void func_020d2e24(void);
+void RunMapObjectDrawListInits(void);
 void RunMapObjectUpdateListInits(void);

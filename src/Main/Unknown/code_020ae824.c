@@ -53,7 +53,7 @@ void DrawRaceHud(void) {
     gRaceHud->mMainOam.mOamCount = 0;
     gRaceHud->mMainOam.mMatrixCount = 0;
     if (gRaceSetup->mRaceKind == 4) {
-        func_020d1198(&gRaceHud->mMainOam);
+        DrawRaceStartBattle(&gRaceHud->mMainOam);
     }
     v = gRaceSetup->mMode;
     if ((v == MODE_BATTLE ? gRaceProgress->mRaceDone

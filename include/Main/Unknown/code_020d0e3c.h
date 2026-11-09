@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-BOOL func_020d0ec4(void);
+BOOL IsCupPictureReady(void);
 void *GetCupPictureNclrData(void);
 void *GetCupPictureNcgrData(void);
 void *GetCupPictureNscrData(void);

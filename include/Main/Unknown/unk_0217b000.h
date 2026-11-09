@@ -73,17 +73,17 @@ typedef struct RaceHudSubScreenCells {
     /* 10 */ RaceHudSubScreenCell *mCells;
 } RaceHudSubScreenCells;
 
-// Halfwords from 0x02 of Unk0217b490 read by UpdateRaceHudSubScreenBgPalette when gRaceSetup->mUnk_00 is 0x20: six, two
-// rows of three and two.
+// Halfwords from 0x02 of RaceHudSubScreenBgColors read by UpdateRaceHudSubScreenBgPalette when gRaceSetup->mUnk_00 is
+// 0x20: six, two rows of three and two.
 typedef struct Unk0217b490_02_03 {
     /* 00 */ u16 mUnk_00[6];
     /* 0c */ u16 mUnk_0c[2][3];
     /* 18 */ u16 mUnk_18[2];
 } Unk0217b490_02_03;
 
-// The halfwords from 0x02 of Unk0217b490 as UpdateRaceHudSubScreenBgPalette and func_020cfca4 index them for the values
-// of gRaceSetup->mUnk_00: a run of 0x15 (0x1c, 0x1f, 0x2e), nine rows of three (0xf), five rows of four (0x11) and
-// Unk0217b490_02_03 (0x20).
+// The halfwords from 0x02 of RaceHudSubScreenBgColors as UpdateRaceHudSubScreenBgPalette and
+// CopyRaceHudSubScreenBgColors index them for the values of gRaceSetup->mUnk_00: a run of 0x15 (0x1c, 0x1f, 0x2e), nine
+// rows of three (0xf), five rows of four (0x11) and Unk0217b490_02_03 (0x20).
 typedef union Unk0217b490_02 {
     u16 mUnk_00[0x15];
     u16 mUnk_01[9][3];
@@ -91,11 +91,11 @@ typedef union Unk0217b490_02 {
     Unk0217b490_02_03 mUnk_03;
 } Unk0217b490_02;
 
-// Object behind data_0217b490, 0x38 bytes (allocated by func_020cffa0).
-typedef struct Unk0217b490 {
+// Object behind gRaceHudSubScreenBgColors, 0x38 bytes (allocated by InitRaceHudSubScreenBgColors).
+typedef struct RaceHudSubScreenBgColors {
     /* 00 */ u16 mUnk_00;
-    /* 02 */ Unk0217b490_02 mUnk_02;
-} Unk0217b490;
+    /* 02 */ Unk0217b490_02 mColors;
+} RaceHudSubScreenBgColors;
 
 // Pair of numbers "course number, course count" drawn on the main screen before start-sequence frame 0xb4, only in mode
 // 5 and in mode 3 with gRaceSetup->mUnk_1c == 2 (DrawRaceMNumberPair), one record behind gRaceMNumberPair (0x28
@@ -112,7 +112,8 @@ typedef struct RaceMNumberPair {
     /* 1c */ s32 mScale;
     /* 20 */ u16 mMatrixIndex;
     /* 22 */ u8 mUnk_22[2];
-    // X added to every sprite of the pair: 0, or eased by InterpolateS16 (func_020d1de8) for the slide-in.
+    // X added to every sprite of the pair: 0, or eased by InterpolateS16 (SetRaceMNumberPairAnimation) for the
+    // slide-in.
     /* 24 */ s32 mOffsetX;
 } RaceMNumberPair;
 
@@ -696,7 +697,7 @@ extern s32 data_0217b3f8;
 extern EmblemChoises *gEmblemChoises;
 extern struct MenuScene *gMenuScene;
 extern struct CupPicture *gCupPicture;
-extern struct Unk0217b4b0 *data_0217b4b0;
+extern struct DownloadScreenFiles *gDownloadScreenFiles;
 extern struct RandomState64 *gRaceRandom;
 extern struct RandomState64 *gMapObjectRandom;
 // The same pointer as gWaterEfct, stored by SetCourseWaterEfct (the last call of CreateWaterEfct) and set to NULL in
@@ -889,7 +890,7 @@ typedef struct RaceHudSubScreenKarts {
 extern RaceHudSubScreenSecondHand *gRaceHudSubScreenSecondHand;
 extern RaceHudSubScreenKarts *gRaceHudSubScreenKarts;
 extern struct RaceGoalTimes *gRaceGoalTimes;
-extern void *data_0217b4a8;
+extern void *gRaceStartBattle;
 extern struct EndingStaffRollObject *gEndingStaffRoll;
 extern RaceMNumberPair *gRaceMNumberPair;
 extern u16 data_0217b4c0;
@@ -978,7 +979,7 @@ extern RaceHudSubScreenCells *gRaceHudSubScreenBasabasaCells;
 extern RaceHudSubScreenCells *gRaceHudSubScreenRainStarCells;
 extern RaceHudSubScreenCells *data_0217b484;
 extern RaceHudSubScreenCells *gRaceHudSubScreenBombKouraWCells;
-extern Unk0217b490 *data_0217b490;
+extern RaceHudSubScreenBgColors *gRaceHudSubScreenBgColors;
 extern RaceHudSubScreenCells *gRaceHudSubScreenCreamCells;
 extern RaceHudSubScreenCells *gRaceHudSubScreenBerryCells;
 extern RaceHudSubScreenCells *gRaceHudSubScreenFireball2Cells;

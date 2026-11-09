@@ -19,7 +19,7 @@
 #include "Main/Unknown/code_02037000.h"
 #include "registers.h"
 
-void func_020d159c(void) {
+void UploadEndingStaffRollOam(void) {
     DC_FlushRange(&gEndingStaffRoll->mOamBuffer, 0x400);
     GX_LoadOAM(&gEndingStaffRoll->mOamBuffer, 0, 0x400);
     if (gEndingStaffRoll->mStaffRollFrames == 0x1a4) {

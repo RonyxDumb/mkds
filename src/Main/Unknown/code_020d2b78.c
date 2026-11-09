@@ -15,7 +15,7 @@
 
 #pragma thumb on
 
-void func_020d2d94(void) {
+void ClearMapObjectListSlots(void) {
     int index;
     MapObjectList **drawListSlot;
     void **listSlot;

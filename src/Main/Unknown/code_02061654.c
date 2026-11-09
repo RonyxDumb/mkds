@@ -465,7 +465,7 @@ void func_02062004(void) {
     WiFiSession *wiFiSession;
     BOOL heapCreated;
 
-    func_020d2d94();
+    ClearMapObjectListSlots();
     CallKartSlot8AndClearKarts();
     ReleaseAllResFiles();
     func_0203d568();

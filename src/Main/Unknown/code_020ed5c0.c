@@ -240,7 +240,7 @@ void UpdateItemInUseObjects(ItemInUse *itemInUse) {
                 CollideItemObjects(object, other);
             } else if ((gFoundCollisionSlotFlags[i] & 0x2000) != 0) {
                 MapObject *other = gFoundCollisionSlotObjects[i];
-                if (func_020d2234(other, object) == FALSE) {
+                if (DoesMapObjectRespondToItemObject(other, object) == FALSE) {
                     continue;
                 }
                 func_020f944c(object, other);

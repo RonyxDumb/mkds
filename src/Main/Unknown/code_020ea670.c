@@ -371,7 +371,7 @@ u32 CollideKartWithWoodbox1(Woodbox1 *woodbox, Kart *kart, u8 *firstResponse, u8
                 }
                 woodbox->mUnk_000.mStateMachine.mNextState = 1;
                 woodbox->mUnk_000.mStateMachine.mNextStateRequested = 1;
-                func_020d26ec(kart, 0x167);
+                StartSoundFullVolumeWrapper(kart, 0x167);
                 woodbox->mUnk_000.mDistanceSquaredAndFlags |= *(u32 *) data_021594d4;
                 StartSoundIfKartStarOrKiller(&woodbox->mUnk_000, kart);
                 if ((woodbox->mUnk_000.mDistanceSquaredAndFlags & 3) == 0) {

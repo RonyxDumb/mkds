@@ -312,7 +312,7 @@ void InitMapObjects(void) {
     s32 s1;
     s32 s2;
     s32 listIndex;
-    s32 t;
+    s32 drawListIndex;
     s32 isNewList;
     u32 v;
     MapObjectKindRow *row;
@@ -458,14 +458,14 @@ void InitMapObjects(void) {
         InitMapObjectDrawOrder(gMapObjects->mDrawLists[i]);
     }
     gMapObjects->mUnk_130 = TRUE;
-    func_020d2e24();
+    RunMapObjectDrawListInits();
     n = gMapObjects->mDrawListCount;
     c1 = 0;
     c2 = 0;
     s1 = 0;
     s2 = 0;
-    for (t = 0; t < n; t++) {
-        list = gMapObjects->mDrawLists[t];
+    for (drawListIndex = 0; drawListIndex < n; drawListIndex++) {
+        list = gMapObjects->mDrawLists[drawListIndex];
         if (list->mUnk_20 != 0) {
             if (list->mUnk_18 == 1) {
                 c1++;
@@ -539,17 +539,17 @@ void InitMapObjects(void) {
     RunMapObjectUpdateListInits();
 }
 
-void func_020d2e24(void) {
+void RunMapObjectDrawListInits(void) {
     s32 i;
-    s32 n;
+    s32 drawListCount;
     MapObjectList **listCursor;
-    n = gMapObjects->mDrawListCount;
+    drawListCount = gMapObjects->mDrawListCount;
     listCursor = gMapObjects->mDrawLists;
     if (gCourseWater != NULL) {
         InitWaterModels(gCourseWater);
     }
     CreateObjShadowAndJgShadow();
-    for (i = 0; i < n; listCursor++, i++) {
+    for (i = 0; i < drawListCount; listCursor++, i++) {
         if ((*listCursor)->mInit != NULL) {
             (*listCursor)->mInit(*listCursor);
         }
@@ -558,11 +558,11 @@ void func_020d2e24(void) {
 
 void RunMapObjectUpdateListInits(void) {
     s32 i;
-    s32 n;
+    s32 updateListCount;
     MapObjectList **listCursor;
-    n = gMapObjects->mUpdateListCount;
+    updateListCount = gMapObjects->mUpdateListCount;
     listCursor = gMapObjects->mUpdateLists;
-    for (i = 0; i < n; listCursor++, i++) {
+    for (i = 0; i < updateListCount; listCursor++, i++) {
         if ((*listCursor)->mInit != NULL) {
             (*listCursor)->mInit(*listCursor);
         }

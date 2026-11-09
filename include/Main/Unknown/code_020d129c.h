@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_020d129c(void);
+void ClearRaceStartBattlePointer(void);

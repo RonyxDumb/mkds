@@ -5,10 +5,10 @@
 #include "Main/Unknown/code_020d12b0.h"
 #include "Main/Unknown/unk_0217b000.h"
 
-void func_020d12b0(void) {
-    data_0217b4a8 = HeapAlloc(GetHeap(GetCurrentHeapCall()), 4);
+void InitRaceStartBattle(void) {
+    gRaceStartBattle = HeapAlloc(GetHeap(GetCurrentHeapCall()), 4);
 }
 
-void func_020d129c(void) {
-    data_0217b4a8 = NULL;
+void ClearRaceStartBattlePointer(void) {
+    gRaceStartBattle = NULL;
 }

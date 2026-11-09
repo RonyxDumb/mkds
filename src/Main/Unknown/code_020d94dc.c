@@ -265,9 +265,9 @@ void CreateHyudoroWater(void) {
     SetCourseWater(gWater);
 }
 
-// Once per course, from func_020d2e24 in InitMapObjects: builds the embedded model of each file (mUnk_68 only when A
-// exists, mUnk_d4) and sets material values (NNS_G3dMdlSetMdlPolygonID: 1 for A, 2 for C; the two 5-bit values mUnk_58
-// / mUnk_5a through NNS_G3dMdlSetMdlAlpha).
+// Once per course, from RunMapObjectDrawListInits in InitMapObjects: builds the embedded model of each file (mUnk_68
+// only when A exists, mUnk_d4) and sets material values (NNS_G3dMdlSetMdlPolygonID: 1 for A, 2 for C; the two 5-bit
+// values mUnk_58 / mUnk_5a through NNS_G3dMdlSetMdlAlpha).
 void InitWaterModels(Water *water) {
     u32 materialIndex;
     NNSG3dResMdl *modelResMdl;

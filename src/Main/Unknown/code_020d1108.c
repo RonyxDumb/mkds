@@ -12,9 +12,9 @@ void InitCupPicture(void) {
     int result;
     CupPicture *cupPicture;
     u32 heap;
-    result = func_020d1158();
+    result = CupPictureIsDownloadBootWrapper();
     if (result == 0) {
-        heap = func_020d113c();
+        heap = CupPictureGetCurrentHeap();
         cupPicture = HeapAlloc((void *) heap, (0x0000185cu));
         gCupPicture = cupPicture;
         cupPicture->mCupPictureIndex = 0;

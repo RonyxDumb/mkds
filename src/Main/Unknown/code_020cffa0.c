@@ -3,6 +3,6 @@
 #include "Main/Unknown/code_02036820.h"
 #include "Main/Unknown/unk_0217b000.h"
 
-void func_020cffa0(void) {
-    data_0217b490 = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
+void InitRaceHudSubScreenBgColors(void) {
+    gRaceHudSubScreenBgColors = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
 }

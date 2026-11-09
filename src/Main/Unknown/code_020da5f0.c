@@ -226,7 +226,7 @@ u32 func_020da73c(Kuribo *kuribo, Kart *kart, u8 *b, u8 *c) {
                 kuribo->mMapObject.mStateMachine.mState == 1) {
                 kuribo->mMapObject.mStateMachine.mNextState = 2;
                 kuribo->mMapObject.mStateMachine.mNextStateRequested = 1;
-                func_020d26ec(&kart->mSoundSource, 0x185);
+                StartSoundFullVolumeWrapper(&kart->mSoundSource, 0x185);
                 StartSoundIfKartStarOrKiller(&kuribo->mMapObject, kart);
                 func_020da820(kuribo, &kart->mVelocity);
                 kuribo->mMapObject.mFlags = kuribo->mMapObject.mFlags | data_02158160;

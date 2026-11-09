@@ -7,18 +7,18 @@
 #include "Main/Unknown/code_020cffd0.h"
 #include "Main/Unknown/code_020b4000.h"
 
-// Object behind data_0217b4b0, allocated 0x2c bytes long by CreateSearchIconMBChildAndMultiDownload.
-typedef struct Unk0217b4b0 {
-    /* 00 */ void *mUnk_00;
-    /* 04 */ void *mUnk_04;
-    /* 08 */ Ncgr *mUnk_08;
-    /* 0c */ Unk02021dc8 *mUnk_0c;
-    /* 10 */ Nclr *mUnk_10;
-    /* 14 */ void *mUnk_14;
+// Object behind gDownloadScreenFiles, allocated 0x2c bytes long by CreateSearchIconMBChildAndMultiDownload.
+typedef struct DownloadScreenFiles {
+    /* 00 */ void *mSearchIconCellLayout;
+    /* 04 */ void *mSearchIconLayoutCellLayout;
+    /* 08 */ Ncgr *mSearchIconChars;
+    /* 0c */ Unk02021dc8 *mSearchIconCells;
+    /* 10 */ Nclr *mSearchIconPalette;
+    /* 14 */ void *mMBChildFont;
     /* 18 */ u8 mUnk_18[8];
     /* 20 */ struct Bmg *mUnk_20;
-    /* 24 */ Ncgr *mUnk_24;
-    /* 28 */ Nclr *mUnk_28;
-} Unk0217b4b0;
+    /* 24 */ Ncgr *mMultiDownloadChars;
+    /* 28 */ Nclr *mMultiDownloadPalette;
+} DownloadScreenFiles;
 
 void CreateSearchIconMBChildAndMultiDownload(void *heap);

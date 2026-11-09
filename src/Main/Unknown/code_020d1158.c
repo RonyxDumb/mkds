@@ -7,7 +7,7 @@
 #include "registers.h"
 #include "Main/Unknown/code_0211d4a8.h"
 
-void func_020d1198(RaceHudOamBuffer *oamBuffer) {
+void DrawRaceStartBattle(RaceHudOamBuffer *oamBuffer) {
     Unk020224e0_c *cell;
     s32 positions[2][2];
 
@@ -24,14 +24,14 @@ void func_020d1198(RaceHudOamBuffer *oamBuffer) {
                                                   cell, NULL, positions[1], 0, 1);
 }
 
-u16 *func_020d118c(void) {
+u16 *CupPictureGetBootInfoHalfwordPointer(void) {
     return &gBootInfo->mUnk_00;
 }
 
-u32 func_020d1164(void) {
-    return *func_020d118c() == 2;
+u32 CupPictureIsDownloadBoot(void) {
+    return *CupPictureGetBootInfoHalfwordPointer() == 2;
 }
 
-u32 func_020d1158(void) {
-    return func_020d1164();
+u32 CupPictureIsDownloadBootWrapper(void) {
+    return CupPictureIsDownloadBoot();
 }

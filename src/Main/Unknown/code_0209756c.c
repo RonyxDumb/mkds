@@ -64,7 +64,7 @@ u32 CollideKartWithFlipper(Flipper *flipper, Kart *kart, void *b, u8 *c) {
             flipper->mUnk_00.mUnk_10.y = ((s64) e->y * f) >> 12;
             flipper->mUnk_00.mUnk_10.z = ((s64) e->z * f) >> 12;
             flipper->mUnk_00.mDistanceSquaredAndFlags = flipper->mUnk_00.mDistanceSquaredAndFlags | data_usa_02156588;
-            func_020d26ec(kart, 0x1d1);
+            StartSoundFullVolumeWrapper(kart, 0x1d1);
         }
         if (flipper->mUnk_ec8 != 0) {
             return 0xe;

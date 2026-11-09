@@ -19,7 +19,7 @@
 // Object not known yet; it only sets the order of the tables below
 u8 data_020cfca4_pad[24];
 
-void func_020cfca4(void) {
+void CopyRaceHudSubScreenBgColors(void) {
     s32 i;
     s32 j;
 
@@ -27,51 +27,51 @@ void func_020cfca4(void) {
         case COURSE_ID_OLD_NOKO_SFC:
             for (i = 0; i < 9; i++) {
                 for (j = 0; j < 3; j++) {
-                    data_0217b490->mUnk_02.mUnk_01[i][j] = ((u16 *) 0x05000400)[i * 16 + j + 0x40];
+                    gRaceHudSubScreenBgColors->mColors.mUnk_01[i][j] = ((u16 *) 0x05000400)[i * 16 + j + 0x40];
                 }
             }
             break;
         case 0x11: {
-            s32 table[5] = {0, 5, 10, 16, 21};
+            s32 rowOffsets[5] = {0, 5, 10, 16, 21};
 
             for (i = 0; i < 5; i++) {
                 for (j = 0; j < 4; j++) {
-                    data_0217b490->mUnk_02.mUnk_02[i][j] = ((u16 *) 0x05000400)[table[i] + j + 0x80];
+                    gRaceHudSubScreenBgColors->mColors.mUnk_02[i][j] = ((u16 *) 0x05000400)[rowOffsets[i] + j + 0x80];
                 }
             }
             break;
         }
         case COURSE_ID_TOWN:
             for (i = 0; i < 20; i++) {
-                data_0217b490->mUnk_02.mUnk_00[i] = ((u16 *) 0x05000400)[0x78 + i];
+                gRaceHudSubScreenBgColors->mColors.mUnk_00[i] = ((u16 *) 0x05000400)[0x78 + i];
             }
-            data_0217b490->mUnk_02.mUnk_00[20] = ((u16 *) 0x05000400)[0];
+            gRaceHudSubScreenBgColors->mColors.mUnk_00[20] = ((u16 *) 0x05000400)[0];
             break;
         case COURSE_ID_BEACH:
             for (i = 0; i < 3; i++) {
-                data_0217b490->mUnk_02.mUnk_00[i] = ((u16 *) 0x05000400)[0x46 + i];
+                gRaceHudSubScreenBgColors->mColors.mUnk_00[i] = ((u16 *) 0x05000400)[0x46 + i];
             }
             break;
         case COURSE_ID_KOOPA:
             for (i = 0; i < 6; i++) {
-                data_0217b490->mUnk_02.mUnk_03.mUnk_00[i] = ((u16 *) 0x05000400)[0x54 + i];
+                gRaceHudSubScreenBgColors->mColors.mUnk_03.mUnk_00[i] = ((u16 *) 0x05000400)[0x54 + i];
             }
             for (i = 0; i < 2; i++) {
                 for (j = 0; j < 3; j++) {
-                    data_0217b490->mUnk_02.mUnk_03.mUnk_0c[i][j] = ((u16 *) 0x05000400)[i * 3 + j + 0x5a];
+                    gRaceHudSubScreenBgColors->mColors.mUnk_03.mUnk_0c[i][j] = ((u16 *) 0x05000400)[i * 3 + j + 0x5a];
                 }
             }
             for (i = 0; i < 2; i++) {
-                data_0217b490->mUnk_02.mUnk_03.mUnk_18[i] = ((u16 *) 0x05000400)[i];
+                gRaceHudSubScreenBgColors->mColors.mUnk_03.mUnk_18[i] = ((u16 *) 0x05000400)[i];
             }
             break;
         case COURSE_ID_MINI_STAGE3:
             for (i = 0; i < 5; i++) {
-                data_0217b490->mUnk_02.mUnk_00[i] = ((u16 *) 0x05000400)[0xfb + i];
+                gRaceHudSubScreenBgColors->mColors.mUnk_00[i] = ((u16 *) 0x05000400)[0xfb + i];
             }
             break;
     }
-    data_0217b490->mUnk_00 = 0;
+    gRaceHudSubScreenBgColors->mUnk_00 = 0;
 }
 
 void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
@@ -88,7 +88,7 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
         case COURSE_ID_OLD_NOKO_SFC:
             v = GetCourseModelNsbtpFrame();
             for (i = 0; i < 3; i++) {
-                palette[i + 0x40] = data_0217b490->mUnk_02.mUnk_01[v / 10][i];
+                palette[i + 0x40] = gRaceHudSubScreenBgColors->mColors.mUnk_01[v / 10][i];
             }
             DC_FlushRange(&palette[0x40], 6);
             GXS_BeginLoadBGExtPltt();
@@ -99,14 +99,14 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
             GXS_EndLoadBGExtPltt();
             break;
         case 0x11: {
-            s32 table[5] = {0, 5, 10, 16, 21};
+            s32 rowOffsets[5] = {0, 5, 10, 16, 21};
             MapObject **objects;
-            void *p;
+            void *kindDrawList;
             u16 angle;
 
-            p = FindMapObjectKindDrawList0(0xcb);
-            if (p != NULL) {
-                objects = RaceHudSubScreenGetMapObjects(p);
+            kindDrawList = FindMapObjectKindDrawList0(0xcb);
+            if (kindDrawList != NULL) {
+                objects = RaceHudSubScreenGetMapObjects(kindDrawList);
                 for (i = 0; i < 5; i++) {
                     angle = objects[i]->mAngle;
                     if (i == 4) {
@@ -115,7 +115,8 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
                         shift = (angle * 0x48) >> 16;
                     }
                     for (j = 0; j < 4; j++) {
-                        palette[table[i] + j + 0x80] = data_0217b490->mUnk_02.mUnk_02[i][(j + shift) % 4];
+                        palette[rowOffsets[i] + j + 0x80] =
+                            gRaceHudSubScreenBgColors->mColors.mUnk_02[i][(j + shift) % 4];
                     }
                 }
             }
@@ -129,13 +130,13 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
             break;
         }
         case 0x1c: {
-            u8 table[6][20] = {{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19},
-                               {20, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19},
-                               {20, 20, 1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19},
-                               {20, 20, 20, 1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18},
-                               {20, 20, 20, 20, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18},
-                               {20, 20, 20, 20, 20, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17}};
-            u8 *p;
+            u8 colorIndexRows[6][20] = {{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19},
+                                        {20, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19},
+                                        {20, 20, 1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19},
+                                        {20, 20, 20, 1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18},
+                                        {20, 20, 20, 20, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18},
+                                        {20, 20, 20, 20, 20, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17}};
+            u8 *colorIndexCursor;
 
             v = func_020e3b08();
             if (v < 0x13) {
@@ -151,10 +152,10 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
             } else {
                 j = 5;
             }
-            p = table[j];
+            colorIndexCursor = colorIndexRows[j];
             for (i = 0; i < 20; i++) {
-                palette[i + 0x78] = data_0217b490->mUnk_02.mUnk_00[*p];
-                p++;
+                palette[i + 0x78] = gRaceHudSubScreenBgColors->mColors.mUnk_00[*colorIndexCursor];
+                colorIndexCursor++;
             }
             DC_FlushRange(&palette[0x78], 0x28);
             GXS_BeginLoadBGExtPltt();
@@ -176,13 +177,13 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
                     }
                 }
                 for (j = 0; j < k; j++) {
-                    palette[j + 0x50] = data_0217b490->mUnk_02.mUnk_00[0];
+                    palette[j + 0x50] = gRaceHudSubScreenBgColors->mColors.mUnk_00[0];
                 }
                 for (j = k; j == k; j++) {
-                    palette[j + 0x50] = data_0217b490->mUnk_02.mUnk_00[1];
+                    palette[j + 0x50] = gRaceHudSubScreenBgColors->mColors.mUnk_00[1];
                 }
                 for (j = k + 1; j < 8; j++) {
-                    palette[j + 0x50] = data_0217b490->mUnk_02.mUnk_00[2];
+                    palette[j + 0x50] = gRaceHudSubScreenBgColors->mColors.mUnk_00[2];
                 }
             }
             DC_FlushRange(&palette[0x50], 0x10);
@@ -194,28 +195,28 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
             GXS_EndLoadBGExtPltt();
             break;
         case 0x20: {
-            void *p;
+            void *kindDrawList;
             MapObject **objects;
             Unk020e005c **blocks;
 
-            p = FindMapObjectKindDrawList0(0xd0);
-            if (p != NULL) {
-                objects = RaceHudSubScreenGetMapObjects(p);
+            kindDrawList = FindMapObjectKindDrawList0(0xd0);
+            if (kindDrawList != NULL) {
+                objects = RaceHudSubScreenGetMapObjects(kindDrawList);
                 v = (objects[1]->mAngle * 0x48) >> 16;
                 for (i = 0; i < 6; i++) {
-                    palette[i + 0x54] = data_0217b490->mUnk_02.mUnk_03.mUnk_00[(i + 0x48 - v) % 6];
+                    palette[i + 0x54] = gRaceHudSubScreenBgColors->mColors.mUnk_03.mUnk_00[(i + 0x48 - v) % 6];
                 }
                 k = (objects[0]->mAngle << 5) >> 16;
                 for (i = 0; i < 2; i++) {
                     for (j = 0; j < 3; j++) {
                         palette[j + i * 3 + 0x5a] =
-                            data_0217b490->mUnk_02.mUnk_03.mUnk_0c[i][(j + 0x20 - k) % 3];
+                            gRaceHudSubScreenBgColors->mColors.mUnk_03.mUnk_0c[i][(j + 0x20 - k) % 3];
                     }
                 }
             }
-            p = FindMapObjectKindDrawList0(MAP_OBJECT_KIND_KOOPA_BLOCK);
-            if (p != NULL) {
-                blocks = RaceHudSubScreenGetMapObjects(p);
+            kindDrawList = FindMapObjectKindDrawList0(MAP_OBJECT_KIND_KOOPA_BLOCK);
+            if (kindDrawList != NULL) {
+                blocks = RaceHudSubScreenGetMapObjects(kindDrawList);
                 for (i = 0; i < 4; i++) {
                     v = func_020dff4c(blocks[i]);
                     if (i % 2 != 0) {
@@ -224,13 +225,13 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
                         n = 8 - ((v << 3) >> 12);
                     }
                     for (j = 0; j < n; j++) {
-                        palette[i * 16 + j + 0x60] = data_0217b490->mUnk_02.mUnk_03.mUnk_18[0];
+                        palette[i * 16 + j + 0x60] = gRaceHudSubScreenBgColors->mColors.mUnk_03.mUnk_18[0];
                     }
                     for (j = n; j < n + 8; j++) {
-                        palette[i * 16 + j + 0x60] = data_0217b490->mUnk_02.mUnk_03.mUnk_18[1];
+                        palette[i * 16 + j + 0x60] = gRaceHudSubScreenBgColors->mColors.mUnk_03.mUnk_18[1];
                     }
                     for (j = n + 8; j < 16; j++) {
-                        palette[i * 16 + j + 0x60] = data_0217b490->mUnk_02.mUnk_03.mUnk_18[0];
+                        palette[i * 16 + j + 0x60] = gRaceHudSubScreenBgColors->mColors.mUnk_03.mUnk_18[0];
                     }
                 }
             }
@@ -256,24 +257,24 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
                 }
                 k += 2;
                 for (j = 0; j < k - 2; j++) {
-                    palette[j + 0xe0] = data_0217b490->mUnk_02.mUnk_00[0];
+                    palette[j + 0xe0] = gRaceHudSubScreenBgColors->mColors.mUnk_00[0];
                 }
                 for (j = k - 4; j < k - 2; j++) {
                     if (j >= 0) {
-                        palette[j + 0xe0] = data_0217b490->mUnk_02.mUnk_00[1];
+                        palette[j + 0xe0] = gRaceHudSubScreenBgColors->mColors.mUnk_00[1];
                     }
                 }
                 for (j = k - 2; j <= k; j++) {
-                    palette[j + 0xe0] = data_0217b490->mUnk_02.mUnk_00[2];
+                    palette[j + 0xe0] = gRaceHudSubScreenBgColors->mColors.mUnk_00[2];
                 }
                 if (waterAngle >= 0x4000 && waterAngle < 0xc000) {
                     for (j = k + 1; j <= k + 2 && j < 0x15; j++) {
-                        palette[j + 0xe0] = data_0217b490->mUnk_02.mUnk_00[3];
+                        palette[j + 0xe0] = gRaceHudSubScreenBgColors->mColors.mUnk_00[3];
                     }
                     k += 2;
                 }
                 for (j = k + 1; j < 0x15; j++) {
-                    palette[j + 0xe0] = data_0217b490->mUnk_02.mUnk_00[4];
+                    palette[j + 0xe0] = gRaceHudSubScreenBgColors->mColors.mUnk_00[4];
                 }
             }
             DC_FlushRange(&palette[0xe0], 0x2c);

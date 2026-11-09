@@ -26,7 +26,7 @@ void DrawRaceMNumberPair(RaceHudOamBuffer *oamBuffer) {
     if (gRaceSetup->mMode != 5 && (gRaceSetup->mMode != MODE_VS || gRaceSetup->mRuleKind != 2)) {
         return;
     }
-    func_020d1de8(oamBuffer, startFrames);
+    SetRaceMNumberPairAnimation(oamBuffer, startFrames);
     if (gRaceMNumberPair->mScale == 0) {
         return;
     }
@@ -37,7 +37,7 @@ void DrawRaceMNumberPair(RaceHudOamBuffer *oamBuffer) {
     DrawRaceMNumberPairOneDigit(oamBuffer);
 }
 
-void func_020d1de8(RaceHudOamBuffer *oamBuffer, s32 startFrames) {
+void SetRaceMNumberPairAnimation(RaceHudOamBuffer *oamBuffer, s32 startFrames) {
     s32 scaleTable[20] = {0,    205,  410,  614,  819,  1638, 2253, 2867, 3891, 4506,
                           4710, 4915, 5120, 5325, 5325, 5120, 4915, 4710, 4506, 4096};
     s32 scale;

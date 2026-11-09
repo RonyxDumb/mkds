@@ -8,6 +8,6 @@
 #include "Main/Unknown/code_020b4000.h"
 
 void DrawRaceMNumberPair(RaceHudOamBuffer *oamBuffer);
-void func_020d1de8(RaceHudOamBuffer *oamBuffer, s32 startFrames);
+void SetRaceMNumberPairAnimation(RaceHudOamBuffer *oamBuffer, s32 startFrames);
 void DrawRaceMNumberPairTwoDigit(RaceHudOamBuffer *oamBuffer);
 void DrawRaceMNumberPairOneDigit(RaceHudOamBuffer *oamBuffer);

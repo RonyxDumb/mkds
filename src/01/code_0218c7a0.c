@@ -326,13 +326,13 @@ void func_ov001_0218cbdc(Unk02188950 *a, MissionRunPrm *b) {
             a->mUnk_2d8 = 0xc;
             StartCameraWobbleAtDistance(a->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
             a->mUnk_000.mDistanceSquaredAndFlags |= data_ov001_021a65ac;
-            func_020d26ec(b, 0x252);
+            StartSoundFullVolumeWrapper(b, 0x252);
         }
     } else {
         a->mUnk_2d8 = 0xa;
         StartCameraWobbleAtDistance(a->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
         a->mUnk_000.mDistanceSquaredAndFlags |= data_ov001_021a65ac;
-        func_020d26ec(b, 0x251);
+        StartSoundFullVolumeWrapper(b, 0x251);
     }
     SetKartCollisionCallback(a, func_ov001_0218cbdc);
 }

@@ -33,8 +33,8 @@ void SetupWLMenuMBChildMessage(void *heap) {
     InitWLMenuMessage(heap);
     gWLMenuMessage->mState = 0;
     func_0204aa28(1);
-    gWLMenuMessage->mMBChildMessages = func_020d1630()->mUnk_20;
-    gWLMenuMessage->mFont = (u8 *) func_020d1630() + 0x14;
+    gWLMenuMessage->mMBChildMessages = GetDownloadScreenFiles()->mUnk_20;
+    gWLMenuMessage->mFont = (u8 *) GetDownloadScreenFiles() + 0x14;
     charBase = G2S_GetBG1CharPtr();
     text = GetBmgEntry(gWLMenuMessage->mMBChildMessages, 1);
     NNS_G2dCharCanvasInitForBG(gWLMenuMessage->mCharCanvas, (u8 *) charBase + 0x400, 0x20, 4, 4);

@@ -340,7 +340,7 @@ s32 AdvanceSelectCupCourse(void) {
     }
     AdvanceSelectCupCourseHighlight();
     if (gBootInfo->mUnk_00 != 2) {
-        if (gSelectCupCourse->mCupPicturePending != FALSE && func_020d0ec4() != FALSE) {
+        if (gSelectCupCourse->mCupPicturePending != FALSE && IsCupPictureReady() != FALSE) {
             screenMap = GetCupPictureNscrData();
             CallQueueAppend(0x1f, 0, GetCupPictureNclrData(), 0xe0);
             CallQueueAppend(0x17, 0x20, GetCupPictureNcgrData(), 0xdc0);

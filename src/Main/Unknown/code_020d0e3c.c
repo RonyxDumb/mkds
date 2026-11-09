@@ -9,29 +9,29 @@
 #pragma optimize_for_size on
 
 #pragma thumb on
-BOOL func_020d0ec4(void) {
-    if (gCupPicture != NULL && func_020d0ee8() == 0) {
+BOOL IsCupPictureReady(void) {
+    if (gCupPicture != NULL && GetThreadFunctionQueueRunRequested() == 0) {
         return TRUE;
     }
     return FALSE;
 }
 
 void *GetCupPictureNclrData(void) {
-    if (func_020d0ec4() != FALSE) {
+    if (IsCupPictureReady() != FALSE) {
         return gCupPicture->mCupPictureNclr->mData;
     }
     return NULL;
 }
 
 void *GetCupPictureNcgrData(void) {
-    if (func_020d0ec4() != FALSE) {
+    if (IsCupPictureReady() != FALSE) {
         return gCupPicture->mCupPictureNcgr->mData;
     }
     return NULL;
 }
 
 void *GetCupPictureNscrData(void) {
-    if (func_020d0ec4() != FALSE) {
+    if (IsCupPictureReady() != FALSE) {
         return &gCupPicture->mCupPictureNscr->mData;
     }
     return NULL;

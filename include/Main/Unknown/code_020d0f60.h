@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_020d0f60(void);
+void RequestThreadFunctionQueueRun(void);
