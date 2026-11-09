@@ -632,13 +632,13 @@ void func_ov001_0218e298(Unk02188950 *a, Kart *b) {
     }
 }
 
-void InitKingTeresaObjects(Unk0218d87c *a) {
+void InitKingTeresaObjects(MapObjectList *a) {
     s32 i;
     Unk02188950 *obj;
     MissionRunPrm *a0;
 
     if (a != NULL) {
-        for (i = 0; i < a->mUnk_04 && (obj = a->mUnk_00[i]) != NULL; i++) {
+        for (i = 0; i < a->mMapObjectCount && (obj = a->mMapObjects[i]) != NULL; i++) {
             if (GetRaceUseChainCameras() != 0) {
                 func_ov001_0218e4ac(obj);
             } else {
@@ -735,13 +735,13 @@ void UpdateKingTeresa(u32 a, Unk02188950 *b) {
     AdvanceMissionRunMapObject(a, b);
 }
 
-void InitKingTeresa(Unk0218d87c *a) {
+void InitKingTeresa(MapObjectList *a) {
     int i;
     Unk02188950 *p;
     MissionRunPrm *a0;
 
     if (a != NULL) {
-        for (i = 0; i < a->mUnk_04 && (p = a->mUnk_00[i]) != NULL; i++) {
+        for (i = 0; i < a->mMapObjectCount && (p = a->mMapObjects[i]) != NULL; i++) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(p);
             }

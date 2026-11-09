@@ -165,7 +165,7 @@ void func_ov001_02182bbc(u32 amount) {
 void func_ov001_02182a3c(s32 a) {
     int i;
     s32 foundCount;
-    CoinList *coinList;
+    MapObjectList *coinList;
     Coin *coin;
     RandomState64 *random;
     u16 angle;
@@ -175,7 +175,7 @@ void func_ov001_02182a3c(s32 a) {
     coinList = FindMapObjectKindUpdateList(0x68);
     GetKart((u16) gRaceSetup->mEntryIndex);
     if (coinList != NULL) {
-        for (i = 0; i < coinList->mObjectCount && (coin = coinList->mObjects[i]) != NULL; i++) {
+        for (i = 0; i < coinList->mMapObjectCount && (coin = coinList->mMapObjects[i]) != NULL; i++) {
             if (coin->mState == 7) {
                 foundCount++;
                 if (foundCount <= a) {
@@ -213,7 +213,7 @@ void func_ov001_02182a3c(s32 a) {
 }
 
 void func_ov001_021829ac(s32 a) {
-    CoinList *coinList;
+    MapObjectList *coinList;
     Coin *coin;
     s32 count;
     int i;
@@ -222,7 +222,7 @@ void func_ov001_021829ac(s32 a) {
     coinList = FindMapObjectKindUpdateList(0x68);
     GetKart((u16) gRaceSetup->mEntryIndex);
     if (coinList != NULL) {
-        for (i = 0; i < coinList->mObjectCount && (coin = coinList->mObjects[i]) != NULL; i++) {
+        for (i = 0; i < coinList->mMapObjectCount && (coin = coinList->mMapObjects[i]) != NULL; i++) {
             if (coin->mState == 7) {
                 if (coin->mTargetPos != NULL) {
                     coin->mTargetPos = NULL;
@@ -244,12 +244,12 @@ void func_ov001_021829ac(s32 a) {
 void func_ov001_021828f0(void) {
     int i;
     Coin *coin;
-    CoinList *coinList;
+    MapObjectList *coinList;
     NNSSndSeqPlayer **sndHandleSlot;
 
     coinList = FindMapObjectKindUpdateList(0x68);
     if (coinList != NULL) {
-        for (i = 0; i < coinList->mObjectCount && (coin = coinList->mObjects[i]) != NULL; i++) {
+        for (i = 0; i < coinList->mMapObjectCount && (coin = coinList->mMapObjects[i]) != NULL; i++) {
             if (coin->mState == 0 && (coin->mUnk_000.mFlags & 0x100) == 0) {
                 coin->mUnk_000.mUnk_10.y = 0x5000;
                 coin->mModelAlpha = 0x32;
@@ -273,12 +273,12 @@ void func_ov001_021828f0(void) {
 void func_ov001_021827f0(void) {
     int i;
     Coin *coin;
-    CoinList *coinList;
+    MapObjectList *coinList;
     NNSSndSeqPlayer **sndHandleSlot;
 
     coinList = FindMapObjectKindUpdateList(0x68);
     if (coinList != NULL) {
-        for (i = 0; i < coinList->mObjectCount && (coin = coinList->mObjects[i]) != NULL; i++) {
+        for (i = 0; i < coinList->mMapObjectCount && (coin = coinList->mMapObjects[i]) != NULL; i++) {
             if (coin->mState == 9 && (coin->mUnk_000.mFlags & 0x100) == 0) {
                 coin->mUnk_000.mPos.x = coin->mUnk_000.mCourseMapRow->mUnk_00.x;
                 coin->mUnk_000.mPos.y = coin->mUnk_000.mCourseMapRow->mUnk_00.y + 0xa000;
@@ -375,13 +375,13 @@ void DrawCoin(void *b, Coin *coin) {
     }
 }
 
-void InitCoinObjects(CoinList *coinList) {
+void InitCoinObjects(MapObjectList *coinList) {
     int i;
     Coin *coin;
     s32 speed;
 
     if (coinList != NULL) {
-        for (i = 0; i < coinList->mObjectCount && (coin = coinList->mObjects[i]) != NULL; i++) {
+        for (i = 0; i < coinList->mMapObjectCount && (coin = coinList->mMapObjects[i]) != NULL; i++) {
             coin->mUnk_0d8 = coin->mUnk_000.mCourseMapRow->mUnk_00;
             coin->mUnk_000.mPos = coin->mUnk_0d8;
             coin->mUnk_000.mPos.y = coin->mUnk_000.mPos.y + 0xe000;

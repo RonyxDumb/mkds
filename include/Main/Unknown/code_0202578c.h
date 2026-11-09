@@ -2,6 +2,8 @@
 
 #include "types.h"
 
+typedef struct CellFileSet CellFileSet;
+
 // 12-byte entries of the table at data_usa_02153918.
 typedef struct Unk02153918 {
     /* 00 */ s16 mUnk_00;
@@ -21,8 +23,8 @@ void func_020258d4(u32 a, void *fileSetPointer, const char *charsName, const cha
 void LocateScreenMapFileSet(void *fileSetPointer, const char *charsName, const char *paletteName,
                             const char *screenMapName, s32 index, void *(*findFile)(const char *) );
 void func_02025954(u32 a, void *fileSetPointer, u32 index);
-s32 func_02025a00(u32 a, void *heap, void *fileSetPointer, void *entryPointer, s32 e);
-void func_02025a50(u32 a, void *heap, void *fileSetPointer);
+s32 func_02025a00(u32 a, void *heap, CellFileSet *fileSet, void *entryPointer, s32 e);
+void func_02025a50(u32 a, void *heap, CellFileSet *fileSet);
 void LoadCellFileSet(void *fileSetPointer, const char *charsName, const char *cellsName, const char *paletteName,
                      const char *cellLayoutName, const char *labelLayoutName, const char *rectsName,
                      void *(*findFile)(const char *) );

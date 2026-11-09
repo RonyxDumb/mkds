@@ -654,7 +654,7 @@ u32 func_020e8a74(u32 value) {
 }
 
 void EnterJgState1(void) {
-    Unk020e6514 *animation;
+    ModelAnimation *animation;
     s32 rotatedZ;
 
     // Written through a cast: a plain store changes the test below.
@@ -667,13 +667,13 @@ void EnterJgState1(void) {
     if (gJgKind != 4) {
         animation = gJgKindRows[gJgKind].mNsbcaAnimation;
         if (animation != NULL) {
-            animation->mUnk_00c = 0;
-            animation->mUnk_1c[animation->mUnk_1a]->mFrame = animation->mUnk_00c;
+            animation->mHead.mFrameIndex = 0;
+            animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
         }
         animation = gJgKindRows[gJgKind].mNsbmaAnimation;
         if (animation != NULL) {
-            animation->mUnk_00c = 0;
-            animation->mUnk_1c[animation->mUnk_1a]->mFrame = animation->mUnk_00c;
+            animation->mHead.mFrameIndex = 0;
+            animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
         }
     }
     gJgPointPointers[0] = &gJgPoint7;
@@ -716,7 +716,7 @@ void EnterJgState1(void) {
 }
 
 void UpdateJgState1(void) {
-    Unk020e6514 *animation;
+    ModelAnimation *animation;
     s32 angle;
     u32 frame;
     s32 pairIndex;
@@ -728,7 +728,7 @@ void UpdateJgState1(void) {
     enum { K0 } frameFixed;
 
     animation = gJgKindRows[gJgKind].mNsbmaAnimation;
-    frameFixed = animation->mUnk_00c;
+    frameFixed = animation->mHead.mFrameIndex;
     angle = data_0217b8b4;
     frame = ((u32) frameFixed << 4) >> 16;
     if (angle > 0 && angle < 0x10000) {
@@ -825,7 +825,7 @@ void UpdateJgState3(void) {
 }
 
 void EnterJgState4(void) {
-    Unk020e6514 *animation;
+    ModelAnimation *animation;
     NNSSndSeqPlayer **seqPlayer;
     MtxFx43 *matrix;
 
@@ -840,13 +840,13 @@ void EnterJgState4(void) {
     if (gJgKind != 4) {
         animation = gJgKindRows[gJgKind].mNsbcaAnimation;
         if (animation != NULL) {
-            animation->mUnk_00c = 0;
-            animation->mUnk_1c[animation->mUnk_1a]->mFrame = animation->mUnk_00c;
+            animation->mHead.mFrameIndex = 0;
+            animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
         }
         animation = gJgKindRows[gJgKind].mNsbmaAnimation;
         if (animation != NULL) {
-            animation->mUnk_00c = 0;
-            animation->mUnk_1c[animation->mUnk_1a]->mFrame = animation->mUnk_00c;
+            animation->mHead.mFrameIndex = 0;
+            animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
         }
     }
     gJgMain.mFrameIndex = 1;
@@ -949,7 +949,7 @@ void UpdateJgState5(void) {
 }
 
 void EnterJgState6(void) {
-    Unk020e6514 *animation;
+    ModelAnimation *animation;
     s32 step;
     s32 heightOffset;
     s32 i;
@@ -960,13 +960,13 @@ void EnterJgState6(void) {
     if (gJgKind != 4) {
         animation = gJgKindRows[gJgKind].mNsbcaAnimation;
         if (animation != NULL) {
-            animation->mUnk_00c = 0;
-            animation->mUnk_1c[animation->mUnk_1a]->mFrame = animation->mUnk_00c;
+            animation->mHead.mFrameIndex = 0;
+            animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
         }
         animation = gJgKindRows[gJgKind].mNsbmaAnimation;
         if (animation != NULL) {
-            animation->mUnk_00c = 0;
-            animation->mUnk_1c[animation->mUnk_1a]->mFrame = animation->mUnk_00c;
+            animation->mHead.mFrameIndex = 0;
+            animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
         }
     }
     MTX_MultVec43(&gJgTargetPos, &gJgPreviousInverseMatrix, &data_0217b96c);

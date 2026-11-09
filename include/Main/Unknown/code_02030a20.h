@@ -2,20 +2,10 @@
 
 #include "types.h"
 #include "Main/Unknown/code_02025ebc.h"
+#include "Main/Unknown/code_0202f688.h"
 #include "Main/Unknown/code_02124094.h"
 #include "Main/Unknown/code_020b3f7c.h"
 #include "Main/Unknown/code_020b4000.h"
-
-// 0x1c-byte elements from 0x24 of MultiSelectMember; the buffer at 0x18 holds 0x40-byte elements.
-typedef struct Unk02174e58_24 {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ Nclr *mUnk_04;
-    /* 08 */ void *mUnk_08;
-    /* 0c */ Unk0201ea30 *mUnk_0c;
-    /* 10 */ Unk0201ea30 *mUnk_10;
-    /* 14 */ Unk0201ea30 *mUnk_14;
-    /* 18 */ LayoutTableEntry *mUnk_18;
-} Unk02174e58_24;
 
 // 0xc-byte elements from 0xe0 of MultiSelectMember.
 typedef struct MultiSelectMemberRow {
@@ -28,7 +18,7 @@ typedef struct MultiSelectMemberRow {
 // 0x154 bytes.
 typedef struct MultiSelectMember {
     /* 00 */ u8 mUnk_00[0x24];
-    /* 24 */ Unk02174e58_24 mCellFileSets[2];
+    /* 24 */ CellFileSet mCellFileSets[2];
     /* 5c */ void *mMainOam;
     /* 60 */ void *mSubOam;
     /* 64 */ Bmg *mBannerMessages;

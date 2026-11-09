@@ -31,9 +31,8 @@ u32 func_020882fc(Unk020882fc *anmObj) {
     return anmObj->mUnk_08->mFrameCount;
 }
 
-void InitModelAnimation(u32 kind, void *animation, void *renderObject, u32 anmObjCount, void *heap, void *f) {
-    ModelAnimation *modelAnimation = animation;
-    Nsbmd *renderObj = renderObject;
+void InitModelAnimation(u32 kind, ModelAnimation *modelAnimation, Nsbmd *renderObj, u32 anmObjCount, void *heap,
+                        void *f) {
     u16 i;
 
     if (anmObjCount != 0) {
@@ -58,8 +57,8 @@ void InitModelAnimation(u32 kind, void *animation, void *renderObject, u32 anmOb
     modelAnimation->mPreviousAnmObj = NULL;
 }
 
-void InitModelAnimationEntry(void *animation, s32 entryIndex, void *anmResource, u32 loopFlag, void *heap) {
-    ModelAnimation *modelAnimation = animation;
+void InitModelAnimationEntry(ModelAnimation *modelAnimation, s32 entryIndex, void *anmResource, u32 loopFlag,
+                             void *heap) {
     NNSG3dAnmObj *anmObj;
 
     if (heap == NULL) {
@@ -75,8 +74,7 @@ void InitModelAnimationEntry(void *animation, s32 entryIndex, void *anmResource,
                       modelAnimation->mRenderObj->mResFileEntry.mTexture);
 }
 
-void InitModelAnimationEntries(void *animation, void *anmFile, void *heap) {
-    ModelAnimation *modelAnimation = animation;
+void InitModelAnimationEntries(ModelAnimation *modelAnimation, void *anmFile, void *heap) {
     void *anmResource = NULL;
     u8 i = 0;
     NNSG3dAnmObj *anmObj;
@@ -113,8 +111,7 @@ void InitModelAnimationEntries(void *animation, void *anmFile, void *heap) {
     }
 }
 
-void SetModelAnimation(void *animation, s32 entryIndex) {
-    ModelAnimation *modelAnimation = animation;
+void SetModelAnimation(ModelAnimation *modelAnimation, s32 entryIndex) {
     s32 frameCountFixed;
 
     if (modelAnimation->mAnmObjs[entryIndex] == NULL) {
@@ -138,8 +135,7 @@ void SetModelAnimation(void *animation, s32 entryIndex) {
 }
 
 // Switches to entry a by fading from the current one; does nothing when a is already playing.
-void StartModelAnimationBlend(void *animation, u16 entryIndex) {
-    ModelAnimation *modelAnimation = animation;
+void StartModelAnimationBlend(ModelAnimation *modelAnimation, u16 entryIndex) {
     s32 frameCountFixed;
 
     if (modelAnimation->mAnmObjs[entryIndex] == NULL) {
@@ -165,8 +161,7 @@ void StartModelAnimationBlend(void *animation, u16 entryIndex) {
                                     modelAnimation->mLoopFlags[modelAnimation->mCurrentIndex]);
 }
 
-void AdvanceModelAnimation(void *animation) {
-    ModelAnimation *modelAnimation = animation;
+void AdvanceModelAnimation(ModelAnimation *modelAnimation) {
 
     if (modelAnimation->mBlending != FALSE) {
         modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mRatio += modelAnimation->mBlendRatioStep;
@@ -198,8 +193,7 @@ void AdvanceModelAnimationBlend(ModelAnimation *modelAnimation) {
 }
 
 // Frame count of the playing entry in 20.12 fixed point.
-s32 GetModelAnimationFrameCountFixed(void *animation) {
-    ModelAnimation *modelAnimation = animation;
+s32 GetModelAnimationFrameCountFixed(ModelAnimation *modelAnimation) {
     enum { K0 } kind = modelAnimation->mKind;
 
     return gAnmFrameCountGetters[kind](modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]) << 12;

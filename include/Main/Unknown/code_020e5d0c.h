@@ -57,16 +57,6 @@ extern NsbmdModel gJgCloud;
 
 extern NsbmdModel gJgMain;
 
-// Second argument of func_020e6514, allocated as 0x38 bytes by func_020e64b8.
-typedef struct Unk020e6514 {
-    /* 000 */ u8 mUnk_000[0x0c];
-    /* 00c */ u32 mUnk_00c;
-    /* 010 */ u8 mUnk_010[0x0a];
-    /* 01a */ u16 mUnk_1a;
-    /* 01c */ NNSG3dAnmObj **mUnk_1c;
-    /* 020 */ u8 mUnk_020[0x18];
-} Unk020e6514;
-
 // Work area of func_020e6514 on the stack: two words, then the object
 // NNSi_G3dAnmCalcNsBtp fills in.
 typedef struct Unk020e6514_8 {
@@ -89,4 +79,4 @@ MapObjectDrawList *CreatePendulumDrawList(void);
 MapObjectKindData *CreatePendulumKindData(void);
 void func_020e6488(NsbmdModel **recordSlot, void *nsbmdFile, void *nsbtpFile, u32 param_4);
 void func_020e64b8(NsbmdModel *record, void *nsbmdFile, void *nsbtpFile, s32 c);
-void func_020e6514(Nsbmd *model, Unk020e6514 *animation, NsbmdModel *record);
+void func_020e6514(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record);

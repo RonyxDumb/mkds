@@ -53,8 +53,7 @@ void LoadCellFileSet(void *fileSetPointer, const char *charsName, const char *ce
     }
 }
 
-void func_02025a50(u32 a, void *heap, void *fileSetPointer) {
-    CellFileSet *fileSet = fileSetPointer;
+void func_02025a50(u32 a, void *heap, CellFileSet *fileSet) {
     u32 r;
     InitLayoutTable(heap, fileSet->mCellLayout, fileSet->mLabelLayout, &fileSet->mCellTable);
     if (a == 0) {
@@ -68,9 +67,8 @@ void func_02025a50(u32 a, void *heap, void *fileSetPointer) {
     CallQueueAppend(r, 0, fileSet->mChars->mData, fileSet->mChars->mDataSize);
 }
 
-s32 func_02025a00(u32 a, void *heap, void *fileSetPointer, void *entryPointer, s32 e) {
+s32 func_02025a00(u32 a, void *heap, CellFileSet *fileSet, void *entryPointer, s32 e) {
     Unk02153918 *entry = entryPointer;
-    CellFileSet *fileSet = fileSetPointer;
     s32 result;
     result = InitLabelCanvas(heap, entry->mUnk_00, fileSet->mLabelLayout, entry->mUnk_02, entry->mUnk_04,
                              entry->mUnk_06, fileSet->mCells, fileSet->mCellLayout, fileSet->mCellTable, e);

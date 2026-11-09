@@ -187,7 +187,7 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
         selectGame = gSelectGame;
         LocateCellFileSet(selectGame, gSelectGameMNceNcgrName2, gSelectGameMNceNcerName2, gSelectGameMONclrName2,
                           gSelectGameMBnclName, gSelectGameMBnllName, NULL, FindSceneFile);
-        func_02025a50(0, gSelectGame->mHeap, selectGame);
+        func_02025a50(0, gSelectGame->mHeap, selectGame->mCellFileSets);
         mainCellCount = selectGame->mCellFileSets[0].mCellLayout->mUnk_06;
         mainLabelCount = selectGame->mCellFileSets[0].mLabelLayout->mUnk_06;
         i = 0;
@@ -195,7 +195,8 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
             canvasRow = gSelectGameLabelMessageRows;
             printRow = canvasRow;
             do {
-                mainObjSizeLeft -= func_02025a00(0, gSelectGame->mHeap, selectGame, canvasRow, mainObjSizeLeft);
+                mainObjSizeLeft -=
+                    func_02025a00(0, gSelectGame->mHeap, selectGame->mCellFileSets, canvasRow, mainObjSizeLeft);
                 func_0212426c(0, printRow->mLabelIndex, selectGame->mCellFileSets[0].mLabelLayout,
                               GetBmgEntry(gSelectGame->mMenuMessages, printRow->mMessageIndex),
                               selectGame->mCellFileSets[0].mCellLayout, selectGame->mCellFileSets[0].mCellTable);

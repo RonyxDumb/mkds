@@ -5,6 +5,7 @@
 #include "code_02147cd8.h" // Vec3s16
 #include "Main/Unknown/code_020846c0.h" // Nsbmd
 #include "Main/Unknown/code_020653d0.h" // ParticipantKartRecord
+#include "Main/Unknown/code_02087d0c.h" // ModelAnimation
 
 // Object at gCourseModels: two Nsbmd pointers, then the words and halfwords the code tests. The flag halfwords
 // live inside the embedded animation objects.
@@ -28,9 +29,9 @@ typedef struct CourseModels {
 } CourseModels;
 
 extern CourseModels gCourseModels;
-extern u8 data_usa_0217ab04[];
-extern u8 data_0217ab5c[];
-extern u8 data_usa_0217ab74[];
+extern ModelAnimation data_usa_0217ab04;
+extern ModelAnimation data_0217ab5c;
+extern ModelAnimation data_usa_0217ab74;
 extern MtxFx43 data_usa_0217abac;
 
 extern const char data_usa_02165404[];

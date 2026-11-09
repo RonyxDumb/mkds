@@ -3,16 +3,16 @@
 #include "types.h"
 
 typedef struct Unk02188950 Unk02188950;
-typedef struct Unk0218d87c Unk0218d87c;
+typedef struct MapObjectList MapObjectList;
 typedef struct Kart Kart;
 
 void *func_ov001_0218ddb4(void);
 void *func_ov001_0218ddcc(void);
 void func_ov001_0218dde8(void);
 void DrawKingTeresa(void *a, Unk02188950 *b);
-void InitKingTeresa(Unk0218d87c *a);
+void InitKingTeresa(MapObjectList *a);
 void UpdateKingTeresa(u32 a, Unk02188950 *b);
-void InitKingTeresaObjects(Unk0218d87c *a);
+void InitKingTeresaObjects(MapObjectList *a);
 void func_ov001_0218e298(Unk02188950 *a, Kart *b);
 void func_ov001_0218e344(Unk02188950 *a);
 void func_ov001_0218e38c(Unk02188950 *a, Kart *b);

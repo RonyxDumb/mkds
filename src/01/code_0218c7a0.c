@@ -65,7 +65,7 @@
 
 void func_ov001_0218d2c4(Unk02188950 *a) {
     int i;
-    Unk0218d87c *list;
+    MapObjectList *list;
     Unk02188950 *p;
     Unk0210b7a8 local;
 
@@ -74,7 +74,7 @@ void func_ov001_0218d2c4(Unk02188950 *a) {
     SetMapObjectModelNsbtpFrameIndex(a->mNsbmd, 0);
     list = FindMapObjectKindUpdateList(0x1fe);
     if (list != NULL) {
-        for (i = 0; i < list->mUnk_04 && (p = list->mUnk_00[i]) != NULL; i++) {
+        for (i = 0; i < list->mMapObjectCount && (p = list->mMapObjects[i]) != NULL; i++) {
             func_ov001_02187218(p, 1, NULL);
             StartAnimationNoEndCallback(p, p->mPrm->mUnk_070, p->mPrm->mUnk_074);
             SetMapObjectModelNsbtpFrameIndex((p->mNsbmd), 0);
@@ -87,14 +87,14 @@ void func_ov001_0218d2c4(Unk02188950 *a) {
 }
 
 void func_ov001_0218d280(void) {
-    Unk0218d87c *list;
+    MapObjectList *list;
     Unk02188950 *p;
     int i;
 
     func_ov001_021882b8();
     list = FindMapObjectKindUpdateList(0x1fe);
     if (list != NULL) {
-        for (i = 0; i < list->mUnk_04 && (p = list->mUnk_00[i]) != NULL; i++) {
+        for (i = 0; i < list->mMapObjectCount && (p = list->mMapObjects[i]) != NULL; i++) {
             func_ov001_0218dadc(p);
             func_ov001_0218dabc(p);
         }
@@ -195,12 +195,12 @@ void func_ov001_0218cfe8(Unk02188950 *a) {
     StartStateFrameCountCallback(a, a->mPrm->mUnk_054, &func_ov001_0218d0a8);
 }
 
-void InitHanachanObjects(Unk0218d87c *a) {
+void InitHanachanObjects(MapObjectList *a) {
     int i;
     Unk02188950 *p;
 
     if (a != NULL) {
-        for (i = 0; i < a->mUnk_04 && (p = a->mUnk_00[i]) != NULL; i++) {
+        for (i = 0; i < a->mMapObjectCount && (p = a->mMapObjects[i]) != NULL; i++) {
             p->mUnk_2c4 = TRUE;
             if (GetRaceUseChainCameras() != 0) {
                 func_ov001_0218d188(p);
@@ -245,12 +245,12 @@ void UpdateHanachan(u32 a, Unk02188950 *b) {
     AdvanceMissionRunMapObject(a, b);
 }
 
-void func_ov001_0218ce90(Unk0218d87c *a) {
+void func_ov001_0218ce90(MapObjectList *a) {
     int i;
     Unk02188950 *p;
 
     if (a != NULL) {
-        for (i = 0; i < a->mUnk_04 && (p = a->mUnk_00[i]) != NULL; i++) {
+        for (i = 0; i < a->mMapObjectCount && (p = a->mMapObjects[i]) != NULL; i++) {
             if (GetRaceUseChainCameras() != 0) {
                 func_ov001_0218d01c(p);
             } else if (i == 0) {
@@ -337,12 +337,12 @@ void func_ov001_0218cbdc(Unk02188950 *a, MissionRunPrm *b) {
     SetKartCollisionCallback(a, func_ov001_0218cbdc);
 }
 
-void InitHanachan(Unk0218d87c *a) {
+void InitHanachan(MapObjectList *a) {
     Unk02188950 *obj;
     s32 i;
 
     if (a != NULL) {
-        for (i = 0; i < a->mUnk_04 && (obj = a->mUnk_00[i]) != NULL; i++) {
+        for (i = 0; i < a->mMapObjectCount && (obj = a->mMapObjects[i]) != NULL; i++) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(obj);
             }
@@ -358,7 +358,7 @@ void InitHanachan(Unk0218d87c *a) {
     }
 }
 
-void func_ov001_0218c87c(Unk0218d87c *d) {
+void func_ov001_0218c87c(MapObjectList *d) {
     void *a;
     void *b;
     void *c;
@@ -374,7 +374,7 @@ void func_ov001_0218c87c(Unk0218d87c *d) {
         src = NULL;
     }
 
-    obj = d->mUnk_00[0];
+    obj = d->mMapObjects[0];
     obj->mPrm = src->mPrm;
     obj->mShadowNsbmd = src->mShadowNsbmd;
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
@@ -389,7 +389,7 @@ void func_ov001_0218c87c(Unk0218d87c *d) {
     SetKartCollisionCallback(obj, func_ov001_0218cbdc);
     SetItemCollisionCallback(obj, func_ov001_0218dd9c);
 
-    obj = d->mUnk_00[1];
+    obj = d->mMapObjects[1];
     obj->mPrm = src->mPrm;
     obj->mShadowNsbmd = src->mShadowNsbmd;
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
@@ -404,7 +404,7 @@ void func_ov001_0218c87c(Unk0218d87c *d) {
     SetKartCollisionCallback(obj, func_ov001_0218cbdc);
     SetItemCollisionCallback(obj, func_ov001_0218dd9c);
 
-    obj = d->mUnk_00[2];
+    obj = d->mMapObjects[2];
     obj->mPrm = src->mPrm;
     obj->mShadowNsbmd = src->mShadowNsbmd;
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
@@ -419,7 +419,7 @@ void func_ov001_0218c87c(Unk0218d87c *d) {
     SetKartCollisionCallback(obj, func_ov001_0218cbdc);
     SetItemCollisionCallback(obj, func_ov001_0218dd9c);
 
-    obj = d->mUnk_00[3];
+    obj = d->mMapObjects[3];
     obj->mPrm = src->mPrm;
     obj->mShadowNsbmd = src->mShadowNsbmd;
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {

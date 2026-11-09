@@ -3,12 +3,6 @@
 #include "types.h"
 #include "Main/Unknown/code_020a2e4c.h" // Balloon
 
-// List of entries: an array of pointers and its length.
-typedef struct BalloonList {
-    /* 00 */ Balloon **mObjects;
-    /* 04 */ u16 mObjectCount;
-} BalloonList;
-
 #include "01/code_02181000.h"
 #include "01/unk_021a9000.h"
 #include "Main/Unknown/code_02100000.h"

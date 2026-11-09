@@ -799,7 +799,7 @@ void AdvanceBouncingItem(BouncingItemObject *item, s32 gravity, s32 velocityFact
             n = item->mBouncesRemaining;
             item->mBouncesRemaining = n - 1;
             if (n <= 0) {
-                func_020f9334(item, pos, velocity, gravity, &hitNormal);
+                func_020f9334(&item->mItemObject, pos, velocity, gravity, &hitNormal);
             } else {
                 item->mItemObject.mFlags |= 0x10;
                 n = VEC_DotProduct(&hitNormal, velocity);
@@ -819,7 +819,7 @@ void AdvanceBouncingItem(BouncingItemObject *item, s32 gravity, s32 velocityFact
         if (item->mItemObject.mCollisionBits & 0x214300) {
             item->mItemObject.mFlags |= 0x20;
             BounceItemVelocityOffSurface(velocity, &wallNormal);
-            if (func_020f9290(item, &wallNormal) != FALSE) {
+            if (func_020f9290(&item->mItemObject, &wallNormal) != FALSE) {
                 return;
             }
             item->mItemObject.mUnk_78 &= ~0x4000;

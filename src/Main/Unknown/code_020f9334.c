@@ -247,8 +247,7 @@ void func_020f944c(ItemObject *itemParam, MapObject *mapObjectParam) {
     }
 }
 
-void func_020f9334(void *itemParam, Vec3 *pos, Vec3 *velocity, s32 minFallSpeed, Vec3 *normal) {
-    ItemObject *item = itemParam;
+void func_020f9334(ItemObject *item, Vec3 *pos, Vec3 *velocity, s32 minFallSpeed, Vec3 *normal) {
     Vec3 lowerPos;
     u32 collisionBits;
     s32 x;

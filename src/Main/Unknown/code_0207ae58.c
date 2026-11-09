@@ -351,8 +351,7 @@ void InitShadowModelFromResMdl(ShadowModel *shadowModel, void *resFile, u32 poly
     NNS_G3dMdlSetMdlLightEnableFlag(resMdl, 0, 0);
 }
 
-NNSG3dResMdl *InitShadowModel(void *model, NNSG3dResFileHeader *resFileHeader, u32 polygonId) {
-    ShadowModel *shadowModel = model;
+NNSG3dResMdl *InitShadowModel(ShadowModel *shadowModel, NNSG3dResFileHeader *resFileHeader, u32 polygonId) {
     NNSG3dResMdl *resMdl;
 
     InitNsbmd(&shadowModel->mNsbmd, resFileHeader);

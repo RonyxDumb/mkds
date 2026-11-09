@@ -33,7 +33,7 @@
 
 #pragma thumb on
 
-void func_020e6514(Nsbmd *model, Unk020e6514 *animation, NsbmdModel *record) {
+void func_020e6514(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record) {
     NNSG3dResMdl *a;
     NNSG3dResMat *b;
     NNSG3dResShp *c;
@@ -71,9 +71,9 @@ void func_020e6514(Nsbmd *model, Unk020e6514 *animation, NsbmdModel *record) {
             x.mUnk_00 &= k;
             x.mUnk_04 = 0;
             do {
-                animation->mUnk_00c = frame << 12;
-                animation->mUnk_1c[animation->mUnk_1a]->mFrame = animation->mUnk_00c;
-                NNSi_G3dAnmCalcNsBtp(&x.mUnk_08, animation->mUnk_1c[0], x.mUnk_04);
+                animation->mHead.mFrameIndex = frame << 12;
+                animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
+                NNSi_G3dAnmCalcNsBtp(&x.mUnk_08, animation->mAnmObjs[0], x.mUnk_04);
                 record->mUnk_1c[frame] = x.mUnk_08.mUnk_10 & 0x3ff0ffff;
                 record->mUnk_1c[frame] |= x.mUnk_00;
                 record->mUnk_20[frame] = x.mUnk_08.mUnk_14;

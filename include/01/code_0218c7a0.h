@@ -5,7 +5,7 @@
 
 typedef struct MissionRunPrm MissionRunPrm;
 typedef struct Unk02188950 Unk02188950;
-typedef struct Unk0218d87c Unk0218d87c;
+typedef struct MapObjectList MapObjectList;
 
 void *func_ov001_0218c7a0(void);
 void *func_ov001_0218c7b8(void);
@@ -14,15 +14,15 @@ void *func_ov001_0218c800(void);
 void *func_ov001_0218c818(void);
 void func_ov001_0218c830(void);
 void func_ov001_0218c85c(void *a, Unk02188950 *b);
-void func_ov001_0218c87c(Unk0218d87c *d);
-void InitHanachan(Unk0218d87c *a);
+void func_ov001_0218c87c(MapObjectList *d);
+void InitHanachan(MapObjectList *a);
 void func_ov001_0218cbdc(Unk02188950 *a, MissionRunPrm *b);
 void func_ov001_0218cd80(Unk02188950 *a);
 void func_ov001_0218cdb8(Unk02188950 *e);
 void func_ov001_0218ce30(u32 a, Unk02188950 *b);
-void func_ov001_0218ce90(Unk0218d87c *a);
+void func_ov001_0218ce90(MapObjectList *a);
 void UpdateHanachan(u32 a, Unk02188950 *b);
-void InitHanachanObjects(Unk0218d87c *a);
+void InitHanachanObjects(MapObjectList *a);
 void func_ov001_0218cfe8(Unk02188950 *a);
 void func_ov001_0218d01c(Unk02188950 *a);
 void func_ov001_0218d050(Unk02188950 *a);

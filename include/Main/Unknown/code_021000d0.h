@@ -90,5 +90,5 @@ typedef struct MapObjectKindDescriptor {
     /* 24 */ MapObjectList *mLists[4];
 } MapObjectKindDescriptor;
 
-void *FindMapObjectKindUpdateList(u32 a);
+MapObjectList *FindMapObjectKindUpdateList(u32 a);
 void *FindMapObjectKindDrawList0(u32 a);

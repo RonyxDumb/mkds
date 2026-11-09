@@ -8,7 +8,7 @@ struct KartModelsEntry;
 
 void func_0207ae58(ShadowModel *shadowModel);
 void DrawShadowWithMatrix(ShadowModel *shadowModel, const void *matrix, Vec3 *extraVector);
-NNSG3dResMdl *InitShadowModel(void *shadowModel, NNSG3dResFileHeader *resFileHeader, u32 polygonId);
+NNSG3dResMdl *InitShadowModel(ShadowModel *shadowModel, NNSG3dResFileHeader *resFileHeader, u32 polygonId);
 void InitShadowModelFromResMdl(ShadowModel *shadowModel, void *resFile, u32 polygonId);
 void StartKartCharacterAnimationOnce(Kart *kart, s32 animationIndex, s32 nextAnimationIndex);
 void ResetKartModelsCourseColors(Kart *kart);

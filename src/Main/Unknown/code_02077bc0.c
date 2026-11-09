@@ -1200,7 +1200,7 @@ void CreateKartModelMenuTire(Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile, NNSG3
 
 #pragma thumb on
 
-void *CreateKartModelMenuShadow(void *shadowModel, NNSG3dResFileHeader *modelFile) {
+void *CreateKartModelMenuShadow(ShadowModel *shadowModel, NNSG3dResFileHeader *modelFile) {
     return InitShadowModel(shadowModel, modelFile, 3);
 }
 

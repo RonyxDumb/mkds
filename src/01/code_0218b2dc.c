@@ -160,12 +160,12 @@ void func_ov001_0218b640(Unk02188950 *mapObject, void *kart) {
     }
 }
 
-void InitKurikingObjects(Unk0218d87c *mapObjectList) {
+void InitKurikingObjects(MapObjectList *mapObjectList) {
     s32 i;
     Unk02188950 *obj;
 
     if (mapObjectList != NULL) {
-        for (i = 0; i < mapObjectList->mUnk_04 && (obj = mapObjectList->mUnk_00[i]) != NULL; i++) {
+        for (i = 0; i < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[i]) != NULL; i++) {
             func_ov001_0219b1c4(obj->mNsbmd, obj->mPrm->mUnk_080, obj->mPrm->mUnk_050, 0);
             if (GetRaceUseChainCameras()) {
                 func_ov001_0218b770(obj);
@@ -239,12 +239,12 @@ void UpdateKuriking(u32 a, Unk02188950 *mapObject) {
     SetMapObjectModelNsbmaFrameIndex(mapObject->mNsbmd, (u16) mapObject->mUnk_134);
 }
 
-void InitKuriking(Unk0218d87c *mapObjectList) {
+void InitKuriking(MapObjectList *mapObjectList) {
     s32 i;
     Unk02188950 *obj;
 
     if (mapObjectList != NULL) {
-        for (i = 0; i < mapObjectList->mUnk_04 && (obj = mapObjectList->mUnk_00[i]) != NULL; i++) {
+        for (i = 0; i < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[i]) != NULL; i++) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(obj);
             }

@@ -20,4 +20,4 @@ BOOL func_020f97e0(ItemObject *item, Kart *kart);
 BOOL IsItemObjectOverlappingSphere(ItemObject *item, Vec3 *center, s32 radius);
 void func_020f95d4(ItemObject *item, ItemObject *other);
 void func_020f944c(ItemObject *itemParam, MapObject *mapObjectParam);
-void func_020f9334(void *itemParam, Vec3 *pos, Vec3 *velocity, s32 minFallSpeed, Vec3 *normal);
+void func_020f9334(ItemObject *item, Vec3 *pos, Vec3 *velocity, s32 minFallSpeed, Vec3 *normal);

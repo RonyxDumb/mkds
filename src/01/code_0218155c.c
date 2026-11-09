@@ -275,13 +275,13 @@ void func_ov001_021816fc(void) {
 }
 
 BOOL func_ov001_021816b4(void) {
-    BalloonList *list;
+    MapObjectList *list;
     Balloon *balloon;
     s32 i;
 
     list = FindMapObjectKindUpdateList(MAP_OBJECT_KIND_BALLOON);
     if (list != NULL) {
-        for (i = 0; i < list->mObjectCount && (balloon = list->mObjects[i]) != NULL; i++) {
+        for (i = 0; i < list->mMapObjectCount && (balloon = list->mMapObjects[i]) != NULL; i++) {
             if ((balloon->mUnk_00.mFlags & 0x100) == 0) {
                 return TRUE;
             }

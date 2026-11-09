@@ -299,7 +299,7 @@ typedef struct Unk02188950 {
     /* 2f4 */ Vec3 mUnk_2f4;
     /* 300 */ void *mItemBomb;
     /* 304 */ struct MapObjectModel *mNsbmd;
-    /* 308 */ void *mShadowNsbmd;
+    /* 308 */ struct MapObjectModel *mShadowNsbmd;
 } Unk02188950;
 
 void SetVelocity(Unk02188950 *mapObject, Vec3 *velocity);

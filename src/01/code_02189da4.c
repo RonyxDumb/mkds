@@ -116,12 +116,12 @@ void func_ov001_0218a19c(Unk02188950 *mapObject) {
     StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_03c, &func_ov001_0218a1d0);
 }
 
-void InitBombKingObjects(Unk0218d87c *list) {
+void InitBombKingObjects(MapObjectList *list) {
     int i;
     Unk02188950 *mapObject;
 
     if (list != NULL) {
-        for (i = 0; i < list->mUnk_04 && (mapObject = list->mUnk_00[i]) != NULL; i++) {
+        for (i = 0; i < list->mMapObjectCount && (mapObject = list->mMapObjects[i]) != NULL; i++) {
             Vec3 offset = {0, 0, 0};
             offset.x = mapObject->mPrm->mUnk_0fc;
             offset.y = mapObject->mPrm->mUnk_100;
@@ -219,13 +219,13 @@ void BombKingItemHitCallback(Unk02188950 *mapObject, ItemObject *itemObject) {
         func_ov001_0218a41c(mapObject);
     }
 }
-void InitBombKing(Unk0218d87c *list) {
+void InitBombKing(MapObjectList *list) {
     Unk02188950 *mapObject;
     MissionRunPrm *prm;
     int i;
 
     if (list != NULL) {
-        for (i = 0; i < list->mUnk_04 && (mapObject = list->mUnk_00[i]) != NULL; i++) {
+        for (i = 0; i < list->mMapObjectCount && (mapObject = list->mMapObjects[i]) != NULL; i++) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(mapObject);
             }

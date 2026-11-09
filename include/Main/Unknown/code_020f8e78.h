@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/Unknown/code_020f6be8.h"
 
-BOOL func_020f9290(void *itemParam, Vec3 *normal);
+BOOL func_020f9290(ItemObject *item, Vec3 *normal);
 void func_020f91fc(void *itemParam, s32 soundId);
 BOOL func_020f91e0(ItemObject *itemParam);
 BOOL IsItemObjectFartherFromCameraThan(ItemObject *item, s32 distance);

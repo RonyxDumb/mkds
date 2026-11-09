@@ -14,12 +14,6 @@ typedef struct Unk0218dabc {
     /* 184 */ s32 mUnk_184;
 } Unk0218dabc;
 
-// Table of objects returned by FindMapObjectKindUpdateList(0x1fe).
-typedef struct Unk0218d87c {
-    /* 00 */ Unk02188950 **mUnk_00;
-    /* 04 */ u16 mUnk_04;
-} Unk0218d87c;
-
 int func_ov001_0218d520(Unk02188950 *a);
 void func_ov001_0218d800(Unk02188950 *a);
 void func_ov001_0218d824(Unk02188950 *b, int c);

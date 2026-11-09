@@ -50,7 +50,7 @@ void func_ov001_0218d3ec(Unk02188950 *a) {
 
 void func_ov001_0218d374(Unk02188950 *a) {
     int i;
-    Unk0218d87c *list;
+    MapObjectList *list;
     Unk02188950 *p;
 
     func_ov001_02187218(a, 8, NULL);
@@ -59,7 +59,7 @@ void func_ov001_0218d374(Unk02188950 *a) {
     SetSpeedAndClearTarget(a, 0);
     list = FindMapObjectKindUpdateList(0x1fe);
     if (list != NULL) {
-        for (i = 0; i < list->mUnk_04 && (p = list->mUnk_00[i]) != NULL; i++) {
+        for (i = 0; i < list->mMapObjectCount && (p = list->mMapObjects[i]) != NULL; i++) {
             func_ov001_02187218(p, 1, NULL);
             StartAnimationNoEndCallback(p, p->mPrm->mUnk_078, p->mPrm->mUnk_07c);
         }

@@ -2,7 +2,7 @@
 
 #include "Main/Unknown/code_020d2b78.h"
 
-void *FindMapObjectKindUpdateList(u32 a) {
+MapObjectList *FindMapObjectKindUpdateList(u32 a) {
     s32 n = GetMapObjectKindCount();
     s32 i;
 

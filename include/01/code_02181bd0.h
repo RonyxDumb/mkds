@@ -24,12 +24,6 @@ typedef struct Coin {
     /* 100 */ s32 mEffectTimer;
 } Coin;
 
-// List of objects, as returned by FindMapObjectKindUpdateList(0x68).
-typedef struct CoinList {
-    /* 00 */ Coin **mObjects;
-    /* 04 */ u16 mObjectCount;
-} CoinList;
-
 #include "Main/Unknown/code_0209b000.h"
 #include "01/code_02182000.h"
 #include "01/code_0218155c.h"
@@ -72,7 +66,7 @@ void *func_ov001_02181c08(void);
 void CreateCoinKindData(void);
 void UpdateCoin(void *a, Coin *coin);
 void func_ov001_0218254c(void);
-void InitCoinObjects(CoinList *coinList);
+void InitCoinObjects(MapObjectList *coinList);
 void DrawCoin(void *b, Coin *coin);
 void LoadCoin(Unk0219b478 *a);
 u8 CollideKartWithCoin(Coin *coin, Kart *kart, u8 *e, u8 *f);

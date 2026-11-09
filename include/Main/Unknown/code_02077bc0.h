@@ -7,6 +7,7 @@ void LoadKartAndCharacterFiles(void);
 #include "Main/Unknown/code_020b4000.h" // Nclr
 
 typedef struct HeyhoPalette HeyhoPalette;
+typedef struct ShadowModel ShadowModel;
 typedef struct KartModelMenuFiles KartModelMenuFiles;
 
 typedef struct KartModelMenuSlot KartModelMenuSlot;
@@ -85,7 +86,7 @@ void InitKartModelMenuView(KartModelMenuView *view, int b);
 void InitKartModelMenuSlot(void *heap, KartModelMenuSlot *slot);
 void LoadKartModelMenuEmblemTexData(NNSG3dResFileHeader *file);
 void LoadKartModelMenuSelectModel(void *heap);
-void *CreateKartModelMenuShadow(void *shadowModel, NNSG3dResFileHeader *modelFile);
+void *CreateKartModelMenuShadow(ShadowModel *shadowModel, NNSG3dResFileHeader *modelFile);
 void CreateKartModelMenuTire(Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile, NNSG3dResFileHeader *textureFile);
 void CreateKartModelMenuKart(Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile, NNSG3dResFileHeader *textureFile);
 void CreateKartModelMenuCharacter(void *heap, Nsbmd *nsbmd, void *animation, NNSG3dResFileHeader *modelFile,

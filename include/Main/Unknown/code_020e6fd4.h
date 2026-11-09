@@ -125,7 +125,7 @@ typedef struct MapObjectList {
 } MapObjectList;
 
 typedef struct NsbmdModel NsbmdModel;
-typedef struct Unk020e6514 Unk020e6514;
+typedef struct ModelAnimation ModelAnimation;
 typedef struct MapObjectList MapObjectList;
 typedef struct Unk0210b7a8 Unk0210b7a8;
 
@@ -145,8 +145,8 @@ typedef struct Unk0216c324 {
 // A row of gJgKindRows, by gJgKind: rows 2 and 3 hold a model and one animation, rows 0 and 1 only mLapModel.
 typedef struct JgKindRow {
     /* 00 */ void *mModel;
-    /* 04 */ Unk020e6514 *mNsbcaAnimation;
-    /* 08 */ Unk020e6514 *mNsbmaAnimation;
+    /* 04 */ ModelAnimation *mNsbcaAnimation;
+    /* 08 */ ModelAnimation *mNsbmaAnimation;
     /* 0c */ NsbmdModel *mLapModel;
 } JgKindRow;
 
