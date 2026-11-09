@@ -20,6 +20,9 @@ typedef struct NNSiFndFrmHeapHead {
     /* 08 */ NNSiFndFrmHeapState *mState;
 } NNSiFndFrmHeapHead;
 
+// The frame heap head sits right after the common head.
+#define FRAME_HEAP_HEAD(heap) ((NNSiFndFrmHeapHead *) ((heap) + 1))
+
 u32 NNS_FndAdjustFrmHeap(NNSFndHeapHandle heap);
 BOOL NNS_FndFreeByStateToFrmHeap(NNSFndHeapHandle heap, u32 tagName);
 BOOL NNS_FndRecordStateForFrmHeap(NNSFndHeapHandle heap, u32 tagName);

@@ -6,7 +6,7 @@ u16 NNS_FndSetGroupIDForExpHeap(NNSFndHeapHandle heap, u16 groupID) {
     NNSiFndExpHeapHead *expHeap;
     u16 oldId;
 
-    expHeap = (NNSiFndExpHeapHead *) (heap + 1);
+    expHeap = EXP_HEAP_HEAD(heap);
     oldId = expHeap->mGroupID;
     expHeap->mGroupID = groupID;
     return oldId;

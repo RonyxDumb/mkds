@@ -11,7 +11,7 @@ NNSiFndHeapHead *InitExpHeap(void *startAddress, void *endAddress, u16 optFlag) 
     NNSiFndExpHeapMBlockHead *block;
 
     heap = startAddress;
-    expHeap = (NNSiFndExpHeapHead *) (heap + 1);
+    expHeap = EXP_HEAP_HEAD(heap);
     NNSi_FndInitHeapHead(heap, 0x45585048, expHeap + 1, endAddress, optFlag);
     expHeap->mGroupID = 0;
     expHeap->mFeature = 0;
@@ -96,7 +96,7 @@ void *AllocFromHead(NNSiFndHeapHead *heap, u32 size, int alignment) {
     u32 mask;
     u32 firstFit;
 
-    expHeap = (NNSiFndExpHeapHead *) (heap + 1);
+    expHeap = EXP_HEAP_HEAD(heap);
     firstFit = (u16) (expHeap->mFeature & 1) == 0 ? 1 : 0;
     block = expHeap->mMbFreeList.mHead;
     bestBlock = 0;
@@ -141,7 +141,7 @@ void *AllocFromTail(NNSiFndHeapHead *heap, u32 size, int alignment) {
     int bestStart;
     u32 firstFit;
 
-    expHeap = (NNSiFndExpHeapHead *) (heap + 1);
+    expHeap = EXP_HEAP_HEAD(heap);
     firstFit = (u16) (expHeap->mFeature & 1) == 0 ? 1 : 0;
     bestSize = -1;
     bestBlock = 0;
@@ -261,7 +261,7 @@ u32 NNS_FndResizeForMBlockExpHeap(NNSFndHeapHandle heap, void *memBlock, u32 siz
     block = (NNSiFndExpHeapMBlockHead *) ((u8 *) memBlock - 0x10);
     oldSize = block->mBlockSize;
     size = (size + 3) & ~3;
-    expHeap = (NNSiFndExpHeapHead *) (heap + 1);
+    expHeap = EXP_HEAP_HEAD(heap);
     if (size == oldSize) {
         return size;
     }
@@ -318,7 +318,7 @@ void NNS_FndFreeToExpHeap(NNSFndHeapHandle heap, void *memBlock) {
     NNSiMemRegion range;
 
     block = (NNSiFndExpHeapMBlockHead *) ((u8 *) memBlock - 0x10);
-    expHeap = (NNSiFndExpHeapHead *) (heap + 1);
+    expHeap = EXP_HEAP_HEAD(heap);
     GetRegionOfMBlock(&range, block);
     RemoveMBlock(&expHeap->mMbUsedList, block);
     RecycleRegion(expHeap, &range);
@@ -329,7 +329,7 @@ u32 NNS_FndGetTotalFreeSizeForExpHeap(NNSFndHeapHandle heap) {
     NNSiFndExpHeapMBlockHead *block;
     u32 total;
 
-    block = ((NNSiFndExpHeapHead *) (heap + 1))->mMbFreeList.mHead;
+    block = EXP_HEAP_HEAD(heap)->mMbFreeList.mHead;
     total = 0;
     if (block == 0) {
         return total;
@@ -356,7 +356,7 @@ u32 NNS_FndGetAllocatableSizeForExpHeapEx(NNSFndHeapHandle heap, int alignment) 
     mask = Abs(alignment);
     bestSize = 0;
     bestOffset = -1;
-    for (block = ((NNSiFndExpHeapHead *) (heap + 1))->mMbFreeList.mHead; block != 0; block = block->mMBHeadNext) {
+    for (block = EXP_HEAP_HEAD(heap)->mMbFreeList.mHead; block != 0; block = block->mMBHeadNext) {
         blockStart = (u32) (block + 1);
         alignedStart = ((u32) (mask - 1) + blockStart) & ~(mask - 1);
         blockEnd = block->mBlockSize + blockStart;

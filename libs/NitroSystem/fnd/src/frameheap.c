@@ -9,7 +9,7 @@ NNSiFndHeapHead *InitFrameHeap(void *startAddress, void *endAddress, u16 optFlag
     NNSiFndFrmHeapHead *frmHeap;
 
     heap = startAddress;
-    frmHeap = (NNSiFndFrmHeapHead *) (heap + 1);
+    frmHeap = FRAME_HEAP_HEAD(heap);
     NNSi_FndInitHeapHead(heap, 0x46524d48, frmHeap + 1, endAddress, optFlag);
     frmHeap->mHeadAllocator = heap->mHeapStart;
     frmHeap->mTailAllocator = heap->mHeapEnd;
@@ -75,7 +75,7 @@ void *AllocFromTail_(NNSiFndFrmHeapHead *frmHeap, u32 size, int alignment) {
 void FreeHead(NNSiFndHeapHead *heap) {
     NNSiFndFrmHeapHead *frmHeap;
 
-    frmHeap = (NNSiFndFrmHeapHead *) (heap + 1);
+    frmHeap = FRAME_HEAP_HEAD(heap);
     frmHeap->mHeadAllocator = heap->mHeapStart;
     frmHeap->mState = 0;
 }
@@ -85,7 +85,7 @@ void FreeTail(NNSiFndHeapHead *heap) {
     NNSiFndFrmHeapState *state;
     NNSiFndFrmHeapHead *frmHeap;
 
-    frmHeap = (NNSiFndFrmHeapHead *) (heap + 1);
+    frmHeap = FRAME_HEAP_HEAD(heap);
     state = frmHeap->mState;
     if (state != 0) {
         do {
@@ -118,7 +118,7 @@ void NNS_FndDestroyFrmHeap(NNSFndHeapHandle heap) {
 void *NNS_FndAllocFromFrmHeapEx(NNSFndHeapHandle heap, u32 size, int alignment) {
     NNSiFndFrmHeapHead *frmHeap;
 
-    frmHeap = (NNSiFndFrmHeapHead *) (heap + 1);
+    frmHeap = FRAME_HEAP_HEAD(heap);
     if (size == 0) {
         size = 1;
     }
@@ -147,7 +147,7 @@ u32 NNS_FndGetAllocatableSizeForFrmHeapEx(NNSFndHeapHandle heap, int alignment) 
     NNSiFndFrmHeapHead *frmHeap;
 
     mask = Abs(alignment);
-    frmHeap = (NNSiFndFrmHeapHead *) (heap + 1);
+    frmHeap = FRAME_HEAP_HEAD(heap);
     tail = frmHeap->mTailAllocator;
     start = (u8 *) (((mask - 1) + (u32) frmHeap->mHeadAllocator) & ~(mask - 1));
     if (start > tail) {
@@ -163,7 +163,7 @@ BOOL NNS_FndRecordStateForFrmHeap(NNSFndHeapHandle heap, u32 tagName) {
     NNSiFndFrmHeapState *state;
     NNSiFndFrmHeapHead *frmHeap;
 
-    frmHeap = (NNSiFndFrmHeapHead *) (heap + 1);
+    frmHeap = FRAME_HEAP_HEAD(heap);
     oldHead = frmHeap->mHeadAllocator;
     state = AllocFromHead_(frmHeap, 0x10, 4);
     if (state == 0) {
@@ -182,7 +182,7 @@ BOOL NNS_FndFreeByStateToFrmHeap(NNSFndHeapHandle heap, u32 tagName) {
     NNSiFndFrmHeapState *state;
     NNSiFndFrmHeapHead *frmHeap;
 
-    frmHeap = (NNSiFndFrmHeapHead *) (heap + 1);
+    frmHeap = FRAME_HEAP_HEAD(heap);
     state = frmHeap->mState;
     if (tagName != 0 && state != 0) {
         do {
@@ -206,7 +206,7 @@ BOOL NNS_FndFreeByStateToFrmHeap(NNSFndHeapHandle heap, u32 tagName) {
 u32 NNS_FndAdjustFrmHeap(NNSFndHeapHandle heap) {
     NNSiFndFrmHeapHead *frmHeap;
 
-    frmHeap = (NNSiFndFrmHeapHead *) (heap + 1);
+    frmHeap = FRAME_HEAP_HEAD(heap);
     if (heap->mHeapEnd - frmHeap->mTailAllocator != 0) {
         return 0;
     }

@@ -138,27 +138,27 @@ void RtcCommonCallback(u32 tag, u32 data, BOOL err) {
         switch (gClockRequest.mSequence) {
             case RTC_SEQ_GET_DATE:
                 date = gClockRequest.mBuffer[0];
-                date->mYear = RtcBCD2HEX(((RTCRawDate *) 0x027ffde8)->mYear);
-                date->mMonth = RtcBCD2HEX(((RTCRawDate *) 0x027ffde8)->mMonth);
-                date->mDay = RtcBCD2HEX(((RTCRawDate *) 0x027ffde8)->mDay);
-                date->mWeek = ((RTCRawDate *) 0x027ffde8)->mWeek;
+                date->mYear = RtcBCD2HEX(HW_UNK_027FFDE8_BUF->mYear);
+                date->mMonth = RtcBCD2HEX(HW_UNK_027FFDE8_BUF->mMonth);
+                date->mDay = RtcBCD2HEX(HW_UNK_027FFDE8_BUF->mDay);
+                date->mWeek = HW_UNK_027FFDE8_BUF->mWeek;
                 break;
             case RTC_SEQ_GET_TIME:
                 time = gClockRequest.mBuffer[0];
-                time->mHour = RtcBCD2HEX(((RTCRawTime *) 0x027ffdec)->mHour);
-                time->mMinute = RtcBCD2HEX(((RTCRawTime *) 0x027ffdec)->mMinute);
-                time->mSecond = RtcBCD2HEX(((RTCRawTime *) 0x027ffdec)->mSecond);
+                time->mHour = RtcBCD2HEX(HW_UNK_027FFDEC_TIME_BUF->mHour);
+                time->mMinute = RtcBCD2HEX(HW_UNK_027FFDEC_TIME_BUF->mMinute);
+                time->mSecond = RtcBCD2HEX(HW_UNK_027FFDEC_TIME_BUF->mSecond);
                 break;
             case RTC_SEQ_GET_DATETIME:
                 date = gClockRequest.mBuffer[0];
                 date->mYear = RtcBCD2HEX(*(u32 *) 0x027ffde8 & 0xff);
-                date->mMonth = RtcBCD2HEX(((RTCRawDate *) 0x027ffde8)->mMonth);
-                date->mDay = RtcBCD2HEX(((RTCRawDate *) 0x027ffde8)->mDay);
-                date->mWeek = ((RTCRawDate *) 0x027ffde8)->mWeek;
+                date->mMonth = RtcBCD2HEX(HW_UNK_027FFDE8_BUF->mMonth);
+                date->mDay = RtcBCD2HEX(HW_UNK_027FFDE8_BUF->mDay);
+                date->mWeek = HW_UNK_027FFDE8_BUF->mWeek;
                 time = gClockRequest.mBuffer[1];
-                time->mHour = RtcBCD2HEX(((RTCRawTime *) 0x027ffdec)->mHour);
-                time->mMinute = RtcBCD2HEX(((RTCRawTime *) 0x027ffdec)->mMinute);
-                time->mSecond = RtcBCD2HEX(((RTCRawTime *) 0x027ffdec)->mSecond);
+                time->mHour = RtcBCD2HEX(HW_UNK_027FFDEC_TIME_BUF->mHour);
+                time->mMinute = RtcBCD2HEX(HW_UNK_027FFDEC_TIME_BUF->mMinute);
+                time->mSecond = RtcBCD2HEX(HW_UNK_027FFDEC_TIME_BUF->mSecond);
                 break;
             case RTC_SEQ_SET_DATE:
             case RTC_SEQ_SET_TIME:
@@ -171,7 +171,7 @@ void RtcCommonCallback(u32 tag, u32 data, BOOL err) {
                 break;
             case RTC_SEQ_GET_ALARM1_STATUS:
                 alarmStatus = gClockRequest.mBuffer[0];
-                switch (((RTCRawStatus2 *) 0x027ffdea)->mIntrMode) {
+                switch (HW_UNK_027FFDEA_BUF->mIntrMode) {
                     case 4:
                         alarmStatus[0] = RTC_ALARM_STATUS_ON;
                         break;
@@ -182,7 +182,7 @@ void RtcCommonCallback(u32 tag, u32 data, BOOL err) {
                 break;
             case RTC_SEQ_GET_ALARM2_STATUS:
                 alarmStatus = gClockRequest.mBuffer[0];
-                if (((RTCRawStatus2 *) 0x027ffdea)->mIntr2Mode) {
+                if (HW_UNK_027FFDEA_BUF->mIntr2Mode) {
                     alarmStatus[0] = RTC_ALARM_STATUS_ON;
                 } else {
                     alarmStatus[0] = RTC_ALARM_STATUS_OFF;
@@ -190,35 +190,35 @@ void RtcCommonCallback(u32 tag, u32 data, BOOL err) {
                 break;
             case RTC_SEQ_GET_ALARM_PARAM:
                 alarm = gClockRequest.mBuffer[0];
-                alarm->mWeek = ((RTCRawAlarm *) 0x027ffdec)->mWeek;
-                alarm->mHour = RtcBCD2HEX(((RTCRawAlarm *) 0x027ffdec)->mHour);
-                alarm->mMinute = RtcBCD2HEX(((RTCRawAlarm *) 0x027ffdec)->mMinute);
+                alarm->mWeek = HW_UNK_027FFDEC_ALARM_BUF->mWeek;
+                alarm->mHour = RtcBCD2HEX(HW_UNK_027FFDEC_ALARM_BUF->mHour);
+                alarm->mMinute = RtcBCD2HEX(HW_UNK_027FFDEC_ALARM_BUF->mMinute);
                 alarm->mEnable = 0;
-                if (((RTCRawAlarm *) 0x027ffdec)->mWe) {
+                if (HW_UNK_027FFDEC_ALARM_BUF->mWe) {
                     alarm->mEnable += 1;
                 }
-                if (((RTCRawAlarm *) 0x027ffdec)->mHe) {
+                if (HW_UNK_027FFDEC_ALARM_BUF->mHe) {
                     alarm->mEnable += 2;
                 }
-                if (((RTCRawAlarm *) 0x027ffdec)->mMe) {
+                if (HW_UNK_027FFDEC_ALARM_BUF->mMe) {
                     alarm->mEnable += 4;
                 }
                 break;
             case RTC_SEQ_SET_ALARM1_STATUS:
                 if (gClockRequest.mIndex == 0) {
                     if (*(RTCAlarmStatus *) gClockRequest.mBuffer[0] == RTC_ALARM_STATUS_ON) {
-                        if (((RTCRawStatus2 *) 0x027ffdea)->mIntrMode != 4) {
+                        if (HW_UNK_027FFDEA_BUF->mIntrMode != 4) {
                             gClockRequest.mIndex++;
-                            ((RTCRawStatus2 *) 0x027ffdea)->mIntrMode = 4;
+                            HW_UNK_027FFDEA_BUF->mIntrMode = 4;
                             if (RTCi_WriteRawStatus2Async() == 0) {
                                 result = RTC_RESULT_SEND_ERROR;
                                 gClockRequest.mIndex = 0;
                             }
                         }
                     } else {
-                        if (((RTCRawStatus2 *) 0x027ffdea)->mIntrMode != 0) {
+                        if (HW_UNK_027FFDEA_BUF->mIntrMode != 0) {
                             gClockRequest.mIndex++;
-                            ((RTCRawStatus2 *) 0x027ffdea)->mIntrMode = 0;
+                            HW_UNK_027FFDEA_BUF->mIntrMode = 0;
                             if (RTCi_WriteRawStatus2Async() == 0) {
                                 result = RTC_RESULT_SEND_ERROR;
                                 gClockRequest.mIndex = 0;
@@ -232,18 +232,18 @@ void RtcCommonCallback(u32 tag, u32 data, BOOL err) {
             case RTC_SEQ_SET_ALARM2_STATUS:
                 if (gClockRequest.mIndex == 0) {
                     if (*(RTCAlarmStatus *) gClockRequest.mBuffer[0] == RTC_ALARM_STATUS_ON) {
-                        if (((RTCRawStatus2 *) 0x027ffdea)->mIntr2Mode == 0) {
+                        if (HW_UNK_027FFDEA_BUF->mIntr2Mode == 0) {
                             gClockRequest.mIndex++;
-                            ((RTCRawStatus2 *) 0x027ffdea)->mIntr2Mode = 1;
+                            HW_UNK_027FFDEA_BUF->mIntr2Mode = 1;
                             if (RTCi_WriteRawStatus2Async() == 0) {
                                 result = RTC_RESULT_SEND_ERROR;
                                 gClockRequest.mIndex = 0;
                             }
                         }
                     } else {
-                        if (((RTCRawStatus2 *) 0x027ffdea)->mIntr2Mode != 0) {
+                        if (HW_UNK_027FFDEA_BUF->mIntr2Mode != 0) {
                             gClockRequest.mIndex++;
-                            ((RTCRawStatus2 *) 0x027ffdea)->mIntr2Mode = 0;
+                            HW_UNK_027FFDEA_BUF->mIntr2Mode = 0;
                             if (RTCi_WriteRawStatus2Async() == 0) {
                                 result = RTC_RESULT_SEND_ERROR;
                                 gClockRequest.mIndex = 0;

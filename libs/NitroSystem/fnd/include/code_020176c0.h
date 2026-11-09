@@ -14,6 +14,9 @@ typedef struct NNSiFndExpHeapHead {
     /* 12 */ u16 mFeature;
 } NNSiFndExpHeapHead;
 
+// The Exp heap head sits right after the common head.
+#define EXP_HEAP_HEAD(heap) ((NNSiFndExpHeapHead *) ((heap) + 1))
+
 u32 NNS_FndGetAllocatableSizeForExpHeapEx(NNSFndHeapHandle heap, int alignment);
 u32 NNS_FndGetTotalFreeSizeForExpHeap(NNSFndHeapHandle heap);
 void NNS_FndFreeToExpHeap(NNSFndHeapHandle heap, void *memBlock);
