@@ -23,32 +23,32 @@
 #include "Main/Unknown/code_020acde4.h"
 #include "Main/Unknown/code_020ace0c.h"
 
-u32 func_020ace0c(InputSlotPair *pair) {
+u32 TitleGetPairX(InputSlotPair *pair) {
     return pair->mPairX;
 }
 
-u32 func_020acdec(u32 slotIndex) {
-    return func_020ace0c(&gInputSlots[slotIndex].mPair);
+u32 TitleGetSlotPairX(u32 slotIndex) {
+    return TitleGetPairX(&gInputSlots[slotIndex].mPair);
 }
 
-u32 func_020acde4(InputSlotPair *pair) {
+u32 TitleGetPairY(InputSlotPair *pair) {
     return pair->mPairY;
 }
 
-u32 func_020acdc4(u32 slotIndex) {
-    return func_020acde4(&gInputSlots[slotIndex].mPair);
+u32 TitleGetSlotPairY(u32 slotIndex) {
+    return TitleGetPairY(&gInputSlots[slotIndex].mPair);
 }
 
 #pragma thumb on
 
-void UpdateTitleState2(Unk0203a0dc *a) {
+void UpdateTitleState2(Unk0203a0dc *sceneNumbers) {
     u32 slotIndex;
     s32 previousIndex;
     s32 rectIndex;
 
-    if (a != NULL) {
-        slotIndex = func_020acef4();
-        if (func_020acec4(slotIndex, PAD_KEY_A) != 0) {
+    if (sceneNumbers != NULL) {
+        slotIndex = GetTitleInputSlot();
+        if (TitleGetNewBits(slotIndex, PAD_KEY_A) != 0) {
             SetTitleState(4, 8);
             StartTitleSelectedSound();
             gTitleScene->mSelectedPressed = TRUE;
@@ -110,9 +110,9 @@ void UpdateTitleState2(Unk0203a0dc *a) {
             }
             StartSoundOncePerFrame(0);
             gTitleScene->mNoInputFrames = 0;
-        } else if (func_020ace14(slotIndex) != 0) {
-            u32 pointX = func_020acdec(slotIndex);
-            u32 pointY = func_020acdc4(slotIndex);
+        } else if (TitleIsSlotPairNew(slotIndex) != 0) {
+            u32 pointX = TitleGetSlotPairX(slotIndex);
+            u32 pointY = TitleGetSlotPairY(slotIndex);
             previousIndex = gTitleScene->mSelectedIndex;
             rectIndex = FindRectContainingPoint(pointX, pointY, gTitleScene->mTitleSBnbl);
             if (rectIndex != -1) {
@@ -128,7 +128,7 @@ void UpdateTitleState2(Unk0203a0dc *a) {
             gTitleScene->mNoInputFrames++;
             if (gTitleScene->mNoInputFrames > noInputFrameLimit) {
                 if (IsSeqVariableChanged(0) != 0) {
-                    a->mNextScene = 2;
+                    sceneNumbers->mNextScene = 2;
                     SetNextDemoRace(gTitleScene->mCharacterKartPicks);
                 }
             }
@@ -140,11 +140,11 @@ void UpdateTitleState2(Unk0203a0dc *a) {
 #pragma thumb off
 
 #pragma thumb on
-u32 func_020acbf0(u32 value) {
-    return func_020ad230(value);
+u32 TitleState3ReturnArgumentWrapper(u32 value) {
+    return TitleReturnArgument(value);
 }
 #pragma thumb off
 
-u32 func_020acbe8(Unk0201ea30 *p0) {
-    return (*OFFSET_PTR(const u16, p0, 6));
+u32 TitleGetCellLayoutCount(Unk0201ea30 *cellLayout) {
+    return (*OFFSET_PTR(const u16, cellLayout, 6));
 }

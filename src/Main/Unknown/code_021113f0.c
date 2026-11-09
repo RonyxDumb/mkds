@@ -775,22 +775,22 @@ void LoadRecordSceneData(void) {
 #pragma thumb on
 
 void InitRecordSceneObject(void *heap, s16 previousScene) {
-    Unk02125de0Arg v;
+    SceneTextInitParams v;
     gRecordScene = HeapAlloc(heap, 0x34);
     gRecordScene->mHeap = heap;
     gRecordScene->mPageIndex = 0;
     gRecordScene->mIndex = 0;
     func_021250b0(heap);
     InitLinkLevelIcons(heap, GetRecordMainOam());
-    v.mUnk_00 = TRUE;
-    v.mUnk_04 = GetFontByIndex(1);
-    v.mUnk_08 = 0;
-    v.mUnk_0c = 1;
-    v.mUnk_10 = 0;
-    v.mUnk_14 = FALSE;
-    v.mUnk_1c = TRUE;
-    v.mUnk_20 = TRUE;
-    v.mUnk_24 = 0;
+    v.mUseTxtSystem = TRUE;
+    v.mTxtSystemFont = GetFontByIndex(1);
+    v.mUseCanvas1 = 0;
+    v.mUseCanvas2 = 1;
+    v.mUseCanvas3 = 0;
+    v.mUseSelectChoises = FALSE;
+    v.mUseSelectReturn = TRUE;
+    v.mUseBackScreen = TRUE;
+    v.mBackScreenKind = 0;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
     func_02125de0(heap, &v);
     CreateRecordList(gRecordScene->mHeap);

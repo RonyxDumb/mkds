@@ -15,14 +15,14 @@ void UpdateTitleState5(Unk0203a0dc *a) {
             case 3:
             case 4:
             default:
-                func_020acab8(0);
+                SetConnectionKind(0);
                 break;
             case 1:
-                func_020acab8(2);
+                SetConnectionKind(2);
                 func_020acaa4(0);
                 break;
             case 2:
-                func_020acab8(3);
+                SetConnectionKind(3);
                 break;
         }
         a->mNextScene = v[gTitleScene->mSelectedIndex];

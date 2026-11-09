@@ -52,7 +52,7 @@
 // Sets up the Grand Prix results screen: loads its files and lays out the cup, course and time texts.
 void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     s16 timeText[10];
-    Unk02125de0Arg config;
+    SceneTextInitParams config;
     ScreenMapFileSet mainScreenMapFileSet;
     u16 playerName[11];
     CellFileSet cellFileSet;
@@ -91,16 +91,16 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     SetBg3RecordParams(&displaySettings->mMainBgRecords, 3, 0, 0, 0, 2, 6);
     SetBg3RecordParams(&displaySettings->mSubBgRecords, 3, 0, 0, 0, 1, 6);
     InitDisplayFromSettings(displaySettings);
-    config.mUnk_00 = 1;
-    config.mUnk_04 = GetFontByIndex(1);
-    config.mUnk_08 = 0;
-    config.mUnk_0c = 1;
-    config.mUnk_10 = 0;
-    config.mUnk_14 = 0;
-    config.mUnk_18 = NULL;
-    config.mUnk_1c = 0;
-    config.mUnk_20 = 0;
-    config.mUnk_24 = 0;
+    config.mUseTxtSystem = 1;
+    config.mTxtSystemFont = GetFontByIndex(1);
+    config.mUseCanvas1 = 0;
+    config.mUseCanvas2 = 1;
+    config.mUseCanvas3 = 0;
+    config.mUseSelectChoises = 0;
+    config.mSelectChoisesFont = NULL;
+    config.mUseSelectReturn = 0;
+    config.mUseBackScreen = 0;
+    config.mBackScreenKind = 0;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
     func_02125de0(heap, &config);
     func_02025854(0, &mainScreenMapFileSet, gResultsGpMBNcgrName, gResultsGpMBNclrName, gResultsGpM1NscrName, 1,

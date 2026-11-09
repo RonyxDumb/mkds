@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_020ad32c(void);
+void ReleaseTitleSceneObject(void);

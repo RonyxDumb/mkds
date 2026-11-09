@@ -52,7 +52,7 @@ void ResetBackupFirstBlock(s32 copyOwnerName) {
     if (copyOwnerName != 0) {
         ownerCharCount = data_021759d0->mOwnerCharCount;
         ownerText = data_021759d0->mOwnerText;
-        data_0217aa08->mFirstBlock->mUnk_31_0 = 1;
+        data_0217aa08->mFirstBlock->mHasPlayerName = 1;
         MI_CpuFill8(data_0217aa08->mFirstBlock->mPlayerName, 0, 0x14);
         MI_CpuCopy8(ownerText, data_0217aa08->mFirstBlock->mPlayerName, ((u32) ownerCharCount << 17) >> 16);
     }

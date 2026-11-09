@@ -7,23 +7,23 @@
 #include "Main/Unknown/code_020acefc.h"
 
 #pragma thumb on
-u32 func_020acefc(u32 value) {
-    return func_020ad230(value);
+u32 TitleState2ReturnArgumentWrapper(u32 value) {
+    return TitleReturnArgument(value);
 }
 #pragma thumb off
 
-u32 func_020acef4(void) {
+u32 GetTitleInputSlot(void) {
     return 0x8u;
 }
 
-u16 func_020acee0(InputSlot *slot, u32 mask) {
+u16 TitleGetInputSlotNewBits(InputSlot *slot, u32 mask) {
     return slot->mPressedBits & mask;
 }
 
-u16 func_020acec4(u32 slotIndex, u32 mask) {
-    return func_020acee0(&gInputSlots[slotIndex], mask);
+u16 TitleGetNewBits(u32 slotIndex, u32 mask) {
+    return TitleGetInputSlotNewBits(&gInputSlots[slotIndex], mask);
 }
 
-u32 func_020acebc(const void *pair) {
+u32 TitleGetPairHasPair(InputSlotPair *pair) {
     return (*OFFSET_PTR(const u16, pair, 4));
 }

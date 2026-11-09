@@ -98,7 +98,7 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
     u16 i;
     u16 entryIndex;
     u16 entryName[11];
-    Unk02125de0Arg v;
+    SceneTextInitParams v;
     s32 orderUsed[8];
 
     gResultsBattle = HeapAlloc(heap, 0x154);
@@ -117,16 +117,16 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
     SetBg3RecordParams(&displaySettings->mMainBgRecords, 3, 0, 0, 0, 0x1d, 6);
     SetBg3RecordParams(&displaySettings->mSubBgRecords, 3, 0, 0, 0, 1, 6);
     InitDisplayFromSettings(displaySettings);
-    v.mUnk_00 = 0;
-    v.mUnk_04 = NULL;
-    v.mUnk_08 = 0;
-    v.mUnk_0c = 0;
-    v.mUnk_10 = 0;
-    v.mUnk_14 = 1;
-    v.mUnk_18 = GetFontByIndex(2);
-    v.mUnk_1c = 0;
-    v.mUnk_20 = 0;
-    v.mUnk_24 = 0;
+    v.mUseTxtSystem = 0;
+    v.mTxtSystemFont = NULL;
+    v.mUseCanvas1 = 0;
+    v.mUseCanvas2 = 0;
+    v.mUseCanvas3 = 0;
+    v.mUseSelectChoises = 1;
+    v.mSelectChoisesFont = GetFontByIndex(2);
+    v.mUseSelectReturn = 0;
+    v.mUseBackScreen = 0;
+    v.mBackScreenKind = 0;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
     func_02125de0(heap, &v);
     func_020629a4();

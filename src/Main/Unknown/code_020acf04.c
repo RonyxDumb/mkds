@@ -18,7 +18,7 @@ void UpdateTitleState1(void) {
     LayoutTableEntry *titleTable;
 
     titleTable = gTitleScene->mTitleTable;
-    subBase = func_020acbe8(gTitleScene->mTitleSBncl);
+    subBase = TitleGetCellLayoutCount(gTitleScene->mTitleSBncl);
     if (GetTitleStateFrames() < 10) {
         for (i = 0; i <= 14; i++) {
             titleTable[i].mOffsetX = InterpolateS16(1, 0xf8, 0, GetTitleStateFrames(), 10);

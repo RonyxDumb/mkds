@@ -43,7 +43,7 @@ void func_0202f454(u32 bits) {
 
 void InitWLMenuScene(void *heap) {
     DisplaySettings *displaySettings;
-    Unk02125de0Arg v1;
+    SceneTextInitParams v1;
 
     gWLMenuScene = HeapAllocAligned(heap, 0x874, 0x20);
     func_0202f51c(gWLMenuScene, 0x874);
@@ -52,16 +52,16 @@ void InitWLMenuScene(void *heap) {
     func_0202f4ac(displaySettings, 2, 0, 0, 0, 0xf, 6);
     InitDisplayFromSettings(displaySettings);
     if (func_0202f19c() == 0) {
-        v1.mUnk_00 = 1;
-        v1.mUnk_04 = GetFontByIndex(1);
-        v1.mUnk_08 = 0;
-        v1.mUnk_0c = 1;
-        v1.mUnk_10 = 0;
-        v1.mUnk_14 = 0;
-        v1.mUnk_18 = NULL;
-        v1.mUnk_1c = 1;
-        v1.mUnk_20 = func_0202f498() == 0;
-        v1.mUnk_24 = 0;
+        v1.mUseTxtSystem = 1;
+        v1.mTxtSystemFont = GetFontByIndex(1);
+        v1.mUseCanvas1 = 0;
+        v1.mUseCanvas2 = 1;
+        v1.mUseCanvas3 = 0;
+        v1.mUseSelectChoises = 0;
+        v1.mSelectChoisesFont = NULL;
+        v1.mUseSelectReturn = 1;
+        v1.mUseBackScreen = func_0202f498() == 0;
+        v1.mBackScreenKind = 0;
         LoadTxtSystemAndSelectChoisesAndSelectReturnData();
         func_02125de0(heap, &v1);
     }

@@ -176,26 +176,26 @@ void CopyKeyboardTextAsBytes(void) {
 
 void InitKeyboard(void *heap, s32 mode) {
     volatile u16 zero;
-    Unk02125de0Arg config;
+    SceneTextInitParams config;
     s32 i;
     s32 j;
     gKeyboard = HeapAlloc(heap, 0xc4);
     gKeyboard->mHeap = heap;
     gKeyboard->mDisplaySettings = func_021250b0(heap);
     InitLinkLevelIcons(heap, GetKeyboardFirstBuffer());
-    config.mUnk_00 = 1;
-    config.mUnk_04 = GetFontByIndex(1);
-    config.mUnk_08 = 0;
-    config.mUnk_0c = 1;
-    config.mUnk_10 = 0;
-    config.mUnk_14 = 0;
-    config.mUnk_18 = NULL;
-    config.mUnk_1c = 0;
-    config.mUnk_20 = 1;
+    config.mUseTxtSystem = 1;
+    config.mTxtSystemFont = GetFontByIndex(1);
+    config.mUseCanvas1 = 0;
+    config.mUseCanvas2 = 1;
+    config.mUseCanvas3 = 0;
+    config.mUseSelectChoises = 0;
+    config.mSelectChoisesFont = NULL;
+    config.mUseSelectReturn = 0;
+    config.mUseBackScreen = 1;
     if (mode == 0xc) {
-        config.mUnk_24 = 1;
+        config.mBackScreenKind = 1;
     } else {
-        config.mUnk_24 = 0;
+        config.mBackScreenKind = 0;
     }
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
     func_02125de0(heap, &config);
@@ -834,7 +834,7 @@ void AdvanceKeyboardState10(void) {
                 SetupTxtSystemSubTextEx(message, 0, 1, 1, 0, 1);
                 gKeyboard->mNextState = 0xb;
             } else {
-                data_0217aa08->mFirstBlock->mUnk_31_0 = 1;
+                data_0217aa08->mFirstBlock->mHasPlayerName = 1;
                 MI_CpuFill8(data_0217aa08->mFirstBlock->mPlayerName, 0, 0x14);
                 MI_CpuCopy8(&keyboard->mUnk_2c[1], data_0217aa08->mFirstBlock->mPlayerName, 0x14);
                 WriteBackupFirstBlockWrapper();

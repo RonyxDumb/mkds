@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void func_020acacc(void);
+void TitleState5Nop(void);
 void UpdateTitleState4(void);

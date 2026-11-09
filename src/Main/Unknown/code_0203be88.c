@@ -85,7 +85,7 @@ void InitTitleScene(void) {
 
 void ReleaseTitleScene(void) {
     u32 unused;
-    func_020ad32c();
+    ReleaseTitleSceneObject();
 }
 
 void func_0203c07c(void) {

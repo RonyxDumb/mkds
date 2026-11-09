@@ -27,21 +27,21 @@
 Unk021a9be4 *data_ov001_021a9be4;
 
 void func_ov001_021987d4(void *heap, s16 a) {
-    Unk02125de0Arg arg;
+    SceneTextInitParams arg;
 
     data_ov001_021a9be4 = HeapAlloc(heap, 0x18);
     data_ov001_021a9be4->mUnk_08 = heap;
     data_ov001_021a9be4->mUnk_10 = func_021250b0(heap);
-    arg.mUnk_00 = TRUE;
-    arg.mUnk_04 = GetFontByIndex(1);
-    arg.mUnk_08 = 0;
-    arg.mUnk_0c = 1;
-    arg.mUnk_10 = 0;
-    arg.mUnk_14 = FALSE;
-    arg.mUnk_18 = NULL;
-    arg.mUnk_1c = TRUE;
-    arg.mUnk_20 = TRUE;
-    arg.mUnk_24 = 0;
+    arg.mUseTxtSystem = TRUE;
+    arg.mTxtSystemFont = GetFontByIndex(1);
+    arg.mUseCanvas1 = 0;
+    arg.mUseCanvas2 = 1;
+    arg.mUseCanvas3 = 0;
+    arg.mUseSelectChoises = FALSE;
+    arg.mSelectChoisesFont = NULL;
+    arg.mUseSelectReturn = TRUE;
+    arg.mUseBackScreen = TRUE;
+    arg.mBackScreenKind = 0;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
     func_02125de0(heap, &arg);
     data_ov001_021a9be4->mUnk_0c = a;
@@ -102,7 +102,7 @@ void func_ov001_02198624(void) {
     if (IsTxtSystemState0NoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
             d = data_021759d0->mOwnerText;
-            data_0217aa08->mFirstBlock->mUnk_31_0 = 1;
+            data_0217aa08->mFirstBlock->mHasPlayerName = 1;
             MI_CpuFill8(data_0217aa08->mFirstBlock->mPlayerName, 0, 0x14);
             MI_CpuCopy8(d, data_0217aa08->mFirstBlock->mPlayerName, 0x14);
             WriteBackupFirstBlockWrapper();

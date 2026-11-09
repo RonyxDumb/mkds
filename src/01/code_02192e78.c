@@ -73,22 +73,22 @@ void func_ov001_021930ac(void) {
 }
 
 void InitOptionStates(void *heap, s16 a) {
-    Unk02125de0Arg arg;
+    SceneTextInitParams arg;
     gOptionStates = HeapAlloc(heap, 0x2c);
     gOptionStates->mHeap = heap;
     gOptionStates->mUnk_28 = func_021250b0(heap);
     func_ov001_021930ac();
     InitLinkLevelIcons(heap, GetOptionFirstBuffer());
-    arg.mUnk_00 = TRUE;
-    arg.mUnk_04 = GetFontByIndex(1);
-    arg.mUnk_08 = 0;
-    arg.mUnk_0c = 1;
-    arg.mUnk_10 = 0;
-    arg.mUnk_14 = FALSE;
-    arg.mUnk_18 = NULL;
-    arg.mUnk_1c = TRUE;
-    arg.mUnk_20 = TRUE;
-    arg.mUnk_24 = 0;
+    arg.mUseTxtSystem = TRUE;
+    arg.mTxtSystemFont = GetFontByIndex(1);
+    arg.mUseCanvas1 = 0;
+    arg.mUseCanvas2 = 1;
+    arg.mUseCanvas3 = 0;
+    arg.mUseSelectChoises = FALSE;
+    arg.mSelectChoisesFont = NULL;
+    arg.mUseSelectReturn = TRUE;
+    arg.mUseBackScreen = TRUE;
+    arg.mBackScreenKind = 0;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
     func_02125de0(heap, &arg);
     gOptionStates->mStateHeap = CreateExpHeapFromMaxFree(gOptionStates->mHeap);

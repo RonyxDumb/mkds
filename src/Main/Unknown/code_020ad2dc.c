@@ -46,7 +46,7 @@
 #include "code_0214b824.h"
 #include "Main/Unknown/code_02044618.h"
 
-void *func_020ada10(void) {
+void *TitleGetCurrentHeap(void) {
     return GetHeap(GetCurrentHeapCall());
 }
 
@@ -54,35 +54,35 @@ u32 GetTitleBlendDone(void) {
     return (data_0217b488->mTitleBlendDone);
 }
 
-void func_020ad9c0(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7, u32 cntVal8,
-                   u32 cntVal2, u32 cntVal13) {
+void TitleSetMainBg1Record(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7,
+                           u32 cntVal8, u32 cntVal2, u32 cntVal13) {
     SetBg1Record(&displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, cntVal7, cntVal8, cntVal2, cntVal13);
 }
 
-void func_020ad98c(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8,
-                   u32 cntVal2) {
+void TitleSetMainBg2RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e,
+                                 u32 cntVal8, u32 cntVal2) {
     SetBg2RecordParams(&displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, e, cntVal8, cntVal2);
 }
 
-void func_020ad958(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8,
-                   u32 cntVal2) {
+void TitleSetMainBg3RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e,
+                                 u32 cntVal8, u32 cntVal2) {
     SetBg3RecordParams(&displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, e, cntVal8, cntVal2);
 }
 
-void func_020ad924(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8,
-                   u32 cntVal2) {
+void TitleSetSubBg3RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e,
+                                u32 cntVal8, u32 cntVal2) {
     SetBg3RecordParams(&displaySettings->mSubBgRecords, cntLow2, cntBit6, cntVal14, e, cntVal8, cntVal2);
 }
 
-void func_020ad904(u32 bits) {
+void TitleSetMainDispcntBits(u32 bits) {
     reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffcfffef) | bits;
 }
 
-void func_020ad8e0(u32 bits) {
+void TitleSetSubDispcntBits(u32 bits) {
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffcfffef) | bits;
 }
 
-void func_020ad8a4(u32 plane1, u32 plane2, u32 ev1, u32 ev2) {
+void TitleWriteSubBlendAlpha(u32 plane1, u32 plane2, u32 ev1, u32 ev2) {
     G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, plane1, plane2, ev1, ev2);
 }
 
@@ -120,10 +120,10 @@ void CreateTitleScene(void) {
     s32 useTrueFiles;
     s32 objSizeLeft;
     DisplaySettings *displaySettings;
-    Unk02125de0Arg config;
+    SceneTextInitParams config;
 
     useTrueFiles = IsAllGrandPrixRecordsTopRank();
-    gTitleScene = HeapAlloc(func_020ada10(), 0x8bc);
+    gTitleScene = HeapAlloc(TitleGetCurrentHeap(), 0x8bc);
     gTitleScene->mStateFrames = 0;
     gTitleScene->mStateChanged = TRUE;
     gTitleScene->mPrevState = 0;
@@ -156,13 +156,14 @@ void CreateTitleScene(void) {
     gTitleScene->mTitleSBncl = FindSceneFileWrapper(gTitleSBnclName);
     gTitleScene->mTitleSBnbl = FindSceneFileWrapper(gTitleSBnblName);
     gTitleScene->mTitleSBnll = FindSceneFileWrapper(gTitleSBnllName);
-    displaySettings = CreateDisplaySettings(func_020ada10(), data_02156840);
-    func_020ad9c0(displaySettings, 0, 0, 0, 0, 2, 0, 0);
-    func_020ad98c(displaySettings, 2, 0, 0, 1, 14, 4);
-    func_020ad958(displaySettings, 3, 0, 0, 1, 15, 4);
-    func_020ad924(displaySettings, 3, 0, 0, 0, 1, 6);
+    displaySettings = CreateDisplaySettings(TitleGetCurrentHeap(), data_02156840);
+    TitleSetMainBg1Record(displaySettings, 0, 0, 0, 0, 2, 0, 0);
+    TitleSetMainBg2RecordParams(displaySettings, 2, 0, 0, 1, 14, 4);
+    TitleSetMainBg3RecordParams(displaySettings, 3, 0, 0, 1, 15, 4);
+    TitleSetSubBg3RecordParams(displaySettings, 3, 0, 0, 0, 1, 6);
     InitDisplayFromSettings(displaySettings);
-    InitLayoutTable(func_020ada10(), gTitleScene->mTitleSBncl, gTitleScene->mTitleSBnll, &gTitleScene->mTitleTable);
+    InitLayoutTable(TitleGetCurrentHeap(), gTitleScene->mTitleSBncl, gTitleScene->mTitleSBnll,
+                    &gTitleScene->mTitleTable);
     func_02124a98(0, 1, gTitleScene->mTitleSNceNcer, gTitleScene->mTitleSBncl);
     func_02124a98(1, 1, gTitleScene->mTitleSNceNcer, gTitleScene->mTitleSBncl);
     func_02124a98(2, 1, gTitleScene->mTitleSNceNcer, gTitleScene->mTitleSBncl);
@@ -170,9 +171,9 @@ void CreateTitleScene(void) {
     func_02124a98(4, 1, gTitleScene->mTitleSNceNcer, gTitleScene->mTitleSBncl);
     objSizeLeft = GX_GetSizeOfSubOBJ();
     objSizeLeft -=
-        InitLabelCanvas(func_020ada10(), 0, gTitleScene->mTitleSBnll, 0x55, 0xd, 0xd, gTitleScene->mTitleSNceNcer,
+        InitLabelCanvas(TitleGetCurrentHeap(), 0, gTitleScene->mTitleSBnll, 0x55, 0xd, 0xd, gTitleScene->mTitleSNceNcer,
                         gTitleScene->mTitleSBncl, gTitleScene->mTitleTable, objSizeLeft);
-    InitLabelCanvas(func_020ada10(), 1, gTitleScene->mTitleSBnll, 0x55, 0xd, 0xe, gTitleScene->mTitleSNceNcer,
+    InitLabelCanvas(TitleGetCurrentHeap(), 1, gTitleScene->mTitleSBnll, 0x55, 0xd, 0xe, gTitleScene->mTitleSNceNcer,
                     gTitleScene->mTitleSBncl, gTitleScene->mTitleTable, objSizeLeft);
     func_0212426c(1, 0, gTitleScene->mTitleSBnll, GetBmgEntry(FindSceneFileWrapper(gTitleBmgName), 1),
                   gTitleScene->mTitleSBncl, gTitleScene->mTitleTable);
@@ -190,26 +191,26 @@ void CreateTitleScene(void) {
     GXS_LoadBG3Scr(gTitleScene->mTitleSBgNscr->mData, 0, 0x800);
     GXS_LoadOBJPltt(gTitleScene->mTitleSONclr->mData, 0, gTitleScene->mTitleSONclr->mDataSize);
     GXS_LoadOBJ(gTitleScene->mTitleSNceNcgr->mData, 0, gTitleScene->mTitleSNceNcgr->mDataSize);
-    func_020ad904(0x10);
-    func_020ad8e0(0x10);
-    func_020ad2f0(4, 8, 0, 0x10);
-    func_020ad8a4(0, 0x3f, 6, 10);
+    TitleSetMainDispcntBits(0x10);
+    TitleSetSubDispcntBits(0x10);
+    TitleWriteMainBlendAlpha(4, 8, 0, 0x10);
+    TitleWriteSubBlendAlpha(0, 0x3f, 6, 10);
     func_020ad88c(0);
     func_020ad870(0);
-    config.mUnk_00 = 0;
-    config.mUnk_04 = NULL;
-    config.mUnk_08 = 0;
-    config.mUnk_0c = 0;
-    config.mUnk_10 = 0;
-    config.mUnk_14 = 0;
-    config.mUnk_18 = GetFontByIndex(0);
-    config.mUnk_1c = 0;
-    config.mUnk_20 = 0;
-    config.mUnk_24 = 0;
+    config.mUseTxtSystem = 0;
+    config.mTxtSystemFont = NULL;
+    config.mUseCanvas1 = 0;
+    config.mUseCanvas2 = 0;
+    config.mUseCanvas3 = 0;
+    config.mUseSelectChoises = 0;
+    config.mSelectChoisesFont = GetFontByIndex(0);
+    config.mUseSelectReturn = 0;
+    config.mUseBackScreen = 0;
+    config.mBackScreenKind = 0;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-    func_02125de0(func_020ada10(), &config);
-    gTitleScene->mCharacterKartPicks = func_0203bedc(func_020ada10());
-    func_020acab8(0);
+    func_02125de0(TitleGetCurrentHeap(), &config);
+    gTitleScene->mCharacterKartPicks = func_0203bedc(TitleGetCurrentHeap());
+    SetConnectionKind(0);
     func_0204aa28(0);
     ClearShuffledIndices();
     func_020ad85c(1);
@@ -223,14 +224,14 @@ void CreateTitleScene(void) {
 
 #pragma thumb on
 
-void func_020ad32c(void) {
+void ReleaseTitleSceneObject(void) {
     func_02125da0();
     gTitleScene = NULL;
 }
 
 #pragma thumb off
 
-void func_020ad2f0(u32 plane1, u32 plane2, u32 ev1, u32 ev2) {
+void TitleWriteMainBlendAlpha(u32 plane1, u32 plane2, u32 ev1, u32 ev2) {
     G2x_SetBlendAlpha_(&reg_G2_BLDCNT, plane1, plane2, ev1, ev2);
 }
 

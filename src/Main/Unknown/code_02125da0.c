@@ -16,7 +16,7 @@
 
 #pragma thumb on
 
-void func_02125de0(void *heap, Unk02125de0Arg *config) {
+void func_02125de0(void *heap, SceneTextInitParams *config) {
     TxtSystemArgs txtConfig;
 
     data_0217d3ec = HeapAlloc(heap, 0x814);
@@ -24,25 +24,26 @@ void func_02125de0(void *heap, Unk02125de0Arg *config) {
     data_0217d3ec->mUseTxtSystem = FALSE;
     data_0217d3ec->mUseSelectChoises = FALSE;
     data_0217d3ec->mUnk_08 = FALSE;
-    if (config->mUnk_00 != FALSE) {
-        txtConfig.mFont = (u32) config->mUnk_04;
-        txtConfig.mUseCanvas1 = config->mUnk_08;
-        txtConfig.mUseCanvas2 = config->mUnk_0c;
-        txtConfig.mUseCanvas3 = config->mUnk_10;
+    if (config->mUseTxtSystem != FALSE) {
+        txtConfig.mFont = (u32) config->mTxtSystemFont;
+        txtConfig.mUseCanvas1 = config->mUseCanvas1;
+        txtConfig.mUseCanvas2 = config->mUseCanvas2;
+        txtConfig.mUseCanvas3 = config->mUseCanvas3;
         txtConfig.mSubCharOffset = data_0217d3ec->mSubCharOffset;
         data_0217d3ec->mUseTxtSystem = TRUE;
         data_0217d3ec->mSubCharOffset = InitTxtSystem(heap, &txtConfig);
     }
-    if (config->mUnk_14 != FALSE) {
+    if (config->mUseSelectChoises != FALSE) {
         data_0217d3ec->mUseSelectChoises = TRUE;
-        data_0217d3ec->mSubCharOffset = InitSelectChoises(heap, config->mUnk_18, data_0217d3ec->mSubCharOffset);
+        data_0217d3ec->mSubCharOffset =
+            InitSelectChoises(heap, config->mSelectChoisesFont, data_0217d3ec->mSubCharOffset);
     }
-    if (config->mUnk_1c != FALSE) {
+    if (config->mUseSelectReturn != FALSE) {
         data_0217d3ec->mUnk_08 = TRUE;
         data_0217d3ec->mSubCharOffset = InitSelectReturn(heap, data_0217d3ec->mSubCharOffset);
     }
-    if (config->mUnk_20 != FALSE) {
-        data_0217d3ec->mBackScreenKind = config->mUnk_24;
+    if (config->mUseBackScreen != FALSE) {
+        data_0217d3ec->mBackScreenKind = config->mBackScreenKind;
         func_02125ba4();
         data_0217d3ec->mSubCharOffset = LoadBackScreen(data_0217d3ec->mSubCharOffset);
     }

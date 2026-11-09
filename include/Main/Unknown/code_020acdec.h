@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_020acdec(u32 slotIndex);
+u32 TitleGetSlotPairX(u32 slotIndex);

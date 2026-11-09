@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_020acefc(u32 value);
+u32 TitleState2ReturnArgumentWrapper(u32 value);

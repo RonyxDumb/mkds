@@ -11,14 +11,14 @@ void AdvanceTitleBlend(void) {
 
     n = gTitleScene->mBlendFrames++;
     if (n < 30) {
-        func_020ad2f0(4, 8, 0, 16);
+        TitleWriteMainBlendAlpha(4, 8, 0, 16);
     } else if (n < 47) {
         m = n - 30;
-        func_020ad2f0(4, 8, m, 16 - m);
+        TitleWriteMainBlendAlpha(4, 8, m, 16 - m);
     } else if (n < 107) {
-        func_020ad2f0(0, 0, 0, 0);
+        TitleWriteMainBlendAlpha(0, 0, 0, 0);
     } else {
-        func_020ad2f0(0, 0, 0, 0);
+        TitleWriteMainBlendAlpha(0, 0, 0, 0);
         SetTitleBlendDone(1);
         gTitleScene->mBlendDone = TRUE;
         gTitleScene->mBlendFrames--;

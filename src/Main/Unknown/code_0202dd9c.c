@@ -40,7 +40,7 @@
 #pragma thumb on
 
 void InitGhostScene(void *heap) {
-    Unk02125de0Arg arg;
+    SceneTextInitParams arg;
     DisplaySettings *displaySettings;
     s32 i;
     u32 courseId;
@@ -55,16 +55,16 @@ void InitGhostScene(void *heap) {
     SetBg3RecordParams(&displaySettings->mSubBgRecords, 2, 0, 0, 0, 0xf, 0);
     InitDisplayFromSettings(displaySettings);
     LoadGhostSceneFiles();
-    arg.mUnk_00 = 1;
-    arg.mUnk_04 = GetFontByIndex(1);
-    arg.mUnk_08 = 1;
-    arg.mUnk_0c = 1;
-    arg.mUnk_10 = 0;
-    arg.mUnk_14 = 0;
-    arg.mUnk_18 = NULL;
-    arg.mUnk_1c = 1;
-    arg.mUnk_20 = 1;
-    arg.mUnk_24 = 0;
+    arg.mUseTxtSystem = 1;
+    arg.mTxtSystemFont = GetFontByIndex(1);
+    arg.mUseCanvas1 = 1;
+    arg.mUseCanvas2 = 1;
+    arg.mUseCanvas3 = 0;
+    arg.mUseSelectChoises = 0;
+    arg.mSelectChoisesFont = NULL;
+    arg.mUseSelectReturn = 1;
+    arg.mUseBackScreen = 1;
+    arg.mBackScreenKind = 0;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
     func_02125de0(heap, &arg);
     SetTxtSystemMode(1);

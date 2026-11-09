@@ -65,7 +65,7 @@
 #pragma optimize_for_size on
 void InitMenu(void) {
     MenuScene *menu;
-    Unk02125de0Arg config;
+    SceneTextInitParams config;
     DisplaySettings *displaySettings;
 
     data_0217b43c = HeapAlloc(func_020cb99c(), 0x960);
@@ -161,16 +161,16 @@ void InitMenu(void) {
     }
     LoadSelectGameData();
     LoadSelectRaceRuleAndWaitData();
-    config.mUnk_00 = func_020cbad0();
-    config.mUnk_04 = GetFontByIndex(1);
-    config.mUnk_08 = 0;
-    config.mUnk_0c = 1;
-    config.mUnk_10 = 0;
-    config.mUnk_14 = 1;
-    config.mUnk_18 = GetFontByIndex(2);
-    config.mUnk_1c = 1;
-    config.mUnk_20 = 1;
-    config.mUnk_24 = 0;
+    config.mUseTxtSystem = func_020cbad0();
+    config.mTxtSystemFont = GetFontByIndex(1);
+    config.mUseCanvas1 = 0;
+    config.mUseCanvas2 = 1;
+    config.mUseCanvas3 = 0;
+    config.mUseSelectChoises = 1;
+    config.mSelectChoisesFont = GetFontByIndex(2);
+    config.mUseSelectReturn = 1;
+    config.mUseBackScreen = 1;
+    config.mBackScreenKind = 0;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
     func_02125de0(func_020cb99c(), &config);
     if (func_020cae54() == 2) {

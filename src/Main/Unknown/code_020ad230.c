@@ -6,7 +6,7 @@
 
 #pragma thumb on
 
-u32 func_020ad264(u32 value) {
+u32 TitleState0ReturnArgument(u32 value) {
     return value;
 }
 
@@ -24,7 +24,7 @@ void UpdateTitleState0(void) {
     AdvanceTitleBlend();
 }
 
-u32 func_020ad230(u32 value) {
+u32 TitleReturnArgument(u32 value) {
     return value;
 }
 

@@ -11,8 +11,8 @@
 #include "00/code_02181f98.h"
 
 #pragma thumb on
-u32 func_020acb00(u32 arg0) {
-    return func_020ad230(arg0);
+u32 TitleState4ReturnArgumentWrapper(u32 value) {
+    return TitleReturnArgument(value);
 }
 #pragma thumb off
 
@@ -29,14 +29,14 @@ void UpdateTitleState4(void) {
     SetupAndDrawTitleTable();
 }
 
-void func_020acacc(void) {}
+void TitleState5Nop(void) {}
 
 #pragma thumb off
 
-void func_020acab8(u32 p0) {
-    data_021759d0->mConnectionKind = p0;
+void SetConnectionKind(u32 value) {
+    data_021759d0->mConnectionKind = value;
 }
 
-void func_020acaa4(u32 p0) {
-    data_0217b488->mUnk_74 = p0;
+void func_020acaa4(u32 value) {
+    data_0217b488->mUnk_74 = value;
 }

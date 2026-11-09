@@ -86,7 +86,7 @@ void LoadWiFiMenuSceneData(void) {
 }
 
 void InitWiFiStates(void *heap, s32 b) {
-    Unk02125de0Arg c;
+    SceneTextInitParams c;
     StateMachine *q;
     gWiFiStates = HeapAlloc(heap, 0x3c);
     gWiFiStates->mHeap = heap;
@@ -94,16 +94,16 @@ void InitWiFiStates(void *heap, s32 b) {
     CreateRaceSetupCopy(heap);
     gWiFiStates->mUnk_2c = func_02125028(heap);
     InitLinkLevelIcons(heap, func_ov000_021804f4());
-    c.mUnk_00 = TRUE;
-    c.mUnk_04 = GetFontByIndex(1);
-    c.mUnk_08 = 0;
-    c.mUnk_0c = 0;
-    c.mUnk_10 = 0;
-    c.mUnk_14 = FALSE;
-    c.mUnk_18 = NULL;
-    c.mUnk_1c = TRUE;
-    c.mUnk_20 = TRUE;
-    c.mUnk_24 = 1;
+    c.mUseTxtSystem = TRUE;
+    c.mTxtSystemFont = GetFontByIndex(1);
+    c.mUseCanvas1 = 0;
+    c.mUseCanvas2 = 0;
+    c.mUseCanvas3 = 0;
+    c.mUseSelectChoises = FALSE;
+    c.mSelectChoisesFont = NULL;
+    c.mUseSelectReturn = TRUE;
+    c.mUseBackScreen = TRUE;
+    c.mBackScreenKind = 1;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
     func_02125de0(heap, &c);
     LoadWiFiMenuSceneData();

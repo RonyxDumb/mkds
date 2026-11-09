@@ -13,7 +13,7 @@ void SetupTitleTable(void) {
     s32 i;
 
     p = gTitleScene->mTitleTable;
-    w = func_020acbe8(gTitleScene->mTitleSBncl);
+    w = TitleGetCellLayoutCount(gTitleScene->mTitleSBncl);
     for (i = 0; i <= 9; i++) {
         p[i].mVisible = 1;
     }

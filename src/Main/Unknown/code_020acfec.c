@@ -19,7 +19,7 @@ void SetupAndDrawTitleTable(void) {
 #pragma thumb off
 
 #pragma thumb on
-u32 func_020acfec(u32 value) {
-    return func_020ad230(value);
+u32 TitleState1ReturnArgumentWrapper(u32 value) {
+    return TitleReturnArgument(value);
 }
 #pragma thumb off

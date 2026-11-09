@@ -55,7 +55,7 @@ void LoadBg1FromSceneFiles(Bg1Files *files, s32 mainScreen, const char *paletteF
 }
 
 void InitLogoScene(void *heap) {
-    Unk02125de0Arg arg;
+    SceneTextInitParams arg;
     DisplaySettings *displaySettings;
     gLogoScene = HeapAlloc(heap, 60);
     displaySettings = CreateDisplaySettings(heap, data_usa_021547c8);
@@ -70,16 +70,16 @@ void InitLogoScene(void *heap) {
     gLogoScene->mUnk_2c_0 = 0;
     gLogoScene->mState0Frames = 0;
     gLogoScene->mCommonMessages = FindFileInLoadedArchives(data_usa_ov001_021a7720);
-    arg.mUnk_00 = TRUE;
-    arg.mUnk_04 = GetFontByIndex(1);
-    arg.mUnk_08 = 0;
-    arg.mUnk_10 = 0;
-    arg.mUnk_14 = FALSE;
-    arg.mUnk_18 = NULL;
-    arg.mUnk_1c = FALSE;
-    arg.mUnk_20 = FALSE;
-    arg.mUnk_24 = 0;
-    arg.mUnk_0c = 1;
+    arg.mUseTxtSystem = TRUE;
+    arg.mTxtSystemFont = GetFontByIndex(1);
+    arg.mUseCanvas1 = 0;
+    arg.mUseCanvas3 = 0;
+    arg.mUseSelectChoises = FALSE;
+    arg.mSelectChoisesFont = NULL;
+    arg.mUseSelectReturn = FALSE;
+    arg.mUseBackScreen = FALSE;
+    arg.mBackScreenKind = 0;
+    arg.mUseCanvas2 = 1;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
     func_02125de0(heap, &arg);
 }

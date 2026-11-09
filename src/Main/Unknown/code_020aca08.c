@@ -3,13 +3,13 @@
 
 #pragma thumb on
 
-u32 func_020aca20(u32 value) {
+u32 TitleState6ReturnArgument(u32 value) {
     return value;
 }
 
-void UpdateTitleState6(Unk0203a0dc *a) {
-    if (a != 0) {
-        a->mNextScene = 0xb;
+void UpdateTitleState6(Unk0203a0dc *sceneNumbers) {
+    if (sceneNumbers != 0) {
+        sceneNumbers->mNextScene = 0xb;
         StopSceneSeqWithFadeSteps();
     }
 }
