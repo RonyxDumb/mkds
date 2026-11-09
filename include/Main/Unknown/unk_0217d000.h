@@ -435,7 +435,7 @@ typedef struct SeqQueue {
 typedef struct GhostRecordSet {
     /* 00 */ struct GhostRecordHead *mCourseGhostRecords;
     /* 04 */ struct Unk0206152c *mSlotGhostRecords;
-    /* 08 */ u8 *mGhostFileRecords;
+    /* 08 */ struct Unk0206152c *mGhostFileRecords;
     /* 0c */ u32 mCourseId;
     /* 10 */ s16 mSlotIndex;
 } GhostRecordSet;

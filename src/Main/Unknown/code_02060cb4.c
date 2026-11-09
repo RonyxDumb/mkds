@@ -12,6 +12,7 @@
 #include "Main/Unknown/code_02152918.h"
 #include "01/code_021956dc.h"
 #include "code_0214d018.h"
+#include "Main/Unknown/unk_0217a000.h" // Unk0206152c
 #include "code_021522a0.h"
 #include "code_02152500.h"
 #include "code_021526e4.h"
@@ -21,14 +22,14 @@
 
 void ReadGhostFileRecords(void) {
     u8 i;
-    u8 *records;
+    Unk0206152c *records;
     char path[0x80];
 
     i = 0;
     records = data_0217aa08->mReadDestination;
     for (; i < 0x20; i++) {
         FormatGhostFilePath(i, path, 0x80);
-        ReadFileBytes(path, records + i * 0x230, 0x230);
+        ReadFileBytes(path, &records[i], 0x230);
     }
     ClearBackupBusy();
     data_0217aa08->mReadDestination = NULL;

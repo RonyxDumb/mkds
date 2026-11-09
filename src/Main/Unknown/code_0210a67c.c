@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_0210a67c.h"
+#include "Main/Unknown/code_020e6fd4.h" // MapObjectSound
 #include "Main/Unknown/code_020d3c94.h"
 #include "code_0212d214.h"
 #include "Main/Unknown/code_0210bcf4.h"
@@ -573,18 +574,18 @@ void func_0210a724(Kart *kart, PlayingSound *playingSound) {
     SetKartPlayingSoundVolumePitch(kart, playingSound, pitchOffset);
 }
 
-void SetVehicleSoundTrackParams(Kart *soundSource, PlayingSound *playingSound) {
+void SetVehicleSoundTrackParams(struct MapObjectSound *soundSource, PlayingSound *playingSound) {
     u32 distanceChange;
 
-    distanceChange = soundSource->mUnk_4c;
+    distanceChange = soundSource->mUnk_44.mDifference;
     SetSndHandleTrackVolume(&playingSound->mSeqPlayer, playingSound->mVolume);
     SetSndHandleTrackPitch(&playingSound->mSeqPlayer, playingSound->mPitch + distanceChange);
 }
 
-void SetNsKiller2SoundTrackParams(Kart *kart, PlayingSound *playingSound) {
+void SetNsKiller2SoundTrackParams(struct MapObjectSound *soundSource, PlayingSound *playingSound) {
     u32 c;
 
-    c = kart->mUnk_4c;
+    c = soundSource->mUnk_44.mDifference;
     SetSndHandleTrackVolume(&playingSound->mSeqPlayer, playingSound->mVolume);
     SetSndHandleTrackPitch(&playingSound->mSeqPlayer, playingSound->mPitch + c);
 }

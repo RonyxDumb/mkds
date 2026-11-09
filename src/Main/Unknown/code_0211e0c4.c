@@ -35,7 +35,7 @@ void InitGhostRecordSet(void *heap) {
     gGhostRecordSet->mSlotGhostRecords = CreateSlotGhostRecords(heap);
     StartReadSlotGhostRecords(gGhostRecordSet->mSlotGhostRecords);
     WaitThreadFunctionsDone();
-    gGhostRecordSet->mGhostFileRecords = (u8 *) CreateGhostFileRecords((u32) heap);
+    gGhostRecordSet->mGhostFileRecords = CreateGhostFileRecords(heap);
     StartReadGhostFileRecords(gGhostRecordSet->mGhostFileRecords);
     WaitThreadFunctionsDone();
     LoadStaffGhostTime(heap);
@@ -61,7 +61,7 @@ void SetupGhostRecordSetForCourse(u32 courseId) {
 
 void GetGhostRecordSetTime(u32 kind, void *time) {
     GhostRecordHead *courseRecords;
-    u8 *records;
+    Unk0206152c *records;
 
     switch (kind) {
         case 0:
@@ -73,7 +73,7 @@ void GetGhostRecordSetTime(u32 kind, void *time) {
             break;
         case 2:
             records = gGhostRecordSet->mGhostFileRecords;
-            GetGhostRecordTime(records + FindCupCourseIndex(gGhostRecordSet->mCourseId) * 0x230, time);
+            GetGhostRecordTime(&records[FindCupCourseIndex(gGhostRecordSet->mCourseId)], time);
             break;
         case 4:
             break;
@@ -82,7 +82,7 @@ void GetGhostRecordSetTime(u32 kind, void *time) {
 
 void GetGhostRecordSetName(u32 kind, void *name) {
     GhostRecordHead *courseRecords;
-    u8 *records;
+    Unk0206152c *records;
     u8 ghostName[0x14];
 
     switch (kind) {
@@ -95,7 +95,7 @@ void GetGhostRecordSetName(u32 kind, void *name) {
             break;
         case 2:
             records = gGhostRecordSet->mGhostFileRecords;
-            GetGhostRecordName(records + FindCupCourseIndex(gGhostRecordSet->mCourseId) * 0x230, ghostName);
+            GetGhostRecordName(&records[FindCupCourseIndex(gGhostRecordSet->mCourseId)], ghostName);
             break;
         case 4:
             break;
@@ -106,7 +106,7 @@ void GetGhostRecordSetName(u32 kind, void *name) {
 
 s32 GetGhostRecordSetCharacterIndex(u32 kind) {
     GhostRecordHead *courseRecords;
-    u8 *records;
+    Unk0206152c *records;
     s32 characterIndex = -1;
 
     switch (kind) {
@@ -125,7 +125,7 @@ s32 GetGhostRecordSetCharacterIndex(u32 kind) {
         case 2:
             records = gGhostRecordSet->mGhostFileRecords;
             characterIndex =
-                GetGhostRecordCharacterIndex(records + FindCupCourseIndex(gGhostRecordSet->mCourseId) * 0x230);
+                GetGhostRecordCharacterIndex(&records[FindCupCourseIndex(gGhostRecordSet->mCourseId)]);
             break;
     }
     return characterIndex;
@@ -133,7 +133,7 @@ s32 GetGhostRecordSetCharacterIndex(u32 kind) {
 
 s32 GetGhostRecordSetKartIndex(u32 kind) {
     GhostRecordHead *courseRecords;
-    u8 *records;
+    Unk0206152c *records;
     s32 kartIndex = -1;
 
     switch (kind) {
@@ -150,7 +150,7 @@ s32 GetGhostRecordSetKartIndex(u32 kind) {
             break;
         case 2:
             records = gGhostRecordSet->mGhostFileRecords;
-            kartIndex = GetGhostRecordKartIndex(records + FindCupCourseIndex(gGhostRecordSet->mCourseId) * 0x230);
+            kartIndex = GetGhostRecordKartIndex(&records[FindCupCourseIndex(gGhostRecordSet->mCourseId)]);
             break;
     }
     return kartIndex;
