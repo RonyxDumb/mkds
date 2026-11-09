@@ -274,7 +274,7 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
                 if (kindData->mUnk_20 == 0) {
                     slotFlags |= data_021568e0;
                 }
-                if (IsKoopaBlockKind(object->mKind) != 0 || func_020e4320(object->mKind) != FALSE ||
+                if (IsKoopaBlockKind(object->mKind) != 0 || IsRotaryKind(object->mKind) != FALSE ||
                     IsBridgeKind(object->mKind) != FALSE || func_020ffabc(object->mKind) != FALSE) {
                     slotFlags |= data_021568e4;
                 }
@@ -390,7 +390,7 @@ void InitMapObjects(void) {
         }
         CreateMapObject(courseRow->mKind, courseRow, NULL);
         gMapObjects->mHasKoopaBlock |= IsKoopaBlockKind(courseRow->mKind);
-        gMapObjects->mUnk_180 |= func_020e4320(courseRow->mKind);
+        gMapObjects->mUnk_180 |= IsRotaryKind(courseRow->mKind);
         gMapObjects->mUnk_184 |= IsBridgeKind(courseRow->mKind);
         gMapObjects->mUnk_188 |= func_020ffabc(courseRow->mKind);
     }

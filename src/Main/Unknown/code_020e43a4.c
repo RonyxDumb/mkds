@@ -8,49 +8,49 @@
 #include "Main/Unknown/code_020e4474.h"
 #include "Main/Unknown/code_020e44d8.h"
 
-void func_020e44d8(Unk020e3ef4 *object) {
-    object->mUnk_14c = 0x0u;
+void EnterRotaryState0(Unk020e3ef4 *object) {
+    object->mSpeedFraction = 0x0u;
 }
 
-void func_020e4474(Unk020e3ef4 *object) {
-    object->mUnk_14c = object->mUnk_14c + object->mUnk_150;
+void UpdateRotaryState0(Unk020e3ef4 *object) {
+    object->mSpeedFraction = object->mSpeedFraction + object->mSpeedFractionPerFrame;
     object->mUnk_000.mMapObject.mAngle =
-        object->mUnk_000.mMapObject.mAngle + (s16) MUL_FIXED12_NO_ROUND(object->mUnk_14c, object->mUnk_14a);
-    if (object->mUnk_000.mMapObject.mStateMachine.mStateFrames > object->mUnk_144) {
+        object->mUnk_000.mMapObject.mAngle + (s16) MUL_FIXED12_NO_ROUND(object->mSpeedFraction, object->mAnglePerFrame);
+    if (object->mUnk_000.mMapObject.mStateMachine.mStateFrames > object->mRampFrameCount) {
         object->mUnk_000.mMapObject.mStateMachine.mNextState = 1;
         object->mUnk_000.mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
-u32 func_020e4470(u32 unused) {
-    return unused;
+u32 RotaryState1ReturnArgument(u32 value) {
+    return value;
 }
 
-void func_020e4434(Unk020e3ef4 *object) {
-    object->mUnk_000.mMapObject.mAngle = object->mUnk_000.mMapObject.mAngle + object->mUnk_14a;
-    if (object->mUnk_146 != 0) {
-        if (object->mUnk_000.mMapObject.mStateMachine.mStateFrames > object->mUnk_146) {
+void UpdateRotaryState1(Unk020e3ef4 *object) {
+    object->mUnk_000.mMapObject.mAngle = object->mUnk_000.mMapObject.mAngle + object->mAnglePerFrame;
+    if (object->mSteadyFrameCount != 0) {
+        if (object->mUnk_000.mMapObject.mStateMachine.mStateFrames > object->mSteadyFrameCount) {
             object->mUnk_000.mMapObject.mStateMachine.mNextState = 2;
             object->mUnk_000.mMapObject.mStateMachine.mNextStateRequested = 1;
         }
     }
 }
 
-void func_020e4428(Unk020e3ef4 *object) {
-    object->mUnk_14c = 0x1000u;
+void EnterRotaryState2(Unk020e3ef4 *object) {
+    object->mSpeedFraction = 0x1000u;
 }
 
-void func_020e43a8(Unk020e3ef4 *object) {
-    object->mUnk_14c = object->mUnk_14c - object->mUnk_150;
+void UpdateRotaryState2(Unk020e3ef4 *object) {
+    object->mSpeedFraction = object->mSpeedFraction - object->mSpeedFractionPerFrame;
     object->mUnk_000.mMapObject.mAngle =
-        object->mUnk_000.mMapObject.mAngle + (s16) MUL_FIXED12_NO_ROUND(object->mUnk_14c, object->mUnk_14a);
-    if (object->mUnk_000.mMapObject.mStateMachine.mStateFrames > object->mUnk_144) {
-        object->mUnk_14a = -object->mUnk_14a;
+        object->mUnk_000.mMapObject.mAngle + (s16) MUL_FIXED12_NO_ROUND(object->mSpeedFraction, object->mAnglePerFrame);
+    if (object->mUnk_000.mMapObject.mStateMachine.mStateFrames > object->mRampFrameCount) {
+        object->mAnglePerFrame = -object->mAnglePerFrame;
         object->mUnk_000.mMapObject.mStateMachine.mNextState = 3;
         object->mUnk_000.mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
-u32 func_020e43a4(u32 unused) {
-    return unused;
+u32 RotaryState3ReturnArgument(u32 value) {
+    return value;
 }

@@ -137,7 +137,7 @@ void SetupItemObjectFromData(ItemObject *item) {
     item->mNormal = data_02159ca0;
     item->mCollisionBits = 0;
     item->mUnk_100 = 0;
-    item->mUnk_104->mUnk_00 = NULL;
+    item->mUnk_104->mObject = NULL;
     item->mUnk_108.x = 0;
     item->mUnk_108.y = 0;
     item->mUnk_108.z = 0;

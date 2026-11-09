@@ -75,7 +75,7 @@ void ResetItemObject(ItemObject *item, s32 kind) {
     item->mBounce = NULL;
     item->mUnk_d0 = &item->mPos;
     item->mCollisionSlotIndex = -1;
-    item->mUnk_104->mUnk_00 = NULL;
+    item->mUnk_104->mObject = NULL;
     if (gRaceSetup->mMode == 5) {
         item->mFlags |= 0x8000000;
     }

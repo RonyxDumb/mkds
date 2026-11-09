@@ -80,7 +80,7 @@ void StartRestingItemObject(ItemObject *item, void *b) {
 
     VEC_MultAdd(-item->mUnk_dc, &item->mNormal, &item->mPos, &item->mUnk_108);
     UpdateCollisionHitLink(b, item->mCollisionBits, item->mUnk_104, &item->mUnk_108, &item->mNormal);
-    if (item->mUnk_104->mUnk_00 != NULL && func_020e0448((Unk020e0448 *) item->mUnk_104) != 0) {
+    if (item->mUnk_104->mObject != NULL && func_020e0448((Unk020e0448 *) item->mUnk_104) != 0) {
         item->mUnk_11a = 0xe10;
     } else {
         item->mUnk_11a = 0;
@@ -115,11 +115,11 @@ void StartRestingItemObject(ItemObject *item, void *b) {
 void AdvanceRestingItemObject(ItemObject *item) {
     u32 w;
 
-    if (item->mUnk_104->mUnk_00 != NULL) {
-        if (func_020e04b0(item->mUnk_104, &item->mUnk_108, &item->mNormal) != FALSE) {
+    if (item->mUnk_104->mObject != NULL) {
+        if (GetCollisionHitLinkPosAndVelocity(item->mUnk_104, &item->mUnk_108, &item->mNormal) != FALSE) {
             StartFallingItemObject(item);
         }
-        if (item->mUnk_104->mUnk_00->mCollisionData.mUnk_130 != FALSE) {
+        if (item->mUnk_104->mObject->mCollisionData.mUnk_130 != FALSE) {
             if (item->mNormal.y < 0xff4) {
                 item->mFlags |= 0x80;
             }

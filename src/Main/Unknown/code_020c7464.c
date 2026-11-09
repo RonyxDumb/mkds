@@ -892,7 +892,7 @@ void UpdateRaceHudSubScreenChoropuCells(void) {
             object = gRaceHudSubScreenChoropuCells->mObjects[i];
             if (ComputeRaceHudSubScreenPosition(
                     &object->mPos, &gRaceHudSubScreenChoropuCells->mCells[cellCount].mDrawPos, a, 0, 0) != FALSE) {
-                height = object->mPos.y - ((Unk020e2f0c *) object)->mUnk_0a8;
+                height = object->mPos.y - ((Choropu *) object)->mInitialY;
                 if (height >= -0x9000) {
                     isPositiveHeight = height > 0 ? 1 : 0;
                     gRaceHudSubScreenChoropuCells->mCells[cellCount].mCell =
@@ -1157,7 +1157,7 @@ s32 CreateRaceHudSubScreenItemBoxCells(void) {
             created = CreateRaceHudSubScreenCells(&gRaceHudSubScreenItemBoxCells, kind);
             highest = 0;
             for (j = 0; j < gRaceHudSubScreenItemBoxCells->mObjectCount; j++) {
-                s32 v = func_020de9f8((ItemBox *) gRaceHudSubScreenItemBoxCells->mObjects[j]);
+                s32 v = GetItemBoxMaxGroupDistance((ItemBox *) gRaceHudSubScreenItemBoxCells->mObjects[j]);
                 if (v > highest) {
                     highest = v;
                 }

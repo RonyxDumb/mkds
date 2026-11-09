@@ -65,16 +65,16 @@
 
 #pragma thumb on
 
-void InitChoropu(Unk020e2f0c *choropu, struct CourseMapRow *courseRow) {
+void InitChoropu(Choropu *choropu, struct CourseMapRow *courseRow) {
     InitStateMachine(&choropu->mUnk_000.mStateMachine, gChoropuStateTable, 8, choropu);
-    choropu->mUnk_0a8 = choropu->mUnk_000.mPos.y;
-    choropu->mUnk_0ac = choropu->mUnk_000.mPos.y - 0x12000;
-    choropu->mUnk_0b0 = choropu->mUnk_000.mPos.y - 0x18000;
-    choropu->mUnk_0a4 = courseRow->mUnk_28;
-    choropu->mUnk_0a0 = courseRow->mUnk_2a;
+    choropu->mInitialY = choropu->mUnk_000.mPos.y;
+    choropu->mBottomY = choropu->mUnk_000.mPos.y - 0x12000;
+    choropu->mLowestY = choropu->mUnk_000.mPos.y - 0x18000;
+    choropu->mRepeatDelayFrameCount = courseRow->mUnk_28;
+    choropu->mStartDelayFrameCount = courseRow->mUnk_2a;
     choropu->mUnk_000.mStateMachine.mNextState = 0;
     choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
-    RefreshShadowMatrix(&choropu->mUnk_0bc, &choropu->mUnk_000.mPos,
+    RefreshShadowMatrix(&choropu->mShadowMatrix, &choropu->mUnk_000.mPos,
                         MUL_FIXED12_NO_ROUND(choropu->mUnk_000.mScale.x, 0x1b000), 0x1e);
     choropu->mUnk_000.mFlags |= data_02158b7c;
 }

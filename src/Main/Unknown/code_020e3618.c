@@ -39,9 +39,9 @@ void CreateBridge(void) {
     file = FindCourseMapObjFile(gBridgeNsbmdName);
     CreateNsbmd(&gBridge, file, NULL);
     CreateModelAnimation(0, gBridge, &gBridgeNsbca, file, FindCourseMapObjFile(gBridgeNsbcaName));
-    data_0217b7c4->mAnimationFrameCount = GetModelAnimationFrameCountFixed(gBridgeNsbca);
+    gBridgeDrawList->mAnimationFrameCount = GetModelAnimationFrameCountFixed(gBridgeNsbca);
     SetNsbmdPolygonIdLightEmiAll(gBridge, 0x3f, 2, 0x294a);
-    SetMapObjectsModel(&data_0217b7c4->mMapObjectList, gBridge);
+    SetMapObjectsModel(&gBridgeDrawList->mMapObjectList, gBridge);
 }
 
 void InitBridge(Bridge *bridge, struct CourseMapRow *courseRow) {
@@ -129,7 +129,7 @@ void SetupDrawChoropu(void) {
     QueueNsbmdModelMaterial(gChoropu);
 }
 
-void DrawChoropu(s32 a, Unk020e2f0c *choropu, s32 c, u16 alpha) {
+void DrawChoropu(s32 a, Choropu *choropu, s32 c, u16 alpha) {
     MtxFx43 *matrix;
 
     switch (choropu->mUnk_000.mStateMachine.mState) {
@@ -144,7 +144,8 @@ void DrawChoropu(s32 a, Unk020e2f0c *choropu, s32 c, u16 alpha) {
         case 7:
             gChoropu->mFrameIndex = 1;
             matrix = SetViewTransposeMatrixPos(&choropu->mUnk_000.mPos);
-            DrawNsbmdModelWithMatrixAndAngle(gChoropu, matrix, choropu->mUnk_0b8, &choropu->mUnk_000.mScale, 0, alpha);
+            DrawNsbmdModelWithMatrixAndAngle(gChoropu, matrix, choropu->mSpinAngle, &choropu->mUnk_000.mScale, 0,
+                                             alpha);
             break;
         default:
             gChoropu->mFrameIndex = 0;

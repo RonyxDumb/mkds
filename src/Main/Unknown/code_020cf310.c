@@ -138,7 +138,7 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
                                         {20, 20, 20, 20, 20, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17}};
             u8 *colorIndexCursor;
 
-            v = func_020e3b08();
+            v = GetFirstBridgeAnimationFrame();
             if (v < 0x13) {
                 j = 0;
             } else if (v < 0x2c) {
@@ -218,7 +218,7 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
             if (kindDrawList != NULL) {
                 blocks = RaceHudSubScreenGetMapObjects(kindDrawList);
                 for (i = 0; i < 4; i++) {
-                    v = func_020dff4c(blocks[i]);
+                    v = GetKoopaBlockProgress(blocks[i]);
                     if (i % 2 != 0) {
                         n = (v << 3) >> 12;
                     } else {

@@ -8,17 +8,17 @@
 
 void UpdateKoopaBlockState2(Unk020e005c *koopaBlock);
 void DrawAllKoopaBlocks(void *viewMatrix);
-u32 IsKoopaBlockKind(u32 kind);
-s32 func_020dff4c(Unk020e005c *koopaBlock);
+BOOL IsKoopaBlockKind(u32 kind);
+s32 GetKoopaBlockProgress(Unk020e005c *koopaBlock);
 void CreateKoopaBlock(void);
 void InitKoopaBlock(Unk020e005c *koopaBlock, CourseMapRow *courseRow);
 MapObjectKindData *CreateMkdEfBubbleKindData(void);
 MapObjectDrawList *CreateMkdEfBubbleDrawList(void);
-Unk020dfc44 *CreateMkdEfBubbleUpdateList(void);
+MkdEfBubbleUpdateList *CreateMkdEfBubbleUpdateList(void);
 /* writes the polygon alpha cap (mUnk_030 of its effect record), read only by draw routines */
-void DrawMkdEfBubble(void *a, MkdEfBubbleObject *bubble, void *c, s32 alpha);
+void DrawMkdEfBubble(void *unused0, MkdEfBubbleObject *bubble, void *unused1, s32 alpha);
 void AdvanceMkdEfBubbleAnimation(void);
-void UpdateMkdEfBubble(void *a,
+void UpdateMkdEfBubble(void *unused,
                        MkdEfBubbleObject *bubble); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void EnterMkdEfBubbleState0(MkdEfBubbleObject *bubble);
 void UpdateMkdEfBubbleState0(MkdEfBubbleObject *bubble);

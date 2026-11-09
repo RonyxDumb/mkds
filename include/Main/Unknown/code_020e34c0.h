@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk020e2f0c Unk020e2f0c;
+typedef struct Choropu Choropu;
 
-void EnterChoropuState3(Unk020e2f0c *choropu);
+void EnterChoropuState3(Choropu *choropu);

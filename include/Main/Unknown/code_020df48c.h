@@ -34,5 +34,5 @@ void CreateMkdEfBubble(void);
 void InitMkdEfBubble(MkdEfBubbleObject *bubble, CourseMapRow *row);
 MapObjectKindData *CreateGroupItemBoxKindData(void);
 MapObjectList *CreateGroupItemBoxUpdateList(void);
-void func_020df58c(void);
+void UpdateGroupItemBoxHeightOffset(void);
 void UpdateGroupItemBox(void *unused, ItemBox *itemBox);

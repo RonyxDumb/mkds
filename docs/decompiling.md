@@ -653,7 +653,7 @@ Expression shapes:
 - A hand-rotated do-while guard giving `bcc` (ROM `blt`) and swapped registers at `j++`: a plain `for (j = 1; j <= f();
   j++)` with the increment at the end (StartRaceHudLapTimeDisplay).
 - A later loop's counter and its strength-reduced offset swapped: a new named counter and a new named bound for that
-  loop (func_020e4184).
+  loop (CreateRotary).
 - A stack variable's `+1` placed among the pointer steps, where its first use appears in the body, is a derived
   induction variable: no `a++`; pass `a + i` with a `u16` type like its source. An `s32 a` gives a per-pass add (Thumb;
   func_02113d84).

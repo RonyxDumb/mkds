@@ -8,8 +8,8 @@
 extern CollisionHitRecord data_0216b8c4;
 extern CollisionHitRecord data_0216b8ec;
 extern const StateCallbacks gKuriboStateTable[];
-extern const StateCallbacks data_0216bfc0[];
-extern const StateCallbacks data_0216bff8[];
+extern const StateCallbacks gMkdEfBubbleStateTable[];
+extern const StateCallbacks gKoopaBlockStateTable[];
 
 // Objects whose layout isn't known yet.
 extern const char gKuriboNsbmdName[];

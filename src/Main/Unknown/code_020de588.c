@@ -76,29 +76,29 @@ void InitItemBox(ItemBox *itemBox, CourseMapRow *row) {
         } else {
             v1 = FALSE;
         }
-        itemBox->mUnk_0a8 = v1;
+        itemBox->mUsesGroupShadow = v1;
         itemBox->mUnk_0ac = row->mUnk_34;
-        itemBox->mUnk_0f8 = 0;
+        itemBox->mNoCourseRow = 0;
     } else {
-        itemBox->mUnk_0a8 = 1;
+        itemBox->mUsesGroupShadow = 1;
         itemBox->mUnk_0ac = 0;
-        itemBox->mUnk_0f8 = 1;
+        itemBox->mNoCourseRow = 1;
         SetMapObjectScale(&itemBox->mUnk_000, &data_02158694);
     }
-    if (itemBox->mUnk_0f8 != 0) {
+    if (itemBox->mNoCourseRow != 0) {
         itemBox->mUnk_0f2 = 0;
         itemBox->mUnk_0f4 = 0;
     } else {
         itemBox->mUnk_0f2 = row->mUnk_2a;
         itemBox->mUnk_0f4 = row->mUnk_2c;
     }
-    if (itemBox->mUnk_0f8 != 0) {
+    if (itemBox->mNoCourseRow != 0) {
         itemBox->mShadowMode = 1;
     } else {
         itemBox->mShadowMode = row->mUnk_2e;
         if (itemBox->mShadowMode == 0) {
             shadowPos = row->mUnk_00;
-            if (itemBox->mUnk_0a8 != 0) {
+            if (itemBox->mUsesGroupShadow != 0) {
                 shadowPos.y += 0x800;
             }
             if (RefreshShadowMatrix(&itemBox->mUnk_0b4, &shadowPos, 0x14000, 0xd) == 0) {

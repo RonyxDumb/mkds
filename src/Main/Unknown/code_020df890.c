@@ -62,10 +62,10 @@ void UpdateKoopaBlockState2(Unk020e005c *koopaBlock) {
 }
 
 void DrawAllKoopaBlocks(void *viewMatrix) {
-    DrawVisibleMapObjects(data_0217b784, viewMatrix, DrawMapObjectModelAtPos);
+    DrawVisibleMapObjects(gKoopaBlockDrawList, viewMatrix, DrawMapObjectModelAtPos);
 }
 
-u32 IsKoopaBlockKind(u32 kind) {
+BOOL IsKoopaBlockKind(u32 kind) {
     switch (kind) {
         case 0xca:
             return 1;
@@ -74,7 +74,7 @@ u32 IsKoopaBlockKind(u32 kind) {
     }
 }
 
-s32 func_020dff4c(Unk020e005c *koopaBlock) {
+s32 GetKoopaBlockProgress(Unk020e005c *koopaBlock) {
     s32 progress;
     GroupFollower *follower;
 
@@ -93,11 +93,11 @@ void CreateKoopaBlock(void) {
     file = FindCourseMapObjFile("koopa_block.nsbmd");
     CreateNsbmd(&gKoopaBlock, file, NULL);
     SetNsbmdPolygonIdLightEmiAll(gKoopaBlock, 0x3f, 2, 0x294a);
-    SetMapObjectsModel(data_0217b784, gKoopaBlock);
+    SetMapObjectsModel(gKoopaBlockDrawList, gKoopaBlock);
 }
 
 void InitKoopaBlock(Unk020e005c *koopaBlock, CourseMapRow *courseRow) {
-    InitStateMachine(&koopaBlock->mUnk_000.mMapObject.mStateMachine, data_0216bff8, 3, koopaBlock);
+    InitStateMachine(&koopaBlock->mUnk_000.mMapObject.mStateMachine, gKoopaBlockStateTable, 3, koopaBlock);
     koopaBlock->mUnk_168 = (courseRow->mUnk_28 << 12) / 100;
     InitGroupFollower(&koopaBlock->mUnk_144, courseRow, koopaBlock->mUnk_168);
     koopaBlock->mUnk_16c = 0;
@@ -144,21 +144,21 @@ MapObjectKindData *CreateMkdEfBubbleKindData(void) {
 }
 
 MapObjectDrawList *CreateMkdEfBubbleDrawList(void) {
-    data_0217b774 = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    *data_0217b774 = data_021587b0;
-    SetDrawListSlot(&data_0217b774);
-    return data_0217b774;
+    gMkdEfBubbleDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    *gMkdEfBubbleDrawList = data_021587b0;
+    SetDrawListSlot(&gMkdEfBubbleDrawList);
+    return gMkdEfBubbleDrawList;
 }
 
-Unk020dfc44 *CreateMkdEfBubbleUpdateList(void) {
-    data_0217b76c = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    *data_0217b76c = data_02158784;
-    SetUpdateListSlot(&data_0217b76c);
-    data_0217b76c->mUnk_28 = FX_Div(0x4000000, 0x1333);
-    return data_0217b76c;
+MkdEfBubbleUpdateList *CreateMkdEfBubbleUpdateList(void) {
+    gMkdEfBubbleUpdateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    *gMkdEfBubbleUpdateList = data_02158784;
+    SetUpdateListSlot(&gMkdEfBubbleUpdateList);
+    gMkdEfBubbleUpdateList->mAngleScale = FX_Div(0x4000000, 0x1333);
+    return gMkdEfBubbleUpdateList;
 }
 
-void DrawMkdEfBubble(void *a, MkdEfBubbleObject *bubble, void *c, s32 alpha) {
+void DrawMkdEfBubble(void *unused0, MkdEfBubbleObject *bubble, void *unused1, s32 alpha) {
     s32 v;
     s32 w;
     MtxFx33 rotationMatrix;
@@ -199,7 +199,7 @@ void AdvanceMkdEfBubbleAnimation(void) {
     AdvanceModelAnimation(gMkdEfBubbleNsbta);
 }
 
-void UpdateMkdEfBubble(void *a, MkdEfBubbleObject *bubble) {
+void UpdateMkdEfBubble(void *unused, MkdEfBubbleObject *bubble) {
     AdvanceStateMachine(&bubble->mMapObject.mStateMachine);
     if (bubble->mEffectMissing != 0) {
         return;
@@ -260,8 +260,9 @@ void UpdateMkdEfBubbleState0(MkdEfBubbleObject *bubble) {
         if (bubble->mMapObject.mUnk_10.y <= -0x1333) {
             bubble->mAngleZ = 0x8000;
         } else {
-            bubble->mAngleZ =
-                MUL_FIXED12_NO_ROUND(0x1333 - bubble->mMapObject.mUnk_10.y, data_0217b76c->mUnk_28) >> 12;
+            bubble->mAngleZ = MUL_FIXED12_NO_ROUND(0x1333 - bubble->mMapObject.mUnk_10.y,
+                                                         gMkdEfBubbleUpdateList->mAngleScale) >>
+                              12;
         }
     }
     bubble->mMapObject.mUnk_10.y -= 0x199;

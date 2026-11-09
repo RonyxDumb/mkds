@@ -90,7 +90,7 @@ BOOL func_01ffa380(Kart *p, u32 a, Vec3 *b) {
 
 void func_01ffa350(Kart *p, u32 a) {
     p->mUnk_44 = p->mUnk_44 & ~a;
-    p->mUnk_208->mUnk_00 = NULL;
+    p->mUnk_208->mObject = NULL;
     p->mSurfaceGroup = -1;
     StopKartCurrentEffects(p);
 }
@@ -146,7 +146,7 @@ void AdvanceKartQuaternionBlendFactor(Kart *p, const Vec3 *a) {
     }
     if (d >= 0xe66) {
         if (p->mUnk_44 & 0x1000) {
-            if (p->mUnk_208->mUnk_00 == NULL && p->mUnk_1fc.x == 0 && p->mUnk_1fc.y == 0 && p->mUnk_1fc.z == 0 &&
+            if (p->mUnk_208->mObject == NULL && p->mUnk_1fc.x == 0 && p->mUnk_1fc.y == 0 && p->mUnk_1fc.z == 0 &&
                 p->mUnk_4d0 > 100) {
                 p->mQuaternionBlendFactor = 0;
                 return;
@@ -303,11 +303,11 @@ void func_01ff9cb0(Kart *p) {
         }
     }
     p->mUnk_44 = p->mUnk_44 & ~0x1000;
-    if (p->mUnk_208->mUnk_00 == NULL) {
+    if (p->mUnk_208->mObject == NULL) {
         return;
     }
-    func_020e0538(p->mUnk_208, &p->mPos);
-    p->mUnk_208->mUnk_00 = NULL;
+    GetCollisionHitLinkPosition(p->mUnk_208, &p->mPos);
+    p->mUnk_208->mObject = NULL;
 }
 
 void func_01ff9c9c(Kart *p, u32 a) {

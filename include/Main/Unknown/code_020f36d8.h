@@ -86,7 +86,7 @@ typedef struct ItemObject {
     /* 0f0 */ Vec3 mNormal;
     /* fc */ u32 mCollisionBits;
     /* 100 */ s32 mUnk_100;
-    /* 104 */ struct Unk020e04b0 *mUnk_104;
+    /* 104 */ struct CollisionHitLink *mUnk_104;
     /* 108 */ Vec3 mUnk_108;
     /* 114 */ s16 mUnk_114;
     /* 116 */ s16 mUnk_116;

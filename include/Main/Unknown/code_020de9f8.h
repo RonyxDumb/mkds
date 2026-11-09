@@ -5,5 +5,5 @@
 typedef struct ItemBox ItemBox;
 typedef struct Kart Kart;
 
-u8 CollideKartWithItemBox(ItemBox *itemBox, Kart *kart, void *c, u8 *d);
-u32 func_020de9f8(ItemBox *itemBox);
+u8 CollideKartWithItemBox(ItemBox *itemBox, Kart *kart, void *firstResponsePtr, u8 *secondResponsePtr);
+u32 GetItemBoxMaxGroupDistance(ItemBox *itemBox);

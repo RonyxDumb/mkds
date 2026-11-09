@@ -4,4 +4,4 @@
 
 typedef struct Unk020e3ef4 Unk020e3ef4;
 
-void func_020e4428(Unk020e3ef4 *object);
+void EnterRotaryState2(Unk020e3ef4 *object);

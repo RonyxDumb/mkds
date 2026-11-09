@@ -24,18 +24,18 @@
 
 #pragma thumb off
 
-void func_020e4380(Unk020e3ef4 *object) {
-    if (object->mUnk_000.mMapObject.mStateMachine.mStateFrames > object->mUnk_148) {
+void UpdateRotaryState3(Unk020e3ef4 *object) {
+    if (object->mUnk_000.mMapObject.mStateMachine.mStateFrames > object->mPauseFrameCount) {
         object->mUnk_000.mMapObject.mStateMachine.mNextState = 0;
         object->mUnk_000.mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
 void DrawAllKind203MapObjects(void *viewMatrix) {
-    DrawVisibleMapObjects(data_0217b7e4, viewMatrix, DrawMapObjectModelAtPos);
+    DrawVisibleMapObjects(gRotaryDrawList, viewMatrix, DrawMapObjectModelAtPos);
 }
 
-BOOL func_020e4320(s32 kind) {
+BOOL IsRotaryKind(s32 kind) {
     switch (kind) {
         case 0xcb:
         case 0xce:
@@ -49,13 +49,13 @@ BOOL func_020e4320(s32 kind) {
 
 #pragma thumb on
 
-void func_020e4184(BridgeDrawList *list) {
+void CreateRotary(BridgeDrawList *list) {
     Unk020e3ef4 *object;
     s32 objectIndex;
     s32 modelIndex;
     s32 objectCount;
-    s32 j;
-    s32 l;
+    s32 assignIndex;
+    s32 assignCount;
     u32 *loadedFlagSlot;
     u32 modelLoaded[5];
 
@@ -65,9 +65,9 @@ void func_020e4184(BridgeDrawList *list) {
     objectCount = list->mMapObjectList.mMapObjectCount;
     for (objectIndex = 0; objectIndex < objectCount; objectIndex++) {
         object = list->mMapObjectList.mMapObjects[objectIndex];
-        loadedFlagSlot = &modelLoaded[object->mUnk_158];
-        if (modelLoaded[object->mUnk_158] == 0) {
-            switch (object->mUnk_158) {
+        loadedFlagSlot = &modelLoaded[object->mModelIndex];
+        if (modelLoaded[object->mModelIndex] == 0) {
+            switch (object->mModelIndex) {
                 case 0:
                     CreateNsbmd(&gTestCylinder, FindCourseMapObjFile(gTestCylinderNsbmdName), NULL);
                     SetNsbmdPolygonIdLightEmiAll(gTestCylinder, 0x3f, 2, 0x294a);
@@ -92,10 +92,10 @@ void func_020e4184(BridgeDrawList *list) {
             *loadedFlagSlot = 1;
         }
     }
-    l = list->mMapObjectList.mMapObjectCount;
-    for (j = 0; j < l; j++) {
-        object = list->mMapObjectList.mMapObjects[j];
-        switch (object->mUnk_158) {
+    assignCount = list->mMapObjectList.mMapObjectCount;
+    for (assignIndex = 0; assignIndex < assignCount; assignIndex++) {
+        object = list->mMapObjectList.mMapObjects[assignIndex];
+        switch (object->mModelIndex) {
             case 0:
                 object->mModel = gTestCylinder;
                 break;
@@ -115,42 +115,44 @@ void func_020e4184(BridgeDrawList *list) {
     }
 }
 
-void func_020e410c(BridgeDrawList *list) {
+void InitRotaryObjects(BridgeDrawList *list) {
     Unk020e3ef4 *object;
     s32 index;
     s32 previousIndex;
     s32 count;
-    u32 z;
-    u32 z2;
+    u32 zeroFlag;
+    u32 zeroHeight;
     Vec3 offset;
     void **objects;
-    Unk020e3ef4 *p;
+    Unk020e3ef4 *previousObject;
 
     objects = list->mMapObjectList.mMapObjects;
     previousIndex = -1;
-    z = 0;
-    z2 = 0;
+    zeroFlag = 0;
+    zeroHeight = 0;
     count = list->mMapObjectList.mMapObjectCount;
     for (index = 0; index < count; index++) {
         object = objects[index];
         if (object->mUnk_000.mMapObject.mKind == 0xcb) {
             if (previousIndex < 0) {
-                object->mUnk_000.mCollisionData.mUnk_138 = z;
+                object->mUnk_000.mCollisionData.mUnk_138 = zeroFlag;
             } else {
-                p = objects[previousIndex];
-                VEC_Subtract(&p->mUnk_000.mMapObject.mPos, &object->mUnk_000.mMapObject.mPos, &offset);
-                offset.y = z2;
+                previousObject = objects[previousIndex];
+                VEC_Subtract(&previousObject->mUnk_000.mMapObject.mPos, &object->mUnk_000.mMapObject.mPos, &offset);
+                offset.y = zeroHeight;
                 object->mUnk_154 = VEC_Mag(&offset);
-                p = objects[previousIndex];
-                object->mUnk_154 -= p->mUnk_000.mMapObject.mExtent.x;
+                previousObject = objects[previousIndex];
+                object->mUnk_154 -= previousObject->mUnk_000.mMapObject.mExtent.x;
             }
             previousIndex = index;
         }
     }
 }
 
-void func_020e3ef4(Unk020e3ef4 *object, struct CourseMapRow *courseRow, Unk020e1e98_154 *kindInfo) {
-    InitStateMachine(&object->mUnk_000.mMapObject.mStateMachine, data_0216c168, 4, object);
+// Rotary: turns up to full speed, keeps that speed, slows down, pauses, then turns the other way; the course row sets
+// the timings.
+void InitRotary(Unk020e3ef4 *object, struct CourseMapRow *courseRow, Unk020e1e98_154 *kindInfo) {
+    InitStateMachine(&object->mUnk_000.mMapObject.mStateMachine, gRotaryStateTable, 4, object);
     object->mUnk_000.mCollisionData.mUnk_e8 = object->mUnk_000.mMapObject.mPos;
     object->mUnk_000.mCollisionData.mPrevMatrix = object->mUnk_000.mMapObject.mMatrix.mUnk_00_m;
     object->mUnk_000.mCollisionData.mInitialMatrix = object->mUnk_000.mMapObject.mMatrix.mUnk_00_m;
@@ -158,20 +160,20 @@ void func_020e3ef4(Unk020e3ef4 *object, struct CourseMapRow *courseRow, Unk020e1
     object->mUnk_000.mCollisionData.mAngleChangeVector.y = 0;
     object->mUnk_000.mCollisionData.mAngleChangeVector.z = 0;
     object->mUnk_000.mCollisionData.mUnk_130 = kindInfo->mUnk_00 != 0 ? 0 : 1;
-    object->mUnk_144 = courseRow->mUnk_2c;
-    object->mUnk_146 = courseRow->mUnk_2a;
-    object->mUnk_148 = courseRow->mUnk_2e;
-    object->mUnk_14a = courseRow->mUnk_28 * 0x80 / 100;
+    object->mRampFrameCount = courseRow->mUnk_2c;
+    object->mSteadyFrameCount = courseRow->mUnk_2a;
+    object->mPauseFrameCount = courseRow->mUnk_2e;
+    object->mAnglePerFrame = courseRow->mUnk_28 * 0x80 / 100;
     if (courseRow->mUnk_30 != 0) {
-        object->mUnk_14a = -object->mUnk_14a;
+        object->mAnglePerFrame = -object->mAnglePerFrame;
     }
     object->mUnk_000.mMapObject.mAngle = 0;
-    if (object->mUnk_144 != 0) {
-        object->mUnk_150 = 0x1000 / object->mUnk_144;
+    if (object->mRampFrameCount != 0) {
+        object->mSpeedFractionPerFrame = 0x1000 / object->mRampFrameCount;
     } else {
-        object->mUnk_150 = 0;
+        object->mSpeedFractionPerFrame = 0;
     }
-    object->mUnk_14c = 0;
+    object->mSpeedFraction = 0;
     object->mUnk_000.mCollisionData.mUnk_100 =
         MUL_FIXED12_NO_ROUND(kindInfo->mUnk_04, object->mUnk_000.mMapObject.mScale.x);
     object->mUnk_000.mCollisionData.mHalfSizeY =
@@ -190,19 +192,19 @@ void func_020e3ef4(Unk020e3ef4 *object, struct CourseMapRow *courseRow, Unk020e1
     object->mUnk_000.mMapObject.mFlags |= data_02158d58;
     object->mUnk_000.mMapObject.mStateMachine.mNextState = 0;
     object->mUnk_000.mMapObject.mStateMachine.mNextStateRequested = 1;
-    object->mUnk_158 = kindInfo->mUnk_0c;
-    if (object->mUnk_158 == 1 && courseRow->mUnk_32 == 0) {
-        object->mUnk_158 = 2;
+    object->mModelIndex = kindInfo->mUnk_0c;
+    if (object->mModelIndex == 1 && courseRow->mUnk_32 == 0) {
+        object->mModelIndex = 2;
     }
     object->mUnk_000.mMapObject.mFlags &= ~2;
     object->mUnk_000.mMapObject.mFlags &= ~8;
     object->mUnk_000.mMapObject.mAlpha = 0x1f;
     if (kindInfo->mUnk_0c == 0) {
-        object->mUnk_15c = courseRow->mUnk_0c.x > 0 ? 0x175 : 0x176;
+        object->mSoundId = courseRow->mUnk_0c.x > 0 ? 0x175 : 0x176;
     } else {
-        object->mUnk_15c = kindInfo->mUnk_18;
+        object->mSoundId = kindInfo->mUnk_18;
     }
-    if (object->mUnk_15c != -1) {
+    if (object->mSoundId != -1) {
         CreateMapObjectSoundSourceFalloff3(&object->mUnk_000.mMapObject);
     }
 }
@@ -221,31 +223,31 @@ void *CreateBridgeDrawList(void) {
     BridgeDrawList *drawList;
 
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x30);
-    data_0217b7c4 = drawList;
+    gBridgeDrawList = drawList;
     *drawList = data_02158ce8;
-    SetDrawListSlot(&data_0217b7c4);
-    return data_0217b7c4;
+    SetDrawListSlot(&gBridgeDrawList);
+    return gBridgeDrawList;
 }
 
 void *CreateBridgeUpdateList(void) {
     MapObjectList *updateList;
 
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
-    data_0217b7c8 = updateList;
+    gBridgeUpdateList = updateList;
     *updateList = data_02158cc0;
-    SetUpdateListSlot(&data_0217b7c8);
-    return data_0217b7c8;
+    SetUpdateListSlot(&gBridgeUpdateList);
+    return gBridgeUpdateList;
 }
 
-void UpdateBridge(s32 a, Bridge *bridge) {
+void UpdateBridge(s32 unused, Bridge *bridge) {
     s16 sine;
     s32 angleDelta;
-    u16 x;
+    u16 swingMagnitude;
     u16 y;
 
     sine = gPairsByAngle[(bridge->mSwingAngle >> 4) * 2];
-    x = bridge->mSwingAmplitude + MUL_FIXED12_NO_ROUND(sine, bridge->mSwingAmplitude);
-    y = 0x10000 - x;
+    swingMagnitude = bridge->mSwingAmplitude + MUL_FIXED12_NO_ROUND(sine, bridge->mSwingAmplitude);
+    y = 0x10000 - swingMagnitude;
     angleDelta = y - bridge->mAngleX;
     if (angleDelta > 0x8000) {
         angleDelta -= 0x10000;
@@ -283,8 +285,8 @@ void UpdateBridge(s32 a, Bridge *bridge) {
     y = 0x10000 - bridge->mAngleX;
     bridge->mAnimationFrameIndex = (s32) ((((s64) (s32) (u16) (0x10000 - bridge->mAngleX) * 0x1680000) + 0x80000) >> 20)
                                    << 1;
-    if (bridge->mAnimationFrameIndex > data_0217b7c4->mAnimationFrameCount) {
-        bridge->mAnimationFrameIndex = data_0217b7c4->mAnimationFrameCount;
+    if (bridge->mAnimationFrameIndex > gBridgeDrawList->mAnimationFrameCount) {
+        bridge->mAnimationFrameIndex = gBridgeDrawList->mAnimationFrameCount;
     }
     if (bridge->mAnimationFrameIndex < 0) {
         bridge->mAnimationFrameIndex = 0;
@@ -305,5 +307,5 @@ void DrawBridge(Unk020e3ef4 *object, void *viewMatrix, u32 alpha) {
 }
 
 void DrawAllBridges(void *viewMatrix) {
-    DrawVisibleMapObjects(&data_0217b7c4->mMapObjectList, viewMatrix, DrawBridge);
+    DrawVisibleMapObjects(&gBridgeDrawList->mMapObjectList, viewMatrix, DrawBridge);
 }

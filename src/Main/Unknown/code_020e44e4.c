@@ -75,10 +75,10 @@ Unk020e46c8 *func_020e46c8(void) {
 Unk020e466c *func_020e466c(void) {
     Unk020e466c *drawList;
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    data_0217b7e4 = drawList;
+    gRotaryDrawList = drawList;
     *drawList = data_02158ec4;
-    SetDrawListSlot(&data_0217b7e4);
-    return data_0217b7e4;
+    SetDrawListSlot(&gRotaryDrawList);
+    return gRotaryDrawList;
 }
 
 Unk020e4610 *func_020e4610(void) {
@@ -119,8 +119,8 @@ void func_020e44e4(u32 unused, Unk020e3ef4 *object) {
     if (object->mUnk_000.mMapObject.mStateMachine.mState == 3) {
         return;
     }
-    if (object->mUnk_15c == -1) {
+    if (object->mSoundId == -1) {
         return;
     }
-    StartMapObjectSoundWhileRequested(&object->mUnk_000.mMapObject, object->mUnk_15c);
+    StartMapObjectSoundWhileRequested(&object->mUnk_000.mMapObject, object->mSoundId);
 }

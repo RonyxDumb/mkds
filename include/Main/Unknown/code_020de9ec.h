@@ -4,4 +4,4 @@
 
 typedef struct ItemBox ItemBox;
 
-void func_020de9ec(ItemBox *itemBox);
+void SetItemBoxFramesSinceHitMax(ItemBox *itemBox);

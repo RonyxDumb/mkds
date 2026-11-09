@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int func_020e01ec(unsigned int value);
+unsigned int KoopaBlockState0ReturnArgument(unsigned int value);

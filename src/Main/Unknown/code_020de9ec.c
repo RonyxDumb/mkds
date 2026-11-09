@@ -34,7 +34,7 @@
 
 void InitGroupItemBox(ItemBox *itemBox, CourseMapRow *row) {
     InitItemBox(itemBox, row);
-    if (itemBox->mUnk_0f8 != 0) {
+    if (itemBox->mNoCourseRow != 0) {
         itemBox->mFollower.mUnk_00.mGroupIndex = (0x0000ffffu);
         return;
     }
@@ -46,13 +46,13 @@ void InitGroupItemBox(ItemBox *itemBox, CourseMapRow *row) {
 #pragma thumb off
 
 #pragma thumb on
-void func_020df3f8(void) {
-    data_0217b750 = 0;
-    data_0217b754 = 0;
-    data_0217b75c = 0x1000;
-    data_0217b760.x = 0x1000;
-    data_0217b760.y = 0x1000;
-    data_0217b760.z = 0x1000;
+void InitGroupItemBoxObjects(void) {
+    gGroupItemBoxHeightAngle = 0;
+    gGroupItemBoxHeightOffset = 0;
+    gGroupItemBoxShadowScaleWord = 0x1000;
+    gGroupItemBoxShadowScale.x = 0x1000;
+    gGroupItemBoxShadowScale.y = 0x1000;
+    gGroupItemBoxShadowScale.z = 0x1000;
 }
 #pragma thumb off
 
@@ -78,11 +78,11 @@ MapObjectDrawList *CreateQuestionDrawList(void) {
     return gQuestionDrawList;
 }
 
-MapObjectDrawList *func_020df294(void) {
-    data_0217b714 = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    *data_0217b714 = data_021585d0;
-    SetDrawListSlot(&data_0217b714);
-    return data_0217b714;
+MapObjectDrawList *CreateItemBoxShadowDrawList(void) {
+    gItemBoxShadowDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    *gItemBoxShadowDrawList = data_021585d0;
+    SetDrawListSlot(&gItemBoxShadowDrawList);
+    return gItemBoxShadowDrawList;
 }
 
 MapObjectList *CreateItemBoxUpdateList(void) {
@@ -96,19 +96,19 @@ void SetupDrawBox(void) {
     QueueNsbmdModelMaterial(gBox);
 }
 
-void DrawBox(void *unused0, ItemBox *itemBox, void *unused1, u16 d) {
+void DrawBox(void *unused0, ItemBox *itemBox, void *unused1, u16 maxAlpha) {
     MtxFx43 matrix;
     NsbmdModel *model;
     Vec3 *position;
     s32 cosine;
     s32 sine;
     s32 negatedProduct;
-    u16 x;
+    u16 alpha;
     u16 polygonId;
     u16 newPolygonId;
     BoxRotation *rotation;
 
-    if (itemBox->mUnk_0e8 < 1) {
+    if (itemBox->mBoxAlpha < 1) {
         return;
     }
     if (itemBox->mDrawMatrixCallback != NULL) {
@@ -140,17 +140,17 @@ void DrawBox(void *unused0, ItemBox *itemBox, void *unused1, u16 d) {
         model->mPolygonAttributes = model->mPolygonAttributes & 0xc0ffffff;
         model->mPolygonAttributes = model->mPolygonAttributes | polygonId << 24;
     }
-    x = itemBox->mUnk_0e8;
+    alpha = itemBox->mBoxAlpha;
     model = gBox;
     model->mPolygonAttributes = model->mPolygonAttributes & 0xffe0ffff;
-    model->mPolygonAttributes = model->mPolygonAttributes | x << 16;
+    model->mPolygonAttributes = model->mPolygonAttributes | alpha << 16;
     if (itemBox->mPositionSource != NULL) {
         if (itemBox->mUnk_000.mScale.z < 0x29) {
             return;
         }
-        DrawNsbmdModelWithMatrixAndMaxAlpha(gBox, &matrix, &itemBox->mUnk_000.mScale, 0, d);
+        DrawNsbmdModelWithMatrixAndMaxAlpha(gBox, &matrix, &itemBox->mUnk_000.mScale, 0, maxAlpha);
     } else {
-        DrawNsbmdModelWithMatrixAndMaxAlpha(gBox, &matrix, NULL, 0, d);
+        DrawNsbmdModelWithMatrixAndMaxAlpha(gBox, &matrix, NULL, 0, maxAlpha);
     }
 }
 
@@ -158,15 +158,15 @@ void SetupDrawQuestion(void) {
     QueueNsbmdModelMaterial(gQuestion);
 }
 
-void DrawQuestion(void *unused0, ItemBox *itemBox, void *unused1, u16 d) {
+void DrawQuestion(void *unused0, ItemBox *itemBox, void *unused1, u16 maxAlpha) {
     MtxFx43 matrix;
     s32 cosine;
     s32 negatedSine;
     QuestionRotation *rotation;
-    NsbmdModel *p;
+    NsbmdModel *alphaModel;
     Vec3 *position;
-    s32 x;
-    NsbmdModel *p2;
+    s32 alpha;
+    NsbmdModel *polygonIdModel;
     u16 polygonId;
 
     itemBox->mPolygonId = AllocPolygonIdWrapping();
@@ -178,7 +178,7 @@ void DrawQuestion(void *unused0, ItemBox *itemBox, void *unused1, u16 d) {
             return;
         }
     }
-    if (itemBox->mUnk_0ec < 1) {
+    if (itemBox->mQuestionAlpha < 1) {
         return;
     }
     rotation = &gQuestionRotations[itemBox->mQuestionRotationIndex];
@@ -197,57 +197,58 @@ void DrawQuestion(void *unused0, ItemBox *itemBox, void *unused1, u16 d) {
     matrix.mUnk_00[3].x = position->x >> 4;
     matrix.mUnk_00[3].y = position->y >> 4;
     matrix.mUnk_00[3].z = position->z >> 4;
-    p = gQuestion;
-    x = itemBox->mUnk_0ec;
-    p->mPolygonAttributes &= 0xffe0ffff;
-    p->mPolygonAttributes |= (u16) x << 16;
+    alphaModel = gQuestion;
+    alpha = itemBox->mQuestionAlpha;
+    alphaModel->mPolygonAttributes &= 0xffe0ffff;
+    alphaModel->mPolygonAttributes |= (u16) alpha << 16;
     polygonId = itemBox->mPolygonId;
-    p2 = gQuestion;
-    p2->mPolygonAttributes &= 0xc0ffffff;
-    p2->mPolygonAttributes |= polygonId << 24;
+    polygonIdModel = gQuestion;
+    polygonIdModel->mPolygonAttributes &= 0xc0ffffff;
+    polygonIdModel->mPolygonAttributes |= polygonId << 24;
     DrawNsbmdModelWithMatrixAndMaxAlpha(gQuestion, &matrix,
-                                        itemBox->mPositionSource != NULL ? &itemBox->mUnk_000.mScale : 0, 0, d);
+                                        itemBox->mPositionSource != NULL ? &itemBox->mUnk_000.mScale : 0, 0, maxAlpha);
 }
 
-void func_020dee8c(void) {
+void SetupDrawItemBoxShadow(void) {
     s32 angleIndex;
 
     SendObjShadowMaterial();
     if (GetChoisesSOpenDuringRace() != 0) {
         return;
     }
-    data_0217b6fc += 0xca;
-    angleIndex = data_0217b6fc >> 4;
-    MTX_RotY43_(&data_0217b720, gPairsByAngle[angleIndex * 2], gPairsByAngle[angleIndex * 2 + 1]);
+    gItemBoxShadowAngle += 0xca;
+    angleIndex = gItemBoxShadowAngle >> 4;
+    MTX_RotY43_(&gItemBoxShadowMatrix, gPairsByAngle[angleIndex * 2], gPairsByAngle[angleIndex * 2 + 1]);
 }
 
-void func_020dec4c(void *unused, ItemBox *itemBox, u32 c, u32 d) {
+// Also sets the box and question alpha from the frames since the hit; DrawBox and DrawQuestion read them.
+void DrawItemBoxShadow(void *unused, ItemBox *itemBox, u32 unusedArg, u32 maxAlpha) {
     Vec3 shadowScale;
     Vec3 *position;
     s32 n;
-    s32 x;
-    s32 y;
+    s32 boxAlpha;
+    s32 questionAlpha;
     MtxFx43 *matrix;
 
     n = itemBox->mFramesSinceHit - 0x40;
     if (n >= 0x40) {
-        itemBox->mUnk_0e8 = 0x1a;
-        itemBox->mUnk_0ec = 0x14;
+        itemBox->mBoxAlpha = 0x1a;
+        itemBox->mQuestionAlpha = 0x14;
         n = 0xd;
     } else {
-        x = n * 0x1a >> 6;
-        y = n * 0x14 >> 6;
+        boxAlpha = n * 0x1a >> 6;
+        questionAlpha = n * 0x14 >> 6;
         n = n * 0xd >> 6;
-        if (x > 0) {
-            if (y < 1) {
-                y = 1;
+        if (boxAlpha > 0) {
+            if (questionAlpha < 1) {
+                questionAlpha = 1;
             }
             if (n < 1) {
                 n = 1;
             }
         }
-        itemBox->mUnk_0e8 = x;
-        itemBox->mUnk_0ec = y;
+        itemBox->mBoxAlpha = boxAlpha;
+        itemBox->mQuestionAlpha = questionAlpha;
     }
     if ((s32) (itemBox->mUnk_000.mDistanceSquaredAndFlags & ~0xc000001f) > 0x27100) {
         if (func_0203c5e4() == 0) {
@@ -259,18 +260,20 @@ void func_020dec4c(void *unused, ItemBox *itemBox, u32 c, u32 d) {
     }
     if (itemBox->mShadowMode == 0) {
         itemBox->mUnk_0b4.mAlphaCap = n;
-        DrawObjShadowAfterMaterial(&itemBox->mUnk_0b4, itemBox->mUnk_0a8 != 0 ? &data_0217b75c : 0, c, d);
+        DrawObjShadowAfterMaterial(&itemBox->mUnk_0b4,
+                                   itemBox->mUsesGroupShadow != 0 ? &gGroupItemBoxShadowScaleWord : 0, unusedArg,
+                                   maxAlpha);
         return;
     }
     if (itemBox->mShadowMode != 1) {
         return;
     }
-    if (itemBox->mUnk_0a8 != 0) {
+    if (itemBox->mUsesGroupShadow != 0) {
         position = itemBox->mPositionSource;
-        data_0217b720.mUnk_00[3].x = position->x >> 4;
-        data_0217b720.mUnk_00[3].y = position->y >> 4;
-        data_0217b720.mUnk_00[3].z = position->z >> 4;
-        DrawJgShadowWithMatrix(&data_0217b760, &data_0217b720, (u16) n, d);
+        gItemBoxShadowMatrix.mUnk_00[3].x = position->x >> 4;
+        gItemBoxShadowMatrix.mUnk_00[3].y = position->y >> 4;
+        gItemBoxShadowMatrix.mUnk_00[3].z = position->z >> 4;
+        DrawJgShadowWithMatrix(&gGroupItemBoxShadowScale, &gItemBoxShadowMatrix, (u16) n, maxAlpha);
         return;
     }
     shadowScale.x = MUL_FIXED12_NO_ROUND(itemBox->mUnk_000.mScale.x, 0x1666);
@@ -280,12 +283,12 @@ void func_020dec4c(void *unused, ItemBox *itemBox, u32 c, u32 d) {
         matrix = SetTranslationMatrixPos(itemBox->mPositionSource);
     } else {
         position = itemBox->mPositionSource;
-        data_0217b720.mUnk_00[3].x = position->x >> 4;
-        data_0217b720.mUnk_00[3].y = position->y >> 4;
-        data_0217b720.mUnk_00[3].z = position->z >> 4;
-        matrix = &data_0217b720;
+        gItemBoxShadowMatrix.mUnk_00[3].x = position->x >> 4;
+        gItemBoxShadowMatrix.mUnk_00[3].y = position->y >> 4;
+        gItemBoxShadowMatrix.mUnk_00[3].z = position->z >> 4;
+        matrix = &gItemBoxShadowMatrix;
     }
-    DrawJgShadowWithMatrix(&shadowScale, matrix, (u16) n, d);
+    DrawJgShadowWithMatrix(&shadowScale, matrix, (u16) n, maxAlpha);
 }
 
 void UpdateItemBox(void *unused, ItemBox *itemBox) {
@@ -309,11 +312,11 @@ void UpdateItemBox(void *unused, ItemBox *itemBox) {
     }
 }
 
-void func_020deb2c(Vec3 *position, Kart *kart, u32 c, int d, u32 e) {
+void StartItemSlotAndEffects(Vec3 *position, Kart *kart, u32 c, int skipEffects, u32 e) {
     void *effect;
     u32 kartIndex;
     kartIndex = kart->mIndex;
-    if (d == 0) {
+    if (skipEffects == 0) {
         if (kartIndex == gRaceSetup->mEntryIndex) {
             effect = StartEffect(0x2d, position);
             if (effect != NULL) {
@@ -333,7 +336,7 @@ void func_020deb2c(Vec3 *position, Kart *kart, u32 c, int d, u32 e) {
     StartItemSlotForKart(kartIndex, c, e);
 }
 
-u8 CollideKartWithItemBox(ItemBox *itemBox, Kart *kart, void *c, u8 *d) {
+u8 CollideKartWithItemBox(ItemBox *itemBox, Kart *kart, void *firstResponsePtr, u8 *secondResponsePtr) {
     s32 playerKind;
     BOOL kindInMask;
     u32 distanceBits;
@@ -351,25 +354,25 @@ u8 CollideKartWithItemBox(ItemBox *itemBox, Kart *kart, void *c, u8 *d) {
             kindInMask = TRUE;
         }
     }
-    func_020deb2c(&itemBox->mUnk_000.mPos, kart, kindInMask != FALSE ? itemBox->mUnk_0f2 : itemBox->mUnk_0f4,
-                  distanceBits, itemBox->mUnk_0ac);
-    if (itemBox->mUnk_0f8 != 0 || itemBox->mUnk_000.mCourseMapRow->mUnk_32 != 0) {
+    StartItemSlotAndEffects(&itemBox->mUnk_000.mPos, kart, kindInMask != FALSE ? itemBox->mUnk_0f2 : itemBox->mUnk_0f4,
+                            distanceBits, itemBox->mUnk_0ac);
+    if (itemBox->mNoCourseRow != 0 || itemBox->mUnk_000.mCourseMapRow->mUnk_32 != 0) {
         itemBox->mFramesSinceHit = 0x80;
         ParkMapObject(&itemBox->mUnk_000);
     }
-    return *d;
+    return *secondResponsePtr;
 }
 
-u32 func_020de9f8(ItemBox *itemBox) {
-    if (itemBox->mUnk_0f8 != 0) {
+u32 GetItemBoxMaxGroupDistance(ItemBox *itemBox) {
+    if (itemBox->mNoCourseRow != 0) {
         return 0x270f000;
     }
-    if (itemBox->mUnk_0a8 == 0) {
+    if (itemBox->mUsesGroupShadow == 0) {
         return 0;
     }
     return GetMaxXzDistanceToGroup(&itemBox->mFollower.mUnk_00, &itemBox->mUnk_000.mPos);
 }
 
-void func_020de9ec(ItemBox *itemBox) {
+void SetItemBoxFramesSinceHitMax(ItemBox *itemBox) {
     itemBox->mFramesSinceHit = 0x80;
 }

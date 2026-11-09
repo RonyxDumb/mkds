@@ -32,7 +32,7 @@ void CreateMkdEfBubble(void) {
 }
 
 void InitMkdEfBubble(MkdEfBubbleObject *bubble, CourseMapRow *row) {
-    InitStateMachine(&bubble->mMapObject.mStateMachine, data_0216bfc0, 2, bubble);
+    InitStateMachine(&bubble->mMapObject.mStateMachine, gMkdEfBubbleStateTable, 2, bubble);
     bubble->mDelayFrameCount = row->mUnk_28;
     bubble->mInitialY = bubble->mMapObject.mPos.y;
     bubble->mBottomY = bubble->mMapObject.mPos.y - 0x10000;
@@ -63,16 +63,16 @@ MapObjectList *CreateGroupItemBoxUpdateList(void) {
     return gGroupItemBoxUpdateList;
 }
 
-void func_020df58c(void) {
+void UpdateGroupItemBoxHeightOffset(void) {
     s32 sine;
 
-    sine = gPairsByAngle[(data_0217b750 >> 4) * 2];
-    data_0217b754 = MUL_FIXED12_NO_ROUND(sine, 0x4000);
-    data_0217b750 += 0x2d8;
-    data_0217b75c = 0xf00 - (sine >> 4);
-    data_0217b760.x = 0x1666;
-    data_0217b760.y = 0x1666;
-    data_0217b760.z = 0x1666;
+    sine = gPairsByAngle[(gGroupItemBoxHeightAngle >> 4) * 2];
+    gGroupItemBoxHeightOffset = MUL_FIXED12_NO_ROUND(sine, 0x4000);
+    gGroupItemBoxHeightAngle += 0x2d8;
+    gGroupItemBoxShadowScaleWord = 0xf00 - (sine >> 4);
+    gGroupItemBoxShadowScale.x = 0x1666;
+    gGroupItemBoxShadowScale.y = 0x1666;
+    gGroupItemBoxShadowScale.z = 0x1666;
 }
 
 void UpdateGroupItemBox(void *unused, ItemBox *itemBox) {
@@ -88,7 +88,7 @@ void UpdateGroupItemBox(void *unused, ItemBox *itemBox) {
         } else {
             itemBox->mUnk_000.mFlags &= ~0x20;
         }
-        itemBox->mUnk_000.mPos.y += data_0217b754;
+        itemBox->mUnk_000.mPos.y += gGroupItemBoxHeightOffset;
         itemBox->mUnk_000.mPos.y += 0x10000;
     }
     if (itemBox->mShadowMode == 0) {

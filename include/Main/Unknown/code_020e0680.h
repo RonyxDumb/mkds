@@ -72,18 +72,18 @@ typedef struct Unk020e1e98_154 {
 extern const Quaternion gIdentityQuaternion;
 
 // Choropu record: the shared part of the map objects, then its own words and the shadow.
-typedef struct Unk020e2f0c {
+typedef struct Choropu {
     /* 000 */ MapObject mUnk_000;
-    /* 0a0 */ s32 mUnk_0a0;
-    /* 0a4 */ s32 mUnk_0a4;
-    /* 0a8 */ s32 mUnk_0a8;
-    /* 0ac */ s32 mUnk_0ac;
-    /* 0b0 */ s32 mUnk_0b0;
-    /* 0b4 */ s32 mUnk_0b4;
-    /* 0b8 */ u16 mUnk_0b8;
+    /* 0a0 */ s32 mStartDelayFrameCount;
+    /* 0a4 */ s32 mRepeatDelayFrameCount;
+    /* 0a8 */ s32 mInitialY;
+    /* 0ac */ s32 mBottomY;
+    /* 0b0 */ s32 mLowestY;
+    /* 0b4 */ s32 mSpinDirection;
+    /* 0b8 */ u16 mSpinAngle;
     /* 0ba */ u8 mUnk_0ba[0x2];
-    /* 0bc */ ShadowMatrix mUnk_0bc;
-} Unk020e2f0c;
+    /* 0bc */ ShadowMatrix mShadowMatrix;
+} Choropu;
 
 // 0x164 bytes.
 typedef struct Unk020e1e98 {
@@ -133,29 +133,29 @@ typedef struct Unk020e005c {
     /* 16c */ u16 mUnk_16c;
 } Unk020e005c;
 
-// Object func_020e3ef4 fills.
+// Object InitRotary fills.
 typedef struct Unk020e3ef4 {
     /* 000 */ Unk020e1d10 mUnk_000;
     /* 140 */ struct Nsbmd *mModel;
-    /* 144 */ u16 mUnk_144;
-    /* 146 */ u16 mUnk_146;
-    /* 148 */ u16 mUnk_148;
-    /* 14a */ s16 mUnk_14a;
-    /* 14c */ s32 mUnk_14c;
-    /* 150 */ s32 mUnk_150;
+    /* 144 */ u16 mRampFrameCount;
+    /* 146 */ u16 mSteadyFrameCount;
+    /* 148 */ u16 mPauseFrameCount;
+    /* 14a */ s16 mAnglePerFrame;
+    /* 14c */ s32 mSpeedFraction;
+    /* 150 */ s32 mSpeedFractionPerFrame;
     /* 154 */ s32 mUnk_154;
-    /* 158 */ s32 mUnk_158;
-    /* 15c */ s32 mUnk_15c;
+    /* 158 */ s32 mModelIndex;
+    /* 15c */ s32 mSoundId;
 } Unk020e3ef4;
 
-// Object behind data_0217b7c4, and the list of the kinds 0xcb, 0xce, 0xd0 and 0xd1.
+// Object behind gBridgeDrawList, and the list of the kinds 0xcb, 0xce, 0xd0 and 0xd1.
 typedef struct BridgeDrawList {
     /* 00 */ MapObjectList mMapObjectList;
     /* 28 */ s32 mUnk_28;
     /* 2c */ s32 mAnimationFrameCount;
 } BridgeDrawList;
 
-void InitChoropu(Unk020e2f0c *choropu, struct CourseMapRow *courseRow);
+void InitChoropu(Choropu *choropu, struct CourseMapRow *courseRow);
 void *CreateCarAKindData(void);
 void *CreateTruckAKindData(void);
 void *CreateBusAKindData(void);

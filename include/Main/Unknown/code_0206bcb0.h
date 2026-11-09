@@ -258,7 +258,7 @@ typedef struct Kart {
             Vec3 mUnk_f0;
             u32 mUnk_fc;
             s32 mUnk_100;
-            struct Unk020e04b0 *mUnk_104;
+            struct CollisionHitLink *mUnk_104;
             Vec3 mUnk_108;
             u8 mUnk_114[6];
             s16 mUnk_11a;
@@ -305,7 +305,7 @@ typedef struct Kart {
     /* 1e4 */ Vec3 mPrevPointAlongUp;
     /* 1f0 */ Vec3 mUnk_1f0;
     /* 1fc */ Vec3 mUnk_1fc;
-    /* 208 */ struct Unk020e04b0 *mUnk_208;
+    /* 208 */ struct CollisionHitLink *mUnk_208;
     // The functions of one Kart, one per slot index: 0 set-up at creation, 1 reset to the starting values, 2 stores the
     // squared distance in the sound source, 3 and 4 the two steps UpdateKarts runs for every Kart, 5 stores the
     // previous collision center, 6 respawn, 7 start placement, 8 does nothing. 7 and 8 are never called. InitKart fills

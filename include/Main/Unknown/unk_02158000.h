@@ -20,10 +20,10 @@ typedef struct MapObjectDrawList {
 } MapObjectDrawList;
 
 // Object of 0x2c bytes made by CreateMkdEfBubbleUpdateList; a word at 0x28.
-typedef struct Unk020dfc44 {
+typedef struct MkdEfBubbleUpdateList {
     /* 00 */ u32 mUnk_00[10];
-    /* 28 */ s32 mUnk_28;
-} Unk020dfc44;
+    /* 28 */ s32 mAngleScale;
+} MkdEfBubbleUpdateList;
 
 extern MapObjectList data_0215840c;
 extern MapObjectDrawList data_02158434;
@@ -45,7 +45,7 @@ extern MapObjectList data_021586d8;
 extern MapObjectKindData data_02158700;
 extern u16 data_02158740;
 extern u32 data_02158778;
-extern Unk020dfc44 data_02158784;
+extern MkdEfBubbleUpdateList data_02158784;
 extern MapObjectDrawList data_021587b0;
 extern MapObjectKindData data_021587dc;
 extern u16 data_0215881c;

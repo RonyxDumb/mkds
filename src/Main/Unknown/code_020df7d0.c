@@ -19,7 +19,7 @@ void UpdateMkdEfBubbleState1(MkdEfBubbleObject *bubble) {
     }
 }
 
-u8 func_020df7d8(MkdEfBubbleObject *bubble, Kart *kart, void *unused, u8 *d) {
+u8 CollideKartWithMkdEfBubble(MkdEfBubbleObject *bubble, Kart *kart, void *unused, u8 *secondResponsePtr) {
     u32 kartBit;
 
     kartBit = (1 << kart->mIndex) & 0xff;
@@ -29,9 +29,9 @@ u8 func_020df7d8(MkdEfBubbleObject *bubble, Kart *kart, void *unused, u8 *d) {
             bubble->mKartMask |= kartBit;
         }
     }
-    return *d;
+    return *secondResponsePtr;
 }
 
-u32 func_020df7d0(u32 unused0, u32 unused1, u32 unused2, u32 bytePointer) {
-    return (*OFFSET_PTR(const u8, bytePointer, 0));
+u32 CollideItemObjectWithMkdEfBubble(u32 unused0, u32 unused1, u32 unused2, u32 secondResponsePtr) {
+    return (*OFFSET_PTR(const u8, secondResponsePtr, 0));
 }

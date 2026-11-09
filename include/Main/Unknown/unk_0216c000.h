@@ -82,7 +82,7 @@ extern const char gBusAShadowNsbmdName[];
 extern const char gCarANsbtpName[];
 extern const char gTruckANsbtpName[];
 extern const StateCallbacks gChoropuStateTable[];
-extern const StateCallbacks data_0216c168[];
+extern const StateCallbacks gRotaryStateTable[];
 extern const char gTestCylinderNsbmdName[];
 extern const char gGearBlackNsbmdName[];
 extern const char gGearWhiteNsbmdName[];

@@ -37,7 +37,7 @@ void *StartItemBombWithParkedItemBox(u16 a) {
 
     parkedMapObject = FindParkedMapObject(0xc9);
     if (parkedMapObject != NULL) {
-        func_020de9ec(parkedMapObject);
+        SetItemBoxFramesSinceHitMax(parkedMapObject);
         parkedMapObject->mUnk_0f2 = a;
         parkedMapObject->mUnk_0f4 = a;
         parkedMapObject->mUnk_0ac = 1;

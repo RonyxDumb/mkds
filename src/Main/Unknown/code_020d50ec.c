@@ -322,21 +322,21 @@ void InitCourseCollision(void) {
 
 // Keeps the link c on the first object of the hit list a: clears it when b has the top bit or the object changed, sets
 // it when b has a bit of 0x1e34ef.
-void UpdateCollisionHitLink(void *hitListPtr, u32 collisionBits, Unk020e04b0 *link, Vec3 *position, Vec3 *normal) {
+void UpdateCollisionHitLink(void *hitListPtr, u32 collisionBits, CollisionHitLink *link, Vec3 *position, Vec3 *normal) {
     Unk020d5a68 **hitList = hitListPtr;
     Unk020d5a68 *firstHit;
 
-    if (link->mUnk_00 != NULL) {
+    if (link->mObject != NULL) {
         if (collisionBits & 0x80000000) {
-            link->mUnk_00 = NULL;
+            link->mObject = NULL;
             return;
         }
-        func_020e0538(link, position);
+        GetCollisionHitLinkPosition(link, position);
         firstHit = *hitList;
-        if (firstHit->mUnk_04 == 0 && link->mUnk_00 == firstHit->mUnk_00) {
+        if (firstHit->mUnk_04 == 0 && link->mObject == firstHit->mUnk_00) {
             return;
         }
-        link->mUnk_00 = NULL;
+        link->mObject = NULL;
         return;
     }
     if (collisionBits & 0x80000000) {
@@ -352,14 +352,14 @@ void UpdateCollisionHitLink(void *hitListPtr, u32 collisionBits, Unk020e04b0 *li
     if (!(collisionBits & 0x1e34ef)) {
         return;
     }
-    func_020e0584(firstHit->mUnk_00, position, normal, link);
+    SetCollisionHitLink(firstHit->mUnk_00, position, normal, link);
 }
 
 // TRUE when b has the top bit, the hit list a has a non-zero word at 4, or its object differs from the link c.
-BOOL IsCollisionHitLinkOutdated(void *hitListPtr, u32 collisionBits, Unk020e04b0 *link) {
+BOOL IsCollisionHitLinkOutdated(void *hitListPtr, u32 collisionBits, CollisionHitLink *link) {
     Unk020d5a68 **hitList = hitListPtr;
 
-    if ((collisionBits & 0x80000000) || (*hitList)->mUnk_04 != 0 || link->mUnk_00 != (*hitList)->mUnk_00) {
+    if ((collisionBits & 0x80000000) || (*hitList)->mUnk_04 != 0 || link->mObject != (*hitList)->mUnk_00) {
         return TRUE;
     }
     return FALSE;

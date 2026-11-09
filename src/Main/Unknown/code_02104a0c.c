@@ -166,7 +166,8 @@ void ReleaseBouncingItemBox(BouncingItemBox *box) {
 }
 
 void CollideKartWithBouncingItemBox(BouncingItemBox *box, void *a) {
-    func_020deb2c(&box->mUnk_000.mItemObject.mPos, a, 0, (box->mUnk_000.mItemObject.mFlags & 0x10000) ? 1 : 0, 0);
+    StartItemSlotAndEffects(&box->mUnk_000.mItemObject.mPos, a, 0, (box->mUnk_000.mItemObject.mFlags & 0x10000) ? 1 : 0,
+                            0);
 }
 
 void ResetBouncingItemBox(BouncingItemBox *box) {

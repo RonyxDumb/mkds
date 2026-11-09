@@ -1,6 +1,6 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020e0680.h" // Unk020e2f0c
+#include "Main/Unknown/code_020e0680.h" // Choropu
 
-void func_020e35e4(u32 arg0, Unk020e2f0c *choropu);
+void UpdateChoropu(u32 unused, Choropu *choropu);

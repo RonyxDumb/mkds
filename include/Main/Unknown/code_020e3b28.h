@@ -10,15 +10,15 @@ typedef struct Bridge Bridge;
 
 extern const BridgeDrawList data_02158ce8;
 
-void func_020e4380(Unk020e3ef4 *object);
+void UpdateRotaryState3(Unk020e3ef4 *object);
 void DrawAllKind203MapObjects(void *viewMatrix);
-BOOL func_020e4320(s32 kind);
-void func_020e4184(BridgeDrawList *list);
-void func_020e410c(BridgeDrawList *list);
-void func_020e3ef4(Unk020e3ef4 *object, struct CourseMapRow *courseRow, Unk020e1e98_154 *kindInfo);
+BOOL IsRotaryKind(s32 kind);
+void CreateRotary(BridgeDrawList *list);
+void InitRotaryObjects(BridgeDrawList *list);
+void InitRotary(Unk020e3ef4 *object, struct CourseMapRow *courseRow, Unk020e1e98_154 *kindInfo);
 void *CreateBridgeKindData(void);
 void *CreateBridgeDrawList(void);
 void *CreateBridgeUpdateList(void);
-void UpdateBridge(s32 a, Bridge *bridge); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdateBridge(s32 unused, Bridge *bridge); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void DrawBridge(Unk020e3ef4 *object, void *viewMatrix, u32 alpha);
 void DrawAllBridges(void *viewMatrix);
