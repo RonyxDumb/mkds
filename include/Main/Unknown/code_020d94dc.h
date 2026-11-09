@@ -38,17 +38,6 @@ typedef struct WaterEfct {
     /* 0c */ void *mNsbmaFile;
 } WaterEfct;
 
-// Prefix view (0x68 bytes) of MapObject, held by gWaterMapObject.
-typedef struct Unk020da384 {
-    /* 00 */ u8 mUnk_00[2];
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ u8 mUnk_10[0x56];
-    /* 66 */ u16 mUnk_66;
-} Unk020da384;
-
 // The course water: two models (the files ..._waterA and ..._waterC, Yoshi has no A) circling a map object's x/z while
 // the surface height swings between two heights the creator gives; 0x180 bytes, built by the five Create...Water
 // functions into gWater and published as gCourseWater.
@@ -147,7 +136,7 @@ typedef struct Unk020d9de0 {
     /* 00 */ s32 mUnk_00[0x10];
 } Unk020d9de0;
 
-void InitWater(Unk020da384 *mapObject, void *unused, UnkFunc *createWater);
+void InitWater(MapObject *mapObject, void *unused, UnkFunc *createWater);
 void UpdateWater(Water *water);
 void DrawWater(Water *water, struct MtxFx43 *unused);
 Unk020d9de0 *CreateWaterEfctKindData(void);
@@ -160,7 +149,7 @@ void CreateTownWater(void);
 void CreateYoshiWater(void);
 void CreateHyudoroWater(void);
 void InitWaterModels(Water *water);
-void CreateWaterEfct(Unk020da384 *mapObject);
+void CreateWaterEfct(MapObject *mapObject);
 void GetCurveWeights(s32 weight0, s32 *weight1, s32 *weight2, s32 *weight3, s32 *e);
 void GetCurveAndSlopeWeights(s32 weight0, s32 *weight1, s32 *weight2, s32 *weight3, s32 *slopeWeight0,
                              s32 *slopeWeight1, s32 *slopeWeight2, s32 *slopeWeight3, s32 *i);

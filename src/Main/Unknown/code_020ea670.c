@@ -393,12 +393,12 @@ u32 CollideKartWithWoodbox1(Woodbox1 *woodbox, Kart *kart, u8 *firstResponse, u8
     return *response;
 }
 
-u32 CollideItemObjectWithWoodbox1(Woodbox1 *woodbox, Unk020eb498 *itemObject, u8 *firstResponse, u8 *response) {
+u32 CollideItemObjectWithWoodbox1(Woodbox1 *woodbox, ItemObject *itemObject, u8 *firstResponse, u8 *response) {
     u32 firstResponseMinusOne;
 
     firstResponseMinusOne = *firstResponse - 1;
     if (firstResponseMinusOne <= 1) {
-        StartWoodbox1ItemObject(woodbox, &itemObject->mUnk_05c);
+        StartWoodbox1ItemObject(woodbox, &itemObject->mVelocity);
         if (data_0217bbf0 == woodbox) {
             data_0217bbf0 = NULL;
         }
@@ -423,7 +423,7 @@ void ClearWoodbox1Pointer(MapObjectList *list) {
     data_0217bbf0 = NULL;
 }
 
-void InitWoodbox1(Woodbox1 *woodbox, Unk020eb498 *courseRow) {
+void InitWoodbox1(Woodbox1 *woodbox, CourseMapRow *courseRow) {
     Vec3 rotation;
     s32 length;
 
@@ -436,7 +436,7 @@ void InitWoodbox1(Woodbox1 *woodbox, Unk020eb498 *courseRow) {
     woodbox->mUnk_000.mUnk_10.x = 0;
     woodbox->mUnk_000.mUnk_10.y = 0;
     woodbox->mUnk_000.mUnk_10.z = 0;
-    woodbox->mHeadingAngle = (((s64) courseRow->mUnk_010 * 0xB60B60B60BLL) + 0x80000000000LL) >> 44;
+    woodbox->mHeadingAngle = (((s64) courseRow->mUnk_0c.y * 0xB60B60B60BLL) + 0x80000000000LL) >> 44;
     QuaternionFromVec3AndAngleAroundY(&woodbox->mGroundUp, woodbox->mHeadingAngle, &rotation);
     Matrix3x3FromQuaternion(&woodbox->mUnk_000.mMatrix.mUnk_00_m, &rotation);
     woodbox->mUnk_0f4.x = -woodbox->mGroundUp.x;
@@ -462,12 +462,12 @@ void InitWoodbox1(Woodbox1 *woodbox, Unk020eb498 *courseRow) {
     woodbox->mUnk_100.y = ((s64) woodbox->mUnk_100.y * 0x800) >> 12;
     woodbox->mUnk_100.z = ((s64) woodbox->mUnk_100.z * 0x800) >> 12;
     woodbox->mUnk_10c = 0x1555;
-    woodbox->mItemRowHandle = courseRow->mUnk_028;
-    woodbox->mItemChancePercent = courseRow->mUnk_02a;
+    woodbox->mItemRowHandle = courseRow->mUnk_28;
+    woodbox->mItemChancePercent = courseRow->mUnk_2a;
     InitStateMachine(&woodbox->mUnk_000.mStateMachine, (UnkFunc *const *) gWoodbox1StateTable, 4, woodbox);
     woodbox->mUnk_000.mStateMachine.mNextState = 0;
     woodbox->mUnk_000.mStateMachine.mNextStateRequested = 1;
-    RefreshShadowMatrix(&woodbox->mUnk_114, &courseRow->mUnk_000, ((s64) woodbox->mUnk_000.mScale.x * 0x19000) >> 12,
+    RefreshShadowMatrix(&woodbox->mUnk_114, &courseRow->mUnk_00, ((s64) woodbox->mUnk_000.mScale.x * 0x19000) >> 12,
                         13);
 }
 

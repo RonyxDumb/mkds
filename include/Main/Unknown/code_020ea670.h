@@ -8,28 +8,10 @@ typedef struct NNSG3dResMdl NNSG3dResMdl;
 typedef struct Woodbox1 Woodbox1;
 typedef struct Kart Kart;
 typedef struct MapObjectList MapObjectList;
+typedef struct CourseMapRow CourseMapRow;
+typedef struct ItemObject ItemObject;
 
 extern Nsbmd *gWoodbox1;
-
-// Second argument of InitWoodbox1, CollideItemObjectWithWoodbox1 and CollideKartWithWoodbox1.
-typedef struct Unk020eb498 {
-    /* 000 */ Vec3 mUnk_000;
-    /* 00c */ u8 mUnk_00c[4];
-    /* 010 */ s32 mUnk_010;
-    /* 014 */ u8 mUnk_014[0x14];
-    /* 028 */ s16 mUnk_028;
-    /* 02a */ s16 mUnk_02a;
-    /* 02c */ u8 mUnk_02c[0x30];
-    /* 05c */ Vec3 mUnk_05c;
-    /* 068 */ u8 mUnk_068[0xc];
-    /* 074 */ u16 mUnk_074;
-    /* 076 */ u8 mUnk_076[0x2e];
-    /* 0a4 */ Vec3 mUnk_0a4;
-    /* 0b0 */ u8 mUnk_0b0[0x1ec];
-    /* 29c */ s32 mUnk_29c;
-    /* 2a0 */ u8 mUnk_2a0[4];
-    /* 2a4 */ s32 mUnk_2a4;
-} Unk020eb498;
 
 // Objects read by func_020ea670.
 typedef struct Unk020ea670_08 {
@@ -81,9 +63,9 @@ void func_020eacc0(Vec3 *direction, s32 blendFactor, Vec3 *target, Vec3 *result)
 void ComputeCylinderOverlapOffset(Vec3 *position, Vec3 *center, s32 radius, s32 halfHeight, Vec3 *offset);
 // Writes to param_4 the move that puts point param_1 exactly param_3 away from param_2.
 void ComputeSphereOverlapOffset(Vec3 *position, Vec3 *center, s32 radius, Vec3 *offset);
-void InitWoodbox1(Woodbox1 *woodbox, Unk020eb498 *courseRow);
+void InitWoodbox1(Woodbox1 *woodbox, CourseMapRow *courseRow);
 void ClearWoodbox1Pointer(MapObjectList *list);
-u32 CollideItemObjectWithWoodbox1(Woodbox1 *woodbox, Unk020eb498 *itemObject, u8 *firstResponse, u8 *response);
+u32 CollideItemObjectWithWoodbox1(Woodbox1 *woodbox, ItemObject *itemObject, u8 *firstResponse, u8 *response);
 u32 CollideKartWithWoodbox1(Woodbox1 *woodbox, Kart *kart, u8 *firstResponse, u8 *response);
 void UpdateWoodbox1State3(Woodbox1 *woodbox);
 void UpdateWoodbox1State2(Woodbox1 *woodbox);

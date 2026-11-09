@@ -130,6 +130,6 @@ void FreeCommandBuffer(LoadCommand *command) {
     u32 enabled;
 
     enabled = OS_DisableInterrupts();
-    NNS_FndAppendListObject((NNSFndList *) data_0217df08, command);
+    NNS_FndAppendListObject(&data_0217df08, command);
     OS_RestoreInterrupts(enabled);
 }

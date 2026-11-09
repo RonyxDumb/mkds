@@ -790,7 +790,7 @@ extern void *gRecordSubOam;
 extern LinkLevelIcons *gLinkLevelIcons;
 extern PaletteBlend *gPaletteBlend;
 extern struct NNSSndStrmThread *data_0217df04;
-extern u8 data_0217df08[];
+extern NNSFndList data_0217df08;
 extern NNSSndHeap *data_0217d130;
 extern ScenePlayers data_0217d070;
 // The member at 0x0c of data_0217d070, addressed through a pool word of its own.

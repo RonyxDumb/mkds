@@ -108,15 +108,15 @@ void func_020e6488(NsbmdModel **recordSlot, void *nsbmdFile, void *nsbtpFile, u3
 
 #pragma thumb off
 
-Unk020e5a9c *CreatePendulumKindData(void) {
-    Unk020e5a9c *kindData;
+MapObjectKindData *CreatePendulumKindData(void) {
+    MapObjectKindData *kindData;
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
     *kindData = data_021592d0;
     return kindData;
 }
 
-Unk020e5a40 *CreatePendulumDrawList(void) {
-    Unk020e5a40 *drawList;
+MapObjectDrawList *CreatePendulumDrawList(void) {
+    MapObjectDrawList *drawList;
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     data_0217b840 = drawList;
     *drawList = data_021592a4;
@@ -124,8 +124,8 @@ Unk020e5a40 *CreatePendulumDrawList(void) {
     return data_0217b840;
 }
 
-Unk020e59e4 *CreatePendulumUpdateList(void) {
-    Unk020e59e4 *updateList;
+MapObjectList *CreatePendulumUpdateList(void) {
+    MapObjectList *updateList;
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
     data_0217b834 = updateList;
     *updateList = data_0215927c;
@@ -266,15 +266,15 @@ void InitPendulum(PendulumObject *pendulum, Unk020e5e24_2 *courseRow) {
 
 #pragma thumb off
 
-Unk020e5a9c *CreateObPakkunSfKindData(void) {
-    Unk020e5a9c *kindData;
+MapObjectKindData *CreateObPakkunSfKindData(void) {
+    MapObjectKindData *kindData;
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
     *kindData = data_02159208;
     return kindData;
 }
 
-Unk020e5a40 *CreateObPakkunSfDrawList(void) {
-    Unk020e5a40 *drawList;
+MapObjectDrawList *CreateObPakkunSfDrawList(void) {
+    MapObjectDrawList *drawList;
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     data_0217b82c = drawList;
     *drawList = data_021591dc;
@@ -282,8 +282,8 @@ Unk020e5a40 *CreateObPakkunSfDrawList(void) {
     return data_0217b82c;
 }
 
-Unk020e59e4 *CreateObPakkunSfUpdateList(void) {
-    Unk020e59e4 *updateList;
+MapObjectList *CreateObPakkunSfUpdateList(void) {
+    MapObjectList *updateList;
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
     data_0217b828 = updateList;
     *updateList = data_021591b4;

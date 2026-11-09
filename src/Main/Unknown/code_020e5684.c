@@ -118,27 +118,27 @@ void InitObPakkunSf(ObPakkunSf *obPakkunSf) {
 
 #pragma thumb off
 
-Unk020e5a9c *CreateSecondHandKindData(void) {
-    Unk020e5a9c *kindData;
+MapObjectKindData *CreateSecondHandKindData(void) {
+    MapObjectKindData *kindData;
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *kindData = *(Unk020e5a9c *) data_02159140;
+    *kindData = data_02159140;
     return kindData;
 }
 
-Unk020e5a40 *CreateSecondHandDrawList(void) {
-    Unk020e5a40 *drawList;
+MapObjectDrawList *CreateSecondHandDrawList(void) {
+    MapObjectDrawList *drawList;
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     data_0217b824 = drawList;
-    *drawList = *(Unk020e5a40 *) data_02159114;
+    *drawList = data_02159114;
     func_020d49d8(&data_0217b824);
     return data_0217b824;
 }
 
-Unk020e59e4 *CreateSecondHandUpdateList(void) {
-    Unk020e59e4 *updateList;
+MapObjectList *CreateSecondHandUpdateList(void) {
+    MapObjectList *updateList;
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
     data_0217b81c = updateList;
-    *updateList = *(Unk020e59e4 *) data_021590ec;
+    *updateList = data_021590ec;
     SetUpdateListSlot(&data_0217b81c);
     return data_0217b81c;
 }

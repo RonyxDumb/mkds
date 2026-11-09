@@ -61,7 +61,7 @@ u32 func_020acdc4(u32 slotIndex) {
 
 #pragma thumb on
 
-void UpdateTitleState2(Unk020aca24 *a) {
+void UpdateTitleState2(Unk0203a0dc *a) {
     u32 slotIndex;
     s32 previousIndex;
     s32 rectIndex;

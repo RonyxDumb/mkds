@@ -76,17 +76,17 @@ typedef struct Unk020e6514_8 {
 } Unk020e6514_8;
 
 void SetupDrawObPakkunSf(void);
-Unk020e59e4 *CreateObPakkunSfUpdateList(void);
-Unk020e5a40 *CreateObPakkunSfDrawList(void);
-Unk020e5a9c *CreateObPakkunSfKindData(void);
+MapObjectList *CreateObPakkunSfUpdateList(void);
+MapObjectDrawList *CreateObPakkunSfDrawList(void);
+MapObjectKindData *CreateObPakkunSfKindData(void);
 void InitPendulum(PendulumObject *pendulum, Unk020e5e24_2 *courseRow);
 void CreatePendulumAndPendulumShadow(void);
 BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *out);
 void UpdatePendulum(u32 param_1, PendulumObject *pendulum);
 void DrawPendulum(u32 param_1, PendulumObject *pendulum, u32 param_3, u32 alpha);
-Unk020e59e4 *CreatePendulumUpdateList(void);
-Unk020e5a40 *CreatePendulumDrawList(void);
-Unk020e5a9c *CreatePendulumKindData(void);
+MapObjectList *CreatePendulumUpdateList(void);
+MapObjectDrawList *CreatePendulumDrawList(void);
+MapObjectKindData *CreatePendulumKindData(void);
 void func_020e6488(NsbmdModel **recordSlot, void *nsbmdFile, void *nsbtpFile, u32 param_4);
 void func_020e64b8(NsbmdModel *record, void *nsbmdFile, void *nsbtpFile, s32 c);
 void func_020e6514(Nsbmd *model, Unk020e6514 *animation, NsbmdModel *record);

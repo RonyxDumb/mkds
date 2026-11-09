@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk020aca24 Unk020aca24;
+typedef struct Unk0203a0dc Unk0203a0dc;
 
-void UpdateTitleState2(Unk020aca24 *a);
+void UpdateTitleState2(Unk0203a0dc *a);

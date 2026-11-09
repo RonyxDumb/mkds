@@ -28,21 +28,20 @@
 #include "Main/Unknown/code_020d8b88.h"
 #include "code_021471bc.h"
 
-// The map object InitWater last received (type Unk020da384 is the 0x68-byte prefix view of MapObject: retype is a
-// cleanup); InitWaterFields reads its x/z and DrawWater its mFlags; one water map object per course is assumed (a
-// second would overwrite it).
-Unk020da384 *gWaterMapObject;
+// The map object InitWater last received; InitWaterFields reads its x/z and DrawWater its mFlags; one water map object
+// per course is assumed (a second would overwrite it).
+MapObject *gWaterMapObject;
 WaterEfct *gWaterEfct;
 Water *gWater;
 
 // The mInitObject slot of the five water kinds (data_usa_021580a4): stores the map object in gWaterMapObject, clears
 // mFlags bits 2 and 8, sets mUnk_66 to 0x1f, runs the creator the kind row holds (third argument), then loads the three
 // water_efct files into gWater; once per water map object.
-void InitWater(Unk020da384 *mapObject, void *unused, UnkFunc *createWater) {
+void InitWater(MapObject *mapObject, void *unused, UnkFunc *createWater) {
     gWaterMapObject = mapObject;
-    mapObject->mUnk_02 &= ~2;
-    mapObject->mUnk_02 &= ~8;
-    mapObject->mUnk_66 = 0x1f;
+    mapObject->mFlags &= ~2;
+    mapObject->mFlags &= ~8;
+    mapObject->mAlpha = 0x1f;
     createWater();
     gWater->mEfctNsbmdFile = FindCourseFile("MapObj/water_efct.nsbmd");
     gWater->mEfctNsbcaFile = FindCourseFile("MapObj/water_efct.nsbca");
@@ -150,7 +149,7 @@ void UpdateWater(Water *water) {
 // Draws model A (when it exists) and model C at their circle positions and mHeight, in the order of mDrawModelAFirst;
 // returns at once when the water map object's mFlags has bit 0x2 or 0x10; writes only the scratch matrix mUnk_140.
 void DrawWater(Water *water, struct MtxFx43 *unused) {
-    if ((gWaterMapObject->mUnk_02 & 0x12) != 0) {
+    if ((gWaterMapObject->mFlags & 0x12) != 0) {
         return;
     }
     if (water->mDrawModelAFirst != 0) {
@@ -210,9 +209,9 @@ void InitWaterFields(s32 highHeight, s32 lowHeight, s32 modelARadius, s32 modelC
     gWater->mHighHoldFrameCount = highHoldFrameCount;
     gWater->mLowHoldFrameCount = lowHoldFrameCount;
     gWater->mHeightFactor = 0;
-    gWater->mCenterX = gWaterMapObject->mUnk_04;
+    gWater->mCenterX = gWaterMapObject->mPos.x;
     gWater->mModelAX = gWater->mCenterX;
-    gWater->mCenterZ = gWaterMapObject->mUnk_0c;
+    gWater->mCenterZ = gWaterMapObject->mPos.z;
     gWater->mModelAZ = gWater->mCenterZ;
     gWater->mModelARadius = modelARadius;
     gWater->mModelCRadius = modelCRadius;
@@ -312,11 +311,11 @@ void InitWaterModels(Water *water) {
     NNS_G3dMdlSetMdlAlpha(modelCResMdl, alphaMaterialIndex, water->mModelCMaterialAlpha);
 }
 
-void CreateWaterEfct(Unk020da384 *mapObject) {
+void CreateWaterEfct(MapObject *mapObject) {
     WaterEfct *waterEfct;
     waterEfct = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x10);
     gWaterEfct = waterEfct;
-    waterEfct->mHeight = mapObject->mUnk_08;
+    waterEfct->mHeight = mapObject->mPos.y;
     gWaterEfct->mNsbmdFile = FindCourseFile("MapObj/water_efct.nsbmd");
     gWaterEfct->mNsbcaFile = FindCourseFile("MapObj/water_efct.nsbca");
     gWaterEfct->mNsbmaFile = FindCourseFile("MapObj/water_efct.nsbma");

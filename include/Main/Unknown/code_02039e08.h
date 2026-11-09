@@ -5,7 +5,7 @@
 typedef struct SceneNumbers SceneNumbers;
 typedef struct NNSiFndHeapHead NNSiFndHeapHead;
 
-// Object whose halfword at 0x04 UpdateRaceScene and SetNextSceneFromPickedValue write.
+// Object whose halfword at 0x04 UpdateRaceScene, SetNextSceneFromPickedValue and the title scene states write.
 typedef struct Unk0203a0dc {
     /* 00 */ u8 mUnk_00[0x4];
     /* 04 */ u16 mNextScene;

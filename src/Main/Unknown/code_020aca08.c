@@ -7,7 +7,7 @@ u32 func_020aca20(u32 value) {
     return value;
 }
 
-void UpdateTitleState6(Unk020aca24 *a) {
+void UpdateTitleState6(Unk0203a0dc *a) {
     if (a != 0) {
         a->mNextScene = 0xb;
         func_02105e98();
