@@ -4,7 +4,7 @@
 #include "code_02012b30.h" // MtxFx43
 #include "code_0201c528.h" // Unk0201ca6c
 #include "Main/Unknown/code_020846c0.h" // Nsbmd
-#include "01/code_0219b250.h"
+#include "Main/Unknown/code_02087d0c.h" // ModelAnimation
 #include "Main/Unknown/code_02093ff0.h" // TeresaWobble
 
 // Object behind gTrophy (a 0x124-byte allocation).
@@ -14,8 +14,7 @@ typedef struct Trophy {
     /* 004 */ u16 mRotateYAngle;
     /* 008 */ TeresaWobble mRotateZWobble;
     /* 028 */ Nsbmd mModel;
-    /* 094 */ ModelAnimationView mModelAnimation;
-    /* 0b4 */ u8 mUnk_0b4[0x18];
+    /* 094 */ ModelAnimation mModelAnimation;
     /* 0cc */ MtxFx43 mEffectMatrix;
     /* 0fc */ s16 mLight0X;
     /* 0fe */ s16 mLight1X;

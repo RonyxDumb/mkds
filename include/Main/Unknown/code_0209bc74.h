@@ -6,21 +6,13 @@
 #include "Main/Unknown/code_02087d0c.h" // ModelAnimation
 #include "Main/Unknown/code_0207adf8.h" // ShadowModel
 
-// Three words written to the start of the objects of CreateMapObjectModelNsbmdNsbtp, CreateMapObjectModelNsbmd,
-// CreateMapObjectModelShadow and CreateMapObjectModelAnimated.
-typedef struct Unk0209bc74_00 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-} Unk0209bc74_00;
-
 // The model bundle of one map object kind: one per kind (the global g<Stem> that Create<Stem> stores), shared by every
 // object of the kind; 0x2c bytes, the allocation size. A creator builds exactly one of mNsbmdModel / mAnimatedModel /
-// mShadowModel and leaves the others 0; the draw tests each. Overlay 1 reaches the same bytes through Unk0219b250.
+// mShadowModel and leaves the others 0; the draw tests each.
 typedef struct MapObjectModel {
     // Three words (1.0 = 0x1000 each) set by the creators and sent to the geometry engine as the scale command (0x1b)
     // by both draw functions; afterwards only the mirror setter writes them (it flips the sign of x and y).
-    /* 00 */ Unk0209bc74_00 mScale;
+    /* 00 */ Vec3 mScale;
     // NsbmdModel built from an .nsbmd (and an optional .nsbtp) by CreateMapObjectModelNsbmd / NsbmdNsbtp; 0 in the
     // other bundles. The other models are built from an .nsbmd too.
     /* 0c */ NsbmdModel *mNsbmdModel;
@@ -38,7 +30,7 @@ typedef struct MapObjectModel {
     /* 1c */ ModelAnimation *mAnimations[4];
 } MapObjectModel;
 
-extern Unk0209bc74_00 data_021565a0;
-extern Unk0209bc74_00 data_021565ac;
-extern Unk0209bc74_00 data_021565b8;
-extern Unk0209bc74_00 data_021565c4;
+extern Vec3 data_021565a0;
+extern Vec3 data_021565ac;
+extern Vec3 data_021565b8;
+extern Vec3 data_021565c4;

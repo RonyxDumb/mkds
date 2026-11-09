@@ -107,7 +107,7 @@ void *CreateKoopaBlockDrawList(void) {
 }
 
 void *CreateKoopaBlockUpdateList(void) {
-    Unk020e0340 *updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
+    MapObjectList *updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
 
     data_0217b780 = updateList;
     *updateList = data_02158854;

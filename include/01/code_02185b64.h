@@ -5,7 +5,7 @@
 typedef struct MissionGateObject MissionGateObject;
 typedef struct Kart Kart;
 typedef struct MissionGateList MissionGateList;
-typedef struct Unk0219b250 Unk0219b250;
+typedef struct MapObjectModel MapObjectModel;
 
 void CreateMissionGateUpdateList(void);
 void CreateMissionGateDrawList(void);

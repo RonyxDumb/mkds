@@ -138,7 +138,7 @@ void func_ov001_0218d9cc(Unk02188950 *a) {
 void func_ov001_0218d950(Unk02188950 *a) {
     s32 prod;
     float f;
-    ModelAnimationView *s;
+    ModelAnimation *s;
 
     func_ov001_02187218(a, 1, NULL);
     StartAnimationNoEndCallback(a, a->mPrm->mUnk_088, a->mPrm->mUnk_08c);
@@ -148,9 +148,9 @@ void func_ov001_0218d950(Unk02188950 *a) {
     } else {
         f = (prod << 12) - 0.5f;
     }
-    s = a->mNsbmd->mNsbcaAnimation;
-    s->mUnk_0c = f;
-    *s->mUnk_1c[s->mUnk_1a] = s->mUnk_0c;
+    s = a->mNsbmd->mAnimations[0];
+    s->mHead.mFrameIndex = f;
+    s->mAnmObjs[s->mCurrentIndex]->mFrame = s->mHead.mFrameIndex;
 }
 
 void func_ov001_0218d8f4(Unk02188950 *a, int b) {

@@ -112,7 +112,7 @@ void *CreateVehicleDrawList(void) {
 }
 
 void *CreateVehicleUpdateList(void) {
-    Unk020e0340 *updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
+    MapObjectList *updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
 
     gVehicleUpdateList = updateList;
     *updateList = data_02158a54;

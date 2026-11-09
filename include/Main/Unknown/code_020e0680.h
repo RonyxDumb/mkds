@@ -11,15 +11,10 @@
 #include "Main/Unknown/code_020d6dc0.h" // Quaternion
 #include "Main/Unknown/code_020e516c.h" // ShadowMatrix
 
-// Block of ten words.
-typedef struct Unk020e0340 {
-    /* 00 */ u32 mUnk_00[10];
-} Unk020e0340;
-
-extern const Unk020e0340 data_02158a54;
-extern const Unk020e0340 data_02158854;
-extern const Unk020e0340 data_02158bbc;
-extern const Unk020e0340 data_02158cc0;
+extern const MapObjectList data_02158a54;
+extern const MapObjectList data_02158854;
+extern const MapObjectList data_02158bbc;
+extern const MapObjectList data_02158cc0;
 
 // Block of sixteen words.
 typedef struct Unk020e03f8 {

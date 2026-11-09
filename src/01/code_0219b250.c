@@ -40,8 +40,8 @@ void *LoadMissionRunFile(const char *p0) {
 }
 
 // Overlay-1 version of CreateMapObjectModelAnimated; the file comes from LoadMissionRunFile.
-Unk0219b250 *LoadMapObjectModelAnimated(Unk0219b478 *p0, const char *p1) {
-    Unk0219b250 *o = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+MapObjectModel *LoadMapObjectModelAnimated(Unk0219b478 *p0, const char *p1) {
+    MapObjectModel *o = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     if (p0 != NULL) {
         p0->mUnk_18 = 1;
     }
@@ -54,8 +54,8 @@ Unk0219b250 *LoadMapObjectModelAnimated(Unk0219b478 *p0, const char *p1) {
 }
 
 // Overlay-1 version of CreateMapObjectModelShadow; the file comes from LoadMissionRunFile.
-Unk0219b250 *LoadMapObjectModelShadow(Unk0219b478 *p0, const char *p1) {
-    Unk0219b250 *o = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+MapObjectModel *LoadMapObjectModelShadow(Unk0219b478 *p0, const char *p1) {
+    MapObjectModel *o = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     void *r = LoadMissionRunFile((p1));
     if (p0 != NULL) {
         p0->mUnk_18 = 1;
@@ -67,52 +67,52 @@ Unk0219b250 *LoadMapObjectModelShadow(Unk0219b478 *p0, const char *p1) {
     return o;
 }
 
-void LoadMapObjectModelNsbcaAnimation(Unk0219b250 *p0, const char *p1) {
+void LoadMapObjectModelNsbcaAnimation(MapObjectModel *p0, const char *p1) {
     void *r = LoadMissionRunFile((p1));
     u8 v;
-    p0->mNsbcaAnimation = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
+    p0->mAnimations[0] = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
     v = NNS_G3dGetJntAnmSet(r)->mDict.mNumEntry;
-    InitModelAnimation(0, p0->mNsbcaAnimation, p0->mAnimatedModel, v, GetHeap(GetCurrentHeapCall()), p0->mNsbmdFile);
-    InitModelAnimationEntries(p0->mNsbcaAnimation, r, GetHeap(GetCurrentHeapCall()));
-    SetModelAnimation(p0->mNsbcaAnimation, 0);
+    InitModelAnimation(0, p0->mAnimations[0], p0->mAnimatedModel, v, GetHeap(GetCurrentHeapCall()), p0->mNsbmdFile);
+    InitModelAnimationEntries(p0->mAnimations[0], r, GetHeap(GetCurrentHeapCall()));
+    SetModelAnimation(p0->mAnimations[0], 0);
 }
 
-void LoadMapObjectModelNsbmaAnimation(Unk0219b250 *p0, const char *p1) {
+void LoadMapObjectModelNsbmaAnimation(MapObjectModel *p0, const char *p1) {
     void *r = LoadMissionRunFile((p1));
-    p0->mNsbmaAnimation = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
-    InitModelAnimationWithEntries(4, (p0->mAnimatedModel), (p0->mNsbmaAnimation), (p0->mNsbmdFile), (r));
+    p0->mAnimations[2] = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
+    InitModelAnimationWithEntries(4, (p0->mAnimatedModel), (p0->mAnimations[2]), (p0->mNsbmdFile), (r));
 }
 
-void LoadMapObjectModelNsbtaAnimation(Unk0219b250 *p0, const char *p1) {
+void LoadMapObjectModelNsbtaAnimation(MapObjectModel *p0, const char *p1) {
     void *r = LoadMissionRunFile((p1));
     u8 v;
-    p0->mNsbtaAnimation = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
+    p0->mAnimations[3] = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
     v = NNS_G3dGetTexSRTAnmSet(r)->mDict.mNumEntry;
-    InitModelAnimation(1, p0->mNsbtaAnimation, p0->mAnimatedModel, v, GetHeap(GetCurrentHeapCall()), p0->mNsbmdFile);
-    InitModelAnimationEntries(p0->mNsbtaAnimation, r, GetHeap(GetCurrentHeapCall()));
-    SetModelAnimation(p0->mNsbtaAnimation, 0);
+    InitModelAnimation(1, p0->mAnimations[3], p0->mAnimatedModel, v, GetHeap(GetCurrentHeapCall()), p0->mNsbmdFile);
+    InitModelAnimationEntries(p0->mAnimations[3], r, GetHeap(GetCurrentHeapCall()));
+    SetModelAnimation(p0->mAnimations[3], 0);
 }
 
-void LoadMapObjectModelNsbtpAnimation(Unk0219b250 *p0, const char *p1) {
+void LoadMapObjectModelNsbtpAnimation(MapObjectModel *p0, const char *p1) {
     void *r = LoadMissionRunFile((p1));
-    p0->mNsbtpAnimation = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
-    InitModelAnimationWithEntries(2, (p0->mAnimatedModel), (p0->mNsbtpAnimation), (p0->mNsbmdFile), (r));
+    p0->mAnimations[1] = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
+    InitModelAnimationWithEntries(2, (p0->mAnimatedModel), (p0->mAnimations[1]), (p0->mNsbmdFile), (r));
 }
 
-void func_ov001_0219b28c(Unk0219b250 *p0, void *p1) {
+void func_ov001_0219b28c(MapObjectModel *p0, void *p1) {
     u8 v;
-    p0->mNsbcaAnimation = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
+    p0->mAnimations[0] = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
     v = NNS_G3dGetJntAnmSet(p1)->mDict.mNumEntry;
-    InitModelAnimation(0, p0->mNsbcaAnimation, p0->mAnimatedModel, v, GetHeap(GetCurrentHeapCall()), p0->mNsbmdFile);
-    InitModelAnimationEntries(p0->mNsbcaAnimation, p1, GetHeap(GetCurrentHeapCall()));
-    SetModelAnimation(p0->mNsbcaAnimation, 0);
+    InitModelAnimation(0, p0->mAnimations[0], p0->mAnimatedModel, v, GetHeap(GetCurrentHeapCall()), p0->mNsbmdFile);
+    InitModelAnimationEntries(p0->mAnimations[0], p1, GetHeap(GetCurrentHeapCall()));
+    SetModelAnimation(p0->mAnimations[0], 0);
 }
 
-void func_ov001_0219b25c(Unk0219b250 *p0, void *p1) {
-    p0->mNsbtpAnimation = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
-    InitModelAnimationWithEntries(2, (p0->mAnimatedModel), (p0->mNsbtpAnimation), (p0->mNsbmdFile), (p1));
+void func_ov001_0219b25c(MapObjectModel *p0, void *p1) {
+    p0->mAnimations[1] = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
+    InitModelAnimationWithEntries(2, (p0->mAnimatedModel), (p0->mAnimations[1]), (p0->mNsbmdFile), (p1));
 }
 
-void func_ov001_0219b250(Unk0219b250 *p0) {
-    AdvanceModelAnimation(p0->mNsbcaAnimation);
+void func_ov001_0219b250(MapObjectModel *p0) {
+    AdvanceModelAnimation(p0->mAnimations[0]);
 }

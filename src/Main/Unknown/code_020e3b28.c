@@ -227,7 +227,7 @@ void *CreateBridgeDrawList(void) {
 }
 
 void *CreateBridgeUpdateList(void) {
-    Unk020e0340 *updateList;
+    MapObjectList *updateList;
 
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
     data_0217b7c8 = updateList;

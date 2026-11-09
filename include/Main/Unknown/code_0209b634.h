@@ -7,22 +7,22 @@
 
 typedef struct MapObjectList MapObjectList;
 
-u16 GetMapObjectModelNsbtpFrameCount(void *a);
-void SetMapObjectModelNsbtpFrameIndex(void *a, u16 frameIndex);
+u16 GetMapObjectModelNsbtpFrameCount(MapObjectModel *o);
+void SetMapObjectModelNsbtpFrameIndex(MapObjectModel *o, u16 frameIndex);
 void SetMapObjectModelNsbtaFrameIndex(MapObjectModel *o, s32 frameIndex);
 u16 GetMapObjectModelNsbtaFrameCount(MapObjectModel *mapObjectModel);
-s32 GetMapObjectModelNsbmaFrameCount(void *a);
-void SetMapObjectModelNsbmaFrameIndex(void *a, u32 frameIndex);
+s32 GetMapObjectModelNsbmaFrameCount(MapObjectModel *o);
+void SetMapObjectModelNsbmaFrameIndex(MapObjectModel *o, u32 frameIndex);
 u16 GetMapObjectModelNsbcaFrameCount(MapObjectModel *mapObjectModel);
 void SetMapObjectModelNsbcaFrameIndex(MapObjectModel *mapObjectModel, u16 frameIndex);
-void SetMapObjectModelMirror(void *a, s32 b, s32 c);
-void SetMapObjectModelFogEnabled(void *a, u32 fogEnabled);
-void SetMapObjectModelMaterialPolygonId(void *a, u32 polygonId, u16 matId);
-void SetMapObjectModelPolygonId(void *a, u32 polygonId);
-void SetMapObjectModelAlpha(void *a, u16 alpha);
-void SetMapObjectModelLightEnableFlag(void *a, u32 light);
+void SetMapObjectModelMirror(MapObjectModel *mapObjectModel, s32 b, s32 c);
+void SetMapObjectModelFogEnabled(MapObjectModel *mapObjectModel, u32 fogEnabled);
+void SetMapObjectModelMaterialPolygonId(MapObjectModel *mapObjectModel, u32 polygonId, u16 matId);
+void SetMapObjectModelPolygonId(MapObjectModel *mapObjectModel, u32 polygonId);
+void SetMapObjectModelAlpha(MapObjectModel *mapObjectModel, u16 alpha);
+void SetMapObjectModelLightEnableFlag(MapObjectModel *mapObjectModel, u32 light);
 void DrawMapObjectModel1Mat1Shp(void *a, MapObjectModel *mapObjectModel, void *c);
 void DrawMapObjectModelWithPos(u32 a, MapObjectModel *mapObjectModel, MapObject *mapObject);
-void DrawMapObjectModel(MapObjectList *mapObjectList, void *b, void *d);
-void func_0209bbd0(void *a, void *b);
+void DrawMapObjectModel(MapObjectList *mapObjectList, MapObjectModel *mapObjectModel, void *d);
+void func_0209bbd0(void *a, MapObjectModel *mapObjectModel);
 void *UnparkFirstParkedMapObject(MapObjectList *mapObjectList);

@@ -298,7 +298,7 @@ typedef struct Unk02188950 {
     /* 2e8 */ Vec3 mUnk_2e8;
     /* 2f4 */ Vec3 mUnk_2f4;
     /* 300 */ void *mItemBomb;
-    /* 304 */ struct Unk0219b250 *mNsbmd;
+    /* 304 */ struct MapObjectModel *mNsbmd;
     /* 308 */ void *mShadowNsbmd;
 } Unk02188950;
 

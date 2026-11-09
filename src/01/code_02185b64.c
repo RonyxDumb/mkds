@@ -23,7 +23,7 @@
 #include "code_02147cd8.h"
 #include "ITCM/code_01ff8000.h"
 
-Unk0219b250 *gMissionGate;
+MapObjectModel *gMissionGate;
 
 void InitMissionGate(MissionGateObject *missionGateObject) {
     MtxFx33 mtx;

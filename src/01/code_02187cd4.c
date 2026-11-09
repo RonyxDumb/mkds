@@ -5,7 +5,7 @@
 #include "code_020109c4.h"
 
 void func_ov001_02187cd4(Unk02188950 *mapObject, u32 b) {
-    Unk0219b250 **nsbmdPointer;
+    MapObjectModel **nsbmdPointer;
     mapObject->mUnk_2e4 = b;
     mapObject->mUnk_27c = 3;
     nsbmdPointer = &mapObject->mNsbmd;

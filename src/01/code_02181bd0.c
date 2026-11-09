@@ -36,7 +36,7 @@
 #include "Main/Unknown/code_0210b000.h"
 #include "ITCM/code_01ff8000.h"
 
-Unk0219b250 *data_ov001_021a9b98;
+MapObjectModel *data_ov001_021a9b98;
 
 void func_ov001_02182f1c(Coin *coin, Kart *kart) {
     coin->mTimer = 0x1e;

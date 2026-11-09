@@ -28,8 +28,7 @@ void *UnparkFirstParkedMapObject(MapObjectList *mapObjectList) {
     return NULL;
 }
 
-void func_0209bbd0(void *a, void *b) {
-    MapObjectModel *mapObjectModel = b;
+void func_0209bbd0(void *a, MapObjectModel *mapObjectModel) {
 
     if (mapObjectModel->mNsbmdModel == NULL) {
         return;
@@ -37,8 +36,7 @@ void func_0209bbd0(void *a, void *b) {
     QueueNsbmdModelMaterial(mapObjectModel->mNsbmdModel);
 }
 
-void DrawMapObjectModel(MapObjectList *mapObjectList, void *b, void *d) {
-    MapObjectModel *mapObjectModel = b;
+void DrawMapObjectModel(MapObjectList *mapObjectList, MapObjectModel *mapObjectModel, void *d) {
     MapObject *mapObject = d;
 
     NNS_G3dGeBufferOP_N(0x1b, mapObjectModel, 3);
@@ -94,8 +92,7 @@ void DrawMapObjectModel1Mat1Shp(void *a, MapObjectModel *mapObjectModel, void *c
     DrawNsbmd1Mat1ShpWithMaxAlpha(mapObjectModel->mAnimatedModel, ((MapObject *) c)->mAlpha);
 }
 
-void SetMapObjectModelLightEnableFlag(void *a, u32 light) {
-    MapObjectModel *mapObjectModel = a;
+void SetMapObjectModelLightEnableFlag(MapObjectModel *mapObjectModel, u32 light) {
     NsbmdModel *nsbmdModel = mapObjectModel->mNsbmdModel;
 
     if (nsbmdModel != NULL) {
@@ -108,8 +105,7 @@ void SetMapObjectModelLightEnableFlag(void *a, u32 light) {
     SetNsbmdLightEnableFlagAll(mapObjectModel->mAnimatedModel, light);
 }
 
-void SetMapObjectModelAlpha(void *a, u16 alpha) {
-    MapObjectModel *mapObjectModel = a;
+void SetMapObjectModelAlpha(MapObjectModel *mapObjectModel, u16 alpha) {
     NsbmdModel *nsbmdModel = mapObjectModel->mNsbmdModel;
 
     if (nsbmdModel != NULL) {
@@ -126,8 +122,7 @@ void SetMapObjectModelAlpha(void *a, u16 alpha) {
 
 // Stores a polygon id (6 bits at bit 24 of the polygon attribute) in every model the bundle holds; 0x3f at creation,
 // The draw may replace this polygon id.
-void SetMapObjectModelPolygonId(void *a, u32 polygonId) {
-    MapObjectModel *mapObjectModel = a;
+void SetMapObjectModelPolygonId(MapObjectModel *mapObjectModel, u32 polygonId) {
     NsbmdModel *nsbmdModel = mapObjectModel->mNsbmdModel;
 
     if (nsbmdModel != NULL) {
@@ -142,8 +137,7 @@ void SetMapObjectModelPolygonId(void *a, u32 polygonId) {
     }
 }
 
-void SetMapObjectModelMaterialPolygonId(void *a, u32 polygonId, u16 matId) {
-    MapObjectModel *mapObjectModel = a;
+void SetMapObjectModelMaterialPolygonId(MapObjectModel *mapObjectModel, u32 polygonId, u16 matId) {
 
     if (mapObjectModel->mAnimatedModel == NULL) {
         return;
@@ -151,8 +145,7 @@ void SetMapObjectModelMaterialPolygonId(void *a, u32 polygonId, u16 matId) {
     NNS_G3dMdlSetMdlPolygonID(mapObjectModel->mAnimatedModel->mResMdl, matId, polygonId);
 }
 
-void SetMapObjectModelFogEnabled(void *a, u32 fogEnabled) {
-    MapObjectModel *mapObjectModel = a;
+void SetMapObjectModelFogEnabled(MapObjectModel *mapObjectModel, u32 fogEnabled) {
     NsbmdModel *nsbmdModel = mapObjectModel->mNsbmdModel;
 
     if (nsbmdModel != NULL) {
@@ -168,8 +161,7 @@ void SetMapObjectModelFogEnabled(void *a, u32 fogEnabled) {
     NNS_G3dMdlSetMdlFogEnableFlagAll(mapObjectModel->mAnimatedModel->mResMdl, fogEnabled);
 }
 
-void SetMapObjectModelMirror(void *a, s32 b, s32 c) {
-    MapObjectModel *mapObjectModel = a;
+void SetMapObjectModelMirror(MapObjectModel *mapObjectModel, s32 b, s32 c) {
     NsbmdModel *nsbmdModel;
     s32 mirrored;
 
@@ -192,8 +184,8 @@ void SetMapObjectModelMirror(void *a, s32 b, s32 c) {
             SetNsbmdCullModeAll(mapObjectModel->mAnimatedModel, 2);
         }
     }
-    mapObjectModel->mScale.mUnk_00 = b != 0 ? -0x1000 : 0x1000;
-    mapObjectModel->mScale.mUnk_04 = c != 0 ? -0x1000 : 0x1000;
+    mapObjectModel->mScale.x = b != 0 ? -0x1000 : 0x1000;
+    mapObjectModel->mScale.y = c != 0 ? -0x1000 : 0x1000;
 }
 
 // Sets the current frame of slot 0 in 20.12 fixed point (the track frame follows).
@@ -213,8 +205,7 @@ u16 GetMapObjectModelNsbcaFrameCount(MapObjectModel *mapObjectModel) {
 }
 
 // Sets the current frame of slot 2 in 20.12 fixed point (the track frame follows).
-void SetMapObjectModelNsbmaFrameIndex(void *a, u32 frameIndex) {
-    MapObjectModel *o = a;
+void SetMapObjectModelNsbmaFrameIndex(MapObjectModel *o, u32 frameIndex) {
     ModelAnimation *animation = o->mAnimations[2];
 
     animation->mHead.mFrameIndex = frameIndex << 12;
@@ -222,8 +213,7 @@ void SetMapObjectModelNsbmaFrameIndex(void *a, u32 frameIndex) {
 }
 
 // Number of frames of the animation in slot 2 (its length, not the current frame).
-s32 GetMapObjectModelNsbmaFrameCount(void *a) {
-    MapObjectModel *o = a;
+s32 GetMapObjectModelNsbmaFrameCount(MapObjectModel *o) {
 
     return (u16) ((u32) GetModelAnimationFrameCountFixed(o->mAnimations[2]) >> 12);
 }
@@ -243,8 +233,7 @@ void SetMapObjectModelNsbtaFrameIndex(MapObjectModel *o, s32 frameIndex) {
     animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
 }
 
-void SetMapObjectModelNsbtpFrameIndex(void *a, u16 frameIndex) {
-    MapObjectModel *o = a;
+void SetMapObjectModelNsbtpFrameIndex(MapObjectModel *o, u16 frameIndex) {
     ModelAnimation *animation;
 
     if (o->mNsbmdModel != NULL) {
@@ -259,8 +248,7 @@ void SetMapObjectModelNsbtpFrameIndex(void *a, u16 frameIndex) {
     animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
 }
 
-u16 GetMapObjectModelNsbtpFrameCount(void *a) {
-    MapObjectModel *o = a;
+u16 GetMapObjectModelNsbtpFrameCount(MapObjectModel *o) {
 
     if (o->mNsbmdModel != NULL) {
         return o->mNsbmdModel->mFrameCount;

@@ -109,7 +109,7 @@ void InitTrophy(s32 modelIndex, u32 rankIndex) {
     void *heap;
     float f;
     s32 x;
-    ModelAnimationView *modelAnimation;
+    ModelAnimation *modelAnimation;
 
     gTrophy = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x124);
     gTrophy->mRankIndex = rankIndex;
@@ -145,8 +145,8 @@ void InitTrophy(s32 modelIndex, u32 rankIndex) {
             f = (x << 12) - 0.5f;
         }
         modelAnimation = &gTrophy->mModelAnimation;
-        modelAnimation->mUnk_0c = f;
-        *modelAnimation->mUnk_1c[modelAnimation->mUnk_1a] = modelAnimation->mUnk_0c;
+        modelAnimation->mHead.mFrameIndex = f;
+        modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mFrame = modelAnimation->mHead.mFrameIndex;
         InitEffects(GetHeap(GetCurrentHeapCall()));
         if (rankIndex == 0) {
             Vec3 w0 = {0, 0, 0};

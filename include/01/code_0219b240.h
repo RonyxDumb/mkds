@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk0219b250 Unk0219b250;
+typedef struct MapObjectModel MapObjectModel;
 
-u32 func_ov001_0219b240(Unk0219b250 *a);
+u32 func_ov001_0219b240(MapObjectModel *a);

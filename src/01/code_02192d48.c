@@ -16,7 +16,7 @@
 #include "Main/Unknown/code_020f9c6c.h"
 #include "ITCM/code_01ff8000.h"
 
-Unk0219b250 *gStopSign;
+MapObjectModel *gStopSign;
 
 void InitStopSign(Unk02188950 *a) {
     MtxFx33 m;
