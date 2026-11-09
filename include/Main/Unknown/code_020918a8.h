@@ -10,9 +10,9 @@ typedef struct Unk020919e8 {
     /* 00 */ MapObject mUnk_00;
     /* a0 */ u16 mUnk_a0;
     /* a2 */ u8 mUnk_a2[2];
-    /* a4 */ s32 mUnk_a4;
+    /* a4 */ s32 mTimer;
     /* a8 */ s32 mUnk_a8;
-    /* ac */ s32 mUnk_ac;
+    /* ac */ s32 mState;
 } Unk020919e8;
 
 void CreateCowDrawList(void);

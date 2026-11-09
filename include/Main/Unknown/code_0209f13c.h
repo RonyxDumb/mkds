@@ -8,10 +8,10 @@
 // UpdateChandelier, InitChandelierObjects).
 typedef struct Unk0209f1c8 {
     /* 00 */ MapObject mUnk_00;
-    /* a0 */ u16 mUnk_a0;
+    /* a0 */ u16 mFrameIndex;
     /* a2 */ u16 mUnk_a2;
-    /* a4 */ s32 mUnk_a4;
-    /* a8 */ s32 mUnk_a8;
+    /* a4 */ s32 mTimer;
+    /* a8 */ s32 mState;
 } Unk0209f1c8;
 
 // Array of object pointers: pointer to the array and the number of entries (InitChandelierObjects).

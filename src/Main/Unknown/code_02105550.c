@@ -1413,7 +1413,7 @@ void StopSceneSoundsAtOnce(void) {
     s32 i;
     s32 j;
     u8 *playerCursor;
-    Unk0217c7c4 *playerTable;
+    SoundHandlePool *playerTable;
 
     if (*(vu16 *) 0x027ffc40 == 2 && GetCurrentSceneNumber() == 6) {
         return;
@@ -1448,7 +1448,7 @@ void func_02105d70(void) {
     u8 *playerCursor;
     s32 i;
     NNSSndSeqPlayer **handleCursor;
-    Unk0217c7c4 *playerTable;
+    SoundHandlePool *playerTable;
 
     savedFadeSteps = GetSoundFadeSteps();
     gSceneSoundState.mUnk_20 = 1;
@@ -1485,7 +1485,7 @@ void func_02105c4c(void) {
     u8 *playerCursor;
     s32 i;
     NNSSndSeqPlayer **handleCursor;
-    Unk0217c7c4 *playerTable;
+    SoundHandlePool *playerTable;
 
     savedFadeSteps = GetSoundFadeSteps();
     gSceneSoundState.mUnk_20 = 0;
@@ -1521,7 +1521,7 @@ void func_02105b64(s32 a) {
     u8 *playerCursor;
     s32 i;
     NNSSndSeqPlayer **handleCursor;
-    Unk0217c7c4 *playerTable;
+    SoundHandlePool *playerTable;
     u32 seqNo;
 
     seqNo = data_0215a6d8[a];

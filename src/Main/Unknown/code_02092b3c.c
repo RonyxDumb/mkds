@@ -55,7 +55,7 @@ void func_020930c8(MapObjectList *mapObjectList) {
     }
     for (i = 0; i < mapObjectList->mMapObjectCount && (p = mapObjectList->mMapObjects[i]) != NULL; i++) {
         if (p->mUnk_00.mFlags & 0x800) {
-            p->mUnk_a4 = (u16) (func_02092b5c_inline_2(25) + 200);
+            p->mTimer = (u16) (func_02092b5c_inline_2(25) + 200);
         }
     }
 }
@@ -125,22 +125,22 @@ void func_02092b5c(void *a, Unk020919e8 *p) {
     Vec3 basabasaPos;
     Vec3 basabasaVelocity;
 
-    switch (p->mUnk_ac) {
+    switch (p->mState) {
         case 0:
             if (GetCurrentCameraKind() == 2) {
-                p->mUnk_ac = 1;
+                p->mState = 1;
                 return;
             }
             if (p->mUnk_00.mFlags & 0x800) {
-                if (p->mUnk_a4-- <= 0) {
-                    p->mUnk_a4 = 4;
-                    p->mUnk_ac = 1;
+                if (p->mTimer-- <= 0) {
+                    p->mTimer = 4;
+                    p->mState = 1;
                 }
                 return;
             }
             if (func_02092b5c_inline_3(p, p->mUnk_00.mAngle) != FALSE) {
-                p->mUnk_a4 = 4;
-                p->mUnk_ac = 1;
+                p->mTimer = 4;
+                p->mState = 1;
             }
             return;
         case 1:
@@ -176,13 +176,13 @@ void func_02092b5c(void *a, Unk020919e8 *p) {
     if (p->mUnk_a0 != 0) {
         return;
     }
-    if (p->mUnk_a4-- > 0) {
+    if (p->mTimer-- > 0) {
         return;
     }
     p->mUnk_a8 = 0;
-    p->mUnk_ac = 0;
+    p->mState = 0;
     if (p->mUnk_00.mFlags & 0x800) {
-        p->mUnk_a4 = (u16) (func_02092b5c_inline_2(25) + 200);
+        p->mTimer = (u16) (func_02092b5c_inline_2(25) + 200);
     }
 }
 

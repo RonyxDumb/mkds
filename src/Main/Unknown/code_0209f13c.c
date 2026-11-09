@@ -26,7 +26,7 @@ void InitChandelierObjects(Unk0209f514 *a) {
     for (i = 0; i < a->mUnk_04 && (o = a->mUnk_00[i]) != NULL; i++) {
         r = &gRaceProgress->mLocalRandom;
         r->mValue = r->mMultiplier * r->mValue + r->mIncrement;
-        o->mUnk_a4 = (u16) (((u64) (u32) (r->mValue >> 32) * 0x3c) >> 32) + 0x3c;
+        o->mTimer = (u16) (((u64) (u32) (r->mValue >> 32) * 0x3c) >> 32) + 0x3c;
     }
 }
 
@@ -37,10 +37,10 @@ void UpdateChandelier(void *a, Unk0209f1c8 *b) {
     s32 t;
     s32 n;
 
-    switch (b->mUnk_a8) {
+    switch (b->mState) {
         case 0:
-            if (b->mUnk_a4-- <= 0) {
-                b->mUnk_a8 = 1;
+            if (b->mTimer-- <= 0) {
+                b->mState = 1;
             }
             return;
         case 1:
@@ -48,7 +48,7 @@ void UpdateChandelier(void *a, Unk0209f1c8 *b) {
         default:
             return;
     }
-    if (b->mUnk_a0 == 0 || b->mUnk_a0 == 0x7d) {
+    if (b->mFrameIndex == 0 || b->mFrameIndex == 0x7d) {
         if ((b->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
             if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
                 t = 2;
@@ -63,7 +63,7 @@ void UpdateChandelier(void *a, Unk0209f1c8 *b) {
             s1.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mUnk_00.mPos);
             func_0210b7a8(&s1);
         }
-    } else if (b->mUnk_a0 == 0x46 || b->mUnk_a0 == 0xaf) {
+    } else if (b->mFrameIndex == 0x46 || b->mFrameIndex == 0xaf) {
         if ((b->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
             if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
                 t = 2;
@@ -78,7 +78,7 @@ void UpdateChandelier(void *a, Unk0209f1c8 *b) {
             s2.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mUnk_00.mPos);
             func_0210b7a8(&s2);
         }
-    } else if (b->mUnk_a0 == 0xfa) {
+    } else if (b->mFrameIndex == 0xfa) {
         if ((b->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
             if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
                 t = 2;
@@ -94,13 +94,13 @@ void UpdateChandelier(void *a, Unk0209f1c8 *b) {
             func_0210b7a8(&s3);
         }
     }
-    n = b->mUnk_a0 + 1;
+    n = b->mFrameIndex + 1;
     if (n >= GetMapObjectModelNsbcaFrameCount(gChandelier)) {
         n = 0;
     }
-    b->mUnk_a0 = n;
-    if (b->mUnk_a0 == 0) {
-        b->mUnk_a8 = 0;
+    b->mFrameIndex = n;
+    if (b->mFrameIndex == 0) {
+        b->mState = 0;
     }
 }
 
@@ -135,7 +135,7 @@ void DrawRainStar(void *a, Unk0209f1c8 *b) {
         func_01ff9048(0x1a, &m, 9);
     }
     func_01ff9048(0x1b, &b->mUnk_00.mScale, 3);
-    SetMapObjectModelNsbtaFrameIndex(gRainStar, b->mUnk_a0);
+    SetMapObjectModelNsbtaFrameIndex(gRainStar, b->mFrameIndex);
     DrawMapObjectModel(a, gRainStar, b);
 }
 
@@ -143,9 +143,9 @@ void UpdateRainStar(void *a, Unk0209f1c8 *b) {
     u16 n;
 
     n = GetMapObjectModelNsbtaFrameCount(gRainStar);
-    b->mUnk_a0 += 1;
-    if (b->mUnk_a0 >= n) {
-        b->mUnk_a0 = 0;
+    b->mFrameIndex += 1;
+    if (b->mFrameIndex >= n) {
+        b->mFrameIndex = 0;
     }
     b->mUnk_00.mAngle += 0x111;
 }

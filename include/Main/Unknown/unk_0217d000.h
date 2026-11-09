@@ -12,7 +12,7 @@
 #include "Main/Unknown/code_020c06c4.h" // RaceHudOamBuffer
 #include "code_0212d214.h"
 #include "Main/Unknown/types_02180728.h" // TextCanvas
-#include "Main/Unknown/code_02105ec0.h" // Unk0217c7c4
+#include "Main/Unknown/code_02105ec0.h" // SoundHandlePool
 
 typedef struct OSMessageQueue OSMessageQueue;
 
@@ -807,7 +807,7 @@ extern u32 gMicInitialized;
 extern u32 gSeqVariableEnabled[];
 extern u32 data_0217d010[];
 extern u32 data_0217d024[];
-extern Unk0217c7c4 data_0217d034;
+extern SoundHandlePool data_0217d034;
 extern NNSFndList data_0217d048[];
 extern NNSFndList data_0217d054;
 extern u32 data_0217d020;

@@ -54,17 +54,17 @@ typedef struct Unk0217c7f0 {
 extern Unk0217c7f0 data_0217c7f0;
 
 // View of data_0217c7c4; IncrementSoundHandleAges takes it.
-typedef struct Unk0217c7c4 {
+typedef struct SoundHandlePool {
     /* 00 */ s32 mCount;
     /* 04 */ s32 mNextIndex;
     /* 08 */ u8 *mNextEntry;
     /* 0c */ u8 *mEntries;
     /* 10 */ s32 mEntrySize;
-} Unk0217c7c4;
+} SoundHandlePool;
 
-extern Unk0217c7c4 data_0217c7c4;
+extern SoundHandlePool data_0217c7c4;
 
-// The first eight bytes of each element of the table an Unk0217c7c4 describes: a handle at 0 and a word at 4.
+// The first eight bytes of each element of the table a SoundHandlePool describes: a handle at 0 and a word at 4.
 typedef struct SoundHandleEntry {
     /* 00 */ NNSSndSeqPlayer *mSeqPlayer;
     /* 04 */ s32 mAge;

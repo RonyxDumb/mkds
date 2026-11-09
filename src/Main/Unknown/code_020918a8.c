@@ -91,7 +91,7 @@ void InitKanoke64Objects(MapObjectList *mapObjectList) {
     }
     for (i = 0; i < mapObjectList->mMapObjectCount && (p = mapObjectList->mMapObjects[i]) != NULL; i++) {
         if (p->mUnk_00.mFlags & 0x800) {
-            p->mUnk_a4 = (u16) (func_020919e8_inline_2(25) + 200);
+            p->mTimer = (u16) (func_020919e8_inline_2(25) + 200);
         }
     }
 }
@@ -174,22 +174,22 @@ void UpdateKanoke64(void *a, Unk020919e8 *p) {
     Vec3 basabasaPos;
     Vec3 basabasaVelocity;
 
-    switch (p->mUnk_ac) {
+    switch (p->mState) {
         case 0:
             if (GetCurrentCameraKind() == 2) {
-                p->mUnk_ac = 1;
+                p->mState = 1;
                 return;
             }
             if (p->mUnk_00.mFlags & 0x800) {
-                if (p->mUnk_a4-- <= 0) {
-                    p->mUnk_a4 = 8;
-                    p->mUnk_ac = 1;
+                if (p->mTimer-- <= 0) {
+                    p->mTimer = 8;
+                    p->mState = 1;
                 }
                 return;
             }
             if (func_020919e8_inline_4(p, p->mUnk_00.mAngle) != FALSE) {
-                p->mUnk_a4 = 8;
-                p->mUnk_ac = 1;
+                p->mTimer = 8;
+                p->mState = 1;
             }
             return;
         case 1:
@@ -223,11 +223,11 @@ void UpdateKanoke64(void *a, Unk020919e8 *p) {
     }
     p->mUnk_a0 = nextFrameIndex;
     if (p->mUnk_a0 == 0) {
-        if (p->mUnk_a4-- <= 0) {
+        if (p->mTimer-- <= 0) {
             p->mUnk_a8 = 0;
-            p->mUnk_ac = 0;
+            p->mState = 0;
             if (p->mUnk_00.mFlags & 0x800) {
-                p->mUnk_a4 = (u16) (func_020919e8_inline_2(25) + 200);
+                p->mTimer = (u16) (func_020919e8_inline_2(25) + 200);
             }
         }
     }

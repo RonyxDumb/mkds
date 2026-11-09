@@ -2,15 +2,15 @@
 
 #include "types.h"
 
-typedef struct Unk0217c7c4 Unk0217c7c4;
+typedef struct SoundHandlePool SoundHandlePool;
 typedef struct SoundSetPlayer SoundSetPlayer;
 typedef struct LoadedSoundSet LoadedSoundSet;
 typedef struct SoundRequestQueue SoundRequestQueue;
 typedef struct NNSSndHeap NNSSndHeap;
 
-void *TakeSoundHandleEntry(Unk0217c7c4 *pool);
-void IncrementSoundHandleAges(Unk0217c7c4 *pool);
-void InitSoundHandlePool(Unk0217c7c4 *pool, void *entries, s32 count, s32 entrySize);
+void *TakeSoundHandleEntry(SoundHandlePool *pool);
+void IncrementSoundHandleAges(SoundHandlePool *pool);
+void InitSoundHandlePool(SoundHandlePool *pool, void *entries, s32 count, s32 entrySize);
 void InitSoundRequestQueue(SoundRequestQueue *queue, s32 count, NNSSndHeap *heap);
 void ResetSoundRequestQueue(SoundRequestQueue *queue);
 void RunSoundRequests(SoundRequestQueue *queue);

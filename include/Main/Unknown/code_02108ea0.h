@@ -1,6 +1,6 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_02105ec0.h" // Unk0217c7c4
+#include "Main/Unknown/code_02105ec0.h" // SoundHandlePool
 
-Unk0217c7c4 *GetSoundHandlePool(u32 index);
+SoundHandlePool *GetSoundHandlePool(u32 index);

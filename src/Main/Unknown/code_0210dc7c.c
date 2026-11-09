@@ -6,7 +6,7 @@
 #include "Main/Unknown/code_0210e33c.h"
 #include "code_0212d214.h"
 
-void InitSoundHandlePool(Unk0217c7c4 *pool, void *entries, s32 count, s32 entrySize) {
+void InitSoundHandlePool(SoundHandlePool *pool, void *entries, s32 count, s32 entrySize) {
     s32 i;
     u8 *entryAddress;
 
@@ -23,7 +23,7 @@ void InitSoundHandlePool(Unk0217c7c4 *pool, void *entries, s32 count, s32 entryS
     }
 }
 
-void IncrementSoundHandleAges(Unk0217c7c4 *pool) {
+void IncrementSoundHandleAges(SoundHandlePool *pool) {
     s32 i;
     u8 *entryAddress;
 
@@ -35,7 +35,7 @@ void IncrementSoundHandleAges(Unk0217c7c4 *pool) {
     }
 }
 
-void *TakeSoundHandleEntry(Unk0217c7c4 *pool) {
+void *TakeSoundHandleEntry(SoundHandlePool *pool) {
     s32 i;
     s32 oldestAge;
     s32 oldestIndex;

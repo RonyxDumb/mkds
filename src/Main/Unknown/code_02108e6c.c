@@ -75,14 +75,14 @@ void func_02108eb4(u32 index, u32 value) {
     *(u32 *) ((table) + ((indexCopy << 2))) = valueCopy;
 }
 
-Unk0217c7c4 *GetSoundHandlePool(u32 index) {
+SoundHandlePool *GetSoundHandlePool(u32 index) {
     u32 value0 = index;
     u32 elementSize;
     u32 base;
     base = (u32) &data_0217c7c4;
     elementSize = 0x14u;
     value0 = (elementSize) * (value0) + (base);
-    return (Unk0217c7c4 *) value0;
+    return (SoundHandlePool *) value0;
 }
 
 void SetSoundOutputEffect(s32 type) {
