@@ -14,12 +14,12 @@ void OS_WaitIrq(u32 clear, u32 irqFlags) {
     u32 *q;
 
     enabled = OS_DisableInterrupts();
-    p = (Unk027e0000 *) 0x027e0000;
+    p = HW_DTCM;
     if (clear != 0) {
         p->mUnk_3ff8 &= ~irqFlags;
     }
     OS_RestoreInterrupts(enabled);
-    p = (Unk027e0000 *) 0x027e0000;
+    p = HW_DTCM;
     if ((irqFlags & p->mUnk_3ff8) != 0) {
         return;
     }

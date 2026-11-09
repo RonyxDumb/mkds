@@ -176,16 +176,6 @@ typedef struct Unk02021bc8 {
     /* 04 */ u32 mUnk_04;
 } Unk02021bc8;
 
-// Record SND_GetNextInstData writes.
-typedef struct Unk020219f0 {
-    /* 00 */ u8 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-    /* 08 */ u16 mUnk_08;
-    /* 0a */ u16 mUnk_0a;
-} Unk020219f0;
-
 // Entry of 8 bytes in the table at 0x18 of an Unk02021968: SND_DestroyWaveArc clears the entries of a chain linked
 // through mUnk_04, SND_DestroyBank and SND_AssignWaveArc move entries between the chains of two objects.
 typedef struct Unk02021be8 {
@@ -201,7 +191,7 @@ typedef struct Unk02021968 {
     /* 0c */ u8 mUnk_0c[0xc];
     /* 18 */ Unk02021be8 mUnk_18[4];
     /* 38 */ u32 mUnk_38;
-    /* 3c */ u32 mUnk_3c[1];
+    /* 3c */ u32 mUnk_3c[];
 } Unk02021968;
 
 void NNS_SndHeapLoadState(NNSSndHeap *heap, s32 level);

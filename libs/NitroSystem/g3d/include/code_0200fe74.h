@@ -6,6 +6,9 @@
 
 u32 OsCountZeroBits(u32 bitmap);
 
+#define HW_UNK_027FFC00_BUF ((u8 *) 0x27ffc00)
+#define HW_BUTTON_XY_BUF ((vu16 *) 0x27fffa8)
+
 // Filled by OS_GetLowEntropyData.
 typedef struct Unk0201000c {
     /* 00 */ u32 mUnk_00;

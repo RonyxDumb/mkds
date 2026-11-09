@@ -19,6 +19,8 @@ typedef struct Unk027ffc00 {
     /* 388 */ u32 mPxiHandleChecker[2];
 } Unk027ffc00;
 
+#define HW_MAIN_MEM_SYSTEM ((Unk027ffc00 *) 0x027ffc00)
+
 extern PXIFifoCallback data_0218032c[32];
 extern u16 data_02180328;
 

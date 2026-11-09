@@ -28,7 +28,7 @@
 #include "Main/Unknown/code_0200f000.h"
 #include "code_020218f4.h"
 
-u8 data_0217dec8[0x3c];
+Unk02021968 data_0217dec8;
 
 // Sets each player's sequence count and channels and creates its heaps.
 BOOL NNS_SndArcPlayerSetup(NNSSndHeap *heap) {
@@ -443,10 +443,10 @@ Unk02021968 *LoadWaveArcTable(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
 
     waveArc = NNS_SndArcGetFileAddress(fileId);
     if (waveArc == 0) {
-        if (NNS_SndArcReadFile(fileId, data_0217dec8, 0x3c, 0) != 0x3c) {
+        if (NNS_SndArcReadFile(fileId, &data_0217dec8, 0x3c, 0) != 0x3c) {
             return 0;
         }
-        tableSize = ((Unk02021968 *) data_0217dec8)->mUnk_38 * 4;
+        tableSize = data_0217dec8.mUnk_38 * 4;
         len = tableSize * 2 + 0x3c;
         if (heap == 0) {
             return 0;
@@ -561,8 +561,8 @@ BOOL LoadSingleWaves(Unk02021968 *waveArc, Unk02021968 *bank, s32 waveArcNo, u32
     }
     if (SND_GetNextInstData(bank, &inst, &pos) != 0) {
         do {
-            if (inst.mUnk_00 == 1 && waveArcNo == inst.mUnk_04) {
-                if (LoadSingleWave(waveArc, inst.mUnk_02, fileId, heap) == 0) {
+            if (inst.mUnk_00 == 1 && waveArcNo == inst.mUnk_02.mUnk_02) {
+                if (LoadSingleWave(waveArc, inst.mUnk_02.mUnk_00, fileId, heap) == 0) {
                     return 0;
                 }
             }

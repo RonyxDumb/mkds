@@ -36,6 +36,17 @@ typedef struct Unk02021b24 {
     /* 08 */ Unk02021ab0 mUnk_08[8];
 } Unk02021b24;
 
+// Record SND_GetNextInstData writes: a type byte then 10 bytes, or the 12-byte entry copied whole.
+typedef union Unk020219f0 {
+    Unk02021ab0 mEntry;
+    struct {
+        /* 00 */ u8 mUnk_00;
+        /* 02 */ Unk02021a5c mUnk_02;
+        /* 06 */ Unk02021a5c mUnk_06;
+        /* 0a */ u16 mUnk_0a;
+    };
+} Unk020219f0;
+
 u32 SND_GetWaveDataCount(Unk02021968 *waveArc);
 u32 SND_GetNextInstData(Unk02021968 *bank, Unk020219f0 *inst, Unk02021bc8 *pos);
 void SND_GetFirstInstDataPos(Unk02021bc8 *pos);

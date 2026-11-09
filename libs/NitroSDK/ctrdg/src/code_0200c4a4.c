@@ -75,10 +75,10 @@ void CTRDGi_InitModuleInfo(void) {
     CTRDGi_RestoreAccessCycle(&romCycle);
     CTRDGi_UnlockByProcessor(gCartridgeState.mLockId, &lockInfo);
     chb = &gCartridgeHeaderCopy;
-    idInfo = (Unk027ffc30 *) 0x027ffc30;
+    idInfo = HW_CTRDG_MODULE_INFO_BUF;
     idInfo->mIdHalfword = gCartridgeHeaderCopy.mHeaderTailCopy.mUnk_3e;
     for (i = 0; i < 3; i++) {
-        ((u8 *) 0x027ffc32)[i] = chb->mHeaderTailCopy.mUnk_35[i];
+        idInfo->mUnk_02[i] = chb->mHeaderTailCopy.mUnk_35[i];
     }
     idInfo->mUnk_06 = chb->mHeaderTailCopy.mUnk_30;
     idInfo->mIdWord = chb->mHeaderTailCopy.mUnk_2c;
@@ -138,7 +138,7 @@ s32 CTRDG_IsExisting(void) {
     Unk027ffc30 *idInfo;
     Unk08000000 *romHeader;
 
-    idInfo = (Unk027ffc30 *) 0x027ffc30;
+    idInfo = HW_CTRDG_MODULE_INFO_BUF;
     romHeader = (Unk08000000 *) 0x08000000;
     exists = 1;
     if (idInfo->mIdHalfword == 0xffff) {

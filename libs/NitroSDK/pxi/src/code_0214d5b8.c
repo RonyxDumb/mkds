@@ -20,7 +20,7 @@ void PXI_InitFifo(void) {
     enabled = OS_DisableInterrupts();
     if (data_02180328 == 0) {
         data_02180328 = 1;
-        p = (Unk027ffc00 *) 0x027ffc00;
+        p = HW_MAIN_MEM_SYSTEM;
         p->mPxiHandleChecker[0] = 0;
         for (i = 0; i < 32; i++) {
             data_0218032c[i] = 0;
@@ -57,7 +57,7 @@ void PXI_SetFifoRecvCallback(s32 fifotag, PXIFifoCallback callback) {
 
     enabled = OS_DisableInterrupts();
     data_0218032c[fifotag] = callback;
-    p = (Unk027ffc00 *) 0x027ffc00;
+    p = HW_MAIN_MEM_SYSTEM;
     if (callback != 0) {
         p->mPxiHandleChecker[0] |= 1 << fifotag;
     } else {
@@ -70,7 +70,7 @@ void PXI_SetFifoRecvCallback(s32 fifotag, PXIFifoCallback callback) {
 s32 PXI_IsCallbackReady(s32 fifotag, s32 proc) {
     Unk027ffc00 *p;
 
-    p = (Unk027ffc00 *) 0x027ffc00;
+    p = HW_MAIN_MEM_SYSTEM;
     return (p->mPxiHandleChecker[proc] & (1 << fifotag)) != 0;
 }
 

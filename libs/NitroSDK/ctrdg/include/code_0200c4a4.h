@@ -52,6 +52,8 @@ typedef struct Unk027ffc30 {
     /* 08 */ u32 mIdWord;
 } Unk027ffc30;
 
+#define HW_CTRDG_MODULE_INFO_BUF ((Unk027ffc30 *) 0x027ffc30)
+
 // Fixed-address object read by CTRDG_IsExisting.
 typedef struct Unk08000000 {
     /* 00 */ u8 mUnk_00[0xac];

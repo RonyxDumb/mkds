@@ -16,6 +16,8 @@ typedef struct Unk027e0000 {
 
 extern Unk027e0000 data_027e0000;
 
+#define HW_DTCM ((Unk027e0000 *) 0x027e0000)
+
 typedef void (*OSIrqFunction)(void);
 typedef u32 OSIrqMask;
 
