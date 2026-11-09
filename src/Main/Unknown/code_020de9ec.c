@@ -273,9 +273,9 @@ void func_020dec4c(void *unused, ItemBox *itemBox, u32 c, u32 d) {
         DrawJgShadowWithMatrix(&data_0217b760, &data_0217b720, (u16) n, d);
         return;
     }
-    shadowScale.x = ((s64) itemBox->mUnk_000.mScale.x * 0x1666) >> 12;
-    shadowScale.y = ((s64) itemBox->mUnk_000.mScale.y * 0x1666) >> 12;
-    shadowScale.z = ((s64) itemBox->mUnk_000.mScale.z * 0x1666) >> 12;
+    shadowScale.x = MUL_FIXED12_NO_ROUND(itemBox->mUnk_000.mScale.x, 0x1666);
+    shadowScale.y = MUL_FIXED12_NO_ROUND(itemBox->mUnk_000.mScale.y, 0x1666);
+    shadowScale.z = MUL_FIXED12_NO_ROUND(itemBox->mUnk_000.mScale.z, 0x1666);
     if (itemBox->mDrawMatrixCallback != NULL) {
         matrix = SetTranslationMatrixPos(itemBox->mPositionSource);
     } else {

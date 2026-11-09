@@ -55,9 +55,9 @@ void *func_ov001_021a226c(void) {
 }
 
 void ComputePointAheadOfCamera(Unk021a2048 *o, Camera *g, Vec3 *out) {
-    out->x = g->mPos.x + (s32) (((s64) g->mForward.x * 0x58000) >> 12);
+    out->x = g->mPos.x + MUL_FIXED12_NO_ROUND(g->mForward.x, 0x58000);
     out->y = o->mUnk_04.y;
-    out->z = g->mPos.z + (s32) (((s64) g->mForward.z * 0x58000) >> 12);
+    out->z = g->mPos.z + MUL_FIXED12_NO_ROUND(g->mForward.z, 0x58000);
 }
 
 void func_ov001_021a2048(void *p0, Unk021a2048 *p1) {

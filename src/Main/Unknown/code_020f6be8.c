@@ -54,7 +54,7 @@ s32 func_020f7184(ItemObject *item, s32 b, s32 c) {
     } else {
         item->mUnk_108.y = 0x333;
         if (!(item->mFlags & 0x8000)) {
-            item->mUnk_108.y += (s32) (((s64) VEC_Mag(velocity) * 0x15c) >> 12);
+            item->mUnk_108.y += MUL_FIXED12_NO_ROUND(VEC_Mag(velocity), 0x15c);
             if (item->mUnk_108.y > 0x5c3) {
                 item->mUnk_108.y = 0x5c3;
             }
@@ -201,9 +201,9 @@ void func_020f6be8(ItemObject *item, Vec3 *otherPos, Vec3 *otherVelocity, Vec3 *
     VEC_Subtract(otherVelocity, &item->mVelocity, &relativeVelocity);
     VEC_Subtract(&item->mPos, otherPos, &away);
     dot = VEC_DotProduct(normal, &away);
-    away.x -= (s32) (((s64) normal->x * dot) >> 12);
-    away.y -= (s32) (((s64) normal->y * dot) >> 12);
-    away.z -= (s32) (((s64) normal->z * dot) >> 12);
+    away.x -= MUL_FIXED12_NO_ROUND(normal->x, dot);
+    away.y -= MUL_FIXED12_NO_ROUND(normal->y, dot);
+    away.z -= MUL_FIXED12_NO_ROUND(normal->z, dot);
     lengthSquared = (s64) away.x * away.x + (s64) away.y * away.y + (s64) away.z * away.z;
     if (lengthSquared >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&away, &away);
@@ -211,18 +211,18 @@ void func_020f6be8(ItemObject *item, Vec3 *otherPos, Vec3 *otherVelocity, Vec3 *
     if (item->mFlags & 0x8000) {
         VEC_MultAdd(0x666, &relativeVelocity, &item->mVelocity, &item->mVelocity);
         push = gItemPushVector;
-        push->x = ((s64) away.x * 0xccd) >> 12;
-        push->y = ((s64) away.y * 0xccd) >> 12;
-        push->z = ((s64) away.z * 0xccd) >> 12;
+        push->x = MUL_FIXED12_NO_ROUND(away.x, 0xccd);
+        push->y = MUL_FIXED12_NO_ROUND(away.y, 0xccd);
+        push->z = MUL_FIXED12_NO_ROUND(away.z, 0xccd);
         VEC_Add(&item->mVelocity, gItemPushVector, &item->mVelocity);
     } else {
-        item->mVelocity.x = ((s64) otherVelocity->x * 0x8cd) >> 12;
-        item->mVelocity.y = ((s64) otherVelocity->y * 0x8cd) >> 12;
-        item->mVelocity.z = ((s64) otherVelocity->z * 0x8cd) >> 12;
+        item->mVelocity.x = MUL_FIXED12_NO_ROUND(otherVelocity->x, 0x8cd);
+        item->mVelocity.y = MUL_FIXED12_NO_ROUND(otherVelocity->y, 0x8cd);
+        item->mVelocity.z = MUL_FIXED12_NO_ROUND(otherVelocity->z, 0x8cd);
         push = gItemPushVector;
-        push->x = ((s64) away.x * 0x1800) >> 12;
-        push->y = ((s64) away.y * 0x1800) >> 12;
-        push->z = ((s64) away.z * 0x1800) >> 12;
+        push->x = MUL_FIXED12_NO_ROUND(away.x, 0x1800);
+        push->y = MUL_FIXED12_NO_ROUND(away.y, 0x1800);
+        push->z = MUL_FIXED12_NO_ROUND(away.z, 0x1800);
         VEC_Add(&item->mVelocity, gItemPushVector, &item->mVelocity);
     }
 }

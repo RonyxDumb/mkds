@@ -170,7 +170,7 @@ void UpdateKartNameTags(void) {
                 if (x < 0) {
                     x = 0;
                 }
-                alphaScale = ((s64) x * 0x44 + 0x800) >> 12;
+                alphaScale = MUL_FIXED12_ROUNDED(x, 0x44);
             } else {
                 kartObject->mFadeLevelPerCall = -1;
                 kartObject->mUnk_14 = 2;
@@ -199,7 +199,7 @@ void UpdateKartNameTags(void) {
         if (alphaScale >= 0x1000) {
             kartObject->mAlpha = kartObject->mFadeLevel;
         } else {
-            kartObject->mAlpha = (s32) (((s64) kartObject->mFadeLevel * alphaScale + 0x800) >> 12);
+            kartObject->mAlpha = MUL_FIXED12_ROUNDED(kartObject->mFadeLevel, alphaScale);
         }
         objectPosition.y += 0xf000;
         kartObject->mPos.x = objectPosition.x >> 4;
@@ -317,7 +317,7 @@ void DrawKartNameTags(MtxFx43 *viewMatrix) {
             screenX = FX_Div(screenX, depth);
             screenY = FX_Div(screenY, depth);
             screenX = (((s64) screenX << 19) + 0x800) >> 12;
-            screenY = ((s64) screenY * 0x60000 + 0x800) >> 12;
+            screenY = MUL_FIXED12_ROUNDED(screenY, 0x60000);
             isProjected = TRUE;
         }
         if (isProjected == FALSE) {
@@ -356,9 +356,9 @@ void DrawKartNameTagTexture(TexPlttEntry *texPlttEntry, KartNameTag *kartObject,
     MTX_Concat43(&quadMatrix, viewMatrix, &quadMatrix);
     quadMatrix.mUnk_00[3].x = screenX;
     if (kartObject->mUnk_10 == TRUE) {
-        quadMatrix.mUnk_00[3].x = screenX + ((s32) (((s64) xOffset * scaleX + 0x800) >> 12) + 0x1e000);
+        quadMatrix.mUnk_00[3].x = screenX + (MUL_FIXED12_ROUNDED(xOffset, scaleX) + 0x1e000);
     }
-    quadMatrix.mUnk_00[3].y = 0x5000 + screenY + (s32) (((s64) yOffset * scaleY + 0x800) >> 12);
+    quadMatrix.mUnk_00[3].y = 0x5000 + screenY + MUL_FIXED12_ROUNDED(yOffset, scaleY);
     quadMatrix.mUnk_00[3].z = 0;
     texWidthFixed = texPlttEntry->mTexWidthFixed;
     texHeightFixed = texPlttEntry->mTexHeightFixed;

@@ -366,7 +366,7 @@ void InitRaceProgress(void) {
                         v = func_020401ac_inline5((checkpointIndex - route->mFirstEntry) << 12, route->mEntryCount);
                         v += route->mLapProgressBase << 12;
                         gRaceProgress->mCheckpointLapProgress[i] =
-                            ((s64) v * gRaceProgress->mLapProgressScale + 0x800) >> 12;
+                            MUL_FIXED12_ROUNDED(v, gRaceProgress->mLapProgressScale);
                     }
                 }
             }

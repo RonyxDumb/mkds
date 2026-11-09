@@ -59,10 +59,10 @@ u32 CollideKartWithFlipper(Flipper *flipper, Kart *kart, void *b, u8 *c) {
             VEC_Subtract(&kart->mPos, &flipper->mUnk_00.mPos, &offset);
             f = VEC_Mag(&offset);
             e = &flipper->mUnk_a8[flipper->mUnk_ec0].mUnk_00[2];
-            f = ((s64) f * s) >> 12;
-            flipper->mUnk_00.mUnk_10.x = ((s64) e->x * f) >> 12;
-            flipper->mUnk_00.mUnk_10.y = ((s64) e->y * f) >> 12;
-            flipper->mUnk_00.mUnk_10.z = ((s64) e->z * f) >> 12;
+            f = MUL_FIXED12_NO_ROUND(f, s);
+            flipper->mUnk_00.mUnk_10.x = MUL_FIXED12_NO_ROUND(e->x, f);
+            flipper->mUnk_00.mUnk_10.y = MUL_FIXED12_NO_ROUND(e->y, f);
+            flipper->mUnk_00.mUnk_10.z = MUL_FIXED12_NO_ROUND(e->z, f);
             flipper->mUnk_00.mDistanceSquaredAndFlags = flipper->mUnk_00.mDistanceSquaredAndFlags | data_usa_02156588;
             StartSoundFullVolumeWrapper(kart, 0x1d1);
         }
@@ -199,17 +199,17 @@ void InitFlipperObjects(MapObjectList *mapObjectList) {
             if (flipper->mMirror == 0) {
                 k = (u16) (-e + FX_Atan2Idx(-2, -10)) >> 4;
                 flipper->mUnk_d50[j].x =
-                    (flipper->mUnk_00.mPos.x + (s32) (((s64) v1 * gPairsByAngle[k * 2 + 1]) >> 12)) >> 4;
+                    (flipper->mUnk_00.mPos.x + MUL_FIXED12_NO_ROUND(v1, gPairsByAngle[k * 2 + 1])) >> 4;
                 flipper->mUnk_d50[j].y = flipper->mUnk_00.mPos.y >> 4;
                 flipper->mUnk_d50[j].z =
-                    (flipper->mUnk_00.mPos.z + (s32) (((s64) v1 * gPairsByAngle[k * 2]) >> 12)) >> 4;
+                    (flipper->mUnk_00.mPos.z + MUL_FIXED12_NO_ROUND(v1, gPairsByAngle[k * 2])) >> 4;
             } else {
                 k = (u16) (-e - FX_Atan2Idx(-2, -10)) >> 4;
                 flipper->mUnk_d50[j].x =
-                    (flipper->mUnk_00.mPos.x - (s32) (((s64) v1 * gPairsByAngle[k * 2 + 1]) >> 12)) >> 4;
+                    (flipper->mUnk_00.mPos.x - MUL_FIXED12_NO_ROUND(v1, gPairsByAngle[k * 2 + 1])) >> 4;
                 flipper->mUnk_d50[j].y = flipper->mUnk_00.mPos.y >> 4;
                 flipper->mUnk_d50[j].z =
-                    (flipper->mUnk_00.mPos.z - (s32) (((s64) v1 * gPairsByAngle[k * 2]) >> 12)) >> 4;
+                    (flipper->mUnk_00.mPos.z - MUL_FIXED12_NO_ROUND(v1, gPairsByAngle[k * 2])) >> 4;
             }
         }
     }

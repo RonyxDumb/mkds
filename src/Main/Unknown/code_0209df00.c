@@ -280,9 +280,9 @@ void UpdateFireball2(void *a, Fireball2 *b) {
         for (j = 0; j < b->mRowCount; j++) {
             w = w + b->mRowAngleSpacing;
             b->mElements[j][i].mUnk_0c = w;
-            VEC_MultAdd(((s64) n * gPairsByAngle[(w >> 4) * 2 + 1]) >> 12, &b->mMapObject.mMatrix.mUnk_00[0],
+            VEC_MultAdd(MUL_FIXED12_NO_ROUND(n, gPairsByAngle[(w >> 4) * 2 + 1]), &b->mMapObject.mMatrix.mUnk_00[0],
                         &b->mMapObject.mPos, &b->mElements[j][i].mUnk_00);
-            VEC_MultAdd(((s64) n * gPairsByAngle[(w >> 4) * 2]) >> 12, &b->mMapObject.mMatrix.mUnk_00[1],
+            VEC_MultAdd(MUL_FIXED12_NO_ROUND(n, gPairsByAngle[(w >> 4) * 2]), &b->mMapObject.mMatrix.mUnk_00[1],
                         &b->mElements[j][i].mUnk_00, &b->mElements[j][i].mUnk_00);
             b->mElements[j][i].mUnk_0e = b->mElements[j][i].mUnk_0e + 0x51e;
         }

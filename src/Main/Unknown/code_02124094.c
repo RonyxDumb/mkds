@@ -30,9 +30,9 @@ void SetLayoutEntryAngleAndScale(LayoutTableEntry *entry, s32 angle, s32 scale) 
     matrix = &entry->mMatrix;
     inverseScale = FX_Div(0x1000, scale);
     cosine = gPairsByAngle[pairIndex + 1];
-    entry->mUnk_14.mUnk_00[0] = ((s64) cosine * inverseScale) >> 12;
+    entry->mUnk_14.mUnk_00[0] = MUL_FIXED12_NO_ROUND(cosine, inverseScale);
     sine = gPairsByAngle[pairIndex];
-    dividedValues->mUnk_00[1] = ((s64) sine * inverseScale) >> 12;
+    dividedValues->mUnk_00[1] = MUL_FIXED12_NO_ROUND(sine, inverseScale);
     dividedValues->mUnk_00[2] = -dividedValues->mUnk_00[1];
     dividedValues->mUnk_00[3] = entry->mUnk_14.mUnk_00[0];
     MTX_Rot22_(matrix, sine, cosine);
@@ -242,8 +242,8 @@ void QueueCellChars(u32 index, Unk02021dc8 *cells, Ncgr *chars, Unk0201ea30 *cel
     }
 }
 
-void QueueCellCharsAndFirstPalette(u32 index, Unk02021dc8 *cells, Ncgr *chars, Nclr *palette,
-                                   Unk0201ea30 *cellLayout, s32 queueSelector, u32 destIndex, Unk02021dc8 *destCells,
+void QueueCellCharsAndFirstPalette(u32 index, Unk02021dc8 *cells, Ncgr *chars, Nclr *palette, Unk0201ea30 *cellLayout,
+                                   s32 queueSelector, u32 destIndex, Unk02021dc8 *destCells,
                                    Unk0201ea30 *destCellLayout) {
     s32 j;
     Unk020224e0_c *cellData;

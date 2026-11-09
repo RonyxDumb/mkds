@@ -121,7 +121,7 @@ void InitKartMapObjectResponses(void) {
                 break;
         }
     }
-    data_usa_021654ec = FX_Div(0x1000, ((s64) GetFirstBaseSpeedLimit() * 0xd9aLL) >> 12);
+    data_usa_021654ec = FX_Div(0x1000, MUL_FIXED12_NO_ROUND(GetFirstBaseSpeedLimit(), 0xd9aLL));
 }
 
 void func_020733ec(Kart *kart) {

@@ -607,5 +607,5 @@ void UpdateRaceHudSubScreenProjectionAndBgAffine(RaceHudSubScreenBgAffine *bgAff
 }
 
 s32 MulFixed12NoRound(s32 multiplicand, s32 multiplier) {
-    return ((s64) multiplicand * multiplier) >> 12;
+    return MUL_FIXED12_NO_ROUND(multiplicand, multiplier);
 }

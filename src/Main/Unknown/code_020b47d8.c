@@ -76,8 +76,8 @@ void Matrix2x2RotationReciprocalScale(MtxFx22 *matrix, s32 scale, s32 angle) {
     } else {
         reciprocal = 0x1000;
     }
-    matrix->mUnk_00[0] = ((s64) anglePairSecond * reciprocal) >> 12;
-    matrix->mUnk_00[1] = ((s64) anglePairFirst * reciprocal) >> 12;
+    matrix->mUnk_00[0] = MUL_FIXED12_NO_ROUND(anglePairSecond, reciprocal);
+    matrix->mUnk_00[1] = MUL_FIXED12_NO_ROUND(anglePairFirst, reciprocal);
     matrix->mUnk_00[2] = -matrix->mUnk_00[1];
     matrix->mUnk_00[3] = matrix->mUnk_00[0];
 }

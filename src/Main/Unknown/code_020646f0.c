@@ -61,9 +61,9 @@ void func_020646f0(Kart *kart, s32 b) {
     kart->mPos.y = kart->mPos.y - 0x1400;
     if (CollideSphereWithCourse(&kart->mPos, &g, &kart->mTurnedForward, 0x5000, 1, -2, &e, &f, NULL, NULL, NULL, NULL,
                                 NULL, NULL) != 0) {
-        h.x = (s64) f.x * 0x5000 >> 12;
-        h.y = (s64) f.y * 0x5000 >> 12;
-        h.z = (s64) f.z * 0x5000 >> 12;
+        h.x = MUL_FIXED12_NO_ROUND(f.x, 0x5000);
+        h.y = MUL_FIXED12_NO_ROUND(f.y, 0x5000);
+        h.z = MUL_FIXED12_NO_ROUND(f.z, 0x5000);
         VEC_Subtract(&e, &h, &e);
         VEC_Add(&kart->mPos, &e, &kart->mPos);
     }

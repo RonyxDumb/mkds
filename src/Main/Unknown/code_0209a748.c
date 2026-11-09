@@ -63,14 +63,14 @@ void StartCrabLaunch(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Ve
             v.y = 0;
             crab->mRotateZAnglePerFrame = 0xf8e4;
         }
-        crab->mUnk_000.mUnk_10.x = ((s64) v.x * 0x1800) >> 12;
-        crab->mUnk_000.mUnk_10.y = ((s64) v.y * 0x1800) >> 12;
-        crab->mUnk_000.mUnk_10.z = ((s64) v.z * 0x1800) >> 12;
+        crab->mUnk_000.mUnk_10.x = MUL_FIXED12_NO_ROUND(v.x, 0x1800);
+        crab->mUnk_000.mUnk_10.y = MUL_FIXED12_NO_ROUND(v.y, 0x1800);
+        crab->mUnk_000.mUnk_10.z = MUL_FIXED12_NO_ROUND(v.z, 0x1800);
     } else {
         mapObjectRandom = GetMapObjectRandom();
         z = (u16) func_0209b388_inline(mapObjectRandom, 0x10000);
         x = gPairsByAngle[((u16) z >> 4) * 2 + 1];
-        x = ((s64) x * 0x1800) >> 12;
+        x = MUL_FIXED12_NO_ROUND(x, 0x1800);
         crab->mUnk_000.mUnk_10.x = x;
         crab->mUnk_000.mUnk_10.z = x;
         mapObjectRandom = GetMapObjectRandom();
@@ -191,7 +191,7 @@ s16 func_0209af80(s32 a) {
 }
 
 s32 func_0209af64(s32 a, s32 b) {
-    return ((s64) a * b + 0x800) >> 12;
+    return MUL_FIXED12_ROUNDED(a, b);
 }
 
 static inline void func_0209a7dc_inline(TeresaWobble *wobble) {
@@ -250,10 +250,8 @@ void UpdateCrab(void *a, Crab *crab) {
             break;
         case 1:
             crab->mFollower.mSpeed = 0x800;
-            crab->mFollower.mProgressStep =
-                ((s64) crab->mFollower.mPath->mSegments[crab->mFollower.mSegmentIndex].mInverseProgressLength *
-                 0x800) >>
-                12;
+            crab->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
+                crab->mFollower.mPath->mSegments[crab->mFollower.mSegmentIndex].mInverseProgressLength, 0x800);
             if (AdvanceGroupFollower(&crab->mFollower) != FALSE) {
                 crab->mHandWobble.mAngle = 0;
                 crab->mHandWobble.mMid = 0;
@@ -278,9 +276,9 @@ void UpdateCrab(void *a, Crab *crab) {
             GetGroupFollowerLinearPosition(&crab->mFollower, &crab->mUnk_000.mPos);
             v = *GetGroupFollowerSegmentUp(&crab->mFollower);
             VEC_Subtract(&v, &crab->mUnk_000.mMatrix.mUnk_00[1], &v);
-            v.x = ((s64) v.x * 0x800) >> 12;
-            v.y = ((s64) v.y * 0x800) >> 12;
-            v.z = ((s64) v.z * 0x800) >> 12;
+            v.x = MUL_FIXED12_NO_ROUND(v.x, 0x800);
+            v.y = MUL_FIXED12_NO_ROUND(v.y, 0x800);
+            v.z = MUL_FIXED12_NO_ROUND(v.z, 0x800);
             VEC_Add(&crab->mUnk_000.mMatrix.mUnk_00[1], &v, &crab->mUnk_000.mMatrix.mUnk_00[1]);
             if ((s64) crab->mUnk_000.mMatrix.mUnk_00[1].x * crab->mUnk_000.mMatrix.mUnk_00[1].x +
                     (s64) crab->mUnk_000.mMatrix.mUnk_00[1].y * crab->mUnk_000.mMatrix.mUnk_00[1].y +

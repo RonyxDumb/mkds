@@ -99,7 +99,7 @@ void StartRestingItemObject(ItemObject *item, void *b) {
     if (fallSpeed <= 0) {
         fallSpeed = -fallSpeed;
     }
-    item->mUnk_100 = -(s32) (((s64) fallSpeed * k) >> 12);
+    item->mUnk_100 = -MUL_FIXED12_NO_ROUND(fallSpeed, k);
     if (item->mUnk_100 < -0x5c3) {
         item->mUnk_100 = -0x5c3;
     }
@@ -169,7 +169,7 @@ void func_020f6830(ItemObject *item, Vec3 *otherVelocity, Vec3 *normal) {
         dot = -dot;
     }
     kind = *(vs32 *) &item->mKind;
-    item->mUnk_100 = ((s64) dot * gItemKinds[kind].mUnk_7c) >> 12;
+    item->mUnk_100 = MUL_FIXED12_NO_ROUND(dot, gItemKinds[kind].mUnk_7c);
     item->mUnk_100 = item->mUnk_100 >> 1;
 }
 
@@ -191,9 +191,9 @@ void func_020f6630(ItemObject *itemParam, s32 pushStrength, Vec3 *fromPos, Vec3 
     item->mFlags |= 0x4000;
     item->mUnk_78 |= data_02159b64;
     dot = VEC_DotProduct(normal, velocity);
-    velocity->x -= (s32) (((s64) normal->x * dot) >> 12);
-    velocity->y -= (s32) (((s64) normal->y * dot) >> 12);
-    velocity->z -= (s32) (((s64) normal->z * dot) >> 12);
+    velocity->x -= MUL_FIXED12_NO_ROUND(normal->x, dot);
+    velocity->y -= MUL_FIXED12_NO_ROUND(normal->y, dot);
+    velocity->z -= MUL_FIXED12_NO_ROUND(normal->z, dot);
     dot = Vec3DotUnrounded(fromVelocity, normal);
     if (dot < 0) {
         dot = 0;
@@ -247,8 +247,8 @@ void AdvanceFallingItemObject(ItemObject *item) {
     velocity = &item->mVelocity;
 
     VEC_Add(velocity, pos, pos);
-    item->mVelocity.x = ((s64) item->mVelocity.x * 0xfec) >> 12;
-    velocity->z = ((s64) velocity->z * 0xfec) >> 12;
+    item->mVelocity.x = MUL_FIXED12_NO_ROUND(item->mVelocity.x, 0xfec);
+    velocity->z = MUL_FIXED12_NO_ROUND(velocity->z, 0xfec);
     if (CollideSphereWithCourse(pos, &item->mPrevPos, 0, item->mUnk_dc, 0x44, item->mCollisionSlotIndex, &pushOut,
                                 &groundNormal, &bounceNormal, &item->mCollisionBits, NULL, NULL, NULL, &w) != 0) {
         VEC_Add(&pushOut, pos, pos);

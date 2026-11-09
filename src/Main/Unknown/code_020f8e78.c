@@ -129,8 +129,8 @@ void SetupItemObjectFromData(ItemObject *item) {
     item->mScale.x = item->mScale.y;
     kindInfo = &gItemKinds[kind];
     kindRadius = kindInfo->mUnk_6c;
-    item->mUnk_dc = ((s64) item->mScale.y * kindInfo->mUnk_64) >> 12;
-    item->mRadius = ((s64) item->mScale.y * kindRadius) >> 12;
+    item->mUnk_dc = MUL_FIXED12_NO_ROUND(item->mScale.y, kindInfo->mUnk_64);
+    item->mRadius = MUL_FIXED12_NO_ROUND(item->mScale.y, kindRadius);
     SetCollisionSlotRadius(item->mCollisionSlotIndex, item->mRadius + 0xa000);
     InitCourseColorBlend(&item->mColorBlend, 1);
     item->mUnk_90 = NULL;

@@ -74,11 +74,13 @@ void func_020ff97c(Unk020ff97c *object) {
     object->mUnk_000.mCollisionData.mAngleChangeVector.y = 0;
     object->mUnk_000.mCollisionData.mAngleChangeVector.z = 0;
     object->mUnk_000.mCollisionData.mUnk_130 = 0;
-    object->mUnk_000.mCollisionData.mUnk_100 = ((s64) object->mUnk_000.mMapObject.mScale.x * 0x190000) >> 12;
+    object->mUnk_000.mCollisionData.mUnk_100 = MUL_FIXED12_NO_ROUND(object->mUnk_000.mMapObject.mScale.x, 0x190000);
     object->mUnk_000.mCollisionData.mHalfSizeY =
-        (s32) (((s64) object->mUnk_000.mMapObject.mScale.y * 0x64000) >> 12) >> 1;
-    object->mUnk_000.mCollisionData.mPositiveHalfSizeZ = ((s64) object->mUnk_000.mMapObject.mScale.z * 0xaf000) >> 12;
-    object->mUnk_000.mCollisionData.mNegativeHalfSizeZ = ((s64) object->mUnk_000.mMapObject.mScale.z * 0xaf000) >> 12;
+        MUL_FIXED12_NO_ROUND(object->mUnk_000.mMapObject.mScale.y, 0x64000) >> 1;
+    object->mUnk_000.mCollisionData.mPositiveHalfSizeZ =
+        MUL_FIXED12_NO_ROUND(object->mUnk_000.mMapObject.mScale.z, 0xaf000);
+    object->mUnk_000.mCollisionData.mNegativeHalfSizeZ =
+        MUL_FIXED12_NO_ROUND(object->mUnk_000.mMapObject.mScale.z, 0xaf000);
     object->mUnk_000.mCollisionData.mUnk_110 = 0;
     object->mUnk_000.mCollisionData.mUnk_114.x = 1;
     object->mUnk_000.mCollisionData.mUnk_114.y = 0;
@@ -119,11 +121,11 @@ void func_020ff6d8(ItemFBox *fbox, MtxFx43 *out) {
         row0Dot = ((s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].x * fbox->mUnk_130.x +
                    (s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].z * fbox->mUnk_130.z) >>
                   12;
-        scaledX = ((s64) fbox->mUnk_130.x * 0xa4) >> 12;
+        scaledX = MUL_FIXED12_NO_ROUND(fbox->mUnk_130.x, 0xa4);
         row2Dot = ((s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2].x * fbox->mUnk_130.x +
                    (s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2].z * fbox->mUnk_130.z) >>
                   12;
-        scaledZ = ((s64) fbox->mUnk_130.z * 0xa4) >> 12;
+        scaledZ = MUL_FIXED12_NO_ROUND(fbox->mUnk_130.z, 0xa4);
         fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1].x =
             (s32) (fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1].x + scaledX);
         fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1].z += scaledZ;

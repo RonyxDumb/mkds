@@ -25,5 +25,5 @@ void func_02148904(void) {}
 
 // Multiplies two 20.12 fixed-point values, rounding to nearest.
 s32 FX_MulFunc(s32 v1, s32 v2) {
-    return ((s64) v1 * v2 + 0x800) >> 12;
+    return MUL_FIXED12_ROUNDED(v1, v2);
 }

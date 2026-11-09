@@ -88,10 +88,10 @@ void PlaceKartKillerEffectCallback(Unk0206390c *renderState) {
     effectPosition = positionMatrix.mUnk_00[3];
     offset = c.mUnk_00[2];
     kart = GetKart(killerItemKartIndex);
-    offsetScale = (s32) ((s64) kart->mRadiusFactor * -0xd000 + 0x800 >> 12) >> 4;
-    offset.x = (s64) offset.x * offsetScale >> 12;
-    offset.y = (s64) offset.y * offsetScale >> 12;
-    offset.z = (s64) offset.z * offsetScale >> 12;
+    offsetScale = MUL_FIXED12_ROUNDED(kart->mRadiusFactor, -0xd000) >> 4;
+    offset.x = MUL_FIXED12_NO_ROUND(offset.x, offsetScale);
+    offset.y = MUL_FIXED12_NO_ROUND(offset.y, offsetScale);
+    offset.z = MUL_FIXED12_NO_ROUND(offset.z, offsetScale);
     VEC_Add(&effectPosition, &offset, &effectPosition);
     PlaceKartKillerEffect(killerItemKartIndex, &effectPosition);
     renderState->mUnk_24 = 0;

@@ -256,7 +256,7 @@ void UpdateShine16(void *a, Shine16 *shine16) {
                 return;
             }
             shine16->mUnk_00.mPos.y = shine16->mFloorY;
-            shine16->mUnk_00.mUnk_10.y = ((s64) shine16->mUnk_00.mUnk_10.y * -0x333) >> 12;
+            shine16->mUnk_00.mUnk_10.y = MUL_FIXED12_NO_ROUND(shine16->mUnk_00.mUnk_10.y, -0x333);
             if (shine16->mUnk_00.mUnk_10.y < 0x1000) {
                 shine16->mUnk_00.mUnk_10.y = 0;
                 shine16->mState = 1;
@@ -420,14 +420,14 @@ void UpdateShine16(void *a, Shine16 *shine16) {
                 randomState = &gRaceProgress->mRandom;
                 randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
                 s = ((u64) (u32) (randomState->mValue >> 32) * 0x14000) >> 32;
-                x = shine16->mTargetPos.x + (s32) (((s64) s * gPairsByAngle[(r >> 4) * 2]) >> 12) -
+                x = shine16->mTargetPos.x + MUL_FIXED12_NO_ROUND(s, gPairsByAngle[(r >> 4) * 2]) -
                     shine16->mUnk_00.mPos.x;
-                z = shine16->mTargetPos.z + (s32) (((s64) s * gPairsByAngle[(r >> 4) * 2 + 1]) >> 12) -
+                z = shine16->mTargetPos.z + MUL_FIXED12_NO_ROUND(s, gPairsByAngle[(r >> 4) * 2 + 1]) -
                     shine16->mUnk_00.mPos.z;
                 shine16->mState = 4;
-                shine16->mUnk_00.mUnk_10.x = ((s64) x * 0x25) >> 12;
+                shine16->mUnk_00.mUnk_10.x = MUL_FIXED12_NO_ROUND(x, 0x25);
                 shine16->mUnk_00.mUnk_10.y = 0x5000;
-                shine16->mUnk_00.mUnk_10.z = ((s64) z * 0x25) >> 12;
+                shine16->mUnk_00.mUnk_10.z = MUL_FIXED12_NO_ROUND(z, 0x25);
                 shine16->mDrawScale = 0x1000;
                 shine16->mUnk_00.mFlags &= ~1;
                 return;
@@ -498,9 +498,9 @@ void UpdateShine16(void *a, Shine16 *shine16) {
                         0x10) {
                         Vec3NormalizeAndGetLengthUnchecked(&shine16->mUnk_00.mUnk_10, &shine16->mUnk_00.mUnk_10);
                     }
-                    shine16->mUnk_00.mUnk_10.x = ((s64) shine16->mUnk_00.mUnk_10.x * 0x1000) >> 12;
-                    shine16->mUnk_00.mUnk_10.y = ((s64) shine16->mUnk_00.mUnk_10.y * 0x1000) >> 12;
-                    shine16->mUnk_00.mUnk_10.z = ((s64) shine16->mUnk_00.mUnk_10.z * 0x1000) >> 12;
+                    shine16->mUnk_00.mUnk_10.x = MUL_FIXED12_NO_ROUND(shine16->mUnk_00.mUnk_10.x, 0x1000);
+                    shine16->mUnk_00.mUnk_10.y = MUL_FIXED12_NO_ROUND(shine16->mUnk_00.mUnk_10.y, 0x1000);
+                    shine16->mUnk_00.mUnk_10.z = MUL_FIXED12_NO_ROUND(shine16->mUnk_00.mUnk_10.z, 0x1000);
                     shine16->mUnk_00.mUnk_10.y = t;
                 }
                 c.x = shine16->mUnk_00.mPos.x;
@@ -520,15 +520,15 @@ void UpdateShine16(void *a, Shine16 *shine16) {
                             0x10) {
                             Vec3NormalizeAndGetLengthUnchecked(&shine16->mUnk_00.mUnk_10, &shine16->mUnk_00.mUnk_10);
                         }
-                        shine16->mUnk_00.mUnk_10.x = ((s64) shine16->mUnk_00.mUnk_10.x * 0x1000) >> 12;
-                        shine16->mUnk_00.mUnk_10.y = ((s64) shine16->mUnk_00.mUnk_10.y * 0x1000) >> 12;
-                        shine16->mUnk_00.mUnk_10.z = ((s64) shine16->mUnk_00.mUnk_10.z * 0x1000) >> 12;
+                        shine16->mUnk_00.mUnk_10.x = MUL_FIXED12_NO_ROUND(shine16->mUnk_00.mUnk_10.x, 0x1000);
+                        shine16->mUnk_00.mUnk_10.y = MUL_FIXED12_NO_ROUND(shine16->mUnk_00.mUnk_10.y, 0x1000);
+                        shine16->mUnk_00.mUnk_10.z = MUL_FIXED12_NO_ROUND(shine16->mUnk_00.mUnk_10.z, 0x1000);
                         shine16->mUnk_00.mUnk_10.y = t;
                     }
                     if (f & 0x1e34ef) {
-                        shine16->mUnk_00.mUnk_10.x = ((s64) shine16->mUnk_00.mUnk_10.x * 0x19a) >> 12;
-                        shine16->mUnk_00.mUnk_10.y = ((s64) shine16->mUnk_00.mUnk_10.y * -0x333) >> 12;
-                        shine16->mUnk_00.mUnk_10.z = ((s64) shine16->mUnk_00.mUnk_10.z * 0x19a) >> 12;
+                        shine16->mUnk_00.mUnk_10.x = MUL_FIXED12_NO_ROUND(shine16->mUnk_00.mUnk_10.x, 0x19a);
+                        shine16->mUnk_00.mUnk_10.y = MUL_FIXED12_NO_ROUND(shine16->mUnk_00.mUnk_10.y, -0x333);
+                        shine16->mUnk_00.mUnk_10.z = MUL_FIXED12_NO_ROUND(shine16->mUnk_00.mUnk_10.z, 0x19a);
                         if (shine16->mUnk_00.mUnk_10.y < 0x1000) {
                             shine16->mUnk_00.mUnk_10.y = 0;
                             shine16->mState = 1;
@@ -1181,16 +1181,16 @@ void UpdateKartBalloons(void *mapObjectList, KartBalloonsObject *kartBalloonsObj
                 sideOffset = kartBalloons->mSwing + kartBalloonsObject->mBalloonOffsets[balloonCount - 1][j];
                 if (sideOffset != 0) {
                     kartVector = &kart->mUnk_150;
-                    addend.x = ((s64) kartVector->x * sideOffset) >> 12;
-                    addend.y = ((s64) kartVector->y * sideOffset) >> 12;
-                    addend.z = ((s64) kartVector->z * sideOffset) >> 12;
+                    addend.x = MUL_FIXED12_NO_ROUND(kartVector->x, sideOffset);
+                    addend.y = MUL_FIXED12_NO_ROUND(kartVector->y, sideOffset);
+                    addend.z = MUL_FIXED12_NO_ROUND(kartVector->z, sideOffset);
                     AddBalloonVelocity(balloon, &addend);
                 }
                 if ((j & 1) == 1) {
                     kartVector = &kart->mUnk_168;
-                    oddBalloonAddend.x = ((s64) kartVector->x * -0xcd) >> 12;
-                    oddBalloonAddend.y = ((s64) kartVector->y * -0xcd) >> 12;
-                    oddBalloonAddend.z = ((s64) kartVector->z * -0xcd) >> 12;
+                    oddBalloonAddend.x = MUL_FIXED12_NO_ROUND(kartVector->x, -0xcd);
+                    oddBalloonAddend.y = MUL_FIXED12_NO_ROUND(kartVector->y, -0xcd);
+                    oddBalloonAddend.z = MUL_FIXED12_NO_ROUND(kartVector->z, -0xcd);
                     AddBalloonVelocity(balloon, &oddBalloonAddend);
                 }
                 SetBalloonTargetPosAndVelocity(balloon, &balloonPos, &kart->mVelocity);

@@ -66,10 +66,10 @@ void func_020651fc(Kart *kart) {
         kart->mScaleFactor.x = gKartScaleFactorXTable[tableIndex];
         kart->mScaleFactor.y = gKartScaleFactorYTable[tableIndex];
         kart->mScaleFactor.z = gKartScaleFactorZTable[tableIndex];
-        kart->mScale.x = (s64) kart->mScaleBase.x * kart->mScaleFactor.x >> 12;
-        kart->mScale.y = (s64) kart->mScaleBase.y * kart->mScaleFactor.y >> 12;
-        kart->mScale.z = (s64) kart->mScaleBase.z * kart->mScaleFactor.z >> 12;
-        kart->mScale.y = (s64) kart->mScaleYFactor * kart->mScale.y >> 12;
+        kart->mScale.x = MUL_FIXED12_NO_ROUND(kart->mScaleBase.x, kart->mScaleFactor.x);
+        kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleBase.y, kart->mScaleFactor.y);
+        kart->mScale.z = MUL_FIXED12_NO_ROUND(kart->mScaleBase.z, kart->mScaleFactor.z);
+        kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleYFactor, kart->mScale.y);
         return;
     }
     b = kart->mUnk_514;
@@ -139,16 +139,16 @@ void func_02064f50(Kart *kart) {
     e.y = e.y - b->mUnk_60;
     c = b->mUnk_24;
     VEC_Subtract(&e, &b->mUnk_00, &f);
-    f.x = (s64) f.x * c >> 12;
-    f.y = (s64) f.y * c >> 12;
-    f.z = (s64) f.z * c >> 12;
+    f.x = MUL_FIXED12_NO_ROUND(f.x, c);
+    f.y = MUL_FIXED12_NO_ROUND(f.y, c);
+    f.z = MUL_FIXED12_NO_ROUND(f.z, c);
     VEC_Add(&b->mUnk_00, &f, &b->mUnk_00);
     if ((kart->mUnk_514->mUnk_44 & 1) != 0) {
         ComputeKartPointAlongUp(&g, &b->mUnk_00, 0x400, kart);
         k = &kart->mUnk_12c;
-        h.x = (s64) k->x * -0x7000 >> 12;
-        h.y = (s64) k->y * -0x7000 >> 12;
-        h.z = (s64) k->z * -0x7000 >> 12;
+        h.x = MUL_FIXED12_NO_ROUND(k->x, -0x7000);
+        h.y = MUL_FIXED12_NO_ROUND(k->y, -0x7000);
+        h.z = MUL_FIXED12_NO_ROUND(k->z, -0x7000);
         VEC_Add(&g, &h, &g);
         if (CollideSphereWithCourse(&g, NULL, 0, kart->mRadius, 1, kart->mCollisionSlot, &i, NULL, NULL, &j, NULL, NULL,
                                     NULL, NULL) != 0) {
@@ -184,12 +184,12 @@ void func_02064d60(Kart *kart, Vec3 *groundNormal) {
             headingDifference = headingDifference + 0xffff;
         }
     }
-    c->mUnk_0e = c->mUnk_0e + (s32) ((s64) headingDifference * 0x19a >> 12);
+    c->mUnk_0e = c->mUnk_0e + MUL_FIXED12_NO_ROUND(headingDifference, 0x19a);
     QuaternionFromAxisAngle(&data_02154f7c, (u16) (kart->mHeadingAngle + kart->mHeadingAngleOffset), &kart->mUnk_e0_m);
     QuaternionMultiply(&kart->mUnk_f0_q, &kart->mUnk_e0_m, &kart->mUnk_110_q);
     if ((kart->mUnk_44 & 2) != 0) {
         if (kart->mHopSpeed > 0) {
-            f = (u16) ((s64) kart->mHopHeight * 0x1f4 >> 12);
+            f = (u16) MUL_FIXED12_NO_ROUND(kart->mHopHeight, 0x1f4);
             kart->mHopTiltAngle = 0x9c4 - f;
             if (kart->mHopTiltAngle > 0x6a4) {
                 kart->mHopTiltAngle = 0x352;

@@ -31,11 +31,11 @@ void func_ov001_0218d3ec(Unk02188950 *a) {
     if (GetBalloonOrShineCount(gRaceSetup->mEntryIndex) <= 1) {
         y = 0x1000 - a->mPrm->mUnk_0ac;
         t = func_ov001_02187f38(a);
-        x = (((s64) t * y) >> 12);
+        x = MUL_FIXED12_NO_ROUND(t, y);
     } else if (GetBalloonOrShineCount(gRaceSetup->mEntryIndex) <= 2) {
         y = 0x1000 - a->mPrm->mUnk_0a8;
         t = func_ov001_02187f38(a);
-        x = (((s64) t * y) >> 12);
+        x = MUL_FIXED12_NO_ROUND(t, y);
     } else {
         x = func_ov001_02187f38(a);
     }

@@ -184,8 +184,8 @@ void ApplyKartWaterDepth(Kart *kart) {
     heightAboveWater = GetHeightAboveWaterOrEfct(kart->mPos.y);
     if (heightAboveWater < 0 && !(kart->mUnk_4c & 0x4000000)) {
         b = FALSE;
-        scaledFactorPerDepth = ((s64) kart->mSpeedLimitFactorPerDepth * kart->mScale.z) >> 12;
-        kart->mSpeedLimitFactor = (s32) (((s64) scaledFactorPerDepth * heightAboveWater) >> 12) + 0x1000;
+        scaledFactorPerDepth = MUL_FIXED12_NO_ROUND(kart->mSpeedLimitFactorPerDepth, kart->mScale.z);
+        kart->mSpeedLimitFactor = MUL_FIXED12_NO_ROUND(scaledFactorPerDepth, heightAboveWater) + 0x1000;
         if (kart->mSpeedLimitFactor < kart->mPhysicalParam->mSurfaceSpeedLimitFactors[4]) {
             kart->mSpeedLimitFactor = kart->mPhysicalParam->mSurfaceSpeedLimitFactors[4];
         }
@@ -230,14 +230,14 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
             b = 8;
         } else {
             b = FX_Div(0x4a, 0x1000);
-            b = 0x52 - (s32) (((s64) b * a) >> 12);
+            b = 0x52 - MUL_FIXED12_NO_ROUND(b, a);
         }
         kart->mUnk_4d4 = kart->mUnk_4d4 + b;
         if (kart->mUnk_4d4 > 0x1000) {
             kart->mUnk_4d4 = 0x1000;
         }
     } else {
-        kart->mUnk_4d4 = ((s64) kart->mUnk_4d4 * 0xf5c) >> 12;
+        kart->mUnk_4d4 = MUL_FIXED12_NO_ROUND(kart->mUnk_4d4, 0xf5c);
     }
     if (!(kart->mUnk_4c & KART_4C_HEADING_SWING)) {
         if (GetRaceStartSequenceFrames() - 0xaf > 0) {
@@ -388,9 +388,9 @@ void func_0206f694(Kart *kart, u32 collisionFlags, Vec3 *b, s32 headingDelta) {
         kart->mUnk_1fc.y = 0;
     } else {
         e = data_usa_02165554;
-        kart->mUnk_1fc.x = ((s64) kart->mUnk_1fc.x * e.x) >> 12;
-        kart->mUnk_1fc.y = ((s64) kart->mUnk_1fc.y * e.y) >> 12;
-        kart->mUnk_1fc.z = ((s64) kart->mUnk_1fc.z * e.z) >> 12;
+        kart->mUnk_1fc.x = MUL_FIXED12_NO_ROUND(kart->mUnk_1fc.x, e.x);
+        kart->mUnk_1fc.y = MUL_FIXED12_NO_ROUND(kart->mUnk_1fc.y, e.y);
+        kart->mUnk_1fc.z = MUL_FIXED12_NO_ROUND(kart->mUnk_1fc.z, e.z);
         if ((s64) kart->mUnk_1fc.x * kart->mUnk_1fc.x + (s64) kart->mUnk_1fc.y * kart->mUnk_1fc.y +
                 (s64) kart->mUnk_1fc.z * kart->mUnk_1fc.z <
             0xa429) {
@@ -454,14 +454,14 @@ s32 func_0206f04c(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseSpee
         i = 0x29;
     }
     g = VEC_DotProduct(contactNormal, &kart->mHitVelocity);
-    kart->mHitVelocity.x = kart->mHitVelocity.x - (s32) (((s64) contactNormal->x * g) >> 12);
-    kart->mHitVelocity.y = kart->mHitVelocity.y - (s32) (((s64) contactNormal->y * g) >> 12);
-    kart->mHitVelocity.z = kart->mHitVelocity.z - (s32) (((s64) contactNormal->z * g) >> 12);
+    kart->mHitVelocity.x = kart->mHitVelocity.x - MUL_FIXED12_NO_ROUND(contactNormal->x, g);
+    kart->mHitVelocity.y = kart->mHitVelocity.y - MUL_FIXED12_NO_ROUND(contactNormal->y, g);
+    kart->mHitVelocity.z = kart->mHitVelocity.z - MUL_FIXED12_NO_ROUND(contactNormal->z, g);
     g = VEC_DotProduct(contactNormal, &kart->mPrevHitVelocity);
-    kart->mPrevHitVelocity.x = kart->mPrevHitVelocity.x - (s32) (((s64) contactNormal->x * g) >> 12);
-    kart->mPrevHitVelocity.y = kart->mPrevHitVelocity.y - (s32) (((s64) contactNormal->y * g) >> 12);
-    k = ((s64) baseSpeedLimitHitFactor * i) >> 12;
-    kart->mPrevHitVelocity.z = kart->mPrevHitVelocity.z - (s32) (((s64) contactNormal->z * g) >> 12);
+    kart->mPrevHitVelocity.x = kart->mPrevHitVelocity.x - MUL_FIXED12_NO_ROUND(contactNormal->x, g);
+    kart->mPrevHitVelocity.y = kart->mPrevHitVelocity.y - MUL_FIXED12_NO_ROUND(contactNormal->y, g);
+    k = MUL_FIXED12_NO_ROUND(baseSpeedLimitHitFactor, i);
+    kart->mPrevHitVelocity.z = kart->mPrevHitVelocity.z - MUL_FIXED12_NO_ROUND(contactNormal->z, g);
     kart->mSpeedLimitHitFactor = k;
     if (Vec3DotUnrounded(&kart->mUnk_1fc, contactNormal) < -0x800) {
         kart->mUnk_1fc = data_02154f94;
@@ -470,9 +470,9 @@ s32 func_0206f04c(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseSpee
         h = Vec3DotUnrounded(&kart->mUnk_138, contactNormal);
         j = TRUE;
         g = VEC_DotProduct(contactNormal, &kart->mVelocity);
-        m.x = ((s64) contactNormal->x * g) >> 12;
-        m.y = ((s64) contactNormal->y * g) >> 12;
-        m.z = ((s64) contactNormal->z * g) >> 12;
+        m.x = MUL_FIXED12_NO_ROUND(contactNormal->x, g);
+        m.y = MUL_FIXED12_NO_ROUND(contactNormal->y, g);
+        m.z = MUL_FIXED12_NO_ROUND(contactNormal->z, g);
         kart->mDriftCharge = 0;
         kart->mRightTurnCount = 0;
         kart->mLeftTurnCount = kart->mRightTurnCount;
@@ -503,7 +503,7 @@ s32 func_0206f04c(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseSpee
                             g = 0x4cd;
                         }
                         VEC_MultAdd(-kart->mRadius, contactNormal, &kart->mPos, &n);
-                        VEC_MultAdd(((s64) kart->mScale.y * (g << 4) + 0x800) >> 12, &kart->mUnk_12c, &n, &n);
+                        VEC_MultAdd(MUL_FIXED12_ROUNDED(kart->mScale.y, g << 4), &kart->mUnk_12c, &n, &n);
                         StartEffectWithCallback(0x3b, &n, kart, func_0206c488);
                     }
                 }
@@ -534,7 +534,7 @@ s32 func_0206f04c(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseSpee
         } else if (kart->mVelocityLength > 0x2000 && baseSpeedLimitHitFactor != 0x1000) {
             k = 0x1000 - i;
             if (kart->mVelocityLength > 0x1800 && k > 0x19a) {
-                l = ((s32) (((s64) kart->mVelocityLength * k) >> 12) >> 12) * 30;
+                l = (MUL_FIXED12_NO_ROUND(kart->mVelocityLength, k) >> 12) * 30;
                 Vec3CrossUnrounded(&kart->mSignedTurnedForward, contactNormal, &o);
                 if (Vec3DotUnrounded(&o, &kart->mUnk_12c) < 0) {
                     l = l * -1;

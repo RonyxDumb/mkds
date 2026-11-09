@@ -42,9 +42,9 @@ void SteerItemKouraWToKartForward(ItemKouraW *item, s32 gain, s32 lift) {
         VEC_MultAdd(lift, &kart->mGroundNormal, &v, &v);
     }
     VEC_Subtract(&v, pos, &v);
-    velocity->x = ((s64) v.x * gain) >> 12;
-    velocity->y = ((s64) v.y * gain) >> 12;
-    velocity->z = ((s64) v.z * gain) >> 12;
+    velocity->x = MUL_FIXED12_NO_ROUND(v.x, gain);
+    velocity->y = MUL_FIXED12_NO_ROUND(v.y, gain);
+    velocity->z = MUL_FIXED12_NO_ROUND(v.z, gain);
     VEC_Add(velocity, pos, pos);
     if (flagBit0 == 0) {
         return;

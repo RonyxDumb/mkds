@@ -566,8 +566,8 @@ void UpdateRaceHudSubScreenSecondHand(void) {
         object = gRaceHudSubScreenSecondHand->mObjects[i];
         extentZ = object->mUnk_000.mExtent.z;
         position = &object->mUnk_000.mPos;
-        deltaX = (s64) object->mUnk_000.mMatrix.mUnk_00[2].x * extentZ >> 12;
-        deltaZ = (s64) object->mUnk_000.mMatrix.mUnk_00[2].z * extentZ >> 12;
+        deltaX = MUL_FIXED12_NO_ROUND(object->mUnk_000.mMatrix.mUnk_00[2].x, extentZ);
+        deltaZ = MUL_FIXED12_NO_ROUND(object->mUnk_000.mMatrix.mUnk_00[2].z, extentZ);
         if (gRaceSetup->mMirrorMode != 0) {
             gRaceHudSubScreenSecondHand->mAngles[i] = FX_Atan2Idx(-deltaZ, deltaX) + 0x8000;
         } else {

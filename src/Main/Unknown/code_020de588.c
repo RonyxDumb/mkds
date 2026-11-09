@@ -40,9 +40,9 @@ void CreateBoxAndQuestion(void) {
         sine = gPairsByAngle[angleIndex * 2];
         gBoxRotations[boxIndex].mCosine = cosine;
         gBoxRotations[boxIndex].mSine = sine;
-        gBoxRotations[boxIndex].mCosineSquared = ((s64) cosine * cosine) >> 12;
-        gBoxRotations[boxIndex].mSineSquared = ((s64) sine * sine) >> 12;
-        gBoxRotations[boxIndex].mCosineSineProduct = ((s64) cosine * sine) >> 12;
+        gBoxRotations[boxIndex].mCosineSquared = MUL_FIXED12_NO_ROUND(cosine, cosine);
+        gBoxRotations[boxIndex].mSineSquared = MUL_FIXED12_NO_ROUND(sine, sine);
+        gBoxRotations[boxIndex].mCosineSineProduct = MUL_FIXED12_NO_ROUND(cosine, sine);
     }
     gQuestionRotations = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x410);
     for (questionIndex = 0; questionIndex < 0x82; questionIndex++) {

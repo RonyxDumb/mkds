@@ -35,9 +35,9 @@ void StartAndPlaceKartContactEffect(s32 kartIndex, Vec3 *direction) {
     if (kartEffects->mContactEffect == NULL) {
         return;
     }
-    effectVelocity.x = ((s64) kart->mEffectVelocity.x * 0xccd) >> 12;
-    effectVelocity.y = ((s64) kart->mEffectVelocity.y * 0xccd) >> 12;
-    effectVelocity.z = ((s64) kart->mEffectVelocity.z * 0xccd) >> 12;
+    effectVelocity.x = MUL_FIXED12_NO_ROUND(kart->mEffectVelocity.x, 0xccd);
+    effectVelocity.y = MUL_FIXED12_NO_ROUND(kart->mEffectVelocity.y, 0xccd);
+    effectVelocity.z = MUL_FIXED12_NO_ROUND(kart->mEffectVelocity.z, 0xccd);
     kartEffects->mContactEffect->mUnk_40 = effectVelocity;
     VEC_MultAdd(-kart->mRadius, direction, kart->mPosSource, &effectPos);
     PlaceEffect(kartEffects->mContactEffect, &effectPos);

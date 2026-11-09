@@ -131,10 +131,8 @@ void UpdateMoveTree(void *a, MoveTree *moveTree) {
         case 1:
             speed = moveTree->mUnk_a8;
             moveTree->mFollower.mSpeed = speed;
-            moveTree->mFollower.mProgressStep =
-                ((s64) speed *
-                 moveTree->mFollower.mPath->mSegments[moveTree->mFollower.mSegmentIndex].mInverseProgressLength) >>
-                12;
+            moveTree->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
+                speed, moveTree->mFollower.mPath->mSegments[moveTree->mFollower.mSegmentIndex].mInverseProgressLength);
             if (AdvanceGroupFollower(&moveTree->mFollower) != FALSE) {
                 moveTree->mState0Timer = (u16) moveTree->mFollower.mFromEntry->mUnk_0e;
                 moveTree->mState = 0;
@@ -251,9 +249,9 @@ void UpdateBakubaku(void *a, Bakubaku *bakubaku) {
             bakubaku->mUnk_00.mPos.x = bakubaku->mUnk_00.mCourseMapRow->mUnk_00.x;
             bakubaku->mUnk_00.mPos.y = bakubaku->mUnk_00.mCourseMapRow->mUnk_00.y - 0x32000;
             bakubaku->mUnk_00.mPos.z = bakubaku->mUnk_00.mCourseMapRow->mUnk_00.z;
-            bakubaku->mUnk_00.mUnk_10.x = ((s64) bakubaku->mUnk_00.mMatrix.mUnk_00[2].x * 0xc000) >> 12;
+            bakubaku->mUnk_00.mUnk_10.x = MUL_FIXED12_NO_ROUND(bakubaku->mUnk_00.mMatrix.mUnk_00[2].x, 0xc000);
             bakubaku->mUnk_00.mUnk_10.y = 0xc000;
-            bakubaku->mUnk_00.mUnk_10.z = ((s64) bakubaku->mUnk_00.mMatrix.mUnk_00[2].z * 0xc000) >> 12;
+            bakubaku->mUnk_00.mUnk_10.z = MUL_FIXED12_NO_ROUND(bakubaku->mUnk_00.mMatrix.mUnk_00[2].z, 0xc000);
             bakubaku->mState = 1;
             break;
         case 1:

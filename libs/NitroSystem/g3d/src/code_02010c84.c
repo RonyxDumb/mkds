@@ -676,9 +676,9 @@ BOOL NNSi_G3dAnmBlendJnt(NNSG3dJntAnmResult *result, NNSG3dAnmObj *anmObj, u32 n
             blendScaleVec_(&result->mScaleEx0, &r.mScaleEx0, weight, r.mFlag & 8);
             blendScaleVec_(&result->mScaleEx1, &r.mScaleEx1, weight, r.mFlag & 0x10);
             if (!(r.mFlag & 4)) {
-                result->mTrans.x += (s32) (((s64) weight * r.mTrans.x) >> 12);
-                result->mTrans.y += (s32) (((s64) weight * r.mTrans.y) >> 12);
-                result->mTrans.z += (s32) (((s64) weight * r.mTrans.z) >> 12);
+                result->mTrans.x += MUL_FIXED12_NO_ROUND(weight, r.mTrans.x);
+                result->mTrans.y += MUL_FIXED12_NO_ROUND(weight, r.mTrans.y);
+                result->mTrans.z += MUL_FIXED12_NO_ROUND(weight, r.mTrans.z);
             }
             if (!(r.mFlag & 2)) {
                 result->mRot.mUnk_00[0].x += (weight * r.mRot.mUnk_00[0].x) >> 12;

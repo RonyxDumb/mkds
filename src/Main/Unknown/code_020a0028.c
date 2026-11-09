@@ -55,9 +55,8 @@ void InitAirshipObjects(AirshipObjectList *list) {
         airship->mUnk_a4 = (airship->mUnk_00.mCourseMapRow->mUnk_28 * 0x5000L) / 100;
         speed = airship->mUnk_a4;
         airship->mUnk_c8.mSpeed = speed;
-        airship->mUnk_c8.mProgressStep =
-            ((s64) speed * airship->mUnk_c8.mPath->mSegments[airship->mUnk_c8.mSegmentIndex].mInverseProgressLength) >>
-            12;
+        airship->mUnk_c8.mProgressStep = MUL_FIXED12_NO_ROUND(
+            speed, airship->mUnk_c8.mPath->mSegments[airship->mUnk_c8.mSegmentIndex].mInverseProgressLength);
         airship->mUnk_a0 = airship->mUnk_00.mPos.y;
         GetGroupFollowerCurvePosStep(&airship->mUnk_c8, &airship->mUnk_00.mPos, &airship->mUnk_00.mUnk_10);
         airship->mUnk_a0 = airship->mUnk_a0 - airship->mUnk_00.mPos.y;
@@ -80,5 +79,5 @@ s32 AirshipGetAnglePairSecond(s32 angle) {
 }
 
 s32 AirshipMulFixed12Rounded(s32 multiplicand, s32 multiplier) {
-    return ((s64) multiplicand * multiplier + 0x800) >> 12;
+    return MUL_FIXED12_ROUNDED(multiplicand, multiplier);
 }

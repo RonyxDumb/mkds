@@ -16,7 +16,7 @@ void SetMapObjectScale(MapObject *mapObject, Vec3 *scale) {
     mapObject->mScale.x = scale->x;
     mapObject->mScale.y = scale->y;
     mapObject->mScale.z = scale->z;
-    mapObject->mExtent.x = (s64) mapObject->mKindData->mUnk_0c * mapObject->mScale.x >> 12;
+    mapObject->mExtent.x = MUL_FIXED12_NO_ROUND(mapObject->mKindData->mUnk_0c, mapObject->mScale.x);
     if (mapObject->mCollisionSlotIndex >= 0) {
         switch (mapObject->mKindData->mShapeKind) {
             case 3:
@@ -33,7 +33,7 @@ void SetMapObjectScale(MapObject *mapObject, Vec3 *scale) {
         }
         SetCollisionSlotRadius(mapObject->mCollisionSlotIndex, a);
     }
-    mapObject->mExtent.y = (s64) mapObject->mKindData->mUnk_10 * mapObject->mScale.y >> 12;
+    mapObject->mExtent.y = MUL_FIXED12_NO_ROUND(mapObject->mKindData->mUnk_10, mapObject->mScale.y);
     if (mapObject->mCollisionSlotIndex >= 0) {
         switch (mapObject->mKindData->mShapeKind) {
             case 3:
@@ -50,7 +50,7 @@ void SetMapObjectScale(MapObject *mapObject, Vec3 *scale) {
         }
         SetCollisionSlotRadius(mapObject->mCollisionSlotIndex, a);
     }
-    mapObject->mExtent.z = (s64) mapObject->mKindData->mUnk_14 * mapObject->mScale.z >> 12;
+    mapObject->mExtent.z = MUL_FIXED12_NO_ROUND(mapObject->mKindData->mUnk_14, mapObject->mScale.z);
     if (mapObject->mCollisionSlotIndex >= 0) {
         switch (mapObject->mKindData->mShapeKind) {
             case 3:
@@ -76,12 +76,12 @@ void SetMapObjectScale(MapObject *mapObject, Vec3 *scale) {
     if (a < mapObject->mScale.z) {
         a = mapObject->mScale.z;
     }
-    mapObject->mViewRadius = (s64) kindViewRadius * a >> 12;
+    mapObject->mViewRadius = MUL_FIXED12_NO_ROUND(kindViewRadius, a);
 }
 
 void SetMapObjectExtentX(MapObject *mapObject, s32 baseSize) {
     s32 radius;
-    mapObject->mExtent.x = (s64) baseSize * mapObject->mScale.x >> 12;
+    mapObject->mExtent.x = MUL_FIXED12_NO_ROUND(baseSize, mapObject->mScale.x);
     if (mapObject->mCollisionSlotIndex < 0) {
         return;
     }

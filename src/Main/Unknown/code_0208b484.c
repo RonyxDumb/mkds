@@ -54,8 +54,7 @@ void InitEffects(void *defaultHeap) {
         }
     }
     gSPLManagerHeap = effectHeap;
-    data_0217b044 =
-        SPLManager_New(HeapAllocForSPLManager, maxEmitters, maxParticles, 3, 0xe, GetSplMaxPolyId());
+    data_0217b044 = SPLManager_New(HeapAllocForSPLManager, maxEmitters, maxParticles, 3, 0xe, GetSplMaxPolyId());
     raceEffectFile = FindMainRaceOrMainEffectFile(gRaceEffectSpaName);
     SPLManager_LoadResources(data_0217b044, raceEffectFile);
     SPLManager_UploadTextures(data_0217b044);
@@ -230,9 +229,9 @@ void *StartEffectWithKartVelocity(u32 effectId, Vec3 *position, u32 kartIndex, s
     }
     if (emitter != NULL) {
         velocity = GetKart(kartIndex)->mEffectVelocity;
-        velocity.x = ((s64) velocity.x * velocityScale) >> 12;
-        velocity.y = ((s64) velocity.y * velocityScale) >> 12;
-        velocity.z = ((s64) velocity.z * velocityScale) >> 12;
+        velocity.x = MUL_FIXED12_NO_ROUND(velocity.x, velocityScale);
+        velocity.y = MUL_FIXED12_NO_ROUND(velocity.y, velocityScale);
+        velocity.z = MUL_FIXED12_NO_ROUND(velocity.z, velocityScale);
         emitter->mUnk_40 = velocity;
     }
     return emitter;

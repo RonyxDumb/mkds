@@ -95,10 +95,9 @@ void InitMkdEfBurnerObjects(MapObjectList *mapObjectList) {
             InitGroupFollower(&mkdEfBurner->mFollower, mkdEfBurner->mUnk_00.mCourseMapRow, z);
             speed = (mkdEfBurner->mUnk_00.mCourseMapRow->mUnk_2e << 12) / 100;
             mkdEfBurner->mFollower.mSpeed = speed;
-            mkdEfBurner->mFollower.mProgressStep =
-                ((s64) speed * mkdEfBurner->mFollower.mPath->mSegments[mkdEfBurner->mFollower.mSegmentIndex]
-                                   .mInverseProgressLength) >>
-                12;
+            mkdEfBurner->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
+                speed,
+                mkdEfBurner->mFollower.mPath->mSegments[mkdEfBurner->mFollower.mSegmentIndex].mInverseProgressLength);
         }
         if (mkdEfBurner->mUnk_00.mCourseMapRow->mUnk_28 == 0 && mkdEfBurner->mUnk_00.mCourseMapRow->mUnk_2a == 0 &&
             mkdEfBurner->mUnk_00.mCourseMapRow->mUnk_2c == 0) {
@@ -138,7 +137,7 @@ void UpdateMkdEfBurner(void *a, MkdEfBurner *mkdEfBurner) {
                 mkdEfBurner->mState = 2;
             }
             mkdEfBurner->mUnk_00.mExtent.y =
-                ((s64) mkdEfBurner->mUnk_00.mKindData->mUnk_10 * mkdEfBurner->mScaleFixed12) >> 12;
+                MUL_FIXED12_NO_ROUND(mkdEfBurner->mUnk_00.mKindData->mUnk_10, mkdEfBurner->mScaleFixed12);
             break;
         case 2:
             mkdEfBurner->mStateFrames++;
@@ -156,7 +155,7 @@ void UpdateMkdEfBurner(void *a, MkdEfBurner *mkdEfBurner) {
                 mkdEfBurner->mUnk_00.mFlags |= data_usa_0215646c;
             }
             mkdEfBurner->mUnk_00.mExtent.y =
-                ((s64) mkdEfBurner->mUnk_00.mKindData->mUnk_10 * mkdEfBurner->mScaleFixed12) >> 12;
+                MUL_FIXED12_NO_ROUND(mkdEfBurner->mUnk_00.mKindData->mUnk_10, mkdEfBurner->mScaleFixed12);
             break;
         case 4:
             StartMapObjectSoundWhileRequested(&mkdEfBurner->mUnk_00, 0x170);

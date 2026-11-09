@@ -125,9 +125,9 @@ void VEC_Fx16Normalize(const Vec3s16 *src, Vec3s16 *dst) {
 
 // result = base + vector * scale, with scale in 20.12.
 void VEC_MultAdd(s32 scale, const Vec3 *vector, const Vec3 *base, Vec3 *result) {
-    result->x = base->x + (s32) (((s64) scale * vector->x) >> 12);
-    result->y = base->y + (s32) (((s64) scale * vector->y) >> 12);
-    result->z = base->z + (s32) (((s64) scale * vector->z) >> 12);
+    result->x = base->x + MUL_FIXED12_NO_ROUND(scale, vector->x);
+    result->y = base->y + MUL_FIXED12_NO_ROUND(scale, vector->y);
+    result->z = base->z + MUL_FIXED12_NO_ROUND(scale, vector->z);
 }
 
 // Distance between two points, from the square root coprocessor.

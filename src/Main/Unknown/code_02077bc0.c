@@ -285,7 +285,7 @@ u32 GetKartKind3ShapeListMask(void) {
 
 // Stores the forward speed as a part of the speed limit, 0x1000 = 1.0.
 void SetKartForwardSpeedRatio(s32 forwardSpeed) {
-    gKartForwardSpeedRatio = ((s64) forwardSpeed * gKartSpeedLimitReciprocal + 0x800) >> 12;
+    gKartForwardSpeedRatio = MUL_FIXED12_ROUNDED(forwardSpeed, gKartSpeedLimitReciprocal);
 }
 
 void SetKartSpeedLimitReciprocal(u32 speedLimitReciprocal) {
@@ -525,27 +525,27 @@ s32 AdvanceKartModelColorBlend(struct KartModelsEntry *kartModelsEntry, s32 blen
             finished = TRUE;
         }
         blend->mDiffColor =
-            (s16) (blend->mUnk_06 + (s32) (((s64) blend->mUnk_0c * blend->mBlendProgress + 0x800) >> 12)) +
-            ((s16) (blend->mUnk_08 + (s32) (((s64) blend->mUnk_0e * blend->mBlendProgress + 0x800) >> 12)) << 5) +
-            ((s16) (blend->mUnk_0a + (s32) (((s64) blend->mUnk_10 * blend->mBlendProgress + 0x800) >> 12)) << 10);
+            (s16) (blend->mUnk_06 + MUL_FIXED12_ROUNDED(blend->mUnk_0c, blend->mBlendProgress)) +
+            ((s16) (blend->mUnk_08 + MUL_FIXED12_ROUNDED(blend->mUnk_0e, blend->mBlendProgress)) << 5) +
+            ((s16) (blend->mUnk_0a + MUL_FIXED12_ROUNDED(blend->mUnk_10, blend->mBlendProgress)) << 10);
         NNS_G3dMdlSetMdlDiffAll(kartModelsEntry->mModels[0]->mResMdl, blend->mDiffColor);
         NNS_G3dMdlSetMdlDiffAll(kartModelsEntry->mModels[1]->mResMdl, blend->mDiffColor);
         if (kartModelsEntry->mModels[2] != NULL) {
             NNS_G3dMdlSetMdlDiffAll(kartModelsEntry->mModels[2]->mResMdl, blend->mDiffColor);
         }
         blend->mEmiColor =
-            (s16) (blend->mUnk_12 + (s32) (((s64) blend->mUnk_18 * blend->mBlendProgress + 0x800) >> 12)) +
-            ((s16) (blend->mUnk_14 + (s32) (((s64) blend->mUnk_1a * blend->mBlendProgress + 0x800) >> 12)) << 5) +
-            ((s16) (blend->mUnk_16 + (s32) (((s64) blend->mUnk_1c * blend->mBlendProgress + 0x800) >> 12)) << 10);
+            (s16) (blend->mUnk_12 + MUL_FIXED12_ROUNDED(blend->mUnk_18, blend->mBlendProgress)) +
+            ((s16) (blend->mUnk_14 + MUL_FIXED12_ROUNDED(blend->mUnk_1a, blend->mBlendProgress)) << 5) +
+            ((s16) (blend->mUnk_16 + MUL_FIXED12_ROUNDED(blend->mUnk_1c, blend->mBlendProgress)) << 10);
         NNS_G3dMdlSetMdlEmiAll(kartModelsEntry->mModels[0]->mResMdl, blend->mEmiColor);
         NNS_G3dMdlSetMdlEmiAll(kartModelsEntry->mModels[1]->mResMdl, blend->mEmiColor);
         if (kartModelsEntry->mModels[2] != NULL) {
             NNS_G3dMdlSetMdlEmiAll(kartModelsEntry->mModels[2]->mResMdl, blend->mEmiColor);
         }
         {
-            s16 x = blend->mUnk_1e + (s32) (((s64) blend->mUnk_24 * blend->mBlendProgress + 0x800) >> 12);
-            s16 y = blend->mUnk_20 + (s32) (((s64) blend->mUnk_26 * blend->mBlendProgress + 0x800) >> 12);
-            s16 z = blend->mUnk_22 + (s32) (((s64) blend->mUnk_28 * blend->mBlendProgress + 0x800) >> 12);
+            s16 x = blend->mUnk_1e + MUL_FIXED12_ROUNDED(blend->mUnk_24, blend->mBlendProgress);
+            s16 y = blend->mUnk_20 + MUL_FIXED12_ROUNDED(blend->mUnk_26, blend->mBlendProgress);
+            s16 z = blend->mUnk_22 + MUL_FIXED12_ROUNDED(blend->mUnk_28, blend->mBlendProgress);
             NNS_G3dMdlSetMdlAmbAll(kartModelsEntry->mModels[0]->mResMdl, blend->mAmbColor);
             NNS_G3dMdlSetMdlAmbAll(kartModelsEntry->mModels[1]->mResMdl, blend->mAmbColor);
             if (kartModelsEntry->mModels[2] != NULL) {
@@ -1458,9 +1458,9 @@ void SetFrustumProjection(s32 mirrored) {
     s32 left;
     s32 bottom;
     s32 top;
-    top = ((s64) FX_Div(0x579, 0xf09) * 0x200) >> 12;
+    top = MUL_FIXED12_NO_ROUND(FX_Div(0x579, 0xf09), 0x200);
     bottom = -top;
-    left = ((s64) bottom * 0x1555) >> 12;
+    left = MUL_FIXED12_NO_ROUND(bottom, 0x1555);
     unmirroredRight = -left;
     right = unmirroredRight;
     if (mirrored != 0) {
@@ -1568,9 +1568,9 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
             for (i = 0; i < 4; i++) {
                 if (i < 2) {
                     scaleValue = slot->mKartOffsetData->mUnk_10;
-                    tireScale.x = ((s64) scale.x * scaleValue) >> 12;
-                    tireScale.y = ((s64) scale.y * scaleValue) >> 12;
-                    tireScale.z = ((s64) scale.z * scaleValue) >> 12;
+                    tireScale.x = MUL_FIXED12_NO_ROUND(scale.x, scaleValue);
+                    tireScale.y = MUL_FIXED12_NO_ROUND(scale.y, scaleValue);
+                    tireScale.z = MUL_FIXED12_NO_ROUND(scale.z, scaleValue);
                 } else {
                     tireScale = scale;
                 }

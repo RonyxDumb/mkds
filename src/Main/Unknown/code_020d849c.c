@@ -19,9 +19,8 @@ void SetupGroupFollowerWithSpeeds(GroupFollowerWithSpeeds *follower, u16 entryIn
     follower->mToSpeed = entryValue != 0 ? follower->mSpeedPerEntryUnit * entryValue : follower->mDefaultSpeed;
     speed = follower->mUnk_30;
     follower->mUnk_00.mSpeed = speed;
-    follower->mUnk_00.mProgressStep =
-        ((s64) speed * follower->mUnk_00.mPath->mSegments[follower->mUnk_00.mSegmentIndex].mInverseProgressLength) >>
-        12;
+    follower->mUnk_00.mProgressStep = MUL_FIXED12_NO_ROUND(
+        speed, follower->mUnk_00.mPath->mSegments[follower->mUnk_00.mSegmentIndex].mInverseProgressLength);
 }
 
 s32 AdvanceGroupFollowerWithSpeeds(GroupFollowerWithSpeeds *follower) {
@@ -37,13 +36,11 @@ s32 AdvanceGroupFollowerWithSpeeds(GroupFollowerWithSpeeds *follower) {
     }
     if (follower->mFromSpeed != follower->mToSpeed) {
         blend = GetGroupFollowerProgress(&follower->mUnk_00);
-        speed = (s32) (((s64) follower->mFromSpeed * (0x1000 - blend)) >> 12) +
-                (s32) (((s64) follower->mToSpeed * blend) >> 12);
+        speed = MUL_FIXED12_NO_ROUND(follower->mFromSpeed, 0x1000 - blend) +
+                MUL_FIXED12_NO_ROUND(follower->mToSpeed, blend);
         follower->mUnk_00.mSpeed = speed;
-        follower->mUnk_00.mProgressStep =
-            ((s64) speed *
-             follower->mUnk_00.mPath->mSegments[follower->mUnk_00.mSegmentIndex].mInverseProgressLength) >>
-            12;
+        follower->mUnk_00.mProgressStep = MUL_FIXED12_NO_ROUND(
+            speed, follower->mUnk_00.mPath->mSegments[follower->mUnk_00.mSegmentIndex].mInverseProgressLength);
     }
     return crossedEnd;
 }
@@ -51,7 +48,7 @@ s32 AdvanceGroupFollowerWithSpeeds(GroupFollowerWithSpeeds *follower) {
 void SetSegmentProgressRate(SegmentProgress *segmentProgress, s32 a) {
     s32 inverseLength = segmentProgress->mSegment.mInverseProgressLength;
     segmentProgress->mRate = a;
-    a = inverseLength != 0 ? (s32) (((s64) a * inverseLength) >> 12) : 0x1000000;
+    a = inverseLength != 0 ? MUL_FIXED12_NO_ROUND(a, inverseLength) : 0x1000000;
     segmentProgress->mProgressStep = a;
 }
 

@@ -87,7 +87,7 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                     courseSoundObject->mFirstPart.mSourcePos.x = bankChainX;
                     courseSoundObject->mFirstPart.mSourcePos.y = bankChainY;
                     courseSoundObject->mFirstPart.mSourcePos.z = bankChainZ;
-                    VEC_MultAdd(((s64) courseSoundObject->mUnk_000.mScale.z * 0x5000) >> 12,
+                    VEC_MultAdd(MUL_FIXED12_NO_ROUND(courseSoundObject->mUnk_000.mScale.z, 0x5000),
                                 &courseSoundObject->mUnk_000.mMatrix.mUnk_00[2],
                                 &courseSoundObject->mFirstPart.mSourcePos, &courseSoundObject->mFirstPart.mSourcePos);
                     break;
@@ -153,7 +153,7 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                     courseSoundObject->mFirstPart.mSourcePos.x = bankFirstX;
                     courseSoundObject->mFirstPart.mSourcePos.y = bankFirstY;
                     courseSoundObject->mFirstPart.mSourcePos.z = bankFirstZ;
-                    VEC_MultAdd(((s64) courseSoundObject->mUnk_000.mScale.z * 0x5000) >> 12,
+                    VEC_MultAdd(MUL_FIXED12_NO_ROUND(courseSoundObject->mUnk_000.mScale.z, 0x5000),
                                 &courseSoundObject->mUnk_000.mMatrix.mUnk_00[2],
                                 &courseSoundObject->mFirstPart.mSourcePos, &courseSoundObject->mFirstPart.mSourcePos);
                     courseMapRow = courseSoundObject->mUnk_000.mCourseMapRow;
@@ -168,7 +168,7 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                     courseSoundObject->mSecondPart.mSourcePos.x = bankSecondX;
                     courseSoundObject->mSecondPart.mSourcePos.y = bankSecondY;
                     courseSoundObject->mSecondPart.mSourcePos.z = bankSecondZ;
-                    VEC_MultAdd(((s64) courseSoundObject->mUnk_000.mScale.z * -0x5000) >> 12,
+                    VEC_MultAdd(MUL_FIXED12_NO_ROUND(courseSoundObject->mUnk_000.mScale.z, -0x5000),
                                 &courseSoundObject->mUnk_000.mMatrix.mUnk_00[2],
                                 &courseSoundObject->mSecondPart.mSourcePos, &courseSoundObject->mSecondPart.mSourcePos);
                     break;

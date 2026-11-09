@@ -211,21 +211,21 @@ void func_0206d7c8(Kart *pushingKart, Kart *pushedKart, const Vec3 *v, s32 c, Ve
     if (t > 0x5000) {
         t = 0x5000;
     }
-    b = ((s64) a * t) >> 12;
-    v2 = ((s64) b * v2) >> 12;
+    b = MUL_FIXED12_NO_ROUND(a, t);
+    v2 = MUL_FIXED12_NO_ROUND(b, v2);
     d = pushedKart->mTurnedForward;
     if (pushedKart->mUnk_44 & 0x100) {
         d.x = -d.x;
         d.y = -d.y;
         d.z = -d.z;
     }
-    s.x = ((s64) v->x * v2) >> 12;
-    s.y = ((s64) v->y * v2) >> 12;
-    s.z = ((s64) v->z * v2) >> 12;
+    s.x = MUL_FIXED12_NO_ROUND(v->x, v2);
+    s.y = MUL_FIXED12_NO_ROUND(v->y, v2);
+    s.z = MUL_FIXED12_NO_ROUND(v->z, v2);
     v3 = VEC_DotProduct(&d, &s);
-    v9.x = s.x - (s32) (((s64) d.x * v3) >> 12);
-    v9.y = s.y - (s32) (((s64) d.y * v3) >> 12);
-    v9.z = s.z - (s32) (((s64) d.z * v3) >> 12);
+    v9.x = s.x - MUL_FIXED12_NO_ROUND(d.x, v3);
+    v9.y = s.y - MUL_FIXED12_NO_ROUND(d.y, v3);
+    v9.z = s.z - MUL_FIXED12_NO_ROUND(d.z, v3);
     v4 = 0;
     if ((s64) v9.x * v9.x + (s64) v9.y * v9.y + (s64) v9.z * v9.z >= 16) {
         v4 = Vec3NormalizeAndGetLengthUnchecked(&v9, &n);
@@ -240,20 +240,20 @@ void func_0206d7c8(Kart *pushingKart, Kart *pushedKart, const Vec3 *v, s32 c, Ve
             n = data_02154f94;
         }
     }
-    m.x = ((s64) n.x * v2) >> 12;
-    m.y = ((s64) n.y * v2) >> 12;
-    m.z = ((s64) n.z * v2) >> 12;
+    m.x = MUL_FIXED12_NO_ROUND(n.x, v2);
+    m.y = MUL_FIXED12_NO_ROUND(n.y, v2);
+    m.z = MUL_FIXED12_NO_ROUND(n.z, v2);
     if (m.y > 0) {
         m.y = 0;
     }
     v3 = VEC_DotProduct(&pushedKart->mGroundNormal, &m);
-    v6 = m.x - (s32) (((s64) pushedKart->mGroundNormal.x * v3) >> 12);
-    v8 = m.y - (s32) (((s64) pushedKart->mGroundNormal.y * v3) >> 12);
-    v7 = m.z - (s32) (((s64) pushedKart->mGroundNormal.z * v3) >> 12);
+    v6 = m.x - MUL_FIXED12_NO_ROUND(pushedKart->mGroundNormal.x, v3);
+    v8 = m.y - MUL_FIXED12_NO_ROUND(pushedKart->mGroundNormal.y, v3);
+    v7 = m.z - MUL_FIXED12_NO_ROUND(pushedKart->mGroundNormal.z, v3);
     pushedKart->mHitVelocity.x += v6;
     pushedKart->mHitVelocity.z += v7;
     pushedKart->mVerticalSpeed += v8;
-    v2 = ((s64) v2 * 0xaab + 0x800) >> 12;
+    v2 = MUL_FIXED12_ROUNDED(v2, 0xaab);
     if (v2 > 0x1000) {
         v2 = 0x1000;
     }
@@ -299,7 +299,7 @@ void func_0206d578(Kart *kart) {
     distance = 0;
     v1 = FALSE;
     ComputeKartPointAlongUp(&kart->mUnk_1f0, kart->mUnk_510, 0x400, kart);
-    VEC_MultAdd(((s64) kart->mRadius * -0x4000) >> 12, &kart->mTurnedForward, &kart->mUnk_1f0, &kart->mUnk_1f0);
+    VEC_MultAdd(MUL_FIXED12_NO_ROUND(kart->mRadius, -0x4000), &kart->mTurnedForward, &kart->mUnk_1f0, &kart->mUnk_1f0);
     if (kart->mIndex == GetRaceUpdateFramesMod8() && !(kart->mUnk_4c & 0x10002000)) {
         if (kart->mVelocityLength > 0x4000 && kart->mState == KART_STATE_NORMAL) {
             for (i = 0; i < gFoundCollisionSlotCount; i++) {
@@ -309,7 +309,7 @@ void func_0206d578(Kart *kart) {
                     VEC_Subtract(&otherKart->mPos, &kart->mPos, &offset);
                     distance = VEC_Mag(&offset);
                     if (Vec3DotUnrounded(&otherKart->mTurnedForward, &offset) >
-                        (s32) (((s64) distance * 0xe7f) >> 12)) {
+                        MUL_FIXED12_NO_ROUND(distance, 0xe7f)) {
                         v1 = TRUE;
                         kart->mUnk_538.mUnk_08++;
                         break;

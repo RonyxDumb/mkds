@@ -170,9 +170,9 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *b, u
                 if ((coverPooHole->mUnk_00.mFlags & 0x800) == 0) {
                     coverPooHole->mState = 6;
                 }
-                coverPooHole->mUnk_00.mUnk_10.x = ((s64) kart->mVelocity.x * -0x4cd) >> 12;
-                coverPooHole->mUnk_00.mUnk_10.y = ((s64) kart->mVelocity.y * -0x4cd) >> 12;
-                coverPooHole->mUnk_00.mUnk_10.z = ((s64) kart->mVelocity.z * -0x4cd) >> 12;
+                coverPooHole->mUnk_00.mUnk_10.x = MUL_FIXED12_NO_ROUND(kart->mVelocity.x, -0x4cd);
+                coverPooHole->mUnk_00.mUnk_10.y = MUL_FIXED12_NO_ROUND(kart->mVelocity.y, -0x4cd);
+                coverPooHole->mUnk_00.mUnk_10.z = MUL_FIXED12_NO_ROUND(kart->mVelocity.z, -0x4cd);
                 coverPooHole->mUnk_00.mUnk_10.y = 0x3800;
                 return 12;
             }
@@ -243,9 +243,9 @@ BOOL TryGetCoverPooHolePushOut(CoverPooHole *coverPooHole, const Vec3 *position,
             Vec3NormalizeAndGetLengthUnchecked(&offset, &offset);
         }
         d = coverPooHole->mUnk_00.mExtent.x + radius - d;
-        pushOut->x = ((s64) offset.x * d) >> 12;
-        pushOut->y = ((s64) offset.y * d) >> 12;
-        pushOut->z = ((s64) offset.z * d) >> 12;
+        pushOut->x = MUL_FIXED12_NO_ROUND(offset.x, d);
+        pushOut->y = MUL_FIXED12_NO_ROUND(offset.y, d);
+        pushOut->z = MUL_FIXED12_NO_ROUND(offset.z, d);
         return TRUE;
     }
     pushOut->x = 0;
@@ -331,7 +331,7 @@ void DrawCoverPooHole(void *a, CoverPooHole *coverPooHole) {
         e = coverPooHole->mUnk_c8;
         k = ((u16) coverPooHole->mUnk_e8 >> 4) * 2;
         v1 = gPairsByAngle[k];
-        r = ((s64) v1 * 0x7000) >> 12;
+        r = MUL_FIXED12_NO_ROUND(v1, 0x7000);
         if (r <= 0) {
             r = -r;
         }
@@ -389,7 +389,7 @@ s32 func_020968dc(s32 a) {
 }
 
 s32 func_020968c0(s32 a, s32 b) {
-    return ((s64) a * b + 0x800) >> 12;
+    return MUL_FIXED12_ROUNDED(a, b);
 }
 
 static inline u16 func_02095fec_inline(u32 n) {

@@ -113,7 +113,7 @@ s16 Kanoke64GetAnglePairFirst(s32 angle) {
 }
 
 s32 Kanoke64MulFixed12NoRound(s32 multiplicand, s32 multiplier) {
-    return ((s64) multiplicand * multiplier) >> 12;
+    return MUL_FIXED12_NO_ROUND(multiplicand, multiplier);
 }
 
 static inline s64 func_020919e8_inline_5(const Vec3 *firstPos, const Vec3 *secondPos) {

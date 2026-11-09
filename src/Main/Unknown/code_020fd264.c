@@ -77,7 +77,7 @@ void ResetItemBomb(ItemBomb *bomb) {
 s32 InitItemBomb(ItemInUse *inUse, ItemBomb *bomb) {
     func_020f9114(&bomb->mUnk_000.mItemObject);
     bomb->mUnk_000.mItemObject.mUnk_78 |= data_02159f3c;
-    bomb->mUnk_134 = (s32) (((s64) inUse->mKartVelocityLength * 0x1ec) >> 12) + 0x333;
+    bomb->mUnk_134 = MUL_FIXED12_NO_ROUND(inUse->mKartVelocityLength, 0x1ec) + 0x333;
     if (bomb->mUnk_134 > 0xccd) {
         bomb->mUnk_134 = 0xccd;
     }
@@ -622,7 +622,7 @@ void *StartItemBombWithMapObject(void *mapObject, s32 offsetY) {
 
 Vec3 *func_020fd308(ItemBomb *bomb, s32 *stateFrames, s32 *scaledScaleZ) {
     *stateFrames = bomb->mStateMachine.mStateFrames;
-    *scaledScaleZ = ((s64) bomb->mUnk_000.mItemObject.mScale.z * data_0217bd48) >> 12;
+    *scaledScaleZ = MUL_FIXED12_NO_ROUND(bomb->mUnk_000.mItemObject.mScale.z, data_0217bd48);
     return &bomb->mUnk_000.mItemObject.mPos;
 }
 
@@ -634,7 +634,7 @@ void func_020fd264(void) {
     data_0217bd50 = 0x18006;
     data_0217bd48 = FX_Div(0x1000, 0x18006);
     data_0217bd54 = 0x2148;
-    data_0217bd58 = ((s64) data_0217bd50 * gItemKinds[9].mUnk_6c) >> 12;
+    data_0217bd58 = MUL_FIXED12_NO_ROUND(data_0217bd50, gItemKinds[9].mUnk_6c);
     data_0217bd58 >>= 12;
     data_0217bd58 *= data_0217bd58;
     engineIndex = gRaceSetup->mEngineIndex;

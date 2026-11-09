@@ -341,9 +341,9 @@ void func_02101964(ItemTeresa *teresa, s32 a) {
     delta[2] = position->z - (&teresa->mUnk_000.mVelocity)->z;
     if (teresa->mUnk_144 != FALSE) {
         VEC_Add(&teresa->mKartDrawMatrixPos, &teresa->mKartVelocity, &teresa->mKartDrawMatrixPos);
-        teresa->mKartVelocity.x = ((s64) teresa->mKartVelocity.x * 0xeb8) >> 12;
-        teresa->mKartVelocity.y = ((s64) teresa->mKartVelocity.y * 0xeb8) >> 12;
-        teresa->mKartVelocity.z = ((s64) teresa->mKartVelocity.z * 0xeb8) >> 12;
+        teresa->mKartVelocity.x = MUL_FIXED12_NO_ROUND(teresa->mKartVelocity.x, 0xeb8);
+        teresa->mKartVelocity.y = MUL_FIXED12_NO_ROUND(teresa->mKartVelocity.y, 0xeb8);
+        teresa->mKartVelocity.z = MUL_FIXED12_NO_ROUND(teresa->mKartVelocity.z, 0xeb8);
         *position = teresa->mKartDrawMatrixPos;
     } else {
         *position = kart->mDrawMatrixPos;
@@ -361,17 +361,17 @@ void func_02101964(ItemTeresa *teresa, s32 a) {
         c = 0x400;
     }
     if (a != 0) {
-        n = ((s64) kart->mPhysicalParam->mRadius * kart->mScale.z + 0x800) >> 12;
-        position->x += (s32) (((s64) -n * cameraSide->x) >> 12);
-        position->z += (s32) (((s64) -n * cameraSide->z) >> 12);
+        n = MUL_FIXED12_ROUNDED(kart->mPhysicalParam->mRadius, kart->mScale.z);
+        position->x += MUL_FIXED12_NO_ROUND(-n, cameraSide->x);
+        position->z += MUL_FIXED12_NO_ROUND(-n, cameraSide->z);
     }
     delta[0] -= position->x;
     delta[2] -= position->z;
     t = ((s64) cameraSide->x * delta[0] + (s64) cameraSide->z * delta[2]) >> 12;
-    delta[0] = ((s64) cameraSide->x * t) >> 12;
-    delta[2] = ((s64) cameraSide->z * t) >> 12;
-    delta[0] = ((s64) delta[0] * s) >> 12;
-    delta[2] = ((s64) delta[2] * s) >> 12;
+    delta[0] = MUL_FIXED12_NO_ROUND(cameraSide->x, t);
+    delta[2] = MUL_FIXED12_NO_ROUND(cameraSide->z, t);
+    delta[0] = MUL_FIXED12_NO_ROUND(delta[0], s);
+    delta[2] = MUL_FIXED12_NO_ROUND(delta[2], s);
     if (delta[0] > c) {
         delta[0] = c;
     } else if (delta[0] < -c) {
@@ -391,7 +391,7 @@ void EnterItemTeresaState0(ItemTeresa *teresa) {
     teresa->mKartDrawMatrixPos = teresa->mKart->mDrawMatrixPos;
     teresa->mKartVelocity = teresa->mKart->mVelocity;
     teresa->mOffset =
-        (Vec3){0, (s32) (((s64) teresa->mKart->mPhysicalParam->mRadius * teresa->mKart->mScale.z + 0x800) >> 12), 0};
+        (Vec3){0, MUL_FIXED12_ROUNDED(teresa->mKart->mPhysicalParam->mRadius, teresa->mKart->mScale.z), 0};
     teresa->mOffsetVelocityY = 0;
     teresa->mUnk_000.mAlpha = 0x1f;
     if (teresa->mKart->mUnk_48 & 1) {
@@ -423,9 +423,9 @@ void func_0210174c(ItemTeresa *teresa) {
         s32 f = s.x;
 
         q = GetViewTransposeMatrixAxis0();
-        v.x = ((s64) q->x * f) >> 12;
-        v.y = ((s64) q->y * f) >> 12;
-        v.z = ((s64) q->z * f) >> 12;
+        v.x = MUL_FIXED12_NO_ROUND(q->x, f);
+        v.y = MUL_FIXED12_NO_ROUND(q->y, f);
+        v.z = MUL_FIXED12_NO_ROUND(q->z, f);
     }
     v.y += s.z;
     VEC_Subtract(&v, &teresa->mOffset, &s);
@@ -487,14 +487,14 @@ s32 func_021014a0(ItemTeresa *teresa, s32 a, s32 nextState) {
         func_0210174c(teresa);
     } else if (teresa->mUnk_26c != FALSE) {
         factor = gItemTeresaFrameScales[stateFrames];
-        teresa->mOffsetX = ((s64) teresa->mOffsetX * factor) >> 12;
-        teresa->mOffsetZ = ((s64) teresa->mOffsetZ * factor) >> 12;
+        teresa->mOffsetX = MUL_FIXED12_NO_ROUND(teresa->mOffsetX, factor);
+        teresa->mOffsetZ = MUL_FIXED12_NO_ROUND(teresa->mOffsetZ, factor);
     } else {
         teresa->mOffsetY += teresa->mOffsetVelocityY;
         teresa->mOffsetVelocityY += 0x133;
         factor = gItemTeresaFrameScales[stateFrames];
-        teresa->mOffsetX = ((s64) teresa->mOffsetX * factor) >> 12;
-        teresa->mOffsetZ = ((s64) teresa->mOffsetZ * factor) >> 12;
+        teresa->mOffsetX = MUL_FIXED12_NO_ROUND(teresa->mOffsetX, factor);
+        teresa->mOffsetZ = MUL_FIXED12_NO_ROUND(teresa->mOffsetZ, factor);
     }
     func_02101964(teresa, a);
     if (stateFrames > 7) {
@@ -605,10 +605,10 @@ void EnterItemTeresaState2(ItemTeresa *teresa) {
             teresa->mUnk_000.mUnk_d0 = &teresa->mUnk_000.mDrawPos;
         }
     }
-    offset[0] = ((s64) camera->mSide.x * -0xa000) >> 12;
-    offset[2] = ((s64) camera->mSide.z * -0xa000) >> 12;
-    offset[0] += (s32) (((s64) camera->mForward.x * -0x11000) >> 12);
-    offset[2] += (s32) (((s64) camera->mForward.z * -0x11000) >> 12);
+    offset[0] = MUL_FIXED12_NO_ROUND(camera->mSide.x, -0xa000);
+    offset[2] = MUL_FIXED12_NO_ROUND(camera->mSide.z, -0xa000);
+    offset[0] += MUL_FIXED12_NO_ROUND(camera->mForward.x, -0x11000);
+    offset[2] += MUL_FIXED12_NO_ROUND(camera->mForward.z, -0x11000);
     teresa->mOffsetVelocityY = -teresa->mOffsetVelocityY;
     teresa->mStallFrames = 0;
 }
@@ -732,8 +732,8 @@ void UpdateItemTeresaState3(ItemTeresa *teresa) {
     if (teresa->mItemModelAlpha < 0x1f) {
         teresa->mItemModelAlpha += 5;
     }
-    teresa->mOffsetVelocityX = ((s64) teresa->mOffsetVelocityX * 0xf85) >> 12;
-    teresa->mOffsetVelocityZ = ((s64) teresa->mOffsetVelocityZ * 0xf85) >> 12;
+    teresa->mOffsetVelocityX = MUL_FIXED12_NO_ROUND(teresa->mOffsetVelocityX, 0xf85);
+    teresa->mOffsetVelocityZ = MUL_FIXED12_NO_ROUND(teresa->mOffsetVelocityZ, 0xf85);
     if (teresa->mStateMachine.mStateFrames == 0x12) {
         if (teresa->mUnk_19c == 0) {
             teresa->mUnk_19c = -0x1ae;
@@ -965,8 +965,8 @@ void UpdateItemTeresaState6(ItemTeresa *teresa) {
 
     hasItem = teresa->mItemInfoIndex != 0x13;
     if (teresa->mUnk_15c == FALSE) {
-        teresa->mOffsetVelocityX = ((s64) teresa->mOffsetVelocityX * 0xf85) >> 12;
-        teresa->mOffsetVelocityZ = ((s64) teresa->mOffsetVelocityZ * 0xf85) >> 12;
+        teresa->mOffsetVelocityX = MUL_FIXED12_NO_ROUND(teresa->mOffsetVelocityX, 0xf85);
+        teresa->mOffsetVelocityZ = MUL_FIXED12_NO_ROUND(teresa->mOffsetVelocityZ, 0xf85);
         teresa->mOffsetX += teresa->mOffsetVelocityX;
         teresa->mOffsetZ += teresa->mOffsetVelocityZ;
     }

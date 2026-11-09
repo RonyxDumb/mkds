@@ -292,9 +292,9 @@ void UpdateRaceItemSlot(void) {
     if (gRaceItemSlot->mScale.mScaleFrames != 0) {
         scale = &gRaceItemSlot->mScale;
         scale->mScaleY += scale->mScaleYPerFrame;
-        scale->mScaleYPerFrame += (s32) (((s64) (scale->mScaleYTarget - scale->mScaleY) * 0x333) >> 12);
-        scale->mScaleYPerFrame = ((s64) scale->mScaleYPerFrame * 0xc00) >> 12;
-        scale->mScaleX = (s32) (((s64) scale->mScaleYTarget * 0x2000) >> 12) - scale->mScaleY;
+        scale->mScaleYPerFrame += MUL_FIXED12_NO_ROUND(scale->mScaleYTarget - scale->mScaleY, 0x333);
+        scale->mScaleYPerFrame = MUL_FIXED12_NO_ROUND(scale->mScaleYPerFrame, 0xc00);
+        scale->mScaleX = MUL_FIXED12_NO_ROUND(scale->mScaleYTarget, 0x2000) - scale->mScaleY;
         gRaceItemSlot->mScale.mScaleFrames += 1;
         if (gRaceItemSlot->mScale.mScaleYTarget == 0xb33 && gRaceItemSlot->mScale.mScaleFrames > 7) {
             gRaceItemSlot->mScale.mScaleYTarget = 0x1000;

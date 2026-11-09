@@ -120,14 +120,14 @@ BOOL IsPointBetweenCheckpointLines(const Vec3 *a, const CourseMapCheckpoint *b, 
 
     p.mUnk_00 = a->x;
     p.mUnk_04 = a->z;
-    if ((s32) (((s64) ((b->mPointAZ - c->mPointAZ) >> 4) * ((a->x - c->mPointAX) >> 4) + 0x800) >> 12) -
-            (s32) (((s64) ((b->mPointAX - c->mPointAX) >> 4) * ((a->z - c->mPointAZ) >> 4) + 0x800) >> 12) <
+    if (MUL_FIXED12_ROUNDED((b->mPointAZ - c->mPointAZ) >> 4, (a->x - c->mPointAX) >> 4) -
+            MUL_FIXED12_ROUNDED((b->mPointAX - c->mPointAX) >> 4, (a->z - c->mPointAZ) >> 4) <
         0) {
         return FALSE;
     }
     d = (c->mPointBX - b->mPointBX) >> 4;
-    if ((s32) (((s64) ((c->mPointBZ - b->mPointBZ) >> 4) * ((a->x - b->mPointBX) >> 4) + 0x800) >> 12) -
-            (s32) (((s64) d * ((a->z - b->mPointBZ) >> 4) + 0x800) >> 12) >=
+    if (MUL_FIXED12_ROUNDED((c->mPointBZ - b->mPointBZ) >> 4, (a->x - b->mPointBX) >> 4) -
+            MUL_FIXED12_ROUNDED(d, (a->z - b->mPointBZ) >> 4) >=
         0) {
         return TRUE;
     }
@@ -311,7 +311,7 @@ void ComputeRaceTime(u8 *a, u8 *b, u16 *c, s32 d, u32 e) {
     s = w % 60;
     f = (q & 0xfff) * 1000 >> 12;
     if (d != 0) {
-        x = (s64) 0x44 * d + 0x800 >> 12;
+        x = MUL_FIXED12_ROUNDED(0x44, d);
         f += x * 1000 >> 12;
         if (f < 0) {
             f += 1000;
@@ -391,9 +391,9 @@ void StoreRaceProgressKartLapTime(RaceProgressKart *a, s32 b) {
     GetKartPos(&u, (u32) (a->mUnk_3c << 24) >> 28);
     GetKartPrevPos(&v, (u32) (a->mUnk_3c << 24) >> 28);
     VEC_Subtract(&u, &v, &w);
-    w.x = (s64) w.x * -240 >> 12;
-    w.y = (s64) w.y * -240 >> 12;
-    w.z = (s64) w.z * -240 >> 12;
+    w.x = MUL_FIXED12_NO_ROUND(w.x, -240);
+    w.y = MUL_FIXED12_NO_ROUND(w.y, -240);
+    w.z = MUL_FIXED12_NO_ROUND(w.z, -240);
     p = u;
     if (t == -1) {
         t = 1;

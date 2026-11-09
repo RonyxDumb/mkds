@@ -196,7 +196,7 @@ void UpdateItemKouraWDrawPos(ItemKouraW *item) {
     if (item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x40000000) {
         item->mDrawOffsetAngle += 0x5dc;
         v = gPairsByAngle[(item->mDrawOffsetAngle >> 4) * 2];
-        VEC_MultAdd(a + (s32) (((s64) item->mUnk_264 * v) >> 12), &item->mUnk_000.mUnk_000.mUnk_000.mNormal,
+        VEC_MultAdd(a + MUL_FIXED12_NO_ROUND(item->mUnk_264, v), &item->mUnk_000.mUnk_000.mUnk_000.mNormal,
                     &item->mUnk_000.mUnk_000.mUnk_000.mPos, &buf);
         VEC_Subtract(&buf, &item->mUnk_000.mUnk_000.mUnk_000.mDrawPos, &buf);
         VEC_MultAdd(0x333, &buf, &item->mUnk_000.mUnk_000.mUnk_000.mDrawPos,
@@ -205,9 +205,9 @@ void UpdateItemKouraWDrawPos(ItemKouraW *item) {
         item->mUnk_000.mUnk_000.mUnk_000.mDrawPos.y += item->mUnk_000.mUnk_000.mUnk_000.mVelocity.y >> 1;
         item->mDrawOffsetAngle += 0x5dc;
         v = gPairsByAngle[(item->mDrawOffsetAngle >> 4) * 2];
-        a += (s32) (((s64) item->mUnk_264 * v) >> 12);
+        a += MUL_FIXED12_NO_ROUND(item->mUnk_264, v);
         a = a + item->mUnk_000.mUnk_000.mUnk_000.mPos.y - item->mUnk_000.mUnk_000.mUnk_000.mDrawPos.y;
-        item->mUnk_000.mUnk_000.mUnk_000.mDrawPos.y += (s32) (((s64) a * 0x19a) >> 12);
+        item->mUnk_000.mUnk_000.mUnk_000.mDrawPos.y += MUL_FIXED12_NO_ROUND(a, 0x19a);
         item->mUnk_000.mUnk_000.mUnk_000.mDrawPos.x = item->mUnk_000.mUnk_000.mUnk_000.mPos.x;
         item->mUnk_000.mUnk_000.mUnk_000.mDrawPos.z = item->mUnk_000.mUnk_000.mUnk_000.mPos.z;
     }
@@ -225,9 +225,9 @@ void UpdateItemKouraWOrientation(ItemKouraW *item, Vec3 *direction, s32 followDe
             0x10) {
             Vec3NormalizeAndGetLengthUnchecked(direction, &item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[2]);
         }
-        smoothedDelta->x = ((s64) smoothedDelta->x * 0xccd) >> 12;
-        smoothedDelta->y = ((s64) smoothedDelta->y * 0xccd) >> 12;
-        smoothedDelta->z = ((s64) smoothedDelta->z * 0xccd) >> 12;
+        smoothedDelta->x = MUL_FIXED12_NO_ROUND(smoothedDelta->x, 0xccd);
+        smoothedDelta->y = MUL_FIXED12_NO_ROUND(smoothedDelta->y, 0xccd);
+        smoothedDelta->z = MUL_FIXED12_NO_ROUND(smoothedDelta->z, 0xccd);
         VEC_MultAdd(0x3000, smoothedDelta, normal, &buf);
         Vec3CrossUnrounded(&buf, &item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[2], &buf);
         if ((s64) buf.x * buf.x + (s64) buf.y * buf.y + (s64) buf.z * buf.z >= 0x10) {
@@ -243,15 +243,17 @@ void UpdateItemKouraWOrientation(ItemKouraW *item, Vec3 *direction, s32 followDe
         }
         item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[2] = buf;
         if (followDelta != 0) {
-            smoothedDelta->x += (s32) (((s64) (direction->x - previousDirection->x - smoothedDelta->x) * 0x148) >> 12);
-            smoothedDelta->z += (s32) (((s64) (direction->z - previousDirection->z - smoothedDelta->z) * 0x148) >> 12);
+            smoothedDelta->x +=
+                MUL_FIXED12_NO_ROUND(direction->x - previousDirection->x - smoothedDelta->x, 0x148);
+            smoothedDelta->z +=
+                MUL_FIXED12_NO_ROUND(direction->z - previousDirection->z - smoothedDelta->z, 0x148);
         } else {
-            smoothedDelta->x = ((s64) smoothedDelta->x * 0xc00) >> 12;
-            smoothedDelta->z = ((s64) smoothedDelta->z * 0xc00) >> 12;
+            smoothedDelta->x = MUL_FIXED12_NO_ROUND(smoothedDelta->x, 0xc00);
+            smoothedDelta->z = MUL_FIXED12_NO_ROUND(smoothedDelta->z, 0xc00);
         }
         v3 = data_0216c6a8;
-        v3.x = ((s64) smoothedDelta->x * 0x3000) >> 12;
-        v3.z = ((s64) smoothedDelta->z * 0x3000) >> 12;
+        v3.x = MUL_FIXED12_NO_ROUND(smoothedDelta->x, 0x3000);
+        v3.z = MUL_FIXED12_NO_ROUND(smoothedDelta->z, 0x3000);
         buf = v3;
         Vec3CrossUnrounded(&buf, &item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[2],
                            &item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[0]);
@@ -329,7 +331,7 @@ void UpdateItemKouraWState1(ItemKouraW *item) {
             StartSoundWhileRequested(&item->mUnk_000.mUnk_000.mUnk_000.mSoundSource, item->mSoundId, 0x7f, 0);
         }
     }
-    item->mUnk_000.mUnk_000.mUnk_000.mVelocity.y -= (s32) (((s64) item->mUnk_000.mUnk_000.mSpeed * 0x66) >> 12);
+    item->mUnk_000.mUnk_000.mUnk_000.mVelocity.y -= MUL_FIXED12_NO_ROUND(item->mUnk_000.mUnk_000.mSpeed, 0x66);
     if (item->mUnk_000.mUnk_000.mUnk_000.mFlags & 1) {
         return;
     }
@@ -525,11 +527,11 @@ void UpdateItemKouraWState4(ItemKouraW *item) {
             direction.y = item->mUnk_250.y * 2;
             direction.z = item->mUnk_250.z * 2;
             Vec3CrossUnrounded(normal, &direction, &direction);
-            VEC_MultAdd(((s64) (item->mAngle - 0x10000) * 0xccd) >> 12, normal, &direction, &direction);
+            VEC_MultAdd(MUL_FIXED12_NO_ROUND(item->mAngle - 0x10000, 0xccd), normal, &direction, &direction);
         } else {
-            direction.x = ((s64) item->mUnk_250.z * 0x2000) >> 12;
-            direction.y = ((s64) (item->mAngle - 0x10000) * 0xccd) >> 12;
-            direction.z = -(s32) (((s64) item->mUnk_250.x * 0x2000) >> 12);
+            direction.x = MUL_FIXED12_NO_ROUND(item->mUnk_250.z, 0x2000);
+            direction.y = MUL_FIXED12_NO_ROUND(item->mAngle - 0x10000, 0xccd);
+            direction.z = -MUL_FIXED12_NO_ROUND(item->mUnk_250.x, 0x2000);
         }
         if (item->mStateMachine.mStateFrames == 0) {
             VEC_Subtract(&direction, &item->mUnk_298, &item->mUnk_28c);
@@ -844,7 +846,7 @@ BOOL IsItemKouraWState7(ItemKouraW *item) {
 
 Vec3 *GetItemKouraWState7Info(ItemKouraW *item, s32 *stateFrames, s32 *scaleRatio) {
     *stateFrames = item->mStateMachine.mStateFrames;
-    *scaleRatio = ((s64) item->mUnk_000.mUnk_000.mUnk_000.mScale.z * gKouraWState7InverseLimit) >> 12;
+    *scaleRatio = MUL_FIXED12_NO_ROUND(item->mUnk_000.mUnk_000.mUnk_000.mScale.z, gKouraWState7InverseLimit);
     return &item->mUnk_000.mUnk_000.mUnk_000.mPos;
 }
 
@@ -860,7 +862,7 @@ void SetupItemKouraWKind(void) {
     gKouraWState7ScaleStep = 0x299a;
     scaleLimit = gKouraWState7ScaleLimit;
     radiusRatio = gItemKinds[5].mUnk_6c;
-    v = ((s64) scaleLimit * radiusRatio) >> 12;
+    v = MUL_FIXED12_NO_ROUND(scaleLimit, radiusRatio);
     data_0217bd34 = v;
     v >>= 12;
     data_0217bd34 = v;
@@ -1276,8 +1278,8 @@ void RefreshItemObjectScale(ItemObject *item) {
     item->mScale.x = item->mScale.y;
     kindInfo = &gItemKinds[kind];
     radiusRatio = kindInfo->mUnk_6c;
-    item->mUnk_dc = ((s64) item->mScale.y * kindInfo->mUnk_64) >> 12;
-    item->mRadius = ((s64) item->mScale.y * radiusRatio) >> 12;
+    item->mUnk_dc = MUL_FIXED12_NO_ROUND(item->mScale.y, kindInfo->mUnk_64);
+    item->mRadius = MUL_FIXED12_NO_ROUND(item->mScale.y, radiusRatio);
     SetCollisionSlotRadius(item->mCollisionSlotIndex, item->mRadius + 0xa000);
 }
 
@@ -1292,8 +1294,8 @@ void func_020f9fa8(ItemObject *item) {
     item->mScale.x = item->mScale.y;
     kindInfo = &gItemKinds[kind];
     radiusRatio = kindInfo->mUnk_6c;
-    item->mUnk_dc = ((s64) item->mScale.y * kindInfo->mUnk_64) >> 12;
-    item->mRadius = ((s64) item->mScale.y * radiusRatio) >> 12;
+    item->mUnk_dc = MUL_FIXED12_NO_ROUND(item->mScale.y, kindInfo->mUnk_64);
+    item->mRadius = MUL_FIXED12_NO_ROUND(item->mScale.y, radiusRatio);
     SetCollisionSlotRadius(item->mCollisionSlotIndex, item->mRadius);
 }
 
@@ -1304,10 +1306,10 @@ void SetItemObjectScaleByRatios(ItemObject *objectParam, s32 xRatio, s32 yRatio)
 
     kind = item->mKind;
     m = gItemKinds[kind].mUnk_68;
-    item->mScale.x = ((s64) item->mScale.z * xRatio) >> 12;
-    item->mScale.y = ((s64) item->mScale.z * yRatio) >> 12;
-    item->mUnk_dc = ((s64) item->mScale.y * gItemKinds[kind].mUnk_64) >> 12;
-    item->mRadius = ((s64) item->mScale.y * m) >> 12;
+    item->mScale.x = MUL_FIXED12_NO_ROUND(item->mScale.z, xRatio);
+    item->mScale.y = MUL_FIXED12_NO_ROUND(item->mScale.z, yRatio);
+    item->mUnk_dc = MUL_FIXED12_NO_ROUND(item->mScale.y, gItemKinds[kind].mUnk_64);
+    item->mRadius = MUL_FIXED12_NO_ROUND(item->mScale.y, m);
     SetCollisionSlotRadius(item->mCollisionSlotIndex, item->mRadius + 0xa000);
 }
 
@@ -1321,13 +1323,13 @@ s32 func_020f9dc8(ItemObject *item) {
         kind = item->mKind;
         item->mFlags |= 0x40;
         item->mScale.y += item->mUnk_100;
-        item->mUnk_100 += (s32) (((s64) (item->mScale.z - item->mScale.y) * 0x333) >> 12);
-        item->mUnk_100 = ((s64) item->mUnk_100 * 0xc00) >> 12;
+        item->mUnk_100 += MUL_FIXED12_NO_ROUND(item->mScale.z - item->mScale.y, 0x333);
+        item->mUnk_100 = MUL_FIXED12_NO_ROUND(item->mUnk_100, 0xc00);
         item->mScale.x = item->mScale.z * 2 - item->mScale.y;
         kindInfo = &gItemKinds[kind];
         radiusRatio = kindInfo->mUnk_6c;
-        item->mUnk_dc = ((s64) item->mScale.y * kindInfo->mUnk_64) >> 12;
-        item->mRadius = ((s64) item->mScale.y * radiusRatio) >> 12;
+        item->mUnk_dc = MUL_FIXED12_NO_ROUND(item->mScale.y, kindInfo->mUnk_64);
+        item->mRadius = MUL_FIXED12_NO_ROUND(item->mScale.y, radiusRatio);
         SetCollisionSlotRadius(item->mCollisionSlotIndex, item->mRadius + 0xa000);
         return 1;
     }
@@ -1343,12 +1345,12 @@ s32 func_020f9ce8(ItemObject *item) {
     if (item->mUnk_100 != 0) {
         kind = item->mKind;
         item->mFlags |= 0x40;
-        item->mScale.y += (s32) (((s64) (item->mUnk_100 - item->mScale.y) * 0x333) >> 12);
+        item->mScale.y += MUL_FIXED12_NO_ROUND(item->mUnk_100 - item->mScale.y, 0x333);
         item->mScale.x = item->mScale.z * 2 - item->mScale.y;
         kindInfo = &gItemKinds[kind];
         radiusRatio = kindInfo->mUnk_6c;
-        item->mUnk_dc = ((s64) item->mScale.y * kindInfo->mUnk_64) >> 12;
-        item->mRadius = ((s64) item->mScale.y * radiusRatio) >> 12;
+        item->mUnk_dc = MUL_FIXED12_NO_ROUND(item->mScale.y, kindInfo->mUnk_64);
+        item->mRadius = MUL_FIXED12_NO_ROUND(item->mScale.y, radiusRatio);
         SetCollisionSlotRadius(item->mCollisionSlotIndex, item->mRadius + 0xa000);
         return 1;
     }

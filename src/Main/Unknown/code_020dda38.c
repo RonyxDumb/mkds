@@ -135,18 +135,18 @@ void UpdateWanwanChainPoints(WanwanChain *chain, Vec3 *endPoint, Vec3 *unused) {
         if (excess != 0) {
             Vec3NormalizeAndGetLengthUnchecked(&t, &offset);
             linkLength = chain->mLinkLength;
-            offset.x = ((s64) offset.x * linkLength) >> 12;
-            offset.y = ((s64) offset.y * linkLength) >> 12;
-            offset.z = ((s64) offset.z * linkLength) >> 12;
+            offset.x = MUL_FIXED12_NO_ROUND(offset.x, linkLength);
+            offset.y = MUL_FIXED12_NO_ROUND(offset.y, linkLength);
+            offset.z = MUL_FIXED12_NO_ROUND(offset.z, linkLength);
             VEC_Add(current, &offset, &points[reversePointIndex - 1]);
             VEC_Subtract(&offset, &t, &t);
-            t.x = ((s64) t.x * pullScale.x) >> 12;
-            t.y = ((s64) t.y * pullScale.y) >> 12;
-            t.z = ((s64) t.z * pullScale.z) >> 12;
+            t.x = MUL_FIXED12_NO_ROUND(t.x, pullScale.x);
+            t.y = MUL_FIXED12_NO_ROUND(t.y, pullScale.y);
+            t.z = MUL_FIXED12_NO_ROUND(t.z, pullScale.z);
             weight = chain->mStepFraction * reversePointIndex;
-            t.x = ((s64) t.x * weight) >> 12;
-            t.y = ((s64) t.y * weight) >> 12;
-            t.z = ((s64) t.z * weight) >> 12;
+            t.x = MUL_FIXED12_NO_ROUND(t.x, weight);
+            t.y = MUL_FIXED12_NO_ROUND(t.y, weight);
+            t.z = MUL_FIXED12_NO_ROUND(t.z, weight);
             VEC_Add(&velocities[reversePointIndex - 1], &t, &velocities[reversePointIndex - 1]);
         }
         current--;
@@ -163,9 +163,9 @@ void UpdateWanwanChainPoints(WanwanChain *chain, Vec3 *endPoint, Vec3 *unused) {
         if (excess != 0) {
             Vec3NormalizeAndGetLengthUnchecked(&t, &offset);
             linkLength = chain->mLinkLength;
-            offset.x = ((s64) offset.x * linkLength) >> 12;
-            offset.y = ((s64) offset.y * linkLength) >> 12;
-            offset.z = ((s64) offset.z * linkLength) >> 12;
+            offset.x = MUL_FIXED12_NO_ROUND(offset.x, linkLength);
+            offset.y = MUL_FIXED12_NO_ROUND(offset.y, linkLength);
+            offset.z = MUL_FIXED12_NO_ROUND(offset.z, linkLength);
             VEC_Add(&points[pullIndex - 1], &offset, &points[pullIndex]);
         }
     }

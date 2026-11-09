@@ -88,7 +88,7 @@ void AdvanceAwardPointLinkCursor(PointLinkCursor *pointLinkCursor) {
 s32 GetPointLinkSpeedRatio(PointLinkCursor *pointLinkCursor) {
     s32 fixedValue = pointLinkCursor->mLink->mUnk_20[1] << 12;
 
-    return ((s64) fixedValue * 0x29 + 0x800) >> 12;
+    return MUL_FIXED12_ROUNDED(fixedValue, 0x29);
 }
 
 void AdvanceStaffRollPointLinkCursor(PointLinkCursor *pointLinkCursor) {
@@ -169,7 +169,7 @@ void SetupRaceKartAi(KartAi *kartAi, Kart *kart, s32 a) {
     }
     kartAi->mUnk_88 = data_usa_0217ae38[v];
     kartAi->mDriftChargeRandomLimit = gKartAiDriftChargeRandomLimits[v];
-    kartAi->mMinVelocityLength = ((s64) kartAi->mKart->mPhysicalParam->mBaseSpeedLimit * 0x99a + 0x800) >> 12;
+    kartAi->mMinVelocityLength = MUL_FIXED12_ROUNDED(kartAi->mKart->mPhysicalParam->mBaseSpeedLimit, 0x99a);
     InitRacePointLinkCursor(&kartAi->mUnk_08, kartAi->mIndex);
     ResetKartAi(kartAi, 0);
     kartAiRandom = GetKartAiRandom();
@@ -265,9 +265,9 @@ void func_0207f6f0(KartAi *kartAi, PointLinkCursor *linkCursor, Kart *kart, Race
         planeNormal = &kart->mUnk_12c;
         VEC_Subtract(&kartAi->mLinkPosWithSideOffset, &kart->mPos, &toLinkPos);
         normalComponent = VEC_DotProduct(planeNormal, &toLinkPos);
-        toLinkPos.x = toLinkPos.x - (s32) (((s64) kart->mUnk_12c.x * normalComponent) >> 12);
-        toLinkPos.y = toLinkPos.y - (s32) (((s64) planeNormal->y * normalComponent) >> 12);
-        toLinkPos.z = toLinkPos.z - (s32) (((s64) planeNormal->z * normalComponent) >> 12);
+        toLinkPos.x = toLinkPos.x - MUL_FIXED12_NO_ROUND(kart->mUnk_12c.x, normalComponent);
+        toLinkPos.y = toLinkPos.y - MUL_FIXED12_NO_ROUND(planeNormal->y, normalComponent);
+        toLinkPos.z = toLinkPos.z - MUL_FIXED12_NO_ROUND(planeNormal->z, normalComponent);
         Vec3CrossUnrounded(kartForward, &toLinkPos, &crossProduct);
         crossLength = VEC_Mag(&crossProduct);
         angle = FX_Atan2(crossLength, Vec3DotUnrounded(kartForward, &toLinkPos));
@@ -509,9 +509,9 @@ void func_0207ebfc(KartAi *kartAi) {
         kartForward = &kart->mUnk_138;
         VEC_Subtract(&kartAi->mLinkPosWithSideOffset, &kart->mPos, &flatOffsetToLink);
         n = VEC_DotProduct(planeNormal, &flatOffsetToLink);
-        flatOffsetToLink.x -= (s32) (((s64) planeNormal->x * n) >> 12);
-        flatOffsetToLink.y -= (s32) (((s64) planeNormal->y * n) >> 12);
-        flatOffsetToLink.z -= (s32) (((s64) planeNormal->z * n) >> 12);
+        flatOffsetToLink.x -= MUL_FIXED12_NO_ROUND(planeNormal->x, n);
+        flatOffsetToLink.y -= MUL_FIXED12_NO_ROUND(planeNormal->y, n);
+        flatOffsetToLink.z -= MUL_FIXED12_NO_ROUND(planeNormal->z, n);
         Vec3CrossUnrounded(kartForward, &flatOffsetToLink, &turnCross);
         m = VEC_Mag(&turnCross);
         m = FX_Atan2(m, Vec3DotUnrounded(kartForward, &flatOffsetToLink));
@@ -535,9 +535,9 @@ void func_0207ebfc(KartAi *kartAi) {
         q2 = kartAi->mKart;
         GetKartUp(q2, &kartUp);
         n = VEC_DotProduct(&kartUp, &offsetToLink);
-        offsetOnUpPlane.x = offsetToLink.x - (s32) (((s64) kartUp.x * n) >> 12);
-        offsetOnUpPlane.y = offsetToLink.y - (s32) (((s64) kartUp.y * n) >> 12);
-        offsetOnUpPlane.z = offsetToLink.z - (s32) (((s64) kartUp.z * n) >> 12);
+        offsetOnUpPlane.x = offsetToLink.x - MUL_FIXED12_NO_ROUND(kartUp.x, n);
+        offsetOnUpPlane.y = offsetToLink.y - MUL_FIXED12_NO_ROUND(kartUp.y, n);
+        offsetOnUpPlane.z = offsetToLink.z - MUL_FIXED12_NO_ROUND(kartUp.z, n);
         Vec3CrossUnrounded(&q2->mUnk_138, &offsetOnUpPlane, &sideCross);
         m = Vec3DotUnrounded(&kartUp, &sideCross);
         if (m > 0) {
@@ -582,7 +582,7 @@ void func_0207ebfc(KartAi *kartAi) {
     kartAi->mSideOffsetRatio = 0;
     if (!(kart->mUnk_44 & 0xc00c0)) {
         n = kart->mVelocityLength;
-        if (n > (s32) (((s64) kart->mPhysicalParam->mBaseSpeedLimit * 0x8cd) >> 12)) {
+        if (n > MUL_FIXED12_NO_ROUND(kart->mPhysicalParam->mBaseSpeedLimit, 0x8cd)) {
             return;
         }
     }
@@ -601,9 +601,9 @@ s32 ComputeAngleToPositionDegrees(Vec3 *targetPos, Vec3 *originPos, Vec3 *planeN
 
     VEC_Subtract(targetPos, originPos, &flatOffset);
     n = VEC_DotProduct(planeNormal, &flatOffset);
-    flatOffset.x -= (s32) (((s64) planeNormal->x * n) >> 12);
-    flatOffset.y -= (s32) (((s64) planeNormal->y * n) >> 12);
-    flatOffset.z -= (s32) (((s64) planeNormal->z * n) >> 12);
+    flatOffset.x -= MUL_FIXED12_NO_ROUND(planeNormal->x, n);
+    flatOffset.y -= MUL_FIXED12_NO_ROUND(planeNormal->y, n);
+    flatOffset.z -= MUL_FIXED12_NO_ROUND(planeNormal->z, n);
     Vec3CrossUnrounded(forward, &flatOffset, &crossProduct);
     crossLength = VEC_Mag(&crossProduct);
     angleDegrees = FX_Atan2(crossLength, Vec3DotUnrounded(forward, &flatOffset));
@@ -634,8 +634,9 @@ void AdvanceKartAiSideOffset(KartAi *kartAi) {
         kartAiRandom = GetKartAiRandom();
         kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
         randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
-        newSideOffsetRatio = kartAi->mSideOffsetRatio +
-                             (s32) (((s64) ((s32) (((s64) randomValue * 0x2000) >> 12) - 0x1000) * 0x267) >> 12);
+        newSideOffsetRatio =
+            kartAi->mSideOffsetRatio +
+            MUL_FIXED12_NO_ROUND(MUL_FIXED12_NO_ROUND(randomValue, 0x2000) - 0x1000, 0x267);
         if (GetAbsoluteValue(newSideOffsetRatio) > 0xb36) {
             if (newSideOffsetRatio > 0) {
                 newSideOffsetRatio = 0xb36;
@@ -645,10 +646,10 @@ void AdvanceKartAiSideOffset(KartAi *kartAi) {
         }
         kartAi->mSideOffsetRatio = newSideOffsetRatio;
     }
-    sideDistance = ((s64) kartAi->mSideOffsetRatio * kartAi->mUnk_08.mLink->mUnk_1c) >> 12;
-    kartAi->mSideOffset.x = ((s64) kartAi->mSideOffset.x * sideDistance) >> 12;
-    kartAi->mSideOffset.y = ((s64) kartAi->mSideOffset.y * sideDistance) >> 12;
-    kartAi->mSideOffset.z = ((s64) kartAi->mSideOffset.z * sideDistance) >> 12;
+    sideDistance = MUL_FIXED12_NO_ROUND(kartAi->mSideOffsetRatio, kartAi->mUnk_08.mLink->mUnk_1c);
+    kartAi->mSideOffset.x = MUL_FIXED12_NO_ROUND(kartAi->mSideOffset.x, sideDistance);
+    kartAi->mSideOffset.y = MUL_FIXED12_NO_ROUND(kartAi->mSideOffset.y, sideDistance);
+    kartAi->mSideOffset.z = MUL_FIXED12_NO_ROUND(kartAi->mSideOffset.z, sideDistance);
 }
 
 void SetKartAiSideOffsetFromKart(KartAi *kartAi) {
@@ -677,10 +678,10 @@ void SetKartAiSideOffsetFromKart(KartAi *kartAi) {
     }
     g = unitY;
     Vec3CrossUnrounded(&kartAi->mUnk_08.mDirection, &g, &kartAi->mSideOffset);
-    s = ((s64) kartAi->mSideOffsetRatio * kartAi->mUnk_08.mLink->mUnk_1c) >> 12;
-    kartAi->mSideOffset.x = ((s64) kartAi->mSideOffset.x * s) >> 12;
-    kartAi->mSideOffset.y = ((s64) kartAi->mSideOffset.y * s) >> 12;
-    kartAi->mSideOffset.z = ((s64) kartAi->mSideOffset.z * s) >> 12;
+    s = MUL_FIXED12_NO_ROUND(kartAi->mSideOffsetRatio, kartAi->mUnk_08.mLink->mUnk_1c);
+    kartAi->mSideOffset.x = MUL_FIXED12_NO_ROUND(kartAi->mSideOffset.x, s);
+    kartAi->mSideOffset.y = MUL_FIXED12_NO_ROUND(kartAi->mSideOffset.y, s);
+    kartAi->mSideOffset.z = MUL_FIXED12_NO_ROUND(kartAi->mSideOffset.z, s);
     VEC_Add(&linkPos, &kartAi->mSideOffset, &kartAi->mLinkPosWithSideOffset);
 }
 

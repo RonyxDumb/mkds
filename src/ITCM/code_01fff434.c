@@ -123,10 +123,10 @@ after:
 void func_01fff434(s32 a, s32 b, s32 c, Vec3 *d, const Vec3 *e, const Vec3 *f, s64 *g) {
     s32 q;
     s32 u;
-    q = FX_Div((s32) (((s64) a * b) >> 12) - c, (s32) (((s64) a * a) >> 12) - 0x1000);
-    u = b - (s32) (((s64) q * a) >> 12);
-    d->x = (s32) (((s64) q * e->x) >> 12) + (s32) (((s64) u * f->x) >> 12);
-    d->y = (s32) (((s64) q * e->y) >> 12) + (s32) (((s64) u * f->y) >> 12);
-    d->z = (s32) (((s64) q * e->z) >> 12) + (s32) (((s64) u * f->z) >> 12);
+    q = FX_Div(MUL_FIXED12_NO_ROUND(a, b) - c, MUL_FIXED12_NO_ROUND(a, a) - 0x1000);
+    u = b - MUL_FIXED12_NO_ROUND(q, a);
+    d->x = MUL_FIXED12_NO_ROUND(q, e->x) + MUL_FIXED12_NO_ROUND(u, f->x);
+    d->y = MUL_FIXED12_NO_ROUND(q, e->y) + MUL_FIXED12_NO_ROUND(u, f->y);
+    d->z = MUL_FIXED12_NO_ROUND(q, e->z) + MUL_FIXED12_NO_ROUND(u, f->z);
     *g = (s64) d->x * d->x + (s64) d->y * d->y + (s64) d->z * d->z;
 }

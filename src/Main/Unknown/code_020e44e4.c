@@ -28,7 +28,7 @@ void InitPukupuku(Pukupuku *pukupuku, Vec3 *position) {
     InitStateMachine(&pukupuku->mPushedObject.mMapObject.mStateMachine, data_0216c1ec, 4, pukupuku);
     pukupuku->mPushedObject.mMapObject.mPos.y =
         pukupuku->mPushedObject.mMapObject.mPos.y +
-        (s32) (((s64) pukupuku->mPushedObject.mMapObject.mScale.y * 0xa000) >> 12);
+        MUL_FIXED12_NO_ROUND(pukupuku->mPushedObject.mMapObject.mScale.y, 0xa000);
     pukupuku->mInitialPos = pukupuku->mPushedObject.mMapObject.mPos;
     pukupuku->mJumpsUntilHighJump = 4;
     pukupuku->mPushedObject.mMapObject.mUnk_10.x = 0;
@@ -39,7 +39,7 @@ void InitPukupuku(Pukupuku *pukupuku, Vec3 *position) {
     pukupuku->mPushedObject.mMapObject.mStateMachine.mNextState = 0;
     pukupuku->mPushedObject.mMapObject.mStateMachine.mNextStateRequested = 1;
     RefreshShadowMatrix(&pukupuku->mShadowMatrix, position,
-                        ((s64) pukupuku->mPushedObject.mMapObject.mScale.x * 0x12000) >> 12, 0xd);
+                        MUL_FIXED12_NO_ROUND(pukupuku->mPushedObject.mMapObject.mScale.x, 0x12000), 0xd);
     pukupuku->mInitialGroundY = position->y;
     {
         Vec3 *secondRow = &pukupuku->mShadowMatrix.mMatrix.mUnk_00[1];
@@ -102,16 +102,20 @@ void func_020e44e4(u32 unused, Unk020e3ef4 *object) {
     if (angleChange < -0x8000) {
         angleChange += 0x10000;
     }
-    object->mUnk_000.mCollisionData.mAngleChangeVector.x = ((s64) object->mUnk_000.mMapObject.mMatrix.mUnk_00[1].x * angleChange) >> 12;
-    object->mUnk_000.mCollisionData.mAngleChangeVector.y = ((s64) object->mUnk_000.mMapObject.mMatrix.mUnk_00[1].y * angleChange) >> 12;
-    object->mUnk_000.mCollisionData.mAngleChangeVector.z = ((s64) object->mUnk_000.mMapObject.mMatrix.mUnk_00[1].z * angleChange) >> 12;
+    object->mUnk_000.mCollisionData.mAngleChangeVector.x =
+        MUL_FIXED12_NO_ROUND(object->mUnk_000.mMapObject.mMatrix.mUnk_00[1].x, angleChange);
+    object->mUnk_000.mCollisionData.mAngleChangeVector.y =
+        MUL_FIXED12_NO_ROUND(object->mUnk_000.mMapObject.mMatrix.mUnk_00[1].y, angleChange);
+    object->mUnk_000.mCollisionData.mAngleChangeVector.z =
+        MUL_FIXED12_NO_ROUND(object->mUnk_000.mMapObject.mMatrix.mUnk_00[1].z, angleChange);
     object->mUnk_000.mCollisionData.mPrevMatrix = object->mUnk_000.mMapObject.mMatrix.mUnk_00_m;
-    MTX_RotY33_(&object->mUnk_000.mMapObject.mMatrix.mUnk_00_m, gPairsByAngle[(object->mUnk_000.mMapObject.mAngle >> 4) * 2],
+    MTX_RotY33_(&object->mUnk_000.mMapObject.mMatrix.mUnk_00_m,
+                gPairsByAngle[(object->mUnk_000.mMapObject.mAngle >> 4) * 2],
                 gPairsByAngle[(object->mUnk_000.mMapObject.mAngle >> 4) * 2 + 1]);
     MTX_Concat33(&object->mUnk_000.mMapObject.mMatrix.mUnk_00_m, &object->mUnk_000.mCollisionData.mInitialMatrix,
                  &object->mUnk_000.mMapObject.mMatrix.mUnk_00_m);
-    VEC_MultAdd(-object->mUnk_000.mCollisionData.mHalfSizeY, &object->mUnk_000.mMapObject.mMatrix.mUnk_00[1], &object->mUnk_000.mMapObject.mPos,
-                &object->mUnk_000.mCollisionData.mCenterPos);
+    VEC_MultAdd(-object->mUnk_000.mCollisionData.mHalfSizeY, &object->mUnk_000.mMapObject.mMatrix.mUnk_00[1],
+                &object->mUnk_000.mMapObject.mPos, &object->mUnk_000.mCollisionData.mCenterPos);
     if (object->mUnk_000.mMapObject.mStateMachine.mState == 3) {
         return;
     }

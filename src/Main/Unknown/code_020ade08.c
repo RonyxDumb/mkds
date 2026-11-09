@@ -75,7 +75,7 @@ s16 InterpolateGetAnglePairSecond(s32 angle) {
 }
 
 s32 InterpolateMulFixed12NoRound(s32 value, s32 factor) {
-    return ((s64) value * factor) >> 12;
+    return MUL_FIXED12_NO_ROUND(value, factor);
 }
 
 s32 InterpolateGetFixed12Whole(s32 value) {

@@ -81,14 +81,14 @@ void func_01ff9320(NNSG3dMatAnmResult *p) {
     b.mUnk_08[15] = 0x1000;
     data_01ff9300[p->mUnk_00 & 7](b.mUnk_08, p);
     if (p->mUnk_30 != 0x1000) {
-        b.mUnk_08[0] = ((s64) p->mUnk_30 * b.mUnk_08[0]) >> 12;
-        b.mUnk_08[1] = ((s64) p->mUnk_30 * b.mUnk_08[1]) >> 12;
-        b.mUnk_08[12] = ((s64) p->mUnk_30 * b.mUnk_08[12]) >> 12;
+        b.mUnk_08[0] = MUL_FIXED12_NO_ROUND(p->mUnk_30, b.mUnk_08[0]);
+        b.mUnk_08[1] = MUL_FIXED12_NO_ROUND(p->mUnk_30, b.mUnk_08[1]);
+        b.mUnk_08[12] = MUL_FIXED12_NO_ROUND(p->mUnk_30, b.mUnk_08[12]);
     }
     if (p->mUnk_34 != 0x1000) {
-        b.mUnk_08[4] = ((s64) p->mUnk_34 * b.mUnk_08[4]) >> 12;
-        b.mUnk_08[5] = ((s64) p->mUnk_34 * b.mUnk_08[5]) >> 12;
-        b.mUnk_08[13] = ((s64) p->mUnk_34 * b.mUnk_08[13]) >> 12;
+        b.mUnk_08[4] = MUL_FIXED12_NO_ROUND(p->mUnk_34, b.mUnk_08[4]);
+        b.mUnk_08[5] = MUL_FIXED12_NO_ROUND(p->mUnk_34, b.mUnk_08[5]);
+        b.mUnk_08[13] = MUL_FIXED12_NO_ROUND(p->mUnk_34, b.mUnk_08[13]);
     }
     NNS_G3dGeBufferOP_N(b.mUnk_00, (u32 *) &b + 1, 0x12);
 }

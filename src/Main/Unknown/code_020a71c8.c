@@ -234,7 +234,7 @@ s32 SanboGetAnglePairFirst(s32 a) {
 }
 
 s32 SanboMulFixed12Rounded(s32 a, s32 b) {
-    return ((s64) a * b + 0x800) >> 12;
+    return MUL_FIXED12_ROUNDED(a, b);
 }
 
 void UpdateSanbo(void *a, Sanbo *sanbo) {
@@ -249,8 +249,8 @@ void UpdateSanbo(void *a, Sanbo *sanbo) {
     if (sanbo->mPathWaitTimer-- <= 0) {
         t = sanbo->mPathSpeed;
         sanbo->mFollower.mSpeed = t;
-        sanbo->mFollower.mProgressStep =
-            (s64) t * sanbo->mFollower.mPath->mSegments[sanbo->mFollower.mSegmentIndex].mInverseProgressLength >> 12;
+        sanbo->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
+            t, sanbo->mFollower.mPath->mSegments[sanbo->mFollower.mSegmentIndex].mInverseProgressLength);
         if (AdvanceGroupFollower(&sanbo->mFollower) != FALSE) {
             sanbo->mPathWaitTimer = (u16) sanbo->mFollower.mFromEntry->mUnk_0e;
         } else {

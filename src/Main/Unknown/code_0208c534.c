@@ -109,9 +109,9 @@ void AdvanceKartTurnStartEffects(KartTurnEffects *p, Kart *q) {
     }
     e = GetKartEffects(q->mIndex);
     for (i = 0; i < 2; i++) {
-        a.x = ((s64) q->mEffectVelocity.x * 0xb33) >> 12;
-        a.y = ((s64) q->mEffectVelocity.y * 0xb33) >> 12;
-        a.z = ((s64) q->mEffectVelocity.z * 0xb33) >> 12;
+        a.x = MUL_FIXED12_NO_ROUND(q->mEffectVelocity.x, 0xb33);
+        a.y = MUL_FIXED12_NO_ROUND(q->mEffectVelocity.y, 0xb33);
+        a.z = MUL_FIXED12_NO_ROUND(q->mEffectVelocity.z, 0xb33);
         p->mTurnStartEffects[i]->mUnk_40 = a;
         b.x = -a.x;
         b.y = -a.y;

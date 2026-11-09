@@ -710,7 +710,7 @@ void DrawRaceTaPositions(RaceHudOamBuffer *oamBuffer) {
         productWithHalf = (GetRaceHudSubScreenCourseScale() * 0x3000) - 0.5f;
     }
     roundedProduct = productWithHalf;
-    scale = ((s64) roundedProduct * 20) >> 12;
+    scale = MUL_FIXED12_NO_ROUND(roundedProduct, 20);
     for (i = 0; i < gRaceSetup->mKartCount; i++) {
         if (gRaceTaPositions->mKartVisible[i] != 0) {
             if (gRaceProgress->mRaceDone == 0) {

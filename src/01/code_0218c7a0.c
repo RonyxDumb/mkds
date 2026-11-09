@@ -313,15 +313,17 @@ void func_ov001_0218cbdc(Unk02188950 *a, MissionRunPrm *b) {
                 diff -= 0x10000;
             }
             if (diff > 0) {
-                a->mUnk_000.mUnk_10.x = ((s64) a->mPrm->mUnk_0fc * gPairsByAngle[(((u16) r4 + 0x4000) >> 4) * 2]) >> 12;
+                a->mUnk_000.mUnk_10.x =
+                    MUL_FIXED12_NO_ROUND(a->mPrm->mUnk_0fc, gPairsByAngle[(((u16) r4 + 0x4000) >> 4) * 2]);
                 a->mUnk_000.mUnk_10.y = 0;
-                a->mUnk_000.mUnk_10.z =
-                    ((s64) a->mPrm->mUnk_0fc * gPairsByAngle[(((u16) a->mMoveAngle + 0x4000) >> 4) * 2 + 1]) >> 12;
+                a->mUnk_000.mUnk_10.z = MUL_FIXED12_NO_ROUND(
+                    a->mPrm->mUnk_0fc, gPairsByAngle[(((u16) a->mMoveAngle + 0x4000) >> 4) * 2 + 1]);
             } else {
-                a->mUnk_000.mUnk_10.x = ((s64) a->mPrm->mUnk_0fc * gPairsByAngle[(((u16) r4 - 0x4000) >> 4) * 2]) >> 12;
+                a->mUnk_000.mUnk_10.x =
+                    MUL_FIXED12_NO_ROUND(a->mPrm->mUnk_0fc, gPairsByAngle[(((u16) r4 - 0x4000) >> 4) * 2]);
                 a->mUnk_000.mUnk_10.y = 0;
-                a->mUnk_000.mUnk_10.z =
-                    ((s64) a->mPrm->mUnk_0fc * gPairsByAngle[(((u16) a->mMoveAngle - 0x4000) >> 4) * 2 + 1]) >> 12;
+                a->mUnk_000.mUnk_10.z = MUL_FIXED12_NO_ROUND(
+                    a->mPrm->mUnk_0fc, gPairsByAngle[(((u16) a->mMoveAngle - 0x4000) >> 4) * 2 + 1]);
             }
             a->mUnk_2d8 = 0xc;
             StartCameraWobbleAtDistance(a->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);

@@ -69,9 +69,9 @@ void ComputeKartSidePoints(Kart *kart) {
         modelPoint = kart->mKartModelsEntry->mKartOffsetData->mTireOffsets[i + 2];
         modelPoint.y = 0;
         modelPoint.x = modelPoint.x + gKartSideOffsetsX[i];
-        scaledPoint.x = ((s64) modelPoint.x * kart->mScale.x) >> 12;
-        scaledPoint.y = ((s64) modelPoint.y * kart->mScale.y) >> 12;
-        scaledPoint.z = ((s64) modelPoint.z * kart->mScale.z) >> 12;
+        scaledPoint.x = MUL_FIXED12_NO_ROUND(modelPoint.x, kart->mScale.x);
+        scaledPoint.y = MUL_FIXED12_NO_ROUND(modelPoint.y, kart->mScale.y);
+        scaledPoint.z = MUL_FIXED12_NO_ROUND(modelPoint.z, kart->mScale.z);
         MTX_MultVec43(&scaledPoint, &kart->mUnk_150_m, &kartEffects->mSidePositions[i]);
         kartEffects->mSidePositions[i].x = kartEffects->mSidePositions[i].x >> 4;
         kartEffects->mSidePositions[i].y = kartEffects->mSidePositions[i].y >> 4;
@@ -463,9 +463,9 @@ void AdvanceKartBoostCameraEffect(Unk0201ca6c *effect, s32 a) {
         effect->mUnk_24.mUnk_00_1 = 1;
     }
     viewPos = chaseCamera->mViewPos;
-    forwardOffset.x = ((s64) chaseCamera->mForward.x * 0x5000) >> 12;
-    forwardOffset.y = ((s64) chaseCamera->mForward.y * 0x5000) >> 12;
-    forwardOffset.z = ((s64) chaseCamera->mForward.z * 0x5000) >> 12;
+    forwardOffset.x = MUL_FIXED12_NO_ROUND(chaseCamera->mForward.x, 0x5000);
+    forwardOffset.y = MUL_FIXED12_NO_ROUND(chaseCamera->mForward.y, 0x5000);
+    forwardOffset.z = MUL_FIXED12_NO_ROUND(chaseCamera->mForward.z, 0x5000);
     VEC_Add(&forwardOffset, &viewPos, &effectPos);
     effect->mUnk_28.x = effectPos.x + effect->mUnk_20->mUnk_00->mUnk_04.x;
     effect->mUnk_28.y = effectPos.y + effect->mUnk_20->mUnk_00->mUnk_04.y;
@@ -503,9 +503,9 @@ void AdvanceKartCurrentEffect(Unk0201ca6c *effect, s32 a) {
     }
     effect->mUnk_24.mUnk_00_1 = (stopsEmission != 0);
     s = &kart->mUnk_138;
-    offsetBehind.x = ((s64) s->x * -0x5000) >> 12;
-    offsetBehind.y = ((s64) s->y * -0x5000) >> 12;
-    offsetBehind.z = ((s64) s->z * -0x5000) >> 12;
+    offsetBehind.x = MUL_FIXED12_NO_ROUND(s->x, -0x5000);
+    offsetBehind.y = MUL_FIXED12_NO_ROUND(s->y, -0x5000);
+    offsetBehind.z = MUL_FIXED12_NO_ROUND(s->z, -0x5000);
     if (counting != 0) {
         stepCount = (u8) (stepCount + 1);
         if (stepCount == 10) {
@@ -517,9 +517,9 @@ void AdvanceKartCurrentEffect(Unk0201ca6c *effect, s32 a) {
     effectPos.x = effectPos.x >> 4;
     effectPos.y = effectPos.y >> 4;
     effectPos.z = effectPos.z >> 4;
-    velocity.x = ((s64) velocity.x * velocityFactor) >> 12;
-    velocity.y = ((s64) velocity.y * velocityFactor) >> 12;
-    velocity.z = ((s64) velocity.z * velocityFactor) >> 12;
+    velocity.x = MUL_FIXED12_NO_ROUND(velocity.x, velocityFactor);
+    velocity.y = MUL_FIXED12_NO_ROUND(velocity.y, velocityFactor);
+    velocity.z = MUL_FIXED12_NO_ROUND(velocity.z, velocityFactor);
     effect->mUnk_28.x = effectPos.x + effect->mUnk_20->mUnk_00->mUnk_04.x;
     effect->mUnk_28.y = effectPos.y + effect->mUnk_20->mUnk_00->mUnk_04.y;
     effect->mUnk_28.z = effectPos.z + effect->mUnk_20->mUnk_00->mUnk_04.z;
@@ -608,9 +608,9 @@ void AdvanceKartSideEffectWithVelocity(Unk0201ca6c *effect, s32 a) {
     effect->mUnk_28.y = sideCoordinate + effect->mUnk_20->mUnk_00->mUnk_04.y;
     sideCoordinate = kartEffects->mSidePositions[sideIndex].z;
     effect->mUnk_28.z = sideCoordinate + effect->mUnk_20->mUnk_00->mUnk_04.z;
-    velocity.x = ((s64) velocity.x * velocityFactor) >> 12;
-    velocity.y = ((s64) velocity.y * velocityFactor) >> 12;
-    velocity.z = ((s64) velocity.z * velocityFactor) >> 12;
+    velocity.x = MUL_FIXED12_NO_ROUND(velocity.x, velocityFactor);
+    velocity.y = MUL_FIXED12_NO_ROUND(velocity.y, velocityFactor);
+    velocity.z = MUL_FIXED12_NO_ROUND(velocity.z, velocityFactor);
     effect->mUnk_40 = velocity;
 }
 
@@ -665,9 +665,9 @@ void AdvanceKartWaterEffect(Unk0201ca6c *effect, s32 a) {
     sideCoordinate = kartEffects->mSidePositions[sideIndex].z;
     effect->mUnk_28.z = sideCoordinate + effect->mUnk_20->mUnk_00->mUnk_04.z;
     effect->mUnk_28.y = effect->mUnk_28.y + (kart->mWaterDepth >> 4);
-    velocity.x = ((s64) velocity.x * velocityFactor) >> 12;
-    velocity.y = ((s64) velocity.y * velocityFactor) >> 12;
-    velocity.z = ((s64) velocity.z * velocityFactor) >> 12;
+    velocity.x = MUL_FIXED12_NO_ROUND(velocity.x, velocityFactor);
+    velocity.y = MUL_FIXED12_NO_ROUND(velocity.y, velocityFactor);
+    velocity.z = MUL_FIXED12_NO_ROUND(velocity.z, velocityFactor);
     effect->mUnk_40 = velocity;
 }
 
@@ -786,7 +786,7 @@ void InitCourseCameraEffects(void) {
             engineScale = 0xb33;
             break;
     }
-    gCourseCameraEffectSpeedReciprocal = FX_Div(0x1000, ((s64) engineScale * 0x779a + 0x800) >> 12);
+    gCourseCameraEffectSpeedReciprocal = FX_Div(0x1000, MUL_FIXED12_ROUNDED(engineScale, 0x779a));
     gSecondCourseCameraEffect = NULL;
     gFirstCourseCameraEffect = NULL;
     switch (gRaceSetup->mCourseId) {
@@ -891,7 +891,7 @@ void AdvanceOldLuigiAgbFirstChaseEffect(Unk0201ca6c *effect, s32 a) {
         Vec3NormalizeAndGetLengthUnchecked(&forwardFlat, &forwardFlat);
     }
     VEC_CrossProduct(&data_02155a08, &forwardFlat, &axis);
-    speedRatio = ((s64) kart->mVelocityLength * gCourseCameraEffectSpeedReciprocal + 0x800) >> 12;
+    speedRatio = MUL_FIXED12_ROUNDED(kart->mVelocityLength, gCourseCameraEffectSpeedReciprocal);
     rotatedVector = data_02165984;
     extraDistance = 0;
     if (speedRatio > 0x1000) {
@@ -901,19 +901,19 @@ void AdvanceOldLuigiAgbFirstChaseEffect(Unk0201ca6c *effect, s32 a) {
         speedRatio = speedRatio * 0xffffffff;
         extraDistance = data_02165938;
     }
-    angle = (s32) (((s64) speedRatio * 0x38e3 + 0x800) >> 12);
+    angle = MUL_FIXED12_ROUNDED(speedRatio, 0x38e3);
     MTX_RotAxis33(&rotation, &axis, gPairsByAngle[(angle >> 4) * 2], gPairsByAngle[(angle >> 4) * 2 + 1]);
     MTX_MultVec33(&rotatedVector, &rotation, &rotatedVector);
     directionHalfwords.x = rotatedVector.x;
     directionHalfwords.y = rotatedVector.y;
     directionHalfwords.z = rotatedVector.z;
-    effect->mUnk_68 = (s16) ((s32) (((s64) (0x1000 - speedRatio) * 0x800 + 0x800) >> 12) + 0x800);
+    effect->mUnk_68 = (s16) (MUL_FIXED12_ROUNDED(0x1000 - speedRatio, 0x800) + 0x800);
     effect->mUnk_50 = directionHalfwords;
     distanceSlope = data_02165954 + extraDistance;
     VEC_MultAdd(data_02165938 + (s32) (((s64) distanceSlope * (s64) speedRatio + 0x800) >> 12), &forwardFlat,
                 &chaseCamera->mViewPos, &effectPos);
     effectPos.y = GetKart(gRaceSetup->mEntryIndex)->mPosSource->y >> 4;
-    effectPos.y = effectPos.y - (s32) (((s64) data_02165934 * speedRatio + 0x800) >> 12);
+    effectPos.y = effectPos.y - MUL_FIXED12_ROUNDED(data_02165934, speedRatio);
     effect->mUnk_28.x = effectPos.x + effect->mUnk_20->mUnk_00->mUnk_04.x;
     effect->mUnk_28.y = effectPos.y + effect->mUnk_20->mUnk_00->mUnk_04.y;
     effect->mUnk_28.z = effectPos.z + effect->mUnk_20->mUnk_00->mUnk_04.z;
@@ -971,8 +971,7 @@ void AdvanceOldLuigiAgbFirstCurrentCameraEffect(Unk0201ca6c *effect, s32 a) {
     effect->mUnk_68 = 0x1000;
     effect->mUnk_50 = directionHalfwords;
     VEC_MultAdd(data_02165964, &forwardFlat, &currentCamera->mViewPos, &effectPos);
-    effectPos.y =
-        effectPos.y + (data_02165968 + (s32) (((s64) currentCamera->mForward.y * data_02165960 + 0x800) >> 12));
+    effectPos.y = effectPos.y + (data_02165968 + MUL_FIXED12_ROUNDED(currentCamera->mForward.y, data_02165960));
     effect->mUnk_28.x = effectPos.x + effect->mUnk_20->mUnk_00->mUnk_04.x;
     effect->mUnk_28.y = effectPos.y + effect->mUnk_20->mUnk_00->mUnk_04.y;
     effect->mUnk_28.z = effectPos.z + effect->mUnk_20->mUnk_00->mUnk_04.z;
@@ -1002,11 +1001,11 @@ void AdvanceOldFrappe64SecondChaseEffect(Unk0201ca6c *effect, s32 a) {
     effect->mUnk_28.x = effectPos.x + effect->mUnk_20->mUnk_00->mUnk_04.x;
     effect->mUnk_28.y = effectPos.y + effect->mUnk_20->mUnk_00->mUnk_04.y;
     effect->mUnk_28.z = effectPos.z + effect->mUnk_20->mUnk_00->mUnk_04.z;
-    speedRatio = ((s64) kart->mVelocityLength * gCourseCameraEffectSpeedReciprocal + 0x800) >> 12;
+    speedRatio = MUL_FIXED12_ROUNDED(kart->mVelocityLength, gCourseCameraEffectSpeedReciprocal);
     if (speedRatio > 0x1000) {
         speedRatio = 0x1000;
     }
-    effect->mUnk_58 = ((s64) (0x1000 - speedRatio) * 0x400 + 0x800) >> 12;
+    effect->mUnk_58 = MUL_FIXED12_ROUNDED(0x1000 - speedRatio, 0x400);
 }
 
 void AdvanceOldFrappe64FirstChaseEffect(Unk0201ca6c *effect, s32 a) {
@@ -1023,7 +1022,7 @@ void AdvanceOldFrappe64FirstChaseEffect(Unk0201ca6c *effect, s32 a) {
     chaseCamera = GetChaseCamera();
     kart = GetKart(gRaceSetup->mEntryIndex);
     forwardFlat = chaseCamera->mForward;
-    speedRatio = ((s64) kart->mVelocityLength * gCourseCameraEffectSpeedReciprocal + 0x800) >> 12;
+    speedRatio = MUL_FIXED12_ROUNDED(kart->mVelocityLength, gCourseCameraEffectSpeedReciprocal);
     extraDistance = 0;
     forwardFlat.y = 0;
     if (speedRatio > 0x1000) {
@@ -1044,7 +1043,7 @@ void AdvanceOldFrappe64FirstChaseEffect(Unk0201ca6c *effect, s32 a) {
     effect->mUnk_28.x = effectPos.x + effect->mUnk_20->mUnk_00->mUnk_04.x;
     effect->mUnk_28.y = effectPos.y + effect->mUnk_20->mUnk_00->mUnk_04.y;
     effect->mUnk_28.z = effectPos.z + effect->mUnk_20->mUnk_00->mUnk_04.z;
-    effect->mUnk_58 = ((s64) 0x800 * speedRatio + 0x800) >> 12;
+    effect->mUnk_58 = MUL_FIXED12_ROUNDED(0x800, speedRatio);
 }
 
 void AdvanceOldFrappe64FirstCurrentCameraEffect(Unk0201ca6c *effect, s32 a) {
@@ -1073,8 +1072,7 @@ void AdvanceOldFrappe64FirstCurrentCameraEffect(Unk0201ca6c *effect, s32 a) {
         Vec3NormalizeAndGetLengthUnchecked(&forwardFlat, &forwardFlat);
     }
     VEC_MultAdd(data_02165958, &forwardFlat, &currentCamera->mViewPos, &effectPos);
-    effectPos.y =
-        effectPos.y + (data_0216595c + (s32) (((s64) currentCamera->mForward.y * data_02165940 + 0x800) >> 12));
+    effectPos.y = effectPos.y + (data_0216595c + MUL_FIXED12_ROUNDED(currentCamera->mForward.y, data_02165940));
     VEC_Add(&effectPos, &extraOffset, &effectPos);
     effect->mUnk_28.x = effectPos.x + effect->mUnk_20->mUnk_00->mUnk_04.x;
     effect->mUnk_28.y = effectPos.y + effect->mUnk_20->mUnk_00->mUnk_04.y;
@@ -1197,7 +1195,7 @@ void PlaceKartAheadEffect(Unk0201ca6c *effect, Kart *kart, void *a) {
 
     if (a == NULL) {
         PlaceEffectAheadAndUpOfKart(effect, kart, 0x733, 0xb33);
-        effect->mUnk_5c = (s16) (((s64) kart->mScale.z * 0xb33 + 0x800) >> 12);
+        effect->mUnk_5c = (s16) MUL_FIXED12_ROUNDED(kart->mScale.z, 0xb33);
     } else {
         isShown = 1;
         PlaceEffectAheadAndUpOfKart(effect, kart, 0x99a, 0xe66);
@@ -1222,8 +1220,8 @@ void PlaceEffectAheadAndUpOfKart(Unk0201ca6c *effect, Kart *kart, s32 upDistance
     position.x = kartPos->x >> 4;
     position.y = kartPos->y >> 4;
     position.z = kartPos->z >> 4;
-    VEC_MultAdd(((s64) kart->mScale.z * aheadDistance + 0x800) >> 12, &kart->mUnk_138, &position, &position);
-    VEC_MultAdd(((s64) kart->mScale.y * upDistance + 0x800) >> 12, &kart->mUnk_12c, &position, &position);
+    VEC_MultAdd(MUL_FIXED12_ROUNDED(kart->mScale.z, aheadDistance), &kart->mUnk_138, &position, &position);
+    VEC_MultAdd(MUL_FIXED12_ROUNDED(kart->mScale.y, upDistance), &kart->mUnk_12c, &position, &position);
     effect->mUnk_28.x = position.x + effect->mUnk_20->mUnk_00->mUnk_04.x;
     effect->mUnk_28.y = position.y + effect->mUnk_20->mUnk_00->mUnk_04.y;
     effect->mUnk_28.z = position.z + effect->mUnk_20->mUnk_00->mUnk_04.z;
@@ -1278,7 +1276,7 @@ void StartKartStarEffects(s32 kartIndex) {
 }
 
 static inline s32 MulFixed12Rounded(s32 a, s32 b) {
-    return ((s64) a * b + 0x800) >> 12;
+    return MUL_FIXED12_ROUNDED(a, b);
 }
 
 void AdvanceKartStarEffects(s32 kartIndex) {
@@ -1298,16 +1296,16 @@ void AdvanceKartStarEffects(s32 kartIndex) {
     i = 0;
     do {
         if (starEffects->mEffects[i] != NULL) {
-            VEC_MultAdd(((s64) kart->mScale.y * data_02155854[kart->mKartModelsEntry->mCharacterIndex] + 0x800) >> 12,
+            VEC_MultAdd(MUL_FIXED12_ROUNDED(kart->mScale.y, data_02155854[kart->mKartModelsEntry->mCharacterIndex]),
                         &kart->mUnk_12c, &kart->mPos, &effectPos);
             PlaceEffect(starEffects->mEffects[i], &effectPos);
-            velocity.x = ((s64) kart->mEffectVelocity.x * 0xc00) >> 12;
-            velocity.y = ((s64) kart->mEffectVelocity.y * 0xc00) >> 12;
-            velocity.z = ((s64) kart->mEffectVelocity.z * 0xc00) >> 12;
+            velocity.x = MUL_FIXED12_NO_ROUND(kart->mEffectVelocity.x, 0xc00);
+            velocity.y = MUL_FIXED12_NO_ROUND(kart->mEffectVelocity.y, 0xc00);
+            velocity.z = MUL_FIXED12_NO_ROUND(kart->mEffectVelocity.z, 0xc00);
             starEffects->mEffects[i]->mUnk_40 = velocity;
             starEffects->mEffects[i]->mUnk_68 = y;
             starEffects->mEffects[i]->mUnk_64 = x;
-            starEffects->mEffects[i]->mUnk_5c = (s16) (((s64) kart->mScale.z * 0x614 + 0x800) >> 12);
+            starEffects->mEffects[i]->mUnk_5c = (s16) MUL_FIXED12_ROUNDED(kart->mScale.z, 0x614);
         }
         i = i + 1;
     } while (i < 3);
@@ -1366,8 +1364,8 @@ void PlaceKartKillerEffect(s32 kartIndex, Vec3 *position) {
     effect->mUnk_28.z = position->z + effect->mUnk_20->mUnk_00->mUnk_04.z;
     kart = GetKart(kartIndex);
     kartVelocity = &kart->mEffectVelocity;
-    velocity.x = ((s64) kartVelocity->x * 0xe66) >> 12;
-    velocity.y = ((s64) kartVelocity->y * 0xe66) >> 12;
-    velocity.z = ((s64) kartVelocity->z * 0xe66) >> 12;
+    velocity.x = MUL_FIXED12_NO_ROUND(kartVelocity->x, 0xe66);
+    velocity.y = MUL_FIXED12_NO_ROUND(kartVelocity->y, 0xe66);
+    velocity.z = MUL_FIXED12_NO_ROUND(kartVelocity->z, 0xe66);
     kartEffects->mKillerEffect->mUnk_40 = velocity;
 }

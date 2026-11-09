@@ -923,7 +923,7 @@ void UpdateRaceHudSubScreenCellGroups(void) {
                 productWithHalf = (GetRaceHudSubScreenCourseScale() * 0x3000) - 0.5f;
             }
             roundedProduct = productWithHalf;
-            gRaceHudSubScreenCellGroups->mScale = ((s64) roundedProduct * 20) >> 12;
+            gRaceHudSubScreenCellGroups->mScale = MUL_FIXED12_NO_ROUND(roundedProduct, 20);
             gRaceHudSubScreenCellGroups->mUnk_008 = FX_Div(0x2400, gRaceHudSubScreenCellGroups->mScale);
             UpdateRaceHudSubScreenProjectionAndBgAffine(GetRaceHudSubScreenBgAffine(),
                                                         gRaceHudSubScreenCellGroups->mScale);

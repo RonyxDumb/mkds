@@ -51,8 +51,8 @@ void func_ov001_0218dc20(Unk02188950 *a) {
             break;
     }
     idx = (ang >> 4) * 2;
-    a->mUnk_000.mPos.x = r7->mUnk_004 + (s32) (((s64) r5 * gPairsByAngle[idx]) >> 12);
-    a->mUnk_000.mPos.z = a->mUnk_0a4->mUnk_00c + (s32) (((s64) r5 * gPairsByAngle[idx + 1]) >> 12);
+    a->mUnk_000.mPos.x = r7->mUnk_004 + MUL_FIXED12_NO_ROUND(r5, gPairsByAngle[idx]);
+    a->mUnk_000.mPos.z = a->mUnk_0a4->mUnk_00c + MUL_FIXED12_NO_ROUND(r5, gPairsByAngle[idx + 1]);
 }
 
 void func_ov001_0218dba8(Unk02188950 *a) {
@@ -97,9 +97,9 @@ void func_ov001_0218dadc(Unk02188950 *a) {
             break;
     }
     idx = (ang >> 4) * 2;
-    a->mUnk_000.mPos.x = r7->mUnk_004 + (s32) (((s64) r5 * gPairsByAngle[idx]) >> 12);
+    a->mUnk_000.mPos.x = r7->mUnk_004 + MUL_FIXED12_NO_ROUND(r5, gPairsByAngle[idx]);
     a->mUnk_000.mPos.y = a->mUnk_0a4->mUnk_008;
-    a->mUnk_000.mPos.z = a->mUnk_0a4->mUnk_00c + (s32) (((s64) r5 * gPairsByAngle[idx + 1]) >> 12);
+    a->mUnk_000.mPos.z = a->mUnk_0a4->mUnk_00c + MUL_FIXED12_NO_ROUND(r5, gPairsByAngle[idx + 1]);
 }
 
 void func_ov001_0218dabc(Unk02188950 *a) {
@@ -203,11 +203,11 @@ int func_ov001_0218d520(Unk02188950 *a) {
         if (GetBalloonOrShineCount(gRaceSetup->mEntryIndex) <= 1) {
             r4 = 0x1000 - a->mPrm->mUnk_0ac;
             t = func_ov001_02187f38(a);
-            r4 = (((s64) t * r4) >> 12);
+            r4 = MUL_FIXED12_NO_ROUND(t, r4);
         } else if (GetBalloonOrShineCount(gRaceSetup->mEntryIndex) <= 2) {
             r4 = 0x1000 - a->mPrm->mUnk_0a8;
             t = func_ov001_02187f38(a);
-            r4 = (((s64) t * r4) >> 12);
+            r4 = MUL_FIXED12_NO_ROUND(t, r4);
         } else {
             r4 = func_ov001_02187f38(a);
         }

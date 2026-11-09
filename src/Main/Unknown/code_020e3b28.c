@@ -172,9 +172,10 @@ void func_020e3ef4(Unk020e3ef4 *object, struct CourseMapRow *courseRow, Unk020e1
         object->mUnk_150 = 0;
     }
     object->mUnk_14c = 0;
-    object->mUnk_000.mCollisionData.mUnk_100 = ((s64) kindInfo->mUnk_04 * object->mUnk_000.mMapObject.mScale.x) >> 12;
+    object->mUnk_000.mCollisionData.mUnk_100 =
+        MUL_FIXED12_NO_ROUND(kindInfo->mUnk_04, object->mUnk_000.mMapObject.mScale.x);
     object->mUnk_000.mCollisionData.mHalfSizeY =
-        (s32) (((s64) kindInfo->mUnk_08 * object->mUnk_000.mMapObject.mScale.y) >> 12) >> 1;
+        MUL_FIXED12_NO_ROUND(kindInfo->mUnk_08, object->mUnk_000.mMapObject.mScale.y) >> 1;
     if (kindInfo->mUnk_00 != 0) {
         object->mUnk_000.mCollisionData.mUnk_110 = FALSE;
         object->mUnk_000.mCollisionData.mUnk_114.x = 1;
@@ -243,7 +244,7 @@ void UpdateBridge(s32 a, Bridge *bridge) {
     u16 y;
 
     sine = gPairsByAngle[(bridge->mSwingAngle >> 4) * 2];
-    x = bridge->mSwingAmplitude + (s32) (((s64) sine * bridge->mSwingAmplitude) >> 12);
+    x = bridge->mSwingAmplitude + MUL_FIXED12_NO_ROUND(sine, bridge->mSwingAmplitude);
     y = 0x10000 - x;
     angleDelta = y - bridge->mAngleX;
     if (angleDelta > 0x8000) {
@@ -253,11 +254,11 @@ void UpdateBridge(s32 a, Bridge *bridge) {
         angleDelta += 0x10000;
     }
     bridge->mUnk_000.mCollisionData.mAngleChangeVector.x =
-        ((s64) bridge->mUnk_000.mMapObject.mMatrix.mUnk_00[0].x * angleDelta) >> 12;
+        MUL_FIXED12_NO_ROUND(bridge->mUnk_000.mMapObject.mMatrix.mUnk_00[0].x, angleDelta);
     bridge->mUnk_000.mCollisionData.mAngleChangeVector.y =
-        ((s64) bridge->mUnk_000.mMapObject.mMatrix.mUnk_00[0].y * angleDelta) >> 12;
+        MUL_FIXED12_NO_ROUND(bridge->mUnk_000.mMapObject.mMatrix.mUnk_00[0].y, angleDelta);
     bridge->mUnk_000.mCollisionData.mAngleChangeVector.z =
-        ((s64) bridge->mUnk_000.mMapObject.mMatrix.mUnk_00[0].z * angleDelta) >> 12;
+        MUL_FIXED12_NO_ROUND(bridge->mUnk_000.mMapObject.mMatrix.mUnk_00[0].z, angleDelta);
     bridge->mAngleX = y;
     bridge->mUnk_000.mCollisionData.mPrevMatrix = bridge->mUnk_000.mMapObject.mMatrix.mUnk_00_m;
     MTX_RotX33_(&bridge->mUnk_000.mMapObject.mMatrix.mUnk_00_m, gPairsByAngle[(y >> 4) * 2],

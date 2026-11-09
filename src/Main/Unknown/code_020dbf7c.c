@@ -93,7 +93,7 @@ void CreateWanwanAndRockShadow(void) {
 #pragma thumb on
 void func_020dc1d8(Wanwan *wanwan, CourseMapRow *row) {
     wanwan->mCenterPos = row->mUnk_00;
-    wanwan->mUnk_f0 = ((s64) wanwan->mUnk_00.mScale.y * 0x1e000) >> 12;
+    wanwan->mUnk_f0 = MUL_FIXED12_NO_ROUND(wanwan->mUnk_00.mScale.y, 0x1e000);
     wanwan->mUnk_f4 = 0xf000 - wanwan->mUnk_f0;
     wanwan->mUnk_f8 = (row->mUnk_28 * 0x3000) >> 2;
     wanwan->mUnk_1dc = row->mUnk_2a << 12;
@@ -116,7 +116,7 @@ void func_020dc1d8(Wanwan *wanwan, CourseMapRow *row) {
 #pragma thumb on
 void func_020dc11c(Wanwan *wanwan, CourseMapRow *row) {
     wanwan->mCenterPos = row->mUnk_00;
-    wanwan->mUnk_f0 = ((s64) wanwan->mUnk_00.mScale.y * 0x1e000) >> 12;
+    wanwan->mUnk_f0 = MUL_FIXED12_NO_ROUND(wanwan->mUnk_00.mScale.y, 0x1e000);
     wanwan->mUnk_f4 = 0xf000 - wanwan->mUnk_f0;
     wanwan->mUnk_fc = 1;
     wanwan->mUnk_b0 = row->mUnk_2a;
@@ -154,9 +154,9 @@ void ResetWanwan(Wanwan *wanwan) {
         wanwan->mCurvePoints[3] = &wanwan->mCurvePointValues[3];
         if (gRaceSetup->mRaceKind == RACE_KIND_START_GP) {
             VEC_MultAdd(0xf000, &wanwan->mUnk_200, &wanwan->mUnk_00.mPos, &wanwan->mUnk_00.mPos);
-            wanwan->mUnk_00.mUnk_10.x = ((s64) wanwan->mUnk_200.x * 0x400) >> 12;
-            wanwan->mUnk_00.mUnk_10.y = ((s64) wanwan->mUnk_200.y * 0x400) >> 12;
-            wanwan->mUnk_00.mUnk_10.z = ((s64) wanwan->mUnk_200.z * 0x400) >> 12;
+            wanwan->mUnk_00.mUnk_10.x = MUL_FIXED12_NO_ROUND(wanwan->mUnk_200.x, 0x400);
+            wanwan->mUnk_00.mUnk_10.y = MUL_FIXED12_NO_ROUND(wanwan->mUnk_200.y, 0x400);
+            wanwan->mUnk_00.mUnk_10.z = MUL_FIXED12_NO_ROUND(wanwan->mUnk_200.z, 0x400);
             QuaternionFromAngleAroundY(
                 (u16) ((((s64) FX_Atan2(wanwan->mUnk_00.mUnk_10.x, wanwan->mUnk_00.mUnk_10.z) * 0x28be60db9391LL) +
                         0x80000000000LL) >>

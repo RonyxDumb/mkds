@@ -48,9 +48,9 @@ void func_ov001_02184874(Unk02188950 *donketu, Kart *kart) {
                     Vec3NormalizeAndGetLengthUnchecked(&velocityWhenBoosted, &velocityWhenBoosted);
                 }
                 scale = donketu->mPrm->mUnk_1e0;
-                velocityWhenBoosted.x = ((s64) velocityWhenBoosted.x * scale) >> 12;
-                velocityWhenBoosted.y = ((s64) velocityWhenBoosted.y * scale) >> 12;
-                velocityWhenBoosted.z = ((s64) velocityWhenBoosted.z * scale) >> 12;
+                velocityWhenBoosted.x = MUL_FIXED12_NO_ROUND(velocityWhenBoosted.x, scale);
+                velocityWhenBoosted.y = MUL_FIXED12_NO_ROUND(velocityWhenBoosted.y, scale);
+                velocityWhenBoosted.z = MUL_FIXED12_NO_ROUND(velocityWhenBoosted.z, scale);
                 velocityWhenBoosted.y = donketu->mPrm->mUnk_1dc;
                 func_ov001_02187218(donketu, 7, NULL);
                 StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_1d4, donketu->mPrm->mUnk_1d8);
@@ -102,9 +102,9 @@ void func_ov001_02184874(Unk02188950 *donketu, Kart *kart) {
                 Vec3NormalizeAndGetLengthUnchecked(&velocityWhenNotBoosted, &velocityWhenNotBoosted);
             }
             scale = donketu->mPrm->mUnk_1c8;
-            velocityWhenNotBoosted.x = ((s64) velocityWhenNotBoosted.x * scale) >> 12;
-            velocityWhenNotBoosted.y = ((s64) velocityWhenNotBoosted.y * scale) >> 12;
-            velocityWhenNotBoosted.z = ((s64) velocityWhenNotBoosted.z * scale) >> 12;
+            velocityWhenNotBoosted.x = MUL_FIXED12_NO_ROUND(velocityWhenNotBoosted.x, scale);
+            velocityWhenNotBoosted.y = MUL_FIXED12_NO_ROUND(velocityWhenNotBoosted.y, scale);
+            velocityWhenNotBoosted.z = MUL_FIXED12_NO_ROUND(velocityWhenNotBoosted.z, scale);
             velocityWhenNotBoosted.y = donketu->mPrm->mUnk_1c4;
             func_ov001_02187218(donketu, 7, NULL);
             StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_1bc, donketu->mPrm->mUnk_1c0);
@@ -127,10 +127,10 @@ void func_ov001_021843b0(Unk02188950 *donketu, Kart *kart) {
         if (func_ov001_021871f8(donketu, 8)) {
             if (donketu->mPrm->mUnk_1a8 > 0 || donketu->mPrm->mUnk_1ac > 0) {
                 velocityWhenBoosted.x =
-                    ((s64) -donketu->mPrm->mUnk_1ac * gPairsByAngle[((u16) donketu->mMoveAngle >> 4) * 2]) >> 12;
+                    MUL_FIXED12_NO_ROUND(-donketu->mPrm->mUnk_1ac, gPairsByAngle[((u16) donketu->mMoveAngle >> 4) * 2]);
                 velocityWhenBoosted.y = donketu->mPrm->mUnk_1a8;
-                velocityWhenBoosted.z =
-                    ((s64) -donketu->mPrm->mUnk_1ac * gPairsByAngle[((u16) donketu->mMoveAngle >> 4) * 2 + 1]) >> 12;
+                velocityWhenBoosted.z = MUL_FIXED12_NO_ROUND(-donketu->mPrm->mUnk_1ac,
+                                                             gPairsByAngle[((u16) donketu->mMoveAngle >> 4) * 2 + 1]);
                 func_ov001_02187218(donketu, 7, NULL);
                 StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_1a0, donketu->mPrm->mUnk_1a4);
                 func_ov001_02188a8c(donketu, donketu->mPrm->mUnk_1b0, 0x270f000);
@@ -165,10 +165,10 @@ void func_ov001_021843b0(Unk02188950 *donketu, Kart *kart) {
                 StartEffectAtRowHeight(donketu, 0x11ec, 0, 0x1800, 0x445, 0);
             }
             donketu->mUnk_000.mUnk_10.x =
-                ((s64) donketu->mPrm->mUnk_1b8 * gPairsByAngle[((u16) donketu->mMoveAngle >> 4) * 2]) >> 12;
+                MUL_FIXED12_NO_ROUND(donketu->mPrm->mUnk_1b8, gPairsByAngle[((u16) donketu->mMoveAngle >> 4) * 2]);
             donketu->mUnk_000.mUnk_10.y = 0;
             donketu->mUnk_000.mUnk_10.z =
-                ((s64) donketu->mPrm->mUnk_1b8 * gPairsByAngle[((u16) donketu->mMoveAngle >> 4) * 2 + 1]) >> 12;
+                MUL_FIXED12_NO_ROUND(donketu->mPrm->mUnk_1b8, gPairsByAngle[((u16) donketu->mMoveAngle >> 4) * 2 + 1]);
             donketu->mUnk_000.mPos.x -= donketu->mUnk_000.mUnk_10.x;
             donketu->mUnk_000.mPos.y -= donketu->mUnk_000.mUnk_10.y;
             donketu->mUnk_000.mPos.z -= donketu->mUnk_000.mUnk_10.z;
@@ -176,10 +176,10 @@ void func_ov001_021843b0(Unk02188950 *donketu, Kart *kart) {
     } else if (func_ov001_021871f8(donketu, 7)) {
         if (donketu->mPrm->mUnk_18c > 0 || donketu->mPrm->mUnk_190 > 0) {
             velocityWhenNotBoosted.x =
-                ((s64) -donketu->mPrm->mUnk_190 * gPairsByAngle[((u16) donketu->mMoveAngle >> 4) * 2]) >> 12;
+                MUL_FIXED12_NO_ROUND(-donketu->mPrm->mUnk_190, gPairsByAngle[((u16) donketu->mMoveAngle >> 4) * 2]);
             velocityWhenNotBoosted.y = donketu->mPrm->mUnk_18c;
             velocityWhenNotBoosted.z =
-                ((s64) -donketu->mPrm->mUnk_190 * gPairsByAngle[((u16) donketu->mMoveAngle >> 4) * 2 + 1]) >> 12;
+                MUL_FIXED12_NO_ROUND(-donketu->mPrm->mUnk_190, gPairsByAngle[((u16) donketu->mMoveAngle >> 4) * 2 + 1]);
             func_ov001_02187218(donketu, 7, NULL);
             StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_184, donketu->mPrm->mUnk_188);
             func_ov001_02188a8c(donketu, donketu->mPrm->mUnk_194, 0x270f000);
@@ -188,10 +188,10 @@ void func_ov001_021843b0(Unk02188950 *donketu, Kart *kart) {
             SetSpeedAndClearTarget(donketu, 0);
         }
         donketu->mUnk_000.mUnk_10.x =
-            ((s64) donketu->mPrm->mUnk_19c * gPairsByAngle[((u16) donketu->mMoveAngle >> 4) * 2]) >> 12;
+            MUL_FIXED12_NO_ROUND(donketu->mPrm->mUnk_19c, gPairsByAngle[((u16) donketu->mMoveAngle >> 4) * 2]);
         donketu->mUnk_000.mUnk_10.y = 0;
         donketu->mUnk_000.mUnk_10.z =
-            ((s64) donketu->mPrm->mUnk_19c * gPairsByAngle[((u16) donketu->mMoveAngle >> 4) * 2 + 1]) >> 12;
+            MUL_FIXED12_NO_ROUND(donketu->mPrm->mUnk_19c, gPairsByAngle[((u16) donketu->mMoveAngle >> 4) * 2 + 1]);
         donketu->mUnk_000.mPos.x -= donketu->mUnk_000.mUnk_10.x;
         donketu->mUnk_000.mPos.y -= donketu->mUnk_000.mUnk_10.y;
         donketu->mUnk_000.mPos.z -= donketu->mUnk_000.mUnk_10.z;

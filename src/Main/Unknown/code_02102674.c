@@ -96,12 +96,12 @@ void AdvanceItemGesso(ItemGesso *p) {
         factor = p->mApproachRate;
         m = p->mTargetVelocityX - p->mVelocityX;
         n = p->mTargetVelocityY - p->mVelocityY;
-        p->mVelocityX += (s32) (((s64) factor * m) >> 12);
-        p->mVelocityY += (s32) (((s64) factor * n) >> 12);
+        p->mVelocityX += MUL_FIXED12_NO_ROUND(factor, m);
+        p->mVelocityY += MUL_FIXED12_NO_ROUND(factor, n);
     } else {
         factor = p->mDamping;
-        p->mVelocityX = ((s64) p->mVelocityX * factor) >> 12;
-        p->mVelocityY = ((s64) p->mVelocityY * factor) >> 12;
+        p->mVelocityX = MUL_FIXED12_NO_ROUND(p->mVelocityX, factor);
+        p->mVelocityY = MUL_FIXED12_NO_ROUND(p->mVelocityY, factor);
         if (p->mUnk_194 != 0) {
             p->mUnk_000.mAlpha = p->mUnk_000.mAlpha - p->mUnk_170;
             if (p->mUnk_000.mAlpha >= 1) {
@@ -122,14 +122,14 @@ void AdvanceItemGesso(ItemGesso *p) {
     }
     p->mViewOffset.x += p->mVelocityX;
     p->mViewOffset.y += p->mVelocityY;
-    v = ((s64) (p->mVelocityX - (s32) (((s64) v * 0xccd) >> 12)) * 0x19a) >> 12;
+    v = MUL_FIXED12_NO_ROUND(p->mVelocityX - MUL_FIXED12_NO_ROUND(v, 0xccd), 0x19a);
     if (v > 0x19a) {
         v = 0x19a;
     } else if (v < -0x19a) {
         v = -0x19a;
     }
     p->mUnk_19c += v;
-    p->mUnk_19c = ((s64) p->mUnk_19c * 0xeb8) >> 12;
+    p->mUnk_19c = MUL_FIXED12_NO_ROUND(p->mUnk_19c, 0xeb8);
     if (p->mUnk_19c > 0x266) {
         p->mUnk_19c = 0x266;
     } else if (p->mUnk_19c < -0x266) {
@@ -138,14 +138,14 @@ void AdvanceItemGesso(ItemGesso *p) {
     factor = p->mUnk_184.z;
     m = p->mUnk_174 - p->mUnk_180;
     n = p->mUnk_178 - p->mUnk_184.x;
-    p->mUnk_180 += (s32) (((s64) factor * m) >> 12);
-    p->mUnk_184.x += (s32) (((s64) factor * n) >> 12);
+    p->mUnk_180 += MUL_FIXED12_NO_ROUND(factor, m);
+    p->mUnk_184.x += MUL_FIXED12_NO_ROUND(factor, n);
     viewOffset = p->mViewOffset;
-    v = ((s64) p->mUnk_19c * 0x800) >> 12;
-    viewOffset.x -= (s32) (((s64) v * viewOffset.x) >> 12);
-    p->mUnk_000.mPos.x = ((s64) camera->mSide.x * -viewOffset.x) >> 12;
-    p->mUnk_000.mPos.y = ((s64) camera->mSide.y * -viewOffset.x) >> 12;
-    p->mUnk_000.mPos.z = ((s64) camera->mSide.z * -viewOffset.x) >> 12;
+    v = MUL_FIXED12_NO_ROUND(p->mUnk_19c, 0x800);
+    viewOffset.x -= MUL_FIXED12_NO_ROUND(v, viewOffset.x);
+    p->mUnk_000.mPos.x = MUL_FIXED12_NO_ROUND(camera->mSide.x, -viewOffset.x);
+    p->mUnk_000.mPos.y = MUL_FIXED12_NO_ROUND(camera->mSide.y, -viewOffset.x);
+    p->mUnk_000.mPos.z = MUL_FIXED12_NO_ROUND(camera->mSide.z, -viewOffset.x);
     VEC_MultAdd(viewOffset.y, &camera->mUp, &p->mUnk_000.mPos, &p->mUnk_000.mPos);
     VEC_MultAdd(-viewOffset.z, &camera->mForward, &p->mUnk_000.mPos, &p->mUnk_000.mPos);
     VEC_Add(&camera->mPos, &p->mUnk_000.mPos, &p->mUnk_000.mPos);
@@ -168,17 +168,17 @@ void DrawItemGesso(ItemGesso *p, s32 param_2, NsbmdModel *t) {
     if (d <= 0) {
         d = -d;
     }
-    d = 0x1000 - (s32) (((s64) d * 0xa4) >> 12);
-    matrix.mUnk_00[1].x = ((s64) matrix.mUnk_00[1].x * d) >> 12;
-    matrix.mUnk_00[1].y = ((s64) matrix.mUnk_00[1].y * d) >> 12;
-    matrix.mUnk_00[1].z = ((s64) matrix.mUnk_00[1].z * d) >> 12;
+    d = 0x1000 - MUL_FIXED12_NO_ROUND(d, 0xa4);
+    matrix.mUnk_00[1].x = MUL_FIXED12_NO_ROUND(matrix.mUnk_00[1].x, d);
+    matrix.mUnk_00[1].y = MUL_FIXED12_NO_ROUND(matrix.mUnk_00[1].y, d);
+    matrix.mUnk_00[1].z = MUL_FIXED12_NO_ROUND(matrix.mUnk_00[1].z, d);
     VEC_MultAdd(p->mUnk_19c, &matrix.mUnk_00[0], &matrix.mUnk_00[1], &matrix.mUnk_00[1]);
-    scale.x = ((s64) p->mUnk_180 * p->mUnk_000.mScale.x) >> 12;
-    scale.y = ((s64) p->mUnk_184.x * p->mUnk_000.mScale.y) >> 12;
+    scale.x = MUL_FIXED12_NO_ROUND(p->mUnk_180, p->mUnk_000.mScale.x);
+    scale.y = MUL_FIXED12_NO_ROUND(p->mUnk_184.x, p->mUnk_000.mScale.y);
     scale.z = p->mUnk_000.mScale.z;
     scaleFactor = func_0203c5e4() != 0 ? 0xccd : 0x119a;
-    scale.x = ((s64) scale.x * scaleFactor) >> 12;
-    scale.y = ((s64) scale.y * scaleFactor) >> 12;
+    scale.x = MUL_FIXED12_NO_ROUND(scale.x, scaleFactor);
+    scale.y = MUL_FIXED12_NO_ROUND(scale.y, scaleFactor);
     d = p->mUnk_000.mAlpha;
     if (d != 0x1f) {
         t->mPolygonAttributes = t->mPolygonAttributes & ~0x1f0000;

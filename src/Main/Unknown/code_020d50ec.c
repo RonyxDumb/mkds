@@ -60,17 +60,17 @@ void ResetRockWithEffects(RockObject *rock, s32 wasHit) {
             c = data_02156930[scaledRow];
             g = data_02156928[scaledRow];
             h = data_02156948[scaledRow];
-            firstEmitterParams.mUnk_00 = data_02156960[baseRow] + (s32) (((s64) a * scaleY) >> 12);
+            firstEmitterParams.mUnk_00 = data_02156960[baseRow] + MUL_FIXED12_NO_ROUND(a, scaleY);
             i = data_02156940[scaledRow];
-            firstEmitterParams.mUnk_04 = data_02156940[baseRow] + (s32) (((s64) i * scaleY) >> 12);
+            firstEmitterParams.mUnk_04 = data_02156940[baseRow] + MUL_FIXED12_NO_ROUND(i, scaleY);
             e = data_02156950[scaledRow];
-            firstEmitterParams.mUnk_06 = data_02156948[baseRow] + (s32) (((s64) h * scaleY) >> 12);
-            secondEmitterParams.mUnk_00 = data_02156950[baseRow] + (s32) (((s64) e * scaleY) >> 12);
+            firstEmitterParams.mUnk_06 = data_02156948[baseRow] + MUL_FIXED12_NO_ROUND(h, scaleY);
+            secondEmitterParams.mUnk_00 = data_02156950[baseRow] + MUL_FIXED12_NO_ROUND(e, scaleY);
             f = data_02156920[scaledRow];
-            firstEmitterParams.mUnk_08 = data_02156920[baseRow] + (s32) (((s64) f * scaleY) >> 12);
-            secondEmitterParams.mUnk_04 = data_02156928[baseRow] + (s32) (((s64) g * scaleY) >> 12);
-            secondEmitterParams.mUnk_06 = data_02156930[baseRow] + (s32) (((s64) c * scaleY) >> 12);
-            secondEmitterParams.mUnk_08 = data_02156938[baseRow] + (s32) (((s64) d * scaleY) >> 12);
+            firstEmitterParams.mUnk_08 = data_02156920[baseRow] + MUL_FIXED12_NO_ROUND(f, scaleY);
+            secondEmitterParams.mUnk_04 = data_02156928[baseRow] + MUL_FIXED12_NO_ROUND(g, scaleY);
+            secondEmitterParams.mUnk_06 = data_02156930[baseRow] + MUL_FIXED12_NO_ROUND(c, scaleY);
+            secondEmitterParams.mUnk_08 = data_02156938[baseRow] + MUL_FIXED12_NO_ROUND(d, scaleY);
             if (rock->mMapObject.mKind == 0x192) {
                 StartEffectWithCallback(0x54, &rock->mMapObject.mPos, &firstEmitterParams, func_020d6538);
                 StartEffectWithCallback(0x57, &rock->mMapObject.mPos, &secondEmitterParams, func_020d6538);
@@ -125,7 +125,7 @@ void UpdateRock(void *a, RockObject *rock) {
             if (verticalSpeed >= -0x2000) {
                 rock->mMapObject.mUnk_10.y = 0;
             } else {
-                rock->mMapObject.mUnk_10.y = -(s32) (((s64) verticalSpeed * rock->mBounceRatio) >> 12);
+                rock->mMapObject.mUnk_10.y = -MUL_FIXED12_NO_ROUND(verticalSpeed, rock->mBounceRatio);
                 rock->mBounceSide = (rock->mBounceSide == FALSE);
                 if (rock->mMapObject.mUnk_10.y > 0x4000) {
                     sideIndex = (u16) rock->mUnk_0a4.mUnk_00.mSegmentIndex;
@@ -165,7 +165,7 @@ void UpdateRock(void *a, RockObject *rock) {
         if (rock->mMapObject.mCollisionSlotIndex >= 0) {
             SetCollisionSlotRadius(rock->mMapObject.mCollisionSlotIndex, rock->mMapObject.mExtent.x);
         }
-        rock->mMapObject.mViewRadius = ((s64) rock->mMapObject.mKindData->mUnk_2c * newScale) >> 12;
+        rock->mMapObject.mViewRadius = MUL_FIXED12_NO_ROUND(rock->mMapObject.mKindData->mUnk_2c, newScale);
         rock->mBottomOffsetReciprocal = FX_GetDivResult();
     }
     if (rock->mUnk_0a4.mUnk_00.mForward == 0) {
@@ -229,7 +229,7 @@ void ResetRock(RockObject *rock) {
     if (rock->mMapObject.mCollisionSlotIndex >= 0) {
         SetCollisionSlotRadius(rock->mMapObject.mCollisionSlotIndex, rock->mMapObject.mExtent.x);
     }
-    rock->mMapObject.mViewRadius = ((s64) rock->mMapObject.mKindData->mUnk_2c * startScale) >> 12;
+    rock->mMapObject.mViewRadius = MUL_FIXED12_NO_ROUND(rock->mMapObject.mKindData->mUnk_2c, startScale);
     rock->mBottomOffsetReciprocal = FX_GetDivResult();
 }
 

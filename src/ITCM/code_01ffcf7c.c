@@ -298,9 +298,9 @@ void AdvanceKartAiHeading(struct KartAi *p, Vec3 *a, Vec3 *b) {
     if (p->mUnk_a8 == 1) {
         u = &q->mUnk_12c;
         d = VEC_DotProduct(u, &v1);
-        v5.x = v1.x - (s32) (((s64) u->x * d) >> 12);
-        v5.y = v1.y - (s32) (((s64) u->y * d) >> 12);
-        v5.z = v1.z - (s32) (((s64) u->z * d) >> 12);
+        v5.x = v1.x - MUL_FIXED12_NO_ROUND(u->x, d);
+        v5.y = v1.y - MUL_FIXED12_NO_ROUND(u->y, d);
+        v5.z = v1.z - MUL_FIXED12_NO_ROUND(u->z, d);
         if (Vec3DotUnrounded(&q->mUnk_138, &v5) > -0x333) {
             CallKartAiLinkPosAndDirection(&v2, &v3, p);
             o = p->mKart;
@@ -309,9 +309,9 @@ void AdvanceKartAiHeading(struct KartAi *p, Vec3 *a, Vec3 *b) {
             v9.y = 0;
             GetKartUp(o, &v8);
             d = VEC_DotProduct(&v8, &v3);
-            v10.x = v3.x - (s32) (((s64) v8.x * d) >> 12);
-            v10.y = v3.y - (s32) (((s64) v8.y * d) >> 12);
-            v10.z = v3.z - (s32) (((s64) v8.z * d) >> 12);
+            v10.x = v3.x - MUL_FIXED12_NO_ROUND(v8.x, d);
+            v10.y = v3.y - MUL_FIXED12_NO_ROUND(v8.y, d);
+            v10.z = v3.z - MUL_FIXED12_NO_ROUND(v8.z, d);
             Vec3CrossUnrounded(&v9, &v10, &v11);
             g = Vec3DotUnrounded(&v8, &v11) > 0 ? 1 : -1;
             q->mHeadingAngle += g * 200;
@@ -319,28 +319,27 @@ void AdvanceKartAiHeading(struct KartAi *p, Vec3 *a, Vec3 *b) {
         }
     }
     if (p->mTurnAngleDegrees > 0x2000) {
-        e = ((s64) q->mVelocityLength * *data_usa_0217ae40) >> 12;
+        e = MUL_FIXED12_NO_ROUND(q->mVelocityLength, *data_usa_0217ae40);
         if (e > 0x1000) {
             e = 0x1000;
         }
         GetKartUp(q, &v6);
         d = VEC_DotProduct(&v6, a);
-        v7.x = a->x - (s32) (((s64) v6.x * d) >> 12);
-        v7.y = a->y - (s32) (((s64) v6.y * d) >> 12);
-        v7.z = a->z - (s32) (((s64) v6.z * d) >> 12);
+        v7.x = a->x - MUL_FIXED12_NO_ROUND(v6.x, d);
+        v7.y = a->y - MUL_FIXED12_NO_ROUND(v6.y, d);
+        v7.z = a->z - MUL_FIXED12_NO_ROUND(v6.z, d);
         Vec3CrossUnrounded(b, &v7, &v4);
         q->mHeadingAngle +=
             (g = Vec3DotUnrounded(&v6, &v4) > 0 ? 1 : -1) *
-            ((s32) (((s64) ((s32) (((s64) p->mTurnAngleDegrees * 0xB60B60B60BLL + 0x80000000LL) >> 32)) *
-                     (s32) (((s64) e * 0xa4) >> 12)) >>
-                    12) >>
+            (MUL_FIXED12_NO_ROUND((s32) (((s64) p->mTurnAngleDegrees * 0xB60B60B60BLL + 0x80000000LL) >> 32),
+                                        MUL_FIXED12_NO_ROUND(e, 0xa4)) >>
              12);
         r = TRUE;
     }
     if ((q->mUnk_4c & 0x8000000) && p->mTurnAngleDegrees < 0x46000 && (q->mUnk_44 & KART_44_ON_GROUND) &&
         !(q->mUnk_48 & 0x8020) && q->mVelocityLength > 0x3000 && p->mUnk_90 != 2 && p->mUnk_a8 == 0) {
         p->mUnk_c8 += 0x44c;
-        p->mUnk_ca = ((s64) gPairsByAngle[(p->mUnk_c8 >> 4) * 2] * 0xfa + 0x800) >> 12;
+        p->mUnk_ca = MUL_FIXED12_ROUNDED(gPairsByAngle[(p->mUnk_c8 >> 4) * 2], 0xfa);
         q->mHeadingAngle += (s16) p->mUnk_ca * p->mUnk_cc;
         r = TRUE;
     } else {
@@ -361,9 +360,9 @@ end:
 void QuaternionFromAxisAngle(const Vec3 *a, s32 b, Vec4 *c) {
     s32 i = (s32) ((u32) (b << 15) >> 16) >> 4;
     s32 s = gPairsByAngle[i * 2];
-    c->x = ((s64) a->x * s + 0x800) >> 12;
-    c->y = ((s64) a->y * s + 0x800) >> 12;
-    c->z = ((s64) a->z * s + 0x800) >> 12;
+    c->x = MUL_FIXED12_ROUNDED(a->x, s);
+    c->y = MUL_FIXED12_ROUNDED(a->y, s);
+    c->z = MUL_FIXED12_ROUNDED(a->z, s);
     c->w = gPairsByAngle[i * 2 + 1];
 }
 

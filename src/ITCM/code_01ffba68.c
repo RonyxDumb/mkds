@@ -205,8 +205,9 @@ static inline const s32 func_01ffc090_inline(void) {
 
 void func_01ffca50(Kart *p) {
     p->mUnk_48 &= ~(KART_48_TURN_LEFT | KART_48_TURN_RIGHT);
-    p->mRadius = ((s64) p->mRadiusFactor * (s32) (((s64) p->mPhysicalParam->mRadius * p->mUnk_394) >> 12)) >> 12;
-    p->mUnk_1d4 = ((s64) p->mPhysicalParam->mUnk_04 * p->mScale.z) >> 12;
+    p->mRadius =
+        MUL_FIXED12_NO_ROUND(p->mRadiusFactor, MUL_FIXED12_NO_ROUND(p->mPhysicalParam->mRadius, p->mUnk_394));
+    p->mUnk_1d4 = MUL_FIXED12_NO_ROUND(p->mPhysicalParam->mUnk_04, p->mScale.z);
     p->mTurnHeadingAnglePerFrameGoal = 0;
 }
 
@@ -377,7 +378,7 @@ void func_01ffc558(Kart *p) {
 }
 
 void DecayValueToZero(s32 *p) {
-    *p = ((s64) *p * 0xe6a) >> 12;
+    *p = MUL_FIXED12_NO_ROUND(*p, 0xe6a);
     if ((*p <= 0 ? -*p : *p) < 0x7b) {
         *p = 0;
     }
@@ -402,7 +403,7 @@ s32 func_01ffc27c(Kart *p, s32 a) {
     t = v > 0 ? v : -v;
     if (t < 0x2000) {
         t = v <= 0 ? -v : v;
-        x = ((x + (s16) (s32) (((s64) x * (t >> 1)) >> 12)) << 15) >> 16;
+        x = ((x + (s16) MUL_FIXED12_NO_ROUND(x, t >> 1)) << 15) >> 16;
     }
     f = p->mUnk_44;
     if ((f & 0x800) && (f & 2)) {
@@ -480,7 +481,7 @@ s32 ApplyKartTurn(Kart *p, s16 a, s16 b, s32 c, s32 d, u32 e) {
         }
     } else {
         m = data_usa_021654c0 * b;
-        x = a - (s32) (((s64) m * p->mVelocityLengthRatio) >> 12);
+        x = a - MUL_FIXED12_NO_ROUND(m, p->mVelocityLengthRatio);
     }
     if (f & KART_44_ON_GROUND) {
         p->mTurnRatio += c * 0x666;
@@ -509,9 +510,8 @@ void func_01ffc090(Kart *p, s32 a) {
     } else {
         p->mTurnHeadingAnglePerFrame =
             p->mTurnHeadingAnglePerFrame +
-            (s32) (((s64) (p->mTurnHeadingAnglePerFrameGoal - p->mTurnHeadingAnglePerFrame) * func_01ffc090_inline() +
-                    0x800) >>
-                   12);
+            MUL_FIXED12_ROUNDED(p->mTurnHeadingAnglePerFrameGoal - p->mTurnHeadingAnglePerFrame,
+                                      func_01ffc090_inline());
     }
     p->mHeadingAngle += (u16) p->mTurnHeadingAnglePerFrame;
 }
@@ -540,9 +540,9 @@ void UpdateKartSpeedLimitGoal(Kart *p) {
     s32 *q;
     u32 f;
 
-    p->mSpeedLimitGoal = ((s64) (s32) (((s64) p->mPhysicalParam->mBaseSpeedLimit * p->mSpeedLimitFactor) >> 12) *
-                          (s32) (((s64) (s32) p->mUnk_d4 * p->mUnk_d8) >> 12)) >>
-                         12;
+    p->mSpeedLimitGoal =
+        MUL_FIXED12_NO_ROUND(MUL_FIXED12_NO_ROUND(p->mPhysicalParam->mBaseSpeedLimit, p->mSpeedLimitFactor),
+                             MUL_FIXED12_NO_ROUND((s32) p->mUnk_d4, p->mUnk_d8));
     q = &p->mSpeedLimitGoal;
     if (p->mUnk_7c & 0x402000) {
         *q = p->mPhysicalParam->mBaseSpeedLimit;
@@ -558,7 +558,7 @@ void UpdateKartSpeedLimitGoal(Kart *p) {
             *q = p->mPhysicalParam->mBaseSpeedLimit;
             p->mSpeedLimitFactor = 0x1000;
         }
-        *q = ((s64) *q * 0x14cd) >> 12;
+        *q = MUL_FIXED12_NO_ROUND(*q, 0x14cd);
         if (p->mUnk_48 & 0x400001) {
             if (*q < 0x8800) {
                 *q = 0x8800;
@@ -566,7 +566,7 @@ void UpdateKartSpeedLimitGoal(Kart *p) {
             }
         }
     } else if (p->mUnk_4c & 0x10000040) {
-        *q = ((s64) p->mPhysicalParam->mBaseSpeedLimit * 0x1333) >> 12;
+        *q = MUL_FIXED12_NO_ROUND(p->mPhysicalParam->mBaseSpeedLimit, 0x1333);
         p->mSpeedLimitFactor = 0x1000;
     }
 }
@@ -575,7 +575,7 @@ void UpdateKartSpeedLimitGoal(Kart *p) {
 // it at once.
 void UpdateKartSpeedLimit(Kart *p) {
     if (p->mSpeedLimit > p->mSpeedLimitGoal) {
-        p->mSpeedLimit = ((s64) p->mSpeedLimit * 0xf37) >> 12;
+        p->mSpeedLimit = MUL_FIXED12_NO_ROUND(p->mSpeedLimit, 0xf37);
         if (p->mSpeedLimit < p->mSpeedLimitGoal) {
             p->mSpeedLimit = p->mSpeedLimitGoal;
         }
@@ -634,7 +634,7 @@ void func_01ffba68(Kart *p) {
             e = p->mForwardSpeed;
             f = p->mVelocityLengthRatio;
             if (e < 0) {
-                v = c + (s32) (((s64) -e * 0x52 + 0x800) >> 12);
+                v = c + MUL_FIXED12_ROUNDED(-e, 0x52);
             } else if (f < 0x800) {
                 v = c;
             } else if (f > b) {
@@ -642,7 +642,7 @@ void func_01ffba68(Kart *p) {
             } else {
                 e = FX_Div(c - a, b - 0x800);
                 f = f - 0x800;
-                v = c - (s32) (((s64) e * f) >> 12);
+                v = c - MUL_FIXED12_NO_ROUND(e, f);
             }
         }
     }
@@ -656,7 +656,7 @@ void func_01ffba68(Kart *p) {
         g = p->mUnk_4c;
         if (!(g & KART_4C_HEADING_SWING)) {
             if (f & 0x80) {
-                p->mForwardSpeed = ((s64) p->mForwardSpeed * 0xfae) >> 12;
+                p->mForwardSpeed = MUL_FIXED12_NO_ROUND(p->mForwardSpeed, 0xfae);
             } else if (f & 0x26) {
                 p->mForwardSpeed += v;
             } else if (!(g & 0x10000000)) {
@@ -669,7 +669,7 @@ void func_01ffba68(Kart *p) {
         p->mUnk_44 &= ~0x8000;
     }
     if (p->mHeadingAnglePerFrame != 0) {
-        p->mHeadingAnglePerFrame = (s32) (((s64) p->mHeadingAnglePerFrame * 0xe66) >> 12);
+        p->mHeadingAnglePerFrame = MUL_FIXED12_NO_ROUND(p->mHeadingAnglePerFrame, 0xe66);
         if ((p->mHeadingAnglePerFrame <= 0 ? -p->mHeadingAnglePerFrame : p->mHeadingAnglePerFrame) < 0x14) {
             p->mHeadingAnglePerFrame = 0;
         }

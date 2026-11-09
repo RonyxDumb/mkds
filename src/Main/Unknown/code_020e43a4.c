@@ -14,7 +14,8 @@ void func_020e44d8(Unk020e3ef4 *object) {
 
 void func_020e4474(Unk020e3ef4 *object) {
     object->mUnk_14c = object->mUnk_14c + object->mUnk_150;
-    object->mUnk_000.mMapObject.mAngle = object->mUnk_000.mMapObject.mAngle + (s16) (((s64) object->mUnk_14c * object->mUnk_14a) >> 12);
+    object->mUnk_000.mMapObject.mAngle =
+        object->mUnk_000.mMapObject.mAngle + (s16) MUL_FIXED12_NO_ROUND(object->mUnk_14c, object->mUnk_14a);
     if (object->mUnk_000.mMapObject.mStateMachine.mStateFrames > object->mUnk_144) {
         object->mUnk_000.mMapObject.mStateMachine.mNextState = 1;
         object->mUnk_000.mMapObject.mStateMachine.mNextStateRequested = 1;
@@ -41,7 +42,8 @@ void func_020e4428(Unk020e3ef4 *object) {
 
 void func_020e43a8(Unk020e3ef4 *object) {
     object->mUnk_14c = object->mUnk_14c - object->mUnk_150;
-    object->mUnk_000.mMapObject.mAngle = object->mUnk_000.mMapObject.mAngle + (s16) (((s64) object->mUnk_14c * object->mUnk_14a) >> 12);
+    object->mUnk_000.mMapObject.mAngle =
+        object->mUnk_000.mMapObject.mAngle + (s16) MUL_FIXED12_NO_ROUND(object->mUnk_14c, object->mUnk_14a);
     if (object->mUnk_000.mMapObject.mStateMachine.mStateFrames > object->mUnk_144) {
         object->mUnk_14a = -object->mUnk_14a;
         object->mUnk_000.mMapObject.mStateMachine.mNextState = 3;

@@ -59,11 +59,11 @@ BOOL func_020f14a0(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
             if ((s64) t.x * t.x + (s64) t.y * t.y + (s64) t.z * t.z >= 0x10) {
                 n = Vec3NormalizeAndGetLengthUnchecked(&t, &t);
             }
-            t.x = ((s64) t.x * speed) >> 12;
-            t.y = ((s64) t.y * speed) >> 12;
-            t.z = ((s64) t.z * speed) >> 12;
+            t.x = MUL_FIXED12_NO_ROUND(t.x, speed);
+            t.y = MUL_FIXED12_NO_ROUND(t.y, speed);
+            t.z = MUL_FIXED12_NO_ROUND(t.z, speed);
             if (item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x8000000) {
-                if (n < (s32) (((s64) kart->mPhysicalParam->mRadius * kart->mScale.z + 0x800) >> 12)) {
+                if (n < MUL_FIXED12_ROUNDED(kart->mPhysicalParam->mRadius, kart->mScale.z)) {
                     item->mUnk_238 = item->mUnk_238 + 1;
                     if (item->mUnk_238 > 0x5a) {
                         func_020f7070(&item->mUnk_000.mUnk_000.mUnk_000, 1);
@@ -76,17 +76,17 @@ BOOL func_020f14a0(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
             }
             VEC_Subtract(&t, &item->mUnk_22c, &t);
             if (0x64000 - n > 0) {
-                gain += (s32) (((s64) (0x64000 - n) * 16) >> 12);
+                gain += MUL_FIXED12_NO_ROUND(0x64000 - n, 16);
             }
-            t.x = ((s64) t.x * gain) >> 12;
-            t.y = ((s64) t.y * gain) >> 12;
-            t.z = ((s64) t.z * gain) >> 12;
+            t.x = MUL_FIXED12_NO_ROUND(t.x, gain);
+            t.y = MUL_FIXED12_NO_ROUND(t.y, gain);
+            t.z = MUL_FIXED12_NO_ROUND(t.z, gain);
             VEC_Add(&item->mUnk_22c, &t, &item->mUnk_22c);
             VEC_Subtract(&item->mKartItems->mKart->mVelocity, velocity, &t);
             t.y = 0;
-            t.x = ((s64) t.x * gain) >> 12;
-            t.y = ((s64) t.y * gain) >> 12;
-            t.z = ((s64) t.z * gain) >> 12;
+            t.x = MUL_FIXED12_NO_ROUND(t.x, gain);
+            t.y = MUL_FIXED12_NO_ROUND(t.y, gain);
+            t.z = MUL_FIXED12_NO_ROUND(t.z, gain);
             VEC_Add(velocity, &t, velocity);
         }
     }
@@ -100,9 +100,9 @@ BOOL func_020f14a0(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
         VEC_Add(&t, pos, pos);
         if (item->mUnk_000.mUnk_000.mUnk_000.mCollisionBits & 0x1e34ef) {
             n = VEC_DotProduct(&firstNormal, velocity);
-            velocity->x = velocity->x - (s32) (((s64) firstNormal.x * n) >> 12);
-            velocity->y = velocity->y - (s32) (((s64) firstNormal.y * n) >> 12);
-            velocity->z = velocity->z - (s32) (((s64) firstNormal.z * n) >> 12);
+            velocity->x = velocity->x - MUL_FIXED12_NO_ROUND(firstNormal.x, n);
+            velocity->y = velocity->y - MUL_FIXED12_NO_ROUND(firstNormal.y, n);
+            velocity->z = velocity->z - MUL_FIXED12_NO_ROUND(firstNormal.z, n);
             sameNormal = (firstNormal.x == item->mUnk_000.mUnk_000.mUnk_000.mNormal.x &&
                           firstNormal.y == item->mUnk_000.mUnk_000.mUnk_000.mNormal.y &&
                           firstNormal.z == item->mUnk_000.mUnk_000.mUnk_000.mNormal.z);
@@ -114,16 +114,16 @@ BOOL func_020f14a0(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
         if (item->mUnk_000.mUnk_000.mUnk_000.mCollisionBits & 0x214300) {
             if (item->mUnk_000.mUnk_000.mUnk_158 == 0 && d != 0) {
                 n = VEC_DotProduct(&secondNormal, velocity);
-                t.x = ((s64) secondNormal.x * n) >> 12;
-                t.y = ((s64) secondNormal.y * n) >> 12;
-                t.z = ((s64) secondNormal.z * n) >> 12;
+                t.x = MUL_FIXED12_NO_ROUND(secondNormal.x, n);
+                t.y = MUL_FIXED12_NO_ROUND(secondNormal.y, n);
+                t.z = MUL_FIXED12_NO_ROUND(secondNormal.z, n);
                 velocity->x = velocity->x - t.x;
                 velocity->y = velocity->y - t.y;
                 velocity->z = velocity->z - t.z;
                 VEC_Subtract(velocity, &t, velocity);
-                velocity->x = ((s64) velocity->x * 0x23d) >> 12;
-                velocity->y = ((s64) velocity->y * 0x23d) >> 12;
-                velocity->z = ((s64) velocity->z * 0x23d) >> 12;
+                velocity->x = MUL_FIXED12_NO_ROUND(velocity->x, 0x23d);
+                velocity->y = MUL_FIXED12_NO_ROUND(velocity->y, 0x23d);
+                velocity->z = MUL_FIXED12_NO_ROUND(velocity->z, 0x23d);
                 func_020f6fc4(&item->mUnk_000.mUnk_000.mUnk_000, 1);
                 return FALSE;
             }
@@ -185,7 +185,7 @@ int TrySetItemKouraRKartItems(ItemKouraR *item, int kartIndex, s32 maxDistanceSq
         Vec3DotUnrounded(&item->mUnk_000.mUnk_000.mUnk_000.mVelocity, &item->mUnk_000.mUnk_000.mUnk_000.mVelocity);
     lengthProduct = (s64) velocitySquared * offsetSquared;
     dotSquared = (s64) dot * (dot >> 12);
-    if ((s32) (dotSquared >> 12) < (s32) (((s64) (s32) (lengthProduct >> 12) * 0x400) >> 12)) {
+    if ((s32) (dotSquared >> 12) < MUL_FIXED12_NO_ROUND((s32) (lengthProduct >> 12), 0x400)) {
         return 0;
     }
     dot = Vec3DotUnrounded(&item->mUnk_000.mUnk_000.mUnk_000.mNormal, &offset);

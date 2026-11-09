@@ -27,11 +27,11 @@ void SteerItemKouraWToAnglePoint(ItemKouraW *item, s32 maxStep, s32 angle, s32 r
         item->mUnk_22c.z = -item->mUnk_22c.z;
     }
     Vec3CrossUnrounded(&item->mUnk_22c, &kart->mGroundNormal, &t);
-    s = ((s64) radius * gPairsByAngle[(angle >> 4) * 2 + 1]) >> 12;
-    item->mUnk_250.x = ((s64) t.x * s) >> 12;
-    item->mUnk_250.y = ((s64) t.y * s) >> 12;
-    item->mUnk_250.z = ((s64) t.z * s) >> 12;
-    s = ((s64) radius * gPairsByAngle[(angle >> 4) * 2]) >> 12;
+    s = MUL_FIXED12_NO_ROUND(radius, gPairsByAngle[(angle >> 4) * 2 + 1]);
+    item->mUnk_250.x = MUL_FIXED12_NO_ROUND(t.x, s);
+    item->mUnk_250.y = MUL_FIXED12_NO_ROUND(t.y, s);
+    item->mUnk_250.z = MUL_FIXED12_NO_ROUND(t.z, s);
+    s = MUL_FIXED12_NO_ROUND(radius, gPairsByAngle[(angle >> 4) * 2]);
     VEC_MultAdd(s, &item->mUnk_22c, &item->mUnk_250, &item->mUnk_250);
     VEC_MultAdd(0x1e000, &item->mUnk_22c, &item->mUnk_250, &t);
     if (func_0206c0b0(kart) == FALSE) {
@@ -39,16 +39,16 @@ void SteerItemKouraWToAnglePoint(ItemKouraW *item, s32 maxStep, s32 angle, s32 r
     }
     VEC_Add(&t, &item->mUnk_244, &t);
     VEC_Subtract(&t, pos, toTarget);
-    t.x = ((s64) toTarget->x * gain) >> 12;
-    t.y = ((s64) toTarget->y * gain) >> 12;
-    t.z = ((s64) toTarget->z * gain) >> 12;
+    t.x = MUL_FIXED12_NO_ROUND(toTarget->x, gain);
+    t.y = MUL_FIXED12_NO_ROUND(toTarget->y, gain);
+    t.z = MUL_FIXED12_NO_ROUND(toTarget->z, gain);
     if ((s64) t.x * t.x + (s64) t.y * t.y + (s64) t.z * t.z >= (s64) maxStep * maxStep) {
         if ((s64) t.x * t.x + (s64) t.y * t.y + (s64) t.z * t.z >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&t, &t);
         }
-        t.x = ((s64) t.x * maxStep) >> 12;
-        t.y = ((s64) t.y * maxStep) >> 12;
-        t.z = ((s64) t.z * maxStep) >> 12;
+        t.x = MUL_FIXED12_NO_ROUND(t.x, maxStep);
+        t.y = MUL_FIXED12_NO_ROUND(t.y, maxStep);
+        t.z = MUL_FIXED12_NO_ROUND(t.z, maxStep);
     }
     velocity->x = (velocity->x * (s32) oldWeight + t.x) >> shift;
     velocity->y = (velocity->y * (s32) oldWeight + t.y) >> shift;

@@ -74,8 +74,8 @@ void InitChoropu(Unk020e2f0c *choropu, struct CourseMapRow *courseRow) {
     choropu->mUnk_0a0 = courseRow->mUnk_2a;
     choropu->mUnk_000.mStateMachine.mNextState = 0;
     choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
-    RefreshShadowMatrix(&choropu->mUnk_0bc, &choropu->mUnk_000.mPos, ((s64) choropu->mUnk_000.mScale.x * 0x1b000) >> 12,
-                        0x1e);
+    RefreshShadowMatrix(&choropu->mUnk_0bc, &choropu->mUnk_000.mPos,
+                        MUL_FIXED12_NO_ROUND(choropu->mUnk_000.mScale.x, 0x1b000), 0x1e);
     choropu->mUnk_000.mFlags |= data_02158b7c;
 }
 
@@ -188,8 +188,8 @@ void DrawVehicle(VehicleDrawList *drawList, Unk020e1e98 *vehicle, u32 c, u32 alp
     }
     angleIndex = vehicle->mUnk_10c >> 4;
     anglePairs = gPairsByAngle;
-    x = ((s64) vehicle->mUnk_110 * anglePairs[angleIndex * 2] + 0x800) >> 12;
-    y = ((s64) vehicle->mUnk_110 * anglePairs[angleIndex * 2 + 1] + 0x800) >> 12;
+    x = MUL_FIXED12_ROUNDED(vehicle->mUnk_110, anglePairs[angleIndex * 2]);
+    y = MUL_FIXED12_ROUNDED(vehicle->mUnk_110, anglePairs[angleIndex * 2 + 1]);
     MTX_RotX43_(&tireMatrix, x, y);
     tireMatrix.mUnk_00[0].x = vehicle->mUnk_100[0];
     tireMatrix.mUnk_00[3].y = vehicle->mUnk_100[1];
@@ -255,9 +255,8 @@ void UpdateVehicle(u32 a, Unk020e1e98 *vehicle) {
                 if (vehicle->mUnk_0fe != 0 && vehicle->mUnk_000.mUnk_10.y < 0) {
                     if (vehicle->mUnk_000.mFlags & 1) {
                         vehicle->mUnk_000.mFlags &= ~1;
-                        vehicle->mUnk_000.mUnk_10.y = -(s32) (((s64) vehicle->mUnk_000.mUnk_10.y *
-                                                               (0x733 + ((vehicle->mUnk_114.y - 0x14000) >> 9))) >>
-                                                              12);
+                        vehicle->mUnk_000.mUnk_10.y = -MUL_FIXED12_NO_ROUND(
+                            vehicle->mUnk_000.mUnk_10.y, 0x733 + ((vehicle->mUnk_114.y - 0x14000) >> 9));
                         vehicle->mUnk_0c4.mComponents[0] = -vehicle->mUnk_0c4.mComponents[0];
                         vehicle->mUnk_0c4.mComponents[1] = -vehicle->mUnk_0c4.mComponents[1];
                         vehicle->mUnk_0c4.mComponents[2] = -vehicle->mUnk_0c4.mComponents[2];
@@ -281,7 +280,7 @@ void UpdateVehicle(u32 a, Unk020e1e98 *vehicle) {
     switch (isInHitReaction) {
         default:
             if (vehicle->mUnk_000.mUnk_10.y < 0) {
-                vehicle->mUnk_152 = ((s64) (-vehicle->mUnk_000.mUnk_10.y) * 0xc) >> 12;
+                vehicle->mUnk_152 = MUL_FIXED12_NO_ROUND(-vehicle->mUnk_000.mUnk_10.y, 0xc);
                 baseRotation = &vehicle->mUnk_0b4;
             } else {
                 baseRotation = &vehicle->mUnk_0c4;
@@ -511,10 +510,10 @@ void InitVehicle(Unk020e1e98 *vehicle, struct CourseMapRow *courseRow, Unk020e1e
     vehicle->mUnk_0fc = courseRow->mUnk_2a;
     vehicle->mUnk_130 = courseRow->mUnk_2c;
     vehicle->mUnk_0a0 = GetCourseMapGroupEntry(courseRow->mUnk_26, vehicle->mUnk_0fc)->mPos.y;
-    vehicle->mUnk_114.x = ((s64) kindInfo->mUnk_00 * vehicle->mUnk_000.mScale.x) >> 12;
-    vehicle->mUnk_114.y = ((s64) kindInfo->mUnk_04 * vehicle->mUnk_000.mScale.y) >> 12;
-    vehicle->mUnk_114.z = ((s64) kindInfo->mUnk_08 * vehicle->mUnk_000.mScale.z) >> 12;
-    vehicle->mUnk_120 = ((s64) kindInfo->mUnk_0c * vehicle->mUnk_000.mScale.z) >> 12;
+    vehicle->mUnk_114.x = MUL_FIXED12_NO_ROUND(kindInfo->mUnk_00, vehicle->mUnk_000.mScale.x);
+    vehicle->mUnk_114.y = MUL_FIXED12_NO_ROUND(kindInfo->mUnk_04, vehicle->mUnk_000.mScale.y);
+    vehicle->mUnk_114.z = MUL_FIXED12_NO_ROUND(kindInfo->mUnk_08, vehicle->mUnk_000.mScale.z);
+    vehicle->mUnk_120 = MUL_FIXED12_NO_ROUND(kindInfo->mUnk_0c, vehicle->mUnk_000.mScale.z);
     vehicle->mUnk_152 = (u32) ((s16) courseRow->mUnk_28 * 0xfa) / 100;
     vehicle->mUnk_150 = vehicle->mUnk_152;
     vehicle->mUnk_100[0] = kindInfo->mUnk_10;
@@ -622,9 +621,9 @@ void AddCollisionHitOneAxis(s32 sphereRadius, s32 signedDepth, s32 depth, u32 re
     u.x = normal->x << 10;
     u.y = normal->y << 10;
     u.z = normal->z << 10;
-    u.x = ((s64) u.x * signedDepth) >> 12;
-    u.y = ((s64) u.y * signedDepth) >> 12;
-    u.z = ((s64) u.z * signedDepth) >> 12;
+    u.x = MUL_FIXED12_NO_ROUND(u.x, signedDepth);
+    u.y = MUL_FIXED12_NO_ROUND(u.y, signedDepth);
+    u.z = MUL_FIXED12_NO_ROUND(u.z, signedDepth);
     if (normalAboveThreshold) {
         hitFlags = object->mCollisionData.mUnk_114.z != 0 && (regionFlags & 8) ? 0x12 : 0;
         *outFlags = hitFlags;
@@ -662,15 +661,15 @@ void AddCollisionHitOneAxis(s32 sphereRadius, s32 signedDepth, s32 depth, u32 re
         if (regionFlags & positiveSideBit) {
             s32 axisFlag = -(sphereRadius - depth);
 
-            u.x = ((s64) normal->x * axisFlag) >> 12;
-            u.y = ((s64) normal->y * axisFlag) >> 12;
-            u.z = ((s64) normal->z * axisFlag) >> 12;
+            u.x = MUL_FIXED12_NO_ROUND(normal->x, axisFlag);
+            u.y = MUL_FIXED12_NO_ROUND(normal->y, axisFlag);
+            u.z = MUL_FIXED12_NO_ROUND(normal->z, axisFlag);
         } else {
             s32 negatedGap = sphereRadius - depth;
 
-            u.x = ((s64) normal->x * negatedGap) >> 12;
-            u.y = ((s64) normal->y * negatedGap) >> 12;
-            u.z = ((s64) normal->z * negatedGap) >> 12;
+            u.x = MUL_FIXED12_NO_ROUND(normal->x, negatedGap);
+            u.y = MUL_FIXED12_NO_ROUND(normal->y, negatedGap);
+            u.z = MUL_FIXED12_NO_ROUND(normal->z, negatedGap);
         }
         if (u.y < lowestOffset->y) {
             *lowestOffset = u;
@@ -722,12 +721,12 @@ BOOL AddCollisionHitTwoAxes(s32 sphereRadius, s32 firstOffset, s32 c, u32 region
             normalAboveThreshold = TRUE;
         }
     }
-    y.x = ((s64) firstNormal->x * firstOffset) >> 12;
-    y.y = ((s64) firstNormal->y * firstOffset) >> 12;
-    y.z = ((s64) firstNormal->z * firstOffset) >> 12;
-    z.x = ((s64) secondNormal->x * c) >> 12;
-    z.y = ((s64) secondNormal->y * c) >> 12;
-    z.z = ((s64) secondNormal->z * c) >> 12;
+    y.x = MUL_FIXED12_NO_ROUND(firstNormal->x, firstOffset);
+    y.y = MUL_FIXED12_NO_ROUND(firstNormal->y, firstOffset);
+    y.z = MUL_FIXED12_NO_ROUND(firstNormal->z, firstOffset);
+    z.x = MUL_FIXED12_NO_ROUND(secondNormal->x, c);
+    z.y = MUL_FIXED12_NO_ROUND(secondNormal->y, c);
+    z.z = MUL_FIXED12_NO_ROUND(secondNormal->z, c);
     VEC_Add(&y, &z, &y);
     y.x <<= 10;
     y.y <<= 10;
@@ -737,9 +736,9 @@ BOOL AddCollisionHitTwoAxes(s32 sphereRadius, s32 firstOffset, s32 c, u32 region
         return FALSE;
     }
     if (t != 0) {
-        z.x = ((s64) tmp.x * sphereRadius) >> 12;
-        z.y = ((s64) tmp.y * sphereRadius) >> 12;
-        z.z = ((s64) tmp.z * sphereRadius) >> 12;
+        z.x = MUL_FIXED12_NO_ROUND(tmp.x, sphereRadius);
+        z.y = MUL_FIXED12_NO_ROUND(tmp.y, sphereRadius);
+        z.z = MUL_FIXED12_NO_ROUND(tmp.z, sphereRadius);
         y.x >>= 10;
         y.y >>= 10;
         y.z >>= 10;
@@ -747,9 +746,9 @@ BOOL AddCollisionHitTwoAxes(s32 sphereRadius, s32 firstOffset, s32 c, u32 region
         c = VEC_Mag(&z);
     } else {
         tmp = *secondNormal;
-        z.x = ((s64) tmp.x * sphereRadius) >> 12;
-        z.y = ((s64) tmp.y * sphereRadius) >> 12;
-        z.z = ((s64) tmp.z * sphereRadius) >> 12;
+        z.x = MUL_FIXED12_NO_ROUND(tmp.x, sphereRadius);
+        z.y = MUL_FIXED12_NO_ROUND(tmp.y, sphereRadius);
+        z.z = MUL_FIXED12_NO_ROUND(tmp.z, sphereRadius);
         c = sphereRadius;
     }
     if (normalAboveThreshold) {
@@ -1073,16 +1072,16 @@ rest:
     } else {
         f4 = f4 + object->mCollisionData.mNegativeHalfSizeZ;
     }
-    v.x = ((s64) object->mMapObject.mMatrix.mUnk_00[0].x * f6) >> 12;
-    v.y = ((s64) object->mMapObject.mMatrix.mUnk_00[0].y * f6) >> 12;
-    v.z = ((s64) object->mMapObject.mMatrix.mUnk_00[0].z * f6) >> 12;
-    w.x = ((s64) object->mMapObject.mMatrix.mUnk_00[1].x * f5) >> 12;
-    w.y = ((s64) object->mMapObject.mMatrix.mUnk_00[1].y * f5) >> 12;
-    w.z = ((s64) object->mMapObject.mMatrix.mUnk_00[1].z * f5) >> 12;
+    v.x = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mUnk_00[0].x, f6);
+    v.y = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mUnk_00[0].y, f6);
+    v.z = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mUnk_00[0].z, f6);
+    w.x = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mUnk_00[1].x, f5);
+    w.y = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mUnk_00[1].y, f5);
+    w.z = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mUnk_00[1].z, f5);
     VEC_Add(&w, &v, &v);
-    w.x = ((s64) object->mMapObject.mMatrix.mUnk_00[2].x * f4) >> 12;
-    w.y = ((s64) object->mMapObject.mMatrix.mUnk_00[2].y * f4) >> 12;
-    w.z = ((s64) object->mMapObject.mMatrix.mUnk_00[2].z * f4) >> 12;
+    w.x = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mUnk_00[2].x, f4);
+    w.y = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mUnk_00[2].y, f4);
+    w.z = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mUnk_00[2].z, f4);
     VEC_Add(&w, &v, &v);
     v.x <<= 10;
     v.y <<= 10;
@@ -1092,9 +1091,9 @@ rest:
         return FALSE;
     }
     if (t != 0) {
-        tmp.x = ((s64) w.x * sphereRadius) >> 12;
-        tmp.y = ((s64) w.y * sphereRadius) >> 12;
-        tmp.z = ((s64) w.z * sphereRadius) >> 12;
+        tmp.x = MUL_FIXED12_NO_ROUND(w.x, sphereRadius);
+        tmp.y = MUL_FIXED12_NO_ROUND(w.y, sphereRadius);
+        tmp.z = MUL_FIXED12_NO_ROUND(w.z, sphereRadius);
         v.x >>= 10;
         v.y >>= 10;
         v.z >>= 10;
@@ -1102,9 +1101,9 @@ rest:
         sphereRadius = VEC_Mag(&tmp);
     } else {
         w = object->mMapObject.mMatrix.mUnk_00[1];
-        tmp.x = ((s64) w.x * sphereRadius) >> 12;
-        tmp.y = ((s64) w.y * sphereRadius) >> 12;
-        tmp.z = ((s64) w.z * sphereRadius) >> 12;
+        tmp.x = MUL_FIXED12_NO_ROUND(w.x, sphereRadius);
+        tmp.y = MUL_FIXED12_NO_ROUND(w.y, sphereRadius);
+        tmp.z = MUL_FIXED12_NO_ROUND(w.z, sphereRadius);
     }
     if (normalAboveThreshold) {
         if (object->mCollisionData.mUnk_114.z != 0 && (regionFlags & 0x8)) {
@@ -1224,9 +1223,9 @@ BOOL ComputeSphereHitOnCollisionCylinder(Unk020e1d10 *object, Vec3 *sphereCenter
         if (x == 0) {
             w = data_021588f0;
         } else {
-            w.x = ((s64) object->mMapObject.mMatrix.mUnk_00[0].x * v.x) >> 12;
-            w.y = ((s64) object->mMapObject.mMatrix.mUnk_00[0].y * v.x) >> 12;
-            w.z = ((s64) object->mMapObject.mMatrix.mUnk_00[0].z * v.x) >> 12;
+            w.x = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mUnk_00[0].x, v.x);
+            w.y = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mUnk_00[0].y, v.x);
+            w.z = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mUnk_00[0].z, v.x);
             VEC_MultAdd(v.z, &object->mMapObject.mMatrix.mUnk_00[2], &w, &w);
         }
         goto cmp;
@@ -1239,9 +1238,9 @@ BOOL ComputeSphereHitOnCollisionCylinder(Unk020e1d10 *object, Vec3 *sphereCenter
     if (x == 0) {
         w = data_021588fc;
     } else {
-        w.x = ((s64) object->mMapObject.mMatrix.mUnk_00[0].x * v.x) >> 12;
-        w.y = ((s64) object->mMapObject.mMatrix.mUnk_00[0].y * v.x) >> 12;
-        w.z = ((s64) object->mMapObject.mMatrix.mUnk_00[0].z * v.x) >> 12;
+        w.x = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mUnk_00[0].x, v.x);
+        w.y = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mUnk_00[0].y, v.x);
+        w.z = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mUnk_00[0].z, v.x);
         VEC_MultAdd(v.z, &object->mMapObject.mMatrix.mUnk_00[2], &w, &w);
     }
     if (regionFlags & 0x10) {

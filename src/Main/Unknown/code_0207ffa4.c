@@ -526,7 +526,7 @@ s32 GetBattlePointLinkSpeedLimit(LinkCursor *linkCursor) {
     s16 unscaledSpeedLimit = *linkCursor->mLink->mUnk_28;
 
     if (unscaledSpeedLimit != 0) {
-        result = ((s64) unscaledSpeedLimit * 0x28f5c) >> 12;
+        result = MUL_FIXED12_NO_ROUND(unscaledSpeedLimit, 0x28f5c);
     }
     return result;
 }

@@ -119,10 +119,10 @@ void AdvanceKartScaleFactor(Kart *kart) {
     kart->mScaleFactor.x = gKartScaleFactorXTable[frameIndex];
     kart->mScaleFactor.y = gKartScaleFactorYTable[frameIndex];
     kart->mScaleFactor.z = gKartScaleFactorZTable[frameIndex];
-    kart->mScale.x = ((s64) kart->mScaleBase.x * kart->mScaleFactor.x) >> 12;
-    kart->mScale.y = ((s64) kart->mScaleBase.y * kart->mScaleFactor.y) >> 12;
-    kart->mScale.z = ((s64) kart->mScaleBase.z * kart->mScaleFactor.z) >> 12;
-    kart->mScale.y = ((s64) kart->mScaleYFactor * kart->mScale.y) >> 12;
+    kart->mScale.x = MUL_FIXED12_NO_ROUND(kart->mScaleBase.x, kart->mScaleFactor.x);
+    kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleBase.y, kart->mScaleFactor.y);
+    kart->mScale.z = MUL_FIXED12_NO_ROUND(kart->mScaleBase.z, kart->mScaleFactor.z);
+    kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleYFactor, kart->mScale.y);
 }
 
 void ResetKartToRespawnPoint(Kart *kart) {
@@ -165,19 +165,19 @@ void ResetKartToRespawnPoint(Kart *kart) {
         x = data_usa_02154d4c[kart->mIndex][0];
         forwardOffset = data_usa_02154d50[kart->mIndex][0];
         Vec3CrossUnrounded(&data_02154f7c, &respawnForward, &sideDirection);
-        VEC_MultAdd(((s64) data_usa_02165504 * x) >> 12, &sideDirection, &respawnPos, &respawnPos);
-        VEC_MultAdd(((s64) data_usa_02165504 * forwardOffset) >> 12, &respawnForward, &respawnPos, &respawnPos);
+        VEC_MultAdd(MUL_FIXED12_NO_ROUND(data_usa_02165504, x), &sideDirection, &respawnPos, &respawnPos);
+        VEC_MultAdd(MUL_FIXED12_NO_ROUND(data_usa_02165504, forwardOffset), &respawnForward, &respawnPos, &respawnPos);
         if (respawnAngles.x != 0 && forwardOffset != 0) {
             i = ((u16) ((s32) (((s64) respawnAngles.x * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12)) >> 4;
             l = gPairsByAngle[i * 2];
             i = (l * -forwardOffset + 0x800) >> 12;
-            respawnPos.y += (s32) (((s64) i * data_usa_02165504 + 0x800) >> 12);
+            respawnPos.y += MUL_FIXED12_ROUNDED(i, data_usa_02165504);
         }
         if (respawnAngles.z != 0 && x != 0) {
             i = ((u16) ((s32) (((s64) respawnAngles.z * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12)) >> 4;
             l = gPairsByAngle[i * 2];
             i = (l * x + 0x800) >> 12;
-            respawnPos.y += (s32) (((s64) i * data_usa_02165504 + 0x800) >> 12);
+            respawnPos.y += MUL_FIXED12_ROUNDED(i, data_usa_02165504);
         }
     }
     respawnPos.y += 0x28000;
@@ -209,12 +209,12 @@ s32 AdvanceKartRespawnWait(Kart *kart, s32 *a) {
     finished = FALSE;
     if (flags & 0x4000000) {
         if (kart->mUnk_4bc > 0x19a) {
-            kart->mUnk_4bc = ((s64) kart->mUnk_4bc * 0xe66LL) >> 12;
+            kart->mUnk_4bc = MUL_FIXED12_NO_ROUND(kart->mUnk_4bc, 0xe66LL);
         }
         *a = kart->mUnk_4bc;
     } else if (flags & 0x200000) {
         if (kart->mUnk_4bc > 0x666) {
-            kart->mUnk_4bc = ((s64) kart->mUnk_4bc * 0xe66LL) >> 12;
+            kart->mUnk_4bc = MUL_FIXED12_NO_ROUND(kart->mUnk_4bc, 0xe66LL);
         }
         *a = kart->mUnk_4bc;
     }
@@ -255,7 +255,7 @@ void ResetKartAndSetPos(Kart *kart, const Vec3 *position, const Vec3 *forward, P
         recordState->mUnk_b4 = 0;
     }
     if (forward != NULL) {
-        kart->mHeadingAngle = (s32) (((s64) FX_Atan2(forward->x, forward->z) * 0x28be60dLL) >> 12) >> 12;
+        kart->mHeadingAngle = MUL_FIXED12_NO_ROUND(FX_Atan2(forward->x, forward->z), 0x28be60dLL) >> 12;
         axis = data_02165524;
         QuaternionFromAxisAngle(&axis, kart->mHeadingAngle, &kart->mUnk_e0_m);
     }
@@ -402,7 +402,7 @@ void InitKartPhysicalParams(Kart *kart) {
                 break;
         }
     }
-    kart->mPhysicalParam->mBaseSpeedLimit = ((s64) kart->mPhysicalParam->mBaseSpeedLimit * a) >> 12;
+    kart->mPhysicalParam->mBaseSpeedLimit = MUL_FIXED12_NO_ROUND(kart->mPhysicalParam->mBaseSpeedLimit, a);
     kart->mPhysicalParam->mUnk_32 = kart->mPhysicalParam->mUnk_32 + b;
     kart->mSpeedLimitFactorPerDepth = 0x1000 - kart->mPhysicalParam->mSurfaceSpeedLimitFactors[4];
     kart->mSpeedLimitFactorPerDepth = FX_Div(kart->mSpeedLimitFactorPerDepth, kart->mPhysicalParam->mRadius << 1);
@@ -412,7 +412,7 @@ void InitKartPhysicalParams(Kart *kart) {
     for (i = 0; i < 12; i++) {
         a = physicalParam->mSurfaceSpeedLimitFactors[i];
         if (a < 0x1000) {
-            physicalParam->mSurfaceSpeedLimitFactors[i] = ((s64) a * *charPhysicalParam + 0x800) >> 12;
+            physicalParam->mSurfaceSpeedLimitFactors[i] = MUL_FIXED12_ROUNDED(a, *charPhysicalParam);
         }
     }
 }
@@ -978,33 +978,33 @@ void func_02071568(Kart *kart) {
     }
     kart->mUnk_4f0.x =
         data_02154b64[tableIndex] +
-        (s32) (((s64) ((data_02154b64[nextTableIndex] - data_02154b64[tableIndex]) >> 1) * fraction) >> 12);
+        MUL_FIXED12_NO_ROUND((data_02154b64[nextTableIndex] - data_02154b64[tableIndex]) >> 1, fraction);
     kart->mUnk_4f0.y =
         data_02154b84[tableIndex] +
-        (s32) (((s64) ((data_02154b84[nextTableIndex] - data_02154b84[tableIndex]) >> 1) * fraction) >> 12);
+        MUL_FIXED12_NO_ROUND((data_02154b84[nextTableIndex] - data_02154b84[tableIndex]) >> 1, fraction);
     kart->mUnk_4f0.z =
         data_02154ba4[tableIndex] +
-        (s32) (((s64) ((data_02154ba4[nextTableIndex] - data_02154ba4[tableIndex]) >> 1) * fraction) >> 12);
+        MUL_FIXED12_NO_ROUND((data_02154ba4[nextTableIndex] - data_02154ba4[tableIndex]) >> 1, fraction);
     v = kart->mUnk_4d4;
-    s = ((s64) v * 0x333) >> 12;
+    s = MUL_FIXED12_NO_ROUND(v, 0x333);
     if (v > 0xf33) {
-        t = ((s64) ((v - 0xf33) * 0x32) * 0x19a) >> 12;
+        t = MUL_FIXED12_NO_ROUND((v - 0xf33) * 0x32, 0x19a);
         if (t > 0x19a) {
             t = 0x19a;
         }
         t = t + 0x333;
-        s = ((s64) v * t) >> 12;
+        s = MUL_FIXED12_NO_ROUND(v, t);
     } else if (v > 0xd9a) {
-        t = ((s64) ((v - 0xd9a) * 0x32) * 0x52) >> 12;
+        t = MUL_FIXED12_NO_ROUND((v - 0xd9a) * 0x32, 0x52);
         if (t > 0x52) {
             t = 0x52;
         }
         t = t + 0x333;
-        s = ((s64) v * t) >> 12;
+        s = MUL_FIXED12_NO_ROUND(v, t);
     }
-    kart->mUnk_4f0.x = kart->mUnk_4f0.x + (s32) (((s64) kart->mUnk_4f0.x * s) >> 12);
-    kart->mUnk_4f0.y = kart->mUnk_4f0.y + (s32) (((s64) kart->mUnk_4f0.y * s) >> 12);
-    kart->mUnk_4f0.z = kart->mUnk_4f0.z + (s32) (((s64) kart->mUnk_4f0.z * s) >> 12);
+    kart->mUnk_4f0.x = kart->mUnk_4f0.x + MUL_FIXED12_NO_ROUND(kart->mUnk_4f0.x, s);
+    kart->mUnk_4f0.y = kart->mUnk_4f0.y + MUL_FIXED12_NO_ROUND(kart->mUnk_4f0.y, s);
+    kart->mUnk_4f0.z = kart->mUnk_4f0.z + MUL_FIXED12_NO_ROUND(kart->mUnk_4f0.z, s);
 }
 
 void AdvanceKartHeadingSwing(Kart *kart) {
@@ -1037,7 +1037,7 @@ void AdvanceKartHeadingSwing(Kart *kart) {
             kart->mHeadingAngleOffsetPerFrame = -0xd2;
         }
         kart->mHeadingAngleOffset = kart->mHeadingAngleOffset + kart->mHeadingAngleOffsetPerFrame;
-        kart->mUnk_4d4 = ((s64) kart->mUnk_4d4 * 0xf5c) >> 12;
+        kart->mUnk_4d4 = MUL_FIXED12_NO_ROUND(kart->mUnk_4d4, 0xf5c);
         offset = kart->mHeadingAngleOffset;
         if ((offset > 0 && kart->mHeadingAngleOffsetDirection > 0) ||
             (offset < 0 && kart->mHeadingAngleOffsetDirection < 0)) {
@@ -1312,7 +1312,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
         kart->mUnk_48 &= ~0x10000;
         AdvanceKartQuaternionBlendFactor(kart, &kart->mGroundNormal);
         kart->mUnk_48 &= ~0x40000;
-        kart->mUnk_3e8 = (s16) ((s32) (((s64) placementAngles.x * 0x4000) >> 12) >> 12) + 0x32;
+        kart->mUnk_3e8 = (s16) (MUL_FIXED12_NO_ROUND(placementAngles.x, 0x4000) >> 12) + 0x32;
         if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceSetup->mCourseId == COURSE_ID_AIRSHIP) {
             NNS_SndPlayerStopSeq(GetSndHandleSlot(7), 0x14);
         }
@@ -1324,7 +1324,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
         flatForward.y = 0;
         kart->mQuaternionBlendFactor = 0x1000;
         func_020708a4_inline(&flatForward, &flatForward);
-        kart->mHeadingAngle = (s32) (((s64) FX_Atan2(flatForward.x, flatForward.z) * 0x28be60d) >> 12) >> 12;
+        kart->mHeadingAngle = MUL_FIXED12_NO_ROUND(FX_Atan2(flatForward.x, flatForward.z), 0x28be60d) >> 12;
         axis = data_02165524;
         QuaternionFromAxisAngle(&axis, kart->mHeadingAngle, &kart->mUnk_e0_m);
         Vec3CrossUnrounded(&data_02154f7c, &kart->mTurnedForward, &sideVector);
@@ -1344,12 +1344,12 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
 
     kart->mForwardSpeed = 0x1e000;
     t = kart->mForwardSpeed;
-    m2.mUnk_00[3].x = ((s64) kart->mTurnedForward.x * t) >> 12;
-    m2.mUnk_00[3].y = ((s64) kart->mTurnedForward.y * t) >> 12;
-    m2.mUnk_00[3].z = ((s64) kart->mTurnedForward.z * t) >> 12;
+    m2.mUnk_00[3].x = MUL_FIXED12_NO_ROUND(kart->mTurnedForward.x, t);
+    m2.mUnk_00[3].y = MUL_FIXED12_NO_ROUND(kart->mTurnedForward.y, t);
+    m2.mUnk_00[3].z = MUL_FIXED12_NO_ROUND(kart->mTurnedForward.z, t);
     kart->mEasedTurnedForward = kart->mTurnedForward;
     if (distance < 0x3e8000) {
-        t = (s32) (((s64) distance * 0x29) >> 12) + 0x14000;
+        t = MUL_FIXED12_NO_ROUND(distance, 0x29) + 0x14000;
         if (kart->mForwardSpeed > t) {
             kart->mForwardSpeed = t;
         }
@@ -1391,7 +1391,8 @@ void PlaceKartAtKeyedPlacement(Kart *kart, u32 key) {
     kart->mForwardSpeed = 0x5000;
     kart->mTurnedForward = placementForward;
     kart->mEasedTurnedForward = kart->mTurnedForward;
-    kart->mHeadingAngle = (s32) (((s64) FX_Atan2(placementForward.x, placementForward.z) * 0x28be60dLL) >> 12) >> 12;
+    kart->mHeadingAngle =
+        MUL_FIXED12_NO_ROUND(FX_Atan2(placementForward.x, placementForward.z), 0x28be60dLL) >> 12;
     axis = data_02165524;
     QuaternionFromAxisAngle(&axis, kart->mHeadingAngle, &kart->mUnk_e0_m);
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {

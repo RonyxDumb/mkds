@@ -154,9 +154,9 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *c, int ra
             if ((queryFlags & 0x10) && (triangleFlags & 0xa000)) {
                 continue;
             }
-            offset.y = -(s32) (((s64) d0 * triangleNormals[0].y) >> 12);
-            offset.x = -(s32) (((s64) d0 * triangleNormals[0].x) >> 12);
-            offset.z = -(s32) (((s64) d0 * triangleNormals[0].z) >> 12);
+            offset.y = -MUL_FIXED12_NO_ROUND(d0, triangleNormals[0].y);
+            offset.x = -MUL_FIXED12_NO_ROUND(d0, triangleNormals[0].x);
+            offset.z = -MUL_FIXED12_NO_ROUND(d0, triangleNormals[0].z);
             v = 1;
             if (d1 > d2) {
                 if (d1 > d3) {
@@ -189,14 +189,14 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *c, int ra
             }
             if (d2 > d3) {
                 dot = Vec3DotUnrounded(&triangleNormals[1], &triangleNormals[2]);
-                if ((s32) (((s64) dot * d1) >> 12) > d2) {
+                if (MUL_FIXED12_NO_ROUND(dot, d1) > d2) {
                     goto ld;
                 } else {
                     goto lg;
                 }
             } else {
                 dot = Vec3DotUnrounded(&triangleNormals[1], &triangleNormals[3]);
-                if ((s32) (((s64) dot * d1) >> 12) > d3) {
+                if (MUL_FIXED12_NO_ROUND(dot, d1) > d3) {
                     goto ld;
                 } else {
                     goto li;
@@ -220,14 +220,14 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *c, int ra
             }
             if (d3 > d1) {
                 dot = Vec3DotUnrounded(&triangleNormals[2], &triangleNormals[3]);
-                if ((s32) (((s64) dot * d2) >> 12) > d3) {
+                if (MUL_FIXED12_NO_ROUND(dot, d2) > d3) {
                     goto le;
                 } else {
                     goto lh;
                 }
             } else {
                 dot = Vec3DotUnrounded(&triangleNormals[2], &triangleNormals[1]);
-                if ((s32) (((s64) dot * d2) >> 12) > d1) {
+                if (MUL_FIXED12_NO_ROUND(dot, d2) > d1) {
                     goto le;
                 } else {
                     goto lg;
@@ -251,14 +251,14 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *c, int ra
             }
             if (d1 > d2) {
                 dot = Vec3DotUnrounded(&triangleNormals[3], &triangleNormals[1]);
-                if ((s32) (((s64) dot * d3) >> 12) > d1) {
+                if (MUL_FIXED12_NO_ROUND(dot, d3) > d1) {
                     goto lf;
                 } else {
                     goto li;
                 }
             } else {
                 dot = Vec3DotUnrounded(&triangleNormals[3], &triangleNormals[2]);
-                if ((s32) (((s64) dot * d3) >> 12) > d2) {
+                if (MUL_FIXED12_NO_ROUND(dot, d3) > d2) {
                     goto lf;
                 } else {
                     goto lh;
@@ -605,18 +605,18 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *c, int ra
             cc.z = cc.z + cd.z;
             qq = (s64) cc.x * secondNormal->z - (s64) cc.z * secondNormal->x;
             if (qq < -16 || qq > 16) {
-                cd.x = ((s64) cc.x * (c)->x) >> 12;
-                cd.z = ((s64) cc.z * (c)->z) >> 12;
-                cc.x = cc.x - (s32) (((s64) cd.x * (c)->x) >> 12);
-                cc.z = cc.z - (s32) (((s64) cd.z * (c)->z) >> 12);
+                cd.x = MUL_FIXED12_NO_ROUND(cc.x, (c)->x);
+                cd.z = MUL_FIXED12_NO_ROUND(cc.z, (c)->z);
+                cc.x = cc.x - MUL_FIXED12_NO_ROUND(cd.x, (c)->x);
+                cc.z = cc.z - MUL_FIXED12_NO_ROUND(cd.z, (c)->z);
                 VEC_Add(&firstHitRecord.mMaxOffset, &firstHitRecord.mMinOffset, &ua);
                 if (Vec3DotUnrounded(&cc, &ua) >= 0) {
                     if ((s64) cc.x * cc.x + (s64) cc.y * cc.y + (s64) cc.z * cc.z >= 16) {
                         Vec3NormalizeAndGetLengthUnchecked(&cc, &cc);
                     }
-                    cc.x = ((s64) cc.x * (radius >> 5)) >> 12;
-                    cc.y = ((s64) cc.y * (radius >> 5)) >> 12;
-                    cc.z = ((s64) cc.z * (radius >> 5)) >> 12;
+                    cc.x = MUL_FIXED12_NO_ROUND(cc.x, radius >> 5);
+                    cc.y = MUL_FIXED12_NO_ROUND(cc.y, radius >> 5);
+                    cc.z = MUL_FIXED12_NO_ROUND(cc.z, radius >> 5);
                     pointMotion->x += cc.x;
                     pointMotion->z += cc.z;
                 }

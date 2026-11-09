@@ -207,8 +207,8 @@ void TakeHeldItemObjects(HeldItem *rec) {
         radius = 0x1800;
     }
     count = rec->mObjectCount;
-    va = ((s64) radius * gPairsByAngle[angle * 2]) >> 12;
-    vb = ((s64) radius * gPairsByAngle[angle * 2 + 1]) >> 12;
+    va = MUL_FIXED12_NO_ROUND(radius, gPairsByAngle[angle * 2]);
+    vb = MUL_FIXED12_NO_ROUND(radius, gPairsByAngle[angle * 2 + 1]);
     TakeItemPoolObjects(&gItemPools[poolIndex], count, rec->mObjects, owner->mIndex, &owner->mDrawMatrixPos);
     i = 0;
     if (i < count) {
@@ -216,15 +216,15 @@ void TakeHeldItemObjects(HeldItem *rec) {
         do {
             rowX = row->mUnk_00[i].mUnk_00;
             rowY = row->mUnk_00[i].mUnk_04;
-            w1 = ((s64) rowX * (0x1000 + (s32) TakeHeldItemObjects_inline(generator, 0x333))) >> 12;
-            w2 = ((s64) rowY * (0x1000 + (s32) TakeHeldItemObjects_inline(generator, 0x333))) >> 12;
-            d = (s32) (((s64) w1 * vb) >> 12) - (s32) (((s64) w2 * va) >> 12);
+            w1 = MUL_FIXED12_NO_ROUND(rowX, 0x1000 + (s32) TakeHeldItemObjects_inline(generator, 0x333));
+            w2 = MUL_FIXED12_NO_ROUND(rowY, 0x1000 + (s32) TakeHeldItemObjects_inline(generator, 0x333));
+            d = MUL_FIXED12_NO_ROUND(w1, vb) - MUL_FIXED12_NO_ROUND(w2, va);
             object = rec->mObjects[i];
-            object->mVelocity.x = ((s64) dir->x * d) >> 12;
-            object->mVelocity.y = ((s64) dir->y * d) >> 12;
-            object->mVelocity.z = ((s64) dir->z * d) >> 12;
-            VEC_MultAdd((s32) (((s64) w2 * vb) >> 12) + (s32) (((s64) d * va) >> 12), axis, &object->mVelocity,
-                        &object->mVelocity);
+            object->mVelocity.x = MUL_FIXED12_NO_ROUND(dir->x, d);
+            object->mVelocity.y = MUL_FIXED12_NO_ROUND(dir->y, d);
+            object->mVelocity.z = MUL_FIXED12_NO_ROUND(dir->z, d);
+            VEC_MultAdd(MUL_FIXED12_NO_ROUND(w2, vb) + MUL_FIXED12_NO_ROUND(d, va), axis,
+                        &object->mVelocity, &object->mVelocity);
             object->mScale.x = 0xcd;
             object->mScale.y = 0xcd;
             object->mScale.z = 0xcd;
@@ -692,7 +692,7 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
 
     n = Vec3DotUnrounded(&itemInUse->mKartMovement, &itemInUse->mKartOrientation.mUnk_00[2]);
     m = (itemInUse->mKart->mUnk_48 & 1) != 0;
-    n = ((s64) n * 0x1ec) >> 12;
+    n = MUL_FIXED12_NO_ROUND(n, 0x1ec);
     if (n < 0x666) {
         n = 0x666;
     }
@@ -703,24 +703,24 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
     }
     if (throwForward != 0) {
         if (itemInUse->mKartHopHeight > 0) {
-            n += (s32) (((s64) itemInUse->mKartHopHeight * 0x14cd) >> 12);
+            n += MUL_FIXED12_NO_ROUND(itemInUse->mKartHopHeight, 0x14cd);
         }
     }
     if (itemInUse->mKartVelocityLength < 0x3000) {
         v.z += ThrowBouncingItem_inline(&gRaceProgress->mRandom, 0xf6) - 0x7b;
         v.x += ThrowBouncingItem_inline(&gRaceProgress->mRandom, 0xf6) - 0x7b;
     }
-    v.x = ((s64) v.x * n) >> 12;
-    v.y = ((s64) v.y * n) >> 12;
-    v.z = ((s64) v.z * n) >> 12;
+    v.x = MUL_FIXED12_NO_ROUND(v.x, n);
+    v.y = MUL_FIXED12_NO_ROUND(v.y, n);
+    v.z = MUL_FIXED12_NO_ROUND(v.z, n);
     if (!m) {
         if (throwForward != 0) {
-            n = forwardUpSpeed + (s32) (((s64) itemInUse->mKartVelocityLength * 0x200) >> 12) +
-                (s32) (((s64) itemInUse->mKartMovement.y * 0x2000) >> 12);
+            n = forwardUpSpeed + MUL_FIXED12_NO_ROUND(itemInUse->mKartVelocityLength, 0x200) +
+                MUL_FIXED12_NO_ROUND(itemInUse->mKartMovement.y, 0x2000);
         } else {
             n = backwardUpSpeed;
             dx = itemInUse->mKartMovement.y > 0 ? 0x666 : 0x1333;
-            n += (s32) (((s64) dx * itemInUse->mKartMovement.y) >> 12);
+            n += MUL_FIXED12_NO_ROUND(dx, itemInUse->mKartMovement.y);
         }
         VEC_MultAdd(n, &itemInUse->mKartOrientation.mUnk_00[1], &v, &item->mItemObject.mVelocity);
     }
@@ -751,9 +751,9 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
         return;
     }
     n = VEC_DotProduct(&itemInUse->mKartOrientation.mUnk_00[1], &item->mItemObject.mVelocity);
-    dx = ((s64) itemInUse->mKartOrientation.mUnk_00[1].x * n) >> 12;
-    dy = ((s64) itemInUse->mKartOrientation.mUnk_00[1].y * n) >> 12;
-    dz = ((s64) itemInUse->mKartOrientation.mUnk_00[1].z * n) >> 12;
+    dx = MUL_FIXED12_NO_ROUND(itemInUse->mKartOrientation.mUnk_00[1].x, n);
+    dy = MUL_FIXED12_NO_ROUND(itemInUse->mKartOrientation.mUnk_00[1].y, n);
+    dz = MUL_FIXED12_NO_ROUND(itemInUse->mKartOrientation.mUnk_00[1].z, n);
     item->mItemObject.mVelocity.x -= dx;
     item->mItemObject.mVelocity.y -= dy;
     item->mItemObject.mVelocity.z -= dz;
@@ -788,9 +788,9 @@ void AdvanceBouncingItem(BouncingItemObject *item, s32 gravity, s32 velocityFact
     velocity = &item->mItemObject.mVelocity;
     pos = &item->mItemObject.mPos;
     VEC_Add(velocity, pos, pos);
-    velocity->x = ((s64) velocity->x * velocityFactor) >> 12;
-    velocity->y = ((s64) velocity->y * velocityFactor) >> 12;
-    velocity->z = ((s64) velocity->z * velocityFactor) >> 12;
+    velocity->x = MUL_FIXED12_NO_ROUND(velocity->x, velocityFactor);
+    velocity->y = MUL_FIXED12_NO_ROUND(velocity->y, velocityFactor);
+    velocity->z = MUL_FIXED12_NO_ROUND(velocity->z, velocityFactor);
     if (CollideSphereWithCourse(pos, &item->mItemObject.mPrevPos, 0, item->mItemObject.mUnk_dc, 0x24,
                                 item->mItemObject.mCollisionSlotIndex, &t, &hitNormal, &wallNormal,
                                 &item->mItemObject.mCollisionBits, NULL, NULL, NULL, e) != 0) {
@@ -803,15 +803,15 @@ void AdvanceBouncingItem(BouncingItemObject *item, s32 gravity, s32 velocityFact
             } else {
                 item->mItemObject.mFlags |= 0x10;
                 n = VEC_DotProduct(&hitNormal, velocity);
-                t.x = ((s64) hitNormal.x * n) >> 12;
-                t.y = ((s64) hitNormal.y * n) >> 12;
-                t.z = ((s64) hitNormal.z * n) >> 12;
+                t.x = MUL_FIXED12_NO_ROUND(hitNormal.x, n);
+                t.y = MUL_FIXED12_NO_ROUND(hitNormal.y, n);
+                t.z = MUL_FIXED12_NO_ROUND(hitNormal.z, n);
                 velocity->x -= t.x;
                 velocity->y -= t.y;
                 velocity->z -= t.z;
-                velocity->x = ((s64) velocity->x * 0x8cd) >> 12;
-                velocity->y = ((s64) velocity->y * 0x8cd) >> 12;
-                velocity->z = ((s64) velocity->z * 0x8cd) >> 12;
+                velocity->x = MUL_FIXED12_NO_ROUND(velocity->x, 0x8cd);
+                velocity->y = MUL_FIXED12_NO_ROUND(velocity->y, 0x8cd);
+                velocity->z = MUL_FIXED12_NO_ROUND(velocity->z, 0x8cd);
                 VEC_MultAdd(-reflectFactor, &t, velocity, velocity);
                 item->mItemObject.mNormal = hitNormal;
             }

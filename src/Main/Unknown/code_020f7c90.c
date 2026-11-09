@@ -149,8 +149,8 @@ void func_020f7c90(ItemObject *item, Vec3 *otherPos, Vec3 *normal) {
             Vec3NormalizeAndGetLengthUnchecked(normal, normal);
         }
         if (Vec3DotUnrounded(normal, &item->mUnk_108) > 0x800) {
-            item->mVelocity.z = ((s64) normal->z * 0x14cd) >> 12;
-            item->mVelocity.x = ((s64) normal->x * 0x14cd) >> 12;
+            item->mVelocity.z = MUL_FIXED12_NO_ROUND(normal->z, 0x14cd);
+            item->mVelocity.x = MUL_FIXED12_NO_ROUND(normal->x, 0x14cd);
         }
     }
     distanceSquared = (s64) (item->mPos.x - otherPos->x) * (item->mPos.x - otherPos->x) +
@@ -171,7 +171,7 @@ void func_020f7c90(ItemObject *item, Vec3 *otherPos, Vec3 *normal) {
     angleIndex = (u16) ((((u64) (u32) (random->mValue >> 32) * 0x10000) >> 32)) >> 4;
     item->mUnk_108.z = gPairsByAngle[angleIndex * 2 + 1];
     item->mUnk_108.x = gPairsByAngle[angleIndex * 2];
-    item->mVelocity.z = ((s64) item->mUnk_108.z * 0x14cd) >> 12;
-    item->mVelocity.x = ((s64) item->mUnk_108.x * 0x14cd) >> 12;
+    item->mVelocity.z = MUL_FIXED12_NO_ROUND(item->mUnk_108.z, 0x14cd);
+    item->mVelocity.x = MUL_FIXED12_NO_ROUND(item->mUnk_108.x, 0x14cd);
     item->mFlags |= 0x2000000;
 }

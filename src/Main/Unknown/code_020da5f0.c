@@ -47,8 +47,8 @@ void UpdateKuriboState0(Kuribo *kuribo) {
     if (kuribo->mScaleFactorY == 0x1000 && kuribo->mUnk_c8 == 0) {
         return;
     }
-    kuribo->mUnk_c8 += (s32) (((s64) (0x1000 - kuribo->mScaleFactorY) * 0x200) >> 12);
-    kuribo->mUnk_c8 = ((s64) kuribo->mUnk_c8 * 0xd99) >> 12;
+    kuribo->mUnk_c8 += MUL_FIXED12_NO_ROUND(0x1000 - kuribo->mScaleFactorY, 0x200);
+    kuribo->mUnk_c8 = MUL_FIXED12_NO_ROUND(kuribo->mUnk_c8, 0xd99);
     kuribo->mScaleFactorY += kuribo->mUnk_c8;
     if (kuribo->mScaleFactorY > 0xfd7 && kuribo->mScaleFactorY < 0x1029 && kuribo->mUnk_c8 > -0x29 &&
         kuribo->mUnk_c8 < 0x29) {
@@ -101,7 +101,7 @@ void EnterKuriboState2(Kuribo *kuribo) {
 }
 
 void UpdateKuriboState2(Kuribo *kuribo) {
-    kuribo->mScaleFactorY = ((s64) kuribo->mScaleFactorY * 0x1266) >> 12;
+    kuribo->mScaleFactorY = MUL_FIXED12_NO_ROUND(kuribo->mScaleFactorY, 0x1266);
     if (kuribo->mScaleFactorY > 0x1800) {
         kuribo->mMapObject.mStateMachine.mNextState = 3;
         kuribo->mMapObject.mStateMachine.mNextStateRequested = 1;
@@ -113,7 +113,7 @@ u32 func_020dabfc(u32 value) {
 }
 
 void UpdateKuriboState3(Kuribo *kuribo) {
-    kuribo->mScaleFactorY = ((s64) kuribo->mScaleFactorY * 0xd99) >> 12;
+    kuribo->mScaleFactorY = MUL_FIXED12_NO_ROUND(kuribo->mScaleFactorY, 0xd99);
     if (kuribo->mScaleFactorY < 0x333) {
         kuribo->mMapObject.mStateMachine.mNextState = 4;
         kuribo->mMapObject.mStateMachine.mNextStateRequested = 1;
@@ -160,8 +160,8 @@ void EnterKuriboState5(Kuribo *kuribo) {
 }
 
 void UpdateKuriboState5(Kuribo *kuribo) {
-    kuribo->mUnk_c8 += (s32) (((s64) (0x1000 - kuribo->mScaleFactorY) * 0x200) >> 12);
-    kuribo->mUnk_c8 = ((s64) kuribo->mUnk_c8 * 0xd99) >> 12;
+    kuribo->mUnk_c8 += MUL_FIXED12_NO_ROUND(0x1000 - kuribo->mScaleFactorY, 0x200);
+    kuribo->mUnk_c8 = MUL_FIXED12_NO_ROUND(kuribo->mUnk_c8, 0xd99);
     kuribo->mScaleFactorY += kuribo->mUnk_c8;
     if (kuribo->mMapObject.mStateMachine.mStateFrames > 0x3c) {
         kuribo->mMapObject.mStateMachine.mNextState = 0;
@@ -187,9 +187,9 @@ void func_020da820(Kuribo *kuribo, Vec3 *hitVector) {
         t.x = hitVector->x;
         t.z = hitVector->z;
         d = VEC_DotProduct(&launchDirection, &t);
-        launchDirection.x = t.x - (s32) (((s64) launchDirection.x * d) >> 12);
-        launchDirection.y = t.y - (s32) (((s64) launchDirection.y * d) >> 12);
-        launchDirection.z = t.z - (s32) (((s64) launchDirection.z * d) >> 12);
+        launchDirection.x = t.x - MUL_FIXED12_NO_ROUND(launchDirection.x, d);
+        launchDirection.y = t.y - MUL_FIXED12_NO_ROUND(launchDirection.y, d);
+        launchDirection.z = t.z - MUL_FIXED12_NO_ROUND(launchDirection.z, d);
     }
     if ((s64) launchDirection.x * launchDirection.x + (s64) launchDirection.y * launchDirection.y +
             (s64) launchDirection.z * launchDirection.z >=
@@ -204,9 +204,9 @@ void func_020da820(Kuribo *kuribo, Vec3 *hitVector) {
     itemObject->mScale.y = 0xcd;
     itemObject->mScale.z = 0xcd;
     d = VEC_Mag(hitVector) + 0x5000;
-    itemObject->mVelocity.x = ((s64) launchDirection.x * d) >> 12;
-    itemObject->mVelocity.y = ((s64) launchDirection.y * d) >> 12;
-    itemObject->mVelocity.z = ((s64) launchDirection.z * d) >> 12;
+    itemObject->mVelocity.x = MUL_FIXED12_NO_ROUND(launchDirection.x, d);
+    itemObject->mVelocity.y = MUL_FIXED12_NO_ROUND(launchDirection.y, d);
+    itemObject->mVelocity.z = MUL_FIXED12_NO_ROUND(launchDirection.z, d);
     itemObject->mVelocity.y += 0xf000;
     VEC_Add(&itemObject->mPos, &itemObject->mVelocity, &itemObject->mPos);
     func_020f6630(itemObject, 0, &kuribo->mMapObject.mPos, hitVector, &data_021581f8);
@@ -217,7 +217,7 @@ u32 func_020da73c(Kuribo *kuribo, Kart *kart, u8 *b, u8 *c) {
         case 0:
             if (kuribo->mScaleFactorY == 0x1000) {
                 if (kuribo->mUnk_c8 == 0) {
-                    kuribo->mUnk_c8 = ((s64) kart->mVelocityLength * 0x52) >> 12;
+                    kuribo->mUnk_c8 = MUL_FIXED12_NO_ROUND(kart->mVelocityLength, 0x52);
                 }
             }
             break;

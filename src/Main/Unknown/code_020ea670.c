@@ -141,11 +141,11 @@ void DrawWoodbox1(void *a, Woodbox1 *woodbox, void *c, u32 maxAlpha) {
     if (state == 0) {
         return;
     }
-    t = ((s64) (0x5a000 - woodbox->mPosOffset.y) * 0x2e) >> 12;
+    t = MUL_FIXED12_NO_ROUND(0x5a000 - woodbox->mPosOffset.y, 0x2e);
     shadowPos.x = woodbox->mUnk_000.mPos.x;
     shadowPos.z = woodbox->mUnk_000.mPos.z;
-    shadowPos.y = woodbox->mBasePos.y - (s32) (((s64) woodbox->mGroundUp.x * woodbox->mPosOffset.x) >> 12) -
-                  (s32) (((s64) woodbox->mGroundUp.z * woodbox->mPosOffset.z) >> 12);
+    shadowPos.y = woodbox->mBasePos.y - MUL_FIXED12_NO_ROUND(woodbox->mGroundUp.x, woodbox->mPosOffset.x) -
+                  MUL_FIXED12_NO_ROUND(woodbox->mGroundUp.z, woodbox->mPosOffset.z);
     VEC_MultAdd(-woodbox->mUnk_000.mExtent.x, &woodbox->mGroundUp, &shadowPos, &shadowPos);
     SetShadowPositionRaised(&woodbox->mUnk_114, &shadowPos);
     DrawObjShadow(&woodbox->mUnk_114, &t, 0, maxAlpha);
@@ -275,12 +275,12 @@ BOOL BounceWoodbox1OffGround(Woodbox1 *woodbox) {
     dot = -Vec3DotUnrounded(&v, &woodbox->mGroundUp);
     if (dot > 0 && woodbox->mUnk_000.mUnk_10.y < 0) {
         woodbox->mPosOffset.y = woodbox->mPosOffset.y + dot;
-        woodbox->mUnk_000.mUnk_10.y = ((s64) -woodbox->mUnk_000.mUnk_10.y * 0x400) >> 12;
-        woodbox->mTiltOffsetPerFrame.x = ((s64) woodbox->mTiltOffset.x * -0x266) >> 12;
-        woodbox->mTiltOffsetPerFrame.y = ((s64) woodbox->mTiltOffset.y * -0x266) >> 12;
-        woodbox->mTiltOffsetPerFrame.z = ((s64) woodbox->mTiltOffset.z * -0x266) >> 12;
-        woodbox->mUnk_000.mUnk_10.x = ((s64) woodbox->mTiltOffsetPerFrame.x * 0x9000) >> 12;
-        woodbox->mUnk_000.mUnk_10.z = ((s64) woodbox->mTiltOffsetPerFrame.z * 0x9000) >> 12;
+        woodbox->mUnk_000.mUnk_10.y = MUL_FIXED12_NO_ROUND(-woodbox->mUnk_000.mUnk_10.y, 0x400);
+        woodbox->mTiltOffsetPerFrame.x = MUL_FIXED12_NO_ROUND(woodbox->mTiltOffset.x, -0x266);
+        woodbox->mTiltOffsetPerFrame.y = MUL_FIXED12_NO_ROUND(woodbox->mTiltOffset.y, -0x266);
+        woodbox->mTiltOffsetPerFrame.z = MUL_FIXED12_NO_ROUND(woodbox->mTiltOffset.z, -0x266);
+        woodbox->mUnk_000.mUnk_10.x = MUL_FIXED12_NO_ROUND(woodbox->mTiltOffsetPerFrame.x, 0x9000);
+        woodbox->mUnk_000.mUnk_10.z = MUL_FIXED12_NO_ROUND(woodbox->mTiltOffsetPerFrame.z, 0x9000);
         return TRUE;
     }
     return FALSE;
@@ -306,9 +306,9 @@ void EnterWoodbox1State2(Woodbox1 *woodbox) {
     woodbox->mTiltOffsetPerFrame.x = 0;
     woodbox->mTiltOffsetPerFrame.y = 0;
     woodbox->mTiltOffsetPerFrame.z = 0;
-    woodbox->mPosOffset.x = ((s64) woodbox->mTiltOffset.x * 0x14000) >> 12;
+    woodbox->mPosOffset.x = MUL_FIXED12_NO_ROUND(woodbox->mTiltOffset.x, 0x14000);
     woodbox->mPosOffset.y = 0x3c000;
-    woodbox->mPosOffset.z = ((s64) woodbox->mTiltOffset.z * 0x14000) >> 12;
+    woodbox->mPosOffset.z = MUL_FIXED12_NO_ROUND(woodbox->mTiltOffset.z, 0x14000);
     woodbox->mUnk_000.mUnk_10.x = 0;
     woodbox->mUnk_000.mUnk_10.y = 0;
     woodbox->mUnk_000.mUnk_10.z = 0;
@@ -333,14 +333,14 @@ void UpdateWoodbox1State3(Woodbox1 *woodbox) {
     s32 headingOffset;
 
     BounceWoodbox1OffGround(woodbox);
-    woodbox->mPosOffset.x -= (s32) (((s64) woodbox->mPosOffset.x * 164) >> 12);
-    woodbox->mPosOffset.z -= (s32) (((s64) woodbox->mPosOffset.z * 164) >> 12);
+    woodbox->mPosOffset.x -= MUL_FIXED12_NO_ROUND(woodbox->mPosOffset.x, 164);
+    woodbox->mPosOffset.z -= MUL_FIXED12_NO_ROUND(woodbox->mPosOffset.z, 164);
     VEC_Add(&woodbox->mTiltOffset, &woodbox->mTiltOffsetPerFrame, &woodbox->mTiltOffset);
     headingOffset = woodbox->mHeadingAngleOffset;
     if ((u32) headingOffset < 0x8000) {
-        woodbox->mHeadingAngleOffset = headingOffset - (s32) (((s64) headingOffset * 246) >> 12);
+        woodbox->mHeadingAngleOffset = headingOffset - MUL_FIXED12_NO_ROUND(headingOffset, 246);
     } else {
-        woodbox->mHeadingAngleOffset = headingOffset + (s32) (((s64) (0x10000 - headingOffset) * 246) >> 12);
+        woodbox->mHeadingAngleOffset = headingOffset + MUL_FIXED12_NO_ROUND(0x10000 - headingOffset, 246);
     }
     woodbox->mUnk_000.mUnk_10.y -= 655;
     VEC_Add(&woodbox->mPosOffset, &woodbox->mUnk_000.mUnk_10, &woodbox->mPosOffset);
@@ -451,20 +451,20 @@ void InitWoodbox1(Woodbox1 *woodbox, CourseMapRow *courseRow) {
     }
     Vec3RotateAroundY(&woodbox->mUnk_0f4, 0x0aab, &woodbox->mUnk_100);
     Vec3RotateAroundY(&woodbox->mUnk_0f4, 0xf555, &woodbox->mUnk_0f4);
-    woodbox->mUnk_0f4.x = ((s64) woodbox->mUnk_0f4.x * 0x800) >> 12;
-    woodbox->mUnk_0f4.y = ((s64) woodbox->mUnk_0f4.y * 0x800) >> 12;
-    woodbox->mUnk_0f4.z = ((s64) woodbox->mUnk_0f4.z * 0x800) >> 12;
-    woodbox->mUnk_100.x = ((s64) woodbox->mUnk_100.x * 0x800) >> 12;
-    woodbox->mUnk_100.y = ((s64) woodbox->mUnk_100.y * 0x800) >> 12;
-    woodbox->mUnk_100.z = ((s64) woodbox->mUnk_100.z * 0x800) >> 12;
+    woodbox->mUnk_0f4.x = MUL_FIXED12_NO_ROUND(woodbox->mUnk_0f4.x, 0x800);
+    woodbox->mUnk_0f4.y = MUL_FIXED12_NO_ROUND(woodbox->mUnk_0f4.y, 0x800);
+    woodbox->mUnk_0f4.z = MUL_FIXED12_NO_ROUND(woodbox->mUnk_0f4.z, 0x800);
+    woodbox->mUnk_100.x = MUL_FIXED12_NO_ROUND(woodbox->mUnk_100.x, 0x800);
+    woodbox->mUnk_100.y = MUL_FIXED12_NO_ROUND(woodbox->mUnk_100.y, 0x800);
+    woodbox->mUnk_100.z = MUL_FIXED12_NO_ROUND(woodbox->mUnk_100.z, 0x800);
     woodbox->mUnk_10c = 0x1555;
     woodbox->mItemRowHandle = courseRow->mUnk_28;
     woodbox->mItemChancePercent = courseRow->mUnk_2a;
     InitStateMachine(&woodbox->mUnk_000.mStateMachine, gWoodbox1StateTable, 4, woodbox);
     woodbox->mUnk_000.mStateMachine.mNextState = 0;
     woodbox->mUnk_000.mStateMachine.mNextStateRequested = 1;
-    RefreshShadowMatrix(&woodbox->mUnk_114, &courseRow->mUnk_00, ((s64) woodbox->mUnk_000.mScale.x * 0x19000) >> 12,
-                        13);
+    RefreshShadowMatrix(&woodbox->mUnk_114, &courseRow->mUnk_00,
+                        MUL_FIXED12_NO_ROUND(woodbox->mUnk_000.mScale.x, 0x19000), 13);
 }
 
 #pragma thumb off
@@ -476,9 +476,9 @@ void ComputeSphereOverlapOffset(Vec3 *position, Vec3 *center, s32 radius, Vec3 *
     if ((s64) offset->x * offset->x + (s64) offset->y * offset->y + (s64) offset->z * offset->z >= 16) {
         Vec3NormalizeAndGetLengthUnchecked(offset, &direction);
     }
-    direction.x = ((s64) direction.x * radius) >> 12;
-    direction.y = ((s64) direction.y * radius) >> 12;
-    direction.z = ((s64) direction.z * radius) >> 12;
+    direction.x = MUL_FIXED12_NO_ROUND(direction.x, radius);
+    direction.y = MUL_FIXED12_NO_ROUND(direction.y, radius);
+    direction.z = MUL_FIXED12_NO_ROUND(direction.z, radius);
     VEC_Subtract(&direction, offset, offset);
 }
 
@@ -492,8 +492,8 @@ void ComputeCylinderOverlapOffset(Vec3 *position, Vec3 *center, s32 radius, s32 
     if ((s64) offset->x * offset->x + (s64) offset->y * offset->y + (s64) offset->z * offset->z >= 16) {
         Vec3NormalizeAndGetLengthUnchecked(offset, &direction);
     }
-    offset->x = (s32) (((s64) direction.x * radius) >> 12) - offset->x;
-    offset->z = (s32) (((s64) direction.z * radius) >> 12) - offset->z;
+    offset->x = MUL_FIXED12_NO_ROUND(direction.x, radius) - offset->x;
+    offset->z = MUL_FIXED12_NO_ROUND(direction.z, radius) - offset->z;
     offset->y = position->y - center->y;
     if (offset->y > 0) {
         offset->y = halfHeight - offset->y;
@@ -565,9 +565,9 @@ s32 ComputeSphereHitOnRotatedBox(Vec3 *sphereCenter, Vec3 *boxCenter, Vec3 *axes
     if (overlapZ < overlapX) {
         if (overlapY < overlapZ && distanceY > 0) {
             if (pushOut != NULL) {
-                pushOut->x = ((s64) axisY->x * overlapY) >> 12;
-                pushOut->y = ((s64) axisY->y * overlapY) >> 12;
-                pushOut->z = ((s64) axisY->z * overlapY) >> 12;
+                pushOut->x = MUL_FIXED12_NO_ROUND(axisY->x, overlapY);
+                pushOut->y = MUL_FIXED12_NO_ROUND(axisY->y, overlapY);
+                pushOut->z = MUL_FIXED12_NO_ROUND(axisY->z, overlapY);
             }
             return 1;
         }
@@ -575,18 +575,18 @@ s32 ComputeSphereHitOnRotatedBox(Vec3 *sphereCenter, Vec3 *boxCenter, Vec3 *axes
             if (distanceZ <= 0) {
                 overlapZ = -overlapZ;
             }
-            pushOut->x = ((s64) axisZ->x * overlapZ) >> 12;
-            pushOut->y = ((s64) axisZ->y * overlapZ) >> 12;
-            pushOut->z = ((s64) axisZ->z * overlapZ) >> 12;
+            pushOut->x = MUL_FIXED12_NO_ROUND(axisZ->x, overlapZ);
+            pushOut->y = MUL_FIXED12_NO_ROUND(axisZ->y, overlapZ);
+            pushOut->z = MUL_FIXED12_NO_ROUND(axisZ->z, overlapZ);
             pushOut->y = 0;
         }
         return 4;
     }
     if (overlapY < overlapX && distanceY > 0) {
         if (pushOut != NULL) {
-            pushOut->x = ((s64) axisY->x * overlapY) >> 12;
-            pushOut->y = ((s64) axisY->y * overlapY) >> 12;
-            pushOut->z = ((s64) axisY->z * overlapY) >> 12;
+            pushOut->x = MUL_FIXED12_NO_ROUND(axisY->x, overlapY);
+            pushOut->y = MUL_FIXED12_NO_ROUND(axisY->y, overlapY);
+            pushOut->z = MUL_FIXED12_NO_ROUND(axisY->z, overlapY);
         }
         return 1;
     }
@@ -594,9 +594,9 @@ s32 ComputeSphereHitOnRotatedBox(Vec3 *sphereCenter, Vec3 *boxCenter, Vec3 *axes
         if (distanceX <= 0) {
             overlapX = -overlapX;
         }
-        pushOut->x = ((s64) axes->x * overlapX) >> 12;
-        pushOut->y = ((s64) axes->y * overlapX) >> 12;
-        pushOut->z = ((s64) axes->z * overlapX) >> 12;
+        pushOut->x = MUL_FIXED12_NO_ROUND(axes->x, overlapX);
+        pushOut->y = MUL_FIXED12_NO_ROUND(axes->y, overlapX);
+        pushOut->z = MUL_FIXED12_NO_ROUND(axes->z, overlapX);
         pushOut->y = 0;
     }
     return 3;
@@ -635,9 +635,9 @@ s32 ComputeSphereHitOnRotatedCylinder(Vec3 *sphereCenter, Vec3 *cylinderCenter, 
     overlapRadial = (cylinderRadius + sphereRadius) - horizontalDistance;
     if (overlapY < overlapRadial && local.y > 0) {
         if (pushOut != NULL) {
-            pushOut->x = ((s64) axisY->x * overlapY) >> 12;
-            pushOut->y = ((s64) axisY->y * overlapY) >> 12;
-            pushOut->z = ((s64) axisY->z * overlapY) >> 12;
+            pushOut->x = MUL_FIXED12_NO_ROUND(axisY->x, overlapY);
+            pushOut->y = MUL_FIXED12_NO_ROUND(axisY->y, overlapY);
+            pushOut->z = MUL_FIXED12_NO_ROUND(axisY->z, overlapY);
         }
         return 1;
     }
@@ -647,12 +647,12 @@ s32 ComputeSphereHitOnRotatedCylinder(Vec3 *sphereCenter, Vec3 *cylinderCenter, 
         if ((s64) local.x * local.x + (s64) local.y * local.y + (s64) local.z * local.z >= 16) {
             Vec3NormalizeAndGetLengthUnchecked(&local, &w);
         }
-        w.x = ((s64) w.x * overlapRadial) >> 12;
+        w.x = MUL_FIXED12_NO_ROUND(w.x, overlapRadial);
         w.y = 0;
-        w.z = ((s64) w.z * overlapRadial) >> 12;
-        pushOut->x = (s32) (((s64) axes->x * w.x) >> 12) + (s32) (((s64) axisZ->x * w.z) >> 12);
-        pushOut->y = (s32) (((s64) axes->y * w.x) >> 12) + (s32) (((s64) axisZ->y * w.z) >> 12);
-        pushOut->z = (s32) (((s64) axes->z * w.x) >> 12) + (s32) (((s64) axisZ->z * w.z) >> 12);
+        w.z = MUL_FIXED12_NO_ROUND(w.z, overlapRadial);
+        pushOut->x = MUL_FIXED12_NO_ROUND(axes->x, w.x) + MUL_FIXED12_NO_ROUND(axisZ->x, w.z);
+        pushOut->y = MUL_FIXED12_NO_ROUND(axes->y, w.x) + MUL_FIXED12_NO_ROUND(axisZ->y, w.z);
+        pushOut->z = MUL_FIXED12_NO_ROUND(axes->z, w.x) + MUL_FIXED12_NO_ROUND(axisZ->z, w.z);
     }
     return 2;
 }
@@ -667,17 +667,17 @@ void func_020eacc0(Vec3 *direction, s32 blendFactor, Vec3 *target, Vec3 *result)
     s32 extra;
 
     negatedDot = -Vec3DotUnrounded(direction, target);
-    blend = ((s64) (0x1000 - negatedDot) * blendFactor) >> 12;
+    blend = MUL_FIXED12_NO_ROUND(0x1000 - negatedDot, blendFactor);
     if (blend > 0x1000) {
         blend = 0x1000;
     }
     remaining = 0x1000 - blend;
-    blendProduct = ((s64) blend * remaining) >> 12;
-    extra = ((s64) (negatedDot + 0x1000) * (blendProduct >> 1)) >> 12;
+    blendProduct = MUL_FIXED12_NO_ROUND(blend, remaining);
+    extra = MUL_FIXED12_NO_ROUND(negatedDot + 0x1000, blendProduct >> 1);
     directionScale = remaining + extra;
-    scaled.x = ((s64) direction->x * directionScale) >> 12;
-    scaled.y = ((s64) direction->y * directionScale) >> 12;
-    scaled.z = ((s64) direction->z * directionScale) >> 12;
+    scaled.x = MUL_FIXED12_NO_ROUND(direction->x, directionScale);
+    scaled.y = MUL_FIXED12_NO_ROUND(direction->y, directionScale);
+    scaled.z = MUL_FIXED12_NO_ROUND(direction->z, directionScale);
     VEC_MultAdd(blend + extra, target, &scaled, result);
 }
 
@@ -690,19 +690,19 @@ void func_020eac20(Vec3 *direction, s32 blendFactor) {
     s32 directionScale;
 
     n = -direction->y;
-    t = ((s64) (0x1000 - n) * blendFactor) >> 12;
+    t = MUL_FIXED12_NO_ROUND(0x1000 - n, blendFactor);
     if (t > 0x1000) {
         t = 0x1000;
     }
     remaining = 0x1000 - t;
-    blendProduct = ((s64) t * remaining) >> 12;
+    blendProduct = MUL_FIXED12_NO_ROUND(t, remaining);
     n += 0x1000;
-    extra = ((s64) n * (blendProduct >> 1)) >> 12;
+    extra = MUL_FIXED12_NO_ROUND(n, blendProduct >> 1);
     directionScale = remaining + extra;
     t = t + extra;
-    direction->x = ((s64) direction->x * directionScale) >> 12;
-    direction->y = ((s64) direction->y * directionScale) >> 12;
-    direction->z = ((s64) direction->z * directionScale) >> 12;
+    direction->x = MUL_FIXED12_NO_ROUND(direction->x, directionScale);
+    direction->y = MUL_FIXED12_NO_ROUND(direction->y, directionScale);
+    direction->z = MUL_FIXED12_NO_ROUND(direction->z, directionScale);
     direction->y += t;
 }
 
@@ -727,23 +727,23 @@ void BounceVelocityOffSurface(Vec3 *velocity, Vec3 *surfaceNormal, s32 tangentSc
         }
     }
     normalSpeed = VEC_DotProduct(&normal, velocity);
-    normalPart.x = ((s64) normal.x * normalSpeed) >> 12;
-    normalPart.y = ((s64) normal.y * normalSpeed) >> 12;
-    normalPart.z = ((s64) normal.z * normalSpeed) >> 12;
+    normalPart.x = MUL_FIXED12_NO_ROUND(normal.x, normalSpeed);
+    normalPart.y = MUL_FIXED12_NO_ROUND(normal.y, normalSpeed);
+    normalPart.z = MUL_FIXED12_NO_ROUND(normal.z, normalSpeed);
     result->x = velocity->x - normalPart.x;
     result->y = velocity->y - normalPart.y;
     result->z = velocity->z - normalPart.z;
     negatedBounce = -bounceScale;
-    result->x = ((s64) result->x * tangentScale) >> 12;
-    result->y = ((s64) result->y * tangentScale) >> 12;
-    result->z = ((s64) result->z * tangentScale) >> 12;
-    normalPart.x = ((s64) normalPart.x * negatedBounce) >> 12;
-    normalPart.y = ((s64) normalPart.y * negatedBounce) >> 12;
-    normalPart.z = ((s64) normalPart.z * negatedBounce) >> 12;
+    result->x = MUL_FIXED12_NO_ROUND(result->x, tangentScale);
+    result->y = MUL_FIXED12_NO_ROUND(result->y, tangentScale);
+    result->z = MUL_FIXED12_NO_ROUND(result->z, tangentScale);
+    normalPart.x = MUL_FIXED12_NO_ROUND(normalPart.x, negatedBounce);
+    normalPart.y = MUL_FIXED12_NO_ROUND(normalPart.y, negatedBounce);
+    normalPart.z = MUL_FIXED12_NO_ROUND(normalPart.z, negatedBounce);
     if ((s64) normalPart.x * normalPart.x + (s64) normalPart.z * normalPart.z < (s64) minNormalSpeed * minNormalSpeed) {
-        normalPart.x = ((s64) normal.x * minNormalSpeed) >> 12;
-        normalPart.y = ((s64) normal.y * minNormalSpeed) >> 12;
-        normalPart.z = ((s64) normal.z * minNormalSpeed) >> 12;
+        normalPart.x = MUL_FIXED12_NO_ROUND(normal.x, minNormalSpeed);
+        normalPart.y = MUL_FIXED12_NO_ROUND(normal.y, minNormalSpeed);
+        normalPart.z = MUL_FIXED12_NO_ROUND(normal.z, minNormalSpeed);
     }
     VEC_Add(&normalPart, result, result);
 }

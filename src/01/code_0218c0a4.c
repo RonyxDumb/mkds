@@ -138,12 +138,12 @@ void ThrowBombsAndKinoko(Unk02188950 *mapObject) {
         Vec3 pos;
         Vec3 vel = {0, 0, 0};
 
-        pos.x = mapObject->mUnk_000.mPos.x + (((s64) radius * gPairsByAngle[((u16) angle >> 4) * 2]) >> 12);
+        pos.x = mapObject->mUnk_000.mPos.x + (MUL_FIXED12_NO_ROUND(radius, gPairsByAngle[((u16) angle >> 4) * 2]));
         pos.y = mapObject->mUnk_000.mPos.y + mapObject->mPrm->mUnk_194;
-        pos.z = mapObject->mUnk_000.mPos.z + (((s64) radius * gPairsByAngle[((u16) angle >> 4) * 2 + 1]) >> 12);
-        vel.x = ((s64) mapObject->mPrm->mUnk_1a0 * gPairsByAngle[((u16) angle >> 4) * 2]) >> 12;
+        pos.z = mapObject->mUnk_000.mPos.z + (MUL_FIXED12_NO_ROUND(radius, gPairsByAngle[((u16) angle >> 4) * 2 + 1]));
+        vel.x = MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_1a0, gPairsByAngle[((u16) angle >> 4) * 2]);
         vel.y = mapObject->mPrm->mUnk_19c;
-        vel.z = ((s64) mapObject->mPrm->mUnk_1a0 * gPairsByAngle[((u16) angle >> 4) * 2 + 1]) >> 12;
+        vel.z = MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_1a0, gPairsByAngle[((u16) angle >> 4) * 2 + 1]);
         if (i == sel) {
             ThrowItemKinokoFromPosition(StartItemKinokoOrZero(), &pos, &vel, mapObject->mPrm->mUnk_1ac);
         } else {

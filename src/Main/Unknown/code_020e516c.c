@@ -104,10 +104,12 @@ void CreateObjShadowAndJgShadow(void) {
     SetNsbmdLightEnableFlagAll(gObjShadow, 0);
     resMdl = gObjShadow->mResMdl;
     resMat = OFFSET_PTR(NNSG3dResMat, resMdl, resMdl->mOfsMat);
-    gObjShadowMaterial = OFFSET_PTR(NNSG3dResMatData, resMat, ((u32 *) OFFSET_PTR(u8, resMat, resMat->mDict.mOfsEntry))[2]);
+    gObjShadowMaterial =
+        OFFSET_PTR(NNSG3dResMatData, resMat, ((u32 *) OFFSET_PTR(u8, resMat, resMat->mDict.mOfsEntry))[2]);
     resMdl = gObjShadow->mResMdl;
     resShp = OFFSET_PTR(NNSG3dResShp, resMdl, resMdl->mOfsShp);
-    gObjShadowShape = OFFSET_PTR(NNSG3dResShpData, resShp, ((u32 *) OFFSET_PTR(u8, resShp, resShp->mDict.mOfsEntry))[1]);
+    gObjShadowShape =
+        OFFSET_PTR(NNSG3dResShpData, resShp, ((u32 *) OFFSET_PTR(u8, resShp, resShp->mDict.mOfsEntry))[1]);
     if (gRaceSetup->mRaceKind != RACE_KIND_STAFF_ROLL) {
         CreateShadowModel(&gJgShadow, FindSceneFile(gJgShadowNsbmdName), 0x3f);
     }
@@ -129,15 +131,15 @@ s32 RefreshShadowMatrix(ShadowMatrix *shadowCopy, Vec3 *position, s32 scale, u32
         QuaternionFromYAxisToVec3(&direction, &rotation);
         Matrix3x3FromQuaternion(&shadowCopy->mMatrix.mUnk_00_m, &rotation);
         scaleTenth = scale / 10;
-        shadowCopy->mMatrix.mUnk_00[0].x = ((s64) shadowCopy->mMatrix.mUnk_00[0].x * scaleTenth) >> 12;
-        shadowCopy->mMatrix.mUnk_00[0].y = ((s64) shadowCopy->mMatrix.mUnk_00[0].y * scaleTenth) >> 12;
-        shadowCopy->mMatrix.mUnk_00[0].z = ((s64) shadowCopy->mMatrix.mUnk_00[0].z * scaleTenth) >> 12;
-        shadowCopy->mMatrix.mUnk_00[1].x = ((s64) shadowCopy->mMatrix.mUnk_00[1].x * scaleTenth) >> 12;
-        shadowCopy->mMatrix.mUnk_00[1].y = ((s64) shadowCopy->mMatrix.mUnk_00[1].y * scaleTenth) >> 12;
-        shadowCopy->mMatrix.mUnk_00[1].z = ((s64) shadowCopy->mMatrix.mUnk_00[1].z * scaleTenth) >> 12;
-        shadowCopy->mMatrix.mUnk_00[2].x = ((s64) shadowCopy->mMatrix.mUnk_00[2].x * scaleTenth) >> 12;
-        shadowCopy->mMatrix.mUnk_00[2].y = ((s64) shadowCopy->mMatrix.mUnk_00[2].y * scaleTenth) >> 12;
-        shadowCopy->mMatrix.mUnk_00[2].z = ((s64) shadowCopy->mMatrix.mUnk_00[2].z * scaleTenth) >> 12;
+        shadowCopy->mMatrix.mUnk_00[0].x = MUL_FIXED12_NO_ROUND(shadowCopy->mMatrix.mUnk_00[0].x, scaleTenth);
+        shadowCopy->mMatrix.mUnk_00[0].y = MUL_FIXED12_NO_ROUND(shadowCopy->mMatrix.mUnk_00[0].y, scaleTenth);
+        shadowCopy->mMatrix.mUnk_00[0].z = MUL_FIXED12_NO_ROUND(shadowCopy->mMatrix.mUnk_00[0].z, scaleTenth);
+        shadowCopy->mMatrix.mUnk_00[1].x = MUL_FIXED12_NO_ROUND(shadowCopy->mMatrix.mUnk_00[1].x, scaleTenth);
+        shadowCopy->mMatrix.mUnk_00[1].y = MUL_FIXED12_NO_ROUND(shadowCopy->mMatrix.mUnk_00[1].y, scaleTenth);
+        shadowCopy->mMatrix.mUnk_00[1].z = MUL_FIXED12_NO_ROUND(shadowCopy->mMatrix.mUnk_00[1].z, scaleTenth);
+        shadowCopy->mMatrix.mUnk_00[2].x = MUL_FIXED12_NO_ROUND(shadowCopy->mMatrix.mUnk_00[2].x, scaleTenth);
+        shadowCopy->mMatrix.mUnk_00[2].y = MUL_FIXED12_NO_ROUND(shadowCopy->mMatrix.mUnk_00[2].y, scaleTenth);
+        shadowCopy->mMatrix.mUnk_00[2].z = MUL_FIXED12_NO_ROUND(shadowCopy->mMatrix.mUnk_00[2].z, scaleTenth);
     } else {
         MTX_Identity33_(&shadowCopy->mMatrix.mUnk_00_m);
     }

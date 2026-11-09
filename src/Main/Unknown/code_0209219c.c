@@ -49,20 +49,20 @@ u8 CollideKartWithBasabasa(Basabasa *basabasa, Kart *kart, void *c, u8 *d) {
         k = ((s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].x * offsetToKart.x +
              (s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].z * offsetToKart.z) >>
             12;
-        x = offsetToKart.x - (s32) (((s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].x * k) >> 12);
-        z = offsetToKart.z - (s32) (((s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].z * k) >> 12);
+        x = offsetToKart.x - MUL_FIXED12_NO_ROUND(basabasa->mUnk_00.mMatrix.mUnk_00[2].x, k);
+        z = offsetToKart.z - MUL_FIXED12_NO_ROUND(basabasa->mUnk_00.mMatrix.mUnk_00[2].z, k);
         lengthSquared = (s64) x * x + (s64) u.y * u.y + (s64) z * z;
         u.x = x;
         u.z = z;
         if (lengthSquared < 0x10) {
-            basabasa->mUnk_00.mUnk_10.x = ((s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].x * 0x1333) >> 12;
-            basabasa->mUnk_00.mUnk_10.y = ((s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].y * 0x1333) >> 12;
-            basabasa->mUnk_00.mUnk_10.z = ((s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].z * 0x1333) >> 12;
+            basabasa->mUnk_00.mUnk_10.x = MUL_FIXED12_NO_ROUND(basabasa->mUnk_00.mMatrix.mUnk_00[2].x, 0x1333);
+            basabasa->mUnk_00.mUnk_10.y = MUL_FIXED12_NO_ROUND(basabasa->mUnk_00.mMatrix.mUnk_00[2].y, 0x1333);
+            basabasa->mUnk_00.mUnk_10.z = MUL_FIXED12_NO_ROUND(basabasa->mUnk_00.mMatrix.mUnk_00[2].z, 0x1333);
         } else {
             Vec3NormalizeAndGetLengthUnchecked(&u, &u);
-            basabasa->mUnk_00.mUnk_10.x = ((s64) u.x * 0x1333) >> 12;
-            basabasa->mUnk_00.mUnk_10.y = ((s64) u.y * 0x1333) >> 12;
-            basabasa->mUnk_00.mUnk_10.z = ((s64) u.z * 0x1333) >> 12;
+            basabasa->mUnk_00.mUnk_10.x = MUL_FIXED12_NO_ROUND(u.x, 0x1333);
+            basabasa->mUnk_00.mUnk_10.y = MUL_FIXED12_NO_ROUND(u.y, 0x1333);
+            basabasa->mUnk_00.mUnk_10.z = MUL_FIXED12_NO_ROUND(u.z, 0x1333);
         }
         basabasa->mHitKartMask |= kartBit;
     }
@@ -121,18 +121,18 @@ void UpdateBasabasa(void *a, Basabasa *basabasa) {
             basabasa->mUnk_00.mFlags &= ~2;
             basabasa->mUnk_00.mFlags &= ~8;
             basabasa->mUnk_00.mAlpha = 0x1f;
-            basabasa->mVelocity.x += (s32) (((s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].x * 0x19a) >> 12);
+            basabasa->mVelocity.x += MUL_FIXED12_NO_ROUND(basabasa->mUnk_00.mMatrix.mUnk_00[2].x, 0x19a);
             basabasa->mVelocity.y += -0x19a;
-            basabasa->mVelocity.z += (s32) (((s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].z * 0x19a) >> 12);
+            basabasa->mVelocity.z += MUL_FIXED12_NO_ROUND(basabasa->mUnk_00.mMatrix.mUnk_00[2].z, 0x19a);
             VEC_Add(&basabasa->mUnk_00.mPos, &basabasa->mVelocity, &basabasa->mUnk_00.mPos);
             if (basabasa->mState0Timer-- <= 0) {
                 basabasa->mState = 1;
             }
             break;
         case 1:
-            basabasa->mVelocity.x += (s32) (((s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].x * 0x19a) >> 12);
+            basabasa->mVelocity.x += MUL_FIXED12_NO_ROUND(basabasa->mUnk_00.mMatrix.mUnk_00[2].x, 0x19a);
             basabasa->mVelocity.y += 0x19a;
-            basabasa->mVelocity.z += (s32) (((s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].z * 0x19a) >> 12);
+            basabasa->mVelocity.z += MUL_FIXED12_NO_ROUND(basabasa->mUnk_00.mMatrix.mUnk_00[2].z, 0x19a);
             VEC_Add(&basabasa->mUnk_00.mPos, &basabasa->mVelocity, &basabasa->mUnk_00.mPos);
             if (basabasa->mVelocity.y > 0) {
                 basabasa->mVelocity.y = 0;
@@ -146,9 +146,9 @@ void UpdateBasabasa(void *a, Basabasa *basabasa) {
             }
             break;
         case 3:
-            basabasa->mVelocity.x -= (s32) (((s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].x * 0xcd) >> 12);
+            basabasa->mVelocity.x -= MUL_FIXED12_NO_ROUND(basabasa->mUnk_00.mMatrix.mUnk_00[2].x, 0xcd);
             basabasa->mVelocity.y += 0x1000;
-            basabasa->mVelocity.z -= (s32) (((s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].z * 0xcd) >> 12);
+            basabasa->mVelocity.z -= MUL_FIXED12_NO_ROUND(basabasa->mUnk_00.mMatrix.mUnk_00[2].z, 0xcd);
             VEC_Add(&basabasa->mUnk_00.mPos, &basabasa->mVelocity, &basabasa->mUnk_00.mPos);
             if (basabasa->mUnk_00.mPos.y >= 0x1b8000) {
                 ParkMapObject(&basabasa->mUnk_00);

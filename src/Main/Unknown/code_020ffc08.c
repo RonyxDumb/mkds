@@ -119,7 +119,7 @@ void EnterDramState2(Dram *dram) {
 
 void UpdateDramState2(Dram *dram) {
     dram->mRamp += dram->mRampPerFrame;
-    dram->mAngleX += (s16) ((s32) (((s64) dram->mRamp * dram->mAnglePerFrame) >> 12));
+    dram->mAngleX += (s16) (MUL_FIXED12_NO_ROUND(dram->mRamp, dram->mAnglePerFrame));
     if (dram->mMapObject.mStateMachine.mStateFrames > dram->mRampFrameCount) {
         dram->mMapObject.mStateMachine.mNextState = 3;
         dram->mMapObject.mStateMachine.mNextStateRequested = 1;
@@ -149,7 +149,7 @@ void UpdateDramState4(Dram *dram) {
     s16 angleStep;
 
     dram->mRamp -= dram->mRampPerFrame;
-    angleStep = (s32) (((s64) dram->mRamp * dram->mAnglePerFrame) >> 12);
+    angleStep = MUL_FIXED12_NO_ROUND(dram->mRamp, dram->mAnglePerFrame);
     if (angleStep <= 0x96) {
         angleStep = 0x96;
     }

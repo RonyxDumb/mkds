@@ -43,7 +43,7 @@ void InitMkdEfBubble(MkdEfBubbleObject *bubble, CourseMapRow *row) {
     bubble->mMapObject.mStateMachine.mNextState = 0;
     bubble->mMapObject.mStateMachine.mNextStateRequested = 1;
     RefreshShadowMatrix(&bubble->mShadowMatrix, &bubble->mMapObject.mPos,
-                        ((s64) bubble->mMapObject.mScale.x * 0x18000) >> 12, 0xd);
+                        MUL_FIXED12_NO_ROUND(bubble->mMapObject.mScale.x, 0x18000), 0xd);
     bubble->mMapObject.mFlags |= data_02158740;
 }
 #pragma thumb off
@@ -67,7 +67,7 @@ void func_020df58c(void) {
     s32 sine;
 
     sine = gPairsByAngle[(data_0217b750 >> 4) * 2];
-    data_0217b754 = ((s64) sine * 0x4000) >> 12;
+    data_0217b754 = MUL_FIXED12_NO_ROUND(sine, 0x4000);
     data_0217b750 += 0x2d8;
     data_0217b75c = 0xf00 - (sine >> 4);
     data_0217b760.x = 0x1666;

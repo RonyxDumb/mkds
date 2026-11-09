@@ -347,23 +347,24 @@ void RefreshCameraProjection(Camera *camera) {
             camera->mHalfFovAngle = camera->mHalfFovAngleGoal;
         }
     }
-    camera->mFrustumTop = ((s64) camera->mNear * FX_Div(camera->mHalfFovPairFirst, camera->mHalfFovPairSecond)) >> 12;
+    camera->mFrustumTop =
+        MUL_FIXED12_NO_ROUND(camera->mNear, FX_Div(camera->mHalfFovPairFirst, camera->mHalfFovPairSecond));
     camera->mFrustumBottom = -camera->mFrustumTop;
-    camera->mFrustumLeft = ((s64) -camera->mFrustumTop * camera->mAspectRatio) >> 12;
+    camera->mFrustumLeft = MUL_FIXED12_NO_ROUND(-camera->mFrustumTop, camera->mAspectRatio);
     top = camera->mFrustumTop;
     bottom = camera->mFrustumBottom;
     switch (camera->mFrustumShift) {
         case 1:
             top <<= 1;
             bottom = -top;
-            camera->mFrustumTop = ((s64) top * (data_usa_021656b8 + 0x1000)) >> 12;
-            camera->mFrustumBottom = ((s64) top * data_usa_021656b8) >> 12;
+            camera->mFrustumTop = MUL_FIXED12_NO_ROUND(top, data_usa_021656b8 + 0x1000);
+            camera->mFrustumBottom = MUL_FIXED12_NO_ROUND(top, data_usa_021656b8);
             break;
         case 2:
             bottom <<= 1;
             top = -bottom;
-            camera->mFrustumBottom = ((s64) bottom * (data_usa_021656b8 + 0x1000)) >> 12;
-            camera->mFrustumTop = ((s64) bottom * data_usa_021656b8) >> 12;
+            camera->mFrustumBottom = MUL_FIXED12_NO_ROUND(bottom, data_usa_021656b8 + 0x1000);
+            camera->mFrustumTop = MUL_FIXED12_NO_ROUND(bottom, data_usa_021656b8);
             break;
     }
     if (gRaceSetup->mMirrorMode != 0) {
@@ -371,7 +372,7 @@ void RefreshCameraProjection(Camera *camera) {
     }
     camera->mFrustumRight = -camera->mFrustumLeft;
     if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL && camera->mCourseMapCamera != NULL) {
-        staffRollShift = ((s64) camera->mFrustumTop * camera->mCourseMapCamera->mUnk_00.y + 0x800) >> 12;
+        staffRollShift = MUL_FIXED12_ROUNDED(camera->mFrustumTop, camera->mCourseMapCamera->mUnk_00.y);
         camera->mFrustumBottom += staffRollShift;
         camera->mFrustumTop += staffRollShift;
     }

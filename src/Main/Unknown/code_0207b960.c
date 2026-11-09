@@ -44,12 +44,12 @@ void func_0207d6a4(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *k
         raceSpeedLimit->mTurnSpeedLimit = limit;
         turnAngle = kartAi->mTurnAngleDegrees;
         if (turnAngle > 0x5000) {
-            x = ((s64) (turnAngle - 0x5000) * 0x5b) >> 12;
+            x = MUL_FIXED12_NO_ROUND(turnAngle - 0x5000, 0x5b);
             if (x > 0x1000) {
                 x = 0x1000;
             }
-            x = ((s64) x * 0x668) >> 12;
-            raceSpeedLimit->mTurnSpeedLimit = ((s64) (0x1000 - x) * 0xa000) >> 12;
+            x = MUL_FIXED12_NO_ROUND(x, 0x668);
+            raceSpeedLimit->mTurnSpeedLimit = MUL_FIXED12_NO_ROUND(0x1000 - x, 0xa000);
         }
         turnSpeedLimit = raceSpeedLimit->mTurnSpeedLimit;
         if (turnSpeedLimit < limit) {
@@ -67,7 +67,7 @@ void func_0207d6a4(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *k
         return;
     }
     x = GetPointLinkSpeedRatio(&kartAi->mUnk_08);
-    kartAi->mKart->mSpeedLimitGoal = ((s64) raceSpeedLimit->mSpeedLimit * x + 0x800) >> 12;
+    kartAi->mKart->mSpeedLimitGoal = MUL_FIXED12_ROUNDED(raceSpeedLimit->mSpeedLimit, x);
 }
 
 void func_0207d5b8(KartAiItemUse *itemUse, struct KartAi *kartAi) {
@@ -918,34 +918,29 @@ void ComputePosCurvePoint(Vec3 *point, PosCurve *posCurve) {
 
     param = posCurve->mParam;
     paramRemaining = 0x1000 - param;
-    paramSquared = ((s64) param * param + 0x800) >> 12;
-    paramCubed = ((s64) paramSquared * param + 0x800) >> 12;
-    weight0 = ((s64) (s32) (((s64) paramRemaining * 0x2ab + 0x800) >> 12) *
-                   (s32) (((s64) paramRemaining * paramRemaining + 0x800) >> 12) +
-               0x800) >>
-              12;
-    weight1 = ((s64) ((s32) (((s64) paramCubed * 0x3000 + 0x800) >> 12) -
-                      (s32) (((s64) 0x6000 * paramSquared + 0x800) >> 12) + 0x4000) *
-                   0x2ab +
-               0x800) >>
-              12;
-    weight2 = ((s64) ((s32) (((s64) (param + (paramSquared - paramCubed)) * 0x3000 + 0x800) >> 12) + 0x1000) * 0x2ab +
-               0x800) >>
-              12;
-    weight3 = ((s64) paramCubed * 0x2ab + 0x800) >> 12;
+    paramSquared = MUL_FIXED12_ROUNDED(param, param);
+    paramCubed = MUL_FIXED12_ROUNDED(paramSquared, param);
+    weight0 = MUL_FIXED12_ROUNDED(MUL_FIXED12_ROUNDED(paramRemaining, 0x2ab),
+                                  MUL_FIXED12_ROUNDED(paramRemaining, paramRemaining));
+    weight1 = MUL_FIXED12_ROUNDED(MUL_FIXED12_ROUNDED(paramCubed, 0x3000) -
+                                      MUL_FIXED12_ROUNDED(0x6000, paramSquared) + 0x4000,
+                                  0x2ab);
+    weight2 =
+        MUL_FIXED12_ROUNDED(MUL_FIXED12_ROUNDED(param + (paramSquared - paramCubed), 0x3000) + 0x1000, 0x2ab);
+    weight3 = MUL_FIXED12_ROUNDED(paramCubed, 0x2ab);
     for (i = 0; i < 4; i++) {
         controlPoints[i] = &posCurve->mPoints[i];
     }
-    point->x = (s32) (((s64) controlPoints[0]->x * weight0 + 0x800) >> 12) +
-               (s32) (((s64) controlPoints[1]->x * weight1 + 0x800) >> 12) +
-               (s32) (((s64) controlPoints[2]->x * weight2 + 0x800) >> 12) +
-               (s32) (((s64) controlPoints[3]->x * weight3 + 0x800) >> 12);
-    point->y = (s32) (((s64) controlPoints[0]->y * weight0 + 0x800) >> 12) +
-               (s32) (((s64) controlPoints[1]->y * weight1 + 0x800) >> 12) +
-               (s32) (((s64) controlPoints[2]->y * weight2 + 0x800) >> 12) +
-               (s32) (((s64) controlPoints[3]->y * weight3 + 0x800) >> 12);
-    point->z = (s32) (((s64) controlPoints[0]->z * weight0 + 0x800) >> 12) +
-               (s32) (((s64) controlPoints[1]->z * weight1 + 0x800) >> 12) +
-               (s32) (((s64) controlPoints[2]->z * weight2 + 0x800) >> 12) +
-               (s32) (((s64) controlPoints[3]->z * weight3 + 0x800) >> 12);
+    point->x = MUL_FIXED12_ROUNDED(controlPoints[0]->x, weight0) +
+               MUL_FIXED12_ROUNDED(controlPoints[1]->x, weight1) +
+               MUL_FIXED12_ROUNDED(controlPoints[2]->x, weight2) +
+               MUL_FIXED12_ROUNDED(controlPoints[3]->x, weight3);
+    point->y = MUL_FIXED12_ROUNDED(controlPoints[0]->y, weight0) +
+               MUL_FIXED12_ROUNDED(controlPoints[1]->y, weight1) +
+               MUL_FIXED12_ROUNDED(controlPoints[2]->y, weight2) +
+               MUL_FIXED12_ROUNDED(controlPoints[3]->y, weight3);
+    point->z = MUL_FIXED12_ROUNDED(controlPoints[0]->z, weight0) +
+               MUL_FIXED12_ROUNDED(controlPoints[1]->z, weight1) +
+               MUL_FIXED12_ROUNDED(controlPoints[2]->z, weight2) +
+               MUL_FIXED12_ROUNDED(controlPoints[3]->z, weight3);
 }

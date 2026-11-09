@@ -171,9 +171,8 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
     }
     v = ironBall->mPathSpeed;
     ironBall->mFollower.mSpeed = v;
-    ironBall->mFollower.mProgressStep =
-        ((s64) v * ironBall->mFollower.mPath->mSegments[ironBall->mFollower.mSegmentIndex].mInverseProgressLength) >>
-        12;
+    ironBall->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
+        v, ironBall->mFollower.mPath->mSegments[ironBall->mFollower.mSegmentIndex].mInverseProgressLength);
     if (AdvanceGroupFollower(&ironBall->mFollower) != FALSE) {
         fromEntry = ironBall->mFollower.mFromEntry;
         if (ironBall->mFollower.mForward == 0) {
@@ -256,7 +255,7 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
         ironBall->mHeightSpeed -= 0x1000;
         ironBall->mHeightOffset = ironBall->mHeightOffset + ironBall->mHeightSpeed;
         if (ironBall->mHeightOffset <= 0) {
-            ironBall->mHeightSpeed = ((s64) ironBall->mHeightSpeed * -0x800) >> 12;
+            ironBall->mHeightSpeed = MUL_FIXED12_NO_ROUND(ironBall->mHeightSpeed, -0x800);
             if (ironBall->mHeightSpeed < 0x1000) {
                 ironBall->mHeightSpeed = 0;
             } else if (!(GetKartKind3ShapeListMask() & ironBall->mSoundOffKind3ShapeListMask) &&
@@ -367,14 +366,14 @@ void PlaceCourseSoundObjectPartSource(CourseSoundObjectPart *soundPart, Vec3 *po
             v = FX_Atan2Idx(currentCamera->mPos.x - position->x, currentCamera->mPos.z - position->z);
             if (v >= 0 && v <= 0xaaab) {
                 n = ((u16) v >> 4) << 1;
-                soundPart->mSourcePos.x = position->x + (s32) (((s64) gPairsByAngle[n] * 0x5dc000) >> 12);
+                soundPart->mSourcePos.x = position->x + MUL_FIXED12_NO_ROUND(gPairsByAngle[n], 0x5dc000);
                 soundPart->mSourcePos.y = position->y;
-                soundPart->mSourcePos.z = position->z + (s32) (((s64) gPairsByAngle[n + 1] * 0x5dc000) >> 12);
+                soundPart->mSourcePos.z = position->z + MUL_FIXED12_NO_ROUND(gPairsByAngle[n + 1], 0x5dc000);
                 soundPart->mUnk_20 = FALSE;
             } else if (currentCamera->mPos.z > position->z && currentCamera->mPos.y < position->y - 0x32000) {
-                soundPart->mSourcePos.x = position->x + (s32) (((s64) gPairsByAngle[0] * 0x5dc000) >> 12);
+                soundPart->mSourcePos.x = position->x + MUL_FIXED12_NO_ROUND(gPairsByAngle[0], 0x5dc000);
                 soundPart->mSourcePos.y = position->y;
-                soundPart->mSourcePos.z = position->z + (s32) (((s64) gPairsByAngle[1] * 0x5dc000) >> 12);
+                soundPart->mSourcePos.z = position->z + MUL_FIXED12_NO_ROUND(gPairsByAngle[1], 0x5dc000);
                 v = soundPart->mSourcePos.x - crossXMargin;
                 n = currentCamera->mPos.x;
                 if (n <= v) {
@@ -383,9 +382,9 @@ void PlaceCourseSoundObjectPartSource(CourseSoundObjectPart *soundPart, Vec3 *po
                 soundPart->mSourcePos.x = n;
                 soundPart->mUnk_20 = TRUE;
             } else {
-                soundPart->mSourcePos.x = position->x + (s32) (((s64) data_0215feb4[0x54] * 0x5dc000) >> 12);
+                soundPart->mSourcePos.x = position->x + MUL_FIXED12_NO_ROUND(data_0215feb4[0x54], 0x5dc000);
                 soundPart->mSourcePos.y = position->y;
-                soundPart->mSourcePos.z = position->z + (s32) (((s64) data_0215feb4[0x55] * 0x5dc000) >> 12);
+                soundPart->mSourcePos.z = position->z + MUL_FIXED12_NO_ROUND(data_0215feb4[0x55], 0x5dc000);
                 soundPart->mUnk_20 = FALSE;
             }
             break;

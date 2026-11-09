@@ -132,7 +132,7 @@ void func_01ffb130(Kart *p) {
         GetKartForward(p, &v2);
         if (!(p->mUnk_48 & 6) && p->mGroundNormal.y > 0 && (v2.y > 0 ? v2.y : -v2.y) > 0xcd &&
             p->mSpeedLimitHitFactor <= 0) {
-            p->mForwardSpeed += (s32) (((s64) -v2.y * 0x19a) >> 12);
+            p->mForwardSpeed += MUL_FIXED12_NO_ROUND(-v2.y, 0x19a);
         }
     }
     if ((p->mUnk_44 & KART_44_ON_GROUND) || (p->mUnk_4c & 0x10000000)) {
@@ -144,9 +144,9 @@ void func_01ffb130(Kart *p) {
         }
         MTX_MultVec33(&p->mForward, &m1, &p->mTurnedForward);
         d = VEC_DotProduct(&p->mGroundNormal, &p->mTurnedForward);
-        v3.x = p->mTurnedForward.x - (s32) (((s64) p->mGroundNormal.x * d) >> 12);
-        v3.y = p->mTurnedForward.y - (s32) (((s64) p->mGroundNormal.y * d) >> 12);
-        v3.z = p->mTurnedForward.z - (s32) (((s64) p->mGroundNormal.z * d) >> 12);
+        v3.x = p->mTurnedForward.x - MUL_FIXED12_NO_ROUND(p->mGroundNormal.x, d);
+        v3.y = p->mTurnedForward.y - MUL_FIXED12_NO_ROUND(p->mGroundNormal.y, d);
+        v3.z = p->mTurnedForward.z - MUL_FIXED12_NO_ROUND(p->mGroundNormal.z, d);
         p->mUnk_d4 = VEC_Mag(&v3);
     } else {
         d = Vec3DotUnrounded(&p->mForward, &p->mGroundNormal);
@@ -164,15 +164,15 @@ void func_01ffb130(Kart *p) {
     if ((p->mUnk_44 & 0x90) || (p->mUnk_4c & 0x10000000)) {
         k = p->mTurnedForwardEaseFactor;
         VEC_Subtract(&p->mTurnedForward, &p->mEasedTurnedForward, &v4);
-        v4.x = ((s64) v4.x * k) >> 12;
-        v4.y = ((s64) v4.y * k) >> 12;
-        v4.z = ((s64) v4.z * k) >> 12;
+        v4.x = MUL_FIXED12_NO_ROUND(v4.x, k);
+        v4.y = MUL_FIXED12_NO_ROUND(v4.y, k);
+        v4.z = MUL_FIXED12_NO_ROUND(v4.z, k);
         VEC_Add(&p->mEasedTurnedForward, &v4, &p->mEasedTurnedForward);
         p->mEasedTurnedForward.y = p->mTurnedForward.y;
     }
-    v1.x = ((s64) p->mEasedTurnedForward.x * a) >> 12;
-    v1.y = ((s64) p->mEasedTurnedForward.y * a) >> 12;
-    v1.z = ((s64) p->mEasedTurnedForward.z * a) >> 12;
+    v1.x = MUL_FIXED12_NO_ROUND(p->mEasedTurnedForward.x, a);
+    v1.y = MUL_FIXED12_NO_ROUND(p->mEasedTurnedForward.y, a);
+    v1.z = MUL_FIXED12_NO_ROUND(p->mEasedTurnedForward.z, a);
     if (a >= 0) {
         p->mSignedTurnedForward = p->mTurnedForward;
     } else {
@@ -197,7 +197,7 @@ void func_01ffb130(Kart *p) {
     if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         SetKartForwardSpeedRatio(Vec3DotUnrounded(&p->mVelocity, &p->mTurnedForward));
         if ((p->mUnk_44 & 0x1000000) && p->mUnk_4d4 != 0) {
-            p->mUnk_4d4 = ((s64) p->mUnk_4d4 * 0xfae) >> 12;
+            p->mUnk_4d4 = MUL_FIXED12_NO_ROUND(p->mUnk_4d4, 0xfae);
             if (p->mUnk_4d4 < 0xcd) {
                 p->mUnk_4d4 = 0;
             }
@@ -208,9 +208,9 @@ void func_01ffb130(Kart *p) {
         p->mSpeedLimitHitFactor = 0x1000;
     }
     f = (p->mUnk_44 & KART_44_ON_GROUND) ? 0xee1 : 0xfae;
-    p->mHitVelocity.x = ((s64) p->mHitVelocity.x * f) >> 12;
-    p->mHitVelocity.y = ((s64) p->mHitVelocity.y * f) >> 12;
-    p->mHitVelocity.z = ((s64) p->mHitVelocity.z * f) >> 12;
+    p->mHitVelocity.x = MUL_FIXED12_NO_ROUND(p->mHitVelocity.x, f);
+    p->mHitVelocity.y = MUL_FIXED12_NO_ROUND(p->mHitVelocity.y, f);
+    p->mHitVelocity.z = MUL_FIXED12_NO_ROUND(p->mHitVelocity.z, f);
     if ((s64) p->mHitVelocity.x * p->mHitVelocity.x + (s64) p->mHitVelocity.y * p->mHitVelocity.y +
             (s64) p->mHitVelocity.z * p->mHitVelocity.z >=
         0xa429) {

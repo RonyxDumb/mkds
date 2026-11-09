@@ -84,9 +84,9 @@ void func_ov001_021927c0(Unk02188950 *a) {
         SetKartCollisionCallback(a, func_ov001_021927c0);
         return;
     }
-    a->mUnk_000.mUnk_10.x = ((s64) a->mPrm->mUnk_144 * gPairsByAngle[(u16) a->mMoveAngle >> 4 << 1]) >> 12;
+    a->mUnk_000.mUnk_10.x = MUL_FIXED12_NO_ROUND(a->mPrm->mUnk_144, gPairsByAngle[(u16) a->mMoveAngle >> 4 << 1]);
     a->mUnk_000.mUnk_10.y = 0;
-    a->mUnk_000.mUnk_10.z = ((s64) a->mPrm->mUnk_144 * gPairsByAngle[((u16) a->mMoveAngle >> 4 << 1) + 1]) >> 12;
+    a->mUnk_000.mUnk_10.z = MUL_FIXED12_NO_ROUND(a->mPrm->mUnk_144, gPairsByAngle[((u16) a->mMoveAngle >> 4 << 1) + 1]);
     a->mUnk_2d8 = 0xd;
     SetKartCollisionCallback(a, func_ov001_021927c0);
     StartCameraWobbleAtDistance(a->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
@@ -120,9 +120,9 @@ void func_ov001_02192694(void) {
         ang = a0->mUnk_26c + FX_Atan2Idx(other->mPos.z - obj->mUnk_000.mPos.z, other->mPos.x - obj->mUnk_000.mPos.x);
     }
     idx = (ang >> 4) * 2;
-    pos.x = obj->mUnk_000.mPos.x + (s32) (((s64) a0->mUnk_270 * gPairsByAngle[idx + 1]) >> 12);
+    pos.x = obj->mUnk_000.mPos.x + MUL_FIXED12_NO_ROUND(a0->mUnk_270, gPairsByAngle[idx + 1]);
     pos.y = obj->mUnk_000.mPos.y;
-    pos.z = obj->mUnk_000.mPos.z + (s32) (((s64) obj->mPrm->mUnk_270 * gPairsByAngle[idx]) >> 12);
+    pos.z = obj->mUnk_000.mPos.z + MUL_FIXED12_NO_ROUND(obj->mPrm->mUnk_270, gPairsByAngle[idx]);
     SetAnglePointAndMoveAnglePoint(obj, &pos);
 }
 
@@ -149,15 +149,15 @@ void func_ov001_021924cc(void) {
     } else {
         objC = NULL;
     }
-    a.x = (((s64) objB->mPrm->mUnk_274 * gPairsByAngle[((u16) objB->mAngle >> 4) * 2]) >> 12);
+    a.x = (MUL_FIXED12_NO_ROUND(objB->mPrm->mUnk_274, gPairsByAngle[((u16) objB->mAngle >> 4) * 2]));
     a.y = objB->mUnk_000.mPos.y;
-    a.z = (((s64) objB->mPrm->mUnk_274 * gPairsByAngle[((u16) objB->mAngle >> 4) * 2 + 1]) >> 12);
-    b.x = -(s32) (((s64) objB->mPrm->mUnk_278 * gPairsByAngle[((u16) objB->mAngle >> 4) * 2 + 1]) >> 12);
+    a.z = (MUL_FIXED12_NO_ROUND(objB->mPrm->mUnk_274, gPairsByAngle[((u16) objB->mAngle >> 4) * 2 + 1]));
+    b.x = -(s32) (MUL_FIXED12_NO_ROUND(objB->mPrm->mUnk_278, gPairsByAngle[((u16) objB->mAngle >> 4) * 2 + 1]));
     b.y = objB->mUnk_000.mPos.y;
-    b.z = (((s64) objB->mPrm->mUnk_278 * gPairsByAngle[((u16) objB->mAngle >> 4) * 2]) >> 12);
-    c.x = (((s64) objB->mPrm->mUnk_278 * gPairsByAngle[((u16) objB->mAngle >> 4) * 2 + 1]) >> 12);
+    b.z = (MUL_FIXED12_NO_ROUND(objB->mPrm->mUnk_278, gPairsByAngle[((u16) objB->mAngle >> 4) * 2]));
+    c.x = (MUL_FIXED12_NO_ROUND(objB->mPrm->mUnk_278, gPairsByAngle[((u16) objB->mAngle >> 4) * 2 + 1]));
     c.y = objB->mUnk_000.mPos.y;
-    c.z = -(s32) (((s64) objB->mPrm->mUnk_278 * gPairsByAngle[((u16) objB->mAngle >> 4) * 2]) >> 12);
+    c.z = -(s32) (MUL_FIXED12_NO_ROUND(objB->mPrm->mUnk_278, gPairsByAngle[((u16) objB->mAngle >> 4) * 2]));
     SetAnglePoint(obj, &a);
     SetAnglePoint(objC, &a);
     SetMoveAnglePoint(obj, &b);
@@ -1201,9 +1201,9 @@ void func_ov001_0218fd20(Unk02188950 *a, Unk0218fd20 *b) {
     }
     limit = a->mPrm->mUnk_088;
     if (diff <= limit && diff >= -limit && func_ov001_021871f8(a, 7)) {
-        vec.x = (((s64) -a->mPrm->mUnk_224 * gPairsByAngle[((u16) a->mAngle >> 4) * 2]) >> 12);
+        vec.x = (MUL_FIXED12_NO_ROUND(-a->mPrm->mUnk_224, gPairsByAngle[((u16) a->mAngle >> 4) * 2]));
         vec.y = a->mPrm->mUnk_228;
-        vec.z = (((s64) -a->mPrm->mUnk_224 * gPairsByAngle[((u16) a->mAngle >> 4) * 2 + 1]) >> 12);
+        vec.z = (MUL_FIXED12_NO_ROUND(-a->mPrm->mUnk_224, gPairsByAngle[((u16) a->mAngle >> 4) * 2 + 1]));
         SetVelocity(
             (gRaceSetup->mMode == MODE_MISSION_RUN
                  ? GetMissionRunMapObject((u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0))

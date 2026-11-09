@@ -133,10 +133,10 @@ void AdvanceKartRemovalShrink(Kart *kart) {
         kart->mScaleFactor.x = gKartScaleFactorXTable[scaleIndex];
         kart->mScaleFactor.y = gKartScaleFactorYTable[scaleIndex];
         kart->mScaleFactor.z = gKartScaleFactorZTable[scaleIndex];
-        kart->mScale.x = (s64) kart->mScaleBase.x * kart->mScaleFactor.x >> 12;
-        kart->mScale.y = (s64) kart->mScaleBase.y * kart->mScaleFactor.y >> 12;
-        kart->mScale.z = (s64) kart->mScaleBase.z * kart->mScaleFactor.z >> 12;
-        kart->mScale.y = (s64) kart->mScaleYFactor * kart->mScale.y >> 12;
+        kart->mScale.x = MUL_FIXED12_NO_ROUND(kart->mScaleBase.x, kart->mScaleFactor.x);
+        kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleBase.y, kart->mScaleFactor.y);
+        kart->mScale.z = MUL_FIXED12_NO_ROUND(kart->mScaleBase.z, kart->mScaleFactor.z);
+        kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleYFactor, kart->mScale.y);
         kart->mUnk_3c8 = kart->mUnk_3c8 + 1;
     }
 }

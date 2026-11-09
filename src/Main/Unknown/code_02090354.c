@@ -111,8 +111,8 @@ void InitSmanObjects(SmanList *smanList) {
         sman->mTopRiseProgress = 0x1000;
         sman->mBottomScale = 0x1000;
         index++;
-        sman->mTopStartHeight = ((s64) sman->mMapObject.mScale.y * 0xf333) >> 12;
-        sman->mTopLowHeight = ((s64) sman->mMapObject.mScale.y * 0x2000) >> 12;
+        sman->mTopStartHeight = MUL_FIXED12_NO_ROUND(sman->mMapObject.mScale.y, 0xf333);
+        sman->mTopLowHeight = MUL_FIXED12_NO_ROUND(sman->mMapObject.mScale.y, 0x2000);
         sman->mTopHeight = sman->mTopStartHeight;
     }
 }
@@ -577,7 +577,7 @@ void TurnKartKillerTowardPointLink(KartKillerCursor *kartKillerCursor) {
     } else {
         turnFactor = 0x52;
     }
-    targetHeadingAngle = kart->mHeadingAngle + (s16) (((s64) angleToLinkDegrees * 0xb6 + 0x800) >> 12);
+    targetHeadingAngle = kart->mHeadingAngle + (s16) MUL_FIXED12_ROUNDED(angleToLinkDegrees, 0xb6);
     entryIndex = *(volatile s32 *) &kart->mEntryIndex;
     padBits = gInputSlots[entryIndex].mBits;
     if ((u16) (padBits & PAD_KEY_LEFT) != 0) {
@@ -595,7 +595,7 @@ void TurnKartKillerTowardPointLink(KartKillerCursor *kartKillerCursor) {
             angleDifference = angleDifference + 0xffff;
         }
     }
-    kart->mHeadingAngle = kart->mHeadingAngle + (s32) (((s64) angleDifference * turnFactor) >> 12);
+    kart->mHeadingAngle = kart->mHeadingAngle + MUL_FIXED12_NO_ROUND(angleDifference, turnFactor);
 }
 
 s32 func_020905a8(KartKillerCursor *kartKillerCursor) {

@@ -457,7 +457,7 @@ void UpdateKartAiRankLists(void) {
     for (i = 0; (u32) i < gRaceSetup->mKartCount; i++) {
         w = gCourseMap->mCheckpointSumQuotient;
         x = GetKartRaceProgress(i);
-        w = ((s64) x * w + 0x800) >> 12;
+        w = MUL_FIXED12_ROUNDED(x, w);
         kartRank = GetKartRank(i);
         gKartAiShared->mRaceProgressScaled[i] = w;
         if (kartRank > 0) {
@@ -576,7 +576,7 @@ s32 GetKartRaceProgressScaled(u32 kartIndex) {
     s32 raceProgress;
     checkpointSumQuotient = gCourseMap->mCheckpointSumQuotient;
     raceProgress = GetKartRaceProgress(kartIndex);
-    return ((s64) raceProgress * checkpointSumQuotient + 0x800) >> 12;
+    return MUL_FIXED12_ROUNDED(raceProgress, checkpointSumQuotient);
 }
 
 BOOL IsOneKartNotHumanOrPeer(void) {

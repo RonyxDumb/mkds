@@ -49,9 +49,9 @@ void func_020f9b0c(ItemObject *item) {
         func_020f7658(item, 1);
         return;
     }
-    item->mVelocity.x = ((s64) item->mVelocity.x * 0x99a) >> 12;
-    item->mVelocity.y = ((s64) item->mVelocity.y * 0x99a) >> 12;
-    item->mVelocity.z = ((s64) item->mVelocity.z * 0x99a) >> 12;
+    item->mVelocity.x = MUL_FIXED12_NO_ROUND(item->mVelocity.x, 0x99a);
+    item->mVelocity.y = MUL_FIXED12_NO_ROUND(item->mVelocity.y, 0x99a);
+    item->mVelocity.z = MUL_FIXED12_NO_ROUND(item->mVelocity.z, 0x99a);
     func_020f6fc4(item, 1);
 }
 

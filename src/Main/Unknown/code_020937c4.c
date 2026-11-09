@@ -245,9 +245,9 @@ void StartNsKiller2(Vec3 *startPos, Vec3 *b, u16 angle) {
     nsKiller2->mUnk_00.mMatrix.mUnk_00[2].x = b->x;
     nsKiller2->mUnk_00.mMatrix.mUnk_00[2].y = 0;
     nsKiller2->mUnk_00.mMatrix.mUnk_00[2].z = b->z;
-    nsKiller2->mUnk_00.mUnk_10.x = ((s64) b->x * 0x6000) >> 12;
+    nsKiller2->mUnk_00.mUnk_10.x = MUL_FIXED12_NO_ROUND(b->x, 0x6000);
     nsKiller2->mUnk_00.mUnk_10.y = 0;
-    nsKiller2->mUnk_00.mUnk_10.z = ((s64) b->z * 0x6000) >> 12;
+    nsKiller2->mUnk_00.mUnk_10.z = MUL_FIXED12_NO_ROUND(b->z, 0x6000);
     nsKiller2->mUnk_00.mAngle = angle;
     nsKiller2->mMode = 0;
 }

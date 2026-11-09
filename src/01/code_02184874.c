@@ -29,9 +29,9 @@ void func_ov001_02184874(Unk02188950 *donketu, Kart *kart) {
                     Vec3NormalizeAndGetLengthUnchecked(&velocityWhenBoosted, &velocityWhenBoosted);
                 }
                 scale = donketu->mPrm->mUnk_1e0;
-                velocityWhenBoosted.x = (((s64) velocityWhenBoosted.x * scale) >> 12);
-                velocityWhenBoosted.y = (((s64) velocityWhenBoosted.y * scale) >> 12);
-                velocityWhenBoosted.z = (((s64) velocityWhenBoosted.z * scale) >> 12);
+                velocityWhenBoosted.x = MUL_FIXED12_NO_ROUND(velocityWhenBoosted.x, scale);
+                velocityWhenBoosted.y = MUL_FIXED12_NO_ROUND(velocityWhenBoosted.y, scale);
+                velocityWhenBoosted.z = MUL_FIXED12_NO_ROUND(velocityWhenBoosted.z, scale);
                 velocityWhenBoosted.y = donketu->mPrm->mUnk_1dc;
                 func_ov001_02187218(donketu, 7, NULL);
                 StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_1d4, donketu->mPrm->mUnk_1d8);
@@ -83,9 +83,9 @@ void func_ov001_02184874(Unk02188950 *donketu, Kart *kart) {
                 Vec3NormalizeAndGetLengthUnchecked(&velocityWhenNotBoosted, &velocityWhenNotBoosted);
             }
             scale = donketu->mPrm->mUnk_1c8;
-            velocityWhenNotBoosted.x = (((s64) velocityWhenNotBoosted.x * scale) >> 12);
-            velocityWhenNotBoosted.y = (((s64) velocityWhenNotBoosted.y * scale) >> 12);
-            velocityWhenNotBoosted.z = (((s64) velocityWhenNotBoosted.z * scale) >> 12);
+            velocityWhenNotBoosted.x = MUL_FIXED12_NO_ROUND(velocityWhenNotBoosted.x, scale);
+            velocityWhenNotBoosted.y = MUL_FIXED12_NO_ROUND(velocityWhenNotBoosted.y, scale);
+            velocityWhenNotBoosted.z = MUL_FIXED12_NO_ROUND(velocityWhenNotBoosted.z, scale);
             velocityWhenNotBoosted.y = donketu->mPrm->mUnk_1c4;
             func_ov001_02187218(donketu, 7, NULL);
             StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_1bc, donketu->mPrm->mUnk_1c0);

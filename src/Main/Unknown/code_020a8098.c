@@ -23,9 +23,9 @@ void StartSanboLaunch(Sanbo *sanbo) {
         sanbo->mPieces[i].mPos.x = sanbo->mUnk_000.mPos.x;
         sanbo->mPieces[i].mPos.y = sanbo->mUnk_000.mPos.y + i * 0x14000;
         sanbo->mPieces[i].mPos.z = sanbo->mUnk_000.mPos.z;
-        sanbo->mPieces[i].mVelocity.x = ((s64) gPairsByAngle[(randomAngle >> 4) * 2] * 0x2000) >> 12;
+        sanbo->mPieces[i].mVelocity.x = MUL_FIXED12_NO_ROUND(gPairsByAngle[(randomAngle >> 4) * 2], 0x2000);
         sanbo->mPieces[i].mVelocity.y = 0x4000;
-        sanbo->mPieces[i].mVelocity.z = ((s64) gPairsByAngle[(randomAngle >> 4) * 2 + 1] * 0x2000) >> 12;
+        sanbo->mPieces[i].mVelocity.z = MUL_FIXED12_NO_ROUND(gPairsByAngle[(randomAngle >> 4) * 2 + 1], 0x2000);
         mapObjectRandom = GetMapObjectRandom();
         mapObjectRandom->mValue =
             (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;

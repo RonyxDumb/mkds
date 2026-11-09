@@ -151,7 +151,7 @@ void StartKartSurfaceSoundWhileRequested(Kart *kart, s32 entryIndex, s32 surface
                 depthPitch += gSoundPitchSwing;
             }
         } else if (waterDepth > 0x61a8 && waterDepth <= 0x11170) {
-            depthPitch = ((s32) ((((s64) data_0217ccb0 * (s32) ((waterDepth - 0x61a8) << 12)) + 0x800) >> 12)) >> 12;
+            depthPitch = (MUL_FIXED12_ROUNDED(data_0217ccb0, (s32) ((waterDepth - 0x61a8) << 12))) >> 12;
             if (isEntryKart != FALSE) {
                 depthPitch += gSoundPitchSwing >> 1;
             }
@@ -502,7 +502,7 @@ void SetKartPlayingSoundVolumePitch(Kart *kart, PlayingSound *playingSound, s32 
                 depthPitch += gSoundPitchSwing;
             }
         } else if (waterDepth > 0x61a8 && waterDepth <= 0x11170) {
-            depthPitch = ((s32) ((((s64) data_0217ccb0 * (s32) ((waterDepth - 0x61a8) << 12)) + 0x800) >> 12)) >> 12;
+            depthPitch = (MUL_FIXED12_ROUNDED(data_0217ccb0, (s32) ((waterDepth - 0x61a8) << 12))) >> 12;
             if (isEntryKart != FALSE) {
                 depthPitch += gSoundPitchSwing >> 1;
             }
@@ -546,7 +546,7 @@ void func_0210a77c(Kart *kart, PlayingSound *playingSound) {
             depthPitch = 0x1c2;
             depthPitch += gSoundPitchSwing;
         } else if (depth > 0x61a8 && depth <= 0x11170) {
-            depthPitch = ((s32) ((((s64) data_0217ccbc * (s32) ((depth - 0x61a8) << 12)) + 0x800) >> 12)) >> 12;
+            depthPitch = (MUL_FIXED12_ROUNDED(data_0217ccbc, (s32) ((depth - 0x61a8) << 12))) >> 12;
             depthPitch += gSoundPitchSwing >> 1;
         }
         pitchOffset -= depthPitch;

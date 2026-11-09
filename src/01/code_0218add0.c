@@ -26,9 +26,10 @@ void func_ov001_0218aef4(Unk02188950 *mapObject) {
         Vec3 vel = {0, 0, 0};
         angle += 0x5555;
         idx = ((u16) angle >> 4) * 2;
-        pos.x = mapObject->mUnk_000.mPos.x + (s32) (((s64) mapObject->mPrm->mUnk_1e4 * gPairsByAngle[idx]) >> 12);
+        pos.x = mapObject->mUnk_000.mPos.x + MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_1e4, gPairsByAngle[idx]);
         pos.y = mapObject->mUnk_000.mPos.y;
-        pos.z = mapObject->mUnk_000.mPos.z + (s32) (((s64) mapObject->mPrm->mUnk_1e4 * gPairsByAngle[idx + 1]) >> 12);
+        pos.z =
+            mapObject->mUnk_000.mPos.z + MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_1e4, gPairsByAngle[idx + 1]);
         ThrowItemBombFromPosition(StartItemBomb(), &pos, &vel, mapObject->mPrm->mUnk_1e8);
     }
     {

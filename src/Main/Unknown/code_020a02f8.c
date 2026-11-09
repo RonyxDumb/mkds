@@ -1009,7 +1009,7 @@ void func_020a0318(void *mapObjectList, Unk020a0318 *mapObject) {
             if (*GetSndHandleSlot(8) != NULL) {
                 kart = GetKart((u16) gRaceSetup->mEntryIndex);
                 mapObject->mSoundVolumeFixed12 =
-                    mapObject->mSoundVolumeFixed12 - (s32) (((s64) kart->mVelocityLengthRatio * 0x1000) >> 12);
+                    mapObject->mSoundVolumeFixed12 - MUL_FIXED12_NO_ROUND(kart->mVelocityLengthRatio, 0x1000);
                 if (mapObject->mSoundVolumeFixed12 < 0xc000) {
                     mapObject->mSoundVolumeFixed12 = 0xc000;
                 }

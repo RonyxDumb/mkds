@@ -45,8 +45,8 @@ void SetupTrophy(void) {
     NNS_G3dGlbLightVector(1, gTrophy->mLight1X, gTrophy->mLight1Y, gTrophy->mLight1Z);
     NNS_G3dGlbLightColor(0, 0x7fff);
     NNS_G3dGlbLightColor(1, 0x7fff);
-    x = ((s64) FX_Div(data_0215d6b4[0x54], data_0215d6b4[0x55]) * 0x19a) >> 12;
-    y = ((s64) -x * 0x1555) >> 12;
+    x = MUL_FIXED12_NO_ROUND(FX_Div(data_0215d6b4[0x54], data_0215d6b4[0x55]), 0x19a);
+    y = MUL_FIXED12_NO_ROUND(-x, 0x1555);
     if (gRaceSetup->mMirrorMode != 0) {
         G3i_FrustumW_(x, -x, -y, y, 0x19a, 0x1388000, 0x200, 0, &data_0217029c.mProjMtx);
         data_0217029c.mFlag &= ~0x50;
@@ -176,7 +176,7 @@ s16 TrophyGetAnglePairFirst(s32 angle) {
 }
 
 s32 TrophyMulFixed12Rounded(s32 a, s32 b) {
-    return ((s64) a * b + 0x800) >> 12;
+    return MUL_FIXED12_ROUNDED(a, b);
 }
 
 void AdvanceTrophy(void) {

@@ -150,7 +150,7 @@ void UpdatePendulum(u32 param_1, PendulumObject *pendulum) {
 
     previousAngle = pendulum->mSwingAngle;
     pendulum->mSwingAngle = previousAngle + pendulum->mSwingAnglePerFrame;
-    swingAngle = ((s64) (s32) pendulum->mSwingAmplitude * gPairsByAngle[(pendulum->mSwingAngle >> 4) * 2]) >> 12;
+    swingAngle = MUL_FIXED12_NO_ROUND((s32) pendulum->mSwingAmplitude, gPairsByAngle[(pendulum->mSwingAngle >> 4) * 2]);
     if ((previousAngle < 0x58f0 && pendulum->mSwingAngle >= 0x58f0) ||
         (previousAngle < 0xd8f0 && pendulum->mSwingAngle >= 0xd8f0)) {
         if ((pendulum->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
@@ -211,9 +211,9 @@ BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s3
         return FALSE;
     }
     if ((t > 0 ? t : -t) < d) {
-        out->x = ((s64) pendulum->mMapObject.mMatrix.mUnk_00[2].x * t) >> 12;
-        out->y = ((s64) pendulum->mMapObject.mMatrix.mUnk_00[2].y * t) >> 12;
-        out->z = ((s64) pendulum->mMapObject.mMatrix.mUnk_00[2].z * t) >> 12;
+        out->x = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mMatrix.mUnk_00[2].x, t);
+        out->y = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mMatrix.mUnk_00[2].y, t);
+        out->z = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mMatrix.mUnk_00[2].z, t);
         pendulum->mUnk_10c = FALSE;
     } else {
         if (v.y < 0) {
@@ -223,9 +223,9 @@ BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s3
         if (distanceSquared >= 16) {
             Vec3NormalizeAndGetLengthUnchecked(&v, &v);
         }
-        out->x = ((s64) v.x * d) >> 12;
-        out->y = ((s64) v.y * d) >> 12;
-        out->z = ((s64) v.z * d) >> 12;
+        out->x = MUL_FIXED12_NO_ROUND(v.x, d);
+        out->y = MUL_FIXED12_NO_ROUND(v.y, d);
+        out->z = MUL_FIXED12_NO_ROUND(v.z, d);
         pendulum->mUnk_10c = TRUE;
     }
     return TRUE;
@@ -242,10 +242,10 @@ void CreatePendulumAndPendulumShadow(void) {
 void InitPendulum(PendulumObject *pendulum, Unk020e5e24_2 *courseRow) {
     s32 m;
 
-    pendulum->mMapObject.mExtent.y = ((s64) pendulum->mMapObject.mKindData->mUnk_10 * courseRow->mUnk_20) >> 12;
+    pendulum->mMapObject.mExtent.y = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mKindData->mUnk_10, courseRow->mUnk_20);
     QuaternionFromVec3Degrees(&courseRow->mUnk_0c, &pendulum->mRotationQuaternion);
     pendulum->mShadowMatrix = pendulum->mMapObject.mMatrix.mUnk_00_m;
-    pendulum->mCourseRowDistance = ((s64) pendulum->mMapObject.mScale.y * 0x1f4000) >> 12;
+    pendulum->mCourseRowDistance = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mScale.y, 0x1f4000);
     pendulum->mSwingAngle = 0;
     pendulum->mCourseRowPos.x = courseRow->mUnk_00.x;
     pendulum->mCourseRowPos.y = courseRow->mUnk_00.y;
@@ -259,8 +259,8 @@ void InitPendulum(PendulumObject *pendulum, Unk020e5e24_2 *courseRow) {
     m = courseRow->mUnk_2a;
     pendulum->mSwingAnglePerFrame = 0x640000u / (u32) courseRow->mUnk_28 / 0xf0u;
     pendulum->mSwingAmplitude = (u32) (m * 0x1111) / 0x64u;
-    pendulum->mRadius = ((s64) pendulum->mMapObject.mScale.x * 0x64000) >> 12;
-    pendulum->mHalfSizeZ = ((s64) pendulum->mMapObject.mScale.z * 0x32000) >> 12;
+    pendulum->mRadius = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mScale.x, 0x64000);
+    pendulum->mHalfSizeZ = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mScale.z, 0x32000);
     pendulum->mUnk_10c = FALSE;
 }
 

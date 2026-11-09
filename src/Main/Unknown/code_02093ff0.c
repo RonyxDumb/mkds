@@ -112,7 +112,7 @@ s16 func_02094c0c(s32 angle) {
 }
 
 s32 func_02094bf0(s32 a, s32 b) {
-    return ((s64) a * b + 0x800) >> 12;
+    return MUL_FIXED12_ROUNDED(a, b);
 }
 
 s16 func_02094bd0(s32 angle) {
@@ -179,18 +179,19 @@ void UpdateTeresa(void *a, Teresa *teresa) {
     n = teresa->mUnk_10c;
     if (GetCurrentCameraKind() == 2) {
         teresa->mUnk_00.mPos.x =
-            teresa->mStartPos.x + (s32) (((s64) n * gPairsByAngle[(angleWobbleValue >> 4) * 2 + 1]) >> 12);
+            teresa->mStartPos.x + MUL_FIXED12_NO_ROUND(n, gPairsByAngle[(angleWobbleValue >> 4) * 2 + 1]);
         teresa->mUnk_00.mPos.y = teresa->mStartPos.y + yWobbleValue;
         teresa->mUnk_00.mPos.z =
-            teresa->mStartPos.z + (s32) (((s64) n * gPairsByAngle[(angleWobbleValue >> 4) * 2]) >> 12);
+            teresa->mStartPos.z + MUL_FIXED12_NO_ROUND(n, gPairsByAngle[(angleWobbleValue >> 4) * 2]);
     } else {
         kart = GetKart((u16) gRaceSetup->mEntryIndex);
         teresa->mUnk_00.mPos.x =
             kart->mPos.x +
-            (teresa->mStartPos.x + (s32) (((s64) n * gPairsByAngle[(angleWobbleValue >> 4) * 2 + 1]) >> 12));
+            (teresa->mStartPos.x + MUL_FIXED12_NO_ROUND(n, gPairsByAngle[(angleWobbleValue >> 4) * 2 + 1]));
         teresa->mUnk_00.mPos.y = teresa->mStartPos.y + yWobbleValue;
         teresa->mUnk_00.mPos.z =
-            kart->mPos.z + (teresa->mStartPos.z + (s32) (((s64) n * gPairsByAngle[(angleWobbleValue >> 4) * 2]) >> 12));
+            kart->mPos.z +
+            (teresa->mStartPos.z + MUL_FIXED12_NO_ROUND(n, gPairsByAngle[(angleWobbleValue >> 4) * 2]));
     }
 }
 

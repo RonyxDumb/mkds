@@ -128,28 +128,28 @@ void func_020653d0(Kart *kart, ParticipantKartRecord *record, s32 stepCount) {
         switch (state->mUnk_b4) {
             case 0:
                 axis = &kart->mUnk_138;
-                axisOffset.x = ((s64) axis->x * -0x7000) >> 12;
-                axisOffset.y = ((s64) axis->y * -0x7000) >> 12;
-                axisOffset.z = ((s64) axis->z * -0x7000) >> 12;
+                axisOffset.x = MUL_FIXED12_NO_ROUND(axis->x, -0x7000);
+                axisOffset.y = MUL_FIXED12_NO_ROUND(axis->y, -0x7000);
+                axisOffset.z = MUL_FIXED12_NO_ROUND(axis->z, -0x7000);
                 break;
             case 1:
                 axis = &kart->mUnk_138;
-                axisOffset.x = ((s64) axis->x * 0x7000) >> 12;
-                axisOffset.y = ((s64) axis->y * 0x7000) >> 12;
-                axisOffset.z = ((s64) axis->z * 0x7000) >> 12;
+                axisOffset.x = MUL_FIXED12_NO_ROUND(axis->x, 0x7000);
+                axisOffset.y = MUL_FIXED12_NO_ROUND(axis->y, 0x7000);
+                axisOffset.z = MUL_FIXED12_NO_ROUND(axis->z, 0x7000);
                 break;
             case 2:
                 axis = &kart->mUnk_120;
-                axisOffset.x = ((s64) axis->x * 0x7000) >> 12;
-                axisOffset.y = ((s64) axis->y * 0x7000) >> 12;
-                axisOffset.z = ((s64) axis->z * 0x7000) >> 12;
+                axisOffset.x = MUL_FIXED12_NO_ROUND(axis->x, 0x7000);
+                axisOffset.y = MUL_FIXED12_NO_ROUND(axis->y, 0x7000);
+                axisOffset.z = MUL_FIXED12_NO_ROUND(axis->z, 0x7000);
                 break;
             case 3:
             default:
                 axis = &kart->mUnk_120;
-                axisOffset.x = ((s64) axis->x * -0x7000) >> 12;
-                axisOffset.y = ((s64) axis->y * -0x7000) >> 12;
-                axisOffset.z = ((s64) axis->z * -0x7000) >> 12;
+                axisOffset.x = MUL_FIXED12_NO_ROUND(axis->x, -0x7000);
+                axisOffset.y = MUL_FIXED12_NO_ROUND(axis->y, -0x7000);
+                axisOffset.z = MUL_FIXED12_NO_ROUND(axis->z, -0x7000);
                 break;
         }
         state->mUnk_a8 = axisOffset;
@@ -183,7 +183,7 @@ void func_020653d0(Kart *kart, ParticipantKartRecord *record, s32 stepCount) {
                 stateAgain = kart->mUnk_514;
                 stateAgain->mEasedTurnAngle =
                     stateAgain->mEasedTurnAngle +
-                    (s32) (((s64) (stateAgain->mTargetTurnAngle - stateAgain->mEasedTurnAngle) * 0x333 + 0x800) >> 12);
+                    MUL_FIXED12_ROUNDED(stateAgain->mTargetTurnAngle - stateAgain->mEasedTurnAngle, 0x333);
                 kart->mTurnAngle = stateAgain->mEasedTurnAngle;
                 MTX_RotAxis33(&turnMatrix, &kart->mUnk_12c, gPairsByAngle[((u16) kart->mTurnAngle >> 4) * 2],
                               gPairsByAngle[((u16) kart->mTurnAngle >> 4) * 2 + 1]);
@@ -193,9 +193,9 @@ void func_020653d0(Kart *kart, ParticipantKartRecord *record, s32 stepCount) {
                 }
                 MTX_MultVec33(&kart->mForward, &turnMatrix, &kart->mTurnedForward);
                 k = kart->mForwardSpeed;
-                moveStep.x = ((s64) kart->mTurnedForward.x * k) >> 12;
-                moveStep.y = ((s64) kart->mTurnedForward.y * k) >> 12;
-                moveStep.z = ((s64) kart->mTurnedForward.z * k) >> 12;
+                moveStep.x = MUL_FIXED12_NO_ROUND(kart->mTurnedForward.x, k);
+                moveStep.y = MUL_FIXED12_NO_ROUND(kart->mTurnedForward.y, k);
+                moveStep.z = MUL_FIXED12_NO_ROUND(kart->mTurnedForward.z, k);
                 VEC_Add(&newPos, &moveStep, &newPos);
                 VEC_Add(&newPos, &kart->mHitVelocity, &newPos);
                 VEC_Add(&kart->mVelocity, &kart->mHitVelocity, &kart->mVelocity);
@@ -203,9 +203,9 @@ void func_020653d0(Kart *kart, ParticipantKartRecord *record, s32 stepCount) {
                     kart->mVerticalSpeed = 0;
                 }
                 k = (kart->mUnk_44 & KART_44_ON_GROUND) ? 0xee1 : 0xfae;
-                kart->mHitVelocity.x = ((s64) kart->mHitVelocity.x * k) >> 12;
-                kart->mHitVelocity.y = ((s64) kart->mHitVelocity.y * k) >> 12;
-                kart->mHitVelocity.z = ((s64) kart->mHitVelocity.z * k) >> 12;
+                kart->mHitVelocity.x = MUL_FIXED12_NO_ROUND(kart->mHitVelocity.x, k);
+                kart->mHitVelocity.y = MUL_FIXED12_NO_ROUND(kart->mHitVelocity.y, k);
+                kart->mHitVelocity.z = MUL_FIXED12_NO_ROUND(kart->mHitVelocity.z, k);
                 if ((s64) kart->mHitVelocity.x * kart->mHitVelocity.x +
                         (s64) kart->mHitVelocity.y * kart->mHitVelocity.y +
                         (s64) kart->mHitVelocity.z * kart->mHitVelocity.z >=

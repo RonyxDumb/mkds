@@ -49,7 +49,7 @@ void SetupGroupFollowerAtEntry(GroupFollower *follower, u16 entryIndex, s32 asce
     }
     follower->mSegmentIndex = ascending != 0 ? entryIndex : entryIndex - 1;
     speedScale = path->mSegments[follower->mSegmentIndex].mInverseProgressLength;
-    follower->mProgressStep = speedScale != 0 ? (s32) (((s64) follower->mSpeed * speedScale) >> 12) : 0x1000000;
+    follower->mProgressStep = speedScale != 0 ? MUL_FIXED12_NO_ROUND(follower->mSpeed, speedScale) : 0x1000000;
     follower->mProgress = ascending != 0 ? 0 : 0x1000000;
     follower->mForward = ascending;
     currentIndex = entryIndex;
@@ -75,8 +75,8 @@ BOOL AdvanceGroupFollower(GroupFollower *follower) {
             if (follower->mSegmentIndex == path->mSegmentCount - 1) {
                 if (path->mWraps != 0) {
                     follower->mProgress -= 0x1000000;
-                    follower->mProgress =
-                        ((s64) follower->mProgress * path->mSegments[follower->mSegmentIndex].mProgressLength) >> 12;
+                    follower->mProgress = MUL_FIXED12_NO_ROUND(
+                        follower->mProgress, path->mSegments[follower->mSegmentIndex].mProgressLength);
                     follower->mSegmentIndex = 0;
                     follower->mFromEntry = follower->mToEntry;
                     follower->mToEntry = GetCourseMapGroupEntry(follower->mGroupIndex, 1);
@@ -85,7 +85,7 @@ BOOL AdvanceGroupFollower(GroupFollower *follower) {
                         follower->mProgress = ((s64) follower->mProgress * speedScale) >> 24;
                     }
                     follower->mProgressStep =
-                        speedScale != 0 ? (s32) (((s64) follower->mSpeed * speedScale) >> 12) : 0x1000000;
+                        speedScale != 0 ? MUL_FIXED12_NO_ROUND(follower->mSpeed, speedScale) : 0x1000000;
                 } else {
                     follower->mForward = 0;
                     follower->mProgress = 0x1000000;
@@ -95,7 +95,7 @@ BOOL AdvanceGroupFollower(GroupFollower *follower) {
             } else {
                 follower->mProgress -= 0x1000000;
                 follower->mProgress =
-                    ((s64) follower->mProgress * path->mSegments[follower->mSegmentIndex].mProgressLength) >> 12;
+                    MUL_FIXED12_NO_ROUND(follower->mProgress, path->mSegments[follower->mSegmentIndex].mProgressLength);
                 follower->mSegmentIndex = follower->mSegmentIndex + 1;
                 follower->mFromEntry = follower->mToEntry;
                 if (follower->mSegmentIndex == path->mSegmentCount - 1 && path->mWraps != 0) {
@@ -108,7 +108,7 @@ BOOL AdvanceGroupFollower(GroupFollower *follower) {
                     follower->mProgress = ((s64) follower->mProgress * speedScale) >> 24;
                 }
                 follower->mProgressStep =
-                    speedScale != 0 ? (s32) (((s64) follower->mSpeed * speedScale) >> 12) : 0x1000000;
+                    speedScale != 0 ? MUL_FIXED12_NO_ROUND(follower->mSpeed, speedScale) : 0x1000000;
             }
             return TRUE;
         }
@@ -119,7 +119,7 @@ BOOL AdvanceGroupFollower(GroupFollower *follower) {
             if (segmentIndex == 0) {
                 if (path->mWraps != 0) {
                     follower->mProgress =
-                        ((s64) follower->mProgress * path->mSegments[segmentIndex].mProgressLength) >> 12;
+                        MUL_FIXED12_NO_ROUND(follower->mProgress, path->mSegments[segmentIndex].mProgressLength);
                     follower->mSegmentIndex = path->mSegmentCount - 1;
                     follower->mFromEntry = follower->mToEntry;
                     follower->mToEntry = GetCourseMapGroupEntry(follower->mGroupIndex, path->mSegmentCount - 1);
@@ -129,7 +129,7 @@ BOOL AdvanceGroupFollower(GroupFollower *follower) {
                     }
                     follower->mProgress = follower->mProgress + 0x1000000;
                     follower->mProgressStep =
-                        speedScale != 0 ? (s32) (((s64) follower->mSpeed * speedScale) >> 12) : 0x1000000;
+                        speedScale != 0 ? MUL_FIXED12_NO_ROUND(follower->mSpeed, speedScale) : 0x1000000;
                 } else {
                     follower->mForward = 1;
                     follower->mProgress = 0;
@@ -137,7 +137,8 @@ BOOL AdvanceGroupFollower(GroupFollower *follower) {
                     follower->mToEntry = GetCourseMapGroupEntry(follower->mGroupIndex, 1);
                 }
             } else {
-                follower->mProgress = ((s64) follower->mProgress * path->mSegments[segmentIndex].mProgressLength) >> 12;
+                follower->mProgress =
+                    MUL_FIXED12_NO_ROUND(follower->mProgress, path->mSegments[segmentIndex].mProgressLength);
                 follower->mSegmentIndex = follower->mSegmentIndex - 1;
                 follower->mFromEntry = follower->mToEntry;
                 follower->mToEntry = GetCourseMapGroupEntry(follower->mGroupIndex, follower->mSegmentIndex);
@@ -147,7 +148,7 @@ BOOL AdvanceGroupFollower(GroupFollower *follower) {
                 }
                 follower->mProgress = follower->mProgress + 0x1000000;
                 follower->mProgressStep =
-                    speedScale != 0 ? (s32) (((s64) follower->mSpeed * speedScale) >> 12) : 0x1000000;
+                    speedScale != 0 ? MUL_FIXED12_NO_ROUND(follower->mSpeed, speedScale) : 0x1000000;
             }
             return TRUE;
         }

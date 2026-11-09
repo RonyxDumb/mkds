@@ -119,7 +119,7 @@ void func_0206cc60(Kart *kart, int fromLowSpeedTurn) {
     if (kart->mUnk_38a <= 50) {
         kart->mUnk_38a = 50;
     } else {
-        kart->mUnk_38a = (s32) (((s64) kart->mUnk_38a * 0xf33) >> 12);
+        kart->mUnk_38a = MUL_FIXED12_NO_ROUND(kart->mUnk_38a, 0xf33);
     }
     AdvanceKartDriftCharge(kart);
     if (!(kart->mUnk_44 & KART_44_ON_GROUND)) {
@@ -184,7 +184,7 @@ recheck:
     g = kart->mTurnDirection;
     if (!(bits44 & KART_44_DRIFTING) && (bits44 & KART_44_ON_GROUND)) {
         if ((bits44 & 3) &&
-            kart->mVelocityLength > (s32) (((s64) kart->mPhysicalParam->mBaseSpeedLimit * 0x8cd) >> 12) && g != 0 &&
+            kart->mVelocityLength > MUL_FIXED12_NO_ROUND(kart->mPhysicalParam->mBaseSpeedLimit, 0x8cd) && g != 0 &&
             (u16) (gInputSlots[entryIndex = kart->mEntryIndex].mBits & PAD_KEY_R)) {
             kart->mUnk_44 |= KART_44_DRIFTING;
             kart->mDriftCharge = 1;
@@ -245,9 +245,9 @@ recheck:
         Vec3 *q = &kart->mUnk_138;
 
         dot = VEC_DotProduct(&kart->mHopStartUp, q);
-        v.x = kart->mUnk_138.x - (s32) (((s64) kart->mHopStartUp.x * dot) >> 12);
-        v.y = q->y - (s32) (((s64) kart->mHopStartUp.y * dot) >> 12);
-        v.z = q->z - (s32) (((s64) kart->mHopStartUp.z * dot) >> 12);
+        v.x = kart->mUnk_138.x - MUL_FIXED12_NO_ROUND(kart->mHopStartUp.x, dot);
+        v.y = q->y - MUL_FIXED12_NO_ROUND(kart->mHopStartUp.y, dot);
+        v.z = q->z - MUL_FIXED12_NO_ROUND(kart->mHopStartUp.z, dot);
         if ((s64) v.x * v.x + (s64) v.y * v.y + (s64) v.z * v.z >= 16 ? Vec3NormalizeAndGetLengthUnchecked(&v, &v)
                                                                       : 0) {
             Vec3CrossUnrounded(&kart->mHopStartForward, &v, &w);
@@ -267,7 +267,7 @@ recheck:
         if (!(kart->mUnk_44 & KART_44_DRIFTING)) {
             return;
         }
-        kart->mUnk_38a = (s32) (((s64) kart->mVelocityLength * 0x1a) >> 12);
+        kart->mUnk_38a = MUL_FIXED12_NO_ROUND(kart->mVelocityLength, 0x1a);
         return;
     }
     entryIndex = kart->mEntryIndex;
@@ -379,7 +379,7 @@ BOOL TryStartKartCollisionEffects(Kart *kart, const Vec3 *overlapDirection, int 
             effectCount = 4;
         }
         VEC_MultAdd(-kart->mRadius, overlapDirection, &kart->mPos, &contactPoint);
-        VEC_MultAdd(((s64) kart->mScale.y * 0x8000 + 0x800) >> 12, &kart->mUnk_12c, &contactPoint, &contactPoint);
+        VEC_MultAdd(MUL_FIXED12_ROUNDED(kart->mScale.y, 0x8000), &kart->mUnk_12c, &contactPoint, &contactPoint);
         for (; i < effectCount; i++) {
             StartEffectWithCallback(effectIds[i], &contactPoint, kart, func_0206c450);
         }
@@ -392,9 +392,9 @@ void func_0206c2b4(Unk0201ca6c *emitter, Kart *kart) {
     Vec3 velocity = kart->mEffectVelocity;
 
     velocity.y = 0;
-    velocity.x = ((s64) velocity.x * 0xe66) >> 12;
-    velocity.y = ((s64) velocity.y * 0xe66) >> 12;
-    velocity.z = ((s64) velocity.z * 0xe66) >> 12;
+    velocity.x = MUL_FIXED12_NO_ROUND(velocity.x, 0xe66);
+    velocity.y = MUL_FIXED12_NO_ROUND(velocity.y, 0xe66);
+    velocity.z = MUL_FIXED12_NO_ROUND(velocity.z, 0xe66);
     emitter->mUnk_40 = velocity;
 }
 
@@ -403,7 +403,7 @@ void func_0206c1ac(Unk0201ca6c *emitter, Kart *kart) {
     Vec3s16 rot;
     Vec3 *q;
 
-    VEC_MultAdd(((s64) kart->mRadius * -0x1333 + 0x800) >> 12, &kart->mUnk_138, &position, &position);
+    VEC_MultAdd(MUL_FIXED12_ROUNDED(kart->mRadius, -0x1333), &kart->mUnk_138, &position, &position);
     position.x >>= 4;
     position.y >>= 4;
     position.z >>= 4;

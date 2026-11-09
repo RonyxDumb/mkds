@@ -64,17 +64,17 @@ s32 MTX_Inverse43(const MtxFx43 *src, MtxFx43 *dst) {
     tmp11 = ((s64) src->mUnk_00[0].x * src->mUnk_00[2].z - (s64) src->mUnk_00[2].x * src->mUnk_00[0].z) >> 12;
     tmp12 = ((s64) src->mUnk_00[0].x * src->mUnk_00[1].z - (s64) src->mUnk_00[1].x * src->mUnk_00[0].z) >> 12;
     invDet = FX_GetDivResult();
-    result->mUnk_00[0].x = ((s64) invDet * cofactor00) >> 12;
-    result->mUnk_00[0].y = -(s32) (((s64) invDet * product01) >> 12);
-    result->mUnk_00[0].z = ((s64) invDet * tmp02) >> 12;
-    result->mUnk_00[1].x = -(s32) (((s64) invDet * det10) >> 12);
-    result->mUnk_00[1].y = ((s64) invDet * tmp11) >> 12;
-    result->mUnk_00[1].z = -(s32) (((s64) invDet * tmp12) >> 12);
-    result->mUnk_00[2].x = ((s64) invDet * det20) >> 12;
+    result->mUnk_00[0].x = MUL_FIXED12_NO_ROUND(invDet, cofactor00);
+    result->mUnk_00[0].y = -MUL_FIXED12_NO_ROUND(invDet, product01);
+    result->mUnk_00[0].z = MUL_FIXED12_NO_ROUND(invDet, tmp02);
+    result->mUnk_00[1].x = -MUL_FIXED12_NO_ROUND(invDet, det10);
+    result->mUnk_00[1].y = MUL_FIXED12_NO_ROUND(invDet, tmp11);
+    result->mUnk_00[1].z = -MUL_FIXED12_NO_ROUND(invDet, tmp12);
+    result->mUnk_00[2].x = MUL_FIXED12_NO_ROUND(invDet, det20);
     product21 = ((s64) src->mUnk_00[0].x * src->mUnk_00[2].y - (s64) src->mUnk_00[2].x * src->mUnk_00[0].y) >> 12;
-    result->mUnk_00[2].y = -(s32) (((s64) invDet * product21) >> 12);
+    result->mUnk_00[2].y = -MUL_FIXED12_NO_ROUND(invDet, product21);
     tmp22 = ((s64) src->mUnk_00[0].x * src->mUnk_00[1].y - (s64) src->mUnk_00[1].x * src->mUnk_00[0].y) >> 12;
-    result->mUnk_00[2].z = ((s64) invDet * tmp22) >> 12;
+    result->mUnk_00[2].z = MUL_FIXED12_NO_ROUND(invDet, tmp22);
     result->mUnk_00[3].x =
         -(s32) (((s64) result->mUnk_00[0].x * src->mUnk_00[3].x + (s64) result->mUnk_00[1].x * src->mUnk_00[3].y +
                  (s64) result->mUnk_00[2].x * src->mUnk_00[3].z) >>

@@ -135,17 +135,17 @@ void UpdateDossun(void *unused, Dossun *dossun) {
         speed = follower->mSpeed;
         if (dossun->mState < 4) {
             if (speed > 0x4000) {
-                t = ((s64) speed * 0xf85) >> 12;
+                t = MUL_FIXED12_NO_ROUND(speed, 0xf85);
                 follower->mSpeed = t;
                 follower->mProgressStep =
-                    ((s64) t * follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength) >> 12;
+                    MUL_FIXED12_NO_ROUND(t, follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength);
             }
         } else {
             if (speed > 0x800) {
-                t = ((s64) speed * 0xe66) >> 12;
+                t = MUL_FIXED12_NO_ROUND(speed, 0xe66);
                 follower->mSpeed = t;
                 follower->mProgressStep =
-                    ((s64) t * follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength) >> 12;
+                    MUL_FIXED12_NO_ROUND(t, follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength);
             }
         }
         if (AdvanceGroupFollower(follower) != FALSE) {
@@ -174,7 +174,7 @@ void UpdateDossun(void *unused, Dossun *dossun) {
             t = dossun->mUnk_f0 != 0 ? 0xc00 : 0x3000;
             follower->mSpeed = t;
             follower->mProgressStep =
-                ((s64) t * follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength) >> 12;
+                MUL_FIXED12_NO_ROUND(t, follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength);
             return;
         case 1:
             if (dossun->mUnk_f0 != 0) {
@@ -191,7 +191,7 @@ void UpdateDossun(void *unused, Dossun *dossun) {
             dossun->mUnk_c2 += 0x1555;
             dossun->mUnk_00.mPos.y = dossun->mUnk_ac;
             sine = gPairsByAngle[(dossun->mUnk_c2 >> 4) * 2];
-            dossun->mUnk_00.mPos.y += (s32) (((s64) sine * dossun->mUnk_c4) >> 12);
+            dossun->mUnk_00.mPos.y += MUL_FIXED12_NO_ROUND(sine, dossun->mUnk_c4);
             return;
         case 3:
             dossun->mUnk_a8 += dossun->mUnk_104;
@@ -206,7 +206,7 @@ void UpdateDossun(void *unused, Dossun *dossun) {
                 t = dossun->mUnk_a8;
                 follower->mSpeed = t;
                 follower->mProgressStep =
-                    ((s64) t * follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength) >> 12;
+                    MUL_FIXED12_NO_ROUND(t, follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength);
             }
             break;
         case 5:
@@ -218,7 +218,7 @@ void UpdateDossun(void *unused, Dossun *dossun) {
             t = dossun->mUnk_108;
             follower->mSpeed = t;
             follower->mProgressStep =
-                ((s64) t * follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength) >> 12;
+                MUL_FIXED12_NO_ROUND(t, follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength);
             return;
         case 6:
             break;
@@ -301,10 +301,10 @@ u32 CollideKartWithDossun(Dossun *dossun, Kart *kart, u8 *b, u8 *c) {
             } else {
                 speed = 0x8000;
             }
-            speed = speed - (s32) (((s64) (0x1000 - dossun->mUnk_00.mScale.y) * 0x2000) >> 12);
+            speed = speed - MUL_FIXED12_NO_ROUND(0x1000 - dossun->mUnk_00.mScale.y, 0x2000);
             follower->mSpeed = speed;
             follower->mProgressStep =
-                ((s64) speed * follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength) >> 12;
+                MUL_FIXED12_NO_ROUND(speed, follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength);
             dossun->mUnk_b4 = 1;
             dossun->mUnk_b8 = 0x1b58;
             if ((s64) kartOffset.z * kart->mVelocity.x - (s64) kartOffset.x * kart->mVelocity.z < 0) {
@@ -404,13 +404,13 @@ void InitDossun(Dossun *dossun, CourseMapRow *row) {
     dossun->mUnk_f0 = row->mUnk_28;
     InitGroupFollower(&dossun->mFollower, row, dossun->mUnk_f0 != 0 ? 0xc00 : 0x3000);
     dossun->mStartEntryIndex = row->mUnk_2a;
-    dossun->mUnk_f4 = ((s64) dossun->mUnk_00.mScale.x * 0x28000) >> 12;
-    dossun->mHeightOffset = ((s64) dossun->mUnk_00.mScale.y * 0x2d000) >> 12;
-    dossun->mUnk_fc = ((s64) dossun->mUnk_00.mScale.z * 0x1e000) >> 12;
-    dossun->mUnk_100 = ((s64) dossun->mUnk_00.mScale.y * 0xf000) >> 12;
-    dossun->mUnk_104 = ((s64) dossun->mUnk_00.mScale.y * 0x1000) >> 12;
-    dossun->mUnk_108 = ((s64) dossun->mUnk_00.mScale.y * 0x2000) >> 12;
-    dossun->mUnk_c4 = ((s64) dossun->mUnk_00.mScale.y * 0x3000) >> 12;
+    dossun->mUnk_f4 = MUL_FIXED12_NO_ROUND(dossun->mUnk_00.mScale.x, 0x28000);
+    dossun->mHeightOffset = MUL_FIXED12_NO_ROUND(dossun->mUnk_00.mScale.y, 0x2d000);
+    dossun->mUnk_fc = MUL_FIXED12_NO_ROUND(dossun->mUnk_00.mScale.z, 0x1e000);
+    dossun->mUnk_100 = MUL_FIXED12_NO_ROUND(dossun->mUnk_00.mScale.y, 0xf000);
+    dossun->mUnk_104 = MUL_FIXED12_NO_ROUND(dossun->mUnk_00.mScale.y, 0x1000);
+    dossun->mUnk_108 = MUL_FIXED12_NO_ROUND(dossun->mUnk_00.mScale.y, 0x2000);
+    dossun->mUnk_c4 = MUL_FIXED12_NO_ROUND(dossun->mUnk_00.mScale.y, 0x3000);
     func_020db430(dossun);
     if (dossun->mUnk_f0 != 0) {
         CreateMapObjectSoundSourceFalloff3(&dossun->mUnk_00);
@@ -461,8 +461,8 @@ void DrawKuribo(void *unused0, Kuribo *kuribo, void *unused1, u16 d) {
         BuildMatrixFromYAxis(GetGroupFollowerSegmentUp(&kuribo->mFollower), &kuribo->mMapObject.mMatrix);
     }
     scale.z = kuribo->mMapObject.mScale.z;
-    scale.y = ((s64) kuribo->mMapObject.mScale.y * kuribo->mScaleFactorY) >> 12;
-    scale.x = ((s64) kuribo->mMapObject.mScale.x * (((0x1000 - kuribo->mScaleFactorY) >> 1) + 0x1000)) >> 12;
+    scale.y = MUL_FIXED12_NO_ROUND(kuribo->mMapObject.mScale.y, kuribo->mScaleFactorY);
+    scale.x = MUL_FIXED12_NO_ROUND(kuribo->mMapObject.mScale.x, ((0x1000 - kuribo->mScaleFactorY) >> 1) + 0x1000);
     kuribo->mMapObject.mMatrix.mUnk_00[3].x = kuribo->mMapObject.mPos.x >> 4;
     kuribo->mMapObject.mMatrix.mUnk_00[3].y = kuribo->mMapObject.mPos.y >> 4;
     kuribo->mMapObject.mMatrix.mUnk_00[3].z = kuribo->mMapObject.mPos.z >> 4;

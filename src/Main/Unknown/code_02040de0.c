@@ -61,12 +61,12 @@ void GetCourseMapStartPlacementWithOffsets(Vec3 *outPos, Vec3 *outRotation, s32 
     negatedThirdAxisX = -rotationMatrix.mUnk_00[2].x;
     negatedThirdAxisY = -rotationMatrix.mUnk_00[2].y;
     negatedThirdAxisZ = -rotationMatrix.mUnk_00[2].z;
-    outPos->x = placement->mPos.x + (s32) (((s64) negatedFirstAxisX * firstAxisOffset + 0x800) >> 12) +
-                (s32) (((s64) negatedThirdAxisX * thirdAxisOffset + 0x800) >> 12);
-    outPos->y = placement->mPos.y + (s32) (((s64) negatedFirstAxisY * firstAxisOffset + 0x800) >> 12) +
-                (s32) (((s64) negatedThirdAxisY * thirdAxisOffset + 0x800) >> 12);
-    outPos->z = placement->mPos.z + (s32) (((s64) negatedFirstAxisZ * firstAxisOffset + 0x800) >> 12) +
-                (s32) (((s64) negatedThirdAxisZ * thirdAxisOffset + 0x800) >> 12);
+    outPos->x = placement->mPos.x + MUL_FIXED12_ROUNDED(negatedFirstAxisX, firstAxisOffset) +
+                MUL_FIXED12_ROUNDED(negatedThirdAxisX, thirdAxisOffset);
+    outPos->y = placement->mPos.y + MUL_FIXED12_ROUNDED(negatedFirstAxisY, firstAxisOffset) +
+                MUL_FIXED12_ROUNDED(negatedThirdAxisY, thirdAxisOffset);
+    outPos->z = placement->mPos.z + MUL_FIXED12_ROUNDED(negatedFirstAxisZ, firstAxisOffset) +
+                MUL_FIXED12_ROUNDED(negatedThirdAxisZ, thirdAxisOffset);
     outRotation->x = placement->mUnk_0c.x;
     outRotation->y = placement->mUnk_0c.y;
     outRotation->z = placement->mUnk_0c.z;
@@ -138,16 +138,16 @@ BOOL IsPosInCourseMapShapeBox(Vec3 *pos, CourseMapShape *shape) {
 
     VEC_Subtract(pos, &shape->mPos, &offset);
     distance = VEC_DotProduct(&offset, &shape->mAxisY);
-    if (distance > (s32) (((s64) shape->mScale.y * 0x64000 + 0x800) >> 12) || distance < 0) {
+    if (distance > MUL_FIXED12_ROUNDED(shape->mScale.y, 0x64000) || distance < 0) {
         return FALSE;
     }
     distance = VEC_DotProduct(&offset, &shape->mAxisX);
-    extent = ((s64) shape->mScale.x * 0x32000 + 0x800) >> 12;
+    extent = MUL_FIXED12_ROUNDED(shape->mScale.x, 0x32000);
     if (distance < -extent || distance > extent) {
         return FALSE;
     }
     distance = VEC_DotProduct(&offset, &shape->mAxisZ);
-    extent = ((s64) shape->mScale.z * 0x32000 + 0x800) >> 12;
+    extent = MUL_FIXED12_ROUNDED(shape->mScale.z, 0x32000);
     if (distance < -extent || distance > extent) {
         return FALSE;
     }
@@ -167,14 +167,14 @@ s32 IsPosInCourseMapShape(Vec3 *pos, CourseMapShape *shape) {
             break;
         case 1:
             VEC_Subtract(pos, &shape->mPos, &offset);
-            if (VEC_DotProduct(&offset, &shape->mAxisY) > (s32) (((s64) shape->mScale.y * 0x32000 + 0x800) >> 12)) {
+            if (VEC_DotProduct(&offset, &shape->mAxisY) > MUL_FIXED12_ROUNDED(shape->mScale.y, 0x32000)) {
                 inside = 0;
             } else {
                 x = VEC_DotProduct(&offset, &shape->mAxisX) >> 4;
                 y = VEC_DotProduct(&offset, &shape->mAxisZ) >> 4;
-                radius = (s32) (((s64) shape->mScale.x * 0x32000 + 0x800) >> 12) >> 4;
-                inside = (s32) (((s64) radius * radius + 0x800) >> 12) >=
-                         (s32) (((s64) x * x + 0x800) >> 12) + (s32) (((s64) y * y + 0x800) >> 12);
+                radius = MUL_FIXED12_ROUNDED(shape->mScale.x, 0x32000) >> 4;
+                inside = MUL_FIXED12_ROUNDED(radius, radius) >=
+                         MUL_FIXED12_ROUNDED(x, x) + MUL_FIXED12_ROUNDED(y, y);
             }
             break;
     }
@@ -202,12 +202,12 @@ s32 func_0204176c(Vec3 *pos, s32 *outFlag) {
                 case 1:
                     VEC_Subtract(pos, &shape->mPos, &offset);
                     if (VEC_DotProduct(&offset, &shape->mAxisY) <=
-                        (s32) (((s64) shape->mScale.y * 0x32000 + 0x800) >> 12)) {
+                        MUL_FIXED12_ROUNDED(shape->mScale.y, 0x32000)) {
                         x = VEC_DotProduct(&offset, &shape->mAxisX) >> 4;
                         y = VEC_DotProduct(&offset, &shape->mAxisZ) >> 4;
-                        radius = (s32) (((s64) shape->mScale.x * 0x32000 + 0x800) >> 12) >> 4;
-                        if ((s32) (((s64) radius * radius + 0x800) >> 12) >=
-                            (s32) (((s64) x * x + 0x800) >> 12) + (s32) (((s64) y * y + 0x800) >> 12)) {
+                        radius = MUL_FIXED12_ROUNDED(shape->mScale.x, 0x32000) >> 4;
+                        if (MUL_FIXED12_ROUNDED(radius, radius) >=
+                            MUL_FIXED12_ROUNDED(x, x) + MUL_FIXED12_ROUNDED(y, y)) {
                             inside = 1;
                         }
                     }
@@ -251,12 +251,12 @@ void *FindCourseMapKind4ShapeRacePointLink(Vec3 *pos) {
                 case 1:
                     VEC_Subtract(pos, &shape->mPos, &offset);
                     if (VEC_DotProduct(&offset, &shape->mAxisY) <=
-                        (s32) (((s64) shape->mScale.y * 0x32000 + 0x800) >> 12)) {
+                        MUL_FIXED12_ROUNDED(shape->mScale.y, 0x32000)) {
                         x = VEC_DotProduct(&offset, &shape->mAxisX) >> 4;
                         y = VEC_DotProduct(&offset, &shape->mAxisZ) >> 4;
-                        radius = (s32) (((s64) shape->mScale.x * 0x32000 + 0x800) >> 12) >> 4;
-                        if ((s32) (((s64) radius * radius + 0x800) >> 12) >=
-                            (s32) (((s64) x * x + 0x800) >> 12) + (s32) (((s64) y * y + 0x800) >> 12)) {
+                        radius = MUL_FIXED12_ROUNDED(shape->mScale.x, 0x32000) >> 4;
+                        if (MUL_FIXED12_ROUNDED(radius, radius) >=
+                            MUL_FIXED12_ROUNDED(x, x) + MUL_FIXED12_ROUNDED(y, y)) {
                             inside = 1;
                         }
                     }
@@ -295,12 +295,12 @@ PointLink *FindCourseMapKind4ShapeBattlePointLink(Vec3 *pos) {
                 case 1:
                     VEC_Subtract(pos, &shape->mPos, &offset);
                     if (VEC_DotProduct(&offset, &shape->mAxisY) <=
-                        (s32) (((s64) shape->mScale.y * 0x32000 + 0x800) >> 12)) {
+                        MUL_FIXED12_ROUNDED(shape->mScale.y, 0x32000)) {
                         x = VEC_DotProduct(&offset, &shape->mAxisX) >> 4;
                         y = VEC_DotProduct(&offset, &shape->mAxisZ) >> 4;
-                        radius = (s32) (((s64) shape->mScale.x * 0x32000 + 0x800) >> 12) >> 4;
-                        if ((s32) (((s64) radius * radius + 0x800) >> 12) >=
-                            (s32) (((s64) x * x + 0x800) >> 12) + (s32) (((s64) y * y + 0x800) >> 12)) {
+                        radius = MUL_FIXED12_ROUNDED(shape->mScale.x, 0x32000) >> 4;
+                        if (MUL_FIXED12_ROUNDED(radius, radius) >=
+                            MUL_FIXED12_ROUNDED(x, x) + MUL_FIXED12_ROUNDED(y, y)) {
                             inside = 1;
                         }
                     }
@@ -335,15 +335,14 @@ s32 GetCourseMapCameraIndexAtPos(Vec3 *pos) {
                     break;
                 case 1:
                     VEC_Subtract(pos, &shape->mPos, &offset);
-                    if (VEC_DotProduct(&offset, &shape->mAxisY) >
-                        (s32) (((s64) shape->mScale.y * 0x32000 + 0x800) >> 12)) {
+                    if (VEC_DotProduct(&offset, &shape->mAxisY) > MUL_FIXED12_ROUNDED(shape->mScale.y, 0x32000)) {
                         inside = 0;
                     } else {
                         x = VEC_DotProduct(&offset, &shape->mAxisX) >> 4;
                         y = VEC_DotProduct(&offset, &shape->mAxisZ) >> 4;
-                        radius = (s32) (((s64) shape->mScale.x * 0x32000 + 0x800) >> 12) >> 4;
-                        if ((s32) (((s64) radius * radius + 0x800) >> 12) <
-                            (s32) (((s64) x * x + 0x800) >> 12) + (s32) (((s64) y * y + 0x800) >> 12)) {
+                        radius = MUL_FIXED12_ROUNDED(shape->mScale.x, 0x32000) >> 4;
+                        if (MUL_FIXED12_ROUNDED(radius, radius) <
+                            MUL_FIXED12_ROUNDED(x, x) + MUL_FIXED12_ROUNDED(y, y)) {
                             inside = 0;
                         } else {
                             inside = 1;
@@ -476,13 +475,12 @@ s32 IsKartInCourseMapKind3ShapeList(s32 kartIndex, u32 listIndex) {
                 break;
             case 1:
                 VEC_Subtract(&kartPos, &shape->mPos, &offset);
-                if (VEC_DotProduct(&offset, &shape->mAxisY) <=
-                    (s32) (((s64) shape->mScale.y * 0x32000 + 0x800) >> 12)) {
+                if (VEC_DotProduct(&offset, &shape->mAxisY) <= MUL_FIXED12_ROUNDED(shape->mScale.y, 0x32000)) {
                     x = VEC_DotProduct(&offset, &shape->mAxisX) >> 4;
                     y = VEC_DotProduct(&offset, &shape->mAxisZ) >> 4;
-                    radius = (s32) (((s64) shape->mScale.x * 0x32000 + 0x800) >> 12) >> 4;
-                    if ((s32) (((s64) radius * radius + 0x800) >> 12) >=
-                        (s32) (((s64) x * x + 0x800) >> 12) + (s32) (((s64) y * y + 0x800) >> 12)) {
+                    radius = MUL_FIXED12_ROUNDED(shape->mScale.x, 0x32000) >> 4;
+                    if (MUL_FIXED12_ROUNDED(radius, radius) >=
+                        MUL_FIXED12_ROUNDED(x, x) + MUL_FIXED12_ROUNDED(y, y)) {
                         inside = 1;
                     }
                 }

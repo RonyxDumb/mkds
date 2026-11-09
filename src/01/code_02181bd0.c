@@ -97,10 +97,11 @@ void func_ov001_02182d30(void) {
         coin->mUnk_000.mPos.x = kart->mPos.x;
         coin->mUnk_000.mPos.y = kart->mPos.y + 0x1a000;
         coin->mUnk_000.mPos.z = kart->mPos.z;
-        coin->mUnk_000.mUnk_10.x = kart->mVelocity.x + (s32) (((s64) speed * gPairsByAngle[(angle >> 4) * 2]) >> 12);
+        coin->mUnk_000.mUnk_10.x =
+            kart->mVelocity.x + MUL_FIXED12_NO_ROUND(speed, gPairsByAngle[(angle >> 4) * 2]);
         coin->mUnk_000.mUnk_10.y = kart->mVelocity.y + 0x4000;
         coin->mUnk_000.mUnk_10.z =
-            kart->mVelocity.z + (s32) (((s64) speed * gPairsByAngle[(angle >> 4) * 2 + 1]) >> 12);
+            kart->mVelocity.z + MUL_FIXED12_NO_ROUND(speed, gPairsByAngle[(angle >> 4) * 2 + 1]);
         coin->mUnk_000.mFlags &= ~1;
         soundArg.mSoundId = 0x1d9;
         soundArg.mPositionSource = NULL;
@@ -145,9 +146,9 @@ void func_ov001_02182bdc(void) {
         coin->mUnk_000.mPos.x = kart->mPos.x;
         coin->mUnk_000.mPos.y = kart->mPos.y + 0x1a000;
         coin->mUnk_000.mPos.z = kart->mPos.z;
-        coin->mUnk_000.mUnk_10.x = (((s64) speed * gPairsByAngle[(angle >> 4) * 2]) >> 12);
+        coin->mUnk_000.mUnk_10.x = MUL_FIXED12_NO_ROUND(speed, gPairsByAngle[(angle >> 4) * 2]);
         coin->mUnk_000.mUnk_10.y = 0x4000;
-        coin->mUnk_000.mUnk_10.z = (((s64) speed * gPairsByAngle[(angle >> 4) * 2 + 1]) >> 12);
+        coin->mUnk_000.mUnk_10.z = MUL_FIXED12_NO_ROUND(speed, gPairsByAngle[(angle >> 4) * 2 + 1]);
         soundArg.mSoundId = 0x1d9;
         soundArg.mPositionSource = NULL;
         soundArg.mFalloffIndex = 2;
@@ -198,9 +199,9 @@ void func_ov001_02182a3c(s32 a) {
                         coin->mUnk_000.mUnk_10.y = 0x4cd;
                         coin->mUnk_000.mUnk_10.z = 0;
                         tableIndex = (angle >> 4) * 2;
-                        coin->mUnk_0ec.x = ((s64) gPairsByAngle[tableIndex] * 0x14000) >> 12;
+                        coin->mUnk_0ec.x = MUL_FIXED12_NO_ROUND(gPairsByAngle[tableIndex], 0x14000);
                         coin->mUnk_0ec.y = -0xa000;
-                        coin->mUnk_0ec.z = ((s64) gPairsByAngle[tableIndex + 1] * 0x14000) >> 12;
+                        coin->mUnk_0ec.z = MUL_FIXED12_NO_ROUND(gPairsByAngle[tableIndex + 1], 0x14000);
                     }
                 } else {
                     if (coin->mTargetPos != NULL) {
@@ -389,10 +390,8 @@ void InitCoinObjects(MapObjectList *coinList) {
                 InitGroupFollower(&coin->mFollower, coin->mUnk_000.mCourseMapRow, 0);
                 speed = (coin->mUnk_000.mCourseMapRow->mUnk_28 << 12) / 100;
                 coin->mFollower.mSpeed = speed;
-                coin->mFollower.mProgressStep =
-                    ((s64) speed *
-                     coin->mFollower.mPath->mSegments[coin->mFollower.mSegmentIndex].mInverseProgressLength) >>
-                    12;
+                coin->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
+                    speed, coin->mFollower.mPath->mSegments[coin->mFollower.mSegmentIndex].mInverseProgressLength);
             } else {
                 coin->mFollower.mGroupIndex = 0xffff;
             }
@@ -423,7 +422,7 @@ void UpdateCoin(void *a, Coin *coin) {
             if (coin->mUnk_000.mPos.y <= coin->mBounceY) {
                 coin->mUnk_000.mPos.y = coin->mBounceY;
                 if (coin->mUnk_000.mUnk_10.y <= 0) {
-                    coin->mUnk_000.mUnk_10.y = ((s64) coin->mUnk_000.mUnk_10.y * -0x800) >> 12;
+                    coin->mUnk_000.mUnk_10.y = MUL_FIXED12_NO_ROUND(coin->mUnk_000.mUnk_10.y, -0x800);
                     if (coin->mUnk_000.mUnk_10.y < 0x1000) {
                         coin->mUnk_000.mUnk_10.x = 0;
                         coin->mUnk_000.mUnk_10.y = 0;
@@ -547,9 +546,9 @@ void UpdateCoin(void *a, Coin *coin) {
                 if ((s64) delta.x * delta.x + (s64) delta.y * delta.y + (s64) delta.z * delta.z >= 0x10) {
                     Vec3NormalizeAndGetLengthUnchecked(&delta, &coin->mUnk_000.mUnk_10);
                 }
-                coin->mUnk_000.mUnk_10.x = ((s64) coin->mUnk_000.mUnk_10.x * 0x1400) >> 12;
-                coin->mUnk_000.mUnk_10.y = ((s64) coin->mUnk_000.mUnk_10.y * 0x1400) >> 12;
-                coin->mUnk_000.mUnk_10.z = ((s64) coin->mUnk_000.mUnk_10.z * 0x1400) >> 12;
+                coin->mUnk_000.mUnk_10.x = MUL_FIXED12_NO_ROUND(coin->mUnk_000.mUnk_10.x, 0x1400);
+                coin->mUnk_000.mUnk_10.y = MUL_FIXED12_NO_ROUND(coin->mUnk_000.mUnk_10.y, 0x1400);
+                coin->mUnk_000.mUnk_10.z = MUL_FIXED12_NO_ROUND(coin->mUnk_000.mUnk_10.z, 0x1400);
             }
             if (CollideSphereWithCourse(&pos, NULL, 0, coin->mUnk_000.mExtent.x, 1, coin->mUnk_000.mCollisionSlotIndex,
                                         &delta, &out1, &out2, &flags, NULL, NULL, NULL, NULL) != 0) {
@@ -563,12 +562,12 @@ void UpdateCoin(void *a, Coin *coin) {
                         0x10) {
                         Vec3NormalizeAndGetLengthUnchecked(&coin->mUnk_000.mUnk_10, &coin->mUnk_000.mUnk_10);
                     }
-                    coin->mUnk_000.mUnk_10.x = ((s64) coin->mUnk_000.mUnk_10.x * 0x1400) >> 12;
-                    coin->mUnk_000.mUnk_10.y = ((s64) coin->mUnk_000.mUnk_10.y * 0x1400) >> 12;
-                    coin->mUnk_000.mUnk_10.z = ((s64) coin->mUnk_000.mUnk_10.z * 0x1400) >> 12;
+                    coin->mUnk_000.mUnk_10.x = MUL_FIXED12_NO_ROUND(coin->mUnk_000.mUnk_10.x, 0x1400);
+                    coin->mUnk_000.mUnk_10.y = MUL_FIXED12_NO_ROUND(coin->mUnk_000.mUnk_10.y, 0x1400);
+                    coin->mUnk_000.mUnk_10.z = MUL_FIXED12_NO_ROUND(coin->mUnk_000.mUnk_10.z, 0x1400);
                 }
                 if ((flags & 0x1e34ef) && coin->mUnk_000.mUnk_10.y <= 0) {
-                    coin->mUnk_000.mUnk_10.y = ((s64) coin->mUnk_000.mUnk_10.y * -0x800) >> 12;
+                    coin->mUnk_000.mUnk_10.y = MUL_FIXED12_NO_ROUND(coin->mUnk_000.mUnk_10.y, -0x800);
                     if (coin->mUnk_000.mUnk_10.y < 0x1000) {
                         coin->mUnk_000.mUnk_10.x = 0;
                         coin->mUnk_000.mUnk_10.y = 0;
@@ -697,8 +696,8 @@ void UpdateCoin(void *a, Coin *coin) {
                 if ((s64) ((const Vec3 *) &coin->mUnk_0ec)->x * ((const Vec3 *) &coin->mUnk_0ec)->x +
                         (s64) ((const Vec3 *) &coin->mUnk_0ec)->z * ((const Vec3 *) &coin->mUnk_0ec)->z >=
                     0x190000000LL) {
-                    coin->mUnk_000.mUnk_10.x = ((s64) coin->mUnk_0ec.x * -0x14) >> 12;
-                    coin->mUnk_000.mUnk_10.z = ((s64) coin->mUnk_0ec.z * -0x14) >> 12;
+                    coin->mUnk_000.mUnk_10.x = MUL_FIXED12_NO_ROUND(coin->mUnk_0ec.x, -0x14);
+                    coin->mUnk_000.mUnk_10.z = MUL_FIXED12_NO_ROUND(coin->mUnk_0ec.z, -0x14);
                 }
                 if (coin->mUnk_0ec.y < -0xa000) {
                     coin->mUnk_000.mUnk_10.y = 0x4cd;

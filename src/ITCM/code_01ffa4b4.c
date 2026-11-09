@@ -67,13 +67,13 @@ void func_01ffa4b4(Kart *p, Vec3 *a) {
             func_0206f574(p, f, &v2);
             if (m != 0) {
                 d = VEC_DotProduct(&v5, &p->mHitVelocity);
-                p->mHitVelocity.x -= (s32) (((s64) v5.x * d) >> 12);
-                p->mHitVelocity.y -= (s32) (((s64) v5.y * d) >> 12);
-                p->mHitVelocity.z -= (s32) (((s64) v5.z * d) >> 12);
+                p->mHitVelocity.x -= MUL_FIXED12_NO_ROUND(v5.x, d);
+                p->mHitVelocity.y -= MUL_FIXED12_NO_ROUND(v5.y, d);
+                p->mHitVelocity.z -= MUL_FIXED12_NO_ROUND(v5.z, d);
                 d = VEC_DotProduct(&v5, &p->mPrevHitVelocity);
-                p->mPrevHitVelocity.x -= (s32) (((s64) v5.x * d) >> 12);
-                p->mPrevHitVelocity.y -= (s32) (((s64) v5.y * d) >> 12);
-                p->mPrevHitVelocity.z -= (s32) (((s64) v5.z * d) >> 12);
+                p->mPrevHitVelocity.x -= MUL_FIXED12_NO_ROUND(v5.x, d);
+                p->mPrevHitVelocity.y -= MUL_FIXED12_NO_ROUND(v5.y, d);
+                p->mPrevHitVelocity.z -= MUL_FIXED12_NO_ROUND(v5.z, d);
             }
             p->mUnk_4da = 3;
             if (((s32(*)(Kart *, u32, Vec3 *)) data_0217ac14)(p, f, &v3) != 0 || (p->mUnk_44 & 0x4000000)) {
@@ -89,9 +89,9 @@ void func_01ffa4b4(Kart *p, Vec3 *a) {
                     v6.x = -v6.x;
                     v6.y = -v6.y;
                     v6.z = -v6.z;
-                    v6.x = ((s64) v6.x * k) >> 12;
-                    v6.y = ((s64) v6.y * k) >> 12;
-                    v6.z = ((s64) v6.z * k) >> 12;
+                    v6.x = MUL_FIXED12_NO_ROUND(v6.x, k);
+                    v6.y = MUL_FIXED12_NO_ROUND(v6.y, k);
+                    v6.z = MUL_FIXED12_NO_ROUND(v6.z, k);
                     p->mUnk_374 = v6;
                     p->mUnk_374.y = -0x19a;
                 }
@@ -165,9 +165,9 @@ void func_01ffa4b4(Kart *p, Vec3 *a) {
                             v7.x = -v7.x;
                             v7.y = -v7.y;
                             v7.z = -v7.z;
-                            v7.x = ((s64) v7.x * k) >> 12;
-                            v7.y = ((s64) v7.y * k) >> 12;
-                            v7.z = ((s64) v7.z * k) >> 12;
+                            v7.x = MUL_FIXED12_NO_ROUND(v7.x, k);
+                            v7.y = MUL_FIXED12_NO_ROUND(v7.y, k);
+                            v7.z = MUL_FIXED12_NO_ROUND(v7.z, k);
                             p->mUnk_374 = v7;
                             p->mUnk_374.y = -0x19a;
                         }
@@ -193,7 +193,7 @@ void func_01ffa4b4(Kart *p, Vec3 *a) {
     if ((p->mUnk_4c & 0x40000000) && p->mState == KART_STATE_NORMAL) {
         func_0206f824(p, a, b1);
     }
-    p->mUnk_274 = ((s64) p->mUnk_274 * 0xf33) >> 12;
+    p->mUnk_274 = MUL_FIXED12_NO_ROUND(p->mUnk_274, 0xf33);
     t = p->mUnk_274;
     if ((t > 0 ? t : -t) < 0x29) {
         p->mUnk_274 = 0;

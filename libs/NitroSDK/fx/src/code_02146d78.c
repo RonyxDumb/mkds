@@ -2,15 +2,15 @@
 
 // Scales the rows of the 3x3 matrix at src by x, y and z and writes the result to dst.
 void MTX_ScaleApply33(const MtxFx33 *src, MtxFx33 *dst, s32 x, s32 y, s32 z) {
-    dst->mUnk_00[0].x = ((s64) x * src->mUnk_00[0].x) >> 12;
-    dst->mUnk_00[0].y = ((s64) x * src->mUnk_00[0].y) >> 12;
-    dst->mUnk_00[0].z = ((s64) x * src->mUnk_00[0].z) >> 12;
-    dst->mUnk_00[1].x = ((s64) y * src->mUnk_00[1].x) >> 12;
-    dst->mUnk_00[1].y = ((s64) y * src->mUnk_00[1].y) >> 12;
-    dst->mUnk_00[1].z = ((s64) y * src->mUnk_00[1].z) >> 12;
-    dst->mUnk_00[2].x = ((s64) z * src->mUnk_00[2].x) >> 12;
-    dst->mUnk_00[2].y = ((s64) z * src->mUnk_00[2].y) >> 12;
-    dst->mUnk_00[2].z = ((s64) z * src->mUnk_00[2].z) >> 12;
+    dst->mUnk_00[0].x = MUL_FIXED12_NO_ROUND(x, src->mUnk_00[0].x);
+    dst->mUnk_00[0].y = MUL_FIXED12_NO_ROUND(x, src->mUnk_00[0].y);
+    dst->mUnk_00[0].z = MUL_FIXED12_NO_ROUND(x, src->mUnk_00[0].z);
+    dst->mUnk_00[1].x = MUL_FIXED12_NO_ROUND(y, src->mUnk_00[1].x);
+    dst->mUnk_00[1].y = MUL_FIXED12_NO_ROUND(y, src->mUnk_00[1].y);
+    dst->mUnk_00[1].z = MUL_FIXED12_NO_ROUND(y, src->mUnk_00[1].z);
+    dst->mUnk_00[2].x = MUL_FIXED12_NO_ROUND(z, src->mUnk_00[2].x);
+    dst->mUnk_00[2].y = MUL_FIXED12_NO_ROUND(z, src->mUnk_00[2].y);
+    dst->mUnk_00[2].z = MUL_FIXED12_NO_ROUND(z, src->mUnk_00[2].z);
 }
 
 // Sets dst to the rotation by sinVal and cosVal about the axis vec.
@@ -42,13 +42,13 @@ void MTX_RotAxis33(MtxFx33 *dst, const Vec3 *vec, s32 sinVal, s32 cosVal) {
     xx = (s64) t * ((s64) x * x);
     dst->mUnk_00[0].x = (s32) (xx >> 24) + cosVal;
     xy = ((s64) t * x * y) >> 24;
-    sinX = ((s64) sinVal * x) >> 12;
+    sinX = MUL_FIXED12_NO_ROUND(sinVal, x);
     yy = t * ((s64) y * y);
     dst->mUnk_00[1].y = (s32) (yy >> 24) + cosVal;
     zz = (s64) t * ((s64) z * z);
     dst->mUnk_00[2].z = (s32) (zz >> 24) + cosVal;
-    sinY = ((s64) sinVal * y) >> 12;
-    sinZ = ((s64) sinVal * z) >> 12;
+    sinY = MUL_FIXED12_NO_ROUND(sinVal, y);
+    sinZ = MUL_FIXED12_NO_ROUND(sinVal, z);
     dst->mUnk_00[0].y = xy + sinZ;
     dst->mUnk_00[1].x = xy - sinZ;
     xz = (s32) (((s64) t * x * z) >> 24);

@@ -202,7 +202,7 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
                      (s64) wanwan->mUnk_00.mUnk_10.z * surfaceNormal.z) >>
                     12;
                 if (t < 0) {
-                    wanwan->mUnk_00.mUnk_10.y += (s32) (((s64) -t * 0x14cd) >> 12);
+                    wanwan->mUnk_00.mUnk_10.y += MUL_FIXED12_NO_ROUND(-t, 0x14cd);
                 }
                 QuaternionFromYAxisToVec3(&surfaceNormal, &wanwan->mUnk_c4);
             }
@@ -265,11 +265,11 @@ void EnterWanwanState0(Wanwan *wanwan) {
     wanwan->mCurvePoints[0] = NULL;
     *wanwan->mCurvePoints[1] = wanwan->mUnk_00.mPos;
     *wanwan->mCurvePoints[2] = *wanwan->mCurvePoints[1];
-    wanwan->mCurvePoints[2]->x += (s32) (((s64) wanwan->mUnk_00.mMatrix.mUnk_00[2].x * wanwan->mUnk_f0) >> 12);
-    wanwan->mCurvePoints[2]->z += (s32) (((s64) wanwan->mUnk_00.mMatrix.mUnk_00[2].z * wanwan->mUnk_f0) >> 12);
+    wanwan->mCurvePoints[2]->x += MUL_FIXED12_NO_ROUND(wanwan->mUnk_00.mMatrix.mUnk_00[2].x, wanwan->mUnk_f0);
+    wanwan->mCurvePoints[2]->z += MUL_FIXED12_NO_ROUND(wanwan->mUnk_00.mMatrix.mUnk_00[2].z, wanwan->mUnk_f0);
     *wanwan->mCurvePoints[3] = *wanwan->mCurvePoints[2];
-    wanwan->mCurvePoints[3]->x += (s32) (((s64) wanwan->mUnk_00.mMatrix.mUnk_00[0].x * wanwan->mUnk_f0) >> 12);
-    wanwan->mCurvePoints[3]->z += (s32) (((s64) wanwan->mUnk_00.mMatrix.mUnk_00[0].z * wanwan->mUnk_f0) >> 12);
+    wanwan->mCurvePoints[3]->x += MUL_FIXED12_NO_ROUND(wanwan->mUnk_00.mMatrix.mUnk_00[0].x, wanwan->mUnk_f0);
+    wanwan->mCurvePoints[3]->z += MUL_FIXED12_NO_ROUND(wanwan->mUnk_00.mMatrix.mUnk_00[0].z, wanwan->mUnk_f0);
     func_020d7d18(&wanwan->mSegmentProgress, 1, wanwan->mCurvePoints, 0x1000);
     wanwan->mCurvePoints[0] = savedPoint;
 }
@@ -325,8 +325,9 @@ void UpdateWanwanState0(Wanwan *wanwan) {
                 random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
                 angleIndex = (u16) (((random->mValue >> 32) * 0x10000) >> 32) >> 4;
                 attemptCount++;
-                candidate->x = wanwan->mCenterPos.x + (s32) (((s64) gPairsByAngle[angleIndex * 2] * radius) >> 12);
-                candidate->z = wanwan->mCenterPos.z + (s32) (((s64) gPairsByAngle[angleIndex * 2 + 1] * radius) >> 12);
+                candidate->x = wanwan->mCenterPos.x + MUL_FIXED12_NO_ROUND(gPairsByAngle[angleIndex * 2], radius);
+                candidate->z =
+                    wanwan->mCenterPos.z + MUL_FIXED12_NO_ROUND(gPairsByAngle[angleIndex * 2 + 1], radius);
                 if (attemptCount > 5) {
                     break;
                 }
@@ -425,7 +426,7 @@ void UpdateWanwanState1(Wanwan *wanwan) {
         if (t < 0) {
             t = -t;
         }
-        k = ((s64) t * 0x7a) >> 12;
+        k = MUL_FIXED12_NO_ROUND(t, 0x7a);
         predictedPos.x = wanwan->mKartVelocity->x * k;
         predictedPos.z = wanwan->mKartVelocity->z * k;
         VEC_Add(&predictedPos, wanwan->mKartPos, &predictedPos);
@@ -437,9 +438,9 @@ void UpdateWanwanState1(Wanwan *wanwan) {
         if (m > wanwan->mMaxRadius) {
             m = wanwan->mMaxRadius;
         }
-        a.x = ((s64) a.x * m) >> 12;
-        a.y = ((s64) a.y * m) >> 12;
-        a.z = ((s64) a.z * m) >> 12;
+        a.x = MUL_FIXED12_NO_ROUND(a.x, m);
+        a.y = MUL_FIXED12_NO_ROUND(a.y, m);
+        a.z = MUL_FIXED12_NO_ROUND(a.z, m);
         VEC_Add(&a, &wanwan->mCenterPos, &wanwan->mUnk_1e0);
         wanwan->mUnk_1f8 += 0xb4;
     }
@@ -447,8 +448,8 @@ void UpdateWanwanState1(Wanwan *wanwan) {
     wanwan->mUnk_00.mUnk_10.x += (s32) (((s64) a.x << 5) >> 12);
     wanwan->mUnk_00.mUnk_10.z += (s32) (((s64) a.z << 5) >> 12);
     if (func_020dccc8_inline(&wanwan->mUnk_00.mUnk_10) >= 0x40000000) {
-        wanwan->mUnk_00.mUnk_10.x -= (s32) (((s64) wanwan->mUnk_00.mUnk_10.x * 0x4cc) >> 12);
-        wanwan->mUnk_00.mUnk_10.z -= (s32) (((s64) wanwan->mUnk_00.mUnk_10.z * 0x4cc) >> 12);
+        wanwan->mUnk_00.mUnk_10.x -= MUL_FIXED12_NO_ROUND(wanwan->mUnk_00.mUnk_10.x, 0x4cc);
+        wanwan->mUnk_00.mUnk_10.z -= MUL_FIXED12_NO_ROUND(wanwan->mUnk_00.mUnk_10.z, 0x4cc);
     }
     if (func_020dccc8_inline(&a) < (s64) (wanwan->mUnk_f0 >> 1) * (wanwan->mUnk_f0 >> 1)) {
         wanwan->mUnk_00.mUnk_10.x >>= 1;
@@ -457,8 +458,8 @@ void UpdateWanwanState1(Wanwan *wanwan) {
         QuaternionFromAngleAroundY((u16) (((s64) FX_Atan2(a.x, a.z) * 0x28be60db9391LL + 0x80000000000LL) >> 44),
                                    &wanwan->mUnk_d4);
     }
-    t = ((s64) wanwan->mUnk_00.mUnk_10.x * a.z) >> 12;
-    t -= (s32) (((s64) wanwan->mUnk_00.mUnk_10.z * a.x) >> 12);
+    t = MUL_FIXED12_NO_ROUND(wanwan->mUnk_00.mUnk_10.x, a.z);
+    t -= MUL_FIXED12_NO_ROUND(wanwan->mUnk_00.mUnk_10.z, a.x);
     if (((s64) a.x * a.x + (s64) a.z * a.z) * 10 < (s64) t * t) {
         wanwan->mUnk_00.mUnk_10.x >>= 1;
         wanwan->mUnk_00.mUnk_10.z >>= 1;
@@ -468,13 +469,13 @@ void UpdateWanwanState1(Wanwan *wanwan) {
     VEC_Subtract(&wanwan->mUnk_00.mPos, &wanwan->mCenterPos, &a);
     if ((s64) a.x * a.x + (s64) a.z * a.z >= (s64) wanwan->mMaxRadius * wanwan->mMaxRadius) {
         Vec3NormalizeXZAndGetLengthOrZero(&a, &a);
-        wanwan->mUnk_00.mPos.x = wanwan->mCenterPos.x + (s32) (((s64) a.x * wanwan->mMaxRadius) >> 12);
-        wanwan->mUnk_00.mPos.z = wanwan->mCenterPos.z + (s32) (((s64) a.z * wanwan->mMaxRadius) >> 12);
-        k = ((s64) wanwan->mUnk_00.mUnk_10.x * a.x) >> 12;
-        m = ((s64) wanwan->mUnk_00.mUnk_10.z * a.z) >> 12;
+        wanwan->mUnk_00.mPos.x = wanwan->mCenterPos.x + MUL_FIXED12_NO_ROUND(a.x, wanwan->mMaxRadius);
+        wanwan->mUnk_00.mPos.z = wanwan->mCenterPos.z + MUL_FIXED12_NO_ROUND(a.z, wanwan->mMaxRadius);
+        k = MUL_FIXED12_NO_ROUND(wanwan->mUnk_00.mUnk_10.x, a.x);
+        m = MUL_FIXED12_NO_ROUND(wanwan->mUnk_00.mUnk_10.z, a.z);
         if (k + m > 0) {
-            wanwan->mUnk_00.mUnk_10.x -= (s32) (((s64) k * a.x) >> 12);
-            wanwan->mUnk_00.mUnk_10.z -= (s32) (((s64) m * a.z) >> 12);
+            wanwan->mUnk_00.mUnk_10.x -= MUL_FIXED12_NO_ROUND(k, a.x);
+            wanwan->mUnk_00.mUnk_10.z -= MUL_FIXED12_NO_ROUND(m, a.z);
         }
     }
     if (wanwan->mUnk_00.mStateMachine.mStateFrames >= 0xb4) {
@@ -558,8 +559,8 @@ void UpdateWanwanState3(Wanwan *wanwan) {
         wanwan->mUnk_00.mUnk_10.x += (s32) (((s64) toCenter.x << 2) >> 12);
         wanwan->mUnk_00.mUnk_10.z += (s32) (((s64) toCenter.z << 2) >> 12);
         if (func_020dc474_inline(&wanwan->mUnk_00.mUnk_10) >= 0x1000000) {
-            wanwan->mUnk_00.mUnk_10.x -= (s32) (((s64) wanwan->mUnk_00.mUnk_10.x * 0x199) >> 12);
-            wanwan->mUnk_00.mUnk_10.z -= (s32) (((s64) wanwan->mUnk_00.mUnk_10.z * 0x199) >> 12);
+            wanwan->mUnk_00.mUnk_10.x -= MUL_FIXED12_NO_ROUND(wanwan->mUnk_00.mUnk_10.x, 0x199);
+            wanwan->mUnk_00.mUnk_10.z -= MUL_FIXED12_NO_ROUND(wanwan->mUnk_00.mUnk_10.z, 0x199);
         }
         wanwan->mUnk_00.mPos.x += wanwan->mUnk_00.mUnk_10.x;
         wanwan->mUnk_00.mPos.z += wanwan->mUnk_00.mUnk_10.z;

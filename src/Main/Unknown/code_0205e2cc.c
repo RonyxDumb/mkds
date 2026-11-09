@@ -305,7 +305,7 @@ s32 RunGhostScene(SceneNumbers *sceneNumbers) {
 #pragma thumb off
 
 static inline s32 func_0205e2cc_inline(s32 a, s32 b) {
-    return ((s64) a * b + 0x800) >> 12;
+    return MUL_FIXED12_ROUNDED(a, b);
 }
 
 void CreateShapeMapObjectCountList(void *heap) {

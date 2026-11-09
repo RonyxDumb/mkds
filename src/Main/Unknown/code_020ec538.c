@@ -52,9 +52,9 @@ void SetPushedMotionFromKart(PushedObject *object, Kart *other) {
         object->mMotion.mAngleIncreasing = 0;
     }
     pushSpeed = object->mMotion.mPushSpeed;
-    object->mMapObject.mUnk_10.x = ((s64) offset.x * pushSpeed) >> 12;
-    object->mMapObject.mUnk_10.y = ((s64) offset.y * pushSpeed) >> 12;
-    object->mMapObject.mUnk_10.z = ((s64) offset.z * pushSpeed) >> 12;
+    object->mMapObject.mUnk_10.x = MUL_FIXED12_NO_ROUND(offset.x, pushSpeed);
+    object->mMapObject.mUnk_10.y = MUL_FIXED12_NO_ROUND(offset.y, pushSpeed);
+    object->mMapObject.mUnk_10.z = MUL_FIXED12_NO_ROUND(offset.z, pushSpeed);
     object->mMapObject.mUnk_10.x = object->mMapObject.mUnk_10.x + (other->mVelocity.x >> 1);
     object->mMapObject.mUnk_10.z = object->mMapObject.mUnk_10.z + (other->mVelocity.z >> 1);
     object->mMapObject.mUnk_10.y = object->mMotion.mUpwardSpeed;
@@ -93,9 +93,9 @@ void SetPushedMotionFromItemObject(PushedObject *object, const ItemObject *other
         object->mMotion.mAngleIncreasing = 0;
     }
     pushSpeed = object->mMotion.mPushSpeed;
-    object->mMapObject.mUnk_10.x = ((s64) out.x * pushSpeed) >> 12;
-    object->mMapObject.mUnk_10.y = ((s64) out.y * pushSpeed) >> 12;
-    object->mMapObject.mUnk_10.z = ((s64) out.z * pushSpeed) >> 12;
+    object->mMapObject.mUnk_10.x = MUL_FIXED12_NO_ROUND(out.x, pushSpeed);
+    object->mMapObject.mUnk_10.y = MUL_FIXED12_NO_ROUND(out.y, pushSpeed);
+    object->mMapObject.mUnk_10.z = MUL_FIXED12_NO_ROUND(out.z, pushSpeed);
     object->mMapObject.mUnk_10.x = object->mMapObject.mUnk_10.x + (otherVector.x >> 1);
     object->mMapObject.mUnk_10.z = object->mMapObject.mUnk_10.z + (otherVector.z >> 1);
     object->mMapObject.mUnk_10.y = object->mMotion.mUpwardSpeed;

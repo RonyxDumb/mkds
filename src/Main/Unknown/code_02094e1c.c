@@ -112,7 +112,7 @@ s16 func_0209519c(s32 a) {
 }
 
 s32 func_0209518c(s32 a, s32 b) {
-    return ((s64) a * b) >> 12;
+    return MUL_FIXED12_NO_ROUND(a, b);
 }
 
 s16 func_0209516c(s32 a) {

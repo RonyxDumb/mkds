@@ -47,9 +47,9 @@ static inline s32 func_020760ec_inline(Vec3 *src, Vec3 *dst) {
 }
 
 static inline void func_02076528_inline(Vec3 *vec, s32 scale) {
-    vec->x = ((s64) vec->x * scale) >> 12;
-    vec->y = ((s64) vec->y * scale) >> 12;
-    vec->z = ((s64) vec->z * scale) >> 12;
+    vec->x = MUL_FIXED12_NO_ROUND(vec->x, scale);
+    vec->y = MUL_FIXED12_NO_ROUND(vec->y, scale);
+    vec->z = MUL_FIXED12_NO_ROUND(vec->z, scale);
 }
 
 // b selects the far plane: non-zero uses the second far value (mUnk_08c).
@@ -94,10 +94,10 @@ void SetupCameraBehindKart(void) {
     }
     chaseCamera = gChaseCamera;
     Matrix3x3FromQuaternion(&axes, &kart->mUnk_e0);
-    behindDistance = ((s64) -gDefaultFollowDistance * chaseCamera->mFollowDirectionSign + 0x800) >> 12;
-    offset.x = ((s64) axes.mUnk_00[2].x * behindDistance) >> 12;
-    offset.y = ((s64) axes.mUnk_00[2].y * behindDistance) >> 12;
-    offset.z = ((s64) axes.mUnk_00[2].z * behindDistance) >> 12;
+    behindDistance = MUL_FIXED12_ROUNDED(-gDefaultFollowDistance, chaseCamera->mFollowDirectionSign);
+    offset.x = MUL_FIXED12_NO_ROUND(axes.mUnk_00[2].x, behindDistance);
+    offset.y = MUL_FIXED12_NO_ROUND(axes.mUnk_00[2].y, behindDistance);
+    offset.z = MUL_FIXED12_NO_ROUND(axes.mUnk_00[2].z, behindDistance);
     VEC_Add(&kart->mPos, &offset, &chaseCamera->mPos);
     chaseCamera->mPos.y = chaseCamera->mPos.y + gFollowHeight;
     chaseCamera->mBaseUp = data_usa_02154fc4;
@@ -123,7 +123,7 @@ void UpdateChaseCamera(Camera *camera, Kart *kart) {
     s32 kartOffsetScale;
     Vec3 *p;
 
-    scaledHopHeight = ((s64) kart->mHopHeight * 0xcd0) >> 12;
+    scaledHopHeight = MUL_FIXED12_NO_ROUND(kart->mHopHeight, 0xcd0);
     if (camera->mUnk_258 == FALSE) {
         camera->mPrevPos = camera->mPos;
     }
@@ -152,15 +152,15 @@ void UpdateChaseCamera(Camera *camera, Kart *kart) {
         fovEaseRate = 0xcd;
     }
     t = camera->mHalfFovAngleGoal - camera->mHalfFovAngle;
-    camera->mHalfFovAngle = camera->mHalfFovAngle + (s32) (((s64) t * fovEaseRate + 0x800) >> 12);
+    camera->mHalfFovAngle = camera->mHalfFovAngle + MUL_FIXED12_ROUNDED(t, fovEaseRate);
     camera->mHalfFovPairFirst = gPairsByAngle[((u16) camera->mHalfFovAngle >> 4) * 2];
     camera->mHalfFovPairSecond = gPairsByAngle[((u16) camera->mHalfFovAngle >> 4) * 2 + 1];
     if (kart->mUnk_48 & 0x10000) {
         camera->mFollowDistanceScale =
-            camera->mFollowDistanceScale + (s32) (((s64) (0x14cd - camera->mFollowDistanceScale) * 0xcd + 0x800) >> 12);
+            camera->mFollowDistanceScale + MUL_FIXED12_ROUNDED(0x14cd - camera->mFollowDistanceScale, 0xcd);
     } else {
-        camera->mFollowDistanceScale = camera->mFollowDistanceScale +
-                                       (s32) (((s64) (0x1000 - camera->mFollowDistanceScale) * 0x19a + 0x800) >> 12);
+        camera->mFollowDistanceScale =
+            camera->mFollowDistanceScale + MUL_FIXED12_ROUNDED(0x1000 - camera->mFollowDistanceScale, 0x19a);
     }
     kartMovement.y = 0;
     GetKartUp(kart, &kartUp);
@@ -170,7 +170,7 @@ void UpdateChaseCamera(Camera *camera, Kart *kart) {
     g = kartPos;
     UpdateChaseCameraPosGoalYOffset(camera, kart, &forward);
     UpdateChaseCameraPos(&camera->mPos, &camera->mUnk_0a8, camera, kart, &g, &forward,
-                         ((s64) camera->mCollisionOffsetLength * 0x3000) >> 12);
+                         MUL_FIXED12_NO_ROUND(camera->mCollisionOffsetLength, 0x3000));
     if (IsWaterPresent() != FALSE) {
         t = GetHeightAboveWater(camera->mPos.y - 0x5000);
         if (t < 0) {
@@ -189,20 +189,20 @@ void UpdateChaseCamera(Camera *camera, Kart *kart) {
         }
     }
     camera->mPosGoalKartOffsetScale =
-        camera->mPosGoalKartOffsetScale + (s32) (((s64) (t - camera->mPosGoalKartOffsetScale) * 0xcd + 0x800) >> 12);
+        camera->mPosGoalKartOffsetScale + MUL_FIXED12_ROUNDED(t - camera->mPosGoalKartOffsetScale, 0xcd);
     kartOffsetScale = camera->mPosGoalKartOffsetScale;
-    camera->mPosGoalKartOffset.x = ((s64) p->x * kartOffsetScale) >> 12;
-    camera->mPosGoalKartOffset.y = ((s64) p->y * kartOffsetScale) >> 12;
-    camera->mPosGoalKartOffset.z = ((s64) p->z * kartOffsetScale) >> 12;
+    camera->mPosGoalKartOffset.x = MUL_FIXED12_NO_ROUND(p->x, kartOffsetScale);
+    camera->mPosGoalKartOffset.y = MUL_FIXED12_NO_ROUND(p->y, kartOffsetScale);
+    camera->mPosGoalKartOffset.z = MUL_FIXED12_NO_ROUND(p->z, kartOffsetScale);
     if (kart->mUnk_48 & 0x40000000) {
         GetKartUp(kart, &targetUp);
     } else {
         targetUp = data_usa_02154fc4;
     }
     VEC_Subtract(&targetUp, &camera->mBaseUp, &upStep);
-    upStep.x = ((s64) upStep.x * 0x800) >> 12;
-    upStep.y = ((s64) upStep.y * 0x800) >> 12;
-    upStep.z = ((s64) upStep.z * 0x800) >> 12;
+    upStep.x = MUL_FIXED12_NO_ROUND(upStep.x, 0x800);
+    upStep.y = MUL_FIXED12_NO_ROUND(upStep.y, 0x800);
+    upStep.z = MUL_FIXED12_NO_ROUND(upStep.z, 0x800);
     VEC_Add(&camera->mBaseUp, &upStep, &camera->mBaseUp);
     if (camera->mHeightHold != 0) {
         camera->mLookAtHeight = camera->mLookAtHeight - 0x1000;
@@ -283,25 +283,25 @@ void UpdateChaseCameraCollision(Camera *camera, Kart *kart, Vec3 *forward) {
     }
     if (m != FALSE && camera->mUnk_25c == FALSE) {
         if (camera->mUnk_254 == 0) {
-            k = (s32) (((s64) (0x1000 - kart->mVelocityLengthRatio) * 0x5000) >> 12) + 0x3000;
-            pushOut.x = ((s64) pushOut.x * k) >> 12;
-            pushOut.y = ((s64) pushOut.y * k) >> 12;
-            pushOut.z = ((s64) pushOut.z * k) >> 12;
+            k = MUL_FIXED12_NO_ROUND(0x1000 - kart->mVelocityLengthRatio, 0x5000) + 0x3000;
+            pushOut.x = MUL_FIXED12_NO_ROUND(pushOut.x, k);
+            pushOut.y = MUL_FIXED12_NO_ROUND(pushOut.y, k);
+            pushOut.z = MUL_FIXED12_NO_ROUND(pushOut.z, k);
             camera->mPosGoalCollisionOffset = pushOut;
             camera->mCollisionOffsetLengthGoal = 0;
         }
     } else {
         camera->mCollisionOffsetLengthGoal = 0;
         VEC_Subtract(&pushOut, &camera->mPosGoalCollisionOffset, &t);
-        t.x = ((s64) t.x * 0x4cd) >> 12;
-        t.y = ((s64) t.y * 0x4cd) >> 12;
-        t.z = ((s64) t.z * 0x4cd) >> 12;
+        t.x = MUL_FIXED12_NO_ROUND(t.x, 0x4cd);
+        t.y = MUL_FIXED12_NO_ROUND(t.y, 0x4cd);
+        t.z = MUL_FIXED12_NO_ROUND(t.z, 0x4cd);
         VEC_Add(&camera->mPosGoalCollisionOffset, &t, &camera->mPosGoalCollisionOffset);
         camera->mUnk_254 = 3;
     }
     camera->mCollisionOffsetLength =
         camera->mCollisionOffsetLength +
-        (s32) (((s64) (camera->mCollisionOffsetLengthGoal - camera->mCollisionOffsetLength) * 0x11f + 0x800) >> 12);
+        MUL_FIXED12_ROUNDED(camera->mCollisionOffsetLengthGoal - camera->mCollisionOffsetLength, 0x11f);
 }
 
 void UpdateChaseCameraPosGoalYOffset(Camera *camera, Kart *kart, Vec3 *forward) {
@@ -320,18 +320,18 @@ void UpdateChaseCameraPosGoalYOffset(Camera *camera, Kart *kart, Vec3 *forward) 
     }
     if ((kart->mUnk_44 & KART_44_ON_GROUND) || (d & 0x10000)) {
         if ((forwardY = forward->y) > 0) {
-            goalYOffset = ((s64) forwardY * e) >> 12;
+            goalYOffset = MUL_FIXED12_NO_ROUND(forwardY, e);
         } else if (forwardY + 0x4cd < 0) {
-            goalYOffset = ((s64) forwardY * -0xf000) >> 12;
+            goalYOffset = MUL_FIXED12_NO_ROUND(forwardY, -0xf000);
         }
     }
     if (d & 0x40000000) {
         camera->mPosGoalYOffset =
-            camera->mPosGoalYOffset + (s32) (((s64) -camera->mPosGoalYOffset * easeRate + 0x800) >> 12);
+            camera->mPosGoalYOffset + MUL_FIXED12_ROUNDED(-camera->mPosGoalYOffset, easeRate);
         return;
     }
     j = goalYOffset - camera->mPosGoalYOffset;
-    camera->mPosGoalYOffset = camera->mPosGoalYOffset + (s32) (((s64) j * easeRate + 0x800) >> 12);
+    camera->mPosGoalYOffset = camera->mPosGoalYOffset + MUL_FIXED12_ROUNDED(j, easeRate);
 }
 
 void StartEntryCameraKind6Entry(void) {
@@ -414,9 +414,9 @@ void DisableEntryCameraUpdate(void) {
 }
 
 static inline void func_02074b00_inline(Vec3 *v, const Vec3 *u, s32 s) {
-    v->x = ((s64) u->x * s) >> 12;
-    v->y = ((s64) u->y * s) >> 12;
-    v->z = ((s64) u->z * s) >> 12;
+    v->x = MUL_FIXED12_NO_ROUND(u->x, s);
+    v->y = MUL_FIXED12_NO_ROUND(u->y, s);
+    v->z = MUL_FIXED12_NO_ROUND(u->z, s);
 }
 
 BOOL TryUpdateEntryCamera(Camera *camera) {
@@ -527,8 +527,8 @@ void UpdateCameraByEntryKind(Camera *camera) {
         s32 firstDelta = firstEnd - firstStart;
         s32 secondDelta = secondEnd - secondStart;
 
-        secondOffset = ((s64) secondDelta * t) >> 12;
-        camera->mHalfFovPairFirst = firstStart + (s32) (((s64) firstDelta * t) >> 12);
+        secondOffset = MUL_FIXED12_NO_ROUND(secondDelta, t);
+        camera->mHalfFovPairFirst = firstStart + MUL_FIXED12_NO_ROUND(firstDelta, t);
         camera->mHalfFovPairSecond = secondStart + secondOffset;
         camera->mFovBlend += q->mFovBlendPerFrame;
         if (camera->mFovBlend > 0x1000) {
@@ -741,9 +741,9 @@ void UpdateCameraAngleEntry(Camera *camera) {
             kart = GetKart(camera->mFollowedKartIndex);
             v = &kart->mUnk_120;
             k = VEC_DotProduct(v, &pushOut);
-            pushOut.x = ((s64) kart->mUnk_120.x * k) >> 12;
-            pushOut.y = ((s64) v->y * k) >> 12;
-            pushOut.z = ((s64) v->z * k) >> 12;
+            pushOut.x = MUL_FIXED12_NO_ROUND(kart->mUnk_120.x, k);
+            pushOut.y = MUL_FIXED12_NO_ROUND(v->y, k);
+            pushOut.z = MUL_FIXED12_NO_ROUND(v->z, k);
             VEC_Add(&pushOut, &camera->mPos, &camera->mPos);
         }
     }
@@ -794,9 +794,9 @@ void UpdateStaffRollCameraAndLight(Camera *camera) {
     MTX_RotAxis33(&m, &data_usa_02154fc4, gPairsByAngle[(data_usa_021656a0 >> 4) * 2],
                   gPairsByAngle[(data_usa_021656a0 >> 4) * 2 + 1]);
     MTX_MultVec33(&lightDirection, &m, &lightDirection);
-    lightDirection.x = ((s64) lightDirection.x * 0xfae) >> 12;
-    lightDirection.y = ((s64) lightDirection.y * 0xfae) >> 12;
-    lightDirection.z = ((s64) lightDirection.z * 0xfae) >> 12;
+    lightDirection.x = MUL_FIXED12_NO_ROUND(lightDirection.x, 0xfae);
+    lightDirection.y = MUL_FIXED12_NO_ROUND(lightDirection.y, 0xfae);
+    lightDirection.z = MUL_FIXED12_NO_ROUND(lightDirection.z, 0xfae);
     SetRaceLightVector(&lightDirection);
     courseMapCamera = camera->mCourseMapCamera;
     if (courseMapCamera->mFovBlendPerFrame != 0) {
@@ -809,8 +809,8 @@ void UpdateStaffRollCameraAndLight(Camera *camera) {
         s32 firstDelta = firstEnd - firstStart;
         s32 secondDelta = secondEnd - secondStart;
 
-        secondOffset = ((s64) secondDelta * t) >> 12;
-        camera->mHalfFovPairFirst = firstStart + (s32) (((s64) firstDelta * t) >> 12);
+        secondOffset = MUL_FIXED12_NO_ROUND(secondDelta, t);
+        camera->mHalfFovPairFirst = firstStart + MUL_FIXED12_NO_ROUND(firstDelta, t);
         camera->mHalfFovPairSecond = secondStart + secondOffset;
         camera->mFovBlend += courseMapCamera->mFovBlendPerFrame;
         if (camera->mFovBlend > 0x1000) {
@@ -852,10 +852,10 @@ void UpdateCameraPosCurve(Camera *camera, s32 paramPerFrame) {
     if (camera->mPosCurve.mParam >= 0x1000) {
         camera->mPosCurve.mParam = 0x1000;
     }
-    m = ((s64) camera->mPosCurve.mParam * m) >> 12;
-    offset.x = ((s64) direction.x * m) >> 12;
-    offset.y = ((s64) direction.y * m) >> 12;
-    offset.z = ((s64) direction.z * m) >> 12;
+    m = MUL_FIXED12_NO_ROUND(camera->mPosCurve.mParam, m);
+    offset.x = MUL_FIXED12_NO_ROUND(direction.x, m);
+    offset.y = MUL_FIXED12_NO_ROUND(direction.y, m);
+    offset.z = MUL_FIXED12_NO_ROUND(direction.z, m);
     VEC_Add(&startPos, &offset, &camera->mPos);
 }
 
@@ -959,9 +959,9 @@ void UpdateChaseCameraLookAt(Vec3 *lookAt, Vec3 *lookAtOffset, s32 *lookAtLoweri
         VEC_MultAdd(0xa000, &kart->mUnk_12c, &offsetGoal, &offsetGoal);
     }
     VEC_Subtract(&offsetGoal, lookAtOffset, &offsetStep);
-    offsetStep.x = ((s64) offsetStep.x * 0x266) >> 12;
-    offsetStep.y = ((s64) offsetStep.y * 0x266) >> 12;
-    offsetStep.z = ((s64) offsetStep.z * 0x266) >> 12;
+    offsetStep.x = MUL_FIXED12_NO_ROUND(offsetStep.x, 0x266);
+    offsetStep.y = MUL_FIXED12_NO_ROUND(offsetStep.y, 0x266);
+    offsetStep.z = MUL_FIXED12_NO_ROUND(offsetStep.z, 0x266);
     VEC_Add(lookAtOffset, &offsetStep, lookAtOffset);
     VEC_Add(&lookAtGoal, lookAtOffset, &lookAtGoal);
     lookAt->x = lookAtGoal.x;
@@ -973,11 +973,11 @@ void UpdateChaseCameraLookAt(Vec3 *lookAt, Vec3 *lookAtOffset, s32 *lookAtLoweri
         }
     } else {
         t = *lookAtLowering;
-        *lookAtLowering = t + (s32) (((s64) -t * 0x29 + 0x800) >> 12);
+        *lookAtLowering = t + MUL_FIXED12_ROUNDED(-t, 0x29);
     }
     lookAtGoal.y = lookAtGoal.y - *lookAtLowering;
     t = lookAt->y;
-    lookAt->y = t + (s32) (((s64) (lookAtGoal.y - t) * 0xccd + 0x800) >> 12);
+    lookAt->y = t + MUL_FIXED12_ROUNDED(lookAtGoal.y - t, 0xccd);
 }
 
 void UpdateChaseCameraPos(Vec3 *pos, Vec3 *posOffset, Camera *camera, Kart *kart, Vec3 *kartPos, const Vec3 *forward,
@@ -1011,16 +1011,16 @@ void UpdateChaseCameraPos(Vec3 *pos, Vec3 *posOffset, Camera *camera, Kart *kart
         if (kart->mUnk_4c & 0x4000000) {
             return;
         }
-        camera->mKartMoveScale = ((s64) camera->mKartMoveScale * 0xe66) >> 12;
+        camera->mKartMoveScale = MUL_FIXED12_NO_ROUND(camera->mKartMoveScale, 0xe66);
         VEC_MultAdd(camera->mKartMoveScale, &kartMovement, pos, pos);
         return;
     }
     kartMovement.y = 0;
     VEC_Add(pos, &kartMovement, pos);
     i = -followDistance;
-    v2.x = ((s64) forwardCopy.x * i) >> 12;
-    v2.y = ((s64) forwardCopy.y * i) >> 12;
-    v2.z = ((s64) forwardCopy.z * i) >> 12;
+    v2.x = MUL_FIXED12_NO_ROUND(forwardCopy.x, i);
+    v2.y = MUL_FIXED12_NO_ROUND(forwardCopy.y, i);
+    v2.z = MUL_FIXED12_NO_ROUND(forwardCopy.z, i);
     VEC_Add(&v2, &camera->mPosGoalKartOffset, &v2);
     VEC_Add(&v2, &camera->mPosGoalCollisionOffset, &v2);
     VEC_MultAdd(gFollowHeight, &kartUp, &v2, &v3);
@@ -1036,9 +1036,9 @@ void UpdateChaseCameraPos(Vec3 *pos, Vec3 *posOffset, Camera *camera, Kart *kart
         VEC_MultAdd(-0x1e000, &kartUp, &offsetGoal, &offsetGoal);
     }
     VEC_Subtract(&offsetGoal, posOffset, &offsetStep);
-    offsetStep.x = ((s64) offsetStep.x * 0x19a) >> 12;
-    offsetStep.y = ((s64) offsetStep.y * 0x19a) >> 12;
-    offsetStep.z = ((s64) offsetStep.z * 0x19a) >> 12;
+    offsetStep.x = MUL_FIXED12_NO_ROUND(offsetStep.x, 0x19a);
+    offsetStep.y = MUL_FIXED12_NO_ROUND(offsetStep.y, 0x19a);
+    offsetStep.z = MUL_FIXED12_NO_ROUND(offsetStep.z, 0x19a);
     VEC_Add(posOffset, &offsetStep, posOffset);
     VEC_Add(&posGoal, posOffset, &posGoal);
     VEC_Subtract(&posGoal, pos, &v58);
@@ -1048,13 +1048,13 @@ void UpdateChaseCameraPos(Vec3 *pos, Vec3 *posOffset, Camera *camera, Kart *kart
     if ((s64) v58.x * v58.x + (s64) v58.y * v58.y + (s64) v58.z * v58.z >= 16) {
         k = Vec3NormalizeAndGetLengthUnchecked(&v58, &v58);
     }
-    VEC_MultAdd(((s64) k * 0x11f) >> 12, &v58, pos, pos);
+    VEC_MultAdd(MUL_FIXED12_NO_ROUND(k, 0x11f), &v58, pos, pos);
     pos->y = pos->y + ((s32) (((s64) j * 0x11f) >> 9) + collisionShorten * 2);
     if (camera->mHeightHold != 0) {
         if (camera->mHeldHeightEasing != FALSE) {
             s32 l;
             l = pos->y - camera->mHeldHeight;
-            camera->mHeldHeight = camera->mHeldHeight + (s32) (((s64) l * 0x29 + 0x800) >> 12);
+            camera->mHeldHeight = camera->mHeldHeight + MUL_FIXED12_ROUNDED(l, 0x29);
         }
         pos->y = camera->mHeldHeight;
     }
@@ -1067,7 +1067,7 @@ void UpdateChaseCameraPos(Vec3 *pos, Vec3 *posOffset, Camera *camera, Kart *kart
     if (k == 0) {
         return;
     }
-    VEC_MultAdd(((s64) camera->mFollowDistance * camera->mFollowDistanceScale) >> 12, &v34, kartPos, pos);
+    VEC_MultAdd(MUL_FIXED12_NO_ROUND(camera->mFollowDistance, camera->mFollowDistanceScale), &v34, kartPos, pos);
 }
 
 // Puts the chase camera at a minus mFollowDistance along axis 2 of the matrix b (the kart's).
@@ -1079,10 +1079,10 @@ void ResetCameraBehind(const Vec3 *kartPos, void *quaternion) {
 
     chaseCamera = gChaseCamera;
     Matrix3x3FromQuaternion(&axes, quaternion);
-    behindDistance = ((s64) -gDefaultFollowDistance * chaseCamera->mFollowDirectionSign + 0x800) >> 12;
-    offset.x = ((s64) axes.mUnk_00[2].x * behindDistance) >> 12;
-    offset.y = ((s64) axes.mUnk_00[2].y * behindDistance) >> 12;
-    offset.z = ((s64) axes.mUnk_00[2].z * behindDistance) >> 12;
+    behindDistance = MUL_FIXED12_ROUNDED(-gDefaultFollowDistance, chaseCamera->mFollowDirectionSign);
+    offset.x = MUL_FIXED12_NO_ROUND(axes.mUnk_00[2].x, behindDistance);
+    offset.y = MUL_FIXED12_NO_ROUND(axes.mUnk_00[2].y, behindDistance);
+    offset.z = MUL_FIXED12_NO_ROUND(axes.mUnk_00[2].z, behindDistance);
     VEC_Add(kartPos, &offset, &chaseCamera->mPos);
     chaseCamera->mPos.y = chaseCamera->mPos.y + gFollowHeight;
     chaseCamera->mBaseUp = data_usa_02154fc4;
@@ -1109,7 +1109,7 @@ void StartCameraWobble(s32 baseAmplitude, u32 distance, s32 scale) {
     } else if (distance > 0x15f90) {
         distanceFactor = 0x99a;
     }
-    amplitude = ((s64) baseAmplitude * (s32) (((s64) scale * distanceFactor) >> 12)) >> 12;
+    amplitude = MUL_FIXED12_NO_ROUND(baseAmplitude, MUL_FIXED12_NO_ROUND(scale, distanceFactor));
     if (chaseCamera->mWobbling != FALSE && chaseCamera->mWobbleAmplitude > amplitude) {
         return;
     }
@@ -1146,9 +1146,9 @@ void UpdateCameraWobble(Camera *camera) {
         camera->mWobbleDirection *= -1;
         camera->mUnk_144 = -0x2000 - camera->mUnk_144;
     }
-    camera->mWobbleAmplitude = ((s64) camera->mWobbleAmplitude * camera->mWobbleDecay) >> 12;
+    camera->mWobbleAmplitude = MUL_FIXED12_NO_ROUND(camera->mWobbleAmplitude, camera->mWobbleDecay);
     camera->mWobbleAmplitude = camera->mWobbleAmplitude - 0x14;
-    camera->mWobbleOffset = ((s64) camera->mUnk_144 * camera->mWobbleAmplitude) >> 12;
+    camera->mWobbleOffset = MUL_FIXED12_NO_ROUND(camera->mUnk_144, camera->mWobbleAmplitude);
     if (camera->mWobbleAmplitude <= 0) {
         u = FALSE;
         camera->mWobbleOffset = u;

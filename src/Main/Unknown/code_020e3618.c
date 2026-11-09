@@ -62,11 +62,13 @@ void InitBridge(Bridge *bridge, struct CourseMapRow *courseRow) {
         bridge->mSwingAnglePerFrame = 0;
         bridge->mSwingAngle = ((courseRow->mUnk_30 * 0x10000) / 0x168) >> 1;
     }
-    bridge->mUnk_000.mCollisionData.mUnk_100 = ((s64) bridge->mUnk_000.mMapObject.mScale.x * 0x5a000) >> 12;
+    bridge->mUnk_000.mCollisionData.mUnk_100 = MUL_FIXED12_NO_ROUND(bridge->mUnk_000.mMapObject.mScale.x, 0x5a000);
     bridge->mUnk_000.mCollisionData.mHalfSizeY =
-        (s32) (((s64) bridge->mUnk_000.mMapObject.mScale.y * 0x1e000) >> 12) >> 1;
-    bridge->mUnk_000.mCollisionData.mPositiveHalfSizeZ = ((s64) bridge->mUnk_000.mMapObject.mScale.z * 0x15e000) >> 12;
-    bridge->mUnk_000.mCollisionData.mNegativeHalfSizeZ = ((s64) bridge->mUnk_000.mMapObject.mScale.z * 0x32000) >> 12;
+        MUL_FIXED12_NO_ROUND(bridge->mUnk_000.mMapObject.mScale.y, 0x1e000) >> 1;
+    bridge->mUnk_000.mCollisionData.mPositiveHalfSizeZ =
+        MUL_FIXED12_NO_ROUND(bridge->mUnk_000.mMapObject.mScale.z, 0x15e000);
+    bridge->mUnk_000.mCollisionData.mNegativeHalfSizeZ =
+        MUL_FIXED12_NO_ROUND(bridge->mUnk_000.mMapObject.mScale.z, 0x32000);
     bridge->mUnk_000.mCollisionData.mUnk_110 = 0;
     bridge->mUnk_000.mCollisionData.mUnk_114.x = 1;
     bridge->mUnk_000.mCollisionData.mUnk_114.y = 0;

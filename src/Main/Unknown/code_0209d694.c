@@ -126,8 +126,8 @@ void UpdateSunFireball(void *a, SunFireball *sunFireball) {
                         if ((s64) t * t + (s64) k * k < 0x2710000000LL) {
                             randomValue = (u16) (((u64) func_0209d84c_inline(GetMapObjectRandom()) * 0x10000) >> 32);
                             k = (randomValue >> 4) * 2;
-                            sunFireball->mUnk_00.mUnk_10.x = ((s64) gPairsByAngle[k] * 0x1800) >> 12;
-                            sunFireball->mUnk_00.mUnk_10.z = ((s64) gPairsByAngle[k + 1] * 0x1800) >> 12;
+                            sunFireball->mUnk_00.mUnk_10.x = MUL_FIXED12_NO_ROUND(gPairsByAngle[k], 0x1800);
+                            sunFireball->mUnk_00.mUnk_10.z = MUL_FIXED12_NO_ROUND(gPairsByAngle[k + 1], 0x1800);
                         } else {
                             sunFireball->mUnk_00.mUnk_10.x = -sunFireball->mUnk_00.mUnk_10.x;
                             sunFireball->mUnk_00.mUnk_10.z = -sunFireball->mUnk_00.mUnk_10.z;
@@ -173,10 +173,10 @@ void UpdateSunFireball(void *a, SunFireball *sunFireball) {
                 sunFireball->mMoveAngle += 0xe39;
                 sunFireball->mUnk_00.mPos.x =
                     sunFireball->mUnk_00.mPos.x +
-                    (s32) (((s64) gPairsByAngle[(sunFireball->mMoveAngle >> 4) * 2] * 0x2000) >> 12);
+                    MUL_FIXED12_NO_ROUND(gPairsByAngle[(sunFireball->mMoveAngle >> 4) * 2], 0x2000);
                 sunFireball->mUnk_00.mPos.z =
                     sunFireball->mUnk_00.mPos.z +
-                    (s32) (((s64) gPairsByAngle[(sunFireball->mMoveAngle >> 4) * 2 + 1] * 0x2000) >> 12);
+                    MUL_FIXED12_NO_ROUND(gPairsByAngle[(sunFireball->mMoveAngle >> 4) * 2 + 1], 0x2000);
                 sunFireball->mUnk_00.mPos.y = sunFireball->mUnk_00.mPos.y + sunFireball->mUnk_00.mUnk_10.y;
             } else {
                 ParkMapObject(&sunFireball->mUnk_00);
@@ -231,9 +231,9 @@ void StartSunFireball(Vec3 *startPos, Vec3 *direction) {
     sunFireball->mStartPos = *startPos;
     sunFireball->mUnk_00.mPos = sunFireball->mStartPos;
     sunFireball->mUnk_00.mMatrix.mUnk_00[2] = *direction;
-    sunFireball->mUnk_00.mUnk_10.x = ((s64) direction->x * 0x2000) >> 12;
-    sunFireball->mUnk_00.mUnk_10.y = ((s64) direction->y * 0x2000) >> 12;
-    sunFireball->mUnk_00.mUnk_10.z = ((s64) direction->z * 0x2000) >> 12;
+    sunFireball->mUnk_00.mUnk_10.x = MUL_FIXED12_NO_ROUND(direction->x, 0x2000);
+    sunFireball->mUnk_00.mUnk_10.y = MUL_FIXED12_NO_ROUND(direction->y, 0x2000);
+    sunFireball->mUnk_00.mUnk_10.z = MUL_FIXED12_NO_ROUND(direction->z, 0x2000);
     sunFireball->mState0Timer = 0;
     sunFireball->mState = 0;
     sunFireball->mUnk_bc = StartEffect(0x35, &sunFireball->mUnk_00.mPos);

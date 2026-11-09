@@ -81,7 +81,7 @@ BOOL func_01ffa380(Kart *p, u32 a, Vec3 *b) {
         }
     }
     if (t == FALSE) {
-        if (b->y <= (s32) (((s64) p->mRadius * -0xb33 + 0x800) >> 12)) {
+        if (b->y <= MUL_FIXED12_ROUNDED(p->mRadius, -0xb33)) {
             r = FALSE;
         }
     }
@@ -160,7 +160,7 @@ void AdvanceKartQuaternionBlendFactor(Kart *p, const Vec3 *a) {
             p->mQuaternionBlendFactor = m;
         }
     } else {
-        p->mQuaternionBlendFactor = (s64) m * p->mVelocityLengthRatio >> 12;
+        p->mQuaternionBlendFactor = MUL_FIXED12_NO_ROUND(m, p->mVelocityLengthRatio);
     }
 }
 
@@ -196,7 +196,7 @@ void AdvanceKartOrientation(Kart *p, Vec3 *a) {
     QuaternionMultiply(&p->mUnk_f0_q, &p->mUnk_e0_m, &p->mUnk_110_q);
     if (p->mUnk_44 & 2) {
         if (p->mHopSpeed > 0) {
-            p->mHopTiltAngle = 0x9c4 - (u16) ((s64) p->mHopHeight * 500 >> 12);
+            p->mHopTiltAngle = 0x9c4 - (u16) MUL_FIXED12_NO_ROUND(p->mHopHeight, 500);
             if (p->mHopTiltAngle > 0x6a4) {
                 p->mHopTiltAngle = 0x352;
             }
@@ -230,7 +230,7 @@ void RefreshKartSurface(Kart *p) {
     if (a >= b) {
         p->mSpeedLimitFactor = a;
     } else {
-        p->mSpeedLimitFactor = b + (s32) (((s64) (a - b) * 0x4cd + 0x800) >> 12);
+        p->mSpeedLimitFactor = b + MUL_FIXED12_ROUNDED(a - b, 0x4cd);
     }
     if (p->mUnk_4c & 0x10000040) {
         c = 0;
@@ -438,10 +438,10 @@ void func_01ff9828(Unk01ff9598_A *a, Unk01ff9598 *b) {
     k18 = b->mUnk_18;
     k20 = b->mUnk_20;
     v1 = b->mUnk_1c;
-    d = (s64) k18 * k20 >> 12;
-    c = (s64) k18 * k22 >> 12;
-    e = (s64) v1 * k20 >> 12;
-    f = (s64) v1 * k22 >> 12;
+    d = MUL_FIXED12_NO_ROUND(k18, k20);
+    c = MUL_FIXED12_NO_ROUND(k18, k22);
+    e = MUL_FIXED12_NO_ROUND(v1, k20);
+    f = MUL_FIXED12_NO_ROUND(v1, k22);
     a->mUnk_00 = c;
     a->mUnk_14 = f;
     a->mUnk_04 = -e * FX_GetDivResult() >> 12;
@@ -504,10 +504,10 @@ void func_01ff9598(Unk01ff9598_A *a, Unk01ff9598 *b) {
     k18 = b->mUnk_18;
     k20 = b->mUnk_20;
     v1 = b->mUnk_1c;
-    d = (s64) k18 * k20 >> 12;
-    c = (s64) k18 * k22 >> 12;
-    e = (s64) v1 * k20 >> 12;
-    f = (s64) v1 * k22 >> 12;
+    d = MUL_FIXED12_NO_ROUND(k18, k20);
+    c = MUL_FIXED12_NO_ROUND(k18, k22);
+    e = MUL_FIXED12_NO_ROUND(v1, k20);
+    f = MUL_FIXED12_NO_ROUND(v1, k22);
     a->mUnk_00 = c;
     a->mUnk_14 = f;
     a->mUnk_04 = -e * FX_GetDivResult() >> 12;

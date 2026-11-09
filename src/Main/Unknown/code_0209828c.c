@@ -57,7 +57,7 @@ void func_02098f18(GroupFollower *groupFollower, s32 b) {
     SetupGroupFollowerAtEntry(&p->mFollower, 0, 1);
     p->mFollower.mSpeed = 0x7800;
     p->mFollower.mProgressStep =
-        ((s64) p->mFollower.mPath->mSegments[p->mFollower.mSegmentIndex].mInverseProgressLength * 0x7800) >> 12;
+        MUL_FIXED12_NO_ROUND(p->mFollower.mPath->mSegments[p->mFollower.mSegmentIndex].mInverseProgressLength, 0x7800);
     p->mHeightOffset = b;
     p->mUnk_c8 = -0x5000;
     p->mState = 0;
@@ -374,8 +374,8 @@ void UpdatePakkun(void *a, Pakkun *pakkun) {
             pakkun->mUnk_1ec = -0x52;
         }
     }
-    x = ((s64) (pakkun->mUnk_1e8 + pakkun->mUnk_1f0 - 0x1000) * 0x2f000) >> 12;
-    y = ((s64) pakkun->mUnk_1f0 * 0x17000) >> 12;
+    x = MUL_FIXED12_NO_ROUND(pakkun->mUnk_1e8 + pakkun->mUnk_1f0 - 0x1000, 0x2f000);
+    y = MUL_FIXED12_NO_ROUND(pakkun->mUnk_1f0, 0x17000);
     pakkun->mUnk_1f8 = x + y;
 }
 

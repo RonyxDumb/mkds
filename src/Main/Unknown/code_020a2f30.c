@@ -209,7 +209,7 @@ void FollowBalloonTarget(Balloon *balloon) {
         (balloon->mUnk_00.mPos.x + balloon->mUnk_00.mUnk_10.x) - (balloon->mTargetPos.x + balloon->mTargetVelocity.x);
     offsetZ =
         (balloon->mUnk_00.mPos.z + balloon->mUnk_00.mUnk_10.z) - (balloon->mTargetPos.z + balloon->mTargetVelocity.z);
-    distanceLimit = ((s64) 0xa000 * (balloon->mScaleFactor + balloon->mScaleSwing)) >> 12;
+    distanceLimit = MUL_FIXED12_NO_ROUND(0xa000, balloon->mScaleFactor + balloon->mScaleSwing);
     absOffsetZ = offsetZ < 0 ? -offsetZ : offsetZ;
     absOffsetX = offsetX < 0 ? -offsetX : offsetX;
     offsetDistance = absOffsetX / 2 + absOffsetZ / 2;
@@ -218,9 +218,9 @@ void FollowBalloonTarget(Balloon *balloon) {
     } else if (balloon->mHorizontalPullEnabled != 0) {
         if (offsetDistance > distanceLimit) {
             pullRatio = FX_Div(offsetDistance - distanceLimit, offsetDistance);
-            pullOffset.x = ((s64) offsetX * pullRatio) >> 12;
+            pullOffset.x = MUL_FIXED12_NO_ROUND(offsetX, pullRatio);
             pullOffset.y = 0;
-            pullOffset.z = ((s64) offsetZ * pullRatio) >> 12;
+            pullOffset.z = MUL_FIXED12_NO_ROUND(offsetZ, pullRatio);
             VEC_Subtract(&balloon->mUnk_00.mPos, &pullOffset, &balloon->mUnk_00.mPos);
         }
     }
@@ -237,9 +237,9 @@ void FollowBalloonTarget(Balloon *balloon) {
     offsetDistance = absOffsetY + (absOffsetX >> 2) + (absOffsetZ >> 2);
     if (offsetDistance > distanceLimit) {
         pullRatio = FX_Div(offsetDistance - distanceLimit, offsetDistance);
-        pullOffset.x = ((s64) offsetX * pullRatio) >> 12;
-        pullOffset.y = ((s64) offsetY * pullRatio) >> 12;
-        pullOffset.z = ((s64) offsetZ * pullRatio) >> 12;
+        pullOffset.x = MUL_FIXED12_NO_ROUND(offsetX, pullRatio);
+        pullOffset.y = MUL_FIXED12_NO_ROUND(offsetY, pullRatio);
+        pullOffset.z = MUL_FIXED12_NO_ROUND(offsetZ, pullRatio);
         if (balloon->mKartIndex >= 0) {
             VEC_Subtract(&balloon->mUnk_00.mUnk_10, &pullOffset, &balloon->mUnk_00.mUnk_10);
         } else {
@@ -276,11 +276,11 @@ void UpdateBalloonAngle(Balloon *balloon) {
     pairIndex = (cameraAngle >> 4) * 2;
     pairFirst = gPairsByAngle[pairIndex];
     pairSecond = gPairsByAngle[pairIndex + 1];
-    x = ((s64) cameraOffset.z * pairSecond) >> 12;
-    y = ((s64) cameraOffset.x * pairFirst) >> 12;
+    x = MUL_FIXED12_NO_ROUND(cameraOffset.z, pairSecond);
+    y = MUL_FIXED12_NO_ROUND(cameraOffset.x, pairFirst);
     u = cameraOffset.y;
     VEC_Subtract(&balloon->mTargetPos, &currentCamera->mPos, &cameraOffset);
-    w = (s32) (((s64) cameraOffset.x * pairFirst) >> 12) + (s32) (((s64) cameraOffset.z * pairSecond) >> 12);
+    w = MUL_FIXED12_NO_ROUND(cameraOffset.x, pairFirst) + MUL_FIXED12_NO_ROUND(cameraOffset.z, pairSecond);
     balloon->mUnk_00.mAngle = FX_Atan2Idx(u - cameraOffset.y, -(y + x - w));
 }
 
@@ -402,9 +402,9 @@ void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
         balloon->mUnk_00.mAngle = balloon->mSwingAngle + 0x4000;
         balloon->mUnk_00.mUnk_10.y = balloon->mUnk_00.mUnk_10.y + 0x59a;
         balloon->mTargetVelocity.y = balloon->mTargetVelocity.y - 0x2000;
-        balloon->mUnk_00.mUnk_10.x = ((s64) balloon->mUnk_00.mUnk_10.x * 0xc00) >> 12;
-        balloon->mUnk_00.mUnk_10.y = ((s64) balloon->mUnk_00.mUnk_10.y * 0xc00) >> 12;
-        balloon->mUnk_00.mUnk_10.z = ((s64) balloon->mUnk_00.mUnk_10.z * 0xc00) >> 12;
+        balloon->mUnk_00.mUnk_10.x = MUL_FIXED12_NO_ROUND(balloon->mUnk_00.mUnk_10.x, 0xc00);
+        balloon->mUnk_00.mUnk_10.y = MUL_FIXED12_NO_ROUND(balloon->mUnk_00.mUnk_10.y, 0xc00);
+        balloon->mUnk_00.mUnk_10.z = MUL_FIXED12_NO_ROUND(balloon->mUnk_00.mUnk_10.z, 0xc00);
         VEC_Add(&balloon->mUnk_00.mPos, &balloon->mUnk_00.mUnk_10, &balloon->mUnk_00.mPos);
         VEC_Add(&balloon->mTargetPos, &balloon->mTargetVelocity, &balloon->mTargetPos);
     }

@@ -78,10 +78,10 @@ void DrawSun(void *a, Unk0209d3fc *b) {
     NNS_G3dGeBufferOP_N(0x14, &s, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&b->mUnk_00.mPos), 0xc);
     if (b->mState == 3 || b->mState == 4) {
-        t = (s32) (((s64) gPairsByAngle[((u16) b->mUnk_ac >> 4) * 2 + 1] * -0x14000) >> 12) + 0x14000;
+        t = MUL_FIXED12_NO_ROUND(gPairsByAngle[((u16) b->mUnk_ac >> 4) * 2 + 1], -0x14000) + 0x14000;
         k = (b->mUnk_b0 >> 4) * 2;
-        v.x = (s32) (((s64) t * gPairsByAngle[k + 1]) >> 12) >> 4;
-        v.y = (s32) (((s64) t * gPairsByAngle[k]) >> 12) >> 4;
+        v.x = MUL_FIXED12_NO_ROUND(t, gPairsByAngle[k + 1]) >> 4;
+        v.y = MUL_FIXED12_NO_ROUND(t, gPairsByAngle[k]) >> 4;
         v.z = 0;
         NNS_G3dGeBufferOP_N(0x1c, &v, 3);
     }
@@ -169,9 +169,8 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
             break;
         case 1:
             sun->mUnk_0b8.mSpeed = 0x3c000;
-            sun->mUnk_0b8.mProgressStep =
-                ((s64) sun->mUnk_0b8.mPath->mSegments[sun->mUnk_0b8.mSegmentIndex].mInverseProgressLength * 0x3c000) >>
-                12;
+            sun->mUnk_0b8.mProgressStep = MUL_FIXED12_NO_ROUND(
+                sun->mUnk_0b8.mPath->mSegments[sun->mUnk_0b8.mSegmentIndex].mInverseProgressLength, 0x3c000);
             if (AdvanceGroupFollower(&sun->mUnk_0b8) != FALSE && (t = sun->mUnk_0b8.mFromEntry->mUnk_0e) != 0) {
                 if (sun->mUnk_000.mFlags & 0x800) {
                     k = gRaceSetup->mMode;
@@ -290,29 +289,29 @@ s32 CollideKartWithBound(Bound *bound, Kart *kart, u8 *b, u8 *c) {
         if (bound->mKartTimers[kart->mIndex] == 0) {
             VEC_Subtract(&kart->mPos, &bound->mUnk_000.mPos, &v2);
             t = VEC_DotProduct(&kart->mVelocityDirection, &v2);
-            v0.x = ((s64) kart->mVelocityDirection.x * t) >> 12;
-            v0.y = ((s64) kart->mVelocityDirection.y * t) >> 12;
-            v0.z = ((s64) kart->mVelocityDirection.z * t) >> 12;
+            v0.x = MUL_FIXED12_NO_ROUND(kart->mVelocityDirection.x, t);
+            v0.y = MUL_FIXED12_NO_ROUND(kart->mVelocityDirection.y, t);
+            v0.z = MUL_FIXED12_NO_ROUND(kart->mVelocityDirection.z, t);
             v1.x = v2.x - v0.x;
             v1.y = v2.y - v0.y;
             v1.z = v2.z - v0.z;
             t = VEC_DotProduct(&bound->mUnk_000.mMatrix.mUnk_00[1], &v1);
-            v0.x = ((s64) bound->mUnk_000.mMatrix.mUnk_00[1].x * t) >> 12;
-            v0.y = ((s64) bound->mUnk_000.mMatrix.mUnk_00[1].y * t) >> 12;
-            v0.z = ((s64) bound->mUnk_000.mMatrix.mUnk_00[1].z * t) >> 12;
+            v0.x = MUL_FIXED12_NO_ROUND(bound->mUnk_000.mMatrix.mUnk_00[1].x, t);
+            v0.y = MUL_FIXED12_NO_ROUND(bound->mUnk_000.mMatrix.mUnk_00[1].y, t);
+            v0.z = MUL_FIXED12_NO_ROUND(bound->mUnk_000.mMatrix.mUnk_00[1].z, t);
             v1.x -= v0.x;
             v1.y -= v0.y;
             v1.z -= v0.z;
             if ((s64) v1.x * v1.x + (s64) v1.y * v1.y + (s64) v1.z * v1.z < 0x10) {
                 q = &kart->mUnk_120;
-                bound->mUnk_000.mUnk_10.x = ((s64) kart->mUnk_120.x * 0xc000) >> 12;
-                bound->mUnk_000.mUnk_10.y = ((s64) q->y * 0xc000) >> 12;
-                bound->mUnk_000.mUnk_10.z = ((s64) q->z * 0xc000) >> 12;
+                bound->mUnk_000.mUnk_10.x = MUL_FIXED12_NO_ROUND(kart->mUnk_120.x, 0xc000);
+                bound->mUnk_000.mUnk_10.y = MUL_FIXED12_NO_ROUND(q->y, 0xc000);
+                bound->mUnk_000.mUnk_10.z = MUL_FIXED12_NO_ROUND(q->z, 0xc000);
             } else {
                 Vec3NormalizeAndGetLengthUnchecked(&v1, &v1);
-                bound->mUnk_000.mUnk_10.x = ((s64) v1.x * 0xc000) >> 12;
-                bound->mUnk_000.mUnk_10.y = ((s64) v1.y * 0xc000) >> 12;
-                bound->mUnk_000.mUnk_10.z = ((s64) v1.z * 0xc000) >> 12;
+                bound->mUnk_000.mUnk_10.x = MUL_FIXED12_NO_ROUND(v1.x, 0xc000);
+                bound->mUnk_000.mUnk_10.y = MUL_FIXED12_NO_ROUND(v1.y, 0xc000);
+                bound->mUnk_000.mUnk_10.z = MUL_FIXED12_NO_ROUND(v1.z, 0xc000);
             }
             VEC_Subtract(&v0, &bound->mUnk_000.mMatrix.mUnk_00[1], &v0);
             VEC_MultAdd(0x19a, &v0, &bound->mUnk_000.mUnk_10, &bound->mUnk_000.mUnk_10);
@@ -402,7 +401,7 @@ BOOL ComputeSphereHitOnBound(Bound *bound, Vec3 *sphereCenter, s32 sphereRadius,
     if ((bound->mUnk_000.mFlags & 0x800) == 0 && bound->mWobbling == TRUE) {
         bound->mSphereHit =
             ComputeSphereHitOnRotatedCylinder(sphereCenter, &bound->mUnk_000.mPos, &bound->mUnk_000.mMatrix.mUnk_00[0],
-                                              ((s64) bound->mUnk_000.mExtent.x * bound->mWobbleScaleX) >> 12,
+                                              MUL_FIXED12_NO_ROUND(bound->mUnk_000.mExtent.x, bound->mWobbleScaleX),
                                               bound->mUnk_000.mExtent.y, 0, sphereRadius, pushOut);
     } else {
         bound->mSphereHit = ComputeSphereHitOnRotatedCylinder(
@@ -508,10 +507,8 @@ void InitBoundAndCreamAndBerryObjects(MapObjectList *mapObjectList) {
         if (bound->mUnk_000.mCourseMapRow->mUnk_26 >= 0) {
             InitGroupFollower(&bound->mUnk_0f8, bound->mUnk_000.mCourseMapRow, 0);
             bound->mUnk_0f8.mSpeed = 0x3000;
-            bound->mUnk_0f8.mProgressStep =
-                ((s64) bound->mUnk_0f8.mPath->mSegments[bound->mUnk_0f8.mSegmentIndex].mInverseProgressLength *
-                 0x3000) >>
-                12;
+            bound->mUnk_0f8.mProgressStep = MUL_FIXED12_NO_ROUND(
+                bound->mUnk_0f8.mPath->mSegments[bound->mUnk_0f8.mSegmentIndex].mInverseProgressLength, 0x3000);
         } else {
             bound->mUnk_0f8.mGroupIndex = 0xffff;
         }
@@ -523,7 +520,7 @@ s16 func_0209c4d8(s32 a) {
 }
 
 s32 func_0209c4bc(s32 a, s32 b) {
-    return ((s64) a * b + 0x800) >> 12;
+    return MUL_FIXED12_ROUNDED(a, b);
 }
 
 void UpdateBoundAndCreamAndBerry(MapObjectList *mapObjectList, Bound *bound) {
@@ -611,7 +608,7 @@ void UpdateBoundAndCreamAndBerry(MapObjectList *mapObjectList, Bound *bound) {
             bound->mWobbling = FALSE;
             bound->mUnk_000.mScale.x = bound->mInitialScaleX;
         } else {
-            bound->mUnk_000.mScale.x = ((s64) bound->mInitialScaleX * bound->mWobbleScaleX) >> 12;
+            bound->mUnk_000.mScale.x = MUL_FIXED12_NO_ROUND(bound->mInitialScaleX, bound->mWobbleScaleX);
         }
     } else {
         bound->mUnk_000.mScale.x = bound->mInitialScaleX;

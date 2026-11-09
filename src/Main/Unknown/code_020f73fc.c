@@ -58,8 +58,8 @@ void func_020f77f8(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, Vec3 *oth
                     (s64) radius * radius) {
                     break;
                 }
-                item->mPos.x = otherPos->x + (s32) (((s64) radius * offset.x) >> 12);
-                item->mPos.z = otherPos->z + (s32) (((s64) radius * offset.z) >> 12);
+                item->mPos.x = otherPos->x + MUL_FIXED12_NO_ROUND(radius, offset.x);
+                item->mPos.z = otherPos->z + MUL_FIXED12_NO_ROUND(radius, offset.z);
                 break;
             }
             if (item->mFlags & 0x8000) {
@@ -76,8 +76,8 @@ void func_020f77f8(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, Vec3 *oth
                 Vec3NormalizeAndGetLengthUnchecked(&offset, &offset);
             }
             radius = item->mRadius;
-            item->mPos.x = otherPos->x + (s32) (((s64) radius * offset.x) >> 12);
-            item->mPos.z = otherPos->z + (s32) (((s64) radius * offset.z) >> 12);
+            item->mPos.x = otherPos->x + MUL_FIXED12_NO_ROUND(radius, offset.x);
+            item->mPos.z = otherPos->z + MUL_FIXED12_NO_ROUND(radius, offset.z);
             break;
         case 2:
             if (item->mFlags & 0x1000) {
@@ -101,9 +101,9 @@ void func_020f77f8(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, Vec3 *oth
                     0x10) {
                     Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
                 }
-                push.x = ((s64) direction.x * 0x1800) >> 12;
-                push.y = ((s64) direction.y * 0x1800) >> 12;
-                push.z = ((s64) direction.z * 0x1800) >> 12;
+                push.x = MUL_FIXED12_NO_ROUND(direction.x, 0x1800);
+                push.y = MUL_FIXED12_NO_ROUND(direction.y, 0x1800);
+                push.z = MUL_FIXED12_NO_ROUND(direction.z, 0x1800);
                 func_020f6be8(item, otherPos, &push, &direction);
             }
             if (soundId == -1 || (item->mFlags & 0x8000000)) {

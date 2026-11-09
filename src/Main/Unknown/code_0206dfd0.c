@@ -122,30 +122,30 @@ void CollideKartWithKarts(Kart *p) {
             c = FALSE;
             if (p->mUnk_44 & KART_44_ON_GROUND) {
                 f = VEC_DotProduct(&p->mGroundNormal, &a);
-                a.x -= (s32) (((s64) p->mGroundNormal.x * f) >> 12);
-                a.y -= (s32) (((s64) p->mGroundNormal.y * f) >> 12);
-                a.z -= (s32) (((s64) p->mGroundNormal.z * f) >> 12);
+                a.x -= MUL_FIXED12_NO_ROUND(p->mGroundNormal.x, f);
+                a.y -= MUL_FIXED12_NO_ROUND(p->mGroundNormal.y, f);
+                a.z -= MUL_FIXED12_NO_ROUND(p->mGroundNormal.z, f);
             }
             if (p->mUnk_44 & 0x80) {
                 if (VEC_DotProduct(&p->mGroundNormal, &a) < 0) {
                     f = VEC_DotProduct(&p->mUnk_250, &a);
-                    a.x -= (s32) (((s64) p->mUnk_250.x * f) >> 12);
-                    a.y -= (s32) (((s64) p->mUnk_250.y * f) >> 12);
-                    a.z -= (s32) (((s64) p->mUnk_250.z * f) >> 12);
+                    a.x -= MUL_FIXED12_NO_ROUND(p->mUnk_250.x, f);
+                    a.y -= MUL_FIXED12_NO_ROUND(p->mUnk_250.y, f);
+                    a.z -= MUL_FIXED12_NO_ROUND(p->mUnk_250.z, f);
                 }
             }
             if (q->mUnk_44 & KART_44_ON_GROUND) {
                 f = VEC_DotProduct(&q->mGroundNormal, &b);
-                b.x -= (s32) (((s64) q->mGroundNormal.x * f) >> 12);
-                b.y -= (s32) (((s64) q->mGroundNormal.y * f) >> 12);
-                b.z -= (s32) (((s64) q->mGroundNormal.z * f) >> 12);
+                b.x -= MUL_FIXED12_NO_ROUND(q->mGroundNormal.x, f);
+                b.y -= MUL_FIXED12_NO_ROUND(q->mGroundNormal.y, f);
+                b.z -= MUL_FIXED12_NO_ROUND(q->mGroundNormal.z, f);
             }
             if (q->mUnk_44 & 0x80) {
                 if (VEC_DotProduct(&q->mGroundNormal, &b) < 0) {
                     f = VEC_DotProduct(&q->mUnk_250, &b);
-                    b.x -= (s32) (((s64) q->mUnk_250.x * f) >> 12);
-                    b.y -= (s32) (((s64) q->mUnk_250.y * f) >> 12);
-                    b.z -= (s32) (((s64) q->mUnk_250.z * f) >> 12);
+                    b.x -= MUL_FIXED12_NO_ROUND(q->mUnk_250.x, f);
+                    b.y -= MUL_FIXED12_NO_ROUND(q->mUnk_250.y, f);
+                    b.z -= MUL_FIXED12_NO_ROUND(q->mUnk_250.z, f);
                 }
             }
             VEC_Add(p->mUnk_510, &a, p->mUnk_510);
@@ -153,17 +153,17 @@ void CollideKartWithKarts(Kart *p) {
             if (q->mUnk_44 & 0xc0) {
                 VEC_Subtract(&q->mVelocity, &p->mVelocity, &e);
                 f = VEC_DotProduct(&n, &e);
-                e.x = ((s64) n.x * f) >> 12;
-                e.y = ((s64) n.y * f) >> 12;
-                e.z = ((s64) n.z * f) >> 12;
+                e.x = MUL_FIXED12_NO_ROUND(n.x, f);
+                e.y = MUL_FIXED12_NO_ROUND(n.y, f);
+                e.z = MUL_FIXED12_NO_ROUND(n.z, f);
                 p->mForwardSpeed += VEC_DotProduct(&p->mTurnedForward, &e);
             }
             if (p->mUnk_44 & 0xc0) {
                 VEC_Subtract(&p->mVelocity, &q->mVelocity, &g);
                 f = VEC_DotProduct(&n, &g);
-                g.x = ((s64) n.x * f) >> 12;
-                g.y = ((s64) n.y * f) >> 12;
-                g.z = ((s64) n.z * f) >> 12;
+                g.x = MUL_FIXED12_NO_ROUND(n.x, f);
+                g.y = MUL_FIXED12_NO_ROUND(n.y, f);
+                g.z = MUL_FIXED12_NO_ROUND(n.z, f);
                 q->mForwardSpeed += VEC_DotProduct(&q->mTurnedForward, &g);
             }
             if (gRaceSetup->mMode == MODE_BATTLE) {

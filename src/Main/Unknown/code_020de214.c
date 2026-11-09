@@ -13,7 +13,7 @@
 
 #pragma thumb on
 void InitEarthenPipe(PushedObject *pipe) {
-    pipe->mMapObject.mPos.y += (s32) (((s64) pipe->mMapObject.mScale.y * 0xd000) >> 12);
+    pipe->mMapObject.mPos.y += MUL_FIXED12_NO_ROUND(pipe->mMapObject.mScale.y, 0xd000);
     InitPushedMotion(pipe, pipe->mMapObject.mPos.y - 0xc0000, 0x400, 0x400, 0x5000, 0x2000);
     InitPushedObjectStates(pipe);
 }

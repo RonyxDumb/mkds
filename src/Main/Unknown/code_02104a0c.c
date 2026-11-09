@@ -184,12 +184,12 @@ void AdvanceBouncingItemBoxInUse(ItemInUse *itemInUse, BouncingItemBox *box) {
     ItemBox *mapObject = box->mPooledMapObject;
     s32 scaleRatio;
     if (box->mKartIsEntry != 0) {
-        VEC_MultAdd(((s64) itemInUse->mKartScaleFactorTimesBase.z * -28877) >> 12,
+        VEC_MultAdd(MUL_FIXED12_NO_ROUND(itemInUse->mKartScaleFactorTimesBase.z, -28877),
                     &itemInUse->mKartOrientation.mUnk_00[1], &box->mUnk_000.mItemObject.mPos, &box->mMapObjectPos);
         scaleRatio = box->mScaleRatio;
-        scale.x = ((s64) box->mUnk_000.mItemObject.mScale.x * scaleRatio) >> 12;
-        scale.y = ((s64) box->mUnk_000.mItemObject.mScale.y * scaleRatio) >> 12;
-        scale.z = ((s64) box->mUnk_000.mItemObject.mScale.z * scaleRatio) >> 12;
+        scale.x = MUL_FIXED12_NO_ROUND(box->mUnk_000.mItemObject.mScale.x, scaleRatio);
+        scale.y = MUL_FIXED12_NO_ROUND(box->mUnk_000.mItemObject.mScale.y, scaleRatio);
+        scale.z = MUL_FIXED12_NO_ROUND(box->mUnk_000.mItemObject.mScale.z, scaleRatio);
         SetPooledMapObjectFromItem(mapObject, box->mUnk_000.mItemObject.mAlpha, &scale);
     } else {
         box->mMapObjectPos = box->mUnk_000.mItemObject.mPos;
@@ -274,11 +274,11 @@ void AdvanceBouncingItemBox(BouncingItemBox *box) {
     if (kartIsEntry != 0 && box->mScaleRatio < 0x1000) {
         box->mScaleRatio += 0xcd;
         scaleRatio = box->mScaleRatio;
-        scale.x = ((s64) box->mUnk_000.mItemObject.mScale.x * scaleRatio) >> 12;
-        scale.y = ((s64) box->mUnk_000.mItemObject.mScale.y * scaleRatio) >> 12;
-        scale.z = ((s64) box->mUnk_000.mItemObject.mScale.z * scaleRatio) >> 12;
+        scale.x = MUL_FIXED12_NO_ROUND(box->mUnk_000.mItemObject.mScale.x, scaleRatio);
+        scale.y = MUL_FIXED12_NO_ROUND(box->mUnk_000.mItemObject.mScale.y, scaleRatio);
+        scale.z = MUL_FIXED12_NO_ROUND(box->mUnk_000.mItemObject.mScale.z, scaleRatio);
         VEC_Subtract(&box->mUnk_000.mItemObject.mPos, &box->mMapObjectPos, &offset);
-        VEC_MultAdd(((s64) box->mScaleRatio * box->mScaleRatio) >> 12, &offset, &box->mMapObjectPos,
+        VEC_MultAdd(MUL_FIXED12_NO_ROUND(box->mScaleRatio, box->mScaleRatio), &offset, &box->mMapObjectPos,
                     &box->mMapObjectPos);
         SetPooledMapObjectFromItem(mapObject, box->mUnk_000.mItemObject.mAlpha, &scale);
     } else {

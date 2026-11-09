@@ -156,12 +156,10 @@ void UpdatePukupukuState0(Pukupuku *pukupuku) {
     VEC_Add(&pukupuku->mPushedObject.mMapObject.mPos, &pukupuku->mPushedObject.mMapObject.mUnk_10,
             &pukupuku->mPushedObject.mMapObject.mPos);
     y = 0;
-    y += (s32) (((s64) pukupuku->mGroundSlopeX *
-                 (pukupuku->mPushedObject.mMapObject.mPos.x - pukupuku->mInitialPos.x)) >>
-                12);
-    y += (s32) (((s64) pukupuku->mGroundSlopeZ *
-                 (pukupuku->mPushedObject.mMapObject.mPos.z - pukupuku->mInitialPos.z)) >>
-                12);
+    y += MUL_FIXED12_NO_ROUND(pukupuku->mGroundSlopeX,
+                                    pukupuku->mPushedObject.mMapObject.mPos.x - pukupuku->mInitialPos.x);
+    y += MUL_FIXED12_NO_ROUND(pukupuku->mGroundSlopeZ,
+                                    pukupuku->mPushedObject.mMapObject.mPos.z - pukupuku->mInitialPos.z);
     pukupuku->mGroundYOffset = y;
     y = pukupuku->mInitialPos.y + pukupuku->mGroundYOffset;
     if (pukupuku->mPushedObject.mMapObject.mPos.y >= y) {

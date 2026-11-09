@@ -50,15 +50,15 @@ void UpdateKoopaBlockState2(Unk020e005c *koopaBlock) {
 
     follower = &koopaBlock->mUnk_144;
     progress = GetGroupFollowerProgress(follower);
-    angle = (s32) (((s64) progress * 0x40000) >> 12);
+    angle = MUL_FIXED12_NO_ROUND(progress, 0x40000);
     sine = gPairsByAngle[(angle >> 4) * 2];
-    speed = ((s64) -sine * koopaBlock->mUnk_168) >> 12;
+    speed = MUL_FIXED12_NO_ROUND(-sine, koopaBlock->mUnk_168);
     follower->mSpeed = speed > 0x200 ? speed : 0x200;
     if (speed <= 0x200) {
         speed = 0x200;
     }
     follower->mProgressStep =
-        ((s64) speed * follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength) >> 12;
+        MUL_FIXED12_NO_ROUND(speed, follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength);
 }
 
 void DrawAllKoopaBlocks(void *viewMatrix) {
@@ -106,13 +106,14 @@ void InitKoopaBlock(Unk020e005c *koopaBlock, CourseMapRow *courseRow) {
     koopaBlock->mUnk_000.mCollisionData.mAngleChangeVector.y = 0;
     koopaBlock->mUnk_000.mCollisionData.mAngleChangeVector.z = 0;
     koopaBlock->mUnk_000.mCollisionData.mUnk_130 = FALSE;
-    koopaBlock->mUnk_000.mCollisionData.mUnk_100 = ((s64) koopaBlock->mUnk_000.mMapObject.mScale.x * 0x190000) >> 12;
+    koopaBlock->mUnk_000.mCollisionData.mUnk_100 =
+        MUL_FIXED12_NO_ROUND(koopaBlock->mUnk_000.mMapObject.mScale.x, 0x190000);
     koopaBlock->mUnk_000.mCollisionData.mHalfSizeY =
-        (s32) (((s64) koopaBlock->mUnk_000.mMapObject.mScale.y * 0x64000) >> 12) >> 1;
+        MUL_FIXED12_NO_ROUND(koopaBlock->mUnk_000.mMapObject.mScale.y, 0x64000) >> 1;
     koopaBlock->mUnk_000.mCollisionData.mPositiveHalfSizeZ =
-        ((s64) koopaBlock->mUnk_000.mMapObject.mScale.z * 0xaf000) >> 12;
+        MUL_FIXED12_NO_ROUND(koopaBlock->mUnk_000.mMapObject.mScale.z, 0xaf000);
     koopaBlock->mUnk_000.mCollisionData.mNegativeHalfSizeZ =
-        ((s64) koopaBlock->mUnk_000.mMapObject.mScale.z * 0xaf000) >> 12;
+        MUL_FIXED12_NO_ROUND(koopaBlock->mUnk_000.mMapObject.mScale.z, 0xaf000);
     koopaBlock->mUnk_000.mCollisionData.mUnk_110 = 0;
     koopaBlock->mUnk_000.mCollisionData.mUnk_114.x = 1;
     koopaBlock->mUnk_000.mCollisionData.mUnk_114.y = 0;
@@ -260,7 +261,7 @@ void UpdateMkdEfBubbleState0(MkdEfBubbleObject *bubble) {
             bubble->mAngleZ = 0x8000;
         } else {
             bubble->mAngleZ =
-                (s32) (((s64) (0x1333 - bubble->mMapObject.mUnk_10.y) * data_0217b76c->mUnk_28) >> 12) >> 12;
+                MUL_FIXED12_NO_ROUND(0x1333 - bubble->mMapObject.mUnk_10.y, data_0217b76c->mUnk_28) >> 12;
         }
     }
     bubble->mMapObject.mUnk_10.y -= 0x199;

@@ -110,7 +110,7 @@ s16 func_020930b0(s32 angle) {
 }
 
 s32 func_020930a0(s32 a, s32 b) {
-    return ((s64) a * b) >> 12;
+    return MUL_FIXED12_NO_ROUND(a, b);
 }
 
 s16 func_02093080(s32 angle) {

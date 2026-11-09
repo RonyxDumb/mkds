@@ -67,9 +67,9 @@ void BuildSegment(Segment *segment, s32 useStraightLength, s32 computeUp, Vec3 *
             bend = (0x1000 - Vec3DotUnrounded(&direction, &previousToEnd)) >> 1;
             startExtra = ((s64) length * (s64) bend) >> 12;
             if (useStraightLength != 0) {
-                startSlope.x = ((s64) previousToEnd.x * length) >> 12;
-                startSlope.y = ((s64) previousToEnd.y * length) >> 12;
-                startSlope.z = ((s64) previousToEnd.z * length) >> 12;
+                startSlope.x = MUL_FIXED12_NO_ROUND(previousToEnd.x, length);
+                startSlope.y = MUL_FIXED12_NO_ROUND(previousToEnd.y, length);
+                startSlope.z = MUL_FIXED12_NO_ROUND(previousToEnd.z, length);
             } else {
                 r = length + startExtra;
                 startSlope.x = ((s64) previousToEnd.x * (s64) r) >> 12;
@@ -89,9 +89,9 @@ void BuildSegment(Segment *segment, s32 useStraightLength, s32 computeUp, Vec3 *
             bend = (0x1000 - Vec3DotUnrounded(&direction, &startToNext)) >> 1;
             endExtra = ((s64) length * (s64) bend) >> 12;
             if (useStraightLength != 0) {
-                endSlope.x = ((s64) startToNext.x * length) >> 12;
-                endSlope.y = ((s64) startToNext.y * length) >> 12;
-                endSlope.z = ((s64) startToNext.z * length) >> 12;
+                endSlope.x = MUL_FIXED12_NO_ROUND(startToNext.x, length);
+                endSlope.y = MUL_FIXED12_NO_ROUND(startToNext.y, length);
+                endSlope.z = MUL_FIXED12_NO_ROUND(startToNext.z, length);
             } else {
                 r = length + endExtra;
                 endSlope.x = ((s64) startToNext.x * (s64) r) >> 12;

@@ -48,9 +48,9 @@ void func_020641f0(Kart *kart) {
         e = d;
         Matrix4x3FromQuaternion(&rotationMatrix, &kart->mRotationQuaternion);
         q = &kart->mUnk_12c;
-        m.x = (s64) q->x * -0x5000 >> 12;
-        m.y = (s64) q->y * -0x5000 >> 12;
-        m.z = (s64) q->z * -0x5000 >> 12;
+        m.x = MUL_FIXED12_NO_ROUND(q->x, -0x5000);
+        m.y = MUL_FIXED12_NO_ROUND(q->y, -0x5000);
+        m.z = MUL_FIXED12_NO_ROUND(q->z, -0x5000);
         d.mUnk_00[3] = m;
         m.x = -m.x;
         m.y = -m.y;
@@ -95,13 +95,13 @@ void func_020641f0(Kart *kart) {
     modelsEntry = kart->mKartModelsEntry;
     if (modelsEntry->mModels[2] != NULL) {
         r = &modelsEntry->mAnimationState;
-        j = (s64) r->mMiddleFrameReciprocal * r->mTurnFrameOffset >> 12;
-        l = (s64) j * 0xce4 >> 12;
+        j = MUL_FIXED12_NO_ROUND(r->mMiddleFrameReciprocal, r->mTurnFrameOffset);
+        l = MUL_FIXED12_NO_ROUND(j, 0xce4);
         k = kart->mVelocityLengthRatio;
         if (kart->mUnk_4d4 > k) {
-            kart->mTireSpinAngle = kart->mTireSpinAngle + (u16) ((s64) kart->mUnk_4d4 * 0x7d0 >> 12);
+            kart->mTireSpinAngle = kart->mTireSpinAngle + (u16) MUL_FIXED12_NO_ROUND(kart->mUnk_4d4, 0x7d0);
         } else {
-            k = (s64) k * 0xfa0 >> 12;
+            k = MUL_FIXED12_NO_ROUND(k, 0xfa0);
             if (GetAbsoluteValue(GetKartForwardSpeedRatio()) < 0x29) {
                 k = 0;
                 if ((u16) (gInputSlots[o = kart->mEntryIndex].mBits & (PAD_KEY_A | PAD_KEY_B)) != 0 &&

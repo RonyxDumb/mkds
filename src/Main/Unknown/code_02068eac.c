@@ -109,10 +109,10 @@ void AdvanceKartScaleTableEffect(Kart *kart) {
             kart->mScaleFactor.x = 0x1000;
             kart->mScaleFactor.y = 0x1000;
             kart->mScaleFactor.z = 0x1000;
-            kart->mScale.x = ((s64) kart->mScaleBase.x * kart->mScaleFactor.x) >> 12;
-            kart->mScale.y = ((s64) kart->mScaleBase.y * kart->mScaleFactor.y) >> 12;
-            kart->mScale.z = ((s64) kart->mScaleBase.z * kart->mScaleFactor.z) >> 12;
-            kart->mScale.y = ((s64) kart->mScaleYFactor * kart->mScale.y) >> 12;
+            kart->mScale.x = MUL_FIXED12_NO_ROUND(kart->mScaleBase.x, kart->mScaleFactor.x);
+            kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleBase.y, kart->mScaleFactor.y);
+            kart->mScale.z = MUL_FIXED12_NO_ROUND(kart->mScaleBase.z, kart->mScaleFactor.z);
+            kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleYFactor, kart->mScale.y);
             if (effectState->mUnk_0c > 0x19) {
                 kart->mUnk_4c &= ~0x10000;
                 if (!(kart->mUnk_4c & 0x10080)) {
@@ -129,10 +129,10 @@ void AdvanceKartScaleTableEffect(Kart *kart) {
         kart->mScaleFactor.y = gKartScaleFactorYTable[effectState->mUnk_0c];
         kart->mScaleFactor.z = gKartScaleFactorZTable[effectState->mUnk_0c];
         kart->mScaleYFactor = 0x1000;
-        kart->mScale.x = ((s64) kart->mScaleBase.x * kart->mScaleFactor.x) >> 12;
-        kart->mScale.y = ((s64) kart->mScaleBase.y * kart->mScaleFactor.y) >> 12;
-        kart->mScale.z = ((s64) kart->mScaleBase.z * kart->mScaleFactor.z) >> 12;
-        kart->mScale.y = ((s64) kart->mScaleYFactor * kart->mScale.y) >> 12;
+        kart->mScale.x = MUL_FIXED12_NO_ROUND(kart->mScaleBase.x, kart->mScaleFactor.x);
+        kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleBase.y, kart->mScaleFactor.y);
+        kart->mScale.z = MUL_FIXED12_NO_ROUND(kart->mScaleBase.z, kart->mScaleFactor.z);
+        kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleYFactor, kart->mScale.y);
         return;
     }
     effectState->mUnk_0e--;
@@ -151,10 +151,10 @@ void AdvanceKartScaleTableEffect(Kart *kart) {
             kart->mScaleYFactor = 0x4cd;
         }
     }
-    kart->mScale.x = ((s64) kart->mScaleBase.x * kart->mScaleFactor.x) >> 12;
-    kart->mScale.y = ((s64) kart->mScaleBase.y * kart->mScaleFactor.y) >> 12;
-    kart->mScale.z = ((s64) kart->mScaleBase.z * kart->mScaleFactor.z) >> 12;
-    kart->mScale.y = ((s64) kart->mScaleYFactor * kart->mScale.y) >> 12;
+    kart->mScale.x = MUL_FIXED12_NO_ROUND(kart->mScaleBase.x, kart->mScaleFactor.x);
+    kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleBase.y, kart->mScaleFactor.y);
+    kart->mScale.z = MUL_FIXED12_NO_ROUND(kart->mScaleBase.z, kart->mScaleFactor.z);
+    kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleYFactor, kart->mScale.y);
 }
 
 void func_02069ea8(Kart *kart) {

@@ -70,14 +70,14 @@ void AdvanceCourseColorBlend(CourseColorBlend *blend, u16 colorMask, s32 c) {
     if (blend->mBlendFactor == 0x1000) {
         return;
     }
-    blend->mBlendFactor = blend->mBlendFactor + ((s32) (((s64) c * 0xa4 + 0x800) >> 12) + 0x29);
+    blend->mBlendFactor = blend->mBlendFactor + (MUL_FIXED12_ROUNDED(c, 0xa4) + 0x29);
     if (blend->mBlendFactor >= 0x1000) {
         blend->mBlendFactor = 0x1000;
     }
     blend->mColor =
-        (s16) (blend->mStartComponent0 + (s32) (((s64) blend->mComponentDelta0 * blend->mBlendFactor + 0x800) >> 12)) +
-        ((s16) (blend->mStartComponent1 + (s32) (((s64) blend->mComponentDelta1 * blend->mBlendFactor + 0x800) >> 12))
+        (s16) (blend->mStartComponent0 + MUL_FIXED12_ROUNDED(blend->mComponentDelta0, blend->mBlendFactor)) +
+        ((s16) (blend->mStartComponent1 + MUL_FIXED12_ROUNDED(blend->mComponentDelta1, blend->mBlendFactor))
          << 5) +
-        ((s16) (blend->mStartComponent2 + (s32) (((s64) blend->mComponentDelta2 * blend->mBlendFactor + 0x800) >> 12))
+        ((s16) (blend->mStartComponent2 + MUL_FIXED12_ROUNDED(blend->mComponentDelta2, blend->mBlendFactor))
          << 10);
 }

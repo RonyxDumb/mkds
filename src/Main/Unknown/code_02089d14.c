@@ -307,7 +307,7 @@ void StartTimedQuad(Unk02089ecc *timedQuad) {
 }
 
 void UpdateTimedQuad(Unk02089e68 *timedQuad) {
-    timedQuad->mUnk_02 = (s32) (((s64) ((s32) timedQuad->mTimer << 12) * 0x1333 + 0x800) >> 12) >> 12;
+    timedQuad->mUnk_02 = MUL_FIXED12_ROUNDED((s32) timedQuad->mTimer << 12, 0x1333) >> 12;
     timedQuad->mTimer = timedQuad->mTimer - 1;
     if (timedQuad->mTimer <= 0) {
         timedQuad->mEnabled = 0;

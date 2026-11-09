@@ -123,8 +123,8 @@ void AdvanceOrthoQuadCornersByVelocity(OrthoQuad *quad) {
         for (i = 0; i < 4; i++) {
             quad->mCorners[i][0] += velocities[i][0];
             quad->mCorners[i][1] += velocities[i][1];
-            velocities[i][0] = ((s64) velocities[i][0] * 0x10cd) >> 12;
-            velocities[i][1] = ((s64) velocities[i][1] * 0x10cd) >> 12;
+            velocities[i][0] = MUL_FIXED12_NO_ROUND(velocities[i][0], 0x10cd);
+            velocities[i][1] = MUL_FIXED12_NO_ROUND(velocities[i][1], 0x10cd);
             x = quad->mCorners[i][0];
             if (x > 0x3ccd) {
                 quad->mCorners[i][0] = 0x3ccd;
@@ -184,9 +184,9 @@ void AdvanceOrthoQuadCornersByTable(OrthoQuad *quad) {
     startY = quad->mStartPair[1];
     for (i = 0; i < 4; i++) {
         v = velocities[i][0];
-        quad->mCorners[i][0] = startX + (s32) (((s64) v * tableScale) >> 12);
+        quad->mCorners[i][0] = startX + MUL_FIXED12_NO_ROUND(v, tableScale);
         v = velocities[i][1];
-        quad->mCorners[i][1] = startY + (s32) (((s64) v * tableScale) >> 12);
+        quad->mCorners[i][1] = startY + MUL_FIXED12_NO_ROUND(v, tableScale);
     }
     quad->mTimer = quad->mTimer - 1;
     if (quad->mTimer == -13) {
@@ -372,7 +372,7 @@ void SetupOrthoQuad(s32 index, HalfwordPair startPair, s32 overlap) {
     }
     t = (s16) t;
     if (gOrthoQuadUseCreamEffect != 0) {
-        t = (s16) (((s64) t * 0x800) >> 12);
+        t = (s16) MUL_FIXED12_NO_ROUND(t, 0x800);
     }
     quad->mTimer = data_0215a47c[index];
     velocities[0][0] = -t;
@@ -527,37 +527,37 @@ void SetOrthoQuadVelocitiesFromCorners(OrthoQuad *quad) {
         cornerY = quad->mCorners[i][1];
         if (cornerX > 0) {
             if (cornerX > 0x4cd) {
-                pushX = ((s64) cornerX * cornerX) >> 12;
+                pushX = MUL_FIXED12_NO_ROUND(cornerX, cornerX);
             } else {
                 pushX = 0x171;
             }
         } else {
             if (cornerX < 0x4cd) {
-                pushX = -(s32) (((s64) cornerX * cornerX) >> 12);
+                pushX = -MUL_FIXED12_NO_ROUND(cornerX, cornerX);
             } else {
                 pushX = -0x171;
             }
         }
         if (cornerY > 0) {
             if (cornerY > 0x4cd) {
-                pushY = ((s64) cornerY * cornerY) >> 12;
+                pushY = MUL_FIXED12_NO_ROUND(cornerY, cornerY);
             } else {
                 pushY = 0x171;
             }
         } else {
             if (cornerY < 0x4cd) {
-                pushY = -(s32) (((s64) cornerY * cornerY) >> 12);
+                pushY = -MUL_FIXED12_NO_ROUND(cornerY, cornerY);
             } else {
                 pushY = -0x171;
             }
         }
         for (j = 0; j < 4; j++) {
             if (i == j) {
-                velocities[j][0] += (s32) (((s64) pushX * 12) >> 12);
-                velocities[j][1] += (s32) (((s64) pushY * 12) >> 12);
+                velocities[j][0] += MUL_FIXED12_NO_ROUND(pushX, 12);
+                velocities[j][1] += MUL_FIXED12_NO_ROUND(pushY, 12);
             } else {
-                velocities[j][0] += (s32) (((s64) pushX * 8) >> 12);
-                velocities[j][1] += (s32) (((s64) pushY * 8) >> 12);
+                velocities[j][0] += MUL_FIXED12_NO_ROUND(pushX, 8);
+                velocities[j][1] += MUL_FIXED12_NO_ROUND(pushY, 8);
             }
         }
     }

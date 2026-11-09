@@ -578,17 +578,17 @@ void BuildFadeFog(s32 fadeLevel, s32 b) {
     s32 fogByte;
 
     if (gCourseMap->mSettings->mFogEnabled != 0 && b == 0) {
-        fadeWeight = ((s64) 57 * (fadeLevel << 12) + 0x800) >> 12;
+        fadeWeight = MUL_FIXED12_ROUNDED(57, fadeLevel << 12);
         data_0217aa78 = fadeWeight;
         courseWeight = 4096 - fadeWeight;
         data_0217aa84 = courseWeight;
-        data_0217aa44 = ((s64) fadeWeight * 72 + 0x800) >> 12;
-        data_0217aa28 = (s32) (((s64) data_0217aa40 * courseWeight + 0x800) >> 12) +
-                        ((s32) (((s64) data_0217aa34 * courseWeight + 0x800) >> 12) << 5) +
-                        ((s32) (((s64) data_0217aa3c * courseWeight + 0x800) >> 12) << 10);
-        data_0217aa68 = (s32) (((s64) courseWeight * data_0217aa50 + 0x800) >> 12) +
-                        (s32) (((s64) fadeWeight * data_0217aa60 + 0x800) >> 12);
-        gFadeFogOffset = ((s64) courseWeight * gCourseFogOffset + 0x800) >> 12;
+        data_0217aa44 = MUL_FIXED12_ROUNDED(fadeWeight, 72);
+        data_0217aa28 = MUL_FIXED12_ROUNDED(data_0217aa40, courseWeight) +
+                        (MUL_FIXED12_ROUNDED(data_0217aa34, courseWeight) << 5) +
+                        (MUL_FIXED12_ROUNDED(data_0217aa3c, courseWeight) << 10);
+        data_0217aa68 = MUL_FIXED12_ROUNDED(courseWeight, data_0217aa50) +
+                        MUL_FIXED12_ROUNDED(fadeWeight, data_0217aa60);
+        gFadeFogOffset = MUL_FIXED12_ROUNDED(courseWeight, gCourseFogOffset);
         for (i = 0; i < 8; i++) {
             tableEntry = gCourseFogTable[i];
             data_0217aa8c[0] = tableEntry & 0xff;
@@ -597,7 +597,7 @@ void BuildFadeFog(s32 fadeLevel, s32 b) {
             data_0217aa8c[3] = (tableEntry & 0xff000000) >> 24;
             for (byteIndex = 0; byteIndex < 4; byteIndex++) {
                 fogByte = data_0217aa8c[byteIndex];
-                data_0217aa8c[byteIndex] = (s32) (((s64) fogByte * (s32) courseWeight + 0x800) >> 12) + data_0217aa44;
+                data_0217aa8c[byteIndex] = MUL_FIXED12_ROUNDED(fogByte, (s32) courseWeight) + data_0217aa44;
             }
             gFadeFogTable[i] =
                 data_0217aa8c[0] | (data_0217aa8c[1] << 8) | (data_0217aa8c[2] << 16) | (data_0217aa8c[3] << 24);

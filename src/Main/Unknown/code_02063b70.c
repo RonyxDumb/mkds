@@ -162,9 +162,9 @@ BOOL DrawKartKillerItem(Kart *kart) {
         matrix.mUnk_00[3].y = position.y >> 4;
         matrix.mUnk_00[3].z = position.z >> 4;
         radiusFactor = kart->mRadiusFactor;
-        scale.x = (s64) kart->mScale.x * radiusFactor >> 12;
-        scale.y = (s64) kart->mScale.y * radiusFactor >> 12;
-        scale.z = (s64) kart->mScale.z * radiusFactor >> 12;
+        scale.x = MUL_FIXED12_NO_ROUND(kart->mScale.x, radiusFactor);
+        scale.y = MUL_FIXED12_NO_ROUND(kart->mScale.y, radiusFactor);
+        scale.z = MUL_FIXED12_NO_ROUND(kart->mScale.z, radiusFactor);
         f = 0x1e;
         NNS_G3dGeBufferOP_N(0x14, &f, 1);
         NNS_G3dGeBufferOP_N(0x19, &matrix, 0xc);

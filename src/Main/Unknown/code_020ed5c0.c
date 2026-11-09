@@ -45,14 +45,14 @@ BOOL CopyKartToItemInUse(ItemInUse *itemInUse) {
     itemInUse->mKartDrawMatrixPos = kart->mDrawMatrixPos;
     itemInUse->mKartVelocity = kart->mVelocity;
     itemInUse->mKartVelocityLength = kart->mVelocityLength;
-    itemInUse->mUnk_078 = ((s64) kart->mPhysicalParam->mUnk_08 * kart->mScale.z + 0x800) >> 12;
+    itemInUse->mUnk_078 = MUL_FIXED12_ROUNDED(kart->mPhysicalParam->mUnk_08, kart->mScale.z);
     itemInUse->mKartHopHeight = kart->mHopHeight;
     itemInUse->mMovingForward =
         Vec3DotUnrounded(&itemInUse->mKartOrientation.mUnk_00[2], &itemInUse->mKartVelocity) > 0;
     VEC_Subtract(&itemInUse->mKartDrawMatrixPos, &kart->mPrevPos, &itemInUse->mKartMovement);
-    scale.x = ((s64) kart->mScaleFactor.x * kart->mScaleBase.x) >> 12;
-    scale.y = ((s64) kart->mScaleFactor.y * kart->mScaleBase.y) >> 12;
-    scale.z = ((s64) kart->mScaleFactor.z * kart->mScaleBase.z) >> 12;
+    scale.x = MUL_FIXED12_NO_ROUND(kart->mScaleFactor.x, kart->mScaleBase.x);
+    scale.y = MUL_FIXED12_NO_ROUND(kart->mScaleFactor.y, kart->mScaleBase.y);
+    scale.z = MUL_FIXED12_NO_ROUND(kart->mScaleFactor.z, kart->mScaleBase.z);
     scaleUnchanged =
         (itemInUse->mKartScaleFactorTimesBase.x == scale.x && itemInUse->mKartScaleFactorTimesBase.y == scale.y &&
          itemInUse->mKartScaleFactorTimesBase.z == scale.z)
@@ -307,7 +307,7 @@ s32 ComputeItemThrowForward(ItemInUse *itemInUse, s32 baseSpeed, s32 speedFactor
 
     kartMoveLength = VEC_Mag(&itemInUse->mKartMovement);
     if (itemInUse->mMovingForward != 0) {
-        speed = baseSpeed + (s32) (((s64) kartMoveLength * speedFactor) >> 12);
+        speed = baseSpeed + MUL_FIXED12_NO_ROUND(kartMoveLength, speedFactor);
         VEC_MultAdd(forwardWeight, &itemInUse->mKartOrientation.mUnk_00[2], &itemInUse->mKartMovement, &throwDirection);
     } else {
         Vec3 *kartVector;
@@ -316,7 +316,7 @@ s32 ComputeItemThrowForward(ItemInUse *itemInUse, s32 baseSpeed, s32 speedFactor
         if ((s64) kartVector->x * kartVector->x + (s64) kartVector->y * kartVector->y +
                 (s64) kartVector->z * kartVector->z >=
             0x10) {
-            speed = baseSpeed + (s32) (((s64) kartMoveLength * speedFactor) >> 12);
+            speed = baseSpeed + MUL_FIXED12_NO_ROUND(kartMoveLength, speedFactor);
             VEC_MultAdd(forwardWeight, &itemInUse->mKartOrientation.mUnk_00[2], kartVector, &throwDirection);
         } else {
             speed = baseSpeed - kartMoveLength;
@@ -347,7 +347,7 @@ s32 ComputeItemThrowBackward(ItemInUse *itemInUse, s32 speed, s32 speedFactor, s
         throwDirection.y = -throwDirection.y;
         throwDirection.z = -throwDirection.z;
     } else {
-        speed += (s32) (((s64) kartMoveLength * speedFactor) >> 12);
+        speed += MUL_FIXED12_NO_ROUND(kartMoveLength, speedFactor);
         throwDirection.x = -itemInUse->mKartOrientation.mUnk_00[2].x;
         throwDirection.y = -itemInUse->mKartOrientation.mUnk_00[2].y;
         throwDirection.z = -itemInUse->mKartOrientation.mUnk_00[2].z;

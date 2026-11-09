@@ -70,16 +70,16 @@ void func_0206edac(Kart *kart, Vec3 *groundNormal) {
          (kart->mAirborneFrames > 0x19 || kart->mLastGroundY - kart->mPos.y > 0x1e000)) ||
         kart->mState == KART_STATE_LAUNCH_DOUBLE_FLIP) {
         s = VEC_DotProduct(groundNormal, &kart->mVelocity);
-        v.x = ((s64) groundNormal->x * s) >> 12;
-        v.y = ((s64) groundNormal->y * s) >> 12;
-        v.z = ((s64) groundNormal->z * s) >> 12;
+        v.x = MUL_FIXED12_NO_ROUND(groundNormal->x, s);
+        v.y = MUL_FIXED12_NO_ROUND(groundNormal->y, s);
+        v.z = MUL_FIXED12_NO_ROUND(groundNormal->z, s);
         if (VEC_Mag(&v) > 0x2000) {
-            m = ((s64) kart->mSpeedLimitFactor * 0x1800) >> 12;
+            m = MUL_FIXED12_NO_ROUND(kart->mSpeedLimitFactor, 0x1800);
             n = v.y;
             if (n <= 0) {
                 n = -n;
             }
-            kart->mVerticalSpeed = ((s64) n * 0x99a) >> 12;
+            kart->mVerticalSpeed = MUL_FIXED12_NO_ROUND(n, 0x99a);
             if (kart->mVerticalSpeed > m) {
                 kart->mVerticalSpeed = m;
             }
@@ -101,7 +101,7 @@ void func_0206edac(Kart *kart, Vec3 *groundNormal) {
     if (kart->mAirTiltAngle <= 0x3e8) {
         return;
     }
-    kart->mForwardSpeed = ((s64) kart->mForwardSpeed * (s + 0x1000)) >> 12;
+    kart->mForwardSpeed = MUL_FIXED12_NO_ROUND(kart->mForwardSpeed, s + 0x1000);
 }
 
 void CollideKartWithMapObjects(Kart *kart) {
@@ -168,7 +168,7 @@ void CollideKartWithMapObjects(Kart *kart) {
                                 } else if (s < 0x29) {
                                     s = 0x29;
                                 }
-                                kart->mSpeedLimitHitFactor = ((s64) kart->mSpeedLimitHitFactor * s) >> 12;
+                                kart->mSpeedLimitHitFactor = MUL_FIXED12_NO_ROUND(kart->mSpeedLimitHitFactor, s);
                             }
                         }
                         if (handlerResult & 1) {
@@ -180,9 +180,9 @@ void CollideKartWithMapObjects(Kart *kart) {
                                 } else {
                                     if (d != 0) {
                                         s = VEC_DotProduct(&v, u);
-                                        w.x = ((s64) v.x * s) >> 12;
-                                        w.y = ((s64) v.y * s) >> 12;
-                                        w.z = ((s64) v.z * s) >> 12;
+                                        w.x = MUL_FIXED12_NO_ROUND(v.x, s);
+                                        w.y = MUL_FIXED12_NO_ROUND(v.y, s);
+                                        w.z = MUL_FIXED12_NO_ROUND(v.z, s);
                                     }
                                     if (Vec3DotUnrounded(&v, &w) < 0) {
                                         m = 0;
@@ -192,9 +192,9 @@ void CollideKartWithMapObjects(Kart *kart) {
                                 if (kart->mMapObjectVectorLength > 0x1000 && m != 0) {
                                     kart->mMapObjectVectorForwardDot = Vec3DotUnrounded(&kart->mTurnedForward, &w);
                                     s = VEC_DotProduct(&kart->mTurnedForward, &w);
-                                    v6 = w.y - (s32) (((s64) kart->mTurnedForward.y * s) >> 12);
-                                    v7 = w.z - (s32) (((s64) kart->mTurnedForward.z * s) >> 12);
-                                    v5 = w.x - (s32) (((s64) kart->mTurnedForward.x * s) >> 12);
+                                    v6 = w.y - MUL_FIXED12_NO_ROUND(kart->mTurnedForward.y, s);
+                                    v7 = w.z - MUL_FIXED12_NO_ROUND(kart->mTurnedForward.z, s);
+                                    v5 = w.x - MUL_FIXED12_NO_ROUND(kart->mTurnedForward.x, s);
                                     kart->mHitVelocity.x += v5;
                                     kart->mHitVelocity.z += v7;
                                     kart->mVerticalSpeed += v6;
@@ -210,8 +210,8 @@ void CollideKartWithMapObjects(Kart *kart) {
                     if (g != 0) {
                         m = 0x1000;
                     } else {
-                        m = ((s64) (0x1000 - s) * (s32) (((s64) kart->mVelocityLength * data_usa_021654ec) >> 12)) >>
-                            12;
+                        m = MUL_FIXED12_NO_ROUND(0x1000 - s,
+                                                 MUL_FIXED12_NO_ROUND(kart->mVelocityLength, data_usa_021654ec));
                     }
                     if (kart->mVelocityLength > 0x2000 || g != 0) {
                         if (touchedCount < 2) {

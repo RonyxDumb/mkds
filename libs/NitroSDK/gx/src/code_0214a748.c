@@ -92,7 +92,7 @@ void G3i_FrustumW_(s32 top, s32 bottom, s32 left, s32 right, s32 nearPlane, s32 
     if (scaleW != 0x1000) {
         invDepth = invDepth * scaleW / 0x1000;
     }
-    nearFar = ((s64) dblNear * farPlane + 0x800) >> 12;
+    nearFar = MUL_FIXED12_ROUNDED(dblNear, farPlane);
     m22 = (invDepth * (farPlane + nearPlane) + 0x80000000) >> 32;
     m32 = (invDepth * nearFar + 0x80000000) >> 32;
     if (draw != 0) {

@@ -423,11 +423,11 @@ void AdvanceKartWobble(Kart *kart) {
     kart->mWobbleAngle = kart->mWobbleAngle + gKartWobbleAnglePerCall;
     kart->mWobbleSine = gPairsByAngle[(kart->mWobbleAngle >> 4) * 2];
     if (kart->mWobbleAmplitude > 0) {
-        kart->mWobbleAmplitude = (s64) kart->mWobbleAmplitude * gKartWobbleAmplitudeDecay + 0x800 >> 12;
+        kart->mWobbleAmplitude = MUL_FIXED12_ROUNDED(kart->mWobbleAmplitude, gKartWobbleAmplitudeDecay);
         kart->mWobbleAmplitude = kart->mWobbleAmplitude - 0x64;
         if ((kart->mUnk_44 & KART_44_ON_GROUND) == 0 ||
             (kart->mForwardSpeed > 0 ? kart->mForwardSpeed : -kart->mForwardSpeed) < 0x3000) {
-            kart->mWobbleAmplitude = (s64) kart->mWobbleAmplitude * 0xe66 + 0x800 >> 12;
+            kart->mWobbleAmplitude = MUL_FIXED12_ROUNDED(kart->mWobbleAmplitude, 0xe66);
         }
         if (kart->mWobbleAmplitude < 0) {
             kart->mWobbleAmplitude = 0;
@@ -435,9 +435,9 @@ void AdvanceKartWobble(Kart *kart) {
     }
     amplitudeDelta = kart->mWobbleDirection * kart->mWobbleAmplitude - kart->mWobbleEasedAmplitude;
     kart->mWobbleEasedAmplitude =
-        kart->mWobbleEasedAmplitude + (s32) ((s64) amplitudeDelta * gKartWobbleEaseFactor + 0x800 >> 12);
-    angleAmplitude = (s64) kart->mWobbleEasedAmplitude * gKartWobbleAngleFactor + 0x800 >> 12;
-    angleValue = (s64) angleAmplitude * kart->mWobbleSine + 0x800 >> 12;
+        kart->mWobbleEasedAmplitude + MUL_FIXED12_ROUNDED(amplitudeDelta, gKartWobbleEaseFactor);
+    angleAmplitude = MUL_FIXED12_ROUNDED(kart->mWobbleEasedAmplitude, gKartWobbleAngleFactor);
+    angleValue = MUL_FIXED12_ROUNDED(angleAmplitude, kart->mWobbleSine);
     angle = angleValue;
     MTX_RotY43_(&rotationMatrix, gPairsByAngle[(angle >> 4) * 2], gPairsByAngle[(angle >> 4) * 2 + 1]);
     MTX_Concat43(&rotationMatrix, &kart->mUnk_150_m, &kart->mWobbleMatrix);
@@ -485,7 +485,7 @@ void func_02066ac0(Kart *kart) {
                 stateAgain = kart->mUnk_514;
                 stateAgain->mEasedTurnAngle =
                     stateAgain->mEasedTurnAngle +
-                    (s32) ((s64) (stateAgain->mTargetTurnAngle - stateAgain->mEasedTurnAngle) * 0x333 + 0x800 >> 12);
+                    MUL_FIXED12_ROUNDED(stateAgain->mTargetTurnAngle - stateAgain->mEasedTurnAngle, 0x333);
                 kart->mTurnAngle = stateAgain->mEasedTurnAngle;
             } else {
                 if (difference > 0x19) {
@@ -500,7 +500,7 @@ void func_02066ac0(Kart *kart) {
         stateAgain = kart->mUnk_514;
         stateAgain->mEasedTurnAngle =
             stateAgain->mEasedTurnAngle +
-            (s32) ((s64) (stateAgain->mTargetTurnAngle - stateAgain->mEasedTurnAngle) * 0x333 + 0x800 >> 12);
+            MUL_FIXED12_ROUNDED(stateAgain->mTargetTurnAngle - stateAgain->mEasedTurnAngle, 0x333);
         kart->mTurnAngle = stateAgain->mEasedTurnAngle;
     }
     stateAgain = kart->mUnk_514;

@@ -236,7 +236,7 @@ void InitVolumeFade(void) {
 
 void func_02110350(MapObjectSound *mapSound) {
     s32 attenuation;
-    attenuation = (s32) (((s64) data_0217d214 * (0x1f000 - func_ov001_02181528()) + 0x800) >> 12) >> 12;
+    attenuation = MUL_FIXED12_ROUNDED(data_0217d214, 0x1f000 - func_ov001_02181528()) >> 12;
     if (attenuation < 0) {
         attenuation = 0;
     } else if (attenuation > 0x7f) {
@@ -306,7 +306,7 @@ void UpdateKingTeresaSeqVolume(NNSSndSeqPlayer **handle) {
     targetVolume = data_0216cb28;
     switch (c) {
         case 0:
-            c = (s32) (((s64) data_0217d210 * (0x29000 - func_ov001_02181528()) + 0x800) >> 12) >> 12;
+            c = MUL_FIXED12_ROUNDED(data_0217d210, 0x29000 - func_ov001_02181528()) >> 12;
             targetVolume = 0;
             if (c >= 0) {
                 targetVolume = data_0216cb28;
@@ -464,7 +464,7 @@ void UpdateSeqPlayerControl(SeqPlayerControl *control, NNSSndSeqPlayer **handle)
     } else if (control->mKartNear != 0) {
         scaledDistance = (minKartDistanceSquared - 2500) << 12;
         w = scaledDistance;
-        z = (s32) (((s64) data_0217d208 * scaledDistance + 0x800) >> 12) >> 12;
+        z = MUL_FIXED12_ROUNDED(data_0217d208, scaledDistance) >> 12;
         z += 0x1e;
         if (z < 0) {
             z = 0;
@@ -489,7 +489,7 @@ void UpdateSeqPlayerControl(SeqPlayerControl *control, NNSSndSeqPlayer **handle)
     } else if ((control->mFlags >> 1) & 1) {
         control->mPitchAngle += 0x1111;
         control->mPitchAngle &= 0xffff;
-        pitch = (s32) (((s64) gPairsByAngle[(control->mPitchAngle >> 4) * 2] * 0x30000 + 0x800) >> 12) >> 12;
+        pitch = MUL_FIXED12_ROUNDED(gPairsByAngle[(control->mPitchAngle >> 4) * 2], 0x30000) >> 12;
         pitch += 0x80;
         if (targetVolume > 0x3c) {
             targetVolume = 0x3c;

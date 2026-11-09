@@ -97,12 +97,12 @@ void SetBattleKartAiTurnSpeedLimit(KartAiSpeedLimit *kartAiSpeedLimit, KartAi *k
     if (kartAi->mTurnAngleDegrees <= 0x5000) {
         return;
     }
-    turnRatio = ((s64) (kartAi->mTurnAngleDegrees - 0x5000) * 0x5b + 0x800) >> 12;
+    turnRatio = MUL_FIXED12_ROUNDED(kartAi->mTurnAngleDegrees - 0x5000, 0x5b);
     if (turnRatio > 0x1000) {
         turnRatio = 0x1000;
     }
     kartAiSpeedLimit->mTurnSpeedLimit =
-        ((s64) (0x1000 - (s32) (((s64) turnRatio * 0x99c + 0x800) >> 12)) * 0x6000 + 0x800) >> 12;
+        MUL_FIXED12_ROUNDED(0x1000 - MUL_FIXED12_ROUNDED(turnRatio, 0x99c), 0x6000);
     if (kartAi->mTargetShine == NULL) {
         return;
     }
@@ -350,8 +350,8 @@ void AdvanceBattleKartAiSideOffset(KartAi *kartAi) {
         kartAiRandom = GetKartAiRandom();
         kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
         randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
-        centeredRandom = (s32) (((s64) randomValue * 0x2000 + 0x800) >> 12) - 0x1000;
-        ratioChange = ((s64) centeredRandom * 0x4ce + 0x800) >> 12;
+        centeredRandom = MUL_FIXED12_ROUNDED(randomValue, 0x2000) - 0x1000;
+        ratioChange = MUL_FIXED12_ROUNDED(centeredRandom, 0x4ce);
         newSideOffsetRatio = kartAi->mSideOffsetRatio + ratioChange;
         if (GetAbsoluteValue(newSideOffsetRatio) > 0xb36) {
             if (newSideOffsetRatio > 0) {
@@ -362,10 +362,10 @@ void AdvanceBattleKartAiSideOffset(KartAi *kartAi) {
         }
         kartAi->mSideOffsetRatio = newSideOffsetRatio;
     }
-    sideOffsetScale = ((s64) kartAi->mSideOffsetRatio * kartAi->mBattleLinkCursor.mLink->mUnk_24 + 0x800) >> 12;
-    kartAi->mSideOffset.x = ((s64) kartAi->mSideOffset.x * sideOffsetScale) >> 12;
-    kartAi->mSideOffset.y = ((s64) kartAi->mSideOffset.y * sideOffsetScale) >> 12;
-    kartAi->mSideOffset.z = ((s64) kartAi->mSideOffset.z * sideOffsetScale) >> 12;
+    sideOffsetScale = MUL_FIXED12_ROUNDED(kartAi->mSideOffsetRatio, kartAi->mBattleLinkCursor.mLink->mUnk_24);
+    kartAi->mSideOffset.x = MUL_FIXED12_NO_ROUND(kartAi->mSideOffset.x, sideOffsetScale);
+    kartAi->mSideOffset.y = MUL_FIXED12_NO_ROUND(kartAi->mSideOffset.y, sideOffsetScale);
+    kartAi->mSideOffset.z = MUL_FIXED12_NO_ROUND(kartAi->mSideOffset.z, sideOffsetScale);
 }
 
 void AdvanceBattleKartAiTargetKart(KartAi *kartAi) {

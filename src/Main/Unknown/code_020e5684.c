@@ -110,7 +110,7 @@ void CreateObPakkunSf(void) {
 void InitObPakkunSf(ObPakkunSf *obPakkunSf) {
     obPakkunSf->mPushedObject.mMapObject.mPos.y =
         obPakkunSf->mPushedObject.mMapObject.mPos.y +
-        (s32) (((s64) obPakkunSf->mPushedObject.mMapObject.mScale.y * 0xa000) >> 12);
+        MUL_FIXED12_NO_ROUND(obPakkunSf->mPushedObject.mMapObject.mScale.y, 0xa000);
     obPakkunSf->mFramesSinceInit = 0;
     InitPushedMotion(&obPakkunSf->mPushedObject, obPakkunSf->mPushedObject.mMapObject.mPos.y - 0x18000, 0x400, 0x800,
                      0x4000, 0x1800);
@@ -164,7 +164,7 @@ void EnterSecondHandState0(SecondHand *secondHand) {
 void UpdateSecondHandState0(SecondHand *secondHand) {
     secondHand->mUnk_c8 = secondHand->mUnk_c8 + secondHand->mUnk_cc;
     secondHand->mUnk_00.mAngle =
-        secondHand->mUnk_00.mAngle + (s16) (((s64) secondHand->mUnk_c8 * secondHand->mUnk_c6) >> 12);
+        secondHand->mUnk_00.mAngle + (s16) MUL_FIXED12_NO_ROUND(secondHand->mUnk_c8, secondHand->mUnk_c6);
     if (secondHand->mUnk_00.mStateMachine.mStateFrames > secondHand->mUnk_c0) {
         secondHand->mUnk_00.mStateMachine.mNextState = 1;
         secondHand->mUnk_00.mStateMachine.mNextStateRequested = 1;
@@ -193,7 +193,7 @@ void EnterSecondHandState2(SecondHand *secondHand) {
 void UpdateSecondHandState2(SecondHand *secondHand) {
     secondHand->mUnk_c8 = secondHand->mUnk_c8 - secondHand->mUnk_cc;
     secondHand->mUnk_00.mAngle =
-        secondHand->mUnk_00.mAngle + (s16) (((s64) secondHand->mUnk_c8 * secondHand->mUnk_c6) >> 12);
+        secondHand->mUnk_00.mAngle + (s16) MUL_FIXED12_NO_ROUND(secondHand->mUnk_c8, secondHand->mUnk_c6);
     if (secondHand->mUnk_00.mStateMachine.mStateFrames > secondHand->mUnk_c0) {
         secondHand->mUnk_c6 = -secondHand->mUnk_c6;
         secondHand->mUnk_00.mStateMachine.mNextState = 3;
@@ -246,7 +246,7 @@ void CreateSecondHand(void) {
 }
 
 void InitSecondHand(SecondHand *secondHand, Unk020e5684 *courseRow) {
-    secondHand->mUnk_00.mExtent.y = ((s64) secondHand->mUnk_00.mScale.x * 0x4b000) >> 12;
+    secondHand->mUnk_00.mExtent.y = MUL_FIXED12_NO_ROUND(secondHand->mUnk_00.mScale.x, 0x4b000);
     InitStateMachine(&secondHand->mUnk_00.mStateMachine, data_0216c240, 4, secondHand);
     QuaternionFromVec3Degrees(&courseRow->mUnk_0c, &secondHand->mUnk_a0);
     secondHand->mUnk_b0 = secondHand->mUnk_a0;

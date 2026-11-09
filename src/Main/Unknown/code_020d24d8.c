@@ -52,7 +52,7 @@ void StartSoundAtPositionIfNear(s32 soundId, Vec3 *position, s32 falloffKind) {
 
 void SetMapObjectExtentY(MapObject *mapObject, s32 baseSize) {
     s32 radius;
-    mapObject->mExtent.y = (s64) baseSize * mapObject->mScale.y >> 12;
+    mapObject->mExtent.y = MUL_FIXED12_NO_ROUND(baseSize, mapObject->mScale.y);
     if (mapObject->mCollisionSlotIndex < 0) {
         return;
     }
