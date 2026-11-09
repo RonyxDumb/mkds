@@ -15,17 +15,17 @@
 #pragma thumb on
 
 void ReadSlotGhostRecord(u32 slotIndex) {
-    GhostRecord *ghostRecord;
+    Unk0202ddd8 *ghostRecord;
 
-    ghostRecord = data_0217aa08->mGhostRecords[1];
+    ghostRecord = data_0217aa08->mSlotGhostRecords[0];
     if (IsSlotGhostBitSet(slotIndex) == 0) {
-        ghostRecord->mFilled = 0;
+        ghostRecord->mHead.mFilled = 0;
     } else {
         ReadBackupSlotGhost(slotIndex, ghostRecord);
     }
 }
 
-s32 GetGhostLapTime(GhostRecord *ghostRecord, s32 lapNumber, MinuteSecondMillisecondTime *lapTime) {
+s32 GetGhostLapTime(GhostRecordHead *ghostRecord, s32 lapNumber, MinuteSecondMillisecondTime *lapTime) {
     u8 byteOffset;
     u32 packedTime;
 
@@ -43,7 +43,7 @@ s32 GetGhostLapTime(GhostRecord *ghostRecord, s32 lapNumber, MinuteSecondMillise
     return 1;
 }
 
-BOOL GetGhostFinishTime(GhostRecord *ghostRecord, MinuteSecondMillisecondTime *finishTime) {
+BOOL GetGhostFinishTime(GhostRecordHead *ghostRecord, MinuteSecondMillisecondTime *finishTime) {
     if (ghostRecord->mFilled == 0) {
         return FALSE;
     }
@@ -59,10 +59,10 @@ s32 GetGhostLapTimeByIndex(s32 ghostRecordIndex, s32 lapNumber, MinuteSecondMill
     result = 0;
     switch (ghostRecordIndex) {
         case 0:
-            result = GetGhostLapTime(data_0217aa08->mGhostRecords[0], lapNumber, lapTime);
+            result = GetGhostLapTime(&data_0217aa08->mCourseGhostRecord->mHead, lapNumber, lapTime);
             break;
         case 1:
-            result = GetGhostLapTime(data_0217aa08->mGhostRecords[1], lapNumber, lapTime);
+            result = GetGhostLapTime(&data_0217aa08->mSlotGhostRecords[0]->mHead, lapNumber, lapTime);
             break;
         case 2:
             break;
@@ -76,10 +76,10 @@ s32 GetGhostFinishTimeByIndex(s32 ghostRecordIndex, MinuteSecondMillisecondTime 
     result = 0;
     switch (ghostRecordIndex) {
         case 0:
-            result = GetGhostFinishTime(data_0217aa08->mGhostRecords[0], finishTime);
+            result = GetGhostFinishTime(&data_0217aa08->mCourseGhostRecord->mHead, finishTime);
             break;
         case 1:
-            result = GetGhostFinishTime(data_0217aa08->mGhostRecords[1], finishTime);
+            result = GetGhostFinishTime(&data_0217aa08->mSlotGhostRecords[0]->mHead, finishTime);
             break;
         case 2:
             break;

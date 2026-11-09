@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct GhostRecord GhostRecord;
+typedef struct Unk0202ddd8 Unk0202ddd8;
 
-GhostRecord *LoadGhostRecordFile(const char *path);
+Unk0202ddd8 *LoadGhostRecordFile(const char *path);

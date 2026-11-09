@@ -35,12 +35,12 @@ void func_020d159c(void) {
 void InitEndingStaffRoll(void) {
     s32 i;
     Unk02021dc8 *cells;
-    u32 *oamWords;
+    RaceHudOamBits *oamBits;
 
     gEndingStaffRoll = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x414);
     for (i = 0; i < 0x80; i++) {
-        oamWords = (u32 *) &gEndingStaffRoll->mOamBuffer.mOams[i];
-        oamWords[0] = (oamWords[0] & ~0xc00) | 0xc00;
+        oamBits = &gEndingStaffRoll->mOamBuffer.mOamBits[i];
+        oamBits->mUnk_0a = 3;
     }
     gEndingStaffRoll->mStaffRollFrames = 0;
     LoadNclrData(&gEndingStaffRoll->mEndingStaffRollMO00Nclr, FindSceneFileWrapper("ending_staffRoll_m_o_00.NCLR"));
@@ -72,10 +72,9 @@ u16 UpdateEndingStaffRoll(void) {
 void DrawEndingStaffRoll(void) {
     RaceHudOamBuffer *oamBuffer;
     s32 i;
-    GXOamAttr *firstNewOam;
     EndingStaffRollObject *staffRoll;
     Unk020224e0_c *cell;
-    u32 *oamWords;
+    RaceHudOamBits *oamBits;
     s32 position[2];
 
     gEndingStaffRoll->mOamBuffer.mOamCount = 0;
@@ -86,13 +85,12 @@ void DrawEndingStaffRoll(void) {
         cell = staffRoll->mCell;
         position[0] = 0x80000;
         position[1] = 0x60000;
-        firstNewOam = &oamBuffer->mOams[i];
-        oamBuffer->mOamCount += NNS_G2dMakeCellToOams(firstNewOam, 0x80 - i, cell, NULL, position, 0, 1);
-        oamWords = (u32 *) firstNewOam;
+        oamBits = &oamBuffer->mOamBits[i];
+        oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[i], 0x80 - i, cell, NULL, position, 0, 1);
         for (; i < oamBuffer->mOamCount; i++) {
-            oamWords[0] = (oamWords[0] & ~0xc00) | 0x400;
-            oamWords[1] = (oamWords[1] & ~0xc00) | 0x400;
-            oamWords += 2;
+            oamBits->mUnk_0a = 1;
+            oamBits->mUnk_0e = 1;
+            oamBits++;
         }
     }
     DC_FlushRange(&gEndingStaffRoll->mOamBuffer, 0x400);

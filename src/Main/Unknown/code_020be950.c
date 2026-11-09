@@ -164,10 +164,10 @@ void DrawRaceHudSubScreenCells(RaceHudOamBuffer *oamBuffer, RaceHudSubScreenCell
                     Matrix2x2Rotation(&rotationMatrix, (u16) (angle + (0x8000 - cells->mCells[i].mUnk_10)));
                 }
                 matrixIndex = AllocOamMatrixIndex(oamBuffer);
-                oamBuffer->mMatrices[matrixIndex].mUnk_06 = rotationMatrix.mUnk_00[0] >> 4;
-                oamBuffer->mMatrices[matrixIndex].mUnk_0e = rotationMatrix.mUnk_00[1] >> 4;
-                oamBuffer->mMatrices[matrixIndex].mUnk_16 = rotationMatrix.mUnk_00[2] >> 4;
-                oamBuffer->mMatrices[matrixIndex].mUnk_1e = rotationMatrix.mUnk_00[3] >> 4;
+                oamBuffer->mMatrices[matrixIndex].mPA = rotationMatrix.mUnk_00[0] >> 4;
+                oamBuffer->mMatrices[matrixIndex].mPB = rotationMatrix.mUnk_00[1] >> 4;
+                oamBuffer->mMatrices[matrixIndex].mPC = rotationMatrix.mUnk_00[2] >> 4;
+                oamBuffer->mMatrices[matrixIndex].mPD = rotationMatrix.mUnk_00[3] >> 4;
             }
             cell = &cells->mCells[i];
             screenX = cell->mDrawPos.mUnk_00;
@@ -228,10 +228,10 @@ void DrawRaceHudSubScreenCellsScaled(RaceHudOamBuffer *oamBuffer, RaceHudSubScre
                 Matrix2x2ReciprocalScale(&matrix, cells->mUnk_0c[i].mUnk_00);
             }
             matrixIndex = AllocOamMatrixIndex(oamBuffer);
-            oamBuffer->mMatrices[matrixIndex].mUnk_06 = matrix.mUnk_00[0] >> 4;
-            oamBuffer->mMatrices[matrixIndex].mUnk_0e = matrix.mUnk_00[1] >> 4;
-            oamBuffer->mMatrices[matrixIndex].mUnk_16 = matrix.mUnk_00[2] >> 4;
-            oamBuffer->mMatrices[matrixIndex].mUnk_1e = matrix.mUnk_00[3] >> 4;
+            oamBuffer->mMatrices[matrixIndex].mPA = matrix.mUnk_00[0] >> 4;
+            oamBuffer->mMatrices[matrixIndex].mPB = matrix.mUnk_00[1] >> 4;
+            oamBuffer->mMatrices[matrixIndex].mPC = matrix.mUnk_00[2] >> 4;
+            oamBuffer->mMatrices[matrixIndex].mPD = matrix.mUnk_00[3] >> 4;
             cell = &cells->mCells[i];
             screenX = cell->mDrawPos.mUnk_00;
             cellData = cell->mCell;

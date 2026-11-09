@@ -14,9 +14,9 @@ void InitBackupBuffers(void *heap) {
     data_0217aa08->mGrandPrixRecordBlock = HeapAllocAligned(heap, 0x400, 0x20);
     data_0217aa08->mCourseTimeRecordBlock = HeapAllocAligned(heap, 0x1600, 0x20);
     data_0217aa08->mMissionRecordBlock = HeapAllocAligned(heap, 0x100, 0x20);
-    data_0217aa08->mGhostRecords[0] = HeapAllocAligned(heap, 0xe00, 0x20);
-    data_0217aa08->mGhostRecords[1] = HeapAllocAligned(heap, 0x1000, 0x20);
-    data_0217aa08->mGhostRecords[2] = HeapAllocAligned(heap, 0x1000, 0x20);
+    data_0217aa08->mCourseGhostRecord = HeapAllocAligned(heap, 0xe00, 0x20);
+    data_0217aa08->mSlotGhostRecords[0] = HeapAllocAligned(heap, 0x1000, 0x20);
+    data_0217aa08->mSlotGhostRecords[1] = HeapAllocAligned(heap, 0x1000, 0x20);
     data_0217aa08->mBuddyRecordBlock = HeapAllocAligned(heap, 0xc00, 0x20);
     data_0217aa08->mEmblemBlockData = HeapAllocAligned(heap, 0xb00, 0x20);
     data_0217aa08->mReadDestination = NULL;

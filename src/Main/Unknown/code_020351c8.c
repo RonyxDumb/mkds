@@ -346,7 +346,7 @@ s32 func_0203551c(u16 *sceneNumbers) {
             }
             if (GetTxtSystemDone() != 0) {
                 if (GetTxtSystemSelectedIndex() == 0) {
-                    GetSlotGhostBuffer()->mFilled = 1;
+                    GetSlotGhostBuffer()->mHead.mFilled = 1;
                     WriteSlotGhostRecord((u8) data_02174e68->mSelectedIndex, GetSlotGhostBuffer());
                     data_02174e68->mState = 3;
                 } else {

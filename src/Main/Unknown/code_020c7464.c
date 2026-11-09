@@ -377,7 +377,7 @@ static inline void func_020c8dbc_inline(RaceHudOamBuffer *oamBuffer, Unk020224e0
     position[0] = x << 12;
     position[1] = y << 12;
     oam = &oamBuffer->mOamBits[oamIndex];
-    oamBuffer->mOamCount += NNS_G2dMakeCellToOams((GXOamAttr *) oam, 0x80 - oamIndex, cell, matrix, position, v, 1);
+    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, matrix, position, v, 1);
     for (; oamIndex < oamBuffer->mOamCount; oamIndex++) {
         if (s != -1) {
             oam->mUnk_0a = s;
@@ -455,10 +455,10 @@ void DrawRaceHudSubScreenKarts(RaceHudOamBuffer *oamBuffer) {
                                                  gRaceHudSubScreenKarts->mScreenPos[kartIndex].mUnk_00,
                                                  gRaceHudSubScreenKarts->mScreenPos[kartIndex].mUnk_04, rotationSlot,
                                                  f != 0 ? 1 : -1, -1);
-                            oamBuffer->mMatrices[rotationSlot].mUnk_06 = rotationMatrix.mUnk_00[0] >> 4;
-                            oamBuffer->mMatrices[rotationSlot].mUnk_0e = rotationMatrix.mUnk_00[1] >> 4;
-                            oamBuffer->mMatrices[rotationSlot].mUnk_16 = rotationMatrix.mUnk_00[2] >> 4;
-                            oamBuffer->mMatrices[rotationSlot].mUnk_1e = rotationMatrix.mUnk_00[3] >> 4;
+                            oamBuffer->mMatrices[rotationSlot].mPA = rotationMatrix.mUnk_00[0] >> 4;
+                            oamBuffer->mMatrices[rotationSlot].mPB = rotationMatrix.mUnk_00[1] >> 4;
+                            oamBuffer->mMatrices[rotationSlot].mPC = rotationMatrix.mUnk_00[2] >> 4;
+                            oamBuffer->mMatrices[rotationSlot].mPD = rotationMatrix.mUnk_00[3] >> 4;
                         } else {
                             if (GetKartItemEffect((u16) kartIndex) == 3) {
                                 cell = GetRaceSNcerEntry(0x10);
@@ -504,10 +504,10 @@ void DrawRaceHudSubScreenKarts(RaceHudOamBuffer *oamBuffer) {
                                 cell = GetRaceSNcerEntry(kartIndex);
                             }
                             func_020c8dbc_inline(oamBuffer, cell, &r1, screenX, screenY, n, b != 0 ? 1 : -1, g);
-                            oamBuffer->mMatrices[n].mUnk_06 = r1.mUnk_00[0] >> 4;
-                            oamBuffer->mMatrices[n].mUnk_0e = r1.mUnk_00[1] >> 4;
-                            oamBuffer->mMatrices[n].mUnk_16 = r1.mUnk_00[2] >> 4;
-                            oamBuffer->mMatrices[n].mUnk_1e = r1.mUnk_00[3] >> 4;
+                            oamBuffer->mMatrices[n].mPA = r1.mUnk_00[0] >> 4;
+                            oamBuffer->mMatrices[n].mPB = r1.mUnk_00[1] >> 4;
+                            oamBuffer->mMatrices[n].mPC = r1.mUnk_00[2] >> 4;
+                            oamBuffer->mMatrices[n].mPD = r1.mUnk_00[3] >> 4;
                         } else {
                             if (GetKartItemEffect((u16) kartIndex) == 3) {
                                 cell = GetRaceSNcerEntry(0x10);
@@ -670,10 +670,10 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
                 NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
                                       &rotationMatrix, drawPosition0, rotationSlot0, 1);
         }
-        oamBuffer->mMatrices[rotationSlot0].mUnk_06 = rotationMatrix.mUnk_00[0] >> 4;
-        oamBuffer->mMatrices[rotationSlot0].mUnk_0e = rotationMatrix.mUnk_00[1] >> 4;
-        oamBuffer->mMatrices[rotationSlot0].mUnk_16 = rotationMatrix.mUnk_00[2] >> 4;
-        oamBuffer->mMatrices[rotationSlot0].mUnk_1e = rotationMatrix.mUnk_00[3] >> 4;
+        oamBuffer->mMatrices[rotationSlot0].mPA = rotationMatrix.mUnk_00[0] >> 4;
+        oamBuffer->mMatrices[rotationSlot0].mPB = rotationMatrix.mUnk_00[1] >> 4;
+        oamBuffer->mMatrices[rotationSlot0].mPC = rotationMatrix.mUnk_00[2] >> 4;
+        oamBuffer->mMatrices[rotationSlot0].mPD = rotationMatrix.mUnk_00[3] >> 4;
     }
     if (gRaceHudSubScreenSecondHand->mObjectCount == 3 && a == 0) {
         if (gRaceSetup->mMirrorMode != 0) {
@@ -721,10 +721,10 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
                 NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
                                       &rotationMatrix, drawPosition2, rotationSlot2, 1);
         }
-        oamBuffer->mMatrices[rotationSlot2].mUnk_06 = rotationMatrix.mUnk_00[0] >> 4;
-        oamBuffer->mMatrices[rotationSlot2].mUnk_0e = rotationMatrix.mUnk_00[1] >> 4;
-        oamBuffer->mMatrices[rotationSlot2].mUnk_16 = rotationMatrix.mUnk_00[2] >> 4;
-        oamBuffer->mMatrices[rotationSlot2].mUnk_1e = rotationMatrix.mUnk_00[3] >> 4;
+        oamBuffer->mMatrices[rotationSlot2].mPA = rotationMatrix.mUnk_00[0] >> 4;
+        oamBuffer->mMatrices[rotationSlot2].mPB = rotationMatrix.mUnk_00[1] >> 4;
+        oamBuffer->mMatrices[rotationSlot2].mPC = rotationMatrix.mUnk_00[2] >> 4;
+        oamBuffer->mMatrices[rotationSlot2].mPD = rotationMatrix.mUnk_00[3] >> 4;
     }
     if (gRaceSetup->mMirrorMode != 0) {
         angle1 = gRaceHudSubScreenSecondHand->mAngles[1] - GetSubScreenAngleAndClearScrollTimer();
@@ -771,10 +771,10 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
             NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
                                   &rotationMatrix, drawPosition1, rotationSlot1, 1);
     }
-    oamBuffer->mMatrices[rotationSlot1].mUnk_06 = rotationMatrix.mUnk_00[0] >> 4;
-    oamBuffer->mMatrices[rotationSlot1].mUnk_0e = rotationMatrix.mUnk_00[1] >> 4;
-    oamBuffer->mMatrices[rotationSlot1].mUnk_16 = rotationMatrix.mUnk_00[2] >> 4;
-    oamBuffer->mMatrices[rotationSlot1].mUnk_1e = rotationMatrix.mUnk_00[3] >> 4;
+    oamBuffer->mMatrices[rotationSlot1].mPA = rotationMatrix.mUnk_00[0] >> 4;
+    oamBuffer->mMatrices[rotationSlot1].mPB = rotationMatrix.mUnk_00[1] >> 4;
+    oamBuffer->mMatrices[rotationSlot1].mPC = rotationMatrix.mUnk_00[2] >> 4;
+    oamBuffer->mMatrices[rotationSlot1].mPD = rotationMatrix.mUnk_00[3] >> 4;
 }
 
 BOOL CreateRaceHudSubScreenCarCells(void) {

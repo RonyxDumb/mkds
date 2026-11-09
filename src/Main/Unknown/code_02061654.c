@@ -700,7 +700,7 @@ u16 GetSplMaxPolyId(void) {
 }
 
 BOOL IsGhostRecordFilled(void *record) {
-    GhostRecord *ghostRecord = record;
+    GhostRecordHead *ghostRecord = record;
 
     if (ghostRecord->mFilled == 1) {
         return TRUE;
@@ -709,7 +709,7 @@ BOOL IsGhostRecordFilled(void *record) {
 }
 
 BOOL GetGhostRecordTime(void *record, TimeRecord *timeRecord) {
-    GhostRecord *ghostRecord = record;
+    GhostRecordHead *ghostRecord = record;
 
     if (ghostRecord->mFilled != 1) {
         return FALSE;
@@ -721,7 +721,7 @@ BOOL GetGhostRecordTime(void *record, TimeRecord *timeRecord) {
 }
 
 BOOL GetGhostRecordName(void *record, void *name) {
-    GhostRecord *ghostRecord = record;
+    GhostRecordHead *ghostRecord = record;
 
     if (ghostRecord->mFilled != 1) {
         return FALSE;
@@ -731,7 +731,7 @@ BOOL GetGhostRecordName(void *record, void *name) {
 }
 
 s32 GetGhostRecordCharacterIndex(void *record) {
-    GhostRecord *ghostRecord = record;
+    GhostRecordHead *ghostRecord = record;
 
     if (ghostRecord->mFilled != 1) {
         return -1;
@@ -740,7 +740,7 @@ s32 GetGhostRecordCharacterIndex(void *record) {
 }
 
 s32 GetGhostRecordKartIndex(void *record) {
-    GhostRecord *ghostRecord = record;
+    GhostRecordHead *ghostRecord = record;
 
     if (ghostRecord->mFilled != 1) {
         return -1;
@@ -749,7 +749,7 @@ s32 GetGhostRecordKartIndex(void *record) {
 }
 
 u32 GetGhostRecordCourseId(void *record) {
-    GhostRecord *ghostRecord = record;
+    GhostRecordHead *ghostRecord = record;
 
     if (ghostRecord->mFilled != 1) {
         return 0;

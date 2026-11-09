@@ -187,24 +187,24 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
         case PLAYER_KIND_GHOST:
             switch (gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mGhostRecordIndex) {
                 case 0:
-                    *nameSlot = &data_0217aa08->mGhostRecords[0]->mName;
+                    *nameSlot = &data_0217aa08->mCourseGhostRecord->mHead.mName;
                     *emblemDataSlot = &data_0217aa08->mEmblemRecord->mEmblemData;
                     *b2 = g != FALSE ? 1 : 0;
-                    *b3 = data_0217aa08->mGhostRecords[0]->mUnk_08_2;
+                    *b3 = data_0217aa08->mCourseGhostRecord->mHead.mUnk_08_2;
                     *b4 = 0;
                     break;
                 case 1:
-                    *nameSlot = &data_0217aa08->mGhostRecords[1]->mName;
-                    *emblemDataSlot = &data_0217aa08->mGhostRecords[1]->mUnk_30;
-                    *b2 = data_0217aa08->mGhostRecords[1]->mUnk_08_1;
-                    *b3 = data_0217aa08->mGhostRecords[1]->mUnk_08_2;
-                    *b4 = data_0217aa08->mGhostRecords[1]->mUnk_2f_0;
+                    *nameSlot = &data_0217aa08->mSlotGhostRecords[0]->mHead.mName;
+                    *emblemDataSlot = &data_0217aa08->mSlotGhostRecords[0]->mEmblem;
+                    *b2 = data_0217aa08->mSlotGhostRecords[0]->mHead.mUnk_08_1;
+                    *b3 = data_0217aa08->mSlotGhostRecords[0]->mHead.mUnk_08_2;
+                    *b4 = data_0217aa08->mSlotGhostRecords[0]->mHead.mUnk_2f_0;
                     break;
                 case 2:
-                    *nameSlot = &data_0217aa08->mGhostRecords[2]->mName;
-                    *emblemDataSlot = &data_0217aa08->mGhostRecords[2]->mUnk_30;
+                    *nameSlot = &data_0217aa08->mSlotGhostRecords[1]->mHead.mName;
+                    *emblemDataSlot = &data_0217aa08->mSlotGhostRecords[1]->mEmblem;
                     *b2 = 1;
-                    *b3 = data_0217aa08->mGhostRecords[2]->mUnk_08_2;
+                    *b3 = data_0217aa08->mSlotGhostRecords[1]->mHead.mUnk_08_2;
                     *b4 = 1;
                     break;
             }
@@ -251,11 +251,12 @@ BOOL func_02044e9c(s32 courseId, s32 entryIndex) {
     if (gRaceSetup->mNextHeader.mRaceKind == 2) {
         return TRUE;
     }
-    ghostRecord = data_0217aa08->mGhostRecords[0];
-    if (ghostRecord->mFilled == 1) {
-        SetNextRaceEntry(entryIndex, ghostRecord->mCharacterIndex, ghostRecord->mKartIndex, PLAYER_KIND_GHOST, -1, 3);
+    ghostRecord = data_0217aa08->mCourseGhostRecord;
+    if (ghostRecord->mHead.mFilled == 1) {
+        SetNextRaceEntry(entryIndex, ghostRecord->mHead.mCharacterIndex, ghostRecord->mHead.mKartIndex,
+                         PLAYER_KIND_GHOST, -1, 3);
         gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = result;
-        MI_CpuCopy8(ghostRecord->mUnk_30, data_02175628[entryIndex].mUnk_28.mBuffer, 0xdcc);
+        MI_CpuCopy8(ghostRecord->mUnk_030, data_02175628[entryIndex].mUnk_28.mBuffer, 0xdcc);
         result = TRUE;
         GetGhostFinishTimeByIndex(0, &gRaceSetup->mGhostTime);
         for (i = 1; i <= 5; i++) {
@@ -266,19 +267,20 @@ BOOL func_02044e9c(s32 courseId, s32 entryIndex) {
 }
 
 s32 func_02044d4c(s32 courseId, s32 entryIndex) {
-    GhostRecord *ghostRecord;
+    Unk0202ddd8 *ghostRecord;
     s32 filled;
     u8 i;
 
     if (gRaceSetup->mNextHeader.mRaceKind == 2) {
         return 1;
     }
-    ghostRecord = data_0217aa08->mGhostRecords[1];
-    filled = ghostRecord->mFilled == 1 ? 1 : 0;
+    ghostRecord = data_0217aa08->mSlotGhostRecords[0];
+    filled = ghostRecord->mHead.mFilled == 1 ? 1 : 0;
     if (filled != 0) {
-        SetNextRaceEntry(entryIndex, ghostRecord->mCharacterIndex, ghostRecord->mKartIndex, PLAYER_KIND_GHOST, -1, 3);
+        SetNextRaceEntry(entryIndex, ghostRecord->mHead.mCharacterIndex, ghostRecord->mHead.mKartIndex,
+                         PLAYER_KIND_GHOST, -1, 3);
         gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = 1;
-        MI_CpuCopy8(&ghostRecord->mUnk_30[0x200], data_02175628[entryIndex].mUnk_28.mBuffer, 0xdcc);
+        MI_CpuCopy8(ghostRecord->mUnk_230, data_02175628[entryIndex].mUnk_28.mBuffer, 0xdcc);
         GetGhostFinishTimeByIndex(1, &gRaceSetup->mGhostTime);
         for (i = 1; i <= 5; i++) {
             GetGhostLapTimeByIndex(1, i, &gRaceSetup->mGhostLapTimes[i - 1]);
@@ -290,20 +292,21 @@ s32 func_02044d4c(s32 courseId, s32 entryIndex) {
 }
 
 BOOL func_02044bf8(s32 courseId, s32 entryIndex) {
-    GhostRecord *ghostRecord;
+    Unk0202ddd8 *ghostRecord;
     u8 i;
 
     if (gRaceSetup->mNextHeader.mRaceKind == 2) {
         return TRUE;
     }
-    ghostRecord = data_0217aa08->mGhostRecords[2];
-    if (ghostRecord != NULL && ghostRecord->mFilled == 1) {
-        SetNextRaceEntry(entryIndex, ghostRecord->mCharacterIndex, ghostRecord->mKartIndex, PLAYER_KIND_GHOST, -1, 3);
+    ghostRecord = data_0217aa08->mSlotGhostRecords[1];
+    if (ghostRecord != NULL && ghostRecord->mHead.mFilled == 1) {
+        SetNextRaceEntry(entryIndex, ghostRecord->mHead.mCharacterIndex, ghostRecord->mHead.mKartIndex,
+                         PLAYER_KIND_GHOST, -1, 3);
         gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = 2;
-        MI_CpuCopy8(&ghostRecord->mUnk_30[0x200], data_02175628[entryIndex].mUnk_28.mBuffer, 0xdcc);
-        GetGhostFinishTime(ghostRecord, &gRaceSetup->mGhostTime);
+        MI_CpuCopy8(ghostRecord->mUnk_230, data_02175628[entryIndex].mUnk_28.mBuffer, 0xdcc);
+        GetGhostFinishTime(&ghostRecord->mHead, &gRaceSetup->mGhostTime);
         for (i = 1; i <= 5; i++) {
-            GetGhostLapTime(ghostRecord, i, &gRaceSetup->mGhostLapTimes[i - 1]);
+            GetGhostLapTime(&ghostRecord->mHead, i, &gRaceSetup->mGhostLapTimes[i - 1]);
         }
         return TRUE;
     }
@@ -332,12 +335,12 @@ void SetCurrentRaceFromNext(void) {
             break;
         case MODE_TIME_ATTACK:
             n = 1;
-            ghostRecord = data_0217aa08->mGhostRecords[0];
-            if (ghostRecord->mFilled == 1) {
+            ghostRecord = data_0217aa08->mCourseGhostRecord;
+            if (ghostRecord->mHead.mFilled == 1) {
                 gRaceSetup->mFirstGhostRecordFilled = 1;
-                gRaceSetup->mFirstGhostRecordMinute = ghostRecord->mMinute;
-                gRaceSetup->mFirstGhostRecordSecond = ghostRecord->mSecond;
-                gRaceSetup->mFirstGhostRecordMillisecond = ghostRecord->mMillisecond;
+                gRaceSetup->mFirstGhostRecordMinute = ghostRecord->mHead.mMinute;
+                gRaceSetup->mFirstGhostRecordSecond = ghostRecord->mHead.mSecond;
+                gRaceSetup->mFirstGhostRecordMillisecond = ghostRecord->mHead.mMillisecond;
             } else {
                 gRaceSetup->mFirstGhostRecordFilled = 0;
                 gRaceSetup->mFirstGhostRecordMinute = 0;

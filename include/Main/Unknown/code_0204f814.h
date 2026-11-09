@@ -2,11 +2,11 @@
 
 #include "types.h"
 
-typedef struct GhostRecord GhostRecord;
+typedef struct GhostRecordHead GhostRecordHead;
 
 void func_0204f814(void);
 void func_0204f8a0(u8 a);
-void FillGhostParentParameter(GhostRecord *ghostRecord);
+void FillGhostParentParameter(GhostRecordHead *ghostRecord);
 void FillParentParameter(s32 a);
 BOOL func_0204fcec(u16 entryIndex, void *destination);
 s32 func_0204fe1c(u16 entryIndex);

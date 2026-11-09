@@ -69,32 +69,32 @@ void FillAndWriteCourseGhostRecord(s32 courseId, u16 entryIndex) {
 
     cupCourseIndex = FindCupCourseIndex();
     playerIndex = gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mIndex;
-    ghostRecord = data_0217aa08->mGhostRecords[0];
+    ghostRecord = data_0217aa08->mCourseGhostRecord;
     if (cupCourseIndex == -1) {
         return;
     }
     MI_CpuFill8(ghostRecord, 0, 0xe00);
     GetClockDateOrDefault(clockDate);
-    ghostRecord->mYear = clockDate[0];
-    ghostRecord->mMonth = clockDate[1];
-    ghostRecord->mDay = clockDate[2];
+    ghostRecord->mHead.mYear = clockDate[0];
+    ghostRecord->mHead.mMonth = clockDate[1];
+    ghostRecord->mHead.mDay = clockDate[2];
     tempValue = gRaceSetup->mCurrentEntries[entryIndex].mCharacterIndex;
-    ghostRecord->mCharacterIndex = (u8) tempValue;
+    ghostRecord->mHead.mCharacterIndex = (u8) tempValue;
     tempValue = gRaceSetup->mCurrentEntries[entryIndex].mKartIndex;
-    ghostRecord->mKartIndex = (u8) tempValue;
+    ghostRecord->mHead.mKartIndex = (u8) tempValue;
     tempValue = gRaceSetup->mCourseId;
-    ghostRecord->mCourseId = (u8) tempValue;
-    ghostRecord->mFilled = 1;
-    ghostRecord->mUnk_08_1 = 0;
-    ghostRecord->mUnk_08_2 = data_021759d0->mUnk_00;
-    ghostRecord->mUnk_08_4 = 0;
-    ghostRecord->mUnk_2f_0 = func_02056208();
+    ghostRecord->mHead.mCourseId = (u8) tempValue;
+    ghostRecord->mHead.mFilled = 1;
+    ghostRecord->mHead.mUnk_08_1 = 0;
+    ghostRecord->mHead.mUnk_08_2 = data_021759d0->mUnk_00;
+    ghostRecord->mHead.mUnk_08_4 = 0;
+    ghostRecord->mHead.mUnk_2f_0 = func_02056208();
     GetKartFinishTime(entryIndex, &kartTime.mMinute, &kartTime.mSecond, &kartTime.mMillisecond);
-    ghostRecord->mMinute = kartTime.mMinute;
-    ghostRecord->mSecond = kartTime.mSecond;
-    ghostRecord->mMillisecond = kartTime.mMillisecond;
-    MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, ghostRecord->mName, 0x14);
-    MI_CpuCopy8(data_02175628[playerIndex].mUnk_28.mBuffer, ghostRecord->mUnk_30, 0xdcc);
+    ghostRecord->mHead.mMinute = kartTime.mMinute;
+    ghostRecord->mHead.mSecond = kartTime.mSecond;
+    ghostRecord->mHead.mMillisecond = kartTime.mMillisecond;
+    MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, ghostRecord->mHead.mName, 0x14);
+    MI_CpuCopy8(data_02175628[playerIndex].mUnk_28.mBuffer, ghostRecord->mUnk_030, 0xdcc);
     MI_CpuFill8(lapBytes, 0, 0xf);
     for (lapNumber = 1; lapNumber <= GetLapCount(); lapNumber++) {
         byteOffset = (lapNumber - 1) * 3;
@@ -107,7 +107,7 @@ void FillAndWriteCourseGhostRecord(s32 courseId, u16 entryIndex) {
         lapBytes[byteOffset + 1] = tempValue >> 8;
         lapBytes[byteOffset + 2] = tempValue;
     }
-    MI_CpuCopy8(lapBytes, ghostRecord->mLapTimes, 0xf);
+    MI_CpuCopy8(lapBytes, ghostRecord->mHead.mLapTimes, 0xf);
     courseIndexByte = cupCourseIndex;
     WriteBackupCourseGhost(courseIndexByte, ghostRecord);
     if (IsCourseGhostBitSet(courseIndexByte) == 0) {
@@ -123,14 +123,14 @@ void ReadCourseGhostRecord(u32 courseId) {
 
     noGhost = FALSE;
     cupCourseIndex = FindCupCourseIndex(courseId);
-    ghostRecord = data_0217aa08->mGhostRecords[0];
+    ghostRecord = data_0217aa08->mCourseGhostRecord;
     if (cupCourseIndex == -1) {
         noGhost = TRUE;
     } else if (IsCourseGhostBitSet(cupCourseIndex) == 0) {
         noGhost = TRUE;
     }
     if (noGhost != FALSE) {
-        ghostRecord->mFilled = 0;
+        ghostRecord->mHead.mFilled = 0;
     } else {
         ReadBackupCourseGhost(cupCourseIndex, ghostRecord);
     }

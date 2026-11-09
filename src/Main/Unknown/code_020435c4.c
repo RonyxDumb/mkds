@@ -130,33 +130,33 @@ void func_02044380(MissionFileRow *missionFileRow, u32 tableRow, u32 tableColumn
 }
 
 void func_020442d0(u32 courseId) {
-    data_0217aa08->mGhostRecords[1]->mFilled = 0;
-    data_0217aa08->mGhostRecords[2]->mFilled = 0;
-    data_0217aa08->mGhostRecords[0]->mFilled = 0;
+    data_0217aa08->mSlotGhostRecords[0]->mHead.mFilled = 0;
+    data_0217aa08->mSlotGhostRecords[1]->mHead.mFilled = 0;
+    data_0217aa08->mCourseGhostRecord->mHead.mFilled = 0;
     ReadCourseGhostRecord(courseId);
     WaitThreadFunctionsDone();
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
     if (gBackupAccess->mErrorCode != 0) {
-        data_0217aa08->mGhostRecords[0]->mFilled = 0;
+        data_0217aa08->mCourseGhostRecord->mHead.mFilled = 0;
     }
 }
 
 void func_0204419c(u32 courseId, u32 b) {
-    data_0217aa08->mGhostRecords[1]->mFilled = 0;
-    data_0217aa08->mGhostRecords[2]->mFilled = 0;
-    data_0217aa08->mGhostRecords[0]->mFilled = 0;
-    data_0217aa08->mGhostRecords[1]->mFilled = 0;
-    data_0217aa08->mGhostRecords[2]->mFilled = 0;
-    data_0217aa08->mGhostRecords[0]->mFilled = 0;
+    data_0217aa08->mSlotGhostRecords[0]->mHead.mFilled = 0;
+    data_0217aa08->mSlotGhostRecords[1]->mHead.mFilled = 0;
+    data_0217aa08->mCourseGhostRecord->mHead.mFilled = 0;
+    data_0217aa08->mSlotGhostRecords[0]->mHead.mFilled = 0;
+    data_0217aa08->mSlotGhostRecords[1]->mHead.mFilled = 0;
+    data_0217aa08->mCourseGhostRecord->mHead.mFilled = 0;
     ReadCourseGhostRecord(courseId);
     WaitThreadFunctionsDone();
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
     if (gBackupAccess->mErrorCode != 0) {
-        data_0217aa08->mGhostRecords[0]->mFilled = 0;
+        data_0217aa08->mCourseGhostRecord->mHead.mFilled = 0;
     }
     ReadSlotGhostRecord(b);
     WaitThreadFunctionsDone();
@@ -164,28 +164,28 @@ void func_0204419c(u32 courseId, u32 b) {
         CARD_WaitBackupAsync();
     }
     if (gBackupAccess->mErrorCode != 0) {
-        data_0217aa08->mGhostRecords[1]->mFilled = 0;
+        data_0217aa08->mSlotGhostRecords[0]->mHead.mFilled = 0;
     }
 }
 
 void func_02044060(u32 courseId) {
-    GhostRecord *ghostRecord;
+    Unk0202ddd8 *ghostRecord;
     char path[0x80];
 
     ghostRecord = NULL;
-    data_0217aa08->mGhostRecords[1]->mFilled = 0;
-    data_0217aa08->mGhostRecords[2]->mFilled = 0;
-    data_0217aa08->mGhostRecords[0]->mFilled = 0;
-    data_0217aa08->mGhostRecords[1]->mFilled = 0;
-    data_0217aa08->mGhostRecords[2]->mFilled = 0;
-    data_0217aa08->mGhostRecords[0]->mFilled = 0;
+    data_0217aa08->mSlotGhostRecords[0]->mHead.mFilled = 0;
+    data_0217aa08->mSlotGhostRecords[1]->mHead.mFilled = 0;
+    data_0217aa08->mCourseGhostRecord->mHead.mFilled = 0;
+    data_0217aa08->mSlotGhostRecords[0]->mHead.mFilled = 0;
+    data_0217aa08->mSlotGhostRecords[1]->mHead.mFilled = 0;
+    data_0217aa08->mCourseGhostRecord->mHead.mFilled = 0;
     ReadCourseGhostRecord(courseId);
     WaitThreadFunctionsDone();
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
     if (gBackupAccess->mErrorCode != 0) {
-        data_0217aa08->mGhostRecords[0]->mFilled = 0;
+        data_0217aa08->mCourseGhostRecord->mHead.mFilled = 0;
     }
     if (TryFormatGhostPath(courseId, path, 0x80) != FALSE) {
         ghostRecord = LoadGhostRecordFile(path);
@@ -194,20 +194,20 @@ void func_02044060(u32 courseId) {
         return;
     }
     MI_CpuFill8(ghostRecord, 0, 0x1000);
-    ghostRecord->mFilled = 0;
+    ghostRecord->mHead.mFilled = 0;
 }
 
 void func_02043fb0(u32 courseId) {
-    data_0217aa08->mGhostRecords[1]->mFilled = 0;
-    data_0217aa08->mGhostRecords[2]->mFilled = 0;
-    data_0217aa08->mGhostRecords[0]->mFilled = 0;
+    data_0217aa08->mSlotGhostRecords[0]->mHead.mFilled = 0;
+    data_0217aa08->mSlotGhostRecords[1]->mHead.mFilled = 0;
+    data_0217aa08->mCourseGhostRecord->mHead.mFilled = 0;
     ReadCourseGhostRecord(courseId);
     WaitThreadFunctionsDone();
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
     if (gBackupAccess->mErrorCode != 0) {
-        data_0217aa08->mGhostRecords[0]->mFilled = 0;
+        data_0217aa08->mCourseGhostRecord->mHead.mFilled = 0;
     }
 }
 

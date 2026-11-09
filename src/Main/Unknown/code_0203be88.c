@@ -120,17 +120,17 @@ void GetClockTimeOrZero(RTCTime *time) {
     }
 }
 
-void func_0203bf04(GhostRecord *courseGhost, GhostRecord *slotGhost) {
+void func_0203bf04(GhostRecord *courseGhost, Unk0202ddd8 *slotGhost) {
     MI_CpuCopy8(courseGhost, slotGhost, 0x30);
-    MI_CpuCopy8(courseGhost->mUnk_30, &slotGhost->mUnk_30[0x200], 0xdcc);
+    MI_CpuCopy8(courseGhost->mUnk_030, slotGhost->mUnk_230, 0xdcc);
     if (data_0217aa08->mEmblemRecord->mFilled != 0 && data_0217aa08->mFirstBlock->mUnk_31_3 == 0) {
-        MI_CpuCopy8(data_0217aa08->mEmblemRecord->mEmblemData, slotGhost->mUnk_30, 0x200);
-        slotGhost->mUnk_08 |= 2;
+        MI_CpuCopy8(data_0217aa08->mEmblemRecord->mEmblemData, slotGhost->mEmblem, 0x200);
+        slotGhost->mHead.mUnk_08 |= 2;
     } else {
-        MI_CpuFill8(slotGhost->mUnk_30, 0, 0x200);
-        slotGhost->mUnk_08 &= ~2;
+        MI_CpuFill8(slotGhost->mEmblem, 0, 0x200);
+        slotGhost->mHead.mUnk_08 &= ~2;
     }
-    slotGhost->mUnk_2f_0 = func_02056208();
+    slotGhost->mHead.mUnk_2f_0 = func_02056208();
 }
 
 #pragma thumb on

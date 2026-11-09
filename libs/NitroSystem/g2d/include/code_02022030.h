@@ -34,6 +34,18 @@ typedef struct GXOamAttr {
     /* 00 */ u16 mUnk_00[4];
 } GXOamAttr;
 
+// Rotation and scaling parameters: four OAM entries whose last halfwords hold PA, PB, PC and PD.
+typedef struct GXOamAffine {
+    /* 00 */ u16 mUnk_00[3];
+    /* 06 */ s16 mPA;
+    /* 08 */ u16 mUnk_08[3];
+    /* 0e */ s16 mPB;
+    /* 10 */ u16 mUnk_10[3];
+    /* 16 */ s16 mPC;
+    /* 18 */ u16 mUnk_18[3];
+    /* 1e */ s16 mPD;
+} GXOamAffine;
+
 // Cell of a cell bank: the count, the attribute entries, then the bounds (absent when bit 0 of the bank's mUnk_02 is
 // clear).
 typedef struct Unk020224e0_c {

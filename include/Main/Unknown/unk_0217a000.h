@@ -131,8 +131,8 @@ typedef struct MissionRecordBlock {
     /* 04 */ MissionRecord mRecords[1];
 } MissionRecordBlock;
 
-// The 0xe00 bytes behind members 0x14 and 0x18 of Unk0217aa08.
-typedef struct GhostRecord {
+// The first 0x30 bytes of a ghost record.
+typedef struct GhostRecordHead {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ union {
         u32 mUnk_04;
@@ -165,8 +165,20 @@ typedef struct GhostRecord {
             u8 mUnk_2f_0 : 2;
         };
     };
-    /* 30 */ u8 mUnk_30[0xdd0];
+} GhostRecordHead;
+
+// The 0xe00 bytes behind member 0x14 of Unk0217aa08.
+typedef struct GhostRecord {
+    /* 000 */ GhostRecordHead mHead;
+    /* 030 */ u8 mUnk_030[0xdd0];
 } GhostRecord;
+
+// The 0x1000 bytes behind members 0x18 and 0x1c of Unk0217aa08.
+typedef struct Unk0202ddd8 {
+    /* 000 */ GhostRecordHead mHead;
+    /* 030 */ u8 mEmblem[0x200];
+    /* 230 */ u8 mUnk_230[0xdcc];
+} Unk0202ddd8;
 
 // One buddy: counts per kind of match, the date of the last result, the name and four flags; 60 entries from 0x04 of
 // BuddyRecordBlock.
@@ -218,7 +230,8 @@ typedef struct Unk0217aa08 {
     /* 08 */ GrandPrixRecordBlock *mGrandPrixRecordBlock;
     /* 0c */ CourseTimeRecordBlock *mCourseTimeRecordBlock;
     /* 10 */ MissionRecordBlock *mMissionRecordBlock;
-    /* 14 */ GhostRecord *mGhostRecords[3];
+    /* 14 */ GhostRecord *mCourseGhostRecord;
+    /* 18 */ Unk0202ddd8 *mSlotGhostRecords[2];
     /* 20 */ BuddyRecordBlock *mBuddyRecordBlock;
     /* 24 */ EmblemBlockData *mEmblemBlockData;
     /* 28 */ u8 mBusy;

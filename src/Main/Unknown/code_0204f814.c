@@ -197,7 +197,7 @@ void FillParentParameter(s32 a) {
     parentParameter->mUnk_0e = a != 0 ? 1 : 0;
 }
 
-void FillGhostParentParameter(GhostRecord *ghostRecord) {
+void FillGhostParentParameter(GhostRecordHead *ghostRecord) {
     Unk02143c30 *parentParameter;
     Unk0217aa00_24_50 *gameInfo;
     RTCTime time;

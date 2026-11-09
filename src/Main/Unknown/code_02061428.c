@@ -7,11 +7,11 @@
 void ReadSlotGhostRecords(void) {
     u8 i;
     u8 *records;
-    GhostRecord *record;
+    GhostRecordHead *record;
 
     records = data_0217aa08->mReadDestination;
     for (i = 0; i < 10; i++) {
-        record = (GhostRecord *) (records + i * 0x230);
+        record = (GhostRecordHead *) (records + i * 0x230);
         if (IsSlotGhostBitSet(i) != 0) {
             func_02057800(0, i, record);
             if (gBackupAccess->mBackupEnabled != 0) {

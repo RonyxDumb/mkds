@@ -13,6 +13,7 @@
 #include "code_02022a90.h" // NNSG2dCellTransferState
 
 typedef struct GhostRecord GhostRecord;
+typedef struct Unk0202ddd8 Unk0202ddd8;
 
 // Screen kinds of the player entry list (SetupPlayerEntryList's second argument, PlayerEntryList.mScreenKind).
 #define PLAYER_ENTRY_LIST_CHARACTER 0
@@ -324,7 +325,7 @@ typedef struct GhostScene {
     /* 8c8 */ s32 mRequestedCallbacksIndex;
     /* 8cc */ s32 mCurrentCallbacksIndex;
     /* 8d0 */ GhostRecord *mCourseGhostBuffer;
-    /* 8d4 */ GhostRecord *mSlotGhostBuffer;
+    /* 8d4 */ Unk0202ddd8 *mSlotGhostBuffer;
     /* 8d8 */ void *mHeap;
 } GhostScene;
 
