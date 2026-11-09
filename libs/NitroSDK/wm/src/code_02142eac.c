@@ -745,7 +745,7 @@ u16 WM_GetAllowedChannel(void) {
     if (WMi_CheckInitialized() != 0) {
         return 0x8000;
     }
-    return *HW_UNK_027FFCFA_BUF;
+    return SYSTEM_WORK->mNvramUserInfo.mUnk_7a;
 }
 
 // Returns the signal strength of the link, 0 when there is no link.
@@ -782,7 +782,7 @@ u16 WM_GetDispersionBeaconPeriod(void) {
     for (i = 0, sum = 0; i < 6; i++) {
         sum = sum + address[i];
     }
-    sum = sum + *HW_VBLANK_COUNT_BUF;
+    sum = sum + SYSTEM_WORK->mVblankCount;
     sum = sum * 7;
     return sum % 20 + 200;
 }
@@ -797,7 +797,7 @@ u16 WM_GetDispersionScanPeriod(void) {
     for (i = 0, sum = 0; i < 6; i++) {
         sum = sum + address[i];
     }
-    sum = sum + *HW_VBLANK_COUNT_BUF;
+    sum = sum + SYSTEM_WORK->mVblankCount;
     sum = sum * 13;
     return sum % 10 + 30;
 }

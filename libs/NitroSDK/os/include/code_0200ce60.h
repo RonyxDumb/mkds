@@ -10,14 +10,6 @@ typedef struct OSLockWord {
     /* 06 */ u16 mExtension;
 } OSLockWord;
 
-// Lock words in shared memory: card bus, cartridge bus, and the one OS_InitLock uses.
-#define HW_CARD_LOCK_BUF ((OSLockWord *) 0x027fffe0)
-#define HW_CTRDG_LOCK_BUF ((OSLockWord *) 0x027fffe8)
-#define HW_INIT_LOCK_BUF ((OSLockWord *) 0x027ffff0)
-#define HW_LOCK_ID_FLAG_MAIN ((u32 *) 0x027fffb0)
-#define HW_UNK_027FFFB4_BUF ((u32 *) 0x027fffb4)
-#define HW_SHARED_LOCK_BUF ((void *) 0x027fffc0)
-
 // Set to 1 by the first call of OS_InitLock; later calls return at once.
 extern s32 gLockInitialized;
 

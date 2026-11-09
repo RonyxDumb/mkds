@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_020aa81c.h"
+#include "code_0200fc8c.h"
 
 #include "Main/Unknown/code_02024974.h"
 #include "Main/Unknown/code_020a9ff4.h"
@@ -1322,7 +1323,7 @@ void PollKeyboard(void) {
         touchPoint.mTouch = 0;
         touchPoint.mValidity = 3;
     }
-    AdvanceKeyboardKeys(((reg_PAD_KEYINPUT | *HW_BUTTON_XY_BUF) ^ 0x2fff) & 0x2fff, touchPoint);
+    AdvanceKeyboardKeys(((reg_PAD_KEYINPUT | SYSTEM_WORK->mButtonXY) ^ 0x2fff) & 0x2fff, touchPoint);
 }
 
 #pragma thumb off

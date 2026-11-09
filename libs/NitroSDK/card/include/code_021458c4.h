@@ -49,7 +49,7 @@ typedef struct RomHeaderStart {
     };
 } RomHeaderStart;
 
-// The 0x160-byte ROM header the card leaves in shared memory at 0x027ffe00, and the copy of it kept for the
+// The 0x160-byte ROM header the card leaves in OSSystemWork.mRomHeader, and the copy of it kept for the
 // application.
 typedef struct CARDRomHeader {
     /* 00 */ RomHeaderStart mHead;
@@ -59,7 +59,6 @@ typedef struct CARDRomHeader {
     /* 84 */ u8 mUnk_84[0xdc];
 } CARDRomHeader;
 
-#define HW_ROM_HEADER_BUF ((CARDRomHeader *) 0x027ffe00)
 #define HW_CARD_ROM_HEADER ((CARDRomHeader *) 0x027ffa80)
 
 // The command block: mResult is the result of the last request.

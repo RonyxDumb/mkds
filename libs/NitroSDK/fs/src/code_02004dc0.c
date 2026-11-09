@@ -130,8 +130,8 @@ u32 FS_LoadOverlayInfo(FSOverlayInfo *info, u32 selector, u32 index) {
         FS_CloseFile(&file);
         return 1;
     }
-    region0 = &HW_ROM_HEADER_BUF->mHead.mOverlayTable0;
-    region1 = &HW_ROM_HEADER_BUF->mHead.mOverlayTable1;
+    region0 = &SYSTEM_WORK->mRomHeader.mHead.mOverlayTable0;
+    region1 = &SYSTEM_WORK->mRomHeader.mHead.mOverlayTable1;
     return FSi_LoadOverlayInfoCore(info, selector, index, &data_0216f36c, region0->mUnk_00, region0->mUnk_04,
                                    region1->mUnk_00, region1->mUnk_04);
 }
@@ -201,7 +201,7 @@ void FS_StartOverlay(FSOverlayInfo *info) {
     void (**initEnd)(void);
 
     size = FSi_GetOverlayBinarySize(info);
-    if (HW_WM_BOOT_BUF->mUnk_00 == 2) {
+    if (SYSTEM_WORK->mWmBootBuf.mUnk_00 == 2) {
         verified = 0;
         if (info->mUnk_1c.b[3] & 2) {
             if (info->mId < ((u8 *) &data_0216f340 - (u8 *) OverlaySignatures) / 20) {
@@ -399,7 +399,7 @@ void FSi_InitRom(u32 dmaNo) {
     CARD_Init();
     FS_InitArchive(&data_0216f36c);
     FS_RegisterArchiveName(&data_0216f36c, data_02161764, 3);
-    if (HW_WM_BOOT_BUF->mUnk_00 == 2) {
+    if (SYSTEM_WORK->mWmBootBuf.mUnk_00 == 2) {
         data_0216f35c.mUnk_00 = (u8 *) -1;
         data_0216f35c.mUnk_04 = 0;
         data_0216f364.mUnk_00 = (u8 *) -1;

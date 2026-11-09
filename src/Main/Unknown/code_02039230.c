@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_02039230.h"
+#include "code_0200fc8c.h"
 #include "Main/Unknown/code_02039530.h"
 #include "Main/Unknown/code_020431e4.h"
 #include "Main/Unknown/unk_02175000.h"
@@ -44,7 +45,7 @@ void ReadKeysIntoInputSlot(void) {
     if (data_021755dc.mUnk_24 != 0) {
         keys = ReadKeyBitsFromStream();
     } else {
-        keys = (u16) (((reg_PAD_KEYINPUT | *HW_BUTTON_XY_BUF) ^ 0x2fff) & 0x2fff);
+        keys = (u16) (((reg_PAD_KEYINPUT | SYSTEM_WORK->mButtonXY) ^ 0x2fff) & 0x2fff);
     }
     UpdateInputSlot(keys, &data_021755dc);
 }

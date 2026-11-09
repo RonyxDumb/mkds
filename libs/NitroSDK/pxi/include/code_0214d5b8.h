@@ -13,14 +13,6 @@ typedef struct PxiWord {
 // callbacks declare fewer or different parameter types.
 typedef void (*PXIFifoCallback)();
 
-// Fixed-address object; PXI_IsCallbackReady and PXI_SetFifoRecvCallback read and write mPxiHandleChecker.
-typedef struct Unk027ffc00 {
-    /* 000 */ u8 mUnk_000[0x388];
-    /* 388 */ u32 mPxiHandleChecker[2];
-} Unk027ffc00;
-
-#define HW_MAIN_MEM_SYSTEM ((Unk027ffc00 *) 0x027ffc00)
-
 extern PXIFifoCallback data_0218032c[32];
 extern u16 data_02180328;
 

@@ -1,13 +1,18 @@
 #pragma once
 
 #include "types.h"
+#include "code_0200c4a4.h"
+#include "code_0200ce60.h"
+#include "code_0200eddc.h"
+#include "code_021458c4.h"
+#include "code_0214d93c.h"
 
 typedef u32 OSIntrMode;
 
-// The boot information block in shared memory: the first halfword, then 0x3c bytes the game copies.
+// The boot information block in shared memory: the first halfword, then 0x3e bytes the game copies.
 typedef struct Unk027ffc40 {
     /* 00 */ u16 mUnk_00;
-    /* 02 */ u8 mUnk_02[0x3c];
+    /* 02 */ u8 mUnk_02[0x3e];
 } Unk027ffc40;
 
 // The user settings the system leaves in shared memory at 0x027ffc80: the owner data and the touch panel calibration
@@ -33,12 +38,49 @@ typedef struct Unk0214eadc {
     /* 62 */ u8 mDx2;
     /* 63 */ u8 mDy2;
     /* 64 */ u16 mUnk_64;
+    /* 66 */ u8 mUnk_66[0xe];
+    // The 6 bytes OS_GetMacAddress copies.
+    /* 74 */ u8 mUnk_74[6];
+    // The halfword WM_GetAllowedChannel returns.
+    /* 7a */ u16 mUnk_7a;
+    /* 7c */ u8 mUnk_7c[0x84];
 } Unk0214eadc;
 
-#define HW_WM_BOOT_BUF ((Unk027ffc40 *) 0x027ffc40)
-#define HW_VBLANK_COUNT_BUF ((vu32 *) 0x027ffc3c)
-#define HW_UNK_027FFC80_BUF ((Unk0214eadc *) 0x027ffc80)
-#define HW_UNK_027FFCF4_BUF ((void *) 0x027ffcf4)
+// The shared memory block at 0x027ffc00 that both processors read and write.
+typedef struct OSSystemWork {
+    /* 000 */ u8 mUnk_000[0x30];
+    /* 030 */ Unk027ffc30 mCartridgeModuleInfo;
+    /* 03c */ vu32 mVblankCount;
+    /* 040 */ Unk027ffc40 mWmBootBuf;
+    /* 080 */ Unk0214eadc mNvramUserInfo;
+    /* 180 */ u8 mUnk_180[0x20];
+    /* 1a0 */ OSArenaInfo mArenaInfo;
+    /* 1e8 */ RTCRawData mRealTimeClock;
+    /* 1f0 */ u8 mUnk_1f0[0x10];
+    /* 200 */ CARDRomHeader mRomHeader;
+    /* 360 */ u8 mUnk_360[0x28];
+    /* 388 */ u32 mPxiHandleChecker[2];
+    /* 390 */ u32 mMicLastAddress;
+    /* 394 */ u16 mMicSamplingData;
+    /* 396 */ u16 mWmCallbackControl;
+    /* 398 */ u8 mUnk_398[0x10];
+    /* 3a8 */ vu16 mButtonXY;
+    /* 3aa */ u16 mTouchPanel[2];
+    /* 3ae */ u8 mUnk_3ae[2];
+    /* 3b0 */ u32 mLockIdFlagMain[2];
+    /* 3b8 */ u8 mUnk_3b8[8];
+    /* 3c0 */ OSLockWord mLockVramC;
+    /* 3c8 */ u8 mUnk_3c8[0x18];
+    /* 3e0 */ OSLockWord mLockCard;
+    /* 3e8 */ OSLockWord mLockCartridge;
+    /* 3f0 */ OSLockWord mLockInit;
+    /* 3f8 */ u8 mUnk_3f8[2];
+    /* 3fa */ u16 mMmemCheckerSub;
+    /* 3fc */ u8 mUnk_3fc[4];
+} OSSystemWork;
+
+#define HW_MAIN_MEM_SYSTEM 0x027ffc00
+#define SYSTEM_WORK ((OSSystemWork *) HW_MAIN_MEM_SYSTEM)
 
 // Clears the IRQ disable bit and returns the previous bit.
 OSIntrMode OS_EnableInterrupts(void);

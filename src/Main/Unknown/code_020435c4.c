@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_020435c4.h"
+#include "code_0200fc8c.h"
 
 #include "Main/Unknown/unk_02175000.h"
 #include "Main/Unknown/code_02039530.h"
@@ -38,10 +39,10 @@
 #include "code_0200fe74.h"
 
 static inline void func_02043a34_inline(void) {
-    if ((*HW_BUTTON_XY_BUF & 0x8000) >> 15) {
+    if ((SYSTEM_WORK->mButtonXY & 0x8000) >> 15) {
         data_02175624->mPadKeys = 0;
     } else {
-        data_02175624->mPadKeys = ((reg_PAD_KEYINPUT | *HW_BUTTON_XY_BUF) ^ 0x2fff) & 0x2fff;
+        data_02175624->mPadKeys = ((reg_PAD_KEYINPUT | SYSTEM_WORK->mButtonXY) ^ 0x2fff) & 0x2fff;
     }
     UpdateTouchMicInput();
 }

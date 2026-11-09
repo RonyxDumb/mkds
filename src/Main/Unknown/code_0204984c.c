@@ -347,7 +347,7 @@ void func_02049f60(void) {
             e = TRUE;
             f = gWiFiSession->mUnk_0008.mState == 0;
         }
-        if (f != 0 && ((*HW_BUTTON_XY_BUF & 0x8000) >> 15)) {
+        if (f != 0 && ((SYSTEM_WORK->mButtonXY & 0x8000) >> 15)) {
             PM_GoSleepMode(12, 0, 0);
         }
         g = UpdateMessageScreen();

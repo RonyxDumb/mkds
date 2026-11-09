@@ -15,13 +15,11 @@ typedef enum {
     OS_ARENA_MAX = 9
 } OSArenaId;
 
-// Lo and Hi bound of every arena, kept at 0x027ffda0.
+// Lo and Hi bound of every arena, kept in OSSystemWork.mArenaInfo.
 typedef struct {
     void *lo[OS_ARENA_MAX];
     void *hi[OS_ARENA_MAX];
 } OSArenaInfo;
-
-#define HW_ARENA_INFO_BUF ((OSArenaInfo *) 0x027ffda0)
 
 // Writes back every data cache line by set and way (cp15 c7,c10,2) without invalidating.
 void DC_StoreAll(void);

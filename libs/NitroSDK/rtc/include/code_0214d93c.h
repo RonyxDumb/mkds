@@ -116,11 +116,23 @@ typedef struct RTCRawAlarm {
     /* 00 */ u32 : 8;
 } RTCRawAlarm;
 
-// The words the other processor writes into shared memory (fixed addresses; the alarm and time words share one).
-#define HW_UNK_027FFDE8_BUF ((RTCRawDate *) 0x027ffde8)
-#define HW_UNK_027FFDEA_BUF ((RTCRawStatus2 *) 0x027ffdea)
-#define HW_UNK_027FFDEC_TIME_BUF ((RTCRawTime *) 0x027ffdec)
-#define HW_UNK_027FFDEC_ALARM_BUF ((RTCRawAlarm *) 0x027ffdec)
+// The 8 bytes the other processor writes into shared memory: the views overlap, and the alarm and time words share one.
+typedef union RTCRawData {
+    u32 mWords[2];
+    RTCRawDate mDate;
+    struct {
+        /* 00 */ u8 mUnk_00[2];
+        /* 02 */ RTCRawStatus2 mValue;
+    } mStatus2;
+    struct {
+        /* 00 */ u8 mUnk_00[4];
+        /* 04 */ RTCRawTime mValue;
+    } mTime;
+    struct {
+        /* 00 */ u8 mUnk_00[4];
+        /* 04 */ RTCRawAlarm mValue;
+    } mAlarm;
+} RTCRawData;
 
 // The one request in flight, 0x24 bytes.
 typedef struct RTCWork {

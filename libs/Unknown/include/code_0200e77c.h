@@ -4,7 +4,6 @@
 
 struct OSThread;
 
-#define HW_UNK_027FFFFA_BUF ((u16 *) 0x027ffffa)
 #define HW_CHECK_DEBUGGER_SW ((u16 *) 0x027ffc10)
 #define HW_UNK_027FF814_BUF ((u16 *) 0x027ff814)
 #define HW_UNK_027FFC14_BUF ((u16 *) 0x027ffc14)

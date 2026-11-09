@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_02008880.h"
+#include "code_0200fc8c.h"
 #include "code_02003024.h"
 #include "code_02003be0.h"
 #include "code_021458c4.h"
@@ -33,7 +34,7 @@ u32 func_02008880(FSFile *a) {
         }
         FS_SeekFile(a, v4, 0);
     } else {
-        headerPtr = &HW_ROM_HEADER_BUF->mHead;
+        headerPtr = &SYSTEM_WORK->mRomHeader.mHead;
     }
     if (headerPtr != NULL) {
         size = headerPtr->mUnk_2c + 0x268 + headerPtr->mUnk_3c;

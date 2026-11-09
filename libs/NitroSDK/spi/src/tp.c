@@ -29,8 +29,8 @@ void TPi_TpCallback(u32 tag, u32 data, BOOL err) {
             gTouchPanelState.mAutoSampleIndex = 0;
         }
         sample = gTouchPanelState.mAutoSampleBuffer + gTouchPanelState.mAutoSampleIndex;
-        spiTp.halfs[0] = HW_UNK_027FFFAA_BUF[0];
-        spiTp.halfs[1] = HW_UNK_027FFFAA_BUF[1];
+        spiTp.halfs[0] = SYSTEM_WORK->mTouchPanel[0];
+        spiTp.halfs[1] = SYSTEM_WORK->mTouchPanel[1];
         sample->mX = spiTp.e.mX;
         sample->mY = spiTp.e.mY;
         sample->mTouch = (u8) spiTp.e.mTouch;
@@ -47,8 +47,8 @@ void TPi_TpCallback(u32 tag, u32 data, BOOL err) {
         case 0:
             switch (command) {
                 case TP_REQUEST_COMMAND_SAMPLING:
-                    spiTpRaw.halfs[0] = HW_UNK_027FFFAA_BUF[0];
-                    spiTpRaw.halfs[1] = HW_UNK_027FFFAA_BUF[1];
+                    spiTpRaw.halfs[0] = SYSTEM_WORK->mTouchPanel[0];
+                    spiTpRaw.halfs[1] = SYSTEM_WORK->mTouchPanel[1];
                     gTouchPanelState.mState = TP_STATE_READY;
                     gTouchPanelState.mRawSample.mX = spiTpRaw.e.mX;
                     gTouchPanelState.mRawSample.mY = spiTpRaw.e.mY;
@@ -111,7 +111,7 @@ void TP_Init(void) {
 // Computes the calibration from the values stored in the shared block; zeroes it when there are none or they are
 // refused.
 BOOL TP_GetUserInfo(TPCalibrateParam *calibrate) {
-    Unk0214eadc *info = HW_UNK_027FFC80_BUF;
+    Unk0214eadc *info = &SYSTEM_WORK->mNvramUserInfo;
     u16 rawX1;
     u16 y1;
     u16 x2;

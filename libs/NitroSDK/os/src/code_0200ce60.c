@@ -20,22 +20,22 @@ void OS_InitLock(void) {
         return;
     }
     gLockInitialized = 1;
-    HW_INIT_LOCK_BUF->mLockFlag = 0;
-    OS_LockByWord(0x7e, HW_INIT_LOCK_BUF, 0);
-    lockWord = HW_INIT_LOCK_BUF;
+    SYSTEM_WORK->mLockInit.mLockFlag = 0;
+    OS_LockByWord(0x7e, &SYSTEM_WORK->mLockInit, 0);
+    lockWord = &SYSTEM_WORK->mLockInit;
     if (lockWord->mExtension != 0) {
         do {
             OSi_WaitByLoop();
         } while (lockWord->mExtension != 0);
     }
-    *HW_LOCK_ID_FLAG_MAIN = 0xffffffff;
-    *HW_UNK_027FFFB4_BUF = 0xffff0000;
+    SYSTEM_WORK->mLockIdFlagMain[0] = 0xffffffff;
+    SYSTEM_WORK->mLockIdFlagMain[1] = 0xffff0000;
     zero = 0;
-    MIi_CpuClear32(zero, HW_SHARED_LOCK_BUF, 0x28);
+    MIi_CpuClear32(zero, &SYSTEM_WORK->mLockVramC, 0x28);
     reg_MI_EXMEMCNT |= 0x800;
     reg_MI_EXMEMCNT |= 0x80;
-    OS_UnlockByWord(0x7e, HW_INIT_LOCK_BUF, 0);
-    OS_LockByWord(0x7f, HW_INIT_LOCK_BUF, 0);
+    OS_UnlockByWord(0x7e, &SYSTEM_WORK->mLockInit, 0);
+    OS_LockByWord(0x7f, &SYSTEM_WORK->mLockInit, 0);
 }
 
 s32 OSi_DoLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), s32 disableFiq) {
@@ -106,9 +106,9 @@ s32 OSi_DoTryLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), 
 }
 
 s32 OS_UnlockCartridge(u16 lockID) {
-    return OSi_DoUnlockByWord(lockID, HW_CTRDG_LOCK_BUF, OSi_FreeCartridgeBus, 1);
+    return OSi_DoUnlockByWord(lockID, &SYSTEM_WORK->mLockCartridge, OSi_FreeCartridgeBus, 1);
 }
 
 s32 OS_TryLockCartridge(u16 lockID) {
-    return OSi_DoTryLockByWord(lockID, HW_CTRDG_LOCK_BUF, OSi_AllocateCartridgeBus, 1);
+    return OSi_DoTryLockByWord(lockID, &SYSTEM_WORK->mLockCartridge, OSi_AllocateCartridgeBus, 1);
 }

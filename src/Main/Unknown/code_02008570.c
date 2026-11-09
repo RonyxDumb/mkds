@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_02008570.h"
+#include "code_0200fc8c.h"
 #include "Main/Unknown/code_0200850c.h"
 #include "Main/Unknown/code_02008000.h"
 #include "Main/Unknown/code_02000a58.h"
@@ -55,13 +56,13 @@ int func_02008570(FSFile *file, void *buffer, u32 bufferSize) {
             }
             seekOffset = func_02008570_inline(header);
         } else {
-            seekOffset = func_02008570_inline(HW_ROM_HEADER_BUF);
+            seekOffset = func_02008570_inline(&SYSTEM_WORK->mRomHeader);
             openedHere = TRUE;
             FS_InitFile(&openedFile);
             FS_OpenFileDirect(&openedFile, FS_FindArchive(data_usa_0216178c, 3), 0, seekOffset + 0x88, -1);
             activeFile = &openedFile;
             basePosition = openedFile.mUnk_2c - openedFile.mProp.w.mUnk_04;
-            MI_CpuCopy8(HW_ROM_HEADER_BUF, header, 0x160);
+            MI_CpuCopy8(&SYSTEM_WORK->mRomHeader, header, 0x160);
             header->mUnk_60 |= 0x00406000;
         }
         if (remaining >= 0x88) {

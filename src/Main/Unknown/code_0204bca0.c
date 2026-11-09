@@ -77,7 +77,7 @@ void CreateRomArchiveBlock(FSFile *file, s32 appendOverlays) {
     if (noFile != FALSE) {
         imageOffset = 0;
         positionOffset = 0;
-        header = &HW_ROM_HEADER_BUF->mHead;
+        header = &SYSTEM_WORK->mRomHeader.mHead;
     } else {
         i = file->mUnk_2c - file->mProp.w.mUnk_04;
         imageOffset = i + file->mProp.w.mUnk_04;
@@ -92,8 +92,8 @@ void CreateRomArchiveBlock(FSFile *file, s32 appendOverlays) {
         tables[2] = header->mOverlayTable0;
         tables[3] = header->mOverlayTable1;
     } else {
-        tables[0] = HW_ROM_HEADER_BUF->mHead.mFatTable;
-        tables[1] = HW_ROM_HEADER_BUF->mHead.mFntTable;
+        tables[0] = SYSTEM_WORK->mRomHeader.mHead.mFatTable;
+        tables[1] = SYSTEM_WORK->mRomHeader.mHead.mFntTable;
         positionOffset = 0;
         tables[2].mUnk_00 = (u8 *) (header->mOverlayTable0Offset + imageOffset);
         tables[2].mUnk_04 = header->mOverlayTable0Size;

@@ -83,7 +83,7 @@ void PM_Init(void) {
         gPowerRegisterSlots[i].mFlag = 0;
     }
     OS_InitMutex(&data_02180458);
-    data_02180440 = *HW_VBLANK_COUNT_BUF;
+    data_02180440 = SYSTEM_WORK->mVblankCount;
 }
 
 // Receive handler of the tag-8 channel. An error finishes the command with 2. Replies 0x70-0x73 store their byte
@@ -343,7 +343,7 @@ void PMi_SendPxiData(u32 data) {
 }
 
 static inline u32 OS_GetVBlankCount(void) {
-    return *HW_VBLANK_COUNT_BUF;
+    return SYSTEM_WORK->mVblankCount;
 }
 
 // Runs the pre-sleep callbacks, switches both backlights and the screens off, asks the other processor to sleep (wake
@@ -375,7 +375,7 @@ void PM_GoSleepMode(u32 trigger, u32 logic, u32 keyPattern) {
     ime = reg_OS_IME;
     reg_OS_IME = 1;
     if ((trigger & 8) != 0) {
-        if (HW_WM_BOOT_BUF->mUnk_00 == 2) {
+        if (SYSTEM_WORK->mWmBootBuf.mUnk_00 == 2) {
             trigger &= ~8;
         }
     }
@@ -437,7 +437,7 @@ BOOL PMi_SetLCDPower(u32 sw, u32 led, u32 skip, u32 isSync) {
     switch (sw) {
         case 1:
             if (skip == 0) {
-                if (*HW_VBLANK_COUNT_BUF - data_02180440 <= 7) {
+                if (SYSTEM_WORK->mVblankCount - data_02180440 <= 7) {
                     return 0;
                 }
             }
@@ -452,7 +452,7 @@ BOOL PMi_SetLCDPower(u32 sw, u32 led, u32 skip, u32 isSync) {
             break;
         case 0:
             reg_GX_POWCNT &= ~1;
-            data_02180440 = *HW_VBLANK_COUNT_BUF;
+            data_02180440 = SYSTEM_WORK->mVblankCount;
             if (led != 0) {
                 if (isSync != 0) {
                     PMi_SetLED(led);
