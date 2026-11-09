@@ -3,5 +3,5 @@
 #include "Main/Unknown/code_020e005c.h"
 
 void GetGroupFollowerCurveXz(GroupFollower *follower, Vec3 *output) {
-    GetCurvePointXz((u32) &follower->mPath->mSegments[follower->mSegmentIndex], follower->mProgress, (u32) output);
+    GetCurvePointXz(follower->mPath->mSegments[follower->mSegmentIndex].mPoints, follower->mProgress, output);
 }

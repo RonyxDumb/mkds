@@ -683,7 +683,7 @@ void *func_020fb208(void *param_1, ItemKouraW *item, void *param_3) {
     void *t;
 
     if (item != NULL && param_3 != NULL) {
-        func_020ff1b8(Vec3DotUnrounded(&item->mUnk_000.mVelocity, (Vec3 *) &item->mDirection) < 0 ? 1 : 0,
+        func_020ff1b8(Vec3DotUnrounded(&item->mUnk_000.mVelocity, &item->mDirection) < 0 ? 1 : 0,
                       &item->mUnk_000.mVelocity.y);
     }
     t = CopyItemObjectData(param_1, item, param_3);
@@ -739,7 +739,7 @@ void InitItemKouraWFromData(ItemKouraW *item) {
     Matrix3x3FromQuaternion(&item->mUnk_000.mUnk_94.mUnk_00_m, &directionQuaternion.mQuaternion);
 }
 
-void DrawItemKouraWModel(ItemKouraW *item, s32 param_2, s32 param_3) {
+void DrawItemKouraWModel(ItemKouraW *item, Vec3 *param_2, s32 param_3) {
     u32 alpha;
     Vec3 scale;
     void *matrix;
@@ -762,7 +762,7 @@ void DrawItemKouraWModel(ItemKouraW *item, s32 param_2, s32 param_3) {
         }
     }
     if (item->mUnk_000.mFlags & 0x80000) {
-        matrix = BuildItemObjectMatrix(&item->mUnk_000, (Vec3 *) param_2);
+        matrix = BuildItemObjectMatrix(&item->mUnk_000, param_2);
     } else {
         Vec3 *position;
 
@@ -787,7 +787,7 @@ void DrawItemKouraWModel(ItemKouraW *item, s32 param_2, s32 param_3) {
     }
 }
 
-void DrawItemKouraW(ItemKouraW *item, s32 param_2, s32 param_3) {
+void DrawItemKouraW(ItemKouraW *item, Vec3 *param_2, s32 param_3) {
     ModelEffect *effect;
 
     if (item->mState != 7) {
@@ -1146,7 +1146,7 @@ void StartCourseMapItemObjects(void) {
         row = &gCourseMap->mRows[i];
         if (row->mKind == 0x6d) {
             kind = row->mUnk_28;
-            if (func_01ffdee4(row, 0, 0, 0xa000, 8, -2, 0, &m, 0, 0, 0, 0, 0, &v) == 0) {
+            if (func_01ffdee4(&row->mUnk_00, 0, 0, 0xa000, 8, -2, 0, &m, 0, 0, 0, 0, 0, &v) == 0) {
                 m = data_02159cb0;
             }
             item = func_020fa3d0_inline(kind, 8, row, &m);

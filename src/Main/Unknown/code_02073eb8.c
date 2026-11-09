@@ -71,9 +71,9 @@ void ApplyCameraLookAt(Camera *camera) {
     Vec3 *viewLookAt = &camera->mViewLookAt;
 
     data_021704dc[0] = *viewPos;
-    data_021704dc[1] = *(Vec3 *) camera;
+    data_021704dc[1] = camera->mUp;
     data_021704dc[2] = *viewLookAt;
-    G3i_LookAt_(viewPos, (Vec3 *) camera, viewLookAt, 0, &data_usa_021702c8);
+    G3i_LookAt_(viewPos, &camera->mUp, viewLookAt, 0, &data_usa_021702c8);
     data_0217029c.mFlag &= ~0xe8;
 }
 
@@ -234,7 +234,7 @@ void UpdateChaseCameraCollision(Camera *camera, Kart *kart, Vec3 *forward) {
 
     data_usa_0217ac80 = 0;
     camera->mUnk_258 = FALSE;
-    if (func_01ffdee4(&camera->mPos, (u32 *) &camera->mPrevPos, 0, data_usa_021656c0, 2, -2, &pushOut, &w, (s32 *) &x,
+    if (func_01ffdee4(&camera->mPos, &camera->mPrevPos, 0, data_usa_021656c0, 2, -2, &pushOut, &w, &x,
                       &j, NULL, NULL, NULL, NULL) != 0 &&
         (j & 0xc00) == 0) {
         if (j & 0x214300) {
@@ -736,7 +736,7 @@ void UpdateCameraAngleEntry(Camera *camera) {
     camera->mLookAt.y = camera->mLookAt.y - kart->mHopHeight;
     camera->mPos.y = camera->mPos.y - kart->mHopHeight;
     if (gRaceSetup->mMode != MODE_MISSION_RUN && gRaceSetup->mMode != MODE_BATTLE) {
-        if (func_01ffdee4(&camera->mPos, (u32 *) &camera->mPrevPos, 0, data_usa_021656c0 >> 1, 2, -2, &pushOut, NULL,
+        if (func_01ffdee4(&camera->mPos, &camera->mPrevPos, 0, data_usa_021656c0 >> 1, 2, -2, &pushOut, NULL,
                           NULL, NULL, NULL, NULL, NULL, NULL) != 0) {
             kart = GetKart(camera->mFollowedKartIndex);
             v = &kart->mUnk_120;

@@ -57,7 +57,7 @@ void func_01ffa4b4(Kart *p, Vec3 *a) {
         return;
     }
     if (func_01ffdee4(&p->mCollisionCenter, &p->mPrevCollisionCenter, &p->mTurnedForward, p->mRadius, 1,
-                      p->mCollisionSlot, &v1, &v5, &v2, &f, (u32 *) &v3, (s32 *) &v4, &h, &w) != 0) {
+                      p->mCollisionSlot, &v1, &v5, &v2, &f, &v3, &v4, &h, &w) != 0) {
         m = f & 0x1e34ef;
         VEC_Add(&p->mPos, &v1, &p->mPos);
         AdvanceCourseColorBlend(&p->mKartModelsEntry->mUnk_040, (f & 0x3c000000) >> 26, p->mVelocityLength);

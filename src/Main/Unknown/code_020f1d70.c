@@ -199,7 +199,7 @@ void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
     direction = &object->mDirection;
     VEC_Add(velocity, pos, pos);
     n = func_01ffdee4(pos, &object->mUnk_000.mPrevPos, 0, object->mUnk_000.mUnk_dc, object->mUnk_164,
-                      object->mUnk_000.mCollisionSlotIndex, &v1, &hitNormal, (s32 *) &v3,
+                      object->mUnk_000.mCollisionSlotIndex, &v1, &hitNormal, &v3,
                       &object->mUnk_000.mCollisionBits, NULL, NULL, NULL, NULL);
     if (n != 0) {
         flag80000 = object->mUnk_000.mCollisionBits & 0x80000;

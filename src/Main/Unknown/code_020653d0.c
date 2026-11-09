@@ -159,7 +159,7 @@ void func_020653d0(Kart *kart, ParticipantKartRecord *record, s32 stepCount) {
         kart->mPrevPos = kart->mPos;
         kart->mDrawMatrixPos = kart->mPrevPos;
         state->mUnk_00 = kart->mDrawMatrixPos;
-        *(Vec3 *) &kart->mUnk_25c = data_02154f94;
+        kart->mUnk_25c = data_02154f94;
         ComputeKartPointAlongUp(&kart->mCollisionCenter, &newPos, 0x400, kart);
         SetKartPrevCollisionCenter(kart);
         state->mUnk_b4++;
@@ -217,7 +217,7 @@ void func_020653d0(Kart *kart, ParticipantKartRecord *record, s32 stepCount) {
                     kart->mUnk_44 &= ~0x2000;
                 }
             }
-            if (func_01ffdee4(&newPos, (u32 *) &prevPos, 0, kart->mRadius, 1, kart->mCollisionSlot, &collisionOffset, 0,
+            if (func_01ffdee4(&newPos, &prevPos, 0, kart->mRadius, 1, kart->mCollisionSlot, &collisionOffset, 0,
                               0, &w, 0, 0, 0, 0)) {
                 VEC_Add(&newPos, &collisionOffset, &newPos);
             }

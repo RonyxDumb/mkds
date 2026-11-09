@@ -83,7 +83,7 @@ void InitItemBox(ItemBox *itemBox, Unk020de6a8_1 *row) {
         itemBox->mUnk_0a8 = 1;
         itemBox->mUnk_0ac = 0;
         itemBox->mUnk_0f8 = 1;
-        SetMapObjectScale(&itemBox->mUnk_000, (Vec3 *) data_02158694);
+        SetMapObjectScale(&itemBox->mUnk_000, &data_02158694);
     }
     if (itemBox->mUnk_0f8 != 0) {
         itemBox->mUnk_0f2 = 0;

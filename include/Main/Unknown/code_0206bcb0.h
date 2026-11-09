@@ -366,11 +366,16 @@ typedef struct Kart {
     /* 240 */ u32 mTurnedForwardEaseFactor;
     /* 244 */ Vec3 mGroundNormal;
     /* 250 */ Vec3 mUnk_250;
-    /* 25c */ s32 mUnk_25c;
-    // Vertical speed added to mVelocity.y after mVelocity is rebuilt each step, so it persists; mGravity is added to
-    // it, it is reset to -0x2b9 or -0xd9d on a ground hit while negative, and a hop start adds a kick.
-    /* 260 */ s32 mVerticalSpeed;
-    /* 264 */ u8 mUnk_264[4];
+    /* 25c */ union {
+        Vec3 mUnk_25c;
+        struct {
+            /* 25c */ s32 mUnk_25c_x;
+            // Vertical speed added to mVelocity.y after mVelocity is rebuilt each step, so it persists; mGravity is
+            // added to it, it is reset to -0x2b9 or -0xd9d on a ground hit while negative, and a hop start adds a kick.
+            /* 260 */ s32 mVerticalSpeed;
+            /* 264 */ u8 mUnk_264[4];
+        };
+    };
     /* 268 */ Vec3 mUnk_268;
     /* 274 */ s32 mUnk_274;
     /* 278 */ Vec3 mForward;

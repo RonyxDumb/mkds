@@ -16,8 +16,8 @@
 #include "code_02147cd8.h"
 #include "registers.h"
 
-BOOL func_01ffdee4(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, void *g, void *h, u32 *o, u32 *j, int *k,
-                   u16 *l, u32 *m) {
+BOOL func_01ffdee4(Vec3 *a, Vec3 *b, Vec3 *c, int r, u16 fl, short e, Vec3 *f, Vec3 *g, Vec3 *h, u32 *o, Vec3 *j,
+                   Vec3 *k, u16 *l, u32 *m) {
     u16 *pl;
     Unk0217b614_08 *ta;
     s64 ss;
@@ -72,9 +72,9 @@ BOOL func_01ffdee4(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, v
     }
     gCollisionHitCount = 0;
     kp = &gCourseCollision;
-    pa = *(Vec3 *) a;
+    pa = *a;
     if (b != NULL) {
-        pb = *(Vec3 *) b;
+        pb = *b;
     }
     x = (pa.x - kp->mUnk_14) >> 12;
     ss = (s64) r * r;
@@ -481,9 +481,9 @@ BOOL func_01ffdee4(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, v
         }
     }
     if (k != NULL) {
-        ((Vec3 *) k)->x = 0;
-        ((Vec3 *) k)->y = 0;
-        ((Vec3 *) k)->z = 0;
+        k->x = 0;
+        k->y = 0;
+        k->z = 0;
     }
     if (l != NULL) {
         *l = 0;
@@ -502,7 +502,7 @@ BOOL func_01ffdee4(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, v
         }
         for (i = 0; i < gFoundCollisionSlotCount; i++) {
             ob = gFoundCollisionSlotObjects[i];
-            if (func_020e1d10(ob, a, r, fl, &wa, &wb, j != NULL ? &ud : 0, &hw, (Vec3 *) k, l)) {
+            if (func_020e1d10(ob, a, r, fl, &wa, &wb, j != NULL ? &ud : 0, &hw, k, l)) {
                 ra |= data_0215690c;
                 ra |= 1 << hw;
                 if (gCollisionHitCount == 16) {
@@ -532,13 +532,13 @@ BOOL func_01ffdee4(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, v
         return rv;
     }
     if (g != NULL) {
-        *(Vec3 *) g = wa.mUnk_1c;
+        *g = wa.mUnk_1c;
     }
     if (h != NULL) {
-        *(Vec3 *) h = wb.mUnk_1c;
+        *h = wb.mUnk_1c;
     }
     if (j != NULL) {
-        *(Vec3 *) j = ud;
+        *j = ud;
     }
     if (f != NULL) {
         uc.y = wa.mUnk_04 > wb.mUnk_04 ? wa.mUnk_04 : wb.mUnk_04;
@@ -552,9 +552,9 @@ BOOL func_01ffdee4(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, v
                     uc.y = 0;
                     ra = (ra & 0xffe1cb10) | data_02156910;
                     if (g != NULL) {
-                        ((Vec3 *) g)->x = 0;
-                        ((Vec3 *) g)->y = 0;
-                        ((Vec3 *) g)->z = 0;
+                        g->x = 0;
+                        g->y = 0;
+                        g->z = 0;
                     }
                 } else {
                     ra &= ~0x10000;
@@ -584,13 +584,13 @@ BOOL func_01ffdee4(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, v
         uc.x += wa.mUnk_0c < wb.mUnk_0c ? wa.mUnk_0c : wb.mUnk_0c;
         uc.z = wa.mUnk_08 > wb.mUnk_08 ? wa.mUnk_08 : wb.mUnk_08;
         uc.z += wa.mUnk_14 < wb.mUnk_14 ? wa.mUnk_14 : wb.mUnk_14;
-        ((Vec3 *) f)->x = uc.x >> 10;
-        ((Vec3 *) f)->y = uc.y >> 10;
-        ((Vec3 *) f)->z = uc.z >> 10;
+        f->x = uc.x >> 10;
+        f->y = uc.y >> 10;
+        f->z = uc.z >> 10;
         if ((ra & 0x214300) && c != 0 && k != NULL && h != NULL) {
             cc.x = cc.x + cd.x;
             cc.z = cc.z + cd.z;
-            qq = (s64) cc.x * ((Vec3 *) h)->z - (s64) cc.z * ((Vec3 *) h)->x;
+            qq = (s64) cc.x * h->z - (s64) cc.z * h->x;
             if (qq < -16 || qq > 16) {
                 cd.x = ((s64) cc.x * (c)->x) >> 12;
                 cd.z = ((s64) cc.z * (c)->z) >> 12;
@@ -604,8 +604,8 @@ BOOL func_01ffdee4(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, v
                     cc.x = ((s64) cc.x * (r >> 5)) >> 12;
                     cc.y = ((s64) cc.y * (r >> 5)) >> 12;
                     cc.z = ((s64) cc.z * (r >> 5)) >> 12;
-                    ((Vec3 *) k)->x += cc.x;
-                    ((Vec3 *) k)->z += cc.z;
+                    k->x += cc.x;
+                    k->z += cc.z;
                 }
             }
         }

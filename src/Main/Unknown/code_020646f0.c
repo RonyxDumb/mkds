@@ -59,7 +59,7 @@ void func_020646f0(Kart *kart, s32 b) {
     g = kart->mPos;
     g.y = g.y + 0x1000;
     kart->mPos.y = kart->mPos.y - 0x1400;
-    if (func_01ffdee4(&kart->mPos, (u32 *) &g, &kart->mTurnedForward, 0x5000, 1, -2, &e, &f, NULL, NULL, NULL, NULL,
+    if (func_01ffdee4(&kart->mPos, &g, &kart->mTurnedForward, 0x5000, 1, -2, &e, &f, NULL, NULL, NULL, NULL,
                       NULL, NULL) != 0) {
         h.x = (s64) f.x * 0x5000 >> 12;
         h.y = (s64) f.y * 0x5000 >> 12;

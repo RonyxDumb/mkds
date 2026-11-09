@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void GetCurvePoint(u32 points, u32 fraction, u32 result);
+void GetCurvePoint(const Vec3 *points, u32 fraction, Vec3 *result);

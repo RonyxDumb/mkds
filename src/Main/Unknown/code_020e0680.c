@@ -216,7 +216,7 @@ void func_020e2630(u32 a, Unk020e1e98 *vehicle) {
     u32 hitFlags;
     Unk020e1e98_0b4 targetRotation;
     Vec3 previousPosition;
-    s32 out[3];
+    Vec3 out;
     Vec3 u;
     Vec3 testPosition;
 
@@ -245,7 +245,7 @@ void func_020e2630(u32 a, Unk020e1e98 *vehicle) {
         testPosition.y = vehicle->mUnk_000.mPos.y + (f ? 0xf000 : 0);
         testPosition.z = vehicle->mUnk_000.mPos.z;
         u = testPosition;
-        if (func_01ffdee4(&u, NULL, 0, 0xf000, 8, -2, out, &u, NULL, &hitFlags, NULL, NULL, NULL, NULL) != 0) {
+        if (func_01ffdee4(&u, NULL, 0, 0xf000, 8, -2, &out, &u, NULL, &hitFlags, NULL, NULL, NULL, NULL) != 0) {
             if (hitFlags & 0x1e34ef) {
                 QuaternionFromYAxisToVec3(&u, &vehicle->mUnk_0b4);
                 AdvanceCourseColorBlend(&vehicle->mUnk_132, (hitFlags & 0x3c000000) >> 26, 0x5000);
@@ -270,7 +270,7 @@ void func_020e2630(u32 a, Unk020e1e98 *vehicle) {
                 }
             }
             if ((hitFlags & 0x214300) && f) {
-                vehicle->mUnk_000.mPos.y = vehicle->mUnk_000.mPos.y + out[1];
+                vehicle->mUnk_000.mPos.y = vehicle->mUnk_000.mPos.y + out.y;
                 vehicle->mUnk_000.mUnk_10.y = 0;
             }
         }

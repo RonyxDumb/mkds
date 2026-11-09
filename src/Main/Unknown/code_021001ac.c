@@ -351,7 +351,7 @@ void func_02101964(ItemTeresa *teresa, s32 a) {
         teresa->mKartDrawMatrixPos = *position;
         position->y -= kart->mHopHeight;
     }
-    VEC_Add(position, (Vec3 *) &teresa->mOffsetX, position);
+    VEC_Add(position, &teresa->mOffset, position);
     cameraSide = &camera->mSide;
     if (teresa->mUnk_15c != FALSE) {
         s = 0xccd;
@@ -390,7 +390,7 @@ void EnterItemTeresaState0(ItemTeresa *teresa) {
     teresa->mKart = GetKart((u16) (teresa->mUnk_000.mUnk_78 & ~0xff00));
     teresa->mKartDrawMatrixPos = teresa->mKart->mDrawMatrixPos;
     teresa->mKartVelocity = teresa->mKart->mVelocity;
-    *(Vec3 *) &teresa->mOffsetX =
+    teresa->mOffset =
         (Vec3){0, (s32) (((s64) * (s32 *) teresa->mKart->mPhysicalParam * teresa->mKart->mScale.z + 0x800) >> 12), 0};
     teresa->mOffsetVelocityY = 0;
     teresa->mUnk_000.mAlpha = 0x1f;
@@ -428,8 +428,8 @@ void func_0210174c(ItemTeresa *teresa) {
         v.z = ((s64) q->z * f) >> 12;
     }
     v.y += s.z;
-    VEC_Subtract(&v, (Vec3 *) &teresa->mOffsetX, &s);
-    VEC_MultAdd(0x4f6, &s, (Vec3 *) &teresa->mOffsetX, (Vec3 *) &teresa->mOffsetX);
+    VEC_Subtract(&v, &teresa->mOffset, &s);
+    VEC_MultAdd(0x4f6, &s, &teresa->mOffset, &teresa->mOffset);
 }
 
 BOOL func_02101618(ItemTeresa *teresa, s32 a, s32 nextState) {

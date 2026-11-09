@@ -501,7 +501,7 @@ void UpdateShine16(void *a, Shine16 *p) {
                 c.x = p->mUnk_00.mPos.x;
                 c.y = p->mUnk_00.mExtent.x + (p->mUnk_00.mPos.y - 0x14000);
                 c.z = p->mUnk_00.mPos.z;
-                if (func_01ffdee4(&c, NULL, 0, p->mUnk_00.mExtent.x, 8, -2, &b, &d, &e.x, &f, NULL, NULL, NULL, NULL)) {
+                if (func_01ffdee4(&c, NULL, 0, p->mUnk_00.mExtent.x, 8, -2, &b, &d, &e, &f, NULL, NULL, NULL, NULL)) {
                     VEC_Add(&p->mUnk_00.mPos, &b, &p->mUnk_00.mPos);
                     if (f & 0x214300) {
                         t = p->mUnk_00.mUnk_10.y;

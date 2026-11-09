@@ -39,7 +39,7 @@ extern MapObjectDrawList data_021585d0;
 extern MapObjectDrawList data_021585fc;
 extern MapObjectDrawList data_02158628;
 extern MapObjectKindData data_02158654;
-extern u8 data_02158694[];
+extern Vec3 data_02158694;
 extern u16 data_021586d4;
 extern MapObjectList data_021586d8;
 extern MapObjectKindData data_02158700;

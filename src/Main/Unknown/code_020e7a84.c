@@ -458,7 +458,7 @@ void UpdateJgPosition(void) {
         data_0217b8bc = 1;
         data_0217b894 = 0;
     } else {
-        void *previousPos;
+        Vec3 *previousPos;
         Vec3 t;
         Vec3 u;
         Vec3 v;
@@ -536,7 +536,7 @@ void UpdateJgPosition(void) {
             data_0217b90c.x = gJgPos.x + data_0217b870 * (s32) (((s64) gJgKart->mVelocity.x * 0x5000) >> 12);
             data_0217b90c.z = gJgPos.z + data_0217b870 * (s32) (((s64) gJgKart->mVelocity.z * 0x5000) >> 12);
             data_0217b90c.y = gJgPos.y;
-            if (func_01ffdee4(&data_0217b90c, NULL, 0, 0x18e66, 0x10, -1, NULL, NULL, (s32 *) &v, NULL, NULL, NULL,
+            if (func_01ffdee4(&data_0217b90c, NULL, 0, 0x18e66, 0x10, -1, NULL, NULL, &v, NULL, NULL, NULL,
                               NULL, NULL) != 0) {
                 w = gJgKart->mForwardSpeed;
                 if (w <= 0) {

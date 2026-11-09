@@ -130,7 +130,7 @@ void AdvanceRestingItemObject(ItemObject *item) {
             if ((item->mUnk_48 & 7) != GetRaceUpdateFramesMod8()) {
                 return;
             }
-            if (func_01ffdee4(&item->mPos.x, NULL, 0, item->mUnk_dc, 0x44, item->mCollisionSlotIndex, NULL, NULL, NULL,
+            if (func_01ffdee4(&item->mPos, NULL, 0, item->mUnk_dc, 0x44, item->mCollisionSlotIndex, NULL, NULL, NULL,
                               &item->mCollisionBits, NULL, NULL, NULL, &w) == 0) {
                 return;
             }
@@ -250,7 +250,7 @@ void AdvanceFallingItemObject(ItemObject *item) {
     item->mVelocity.x = ((s64) item->mVelocity.x * 0xfec) >> 12;
     velocity->z = ((s64) velocity->z * 0xfec) >> 12;
     if (func_01ffdee4(pos, &item->mPrevPos, 0, item->mUnk_dc, 0x44, item->mCollisionSlotIndex, &pushOut, &groundNormal,
-                      (s32 *) &bounceNormal, &item->mCollisionBits, NULL, NULL, NULL, &w) != 0) {
+                      &bounceNormal, &item->mCollisionBits, NULL, NULL, NULL, &w) != 0) {
         VEC_Add(&pushOut, pos, pos);
         if (item->mCollisionBits & 0x1e34ef) {
             func_020f9334(item, pos, velocity, 0x385, &groundNormal);
@@ -1091,7 +1091,7 @@ void StartNextHeldItemObject(HeldItem *heldItem) {
     StartItemObject(gItemPools + item->mKind, item);
     func_020efd1c(heldItem->mKartItems, item);
     VEC_MultAdd(0xb33, kartVelocity, &item->mVelocity, &item->mVelocity);
-    *(Vec3 *) &item->mPos = *kartDrawPos;
+    item->mPos = *kartDrawPos;
     func_020f6630(item, 0, kartDrawPos, kartVelocity, &kart->mGroundNormal);
     kind = item->mKind;
     kindCallback = gItemKinds[kind].mUnk_38;

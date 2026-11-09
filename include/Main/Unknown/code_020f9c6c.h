@@ -42,8 +42,8 @@ typedef struct DirectionQuaternion {
 typedef struct ItemKouraW {
     /* 000 */ ItemObject mUnk_000;
     /* 12c */ u8 mUnk_12c[4];
-    /* 130 */ u32 mDirection;
-    /* 134 */ u8 mUnk_134[0x2c];
+    /* 130 */ Vec3 mDirection;
+    /* 13c */ u8 mUnk_13c[0x24];
     /* 160 */ s32 mUnk_160;
     /* 164 */ u8 mUnk_164[4];
     /* 168 */ ItemPointLink *mTargetLink;
@@ -129,8 +129,8 @@ void SetupItemKouraWKind(void);
 Vec3 *GetItemKouraWState7Info(ItemKouraW *item, s32 *stateFrames, s32 *scaleRatio);
 BOOL IsItemKouraWState7(ItemKouraW *item);
 s32 RequestItemKouraWState7(ItemKouraW *item);
-void DrawItemKouraW(ItemKouraW *item, s32 param_2, s32 param_3);
-void DrawItemKouraWModel(ItemKouraW *item, s32 param_2, s32 param_3);
+void DrawItemKouraW(ItemKouraW *item, Vec3 *param_2, s32 param_3);
+void DrawItemKouraWModel(ItemKouraW *item, Vec3 *param_2, s32 param_3);
 void InitItemKouraWFromData(ItemKouraW *item);
 void *func_020fb208(void *param_1, ItemKouraW *item, void *param_3);
 void UpdateItemKouraWState7(ItemKouraW *item);

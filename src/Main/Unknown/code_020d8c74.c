@@ -3,5 +3,5 @@
 #include "Main/Unknown/code_020e005c.h"
 
 void GetGroupFollowerCurvePosition(GroupFollower *follower, Vec3 *output) {
-    GetCurvePoint((u32) &follower->mPath->mSegments[follower->mSegmentIndex], follower->mProgress, (u32) output);
+    GetCurvePoint(follower->mPath->mSegments[follower->mSegmentIndex].mPoints, follower->mProgress, output);
 }

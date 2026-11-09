@@ -3,21 +3,21 @@
 #include "Main/Unknown/code_020d9480.h"
 
 void GetSegmentProgressPoint(SegmentPoints *progressOwner, Vec3 *output) {
-    u32 pointsAddress = (u32) progressOwner;
-    u32 value1 = (u32) output;
-    u32 resultAddress;
+    Vec3 *points = progressOwner->mSegmentProgress.mSegment.mPoints;
+    u32 value1;
+    Vec3 *resultAddress;
     u32 unused;
-    resultAddress = value1;
+    resultAddress = output;
     value1 = progressOwner->mSegmentProgress.mProgress;
-    GetCurvePoint(pointsAddress, value1, resultAddress);
+    GetCurvePoint(points, value1, resultAddress);
 }
 
 void GetSegmentProgressPointXz(SegmentProgress *segmentProgress, Vec3 *output) {
-    u32 pointsAddress = (u32) segmentProgress;
-    u32 value1 = (u32) output;
-    u32 resultAddress;
+    Vec3 *points = segmentProgress->mSegment.mPoints;
+    u32 value1;
+    Vec3 *resultAddress;
     u32 unused;
-    resultAddress = value1;
+    resultAddress = output;
     value1 = segmentProgress->mProgress;
-    GetCurvePointXz(pointsAddress, value1, resultAddress);
+    GetCurvePointXz(points, value1, resultAddress);
 }

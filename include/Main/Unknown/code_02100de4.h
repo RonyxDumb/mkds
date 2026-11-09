@@ -26,9 +26,14 @@ typedef struct ItemTeresa {
     /* 164 */ s16 mItemModelAlpha;
     /* 166 */ u8 mUnk_166[0x2];
     /* 168 */ Kart *mKart;
-    /* 16c */ s32 mOffsetX;
-    /* 170 */ s32 mOffsetY;
-    /* 174 */ s32 mOffsetZ;
+    /* 16c */ union {
+        Vec3 mOffset;
+        struct {
+            /* 16c */ s32 mOffsetX;
+            /* 170 */ s32 mOffsetY;
+            /* 174 */ s32 mOffsetZ;
+        };
+    };
     /* 178 */ s32 mOffsetVelocityX;
     /* 17c */ s32 mOffsetVelocityY;
     /* 180 */ s32 mOffsetVelocityZ;
