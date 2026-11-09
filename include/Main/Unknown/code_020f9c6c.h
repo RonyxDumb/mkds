@@ -87,13 +87,13 @@ typedef struct ItemKouraW ItemKouraW;
 extern Nsbmd *gKouraW;
 
 void func_020f9c6c(ItemObject *item);
-void CreateItemObjectCollisionSlot(void *objectParam);
+void CreateItemObjectCollisionSlot(ItemObject *item);
 s32 func_020f9ce8(ItemObject *item);
 s32 func_020f9dc8(ItemObject *item);
 void SetItemObjectScaleByRatios(ItemObject *objectParam, s32 xRatio, s32 yRatio);
 void func_020f9fa8(ItemObject *item);
 void RefreshItemObjectScale(ItemObject *item);
-s32 GrowItemObjectScale(void *objectParam, s32 limit, s32 step);
+s32 GrowItemObjectScale(ItemObject *item, s32 limit, s32 step);
 s32 func_020fa0e8(s32 kind, s32 param_2);
 void InitItems(void);
 void StartCourseMapItemObjects(void);

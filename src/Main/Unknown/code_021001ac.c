@@ -1037,7 +1037,7 @@ void func_021004c4(void *cursor, ItemTeresa *teresa, void *toData) {
 void InitItemTeresaFromData(ItemTeresa *teresa) {
     int ownerKartIndex;
 
-    SetupItemObjectFromData(teresa);
+    SetupItemObjectFromData(&teresa->mUnk_000);
     InitCourseColorBlend(&teresa->mUnk_000.mColorBlend, 1);
     SetStateMachineState(&teresa->mStateMachine, 0);
     if ((teresa->mUnk_000.mUnk_78 & 0x8000) == 0) {

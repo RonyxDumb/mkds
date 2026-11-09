@@ -13,21 +13,16 @@
 #include "Main/Unknown/code_02038000.h"
 #include "Main/Unknown/code_020364e0.h"
 
-void SetStateMachineState(void *rawStateMachine, u16 state) {
-    StateMachine *stateMachine;
-
-    stateMachine = rawStateMachine;
+void SetStateMachineState(StateMachine *stateMachine, u16 state) {
     stateMachine->mStateFrames = 0;
     stateMachine->mNextStateRequested = 1;
     stateMachine->mState = state;
     stateMachine->mNextState = state;
 }
 
-void AdvanceStateMachine(void *rawStateMachine) {
-    StateMachine *stateMachine;
+void AdvanceStateMachine(StateMachine *stateMachine) {
     const StateCallbacks *callbacks;
 
-    stateMachine = rawStateMachine;
     if (stateMachine->mNextStateRequested != 0) {
         stateMachine->mStateFrames = 0;
         stateMachine->mNextStateRequested = 0;

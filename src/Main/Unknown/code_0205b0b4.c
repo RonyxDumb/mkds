@@ -7,5 +7,5 @@ void func_0205b0b4(void) {
     if ((gWiFiRaceSync->mFlags & 0x80) != 0) {
         RemoveDroppedParticipants();
     }
-    AdvanceStateMachine((void *) (u32) gWiFiRaceSync);
+    AdvanceStateMachine(&gWiFiRaceSync->mStateMachine);
 }

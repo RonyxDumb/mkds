@@ -132,12 +132,8 @@ void DrawPukupukuShadow(u32 a, Pukupuku *pukupuku, u32 b, u32 alpha) {
     func_020e54e4(&pukupuku->mShadowMatrix, &shadowParams, 0, alpha);
 }
 
-void func_020e4df8(u32 arg0, u32 arg1) {
-    u32 value0;
-    u32 value1 = arg1;
-    u32 value12;
-    value0 = (value1) + (0x80u);
-    AdvanceStateMachine((void *) value0);
+void func_020e4df8(u32 arg0, Pukupuku *pukupuku) {
+    AdvanceStateMachine(&pukupuku->mPushedObject.mMapObject.mStateMachine);
 }
 
 void EnterPukupukuState0(Pukupuku *pukupuku) {

@@ -8,7 +8,7 @@ typedef struct StateCallbacks {
     /* 04 */ UnkFunc *mUpdate;
 } StateCallbacks;
 
-// Object AdvanceStateMachine and SetStateMachineState take (the code reaches it through a void pointer).
+// Object AdvanceStateMachine and SetStateMachineState take.
 typedef struct StateMachine {
     /* 00 */ const StateCallbacks *mStateTable;
     /* 04 */ u32 mStateFrames;
@@ -30,5 +30,5 @@ unsigned int func_02046ad0(unsigned int value);
 unsigned int func_02046ad4(unsigned int value);
 void func_02046ad8(void);
 void func_02046ae4(void);
-void AdvanceStateMachine(void *rawStateMachine);
-void SetStateMachineState(void *rawStateMachine, u16 state);
+void AdvanceStateMachine(StateMachine *stateMachine);
+void SetStateMachineState(StateMachine *stateMachine, u16 state);

@@ -151,12 +151,8 @@ void DrawWoodbox1(void *a, Woodbox1 *woodbox, void *c, u32 maxAlpha) {
     func_020e53ac(&woodbox->mUnk_114, &t, 0, maxAlpha);
 }
 
-void AdvanceWoodbox1(u32 unused, u32 woodbox) {
-    u32 stateMachineAddress;
-    u32 woodboxAddress = woodbox;
-    u32 value12;
-    stateMachineAddress = (woodboxAddress) + (0x80u);
-    AdvanceStateMachine((void *) stateMachineAddress);
+void AdvanceWoodbox1(u32 unused, Woodbox1 *woodbox) {
+    AdvanceStateMachine(&woodbox->mUnk_000.mStateMachine);
 }
 
 void EnterWoodbox1State0(Woodbox1 *woodbox) {

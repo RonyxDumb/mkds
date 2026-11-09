@@ -205,7 +205,7 @@ void CopyItemGessoData(void *data, ItemGesso *gesso, void *toData) {
 }
 
 void InitItemGessoFromData(ItemGesso *gesso) {
-    SetupItemObjectFromData(gesso);
+    SetupItemObjectFromData(&gesso->mUnk_000);
     SetupItemGesso(gesso, 1);
 }
 

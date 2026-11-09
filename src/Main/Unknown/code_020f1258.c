@@ -66,7 +66,7 @@ BOOL func_020f14a0(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
                 if (n < (s32) (((s64) kart->mPhysicalParam->mRadius * kart->mScale.z + 0x800) >> 12)) {
                     item->mUnk_238 = item->mUnk_238 + 1;
                     if (item->mUnk_238 > 0x5a) {
-                        func_020f7070(item, 1);
+                        func_020f7070(&item->mUnk_000.mUnk_000.mUnk_000, 1);
                         return FALSE;
                     }
                     t.x = 0;
@@ -124,12 +124,12 @@ BOOL func_020f14a0(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
                 velocity->x = ((s64) velocity->x * 0x23d) >> 12;
                 velocity->y = ((s64) velocity->y * 0x23d) >> 12;
                 velocity->z = ((s64) velocity->z * 0x23d) >> 12;
-                func_020f6fc4(item, 1);
+                func_020f6fc4(&item->mUnk_000.mUnk_000.mUnk_000, 1);
                 return FALSE;
             }
         }
         if (item->mUnk_000.mUnk_000.mUnk_000.mCollisionBits & 0x8000) {
-            func_020f7070(item, 1);
+            func_020f7070(&item->mUnk_000.mUnk_000.mUnk_000, 1);
             return FALSE;
         }
     }

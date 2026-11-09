@@ -75,7 +75,7 @@ void ResetItemBomb(ItemBomb *bomb) {
 }
 
 s32 InitItemBomb(ItemInUse *inUse, ItemBomb *bomb) {
-    func_020f9114(bomb);
+    func_020f9114(&bomb->mUnk_000.mItemObject);
     bomb->mUnk_000.mItemObject.mUnk_78 |= data_02159f3c;
     bomb->mUnk_134 = (s32) (((s64) inUse->mKartVelocityLength * 0x1ec) >> 12) + 0x333;
     if (bomb->mUnk_134 > 0xccd) {
@@ -110,7 +110,7 @@ void UpdateItemBombState0(ItemBomb *bomb) {
         AdvanceBouncingItem(&bomb->mUnk_000, 0x47b, 0xf91, bomb->mUnk_134, &v);
     }
     if (bomb->mUnk_000.mItemObject.mFlags & KART_ITEMS_THROW_FORWARD) {
-        func_020f91fc(bomb, 0xe5);
+        func_020f91fc(&bomb->mUnk_000.mItemObject, 0xe5);
     }
     if ((bomb->mUnk_000.mItemObject.mFlags & 0x8) == 0) {
         return;
@@ -167,7 +167,7 @@ void EnterItemBombState2(ItemBomb *bomb) {
         t[1] = 0xccd;
         t[2] = 0xccd;
     }
-    func_020f91fc(bomb, 0xe4);
+    func_020f91fc(&bomb->mUnk_000.mItemObject, 0xe4);
     if (data_0217c780 & 1) {
         seqPlayerPointer = TakeSoundHandleEntry(GetSoundHandlePool(0));
         if (data_0217d084.mUnk_0c != 0) {
@@ -187,7 +187,7 @@ void UpdateItemBombState2(ItemBomb *bomb) {
     s32 stateFrames;
 
     stateFrames = bomb->mStateMachine.mStateFrames;
-    if (GrowItemObjectScale(bomb, data_0217bd50, data_0217bd54) != 0) {
+    if (GrowItemObjectScale(&bomb->mUnk_000.mItemObject, data_0217bd50, data_0217bd54) != 0) {
         func_020f9fa8(&bomb->mUnk_000.mItemObject);
     }
     if (stateFrames < 0x16) {
@@ -371,7 +371,7 @@ void *func_020fda50(void *cursor, ItemBomb *bomb, void *toData) {
 }
 
 void InitItemBombFromData(ItemBomb *bomb) {
-    SetupItemObjectFromData(bomb);
+    SetupItemObjectFromData(&bomb->mUnk_000.mItemObject);
     StartItemObjectBouncing(&bomb->mUnk_000, bomb->mUnk_130 != 0 ? 3 : 2);
     InitStateMachine(&bomb->mStateMachine, gItemBombStateTable, 4, bomb);
     if (!(bomb->mUnk_000.mItemObject.mFlags & 0x10000000)) {
@@ -517,10 +517,10 @@ void func_020fd540(void **bombSlot, Vec3 *v, s32 timerStart) {
     pooledMapObject = bomb->mPooledMapObject;
     bomb->mUnk_000.mItemObject.mUnk_78 |= data_02159f28;
     if (pooledMapObject == NULL) {
-        CreateItemObjectCollisionSlot(bomb);
+        CreateItemObjectCollisionSlot(&bomb->mUnk_000.mItemObject);
         bomb->mVisible = TRUE;
     }
-    func_020f9114(bomb);
+    func_020f9114(&bomb->mUnk_000.mItemObject);
     InitStateMachine(&bomb->mStateMachine, gItemBombStateTable, 4, bomb);
     SetStateMachineState(&bomb->mStateMachine, 0);
     bomb->mTimer = 0x12c;

@@ -305,12 +305,12 @@ void func_020ec9c0(LinkFollowingItemObject *follower, s32 targetSpeed, s32 speed
             velocity->x = ((u64) ((s64) velocity->x * 0x23d)) >> 12;
             velocity->y = ((u64) ((s64) velocity->y * 0x23d)) >> 12;
             velocity->z = ((u64) ((s64) velocity->z * 0x23d)) >> 12;
-            func_020f6fc4(follower, 1);
+            func_020f6fc4(&follower->mUnk_000.mUnk_000, 1);
             return;
         }
         if (follower->mUnk_000.mUnk_000.mCollisionBits & 0x8000) {
             if (follower->mUnk_000.mUnk_000.mKind != 5) {
-                func_020f7070(follower, 1);
+                func_020f7070(&follower->mUnk_000.mUnk_000, 1);
                 return;
             }
         }

@@ -31,8 +31,7 @@ BOOL func_020f9290(ItemObject *item, Vec3 *normal) {
     return FALSE;
 }
 
-void func_020f91fc(void *itemParam, s32 soundId) {
-    ItemObject *item = itemParam;
+void func_020f91fc(ItemObject *item, s32 soundId) {
     Unk0210b7a8 request;
 
     if (soundId == 1) {
@@ -80,8 +79,7 @@ BOOL func_020f9160(ItemObject *c) {
     return FALSE;
 }
 
-void func_020f9114(void *itemParam) {
-    ItemObject *item = itemParam;
+void func_020f9114(ItemObject *item) {
     enum { K0 } kind = item->mKind;
 
     func_02109038(&item->mSoundSource, gItemKinds[kind].mUnk_a0, &item->mPos);
@@ -117,8 +115,7 @@ void ResetItemObjectFromData(ItemObject *itemParam, s32 kind, void *buffer, s32 
     item->mFlags |= 0x10000000;
 }
 
-void SetupItemObjectFromData(void *itemParam) {
-    ItemObject *item = itemParam;
+void SetupItemObjectFromData(ItemObject *item) {
     ItemKind *kindInfo;
     BOOL hasCollisionSlot;
     s32 kindRadius;

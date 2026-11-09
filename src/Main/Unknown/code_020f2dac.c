@@ -825,7 +825,7 @@ void AdvanceBouncingItem(BouncingItemObject *item, s32 gravity, s32 velocityFact
             item->mItemObject.mUnk_78 &= ~0x4000;
         }
         if (item->mItemObject.mCollisionBits & 0x8000) {
-            func_020f7070(item, 1);
+            func_020f7070(&item->mItemObject, 1);
             return;
         }
     }

@@ -24,12 +24,8 @@ void DrawEarthenPipe(u32 unused0, PushedObject *pipe, u32 unused1, u16 d) {
     QueueNsbmdModelMaterial(gEarthenPipe1);
 }
 
-void func_020de4d4(u32 unused, u32 object) {
-    u32 stateMachineAddress;
-    u32 objectCopy = object;
-    u32 unused12;
-    stateMachineAddress = (objectCopy) + (0x80u);
-    AdvanceStateMachine((void *) stateMachineAddress);
+void func_020de4d4(u32 unused, PushedObject *pipe) {
+    AdvanceStateMachine(&pipe->mMapObject.mStateMachine);
 }
 
 u8 func_020de4a0(PushedObject *pipe, void *kart, u8 *c, u8 *d) {

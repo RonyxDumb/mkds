@@ -270,11 +270,11 @@ void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
             velocity->x = ((s64) velocity->x * 0x23d) >> 12;
             velocity->y = ((s64) velocity->y * 0x23d) >> 12;
             velocity->z = ((s64) velocity->z * 0x23d) >> 12;
-            func_020f6fc4(object, 1);
+            func_020f6fc4(&object->mUnk_000, 1);
             return;
         }
         if ((object->mUnk_000.mCollisionBits & 0x8000) && object->mUnk_000.mKind != 5) {
-            func_020f7070(object, 1);
+            func_020f7070(&object->mUnk_000, 1);
             return;
         }
     }

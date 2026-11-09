@@ -199,7 +199,7 @@ void AdvanceBouncingItemBoxInUse(ItemInUse *itemInUse, BouncingItemBox *box) {
 }
 
 s32 InitBouncingItemBox(ItemInUse *itemInUse, BouncingItemBox *box) {
-    func_020f9114(box);
+    func_020f9114(&box->mUnk_000.mItemObject);
     box->mUnk_000.mItemObject.mUnk_78 |= data_0215a584;
     if (box->mKartIsEntry != 0) {
         (box->mPooledMapObject)->mShadowMode = 1;

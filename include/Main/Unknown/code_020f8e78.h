@@ -4,12 +4,12 @@
 #include "Main/Unknown/code_020f6be8.h"
 
 BOOL func_020f9290(ItemObject *item, Vec3 *normal);
-void func_020f91fc(void *itemParam, s32 soundId);
+void func_020f91fc(ItemObject *item, s32 soundId);
 BOOL func_020f91e0(ItemObject *itemParam);
 BOOL IsItemObjectFartherFromCameraThan(ItemObject *item, s32 distance);
 BOOL func_020f9160(ItemObject *c);
-void func_020f9114(void *itemParam);
+void func_020f9114(ItemObject *item);
 void func_020f90dc(ItemObject *itemParam);
 void func_020f90bc(ItemObject *itemParam);
 void ResetItemObjectFromData(ItemObject *itemParam, s32 kind, void *buffer, s32 d);
-void SetupItemObjectFromData(void *itemParam);
+void SetupItemObjectFromData(ItemObject *item);

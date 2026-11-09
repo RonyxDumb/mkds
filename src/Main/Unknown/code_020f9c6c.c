@@ -162,7 +162,7 @@ void SetItemKouraWKartItemsAndStateIfNone(ItemKouraW *item, s32 kartIndex) {
 s32 InitItemKouraW(ItemInUse *itemInUse, ItemKouraW *item) {
     Kart *kart;
 
-    func_020f9114(item);
+    func_020f9114(&item->mUnk_000.mUnk_000.mUnk_000);
     if (itemInUse->mKartItems->mUnk_1f0.mLink != NULL) {
         InitLinkFollowingItemFromInUse(&item->mUnk_000, itemInUse, 0x14, 0xcc, 1, 1, 0, 0x6000, item->mRankKartIndex,
                                        1);
@@ -631,7 +631,8 @@ void UpdateItemKouraWState6(ItemKouraW *item) {
             }
         }
     }
-    grew = GrowItemObjectScale(item, gItemKinds[item->mUnk_000.mUnk_000.mUnk_000.mKind].mUnk_74,
+    grew = GrowItemObjectScale(&item->mUnk_000.mUnk_000.mUnk_000,
+                               gItemKinds[item->mUnk_000.mUnk_000.mUnk_000.mKind].mUnk_74,
                                gItemKinds[item->mUnk_000.mUnk_000.mUnk_000.mKind].mUnk_78);
     if (func_020f9ce8(&item->mUnk_000.mUnk_000.mUnk_000) != 0) {
         return;
@@ -658,7 +659,7 @@ void EnterItemKouraWState7(ItemKouraW *param_1) {
         effectScale[1] = 0x1000;
         effectScale[2] = 0x1000;
     }
-    func_020f91fc(param_1, 0xdf);
+    func_020f91fc(&param_1->mUnk_000.mUnk_000.mUnk_000, 0xdf);
     if (data_0217c780 & 1) {
         sndHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
         if (data_0217d084.mUnk_0c != 0) {
@@ -678,7 +679,7 @@ void UpdateItemKouraWState7(ItemKouraW *item) {
     u32 stateFrames;
 
     stateFrames = item->mStateMachine.mStateFrames;
-    if (GrowItemObjectScale(item, gKouraWState7ScaleLimit, gKouraWState7ScaleStep)) {
+    if (GrowItemObjectScale(&item->mUnk_000.mUnk_000.mUnk_000, gKouraWState7ScaleLimit, gKouraWState7ScaleStep)) {
         func_020f9fa8(&item->mUnk_000.mUnk_000.mUnk_000);
     }
     if (stateFrames < 0x16) {
@@ -722,7 +723,7 @@ void InitItemKouraWFromData(ItemKouraW *item) {
     Kart *kart;
     s32 nextState;
 
-    SetupItemObjectFromData(item);
+    SetupItemObjectFromData(&item->mUnk_000.mUnk_000.mUnk_000);
     if (item->mUnk_000.mPreviousLink.mLink != NULL) {
         InitLinkFollowingItem(&item->mUnk_000, 0x14, 0xcc, 1, 0, item->mUnk_2fc, gRaceProgress->mKartAtRank[0], 1);
         SetStateMachineState(&item->mStateMachine, 1);
@@ -1253,9 +1254,7 @@ s32 func_020fa0e8(s32 kind, s32 param_2) {
 
 #pragma thumb off
 
-s32 GrowItemObjectScale(void *objectParam, s32 limit, s32 step) {
-    ItemObject *item = objectParam;
-
+s32 GrowItemObjectScale(ItemObject *item, s32 limit, s32 step) {
     if (item->mScale.z < limit) {
         item->mScale.z += step;
         if (item->mScale.z > limit) {
@@ -1356,9 +1355,7 @@ s32 func_020f9ce8(ItemObject *item) {
     return 0;
 }
 
-void CreateItemObjectCollisionSlot(void *objectParam) {
-    ItemObject *item = objectParam;
-
+void CreateItemObjectCollisionSlot(ItemObject *item) {
     if (item->mCollisionSlotIndex != -1) {
         return;
     }

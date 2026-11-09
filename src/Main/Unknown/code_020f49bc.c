@@ -344,7 +344,7 @@ BOOL InitItemKouraG(ItemInUse *itemInUse, ItemKouraG *koura) {
     BOOL isBattle;
 
     isBattle = gRaceSetup->mMode == MODE_BATTLE;
-    func_020f9114(koura);
+    func_020f9114(&koura->mDirectedItemObject.mUnk_000);
     ResetSoundDistanceSquaredChange(&koura->mSoundDistanceSquaredChange);
     koura->mDirectedItemObject.mUnk_000.mSoundSource.mTrackParamsFunction =
         (void (*)(void *, void *, void *)) func_0210a77c;
@@ -388,7 +388,7 @@ void *func_020f6038(void *buffer, ItemKouraG *koura, void *toBuffer) {
 }
 
 void InitItemKouraGFromData(ItemKouraG *koura) {
-    SetupItemObjectFromData(koura);
+    SetupItemObjectFromData(&koura->mDirectedItemObject.mUnk_000);
     ResetSoundDistanceSquaredChange(&koura->mSoundDistanceSquaredChange);
     koura->mDirectedItemObject.mUnk_000.mSoundSource.mTrackParamsFunction =
         (void (*)(void *, void *, void *)) func_0210a77c;
@@ -420,7 +420,7 @@ s32 InitItemKouraR(ItemInUse *itemInUse, ItemKouraR *kouraR) {
     u16 targetKartIndex;
     u16 rankAhead;
 
-    func_020f9114(kouraR);
+    func_020f9114(&kouraR->mUnk_000.mUnk_000.mUnk_000);
     ResetSoundDistanceSquaredChange(&kouraR->mUnk_258);
     kouraR->mUnk_000.mUnk_000.mUnk_000.mSoundSource.mTrackParamsFunction =
         (void (*)(void *, void *, void *)) func_0210a77c;
@@ -760,7 +760,7 @@ void InitItemKouraRFromData(ItemKouraR *kouraR) {
     u16 targetKartIndex;
     u16 rankAhead;
 
-    SetupItemObjectFromData(kouraR);
+    SetupItemObjectFromData(&kouraR->mUnk_000.mUnk_000.mUnk_000);
     ResetSoundDistanceSquaredChange(&kouraR->mUnk_258);
     kouraR->mUnk_000.mUnk_000.mUnk_000.mSoundSource.mTrackParamsFunction =
         (void (*)(void *, void *, void *)) func_0210a77c;
@@ -831,7 +831,7 @@ s32 InitItemBanana(ItemInUse *itemInUse, ItemBanana *banana) {
     KartItems *kartItems;
     s32 n;
 
-    func_020f9114(banana);
+    func_020f9114(&banana->mUnk_000.mItemObject);
     banana->mUnk_000.mItemObject.mUnk_78 |= data_02159834;
     kartItems = itemInUse->mKartItems;
     if (kartItems->mFlags & KART_ITEMS_THROW_FORWARD) {
@@ -890,7 +890,7 @@ void *func_020f5108(void *buffer, ItemBanana *banana, void *toBuffer) {
 
 // Runs SetupItemObjectFromData and StartItemObjectBouncing, then StartSound when the two 0x74/0x130 tests pass.
 void InitItemBananaFromData(ItemBanana *banana) {
-    SetupItemObjectFromData(banana);
+    SetupItemObjectFromData(&banana->mUnk_000.mItemObject);
     StartItemObjectBouncing(&banana->mUnk_000, 0);
     if ((banana->mUnk_000.mItemObject.mFlags & 0x10000000) == 0) {
         return;
@@ -993,8 +993,8 @@ void StartBouncingItemKinoko(void **kinokoSlot, Vec3 *b, s32 timer) {
 
     kinoko = kinokoSlot[0];
     kinoko->mUnk_000.mItemObject.mUnk_78 |= data_0215969c;
-    CreateItemObjectCollisionSlot(kinoko);
-    func_020f9114(kinoko);
+    CreateItemObjectCollisionSlot(&kinoko->mUnk_000.mItemObject);
+    func_020f9114(&kinoko->mUnk_000.mItemObject);
     InitBouncingItem(&kinoko->mUnk_000, 0, b);
     if ((kinoko->mUnk_000.mItemObject.mFlags & 0x180000) == 0) {
         kinoko->mUnk_000.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceBouncingItemKinoko;

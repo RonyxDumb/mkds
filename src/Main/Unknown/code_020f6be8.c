@@ -106,8 +106,7 @@ void func_020f70f0(ItemObject *item) {
     func_020f7184(item, 0, 1);
 }
 
-void func_020f7070(void *objectParam, s32 b) {
-    ItemObject *item = objectParam;
+void func_020f7070(ItemObject *item, s32 b) {
     s32 result;
 
     if (!(item->mFlags & 0x8000000)) {
@@ -128,8 +127,7 @@ void func_020f705c(ItemObject *item) {
     func_020f7184(item, 1, 1);
 }
 
-void func_020f6fc4(void *objectParam, s32 b) {
-    ItemObject *item = objectParam;
+void func_020f6fc4(ItemObject *item, s32 b) {
     s32 result;
     enum { K0 } kind;
 

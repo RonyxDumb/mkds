@@ -43,7 +43,7 @@ u8 *CopyItemFBoxData(u8 *cursor, ItemFBox *fbox, void *toData) {
 }
 
 void InitItemFBoxFromData(ItemFBox *fbox) {
-    SetupItemObjectFromData(fbox);
+    SetupItemObjectFromData(&fbox->mUnk_000.mItemObject);
     StartItemObjectBouncing(&fbox->mUnk_000, 0);
     if ((fbox->mUnk_000.mItemObject.mFlags & 0x10000000) == 0) {
         return;

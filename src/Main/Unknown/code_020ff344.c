@@ -202,7 +202,7 @@ void AdvanceItemFBoxInUse(ItemInUse *inUse, ItemFBox *fbox) {
 }
 
 u32 InitItemFBox(ItemInUse *inUse, ItemFBox *fbox) {
-    func_020f9114(fbox);
+    func_020f9114(&fbox->mUnk_000.mItemObject);
     fbox->mUnk_000.mItemObject.mUnk_78 |= data_0215a02c;
     MTX_Concat33(&data_0217c600.mUnk_00_m, &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00_m,
                  &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00_m);

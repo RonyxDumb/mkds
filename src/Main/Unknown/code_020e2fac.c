@@ -47,12 +47,8 @@ void DrawChoropuShadow(void *a, Unk020e2f0c *choropu, u32 c, u32 alpha) {
     func_020e54e4(&choropu->mUnk_0bc, NULL, 0, alpha);
 }
 
-void func_020e35e4(u32 arg0, u32 object) {
-    u32 value0;
-    u32 value1 = object;
-    u32 value12;
-    value0 = (value1) + (0x80u);
-    AdvanceStateMachine((void *) value0);
+void func_020e35e4(u32 arg0, Unk020e2f0c *choropu) {
+    AdvanceStateMachine(&choropu->mUnk_000.mStateMachine);
 }
 
 void EnterChoropuState0(Unk020e2f0c *choropu) {
