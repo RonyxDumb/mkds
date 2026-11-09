@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_020467d0.h" // StateMachine
 
 // Row of the array at 0x00 of the object behind gCourseMap.
 typedef struct CourseMapRow {
@@ -69,12 +70,7 @@ typedef struct ItemKouraW {
     /* 2b0 */ struct ModelEffect *mModelEffect;
     /* 2b4 */ MtxFx43 mUnk_2b4;
     /* 2e4 */ s32 mHitSpinsKart;
-    /* 2e8 */ u8 mUnk_2e8[4];
-    /* 2ec */ u32 mStateFrames;
-    /* 2f0 */ u8 mUnk_2f0[6];
-    /* 2f6 */ u16 mState;
-    /* 2f8 */ u16 mNextState;
-    /* 2fa */ u16 mNextStateRequested;
+    /* 2e8 */ StateMachine mStateMachine;
     /* 2fc */ s32 mUnk_2fc;
     /* 300 */ SoundDistanceSquaredChange mUnk_300;
     /* 310 */ u8 mUnk_310[0xc];

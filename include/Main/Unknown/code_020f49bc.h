@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "Main/Unknown/code_020f2dac.h"
+#include "Main/Unknown/code_020467d0.h" // StateMachine
 
 // Kinoko: the mushroom. Object of item kind 3, element of gItemPools[3].
 typedef struct ItemKinoko {
@@ -20,7 +21,7 @@ typedef struct ItemKouraR {
     /* 228 */ struct KartItems *mKartItems;
     /* 22c */ Vec3 mUnk_22c;
     /* 238 */ s32 mUnk_238;
-    /* 23c */ Unk020e005c_080 mStateMachine;
+    /* 23c */ StateMachine mStateMachine;
     /* 250 */ s32 mUnk_250;
     /* 254 */ s32 mThrowForward;
     /* 258 */ SoundDistanceSquaredChange mUnk_258;

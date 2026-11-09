@@ -390,13 +390,7 @@ typedef struct Unk0217aa00_1e52 {
 
 // Part of ConnectionWork from 0x1608.
 typedef struct MPStateMachine {
-    /* 00 */ void *mUnk_00;
-    /* 04 */ s32 mStateFrames;
-    /* 08 */ void *mUnk_08;
-    /* 0c */ u16 mUnk_0c;
-    /* 0e */ u16 mState;
-    /* 10 */ u16 mNextState;
-    /* 12 */ u16 mNextStateRequested;
+    /* 00 */ StateMachine mStateMachine;
     /* 14 */ u16 mUnk_14;
     /* 16 */ u16 mUnk_16;
     /* 18 */ s16 mUnk_18;

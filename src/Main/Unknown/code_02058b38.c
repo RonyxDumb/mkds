@@ -22,8 +22,8 @@ static inline u32 func_02058b38_inline(void) {
 
 static inline void func_02058b74_inline(u16 nextState) {
     MPStateMachine *stateMachine = &data_0217aa00->mUnk_1608;
-    stateMachine->mNextState = nextState;
-    stateMachine->mNextStateRequested = 1;
+    stateMachine->mStateMachine.mNextState = nextState;
+    stateMachine->mStateMachine.mNextStateRequested = 1;
 }
 
 static inline s32 func_02058cac_inline2(void) {
@@ -128,13 +128,13 @@ s32 func_02058cac(void) {
         }
         return 2;
     }
-    AdvanceStateMachine(&data_0217aa00->mUnk_1608);
+    AdvanceStateMachine(&data_0217aa00->mUnk_1608.mStateMachine);
     if (!func_02058cac_inline4()) {
         if (func_02058b38_inline() == 1 && data_0217aa00->mUnk_0044.mChildCount == 0) {
             func_02050e60(7);
         }
     }
-    if (data_0217aa00->mUnk_1608.mState == 0xf) {
+    if (data_0217aa00->mUnk_1608.mStateMachine.mState == 0xf) {
         finished = TRUE;
     }
     return finished;

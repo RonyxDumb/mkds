@@ -38,8 +38,8 @@ void func_02058b10(void) {
     MPStateMachine *stateMachine;
     CombineParticipantBits();
     stateMachine = &data_0217aa00->mUnk_1608;
-    stateMachine->mNextState = 0xf;
-    stateMachine->mNextStateRequested = 1;
+    stateMachine->mStateMachine.mNextState = 0xf;
+    stateMachine->mStateMachine.mNextStateRequested = 1;
 }
 
 #pragma thumb off
@@ -80,8 +80,8 @@ void UpdateMPState6(void) {
     if (func_02058a40_inline() == 1 && (data_0217aa00->mUnk_0454 & 1)) {
         if (QueueMPDataHalfwordAndWord(2, data_0217aa00->mUnk_0044.mChildMask, data_0217aa00->mUnk_0457) != FALSE) {
             stateMachine = &data_0217aa00->mUnk_1608;
-            stateMachine->mNextState = 1;
-            stateMachine->mNextStateRequested = 1;
+            stateMachine->mStateMachine.mNextState = 1;
+            stateMachine->mStateMachine.mNextStateRequested = 1;
         }
     }
 }
@@ -101,8 +101,8 @@ void UpdateMPState3(void) {
     result = func_0205955c();
     if (result == 1) {
         stateMachine = &data_0217aa00->mUnk_1608;
-        stateMachine->mNextState = 4;
-        stateMachine->mNextStateRequested = 1;
+        stateMachine->mStateMachine.mNextState = 4;
+        stateMachine->mStateMachine.mNextStateRequested = 1;
     }
 }
 
@@ -112,8 +112,8 @@ void UpdateMPState3(void) {
 
 static inline void func_02058910_inline(u16 nextState) {
     MPStateMachine *stateMachine = &data_0217aa00->mUnk_1608;
-    stateMachine->mNextState = nextState;
-    stateMachine->mNextStateRequested = 1;
+    stateMachine->mStateMachine.mNextState = nextState;
+    stateMachine->mStateMachine.mNextStateRequested = 1;
 }
 
 void UpdateMPState1(void) {
@@ -184,8 +184,8 @@ void UpdateMPState4(void) {
     result = func_02058dc0(func_02058efc);
     if (result == 1) {
         stateMachine = &data_0217aa00->mUnk_1608;
-        stateMachine->mNextState = 0xc;
-        stateMachine->mNextStateRequested = 1;
+        stateMachine->mStateMachine.mNextState = 0xc;
+        stateMachine->mStateMachine.mNextStateRequested = 1;
     }
 }
 
@@ -202,8 +202,8 @@ static inline u32 func_02058820_inline(void) {
 
 static inline void func_020587d8_inline(u16 nextState) {
     MPStateMachine *stateMachine = &data_0217aa00->mUnk_1608;
-    stateMachine->mNextState = nextState;
-    stateMachine->mNextStateRequested = 1;
+    stateMachine->mStateMachine.mNextState = nextState;
+    stateMachine->mStateMachine.mNextStateRequested = 1;
 }
 
 // Clears the per-slot flags of received chunks: 0x12 per slot for the parent, 2 for a child.
@@ -274,8 +274,8 @@ static inline u32 func_0205821c_inline(void) {
 
 static inline void func_0205821c_inline2(u16 nextState) {
     MPStateMachine *stateMachine = &data_0217aa00->mUnk_1608;
-    stateMachine->mNextState = nextState;
-    stateMachine->mNextStateRequested = 1;
+    stateMachine->mStateMachine.mNextState = nextState;
+    stateMachine->mStateMachine.mNextStateRequested = 1;
 }
 
 BOOL QueueMPChunk(u8 chunkNumber, u8 *data, u16 size, u8 playerIndex, u8 destBitmap) {
@@ -506,8 +506,8 @@ static inline u32 func_020580a4_inline(void) {
 
 static inline void func_020580a4_inline2(u16 v) {
     MPStateMachine *p = &data_0217aa00->mUnk_1608;
-    p->mNextState = v;
-    p->mNextStateRequested = 1;
+    p->mStateMachine.mNextState = v;
+    p->mStateMachine.mNextStateRequested = 1;
 }
 
 void UpdateMPState12(void) {
@@ -576,8 +576,8 @@ static inline u32 func_02057fe8_inline(void) {
 
 static inline void func_02057fe8_inline2(u16 nextState) {
     MPStateMachine *stateMachine = &data_0217aa00->mUnk_1608;
-    stateMachine->mNextState = nextState;
-    stateMachine->mNextStateRequested = 1;
+    stateMachine->mStateMachine.mNextState = nextState;
+    stateMachine->mStateMachine.mNextStateRequested = 1;
 }
 
 void UpdateMPState14(void) {

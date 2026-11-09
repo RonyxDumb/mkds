@@ -218,8 +218,8 @@ void RequestMPState16(void *courseId, void *mode) {
     data_0217aa00->mUnk_1e34 = 0;
     data_0217aa00->mUnk_1e44 &= ~2;
     stateMachine = &data_0217aa00->mUnk_1608;
-    stateMachine->mNextState = 0x10;
-    stateMachine->mNextStateRequested = 1;
+    stateMachine->mStateMachine.mNextState = 0x10;
+    stateMachine->mStateMachine.mNextStateRequested = 1;
     data_0217aa00->mCourseId = courseId;
     data_0217aa00->mMode = mode;
 }
@@ -265,8 +265,8 @@ void RequestMPState18(void) {
     data_0217aa00->mUnk_1e34 = 0;
     data_0217aa00->mUnk_1e44 &= ~2;
     stateMachine = &data_0217aa00->mUnk_1608;
-    stateMachine->mNextState = 0x12;
-    stateMachine->mNextStateRequested = 1;
+    stateMachine->mStateMachine.mNextState = 0x12;
+    stateMachine->mStateMachine.mNextStateRequested = 1;
 }
 
 void RequestMPState21(void) {
@@ -275,8 +275,8 @@ void RequestMPState21(void) {
     data_0217aa00->mUnk_1e34 = 0;
     data_0217aa00->mUnk_1e44 &= ~2;
     stateMachine = &data_0217aa00->mUnk_1608;
-    stateMachine->mNextState = 0x15;
-    stateMachine->mNextStateRequested = 1;
+    stateMachine->mStateMachine.mNextState = 0x15;
+    stateMachine->mStateMachine.mNextStateRequested = 1;
 }
 
 u32 func_020593dc(void) {
@@ -318,8 +318,8 @@ void UpdateMPState16(void) {
     result = func_020593dc();
     if (result == 1) {
         stateMachine = &data_0217aa00->mUnk_1608;
-        stateMachine->mNextState = 0x11;
-        stateMachine->mNextStateRequested = 1;
+        stateMachine->mStateMachine.mNextState = 0x11;
+        stateMachine->mStateMachine.mNextStateRequested = 1;
     }
 }
 
@@ -355,8 +355,8 @@ void UpdateMPState17(void) {
     result = func_02058dc0(func_0205933c);
     if (result == 1) {
         stateMachine = &data_0217aa00->mUnk_1608;
-        stateMachine->mNextState = 0x14;
-        stateMachine->mNextStateRequested = 1;
+        stateMachine->mStateMachine.mNextState = 0x14;
+        stateMachine->mStateMachine.mNextStateRequested = 1;
     }
 }
 
@@ -376,8 +376,8 @@ void UpdateMPState20(void) {
     MPStateMachine *stateMachine;
     if (data_0217aa00->mRequestPending == 0) {
         stateMachine = &data_0217aa00->mUnk_1608;
-        stateMachine->mNextState = 0xf;
-        stateMachine->mNextStateRequested = 1;
+        stateMachine->mStateMachine.mNextState = 0xf;
+        stateMachine->mStateMachine.mNextStateRequested = 1;
     }
 }
 

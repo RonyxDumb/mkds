@@ -182,7 +182,7 @@ void func_020e7760(void) {
     data_0217b9dc.mSoundId = 0x101;
     data_0217b9dc.mPositionSource = &gJgPos;
     data_0217b9dc.mUnk_08 = 1;
-    InitStateMachine(&gJgStateMachine, (UnkFunc *const *) gJgStateTable, 7, NULL);
+    InitStateMachine(&gJgStateMachine, gJgStateTable, 7, NULL);
     SetStateMachineState(&gJgStateMachine, 0);
 }
 

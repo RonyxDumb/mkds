@@ -33,7 +33,7 @@ void CreateDram(void) {
 }
 
 void InitDram(Dram *dram, struct CourseMapRow *courseRow) {
-    InitStateMachine(&dram->mMapObject.mStateMachine, (UnkFunc *const *) data_0216c740, 6, dram);
+    InitStateMachine(&dram->mMapObject.mStateMachine, data_0216c740, 6, dram);
     dram->mAnglePerFrameChoices[0] = courseRow->mUnk_28 * 0x80 / 100;
     dram->mAnglePerFrameChoices[2] = courseRow->mUnk_30 * 0x80 / 100;
     dram->mAnglePerFrameChoices[1] = (dram->mAnglePerFrameChoices[0] + dram->mAnglePerFrameChoices[2]) / 2;

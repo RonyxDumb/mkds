@@ -4,16 +4,16 @@
 
 // Pair of callbacks at an element of the table behind the first word of StateMachine.
 typedef struct StateCallbacks {
-    /* 00 */ void (*mEnter)(void *);
-    /* 04 */ void (*mUpdate)(void *);
+    /* 00 */ UnkFunc *mEnter;
+    /* 04 */ UnkFunc *mUpdate;
 } StateCallbacks;
 
 // Object AdvanceStateMachine and SetStateMachineState take (the code reaches it through a void pointer).
 typedef struct StateMachine {
-    /* 00 */ StateCallbacks *mStateTable;
-    /* 04 */ s32 mStateFrames;
+    /* 00 */ const StateCallbacks *mStateTable;
+    /* 04 */ u32 mStateFrames;
     /* 08 */ void *mObject;
-    /* 0c */ u8 mUnk_0c[0x2];
+    /* 0c */ u16 mStateCount;
     /* 0e */ u16 mState;
     /* 10 */ u16 mNextState;
     /* 12 */ u16 mNextStateRequested;

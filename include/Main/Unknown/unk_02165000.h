@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_020467d0.h" // StateCallbacks
 #include "Main/Unknown/unk_02175000.h" // SceneCallbacks
 #include "Main/Unknown/code_02086058.h"
 
@@ -45,8 +46,8 @@ extern const SceneCallbacks gLogoSceneCallbacks;
 extern QueueMPDataToPortParams data_021652a0;
 extern u16 data_usa_02165228;
 extern QueueMPDataToPortParams data_usa_0216522c;
-extern UnkFunc *const gMPStateTable[];
-extern UnkFunc *const gWiFiRaceSyncStateTable[];
+extern const StateCallbacks gMPStateTable[];
+extern const StateCallbacks gWiFiRaceSyncStateTable[];
 struct Kart;
 extern void (*const gKartStateFunctions[])(struct Kart *);
 extern const SceneCallbacks gResultSceneCallbacks;

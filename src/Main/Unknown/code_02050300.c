@@ -312,8 +312,8 @@ void AddChild(u32 aid, u8 *b, Unk0217aa00_45c *playerEntry) {
 
 static inline void func_0205081c_inline2(u16 v) {
     MPStateMachine *p = &data_0217aa00->mUnk_1608;
-    p->mNextState = v;
-    p->mNextStateRequested = 1;
+    p->mStateMachine.mNextState = v;
+    p->mStateMachine.mNextStateRequested = 1;
 }
 
 static inline void func_0205081c_inline(u8 v) {

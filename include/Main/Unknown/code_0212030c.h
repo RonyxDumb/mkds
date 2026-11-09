@@ -1,11 +1,12 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_020467d0.h" // StateCallbacks
 
 typedef struct Unk0217aa00_45c Unk0217aa00_45c;
 
 // Seven pairs of functions passed to InitStateMachine by InitWiFiSession.
-extern UnkFunc *data_0216e21c[14];
+extern StateCallbacks data_0216e21c[7];
 
 u32 func_021205e8(void);
 void InitWiFiSession(void *heap);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_020467d0.h" // StateCallbacks
 
 // Objects whose layout isn't known yet.
 extern const char gChoropuNsbmdName[];
@@ -8,9 +9,9 @@ extern const char gChoropuNsbtpName[];
 extern const char gPukupukuNsbmdName[];
 extern const char gObPakkunSfNsbmdName[];
 extern const char gObPakkunSfNsbtpName[];
-extern u8 gItemKouraWStateTable[];
-extern u8 gItemBombStateTable[];
-extern u8 gItemTeresaStateTable[];
+extern const StateCallbacks gItemKouraWStateTable[];
+extern const StateCallbacks gItemBombStateTable[];
+extern const StateCallbacks gItemTeresaStateTable[];
 extern s32 gKartSoundRequestSortOffset;
 extern u32 gSoundFadeSteps;
 extern u16 data_0216cba0[];
@@ -67,7 +68,7 @@ extern const char *gRecordGpxSBnllName;
 extern const char *gRecordTrophySOBnclName;
 extern const char *gRecordGpxSBnblName;
 extern s32 gKartFullVolumeSoundSortOffset;
-extern UnkFunc *gPushedObjectStateTable[];
+extern const StateCallbacks gPushedObjectStateTable[];
 extern s32 data_0216cb28;
 extern const char gBridgeNsbcaName[];
 extern const char gBridgeNsbmdName[];
@@ -80,8 +81,8 @@ extern const char gTruckAShadowNsbmdName[];
 extern const char gBusAShadowNsbmdName[];
 extern const char gCarANsbtpName[];
 extern const char gTruckANsbtpName[];
-extern const u8 gChoropuStateTable[];
-extern const u8 data_0216c168[];
+extern const StateCallbacks gChoropuStateTable[];
+extern const StateCallbacks data_0216c168[];
 extern const char gTestCylinderNsbmdName[];
 extern const char gGearBlackNsbmdName[];
 extern const char gGearWhiteNsbmdName[];
@@ -126,15 +127,15 @@ extern s32 data_0216c7d4;
 extern s32 data_0216c7f8[];
 extern s32 data_0216c82c[];
 extern u8 gSoundDataSdatPath[];
-extern u32 gItemKouraRStateTable[];
-extern u8 data_0216c1ec[];
+extern const StateCallbacks gItemKouraRStateTable[];
+extern const StateCallbacks data_0216c1ec[];
 extern const char gObjShadowNsbmdName[];
 extern const char gJgShadowNsbmdName[];
-extern u8 data_0216c240[];
+extern const StateCallbacks data_0216c240[];
 extern const char gSecondHandNsbmdName[];
 extern const char gPendulumNsbmdName[];
 extern const char gPendulumShadowNsbmdName[];
-extern u8 gJgStateTable[];
+extern const StateCallbacks gJgStateTable[];
 extern const char data_0216c374[];
 extern const char data_0216c384[];
 extern const char data_0216c394[];
@@ -149,7 +150,7 @@ extern u16 data_0216cb20;
 extern s32 data_0216c3d4;
 extern const char gWoodbox1NsbmdName[];
 extern Vec3 data_0216c3d8;
-extern u32 gWoodbox1StateTable[];
+extern const StateCallbacks gWoodbox1StateTable[];
 extern const char data_0216c680[];
 extern u8 data_0216c6f4[];
 extern u8 data_0216c704[];
@@ -157,7 +158,7 @@ extern u32 data_0216cbc0[6];
 extern u32 data_0216cbd8[][6];
 extern Vec3 data_0216c6a8;
 extern Vec3 data_0216c734;
-extern u8 data_0216c740[];
+extern const StateCallbacks data_0216c740[];
 extern const char gDramNsbmdName[];
 extern s32 gSoundOutputEffectType;
 extern s32 data_usa_0216ca38[];

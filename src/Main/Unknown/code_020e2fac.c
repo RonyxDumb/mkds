@@ -185,7 +185,7 @@ void UpdateChoropuState7(Unk020e2f0c *choropu) {
     choropu->mUnk_000.mUnk_10.y -= 0x266;
     choropu->mUnk_000.mPos.y = choropu->mUnk_000.mPos.y + choropu->mUnk_000.mUnk_10.y;
     if (choropu->mUnk_000.mPos.y < choropu->mUnk_0b0) {
-        Unk020e005c_080 *stateMachine = &choropu->mUnk_000.mStateMachine;
+        StateMachine *stateMachine = &choropu->mUnk_000.mStateMachine;
 
         stateMachine->mNextState = 5;
         stateMachine->mNextStateRequested = 1;

@@ -25,7 +25,7 @@ void SetStateMachineState(void *rawStateMachine, u16 state) {
 
 void AdvanceStateMachine(void *rawStateMachine) {
     StateMachine *stateMachine;
-    StateCallbacks *callbacks;
+    const StateCallbacks *callbacks;
 
     stateMachine = rawStateMachine;
     if (stateMachine->mNextStateRequested != 0) {

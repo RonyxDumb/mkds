@@ -424,7 +424,7 @@ s32 InitItemKouraR(ItemInUse *itemInUse, ItemKouraR *kouraR) {
     ResetSoundDistanceSquaredChange(&kouraR->mUnk_258);
     kouraR->mUnk_000.mUnk_000.mUnk_000.mSoundSource.mTrackParamsFunction =
         (void (*)(void *, void *, void *)) func_0210a77c;
-    InitStateMachine(&kouraR->mStateMachine, (UnkFunc *const *) gItemKouraRStateTable, 7, kouraR);
+    InitStateMachine(&kouraR->mStateMachine, gItemKouraRStateTable, 7, kouraR);
     if (itemInUse->mKartItems->mFlags & 0x20) {
         kouraR->mThrowForward = 0;
         InitItemObjectThrow(kouraR, itemInUse, 0, 0, 0, 0x5000);
@@ -764,7 +764,7 @@ void InitItemKouraRFromData(ItemKouraR *kouraR) {
     ResetSoundDistanceSquaredChange(&kouraR->mUnk_258);
     kouraR->mUnk_000.mUnk_000.mUnk_000.mSoundSource.mTrackParamsFunction =
         (void (*)(void *, void *, void *)) func_0210a77c;
-    InitStateMachine(&kouraR->mStateMachine, (UnkFunc *const *) gItemKouraRStateTable, 7, kouraR);
+    InitStateMachine(&kouraR->mStateMachine, gItemKouraRStateTable, 7, kouraR);
     if (kouraR->mThrowForward != 0) {
         if (kouraR->mUnk_000.mPreviousLink.mLink != NULL) {
             kouraR->mStateMachine.mNextState = 3;

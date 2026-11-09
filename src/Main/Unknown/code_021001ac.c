@@ -57,13 +57,13 @@ void func_02102668(Unk02102668 *inUse) {
 }
 
 void ResetItemTeresa(ItemTeresa *teresa) {
-    UnkFunc *const *stateTable;
+    const StateCallbacks *stateTable;
     teresa->mItemInfoIndex = 0x13;
     teresa->mItemCount = 0;
-    stateTable = (UnkFunc *const *) gItemTeresaStateTable;
+    stateTable = gItemTeresaStateTable;
     teresa->mUnk_15c = 0;
     teresa->mItemObjectKind = 0xe;
-    InitStateMachine(teresa->mUnk_12c, stateTable, 7, teresa);
+    InitStateMachine(&teresa->mStateMachine, stateTable, 7, teresa);
     teresa->mPickedKartIndex = 8;
     teresa->mUnk_144 = 0;
     FreeItemObjectCollisionSlot(&teresa->mUnk_000);
@@ -282,7 +282,7 @@ void InitItemTeresa(ItemInUse *inUse, ItemTeresa *teresa) {
     } else {
         teresa->mUnk_148 = TRUE;
     }
-    SetStateMachineState(teresa->mUnk_12c, 0);
+    SetStateMachineState(&teresa->mStateMachine, 0);
     teresa->mUnk_24c = TRUE;
 }
 
@@ -291,7 +291,7 @@ void AdvanceItemTeresa(ItemTeresa *teresa) {
     Vec3 *kartDrawMatrixPos;
     Vec3 offset;
 
-    AdvanceStateMachine(teresa->mUnk_12c);
+    AdvanceStateMachine(&teresa->mStateMachine);
     VEC_Subtract(&teresa->mUnk_000.mPos, &teresa->mUnk_000.mPrevPos, &teresa->mUnk_000.mVelocity);
     if (teresa->mUnk_000.mUnk_d0 != &teresa->mUnk_000.mDrawPos) {
         return;
@@ -332,7 +332,7 @@ void func_02101964(ItemTeresa *teresa, s32 a) {
     if (m != FALSE) {
         if (teresa->mUnk_144 == FALSE && (teresa->mUnk_000.mFlags & 0x8000000) && teresa->mUnk_24c != FALSE) {
             teresa->mUnk_144 = TRUE;
-            AddItemDataItemIdAndBytes(0xb, teresa->mUnk_000.mId, 1, teresa->mState & 0xff);
+            AddItemDataItemIdAndBytes(0xb, teresa->mUnk_000.mId, 1, teresa->mStateMachine.mState & 0xff);
         } else {
             teresa->mUnk_144 = TRUE;
         }
@@ -437,7 +437,7 @@ BOOL func_02101618(ItemTeresa *teresa, s32 a, s32 nextState) {
     s32 fadeStartFrame;
     s32 fadeStep;
 
-    stateFrames = teresa->mStateFrames;
+    stateFrames = teresa->mStateMachine.mStateFrames;
     if (teresa->mUnk_15c != FALSE) {
         fadeStartFrame = -7;
         fadeStep = GetRaceUpdateFramesMod8() > 2;
@@ -465,12 +465,12 @@ BOOL func_02101618(ItemTeresa *teresa, s32 a, s32 nextState) {
         }
         if (stateFrames >= (teresa->mUnk_15c != FALSE ? 0x37 : 0x28)) {
             if (nextState < 7) {
-                if (teresa->mState == 0) {
+                if (teresa->mStateMachine.mState == 0) {
                     teresa->mSavedOffsetY = teresa->mOffsetY;
                     teresa->mSavedOffsetVelocityY = teresa->mOffsetVelocityY;
                 }
-                teresa->mNextState = nextState;
-                teresa->mNextStateRequested = 1;
+                teresa->mStateMachine.mNextState = nextState;
+                teresa->mStateMachine.mNextStateRequested = 1;
             }
             return TRUE;
         }
@@ -482,7 +482,7 @@ s32 func_021014a0(ItemTeresa *teresa, s32 a, s32 nextState) {
     s32 stateFrames;
     u16 factor;
 
-    stateFrames = teresa->mStateFrames;
+    stateFrames = teresa->mStateMachine.mStateFrames;
     if (teresa->mUnk_15c != FALSE) {
         func_0210174c(teresa);
     } else if (teresa->mUnk_26c != FALSE) {
@@ -511,8 +511,8 @@ s32 func_021014a0(ItemTeresa *teresa, s32 a, s32 nextState) {
                 teresa->mOffsetVelocityX = teresa->mOffsetX - teresa->mOffsetVelocityX;
                 teresa->mOffsetVelocityZ = teresa->mOffsetZ - teresa->mOffsetVelocityZ;
             }
-            teresa->mNextState = nextState;
-            teresa->mNextStateRequested = 1;
+            teresa->mStateMachine.mNextState = nextState;
+            teresa->mStateMachine.mNextStateRequested = 1;
             teresa->mUnk_26c = FALSE;
         }
     }
@@ -555,14 +555,14 @@ void UpdateItemTeresaState1(ItemTeresa *teresa) {
     if (teresa->mUnk_250 == 0xffffffff) {
         return;
     }
-    stateFrames = teresa->mStateFrames;
+    stateFrames = teresa->mStateMachine.mStateFrames;
     if (teresa->mUnk_24c == FALSE && stateFrames < 0x28) {
         return;
     }
     teresa->mUnk_268 = stateFrames - 0x28;
     teresa->mPickedKartIndex = teresa->mUnk_250;
-    teresa->mNextState = 2;
-    teresa->mNextStateRequested = 1;
+    teresa->mStateMachine.mNextState = 2;
+    teresa->mStateMachine.mNextStateRequested = 1;
 }
 
 void EnterItemTeresaState2(ItemTeresa *teresa) {
@@ -660,10 +660,10 @@ void UpdateItemTeresaState2(ItemTeresa *teresa) {
     BOOL k;
 
     if (teresa->mPickedKartIndex == 8) {
-        if (teresa->mStateFrames > 0x6e) {
+        if (teresa->mStateMachine.mStateFrames > 0x6e) {
             teresa->mItemObjectKind = 0xf;
-            teresa->mNextState = (teresa->mUnk_000.mFlags & 0x8000000) ? 4 : 5;
-            teresa->mNextStateRequested = 1;
+            teresa->mStateMachine.mNextState = (teresa->mUnk_000.mFlags & 0x8000000) ? 4 : 5;
+            teresa->mStateMachine.mNextStateRequested = 1;
         }
     } else {
         framesLeft = 0x28 - func_021014a0(teresa, 1, 3);
@@ -695,7 +695,7 @@ void UpdateItemTeresaState2(ItemTeresa *teresa) {
                     k = FALSE;
                 }
                 if (k == FALSE && framesLeft == 1) {
-                    teresa->mStateFrames--;
+                    teresa->mStateMachine.mStateFrames--;
                     teresa->mUnk_26c = TRUE;
                     teresa->mStallFrames++;
                     if (teresa->mStallFrames > 0x3c) {
@@ -734,7 +734,7 @@ void UpdateItemTeresaState3(ItemTeresa *teresa) {
     }
     teresa->mOffsetVelocityX = ((s64) teresa->mOffsetVelocityX * 0xf85) >> 12;
     teresa->mOffsetVelocityZ = ((s64) teresa->mOffsetVelocityZ * 0xf85) >> 12;
-    if (teresa->mStateFrames == 0x12) {
+    if (teresa->mStateMachine.mStateFrames == 0x12) {
         if (teresa->mUnk_19c == 0) {
             teresa->mUnk_19c = -0x1ae;
             teresa->mUnk_1a0 = teresa->mOffsetVelocityY;
@@ -745,7 +745,7 @@ void UpdateItemTeresaState3(ItemTeresa *teresa) {
         if (teresa->mUnk_19c >= 0 && teresa->mOffsetVelocityY >= teresa->mUnk_1a0) {
             return;
         }
-        teresa->mStateFrames--;
+        teresa->mStateMachine.mStateFrames--;
         if (teresa->mUnk_19c >= 0) {
             return;
         }
@@ -794,8 +794,8 @@ void UpdateItemTeresaState4(ItemTeresa *teresa) {
         return;
     }
     teresa->mUnk_24c = (teresa->mUnk_000.mFlags & 0x10000000) == 0;
-    teresa->mNextState = 5;
-    teresa->mNextStateRequested = 1;
+    teresa->mStateMachine.mNextState = 5;
+    teresa->mStateMachine.mNextStateRequested = 1;
 }
 
 void SetItemTeresaPosPointerToDrawPos(ItemTeresa *teresa) {
@@ -890,7 +890,7 @@ void UpdateItemTeresaState5(ItemTeresa *teresa) {
                         k = TRUE;
                     }
                     if (k == FALSE) {
-                        teresa->mStateFrames--;
+                        teresa->mStateMachine.mStateFrames--;
                         teresa->mUnk_26c = TRUE;
                         teresa->mStallFrames++;
                         if (teresa->mStallFrames > 0x3c) {
@@ -933,8 +933,8 @@ skip:
         func_021014a0(teresa, 1, 6);
         teresa->mOffsetVelocityX = teresa->mOffsetX - startOffsetX;
         teresa->mOffsetVelocityZ = teresa->mOffsetZ - startOffsetZ;
-        teresa->mNextState = 6;
-        teresa->mNextStateRequested = 1;
+        teresa->mStateMachine.mNextState = 6;
+        teresa->mStateMachine.mNextStateRequested = 1;
         teresa->mUnk_26c = FALSE;
     }
     if (!(teresa->mUnk_000.mFlags & 0x8000000)) {
@@ -1039,7 +1039,7 @@ void InitItemTeresaFromData(ItemTeresa *teresa) {
 
     SetupItemObjectFromData(teresa);
     InitCourseColorBlend(&teresa->mUnk_000.mColorBlend, 1);
-    SetStateMachineState(teresa->mUnk_12c, 0);
+    SetStateMachineState(&teresa->mStateMachine, 0);
     if ((teresa->mUnk_000.mUnk_78 & 0x8000) == 0) {
         ownerKartIndex = (u16) (teresa->mUnk_000.mUnk_78 & ~0xff00);
     } else {
@@ -1097,7 +1097,7 @@ void DrawItemTeresa(ItemTeresa *teresa, s32 c, NsbmdModel *model) {
     scale[1] = scaleY;
     scale[2] = scaleZ;
     NNS_G3dGeBufferOP_N(0x1b, scale, 3);
-    if (teresa->mItemObjectKind < 0xe && teresa->mState >= 3) {
+    if (teresa->mItemObjectKind < 0xe && teresa->mStateMachine.mState >= 3) {
         itemModel = GetItemModel(teresa->mItemObjectKind);
         itemModelAlpha = teresa->mItemModelAlpha;
         itemCount = teresa->mItemCount;

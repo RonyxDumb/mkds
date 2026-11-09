@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_020467d0.h" // StateMachine
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/code_020ed5c0.h"
 #include "Main/Unknown/code_020f36d8.h"
@@ -8,12 +9,7 @@
 // Object of item kind 11, element of gItemPools[11].
 typedef struct ItemTeresa {
     /* 000 */ ItemObject mUnk_000;
-    /* 12c */ u8 mUnk_12c[4];
-    /* 130 */ u32 mStateFrames;
-    /* 134 */ u8 mUnk_134[0x6];
-    /* 13a */ u16 mState;
-    /* 13c */ u16 mNextState;
-    /* 13e */ u16 mNextStateRequested;
+    /* 12c */ StateMachine mStateMachine;
     /* 140 */ s32 mPickedKartIndex;
     /* 144 */ BOOL mUnk_144;
     /* 148 */ BOOL mUnk_148;

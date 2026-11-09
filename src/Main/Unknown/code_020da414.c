@@ -37,7 +37,7 @@ const u8 data_020da414_pad[1] = {1};
 void InitKuribo(Kuribo *kuribo, CourseMapRow *row) {
     CourseMapGroupEntry *startEntry;
     Vec3 *zeroedVector;
-    Unk020e005c_080 *stateMachine;
+    StateMachine *stateMachine;
     kuribo->mModelAlpha = 0x1f;
     if (row != NULL) {
         InitGroupFollower(&kuribo->mFollower, row, (row->mUnk_28 << 11) / 100);

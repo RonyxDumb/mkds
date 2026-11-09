@@ -30,8 +30,8 @@ void UpdateMPState21(void) {
     result = func_0205910c();
     if (result == 1) {
         stateMachine = &data_0217aa00->mUnk_1608;
-        stateMachine->mNextState = 0x14;
-        stateMachine->mNextStateRequested = 1;
+        stateMachine->mStateMachine.mNextState = 0x14;
+        stateMachine->mStateMachine.mNextStateRequested = 1;
     }
 }
 
@@ -53,8 +53,8 @@ void UpdateMPState18(void) {
     result = func_0205905c();
     if (result == 1) {
         stateMachine = &data_0217aa00->mUnk_1608;
-        stateMachine->mNextState = 0x13;
-        stateMachine->mNextStateRequested = 1;
+        stateMachine->mStateMachine.mNextState = 0x13;
+        stateMachine->mStateMachine.mNextStateRequested = 1;
     }
 }
 
@@ -84,8 +84,8 @@ void UpdateMPState19(void) {
     result = func_02058dc0(func_02058f58);
     if (result == 1) {
         stateMachine = &data_0217aa00->mUnk_1608;
-        stateMachine->mNextState = 0xf;
-        stateMachine->mNextStateRequested = 1;
+        stateMachine->mStateMachine.mNextState = 0xf;
+        stateMachine->mStateMachine.mNextStateRequested = 1;
     }
 }
 

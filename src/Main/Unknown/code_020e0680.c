@@ -66,7 +66,7 @@
 #pragma thumb on
 
 void InitChoropu(Unk020e2f0c *choropu, struct CourseMapRow *courseRow) {
-    InitStateMachine(&choropu->mUnk_000.mStateMachine, (UnkFunc *const *) gChoropuStateTable, 8, choropu);
+    InitStateMachine(&choropu->mUnk_000.mStateMachine, gChoropuStateTable, 8, choropu);
     choropu->mUnk_0a8 = choropu->mUnk_000.mPos.y;
     choropu->mUnk_0ac = choropu->mUnk_000.mPos.y - 0x12000;
     choropu->mUnk_0b0 = choropu->mUnk_000.mPos.y - 0x18000;

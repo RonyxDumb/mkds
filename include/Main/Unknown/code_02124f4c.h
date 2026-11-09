@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "Main/Unknown/code_02124094.h" // LabelTextCanvas
+#include "Main/Unknown/code_02036c5c.h" // DisplaySettings
 
 // Tag in a run of halfwords: 0x1a, a byte (the number of bytes), a byte (1) and a halfword (0xff).
 typedef struct Unk0212513c {
@@ -43,8 +44,8 @@ void DrawTextLines(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, 
                    s32 width, s32 height, s32 color, u32 alignFlags, s32 lineAlign, void *text, s32 fixedDigitsOnly,
                    s32 fixedAdvance, s32 o);
 void FormatMessageWithText(u16 *insertText, u16 *message, u16 *formattedText, u32 d);
-void *func_021250b0(void *heap);
-void *func_02125028(void *heap);
+DisplaySettings *func_021250b0(void *heap);
+DisplaySettings *func_02125028(void *heap);
 s32 CountDecimalDigits(u32 a);
 s32 FormatAsciiNumber(u32 a, u16 *buffer);
 s32 func_02124f4c(u32 a, u16 *buffer);

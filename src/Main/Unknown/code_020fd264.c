@@ -61,8 +61,8 @@
 void ResetItemBomb(ItemBomb *bomb) {
     u32 initialDistanceSquared;
     MTX_Identity43_(&bomb->mUnk_13c);
-    InitStateMachine(bomb->mUnk_184, (UnkFunc *const *) &gItemBombStateTable, 4, bomb);
-    SetStateMachineState(bomb->mUnk_184, 0);
+    InitStateMachine(&bomb->mStateMachine, gItemBombStateTable, 4, bomb);
+    SetStateMachineState(&bomb->mStateMachine, 0);
     bomb->mTimer = 300;
     bomb->mUnk_174 = 0;
     initialDistanceSquared = 0x05f592e1u;
@@ -126,8 +126,8 @@ void UpdateItemBombState0(ItemBomb *bomb) {
     if ((bomb->mUnk_000.mItemObject.mFlags & 0x180000) == 0) {
         bomb->mUnk_000.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemBomb;
     }
-    bomb->mNextState = 1;
-    bomb->mNextStateRequested = 1;
+    bomb->mStateMachine.mNextState = 1;
+    bomb->mStateMachine.mNextStateRequested = 1;
 }
 
 u32 func_020fe168(u32 value) {
@@ -186,7 +186,7 @@ void EnterItemBombState2(ItemBomb *bomb) {
 void UpdateItemBombState2(ItemBomb *bomb) {
     s32 stateFrames;
 
-    stateFrames = bomb->mStateFrames;
+    stateFrames = bomb->mStateMachine.mStateFrames;
     if (GrowItemObjectScale(bomb, data_0217bd50, data_0217bd54) != 0) {
         func_020f9fa8(&bomb->mUnk_000.mItemObject);
     }
@@ -278,7 +278,7 @@ void AdvanceItemBombWithMapObject(ItemBomb *bomb, ItemBomb *bombAlias, ItemBox *
     ItemBox *mapObjectToPark;
 
     bombAlias->mUnk_000.mItemObject.mDistanceSquaredAndFlags |= data_02159f2c;
-    AdvanceStateMachine(&bomb->mUnk_184);
+    AdvanceStateMachine(&bomb->mStateMachine);
     if (pooledMapObject->mUnk_000.mFlags & 0x100) {
         bomb->mPooledMapObject = NULL;
         ReleaseItemPoolObject(gItemPools + bomb->mUnk_000.mItemObject.mKind, &bomb->mUnk_000.mItemObject);
@@ -317,7 +317,7 @@ void AdvanceItemBomb(ItemBomb *bomb) {
         AdvanceItemBombWithMapObject(bomb, bomb, bomb->mPooledMapObject);
         return;
     }
-    AdvanceStateMachine(&bomb->mUnk_184);
+    AdvanceStateMachine(&bomb->mStateMachine);
     if ((bomb->mUnk_000.mItemObject.mFlags & 0x80000) || bomb->mTimer < 0) {
         func_020f7104(&bomb->mUnk_000.mItemObject, 1);
     }
@@ -373,7 +373,7 @@ void *func_020fda50(void *cursor, ItemBomb *bomb, void *toData) {
 void InitItemBombFromData(ItemBomb *bomb) {
     SetupItemObjectFromData(bomb);
     StartItemObjectBouncing(&bomb->mUnk_000, bomb->mUnk_130 != 0 ? 3 : 2);
-    InitStateMachine(&bomb->mUnk_184, (UnkFunc *const *) gItemBombStateTable, 4, bomb);
+    InitStateMachine(&bomb->mStateMachine, gItemBombStateTable, 4, bomb);
     if (!(bomb->mUnk_000.mItemObject.mFlags & 0x10000000)) {
         return;
     }
@@ -387,7 +387,7 @@ void DrawItemBomb(ItemBomb *bomb, Vec3 *a, NsbmdModel *model) {
     if (bomb->mVisible == FALSE) {
         return;
     }
-    if (bomb->mState != 2) {
+    if (bomb->mStateMachine.mState != 2) {
         if (bomb->mUnk_174 != 0 && bomb->mUnk_174 < 6) {
             model->mFrameIndex = 1;
         } else {
@@ -403,10 +403,10 @@ void DrawItemBomb(ItemBomb *bomb, Vec3 *a, NsbmdModel *model) {
 }
 
 int RequestItemBombState2(ItemBomb *bomb) {
-    if (bomb->mState != 2) {
-        InitStateMachine(&bomb->mUnk_184, (UnkFunc *const *) gItemBombStateTable, 4, bomb);
-        bomb->mNextState = 2;
-        bomb->mNextStateRequested = 1;
+    if (bomb->mStateMachine.mState != 2) {
+        InitStateMachine(&bomb->mStateMachine, gItemBombStateTable, 4, bomb);
+        bomb->mStateMachine.mNextState = 2;
+        bomb->mStateMachine.mNextStateRequested = 1;
         if ((bomb->mUnk_000.mItemObject.mFlags & 0x180000) == 0) {
             bomb->mUnk_000.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemBomb;
         }
@@ -421,12 +421,12 @@ void func_020fd83c(ItemBomb *bomb) {
     if (bomb->mUnk_000.mItemObject.mFlags & 0x80000) {
         return;
     }
-    InitStateMachine(&bomb->mUnk_184, (UnkFunc *const *) gItemBombStateTable, 4, bomb);
+    InitStateMachine(&bomb->mStateMachine, gItemBombStateTable, 4, bomb);
     if ((bomb->mUnk_000.mItemObject.mFlags & 0x180000) == 0) {
         bomb->mUnk_000.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemBomb;
     }
-    bomb->mNextState = 1;
-    bomb->mNextStateRequested = 1;
+    bomb->mStateMachine.mNextState = 1;
+    bomb->mStateMachine.mNextStateRequested = 1;
     bomb->mUnk_180 = 0x10e;
     bomb->mUnk_130 = 0;
     bomb->mUnk_000.mBouncesRemaining = 0;
@@ -454,7 +454,8 @@ ItemBomb *func_020fd7a4(int index) {
 
     bomb = (ItemBomb *) gItemPools[9].mObjects[index];
     flags = bomb->mUnk_000.mItemObject.mFlags;
-    if ((flags & 0x8000) && (flags & 0x180000) == 0 && bomb->mState != 3 && bomb->mPooledMapObject == NULL) {
+    if ((flags & 0x8000) && (flags & 0x180000) == 0 && bomb->mStateMachine.mState != 3 &&
+        bomb->mPooledMapObject == NULL) {
         return bomb;
     }
     return NULL;
@@ -470,7 +471,7 @@ void func_020fd754(void *object) {
     }
     FreeItemObjectCollisionSlot(&bomb->mUnk_000.mItemObject);
     bomb->mVisible = FALSE;
-    SetStateMachineState(&bomb->mUnk_184, 3);
+    SetStateMachineState(&bomb->mStateMachine, 3);
     bomb->mUnk_174 = 0;
 }
 
@@ -520,8 +521,8 @@ void func_020fd540(void **bombSlot, Vec3 *v, s32 timerStart) {
         bomb->mVisible = TRUE;
     }
     func_020f9114(bomb);
-    InitStateMachine(&bomb->mUnk_184, (UnkFunc *const *) gItemBombStateTable, 4, bomb);
-    SetStateMachineState(&bomb->mUnk_184, 0);
+    InitStateMachine(&bomb->mStateMachine, gItemBombStateTable, 4, bomb);
+    SetStateMachineState(&bomb->mStateMachine, 0);
     bomb->mTimer = 0x12c;
     bomb->mUnk_174 = 0;
     bomb->mNearestKartIndex = 8;
@@ -551,7 +552,7 @@ BOOL IsItemBombState2(ItemObject *object) {
     ItemBomb *bomb;
 
     bomb = (ItemBomb *) object;
-    return bomb->mState == 2;
+    return bomb->mStateMachine.mState == 2;
 }
 
 void ReleaseItemBomb(void **bombSlot) {
@@ -559,7 +560,7 @@ void ReleaseItemBomb(void **bombSlot) {
     ItemBox *pooledMapObject;
 
     bomb = *bombSlot;
-    SetStateMachineState(&bomb->mUnk_184, 0);
+    SetStateMachineState(&bomb->mStateMachine, 0);
     pooledMapObject = bomb->mPooledMapObject;
     if (pooledMapObject != NULL) {
         pooledMapObject->mUnk_000.mFlags &= ~1;
@@ -584,7 +585,7 @@ void *StartItemBomb(void) {
     }
     FreeItemObjectCollisionSlot(&bomb->mUnk_000.mItemObject);
     bomb->mVisible = FALSE;
-    SetStateMachineState(&bomb->mUnk_184, 3);
+    SetStateMachineState(&bomb->mStateMachine, 3);
     bomb->mUnk_174 = 0;
     return bomb;
 }
@@ -603,7 +604,7 @@ void *StartItemBombWithMapObject(void *mapObject, s32 offsetY) {
         }
         FreeItemObjectCollisionSlot(&bomb->mUnk_000.mItemObject);
         bomb->mVisible = FALSE;
-        SetStateMachineState(&bomb->mUnk_184, 3);
+        SetStateMachineState(&bomb->mStateMachine, 3);
         bomb->mUnk_174 = 0;
     }
     if (bomb == NULL) {
@@ -620,7 +621,7 @@ void *StartItemBombWithMapObject(void *mapObject, s32 offsetY) {
 }
 
 Vec3 *func_020fd308(ItemBomb *bomb, s32 *stateFrames, s32 *scaledScaleZ) {
-    *stateFrames = bomb->mStateFrames;
+    *stateFrames = bomb->mStateMachine.mStateFrames;
     *scaledScaleZ = ((s64) bomb->mUnk_000.mItemObject.mScale.z * data_0217bd48) >> 12;
     return &bomb->mUnk_000.mItemObject.mPos;
 }

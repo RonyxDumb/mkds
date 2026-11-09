@@ -3,7 +3,8 @@
 #include "types.h"
 #include "code_0212d214.h"
 #include "Main/Unknown/code_0210bcf4.h"
-#include "Main/Unknown/code_020e005c.h" // Unk020e005c_080
+#include "Main/Unknown/code_020467d0.h" // StateMachine
+#include "Main/Unknown/code_020e005c.h"
 #include "Main/Unknown/code_0210b000.h" // SoundDistanceSquaredChange
 
 struct MapObject;
@@ -38,7 +39,7 @@ typedef struct MapObjectKindData {
 } MapObjectKindData;
 
 // Element object up to 0xa0, which every kind shares: UpdateMapObjectList and func_020e71a0 read 0x78 and 0x94 of every
-// object, DoesItemObjectRespondToMapObject reads 0x00, 0x02 and 0x98. InitKuribo and InitDram pass the Unk020e005c_080
+// object, DoesItemObjectRespondToMapObject reads 0x00, 0x02 and 0x98. InitKuribo and InitDram pass the StateMachine
 // at 0x80 to InitStateMachine. From 0xa0 on, the objects of func_020e72cc (Unk020e730c), InitDram (Dram), func_020ff97c
 // (Unk020ff97c) and InitItemBox (ItemBox) use the bytes in different ways.
 typedef struct MapObject {
@@ -88,7 +89,7 @@ typedef struct MapObject {
     /* 7e */ u16 mAngle;
     // State machine of the kind: the table of state handlers, its size and the owner, with the current state, the next
     // state and the frames spent in the state.
-    /* 80 */ Unk020e005c_080 mStateMachine;
+    /* 80 */ StateMachine mStateMachine;
     // The sound object of the map object, tested against NULL before use: a SoundSource at 0 (so the pointer also
     // serves as the source) and, in the 0x60-byte variant, a SoundDistanceSquaredChange behind it.
     /* 94 */ MapObjectSound *mSound;

@@ -25,7 +25,7 @@
 #pragma thumb on
 
 void InitPukupuku(Pukupuku *pukupuku, Vec3 *position) {
-    InitStateMachine(&pukupuku->mPushedObject.mMapObject.mStateMachine, (UnkFunc *const *) data_0216c1ec, 4, pukupuku);
+    InitStateMachine(&pukupuku->mPushedObject.mMapObject.mStateMachine, data_0216c1ec, 4, pukupuku);
     pukupuku->mPushedObject.mMapObject.mPos.y =
         pukupuku->mPushedObject.mMapObject.mPos.y +
         (s32) (((s64) pukupuku->mPushedObject.mMapObject.mScale.y * 0xa000) >> 12);

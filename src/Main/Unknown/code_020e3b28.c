@@ -150,7 +150,7 @@ void func_020e410c(BridgeDrawList *list) {
 }
 
 void func_020e3ef4(Unk020e3ef4 *object, struct CourseMapRow *courseRow, Unk020e1e98_154 *kindInfo) {
-    InitStateMachine(&object->mUnk_000.mMapObject.mStateMachine, (UnkFunc *const *) data_0216c168, 4, object);
+    InitStateMachine(&object->mUnk_000.mMapObject.mStateMachine, data_0216c168, 4, object);
     object->mUnk_000.mCollisionData.mUnk_e8 = object->mUnk_000.mMapObject.mPos;
     object->mUnk_000.mCollisionData.mPrevMatrix = object->mUnk_000.mMapObject.mMatrix.mUnk_00_m;
     object->mUnk_000.mCollisionData.mInitialMatrix = object->mUnk_000.mMapObject.mMatrix.mUnk_00_m;

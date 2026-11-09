@@ -31,8 +31,8 @@ static inline u32 func_02059878_inline(void) {
 
 static inline void func_02059878_inline2(u16 v) {
     MPStateMachine *p = &data_0217aa00->mUnk_1608;
-    p->mNextState = v;
-    p->mNextStateRequested = 1;
+    p->mStateMachine.mNextState = v;
+    p->mStateMachine.mNextStateRequested = 1;
 }
 
 u32 IsAllMPChunksReceived(u32 slot) {
@@ -142,7 +142,7 @@ void func_02059878(void) {
     ConnectionWork *p;
     u32 v;
 
-    InitStateMachine(&data_0217aa00->mUnk_1608, gMPStateTable, 0x17, NULL);
+    InitStateMachine(&data_0217aa00->mUnk_1608.mStateMachine, gMPStateTable, 0x17, NULL);
     data_0217aa00->mUnk_164e = 0;
     data_0217aa00->mUnk_1608.mUnk_14 = 0;
     data_0217aa00->mUnk_1608.mUnk_1a = 0;

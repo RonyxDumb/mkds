@@ -26,21 +26,14 @@
 #include "Main/Unknown/code_020364e0.h"
 #include "code_020176c0.h"
 
-UnkFunc *data_0216e21c[14] = {
-    0,
-    0,
-    EnterWiFiSessionState1,
-    UpdateWiFiSessionState1,
-    0,
-    0,
-    EnterWiFiSessionState3,
-    UpdateWiFiSessionState3,
-    func_021200a4,
-    UpdateWiFiSessionState4,
-    EnterWiFiSessionState5,
-    UpdateWiFiSessionState5,
-    0,
-    func_02120044,
+StateCallbacks data_0216e21c[7] = {
+    {0, 0},
+    {EnterWiFiSessionState1, UpdateWiFiSessionState1},
+    {0, 0},
+    {EnterWiFiSessionState3, UpdateWiFiSessionState3},
+    {func_021200a4, UpdateWiFiSessionState4},
+    {EnterWiFiSessionState5, UpdateWiFiSessionState5},
+    {0, func_02120044},
 };
 
 u32 func_021205e8(void) {

@@ -104,7 +104,7 @@ void func_020fcb30(ItemKouraW *item) {
 }
 
 void ResetItemKouraW(ItemKouraW *item) {
-    InitStateMachine(&item->mUnk_2e8, (UnkFunc *const *) gItemKouraWStateTable, 8, item);
+    InitStateMachine(&item->mStateMachine, gItemKouraWStateTable, 8, item);
     MTX_Identity43_(&item->mUnk_2b4);
     item->mRank = 1;
     item->mRankKartIndex = gRaceProgress->mKartAtRank[0];
@@ -154,8 +154,9 @@ void SetItemKouraWKartItemsAndStateIfNone(ItemKouraW *item, s32 kartIndex) {
     }
     SetItemKouraWKartItems(item, kartIndex);
     kart = item->mKartItems->mKart;
-    item->mNextState = ((item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x40000000) || (kart->mUnk_48 & 1)) ? 2 : 3;
-    item->mNextStateRequested = 1;
+    item->mStateMachine.mNextState =
+        ((item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x40000000) || (kart->mUnk_48 & 1)) ? 2 : 3;
+    item->mStateMachine.mNextStateRequested = 1;
 }
 
 s32 InitItemKouraW(ItemInUse *itemInUse, ItemKouraW *item) {
@@ -165,12 +166,13 @@ s32 InitItemKouraW(ItemInUse *itemInUse, ItemKouraW *item) {
     if (itemInUse->mKartItems->mUnk_1f0.mLink != NULL) {
         InitLinkFollowingItemFromInUse(&item->mUnk_000, itemInUse, 0x14, 0xcc, 1, 1, 0, 0x6000, item->mRankKartIndex,
                                        1);
-        SetStateMachineState(item->mUnk_2e8, 1);
+        SetStateMachineState(&item->mStateMachine, 1);
     } else {
         SetItemKouraWKartItems(item, (u16) gRaceProgress->mKartAtRank[0]);
         kart = item->mKartItems->mKart;
-        item->mNextState = ((item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x40000000) || (kart->mUnk_48 & 1)) ? 2 : 3;
-        item->mNextStateRequested = 1;
+        item->mStateMachine.mNextState =
+            ((item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x40000000) || (kart->mUnk_48 & 1)) ? 2 : 3;
+        item->mStateMachine.mNextStateRequested = 1;
         if (item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x8000000) {
             AddItemDataItemIdAndKart(5, item->mKartItems->mKartIndex, item->mUnk_000.mUnk_000.mUnk_000.mId);
         }
@@ -179,8 +181,8 @@ s32 InitItemKouraW(ItemInUse *itemInUse, ItemKouraW *item) {
     // one 36-byte copy of the three vectors (three Vec3 assignments give 0x160 bytes against 0x150)
     item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00_m = itemInUse->mKartOrientation;
     if (item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x8000000) {
-        item->mNextState = 0;
-        item->mNextStateRequested = 1;
+        item->mStateMachine.mNextState = 0;
+        item->mStateMachine.mNextStateRequested = 1;
     }
     return 1;
 }
@@ -279,7 +281,7 @@ void UpdateItemKouraWOrientation(ItemKouraW *item, Vec3 *direction, s32 followDe
 }
 
 void AdvanceItemKouraW(ItemKouraW *item) {
-    AdvanceStateMachine(item->mUnk_2e8);
+    AdvanceStateMachine(&item->mStateMachine);
     func_020f9320(&item->mUnk_000.mUnk_000.mUnk_000, 0x3c000400u);
 }
 
@@ -299,7 +301,7 @@ void UpdateItemKouraWState0(ItemKouraW *item) {
 }
 
 static inline Vec3 *func_020fbd98_inline(ItemKouraW *item) {
-    if (item->mState >= 3) {
+    if (item->mStateMachine.mState >= 3) {
         if (item->mKartItems->mKart->mUnk_48 & 1) {
             return &item->mKartItems->mKart->mGroundNormal;
         }
@@ -316,7 +318,7 @@ void UpdateItemKouraWState1(ItemKouraW *item) {
     void *normal;
     Kart *kart;
 
-    if (item->mStateFrames == 8) {
+    if (item->mStateMachine.mStateFrames == 8) {
         item->mPosStrip = StartPosStrip(item->mUnk_000.mUnk_000.mUnk_000.mUnk_d0);
     }
     AdvanceLinkFollowingItem(&item->mUnk_000, item->mUnk_27c, 0x21, item->mRankKartIndex, 1);
@@ -368,8 +370,8 @@ void UpdateItemKouraWState1(ItemKouraW *item) {
     if (TrySetItemKouraWKartItems(item, item->mRankKartIndex) != 0) {
         kart = item->mKartItems->mKart;
         r = ((item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x40000000) || (kart->mUnk_48 & 1)) ? 2 : 3;
-        item->mNextState = r;
-        item->mNextStateRequested = 1;
+        item->mStateMachine.mNextState = r;
+        item->mStateMachine.mNextStateRequested = 1;
         if (item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x8000000) {
             AddItemDataItemIdAndKart(5, item->mKartItems->mKartIndex, item->mUnk_000.mUnk_000.mUnk_000.mId);
         }
@@ -380,14 +382,14 @@ void UpdateItemKouraWState1(ItemKouraW *item) {
         TrySetItemKouraWKartItems(item, r) != 0) {
         kart = item->mKartItems->mKart;
         v = ((item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x40000000) || (kart->mUnk_48 & 1)) ? 2 : 3;
-        item->mNextState = v;
-        item->mNextStateRequested = 1;
+        item->mStateMachine.mNextState = v;
+        item->mStateMachine.mNextStateRequested = 1;
         if (item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x8000000) {
             AddItemDataItemIdAndKart(5, item->mKartItems->mKartIndex, item->mUnk_000.mUnk_000.mUnk_000.mId);
         }
         return;
     }
-    if (item->mStateFrames <= 0xa8c) {
+    if (item->mStateMachine.mStateFrames <= 0xa8c) {
         return;
     }
     v = (u16) gRaceProgress->mKartAtRank[0];
@@ -400,8 +402,8 @@ void UpdateItemKouraWState1(ItemKouraW *item) {
     SetItemKouraWKartItems(item, (u16) v);
     kart = item->mKartItems->mKart;
     r = ((item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x40000000) || (kart->mUnk_48 & 1)) ? 2 : 3;
-    item->mNextState = r;
-    item->mNextStateRequested = 1;
+    item->mStateMachine.mNextState = r;
+    item->mStateMachine.mNextStateRequested = 1;
 }
 
 void EnterItemKouraWState3(ItemKouraW *item) {
@@ -436,8 +438,8 @@ void UpdateItemKouraWState3(ItemKouraW *item) {
         }
     }
     if ((s64) item->mUnk_238.x * item->mUnk_238.x + (s64) item->mUnk_238.z * item->mUnk_238.z < 0x1900000000LL) {
-        item->mNextState = 4;
-        item->mNextStateRequested = 1;
+        item->mStateMachine.mNextState = 4;
+        item->mStateMachine.mNextStateRequested = 1;
     }
     UpdateItemKouraWDrawPos(item);
     normal = func_020fbd98_inline(item);
@@ -471,8 +473,8 @@ void UpdateItemKouraWState2(ItemKouraW *item) {
     link = item->mKartItems->mUnk_1f0.mLink;
     for (i = 0; i < 4; i++) {
         if (link == item->mUnk_000.mTargetLink.mLink) {
-            item->mNextState = 3;
-            item->mNextStateRequested = 1;
+            item->mStateMachine.mNextState = 3;
+            item->mStateMachine.mNextStateRequested = 1;
         }
         link = link->mNextLinks[0];
     }
@@ -529,14 +531,14 @@ void UpdateItemKouraWState4(ItemKouraW *item) {
             direction.y = ((s64) (item->mAngle - 0x10000) * 0xccd) >> 12;
             direction.z = -(s32) (((s64) item->mUnk_250.x * 0x2000) >> 12);
         }
-        if (item->mStateFrames == 0) {
+        if (item->mStateMachine.mStateFrames == 0) {
             VEC_Subtract(&direction, &item->mUnk_298, &item->mUnk_28c);
         }
         UpdateItemKouraWOrientation(item, &direction, 1, normal);
         return;
     }
-    item->mNextState = 5;
-    item->mNextStateRequested = 1;
+    item->mStateMachine.mNextState = 5;
+    item->mStateMachine.mNextStateRequested = 1;
 }
 
 void EnterItemKouraWState5(ItemKouraW *item) {
@@ -569,8 +571,8 @@ void UpdateItemKouraWState5(ItemKouraW *item) {
         item->mUnk_264 += 0x52;
     }
     if (item->mUnk_260 > 0x2d000) {
-        item->mNextState = 6;
-        item->mNextStateRequested = 1;
+        item->mStateMachine.mNextState = 6;
+        item->mStateMachine.mNextStateRequested = 1;
     }
     item->mUnk_27c -= 0xa14;
     item->mUnk_284 -= 0x102;
@@ -675,7 +677,7 @@ void EnterItemKouraWState7(ItemKouraW *param_1) {
 void UpdateItemKouraWState7(ItemKouraW *item) {
     u32 stateFrames;
 
-    stateFrames = item->mStateFrames;
+    stateFrames = item->mStateMachine.mStateFrames;
     if (GrowItemObjectScale(item, gKouraWState7ScaleLimit, gKouraWState7ScaleStep)) {
         func_020f9fa8(&item->mUnk_000.mUnk_000.mUnk_000);
     }
@@ -723,23 +725,23 @@ void InitItemKouraWFromData(ItemKouraW *item) {
     SetupItemObjectFromData(item);
     if (item->mUnk_000.mPreviousLink.mLink != NULL) {
         InitLinkFollowingItem(&item->mUnk_000, 0x14, 0xcc, 1, 0, item->mUnk_2fc, gRaceProgress->mKartAtRank[0], 1);
-        SetStateMachineState(&item->mUnk_2e8, 1);
+        SetStateMachineState(&item->mStateMachine, 1);
     } else if (item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x8000000) {
         kartIndex = (u16) gRaceProgress->mKartAtRank[0];
         if (item->mKartItems == NULL) {
             SetItemKouraWKartItems(item, kartIndex);
             kart = item->mKartItems->mKart;
             nextState = ((item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x40000000) || (kart->mUnk_48 & 1)) ? 2 : 3;
-            item->mNextState = nextState;
-            item->mNextStateRequested = 1;
+            item->mStateMachine.mNextState = nextState;
+            item->mStateMachine.mNextStateRequested = 1;
         }
     } else {
         kartIndex = (u16) gRaceProgress->mKartAtRank[0];
         SetItemKouraWKartItems(item, kartIndex);
         kart = item->mKartItems->mKart;
         nextState = ((item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x40000000) || (kart->mUnk_48 & 1)) ? 2 : 3;
-        item->mNextState = nextState;
-        item->mNextStateRequested = 1;
+        item->mStateMachine.mNextState = nextState;
+        item->mStateMachine.mNextStateRequested = 1;
         if (item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x8000000) {
             AddItemDataItemIdAndKart(5, item->mKartItems->mKartIndex, item->mUnk_000.mUnk_000.mUnk_000.mId);
         }
@@ -807,7 +809,7 @@ void DrawItemKouraWModel(ItemKouraW *item, Vec3 *param_2, s32 param_3) {
 void DrawItemKouraW(ItemKouraW *item, Vec3 *param_2, s32 param_3) {
     ModelEffect *effect;
 
-    if (item->mState != 7) {
+    if (item->mStateMachine.mState != 7) {
         DrawItemKouraWModel(item, param_2, param_3);
         return;
     }
@@ -820,10 +822,10 @@ void DrawItemKouraW(ItemKouraW *item, Vec3 *param_2, s32 param_3) {
 
 // Asks for state 7 unless the object is already in it; returns 1.
 s32 RequestItemKouraWState7(ItemKouraW *item) {
-    if (item->mState != 7) {
-        InitStateMachine(&item->mUnk_2e8, (UnkFunc *const *) gItemKouraWStateTable, 8, item);
-        item->mNextState = 7;
-        item->mNextStateRequested = 1;
+    if (item->mStateMachine.mState != 7) {
+        InitStateMachine(&item->mStateMachine, gItemKouraWStateTable, 8, item);
+        item->mStateMachine.mNextState = 7;
+        item->mStateMachine.mNextStateRequested = 1;
         if ((item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x180000) == 0) {
             item->mUnk_000.mUnk_000.mUnk_000.mAdvance = (void (*)(struct ItemObject *)) AdvanceItemKouraW;
         }
@@ -836,11 +838,11 @@ s32 RequestItemKouraWState7(ItemKouraW *item) {
 }
 
 BOOL IsItemKouraWState7(ItemKouraW *item) {
-    return item->mState == 7;
+    return item->mStateMachine.mState == 7;
 }
 
 Vec3 *GetItemKouraWState7Info(ItemKouraW *item, s32 *stateFrames, s32 *scaleRatio) {
-    *stateFrames = item->mStateFrames;
+    *stateFrames = item->mStateMachine.mStateFrames;
     *scaleRatio = ((s64) item->mUnk_000.mUnk_000.mUnk_000.mScale.z * gKouraWState7InverseLimit) >> 12;
     return &item->mUnk_000.mUnk_000.mUnk_000.mPos;
 }

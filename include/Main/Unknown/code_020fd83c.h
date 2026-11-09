@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_020467d0.h" // StateMachine
 #include "Main/Unknown/code_020f2dac.h" // BouncingItemObject
 #include "Main/Unknown/code_020e5d0c.h"
 #include "Main/Unknown/code_020f36d8.h"
@@ -22,12 +23,7 @@ typedef struct ItemBomb {
     /* 17a */ u8 mUnk_17a[2];
     /* 17c */ s32 mNearestKartDistanceSquared;
     /* 180 */ s32 mUnk_180;
-    /* 184 */ u8 mUnk_184[4];
-    /* 188 */ s32 mStateFrames;
-    /* 18c */ u8 mUnk_18c[6];
-    /* 192 */ u16 mState;
-    /* 194 */ u16 mNextState;
-    /* 196 */ u16 mNextStateRequested;
+    /* 184 */ StateMachine mStateMachine;
     /* 198 */ ItemBox *mPooledMapObject;
     /* 19c */ s32 mMapObjectOffsetY;
     /* 1a0 */ BOOL mVisible;

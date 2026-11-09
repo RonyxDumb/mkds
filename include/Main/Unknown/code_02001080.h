@@ -1,8 +1,9 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_020467d0.h" // StateCallbacks
 
-extern UnkFunc *gLogoStateTable[24];
+extern StateCallbacks gLogoStateTable[12];
 
 void UpdateLogoState10(void);
 void EnterLogoState10(void);
