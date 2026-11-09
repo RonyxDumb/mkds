@@ -133,43 +133,42 @@ BOOL IsPastBattlePointLink(LinkCursor *linkCursor, Vec3 *position) {
     return result;
 }
 
-void InitRacePointLinkCursor(Unk02080d34 *racePointLinkCursor, u16 kartIndex) {
-    racePointLinkCursor->mLinkCursor.mLink = gCourseMap->mRaceRoute0FirstLink;
-    racePointLinkCursor->mLinkCursor.mPreviousLink = racePointLinkCursor->mLinkCursor.mLink->mUnk_0c;
-    racePointLinkCursor->mLinkCursor.mDirection = data_021557ec;
-    VEC_Subtract(racePointLinkCursor->mLinkCursor.mLink->mUnk_18,
-                 racePointLinkCursor->mLinkCursor.mPreviousLink->mUnk_18, &racePointLinkCursor->mLinkCursor.mDirection);
-    Vec3NormalizeAndGetLengthUnchecked(&racePointLinkCursor->mLinkCursor.mDirection,
-                                       &racePointLinkCursor->mLinkCursor.mDirection);
-    racePointLinkCursor->mLinkCursor.mRequestedLink = NULL;
-    racePointLinkCursor->mLinkCursor.mUnk_18 = FALSE;
+void InitRacePointLinkCursor(PointLinkCursor *racePointLinkCursor, u16 kartIndex) {
+    racePointLinkCursor->mLink = gCourseMap->mRaceRoute0FirstLink;
+    racePointLinkCursor->mPreviousLink = racePointLinkCursor->mLink->mPreviousLinks[0];
+    racePointLinkCursor->mDirection = data_021557ec;
+    VEC_Subtract(racePointLinkCursor->mLink->mPoint, racePointLinkCursor->mPreviousLink->mPoint,
+                 &racePointLinkCursor->mDirection);
+    Vec3NormalizeAndGetLengthUnchecked(&racePointLinkCursor->mDirection, &racePointLinkCursor->mDirection);
+    racePointLinkCursor->mRequestedLink = NULL;
+    racePointLinkCursor->mUnk_18 = FALSE;
     racePointLinkCursor->mKartIndex = kartIndex;
     racePointLinkCursor->mUnk_1e = 0;
 }
 
-void ResetPointLinkCursor(LinkCursor *linkCursor, PointLink *pointLink) {
+void ResetPointLinkCursor(PointLinkCursor *linkCursor, RacePointLink *pointLink) {
     linkCursor->mLink = pointLink;
-    linkCursor->mPreviousLink = linkCursor->mLink->mUnk_0c;
+    linkCursor->mPreviousLink = linkCursor->mLink->mPreviousLinks[0];
     linkCursor->mRequestedLink = NULL;
     linkCursor->mUnk_18 = FALSE;
     linkCursor->mDirection = data_021557ec;
-    VEC_Subtract(linkCursor->mLink->mUnk_18, linkCursor->mPreviousLink->mUnk_18, &linkCursor->mDirection);
+    VEC_Subtract(linkCursor->mLink->mPoint, linkCursor->mPreviousLink->mPoint, &linkCursor->mDirection);
     Vec3NormalizeAndGetLengthUnchecked(&linkCursor->mDirection, &linkCursor->mDirection);
 }
 
-s16 func_02080cc0(LinkCursor *linkCursor) {
-    return *(s16 *) linkCursor->mLink->mUnk_20;
+s16 func_02080cc0(PointLinkCursor *linkCursor) {
+    return linkCursor->mLink->mUnk_20[0];
 }
 
 BOOL IsWithinPointLinkDistance(PointLinkCursor *pointLinkCursor, Vec3 *position) {
     Vec3 offset;
     s32 radius;
     BOOL result;
-    Unk02080b1c_00 *link = pointLinkCursor->mLink;
+    RacePointLink *link = pointLinkCursor->mLink;
 
     result = FALSE;
     radius = link->mUnk_1c;
-    VEC_Subtract(link->mUnk_18, position, &offset);
+    VEC_Subtract(link->mPoint, position, &offset);
     offset.y = result;
     if ((s64) offset.x * offset.x + (s64) offset.y * offset.y + (s64) offset.z * offset.z < (s64) radius * radius) {
         result = TRUE;
@@ -180,7 +179,7 @@ BOOL IsWithinPointLinkDistance(PointLinkCursor *pointLinkCursor, Vec3 *position)
 BOOL IsPastPointLink(PointLinkCursor *pointLinkCursor, Vec3 *position) {
     Vec3 offset;
     BOOL result;
-    Vec3 *linkPosition = pointLinkCursor->mLink->mUnk_18;
+    Vec3 *linkPosition = pointLinkCursor->mLink->mPoint;
 
     result = FALSE;
     if (pointLinkCursor->mDirection.x != 0 || pointLinkCursor->mDirection.y != 0 ||
@@ -215,20 +214,20 @@ void AdvancePointLinkCursor(PointLinkCursor *pointLinkCursor) {
         }
     }
     pointLinkCursor->mPreviousLink = pointLinkCursor->mLink;
-    pointLinkCursor->mLink = pointLinkCursor->mLink->mUnk_00[nextIndex];
-    VEC_Subtract(pointLinkCursor->mLink->mUnk_18, pointLinkCursor->mPreviousLink->mUnk_18,
+    pointLinkCursor->mLink = pointLinkCursor->mLink->mNextLinks[nextIndex];
+    VEC_Subtract(pointLinkCursor->mLink->mPoint, pointLinkCursor->mPreviousLink->mPoint,
                  &pointLinkCursor->mDirection);
     Vec3NormalizeAndGetLengthUnchecked(&pointLinkCursor->mDirection, &pointLinkCursor->mDirection);
 }
 
-void AdvancePointLinkCursorTo(LinkCursor *linkCursor, PointLink *pointLink) {
+void AdvancePointLinkCursorTo(PointLinkCursor *linkCursor, RacePointLink *pointLink) {
     linkCursor->mPreviousLink = linkCursor->mLink;
     linkCursor->mLink = pointLink;
-    VEC_Subtract(linkCursor->mLink->mUnk_18, linkCursor->mPreviousLink->mUnk_18, &linkCursor->mDirection);
+    VEC_Subtract(linkCursor->mLink->mPoint, linkCursor->mPreviousLink->mPoint, &linkCursor->mDirection);
     Vec3NormalizeAndGetLengthUnchecked(&linkCursor->mDirection, &linkCursor->mDirection);
 }
 
-void SetRequestedLinkToPreviousIfNone(LinkCursor *linkCursor) {
+void SetRequestedLinkToPreviousIfNone(PointLinkCursor *linkCursor) {
     if (linkCursor->mRequestedLink == NULL) {
         linkCursor->mRequestedLink = linkCursor->mPreviousLink;
         linkCursor->mUnk_18 = FALSE;
@@ -546,13 +545,13 @@ void AdvanceBattlePointLinkCursorTo(LinkCursor *linkCursor, PointLink *pointLink
     }
 }
 
-void SetupPointLinkCursor(PointLinkCursor *cursor, u32 kartIndex, Unk02080b1c_00 *link) {
+void SetupPointLinkCursor(PointLinkCursor *cursor, u32 kartIndex, struct RacePointLink *link) {
     cursor->mDirection = data_021557ec;
     cursor->mPreviousLink = link;
-    cursor->mLink = cursor->mPreviousLink->mUnk_00[0];
-    VEC_Subtract(cursor->mLink->mUnk_18, cursor->mPreviousLink->mUnk_18, &cursor->mDirection);
+    cursor->mLink = cursor->mPreviousLink->mNextLinks[0];
+    VEC_Subtract(cursor->mLink->mPoint, cursor->mPreviousLink->mPoint, &cursor->mDirection);
     Vec3NormalizeAndGetLengthUnchecked(&cursor->mDirection, &cursor->mDirection);
-    cursor->mUnk_14 = 0;
+    cursor->mRequestedLink = NULL;
     cursor->mUnk_18 = 0;
     cursor->mKartIndex = kartIndex;
 }

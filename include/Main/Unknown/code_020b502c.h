@@ -212,7 +212,7 @@ typedef struct {
 typedef struct RacePointLink {
     /* 00 */ struct RacePointLink *mNextLinks[3];
     /* 0c */ struct RacePointLink *mPreviousLinks[3];
-    /* 18 */ CourseMapPoint *mPoint;
+    /* 18 */ Vec3 *mPoint;
     /* 1c */ s32 mUnk_1c;
     /* 20 */ s16 *mUnk_20;
     /* 24 */ u16 mNextCount;
@@ -329,7 +329,7 @@ typedef struct CourseMap {
     // GetCourseMapRespawnRacePointLink and the kart follower set-up (InitRacePointLinkCursor).
     /* a0 */ RacePointLink *mRacePointLinks;
     // Link of the first point of mRaceRoutes[0].
-    /* a4 */ PointLink *mRaceRoute0FirstLink;
+    /* a4 */ RacePointLink *mRaceRoute0FirstLink;
     // Link of the last point of the route before mRaceRoutes[0].
     /* a8 */ s32 mRaceRoute0PreviousLastLink;
     // One 0x28-byte link per item point (up to three next and three previous links, a pointer to the point, two

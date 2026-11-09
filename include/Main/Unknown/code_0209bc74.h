@@ -6,12 +6,6 @@
 #include "Main/Unknown/code_02087d0c.h" // ModelAnimation
 #include "Main/Unknown/code_0207adf8.h" // ShadowModel
 
-// The draw group (MapObjectList), not the bundle: the creators' first argument; they store 1 or 2 at 0x18.
-typedef struct Unk0209bc74_a {
-    /* 00 */ u8 mUnk_00[0x18];
-    /* 18 */ s32 mUnk_18;
-} Unk0209bc74_a;
-
 // Three words written to the start of the objects of CreateMapObjectModelNsbmdNsbtp, CreateMapObjectModelNsbmd,
 // CreateMapObjectModelShadow and CreateMapObjectModelAnimated.
 typedef struct Unk0209bc74_00 {

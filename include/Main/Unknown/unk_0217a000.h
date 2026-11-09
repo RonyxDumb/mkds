@@ -161,6 +161,12 @@ typedef struct GhostRecordHead {
     };
 } GhostRecordHead;
 
+// A slot ghost's list entry: its head and the emblem; 0x230 bytes per slot.
+typedef struct Unk0206152c {
+    /* 000 */ GhostRecordHead mHead;
+    /* 030 */ u8 mEmblem[0x200];
+} Unk0206152c;
+
 // The 0xe00 bytes behind member 0x14 of Unk0217aa08.
 typedef struct GhostRecord {
     /* 000 */ GhostRecordHead mHead;
@@ -1450,7 +1456,7 @@ struct Kart;
 extern const s32 *data_usa_0217ae38;
 extern void (*gAdvanceKartAiPointLinkCursor)(struct PointLinkCursor *p);
 extern const s32 *data_usa_0217ae40;
-extern void (*gSetKartAiLinkPos)(struct KartAi *p, struct LinkCursor *q, struct Kart *r);
+extern void (*gSetKartAiLinkPos)(struct KartAi *p, struct PointLinkCursor *q, struct Kart *r);
 extern const s32 *gKartAiDriftChargeRandomLimits;
 extern const s32 *data_usa_0217ae2c;
 extern const s32 *gKartAiRaceStartBoostRandomLimits;

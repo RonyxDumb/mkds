@@ -12,9 +12,8 @@ typedef struct Unk0209df84_c4 {
     /* 0e */ u16 mUnk_0e;
 } Unk0209df84_c4;
 
-// Object of kind 0x1af (Fireball2); Unk0209e950 is a view of the draw group record (word +0x1c), not of this
-// object. After the shared part, the counts at 0xa0 and 0xa2, a grid of elements from 0xc4 (rows of
-// 0x140 bytes, 0xa0 rows of 0xa2 elements) and the words from 0x19c4.
+// Object of kind 0x1af (Fireball2). After the shared part, the counts at 0xa0 and 0xa2, a grid of elements from 0xc4
+// (rows of 0x140 bytes, 0xa0 rows of 0xa2 elements) and the words from 0x19c4.
 typedef struct Fireball2 {
     /* 0000 */ MapObject mMapObject;
     /* 00a0 */ u16 mRowCount;
@@ -33,12 +32,6 @@ typedef struct Fireball2 {
     /* 19e4 */ s32 mEntryKartAxisDistance;
 } Fireball2;
 
-// Object given to CreateFireball2, which sets the word at 0x1c.
-typedef struct Unk0209e950 {
-    /* 00 */ u8 mUnk_00[0x1c];
-    /* 1c */ s32 mUnk_1c;
-} Unk0209e950;
-
 void *CreateFireball2UpdateList(void);
 void *CreateFireball2DrawList(void);
 void CreateFireball2KindData(void);
@@ -46,7 +39,7 @@ void UpdateFireball2(void *a, Fireball2 *b); /* skipped for objects with mFlags 
 void InitFireball2Objects(MapObjectList *p);
 void DrawFireball2(void *a, Fireball2 *b);
 void SetupDrawFireball2(void *a);
-void CreateFireball2(Unk0209e950 *a); /* also sets word +0x1c of the group record to 1 */
+void CreateFireball2(MapObjectList *a); /* also sets word +0x1c of the group record to 1 */
 BOOL IsPosNearFireball2(Fireball2 *a, Vec3 *b, s32 c);
 u8 CollideKartWithFireball2(Fireball2 *a, Kart *b, u8 *c, u8 *d);
 void InitFireball2(Fireball2 *a);

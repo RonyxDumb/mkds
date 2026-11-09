@@ -35,19 +35,13 @@ typedef struct Pakkun {
     /* 1fc */ s32 mUnk_1fc;
 } Pakkun;
 
-// Object returned by CreateMapObjectDrawList2 and CreateMapObjectDrawList1 here: a word at 0x1c is set to 1.
-typedef struct Unk020982d4 {
-    /* 00 */ u8 mUnk_00[0x1c];
-    /* 1c */ BOOL mUnk_1c;
-} Unk020982d4;
-
 extern MapObjectList *gPakkunUpdateList;
 extern MapObjectModel *gPakkunMouth;
 extern void *gPakkunZHead;
 extern void *gPakkunBodyDrawList;
 extern void *gPakkunBody;
-extern Unk020982d4 *gPakkunZHeadDrawList;
-extern Unk020982d4 *gPakkunMouthDrawList;
+extern MapObjectList *gPakkunZHeadDrawList;
+extern MapObjectList *gPakkunMouthDrawList;
 
 void *CreatePakkunUpdateList(void);
 void *CreatePakkunZHeadDrawList(void);

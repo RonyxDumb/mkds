@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-typedef struct LinkCursor LinkCursor;
-typedef struct PointLink PointLink;
+typedef struct PointLinkCursor PointLinkCursor;
+typedef struct RacePointLink RacePointLink;
 
-void AdvancePointLinkCursorTo(LinkCursor *linkCursor, PointLink *pointLink);
+void AdvancePointLinkCursorTo(PointLinkCursor *linkCursor, RacePointLink *pointLink);

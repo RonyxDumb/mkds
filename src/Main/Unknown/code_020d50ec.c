@@ -235,7 +235,7 @@ void ResetRock(RockObject *rock) {
 
 #pragma thumb on
 void CreateNsbmdAndShadowNsbmd(void *a, const char *name, const char *shadowName) {
-    CreateNsbmd((void **) &gRock, FindCourseMapObjFile(name), NULL);
+    CreateNsbmd(&gRock, FindCourseMapObjFile(name), NULL);
     CreateShadowModel((void **) &gRockShadow, FindCourseMapObjFile(shadowName), 7);
     func_02084968(gRock, 0x3f, 2, 0x294a);
     SetNsbmdPolygonIdAll(gRock, 7);

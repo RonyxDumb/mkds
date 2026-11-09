@@ -511,14 +511,14 @@ void SetupKartKillerCursor(KartKillerCursor *kartKillerCursor, u32 kartIndex) {
     kart = GetKart(kartIndex);
     kartKillerCursor->mKillerKartIndex = kartIndex;
     SetupPointLinkCursor(&kartKillerCursor->mPointLinkCursor, kartIndex,
-                         (Unk02080b1c_00 *) gKartItems[kartIndex].mUnk_1f0.mLink);
+                         (RacePointLink *) gKartItems[kartIndex].mUnk_1f0.mLink);
     kartKillerCursor->mUnk_26 = 0;
     kartKillerCursor->mUnk_28 = 0;
     kart->mTurnAngle = 0;
     EndKartDrift(kart);
 }
 
-void ResetKartKillerCursorTo(KartKillerCursor *kartKillerCursor, Unk02080b1c_00 *link) {
+void ResetKartKillerCursorTo(KartKillerCursor *kartKillerCursor, RacePointLink *link) {
     if (link == kartKillerCursor->mPointLinkCursor.mPreviousLink) {
         return;
     }
@@ -539,7 +539,7 @@ void AdvanceKartKillerAlongPointLinks(KartKillerCursor *kartKillerCursor) {
     kart = GetKart(kartKillerCursor->mKillerKartIndex);
     position = kart->mPos;
     kartKillerCursor->mAngleToLinkDegrees = ComputeAngleToPositionDegrees(
-        kartKillerCursor->mPointLinkCursor.mLink->mUnk_18, &position, &kart->mUnk_12c, &kart->mUnk_138);
+        kartKillerCursor->mPointLinkCursor.mLink->mPoint, &position, &kart->mUnk_12c, &kart->mUnk_138);
     if ((kart->mUnk_48 & 0x40000000) != 0 && kart->mSurfaceVariant == 1) {
         isPastOrNearLink = IsPastPointLink(&kartKillerCursor->mPointLinkCursor, &position);
     } else {

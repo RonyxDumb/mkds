@@ -101,10 +101,10 @@ BOOL IsPosNearFireball2(Fireball2 *a, Vec3 *b, s32 c) {
     return FALSE;
 }
 
-void CreateFireball2(Unk0209e950 *a) {
+void CreateFireball2(MapObjectList *a) {
     gFireball2 = CreateMapObjectModelNsbmd(a, gFireball2NsbmdName);
     SetMapObjectModelPolygonId(gFireball2, 0x3f);
-    a->mUnk_1c = 1;
+    a->mUnk_1c_0 = 1;
 }
 
 void SetupDrawFireball2(void *a) {

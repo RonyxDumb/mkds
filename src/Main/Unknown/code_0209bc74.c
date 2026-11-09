@@ -8,14 +8,15 @@
 #include "Main/Unknown/code_020d2090.h"
 #include "Main/Unknown/code_020e5d0c.h"
 #include "Main/Unknown/code_020ea514.h"
+#include "Main/Unknown/code_020e6fd4.h" // MapObjectList
 
 #pragma thumb on
-void *CreateMapObjectModelAnimated(void *a, const char *b) {
+void *CreateMapObjectModelAnimated(MapObjectList *a, const char *b) {
     MapObjectModel *o;
 
     o = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     if (a != NULL) {
-        ((Unk0209bc74_a *) a)->mUnk_18 = 1;
+        a->mUnk_18 = 1;
     }
     o->mNsbmdFile = FindCourseMapObjFile(b);
     o->mAnimatedModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x6c);
@@ -58,14 +59,14 @@ void CreateMapObjectModelNsbtpAnimation(MapObjectModel *a, const char *b) {
 #pragma thumb off
 
 #pragma thumb on
-void *CreateMapObjectModelShadow(void *a, const char *b) {
+void *CreateMapObjectModelShadow(MapObjectList *a, const char *b) {
     MapObjectModel *o;
     void *x;
 
     o = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     x = FindCourseMapObjFile(b);
     if (a != NULL) {
-        ((Unk0209bc74_a *) a)->mUnk_18 = 1;
+        a->mUnk_18 = 1;
     }
     o->mShadowModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x74);
     InitShadowModel(o->mShadowModel, x, 0x3f);
@@ -75,7 +76,7 @@ void *CreateMapObjectModelShadow(void *a, const char *b) {
 #pragma thumb off
 
 #pragma thumb on
-void *CreateMapObjectModelNsbmd(void *a, const char *b) {
+void *CreateMapObjectModelNsbmd(MapObjectList *a, const char *b) {
     MapObjectModel *o;
     void *x;
     NsbmdModel *m;
@@ -83,7 +84,7 @@ void *CreateMapObjectModelNsbmd(void *a, const char *b) {
     o = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     x = FindCourseMapObjFile(b);
     if (a != NULL) {
-        ((Unk0209bc74_a *) a)->mUnk_18 = 2;
+        a->mUnk_18 = 2;
     }
     o->mNsbmdModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     func_020e64b8(o->mNsbmdModel, x, NULL, 0);
@@ -100,7 +101,7 @@ void *CreateMapObjectModelNsbmd(void *a, const char *b) {
 
 #pragma thumb on
 // Like CreateMapObjectModelNsbmd with a second file, the .nsbtp (named like Init<Kind><Kind>).
-void *CreateMapObjectModelNsbmdNsbtp(void *a, const char *b, const char *c) {
+void *CreateMapObjectModelNsbmdNsbtp(MapObjectList *a, const char *b, const char *c) {
     MapObjectModel *o;
     void *x;
     void *y;
@@ -110,7 +111,7 @@ void *CreateMapObjectModelNsbmdNsbtp(void *a, const char *b, const char *c) {
     x = FindCourseMapObjFile(b);
     y = FindCourseMapObjFile(c);
     if (a != NULL) {
-        ((Unk0209bc74_a *) a)->mUnk_18 = 2;
+        a->mUnk_18 = 2;
     }
     o->mNsbmdModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     func_020e64b8(o->mNsbmdModel, x, y, 0);

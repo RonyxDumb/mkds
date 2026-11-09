@@ -39,11 +39,11 @@ u8 CollideKartWithMkdEfBurner(MkdEfBurner *mkdEfBurner, Kart *kart, u8 *c, u8 *d
     return v;
 }
 
-void CreateMkdEfBurner(Unk02093708 *p) {
+void CreateMkdEfBurner(MapObjectList *p) {
     gMkdEfBurner = CreateMapObjectModelAnimated(p, gMkdEfBurnerNsbmdName);
     CreateMapObjectModelNsbtaAnimation(gMkdEfBurner, gMkdEfBurnerNsbtaName);
     SetMapObjectModelPolygonId(gMkdEfBurner, 0x3f);
-    p->mUnk_1c = 1;
+    p->mUnk_1c_0 = 1;
 }
 
 void SetupDrawMkdEfBurner(void *a) {

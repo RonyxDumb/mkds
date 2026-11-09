@@ -394,7 +394,7 @@ void func_020db430(Dossun *dossun) {
 
 #pragma thumb on
 void CreateDossunAndDossunShadow(void) {
-    CreateNsbmd((void **) &gDossun, FindCourseMapObjFile("dossun.nsbmd"), NULL);
+    CreateNsbmd(&gDossun, FindCourseMapObjFile("dossun.nsbmd"), NULL);
     CreateShadowModel((void **) &gDossunShadow, FindCourseMapObjFile("dossun_shadow.nsbmd"), 0x3f);
     func_02084968(gDossun, 0x3f, 2, 0x294a);
 }

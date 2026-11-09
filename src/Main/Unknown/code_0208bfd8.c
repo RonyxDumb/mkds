@@ -34,25 +34,25 @@ void AdvanceKartAiForRace(KartAi *kartAi) {
 }
 
 void RequestKartAiPointLink(KartAi *kartAi) {
-    if (kartAi->mUnk_08.mLinkCursor.mRequestedLink != NULL) {
-        if (kartAi->mUnk_08.mLinkCursor.mUnk_18 != FALSE) {
+    if (kartAi->mUnk_08.mRequestedLink != NULL) {
+        if (kartAi->mUnk_08.mUnk_18 != FALSE) {
             return;
         }
     }
-    kartAi->mUnk_08.mLinkCursor.mRequestedLink = FindCourseMapKind4ShapeRacePointLink(&kartAi->mKart->mPos);
-    if (kartAi->mUnk_08.mLinkCursor.mRequestedLink != NULL) {
-        kartAi->mUnk_08.mLinkCursor.mUnk_18 = TRUE;
+    kartAi->mUnk_08.mRequestedLink = FindCourseMapKind4ShapeRacePointLink(&kartAi->mKart->mPos);
+    if (kartAi->mUnk_08.mRequestedLink != NULL) {
+        kartAi->mUnk_08.mUnk_18 = TRUE;
     }
 }
 
 BOOL IsKartAiLinkRequested(KartAi *kartAi) {
-    return kartAi->mUnk_08.mLinkCursor.mRequestedLink != NULL;
+    return kartAi->mUnk_08.mRequestedLink != NULL;
 }
 
 void CopyKartAiLinkPosAndDirection(Vec3 *position, Vec3 *direction, KartAi *kartAi) {
-    LinkCursor *cursor = &kartAi->mUnk_08.mLinkCursor;
+    PointLinkCursor *cursor = &kartAi->mUnk_08;
 
-    *position = *cursor->mLink->mUnk_18;
+    *position = *cursor->mLink->mPoint;
     *direction = cursor->mDirection;
 }
 

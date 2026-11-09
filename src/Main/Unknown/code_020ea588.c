@@ -22,7 +22,7 @@ void func_020ea5b0(NsbmdModel *model, u32 maxAlpha, Vec3 *position) {
 
 #pragma thumb on
 
-void CreateNsbmd(void **slot, void *file, void *unused) {
+void CreateNsbmd(Nsbmd **slot, void *file, void *unused) {
     *slot = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x6c);
     InitNsbmd(*slot, file);
 }

@@ -415,7 +415,7 @@ u32 CollideItemObjectWithWoodbox1(Woodbox1 *woodbox, Unk020eb498 *itemObject, u8
 #pragma thumb on
 
 void CreateWoodbox1(MapObjectList *list) {
-    CreateNsbmd((void **) &gWoodbox1, FindCourseMapObjFile(gWoodbox1NsbmdName), NULL);
+    CreateNsbmd(&gWoodbox1, FindCourseMapObjFile(gWoodbox1NsbmdName), NULL);
     func_02084968(gWoodbox1, 0x3f, 2, 0x294a);
 }
 

@@ -100,7 +100,7 @@ void CreateObjShadowAndJgShadow(void) {
     Unk020e52bc_8 *b;
     Unk020e52bc_c *c;
 
-    CreateNsbmd((void **) &gObjShadow, FindMainRaceOrMainEffectMapObjFile(gObjShadowNsbmdName), NULL);
+    CreateNsbmd((Nsbmd **) &gObjShadow, FindMainRaceOrMainEffectMapObjFile(gObjShadowNsbmdName), NULL);
     SetNsbmdPolygonIdAll(gObjShadow, 0x3f);
     SetNsbmdLightEnableFlagAll(gObjShadow, 0);
     a = gObjShadow->mUnk_004;

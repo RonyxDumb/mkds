@@ -114,7 +114,12 @@ typedef struct MapObjectList {
     /* 10 */ UnkFunc *mForEachObject;
     /* 14 */ void (*mAfterObjects)(struct MapObjectList *p);
     /* 18 */ s32 mUnk_18;
-    /* 1c */ s32 (*mUnk_1c)(MapObject *e, void *a, void *b, void *c);
+    // A callback in the update lists (func_020e6fd4); the draw lists test it for non-zero (func_020d4990, the draw
+    // loop) and the kinds' creators set it to 1.
+    /* 1c */ union {
+        s32 (*mUnk_1c)(MapObject *e, void *a, void *b, void *c);
+        s32 mUnk_1c_0;
+    };
     /* 20 */ s32 mUnk_20;
     /* 24 */ void **mUnk_24;
 } MapObjectList;

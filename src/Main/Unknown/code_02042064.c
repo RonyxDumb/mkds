@@ -255,7 +255,7 @@ void BuildCourseMapRaceRouteLinks(RacePointLink *previousLink, CourseMapRoute *r
             return;
         }
     }
-    link->mPoint = racePoint;
+    link->mPoint = &racePoint->mPos;
     link->mUnk_1c = racePoint->mUnk_0c;
     link->mUnk_20 = racePoint->mUnk_10;
     if (previousLink != NULL) {

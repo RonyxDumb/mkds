@@ -1,6 +1,7 @@
 #include "Main/Unknown/code_0202dd9c.h"
 
 #include "Main/Unknown/unk_02174000.h"
+#include "Main/Unknown/unk_0217a000.h" // GhostRecordHead, Unk0206152c
 #include "Main/Unknown/code_02025000.h"
 #include "Main/Unknown/code_02025d5c.h"
 #include "Main/Unknown/code_021171a0.h"
@@ -43,7 +44,7 @@ void InitGhostScene(void *heap) {
     u8 *displaySettings;
     s32 i;
     u32 courseId;
-    u8 *courseRecords;
+    GhostRecordHead *courseRecords;
     s32 cupCourseIndex;
     gGhostScene = HeapAlloc(heap, 0x8dc);
     MemFillWordsByBlock_inline(gGhostScene, 0x8dc);
@@ -75,24 +76,24 @@ void InitGhostScene(void *heap) {
     for (i = 0; i < 10; i++) {
         gGhostScene->mSlotIndices[i] = -1;
     }
-    gGhostScene->mCourseGhostRecords = (u8 *) CreateCourseGhostRecords((u32) heap);
+    gGhostScene->mCourseGhostRecords = (GhostRecordHead *) CreateCourseGhostRecords((u32) heap);
     StartReadCourseGhostRecords(gGhostScene->mCourseGhostRecords);
     WaitThreadFunctionsDone();
     for (i = 0; i < 0x20; i++) {
         courseId = func_0202e43c(i);
         courseRecords = gGhostScene->mCourseGhostRecords;
         cupCourseIndex = FindCupCourseIndex(courseId);
-        if (IsGhostRecordFilled(courseRecords + cupCourseIndex * 0x30) != FALSE) {
+        if (IsGhostRecordFilled(&courseRecords[cupCourseIndex]) != FALSE) {
             gGhostScene->mCupCourseIndices[gGhostScene->mCourseGhostCount] = i;
             gGhostScene->mGhostCount++;
             gGhostScene->mCourseGhostCount++;
         }
     }
-    gGhostScene->mSlotGhostRecords = (u8 *) CreateSlotGhostRecords((u32) heap);
+    gGhostScene->mSlotGhostRecords = (Unk0206152c *) CreateSlotGhostRecords((u32) heap);
     StartReadSlotGhostRecords(gGhostScene->mSlotGhostRecords);
     WaitThreadFunctionsDone();
     for (i = 0; i < 10; i++) {
-        if (IsGhostRecordFilled(gGhostScene->mSlotGhostRecords + (u8) i * 0x230) != FALSE) {
+        if (IsGhostRecordFilled(&gGhostScene->mSlotGhostRecords[(u8) i]) != FALSE) {
             gGhostScene->mSlotIndices[gGhostScene->mSlotGhostCount] = i;
             gGhostScene->mGhostCount++;
             gGhostScene->mSlotGhostCount++;

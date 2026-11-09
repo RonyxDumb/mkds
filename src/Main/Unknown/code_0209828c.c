@@ -381,7 +381,7 @@ void UpdatePakkun(void *a, Pakkun *pakkun) {
 
 void *CreatePakkunMouthDrawList(void) {
     gPakkunMouthDrawList = CreateMapObjectDrawList1(CreatePakkunMouth, DrawPakkunMouth, NULL);
-    gPakkunMouthDrawList->mUnk_1c = TRUE;
+    gPakkunMouthDrawList->mUnk_1c_0 = TRUE;
     func_020d49d8(&gPakkunMouthDrawList);
     return gPakkunMouthDrawList;
 }
@@ -394,7 +394,7 @@ void *CreatePakkunBodyDrawList(void) {
 
 void *CreatePakkunZHeadDrawList(void) {
     gPakkunZHeadDrawList = CreateMapObjectDrawList2(CreatePakkunZHead, DrawPakkunZHead, SetupDrawPakkunZHead);
-    gPakkunZHeadDrawList->mUnk_1c = TRUE;
+    gPakkunZHeadDrawList->mUnk_1c_0 = TRUE;
     func_020d49d8(&gPakkunZHeadDrawList);
     return gPakkunZHeadDrawList;
 }

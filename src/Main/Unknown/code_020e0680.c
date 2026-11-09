@@ -469,22 +469,22 @@ void func_020e20a8(Unk020e20a8 *drawList) {
     CreateModelAnimation(2, gCarA, &gCarANsbtp, carFile, FindCourseMapObjFile(gCarANsbtpName));
     CreateModelAnimation(2, gTruckA, &gTruckANsbtp, truckFile, FindCourseMapObjFile(gTruckANsbtpName));
     func_02084968(gCarA, 0x3f, 2, 0x294a);
-    for (carMaterialIndex = 0, carModel = ((Nsbmd *) gCarA)->mResMdl; carMaterialIndex < carModel->mInfo.mNumMat;
+    for (carMaterialIndex = 0, carModel = gCarA->mResMdl; carMaterialIndex < carModel->mInfo.mNumMat;
          carMaterialIndex++) {
         NNS_G3dMdlSetMdlPolygonID(carModel, carMaterialIndex, 7);
     }
     func_02084968(gTruckA, 0x3f, 2, 0x294a);
-    for (truckMaterialIndex = 0, truckModel = ((Nsbmd *) gTruckA)->mResMdl;
+    for (truckMaterialIndex = 0, truckModel = gTruckA->mResMdl;
          truckMaterialIndex < truckModel->mInfo.mNumMat; truckMaterialIndex++) {
         NNS_G3dMdlSetMdlPolygonID(truckModel, truckMaterialIndex, 7);
     }
     func_02084968(gBusA, 0x3f, 2, 0x294a);
-    for (busMaterialIndex = 0, busModel = ((Nsbmd *) gBusA)->mResMdl; busMaterialIndex < busModel->mInfo.mNumMat;
+    for (busMaterialIndex = 0, busModel = gBusA->mResMdl; busMaterialIndex < busModel->mInfo.mNumMat;
          busMaterialIndex++) {
         NNS_G3dMdlSetMdlPolygonID(busModel, busMaterialIndex, 7);
     }
     func_02084968(gCarTire, 0x3f, 2, 0x294a);
-    for (tireMaterialIndex = 0, tireModel = ((Nsbmd *) gCarTire)->mResMdl;
+    for (tireMaterialIndex = 0, tireModel = gCarTire->mResMdl;
          tireMaterialIndex < tireModel->mInfo.mNumMat; tireMaterialIndex++) {
         NNS_G3dMdlSetMdlPolygonID(tireModel, tireMaterialIndex, 7);
     }

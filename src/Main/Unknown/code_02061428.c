@@ -3,15 +3,16 @@
 #include "Main/Unknown/code_020574c8.h"
 #include "Main/Unknown/code_02057800.h"
 #include "01/code_021956dc.h"
+#include "Main/Unknown/unk_0217a000.h" // Unk0206152c
 
 void ReadSlotGhostRecords(void) {
     u8 i;
-    u8 *records;
+    Unk0206152c *records;
     GhostRecordHead *record;
 
     records = data_0217aa08->mReadDestination;
     for (i = 0; i < 10; i++) {
-        record = (GhostRecordHead *) (records + i * 0x230);
+        record = &records[i].mHead;
         if (IsSlotGhostBitSet(i) != 0) {
             func_02057800(0, i, record);
             if (gBackupAccess->mBackupEnabled != 0) {

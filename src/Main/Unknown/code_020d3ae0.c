@@ -195,7 +195,7 @@ void DrawMapObjectList(MapObjectList *list, MtxFx43 *viewMatrix) {
     if (forEachObject == NULL) {
         return;
     }
-    if (list->mUnk_1c != NULL) {
+    if (list->mUnk_1c_0 != 0) {
         lastObject = NULL;
         for (i = 0; i < objectCount; i++) {
             mapObject = objects[i];
@@ -336,7 +336,7 @@ void func_020d49d8(void *listSlot) {
 void func_020d4990(MapObjectList *list) {
     s32 i;
 
-    if (list->mUnk_1c != NULL) {
+    if (list->mUnk_1c_0 != 0) {
         list->mUnk_24 = HeapAlloc(GetHeap(GetCurrentHeapCall()), list->mMapObjectCount * 4);
         for (i = 0; i < list->mMapObjectCount; i++) {
             list->mUnk_24[i] = list->mMapObjects[i];

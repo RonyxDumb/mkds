@@ -15,6 +15,8 @@
 
 typedef struct GhostRecord GhostRecord;
 typedef struct Unk0202ddd8 Unk0202ddd8;
+typedef struct GhostRecordHead GhostRecordHead;
+typedef struct Unk0206152c Unk0206152c;
 
 // Screen kinds of the player entry list (SetupPlayerEntryList's second argument, PlayerEntryList.mScreenKind).
 #define PLAYER_ENTRY_LIST_CHARACTER 0
@@ -305,9 +307,9 @@ typedef struct GhostScene {
     // Slot numbers (0..9) of the filled slot ghosts, in list order.
     /* 894 */ s32 mSlotIndices[10];
     // 0x30 bytes per cup position.
-    /* 8bc */ u8 *mCourseGhostRecords;
+    /* 8bc */ GhostRecordHead *mCourseGhostRecords;
     // 0x230 bytes per slot.
-    /* 8c0 */ u8 *mSlotGhostRecords;
+    /* 8c0 */ Unk0206152c *mSlotGhostRecords;
     /* 8c4 */ GhostSceneCallbacks *mCurrentCallbacks;
     /* 8c8 */ s32 mRequestedCallbacksIndex;
     /* 8cc */ s32 mCurrentCallbacksIndex;

@@ -18,10 +18,10 @@ void func_0207f05c(KartAi *kartAi);
 void PickKartAiTargetKart(KartAi *kartAi);
 s32 ShouldKartAiTargetKart(u32 kartIndex, u32 targetIndex);
 BOOL func_0207f600(s32 kartIndex);
-void SetKartAiLinkPosAndClearSideOffset(KartAi *kartAi, LinkCursor *linkCursor, Kart *kart);
-void SetKartAiLinkPosAndAddSideOffset(KartAi *kartAi, LinkCursor *linkCursor, Kart *kart);
-void func_0207f6f0(KartAi *kartAi, LinkCursor *linkCursor, Kart *kart, PointLink *requestedLink, Vec3 *kartPos,
-                   Vec3 *kartForward);
+void SetKartAiLinkPosAndClearSideOffset(KartAi *kartAi, PointLinkCursor *linkCursor, Kart *kart);
+void SetKartAiLinkPosAndAddSideOffset(KartAi *kartAi, PointLinkCursor *linkCursor, Kart *kart);
+void func_0207f6f0(KartAi *kartAi, PointLinkCursor *linkCursor, Kart *kart, RacePointLink *requestedLink,
+                   Vec3 *kartPos, Vec3 *kartForward);
 void AdvanceRaceKartAi(KartAi *kartAi);
 void ResetRaceKartAiAtPointLink(KartAi *kartAi);
 void ResetKartAi(KartAi *kartAi, s32 a);

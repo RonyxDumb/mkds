@@ -40,12 +40,12 @@ void InitBalloon(Balloon *balloon) {
     ParkMapObject(&balloon->mUnk_00);
 }
 
-void CreateBalloon(Unk020a3eb8 *a) {
+void CreateBalloon(MapObjectList *a) {
     gBalloon = CreateMapObjectModelNsbmdNsbtp(a, gBalloonNsbmdName, gBalloonNsbtpName);
     SetMapObjectModelPolygonId(gBalloon, 0x3f);
     SetMapObjectModelAlpha(gBalloon, 0x1a);
     SetMapObjectModelFogEnabled(gBalloon, 0);
-    a->mUnk_1c = 1;
+    a->mUnk_1c_0 = 1;
 }
 
 void SetupDrawBalloon(void *mapObjectList) {

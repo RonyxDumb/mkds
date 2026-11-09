@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct LinkCursor LinkCursor;
+typedef struct PointLinkCursor PointLinkCursor;
 
-s16 func_02080cc0(LinkCursor *linkCursor);
+s16 func_02080cc0(PointLinkCursor *linkCursor);

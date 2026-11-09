@@ -21,12 +21,6 @@ typedef struct MkdEfBurner {
     /* d4 */ s32 mKartTimers[8];
 } MkdEfBurner;
 
-// Object of CreateMkdEfBurner: a word at 0x1c.
-typedef struct Unk02093708 {
-    /* 00 */ u8 mUnk_00[0x1c];
-    /* 1c */ s32 mUnk_1c;
-} Unk02093708;
-
 #include "Main/Unknown/unk_0217b000.h" // Unk0217b498_00
 
 u16 func_020931ac(Unk0217b498_00 *a);
@@ -38,7 +32,7 @@ void UpdateMkdEfBurner(void *a,
 void InitMkdEfBurnerObjects(MapObjectList *mapObjectList);
 void DrawMkdEfBurner(void *a, MkdEfBurner *mkdEfBurner);
 void SetupDrawMkdEfBurner(void *a);
-void CreateMkdEfBurner(Unk02093708 *p); /* also sets word +0x1c of the group record to 1 */
+void CreateMkdEfBurner(MapObjectList *p); /* also sets word +0x1c of the group record to 1 */
 u8 CollideKartWithMkdEfBurner(MkdEfBurner *mkdEfBurner, Kart *kart, u8 *c, u8 *d);
 void InitMkdEfBurner(
     MapObject *mapObject); /* allocates the object's sound source (CreateMapObjectSoundSourceFalloff2) */

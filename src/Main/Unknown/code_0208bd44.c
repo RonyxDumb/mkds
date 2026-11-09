@@ -63,7 +63,7 @@ void SetupKartAiForAwardMissionRun(KartAi *kartAi, s32 kartIndex) {
     }
 }
 
-void func_0208bde0(KartAi *kartAi, PointLink *pointLink) {
+void func_0208bde0(KartAi *kartAi, RacePointLink *pointLink) {
     ResetAwardMissionRunKartAi(kartAi, pointLink);
     ResetAwardMissionRunKartAiSpeedLimit(&kartAi->mUnk_e8, kartAi);
 }

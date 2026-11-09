@@ -45,7 +45,7 @@ typedef struct KartAi {
     /* 00 */ Kart *mKart;
     /* 04 */ u16 mIndex;
     /* 06 */ u16 mUnk_06;
-    /* 08 */ Unk02080d34 mUnk_08;
+    /* 08 */ PointLinkCursor mUnk_08;
     /* 28 */ LinkCursor mBattleLinkCursor;
     /* 44 */ Vec3 mLinkPosWithSideOffset;
     /* 50 */ Vec3 mTargetKartPos;
