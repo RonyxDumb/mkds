@@ -16,10 +16,10 @@ typedef struct ChoisesS {
     // Non-zero from opening the list screen in the race until it is closed there; other race code stops meanwhile.
     /* 000 */ s32 mOpenDuringRace;
     /* 004 */ s32 mPrevOpenDuringRace;
-    /* 008 */ s32 mUnk_008;
+    /* 008 */ s32 mOpenAfterRace;
     // Set once a non-zero pick is stored (not by the auto pick); open and close requests and list input are ignored.
     /* 00c */ s32 mPickLocked;
-    /* 010 */ BOOL mUnk_010;
+    /* 010 */ BOOL mPickStartedOnSelected;
     // Calls since a list entry was picked, 0 when none; past 0xf mPickedValue is latched and this goes back to 0.
     /* 014 */ s32 mPickFrames;
     // Calls since a close was asked for, 0 when none; past 4 the close is requested and this goes back to 0.
@@ -49,7 +49,7 @@ typedef struct ChoisesS {
     /* 18c */ Nscr *mChoisesSNscrs[6];
 } ChoisesS;
 
-void func_020b24cc(TextCanvas *textCanvas, void *charCanvas, void *font, s32 charSpacing, s32 lineSpacing);
-u32 func_020b24a4(TextCanvas *textCanvas, s32 textX, s32 textY, u32 color, u32 flags, void *text);
+void ChoisesSInitTextCanvas(TextCanvas *textCanvas, void *charCanvas, void *font, s32 charSpacing, s32 lineSpacing);
+u32 ChoisesSDrawTextOnCanvas(TextCanvas *textCanvas, s32 textX, s32 textY, u32 color, u32 flags, void *text);
 void InitChoisesS(void);
 void ClearChoisesSPointer(void);

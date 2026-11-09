@@ -229,7 +229,7 @@ void func_ov001_0218052c(Unk0218052c *sceneNumbers) {
     TestScene *testScene;
 
     func_ov001_021805ec();
-    func_020ae718();
+    SetLastTick();
     if (sceneNumbers != NULL) {
         slotIndex = func_ov001_021805ec();
         if (func_ov001_021805bc(slotIndex, PAD_KEY_A) != 0) {

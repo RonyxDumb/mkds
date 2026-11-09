@@ -41,7 +41,7 @@ void ResetRaceStartSequenceFrames(void) {
     gRaceStartSequence->mSequenceFrames = -0x78;
 }
 
-// Per-frame step from func_020af66c: no sounds (they are in the draw, UpdateRaceStartSequenceSounds).
+// Per-frame step from UpdateRaceHud: no sounds (they are in the draw, UpdateRaceStartSequenceSounds).
 void UpdateRaceStartSequence(void) {
     RaceStartSequence *sequence = gRaceStartSequence;
     s32 frames;

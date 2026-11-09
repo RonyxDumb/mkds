@@ -651,7 +651,7 @@ Expression shapes:
   count with the variable an earlier loop used, and sum into a variable first used in this loop (HeadphoneProc).
 - Loop pointer and counter registers swapped: declare the counter right before the pointer local (func_020072c0).
 - A hand-rotated do-while guard giving `bcc` (ROM `blt`) and swapped registers at `j++`: a plain `for (j = 1; j <= f();
-  j++)` with the increment at the end (func_020b1a34).
+  j++)` with the increment at the end (StartRaceHudLapTimeDisplay).
 - A later loop's counter and its strength-reduced offset swapped: a new named counter and a new named bound for that
   loop (func_020e4184).
 - A stack variable's `+1` placed among the pointer steps, where its first use appears in the body, is a derived

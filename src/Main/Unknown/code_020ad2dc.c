@@ -86,13 +86,13 @@ void TitleWriteSubBlendAlpha(u32 plane1, u32 plane2, u32 ev1, u32 ev2) {
     G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, plane1, plane2, ev1, ev2);
 }
 
-u32 func_020ad88c(u32 bits) {
+u32 WriteMainWinEnableBits(u32 bits) {
     u32 dispcntValue = (reg_GX_DISPCNT & ~0xe000u) | (bits << 13);
     reg_GX_DISPCNT = dispcntValue;
     return dispcntValue;
 }
 
-u32 func_020ad870(u32 bits) {
+u32 TitleWriteSubWinEnableBits(u32 bits) {
     u32 dispcntValue = (reg_GXS_DB_DISPCNT & ~0xe000u) | (bits << 13);
     reg_GXS_DB_DISPCNT = dispcntValue;
     return dispcntValue;
@@ -195,8 +195,8 @@ void CreateTitleScene(void) {
     TitleSetSubDispcntBits(0x10);
     TitleWriteMainBlendAlpha(4, 8, 0, 0x10);
     TitleWriteSubBlendAlpha(0, 0x3f, 6, 10);
-    func_020ad88c(0);
-    func_020ad870(0);
+    WriteMainWinEnableBits(0);
+    TitleWriteSubWinEnableBits(0);
     config.mUseTxtSystem = 0;
     config.mTxtSystemFont = NULL;
     config.mUseCanvas1 = 0;

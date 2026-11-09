@@ -46,7 +46,7 @@ void func_0212891c(void) {
 void UpdateKeyboardScene(s16 *sceneNumbers) {
     ClearOamListCounts(data_0217d3fc, &data_0217d3fc->mUnk_404);
     AdvanceKeyboard();
-    func_020ae630(data_0217d3fc, &data_0217d3fc->mUnk_404);
+    HideUnusedOams(data_0217d3fc, &data_0217d3fc->mUnk_404);
     if (sceneNumbers != NULL) {
         if (GetKeyboardNextScene() != -1) {
             sceneNumbers[2] = GetKeyboardNextScene();

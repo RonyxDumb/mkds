@@ -7,7 +7,7 @@
 #pragma optimize_for_size on
 // In mode 5 the sequence index is always 4, whatever the selected value.
 void StartChoisesSSelectedValueSeq(void) {
-    if (func_020b252c() == 5) {
+    if (ChoisesSGetCurrentMode() == 5) {
         StartChoisesSValueSeq(4);
     } else {
         switch (gChoisesS->mSelectedValue) {

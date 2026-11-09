@@ -30,7 +30,7 @@ void SetPixel2Bit(u16 *pixels, s32 pixelX, s32 pixelY, s32 value);
 void RenderKartEntryName(u32 entryIndex);
 void DrawTextOnCanvas(TextCanvas *textCanvas, s32 textX, s32 textY, u32 color, u32 flags, void *text);
 void InitTextCanvas(TextCanvas *textCanvas, void *charCanvas, void *font, s32 charSpacing, s32 lineSpacing);
-void CopyKartEntryName(u32 entryIndex, u16 *nameOut, u32 c);
+void CopyKartEntryName(u32 entryIndex, u16 *nameOut, u32 fullName);
 int GetKartEntryNumber(int entryIndex);
 BOOL IsKartEntryHumanGhostOrPeer(u32 entryIndex);
 u32 KartEntryGetCurrentPlayerKind(u32 entryIndex);

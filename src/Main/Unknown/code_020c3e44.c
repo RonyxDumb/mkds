@@ -114,7 +114,7 @@ void UpdateRaceGoalM(void) {
     if (gRaceProgress->mKarts[followedKartIndex].mStatus == 1 || gRaceProgress->mRaceDone != 0) {
         gRaceGoalM->mUnk_00 = 0;
     }
-    if (func_020b1d0c() == 0) {
+    if (IsRaceHudGoalMEnabled() == 0) {
         return;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
@@ -204,7 +204,7 @@ void DrawRaceGoalM(RaceHudOamBuffer *oamBuffer) {
     if (gRaceSetup->mRaceKind != RACE_KIND_NORMAL) {
         return;
     }
-    if (func_020b1d0c() == 0) {
+    if (IsRaceHudGoalMEnabled() == 0) {
         return;
     }
     switch (gRaceSetup->mMode) {
@@ -382,7 +382,7 @@ void DrawRaceLinkLevel(RaceHudOamBuffer *oamBuffer) {
         return;
     }
     if (data_021759d0->mConnectionKind != 0) {
-        if (func_020b1d20() == 0) {
+        if (IsRaceHudGoalMUploaded() == 0) {
             if (gRaceSetup->mMode == 5) {
                 levelCell = GetRaceMNcerEntry(gRaceLinkLevel->mUnk_04 + 0x28);
             } else {
@@ -396,7 +396,7 @@ void DrawRaceLinkLevel(RaceHudOamBuffer *oamBuffer) {
             }
         }
         if (gRaceSetup->mMode == 5 && gRaceLinkLevel->mUnk_10 != 0 && gRaceLinkLevel->mUnk_08 < 0x69) {
-            if (func_020b1d20() != 0) {
+            if (IsRaceHudGoalMUploaded() != 0) {
                 extraCell = GetRaceGoalMNcerEntry(0x42);
             } else {
                 extraCell = GetRaceMNcerEntry(0x2c);

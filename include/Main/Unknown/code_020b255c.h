@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_020b255c(void);
+void UpdateChoisesSScreenMap(void);

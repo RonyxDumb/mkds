@@ -34,11 +34,11 @@
 #include "Main/Unknown/code_020c6000.h"
 #include "Main/Unknown/code_0203c5f8.h"
 
-void func_020aeb7c(void) {
+void UpdateRaceHudSubScreen(void) {
     BOOL subScreenEnabled;
-    BOOL d;
-    BOOL b;
-    BOOL c;
+    BOOL switchPressed;
+    BOOL switchAllowed;
+    BOOL raceKindAllowsSwitch;
     BOOL e;
     s32 v;
 
@@ -53,34 +53,34 @@ void func_020aeb7c(void) {
         case MODE_GRAND_PRIX:
             if (IsKartEnded(GetFollowedKartOrEntryIndex()) != 0 && gRaceHud->mShowLapTime == 0) {
                 if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
-                    if (gRaceHud->mUnk_83c != FALSE) {
+                    if (gRaceHud->mGoalMStarted != FALSE) {
                         gRaceHud->mSubScreenEnabled = FALSE;
                     } else {
                         gRaceHud->mSubScreenEnabled = TRUE;
                         gRaceHud->mSubScreenState = 4;
-                        gRaceHud->mUnk_83c = TRUE;
-                        gRaceHud->mUnk_840 = TRUE;
-                        gRaceHud->mUnk_850 = 0xc;
+                        gRaceHud->mGoalMStarted = TRUE;
+                        gRaceHud->mGoalMUploadPending = TRUE;
+                        gRaceHud->mGoalMDelayFrameCount = 0xc;
                     }
-                } else if (gRaceHud->mUnk_83c == FALSE) {
-                    gRaceHud->mUnk_83c = TRUE;
-                    gRaceHud->mUnk_840 = TRUE;
-                    gRaceHud->mUnk_850 = 0xc;
+                } else if (gRaceHud->mGoalMStarted == FALSE) {
+                    gRaceHud->mGoalMStarted = TRUE;
+                    gRaceHud->mGoalMUploadPending = TRUE;
+                    gRaceHud->mGoalMDelayFrameCount = 0xc;
                 }
             } else {
                 subScreenEnabled = FALSE;
-                b = FALSE;
-                c = FALSE;
+                switchAllowed = FALSE;
+                raceKindAllowsSwitch = FALSE;
                 if (gRaceSetup->mRaceKind != RACE_KIND_DEMO && gRaceSetup->mRaceKind != 4) {
-                    c = TRUE;
+                    raceKindAllowsSwitch = TRUE;
                 }
-                if (c != FALSE) {
+                if (raceKindAllowsSwitch != FALSE) {
                     if (IsChoisesSPickLocked() == 0) {
-                        b = TRUE;
+                        switchAllowed = TRUE;
                     }
                 }
-                if (b != FALSE) {
-                    d = TRUE;
+                if (switchAllowed != FALSE) {
+                    switchPressed = TRUE;
                     if ((u16) (data_0217562c[func_020435bc()].mPressedBits & 0x800) == 0) {
                         e = FALSE;
                         if (func_020b2e98() == 0) {
@@ -91,10 +91,10 @@ void func_020aeb7c(void) {
                             e = FALSE;
                         }
                         if (e == FALSE) {
-                            d = FALSE;
+                            switchPressed = FALSE;
                         }
                     }
-                    if (d != FALSE) {
+                    if (switchPressed != FALSE) {
                         subScreenEnabled = TRUE;
                     }
                 }
@@ -117,25 +117,25 @@ void func_020aeb7c(void) {
             break;
         case MODE_TIME_ATTACK:
             if (gRaceProgress->mRaceDone != 0 && gRaceHud->mShowLapTime == 0) {
-                if (gRaceHud->mUnk_83c == FALSE) {
-                    gRaceHud->mUnk_83c = TRUE;
-                    gRaceHud->mUnk_840 = TRUE;
-                    gRaceHud->mUnk_850 = 0xc;
+                if (gRaceHud->mGoalMStarted == FALSE) {
+                    gRaceHud->mGoalMStarted = TRUE;
+                    gRaceHud->mGoalMUploadPending = TRUE;
+                    gRaceHud->mGoalMDelayFrameCount = 0xc;
                 }
             } else {
                 subScreenEnabled = FALSE;
-                b = FALSE;
-                c = FALSE;
+                switchAllowed = FALSE;
+                raceKindAllowsSwitch = FALSE;
                 if (gRaceSetup->mRaceKind != RACE_KIND_DEMO && gRaceSetup->mRaceKind != 4) {
-                    c = TRUE;
+                    raceKindAllowsSwitch = TRUE;
                 }
-                if (c != FALSE) {
+                if (raceKindAllowsSwitch != FALSE) {
                     if (IsChoisesSPickLocked() == 0) {
-                        b = TRUE;
+                        switchAllowed = TRUE;
                     }
                 }
-                if (b != FALSE) {
-                    d = TRUE;
+                if (switchAllowed != FALSE) {
+                    switchPressed = TRUE;
                     if ((u16) (data_0217562c[func_020435bc()].mPressedBits & 0x800) == 0) {
                         e = FALSE;
                         if (func_020b2e98() == 0) {
@@ -146,10 +146,10 @@ void func_020aeb7c(void) {
                             e = FALSE;
                         }
                         if (e == FALSE) {
-                            d = FALSE;
+                            switchPressed = FALSE;
                         }
                     }
-                    if (d != FALSE) {
+                    if (switchPressed != FALSE) {
                         subScreenEnabled = TRUE;
                     }
                 }
@@ -189,29 +189,29 @@ void func_020aeb7c(void) {
             break;
         case MODE_BATTLE:
             if (IsWinnerDecidedAndEndReached() != 0) {
-                if (gRaceHud->mUnk_83c != FALSE) {
+                if (gRaceHud->mGoalMStarted != FALSE) {
                     gRaceHud->mSubScreenEnabled = FALSE;
                 } else {
                     gRaceHud->mSubScreenEnabled = TRUE;
                     gRaceHud->mSubScreenState = 4;
-                    gRaceHud->mUnk_83c = TRUE;
-                    gRaceHud->mUnk_840 = TRUE;
-                    gRaceHud->mUnk_850 = 0x8c;
+                    gRaceHud->mGoalMStarted = TRUE;
+                    gRaceHud->mGoalMUploadPending = TRUE;
+                    gRaceHud->mGoalMDelayFrameCount = 0x8c;
                 }
             } else {
                 subScreenEnabled = FALSE;
-                b = FALSE;
-                c = FALSE;
+                switchAllowed = FALSE;
+                raceKindAllowsSwitch = FALSE;
                 if (gRaceSetup->mRaceKind != RACE_KIND_DEMO && gRaceSetup->mRaceKind != 4) {
-                    c = TRUE;
+                    raceKindAllowsSwitch = TRUE;
                 }
-                if (c != FALSE) {
+                if (raceKindAllowsSwitch != FALSE) {
                     if (IsChoisesSPickLocked() == 0) {
-                        b = TRUE;
+                        switchAllowed = TRUE;
                     }
                 }
-                if (b != FALSE) {
-                    d = TRUE;
+                if (switchAllowed != FALSE) {
+                    switchPressed = TRUE;
                     if ((u16) (data_0217562c[func_020435bc()].mPressedBits & 0x800) == 0) {
                         e = FALSE;
                         if (func_020b2e98() == 0) {
@@ -222,10 +222,10 @@ void func_020aeb7c(void) {
                             e = FALSE;
                         }
                         if (e == FALSE) {
-                            d = FALSE;
+                            switchPressed = FALSE;
                         }
                     }
-                    if (d != FALSE) {
+                    if (switchPressed != FALSE) {
                         subScreenEnabled = TRUE;
                     }
                 }
@@ -249,39 +249,39 @@ void func_020aeb7c(void) {
         case MODE_VS:
         case 5:
             if (gRaceProgress->mRaceDone != 0 && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
-                if (gRaceHud->mUnk_838 == FALSE) {
+                if (gRaceHud->mRaceGoalSShown == FALSE) {
                     gRaceHud->mSubScreenEnabled = TRUE;
                     gRaceHud->mSubScreenState = 4;
-                    gRaceHud->mUnk_838 = TRUE;
-                    if (gRaceHud->mUnk_83c == FALSE) {
-                        gRaceHud->mUnk_83c = TRUE;
-                        gRaceHud->mUnk_840 = TRUE;
-                        gRaceHud->mUnk_850 = 0x8c;
+                    gRaceHud->mRaceGoalSShown = TRUE;
+                    if (gRaceHud->mGoalMStarted == FALSE) {
+                        gRaceHud->mGoalMStarted = TRUE;
+                        gRaceHud->mGoalMUploadPending = TRUE;
+                        gRaceHud->mGoalMDelayFrameCount = 0x8c;
                     }
                 } else {
                     gRaceHud->mSubScreenEnabled = FALSE;
                 }
             } else if (IsKartEnded(GetFollowedKartOrEntryIndex()) != 0 && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
-                if (gRaceHud->mUnk_83c == FALSE) {
+                if (gRaceHud->mGoalMStarted == FALSE) {
                     gRaceHud->mSubScreenEnabled = TRUE;
                     gRaceHud->mSubScreenState = 0;
-                    gRaceHud->mUnk_83c = TRUE;
-                    gRaceHud->mUnk_840 = TRUE;
-                    gRaceHud->mUnk_850 = 0x8c;
+                    gRaceHud->mGoalMStarted = TRUE;
+                    gRaceHud->mGoalMUploadPending = TRUE;
+                    gRaceHud->mGoalMDelayFrameCount = 0x8c;
                 } else {
                     subScreenEnabled = FALSE;
-                    b = FALSE;
-                    c = FALSE;
+                    switchAllowed = FALSE;
+                    raceKindAllowsSwitch = FALSE;
                     if (gRaceSetup->mRaceKind != RACE_KIND_DEMO && gRaceSetup->mRaceKind != 4) {
-                        c = TRUE;
+                        raceKindAllowsSwitch = TRUE;
                     }
-                    if (c != FALSE) {
+                    if (raceKindAllowsSwitch != FALSE) {
                         if (IsChoisesSPickLocked() == 0) {
-                            b = TRUE;
+                            switchAllowed = TRUE;
                         }
                     }
-                    if (b != FALSE) {
-                        d = TRUE;
+                    if (switchAllowed != FALSE) {
+                        switchPressed = TRUE;
                         if ((u16) (data_0217562c[func_020435bc()].mPressedBits & 0x800) == 0) {
                             e = FALSE;
                             if (func_020b2e98() == 0) {
@@ -292,10 +292,10 @@ void func_020aeb7c(void) {
                                 e = FALSE;
                             }
                             if (e == FALSE) {
-                                d = FALSE;
+                                switchPressed = FALSE;
                             }
                         }
-                        if (d != FALSE) {
+                        if (switchPressed != FALSE) {
                             subScreenEnabled = TRUE;
                         }
                     }
@@ -317,18 +317,18 @@ void func_020aeb7c(void) {
                 }
             } else {
                 subScreenEnabled = FALSE;
-                b = FALSE;
-                c = FALSE;
+                switchAllowed = FALSE;
+                raceKindAllowsSwitch = FALSE;
                 if (gRaceSetup->mRaceKind != RACE_KIND_DEMO && gRaceSetup->mRaceKind != 4) {
-                    c = TRUE;
+                    raceKindAllowsSwitch = TRUE;
                 }
-                if (c != FALSE) {
+                if (raceKindAllowsSwitch != FALSE) {
                     if (IsChoisesSPickLocked() == 0) {
-                        b = TRUE;
+                        switchAllowed = TRUE;
                     }
                 }
-                if (b != FALSE) {
-                    d = TRUE;
+                if (switchAllowed != FALSE) {
+                    switchPressed = TRUE;
                     if ((u16) (data_0217562c[func_020435bc()].mPressedBits & 0x800) == 0) {
                         e = FALSE;
                         if (func_020b2e98() == 0) {
@@ -339,10 +339,10 @@ void func_020aeb7c(void) {
                             e = FALSE;
                         }
                         if (e == FALSE) {
-                            d = FALSE;
+                            switchPressed = FALSE;
                         }
                     }
-                    if (d != FALSE) {
+                    if (switchPressed != FALSE) {
                         subScreenEnabled = TRUE;
                     }
                 }
@@ -365,16 +365,16 @@ void func_020aeb7c(void) {
             break;
         case MODE_MISSION_RUN:
             if (IsFramesSinceFinishPastWait() != FALSE) {
-                if (gRaceHud->mUnk_83c == FALSE) {
-                    gRaceHud->mUnk_83c = TRUE;
-                    gRaceHud->mUnk_840 = TRUE;
+                if (gRaceHud->mGoalMStarted == FALSE) {
+                    gRaceHud->mGoalMStarted = TRUE;
+                    gRaceHud->mGoalMUploadPending = TRUE;
                     if (IsKartEnded((u16) gRaceSetup->mEntryIndex) != 0) {
                         v = gRaceProgress->mEntryEndKind;
                     } else {
                         v = 6;
                     }
                     if (v == 0) {
-                        gRaceHud->mUnk_850 = 0xaf;
+                        gRaceHud->mGoalMDelayFrameCount = 0xaf;
                     }
                 }
             } else if (gRaceProgress->mRaceDone != 0) {
@@ -384,7 +384,7 @@ void func_020aeb7c(void) {
                     v = 6;
                 }
                 if (v != 0) {
-                    gRaceHud->mUnk_84c = 1;
+                    gRaceHud->mGoalMEnabled = 1;
                 }
             }
             if ((u16) (data_0217562c[func_020435bc()].mPressedBits & 0x800) != 0) {
@@ -440,7 +440,7 @@ void func_020aeb7c(void) {
     if (v != 0) {
         data_0217b488->mUnk_10 = 0;
     } else {
-        data_0217b488->mUnk_10 = gRaceHud->mUnk_910 == 0;
+        data_0217b488->mUnk_10 = gRaceHud->mMissionRunRecordFilled == 0;
     }
     gRaceHud->mUnk_90c = TRUE;
 }

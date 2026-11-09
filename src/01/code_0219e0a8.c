@@ -280,7 +280,7 @@ void AdvanceEndingScene(void) {
     }
     DrawLayoutTable(gEndingScene->mEndingThanksBncl, gEndingScene->mThanksYouMNcer, gEndingScene->mEndingThanksBnll,
                     gEndingScene->mMainOam, gEndingScene->mEndingThanksTable);
-    func_020ae630(gEndingScene->mMainOam, NULL);
+    HideUnusedOams(gEndingScene->mMainOam, NULL);
 }
 
 void func_ov001_0219e0d4(void) {

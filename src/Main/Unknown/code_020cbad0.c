@@ -144,8 +144,8 @@ void InitMenu(void) {
     SetSubDispcntBits(0x10);
     func_020cba6c(0, 0x3f, 6, 10);
     func_020cba30(0, 0x3f, 6, 10);
-    func_020cc150(0);
-    func_020cc134(0);
+    MenuWriteMainWinEnableBits(0);
+    MenuWriteSubWinEnableBits(0);
     if (func_020cbad0() == 0) {
         func_02025f90();
         func_02027df8();

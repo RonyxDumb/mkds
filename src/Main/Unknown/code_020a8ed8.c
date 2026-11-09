@@ -34,14 +34,14 @@
 #include "Main/Unknown/code_020a9000.h"
 #include "Main/Unknown/code_0203c25c.h"
 
-u32 func_020a9cd0(u32 p0) {
-    return p0;
+u32 IronBallReturnArgument(u32 value) {
+    return value;
 }
 
 void DrawIronBallShadow(void *a, IronBall *ironBall, u32 c, u32 d) {
     u32 shadowAlphaCap;
 
-    if (ironBall->mUnk_12c == 0) {
+    if (ironBall->mShadowStage == 0) {
         return;
     }
     if (((s32) ironBall->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0) >= 1000000) {
@@ -82,19 +82,19 @@ void InitIronBallObjects(MapObjectList *mapObjectList) {
         ironBall->mUnk_000.mFlags |= b;
         ironBall->mUnk_000.mFlags |= c;
         ironBall->mUnk_000.mFlags |= a;
-        ironBall->mUnk_0b4 = (ironBall->mUnk_000.mCourseMapRow->mUnk_28 * 0xa000L) / 100;
-        ironBall->mUnk_0b8 = (ironBall->mUnk_000.mCourseMapRow->mUnk_28 * 0x5000L) / 100;
-        ironBall->mPathSpeed = ironBall->mUnk_0b4;
-        ironBall->mUnk_11c = ironBall->mUnk_000.mCourseMapRow->mUnk_00;
-        ironBall->mUnk_000.mPos = ironBall->mUnk_11c;
-        ironBall->mUnk_11c.y += 0x1000;
-        RefreshShadowMatrix(&ironBall->mShadowMatrix, &ironBall->mUnk_11c, ironBall->mUnk_000.mExtent.x << 1,
+        ironBall->mNormalPathSpeed = (ironBall->mUnk_000.mCourseMapRow->mUnk_28 * 0xa000L) / 100;
+        ironBall->mSlowPathSpeed = (ironBall->mUnk_000.mCourseMapRow->mUnk_28 * 0x5000L) / 100;
+        ironBall->mPathSpeed = ironBall->mNormalPathSpeed;
+        ironBall->mPathPos = ironBall->mUnk_000.mCourseMapRow->mUnk_00;
+        ironBall->mUnk_000.mPos = ironBall->mPathPos;
+        ironBall->mPathPos.y += 0x1000;
+        RefreshShadowMatrix(&ironBall->mShadowMatrix, &ironBall->mPathPos, ironBall->mUnk_000.mExtent.x << 1,
                             shadowAlphaCap);
         RefreshMapObjectMatrixFromHitNormal(&ironBall->mUnk_000);
         InitGroupFollower(&ironBall->mFollower, ironBall->mUnk_000.mCourseMapRow, z0);
-        GetGroupFollowerLinearPosStep(&ironBall->mFollower, &ironBall->mUnk_11c, &ironBall->mUnk_000.mUnk_10);
-        ironBall->mUnk_11c.y += 0x1000;
-        VEC_MultAdd(ironBall->mUnk_000.mExtent.x, &ironBall->mUnk_000.mMatrix.mUnk_00[1], &ironBall->mUnk_11c,
+        GetGroupFollowerLinearPosStep(&ironBall->mFollower, &ironBall->mPathPos, &ironBall->mUnk_000.mUnk_10);
+        ironBall->mPathPos.y += 0x1000;
+        VEC_MultAdd(ironBall->mUnk_000.mExtent.x, &ironBall->mUnk_000.mMatrix.mUnk_00[1], &ironBall->mPathPos,
                     &ironBall->mUnk_000.mPos);
         if (ironBall->mUnk_000.mFlags & 0x800) {
             ironBall->mTimer = (u16) ironBall->mUnk_000.mCourseMapRow->mUnk_2a;
@@ -202,31 +202,31 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
         }
         v = fromEntry->mUnk_0e;
         if ((u16) v <= 1) {
-            ironBall->mPathSpeed = ironBall->mUnk_0b4;
-            ironBall->mUnk_12c = 0;
+            ironBall->mPathSpeed = ironBall->mNormalPathSpeed;
+            ironBall->mShadowStage = 0;
         } else if ((u16) (s16) (v - 2) <= 1) {
-            ironBall->mPathSpeed = ironBall->mUnk_0b8;
-            ironBall->mUnk_12c = 2;
+            ironBall->mPathSpeed = ironBall->mSlowPathSpeed;
+            ironBall->mShadowStage = 2;
         } else if (v == 10) {
             ironBall->mPathSpeed = 0x8000;
-            ironBall->mUnk_12c = 2;
-            ironBall->mHeightOffset = ironBall->mUnk_11c.y;
+            ironBall->mShadowStage = 2;
+            ironBall->mHeightOffset = ironBall->mPathPos.y;
             SetupGroupFollowerAtEntry(&ironBall->mFollower, fromEntry->mUnk_0c + 1, 1);
-            GetGroupFollowerLinearPosStep(&ironBall->mFollower, &ironBall->mUnk_11c, &ironBall->mUnk_000.mUnk_10);
-            ironBall->mUnk_11c.y += 0x1000;
-            ironBall->mHeightOffset = ironBall->mHeightOffset - ironBall->mUnk_11c.y;
+            GetGroupFollowerLinearPosStep(&ironBall->mFollower, &ironBall->mPathPos, &ironBall->mUnk_000.mUnk_10);
+            ironBall->mPathPos.y += 0x1000;
+            ironBall->mHeightOffset = ironBall->mHeightOffset - ironBall->mPathPos.y;
             ironBall->mHeightSpeed = 0xa000;
         } else if (v == 11) {
             ironBall->mPathSpeed = 0x5000;
-            ironBall->mUnk_12c = 2;
-            ironBall->mHeightOffset = ironBall->mUnk_11c.y;
+            ironBall->mShadowStage = 2;
+            ironBall->mHeightOffset = ironBall->mPathPos.y;
             SetupGroupFollowerAtEntry(&ironBall->mFollower, fromEntry->mUnk_0c + 1, 1);
-            GetGroupFollowerLinearPosStep(&ironBall->mFollower, &ironBall->mUnk_11c, &ironBall->mUnk_000.mUnk_10);
-            ironBall->mUnk_11c.y += 0x1000;
-            ironBall->mHeightOffset = ironBall->mHeightOffset - ironBall->mUnk_11c.y;
+            GetGroupFollowerLinearPosStep(&ironBall->mFollower, &ironBall->mPathPos, &ironBall->mUnk_000.mUnk_10);
+            ironBall->mPathPos.y += 0x1000;
+            ironBall->mHeightOffset = ironBall->mHeightOffset - ironBall->mPathPos.y;
             ironBall->mHeightSpeed = -0x3000;
         } else if (v >= 100) {
-            ironBall->mUnk_11c = fromEntry->mPos;
+            ironBall->mPathPos = fromEntry->mPos;
             ironBall->mUnk_000.mUnk_10.x = 0;
             ironBall->mUnk_000.mUnk_10.y = 0;
             ironBall->mUnk_000.mUnk_10.z = 0;
@@ -234,7 +234,7 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
             if (n < 200) {
                 StartBoundWobble(n - 100);
                 ironBall->mPathSpeed = 0xf000;
-                ironBall->mUnk_12c = 1;
+                ironBall->mShadowStage = 1;
             } else if (n < 300) {
                 t = n - 200;
                 if (n != ironBall->mFollower.mToEntry->mUnk_0e) {
@@ -242,7 +242,7 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
                 } else {
                     func_0209753c(t);
                 }
-                ironBall->mUnk_12c = 1;
+                ironBall->mShadowStage = 1;
             }
         }
     }
@@ -267,24 +267,24 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
     }
     v = ironBall->mFollower.mFromEntry->mUnk_0e;
     if (v >= 100) {
-        GetGroupFollowerLinearPosStep(&ironBall->mFollower, &ironBall->mUnk_11c, &ironBall->mUnk_000.mUnk_10);
-        ironBall->mUnk_11c.y += 0x1000;
+        GetGroupFollowerLinearPosStep(&ironBall->mFollower, &ironBall->mPathPos, &ironBall->mUnk_000.mUnk_10);
+        ironBall->mPathPos.y += 0x1000;
         w = ironBall->mPathSpeed - 410;
         if (w <= 0xa000) {
             w = 0xa000;
         }
         ironBall->mPathSpeed = w;
     } else if ((u16) (s16) (v - 10) <= 1) {
-        GetGroupFollowerLinearPosStep(&ironBall->mFollower, &ironBall->mUnk_11c, &ironBall->mUnk_000.mUnk_10);
-        ironBall->mUnk_11c.y += 0x1000;
+        GetGroupFollowerLinearPosStep(&ironBall->mFollower, &ironBall->mPathPos, &ironBall->mUnk_000.mUnk_10);
+        ironBall->mPathPos.y += 0x1000;
     } else if (v == 0 || v == 2) {
-        GetGroupFollowerCurvePosStep(&ironBall->mFollower, &ironBall->mUnk_11c, &ironBall->mUnk_000.mUnk_10);
-        ironBall->mUnk_11c.y += 0x1000;
+        GetGroupFollowerCurvePosStep(&ironBall->mFollower, &ironBall->mPathPos, &ironBall->mUnk_000.mUnk_10);
+        ironBall->mPathPos.y += 0x1000;
     } else {
-        GetGroupFollowerLinearPosStep(&ironBall->mFollower, &ironBall->mUnk_11c, &ironBall->mUnk_000.mUnk_10);
-        ironBall->mUnk_11c.y += 0x1000;
+        GetGroupFollowerLinearPosStep(&ironBall->mFollower, &ironBall->mPathPos, &ironBall->mUnk_000.mUnk_10);
+        ironBall->mPathPos.y += 0x1000;
     }
-    VEC_MultAdd(ironBall->mUnk_000.mExtent.x, &ironBall->mUnk_000.mMatrix.mUnk_00[1], &ironBall->mUnk_11c,
+    VEC_MultAdd(ironBall->mUnk_000.mExtent.x, &ironBall->mUnk_000.mMatrix.mUnk_00[1], &ironBall->mPathPos,
                 &ironBall->mUnk_000.mPos);
     ironBall->mUnk_000.mPos.y = ironBall->mUnk_000.mPos.y + ironBall->mHeightOffset;
     if (ironBall->mRotateZAngle < 0) {
@@ -301,12 +301,12 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
         }
     }
     ironBall->mRotateZAngle = v;
-    if (ironBall->mUnk_12c == 2) {
-        RefreshShadowMatrix(&ironBall->mShadowMatrix, &ironBall->mUnk_11c, ironBall->mUnk_000.mExtent.x << 1, 0x1c);
-        ironBall->mUnk_11c.y += 0x1000;
-        ironBall->mUnk_12c = 1;
+    if (ironBall->mShadowStage == 2) {
+        RefreshShadowMatrix(&ironBall->mShadowMatrix, &ironBall->mPathPos, ironBall->mUnk_000.mExtent.x << 1, 0x1c);
+        ironBall->mPathPos.y += 0x1000;
+        ironBall->mShadowStage = 1;
     }
-    if (ironBall->mUnk_12c != 0) {
+    if (ironBall->mShadowStage != 0) {
         if (((s32) ironBall->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0) < 1000000) {
             w = (ironBall->mHeightOffset >> 14) - 7;
             if (w < 0) {
@@ -317,7 +317,7 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
                 v = 0;
             }
             ironBall->mShadowMatrix.mAlphaCap = v;
-            SetShadowPositionRaised(&ironBall->mShadowMatrix, &ironBall->mUnk_11c);
+            SetShadowPositionRaised(&ironBall->mShadowMatrix, &ironBall->mPathPos);
         }
         ironBall->mUnk_000.mFlags &= ~1;
     } else {
@@ -334,7 +334,7 @@ void CreateIronBallKindData(void) {
 }
 
 void *CreateIronBallShadowDrawList(void) {
-    return CreateMapObjectDrawList1(func_020a9cd0, DrawIronBallShadow, NULL);
+    return CreateMapObjectDrawList1(IronBallReturnArgument, DrawIronBallShadow, NULL);
 }
 
 void *CreateIronBallDrawList(void) {
@@ -345,21 +345,23 @@ void *CreateIronBallUpdateList(void) {
     return CreateMapObjectUpdateList(InitIronBallObjects, UpdateIronBall, NULL);
 }
 
-void func_020a8ed8(Unk020a826c_a0 *soundPart, Vec3 *position) {
-    s32 k;
+// Places the part's sound source around the object per course, following the camera x in some cases, and sets mUnk_20
+// from the camera position.
+void PlaceCourseSoundObjectPartSource(CourseSoundObjectPart *soundPart, Vec3 *position) {
+    s32 crossXMargin;
     Camera *currentCamera;
     s32 v;
     s32 n;
-    s32 x;
-    s32 m;
+    s32 sourceX;
+    s32 marioXMargin;
 
     currentCamera = GetCurrentCamera();
     switch (gRaceSetup->mCourseId) {
         case COURSE_ID_CROSS:
             if (IsKartOnLastLap(gRaceSetup->mEntryIndex) != FALSE || GetRaceUseChainCameras() != 0) {
-                k = 0x898000;
+                crossXMargin = 0x898000;
             } else {
-                k = 0x834000;
+                crossXMargin = 0x834000;
             }
             v = FX_Atan2Idx(currentCamera->mPos.x - position->x, currentCamera->mPos.z - position->z);
             if (v >= 0 && v <= 0xaaab) {
@@ -372,7 +374,7 @@ void func_020a8ed8(Unk020a826c_a0 *soundPart, Vec3 *position) {
                 soundPart->mSourcePos.x = position->x + (s32) (((s64) gPairsByAngle[0] * 0x5dc000) >> 12);
                 soundPart->mSourcePos.y = position->y;
                 soundPart->mSourcePos.z = position->z + (s32) (((s64) gPairsByAngle[1] * 0x5dc000) >> 12);
-                v = soundPart->mSourcePos.x - k;
+                v = soundPart->mSourcePos.x - crossXMargin;
                 n = currentCamera->mPos.x;
                 if (n <= v) {
                     n = v;
@@ -388,18 +390,18 @@ void func_020a8ed8(Unk020a826c_a0 *soundPart, Vec3 *position) {
             break;
         case COURSE_ID_MARIO:
             if (IsKartOnLastLap(gRaceSetup->mEntryIndex) != FALSE || GetRaceUseChainCameras() != 0) {
-                m = 0x384000;
+                marioXMargin = 0x384000;
             } else {
-                m = 0x320000;
+                marioXMargin = 0x320000;
             }
-            x = position->x - m;
-            if (x <= currentCamera->mPos.x) {
-                x = position->x + m;
-                if (x >= currentCamera->mPos.x) {
-                    x = currentCamera->mPos.x;
+            sourceX = position->x - marioXMargin;
+            if (sourceX <= currentCamera->mPos.x) {
+                sourceX = position->x + marioXMargin;
+                if (sourceX >= currentCamera->mPos.x) {
+                    sourceX = currentCamera->mPos.x;
                 }
             }
-            soundPart->mSourcePos.x = x;
+            soundPart->mSourcePos.x = sourceX;
             soundPart->mSourcePos.y = position->y;
             soundPart->mSourcePos.z = position->z;
             if (currentCamera->mPos.x < position->x) {

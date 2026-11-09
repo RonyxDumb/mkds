@@ -285,13 +285,13 @@ u32 ReverseBytes32(u32 value) {
     return (u8) (value >> 24) + (((u8) (value >> 16) << 8) + (((u8) value << 24) + ((u8) (value >> 8) << 16)));
 }
 
-void *GetCharacterBmgEntry(u32 characterIndex, u32 b) {
+void *GetCharacterBmgEntry(u32 characterIndex, u32 fullName) {
     u32 messageIndexes[13] = {20, 25, 24, 27, 22, 26, 23, 21, 29, 28, 30, 31, 32};
     u32 messageIndex;
 
-    if (b != 0 && characterIndex == 1) {
+    if (fullName != 0 && characterIndex == 1) {
         messageIndex = 0x21;
-    } else if (b != 0 && characterIndex == 8) {
+    } else if (fullName != 0 && characterIndex == 8) {
         messageIndex = 0x22;
     } else {
         messageIndex = messageIndexes[characterIndex];
@@ -306,7 +306,8 @@ u32 KartEntryGetCurrentPlayerKind(u32 entryIndex) {
 }
 
 BOOL IsKartEntryHumanGhostOrPeer(u32 entryIndex) {
-    if (KartEntryGetCurrentPlayerKind(entryIndex) == PLAYER_KIND_HUMAN || KartEntryGetCurrentPlayerKind(entryIndex) == PLAYER_KIND_GHOST ||
+    if (KartEntryGetCurrentPlayerKind(entryIndex) == PLAYER_KIND_HUMAN ||
+        KartEntryGetCurrentPlayerKind(entryIndex) == PLAYER_KIND_GHOST ||
         KartEntryGetCurrentPlayerKind(entryIndex) == PLAYER_KIND_PEER) {
         return 1;
     }
@@ -331,7 +332,7 @@ int GetKartEntryNumber(int entryIndex) {
 
 #pragma thumb on
 
-void CopyKartEntryName(u32 entryIndex, u16 *nameOut, u32 c) {
+void CopyKartEntryName(u32 entryIndex, u16 *nameOut, u32 fullName) {
     u16 numberText[2];
     u16 numberedName[10];
     u16 nameChars[12];
@@ -347,14 +348,14 @@ void CopyKartEntryName(u32 entryIndex, u16 *nameOut, u32 c) {
         if (source == NULL) {
             return;
         }
-        if (c != 0) {
+        if (fullName != 0) {
             charCount = 10;
         } else {
             charCount = CopyTextWithinWidth(source, &nameChars[1]);
         }
     } else {
         if (KartEntryGetCurrentMode() == MODE_GRAND_PRIX || KartEntryGetCurrentMode() == MODE_MISSION_RUN) {
-            source = GetCharacterBmgEntry(KartEntryGetCurrentCharacterIndex(entryIndex), c);
+            source = GetCharacterBmgEntry(KartEntryGetCurrentCharacterIndex(entryIndex), fullName);
             charCount = 20;
         } else {
             wcsncpy(numberedName, GetBmgEntry(FindFileInLoadedArchivesWrapper("common.bmg"), 0x72), 9);

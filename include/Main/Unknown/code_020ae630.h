@@ -18,6 +18,6 @@ typedef struct Unk020ae630 {
     /* 402 */ u16 mMatrixCount;
 } Unk020ae630;
 
-void func_020ae630(void *mainOam, void *subOam);
+void HideUnusedOams(void *mainOam, void *subOam);
 void ClearOamListCounts(void *mainOam, void *subOam);
 void ResetOamLists(void *mainOam, void *subOam);

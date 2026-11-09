@@ -66,6 +66,6 @@ void func_020cb4c0(void) {
                 return;
             }
         }
-        func_020ae630(data_0217b43c->mMainOam, data_0217b43c->mSubOam);
+        HideUnusedOams(data_0217b43c->mMainOam, data_0217b43c->mSubOam);
     }
 }

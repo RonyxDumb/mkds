@@ -29,7 +29,7 @@
 #include "code_0214c778.h"
 #include "Main/Unknown/code_0203c5f8.h"
 
-void func_020ae824(void) {
+void DrawRaceHud(void) {
     u32 v;
     s32 subScreenState;
 
@@ -73,7 +73,8 @@ void func_020ae824(void) {
         DrawRaceGoalM(&gRaceHud->mMainOam);
     }
     DC_FlushRange(&gRaceHud->mMainOam, 0x400);
-    MI_DmaFill32(3, &gRaceHud->mMainOam.mOams[gRaceHud->mMainOam.mOamCount], 0xc0, (0x80 - gRaceHud->mMainOam.mOamCount) << 3);
+    MI_DmaFill32(3, &gRaceHud->mMainOam.mOams[gRaceHud->mMainOam.mOamCount], 0xc0,
+                 (0x80 - gRaceHud->mMainOam.mOamCount) << 3);
     gRaceHud->mSubOam.mOamCount = 0;
     gRaceHud->mSubOam.mMatrixCount = 0;
     subScreenState = gRaceHud->mSubScreenState;
@@ -82,7 +83,8 @@ void func_020ae824(void) {
     }
     DrawRaceRankList(&gRaceHud->mSubOam);
     DC_FlushRange(&gRaceHud->mSubOam, 0x400);
-    MI_DmaFill32(3, &gRaceHud->mSubOam.mOams[gRaceHud->mSubOam.mOamCount], 0xc0, (0x80 - gRaceHud->mSubOam.mOamCount) << 3);
+    MI_DmaFill32(3, &gRaceHud->mSubOam.mOams[gRaceHud->mSubOam.mOamCount], 0xc0,
+                 (0x80 - gRaceHud->mSubOam.mOamCount) << 3);
     switch (gRaceHud->mSubScreenState) {
         case 0:
             DrawRaceHudSubScreenCellGroups(&gRaceHud->mSubOam);

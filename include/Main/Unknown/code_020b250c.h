@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-BOOL func_020b250c(void);
+BOOL IsGrandPrixLastCourse(void);

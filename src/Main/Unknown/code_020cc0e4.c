@@ -4,7 +4,7 @@
 #include "00/code_02181f98.h"
 #include "registers.h"
 
-u32 func_020cc150(u32 bits) {
+u32 MenuWriteMainWinEnableBits(u32 bits) {
     u32 value0 = bits;
     u32 registerValue;
     registerValue = reg_GX_DISPCNT;
@@ -14,7 +14,7 @@ u32 func_020cc150(u32 bits) {
     return value0;
 }
 
-u32 func_020cc134(u32 bits) {
+u32 MenuWriteSubWinEnableBits(u32 bits) {
     u32 value0 = bits;
     u32 registerValue;
     registerValue = reg_GXS_DB_DISPCNT;

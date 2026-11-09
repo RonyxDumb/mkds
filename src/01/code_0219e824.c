@@ -53,7 +53,7 @@ void func_ov001_0219e9a4(void) {
 void UpdateOptionScene(s16 *a) {
     ClearOamListCounts(gOptionBuffers, gOptionBuffers + 0x404);
     AdvanceOptionStates();
-    func_020ae630(gOptionBuffers, gOptionBuffers + 0x404);
+    HideUnusedOams(gOptionBuffers, gOptionBuffers + 0x404);
     if (a != NULL && func_ov001_02192e84() != -1) {
         a[2] = func_ov001_02192e84();
     }
@@ -98,7 +98,7 @@ void func_ov001_0219e89c(void) {
 void UpdateNicknameScene(s16 *a) {
     ClearOamListCounts(gNicknameBuffers, gNicknameBuffers + 0x404);
     func_ov001_02198554();
-    func_020ae630(gNicknameBuffers, gNicknameBuffers + 0x404);
+    HideUnusedOams(gNicknameBuffers, gNicknameBuffers + 0x404);
     if (a != NULL && func_ov001_0219853c() != -1) {
         a[2] = func_ov001_0219853c();
     }

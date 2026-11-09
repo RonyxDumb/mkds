@@ -22,11 +22,11 @@ s32 GetEntryEndKind(void) {
 #pragma thumb on
 #pragma optimize_for_size on
 u32 GetChoisesSListIndex(void) {
-    if (func_020b24e4() == 2 && GetRaceDone() == 0) {
+    if (ChoisesSGetCurrentRaceKind() == 2 && GetRaceDone() == 0) {
         return 3;
     }
     if (GetRaceDone() != 0) {
-        if (func_020b252c() == MODE_MISSION_RUN) {
+        if (ChoisesSGetCurrentMode() == MODE_MISSION_RUN) {
             if (GetEntryEndKind() == 0) {
                 return 2;
             }
@@ -48,7 +48,7 @@ void func_020b2c80(s32 selectedIndex) {
     valueCount = gChoisesS->mLists[GetChoisesSListIndex()].mValueCount;
     screenMap = GetChoisesSListScreenMapData();
     if (screenMap != NULL) {
-        if (gChoisesS->mUnk_010 == FALSE || gChoisesS->mPickFrames >= 5) {
+        if (gChoisesS->mPickStartedOnSelected == FALSE || gChoisesS->mPickFrames >= 5) {
             row = 0xd - valueCount * 2 + selectedIndex * 4;
             if (gChoisesS->mCycleFrames < 0x1e) {
                 SetScreenMapBlockLowBits(screenMap, 2, row, 1, 1, 0x21);

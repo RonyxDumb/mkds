@@ -21,7 +21,7 @@
 void *GetChoisesSValueMessage(s32 listIndex, s32 value) {
     s32 entryNumbers[11] = {0x5d, 0x67, 0x62, 0x64, 0x65, 0x66, 0x69, 0x62, 0x61, 0x5f, 0x75};
 
-    if (func_020b24e4() == 2) {
+    if (ChoisesSGetCurrentRaceKind() == 2) {
         entryNumbers[0] = 0x6a;
         entryNumbers[8] = 0x63;
     }
@@ -111,7 +111,7 @@ u32 func_020b302c(void) {
                     gChoisesS->mSelectedValue = gChoisesS->mLists[listIndex].mValues[valueIndex];
                     MoveChoisesSSelectedValue(0);
                 } else {
-                    gChoisesS->mUnk_010 = TRUE;
+                    gChoisesS->mPickStartedOnSelected = TRUE;
                 }
                 touched = 1;
             }
@@ -140,19 +140,19 @@ void func_020b2f88(s32 openFlag) {
         return;
     }
     if (openFlag != 0 && func_020b2e98() == 0) {
-        if (func_020b29c4() != 0) {
+        if (IsChoisesSOpenAllowedDuringRace() != 0) {
             gChoisesS->mOpenDuringRace = openFlag;
         } else if (func_020b2b70() != 0) {
-            gChoisesS->mUnk_008 = openFlag;
+            gChoisesS->mOpenAfterRace = openFlag;
         } else {
             return;
         }
         ResetChoisesSSelection();
     } else if (openFlag == 0 && func_020b2e98() != 0) {
-        if (func_020b29c4() != 0) {
+        if (IsChoisesSOpenAllowedDuringRace() != 0) {
             gChoisesS->mOpenDuringRace = openFlag;
         } else if (func_020b2b70() != 0) {
-            gChoisesS->mUnk_008 = openFlag;
+            gChoisesS->mOpenAfterRace = openFlag;
         } else {
             return;
         }

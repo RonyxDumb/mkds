@@ -5,15 +5,15 @@ s32 GetRaceHudSubScreenCourseScale(void) {
 }
 
 RaceHudSubScreenBgAffine *GetRaceHudSubScreenBgAffine(void) {
-    return gRaceHud->mUnk_858;
+    return gRaceHud->mSubScreenBgAffines;
 }
 
-u32 func_020b1d20(void) {
-    return (gRaceHud->mUnk_848);
+BOOL IsRaceHudGoalMUploaded(void) {
+    return (gRaceHud->mGoalMUploaded);
 }
 
-u32 func_020b1d0c(void) {
-    return (gRaceHud->mUnk_84c);
+BOOL IsRaceHudGoalMEnabled(void) {
+    return (gRaceHud->mGoalMEnabled);
 }
 
 u32 GetRaceHudKartRemoved(u32 kartIndex) {

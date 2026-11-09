@@ -53,7 +53,9 @@ s32 ComputeTimeDifference(MinuteSecondMillisecondTotal *first, MinuteSecondMilli
     return firstNotLess;
 }
 
-void func_020b1a34(void) {
+// Called on a lap pass: starts the lap-time window in Grand Prix and Time Attack and, when the time difference is used,
+// fills it.
+void StartRaceHudLapTimeDisplay(void) {
     MinuteSecondMillisecondTime referenceLap;
     MinuteSecondMillisecondTime kartLap;
     MinuteSecondMillisecondTime difference;

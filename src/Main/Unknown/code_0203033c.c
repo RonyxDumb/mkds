@@ -189,7 +189,7 @@ void func_020303a8(u32 bits) {
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | (bits << 8);
 }
 
-void func_0203038c(u32 bits) {
+void MultiSelectNSWriteSubWinEnableBits(u32 bits) {
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0xe000) | (bits << 13);
 }
 

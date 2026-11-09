@@ -57,7 +57,7 @@ void AdvanceResultsByMode(Unk0203a0dc *sceneNumbers) {
         } else {
             AdvanceResultsBattle(sceneNumbers);
         }
-        func_020ae630(gResultScene, gResultScene->mSubOam);
+        HideUnusedOams(gResultScene, gResultScene->mSubOam);
         AdvanceLinkLevelIcons();
     }
 }

@@ -33,21 +33,21 @@ void UpdateChoisesS(void) {
     if (func_020b2bf0() != 0) {
         return;
     }
-    if ((func_020b252c() == MODE_GRAND_PRIX || func_020b252c() == MODE_TIME_ATTACK) && func_020b24e4() == 2 &&
-        func_0203c0bc() != 0) {
+    if ((ChoisesSGetCurrentMode() == MODE_GRAND_PRIX || ChoisesSGetCurrentMode() == MODE_TIME_ATTACK) &&
+        ChoisesSGetCurrentRaceKind() == 2 && func_0203c0bc() != 0) {
         return;
     }
     if (gChoisesS->mPickFrames == 0 && gChoisesS->mCloseFrames == 0 && IsChoisesSPickLocked() == 0) {
         if (func_020b2bc8() != 0) {
             if (func_020b2b70() != 0) {
-                if (func_020b252c() == MODE_MISSION_RUN && func_020b2b5c() != 0 && func_020b2f58() != 0) {
+                if (ChoisesSGetCurrentMode() == MODE_MISSION_RUN && func_020b2b5c() != 0 && func_020b2f58() != 0) {
                     if (func_020b2b24(func_020b2b54(), PAD_KEY_A) != 0 || func_020b2a74(func_020b2b54()) != 0) {
                         gChoisesS->mPickedValue = 10;
                         gChoisesS->mSelectedValue = gChoisesS->mPickedValue;
                         gChoisesS->mPickLocked = 1;
                         StartChoisesSSelectedValueSeq();
                     }
-                } else if (func_020b252c() == MODE_MISSION_RUN && func_020b2ecc() != 0) {
+                } else if (ChoisesSGetCurrentMode() == MODE_MISSION_RUN && func_020b2ecc() != 0) {
                     if (func_020b2b24(func_020b2b54(), PAD_KEY_A) != 0 || func_020b2a74(func_020b2b54()) != 0) {
                         gChoisesS->mPickedValue = 6;
                         gChoisesS->mSelectedValue = gChoisesS->mPickedValue;
@@ -55,7 +55,7 @@ void UpdateChoisesS(void) {
                         StartChoisesSSelectedValueSeq();
                         func_020b2a60(1);
                     }
-                } else if (func_020b252c() == MODE_MISSION_RUN && func_020b2b5c() != 0) {
+                } else if (ChoisesSGetCurrentMode() == MODE_MISSION_RUN && func_020b2b5c() != 0) {
                     if (func_020b2b24(func_020b2b54(), PAD_KEY_A) != 0 || func_020b2a74(func_020b2b54()) != 0) {
                         gChoisesS->mPickedValue = 6;
                         gChoisesS->mSelectedValue = gChoisesS->mPickedValue;
@@ -80,7 +80,7 @@ void UpdateChoisesS(void) {
                             StartChoisesSSelectedValueSeq();
                         }
                         gChoisesS->mPickFrames = 1;
-                        gChoisesS->mUnk_010 = TRUE;
+                        gChoisesS->mPickStartedOnSelected = TRUE;
                     } else {
                         LowerSndHandleVolumes();
                         func_020b2f88(1);
@@ -96,7 +96,7 @@ void UpdateChoisesS(void) {
                     MoveChoisesSSelectedValue(1);
                 }
             }
-        } else if (func_020b29c4() != 0) {
+        } else if (IsChoisesSOpenAllowedDuringRace() != 0) {
             if (func_020b2b24(func_020b2b54(), 8) != 0) {
                 if (func_020b2e98() != 0) {
                     RaiseSndHandleVolumes();
@@ -115,7 +115,7 @@ void UpdateChoisesS(void) {
                         StartChoisesSSelectedValueSeq();
                     }
                     gChoisesS->mPickFrames = 1;
-                    gChoisesS->mUnk_010 = TRUE;
+                    gChoisesS->mPickStartedOnSelected = TRUE;
                 }
             } else if (func_020b2b24(func_020b2b54(), PAD_KEY_B) != 0) {
                 if (func_020b2e98() != 0) {
@@ -145,7 +145,7 @@ void UpdateChoisesS(void) {
                 func_020b2f88(0);
             }
             gChoisesS->mPickFrames = 0;
-            gChoisesS->mUnk_010 = FALSE;
+            gChoisesS->mPickStartedOnSelected = FALSE;
         }
     }
     a = gChoisesS->mCloseFrames;
@@ -164,7 +164,7 @@ void UpdateChoisesS(void) {
             gChoisesS->mCloseFrames = 0;
         }
     }
-    if (func_020b29b0() != 0 && func_020b252c() == 5 && func_020b2bc8() != 0) {
+    if (ChoisesSGetConnectionKind() != 0 && ChoisesSGetCurrentMode() == 5 && func_020b2bc8() != 0) {
         gChoisesS->mAutoPickFrames = gChoisesS->mAutoPickFrames + 1;
         if (gChoisesS->mAutoPickFrames > 0x384) {
             gChoisesS->mPickedValue = GetCourseNumber() != 4 ? 2 : 7;

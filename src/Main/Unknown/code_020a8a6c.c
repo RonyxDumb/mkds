@@ -10,157 +10,171 @@
 #include "Main/Unknown/unk_021759c0.h"
 #include "code_02147cd8.h"
 
-void func_020a8a6c(Unk020a8a6c *a) {
+// Sets up the sound parts of each object per course and camera mode.
+void InitCourseSoundObjects(MapObjectList *mapObjectList) {
     s32 i;
-    Unk020a826c *p;
-    CourseMapRow *q;
-    s32 x1;
-    s32 y1;
-    s32 z1;
-    s32 x2;
-    s32 y2;
-    s32 z2;
-    s32 x3;
-    s32 y3;
-    s32 z3;
-    s32 x4;
-    s32 y4;
-    s32 z4;
-    s32 x5;
-    s32 y5;
-    s32 z5;
-    s32 v1;
+    CourseSoundObject *courseSoundObject;
+    CourseMapRow *courseMapRow;
+    s32 crossFirstX;
+    s32 crossFirstY;
+    s32 crossFirstZ;
+    s32 crossSecondX;
+    s32 crossSecondY;
+    s32 crossSecondZ;
+    s32 bankChainX;
+    s32 bankChainY;
+    s32 bankChainZ;
+    s32 bankFirstX;
+    s32 bankFirstY;
+    s32 bankFirstZ;
+    s32 bankSecondX;
+    s32 bankSecondY;
+    s32 bankSecondZ;
+    s32 handleSlotIndex;
 
-    if (a == NULL) {
+    if (mapObjectList == NULL) {
         return;
     }
-    for (i = 0; i < a->mMapObjectCount && (p = a->mMapObjects[i]) != NULL; i++) {
+    for (i = 0; i < mapObjectList->mMapObjectCount && (courseSoundObject = mapObjectList->mMapObjects[i]) != NULL;
+         i++) {
         if (GetRaceUseChainCameras() != 0) {
             switch (gRaceSetup->mCourseId) {
                 case COURSE_ID_CROSS:
-                    p->mState = 4;
-                    q = p->mUnk_000.mCourseMapRow;
-                    z1 = q->mUnk_00.z + (-0x4a6000);
-                    y1 = q->mUnk_00.y;
-                    x1 = q->mUnk_00.x + (-0x2c6000);
-                    p->mUnk_0a0.mUnk_00.mSoundId = 0x103;
-                    p->mUnk_0a0.mUnk_00.mFalloffIndex = 5;
-                    p->mUnk_0a0.mUnk_00.mPositionSource = &p->mUnk_0a0.mSourcePos;
-                    p->mUnk_0a0.mSndHandleSlot = GetSndHandleSlot(8);
-                    p->mUnk_0a0.mSourcePos.x = x1;
-                    p->mUnk_0a0.mSourcePos.y = y1;
-                    p->mUnk_0a0.mSourcePos.z = z1;
-                    q = p->mUnk_000.mCourseMapRow;
-                    z2 = q->mUnk_00.z + 0x726000;
-                    y2 = q->mUnk_00.y;
-                    x2 = q->mUnk_00.x + (-0x7ee000);
-                    p->mUnk_0c8.mUnk_00.mSoundId = 0x103;
-                    p->mUnk_0c8.mUnk_00.mFalloffIndex = 5;
-                    p->mUnk_0c8.mUnk_00.mPositionSource = &p->mUnk_0c8.mSourcePos;
-                    p->mUnk_0c8.mSndHandleSlot = GetSndHandleSlot(9);
-                    p->mUnk_0c8.mSourcePos.x = x2;
-                    p->mUnk_0c8.mSourcePos.y = y2;
-                    p->mUnk_0c8.mSourcePos.z = z2;
+                    courseSoundObject->mState = 4;
+                    courseMapRow = courseSoundObject->mUnk_000.mCourseMapRow;
+                    crossFirstZ = courseMapRow->mUnk_00.z + (-0x4a6000);
+                    crossFirstY = courseMapRow->mUnk_00.y;
+                    crossFirstX = courseMapRow->mUnk_00.x + (-0x2c6000);
+                    courseSoundObject->mFirstPart.mStartParams.mSoundId = 0x103;
+                    courseSoundObject->mFirstPart.mStartParams.mFalloffIndex = 5;
+                    courseSoundObject->mFirstPart.mStartParams.mPositionSource =
+                        &courseSoundObject->mFirstPart.mSourcePos;
+                    courseSoundObject->mFirstPart.mSndHandleSlot = GetSndHandleSlot(8);
+                    courseSoundObject->mFirstPart.mSourcePos.x = crossFirstX;
+                    courseSoundObject->mFirstPart.mSourcePos.y = crossFirstY;
+                    courseSoundObject->mFirstPart.mSourcePos.z = crossFirstZ;
+                    courseMapRow = courseSoundObject->mUnk_000.mCourseMapRow;
+                    crossSecondZ = courseMapRow->mUnk_00.z + 0x726000;
+                    crossSecondY = courseMapRow->mUnk_00.y;
+                    crossSecondX = courseMapRow->mUnk_00.x + (-0x7ee000);
+                    courseSoundObject->mSecondPart.mStartParams.mSoundId = 0x103;
+                    courseSoundObject->mSecondPart.mStartParams.mFalloffIndex = 5;
+                    courseSoundObject->mSecondPart.mStartParams.mPositionSource =
+                        &courseSoundObject->mSecondPart.mSourcePos;
+                    courseSoundObject->mSecondPart.mSndHandleSlot = GetSndHandleSlot(9);
+                    courseSoundObject->mSecondPart.mSourcePos.x = crossSecondX;
+                    courseSoundObject->mSecondPart.mSourcePos.y = crossSecondY;
+                    courseSoundObject->mSecondPart.mSourcePos.z = crossSecondZ;
                     break;
                 case COURSE_ID_BANK:
-                    p->mState = 5;
-                    q = p->mUnk_000.mCourseMapRow;
-                    z3 = q->mUnk_00.z;
-                    y3 = q->mUnk_00.y;
-                    x3 = q->mUnk_00.x;
-                    p->mUnk_0a0.mUnk_00.mSoundId = 0x109;
-                    p->mUnk_0a0.mUnk_00.mFalloffIndex = 4;
-                    p->mUnk_0a0.mUnk_00.mPositionSource = &p->mUnk_0a0.mSourcePos;
+                    courseSoundObject->mState = 5;
+                    courseMapRow = courseSoundObject->mUnk_000.mCourseMapRow;
+                    bankChainZ = courseMapRow->mUnk_00.z;
+                    bankChainY = courseMapRow->mUnk_00.y;
+                    bankChainX = courseMapRow->mUnk_00.x;
+                    courseSoundObject->mFirstPart.mStartParams.mSoundId = 0x109;
+                    courseSoundObject->mFirstPart.mStartParams.mFalloffIndex = 4;
+                    courseSoundObject->mFirstPart.mStartParams.mPositionSource =
+                        &courseSoundObject->mFirstPart.mSourcePos;
                     if (i == 0) {
-                        v1 = 8;
+                        handleSlotIndex = 8;
                     } else if (i == 1) {
-                        v1 = 9;
+                        handleSlotIndex = 9;
                     } else {
-                        v1 = 10;
+                        handleSlotIndex = 10;
                     }
-                    p->mUnk_0a0.mSndHandleSlot = GetSndHandleSlot(v1);
-                    p->mUnk_0a0.mSourcePos.x = x3;
-                    p->mUnk_0a0.mSourcePos.y = y3;
-                    p->mUnk_0a0.mSourcePos.z = z3;
-                    VEC_MultAdd(((s64) p->mUnk_000.mScale.z * 0x5000) >> 12, &p->mUnk_000.mMatrix.mUnk_00[2],
-                                &p->mUnk_0a0.mSourcePos, &p->mUnk_0a0.mSourcePos);
+                    courseSoundObject->mFirstPart.mSndHandleSlot = GetSndHandleSlot(handleSlotIndex);
+                    courseSoundObject->mFirstPart.mSourcePos.x = bankChainX;
+                    courseSoundObject->mFirstPart.mSourcePos.y = bankChainY;
+                    courseSoundObject->mFirstPart.mSourcePos.z = bankChainZ;
+                    VEC_MultAdd(((s64) courseSoundObject->mUnk_000.mScale.z * 0x5000) >> 12,
+                                &courseSoundObject->mUnk_000.mMatrix.mUnk_00[2],
+                                &courseSoundObject->mFirstPart.mSourcePos, &courseSoundObject->mFirstPart.mSourcePos);
                     break;
                 default:
-                    if ((p->mUnk_000.mFlags & 0x100) == 0) {
-                        ParkMapObject(&p->mUnk_000);
+                    if ((courseSoundObject->mUnk_000.mFlags & 0x100) == 0) {
+                        ParkMapObject(&courseSoundObject->mUnk_000);
                     }
                     break;
             }
         } else {
             switch (gRaceSetup->mCourseId) {
                 case COURSE_ID_CROSS:
-                    p->mState = 1;
-                    p->mUnk_0a0.mUnk_00.mSoundId = 0x108;
-                    p->mUnk_0a0.mUnk_00.mFalloffIndex = 8;
-                    p->mUnk_0a0.mUnk_00.mPositionSource = &p->mUnk_0a0.mSourcePos;
-                    p->mUnk_0a0.mSndHandleSlot = GetSndHandleSlot(8);
-                    p->mUnk_0a0.mSourcePos.x = 0;
-                    p->mUnk_0a0.mSourcePos.y = 0;
-                    p->mUnk_0a0.mSourcePos.z = 0;
-                    p->mUnk_0c8.mUnk_00.mSoundId = 0x107;
-                    p->mUnk_0c8.mUnk_00.mFalloffIndex = 8;
-                    p->mUnk_0c8.mUnk_00.mPositionSource = &p->mUnk_0c8.mSourcePos;
-                    p->mUnk_0c8.mSndHandleSlot = GetSndHandleSlot(9);
-                    p->mUnk_0c8.mSourcePos.x = 0;
-                    p->mUnk_0c8.mSourcePos.y = 0;
-                    p->mUnk_0c8.mSourcePos.z = 0;
-                    func_020a8ed8(&p->mUnk_0a0, &p->mUnk_000.mPos);
+                    courseSoundObject->mState = 1;
+                    courseSoundObject->mFirstPart.mStartParams.mSoundId = 0x108;
+                    courseSoundObject->mFirstPart.mStartParams.mFalloffIndex = 8;
+                    courseSoundObject->mFirstPart.mStartParams.mPositionSource =
+                        &courseSoundObject->mFirstPart.mSourcePos;
+                    courseSoundObject->mFirstPart.mSndHandleSlot = GetSndHandleSlot(8);
+                    courseSoundObject->mFirstPart.mSourcePos.x = 0;
+                    courseSoundObject->mFirstPart.mSourcePos.y = 0;
+                    courseSoundObject->mFirstPart.mSourcePos.z = 0;
+                    courseSoundObject->mSecondPart.mStartParams.mSoundId = 0x107;
+                    courseSoundObject->mSecondPart.mStartParams.mFalloffIndex = 8;
+                    courseSoundObject->mSecondPart.mStartParams.mPositionSource =
+                        &courseSoundObject->mSecondPart.mSourcePos;
+                    courseSoundObject->mSecondPart.mSndHandleSlot = GetSndHandleSlot(9);
+                    courseSoundObject->mSecondPart.mSourcePos.x = 0;
+                    courseSoundObject->mSecondPart.mSourcePos.y = 0;
+                    courseSoundObject->mSecondPart.mSourcePos.z = 0;
+                    PlaceCourseSoundObjectPartSource(&courseSoundObject->mFirstPart, &courseSoundObject->mUnk_000.mPos);
                     break;
                 case COURSE_ID_MARIO:
-                    p->mState = 1;
-                    p->mUnk_0a0.mUnk_00.mSoundId = 0x1a0;
-                    p->mUnk_0a0.mUnk_00.mFalloffIndex = 8;
-                    p->mUnk_0a0.mUnk_00.mPositionSource = &p->mUnk_0a0.mSourcePos;
-                    p->mUnk_0a0.mSndHandleSlot = GetSndHandleSlot(8);
-                    p->mUnk_0a0.mSourcePos.x = 0;
-                    p->mUnk_0a0.mSourcePos.y = 0;
-                    p->mUnk_0a0.mSourcePos.z = 0;
-                    p->mUnk_0c8.mUnk_00.mSoundId = 0x19f;
-                    p->mUnk_0c8.mUnk_00.mFalloffIndex = 8;
-                    p->mUnk_0c8.mUnk_00.mPositionSource = &p->mUnk_0c8.mSourcePos;
-                    p->mUnk_0c8.mSndHandleSlot = GetSndHandleSlot(9);
-                    p->mUnk_0c8.mSourcePos.x = 0;
-                    p->mUnk_0c8.mSourcePos.y = 0;
-                    p->mUnk_0c8.mSourcePos.z = 0;
-                    func_020a8ed8(&p->mUnk_0a0, &p->mUnk_000.mPos);
+                    courseSoundObject->mState = 1;
+                    courseSoundObject->mFirstPart.mStartParams.mSoundId = 0x1a0;
+                    courseSoundObject->mFirstPart.mStartParams.mFalloffIndex = 8;
+                    courseSoundObject->mFirstPart.mStartParams.mPositionSource =
+                        &courseSoundObject->mFirstPart.mSourcePos;
+                    courseSoundObject->mFirstPart.mSndHandleSlot = GetSndHandleSlot(8);
+                    courseSoundObject->mFirstPart.mSourcePos.x = 0;
+                    courseSoundObject->mFirstPart.mSourcePos.y = 0;
+                    courseSoundObject->mFirstPart.mSourcePos.z = 0;
+                    courseSoundObject->mSecondPart.mStartParams.mSoundId = 0x19f;
+                    courseSoundObject->mSecondPart.mStartParams.mFalloffIndex = 8;
+                    courseSoundObject->mSecondPart.mStartParams.mPositionSource =
+                        &courseSoundObject->mSecondPart.mSourcePos;
+                    courseSoundObject->mSecondPart.mSndHandleSlot = GetSndHandleSlot(9);
+                    courseSoundObject->mSecondPart.mSourcePos.x = 0;
+                    courseSoundObject->mSecondPart.mSourcePos.y = 0;
+                    courseSoundObject->mSecondPart.mSourcePos.z = 0;
+                    PlaceCourseSoundObjectPartSource(&courseSoundObject->mFirstPart, &courseSoundObject->mUnk_000.mPos);
                     break;
                 case COURSE_ID_BANK:
-                    p->mState = 6;
-                    q = p->mUnk_000.mCourseMapRow;
-                    z4 = q->mUnk_00.z;
-                    y4 = q->mUnk_00.y;
-                    x4 = q->mUnk_00.x;
-                    p->mUnk_0a0.mUnk_00.mSoundId = 0x109;
-                    p->mUnk_0a0.mUnk_00.mFalloffIndex = 6;
-                    p->mUnk_0a0.mUnk_00.mPositionSource = &p->mUnk_0a0.mSourcePos;
-                    p->mUnk_0a0.mSndHandleSlot = GetSndHandleSlot(8);
-                    p->mUnk_0a0.mSourcePos.x = x4;
-                    p->mUnk_0a0.mSourcePos.y = y4;
-                    p->mUnk_0a0.mSourcePos.z = z4;
-                    VEC_MultAdd(((s64) p->mUnk_000.mScale.z * 0x5000) >> 12, &p->mUnk_000.mMatrix.mUnk_00[2],
-                                &p->mUnk_0a0.mSourcePos, &p->mUnk_0a0.mSourcePos);
-                    q = p->mUnk_000.mCourseMapRow;
-                    z5 = q->mUnk_00.z;
-                    y5 = q->mUnk_00.y;
-                    x5 = q->mUnk_00.x;
-                    p->mUnk_0c8.mUnk_00.mSoundId = 0x109;
-                    p->mUnk_0c8.mUnk_00.mFalloffIndex = 6;
-                    p->mUnk_0c8.mUnk_00.mPositionSource = &p->mUnk_0c8.mSourcePos;
-                    p->mUnk_0c8.mSndHandleSlot = GetSndHandleSlot(9);
-                    p->mUnk_0c8.mSourcePos.x = x5;
-                    p->mUnk_0c8.mSourcePos.y = y5;
-                    p->mUnk_0c8.mSourcePos.z = z5;
-                    VEC_MultAdd(((s64) p->mUnk_000.mScale.z * -0x5000) >> 12, &p->mUnk_000.mMatrix.mUnk_00[2],
-                                &p->mUnk_0c8.mSourcePos, &p->mUnk_0c8.mSourcePos);
+                    courseSoundObject->mState = 6;
+                    courseMapRow = courseSoundObject->mUnk_000.mCourseMapRow;
+                    bankFirstZ = courseMapRow->mUnk_00.z;
+                    bankFirstY = courseMapRow->mUnk_00.y;
+                    bankFirstX = courseMapRow->mUnk_00.x;
+                    courseSoundObject->mFirstPart.mStartParams.mSoundId = 0x109;
+                    courseSoundObject->mFirstPart.mStartParams.mFalloffIndex = 6;
+                    courseSoundObject->mFirstPart.mStartParams.mPositionSource =
+                        &courseSoundObject->mFirstPart.mSourcePos;
+                    courseSoundObject->mFirstPart.mSndHandleSlot = GetSndHandleSlot(8);
+                    courseSoundObject->mFirstPart.mSourcePos.x = bankFirstX;
+                    courseSoundObject->mFirstPart.mSourcePos.y = bankFirstY;
+                    courseSoundObject->mFirstPart.mSourcePos.z = bankFirstZ;
+                    VEC_MultAdd(((s64) courseSoundObject->mUnk_000.mScale.z * 0x5000) >> 12,
+                                &courseSoundObject->mUnk_000.mMatrix.mUnk_00[2],
+                                &courseSoundObject->mFirstPart.mSourcePos, &courseSoundObject->mFirstPart.mSourcePos);
+                    courseMapRow = courseSoundObject->mUnk_000.mCourseMapRow;
+                    bankSecondZ = courseMapRow->mUnk_00.z;
+                    bankSecondY = courseMapRow->mUnk_00.y;
+                    bankSecondX = courseMapRow->mUnk_00.x;
+                    courseSoundObject->mSecondPart.mStartParams.mSoundId = 0x109;
+                    courseSoundObject->mSecondPart.mStartParams.mFalloffIndex = 6;
+                    courseSoundObject->mSecondPart.mStartParams.mPositionSource =
+                        &courseSoundObject->mSecondPart.mSourcePos;
+                    courseSoundObject->mSecondPart.mSndHandleSlot = GetSndHandleSlot(9);
+                    courseSoundObject->mSecondPart.mSourcePos.x = bankSecondX;
+                    courseSoundObject->mSecondPart.mSourcePos.y = bankSecondY;
+                    courseSoundObject->mSecondPart.mSourcePos.z = bankSecondZ;
+                    VEC_MultAdd(((s64) courseSoundObject->mUnk_000.mScale.z * -0x5000) >> 12,
+                                &courseSoundObject->mUnk_000.mMatrix.mUnk_00[2],
+                                &courseSoundObject->mSecondPart.mSourcePos, &courseSoundObject->mSecondPart.mSourcePos);
                     break;
                 default:
-                    if ((p->mUnk_000.mFlags & 0x100) == 0) {
-                        ParkMapObject(&p->mUnk_000);
+                    if ((courseSoundObject->mUnk_000.mFlags & 0x100) == 0) {
+                        ParkMapObject(&courseSoundObject->mUnk_000);
                     }
                     break;
             }

@@ -78,7 +78,7 @@ void WriteSubBlendAlpha(u32 firstPlane, u32 secondPlane, u32 firstCoefficient, u
     G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, firstPlane, secondPlane, firstCoefficient, secondCoefficient);
 }
 
-u32 func_02027fb8(u32 bits) {
+u32 WriteSubWinEnableBits(u32 bits) {
     u32 value = (reg_GXS_DB_DISPCNT & ~0xe000) | (bits << 13);
     reg_GXS_DB_DISPCNT = value;
     return value;
@@ -119,12 +119,12 @@ void WriteSelectKartRegisters(void) {
     WriteSubBg3CntBits(2);
     WriteSubBlendAlpha(0, 0x3f, 6, 10);
     if (interpolatedValue != 0 && gSelectKart->mState != 8) {
-        func_02027fb8(1);
+        WriteSubWinEnableBits(1);
         WriteSubWinInBits(0x1f, 1);
         WriteSubWinOutBits(7, 1);
         WriteSubWin0HV(0, 0, 0xff, interpolatedValue + 0xc0);
     } else {
-        func_02027fb8(0);
+        WriteSubWinEnableBits(0);
     }
     if (gSelectKart->mUnk_104 != FALSE) {
         WritePlayerEntryListRegisters();

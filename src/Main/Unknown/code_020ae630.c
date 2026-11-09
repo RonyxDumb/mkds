@@ -37,7 +37,8 @@ void ClearOamListCounts(void *mainOam, void *subOam) {
     }
 }
 
-void func_020ae630(void *mainOam, void *subOam) {
+// Hides every entry past the used count in both lists.
+void HideUnusedOams(void *mainOam, void *subOam) {
     Unk020ae630 *mainOamList = mainOam;
     Unk020ae630 *subOamList = subOam;
     u16 usedEntryCount;

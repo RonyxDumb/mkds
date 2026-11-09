@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_020aba94(u32 arg0);
+void SetKeyboardScreenMapTopBitsWrapper(u32 topBits);

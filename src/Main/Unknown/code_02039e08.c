@@ -123,9 +123,9 @@ void UpdateRaceScene(Unk0203a0dc *sceneNumbers, u32 sceneFrames) {
             if (ShouldUpdateRace(sceneFrames) != 0) {
                 UpdateRace();
             }
-            func_020af66c();
+            UpdateRaceHud();
         }
-        func_020aeb7c();
+        UpdateRaceHudSubScreen();
         switch (GetCurrentRaceKind()) {
             case RACE_KIND_NORMAL:
             case 2:
@@ -155,8 +155,8 @@ void UpdateRaceScene(Unk0203a0dc *sceneNumbers, u32 sceneFrames) {
             DrawRace();
         }
     }
-    func_020ae824();
-    func_020b255c();
+    DrawRaceHud();
+    UpdateChoisesSScreenMap();
 }
 
 void PreSleepRaceScene(void) {
@@ -170,7 +170,7 @@ void PreSleepRaceScene(void) {
         UpdateChoisesS();
         UpdateSounds();
         FinishDisplayFrame();
-        func_020b255c();
+        UpdateChoisesSScreenMap();
         RecordFrameTimes();
     }
 }

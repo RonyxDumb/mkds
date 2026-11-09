@@ -11,17 +11,17 @@
 
 #pragma thumb on
 #pragma optimize_for_size on
-u32 func_020b29c4(void) {
+BOOL IsChoisesSOpenAllowedDuringRace(void) {
     u32 result = 0;
-    u32 b = 0;
+    u32 modeAllowsOpen = 0;
     u32 raceInProgress = 0;
     u32 noMissionWinner;
 
     if (IsRaceStartSequenceDone() != 0 && GetRaceStartSequenceFrames() > 0xf0 && GetRaceDone() == 0 &&
-        (func_020b252c() != MODE_BATTLE || IsWinnerDecided() == FALSE)) {
+        (ChoisesSGetCurrentMode() != MODE_BATTLE || IsWinnerDecided() == FALSE)) {
         noMissionWinner = 1;
-        if (func_020b252c() == MODE_MISSION_RUN) {
-            if ((func_020b252c() == MODE_MISSION_RUN ? IsWinnerDecided() : 0) != FALSE) {
+        if (ChoisesSGetCurrentMode() == MODE_MISSION_RUN) {
+            if ((ChoisesSGetCurrentMode() == MODE_MISSION_RUN ? IsWinnerDecided() : 0) != FALSE) {
                 noMissionWinner = 0;
             }
         }
@@ -30,11 +30,11 @@ u32 func_020b29c4(void) {
         }
     }
     if (raceInProgress != 0) {
-        if (func_020b252c() != 5) {
-            b = 1;
+        if (ChoisesSGetCurrentMode() != 5) {
+            modeAllowsOpen = 1;
         }
     }
-    if (b != 0) {
+    if (modeAllowsOpen != 0) {
         if (GetChoisesSOpenDuringRace() != 0 || func_02055b1c() == FALSE) {
             result = 1;
         }

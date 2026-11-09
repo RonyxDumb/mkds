@@ -7,7 +7,7 @@ typedef struct InputSlotPair InputSlotPair;
 
 void func_0203033c(u32 lowBits, u32 extraBitFlag);
 void func_02030364(u32 lowBits, u32 extraBitFlag);
-void func_0203038c(u32 bits);
+void MultiSelectNSWriteSubWinEnableBits(u32 bits);
 void func_020303a8(u32 bits);
 void ReleaseMultiSelectNS(void);
 s32 AdvanceMultiSelectNS(void);

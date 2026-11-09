@@ -1024,7 +1024,7 @@ void func_ov001_021a2a40(void) {
             AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mUnk_0404);
             break;
     }
-    func_020ae630(gEmblem, &gEmblem->mUnk_0404);
+    HideUnusedOams(gEmblem, &gEmblem->mUnk_0404);
     AdvanceShownSlotAndQueueEmblem();
     DrawKartModelMenuUnmirrored();
     JoinNibbleTilesIntoBytes(GetEmblemGridCells(), gEmblem->mUnk_087c, GetEmblemGridSide());

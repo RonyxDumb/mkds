@@ -151,9 +151,9 @@ void InitRaceScene(void) {
     InitRace();
     SetHeapGroupId(5);
     InitChoisesS();
-    func_020b03bc();
+    InitRaceHud();
     if (gRaceSetup->mRaceKind != RACE_KIND_START_GP) {
-        func_020af99c();
+        SetupRaceHudScreens();
     }
     SetHeapGroupId(8);
     mirrorMode = gRaceSetup->mMirrorMode;
@@ -233,7 +233,7 @@ void func_0203aacc(void) {
     StopMicInput();
     ClearChoisesSPointer();
     func_02062004();
-    func_020af86c();
+    ReleaseRaceHud();
     ClearDispCapPointer();
     func_02053e54();
     FreeOverlayExpHeap();
@@ -242,7 +242,7 @@ void func_0203aacc(void) {
 void func_0203aaa8(void) {
     AdvanceDispCap(GetChoisesSPrevOpenDuringRace());
     func_02062000();
-    func_020b0b8c();
+    UploadRaceHud();
 }
 
 // The award scene ends after 0x564 frames, or on a new key press once some Grand Prix record is filled.

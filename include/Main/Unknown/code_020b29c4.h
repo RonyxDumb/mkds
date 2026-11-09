@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_020b29c4(void);
+BOOL IsChoisesSOpenAllowedDuringRace(void);

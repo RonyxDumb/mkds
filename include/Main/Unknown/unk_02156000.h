@@ -5,7 +5,7 @@
 
 // Objects whose layout isn't known yet.
 extern u8 data_0215688c[];
-extern u8 data_02156458[];
+extern u8 gSmanHitFlag[];
 extern u16 data_0215645c;
 extern u16 data_021564c0;
 extern u16 data_usa_02156460;

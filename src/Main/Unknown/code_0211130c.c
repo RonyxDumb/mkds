@@ -47,7 +47,7 @@ void func_02111368(void) {
 void UpdateRecordScene(Unk02111324 *sceneNumbers) {
     ClearOamListCounts(gRecordMainOam, gRecordSubOam);
     AdvanceRecordScene();
-    func_020ae630(gRecordMainOam, gRecordSubOam);
+    HideUnusedOams(gRecordMainOam, gRecordSubOam);
     if (sceneNumbers != NULL && GetRecordNextScene() != -1) {
         sceneNumbers->mUnk_04 = GetRecordNextScene();
     }

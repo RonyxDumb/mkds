@@ -154,7 +154,7 @@ void CompleteRaceProgressKartLap(RaceProgressKart *kart) {
     StoreRaceProgressKartLapTime(kart, kart->mLap > GetLapCount());
     kart->mHighestLap = kart->mLap;
     if ((kart->mFlags & 1) != 0) {
-        func_020b1a34();
+        StartRaceHudLapTimeDisplay();
     }
     f = FALSE;
     if (gRaceSetup->mMode != MODE_MISSION_RUN) {

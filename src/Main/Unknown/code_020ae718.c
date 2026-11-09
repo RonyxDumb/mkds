@@ -4,10 +4,10 @@
 
 #pragma thumb on
 
-void func_020ae718(void) {
+void SetLastTick(void) {
     u64 tick;
     tick = OS_GetTick();
-    *(u64 *) &data_0217b344 = tick;
+    *(u64 *) &gLastTick = tick;
 }
 
 #pragma thumb off

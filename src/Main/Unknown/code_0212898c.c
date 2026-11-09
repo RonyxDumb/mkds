@@ -205,7 +205,7 @@ void InitKeyboard(void *heap, s32 mode) {
     InitKeyboardTextEntry(0x20, 0x40, 0xc);
     SetKeyboardOffset(0, 0x28);
     SetKeyboardButtonCorners();
-    func_020aba94(0);
+    SetKeyboardScreenMapTopBitsWrapper(0);
     gKeyboard->mUnk_2c[2].mMode = mode;
     gKeyboard->mUnk_2c[2].mNextScene = -1;
     if (mode == 0xc) {

@@ -9,7 +9,7 @@
 
 #pragma thumb on
 
-void func_020b255c(void) {
+void UpdateChoisesSScreenMap(void) {
     int isOpen;
     isOpen = func_020b2e98();
     if (isOpen != 0) {
@@ -19,10 +19,10 @@ void func_020b255c(void) {
 
 #pragma thumb off
 
-void *func_020b2540(void) {
+void *ChoisesSGetCurrentHeap(void) {
     return GetHeap(GetCurrentHeapCall());
 }
 
-u32 func_020b252c(void) {
+u32 ChoisesSGetCurrentMode(void) {
     return (gRaceSetup->mMode);
 }

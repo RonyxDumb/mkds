@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_020b29b0.h"
 #include "Main/Unknown/unk_02175000.h"
 
-u32 func_020b29b0(void) {
+u32 ChoisesSGetConnectionKind(void) {
     return (data_021759d0->mConnectionKind);
 }

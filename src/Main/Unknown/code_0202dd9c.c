@@ -135,7 +135,7 @@ void AdvanceGhostScene(s32 sceneNumbers) {
         if (nextIndex != -1) {
             gGhostScene->mRequestedCallbacksIndex = nextIndex;
         }
-        func_020ae630(gGhostScene, gGhostScene->mSubOam);
+        HideUnusedOams(gGhostScene, gGhostScene->mSubOam);
     }
     func_02125928();
     AdvanceLinkLevelIcons();

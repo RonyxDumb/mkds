@@ -13,7 +13,7 @@ void AdvanceTitleStates(s32 a) {
     gTitleScene->mStateHandlers[i].mUpdate(a);
     IncrementCounterSaturating((s32 *) gTitleScene);
     func_02125928();
-    func_020ae630(&gTitleScene->mMainOam, &gTitleScene->mSubOam);
+    HideUnusedOams(&gTitleScene->mMainOam, &gTitleScene->mSubOam);
 }
 
 #pragma thumb off

@@ -543,8 +543,8 @@ typedef struct TitleScene {
 
 extern TitleScene *gTitleScene;
 extern const TitleStateHandlers gTitleStateHandlers[7];
-extern u8 data_0217b344[];
-extern u16 *data_0217b34c;
+extern u8 gLastTick[];
+extern u16 *gRaceHudSubScreenPalettes;
 typedef struct RaceHudSubScreenBgAffine {
     /* 00 */ s32 mMatrix0;
     /* 04 */ s32 mMatrix1;
@@ -556,16 +556,16 @@ typedef struct RaceHudSubScreenBgAffine {
     /* 1c */ s32 mY1;
 } RaceHudSubScreenBgAffine;
 
-// On-screen display of the race, one record behind gRaceHud (0x914 bytes, allocated by func_020b03bc on the scene heap,
-// set NULL by the release slot func_020af86c, never freed). It holds the two 0x400-byte sprite entry buffers the
+// On-screen display of the race, one record behind gRaceHud (0x914 bytes, allocated by InitRaceHud on the scene heap,
+// set NULL by the release slot ReleaseRaceHud, never freed). It holds the two 0x400-byte sprite entry buffers the
 // element draws append to (mUnk_004 for the main screen, mSubOam for the sub screen, copied to 0x07000000 /
 // 0x07000400), the loaded graphics, the sub-screen page (mSubScreenState) and the goal-background delay; the elements
 // themselves (time digits, number pair, goal page, new-record page) are separate objects. It does not exist in kinds 3,
 // 5 and 6 of gRaceSetup->mUnk_00c (the scene slots run RaceStartGp / EndingStaffRoll there).
-// Words from 0x828 to 0x910 are read and written by func_020aeb7c. The pointers at 0x80c to 0x824 are written through
-// LoadNclrData, LoadNcgrData and LoadNscrData.
+// Words from 0x828 to 0x910 are read and written by UpdateRaceHudSubScreen. The pointers at 0x80c to 0x824 are written
+// through LoadNclrData, LoadNcgrData and LoadNscrData.
 typedef struct RaceHud {
-    // Calls of the step func_020af66c that ran its body (not in kinds 3, 5, 6, not before mEnabled); wraps to 0 at
+    // Calls of the step UpdateRaceHud that ran its body (not in kinds 3, 5, 6, not before mEnabled); wraps to 0 at
     // 0xc00. An animation clock: read by the upload slot (value / 6 = scroll of the sub-screen page 0) and by
     // GetRaceHudUpdateFrames (value / 32).
     /* 000 */ s32 mUpdateFrames;
@@ -575,7 +575,7 @@ typedef struct RaceHud {
     /* 814 */ struct Ncgr *mNcgrs[2];
     /* 81c */ struct Nscr *mNscrs[3];
     // Page of the sub screen (reg_GXS_DB_* / reg_G2S_DB_* = sub engine), 0..6, switched on by the step, the draw and
-    // the upload slot; assigned by func_020aeb7c (per mode and race state), RequestRaceHudSubScreenState5 (5,
+    // the upload slot; assigned by UpdateRaceHudSubScreen (per mode and race state), RequestRaceHudSubScreenState5 (5,
     // RaceGoalS) and RequestRaceHudSubScreenState6 (6, RaceNewRecordTa). 4 and 5 run the RaceGoalS page, 6 the
     // new-record page; what 0 and 1..3 show is not named (the player switches 0 and 1 with sounds 0x18 / 0x17).
     /* 828 */ s32 mSubScreenState;
@@ -585,36 +585,36 @@ typedef struct RaceHud {
     /* 830 */ BOOL mSubScreenState5LoadPending;
     // Set when the state-6 page is requested; the upload loads its graphics once and clears it.
     /* 834 */ BOOL mSubScreenState6LoadPending;
-    /* 838 */ BOOL mUnk_838;
-    /* 83c */ BOOL mUnk_83c;
-    /* 840 */ BOOL mUnk_840;
-    /* 844 */ s32 mUnk_844;
-    /* 848 */ s32 mUnk_848;
-    /* 84c */ s32 mUnk_84c;
-    /* 850 */ s32 mUnk_850;
+    /* 838 */ BOOL mRaceGoalSShown;
+    /* 83c */ BOOL mGoalMStarted;
+    /* 840 */ BOOL mGoalMUploadPending;
+    /* 844 */ s32 mGoalMUploadFrames;
+    /* 848 */ s32 mGoalMUploaded;
+    /* 84c */ s32 mGoalMEnabled;
+    /* 850 */ s32 mGoalMDelayFrameCount;
     /* 854 */ s32 mSubScreenCourseScale;
-    /* 858 */ RaceHudSubScreenBgAffine mUnk_858[2];
-    // FALSE from func_020b03bc until the scene's screen set-up func_020af99c ends and sets it TRUE (never cleared
+    /* 858 */ RaceHudSubScreenBgAffine mSubScreenBgAffines[2];
+    // FALSE from InitRaceHud until the scene's screen set-up SetupRaceHudScreens ends and sets it TRUE (never cleared
     // again); the step, the draw, the page choice and the upload slot return at once while FALSE.
     /* 898 */ BOOL mEnabled;
     /* 89c */ s32 mKartRemoved[8];
     /* 8bc */ s32 mRemovedSoundPlayed[8];
     /* 8dc */ s32 mShowLapTime;
     /* 8e0 */ s32 mShowLapTimeFrames;
-    // Set once in func_020b03bc: 1 only in mode 1 with more than one kart; gates func_020b1a34 (the computation) and
-    // the draw of the time difference.
+    // Set once in InitRaceHud: 1 only in mode 1 with more than one kart; gates StartRaceHudLapTimeDisplay (the
+    // computation) and the draw of the time difference.
     /* 8e4 */ s32 mUseTimeDifference;
     // ComputeTimeDifference's return: non-zero when the entry's summed lap times (GetKartLapTime) are >= the summed
     // reference times (gRaceSetup->mGhostLapTimes); the draw picks one of two sprites by it. Which sprite is plus or
     // minus is not named.
     /* 8e8 */ s32 mTimeDifferenceSign;
-    // The difference as seven digits (SplitTimeDigits), written by func_020b1a34, read through GetRaceHudTimeDifference
-    // by the draw.
+    // The difference as seven digits (SplitTimeDigits), written by StartRaceHudLapTimeDisplay, read through
+    // GetRaceHudTimeDifference by the draw.
     /* 8ec */ TimeDigits mTimeDifferenceDigits;
     // 1 once the per-frame step has run.
     /* 908 */ s32 mStepHasRun;
     /* 90c */ BOOL mUnk_90c;
-    /* 910 */ s32 mUnk_910;
+    /* 910 */ s32 mMissionRunRecordFilled;
 } RaceHud;
 
 extern RaceHud *gRaceHud;
@@ -920,9 +920,9 @@ typedef struct KeyboardCanvas {
     /* 0c */ u16 *mBg2Scr;
     /* 10 */ s32 mUnk_10;
     /* 14 */ s32 mUnk_14;
-    /* 18 */ s32 mUnk_18;
+    /* 18 */ s32 mScreenMapTopBits;
     /* 1c */ s32 mUnk_1c;
-    /* 20 */ s32 mUnk_20;
+    /* 20 */ s32 mGlyphColor;
 } KeyboardCanvas;
 
 extern KeyboardCanvas gKeyboardCanvas;

@@ -19,12 +19,12 @@ void WriteMultiSelectNSRegisters(void) {
     func_020303a8(0x16);
     multiSelectNS = gMultiSelectNS;
     if (multiSelectNS->mOffset != 0) {
-        func_0203038c(1);
+        MultiSelectNSWriteSubWinEnableBits(1);
         func_02030364(0x1f, 1);
         func_0203033c(7, 1);
         func_020302f0(0, 0, 0xff, gMultiSelectNS->mOffset + 0xc0);
     } else {
-        func_0203038c(0);
+        MultiSelectNSWriteSubWinEnableBits(0);
     }
 }
 

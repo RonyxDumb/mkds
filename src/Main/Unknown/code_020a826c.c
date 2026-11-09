@@ -17,83 +17,84 @@
 #include "Main/Unknown/code_0203c25c.h"
 #include "Main/Unknown/code_0203c5f8.h"
 
-static inline void func_020a826c_inline(Unk020a826c_a0 *q) {
-    s32 v;
+static inline void func_020a826c_inline(CourseSoundObjectPart *soundPart) {
+    s32 falloffDistanceSquared;
 
-    if (q->mUnk_00.mFalloffIndex == 2) {
-        v = gSoundFalloffs[2].mUnk_20;
-    } else if (q->mUnk_00.mFalloffIndex == 3) {
-        v = gSoundFalloffs[3].mUnk_20;
-    } else if (q->mUnk_00.mFalloffIndex == 4) {
-        v = gSoundFalloffs[4].mUnk_20;
-    } else if (q->mUnk_00.mFalloffIndex == 5) {
-        v = gSoundFalloffs[5].mUnk_20;
-    } else if (q->mUnk_00.mFalloffIndex == 6) {
-        v = gSoundFalloffs[6].mUnk_20;
-    } else if (q->mUnk_00.mFalloffIndex == 8) {
-        v = gSoundFalloffs[8].mUnk_20;
+    if (soundPart->mStartParams.mFalloffIndex == 2) {
+        falloffDistanceSquared = gSoundFalloffs[2].mUnk_20;
+    } else if (soundPart->mStartParams.mFalloffIndex == 3) {
+        falloffDistanceSquared = gSoundFalloffs[3].mUnk_20;
+    } else if (soundPart->mStartParams.mFalloffIndex == 4) {
+        falloffDistanceSquared = gSoundFalloffs[4].mUnk_20;
+    } else if (soundPart->mStartParams.mFalloffIndex == 5) {
+        falloffDistanceSquared = gSoundFalloffs[5].mUnk_20;
+    } else if (soundPart->mStartParams.mFalloffIndex == 6) {
+        falloffDistanceSquared = gSoundFalloffs[6].mUnk_20;
+    } else if (soundPart->mStartParams.mFalloffIndex == 8) {
+        falloffDistanceSquared = gSoundFalloffs[8].mUnk_20;
     } else {
-        v = 0;
+        falloffDistanceSquared = 0;
     }
-    q->mUnk_00.mDistanceSquared = GetHorizontalCameraDistanceSquared(&q->mSourcePos);
-    if (q->mUnk_00.mDistanceSquared < v) {
-        q->mUnk_24 = q->mUnk_24 == 0 ? 1 : 2;
+    soundPart->mStartParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&soundPart->mSourcePos);
+    if (soundPart->mStartParams.mDistanceSquared < falloffDistanceSquared) {
+        soundPart->mInRangeUpdateCount = soundPart->mInRangeUpdateCount == 0 ? 1 : 2;
         if (GetRaceUseChainCameras() != 0) {
-            func_0210b734(&q->mUnk_00, q->mSndHandleSlot);
+            func_0210b734(&soundPart->mStartParams, soundPart->mSndHandleSlot);
         } else {
-            func_0210b760(&q->mUnk_00, q->mSndHandleSlot);
+            func_0210b760(&soundPart->mStartParams, soundPart->mSndHandleSlot);
         }
     } else {
-        q->mUnk_24 = 0;
+        soundPart->mInRangeUpdateCount = 0;
     }
 }
 
-void func_020a826c(void *a, Unk020a826c *p) {
-    s32 v;
+void UpdateCourseSoundObject(void *a, CourseSoundObject *courseSoundObject) {
+    s32 soundId;
 
-    switch (p->mState) {
+    switch (courseSoundObject->mState) {
         case 1:
             if (IsRaceStarted() == 1) {
-                v = p->mUnk_0c8.mUnk_00.mSoundId;
-                NNS_SndPlayerStopSeq(p->mUnk_0a0.mSndHandleSlot, 0);
-                p->mUnk_0a0.mUnk_00.mSoundId = v;
-                p->mState = 2;
+                soundId = courseSoundObject->mSecondPart.mStartParams.mSoundId;
+                NNS_SndPlayerStopSeq(courseSoundObject->mFirstPart.mSndHandleSlot, 0);
+                courseSoundObject->mFirstPart.mStartParams.mSoundId = soundId;
+                courseSoundObject->mState = 2;
             }
-            func_020a826c_inline(&p->mUnk_0a0);
+            func_020a826c_inline(&courseSoundObject->mFirstPart);
             break;
         case 2:
-            func_020a8ed8(&p->mUnk_0a0, &p->mUnk_000.mPos);
+            PlaceCourseSoundObjectPartSource(&courseSoundObject->mFirstPart, &courseSoundObject->mUnk_000.mPos);
             if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL && IsKartOnLastLap(gRaceSetup->mEntryIndex) != FALSE &&
-                p->mUnk_0a0.mUnk_24 == 0 && p->mUnk_0a0.mUnk_20 != FALSE) {
-                v = func_02110c40();
-                NNS_SndPlayerStopSeq(p->mUnk_0a0.mSndHandleSlot, 0);
-                p->mUnk_0a0.mUnk_00.mSoundId = v;
-                p->mState = 3;
+                courseSoundObject->mFirstPart.mInRangeUpdateCount == 0 &&
+                courseSoundObject->mFirstPart.mUnk_20 != FALSE) {
+                soundId = func_02110c40();
+                NNS_SndPlayerStopSeq(courseSoundObject->mFirstPart.mSndHandleSlot, 0);
+                courseSoundObject->mFirstPart.mStartParams.mSoundId = soundId;
+                courseSoundObject->mState = 3;
             }
-            func_020a826c_inline(&p->mUnk_0a0);
+            func_020a826c_inline(&courseSoundObject->mFirstPart);
             break;
         case 3:
-            func_020a8ed8(&p->mUnk_0a0, &p->mUnk_000.mPos);
+            PlaceCourseSoundObjectPartSource(&courseSoundObject->mFirstPart, &courseSoundObject->mUnk_000.mPos);
             if (IsKartEnded((u16) gRaceSetup->mEntryIndex) != 0) {
-                ParkMapObject(&p->mUnk_000);
-            } else if (p->mUnk_0a0.mUnk_20 == FALSE) {
-                v = p->mUnk_0c8.mUnk_00.mSoundId;
-                NNS_SndPlayerStopSeq(p->mUnk_0a0.mSndHandleSlot, 0);
-                p->mUnk_0a0.mUnk_00.mSoundId = v;
-                p->mState = 2;
+                ParkMapObject(&courseSoundObject->mUnk_000);
+            } else if (courseSoundObject->mFirstPart.mUnk_20 == FALSE) {
+                soundId = courseSoundObject->mSecondPart.mStartParams.mSoundId;
+                NNS_SndPlayerStopSeq(courseSoundObject->mFirstPart.mSndHandleSlot, 0);
+                courseSoundObject->mFirstPart.mStartParams.mSoundId = soundId;
+                courseSoundObject->mState = 2;
             }
-            func_020a826c_inline(&p->mUnk_0a0);
+            func_020a826c_inline(&courseSoundObject->mFirstPart);
             break;
         case 4:
-            func_020a826c_inline(&p->mUnk_0a0);
-            func_020a826c_inline(&p->mUnk_0c8);
+            func_020a826c_inline(&courseSoundObject->mFirstPart);
+            func_020a826c_inline(&courseSoundObject->mSecondPart);
             break;
         case 5:
-            func_020a826c_inline(&p->mUnk_0a0);
+            func_020a826c_inline(&courseSoundObject->mFirstPart);
             break;
         case 6:
-            func_020a826c_inline(&p->mUnk_0a0);
-            func_020a826c_inline(&p->mUnk_0c8);
+            func_020a826c_inline(&courseSoundObject->mFirstPart);
+            func_020a826c_inline(&courseSoundObject->mSecondPart);
             break;
     }
 }

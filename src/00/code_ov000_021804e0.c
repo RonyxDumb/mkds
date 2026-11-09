@@ -33,7 +33,7 @@ void func_ov000_0218058c(void) {
 void UpdateWiFiMenuScene(SceneNumbers *a) {
     ClearOamListCounts(data_ov000_021b4c60, data_ov000_021b4c60 + 0x404);
     AdvanceWiFiStates();
-    func_020ae630(data_ov000_021b4c60, data_ov000_021b4c60 + 0x404);
+    HideUnusedOams(data_ov000_021b4c60, data_ov000_021b4c60 + 0x404);
     if (a != NULL) {
         if (GetWiFiNextScene() != -1) {
             if (GetWiFiNextScene() == 0) {

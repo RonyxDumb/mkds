@@ -13,7 +13,7 @@ void func_020b2e64(u32 openFlag) {
     int wasOpen;
     int v2;
     wasOpen = GetChoisesSOpenDuringRace();
-    v2 = func_020b29c4();
+    v2 = IsChoisesSOpenAllowedDuringRace();
     if (v2 != 0) {
         func_020b2f88(openFlag);
     }

@@ -114,7 +114,7 @@ void AdvanceWLMenuScene(void *a) {
             gWLMenuScene->mRequestedCallbacksIndex = callbacksIndex;
         }
         AdvanceLinkLevelIcons();
-        func_020ae630(gWLMenuScene, gWLMenuScene->mSubOam);
+        HideUnusedOams(gWLMenuScene, gWLMenuScene->mSubOam);
     }
     if (func_0202f19c() == 0) {
         func_02125928();
