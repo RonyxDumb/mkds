@@ -86,13 +86,13 @@ u32 LoadSeqRowIfChanged(s32 index) {
     return 1;
 }
 
-u32 func_02111144(void) {
+u32 GetSeqRowSceneSeq(void) {
     return data_0217d32c.mSeqRow[5];
 }
 
-u32 func_02111118(void) {
+u32 ResetRaceEndSeqState(void) {
     data_0217d328 = 0;
     data_0217d324 = 0;
-    data_0217d320 = 0;
-    return (u32) &data_0217d320;
+    gRaceEndSeqCallCount = 0;
+    return (u32) &gRaceEndSeqCallCount;
 }

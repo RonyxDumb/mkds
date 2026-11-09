@@ -12,8 +12,8 @@
 #include "Main/Unknown/unk_0217c000.h"
 #include "Main/Unknown/unk_0217d000.h"
 
-u32 data_0216cb4c = 0xffff;
-Unk0216cb50 data_0216cb50[5] = {
+u32 gCourseSoundTableIndex = 0xffff;
+CourseSoundTableRow gCourseSoundTable[5] = {
     {{0x01b1, 0x01b2, 0x01b3, 0x01b4, 0x01b5, 0xffff, 0xffff, 0xffff}},
     {{0x1000, 0x1001, 0x1002, 0x1003, 0x0198, 0x0197, 0xffff, 0xffff}},
     {{0x1000, 0x1001, 0x1002, 0x1003, 0x01ab, 0xffff, 0xffff, 0xffff}},
@@ -21,52 +21,52 @@ Unk0216cb50 data_0216cb50[5] = {
     {{0x01c2, 0x01c3, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff}},
 };
 
-void func_0210f5d4(u32 a) {
-    u32 v;
-    s32 j;
-    s32 i;
-    u32 t;
-    u32 w;
+void SelectCourseSoundTable(u32 courseId) {
+    u32 tableIndex;
+    s32 slotIndex;
+    s32 entryIndex;
+    u32 volumeHandle;
+    u32 groupValue;
 
-    v = 0xffff;
-    switch (a) {
+    tableIndex = 0xffff;
+    switch (courseId) {
         case 0x1d:
-            v = 0;
+            tableIndex = 0;
             break;
         case 0x1c:
-            v = 1;
+            tableIndex = 1;
             break;
         case 0x20:
-            v = 2;
+            tableIndex = 2;
             break;
         case 0x21:
-            v = 3;
+            tableIndex = 3;
             break;
         case 0x22:
-            v = 4;
+            tableIndex = 4;
             break;
     }
-    data_0216cb4c = v;
-    if (v != 0xffff) {
-        j = 0;
-        func_0210f208(data_0217d1c0, 3, j);
-        func_0210f208(data_0217d1d0, 3, j);
-        for (; j < 2; j++) {
-            w = (j == 0 ? 0x1000 : 0x2000);
-            for (i = 0; i < 8; i++) {
-                if (data_0216cb50[v].mUnk_00[i] == w) {
-                    func_0210f208(&data_0217d1c0[j], 0, i);
+    gCourseSoundTableIndex = tableIndex;
+    if (tableIndex != 0xffff) {
+        slotIndex = 0;
+        InitCourseSoundSlot(gCourseSoundSlots, 3, slotIndex);
+        InitCourseSoundSlot(data_0217d1d0, 3, slotIndex);
+        for (; slotIndex < 2; slotIndex++) {
+            groupValue = (slotIndex == 0 ? 0x1000 : 0x2000);
+            for (entryIndex = 0; entryIndex < 8; entryIndex++) {
+                if (gCourseSoundTable[tableIndex].mEntries[entryIndex] == groupValue) {
+                    InitCourseSoundSlot(&gCourseSoundSlots[slotIndex], 0, entryIndex);
                     break;
                 }
             }
         }
     }
-    t = 0;
-    if (v == 1 && gRaceSetup->mMode != MODE_MISSION_RUN) {
-        t = 3;
+    volumeHandle = 0;
+    if (tableIndex == 1 && gRaceSetup->mMode != MODE_MISSION_RUN) {
+        volumeHandle = 3;
     }
-    data_0217d1c0[0].mUnk_04 = t;
-    data_0217d1c0[0].mUnk_00 = t;
+    gCourseSoundSlots[0].mPreviousVolumeHandle = volumeHandle;
+    gCourseSoundSlots[0].mVolumeHandle = volumeHandle;
 }
 
 void func_0210f458(s32 a) {
@@ -75,9 +75,9 @@ void func_0210f458(s32 a) {
     u16 entryIndex;
     NNSSndSeqPlayer **handle;
 
-    tableValue = data_0216cb50[data_0216cb4c].mUnk_00[a];
+    tableValue = gCourseSoundTable[gCourseSoundTableIndex].mEntries[a];
     lowBits = tableValue & 0xfff;
-    switch (data_0216cb4c) {
+    switch (gCourseSoundTableIndex) {
         case 3:
             if (tableValue == 0x1cc) {
                 handle = GetSndHandles();
@@ -115,28 +115,28 @@ void func_0210f458(s32 a) {
         return;
     }
     entryIndex = ((tableValue & 0xf000) >> 12) - 1;
-    a = a - data_0217d1c8[entryIndex].mUnk_00;
-    data_0217d1c4[entryIndex].mUnk_00 = data_0217d1c0[entryIndex].mUnk_00;
-    data_0217d1c0[entryIndex].mUnk_00 = a;
+    a = a - data_0217d1c8[entryIndex].mFirstTableIndex;
+    data_0217d1c4[entryIndex].mPreviousVolumeHandle = gCourseSoundSlots[entryIndex].mVolumeHandle;
+    gCourseSoundSlots[entryIndex].mVolumeHandle = a;
 }
 
-u32 func_0210f35c(s32 a, u32 soundId) {
+BOOL StartCourseSoundAtVolume(s32 slotIndex, u32 soundId) {
     NNSSndSeqPlayer **handle;
-    u32 v;
+    u32 volumeHandle;
     u8 trackVolume;
     u32 ok;
 
-    if (a == 0) {
+    if (slotIndex == 0) {
         handle = GetSndHandleSlot(0xa);
     } else {
         handle = GetSndHandleSlot(0xb);
     }
-    v = data_0217d1c0[a].mUnk_00;
-    if (v == 0) {
+    volumeHandle = gCourseSoundSlots[slotIndex].mVolumeHandle;
+    if (volumeHandle == 0) {
         trackVolume = 0;
         ok = 0;
     } else {
-        trackVolume = data_0217d1cc[a].mUnk_00[v - 1];
+        trackVolume = data_0217d1cc[slotIndex].mVolumes[volumeHandle - 1];
         ok = 1;
     }
     if (ok != 0) {
@@ -158,23 +158,23 @@ u32 func_0210f35c(s32 a, u32 soundId) {
     return ok;
 }
 
-u32 func_0210f230(u32 a, u32 soundId) {
+BOOL UpdateCourseSound(u32 slotIndex, u32 soundId) {
     NNSSndSeqPlayer **handle;
-    u32 v;
+    u32 volumeHandle;
     u8 trackVolume;
     u32 ok;
 
-    if (a == 0) {
+    if (slotIndex == 0) {
         handle = GetSndHandleSlot(0xa);
     } else {
         handle = GetSndHandleSlot(0xb);
     }
-    v = data_0217d1c0[a].mUnk_00;
-    if (v == 0) {
+    volumeHandle = gCourseSoundSlots[slotIndex].mVolumeHandle;
+    if (volumeHandle == 0) {
         trackVolume = 0;
         ok = 0;
     } else {
-        trackVolume = data_0217d1cc[a].mUnk_00[v - 1];
+        trackVolume = data_0217d1cc[slotIndex].mVolumes[volumeHandle - 1];
         ok = 1;
     }
     if (ok != 0) {
@@ -191,7 +191,7 @@ u32 func_0210f230(u32 a, u32 soundId) {
                 }
             }
             SetSndHandleTrackVolume(handle, trackVolume);
-        } else if (*handle != NULL && data_0217d1c4[a].mUnk_00 != v) {
+        } else if (*handle != NULL && data_0217d1c4[slotIndex].mPreviousVolumeHandle != volumeHandle) {
             SetSndHandleTrackVolume(handle, trackVolume);
         }
     } else {

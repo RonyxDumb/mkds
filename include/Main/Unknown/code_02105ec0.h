@@ -32,23 +32,23 @@ typedef struct LoadedSoundBanks {
 extern LoadedSoundBanks gLoadedSoundBanks;
 
 // 0x03-byte argument of InitSceneSoundState and InitSceneSounds.
-typedef struct Unk021073ec {
+typedef struct ScenePlayersSeqInfo {
     /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 mUnk_01;
-    /* 02 */ u8 mUnk_02;
-} Unk021073ec;
+    /* 01 */ u8 mSeqStartProgress;
+    /* 02 */ u8 mSeqId;
+} ScenePlayersSeqInfo;
 
 // Object behind gPlayerVolumeFade.
 typedef struct PlayerVolumeFade {
     /* 00 */ u32 mVolumePerFrame;
     /* 04 */ s32 mVolume;
     /* 08 */ u32 mRaceStarted;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
-    /* 18 */ u32 mUnk_18;
-    /* 1c */ u32 mUnk_1c;
-    /* 20 */ u32 mUnk_20;
+    /* 0c */ u32 mTargetVolumeBeforeRaceStart;
+    /* 10 */ u32 mTargetVolumeAfterRaceStart;
+    /* 14 */ u32 mPlayerMaskBeforeRaceStart;
+    /* 18 */ u32 mPlayerMaskAfterRaceStart;
+    /* 1c */ u32 mVolumePerFrameBeforeRaceStart;
+    /* 20 */ u32 mVolumePerFrameAfterRaceStart;
 } PlayerVolumeFade;
 
 extern PlayerVolumeFade gPlayerVolumeFade;
@@ -121,7 +121,7 @@ void CreateSndHeaps(u32 heapSizeKind, u32 buffer);
 void InitSound(void *buffer, u32 b, u32 useFileArchive);
 void UpdateSounds(void);
 void InitSceneSounds(s32 e);
-void InitSceneSoundState(u32 sceneSoundRowIndex, Unk021073ec b, SceneSoundState *sceneSoundState);
+void InitSceneSoundState(u32 sceneSoundRowIndex, ScenePlayersSeqInfo b, SceneSoundState *sceneSoundState);
 void StartSceneSounds(void);
 void StartRaceSounds(void);
 void StartKartStarSeq(void);

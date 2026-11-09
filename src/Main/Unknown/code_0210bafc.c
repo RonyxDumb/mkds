@@ -37,7 +37,7 @@ void RemoveListObject(NNSFndList *list, void *object) {
 }
 
 void ClearSurfaceSoundIds(void) {
-    __clear(data_0217cd30, 0x17 * sizeof(Unk0217cd30));
+    __clear(gSurfaceSoundIds, 0x17 * sizeof(SurfaceSoundIdRow));
 }
 
 u32 SetSurfaceSoundIds(u32 rowIndex, u32 columnIndex, void *entries) {
@@ -45,18 +45,18 @@ u32 SetSurfaceSoundIds(u32 rowIndex, u32 columnIndex, void *entries) {
     u32 columnCopy = columnIndex;
     u32 entriesCopy = (u32) entries;
     u32 table;
-    table = (u32) &data_0217cd30;
+    table = (u32) &gSurfaceSoundIds;
     value0 = (table) + ((value0 << 5));
     *(u32 *) ((value0) + ((columnCopy << 2))) = entriesCopy;
     return value0;
 }
 
-u32 func_0210bbec(u32 rowIndex, u32 columnIndex, Unk0216c860 *entries) {
+u32 CourseEntrySetSurfaceSoundIds(u32 rowIndex, u32 columnIndex, Unk0216c860 *entries) {
     u32 value0 = rowIndex;
     u32 columnCopy = columnIndex;
     u32 entriesCopy = (u32) entries;
     u32 table;
-    table = (u32) &data_0217cd30;
+    table = (u32) &gSurfaceSoundIds;
     value0 = (table) + ((value0 << 5));
     *(u32 *) ((value0) + ((columnCopy << 2))) = entriesCopy;
     return value0;
@@ -66,7 +66,7 @@ u32 GetSurfaceSoundId(s32 entryIndex, s32 surfaceKind, s32 surfaceVariant) {
     s32 idArray;
     s32 v;
 
-    idArray = data_0217cd30[surfaceKind].mUnk_00[surfaceVariant];
+    idArray = gSurfaceSoundIds[surfaceKind].mIdArrays[surfaceVariant];
     v = idArray != 0 ? ((u32 *) idArray)[entryIndex] : 0xffff;
     if (v != 0xffff) {
         return (u16) v;
@@ -85,7 +85,7 @@ u32 func_0210bafc(s32 entryIndex, s32 rowIndex, s32 columnIndex) {
     s32 idArray;
     s32 v;
 
-    idArray = data_0217cd30[rowIndex].mUnk_00[columnIndex];
+    idArray = gSurfaceSoundIds[rowIndex].mIdArrays[columnIndex];
     v = idArray != 0 ? ((u32 *) idArray)[entryIndex] : 0xffff;
     if (v != 0xffff) {
         return (u16) v;

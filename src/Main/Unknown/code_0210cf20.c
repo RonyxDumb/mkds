@@ -46,7 +46,7 @@ void InitPlayingSoundPool(PlayingSound *sounds, s32 count) {
     data_0217d024[0] = 0;
 }
 
-u32 func_0210d4a0(u32 value) {
+u32 SoundReturnArgument(u32 value) {
     return value;
 }
 

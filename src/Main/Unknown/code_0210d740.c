@@ -14,12 +14,12 @@
 #include "Main/Unknown/unk_0217d068.h"
 #include "Main/Unknown/code_0210d960.h"
 
-void func_0210d990(u32 flag) {
-    data_0217d064 = flag;
+void SetFileSndArcOpen(u32 flag) {
+    gFileSndArcOpen = flag;
 }
 
-u32 func_0210d980(void) {
-    return data_0217d064;
+BOOL IsFileSndArcOpen(void) {
+    return gFileSndArcOpen;
 }
 
 void SetSoundFadeSteps(u32 fadeSteps) {
@@ -30,20 +30,20 @@ u32 GetSoundFadeSteps(void) {
     return gSoundFadeSteps;
 }
 
-void func_0210d894(void *heapMemory, u32 heapSize, const u8 *filePath) {
+void InitSoundSystem(void *heapMemory, u32 heapSize, const u8 *filePath) {
     NNS_SndInit();
     data_0217d130 = NNS_SndHeapCreate(heapMemory, heapSize);
-    data_0217d06c = NNS_SndHeapAlloc(data_0217d130, 0x1020, func_0210d890, NULL, 0);
+    data_0217d06c = NNS_SndHeapAlloc(data_0217d130, 0x1020, SoundHeapAllocNop, NULL, 0);
     if (filePath != NULL) {
         NNS_SndArcInit(&gFileSndArc, filePath, data_0217d130, 0);
-        data_0217d064 = 1;
+        gFileSndArcOpen = 1;
         NNS_SndArcPlayerSetup(data_0217d130);
     }
     NNS_SndHandleInit(&data_0217d068);
     SetupSoundMode(&data_0217d084, &data_0217d070, 0);
 }
 
-void func_0210d890(void *memory, u32 size, void *data1, u32 data2) {}
+void SoundHeapAllocNop(void *memory, u32 size, void *data1, u32 data2) {}
 
 void StartSoundOutputEffect(u32 type) {
     NNS_SndCaptureStartOutputEffect((void *) (((u32) data_0217d06c + 0x1f) & ~0x1f), 0x1000, type);
@@ -64,19 +64,20 @@ void StartSeqAtVolume(u32 seqNo, u32 volume, NNSSndSeqPlayer **handle) {
     NNS_SndPlayerSetVolume(handle, volume);
 }
 
-void func_0210d7ac(void) {
-    if (data_0217d070.mUnk_00 != 0) {
-        func_0210d73c(&data_0217d070);
+void UpdateSndMain(void) {
+    if (data_0217d070.mProgress != 0) {
+        UpdateScenePlayersNop(&data_0217d070);
     }
     NNS_SndMain();
 }
 
-void func_0210d740(ScenePlayers *scenePlayers, SceneSoundState *sceneSoundState, u32 c, Unk021073ec d) {
+void InitScenePlayers(ScenePlayers *scenePlayers, SceneSoundState *sceneSoundState, u32 sceneSoundRowIndex,
+                      ScenePlayersSeqInfo seqInfo) {
     SetupSoundMode(&data_0217d084, scenePlayers, 0);
-    *(Unk021073ec *) &scenePlayers->mUnk_09 = d;
+    *(ScenePlayersSeqInfo *) &scenePlayers->mUnk_09 = seqInfo;
     scenePlayers->mSceneSoundState = sceneSoundState;
-    scenePlayers->mUnk_08 = c;
+    scenePlayers->mSoundRowIndex = sceneSoundRowIndex;
     NNS_SndHandleInit(&scenePlayers->mSeqPlayer);
     NNS_SndHandleInit(&scenePlayers->mSecondSeqPlayer);
-    scenePlayers->mUnk_00 = 1;
+    scenePlayers->mProgress = 1;
 }

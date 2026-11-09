@@ -25,19 +25,19 @@
 #include "Main/Unknown/code_0210bafc.h"
 #include "code_02147cd8.h"
 
-u32 func_020250a8(void) {
+u32 InitKartSoundPitchFactors(void) {
     u32 quotient;
     u32 divisor;
 
     divisor = *(const u32 *) &data_02161ae4;
     quotient = FX_Div(0x1000, divisor);
     divisor = *(const u32 *) &data_02161ae0;
-    data_02174e10 = quotient;
+    gPitchRiseFactor = quotient;
     quotient = FX_Div(0x1000, divisor);
     divisor = *(const u32 *) &data_02161adc;
-    data_02174e0c = quotient;
+    gPitchFallFactor = quotient;
     quotient = FX_Div(0x1000, divisor);
-    data_02174e08 = quotient;
+    gPitchRiseFactorAboveLimit = quotient;
     return quotient;
 }
 
@@ -79,7 +79,7 @@ void func_02024fc0(Kart *kart, KartSound *soundRecord) {
                              (clampedValue << 4) >> 16);
 }
 
-s32 func_02024eec(KartSound *soundRecord, s32 b, s32 c) {
+s32 func_02024eec(KartSound *soundRecord, s32 b, s32 aboveSpeedLimit) {
     s32 currentValue;
     s32 previousTarget;
     s32 step;
@@ -101,11 +101,11 @@ s32 func_02024eec(KartSound *soundRecord, s32 b, s32 c) {
         } else if ((previousTarget & 0x7fff0000) != targetHighBits) {
             soundRecord->mTargetPitch = b;
             if (b < currentValue) {
-                factor = data_02174e0c;
-            } else if (c != 0) {
-                factor = data_02174e08;
+                factor = gPitchFallFactor;
+            } else if (aboveSpeedLimit != 0) {
+                factor = gPitchRiseFactorAboveLimit;
             } else {
-                factor = data_02174e10;
+                factor = gPitchRiseFactor;
             }
             step = ((s64) factor * (b - currentValue) + 0x800) >> 12;
             b = step + currentValue;
@@ -256,7 +256,7 @@ void func_02024a28(SoundSource *soundSource, u16 soundId, s32 b, s32 c) {
 }
 
 void func_020249b8(Kart *kart, s32 b, s32 c) {
-    s32 d;
+    s32 pitch;
     u8 volume;
 
     if (b <= 0) {
@@ -265,22 +265,22 @@ void func_020249b8(Kart *kart, s32 b, s32 c) {
     if (b >= 0x1000) {
         return;
     }
-    d = (b << 14) >> 16;
+    pitch = (b << 14) >> 16;
     volume = (b << 7) >> 12;
-    if (d > 0x400) {
-        d = 0x400;
+    if (pitch > 0x400) {
+        pitch = 0x400;
     }
     if (volume > 0x7f) {
         volume = 0x7f;
     }
-    StartSoundWhileRequested(&kart->mSoundSource, c > 0 ? 0x150 : 0x151, volume, d);
+    StartSoundWhileRequested(&kart->mSoundSource, c > 0 ? 0x150 : 0x151, volume, pitch);
 }
 
 s32 func_02024974(s32 a, s32 b, u32 c, u32 d) {
-    s32 r;
+    s32 soundOffset;
     s32 t;
 
-    r = b != 0 ? 4 : 0;
+    soundOffset = b != 0 ? 4 : 0;
     if (a == 0) {
         if (c == d) {
             t = 0;
@@ -289,9 +289,9 @@ s32 func_02024974(s32 a, s32 b, u32 c, u32 d) {
         } else {
             t = 2;
         }
-        r += t;
+        soundOffset += t;
     } else {
-        r += 3;
+        soundOffset += 3;
     }
-    return r + 0x130;
+    return soundOffset + 0x130;
 }

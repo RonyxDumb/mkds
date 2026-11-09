@@ -19,11 +19,11 @@
 #include "code_0212bcac.h"
 #include "code_0212df7c.h"
 
-void func_02108edc(s32 a, s32 b) {
+void func_02108edc(s32 count, s32 countLimit) {
     u32 c;
     PlayingSound *playingSound;
 
-    if (a == b) {
+    if (count == countLimit) {
         if (data_0217c76c[0] != 0xff) {
             NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, data_0217c76c[0]);
         }
@@ -67,11 +67,11 @@ u32 SetCurrentSndArc(void) {
     return value0;
 }
 
-void func_02108eb4(u32 index, u32 value) {
+void SetPlayerVolumeTarget(u32 index, u32 value) {
     u32 indexCopy = index;
     u32 valueCopy = value;
     u32 table;
-    table = (u32) &data_0217c7fc;
+    table = (u32) &gPlayerVolumeTargets;
     *(u32 *) ((table) + ((indexCopy << 2))) = valueCopy;
 }
 

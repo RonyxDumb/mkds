@@ -797,7 +797,7 @@ void InitKartSoundParams(Kart *kart) {
     kartSound->mLapProgressAtLastSound = 0;
     kartSound->mLapProgressSoundCount = 0;
     kartSound->mLastSeqArcSoundRaceFrame = 0;
-    kartSound->mUnk_34 = -1;
+    kartSound->mThunderShrinkRaceFrame = -1;
     kartSound->mUnk_38 = -1;
     switch (kart->mKartModelsEntry->mKartIndex / 3) {
         case 0:

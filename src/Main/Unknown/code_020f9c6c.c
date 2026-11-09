@@ -117,7 +117,7 @@ void ResetItemKouraW(ItemKouraW *item) {
 
 void func_020fc94c(ItemKouraW *item) {
     ResetSoundDistanceSquaredChange(&item->mUnk_300);
-    item->mUnk_000.mSoundSource.mTrackParamsFunction = (void (*)(void *, void *, void *)) func_0210a67c;
+    item->mUnk_000.mSoundSource.mTrackParamsFunction = (void (*)(void *, void *, void *)) SetItemKouraWSoundTrackParams;
     item->mUnk_160 = 0;
     item->mUnk_000.mDrawPos = item->mUnk_000.mPos;
     FreeItemObjectCollisionSlot(&item->mUnk_000);

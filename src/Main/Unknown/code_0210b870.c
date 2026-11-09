@@ -10,8 +10,8 @@
 #include "Main/Unknown/unk_0217c000.h"
 #include "code_0212bcac.h"
 
-void func_0210bac0(void) {
-    data_0217ccac = 0;
+void ResetMapObjectSoundCounter(void) {
+    gMapObjectSoundCounter = 0;
 }
 
 void func_0210ba78(void *mapSound, s32 baseSoundId) {
@@ -19,9 +19,9 @@ void func_0210ba78(void *mapSound, s32 baseSoundId) {
     s32 counter;
 
     mapSoundCopy = mapSound;
-    counter = data_0217ccac;
+    counter = gMapObjectSoundCounter;
     StartSound(&mapSoundCopy->mSoundSource, baseSoundId + counter, (0x7f - (counter >> 1)) & 0xff, 0);
-    data_0217ccac = data_0217ccac + 0xa;
+    gMapObjectSoundCounter = gMapObjectSoundCounter + 0xa;
 }
 
 void func_0210ba38(struct MapObjectSound *mapSound, s32 soundId) {
@@ -98,4 +98,4 @@ void func_0210b874(struct MapObjectSound *mapSound, s32 fixedValue) {
     }
 }
 
-void func_0210b870(void) {}
+void InitSceneSoundsNop(void) {}

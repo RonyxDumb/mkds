@@ -622,7 +622,7 @@ void StartKartThunderShrink(Kart *p) {
     p->mScaleFactor.x = 0x1000;
     p->mScaleFactor.y = 0x1000;
     p->mScaleFactor.z = 0x1000;
-    func_0210a644(p);
+    SetKartThunderShrinkTrackParamsFunction(p);
     if (p->mIndex == gRaceSetup->mEntryIndex) {
         SetThunderShrinkSoundFlag(1);
     }

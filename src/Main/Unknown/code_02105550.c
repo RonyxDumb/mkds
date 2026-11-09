@@ -270,8 +270,8 @@ void ReleaseSndHeaps(void) {
     data_0217c77c = NULL;
     NNS_SndHeapDestroy(data_0217c790);
     data_0217c790 = NULL;
-    ClearSndFileAddresses(func_0210ef50());
-    ClearSndFileIdList(func_0210ef50());
+    ClearSndFileAddresses(GetSndDataFileIdList());
+    ClearSndFileIdList(GetSndDataFileIdList());
     ((u32 *) &gLoadedSoundBanks)[0] = data_0215a6f4[0];
     ((u32 *) &gLoadedSoundBanks)[1] = data_0215a6f4[1];
     ResetLoadedSoundSet(&data_0217c7b4);
@@ -348,7 +348,7 @@ void CreateSndHeaps(u32 heapSizeKind, u32 buffer) {
     if (heapSizeKind == 1) {
         x = 1;
     }
-    func_0210e8f8(x);
+    LoadInitialSndGroup(x);
 }
 
 void InitSound(void *buffer, u32 b, u32 useFileArchive) {
@@ -387,12 +387,12 @@ void InitSound(void *buffer, u32 b, u32 useFileArchive) {
         data_0216c7d4 = 2;
         b = b - seqRowHeapSize;
     }
-    func_0210d894(buffer, b, useFileArchive != 0 ? gSoundDataSdatPath : 0);
+    InitSoundSystem(buffer, b, useFileArchive != 0 ? gSoundDataSdatPath : 0);
     InitSoundRequestQueues();
     NNS_SndArcInitOnMemory(&gOnMemorySndArc, gOnMemorySdat);
     NNS_SndArcSetCurrent(&gFileSndArc);
     if (useFileArchive != 0) {
-        func_0210e920();
+        LoadInitialSndArcs();
     } else {
         ((u32 *) &gLoadedSoundBanks)[0] = data_0215a6e4[0];
         ((u32 *) &gLoadedSoundBanks)[1] = data_0215a6e4[1];
@@ -401,9 +401,9 @@ void InitSound(void *buffer, u32 b, u32 useFileArchive) {
     }
     data_0216cb28 = 0x69;
     StartSoundOutputEffect(1);
-    func_020250a8();
-    ClearSndFileIdList(func_0210ef50());
-    ClearSndFileIdList(func_0210ef5c());
+    InitKartSoundPitchFactors();
+    ClearSndFileIdList(GetSndDataFileIdList());
+    ClearSndFileIdList(GetSoundSetFileIdList());
     for (i = 0; i < 12; i++) {
         NNS_SndHandleInit(&data_0217c838[i]);
     }
@@ -414,11 +414,11 @@ void InitSound(void *buffer, u32 b, u32 useFileArchive) {
     NNS_SndSetMasterVolume(0x7f);
     NNS_SndSetMonoFlag(0);
     SetSoundFadeSteps(0x1e);
-    gPlayerVolumeFade.mUnk_1c = FX_Div(0x7f000, 0x46000);
-    gPlayerVolumeFade.mUnk_20 = FX_Div(0x7f000, 0x3c000);
-    gPlayerVolumeFade.mUnk_14 = 0xff;
-    gPlayerVolumeFade.mUnk_18 = 0x7f;
-    gPlayerVolumeFade.mVolumePerFrame = gPlayerVolumeFade.mUnk_1c;
+    gPlayerVolumeFade.mVolumePerFrameBeforeRaceStart = FX_Div(0x7f000, 0x46000);
+    gPlayerVolumeFade.mVolumePerFrameAfterRaceStart = FX_Div(0x7f000, 0x3c000);
+    gPlayerVolumeFade.mPlayerMaskBeforeRaceStart = 0xff;
+    gPlayerVolumeFade.mPlayerMaskAfterRaceStart = 0x7f;
+    gPlayerVolumeFade.mVolumePerFrame = gPlayerVolumeFade.mVolumePerFrameBeforeRaceStart;
     gPlayerVolumeFade.mVolume = 0;
     InitSoundFalloffsAndPlayingSounds();
     data_0217c780 = 0;
@@ -431,11 +431,11 @@ void UpdateSounds(void) {
     BOOL seqZeroPlaying;
     NNSSndSeqPlayer *seqPlayer;
 
-    if (data_0217d070.mUnk_00 != 0) {
+    if (data_0217d070.mProgress != 0) {
         UpdateSceneSoundState();
     }
     ResetThunderShrinkSoundCounter();
-    func_0210bac0();
+    ResetMapObjectSoundCounter();
     for (i = 0; i < 7; i++) {
         RunSoundRequests(OFFSET_PTR(SoundRequestQueue, data_0217d26c, i * sizeof(SoundRequestQueue)));
     }
@@ -453,7 +453,7 @@ void UpdateSounds(void) {
             NNS_SndArcSetCurrent(&gFileSndArc);
         }
     }
-    func_0210d7ac();
+    UpdateSndMain();
     gSoundStartedThisFrame = 0;
 }
 
@@ -466,7 +466,7 @@ void InitSceneSounds(s32 e) {
     u32 d;
     NNSSndHeap *savedHeap;
     SoundRow buf;
-    Unk021073ec s;
+    ScenePlayersSeqInfo s;
 
     if (*(vu16 *) 0x027ffc40 == 2 && GetCurrentSceneNumber() == 6) {
         return;
@@ -511,7 +511,7 @@ void InitSceneSounds(s32 e) {
         SetSeqVariableEnabled(0, 0);
         SetSeqVariableEnabled(1, 0);
     }
-    func_02110a60();
+    ResetEmblemSoundCounters();
     ResetSeqQueue();
     InitKingTeresaSoundState(0);
     SetSoundFadeSteps(GetSceneFadeToFadedFrameCount());
@@ -526,125 +526,125 @@ void InitSceneSounds(s32 e) {
                     SetSeqVariableEnabled(1, 1);
                     break;
                 case COURSE_ID_MANSION:
-                    func_0210bbec(0x15, data_0216c860[0].mUnk_04, &data_0216c860[0]);
-                    func_0210bbec(0x8, data_0216c860[0].mUnk_04, &data_0216c860[0]);
-                    func_0210bbec(0x9, data_0216c860[0].mUnk_04, &data_0216c860[0]);
-                    func_0210bbec(0xd, data_0216c860[0].mUnk_04, &data_0216c860[0]);
-                    func_0210bbec(0xe, data_0216c860[0].mUnk_04, &data_0216c860[0]);
-                    func_0210bbec(0x10, data_0216c860[0].mUnk_04, &data_0216c860[0]);
+                    CourseEntrySetSurfaceSoundIds(0x15, data_0216c860[0].mUnk_04, &data_0216c860[0]);
+                    CourseEntrySetSurfaceSoundIds(0x8, data_0216c860[0].mUnk_04, &data_0216c860[0]);
+                    CourseEntrySetSurfaceSoundIds(0x9, data_0216c860[0].mUnk_04, &data_0216c860[0]);
+                    CourseEntrySetSurfaceSoundIds(0xd, data_0216c860[0].mUnk_04, &data_0216c860[0]);
+                    CourseEntrySetSurfaceSoundIds(0xe, data_0216c860[0].mUnk_04, &data_0216c860[0]);
+                    CourseEntrySetSurfaceSoundIds(0x10, data_0216c860[0].mUnk_04, &data_0216c860[0]);
                     break;
                 case COURSE_ID_PINBALL:
-                    func_0210bbec(0x15, data_0216c860[1].mUnk_04, &data_0216c860[1]);
-                    func_0210bbec(0x8, data_0216c860[1].mUnk_04, &data_0216c860[1]);
-                    func_0210bbec(0x9, data_0216c860[1].mUnk_04, &data_0216c860[1]);
-                    func_0210bbec(0xd, data_0216c860[1].mUnk_04, &data_0216c860[1]);
-                    func_0210bbec(0xe, data_0216c860[1].mUnk_04, &data_0216c860[1]);
-                    func_0210bbec(0x10, data_0216c860[1].mUnk_04, &data_0216c860[1]);
+                    CourseEntrySetSurfaceSoundIds(0x15, data_0216c860[1].mUnk_04, &data_0216c860[1]);
+                    CourseEntrySetSurfaceSoundIds(0x8, data_0216c860[1].mUnk_04, &data_0216c860[1]);
+                    CourseEntrySetSurfaceSoundIds(0x9, data_0216c860[1].mUnk_04, &data_0216c860[1]);
+                    CourseEntrySetSurfaceSoundIds(0xd, data_0216c860[1].mUnk_04, &data_0216c860[1]);
+                    CourseEntrySetSurfaceSoundIds(0xe, data_0216c860[1].mUnk_04, &data_0216c860[1]);
+                    CourseEntrySetSurfaceSoundIds(0x10, data_0216c860[1].mUnk_04, &data_0216c860[1]);
                     break;
                 case COURSE_ID_RIDGE:
-                    func_0210bbec(0x15, data_0216c860[2].mUnk_04, &data_0216c860[2]);
-                    func_0210bbec(0x8, data_0216c860[2].mUnk_04, &data_0216c860[2]);
-                    func_0210bbec(0x9, data_0216c860[2].mUnk_04, &data_0216c860[2]);
-                    func_0210bbec(0xd, data_0216c860[2].mUnk_04, &data_0216c860[2]);
-                    func_0210bbec(0xe, data_0216c860[2].mUnk_04, &data_0216c860[2]);
-                    func_0210bbec(0x10, data_0216c860[2].mUnk_04, &data_0216c860[2]);
+                    CourseEntrySetSurfaceSoundIds(0x15, data_0216c860[2].mUnk_04, &data_0216c860[2]);
+                    CourseEntrySetSurfaceSoundIds(0x8, data_0216c860[2].mUnk_04, &data_0216c860[2]);
+                    CourseEntrySetSurfaceSoundIds(0x9, data_0216c860[2].mUnk_04, &data_0216c860[2]);
+                    CourseEntrySetSurfaceSoundIds(0xd, data_0216c860[2].mUnk_04, &data_0216c860[2]);
+                    CourseEntrySetSurfaceSoundIds(0xe, data_0216c860[2].mUnk_04, &data_0216c860[2]);
+                    CourseEntrySetSurfaceSoundIds(0x10, data_0216c860[2].mUnk_04, &data_0216c860[2]);
                     break;
                 case COURSE_ID_SNOW:
-                    func_0210bbec(0x15, data_0216c860[3].mUnk_04, &data_0216c860[3]);
-                    func_0210bbec(0x8, data_0216c860[3].mUnk_04, &data_0216c860[3]);
-                    func_0210bbec(0x9, data_0216c860[3].mUnk_04, &data_0216c860[3]);
-                    func_0210bbec(0xd, data_0216c860[3].mUnk_04, &data_0216c860[3]);
-                    func_0210bbec(0xe, data_0216c860[3].mUnk_04, &data_0216c860[3]);
-                    func_0210bbec(0x10, data_0216c860[3].mUnk_04, &data_0216c860[3]);
+                    CourseEntrySetSurfaceSoundIds(0x15, data_0216c860[3].mUnk_04, &data_0216c860[3]);
+                    CourseEntrySetSurfaceSoundIds(0x8, data_0216c860[3].mUnk_04, &data_0216c860[3]);
+                    CourseEntrySetSurfaceSoundIds(0x9, data_0216c860[3].mUnk_04, &data_0216c860[3]);
+                    CourseEntrySetSurfaceSoundIds(0xd, data_0216c860[3].mUnk_04, &data_0216c860[3]);
+                    CourseEntrySetSurfaceSoundIds(0xe, data_0216c860[3].mUnk_04, &data_0216c860[3]);
+                    CourseEntrySetSurfaceSoundIds(0x10, data_0216c860[3].mUnk_04, &data_0216c860[3]);
                     break;
                 case COURSE_ID_CLOCK:
-                    func_0210bbec(0x15, data_0216c860[4].mUnk_04, &data_0216c860[4]);
-                    func_0210bbec(0x8, data_0216c860[4].mUnk_04, &data_0216c860[4]);
-                    func_0210bbec(0x9, data_0216c860[4].mUnk_04, &data_0216c860[4]);
-                    func_0210bbec(0xd, data_0216c860[4].mUnk_04, &data_0216c860[4]);
-                    func_0210bbec(0xe, data_0216c860[4].mUnk_04, &data_0216c860[4]);
-                    func_0210bbec(0x10, data_0216c860[4].mUnk_04, &data_0216c860[4]);
+                    CourseEntrySetSurfaceSoundIds(0x15, data_0216c860[4].mUnk_04, &data_0216c860[4]);
+                    CourseEntrySetSurfaceSoundIds(0x8, data_0216c860[4].mUnk_04, &data_0216c860[4]);
+                    CourseEntrySetSurfaceSoundIds(0x9, data_0216c860[4].mUnk_04, &data_0216c860[4]);
+                    CourseEntrySetSurfaceSoundIds(0xd, data_0216c860[4].mUnk_04, &data_0216c860[4]);
+                    CourseEntrySetSurfaceSoundIds(0xe, data_0216c860[4].mUnk_04, &data_0216c860[4]);
+                    CourseEntrySetSurfaceSoundIds(0x10, data_0216c860[4].mUnk_04, &data_0216c860[4]);
                     break;
                 case COURSE_ID_AIRSHIP:
-                    func_0210bbec(0x15, data_0216c860[5].mUnk_04, &data_0216c860[5]);
-                    func_0210bbec(0x8, data_0216c860[5].mUnk_04, &data_0216c860[5]);
-                    func_0210bbec(0x9, data_0216c860[5].mUnk_04, &data_0216c860[5]);
-                    func_0210bbec(0xd, data_0216c860[5].mUnk_04, &data_0216c860[5]);
-                    func_0210bbec(0xe, data_0216c860[5].mUnk_04, &data_0216c860[5]);
-                    func_0210bbec(0x10, data_0216c860[5].mUnk_04, &data_0216c860[5]);
+                    CourseEntrySetSurfaceSoundIds(0x15, data_0216c860[5].mUnk_04, &data_0216c860[5]);
+                    CourseEntrySetSurfaceSoundIds(0x8, data_0216c860[5].mUnk_04, &data_0216c860[5]);
+                    CourseEntrySetSurfaceSoundIds(0x9, data_0216c860[5].mUnk_04, &data_0216c860[5]);
+                    CourseEntrySetSurfaceSoundIds(0xd, data_0216c860[5].mUnk_04, &data_0216c860[5]);
+                    CourseEntrySetSurfaceSoundIds(0xe, data_0216c860[5].mUnk_04, &data_0216c860[5]);
+                    CourseEntrySetSurfaceSoundIds(0x10, data_0216c860[5].mUnk_04, &data_0216c860[5]);
                     break;
                 case COURSE_ID_STADIUM:
-                    func_0210bbec(0x15, data_0216c860[6].mUnk_04, &data_0216c860[6]);
-                    func_0210bbec(0x8, data_0216c860[6].mUnk_04, &data_0216c860[6]);
-                    func_0210bbec(0x9, data_0216c860[6].mUnk_04, &data_0216c860[6]);
-                    func_0210bbec(0xd, data_0216c860[6].mUnk_04, &data_0216c860[6]);
-                    func_0210bbec(0xe, data_0216c860[6].mUnk_04, &data_0216c860[6]);
-                    func_0210bbec(0x10, data_0216c860[6].mUnk_04, &data_0216c860[6]);
+                    CourseEntrySetSurfaceSoundIds(0x15, data_0216c860[6].mUnk_04, &data_0216c860[6]);
+                    CourseEntrySetSurfaceSoundIds(0x8, data_0216c860[6].mUnk_04, &data_0216c860[6]);
+                    CourseEntrySetSurfaceSoundIds(0x9, data_0216c860[6].mUnk_04, &data_0216c860[6]);
+                    CourseEntrySetSurfaceSoundIds(0xd, data_0216c860[6].mUnk_04, &data_0216c860[6]);
+                    CourseEntrySetSurfaceSoundIds(0xe, data_0216c860[6].mUnk_04, &data_0216c860[6]);
+                    CourseEntrySetSurfaceSoundIds(0x10, data_0216c860[6].mUnk_04, &data_0216c860[6]);
                     break;
                 case COURSE_ID_GARDEN:
-                    func_0210bbec(0x15, data_0216c860[7].mUnk_04, &data_0216c860[7]);
-                    func_0210bbec(0x8, data_0216c860[7].mUnk_04, &data_0216c860[7]);
-                    func_0210bbec(0x9, data_0216c860[7].mUnk_04, &data_0216c860[7]);
-                    func_0210bbec(0xd, data_0216c860[7].mUnk_04, &data_0216c860[7]);
-                    func_0210bbec(0xe, data_0216c860[7].mUnk_04, &data_0216c860[7]);
-                    func_0210bbec(0x10, data_0216c860[7].mUnk_04, &data_0216c860[7]);
+                    CourseEntrySetSurfaceSoundIds(0x15, data_0216c860[7].mUnk_04, &data_0216c860[7]);
+                    CourseEntrySetSurfaceSoundIds(0x8, data_0216c860[7].mUnk_04, &data_0216c860[7]);
+                    CourseEntrySetSurfaceSoundIds(0x9, data_0216c860[7].mUnk_04, &data_0216c860[7]);
+                    CourseEntrySetSurfaceSoundIds(0xd, data_0216c860[7].mUnk_04, &data_0216c860[7]);
+                    CourseEntrySetSurfaceSoundIds(0xe, data_0216c860[7].mUnk_04, &data_0216c860[7]);
+                    CourseEntrySetSurfaceSoundIds(0x10, data_0216c860[7].mUnk_04, &data_0216c860[7]);
                     break;
                 case COURSE_ID_KOOPA:
-                    func_0210bbec(0x15, data_0216c860[8].mUnk_04, &data_0216c860[8]);
-                    func_0210bbec(0x8, data_0216c860[8].mUnk_04, &data_0216c860[8]);
-                    func_0210bbec(0x9, data_0216c860[8].mUnk_04, &data_0216c860[8]);
-                    func_0210bbec(0xd, data_0216c860[8].mUnk_04, &data_0216c860[8]);
-                    func_0210bbec(0xe, data_0216c860[8].mUnk_04, &data_0216c860[8]);
-                    func_0210bbec(0x10, data_0216c860[8].mUnk_04, &data_0216c860[8]);
+                    CourseEntrySetSurfaceSoundIds(0x15, data_0216c860[8].mUnk_04, &data_0216c860[8]);
+                    CourseEntrySetSurfaceSoundIds(0x8, data_0216c860[8].mUnk_04, &data_0216c860[8]);
+                    CourseEntrySetSurfaceSoundIds(0x9, data_0216c860[8].mUnk_04, &data_0216c860[8]);
+                    CourseEntrySetSurfaceSoundIds(0xd, data_0216c860[8].mUnk_04, &data_0216c860[8]);
+                    CourseEntrySetSurfaceSoundIds(0xe, data_0216c860[8].mUnk_04, &data_0216c860[8]);
+                    CourseEntrySetSurfaceSoundIds(0x10, data_0216c860[8].mUnk_04, &data_0216c860[8]);
                     break;
                 case COURSE_ID_OLD_BABY_GC:
-                    func_0210bbec(0x15, data_0216c860[9].mUnk_04, &data_0216c860[9]);
-                    func_0210bbec(0x8, data_0216c860[9].mUnk_04, &data_0216c860[9]);
-                    func_0210bbec(0x9, data_0216c860[9].mUnk_04, &data_0216c860[9]);
-                    func_0210bbec(0xd, data_0216c860[9].mUnk_04, &data_0216c860[9]);
-                    func_0210bbec(0xe, data_0216c860[9].mUnk_04, &data_0216c860[9]);
-                    func_0210bbec(0x10, data_0216c860[9].mUnk_04, &data_0216c860[9]);
+                    CourseEntrySetSurfaceSoundIds(0x15, data_0216c860[9].mUnk_04, &data_0216c860[9]);
+                    CourseEntrySetSurfaceSoundIds(0x8, data_0216c860[9].mUnk_04, &data_0216c860[9]);
+                    CourseEntrySetSurfaceSoundIds(0x9, data_0216c860[9].mUnk_04, &data_0216c860[9]);
+                    CourseEntrySetSurfaceSoundIds(0xd, data_0216c860[9].mUnk_04, &data_0216c860[9]);
+                    CourseEntrySetSurfaceSoundIds(0xe, data_0216c860[9].mUnk_04, &data_0216c860[9]);
+                    CourseEntrySetSurfaceSoundIds(0x10, data_0216c860[9].mUnk_04, &data_0216c860[9]);
                     break;
                 case COURSE_ID_OLD_KINOKO_GC:
-                    func_0210bbec(0x15, data_0216c860[10].mUnk_04, &data_0216c860[10]);
-                    func_0210bbec(0x8, data_0216c860[10].mUnk_04, &data_0216c860[10]);
-                    func_0210bbec(0x9, data_0216c860[10].mUnk_04, &data_0216c860[10]);
-                    func_0210bbec(0xd, data_0216c860[10].mUnk_04, &data_0216c860[10]);
-                    func_0210bbec(0xe, data_0216c860[10].mUnk_04, &data_0216c860[10]);
-                    func_0210bbec(0x10, data_0216c860[10].mUnk_04, &data_0216c860[10]);
+                    CourseEntrySetSurfaceSoundIds(0x15, data_0216c860[10].mUnk_04, &data_0216c860[10]);
+                    CourseEntrySetSurfaceSoundIds(0x8, data_0216c860[10].mUnk_04, &data_0216c860[10]);
+                    CourseEntrySetSurfaceSoundIds(0x9, data_0216c860[10].mUnk_04, &data_0216c860[10]);
+                    CourseEntrySetSurfaceSoundIds(0xd, data_0216c860[10].mUnk_04, &data_0216c860[10]);
+                    CourseEntrySetSurfaceSoundIds(0xe, data_0216c860[10].mUnk_04, &data_0216c860[10]);
+                    CourseEntrySetSurfaceSoundIds(0x10, data_0216c860[10].mUnk_04, &data_0216c860[10]);
                     break;
                 case COURSE_ID_OLD_HYUDORO_64:
-                    func_0210bbec(0x15, data_0216c860[11].mUnk_04, &data_0216c860[11]);
-                    func_0210bbec(0x8, data_0216c860[11].mUnk_04, &data_0216c860[11]);
-                    func_0210bbec(0x9, data_0216c860[11].mUnk_04, &data_0216c860[11]);
-                    func_0210bbec(0xd, data_0216c860[11].mUnk_04, &data_0216c860[11]);
-                    func_0210bbec(0xe, data_0216c860[11].mUnk_04, &data_0216c860[11]);
-                    func_0210bbec(0x10, data_0216c860[11].mUnk_04, &data_0216c860[11]);
+                    CourseEntrySetSurfaceSoundIds(0x15, data_0216c860[11].mUnk_04, &data_0216c860[11]);
+                    CourseEntrySetSurfaceSoundIds(0x8, data_0216c860[11].mUnk_04, &data_0216c860[11]);
+                    CourseEntrySetSurfaceSoundIds(0x9, data_0216c860[11].mUnk_04, &data_0216c860[11]);
+                    CourseEntrySetSurfaceSoundIds(0xd, data_0216c860[11].mUnk_04, &data_0216c860[11]);
+                    CourseEntrySetSurfaceSoundIds(0xe, data_0216c860[11].mUnk_04, &data_0216c860[11]);
+                    CourseEntrySetSurfaceSoundIds(0x10, data_0216c860[11].mUnk_04, &data_0216c860[11]);
                     break;
                 case COURSE_ID_MINI_STAGE4:
-                    func_0210bbec(0x15, data_0216c860[12].mUnk_04, &data_0216c860[12]);
-                    func_0210bbec(0x8, data_0216c860[12].mUnk_04, &data_0216c860[12]);
-                    func_0210bbec(0x9, data_0216c860[12].mUnk_04, &data_0216c860[12]);
-                    func_0210bbec(0xd, data_0216c860[12].mUnk_04, &data_0216c860[12]);
-                    func_0210bbec(0xe, data_0216c860[12].mUnk_04, &data_0216c860[12]);
-                    func_0210bbec(0x10, data_0216c860[12].mUnk_04, &data_0216c860[12]);
+                    CourseEntrySetSurfaceSoundIds(0x15, data_0216c860[12].mUnk_04, &data_0216c860[12]);
+                    CourseEntrySetSurfaceSoundIds(0x8, data_0216c860[12].mUnk_04, &data_0216c860[12]);
+                    CourseEntrySetSurfaceSoundIds(0x9, data_0216c860[12].mUnk_04, &data_0216c860[12]);
+                    CourseEntrySetSurfaceSoundIds(0xd, data_0216c860[12].mUnk_04, &data_0216c860[12]);
+                    CourseEntrySetSurfaceSoundIds(0xe, data_0216c860[12].mUnk_04, &data_0216c860[12]);
+                    CourseEntrySetSurfaceSoundIds(0x10, data_0216c860[12].mUnk_04, &data_0216c860[12]);
                     break;
                 case COURSE_ID_OLD_LUIGI_AGB:
                     SetSurfaceSoundIds(data_0216c7e0.mUnk_10, data_0216c7e0.mUnk_14, &data_0216c7e0);
                     break;
                 case COURSE_ID_MR_STAGE3:
-                    func_0210bbec(0x15, data_0216c860[13].mUnk_04, &data_0216c860[13]);
-                    func_0210bbec(0x8, data_0216c860[13].mUnk_04, &data_0216c860[13]);
-                    func_0210bbec(0x9, data_0216c860[13].mUnk_04, &data_0216c860[13]);
-                    func_0210bbec(0xd, data_0216c860[13].mUnk_04, &data_0216c860[13]);
-                    func_0210bbec(0xe, data_0216c860[13].mUnk_04, &data_0216c860[13]);
-                    func_0210bbec(0x10, data_0216c860[13].mUnk_04, &data_0216c860[13]);
+                    CourseEntrySetSurfaceSoundIds(0x15, data_0216c860[13].mUnk_04, &data_0216c860[13]);
+                    CourseEntrySetSurfaceSoundIds(0x8, data_0216c860[13].mUnk_04, &data_0216c860[13]);
+                    CourseEntrySetSurfaceSoundIds(0x9, data_0216c860[13].mUnk_04, &data_0216c860[13]);
+                    CourseEntrySetSurfaceSoundIds(0xd, data_0216c860[13].mUnk_04, &data_0216c860[13]);
+                    CourseEntrySetSurfaceSoundIds(0xe, data_0216c860[13].mUnk_04, &data_0216c860[13]);
+                    CourseEntrySetSurfaceSoundIds(0x10, data_0216c860[13].mUnk_04, &data_0216c860[13]);
                     if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
                         InitKingTeresaSoundState(1);
                     }
                     break;
             }
-            func_0210f5d4(v);
+            SelectCourseSoundTable(v);
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 u8 *w = (u8 *) gRaceSetup + 0x28;
                 switch (gRaceSetup->mMissionKind) {
@@ -724,12 +724,12 @@ void InitSceneSounds(s32 e) {
             break;
     }
     s.mUnk_00 = 0xff;
-    s.mUnk_01 = buf.mUnk_00[0];
-    s.mUnk_02 = buf.mUnk_00[1];
+    s.mSeqStartProgress = buf.mUnk_00[0];
+    s.mSeqId = buf.mUnk_00[1];
     InitVolumeFade();
     InitSceneSoundState(sceneSoundRowIndex & 0xff, s, &gSceneSoundState);
     InitSoundFalloffsAndPlayingSounds();
-    func_0210b870();
+    InitSceneSoundsNop();
     InitKartSoundQueue();
     ResetSoundRequestQueues();
     ResetSeqPlayerControl();
@@ -750,11 +750,11 @@ void InitSceneSounds(s32 e) {
         return;
     }
     if (data_0217b488->mUnk_08 == 3) {
-        data_0217d070.mUnk_0a = 0xff;
+        data_0217d070.mSeqStartProgress = 0xff;
     }
 }
 
-void InitSceneSoundState(u32 sceneSoundRowIndex, Unk021073ec b, SceneSoundState *sceneSoundState) {
+void InitSceneSoundState(u32 sceneSoundRowIndex, ScenePlayersSeqInfo b, SceneSoundState *sceneSoundState) {
     sceneSoundState->mLapsDone = 0;
     NNS_SndHandleInit(&sceneSoundState->mKartStarSeq);
     sceneSoundState->mLastLapSeqState = 0;
@@ -767,7 +767,7 @@ void InitSceneSoundState(u32 sceneSoundRowIndex, Unk021073ec b, SceneSoundState 
     sceneSoundState->mRankIndexAtSeq = 0xff;
     sceneSoundState->mRankSeqFrames = -1;
     sceneSoundState->mVolumesLowered = 0;
-    func_0210d740(&data_0217d070, sceneSoundState, sceneSoundRowIndex, b);
+    InitScenePlayers(&data_0217d070, sceneSoundState, sceneSoundRowIndex, b);
     data_0217d084.mUnk_18 = &gSceneSoundState.mKartStarSeq;
     SetSoundMode(&data_0217d084, 0);
 }
@@ -786,13 +786,13 @@ void StartSceneSounds(void) {
             return;
         }
     }
-    func_02111118();
+    ResetRaceEndSeqState();
     data_0217c780 = 0;
-    func_02109178((u32) &data_0217c780);
+    SoundReturnArgumentWrapper((u32) &data_0217c780);
     b = 0;
     gPlayerVolumeFade.mVolume = 0;
-    gPlayerVolumeFade.mUnk_0c = 0x7f;
-    gPlayerVolumeFade.mUnk_10 = 0x7f;
+    gPlayerVolumeFade.mTargetVolumeBeforeRaceStart = 0x7f;
+    gPlayerVolumeFade.mTargetVolumeAfterRaceStart = 0x7f;
     gPlayerVolumeFade.mRaceStarted = 0;
     if (GetCurrentSceneNumber() == 2) {
         c = gRaceSetup->mRaceKind == RACE_KIND_NORMAL || gRaceSetup->mRaceKind == 2;
@@ -803,7 +803,7 @@ void StartSceneSounds(void) {
     if (b != 0) {
         SetSoundMode(&data_0217d084, 2);
         data_0217c780 = 1;
-        func_0210d614(&data_0217d070, func_02111144(), NULL);
+        StartScenePlayersSeqNo(&data_0217d070, GetSeqRowSceneSeq(), NULL);
         data_0217c7b0 = 0;
         v = 0xffff;
         if (gRaceSetup->mMode == MODE_MISSION_RUN) {
@@ -861,7 +861,7 @@ void StartSceneSounds(void) {
                 SetSoundMode(&data_0217d084, 2);
                 data_0217c780 = 2;
             } else {
-                if (func_0210d980() != 0) {
+                if (IsFileSndArcOpen() != 0) {
                     savedArc = NNS_SndArcGetCurrent();
                     NNS_SndArcSetCurrent(&gFileSndArc);
                     v = 0xffff;
@@ -880,7 +880,7 @@ void StartSceneSounds(void) {
                 data_0217c780 = 0;
             }
         } else {
-            if (func_0210d980() != 0) {
+            if (IsFileSndArcOpen() != 0) {
                 savedArc = NNS_SndArcGetCurrent();
                 NNS_SndArcSetCurrent(&gFileSndArc);
                 v = 0xffff;
@@ -899,7 +899,7 @@ void StartSceneSounds(void) {
             data_0217c780 = 0;
         }
     }
-    func_0210d6cc(&data_0217d070);
+    StartScenePlayersForScene(&data_0217d070);
 }
 
 void StartRaceSounds(void) {
@@ -907,7 +907,7 @@ void StartRaceSounds(void) {
     NNSSndSeqPlayer **handle;
 
     gSceneSoundState.mRaceState = 1;
-    func_0210d65c(&data_0217d070);
+    StartScenePlayersForRace(&data_0217d070);
     gPlayerVolumeFade.mRaceStarted = 1;
     if (data_0217c7b0 != 0) {
         NNS_SndPlayerStopSeq(&data_0217c854, 0x14);
@@ -944,7 +944,7 @@ void StartKartStarSeq(void) {
         return;
     }
     NNS_SndPlayerSetTrackMuteEx(&data_0217d07c, 0xffff, 1);
-    func_0210d614(&data_0217d070, 0x49, &gSceneSoundState.mKartStarSeq);
+    StartScenePlayersSeqNo(&data_0217d070, 0x49, &gSceneSoundState.mKartStarSeq);
 }
 
 void StopKartStarSeq(void) {
@@ -952,7 +952,7 @@ void StopKartStarSeq(void) {
     NNS_SndPlayerStopSeq(&gSceneSoundState.mKartStarSeq, 0);
     if (data_0217c78c != 0) {
         if (gSceneSoundState.mRaceState == 1) {
-            func_0210d5c0(&data_0217d070);
+            StartScenePlayersSeq(&data_0217d070);
             NNS_SndPlayerSetVolume(&data_0217d07c, gVolumeFade.mVolume >> 12);
             NNS_SndPlayerSetTempoRatio(&data_0217d07c, 0x12c);
             func_0210faac();
@@ -969,12 +969,12 @@ void EndRaceSounds(void) {
     u8 *playerCursor;
 
     gSceneSoundState.mRaceState = 2;
-    func_0210d590(&data_0217d070, GetEndRaceFadeSteps());
+    StopScenePlayersSeq(&data_0217d070, GetEndRaceFadeSteps());
     NNS_SndPlayerSetTrackMuteEx(&data_0217d07c, 0xffff, 0);
     NNS_SndPlayerStopSeq(&gSceneSoundState.mKartStarSeq, 0);
     if (data_0217c78c != 0) {
         if (gSceneSoundState.mRaceState == 1) {
-            func_0210d5c0(&data_0217d070);
+            StartScenePlayersSeq(&data_0217d070);
             NNS_SndPlayerSetVolume(&data_0217d07c, gVolumeFade.mVolume >> 12);
             NNS_SndPlayerSetTempoRatio(&data_0217d07c, 0x12c);
             func_0210faac();
@@ -1016,11 +1016,11 @@ void AdvanceSceneSoundLap(void) {
     } else if (gSceneSoundState.mLapsDone == gSceneSoundState.mLapCount - 1) {
         gSceneSoundState.mLastLapSeqState = 1;
         gSceneSoundState.mOnLastLap = 1;
-        func_0210d590(&data_0217d070, 0);
+        StopScenePlayersSeq(&data_0217d070, 0);
         if (gSceneSoundState.mKartStarSeq != NULL) {
             NNS_SndPlayerSetTrackMuteEx(&gSceneSoundState.mKartStarSeq, 0xffff, 1);
         }
-        func_0210d614(&data_0217d070, 0x3e, NULL);
+        StartScenePlayersSeqNo(&data_0217d070, 0x3e, NULL);
         gSceneSoundState.mLastLapSeqState = 1;
     }
     if (gRaceSetup->mCourseId != COURSE_ID_STADIUM) {
@@ -1144,17 +1144,17 @@ void UpdateRaceSounds(void) {
         case 1:
             gSceneSoundState.mRaceFrames++;
             if (gSceneSoundState.mRaceFrames == 0x28) {
-                func_0210d5c0(&data_0217d070);
+                StartScenePlayersSeq(&data_0217d070);
                 NNS_SndPlayerSetVolume(&data_0217d07c, gVolumeFade.mVolume >> 12);
             }
             volumeFade = &gPlayerVolumeFade;
             tableRow = volumeFade->mRaceStarted;
             if (tableRow == 1) {
-                volumeFade->mVolumePerFrame = data_0217c80c[tableRow];
-                steppedVolume = StepValueTowardTarget(volumeFade, data_0217c7fc[tableRow]);
+                volumeFade->mVolumePerFrame = gPlayerVolumeSteps[tableRow];
+                steppedVolume = StepValueTowardTarget(volumeFade, gPlayerVolumeTargets[tableRow]);
                 if (steppedVolume != -1) {
-                    playerMask = data_0217c804[tableRow];
-                    if (func_0210d980() != 0) {
+                    playerMask = gPlayerVolumeMasks[tableRow];
+                    if (IsFileSndArcOpen() != 0) {
                         savedArc = NNS_SndArcGetCurrent();
                         NNS_SndArcSetCurrent(&gFileSndArc);
                         for (playerNo = 1; playerNo <= 7; playerNo++) {
@@ -1170,7 +1170,7 @@ void UpdateRaceSounds(void) {
             UpdateSoundPitchSwing();
             break;
         case 2:
-            func_02111024();
+            UpdateRaceEndSeq();
             break;
     }
     if (gRaceSetup->mMode != MODE_BATTLE) {
@@ -1179,12 +1179,12 @@ void UpdateRaceSounds(void) {
             UpdateSeqVariableReadings(sceneSeqHandle);
             if (gRaceSetup->mCourseId == COURSE_ID_TOWN) {
                 if (IsSeqVariableChanged(0) != 0 || IsSeqVariableChanged(1) != 0) {
-                    func_0210f35c(0, 0x1a9);
+                    StartCourseSoundAtVolume(0, 0x1a9);
                 }
             }
         }
         if (gRaceSetup->mCourseId == COURSE_ID_KOOPA) {
-            func_0210f230(0, 0x16b);
+            UpdateCourseSound(0, 0x16b);
         }
         if (gSceneSoundState.mRankSeqFrames != -1) {
             if (++gSceneSoundState.mRankSeqFrames >= 0x3c) {
@@ -1198,7 +1198,7 @@ void UpdateRaceSounds(void) {
                     gSceneSoundState.mKartStarSeqOn = 1;
                     if ((gSceneSoundState.mLastLapSeqState & 1) == 0) {
                         NNS_SndPlayerSetTrackMuteEx(&data_0217d07c, 0xffff, 1);
-                        func_0210d614(&data_0217d070, 0x49, &gSceneSoundState.mKartStarSeq);
+                        StartScenePlayersSeqNo(&data_0217d070, 0x49, &gSceneSoundState.mKartStarSeq);
                     }
                 }
                 data_0217c7a8 = 0;
@@ -1207,7 +1207,7 @@ void UpdateRaceSounds(void) {
                 NNS_SndPlayerSetTrackMuteEx(&gSceneSoundState.mKartStarSeq, 0xffff, 0);
                 data_0217c78c = 1;
             } else if (gSceneSoundState.mRaceState == 1) {
-                func_0210d5c0(&data_0217d070);
+                StartScenePlayersSeq(&data_0217d070);
                 NNS_SndPlayerSetVolume(&data_0217d07c, gVolumeFade.mVolume >> 12);
                 NNS_SndPlayerSetTempoRatio(&data_0217d07c, 0x12c);
                 func_0210faac();
@@ -1340,11 +1340,11 @@ void UpdateSceneSoundState(void) {
     volumeFade = &gPlayerVolumeFade;
     tableRow = volumeFade->mRaceStarted;
     if (tableRow == 0) {
-        volumeFade->mVolumePerFrame = data_0217c80c[tableRow];
-        steppedVolume = StepValueTowardTarget(volumeFade, data_0217c7fc[tableRow]);
+        volumeFade->mVolumePerFrame = gPlayerVolumeSteps[tableRow];
+        steppedVolume = StepValueTowardTarget(volumeFade, gPlayerVolumeTargets[tableRow]);
         if (steppedVolume != -1) {
-            playerMask = data_0217c804[tableRow];
-            if (func_0210d980() != 0) {
+            playerMask = gPlayerVolumeMasks[tableRow];
+            if (IsFileSndArcOpen() != 0) {
                 savedArc = NNS_SndArcGetCurrent();
                 NNS_SndArcSetCurrent(&gFileSndArc);
                 for (playerNo = 1; playerNo <= 7; playerNo++) {
@@ -1393,9 +1393,9 @@ void StopSceneSounds(void) {
     if (*(vu16 *) 0x027ffc40 == 2 && GetCurrentSceneNumber() == 6) {
         return;
     }
-    gPlayerVolumeFade.mUnk_0c = 0;
+    gPlayerVolumeFade.mTargetVolumeBeforeRaceStart = 0;
     gPlayerVolumeFade.mRaceStarted = 0;
-    func_0210d58c(&data_0217d070);
+    ScenePlayersReturnArgument(&data_0217d070);
     SetSoundMode(&data_0217d084, 4);
     for (i = 0; i < 12; i++) {
         NNS_SndPlayerStopSeq(data_0217c838 + i, GetSoundFadeSteps());
@@ -1419,9 +1419,9 @@ void StopSceneSoundsAtOnce(void) {
     if (*(vu16 *) 0x027ffc40 == 2 && GetCurrentSceneNumber() == 6) {
         return;
     }
-    gPlayerVolumeFade.mUnk_0c = 0;
+    gPlayerVolumeFade.mTargetVolumeBeforeRaceStart = 0;
     gPlayerVolumeFade.mRaceStarted = 0;
-    func_0210d570(&data_0217d070, 1);
+    ReleaseScenePlayers(&data_0217d070, 1);
     SetSoundMode(&data_0217d084, 0);
     for (i = 0; i < 12; i++) {
         NNS_SndPlayerStopSeq(data_0217c838 + i, 0);
@@ -1592,7 +1592,7 @@ void StartSceneSeqIfIdle(void) {
     if (data_0217c838[1] != NULL) {
         return;
     }
-    func_0210d5c0(&data_0217d070);
+    StartScenePlayersSeq(&data_0217d070);
 }
 
 void StopMissionRunLVselSeqsWithSteps(int mode, u32 fadeSteps) {
@@ -1612,7 +1612,7 @@ void func_0210593c(u32 mode) {
     if (data_0217d070.mSeqPlayer != NULL) {
         return;
     }
-    func_0210d5c0(&data_0217d070);
+    StartScenePlayersSeq(&data_0217d070);
 }
 
 void LoadMissionRunMSselSoundData(u32 mode, u32 missionRow) {
@@ -1669,7 +1669,7 @@ void UpdateMissionRunMSselSounds(s32 a) {
         if (data_0217d070.mSeqPlayer != NULL) {
             return;
         }
-        func_0210d5c0(&data_0217d070);
+        StartScenePlayersSeq(&data_0217d070);
         return;
     }
     if (a != 0 && a != 0x32) {

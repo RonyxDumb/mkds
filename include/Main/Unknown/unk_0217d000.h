@@ -135,14 +135,14 @@ typedef struct CupMark {
     /* 0c */ struct Unk0201ea30 *mBncl;
 } CupMark;
 
-// Object at data_0217d070 (0x14 bytes); func_0210d740 fills it. data_0217d07c names its member 0x0c.
+// Object at data_0217d070 (0x14 bytes); InitScenePlayers fills it. data_0217d07c names its member 0x0c.
 typedef struct ScenePlayers {
-    /* 00 */ s32 mUnk_00;
+    /* 00 */ s32 mProgress;
     /* 04 */ SceneSoundState *mSceneSoundState;
-    /* 08 */ u8 mUnk_08;
+    /* 08 */ u8 mSoundRowIndex;
     /* 09 */ u8 mUnk_09;
-    /* 0a */ u8 mUnk_0a;
-    /* 0b */ u8 mUnk_0b;
+    /* 0a */ u8 mSeqStartProgress;
+    /* 0b */ u8 mSeqId;
     /* 0c */ NNSSndSeqPlayer *mSeqPlayer;
     /* 10 */ NNSSndSeqPlayer *mSecondSeqPlayer;
 } ScenePlayers;
@@ -729,7 +729,7 @@ extern s32 (*data_0217d014)(SoundParams *);
 extern u32 (*data_0217d018)(SoundParams *);
 extern s32 (*data_0217d01c)(SoundParams *);
 extern NNSFndList data_0217d028;
-extern u32 data_0217d064;
+extern u32 gFileSndArcOpen;
 extern s32 gEmblemSoundValue;
 extern s32 gKingTeresaState;
 extern s32 gPreviousKingTeresaState;
@@ -757,7 +757,7 @@ extern Keyboard *gKeyboard;
 extern MessageScreen *gMessageScreen;
 extern u32 gThunderShrinkSoundCounter;
 extern s32 gLapProgressSoundGaps[];
-extern s32 data_0217d320;
+extern s32 gRaceEndSeqCallCount;
 extern s32 data_0217d324;
 extern s32 data_0217d328;
 extern StaffRollText *gStaffRollText;
@@ -776,10 +776,10 @@ extern s32 data_0217d1ec;
 extern s32 gKingTeresaStateLastFrame;
 extern s32 data_0217d200;
 extern s32 data_0217d208;
-extern u8 data_0217d1e0;
-extern u8 data_0217d1e4;
+extern u8 gEmblemSoundPlayCount;
+extern u8 gEmblemSoundPitchCounter;
 extern s32 data_0217d1fc;
-extern u32 data_0217d204;
+extern u32 gEmblemSoundCallsSincePlay;
 extern s32 data_0217d210;
 extern s32 data_0217d214;
 extern volatile s32 data_0217d218;

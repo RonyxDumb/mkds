@@ -16,15 +16,15 @@ typedef struct KartSoundQueue {
 
 extern KartSoundQueue gKartSoundQueue;
 
-void func_0210b4e0(Kart *kart, s32 b, s32 surfaceKind, s32 surfaceVariant);
+void func_0210b4e0(Kart *kart, s32 withSurfaceSound, s32 surfaceKind, s32 surfaceVariant);
 void StartKartSurfaceSoundWhileRequested(Kart *kart, s32 entryIndex, s32 surfaceKind, s32 surfaceVariant,
                                          u32 waterDepth);
-void func_0210b234(Kart *kart, s32 b, s32 c, s32 d, s32 f);
-void func_0210b198(s32 a, s32 b, u32 volume, s32 d, s32 e);
-void StartKartCollisionSound(Kart *kart, s32 b, s16 d);
+void func_0210b234(Kart *kart, s32 entryIndex, s32 surfaceKind, s32 surfaceVariant, s32 unused);
+void func_0210b198(s32 soundIndex, s32 soundOffset, u32 volume, s32 playerNo, s32 playerPrio);
+void StartKartCollisionSound(Kart *kart, s32 soundIndex, s16 unused);
 void StartKartSeqArcSound(Kart *kart, s32 soundIndex, s32 soundOffset);
 void InitKartSoundQueue(void);
 void UpdateKartSoundQueue(void);
-void QueueKartSound(Kart *kart, s32 b);
-void StartQueuedKartSound(Kart *kart, s32 b, s32 c, s32 volume);
-void func_0210ab48(s32 a, s32 b);
+void QueueKartSound(Kart *kart, s32 soundIndex);
+void StartQueuedKartSound(Kart *kart, s32 soundIndex, s32 useKartSource, s32 volume);
+void func_0210ab48(s32 soundIndex, s32 b);

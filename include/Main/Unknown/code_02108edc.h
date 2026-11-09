@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_02108edc(s32 a, s32 b);
+void func_02108edc(s32 count, s32 countLimit);

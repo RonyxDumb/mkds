@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk0217d1c0 Unk0217d1c0;
+typedef struct CourseSoundSlot CourseSoundSlot;
 
-void func_0210f208(Unk0217d1c0 *p0, unsigned int p1, unsigned int p2);
+void InitCourseSoundSlot(CourseSoundSlot *p0, unsigned int p1, unsigned int p2);

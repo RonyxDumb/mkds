@@ -3,6 +3,6 @@
 #include "Main/Unknown/code_0210a67c.h"
 
 void ResetKartTrackParamsFunction(Kart *kart) {
-    kart->mUnk_450.mUnk_34 = (~(0x0u));
+    kart->mUnk_450.mThunderShrinkRaceFrame = (~(0x0u));
     kart->mSoundSource.mTrackParamsFunction = (void (*)(void *, void *, void *)) UpdateKartPlayingSound;
 }

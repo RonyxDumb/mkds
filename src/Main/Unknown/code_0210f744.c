@@ -55,7 +55,7 @@ void UpdateEmblemSound(void) {
     if (soundValue == 7) {
         soundValue = 6;
     }
-    func_021108bc(soundValue);
+    StartEmblemSound(soundValue);
     gEmblemSoundValue = 7;
 }
 
@@ -264,7 +264,7 @@ static inline void StepKingTeresaVolumeFade(NNSSndSeqPlayer **handle, s32 v, s32
     s32 c;
     s32 steppedVolume;
     s32 nextVolume;
-    func_02108eb4(1, v);
+    SetPlayerVolumeTarget(1, v);
     NNS_SndPlayerSetTrackPitch(handle, 0xffff, pitch);
     c = gVolumeFade.mVolume >> 12;
     if (targetVolume == c) {
@@ -389,7 +389,7 @@ static inline void StepSeqPlayerVolumeFade(NNSSndSeqPlayer **handle, s32 v, s32 
     s32 c;
     s32 steppedVolume;
     s32 nextVolume;
-    func_02108eb4(1, v);
+    SetPlayerVolumeTarget(1, v);
     NNS_SndPlayerSetTrackPitch(handle, 0xffff, pitch);
     c = gVolumeFade.mVolume >> 12;
     if (targetVolume == c) {

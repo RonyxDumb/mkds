@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_02109178(u32 address);
+u32 SoundReturnArgumentWrapper(u32 address);

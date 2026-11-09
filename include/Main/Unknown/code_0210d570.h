@@ -4,6 +4,6 @@
 
 typedef struct ScenePlayers ScenePlayers;
 
-void func_0210d570(ScenePlayers *scenePlayers, s32 unused);
+void ReleaseScenePlayers(ScenePlayers *scenePlayers, s32 unused);
 
-unsigned int func_0210d58c(ScenePlayers *scenePlayers);
+unsigned int ScenePlayersReturnArgument(ScenePlayers *scenePlayers);

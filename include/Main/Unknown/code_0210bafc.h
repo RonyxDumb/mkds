@@ -2,10 +2,10 @@
 
 #include "types.h"
 
-// data_0217cd30 is addressed in rows of eight words.
-typedef struct Unk0217cd30 {
-    /* 0 */ u32 mUnk_00[8];
-} Unk0217cd30;
+// gSurfaceSoundIds is addressed in rows of eight words.
+typedef struct SurfaceSoundIdRow {
+    /* 0 */ u32 mIdArrays[8];
+} SurfaceSoundIdRow;
 
 #include "code_0212d214.h"
 
