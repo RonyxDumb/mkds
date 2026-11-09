@@ -4,6 +4,7 @@
 #include "Main/Unknown/code_0206bcb0.h" // Kart
 #include "code_02147cd8.h" // Vec3s16
 #include "Main/Unknown/code_020846c0.h" // Nsbmd
+#include "Main/Unknown/code_020653d0.h" // ParticipantKartRecord
 
 // Object at gCourseModels: two Nsbmd pointers, then the words and halfwords the code tests. The flag halfwords
 // live inside the embedded animation objects.
@@ -25,19 +26,6 @@ typedef struct CourseModels {
     /* ec */ BOOL mRestoreVFogEnableFlags;
     /* f0 */ u16 mSavedVFogEnableFlags;
 } CourseModels;
-
-// What func_020636f8 writes from 0x08 of the Unk0217aa14_754_04 it points to.
-typedef struct Unk020636f8_B {
-    /* 00 */ s16 mUnk_00;
-    /* 02 */ s16 mUnk_02;
-    /* 04 */ s16 mUnk_04;
-    /* 06 */ s16 mUnk_06;
-    /* 08 */ s16 mUnk_08;
-    /* 0a */ u16 mUnk_0a;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
-} Unk020636f8_B;
 
 extern CourseModels gCourseModels;
 extern u8 data_usa_0217ab04[];

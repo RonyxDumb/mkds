@@ -31,8 +31,8 @@
 #include "Main/Unknown/code_02077bc0.h"
 #include "registers.h"
 
-void func_02090194(Unk02090194 *itemUse) {
-    itemUse->mUnk_10 = 0x1u;
+void func_02090194(KartAiItemUse *itemUse) {
+    itemUse->mItemBitsEveryCall = 0x1u;
 }
 
 void func_02090088(KartAiItemUse *itemUse, KartAi *kartAi) {
@@ -80,8 +80,8 @@ void func_0208ffe4(KartAiItemUse *itemUse, KartAi *kartAi) {
     }
 }
 
-void SetItemBitsEveryCall(Unk0208ffd8 *itemUse) {
-    itemUse->mUnk_10 = 0x1u;
+void SetItemBitsEveryCall(KartAiItemUse *itemUse) {
+    itemUse->mItemBitsEveryCall = 0x1u;
 }
 
 void func_0208fefc(KartAiItemUse *itemUse, struct KartAi *kartAi) {

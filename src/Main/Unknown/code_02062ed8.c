@@ -76,23 +76,23 @@ void func_020637c4(Kart *kart) {
 void func_020636f8(Kart *kart) {
     ParticipantKartRecordState *b;
     Unk0217aa14_754_04 *recordBase;
-    Unk020636f8_B *record;
+    ParticipantKartRecord *record;
 
     recordBase = &gWiFiRaceSync->mSendBuffer->mUnk_04;
-    record = OFFSET_PTR(Unk020636f8_B, recordBase, 8);
+    record = OFFSET_PTR(ParticipantKartRecord, recordBase, 8);
     b = kart->mUnk_514;
-    record->mUnk_00 = kart->mPos.x >> 10;
-    record->mUnk_02 = (kart->mPos.y - kart->mHopHeight) >> 10;
-    record->mUnk_04 = kart->mPos.z >> 10;
-    record->mUnk_06 = kart->mForwardSpeed >> 2;
-    record->mUnk_0a = kart->mHeadingAngle;
+    record->mPosX = kart->mPos.x >> 10;
+    record->mPosY = (kart->mPos.y - kart->mHopHeight) >> 10;
+    record->mPosZ = kart->mPos.z >> 10;
+    record->mForwardSpeed = kart->mForwardSpeed >> 2;
+    record->mHeadingAngle = kart->mHeadingAngle;
     record->mUnk_10 = kart->mUnk_44;
     record->mUnk_10 =
         record->mUnk_10 | (((b->mPushDirection.x >> 6) & 0xff) << 24 | ((b->mPushDirection.y >> 6) & 0xff) << 16 |
                            ((b->mPushDirection.z >> 6) & 0xff) << 8);
     record->mUnk_14 = kart->mUnk_48;
-    record->mUnk_0c = b->mUnk_2c;
-    record->mUnk_08 = kart->mTurnAngle;
+    record->mFlags = b->mUnk_2c;
+    record->mTurnAngle = kart->mTurnAngle;
 }
 
 // Also sets the matrix and the per-course flags (CreateCourseModels would be the verb for just finding and building).
