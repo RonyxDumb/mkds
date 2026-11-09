@@ -40,8 +40,8 @@ u32 func_020b2bc8(void) {
 
 u32 IsChoisesSOpenAllowedAfterRace(void) {
     if (IsRaceStartSequenceDone() != 0 && func_020b2bc8() != 0 && IsRaceGoalMReady() != 0 &&
-        IsRaceGoalSRunning() == 0 && func_020c70bc() == 0 && func_020c70a0() == 0 && GetShowLapTime() == 0 &&
-        (GetChoisesSOpenDuringRace() != 0 || func_02055b1c() == FALSE)) {
+        IsRaceGoalSRunning() == 0 && IsRaceNewRecordTaSaving() == 0 && IsRaceNewRecordTaRunning() == 0 &&
+        GetShowLapTime() == 0 && (GetChoisesSOpenDuringRace() != 0 || func_02055b1c() == FALSE)) {
         return 1;
     }
     return 0;

@@ -23,7 +23,7 @@ typedef enum { PLAYER_KIND_HUMAN, PLAYER_KIND_CPU, PLAYER_KIND_GHOST, PLAYER_KIN
 typedef struct KartEntryPlayer {
     /* 00 */ u32 mKind;
     /* 04 */ s32 mTeamIndex;
-    /* 08 */ s32 mUnk_08;
+    /* 08 */ s32 mListedCpuSlot;
     /* 0c */ s32 mIndex;
     /* 10 */ s32 mGhostRecordIndex;
     /* 14 */ u16 mUnk_14;

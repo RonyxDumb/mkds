@@ -22,7 +22,7 @@ void AddMapObjectToUpdateList(MapObjectList *p, MapObject *q) {
         p->mUnk_1c = t->mCollideItemObjectCallback;
     }
     if (p->mUnk_20 == 3) {
-        p->mUnk_20 = func_020d6910(6, q);
+        p->mUnk_20 = GetItemObjectFirstResponse(6, q);
     }
 }
 #pragma thumb off

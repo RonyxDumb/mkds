@@ -4,7 +4,7 @@
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/code_0211d4a8.h"
 
-u32 func_0204aa28(u32 flag) {
+u32 SetMultiSimple(u32 flag) {
     u32 value0 = flag;
     u32 value1;
     if (gBootInfo->mUnk_00 == 2) {

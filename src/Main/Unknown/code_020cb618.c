@@ -63,7 +63,7 @@ void InitCurrentMenuScreen(void) {
             case 11:
                 if (MenuGetConnectionKind() == 0) {
                     variant = 2;
-                } else if (func_020cae38() != 0) {
+                } else if (GetMultiSimple() != 0) {
                     variant = 3;
                 } else {
                     variant = 4;
@@ -77,7 +77,7 @@ void InitCurrentMenuScreen(void) {
             case 13:
                 if (MenuGetConnectionKind() == 0) {
                     variant = 1;
-                } else if (func_020cae38() != 0) {
+                } else if (GetMultiSimple() != 0) {
                     variant = 2;
                 } else {
                     variant = 3;
@@ -91,7 +91,7 @@ void InitCurrentMenuScreen(void) {
             case 10:
                 if (MenuGetConnectionKind() == 0) {
                     variant = 0;
-                } else if (func_020cae38() != 0) {
+                } else if (GetMultiSimple() != 0) {
                     variant = 2;
                 } else {
                     variant = 4;
@@ -102,7 +102,7 @@ void InitCurrentMenuScreen(void) {
             case 16:
                 if (MenuGetConnectionKind() == 0) {
                     variant = 1;
-                } else if (func_020cae38() != 0) {
+                } else if (GetMultiSimple() != 0) {
                     variant = 3;
                 } else {
                     variant = 5;

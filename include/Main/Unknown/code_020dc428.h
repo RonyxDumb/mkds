@@ -38,17 +38,17 @@ extern MapObjectList *gWanwanUpdateList;
 extern Unk020dd804 *gWanwanDrawList;
 
 void EnterWanwanState5(Wanwan *wanwan);
-void func_020dc444(Wanwan *wanwan);
+void UpdateWanwanState4Nop(Wanwan *wanwan);
 void UpdateWanwanState2(Wanwan *wanwan);
 void EnterWanwanState2(Wanwan *wanwan);
 void UpdateWanwanState1(Wanwan *wanwan);
 void EnterWanwanState1(Wanwan *wanwan);
 void UpdateWanwanState0(Wanwan *wanwan);
 void EnterWanwanState0(Wanwan *wanwan);
-u8 func_020dd1f4(Wanwan *wanwan, void *kart, u8 *b, u8 *c);
-u8 func_020dd230(Wanwan *wanwan, void *kart, u8 *b, u8 *c);
+u8 CollideItemObjectWithWanwan(Wanwan *wanwan, void *itemObject, u8 *firstResponsePtr, u8 *secondResponsePtr);
+u8 CollideKartWithWanwan(Wanwan *wanwan, void *kart, u8 *firstResponsePtr, u8 *secondResponsePtr);
 void UpdateWanwan(void *unused, Wanwan *wanwan); /* skipped for objects with mFlags & 4 (parked pool objects) */
-void func_020dd6c8(void *unused0, Wanwan *wanwan, void *unused1, u32 maxAlpha);
+void DrawWanwan(void *unused0, Wanwan *wanwan, void *unused1, u32 maxAlpha);
 MapObjectList *CreateWanwanUpdateList(void);
 Unk020dd804 *CreateWanwanDrawList(void);
 Unk020dd860 *CreateWanwanKindData(void);

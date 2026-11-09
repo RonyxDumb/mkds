@@ -32,7 +32,7 @@ void SetupWLMenuMBChildMessage(void *heap) {
 
     InitWLMenuMessage(heap);
     gWLMenuMessage->mState = 0;
-    func_0204aa28(1);
+    SetMultiSimple(1);
     gWLMenuMessage->mMBChildMessages = GetDownloadScreenFiles()->mUnk_20;
     gWLMenuMessage->mFont = (u8 *) GetDownloadScreenFiles() + 0x14;
     charBase = G2S_GetBG1CharPtr();

@@ -712,12 +712,13 @@ void InitRaceHudSubScreenCellGroups(void) {
             gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
         }
     }
-    if (func_020cee0c()) {
+    if (CreateRaceHudSubScreenPakkunSpitCells()) {
         s32 groupIndex;
         s32 i;
 
         groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != func_020cee0c && i < 49; i++) {
+        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenPakkunSpitCells && i < 49;
+             i++) {
         }
         if (i < 49) {
             gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;

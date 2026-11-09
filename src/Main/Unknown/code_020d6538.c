@@ -30,25 +30,26 @@
 
 #pragma thumb on
 
-void func_020d7d4c(GroupFollowerWithSpeeds *follower, struct CourseMapRow *courseRow, s32 speed, s32 d) {
+void InitGroupFollowerWithSpeeds(GroupFollowerWithSpeeds *follower, struct CourseMapRow *courseRow, s32 speed,
+                                 s32 speedPercent) {
     InitGroupFollower(&follower->mUnk_00, courseRow, speed);
     follower->mSpeedPerEntryUnit = speed / 100;
-    follower->mDefaultSpeed = (speed * d) / 100;
+    follower->mDefaultSpeed = (speed * speedPercent) / 100;
     SetupGroupFollowerWithSpeeds(follower, 0, 1);
 }
 
-void func_020d7d18(SegmentProgress *segmentProgress, s32 a, Vec3 **points, s32 rate) {
-    BuildSegment(&segmentProgress->mSegment, a, 0, points[0], points[1], points[2], points[3]);
+void InitSegmentProgress(SegmentProgress *segmentProgress, s32 useStraightLength, Vec3 **points, s32 rate) {
+    BuildSegment(&segmentProgress->mSegment, useStraightLength, 0, points[0], points[1], points[2], points[3]);
     SetSegmentProgressRate(segmentProgress, rate);
     segmentProgress->mProgress = 0;
 }
 
-BOOL func_020d7c84(SegmentProgress *segmentProgress, s32 a, Vec3 **points) {
+BOOL BuildNextSegmentProgress(SegmentProgress *segmentProgress, s32 useStraightLength, Vec3 **points) {
     s32 v;
     segmentProgress->mProgress = segmentProgress->mProgress - 0x1000000;
     segmentProgress->mProgress =
         ((s64) segmentProgress->mProgress * (s64) segmentProgress->mSegment.mProgressLength) >> 12;
-    BuildSegment(&segmentProgress->mSegment, a, 0, points[0], points[1], points[2], points[3]);
+    BuildSegment(&segmentProgress->mSegment, useStraightLength, 0, points[0], points[1], points[2], points[3]);
     v = segmentProgress->mSegment.mInverseProgressLength;
     if (v != 0) {
         segmentProgress->mProgress = ((s64) segmentProgress->mProgress * (s64) v) >> 24;
@@ -132,7 +133,7 @@ void QuaternionMultiplyAngleAroundYIgnoreY(Quaternion *quaternion, u32 angle, Qu
     result->mComponents[3] = (quaternion->mComponents[3] * pairSecond) >> 12;
 }
 
-void func_020d7938(Quaternion *first, Quaternion *second, Quaternion *result) {
+void QuaternionMultiplyByYawIgnoreY(Quaternion *first, Quaternion *second, Quaternion *result) {
     result->mComponents[0] =
         (first->mComponents[0] * second->mComponents[3] - first->mComponents[2] * second->mComponents[1]) >> 12;
     result->mComponents[1] = (first->mComponents[3] * second->mComponents[1]) >> 12;
@@ -174,7 +175,7 @@ void QuaternionMultiplyAngleAroundZ(Quaternion *quaternion, s32 angle, Quaternio
     result->mComponents[3] = (source.mComponents[3] * pairSecond - source.mComponents[2] * pairFirst) >> 12;
 }
 
-void func_020d76a8(Quaternion *quaternion, s32 angle, Quaternion *result) {
+void QuaternionMultiplyAngleAroundXIgnoreXZ(Quaternion *quaternion, s32 angle, Quaternion *result) {
     Quaternion source = *quaternion;
     s32 pairIndex = (u16) (angle >> 1) >> 4;
     s32 pairFirst = gPairsByAngle[pairIndex * 2];
@@ -344,15 +345,15 @@ void Matrix3x3FromVec3Degrees(Vec3 *degrees, MtxFx33 *matrix) {
 }
 
 u32 GetKartMapObjectResponseByKind(s32 flagBit, s32 itemEffect, s32 kindHundreds, s32 kindRemainder) {
-    u32 response = data_0216b96c[kindHundreds][itemEffect][kindRemainder];
+    u32 response = gKartResponsesByKind[kindHundreds][itemEffect][kindRemainder];
     if (response == 1) {
         response = flagBit != 0 ? 2 : 0;
     }
     return response;
 }
 
-u32 func_020d6d8c(u32 zeroResultFlag, u32 itemKind, u32 kindHundreds, u32 kindRemainder) {
-    u32 response = data_0216bb7c[kindHundreds][itemKind][kindRemainder];
+u32 GetItemObjectFirstResponseByKind(u32 zeroResultFlag, u32 itemKind, u32 kindHundreds, u32 kindRemainder) {
+    u32 response = gItemObjectFirstResponsesByKind[kindHundreds][itemKind][kindRemainder];
     if (zeroResultFlag != 0) {
         response = 0;
     }
@@ -360,44 +361,44 @@ u32 func_020d6d8c(u32 zeroResultFlag, u32 itemKind, u32 kindHundreds, u32 kindRe
 }
 
 u32 GetItemObjectResponseByKind(s32 flagBit, s32 itemKind, s32 kindHundreds, s32 kindRemainder, s32 kindDataValue) {
-    u32 response = data_0216ba2c[kindHundreds][itemKind][kindRemainder];
+    u32 response = gItemObjectResponsesByKind[kindHundreds][itemKind][kindRemainder];
     if (flagBit != 0 && response == 1 && kindDataValue != 0) {
         response = 2;
     }
     return response;
 }
 
-s32 func_020d6be0(Kart *kart, MapObject *mapObject) {
+s32 CollideKartWithMapObject(Kart *kart, MapObject *mapObject) {
     s32 kindRemainder = mapObject->mKind;
     s32 kindHundreds = 0;
     s32 flagBit;
     s32 response;
-    s32 buf[2];
+    s32 responses[2];
     flagBit = mapObject->mFlags & 0x800;
     while (kindRemainder >= 100) {
         kindRemainder -= 100;
         kindHundreds++;
     }
     if (mapObject->mKindData->mCollideKartCallback != NULL) {
-        response = data_0216b9cc[kindHundreds][kart->mItemEffect][kindRemainder];
+        response = gKartFirstResponsesByKind[kindHundreds][kart->mItemEffect][kindRemainder];
         if (flagBit != 0 && response != 2 && response != 4) {
             response = 0;
         }
-        buf[0] = response;
-        response = data_0216b96c[kindHundreds][kart->mItemEffect][kindRemainder];
+        responses[0] = response;
+        response = gKartResponsesByKind[kindHundreds][kart->mItemEffect][kindRemainder];
         if (response == 1) {
             response = flagBit != 0 ? 2 : 0;
         }
-        buf[1] = response;
+        responses[1] = response;
         if ((mapObject->mFlags & 0x80) == 0) {
-            buf[1] = mapObject->mKindData->mCollideKartCallback(mapObject, kart, &buf[0], &buf[1]);
+            responses[1] = mapObject->mKindData->mCollideKartCallback(mapObject, kart, &responses[0], &responses[1]);
         }
-        if (gRaceSetup->mMode == MODE_MISSION_RUN && buf[0] == 1 && gRaceSetup->mMode == MODE_MISSION_RUN) {
+        if (gRaceSetup->mMode == MODE_MISSION_RUN && responses[0] == 1 && gRaceSetup->mMode == MODE_MISSION_RUN) {
             func_ov001_0218175c(mapObject->mKind);
         }
-        return buf[1];
+        return responses[1];
     }
-    response = data_0216b96c[kindHundreds][kart->mItemEffect][kindRemainder];
+    response = gKartResponsesByKind[kindHundreds][kart->mItemEffect][kindRemainder];
     if (response != 1) {
         return response;
     }
@@ -409,40 +410,41 @@ s32 CollideItemObjectWithMapObject(ItemObject *itemObject, MapObject *mapObject,
     s32 kindHundreds = 0;
     s32 flagBit = mapObject->mFlags & 0x800;
     s32 response;
-    s32 buf[2];
+    s32 responses[2];
     s32 kindDataValue;
     while (kindRemainder >= 100) {
         kindRemainder -= 100;
         kindHundreds++;
     }
     if (mapObject->mKindData->mCollideItemObjectCallback != NULL) {
-        response = data_0216bb7c[kindHundreds][itemObject->mKind][kindRemainder];
+        response = gItemObjectFirstResponsesByKind[kindHundreds][itemObject->mKind][kindRemainder];
         if (flagBit != 0) {
             response = 0;
         }
-        buf[0] = response;
+        responses[0] = response;
         kindDataValue = mapObject->mKindData->mUnk_20;
-        response = data_0216ba2c[kindHundreds][itemObject->mKind][kindRemainder];
+        response = gItemObjectResponsesByKind[kindHundreds][itemObject->mKind][kindRemainder];
         if (flagBit != 0 && response == 1 && kindDataValue != 0) {
             response = 2;
         }
-        buf[1] = response;
+        responses[1] = response;
         if ((mapObject->mFlags & 0x80) == 0) {
-            buf[1] = mapObject->mKindData->mCollideItemObjectCallback(mapObject, itemObject, &buf[0], &buf[1]);
+            responses[1] =
+                mapObject->mKindData->mCollideItemObjectCallback(mapObject, itemObject, &responses[0], &responses[1]);
         }
-        if (gRaceSetup->mMode == MODE_MISSION_RUN && buf[0] == 1 && gRaceSetup->mMode == MODE_MISSION_RUN) {
+        if (gRaceSetup->mMode == MODE_MISSION_RUN && responses[0] == 1 && gRaceSetup->mMode == MODE_MISSION_RUN) {
             func_ov001_0218175c(mapObject->mKind);
         }
         if (firstResponseOut != NULL) {
-            *firstResponseOut = buf[0];
+            *firstResponseOut = responses[0];
         }
-        return buf[1];
+        return responses[1];
     }
     if (firstResponseOut != NULL) {
         *firstResponseOut = 0;
     }
     kindDataValue = mapObject->mKindData->mUnk_20;
-    response = data_0216ba2c[kindHundreds][itemObject->mKind][kindRemainder];
+    response = gItemObjectResponsesByKind[kindHundreds][itemObject->mKind][kindRemainder];
     if (flagBit != 0 && response == 1 && kindDataValue != 0) {
         response = 2;
     }
@@ -459,7 +461,7 @@ s32 DoesKartRespondToMapObject(s32 itemEffect, MapObject *mapObject) {
         kindHundreds++;
     }
     flagBit = mapObject->mFlags & 0x800;
-    response = data_0216b96c[kindHundreds][itemEffect][kindRemainder];
+    response = gKartResponsesByKind[kindHundreds][itemEffect][kindRemainder];
     if (response == 1) {
         response = flagBit != 0 ? 2 : 0;
     }
@@ -478,14 +480,14 @@ s32 DoesItemObjectRespondToMapObject(s32 itemKind, MapObject *mapObject) {
     }
     flagBit = mapObject->mFlags & 0x800;
     kindDataValue = mapObject->mKindData->mUnk_20;
-    response = data_0216ba2c[kindHundreds][itemKind][kindRemainder];
+    response = gItemObjectResponsesByKind[kindHundreds][itemKind][kindRemainder];
     if (flagBit != 0 && response == 1 && kindDataValue != 0) {
         response = 2;
     }
     return response != 0 ? 1 : 0;
 }
 
-s32 func_020d6910(s32 itemKind, MapObject *mapObject) {
+s32 GetItemObjectFirstResponse(s32 itemKind, MapObject *mapObject) {
     MapObject *object = mapObject;
     s32 kindRemainder = object->mKind;
     s32 kindHundreds = 0;
@@ -496,7 +498,7 @@ s32 func_020d6910(s32 itemKind, MapObject *mapObject) {
         kindHundreds++;
     }
     flagBit = object->mFlags & 0x800;
-    response = data_0216bb7c[kindHundreds][itemKind][kindRemainder];
+    response = gItemObjectFirstResponsesByKind[kindHundreds][itemKind][kindRemainder];
     if (flagBit != 0) {
         response = 0;
     }
@@ -513,35 +515,35 @@ MapObjectKindData *CreateRockKindData(void) {
 
 RockDrawList *CreateRockDrawList(void) {
     RockDrawList *drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x5c);
-    data_0217b650 = drawList;
+    gRockDrawList = drawList;
     *drawList = data_02156a80;
-    SetDrawListSlot(&data_0217b650);
-    return data_0217b650;
+    SetDrawListSlot(&gRockDrawList);
+    return gRockDrawList;
 }
 
 RockDrawList *CreateRock2DrawList(void) {
     RockDrawList *drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x5c);
-    data_0217b650 = drawList;
+    gRockDrawList = drawList;
     *drawList = data_02156a24;
-    SetDrawListSlot(&data_0217b650);
-    return data_0217b650;
+    SetDrawListSlot(&gRockDrawList);
+    return gRockDrawList;
 }
 
 MapObjectList *CreateRockUpdateList(void) {
     MapObjectList *updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
-    data_0217b654 = updateList;
+    gRockUpdateList = updateList;
     *updateList = data_021569fc;
-    SetUpdateListSlot(&data_0217b654);
-    return data_0217b654;
+    SetUpdateListSlot(&gRockUpdateList);
+    return gRockUpdateList;
 }
 
 void SetupDrawRock(void) {
     s32 pairIndex = (s32) (GetRaceUpdateFrames() << 25 >> 16) >> 4;
-    MTX_RotY33_(&data_0217b650->mShadowMatrix.mUnk_00_m, gPairsByAngle[pairIndex * 2],
+    MTX_RotY33_(&gRockDrawList->mShadowMatrix.mUnk_00_m, gPairsByAngle[pairIndex * 2],
                 gPairsByAngle[pairIndex * 2 + 1]);
 }
 
-void func_020d655c(void *a, RockObject *rock, void *c, s32 alpha) {
+void DrawRock(void *unused0, RockObject *rock, void *unused1, s32 alpha) {
     Vec3 tiltAxis;
     Vec3 crossProduct;
     Vec3 xAxis;
@@ -571,14 +573,14 @@ void func_020d655c(void *a, RockObject *rock, void *c, s32 alpha) {
     rock->mMapObject.mMatrix.mUnk_00[3].y = rock->mMapObject.mPos.y >> 4;
     rock->mMapObject.mMatrix.mUnk_00[3].z = rock->mMapObject.mPos.z >> 4;
     DrawNsbmdWithMatrixAndMaxAlpha(gRock, &rock->mMapObject.mMatrix, &rock->mMapObject.mScale, alpha);
-    shadowMatrix = &data_0217b650->mShadowMatrix;
+    shadowMatrix = &gRockDrawList->mShadowMatrix;
     shadowMatrix->mUnk_00[3].x = rock->mMapObject.mPos.x >> 4;
     shadowMatrix->mUnk_00[3].y = rock->mMapObject.mPos.y >> 4;
     shadowMatrix->mUnk_00[3].z = rock->mMapObject.mPos.z >> 4;
-    DrawShadowWithMaxAlpha(gRockShadow, &data_0217b650->mShadowMatrix, &rock->mMapObject.mScale, alpha);
+    DrawShadowWithMaxAlpha(gRockShadow, &gRockDrawList->mShadowMatrix, &rock->mMapObject.mScale, alpha);
 }
 
-void func_020d6538(Unk020d6538_a *emitter, EmitterParams *params) {
+void CopyEmitterParams(Unk020d6538_a *emitter, EmitterParams *params) {
     emitter->mUnk_5c = params->mUnk_00;
     emitter->mUnk_64 = params->mUnk_04;
     emitter->mUnk_68 = params->mUnk_06;

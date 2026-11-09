@@ -211,7 +211,7 @@ void CreateTitleScene(void) {
     InitSceneText(TitleGetCurrentHeap(), &config);
     gTitleScene->mCharacterKartPicks = func_0203bedc(TitleGetCurrentHeap());
     SetConnectionKind(0);
-    func_0204aa28(0);
+    SetMultiSimple(0);
     ClearShuffledIndices();
     func_020ad85c(1);
     func_020ad848(0);

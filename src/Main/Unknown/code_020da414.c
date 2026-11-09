@@ -45,7 +45,7 @@ void InitKuribo(Kuribo *kuribo, CourseMapRow *row) {
         kuribo->mStartY = startEntry->mPos.y;
         kuribo->mOrientationBlendAmount = row->mUnk_28 * 0xb4 / 100;
         kuribo->mUnk_fc = row->mUnk_2a == 0;
-        InitStateMachine(&kuribo->mMapObject.mStateMachine, data_0216be68, 6, kuribo);
+        InitStateMachine(&kuribo->mMapObject.mStateMachine, gKuriboStateTable, 6, kuribo);
         SetupGroupFollowerAtEntry(&kuribo->mFollower, kuribo->mMapObject.mCourseMapRow->mUnk_2e, 1);
         GetGroupFollowerCurveXz(&kuribo->mFollower, &kuribo->mMapObject.mPos);
         kuribo->mMapObject.mPos.y = kuribo->mStartY;
@@ -70,7 +70,7 @@ void InitKuribo(Kuribo *kuribo, CourseMapRow *row) {
         kuribo->mFollower.mGroupIndex = 0xffff;
         kuribo->mStartY = 0;
         kuribo->mUnk_fc = 0;
-        InitStateMachine(&kuribo->mMapObject.mStateMachine, data_0216be68, 6, kuribo);
+        InitStateMachine(&kuribo->mMapObject.mStateMachine, gKuriboStateTable, 6, kuribo);
         kuribo->mOrientationBlendAmount = 0x1000;
         {
             Quaternion identityA = {0, 0, 0, 0x1000};
@@ -89,7 +89,7 @@ void InitKuribo(Kuribo *kuribo, CourseMapRow *row) {
 
 #pragma thumb off
 
-Unk020da414 *func_020da414(void) {
+Unk020da414 *CreateWaterKindData(void) {
     Unk020da414 *object;
     object = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
     {

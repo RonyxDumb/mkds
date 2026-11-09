@@ -51,7 +51,7 @@ void *StartItemBombWithParkedKuribo(void) {
 
     parkedMapObject = FindParkedMapObject(MAP_OBJECT_KIND_KURIBO);
     if (parkedMapObject != NULL) {
-        func_020da628(parkedMapObject);
+        ResetKuriboForItemBomb(parkedMapObject);
         return StartItemBombWithMapObject(parkedMapObject, 0);
     }
     return NULL;

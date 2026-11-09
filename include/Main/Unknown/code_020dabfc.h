@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int func_020dabfc(unsigned int value);
+unsigned int EnterKuriboState3(unsigned int value);

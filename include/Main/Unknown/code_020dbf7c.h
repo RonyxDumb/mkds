@@ -10,10 +10,10 @@ typedef struct CourseMapRow CourseMapRow;
 
 extern SoundStartParams data_0216bedc;
 extern Quaternion data_0216beec;
-extern StateCallbacks data_0216befc[];
+extern StateCallbacks gWanwanStateTable[];
 
 void UpdateWanwanState5(Wanwan *wanwan);
-void func_020dc1d8(Wanwan *wanwan, CourseMapRow *row);
-void func_020dc11c(Wanwan *wanwan, CourseMapRow *row);
+void InitWanwanOnChain(Wanwan *wanwan, CourseMapRow *row);
+void InitWanwanOnPath(Wanwan *wanwan, CourseMapRow *row);
 void ResetWanwan(Wanwan *wanwan);
 void CreateWanwanAndRockShadow(void);

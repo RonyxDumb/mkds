@@ -42,7 +42,7 @@ s32 func_02035f5c(u32 sceneNumbers) {
             result = func_02055730(0);
             switch (result) {
                 case 1:
-                    func_0204aa28(func_020360e4());
+                    SetMultiSimple(func_020360e4());
                     gWLMenuMessage->mState = 4;
                     break;
                 case 2:

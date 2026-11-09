@@ -18,7 +18,7 @@ void InitWanwanChain(WanwanChain *chain, Vec3 *start, Vec3 *end, s32 length, s32
     chain->mPoints = HeapAlloc(heap, pointCount * 12);
     heap = GetHeap(GetCurrentHeapCall());
     chain->mVelocities = HeapAlloc(heap, pointCount * 12);
-    chain->mUnk_34 = *f;
+    chain->mModelScale = *f;
     chain->mUnk_40 = MUL_FIXED12_NO_ROUND(e, f->y);
     segmentCount = pointCount - 1;
     chain->mStepFraction = 0x1000 / segmentCount;
@@ -27,9 +27,9 @@ void InitWanwanChain(WanwanChain *chain, Vec3 *start, Vec3 *end, s32 length, s32
     SetWanwanChainPointsEvenly(chain, start, end);
     chain->mMinY = start->y + chain->mUnk_40;
     chain->mDownwardStep = 0x599;
-    chain->mUnk_10 = 0x51;
-    chain->mUnk_14 = data_021583c8;
-    chain->mUnk_08 = 1;
+    chain->mDamping = 0x51;
+    chain->mPullScale = data_021583c8;
+    chain->mFirstLinkConstrained = 1;
 }
 
 void SetWanwanChainPointsEvenly(WanwanChain *chain, Vec3 *start, Vec3 *end) {

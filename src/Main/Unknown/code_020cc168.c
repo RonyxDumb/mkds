@@ -50,7 +50,7 @@ void CopyCurrentToRaceSetupCopy(void) {
         } else {
             GetRaceSetupCopy()->mEntries[i].mTeamIndex = -1;
         }
-        GetRaceSetupCopy()->mEntries[i].mUnk_10 = func_020cc6a4(i);
+        GetRaceSetupCopy()->mEntries[i].mUnk_10 = GetCurrentListedCpuSlot(i);
         GetRaceSetupCopy()->mEntries[i].mUnk_14 = 0;
     }
     GetRaceSetupCopy()->mCupIndex = GetCurrentCupIndex();
@@ -75,7 +75,7 @@ void CopyCurrentToRaceSetupCopy(void) {
     } else {
         GetRaceSetupCopy()->mMode = GetCurrentMode();
     }
-    if (func_020cae38() != 0) {
+    if (GetMultiSimple() != 0) {
         GetRaceSetupCopy()->mCourseId = COURSE_ID_OLD_MARIO_SFC;
     } else {
         GetRaceSetupCopy()->mCourseId = GetCurrentCourseId();

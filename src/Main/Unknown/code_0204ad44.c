@@ -93,9 +93,9 @@ void func_0204ad44(void) {
     data_021759d0->mUnk_54 = FALSE;
     data_021759d0->mUnk_50 = 0;
     if (gBootInfo->mUnk_00 == 2) {
-        data_021759d0->mUnk_1c_2 = 1;
+        data_021759d0->mMultiSimple = 1;
     } else {
-        data_021759d0->mUnk_1c_2 = 0;
+        data_021759d0->mMultiSimple = 0;
     }
     firstTick = OS_GetTick();
     secondTick = OS_GetTick();

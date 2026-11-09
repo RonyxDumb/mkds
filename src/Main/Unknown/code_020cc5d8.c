@@ -25,8 +25,8 @@ u32 GetCurrentTeamIndex(u32 entryIndex) {
     return gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mTeamIndex;
 }
 
-u32 func_020cc6a4(u32 entryIndex) {
-    return gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mUnk_08;
+u32 GetCurrentListedCpuSlot(u32 entryIndex) {
+    return gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mListedCpuSlot;
 }
 
 u32 GetCurrentCupIndex(void) {

@@ -55,8 +55,8 @@ void UpdateWanwanChain(void *unused, WanwanChainObject *chainObject) {
 
     wanwan = chainObject->mWanwan;
     if (chainObject->mHasKui == FALSE) {
-        chainObject->mPos = wanwan->mUnk_00.mPos;
+        chainObject->mPos = wanwan->mMapObject.mPos;
     }
-    VEC_MultAdd(-wanwan->mUnk_f0, &wanwan->mUnk_00.mMatrix.mUnk_00[2], &wanwan->mUnk_00.mPos, &endPoint);
-    UpdateWanwanChainPoints(&chainObject->mChain, &endPoint, &wanwan->mUnk_00.mUnk_10);
+    VEC_MultAdd(-wanwan->mUnk_f0, &wanwan->mMapObject.mMatrix.mUnk_00[2], &wanwan->mMapObject.mPos, &endPoint);
+    UpdateWanwanChainPoints(&chainObject->mChain, &endPoint, &wanwan->mMapObject.mUnk_10);
 }

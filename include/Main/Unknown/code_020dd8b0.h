@@ -7,15 +7,15 @@
 typedef struct WanwanChain {
     /* 00 */ s32 mLength;
     /* 04 */ s32 mDownwardStep;
-    /* 08 */ s32 mUnk_08;
+    /* 08 */ s32 mFirstLinkConstrained;
     /* 0c */ s32 mMinY;
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ Vec3 mUnk_14;
+    /* 10 */ s32 mDamping;
+    /* 14 */ Vec3 mPullScale;
     /* 20 */ s32 mPointCount;
     /* 24 */ s32 mStepFraction;
     /* 28 */ s32 mLinkLength;
     /* 2c */ s64 mLinkLengthSquared;
-    /* 34 */ Vec3 mUnk_34;
+    /* 34 */ Vec3 mModelScale;
     /* 40 */ s32 mUnk_40;
     /* 44 */ Vec3 *mPoints;
     /* 48 */ Vec3 *mVelocities;

@@ -303,7 +303,7 @@ void func_02031960(void) {
 
     switch (gMultiSelectMember->mUnk_70) {
         case 0:
-            if (func_0205579c(1, data_021759d0->mUnk_1c_2) == 1) {
+            if (func_0205579c(1, data_021759d0->mMultiSimple) == 1) {
                 gMultiSelectMember->mUnk_70 = 1;
             }
             break;
@@ -388,7 +388,7 @@ void func_020317a0(void) {
             switch (func_02055730(func_0202f14c()->mUnk_00)) {
                 case 1:
                     if (data_021759d0->mConnectionKind == 2) {
-                        func_0204aa28((gConnectionWork->mUnk_0454 & 0x40) != 0 ? 1 : 0);
+                        SetMultiSimple((gConnectionWork->mUnk_0454 & 0x40) != 0 ? 1 : 0);
                     }
                     gMultiSelectMember->mUnk_70 = 4;
                     if (gMultiSelectMember->mUnk_84 == 0) {

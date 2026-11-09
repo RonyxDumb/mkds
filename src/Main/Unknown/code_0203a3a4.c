@@ -321,7 +321,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                     }
                 }
                 if (f != 0) {
-                    if (data_021759d0->mUnk_1c_2 != 0) {
+                    if (data_021759d0->mMultiSimple != 0) {
                         nextScene = 6;
                         data_0217b488->mUnk_74 = 3;
                     } else {
@@ -357,7 +357,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                     break;
                 case MODE_VS:
                     if (func_02045914() != 0) {
-                        if (data_021759d0->mUnk_1c_2 == 0) {
+                        if (data_021759d0->mMultiSimple == 0) {
                             nextScene = 2;
                         } else {
                             nextScene = 6;
@@ -367,7 +367,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                         if (gRaceSetup->mCourseListMode == 0) {
                             data_0217b488->mMenuEntryKind = 2;
                         }
-                        if (data_021759d0->mUnk_1c_2 == 0) {
+                        if (data_021759d0->mMultiSimple == 0) {
                             nextScene = 1;
                         } else {
                             nextScene = 6;
@@ -386,7 +386,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                     break;
                 case MODE_BATTLE:
                     if (func_020458cc() != 0) {
-                        if (data_021759d0->mUnk_1c_2 == 0) {
+                        if (data_021759d0->mMultiSimple == 0) {
                             nextScene = 2;
                         } else {
                             nextScene = 6;
@@ -396,7 +396,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                         if (gRaceSetup->mCourseListMode == 0) {
                             data_0217b488->mMenuEntryKind = 2;
                         }
-                        if (data_021759d0->mUnk_1c_2 == 0) {
+                        if (data_021759d0->mMultiSimple == 0) {
                             nextScene = 1;
                         } else {
                             nextScene = 6;
@@ -420,7 +420,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                     break;
                 case MODE_BATTLE:
                 case MODE_VS:
-                    if (data_021759d0->mUnk_1c_2 != 0) {
+                    if (data_021759d0->mMultiSimple != 0) {
                         nextScene = 6;
                         data_0217b488->mUnk_74 = 2;
                     } else {

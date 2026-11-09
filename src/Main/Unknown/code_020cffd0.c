@@ -60,8 +60,8 @@ void UpdateRaceHudSubScreenFireball2Cells(void) {
     for (i = 0; i < gRaceHudSubScreenFireball2Cells->mObjectCount; i++) {
         object = gRaceHudSubScreenFireball2Cells->mObjects[i];
         position = &object->mPos;
-        if (ComputeRaceHudSubScreenPosition(
-                position, &gRaceHudSubScreenFireball2Cells->mCells[cellCount].mDrawPos, a, 1, 1) == FALSE) {
+        if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenFireball2Cells->mCells[cellCount].mDrawPos, a,
+                                            1, 1) == FALSE) {
             continue;
         }
         gRaceHudSubScreenFireball2Cells->mCells[cellCount].mCell =
@@ -165,7 +165,7 @@ void DrawRaceGoalTimes(RaceHudOamBuffer *oamBuffer) {
     if (gRaceSetup->mRaceKind == 4 || gRaceSetup->mRaceKind == RACE_KIND_DEMO) {
         return;
     }
-    if (func_020c70bc() != 0) {
+    if (IsRaceNewRecordTaSaving() != 0) {
         cell = GetRaceGoalMNcerEntry(0x43);
         positions[0][0] = 0x80000;
         positions[0][1] = 0x60000;
@@ -288,8 +288,8 @@ void UpdateRaceHudSubScreenBerryCells(void) {
     for (i = 0; i < gRaceHudSubScreenBerryCells->mObjectCount; i++) {
         object = gRaceHudSubScreenBerryCells->mObjects[i];
         position = &object->mPos;
-        if (ComputeRaceHudSubScreenPosition(
-                position, &gRaceHudSubScreenBerryCells->mCells[cellCount].mDrawPos, a, 1, 1) == FALSE) {
+        if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenBerryCells->mCells[cellCount].mDrawPos, a, 1,
+                                            1) == FALSE) {
             continue;
         }
         gRaceHudSubScreenBerryCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xb8);

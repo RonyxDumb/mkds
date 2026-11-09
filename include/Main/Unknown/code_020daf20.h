@@ -15,17 +15,17 @@
 
 // Object with the GroupFollower base at 0xc8 and its own fields from 0xec.
 typedef struct Dossun {
-    /* 00 */ MapObject mUnk_00;
+    /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mState;
     /* a4 */ s32 mTimer;
     /* a8 */ s32 mUnk_a8;
     /* ac */ s32 mUnk_ac;
     /* b0 */ BOOL mEnteredState5;
     /* b4 */ s32 mUnk_b4;
-    /* b8 */ s16 mUnk_b8;
-    /* ba */ s16 mUnk_ba;
-    /* bc */ u32 mUnk_bc;
-    /* c0 */ u16 mUnk_c0;
+    /* b8 */ s16 mSpinSpeed;
+    /* ba */ s16 mSpinAngle;
+    /* bc */ u32 mLastHitFrame;
+    /* c0 */ u16 mKartMask;
     /* c2 */ u16 mUnk_c2;
     /* c4 */ s32 mUnk_c4;
     /* c8 */ GroupFollower mFollower;
@@ -91,13 +91,13 @@ Unk020dbe74 *CreateDossunUpdateList(void);
 Unk020db268 *CreateKuriboKindData(void);
 Unk020db20c *CreateKuriboDrawList(void);
 Unk020db1b0 *CreateKuriboUpdateList(void);
-s32 func_020db4c4(Dossun *dossun);
-void func_020db430(Dossun *dossun);
+s32 GetDossunMapDotOffset(Dossun *dossun);
+void SetupDossunAtStartEntry(Dossun *dossun);
 void CreateDossunAndDossunShadow(void);
 void InitDossun(Dossun *dossun, CourseMapRow *row);
 void SetupDrawKuribo(void);
-void DrawKuribo(void *unused0, Kuribo *kuribo, void *unused1, u16 d);
+void DrawKuribo(void *unused0, Kuribo *kuribo, void *unused1, u16 maxAlpha);
 void UpdateKuribo(void *unused, Kuribo *kuribo); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void DrawDossun(void *unused0, Dossun *dossun, void *unused1, s32 maxAlpha);
-u32 CollideKartWithDossun(Dossun *dossun, Kart *kart, u8 *b, u8 *c);
+u32 CollideKartWithDossun(Dossun *dossun, Kart *kart, u8 *firstResponsePtr, u8 *secondResponsePtr);
 void UpdateDossun(void *unused, Dossun *dossun); /* skipped for objects with mFlags & 4 (parked pool objects) */

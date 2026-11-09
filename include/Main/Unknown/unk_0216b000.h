@@ -7,7 +7,7 @@
 
 extern CollisionHitRecord data_0216b8c4;
 extern CollisionHitRecord data_0216b8ec;
-extern const StateCallbacks data_0216be68[];
+extern const StateCallbacks gKuriboStateTable[];
 extern const StateCallbacks data_0216bfc0[];
 extern const StateCallbacks data_0216bff8[];
 
@@ -17,7 +17,7 @@ extern const char gKuriboNsbtpName[];
 extern const char gEarthenPipe1NsbmdName[];
 extern const char gEarthenPipe2NsbmdName[];
 
-extern u8 *data_0216b96c[][4];
-extern u8 *data_0216b9cc[][4];
-extern u8 *data_0216ba2c[][14];
-extern u8 *data_0216bb7c[][14];
+extern u8 *gKartResponsesByKind[][4];
+extern u8 *gKartFirstResponsesByKind[][4];
+extern u8 *gItemObjectResponsesByKind[][14];
+extern u8 *gItemObjectFirstResponsesByKind[][14];

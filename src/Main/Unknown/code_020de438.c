@@ -11,33 +11,34 @@
 #include "Main/Unknown/code_020de4e4.h"
 #include "Main/Unknown/unk_0216b000.h"
 
-void DrawEarthenPipe(u32 unused0, PushedObject *pipe, u32 unused1, u16 d) {
+void DrawEarthenPipe(u32 unused0, PushedObject *pipe, u32 unused1, u16 maxAlpha) {
     MtxFx43 *matrix;
     if (pipe->mMapObject.mStateMachine.mState == 0) {
         matrix = SetViewRotatedMatrixPos(&pipe->mMapObject.mPos);
-        DrawNsbmdModelWithMatrixAndMaxAlpha(gEarthenPipe1, matrix, &pipe->mMapObject.mScale, 0, d);
+        DrawNsbmdModelWithMatrixAndMaxAlpha(gEarthenPipe1, matrix, &pipe->mMapObject.mScale, 0, maxAlpha);
         return;
     }
     QueueNsbmdModelMaterial(gEarthenPipe2);
     matrix = SetViewRotatedMatrixPos(&pipe->mMapObject.mPos);
-    DrawNsbmdModelWithMatrixAndAngle(gEarthenPipe2, matrix, pipe->mMotion.mAngle, &pipe->mMapObject.mScale, 0, d);
+    DrawNsbmdModelWithMatrixAndAngle(gEarthenPipe2, matrix, pipe->mMotion.mAngle, &pipe->mMapObject.mScale, 0,
+                                     maxAlpha);
     QueueNsbmdModelMaterial(gEarthenPipe1);
 }
 
-void func_020de4d4(u32 unused, PushedObject *pipe) {
+void UpdateEarthenPipe(u32 unused, PushedObject *pipe) {
     AdvanceStateMachine(&pipe->mMapObject.mStateMachine);
 }
 
-u8 func_020de4a0(PushedObject *pipe, void *kart, u8 *c, u8 *d) {
-    if (func_020ec450(pipe, kart, c) != FALSE) {
+u8 CollideKartWithEarthenPipe(PushedObject *pipe, void *kart, u8 *firstResponsePtr, u8 *secondResponsePtr) {
+    if (func_020ec450(pipe, kart, firstResponsePtr) != FALSE) {
         StartSoundIfKartStarOrKiller(&pipe->mMapObject, kart);
     }
-    return *d;
+    return *secondResponsePtr;
 }
 
-u8 func_020de488(PushedObject *pipe, void *kart, u8 *c, u8 *d) {
-    func_020ec41c(pipe, kart, c);
-    return *d;
+u8 CollideItemObjectWithEarthenPipe(PushedObject *pipe, void *itemObject, u8 *firstResponsePtr, u8 *secondResponsePtr) {
+    func_020ec41c(pipe, itemObject, firstResponsePtr);
+    return *secondResponsePtr;
 }
 
 #pragma thumb on

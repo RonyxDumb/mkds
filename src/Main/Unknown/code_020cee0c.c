@@ -50,6 +50,6 @@ void ClearShuffledIndices(void) {
 }
 #pragma thumb off
 
-BOOL func_020cee0c(void) {
-    return CreateRaceHudSubScreenCells(&data_0217b484, 0x1ab);
+BOOL CreateRaceHudSubScreenPakkunSpitCells(void) {
+    return CreateRaceHudSubScreenCells(&gRaceHudSubScreenPakkunSpitCells, 0x1ab);
 }

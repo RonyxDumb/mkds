@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-BOOL func_020cee0c(void);
+BOOL CreateRaceHudSubScreenPakkunSpitCells(void);
 void ClearShuffledIndices(void);
 void FillShuffledIndices(void);

@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-// Object func_020d6538 fills from 0x5c on; only the words it writes are seen.
+// Object CopyEmitterParams fills from 0x5c on; only the words it writes are seen.
 typedef struct Unk020d6538_a {
     /* 00 */ u8 mUnk_00[0x5c];
     /* 5c */ u32 mUnk_5c;
@@ -26,14 +26,14 @@ typedef struct RockDrawList {
 
 #include "Main/Unknown/code_020d50ec.h" // EmitterParams, RockObject
 
-void func_020d6538(Unk020d6538_a *emitter, EmitterParams *params);
-void func_020d655c(void *a, RockObject *rock, void *c, s32 alpha);
+void CopyEmitterParams(Unk020d6538_a *emitter, EmitterParams *params);
+void DrawRock(void *unused0, RockObject *rock, void *unused1, s32 alpha);
 void SetupDrawRock(void);
 MapObjectList *CreateRockUpdateList(void);
 RockDrawList *CreateRock2DrawList(void);
 RockDrawList *CreateRockDrawList(void);
 MapObjectKindData *CreateRockKindData(void);
-s32 func_020d6910(s32 itemKind, MapObject *mapObject);
+s32 GetItemObjectFirstResponse(s32 itemKind, MapObject *mapObject);
 // 1 when the ItemObject kind a has a response to the map object b, else 0.
 s32 DoesItemObjectRespondToMapObject(s32 itemKind, MapObject *mapObject);
 // 1 when the Kart item effect a has a response to the map object b, else 0.
@@ -43,6 +43,6 @@ s32 DoesKartRespondToMapObject(s32 itemEffect, MapObject *mapObject);
 s32 CollideItemObjectWithMapObject(ItemObject *itemObject, MapObject *mapObject, s32 *firstResponseOut);
 // Index into gCollideKartWithMapObjectResponses of the Kart a response to the map object b; the kind's own callback may
 // change it.
-s32 func_020d6be0(Kart *kart, MapObject *mapObject);
+s32 CollideKartWithMapObject(Kart *kart, MapObject *mapObject);
 u32 GetItemObjectResponseByKind(s32 flagBit, s32 itemKind, s32 kindHundreds, s32 kindRemainder, s32 kindDataValue);
-u32 func_020d6d8c(u32 zeroResultFlag, u32 itemKind, u32 kindHundreds, u32 kindRemainder);
+u32 GetItemObjectFirstResponseByKind(u32 zeroResultFlag, u32 itemKind, u32 kindHundreds, u32 kindRemainder);

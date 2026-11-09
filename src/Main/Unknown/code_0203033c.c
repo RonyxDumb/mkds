@@ -111,7 +111,7 @@ s32 AdvanceMultiSelectNS(void) {
                 b = FindRectContainingPoint(b, pairY, multiSelectNS->mBnbl);
             }
             if (func_02030688(slotIndex, PAD_KEY_A) != 0) {
-                func_0204aa28(gMultiSelectNS->mIndex == 1 ? 1 : 0);
+                SetMultiSimple(gMultiSelectNS->mIndex == 1 ? 1 : 0);
                 gMultiSelectNS->mNextCallbacksIndex = 2;
                 gMultiSelectNS->mState = 2;
                 RefreshMultiSelectNS(0);
@@ -133,14 +133,14 @@ s32 AdvanceMultiSelectNS(void) {
                 RefreshMultiSelectNS(gMultiSelectNS->mIndex != 0 ? 1 : 0);
                 func_02030654(4);
                 gMultiSelectNS->mIndex = 0;
-                func_0204aa28(0);
+                SetMultiSimple(0);
                 gMultiSelectNS->mNextCallbacksIndex = 2;
             } else if (b == 1) {
                 gMultiSelectNS->mState = 2;
                 RefreshMultiSelectNS(gMultiSelectNS->mIndex != 1 ? 1 : 0);
                 func_02030654(4);
                 gMultiSelectNS->mIndex = 1;
-                func_0204aa28(1);
+                SetMultiSimple(1);
                 gMultiSelectNS->mNextCallbacksIndex = 2;
             }
             break;

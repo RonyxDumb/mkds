@@ -6,4 +6,4 @@ typedef struct KeyRecording KeyRecording;
 typedef struct KeyRecordingBuffer KeyRecordingBuffer;
 
 KeyRecordingBuffer *InitKeyRecordingBuffer(KeyRecording *record, void *heap);
-u32 func_0204aa28(u32 flag);
+u32 SetMultiSimple(u32 flag);

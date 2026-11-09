@@ -21,7 +21,7 @@ typedef struct Unk021759d0 {
         struct {
             s32 mSoundSetSeqPlaying : 1;
             s32 mSoundSetPlayerInitialized : 1;
-            s32 mUnk_1c_2 : 1;
+            s32 mMultiSimple : 1;
             s32 mUnk_1c_3 : 1;
         };
     };

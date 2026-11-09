@@ -297,7 +297,7 @@ void InitSegmentPoints(SegmentPoints *segmentPoints, Vec3 *points, s32 scale) {
         segmentPoints->mPoints[i] = points[i];
     }
     segmentPoints->mWriteIndex = 0;
-    func_020d7d18(&segmentPoints->mSegmentProgress, 1, segmentPoints->mPointPointers, scale);
+    InitSegmentProgress(&segmentPoints->mSegmentProgress, 1, segmentPoints->mPointPointers, scale);
 }
 
 s32 PushSegmentPoint(SegmentPoints *segmentPoints, Vec3 *point) {
@@ -311,7 +311,7 @@ s32 PushSegmentPoint(SegmentPoints *segmentPoints, Vec3 *point) {
     segmentPoints->mPointPointers[1] = segmentPoints->mPointPointers[2];
     segmentPoints->mPointPointers[2] = segmentPoints->mPointPointers[3];
     segmentPoints->mPointPointers[3] = first;
-    return func_020d7c84(&segmentPoints->mSegmentProgress, 1, segmentPoints->mPointPointers);
+    return BuildNextSegmentProgress(&segmentPoints->mSegmentProgress, 1, segmentPoints->mPointPointers);
 }
 
 // Writes the link nearest pos among the link, its neighbours and their neighbours.

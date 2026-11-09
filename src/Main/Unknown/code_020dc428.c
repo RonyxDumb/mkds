@@ -44,8 +44,9 @@
 MapObjectList *gWanwanUpdateList = 0;
 Unk020dd804 *gWanwanDrawList = 0;
 
-const Unk020dd860 data_02158388 = {func_020dd230, func_020dd1f4, 1, 0x1b000, {0}, 1, 1, 0x12e, {0}};
-const Unk020dd804 data_0215835c = {{0}, CreateWanwanAndRockShadow, {0}, func_020dd6c8, {0}, 1, {0}, 0};
+const Unk020dd860 data_02158388 = {
+    CollideKartWithWanwan, CollideItemObjectWithWanwan, 1, 0x1b000, {0}, 1, 1, 0x12e, {0}};
+const Unk020dd804 data_0215835c = {{0}, CreateWanwanAndRockShadow, {0}, DrawWanwan, {0}, 1, {0}, 0};
 const MapObjectList data_02158334 = {NULL, 0, {0}, NULL, NULL, UpdateWanwan, NULL, 0, NULL, 0, NULL};
 
 Unk020dd860 *CreateWanwanKindData(void) {
@@ -76,24 +77,24 @@ MapObjectList *CreateWanwanUpdateList(void) {
     return gWanwanUpdateList;
 }
 
-void func_020dd6c8(void *unused0, Wanwan *wanwan, void *unused1, u32 maxAlpha) {
+void DrawWanwan(void *unused0, Wanwan *wanwan, void *unused1, u32 maxAlpha) {
     MtxFx43 shadowMatrix;
 
-    if (wanwan->mUnk_00.mStateMachine.mState == 4) {
+    if (wanwan->mMapObject.mStateMachine.mState == 4) {
         if (GetChoisesSOpenDuringRace() == 0) {
-            wanwan->mUnk_00.mPos.x += wanwan->mUnk_00.mUnk_10.x;
-            wanwan->mUnk_00.mPos.z += wanwan->mUnk_00.mUnk_10.z;
+            wanwan->mMapObject.mPos.x += wanwan->mMapObject.mUnk_10.x;
+            wanwan->mMapObject.mPos.z += wanwan->mMapObject.mUnk_10.z;
         }
     }
-    wanwan->mUnk_00.mMatrix.mUnk_00[3].x = wanwan->mUnk_00.mPos.x >> 4;
-    wanwan->mUnk_00.mMatrix.mUnk_00[3].y = wanwan->mUnk_00.mPos.y >> 4;
-    wanwan->mUnk_00.mMatrix.mUnk_00[3].z = wanwan->mUnk_00.mPos.z >> 4;
-    DrawNsbmdWithMatrixAndMaxAlpha(gWanwan, &wanwan->mUnk_00.mMatrix, &wanwan->mUnk_00.mScale, maxAlpha);
-    Matrix3x3FromQuaternion(&shadowMatrix.mUnk_00_m, &wanwan->mUnk_d4);
-    shadowMatrix.mUnk_00[3].x = wanwan->mUnk_00.mPos.x >> 4;
-    shadowMatrix.mUnk_00[3].y = wanwan->mUnk_00.mPos.y >> 4;
-    shadowMatrix.mUnk_00[3].z = wanwan->mUnk_00.mPos.z >> 4;
-    DrawShadowWithMaxAlpha(gWanwanRockShadow, &shadowMatrix, &wanwan->mUnk_00.mScale, maxAlpha);
+    wanwan->mMapObject.mMatrix.mUnk_00[3].x = wanwan->mMapObject.mPos.x >> 4;
+    wanwan->mMapObject.mMatrix.mUnk_00[3].y = wanwan->mMapObject.mPos.y >> 4;
+    wanwan->mMapObject.mMatrix.mUnk_00[3].z = wanwan->mMapObject.mPos.z >> 4;
+    DrawNsbmdWithMatrixAndMaxAlpha(gWanwan, &wanwan->mMapObject.mMatrix, &wanwan->mMapObject.mScale, maxAlpha);
+    Matrix3x3FromQuaternion(&shadowMatrix.mUnk_00_m, &wanwan->mYawQuaternion);
+    shadowMatrix.mUnk_00[3].x = wanwan->mMapObject.mPos.x >> 4;
+    shadowMatrix.mUnk_00[3].y = wanwan->mMapObject.mPos.y >> 4;
+    shadowMatrix.mUnk_00[3].z = wanwan->mMapObject.mPos.z >> 4;
+    DrawShadowWithMaxAlpha(gWanwanRockShadow, &shadowMatrix, &wanwan->mMapObject.mScale, maxAlpha);
 }
 
 void UpdateWanwan(void *unused, Wanwan *wanwan) {
@@ -106,39 +107,39 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
     SoundStartParams c;
     SoundStartParams d;
     s32 h;
-    BOOL k;
+    BOOL touchesGround;
     s32 x;
     s32 z;
     s32 t;
-    s32 y;
+    s32 falloffIndex;
 
     h = wanwan->mUnk_b0;
-    AdvanceStateMachine(&wanwan->mUnk_00.mStateMachine);
-    wanwan->mUnk_00.mUnk_10.y -= 0x400;
-    wanwan->mUnk_00.mPos.y += wanwan->mUnk_00.mUnk_10.y;
-    k = FALSE;
-    probePos.x = wanwan->mUnk_00.mPos.x;
-    probePos.y = wanwan->mUnk_00.mPos.y + wanwan->mUnk_f4 + 0x5000;
-    probePos.z = wanwan->mUnk_00.mPos.z;
+    AdvanceStateMachine(&wanwan->mMapObject.mStateMachine);
+    wanwan->mMapObject.mUnk_10.y -= 0x400;
+    wanwan->mMapObject.mPos.y += wanwan->mMapObject.mUnk_10.y;
+    touchesGround = FALSE;
+    probePos.x = wanwan->mMapObject.mPos.x;
+    probePos.y = wanwan->mMapObject.mPos.y + wanwan->mUnk_f4 + 0x5000;
+    probePos.z = wanwan->mMapObject.mPos.z;
     if (h == 0) {
         correction.y = wanwan->mUnk_ac + 0xd000 - probePos.y;
         if (correction.y > 0) {
-            k = TRUE;
+            touchesGround = TRUE;
             correction.x = 0;
             correction.z = 0;
-            if (wanwan->mUnk_fc != 0) {
-                if (!(wanwan->mUnk_00.mDistanceSquaredAndFlags & 4)) {
-                    if (wanwan->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
-                        y = 2;
-                    } else if (wanwan->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
-                        y = 3;
+            if (wanwan->mFollowsPath != 0) {
+                if (!(wanwan->mMapObject.mDistanceSquaredAndFlags & 4)) {
+                    if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+                        falloffIndex = 2;
+                    } else if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                        falloffIndex = 3;
                     } else {
-                        y = 4;
+                        falloffIndex = 4;
                     }
                     c.mSoundId = 0x1a1;
-                    c.mPositionSource = &wanwan->mUnk_00.mPos;
-                    c.mFalloffIndex = y;
-                    c.mDistanceSquared = GetHorizontalCameraDistanceSquared(&wanwan->mUnk_00.mPos);
+                    c.mPositionSource = &wanwan->mMapObject.mPos;
+                    c.mFalloffIndex = falloffIndex;
+                    c.mDistanceSquared = GetHorizontalCameraDistanceSquared(&wanwan->mMapObject.mPos);
                     StartSoundFromParams(&c);
                 }
             }
@@ -146,42 +147,42 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
     } else {
         if (CollideSphereWithCourse(&probePos, NULL, 0, 0xd000, 8, -2, &correction, &surfaceNormal, NULL, &surfaceFlags,
                                     NULL, NULL, NULL, NULL) != 0) {
-            k = TRUE;
-            if (wanwan->mUnk_fc != 0) {
-                if (!(wanwan->mUnk_00.mDistanceSquaredAndFlags & 4)) {
-                    if (wanwan->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
-                        y = 2;
-                    } else if (wanwan->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
-                        y = 3;
+            touchesGround = TRUE;
+            if (wanwan->mFollowsPath != 0) {
+                if (!(wanwan->mMapObject.mDistanceSquaredAndFlags & 4)) {
+                    if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+                        falloffIndex = 2;
+                    } else if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                        falloffIndex = 3;
                     } else {
-                        y = 4;
+                        falloffIndex = 4;
                     }
                     d.mSoundId = 0x1df;
-                    d.mPositionSource = &wanwan->mUnk_00.mPos;
-                    d.mFalloffIndex = y;
-                    d.mDistanceSquared = GetHorizontalCameraDistanceSquared(&wanwan->mUnk_00.mPos);
+                    d.mPositionSource = &wanwan->mMapObject.mPos;
+                    d.mFalloffIndex = falloffIndex;
+                    d.mDistanceSquared = GetHorizontalCameraDistanceSquared(&wanwan->mMapObject.mPos);
                     StartSoundFromParams(&d);
                 }
             }
         }
     }
-    if (k != FALSE) {
-        k = TRUE;
-        if (wanwan->mUnk_00.mStateMachine.mState == 2) {
-            if (wanwan->mUnk_00.mStateMachine.mStateFrames < 0x78) {
-                k = FALSE;
+    if (touchesGround != FALSE) {
+        touchesGround = TRUE;
+        if (wanwan->mMapObject.mStateMachine.mState == 2) {
+            if (wanwan->mMapObject.mStateMachine.mStateFrames < 0x78) {
+                touchesGround = FALSE;
             }
         }
-        wanwan->mUnk_00.mPos.y += correction.y;
-        if (wanwan->mUnk_fc != 0 || k != FALSE) {
-            if (wanwan->mUnk_fc != 0) {
+        wanwan->mMapObject.mPos.y += correction.y;
+        if (wanwan->mFollowsPath != 0 || touchesGround != FALSE) {
+            if (wanwan->mFollowsPath != 0) {
                 x = wanwan->mFollower.mUnk_00.mToEntry->mPos.x;
                 z = wanwan->mFollower.mUnk_00.mToEntry->mPos.z;
             } else {
-                x = wanwan->mCurvePoints[2]->x - wanwan->mUnk_00.mPos.x;
-                z = wanwan->mCurvePoints[2]->z - wanwan->mUnk_00.mPos.z;
+                x = wanwan->mCurvePoints[2]->x - wanwan->mMapObject.mPos.x;
+                z = wanwan->mCurvePoints[2]->z - wanwan->mMapObject.mPos.z;
             }
-            t = ((s64) (s32) (((s64) wanwan->mUnk_00.mUnk_10.x * x + (s64) wanwan->mUnk_00.mUnk_10.z * z) >> 12)
+            t = ((s64) (s32) (((s64) wanwan->mMapObject.mUnk_10.x * x + (s64) wanwan->mMapObject.mUnk_10.z * z) >> 12)
                  << 9) >>
                 12;
             if (t > 0x3000) {
@@ -189,69 +190,71 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
             } else if (t < 0x2800) {
                 t = 0x2800;
             }
-            wanwan->mUnk_00.mUnk_10.y = t;
+            wanwan->mMapObject.mUnk_10.y = t;
         } else if (wanwan->mUnk_e8 == 0xd000) {
-            wanwan->mUnk_00.mUnk_10.y = 0x2000;
+            wanwan->mMapObject.mUnk_10.y = 0x2000;
             wanwan->mUnk_e8 += 0x1000;
         } else {
-            wanwan->mUnk_00.mUnk_10.y = 0;
+            wanwan->mMapObject.mUnk_10.y = 0;
         }
         if (h != 0) {
             if (surfaceFlags & 0x1e34ef) {
-                t = ((s64) wanwan->mUnk_00.mUnk_10.x * surfaceNormal.x +
-                     (s64) wanwan->mUnk_00.mUnk_10.z * surfaceNormal.z) >>
+                t = ((s64) wanwan->mMapObject.mUnk_10.x * surfaceNormal.x +
+                     (s64) wanwan->mMapObject.mUnk_10.z * surfaceNormal.z) >>
                     12;
                 if (t < 0) {
-                    wanwan->mUnk_00.mUnk_10.y += MUL_FIXED12_NO_ROUND(-t, 0x14cd);
+                    wanwan->mMapObject.mUnk_10.y += MUL_FIXED12_NO_ROUND(-t, 0x14cd);
                 }
-                QuaternionFromYAxisToVec3(&surfaceNormal, &wanwan->mUnk_c4);
+                QuaternionFromYAxisToVec3(&surfaceNormal, &wanwan->mSurfaceOrientation);
             }
         }
-        if (wanwan->mUnk_fc == 0 && !(wanwan->mUnk_00.mDistanceSquaredAndFlags & 4) && k != FALSE) {
+        if (wanwan->mFollowsPath == 0 && !(wanwan->mMapObject.mDistanceSquaredAndFlags & 4) && touchesGround != FALSE) {
             b = data_0216bedc;
-            b.mPositionSource = &wanwan->mUnk_00.mPos;
-            b.mDistanceSquared = wanwan->mUnk_00.mDistanceSquaredAndFlags & ~0xc000001f;
+            b.mPositionSource = &wanwan->mMapObject.mPos;
+            b.mDistanceSquared = wanwan->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f;
             StartSoundFromParams(&b);
         }
     }
     if (h != 0) {
-        func_020d7938(&wanwan->mUnk_c4, &wanwan->mUnk_d4, &targetOrientation);
+        QuaternionMultiplyByYawIgnoreY(&wanwan->mSurfaceOrientation, &wanwan->mYawQuaternion, &targetOrientation);
     }
-    wanwan->mUnk_e4 = wanwan->mUnk_e4 + ((-wanwan->mUnk_00.mUnk_10.y >> 1) - wanwan->mUnk_e4 >> 4);
+    wanwan->mUnk_e4 = wanwan->mUnk_e4 + ((-wanwan->mMapObject.mUnk_10.y >> 1) - wanwan->mUnk_e4 >> 4);
     if (h != 0) {
         QuaternionMultiplyAngleAroundX(&targetOrientation, (u16) (wanwan->mUnk_e8 + wanwan->mUnk_e4),
                                        &targetOrientation);
     } else {
-        func_020d76a8(&wanwan->mUnk_d4, (u16) (wanwan->mUnk_e8 + wanwan->mUnk_e4), &targetOrientation);
+        QuaternionMultiplyAngleAroundXIgnoreXZ(&wanwan->mYawQuaternion, (u16) (wanwan->mUnk_e8 + wanwan->mUnk_e4),
+                                               &targetOrientation);
     }
-    QuaternionBlendTowardNearerSign(&wanwan->mUnk_b4, &targetOrientation, &wanwan->mUnk_b4, wanwan->mUnk_ec);
-    QuaternionNormalizeUnlessNearOne(&wanwan->mUnk_b4, &wanwan->mUnk_b4);
-    Matrix3x3FromQuaternion(&wanwan->mUnk_00.mMatrix.mUnk_00_m, &wanwan->mUnk_b4);
-    if (wanwan->mUnk_00.mPos.y >= 0) {
+    QuaternionBlendTowardNearerSign(&wanwan->mOrientation, &targetOrientation, &wanwan->mOrientation,
+                                    wanwan->mOrientationBlendAmount);
+    QuaternionNormalizeUnlessNearOne(&wanwan->mOrientation, &wanwan->mOrientation);
+    Matrix3x3FromQuaternion(&wanwan->mMapObject.mMatrix.mUnk_00_m, &wanwan->mOrientation);
+    if (wanwan->mMapObject.mPos.y >= 0) {
         return;
     }
     ResetWanwan(wanwan);
 }
 
-u8 func_020dd230(Wanwan *wanwan, void *kart, u8 *b, u8 *c) {
-    if (*b == 1) {
-        if (wanwan->mUnk_00.mStateMachine.mState != 2 || wanwan->mUnk_00.mUnk_10.y < 0x4000) {
-            wanwan->mUnk_00.mStateMachine.mNextState = 2;
-            wanwan->mUnk_00.mStateMachine.mNextStateRequested = 1;
-            StartSoundIfKartStarOrKiller(&wanwan->mUnk_00, kart);
+u8 CollideKartWithWanwan(Wanwan *wanwan, void *kart, u8 *firstResponsePtr, u8 *secondResponsePtr) {
+    if (*firstResponsePtr == 1) {
+        if (wanwan->mMapObject.mStateMachine.mState != 2 || wanwan->mMapObject.mUnk_10.y < 0x4000) {
+            wanwan->mMapObject.mStateMachine.mNextState = 2;
+            wanwan->mMapObject.mStateMachine.mNextStateRequested = 1;
+            StartSoundIfKartStarOrKiller(&wanwan->mMapObject, kart);
         }
     }
-    return *c;
+    return *secondResponsePtr;
 }
 
-u8 func_020dd1f4(Wanwan *wanwan, void *kart, u8 *b, u8 *c) {
-    if (*b == 1) {
-        if (wanwan->mUnk_00.mStateMachine.mState != 2 || wanwan->mUnk_00.mUnk_10.y < 0x4000) {
-            wanwan->mUnk_00.mStateMachine.mNextState = 2;
-            wanwan->mUnk_00.mStateMachine.mNextStateRequested = 1;
+u8 CollideItemObjectWithWanwan(Wanwan *wanwan, void *itemObject, u8 *firstResponsePtr, u8 *secondResponsePtr) {
+    if (*firstResponsePtr == 1) {
+        if (wanwan->mMapObject.mStateMachine.mState != 2 || wanwan->mMapObject.mUnk_10.y < 0x4000) {
+            wanwan->mMapObject.mStateMachine.mNextState = 2;
+            wanwan->mMapObject.mStateMachine.mNextStateRequested = 1;
         }
     }
-    return *c;
+    return *secondResponsePtr;
 }
 
 // Kind 0x196 only (kind 0x1a5 never reaches state 0).
@@ -259,18 +262,18 @@ void EnterWanwanState0(Wanwan *wanwan) {
     Vec3 *savedPoint;
 
     wanwan->mUnk_e8 = 0x555;
-    wanwan->mUnk_ec = 0x1c2;
+    wanwan->mOrientationBlendAmount = 0x1c2;
     wanwan->mChainObject->mChain.mDownwardStep = 0x599;
     savedPoint = wanwan->mCurvePoints[0];
     wanwan->mCurvePoints[0] = NULL;
-    *wanwan->mCurvePoints[1] = wanwan->mUnk_00.mPos;
+    *wanwan->mCurvePoints[1] = wanwan->mMapObject.mPos;
     *wanwan->mCurvePoints[2] = *wanwan->mCurvePoints[1];
-    wanwan->mCurvePoints[2]->x += MUL_FIXED12_NO_ROUND(wanwan->mUnk_00.mMatrix.mUnk_00[2].x, wanwan->mUnk_f0);
-    wanwan->mCurvePoints[2]->z += MUL_FIXED12_NO_ROUND(wanwan->mUnk_00.mMatrix.mUnk_00[2].z, wanwan->mUnk_f0);
+    wanwan->mCurvePoints[2]->x += MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mMatrix.mUnk_00[2].x, wanwan->mUnk_f0);
+    wanwan->mCurvePoints[2]->z += MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mMatrix.mUnk_00[2].z, wanwan->mUnk_f0);
     *wanwan->mCurvePoints[3] = *wanwan->mCurvePoints[2];
-    wanwan->mCurvePoints[3]->x += MUL_FIXED12_NO_ROUND(wanwan->mUnk_00.mMatrix.mUnk_00[0].x, wanwan->mUnk_f0);
-    wanwan->mCurvePoints[3]->z += MUL_FIXED12_NO_ROUND(wanwan->mUnk_00.mMatrix.mUnk_00[0].z, wanwan->mUnk_f0);
-    func_020d7d18(&wanwan->mSegmentProgress, 1, wanwan->mCurvePoints, 0x1000);
+    wanwan->mCurvePoints[3]->x += MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mMatrix.mUnk_00[0].x, wanwan->mUnk_f0);
+    wanwan->mCurvePoints[3]->z += MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mMatrix.mUnk_00[0].z, wanwan->mUnk_f0);
+    InitSegmentProgress(&wanwan->mSegmentProgress, 1, wanwan->mCurvePoints, 0x1000);
     wanwan->mCurvePoints[0] = savedPoint;
 }
 
@@ -287,9 +290,9 @@ void UpdateWanwanState0(Wanwan *wanwan) {
     s32 attemptCount;
     s32 lastStepZ;
     s32 lastStepX;
-    s32 a;
-    u32 n;
-    s32 v;
+    s32 radiusLimit;
+    u32 radiusRange;
+    s32 radiusExtra;
     s32 radius;
     s32 offsetX;
     s32 offsetZ;
@@ -298,8 +301,8 @@ void UpdateWanwanState0(Wanwan *wanwan) {
     u32 angleIndex;
     u16 kartIndex;
 
-    wanwan->mUnk_00.mUnk_10.x = wanwan->mUnk_00.mPos.x;
-    wanwan->mUnk_00.mUnk_10.z = wanwan->mUnk_00.mPos.z;
+    wanwan->mMapObject.mUnk_10.x = wanwan->mMapObject.mPos.x;
+    wanwan->mMapObject.mUnk_10.z = wanwan->mMapObject.mPos.z;
     if (AdvanceSegmentProgress(&wanwan->mSegmentProgress) != FALSE) {
         lastStepX = wanwan->mCurvePoints[3]->x - wanwan->mCurvePoints[2]->x;
         lastStepZ = wanwan->mCurvePoints[3]->z - wanwan->mCurvePoints[2]->z;
@@ -307,21 +310,21 @@ void UpdateWanwanState0(Wanwan *wanwan) {
             attemptCount = 0;
             candidate = wanwan->mCurvePoints[0];
             while (1) {
-                a = wanwan->mUnk_f8;
+                radiusLimit = wanwan->mUnk_f8;
                 random = GetMapObjectRandom();
-                n = a - 0x2d000;
-                if (n == 0) {
-                    v = 0;
+                radiusRange = radiusLimit - 0x2d000;
+                if (radiusRange == 0) {
+                    radiusExtra = 0;
                 } else {
                     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-                    if (n == 0) {
-                        v = (u32) (random->mValue >> 32);
+                    if (radiusRange == 0) {
+                        radiusExtra = (u32) (random->mValue >> 32);
                     } else {
-                        v = (u32) (((u64) (random->mValue >> 32) * (u64) n) >> 32);
+                        radiusExtra = (u32) (((u64) (random->mValue >> 32) * (u64) radiusRange) >> 32);
                     }
                 }
                 random = GetMapObjectRandom();
-                radius = v + 0x2d000;
+                radius = radiusExtra + 0x2d000;
                 random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
                 angleIndex = (u16) (((random->mValue >> 32) * 0x10000) >> 32) >> 4;
                 attemptCount++;
@@ -354,10 +357,10 @@ void UpdateWanwanState0(Wanwan *wanwan) {
             wanwan->mCurvePoints[1] = wanwan->mCurvePoints[2];
             wanwan->mCurvePoints[2] = wanwan->mCurvePoints[3];
             wanwan->mCurvePoints[3] = candidate;
-        } while (func_020d7c84(&wanwan->mSegmentProgress, 1, wanwan->mCurvePoints) != FALSE);
+        } while (BuildNextSegmentProgress(&wanwan->mSegmentProgress, 1, wanwan->mCurvePoints) != FALSE);
     }
-    GetSegmentProgressPointXz(&wanwan->mSegmentProgress, &wanwan->mUnk_00.mPos);
-    if (!(wanwan->mUnk_00.mFlags & 0x800)) {
+    GetSegmentProgressPointXz(&wanwan->mSegmentProgress, &wanwan->mMapObject.mPos);
+    if (!(wanwan->mMapObject.mFlags & 0x800)) {
         kartIndex = GetRaceUpdateFramesModKartCount();
         kart = GetKart(kartIndex);
         if (func_0206c0e0(kart) == FALSE) {
@@ -367,22 +370,22 @@ void UpdateWanwanState0(Wanwan *wanwan) {
                 (s64) e * e) {
                 wanwan->mKartPos = &GetKart(kartIndex)->mPos;
                 wanwan->mKartVelocity = &GetKart(kartIndex)->mVelocity;
-                wanwan->mUnk_00.mStateMachine.mNextState = 1;
-                wanwan->mUnk_00.mStateMachine.mNextStateRequested = 1;
+                wanwan->mMapObject.mStateMachine.mNextState = 1;
+                wanwan->mMapObject.mStateMachine.mNextStateRequested = 1;
             }
         }
     }
-    wanwan->mUnk_00.mUnk_10.x = wanwan->mUnk_00.mPos.x - wanwan->mUnk_00.mUnk_10.x;
-    wanwan->mUnk_00.mUnk_10.z = wanwan->mUnk_00.mPos.z - wanwan->mUnk_00.mUnk_10.z;
-    if (func_020dccc8_inline(&wanwan->mUnk_00.mUnk_10) >= 0x10) {
+    wanwan->mMapObject.mUnk_10.x = wanwan->mMapObject.mPos.x - wanwan->mMapObject.mUnk_10.x;
+    wanwan->mMapObject.mUnk_10.z = wanwan->mMapObject.mPos.z - wanwan->mMapObject.mUnk_10.z;
+    if (func_020dccc8_inline(&wanwan->mMapObject.mUnk_10) >= 0x10) {
         QuaternionFromAngleAroundY(
-            (u16) (((s64) FX_Atan2(wanwan->mUnk_00.mUnk_10.x, wanwan->mUnk_00.mUnk_10.z) * 0x28be60db9391LL +
+            (u16) (((s64) FX_Atan2(wanwan->mMapObject.mUnk_10.x, wanwan->mMapObject.mUnk_10.z) * 0x28be60db9391LL +
                     0x80000000000LL) >>
                    44),
-            &wanwan->mUnk_d4);
+            &wanwan->mYawQuaternion);
     }
-    if (wanwan->mUnk_00.mStateMachine.mStateFrames < 0x40) {
-        wanwan->mUnk_ec += 0x1c;
+    if (wanwan->mMapObject.mStateMachine.mStateFrames < 0x40) {
+        wanwan->mOrientationBlendAmount += 0x1c;
     }
 }
 
@@ -391,24 +394,24 @@ void EnterWanwanState1(Wanwan *wanwan) {
     s32 falloffIndex;
 
     wanwan->mUnk_e8 = 0x2000;
-    wanwan->mUnk_ec = 0x1c2;
-    wanwan->mUnk_1e0 = wanwan->mUnk_00.mPos;
+    wanwan->mOrientationBlendAmount = 0x1c2;
+    wanwan->mUnk_1e0 = wanwan->mMapObject.mPos;
     wanwan->mChainObject->mChain.mDownwardStep = 0x219;
     wanwan->mUnk_1f8 = 0;
-    if (wanwan->mUnk_00.mDistanceSquaredAndFlags & 4) {
+    if (wanwan->mMapObject.mDistanceSquaredAndFlags & 4) {
         return;
     }
-    if (wanwan->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+    if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
         falloffIndex = 2;
-    } else if (wanwan->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+    } else if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
         falloffIndex = 3;
     } else {
         falloffIndex = 4;
     }
     soundRequest.mSoundId = 0x12c;
-    soundRequest.mPositionSource = &wanwan->mUnk_00.mPos;
+    soundRequest.mPositionSource = &wanwan->mMapObject.mPos;
     soundRequest.mFalloffIndex = falloffIndex;
-    soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&wanwan->mUnk_00.mPos);
+    soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&wanwan->mMapObject.mPos);
     StartSoundFromParams(&soundRequest);
 }
 
@@ -419,8 +422,8 @@ void UpdateWanwanState1(Wanwan *wanwan) {
     s32 k;
     s32 m;
 
-    if (wanwan->mUnk_00.mStateMachine.mStateFrames > wanwan->mUnk_1f8) {
-        VEC_Subtract(wanwan->mKartPos, &wanwan->mUnk_00.mPos, &a);
+    if (wanwan->mMapObject.mStateMachine.mStateFrames > wanwan->mUnk_1f8) {
+        VEC_Subtract(wanwan->mKartPos, &wanwan->mMapObject.mPos, &a);
         t = ((s64) wanwan->mKartVelocity->x * a.z - (s64) wanwan->mKartVelocity->z * a.x) >> 12;
         t = -t >> 12;
         if (t < 0) {
@@ -444,102 +447,102 @@ void UpdateWanwanState1(Wanwan *wanwan) {
         VEC_Add(&a, &wanwan->mCenterPos, &wanwan->mUnk_1e0);
         wanwan->mUnk_1f8 += 0xb4;
     }
-    VEC_Subtract(&wanwan->mUnk_1e0, &wanwan->mUnk_00.mPos, &a);
-    wanwan->mUnk_00.mUnk_10.x += (s32) (((s64) a.x << 5) >> 12);
-    wanwan->mUnk_00.mUnk_10.z += (s32) (((s64) a.z << 5) >> 12);
-    if (func_020dccc8_inline(&wanwan->mUnk_00.mUnk_10) >= 0x40000000) {
-        wanwan->mUnk_00.mUnk_10.x -= MUL_FIXED12_NO_ROUND(wanwan->mUnk_00.mUnk_10.x, 0x4cc);
-        wanwan->mUnk_00.mUnk_10.z -= MUL_FIXED12_NO_ROUND(wanwan->mUnk_00.mUnk_10.z, 0x4cc);
+    VEC_Subtract(&wanwan->mUnk_1e0, &wanwan->mMapObject.mPos, &a);
+    wanwan->mMapObject.mUnk_10.x += (s32) (((s64) a.x << 5) >> 12);
+    wanwan->mMapObject.mUnk_10.z += (s32) (((s64) a.z << 5) >> 12);
+    if (func_020dccc8_inline(&wanwan->mMapObject.mUnk_10) >= 0x40000000) {
+        wanwan->mMapObject.mUnk_10.x -= MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mUnk_10.x, 0x4cc);
+        wanwan->mMapObject.mUnk_10.z -= MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mUnk_10.z, 0x4cc);
     }
     if (func_020dccc8_inline(&a) < (s64) (wanwan->mUnk_f0 >> 1) * (wanwan->mUnk_f0 >> 1)) {
-        wanwan->mUnk_00.mUnk_10.x >>= 1;
-        wanwan->mUnk_00.mUnk_10.z >>= 1;
+        wanwan->mMapObject.mUnk_10.x >>= 1;
+        wanwan->mMapObject.mUnk_10.z >>= 1;
     } else {
         QuaternionFromAngleAroundY((u16) (((s64) FX_Atan2(a.x, a.z) * 0x28be60db9391LL + 0x80000000000LL) >> 44),
-                                   &wanwan->mUnk_d4);
+                                   &wanwan->mYawQuaternion);
     }
-    t = MUL_FIXED12_NO_ROUND(wanwan->mUnk_00.mUnk_10.x, a.z);
-    t -= MUL_FIXED12_NO_ROUND(wanwan->mUnk_00.mUnk_10.z, a.x);
+    t = MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mUnk_10.x, a.z);
+    t -= MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mUnk_10.z, a.x);
     if (((s64) a.x * a.x + (s64) a.z * a.z) * 10 < (s64) t * t) {
-        wanwan->mUnk_00.mUnk_10.x >>= 1;
-        wanwan->mUnk_00.mUnk_10.z >>= 1;
+        wanwan->mMapObject.mUnk_10.x >>= 1;
+        wanwan->mMapObject.mUnk_10.z >>= 1;
     }
-    wanwan->mUnk_00.mPos.x += wanwan->mUnk_00.mUnk_10.x;
-    wanwan->mUnk_00.mPos.z += wanwan->mUnk_00.mUnk_10.z;
-    VEC_Subtract(&wanwan->mUnk_00.mPos, &wanwan->mCenterPos, &a);
+    wanwan->mMapObject.mPos.x += wanwan->mMapObject.mUnk_10.x;
+    wanwan->mMapObject.mPos.z += wanwan->mMapObject.mUnk_10.z;
+    VEC_Subtract(&wanwan->mMapObject.mPos, &wanwan->mCenterPos, &a);
     if ((s64) a.x * a.x + (s64) a.z * a.z >= (s64) wanwan->mMaxRadius * wanwan->mMaxRadius) {
         Vec3NormalizeXZAndGetLengthOrZero(&a, &a);
-        wanwan->mUnk_00.mPos.x = wanwan->mCenterPos.x + MUL_FIXED12_NO_ROUND(a.x, wanwan->mMaxRadius);
-        wanwan->mUnk_00.mPos.z = wanwan->mCenterPos.z + MUL_FIXED12_NO_ROUND(a.z, wanwan->mMaxRadius);
-        k = MUL_FIXED12_NO_ROUND(wanwan->mUnk_00.mUnk_10.x, a.x);
-        m = MUL_FIXED12_NO_ROUND(wanwan->mUnk_00.mUnk_10.z, a.z);
+        wanwan->mMapObject.mPos.x = wanwan->mCenterPos.x + MUL_FIXED12_NO_ROUND(a.x, wanwan->mMaxRadius);
+        wanwan->mMapObject.mPos.z = wanwan->mCenterPos.z + MUL_FIXED12_NO_ROUND(a.z, wanwan->mMaxRadius);
+        k = MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mUnk_10.x, a.x);
+        m = MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mUnk_10.z, a.z);
         if (k + m > 0) {
-            wanwan->mUnk_00.mUnk_10.x -= MUL_FIXED12_NO_ROUND(k, a.x);
-            wanwan->mUnk_00.mUnk_10.z -= MUL_FIXED12_NO_ROUND(m, a.z);
+            wanwan->mMapObject.mUnk_10.x -= MUL_FIXED12_NO_ROUND(k, a.x);
+            wanwan->mMapObject.mUnk_10.z -= MUL_FIXED12_NO_ROUND(m, a.z);
         }
     }
-    if (wanwan->mUnk_00.mStateMachine.mStateFrames >= 0xb4) {
-        wanwan->mUnk_00.mStateMachine.mNextState = 3;
-        wanwan->mUnk_00.mStateMachine.mNextStateRequested = 1;
+    if (wanwan->mMapObject.mStateMachine.mStateFrames >= 0xb4) {
+        wanwan->mMapObject.mStateMachine.mNextState = 3;
+        wanwan->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
 void EnterWanwanState2(Wanwan *wanwan) {
     wanwan->mUnk_e8 = 0xd000;
-    wanwan->mUnk_ec = 0x1c2;
-    if (wanwan->mUnk_fc == 0) {
+    wanwan->mOrientationBlendAmount = 0x1c2;
+    if (wanwan->mFollowsPath == 0) {
         wanwan->mChainObject->mChain.mDownwardStep = 0x219;
     }
-    wanwan->mUnk_00.mUnk_10.y = 0x8000;
+    wanwan->mMapObject.mUnk_10.y = 0x8000;
 }
 
 void UpdateWanwanState2(Wanwan *wanwan) {
     const Vec3 *velocity;
 
-    if (wanwan->mUnk_fc != 0) {
-        wanwan->mUnk_00.mUnk_10.x = wanwan->mUnk_00.mPos.x;
-        wanwan->mUnk_00.mUnk_10.z = wanwan->mUnk_00.mPos.z;
+    if (wanwan->mFollowsPath != 0) {
+        wanwan->mMapObject.mUnk_10.x = wanwan->mMapObject.mPos.x;
+        wanwan->mMapObject.mUnk_10.z = wanwan->mMapObject.mPos.z;
         AdvanceGroupFollowerWithSpeeds(&wanwan->mFollower);
-        GetGroupFollowerCurveXz(&wanwan->mFollower.mUnk_00, &wanwan->mUnk_00.mPos);
-        wanwan->mUnk_00.mUnk_10.x = wanwan->mUnk_00.mPos.x - wanwan->mUnk_00.mUnk_10.x;
-        wanwan->mUnk_00.mUnk_10.z = wanwan->mUnk_00.mPos.z - wanwan->mUnk_00.mUnk_10.z;
-        velocity = &wanwan->mUnk_00.mUnk_10;
+        GetGroupFollowerCurveXz(&wanwan->mFollower.mUnk_00, &wanwan->mMapObject.mPos);
+        wanwan->mMapObject.mUnk_10.x = wanwan->mMapObject.mPos.x - wanwan->mMapObject.mUnk_10.x;
+        wanwan->mMapObject.mUnk_10.z = wanwan->mMapObject.mPos.z - wanwan->mMapObject.mUnk_10.z;
+        velocity = &wanwan->mMapObject.mUnk_10;
         if ((s64) velocity->x * velocity->x + (s64) velocity->z * velocity->z >= 0x10) {
             QuaternionFromAngleAroundY(
-                (u16) (((s64) FX_Atan2(wanwan->mUnk_00.mUnk_10.x, wanwan->mUnk_00.mUnk_10.z) * 0x28be60db9391LL +
+                (u16) (((s64) FX_Atan2(wanwan->mMapObject.mUnk_10.x, wanwan->mMapObject.mUnk_10.z) * 0x28be60db9391LL +
                         0x80000000000LL) >>
                        44),
-                &wanwan->mUnk_d4);
+                &wanwan->mYawQuaternion);
         }
-        if (wanwan->mUnk_00.mStateMachine.mStateFrames < 0x40) {
-            wanwan->mUnk_ec += 0x1c;
+        if (wanwan->mMapObject.mStateMachine.mStateFrames < 0x40) {
+            wanwan->mOrientationBlendAmount += 0x1c;
         }
-        if (wanwan->mUnk_00.mStateMachine.mStateFrames >= 0x28) {
+        if (wanwan->mMapObject.mStateMachine.mStateFrames >= 0x28) {
             wanwan->mUnk_e8 += 0x200;
         } else {
-            wanwan->mUnk_00.mUnk_10.y -= 0x266;
+            wanwan->mMapObject.mUnk_10.y -= 0x266;
         }
         if (wanwan->mUnk_e8 > 0x10555) {
-            wanwan->mUnk_00.mStateMachine.mNextState = 5;
-            wanwan->mUnk_00.mStateMachine.mNextStateRequested = 1;
+            wanwan->mMapObject.mStateMachine.mNextState = 5;
+            wanwan->mMapObject.mStateMachine.mNextStateRequested = 1;
         }
     } else {
         if (wanwan->mUnk_e8 == 0xd000) {
-            wanwan->mUnk_00.mUnk_10.y -= 0x19a;
+            wanwan->mMapObject.mUnk_10.y -= 0x19a;
         }
-        if (wanwan->mUnk_00.mStateMachine.mStateFrames >= 0x78) {
+        if (wanwan->mMapObject.mStateMachine.mStateFrames >= 0x78) {
             wanwan->mUnk_e8 += 0x100;
         }
         if (wanwan->mUnk_e8 > 0x10555) {
-            wanwan->mUnk_00.mStateMachine.mNextState = 3;
-            wanwan->mUnk_00.mStateMachine.mNextStateRequested = 1;
+            wanwan->mMapObject.mStateMachine.mNextState = 3;
+            wanwan->mMapObject.mStateMachine.mNextStateRequested = 1;
         }
     }
 }
 
 void EnterWanwanState3(Wanwan *wanwan) {
     wanwan->mUnk_e8 = 0x555;
-    wanwan->mUnk_ec = 0x1c2;
+    wanwan->mOrientationBlendAmount = 0x1c2;
     wanwan->mChainObject->mChain.mDownwardStep = 0x599;
 }
 
@@ -552,34 +555,35 @@ void UpdateWanwanState3(Wanwan *wanwan) {
     s32 radius;
 
     radius = wanwan->mUnk_1fc;
-    if ((s64) (wanwan->mUnk_00.mPos.x - wanwan->mCenterPos.x) * (wanwan->mUnk_00.mPos.x - wanwan->mCenterPos.x) +
-            (s64) (wanwan->mUnk_00.mPos.z - wanwan->mCenterPos.z) * (wanwan->mUnk_00.mPos.z - wanwan->mCenterPos.z) >=
+    if ((s64) (wanwan->mMapObject.mPos.x - wanwan->mCenterPos.x) * (wanwan->mMapObject.mPos.x - wanwan->mCenterPos.x) +
+            (s64) (wanwan->mMapObject.mPos.z - wanwan->mCenterPos.z) *
+                (wanwan->mMapObject.mPos.z - wanwan->mCenterPos.z) >=
         (s64) radius * radius) {
-        VEC_Subtract(&wanwan->mCenterPos, &wanwan->mUnk_00.mPos, &toCenter);
-        wanwan->mUnk_00.mUnk_10.x += (s32) (((s64) toCenter.x << 2) >> 12);
-        wanwan->mUnk_00.mUnk_10.z += (s32) (((s64) toCenter.z << 2) >> 12);
-        if (func_020dc474_inline(&wanwan->mUnk_00.mUnk_10) >= 0x1000000) {
-            wanwan->mUnk_00.mUnk_10.x -= MUL_FIXED12_NO_ROUND(wanwan->mUnk_00.mUnk_10.x, 0x199);
-            wanwan->mUnk_00.mUnk_10.z -= MUL_FIXED12_NO_ROUND(wanwan->mUnk_00.mUnk_10.z, 0x199);
+        VEC_Subtract(&wanwan->mCenterPos, &wanwan->mMapObject.mPos, &toCenter);
+        wanwan->mMapObject.mUnk_10.x += (s32) (((s64) toCenter.x << 2) >> 12);
+        wanwan->mMapObject.mUnk_10.z += (s32) (((s64) toCenter.z << 2) >> 12);
+        if (func_020dc474_inline(&wanwan->mMapObject.mUnk_10) >= 0x1000000) {
+            wanwan->mMapObject.mUnk_10.x -= MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mUnk_10.x, 0x199);
+            wanwan->mMapObject.mUnk_10.z -= MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mUnk_10.z, 0x199);
         }
-        wanwan->mUnk_00.mPos.x += wanwan->mUnk_00.mUnk_10.x;
-        wanwan->mUnk_00.mPos.z += wanwan->mUnk_00.mUnk_10.z;
+        wanwan->mMapObject.mPos.x += wanwan->mMapObject.mUnk_10.x;
+        wanwan->mMapObject.mPos.z += wanwan->mMapObject.mUnk_10.z;
     }
-    if (wanwan->mUnk_00.mStateMachine.mStateFrames >= 0xb4) {
-        wanwan->mUnk_00.mStateMachine.mNextState = 0;
-        wanwan->mUnk_00.mStateMachine.mNextStateRequested = 1;
+    if (wanwan->mMapObject.mStateMachine.mStateFrames >= 0xb4) {
+        wanwan->mMapObject.mStateMachine.mNextState = 0;
+        wanwan->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
 void EnterWanwanState4(Wanwan *wanwan) {
     wanwan->mUnk_e8 = 0x555;
-    wanwan->mUnk_ec = 0x1c2;
+    wanwan->mOrientationBlendAmount = 0x1c2;
     wanwan->mChainObject->mChain.mDownwardStep = 0x599;
 }
 
-void func_020dc444(Wanwan *wanwan) {}
+void UpdateWanwanState4Nop(Wanwan *wanwan) {}
 
 void EnterWanwanState5(Wanwan *wanwan) {
     wanwan->mUnk_e8 = 0x555;
-    wanwan->mUnk_ec = 0x1c2;
+    wanwan->mOrientationBlendAmount = 0x1c2;
 }

@@ -38,7 +38,7 @@ void InitGroupItemBox(ItemBox *itemBox, CourseMapRow *row) {
         itemBox->mFollower.mUnk_00.mGroupIndex = (0x0000ffffu);
         return;
     }
-    func_020d7d4c(&itemBox->mFollower, row, *&data_02158908, row->mUnk_28);
+    InitGroupFollowerWithSpeeds(&itemBox->mFollower, row, *&data_02158908, row->mUnk_28);
     SetupGroupFollowerWithSpeeds(&itemBox->mFollower, row->mUnk_30, 1);
     GetGroupFollowerCurvePosition(&itemBox->mFollower.mUnk_00, &itemBox->mUnk_000.mPos);
 }

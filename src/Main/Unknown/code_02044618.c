@@ -75,7 +75,7 @@ void ResetRaceSetup(void) {
         gRaceSetup->mNextEntries[i].mKartIndex = i * 3;
         gRaceSetup->mNextEntries[i].mPlayer.mKind = i == 0 ? PLAYER_KIND_HUMAN : PLAYER_KIND_CPU;
         gRaceSetup->mNextEntries[i].mPlayer.mTeamIndex = -1;
-        gRaceSetup->mNextEntries[i].mPlayer.mUnk_08 = 3;
+        gRaceSetup->mNextEntries[i].mPlayer.mListedCpuSlot = 3;
         gRaceSetup->mNextEntries[i].mPlayer.mIndex = i;
         gRaceSetup->mNextEntries[i].mPlayer.mGhostRecordIndex = 3;
         gRaceSetup->mNextEntries[i].mPlayer.mUnk_14 = 0;
@@ -85,8 +85,8 @@ void ResetRaceSetup(void) {
         gRaceSetup->mNextEntries[i].mPlayer.mEmblemData = NULL;
         gRaceSetup->mNextEntries[i].mPlayer.mUnk_20 = 0;
     }
-    gRaceSetup->mNextEntries[7].mPlayer.mUnk_08 = 0;
-    gRaceSetup->mNextEntries[6].mPlayer.mUnk_08 = 1;
+    gRaceSetup->mNextEntries[7].mPlayer.mListedCpuSlot = 0;
+    gRaceSetup->mNextEntries[6].mPlayer.mListedCpuSlot = 1;
     gRaceSetup->mKartCount = 0;
     gRaceSetup->mHumanAndPeerKartCount = 0;
     for (i = 0; i < 2; i++) {
@@ -235,7 +235,7 @@ void func_02044fc0(void) {
     }
     for (j = 0; j < gRaceSetup->mKartCount; j++) {
         if ((gRaceSetup->mCurrentEntries[(u16) j].mPlayer.mUnk_14 & 1) != 0) {
-            gRaceSetup->mUnk_3d5[(u8) gRaceSetup->mCurrentEntries[j].mPlayer.mUnk_08] = j;
+            gRaceSetup->mUnk_3d5[(u8) gRaceSetup->mCurrentEntries[j].mPlayer.mListedCpuSlot] = j;
             n++;
         }
     }
@@ -467,7 +467,7 @@ void func_020446e0(void) {
             }
             break;
         case MODE_BATTLE:
-            if (data_021759d0->mUnk_1c_2 != 0) {
+            if (data_021759d0->mMultiSimple != 0) {
                 gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_NORMAL;
             } else {
                 gRaceSetup->mNextHeader.mRaceKind = 4;

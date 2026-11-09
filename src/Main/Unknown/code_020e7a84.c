@@ -113,7 +113,7 @@ void AdvanceJgPointsAndSetTarget(Vec3 *offset, const Vec3 *endScale, const Vec3 
                     gJgPointPointers[i] = gJgPoints;
                 }
             }
-        } while (func_020d7c84(&data_0217bb88.mSegmentProgress, 0, gJgPointPointers) != FALSE);
+        } while (BuildNextSegmentProgress(&data_0217bb88.mSegmentProgress, 0, gJgPointPointers) != FALSE);
     }
     GetSegmentProgressPoint(&data_0217bb88, &pathPoint);
     gJgAngle += 0x64;
@@ -680,7 +680,7 @@ void EnterJgState1(void) {
     gJgPointPointers[1] = gJgPoints;
     gJgPointPointers[2] = &gJgPoint1;
     gJgPointPointers[3] = &gJgPoint2;
-    func_020d7d18(&data_0217bb88.mSegmentProgress, 0, gJgPointPointers, 0x1ec);
+    InitSegmentProgress(&data_0217bb88.mSegmentProgress, 0, gJgPointPointers, 0x1ec);
     gJgAngle = 0;
     rotatedZ = MUL_FIXED12_NO_ROUND(gJgKind2Offset.z, data_0215f4b4[1]) -
                MUL_FIXED12_NO_ROUND(gJgKind2Offset.x, data_0215f4b4[0]);
@@ -811,7 +811,7 @@ void EnterJgState3(void) {
     gJgPointPointers[1] = gJgPoints;
     gJgPointPointers[2] = &gJgPoint1;
     gJgPointPointers[3] = &gJgPoint2;
-    func_020d7d18(&data_0217bb88.mSegmentProgress, 0, gJgPointPointers, 0x1ec);
+    InitSegmentProgress(&data_0217bb88.mSegmentProgress, 0, gJgPointPointers, 0x1ec);
     gJgAngle = 0;
     AdvanceJgPointsAndSetTarget(&gJgKind3Offset, &data_021593e0, &data_021593ec);
 }

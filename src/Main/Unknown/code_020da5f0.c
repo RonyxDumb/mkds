@@ -36,7 +36,7 @@
 
 void EnterKuriboState0(Kuribo *kuribo) {
     kuribo->mScaleFactorY = 0x1000u;
-    kuribo->mUnk_c8 = 0x0u;
+    kuribo->mScaleFactorYSpeed = 0x0u;
 }
 
 void UpdateKuriboState0(Kuribo *kuribo) {
@@ -44,22 +44,22 @@ void UpdateKuriboState0(Kuribo *kuribo) {
         AdvanceGroupFollower(&kuribo->mFollower);
     }
     GetGroupFollowerCurvePosition(&kuribo->mFollower, &kuribo->mMapObject.mPos);
-    if (kuribo->mScaleFactorY == 0x1000 && kuribo->mUnk_c8 == 0) {
+    if (kuribo->mScaleFactorY == 0x1000 && kuribo->mScaleFactorYSpeed == 0) {
         return;
     }
-    kuribo->mUnk_c8 += MUL_FIXED12_NO_ROUND(0x1000 - kuribo->mScaleFactorY, 0x200);
-    kuribo->mUnk_c8 = MUL_FIXED12_NO_ROUND(kuribo->mUnk_c8, 0xd99);
-    kuribo->mScaleFactorY += kuribo->mUnk_c8;
-    if (kuribo->mScaleFactorY > 0xfd7 && kuribo->mScaleFactorY < 0x1029 && kuribo->mUnk_c8 > -0x29 &&
-        kuribo->mUnk_c8 < 0x29) {
+    kuribo->mScaleFactorYSpeed += MUL_FIXED12_NO_ROUND(0x1000 - kuribo->mScaleFactorY, 0x200);
+    kuribo->mScaleFactorYSpeed = MUL_FIXED12_NO_ROUND(kuribo->mScaleFactorYSpeed, 0xd99);
+    kuribo->mScaleFactorY += kuribo->mScaleFactorYSpeed;
+    if (kuribo->mScaleFactorY > 0xfd7 && kuribo->mScaleFactorY < 0x1029 && kuribo->mScaleFactorYSpeed > -0x29 &&
+        kuribo->mScaleFactorYSpeed < 0x29) {
         kuribo->mScaleFactorY = 0x1000;
-        kuribo->mUnk_c8 = 0;
+        kuribo->mScaleFactorYSpeed = 0;
     }
 }
 
 void EnterKuriboState1(Kuribo *kuribo) {
     kuribo->mScaleFactorY = 0x1000u;
-    kuribo->mUnk_c8 = 0x0u;
+    kuribo->mScaleFactorYSpeed = 0x0u;
 }
 
 void UpdateKuriboState1(Kuribo *kuribo) {
@@ -108,7 +108,7 @@ void UpdateKuriboState2(Kuribo *kuribo) {
     }
 }
 
-u32 func_020dabfc(u32 value) {
+u32 EnterKuriboState3(u32 value) {
     return value;
 }
 
@@ -120,7 +120,7 @@ void UpdateKuriboState3(Kuribo *kuribo) {
     }
 }
 
-u32 func_020dab98(u32 value) {
+u32 EnterKuriboState4(u32 value) {
     return value;
 }
 
@@ -156,20 +156,20 @@ void EnterKuriboState5(Kuribo *kuribo) {
         StartSoundFromParams(&soundRequest);
     }
     kuribo->mMapObject.mFlags &= ~1;
-    kuribo->mUnk_c8 = 0;
+    kuribo->mScaleFactorYSpeed = 0;
 }
 
 void UpdateKuriboState5(Kuribo *kuribo) {
-    kuribo->mUnk_c8 += MUL_FIXED12_NO_ROUND(0x1000 - kuribo->mScaleFactorY, 0x200);
-    kuribo->mUnk_c8 = MUL_FIXED12_NO_ROUND(kuribo->mUnk_c8, 0xd99);
-    kuribo->mScaleFactorY += kuribo->mUnk_c8;
+    kuribo->mScaleFactorYSpeed += MUL_FIXED12_NO_ROUND(0x1000 - kuribo->mScaleFactorY, 0x200);
+    kuribo->mScaleFactorYSpeed = MUL_FIXED12_NO_ROUND(kuribo->mScaleFactorYSpeed, 0xd99);
+    kuribo->mScaleFactorY += kuribo->mScaleFactorYSpeed;
     if (kuribo->mMapObject.mStateMachine.mStateFrames > 0x3c) {
         kuribo->mMapObject.mStateMachine.mNextState = 0;
         kuribo->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
-void func_020da820(Kuribo *kuribo, Vec3 *hitVector) {
+void StartItemKinokoFromKuribo(Kuribo *kuribo, Vec3 *hitVector) {
     Vec3 launchDirection;
     ItemObject *itemObject;
     s32 d;
@@ -212,12 +212,12 @@ void func_020da820(Kuribo *kuribo, Vec3 *hitVector) {
     func_020f6630(itemObject, 0, &kuribo->mMapObject.mPos, hitVector, &data_021581f8);
 }
 
-u32 func_020da73c(Kuribo *kuribo, Kart *kart, u8 *b, u8 *c) {
-    switch (*b) {
+u32 CollideKartWithKuribo(Kuribo *kuribo, Kart *kart, u8 *firstResponsePtr, u8 *secondResponsePtr) {
+    switch (*firstResponsePtr) {
         case 0:
             if (kuribo->mScaleFactorY == 0x1000) {
-                if (kuribo->mUnk_c8 == 0) {
-                    kuribo->mUnk_c8 = MUL_FIXED12_NO_ROUND(kart->mVelocityLength, 0x52);
+                if (kuribo->mScaleFactorYSpeed == 0) {
+                    kuribo->mScaleFactorYSpeed = MUL_FIXED12_NO_ROUND(kart->mVelocityLength, 0x52);
                 }
             }
             break;
@@ -228,20 +228,20 @@ u32 func_020da73c(Kuribo *kuribo, Kart *kart, u8 *b, u8 *c) {
                 kuribo->mMapObject.mStateMachine.mNextStateRequested = 1;
                 StartSoundFullVolumeWrapper(&kart->mSoundSource, 0x185);
                 StartSoundIfKartStarOrKiller(&kuribo->mMapObject, kart);
-                func_020da820(kuribo, &kart->mVelocity);
+                StartItemKinokoFromKuribo(kuribo, &kart->mVelocity);
                 kuribo->mMapObject.mFlags = kuribo->mMapObject.mFlags | data_02158160;
             }
             break;
     }
-    return *c;
+    return *secondResponsePtr;
 }
 
-u32 func_020da684(Kuribo *kuribo, Kart *kart, u8 *b, u8 *c) {
-    switch (*b) {
+u32 CollideItemObjectWithKuribo(Kuribo *kuribo, Kart *itemObject, u8 *firstResponsePtr, u8 *secondResponsePtr) {
+    switch (*firstResponsePtr) {
         case 0:
             if (kuribo->mScaleFactorY == 0x1000) {
-                if (kuribo->mUnk_c8 == 0) {
-                    kuribo->mUnk_c8 = 0x19a;
+                if (kuribo->mScaleFactorYSpeed == 0) {
+                    kuribo->mScaleFactorYSpeed = 0x19a;
                 }
             }
             break;
@@ -250,18 +250,18 @@ u32 func_020da684(Kuribo *kuribo, Kart *kart, u8 *b, u8 *c) {
                 kuribo->mMapObject.mStateMachine.mState == 1) {
                 kuribo->mMapObject.mStateMachine.mNextState = 2;
                 kuribo->mMapObject.mStateMachine.mNextStateRequested = 1;
-                func_020f8ddc(kart);
-                if (kart != NULL) {
-                    func_020da820(kuribo, &kart->mSignedTurnedForward);
+                func_020f8ddc(itemObject);
+                if (itemObject != NULL) {
+                    StartItemKinokoFromKuribo(kuribo, &itemObject->mSignedTurnedForward);
                 }
                 kuribo->mMapObject.mFlags = kuribo->mMapObject.mFlags | data_02158160;
             }
             break;
     }
-    return *c;
+    return *secondResponsePtr;
 }
 
-void func_020da628(Kuribo *kuribo) {
+void ResetKuriboForItemBomb(Kuribo *kuribo) {
     kuribo->mOrientationBlendAmount = 0x1000;
     kuribo->mOrientation = data_02158140;
     kuribo->mTargetOrientation = data_02158150;

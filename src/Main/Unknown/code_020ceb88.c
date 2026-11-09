@@ -10,7 +10,7 @@
 void UpdateBattleSelectRaceRule(void) {
     switch (AdvanceSelectRaceRule()) {
         case 1:
-            if (func_020cebe4() != 0) {
+            if (SelectRaceRuleGetMultiSimple() != 0) {
                 GetRaceSetupCopy()->mCourseListMode = 2;
             }
             if (GetRaceSetupCopy()->mCourseListMode == 2) {

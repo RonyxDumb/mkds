@@ -26,7 +26,7 @@ BOOL DoesMapObjectRespondToItemObject(MapObject *mapObject, ItemObject *itemObje
         kindRemainder -= 100;
         kindHundreds++;
     }
-    if (func_020d6d8c(0, itemKind, kindHundreds, kindRemainder) == 0 ||
+    if (GetItemObjectFirstResponseByKind(0, itemKind, kindHundreds, kindRemainder) == 0 ||
         GetItemObjectResponseByKind(0, itemKind, kindHundreds, kindRemainder, 3) != 2) {
         return FALSE;
     }

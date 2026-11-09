@@ -18,11 +18,11 @@
 #include "Main/Unknown/code_020c0d9c.h"
 #include "Main/Unknown/code_020cedf8.h"
 
-void func_020cedf8(void) {
-    ClearRaceHudSubScreenCells(&data_0217b484);
+void ClearRaceHudSubScreenPakkunSpitCells(void) {
+    ClearRaceHudSubScreenCells(&gRaceHudSubScreenPakkunSpitCells);
 }
 
-void func_020ced2c(void) {
+void UpdateRaceHudSubScreenPakkunSpitCells(void) {
     s32 i;
     s32 cellCount;
     s32 raceHudSubScreenScale;
@@ -30,20 +30,21 @@ void func_020ced2c(void) {
 
     cellCount = 0;
     raceHudSubScreenScale = GetRaceHudSubScreenScale();
-    for (i = 0; i < data_0217b484->mObjectCount; i++) {
-        object = data_0217b484->mObjects[i];
+    for (i = 0; i < gRaceHudSubScreenPakkunSpitCells->mObjectCount; i++) {
+        object = gRaceHudSubScreenPakkunSpitCells->mObjects[i];
         if ((object->mFlags & 1) == 0) {
-            if (ComputeRaceHudSubScreenPosition(&object->mPos, &data_0217b484->mCells[cellCount].mDrawPos,
+            if (ComputeRaceHudSubScreenPosition(&object->mPos,
+                                                &gRaceHudSubScreenPakkunSpitCells->mCells[cellCount].mDrawPos,
                                                 raceHudSubScreenScale, 1, 1) != FALSE) {
-                data_0217b484->mCells[cellCount].mCell = GetRaceSNcerEntry(0xa4);
-                data_0217b484->mCells[cellCount].mUnk_0c = 2;
+                gRaceHudSubScreenPakkunSpitCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xa4);
+                gRaceHudSubScreenPakkunSpitCells->mCells[cellCount].mUnk_0c = 2;
                 cellCount++;
             }
         }
     }
-    data_0217b484->mCellCount = cellCount;
+    gRaceHudSubScreenPakkunSpitCells->mCellCount = cellCount;
 }
 
-void func_020ced10(RaceHudOamBuffer *oamBuffer) {
-    DrawRaceHudSubScreenCells(oamBuffer, data_0217b484, 0);
+void DrawRaceHudSubScreenPakkunSpitCells(RaceHudOamBuffer *oamBuffer) {
+    DrawRaceHudSubScreenCells(oamBuffer, gRaceHudSubScreenPakkunSpitCells, 0);
 }

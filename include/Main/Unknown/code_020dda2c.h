@@ -4,4 +4,4 @@
 
 typedef struct WanwanChain WanwanChain;
 
-void func_020dda2c(WanwanChain *chain);
+void ClearWanwanChainFirstLinkFlag(WanwanChain *chain);

@@ -72,11 +72,11 @@ void ResetRockWithEffects(RockObject *rock, s32 wasHit) {
             secondEmitterParams.mUnk_06 = data_02156930[baseRow] + MUL_FIXED12_NO_ROUND(c, scaleY);
             secondEmitterParams.mUnk_08 = data_02156938[baseRow] + MUL_FIXED12_NO_ROUND(d, scaleY);
             if (rock->mMapObject.mKind == 0x192) {
-                StartEffectWithCallback(0x54, &rock->mMapObject.mPos, &firstEmitterParams, func_020d6538);
-                StartEffectWithCallback(0x57, &rock->mMapObject.mPos, &secondEmitterParams, func_020d6538);
+                StartEffectWithCallback(0x54, &rock->mMapObject.mPos, &firstEmitterParams, CopyEmitterParams);
+                StartEffectWithCallback(0x57, &rock->mMapObject.mPos, &secondEmitterParams, CopyEmitterParams);
             } else {
-                StartEffectWithCallback(0x56, &rock->mMapObject.mPos, &firstEmitterParams, func_020d6538);
-                StartEffectWithCallback(0x55, &rock->mMapObject.mPos, &secondEmitterParams, func_020d6538);
+                StartEffectWithCallback(0x56, &rock->mMapObject.mPos, &firstEmitterParams, CopyEmitterParams);
+                StartEffectWithCallback(0x55, &rock->mMapObject.mPos, &secondEmitterParams, CopyEmitterParams);
             }
         }
     }
@@ -261,7 +261,7 @@ void InitRock(RockObject *rock, struct CourseMapRow *courseRow) {
     s32 rowValue;
     float scaledValue;
 
-    func_020d7d4c(&rock->mUnk_0a4, courseRow, 0x3000, courseRow->mUnk_2a);
+    InitGroupFollowerWithSpeeds(&rock->mUnk_0a4, courseRow, 0x3000, courseRow->mUnk_2a);
     rock->mUnk_0dc = courseRow->mUnk_28;
     rock->mSideVectors = CreateCourseMapGroupSideVectors(courseRow);
     startEntry = GetCourseMapGroupEntry(courseRow->mUnk_26, 0);

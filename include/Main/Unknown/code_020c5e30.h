@@ -17,20 +17,20 @@ typedef struct RaceNewRecordTa {
     /* 10 */ s32 mBestLapIsRecord;
     /* 14 */ u16 mBestLapNumber;
     /* 16 */ u8 mUnk_16[2];
-    /* 18 */ s32 mUnk_18;
+    /* 18 */ s32 mSaving;
     // The course's six time records, copied from the save by InitRaceNewRecordTa (GetCourseTimeRecord): slots 0..4 are
     // the ranked list (an insert shifts them down and writes through SetCourseTimeRecord), slot 5 is a further record
     // shown in a sixth row: the best lap time.
     /* 1c */ TimeRecord mRecords[6];
-    /* dc */ s32 mUnk_dc;
+    /* dc */ s32 mRunning;
     // X of the whole page: -0x100 at allocation, eased to 0 over 0x14 frames by SlideInRaceNewRecordTa, added to every
     // sprite and row x in the draw.
     /* e0 */ s32 mOffsetX;
     /* e4 */ s32 mCycleFrames;
 } RaceNewRecordTa;
 
-s32 func_020c70bc(void);
-s32 func_020c70a0(void);
+BOOL IsRaceNewRecordTaSaving(void);
+BOOL IsRaceNewRecordTaRunning(void);
 void InitRaceNewRecordTa(void);
 void ClearRaceNewRecordTaPointer(void);
 void UpdateRaceNewRecordTa(void);

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_020cebe4(void);
+u32 SelectRaceRuleGetMultiSimple(void);

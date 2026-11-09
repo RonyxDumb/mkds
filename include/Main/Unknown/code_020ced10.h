@@ -4,5 +4,5 @@
 
 typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 
-void func_020ced10(RaceHudOamBuffer *oamBuffer);
-void func_020ced2c(void);
+void DrawRaceHudSubScreenPakkunSpitCells(RaceHudOamBuffer *oamBuffer);
+void UpdateRaceHudSubScreenPakkunSpitCells(void);

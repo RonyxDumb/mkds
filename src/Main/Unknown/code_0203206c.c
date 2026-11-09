@@ -413,7 +413,7 @@ s32 AdvanceSelectGame(void) {
 void ReleaseSelectGame(void) {
     if (gSelectGame->mMode == 1) {
         RequestPlayerEntryListSetup();
-        if (data_021759d0->mUnk_1c_2 != 0) {
+        if (data_021759d0->mMultiSimple != 0) {
             FillShuffledIndices();
         }
     }

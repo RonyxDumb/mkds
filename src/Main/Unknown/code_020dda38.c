@@ -16,11 +16,11 @@
 #include "Main/Unknown/unk_0217b000.h"
 #include "Main/Unknown/code_020de204.h"
 
-u32 func_020de20c(u32 unused0, u32 unused1, u32 unused2, u32 bytePointer) {
+u32 CollideKartWithWanwanChain(u32 unused0, u32 unused1, u32 unused2, u32 bytePointer) {
     return (*OFFSET_PTR(const u8, bytePointer, 0));
 }
 
-u32 func_020de204(u32 unused0, u32 unused1, u32 unused2, u32 bytePointer) {
+u32 CollideItemObjectWithWanwanChain(u32 unused0, u32 unused1, u32 unused2, u32 bytePointer) {
     return (*OFFSET_PTR(const u8, bytePointer, 0));
 }
 
@@ -32,14 +32,14 @@ void ResetWanwanChainPoints(WanwanChainObject *chainObject) {
     Vec3 endPoint;
 
     wanwan = chainObject->mWanwan;
-    VEC_MultAdd(-wanwan->mUnk_f0, &wanwan->mUnk_00.mMatrix.mUnk_00[2], &wanwan->mUnk_00.mPos, &endPoint);
+    VEC_MultAdd(-wanwan->mUnk_f0, &wanwan->mMapObject.mMatrix.mUnk_00[2], &wanwan->mMapObject.mPos, &endPoint);
     startPoint = wanwan->mCenterPos;
     startPoint.y -= wanwan->mUnk_f0 >> 1;
     SetWanwanChainPointsEvenly(&chainObject->mChain, &startPoint, &endPoint);
     if (chainObject->mHasKui != FALSE) {
         return;
     }
-    func_020dda2c(&chainObject->mChain);
+    ClearWanwanChainFirstLinkFlag(&chainObject->mChain);
 }
 
 #pragma thumb on
@@ -60,21 +60,21 @@ void InitWanwanChainObject(WanwanChainObject *chainObject, void *unused, Wanwan 
     s32 d;
 
     chainObject->mPos = wanwan->mCenterPos;
-    chainObject->mHasKui = wanwan->mUnk_fc == 0;
+    chainObject->mHasKui = wanwan->mFollowsPath == 0;
     if (chainObject->mHasKui != FALSE) {
         d = wanwan->mMaxRadius;
     } else {
         d = 0x55000;
     }
     InitWanwanChain(&chainObject->mChain, &chainObject->mPos, &chainObject->mPos, d - wanwan->mUnk_f0,
-                    wanwan->mUnk_fc != 0 ? 4 : 7, 0x6000, &chainObject->mUnk_1c);
+                    wanwan->mFollowsPath != 0 ? 4 : 7, 0x6000, &chainObject->mUnk_1c);
     if (chainObject->mHasKui == FALSE) {
-        func_020dda2c(&chainObject->mChain);
+        ClearWanwanChainFirstLinkFlag(&chainObject->mChain);
         chainObject->mChain.mDownwardStep -= 0xcd;
-        chainObject->mChain.mUnk_10 -= 0x3d;
-        chainObject->mChain.mUnk_14.x += 0x52;
-        chainObject->mChain.mUnk_14.y += 0x35c;
-        chainObject->mChain.mUnk_14.z += 0x52;
+        chainObject->mChain.mDamping -= 0x3d;
+        chainObject->mChain.mPullScale.x += 0x52;
+        chainObject->mChain.mPullScale.y += 0x35c;
+        chainObject->mChain.mPullScale.z += 0x52;
         chainObject->mChain.mMinY = 0;
         chainObject->mUnk_02 |= data_021583d4;
     }
@@ -113,8 +113,8 @@ void UpdateWanwanChainPoints(WanwanChain *chain, Vec3 *endPoint, Vec3 *unused) {
     minY = chain->mMinY;
     points = chain->mPoints;
     downwardStep = chain->mDownwardStep;
-    damping = chain->mUnk_10;
-    pullScale = chain->mUnk_14;
+    damping = chain->mDamping;
+    pullScale = chain->mPullScale;
     reversePointIndex = pointCount - 1;
     for (pointIndex = 1; pointIndex < pointCount; pointIndex++) {
         velocities[pointIndex].y -= downwardStep;
@@ -151,7 +151,7 @@ void UpdateWanwanChainPoints(WanwanChain *chain, Vec3 *endPoint, Vec3 *unused) {
         }
         current--;
     }
-    if (chain->mUnk_08 != 0) {
+    if (chain->mFirstLinkConstrained != 0) {
         pullIndex = 1;
     } else {
         pullIndex = 2;
@@ -181,7 +181,7 @@ void UpdateWanwanChainPoints(WanwanChain *chain, Vec3 *endPoint, Vec3 *unused) {
     }
 }
 
-void DrawWanwanChainLinks(WanwanChain *chain, NsbmdModel *model, s32 unused, u16 e) {
+void DrawWanwanChainLinks(WanwanChain *chain, NsbmdModel *model, s32 unused, u16 maxAlpha) {
     s32 pointIndex;
     u32 polygonId;
 
@@ -191,16 +191,16 @@ void DrawWanwanChainLinks(WanwanChain *chain, NsbmdModel *model, s32 unused, u16
         model->mPolygonAttributes &= ~0x3f000000;
         model->mPolygonAttributes |= polygonId << 24;
         DrawNsbmdModelWithMatrixAndMaxAlpha(model, SetViewTransposeMatrixPos(&chain->mPoints[pointIndex]),
-                                            &chain->mUnk_34, 1, e);
+                                            &chain->mModelScale, 1, maxAlpha);
     }
 }
 
-void DrawWanwanChainKui(WanwanChain *chain, NsbmdModel *model, Vec3 *position, s32 unused, u16 e) {
+void DrawWanwanChainKui(WanwanChain *chain, NsbmdModel *model, Vec3 *position, s32 unused, u16 maxAlpha) {
     u32 polygonId;
 
     QueueNsbmdModelMaterial(model);
     polygonId = AllocPolygonIdWrapping();
     model->mPolygonAttributes &= ~0x3f000000;
     model->mPolygonAttributes |= polygonId << 24;
-    DrawNsbmdModelWithMatrixAndMaxAlpha(model, SetViewRotatedMatrixPos(position), &chain->mUnk_34, 1, e);
+    DrawNsbmdModelWithMatrixAndMaxAlpha(model, SetViewRotatedMatrixPos(position), &chain->mModelScale, 1, maxAlpha);
 }

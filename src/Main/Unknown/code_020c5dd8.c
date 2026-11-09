@@ -44,12 +44,12 @@ u32 GetRaceNewRecordTaBestLapNumber(void) {
     return (gRaceNewRecordTa->mBestLapNumber);
 }
 
-s32 func_020c70bc(void) {
-    return gRaceNewRecordTa != NULL ? gRaceNewRecordTa->mUnk_18 : 0;
+BOOL IsRaceNewRecordTaSaving(void) {
+    return gRaceNewRecordTa != NULL ? gRaceNewRecordTa->mSaving : 0;
 }
 
-s32 func_020c70a0(void) {
-    return gRaceNewRecordTa != NULL ? gRaceNewRecordTa->mUnk_dc : 0;
+BOOL IsRaceNewRecordTaRunning(void) {
+    return gRaceNewRecordTa != NULL ? gRaceNewRecordTa->mRunning : 0;
 }
 
 void InitRaceNewRecordTa(void) {
@@ -65,12 +65,12 @@ void InitRaceNewRecordTa(void) {
     gRaceNewRecordTa->mFinishRecordIndex = -1;
     gRaceNewRecordTa->mBestLapIsRecord = 0;
     gRaceNewRecordTa->mBestLapNumber = 0;
-    gRaceNewRecordTa->mUnk_18 = 0;
+    gRaceNewRecordTa->mSaving = 0;
     for (i = 0; i < 6; i++) {
         GetCourseTimeRecord(gRaceSetup->mCourseId, i, &gRaceNewRecordTa->mRecords[i]);
     }
-    gRaceNewRecordTa->mUnk_18 = 0;
-    gRaceNewRecordTa->mUnk_dc = 0;
+    gRaceNewRecordTa->mSaving = 0;
+    gRaceNewRecordTa->mRunning = 0;
     gRaceNewRecordTa->mOffsetX = -0x100;
     gRaceNewRecordTa->mCycleFrames = 0;
 }
@@ -372,7 +372,7 @@ void StartRaceNewRecordTa(void) {
         gRaceNewRecordTa->mFinishTimeIsRecord = TryStoreRaceNewRecordTaFinishTime(1);
         gRaceNewRecordTa->mBestLapIsRecord = TryStoreRaceNewRecordTaBestLap(1);
         if (gRaceNewRecordTa->mFinishTimeIsRecord != 0 || gRaceNewRecordTa->mBestLapIsRecord != 0) {
-            gRaceNewRecordTa->mUnk_18 = 1;
+            gRaceNewRecordTa->mSaving = 1;
             WriteBackupCourseTimeRecords();
             gRaceNewRecordTa->mUpdate = StoreRaceNewRecordTaGhost;
             gRaceNewRecordTa->mUpdateFrames = 0;
@@ -396,7 +396,7 @@ void StartRaceNewRecordTa(void) {
                 }
             }
             if (r != FALSE) {
-                gRaceNewRecordTa->mUnk_18 = 1;
+                gRaceNewRecordTa->mSaving = 1;
                 FillAndWriteCourseGhostRecord(gRaceSetup->mCourseId, gRaceSetup->mEntryIndex);
                 gRaceNewRecordTa->mUpdate = AdvanceRaceNewRecordTaAfterSave;
                 gRaceNewRecordTa->mUpdateFrames = 0;
@@ -433,7 +433,7 @@ void StartRaceNewRecordTa(void) {
         gRaceNewRecordTa->mUpdate = SlideInRaceNewRecordTa;
         gRaceNewRecordTa->mUpdateFrames = 0;
     }
-    gRaceNewRecordTa->mUnk_dc = 1;
+    gRaceNewRecordTa->mRunning = 1;
 }
 
 void StoreRaceNewRecordTaGhost(void) {
@@ -470,12 +470,12 @@ void StoreRaceNewRecordTaGhost(void) {
         }
     }
     if (storeGhost != FALSE) {
-        gRaceNewRecordTa->mUnk_18 = 1;
+        gRaceNewRecordTa->mSaving = 1;
         FillAndWriteCourseGhostRecord(gRaceSetup->mCourseId, gRaceSetup->mEntryIndex);
         gRaceNewRecordTa->mUpdate = AdvanceRaceNewRecordTaAfterSave;
         gRaceNewRecordTa->mUpdateFrames = 0;
     } else {
-        gRaceNewRecordTa->mUnk_18 = 0;
+        gRaceNewRecordTa->mSaving = 0;
         gRaceNewRecordTa->mUpdate = ShowRaceNewRecordTaSubScreen;
         gRaceNewRecordTa->mUpdateFrames = 0;
     }
@@ -492,7 +492,7 @@ void AdvanceRaceNewRecordTaAfterSave(void) {
     if (waiting != 0) {
         return;
     }
-    gRaceNewRecordTa->mUnk_18 = 0;
+    gRaceNewRecordTa->mSaving = 0;
     gRaceNewRecordTa->mUpdate = ShowRaceNewRecordTaSubScreen;
     gRaceNewRecordTa->mUpdateFrames = 0;
 }
@@ -533,5 +533,5 @@ void HoldRaceNewRecordTa(void) {
 }
 
 void FinishRaceNewRecordTa(void) {
-    gRaceNewRecordTa->mUnk_dc = 0;
+    gRaceNewRecordTa->mRunning = 0;
 }

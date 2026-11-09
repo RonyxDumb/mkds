@@ -117,7 +117,7 @@ void BuildCourseList(s32 isVersus) {
     gRaceSetup->mNextHeader.mCourseNumber = 1;
     if (isVersus != 0) {
         gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_NORMAL;
-    } else if (data_021759d0->mUnk_1c_2) {
+    } else if (data_021759d0->mMultiSimple) {
         gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_NORMAL;
     } else {
         gRaceSetup->mNextHeader.mRaceKind = 4;
@@ -410,7 +410,7 @@ s32 AdvanceToNextCourse(void) {
     gRaceSetup->mNextHeader.mCourseNumber++;
     if (gRaceSetup->mUnk_3d4 > 1) {
         for (i = 0; i < gRaceSetup->mKartCount; i++) {
-            x = gRaceSetup->mCurrentEntries[i].mPlayer.mUnk_08;
+            x = gRaceSetup->mCurrentEntries[i].mPlayer.mListedCpuSlot;
             v = 3;
             if (x != 0) {
                 if (x == 1) {
@@ -419,7 +419,7 @@ s32 AdvanceToNextCourse(void) {
             } else {
                 v = 1;
             }
-            gRaceSetup->mNextEntries[i].mPlayer.mUnk_08 = v;
+            gRaceSetup->mNextEntries[i].mPlayer.mListedCpuSlot = v;
         }
     }
     switch (gRaceSetup->mCourseListMode) {
@@ -443,7 +443,7 @@ s32 func_02045914(void) {
 }
 
 s32 func_020458cc(void) {
-    if (data_021759d0->mUnk_1c_2) {
+    if (data_021759d0->mMultiSimple) {
         gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_NORMAL;
     } else {
         gRaceSetup->mNextHeader.mRaceKind = 4;

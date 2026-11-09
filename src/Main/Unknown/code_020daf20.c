@@ -81,50 +81,50 @@ Unk020dbe74 *CreateDossunUpdateList(void) {
 
 void DrawDossun(void *unused0, Dossun *dossun, void *unused1, s32 maxAlpha) {
     MtxFx43 *drawMatrix;
-    drawMatrix = &dossun->mUnk_00.mMatrix;
+    drawMatrix = &dossun->mMapObject.mMatrix;
     if (dossun->mUnk_b4 != 0) {
         drawMatrix = &gDossunDrawMatrix;
-        MTX_RotY33_(&gDossunDrawMatrix.mUnk_00_m, gPairsByAngle[((u16) dossun->mUnk_ba >> 4) * 2],
-                    gPairsByAngle[((u16) dossun->mUnk_ba >> 4) * 2 + 1]);
-        MTX_Concat33(&gDossunDrawMatrix.mUnk_00_m, &dossun->mUnk_00.mMatrix.mUnk_00_m, &gDossunDrawMatrix.mUnk_00_m);
+        MTX_RotY33_(&gDossunDrawMatrix.mUnk_00_m, gPairsByAngle[((u16) dossun->mSpinAngle >> 4) * 2],
+                    gPairsByAngle[((u16) dossun->mSpinAngle >> 4) * 2 + 1]);
+        MTX_Concat33(&gDossunDrawMatrix.mUnk_00_m, &dossun->mMapObject.mMatrix.mUnk_00_m, &gDossunDrawMatrix.mUnk_00_m);
     }
-    drawMatrix->mUnk_00[3].x = dossun->mUnk_00.mPos.x >> 4;
-    drawMatrix->mUnk_00[3].y = dossun->mUnk_00.mPos.y >> 4;
-    drawMatrix->mUnk_00[3].z = dossun->mUnk_00.mPos.z >> 4;
-    DrawNsbmdWithMatrixAndMaxAlpha(gDossun, drawMatrix, &dossun->mUnk_00.mScale, maxAlpha);
-    DrawShadowWithMaxAlpha(gDossunShadow, drawMatrix, &dossun->mUnk_00.mScale, maxAlpha);
+    drawMatrix->mUnk_00[3].x = dossun->mMapObject.mPos.x >> 4;
+    drawMatrix->mUnk_00[3].y = dossun->mMapObject.mPos.y >> 4;
+    drawMatrix->mUnk_00[3].z = dossun->mMapObject.mPos.z >> 4;
+    DrawNsbmdWithMatrixAndMaxAlpha(gDossun, drawMatrix, &dossun->mMapObject.mScale, maxAlpha);
+    DrawShadowWithMaxAlpha(gDossunShadow, drawMatrix, &dossun->mMapObject.mScale, maxAlpha);
 }
 
 void UpdateDossun(void *unused, Dossun *dossun) {
     SoundStartParams soundRequest;
     GroupFollower *follower;
     CourseMapGroupEntry *fromEntry;
-    s32 n;
+    s32 stateValue;
     s32 speed;
     s32 t;
     s32 sine;
     dossun->mEnteredState5 = FALSE;
     follower = &dossun->mFollower;
     if (dossun->mUnk_b4 != 0) {
-        dossun->mUnk_ba += dossun->mUnk_b8;
-        n = dossun->mUnk_b8;
-        if (n > 0x3e8 || n < -0x3e8) {
+        dossun->mSpinAngle += dossun->mSpinSpeed;
+        stateValue = dossun->mSpinSpeed;
+        if (stateValue > 0x3e8 || stateValue < -0x3e8) {
             if (dossun->mState < 4) {
-                dossun->mUnk_b8 = (n * 0xfa00) >> 16;
+                dossun->mSpinSpeed = (stateValue * 0xfa00) >> 16;
             } else {
-                dossun->mUnk_b8 = (n * 0xf80c) >> 16;
+                dossun->mSpinSpeed = (stateValue * 0xf80c) >> 16;
             }
         } else if (dossun->mUnk_b4 == 2) {
-            if (n * dossun->mUnk_ba <= 0) {
+            if (stateValue * dossun->mSpinAngle <= 0) {
                 return;
             }
-            if (n * n <= dossun->mUnk_ba * dossun->mUnk_ba) {
+            if (stateValue * stateValue <= dossun->mSpinAngle * dossun->mSpinAngle) {
                 return;
             }
-            dossun->mUnk_b8 = 0;
-            dossun->mUnk_ba = dossun->mUnk_b8;
+            dossun->mSpinSpeed = 0;
+            dossun->mSpinAngle = dossun->mSpinSpeed;
             dossun->mUnk_b4 = 0;
-            dossun->mUnk_c0 = 0;
+            dossun->mKartMask = 0;
             dossun->mTimer = 0x1e;
             dossun->mState = 0;
             return;
@@ -149,8 +149,8 @@ void UpdateDossun(void *unused, Dossun *dossun) {
             }
         }
         if (AdvanceGroupFollower(follower) != FALSE) {
-            dossun->mUnk_00.mPos = follower->mFromEntry->mPos;
-            dossun->mUnk_00.mPos.y += dossun->mHeightOffset;
+            dossun->mMapObject.mPos = follower->mFromEntry->mPos;
+            dossun->mMapObject.mPos.y += dossun->mHeightOffset;
             if (follower->mForward != 0) {
                 follower->mProgress = 0;
             } else {
@@ -160,8 +160,8 @@ void UpdateDossun(void *unused, Dossun *dossun) {
             dossun->mUnk_b4 = 2;
             return;
         }
-        GetGroupFollowerLinearPosition(follower, &dossun->mUnk_00.mPos);
-        dossun->mUnk_00.mPos.y += dossun->mHeightOffset;
+        GetGroupFollowerLinearPosition(follower, &dossun->mMapObject.mPos);
+        dossun->mMapObject.mPos.y += dossun->mHeightOffset;
         return;
     }
     switch (dossun->mState) {
@@ -178,7 +178,7 @@ void UpdateDossun(void *unused, Dossun *dossun) {
             return;
         case 1:
             if (dossun->mUnk_f0 != 0) {
-                StartMapObjectSoundWhileRequested(&dossun->mUnk_00, 0x18b);
+                StartMapObjectSoundWhileRequested(&dossun->mMapObject, 0x18b);
             }
             break;
         case 2:
@@ -189,14 +189,14 @@ void UpdateDossun(void *unused, Dossun *dossun) {
                 return;
             }
             dossun->mUnk_c2 += 0x1555;
-            dossun->mUnk_00.mPos.y = dossun->mUnk_ac;
+            dossun->mMapObject.mPos.y = dossun->mUnk_ac;
             sine = gPairsByAngle[(dossun->mUnk_c2 >> 4) * 2];
-            dossun->mUnk_00.mPos.y += MUL_FIXED12_NO_ROUND(sine, dossun->mUnk_c4);
+            dossun->mMapObject.mPos.y += MUL_FIXED12_NO_ROUND(sine, dossun->mUnk_c4);
             return;
         case 3:
             dossun->mUnk_a8 += dossun->mUnk_104;
-            dossun->mUnk_00.mPos.y -= dossun->mUnk_a8;
-            if (dossun->mUnk_00.mPos.y < dossun->mUnk_ac) {
+            dossun->mMapObject.mPos.y -= dossun->mUnk_a8;
+            if (dossun->mMapObject.mPos.y < dossun->mUnk_ac) {
                 dossun->mState++;
             }
             return;
@@ -226,41 +226,41 @@ void UpdateDossun(void *unused, Dossun *dossun) {
     if (AdvanceGroupFollower(follower) != FALSE) {
         switch (follower->mFromEntry->mUnk_10) {
             case 0:
-                n = 0;
+                stateValue = 0;
                 break;
             case 1:
-                n = 2;
+                stateValue = 2;
                 break;
             case 2:
-                n = 5;
+                stateValue = 5;
                 break;
             default:
-                n = 0;
+                stateValue = 0;
                 break;
         }
-        dossun->mState = n;
+        dossun->mState = stateValue;
         if (dossun->mState == 2) {
-            dossun->mUnk_ac = dossun->mUnk_00.mPos.y;
+            dossun->mUnk_ac = dossun->mMapObject.mPos.y;
             dossun->mUnk_c2 = 0;
         }
         if (dossun->mState == 5) {
             fromEntry = follower->mFromEntry;
-            if (IsMapObjectOutOfRange(&dossun->mUnk_00) == FALSE) {
-                if (dossun->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
-                    n = 2;
-                } else if (dossun->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
-                    n = 3;
+            if (IsMapObjectOutOfRange(&dossun->mMapObject) == FALSE) {
+                if (dossun->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+                    stateValue = 2;
+                } else if (dossun->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                    stateValue = 3;
                 } else {
-                    n = 4;
+                    stateValue = 4;
                 }
                 soundRequest.mSoundId = 0x166;
-                soundRequest.mPositionSource = &dossun->mUnk_00.mPos;
-                soundRequest.mFalloffIndex = n;
-                soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&dossun->mUnk_00.mPos);
+                soundRequest.mPositionSource = &dossun->mMapObject.mPos;
+                soundRequest.mFalloffIndex = stateValue;
+                soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&dossun->mMapObject.mPos);
                 StartSoundFromParams(&soundRequest);
             }
-            StartCameraWobbleAtDistance(dossun->mUnk_00.mDistanceSquaredAndFlags & ~0xc000001f, 0x1000);
-            if ((dossun->mUnk_00.mDistanceSquaredAndFlags & 3) == 0) {
+            StartCameraWobbleAtDistance(dossun->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f, 0x1000);
+            if ((dossun->mMapObject.mDistanceSquaredAndFlags & 3) == 0) {
                 StartEffect(0x59, &fromEntry->mPos);
                 StartEffect(0x5a, &fromEntry->mPos);
             }
@@ -268,30 +268,30 @@ void UpdateDossun(void *unused, Dossun *dossun) {
         }
         dossun->mTimer = follower->mFromEntry->mUnk_0e;
         if (dossun->mTimer != 0) {
-            dossun->mUnk_00.mPos = follower->mPath->mSegments[follower->mSegmentIndex].mPoints[0];
-            dossun->mUnk_00.mPos.y += dossun->mHeightOffset;
+            dossun->mMapObject.mPos = follower->mPath->mSegments[follower->mSegmentIndex].mPoints[0];
+            dossun->mMapObject.mPos.y += dossun->mHeightOffset;
             follower->mProgress = 0;
             return;
         }
     }
-    GetGroupFollowerLinearPosition(follower, &dossun->mUnk_00.mPos);
-    dossun->mUnk_00.mPos.y += dossun->mHeightOffset;
+    GetGroupFollowerLinearPosition(follower, &dossun->mMapObject.mPos);
+    dossun->mMapObject.mPos.y += dossun->mHeightOffset;
 }
 
-u32 CollideKartWithDossun(Dossun *dossun, Kart *kart, u8 *b, u8 *c) {
+u32 CollideKartWithDossun(Dossun *dossun, Kart *kart, u8 *firstResponsePtr, u8 *secondResponsePtr) {
     Vec3 kartOffset;
     Vec3 toNextEntry;
     Vec3 centerOffset;
     GroupFollower *follower;
     s32 speed;
-    s64 m;
+    s64 verticalScaledSquared;
     s32 verticalOffset;
-    s64 n;
+    s64 horizontalScaledSquared;
     follower = &dossun->mFollower;
-    if (*b == 1) {
-        if ((dossun->mUnk_c0 & (1 << kart->mIndex)) == 0 || dossun->mUnk_bc + 0xf < GetRaceUpdateFrames()) {
-            VEC_Subtract(&kart->mCollisionCenter, &dossun->mUnk_00.mPos, &kartOffset);
-            VEC_Subtract(&follower->mToEntry->mPos, &dossun->mUnk_00.mPos, &toNextEntry);
+    if (*firstResponsePtr == 1) {
+        if ((dossun->mKartMask & (1 << kart->mIndex)) == 0 || dossun->mLastHitFrame + 0xf < GetRaceUpdateFrames()) {
+            VEC_Subtract(&kart->mCollisionCenter, &dossun->mMapObject.mPos, &kartOffset);
+            VEC_Subtract(&follower->mToEntry->mPos, &dossun->mMapObject.mPos, &toNextEntry);
             toNextEntry.y += dossun->mHeightOffset;
             if (Vec3DotUnrounded(&kartOffset, &toNextEntry) > 0) {
                 ReverseGroupFollower(follower);
@@ -301,33 +301,33 @@ u32 CollideKartWithDossun(Dossun *dossun, Kart *kart, u8 *b, u8 *c) {
             } else {
                 speed = 0x8000;
             }
-            speed = speed - MUL_FIXED12_NO_ROUND(0x1000 - dossun->mUnk_00.mScale.y, 0x2000);
+            speed = speed - MUL_FIXED12_NO_ROUND(0x1000 - dossun->mMapObject.mScale.y, 0x2000);
             follower->mSpeed = speed;
             follower->mProgressStep =
                 MUL_FIXED12_NO_ROUND(speed, follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength);
             dossun->mUnk_b4 = 1;
-            dossun->mUnk_b8 = 0x1b58;
+            dossun->mSpinSpeed = 0x1b58;
             if ((s64) kartOffset.z * kart->mVelocity.x - (s64) kartOffset.x * kart->mVelocity.z < 0) {
-                dossun->mUnk_b8 = -dossun->mUnk_b8;
+                dossun->mSpinSpeed = -dossun->mSpinSpeed;
             }
-            StartSoundIfKartStarOrKiller(&dossun->mUnk_00, kart);
-            dossun->mUnk_c0 |= 1 << kart->mIndex;
-            dossun->mUnk_bc = GetRaceUpdateFrames();
+            StartSoundIfKartStarOrKiller(&dossun->mMapObject, kart);
+            dossun->mKartMask |= 1 << kart->mIndex;
+            dossun->mLastHitFrame = GetRaceUpdateFrames();
         }
     }
     if (dossun->mState == 4 || dossun->mEnteredState5 != FALSE) {
-        VEC_Subtract(&kart->mCollisionCenter, &dossun->mUnk_00.mPos, &centerOffset);
-        n = ((s64) centerOffset.x * centerOffset.x + (s64) centerOffset.z * centerOffset.z) * 5;
+        VEC_Subtract(&kart->mCollisionCenter, &dossun->mMapObject.mPos, &centerOffset);
+        horizontalScaledSquared = ((s64) centerOffset.x * centerOffset.x + (s64) centerOffset.z * centerOffset.z) * 5;
         verticalOffset = centerOffset.y;
-        m = ((s64) verticalOffset * verticalOffset) << 2;
-        if (verticalOffset < 0 && n < m) {
-            return GetKartMapObjectResponseByKind(dossun->mUnk_00.mFlags & 0x800, kart->mItemEffect, 4, 4);
+        verticalScaledSquared = ((s64) verticalOffset * verticalOffset) << 2;
+        if (verticalOffset < 0 && horizontalScaledSquared < verticalScaledSquared) {
+            return GetKartMapObjectResponseByKind(dossun->mMapObject.mFlags & 0x800, kart->mItemEffect, 4, 4);
         }
     }
-    return *c;
+    return *secondResponsePtr;
 }
 
-s32 func_020db4c4(Dossun *dossun) {
+s32 GetDossunMapDotOffset(Dossun *dossun) {
     s32 progress;
     s32 state;
     progress = GetGroupFollowerProgress(&dossun->mFollower);
@@ -359,13 +359,13 @@ s32 func_020db4c4(Dossun *dossun) {
 }
 
 #pragma thumb on
-void func_020db430(Dossun *dossun) {
+void SetupDossunAtStartEntry(Dossun *dossun) {
     GroupFollower *follower;
     s32 state;
     follower = &dossun->mFollower;
     SetupGroupFollowerAtEntry(follower, dossun->mStartEntryIndex, 1);
-    GetGroupFollowerLinearPosition(follower, &dossun->mUnk_00.mPos);
-    dossun->mUnk_00.mPos.y += dossun->mHeightOffset;
+    GetGroupFollowerLinearPosition(follower, &dossun->mMapObject.mPos);
+    dossun->mMapObject.mPos.y += dossun->mHeightOffset;
     switch (follower->mFromEntry->mUnk_10) {
         case 0:
             state = 0;
@@ -383,10 +383,10 @@ void func_020db430(Dossun *dossun) {
     dossun->mState = state;
     dossun->mTimer = follower->mFromEntry->mUnk_0e;
     dossun->mUnk_b4 = 0;
-    dossun->mUnk_ba = 0;
-    dossun->mUnk_b8 = dossun->mUnk_ba;
-    dossun->mUnk_c0 = 0;
-    dossun->mUnk_ac = dossun->mUnk_00.mPos.y;
+    dossun->mSpinAngle = 0;
+    dossun->mSpinSpeed = dossun->mSpinAngle;
+    dossun->mKartMask = 0;
+    dossun->mUnk_ac = dossun->mMapObject.mPos.y;
     dossun->mEnteredState5 = FALSE;
 }
 #pragma thumb off
@@ -404,18 +404,18 @@ void InitDossun(Dossun *dossun, CourseMapRow *row) {
     dossun->mUnk_f0 = row->mUnk_28;
     InitGroupFollower(&dossun->mFollower, row, dossun->mUnk_f0 != 0 ? 0xc00 : 0x3000);
     dossun->mStartEntryIndex = row->mUnk_2a;
-    dossun->mUnk_f4 = MUL_FIXED12_NO_ROUND(dossun->mUnk_00.mScale.x, 0x28000);
-    dossun->mHeightOffset = MUL_FIXED12_NO_ROUND(dossun->mUnk_00.mScale.y, 0x2d000);
-    dossun->mUnk_fc = MUL_FIXED12_NO_ROUND(dossun->mUnk_00.mScale.z, 0x1e000);
-    dossun->mUnk_100 = MUL_FIXED12_NO_ROUND(dossun->mUnk_00.mScale.y, 0xf000);
-    dossun->mUnk_104 = MUL_FIXED12_NO_ROUND(dossun->mUnk_00.mScale.y, 0x1000);
-    dossun->mUnk_108 = MUL_FIXED12_NO_ROUND(dossun->mUnk_00.mScale.y, 0x2000);
-    dossun->mUnk_c4 = MUL_FIXED12_NO_ROUND(dossun->mUnk_00.mScale.y, 0x3000);
-    func_020db430(dossun);
+    dossun->mUnk_f4 = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.x, 0x28000);
+    dossun->mHeightOffset = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0x2d000);
+    dossun->mUnk_fc = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.z, 0x1e000);
+    dossun->mUnk_100 = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0xf000);
+    dossun->mUnk_104 = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0x1000);
+    dossun->mUnk_108 = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0x2000);
+    dossun->mUnk_c4 = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0x3000);
+    SetupDossunAtStartEntry(dossun);
     if (dossun->mUnk_f0 != 0) {
-        CreateMapObjectSoundSourceFalloff3(&dossun->mUnk_00);
+        CreateMapObjectSoundSourceFalloff3(&dossun->mMapObject);
     } else {
-        dossun->mUnk_00.mFarDistanceSquared = gSoundFalloffs[3].mUnk_20;
+        dossun->mMapObject.mFarDistanceSquared = gSoundFalloffs[3].mUnk_20;
     }
 }
 #pragma thumb off
@@ -449,13 +449,13 @@ void SetupDrawKuribo(void) {
     QueueNsbmdModelMaterial(gKuribo);
 }
 
-void DrawKuribo(void *unused0, Kuribo *kuribo, void *unused1, u16 d) {
+void DrawKuribo(void *unused0, Kuribo *kuribo, void *unused1, u16 maxAlpha) {
     Vec3 scale;
     Quaternion orientation;
-    u16 e;
+    u16 modelAlpha;
     NsbmdModel *model;
     if (kuribo->mFollower.mGroupIndex == 0xffff) {
-        func_020d7938(&kuribo->mOrientation, &gViewYawQuaternion, &orientation);
+        QuaternionMultiplyByYawIgnoreY(&kuribo->mOrientation, &gViewYawQuaternion, &orientation);
         Matrix3x3FromQuaternion(&kuribo->mMapObject.mMatrix.mUnk_00_m, &orientation);
     } else {
         BuildMatrixFromYAxis(GetGroupFollowerSegmentUp(&kuribo->mFollower), &kuribo->mMapObject.mMatrix);
@@ -472,11 +472,11 @@ void DrawKuribo(void *unused0, Kuribo *kuribo, void *unused1, u16 d) {
         scale.x = -scale.x;
         gKuribo->mFrameIndex = kuribo->mFrameIndex - 0x14;
     }
-    e = kuribo->mModelAlpha;
+    modelAlpha = kuribo->mModelAlpha;
     model = gKuribo;
     model->mPolygonAttributes &= ~0x1f0000;
-    model->mPolygonAttributes |= e << 16;
-    DrawNsbmdModelWithMatrixAndMaxAlpha(gKuribo, &kuribo->mMapObject.mMatrix, &scale, 0, d);
+    model->mPolygonAttributes |= modelAlpha << 16;
+    DrawNsbmdModelWithMatrixAndMaxAlpha(gKuribo, &kuribo->mMapObject.mMatrix, &scale, 0, maxAlpha);
 }
 
 void UpdateKuribo(void *unused, Kuribo *kuribo) {

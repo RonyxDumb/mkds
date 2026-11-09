@@ -1051,7 +1051,7 @@ void UpdateRaceHudSubScreenDossunCells(void) {
                 gRaceHudSubScreenDossunCells->mCells[cellCount + 1].mCell = GetRaceSNcerEntry(0xb0);
                 gRaceHudSubScreenDossunCells->mCells[cellCount + 1].mUnk_0c = 2;
                 cellCount += 2;
-                offset = func_020db4c4((Dossun *) object) * 16 >> 12;
+                offset = GetDossunMapDotOffset((Dossun *) object) * 16 >> 12;
                 gRaceHudSubScreenDossunCells->mCells[cellCount - 2].mDrawPos.mUnk_04 -= offset;
             }
         }
