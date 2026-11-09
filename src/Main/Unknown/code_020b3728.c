@@ -186,7 +186,7 @@ void UpdateRaceEnd(void) {
         gRaceEnd->mResultsSet = TRUE;
     }
     followedKartIndex = GetFollowedKartOrEntryIndex();
-    if (gRaceProgress->mUnk_000[followedKartIndex].mStatus != 1 && gRaceProgress->mRaceDone == 0) {
+    if (gRaceProgress->mKarts[followedKartIndex].mStatus != 1 && gRaceProgress->mRaceDone == 0) {
         return;
     }
     a = gRaceEnd->mEndFrames;
@@ -202,7 +202,7 @@ void UpdateRaceEnd(void) {
                 case MODE_VS:
                 case 5:
                     if (raceSetup->mRuleKind != 1) {
-                        if (gRaceProgress->mUnk_000[GetFollowedKartOrEntryIndex()].mStatus == 1) {
+                        if (gRaceProgress->mKarts[GetFollowedKartOrEntryIndex()].mStatus == 1) {
                             SetStemSet(3);
                         }
                     }
@@ -232,7 +232,7 @@ void UpdateRaceEnd(void) {
                     if (IsRaceNewRecordTaFinishRecord() != 0 || IsRaceNewRecordTaBestLapRecord() != 0) {
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x44);
                     } else {
-                        followedKartStatus = gRaceProgress->mUnk_000[GetFollowedKartOrEntryIndex()].mStatus;
+                        followedKartStatus = gRaceProgress->mKarts[GetFollowedKartOrEntryIndex()].mStatus;
                         if (followedKartStatus == 3) {
                             NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x43);
                         } else {

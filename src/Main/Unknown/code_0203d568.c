@@ -211,7 +211,7 @@ void SetRaceProgressKartFinishRequest(u32 kartIndex, u32 b) {
     kart = &gRaceProgress->mKarts[kartIndex];
     finishRequest = b != 0 ? 1 : 2;
     kart->mUnk_3c = (kart->mUnk_3c & ~0x300) | ((finishRequest & 3) << 8);
-    if (gRaceProgress->mUnk_000[0].mFinishedCount + gRaceProgress->mUnk_000[0].mRemovedCount >=
+    if (gRaceProgress->mUnk_00_header.mFinishedCount + gRaceProgress->mUnk_00_header.mRemovedCount >=
         gRaceSetup->mKartCount) {
         FinishRaceProgress();
     }
@@ -351,13 +351,13 @@ void UpdateRaceProgressKarts(void) {
     }
     if (gRaceSetup->mKartCount > 1) {
         raceProgress = gRaceProgress;
-        notRemovedCount = gRaceSetup->mKartCount - raceProgress->mUnk_000[0].mRemovedCount;
-        finishedCount = raceProgress->mUnk_000[0].mFinishedCount;
+        notRemovedCount = gRaceSetup->mKartCount - raceProgress->mUnk_00_header.mRemovedCount;
+        finishedCount = raceProgress->mUnk_00_header.mFinishedCount;
         for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
-            rankIndex = raceProgress->mUnk_000[i].mUnk_50_0 - 1;
+            rankIndex = raceProgress->mKarts[i].mRank - 1;
             progressByRank[rankIndex] = progressByKart[i];
             kartByRank[rankIndex] = i;
-            lapByRank[rankIndex] = raceProgress->mUnk_000[(u32) i].mLap;
+            lapByRank[rankIndex] = raceProgress->mKarts[(u32) i].mLap;
         }
         for (i = finishedCount + 1; i < notRemovedCount; i++) {
             progressKey = progressByRank[i];
@@ -379,7 +379,7 @@ void UpdateRaceProgressKarts(void) {
                 gRaceProgress->mKarts[kartByRank[i]].mRank = i + 1;
             }
         }
-        gRaceProgress->mUnk_000[kartByRank[0]].mFirstPlaceFrames++;
+        gRaceProgress->mKarts[kartByRank[0]].mFirstPlaceFrames++;
         for (g = 0; g < (u32) gRaceSetup->mKartCount; g++) {
             gRaceProgress->mKartAtRank[g] = kartByRank[g];
         }
@@ -387,8 +387,8 @@ void UpdateRaceProgressKarts(void) {
             gRaceProgress->mKartAtRank[g] = -1;
         }
     } else {
-        gRaceProgress->mUnk_000[0].mUnk_50_0 = 1;
-        gRaceProgress->mUnk_000[0].mFirstPlaceFrames++;
+        gRaceProgress->mKarts[0].mRank = 1;
+        gRaceProgress->mKarts[0].mFirstPlaceFrames++;
         gRaceProgress->mKartAtRank[0] = 0;
         for (g = 1; g < 8; g++) {
             gRaceProgress->mKartAtRank[g] = -1;
@@ -456,19 +456,19 @@ void SetRankTimeFromRankTimeGp(RankTimeGp *rankTimeGp) {
     s32 entryIndex;
     RankTimeGpEntry *entry;
 
-    gRaceProgress->mUnk_000[0].mRankTime = 0;
+    gRaceProgress->mUnk_00_header.mRankTime = 0;
     for (entryIndex = 0; entryIndex < rankTimeGp->mEntryCount; entryIndex++) {
         entry = &rankTimeGp->mUnk_1c[entryIndex];
         if (entry->mCourseId == gRaceSetup->mCourseId) {
             switch (gRaceSetup->mEngineIndex) {
                 case 0:
-                    gRaceProgress->mUnk_000[0].mRankTime = entry->mUnk_02;
+                    gRaceProgress->mUnk_00_header.mRankTime = entry->mUnk_02;
                     return;
                 case 1:
-                    gRaceProgress->mUnk_000[0].mRankTime = entry->mUnk_04;
+                    gRaceProgress->mUnk_00_header.mRankTime = entry->mUnk_04;
                     return;
                 case 2:
-                    gRaceProgress->mUnk_000[0].mRankTime = entry->mUnk_06;
+                    gRaceProgress->mUnk_00_header.mRankTime = entry->mUnk_06;
                     break;
             }
             return;

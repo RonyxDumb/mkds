@@ -54,8 +54,8 @@ void RemoveRaceProgressKart(u16 a) {
         u32 v;
         s32 i;
         o = p->mRank;
-        v = (u16) (gRaceSetup->mKartCount - gRaceProgress->mUnk_000[0].mRemovedCount);
-        p->mRank = gRaceSetup->mKartCount - gRaceProgress->mUnk_000[0].mRemovedCount;
+        v = (u16) (gRaceSetup->mKartCount - gRaceProgress->mUnk_00_header.mRemovedCount);
+        p->mRank = gRaceSetup->mKartCount - gRaceProgress->mUnk_00_header.mRemovedCount;
         for (i = 0; i < gRaceSetup->mKartCount; i++) {
             RaceProgressKart *q = &gRaceProgress->mKarts[i];
             if (i != a) {
@@ -65,7 +65,7 @@ void RemoveRaceProgressKart(u16 a) {
                 }
             }
         }
-        gRaceProgress->mUnk_000[0].mRemovedCount++;
+        gRaceProgress->mUnk_00_header.mRemovedCount++;
     }
     if (gRaceSetup->mMode == MODE_BATTLE) {
         EliminateKartAndCheckWinner(a);
@@ -96,7 +96,7 @@ void RemoveRaceProgressKart(u16 a) {
 BOOL IsKartOnLastLap(u16 a) {
     BOOL f = FALSE;
     BOOL r;
-    switch (gRaceProgress->mUnk_000[a].mStatus) {
+    switch (gRaceProgress->mKarts[a].mStatus) {
         case 1:
         case 2:
         case 3:
@@ -105,7 +105,7 @@ BOOL IsKartOnLastLap(u16 a) {
     }
     r = f == FALSE;
     if (r != FALSE) {
-        r = GetLapCount() == gRaceProgress->mUnk_000[a].mLap;
+        r = GetLapCount() == gRaceProgress->mKarts[a].mLap;
     }
     return r != FALSE;
 }

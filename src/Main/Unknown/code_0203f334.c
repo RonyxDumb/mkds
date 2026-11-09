@@ -31,11 +31,11 @@ void UpdateRaceClock(void) {
     t = 0;
     p = gRaceProgress;
     q = p;
-    if (p->mUnk_000[0].mClockEnabled != 0) {
+    if (p->mUnk_00_header.mClockEnabled != 0) {
         h = p->mTimeLimitFrameCount;
         l = 0x57e40;
         f = FALSE;
-        e = p->mUnk_000[0].mElapsedFrames;
+        e = p->mUnk_00_header.mElapsedFrames;
         if (h != 0) {
             l = h;
             f = TRUE;
@@ -44,7 +44,7 @@ void UpdateRaceClock(void) {
             k = gParticipantKartMap->mKartOfParticipant[GetOwnParticipantIndex()];
             if (k >= 0) {
                 g = FALSE;
-                switch (gRaceProgress->mUnk_000[(u8) k].mStatus) {
+                switch (gRaceProgress->mKarts[(u8) k].mStatus) {
                     case 1:
                     case 2:
                     case 3:
@@ -80,13 +80,13 @@ void UpdateRaceClock(void) {
         } else if (f != FALSE) {
             t = 1;
         }
-        p->mUnk_000[0].mElapsedFrames = e;
+        p->mUnk_00_header.mElapsedFrames = e;
         for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
-            v = gRaceProgress->mUnk_000[i].mLapFrames;
+            v = gRaceProgress->mKarts[i].mLapFrames;
             if (v <= 0x57e40) {
                 v++;
             }
-            gRaceProgress->mUnk_000[i].mLapFrames = v;
+            gRaceProgress->mKarts[i].mLapFrames = v;
         }
         if (t != 0) {
             switch (gRaceSetup->mMode) {
@@ -100,7 +100,7 @@ void UpdateRaceClock(void) {
                 case MODE_BATTLE:
                     if (gRaceSetup->mBattleKind == BATTLE_KIND_SHINE) {
                         gRaceProgress->mTimeLimitFrameCount = func_020a1520() * 0x3c;
-                        p->mUnk_000[0].mElapsedFrames = 0;
+                        p->mUnk_00_header.mElapsedFrames = 0;
                     }
                     break;
             }
@@ -110,8 +110,8 @@ void UpdateRaceClock(void) {
         r->mValue = r->mMultiplier * r->mValue + r->mIncrement;
         t = -(s16) (u16) (r->mValue >> 32 >> 20);
     }
-    c = &q->mUnk_000[0].mUnk_08;
-    ComputeRaceTime((u8 *) c + 2, (u8 *) c + 3, c, t, p->mUnk_000[0].mElapsedFrames);
+    c = &q->mUnk_00_header.mUnk_08;
+    ComputeRaceTime((u8 *) c + 2, (u8 *) c + 3, c, t, p->mUnk_00_header.mElapsedFrames);
 }
 
 BOOL IsPointBetweenCheckpointLines(const Vec3 *a, const CourseMapCheckpoint *b, const CourseMapCheckpoint *c) {

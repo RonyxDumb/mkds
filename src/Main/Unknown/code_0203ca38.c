@@ -53,13 +53,13 @@ void FinishRaceProgress(void) {
                     t = gRaceProgress->mKarts[kartIndex].mRank;
                 }
                 rank = t;
-                if (gRaceProgress->mUnk_000[kartIndex].mStatus != 4) {
+                if (gRaceProgress->mKarts[kartIndex].mStatus != 4) {
                     rankPoints = LookupRankPoints(rank);
                 }
                 SetKartCourseResult(kartIndex, rank, rankPoints);
                 SetKartCourseFinishTime(kartIndex, &gRaceProgress->mKarts[kartIndex].mLapTimes[5]);
                 if (gRaceSetup->mMode == 5) {
-                    if (gRaceProgress->mUnk_000[kartIndex].mStatus == 4) {
+                    if (gRaceProgress->mKarts[kartIndex].mStatus == 4) {
                         ClearKartCourseTotalPoints(kartIndex);
                     }
                 }
@@ -79,7 +79,7 @@ void FinishRaceProgress(void) {
                 if (kartIndex < raceSetup->mKartCount) {
                     raceProgress = gRaceProgress;
                     do {
-                        if (raceProgress->mUnk_000[kartIndex].mStatus == 1) {
+                        if (raceProgress->mKarts[kartIndex].mStatus == 1) {
                             if (usesTeams != FALSE) {
                                 if (winningTeamIndex == -1) {
                                     raceSetup = gRaceSetup;
@@ -92,8 +92,8 @@ void FinishRaceProgress(void) {
                 }
             }
             for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
-                gRaceProgress->mUnk_000[kartIndex].mFlags |= 2;
-                if (gRaceProgress->mUnk_000[kartIndex].mStatus == 1) {
+                gRaceProgress->mKarts[kartIndex].mFlags |= 2;
+                if (gRaceProgress->mKarts[kartIndex].mStatus == 1) {
                     if (usesTeams != FALSE) {
                         e = winningTeamIndex == gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex ? 1 : 0;
                     } else {
@@ -107,8 +107,8 @@ void FinishRaceProgress(void) {
                         e = 0;
                     }
                     func_0205d88c(kartIndex, 0);
-                    if (gRaceProgress->mUnk_000[kartIndex].mStatus == 0) {
-                        gRaceProgress->mUnk_000[kartIndex].mStatus = 2;
+                    if (gRaceProgress->mKarts[kartIndex].mStatus == 0) {
+                        gRaceProgress->mKarts[kartIndex].mStatus = 2;
                     }
                 }
                 func_02068640(GetKart(kartIndex), e);
@@ -188,7 +188,7 @@ BOOL ShouldFinishBattle(void) {
     if (gRaceSetup->mMode == MODE_BATTLE) {
         racingCount = 0;
         for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
-            if (raceProgress->mUnk_000[kartIndex].mStatus == 0) {
+            if (raceProgress->mKarts[kartIndex].mStatus == 0) {
                 racingCount++;
                 if (racingCount > 0) {
                     noneRacing = FALSE;
@@ -345,7 +345,7 @@ void UpdateRaceProgress(void) {
         for (i = 0; i < gRaceSetup->mKartCount; i = (u16) (i + 1)) {
             u16 *q;
             u8 standingRank = func_0203ca38_inline(i);
-            q = OFFSET_PTR(u16, &gRaceProgress->mUnk_000[0].mUnk_50, i * 0x8c);
+            q = &gRaceProgress->mKarts[i].mUnk_3c;
             *q = (*q & ~0xf) | (standingRank & 0xf);
         }
         for (i = 0; i < 8; i = (u16) (i + 1)) {
@@ -361,7 +361,7 @@ void UpdateRaceProgress(void) {
     }
     if (gRaceSetup->mMode == MODE_TIME_ATTACK) {
         BOOL f = FALSE;
-        switch (gRaceProgress->mUnk_000[0].mStatus) {
+        switch (gRaceProgress->mKarts[0].mStatus) {
             case 1:
             case 2:
             case 3:
@@ -376,7 +376,7 @@ void UpdateRaceProgress(void) {
         }
         return;
     }
-    if ((u32) gRaceProgress->mUnk_000[0].mFinishedCount < gRaceSetup->mKartCount) {
+    if ((u32) gRaceProgress->mUnk_00_header.mFinishedCount < gRaceSetup->mKartCount) {
         return;
     }
     if (gRaceProgress->mRaceDone != 0) {

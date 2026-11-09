@@ -2,5 +2,5 @@
 #include "Main/Unknown/code_020f36d8.h"
 
 void StartRaceClock(void) {
-    gRaceProgress->mUnk_000[0].mClockEnabled = 1;
+    gRaceProgress->mUnk_00_header.mClockEnabled = 1;
 }

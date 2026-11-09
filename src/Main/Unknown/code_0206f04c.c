@@ -88,7 +88,7 @@ void func_0206ff50(Kart *kart, u32 collisionFlags) {
         if (gRaceSetup->mMode == MODE_BATTLE) {
             respawnSlot = GetCourseMapRespawnSlot(0);
         } else {
-            respawnSlot = GetCourseMapRespawnSlot(gRaceProgress->mUnk_000[kartIndex].mCheckpoint);
+            respawnSlot = GetCourseMapRespawnSlot(gRaceProgress->mKarts[kartIndex].mCheckpoint);
         }
         kart->mRespawnSlot = respawnSlot;
         if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceSetup->mCourseId == COURSE_ID_RAINBOW &&

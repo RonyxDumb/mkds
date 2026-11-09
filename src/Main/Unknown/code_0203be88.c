@@ -62,7 +62,7 @@ u32 func_0203c0bc(void) {
     if (entryIndex == -1) {
         return 0;
     }
-    if (gRaceProgress->mUnk_000[0].mUnk_0a >= 7) {
+    if (gRaceProgress->mUnk_00_header.mUnk_0a >= 7) {
         return 1;
     }
     if (func_0204a620(&data_02175628[entryIndex].mUnk_28) != FALSE) {

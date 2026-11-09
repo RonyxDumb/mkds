@@ -583,7 +583,7 @@ void UpdateWiFiRaceSyncRanks(void) {
                 u16 w;
 
                 w = gParticipantKartMap->mKartOfParticipant[participant];
-                c = gRaceProgress->mUnk_000[w].mUnk_50_0;
+                c = gRaceProgress->mKarts[w].mRank;
                 rank = c;
                 for (p = 0; p < 4; p++) {
                     u32 e;
@@ -599,8 +599,8 @@ void UpdateWiFiRaceSyncRanks(void) {
 
                         o = gParticipantKartMap->mKartOfParticipant[p];
                         o = (u16) o;
-                        v = gRaceProgress->mUnk_000[o].mUnk_50_0;
-                        if (gRaceProgress->mUnk_000[o].mStatus != 4 && e != 0 && v > c) {
+                        v = gRaceProgress->mKarts[o].mRank;
+                        if (gRaceProgress->mKarts[o].mStatus != 4 && e != 0 && v > c) {
                             rank = rank + 1;
                         }
                     }

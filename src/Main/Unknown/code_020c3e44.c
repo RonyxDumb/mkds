@@ -111,7 +111,7 @@ void UpdateRaceGoalM(void) {
 
     frame = gRaceGoalM->mUpdateFrames;
     followedKartIndex = GetFollowedKartOrEntryIndex();
-    if (gRaceProgress->mUnk_000[followedKartIndex].mStatus == 1 || gRaceProgress->mRaceDone != 0) {
+    if (gRaceProgress->mKarts[followedKartIndex].mStatus == 1 || gRaceProgress->mRaceDone != 0) {
         gRaceGoalM->mUnk_00 = 0;
     }
     if (func_020b1d0c() == 0) {
@@ -724,8 +724,9 @@ void DrawRaceTaPositions(RaceHudOamBuffer *oamBuffer) {
                             trailCellPosition[0] = trailPosition.mUnk_00 << 12;
                             trailCellPosition[1] = trailPosition.mUnk_04 << 12;
                             trailOam = &oamBuffer->mOamBits[trailOamIndex];
-                            oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[trailOamIndex], 0x80 - trailOamIndex,
-                                                                          trailCell, NULL, trailCellPosition, 0, 1);
+                            oamBuffer->mOamCount +=
+                                NNS_G2dMakeCellToOams(&oamBuffer->mOams[trailOamIndex], 0x80 - trailOamIndex, trailCell,
+                                                      NULL, trailCellPosition, 0, 1);
                             for (; trailOamIndex < oamBuffer->mOamCount; trailOamIndex++, trailOam++) {
                                 if (m != -1) {
                                     trailOam->mUnk_0e = m;
@@ -763,8 +764,8 @@ void DrawRaceTaPositions(RaceHudOamBuffer *oamBuffer) {
                         sampleOam = &oamBuffer->mOamBits[sampleOamIndex];
                         oamBuffer->mOamCount +=
                             NNS_G2dMakeCellToOams(&oamBuffer->mOams[sampleOamIndex], 0x80 - sampleOamIndex, sampleCell,
-                                                  &gRaceTaPositions->mRotations[rotationIndex],
-                                                  sampleCellPosition, rotationIndex + firstRotationSlot, 1);
+                                                  &gRaceTaPositions->mRotations[rotationIndex], sampleCellPosition,
+                                                  rotationIndex + firstRotationSlot, 1);
                         for (; sampleOamIndex < oamBuffer->mOamCount; sampleOamIndex++, sampleOam++) {
                             if ((i != 0 ? 1 : -1) != -1) {
                                 sampleOam->mUnk_0a = i != 0 ? 1 : -1;

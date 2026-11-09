@@ -576,7 +576,7 @@ void DrawRaceModeCount(RaceHudOamBuffer *oamBuffer) {
                                               cell, NULL, onesPos, 0, 1);
                 }
             } else {
-                if (gRaceProgress->mUnk_000[GetFollowedKartOrEntryIndex()].mStatus != 2) {
+                if (gRaceProgress->mKarts[GetFollowedKartOrEntryIndex()].mStatus != 2) {
                     return;
                 }
                 if ((GetKart(GetFollowedKartOrEntryIndex())->mUnk_7c & 0x402000) == 0) {

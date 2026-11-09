@@ -15,7 +15,7 @@
 
 s32 IsKartEnded(u32 kartIndex) {
     BOOL ended = FALSE;
-    switch (gRaceProgress->mUnk_000[kartIndex].mStatus) {
+    switch (gRaceProgress->mKarts[kartIndex].mStatus) {
         case 1:
         case 2:
         case 3:

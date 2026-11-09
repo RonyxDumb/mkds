@@ -181,7 +181,7 @@ struct KartAiItemUse;
 // Object behind gKartPhysicalParamTable (0x14 bytes), made once per race: the per-slot records (mKartParams) and
 // character rows (mCharParams) and the two loaded files. mFirstBaseSpeedLimit is a copy of file word 0x10.
 typedef struct KartPhysicalParamTable {
-    /* 00 */ u8 *mKartParams;
+    /* 00 */ struct KartPhysicalParam *mKartParams;
     /* 04 */ u8 *mCharParams;
     /* 08 */ s32 mFirstBaseSpeedLimit;
     /* 0c */ u8 *mKartParamFile;

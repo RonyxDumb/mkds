@@ -172,7 +172,7 @@ void UpdateJg(void) {
     if (gRaceSetup->mMode == MODE_BATTLE) {
         return;
     }
-    if (gRaceSetup->mMode != MODE_MISSION_RUN && gRaceProgress->mUnk_000[gJgKartIndex].mStatus == 1 &&
+    if (gRaceSetup->mMode != MODE_MISSION_RUN && gRaceProgress->mKarts[gJgKartIndex].mStatus == 1 &&
         (gJgKart->mUnk_48 & 0x800) == 0) {
         Vec3 targetOffset;
         gJgMain.mFrameIndex = 2;
@@ -235,7 +235,7 @@ void UpdateJg(void) {
     if (gJgLapAndReverseEnabled == 0) {
         return;
     }
-    if ((gRaceProgress->mUnk_000[gJgKartIndex].mFlags & 4) != 0 && (kartFlags & 0x800) == 0) {
+    if ((gRaceProgress->mKarts[gJgKartIndex].mFlags & 4) != 0 && (kartFlags & 0x800) == 0) {
         data_0217b8c4++;
         if (data_0217b8c4 <= 0x3c) {
             return;
@@ -769,7 +769,7 @@ void UpdateJgState1(void) {
         SetStateMachineState(&gJgStateMachine, 5);
         return;
     }
-    if ((gRaceProgress->mUnk_000[gJgKartIndex].mFlags & 4) == 0) {
+    if ((gRaceProgress->mKarts[gJgKartIndex].mFlags & 4) == 0) {
         if (++data_0217b8c4 > 0x3c) {
             SetStateMachineState(&gJgStateMachine, 5);
             return;

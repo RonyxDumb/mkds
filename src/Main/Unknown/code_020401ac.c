@@ -48,7 +48,7 @@ BOOL func_02040bc0(void) {
     switch (gRaceSetup->mMode) {
         case MODE_MISSION_RUN:
             ended = FALSE;
-            switch (gRaceProgress->mUnk_000[(u16) entryIndex].mStatus) {
+            switch (gRaceProgress->mKarts[(u16) entryIndex].mStatus) {
                 case 1:
                 case 2:
                 case 3:
@@ -68,7 +68,7 @@ BOOL func_02040bc0(void) {
             return result;
         default:
             ended = FALSE;
-            switch (gRaceProgress->mUnk_000[(u16) entryIndex].mStatus) {
+            switch (gRaceProgress->mKarts[(u16) entryIndex].mStatus) {
                 case 1:
                 case 2:
                 case 3:
@@ -88,17 +88,18 @@ void ComputeGrandPrixScoreTerms(RaceProgressScoreTerms *scoreTerms, s32 kartInde
     RaceProgressKart *raceProgressKart = &raceProgress->mKarts[kartIndex];
     RankTimeGp *rankTimeGpFile = raceProgress->mRankTimeGpFile;
 
-    if (raceProgress->mUnk_000[0].mRankTime == 0) {
+    if (raceProgress->mUnk_00_header.mRankTime == 0) {
         scoreTerms->mTimeRemainingScore = 0;
     } else {
-        scoreTerms->mTimeRemainingScore = (FX_Div(rankTimeGpFile->mUnk_0a * (raceProgress->mUnk_000[0].mRankTime -
-                                                                             raceProgress->mUnk_000[0].mElapsedFrames),
-                                                  raceProgress->mUnk_000[0].mRankTime) +
-                                           0x800) >>
-                                          12;
+        scoreTerms->mTimeRemainingScore =
+            (FX_Div(rankTimeGpFile->mUnk_0a *
+                        (raceProgress->mUnk_00_header.mRankTime - raceProgress->mUnk_00_header.mElapsedFrames),
+                    raceProgress->mUnk_00_header.mRankTime) +
+             0x800) >>
+            12;
     }
     scoreTerms->mFirstPlaceScore = (rankTimeGpFile->mUnk_0c * FX_Div(raceProgressKart->mFirstPlaceFrames << 12,
-                                                                     gRaceProgress->mUnk_000[0].mRankTime << 12)) >>
+                                                                     gRaceProgress->mUnk_00_header.mRankTime << 12)) >>
                                    12;
     if (entryKartCounters->mRaceStartBoosted != 0) {
         scoreTerms->mRaceStartBoostScore = rankTimeGpFile->mUnk_0e;
@@ -124,7 +125,7 @@ s16 ComputeRaceProgressKartScore(s32 kartIndex) {
     s32 score;
     Unk021759c0_28 *missionSettings;
 
-    if ((raceProgress->mUnk_000[kartIndex].mFlags & 1) == 0) {
+    if ((raceProgress->mKarts[kartIndex].mFlags & 1) == 0) {
         return 0;
     }
     raceSetup = gRaceSetup;
@@ -136,9 +137,10 @@ s16 ComputeRaceProgressKartScore(s32 kartIndex) {
             missionSettings = &raceSetup->mUnk_28_view;
             entryKartCounters = GetEntryKartCounters();
             scoreTerms.mTimeRemainingScore =
-                FX_Div(missionSettings->mUnk_04 * (missionSettings->mUnk_02 - raceProgress->mUnk_000[0].mElapsedFrames)
-                           << 12,
-                       0x3e8000) >>
+                FX_Div(
+                    missionSettings->mUnk_04 * (missionSettings->mUnk_02 - raceProgress->mUnk_00_header.mElapsedFrames)
+                        << 12,
+                    0x3e8000) >>
                 12;
             scoreTerms.mFirstPlaceScore = 0;
             scoreTerms.mRaceStartBoostScore = 0;
@@ -200,11 +202,11 @@ void InitRaceProgressKart(RaceProgressKart *raceProgressKart, s32 kartIndex) {
     lapTime = raceProgressKart->mLapTimes;
     for (i = 0; i < 5; i++) {
         ComputeRaceTime(&lapTime->mMinute, &lapTime->mSecond, &lapTime->mMillisecond, 0,
-                        gRaceProgress->mUnk_000[0].mElapsedFrames);
+                        gRaceProgress->mUnk_00_header.mElapsedFrames);
         lapTime++;
     }
     ComputeRaceTime(&raceProgressKart->mLapTimes[5].mMinute, &raceProgressKart->mLapTimes[5].mSecond,
-                    &raceProgressKart->mLapTimes[5].mMillisecond, 0, gRaceProgress->mUnk_000[0].mElapsedFrames);
+                    &raceProgressKart->mLapTimes[5].mMillisecond, 0, gRaceProgress->mUnk_00_header.mElapsedFrames);
     if (kartIndex == gRaceSetup->mEntryIndex) {
         raceProgressKart->mFlags = raceProgressKart->mFlags | 1;
     }
@@ -215,7 +217,7 @@ static inline u32 func_020401ac_inline(ConnectionWork *p) {
     return p == NULL ? 0 : p->mUnk_0000;
 }
 
-static inline void func_020401ac_inline2(Unk0217561c_000 *q) {
+static inline void func_020401ac_inline2(RaceProgressHeader *q) {
     q->mElapsedFrames = 0;
     q->mClockEnabled = 0;
 }
@@ -255,11 +257,11 @@ void InitRaceProgress(void) {
     CourseMapRoute *route;
     CourseMapCheckpoint *checkpoint;
 
-    func_020401ac_inline2(&gRaceProgress->mUnk_000[0]);
-    func_020401ac_inline3(&gRaceProgress->mUnk_000[0].mUnk_08_view, gRaceProgress->mUnk_000[0].mElapsedFrames);
+    func_020401ac_inline2(&gRaceProgress->mUnk_00_header);
+    func_020401ac_inline3(&gRaceProgress->mUnk_00_header.mUnk_08_view, gRaceProgress->mUnk_00_header.mElapsedFrames);
     f = FALSE;
-    gRaceProgress->mUnk_000[0].mFinishedCount = 0;
-    gRaceProgress->mUnk_000[0].mRemovedCount = 0;
+    gRaceProgress->mUnk_00_header.mFinishedCount = 0;
+    gRaceProgress->mUnk_00_header.mRemovedCount = 0;
     gRaceProgress->mRaceDone = 0;
     switch (gRaceSetup->mRaceKind) {
         case RACE_KIND_DEMO:

@@ -243,7 +243,7 @@ void AddVSBuddyRecordResults(void) {
     if (gRaceSetup->mEntryIndex == -1) {
         return;
     }
-    if (gRaceProgress->mUnk_000[(u16) gRaceSetup->mEntryIndex].mStatus == 4) {
+    if (gRaceProgress->mKarts[(u16) gRaceSetup->mEntryIndex].mStatus == 4) {
         return;
     }
     if (gRaceProgress->mRaceDone == 0) {
@@ -276,7 +276,7 @@ void AddVSBuddyRecordResults(void) {
                     case 1:
                         if (teamIndex == GetCupWinningTeam()) {
                             outcome = 0;
-                        } else if (gRaceProgress->mUnk_000[entryIndex].mStatus == 4) {
+                        } else if (gRaceProgress->mKarts[entryIndex].mStatus == 4) {
                             outcome = 2;
                         } else {
                             outcome = 1;
@@ -327,7 +327,7 @@ void AddBattleBuddyRecordResults(void) {
     if (gRaceSetup->mEntryIndex == -1) {
         return;
     }
-    if (gRaceProgress->mUnk_000[(u16) gRaceSetup->mEntryIndex].mStatus == 4) {
+    if (gRaceProgress->mKarts[(u16) gRaceSetup->mEntryIndex].mStatus == 4) {
         return;
     }
     if (IsWinnerDecidedAndEndReached() == 0) {
@@ -350,7 +350,7 @@ void AddBattleBuddyRecordResults(void) {
                 outcome = 0;
             }
         } else if (IsKartOnWinningTeamAtEnd(entryIndex) != 0) {
-            if (gRaceProgress->mUnk_000[entryIndex].mStatus != 4) {
+            if (gRaceProgress->mKarts[entryIndex].mStatus != 4) {
                 outcome = 1;
             }
         }
@@ -394,7 +394,7 @@ void func_0205f218(void) {
     if (gRaceSetup->mEntryIndex == -1) {
         return;
     }
-    if (gRaceProgress->mUnk_000[(u16) gRaceSetup->mEntryIndex].mStatus == 4) {
+    if (gRaceProgress->mKarts[(u16) gRaceSetup->mEntryIndex].mStatus == 4) {
         return;
     }
     if (IsWinnerDecidedAndEndReached() == 0) {
@@ -418,7 +418,7 @@ void func_0205f218(void) {
                 outcome = 0;
             }
         } else if (IsKartOnWinningTeamAtEnd(entryIndex) != 0) {
-            if (gRaceProgress->mUnk_000[entryIndex].mStatus != 4) {
+            if (gRaceProgress->mKarts[entryIndex].mStatus != 4) {
                 outcome = 1;
             }
         }
@@ -480,7 +480,7 @@ void func_0205ef70(void) {
     if (gRaceProgress->mRaceDone == 0) {
         return;
     }
-    if (gRaceProgress->mUnk_000[(u16) gRaceSetup->mEntryIndex].mStatus == 4) {
+    if (gRaceProgress->mKarts[(u16) gRaceSetup->mEntryIndex].mStatus == 4) {
         return;
     }
     GetClockDateOrDefault(date);

@@ -142,7 +142,7 @@ void ResetKartToRespawnPoint(Kart *kart) {
         if (gRaceSetup->mMode == MODE_BATTLE) {
             i = GetCourseMapRespawnSlot(0);
         } else {
-            i = GetCourseMapRespawnSlot(gRaceProgress->mUnk_000[i].mCheckpoint);
+            i = GetCourseMapRespawnSlot(gRaceProgress->mKarts[i].mCheckpoint);
         }
         kart->mRespawnSlot = i;
     }

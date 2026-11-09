@@ -2,5 +2,5 @@
 #include "Main/Unknown/code_020f36d8.h"
 
 s32 GetRaceElapsedFrames(void) {
-    return ((u32) gRaceProgress->mUnk_000[0].mElapsedFrames);
+    return ((u32) gRaceProgress->mUnk_00_header.mElapsedFrames);
 }

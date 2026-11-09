@@ -68,7 +68,7 @@ void UpdateRaceTimeDigits(void) {
     }
     if (minute == 0 && ((second == 5 && millisecond == 0) || second < 5) &&
         gRaceTimeDigits->mLastSecondsReached[0] == 0) {
-        if (gRaceProgress->mUnk_000[GetFollowedKartOrEntryIndex()].mStatus != 2) {
+        if (gRaceProgress->mKarts[GetFollowedKartOrEntryIndex()].mStatus != 2) {
             SetStemSet(2);
         }
         if ((data_0217c780 & 1) != 0) {
@@ -195,7 +195,7 @@ void DrawRaceTimeDigits(RaceHudOamBuffer *oamBuffer) {
     if (gRaceSetup->mRaceKind == RACE_KIND_DEMO) {
         return;
     }
-    if (gRaceProgress->mUnk_000[GetFollowedKartOrEntryIndex()].mStatus == 3) {
+    if (gRaceProgress->mKarts[GetFollowedKartOrEntryIndex()].mStatus == 3) {
         return;
     }
     if (hasLapTime != 0) {

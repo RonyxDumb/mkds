@@ -160,7 +160,7 @@ void CreateAwardEmitters(void) {
 
 void CreateKartPhysicalParamTable(void *heap, u32 entryCount) {
     gKartPhysicalParamTable = HeapAlloc(heap, 0x14);
-    gKartPhysicalParamTable->mKartParams = HeapAlloc(heap, entryCount * 0x98);
+    gKartPhysicalParamTable->mKartParams = HeapAlloc(heap, entryCount * sizeof(KartPhysicalParam));
     gKartPhysicalParamTable->mCharParams = HeapAlloc(heap, entryCount * 8);
     gKartPhysicalParamTable->mKartParamFile = FindKartModelFile(data_usa_021660c8);
     gKartPhysicalParamTable->mCharParamFile = FindKartModelFile(data_usa_021660e0);
@@ -178,6 +178,6 @@ void CopyKartPhysicalParams(u32 slot, u32 kartRow, u32 characterRow) {
     } else if (gRaceSetup->mMode == MODE_BATTLE) {
         kartRow = (u16) (characterRow + 0x25);
     }
-    MI_CpuCopy8(kartParamFile + kartRow * 0x98, gKartPhysicalParamTable->mKartParams + slot * 0x98, 0x98);
+    MI_CpuCopy8(kartParamFile + kartRow * 0x98, &gKartPhysicalParamTable->mKartParams[slot], sizeof(KartPhysicalParam));
     MI_CpuCopy8(characterParamFile + characterRow * 8, gKartPhysicalParamTable->mCharParams + slot * 8, 8);
 }

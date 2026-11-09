@@ -101,7 +101,7 @@ typedef struct ItemObject {
     /* 129 */ u8 mUnk_129[3];
 } ItemObject;
 
-// One 0x8c entry per kart (mKarts[kart index]). Unk0217561c_000 is a second view of the same bytes, 0x14 earlier.
+// One 0x8c entry per kart (mKarts[kart index]).
 typedef struct RaceProgressKart {
     // 0 racing, 1 goal reached (battle: still alive at the end), 2 battle loser, 3 ended without the goal (time up, or
     // the race is over), 4 removed.
@@ -153,9 +153,8 @@ typedef struct RaceProgressKart {
     /* 4c */ s32 mCheckpointTestedBits[0x10];
 } RaceProgressKart;
 
-// Second view of the per-kart entries (array at RaceProgress.mUnk_000): its offset X is RaceProgressKart's X - 0x14.
-// Entry 0 also holds the clock header at 0x00..0x13.
-typedef struct Unk0217561c_000 {
+// The 0x14 bytes before RaceProgress.mKarts: the race clock and the finish counters.
+typedef struct RaceProgressHeader {
     /* 00 */ s32 mElapsedFrames;
     // Gate of the clock; cleared by FinishRaceProgressKartWithEndKind (finish request for ANY entry: mission goal,
     // forced finish, kind 6), not by the normal goal crossing; set only by StartRaceClock.
@@ -175,43 +174,7 @@ typedef struct Unk0217561c_000 {
     // Only karts removed while not ended.
     /* 10 */ u16 mRemovedCount;
     /* 12 */ u8 mUnk_12[0x2];
-    // Same bytes as RaceProgressKart.mStatus.
-    /* 14 */ s32 mStatus;
-    // Same bytes as RaceProgressKart.mLapFrames.
-    /* 18 */ s32 mLapFrames;
-    /* 1c */ s32 mUnk_1c;
-    /* 20 */ u16 mUnk_20;
-    /* 22 */ u8 mUnk_22;
-    /* 23 */ u8 mUnk_23;
-    /* 24 */ u8 mUnk_24[0x10];
-    /* 34 */ u16 mUnk_34;
-    /* 36 */ u8 mUnk_36;
-    /* 37 */ u8 mUnk_37;
-    /* 38 */ s32 mLap;
-    // Same bytes as RaceProgressKart.mFirstPlaceFrames.
-    /* 3c */ s32 mFirstPlaceFrames;
-    /* 40 */ s32 mUnk_40;
-    // Same bytes as RaceProgressKart.mFlags.
-    /* 44 */ u16 mFlags;
-    /* 46 */ u16 mCheckpoint;
-    /* 48 */ u16 mUnk_48;
-    /* 4a */ u16 mUnk_4a;
-    /* 4c */ u16 mUnk_4c;
-    /* 4e */ u16 mUnk_4e;
-    /* 50 */ union {
-        u16 mUnk_50;
-        struct {
-            u16 mUnk_50_0 : 4;
-            u16 mUnk_50_4 : 4;
-            u16 mUnk_50_8 : 2;
-        };
-    };
-    /* 52 */ s16 mUnk_52;
-    /* 54 */ s32 mUnk_54;
-    /* 58 */ s32 mUnk_58;
-    /* 5c */ s32 mUnk_5c;
-    /* 60 */ u8 mUnk_60[0x2c];
-} Unk0217561c_000;
+} RaceProgressHeader;
 
 // Nine words.
 typedef struct RaceProgressScoreTerms {
@@ -259,20 +222,12 @@ typedef struct RankPointRow {
 
 // Race object behind gRaceProgress (0x524 bytes, made by CreateRaceProgress from InitRace, stepped every frame by
 // UpdateRaceProgress). Per-kart progress and status (mKarts, 8 entries), the rank order (mKartAtRank), the race clock
-// in the header bytes (the second view Unk0217561c_000 gives its first 0x14 bytes), two loaded files (rankpoint.rpt,
+// in the header (mUnk_00_header), two loaded files (rankpoint.rpt,
 // ranktimeGP.rtt), three random generators (mRandom synced, mLocalRandom per console, a third with a fixed seed used in
 // mode 5) and race-done / time-limit flags. 17 files use only the generators.
 typedef struct RaceProgress {
-    union {
-        struct {
-            /* 000 */ Unk0217561c_000 mUnk_000[8];
-            /* 460 */ u8 mUnk_460[0x14];
-        };
-        struct {
-            /* 000 */ u8 mUnk_00_header[0x14];
-            /* 014 */ RaceProgressKart mKarts[8];
-        };
-    };
+    /* 000 */ RaceProgressHeader mUnk_00_header;
+    /* 014 */ RaceProgressKart mKarts[8];
     /* 474 */ s8 mKartAtRank[8];
     // Synced random generator; also stepped at each clock update while the clock gate is on, for the jitter that
     // GetRaceClockTime shows.
