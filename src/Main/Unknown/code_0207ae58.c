@@ -91,17 +91,17 @@ void AdvanceKartCharacterAnimation(Kart *kart) {
         if (animationState->mNextAnimationPending == FALSE) {
             return;
         }
-        if (characterAnimation->mDone != 1) {
+        if (characterAnimation->mHead.mDone != 1) {
             return;
         }
         func_02087cfc(characterAnimation, characterAnimation->mCurrentIndex, 1);
         StartModelAnimationBlend(modelsEntry->mCharacterAnimation, animationState->mNextAnimationIndex);
         faceAnimation = modelsEntry->mFaceAnimation;
-        faceAnimation->mFrameIndex = gCharacterFaceFrames[0];
-        faceAnimation->mAnmObjs[faceAnimation->mCurrentIndex]->mFrame = faceAnimation->mFrameIndex;
+        faceAnimation->mHead.mFrameIndex = gCharacterFaceFrames[0];
+        faceAnimation->mAnmObjs[faceAnimation->mCurrentIndex]->mFrame = faceAnimation->mHead.mFrameIndex;
         animationState->mNextAnimationPending = FALSE;
     } else {
-        characterAnimation->mFrameIndex = animationState->mTurnFrameOffset + animationState->mMiddleFrame;
+        characterAnimation->mHead.mFrameIndex = animationState->mTurnFrameOffset + animationState->mMiddleFrame;
         AdvanceModelAnimationBlend(characterAnimation);
     }
 }
@@ -109,8 +109,8 @@ void AdvanceKartCharacterAnimation(Kart *kart) {
 void SetCharacterFaceFrameIndex(struct KartModelsEntry *kartModelsEntry, s32 faceFrameIndex) {
     ModelAnimation *faceAnimation = kartModelsEntry->mFaceAnimation;
 
-    faceAnimation->mFrameIndex = gCharacterFaceFrames[faceFrameIndex];
-    faceAnimation->mAnmObjs[faceAnimation->mCurrentIndex]->mFrame = faceAnimation->mFrameIndex;
+    faceAnimation->mHead.mFrameIndex = gCharacterFaceFrames[faceFrameIndex];
+    faceAnimation->mAnmObjs[faceAnimation->mCurrentIndex]->mFrame = faceAnimation->mHead.mFrameIndex;
 }
 
 void SetCharacterAnimation(struct KartModelsEntry *kartModelsEntry, s32 animationIndex, s32 useBlend) {

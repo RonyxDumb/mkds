@@ -171,10 +171,10 @@ BOOL DrawKartKillerItem(Kart *kart) {
         NNS_G3dGeBufferOP_N(0x1b, &scale, 3);
         SendLight01Color(&modelsEntry->mUnk_040);
         SetKillerItemKartIndex(kart->mIndex);
-        frame = kart->mKartModelsEntry->mUnk_0a4;
+        frame = kart->mKartModelsEntry->mUnk_098.mFrameIndex;
         killerItemNsbca = GetKillerItemNsbca();
-        killerItemNsbca->mFrameIndex = frame;
-        killerItemNsbca->mAnmObjs[killerItemNsbca->mCurrentIndex]->mFrame = killerItemNsbca->mFrameIndex;
+        killerItemNsbca->mHead.mFrameIndex = frame;
+        killerItemNsbca->mAnmObjs[killerItemNsbca->mCurrentIndex]->mFrame = killerItemNsbca->mHead.mFrameIndex;
         DrawNsbmd(GetKillerItem());
         func_0207ae58(GetKillerItemS());
     }

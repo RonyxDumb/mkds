@@ -16,7 +16,7 @@ typedef enum {
 
 // One model's animations: a table of animation objects and one loop flag per entry; one entry plays at a time.
 // A change of entry can fade from the old one (StartModelAnimationBlend).
-typedef struct ModelAnimation {
+typedef struct Unk02087b78 {
     /* 00 */ u16 mLoopMode;
     /* 02 */ u16 mDone;
     /* 04 */ s32 mFrameCountFixed;
@@ -24,6 +24,10 @@ typedef struct ModelAnimation {
     /* 0c */ s32 mFrameIndex;
     /* 10 */ u16 mLoopsDone;
     /* 12 */ u16 mLoopCount;
+} Unk02087b78;
+
+typedef struct ModelAnimation {
+    /* 00 */ Unk02087b78 mHead;
     /* 14 */ Nsbmd *mRenderObj;
     /* 18 */ u16 mAnmObjCount;
     /* 1a */ u16 mCurrentIndex;

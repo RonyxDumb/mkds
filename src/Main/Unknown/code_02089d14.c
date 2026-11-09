@@ -191,13 +191,13 @@ void StartStemSet(s32 setIndex) {
             SetModelAnimation(stemSet->mNsbcaNsbmaNsbtp[2], (u16) animationIndex);
             e = stemSet->mNsbcaNsbmaNsbtp[0];
             if (e != NULL) {
-                e[nsbmdIndex].mLoopMode = 2;
-                e[nsbmdIndex].mLoopCount = loopCount;
+                e[nsbmdIndex].mHead.mLoopMode = 2;
+                e[nsbmdIndex].mHead.mLoopCount = loopCount;
             }
             e = stemSet->mNsbcaNsbmaNsbtp[1];
             if (e != NULL) {
-                e[nsbmdIndex].mLoopMode = 2;
-                e[nsbmdIndex].mLoopCount = loopCount;
+                e[nsbmdIndex].mHead.mLoopMode = 2;
+                e[nsbmdIndex].mHead.mLoopCount = loopCount;
             }
         }
     }

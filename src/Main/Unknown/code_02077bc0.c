@@ -748,7 +748,7 @@ void InitKartModelsEntry(void *entry) {
 #pragma thumb on
 
 void ResetKartKillerAnimationLooping(KartModelsEntry *kartModelsEntry) {
-    ResetModelAnimationLooping((ModelAnimation *) kartModelsEntry->mUnk_098,
+    ResetModelAnimationLooping(&kartModelsEntry->mUnk_098,
                                GetModelAnimationFrameCountFixed(&gKartModels->mKillerItemNsbca));
 }
 
@@ -2001,8 +2001,8 @@ void AdvanceKartModelMenuLoad(void) {
                 shownSlot = &gKartModelMenu->mSlots[gKartModelMenu->mShownSlotIndex];
                 if (loadSlot->mCharacterIndex == shownSlot->mCharacterIndex) {
                     animation = loadSlot->mCharacterAnimation;
-                    animation->mFrameIndex = shownSlot->mCharacterAnimation->mFrameIndex;
-                    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mFrameIndex;
+                    animation->mHead.mFrameIndex = shownSlot->mCharacterAnimation->mHead.mFrameIndex;
+                    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
                 }
             }
             gKartModelMenu->mShownSlotIndex = gKartModelMenu->mLoadSlotIndex;

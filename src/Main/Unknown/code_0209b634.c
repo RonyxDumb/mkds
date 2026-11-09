@@ -203,8 +203,8 @@ void SetMapObjectModelNsbcaFrameIndex(MapObjectModel *mapObjectModel, u16 frameI
     MapObjectModel *o = mapObjectModel;
     ModelAnimation *animation = o->mAnimations[0];
 
-    animation->mFrameIndex = frameIndex << 12;
-    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mFrameIndex;
+    animation->mHead.mFrameIndex = frameIndex << 12;
+    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
 }
 
 // Number of frames of the animation in slot 0 (its length, not the current frame).
@@ -219,8 +219,8 @@ void SetMapObjectModelNsbmaFrameIndex(void *a, u32 frameIndex) {
     MapObjectModel *o = a;
     ModelAnimation *animation = o->mAnimations[2];
 
-    animation->mFrameIndex = frameIndex << 12;
-    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mFrameIndex;
+    animation->mHead.mFrameIndex = frameIndex << 12;
+    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
 }
 
 // Number of frames of the animation in slot 2 (its length, not the current frame).
@@ -242,8 +242,8 @@ void SetMapObjectModelNsbtaFrameIndex(void *a, s32 frameIndex) {
     MapObjectModel *o = a;
     ModelAnimation *animation = o->mAnimations[3];
 
-    animation->mFrameIndex = frameIndex << 12;
-    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mFrameIndex;
+    animation->mHead.mFrameIndex = frameIndex << 12;
+    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
 }
 
 void SetMapObjectModelNsbtpFrameIndex(void *a, u16 frameIndex) {
@@ -258,8 +258,8 @@ void SetMapObjectModelNsbtpFrameIndex(void *a, u16 frameIndex) {
         return;
     }
     animation = o->mAnimations[1];
-    animation->mFrameIndex = frameIndex << 12;
-    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mFrameIndex;
+    animation->mHead.mFrameIndex = frameIndex << 12;
+    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
 }
 
 u16 GetMapObjectModelNsbtpFrameCount(void *a) {

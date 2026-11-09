@@ -47,7 +47,7 @@ void InitModelAnimation(u32 kind, void *animation, void *renderObject, u32 anmOb
             }
         }
     }
-    ResetModelAnimationLooping(modelAnimation, 0);
+    ResetModelAnimationLooping(&modelAnimation->mHead, 0);
     renderObj->mDrawKind = 0;
     modelAnimation->mRenderObj = renderObj;
     modelAnimation->mAnmObjCount = anmObjCount;
@@ -133,7 +133,7 @@ void SetModelAnimation(void *animation, s32 entryIndex) {
     modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mRatio = 0x1000;
     frameCountFixed =
         gAnmFrameCountGetters[modelAnimation->mKind](modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]) << 12;
-    ResetModelAnimationWithLoopFlag(modelAnimation, frameCountFixed,
+    ResetModelAnimationWithLoopFlag(&modelAnimation->mHead, frameCountFixed,
                                     modelAnimation->mLoopFlags[modelAnimation->mCurrentIndex]);
 }
 
@@ -161,7 +161,7 @@ void StartModelAnimationBlend(void *animation, u16 entryIndex) {
     modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mRatio = 0;
     frameCountFixed =
         gAnmFrameCountGetters[modelAnimation->mKind](modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]) << 12;
-    ResetModelAnimationWithLoopFlag(modelAnimation, frameCountFixed,
+    ResetModelAnimationWithLoopFlag(&modelAnimation->mHead, frameCountFixed,
                                     modelAnimation->mLoopFlags[modelAnimation->mCurrentIndex]);
 }
 
@@ -178,8 +178,8 @@ void AdvanceModelAnimation(void *animation) {
             modelAnimation->mPreviousAnmObj = NULL;
         }
     }
-    AdvanceModelAnimationFrame(modelAnimation);
-    modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mFrame = modelAnimation->mFrameIndex;
+    AdvanceModelAnimationFrame(&modelAnimation->mHead);
+    modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mFrame = modelAnimation->mHead.mFrameIndex;
 }
 
 // Moves only the blend; the caller sets the frame.

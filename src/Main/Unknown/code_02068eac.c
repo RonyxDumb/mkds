@@ -390,7 +390,7 @@ void StartKartKiller(Kart *kart) {
     if (effectState->mKillerEndRank <= 0) {
         effectState->mKillerEndRank = 1;
     }
-    kart->mKartModelsEntry->mUnk_0a4 = 0;
+    kart->mKartModelsEntry->mUnk_098.mFrameIndex = 0;
     if (kart->mUnk_7c & 0x2000) {
         kart->mUnk_7c &= ~0x2000;
         kart->mUnk_7c &= ~0xc000;
@@ -469,7 +469,7 @@ void AdvanceKartKiller(Kart *kart) {
             }
         }
     }
-    AdvanceModelAnimationFrame((ModelAnimation *) &kart->mKartModelsEntry->mUnk_098);
+    AdvanceModelAnimationFrame(&kart->mKartModelsEntry->mUnk_098);
     if (effectState->mKillerEnding != FALSE) {
         kart->mRadiusFactor -= 0x52;
         if (kart->mRadiusFactor > 0x1000) {

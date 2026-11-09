@@ -124,7 +124,7 @@ void func_020641f0(Kart *kart) {
             AdvanceKartAnimationChangeTimer(kart);
         }
         characterAnimation = kart->mKartModelsEntry->mCharacterAnimation;
-        characterAnimation->mAnmObjs[characterAnimation->mCurrentIndex]->mFrame = characterAnimation->mFrameIndex;
+        characterAnimation->mAnmObjs[characterAnimation->mCurrentIndex]->mFrame = characterAnimation->mHead.mFrameIndex;
     }
     if ((kart->mUnk_4c & 0x400000) != 0) {
         kart->mUnk_504 = kart->mUnk_504 + 1;
