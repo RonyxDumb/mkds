@@ -97,11 +97,9 @@ void func_ov001_02182d30(void) {
         coin->mUnk_000.mPos.x = kart->mPos.x;
         coin->mUnk_000.mPos.y = kart->mPos.y + 0x1a000;
         coin->mUnk_000.mPos.z = kart->mPos.z;
-        coin->mUnk_000.mUnk_10.x =
-            kart->mVelocity.x + MUL_FIXED12_NO_ROUND(speed, gPairsByAngle[(angle >> 4) * 2]);
+        coin->mUnk_000.mUnk_10.x = kart->mVelocity.x + MUL_FIXED12_NO_ROUND(speed, gPairsByAngle[(angle >> 4) * 2]);
         coin->mUnk_000.mUnk_10.y = kart->mVelocity.y + 0x4000;
-        coin->mUnk_000.mUnk_10.z =
-            kart->mVelocity.z + MUL_FIXED12_NO_ROUND(speed, gPairsByAngle[(angle >> 4) * 2 + 1]);
+        coin->mUnk_000.mUnk_10.z = kart->mVelocity.z + MUL_FIXED12_NO_ROUND(speed, gPairsByAngle[(angle >> 4) * 2 + 1]);
         coin->mUnk_000.mFlags &= ~1;
         soundArg.mSoundId = 0x1d9;
         soundArg.mPositionSource = NULL;
@@ -543,7 +541,7 @@ void UpdateCoin(void *a, Coin *coin) {
             if (CollideSphereWithMapObjects(&pos, &coin->mUnk_000.mUnk_10, coin->mUnk_000.mExtent.x,
                                             coin->mUnk_000.mCollisionSlotIndex, 2, &delta) != 0) {
                 VEC_Add(&coin->mUnk_000.mPos, &delta, &coin->mUnk_000.mPos);
-                if ((s64) delta.x * delta.x + (s64) delta.y * delta.y + (s64) delta.z * delta.z >= 0x10) {
+                if (LENGTH_SQUARED(delta) >= 0x10) {
                     Vec3NormalizeAndGetLengthUnchecked(&delta, &coin->mUnk_000.mUnk_10);
                 }
                 coin->mUnk_000.mUnk_10.x = MUL_FIXED12_NO_ROUND(coin->mUnk_000.mUnk_10.x, 0x1400);

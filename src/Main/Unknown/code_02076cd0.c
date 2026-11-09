@@ -392,7 +392,7 @@ void UpdateCameraViewWithWorldUp(Camera *camera) {
 
     worldUp = data_usa_02154fc4;
     VEC_Subtract(&camera->mLookAt, &camera->mPos, &forward);
-    if ((s64) forward.x * forward.x + (s64) forward.y * forward.y + (s64) forward.z * forward.z >= 0x10) {
+    if (LENGTH_SQUARED(forward) >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&forward, &forward);
     }
     camera->mForward = forward;
@@ -430,7 +430,7 @@ void UpdateCameraView(Camera *camera) {
     lookAtPos = camera->mLookAt;
     lookAtPos.y += camera->mWobbleOffset;
     VEC_Subtract(&lookAtPos, &eyePos, &forward);
-    if ((s64) forward.x * forward.x + (s64) forward.y * forward.y + (s64) forward.z * forward.z >= 0x10) {
+    if (LENGTH_SQUARED(forward) >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&forward, &forward);
     }
     camera->mForward = forward;

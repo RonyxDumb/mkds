@@ -356,7 +356,7 @@ void func_0206f824(Kart *kart, Vec3 *groundNormal, s32 bit100000WasSet) {
         VEC_Subtract(mapObjectPosition, &kart->mPos, &g);
         Vec3CrossUnrounded(groundNormal, &g, &f);
         Vec3CrossUnrounded(&f, groundNormal, &g);
-        if (!((s64) g.x * g.x + (s64) g.y * g.y + (s64) g.z * g.z < 0x10)) {
+        if (!(LENGTH_SQUARED(g) < 0x10)) {
             Vec3NormalizeAndGetLengthUnchecked(&g, &kart->mUnk_268);
         }
     }
@@ -379,7 +379,7 @@ void func_0206f694(Kart *kart, u32 collisionFlags, Vec3 *b, s32 headingDelta) {
     }
     if (b->x | b->y | b->z) {
         VEC_Subtract(b, &kart->mUnk_1fc, &d);
-        if ((s64) d.x * d.x + (s64) d.y * d.y + (s64) d.z * d.z < 0x1000000) {
+        if (LENGTH_SQUARED(d) < 0x1000000) {
             kart->mUnk_1fc = *b;
         } else {
             VEC_MultAdd(0x199, &d, &kart->mUnk_1fc, &kart->mUnk_1fc);

@@ -100,7 +100,7 @@ void InitEffects(void *defaultHeap) {
                 data_0217b048->mEmitters[emitterIndex] = NULL;
                 VEC_Subtract(&data_usa_02155f78[emitterIndex], &directionOrigin, &offset);
                 emitterDirection = &data_0217b048->mDirections[emitterIndex];
-                if ((s64) offset.x * offset.x + (s64) offset.y * offset.y + (s64) offset.z * offset.z >= 0x10) {
+                if (LENGTH_SQUARED(offset) >= 0x10) {
                     Vec3NormalizeAndGetLengthUnchecked(&offset, emitterDirection);
                 }
             }

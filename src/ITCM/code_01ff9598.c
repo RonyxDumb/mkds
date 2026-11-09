@@ -47,7 +47,7 @@ BOOL func_01ffa478(Kart *p, u32 a, Vec3 *b) {
     BOOL t = FALSE;
 
     if (a & 0x2000000) {
-        if ((s64) b->x * b->x + (s64) b->z * b->z > 0x1000000) {
+        if (HORIZONTAL_LENGTH_SQUARED(*b) > 0x1000000) {
             t = TRUE;
         }
     }
@@ -59,7 +59,7 @@ BOOL func_01ffa41c(Kart *p, u32 a, Vec3 *b) {
     BOOL t = FALSE;
 
     if (a & 0x2000000) {
-        if ((s64) b->x * b->x + (s64) b->z * b->z > 0x1000000) {
+        if (HORIZONTAL_LENGTH_SQUARED(*b) > 0x1000000) {
             t = TRUE;
         }
     }
@@ -76,7 +76,7 @@ BOOL func_01ffa380(Kart *p, u32 a, Vec3 *b) {
     BOOL t = FALSE;
 
     if (a & 0x2000000) {
-        if ((s64) b->x * b->x + (s64) b->z * b->z > 0x1000000) {
+        if (HORIZONTAL_LENGTH_SQUARED(*b) > 0x1000000) {
             t = TRUE;
         }
     }

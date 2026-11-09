@@ -19,12 +19,12 @@ void GetGroupFollowerLinearPosition(GroupFollower *follower, Vec3 *position) {
     segment = &follower->mPath->mSegments[follower->mSegmentIndex];
     progress = follower->mProgress;
     remaining = 0x1000000 - progress;
-    position->x = ((s64) segment->mPoints[0].x * remaining) >> 24;
-    position->y = ((s64) segment->mPoints[0].y * remaining) >> 24;
-    position->z = ((s64) segment->mPoints[0].z * remaining) >> 24;
-    position->x = position->x + (s32) (((s64) segment->mPoints[3].x * progress) >> 24);
-    position->y = position->y + (s32) (((s64) segment->mPoints[3].y * progress) >> 24);
-    position->z = position->z + (s32) (((s64) segment->mPoints[3].z * progress) >> 24);
+    position->x = MUL_FIXED24_NO_ROUND(segment->mPoints[0].x, remaining);
+    position->y = MUL_FIXED24_NO_ROUND(segment->mPoints[0].y, remaining);
+    position->z = MUL_FIXED24_NO_ROUND(segment->mPoints[0].z, remaining);
+    position->x = position->x + MUL_FIXED24_NO_ROUND(segment->mPoints[3].x, progress);
+    position->y = position->y + MUL_FIXED24_NO_ROUND(segment->mPoints[3].y, progress);
+    position->z = position->z + MUL_FIXED24_NO_ROUND(segment->mPoints[3].z, progress);
 }
 
 void GetGroupFollowerLinearPosStep(GroupFollower *follower, Vec3 *position, Vec3 *step) {
@@ -35,17 +35,17 @@ void GetGroupFollowerLinearPosStep(GroupFollower *follower, Vec3 *position, Vec3
     segment = &follower->mPath->mSegments[follower->mSegmentIndex];
     progress = follower->mProgress;
     remaining = 0x1000000 - progress;
-    position->x = ((s64) segment->mPoints[0].x * remaining) >> 24;
-    position->y = ((s64) segment->mPoints[0].y * remaining) >> 24;
-    position->z = ((s64) segment->mPoints[0].z * remaining) >> 24;
-    position->x = position->x + (s32) (((s64) segment->mPoints[3].x * progress) >> 24);
-    position->y = position->y + (s32) (((s64) segment->mPoints[3].y * progress) >> 24);
-    position->z = position->z + (s32) (((s64) segment->mPoints[3].z * progress) >> 24);
+    position->x = MUL_FIXED24_NO_ROUND(segment->mPoints[0].x, remaining);
+    position->y = MUL_FIXED24_NO_ROUND(segment->mPoints[0].y, remaining);
+    position->z = MUL_FIXED24_NO_ROUND(segment->mPoints[0].z, remaining);
+    position->x = position->x + MUL_FIXED24_NO_ROUND(segment->mPoints[3].x, progress);
+    position->y = position->y + MUL_FIXED24_NO_ROUND(segment->mPoints[3].y, progress);
+    position->z = position->z + MUL_FIXED24_NO_ROUND(segment->mPoints[3].z, progress);
     VEC_Subtract(&segment->mPoints[3], &segment->mPoints[0], step);
     rate = follower->mProgressStep;
-    step->x = ((s64) step->x * rate) >> 24;
-    step->y = ((s64) step->y * rate) >> 24;
-    step->z = ((s64) step->z * rate) >> 24;
+    step->x = MUL_FIXED24_NO_ROUND(step->x, rate);
+    step->y = MUL_FIXED24_NO_ROUND(step->y, rate);
+    step->z = MUL_FIXED24_NO_ROUND(step->z, rate);
     if (follower->mForward == 0) {
         step->x = -step->x;
         step->y = -step->y;

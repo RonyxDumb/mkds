@@ -94,7 +94,7 @@ void ComputeItemSurfaceDirection(Vec3 *direction, Vec3 *normal, Vec3 *result) {
     n = MUL_FIXED12_NO_ROUND(direction->x, normal->x) + MUL_FIXED12_NO_ROUND(direction->z, normal->z);
     result->y = -(n + result->y);
     result->y = FX_Div(result->y, normal->y);
-    if ((s64) result->x * result->x + (s64) result->y * result->y + (s64) result->z * result->z >= 0x10) {
+    if (LENGTH_SQUARED(*result) >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(result, result);
     }
 }
@@ -171,8 +171,7 @@ void DeflectItemObjectAndStartSound(DirectedItemObject *object, Vec3 *hitNormal,
     if (object->mUnk_160 != FALSE) {
         VEC_Subtract(direction, &along, direction);
     }
-    if ((s64) direction->x * direction->x + (s64) direction->y * direction->y + (s64) direction->z * direction->z >=
-        0x10) {
+    if (LENGTH_SQUARED(*direction) >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(direction, direction);
     }
     object->mSurfaceDirection = *direction;

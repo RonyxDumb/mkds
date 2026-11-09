@@ -132,8 +132,7 @@ BOOL TryInitLinkFollowingSegments(LinkFollowingItemObject *follower) {
     pos = &follower->mUnk_000.mUnk_000.mPos;
     direction = &follower->mUnk_000.mDirection;
     VEC_Subtract(follower->mTargetLink.mLink->mPointPos, pos, &vectors[0]);
-    if ((s64) vectors[0].x * vectors[0].x + (s64) vectors[0].y * vectors[0].y + (s64) vectors[0].z * vectors[0].z >=
-        0x10) {
+    if (LENGTH_SQUARED(vectors[0]) >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&vectors[0], &vectors[1]);
     }
     alignment = Vec3DotUnrounded(direction, &vectors[1]);
@@ -211,7 +210,7 @@ void SteerLinkFollowingItemToLink(LinkFollowingItemObject *follower, s32 targetS
         }
         follower->mLinkWasBehind = 1;
     }
-    if ((s64) toLink.x * toLink.x + (s64) toLink.y * toLink.y + (s64) toLink.z * toLink.z >= 0x10) {
+    if (LENGTH_SQUARED(toLink) >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&toLink, &toLink);
     }
     s = 0x1000 - follower->mRampTimer * follower->mRampWeightPerCount;

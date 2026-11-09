@@ -205,7 +205,7 @@ void ApplyItemObjectPush(ItemObject *item, Vec3 *otherPos, Vec3 *otherVelocity, 
     away.x -= MUL_FIXED12_NO_ROUND(normal->x, dot);
     away.y -= MUL_FIXED12_NO_ROUND(normal->y, dot);
     away.z -= MUL_FIXED12_NO_ROUND(normal->z, dot);
-    lengthSquared = (s64) away.x * away.x + (s64) away.y * away.y + (s64) away.z * away.z;
+    lengthSquared = LENGTH_SQUARED(away);
     if (lengthSquared >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&away, &away);
     }

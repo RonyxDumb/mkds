@@ -5,7 +5,7 @@
 #include "code_02147cd8.h"
 
 static inline s32 func_02073904_inline(Vec3 *v, Vec3 *n) {
-    if ((s64) v->x * v->x + (s64) v->y * v->y + (s64) v->z * v->z < 0x10) {
+    if (LENGTH_SQUARED(*v) < 0x10) {
         return 0;
     }
     return Vec3NormalizeAndGetLengthUnchecked(v, n);

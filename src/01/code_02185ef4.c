@@ -703,7 +703,7 @@ void AdvanceMissionRunMapObject(u32 a, Unk02188950 *mapObject) {
         }
     }
     if (mapObject->mUnk_2b8 != 2 && (mapObject->mCollisionBits & 0x214300)) {
-        if ((s64) v5c.x * v5c.x + (s64) v5c.y * v5c.y + (s64) v5c.z * v5c.z >= 0x10) {
+        if (LENGTH_SQUARED(v5c) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&v5c, &pushDirection);
         }
         pushDirection.y = 0;

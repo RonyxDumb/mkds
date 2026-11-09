@@ -432,8 +432,7 @@ void func_020653d0(Kart *kart, ParticipantKartRecord *record, s32 stepCount) {
             goto l7;
         }
         VEC_Subtract(&o->mPointAlongUp, &sourceKart->mPointAlongUp, &direction);
-        if ((s64) direction.x * direction.x + (s64) direction.y * direction.y + (s64) direction.z * direction.z >=
-            0x10) {
+        if (LENGTH_SQUARED(direction) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
         }
         StartSound(&o->mSoundSource, 0xe8, 0x7f, 0);
@@ -454,8 +453,7 @@ void func_020653d0(Kart *kart, ParticipantKartRecord *record, s32 stepCount) {
             goto l8;
         }
         VEC_Subtract(&o->mPointAlongUp, &sourceKart->mPointAlongUp, &direction);
-        if ((s64) direction.x * direction.x + (s64) direction.y * direction.y + (s64) direction.z * direction.z >=
-            0x10) {
+        if (LENGTH_SQUARED(direction) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
         }
         StartSound(&o->mSoundSource, 0xe8, 0x7f, 0);
@@ -476,8 +474,7 @@ void func_020653d0(Kart *kart, ParticipantKartRecord *record, s32 stepCount) {
             goto l9;
         }
         VEC_Subtract(&o->mPointAlongUp, &sourceKart->mPointAlongUp, &direction);
-        if ((s64) direction.x * direction.x + (s64) direction.y * direction.y + (s64) direction.z * direction.z >=
-            0x10) {
+        if (LENGTH_SQUARED(direction) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
         }
         StartSound(&o->mSoundSource, 0xe8, 0x7f, 0);
@@ -498,8 +495,7 @@ void func_020653d0(Kart *kart, ParticipantKartRecord *record, s32 stepCount) {
             goto l10;
         }
         VEC_Subtract(&o->mPointAlongUp, &sourceKart->mPointAlongUp, &direction);
-        if ((s64) direction.x * direction.x + (s64) direction.y * direction.y + (s64) direction.z * direction.z >=
-            0x10) {
+        if (LENGTH_SQUARED(direction) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
         }
         StartSound(&o->mSoundSource, 0xe8, 0x7f, 0);

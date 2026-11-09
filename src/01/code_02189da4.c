@@ -207,7 +207,7 @@ void BombKingItemHitCallback(Unk02188950 *mapObject, ItemObject *itemObject) {
         velocity.x = mapObject->mUnk_000.mPos.x - itemObject->mPos.x;
         velocity.y = 0;
         velocity.z = mapObject->mUnk_000.mPos.z - itemObject->mPos.z;
-        if ((s64) velocity.x * velocity.x + (s64) velocity.y * velocity.y + (s64) velocity.z * velocity.z >= 0x10) {
+        if (LENGTH_SQUARED(velocity) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&velocity, &velocity);
         }
         scale = mapObject->mPrm->mUnk_16c;

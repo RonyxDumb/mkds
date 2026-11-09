@@ -14,7 +14,7 @@ void GetSegmentCurvePosStep(Segment *segment, s32 fraction, s32 scale, Vec3 *fir
                             &secondWeight1, &secondWeight2, &secondWeight3);
     ComputeWeightedPoint(segment->mPoints, firstResult, firstWeight0, firstWeight1, firstWeight2, firstWeight3);
     ComputeWeightedPoint(segment->mPoints, secondResult, secondWeight0, secondWeight1, secondWeight2, secondWeight3);
-    secondResult->x = ((s64) secondResult->x * scale) >> 24;
-    secondResult->y = ((s64) secondResult->y * scale) >> 24;
-    secondResult->z = ((s64) secondResult->z * scale) >> 24;
+    secondResult->x = MUL_FIXED24_NO_ROUND(secondResult->x, scale);
+    secondResult->y = MUL_FIXED24_NO_ROUND(secondResult->y, scale);
+    secondResult->z = MUL_FIXED24_NO_ROUND(secondResult->z, scale);
 }

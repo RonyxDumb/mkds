@@ -317,7 +317,7 @@ u32 CollideKartWithDossun(Dossun *dossun, Kart *kart, u8 *firstResponsePtr, u8 *
     }
     if (dossun->mState == 4 || dossun->mEnteredState5 != FALSE) {
         VEC_Subtract(&kart->mCollisionCenter, &dossun->mMapObject.mPos, &centerOffset);
-        horizontalScaledSquared = ((s64) centerOffset.x * centerOffset.x + (s64) centerOffset.z * centerOffset.z) * 5;
+        horizontalScaledSquared = (HORIZONTAL_LENGTH_SQUARED(centerOffset)) * 5;
         verticalOffset = centerOffset.y;
         verticalScaledSquared = ((s64) verticalOffset * verticalOffset) << 2;
         if (verticalOffset < 0 && horizontalScaledSquared < verticalScaledSquared) {

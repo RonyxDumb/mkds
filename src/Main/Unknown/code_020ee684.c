@@ -1020,8 +1020,7 @@ void AdvanceItemInUseOneWithOrientation(ItemInUse *itemInUse) {
         direction.y = ((s64) inUseAlias->mBehindDirection.y << 13) >> 12;
         direction.z = ((s64) inUseAlias->mBehindDirection.z << 13) >> 12;
         VEC_Add(&direction, &itemInUse->mKartOrientation.mUnk_00[2], &direction);
-        lengthSquared =
-            (s64) direction.x * direction.x + (s64) direction.y * direction.y + (s64) direction.z * direction.z;
+        lengthSquared = LENGTH_SQUARED(direction);
         if (lengthSquared >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
         }
@@ -1169,9 +1168,8 @@ void AdvanceItemInUseTrail(ItemInUse *itemInUse) {
         d = delayedHopHeight - itemInUse->mKartHopHeight;
         d = MUL_FIXED12_NO_ROUND(d, speedFactor);
         VEC_Subtract(trailPos, previousPos, &offset);
-        if ((s64) offset.x * offset.x + (s64) offset.y * offset.y + (s64) offset.z * offset.z >=
-            (s64) maxGap * maxGap) {
-            if ((s64) offset.x * offset.x + (s64) offset.y * offset.y + (s64) offset.z * offset.z >= 0x10) {
+        if (LENGTH_SQUARED(offset) >= (s64) maxGap * maxGap) {
+            if (LENGTH_SQUARED(offset) >= 0x10) {
                 Vec3NormalizeAndGetLengthUnchecked(&offset, &offset);
             }
             VEC_MultAdd(maxGap, &offset, previousPos, trailPos);

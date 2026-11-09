@@ -30,6 +30,9 @@ typedef s32 BOOL;
 
 #define MUL_FIXED12_ROUNDED(a, b) ((s32) (((s64) (a) * (b) + 0x800) >> 12))
 #define MUL_FIXED12_NO_ROUND(a, b) ((s32) (((s64) (a) * (b)) >> 12))
+#define MUL_FIXED24_NO_ROUND(a, b) ((s32) (((s64) (a) * (b)) >> 24))
+#define LENGTH_SQUARED(v) ((s64) (v).x * (v).x + (s64) (v).y * (v).y + (s64) (v).z * (v).z)
+#define HORIZONTAL_LENGTH_SQUARED(v) ((s64) (v).x * (v).x + (s64) (v).z * (v).z)
 
 // Pointer to the T that starts OFFSET bytes after BASE (offsets read from file data and headers).
 #define OFFSET_PTR(T, base, offset) ((T *) ((u8 *) (base) + (offset)))

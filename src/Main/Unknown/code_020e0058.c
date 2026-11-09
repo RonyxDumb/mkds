@@ -84,7 +84,7 @@ s32 IsHitLinkOutsideGearRadiusOrFlagged(Unk020e0448 *link) {
     s64 limitSquared;
 
     if (object->mUnk_000.mCollisionData.mUnk_138 != 0 && object->mUnk_000.mMapObject.mKind == 0xcb) {
-        horizontalDistanceSquared = (s64) link->mUnk_04.x * link->mUnk_04.x + (s64) link->mUnk_04.z * link->mUnk_04.z;
+        horizontalDistanceSquared = HORIZONTAL_LENGTH_SQUARED(link->mUnk_04);
         limitSquared = (s64) object->mUnk_154 * object->mUnk_154;
         return horizontalDistanceSquared >= limitSquared;
     }

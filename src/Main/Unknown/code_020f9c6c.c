@@ -221,8 +221,7 @@ void UpdateItemKouraWOrientation(ItemKouraW *item, Vec3 *direction, s32 followDe
     s32 ok;
 
     if (normal != NULL) {
-        if ((s64) direction->x * direction->x + (s64) direction->y * direction->y + (s64) direction->z * direction->z >=
-            0x10) {
+        if (LENGTH_SQUARED(*direction) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(direction, &item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[2]);
         }
         smoothedDelta->x = MUL_FIXED12_NO_ROUND(smoothedDelta->x, 0xccd);
@@ -230,12 +229,11 @@ void UpdateItemKouraWOrientation(ItemKouraW *item, Vec3 *direction, s32 followDe
         smoothedDelta->z = MUL_FIXED12_NO_ROUND(smoothedDelta->z, 0xccd);
         VEC_MultAdd(0x3000, smoothedDelta, normal, &buf);
         Vec3CrossUnrounded(&buf, &item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[2], &buf);
-        if ((s64) buf.x * buf.x + (s64) buf.y * buf.y + (s64) buf.z * buf.z >= 0x10) {
+        if (LENGTH_SQUARED(buf) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&buf, &item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[0]);
         }
     } else {
-        if ((s64) direction->x * direction->x + (s64) direction->y * direction->y + (s64) direction->z * direction->z >=
-            0x10) {
+        if (LENGTH_SQUARED(*direction) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(direction, &buf);
         }
         if (buf.x * buf.x + buf.z * buf.z < 0x112510) {
@@ -438,7 +436,7 @@ void UpdateItemKouraWState3(ItemKouraW *item) {
             StartSoundWhileRequested(&item->mUnk_000.mUnk_000.mUnk_000.mSoundSource, item->mSoundId, 0x7f, 0);
         }
     }
-    if ((s64) item->mUnk_238.x * item->mUnk_238.x + (s64) item->mUnk_238.z * item->mUnk_238.z < 0x1900000000LL) {
+    if (HORIZONTAL_LENGTH_SQUARED(item->mUnk_238) < 0x1900000000LL) {
         item->mStateMachine.mNextState = 4;
         item->mStateMachine.mNextStateRequested = 1;
     }

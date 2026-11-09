@@ -15,8 +15,8 @@ void GetSegmentCurvePosStepXz(Segment *segment, s32 fraction, s32 scale, Vec3 *f
                             &secondWeight1, &secondWeight2, &secondWeight3);
     ComputeWeightedPointXz(segment->mPoints, firstResult, firstWeight0, firstWeight1, firstWeight2, firstWeight3);
     ComputeWeightedPointXz(segment->mPoints, secondResult, secondWeight0, secondWeight1, secondWeight2, secondWeight3);
-    secondResult->x = ((s64) secondResult->x * scale) >> 24;
-    secondResult->z = ((s64) secondResult->z * scale) >> 24;
+    secondResult->x = MUL_FIXED24_NO_ROUND(secondResult->x, scale);
+    secondResult->z = MUL_FIXED24_NO_ROUND(secondResult->z, scale);
 }
 
 void GetSegmentCurveXzLinearY(Segment *segment, s32 fraction, Vec3 *result) {
@@ -27,7 +27,7 @@ void GetSegmentCurveXzLinearY(Segment *segment, s32 fraction, Vec3 *result) {
     GetCurveWeights(fraction, &weight0, &weight1, &weight2, &weight3);
     ComputeWeightedPointXz(segment->mPoints, result, weight0, weight1, weight2, weight3);
     result->y = ((s64) segment->mPoints[0].y * (0x1000000 - fraction)) >> 24;
-    result->y = result->y + (s32) (((s64) segment->mPoints[3].y * fraction) >> 24);
+    result->y = result->y + MUL_FIXED24_NO_ROUND(segment->mPoints[3].y, fraction);
 }
 
 void SetupGroupFollowerAtEntry(GroupFollower *follower, u16 entryIndex, s32 ascending) {
@@ -82,7 +82,7 @@ BOOL AdvanceGroupFollower(GroupFollower *follower) {
                     follower->mToEntry = GetCourseMapGroupEntry(follower->mGroupIndex, 1);
                     speedScale = path->mSegments[follower->mSegmentIndex].mInverseProgressLength;
                     if (speedScale != 0) {
-                        follower->mProgress = ((s64) follower->mProgress * speedScale) >> 24;
+                        follower->mProgress = MUL_FIXED24_NO_ROUND(follower->mProgress, speedScale);
                     }
                     follower->mProgressStep =
                         speedScale != 0 ? MUL_FIXED12_NO_ROUND(follower->mSpeed, speedScale) : 0x1000000;
@@ -105,7 +105,7 @@ BOOL AdvanceGroupFollower(GroupFollower *follower) {
                 }
                 speedScale = path->mSegments[follower->mSegmentIndex].mInverseProgressLength;
                 if (speedScale != 0) {
-                    follower->mProgress = ((s64) follower->mProgress * speedScale) >> 24;
+                    follower->mProgress = MUL_FIXED24_NO_ROUND(follower->mProgress, speedScale);
                 }
                 follower->mProgressStep =
                     speedScale != 0 ? MUL_FIXED12_NO_ROUND(follower->mSpeed, speedScale) : 0x1000000;
@@ -125,7 +125,7 @@ BOOL AdvanceGroupFollower(GroupFollower *follower) {
                     follower->mToEntry = GetCourseMapGroupEntry(follower->mGroupIndex, path->mSegmentCount - 1);
                     speedScale = path->mSegments[follower->mSegmentIndex].mInverseProgressLength;
                     if (speedScale != 0) {
-                        follower->mProgress = ((s64) follower->mProgress * speedScale) >> 24;
+                        follower->mProgress = MUL_FIXED24_NO_ROUND(follower->mProgress, speedScale);
                     }
                     follower->mProgress = follower->mProgress + 0x1000000;
                     follower->mProgressStep =
@@ -144,7 +144,7 @@ BOOL AdvanceGroupFollower(GroupFollower *follower) {
                 follower->mToEntry = GetCourseMapGroupEntry(follower->mGroupIndex, follower->mSegmentIndex);
                 speedScale = path->mSegments[follower->mSegmentIndex].mInverseProgressLength;
                 if (speedScale != 0) {
-                    follower->mProgress = ((s64) follower->mProgress * speedScale) >> 24;
+                    follower->mProgress = MUL_FIXED24_NO_ROUND(follower->mProgress, speedScale);
                 }
                 follower->mProgress = follower->mProgress + 0x1000000;
                 follower->mProgressStep =

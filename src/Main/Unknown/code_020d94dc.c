@@ -73,8 +73,7 @@ void UpdateWater(Water *water) {
     switch (water->mState) {
         case 0:
             water->mHeightFactor = gPairsByAngle[(water->mHeightAngle >> 4) * 2];
-            water->mHeight =
-                water->mMidHeight + MUL_FIXED12_NO_ROUND(water->mHeightAmplitude, water->mHeightFactor);
+            water->mHeight = water->mMidHeight + MUL_FIXED12_NO_ROUND(water->mHeightAmplitude, water->mHeightFactor);
             water->mModelCY = water->mHeight;
             water->mHeightAngle = water->mHeightAngle + water->mHeightAnglePerFrame;
             water->mUnk_3a = water->mUnk_3a + water->mHeightAnglePerFrame;
@@ -105,8 +104,7 @@ void UpdateWater(Water *water) {
             break;
         case 2:
             water->mHeightFactor = gPairsByAngle[(water->mHeightAngle >> 4) * 2];
-            water->mHeight =
-                water->mMidHeight + MUL_FIXED12_NO_ROUND(water->mHeightAmplitude, water->mHeightFactor);
+            water->mHeight = water->mMidHeight + MUL_FIXED12_NO_ROUND(water->mHeightAmplitude, water->mHeightFactor);
             water->mModelCY = water->mHeight;
             water->mHeightAngle = water->mHeightAngle + water->mHeightAnglePerFrame;
             water->mUnk_3a = water->mUnk_3a + water->mHeightAnglePerFrame;
@@ -140,15 +138,12 @@ void UpdateWater(Water *water) {
     modelCAngle = water->mCircleAngle - water->mModelCAngleOffset;
     if (water->mModelAFile != NULL) {
         modelAIndex = (water->mCircleAngle >> 4) * 2;
-        water->mModelAX =
-            water->mCenterX + MUL_FIXED12_NO_ROUND(water->mModelARadius, gPairsByAngle[modelAIndex]);
-        water->mModelAZ =
-            water->mCenterZ + MUL_FIXED12_NO_ROUND(water->mModelARadius, gPairsByAngle[modelAIndex + 1]);
+        water->mModelAX = water->mCenterX + MUL_FIXED12_NO_ROUND(water->mModelARadius, gPairsByAngle[modelAIndex]);
+        water->mModelAZ = water->mCenterZ + MUL_FIXED12_NO_ROUND(water->mModelARadius, gPairsByAngle[modelAIndex + 1]);
     }
     modelCIndex = (modelCAngle >> 4) * 2;
     water->mModelCX = water->mCenterX + MUL_FIXED12_NO_ROUND(water->mModelCRadius, gPairsByAngle[modelCIndex]);
-    water->mModelCZ =
-        water->mCenterZ + MUL_FIXED12_NO_ROUND(water->mModelCRadius, gPairsByAngle[modelCIndex + 1]);
+    water->mModelCZ = water->mCenterZ + MUL_FIXED12_NO_ROUND(water->mModelCRadius, gPairsByAngle[modelCIndex + 1]);
 }
 
 // Draws model A (when it exists) and model C at their circle positions and mHeight, in the order of mDrawModelAFirst;
@@ -331,23 +326,23 @@ void CreateWaterEfct(MapObject *mapObject) {
 
 void GetCurveWeights(s32 fraction, s32 *weight0, s32 *weight1, s32 *weight2, s32 *weight3) {
     s32 remaining = 0x1000000 - fraction;
-    s32 v = ((s64) remaining * remaining) >> 24;
-    *weight0 = ((s64) remaining * v) >> 24;
-    *weight1 = (s32) (((s64) remaining * fraction) >> 24) * 3;
+    s32 v = MUL_FIXED24_NO_ROUND(remaining, remaining);
+    *weight0 = MUL_FIXED24_NO_ROUND(remaining, v);
+    *weight1 = MUL_FIXED24_NO_ROUND(remaining, fraction) * 3;
     *weight2 = ((s64) *weight1 * fraction) >> 24;
-    v = ((s64) fraction * fraction) >> 24;
-    *weight3 = ((s64) fraction * v) >> 24;
+    v = MUL_FIXED24_NO_ROUND(fraction, fraction);
+    *weight3 = MUL_FIXED24_NO_ROUND(fraction, v);
     *weight1 = ((s64) *weight1 * remaining) >> 24;
 }
 
 void GetCurveAndSlopeWeights(s32 fraction, s32 *weight0, s32 *weight1, s32 *weight2, s32 *weight3, s32 *slopeWeight0,
                              s32 *slopeWeight1, s32 *slopeWeight2, s32 *slopeWeight3) {
     s32 remaining = 0x1000000 - fraction;
-    *slopeWeight0 = ((s64) remaining * remaining) >> 24;
+    *slopeWeight0 = MUL_FIXED24_NO_ROUND(remaining, remaining);
     *weight0 = ((s64) *slopeWeight0 * remaining) >> 24;
-    *slopeWeight3 = ((s64) fraction * fraction) >> 24;
+    *slopeWeight3 = MUL_FIXED24_NO_ROUND(fraction, fraction);
     *weight3 = ((s64) *slopeWeight3 * fraction) >> 24;
-    *weight1 = (s32) (((s64) remaining * fraction) >> 24) * 3;
+    *weight1 = MUL_FIXED24_NO_ROUND(remaining, fraction) * 3;
     *slopeWeight0 = *slopeWeight0 * 3;
     *slopeWeight3 = *slopeWeight3 * 3;
     *slopeWeight2 = *weight1 << 1;
@@ -359,27 +354,27 @@ void GetCurveAndSlopeWeights(s32 fraction, s32 *weight0, s32 *weight1, s32 *weig
 }
 
 void ComputeWeightedPoint(const Vec3 *points, Vec3 *result, s32 weight0, s32 weight1, s32 weight2, s32 weight3) {
-    result->x = ((s64) points[0].x * weight0) >> 24;
-    result->y = ((s64) points[0].y * weight0) >> 24;
-    result->z = ((s64) points[0].z * weight0) >> 24;
-    result->x = result->x + (s32) (((s64) points[1].x * weight1) >> 24);
-    result->y = result->y + (s32) (((s64) points[1].y * weight1) >> 24);
-    result->z = result->z + (s32) (((s64) points[1].z * weight1) >> 24);
-    result->x = result->x + (s32) (((s64) points[2].x * weight2) >> 24);
-    result->y = result->y + (s32) (((s64) points[2].y * weight2) >> 24);
-    result->z = result->z + (s32) (((s64) points[2].z * weight2) >> 24);
-    result->x = result->x + (s32) (((s64) points[3].x * weight3) >> 24);
-    result->y = result->y + (s32) (((s64) points[3].y * weight3) >> 24);
-    result->z = result->z + (s32) (((s64) points[3].z * weight3) >> 24);
+    result->x = MUL_FIXED24_NO_ROUND(points[0].x, weight0);
+    result->y = MUL_FIXED24_NO_ROUND(points[0].y, weight0);
+    result->z = MUL_FIXED24_NO_ROUND(points[0].z, weight0);
+    result->x = result->x + MUL_FIXED24_NO_ROUND(points[1].x, weight1);
+    result->y = result->y + MUL_FIXED24_NO_ROUND(points[1].y, weight1);
+    result->z = result->z + MUL_FIXED24_NO_ROUND(points[1].z, weight1);
+    result->x = result->x + MUL_FIXED24_NO_ROUND(points[2].x, weight2);
+    result->y = result->y + MUL_FIXED24_NO_ROUND(points[2].y, weight2);
+    result->z = result->z + MUL_FIXED24_NO_ROUND(points[2].z, weight2);
+    result->x = result->x + MUL_FIXED24_NO_ROUND(points[3].x, weight3);
+    result->y = result->y + MUL_FIXED24_NO_ROUND(points[3].y, weight3);
+    result->z = result->z + MUL_FIXED24_NO_ROUND(points[3].z, weight3);
 }
 
 void ComputeWeightedPointXz(const Vec3 *points, Vec3 *result, s32 weight0, s32 weight1, s32 weight2, s32 weight3) {
-    result->x = ((s64) points[0].x * weight0) >> 24;
-    result->z = ((s64) points[0].z * weight0) >> 24;
-    result->x = result->x + (s32) (((s64) points[1].x * weight1) >> 24);
-    result->z = result->z + (s32) (((s64) points[1].z * weight1) >> 24);
-    result->x = result->x + (s32) (((s64) points[2].x * weight2) >> 24);
-    result->z = result->z + (s32) (((s64) points[2].z * weight2) >> 24);
-    result->x = result->x + (s32) (((s64) points[3].x * weight3) >> 24);
-    result->z = result->z + (s32) (((s64) points[3].z * weight3) >> 24);
+    result->x = MUL_FIXED24_NO_ROUND(points[0].x, weight0);
+    result->z = MUL_FIXED24_NO_ROUND(points[0].z, weight0);
+    result->x = result->x + MUL_FIXED24_NO_ROUND(points[1].x, weight1);
+    result->z = result->z + MUL_FIXED24_NO_ROUND(points[1].z, weight1);
+    result->x = result->x + MUL_FIXED24_NO_ROUND(points[2].x, weight2);
+    result->z = result->z + MUL_FIXED24_NO_ROUND(points[2].z, weight2);
+    result->x = result->x + MUL_FIXED24_NO_ROUND(points[3].x, weight3);
+    result->z = result->z + MUL_FIXED24_NO_ROUND(points[3].z, weight3);
 }

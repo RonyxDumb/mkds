@@ -204,7 +204,7 @@ void LaunchItemObjectFromPos(ItemObject *itemParam, s32 pushStrength, Vec3 *from
     VEC_MultAdd(dot + (startsFalling != 0 ? 0x2800 : 0x3800), normal, velocity, velocity);
     if (pushStrength != 0) {
         VEC_Subtract(&item->mPos, fromPos, &away);
-        if ((s64) away.x * away.x + (s64) away.y * away.y + (s64) away.z * away.z >= 0x10) {
+        if (LENGTH_SQUARED(away) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&away, &away);
         }
         VEC_MultAdd(pushStrength * 0x14cd, &away, velocity, velocity);

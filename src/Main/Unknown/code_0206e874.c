@@ -30,7 +30,7 @@
 #include "code_02147cd8.h"
 
 static inline s32 func_0206e874_inline(Vec3 *vector, Vec3 *normalized) {
-    if ((s64) vector->x * vector->x + (s64) vector->y * vector->y + (s64) vector->z * vector->z < 0x10) {
+    if (LENGTH_SQUARED(*vector) < 0x10) {
         return 0;
     }
     return Vec3NormalizeAndGetLengthUnchecked(vector, normalized);

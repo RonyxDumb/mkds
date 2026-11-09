@@ -40,7 +40,7 @@ MtxFx44 *GetProjectionMatrix(void) {
 }
 
 static inline s32 func_020760ec_inline(Vec3 *src, Vec3 *dst) {
-    if ((s64) src->x * src->x + (s64) src->y * src->y + (s64) src->z * src->z < 0x10) {
+    if (LENGTH_SQUARED(*src) < 0x10) {
         return 0;
     }
     return Vec3NormalizeAndGetLengthUnchecked(src, dst);
@@ -326,8 +326,7 @@ void UpdateChaseCameraPosGoalYOffset(Camera *camera, Kart *kart, Vec3 *forward) 
         }
     }
     if (d & 0x40000000) {
-        camera->mPosGoalYOffset =
-            camera->mPosGoalYOffset + MUL_FIXED12_ROUNDED(-camera->mPosGoalYOffset, easeRate);
+        camera->mPosGoalYOffset = camera->mPosGoalYOffset + MUL_FIXED12_ROUNDED(-camera->mPosGoalYOffset, easeRate);
         return;
     }
     j = goalYOffset - camera->mPosGoalYOffset;
@@ -766,7 +765,7 @@ void UpdateStaffRollCameraAndLight(Camera *camera) {
     newLookAt.y = 0x1f4000;
     offset = kart->mUnk_138;
     offset.y = 0;
-    if ((s64) offset.x * offset.x + (s64) offset.y * offset.y + (s64) offset.z * offset.z >= 0x10) {
+    if (LENGTH_SQUARED(offset) >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&offset, &offset);
     }
     func_02074b00_inline(&offset, &offset, courseMapCamera->mUnk_00.x);
@@ -843,7 +842,7 @@ void UpdateCameraPosCurve(Camera *camera, s32 paramPerFrame) {
     secondEntry = GetCourseMapGroupEntry(courseMapCamera->mEntryGroupIndex, 1);
     startPos = firstEntry->mPos;
     VEC_Subtract(&secondEntry->mPos, &firstEntry->mPos, &direction);
-    if ((s64) direction.x * direction.x + (s64) direction.y * direction.y + (s64) direction.z * direction.z < 0x10) {
+    if (LENGTH_SQUARED(direction) < 0x10) {
         m = 0;
     } else {
         m = Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
@@ -1045,7 +1044,7 @@ void UpdateChaseCameraPos(Vec3 *pos, Vec3 *posOffset, Camera *camera, Kart *kart
     j = v58.y;
     k = 0;
     v58.y = 0;
-    if ((s64) v58.x * v58.x + (s64) v58.y * v58.y + (s64) v58.z * v58.z >= 16) {
+    if (LENGTH_SQUARED(v58) >= 16) {
         k = Vec3NormalizeAndGetLengthUnchecked(&v58, &v58);
     }
     VEC_MultAdd(MUL_FIXED12_NO_ROUND(k, 0x11f), &v58, pos, pos);
@@ -1061,7 +1060,7 @@ void UpdateChaseCameraPos(Vec3 *pos, Vec3 *posOffset, Camera *camera, Kart *kart
     VEC_Subtract(pos, kartPos, &v28);
     v34 = v28;
     k = 0;
-    if ((s64) v34.x * v34.x + (s64) v34.y * v34.y + (s64) v34.z * v34.z >= 16) {
+    if (LENGTH_SQUARED(v34) >= 16) {
         k = Vec3NormalizeAndGetLengthUnchecked(&v34, &v34);
     }
     if (k == 0) {

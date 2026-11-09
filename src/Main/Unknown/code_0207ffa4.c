@@ -113,7 +113,7 @@ BOOL IsWithinBattlePointLinkDistance(LinkCursor *linkCursor, Vec3 *position) {
     radius = linkCursor->mLink->mUnk_24;
     VEC_Subtract(linkCursor->mLink->mUnk_20, position, &offset);
     offset.y = result;
-    if ((s64) offset.x * offset.x + (s64) offset.y * offset.y + (s64) offset.z * offset.z < (s64) radius * radius) {
+    if (LENGTH_SQUARED(offset) < (s64) radius * radius) {
         result = TRUE;
     }
     return result;
@@ -170,7 +170,7 @@ BOOL IsWithinPointLinkDistance(PointLinkCursor *pointLinkCursor, Vec3 *position)
     radius = link->mUnk_1c;
     VEC_Subtract(link->mPoint, position, &offset);
     offset.y = result;
-    if ((s64) offset.x * offset.x + (s64) offset.y * offset.y + (s64) offset.z * offset.z < (s64) radius * radius) {
+    if (LENGTH_SQUARED(offset) < (s64) radius * radius) {
         result = TRUE;
     }
     return result;

@@ -101,8 +101,7 @@ void SetBattleKartAiTurnSpeedLimit(KartAiSpeedLimit *kartAiSpeedLimit, KartAi *k
     if (turnRatio > 0x1000) {
         turnRatio = 0x1000;
     }
-    kartAiSpeedLimit->mTurnSpeedLimit =
-        MUL_FIXED12_ROUNDED(0x1000 - MUL_FIXED12_ROUNDED(turnRatio, 0x99c), 0x6000);
+    kartAiSpeedLimit->mTurnSpeedLimit = MUL_FIXED12_ROUNDED(0x1000 - MUL_FIXED12_ROUNDED(turnRatio, 0x99c), 0x6000);
     if (kartAi->mTargetShine == NULL) {
         return;
     }
@@ -457,7 +456,7 @@ void AdvanceBattleKartAiTargetKart(KartAi *kartAi) {
     c = 0;
     VEC_Subtract(&kartAi->mTargetKart->mPos, &kartAi->mKart->mPos, &toTarget);
     if (VEC_DotProduct(&toTarget, &kartAi->mKart->mUnk_138) > 0) {
-        if ((s64) toTarget.x * toTarget.x + (s64) toTarget.y * toTarget.y + (s64) toTarget.z * toTarget.z >= 0x10) {
+        if (LENGTH_SQUARED(toTarget) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&toTarget, &toTarget);
         }
         kartAi->mTargetForwardDot = VEC_DotProduct(&toTarget, &kartAi->mKart->mUnk_138);
@@ -586,8 +585,7 @@ void AdvanceBattleKartAiTargetShine(KartAi *kartAi) {
                 isAhead = FALSE;
                 VEC_Subtract(&targetShine->mPos, &kartAi->mKart->mPos, &toShine);
                 if (VEC_DotProduct(&toShine, &kartAi->mKart->mUnk_138) > 0) {
-                    if ((s64) toShine.x * toShine.x + (s64) toShine.y * toShine.y + (s64) toShine.z * toShine.z >=
-                        0x10) {
+                    if (LENGTH_SQUARED(toShine) >= 0x10) {
                         Vec3NormalizeAndGetLengthUnchecked(&toShine, &toShine);
                     }
                     kartAi->mEntryForwardDot = VEC_DotProduct(&toShine, &kartAi->mKart->mUnk_138);

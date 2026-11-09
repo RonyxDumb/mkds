@@ -60,7 +60,7 @@
 #pragma thumb off
 
 static inline s64 func_020dc354_inline(const Vec3 *vector) {
-    return (s64) vector->x * vector->x + (s64) vector->z * vector->z;
+    return HORIZONTAL_LENGTH_SQUARED(*vector);
 }
 
 void UpdateWanwanState5(Wanwan *wanwan) {

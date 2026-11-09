@@ -45,7 +45,7 @@ void ApplyItemObjectHitType(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, 
             }
             item->mFlags |= 0x4000000;
             if (Vec3DotUnrounded(&item->mVelocity, &offset) <= 0) {
-                if ((s64) offset.x * offset.x + (s64) offset.y * offset.y + (s64) offset.z * offset.z >= 0x10) {
+                if (LENGTH_SQUARED(offset) >= 0x10) {
                     Vec3NormalizeAndGetLengthUnchecked(&offset, &offset);
                 }
                 item->mBounce(item, otherVelocity, &offset);
@@ -73,7 +73,7 @@ void ApplyItemObjectHitType(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, 
                 (s64) radius * radius) {
                 break;
             }
-            if ((s64) offset.x * offset.x + (s64) offset.y * offset.y + (s64) offset.z * offset.z >= 0x10) {
+            if (LENGTH_SQUARED(offset) >= 0x10) {
                 Vec3NormalizeAndGetLengthUnchecked(&offset, &offset);
             }
             radius = item->mRadius;

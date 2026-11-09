@@ -1189,7 +1189,7 @@ void func_02070f8c(Kart *kart) {
 }
 
 static inline s32 func_020708a4_inline(Vec3 *src, Vec3 *dst) {
-    if ((s64) src->x * src->x + (s64) src->y * src->y + (s64) src->z * src->z < 0x10) {
+    if (LENGTH_SQUARED(*src) < 0x10) {
         return 0;
     }
     return Vec3NormalizeAndGetLengthUnchecked(src, dst);

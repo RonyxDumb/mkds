@@ -51,13 +51,13 @@ BOOL SteerItemKouraRToKart(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
             VEC_Subtract(&kart->mDrawMatrixPos, pos, &t);
             t.y = Vec3DotUnrounded(&item->mUnk_000.mUnk_000.mUnk_000.mNormal, &t) >> 12;
             if (t.y * t.y > 0xbd1) {
-                if ((s64) t.x * t.x + (s64) t.z * t.z < (s64) 0xe1000000u) {
+                if (HORIZONTAL_LENGTH_SQUARED(t) < (s64) 0xe1000000u) {
                     result = TRUE;
                 }
             }
             n = 0;
             t.y = 0;
-            if ((s64) t.x * t.x + (s64) t.y * t.y + (s64) t.z * t.z >= 0x10) {
+            if (LENGTH_SQUARED(t) >= 0x10) {
                 n = Vec3NormalizeAndGetLengthUnchecked(&t, &t);
             }
             t.x = MUL_FIXED12_NO_ROUND(t.x, speed);

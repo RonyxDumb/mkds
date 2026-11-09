@@ -42,8 +42,8 @@ void SteerItemKouraWToAnglePoint(ItemKouraW *item, s32 maxStep, s32 angle, s32 r
     t.x = MUL_FIXED12_NO_ROUND(toTarget->x, gain);
     t.y = MUL_FIXED12_NO_ROUND(toTarget->y, gain);
     t.z = MUL_FIXED12_NO_ROUND(toTarget->z, gain);
-    if ((s64) t.x * t.x + (s64) t.y * t.y + (s64) t.z * t.z >= (s64) maxStep * maxStep) {
-        if ((s64) t.x * t.x + (s64) t.y * t.y + (s64) t.z * t.z >= 0x10) {
+    if (LENGTH_SQUARED(t) >= (s64) maxStep * maxStep) {
+        if (LENGTH_SQUARED(t) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&t, &t);
         }
         t.x = MUL_FIXED12_NO_ROUND(t.x, maxStep);

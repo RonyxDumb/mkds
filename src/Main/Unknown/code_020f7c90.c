@@ -145,7 +145,7 @@ void DeflectItemObjectRandomly(ItemObject *item, Vec3 *otherPos, Vec3 *normal) {
     s32 angleIndex;
 
     if (item->mFlags & 0x2000000) {
-        if ((s64) normal->x * normal->x + (s64) normal->y * normal->y + (s64) normal->z * normal->z >= 0x10) {
+        if (LENGTH_SQUARED(*normal) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(normal, normal);
         }
         if (Vec3DotUnrounded(normal, &item->mUnk_108) > 0x800) {

@@ -78,7 +78,7 @@ void func_01ffa4b4(Kart *p, Vec3 *a) {
             p->mUnk_4da = 3;
             if (((s32(*)(Kart *, u32, Vec3 *)) data_0217ac14)(p, f, &v3) != 0 || (p->mUnk_44 & 0x4000000)) {
                 n = 0;
-                if ((s64) v3.x * v3.x + (s64) v3.y * v3.y + (s64) v3.z * v3.z >= 0x10) {
+                if (LENGTH_SQUARED(v3) >= 0x10) {
                     n = Vec3NormalizeAndGetLengthUnchecked(&v3, &v6);
                 }
                 if (n != 0) {
@@ -132,7 +132,7 @@ void func_01ffa4b4(Kart *p, Vec3 *a) {
         }
         if (m != 0) {
             *a = v5;
-            if ((s64) a->x * a->x + (s64) a->y * a->y + (s64) a->z * a->z >= 0x10) {
+            if (LENGTH_SQUARED(*a) >= 0x10) {
                 p->mUnk_48 &= ~0x10000000;
                 p->mUnk_3e8 = 0;
                 RefreshKartSurface(p);
@@ -155,7 +155,7 @@ void func_01ffa4b4(Kart *p, Vec3 *a) {
                     func_01ff9cb0(p);
                     if (((s32(*)(Kart *, u32, Vec3 *)) data_0217ac14)(p, f, &v3) != 0) {
                         n = 0;
-                        if ((s64) v3.x * v3.x + (s64) v3.y * v3.y + (s64) v3.z * v3.z >= 0x10) {
+                        if (LENGTH_SQUARED(v3) >= 0x10) {
                             n = Vec3NormalizeAndGetLengthUnchecked(&v3, &v7);
                         }
                         if (n != 0) {

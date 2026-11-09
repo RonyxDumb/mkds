@@ -248,8 +248,7 @@ recheck:
         v.x = kart->mUnk_138.x - MUL_FIXED12_NO_ROUND(kart->mHopStartUp.x, dot);
         v.y = q->y - MUL_FIXED12_NO_ROUND(kart->mHopStartUp.y, dot);
         v.z = q->z - MUL_FIXED12_NO_ROUND(kart->mHopStartUp.z, dot);
-        if ((s64) v.x * v.x + (s64) v.y * v.y + (s64) v.z * v.z >= 16 ? Vec3NormalizeAndGetLengthUnchecked(&v, &v)
-                                                                      : 0) {
+        if (LENGTH_SQUARED(v) >= 16 ? Vec3NormalizeAndGetLengthUnchecked(&v, &v) : 0) {
             Vec3CrossUnrounded(&kart->mHopStartForward, &v, &w);
             len = VEC_Mag(&w);
             ang = FX_Atan2(len, Vec3DotUnrounded(&kart->mHopStartForward, &v));

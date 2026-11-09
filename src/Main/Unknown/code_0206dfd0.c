@@ -49,7 +49,7 @@ static inline BOOL func_0206dfd0_inline(Kart *p, Kart *q, s32 r) {
 }
 
 static inline s32 func_0206dfd0_inline_2(Vec3 *v, Vec3 *n) {
-    if ((s64) v->x * v->x + (s64) v->y * v->y + (s64) v->z * v->z < 0x10) {
+    if (LENGTH_SQUARED(*v) < 0x10) {
         return 0;
     }
     return Vec3NormalizeAndGetLengthUnchecked(v, n);

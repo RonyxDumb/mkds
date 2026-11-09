@@ -198,7 +198,7 @@ void StartWoodbox1ItemObject(Woodbox1 *woodbox, Vec3 *velocity) {
     if (itemObject == NULL) {
         return;
     }
-    if ((s64) velocity->x * velocity->x + (s64) velocity->y * velocity->y + (s64) velocity->z * velocity->z >= 16) {
+    if (LENGTH_SQUARED(*velocity) >= 16) {
         Vec3NormalizeAndGetLengthUnchecked(velocity, &direction);
     }
     Vec3CrossUnrounded(&woodbox->mGroundUp, &direction, &sideDirection);
@@ -473,7 +473,7 @@ void ComputeSphereOverlapOffset(Vec3 *position, Vec3 *center, s32 radius, Vec3 *
     Vec3 direction;
 
     VEC_Subtract(position, center, offset);
-    if ((s64) offset->x * offset->x + (s64) offset->y * offset->y + (s64) offset->z * offset->z >= 16) {
+    if (LENGTH_SQUARED(*offset) >= 16) {
         Vec3NormalizeAndGetLengthUnchecked(offset, &direction);
     }
     direction.x = MUL_FIXED12_NO_ROUND(direction.x, radius);
@@ -489,7 +489,7 @@ void ComputeCylinderOverlapOffset(Vec3 *position, Vec3 *center, s32 radius, s32 
     offset->x = position->x - center->x;
     offset->y = 0;
     offset->z = position->z - center->z;
-    if ((s64) offset->x * offset->x + (s64) offset->y * offset->y + (s64) offset->z * offset->z >= 16) {
+    if (LENGTH_SQUARED(*offset) >= 16) {
         Vec3NormalizeAndGetLengthUnchecked(offset, &direction);
     }
     offset->x = MUL_FIXED12_NO_ROUND(direction.x, radius) - offset->x;
@@ -500,7 +500,7 @@ void ComputeCylinderOverlapOffset(Vec3 *position, Vec3 *center, s32 radius, s32 
     } else {
         offset->y = -(halfHeight + offset->y);
     }
-    if ((s64) offset->x * offset->x + (s64) offset->z * offset->z > (s64) offset->y * offset->y) {
+    if (HORIZONTAL_LENGTH_SQUARED(*offset) > (s64) offset->y * offset->y) {
         limit = offset->y;
         if (limit <= 0) {
             limit = -limit;
@@ -644,7 +644,7 @@ s32 ComputeSphereHitOnRotatedCylinder(Vec3 *sphereCenter, Vec3 *cylinderCenter, 
     if (pushOut != NULL) {
         Vec3 radialPush = {0};
 
-        if ((s64) local.x * local.x + (s64) local.y * local.y + (s64) local.z * local.z >= 16) {
+        if (LENGTH_SQUARED(local) >= 16) {
             Vec3NormalizeAndGetLengthUnchecked(&local, &radialPush);
         }
         radialPush.x = MUL_FIXED12_NO_ROUND(radialPush.x, overlapRadial);
@@ -718,7 +718,7 @@ void BounceVelocityOffSurface(Vec3 *velocity, Vec3 *surfaceNormal, s32 tangentSc
     if (normal.y > 0) {
         normal.y = 0;
         length = 0;
-        if ((s64) normal.x * normal.x + (s64) normal.y * normal.y + (s64) normal.z * normal.z >= 16) {
+        if (LENGTH_SQUARED(normal) >= 16) {
             length = Vec3NormalizeAndGetLengthUnchecked(&normal, &normal);
         }
         if (length == 0) {
@@ -740,7 +740,7 @@ void BounceVelocityOffSurface(Vec3 *velocity, Vec3 *surfaceNormal, s32 tangentSc
     normalPart.x = MUL_FIXED12_NO_ROUND(normalPart.x, negatedBounce);
     normalPart.y = MUL_FIXED12_NO_ROUND(normalPart.y, negatedBounce);
     normalPart.z = MUL_FIXED12_NO_ROUND(normalPart.z, negatedBounce);
-    if ((s64) normalPart.x * normalPart.x + (s64) normalPart.z * normalPart.z < (s64) minNormalSpeed * minNormalSpeed) {
+    if (HORIZONTAL_LENGTH_SQUARED(normalPart) < (s64) minNormalSpeed * minNormalSpeed) {
         normalPart.x = MUL_FIXED12_NO_ROUND(normal.x, minNormalSpeed);
         normalPart.y = MUL_FIXED12_NO_ROUND(normal.y, minNormalSpeed);
         normalPart.z = MUL_FIXED12_NO_ROUND(normal.z, minNormalSpeed);
@@ -756,7 +756,7 @@ void BounceVelocityOffUnnormalizedSurface(Vec3 *velocity, Vec3 *surfaceNormal, s
     if (surfaceNormal->y <= 0) {
         normal = *surfaceNormal;
         length = 0;
-        if ((s64) normal.x * normal.x + (s64) normal.y * normal.y + (s64) normal.z * normal.z >= 16) {
+        if (LENGTH_SQUARED(normal) >= 16) {
             length = Vec3NormalizeAndGetLengthUnchecked(&normal, &normal);
         }
         if (length == 0) {

@@ -239,7 +239,7 @@ BOOL TryGetCoverPooHolePushOut(CoverPooHole *coverPooHole, const Vec3 *position,
         return TRUE;
     }
     if (coverPooHole->mState == 4 || (coverPooHole->mState == 5 && coverPooHole->mUnk_a0 > 0x7800)) {
-        if ((s64) offset.x * offset.x + (s64) offset.y * offset.y + (s64) offset.z * offset.z >= 0x10) {
+        if (LENGTH_SQUARED(offset) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&offset, &offset);
         }
         d = coverPooHole->mUnk_00.mExtent.x + radius - d;

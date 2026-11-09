@@ -493,7 +493,7 @@ s32 StartKartState5(Kart *p, const Vec3 *a, s32 b) {
     StartKartState(p, KART_STATE_PUSH_DOUBLE_FLIP);
     v = *a;
     v.y = 0;
-    if ((s64) v.x * v.x + (s64) v.y * v.y + (s64) v.z * v.z >= 16) {
+    if (LENGTH_SQUARED(v) >= 16) {
         r = Vec3NormalizeAndGetLengthUnchecked(&v, &v);
     } else {
         r = 0;

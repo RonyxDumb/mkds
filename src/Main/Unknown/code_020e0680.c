@@ -205,7 +205,7 @@ void DrawVehicle(VehicleDrawList *drawList, Unk020e1e98 *vehicle, u32 c, u32 alp
 }
 
 static inline s64 func_020e2630_inline(const Vec3 *v) {
-    return (s64) v->x * v->x + (s64) v->z * v->z;
+    return HORIZONTAL_LENGTH_SQUARED(*v);
 }
 
 static inline s16 func_020e2630_inline2(Unk020e1e98 *b) {
@@ -338,7 +338,7 @@ void StartVehicleHitReaction(Unk020e1e98 *vehicle, Vec3 *hitterPosition) {
     direction.z = (dotAxis0 > 0 ? vehicle->mUnk_000.mMatrix.mUnk_00[0].z : -vehicle->mUnk_000.mMatrix.mUnk_00[0].z) * 2;
     direction.z += dotAxis2 > 0 ? vehicle->mUnk_000.mMatrix.mUnk_00[2].z : -vehicle->mUnk_000.mMatrix.mUnk_00[2].z;
     direction.y = ((vehicle->mUnk_114.y - 0x14000) >> 4) + 0x2000;
-    if ((s64) direction.x * direction.x + (s64) direction.y * direction.y + (s64) direction.z * direction.z >= 0x10) {
+    if (LENGTH_SQUARED(direction) >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
     }
     QuaternionFromYAxisToVec3(&direction, &vehicle->mUnk_0c4);

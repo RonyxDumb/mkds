@@ -68,10 +68,10 @@ void GetGroupFollowerLinearXz(GroupFollower *follower, Vec3 *position) {
     segment = &follower->mPath->mSegments[follower->mSegmentIndex];
     progress = follower->mProgress;
     remaining = 0x1000000 - progress;
-    position->x = ((s64) segment->mPoints[0].x * remaining) >> 24;
-    position->z = ((s64) segment->mPoints[0].z * remaining) >> 24;
-    position->x = position->x + (s32) (((s64) segment->mPoints[3].x * progress) >> 24);
-    position->z = position->z + (s32) (((s64) segment->mPoints[3].z * progress) >> 24);
+    position->x = MUL_FIXED24_NO_ROUND(segment->mPoints[0].x, remaining);
+    position->z = MUL_FIXED24_NO_ROUND(segment->mPoints[0].z, remaining);
+    position->x = position->x + MUL_FIXED24_NO_ROUND(segment->mPoints[3].x, progress);
+    position->z = position->z + MUL_FIXED24_NO_ROUND(segment->mPoints[3].z, progress);
 }
 
 Vec3 *CreateCourseMapGroupSideVectors(CourseMapRow *row) {

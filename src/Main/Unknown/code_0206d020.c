@@ -227,7 +227,7 @@ void func_0206d7c8(Kart *pushingKart, Kart *pushedKart, const Vec3 *v, s32 c, Ve
     v9.y = s.y - MUL_FIXED12_NO_ROUND(d.y, v3);
     v9.z = s.z - MUL_FIXED12_NO_ROUND(d.z, v3);
     v4 = 0;
-    if ((s64) v9.x * v9.x + (s64) v9.y * v9.y + (s64) v9.z * v9.z >= 16) {
+    if (LENGTH_SQUARED(v9) >= 16) {
         v4 = Vec3NormalizeAndGetLengthUnchecked(&v9, &n);
     }
     if (v4 <= 0) {

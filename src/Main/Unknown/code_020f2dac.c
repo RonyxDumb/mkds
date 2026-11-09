@@ -665,8 +665,7 @@ void InitItemPointLinkDirections(void) {
     link = gCourseMap->mItemPointLinks;
     for (i = 0; i < linkCount; i++, link++) {
         VEC_Subtract(link->mNextLinks[0]->mPointPos, link->mPointPos, &direction);
-        if ((s64) direction.x * direction.x + (s64) direction.y * direction.y + (s64) direction.z * direction.z >=
-            0x10) {
+        if (LENGTH_SQUARED(direction) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
         }
         link->mDirectionX = direction.x >> 6;

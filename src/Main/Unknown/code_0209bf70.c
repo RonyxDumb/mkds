@@ -302,7 +302,7 @@ s32 CollideKartWithBound(Bound *bound, Kart *kart, u8 *b, u8 *c) {
             v1.x -= v0.x;
             v1.y -= v0.y;
             v1.z -= v0.z;
-            if ((s64) v1.x * v1.x + (s64) v1.y * v1.y + (s64) v1.z * v1.z < 0x10) {
+            if (LENGTH_SQUARED(v1) < 0x10) {
                 q = &kart->mUnk_120;
                 bound->mUnk_000.mUnk_10.x = MUL_FIXED12_NO_ROUND(kart->mUnk_120.x, 0xc000);
                 bound->mUnk_000.mUnk_10.y = MUL_FIXED12_NO_ROUND(q->y, 0xc000);
@@ -354,7 +354,7 @@ s32 CollideKartWithBound(Bound *bound, Kart *kart, u8 *b, u8 *c) {
                     kart->mIndex,
                     (u16) (((u64) CollideKartWithBound_inline(&gRaceProgress->mLocalRandom) * 3) >> 32) + 1);
                 VEC_Subtract(&bound->mUnk_000.mPos, &kart->mCollisionCenter, &v3);
-                if (!((s64) v3.x * v3.x + (s64) v3.y * v3.y + (s64) v3.z * v3.z < 0x10)) {
+                if (!(LENGTH_SQUARED(v3) < 0x10)) {
                     Vec3NormalizeAndGetLengthUnchecked(&v3, &v3);
                 }
                 VEC_MultAdd(kart->mRadius, &v3, &kart->mCollisionCenter, &v3);

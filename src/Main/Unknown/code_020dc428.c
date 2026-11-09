@@ -278,7 +278,7 @@ void EnterWanwanState0(Wanwan *wanwan) {
 }
 
 static inline s64 func_020dccc8_inline(const Vec3 *vector) {
-    return (s64) vector->x * vector->x + (s64) vector->z * vector->z;
+    return HORIZONTAL_LENGTH_SQUARED(*vector);
 }
 
 // Kind 0x196 only (kind 0x1a5 never reaches state 0).
@@ -462,14 +462,14 @@ void UpdateWanwanState1(Wanwan *wanwan) {
     }
     t = MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mUnk_10.x, a.z);
     t -= MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mUnk_10.z, a.x);
-    if (((s64) a.x * a.x + (s64) a.z * a.z) * 10 < (s64) t * t) {
+    if ((HORIZONTAL_LENGTH_SQUARED(a)) * 10 < (s64) t * t) {
         wanwan->mMapObject.mUnk_10.x >>= 1;
         wanwan->mMapObject.mUnk_10.z >>= 1;
     }
     wanwan->mMapObject.mPos.x += wanwan->mMapObject.mUnk_10.x;
     wanwan->mMapObject.mPos.z += wanwan->mMapObject.mUnk_10.z;
     VEC_Subtract(&wanwan->mMapObject.mPos, &wanwan->mCenterPos, &a);
-    if ((s64) a.x * a.x + (s64) a.z * a.z >= (s64) wanwan->mMaxRadius * wanwan->mMaxRadius) {
+    if (HORIZONTAL_LENGTH_SQUARED(a) >= (s64) wanwan->mMaxRadius * wanwan->mMaxRadius) {
         Vec3NormalizeXZAndGetLengthOrZero(&a, &a);
         wanwan->mMapObject.mPos.x = wanwan->mCenterPos.x + MUL_FIXED12_NO_ROUND(a.x, wanwan->mMaxRadius);
         wanwan->mMapObject.mPos.z = wanwan->mCenterPos.z + MUL_FIXED12_NO_ROUND(a.z, wanwan->mMaxRadius);
@@ -506,7 +506,7 @@ void UpdateWanwanState2(Wanwan *wanwan) {
         wanwan->mMapObject.mUnk_10.x = wanwan->mMapObject.mPos.x - wanwan->mMapObject.mUnk_10.x;
         wanwan->mMapObject.mUnk_10.z = wanwan->mMapObject.mPos.z - wanwan->mMapObject.mUnk_10.z;
         velocity = &wanwan->mMapObject.mUnk_10;
-        if ((s64) velocity->x * velocity->x + (s64) velocity->z * velocity->z >= 0x10) {
+        if (HORIZONTAL_LENGTH_SQUARED(*velocity) >= 0x10) {
             QuaternionFromAngleAroundY(
                 (u16) (((s64) FX_Atan2(wanwan->mMapObject.mUnk_10.x, wanwan->mMapObject.mUnk_10.z) * 0x28be60db9391LL +
                         0x80000000000LL) >>
@@ -546,7 +546,7 @@ void EnterWanwanState3(Wanwan *wanwan) {
 }
 
 static inline s64 func_020dc474_inline(const Vec3 *vector) {
-    return (s64) vector->x * vector->x + (s64) vector->z * vector->z;
+    return HORIZONTAL_LENGTH_SQUARED(*vector);
 }
 
 void UpdateWanwanState3(Wanwan *wanwan) {

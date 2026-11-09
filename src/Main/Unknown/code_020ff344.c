@@ -257,7 +257,7 @@ s32 func_020ff3c4(ItemFBox *fbox) {
     Vec3 *vector;
 
     vector = gItemPushVector;
-    if ((s64) vector->x * vector->x + (s64) vector->y * vector->y + (s64) vector->z * vector->z >= 0x10) {
+    if (LENGTH_SQUARED(*vector) >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(vector, &fbox->mUnk_130);
     }
     fbox->mPooledMapObject->mShadowMode = 2;

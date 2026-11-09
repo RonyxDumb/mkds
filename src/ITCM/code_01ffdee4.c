@@ -611,7 +611,7 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *c, int ra
                 cc.z = cc.z - MUL_FIXED12_NO_ROUND(cd.z, (c)->z);
                 VEC_Add(&firstHitRecord.mMaxOffset, &firstHitRecord.mMinOffset, &ua);
                 if (Vec3DotUnrounded(&cc, &ua) >= 0) {
-                    if ((s64) cc.x * cc.x + (s64) cc.y * cc.y + (s64) cc.z * cc.z >= 16) {
+                    if (LENGTH_SQUARED(cc) >= 16) {
                         Vec3NormalizeAndGetLengthUnchecked(&cc, &cc);
                     }
                     cc.x = MUL_FIXED12_NO_ROUND(cc.x, radius >> 5);

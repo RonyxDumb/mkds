@@ -145,8 +145,7 @@ BOOL func_020f97e0(ItemObject *item, Kart *kart) {
     offset.x = item->mPos.x - kart->mPointAlongUp.x;
     offset.y = item->mPos.y - kart->mPointAlongUp.y;
     offset.z = item->mPos.z - kart->mPointAlongUp.z;
-    return (s64) offset.x * offset.x + (s64) offset.y * offset.y + (s64) offset.z * offset.z <
-           (s64) hitRadius * hitRadius;
+    return LENGTH_SQUARED(offset) < (s64) hitRadius * hitRadius;
 }
 
 BOOL IsItemObjectOverlappingSphere(ItemObject *item, Vec3 *center, s32 radius) {
@@ -157,8 +156,7 @@ BOOL IsItemObjectOverlappingSphere(ItemObject *item, Vec3 *center, s32 radius) {
     offset.x = item->mPos.x - center->x;
     offset.y = item->mPos.y - center->y;
     offset.z = item->mPos.z - center->z;
-    return (s64) offset.x * offset.x + (s64) offset.y * offset.y + (s64) offset.z * offset.z <
-           (s64) sumRadius * sumRadius;
+    return LENGTH_SQUARED(offset) < (s64) sumRadius * sumRadius;
 }
 
 void func_020f95d4(ItemObject *item, ItemObject *other) {
