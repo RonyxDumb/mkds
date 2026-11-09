@@ -14,13 +14,14 @@
 #include "Main/Unknown/code_0212b000.h"
 #include "code_0214a390.h"
 #include "Main/Unknown/code_0202b604.h"
+#include "Main/Unknown/code_0211d4a8.h"
 
 u32 func_0202811c(void) {
     return (data_021759d0->mUnk_20);
 }
 
 u16 *func_02028110(void) {
-    return (u16 *) 0x27ffc40;
+    return &gBootInfo->mUnk_00;
 }
 
 u32 func_020280e8(void) {

@@ -54,6 +54,9 @@ typedef enum TPState { TP_STATE_READY = 0, TP_STATE_SAMPLING, TP_STATE_AUTO_SAMP
 // result is a TPRequestResult and index the ring position, both passed as bytes.
 typedef void (*TPRecvCallback)(TPRequestCommand command, u8 result, u8 index);
 
+#define HW_UNK_027FFFAA_BUF ((u16 *) 0x027fffaa)
+#define HW_UNK_027FFC80_TP_BUF ((Unk0214eadc *) 0x027ffc80)
+
 // The two shared halfwords at 0x027fffaa and 0x027fffac that carry a reading, split into bit fields.
 typedef union SPITpData {
     u16 halfs[2];

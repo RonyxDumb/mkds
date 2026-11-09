@@ -39,6 +39,7 @@
 #include "00/code_02181f98.h"
 #include "Main/Unknown/code_02023000.h"
 #include "gx.h"
+#include "Main/Unknown/code_0211d4a8.h"
 
 #pragma thumb on
 void InitMessageScreen(void *heap) {
@@ -121,7 +122,7 @@ void *GetMessageScreenText(void) {
     void *messages;
     s32 kind;
     messages = NULL;
-    if (*(vu16 *) 0x27ffc40 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         messages = FindFileInLoadedArchives(data_0216ea6c);
     }
     kind = gMessageScreen->mKind;
@@ -144,7 +145,7 @@ void *GetMessageScreenText(void) {
         return GetBmgEntry(messages, 0x85);
     }
     if (kind == 0) {
-        if (*(vu16 *) 0x27ffc40 == 2) {
+        if (gBootInfo->mUnk_00 == 2) {
             return GetBmgEntry(func_020d1630()->mUnk_20, 0);
         }
         return GetBmgEntry(messages, 0x82);
@@ -155,7 +156,7 @@ void *GetMessageScreenText(void) {
 void PrintMessageScreenText(void) {
     s32 i;
     ClearMessageScreenChars();
-    if (*(vu16 *) 0x27ffc40 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         gMessageScreen->mTextCanvas.mFont = &func_020d1630()->mUnk_14;
     } else {
         gMessageScreen->mTextCanvas.mFont = GetFontByIndex(0);
@@ -377,8 +378,7 @@ void AdvanceLinkLevelIcons(void) {
         slotValue = gLinkLevelIcons->mIconKind[i];
         if (gLinkLevelIcons->mCycleFrames < 0x69 || slotValue <= 1) {
             MIi_CpuCopy16(&gLinkLevelIcons->mOamRecords[i],
-                          &gLinkLevelIcons->mOamList->mOams[gLinkLevelIcons->mOamList->mOamCount],
-                          6);
+                          &gLinkLevelIcons->mOamList->mOams[gLinkLevelIcons->mOamList->mOamCount], 6);
             gLinkLevelIcons->mOamList->mOamCount++;
         }
     }

@@ -312,8 +312,8 @@ void WmReceiveFifo(u32 tag, Unk021425e8 *callback, s32 err) {
 
 // Clears the pending-callback flag (bit 0) of the system work halfword at 0x027fff96.
 void WmClearFifoRecvFlag(void) {
-    if ((*(u16 *) 0x27fff96 & 1) != 0) {
-        *(u16 *) 0x27fff96 &= ~1;
+    if ((*HW_UNK_027FFF96_BUF & 1) != 0) {
+        *HW_UNK_027FFF96_BUF &= ~1;
     }
 }
 

@@ -215,7 +215,7 @@ int CARDi_TryReadCardDma(CARDRomStat *p) {
     if (aligned != 0 && len != 0) {
         isAsync = 1;
     }
-    p->mCtrl = (*(u32 *) 0x027ffe60 & ~0x07000000) | 0xa1000000;
+    p->mCtrl = (*HW_UNK_027FFE60_BUF & ~0x07000000) | 0xa1000000;
     if (isAsync != 0) {
         enabled = OS_DisableInterrupts();
         IC_InvalidateRange((void *) dst, len);
@@ -674,8 +674,8 @@ void CARDi_InitCommon(void) {
     p->mCmd = &gRequestBlock;
     MemFillWordsByBlock_inline(&gRequestBlock, 0x40);
     DC_FlushRange(&gRequestBlock, 0x40);
-    if (*(u16 *) 0x027ffc40 != 2) {
-        MI_CpuCopy8((void *) 0x027ffe00, (void *) 0x027ffa80, 0x160);
+    if (HW_WM_BOOT_BUF->mUnk_00 != 2) {
+        MI_CpuCopy8(HW_ROM_HEADER_BUF, HW_CARD_ROM_HEADER, 0x160);
     }
     p->mLockQueue.mTail = 0;
     p->mLockQueue.mHead = p->mLockQueue.mTail;
@@ -685,7 +685,7 @@ void CARDi_InitCommon(void) {
     OS_CreateThread(&p->mThread, CARDi_TaskThread, 0, (u8 *) &gRomBaseOffset, 0x400, p->mPriority);
     OS_WakeupThreadDirect(&p->mThread);
     PXI_SetFifoRecvCallback(11, CARDi_OnFifoRecv);
-    if (*(u16 *) 0x027ffc40 != 2) {
+    if (HW_WM_BOOT_BUF->mUnk_00 != 2) {
         CARD_Enable(1);
     }
 }

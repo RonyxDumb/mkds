@@ -17,7 +17,7 @@ void MIC_Init(void) {
     PXI_Init();
     while (!PXI_IsCallbackReady(9, 1)) {
     }
-    *(u32 *) 0x27fff90 = 0;
+    *HW_UNK_027FFF90_BUF = 0;
     PXI_SetFifoRecvCallback(9, MicCommonCallback);
 }
 
@@ -165,7 +165,7 @@ void MicCommonCallback(u32 tag, u32 data, BOOL err) {
     }
     if (command == 0x40) {
         if (gMicrophoneCommand.mDstBuf != 0) {
-            *gMicrophoneCommand.mDstBuf = *(u16 *) 0x27fff94;
+            *gMicrophoneCommand.mDstBuf = *HW_UNK_027FFF94_BUF;
         }
     }
     if (gMicrophoneCommand.mLock != 0) {

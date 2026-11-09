@@ -2,6 +2,8 @@
 #include "Main/Unknown/code_02039530.h"
 #include "Main/Unknown/code_020431e4.h"
 #include "Main/Unknown/unk_02175000.h"
+#include "code_0200fe74.h"
+#include "registers.h"
 
 void func_020394cc(void) {
     data_021755dc.mPressedBits = 0;
@@ -42,7 +44,7 @@ void ReadKeysIntoInputSlot(void) {
     if (data_021755dc.mUnk_24 != 0) {
         keys = ReadKeyBitsFromStream();
     } else {
-        keys = (u16) (((*(vu16 *) 0x4000130 | *(vu16 *) 0x27fffa8) ^ 0x2fff) & 0x2fff);
+        keys = (u16) (((reg_PAD_KEYINPUT | *HW_BUTTON_XY_BUF) ^ 0x2fff) & 0x2fff);
     }
     UpdateInputSlot(keys, &data_021755dc);
 }

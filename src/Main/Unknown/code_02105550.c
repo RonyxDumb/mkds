@@ -782,7 +782,7 @@ void StartSceneSounds(void) {
     NNSSndSeqPlayer **seqHandle;
     s32 j;
 
-    if (*(u16 *) 0x27ffc40 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         if (GetCurrentSceneNumber() == 6) {
             return;
         }

@@ -28,10 +28,10 @@ void OS_InitLock(void) {
             OSi_WaitByLoop();
         } while (lockWord->mExtension != 0);
     }
-    *(u32 *) 0x027fffb0 = 0xffffffff;
-    *(u32 *) 0x027fffb4 = 0xffff0000;
+    *HW_LOCK_ID_FLAG_MAIN = 0xffffffff;
+    *HW_UNK_027FFFB4_BUF = 0xffff0000;
     zero = 0;
-    MIi_CpuClear32(zero, (void *) 0x027fffc0, 0x28);
+    MIi_CpuClear32(zero, HW_SHARED_LOCK_BUF, 0x28);
     reg_MI_EXMEMCNT |= 0x800;
     reg_MI_EXMEMCNT |= 0x80;
     OS_UnlockByWord(0x7e, HW_INIT_LOCK_BUF, 0);

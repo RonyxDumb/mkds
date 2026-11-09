@@ -11,14 +11,14 @@ u16 data_0217027c;
 
 // Copies the 6-byte MAC address from the fixed system block into macAddress.
 void OS_GetMacAddress(void *macAddress) {
-    MI_CpuCopy8((void *) 0x27ffcf4, macAddress, 6);
+    MI_CpuCopy8(HW_UNK_027FFCF4_BUF, macAddress, 6);
 }
 
 // Fills info from the owner data block in the system area.
 void OS_GetOwnerInfo(Unk0200fddc *info) {
     u8 *source;
 
-    source = (u8 *) 0x27ffc80;
+    source = HW_UNK_027FFC80_BUF;
     info->mUnk_00 = (u32) (*OFFSET_PTR(u16, source, 0x64) << 29) >> 29;
     info->mUnk_01 = (u32) (source[2] << 28) >> 28;
     info->mUnk_02 = source[3];

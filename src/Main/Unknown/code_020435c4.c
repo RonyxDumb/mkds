@@ -35,12 +35,13 @@
 #include "code_021458c4.h"
 #include "code_0214d018.h"
 #include "registers.h"
+#include "code_0200fe74.h"
 
 static inline void func_02043a34_inline(void) {
-    if ((*(vu16 *) 0x027fffa8 & 0x8000) >> 15) {
+    if ((*HW_BUTTON_XY_BUF & 0x8000) >> 15) {
         data_02175624->mPadKeys = 0;
     } else {
-        data_02175624->mPadKeys = ((reg_PAD_KEYINPUT | *(vu16 *) 0x027fffa8) ^ 0x2fff) & 0x2fff;
+        data_02175624->mPadKeys = ((reg_PAD_KEYINPUT | *HW_BUTTON_XY_BUF) ^ 0x2fff) & 0x2fff;
     }
     UpdateTouchMicInput();
 }

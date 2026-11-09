@@ -14,6 +14,12 @@ typedef struct Unk02005704 {
     /* 04 */ u32 mUnk_04;
 } Unk02005704;
 
+// Table entries in the ROM header block in shared memory.
+#define HW_UNK_027FFE40_BUF ((Unk02005704 *) 0x027ffe40)
+#define HW_UNK_027FFE48_BUF ((Unk02005704 *) 0x027ffe48)
+#define HW_UNK_027FFE50_BUF ((Unk02005704 *) 0x027ffe50)
+#define HW_UNK_027FFE58_BUF ((Unk02005704 *) 0x027ffe58)
+
 // Record of 0x2c bytes: the first 0x20 bytes are read from a table entry of 0x20 bytes.
 typedef struct FSOverlayInfo {
     /* 00 */ u32 mId;

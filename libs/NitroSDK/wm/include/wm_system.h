@@ -5,6 +5,9 @@
 #include "code_021445e0.h"
 #include "Main/Unknown/unk_0217e000.h"
 
+#define HW_UNK_027FFCFA_BUF ((u16 *) 0x027ffcfa)
+#define HW_UNK_027FFF96_BUF ((u16 *) 0x027fff96)
+
 Unk02142988 *WMi_GetStatusAddress(void);
 void WmClearFifoRecvFlag(void);
 void WmReceiveFifo(u32 tag, Unk021425e8 *callback, s32 err);

@@ -5,6 +5,7 @@
 #include "Main/Unknown/code_020b837c.h"
 #include "code_020222ec.h"
 #include "registers.h"
+#include "Main/Unknown/code_0211d4a8.h"
 
 void func_020d1198(RaceHudOamBuffer *oamBuffer) {
     Unk020224e0_c *cell;
@@ -24,7 +25,7 @@ void func_020d1198(RaceHudOamBuffer *oamBuffer) {
 }
 
 u16 *func_020d118c(void) {
-    return (u16 *) 0x27ffc40;
+    return &gBootInfo->mUnk_00;
 }
 
 u32 func_020d1164(void) {

@@ -5,6 +5,7 @@
 #include "Main/Unknown/code_020091fc.h"
 #include "code_0200fc8c.h"
 #include "code_0214d018.h"
+#include "Main/Unknown/code_0211d4a8.h"
 
 #pragma thumb on
 
@@ -280,8 +281,8 @@ u32 func_02007f38(u32 rangeIndex, u32 address, u32 size) {
 void func_02007ec4(ScanBlock *record, u16 b, u16 c, u32 d, u32 e) {
     u32 v1;
     u32 v2;
-    u16 *p = (u16 *) 0x027ffc40;
-    MI_CpuCopy8(*p == 2 ? (void *) (p + 1) : (void *) 0, record, 0x3c);
+    Unk027ffc40 *p = gBootInfo;
+    MI_CpuCopy8(p->mUnk_00 == 2 ? p->mUnk_02 : NULL, record, 0x3c);
     record->mUnk_3c = 0x10;
     record->mUnk_44 = record->mUnk_0c | (record->mUnk_0e << 16);
     record->mUnk_48 = record->mUnk_10;

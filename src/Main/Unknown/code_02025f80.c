@@ -714,7 +714,7 @@ int AdvanceSelectCharacter(void) {
 #pragma thumb on
 
 void ReleaseSelectCharacter(void) {
-    if (*(vu16 *) 0x27ffc40 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         if (GetRaceSetupCopy()->mMode == 2) {
             func_0211f498();
         }

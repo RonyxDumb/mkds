@@ -265,7 +265,7 @@ u32 OS_GetConsoleType(void) {
         } else {
             type |= 0x80000000;
         }
-        gConsoleType = type | *(u16 *) 0x27ffffa;
+        gConsoleType = type | *HW_UNK_027FFFFA_BUF;
     }
     return gConsoleType;
 }
@@ -306,10 +306,10 @@ u32 ReadCartridgeMarkerBits(void) {
 u32 func_0200e77c(void) {
     u16 *p;
 
-    if (*(u16 *) 0x27ffc10 == 0) {
-        p = (u16 *) 0x27ff814;
+    if (*HW_CHECK_DEBUGGER_SW == 0) {
+        p = HW_UNK_027FF814_BUF;
     } else {
-        p = (u16 *) 0x27ffc14;
+        p = HW_UNK_027FFC14_BUF;
     }
     return *p == 1;
 }

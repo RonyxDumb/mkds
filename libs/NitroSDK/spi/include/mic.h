@@ -23,6 +23,9 @@ typedef enum MICSamplingType {
     MIC_SAMPLING_TYPE_MAX
 } MICSamplingType;
 
+#define HW_UNK_027FFF90_BUF ((u32 *) 0x027fff90)
+#define HW_UNK_027FFF94_BUF ((u16 *) 0x027fff94)
+
 typedef void (*MICCallback)(MICResult result, void *arg);
 
 // Argument of MIC_StartAutoSampling and MIC_StartAutoSamplingAsync, 0x1c bytes: the sampling type, the buffer

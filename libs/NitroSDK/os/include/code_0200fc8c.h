@@ -4,6 +4,17 @@
 
 typedef u32 OSIntrMode;
 
+// The boot information block in shared memory: the first halfword, then 0x3c bytes the game copies.
+typedef struct Unk027ffc40 {
+    /* 00 */ u16 mUnk_00;
+    /* 02 */ u8 mUnk_02[0x3c];
+} Unk027ffc40;
+
+#define HW_WM_BOOT_BUF ((Unk027ffc40 *) 0x027ffc40)
+#define HW_VBLANK_COUNT_BUF ((vu32 *) 0x027ffc3c)
+#define HW_UNK_027FFC80_BUF ((u8 *) 0x027ffc80)
+#define HW_UNK_027FFCF4_BUF ((void *) 0x027ffcf4)
+
 // Clears the IRQ disable bit and returns the previous bit.
 OSIntrMode OS_EnableInterrupts(void);
 // Sets the IRQ disable bit and returns the previous bit.

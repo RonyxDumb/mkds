@@ -34,12 +34,13 @@
 #include "Main/Unknown/unk_0217d068.h"
 #include "Main/Unknown/code_021287c0.h"
 #include "Main/Unknown/code_021287cc.h"
+#include "Main/Unknown/code_0211d4a8.h"
 
 #pragma thumb on
 s32 InitSelectReturn(void *heap, s32 subCharOffset) {
     u32 subDisplayBits;
     gSelectReturn = HeapAlloc(heap, 0x828);
-    if (*(vu16 *) 0x27ffc40 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         InitSelectReturnDisplay();
         subCharOffset = LoadSelectReturn(subCharOffset);
         gSelectReturn->mDisplayBitOn = TRUE;
@@ -117,7 +118,7 @@ void SetSelectReturnPaletteBits(s32 paletteKind) {
         gSelectReturn->mScreenMapCopy[i] &= ~0xf000;
         gSelectReturn->mScreenMapCopy[i] |= paletteBits;
     }
-    if (*(vu16 *) 0x27ffc40 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         CallQueueAppend(0x1a, 0x4c0, &gSelectReturn->mScreenMapCopy[0x260], 0x200);
     }
 }
@@ -352,7 +353,7 @@ void ClearSelectReturnDisplayBitOn(void) {
 
 #pragma thumb on
 void SetSelectReturnDisplayBitOn(void) {
-    if (*(vu16 *) 0x27ffc40 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         gSelectReturn->mDisplayBitOn = TRUE;
     }
 }
@@ -393,7 +394,7 @@ s32 InitSelectChoises(void *heap, void *font, s32 subCharOffset) {
     Unk0217d3f0_2178 *textCanvas;
     u32 subDisplayBits;
     gSelectChoises = HeapAlloc(heap, 0x8b4);
-    if (*(vu16 *) 0x27ffc40 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         InitSelectChoisesDisplay();
         subCharOffset = LoadSelectChoises(subCharOffset);
         gSelectChoises->mDisplayBitOn = 1;
@@ -572,7 +573,7 @@ void RefreshAndQueueSelectChoises(void) {
     gSelectChoises->mToggleOn = 1;
     RefreshSelectChoisesPaletteBits();
     RefreshSelectChoisesNscrCopy();
-    if (*(vu16 *) 0x27ffc40 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         CallQueueAppend(0x18, 0, gSelectChoises->mNscrCopy, 0x800);
     }
 }
@@ -586,7 +587,7 @@ void func_02127d28(void) {
     gSelectChoises->mIndex = savedIndex;
     gSelectChoises->mToggleFrames = 0;
     gSelectChoises->mToggleOn = 1;
-    if (*(vu16 *) 0x27ffc40 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         CallQueueAppend(0x18, 0, gSelectChoises->mNscrCopy, 0x800);
     }
 }
@@ -607,7 +608,7 @@ void AdvanceSelectChoisesState0(void) {
             for (i = 0; i < 2; i++) {
                 for (j = 0; j < 2; j++) {
                     tileOffset = (j + i * 2) * 32 + 5;
-                    if (*(vu16 *) 0x27ffc40 != 2) {
+                    if (gBootInfo->mUnk_00 != 2) {
                         CallQueueAppend(0x14, (gSelectChoises->mFirstTileIndex + tileOffset) << 5,
                                         gSelectChoises->mCharBuffers[i] + ((j * 32 + 5) << 5), 0x360);
                     }
@@ -756,7 +757,7 @@ void AdvanceSelectChoises(void) {
             gSelectChoises->mToggleOn = gSelectChoises->mToggleOn == 0;
             gSelectChoises->mToggleFrames = 0;
             RefreshSelectChoisesNscrCopy();
-            if (*(vu16 *) 0x27ffc40 != 2) {
+            if (gBootInfo->mUnk_00 != 2) {
                 CallQueueAppend(0x18, 0, gSelectChoises->mNscrCopy, 0x800);
             }
         }

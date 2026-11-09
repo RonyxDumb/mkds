@@ -549,7 +549,7 @@ u32 GetBeaconDispersion(void) {
     for (; i < 6; i++) {
         byteSum += macAddress[i];
     }
-    return (byteSum + *(vu32 *) 0x27ffc3c) * 7 % 0x14;
+    return (byteSum + *HW_VBLANK_COUNT_BUF) * 7 % 0x14;
 }
 
 s32 InitWirelessWork(void *buffer, Unk02009ff4 *b, u32 ggid, u32 tgid, u32 dmaNo) {

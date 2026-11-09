@@ -12,6 +12,7 @@
 #include "code_02148950.h"
 #include "Main/Unknown/code_02025ebc.h"
 #include "registers.h"
+#include "Main/Unknown/code_0211d4a8.h"
 
 #pragma thumb on
 
@@ -65,7 +66,7 @@ void LoadPlayerEntryListFiles(void) {
     Unk02021dc8 *cells;
     Nscr *screenMap;
 
-    if (*(vu16 *) 0x27ffc40 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         LoadNcgrData(&chars, FindSceneFile(gSelectMenuEtcDownloadMBNcgrName));
         LoadNcgrData2(&chars, FindSceneFile(gSelectMenuEtcDownloadMNcgrName));
         LoadNcerData(&cells, FindSceneFile(gSelectMenuEtcDownloadMNcerName));

@@ -32,6 +32,7 @@
 #include "gx.h"
 #include "Main/Unknown/code_02039230.h"
 #include "registers.h"
+#include "code_0200fe74.h"
 
 #pragma opt_rebuildconditionals off
 
@@ -346,7 +347,7 @@ void func_02049f60(void) {
             e = TRUE;
             f = gWiFiSession->mUnk_0008.mState == 0;
         }
-        if (f != 0 && ((*(vu16 *) 0x027fffa8 & 0x8000) >> 15)) {
+        if (f != 0 && ((*HW_BUTTON_XY_BUF & 0x8000) >> 15)) {
             PM_GoSleepMode(12, 0, 0);
         }
         g = UpdateMessageScreen();

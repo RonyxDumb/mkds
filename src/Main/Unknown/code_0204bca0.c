@@ -24,6 +24,7 @@
 #include "Main/Unknown/code_0204db40.h"
 #include "Main/Unknown/code_0204db48.h"
 #include "Main/Unknown/unk_02165000.h"
+#include "code_021458c4.h"
 
 typedef struct RomTableHeader {
     u8 mUnk_00[0x40];
@@ -108,7 +109,7 @@ void CreateRomArchiveBlock(FSFile *file, s32 appendOverlays) {
     if (noFile != FALSE) {
         imageOffset = 0;
         positionOffset = 0;
-        header = (RomTableHeader *) 0x027ffe00;
+        header = HW_ROM_HEADER_BUF;
     } else {
         i = file->mUnk_2c - file->mProp.w.mUnk_04;
         imageOffset = i + file->mProp.w.mUnk_04;
@@ -123,8 +124,8 @@ void CreateRomArchiveBlock(FSFile *file, s32 appendOverlays) {
         tables[2] = header->mOverlayTable0;
         tables[3] = header->mOverlayTable1;
     } else {
-        tables[0] = *(Unk02005704 *) 0x027ffe48;
-        tables[1] = *(Unk02005704 *) 0x027ffe40;
+        tables[0] = *HW_UNK_027FFE48_BUF;
+        tables[1] = *HW_UNK_027FFE40_BUF;
         positionOffset = 0;
         tables[2].mUnk_00 = (u8 *) (header->mOverlayTable0Offset + imageOffset);
         tables[2].mUnk_04 = header->mOverlayTable0Size;

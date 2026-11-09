@@ -59,6 +59,7 @@
 #include "Main/Unknown/code_02062000.h"
 #include "Main/Unknown/code_02078000.h"
 #include "Main/Unknown/code_02025f80.h"
+#include "Main/Unknown/code_0211d4a8.h"
 
 #pragma thumb on
 #pragma optimize_for_size on
@@ -264,7 +265,7 @@ void InitMenu(void) {
 #pragma thumb off
 
 u16 *func_020cbb04(void) {
-    return (u16 *) 0x27ffc40;
+    return &gBootInfo->mUnk_00;
 }
 
 BOOL func_020cbadc(void) {

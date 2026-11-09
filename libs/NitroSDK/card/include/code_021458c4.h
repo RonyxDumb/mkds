@@ -3,6 +3,11 @@
 #include "types.h"
 #include "os_thread.h"
 
+// The ROM header the card leaves in shared memory, and the copy of it that is kept for the application.
+#define HW_ROM_HEADER_BUF ((void *) 0x027ffe00)
+#define HW_CARD_ROM_HEADER ((void *) 0x027ffa80)
+#define HW_UNK_027FFE60_BUF ((u32 *) 0x027ffe60)
+
 // The command block: mResult is the result of the last request.
 typedef struct CARDiCommandArg {
     /* 00 */ u32 mResult;

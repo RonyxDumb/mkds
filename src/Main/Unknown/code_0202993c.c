@@ -3,10 +3,11 @@
 #include "Main/Unknown/code_02047104.h"
 #include "Main/Unknown/unk_02161000.h"
 #include "Main/Unknown/unk_02174000.h"
+#include "Main/Unknown/code_0211d4a8.h"
 
 #pragma optimize_for_size on
 u16 *func_02029a18(void) {
-    return (u16 *) 0x27ffc40;
+    return &gBootInfo->mUnk_00;
 }
 
 u32 func_020299f0(void) {

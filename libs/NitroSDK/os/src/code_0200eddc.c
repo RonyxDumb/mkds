@@ -59,12 +59,12 @@ void OS_InitArenaEx(void) {
 
 // Returns the Hi bound of the arena.
 void *OS_GetArenaHi(OSArenaId id) {
-    return ((OSArenaInfo *) 0x027ffda0)->hi[id];
+    return HW_ARENA_INFO_BUF->hi[id];
 }
 
 // Returns the Lo bound of the arena.
 void *OS_GetArenaLo(OSArenaId id) {
-    return ((OSArenaInfo *) 0x027ffda0)->lo[id];
+    return HW_ARENA_INFO_BUF->lo[id];
 }
 
 // Returns the Hi bound an arena starts out with.
@@ -126,12 +126,12 @@ void *OS_GetInitArenaLo(OSArenaId id) {
 
 // Stores the Hi bound of the arena.
 void OS_SetArenaHi(OSArenaId id, void *newHi) {
-    ((OSArenaInfo *) 0x027ffda0)->hi[id] = newHi;
+    HW_ARENA_INFO_BUF->hi[id] = newHi;
 }
 
 // Stores the Lo bound of the arena.
 void OS_SetArenaLo(OSArenaId id, void *newLo) {
-    ((OSArenaInfo *) 0x027ffda0)->lo[id] = newLo;
+    HW_ARENA_INFO_BUF->lo[id] = newLo;
 }
 
 // Turns the extra main memory arena off; must run before OS_Init.

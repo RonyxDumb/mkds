@@ -29,6 +29,7 @@
 #include "Main/Unknown/unk_02154000.h"
 #include "Main/Unknown/unk_02163000.h"
 #include "registers.h"
+#include "Main/Unknown/code_0211d4a8.h"
 
 void func_0202f478(u32 bits) {
     reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffcfffef) | bits;
@@ -137,7 +138,7 @@ void ReleaseWLMenuScene(void) {
 #pragma thumb off
 
 u16 *func_0202f1d0(void) {
-    return (u16 *) 0x027ffc40;
+    return &gBootInfo->mUnk_00;
 }
 
 u32 func_0202f1a8(void) {

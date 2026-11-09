@@ -55,6 +55,7 @@
 #include "Main/Unknown/code_02023000.h"
 #include "Main/Unknown/code_02047104.h"
 #include "code_0214d018.h"
+#include "Main/Unknown/code_0211d4a8.h"
 
 #pragma thumb on
 
@@ -180,7 +181,7 @@ s32 LoadTxtSystem(s32 subCharOffset) {
     Ncgr *secondChars;
     Nclr *palette;
 
-    if (*(vu16 *) 0x27ffc40 == 2) {
+    if (gBootInfo->mUnk_00 == 2) {
         LocateNcgr(&firstChars, FindSceneFile(data_0216e708));
         LocateNscr(&gTxtSystem->mBgNscrs[0], FindSceneFile(data_0216e720));
         LocateNclr(&palette, FindSceneFile(data_0216e738));
@@ -205,7 +206,7 @@ s32 LoadTxtSystem(s32 subCharOffset) {
         DC_FlushRange(firstChars->mData, firstChars->mDataSize);
         GXS_LoadBG0Char(firstChars->mData, subCharOffset, firstChars->mDataSize);
     }
-    if (*(vu16 *) 0x27ffc40 != 2) {
+    if (gBootInfo->mUnk_00 != 2) {
         if (gTxtSystem->mUseCanvas1 != 0) {
             gTxtSystem->mCanvasFileCharIndex[1] = 0;
         }

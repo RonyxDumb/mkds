@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "code_0200fc8c.h"
 
 typedef struct SelectRaceRuleRowEntries {
     /* 00 */ u16 mEntryIndices[2];
@@ -8,12 +9,7 @@ typedef struct SelectRaceRuleRowEntries {
 
 extern SelectRaceRuleRowEntries gSelectRaceRuleRowEntries[];
 
-// Fixed-address object read by MoveSelectRaceRuleRowPrevious and MoveSelectRaceRuleRowNext.
-typedef struct Unk027ffc40 {
-    /* 00 */ u16 mUnk_00;
-} Unk027ffc40;
-
-#define gBootInfo ((Unk027ffc40 *) 0x027ffc40)
+#define gBootInfo HW_WM_BOOT_BUF
 
 void MoveSelectRaceRuleRowPrevious(void);
 void MoveSelectRaceRuleRowNext(void);

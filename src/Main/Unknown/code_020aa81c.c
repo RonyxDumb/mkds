@@ -48,6 +48,7 @@
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/unk_0217d068.h"
 #include "registers.h"
+#include "code_0200fe74.h"
 
 #pragma thumb on
 
@@ -1333,7 +1334,7 @@ void PollKeyboard(void) {
         touchPoint.mTouch = 0;
         touchPoint.mValidity = 3;
     }
-    AdvanceKeyboardKeys(((*(vu16 *) 0x4000130 | *(vu16 *) 0x27fffa8) ^ 0x2fff) & 0x2fff, touchPoint);
+    AdvanceKeyboardKeys(((reg_PAD_KEYINPUT | *HW_BUTTON_XY_BUF) ^ 0x2fff) & 0x2fff, touchPoint);
 }
 
 #pragma thumb off

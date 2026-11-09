@@ -1,6 +1,7 @@
 #include "Main/Unknown/code_02008880.h"
 #include "code_02003024.h"
 #include "code_02003be0.h"
+#include "code_021458c4.h"
 
 #pragma thumb on
 
@@ -32,7 +33,7 @@ u32 func_02008880(FSFile *a) {
         }
         FS_SeekFile(a, v4, 0);
     } else {
-        headerPtr = (Unk02008880 *) 0x027ffe00;
+        headerPtr = HW_ROM_HEADER_BUF;
     }
     if (headerPtr != NULL) {
         size = headerPtr->mUnk_2c + 0x268 + headerPtr->mUnk_3c;
