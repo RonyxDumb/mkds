@@ -78,9 +78,10 @@ void StartRestingItemObject(ItemObject *item, void *b) {
     enum { K0 } kind;
     s32 k;
 
-    VEC_MultAdd(-item->mUnk_dc, &item->mNormal, &item->mPos, &item->mUnk_108);
-    UpdateCollisionHitLink(b, item->mCollisionBits, item->mUnk_104, &item->mUnk_108, &item->mNormal);
-    if (item->mUnk_104->mObject != NULL && IsHitLinkOutsideGearRadiusOrFlagged((Unk020e0448 *) item->mUnk_104) != 0) {
+    VEC_MultAdd(-item->mCourseRadius, &item->mNormal, &item->mPos, &item->mUnk_108);
+    UpdateCollisionHitLink(b, item->mCollisionBits, item->mCollisionHitLink, &item->mUnk_108, &item->mNormal);
+    if (item->mCollisionHitLink->mObject != NULL &&
+        IsHitLinkOutsideGearRadiusOrFlagged((Unk020e0448 *) item->mCollisionHitLink) != 0) {
         item->mUnk_11a = 0xe10;
     } else {
         item->mUnk_11a = 0;
@@ -106,35 +107,35 @@ void StartRestingItemObject(ItemObject *item, void *b) {
     item->mVelocity.x = 0;
     item->mVelocity.y = 0;
     item->mVelocity.z = 0;
-    func_020f90dc(item);
+    StopItemObjectSoundSource(item);
     AddRestingItemPoolObject(&gItemPools[*(vs32 *) &item->mKind], item);
     kind = *(vs32 *) &item->mKind;
-    func_020f91fc(item, gItemKinds[kind].mUnk_9c);
+    StartItemObjectSoundIfNear(item, gItemKinds[kind].mUnk_9c);
 }
 
 void AdvanceRestingItemObject(ItemObject *item) {
     u32 w;
 
-    if (item->mUnk_104->mObject != NULL) {
-        if (GetCollisionHitLinkPosAndVelocity(item->mUnk_104, &item->mUnk_108, &item->mNormal) != FALSE) {
+    if (item->mCollisionHitLink->mObject != NULL) {
+        if (GetCollisionHitLinkPosAndVelocity(item->mCollisionHitLink, &item->mUnk_108, &item->mNormal) != FALSE) {
             StartFallingItemObject(item);
         }
-        if (item->mUnk_104->mObject->mCollisionData.mUnk_130 != FALSE) {
+        if (item->mCollisionHitLink->mObject->mCollisionData.mUnk_130 != FALSE) {
             if (item->mNormal.y < 0xff4) {
                 item->mFlags |= 0x80;
             }
         }
-        VEC_MultAdd(item->mUnk_dc, &item->mNormal, &item->mUnk_108, &item->mPos);
+        VEC_MultAdd(item->mCourseRadius, &item->mNormal, &item->mUnk_108, &item->mPos);
         if (item->mUnk_11a > 0) {
             item->mUnk_11a -= 1;
             if ((item->mUnk_48 & 7) != GetRaceUpdateFramesMod8()) {
                 return;
             }
-            if (CollideSphereWithCourse(&item->mPos, NULL, 0, item->mUnk_dc, 0x44, item->mCollisionSlotIndex, NULL,
-                                        NULL, NULL, &item->mCollisionBits, NULL, NULL, NULL, &w) == 0) {
+            if (CollideSphereWithCourse(&item->mPos, NULL, 0, item->mCourseRadius, 0x44, item->mCollisionSlotIndex,
+                                        NULL, NULL, NULL, &item->mCollisionBits, NULL, NULL, NULL, &w) == 0) {
                 return;
             }
-            if (IsCollisionHitLinkOutdated(&w, item->mCollisionBits, item->mUnk_104) != FALSE) {
+            if (IsCollisionHitLinkOutdated(&w, item->mCollisionBits, item->mCollisionHitLink) != FALSE) {
                 item->mVelocity.x = 0;
                 item->mVelocity.y = 0;
                 item->mVelocity.z = 0;
@@ -151,7 +152,7 @@ void AdvanceRestingItemObject(ItemObject *item) {
         if (!(item->mFlags & 0x40)) {
             return;
         }
-        VEC_MultAdd(item->mUnk_dc, &item->mNormal, &item->mUnk_108, &item->mPos);
+        VEC_MultAdd(item->mCourseRadius, &item->mNormal, &item->mUnk_108, &item->mPos);
     }
 }
 
@@ -189,7 +190,7 @@ void LaunchItemObjectFromPos(ItemObject *itemParam, s32 pushStrength, Vec3 *from
         startsFalling = 0;
     }
     item->mFlags |= 0x4000;
-    item->mUnk_78 |= data_02159b64;
+    item->mOwnerKartIndexAndFlags |= data_02159b64;
     dot = VEC_DotProduct(normal, velocity);
     velocity->x -= MUL_FIXED12_NO_ROUND(normal->x, dot);
     velocity->y -= MUL_FIXED12_NO_ROUND(normal->y, dot);
@@ -249,7 +250,7 @@ void AdvanceFallingItemObject(ItemObject *item) {
     VEC_Add(velocity, pos, pos);
     item->mVelocity.x = MUL_FIXED12_NO_ROUND(item->mVelocity.x, 0xfec);
     velocity->z = MUL_FIXED12_NO_ROUND(velocity->z, 0xfec);
-    if (CollideSphereWithCourse(pos, &item->mPrevPos, 0, item->mUnk_dc, 0x44, item->mCollisionSlotIndex, &pushOut,
+    if (CollideSphereWithCourse(pos, &item->mPrevPos, 0, item->mCourseRadius, 0x44, item->mCollisionSlotIndex, &pushOut,
                                 &groundNormal, &bounceNormal, &item->mCollisionBits, NULL, NULL, NULL, &w) != 0) {
         VEC_Add(&pushOut, pos, pos);
         if (item->mCollisionBits & 0x1e34ef) {
@@ -258,7 +259,7 @@ void AdvanceFallingItemObject(ItemObject *item) {
         if (item->mCollisionBits & 0x214300) {
             item->mFlags |= 0x20;
             BounceItemVelocityOffSurface(velocity, &bounceNormal);
-            if (func_020f9290(item, &bounceNormal) != FALSE) {
+            if (TryFadeOutDeflectedItemObject(item, &bounceNormal) != FALSE) {
                 return;
             }
         }
@@ -311,7 +312,7 @@ void StartItemThunder(ItemInUse *itemInUse, HeldItem *heldItem) {
     }
     StartKartThunder(heldItem->mKartItems->mKart);
     RunMapObjectListCallbacks();
-    func_020f82e8(0);
+    StartThunderBlockTimer(0);
     RemoveHeldItemObjects(heldItem, 1);
     if (gRaceSetup->mMode != 5) {
         return;
@@ -344,7 +345,7 @@ BOOL InitItemKouraG(ItemInUse *itemInUse, ItemKouraG *koura) {
     BOOL isBattle;
 
     isBattle = gRaceSetup->mMode == MODE_BATTLE;
-    func_020f9114(&koura->mDirectedItemObject.mUnk_000);
+    StartItemObjectSoundSource(&koura->mDirectedItemObject.mUnk_000);
     ResetSoundDistanceSquaredChange(&koura->mSoundDistanceSquaredChange);
     koura->mDirectedItemObject.mUnk_000.mSoundSource.mTrackParamsFunction =
         (void (*)(void *, void *, void *)) func_0210a77c;
@@ -420,7 +421,7 @@ s32 InitItemKouraR(ItemInUse *itemInUse, ItemKouraR *kouraR) {
     u16 targetKartIndex;
     u16 rankAhead;
 
-    func_020f9114(&kouraR->mUnk_000.mUnk_000.mUnk_000);
+    StartItemObjectSoundSource(&kouraR->mUnk_000.mUnk_000.mUnk_000);
     ResetSoundDistanceSquaredChange(&kouraR->mSoundDistanceSquaredChange);
     kouraR->mUnk_000.mUnk_000.mUnk_000.mSoundSource.mTrackParamsFunction =
         (void (*)(void *, void *, void *)) func_0210a77c;
@@ -435,8 +436,8 @@ s32 InitItemKouraR(ItemInUse *itemInUse, ItemKouraR *kouraR) {
     } else {
         kouraR->mThrowForward = 1;
         if (gRaceSetup->mMode != MODE_BATTLE && itemInUse->mKartItems->mItemLink.mLink != NULL) {
-            ownerKartIndex = !(kouraR->mUnk_000.mUnk_000.mUnk_000.mUnk_78 & 0x8000)
-                                 ? (u16) (kouraR->mUnk_000.mUnk_000.mUnk_000.mUnk_78 & ~0xff00)
+            ownerKartIndex = !(kouraR->mUnk_000.mUnk_000.mUnk_000.mOwnerKartIndexAndFlags & 0x8000)
+                                 ? (u16) (kouraR->mUnk_000.mUnk_000.mUnk_000.mOwnerKartIndexAndFlags & ~0xff00)
                                  : 8;
             if (ownerKartIndex >= 8) {
                 targetKartIndex = 8;
@@ -546,8 +547,8 @@ void UpdateItemKouraRState3(ItemKouraR *kouraR) {
     u16 targetKartIndex;
     u16 rankAhead;
 
-    ownerKartIndex = !(kouraR->mUnk_000.mUnk_000.mUnk_000.mUnk_78 & 0x8000)
-                         ? (u16) (kouraR->mUnk_000.mUnk_000.mUnk_000.mUnk_78 & ~0xff00)
+    ownerKartIndex = !(kouraR->mUnk_000.mUnk_000.mUnk_000.mOwnerKartIndexAndFlags & 0x8000)
+                         ? (u16) (kouraR->mUnk_000.mUnk_000.mUnk_000.mOwnerKartIndexAndFlags & ~0xff00)
                          : 8;
     if (ownerKartIndex >= 8) {
         targetKartIndex = 8;
@@ -706,7 +707,7 @@ void StartTargetKartSoundOnOwnItemHit(void *kouraParam, s32 hitType, ItemObject 
         return;
     }
     kartItems = kouraR->mKartItems;
-    otherOwnerIndex = !(other->mUnk_78 & 0x8000) ? (u16) (other->mUnk_78 & ~0xff00) : 8;
+    otherOwnerIndex = !(other->mOwnerKartIndexAndFlags & 0x8000) ? (u16) (other->mOwnerKartIndexAndFlags & ~0xff00) : 8;
     if (kartItems == NULL) {
         return;
     }
@@ -719,7 +720,7 @@ void StartTargetKartSoundOnOwnItemHit(void *kouraParam, s32 hitType, ItemObject 
         if ((otherFlags & 0x2000) == 0) {
             return;
         }
-        if ((other->mUnk_78 & 0x1000) == 0) {
+        if ((other->mOwnerKartIndexAndFlags & 0x1000) == 0) {
             return;
         }
         if (other->mAgeFrames >= 0x78) {
@@ -769,8 +770,8 @@ void InitItemKouraRFromData(ItemKouraR *kouraR) {
         if (kouraR->mUnk_000.mPreviousLink.mLink != NULL) {
             kouraR->mStateMachine.mNextState = 3;
             kouraR->mStateMachine.mNextStateRequested = 1;
-            ownerKartIndex = !(kouraR->mUnk_000.mUnk_000.mUnk_000.mUnk_78 & 0x8000)
-                                 ? (u16) (kouraR->mUnk_000.mUnk_000.mUnk_000.mUnk_78 & ~0xff00)
+            ownerKartIndex = !(kouraR->mUnk_000.mUnk_000.mUnk_000.mOwnerKartIndexAndFlags & 0x8000)
+                                 ? (u16) (kouraR->mUnk_000.mUnk_000.mUnk_000.mOwnerKartIndexAndFlags & ~0xff00)
                                  : 8;
             if (ownerKartIndex >= 8) {
                 targetKartIndex = 8;
@@ -825,15 +826,15 @@ BOOL RequestItemKouraRState5IfFar(void *kouraParam, s32 kartIndex) {
     return FALSE;
 }
 
-// Runs func_020f9114, ors data_02159834 into the 0x78 halfword, then makes one of two
+// Runs StartItemObjectSoundSource, ors data_02159834 into the 0x78 halfword, then makes one of two
 // ThrowBouncingItem calls depending on the 0x1ec halfword of the 0x0c pointer, and returns the
 // 0x130 word it stores.
 s32 InitItemBanana(ItemInUse *itemInUse, ItemBanana *banana) {
     KartItems *kartItems;
     s32 n;
 
-    func_020f9114(&banana->mUnk_000.mItemObject);
-    banana->mUnk_000.mItemObject.mUnk_78 |= data_02159834;
+    StartItemObjectSoundSource(&banana->mUnk_000.mItemObject);
+    banana->mUnk_000.mItemObject.mOwnerKartIndexAndFlags |= data_02159834;
     kartItems = itemInUse->mKartItems;
     if (kartItems->mFlags & KART_ITEMS_THROW_FORWARD) {
         ThrowBouncingItem(&banana->mUnk_000, itemInUse, 0, 1, 0x4000, 0x3000, 0x59a);
@@ -928,11 +929,11 @@ void DrawItemKinoko(ItemKinoko *kinoko, void *viewAxis, void *model) {
     DrawItemObjectModel(&kinoko->mUnk_000.mItemObject, model, viewAxis);
 }
 
-// Decreases the 0x130 word by one; when it goes below zero func_020f7658 runs first.
+// Decreases the 0x130 word by one; when it goes below zero StartItemObjectReleaseTimerSynced runs first.
 void AdvanceRestingItemKinoko(ItemKinoko *kinoko) {
     kinoko->mTimer--;
     if (kinoko->mTimer < 0) {
-        func_020f7658(&kinoko->mUnk_000.mItemObject, 0);
+        StartItemObjectReleaseTimerSynced(&kinoko->mUnk_000.mItemObject, 0);
     }
     AdvanceRestingItemObject(&kinoko->mUnk_000.mItemObject);
 }
@@ -993,9 +994,9 @@ void StartBouncingItemKinoko(void **kinokoSlot, Vec3 *velocity, s32 timer) {
     ItemKinoko *kinoko;
 
     kinoko = kinokoSlot[0];
-    kinoko->mUnk_000.mItemObject.mUnk_78 |= data_0215969c;
+    kinoko->mUnk_000.mItemObject.mOwnerKartIndexAndFlags |= data_0215969c;
     CreateItemObjectCollisionSlot(&kinoko->mUnk_000.mItemObject);
-    func_020f9114(&kinoko->mUnk_000.mItemObject);
+    StartItemObjectSoundSource(&kinoko->mUnk_000.mItemObject);
     InitBouncingItem(&kinoko->mUnk_000, 0, velocity);
     if ((kinoko->mUnk_000.mItemObject.mFlags & 0x180000) == 0) {
         kinoko->mUnk_000.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceBouncingItemKinoko;

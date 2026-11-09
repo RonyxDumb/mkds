@@ -118,7 +118,7 @@ u8 CollideItemObjectWithCrab(Crab *crab, ItemObject *itemObject, u8 *c, u8 *d) {
             } else {
                 StartCrabLaunch(crab, NULL, NULL, NULL);
             }
-            func_020f8ddc(itemObject);
+            StartMissionRunKouraEffects(itemObject);
         } else {
             entryKart = GetKart((u16) gRaceSetup->mEntryIndex);
             StartCrabLaunch(crab, &entryKart->mPos, &entryKart->mEasedTurnedForward, &entryKart->mVelocity);
@@ -347,7 +347,7 @@ void CreateCrabKindData(void) {
     MapObjectKindData *kindData;
 
     kindData = CreateMapObjectKindDataWithSound(CollideKartWithCrab, CollideItemObjectWithCrab, NULL, 2, 1, 0x10e);
-    kindData->mUnk_28 = 0x10f;
+    kindData->mCollideItemObjectSoundId = 0x10f;
 }
 
 void *CreateCrabDrawList(void) {

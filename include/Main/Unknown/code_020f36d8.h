@@ -69,7 +69,7 @@ typedef struct ItemObject {
     /* 68 */ Vec3 mScale;
     // Bit flags used by item code in 22 units; UpdateItemObject clears the low 12 bits on each call.
     /* 74 */ u32 mFlags;
-    /* 78 */ u16 mUnk_78;
+    /* 78 */ u16 mOwnerKartIndexAndFlags;
     /* 7a */ u16 mUnk_7a;
     /* 7c */ CourseColorBlend mColorBlend;
     /* 08e */ u8 mUnk_08e[2];
@@ -80,13 +80,13 @@ typedef struct ItemObject {
     /* 0d4 */ s32 mDistanceSquaredAndFlags;
     /* 0d8 */ s16 mAlpha;
     /* 0da */ s16 mCollisionSlotIndex;
-    /* 0dc */ s32 mUnk_dc;
+    /* 0dc */ s32 mCourseRadius;
     /* e0 */ s32 mRadius;
     /* 0e4 */ Vec3 mPrevPos;
     /* 0f0 */ Vec3 mNormal;
     /* fc */ u32 mCollisionBits;
     /* 100 */ s32 mUnk_100;
-    /* 104 */ struct CollisionHitLink *mUnk_104;
+    /* 104 */ struct CollisionHitLink *mCollisionHitLink;
     /* 108 */ Vec3 mUnk_108;
     /* 114 */ s16 mUnk_114;
     /* 116 */ s16 mUnk_116;
@@ -305,15 +305,15 @@ typedef struct ItemKind {
     // View test, the same function type the map objects use: position, radius, draw distance, far distance squared,
     // alpha.
     /* 30 */ s32 (*mViewTest)(Vec3 *, s32, s32, s32, u16);
-    // Called with the object by func_020f7184 when its second argument is 0; returns 0 to end the call with 2, 1 to end
-    // it with 0, anything else lets it continue.
+    // Called with the object by StartItemObjectFadeOut when its second argument is 0; returns 0 to end the call with 2,
+    // 1 to end it with 0, anything else lets it continue.
     /* 34 */ UnkWordFunc *mUnk_34;
     // Called with the object after StartItemObject and LaunchItemObjectFromPos have set it up from a kart; the entries
     // that exist set the object's mUnk_120 to the kind's mAdvance unless flags 0x180000 are set.
     /* 38 */ void (*mUnk_38)(void *);
     // Called with the object at the end of ReleaseItemObject.
     /* 3c */ void (*mRelease)(void *);
-    /* 40 */ s32 mUnk_40;
+    /* 40 */ s32 mKeepsAdvanceAtEnd;
     /* 44 */ s32 mUnk_44;
     // Copies the object's fields into the byte buffer (third argument non-zero) or back from it (zero); after a write
     // it also stamps the frame count and hands the buffer on (AddItemDataSizedByKind); with no object and no buffer it
@@ -329,9 +329,9 @@ typedef struct ItemKind {
     /* 58 */ u32 mGetFarDistanceSquared;
     /* 5c */ s32 mUnk_5c;
     /* 60 */ s32 mUnk_60;
-    /* 64 */ s32 mUnk_64;
+    /* 64 */ s32 mCourseRadius;
     /* 68 */ s32 mUnk_68;
-    /* 6c */ s32 mUnk_6c;
+    /* 6c */ s32 mRadius;
     /* 70 */ s32 mUnk_70;
     /* 74 */ s32 mUnk_74;
     /* 78 */ s32 mUnk_78;
@@ -340,11 +340,11 @@ typedef struct ItemKind {
     /* 84 */ s32 mUnk_84;
     /* 88 */ s32 mUnk_88;
     /* 8c */ u8 mUnk_8c[4];
-    /* 90 */ s32 mUnk_90;
+    /* 90 */ s32 mObjectCapCost;
     /* 94 */ s32 mUnk_94;
     /* 98 */ s32 mUnk_98;
     /* 9c */ s32 mUnk_9c;
-    /* a0 */ s32 mUnk_a0;
+    /* a0 */ s32 mFalloffIndex;
     /* a4 */ s32 mUnk_a4;
 } ItemKind;
 

@@ -14,7 +14,7 @@ typedef struct SoundDistanceSquaredChange {
     /* 0c */ u32 mShift;
 } SoundDistanceSquaredChange;
 
-extern SoundStartParams data_0216c698;
+extern SoundStartParams gSoundStartParamsDefault;
 #include "Main/Unknown/code_0210b760.h"
 #include "Main/Unknown/code_0210b610.h"
 #include "Main/Unknown/code_0210b870.h"

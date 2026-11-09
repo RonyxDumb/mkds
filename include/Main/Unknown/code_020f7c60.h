@@ -4,4 +4,4 @@
 
 typedef struct ItemObject ItemObject;
 
-void func_020f7c60(ItemObject *source, s32 soundId);
+void StartItemObjectSoundOnSource(ItemObject *item, s32 soundId);

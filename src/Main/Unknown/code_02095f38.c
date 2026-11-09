@@ -615,7 +615,7 @@ void CreateCoverPooHoleKindData(void) {
     MapObjectKindData *o;
     o = CreateMapObjectKindDataWithSound(CollideKartWithCoverPooHole, CollideItemObjectWithCoverPooHole,
                                          TryGetCoverPooHolePushOut, 0, 1, 0x16d);
-    o->mUnk_28 = 0x1b0;
+    o->mCollideItemObjectSoundId = 0x1b0;
 }
 
 void *CreateCoverPooHoleDrawList(void) {

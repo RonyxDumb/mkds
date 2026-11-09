@@ -162,7 +162,7 @@ void SetItemKouraWKartItemsAndStateIfNone(ItemKouraW *item, s32 kartIndex) {
 s32 InitItemKouraW(ItemInUse *itemInUse, ItemKouraW *item) {
     Kart *kart;
 
-    func_020f9114(&item->mUnk_000.mUnk_000.mUnk_000);
+    StartItemObjectSoundSource(&item->mUnk_000.mUnk_000.mUnk_000);
     if (itemInUse->mKartItems->mItemLink.mLink != NULL) {
         InitLinkFollowingItemFromInUse(&item->mUnk_000, itemInUse, 0x14, 0xcc, 1, 1, 0, 0x6000, item->mRankKartIndex,
                                        1);
@@ -347,9 +347,10 @@ void UpdateItemKouraWState1(ItemKouraW *item) {
                 item->mRankKartIndex = gRaceProgress->mKartAtRank[(u8) item->mRank - 1];
             }
         }
-        if (item->mRankKartIndex == (u16) (!(item->mUnk_000.mUnk_000.mUnk_000.mUnk_78 & 0x8000)
-                                               ? (u16) (item->mUnk_000.mUnk_000.mUnk_000.mUnk_78 & ~0xff00)
-                                               : 8) ||
+        if (item->mRankKartIndex ==
+                (u16) (!(item->mUnk_000.mUnk_000.mUnk_000.mOwnerKartIndexAndFlags & 0x8000)
+                           ? (u16) (item->mUnk_000.mUnk_000.mUnk_000.mOwnerKartIndexAndFlags & ~0xff00)
+                           : 8) ||
             func_02068eac(GetKart(item->mRankKartIndex)) != 0) {
             item->mUnk_278 = 1;
         } else {
@@ -621,7 +622,7 @@ void UpdateItemKouraWState6(ItemKouraW *item) {
 
         position = &item->mUnk_000.mUnk_000.mUnk_000.mPos;
         if (CollideSphereWithCourse(position, &item->mUnk_000.mUnk_000.mUnk_000.mPrevPos, 0,
-                                    item->mUnk_000.mUnk_000.mUnk_000.mUnk_dc, 4,
+                                    item->mUnk_000.mUnk_000.mUnk_000.mCourseRadius, 4,
                                     item->mUnk_000.mUnk_000.mUnk_000.mCollisionSlotIndex, &hitOffset, NULL, NULL,
                                     &item->mUnk_000.mUnk_000.mUnk_000.mCollisionBits, NULL, NULL, NULL, NULL) != 0) {
             VEC_Add(&hitOffset, position, position);
@@ -650,8 +651,9 @@ void EnterItemKouraWState7(ItemKouraW *param_1) {
     param_1->mUnk_000.mUnk_000.mUnk_000.mFlags |= 0x800000;
     param_1->mUnk_000.mUnk_000.mUnk_000.mUnk_100 = 0;
     param_1->mUnk_000.mUnk_000.mUnk_000.mScale = data_02159d84;
-    param_1->mModelEffect = StartModelEffect(1, &param_1->mUnk_000.mUnk_000.mUnk_000.mPos,
-                                             func_020f9160(&param_1->mUnk_000.mUnk_000.mUnk_000) == 0 ? 1 : 0);
+    param_1->mModelEffect =
+        StartModelEffect(1, &param_1->mUnk_000.mUnk_000.mUnk_000.mPos,
+                         IsItemObjectTooFarForEffects(&param_1->mUnk_000.mUnk_000.mUnk_000) == 0 ? 1 : 0);
     effect = param_1->mModelEffect;
     if (effect != NULL) {
         effectScale = effect->mScale;
@@ -659,7 +661,7 @@ void EnterItemKouraWState7(ItemKouraW *param_1) {
         effectScale[1] = 0x1000;
         effectScale[2] = 0x1000;
     }
-    func_020f91fc(&param_1->mUnk_000.mUnk_000.mUnk_000, 0xdf);
+    StartItemObjectSoundIfNear(&param_1->mUnk_000.mUnk_000.mUnk_000, 0xdf);
     if (data_0217c780 & 1) {
         sndHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
         if (data_0217d084.mUnk_0c != 0) {
@@ -833,7 +835,7 @@ s32 RequestItemKouraWState7(ItemKouraW *item) {
         item->mUnk_000.mUnk_000.mUnk_000.mFlags &= ~0x8000;
         item->mUnk_000.mUnk_000.mUnk_000.mFlags |= 0x80000;
         func_020f9c6c(&item->mUnk_000.mUnk_000.mUnk_000);
-        item->mUnk_000.mUnk_000.mUnk_000.mUnk_78 &= ~0x4000;
+        item->mUnk_000.mUnk_000.mUnk_000.mOwnerKartIndexAndFlags &= ~0x4000;
     }
     return 1;
 }
@@ -859,7 +861,7 @@ void SetupItemKouraWKind(void) {
     gKouraWState7InverseLimit = FX_Div(0x1000, gKouraWState7ScaleLimit);
     gKouraWState7ScaleStep = 0x299a;
     scaleLimit = gKouraWState7ScaleLimit;
-    radiusRatio = gItemKinds[5].mUnk_6c;
+    radiusRatio = gItemKinds[5].mRadius;
     v = MUL_FIXED12_NO_ROUND(scaleLimit, radiusRatio);
     data_0217bd34 = v;
     v >>= 12;
@@ -969,7 +971,7 @@ void UpdateItems(void) {
     for (kartIndex = 0; kartIndex < gKartItemsCount; kartIndex++) {
         UpdateKartItems(&gKartItems[kartIndex]);
     }
-    func_020f8258();
+    AdvanceItemBlockTimers();
     UpdateOrthoQuads();
     UpdateBouncingItemBoxTimers();
 }
@@ -1028,7 +1030,8 @@ static inline s32 func_020fa4c8_inline(ItemObject *item, Kart *kart) {
     if (!(item->mFlags & 0x8000)) {
         return 1;
     }
-    if (kart->mIndex != (u16) (!(item->mUnk_78 & 0x8000) ? (u16) (item->mUnk_78 & ~0xff00) : 8)) {
+    if (kart->mIndex !=
+        (u16) (!(item->mOwnerKartIndexAndFlags & 0x8000) ? (u16) (item->mOwnerKartIndexAndFlags & ~0xff00) : 8)) {
         return 1;
     }
     if (item->mVelocity.x != 0 || item->mVelocity.y != 0 || item->mVelocity.z != 0 || kart->mForwardSpeed != 0) {
@@ -1083,15 +1086,15 @@ s32 CollideKartWithItemObjects(Kart *kart) {
         }
         gCollidedItemObjects[hitCount++] = item;
         if (item->mFlags & 0x1000) {
-            RemoveItemInUseObject(&gKartItems[(u16) (item->mUnk_78 & ~0xff00)].mItemInUse, item);
+            RemoveItemInUseObject(&gKartItems[(u16) (item->mOwnerKartIndexAndFlags & ~0xff00)].mItemInUse, item);
         }
         kind = item->mKind;
         if (gItemKinds[kind].mUnk_88 != 0) {
             if (func_020f9880(item) != 0) {
-                func_020f6be8(item, &kart->mCollisionCenter, &kart->mVelocity, &kart->mSignedTurnedForward);
+                ApplyItemObjectPush(item, &kart->mCollisionCenter, &kart->mVelocity, &kart->mSignedTurnedForward);
                 func_020f6f10(item, 1, (u16) kart->mIndex);
             } else {
-                func_020f7430(item, 1);
+                StartItemObjectReleaseSynced(item, 1);
             }
         }
         if (hitCount >= 0x10) {
@@ -1125,7 +1128,7 @@ void *StartItemObjectOrZero(s32 kind, u16 param_2, void *param_3, void *param_4)
     StartItemObject(&gItemPools[item->mKind], item);
     func_020f98a0(item, param_3, param_4, 0, 0);
     if (param_2 == 8) {
-        item->mUnk_78 |= data_02159cbc;
+        item->mOwnerKartIndexAndFlags |= data_02159cbc;
     }
     return item;
 }
@@ -1146,7 +1149,7 @@ static inline ItemObject *func_020fa3d0_inline(s32 kind, u16 param_2, void *para
     StartItemObject(&gItemPools[item->mKind], item);
     func_020f98a0(item, param_3, param_4, 0, 0);
     if (param_2 == 8) {
-        item->mUnk_78 |= data_02159cbc;
+        item->mOwnerKartIndexAndFlags |= data_02159cbc;
     }
     return item;
 }
@@ -1195,9 +1198,9 @@ void InitItems(void) {
     heap = GetHeap(GetCurrentHeapCall());
     a = 0;
     CreateItemSlotTables();
-    func_020f82e8(1);
-    func_020f82c4(1);
-    func_020f82a4(1);
+    StartThunderBlockTimer(1);
+    StartKouraWBlockTimer(1);
+    StartGessoBlockTimer(1);
     CreateItemInfos();
     InitItemKinds();
     CreateItemPushVector();
@@ -1275,8 +1278,8 @@ void RefreshItemObjectScale(ItemObject *item) {
     item->mScale.y = item->mScale.z;
     item->mScale.x = item->mScale.y;
     kindInfo = &gItemKinds[kind];
-    radiusRatio = kindInfo->mUnk_6c;
-    item->mUnk_dc = MUL_FIXED12_NO_ROUND(item->mScale.y, kindInfo->mUnk_64);
+    radiusRatio = kindInfo->mRadius;
+    item->mCourseRadius = MUL_FIXED12_NO_ROUND(item->mScale.y, kindInfo->mCourseRadius);
     item->mRadius = MUL_FIXED12_NO_ROUND(item->mScale.y, radiusRatio);
     SetCollisionSlotRadius(item->mCollisionSlotIndex, item->mRadius + 0xa000);
 }
@@ -1291,8 +1294,8 @@ void func_020f9fa8(ItemObject *item) {
     item->mScale.y = item->mScale.z;
     item->mScale.x = item->mScale.y;
     kindInfo = &gItemKinds[kind];
-    radiusRatio = kindInfo->mUnk_6c;
-    item->mUnk_dc = MUL_FIXED12_NO_ROUND(item->mScale.y, kindInfo->mUnk_64);
+    radiusRatio = kindInfo->mRadius;
+    item->mCourseRadius = MUL_FIXED12_NO_ROUND(item->mScale.y, kindInfo->mCourseRadius);
     item->mRadius = MUL_FIXED12_NO_ROUND(item->mScale.y, radiusRatio);
     SetCollisionSlotRadius(item->mCollisionSlotIndex, item->mRadius);
 }
@@ -1306,7 +1309,7 @@ void SetItemObjectScaleByRatios(ItemObject *objectParam, s32 xRatio, s32 yRatio)
     m = gItemKinds[kind].mUnk_68;
     item->mScale.x = MUL_FIXED12_NO_ROUND(item->mScale.z, xRatio);
     item->mScale.y = MUL_FIXED12_NO_ROUND(item->mScale.z, yRatio);
-    item->mUnk_dc = MUL_FIXED12_NO_ROUND(item->mScale.y, gItemKinds[kind].mUnk_64);
+    item->mCourseRadius = MUL_FIXED12_NO_ROUND(item->mScale.y, gItemKinds[kind].mCourseRadius);
     item->mRadius = MUL_FIXED12_NO_ROUND(item->mScale.y, m);
     SetCollisionSlotRadius(item->mCollisionSlotIndex, item->mRadius + 0xa000);
 }
@@ -1325,8 +1328,8 @@ s32 func_020f9dc8(ItemObject *item) {
         item->mUnk_100 = MUL_FIXED12_NO_ROUND(item->mUnk_100, 0xc00);
         item->mScale.x = item->mScale.z * 2 - item->mScale.y;
         kindInfo = &gItemKinds[kind];
-        radiusRatio = kindInfo->mUnk_6c;
-        item->mUnk_dc = MUL_FIXED12_NO_ROUND(item->mScale.y, kindInfo->mUnk_64);
+        radiusRatio = kindInfo->mRadius;
+        item->mCourseRadius = MUL_FIXED12_NO_ROUND(item->mScale.y, kindInfo->mCourseRadius);
         item->mRadius = MUL_FIXED12_NO_ROUND(item->mScale.y, radiusRatio);
         SetCollisionSlotRadius(item->mCollisionSlotIndex, item->mRadius + 0xa000);
         return 1;
@@ -1346,8 +1349,8 @@ s32 func_020f9ce8(ItemObject *item) {
         item->mScale.y += MUL_FIXED12_NO_ROUND(item->mUnk_100 - item->mScale.y, 0x333);
         item->mScale.x = item->mScale.z * 2 - item->mScale.y;
         kindInfo = &gItemKinds[kind];
-        radiusRatio = kindInfo->mUnk_6c;
-        item->mUnk_dc = MUL_FIXED12_NO_ROUND(item->mScale.y, kindInfo->mUnk_64);
+        radiusRatio = kindInfo->mRadius;
+        item->mCourseRadius = MUL_FIXED12_NO_ROUND(item->mScale.y, kindInfo->mCourseRadius);
         item->mRadius = MUL_FIXED12_NO_ROUND(item->mScale.y, radiusRatio);
         SetCollisionSlotRadius(item->mCollisionSlotIndex, item->mRadius + 0xa000);
         return 1;

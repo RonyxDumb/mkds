@@ -771,8 +771,8 @@ extern MtxFx33 *gRotationZMatrix;
 extern MtxFx43 *gViewAxis2Matrix;
 extern MtxFx43 *gViewRotatedMatrix;
 extern u16 *data_0217b868;
-extern s32 data_0217bc5c;
-extern s32 data_0217bc60;
+extern s32 gKouraWBlockTimer;
+extern s32 gThunderBlockTimer;
 
 extern u16 gShine16ShadowAngleIndex;
 #include "Main/Unknown/unk_0217b358.h"
@@ -1096,7 +1096,7 @@ extern s32 gJgOffsetX;
 extern s32 data_0217b8f4;
 extern u32 data_0217b8fc;
 extern s32 gItemSlotPossibleItems[];
-extern s32 data_0217bc58;
+extern s32 gGessoBlockTimer;
 // Items the spin may show after a roll with a forced row: the items with a non-zero weight in that row plus the one
 // picked. Written by PickItem, cleared by CreateItemSlotTables.
 extern s32 gItemSlotSpinItems[];

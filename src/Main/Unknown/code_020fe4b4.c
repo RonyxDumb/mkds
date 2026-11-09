@@ -100,7 +100,7 @@ void LoadItemDataFlagBit(s32 word, s32 *flag) {
 }
 
 s32 ComputeItemObjectId(ItemObject *item) {
-    return (s16) (((s16) (u16) (item->mUnk_78 & ~0xff00) << 4) | item->mPoolIndex);
+    return (s16) (((s16) (u16) (item->mOwnerKartIndexAndFlags & ~0xff00) << 4) | item->mPoolIndex);
 }
 
 static inline u8 *CopyItemShiftedByteInline(u8 *cursor, volatile s32 *value, void *toData, s32 shift) {
@@ -272,7 +272,7 @@ u8 *CopyItemObjectData(u8 *cursor, void *object, void *toData) {
     cursor = CopyItemVelocityByte(
         cursor, (object != NULL ? &item->mVelocity : 0) != NULL ? &(object != NULL ? &item->mVelocity : 0)->z : 0,
         toData, 10);
-    p = object != NULL ? &item->mUnk_78 : 0;
+    p = object != NULL ? &item->mOwnerKartIndexAndFlags : 0;
     if (p != NULL) {
         if (toData != NULL) {
             *(u16 *) cursor = *p;

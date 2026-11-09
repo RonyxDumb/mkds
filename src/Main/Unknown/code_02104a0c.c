@@ -158,7 +158,7 @@ void StartBouncingItemBox(BouncingItemBox *box) {
 }
 
 void ReleaseBouncingItemBox(BouncingItemBox *box) {
-    u16 kartIndex = box->mUnk_000.mItemObject.mUnk_78 & ~0xff00;
+    u16 kartIndex = box->mUnk_000.mItemObject.mOwnerKartIndexAndFlags & ~0xff00;
     if ((s32) gBouncingItemBoxTimers[kartIndex] > 0) {
         gBouncingItemBoxTimerRunning[kartIndex] = 1;
     }
@@ -173,11 +173,11 @@ void CollideKartWithBouncingItemBox(BouncingItemBox *box, void *a) {
 void ResetBouncingItemBox(BouncingItemBox *box) {
     box->mScaleRatio = 0x666;
     ResetPooledMapObject(box->mPooledMapObject);
-    box->mKartIsEntry = (u16) (box->mUnk_000.mItemObject.mUnk_78 & ~0xff00) == gRaceSetup->mEntryIndex;
+    box->mKartIsEntry = (u16) (box->mUnk_000.mItemObject.mOwnerKartIndexAndFlags & ~0xff00) == gRaceSetup->mEntryIndex;
     if (box->mKartIsEntry != 0) {
         (box->mPooledMapObject)->mShadowMode = 2;
     }
-    gBouncingItemBoxTimers[(u16) (box->mUnk_000.mItemObject.mUnk_78 & ~0xff00)] = 0x258;
+    gBouncingItemBoxTimers[(u16) (box->mUnk_000.mItemObject.mOwnerKartIndexAndFlags & ~0xff00)] = 0x258;
 }
 
 void AdvanceBouncingItemBoxInUse(ItemInUse *itemInUse, BouncingItemBox *box) {
@@ -200,8 +200,8 @@ void AdvanceBouncingItemBoxInUse(ItemInUse *itemInUse, BouncingItemBox *box) {
 }
 
 s32 InitBouncingItemBox(ItemInUse *itemInUse, BouncingItemBox *box) {
-    func_020f9114(&box->mUnk_000.mItemObject);
-    box->mUnk_000.mItemObject.mUnk_78 |= data_0215a584;
+    StartItemObjectSoundSource(&box->mUnk_000.mItemObject);
+    box->mUnk_000.mItemObject.mOwnerKartIndexAndFlags |= data_0215a584;
     if (box->mKartIsEntry != 0) {
         (box->mPooledMapObject)->mShadowMode = 1;
     }
@@ -233,13 +233,13 @@ void AdvanceBouncingItemBox(BouncingItemBox *box) {
     ItemBox *mapObject;
     if ((box->mUnk_000.mItemObject.mFlags & 0x180000) != 0) {
         if ((box->mUnk_000.mItemObject.mFlags & 0x80000) != 0) {
-            func_020f6e58(&box->mUnk_000.mItemObject);
+            AdvanceItemObjectFadeOut(&box->mUnk_000.mItemObject);
         } else if ((box->mUnk_000.mItemObject.mFlags & 0x100000) != 0) {
             AdvanceItemObjectReleaseTimer(&box->mUnk_000.mItemObject);
         }
     } else if ((box->mUnk_000.mItemObject.mFlags & 0x8000) != 0) {
         if (gRaceSetup->mMode == MODE_BATTLE) {
-            kartIndex = box->mUnk_000.mItemObject.mUnk_78 & ~0xff00;
+            kartIndex = box->mUnk_000.mItemObject.mOwnerKartIndexAndFlags & ~0xff00;
             v = gBouncingItemBoxTimers[kartIndex] - 0x3c;
             if (v < box->mUnk_000.mItemObject.mAlpha) {
                 box->mUnk_000.mItemObject.mAlpha = v;

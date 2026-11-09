@@ -29,7 +29,8 @@ static inline u32 func_020f8a04_inline(RandomState64 *random, u32 limit) {
     }
 }
 
-s32 PickItem(s32 kartVariant, s32 forcedRowHandle, s32 param_3, s32 param_4, s32 isEntryKart, s32 itemCount) {
+s32 PickItem(s32 kartVariant, s32 forcedRowHandle, s32 rankOrRow, s32 isHumanGhostOrPeer, s32 isEntryKart,
+             s32 itemCount) {
     ItemSlotTable *table;
     RandomState64 *random;
     u16 *row;
@@ -46,29 +47,30 @@ s32 PickItem(s32 kartVariant, s32 forcedRowHandle, s32 param_3, s32 param_4, s32
 
     sel = 0x13;
     if (forcedRowHandle != 0) {
-        param_3 = (u16) (forcedRowHandle - 1);
+        rankOrRow = (u16) (forcedRowHandle - 1);
         variant = 0;
-        table = &data_0217bc74;
+        table = &gItemSlotForcedTable;
     } else {
-        table = param_4 != 0 ? &data_0217bc6c : &data_0217bc64;
-        param_3 = (u16) (param_3 - 1);
+        table = isHumanGhostOrPeer != 0 ? &gItemSlotHumanGhostPeerTable : &gItemSlotCpuTable;
+        rankOrRow = (u16) (rankOrRow - 1);
         variant = kartVariant;
     }
-    row = table->mRows[param_3];
+    row = table->mRows[rankOrRow];
     acc = 0;
     t = 0;
     if (gRaceSetup->mMode != MODE_MISSION_RUN) {
         for (i = 0; i < 0xe; i++) {
-            t += (u16) (gItemKinds[(s32) i].mUnk_90 *
+            t += (u16) (gItemKinds[(s32) i].mObjectCapCost *
                         (gItemPools[(s32) i].mReservedCount - gItemPools[(s32) i].mRestingCount));
         }
     }
     for (j = 0; j < itemCount; j++) {
         objectKind = gItemInfos[(s32) j].mObjectKind;
-        if (!((j == 8 && data_0217bc60 > 0) || (j == 7 && data_0217bc5c > 0) || (j == 0xf && data_0217bc58 > 0))) {
+        if (!((j == 8 && gThunderBlockTimer > 0) || (j == 7 && gKouraWBlockTimer > 0) ||
+              (j == 0xf && gGessoBlockTimer > 0))) {
             if (gItemPools[objectKind].mLimit - gItemPools[objectKind].mReservedCount > 0 &&
                 gItemInfos[(s32) j].mEnabled != FALSE) {
-                x = gItemKinds[objectKind].mUnk_90 * gItemInfos[(s32) j].mObjectCount;
+                x = gItemKinds[objectKind].mObjectCapCost * gItemInfos[(s32) j].mObjectCount;
                 if (x == 0 || x + t <= 0x28) {
                     if (j >= 9 && variant != 0) {
                         if (variant == 1) {
@@ -148,19 +150,19 @@ void StartItemSlot(KartItems *slot, s32 forcedRowHandle, s32 rank, s32 isHumanGh
         StopRaceRankListItemInUse(slot->mSelf->mKartIndex);
     }
     if (isMode5) {
-        slot->mUnk_01c = FALSE;
+        slot->mIsShortSpin = FALSE;
         slot->mSlotFrames = 0;
         slot->mSlotFrameCount = 0x85;
         slot->mSlotFinalScrollFrameCount = 0x10;
         slot->mSlotFinalScrollFrameShift = 4;
     } else if (shortSpin != 0) {
-        slot->mUnk_01c = TRUE;
+        slot->mIsShortSpin = TRUE;
         slot->mSlotFrames = 0x4d;
         slot->mSlotFrameCount = 0x65;
         slot->mSlotFinalScrollFrameCount = 8;
         slot->mSlotFinalScrollFrameShift = 3;
     } else {
-        slot->mUnk_01c = FALSE;
+        slot->mIsShortSpin = FALSE;
         slot->mSlotFrames = 0;
         slot->mSlotFrameCount = 0xd5;
         slot->mSlotFinalScrollFrameCount = 0x10;
@@ -185,7 +187,7 @@ void StartItemSlot(KartItems *slot, s32 forcedRowHandle, s32 rank, s32 isHumanGh
     pool->mReservedCount += itemInfo->mObjectCount;
 }
 
-void func_020f86c4(KartItems *slot) {
+void StartItemSlotResultPending(KartItems *slot) {
     KartItems *kartItems;
     ItemInfo *itemInfo;
     ItemPool *pool;
@@ -254,7 +256,7 @@ BOOL UpdateItemSlot(KartItems *slot, KartItems *kartItems) {
                 return FALSE;
             }
             if (slot->mSlotFrames > 0x3c &&
-                (((kartItems->mFlags & 0x241) == 0x241 && mode != 5 && slot->mUnk_01c == FALSE) ||
+                (((kartItems->mFlags & 0x241) == 0x241 && mode != 5 && slot->mIsShortSpin == FALSE) ||
                  slot->mSlotFrames > slot->mSlotFrameCount)) {
                 slot->mSlotFrames = 0;
                 slot->mSlotState = 2;
@@ -356,40 +358,40 @@ void PickItemSlotShownItem(KartItems *slot) {
     }
 }
 
-void func_020f82e8(s32 a) {
-    data_0217bc60 = 1800;
-    if (a != 0) {
-        data_0217bc60 += 300;
+void StartThunderBlockTimer(s32 isRaceStart) {
+    gThunderBlockTimer = 1800;
+    if (isRaceStart != 0) {
+        gThunderBlockTimer += 300;
     }
 }
 
-void func_020f82c4(s32 a) {
-    data_0217bc5c = 1800;
-    if (a != 0) {
-        data_0217bc5c += 300;
+void StartKouraWBlockTimer(s32 isRaceStart) {
+    gKouraWBlockTimer = 1800;
+    if (isRaceStart != 0) {
+        gKouraWBlockTimer += 300;
     }
 }
 
-void func_020f82a4(s32 a) {
-    data_0217bc58 = 0x384;
-    if (a != 0) {
-        data_0217bc58 += 0x12c;
+void StartGessoBlockTimer(s32 isRaceStart) {
+    gGessoBlockTimer = 0x384;
+    if (isRaceStart != 0) {
+        gGessoBlockTimer += 0x12c;
     }
 }
 
-void func_020f8258(void) {
-    if (data_0217bc60 > 0) {
-        data_0217bc60 = data_0217bc60 - 1;
+void AdvanceItemBlockTimers(void) {
+    if (gThunderBlockTimer > 0) {
+        gThunderBlockTimer = gThunderBlockTimer - 1;
     }
-    if (data_0217bc5c > 0) {
-        data_0217bc5c = data_0217bc5c - 1;
+    if (gKouraWBlockTimer > 0) {
+        gKouraWBlockTimer = gKouraWBlockTimer - 1;
     }
-    if (data_0217bc58 > 0) {
-        data_0217bc58 = data_0217bc58 - 1;
+    if (gGessoBlockTimer > 0) {
+        gGessoBlockTimer = gGessoBlockTimer - 1;
     }
 }
 
-void func_020f81c0(KartItems *slot) {
+void FinishItemSlotAndStopSound(KartItems *slot) {
     ItemInfo *itemInfo;
     ItemPool *pool;
     enum { K0 } itemIndex, objectKind;

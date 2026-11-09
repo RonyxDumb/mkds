@@ -138,7 +138,7 @@ found:
     object->mFlags |= 0x2000;
     kind = pool->mKind;
     itemKind = gItemKinds + kind;
-    if (itemKind->mUnk_6c != 0) {
+    if (itemKind->mRadius != 0) {
         CreateItemObjectCollisionSlot(object);
     }
     object->mAgeFrames = 0;
@@ -190,20 +190,20 @@ void RoundTripItemObjectData(ItemObject *object) {
 
     data = NULL;
     kind = object->mKind;
-    if ((object->mUnk_78 & 0xf00) != 0) {
+    if ((object->mOwnerKartIndexAndFlags & 0xf00) != 0) {
         data = CopyItemObjectDataAndAdd(data, object, 1);
         CopyItemObjectDataAndAdd(data, object, 0);
         SetupItemObjectFromDataWrapper(object);
-        if (object->mUnk_78 & 0x800) {
+        if (object->mOwnerKartIndexAndFlags & 0x800) {
             func_020f70f0(object);
         }
-        if (object->mUnk_78 & 0x400) {
+        if (object->mOwnerKartIndexAndFlags & 0x400) {
             func_020f705c(object);
         }
-        if (object->mUnk_78 & 0x200) {
+        if (object->mOwnerKartIndexAndFlags & 0x200) {
             StartItemObjectReleaseTimer(object);
         }
-        if (object->mUnk_78 & 0x100) {
+        if (object->mOwnerKartIndexAndFlags & 0x100) {
             StartItemObjectRelease(object);
         }
     } else {
@@ -251,7 +251,7 @@ found:
     pool->mActiveCount = pool->mActiveCount + 1;
     object->mFlags |= 0x2000;
     kind = pool->mKind;
-    if (gItemKinds[kind].mUnk_6c != 0) {
+    if (gItemKinds[kind].mRadius != 0) {
         CreateItemObjectCollisionSlot(object);
     }
     object->mAgeFrames = 0;
@@ -268,20 +268,21 @@ found:
     initFunc(object);
     object->mFlags |= 0x20000000;
     if (c != 0) {
-        if (object->mUnk_78 & 0x800) {
+        if (object->mOwnerKartIndexAndFlags & 0x800) {
             func_020f70f0(object);
         }
-        if (object->mUnk_78 & 0x400) {
+        if (object->mOwnerKartIndexAndFlags & 0x400) {
             func_020f705c(object);
         }
-        if (object->mUnk_78 & 0x200) {
+        if (object->mOwnerKartIndexAndFlags & 0x200) {
             StartItemObjectReleaseTimer(object);
         }
-        if (object->mUnk_78 & 0x100) {
+        if (object->mOwnerKartIndexAndFlags & 0x100) {
             StartItemObjectRelease(object);
         }
-    } else if ((object->mUnk_78 & 0x1000) == 0) {
-        k = (u16) ((object->mUnk_78 & 0x8000) == 0 ? (u16) (object->mUnk_78 & ~0xff00) : 8);
+    } else if ((object->mOwnerKartIndexAndFlags & 0x1000) == 0) {
+        k = (u16) ((object->mOwnerKartIndexAndFlags & 0x8000) == 0 ? (u16) (object->mOwnerKartIndexAndFlags & ~0xff00)
+                                                                   : 8);
         if (k != 8) {
             func_02071894(GetKart(k));
         }
@@ -350,10 +351,10 @@ BOOL ApplyItemObjectEventById(ItemPool *pool, s32 eventByte, s32 objectId) {
                 func_020f6f10(object, z3, eventValue);
                 break;
             case 4:
-                func_020f7658(object, z4);
+                StartItemObjectReleaseTimerSynced(object, z4);
                 break;
             case 5:
-                func_020f7430(object, z5);
+                StartItemObjectReleaseSynced(object, z5);
                 break;
         }
     }
@@ -408,10 +409,10 @@ void ProcessItemPoolMessage(ItemPool *pool, s32 messageKind, s32 frameDifference
             }
             StartItemObjectFromData(pool, frameDifference, packet, 0);
             if (pool->mKind == 6) {
-                func_020f82e8(0);
+                StartThunderBlockTimer(0);
             }
             if (pool->mKind == 0xa) {
-                func_020f82a4(0);
+                StartGessoBlockTimer(0);
             }
             return;
         case 1:
@@ -548,7 +549,7 @@ void UpdateItemPool(ItemPool *pool) {
                 }
                 if (hasFlag8000 != 0) {
                     objectPos = object->mUnk_d0;
-                    kartIndex = object->mUnk_78 & ~0xff00;
+                    kartIndex = object->mOwnerKartIndexAndFlags & ~0xff00;
                     kart = GetKart(kartIndex);
                     kartPos = &kart->mDrawMatrixPos;
                     distanceSquared = ((kartPos->x - objectPos->x) >> 12) * ((kartPos->x - objectPos->x) >> 12);
@@ -657,7 +658,7 @@ void StopRunningKartItemSlot(KartItems *kartItems) {
     if (kartItems->mSlotState == 0) {
         return;
     }
-    func_020f81c0(kartItems);
+    FinishItemSlotAndStopSound(kartItems);
 }
 
 void ReleaseKartItems(KartItems *kartItems) {
@@ -671,7 +672,7 @@ void ReleaseKartItems(KartItems *kartItems) {
         return;
     }
     if (kartItems->mSlotState != 0) {
-        func_020f81c0(kartItems);
+        FinishItemSlotAndStopSound(kartItems);
     }
     if (kartItems->mActiveItem != 0x13) {
         kartItems->mActiveItem = 0x13;
@@ -705,7 +706,7 @@ void StartKartItemObjectCountdowns(KartItems *kartItems) {
         return;
     }
     if (kartItems->mSlotState != 0) {
-        func_020f81c0(kartItems);
+        FinishItemSlotAndStopSound(kartItems);
     }
     if (isMode5) {
         return;
@@ -849,7 +850,7 @@ void StartLastItemInUseObjectAndInit(ItemInUse *itemInUse, s32 callKart) {
     StartItemInUseObject(itemInUse, object);
     if (initFunc(itemInUse, object) == 0) {
         if (itemInUse->mKartItems->mTargetedByKouraR != FALSE) {
-            object->mUnk_78 |= data_021595ac;
+            object->mOwnerKartIndexAndFlags |= data_021595ac;
             callKart = 0;
         }
     }
@@ -857,7 +858,7 @@ void StartLastItemInUseObjectAndInit(ItemInUse *itemInUse, s32 callKart) {
         gItemKinds[object->mKind].mViewTest(object->mUnk_d0, object->mRadius << 1, gItemKinds[object->mKind].mUnk_5c,
                                             gItemKinds[object->mKind].mUnk_a4, 0x1f);
     if (object->mFlags & 0x400000) {
-        func_020f90bc(object);
+        UpdateItemObjectSoundSource(object);
     }
     advanceFunc = gItemKinds[object->mKind].mAdvance;
     if ((object->mFlags & 0x180000) == 0) {

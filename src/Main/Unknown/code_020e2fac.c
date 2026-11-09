@@ -244,7 +244,7 @@ u8 CollideItemObjectWithChoropu(Choropu *choropu, ItemObject *itemObject, u8 *fi
             choropu->mUnk_000.mStateMachine.mNextState = 6;
             choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
             choropu->mUnk_000.mFlags |= data_02158bb4;
-            func_020f8ddc(itemObject);
+            StartMissionRunKouraEffects(itemObject);
         } else {
             VEC_Subtract(&choropu->mUnk_000.mPos, &choropu->mUnk_000.mPos, &offset);
             if ((s64) offset.z * data_02158c7c.x - (s64) offset.x * data_02158c7c.z < 0) {

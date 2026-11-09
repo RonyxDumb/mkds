@@ -75,8 +75,8 @@ void ResetItemBomb(ItemBomb *bomb) {
 }
 
 s32 InitItemBomb(ItemInUse *inUse, ItemBomb *bomb) {
-    func_020f9114(&bomb->mUnk_000.mItemObject);
-    bomb->mUnk_000.mItemObject.mUnk_78 |= data_02159f3c;
+    StartItemObjectSoundSource(&bomb->mUnk_000.mItemObject);
+    bomb->mUnk_000.mItemObject.mOwnerKartIndexAndFlags |= data_02159f3c;
     bomb->mUnk_134 = MUL_FIXED12_NO_ROUND(inUse->mKartVelocityLength, 0x1ec) + 0x333;
     if (bomb->mUnk_134 > 0xccd) {
         bomb->mUnk_134 = 0xccd;
@@ -110,7 +110,7 @@ void UpdateItemBombState0(ItemBomb *bomb) {
         AdvanceBouncingItem(&bomb->mUnk_000, 0x47b, 0xf91, bomb->mUnk_134, &v);
     }
     if (bomb->mUnk_000.mItemObject.mFlags & KART_ITEMS_THROW_FORWARD) {
-        func_020f91fc(&bomb->mUnk_000.mItemObject, 0xe5);
+        StartItemObjectSoundIfNear(&bomb->mUnk_000.mItemObject, 0xe5);
     }
     if ((bomb->mUnk_000.mItemObject.mFlags & 0x8) == 0) {
         return;
@@ -156,8 +156,8 @@ void EnterItemBombState2(ItemBomb *bomb) {
     bomb->mUnk_000.mItemObject.mFlags |= 0x800000;
     bomb->mUnk_000.mItemObject.mUnk_100 = 0;
     bomb->mUnk_000.mItemObject.mScale = data_02159f30;
-    bomb->mModelEffect =
-        StartModelEffect(0, &bomb->mUnk_000.mItemObject.mPos, func_020f9160(&bomb->mUnk_000.mItemObject) == 0 ? 1 : 0);
+    bomb->mModelEffect = StartModelEffect(0, &bomb->mUnk_000.mItemObject.mPos,
+                                          IsItemObjectTooFarForEffects(&bomb->mUnk_000.mItemObject) == 0 ? 1 : 0);
     modelEffect = bomb->mModelEffect;
     if (modelEffect != NULL) {
         s32 *t;
@@ -167,7 +167,7 @@ void EnterItemBombState2(ItemBomb *bomb) {
         t[1] = 0xccd;
         t[2] = 0xccd;
     }
-    func_020f91fc(&bomb->mUnk_000.mItemObject, 0xe4);
+    StartItemObjectSoundIfNear(&bomb->mUnk_000.mItemObject, 0xe4);
     if (data_0217c780 & 1) {
         seqPlayerPointer = TakeSoundHandleEntry(GetSoundHandlePool(0));
         if (data_0217d084.mUnk_0c != 0) {
@@ -218,8 +218,9 @@ void AdvanceItemBombNearestKart(ItemBomb *bomb) {
     if (candidateKartIndex >= gRaceSetup->mKartCount) {
         return;
     }
-    skippedKartIndex =
-        (bomb->mUnk_000.mItemObject.mUnk_78 & 0x8000) == 0 ? (u16) (bomb->mUnk_000.mItemObject.mUnk_78 & ~0xff00) : 8;
+    skippedKartIndex = (bomb->mUnk_000.mItemObject.mOwnerKartIndexAndFlags & 0x8000) == 0
+                           ? (u16) (bomb->mUnk_000.mItemObject.mOwnerKartIndexAndFlags & ~0xff00)
+                           : 8;
     if (candidateKartIndex == skippedKartIndex) {
         return;
     }
@@ -286,7 +287,7 @@ void AdvanceItemBombWithMapObject(ItemBomb *bomb, ItemBomb *bombAlias, ItemBox *
     }
     if ((bombAlias->mUnk_000.mItemObject.mFlags & 0x8000) == 0) {
         pooledMapObject->mUnk_000.mPos = bombAlias->mUnk_000.mItemObject.mPos;
-        pooledMapObject->mUnk_000.mPos.y += bomb->mMapObjectOffsetY - bombAlias->mUnk_000.mItemObject.mUnk_dc;
+        pooledMapObject->mUnk_000.mPos.y += bomb->mMapObjectOffsetY - bombAlias->mUnk_000.mItemObject.mCourseRadius;
     }
     if (bomb->mTimer <= 0) {
         if ((bombAlias->mUnk_000.mItemObject.mFlags & 0x8000) == 0) {
@@ -334,7 +335,7 @@ void AdvanceItemBomb(ItemBomb *bomb) {
     if (bomb->mUnk_130 == 0 && bomb->mUnk_000.mBouncesRemaining >= 2) {
         return;
     }
-    if ((bomb->mUnk_000.mItemObject.mUnk_78 & 0x8000) == 0) {
+    if ((bomb->mUnk_000.mItemObject.mOwnerKartIndexAndFlags & 0x8000) == 0) {
         AdvanceItemBombNearestKart(bomb);
         if (bomb->mUnk_180 == 0) {
             ClampItemBombTimerByDistance(bomb);
@@ -412,7 +413,7 @@ int RequestItemBombState2(ItemBomb *bomb) {
         }
         bomb->mUnk_000.mItemObject.mFlags &= ~0x8000;
         bomb->mUnk_000.mItemObject.mFlags |= 0x80000;
-        bomb->mUnk_000.mItemObject.mUnk_78 &= ~0x4000;
+        bomb->mUnk_000.mItemObject.mOwnerKartIndexAndFlags &= ~0x4000;
     }
     return 1;
 }
@@ -515,12 +516,12 @@ void func_020fd540(void **bombSlot, Vec3 *v, s32 timerStart) {
 
     bomb = *bombSlot;
     pooledMapObject = bomb->mPooledMapObject;
-    bomb->mUnk_000.mItemObject.mUnk_78 |= data_02159f28;
+    bomb->mUnk_000.mItemObject.mOwnerKartIndexAndFlags |= data_02159f28;
     if (pooledMapObject == NULL) {
         CreateItemObjectCollisionSlot(&bomb->mUnk_000.mItemObject);
         bomb->mVisible = TRUE;
     }
-    func_020f9114(&bomb->mUnk_000.mItemObject);
+    StartItemObjectSoundSource(&bomb->mUnk_000.mItemObject);
     InitStateMachine(&bomb->mStateMachine, gItemBombStateTable, 4, bomb);
     SetStateMachineState(&bomb->mStateMachine, 0);
     bomb->mTimer = 0x12c;
@@ -634,7 +635,7 @@ void func_020fd264(void) {
     data_0217bd50 = 0x18006;
     data_0217bd48 = FX_Div(0x1000, 0x18006);
     data_0217bd54 = 0x2148;
-    data_0217bd58 = MUL_FIXED12_NO_ROUND(data_0217bd50, gItemKinds[9].mUnk_6c);
+    data_0217bd58 = MUL_FIXED12_NO_ROUND(data_0217bd50, gItemKinds[9].mRadius);
     data_0217bd58 >>= 12;
     data_0217bd58 *= data_0217bd58;
     engineIndex = gRaceSetup->mEngineIndex;

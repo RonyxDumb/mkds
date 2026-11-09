@@ -151,7 +151,7 @@ extern s32 data_0216c3d4;
 extern const char gWoodbox1NsbmdName[];
 extern Vec3 data_0216c3d8;
 extern const StateCallbacks gWoodbox1StateTable[];
-extern const char data_0216c680[];
+extern const char gItemSlotListDatName[];
 extern u8 data_0216c6f4[];
 extern u8 data_0216c704[];
 extern u32 data_0216cbc0[6];

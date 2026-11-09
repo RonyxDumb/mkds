@@ -23,7 +23,7 @@
 #include "Main/Unknown/code_0210b000.h"
 #include "Main/Unknown/code_020e337c.h"
 
-BOOL func_020f9290(ItemObject *item, Vec3 *normal) {
+BOOL TryFadeOutDeflectedItemObject(ItemObject *item, Vec3 *normal) {
     if ((item->mFlags & 0x2000000) != 0 && Vec3DotUnrounded(normal, &item->mUnk_108) < 0 && (item->mFlags & 8) == 0) {
         func_020f6fc4(item, 1);
         return TRUE;
@@ -31,7 +31,7 @@ BOOL func_020f9290(ItemObject *item, Vec3 *normal) {
     return FALSE;
 }
 
-void func_020f91fc(ItemObject *item, s32 soundId) {
+void StartItemObjectSoundIfNear(ItemObject *item, s32 soundId) {
     SoundStartParams request;
 
     if (soundId == 1) {
@@ -43,14 +43,14 @@ void func_020f91fc(ItemObject *item, s32 soundId) {
     if (soundId == 1) {
         return;
     }
-    request = data_0216c698;
+    request = gSoundStartParamsDefault;
     request.mPositionSource = &item->mPos;
     request.mSoundId = soundId;
     request.mDistanceSquared = item->mDistanceSquaredAndFlags & ~0xc000001f;
     StartSoundFromParams(&request);
 }
 
-BOOL func_020f91e0(ItemObject *itemParam) {
+BOOL IsItemObjectScaleAtSetupSize(ItemObject *itemParam) {
     ItemObject *item = itemParam;
 
     return item->mScale.z >= 0xccd;
@@ -60,34 +60,34 @@ BOOL IsItemObjectFartherFromCameraThan(ItemObject *item, s32 distance) {
     return (s32) (item->mDistanceSquaredAndFlags & ~0xc000001f) > distance * distance;
 }
 
-BOOL func_020f9160(ItemObject *c) {
-    BOOL a;
-    BOOL b;
+BOOL IsItemObjectTooFarForEffects(ItemObject *itemObject) {
+    BOOL isVisible;
+    BOOL isVisibleAndNear;
 
-    a = FALSE;
-    if ((c->mFlags & 0x10000) == 0) {
-        a = TRUE;
+    isVisible = FALSE;
+    if ((itemObject->mFlags & 0x10000) == 0) {
+        isVisible = TRUE;
     }
-    if (a != FALSE && (s32) (c->mDistanceSquaredAndFlags & ~0xc000001f) <= 0x3d0900) {
-        b = TRUE;
+    if (isVisible != FALSE && (s32) (itemObject->mDistanceSquaredAndFlags & ~0xc000001f) <= 0x3d0900) {
+        isVisibleAndNear = TRUE;
     } else {
-        b = FALSE;
+        isVisibleAndNear = FALSE;
     }
-    if (b == FALSE && (s32) (c->mDistanceSquaredAndFlags & ~0xc000001f) > 0x3d090) {
+    if (isVisibleAndNear == FALSE && (s32) (itemObject->mDistanceSquaredAndFlags & ~0xc000001f) > 0x3d090) {
         return TRUE;
     }
     return FALSE;
 }
 
-void func_020f9114(ItemObject *item) {
+void StartItemObjectSoundSource(ItemObject *item) {
     enum { K0 } kind = item->mKind;
 
-    func_02109038(&item->mSoundSource, gItemKinds[kind].mUnk_a0, &item->mPos);
+    func_02109038(&item->mSoundSource, gItemKinds[kind].mFalloffIndex, &item->mPos);
     SetSoundSourceEnabled(&item->mSoundSource, 1);
     item->mFlags |= 0x400000;
 }
 
-void func_020f90dc(ItemObject *itemParam) {
+void StopItemObjectSoundSource(ItemObject *itemParam) {
     ItemObject *item = itemParam;
     if ((item->mFlags & 0x400000) == 0) {
         return;
@@ -97,18 +97,18 @@ void func_020f90dc(ItemObject *itemParam) {
     item->mFlags &= ~0x400000;
 }
 
-void func_020f90bc(ItemObject *itemParam) {
+void UpdateItemObjectSoundSource(ItemObject *itemParam) {
     ItemObject *item = itemParam;
 
     item->mSoundSource.mDistanceSquared = item->mDistanceSquaredAndFlags & ~0xc000001f;
     SetItemObjectSoundByViewRange(item, &item->mPos, item->mDistanceSquaredAndFlags);
 }
 
-void ResetItemObjectFromData(ItemObject *itemParam, s32 kind, void *buffer, s32 d) {
+void ResetItemObjectFromData(ItemObject *itemParam, s32 kind, void *buffer, s32 useGenericCopy) {
     ItemObject *item = itemParam;
     void *(*copyData)(void *, void *, s32);
 
-    copyData = d != 0 ? CopyItemObjectDataAndAdd : gItemKinds[kind].mCopyData;
+    copyData = useGenericCopy != 0 ? CopyItemObjectDataAndAdd : gItemKinds[kind].mCopyData;
     ResetItemObject(item, kind);
     copyData(buffer, item, 0);
     item->mFlags &= ~0x400000;
@@ -128,16 +128,16 @@ void SetupItemObjectFromData(ItemObject *item) {
     item->mScale.y = item->mScale.z;
     item->mScale.x = item->mScale.y;
     kindInfo = &gItemKinds[kind];
-    kindRadius = kindInfo->mUnk_6c;
-    item->mUnk_dc = MUL_FIXED12_NO_ROUND(item->mScale.y, kindInfo->mUnk_64);
+    kindRadius = kindInfo->mRadius;
+    item->mCourseRadius = MUL_FIXED12_NO_ROUND(item->mScale.y, kindInfo->mCourseRadius);
     item->mRadius = MUL_FIXED12_NO_ROUND(item->mScale.y, kindRadius);
     SetCollisionSlotRadius(item->mCollisionSlotIndex, item->mRadius + 0xa000);
     InitCourseColorBlend(&item->mColorBlend, 1);
     item->mUnk_90 = NULL;
-    item->mNormal = data_02159ca0;
+    item->mNormal = gItemVec3UnitY;
     item->mCollisionBits = 0;
     item->mUnk_100 = 0;
-    item->mUnk_104->mObject = NULL;
+    item->mCollisionHitLink->mObject = NULL;
     item->mUnk_108.x = 0;
     item->mUnk_108.y = 0;
     item->mUnk_108.z = 0;
@@ -148,7 +148,7 @@ void SetupItemObjectFromData(ItemObject *item) {
     item->mAgeFrames = 1;
     if ((item->mFlags & 0x400000) == 0) {
         kind = item->mKind;
-        func_02109038(&item->mSoundSource, gItemKinds[kind].mUnk_a0, &item->mPos);
+        func_02109038(&item->mSoundSource, gItemKinds[kind].mFalloffIndex, &item->mPos);
         SetSoundSourceEnabled(&item->mSoundSource, 1);
         item->mFlags |= 0x400000;
     }
@@ -157,7 +157,7 @@ void SetupItemObjectFromData(ItemObject *item) {
     if ((item->mFlags & 0x180000) == 0) {
         item->mAdvance = advance;
     }
-    if ((item->mUnk_78 & 0xf00) != 0) {
+    if ((item->mOwnerKartIndexAndFlags & 0xf00) != 0) {
         return;
     }
     kind = item->mKind;

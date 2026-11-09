@@ -18,7 +18,8 @@
 #include "Main/Unknown/code_020f9c40.h"
 #include "code_02147cd8.h"
 
-void func_020f77f8(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, Vec3 *otherVelocity, MapObject *mapObject) {
+void ApplyItemObjectHitType(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, Vec3 *otherVelocity,
+                            MapObject *mapObject) {
     ItemObject *item = itemParam;
     Vec3 offset;
     Vec3 direction;
@@ -31,7 +32,7 @@ void func_020f77f8(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, Vec3 *oth
     if (item->mFlags & 0x80000) {
         return;
     }
-    soundId = mapObject ? mapObject->mKindData->mUnk_28 : -1;
+    soundId = mapObject ? mapObject->mKindData->mCollideItemObjectSoundId : -1;
     switch (hitType) {
         case 1:
             if (item->mFlags & 0x1000) {
@@ -39,7 +40,7 @@ void func_020f77f8(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, Vec3 *oth
             }
             VEC_Subtract(&item->mPrevPos, otherPos, &offset);
             if (!(item->mFlags & 0x8000) && (item->mFlags & 0x1000000)) {
-                func_020f7c90(item, otherPos, &offset);
+                DeflectItemObjectRandomly(item, otherPos, &offset);
                 break;
             }
             item->mFlags |= 0x4000000;
@@ -81,7 +82,7 @@ void func_020f77f8(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, Vec3 *oth
             break;
         case 2:
             if (item->mFlags & 0x1000) {
-                RemoveItemInUseObject(&(gKartItems)[(u16) (item->mUnk_78 & ~0xff00)].mItemInUse, item);
+                RemoveItemInUseObject(&(gKartItems)[(u16) (item->mOwnerKartIndexAndFlags & ~0xff00)].mItemInUse, item);
             }
             n = 0;
             if ((s64) otherVelocity->x * otherVelocity->x + (s64) otherVelocity->y * otherVelocity->y +
@@ -90,7 +91,7 @@ void func_020f77f8(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, Vec3 *oth
                 n = Vec3NormalizeAndGetLengthUnchecked(otherVelocity, &direction);
             }
             if (n != 0) {
-                func_020f6be8(item, otherPos, otherVelocity, &direction);
+                ApplyItemObjectPush(item, otherPos, otherVelocity, &direction);
             } else {
                 VEC_Subtract(&item->mPos, otherPos, &direction);
                 if (direction.y < 0) {
@@ -104,7 +105,7 @@ void func_020f77f8(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, Vec3 *oth
                 push.x = MUL_FIXED12_NO_ROUND(direction.x, 0x1800);
                 push.y = MUL_FIXED12_NO_ROUND(direction.y, 0x1800);
                 push.z = MUL_FIXED12_NO_ROUND(direction.z, 0x1800);
-                func_020f6be8(item, otherPos, &push, &direction);
+                ApplyItemObjectPush(item, otherPos, &push, &direction);
             }
             if (soundId == -1 || (item->mFlags & 0x8000000)) {
                 func_020f6fc4(item, 1);
@@ -119,20 +120,20 @@ void func_020f77f8(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, Vec3 *oth
     if (soundId == -1) {
         return;
     }
-    soundCallback = (item->mFlags & 0x400000) ? func_020f7c60 : func_020f91fc;
+    soundCallback = (item->mFlags & 0x400000) ? StartItemObjectSoundOnSource : StartItemObjectSoundIfNear;
     soundCallback(item, soundId);
 }
 
-void func_020f7658(ItemObject *item, s32 c) {
+void StartItemObjectReleaseTimerSynced(ItemObject *item, s32 sendEvent) {
     BOOL started;
     enum { K0 } kind;
 
     if (!(item->mFlags & 0x8000000)) {
         if ((item->mFlags & 0x8000000) && !(item->mFlags & 0x10000000) && !(item->mFlags & 0x20000000)) {
-            if (item->mUnk_78 & 0xf00) {
+            if (item->mOwnerKartIndexAndFlags & 0xf00) {
                 return;
             }
-            item->mUnk_78 |= data_02159b74;
+            item->mOwnerKartIndexAndFlags |= gItemObjectReleaseTimerPendingBit;
             item->mAdvance = NULL;
             return;
         }
@@ -140,17 +141,17 @@ void func_020f7658(ItemObject *item, s32 c) {
             return;
         }
         kind = item->mKind;
-        if (gItemKinds[kind].mUnk_40 == 0 && !(item->mFlags & 0x180000)) {
+        if (gItemKinds[kind].mKeepsAdvanceAtEnd == 0 && !(item->mFlags & 0x180000)) {
             item->mAdvance = AdvanceItemObjectReleaseTimer;
         }
         item->mFlags |= 0x100002;
         return;
     }
     if ((item->mFlags & 0x8000000) && !(item->mFlags & 0x10000000) && !(item->mFlags & 0x20000000)) {
-        if (item->mUnk_78 & 0xf00) {
+        if (item->mOwnerKartIndexAndFlags & 0xf00) {
             started = FALSE;
         } else {
-            item->mUnk_78 |= data_02159b74;
+            item->mOwnerKartIndexAndFlags |= gItemObjectReleaseTimerPendingBit;
             item->mAdvance = NULL;
             started = TRUE;
         }
@@ -159,7 +160,7 @@ void func_020f7658(ItemObject *item, s32 c) {
             started = FALSE;
         } else {
             kind = item->mKind;
-            if (gItemKinds[kind].mUnk_40 == 0 && !(item->mFlags & 0x180000)) {
+            if (gItemKinds[kind].mKeepsAdvanceAtEnd == 0 && !(item->mFlags & 0x180000)) {
                 item->mAdvance = AdvanceItemObjectReleaseTimer;
             }
             item->mFlags |= 0x100002;
@@ -169,7 +170,7 @@ void func_020f7658(ItemObject *item, s32 c) {
     if (started == FALSE) {
         return;
     }
-    if (c == 0) {
+    if (sendEvent == 0) {
         return;
     }
     AddItemDataItemIdAndParts(item->mKind, 4, 8, item->mId);
@@ -182,7 +183,7 @@ void StartItemObjectReleaseTimer(ItemObject *item) {
         return;
     }
     kind = item->mKind;
-    if (gItemKinds[kind].mUnk_40 == 0 && !(item->mFlags & 0x180000)) {
+    if (gItemKinds[kind].mKeepsAdvanceAtEnd == 0 && !(item->mFlags & 0x180000)) {
         item->mAdvance = AdvanceItemObjectReleaseTimer;
     }
     item->mFlags |= 0x100002;
@@ -202,15 +203,15 @@ void AdvanceItemObjectReleaseTimer(ItemObject *item) {
     }
 }
 
-void func_020f7430(ItemObject *item, s32 c) {
+void StartItemObjectReleaseSynced(ItemObject *item, s32 sendEvent) {
     BOOL started;
 
     if (!(item->mFlags & 0x8000000)) {
         if ((item->mFlags & 0x8000000) && !(item->mFlags & 0x10000000) && !(item->mFlags & 0x20000000)) {
-            if (item->mUnk_78 & 0xf00) {
+            if (item->mOwnerKartIndexAndFlags & 0xf00) {
                 return;
             }
-            item->mUnk_78 |= data_02159b70;
+            item->mOwnerKartIndexAndFlags |= gItemObjectReleasePendingBit;
             item->mAdvance = NULL;
             return;
         }
@@ -224,10 +225,10 @@ void func_020f7430(ItemObject *item, s32 c) {
         return;
     }
     if ((item->mFlags & 0x8000000) && !(item->mFlags & 0x10000000) && !(item->mFlags & 0x20000000)) {
-        if (item->mUnk_78 & 0xf00) {
+        if (item->mOwnerKartIndexAndFlags & 0xf00) {
             started = FALSE;
         } else {
-            item->mUnk_78 |= data_02159b70;
+            item->mOwnerKartIndexAndFlags |= gItemObjectReleasePendingBit;
             item->mAdvance = NULL;
             started = TRUE;
         }
@@ -245,7 +246,7 @@ void func_020f7430(ItemObject *item, s32 c) {
     if (started == FALSE) {
         return;
     }
-    if (c == 0) {
+    if (sendEvent == 0) {
         return;
     }
     AddItemDataItemIdAndParts(item->mKind, 5, 8, item->mId);

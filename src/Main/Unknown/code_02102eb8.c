@@ -79,7 +79,7 @@ BOOL SetupNextItemGessoStep(ItemGesso *gesso) {
     }
     gesso->mUnk_194 = f;
     if (step->mTargetVelocityY > 0 && gesso->mStepIndex != 0 && gesso->mStepIndex != 0xe && gesso->mVisible != FALSE) {
-        func_020f8e3c(gesso->mKart, 0xf1);
+        StartEntryKartSound(gesso->mKart, 0xf1);
     }
     return FALSE;
 done:
@@ -93,9 +93,9 @@ u32 SetupItemGesso(ItemGesso *gesso, s32 fromData) {
 
     entryIndex = gRaceSetup->mEntryIndex;
     camera = GetChaseCamera();
-    func_020f82a4(0);
+    StartGessoBlockTimer(0);
     if (entryIndex < 0) {
-        kartIndex = (u16) (gesso->mUnk_000.mUnk_78 & ~0xff00);
+        kartIndex = (u16) (gesso->mUnk_000.mOwnerKartIndexAndFlags & ~0xff00);
     } else {
         kartIndex = entryIndex;
     }
@@ -118,8 +118,8 @@ u32 SetupItemGesso(ItemGesso *gesso, s32 fromData) {
     gesso->mVelocityY = gesso->mTargetVelocityY;
     gesso->mUnk_180 = gesso->mUnk_174;
     gesso->mUnk_184.x = gesso->mUnk_178;
-    if ((gesso->mUnk_000.mUnk_78 & 0x8000) == 0) {
-        kartIndex = (u16) (gesso->mUnk_000.mUnk_78 & ~0xff00);
+    if ((gesso->mUnk_000.mOwnerKartIndexAndFlags & 0x8000) == 0) {
+        kartIndex = (u16) (gesso->mUnk_000.mOwnerKartIndexAndFlags & ~0xff00);
     } else {
         kartIndex = 8;
     }

@@ -308,8 +308,7 @@ void func_0206d578(Kart *kart) {
                     otherKart != kart && !(otherKart->mUnk_7c & 0x402000)) {
                     VEC_Subtract(&otherKart->mPos, &kart->mPos, &offset);
                     distance = VEC_Mag(&offset);
-                    if (Vec3DotUnrounded(&otherKart->mTurnedForward, &offset) >
-                        MUL_FIXED12_NO_ROUND(distance, 0xe7f)) {
+                    if (Vec3DotUnrounded(&otherKart->mTurnedForward, &offset) > MUL_FIXED12_NO_ROUND(distance, 0xe7f)) {
                         v1 = TRUE;
                         kart->mUnk_538.mUnk_08++;
                         break;
@@ -443,7 +442,9 @@ void func_0206d18c(Kart *kart) {
         StartSound(&kart->mSoundSource, 0xe9, 0x7f, 0);
         return;
     }
-    i = (u16) ((itemObject->mUnk_78 & 0x8000) == 0 ? (u16) (itemObject->mUnk_78 & ~0xff00) : 8);
+    i = (u16) ((itemObject->mOwnerKartIndexAndFlags & 0x8000) == 0
+                   ? (u16) (itemObject->mOwnerKartIndexAndFlags & ~0xff00)
+                   : 8);
     if (i >= gRaceSetup->mKartCount) {
         return;
     }

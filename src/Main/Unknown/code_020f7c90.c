@@ -16,7 +16,7 @@
 
 #pragma thumb on
 
-void func_020f80c0(ItemSlotTable *table, s32 kartCount) {
+void RemapItemSlotRows(ItemSlotTable *table, s32 kartCount) {
     u16(*tab)[0x12];
     s32 i;
     s32 j;
@@ -49,18 +49,18 @@ void CreateItemSlotTables(void) {
     s32 *entry;
     enum { K1 } k;
 
-    data = FindMainRaceOrMainEffectFile(data_0216c680);
+    data = FindMainRaceOrMainEffectFile(gItemSlotListDatName);
     switch (gRaceSetup->mMode) {
         case MODE_GRAND_PRIX:
         case MODE_TIME_ATTACK:
         case MODE_MISSION_RUN:
-            data = LoadItemSlotTableData(&data_0217bc6c, data + 1);
-            data = LoadItemSlotTableData(&data_0217bc64, data);
+            data = LoadItemSlotTableData(&gItemSlotHumanGhostPeerTable, data + 1);
+            data = LoadItemSlotTableData(&gItemSlotCpuTable, data);
             data = ComputeItemSlotTableDataEnd(data);
             data = ComputeItemSlotTableDataEnd(data);
             data = ComputeItemSlotTableDataEnd(data);
             data = ComputeItemSlotTableDataEnd(data);
-            data = LoadItemSlotTableData(&data_0217bc74, data);
+            data = LoadItemSlotTableData(&gItemSlotForcedTable, data);
             break;
         case MODE_BATTLE:
             data = ComputeItemSlotTableDataEnd(data + 1);
@@ -69,32 +69,32 @@ void CreateItemSlotTables(void) {
             data = ComputeItemSlotTableDataEnd(data);
             data = ComputeItemSlotTableDataEnd(data);
             data = ComputeItemSlotTableDataEnd(data);
-            data = LoadItemSlotTableData(&data_0217bc74, data);
+            data = LoadItemSlotTableData(&gItemSlotForcedTable, data);
             switch (gRaceSetup->mBattleKind) {
                 case BATTLE_KIND_BALLOON:
                 default:
-                    data = LoadItemSlotTableData(&data_0217bc6c, data);
-                    data = LoadItemSlotTableData(&data_0217bc64, data);
+                    data = LoadItemSlotTableData(&gItemSlotHumanGhostPeerTable, data);
+                    data = LoadItemSlotTableData(&gItemSlotCpuTable, data);
                     break;
                 case BATTLE_KIND_SHINE:
                     data = ComputeItemSlotTableDataEnd(data);
                     data = ComputeItemSlotTableDataEnd(data);
-                    data = LoadItemSlotTableData(&data_0217bc6c, data);
-                    data = LoadItemSlotTableData(&data_0217bc64, data);
+                    data = LoadItemSlotTableData(&gItemSlotHumanGhostPeerTable, data);
+                    data = LoadItemSlotTableData(&gItemSlotCpuTable, data);
                     break;
             }
             break;
         case MODE_VS:
             data = ComputeItemSlotTableDataEnd(data + 1);
             data = ComputeItemSlotTableDataEnd(data);
-            data = LoadItemSlotTableData(&data_0217bc6c, data);
-            data = LoadItemSlotTableData(&data_0217bc64, data);
+            data = LoadItemSlotTableData(&gItemSlotHumanGhostPeerTable, data);
+            data = LoadItemSlotTableData(&gItemSlotCpuTable, data);
             data = ComputeItemSlotTableDataEnd(data);
             data = ComputeItemSlotTableDataEnd(data);
-            data = LoadItemSlotTableData(&data_0217bc74, data);
+            data = LoadItemSlotTableData(&gItemSlotForcedTable, data);
             if (gRaceSetup->mCpuDifficulty == 0) {
-                func_020f80c0(&data_0217bc6c, gRaceSetup->mKartCount);
-                func_020f80c0(&data_0217bc64, gRaceSetup->mKartCount);
+                RemapItemSlotRows(&gItemSlotHumanGhostPeerTable, gRaceSetup->mKartCount);
+                RemapItemSlotRows(&gItemSlotCpuTable, gRaceSetup->mKartCount);
             }
             break;
         case 5:
@@ -102,20 +102,20 @@ void CreateItemSlotTables(void) {
             data = ComputeItemSlotTableDataEnd(data);
             data = ComputeItemSlotTableDataEnd(data);
             data = ComputeItemSlotTableDataEnd(data);
-            data = LoadItemSlotTableData(&data_0217bc6c, data);
-            data = LoadItemSlotTableData(&data_0217bc64, data);
-            data = LoadItemSlotTableData(&data_0217bc74, data);
+            data = LoadItemSlotTableData(&gItemSlotHumanGhostPeerTable, data);
+            data = LoadItemSlotTableData(&gItemSlotCpuTable, data);
+            data = LoadItemSlotTableData(&gItemSlotForcedTable, data);
             if (gRaceSetup->mCpuDifficulty == 0) {
-                func_020f80c0(&data_0217bc6c, gRaceSetup->mKartCount);
-                func_020f80c0(&data_0217bc64, gRaceSetup->mKartCount);
+                RemapItemSlotRows(&gItemSlotHumanGhostPeerTable, gRaceSetup->mKartCount);
+                RemapItemSlotRows(&gItemSlotCpuTable, gRaceSetup->mKartCount);
             }
             break;
     }
-    rowCount = data_0217bc6c.mRowCount;
+    rowCount = gItemSlotHumanGhostPeerTable.mRowCount;
     for (i = 0; i < 0x12; i++) {
         gItemSlotPossibleItems[i] = 0x12;
         for (j = 0; j < rowCount; j++) {
-            if (data_0217bc6c.mRows[j][i] != 0 || data_0217bc64.mRows[j][i] != 0) {
+            if (gItemSlotHumanGhostPeerTable.mRows[j][i] != 0 || gItemSlotCpuTable.mRows[j][i] != 0) {
                 gItemSlotPossibleItems[i] = i;
             }
         }
@@ -139,7 +139,7 @@ u8 GetItemObjectHitType(ItemObject *itemParam, ItemObject *otherParam) {
     return (gItemHitTypes + item->mKind * 0xe)[other->mKind];
 }
 
-void func_020f7c90(ItemObject *item, Vec3 *otherPos, Vec3 *normal) {
+void DeflectItemObjectRandomly(ItemObject *item, Vec3 *otherPos, Vec3 *normal) {
     RandomState64 *random;
     s64 distanceSquared;
     s32 angleIndex;

@@ -8,8 +8,8 @@
 
 void InitItemObject(ItemObject *a, u32 b, int c) {
     a->mUnk_48 = b;
-    CreateCollisionHitLink(&a->mUnk_104);
-    InitSoundSource(&a->mSoundSource, gItemKinds[c].mUnk_a0, &a->mPos);
+    CreateCollisionHitLink(&a->mCollisionHitLink);
+    InitSoundSource(&a->mSoundSource, gItemKinds[c].mFalloffIndex, &a->mPos);
     func_02109054(&a->mSoundSource);
 }
 

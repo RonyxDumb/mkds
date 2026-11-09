@@ -794,7 +794,7 @@ void AdvanceBouncingItem(BouncingItemObject *item, s32 gravity, s32 velocityFact
     velocity->x = MUL_FIXED12_NO_ROUND(velocity->x, velocityFactor);
     velocity->y = MUL_FIXED12_NO_ROUND(velocity->y, velocityFactor);
     velocity->z = MUL_FIXED12_NO_ROUND(velocity->z, velocityFactor);
-    if (CollideSphereWithCourse(pos, &item->mItemObject.mPrevPos, 0, item->mItemObject.mUnk_dc, 0x24,
+    if (CollideSphereWithCourse(pos, &item->mItemObject.mPrevPos, 0, item->mItemObject.mCourseRadius, 0x24,
                                 item->mItemObject.mCollisionSlotIndex, &t, &hitNormal, &wallNormal,
                                 &item->mItemObject.mCollisionBits, NULL, NULL, NULL, e) != 0) {
         VEC_Add(&t, pos, pos);
@@ -822,10 +822,10 @@ void AdvanceBouncingItem(BouncingItemObject *item, s32 gravity, s32 velocityFact
         if (item->mItemObject.mCollisionBits & 0x214300) {
             item->mItemObject.mFlags |= 0x20;
             BounceItemVelocityOffSurface(velocity, &wallNormal);
-            if (func_020f9290(&item->mItemObject, &wallNormal) != FALSE) {
+            if (TryFadeOutDeflectedItemObject(&item->mItemObject, &wallNormal) != FALSE) {
                 return;
             }
-            item->mItemObject.mUnk_78 &= ~0x4000;
+            item->mItemObject.mOwnerKartIndexAndFlags &= ~0x4000;
         }
         if (item->mItemObject.mCollisionBits & 0x8000) {
             func_020f7070(&item->mItemObject, 1);

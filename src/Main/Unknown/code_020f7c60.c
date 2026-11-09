@@ -2,8 +2,8 @@
 #include "Main/Unknown/code_02109054.h"
 #include "Main/Unknown/code_020f36d8.h"
 
-void func_020f7c60(ItemObject *source, s32 soundId) {
-    SoundSource *sourceCopy = &source->mSoundSource;
+void StartItemObjectSoundOnSource(ItemObject *item, s32 soundId) {
+    SoundSource *sourceCopy = &item->mSoundSource;
     s32 soundIdCopy = soundId;
     u32 volume;
     u32 zero;

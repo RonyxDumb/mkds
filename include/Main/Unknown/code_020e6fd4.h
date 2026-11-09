@@ -30,7 +30,7 @@ typedef struct MapObjectKindData {
     /* 1c */ s32 mUnk_1c;
     /* 20 */ s32 mUnk_20;
     /* 24 */ s32 mSoundId;
-    /* 28 */ s32 mUnk_28;
+    /* 28 */ s32 mCollideItemObjectSoundId;
     /* 2c */ s32 mUnk_2c;
     /* 30 */ s32 mUnk_30;
     /* 34 */ s32 mUnk_34;

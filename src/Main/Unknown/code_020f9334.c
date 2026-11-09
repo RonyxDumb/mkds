@@ -41,12 +41,12 @@ void func_020f9ba8(ItemObject *item) {
     if (item->mAdvance != AdvanceRestingItemObject) {
         return;
     }
-    func_020f7658(item, 1);
+    StartItemObjectReleaseTimerSynced(item, 1);
 }
 
 void func_020f9b0c(ItemObject *item) {
     if ((item->mFlags & 0x8000) != 0) {
-        func_020f7658(item, 1);
+        StartItemObjectReleaseTimerSynced(item, 1);
         return;
     }
     item->mVelocity.x = MUL_FIXED12_NO_ROUND(item->mVelocity.x, 0x99a);
@@ -66,7 +66,7 @@ void ResetItemObject(ItemObject *item, s32 kind) {
     item->mScale.y = 0;
     item->mScale.z = 0;
     item->mUnk_100 = 0;
-    item->mUnk_dc = 0x7b;
+    item->mCourseRadius = 0x7b;
     item->mRadius = 0x7b;
     item->mAlpha = 0x1f;
     item->mCollisionBits = 0;
@@ -75,11 +75,11 @@ void ResetItemObject(ItemObject *item, s32 kind) {
     item->mBounce = NULL;
     item->mUnk_d0 = &item->mPos;
     item->mCollisionSlotIndex = -1;
-    item->mUnk_104->mObject = NULL;
+    item->mCollisionHitLink->mObject = NULL;
     if (gRaceSetup->mMode == 5) {
         item->mFlags |= 0x8000000;
     }
-    item->mUnk_78 |= data_02159cac;
+    item->mOwnerKartIndexAndFlags |= data_02159cac;
     InitCourseColorBlend(&item->mColorBlend, 1);
     item->mUnk_90 = NULL;
     if (reset != NULL) {
@@ -90,7 +90,7 @@ void ResetItemObject(ItemObject *item, s32 kind) {
 
 void ResetItemObjectAtPos(ItemObject *item, s32 kind, u16 ownerAndFlags, Vec3 *pos) {
     item->mPos = *pos;
-    item->mUnk_78 = ownerAndFlags;
+    item->mOwnerKartIndexAndFlags = ownerAndFlags;
     ResetItemObject(item, kind);
     if ((item->mFlags & 0x8000000) == 0) {
         return;
@@ -136,8 +136,9 @@ BOOL func_020f97e0(ItemObject *item, Kart *kart) {
     Vec3 offset;
     s32 hitRadius;
 
-    if (item->mCollisionSlotIndex == -1 ||
-        kart->mIndex == (u16) ((item->mUnk_78 & 0x4000) != 0 ? (u16) (item->mUnk_78 & ~0xff00) : 8)) {
+    if (item->mCollisionSlotIndex == -1 || kart->mIndex == (u16) ((item->mOwnerKartIndexAndFlags & 0x4000) != 0
+                                                                      ? (u16) (item->mOwnerKartIndexAndFlags & ~0xff00)
+                                                                      : 8)) {
         return FALSE;
     }
     hitRadius = kart->mRadius + item->mRadius;
@@ -192,8 +193,8 @@ void func_020f95d4(ItemObject *item, ItemObject *other) {
     itemVelocity = item->mVelocity;
     hitType = GetItemObjectHitType(item, other);
     otherHitType = GetItemObjectHitType(other, item);
-    func_020f77f8(item, hitType, &other->mPos, &other->mVelocity, NULL);
-    func_020f77f8(other, otherHitType, &item->mPos, &itemVelocity, NULL);
+    ApplyItemObjectHitType(item, hitType, &other->mPos, &other->mVelocity, NULL);
+    ApplyItemObjectHitType(other, otherHitType, &item->mPos, &itemVelocity, NULL);
     if (item->mKind == 1) {
         StartTargetKartSoundOnOwnItemHit(item, hitType, other);
     }
@@ -231,8 +232,8 @@ void func_020f944c(ItemObject *itemParam, MapObject *mapObjectParam) {
                 mapObject->mDistanceSquaredAndFlags &= ~0x80000000;
                 reportedMapObject = NULL;
             }
-            func_020f77f8(item, 1, &a, &mapObject->mUnk_10, reportedMapObject);
-            item->mUnk_78 &= ~0x4000;
+            ApplyItemObjectHitType(item, 1, &a, &mapObject->mUnk_10, reportedMapObject);
+            item->mOwnerKartIndexAndFlags &= ~0x4000;
             return;
         case 2:
             if (b == 1 || (mapObject->mDistanceSquaredAndFlags & 0x80000000) != 0) {
@@ -242,7 +243,7 @@ void func_020f944c(ItemObject *itemParam, MapObject *mapObjectParam) {
                 mapObject->mDistanceSquaredAndFlags &= ~0x80000000;
                 reportedMapObject = NULL;
             }
-            func_020f77f8(item, 2, &mapObject->mPos, &mapObject->mUnk_10, reportedMapObject);
+            ApplyItemObjectHitType(item, 2, &mapObject->mPos, &mapObject->mUnk_10, reportedMapObject);
             return;
     }
 }
@@ -256,14 +257,14 @@ void func_020f9334(ItemObject *item, Vec3 *pos, Vec3 *velocity, s32 minFallSpeed
 
     collisionBits = 0;
     z = pos->z;
-    y = pos->y - item->mUnk_dc;
+    y = pos->y - item->mCourseRadius;
     x = pos->x;
     lowerPos.x = x;
     lowerPos.y = y;
     lowerPos.z = z;
 
-    CollideSphereWithCourse(&lowerPos, pos, 0, item->mUnk_dc >> 1, 0x24, item->mCollisionSlotIndex, NULL, NULL, NULL,
-                            &collisionBits, NULL, NULL, NULL, NULL);
+    CollideSphereWithCourse(&lowerPos, pos, 0, item->mCourseRadius >> 1, 0x24, item->mCollisionSlotIndex, NULL, NULL,
+                            NULL, &collisionBits, NULL, NULL, NULL, NULL);
     if ((collisionBits & 0x1e34ef) != 0 || (item->mCollisionBits & 0x80000) != 0) {
         if ((item->mFlags & 0x4000000) != 0) {
             return;

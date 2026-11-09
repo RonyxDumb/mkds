@@ -55,7 +55,7 @@ void SteerItemKouraWToAnglePoint(ItemKouraW *item, s32 maxStep, s32 angle, s32 r
     velocity->z = (velocity->z * oldWeight + t.z) >> shift;
     VEC_Add(velocity, pos, pos);
     if (CollideSphereWithCourse(
-            pos, &item->mUnk_000.mUnk_000.mUnk_000.mPrevPos, 0, item->mUnk_000.mUnk_000.mUnk_000.mUnk_dc, 4,
+            pos, &item->mUnk_000.mUnk_000.mUnk_000.mPrevPos, 0, item->mUnk_000.mUnk_000.mUnk_000.mCourseRadius, 4,
             item->mUnk_000.mUnk_000.mUnk_000.mCollisionSlotIndex, &t, NULL, NULL, NULL, NULL, NULL, NULL, NULL) == 0) {
         return;
     }

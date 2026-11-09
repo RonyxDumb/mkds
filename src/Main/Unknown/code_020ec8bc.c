@@ -166,7 +166,7 @@ void SteerLinkFollowingItemToLink(LinkFollowingItemObject *follower, s32 targetS
 
     AdvanceItemObjectMotion(&follower->mUnk_000, targetSpeed);
     if (follower->mUnk_000.mUnk_158 != 0 && (follower->mUnk_000.mUnk_000.mFlags & 0x20000) != 0) {
-        n = GetKart((u16) (follower->mUnk_000.mUnk_000.mUnk_78 & ~0xff00))->mDrawMatrixPos.y + 0x1e000;
+        n = GetKart((u16) (follower->mUnk_000.mUnk_000.mOwnerKartIndexAndFlags & ~0xff00))->mDrawMatrixPos.y + 0x1e000;
         if (follower->mUnk_000.mUnk_000.mPos.y < n) {
             follower->mUnk_000.mUnk_000.mPos.y = n;
         }
@@ -269,7 +269,8 @@ void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 tar
         }
         pos->y = pos->y + velocity->y;
     }
-    if (CollideSphereWithCourse(pos, &follower->mUnk_000.mUnk_000.mPrevPos, 0, follower->mUnk_000.mUnk_000.mUnk_dc, 4,
+    if (CollideSphereWithCourse(pos, &follower->mUnk_000.mUnk_000.mPrevPos, 0,
+                                follower->mUnk_000.mUnk_000.mCourseRadius, 4,
                                 follower->mUnk_000.mUnk_000.mCollisionSlotIndex, &v28, &hitNormal, &wallNormal,
                                 &follower->mUnk_000.mUnk_000.mCollisionBits, NULL, NULL, NULL, NULL) != 0) {
         if (follower->mUnk_000.mUnk_158 != 0) {

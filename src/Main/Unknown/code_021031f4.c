@@ -668,7 +668,9 @@ void func_021031f4(ItemGesso *gesso) {
     u32 ownerRank;
     u16 kartIndex;
 
-    ownerIndex = (u16) ((gesso->mUnk_000.mUnk_78 & 0x8000) == 0 ? (u16) (gesso->mUnk_000.mUnk_78 & ~0xff00) : 8);
+    ownerIndex = (u16) ((gesso->mUnk_000.mOwnerKartIndexAndFlags & 0x8000) == 0
+                            ? (u16) (gesso->mUnk_000.mOwnerKartIndexAndFlags & ~0xff00)
+                            : 8);
     entryIndex = gRaceSetup->mEntryIndex;
     if (gRaceSetup->mMode == MODE_BATTLE) {
         kartCount = gRaceSetup->mKartCount;
@@ -710,5 +712,5 @@ void func_021031f4(ItemGesso *gesso) {
     }
     gesso->mVisible = TRUE;
     gesso->mKart = GetKart(entryIndex);
-    func_020f8e3c(gesso->mKart, 0xf3);
+    StartEntryKartSound(gesso->mKart, 0xf3);
 }

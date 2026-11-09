@@ -61,7 +61,7 @@ void func_0205a750(s32 itemIndex) {
 }
 
 void func_0205a71c(s32 participantIndex) {
-    func_020f86c4(&gKartItems[(u8) gParticipantKartMap->mKartOfParticipant[participantIndex]]);
+    StartItemSlotResultPending(&gKartItems[(u8) gParticipantKartMap->mKartOfParticipant[participantIndex]]);
 }
 
 void func_0205a6b4(void) {

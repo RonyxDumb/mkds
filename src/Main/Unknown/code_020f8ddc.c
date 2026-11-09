@@ -6,7 +6,7 @@
 #include "Main/Unknown/code_0208b000.h"
 #include "Main/Unknown/code_020f6be8.h"
 
-void func_020f8ddc(void *itemParam) {
+void StartMissionRunKouraEffects(ItemObject *itemParam) {
     ItemObject *item = itemParam;
 
     if (item == NULL) {

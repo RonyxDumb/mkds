@@ -287,7 +287,7 @@ void UpdateRaceHudSubScreenKarts(void) {
                         } else {
                             position = &object->mPos;
                         }
-                        f = func_020f91e0(object);
+                        f = IsItemObjectScaleAtSetupSize(object);
                         if (position != NULL && f != 0) {
                             ComputePointAlongLine(&t, &kartPosition, position);
                             w = t;

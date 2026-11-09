@@ -126,8 +126,8 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
                     if (descriptor->mKindData->mSoundId == 0) {
                         descriptor->mKindData->mSoundId = -1;
                     }
-                    if (descriptor->mKindData->mUnk_28 == 0) {
-                        descriptor->mKindData->mUnk_28 = -1;
+                    if (descriptor->mKindData->mCollideItemObjectSoundId == 0) {
+                        descriptor->mKindData->mCollideItemObjectSoundId = -1;
                     }
                     if (descriptor->mKindData->mUnk_38 == 0) {
                         descriptor->mKindData->mUnk_38 = 0x64000;

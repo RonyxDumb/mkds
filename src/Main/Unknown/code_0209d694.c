@@ -213,7 +213,7 @@ void CreateSunFireballKindData(void) {
 
     kindData = CreateMapObjectKindDataWithSound(&CollideKartWithSunFireball, &CollideItemObjectWithSunFireball, NULL, 1,
                                                 0, 0x18d);
-    kindData->mUnk_28 = 0x196;
+    kindData->mCollideItemObjectSoundId = 0x196;
 }
 
 void CreateSunFireballUpdateList(void) {

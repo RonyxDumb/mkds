@@ -172,8 +172,8 @@ void CollideItemObjects(ItemObject *object, ItemObject *other) {
     savedVelocity = object->mVelocity;
     n = GetItemObjectHitType(object, other);
     m = GetItemObjectHitType(other, object);
-    func_020f77f8(object, n, &other->mPos, &other->mVelocity, NULL);
-    func_020f77f8(other, m, &object->mPos, &savedVelocity, NULL);
+    ApplyItemObjectHitType(object, n, &other->mPos, &other->mVelocity, NULL);
+    ApplyItemObjectHitType(other, m, &object->mPos, &savedVelocity, NULL);
     if (other->mKind != 1) {
         return;
     }
@@ -219,7 +219,7 @@ void UpdateItemInUseObjects(ItemInUse *itemInUse) {
     for (j = objectCount - 1; j >= 0; j--) {
         object = objects[j];
         if (object->mCollisionSlotIndex == -1) {
-            if (func_020f91e0(object) != FALSE) {
+            if (IsItemObjectScaleAtSetupSize(object) != FALSE) {
                 idx = object->mKind;
                 if (gItemKinds[idx].mUnk_68 != 0) {
                     CreateItemObjectCollisionSlot(object);
@@ -234,7 +234,8 @@ void UpdateItemInUseObjects(ItemInUse *itemInUse) {
                 if (other->mCollisionSlotIndex == -1) {
                     continue;
                 }
-                if ((other->mUnk_78 & 0x4000) != 0 && itemInUse->mKartIndex == (u16) (other->mUnk_78 & ~0xff00)) {
+                if ((other->mOwnerKartIndexAndFlags & 0x4000) != 0 &&
+                    itemInUse->mKartIndex == (u16) (other->mOwnerKartIndexAndFlags & ~0xff00)) {
                     continue;
                 }
                 CollideItemObjects(object, other);

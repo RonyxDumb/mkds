@@ -231,7 +231,7 @@ void SetKartHitByKartIndexFromItem(s32 kartIndex, ItemObject *itemObject) {
     if (itemObject->mKind != 0 && itemObject->mKind != 1 && itemObject->mKind != 9) {
         return;
     }
-    v = itemObject->mUnk_78;
+    v = itemObject->mOwnerKartIndexAndFlags;
     if ((v & 0x8000) != 0) {
         return;
     }

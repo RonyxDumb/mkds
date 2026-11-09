@@ -204,8 +204,8 @@ void AdvanceItemFBoxInUse(ItemInUse *inUse, ItemFBox *fbox) {
 }
 
 u32 InitItemFBox(ItemInUse *inUse, ItemFBox *fbox) {
-    func_020f9114(&fbox->mUnk_000.mItemObject);
-    fbox->mUnk_000.mItemObject.mUnk_78 |= data_0215a02c;
+    StartItemObjectSoundSource(&fbox->mUnk_000.mItemObject);
+    fbox->mUnk_000.mItemObject.mOwnerKartIndexAndFlags |= data_0215a02c;
     MTX_Concat33(&data_0217c600.mUnk_00_m, &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00_m,
                  &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00_m);
     fbox->mUnk_130.x = 0;
@@ -227,7 +227,7 @@ void AdvanceItemFBox(ItemFBox *fbox) {
 
     if (fbox->mUnk_000.mItemObject.mFlags & 0x180000) {
         if (fbox->mUnk_000.mItemObject.mFlags & 0x80000) {
-            func_020f6e58(&fbox->mUnk_000.mItemObject);
+            AdvanceItemObjectFadeOut(&fbox->mUnk_000.mItemObject);
         } else if (fbox->mUnk_000.mItemObject.mFlags & 0x100000) {
             AdvanceItemObjectReleaseTimer(&fbox->mUnk_000.mItemObject);
         }

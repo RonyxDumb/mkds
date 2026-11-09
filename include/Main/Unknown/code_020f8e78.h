@@ -3,13 +3,13 @@
 #include "types.h"
 #include "Main/Unknown/code_020f6be8.h"
 
-BOOL func_020f9290(ItemObject *item, Vec3 *normal);
-void func_020f91fc(ItemObject *item, s32 soundId);
-BOOL func_020f91e0(ItemObject *itemParam);
+BOOL TryFadeOutDeflectedItemObject(ItemObject *item, Vec3 *normal);
+void StartItemObjectSoundIfNear(ItemObject *item, s32 soundId);
+BOOL IsItemObjectScaleAtSetupSize(ItemObject *itemParam);
 BOOL IsItemObjectFartherFromCameraThan(ItemObject *item, s32 distance);
-BOOL func_020f9160(ItemObject *c);
-void func_020f9114(ItemObject *item);
-void func_020f90dc(ItemObject *itemParam);
-void func_020f90bc(ItemObject *itemParam);
-void ResetItemObjectFromData(ItemObject *itemParam, s32 kind, void *buffer, s32 d);
+BOOL IsItemObjectTooFarForEffects(ItemObject *itemObject);
+void StartItemObjectSoundSource(ItemObject *item);
+void StopItemObjectSoundSource(ItemObject *itemParam);
+void UpdateItemObjectSoundSource(ItemObject *itemParam);
+void ResetItemObjectFromData(ItemObject *itemParam, s32 kind, void *buffer, s32 useGenericCopy);
 void SetupItemObjectFromData(ItemObject *item);

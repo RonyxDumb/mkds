@@ -29,7 +29,7 @@ typedef struct KartItems {
     /* 014 */ s32 mActiveItem;
     // Always the record itself (the roulette functions take a part that points to its owner)
     /* 018 */ struct KartItems *mSelf;
-    /* 01c */ BOOL mUnk_01c;
+    /* 01c */ BOOL mIsShortSpin;
     /* 020 */ BOOL mResultPending;
     /* 024 */ s32 mIsPeer;
     /* 028 */ u32 mSlotFinalScrollFrameCount;

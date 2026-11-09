@@ -251,7 +251,7 @@ u32 CollideItemObjectWithKuribo(Kuribo *kuribo, ItemObject *itemObject, u8 *firs
                 kuribo->mMapObject.mStateMachine.mState == 1) {
                 kuribo->mMapObject.mStateMachine.mNextState = 2;
                 kuribo->mMapObject.mStateMachine.mNextStateRequested = 1;
-                func_020f8ddc(itemObject);
+                StartMissionRunKouraEffects(itemObject);
                 if (itemObject != NULL) {
                     StartItemKinokoFromKuribo(kuribo, &itemObject->mVelocity);
                 }

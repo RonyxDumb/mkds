@@ -95,7 +95,7 @@ BOOL SteerItemKouraRToKart(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
     VEC_Add(&item->mTowardKartVelocity, pos, pos);
     VEC_Add(velocity, pos, pos);
     if (CollideSphereWithCourse(pos, &item->mUnk_000.mUnk_000.mUnk_000.mPrevPos, 0,
-                                item->mUnk_000.mUnk_000.mUnk_000.mUnk_dc, 4,
+                                item->mUnk_000.mUnk_000.mUnk_000.mCourseRadius, 4,
                                 item->mUnk_000.mUnk_000.mUnk_000.mCollisionSlotIndex, &t, &firstNormal, &secondNormal,
                                 &item->mUnk_000.mUnk_000.mUnk_000.mCollisionBits, NULL, NULL, NULL, NULL) != 0) {
         VEC_Add(&t, pos, pos);
@@ -152,8 +152,8 @@ int TrySetItemKouraRKartItems(ItemKouraR *item, int kartIndex, s32 maxDistanceSq
     s64 lengthProduct;
 
     kart = GetKart(kartIndex);
-    ownerIndex = !(item->mUnk_000.mUnk_000.mUnk_000.mUnk_78 & 0x8000)
-                     ? (u16) (item->mUnk_000.mUnk_000.mUnk_000.mUnk_78 & ~0xff00)
+    ownerIndex = !(item->mUnk_000.mUnk_000.mUnk_000.mOwnerKartIndexAndFlags & 0x8000)
+                     ? (u16) (item->mUnk_000.mUnk_000.mUnk_000.mOwnerKartIndexAndFlags & ~0xff00)
                      : 8;
     kartRank = GetKartRank(kartIndex);
     if (ownerIndex < 8 && checkRank != 0) {

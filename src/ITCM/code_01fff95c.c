@@ -172,7 +172,7 @@ BOOL UpdateItemObject(ItemPool *a, ItemObject *p, s32 f) {
         }
     }
     if (p->mPos.y < 0 && p->mKind != 0xb && p->mKind != 0xa) {
-        func_020f7658(p, 1);
+        StartItemObjectReleaseTimerSynced(p, 1);
     }
     if (p->mUnk_114 < 5) {
         p->mFlags &= ~0x20000;
@@ -196,17 +196,17 @@ BOOL UpdateItemObject(ItemPool *a, ItemObject *p, s32 f) {
         p->mFlags &= ~0x10000;
     }
     if (p->mFlags & 0x400000) {
-        func_020f90bc(p);
+        UpdateItemObjectSoundSource(p);
     }
     p->mPrevPos = p->mPos;
     p->mAgeFrames += 1;
-    if (p->mUnk_78 & 0x4000) {
-        if (p->mUnk_78 & 0x2000) {
+    if (p->mOwnerKartIndexAndFlags & 0x4000) {
+        if (p->mOwnerKartIndexAndFlags & 0x2000) {
             if (p->mAgeFrames > 4 && !(p->mFlags & 0x20000)) {
-                p->mUnk_78 &= ~0x4000;
+                p->mOwnerKartIndexAndFlags &= ~0x4000;
             }
         } else if (p->mAgeFrames > 0x1e) {
-            p->mUnk_78 &= ~0x4000;
+            p->mOwnerKartIndexAndFlags &= ~0x4000;
         }
     }
     return FALSE;

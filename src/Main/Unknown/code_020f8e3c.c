@@ -12,7 +12,7 @@
 #include "Main/Unknown/code_020b502c.h"
 #include "Main/Unknown/code_02070398.h"
 
-void func_020f8e3c(Kart *kart, u32 soundId) {
+void StartEntryKartSound(Kart *kart, u32 soundId) {
     if (kart == NULL) {
         return;
     }

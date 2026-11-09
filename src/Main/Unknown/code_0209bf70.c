@@ -625,21 +625,21 @@ void CreateBoundKindData(void) {
     MapObjectKindData *kindData;
 
     kindData = CreateMapObjectKindData(CollideKartWithBound, CollideItemObjectWithBound, ComputeSphereHitOnBound, 1, 1);
-    kindData->mUnk_28 = 0x1cf;
+    kindData->mCollideItemObjectSoundId = 0x1cf;
 }
 
 void CreateCreamKindData(void) {
     MapObjectKindData *kindData;
 
     kindData = CreateMapObjectKindData(CollideKartWithBound, CollideItemObjectWithBound, ComputeSphereHitOnBound, 1, 1);
-    kindData->mUnk_28 = 0x156;
+    kindData->mCollideItemObjectSoundId = 0x156;
 }
 
 void CreateBerryKindData(void) {
     MapObjectKindData *kindData;
 
     kindData = CreateMapObjectKindData(CollideKartWithBound, CollideItemObjectWithBound, ComputeSphereHitOnBound, 1, 1);
-    kindData->mUnk_28 = 0x155;
+    kindData->mCollideItemObjectSoundId = 0x155;
 }
 
 void CreateBoundDrawList(void) {

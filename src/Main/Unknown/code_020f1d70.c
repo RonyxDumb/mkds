@@ -198,7 +198,7 @@ void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
     velocity = &object->mUnk_000.mVelocity;
     direction = &object->mDirection;
     VEC_Add(velocity, pos, pos);
-    n = CollideSphereWithCourse(pos, &object->mUnk_000.mPrevPos, 0, object->mUnk_000.mUnk_dc, object->mUnk_164,
+    n = CollideSphereWithCourse(pos, &object->mUnk_000.mPrevPos, 0, object->mUnk_000.mCourseRadius, object->mUnk_164,
                                 object->mUnk_000.mCollisionSlotIndex, &v1, &hitNormal, &v3,
                                 &object->mUnk_000.mCollisionBits, NULL, NULL, NULL, NULL);
     if (n != 0) {
@@ -247,7 +247,7 @@ void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
                 v3.y = 0;
                 DeflectItemObjectAndStartSound(object, &v3, NULL);
             }
-            object->mUnk_000.mUnk_78 &= ~0x4000;
+            object->mUnk_000.mOwnerKartIndexAndFlags &= ~0x4000;
             if (object->mHasHitLimit != FALSE) {
                 object->mUnk_000.mFlags |= 0x20;
                 object->mHitsRemaining -= 1;

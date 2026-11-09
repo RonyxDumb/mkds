@@ -138,8 +138,9 @@ void PickItemTeresaKartByRank(ItemTeresa *teresa, s32 teamIndex) {
     kartCount = gRaceSetup->mKartCount;
     weightSum = candidateCount = 0;
     weightCursor = data_0215a154;
-    rankBehind = rankAhead =
-        GetKartRank((u16) ((teresa->mUnk_000.mUnk_78 & 0x8000) == 0 ? (u16) (teresa->mUnk_000.mUnk_78 & ~0xff00) : 8));
+    rankBehind = rankAhead = GetKartRank((u16) ((teresa->mUnk_000.mOwnerKartIndexAndFlags & 0x8000) == 0
+                                                    ? (u16) (teresa->mUnk_000.mOwnerKartIndexAndFlags & ~0xff00)
+                                                    : 8));
     if (teresa->mUnk_148 != FALSE) {
         raceProgress = gRaceProgress;
         kartItems = gKartItems;
@@ -230,8 +231,9 @@ void PickItemTeresaKartBattle(ItemTeresa *teresa, s32 teamIndex) {
     rowIndex = (u16) (((u64) (u32) (random->mValue >> 32) * 8) >> 32);
     endIndex = rowIndex + 8;
     kartCount = raceSetup->mKartCount;
-    skippedKartIndex =
-        (u16) ((teresa->mUnk_000.mUnk_78 & 0x8000) == 0 ? (u16) (teresa->mUnk_000.mUnk_78 & ~0xff00) : 8);
+    skippedKartIndex = (u16) ((teresa->mUnk_000.mOwnerKartIndexAndFlags & 0x8000) == 0
+                                  ? (u16) (teresa->mUnk_000.mOwnerKartIndexAndFlags & ~0xff00)
+                                  : 8);
     if (rowIndex >= endIndex) {
         return;
     }
@@ -274,7 +276,7 @@ void InitItemTeresa(ItemInUse *inUse, ItemTeresa *teresa) {
 
     kart = inUse->mKart;
     StartKartTeresa(kart);
-    func_020f8e3c(kart, 0xf6);
+    StartEntryKartSound(kart, 0xf6);
     SetActiveItem(inUse->mKartItems, 0x10);
     InitCourseColorBlend(&teresa->mUnk_000.mColorBlend, 1);
     if (inUse->mKartItems->mFlags & 0x20) {
@@ -387,7 +389,7 @@ void func_02101964(ItemTeresa *teresa, s32 a) {
 }
 
 void EnterItemTeresaState0(ItemTeresa *teresa) {
-    teresa->mKart = GetKart((u16) (teresa->mUnk_000.mUnk_78 & ~0xff00));
+    teresa->mKart = GetKart((u16) (teresa->mUnk_000.mOwnerKartIndexAndFlags & ~0xff00));
     teresa->mKartDrawMatrixPos = teresa->mKart->mDrawMatrixPos;
     teresa->mKartVelocity = teresa->mKart->mVelocity;
     teresa->mOffset =
@@ -578,8 +580,8 @@ void EnterItemTeresaState2(ItemTeresa *teresa) {
         raceSetup = gRaceSetup;
         pickFunction = (raceSetup->mMode == MODE_BATTLE) ? PickItemTeresaKartBattle : PickItemTeresaKartByRank;
         if (raceSetup->mUseTeams != 0) {
-            if ((teresa->mUnk_000.mUnk_78 & 0x8000) == 0) {
-                ownerKartIndex = (u16) (teresa->mUnk_000.mUnk_78 & ~0xff00);
+            if ((teresa->mUnk_000.mOwnerKartIndexAndFlags & 0x8000) == 0) {
+                ownerKartIndex = (u16) (teresa->mUnk_000.mOwnerKartIndexAndFlags & ~0xff00);
             } else {
                 ownerKartIndex = 8;
             }
@@ -600,7 +602,7 @@ void EnterItemTeresaState2(ItemTeresa *teresa) {
         teresa->mKartDrawMatrixPos = teresa->mKart->mDrawMatrixPos;
         teresa->mKartVelocity = teresa->mKart->mVelocity;
         teresa->mUnk_144 = FALSE;
-        func_020f8e3c(teresa->mKart, 0xf4);
+        StartEntryKartSound(teresa->mKart, 0xf4);
         if (teresa->mKart->mUnk_48 & 1) {
             teresa->mUnk_000.mUnk_d0 = &teresa->mUnk_000.mDrawPos;
         }
@@ -759,7 +761,7 @@ void UpdateItemTeresaState3(ItemTeresa *teresa) {
         if (teresa->mOffsetVelocityY >= -teresa->mUnk_19c) {
             return;
         }
-        func_020f8e3c(teresa->mKart, 0xf5);
+        StartEntryKartSound(teresa->mKart, 0xf5);
     } else {
         teresa->mOffsetX += teresa->mOffsetVelocityX;
         teresa->mOffsetZ += teresa->mOffsetVelocityZ;
@@ -814,8 +816,8 @@ void EnterItemTeresaState5(ItemTeresa *teresa) {
     KartItems *ownerKartItems;
     void (*positionFunction)(ItemTeresa *);
 
-    if ((teresa->mUnk_000.mUnk_78 & 0x8000) == 0) {
-        ownerKartIndex = (u16) (teresa->mUnk_000.mUnk_78 & ~0xff00);
+    if ((teresa->mUnk_000.mOwnerKartIndexAndFlags & 0x8000) == 0) {
+        ownerKartIndex = (u16) (teresa->mUnk_000.mOwnerKartIndexAndFlags & ~0xff00);
     } else {
         ownerKartIndex = 8;
     }
@@ -846,7 +848,7 @@ void EnterItemTeresaState5(ItemTeresa *teresa) {
         teresa->mOffsetY = teresa->mSavedOffsetY;
     }
     if (teresa->mUnk_144 == FALSE) {
-        func_020f8e3c(teresa->mKart, 0xf7);
+        StartEntryKartSound(teresa->mKart, 0xf7);
     }
     teresa->mStallFrames = 0;
     positionFunction = (teresa->mKart->mUnk_48 & 1) ? SetItemTeresaPosPointerToDrawPos : func_02100b54;
@@ -861,8 +863,8 @@ void UpdateItemTeresaState5(ItemTeresa *teresa) {
     s32 startOffsetX;
     s32 startOffsetZ;
 
-    if ((teresa->mUnk_000.mUnk_78 & 0x8000) == 0) {
-        ownerKartIndex = (u16) (teresa->mUnk_000.mUnk_78 & ~0xff00);
+    if ((teresa->mUnk_000.mOwnerKartIndexAndFlags & 0x8000) == 0) {
+        ownerKartIndex = (u16) (teresa->mUnk_000.mOwnerKartIndexAndFlags & ~0xff00);
     } else {
         ownerKartIndex = 8;
     }
@@ -912,7 +914,7 @@ void UpdateItemTeresaState5(ItemTeresa *teresa) {
                     teresa->mItemInfoIndex = 0x13;
                     teresa->mItemCount = -0x40;
                     teresa->mItemObjectKind = 0xe;
-                    func_020f8e3c(ownerKartItems->mKart, 0xf8);
+                    StartEntryKartSound(ownerKartItems->mKart, 0xf8);
                 } else {
                     teresa->mItemCount = -0x40;
                     teresa->mItemObjectKind = 0xe;
@@ -977,8 +979,8 @@ void UpdateItemTeresaState6(ItemTeresa *teresa) {
     }
     if (func_02101618(teresa, teresa->mUnk_15c == FALSE ? 1 : 0, 7) != FALSE) {
         if (hasItem != FALSE) {
-            if ((teresa->mUnk_000.mUnk_78 & 0x8000) == 0) {
-                ownerKartIndex = (u16) (teresa->mUnk_000.mUnk_78 & ~0xff00);
+            if ((teresa->mUnk_000.mOwnerKartIndexAndFlags & 0x8000) == 0) {
+                ownerKartIndex = (u16) (teresa->mUnk_000.mOwnerKartIndexAndFlags & ~0xff00);
             } else {
                 ownerKartIndex = 8;
             }
@@ -1009,8 +1011,8 @@ void func_0210050c(ItemTeresa *teresa) {
     int ownerKartIndex;
     KartItems *ownerKartItems;
 
-    if ((teresa->mUnk_000.mUnk_78 & 0x8000) == 0) {
-        ownerKartIndex = (u16) (teresa->mUnk_000.mUnk_78 & ~0xff00);
+    if ((teresa->mUnk_000.mOwnerKartIndexAndFlags & 0x8000) == 0) {
+        ownerKartIndex = (u16) (teresa->mUnk_000.mOwnerKartIndexAndFlags & ~0xff00);
     } else {
         ownerKartIndex = 8;
     }
@@ -1040,8 +1042,8 @@ void InitItemTeresaFromData(ItemTeresa *teresa) {
     SetupItemObjectFromData(&teresa->mUnk_000);
     InitCourseColorBlend(&teresa->mUnk_000.mColorBlend, 1);
     SetStateMachineState(&teresa->mStateMachine, 0);
-    if ((teresa->mUnk_000.mUnk_78 & 0x8000) == 0) {
-        ownerKartIndex = (u16) (teresa->mUnk_000.mUnk_78 & ~0xff00);
+    if ((teresa->mUnk_000.mOwnerKartIndexAndFlags & 0x8000) == 0) {
+        ownerKartIndex = (u16) (teresa->mUnk_000.mOwnerKartIndexAndFlags & ~0xff00);
     } else {
         ownerKartIndex = 8;
     }
