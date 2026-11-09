@@ -6,6 +6,7 @@
 #include "code_021479b4.h" // MtxFx44
 #include "Main/Unknown/code_021035ac.h"
 #include "Main/Unknown/code_0210bafc.h"
+#include "Main/Unknown/code_0210bcf4.h"
 
 typedef struct NNSSndSeqPlayer NNSSndSeqPlayer;
 typedef struct NNSSndHeap NNSSndHeap;
@@ -43,7 +44,7 @@ extern NNSSndSeqPlayer *data_0217c838[];
 extern NNSSndSeqPlayer *data_0217c83c;
 extern NNSSndSeqPlayer *data_0217c840;
 extern struct NNSSndArc gOnMemorySndArc;
-extern u8 data_0217c91c[];
+extern PlayingSound data_0217c91c[12];
 extern u32 data_0217cbec[];
 extern u32 data_0217c780;
 extern u32 data_0217cc6c[];

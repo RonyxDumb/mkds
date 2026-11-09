@@ -31,7 +31,7 @@ void InitMissionGate(MissionGateObject *missionGateObject) {
     s32 sideExtentY;
     s16 saved;
 
-    RefreshMapObjectMatrixFromHitNormal(missionGateObject);
+    RefreshMapObjectMatrixFromHitNormal(&missionGateObject->mMapObject);
     missionGateObject->mMapObject.mAngle =
         (missionGateObject->mMapObject.mCourseMapRow->mUnk_0c.y * 0xB60B60B60BLL + 0x80000000000LL) >> 44;
     MTX_RotY33_(&mtx, gPairsByAngle[(missionGateObject->mMapObject.mAngle >> 4) * 2],

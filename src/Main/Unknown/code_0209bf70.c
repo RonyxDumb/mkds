@@ -269,7 +269,7 @@ void CreateSunUpdateList(void) {
 
 void InitBound(Bound *bound) {
     bound->mUnk_000.mFlags |= data_usa_021565d4;
-    RefreshMapObjectMatrixFromHitNormal(bound);
+    RefreshMapObjectMatrixFromHitNormal(&bound->mUnk_000);
     bound->mInitialScaleX = bound->mUnk_000.mScale.x;
 }
 

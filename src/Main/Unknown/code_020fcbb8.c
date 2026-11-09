@@ -25,8 +25,8 @@ void SteerItemKouraWToKartForward(ItemKouraW *item, s32 gain, s32 lift) {
     kart = item->mKartItems->mKart;
     flagBit0 = (kart->mUnk_48 & 1) ? 1 : 0;
     item->mUnk_22c = kart->mSignedTurnedForward;
-    pos = &item->mUnk_000.mPos;
-    velocity = &item->mUnk_000.mVelocity;
+    pos = &item->mUnk_000.mUnk_000.mUnk_000.mPos;
+    velocity = &item->mUnk_000.mUnk_000.mUnk_000.mVelocity;
     if (kart->mUnk_44 & 0x100) {
         item->mUnk_22c.x = -item->mUnk_22c.x;
         item->mUnk_22c.y = -item->mUnk_22c.y;
@@ -49,9 +49,9 @@ void SteerItemKouraWToKartForward(ItemKouraW *item, s32 gain, s32 lift) {
     if (flagBit0 == 0) {
         return;
     }
-    if (CollideSphereWithCourse(pos, &item->mUnk_000.mPrevPos, 0, item->mUnk_000.mUnk_dc, 4,
-                                item->mUnk_000.mCollisionSlotIndex, &v, NULL, NULL, NULL, NULL, NULL, NULL,
-                                NULL) == 0) {
+    if (CollideSphereWithCourse(
+            pos, &item->mUnk_000.mUnk_000.mUnk_000.mPrevPos, 0, item->mUnk_000.mUnk_000.mUnk_000.mUnk_dc, 4,
+            item->mUnk_000.mUnk_000.mUnk_000.mCollisionSlotIndex, &v, NULL, NULL, NULL, NULL, NULL, NULL, NULL) == 0) {
         return;
     }
     VEC_Add(pos, &v, pos);
@@ -73,20 +73,20 @@ BOOL TrySetItemKouraWKartItems(ItemKouraW *item, s32 kartIndex) {
     }
     kartItems = &(gKartItems)[kartIndex];
     kartPos = &kart->mDrawMatrixPos;
-    if (kartItems->mUnk_1f0.mLink != item->mTargetLink) {
-        shortRange = ((item->mUnk_000.mFlags & 0x40000000) || (kart->mUnk_48 & 1)) ? 1 : 0;
-        VEC_Subtract(kartPos, &item->mUnk_000.mPos, &v);
+    if (kartItems->mUnk_1f0.mLink != item->mUnk_000.mTargetLink.mLink) {
+        shortRange = ((item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x40000000) || (kart->mUnk_48 & 1)) ? 1 : 0;
+        VEC_Subtract(kartPos, &item->mUnk_000.mUnk_000.mUnk_000.mPos, &v);
         offsetX = v.x >> 12;
         offsetZ = v.z >> 12;
         if (offsetX * offsetX + offsetZ * offsetZ > (shortRange ? 0x9c40 : 0x27100)) {
             return FALSE;
         }
-        normalDistance = Vec3DotUnrounded(&item->mUnk_000.mNormal, &v) >> 12;
+        normalDistance = Vec3DotUnrounded(&item->mUnk_000.mUnk_000.mUnk_000.mNormal, &v) >> 12;
         if (normalDistance * normalDistance > 0x9c4) {
             return FALSE;
         }
     }
-    if (item->mUnk_000.mFlags & 0x10000000) {
+    if (item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x10000000) {
         return FALSE;
     }
     item->mKartItems = kartItems;

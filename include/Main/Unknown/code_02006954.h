@@ -44,7 +44,7 @@ BlockListNode *FindBlockById(u32 blockId);
 void SetBlockListHead(BlockListNode *head);
 BlockListNode *GetBlockListHead(void);
 u32 TrySetNextRequest(const BlockTransferRecord *request);
-unsigned int GetNextRequestAddress(void);
+BlockTransferRecord *GetNextRequestAddress(void);
 BlockTransfer *GetBlockTransfer(void);
 void SetSendChunkSize(unsigned int chunkSize);
 void SetReceiveChunkSize(unsigned int chunkSize);

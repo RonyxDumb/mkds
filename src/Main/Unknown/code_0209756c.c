@@ -30,7 +30,7 @@
 
 void InitFlipper(Flipper *flipper) {
     flipper->mUnk_00.mFlags = flipper->mUnk_00.mFlags | data_usa_0215658c;
-    RefreshMapObjectMatrixFromHitNormal(flipper);
+    RefreshMapObjectMatrixFromHitNormal(&flipper->mUnk_00);
 }
 
 u32 CollideKartWithFlipper(Flipper *flipper, Kart *kart, void *b, u8 *c) {

@@ -330,8 +330,7 @@ void ChildCallback(Unk021425e8 *result) {
     WirelessWork *work;
     s32 i;
     s32 entryCount;
-    u32 entryOffset;
-    u8 *entries;
+    ScanEntry *entries;
     work = gWirelessWork;
     switch (result->mCommand) {
         case 0:
@@ -374,11 +373,11 @@ void ChildCallback(Unk021425e8 *result) {
                 case 3:
                     return;
                 case 5:
-                    entries = (u8 *) work->mScanEntries;
+                    entries = work->mScanEntries;
                     i = 0;
                     entryCount = work->mScanEntryCount;
                     if (entryCount > 0) {
-                        entry = (ScanEntry *) entries;
+                        entry = entries;
                         c = result->mUnk_0a[0];
                         do {
                             if (c == entry->mMessage.mUnk_0a[0] && result->mUnk_0a[1] == entry->mMessage.mUnk_0a[1] &&
@@ -386,12 +385,10 @@ void ChildCallback(Unk021425e8 *result) {
                                 result->mUnk_0a[3] == entry->mMessage.mUnk_0a[3] &&
                                 result->mUnk_0a[4] == entry->mMessage.mUnk_0a[4] &&
                                 result->mUnk_0a[5] == entry->mMessage.mUnk_0a[5]) {
-                                entryOffset = i * 0x180;
-                                ((ScanEntry *) (entries + entryOffset))->mMessage.mUnk_36 = result->mUnk_36;
-                                ((ScanEntry *) (entries + (s32) entryOffset))->mMessage.mUnk_38 = result->mUnk_38;
-                                DC_InvalidateRange((ScanEntry *) ((u8 *) work->mScanEntries + entryOffset), 0xc0);
-                                MI_DmaCopy16(gWirelessDmaNo, work->mScanBuffer,
-                                             (ScanEntry *) ((u8 *) work->mScanEntries + entryOffset), 0xc0);
+                                entries[i].mMessage.mUnk_36 = result->mUnk_36;
+                                entries[i].mMessage.mUnk_38 = result->mUnk_38;
+                                DC_InvalidateRange(&work->mScanEntries[i], 0xc0);
+                                MI_DmaCopy16(gWirelessDmaNo, work->mScanBuffer, &work->mScanEntries[i], 0xc0);
                                 work->mLastScanEntry = i;
                                 goto done;
                             }
@@ -401,9 +398,8 @@ void ChildCallback(Unk021425e8 *result) {
                     }
                     if (i < 16) {
                         work->mScanEntryCount = i + 1;
-                        entryOffset = i * 0x180;
-                        MIi_CpuCopy16(result, entries + entryOffset + 0xc0, 0xb8);
-                        entry = (ScanEntry *) ((u8 *) work->mScanEntries + entryOffset);
+                        MIi_CpuCopy16(result, &entries[i].mMessage, 0xb8);
+                        entry = &work->mScanEntries[i];
                         DC_InvalidateRange(entry, 0xc0);
                         MI_DmaCopy16(gWirelessDmaNo, work->mScanBuffer, entry, 0xc0);
                         work->mLastScanEntry = i;

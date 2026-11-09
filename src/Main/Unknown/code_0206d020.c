@@ -398,7 +398,7 @@ void func_0206d18c(Kart *kart) {
             }
             break;
         case 9:
-            if (((ItemKouraW *) itemObject)->mUnk_16c != 0) {
+            if (((ItemKouraW *) itemObject)->mUnk_000.mTargetLink.mNextLinksUsed != 0) {
                 r = TrySpinKart(kart, 2, r);
             } else {
                 r = TryStartKartState6(kart);

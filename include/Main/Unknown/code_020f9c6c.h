@@ -21,6 +21,7 @@ typedef struct CourseMapRow {
     /* 3a */ u8 mUnk_3a[2];
 } CourseMapRow;
 
+#include "Main/Unknown/code_020ec8bc.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/code_0210b000.h" // SoundDistanceSquaredChange
 
@@ -40,18 +41,7 @@ typedef struct DirectionQuaternion {
 
 // Object of item kind 5, element of gItemPools[5].
 typedef struct ItemKouraW {
-    /* 000 */ ItemObject mUnk_000;
-    /* 12c */ s32 mUnk_12c;
-    /* 130 */ Vec3 mDirection;
-    /* 13c */ u8 mUnk_13c[0x24];
-    /* 160 */ s32 mUnk_160;
-    /* 164 */ u8 mUnk_164[4];
-    /* 168 */ ItemPointLink *mTargetLink;
-    /* 16c */ s32 mUnk_16c;
-    /* 170 */ u32 mUnk_170;
-    /* 174 */ u8 mUnk_174[0xa8];
-    /* 21c */ s32 mPreviousLink;
-    /* 220 */ u8 mUnk_220[8];
+    /* 000 */ LinkFollowingItemObject mUnk_000;
     /* 228 */ struct KartItems *mKartItems;
     /* 22c */ Vec3 mUnk_22c;
     /* 238 */ Vec3 mUnk_238;

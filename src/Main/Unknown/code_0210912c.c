@@ -6,7 +6,7 @@
 
 void InitSoundFalloffsAndPlayingSounds(void) {
     InitSoundFalloffs();
-    InitPlayingSoundPool((PlayingSound *) data_0217c91c, 0xc);
+    InitPlayingSoundPool(data_0217c91c, 0xc);
     SetSoundPanFunction(ComputeSoundPan);
     SetSoundDistanceFunction(ComputeSoundDistanceAndOffsets);
     SetSoundVolumeFunction(ComputeSoundVolume);

@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-void RefreshMapObjectMatrixFromHitNormal(void *mapObject);
+typedef struct MapObject MapObject;
+
+void RefreshMapObjectMatrixFromHitNormal(MapObject *mapObject);

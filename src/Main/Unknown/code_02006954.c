@@ -32,8 +32,8 @@ BlockTransfer *GetBlockTransfer(void) {
     return &gBlockTransfer;
 }
 
-u32 GetNextRequestAddress(void) {
-    return ((u32) (&gNextRequest));
+BlockTransferRecord *GetNextRequestAddress(void) {
+    return &gNextRequest;
 }
 
 #pragma thumb off
@@ -42,18 +42,18 @@ u32 GetNextRequestAddress(void) {
 
 u32 TrySetNextRequest(const BlockTransferRecord *request) {
     u32 savedInterrupts;
-    s32 *nextRequest;
+    BlockTransferRecord *nextRequest;
     savedInterrupts = OS_DisableInterrupts();
     if (gBlockTransferStarted != 1) {
         OS_RestoreInterrupts(savedInterrupts);
         return 0;
     }
-    nextRequest = (s32 *) GetNextRequestAddress();
-    if (nextRequest == NULL || *nextRequest != 0) {
+    nextRequest = GetNextRequestAddress();
+    if (nextRequest == NULL || nextRequest->mKind != 0) {
         OS_RestoreInterrupts(savedInterrupts);
         return 0;
     }
-    MIi_CpuCopy32(request, gNextRequest, 0x9c);
+    MIi_CpuCopy32(request, &gNextRequest, 0x9c);
     OS_RestoreInterrupts(savedInterrupts);
     return 1;
 }
@@ -260,7 +260,7 @@ u32 RequestSendBytes(u16 indexMask, const void *bytes, s32 byteCount, void (*cal
     requestPointer->mIndexMask = indexMask;
     requestPointer->mCallback = callback;
     MI_CpuCopy8(bytes, &requestPointer->mUnk_14.w.mUnk_14, byteCount);
-    *((u8 *) requestPointer + 0x1d) = byteCount;
+    requestPointer->mUnk_14.b.mUnk_1d = byteCount;
     return TrySetNextRequest(&request);
 }
 
