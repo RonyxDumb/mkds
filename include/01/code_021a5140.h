@@ -35,7 +35,7 @@ typedef struct Emblem {
     /* 0818 */ Nscr *mEmblemMNscr;
     /* 081c */ Nscr *mEmblemMBgNscr;
     /* 0820 */ struct Unk02021dc8 *mEmblemMNcer;
-    /* 0824 */ struct Unk02021dc8 *mEmblemMNanr;
+    /* 0824 */ struct Unk02021db0 *mEmblemMNanr;
     /* 0828 */ struct Lld *mEmblemMLld;
     /* 082c */ Nclr *mEmblemSONclr;
     /* 0830 */ Nclr *mEmblemSBNclr;
@@ -47,7 +47,7 @@ typedef struct Emblem {
     /* 0848 */ Nscr *mEmblemSTemplateFrameNscr;
     /* 084c */ Nscr *mEmblemSTemplateDarkNscr;
     /* 0850 */ struct Unk02021dc8 *mEmblemSNcer;
-    /* 0854 */ struct Unk02021dc8 *mEmblemSNanr;
+    /* 0854 */ struct Unk02021db0 *mEmblemSNanr;
     /* 0858 */ struct Lld *mEmblemSLld;
     /* 085c */ Lld *mEmblemTemplateSLld;
     /* 0860 */ Ncgr *mEmblemCameraSONcgr;
@@ -55,7 +55,7 @@ typedef struct Emblem {
     /* 0868 */ Nscr *mEmblemCameraSDSNscr;
     /* 086c */ Nscr *mEmblemCameraSBgNscr;
     /* 0870 */ struct Unk02021dc8 *mEmblemCameraSNcer;
-    /* 0874 */ struct Unk02021dc8 *mEmblemCameraSNanr;
+    /* 0874 */ struct Unk02021db0 *mEmblemCameraSNanr;
     /* 0878 */ struct Lld *mEmblemCameraSLld;
     /* 087c */ u8 mUnk_087c[0x200];
     /* 0a7c */ u8 mUnk_0a7c[0x200];

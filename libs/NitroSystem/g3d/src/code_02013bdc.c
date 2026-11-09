@@ -575,28 +575,28 @@ void getMdlRot_(NNSG3dJntAnmResult *out) {
             pivot = (node->mFlag & 0xf0) >> 4;
             first = vals[0];
             second = vals[1];
-            MI_Zero36B((s32 *) out->mRot);
-            ((s32 *) out->mRot)[pivot] = (node->mFlag & 0x100) ? -0x1000 : 0x1000;
-            ((s32 *) out->mRot)[data_02152c30[pivot][0]] = first;
-            ((s32 *) out->mRot)[data_02152c31[pivot][0]] = second;
+            MI_Zero36B((s32 *) &out->mRot);
+            ((s32 *) &out->mRot)[pivot] = (node->mFlag & 0x100) ? -0x1000 : 0x1000;
+            ((s32 *) &out->mRot)[data_02152c30[pivot][0]] = first;
+            ((s32 *) &out->mRot)[data_02152c31[pivot][0]] = second;
             if (node->mFlag & 0x200) {
                 second = -second;
             }
-            ((s32 *) out->mRot)[data_02152c32[pivot][0]] = second;
+            ((s32 *) &out->mRot)[data_02152c32[pivot][0]] = second;
             if (node->mFlag & 0x400) {
                 first = -first;
             }
-            ((s32 *) out->mRot)[data_02152c33[pivot][0]] = first;
+            ((s32 *) &out->mRot)[data_02152c33[pivot][0]] = first;
         } else {
-            ((s32 *) out->mRot)[0] = node->mUnk_02;
-            ((s32 *) out->mRot)[1] = vals[0];
-            ((s32 *) out->mRot)[2] = vals[1];
-            ((s32 *) out->mRot)[3] = vals[2];
-            ((s32 *) out->mRot)[4] = vals[3];
-            ((s32 *) out->mRot)[5] = vals[4];
-            ((s32 *) out->mRot)[6] = vals[5];
-            ((s32 *) out->mRot)[7] = vals[6];
-            ((s32 *) out->mRot)[8] = vals[7];
+            ((s32 *) &out->mRot)[0] = node->mUnk_02;
+            ((s32 *) &out->mRot)[1] = vals[0];
+            ((s32 *) &out->mRot)[2] = vals[1];
+            ((s32 *) &out->mRot)[3] = vals[2];
+            ((s32 *) &out->mRot)[4] = vals[3];
+            ((s32 *) &out->mRot)[5] = vals[4];
+            ((s32 *) &out->mRot)[6] = vals[5];
+            ((s32 *) &out->mRot)[7] = vals[6];
+            ((s32 *) &out->mRot)[8] = vals[7];
         }
     } else {
         out->mFlag |= 2;
@@ -668,23 +668,23 @@ void getJntSRTAnmResult_(const NNSG3dResJntAnm *jntAnm, int node, s32 frame, NNS
         if (!(flags & 0xc0)) {
             if (!(flags & 0x100)) {
                 if (interp) {
-                    getRotDataEx_((s32 *) out->mRot, frame, cursor, jntAnm);
+                    getRotDataEx_(&out->mRot, frame, cursor, jntAnm);
                 } else {
-                    getRotData_((s32 *) out->mRot, frame, cursor, jntAnm);
+                    getRotData_(&out->mRot, frame, cursor, jntAnm);
                 }
                 cursor += 2;
             } else {
-                if (getRotDataByIdx_((s32 *) out->mRot, OFFSET_PTR(const s16, jntAnm, jntAnm->mOfsRot3),
+                if (getRotDataByIdx_(&out->mRot, OFFSET_PTR(const s16, jntAnm, jntAnm->mOfsRot3),
                                      OFFSET_PTR(const s16, jntAnm, jntAnm->mOfsRot5), *cursor)) {
-                    r5 = ((s32 *) out->mRot)[5];
-                    r0 = ((s32 *) out->mRot)[0];
-                    r3 = ((s32 *) out->mRot)[3];
-                    r2 = ((s32 *) out->mRot)[2];
-                    r1 = ((s32 *) out->mRot)[1];
-                    r4 = ((s32 *) out->mRot)[4];
-                    ((s32 *) out->mRot)[6] = (r1 * r5 - r2 * r4) >> 12;
-                    ((s32 *) out->mRot)[7] = (r2 * r3 - r0 * r5) >> 12;
-                    ((s32 *) out->mRot)[8] = (r0 * r4 - r1 * r3) >> 12;
+                    r5 = out->mRot.mUnk_00[1].z;
+                    r0 = out->mRot.mUnk_00[0].x;
+                    r3 = out->mRot.mUnk_00[1].x;
+                    r2 = out->mRot.mUnk_00[0].z;
+                    r1 = out->mRot.mUnk_00[0].y;
+                    r4 = out->mRot.mUnk_00[1].y;
+                    out->mRot.mUnk_00[2].x = (r1 * r5 - r2 * r4) >> 12;
+                    out->mRot.mUnk_00[2].y = (r2 * r3 - r0 * r5) >> 12;
+                    out->mRot.mUnk_00[2].z = (r0 * r4 - r1 * r3) >> 12;
                 }
                 cursor += 1;
             }
@@ -1065,9 +1065,9 @@ void getScaleDataEx_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm
     out[1] = (x1 * m + ((q * (y1 - x1)) >> 12)) >> sh;
 }
 
-void getRotData_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm *jntAnm) {
-    s32 t[9];
-    s32 u[9];
+void getRotData_(MtxFx33 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm *jntAnm) {
+    MtxFx33 t;
+    MtxFx33 u;
     const s16 *s0;
     const s16 *s1;
     u32 info;
@@ -1119,30 +1119,30 @@ void getRotData_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm *jn
                         i1 = i0 + 1;
                     }
                     f |= getRotDataByIdx_(out, s0, s1, values[i0]);
-                    f |= getRotDataByIdx_(t, s0, s1, values[i1]);
-                    out[0] = out[0] * 3 + t[0];
-                    out[1] = out[1] * 3 + t[1];
-                    out[2] = out[2] * 3 + t[2];
-                    out[3] = out[3] * 3 + t[3];
-                    out[4] = out[4] * 3 + t[4];
-                    out[5] = out[5] * 3 + t[5];
-                    VEC_Normalize((Vec3 *) out, (Vec3 *) out);
-                    VEC_Normalize((Vec3 *) (out + 3), (Vec3 *) (out + 3));
+                    f |= getRotDataByIdx_(&t, s0, s1, values[i1]);
+                    out->mUnk_00[0].x = out->mUnk_00[0].x * 3 + t.mUnk_00[0].x;
+                    out->mUnk_00[0].y = out->mUnk_00[0].y * 3 + t.mUnk_00[0].y;
+                    out->mUnk_00[0].z = out->mUnk_00[0].z * 3 + t.mUnk_00[0].z;
+                    out->mUnk_00[1].x = out->mUnk_00[1].x * 3 + t.mUnk_00[1].x;
+                    out->mUnk_00[1].y = out->mUnk_00[1].y * 3 + t.mUnk_00[1].y;
+                    out->mUnk_00[1].z = out->mUnk_00[1].z * 3 + t.mUnk_00[1].z;
+                    VEC_Normalize(&out->mUnk_00[0], &out->mUnk_00[0]);
+                    VEC_Normalize(&out->mUnk_00[1], &out->mUnk_00[1]);
                     if (f == 0) {
-                        out[6] = out[6] * 3 + t[6];
-                        out[7] = out[7] * 3 + t[7];
-                        out[8] = out[8] * 3 + t[8];
-                        VEC_Normalize((Vec3 *) (out + 6), (Vec3 *) (out + 6));
+                        out->mUnk_00[2].x = out->mUnk_00[2].x * 3 + t.mUnk_00[2].x;
+                        out->mUnk_00[2].y = out->mUnk_00[2].y * 3 + t.mUnk_00[2].y;
+                        out->mUnk_00[2].z = out->mUnk_00[2].z * 3 + t.mUnk_00[2].z;
+                        VEC_Normalize(&out->mUnk_00[2], &out->mUnk_00[2]);
                     } else {
-                        x5 = out[5];
-                        x0 = out[0];
-                        x3 = out[3];
-                        x2 = out[2];
-                        x1 = out[1];
-                        x4 = out[4];
-                        out[6] = (x1 * x5 - x2 * x4) >> 12;
-                        out[7] = (x2 * x3 - x0 * x5) >> 12;
-                        out[8] = (x0 * x4 - x1 * x3) >> 12;
+                        x5 = out->mUnk_00[1].z;
+                        x0 = out->mUnk_00[0].x;
+                        x3 = out->mUnk_00[1].x;
+                        x2 = out->mUnk_00[0].z;
+                        x1 = out->mUnk_00[0].y;
+                        x4 = out->mUnk_00[1].y;
+                        out->mUnk_00[2].x = (x1 * x5 - x2 * x4) >> 12;
+                        out->mUnk_00[2].y = (x2 * x3 - x0 * x5) >> 12;
+                        out->mUnk_00[2].z = (x0 * x4 - x1 * x3) >> 12;
                     }
                     return;
                 }
@@ -1154,30 +1154,30 @@ void getRotData_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm *jn
         }
         f = 0;
         f |= getRotDataByIdx_(out, s0, s1, values[k]);
-        f |= getRotDataByIdx_(u, s0, s1, *(values + k + 1));
-        out[0] += u[0];
-        out[1] += u[1];
-        out[2] += u[2];
-        out[3] += u[3];
-        out[4] += u[4];
-        out[5] += u[5];
-        VEC_Normalize((Vec3 *) out, (Vec3 *) out);
-        VEC_Normalize((Vec3 *) (out + 3), (Vec3 *) (out + 3));
+        f |= getRotDataByIdx_(&u, s0, s1, *(values + k + 1));
+        out->mUnk_00[0].x += u.mUnk_00[0].x;
+        out->mUnk_00[0].y += u.mUnk_00[0].y;
+        out->mUnk_00[0].z += u.mUnk_00[0].z;
+        out->mUnk_00[1].x += u.mUnk_00[1].x;
+        out->mUnk_00[1].y += u.mUnk_00[1].y;
+        out->mUnk_00[1].z += u.mUnk_00[1].z;
+        VEC_Normalize(&out->mUnk_00[0], &out->mUnk_00[0]);
+        VEC_Normalize(&out->mUnk_00[1], &out->mUnk_00[1]);
         if (f == 0) {
-            out[6] += u[6];
-            out[7] += u[7];
-            out[8] += u[8];
-            VEC_Normalize((Vec3 *) (out + 6), (Vec3 *) (out + 6));
+            out->mUnk_00[2].x += u.mUnk_00[2].x;
+            out->mUnk_00[2].y += u.mUnk_00[2].y;
+            out->mUnk_00[2].z += u.mUnk_00[2].z;
+            VEC_Normalize(&out->mUnk_00[2], &out->mUnk_00[2]);
         } else {
-            x5 = out[5];
-            x0 = out[0];
-            x3 = out[3];
-            x2 = out[2];
-            x1 = out[1];
-            x4 = out[4];
-            out[6] = (x1 * x5 - x2 * x4) >> 12;
-            out[7] = (x2 * x3 - x0 * x5) >> 12;
-            out[8] = (x0 * x4 - x1 * x3) >> 12;
+            x5 = out->mUnk_00[1].z;
+            x0 = out->mUnk_00[0].x;
+            x3 = out->mUnk_00[1].x;
+            x2 = out->mUnk_00[0].z;
+            x1 = out->mUnk_00[0].y;
+            x4 = out->mUnk_00[1].y;
+            out->mUnk_00[2].x = (x1 * x5 - x2 * x4) >> 12;
+            out->mUnk_00[2].y = (x2 * x3 - x0 * x5) >> 12;
+            out->mUnk_00[2].z = (x0 * x4 - x1 * x3) >> 12;
         }
         return;
     }
@@ -1185,23 +1185,23 @@ single:
     if (getRotDataByIdx_(out, s0, s1, values[i]) == 0) {
         return;
     }
-    x5 = out[5];
-    x0 = out[0];
-    x3 = out[3];
-    x2 = out[2];
-    x1 = out[1];
-    x4 = out[4];
-    out[6] = (x1 * x5 - x2 * x4) >> 12;
-    out[7] = (x2 * x3 - x0 * x5) >> 12;
-    out[8] = (x0 * x4 - x1 * x3) >> 12;
+    x5 = out->mUnk_00[1].z;
+    x0 = out->mUnk_00[0].x;
+    x3 = out->mUnk_00[1].x;
+    x2 = out->mUnk_00[0].z;
+    x1 = out->mUnk_00[0].y;
+    x4 = out->mUnk_00[1].y;
+    out->mUnk_00[2].x = (x1 * x5 - x2 * x4) >> 12;
+    out->mUnk_00[2].y = (x2 * x3 - x0 * x5) >> 12;
+    out->mUnk_00[2].z = (x0 * x4 - x1 * x3) >> 12;
 }
 
-void getRotDataEx_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm *jntAnm) {
+void getRotDataEx_(MtxFx33 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm *jntAnm) {
     s32 r;
     s32 x1;
     u32 lastStep;
-    s32 t[9];
-    s32 u[9];
+    MtxFx33 t;
+    MtxFx33 u;
     u32 f;
     s32 x5;
     s32 x3;
@@ -1238,15 +1238,15 @@ void getRotDataEx_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm *
         if (getRotDataByIdx_(out, s0, s1, values[i]) == 0) {
             return;
         }
-        x5 = out[5];
-        x0 = out[0];
-        x3 = out[3];
-        x1 = out[1];
-        x2 = out[2];
-        x4 = out[4];
-        out[6] = (x1 * x5 - x2 * x4) >> 12;
-        out[7] = (x2 * x3 - x0 * x5) >> 12;
-        out[8] = (x0 * x4 - x1 * x3) >> 12;
+        x5 = out->mUnk_00[1].z;
+        x0 = out->mUnk_00[0].x;
+        x3 = out->mUnk_00[1].x;
+        x1 = out->mUnk_00[0].y;
+        x2 = out->mUnk_00[0].z;
+        x4 = out->mUnk_00[1].y;
+        out->mUnk_00[2].x = (x1 * x5 - x2 * x4) >> 12;
+        out->mUnk_00[2].y = (x2 * x3 - x0 * x5) >> 12;
+        out->mUnk_00[2].z = (x0 * x4 - x1 * x3) >> 12;
         return;
     }
     if (info & 0xc0000000) {
@@ -1281,37 +1281,37 @@ interp1:
     q = frame & 0xfff;
 interp:
     f = 0;
-    f |= getRotDataByIdx_(t, s0, s1, values[i]);
-    f |= getRotDataByIdx_(u, s0, s1, values[j]);
-    out[0] = t[0] * m + ((q * (u[0] - t[0])) >> 12);
-    out[1] = t[1] * m + ((q * (u[1] - t[1])) >> 12);
-    out[2] = t[2] * m + ((q * (u[2] - t[2])) >> 12);
-    out[3] = t[3] * m + ((q * (u[3] - t[3])) >> 12);
-    out[4] = t[4] * m + ((q * (u[4] - t[4])) >> 12);
-    out[5] = t[5] * m + ((q * (u[5] - t[5])) >> 12);
-    VEC_Normalize((Vec3 *) out, (Vec3 *) out);
-    VEC_Normalize((Vec3 *) (out + 3), (Vec3 *) (out + 3));
+    f |= getRotDataByIdx_(&t, s0, s1, values[i]);
+    f |= getRotDataByIdx_(&u, s0, s1, values[j]);
+    out->mUnk_00[0].x = t.mUnk_00[0].x * m + ((q * (u.mUnk_00[0].x - t.mUnk_00[0].x)) >> 12);
+    out->mUnk_00[0].y = t.mUnk_00[0].y * m + ((q * (u.mUnk_00[0].y - t.mUnk_00[0].y)) >> 12);
+    out->mUnk_00[0].z = t.mUnk_00[0].z * m + ((q * (u.mUnk_00[0].z - t.mUnk_00[0].z)) >> 12);
+    out->mUnk_00[1].x = t.mUnk_00[1].x * m + ((q * (u.mUnk_00[1].x - t.mUnk_00[1].x)) >> 12);
+    out->mUnk_00[1].y = t.mUnk_00[1].y * m + ((q * (u.mUnk_00[1].y - t.mUnk_00[1].y)) >> 12);
+    out->mUnk_00[1].z = t.mUnk_00[1].z * m + ((q * (u.mUnk_00[1].z - t.mUnk_00[1].z)) >> 12);
+    VEC_Normalize(&out->mUnk_00[0], &out->mUnk_00[0]);
+    VEC_Normalize(&out->mUnk_00[1], &out->mUnk_00[1]);
     if (f == 0) {
-        out[6] = t[6] * m + ((q * (u[6] - t[6])) >> 12);
-        out[7] = t[7] * m + ((q * (u[7] - t[7])) >> 12);
-        r = t[8];
-        out[8] = t[8] * m + ((q * (u[8] - r)) >> 12);
-        VEC_Normalize((Vec3 *) (out + 6), (Vec3 *) (out + 6));
+        out->mUnk_00[2].x = t.mUnk_00[2].x * m + ((q * (u.mUnk_00[2].x - t.mUnk_00[2].x)) >> 12);
+        out->mUnk_00[2].y = t.mUnk_00[2].y * m + ((q * (u.mUnk_00[2].y - t.mUnk_00[2].y)) >> 12);
+        r = t.mUnk_00[2].z;
+        out->mUnk_00[2].z = t.mUnk_00[2].z * m + ((q * (u.mUnk_00[2].z - r)) >> 12);
+        VEC_Normalize(&out->mUnk_00[2], &out->mUnk_00[2]);
     } else {
-        h = out[5];
-        x0 = out[0];
-        x2 = out[2];
+        h = out->mUnk_00[1].z;
+        x0 = out->mUnk_00[0].x;
+        x2 = out->mUnk_00[0].z;
         x5 = h;
-        x3 = out[3];
-        x1 = out[1];
-        x4 = out[4];
-        out[6] = (x1 * x5 - x2 * x4) >> 12;
-        out[7] = (x2 * x3 - x0 * x5) >> 12;
-        out[8] = (x0 * x4 - x1 * x3) >> 12;
+        x3 = out->mUnk_00[1].x;
+        x1 = out->mUnk_00[0].y;
+        x4 = out->mUnk_00[1].y;
+        out->mUnk_00[2].x = (x1 * x5 - x2 * x4) >> 12;
+        out->mUnk_00[2].y = (x2 * x3 - x0 * x5) >> 12;
+        out->mUnk_00[2].z = (x0 * x4 - x1 * x3) >> 12;
     }
 }
 
-BOOL getRotDataByIdx_(s32 *pRot, const s16 *rot3, const s16 *rot5, u32 info) {
+BOOL getRotDataByIdx_(MtxFx33 *out, const s16 *rot3, const s16 *rot5, u32 info) {
     s32 x;
     s32 y;
     s32 v;
@@ -1319,6 +1319,7 @@ BOOL getRotDataByIdx_(s32 *pRot, const s16 *rot3, const s16 *rot5, u32 info) {
     s16 t;
     u32 k;
     s32 z;
+    s32 *pRot = (s32 *) out;
 
     if (info & 0x8000) {
         pRot[0] = pRot[1] = pRot[2] = pRot[3] = pRot[4] = pRot[5] = pRot[6] = pRot[7] = pRot[8] = 0;

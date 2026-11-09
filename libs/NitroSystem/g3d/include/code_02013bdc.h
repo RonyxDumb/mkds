@@ -97,9 +97,9 @@ typedef struct NNSG3dResNodeData {
 void *NNSi_G3dGetBinaryBlockFromFile(const u8 *pFileHead, u32 fileSignature, u32 blockSignature);
 NNSG3dResVisAnmSet *NNS_G3dGetVisAnmSet(const u8 *pFileHead);
 NNSG3dResVisAnm *NNS_G3dGetVisAnmByIdx(NNSG3dResVisAnmSet *pAnmSet, u8 idx);
-BOOL getRotDataByIdx_(s32 *pRot, const s16 *pArrayRot3, const s16 *pArrayRot5, u32 info);
-void getRotDataEx_(s32 *pRot, s32 frame, const u32 *pData, const NNSG3dResJntAnm *pJntAnm);
-void getRotData_(s32 *pRot, s32 frame, const u32 *pData, const NNSG3dResJntAnm *pJntAnm);
+BOOL getRotDataByIdx_(MtxFx33 *pRot, const s16 *pArrayRot3, const s16 *pArrayRot5, u32 info);
+void getRotDataEx_(MtxFx33 *pRot, s32 frame, const u32 *pData, const NNSG3dResJntAnm *pJntAnm);
+void getRotData_(MtxFx33 *pRot, s32 frame, const u32 *pData, const NNSG3dResJntAnm *pJntAnm);
 void getScaleDataEx_(s32 *sInvs, s32 frame, const u32 *pData, const NNSG3dResJntAnm *pJntAnm);
 void getScaleData_(s32 *sInvs, s32 frame, const u32 *pData, const NNSG3dResJntAnm *pJntAnm);
 void getTransDataEx_(s32 *pVal, s32 frame, const u32 *pData, const NNSG3dResJntAnm *pJntAnm);

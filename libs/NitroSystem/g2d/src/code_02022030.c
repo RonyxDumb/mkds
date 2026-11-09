@@ -9,7 +9,7 @@ void NNS_G2dResetAnimCtrlState(Unk02022030 *pAnimCtrl) {
     pAnimCtrl->mUnk_0c = 0;
 }
 
-void NNS_G2dBindAnimCtrl(Unk02022030 *pAnimCtrl, Unk02021dc8 *pAnimSequence) {
+void NNS_G2dBindAnimCtrl(Unk02022030 *pAnimCtrl, Unk02021e1c *pAnimSequence) {
     pAnimCtrl->mUnk_18 = pAnimSequence;
     NNS_G2dResetAnimCtrlState(pAnimCtrl);
 }

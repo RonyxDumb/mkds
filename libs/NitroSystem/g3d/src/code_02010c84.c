@@ -681,24 +681,24 @@ BOOL NNSi_G3dAnmBlendJnt(NNSG3dJntAnmResult *result, NNSG3dAnmObj *anmObj, u32 n
                 result->mTrans.z += (s32) (((s64) weight * r.mTrans.z) >> 12);
             }
             if (!(r.mFlag & 2)) {
-                result->mRot[0].x += (weight * r.mRot[0].x) >> 12;
-                result->mRot[0].y += (weight * r.mRot[0].y) >> 12;
-                result->mRot[0].z += (weight * r.mRot[0].z) >> 12;
-                result->mRot[1].x += (weight * r.mRot[1].x) >> 12;
-                result->mRot[1].y += (weight * r.mRot[1].y) >> 12;
-                result->mRot[1].z += (weight * r.mRot[1].z) >> 12;
+                result->mRot.mUnk_00[0].x += (weight * r.mRot.mUnk_00[0].x) >> 12;
+                result->mRot.mUnk_00[0].y += (weight * r.mRot.mUnk_00[0].y) >> 12;
+                result->mRot.mUnk_00[0].z += (weight * r.mRot.mUnk_00[0].z) >> 12;
+                result->mRot.mUnk_00[1].x += (weight * r.mRot.mUnk_00[1].x) >> 12;
+                result->mRot.mUnk_00[1].y += (weight * r.mRot.mUnk_00[1].y) >> 12;
+                result->mRot.mUnk_00[1].z += (weight * r.mRot.mUnk_00[1].z) >> 12;
             } else {
-                result->mRot[0].x += weight;
-                result->mRot[1].y += weight;
+                result->mRot.mUnk_00[0].x += weight;
+                result->mRot.mUnk_00[1].y += weight;
             }
             result->mFlag &= r.mFlag;
         }
         anmObj = anmObj->mNext;
     } while (anmObj != 0);
-    VEC_CrossProduct(&result->mRot[0], &result->mRot[1], &result->mRot[2]);
-    VEC_Normalize(&result->mRot[0], &result->mRot[0]);
-    VEC_Normalize(&result->mRot[2], &result->mRot[2]);
-    VEC_CrossProduct(&result->mRot[2], &result->mRot[0], &result->mRot[1]);
+    VEC_CrossProduct(&result->mRot.mUnk_00[0], &result->mRot.mUnk_00[1], &result->mRot.mUnk_00[2]);
+    VEC_Normalize(&result->mRot.mUnk_00[0], &result->mRot.mUnk_00[0]);
+    VEC_Normalize(&result->mRot.mUnk_00[2], &result->mRot.mUnk_00[2]);
+    VEC_CrossProduct(&result->mRot.mUnk_00[2], &result->mRot.mUnk_00[0], &result->mRot.mUnk_00[1]);
     return 1;
 }
 

@@ -242,7 +242,7 @@ void LocateNcer(Unk02021dc8 **outNcer, void *file) {
     }
 }
 
-void LoadNanrData(Unk02021dc8 **outNanr, void *file) {
+void LoadNanrData(Unk02021db0 **outNanr, void *file) {
     Unk02021fd0 *part;
 
     if (file == NULL) {
@@ -252,7 +252,7 @@ void LoadNanrData(Unk02021dc8 **outNanr, void *file) {
     if (part == NULL) {
         return;
     }
-    *outNanr = (Unk02021dc8 *) (part + 1);
+    *outNanr = (Unk02021db0 *) (part + 1);
     NNS_G2dUnpackNAN(*outNanr);
 }
 

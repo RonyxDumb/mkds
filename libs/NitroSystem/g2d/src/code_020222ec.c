@@ -19,7 +19,7 @@ void ApplyCurrentAnimResult_(Unk02022030 *pCellAnim) {
     u32 valid;
     Unk02021e40 *pTransferData;
 
-    if (((Unk02022188 *) pCellAnim->mUnk_00)->mUnk_04 == 0) {
+    if (pCellAnim->mUnk_00->mUnk_04 == 0) {
         return;
     }
     animResult = NNS_G2dGetAnimCtrlCurrentElement(pCellAnim);
@@ -50,7 +50,7 @@ void ApplyCurrentAnimResult_(Unk02022030 *pCellAnim) {
     NNS_G2dSetCellTransferStateRequested(pCellAnim->mUnk_34, pTransferData->mUnk_00, pTransferData->mUnk_04);
 }
 
-void NNS_G2dInitCellAnimation(Unk02022030 *pCellAnim, Unk02021dc8 *pAnimSeq, Unk02021dc8 *pCellDataBank) {
+void NNS_G2dInitCellAnimation(Unk02022030 *pCellAnim, Unk02021e1c *pAnimSeq, Unk02021dc8 *pCellDataBank) {
     pCellAnim->mUnk_30 = pCellDataBank;
     pCellAnim->mUnk_34 = -1;
     NNSi_G2dSrtcInitControl(&pCellAnim->mUnk_38, 1);
@@ -58,7 +58,7 @@ void NNS_G2dInitCellAnimation(Unk02022030 *pCellAnim, Unk02021dc8 *pAnimSeq, Unk
     NNS_G2dSetCellAnimationSequence(pCellAnim, pAnimSeq);
 }
 
-void NNS_G2dSetCellAnimationSequence(Unk02022030 *pCellAnim, Unk02021dc8 *pAnimSeq) {
+void NNS_G2dSetCellAnimationSequence(Unk02022030 *pCellAnim, Unk02021e1c *pAnimSeq) {
     NNS_G2dBindAnimCtrl(pCellAnim, pAnimSeq);
     ApplyCurrentAnimResult_(pCellAnim);
 }
@@ -224,8 +224,8 @@ void NNSi_G2dSrtcSetInitialValue(Unk02022438 *pCtrl) {
 
 void SequenceEdgeHandle_(Unk02022030 *pAnimCtrl) {
     u32 playMode;
-    Unk02021e40 *current;
-    Unk02021e40 *last;
+    Unk02022188 *current;
+    Unk02022188 *last;
 
     playMode = pAnimCtrl->mUnk_14;
     if (playMode == 0) {

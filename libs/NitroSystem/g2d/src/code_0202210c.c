@@ -16,7 +16,7 @@ static inline void CallbackFuncHandling_(const Unk02022030 *pAnimCtrl, u16 curre
 }
 
 static inline u32 ShouldAnmCtrlMoveNext_(Unk02022030 *pAnimCtrl) {
-    if (pAnimCtrl->mUnk_08 != 0 && pAnimCtrl->mUnk_0c >= (((Unk02022188 *) pAnimCtrl->mUnk_00)->mUnk_04 << 12)) {
+    if (pAnimCtrl->mUnk_08 != 0 && pAnimCtrl->mUnk_0c >= (pAnimCtrl->mUnk_00->mUnk_04 << 12)) {
         return 1;
     }
     return 0;
@@ -25,7 +25,7 @@ static inline u32 ShouldAnmCtrlMoveNext_(Unk02022030 *pAnimCtrl) {
 u32 NNS_G2dTickAnimCtrl(Unk02022030 *pAnimCtrl, s32 frames) {
     u32 changedFrame;
     s32 atEdge;
-    Unk02021e40 *next;
+    Unk02022188 *next;
     u16 frameIdx;
     s32 *currentTime;
 
@@ -37,7 +37,7 @@ u32 NNS_G2dTickAnimCtrl(Unk02022030 *pAnimCtrl, s32 frames) {
     currentTime = &pAnimCtrl->mUnk_0c;
     while (ShouldAnmCtrlMoveNext_(pAnimCtrl)) {
         changedFrame = 1;
-        *currentTime = *currentTime - (((Unk02022188 *) pAnimCtrl->mUnk_00)->mUnk_04 << 12);
+        *currentTime = *currentTime - (pAnimCtrl->mUnk_00->mUnk_04 << 12);
         if ((pAnimCtrl->mUnk_10 > 0) ^ pAnimCtrl->mUnk_04) {
             pAnimCtrl->mUnk_00++;
         } else {

@@ -16,6 +16,6 @@ u16 NNS_G2dMakeCellToOams(GXOamAttr *pDstOams, u16 numDstOam, Unk020224e0_c *pCe
 void NNS_G2dSetCellAnimationSpeed(Unk02022030 *pCellAnim, s32 speed);
 void NNS_G2dSetCellAnimationCurrentFrame(Unk02022030 *pCellAnim, u16 frameIndex);
 void NNS_G2dTickCellAnimation(Unk02022030 *pCellAnim, s32 frames);
-void NNS_G2dSetCellAnimationSequence(Unk02022030 *pCellAnim, Unk02021dc8 *pAnimSeq);
-void NNS_G2dInitCellAnimation(Unk02022030 *pCellAnim, Unk02021dc8 *pAnimSeq, Unk02021dc8 *pCellDataBank);
+void NNS_G2dSetCellAnimationSequence(Unk02022030 *pCellAnim, Unk02021e1c *pAnimSeq);
+void NNS_G2dInitCellAnimation(Unk02022030 *pCellAnim, Unk02021e1c *pAnimSeq, Unk02021dc8 *pCellDataBank);
 void ApplyCurrentAnimResult_(Unk02022030 *pCellAnim);

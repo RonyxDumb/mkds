@@ -143,7 +143,7 @@ void DrawVehicle(VehicleDrawList *drawList, Unk020e1e98 *vehicle, u32 c, u32 alp
     Vec3 *shadowPosition;
     const s16 *anglePairs;
     Unk020e1e98_12c *animation;
-    s32 tireMatrix[12];
+    MtxFx43 tireMatrix;
     s32 one;
     u32 angleIndex;
     s32 x;
@@ -190,17 +190,17 @@ void DrawVehicle(VehicleDrawList *drawList, Unk020e1e98 *vehicle, u32 c, u32 alp
     anglePairs = gPairsByAngle;
     x = ((s64) vehicle->mUnk_110 * anglePairs[angleIndex * 2] + 0x800) >> 12;
     y = ((s64) vehicle->mUnk_110 * anglePairs[angleIndex * 2 + 1] + 0x800) >> 12;
-    MTX_RotX43_(tireMatrix, x, y);
-    tireMatrix[0] = vehicle->mUnk_100[0];
-    tireMatrix[10] = vehicle->mUnk_100[1];
-    tireMatrix[11] = vehicle->mUnk_100[2];
+    MTX_RotX43_(&tireMatrix, x, y);
+    tireMatrix.mUnk_00[0].x = vehicle->mUnk_100[0];
+    tireMatrix.mUnk_00[3].y = vehicle->mUnk_100[1];
+    tireMatrix.mUnk_00[3].z = vehicle->mUnk_100[2];
     func_01ff9048(0x11, NULL, 0);
-    func_01ff9048(0x19, tireMatrix, 0xc);
+    func_01ff9048(0x19, &tireMatrix, 0xc);
     DrawNsbmd(gCarTire);
     one = 1;
     func_01ff9048(0x12, &one, 1);
-    tireMatrix[11] = -tireMatrix[11];
-    func_01ff9048(0x19, tireMatrix, 0xc);
+    tireMatrix.mUnk_00[3].z = -tireMatrix.mUnk_00[3].z;
+    func_01ff9048(0x19, &tireMatrix, 0xc);
     DrawNsbmd(gCarTire);
 }
 

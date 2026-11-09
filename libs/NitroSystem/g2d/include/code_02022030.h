@@ -59,13 +59,13 @@ typedef struct Unk020224e0_c {
 } Unk020224e0_c;
 
 typedef struct Unk02022030 {
-    /* 00 */ Unk02021e40 *mUnk_00;
+    /* 00 */ Unk02022188 *mUnk_00;
     /* 04 */ u32 mUnk_04;
     /* 08 */ u32 mUnk_08;
     /* 0c */ s32 mUnk_0c;
     /* 10 */ s32 mUnk_10;
     /* 14 */ u32 mUnk_14;
-    /* 18 */ Unk02021dc8 *mUnk_18;
+    /* 18 */ Unk02021e1c *mUnk_18;
     /* 1c */ NNSG2dCallBackFunctor mCallbackFunctor;
     /* 2c */ Unk020224e0_c *mUnk_2c;
     /* 30 */ Unk02021dc8 *mUnk_30;
@@ -73,23 +73,16 @@ typedef struct Unk02022030 {
     /* 38 */ Unk02022438 mUnk_38;
 } Unk02022030;
 
-// Seen through mUnk_00 of the element NNS_G2dTickAnimCtrl steps over: a word, then a halfword.
-typedef struct Unk02022188 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-} Unk02022188;
-
 // Record at the first word of the element: ApplyCurrentAnimResult_ reads these members, except when the low byte of
 // mUnk_04 of the header is 2 (then Unk020229b4).
-typedef struct Unk020229c8 {
+struct Unk020229c8 {
     /* 00 */ u16 mUnk_00;
     /* 02 */ u16 mUnk_02;
     /* 04 */ s32 mUnk_04;
     /* 08 */ s32 mUnk_08;
     /* 0c */ s16 mUnk_0c;
     /* 0e */ s16 mUnk_0e;
-} Unk020229c8;
+};
 
 typedef struct Unk020229b4 {
     /* 00 */ u16 mUnk_00;
@@ -98,5 +91,5 @@ typedef struct Unk020229b4 {
     /* 06 */ s16 mUnk_06;
 } Unk020229b4;
 
-void NNS_G2dBindAnimCtrl(Unk02022030 *pAnimCtrl, Unk02021dc8 *pAnimSequence);
+void NNS_G2dBindAnimCtrl(Unk02022030 *pAnimCtrl, Unk02021e1c *pAnimSequence);
 void NNS_G2dResetAnimCtrlState(Unk02022030 *pAnimCtrl);

@@ -50,7 +50,7 @@ asm void MTX_Scale43_(MtxFx43 *dst, s32 x, s32 y, s32 z) {
 }
 
 // Sets dst to the rotation about the x axis, rows (0x1000, 0, 0), (0, cosVal, sinVal), (0, -sinVal, cosVal), (0, 0, 0).
-asm void MTX_RotX43_(s32 *dst, s32 sinVal, s32 cosVal) {
+asm void MTX_RotX43_(MtxFx43 *dst, s32 sinVal, s32 cosVal) {
     str r1, [r0, #20]
     neg r1, r1
     str r1, [r0, #28]
@@ -86,7 +86,7 @@ asm void MTX_RotY43_(MtxFx43 *dst, s32 sinVal, s32 cosVal) {
 }
 
 // Sets dst to the rotation about the z axis, rows (cosVal, sinVal, 0), (-sinVal, cosVal, 0), (0, 0, 0x1000), (0, 0, 0).
-asm void MTX_RotZ43_(s32 *dst, s32 sinVal, s32 cosVal) {
+asm void MTX_RotZ43_(MtxFx43 *dst, s32 sinVal, s32 cosVal) {
     stmia r0!, {r2}
     mov r3, #0
     stmia r0!, {r1, r3}

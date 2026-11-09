@@ -21,7 +21,7 @@ typedef struct NNSG3dJntAnmResult {
     /* 04 */ Vec3 mScale;
     /* 10 */ Vec3 mScaleEx0;
     /* 1c */ Vec3 mScaleEx1;
-    /* 28 */ Vec3 mRot[3];
+    /* 28 */ MtxFx33 mRot;
     /* 4c */ Vec3 mTrans;
 } NNSG3dJntAnmResult;
 

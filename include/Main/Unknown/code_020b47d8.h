@@ -8,7 +8,7 @@
 
 void LocateNscr(Nscr **out, void *file);
 void LoadNscrData(Nscr **out, void *file);
-void LoadNanrData(Unk02021dc8 **out, void *file);
+void LoadNanrData(Unk02021db0 **out, void *file);
 void LocateNcer(Unk02021dc8 **out, void *file);
 void LoadNcerData(Unk02021dc8 **out, void *file);
 void LocateNcgr(Ncgr **out, void *file);
