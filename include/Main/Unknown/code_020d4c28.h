@@ -7,10 +7,10 @@
 #include "Main/Unknown/code_020e6fd4.h"
 
 void UpdateViewFrustum(MtxFx43 *viewMatrix);
-u32 func_020d4f34(Vec3 *position, s32 b, s32 c, s32 distanceLimitSquared);
+u32 ComputeDistanceViewTest(Vec3 *position, s32 b, s32 c, s32 distanceLimitSquared);
 s32 GetHorizontalCameraDistanceSquared(Vec3 *position);
-void func_020d4e28(ItemObject *itemObject, Vec3 *position, u32 distanceAndFlags);
-BOOL func_020d4ddc(MapObject *mapObject);
-BOOL func_020d4d60(MapObject *mapObject, s32 distanceSquared);
-void func_020d4d44(MtxFx43 *viewMatrix);
+void SetItemObjectSoundByViewRange(ItemObject *itemObject, Vec3 *position, u32 distanceAndFlags);
+BOOL IsMapObjectOutOfRange(MapObject *mapObject);
+BOOL IsMapObjectOutOfRangeOrMaskedAtDistance(MapObject *mapObject, s32 distanceSquared);
+void SetupMapObjectView(MtxFx43 *viewMatrix);
 void DrawMapObjectList(MapObjectList *list, MtxFx43 *viewMatrix);

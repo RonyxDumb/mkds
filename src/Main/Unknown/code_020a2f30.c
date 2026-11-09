@@ -45,7 +45,7 @@ void CreateBalloon(MapObjectList *a) {
     SetMapObjectModelPolygonId(gBalloon, 0x3f);
     SetMapObjectModelAlpha(gBalloon, 0x1a);
     SetMapObjectModelFogEnabled(gBalloon, 0);
-    a->mUnk_1c_0 = 1;
+    a->mSortByDistance = 1;
 }
 
 void SetupDrawBalloon(void *mapObjectList) {
@@ -144,7 +144,7 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
         }
         w1 = 0x1e;
         func_01ff9048(0x14, &w1, 1);
-        func_01ff9048(0x19, func_020e6cbc(&balloon->mDrawPos), 12);
+        func_01ff9048(0x19, SetViewRotatedMatrixPos(&balloon->mDrawPos), 12);
         drawScale = balloon->mDrawScale;
         f1[0] = drawScale;
         f1[1] = drawScale;

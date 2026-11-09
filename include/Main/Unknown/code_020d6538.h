@@ -16,8 +16,8 @@ typedef struct Unk020d6538_a {
 #include "code_02146d78.h"
 #include "Main/Unknown/code_020e6fd4.h"
 
-// 0x5c-byte object that CreateRock2DrawList and CreateRockDrawList allocate and fill from a table; func_020d49d8 stores
-// the address of its pointer at 0x28.
+// 0x5c-byte object that CreateRock2DrawList and CreateRockDrawList allocate and fill from a table; SetDrawListSlot
+// stores the address of its pointer at 0x28.
 typedef struct RockDrawList {
     /* 00 */ MapObjectList mUnk_00;
     /* 28 */ struct RockDrawList **mListSlot;

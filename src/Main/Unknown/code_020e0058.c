@@ -102,7 +102,7 @@ void *CreateKoopaBlockDrawList(void) {
 
     data_0217b784 = drawList;
     *drawList = data_0215887c;
-    func_020d49d8(&data_0217b784);
+    SetDrawListSlot(&data_0217b784);
     return data_0217b784;
 }
 

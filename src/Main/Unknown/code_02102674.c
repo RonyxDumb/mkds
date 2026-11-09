@@ -181,16 +181,16 @@ void DrawItemGesso(ItemGesso *p, s32 param_2, NsbmdModel *t) {
     scale.y = ((s64) scale.y * scaleFactor) >> 12;
     d = p->mUnk_000.mAlpha;
     if (d != 0x1f) {
-        t->mUnk_14 = t->mUnk_14 & ~0x1f0000;
-        t->mUnk_14 = t->mUnk_14 | ((u16) d << 16);
+        t->mPolygonAttributes = t->mPolygonAttributes & ~0x1f0000;
+        t->mPolygonAttributes = t->mPolygonAttributes | ((u16) d << 16);
     }
-    func_020e6a18(t);
-    func_020e67c4(t, &matrix, &scale, 0, 0x1f);
+    QueueNsbmdModelMaterial(t);
+    DrawNsbmdModelWithMatrixAndMaxAlpha(t, &matrix, &scale, 0, 0x1f);
     if (p->mUnk_000.mAlpha == 0x1f) {
         return;
     }
-    t->mUnk_14 = t->mUnk_14 & ~0x1f0000;
-    t->mUnk_14 = t->mUnk_14 | 0x1f0000;
+    t->mPolygonAttributes = t->mPolygonAttributes & ~0x1f0000;
+    t->mPolygonAttributes = t->mPolygonAttributes | 0x1f0000;
 }
 
 void CopyItemGessoData(void *data, ItemGesso *gesso, void *toData) {

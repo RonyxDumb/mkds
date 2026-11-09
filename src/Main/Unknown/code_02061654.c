@@ -450,7 +450,7 @@ void DrawRaceWorld(void) {
     NNS_G3dGlbFlushP();
     func_01ff92e0(data_0217aa74);
     DrawCourseModel();
-    func_020d4418(gCurrentCamera);
+    DrawKoopaBlocksKind203AndBridges(gCurrentCamera);
     func_01ff92b4();
     DrawKarts();
     NNS_G3dGlbLightVector(0, gRace->mLightVectorX, gRace->mLightVectorY, gRace->mLightVectorZ);

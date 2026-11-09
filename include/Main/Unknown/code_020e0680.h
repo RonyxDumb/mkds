@@ -32,21 +32,22 @@ extern const Unk020e03f8 data_02158abc;
 extern const Unk020e03f8 data_02158afc;
 extern const Unk020e03f8 data_02158b3c;
 
-// Object func_020e0bac and func_020e0764 compare against: two vectors, a word and a vector.
-typedef struct Unk020e0764 {
-    /* 00 */ Vec3 mUnk_00;
-    /* 0c */ Vec3 mUnk_0c;
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ Vec3 mUnk_1c;
-} Unk020e0764;
+// Object ComputeSphereHitOnCollisionBox and ComputeSphereHitOnCollisionCylinder compare against: two vectors, a word
+// and a vector.
+typedef struct CollisionHitRecord {
+    /* 00 */ Vec3 mMaxOffset;
+    /* 0c */ Vec3 mMinOffset;
+    /* 18 */ s32 mDeepestDepth;
+    /* 1c */ Vec3 mDeepestNormal;
+} CollisionHitRecord;
 
 // Object with a vector at 0x2c and words at 0x38 and 0x3c.
-typedef struct Unk020e20a8 {
+typedef struct VehicleDrawList {
     /* 000 */ u8 mUnk_000[0x2c];
-    /* 02c */ Vec3 mUnk_02c;
+    /* 02c */ Vec3 mEntryKartLinkDirection;
     /* 038 */ BOOL mUnk_038;
     /* 03c */ BOOL mUnk_03c;
-} Unk020e20a8;
+} VehicleDrawList;
 
 // Object with vectors at 0x50 and 0x80.
 typedef struct Unk020e246c {
@@ -100,7 +101,7 @@ typedef struct Unk020e1e98_0b4 {
     /* 0c */ s32 mUnk_0c;
 } Unk020e1e98_0b4;
 
-extern const Unk020e1e98_0b4 data_0216c044;
+extern const Unk020e1e98_0b4 gIdentityQuaternion;
 
 // 0x164 bytes.
 typedef struct Unk020e1e98 {
@@ -141,7 +142,7 @@ typedef struct Unk020e1e98 {
     /* 160 */ u32 mUnk_160;
 } Unk020e1e98;
 
-// Object behind data_0217b79c and the argument of func_020e230c.
+// Object behind gVehicleDrawList and the argument of InitVehicleUpdateList.
 typedef struct Unk0217b79c {
     /* 00 */ Unk020e1e98 **mUnk_00;
     /* 04 */ u16 mUnk_04;
@@ -176,30 +177,39 @@ void InitChoropu(Unk020e1e98 *choropu, struct CourseMapRow *courseRow);
 void *CreateCarAKindData(void);
 void *CreateTruckAKindData(void);
 void *CreateBusAKindData(void);
-void *func_020e2db8(void);
-void *func_020e2d5c(void);
-void func_020e2ccc(Unk020e20a8 *drawList);
-void func_020e2a74(Unk020e20a8 *drawList, Unk020e1e98 *vehicle, u32 c, u32 alpha);
-void func_020e2630(u32 a, Unk020e1e98 *vehicle);
-void func_020e24d0(Unk020e1e98 *vehicle, Vec3 *hitterPosition);
-u8 func_020e2494(Unk020e1e98 *vehicle, Kart *kart, u8 *c, u8 *d);
-u8 func_020e246c(Unk020e1e98 *vehicle, Unk020e246c *itemObject, u8 *c, u8 *d);
-void func_020e2400(Unk020e1e98 *vehicle, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *overlapOffset);
-void func_020e230c(Unk0217b79c *updateList);
-void func_020e20a8(Unk020e20a8 *drawList);
-void func_020e1f54(Unk020e1e98 *vehicle, struct CourseMapRow *courseRow, Unk020e1e98_154 *kindInfo);
-void func_020e1e98(Unk020e1e98 *vehicle);
-void func_020e1e38(BridgeDrawList *list, void *viewMatrix, void (*drawObject)(Unk020e3ef4 *, void *, u32));
-void func_020e1dec(Unk020e3ef4 *mapObject, void *viewMatrix, u32 alpha);
+void *CreateVehicleDrawList(void);
+void *CreateVehicleUpdateList(void);
+void SetVehicleLinkDirection(VehicleDrawList *drawList);
+void DrawVehicle(VehicleDrawList *drawList, Unk020e1e98 *vehicle, u32 c, u32 alpha);
+void UpdateVehicle(u32 a, Unk020e1e98 *vehicle);
+void StartVehicleHitReaction(Unk020e1e98 *vehicle, Vec3 *hitterPosition);
+u8 CollideKartWithVehicle(Unk020e1e98 *vehicle, Kart *kart, u8 *c, u8 *d);
+u8 CollideItemObjectWithVehicle(Unk020e1e98 *vehicle, Unk020e246c *itemObject, u8 *c, u8 *d);
+void ComputeSphereHitOnVehicle(Unk020e1e98 *vehicle, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *overlapOffset);
+void InitVehicleUpdateList(Unk0217b79c *updateList);
+void InitVehicleDrawList(VehicleDrawList *drawList);
+void InitVehicle(Unk020e1e98 *vehicle, struct CourseMapRow *courseRow, Unk020e1e98_154 *kindInfo);
+void ResetVehicleToStartEntry(Unk020e1e98 *vehicle);
+void DrawVisibleMapObjects(BridgeDrawList *list, void *viewMatrix, void (*drawObject)(Unk020e3ef4 *, void *, u32));
+void DrawMapObjectModelAtPos(Unk020e3ef4 *mapObject, void *viewMatrix, u32 alpha);
 void SetMapObjectsModel(BridgeDrawList *list, void *model);
-s32 func_020e1d10(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u16 d, Unk020e0764 *e, Unk020e0764 *f,
-                  Vec3 *g, u16 *h, Vec3 *i, u16 *j);
-void func_020e1a80(s32 a, s32 b, s32 c, u32 d, u16 e, u16 *f, s32 v, Unk020e005c *object, Vec3 *g, Vec3 *h,
-                   Unk020e0764 *i, Unk020e0764 *j, Vec3 *k, Vec3 *l, u16 *m);
-BOOL func_020e16dc(s32 a, s32 b, s32 c, u32 d, u16 e, u16 f, u16 *g, u16 h, s32 i, s32 j, Unk020e005c *object, Vec3 *l,
-                   Vec3 *m, Vec3 *n, Unk020e0764 *o, Unk020e0764 *p, Vec3 *q, Vec3 *r, u16 *s);
-BOOL func_020e0bac(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u16 d, Unk020e0764 *o, Unk020e0764 *p,
-                   Vec3 *q, u16 *g, Vec3 *r, u16 *s);
-BOOL func_020e0764(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u16 d, Unk020e0764 *o, Unk020e0764 *p,
-                   Vec3 *q, u16 *g, Vec3 *r, u16 *s);
-void func_020e0680(Unk020e005c *object, Vec3 *position, Vec3 *c, Vec3 *d, u16 *e);
+s32 ComputeSphereHitOnCollisionData(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u16 queryFlags,
+                                    CollisionHitRecord *firstHitRecord, CollisionHitRecord *secondHitRecord,
+                                    Vec3 *lowestOffset, u16 *outFlags, Vec3 *pointMotion, u16 *angleChange);
+void AddCollisionHitOneAxis(s32 sphereRadius, s32 signedDepth, s32 depth, u32 regionFlags, u16 positiveSideBit,
+                            u16 *outFlags, s32 axisFlag, Unk020e005c *object, Vec3 *sphereCenter, Vec3 *normal,
+                            CollisionHitRecord *firstHitRecord, CollisionHitRecord *secondHitRecord, Vec3 *lowestOffset,
+                            Vec3 *pointMotion, u16 *angleChange);
+BOOL AddCollisionHitTwoAxes(s32 sphereRadius, s32 firstOffset, s32 c, u32 regionFlags, u16 firstPositiveSideBit,
+                            u16 secondPositiveSideBit, u16 *outFlags, u16 queryFlags, s32 firstAxisFlag,
+                            s32 secondAxisFlag, Unk020e005c *object, Vec3 *sphereCenter, Vec3 *firstNormal,
+                            Vec3 *secondNormal, CollisionHitRecord *firstHitRecord, CollisionHitRecord *secondHitRecord,
+                            Vec3 *lowestOffset, Vec3 *pointMotion, u16 *angleChange);
+BOOL ComputeSphereHitOnCollisionBox(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u16 queryFlags,
+                                    CollisionHitRecord *firstHitRecord, CollisionHitRecord *secondHitRecord,
+                                    Vec3 *lowestOffset, u16 *outFlags, Vec3 *pointMotion, u16 *angleChange);
+BOOL ComputeSphereHitOnCollisionCylinder(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u16 queryFlags,
+                                         CollisionHitRecord *firstHitRecord, CollisionHitRecord *secondHitRecord,
+                                         Vec3 *lowestOffset, u16 *outFlags, Vec3 *pointMotion, u16 *angleChange);
+void ComputeCollisionPointMotion(Unk020e005c *object, Vec3 *position, Vec3 *contactNormal, Vec3 *pointMotion,
+                                 u16 *angleChange);

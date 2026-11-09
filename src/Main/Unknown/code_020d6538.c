@@ -404,7 +404,7 @@ s32 func_020d6be0(Kart *kart, MapObject *mapObject) {
         kindRemainder -= 100;
         kindHundreds++;
     }
-    if (mapObject->mKindData->mUnk_00 != NULL) {
+    if (mapObject->mKindData->mCollideKartCallback != NULL) {
         response = data_0216b9cc[kindHundreds][kart->mItemEffect][kindRemainder];
         if (flagBit != 0 && response != 2 && response != 4) {
             response = 0;
@@ -416,7 +416,7 @@ s32 func_020d6be0(Kart *kart, MapObject *mapObject) {
         }
         buf[1] = response;
         if ((mapObject->mFlags & 0x80) == 0) {
-            buf[1] = mapObject->mKindData->mUnk_00(mapObject, kart, &buf[0], &buf[1]);
+            buf[1] = mapObject->mKindData->mCollideKartCallback(mapObject, kart, &buf[0], &buf[1]);
         }
         if (gRaceSetup->mMode == MODE_MISSION_RUN && buf[0] == 1 && gRaceSetup->mMode == MODE_MISSION_RUN) {
             func_ov001_0218175c(mapObject->mKind);
@@ -441,7 +441,7 @@ s32 func_020d6a54(ItemObject *itemObject, MapObject *mapObject, s32 *firstRespon
         kindRemainder -= 100;
         kindHundreds++;
     }
-    if (mapObject->mKindData->mUnk_04 != NULL) {
+    if (mapObject->mKindData->mCollideItemObjectCallback != NULL) {
         response = data_0216bb7c[kindHundreds][itemObject->mKind][kindRemainder];
         if (flagBit != 0) {
             response = 0;
@@ -454,7 +454,7 @@ s32 func_020d6a54(ItemObject *itemObject, MapObject *mapObject, s32 *firstRespon
         }
         buf[1] = response;
         if ((mapObject->mFlags & 0x80) == 0) {
-            buf[1] = mapObject->mKindData->mUnk_04(mapObject, itemObject, &buf[0], &buf[1]);
+            buf[1] = mapObject->mKindData->mCollideItemObjectCallback(mapObject, itemObject, &buf[0], &buf[1]);
         }
         if (gRaceSetup->mMode == MODE_MISSION_RUN && buf[0] == 1 && gRaceSetup->mMode == MODE_MISSION_RUN) {
             func_ov001_0218175c(mapObject->mKind);
@@ -541,7 +541,7 @@ RockDrawList *CreateRockDrawList(void) {
     RockDrawList *drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x5c);
     data_0217b650 = drawList;
     *drawList = data_02156a80;
-    func_020d49d8(&data_0217b650);
+    SetDrawListSlot(&data_0217b650);
     return data_0217b650;
 }
 
@@ -549,7 +549,7 @@ RockDrawList *CreateRock2DrawList(void) {
     RockDrawList *drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x5c);
     data_0217b650 = drawList;
     *drawList = data_02156a24;
-    func_020d49d8(&data_0217b650);
+    SetDrawListSlot(&data_0217b650);
     return data_0217b650;
 }
 

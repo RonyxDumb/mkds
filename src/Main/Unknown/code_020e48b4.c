@@ -55,7 +55,7 @@ PukupukuDrawList *CreatePukupukuDrawList(void) {
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     gPukupukuDrawList = drawList;
     *drawList = data_02159044;
-    func_020d49d8(&gPukupukuDrawList);
+    SetDrawListSlot(&gPukupukuDrawList);
     return gPukupukuDrawList;
 }
 
@@ -64,7 +64,7 @@ PukupukuShadowDrawList *CreatePukupukuShadowDrawList(void) {
     shadowDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     gPukupukuShadowDrawList = shadowDrawList;
     *shadowDrawList = data_02159018;
-    func_020d49d8(&gPukupukuShadowDrawList);
+    SetDrawListSlot(&gPukupukuShadowDrawList);
     return gPukupukuShadowDrawList;
 }
 
@@ -78,7 +78,7 @@ MapObjectList *CreatePukupukuUpdateList(void) {
 }
 
 void SetupDrawPukupuku(void) {
-    func_020e6a18(gPukupuku);
+    QueueNsbmdModelMaterial(gPukupuku);
 }
 
 void DrawPukupuku(u32 a, Pukupuku *pukupuku, u32 b, u16 alpha) {
@@ -91,24 +91,24 @@ void DrawPukupuku(u32 a, Pukupuku *pukupuku, u32 b, u16 alpha) {
         mirrored = pukupuku->mPushedObject.mMapObject.mCollisionSlotIndex & 1;
         matrix = SetViewTransposeMatrixPos(&pukupuku->mPushedObject.mMapObject.mPos);
         model = gPukupuku;
-        model->mUnk_14 = model->mUnk_14 | 0xc0;
+        model->mPolygonAttributes = model->mPolygonAttributes | 0xc0;
         gPukupukuDrawScale = pukupuku->mPushedObject.mMapObject.mScale;
         if (mirrored) {
             gPukupukuDrawScale.x = -gPukupukuDrawScale.x;
         }
-        func_020e67c4(model, matrix, &gPukupukuDrawScale, 0, alpha);
+        DrawNsbmdModelWithMatrixAndMaxAlpha(model, matrix, &gPukupukuDrawScale, 0, alpha);
     } else {
         MtxFx43 *matrix;
         mirrored = pukupuku->mPushedObject.mMapObject.mCollisionSlotIndex & 1;
         v = pukupuku->mPushedObject.mMotion.mAngle;
         matrix = SetViewTransposeMatrixPos(&pukupuku->mPushedObject.mMapObject.mPos);
         model = gPukupuku;
-        model->mUnk_14 = model->mUnk_14 | 0xc0;
+        model->mPolygonAttributes = model->mPolygonAttributes | 0xc0;
         gPukupukuDrawScale = pukupuku->mPushedObject.mMapObject.mScale;
         if (mirrored) {
             gPukupukuDrawScale.x = -gPukupukuDrawScale.x;
         }
-        func_020e66e4(model, matrix, v, &gPukupukuDrawScale, 0, alpha);
+        DrawNsbmdModelWithMatrixAndAngle(model, matrix, v, &gPukupukuDrawScale, 0, alpha);
     }
 }
 
@@ -306,7 +306,7 @@ void CreatePukupuku(void) {
     void *nsbmdFile;
     nsbmdFile = FindCourseMapObjFile(gPukupukuNsbmdName);
     func_020e6488(&gPukupuku, nsbmdFile, 0, 0);
-    func_020e6ab8(gPukupuku);
+    SetNsbmdModelFixedAttributes(gPukupuku);
 }
 
 #pragma thumb off

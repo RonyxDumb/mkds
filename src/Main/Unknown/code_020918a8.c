@@ -259,7 +259,7 @@ void DrawCow(void *a, Unk020919e8 *b) {
 
     w = 0x1e;
     func_01ff9048(0x14, &w, 1);
-    func_01ff9048(0x19, func_020e6cbc(&b->mUnk_00.mPos), 0xc);
+    func_01ff9048(0x19, SetViewRotatedMatrixPos(&b->mUnk_00.mPos), 0xc);
     func_01ff9048(0x1b, &b->mUnk_00.mScale, 3);
     SetMapObjectModelNsbtpFrameIndex(gCow, b->mUnk_00.mCourseMapRow->mUnk_28);
     DrawMapObjectModel(a, gCow, b);

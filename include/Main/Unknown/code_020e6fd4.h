@@ -19,8 +19,8 @@ typedef struct MapObjectSound {
 
 // Object behind MapObject.mKindData; kinds whose rows point at the same record share it.
 typedef struct MapObjectKindData {
-    /* 00 */ s32 (*mUnk_00)(struct MapObject *e, void *a, s32 *b, s32 *c);
-    /* 04 */ s32 (*mUnk_04)(struct MapObject *e, void *a, void *b, void *c);
+    /* 00 */ s32 (*mCollideKartCallback)(struct MapObject *e, void *a, s32 *b, s32 *c);
+    /* 04 */ s32 (*mCollideItemObjectCallback)(struct MapObject *e, void *a, void *b, void *c);
     /* 08 */ s32 mShapeKind;
     /* 0c */ s32 mUnk_0c;
     /* 10 */ s32 mUnk_10;
@@ -114,11 +114,11 @@ typedef struct MapObjectList {
     /* 10 */ UnkFunc *mForEachObject;
     /* 14 */ void (*mAfterObjects)(struct MapObjectList *p);
     /* 18 */ s32 mUnk_18;
-    // A callback in the update lists (func_020e6fd4); the draw lists test it for non-zero (func_020d4990, the draw
-    // loop) and the kinds' creators set it to 1.
+    // A callback in the update lists (func_020e6fd4); the draw lists test it for non-zero (InitMapObjectDrawOrder, the
+    // draw loop) and the kinds' creators set it to 1.
     /* 1c */ union {
         s32 (*mUnk_1c)(MapObject *e, void *a, void *b, void *c);
-        s32 mUnk_1c_0;
+        s32 mSortByDistance;
     };
     /* 20 */ s32 mUnk_20;
     /* 24 */ void **mUnk_24;

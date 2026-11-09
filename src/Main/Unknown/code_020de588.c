@@ -25,8 +25,8 @@ void CreateBoxAndQuestion(void) {
 
     func_020e6488(&gBox, FindMainRaceOrMainEffectMapObjFile("box.nsbmd"), 0, 0);
     func_020e6488(&gQuestion, FindMainRaceOrMainEffectMapObjFile("question.nsbmd"), 0, 0);
-    func_020e6ab8(gBox);
-    func_020e6ab8(gQuestion);
+    SetNsbmdModelFixedAttributes(gBox);
+    SetNsbmdModelFixedAttributes(gQuestion);
     p = gBox;
     p->mUnk_10 = p->mUnk_10 & 0x8000ffff;
     p->mUnk_10 = p->mUnk_10 | 0x52940000;
@@ -51,8 +51,8 @@ void CreateBoxAndQuestion(void) {
         gQuestionRotations[questionIndex].mSine = gPairsByAngle[angleIndex * 2];
     }
     if (gRaceSetup->mCourseId == COURSE_ID_RAINBOW) {
-        gBox->mUnk_14 &= 0xffff7fff;
-        gQuestion->mUnk_14 &= 0xffff7fff;
+        gBox->mPolygonAttributes &= 0xffff7fff;
+        gQuestion->mPolygonAttributes &= 0xffff7fff;
     }
 }
 
@@ -126,7 +126,7 @@ MapObjectKindData *CreateEarthenPipeKindData(void) {
 MapObjectDrawList *CreateEarthenPipeDrawList(void) {
     gEarthenPipeDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     *gEarthenPipeDrawList = data_021584fc;
-    func_020d49d8(&gEarthenPipeDrawList);
+    SetDrawListSlot(&gEarthenPipeDrawList);
     return gEarthenPipeDrawList;
 }
 
@@ -138,5 +138,5 @@ MapObjectList *CreateEarthenPipeUpdateList(void) {
 }
 
 void SetupDrawEarthenPipe(void) {
-    func_020e6a18(gEarthenPipe1);
+    QueueNsbmdModelMaterial(gEarthenPipe1);
 }

@@ -114,7 +114,7 @@ Woodbox1DrawList *CreateWoodbox1DrawList(void) {
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     data_0217bbec = drawList;
     *drawList = data_0215950c;
-    func_020d49d8(&data_0217bbec);
+    SetDrawListSlot(&data_0217bbec);
     return data_0217bbec;
 }
 

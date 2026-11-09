@@ -104,7 +104,7 @@ void func_020f90bc(ItemObject *itemParam) {
     ItemObject *item = itemParam;
 
     item->mSoundSource.mDistanceSquared = item->mDistanceSquaredAndFlags & ~0xc000001f;
-    func_020d4e28(item, &item->mPos, item->mDistanceSquaredAndFlags);
+    SetItemObjectSoundByViewRange(item, &item->mPos, item->mDistanceSquaredAndFlags);
 }
 
 void ResetItemObjectFromData(ItemObject *itemParam, s32 kind, void *buffer, s32 d) {

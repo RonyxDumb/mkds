@@ -234,7 +234,7 @@ void DrawPakkunBody(void *a, Pakkun *pakkun) {
     d = 0x3000 - x - y;
     w = 0x1e;
     func_01ff9048(0x14, &w, 1);
-    func_01ff9048(0x19, func_020e6cbc(&pakkun->mUnk_000.mPos), 12);
+    func_01ff9048(0x19, SetViewRotatedMatrixPos(&pakkun->mUnk_000.mPos), 12);
     v[0] = d;
     v[1] = x + y - 0x1000;
     v[2] = d;
@@ -381,21 +381,21 @@ void UpdatePakkun(void *a, Pakkun *pakkun) {
 
 void *CreatePakkunMouthDrawList(void) {
     gPakkunMouthDrawList = CreateMapObjectDrawList1(CreatePakkunMouth, DrawPakkunMouth, NULL);
-    gPakkunMouthDrawList->mUnk_1c_0 = TRUE;
-    func_020d49d8(&gPakkunMouthDrawList);
+    gPakkunMouthDrawList->mSortByDistance = TRUE;
+    SetDrawListSlot(&gPakkunMouthDrawList);
     return gPakkunMouthDrawList;
 }
 
 void *CreatePakkunBodyDrawList(void) {
     gPakkunBodyDrawList = CreateMapObjectDrawList2(CreatePakkunBody, DrawPakkunBody, SetupDrawPakkunBody);
-    func_020d49d8(&gPakkunBodyDrawList);
+    SetDrawListSlot(&gPakkunBodyDrawList);
     return gPakkunBodyDrawList;
 }
 
 void *CreatePakkunZHeadDrawList(void) {
     gPakkunZHeadDrawList = CreateMapObjectDrawList2(CreatePakkunZHead, DrawPakkunZHead, SetupDrawPakkunZHead);
-    gPakkunZHeadDrawList->mUnk_1c_0 = TRUE;
-    func_020d49d8(&gPakkunZHeadDrawList);
+    gPakkunZHeadDrawList->mSortByDistance = TRUE;
+    SetDrawListSlot(&gPakkunZHeadDrawList);
     return gPakkunZHeadDrawList;
 }
 

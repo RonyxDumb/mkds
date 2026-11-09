@@ -66,7 +66,7 @@ Unk020dbed0 *CreateDossunDrawList(void) {
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     gDossunDrawList = drawList;
     *drawList = data_02158260;
-    func_020d49d8(&gDossunDrawList);
+    SetDrawListSlot(&gDossunDrawList);
     return gDossunDrawList;
 }
 
@@ -86,8 +86,7 @@ void DrawDossun(void *unused0, Dossun *dossun, void *unused1, s32 maxAlpha) {
         drawMatrix = &gDossunDrawMatrix;
         MTX_RotY33_(&gDossunDrawMatrix.mUnk_00_m, gPairsByAngle[((u16) dossun->mUnk_ba >> 4) * 2],
                     gPairsByAngle[((u16) dossun->mUnk_ba >> 4) * 2 + 1]);
-        MTX_Concat33(&gDossunDrawMatrix.mUnk_00_m, &dossun->mUnk_00.mMatrix.mUnk_00_m,
-                     &gDossunDrawMatrix.mUnk_00_m);
+        MTX_Concat33(&gDossunDrawMatrix.mUnk_00_m, &dossun->mUnk_00.mMatrix.mUnk_00_m, &gDossunDrawMatrix.mUnk_00_m);
     }
     drawMatrix->mUnk_00[3].x = dossun->mUnk_00.mPos.x >> 4;
     drawMatrix->mUnk_00[3].y = dossun->mUnk_00.mPos.y >> 4;
@@ -246,7 +245,7 @@ void UpdateDossun(void *unused, Dossun *dossun) {
         }
         if (dossun->mState == 5) {
             fromEntry = follower->mFromEntry;
-            if (func_020d4ddc(&dossun->mUnk_00) == FALSE) {
+            if (IsMapObjectOutOfRange(&dossun->mUnk_00) == FALSE) {
                 if (dossun->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
                     n = 2;
                 } else if (dossun->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
@@ -433,7 +432,7 @@ Unk020db20c *CreateKuriboDrawList(void) {
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     gKuriboDrawList = drawList;
     *drawList = data_0215818c;
-    func_020d49d8(&gKuriboDrawList);
+    SetDrawListSlot(&gKuriboDrawList);
     return gKuriboDrawList;
 }
 
@@ -447,7 +446,7 @@ Unk020db1b0 *CreateKuriboUpdateList(void) {
 }
 
 void SetupDrawKuribo(void) {
-    func_020e6a18(gKuribo);
+    QueueNsbmdModelMaterial(gKuribo);
 }
 
 void DrawKuribo(void *unused0, Kuribo *kuribo, void *unused1, u16 d) {
@@ -459,7 +458,7 @@ void DrawKuribo(void *unused0, Kuribo *kuribo, void *unused1, u16 d) {
         func_020d7938(&kuribo->mOrientation, &gViewYawQuaternion, &orientation);
         Matrix3x3FromQuaternion(&kuribo->mMapObject.mMatrix.mUnk_00_m, &orientation);
     } else {
-        func_020e6d34(GetGroupFollowerSegmentUp(&kuribo->mFollower), &kuribo->mMapObject.mMatrix);
+        BuildMatrixFromYAxis(GetGroupFollowerSegmentUp(&kuribo->mFollower), &kuribo->mMapObject.mMatrix);
     }
     scale.z = kuribo->mMapObject.mScale.z;
     scale.y = ((s64) kuribo->mMapObject.mScale.y * kuribo->mScaleFactorY) >> 12;
@@ -475,9 +474,9 @@ void DrawKuribo(void *unused0, Kuribo *kuribo, void *unused1, u16 d) {
     }
     e = kuribo->mModelAlpha;
     model = gKuribo;
-    model->mUnk_14 &= ~0x1f0000;
-    model->mUnk_14 |= e << 16;
-    func_020e67c4(gKuribo, &kuribo->mMapObject.mMatrix, &scale, 0, d);
+    model->mPolygonAttributes &= ~0x1f0000;
+    model->mPolygonAttributes |= e << 16;
+    DrawNsbmdModelWithMatrixAndMaxAlpha(gKuribo, &kuribo->mMapObject.mMatrix, &scale, 0, d);
 }
 
 void UpdateKuribo(void *unused, Kuribo *kuribo) {

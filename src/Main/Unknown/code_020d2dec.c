@@ -375,7 +375,7 @@ void InitMapObjects(void) {
     ClearOrthoQuadCreamEffectPointer();
     InitGroupPaths();
     InitMatrices();
-    func_020d4bf0();
+    InitMapObjectViewState();
     gWrappingPolygonId = gWrappingPolygonIdBase;
     gNextPolygonId = data_0217b4cc;
     for (i = 0; i < gMapObjectKindCount; i++) {
@@ -419,14 +419,14 @@ void InitMapObjects(void) {
             isNewList = 1;
             for (m = 0; m < gMapObjects->mDrawListCount; m++) {
                 if (gMapObjects->mDrawLists[m] == kindLists[j]) {
-                    func_020d4a10(kindLists[j], v);
+                    DrawListAddToMapObjectListCount(kindLists[j], v);
                     isNewList = 0;
                 }
             }
             if (isNewList != 0) {
                 ClearMapObjectList(kindLists[j]);
                 if (v != 0) {
-                    func_020d4a10(kindLists[j], v);
+                    DrawListAddToMapObjectListCount(kindLists[j], v);
                     gMapObjects->mDrawLists[gMapObjects->mDrawListCount++] = kindLists[j];
                 }
             }
@@ -455,7 +455,7 @@ void InitMapObjects(void) {
         }
     }
     for (i = 0; i < gMapObjects->mDrawListCount; i++) {
-        func_020d4990(gMapObjects->mDrawLists[i]);
+        InitMapObjectDrawOrder(gMapObjects->mDrawLists[i]);
     }
     gMapObjects->mUnk_130 = TRUE;
     func_020d2e24();
@@ -478,16 +478,16 @@ void InitMapObjects(void) {
     for (i = 0; i < n; i++) {
         list = gMapObjects->mDrawLists[i];
         if (list->mUnk_18 == 1) {
-            listArray = gMapObjects->mUnk_068;
-            gMapObjects->mUnk_12a++;
+            listArray = gMapObjects->mFirstPassDrawLists;
+            gMapObjects->mFirstPassDrawListCount++;
             if (list->mUnk_20 != 0) {
                 listIndex = s1++;
             } else {
                 listIndex = c1++;
             }
         } else if (list->mUnk_18 == 2) {
-            listArray = gMapObjects->mUnk_0c8;
-            gMapObjects->mUnk_12c++;
+            listArray = gMapObjects->mSecondPassDrawLists;
+            gMapObjects->mSecondPassDrawListCount++;
             if (list->mUnk_20 != 0) {
                 listIndex = s2++;
             } else {

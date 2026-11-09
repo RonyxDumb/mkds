@@ -60,7 +60,7 @@ void DrawSmanTop(void *mapObjectList, Sman *sman) {
     s32 topOffset[3];
     c = 0x1e;
     func_01ff9048(0x14, &c, 1);
-    func_01ff9048(0x19, func_020e6cbc(&sman->mMapObject.mPos), 0xc);
+    func_01ff9048(0x19, SetViewRotatedMatrixPos(&sman->mMapObject.mPos), 0xc);
     topOffset[1] = sman->mTopHeight >> 4;
     topOffset[0] = 0;
     topOffset[2] = 0;
@@ -89,7 +89,7 @@ void DrawSmanBottom(void *mapObjectList, Sman *sman) {
     s32 bottomScale;
     c = 0x1e;
     func_01ff9048(0x14, &c, 1);
-    func_01ff9048(0x19, func_020e6cbc(&sman->mMapObject.mPos), 0xc);
+    func_01ff9048(0x19, SetViewRotatedMatrixPos(&sman->mMapObject.mPos), 0xc);
     func_01ff9048(0x1b, &sman->mMapObject.mScale, 3);
     bottomScale = sman->mBottomScale;
     scale[0] = bottomScale;

@@ -62,7 +62,7 @@ Unk020dd804 *CreateWanwanDrawList(void) {
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     gWanwanDrawList = drawList;
     *drawList = data_0215835c;
-    func_020d49d8(&gWanwanDrawList);
+    SetDrawListSlot(&gWanwanDrawList);
     return gWanwanDrawList;
 }
 

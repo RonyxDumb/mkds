@@ -32,7 +32,7 @@ void func_020e4380(Unk020e3ef4 *object) {
 }
 
 void func_020e435c(void *viewMatrix) {
-    func_020e1e38(data_0217b7e4, viewMatrix, func_020e1dec);
+    DrawVisibleMapObjects(data_0217b7e4, viewMatrix, DrawMapObjectModelAtPos);
 }
 
 BOOL func_020e4320(s32 kind) {
@@ -218,7 +218,7 @@ void *CreateBridgeDrawList(void) {
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x30);
     data_0217b7c4 = drawList;
     *drawList = data_02158ce8;
-    func_020d49d8(&data_0217b7c4);
+    SetDrawListSlot(&data_0217b7c4);
     return data_0217b7c4;
 }
 
@@ -295,5 +295,5 @@ void DrawBridge(Unk020e3ef4 *object, void *viewMatrix, u32 alpha) {
 }
 
 void DrawAllBridges(void *viewMatrix) {
-    func_020e1e38(data_0217b7c4, viewMatrix, DrawBridge);
+    DrawVisibleMapObjects(data_0217b7c4, viewMatrix, DrawBridge);
 }

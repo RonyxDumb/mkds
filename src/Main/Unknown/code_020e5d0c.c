@@ -52,10 +52,10 @@ void func_020e6514(Nsbmd *model, Unk020e6514 *animation, NsbmdModel *record) {
     e = OFFSET_PTR(Unk020e54e4, c, ((u32 *) OFFSET_PTR(u8, c, c->mDict.mOfsEntry))[1]);
     record->mUnk_00 = &e->mUnk_000[e->mUnk_008];
     record->mUnk_04 = e->mUnk_00c;
-    record->mUnk_08 = model->mResMdl->mInfo.mPosScale;
+    record->mScale = model->mResMdl->mInfo.mPosScale;
     record->mUnk_0c = d->mUnk_004;
     record->mUnk_10 = d->mUnk_008;
-    record->mUnk_14 = d->mUnk_00c & 0xfffffff0;
+    record->mPolygonAttributes = d->mUnk_00c & 0xfffffff0;
     record->mFrameIndex = 0;
     if (animation != NULL) {
         x.mUnk_00 = d->mUnk_014;
@@ -120,7 +120,7 @@ MapObjectDrawList *CreatePendulumDrawList(void) {
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     data_0217b840 = drawList;
     *drawList = data_021592a4;
-    func_020d49d8(&data_0217b840);
+    SetDrawListSlot(&data_0217b840);
     return data_0217b840;
 }
 
@@ -278,7 +278,7 @@ MapObjectDrawList *CreateObPakkunSfDrawList(void) {
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     data_0217b82c = drawList;
     *drawList = data_021591dc;
-    func_020d49d8(&data_0217b82c);
+    SetDrawListSlot(&data_0217b82c);
     return data_0217b82c;
 }
 
@@ -291,5 +291,5 @@ MapObjectList *CreateObPakkunSfUpdateList(void) {
 }
 
 void SetupDrawObPakkunSf(void) {
-    func_020e6a18(gObPakkunSf);
+    QueueNsbmdModelMaterial(gObPakkunSf);
 }

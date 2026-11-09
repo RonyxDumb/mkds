@@ -5,8 +5,8 @@
 #include "Main/Unknown/code_020f36d8.h"
 
 void func_020ed588(ItemObject *item, NsbmdModel *model) {
-    func_020e6a18(model);
-    func_020e6854(model, &item->mPos, 1, 0x1f);
+    QueueNsbmdModelMaterial(model);
+    DrawNsbmdModelWithMaxAlpha(model, &item->mPos, 1, 0x1f);
 }
 
 NsbmdModel *GetItemModel(u32 kind) {

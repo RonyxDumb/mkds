@@ -285,7 +285,7 @@ void DrawCoverPooHole(void *a, CoverPooHole *coverPooHole) {
     f0[0] = 0;
     f0[2] = 0;
     func_01ff9048(0x1c, f0, 3);
-    func_01ff9048(0x19, func_020e6cbc(&coverPooHole->mUnk_00.mPos), 12);
+    func_01ff9048(0x19, SetViewRotatedMatrixPos(&coverPooHole->mUnk_00.mPos), 12);
     func_0209bbd0(a, gHole);
     DrawMapObjectModel(a, gHole, coverPooHole);
     w1 = 1;
@@ -317,7 +317,7 @@ void DrawCoverPooHole(void *a, CoverPooHole *coverPooHole) {
             f2[2] = 0;
             func_01ff9048(0x1c, f2, 3);
         }
-        func_01ff9048(0x19, func_020e6cbc(&coverPooHole->mUnk_00.mPos), 12);
+        func_01ff9048(0x19, SetViewRotatedMatrixPos(&coverPooHole->mUnk_00.mPos), 12);
         func_0209bbd0(a, gPoo);
         DrawMapObjectModel(a, gPoo, coverPooHole);
         w2 = 1;
@@ -336,7 +336,7 @@ void DrawCoverPooHole(void *a, CoverPooHole *coverPooHole) {
             r = -r;
         }
         t = coverPooHole->mUnk_b4 + r;
-        func_01ff9048(0x19, func_020e6cbc(&coverPooHole->mUnk_00.mPos), 12);
+        func_01ff9048(0x19, SetViewRotatedMatrixPos(&coverPooHole->mUnk_00.mPos), 12);
         f3[1] = t >> 4;
         f3[0] = 0;
         f3[2] = 0;
@@ -352,7 +352,7 @@ void DrawCoverPooHole(void *a, CoverPooHole *coverPooHole) {
         f4[1] = t;
         f4[2] = 0;
         func_01ff9048(0x1c, f4, 3);
-        func_01ff9048(0x19, func_020e6cbc(&coverPooHole->mUnk_00.mPos), 12);
+        func_01ff9048(0x19, SetViewRotatedMatrixPos(&coverPooHole->mUnk_00.mPos), 12);
     }
     func_0209bbd0(a, gCover);
     DrawMapObjectModel(a, gCover, coverPooHole);

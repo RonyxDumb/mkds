@@ -50,10 +50,10 @@ NsbmdModel *CreateItemModel(u8 *modelName, u8 *animationName, u8 *textureName) {
     modelFile = FindItemFile(modelName);
     animationFile = FindItemFile(animationName);
     func_020e64b8(model, modelFile, animationFile, 0);
-    model->mUnk_14 &= 0xc0ffffff;
-    model->mUnk_14 |= 0x04000000;
-    model->mUnk_14 &= ~0xf;
-    model->mUnk_14 |= 0x2;
+    model->mPolygonAttributes &= 0xc0ffffff;
+    model->mPolygonAttributes |= 0x04000000;
+    model->mPolygonAttributes &= ~0xf;
+    model->mPolygonAttributes |= 0x2;
     model->mUnk_10 &= 0x8000ffff;
     model->mUnk_10 |= 0x10840000;
     return model;
@@ -102,7 +102,7 @@ void CreateItemModels(void) {
             itemKind->mSetup();
         }
         if (isRainbowCourse != FALSE) {
-            gItemModels[i]->mUnk_14 &= 0xffff7fff;
+            gItemModels[i]->mPolygonAttributes &= 0xffff7fff;
         }
         i++;
     }

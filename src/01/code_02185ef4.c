@@ -854,7 +854,7 @@ void DrawMissionRunMapObject(void *mapObjectList, Unk02188950 *mapObject) {
     shiftedPosition.x = mapObject->mUnk_000.mPos.x >> 4;
     shiftedPosition.y = mapObject->mUnk_000.mPos.y >> 4;
     shiftedPosition.z = mapObject->mUnk_000.mPos.z >> 4;
-    alpha = func_020e69bc(&shiftedPosition);
+    alpha = ComputeViewDepthAlpha(&shiftedPosition);
     if (alpha >= alphaLimit) {
         alpha = alphaLimit;
     }

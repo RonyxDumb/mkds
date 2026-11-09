@@ -50,7 +50,7 @@ void DrawMoveTree(void *a, MoveTree *moveTree, u32 c, u32 d) {
 
     t = 0x1e;
     func_01ff9048(0x14, &t, 1);
-    func_01ff9048(0x19, func_020e6cbc(&moveTree->mUnk_00.mPos), 12);
+    func_01ff9048(0x19, SetViewRotatedMatrixPos(&moveTree->mUnk_00.mPos), 12);
     func_01ff9048(0x1b, &moveTree->mUnk_00.mScale, 3);
     if ((s32) (moveTree->mUnk_00.mDistanceSquaredAndFlags & ~0xc000001f) < 0xc5c10) {
         SetMapObjectModelNsbcaFrameIndex(gMoveTree, moveTree->mNsbcaFrameIndex);

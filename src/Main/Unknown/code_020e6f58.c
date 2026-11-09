@@ -19,7 +19,7 @@ void AddMapObjectToUpdateList(MapObjectList *p, MapObject *q) {
     }
     if (p->mUnk_1c == NULL) {
         t = q->mKindData;
-        p->mUnk_1c = t->mUnk_04;
+        p->mUnk_1c = t->mCollideItemObjectCallback;
     }
     if (p->mUnk_20 == 3) {
         p->mUnk_20 = func_020d6910(6, q);

@@ -92,8 +92,8 @@ void *CreateMapObjectModelNsbmd(MapObjectList *a, const char *b) {
     m->mUnk_10 &= 0x8000ffff;
     m->mUnk_10 |= 0x294a0000;
     m = o->mNsbmdModel;
-    m->mUnk_14 &= ~0xf;
-    m->mUnk_14 |= 2;
+    m->mPolygonAttributes &= ~0xf;
+    m->mPolygonAttributes |= 2;
     o->mScale = data_021565ac;
     return o;
 }
@@ -119,8 +119,8 @@ void *CreateMapObjectModelNsbmdNsbtp(MapObjectList *a, const char *b, const char
     m->mUnk_10 &= 0x8000ffff;
     m->mUnk_10 |= 0x294a0000;
     m = o->mNsbmdModel;
-    m->mUnk_14 &= ~0xf;
-    m->mUnk_14 |= 2;
+    m->mPolygonAttributes &= ~0xf;
+    m->mPolygonAttributes |= 2;
     o->mScale = data_021565a0;
     return o;
 }

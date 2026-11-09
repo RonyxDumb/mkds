@@ -354,7 +354,7 @@ void DrawCoin(void *b, Coin *coin) {
     if (coin->mScaleFactor > 0 && coin->mModelAlpha != 0) {
         a = 0x1e;
         func_01ff9048(0x14, (&a), 1);
-        func_01ff9048(0x19, func_020e6cbc(&coin->mUnk_000.mPos), 0xc);
+        func_01ff9048(0x19, SetViewRotatedMatrixPos(&coin->mUnk_000.mPos), 0xc);
         scaleFactor = coin->mScaleFactor;
         if (scaleFactor != 0x1000) {
             scale.x = scaleFactor;

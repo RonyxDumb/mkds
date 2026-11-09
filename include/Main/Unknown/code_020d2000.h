@@ -14,11 +14,11 @@ typedef struct MapObjects {
     /* 004 */ vu16 mMapObjectCount;
     /* 006 */ u8 mUnk_006[2];
     /* 008 */ MapObjectList *mDrawLists[24];
-    /* 068 */ MapObjectList *mUnk_068[24];
-    /* 0c8 */ MapObjectList *mUnk_0c8[24];
+    /* 068 */ MapObjectList *mFirstPassDrawLists[24];
+    /* 0c8 */ MapObjectList *mSecondPassDrawLists[24];
     /* 128 */ u16 mDrawListCount;
-    /* 12a */ u16 mUnk_12a;
-    /* 12c */ u16 mUnk_12c;
+    /* 12a */ u16 mFirstPassDrawListCount;
+    /* 12c */ u16 mSecondPassDrawListCount;
     /* 12e */ u8 mUnk_12e[2];
     /* 130 */ BOOL mUnk_130;
     /* 134 */ MapObjectList *mUpdateLists[16];

@@ -187,7 +187,7 @@ void func_01ffa4b4(Kart *p, Vec3 *a) {
     if (p->mLandingTimer > 0) {
         p->mLandingTimer--;
     }
-    if (func_020d3d94()) {
+    if (IsWaterHeightUsed()) {
         ApplyKartWaterDepth(p);
     }
     if ((p->mUnk_4c & 0x40000000) && p->mState == KART_STATE_NORMAL) {

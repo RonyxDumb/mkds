@@ -145,8 +145,8 @@ void DrawCrab(void *a, Crab *crab) {
 
     w = 0x1e;
     func_01ff9048(0x14, &w, 1);
-    func_020e6d88(&crab->mUnk_000.mMatrix.mUnk_00[1]);
-    func_01ff9048(0x19, func_020e6bd0(&crab->mUnk_000.mPos), 0xc);
+    BuildYAxisMatrix(&crab->mUnk_000.mMatrix.mUnk_00[1]);
+    func_01ff9048(0x19, SetYAxisMatrixPos(&crab->mUnk_000.mPos), 0xc);
     if (crab->mRotateZAngle != 0) {
         MTX_RotZ33_(&crabRotation, gPairsByAngle[(crab->mRotateZAngle >> 4) * 2],
                     gPairsByAngle[(crab->mRotateZAngle >> 4) * 2 + 1]);

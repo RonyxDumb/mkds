@@ -64,9 +64,9 @@ void RequestViewTestRefresh(void) {
 }
 
 u32 GetViewTestRefreshPending(void) {
-    u32 value0;
-    value0 = gViewFrustum.mViewTestRefreshPending;
-    return value0;
+    u32 pending;
+    pending = gViewFrustum.mViewTestRefreshPending;
+    return pending;
 }
 
 void UpdateViewFrustum(MtxFx43 *viewMatrix) {
@@ -95,7 +95,7 @@ void UpdateViewFrustum(MtxFx43 *viewMatrix) {
     }
 }
 
-u32 func_020d4f34(Vec3 *position, s32 b, s32 c, s32 distanceLimitSquared) {
+u32 ComputeDistanceViewTest(Vec3 *position, s32 b, s32 c, s32 distanceLimitSquared) {
     s32 deltaX;
     s32 deltaZ;
     s32 distanceSquared;
@@ -123,7 +123,7 @@ s32 GetHorizontalCameraDistanceSquared(Vec3 *position) {
     return x * x + z * z;
 }
 
-void func_020d4e28(ItemObject *itemObject, Vec3 *position, u32 distanceAndFlags) {
+void SetItemObjectSoundByViewRange(ItemObject *itemObject, Vec3 *position, u32 distanceAndFlags) {
     s32 cameraHeightAboveItem;
 
     if (distanceAndFlags & 4) {
@@ -133,7 +133,7 @@ void func_020d4e28(ItemObject *itemObject, Vec3 *position, u32 distanceAndFlags)
         return;
     }
     cameraHeightAboveItem = gViewFrustum.mCameraPos.y - position->y;
-    if (cameraHeightAboveItem > -0x12c000 && cameraHeightAboveItem < data_0217b4f4) {
+    if (cameraHeightAboveItem > -0x12c000 && cameraHeightAboveItem < gItemSoundCameraHeightLimit) {
         if (!(itemObject->mSoundSource.mSourceFlags & 1)) {
             SetSoundSourceFlagBit(&itemObject->mSoundSource, 2, 1);
         }
@@ -144,7 +144,7 @@ void func_020d4e28(ItemObject *itemObject, Vec3 *position, u32 distanceAndFlags)
     }
 }
 
-BOOL func_020d4ddc(MapObject *mapObject) {
+BOOL IsMapObjectOutOfRange(MapObject *mapObject) {
     s32 cameraHeightAboveObject;
 
     if (mapObject->mDistanceSquaredAndFlags & 4) {
@@ -158,7 +158,7 @@ BOOL func_020d4ddc(MapObject *mapObject) {
     return TRUE;
 }
 
-BOOL func_020d4d60(MapObject *mapObject, s32 distanceSquared) {
+BOOL IsMapObjectOutOfRangeOrMaskedAtDistance(MapObject *mapObject, s32 distanceSquared) {
     s32 heightAboveCamera;
     Vec3 *position;
     MapObjectKindData *kindData;
@@ -175,7 +175,7 @@ BOOL func_020d4d60(MapObject *mapObject, s32 distanceSquared) {
     return (GetKartKind3ShapeMask() & mapObject->mDigitMask) != 0;
 }
 
-void func_020d4d44(MtxFx43 *viewMatrix) {
+void SetupMapObjectView(MtxFx43 *viewMatrix) {
     SetViewMatrices(viewMatrix);
     SetViewYawQuaternion(viewMatrix);
 }
@@ -195,7 +195,7 @@ void DrawMapObjectList(MapObjectList *list, MtxFx43 *viewMatrix) {
     if (forEachObject == NULL) {
         return;
     }
-    if (list->mUnk_1c_0 != 0) {
+    if (list->mSortByDistance != 0) {
         lastObject = NULL;
         for (i = 0; i < objectCount; i++) {
             mapObject = objects[i];
@@ -223,14 +223,14 @@ void DrawMapObjectList(MapObjectList *list, MtxFx43 *viewMatrix) {
 
 #pragma thumb on
 
-void func_020d4bf0(void) {
+void InitMapObjectViewState(void) {
     gViewFrustum.mViewTestRefreshRequested = TRUE;
     gViewFrustum.mViewTestRefreshPending = FALSE;
     if (gRaceSetup->mRaceKind == 2) {
-        data_0217b4f4 = 0x258000;
+        gItemSoundCameraHeightLimit = 0x258000;
         return;
     }
-    data_0217b4f4 = 0x12c000;
+    gItemSoundCameraHeightLimit = 0x12c000;
 }
 
 #pragma thumb off
@@ -302,7 +302,7 @@ void ClearMapObjectList(MapObjectList *list) {
 #pragma thumb off
 
 #pragma thumb on
-void func_020d4a10(MapObjectList *list, s32 count) {
+void DrawListAddToMapObjectListCount(MapObjectList *list, s32 count) {
     list->mMapObjectCount += count;
 }
 #pragma thumb off
@@ -326,17 +326,17 @@ u32 AddMapObjectToDrawList(MapObjectList *list, MapObject *mapObject) {
 
 #pragma thumb on
 
-void func_020d49d8(void *listSlot) {
+void SetDrawListSlot(void *listSlot) {
     *(u32 *) ((u8 *) (u32) (((u32) * (const u32 *) ((u8 *) (u32) listSlot + 0))) + 40) = (u32) listSlot;
 }
 
 #pragma thumb off
 
 #pragma thumb on
-void func_020d4990(MapObjectList *list) {
+void InitMapObjectDrawOrder(MapObjectList *list) {
     s32 i;
 
-    if (list->mUnk_1c_0 != 0) {
+    if (list->mSortByDistance != 0) {
         list->mUnk_24 = HeapAlloc(GetHeap(GetCurrentHeapCall()), list->mMapObjectCount * 4);
         for (i = 0; i < list->mMapObjectCount; i++) {
             list->mUnk_24[i] = list->mMapObjects[i];
@@ -358,19 +358,19 @@ void SetCourseWaterEfct(void *waterEfct) {
 void UpdateMapObjectViewTests(void) {
     u32 shapeMask;
     s32 i;
-    s32 n;
+    s32 mapObjectCount;
     MapObject *mapObject;
     MapObject **mapObjects;
     u32 frameSlot;
     u16 extraFlags;
     u32 extraViewFlags;
 
-    n = gMapObjects->mMapObjectCount;
+    mapObjectCount = gMapObjects->mMapObjectCount;
     mapObjects = gMapObjects->mMapObjects;
     shapeMask = GetKartKind3ShapeMask();
     frameSlot = GetRaceUpdateFrames() & 3;
     i = 0;
-    if (n <= 0) {
+    if (mapObjectCount <= 0) {
         return;
     }
     extraFlags = data_021568ec;
@@ -413,13 +413,13 @@ void UpdateMapObjectViewTests(void) {
                 }
             }
         }
-    } while (++i < n);
+    } while (++i < mapObjectCount);
 }
 
 void RefreshMapObjectViewTests(void) {
     u32 shapeMask;
     s32 i;
-    s32 n;
+    s32 mapObjectCount;
     MapObject *mapObject;
     MapObject **mapObjects;
     u16 extraFlags;
@@ -427,9 +427,9 @@ void RefreshMapObjectViewTests(void) {
 
     shapeMask = GetKartKind3ShapeMask();
     i = 0;
-    n = gMapObjects->mMapObjectCount;
+    mapObjectCount = gMapObjects->mMapObjectCount;
     mapObjects = gMapObjects->mMapObjects;
-    if (n <= 0) {
+    if (mapObjectCount <= 0) {
         return;
     }
     extraFlags = data_021568ec;
@@ -465,30 +465,30 @@ void RefreshMapObjectViewTests(void) {
                 }
             }
         }
-    } while (++i < n);
+    } while (++i < mapObjectCount);
 }
 
 void UpdateMapObjects(void) {
     MapObjectList *list;
     s32 i;
-    s32 n;
+    s32 updateListCount;
     MapObjectList **lists;
     s32 startFrames;
 
     lists = gMapObjects->mUpdateLists;
-    n = gMapObjects->mUpdateListCount;
+    updateListCount = gMapObjects->mUpdateListCount;
     startFrames = GetRaceStartSequenceFrames();
     if (startFrames <= 0x168) {
         if (gRaceSetup->mRaceKind != RACE_KIND_START_GP) {
             if (startFrames == -0x73) {
-                func_020d3b74();
+                ParkFlaggedMapObjects();
             } else if (startFrames == 0x168) {
-                func_020d3b10();
+                UnparkFlaggedMapObjects();
             }
         }
     }
     if (gMapObjects->mRunUpdateLists != 0) {
-        for (i = 0; i < n; i++) {
+        for (i = 0; i < updateListCount; i++) {
             list = lists[i];
             if (list->mBeforeObjects != NULL) {
                 list->mBeforeObjects(list);
@@ -519,13 +519,13 @@ void DrawMapObjects(Camera *view) {
     s32 j;
 
     viewMatrix = &view->mViewMatrix;
-    func_020d4d44(viewMatrix);
+    SetupMapObjectView(viewMatrix);
     if (gCourseWater != NULL) {
         DrawWater(gCourseWater, viewMatrix);
     }
     i = 0;
-    firstPassCount = gMapObjects->mUnk_12a;
-    lists = gMapObjects->mUnk_068;
+    firstPassCount = gMapObjects->mFirstPassDrawListCount;
+    lists = gMapObjects->mFirstPassDrawLists;
     for (; i < firstPassCount; i++) {
         list = lists[i];
         func_0208ab00();
@@ -537,10 +537,10 @@ void DrawMapObjects(Camera *view) {
             list->mAfterObjects(list);
         }
     }
-    func_020e6a74();
+    QueueViewMatrix();
     j = 0;
-    secondPassCount = gMapObjects->mUnk_12c;
-    lists = gMapObjects->mUnk_0c8;
+    secondPassCount = gMapObjects->mSecondPassDrawListCount;
+    lists = gMapObjects->mSecondPassDrawLists;
     for (; j < secondPassCount; j++) {
         list = lists[j];
         if (list->mBeforeObjects != NULL) {
@@ -553,7 +553,7 @@ void DrawMapObjects(Camera *view) {
     }
 }
 
-void func_020d4418(Camera *view) {
+void DrawKoopaBlocksKind203AndBridges(Camera *view) {
     MtxFx43 *viewMatrix;
 
     viewMatrix = &view->mViewMatrix;
@@ -765,7 +765,7 @@ u32 GetWaterHeightAngle(void) {
     return gCourseWater != NULL ? gCourseWater->mHeightAngle : 0;
 }
 
-u32 func_020d3d94(void) {
+u32 IsWaterHeightUsed(void) {
     u32 result = 0;
     if (gCourseWater == NULL) {
         return result;
@@ -777,8 +777,8 @@ u32 func_020d3d94(void) {
 }
 
 // Y minus mHeight when the Water exists and mUnk_170 is non-zero (mini stage 3, beach), else y minus WaterEfct.mHeight,
-// else 9999.0 (fx32); Or = the second source when the first is not used; asked by the kart steps, the kart sound and the
-// overlay-1 objects.
+// else 9999.0 (fx32); Or = the second source when the first is not used; asked by the kart steps, the kart sound and
+// the overlay-1 objects.
 s32 GetHeightAboveWaterOrEfct(s32 y) {
     if (gCourseWater != NULL && gCourseWater->mUnk_170 != 0) {
         return y - gCourseWater->mHeight;
@@ -786,7 +786,7 @@ s32 GetHeightAboveWaterOrEfct(s32 y) {
     return gCourseWaterEfct != NULL ? y - gCourseWaterEfct->mHeight : 0x270f000;
 }
 
-s32 func_020d3d10(s32 y) {
+s32 IsFarBelowWaterEfct(s32 y) {
     BOOL isFarBelow;
     isFarBelow = FALSE;
     if (gCourseWaterEfct != NULL) {
@@ -797,21 +797,21 @@ s32 func_020d3d10(s32 y) {
     return isFarBelow;
 }
 
-void func_020d3cc8(void) {
+void RunMapObjectListCallbacks(void) {
     s32 i;
-    s32 n;
+    s32 listCount;
     MapObjects *mapObjects;
     MapObjectList **lists;
     i = 0;
     mapObjects = gMapObjects;
-    n = mapObjects->mUpdateListCount;
+    listCount = mapObjects->mUpdateListCount;
     lists = mapObjects->mUpdateLists;
-    for (; i < n; i++) {
+    for (; i < listCount; i++) {
         func_020e6fd4(lists[i]);
     }
 }
 
-s32 func_020d3c94(MapObject *mapObject, s32 itemKind, Vec3 *hitOffset) {
+s32 GetMapObjectHitResponse(MapObject *mapObject, s32 itemKind, Vec3 *hitOffset) {
     return func_020d2c2c(&mapObject->mPos, &mapObject->mUnk_10, mapObject->mExtent.x, mapObject->mCollisionSlotIndex,
                          itemKind, hitOffset);
 }
@@ -847,7 +847,7 @@ u16 CountMapObjectsOfKind(u32 kind) {
     return count;
 }
 
-void func_020d3b74(void) {
+void ParkFlaggedMapObjects(void) {
     s32 i;
     s32 mapObjectCount;
     MapObject **mapObjectSlot;
@@ -872,7 +872,7 @@ void func_020d3b74(void) {
     }
 }
 
-void func_020d3b10(void) {
+void UnparkFlaggedMapObjects(void) {
     s32 i;
     s32 mapObjectCount;
     MapObject **mapObjectSlot;

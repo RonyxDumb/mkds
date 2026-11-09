@@ -21,24 +21,24 @@
 
 // Copies the view matrix and builds its transposed rotation and three more matrices from it.
 void SetViewMatrices(MtxFx43 *viewMatrix) {
-    data_0217b850->mUnk_00[0].x = 0x1000;
-    data_0217b850->mUnk_00[0].y = 0;
-    data_0217b850->mUnk_00[0].z = 0;
-    data_0217b850->mUnk_00[1].x = 0;
-    data_0217b850->mUnk_00[1].y = viewMatrix->mUnk_00[1].y;
-    data_0217b850->mUnk_00[1].z = viewMatrix->mUnk_00[1].z;
-    data_0217b850->mUnk_00[2].x = 0;
-    data_0217b850->mUnk_00[2].y = -viewMatrix->mUnk_00[1].z;
-    data_0217b850->mUnk_00[2].z = viewMatrix->mUnk_00[1].y;
+    gViewRotationXMatrix->mUnk_00[0].x = 0x1000;
+    gViewRotationXMatrix->mUnk_00[0].y = 0;
+    gViewRotationXMatrix->mUnk_00[0].z = 0;
+    gViewRotationXMatrix->mUnk_00[1].x = 0;
+    gViewRotationXMatrix->mUnk_00[1].y = viewMatrix->mUnk_00[1].y;
+    gViewRotationXMatrix->mUnk_00[1].z = viewMatrix->mUnk_00[1].z;
+    gViewRotationXMatrix->mUnk_00[2].x = 0;
+    gViewRotationXMatrix->mUnk_00[2].y = -viewMatrix->mUnk_00[1].z;
+    gViewRotationXMatrix->mUnk_00[2].z = viewMatrix->mUnk_00[1].y;
     MTX_Transpose33_(viewMatrix, gViewTransposeMatrix);
-    MTX_Concat33(&data_0217b850->mUnk_00_m, &gViewTransposeMatrix->mUnk_00_m, &data_0217b860->mUnk_00_m);
+    MTX_Concat33(&gViewRotationXMatrix->mUnk_00_m, &gViewTransposeMatrix->mUnk_00_m, &gViewRotatedMatrix->mUnk_00_m);
     {
         MtxFx43 *matrix;
         Vec3 *axis2;
         s32 axis2X;
         s32 axis2Z;
 
-        matrix = data_0217b85c;
+        matrix = gViewAxis2Matrix;
         axis2 = &matrix->mUnk_00[2];
         *axis2 = gViewTransposeMatrix->mUnk_00[2];
         axis2X = matrix->mUnk_00[2].x;
@@ -47,26 +47,26 @@ void SetViewMatrices(MtxFx43 *viewMatrix) {
         matrix->mUnk_00[0].x = axis2Z;
         matrix->mUnk_00[0].y = 0;
     }
-    if ((s64) data_0217b85c->mUnk_00[0].x * data_0217b85c->mUnk_00[0].x +
-            (s64) data_0217b85c->mUnk_00[0].y * data_0217b85c->mUnk_00[0].y +
-            (s64) data_0217b85c->mUnk_00[0].z * data_0217b85c->mUnk_00[0].z >=
+    if ((s64) gViewAxis2Matrix->mUnk_00[0].x * gViewAxis2Matrix->mUnk_00[0].x +
+            (s64) gViewAxis2Matrix->mUnk_00[0].y * gViewAxis2Matrix->mUnk_00[0].y +
+            (s64) gViewAxis2Matrix->mUnk_00[0].z * gViewAxis2Matrix->mUnk_00[0].z >=
         0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&data_0217b85c->mUnk_00[0], &data_0217b85c->mUnk_00[0]);
+        Vec3NormalizeAndGetLengthUnchecked(&gViewAxis2Matrix->mUnk_00[0], &gViewAxis2Matrix->mUnk_00[0]);
     }
-    Vec3CrossUnrounded(&data_0217b85c->mUnk_00[2], &data_0217b85c->mUnk_00[0], &data_0217b85c->mUnk_00[1]);
+    Vec3CrossUnrounded(&gViewAxis2Matrix->mUnk_00[2], &gViewAxis2Matrix->mUnk_00[0], &gViewAxis2Matrix->mUnk_00[1]);
     *gViewMatrix = *viewMatrix;
 }
 
-s32 func_020e6d88(Vec3 *yAxis) {
-    data_0217b84c->mUnk_00[1] = *yAxis;
-    data_0217b84c->mUnk_00[2] = data_0217b860->mUnk_00[2];
-    Vec3CrossUnrounded(&data_0217b84c->mUnk_00[1], &data_0217b84c->mUnk_00[2], &data_0217b84c->mUnk_00[0]);
-    return Vec3NormalizeAndGetLengthUnchecked(&data_0217b84c->mUnk_00[0], &data_0217b84c->mUnk_00[0]);
+s32 BuildYAxisMatrix(Vec3 *yAxis) {
+    gYAxisMatrix->mUnk_00[1] = *yAxis;
+    gYAxisMatrix->mUnk_00[2] = gViewRotatedMatrix->mUnk_00[2];
+    Vec3CrossUnrounded(&gYAxisMatrix->mUnk_00[1], &gYAxisMatrix->mUnk_00[2], &gYAxisMatrix->mUnk_00[0]);
+    return Vec3NormalizeAndGetLengthUnchecked(&gYAxisMatrix->mUnk_00[0], &gYAxisMatrix->mUnk_00[0]);
 }
 
-s32 func_020e6d34(Vec3 *yAxis, MtxFx43 *matrix) {
+s32 BuildMatrixFromYAxis(Vec3 *yAxis, MtxFx43 *matrix) {
     matrix->mUnk_00[1] = *yAxis;
-    matrix->mUnk_00[2] = data_0217b860->mUnk_00[2];
+    matrix->mUnk_00[2] = gViewRotatedMatrix->mUnk_00[2];
     Vec3CrossUnrounded(&matrix->mUnk_00[1], &matrix->mUnk_00[2], &matrix->mUnk_00[0]);
     return Vec3NormalizeAndGetLengthUnchecked(&matrix->mUnk_00[0], &matrix->mUnk_00[0]);
 }
@@ -84,59 +84,59 @@ MtxFx43 *SetViewTransposeMatrixPos(Vec3 *position) {
     return gViewTransposeMatrix;
 }
 
-MtxFx43 *func_020e6cbc(Vec3 *position) {
+MtxFx43 *SetViewRotatedMatrixPos(Vec3 *position) {
     MtxFx43 *matrix;
     Vec3 *translation;
 
-    matrix = data_0217b860;
+    matrix = gViewRotatedMatrix;
     translation = &matrix->mUnk_00[3];
     translation->x = position->x >> 4;
     translation->y = position->y >> 4;
     translation->z = position->z >> 4;
-    return data_0217b860;
+    return gViewRotatedMatrix;
 }
 
-MtxFx43 *func_020e6c3c(Vec3 *position, s32 horizontalFactor, s32 yOffset) {
+MtxFx43 *TiltViewRotatedMatrix(Vec3 *position, s32 horizontalFactor, s32 yOffset) {
     Vec3 *translation;
 
-    data_0217b860->mUnk_00[1].x = (horizontalFactor * data_0217b860->mUnk_00[0].x) >> 12;
-    data_0217b860->mUnk_00[1].y = yOffset + 0x1000;
-    data_0217b860->mUnk_00[1].z = (horizontalFactor * data_0217b860->mUnk_00[0].z) >> 12;
-    translation = &data_0217b860->mUnk_00[3];
+    gViewRotatedMatrix->mUnk_00[1].x = (horizontalFactor * gViewRotatedMatrix->mUnk_00[0].x) >> 12;
+    gViewRotatedMatrix->mUnk_00[1].y = yOffset + 0x1000;
+    gViewRotatedMatrix->mUnk_00[1].z = (horizontalFactor * gViewRotatedMatrix->mUnk_00[0].z) >> 12;
+    translation = &gViewRotatedMatrix->mUnk_00[3];
     translation->x = position->x >> 4;
     translation->y = position->y >> 4;
     translation->z = position->z >> 4;
-    return data_0217b860;
+    return gViewRotatedMatrix;
 }
 
-void func_020e6c0c(void) {
-    data_0217b860->mUnk_00[1].z = 0;
-    data_0217b860->mUnk_00[1].x = data_0217b860->mUnk_00[1].z;
-    data_0217b860->mUnk_00[1].y = 0x1000;
+void ResetViewRotatedMatrixAxis1(void) {
+    gViewRotatedMatrix->mUnk_00[1].z = 0;
+    gViewRotatedMatrix->mUnk_00[1].x = gViewRotatedMatrix->mUnk_00[1].z;
+    gViewRotatedMatrix->mUnk_00[1].y = 0x1000;
 }
 
-MtxFx43 *func_020e6bd0(Vec3 *position) {
+MtxFx43 *SetYAxisMatrixPos(Vec3 *position) {
     MtxFx43 *matrix;
     Vec3 *translation;
 
-    matrix = data_0217b84c;
+    matrix = gYAxisMatrix;
     translation = &matrix->mUnk_00[3];
     translation->x = position->x >> 4;
     translation->y = position->y >> 4;
     translation->z = position->z >> 4;
-    return data_0217b84c;
+    return gYAxisMatrix;
 }
 
-MtxFx43 *func_020e6b94(Vec3 *position) {
+MtxFx43 *SetViewAxis2MatrixPos(Vec3 *position) {
     MtxFx43 *matrix;
     Vec3 *translation;
 
-    matrix = data_0217b85c;
+    matrix = gViewAxis2Matrix;
     translation = &matrix->mUnk_00[3];
     translation->x = position->x >> 4;
     translation->y = position->y >> 4;
     translation->z = position->z >> 4;
-    return data_0217b85c;
+    return gViewAxis2Matrix;
 }
 
 // Sets the position of the translation-only matrix to each component of a >> 4 and returns the matrix.
@@ -152,15 +152,15 @@ MtxFx43 *SetTranslationMatrixPos(Vec3 *position) {
     return gTranslationMatrix;
 }
 
-MtxFx43 *func_020e6b48(void) {
-    return data_0217b860;
+MtxFx43 *GetViewRotatedMatrix(void) {
+    return gViewRotatedMatrix;
 }
 
 void *GetViewTransposeMatrix(void) {
     return gViewTransposeMatrix;
 }
 
-Vec3 *func_020e6b28(void) {
+Vec3 *GetViewTransposeMatrixAxis0(void) {
     return &gViewTransposeMatrix->mUnk_00[0];
 }
 
@@ -168,23 +168,23 @@ Vec3 *GetViewTransposeMatrixAxis2(void) {
     return &gViewTransposeMatrix->mUnk_00[2];
 }
 
-void func_020e6ab8(NsbmdModel *model) {
+void SetNsbmdModelFixedAttributes(NsbmdModel *model) {
     model->mUnk_10 = (u32) ((((model->mUnk_10)) & (0x8000ffffu)));
     model->mUnk_10 = (u32) ((((model->mUnk_10)) | (0x294a0000u)));
-    model->mUnk_14 = (model->mUnk_14 & ~(0x3f000000u));
-    model->mUnk_14 = (model->mUnk_14 | (0x3f000000u));
-    model->mUnk_14 = (model->mUnk_14 & ~(0xfu));
-    model->mUnk_14 = (model->mUnk_14 | (0x2u));
+    model->mPolygonAttributes = (model->mPolygonAttributes & ~(0x3f000000u));
+    model->mPolygonAttributes = (model->mPolygonAttributes | (0x3f000000u));
+    model->mPolygonAttributes = (model->mPolygonAttributes & ~(0xfu));
+    model->mPolygonAttributes = (model->mPolygonAttributes | (0x2u));
 }
 
-void func_020e6a74(void) {
+void QueueViewMatrix(void) {
     u32 commandArg[1];
     func_01ff9048(0x17, gViewMatrix, 0xc);
     commandArg[0] = 0x1e;
     func_01ff9048(0x13, (void *) ((u32) commandArg), 1);
 }
 
-void func_020e6a18(NsbmdModel *model) {
+void QueueNsbmdModelMaterial(NsbmdModel *model) {
     if (model->mFrameCount == 1) {
         func_01ff9048(0x2b, model->mUnk_20, 1);
         func_01ff9048(0x2a, model->mUnk_1c, 1);
@@ -193,7 +193,7 @@ void func_020e6a18(NsbmdModel *model) {
     func_01ff9048(0x31, &model->mUnk_10, 1);
 }
 
-s32 func_020e69bc(Vec3 *position) {
+s32 ComputeViewDepthAlpha(Vec3 *position) {
     MtxFx43 *viewMatrix;
     s64 zDot;
 
@@ -203,7 +203,7 @@ s32 func_020e69bc(Vec3 *position) {
     return -(viewMatrix->mUnk_00[3].z + (s32) (zDot >> 12)) >> 9;
 }
 
-void func_020e6854(NsbmdModel *model, Vec3 *position, s32 usePosition, u32 maxAlpha) {
+void DrawNsbmdModelWithMaxAlpha(NsbmdModel *model, Vec3 *position, s32 usePosition, u32 maxAlpha) {
     u32 scale[3];
     u32 attributes;
     u32 currentAlpha;
@@ -212,11 +212,11 @@ void func_020e6854(NsbmdModel *model, Vec3 *position, s32 usePosition, u32 maxAl
     u32 polygonId;
     s64 zDot;
 
-    scale[0] = model->mUnk_08;
+    scale[0] = model->mScale;
     scale[1] = scale[0];
     scale[2] = scale[0];
     func_01ff9048(0x1b, scale, 3);
-    attributes = model->mUnk_14;
+    attributes = model->mPolygonAttributes;
     currentAlpha = (attributes & 0x1f0000) >> 16;
     if (maxAlpha < currentAlpha) {
         attributes &= ~0x1f0000;
@@ -251,7 +251,8 @@ void func_020e6854(NsbmdModel *model, Vec3 *position, s32 usePosition, u32 maxAl
     func_01ff9144(model->mUnk_00, model->mUnk_04);
 }
 
-void func_020e67c4(NsbmdModel *model, MtxFx43 *matrix, Vec3 *scale, s32 usePosition, u16 maxAlpha) {
+void DrawNsbmdModelWithMatrixAndMaxAlpha(NsbmdModel *model, MtxFx43 *matrix, Vec3 *scale, s32 usePosition,
+                                         u16 maxAlpha) {
     u32 commandArg;
     Vec3 scaleCopy;
     s32 scaleX;
@@ -270,10 +271,11 @@ void func_020e67c4(NsbmdModel *model, MtxFx43 *matrix, Vec3 *scale, s32 usePosit
         scaleCopy.z = scaleZ;
         func_01ff9048(0x1b, &scaleCopy, 3);
     }
-    func_020e6854(model, &matrix->mUnk_00[3], usePosition, maxAlpha);
+    DrawNsbmdModelWithMaxAlpha(model, &matrix->mUnk_00[3], usePosition, maxAlpha);
 }
 
-void func_020e66e4(NsbmdModel *model, MtxFx43 *matrix, s32 angle, Vec3 *scale, s32 usePosition, u16 maxAlpha) {
+void DrawNsbmdModelWithMatrixAndAngle(NsbmdModel *model, MtxFx43 *matrix, s32 angle, Vec3 *scale, s32 usePosition,
+                                      u16 maxAlpha) {
     u32 commandArg;
     Vec3 scaleCopy;
     s32 angleIndex;
@@ -286,8 +288,8 @@ void func_020e66e4(NsbmdModel *model, MtxFx43 *matrix, s32 angle, Vec3 *scale, s
     func_01ff9048(0x19, matrix, 0xc);
     if (angle != 0) {
         angleIndex = angle >> 4;
-        MTX_RotZ33_(data_0217b858, gPairsByAngle[angleIndex * 2], gPairsByAngle[angleIndex * 2 + 1]);
-        func_01ff9048(0x1a, data_0217b858, 9);
+        MTX_RotZ33_(gRotationZMatrix, gPairsByAngle[angleIndex * 2], gPairsByAngle[angleIndex * 2 + 1]);
+        func_01ff9048(0x1a, gRotationZMatrix, 9);
     }
     if (scale != NULL) {
         scaleZ = scale->z;
@@ -298,7 +300,7 @@ void func_020e66e4(NsbmdModel *model, MtxFx43 *matrix, s32 angle, Vec3 *scale, s
         scaleCopy.z = scaleZ;
         func_01ff9048(0x1b, &scaleCopy, 3);
     }
-    func_020e6854(model, &matrix->mUnk_00[3], usePosition, maxAlpha);
+    DrawNsbmdModelWithMaxAlpha(model, &matrix->mUnk_00[3], usePosition, maxAlpha);
 }
 
 #pragma thumb on
@@ -308,19 +310,19 @@ void InitMatrices(void) {
     matrix = HeapAlloc(data_021759d0->mHeap, 0x30);
     gViewTransposeMatrix = matrix;
     matrix = HeapAlloc(data_021759d0->mHeap, 0x30);
-    data_0217b860 = matrix;
+    gViewRotatedMatrix = matrix;
     matrix = HeapAlloc(data_021759d0->mHeap, 0x30);
-    data_0217b850 = matrix;
+    gViewRotationXMatrix = matrix;
     matrix = HeapAlloc(data_021759d0->mHeap, 0x30);
-    data_0217b84c = matrix;
+    gYAxisMatrix = matrix;
     matrix = HeapAlloc(data_021759d0->mHeap, 0x30);
-    data_0217b85c = matrix;
+    gViewAxis2Matrix = matrix;
     matrix = HeapAlloc(data_021759d0->mHeap, 0x30);
     gTranslationMatrix = matrix;
     matrix = HeapAlloc(data_021759d0->mHeap, 0x30);
     gViewMatrix = matrix;
     matrix = HeapAlloc(data_021759d0->mHeap, 0x24);
-    data_0217b858 = matrix;
+    gRotationZMatrix = matrix;
     MTX_Identity43_(gTranslationMatrix);
 }
 

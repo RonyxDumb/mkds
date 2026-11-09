@@ -959,7 +959,7 @@ void DrawItems(void *a) {
     void *viewAxis;
 
     viewAxis = &((Unk020e6b38 *) GetViewTransposeMatrix())->mUnk_18;
-    func_020e6a74();
+    QueueViewMatrix();
     for (poolIndex = 0; poolIndex < 0xe; poolIndex++) {
         if (gItemPools[poolIndex].mTakenCount > 0 && gItemPools[poolIndex].mUnk_40 == 0) {
             DrawItemPool(&gItemPools[poolIndex], viewAxis);

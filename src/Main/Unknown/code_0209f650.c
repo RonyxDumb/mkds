@@ -176,7 +176,7 @@ void func_0209fc38(void) {
 }
 
 void func_0209fc2c(MapObjectList *mapObjectList) {
-    func_020e6c0c();
+    ResetViewRotatedMatrixAxis1();
 }
 
 void CreateTownMonte(MapObjectList *mapObjectList) {
@@ -194,10 +194,10 @@ void DrawTownMonte(void *a, TownMonte *townMonte) {
     v = 0x1e;
     func_01ff9048(0x14, &v, 1);
     if (townMonte->mMirror != 0) {
-        h = func_020e6c3c(&townMonte->mUnk_00.mPos, -d, d);
+        h = TiltViewRotatedMatrix(&townMonte->mUnk_00.mPos, -d, d);
         func_01ff9048(0x19, h, 0xc);
     } else {
-        h = func_020e6c3c(&townMonte->mUnk_00.mPos, d, d);
+        h = TiltViewRotatedMatrix(&townMonte->mUnk_00.mPos, d, d);
         func_01ff9048(0x19, h, 0xc);
     }
     func_01ff9048(0x1b, &townMonte->mUnk_00.mScale, 3);

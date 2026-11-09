@@ -98,7 +98,7 @@ void *CreateChoropuDrawList(void) {
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     data_0217b7bc = drawList;
     *drawList = data_02158c10;
-    func_020d49d8(&data_0217b7bc);
+    SetDrawListSlot(&data_0217b7bc);
     return data_0217b7bc;
 }
 
@@ -108,7 +108,7 @@ void *CreateChoropuShadowDrawList(void) {
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     data_0217b7c0 = drawList;
     *drawList = data_02158be4;
-    func_020d49d8(&data_0217b7c0);
+    SetDrawListSlot(&data_0217b7c0);
     return data_0217b7c0;
 }
 
@@ -123,7 +123,7 @@ void *CreateChoropuUpdateList(void) {
 }
 
 void SetupDrawChoropu(void) {
-    func_020e6a18(gChoropu);
+    QueueNsbmdModelMaterial(gChoropu);
 }
 
 void DrawChoropu(s32 a, Unk020e1e98 *choropu, s32 c, u16 alpha) {
@@ -133,7 +133,7 @@ void DrawChoropu(s32 a, Unk020e1e98 *choropu, s32 c, u16 alpha) {
         case 4:
             gChoropu->mFrameIndex = 1;
             matrix = SetViewTransposeMatrixPos(&choropu->mUnk_000.mPos);
-            func_020e67c4(gChoropu, matrix, &choropu->mUnk_000.mScale, 0, alpha);
+            DrawNsbmdModelWithMatrixAndMaxAlpha(gChoropu, matrix, &choropu->mUnk_000.mScale, 0, alpha);
             break;
         case 5:
             break;
@@ -141,11 +141,12 @@ void DrawChoropu(s32 a, Unk020e1e98 *choropu, s32 c, u16 alpha) {
         case 7:
             gChoropu->mFrameIndex = 1;
             matrix = SetViewTransposeMatrixPos(&choropu->mUnk_000.mPos);
-            func_020e66e4(gChoropu, matrix, choropu->mUnk_0b4.mUnk_04, &choropu->mUnk_000.mScale, 0, alpha);
+            DrawNsbmdModelWithMatrixAndAngle(gChoropu, matrix, choropu->mUnk_0b4.mUnk_04, &choropu->mUnk_000.mScale, 0,
+                                             alpha);
             break;
         default:
             gChoropu->mFrameIndex = 0;
             matrix = SetViewTransposeMatrixPos(&choropu->mUnk_000.mPos);
-            func_020e67c4(gChoropu, matrix, &choropu->mUnk_000.mScale, 0, alpha);
+            DrawNsbmdModelWithMatrixAndMaxAlpha(gChoropu, matrix, &choropu->mUnk_000.mScale, 0, alpha);
     }
 }

@@ -80,7 +80,7 @@ extern const char gTruckAShadowNsbmdName[];
 extern const char gBusAShadowNsbmdName[];
 extern const char gCarANsbtpName[];
 extern const char gTruckANsbtpName[];
-extern const u8 data_0216c0e8[];
+extern const u8 gChoropuStateTable[];
 extern const u8 data_0216c168[];
 extern const char gTestCylinderNsbmdName[];
 extern const char gGearBlackNsbmdName[];

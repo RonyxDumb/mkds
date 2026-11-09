@@ -41,10 +41,10 @@ typedef struct PendulumObject {
 typedef struct NsbmdModel {
     /* 00 */ u8 *mUnk_00;
     /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
+    /* 08 */ u32 mScale;
     /* 0c */ s32 mUnk_0c;
     /* 10 */ s32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
+    /* 14 */ u32 mPolygonAttributes;
     /* 18 */ u16 mFrameIndex;
     /* 1a */ u16 mFrameCount;
     /* 1c */ u32 *mUnk_1c;

@@ -62,7 +62,7 @@ void UpdateKoopaBlockState2(Unk020e005c *koopaBlock) {
 }
 
 void DrawAllKoopaBlocks(void *viewMatrix) {
-    func_020e1e38(data_0217b784, viewMatrix, func_020e1dec);
+    DrawVisibleMapObjects(data_0217b784, viewMatrix, DrawMapObjectModelAtPos);
 }
 
 u32 IsKoopaBlockKind(u32 kind) {
@@ -141,7 +141,7 @@ MapObjectKindData *CreateMkdEfBubbleKindData(void) {
 MapObjectDrawList *CreateMkdEfBubbleDrawList(void) {
     data_0217b774 = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     *data_0217b774 = data_021587b0;
-    func_020d49d8(&data_0217b774);
+    SetDrawListSlot(&data_0217b774);
     return data_0217b774;
 }
 

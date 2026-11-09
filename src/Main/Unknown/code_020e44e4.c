@@ -77,7 +77,7 @@ Unk020e466c *func_020e466c(void) {
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     data_0217b7e4 = drawList;
     *drawList = data_02158ec4;
-    func_020d49d8(&data_0217b7e4);
+    SetDrawListSlot(&data_0217b7e4);
     return data_0217b7e4;
 }
 

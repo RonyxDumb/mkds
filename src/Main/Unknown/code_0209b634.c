@@ -35,7 +35,7 @@ void func_0209bbd0(void *a, void *b) {
     if (mapObjectModel->mNsbmdModel == NULL) {
         return;
     }
-    func_020e6a18(mapObjectModel->mNsbmdModel);
+    QueueNsbmdModelMaterial(mapObjectModel->mNsbmdModel);
 }
 
 void DrawMapObjectModel(MapObjectList *mapObjectList, void *b, void *d) {
@@ -101,8 +101,8 @@ void SetMapObjectModelLightEnableFlag(void *a, u32 light) {
     NsbmdModel *nsbmdModel = mapObjectModel->mNsbmdModel;
 
     if (nsbmdModel != NULL) {
-        nsbmdModel->mUnk_14 &= ~0xf;
-        nsbmdModel->mUnk_14 |= light;
+        nsbmdModel->mPolygonAttributes &= ~0xf;
+        nsbmdModel->mPolygonAttributes |= light;
     }
     if (mapObjectModel->mAnimatedModel == NULL) {
         return;
@@ -115,8 +115,8 @@ void SetMapObjectModelAlpha(void *a, u16 alpha) {
     NsbmdModel *nsbmdModel = mapObjectModel->mNsbmdModel;
 
     if (nsbmdModel != NULL) {
-        nsbmdModel->mUnk_14 &= ~0x1f0000;
-        nsbmdModel->mUnk_14 |= alpha << 16;
+        nsbmdModel->mPolygonAttributes &= ~0x1f0000;
+        nsbmdModel->mPolygonAttributes |= alpha << 16;
     }
     if (mapObjectModel->mAnimatedModel != NULL) {
         NNS_G3dMdlSetMdlAlphaAll(mapObjectModel->mAnimatedModel->mResMdl, alpha);
@@ -133,8 +133,8 @@ void SetMapObjectModelPolygonId(void *a, u32 polygonId) {
     NsbmdModel *nsbmdModel = mapObjectModel->mNsbmdModel;
 
     if (nsbmdModel != NULL) {
-        nsbmdModel->mUnk_14 &= ~0x3f000000;
-        nsbmdModel->mUnk_14 |= polygonId << 24;
+        nsbmdModel->mPolygonAttributes &= ~0x3f000000;
+        nsbmdModel->mPolygonAttributes |= polygonId << 24;
     }
     if (mapObjectModel->mAnimatedModel != NULL) {
         NNS_G3dMdlSetMdlPolygonIDAll(mapObjectModel->mAnimatedModel->mResMdl, polygonId);
@@ -159,9 +159,9 @@ void SetMapObjectModelFogEnabled(void *a, u32 fogEnabled) {
 
     if (nsbmdModel != NULL) {
         if (fogEnabled != 0) {
-            nsbmdModel->mUnk_14 |= 0x8000;
+            nsbmdModel->mPolygonAttributes |= 0x8000;
         } else {
-            nsbmdModel->mUnk_14 &= ~0x8000;
+            nsbmdModel->mPolygonAttributes &= ~0x8000;
         }
     }
     if (mapObjectModel->mAnimatedModel == NULL) {
@@ -179,11 +179,11 @@ void SetMapObjectModelMirror(void *a, s32 b, s32 c) {
         nsbmdModel = mapObjectModel->mNsbmdModel;
         mirrored = b != 0 || c != 0 ? 1 : 0;
         if (mirrored ^ gRaceSetup->mMirrorMode) {
-            nsbmdModel->mUnk_14 &= ~0x80;
-            mapObjectModel->mNsbmdModel->mUnk_14 |= 0x40;
+            nsbmdModel->mPolygonAttributes &= ~0x80;
+            mapObjectModel->mNsbmdModel->mPolygonAttributes |= 0x40;
         } else {
-            nsbmdModel->mUnk_14 |= 0x80;
-            mapObjectModel->mNsbmdModel->mUnk_14 &= ~0x40;
+            nsbmdModel->mPolygonAttributes |= 0x80;
+            mapObjectModel->mNsbmdModel->mPolygonAttributes &= ~0x40;
         }
     }
     if (mapObjectModel->mAnimatedModel != NULL) {

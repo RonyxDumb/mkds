@@ -146,7 +146,7 @@ void DrawShine16(void *a, Shine16 *p) {
     }
     t = 0x1e;
     func_01ff9048(0x14, &t, 1);
-    func_01ff9048(0x19, func_020e6cbc(&p->mUnk_00.mPos), 0xc);
+    func_01ff9048(0x19, SetViewRotatedMatrixPos(&p->mUnk_00.mPos), 0xc);
     n = p->mDrawScale;
     if (n != 0x1000) {
         s.x = n;
@@ -194,7 +194,7 @@ void func_020a683c(void *a, Shine16 *p, void *b, s32 c) {
     }
     t = 0x1e;
     func_01ff9048(0x14, &t, 1);
-    func_01ff9048(0x19, func_020e6cbc(&p->mUnk_00.mPos), 0xc);
+    func_01ff9048(0x19, SetViewRotatedMatrixPos(&p->mUnk_00.mPos), 0xc);
     n = p->mDrawScale;
     if (n < 0x1000) {
         s.x = n;
@@ -482,7 +482,7 @@ void UpdateShine16(void *a, Shine16 *p) {
             p->mUnk_00.mUnk_10.y -= 0x19a;
             VEC_Add(&p->mUnk_00.mPos, &p->mUnk_00.mUnk_10, &p->mUnk_00.mPos);
             if (p->mUnk_00.mUnk_10.y < 0 && p->mUnk_00.mPos.y <= p->mUnk_cc.y + p->mUnk_00.mExtent.x) {
-                if (func_020d3c94(&p->mUnk_00, 0, &b)) {
+                if (GetMapObjectHitResponse(&p->mUnk_00, 0, &b)) {
                     t = p->mUnk_00.mUnk_10.y;
                     VEC_Add(&p->mUnk_00.mPos, &b, &p->mUnk_00.mPos);
                     func_020ea94c(&p->mUnk_00.mUnk_10, &b, 0x1000, 0x1000, 0x800, &p->mUnk_00.mUnk_10);

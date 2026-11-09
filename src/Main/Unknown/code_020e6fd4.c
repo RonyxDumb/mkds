@@ -202,11 +202,11 @@ void func_020e7460(void) {
         return;
     }
     func_020e64b8(&gJgMain, FindSceneFile(data_0216c374), FindSceneFile(data_0216c384), 0);
-    func_020e6ab8(&gJgMain);
-    gJgMain.mUnk_14 |= 0xc0;
+    SetNsbmdModelFixedAttributes(&gJgMain);
+    gJgMain.mPolygonAttributes |= 0xc0;
     func_020e64b8(&gJgCloud, FindSceneFile(data_0216c394), NULL, 0);
-    func_020e6ab8(&gJgCloud);
-    gJgCloud.mUnk_14 |= 0xc0;
+    SetNsbmdModelFixedAttributes(&gJgCloud);
+    gJgCloud.mPolygonAttributes |= 0xc0;
     data_0217b8a4 = HeapAlloc(heap, 0x78);
     data_0217b8a8 = HeapAlloc(heap, 0x78);
     data_0217b8a0 = HeapAlloc(heap, 0x78);
@@ -256,11 +256,11 @@ void func_020e7460(void) {
         kindRow++;
     }
     func_020e6488(&gJgKindRows[0].mLapModel, FindSceneFile(data_0216c3a4), FindSceneFile(data_0216c3b4), 0);
-    func_020e6ab8(gJgKindRows[0].mLapModel);
-    gJgKindRows[0].mLapModel->mUnk_14 |= 0xc0;
+    SetNsbmdModelFixedAttributes(gJgKindRows[0].mLapModel);
+    gJgKindRows[0].mLapModel->mPolygonAttributes |= 0xc0;
     func_020e6488(&gJgKindRows[1].mLapModel, FindSceneFile(data_0216c3c4), 0, 0);
-    func_020e6ab8(gJgKindRows[1].mLapModel);
-    gJgKindRows[1].mLapModel->mUnk_14 |= 0xc0;
+    SetNsbmdModelFixedAttributes(gJgKindRows[1].mLapModel);
+    gJgKindRows[1].mLapModel->mPolygonAttributes |= 0xc0;
 }
 #pragma thumb off
 
@@ -333,7 +333,7 @@ void func_020e71a0(MapObject *object) {
     sound = object->mSound;
     if ((object->mFlags & 2) == 0) {
         sound->mSoundSource.mDistanceSquared = object->mDistanceSquaredAndFlags & ~0xc000001f;
-        resultIsFalse = (func_020d4ddc(object) == FALSE);
+        resultIsFalse = (IsMapObjectOutOfRange(object) == FALSE);
         hasSoundBit0 = (sound->mSoundSource.mSourceFlags & 1) != 0;
         if (resultIsFalse != FALSE) {
             if (hasSoundBit0 != FALSE) {
@@ -355,7 +355,7 @@ void func_020e71a0(MapObject *object) {
 
         distanceSquared = GetHorizontalCameraDistanceSquared(&object->mPos);
         sound->mSoundSource.mDistanceSquared = distanceSquared;
-        if (func_020d4d60(object, distanceSquared) != FALSE) {
+        if (IsMapObjectOutOfRangeOrMaskedAtDistance(object, distanceSquared) != FALSE) {
             object->mDistanceSquaredAndFlags |= data_02159310;
             if ((sound->mSoundSource.mSourceFlags & 1) != 0) {
                 SetSoundSourceFlagBit(&sound->mSoundSource, 2, 1);

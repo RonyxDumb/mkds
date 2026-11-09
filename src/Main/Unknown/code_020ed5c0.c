@@ -425,7 +425,7 @@ void *BuildItemObjectMatrix(ItemObject *object, Vec3 *viewAxis) {
         }
         return &object->mUnk_94.mUnk_00[0];
     } else {
-        return func_020e6b94(object->mUnk_d0);
+        return SetViewAxis2MatrixPos(object->mUnk_d0);
     }
 }
 
@@ -441,9 +441,9 @@ void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis) {
     model = gItemModels[pool->mKind];
     takenCount = pool->mTakenCount;
     activeCount = pool->mActiveCount;
-    func_020e6a18(model);
-    model->mUnk_14 &= ~0x3f000000;
-    model->mUnk_14 |= 0x4000000;
+    QueueNsbmdModelMaterial(model);
+    model->mPolygonAttributes &= ~0x3f000000;
+    model->mPolygonAttributes |= 0x4000000;
     for (i = 0; i < takenCount; i++) {
         object = pool->mObjects[i];
         if ((object->mFlags & 0x10000) != 0) {
@@ -455,12 +455,12 @@ void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis) {
             func_0208ab4c(&object->mColorBlend.mColor);
         }
         if ((d8 = object->mAlpha) != 0x1f) {
-            model->mUnk_14 &= ~0x1f0000;
-            model->mUnk_14 |= (u16) d8 << 16;
+            model->mPolygonAttributes &= ~0x1f0000;
+            model->mPolygonAttributes |= (u16) d8 << 16;
         }
         if (i == activeCount) {
-            model->mUnk_14 &= ~0x3f000000;
-            model->mUnk_14 |= 0x3000000;
+            model->mPolygonAttributes &= ~0x3f000000;
+            model->mPolygonAttributes |= 0x3000000;
         }
         if (object->mNormal.y < 0xfae || (object->mFlags & 0x80) != 0) {
             object->mUnk_94.mUnk_00[2] = *viewAxis;
@@ -482,12 +482,12 @@ void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis) {
             }
             matrix = &object->mUnk_94.mUnk_00[0];
         } else {
-            matrix = func_020e6b94(object->mUnk_d0);
+            matrix = SetViewAxis2MatrixPos(object->mUnk_d0);
         }
-        func_020e67c4(model, matrix, &object->mScale, 0, 0x1f);
+        DrawNsbmdModelWithMatrixAndMaxAlpha(model, matrix, &object->mScale, 0, 0x1f);
         if ((d8 = object->mAlpha) != 0x1f) {
-            model->mUnk_14 &= ~0x1f0000;
-            model->mUnk_14 |= 0x1f0000;
+            model->mPolygonAttributes &= ~0x1f0000;
+            model->mPolygonAttributes |= 0x1f0000;
         }
     }
 }
@@ -517,10 +517,10 @@ void DrawItemObjectModel(ItemObject *object, NsbmdModel *model, Vec3 *viewAxis) 
     void *matrix;
 
     if ((d = object->mAlpha) != 0x1f) {
-        model->mUnk_14 &= ~0x1f0000;
-        model->mUnk_14 |= (u16) d << 16;
+        model->mPolygonAttributes &= ~0x1f0000;
+        model->mPolygonAttributes |= (u16) d << 16;
     }
-    func_020e6a18(model);
+    QueueNsbmdModelMaterial(model);
     if (object->mNormal.y < 0xfae || (object->mFlags & 0x80) != 0) {
         object->mUnk_94.mUnk_00[2] = *viewAxis;
         Vec3CrossUnrounded(&object->mNormal, &object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0]);
@@ -541,11 +541,11 @@ void DrawItemObjectModel(ItemObject *object, NsbmdModel *model, Vec3 *viewAxis) 
         }
         matrix = &object->mUnk_94.mUnk_00[0];
     } else {
-        matrix = func_020e6b94(object->mUnk_d0);
+        matrix = SetViewAxis2MatrixPos(object->mUnk_d0);
     }
-    func_020e67c4(model, matrix, &object->mScale, 0, 0x1f);
+    DrawNsbmdModelWithMatrixAndMaxAlpha(model, matrix, &object->mScale, 0, 0x1f);
     if ((d = object->mAlpha) != 0x1f) {
-        model->mUnk_14 &= ~0x1f0000;
-        model->mUnk_14 |= 0x1f0000;
+        model->mPolygonAttributes &= ~0x1f0000;
+        model->mPolygonAttributes |= 0x1f0000;
     }
 }

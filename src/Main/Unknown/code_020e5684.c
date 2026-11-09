@@ -47,13 +47,14 @@ void DrawObPakkunSf(u32 a, ObPakkunSf *obPakkunSf, u32 c, u16 alpha) {
     MtxFx43 *matrix;
     gObPakkunSf->mFrameIndex = ((obPakkunSf->mFramesSinceInit & 0x10) >> 4);
     if (obPakkunSf->mPushedObject.mMapObject.mStateMachine.mState == 0) {
-        matrix = func_020e6cbc(&obPakkunSf->mPushedObject.mMapObject.mPos);
-        func_020e67c4(gObPakkunSf, matrix, &obPakkunSf->mPushedObject.mMapObject.mScale, 0, alpha);
+        matrix = SetViewRotatedMatrixPos(&obPakkunSf->mPushedObject.mMapObject.mPos);
+        DrawNsbmdModelWithMatrixAndMaxAlpha(gObPakkunSf, matrix, &obPakkunSf->mPushedObject.mMapObject.mScale, 0,
+                                            alpha);
         return;
     }
-    matrix = func_020e6cbc(&obPakkunSf->mPushedObject.mMapObject.mPos);
-    func_020e66e4(gObPakkunSf, matrix, obPakkunSf->mPushedObject.mMotion.mAngle,
-                  &obPakkunSf->mPushedObject.mMapObject.mScale, 0, alpha);
+    matrix = SetViewRotatedMatrixPos(&obPakkunSf->mPushedObject.mMapObject.mPos);
+    DrawNsbmdModelWithMatrixAndAngle(gObPakkunSf, matrix, obPakkunSf->mPushedObject.mMotion.mAngle,
+                                     &obPakkunSf->mPushedObject.mMapObject.mScale, 0, alpha);
 }
 
 void UpdateObPakkunSf(u32 a, ObPakkunSf *obPakkunSf) {
@@ -99,7 +100,7 @@ void CreateObPakkunSf(void) {
     nsbmdFile = FindCourseMapObjFile(gObPakkunSfNsbmdName);
     nsbtpFile = FindCourseMapObjFile(gObPakkunSfNsbtpName);
     func_020e6488(&gObPakkunSf, nsbmdFile, nsbtpFile, 0);
-    func_020e6ab8(gObPakkunSf);
+    SetNsbmdModelFixedAttributes(gObPakkunSf);
 }
 
 #pragma thumb off
@@ -130,7 +131,7 @@ MapObjectDrawList *CreateSecondHandDrawList(void) {
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     data_0217b824 = drawList;
     *drawList = data_02159114;
-    func_020d49d8(&data_0217b824);
+    SetDrawListSlot(&data_0217b824);
     return data_0217b824;
 }
 

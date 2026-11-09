@@ -271,7 +271,7 @@ void CreateChoropu(void) {
     nsbmdFile = FindCourseMapObjFile(gChoropuNsbmdName);
     nsbtpFile = FindCourseMapObjFile(gChoropuNsbtpName);
     func_020e6488(&gChoropu, nsbmdFile, nsbtpFile, 0);
-    func_020e6ab8(gChoropu);
+    SetNsbmdModelFixedAttributes(gChoropu);
 }
 
 #pragma thumb off

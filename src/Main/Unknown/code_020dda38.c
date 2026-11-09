@@ -48,11 +48,11 @@ void CreateWanwanChainAndWanwanKui(void) {
     void *kuiFile;
 
     func_020e6488(&gWanwanChain, FindCourseMapObjFile("wanwan_chain.nsbmd"), 0, 0);
-    func_020e6ab8(gWanwanChain);
+    SetNsbmdModelFixedAttributes(gWanwanChain);
     kuiFile = FindCourseFile("MapObj/wanwan_kui.nsbmd");
     if (kuiFile != NULL) {
         func_020e6488(&gWanwanKui, kuiFile, 0, 0);
-        func_020e6ab8(gWanwanKui);
+        SetNsbmdModelFixedAttributes(gWanwanKui);
     }
 }
 
@@ -185,21 +185,22 @@ void DrawWanwanChainLinks(WanwanChain *chain, NsbmdModel *model, s32 unused, u16
     s32 pointIndex;
     u32 polygonId;
 
-    func_020e6a18(model);
+    QueueNsbmdModelMaterial(model);
     for (pointIndex = 1; pointIndex < chain->mPointCount; pointIndex++) {
         polygonId = AllocPolygonIdWrapping();
-        model->mUnk_14 &= ~0x3f000000;
-        model->mUnk_14 |= polygonId << 24;
-        func_020e67c4(model, SetViewTransposeMatrixPos(&chain->mPoints[pointIndex]), &chain->mUnk_34, 1, e);
+        model->mPolygonAttributes &= ~0x3f000000;
+        model->mPolygonAttributes |= polygonId << 24;
+        DrawNsbmdModelWithMatrixAndMaxAlpha(model, SetViewTransposeMatrixPos(&chain->mPoints[pointIndex]),
+                                            &chain->mUnk_34, 1, e);
     }
 }
 
 void DrawWanwanChainKui(WanwanChain *chain, NsbmdModel *model, Vec3 *position, s32 unused, u16 e) {
     u32 polygonId;
 
-    func_020e6a18(model);
+    QueueNsbmdModelMaterial(model);
     polygonId = AllocPolygonIdWrapping();
-    model->mUnk_14 &= ~0x3f000000;
-    model->mUnk_14 |= polygonId << 24;
-    func_020e67c4(model, func_020e6cbc(position), &chain->mUnk_34, 1, e);
+    model->mPolygonAttributes &= ~0x3f000000;
+    model->mPolygonAttributes |= polygonId << 24;
+    DrawNsbmdModelWithMatrixAndMaxAlpha(model, SetViewRotatedMatrixPos(position), &chain->mUnk_34, 1, e);
 }

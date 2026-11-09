@@ -39,7 +39,7 @@ void func_ov001_02182f98(void *f, Coin *coin, void *h, u32 l) {
         b.z = coin->mUnk_000.mPos.z;
         a = 0x1e;
         func_01ff9048(0x14, &a, 1);
-        func_01ff9048(0x19, func_020e6cbc(&b), 0xc);
+        func_01ff9048(0x19, SetViewRotatedMatrixPos(&b), 0xc);
         scaleFactor = coin->mScaleFactor;
         if (scaleFactor < 0x1000) {
             scale.x = scaleFactor;

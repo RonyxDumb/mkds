@@ -53,7 +53,7 @@ Unk020fff4c *func_020fff4c(void) {
     block = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     data_0217c62c = block;
     *block = data_0215a100;
-    func_020d49d8(&data_0217c62c);
+    SetDrawListSlot(&data_0217c62c);
     return data_0217c62c;
 }
 

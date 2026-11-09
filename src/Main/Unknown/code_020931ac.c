@@ -43,7 +43,7 @@ void CreateMkdEfBurner(MapObjectList *p) {
     gMkdEfBurner = CreateMapObjectModelAnimated(p, gMkdEfBurnerNsbmdName);
     CreateMapObjectModelNsbtaAnimation(gMkdEfBurner, gMkdEfBurnerNsbtaName);
     SetMapObjectModelPolygonId(gMkdEfBurner, 0x3f);
-    p->mUnk_1c_0 = 1;
+    p->mSortByDistance = 1;
 }
 
 void SetupDrawMkdEfBurner(void *a) {
@@ -61,7 +61,7 @@ void DrawMkdEfBurner(void *a, MkdEfBurner *mkdEfBurner) {
     SetMapObjectModelPolygonId(gMkdEfBurner, AllocPolygonIdWrapping());
     s0 = 0x1e;
     func_01ff9048(0x14, &s0, 1);
-    func_01ff9048(0x19, func_020e6cbc(&mkdEfBurner->mUnk_00.mPos), 0xc);
+    func_01ff9048(0x19, SetViewRotatedMatrixPos(&mkdEfBurner->mUnk_00.mPos), 0xc);
     s4.y = mkdEfBurner->mUnk_00.mExtent.y >> 4;
     s4.x = 0;
     s4.z = 0;

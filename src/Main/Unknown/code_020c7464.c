@@ -147,7 +147,7 @@ void UpdateRaceHudSubScreenItemCells(void) {
                 if (((ItemBomb *) object)->mVisible != FALSE && position != NULL) {
                     if (ComputeRaceHudSubScreenPosition(
                             position, &gRaceHudSubScreenItemCells->mCells[cellCount].mDrawPos, a, 1, 1) != FALSE) {
-                        if (func_020d3d10(position->y) == 0) {
+                        if (IsFarBelowWaterEfct(position->y) == 0) {
                             gRaceHudSubScreenItemCells->mCells[cellCount].mCell = cell;
                             gRaceHudSubScreenItemCells->mCells[cellCount].mUnk_0c =
                                 IsPositionOutsideBox(position) != 0 ? 2 : 3;
@@ -161,7 +161,7 @@ void UpdateRaceHudSubScreenItemCells(void) {
                 if (position != NULL) {
                     if (ComputeRaceHudSubScreenPosition(
                             position, &gRaceHudSubScreenItemCells->mCells[cellCount].mDrawPos, a, 1, 1) != FALSE) {
-                        if (func_020d3d10(position->y) == 0) {
+                        if (IsFarBelowWaterEfct(position->y) == 0) {
                             gRaceHudSubScreenItemCells->mCells[cellCount].mCell = cell;
                             gRaceHudSubScreenItemCells->mCells[cellCount].mUnk_0c =
                                 IsPositionOutsideBox(position) != 0 ? 2 : 3;
@@ -377,7 +377,8 @@ static inline void func_020c8dbc_inline(RaceHudOamBuffer *oamBuffer, Unk020224e0
     position[0] = x << 12;
     position[1] = y << 12;
     oam = &oamBuffer->mOamBits[oamIndex];
-    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, matrix, position, v, 1);
+    oamBuffer->mOamCount +=
+        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, matrix, position, v, 1);
     for (; oamIndex < oamBuffer->mOamCount; oamIndex++) {
         if (s != -1) {
             oam->mUnk_0a = s;

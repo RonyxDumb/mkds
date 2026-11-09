@@ -422,7 +422,7 @@ void func_0210174c(ItemTeresa *teresa) {
     } else {
         s32 f = s.x;
 
-        q = func_020e6b28();
+        q = GetViewTransposeMatrixAxis0();
         v.x = ((s64) q->x * f) >> 12;
         v.y = ((s64) q->y * f) >> 12;
         v.z = ((s64) q->z * f) >> 12;
@@ -1113,31 +1113,31 @@ void DrawItemTeresa(ItemTeresa *teresa, s32 c, NsbmdModel *model) {
             itemModelAlpha = 1;
         }
         func_01ff9048(0x11, NULL, 0);
-        itemModel->mUnk_14 = itemModel->mUnk_14 & ~0x1f0000;
-        itemModel->mUnk_14 = itemModel->mUnk_14 | ((u16) itemModelAlpha << 16);
-        func_020e6a18(itemModel);
+        itemModel->mPolygonAttributes = itemModel->mPolygonAttributes & ~0x1f0000;
+        itemModel->mPolygonAttributes = itemModel->mPolygonAttributes | ((u16) itemModelAlpha << 16);
+        QueueNsbmdModelMaterial(itemModel);
         index = 0;
         itemModel->mFrameIndex = 0;
         while (index < itemCount) {
             func_01ff9048(0x1c, &data_0215a190[itemCount == 2 ? 1 - index : index + 1], 3);
             polygonId = AllocPolygonIdWrapping();
-            itemModel->mUnk_14 = itemModel->mUnk_14 & ~0x3f000000;
-            itemModel->mUnk_14 = itemModel->mUnk_14 | (polygonId << 24);
-            func_020e6854(itemModel, &teresa->mUnk_000.mPos, 1, 0x1f);
+            itemModel->mPolygonAttributes = itemModel->mPolygonAttributes & ~0x3f000000;
+            itemModel->mPolygonAttributes = itemModel->mPolygonAttributes | (polygonId << 24);
+            DrawNsbmdModelWithMaxAlpha(itemModel, &teresa->mUnk_000.mPos, 1, 0x1f);
             index++;
         }
         b = 1;
         func_01ff9048(0x12, &b, 1);
         if (itemModelAlpha != 0x1f) {
-            itemModel->mUnk_14 = itemModel->mUnk_14 & ~0x1f0000;
-            itemModel->mUnk_14 = itemModel->mUnk_14 | 0x1f0000;
+            itemModel->mPolygonAttributes = itemModel->mPolygonAttributes & ~0x1f0000;
+            itemModel->mPolygonAttributes = itemModel->mPolygonAttributes | 0x1f0000;
         }
     }
     polygonId = AllocPolygonIdWrapping();
-    model->mUnk_14 = model->mUnk_14 & ~0x3f000000;
-    model->mUnk_14 = model->mUnk_14 | (polygonId << 24);
+    model->mPolygonAttributes = model->mPolygonAttributes & ~0x3f000000;
+    model->mPolygonAttributes = model->mPolygonAttributes | (polygonId << 24);
     drawAlpha = teresa->mUnk_000.mAlpha;
-    model->mUnk_14 = model->mUnk_14 & ~0x1f0000;
-    model->mUnk_14 = model->mUnk_14 | (drawAlpha << 16);
+    model->mPolygonAttributes = model->mPolygonAttributes & ~0x1f0000;
+    model->mPolygonAttributes = model->mPolygonAttributes | (drawAlpha << 16);
     func_020ed588(&teresa->mUnk_000, model);
 }

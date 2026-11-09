@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_020d3d94(void);
+u32 IsWaterHeightUsed(void);

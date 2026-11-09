@@ -310,7 +310,7 @@ void StartItemThunder(ItemInUse *itemInUse, HeldItem *heldItem) {
         }
     }
     StartKartThunder(heldItem->mKartItems->mKart);
-    func_020d3cc8();
+    RunMapObjectListCallbacks();
     func_020f82e8(0);
     RemoveHeldItemObjects(heldItem, 1);
     if (gRaceSetup->mMode != 5) {

@@ -14,14 +14,14 @@
 void DrawEarthenPipe(u32 unused0, PushedObject *pipe, u32 unused1, u16 d) {
     MtxFx43 *matrix;
     if (pipe->mMapObject.mStateMachine.mState == 0) {
-        matrix = func_020e6cbc(&pipe->mMapObject.mPos);
-        func_020e67c4(gEarthenPipe1, matrix, &pipe->mMapObject.mScale, 0, d);
+        matrix = SetViewRotatedMatrixPos(&pipe->mMapObject.mPos);
+        DrawNsbmdModelWithMatrixAndMaxAlpha(gEarthenPipe1, matrix, &pipe->mMapObject.mScale, 0, d);
         return;
     }
-    func_020e6a18(gEarthenPipe2);
-    matrix = func_020e6cbc(&pipe->mMapObject.mPos);
-    func_020e66e4(gEarthenPipe2, matrix, pipe->mMotion.mAngle, &pipe->mMapObject.mScale, 0, d);
-    func_020e6a18(gEarthenPipe1);
+    QueueNsbmdModelMaterial(gEarthenPipe2);
+    matrix = SetViewRotatedMatrixPos(&pipe->mMapObject.mPos);
+    DrawNsbmdModelWithMatrixAndAngle(gEarthenPipe2, matrix, pipe->mMotion.mAngle, &pipe->mMapObject.mScale, 0, d);
+    QueueNsbmdModelMaterial(gEarthenPipe1);
 }
 
 void func_020de4d4(u32 unused, u32 object) {
@@ -52,8 +52,8 @@ void CreateEarthenPipe1AndEarthenPipe2(void) {
     func_020e6488(&gEarthenPipe1, nsbmdFile, 0, 0);
     nsbmdFile = FindCourseMapObjFile(gEarthenPipe2NsbmdName);
     func_020e6488(&gEarthenPipe2, nsbmdFile, 0, 0);
-    func_020e6ab8(gEarthenPipe1);
-    func_020e6ab8(gEarthenPipe2);
+    SetNsbmdModelFixedAttributes(gEarthenPipe1);
+    SetNsbmdModelFixedAttributes(gEarthenPipe2);
 }
 
 #pragma thumb off

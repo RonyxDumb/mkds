@@ -285,16 +285,16 @@ void DrawJg(void) {
     if (gJgAlpha > 0x1f) {
         gJgAlpha = 0x1f;
     }
-    gJgMain.mUnk_14 &= ~0x1f0000;
-    gJgMain.mUnk_14 |= gJgAlpha << 16;
-    gJgCloud.mUnk_14 &= ~0x1f0000;
-    gJgCloud.mUnk_14 |= gJgAlpha << 16;
+    gJgMain.mPolygonAttributes &= ~0x1f0000;
+    gJgMain.mPolygonAttributes |= gJgAlpha << 16;
+    gJgCloud.mPolygonAttributes &= ~0x1f0000;
+    gJgCloud.mPolygonAttributes |= gJgAlpha << 16;
     if (kindModel != NULL) {
         NNS_G3dMdlSetMdlAlphaAll(kindModel->mUnk_04, gJgAlpha);
     }
     if (lapModel != NULL) {
-        lapModel->mUnk_14 &= ~0x1f0000;
-        lapModel->mUnk_14 |= gJgAlpha << 16;
+        lapModel->mPolygonAttributes &= ~0x1f0000;
+        lapModel->mPolygonAttributes |= gJgAlpha << 16;
     }
     if (data_0217b900 != 0) {
         commandArg1 = 0;
@@ -326,8 +326,8 @@ void DrawJg(void) {
     tableScale.y = tableScaleY;
     tableScale.z = 0;
     func_01ff9048(0x1b, &tableScale, 3);
-    func_020e6a18(&gJgCloud);
-    func_020e6854(&gJgCloud, NULL, 0, 0x1f);
+    QueueNsbmdModelMaterial(&gJgCloud);
+    DrawNsbmdModelWithMaxAlpha(&gJgCloud, NULL, 0, 0x1f);
     commandArg4 = 1;
     func_01ff9048(0x12, &commandArg4, 1);
     mainOffset.x = 0;
@@ -336,8 +336,8 @@ void DrawJg(void) {
     func_01ff9048(0x1c, &mainOffset, 3);
     MTX_RotZ33_(&rotation, data_0217b8a8[gJgTableIndex], data_0217b8a0[gJgTableIndex]);
     func_01ff9048(0x1a, &rotation, 9);
-    func_020e6a18(&gJgMain);
-    func_020e6854(&gJgMain, NULL, 0, 0x1f);
+    QueueNsbmdModelMaterial(&gJgMain);
+    DrawNsbmdModelWithMaxAlpha(&gJgMain, NULL, 0, 0x1f);
     if (kindModel != NULL) {
         if (gJgKind == 3) {
             commandArg5 = 0;
@@ -362,8 +362,8 @@ void DrawJg(void) {
             mirrorScale2.z = 0x1000;
             func_01ff9048(0x1b, &mirrorScale2, 3);
         }
-        func_020e6a18(lapModel);
-        func_020e6854(lapModel, NULL, 0, 0x1f);
+        QueueNsbmdModelMaterial(lapModel);
+        DrawNsbmdModelWithMaxAlpha(lapModel, NULL, 0, 0x1f);
     }
     if (sentOpening != FALSE) {
         commandArg6 = 0;
@@ -536,8 +536,8 @@ void UpdateJgPosition(void) {
             data_0217b90c.x = gJgPos.x + data_0217b870 * (s32) (((s64) gJgKart->mVelocity.x * 0x5000) >> 12);
             data_0217b90c.z = gJgPos.z + data_0217b870 * (s32) (((s64) gJgKart->mVelocity.z * 0x5000) >> 12);
             data_0217b90c.y = gJgPos.y;
-            if (func_01ffdee4(&data_0217b90c, NULL, 0, 0x18e66, 0x10, -1, NULL, NULL, &v, NULL, NULL, NULL,
-                              NULL, NULL) != 0) {
+            if (func_01ffdee4(&data_0217b90c, NULL, 0, 0x18e66, 0x10, -1, NULL, NULL, &v, NULL, NULL, NULL, NULL,
+                              NULL) != 0) {
                 w = gJgKart->mForwardSpeed;
                 if (w <= 0) {
                     w = -w;
@@ -850,7 +850,7 @@ void EnterJgState4(void) {
     gJgMain.mFrameIndex = 1;
     data_0217b8b4 = 0;
     if (func_0203c5e4() != 0) {
-        matrix = func_020e6b48();
+        matrix = GetViewRotatedMatrix();
         matrix->mUnk_00[3] = gJgKartPos;
         MTX_MultVec43(&gJgKind4Offset, matrix, &gJgTargetPos);
     } else {
@@ -903,7 +903,7 @@ void UpdateJgState4(void) {
         SetStateMachineState(&gJgStateMachine, 5);
     }
     if (func_0203c5e4() != 0) {
-        matrix = func_020e6b48();
+        matrix = GetViewRotatedMatrix();
         matrix->mUnk_00[3] = gJgKartPos;
         MTX_MultVec43(&gJgKind4Offset, matrix, &gJgTargetPos);
     } else {

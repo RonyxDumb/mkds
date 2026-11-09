@@ -67,21 +67,21 @@ MapObjectKindData *CreateItemBoxKindData(void) {
 MapObjectDrawList *CreateBoxDrawList(void) {
     gBoxDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     *gBoxDrawList = data_02158628;
-    func_020d49d8(&gBoxDrawList);
+    SetDrawListSlot(&gBoxDrawList);
     return gBoxDrawList;
 }
 
 MapObjectDrawList *CreateQuestionDrawList(void) {
     gQuestionDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     *gQuestionDrawList = data_021585fc;
-    func_020d49d8(&gQuestionDrawList);
+    SetDrawListSlot(&gQuestionDrawList);
     return gQuestionDrawList;
 }
 
 MapObjectDrawList *func_020df294(void) {
     data_0217b714 = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     *data_0217b714 = data_021585d0;
-    func_020d49d8(&data_0217b714);
+    SetDrawListSlot(&data_0217b714);
     return data_0217b714;
 }
 
@@ -93,7 +93,7 @@ MapObjectList *CreateItemBoxUpdateList(void) {
 }
 
 void SetupDrawBox(void) {
-    func_020e6a18(gBox);
+    QueueNsbmdModelMaterial(gBox);
 }
 
 void DrawBox(void *unused0, ItemBox *itemBox, void *unused1, u16 d) {
@@ -115,8 +115,8 @@ void DrawBox(void *unused0, ItemBox *itemBox, void *unused1, u16 d) {
         itemBox->mDrawMatrixCallback(itemBox->mDrawMatrixCallbackOwner, &matrix);
         newPolygonId = AllocPolygonIdWrapping();
         model = gBox;
-        model->mUnk_14 = model->mUnk_14 & 0xc0ffffff;
-        model->mUnk_14 = model->mUnk_14 | newPolygonId << 24;
+        model->mPolygonAttributes = model->mPolygonAttributes & 0xc0ffffff;
+        model->mPolygonAttributes = model->mPolygonAttributes | newPolygonId << 24;
     } else {
         rotation = &gBoxRotations[itemBox->mBoxRotationIndex];
         cosine = rotation->mCosine;
@@ -137,25 +137,25 @@ void DrawBox(void *unused0, ItemBox *itemBox, void *unused1, u16 d) {
         matrix.mUnk_00[3].z = position->z >> 4;
         polygonId = itemBox->mPolygonId;
         model = gBox;
-        model->mUnk_14 = model->mUnk_14 & 0xc0ffffff;
-        model->mUnk_14 = model->mUnk_14 | polygonId << 24;
+        model->mPolygonAttributes = model->mPolygonAttributes & 0xc0ffffff;
+        model->mPolygonAttributes = model->mPolygonAttributes | polygonId << 24;
     }
     x = itemBox->mUnk_0e8;
     model = gBox;
-    model->mUnk_14 = model->mUnk_14 & 0xffe0ffff;
-    model->mUnk_14 = model->mUnk_14 | x << 16;
+    model->mPolygonAttributes = model->mPolygonAttributes & 0xffe0ffff;
+    model->mPolygonAttributes = model->mPolygonAttributes | x << 16;
     if (itemBox->mPositionSource != NULL) {
         if (itemBox->mUnk_000.mScale.z < 0x29) {
             return;
         }
-        func_020e67c4(gBox, &matrix, &itemBox->mUnk_000.mScale, 0, d);
+        DrawNsbmdModelWithMatrixAndMaxAlpha(gBox, &matrix, &itemBox->mUnk_000.mScale, 0, d);
     } else {
-        func_020e67c4(gBox, &matrix, NULL, 0, d);
+        DrawNsbmdModelWithMatrixAndMaxAlpha(gBox, &matrix, NULL, 0, d);
     }
 }
 
 void SetupDrawQuestion(void) {
-    func_020e6a18(gQuestion);
+    QueueNsbmdModelMaterial(gQuestion);
 }
 
 void DrawQuestion(void *unused0, ItemBox *itemBox, void *unused1, u16 d) {
@@ -199,13 +199,14 @@ void DrawQuestion(void *unused0, ItemBox *itemBox, void *unused1, u16 d) {
     matrix.mUnk_00[3].z = position->z >> 4;
     p = gQuestion;
     x = itemBox->mUnk_0ec;
-    p->mUnk_14 &= 0xffe0ffff;
-    p->mUnk_14 |= (u16) x << 16;
+    p->mPolygonAttributes &= 0xffe0ffff;
+    p->mPolygonAttributes |= (u16) x << 16;
     polygonId = itemBox->mPolygonId;
     p2 = gQuestion;
-    p2->mUnk_14 &= 0xc0ffffff;
-    p2->mUnk_14 |= polygonId << 24;
-    func_020e67c4(gQuestion, &matrix, itemBox->mPositionSource != NULL ? &itemBox->mUnk_000.mScale : 0, 0, d);
+    p2->mPolygonAttributes &= 0xc0ffffff;
+    p2->mPolygonAttributes |= polygonId << 24;
+    DrawNsbmdModelWithMatrixAndMaxAlpha(gQuestion, &matrix,
+                                        itemBox->mPositionSource != NULL ? &itemBox->mUnk_000.mScale : 0, 0, d);
 }
 
 void func_020dee8c(void) {

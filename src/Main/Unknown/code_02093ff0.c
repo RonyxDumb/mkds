@@ -31,7 +31,7 @@ void InitTeresa(MapObject *mapObject) {
 void CreateTeresa(MapObjectList *a) {
     gTeresa = CreateMapObjectModelNsbmdNsbtp(a, gTeresaNsbmdName, gTeresaNsbtpName);
     SetMapObjectModelPolygonId(gTeresa, 0x3f);
-    a->mUnk_1c_0 = 1;
+    a->mSortByDistance = 1;
 }
 
 void SetupDrawTeresa(void *a) {

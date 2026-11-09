@@ -610,7 +610,7 @@ void CreateOrthoQuadCreamEffect(const char *fileName) {
     NsbmdModel *model;
 
     func_020e6488(&model, FindCourseMapObjFile(fileName), 0, 0);
-    func_020e6ab8(model);
+    SetNsbmdModelFixedAttributes(model);
     SetupOrthoQuadModel(&gOrthoQuadCreamEffect, model);
 }
 

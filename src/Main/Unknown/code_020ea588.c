@@ -14,9 +14,9 @@ void func_020ea5b0(NsbmdModel *model, u32 maxAlpha, Vec3 *position) {
         shiftedPosition.x = position->x >> 4;
         shiftedPosition.y = position->y >> 4;
         shiftedPosition.z = position->z >> 4;
-        func_020e6854(model, &shiftedPosition, 1, maxAlpha);
+        DrawNsbmdModelWithMaxAlpha(model, &shiftedPosition, 1, maxAlpha);
     } else {
-        func_020e6854(model, NULL, 0, maxAlpha);
+        DrawNsbmdModelWithMaxAlpha(model, NULL, 0, maxAlpha);
     }
 }
 
