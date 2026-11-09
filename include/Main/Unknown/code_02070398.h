@@ -25,7 +25,7 @@ void func_02071894(Kart *kart);
 void func_02071914(void *kart, int soundId);
 void func_02071958(Kart *kart, s32 entryIndex);
 void func_02071980(void *kart, int entryIndex);
-void func_020719a8(u32 soundSource, u32 soundId);
+void func_020719a8(SoundSource *soundSource, u32 soundId);
 PlayingSound *func_020719bc(SoundSource *soundSource, u32 soundId);
 void func_020719d0(Kart *kart);
 void InitKartSound(Kart *kart);

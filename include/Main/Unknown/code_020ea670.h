@@ -6,6 +6,7 @@
 
 typedef struct NNSG3dResMdl NNSG3dResMdl;
 typedef struct Woodbox1 Woodbox1;
+typedef struct Kart Kart;
 typedef struct MapObjectList MapObjectList;
 
 extern Nsbmd *gWoodbox1;
@@ -83,7 +84,7 @@ void ComputeSphereOverlapOffset(Vec3 *position, Vec3 *center, s32 radius, Vec3 *
 void InitWoodbox1(Woodbox1 *woodbox, Unk020eb498 *courseRow);
 void ClearWoodbox1Pointer(MapObjectList *list);
 u32 CollideItemObjectWithWoodbox1(Woodbox1 *woodbox, Unk020eb498 *itemObject, u8 *firstResponse, u8 *response);
-u32 CollideKartWithWoodbox1(Woodbox1 *woodbox, Unk020eb498 *kart, u8 *firstResponse, u8 *response);
+u32 CollideKartWithWoodbox1(Woodbox1 *woodbox, Kart *kart, u8 *firstResponse, u8 *response);
 void UpdateWoodbox1State3(Woodbox1 *woodbox);
 void UpdateWoodbox1State2(Woodbox1 *woodbox);
 void EnterWoodbox1State2(Woodbox1 *woodbox);

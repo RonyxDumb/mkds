@@ -458,7 +458,7 @@ void ChildCallback(Unk021425e8 *result) {
                     work->mUnk_5e2 = result->mUnk_08_2;
                     work->mCallback(6, result);
                     work->mConnectedAids = 1;
-                    if (WM_SetPortCallback(1, (UnkFunc *) ChildPortCallback, NULL) != 0) {
+                    if (WM_SetPortCallback(1, ChildPortCallback, NULL) != 0) {
                         return;
                     }
                     ReportCommandError(0xe, WM_StartMPEx(ChildCallback, work->mReceiveBuffer, work->mReceiveBufferSize,

@@ -13,14 +13,14 @@
 #include "Main/Unknown/code_02070398.h"
 
 void func_020d26ec(void *soundSource, u32 soundId) {
-    u32 value0 = (u32) soundSource;
+    void *value0 = soundSource;
     u32 soundIdCopy = soundId;
     u32 unused;
-    value0 = (u32) func_020719bc((SoundSource *) value0, soundIdCopy);
+    value0 = func_020719bc(value0, soundIdCopy);
 }
 
 void func_020d26e0(void *soundSource, u32 soundId) {
-    u32 soundSourceCopy = (u32) soundSource;
+    SoundSource *soundSourceCopy = soundSource;
     u32 soundIdCopy = soundId;
     u32 unused;
     func_020719a8(soundSourceCopy, soundIdCopy);

@@ -308,7 +308,7 @@ void InitScanConnectWork(ScanConnectWork *a, void *b) {
         MI_CpuCopy8(b, gScanConnectWork->mUnk_05c4, 0x16);
         SetEntryTable(gScanConnectWork->mUnk_05e8);
         ClearEntryTable();
-        SetScanBssidCallbacks((UnkFunc *) SetScanBssid, (UnkFunc *) ClearUseScanBssid);
+        SetScanBssidCallbacks(SetScanBssid, ClearUseScanBssid);
     }
 }
 

@@ -50,55 +50,55 @@ void func_020ae824(void) {
     }
     UpdateRaceStartSequenceSounds();
     RaceHudDrawNop();
-    gRaceHud->mMainOamCount = 0;
-    gRaceHud->mMainMatrixCount = 0;
+    gRaceHud->mMainOam.mOamCount = 0;
+    gRaceHud->mMainOam.mMatrixCount = 0;
     if (gRaceSetup->mRaceKind == 4) {
-        func_020d1198((RaceHudOamBuffer *) gRaceHud->mMainOam);
+        func_020d1198(&gRaceHud->mMainOam);
     }
     v = gRaceSetup->mMode;
     if ((v == MODE_BATTLE ? gRaceProgress->mRaceDone
          : v == MODE_MISSION_RUN
              ? IsFramesSinceFinishPastWait()
              : (IsKartEnded(GetFollowedKartOrEntryIndex()) != 0 && gRaceHud->mShowLapTime == 0)) == 0) {
-        DrawRaceItemSlot((RaceHudOamBuffer *) gRaceHud->mMainOam);
-        DrawRaceLapAndTimeDifference((RaceHudOamBuffer *) gRaceHud->mMainOam);
-        DrawRaceMNumberPair((RaceHudOamBuffer *) gRaceHud->mMainOam);
-        DrawRaceGoalTimes((RaceHudOamBuffer *) gRaceHud->mMainOam);
-        DrawRaceLinkLevel((RaceHudOamBuffer *) gRaceHud->mMainOam);
-        DrawRaceModeCount((RaceHudOamBuffer *) gRaceHud->mMainOam);
-        DrawRaceGoalM((RaceHudOamBuffer *) gRaceHud->mMainOam);
+        DrawRaceItemSlot(&gRaceHud->mMainOam);
+        DrawRaceLapAndTimeDifference(&gRaceHud->mMainOam);
+        DrawRaceMNumberPair(&gRaceHud->mMainOam);
+        DrawRaceGoalTimes(&gRaceHud->mMainOam);
+        DrawRaceLinkLevel(&gRaceHud->mMainOam);
+        DrawRaceModeCount(&gRaceHud->mMainOam);
+        DrawRaceGoalM(&gRaceHud->mMainOam);
     } else {
-        DrawRaceGoalTimes((RaceHudOamBuffer *) gRaceHud->mMainOam);
-        DrawRaceLinkLevel((RaceHudOamBuffer *) gRaceHud->mMainOam);
-        DrawRaceGoalM((RaceHudOamBuffer *) gRaceHud->mMainOam);
+        DrawRaceGoalTimes(&gRaceHud->mMainOam);
+        DrawRaceLinkLevel(&gRaceHud->mMainOam);
+        DrawRaceGoalM(&gRaceHud->mMainOam);
     }
-    DC_FlushRange(gRaceHud->mMainOam, 0x400);
-    MI_DmaFill32(3, gRaceHud->mMainOam + gRaceHud->mMainOamCount * 8, 0xc0, (0x80 - gRaceHud->mMainOamCount) << 3);
-    gRaceHud->mSubOamCount = 0;
-    gRaceHud->mSubMatrixCount = 0;
+    DC_FlushRange(&gRaceHud->mMainOam, 0x400);
+    MI_DmaFill32(3, &gRaceHud->mMainOam.mOams[gRaceHud->mMainOam.mOamCount], 0xc0, (0x80 - gRaceHud->mMainOam.mOamCount) << 3);
+    gRaceHud->mSubOam.mOamCount = 0;
+    gRaceHud->mSubOam.mMatrixCount = 0;
     subScreenState = gRaceHud->mSubScreenState;
     if (subScreenState != 4 && subScreenState != 5) {
-        DrawRaceTimeDigits((RaceHudOamBuffer *) gRaceHud->mSubOam);
+        DrawRaceTimeDigits(&gRaceHud->mSubOam);
     }
-    DrawRaceRankList((RaceHudOamBuffer *) gRaceHud->mSubOam);
-    DC_FlushRange(gRaceHud->mSubOam, 0x400);
-    MI_DmaFill32(3, gRaceHud->mSubOam + gRaceHud->mSubOamCount * 8, 0xc0, (0x80 - gRaceHud->mSubOamCount) << 3);
+    DrawRaceRankList(&gRaceHud->mSubOam);
+    DC_FlushRange(&gRaceHud->mSubOam, 0x400);
+    MI_DmaFill32(3, &gRaceHud->mSubOam.mOams[gRaceHud->mSubOam.mOamCount], 0xc0, (0x80 - gRaceHud->mSubOam.mOamCount) << 3);
     switch (gRaceHud->mSubScreenState) {
         case 0:
-            DrawRaceHudSubScreenCellGroups(gRaceHud->mSubOam);
+            DrawRaceHudSubScreenCellGroups(&gRaceHud->mSubOam);
             break;
         case 1:
         case 2:
         case 3:
-            DrawRaceHudSubScreenCellGroups(gRaceHud->mSubOam);
-            DrawRaceTaPositions((RaceHudOamBuffer *) gRaceHud->mSubOam);
+            DrawRaceHudSubScreenCellGroups(&gRaceHud->mSubOam);
+            DrawRaceTaPositions(&gRaceHud->mSubOam);
             break;
         case 4:
         case 5:
-            DrawRaceGoalS((RaceHudOamBuffer *) gRaceHud->mSubOam);
+            DrawRaceGoalS(&gRaceHud->mSubOam);
             break;
         case 6:
-            DrawRaceNewRecordTa((RaceHudOamBuffer *) gRaceHud->mSubOam);
+            DrawRaceNewRecordTa(&gRaceHud->mSubOam);
             break;
     }
 }

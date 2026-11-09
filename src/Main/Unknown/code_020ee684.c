@@ -1324,7 +1324,7 @@ void AdvanceItemInUseCircle(ItemInUse *itemInUse) {
         }
     }
     if (itemInUse->mKartIndex == gRaceSetup->mEntryIndex) {
-        func_020719a8((u32) kartItems->mKart, objectCount + 0xe0);
+        func_020719a8(&kartItems->mKart->mSoundSource, objectCount + 0xe0);
     }
     if ((kartItems->mFlags & 0x244) != 0x244) {
         return;

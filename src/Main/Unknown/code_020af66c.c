@@ -187,10 +187,10 @@ void func_020b0b8c(void) {
         GXS_LoadBG0Char(GetChoisesSBNcgrWithListChars()->mData, 0, 0x3000);
         GXS_LoadBG0Scr(GetChoisesSListScreenMapData(), 0, 0x600);
     }
-    DC_FlushRange(gRaceHud->mMainOam, 0x400);
-    GX_LoadOAM(gRaceHud->mMainOam, 0, 0x400);
-    DC_FlushRange(gRaceHud->mSubOam, 0x400);
-    GXS_LoadOAM(gRaceHud->mSubOam, 0, 0x400);
+    DC_FlushRange(&gRaceHud->mMainOam, 0x400);
+    GX_LoadOAM(&gRaceHud->mMainOam, 0, 0x400);
+    DC_FlushRange(&gRaceHud->mSubOam, 0x400);
+    GXS_LoadOAM(&gRaceHud->mSubOam, 0, 0x400);
     if (gRaceHud->mSubScreenEnabled != FALSE) {
         switch (gRaceHud->mSubScreenState) {
             case 0:
@@ -441,8 +441,8 @@ void func_020b03bc(void) {
     gRaceHud->mStepHasRun = 0;
     gRaceHud->mUnk_90c = FALSE;
     gRaceHud->mUnk_910 = gRaceSetup->mMode == MODE_MISSION_RUN ? IsMissionRunRecordFilled() : 0;
-    MI_DmaFill32(3, gRaceHud->mMainOam, 0xc0, 0x400);
-    MI_DmaFill32(3, gRaceHud->mSubOam, 0xc0, 0x400);
+    MI_DmaFill32(3, &gRaceHud->mMainOam, 0xc0, 0x400);
+    MI_DmaFill32(3, &gRaceHud->mSubOam, 0xc0, 0x400);
     LoadNclrData(&gRaceHud->mNclrs[0], FindSceneFileWrapper("race_m_b.NCLR"));
     LoadNcgrData(&gRaceHud->mNcgrs[0], FindSceneFileWrapper("race_m_b.NCGR"));
     LoadNscrData(&gRaceHud->mNscrs[0], FindSceneFileWrapper("race_m_pause.NSCR"));

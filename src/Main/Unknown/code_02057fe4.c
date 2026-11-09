@@ -212,7 +212,7 @@ void EnterMPState7(void) {
     u32 flagIndex;
     u32 flagCount;
 
-    WM_SetPortCallback(14, (UnkFunc *) func_02059920, NULL);
+    WM_SetPortCallback(14, func_02059920, NULL);
     if (func_02058820_inline() == 1) {
         SetMPFrequency(0);
     }

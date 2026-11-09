@@ -98,7 +98,7 @@ void CreateObPakkunSf(void) {
     void *nsbtpFile;
     nsbmdFile = FindCourseMapObjFile(gObPakkunSfNsbmdName);
     nsbtpFile = FindCourseMapObjFile(gObPakkunSfNsbtpName);
-    func_020e6488((NsbmdModel **) (((u32 *) &gObPakkunSf)), nsbmdFile, nsbtpFile, 0);
+    func_020e6488(&gObPakkunSf, nsbmdFile, nsbtpFile, 0);
     func_020e6ab8(gObPakkunSf);
 }
 

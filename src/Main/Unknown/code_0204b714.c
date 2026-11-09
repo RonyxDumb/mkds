@@ -270,6 +270,6 @@ u32 StartBackupRead(u32 address, u32 *destination, u32 byteCount, void (*callbac
     gBackupAccess->mReadHasPrefix = hasPrefix;
     gBackupAccess->mCopyPass = copyPass;
     DC_InvalidateRange(destination, byteCount);
-    CARDi_RequestStreamCommand(address, (u32) destination, byteCount, (UnkFunc *) func_0204b7b8, callback, 1, 6, 1, 0);
+    CARDi_RequestStreamCommand(address, (u32) destination, byteCount, func_0204b7b8, callback, 1, 6, 1, 0);
     return 1;
 }

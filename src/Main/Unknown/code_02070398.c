@@ -881,15 +881,15 @@ PlayingSound *func_020719bc(SoundSource *soundSource, u32 soundId) {
     return StartSound(sourceCopy, soundIdCopy, volume, pitch);
 }
 
-void func_020719a8(u32 soundSource, u32 soundId) {
-    u32 sourceCopy = soundSource;
+void func_020719a8(SoundSource *soundSource, u32 soundId) {
+    SoundSource *sourceCopy = soundSource;
     u32 soundIdCopy = soundId;
     u32 volume;
     u32 pitch;
     u32 value12;
     volume = 0x7fu;
     pitch = 0u;
-    StartSoundWhileRequested((SoundSource *) sourceCopy, soundIdCopy, volume, pitch);
+    StartSoundWhileRequested(sourceCopy, soundIdCopy, volume, pitch);
 }
 
 void func_02071980(void *kart, int entryIndex) {
@@ -1118,7 +1118,7 @@ void ResetKartMotionState(Kart *kart, s32 b) {
     switch (gRaceSetup->mCourseId) {
         case COURSE_ID_AIRSHIP:
             func_02089d14(0);
-            playingSound = StartSound((SoundSource *) kart, 0x15c, 0x7f, 0);
+            playingSound = StartSound(&kart->mSoundSource, 0x15c, 0x7f, 0);
             if (playingSound != NULL) {
                 playingSound->mFlags |= 0x10;
             }
@@ -1138,7 +1138,7 @@ void ResetKartMotionState(Kart *kart, s32 b) {
             NNS_SndArcPlayerStartSeqArc(sndHandleSlot, 0, 0x1d2);
             break;
         case COURSE_ID_PINBALL:
-            playingSound = StartSound((SoundSource *) kart, 0x15b, 0x7f, 0);
+            playingSound = StartSound(&kart->mSoundSource, 0x15b, 0x7f, 0);
             if (playingSound != NULL) {
                 playingSound->mFlags |= 0x10;
             }

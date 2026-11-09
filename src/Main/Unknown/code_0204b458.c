@@ -88,7 +88,7 @@ void func_0204b574(void) {
     if (failed == FALSE) {
         func_0204ba7c();
         CARDi_RequestStreamCommand((u32) gBackupAccess->mWriteSource, gBackupAccess->mWriteAddress,
-                                   gBackupAccess->mWriteSize, (UnkFunc *) func_0204b5dc, gBackupAccess->mWriteCallback,
+                                   gBackupAccess->mWriteSize, func_0204b5dc, gBackupAccess->mWriteCallback,
                                    1, 7, 10, 2);
     } else {
         UnlockBackup();
@@ -104,7 +104,7 @@ u32 func_0204b518(void) {
     if (TryLockBackup() == 0) {
         return 0;
     }
-    CARDi_RequestStreamCommand(0, (u32) gBackupAccess->mUnk_64, 1, (UnkFunc *) func_0204b574, NULL, 1, 6, 1, 0);
+    CARDi_RequestStreamCommand(0, (u32) gBackupAccess->mUnk_64, 1, func_0204b574, NULL, 1, 6, 1, 0);
     return 1;
 }
 
@@ -137,7 +137,7 @@ u32 StartBackupWrite(u32 address, u32 *source, u32 byteCount, void (*callback)(u
         DC_StoreRange(source, byteCount);
         return func_0204b518();
     }
-    CARDi_RequestStreamCommand((u32) source, address, byteCount, (UnkFunc *) func_0204b5dc, callback, 1, 7, 10, 2);
+    CARDi_RequestStreamCommand((u32) source, address, byteCount, func_0204b5dc, callback, 1, 7, 10, 2);
     return 1;
 }
 

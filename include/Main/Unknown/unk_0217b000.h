@@ -6,6 +6,7 @@
 #include "Main/Unknown/code_020846c0.h" // ResFileEntry
 #include "code_0212d214.h"
 #include "Main/Unknown/code_020ae770.h"
+#include "Main/Unknown/code_020c06c4.h" // RaceHudOamBuffer
 #include "Main/Unknown/code_020e5d0c.h"
 #include "Main/Unknown/code_020e516c.h"
 #include "Main/Unknown/code_020e6b58.h"
@@ -582,12 +583,8 @@ typedef struct RaceHud {
     // 0xc00. An animation clock: read by the upload slot (value / 6 = scroll of the sub-screen page 0) and by
     // GetRaceHudUpdateFrames (value / 32).
     /* 000 */ s32 mUpdateFrames;
-    /* 004 */ u8 mMainOam[0x400];
-    /* 404 */ u16 mMainOamCount;
-    /* 406 */ u16 mMainMatrixCount;
-    /* 408 */ u8 mSubOam[0x400];
-    /* 808 */ u16 mSubOamCount;
-    /* 80a */ u16 mSubMatrixCount;
+    /* 004 */ RaceHudOamBuffer mMainOam;
+    /* 408 */ RaceHudOamBuffer mSubOam;
     /* 80c */ struct Nclr *mNclrs[2];
     /* 814 */ struct Ncgr *mNcgrs[2];
     /* 81c */ struct Nscr *mNscrs[3];

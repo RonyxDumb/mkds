@@ -49,9 +49,9 @@ u8 func_020de488(Unk020ec538 *pipe, void *kart, u8 *c, u8 *d) {
 void CreateEarthenPipe1AndEarthenPipe2(void) {
     void *nsbmdFile;
     nsbmdFile = FindCourseMapObjFile(gEarthenPipe1NsbmdName);
-    func_020e6488((NsbmdModel **) (((u32 *) &gEarthenPipe1)), nsbmdFile, 0, 0);
+    func_020e6488(&gEarthenPipe1, nsbmdFile, 0, 0);
     nsbmdFile = FindCourseMapObjFile(gEarthenPipe2NsbmdName);
-    func_020e6488((NsbmdModel **) (((u32 *) &gEarthenPipe2)), nsbmdFile, 0, 0);
+    func_020e6488(&gEarthenPipe2, nsbmdFile, 0, 0);
     func_020e6ab8(gEarthenPipe1);
     func_020e6ab8(gEarthenPipe2);
 }

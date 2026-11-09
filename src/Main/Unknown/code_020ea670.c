@@ -365,11 +365,11 @@ void UpdateWoodbox1State3(Woodbox1 *woodbox) {
     }
 }
 
-u32 CollideKartWithWoodbox1(Woodbox1 *woodbox, Unk020eb498 *kart, u8 *firstResponse, u8 *response) {
+u32 CollideKartWithWoodbox1(Woodbox1 *woodbox, Kart *kart, u8 *firstResponse, u8 *response) {
     if (*firstResponse == 3) {
         if (gRaceSetup->mMode != MODE_TIME_ATTACK) {
-            if (kart->mUnk_29c == 1 || kart->mUnk_2a4 > 0x3000) {
-                StartWoodbox1ItemObject(woodbox, &kart->mUnk_0a4);
+            if (kart->mItemEffect == 1 || kart->mVelocityLength > 0x3000) {
+                StartWoodbox1ItemObject(woodbox, &kart->mVelocity);
                 if (data_0217bbf0 == woodbox) {
                     data_0217bbf0 = NULL;
                 }
@@ -377,11 +377,11 @@ u32 CollideKartWithWoodbox1(Woodbox1 *woodbox, Unk020eb498 *kart, u8 *firstRespo
                 woodbox->mUnk_000.mStateMachine.mNextStateRequested = 1;
                 func_020d26ec(kart, 0x167);
                 woodbox->mUnk_000.mDistanceSquaredAndFlags |= *(u32 *) data_021594d4;
-                StartSoundIfKartStarOrKiller(&woodbox->mUnk_000, (Kart *) kart);
+                StartSoundIfKartStarOrKiller(&woodbox->mUnk_000, kart);
                 if ((woodbox->mUnk_000.mDistanceSquaredAndFlags & 3) == 0) {
                     if (*response == 0) {
-                        StartEffectWithKartVelocity(0x31, &woodbox->mUnk_000.mPos, kart->mUnk_074, 0x1000);
-                        StartEffectWithKartVelocity(0x32, &woodbox->mUnk_000.mPos, kart->mUnk_074, 0x1000);
+                        StartEffectWithKartVelocity(0x31, &woodbox->mUnk_000.mPos, kart->mIndex, 0x1000);
+                        StartEffectWithKartVelocity(0x32, &woodbox->mUnk_000.mPos, kart->mIndex, 0x1000);
                     } else {
                         StartEffect(0x31, &woodbox->mUnk_000.mPos);
                         StartEffect(0x32, &woodbox->mUnk_000.mPos);

@@ -607,11 +607,11 @@ u32 ClearOrthoQuadCreamEffectPointer(void) {
 }
 
 void CreateOrthoQuadCreamEffect(const char *fileName) {
-    u32 model;
+    NsbmdModel *model;
 
-    func_020e6488((NsbmdModel **) &model, FindCourseMapObjFile(fileName), 0, 0);
-    func_020e6ab8((NsbmdModel *) model);
-    SetupOrthoQuadModel(&gOrthoQuadCreamEffect, (NsbmdModel *) model);
+    func_020e6488(&model, FindCourseMapObjFile(fileName), 0, 0);
+    func_020e6ab8(model);
+    SetupOrthoQuadModel(&gOrthoQuadCreamEffect, model);
 }
 
 void StartOrthoQuadsCreamEffect(u32 kartIndex, u32 count) {

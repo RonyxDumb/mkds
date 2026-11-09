@@ -23,6 +23,7 @@ typedef struct RaceHudOamBuffer {
         /* 000 */ GXOamAffine mMatrices[0x20];
     };
     /* 400 */ u16 mOamCount;
+    /* 402 */ u16 mMatrixCount;
 } RaceHudOamBuffer;
 
 void DrawRaceHudSubScreenCells(RaceHudOamBuffer *oamBuffer, RaceHudSubScreenCells *cells, s32 useRotation);

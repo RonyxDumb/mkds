@@ -1,6 +1,7 @@
 #include "Main/Unknown/code_020df7d0.h"
 #include "Main/Unknown/code_020de9f8.h"
 #include "Main/Unknown/code_020df48c.h"
+#include "Main/Unknown/code_0206bcb0.h"
 
 #include "Main/Unknown/code_020df7d8.h"
 #include "Main/Unknown/code_020d2000.h"
@@ -18,12 +19,12 @@ void UpdateMkdEfBubbleState1(MkdEfBubbleObject *bubble) {
     }
 }
 
-u8 func_020df7d8(MkdEfBubbleObject *bubble, Unk020dea50_1 *kart, void *unused, u8 *d) {
+u8 func_020df7d8(MkdEfBubbleObject *bubble, Kart *kart, void *unused, u8 *d) {
     u32 kartBit;
 
-    kartBit = (1 << kart->mUnk_74) & 0xff;
+    kartBit = (1 << kart->mIndex) & 0xff;
     if ((bubble->mKartMask & kartBit) == 0) {
-        if (StartSoundIfKartStarOrKiller(&bubble->mMapObject, (Kart *) kart) != 0) {
+        if (StartSoundIfKartStarOrKiller(&bubble->mMapObject, kart) != 0) {
             bubble->mMapObject.mDistanceSquaredAndFlags |= data_02158778;
             bubble->mKartMask |= kartBit;
         }

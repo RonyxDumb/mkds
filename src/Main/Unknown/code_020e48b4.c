@@ -297,7 +297,7 @@ s32 CollideItemObjectWithPukupuku(Unk020e47c8 *pukupuku, void *itemObject, u8 *b
 void CreatePukupuku(void) {
     void *nsbmdFile;
     nsbmdFile = FindCourseMapObjFile(gPukupukuNsbmdName);
-    func_020e6488((NsbmdModel **) (((u32 *) &gPukupuku)), nsbmdFile, 0, 0);
+    func_020e6488(&gPukupuku, nsbmdFile, 0, 0);
     func_020e6ab8(gPukupuku);
 }
 

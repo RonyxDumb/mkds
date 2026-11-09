@@ -6,6 +6,7 @@
 #include "Main/Unknown/code_020d8c74.h"
 
 #include "Main/Unknown/code_020de9f8.h"
+#include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/code_020d2000.h"
 #include "Main/Unknown/code_020d8654.h"
 #include "Main/Unknown/code_020deb2c.h"
@@ -331,7 +332,7 @@ void func_020deb2c(Vec3 *position, void *kart, u32 c, int d, u32 e) {
     StartItemSlotForKart(kartIndex, c, e);
 }
 
-u8 CollideKartWithItemBox(ItemBox *itemBox, Unk020dea50_1 *kart, void *c, u8 *d) {
+u8 CollideKartWithItemBox(ItemBox *itemBox, Kart *kart, void *c, u8 *d) {
     s32 playerKind;
     BOOL kindInMask;
     u32 distanceBits;
@@ -343,7 +344,7 @@ u8 CollideKartWithItemBox(ItemBox *itemBox, Unk020dea50_1 *kart, void *c, u8 *d)
     itemBox->mFramesSinceHit = 0;
     itemBox->mUnk_000.mFlags |= data_021585a4;
     distanceBits = itemBox->mUnk_000.mDistanceSquaredAndFlags & 3;
-    playerKind = gRaceSetup->mCurrentEntries[kart->mUnk_74].mPlayer.mKind;
+    playerKind = gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind;
     if ((u32) playerKind <= 3) {
         if (((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
             kindInMask = TRUE;

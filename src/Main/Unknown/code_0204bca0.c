@@ -27,14 +27,34 @@
 
 typedef struct RomTableHeader {
     u8 mUnk_00[0x40];
-    u32 mFntOffset;
-    u32 mFntSize;
-    u32 mFatOffset;
-    u32 mFatSize;
-    u32 mOverlayTable0Offset;
-    u32 mOverlayTable0Size;
-    u32 mOverlayTable1Offset;
-    u32 mOverlayTable1Size;
+    union {
+        struct {
+            u32 mFntOffset;
+            u32 mFntSize;
+        };
+        Unk02005704 mFntTable;
+    };
+    union {
+        struct {
+            u32 mFatOffset;
+            u32 mFatSize;
+        };
+        Unk02005704 mFatTable;
+    };
+    union {
+        struct {
+            u32 mOverlayTable0Offset;
+            u32 mOverlayTable0Size;
+        };
+        Unk02005704 mOverlayTable0;
+    };
+    union {
+        struct {
+            u32 mOverlayTable1Offset;
+            u32 mOverlayTable1Size;
+        };
+        Unk02005704 mOverlayTable1;
+    };
 } RomTableHeader;
 
 s32 RomArchiveChildProc(FSFile *file, u32 command) {
@@ -98,10 +118,10 @@ void CreateRomArchiveBlock(FSFile *file, s32 appendOverlays) {
         FS_SeekFile(file, i, 0);
     }
     if (appendOverlayEntries == 0) {
-        tables[0] = *(Unk02005704 *) &header->mFatOffset;
-        tables[1] = *(Unk02005704 *) &header->mFntOffset;
-        tables[2] = *(Unk02005704 *) &header->mOverlayTable0Offset;
-        tables[3] = *(Unk02005704 *) &header->mOverlayTable1Offset;
+        tables[0] = header->mFatTable;
+        tables[1] = header->mFntTable;
+        tables[2] = header->mOverlayTable0;
+        tables[3] = header->mOverlayTable1;
     } else {
         tables[0] = *(Unk02005704 *) 0x027ffe48;
         tables[1] = *(Unk02005704 *) 0x027ffe40;
