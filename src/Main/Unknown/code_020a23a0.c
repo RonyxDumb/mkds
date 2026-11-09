@@ -48,10 +48,10 @@ void func_020a29cc(void) {
     x = ((s64) FX_Div(data_0215d6b4[0x54], data_0215d6b4[0x55]) * 0x19a) >> 12;
     y = ((s64) -x * 0x1555) >> 12;
     if (gRaceSetup->mMirrorMode != 0) {
-        G3i_FrustumW_(x, -x, -y, y, 0x19a, 0x1388000, 0x200, 0, (Unk0214ad4c *) data_0217029c.mProjMtx);
+        G3i_FrustumW_(x, -x, -y, y, 0x19a, 0x1388000, 0x200, 0, &data_0217029c.mProjMtx);
         data_0217029c.mFlag &= ~0x50;
     } else {
-        G3i_FrustumW_(x, -x, y, -y, 0x19a, 0x1388000, 0x200, 0, (Unk0214ad4c *) data_0217029c.mProjMtx);
+        G3i_FrustumW_(x, -x, y, -y, 0x19a, 0x1388000, 0x200, 0, &data_0217029c.mProjMtx);
         data_0217029c.mFlag &= ~0x50;
     }
     {

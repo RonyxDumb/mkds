@@ -12,14 +12,14 @@
 #pragma optimize_for_size on
 #pragma thumb on
 void func_02028fac(void) {
-    Unk02174e50_24 *parts;
+    CellFileSet *parts;
     s32 i;
     s32 count;
     if (func_020280dc() == 0) {
         parts = &gSelectKart->mSelectKartSParts;
-        count = func_02029000(parts->mUnk_0c) + func_02028ff8(parts->mUnk_14);
+        count = func_02029000(parts->mCellLayout) + func_02028ff8(parts->mLabelLayout);
         for (i = 0; i < count; i++) {
-            parts->mUnk_18[i].mOffsetY = GetInterpolatedValue(&gSelectKart->mInterpolations[4]);
+            parts->mCellTable[i].mOffsetY = GetInterpolatedValue(&gSelectKart->mInterpolations[4]);
         }
     }
 }
@@ -34,13 +34,13 @@ u32 func_02028f84(void) {
 
 void func_02028f20(void) {
     s32 i;
-    Unk02174e50_24 *parts;
+    CellFileSet *parts;
     void *message;
     if (func_020280dc() == 0) {
         message = GetBmgEntry(gSelectKart->mKartSelectMessages, GetKartMessageIndex(gSelectKart->mKartIndex));
         parts = &gSelectKart->mSelectKartSParts;
         for (i = 8; i >= 7; i--) {
-            func_0212426c(1, data_usa_021537f4[i].mUnk_00, parts->mUnk_14, message, parts->mUnk_0c, parts->mUnk_18);
+            func_0212426c(1, data_usa_021537f4[i].mUnk_00, parts->mLabelLayout, message, parts->mCellLayout, parts->mCellTable);
         }
     }
 }

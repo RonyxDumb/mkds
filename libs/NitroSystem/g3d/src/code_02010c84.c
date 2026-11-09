@@ -731,7 +731,7 @@ void NNS_G3dGlbInit(void) {
     data_0217029c.mCmd3 = 0x33333333;
     data_0217029c.mCmd4 = 0x2a1b19;
     MTX_Identity43_(&data_0217029c.mCameraMtx);
-    MTX_Identity44_(data_0217029c.mProjMtx);
+    MTX_Identity44_(&data_0217029c.mProjMtx);
     data_0217029c.mLightVec[0] = 0x2d8b62d8;
     data_0217029c.mLightVec[1] = 0x40000200;
     data_0217029c.mLightVec[2] = 0x800001ff;

@@ -94,17 +94,17 @@ s32 func_0203023c(void) {
 void SetMemberGroupCellTableOffsetY(void) {
     s32 i;
     s32 entryCount;
-    Unk02174e50_24 *cellFileSet;
+    CellFileSet *cellFileSet;
 
     cellFileSet = &gMultiSelectMemberGroup->mGroupSParts;
-    entryCount = *OFFSET_PTR(u16, cellFileSet->mUnk_0c, 6) + *OFFSET_PTR(u16, cellFileSet->mUnk_14, 6);
+    entryCount = *OFFSET_PTR(u16, cellFileSet->mCellLayout, 6) + *OFFSET_PTR(u16, cellFileSet->mLabelLayout, 6);
     for (i = 0; i < entryCount; i++) {
-        cellFileSet->mUnk_18[i].mOffsetY = gMultiSelectMemberGroup->mBg3Offset;
+        cellFileSet->mCellTable[i].mOffsetY = gMultiSelectMemberGroup->mBg3Offset;
     }
 }
 
 void RefreshMultiSelectMemberGroup(s32 showSelected) {
-    Unk02174e50_24 *cellFileSet;
+    CellFileSet *cellFileSet;
     Unk021634a8 valueTable;
     s32 i;
     s32 j;
@@ -127,44 +127,44 @@ void RefreshMultiSelectMemberGroup(s32 showSelected) {
             rowSelected = 1;
         }
         x = *(s32 *) ((u8 *) gMultiSelectMemberGroup + entryOffset + 0x58);
-        cellFileSet->mUnk_18[rowCellIndices->mCellIndices[0]].mVisible = rowSelected;
+        cellFileSet->mCellTable[rowCellIndices->mCellIndices[0]].mVisible = rowSelected;
         if (rowSelected == 0) {
             rowNotSelected = 1;
         } else {
             rowNotSelected = 0;
         }
-        cellFileSet->mUnk_18[rowCellIndices->mCellIndices[0x18 / 2]].mVisible = rowNotSelected;
+        cellFileSet->mCellTable[rowCellIndices->mCellIndices[0x18 / 2]].mVisible = rowNotSelected;
         for (j = 1; j < 12; j++) {
-            cellFileSet->mUnk_18[rowCellIndices->mCellIndices[j]].mVisible = rowSelected & x;
-            cellFileSet->mUnk_18[(rowCellIndices->mCellIndices + 12)[j]].mVisible = rowNotSelected & x;
+            cellFileSet->mCellTable[rowCellIndices->mCellIndices[j]].mVisible = rowSelected & x;
+            cellFileSet->mCellTable[(rowCellIndices->mCellIndices + 12)[j]].mVisible = rowNotSelected & x;
         }
-        cellFileSet->mUnk_18[rowCellIndices->mCellIndices[1]].mVisible &=
+        cellFileSet->mCellTable[rowCellIndices->mCellIndices[1]].mVisible &=
             *(s32 *) ((u8 *) gMultiSelectMemberGroup + entryOffset + 0x5c);
-        cellFileSet->mUnk_18[rowCellIndices->mCellIndices[13]].mVisible &=
+        cellFileSet->mCellTable[rowCellIndices->mCellIndices[13]].mVisible &=
             *(s32 *) ((u8 *) gMultiSelectMemberGroup + entryOffset + 0x5c);
         if (*(s32 *) ((u8 *) gMultiSelectMemberGroup + entryOffset + 0x5c) == 0) {
             y = TRUE;
         } else {
             y = FALSE;
         }
-        cellFileSet->mUnk_18[rowCellIndices->mCellIndices[2]].mVisible &= y;
+        cellFileSet->mCellTable[rowCellIndices->mCellIndices[2]].mVisible &= y;
         if (*(s32 *) ((u8 *) gMultiSelectMemberGroup + entryOffset + 0x5c) == 0) {
             y = TRUE;
         } else {
             y = FALSE;
         }
-        cellFileSet->mUnk_18[rowCellIndices->mCellIndices[14]].mVisible &= y;
+        cellFileSet->mCellTable[rowCellIndices->mCellIndices[14]].mVisible &= y;
         for (j = 0; j < 8; j++) {
             if (j == *(s32 *) (entryOffset + (s32) gMultiSelectMemberGroup + 0x60)) {
                 z = TRUE;
             } else {
                 z = FALSE;
             }
-            cellFileSet->mUnk_18[(rowCellIndices->mCellIndices + 4)[j]].mVisible &= z;
-            cellFileSet->mUnk_18[(rowCellIndices->mCellIndices + 16)[j]].mVisible &= z;
+            cellFileSet->mCellTable[(rowCellIndices->mCellIndices + 4)[j]].mVisible &= z;
+            cellFileSet->mCellTable[(rowCellIndices->mCellIndices + 16)[j]].mVisible &= z;
         }
-        SetLabelPaletteIndex(rowCellIndices->mLabelIndex, valueTable.mUnk_00[rowSelected], cellFileSet->mUnk_14,
-                             cellFileSet->mUnk_18, cellFileSet->mUnk_0c);
+        SetLabelPaletteIndex(rowCellIndices->mLabelIndex, valueTable.mUnk_00[rowSelected], cellFileSet->mLabelLayout,
+                             cellFileSet->mCellTable, cellFileSet->mCellLayout);
         entryOffset += 0xc;
         rowCellIndices = OFFSET_PTR(MemberRowCellIndices, rowCellIndices, 0x32);
         i++;
@@ -174,15 +174,15 @@ void RefreshMultiSelectMemberGroup(s32 showSelected) {
     } else {
         rowSelected = 0;
     }
-    cellFileSet->mUnk_18[89].mVisible = rowSelected;
+    cellFileSet->mCellTable[89].mVisible = rowSelected;
     if (rowSelected == 0) {
         rowNotSelected = 1;
     } else {
         rowNotSelected = 0;
     }
-    cellFileSet->mUnk_18[88].mVisible = rowNotSelected;
-    SetLabelPaletteIndex(4, valueTable.mUnk_00[rowSelected], cellFileSet->mUnk_14, cellFileSet->mUnk_18,
-                         cellFileSet->mUnk_0c);
+    cellFileSet->mCellTable[88].mVisible = rowNotSelected;
+    SetLabelPaletteIndex(4, valueTable.mUnk_00[rowSelected], cellFileSet->mLabelLayout, cellFileSet->mCellTable,
+                         cellFileSet->mCellLayout);
 }
 
 #pragma thumb off
@@ -197,7 +197,7 @@ static inline void func_0202f764_inline(void *p, s32 v1) {
 
 void func_0202fd2c(void) {
     s32 changed;
-    Unk02174e50_24 *cellFileSet;
+    CellFileSet *cellFileSet;
     s32 oldWord0;
     s32 oldWord8;
     s32 oldWord4;
@@ -248,14 +248,14 @@ void func_0202fd2c(void) {
                 gMultiSelectMemberGroup->mUnk_58[i].mUnk_00 = func_0204ff14(i, &entry);
                 if (gMultiSelectMemberGroup->mUnk_58[i].mUnk_00 != 0) {
                     entry.mUnk_14 = 0;
-                    func_0212426c(1, gMemberRowCellIndices[i].mLabelIndex, cellFileSet->mUnk_14, &entry,
-                                  cellFileSet->mUnk_0c, cellFileSet->mUnk_18);
+                    func_0212426c(1, gMemberRowCellIndices[i].mLabelIndex, cellFileSet->mLabelLayout, &entry,
+                                  cellFileSet->mCellLayout, cellFileSet->mCellTable);
                     gMultiSelectMemberGroup->mUnk_58[i].mUnk_08 = func_0204fe1c(i);
                     gMultiSelectMemberGroup->mUnk_58[i].mUnk_04 = func_0204fe90(i);
                 } else {
-                    func_0212426c(1, gMemberRowCellIndices[i].mLabelIndex, cellFileSet->mUnk_14,
-                                  GetBmgEntry(gMultiSelectMemberGroup->mBannerMessages, 8), cellFileSet->mUnk_0c,
-                                  cellFileSet->mUnk_18);
+                    func_0212426c(1, gMemberRowCellIndices[i].mLabelIndex, cellFileSet->mLabelLayout,
+                                  GetBmgEntry(gMultiSelectMemberGroup->mBannerMessages, 8), cellFileSet->mCellLayout,
+                                  cellFileSet->mCellTable);
                     gMultiSelectMemberGroup->mUnk_58[i].mUnk_08 = 0;
                     gMultiSelectMemberGroup->mUnk_58[i].mUnk_04 = 0;
                 }
@@ -296,7 +296,7 @@ void func_0202fd2c(void) {
 void InitMultiSelectMemberGroup(void *parentHeap, void *scene, void *oamList) {
     void *heap;
     u32 subObjSizeLeft;
-    Unk02174e50_24 *cellFileSet;
+    CellFileSet *cellFileSet;
     s32 i;
     LabelMessageRow *labelMessageRow;
     void *text;
@@ -326,8 +326,8 @@ void InitMultiSelectMemberGroup(void *parentHeap, void *scene, void *oamList) {
         } else {
             text = GetBmgEntry(gMultiSelectMemberGroup->mBannerMessages, gMemberGroupLabelMessageRows[i].mMessageIndex);
         }
-        func_0212426c(1, gMemberGroupLabelMessageRows[i].mLabelIndex, cellFileSet->mUnk_14, text, cellFileSet->mUnk_0c,
-                      cellFileSet->mUnk_18);
+        func_0212426c(1, gMemberGroupLabelMessageRows[i].mLabelIndex, cellFileSet->mLabelLayout, text, cellFileSet->mCellLayout,
+                      cellFileSet->mCellTable);
     }
     RefreshMultiSelectMemberGroup(1);
     SetSelectReturnSoundId(0xf);
@@ -336,7 +336,7 @@ void InitMultiSelectMemberGroup(void *parentHeap, void *scene, void *oamList) {
 }
 
 s32 AdvanceMultiSelectMemberGroup(SceneNumbersView *sceneNumbers) {
-    Unk02174e50_24 *cellFileSet;
+    CellFileSet *cellFileSet;
     s32 result;
     u16 slotIndex;
     s32 i;
@@ -400,7 +400,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbersView *sceneNumbers) {
                 pairX = data_02175628[slotIndex].mUnk_48.mPairX;
                 pairY = data_02175628[slotIndex].mUnk_48.mPairY;
                 touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(pairX, pairY);
-                rectIndex = RectTableFindContaining(cellFileSet->mUnk_10, pairX, pairY);
+                rectIndex = RectTableFindContaining(cellFileSet->mRects, pairX, pairY);
             }
             v = data_02175628[slotIndex].mPressedBits;
             if ((u16) (v & PAD_KEY_A) != 0) {
@@ -503,8 +503,8 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbersView *sceneNumbers) {
             break;
     }
     if (gMultiSelectMemberGroup->mState != 4) {
-        DrawLayoutTable(cellFileSet->mUnk_0c, cellFileSet->mUnk_08, cellFileSet->mUnk_14,
-                        gMultiSelectMemberGroup->mOamList, cellFileSet->mUnk_18);
+        DrawLayoutTable(cellFileSet->mCellLayout, cellFileSet->mCells, cellFileSet->mLabelLayout,
+                        gMultiSelectMemberGroup->mOamList, cellFileSet->mCellTable);
     }
     return result;
 }

@@ -2,5 +2,7 @@
 
 #include "types.h"
 
-u16 GetOamMatrixCount(const void *oamList);
+typedef struct RaceHudOamBuffer RaceHudOamBuffer;
+
+u16 GetOamMatrixCount(const RaceHudOamBuffer *oamList);
 void UploadOamLists(void *mainOamList, void *subOamList);

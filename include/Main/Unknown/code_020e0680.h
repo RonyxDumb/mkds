@@ -32,14 +32,10 @@ extern const Unk020e03f8 data_02158abc;
 extern const Unk020e03f8 data_02158afc;
 extern const Unk020e03f8 data_02158b3c;
 
-// Object func_020e0bac and func_020e0764 compare against: seven words and a vector.
+// Object func_020e0bac and func_020e0764 compare against: two vectors, a word and a vector.
 typedef struct Unk020e0764 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ s32 mUnk_14;
+    /* 00 */ Vec3 mUnk_00;
+    /* 0c */ Vec3 mUnk_0c;
     /* 18 */ s32 mUnk_18;
     /* 1c */ Vec3 mUnk_1c;
 } Unk020e0764;

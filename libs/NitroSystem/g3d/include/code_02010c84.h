@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "code_02012b30.h" // MtxFx43, NNSG3dResMdl, NNSG3dResMatData, NNSG3dResShpData
+#include "code_021479b4.h" // MtxFx44
 
 typedef struct NNSG3dAnmObj NNSG3dAnmObj;
 typedef struct NNSG3dRS NNSG3dRS;
@@ -125,7 +126,7 @@ typedef struct NNSG3dResAnmHeader {
 typedef struct NNSG3dGlb {
     /* 000 */ u32 mCmd0;
     /* 004 */ u32 mMtxModeProj;
-    /* 008 */ s32 mProjMtx[16];
+    /* 008 */ MtxFx44 mProjMtx;
     /* 048 */ u32 mMtxModePosVec;
     /* 04c */ MtxFx43 mCameraMtx;
     /* 07c */ u32 mCmd1;

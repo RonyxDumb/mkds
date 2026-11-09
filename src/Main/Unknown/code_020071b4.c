@@ -9,7 +9,7 @@
 #pragma thumb on
 
 u32 func_020072c0(void) {
-    Unk020074d8_msg message;
+    ParentMessage message;
     Unk020072c0_buf v2;
     u8 v11;
     u8 v14;
@@ -49,7 +49,7 @@ u32 func_020072c0(void) {
                       work->mUnk_1788 + work->mUnk_1525 * 0x5d4) == FALSE) {
         return 21;
     }
-    message.mUnk_00 = 4;
+    message.mKind = 4;
     work = data_0216fdac;
     message.mUnk_02 = work->mUnk_1525;
     message.mUnk_04 = (OFFSET_PTR(Unk0216fdac, work, work->mUnk_1525 * 0x5d4))->mUnk_1d48;

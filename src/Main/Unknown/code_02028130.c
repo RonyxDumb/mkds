@@ -60,12 +60,12 @@ u16 func_020286f4(u32 a, u32 b) {
 
 int AdvanceSelectKart(void) {
     SelectKart *d;
-    Unk02174e50_24 *p;
+    CellFileSet *p;
     s32 e;
     s32 r;
     s32 t;
     s32 x;
-    Unk02174e50_24 *q;
+    CellFileSet *q;
     u32 v;
     d = gSelectKart;
     e = d->mKartIndex;
@@ -115,8 +115,8 @@ int AdvanceSelectKart(void) {
                 gSelectKart->mStateFrames = 0;
                 gSelectKart->mResult = 1;
                 gSelectKart->mState = 4;
-                p->mUnk_18[18].mVisible = 0;
-                SetLabelPaletteIndex(data_usa_02153834[4], 0, p->mUnk_14, p->mUnk_18, p->mUnk_0c);
+                p->mCellTable[18].mVisible = 0;
+                SetLabelPaletteIndex(data_usa_02153834[4], 0, p->mLabelLayout, p->mCellTable, p->mCellLayout);
                 func_021106a8(func_02025eb0(gSelectKart->mCharacterIndex), 1);
                 func_02077f48(1);
                 StopPaletteBlend();
@@ -137,13 +137,13 @@ int AdvanceSelectKart(void) {
             } else if (GetNewOrRepeatBits(t, PAD_KEY_RIGHT) != 0 || IsSelectKartTouchRepeat(1) != 0) {
                 MoveSelectKartNext();
                 gSelectKart->mUnk_114 = 3;
-                p->mUnk_18[1].mVisible = 0;
-                p->mUnk_18[3].mVisible = 1;
+                p->mCellTable[1].mVisible = 0;
+                p->mCellTable[3].mVisible = 1;
             } else if (GetNewOrRepeatBits(t, PAD_KEY_LEFT) != 0 || IsSelectKartTouchRepeat(0) != 0) {
                 MoveSelectKartPrev();
                 gSelectKart->mUnk_114 = 2;
-                p->mUnk_18[0].mVisible = 0;
-                p->mUnk_18[2].mVisible = 1;
+                p->mCellTable[0].mVisible = 0;
+                p->mCellTable[2].mVisible = 1;
             }
             if (e != gSelectKart->mKartIndex) {
                 func_02110698();
@@ -158,17 +158,17 @@ int AdvanceSelectKart(void) {
             if (gSelectKart->mStateFrames > 6) {
                 gSelectKart->mStateFrames = 0;
                 gSelectKart->mState = 2;
-                p->mUnk_18[gSelectKart->mUnk_114].mOffsetX = 0;
-                p->mUnk_18[1].mVisible = 1;
-                p->mUnk_18[0].mVisible = 1;
-                p->mUnk_18[3].mVisible = 0;
-                p->mUnk_18[2].mVisible = 0;
+                p->mCellTable[gSelectKart->mUnk_114].mOffsetX = 0;
+                p->mCellTable[1].mVisible = 1;
+                p->mCellTable[0].mVisible = 1;
+                p->mCellTable[3].mVisible = 0;
+                p->mCellTable[2].mVisible = 0;
             } else {
                 v = func_020adc64(gSelectKart->mStateFrames);
                 if (gSelectKart->mUnk_114 == 2) {
                     v = -v;
                 }
-                p->mUnk_18[gSelectKart->mUnk_114].mOffsetX = v;
+                p->mCellTable[gSelectKart->mUnk_114].mOffsetX = v;
             }
             break;
         case 4:
@@ -194,8 +194,8 @@ int AdvanceSelectKart(void) {
                         break;
                 }
                 gSelectKart->mStateFrames = 0;
-                p->mUnk_18[18].mVisible = 1;
-                SetLabelPaletteIndex(data_usa_02153834[4], 1, p->mUnk_14, p->mUnk_18, p->mUnk_0c);
+                p->mCellTable[18].mVisible = 1;
+                SetLabelPaletteIndex(data_usa_02153834[4], 1, p->mLabelLayout, p->mCellTable, p->mCellLayout);
             }
             break;
         case 5:
@@ -248,12 +248,12 @@ int AdvanceSelectKart(void) {
     if (d->mUnk_104 != FALSE) {
         AdvancePlayerEntryList();
     } else {
-        DrawLayoutTable(q->mUnk_0c, q->mUnk_08, NULL, d->mUnk_080, q->mUnk_18);
+        DrawLayoutTable(q->mCellLayout, q->mCells, NULL, d->mUnk_080, q->mCellTable);
     }
     if (func_020280dc() == 0) {
         d = gSelectKart;
         if (d->mState != 8) {
-            DrawLayoutTable(p->mUnk_0c, p->mUnk_08, p->mUnk_14, d->mUnk_084, p->mUnk_18);
+            DrawLayoutTable(p->mCellLayout, p->mCells, p->mLabelLayout, d->mUnk_084, p->mCellTable);
         }
     } else {
         AdvanceSelectRaceRuleWait();

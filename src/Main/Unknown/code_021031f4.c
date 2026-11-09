@@ -277,7 +277,7 @@ void DrawOrthoQuadsWithModel(OrthoQuadModel *model) {
     reg_G3_DIF_AMB = model->mDifAmb;
     reg_G3_SPE_EMI = model->mSpeEmi;
     reg_G3_MTX_MODE = 0;
-    G3_LoadMtx44(gOrthoQuadMatrix);
+    G3_LoadMtx44(&gOrthoQuadMatrix);
     reg_G3_MTX_MODE = 3;
     reg_G3_MTX_IDENTITY = 0;
     reg_G3_MTX_MODE = 2;
@@ -636,7 +636,7 @@ void InitOrthoQuads(void) {
     }
     reg_G3_MTX_MODE = 0;
     reg_G3_MTX_PUSH = 0;
-    G3i_OrthoW_(0x60000, 0xfffa0000, 0xfff80000, 0x80000, 0, 0x1000, 0x1fb, 1, (Unk0214ad4c *) gOrthoQuadMatrix);
+    G3i_OrthoW_(0x60000, 0xfffa0000, 0xfff80000, 0x80000, 0, 0x1000, 0x1fb, 1, &gOrthoQuadMatrix);
     reg_G3_MTX_POP = 1;
 }
 

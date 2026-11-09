@@ -1468,7 +1468,7 @@ void SetFrustumProjection(s32 mirrored) {
         c = d;
     }
     func_01ff9048(0x15, NULL, 0);
-    G3i_FrustumW_(a, b, c, e, 0x200, 0x64000, 0x1000, 0, (Unk0214ad4c *) data_0217029c.mProjMtx);
+    G3i_FrustumW_(a, b, c, e, 0x200, 0x64000, 0x1000, 0, &data_0217029c.mProjMtx);
     data_0217029c.mFlag &= ~0x50;
     NNS_G3dGlbFlushP();
 }

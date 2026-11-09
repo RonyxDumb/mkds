@@ -629,20 +629,20 @@ void func_020e1a80(s32 a, s32 b, s32 c, u32 d, u16 e, u16 *f, s32 v, Unk020e005c
             s->mUnk_1c.z = -h->z;
         }
     }
-    if (u.x > s->mUnk_00) {
-        s->mUnk_00 = u.x;
-    } else if (u.x < s->mUnk_0c) {
-        s->mUnk_0c = u.x;
+    if (u.x > s->mUnk_00.x) {
+        s->mUnk_00.x = u.x;
+    } else if (u.x < s->mUnk_0c.x) {
+        s->mUnk_0c.x = u.x;
     }
-    if (u.y > s->mUnk_04) {
-        s->mUnk_04 = u.y;
-    } else if (u.y < s->mUnk_10) {
-        s->mUnk_10 = u.y;
+    if (u.y > s->mUnk_00.y) {
+        s->mUnk_00.y = u.y;
+    } else if (u.y < s->mUnk_0c.y) {
+        s->mUnk_0c.y = u.y;
     }
-    if (u.z > s->mUnk_08) {
-        s->mUnk_08 = u.z;
-    } else if (u.z < s->mUnk_14) {
-        s->mUnk_14 = u.z;
+    if (u.z > s->mUnk_00.z) {
+        s->mUnk_00.z = u.z;
+    } else if (u.z < s->mUnk_0c.z) {
+        s->mUnk_0c.z = u.z;
     }
     if (k != NULL) {
         if (d & e) {
@@ -754,20 +754,20 @@ BOOL func_020e16dc(s32 a, s32 b, s32 c, u32 d, u16 e, u16 f, u16 *g, u16 h, s32 
     z.x <<= 10;
     z.y <<= 10;
     z.z <<= 10;
-    if (z.x > x->mUnk_00) {
-        x->mUnk_00 = z.x;
-    } else if (z.x < x->mUnk_0c) {
-        x->mUnk_0c = z.x;
+    if (z.x > x->mUnk_00.x) {
+        x->mUnk_00.x = z.x;
+    } else if (z.x < x->mUnk_0c.x) {
+        x->mUnk_0c.x = z.x;
     }
-    if (z.y > x->mUnk_04) {
-        x->mUnk_04 = z.y;
-    } else if (z.y < x->mUnk_10) {
-        x->mUnk_10 = z.y;
+    if (z.y > x->mUnk_00.y) {
+        x->mUnk_00.y = z.y;
+    } else if (z.y < x->mUnk_0c.y) {
+        x->mUnk_0c.y = z.y;
     }
-    if (z.z > x->mUnk_08) {
-        x->mUnk_08 = z.z;
-    } else if (z.z < x->mUnk_14) {
-        x->mUnk_14 = z.z;
+    if (z.z > x->mUnk_00.z) {
+        x->mUnk_00.z = z.z;
+    } else if (z.z < x->mUnk_0c.z) {
+        x->mUnk_0c.z = z.z;
     }
     if (q != NULL) {
         y.x = -y.x;
@@ -1094,20 +1094,20 @@ rest:
     tmp.x <<= 10;
     tmp.y <<= 10;
     tmp.z <<= 10;
-    if (tmp.x > x->mUnk_00) {
-        x->mUnk_00 = tmp.x;
-    } else if (tmp.x < x->mUnk_0c) {
-        x->mUnk_0c = tmp.x;
+    if (tmp.x > x->mUnk_00.x) {
+        x->mUnk_00.x = tmp.x;
+    } else if (tmp.x < x->mUnk_0c.x) {
+        x->mUnk_0c.x = tmp.x;
     }
-    if (tmp.y > x->mUnk_04) {
-        x->mUnk_04 = tmp.y;
-    } else if (tmp.y < x->mUnk_10) {
-        x->mUnk_10 = tmp.y;
+    if (tmp.y > x->mUnk_00.y) {
+        x->mUnk_00.y = tmp.y;
+    } else if (tmp.y < x->mUnk_0c.y) {
+        x->mUnk_0c.y = tmp.y;
     }
-    if (tmp.z > x->mUnk_08) {
-        x->mUnk_08 = tmp.z;
-    } else if (tmp.z < x->mUnk_14) {
-        x->mUnk_14 = tmp.z;
+    if (tmp.z > x->mUnk_00.z) {
+        x->mUnk_00.z = tmp.z;
+    } else if (tmp.z < x->mUnk_0c.z) {
+        x->mUnk_0c.z = tmp.z;
     }
     if (q != NULL) {
         v.x = -v.x;

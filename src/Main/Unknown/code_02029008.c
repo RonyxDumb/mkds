@@ -21,7 +21,7 @@
 #pragma thumb on
 s32 UpdateSelectKartTouchHold(void) {
     s32 result = -1;
-    Unk02174e50_24 *p = &gSelectKart->mSelectKartSParts;
+    CellFileSet *p = &gSelectKart->mSelectKartSParts;
     u16 slotIndex = func_020435bc();
     s32 pairX;
     s32 pairY;
@@ -30,7 +30,7 @@ s32 UpdateSelectKartTouchHold(void) {
         if (func_020291f0(slotIndex) != 0) {
             pairX = func_0202874c(slotIndex);
             pairY = func_02028724(slotIndex);
-            rectIndex = FindRectContainingPoint(pairX, pairY, p->mUnk_10);
+            rectIndex = FindRectContainingPoint(pairX, pairY, p->mRects);
             if (rectIndex != gSelectKart->mTouchRect) {
                 gSelectKart->mTouchHeld = FALSE;
                 gSelectKart->mTouchHeldFrames = 0;
@@ -43,7 +43,7 @@ s32 UpdateSelectKartTouchHold(void) {
             gSelectKart->mTouchHeldFrames = 0;
         }
     } else if (func_02028774(slotIndex) != 0) {
-        result = FindRectContainingPoint(func_0202874c(slotIndex), func_02028724(slotIndex), p->mUnk_10);
+        result = FindRectContainingPoint(func_0202874c(slotIndex), func_02028724(slotIndex), p->mRects);
         gSelectKart->mTouchHeld = TRUE;
         gSelectKart->mTouchHeldFrames = 0;
     }
@@ -71,19 +71,19 @@ u32 IsSelectKartTouchRepeat(s32 rectIndex) {
 
 void func_02029008(void) {
     SelectKart *d = gSelectKart;
-    Unk02174e50_24 *p;
+    CellFileSet *p;
     if (d->mUnk_104 == FALSE) {
         p = &d->mSelectCharacterGpMParts;
-        p->mUnk_18[1].mOffsetX = GetInterpolatedValue(&d->mInterpolations[0]);
-        p->mUnk_18[2].mOffsetX = p->mUnk_18[1].mOffsetX;
-        p->mUnk_18[0].mOffsetY = GetInterpolatedValue(&gSelectKart->mInterpolations[1]);
-        p->mUnk_18[3].mOffsetY = GetInterpolatedValue(&gSelectKart->mInterpolations[2]);
-        p->mUnk_18[9].mOffsetY = GetInterpolatedValue(&gSelectKart->mInterpolations[3]);
-        p->mUnk_18[8].mOffsetY = p->mUnk_18[9].mOffsetY;
-        p->mUnk_18[7].mOffsetY = p->mUnk_18[8].mOffsetY;
-        p->mUnk_18[6].mOffsetY = p->mUnk_18[7].mOffsetY;
-        p->mUnk_18[5].mOffsetY = p->mUnk_18[6].mOffsetY;
-        p->mUnk_18[4].mOffsetY = p->mUnk_18[5].mOffsetY;
+        p->mCellTable[1].mOffsetX = GetInterpolatedValue(&d->mInterpolations[0]);
+        p->mCellTable[2].mOffsetX = p->mCellTable[1].mOffsetX;
+        p->mCellTable[0].mOffsetY = GetInterpolatedValue(&gSelectKart->mInterpolations[1]);
+        p->mCellTable[3].mOffsetY = GetInterpolatedValue(&gSelectKart->mInterpolations[2]);
+        p->mCellTable[9].mOffsetY = GetInterpolatedValue(&gSelectKart->mInterpolations[3]);
+        p->mCellTable[8].mOffsetY = p->mCellTable[9].mOffsetY;
+        p->mCellTable[7].mOffsetY = p->mCellTable[8].mOffsetY;
+        p->mCellTable[6].mOffsetY = p->mCellTable[7].mOffsetY;
+        p->mCellTable[5].mOffsetY = p->mCellTable[6].mOffsetY;
+        p->mCellTable[4].mOffsetY = p->mCellTable[5].mOffsetY;
     }
 }
 #pragma thumb off

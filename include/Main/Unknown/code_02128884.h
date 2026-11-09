@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-typedef struct OamList OamList;
+typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 
-OamList *GetKeyboardSecondBuffer(void);
-OamList *GetKeyboardFirstBuffer(void);
+RaceHudOamBuffer *GetKeyboardSecondBuffer(void);
+RaceHudOamBuffer *GetKeyboardFirstBuffer(void);

@@ -5,17 +5,17 @@
 #include "code_0201ea58.h" // Unk0201ea30
 #include "Main/Unknown/code_02124094.h" // LayoutTableEntry
 
-// Seven words at 0x24 of MultiSelectMemberGroup, passed by address to LocateCellFileSet, func_02025a50 and
-// func_02025a00.
-typedef struct Unk02174e50_24 {
-    /* 00 */ Ncgr *mUnk_00;
-    /* 04 */ Nclr *mUnk_04;
-    /* 08 */ struct Unk02021dc8 *mUnk_08;
-    /* 0c */ struct Unk0201ea30 *mUnk_0c;
-    /* 10 */ Unk0201ea30 *mUnk_10;
-    /* 14 */ struct Unk0201ea30 *mUnk_14;
-    /* 18 */ LayoutTableEntry *mUnk_18;
-} Unk02174e50_24;
+// 0x1c-byte part of SelectCharacter, at 0x00, 0x1c and 0x38; InitSelectCharacter has two on the stack, one filled by
+// func_02025b84. ResultsBattle has four from 0x48. MultiSelectMemberGroup has one at 0x24.
+typedef struct CellFileSet {
+    /* 00 */ Ncgr *mChars;
+    /* 04 */ Nclr *mPalette;
+    /* 08 */ struct Unk02021dc8 *mCells;
+    /* 0c */ Unk0201ea30 *mCellLayout;
+    /* 10 */ struct Unk0201ea30 *mRects;
+    /* 14 */ Unk0201ea30 *mLabelLayout;
+    /* 18 */ LayoutTableEntry *mCellTable;
+} CellFileSet;
 
 // 12-byte entries at 0x58 of MultiSelectMemberGroup.
 typedef struct Unk02174e50_58 {
@@ -27,7 +27,7 @@ typedef struct Unk02174e50_58 {
 // 0xa8 bytes.
 typedef struct MultiSelectMemberGroup {
     /* 00 */ u8 mUnk_00[0x24];
-    /* 24 */ Unk02174e50_24 mGroupSParts;
+    /* 24 */ CellFileSet mGroupSParts;
     /* 40 */ void *mUnk_40;
     /* 44 */ void *mOamList;
     /* 48 */ s32 mSelectedIndex;

@@ -45,7 +45,7 @@ typedef struct CourseMapCamera {
 #include "code_02012b30.h" // MtxFx43
 
 extern s32 data_usa_021656c4;
-extern Unk0214ad4c data_usa_02170284;
+extern MtxFx44 data_usa_02170284;
 extern MtxFx43 data_usa_021702c8;
 extern s32 data_usa_0217ac80;
 
@@ -144,4 +144,4 @@ void UpdateChaseCamera(Camera *camera, Kart *kart);
 void SetupCameraBehindKart(void);
 void ApplyCameraLookAt(Camera *camera);
 void ApplyCameraFrustum(Camera *camera, s32 useSecondFar);
-MtxFx43 *GetProjectionMatrix(void);
+MtxFx44 *GetProjectionMatrix(void);

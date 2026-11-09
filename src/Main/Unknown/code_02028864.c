@@ -38,9 +38,9 @@
 #pragma thumb on
 void InitSelectKart(void *a, s32 b, void *c, void *d) {
     void *h;
-    Unk02174e50_24 *p;
-    Unk02174e50_24 e;
-    Unk02174e50_24 f;
+    CellFileSet *p;
+    CellFileSet e;
+    CellFileSet f;
     SelectKart *g;
     s32 i;
     s32 m;
@@ -130,13 +130,13 @@ void InitSelectKart(void *a, s32 b, void *c, void *d) {
             func_02025a50(0, gSelectKart->mHeap, p);
             LocateCellFileSet(&e, gSelectCharacterGpTitleMNcgrName2, gSelectCharacterGpTitleMNcerName2, NULL,
                               gSelectCharacterGpTitleMBnclName2, NULL, NULL, FindFileInLoadedArchives);
-            QueueCellChars(1, e.mUnk_08, e.mUnk_00, e.mUnk_0c, 0, 0, p->mUnk_08, p->mUnk_0c);
+            QueueCellChars(1, e.mCells, e.mChars, e.mCellLayout, 0, 0, p->mCells, p->mCellLayout);
             LocateCellFileSet(&f, gSelectCharacterGpNameMNcgrName2, gSelectCharacterGpNameMNcerName2, NULL,
                               gSelectCharacterGpNameMBnclName2, NULL, NULL, FindFileInLoadedArchives);
-            QueueCellChars(data_usa_021537dc[gSelectKart->mCharacterIndex], f.mUnk_08, f.mUnk_00, f.mUnk_0c, 0, 2,
-                           p->mUnk_08, p->mUnk_0c);
-            QueueCellChars(data_usa_021537dc[gSelectKart->mCharacterIndex], f.mUnk_08, f.mUnk_00, f.mUnk_0c, 0, 1,
-                           p->mUnk_08, p->mUnk_0c);
+            QueueCellChars(data_usa_021537dc[gSelectKart->mCharacterIndex], f.mCells, f.mChars, f.mCellLayout, 0, 2,
+                           p->mCells, p->mCellLayout);
+            QueueCellChars(data_usa_021537dc[gSelectKart->mCharacterIndex], f.mCells, f.mChars, f.mCellLayout, 0, 1,
+                           p->mCells, p->mCellLayout);
         }
     }
     if (func_020280dc() == 0) {
@@ -155,16 +155,16 @@ void InitSelectKart(void *a, s32 b, void *c, void *d) {
         for (i = 0; i < 6; i++) {
             w = GetBmgEntry(gSelectKart->mKartSelectMessages, data_usa_021537f4[i].mUnk_08);
             n = data_usa_021537f4[i].mUnk_00;
-            func_0212426c(1, n, p->mUnk_14, w, p->mUnk_0c, p->mUnk_18);
-            func_02124094(n, 1, p->mUnk_14, p->mUnk_18, p->mUnk_0c);
+            func_0212426c(1, n, p->mLabelLayout, w, p->mCellLayout, p->mCellTable);
+            func_02124094(n, 1, p->mLabelLayout, p->mCellTable, p->mCellLayout);
         }
         w = GetBmgEntry(FindFileInLoadedArchives(gCommonBmgName2), data_usa_021537f4[6].mUnk_08);
         i = data_usa_02153834[4];
-        func_0212426c(1, i, p->mUnk_14, w, p->mUnk_0c, p->mUnk_18);
-        SetLabelPaletteIndex(i, 1, p->mUnk_14, p->mUnk_18, p->mUnk_0c);
-        InitPaletteBlend(gSelectKart->mHeap, p->mUnk_04, 1);
-        p->mUnk_18[2].mVisible = 0;
-        p->mUnk_18[3].mVisible = p->mUnk_18[2].mVisible;
+        func_0212426c(1, i, p->mLabelLayout, w, p->mCellLayout, p->mCellTable);
+        SetLabelPaletteIndex(i, 1, p->mLabelLayout, p->mCellTable, p->mCellLayout);
+        InitPaletteBlend(gSelectKart->mHeap, p->mPalette, 1);
+        p->mCellTable[2].mVisible = 0;
+        p->mCellTable[3].mVisible = p->mCellTable[2].mVisible;
     } else {
         InitSelectRaceRuleWait(gSelectKart->mHeap, gSelectKart->mUnk_084);
         func_0211f394();

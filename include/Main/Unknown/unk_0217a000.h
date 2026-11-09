@@ -8,7 +8,7 @@
 #include "code_02142eac.h" // Unk021438f0, Unk02143a78, Unk02143c30
 #include "code_021445e0.h" // WMDataSharingInfo, WMDataSet
 #include "code_02147cd8.h" // Vec3s16
-#include "code_0214a748.h" // Unk0214ad4c
+#include "code_0214a748.h" // MtxFx44
 #include "code_02012b30.h" // MtxFx43
 #include "Main/Unknown/code_02006954.h"
 #include "Main/Unknown/code_0207b960.h" // PosCurve
@@ -1252,7 +1252,7 @@ extern Camera *gCurrentChainCamera;
 // Kart code starts its kind 6 and kind 8 entries (StartEntryCameraKind6Entry, StartEntryCameraKind8Entry). The chain
 // cameras also run entries but never pick by position.
 extern Camera *gEntryCamera;
-extern u8 data_0217acc0[];
+extern MtxFx44 data_0217acc0;
 // 0x20-byte entries behind member 0x014 of KartModels.
 typedef struct HeyhoPalette {
     /* 00 */ u8 mUnk_00[4];
@@ -1518,7 +1518,7 @@ extern u8 *data_0217aecc;
 extern Vec3 *gKartDistanceLimitsSquared;
 extern u16 *gKartEmblemPlltBuffer;
 extern s32 data_0217aedc;
-extern Unk0214ad4c data_0217aee0;
+extern MtxFx44 data_0217aee0;
 
 struct KartNameTag;
 

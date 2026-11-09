@@ -24,7 +24,8 @@ void InitLayoutTable(void *heap, Unk0201ea30 *cellLayout, Unk0201ea30 *labelLayo
 
 // Draws entry a: first the entry it is chained to, then itself; appends the cell OAMs to the list, and returns without
 // drawing when the entry is disabled or lies off the 256 x 192 screen.
-u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout, Unk0201ea30 *labelLayout, OamList *oamList,
+u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout, Unk0201ea30 *labelLayout,
+                    RaceHudOamBuffer *oamList,
                     LayoutTableEntry *entry, s32 incrementFlag) {
     s32 width;
     s32 height;
@@ -35,7 +36,7 @@ u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout, Unk0
     CellLayoutEntry *cellEntry;
     u16 groupIndex;
     u32 oamCount;
-    Unk02124c70_00 *group;
+    GXOamAffine *group;
 
     if (entry->mLabelIndex != -1) {
         DrawLayoutEntry(entry->mLabelIndex + cellLayout->mUnk_06, cells, cellLayout, labelLayout, oamList,
@@ -83,17 +84,17 @@ u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout, Unk0
     groupIndex = GetOamMatrixCount(oamList);
     if (entry->mUseMatrix != 0) {
         matrix = &entry->mMatrix;
-        group = &oamList->mUnk_000[groupIndex];
-        group->mUnk_00[0].mUnk_00[3] = entry->mUnk_14.mUnk_00[0] >> 4;
-        group->mUnk_00[1].mUnk_00[3] = entry->mUnk_14.mUnk_00[1] >> 4;
-        group->mUnk_00[2].mUnk_00[3] = entry->mUnk_14.mUnk_00[2] >> 4;
-        group->mUnk_00[3].mUnk_00[3] = entry->mUnk_14.mUnk_00[3] >> 4;
+        group = &oamList->mMatrices[groupIndex];
+        group->mPA = entry->mUnk_14.mUnk_00[0] >> 4;
+        group->mPB = entry->mUnk_14.mUnk_00[1] >> 4;
+        group->mPC = entry->mUnk_14.mUnk_00[2] >> 4;
+        group->mPD = entry->mUnk_14.mUnk_00[3] >> 4;
         if (incrementFlag != 0) {
             IncrementOamMatrixCount(oamList);
         }
     }
     oamCount = oamList->mOamCount;
-    oamList->mOamCount += NNS_G2dMakeCellToOams(&oamList->mUnk_000[0].mUnk_00[oamCount], 0x80 - oamCount, cellData,
+    oamList->mOamCount += NNS_G2dMakeCellToOams(&oamList->mOams[oamCount], 0x80 - oamCount, cellData,
                                                 matrix, position, groupIndex, entry->mUnk_34);
 }
 

@@ -19,14 +19,6 @@ typedef struct DataRangeLoadJob {
     /* 14 */ DataRangeTable *mDataRangeTable;
 } DataRangeLoadJob;
 
-// Six bytes handed to WriteParentMessage.
-typedef struct Unk020074d8_msg {
-    /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 mUnk_01;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u16 mUnk_04;
-} Unk020074d8_msg;
-
 extern u8 data_usa_02161784;
 
 void LoadDataRange(DataRangeLoadJob *job);

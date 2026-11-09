@@ -34,7 +34,7 @@ void RefreshKartMenuParamElements(void) {
     result = func_020280dc();
     if (result == 0) {
         params = ComputeKartMenuParams(gSelectKart->mKartIndex, gSelectKart->mCharacterIndex);
-        parts = (CellFileSet *) &gSelectKart->mSelectKartSParts;
+        parts = &gSelectKart->mSelectKartSParts;
         SetKartMenuParamElementOffset(10, 0x10, *params, parts);
         SetKartMenuParamElementOffset(9, 0xf, params[1], parts);
         SetKartMenuParamElementOffset(8, 0xe, params[2], parts);

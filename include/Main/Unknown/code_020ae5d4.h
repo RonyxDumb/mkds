@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct OamList OamList;
+typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 
-u32 IncrementOamMatrixCount(OamList *oamList);
+u32 IncrementOamMatrixCount(RaceHudOamBuffer *oamList);

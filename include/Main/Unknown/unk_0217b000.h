@@ -21,7 +21,7 @@
 #include "Main/Unknown/code_020ae000.h"
 #include "Main/Unknown/code_020ae630.h"
 #include "Main/Unknown/code_02089fa0.h" // StemSet
-#include "code_0214a748.h" // Unk0214ad4c
+#include "code_0214a748.h" // MtxFx44
 
 struct RandomState64;
 struct MapObjects;
@@ -278,7 +278,7 @@ typedef struct StemSets {
     /* 73c */ s32 mShownIndex;
     /* 740 */ u16 mShownFrames;
     /* 742 */ u16 mShownFrameCount;
-    /* 744 */ Unk0214ad4c mOrthoMtx;
+    /* 744 */ MtxFx44 mOrthoMtx;
     /* 784 */ TimedQuad mTimedQuad;
     /* 794 */ void (*mStartFunction)(TimedQuad *);
     /* 798 */ void (*mUpdateFunction)(TimedQuad *);

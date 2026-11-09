@@ -8,7 +8,8 @@
 #include "code_0212c9d4.h" // CaptureParam, EffectInfo
 #include "code_0201ea58.h" // Unk0201ea30
 #include "Main/Unknown/code_02124094.h" // LayoutTableEntry
-#include "Main/Unknown/code_02124bf0.h" // OamList
+#include "Main/Unknown/code_02124bf0.h"
+#include "Main/Unknown/code_020c06c4.h" // RaceHudOamBuffer
 #include "code_0212d214.h"
 #include "Main/Unknown/types_02180728.h" // TextCanvas
 #include "Main/Unknown/code_02105ec0.h" // Unk0217c7c4
@@ -583,7 +584,7 @@ typedef struct SelectReturn {
     /* 824 */ s32 mSoundId;
 } SelectReturn;
 
-// Records of 8 bytes: 0x80 of them start an OamList, and two are at member 0x10c of LinkLevelIcons
+// Records of 8 bytes: 0x80 of them start a RaceHudOamBuffer, and two are at member 0x10c of LinkLevelIcons
 // (AdvanceLinkLevelIcons copies 6 bytes of a record into one of those).
 typedef struct Unk0217d3fc_00_00 {
     /* 00 */ u32 mUnk_00;
@@ -591,10 +592,10 @@ typedef struct Unk0217d3fc_00_00 {
     /* 06 */ u8 mUnk_06[2];
 } Unk0217d3fc_00_00;
 
-// Object behind data_0217d3fc: 0x808 bytes allocated by InitKeyboardScene, two OamLists.
+// Object behind data_0217d3fc: 0x808 bytes allocated by InitKeyboardScene, two RaceHudOamBuffers.
 typedef struct Unk0217d3fc {
-    /* 000 */ OamList mUnk_00;
-    /* 404 */ OamList mUnk_404;
+    /* 000 */ RaceHudOamBuffer mUnk_00;
+    /* 404 */ RaceHudOamBuffer mUnk_404;
 } Unk0217d3fc;
 
 // Objects of 0x18 bytes, three of them at 0x2c of Keyboard: 0 and 1 are read as halfword strings, 2 also as the
@@ -670,7 +671,7 @@ typedef struct LinkLevelIcons {
     /* 01c */ s32 mIconLevel[2];
     /* 024 */ s32 mCycleFrames;
     /* 028 */ Unk0217d404_28 mUnk_028[2];
-    /* 038 */ OamList *mOamList;
+    /* 038 */ RaceHudOamBuffer *mOamList;
     /* 03c */ u8 mUnk_03c[0x20];
     /* 05c */ u8 mUnk_05c[0x60];
     /* 0bc */ CharTile *mIconChars[5][4];

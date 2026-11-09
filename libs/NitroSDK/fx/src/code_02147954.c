@@ -2,7 +2,7 @@
 
 // clang-format off
 // Sets dst to the 4x4 identity matrix (0x1000 on the diagonal, 0 elsewhere).
-asm void MTX_Identity44_(s32 *dst) {
+asm void MTX_Identity44_(MtxFx44 *dst) {
     mov r2, #0x1000
     mov r3, #0
     stmia r0!, {r2, r3}

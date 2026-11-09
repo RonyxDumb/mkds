@@ -35,8 +35,8 @@
 #include "code_02010c84.h"
 #include "Main/Unknown/code_0203c5f8.h"
 
-MtxFx43 *GetProjectionMatrix(void) {
-    return (MtxFx43 *) data_0217acc0;
+MtxFx44 *GetProjectionMatrix(void) {
+    return &data_0217acc0;
 }
 
 static inline s32 func_020760ec_inline(Vec3 *src, Vec3 *dst) {

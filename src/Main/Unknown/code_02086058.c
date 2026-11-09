@@ -274,7 +274,7 @@ void DrawKartNameTags(MtxFx43 *viewMatrix) {
     s32 screenX;
     s32 depth;
     Vec3 viewPos;
-    MtxFx43 *projectionMatrix;
+    MtxFx44 *projectionMatrix;
     KartNameTag *kartObject;
     BOOL isProjected;
     if (GetCurrentCameraKind() != 0 && GetCurrentCameraKind() != 3) {
@@ -308,10 +308,10 @@ void DrawKartNameTags(MtxFx43 *viewMatrix) {
         } else {
             projectionMatrix = GetProjectionMatrix();
             screenX =
-                ((s64) viewPos.x * projectionMatrix->mUnk_00[0].x + (s64) viewPos.z * projectionMatrix->mUnk_00[2].z) >>
+                ((s64) viewPos.x * projectionMatrix->mUnk_00[0] + (s64) viewPos.z * projectionMatrix->mUnk_00[8]) >>
                 12;
             screenY =
-                ((s64) viewPos.y * projectionMatrix->mUnk_00[1].z + (s64) viewPos.z * projectionMatrix->mUnk_00[3].x) >>
+                ((s64) viewPos.y * projectionMatrix->mUnk_00[5] + (s64) viewPos.z * projectionMatrix->mUnk_00[9]) >>
                 12;
             depth = -((const Vec3 *) &viewPos)->z;
             screenX = FX_Div(screenX, depth);

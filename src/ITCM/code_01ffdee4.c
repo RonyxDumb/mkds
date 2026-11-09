@@ -393,20 +393,20 @@ BOOL func_01ffdee4(Vec3 *a, Vec3 *b, Vec3 *c, int r, u16 fl, short e, Vec3 *f, V
                 uc.y = ((s64) pe * n[0].y) >> 2;
                 uc.z = ((s64) pe * n[0].z) >> 2;
                 if (bt & 0x1e34ef) {
-                    if (uc.x > wa.mUnk_00) {
-                        wa.mUnk_00 = uc.x;
-                    } else if (uc.x < wa.mUnk_0c) {
-                        wa.mUnk_0c = uc.x;
+                    if (uc.x > wa.mUnk_00.x) {
+                        wa.mUnk_00.x = uc.x;
+                    } else if (uc.x < wa.mUnk_0c.x) {
+                        wa.mUnk_0c.x = uc.x;
                     }
-                    if (uc.y > wa.mUnk_04) {
-                        wa.mUnk_04 = uc.y;
-                    } else if (uc.y < wa.mUnk_10) {
-                        wa.mUnk_10 = uc.y;
+                    if (uc.y > wa.mUnk_00.y) {
+                        wa.mUnk_00.y = uc.y;
+                    } else if (uc.y < wa.mUnk_0c.y) {
+                        wa.mUnk_0c.y = uc.y;
                     }
-                    if (uc.z > wa.mUnk_08) {
-                        wa.mUnk_08 = uc.z;
-                    } else if (uc.z < wa.mUnk_14) {
-                        wa.mUnk_14 = uc.z;
+                    if (uc.z > wa.mUnk_00.z) {
+                        wa.mUnk_00.z = uc.z;
+                    } else if (uc.z < wa.mUnk_0c.z) {
+                        wa.mUnk_0c.z = uc.z;
                     }
                     if (g != NULL && pe >= wa.mUnk_18) {
                         wa.mUnk_18 = pe;
@@ -433,20 +433,20 @@ BOOL func_01ffdee4(Vec3 *a, Vec3 *b, Vec3 *c, int r, u16 fl, short e, Vec3 *f, V
                             cb.z = uc.z;
                         }
                     } else {
-                        if (uc.x > wb.mUnk_00) {
-                            wb.mUnk_00 = uc.x;
-                        } else if (uc.x < wb.mUnk_0c) {
-                            wb.mUnk_0c = uc.x;
+                        if (uc.x > wb.mUnk_00.x) {
+                            wb.mUnk_00.x = uc.x;
+                        } else if (uc.x < wb.mUnk_0c.x) {
+                            wb.mUnk_0c.x = uc.x;
                         }
-                        if (uc.y > wb.mUnk_04) {
-                            wb.mUnk_04 = uc.y;
-                        } else if (uc.y < wb.mUnk_10) {
-                            wb.mUnk_10 = uc.y;
+                        if (uc.y > wb.mUnk_00.y) {
+                            wb.mUnk_00.y = uc.y;
+                        } else if (uc.y < wb.mUnk_0c.y) {
+                            wb.mUnk_0c.y = uc.y;
                         }
-                        if (uc.z > wb.mUnk_08) {
-                            wb.mUnk_08 = uc.z;
-                        } else if (uc.z < wb.mUnk_14) {
-                            wb.mUnk_14 = uc.z;
+                        if (uc.z > wb.mUnk_00.z) {
+                            wb.mUnk_00.z = uc.z;
+                        } else if (uc.z < wb.mUnk_0c.z) {
+                            wb.mUnk_0c.z = uc.z;
                         }
                     }
                     if (h != NULL && pe >= wb.mUnk_18) {
@@ -541,8 +541,8 @@ BOOL func_01ffdee4(Vec3 *a, Vec3 *b, Vec3 *c, int r, u16 fl, short e, Vec3 *f, V
         *j = ud;
     }
     if (f != NULL) {
-        uc.y = wa.mUnk_04 > wb.mUnk_04 ? wa.mUnk_04 : wb.mUnk_04;
-        uc.y += wa.mUnk_10 < wb.mUnk_10 ? wa.mUnk_10 : wb.mUnk_10;
+        uc.y = wa.mUnk_00.y > wb.mUnk_00.y ? wa.mUnk_00.y : wb.mUnk_00.y;
+        uc.y += wa.mUnk_0c.y < wb.mUnk_0c.y ? wa.mUnk_0c.y : wb.mUnk_0c.y;
         if (ra & 0x10000) {
             if (j != NULL && (ra & 0x1e34ef) && !(ra & 0x400) && !(ra & 0x800)) {
                 ud.x >>= 4;
@@ -566,24 +566,24 @@ BOOL func_01ffdee4(Vec3 *a, Vec3 *b, Vec3 *c, int r, u16 fl, short e, Vec3 *f, V
             if (ca.y > uc.y) {
                 uc.y = ca.y;
             }
-            if (ca.x > wb.mUnk_00) {
-                wb.mUnk_00 = ca.x;
+            if (ca.x > wb.mUnk_00.x) {
+                wb.mUnk_00.x = ca.x;
             }
-            if (cb.x < wb.mUnk_0c) {
-                wb.mUnk_0c = cb.x;
+            if (cb.x < wb.mUnk_0c.x) {
+                wb.mUnk_0c.x = cb.x;
             }
-            if (ca.z > wb.mUnk_08) {
-                wb.mUnk_08 = ca.z;
+            if (ca.z > wb.mUnk_00.z) {
+                wb.mUnk_00.z = ca.z;
             }
-            if (cb.z < wb.mUnk_14) {
-                wb.mUnk_14 = cb.z;
+            if (cb.z < wb.mUnk_0c.z) {
+                wb.mUnk_0c.z = cb.z;
             }
         }
     lo:
-        uc.x = wa.mUnk_00 > wb.mUnk_00 ? wa.mUnk_00 : wb.mUnk_00;
-        uc.x += wa.mUnk_0c < wb.mUnk_0c ? wa.mUnk_0c : wb.mUnk_0c;
-        uc.z = wa.mUnk_08 > wb.mUnk_08 ? wa.mUnk_08 : wb.mUnk_08;
-        uc.z += wa.mUnk_14 < wb.mUnk_14 ? wa.mUnk_14 : wb.mUnk_14;
+        uc.x = wa.mUnk_00.x > wb.mUnk_00.x ? wa.mUnk_00.x : wb.mUnk_00.x;
+        uc.x += wa.mUnk_0c.x < wb.mUnk_0c.x ? wa.mUnk_0c.x : wb.mUnk_0c.x;
+        uc.z = wa.mUnk_00.z > wb.mUnk_00.z ? wa.mUnk_00.z : wb.mUnk_00.z;
+        uc.z += wa.mUnk_0c.z < wb.mUnk_0c.z ? wa.mUnk_0c.z : wb.mUnk_0c.z;
         f->x = uc.x >> 10;
         f->y = uc.y >> 10;
         f->z = uc.z >> 10;
@@ -596,7 +596,7 @@ BOOL func_01ffdee4(Vec3 *a, Vec3 *b, Vec3 *c, int r, u16 fl, short e, Vec3 *f, V
                 cd.z = ((s64) cc.z * (c)->z) >> 12;
                 cc.x = cc.x - (s32) (((s64) cd.x * (c)->x) >> 12);
                 cc.z = cc.z - (s32) (((s64) cd.z * (c)->z) >> 12);
-                VEC_Add((Vec3 *) &wa.mUnk_00, (Vec3 *) &wa.mUnk_0c, &ua);
+                VEC_Add(&wa.mUnk_00, &wa.mUnk_0c, &ua);
                 if (Vec3DotUnrounded(&cc, &ua) >= 0) {
                     if ((s64) cc.x * cc.x + (s64) cc.y * cc.y + (s64) cc.z * cc.z >= 16) {
                         Vec3NormalizeAndGetLengthUnchecked(&cc, &cc);

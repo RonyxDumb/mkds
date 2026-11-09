@@ -6,7 +6,7 @@
 #pragma thumb on
 
 u32 func_020074d8(void) {
-    Unk020074d8_msg message;
+    ParentMessage message;
     u8 v2[16];
     u16 child;
     u32 v4;
@@ -44,7 +44,7 @@ u32 func_020074d8(void) {
             childMask |= 1 << child;
         }
     }
-    message.mUnk_00 = 3;
+    message.mKind = 3;
     message.mUnk_02 = v4;
     v9 = WriteParentMessage((u8 *) &message, (u8 *) work);
     if (v9 != NULL) {

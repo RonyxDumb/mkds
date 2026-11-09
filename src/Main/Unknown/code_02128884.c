@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_02128884.h"
+#include "Main/Unknown/code_020c06c4.h"
 #include "Main/Unknown/code_02036820.h"
 #include "Main/Unknown/code_020487fc.h"
 #include "Main/Unknown/code_020ae630.h"
@@ -66,11 +67,11 @@ s32 RunKeyboardScene(void *sceneNumbers) {
 
 #pragma thumb on
 
-OamList *GetKeyboardFirstBuffer(void) {
+RaceHudOamBuffer *GetKeyboardFirstBuffer(void) {
     return &data_0217d3fc->mUnk_00;
 }
 
-OamList *GetKeyboardSecondBuffer(void) {
+RaceHudOamBuffer *GetKeyboardSecondBuffer(void) {
     return &data_0217d3fc->mUnk_404;
 }
 

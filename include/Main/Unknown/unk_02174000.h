@@ -73,10 +73,10 @@ extern RaceSetupCopy *gRaceSetupCopy;
 typedef struct SelectKart {
     /* 000 */ u8 mUnk_000[0x24];
     // The 0x24-byte record of func_020258d4 starts here and runs into mUnk_040.
-    /* 024 */ Unk02174e50_24 mSelectKartSBParts;
+    /* 024 */ CellFileSet mSelectKartSBParts;
     /* 040 */ u8 mUnk_040[8];
-    /* 048 */ Unk02174e50_24 mSelectCharacterGpMParts;
-    /* 064 */ Unk02174e50_24 mSelectKartSParts;
+    /* 048 */ CellFileSet mSelectCharacterGpMParts;
+    /* 064 */ CellFileSet mSelectKartSParts;
     /* 080 */ void *mUnk_080;
     /* 084 */ void *mUnk_084;
     /* 088 */ struct Bmg *mKartSelectMessages;
@@ -120,18 +120,6 @@ typedef struct PlayerEntryRow {
 } PlayerEntryRow;
 
 extern HeapCall gRootHeapCall;
-
-// 0x1c-byte part of SelectCharacter, at 0x00, 0x1c and 0x38; InitSelectCharacter has two on the stack, one filled by
-// func_02025b84. ResultsBattle has four from 0x48.
-typedef struct CellFileSet {
-    /* 00 */ Ncgr *mChars;
-    /* 04 */ Nclr *mPalette;
-    /* 08 */ struct Unk02021dc8 *mCells;
-    /* 0c */ Unk0201ea30 *mCellLayout;
-    /* 10 */ struct Unk0201ea30 *mRects;
-    /* 14 */ Unk0201ea30 *mLabelLayout;
-    /* 18 */ LayoutTableEntry *mCellTable;
-} CellFileSet;
 
 // Object behind gPlayerEntryList.
 // Object behind gSelectCharacter.

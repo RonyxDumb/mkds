@@ -3,6 +3,7 @@
 #include "types.h"
 #include "code_0212bcac.h"
 #include "code_0212d214.h"
+#include "code_021479b4.h" // MtxFx44
 #include "Main/Unknown/code_021035ac.h"
 #include "Main/Unknown/code_0210bafc.h"
 
@@ -63,7 +64,7 @@ extern u16 data_0217c638;
 // TRUE for the cream effect, FALSE for geso_sumi; chosen by the call that started the quads.
 extern BOOL gOrthoQuadUseCreamEffect;
 extern u16 gOrthoQuadFirstPolygonId;
-extern u8 gOrthoQuadMatrix[];
+extern MtxFx44 gOrthoQuadMatrix;
 // Polygon alpha: 0x1f when the quads start, falls by 1 every second frame after the hold and ends them at 0.
 extern u16 gOrthoQuadAlpha;
 // One byte per row, one bit per column; marked when a quad is placed so later quads avoid the same cells.

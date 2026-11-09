@@ -1,3 +1,4 @@
+#include "Main/Unknown/code_020c06c4.h"
 #include "Main/Unknown/code_020ae5e4.h"
 #include "code_0200eddc.h"
 #include "code_0214b824.h"
@@ -15,8 +16,8 @@ void UploadOamLists(void *mainOamList, void *subOamList) {
     }
 }
 
-u16 GetOamMatrixCount(const void *oamList) {
-    return ((u32) * (const u16 *) ((u8 *) oamList + 0 + (0x402u)));
+u16 GetOamMatrixCount(const RaceHudOamBuffer *oamList) {
+    return oamList->mMatrixCount;
 }
 
 #pragma thumb off

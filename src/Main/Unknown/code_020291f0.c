@@ -27,7 +27,7 @@ void func_02029330(void) {
     s32 a;
     s32 b;
     SelectKart *d;
-    Unk02174e50_24 *p;
+    CellFileSet *p;
     if (func_020280dc() == 0) {
         d = gSelectKart;
         a = func_02025da4(d->mUnk_098, d->mCharacterIndex, d->mKartIndex);
@@ -37,15 +37,15 @@ void func_02029330(void) {
             WriteKartPositionAndCount(a, b);
         } else {
             p = &d->mSelectCharacterGpMParts;
-            p->mUnk_18[5].mVisible = (a >= 10);
-            func_02025c48(5, a / 10 % 10 + 10, p->mUnk_0c);
-            func_02025c48(6, a % 10 + 10, p->mUnk_0c);
+            p->mCellTable[5].mVisible = (a >= 10);
+            func_02025c48(5, a / 10 % 10 + 10, p->mCellLayout);
+            func_02025c48(6, a % 10 + 10, p->mCellLayout);
             if (b >= 10) {
-                func_02025c48(8, b / 10 % 10 + 20, p->mUnk_0c);
-                func_02025c48(9, b % 10 + 20, p->mUnk_0c);
+                func_02025c48(8, b / 10 % 10 + 20, p->mCellLayout);
+                func_02025c48(9, b % 10 + 20, p->mCellLayout);
             } else {
-                p->mUnk_18[9].mVisible = 0;
-                func_02025c48(8, b % 10 + 20, p->mUnk_0c);
+                p->mCellTable[9].mVisible = 0;
+                func_02025c48(8, b % 10 + 20, p->mCellLayout);
             }
         }
     }
