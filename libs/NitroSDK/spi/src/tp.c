@@ -111,7 +111,7 @@ void TP_Init(void) {
 // Computes the calibration from the values stored in the shared block; zeroes it when there are none or they are
 // refused.
 BOOL TP_GetUserInfo(TPCalibrateParam *calibrate) {
-    Unk0214eadc *info = HW_UNK_027FFC80_TP_BUF;
+    Unk0214eadc *info = HW_UNK_027FFC80_BUF;
     u16 rawX1;
     u16 y1;
     u16 x2;

@@ -3,10 +3,59 @@
 #include "types.h"
 #include "os_thread.h"
 
-// The ROM header the card leaves in shared memory, and the copy of it that is kept for the application.
-#define HW_ROM_HEADER_BUF ((void *) 0x027ffe00)
-#define HW_CARD_ROM_HEADER ((void *) 0x027ffa80)
-#define HW_UNK_027FFE60_BUF ((u32 *) 0x027ffe60)
+// Two words read as a pair: data_0216f35c, data_0216f364 and the tables in the ROM header.
+typedef struct Unk02005704 {
+    /* 00 */ u8 *mUnk_00;
+    /* 04 */ u32 mUnk_04;
+} Unk02005704;
+
+// The 0x160-byte ROM header the card leaves in shared memory at 0x027ffe00, and the copy of it kept for the
+// application.
+typedef struct CARDRomHeader {
+    /* 00 */ u8 mUnk_00[0x20];
+    /* 20 */ u32 mUnk_20;
+    /* 24 */ u8 mUnk_24[0x4];
+    /* 28 */ u32 mUnk_28;
+    /* 2c */ u32 mUnk_2c;
+    /* 30 */ u32 mUnk_30;
+    /* 34 */ u8 mUnk_34[0x8];
+    /* 3c */ u32 mUnk_3c;
+    union {
+        struct {
+            /* 40 */ u32 mFntOffset;
+            /* 44 */ u32 mFntSize;
+        };
+        /* 40 */ Unk02005704 mFntTable;
+    };
+    union {
+        struct {
+            /* 48 */ u32 mFatOffset;
+            /* 4c */ u32 mFatSize;
+        };
+        /* 48 */ Unk02005704 mFatTable;
+    };
+    union {
+        struct {
+            /* 50 */ u32 mOverlayTable0Offset;
+            /* 54 */ u32 mOverlayTable0Size;
+        };
+        /* 50 */ Unk02005704 mOverlayTable0;
+    };
+    union {
+        struct {
+            /* 58 */ u32 mOverlayTable1Offset;
+            /* 5c */ u32 mOverlayTable1Size;
+        };
+        /* 58 */ Unk02005704 mOverlayTable1;
+    };
+    /* 60 */ u32 mUnk_60;
+    /* 64 */ u8 mUnk_64[0x1c];
+    /* 80 */ u32 mUnk_80;
+    /* 84 */ u8 mUnk_84[0xdc];
+} CARDRomHeader;
+
+#define HW_ROM_HEADER_BUF ((CARDRomHeader *) 0x027ffe00)
+#define HW_CARD_ROM_HEADER ((CARDRomHeader *) 0x027ffa80)
 
 // The command block: mResult is the result of the last request.
 typedef struct CARDiCommandArg {

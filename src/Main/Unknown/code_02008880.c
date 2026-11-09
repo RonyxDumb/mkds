@@ -33,7 +33,7 @@ u32 func_02008880(FSFile *a) {
         }
         FS_SeekFile(a, v4, 0);
     } else {
-        headerPtr = HW_ROM_HEADER_BUF;
+        headerPtr = (Unk02008880 *) HW_ROM_HEADER_BUF;
     }
     if (headerPtr != NULL) {
         size = headerPtr->mUnk_2c + 0x268 + headerPtr->mUnk_3c;

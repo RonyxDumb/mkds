@@ -130,8 +130,8 @@ u32 FS_LoadOverlayInfo(FSOverlayInfo *info, u32 selector, u32 index) {
         FS_CloseFile(&file);
         return 1;
     }
-    region0 = HW_UNK_027FFE50_BUF;
-    region1 = HW_UNK_027FFE58_BUF;
+    region0 = &HW_ROM_HEADER_BUF->mOverlayTable0;
+    region1 = &HW_ROM_HEADER_BUF->mOverlayTable1;
     return FSi_LoadOverlayInfoCore(info, selector, index, &data_0216f36c, region0->mUnk_00, region0->mUnk_04,
                                    region1->mUnk_00, region1->mUnk_04);
 }

@@ -10,9 +10,34 @@ typedef struct Unk027ffc40 {
     /* 02 */ u8 mUnk_02[0x3c];
 } Unk027ffc40;
 
+// The user settings the system leaves in shared memory at 0x027ffc80: the owner data and the touch panel calibration
+// words.
+typedef struct Unk0214eadc {
+    /* 00 */ u8 mUnk_00[2];
+    /* 02 */ u8 mUnk_02;
+    /* 03 */ u8 mUnk_03;
+    /* 04 */ u8 mUnk_04;
+    /* 05 */ u8 mUnk_05;
+    /* 06 */ u8 mUnk_06[0x14];
+    /* 1a */ u8 mUnk_1a;
+    /* 1b */ u8 mUnk_1b;
+    /* 1c */ u8 mUnk_1c[0x34];
+    /* 50 */ u8 mUnk_50;
+    /* 51 */ u8 mUnk_51[7];
+    /* 58 */ u16 mRawX1;
+    /* 5a */ u16 mRawY1;
+    /* 5c */ u8 mDx1;
+    /* 5d */ u8 mDy1;
+    /* 5e */ u16 mRawX2;
+    /* 60 */ u16 mRawY2;
+    /* 62 */ u8 mDx2;
+    /* 63 */ u8 mDy2;
+    /* 64 */ u16 mUnk_64;
+} Unk0214eadc;
+
 #define HW_WM_BOOT_BUF ((Unk027ffc40 *) 0x027ffc40)
 #define HW_VBLANK_COUNT_BUF ((vu32 *) 0x027ffc3c)
-#define HW_UNK_027FFC80_BUF ((u8 *) 0x027ffc80)
+#define HW_UNK_027FFC80_BUF ((Unk0214eadc *) 0x027ffc80)
 #define HW_UNK_027FFCF4_BUF ((void *) 0x027ffcf4)
 
 // Clears the IRQ disable bit and returns the previous bit.

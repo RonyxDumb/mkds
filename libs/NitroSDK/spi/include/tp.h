@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "code_0200fc8c.h"
 
 // One reading, 8 bytes: x, y, touched flag and validity. The values from the other processor are raw;
 // TP_GetCalibratedPoint converts x and y to screen coordinates.
@@ -55,7 +56,6 @@ typedef enum TPState { TP_STATE_READY = 0, TP_STATE_SAMPLING, TP_STATE_AUTO_SAMP
 typedef void (*TPRecvCallback)(TPRequestCommand command, u8 result, u8 index);
 
 #define HW_UNK_027FFFAA_BUF ((u16 *) 0x027fffaa)
-#define HW_UNK_027FFC80_TP_BUF ((Unk0214eadc *) 0x027ffc80)
 
 // The two shared halfwords at 0x027fffaa and 0x027fffac that carry a reading, split into bit fields.
 typedef union SPITpData {
@@ -68,19 +68,6 @@ typedef union SPITpData {
         /* 00 */ u32 : 5;
     } e;
 } SPITpData;
-
-// Calibration words in the shared block at 0x027ffc80, read by TP_GetUserInfo.
-typedef struct Unk0214eadc {
-    /* 00 */ u8 mUnk_00[0x58];
-    /* 58 */ u16 mRawX1;
-    /* 5a */ u16 mRawY1;
-    /* 5c */ u8 mDx1;
-    /* 5d */ u8 mDy1;
-    /* 5e */ u16 mRawX2;
-    /* 60 */ u16 mRawY2;
-    /* 62 */ u8 mDx2;
-    /* 63 */ u8 mDy2;
-} Unk0214eadc;
 
 // State of the touch panel channel, 0x38 bytes, one instance.
 typedef struct TouchPanelState {

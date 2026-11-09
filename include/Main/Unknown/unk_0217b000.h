@@ -519,7 +519,6 @@ typedef struct TitleScene {
     /* 058 */ BOOL mSelectedPressed;
     /* 05c */ BOOL mPreferEntry4;
     /* 060 */ s16 mSelectedOffset;
-    /* 062 */ u8 pad_62[2];
     /* 064 */ s32 mBlendFrames;
     /* 068 */ struct LayoutTableEntry *mTitleTable;
     /* 06c */ struct Unk0201ea30 *mTitleSBncl;
@@ -532,11 +531,11 @@ typedef struct TitleScene {
     /* 088 */ struct Nscr *mTitleTrueM1OrM1Nscr;
     /* 08c */ struct Nscr *mTitleTrueM2OrM2Nscr;
     /* 090 */ struct Nscr *mTitleSBgNscr;
-    /* 094 */ u8 pad_94[0xc];
+    /* 094 */ u8 mUnk_94[0xc];
     /* 0a0 */ struct Nclr *mTitleSONclr;
     /* 0a4 */ struct Ncgr *mTitleSNceNcgr;
     /* 0a8 */ struct Unk02021dc8 *mTitleSNceNcer;
-    /* 0ac */ u8 pad_ac[4];
+    /* 0ac */ u8 mUnk_ac[4];
     /* 0b0 */ Unk020ae630 mMainOam;
     /* 4b4 */ Unk020ae630 mSubOam;
     /* 8b8 */ struct CharacterKartPicks *mCharacterKartPicks;

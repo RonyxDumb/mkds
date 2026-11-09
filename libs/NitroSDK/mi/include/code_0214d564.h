@@ -19,7 +19,6 @@ typedef struct MIUncompContextLZ {
     /* 0c */ u8 mFlagIndex;
     /* 0d */ u8 mLength;
     /* 0e */ u8 mLengthFlg;
-    /* 0f */ u8 mPadding;
 } MIUncompContextLZ;
 
 void MI_InitUncompContextLZ(MIUncompContextLZ *context, u8 *dest, const MICompressionHeader *header);

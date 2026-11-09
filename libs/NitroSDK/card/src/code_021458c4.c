@@ -215,7 +215,7 @@ int CARDi_TryReadCardDma(CARDRomStat *p) {
     if (aligned != 0 && len != 0) {
         isAsync = 1;
     }
-    p->mCtrl = (*HW_UNK_027FFE60_BUF & ~0x07000000) | 0xa1000000;
+    p->mCtrl = (HW_ROM_HEADER_BUF->mUnk_60 & ~0x07000000) | 0xa1000000;
     if (isAsync != 0) {
         enabled = OS_DisableInterrupts();
         IC_InvalidateRange((void *) dst, len);

@@ -13,7 +13,7 @@
 
 #pragma thumb on
 
-static inline u32 func_02008570_inline(Unk02008570Header *a) {
+static inline u32 func_02008570_inline(CARDRomHeader *a) {
     u32 b = a->mUnk_80;
     if (b == 0) {
         b = 0x01000000;
@@ -23,7 +23,7 @@ static inline u32 func_02008570_inline(Unk02008570Header *a) {
 
 int func_02008570(FSFile *file, void *buffer, u32 bufferSize) {
     FSFile *activeFile;
-    Unk02008570Header *header;
+    CARDRomHeader *header;
     u8 *v3;
     FSFile openedFile;
     BOOL result;

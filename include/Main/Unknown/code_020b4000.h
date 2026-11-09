@@ -18,13 +18,13 @@ typedef struct Ncgr {
 } Ncgr;
 
 typedef struct Nscr {
-    /* 0000 */ u8 pad_00[8];
+    /* 0000 */ u8 mUnk_00[8];
     /* 0008 */ u32 mDataSize;
     /* 000c */ u16 mData[1];
 } Nscr;
 
 typedef struct Nclr {
-    /* 0000 */ u8 pad_00[4];
+    /* 0000 */ u8 mUnk_00[4];
     /* 0004 */ s32 mUnk_04;
     /* 0008 */ u32 mDataSize;
     /* 000c */ u16 *mData;

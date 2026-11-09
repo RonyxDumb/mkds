@@ -13,7 +13,7 @@ typedef struct Unk020217b4 {
     /* 004 */ u32 mPlayerStatus;
     /* 008 */ u16 mChannelStatus;
     /* 00a */ u16 mCaptureStatus;
-    /* 00c */ u8 mPadding[0x14];
+    /* 00c */ u8 mUnk_0c[0x14];
     /* 020 */ Unk020217b4_20 mPlayer[16];
     /* 260 */ s16 mGlobalVariable[16];
 } Unk020217b4;

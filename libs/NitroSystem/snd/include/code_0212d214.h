@@ -101,7 +101,6 @@ typedef struct NNSSndArcWaveArcInfo {
 // Player entry of the info block: playable sequences, allocatable channels and heap size.
 typedef struct NNSSndArcPlayerInfo {
     /* 00 */ u8 mSeqMax;
-    /* 01 */ u8 mPadding;
     /* 02 */ u16 mAllocChBitFlag;
     /* 04 */ u32 mHeapSize;
 } NNSSndArcPlayerInfo;
@@ -110,7 +109,6 @@ typedef struct NNSSndArcPlayerInfo {
 typedef struct NNSSndArcGroupItem {
     /* 00 */ u8 mType;
     /* 01 */ u8 mLoadFlag;
-    /* 02 */ u16 mPadding;
     /* 04 */ u32 mIndex;
 } NNSSndArcGroupItem;
 

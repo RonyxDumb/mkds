@@ -2,23 +2,11 @@
 
 #include "types.h"
 #include "code_02003024.h"
+#include "code_021458c4.h"
 
 typedef struct FSFileID FSFileID;
 typedef struct FSFile FSFile;
 typedef struct FSArchive FSArchive;
-
-// Two words read as a pair: data_0216f35c, data_0216f364 and the blocks FSi_InitRom and FS_LoadOverlayInfo read
-// at fixed addresses.
-typedef struct Unk02005704 {
-    /* 00 */ u8 *mUnk_00;
-    /* 04 */ u32 mUnk_04;
-} Unk02005704;
-
-// Table entries in the ROM header block in shared memory.
-#define HW_UNK_027FFE40_BUF ((Unk02005704 *) 0x027ffe40)
-#define HW_UNK_027FFE48_BUF ((Unk02005704 *) 0x027ffe48)
-#define HW_UNK_027FFE50_BUF ((Unk02005704 *) 0x027ffe50)
-#define HW_UNK_027FFE58_BUF ((Unk02005704 *) 0x027ffe58)
 
 // Record of 0x2c bytes: the first 0x20 bytes are read from a table entry of 0x20 bytes.
 typedef struct FSOverlayInfo {
