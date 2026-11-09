@@ -575,28 +575,28 @@ void getMdlRot_(NNSG3dJntAnmResult *out) {
             pivot = (node->mFlag & 0xf0) >> 4;
             first = vals[0];
             second = vals[1];
-            MI_Zero36B((s32 *) &out->mRot);
-            ((s32 *) &out->mRot)[pivot] = (node->mFlag & 0x100) ? -0x1000 : 0x1000;
-            ((s32 *) &out->mRot)[data_02152c30[pivot][0]] = first;
-            ((s32 *) &out->mRot)[data_02152c31[pivot][0]] = second;
+            MI_Zero36B(&out->mRot);
+            out->mRot.mUnk_00_a[pivot] = (node->mFlag & 0x100) ? -0x1000 : 0x1000;
+            out->mRot.mUnk_00_a[data_02152c30[pivot][0]] = first;
+            out->mRot.mUnk_00_a[data_02152c31[pivot][0]] = second;
             if (node->mFlag & 0x200) {
                 second = -second;
             }
-            ((s32 *) &out->mRot)[data_02152c32[pivot][0]] = second;
+            out->mRot.mUnk_00_a[data_02152c32[pivot][0]] = second;
             if (node->mFlag & 0x400) {
                 first = -first;
             }
-            ((s32 *) &out->mRot)[data_02152c33[pivot][0]] = first;
+            out->mRot.mUnk_00_a[data_02152c33[pivot][0]] = first;
         } else {
-            ((s32 *) &out->mRot)[0] = node->mUnk_02;
-            ((s32 *) &out->mRot)[1] = vals[0];
-            ((s32 *) &out->mRot)[2] = vals[1];
-            ((s32 *) &out->mRot)[3] = vals[2];
-            ((s32 *) &out->mRot)[4] = vals[3];
-            ((s32 *) &out->mRot)[5] = vals[4];
-            ((s32 *) &out->mRot)[6] = vals[5];
-            ((s32 *) &out->mRot)[7] = vals[6];
-            ((s32 *) &out->mRot)[8] = vals[7];
+            out->mRot.mUnk_00_a[0] = node->mUnk_02;
+            out->mRot.mUnk_00_a[1] = vals[0];
+            out->mRot.mUnk_00_a[2] = vals[1];
+            out->mRot.mUnk_00_a[3] = vals[2];
+            out->mRot.mUnk_00_a[4] = vals[3];
+            out->mRot.mUnk_00_a[5] = vals[4];
+            out->mRot.mUnk_00_a[6] = vals[5];
+            out->mRot.mUnk_00_a[7] = vals[6];
+            out->mRot.mUnk_00_a[8] = vals[7];
         }
     } else {
         out->mFlag |= 2;
@@ -1319,47 +1319,47 @@ BOOL getRotDataByIdx_(MtxFx33 *out, const s16 *rot3, const s16 *rot5, u32 info) 
     s16 t;
     u32 k;
     s32 z;
-    s32 *pRot = (s32 *) out;
 
     if (info & 0x8000) {
-        pRot[0] = pRot[1] = pRot[2] = pRot[3] = pRot[4] = pRot[5] = pRot[6] = pRot[7] = pRot[8] = 0;
+        out->mUnk_00_a[0] = out->mUnk_00_a[1] = out->mUnk_00_a[2] = out->mUnk_00_a[3] = out->mUnk_00_a[4] =
+            out->mUnk_00_a[5] = out->mUnk_00_a[6] = out->mUnk_00_a[7] = out->mUnk_00_a[8] = 0;
         info = (info & 0x7fff) * 3;
         w = rot3 + info;
         z = rot3[info];
         k = z & 0xf;
         x = w[1];
         y = w[2];
-        pRot[k] = (z & 0x10) ? -0x1000 : 0x1000;
-        pRot[data_02152c30[k][0]] = x;
-        pRot[data_02152c31[k][0]] = y;
+        out->mUnk_00_a[k] = (z & 0x10) ? -0x1000 : 0x1000;
+        out->mUnk_00_a[data_02152c30[k][0]] = x;
+        out->mUnk_00_a[data_02152c31[k][0]] = y;
         if (w[0] & 0x20) {
             y = -y;
         }
-        pRot[data_02152c32[k][0]] = y;
+        out->mUnk_00_a[data_02152c32[k][0]] = y;
         if (w[0] & 0x40) {
             x = -x;
         }
-        pRot[data_02152c33[k][0]] = x;
+        out->mUnk_00_a[data_02152c33[k][0]] = x;
         return 0;
     }
     info = (info & 0x7fff) * 5;
     w = rot5 + info;
     v = w[4];
-    pRot[4] = v >> 3;
+    out->mUnk_00_a[4] = v >> 3;
     t = v & 7;
     v = rot5[info];
-    pRot[0] = v >> 3;
+    out->mUnk_00_a[0] = v >> 3;
     t = (t << 3) | (v & 7);
     v = w[1];
-    pRot[1] = v >> 3;
+    out->mUnk_00_a[1] = v >> 3;
     t = (t << 3) | (v & 7);
     v = w[2];
-    pRot[2] = v >> 3;
+    out->mUnk_00_a[2] = v >> 3;
     t = (t << 3) | (v & 7);
     v = w[3];
-    pRot[3] = v >> 3;
+    out->mUnk_00_a[3] = v >> 3;
     t = (t << 3) | (v & 7);
-    pRot[5] = (t << 19) >> 19;
+    out->mUnk_00_a[5] = (t << 19) >> 19;
     return 1;
 }
 

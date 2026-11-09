@@ -1057,7 +1057,7 @@ void SPLDraw_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
     Vec3 v;
     Vec3 col;
     MtxFx33 m33;
-    s32 buf[12];
+    MtxFx43 buf;
     MtxFx43 *m;
     s32 a;
     s32 h;
@@ -1119,20 +1119,20 @@ void SPLDraw_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
         }
         u = ((s64) (0x1000 - t) * (s32) mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_48.mUnk_00_8 + 0x800) >> 12;
         x = ((s64) w * (u + 0x1000) + 0x800) >> 12;
-        buf[0] = ((s64) v.x * h + 0x800) >> 12;
-        buf[3] = ((s64) -v.y * x + 0x800) >> 12;
-        buf[6] = 0;
-        buf[9] = pos.x;
-        buf[1] = ((s64) v.y * h + 0x800) >> 12;
-        buf[4] = ((s64) v.x * x + 0x800) >> 12;
-        buf[7] = 0;
-        buf[10] = pos.y;
-        buf[2] = 0;
-        buf[5] = 0;
-        buf[8] = 0x1000;
-        buf[11] = pos.z;
+        buf.mUnk_00[0].x = ((s64) v.x * h + 0x800) >> 12;
+        buf.mUnk_00[1].x = ((s64) -v.y * x + 0x800) >> 12;
+        buf.mUnk_00[2].x = 0;
+        buf.mUnk_00[3].x = pos.x;
+        buf.mUnk_00[0].y = ((s64) v.y * h + 0x800) >> 12;
+        buf.mUnk_00[1].y = ((s64) v.x * x + 0x800) >> 12;
+        buf.mUnk_00[2].y = 0;
+        buf.mUnk_00[3].y = pos.y;
+        buf.mUnk_00[0].z = 0;
+        buf.mUnk_00[1].z = 0;
+        buf.mUnk_00[2].z = 0x1000;
+        buf.mUnk_00[3].z = pos.z;
         reg_G3_MTX_IDENTITY = 0;
-        G3_MultMtx43(buf);
+        G3_MultMtx43(&buf);
     } else {
         pos.x = ptcl->mUnk_08.x + ptcl->mUnk_38.x - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
         pos.y = ptcl->mUnk_08.y + ptcl->mUnk_38.y - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
@@ -1158,18 +1158,18 @@ void SPLDraw_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
         }
         u = ((s64) (0x1000 - t) * (s32) mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_48.mUnk_00_8 + 0x800) >> 12;
         x = ((s64) w * (u + 0x1000) + 0x800) >> 12;
-        buf[0] = ((s64) v.x * h + 0x800) >> 12;
-        buf[3] = ((s64) -v.y * x + 0x800) >> 12;
-        buf[6] = 0;
-        buf[9] = pos.x;
-        buf[1] = ((s64) v.y * h + 0x800) >> 12;
-        buf[4] = ((s64) v.x * x + 0x800) >> 12;
-        buf[7] = 0;
-        buf[10] = pos.y;
-        buf[2] = 0;
-        buf[5] = 0;
-        buf[8] = 0x1000;
-        buf[11] = pos.z;
+        buf.mUnk_00[0].x = ((s64) v.x * h + 0x800) >> 12;
+        buf.mUnk_00[1].x = ((s64) -v.y * x + 0x800) >> 12;
+        buf.mUnk_00[2].x = 0;
+        buf.mUnk_00[3].x = pos.x;
+        buf.mUnk_00[0].y = ((s64) v.y * h + 0x800) >> 12;
+        buf.mUnk_00[1].y = ((s64) v.x * x + 0x800) >> 12;
+        buf.mUnk_00[2].y = 0;
+        buf.mUnk_00[3].y = pos.y;
+        buf.mUnk_00[0].z = 0;
+        buf.mUnk_00[1].z = 0;
+        buf.mUnk_00[2].z = 0x1000;
+        buf.mUnk_00[3].z = pos.z;
         reg_G3_MTX_IDENTITY = 0;
         n = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
         j = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
@@ -1177,7 +1177,7 @@ void SPLDraw_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
         reg_G3_MTX_TRANS = i;
         reg_G3_MTX_TRANS = j;
         reg_G3_MTX_TRANS = n;
-        G3_MultMtx43(buf);
+        G3_MultMtx43(&buf);
     }
     q = ptcl->mUnk_36;
     k = mgr->mRenderStateEmitter->mUnk_72;
@@ -1194,7 +1194,7 @@ void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
     Vec3 v;
     Vec3 col;
     MtxFx33 m33;
-    s32 buf[12];
+    MtxFx43 buf;
     MtxFx43 *m;
     s32 a;
     s32 h;
@@ -1256,20 +1256,20 @@ void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
         }
         u = ((s64) (0x1000 - t) * (s32) mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_48.mUnk_00_8 + 0x800) >> 12;
         x = ((s64) w * (u + 0x1000) + 0x800) >> 12;
-        buf[0] = ((s64) v.x * h + 0x800) >> 12;
-        buf[3] = ((s64) -v.y * x + 0x800) >> 12;
-        buf[6] = 0;
-        buf[9] = pos.x;
-        buf[1] = ((s64) v.y * h + 0x800) >> 12;
-        buf[4] = ((s64) v.x * x + 0x800) >> 12;
-        buf[7] = 0;
-        buf[10] = pos.y;
-        buf[2] = 0;
-        buf[5] = 0;
-        buf[8] = 0x1000;
-        buf[11] = pos.z;
+        buf.mUnk_00[0].x = ((s64) v.x * h + 0x800) >> 12;
+        buf.mUnk_00[1].x = ((s64) -v.y * x + 0x800) >> 12;
+        buf.mUnk_00[2].x = 0;
+        buf.mUnk_00[3].x = pos.x;
+        buf.mUnk_00[0].y = ((s64) v.y * h + 0x800) >> 12;
+        buf.mUnk_00[1].y = ((s64) v.x * x + 0x800) >> 12;
+        buf.mUnk_00[2].y = 0;
+        buf.mUnk_00[3].y = pos.y;
+        buf.mUnk_00[0].z = 0;
+        buf.mUnk_00[1].z = 0;
+        buf.mUnk_00[2].z = 0x1000;
+        buf.mUnk_00[3].z = pos.z;
         reg_G3_MTX_IDENTITY = 0;
-        G3_MultMtx43(buf);
+        G3_MultMtx43(&buf);
     } else {
         pos.x = ptcl->mUnk_08.x + ptcl->mUnk_38.x - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
         pos.y = ptcl->mUnk_08.y + ptcl->mUnk_38.y - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
@@ -1295,18 +1295,18 @@ void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
         }
         u = ((s64) (0x1000 - t) * (s32) mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_48.mUnk_00_8 + 0x800) >> 12;
         x = ((s64) w * (u + 0x1000) + 0x800) >> 12;
-        buf[0] = ((s64) v.x * h + 0x800) >> 12;
-        buf[3] = ((s64) -v.y * x + 0x800) >> 12;
-        buf[6] = 0;
-        buf[9] = pos.x;
-        buf[1] = ((s64) v.y * h + 0x800) >> 12;
-        buf[4] = ((s64) v.x * x + 0x800) >> 12;
-        buf[7] = 0;
-        buf[10] = pos.y;
-        buf[2] = 0;
-        buf[5] = 0;
-        buf[8] = 0x1000;
-        buf[11] = pos.z;
+        buf.mUnk_00[0].x = ((s64) v.x * h + 0x800) >> 12;
+        buf.mUnk_00[1].x = ((s64) -v.y * x + 0x800) >> 12;
+        buf.mUnk_00[2].x = 0;
+        buf.mUnk_00[3].x = pos.x;
+        buf.mUnk_00[0].y = ((s64) v.y * h + 0x800) >> 12;
+        buf.mUnk_00[1].y = ((s64) v.x * x + 0x800) >> 12;
+        buf.mUnk_00[2].y = 0;
+        buf.mUnk_00[3].y = pos.y;
+        buf.mUnk_00[0].z = 0;
+        buf.mUnk_00[1].z = 0;
+        buf.mUnk_00[2].z = 0x1000;
+        buf.mUnk_00[3].z = pos.z;
         reg_G3_MTX_IDENTITY = 0;
         n = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
         j = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
@@ -1314,7 +1314,7 @@ void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
         reg_G3_MTX_TRANS = i;
         reg_G3_MTX_TRANS = j;
         reg_G3_MTX_TRANS = n;
-        G3_MultMtx43(buf);
+        G3_MultMtx43(&buf);
     }
     q = ptcl->mUnk_36;
     k = mgr->mRenderStateEmitter->mUnk_72;

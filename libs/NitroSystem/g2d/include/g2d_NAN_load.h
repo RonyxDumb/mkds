@@ -36,6 +36,13 @@ typedef struct Unk02021db0 {
     /* 0c */ Unk020229c8 *mUnk_0c;
 } Unk02021db0;
 
+// Header of the VRAM transfer data of a cell bank: mUnk_04 is an offset from the start of this header that
+// NNS_G2dUnpackNCE turns into the address of the table of Unk02021e40, one per cell.
+typedef struct Unk02021dc8_0c {
+    /* 00 */ u32 mUnk_00;
+    /* 04 */ Unk02021e40 *mUnk_04;
+} Unk02021dc8_0c;
+
 // Header of a cell bank: mUnk_04 and mUnk_0c are offsets from the start that NNS_G2dUnpackNCE turns into addresses.
 // mUnk_04 holds mUnk_00 entries (16 bytes, or 8 bytes without bit 0 of mUnk_02, see NNS_G2dGetCellDataByIdx).
 typedef struct Unk02021dc8 {
@@ -43,7 +50,7 @@ typedef struct Unk02021dc8 {
     /* 02 */ u16 mUnk_02;
     /* 04 */ u32 mUnk_04;
     /* 08 */ u32 mUnk_08;
-    /* 0c */ Unk02021e40 *mUnk_0c;
+    /* 0c */ Unk02021dc8_0c *mUnk_0c;
 } Unk02021dc8;
 
 Unk02021e1c *NNS_G2dGetAnimSequenceByIdx(Unk02021db0 *bank, u32 idx);

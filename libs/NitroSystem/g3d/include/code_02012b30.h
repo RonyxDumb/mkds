@@ -9,7 +9,10 @@ typedef struct MtxFx22 {
 
 // Three rows of three words.
 typedef struct MtxFx33 {
-    /* 00 */ Vec3 mUnk_00[3];
+    union {
+        /* 00 */ Vec3 mUnk_00[3];
+        /* 00 */ s32 mUnk_00_a[9];
+    };
 } MtxFx33;
 
 // Matrix of three direction vectors and a position.

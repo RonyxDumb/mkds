@@ -82,12 +82,12 @@ s32 func_020e0448(Unk020e0448 *link) {
     s64 horizontalDistanceSquared;
     s64 limitSquared;
 
-    if (object->mCollisionData.mUnk_138 != 0 && object->mMapObject.mKind == 0xcb) {
+    if (object->mUnk_000.mCollisionData.mUnk_138 != 0 && object->mUnk_000.mMapObject.mKind == 0xcb) {
         horizontalDistanceSquared = (s64) link->mUnk_04.x * link->mUnk_04.x + (s64) link->mUnk_04.z * link->mUnk_04.z;
         limitSquared = (s64) object->mUnk_154 * object->mUnk_154;
         return horizontalDistanceSquared >= limitSquared;
     }
-    return object->mCollisionData.mUnk_138;
+    return object->mUnk_000.mCollisionData.mUnk_138;
 }
 
 void *CreateKoopaBlockKindData(void) {

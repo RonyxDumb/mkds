@@ -536,30 +536,30 @@ void func_01ff8220(Unk02170500 *s, u32 a) {
             k = (v2 & 0xf0) >> 4;
             b1 = ((s16 *) r)[1];
             b0 = ((s16 *) r)[0];
-            MI_Zero36B((s32 *) &o->mRot);
+            MI_Zero36B(&o->mRot);
             r += 2;
             m = (*p & 0x100) ? -0x1000 : 0x1000;
-            ((s32 *) &o->mRot)[k] = m;
-            ((s32 *) &o->mRot)[data_usa_02152c0c[k][0]] = b0;
-            ((s32 *) &o->mRot)[data_usa_02152c0d[k][0]] = b1;
+            o->mRot.mUnk_00_a[k] = m;
+            o->mRot.mUnk_00_a[data_usa_02152c0c[k][0]] = b0;
+            o->mRot.mUnk_00_a[data_usa_02152c0d[k][0]] = b1;
             if (*p & 0x200) {
                 b1 = -b1;
             }
-            ((s32 *) &o->mRot)[data_usa_02152c0e[k][0]] = b1;
+            o->mRot.mUnk_00_a[data_usa_02152c0e[k][0]] = b1;
             if (*p & 0x400) {
                 b0 = -b0;
             }
-            ((s32 *) &o->mRot)[data_usa_02152c0f[k][0]] = b0;
+            o->mRot.mUnk_00_a[data_usa_02152c0f[k][0]] = b0;
         } else {
-            ((s32 *) &o->mRot)[0] = ((s16 *) p)[1];
-            ((s32 *) &o->mRot)[1] = ((s16 *) r)[0];
-            ((s32 *) &o->mRot)[2] = ((s16 *) r)[1];
-            ((s32 *) &o->mRot)[3] = ((s16 *) r)[2];
-            ((s32 *) &o->mRot)[4] = ((s16 *) r)[3];
-            ((s32 *) &o->mRot)[5] = ((s16 *) r)[4];
-            ((s32 *) &o->mRot)[6] = ((s16 *) r)[5];
-            ((s32 *) &o->mRot)[7] = ((s16 *) r)[6];
-            ((s32 *) &o->mRot)[8] = ((s16 *) r)[7];
+            o->mRot.mUnk_00_a[0] = ((s16 *) p)[1];
+            o->mRot.mUnk_00_a[1] = ((s16 *) r)[0];
+            o->mRot.mUnk_00_a[2] = ((s16 *) r)[1];
+            o->mRot.mUnk_00_a[3] = ((s16 *) r)[2];
+            o->mRot.mUnk_00_a[4] = ((s16 *) r)[3];
+            o->mRot.mUnk_00_a[5] = ((s16 *) r)[4];
+            o->mRot.mUnk_00_a[6] = ((s16 *) r)[5];
+            o->mRot.mUnk_00_a[7] = ((s16 *) r)[6];
+            o->mRot.mUnk_00_a[8] = ((s16 *) r)[7];
             r += 8;
         }
         s->mUnk_e8(o, r, s->mUnk_00, *p);

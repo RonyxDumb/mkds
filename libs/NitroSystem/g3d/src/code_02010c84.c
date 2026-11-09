@@ -311,8 +311,8 @@ void NNSi_G3dFuncSbc_NODEMIX(NNSG3dRS *state) {
     s32 *vec;
     u32 jntIdx;
     struct {
-        s32 pos[12];
-        s32 nrm[9];
+        MtxFx43 pos;
+        MtxFx33 nrm;
     } sum;
 
     resMdl = state->mRenderObj->mResMdl;
@@ -337,15 +337,15 @@ void NNSi_G3dFuncSbc_NODEMIX(NNSG3dRS *state) {
             G3_MultMtx43(invMtx + jntIdx * 0x54);
         }
         if (i != 0) {
-            sum.nrm[0] += (weight * vec[0]) >> 12;
-            sum.nrm[1] += (weight * vec[1]) >> 12;
-            sum.nrm[2] += (weight * vec[2]) >> 12;
-            sum.nrm[3] += (weight * vec[3]) >> 12;
-            sum.nrm[4] += (weight * vec[4]) >> 12;
-            sum.nrm[5] += (weight * vec[5]) >> 12;
-            sum.nrm[6] += (weight * vec[6]) >> 12;
-            sum.nrm[7] += (weight * vec[7]) >> 12;
-            sum.nrm[8] += (weight * vec[8]) >> 12;
+            sum.nrm.mUnk_00[0].x += (weight * vec[0]) >> 12;
+            sum.nrm.mUnk_00[0].y += (weight * vec[1]) >> 12;
+            sum.nrm.mUnk_00[0].z += (weight * vec[2]) >> 12;
+            sum.nrm.mUnk_00[1].x += (weight * vec[3]) >> 12;
+            sum.nrm.mUnk_00[1].y += (weight * vec[4]) >> 12;
+            sum.nrm.mUnk_00[1].z += (weight * vec[5]) >> 12;
+            sum.nrm.mUnk_00[2].x += (weight * vec[6]) >> 12;
+            sum.nrm.mUnk_00[2].y += (weight * vec[7]) >> 12;
+            sum.nrm.mUnk_00[2].z += (weight * vec[8]) >> 12;
         }
         if (!cached) {
             while (G3X_GetClipMtx(clip) != 0) {
@@ -355,36 +355,36 @@ void NNSi_G3dFuncSbc_NODEMIX(NNSG3dRS *state) {
         }
         vec = data_02171944[jntIdx];
         weight = p[2] << 4;
-        sum.pos[0] += (weight * clip[0]) >> 12;
-        sum.pos[1] += (weight * clip[1]) >> 12;
-        sum.pos[2] += (weight * clip[2]) >> 12;
-        sum.pos[3] += (weight * clip[4]) >> 12;
-        sum.pos[4] += (weight * clip[5]) >> 12;
-        sum.pos[5] += (weight * clip[6]) >> 12;
-        sum.pos[6] += (weight * clip[8]) >> 12;
-        sum.pos[7] += (weight * clip[9]) >> 12;
-        sum.pos[8] += (weight * clip[10]) >> 12;
-        sum.pos[9] += (weight * clip[12]) >> 12;
-        sum.pos[10] += (weight * clip[13]) >> 12;
-        sum.pos[11] += (weight * clip[14]) >> 12;
+        sum.pos.mUnk_00[0].x += (weight * clip[0]) >> 12;
+        sum.pos.mUnk_00[0].y += (weight * clip[1]) >> 12;
+        sum.pos.mUnk_00[0].z += (weight * clip[2]) >> 12;
+        sum.pos.mUnk_00[1].x += (weight * clip[4]) >> 12;
+        sum.pos.mUnk_00[1].y += (weight * clip[5]) >> 12;
+        sum.pos.mUnk_00[1].z += (weight * clip[6]) >> 12;
+        sum.pos.mUnk_00[2].x += (weight * clip[8]) >> 12;
+        sum.pos.mUnk_00[2].y += (weight * clip[9]) >> 12;
+        sum.pos.mUnk_00[2].z += (weight * clip[10]) >> 12;
+        sum.pos.mUnk_00[3].x += (weight * clip[12]) >> 12;
+        sum.pos.mUnk_00[3].y += (weight * clip[13]) >> 12;
+        sum.pos.mUnk_00[3].z += (weight * clip[14]) >> 12;
         p += 3;
         if (!cached) {
             while (G3X_GetVectorMtx(vec) != 0) {
             }
         }
     }
-    sum.nrm[0] += (weight * vec[0]) >> 12;
-    sum.nrm[1] += (weight * vec[1]) >> 12;
-    sum.nrm[2] += (weight * vec[2]) >> 12;
-    sum.nrm[3] += (weight * vec[3]) >> 12;
-    sum.nrm[4] += (weight * vec[4]) >> 12;
-    sum.nrm[5] += (weight * vec[5]) >> 12;
-    sum.nrm[6] += (weight * vec[6]) >> 12;
-    sum.nrm[7] += (weight * vec[7]) >> 12;
-    sum.nrm[8] += (weight * vec[8]) >> 12;
-    G3_LoadMtx43(sum.nrm);
+    sum.nrm.mUnk_00[0].x += (weight * vec[0]) >> 12;
+    sum.nrm.mUnk_00[0].y += (weight * vec[1]) >> 12;
+    sum.nrm.mUnk_00[0].z += (weight * vec[2]) >> 12;
+    sum.nrm.mUnk_00[1].x += (weight * vec[3]) >> 12;
+    sum.nrm.mUnk_00[1].y += (weight * vec[4]) >> 12;
+    sum.nrm.mUnk_00[1].z += (weight * vec[5]) >> 12;
+    sum.nrm.mUnk_00[2].x += (weight * vec[6]) >> 12;
+    sum.nrm.mUnk_00[2].y += (weight * vec[7]) >> 12;
+    sum.nrm.mUnk_00[2].z += (weight * vec[8]) >> 12;
+    G3_LoadMtx43(&sum.nrm);
     reg_G3_MTX_MODE = 1;
-    G3_LoadMtx43(sum.pos);
+    G3_LoadMtx43(&sum.pos);
     reg_G3_MTX_MODE = 0;
     reg_G3_MTX_RESTORE = 1;
     reg_G3_MTX_MODE = 2;
@@ -506,7 +506,7 @@ void NNSi_G3dFuncSbc_PRJMAP(NNSG3dRS *state) {
     u32 vecMode;
     u32 restoreIdx;
     MtxFx43 curMatrix;
-    s32 texMtx[16];
+    MtxFx44 texMtx;
     u32 timing;
     u8 *effectMtx;
     NNSG3dResMatData *matData;
@@ -578,13 +578,13 @@ void NNSi_G3dFuncSbc_PRJMAP(NNSG3dRS *state) {
             reg_G3_MTX_MODE = 0;
             reg_G3_MTX_PUSH = 0;
             reg_G3_MTX_IDENTITY = 0;
-            while (G3X_GetClipMtx(texMtx) != 0) {
+            while (G3X_GetClipMtx(&texMtx) != 0) {
             }
             reg_G3_MTX_POP = 1;
             reg_G3_MTX_MODE = 3;
-            func_01ff9048(0x16, texMtx, 0x10);
-            x = texMtx[12] >> 4;
-            y = texMtx[13] >> 4;
+            func_01ff9048(0x16, &texMtx, 0x10);
+            x = texMtx.mUnk_00[3].x >> 4;
+            y = texMtx.mUnk_00[3].y >> 4;
             texCoord = (u16) (s16) (x >> 8) | ((u16) (s16) (y >> 8) << 16);
             func_01ff9048(0x22, &texCoord, 1);
         }

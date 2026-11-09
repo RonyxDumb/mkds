@@ -25,9 +25,9 @@
 #pragma thumb off
 
 void func_020e4380(Unk020e3ef4 *object) {
-    if (object->mMapObject.mStateMachine.mStateFrames > object->mUnk_148) {
-        object->mMapObject.mStateMachine.mNextState = 0;
-        object->mMapObject.mStateMachine.mNextStateRequested = 1;
+    if (object->mUnk_000.mMapObject.mStateMachine.mStateFrames > object->mUnk_148) {
+        object->mUnk_000.mMapObject.mStateMachine.mNextState = 0;
+        object->mUnk_000.mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
@@ -133,16 +133,16 @@ void func_020e410c(BridgeDrawList *list) {
     count = list->mMapObjectList.mMapObjectCount;
     for (index = 0; index < count; index++) {
         object = objects[index];
-        if (object->mMapObject.mKind == 0xcb) {
+        if (object->mUnk_000.mMapObject.mKind == 0xcb) {
             if (previousIndex < 0) {
-                object->mCollisionData.mUnk_138 = z;
+                object->mUnk_000.mCollisionData.mUnk_138 = z;
             } else {
                 p = objects[previousIndex];
-                VEC_Subtract(&p->mMapObject.mPos, &object->mMapObject.mPos, &offset);
+                VEC_Subtract(&p->mUnk_000.mMapObject.mPos, &object->mUnk_000.mMapObject.mPos, &offset);
                 offset.y = z2;
                 object->mUnk_154 = VEC_Mag(&offset);
                 p = objects[previousIndex];
-                object->mUnk_154 -= p->mMapObject.mExtent.x;
+                object->mUnk_154 -= p->mUnk_000.mMapObject.mExtent.x;
             }
             previousIndex = index;
         }
@@ -150,14 +150,14 @@ void func_020e410c(BridgeDrawList *list) {
 }
 
 void func_020e3ef4(Unk020e3ef4 *object, struct CourseMapRow *courseRow, Unk020e1e98_154 *kindInfo) {
-    InitStateMachine(&object->mMapObject.mStateMachine, (UnkFunc *const *) data_0216c168, 4, object);
-    object->mCollisionData.mUnk_e8 = object->mMapObject.mPos;
-    object->mCollisionData.mPrevMatrix = object->mMapObject.mMatrix.mUnk_00_m;
-    object->mCollisionData.mInitialMatrix = object->mMapObject.mMatrix.mUnk_00_m;
-    object->mCollisionData.mAngleChangeVector.x = 0;
-    object->mCollisionData.mAngleChangeVector.y = 0;
-    object->mCollisionData.mAngleChangeVector.z = 0;
-    object->mCollisionData.mUnk_130 = kindInfo->mUnk_00 != 0 ? 0 : 1;
+    InitStateMachine(&object->mUnk_000.mMapObject.mStateMachine, (UnkFunc *const *) data_0216c168, 4, object);
+    object->mUnk_000.mCollisionData.mUnk_e8 = object->mUnk_000.mMapObject.mPos;
+    object->mUnk_000.mCollisionData.mPrevMatrix = object->mUnk_000.mMapObject.mMatrix.mUnk_00_m;
+    object->mUnk_000.mCollisionData.mInitialMatrix = object->mUnk_000.mMapObject.mMatrix.mUnk_00_m;
+    object->mUnk_000.mCollisionData.mAngleChangeVector.x = 0;
+    object->mUnk_000.mCollisionData.mAngleChangeVector.y = 0;
+    object->mUnk_000.mCollisionData.mAngleChangeVector.z = 0;
+    object->mUnk_000.mCollisionData.mUnk_130 = kindInfo->mUnk_00 != 0 ? 0 : 1;
     object->mUnk_144 = courseRow->mUnk_2c;
     object->mUnk_146 = courseRow->mUnk_2a;
     object->mUnk_148 = courseRow->mUnk_2e;
@@ -165,43 +165,43 @@ void func_020e3ef4(Unk020e3ef4 *object, struct CourseMapRow *courseRow, Unk020e1
     if (courseRow->mUnk_30 != 0) {
         object->mUnk_14a = -object->mUnk_14a;
     }
-    object->mMapObject.mAngle = 0;
+    object->mUnk_000.mMapObject.mAngle = 0;
     if (object->mUnk_144 != 0) {
         object->mUnk_150 = 0x1000 / object->mUnk_144;
     } else {
         object->mUnk_150 = 0;
     }
     object->mUnk_14c = 0;
-    object->mCollisionData.mUnk_100 = ((s64) kindInfo->mUnk_04 * object->mMapObject.mScale.x) >> 12;
-    object->mCollisionData.mHalfSizeY = (s32) (((s64) kindInfo->mUnk_08 * object->mMapObject.mScale.y) >> 12) >> 1;
+    object->mUnk_000.mCollisionData.mUnk_100 = ((s64) kindInfo->mUnk_04 * object->mUnk_000.mMapObject.mScale.x) >> 12;
+    object->mUnk_000.mCollisionData.mHalfSizeY = (s32) (((s64) kindInfo->mUnk_08 * object->mUnk_000.mMapObject.mScale.y) >> 12) >> 1;
     if (kindInfo->mUnk_00 != 0) {
-        object->mCollisionData.mUnk_110 = FALSE;
-        object->mCollisionData.mUnk_114.x = 1;
+        object->mUnk_000.mCollisionData.mUnk_110 = FALSE;
+        object->mUnk_000.mCollisionData.mUnk_114.x = 1;
     } else {
-        object->mCollisionData.mUnk_110 = TRUE;
-        object->mCollisionData.mUnk_114.x = 0;
+        object->mUnk_000.mCollisionData.mUnk_110 = TRUE;
+        object->mUnk_000.mCollisionData.mUnk_114.x = 0;
     }
-    object->mCollisionData.mUnk_114.z = 0;
-    object->mCollisionData.mUnk_120 = kindInfo->mUnk_10;
-    object->mCollisionData.mUnk_134 = COLLISION_SHAPE_CYLINDER;
-    object->mCollisionData.mUnk_138 = kindInfo->mUnk_14;
-    object->mMapObject.mFlags |= data_02158d58;
-    object->mMapObject.mStateMachine.mNextState = 0;
-    object->mMapObject.mStateMachine.mNextStateRequested = 1;
+    object->mUnk_000.mCollisionData.mUnk_114.z = 0;
+    object->mUnk_000.mCollisionData.mUnk_120 = kindInfo->mUnk_10;
+    object->mUnk_000.mCollisionData.mUnk_134 = COLLISION_SHAPE_CYLINDER;
+    object->mUnk_000.mCollisionData.mUnk_138 = kindInfo->mUnk_14;
+    object->mUnk_000.mMapObject.mFlags |= data_02158d58;
+    object->mUnk_000.mMapObject.mStateMachine.mNextState = 0;
+    object->mUnk_000.mMapObject.mStateMachine.mNextStateRequested = 1;
     object->mUnk_158 = kindInfo->mUnk_0c;
     if (object->mUnk_158 == 1 && courseRow->mUnk_32 == 0) {
         object->mUnk_158 = 2;
     }
-    object->mMapObject.mFlags &= ~2;
-    object->mMapObject.mFlags &= ~8;
-    object->mMapObject.mAlpha = 0x1f;
+    object->mUnk_000.mMapObject.mFlags &= ~2;
+    object->mUnk_000.mMapObject.mFlags &= ~8;
+    object->mUnk_000.mMapObject.mAlpha = 0x1f;
     if (kindInfo->mUnk_0c == 0) {
         object->mUnk_15c = courseRow->mUnk_0c.x > 0 ? 0x175 : 0x176;
     } else {
         object->mUnk_15c = kindInfo->mUnk_18;
     }
     if (object->mUnk_15c != -1) {
-        CreateMapObjectSoundSourceFalloff3(&object->mMapObject);
+        CreateMapObjectSoundSourceFalloff3(&object->mUnk_000.mMapObject);
     }
 }
 
@@ -251,22 +251,22 @@ void UpdateBridge(s32 a, Bridge *bridge) {
     if (angleDelta < -0x8000) {
         angleDelta += 0x10000;
     }
-    bridge->mCollisionData.mAngleChangeVector.x = ((s64) bridge->mMapObject.mMatrix.mUnk_00[0].x * angleDelta) >> 12;
-    bridge->mCollisionData.mAngleChangeVector.y = ((s64) bridge->mMapObject.mMatrix.mUnk_00[0].y * angleDelta) >> 12;
-    bridge->mCollisionData.mAngleChangeVector.z = ((s64) bridge->mMapObject.mMatrix.mUnk_00[0].z * angleDelta) >> 12;
+    bridge->mUnk_000.mCollisionData.mAngleChangeVector.x = ((s64) bridge->mUnk_000.mMapObject.mMatrix.mUnk_00[0].x * angleDelta) >> 12;
+    bridge->mUnk_000.mCollisionData.mAngleChangeVector.y = ((s64) bridge->mUnk_000.mMapObject.mMatrix.mUnk_00[0].y * angleDelta) >> 12;
+    bridge->mUnk_000.mCollisionData.mAngleChangeVector.z = ((s64) bridge->mUnk_000.mMapObject.mMatrix.mUnk_00[0].z * angleDelta) >> 12;
     bridge->mAngleX = y;
-    bridge->mCollisionData.mPrevMatrix = bridge->mMapObject.mMatrix.mUnk_00_m;
-    MTX_RotX33_(&bridge->mMapObject.mMatrix.mUnk_00_m, gPairsByAngle[(y >> 4) * 2], gPairsByAngle[(y >> 4) * 2 + 1]);
-    MTX_Concat33(&bridge->mMapObject.mMatrix.mUnk_00_m, &bridge->mCollisionData.mInitialMatrix,
-                 &bridge->mMapObject.mMatrix.mUnk_00_m);
-    VEC_MultAdd(-bridge->mCollisionData.mHalfSizeY, &bridge->mMapObject.mMatrix.mUnk_00[1], &bridge->mMapObject.mPos,
-                &bridge->mCollisionData.mCenterPos);
+    bridge->mUnk_000.mCollisionData.mPrevMatrix = bridge->mUnk_000.mMapObject.mMatrix.mUnk_00_m;
+    MTX_RotX33_(&bridge->mUnk_000.mMapObject.mMatrix.mUnk_00_m, gPairsByAngle[(y >> 4) * 2], gPairsByAngle[(y >> 4) * 2 + 1]);
+    MTX_Concat33(&bridge->mUnk_000.mMapObject.mMatrix.mUnk_00_m, &bridge->mUnk_000.mCollisionData.mInitialMatrix,
+                 &bridge->mUnk_000.mMapObject.mMatrix.mUnk_00_m);
+    VEC_MultAdd(-bridge->mUnk_000.mCollisionData.mHalfSizeY, &bridge->mUnk_000.mMapObject.mMatrix.mUnk_00[1], &bridge->mUnk_000.mMapObject.mPos,
+                &bridge->mUnk_000.mCollisionData.mCenterPos);
     if (bridge->mPauseTimer != 0) {
         bridge->mPauseTimer--;
         return;
     }
-    if (bridge->mMapObject.mSound != NULL) {
-        StartMapObjectSoundWhileRequested(&bridge->mMapObject, 0x189);
+    if (bridge->mUnk_000.mMapObject.mSound != NULL) {
+        StartMapObjectSoundWhileRequested(&bridge->mUnk_000.mMapObject, 0x189);
     }
     bridge->mSwingAngle += bridge->mSwingAnglePerFrame;
     if (bridge->mSwingAngle >= 0x4000 && bridge->mSwingAngle < bridge->mSwingAnglePerFrame + 0x4000) {
@@ -288,13 +288,13 @@ void UpdateBridge(s32 a, Bridge *bridge) {
 void DrawBridge(Unk020e3ef4 *object, void *viewMatrix, u32 alpha) {
     Unk020e1e98_12c *animation;
 
-    object->mMapObject.mMatrix.mUnk_00[3].x = object->mMapObject.mPos.x >> 4;
-    object->mMapObject.mMatrix.mUnk_00[3].y = object->mMapObject.mPos.y >> 4;
-    object->mMapObject.mMatrix.mUnk_00[3].z = object->mMapObject.mPos.z >> 4;
+    object->mUnk_000.mMapObject.mMatrix.mUnk_00[3].x = object->mUnk_000.mMapObject.mPos.x >> 4;
+    object->mUnk_000.mMapObject.mMatrix.mUnk_00[3].y = object->mUnk_000.mMapObject.mPos.y >> 4;
+    object->mUnk_000.mMapObject.mMatrix.mUnk_00[3].z = object->mUnk_000.mMapObject.mPos.z >> 4;
     animation = gBridgeNsbca;
     animation->mUnk_0c = object->mUnk_154;
     *animation->mUnk_1c[animation->mUnk_1a] = animation->mUnk_0c;
-    DrawNsbmdWithMatrixAndMaxAlpha(object->mModel, &object->mMapObject.mMatrix, &object->mMapObject.mScale.x, alpha);
+    DrawNsbmdWithMatrixAndMaxAlpha(object->mModel, &object->mUnk_000.mMapObject.mMatrix, &object->mUnk_000.mMapObject.mScale.x, alpha);
 }
 
 void DrawAllBridges(void *viewMatrix) {

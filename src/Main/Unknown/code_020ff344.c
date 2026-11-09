@@ -69,30 +69,30 @@ BOOL func_020ffabc(u32 kind) {
 #pragma thumb on
 
 void func_020ff97c(Unk020ff97c *object) {
-    object->mCollisionData.mPrevMatrix = object->mMapObject.mMatrix.mUnk_00_m;
-    object->mCollisionData.mAngleChangeVector.x = 0;
-    object->mCollisionData.mAngleChangeVector.y = 0;
-    object->mCollisionData.mAngleChangeVector.z = 0;
-    object->mCollisionData.mUnk_130 = 0;
-    object->mCollisionData.mUnk_100 = ((s64) object->mMapObject.mScale.x * 0x190000) >> 12;
-    object->mCollisionData.mHalfSizeY = (s32) (((s64) object->mMapObject.mScale.y * 0x64000) >> 12) >> 1;
-    object->mCollisionData.mPositiveHalfSizeZ = ((s64) object->mMapObject.mScale.z * 0xaf000) >> 12;
-    object->mCollisionData.mNegativeHalfSizeZ = ((s64) object->mMapObject.mScale.z * 0xaf000) >> 12;
-    object->mCollisionData.mUnk_110 = 0;
-    object->mCollisionData.mUnk_114.x = 1;
-    object->mCollisionData.mUnk_114.y = 0;
-    object->mCollisionData.mUnk_114.z = 0;
-    object->mCollisionData.mUnk_120 = 0x800;
-    object->mCollisionData.mUnk_e8 = object->mMapObject.mPos;
-    object->mMapObject.mUnk_10.x = 0;
-    object->mMapObject.mUnk_10.y = 0;
-    object->mMapObject.mUnk_10.z = 0;
-    VEC_MultAdd(-object->mCollisionData.mHalfSizeY, &object->mMapObject.mMatrix.mUnk_00[1], &object->mMapObject.mPos,
-                &object->mCollisionData.mCenterPos);
-    object->mCollisionData.mUnk_134 = COLLISION_SHAPE_BOX;
-    object->mCollisionData.mUnk_138 = 0;
-    object->mUnk_13c = 1;
-    object->mMapObject.mFlags |= data_0215a030;
+    object->mUnk_000.mCollisionData.mPrevMatrix = object->mUnk_000.mMapObject.mMatrix.mUnk_00_m;
+    object->mUnk_000.mCollisionData.mAngleChangeVector.x = 0;
+    object->mUnk_000.mCollisionData.mAngleChangeVector.y = 0;
+    object->mUnk_000.mCollisionData.mAngleChangeVector.z = 0;
+    object->mUnk_000.mCollisionData.mUnk_130 = 0;
+    object->mUnk_000.mCollisionData.mUnk_100 = ((s64) object->mUnk_000.mMapObject.mScale.x * 0x190000) >> 12;
+    object->mUnk_000.mCollisionData.mHalfSizeY = (s32) (((s64) object->mUnk_000.mMapObject.mScale.y * 0x64000) >> 12) >> 1;
+    object->mUnk_000.mCollisionData.mPositiveHalfSizeZ = ((s64) object->mUnk_000.mMapObject.mScale.z * 0xaf000) >> 12;
+    object->mUnk_000.mCollisionData.mNegativeHalfSizeZ = ((s64) object->mUnk_000.mMapObject.mScale.z * 0xaf000) >> 12;
+    object->mUnk_000.mCollisionData.mUnk_110 = 0;
+    object->mUnk_000.mCollisionData.mUnk_114.x = 1;
+    object->mUnk_000.mCollisionData.mUnk_114.y = 0;
+    object->mUnk_000.mCollisionData.mUnk_114.z = 0;
+    object->mUnk_000.mCollisionData.mUnk_120 = 0x800;
+    object->mUnk_000.mCollisionData.mUnk_e8 = object->mUnk_000.mMapObject.mPos;
+    object->mUnk_000.mMapObject.mUnk_10.x = 0;
+    object->mUnk_000.mMapObject.mUnk_10.y = 0;
+    object->mUnk_000.mMapObject.mUnk_10.z = 0;
+    VEC_MultAdd(-object->mUnk_000.mCollisionData.mHalfSizeY, &object->mUnk_000.mMapObject.mMatrix.mUnk_00[1], &object->mUnk_000.mMapObject.mPos,
+                &object->mUnk_000.mCollisionData.mCenterPos);
+    object->mUnk_000.mCollisionData.mUnk_134 = COLLISION_SHAPE_BOX;
+    object->mUnk_000.mCollisionData.mUnk_138 = 0;
+    object->mUnk_000.mUnk_13c = 1;
+    object->mUnk_000.mMapObject.mFlags |= data_0215a030;
 }
 
 #pragma thumb off

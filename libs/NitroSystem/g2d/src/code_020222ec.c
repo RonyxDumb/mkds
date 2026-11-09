@@ -15,7 +15,7 @@ void ApplyCurrentAnimResult_(Unk02022030 *pCellAnim) {
     Unk020229c8 *animResult;
     Unk02021dc8 *cellBank;
     u32 animType;
-    Unk02021e40 *pVramData;
+    Unk02021dc8_0c *pVramData;
     u32 valid;
     Unk02021e40 *pTransferData;
 
@@ -46,7 +46,7 @@ void ApplyCurrentAnimResult_(Unk02022030 *pCellAnim) {
     if (valid == 0) {
         return;
     }
-    pTransferData = &((Unk02021e40 *) pVramData->mUnk_04)[animResult->mUnk_00];
+    pTransferData = &pVramData->mUnk_04[animResult->mUnk_00];
     NNS_G2dSetCellTransferStateRequested(pCellAnim->mUnk_34, pTransferData->mUnk_00, pTransferData->mUnk_04);
 }
 

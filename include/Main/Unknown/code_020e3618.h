@@ -15,12 +15,10 @@ extern const Unk020e039c data_02158be4;
 extern const Unk020e039c data_02158c10;
 
 // Object of kind 0xcc (Bridge) that InitBridge fills. Its draw callback DrawBridge is typed Unk020e3ef4 (the family
-// layout of kinds 0xcb, 0xce, 0xd0 and 0xd1); the model pointer at +0x140, written by SetMapObjectsModel, lies inside
-// mUnk_13c.
+// layout of kinds 0xcb, 0xce, 0xd0 and 0xd1); the model pointer at +0x140 is written by SetMapObjectsModel.
 typedef struct Bridge {
-    /* 000 */ MapObject mMapObject;
-    /* 0a0 */ CollisionData mCollisionData;
-    /* 13c */ u8 mUnk_13c[0x8];
+    /* 000 */ Unk020e1d10 mUnk_000;
+    /* 140 */ u8 mUnk_140[0x4];
     /* 144 */ u16 mSwingAmplitude;
     /* 146 */ u16 mSwingAnglePerFrame;
     /* 148 */ u16 mSwingAngle;
