@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_020cab58(u32 bits);
+u32 EmblemChoisesWriteSubDispcntBits(u32 bits);

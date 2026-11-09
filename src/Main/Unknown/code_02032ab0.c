@@ -160,12 +160,12 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
         k = 0;
         switch (gRaceSetup->mRuleKind) {
             case 1:
-                j = func_02032f94_inline_2(0)->mUnk_02;
-                k = func_02032f94_inline_2(1)->mUnk_02;
+                j = func_02032f94_inline_2(0)->mWinCount;
+                k = func_02032f94_inline_2(1)->mWinCount;
                 break;
             case 2:
-                j = func_02032f94_inline_3()->mTeams[0].mUnk_00;
-                k = func_02032f94_inline_3()->mTeams[1].mUnk_00;
+                j = func_02032f94_inline_3()->mTeams[0].mTotalPoints;
+                k = func_02032f94_inline_3()->mTeams[1].mTotalPoints;
                 break;
         }
         if (j == k) {

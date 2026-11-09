@@ -37,7 +37,7 @@
 // Object not known yet; it only sets the order of the tables below
 u8 data_020c214c_pad[12];
 
-void func_020c3b6c(s32 row, s32 style) {
+void WriteRaceGoalSRowTiles(s32 row, s32 style) {
     UnkPair020b502c spans[8] = {{2, 5}, {5, 8}, {8, 10}, {10, 13}, {13, 16}, {15, 18}, {18, 21}, {21, 23}};
     UnkPair020b502c fullSpan = {0, 0x1f};
     s32 m;
@@ -113,7 +113,7 @@ void UpdateRaceGoalSOffset(void) {
                 gRaceGoalS->mOffsetStateFrames = 0;
                 return;
             }
-            if (func_020c1728 == gRaceGoalS->mUpdate) {
+            if (HideRaceGoalSRows == gRaceGoalS->mUpdate) {
                 gRaceGoalS->mOffsetState = 3;
                 gRaceGoalS->mOffsetStateFrames = 0;
             } else if (SlideOutRaceGoalS == gRaceGoalS->mUpdate) {
@@ -205,9 +205,9 @@ void InitRaceGoalS(void) {
         gRaceGoalS->mRowKartIndex[i] = 0;
         gRaceGoalS->mRankComparison[i] = 1;
     }
-    gRaceGoalS->mUnk_00a4 = 0;
+    gRaceGoalS->mRunning = 0;
     gRaceGoalS->mHiddenRowCount = 0;
-    gRaceGoalS->mUpdate = func_020c1ef8;
+    gRaceGoalS->mUpdate = StartRaceGoalS;
     gRaceGoalS->mUpdateFrames = 0;
     gRaceGoalS->mCourseCountReached = 0;
     gRaceGoalS->mOffsetX = -0x100;
@@ -358,11 +358,11 @@ void DrawRaceGoalSKarts(RaceHudOamBuffer *oamBuffer) {
             hundreds = ones;
         }
         if (gRaceGoalS->mRowVisible[i] == 0) {
-            func_020c3b6c(i, 2);
+            WriteRaceGoalSRowTiles(i, 2);
         } else if (kartIndex == GetFollowedKartOrEntryIndex()) {
-            func_020c3b6c(i, 0);
+            WriteRaceGoalSRowTiles(i, 0);
         } else {
-            func_020c3b6c(i, 1);
+            WriteRaceGoalSRowTiles(i, 1);
         }
         if (gRaceGoalS->mRowVisible[i] != 0) {
             if (hundreds != 0) {
@@ -405,8 +405,8 @@ void DrawRaceGoalSKarts(RaceHudOamBuffer *oamBuffer) {
                                           NULL, teamPosition, 0, 1);
             }
             if (!(gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE || gRaceSetup->mCourseNumber == 1)) {
-                if (gRaceGoalS->mUpdate == func_020c155c || gRaceGoalS->mUpdate == func_020c13e8 ||
-                    gRaceGoalS->mUpdate == func_020c13d0) {
+                if (gRaceGoalS->mUpdate == ShowRaceGoalSRows || gRaceGoalS->mUpdate == HoldRaceGoalSRows ||
+                    gRaceGoalS->mUpdate == FinishRaceGoalS) {
                     cell = GetRaceGoalSNcerEntry(gRaceGoalS->mRankComparison[kartIndex] + 0x1c);
                     rankChangePosition[0] = (offsetX + 0xc) << 12;
                     rankChangePosition[1] = rowYs[i] << 12;
@@ -552,7 +552,7 @@ void DrawRaceGoalSTeams(RaceHudOamBuffer *oamBuffer) {
     s32 offsetX;
     s32 teamIndex;
     u16 i;
-    BOOL f;
+    BOOL showWinCount;
     s32 number;
     CourseTeamResults *courseRecords;
 
@@ -567,16 +567,16 @@ void DrawRaceGoalSTeams(RaceHudOamBuffer *oamBuffer) {
         rowCounts[teamIndex]++;
     }
     for (i = 0; i < 2; i++) {
-        f = TRUE;
+        showWinCount = TRUE;
         if (!(gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE)) {
-            f = FALSE;
+            showWinCount = FALSE;
         }
-        if (f != FALSE) {
+        if (showWinCount != FALSE) {
             courseRecords = &gCupRecords->mTeamResults[GetCourseIndexInCup()];
-            number = courseRecords->mTeams[i].mUnk_02;
+            number = courseRecords->mTeams[i].mWinCount;
         } else {
             courseRecords = &gCupRecords->mTeamResults[GetCourseIndexInCup()];
-            number = courseRecords->mTeams[i].mUnk_00;
+            number = courseRecords->mTeams[i].mTotalPoints;
         }
         DrawRaceGoalSTeamNumber(oamBuffer, number, numberX[i] + (i == 0 ? -offsetX : offsetX), 0xb6);
     }

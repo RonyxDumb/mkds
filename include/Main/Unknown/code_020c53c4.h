@@ -6,7 +6,9 @@ typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 
 // Object behind gRaceGoalM, 0x1c bytes allocated by InitRaceGoalM.
 typedef struct RaceGoalM {
-    /* 00 */ s32 mUnk_00;
+// 0 once the followed kart has status 1 or the race is done, until mUpdateFrames passes 0x14 (0x1e or 0x4b by the
+// entry end kind in Mission Run); 1 at init.
+    /* 00 */ s32 mReady;
     /* 04 */ s32 mUpdateFrames;
     /* 08 */ s32 mRankIndex;
     /* 0c */ s32 mPointsGained;

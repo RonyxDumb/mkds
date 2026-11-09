@@ -72,8 +72,8 @@ void RefreshRaceNewRecordTaRecordFlags(void) {
         return;
     }
     if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
-        gRaceNewRecordTa->mFinishTimeIsRecord = func_020c657c(0);
-        gRaceNewRecordTa->mBestLapIsRecord = func_020c6428(0);
+        gRaceNewRecordTa->mFinishTimeIsRecord = TryStoreRaceNewRecordTaFinishTime(0);
+        gRaceNewRecordTa->mBestLapIsRecord = TryStoreRaceNewRecordTaBestLap(0);
         return;
     }
     GetKartFinishTime(GetFollowedKartOrEntryIndex(), &minute, &second, &millisecond);

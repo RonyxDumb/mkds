@@ -247,7 +247,7 @@ void func_ov001_0218052c(Unk0218052c *sceneNumbers) {
     switch (gTestScene->mState) {
         case 0:
             UpdateEmblemChoises();
-            func_020ca83c();
+            WriteEmblemChoisesScreenMapWrapper();
             break;
         case 1:
         case 2:

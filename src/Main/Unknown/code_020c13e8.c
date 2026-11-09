@@ -21,7 +21,7 @@
 #include "Main/Unknown/code_020b1000.h"
 #include "Main/Unknown/code_0203c8dc.h"
 
-void func_020c1ef8(void) {
+void StartRaceGoalS(void) {
     s32 sortKeys[8];
     u32 framesSinceEntryEnd;
     s32 minusOne;
@@ -34,7 +34,7 @@ void func_020c1ef8(void) {
     if (gRaceProgress->mRaceDone == 0) {
         return;
     }
-    gRaceGoalS->mUnk_00a4 = 1;
+    gRaceGoalS->mRunning = 1;
     if (gRaceSetup->mMode == MODE_BATTLE && gRaceSetup->mUseTeams != 0) {
         gRaceGoalS->mUpdate = SlideInRaceGoalSTeams;
         gRaceGoalS->mUpdateFrames = 0;
@@ -82,30 +82,30 @@ void SlideInRaceGoalS(void) {
         gRaceGoalS->mOffsetX = InterpolateS16(1, -0x100, 0, frame, 0x14);
     } else {
         gRaceGoalS->mOffsetX = 0;
-        gRaceGoalS->mUpdate = func_020c1de4;
+        gRaceGoalS->mUpdate = HoldRaceGoalSPreviousNumbers;
         gRaceGoalS->mUpdateFrames = 0;
     }
 }
 
-void func_020c1de4(void) {
+void HoldRaceGoalSPreviousNumbers(void) {
     s32 frame;
     u16 keyABits;
     InputSlotIndex inputSlot;
 
     frame = gRaceGoalS->mUpdateFrames++;
     if (frame >= 0x5a) {
-        gRaceGoalS->mUpdate = func_020c1bc0;
+        gRaceGoalS->mUpdate = CountUpRaceGoalSNumbers;
         gRaceGoalS->mUpdateFrames = 0;
     }
     inputSlot = UNK_02175628_INDEX_8;
     keyABits = gInputSlots[inputSlot].mPressedBits & PAD_KEY_A;
     if (keyABits != 0 && frame >= 0x2d) {
-        gRaceGoalS->mUpdate = func_020c1bc0;
+        gRaceGoalS->mUpdate = CountUpRaceGoalSNumbers;
         gRaceGoalS->mUpdateFrames = 0;
     }
 }
 
-void func_020c1bc0(void) {
+void CountUpRaceGoalSNumbers(void) {
     s32 frame;
     u16 keyABits;
     u16 i;
@@ -138,7 +138,7 @@ void func_020c1bc0(void) {
             }
         }
         if (allReached != FALSE) {
-            gRaceGoalS->mUpdate = func_020c195c;
+            gRaceGoalS->mUpdate = HoldRaceGoalSNumbers;
             gRaceGoalS->mUpdateFrames = 0;
             gRaceGoalS->mUpdateFrames = 0;
             if (gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE) {
@@ -151,12 +151,12 @@ void func_020c1bc0(void) {
     inputSlot = UNK_02175628_INDEX_8;
     keyABits = gInputSlots[inputSlot].mPressedBits & PAD_KEY_A;
     if (keyABits != 0 && frame >= 0x2d) {
-        gRaceGoalS->mUpdate = func_020c195c;
+        gRaceGoalS->mUpdate = HoldRaceGoalSNumbers;
         gRaceGoalS->mUpdateFrames = 0;
     }
 }
 
-void func_020c195c(void) {
+void HoldRaceGoalSNumbers(void) {
     s32 frame;
     u16 keyABits;
     u16 i;
@@ -184,10 +184,10 @@ void func_020c195c(void) {
             gRaceGoalS->mUpdate = SlideOutRaceGoalS;
             gRaceGoalS->mUpdateFrames = 0;
         } else if (gRaceSetup->mCourseNumber == 1) {
-            gRaceGoalS->mUpdate = func_020c13e8;
+            gRaceGoalS->mUpdate = HoldRaceGoalSRows;
             gRaceGoalS->mUpdateFrames = 0;
         } else {
-            gRaceGoalS->mUpdate = func_020c1728;
+            gRaceGoalS->mUpdate = HideRaceGoalSRows;
             gRaceGoalS->mUpdateFrames = 0;
         }
     }
@@ -198,16 +198,16 @@ void func_020c195c(void) {
             gRaceGoalS->mUpdate = SlideOutRaceGoalS;
             gRaceGoalS->mUpdateFrames = 0;
         } else if (gRaceSetup->mCourseNumber == 1) {
-            gRaceGoalS->mUpdate = func_020c13e8;
+            gRaceGoalS->mUpdate = HoldRaceGoalSRows;
             gRaceGoalS->mUpdateFrames = 0;
         } else {
-            gRaceGoalS->mUpdate = func_020c1728;
+            gRaceGoalS->mUpdate = HideRaceGoalSRows;
             gRaceGoalS->mUpdateFrames = 0;
         }
     }
 }
 
-void func_020c1728(void) {
+void HideRaceGoalSRows(void) {
     s32 frame;
     s32 hiddenRows;
     u16 keyABits;
@@ -250,7 +250,7 @@ void func_020c1728(void) {
         }
     } else {
         RefreshRaceGoalSRows();
-        gRaceGoalS->mUpdate = func_020c155c;
+        gRaceGoalS->mUpdate = ShowRaceGoalSRows;
         gRaceGoalS->mUpdateFrames = 0;
     }
     inputSlot = UNK_02175628_INDEX_8;
@@ -261,12 +261,12 @@ void func_020c1728(void) {
         }
         gRaceGoalS->mHiddenRowCount = gRaceSetup->mKartCount;
         RefreshRaceGoalSRows();
-        gRaceGoalS->mUpdate = func_020c155c;
+        gRaceGoalS->mUpdate = ShowRaceGoalSRows;
         gRaceGoalS->mUpdateFrames = 0;
     }
 }
 
-void func_020c155c(void) {
+void ShowRaceGoalSRows(void) {
     s32 frame;
     s32 hiddenRows;
     u16 keyABits;
@@ -306,13 +306,13 @@ void func_020c155c(void) {
             }
         }
     } else {
-        gRaceGoalS->mUpdate = func_020c13e8;
+        gRaceGoalS->mUpdate = HoldRaceGoalSRows;
         gRaceGoalS->mUpdateFrames = 0;
     }
     inputSlot = UNK_02175628_INDEX_8;
     keyABits = gInputSlots[inputSlot].mPressedBits & PAD_KEY_A;
     if (keyABits != 0 && frame >= 0x2d) {
-        gRaceGoalS->mUpdate = func_020c13e8;
+        gRaceGoalS->mUpdate = HoldRaceGoalSRows;
         gRaceGoalS->mUpdateFrames = 0;
     }
 }
@@ -321,10 +321,10 @@ static inline CourseTeamResult *func_020c13e8_inline(s32 teamIndex) {
     return &gCupRecords->mTeamResults[GetCourseIndexInCup()].mTeams[teamIndex];
 }
 
-void func_020c13e8(void) {
+void HoldRaceGoalSRows(void) {
     s32 frame;
     s32 i;
-    s32 a;
+    s32 bestValue;
     s32 teamOneValue;
 
     frame = gRaceGoalS->mUpdateFrames++;
@@ -336,19 +336,19 @@ void func_020c13e8(void) {
     } else {
         if (gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE) {
             if (gRaceSetup->mUseTeams != 0) {
-                a = func_020c13e8_inline(0)->mUnk_02;
-                teamOneValue = func_020c13e8_inline(1)->mUnk_02;
-                if (a <= teamOneValue) {
-                    a = teamOneValue;
+                bestValue = func_020c13e8_inline(0)->mWinCount;
+                teamOneValue = func_020c13e8_inline(1)->mWinCount;
+                if (bestValue <= teamOneValue) {
+                    bestValue = teamOneValue;
                 }
             } else {
-                a = gRaceGoalS->mShownNumbers[gRaceGoalS->mRowKartIndex[0]];
+                bestValue = gRaceGoalS->mShownNumbers[gRaceGoalS->mRowKartIndex[0]];
             }
-            gRaceGoalS->mCourseCountReached = a >= gRaceSetup->mCourseCount;
+            gRaceGoalS->mCourseCountReached = bestValue >= gRaceSetup->mCourseCount;
         } else {
             gRaceGoalS->mCourseCountReached = gRaceSetup->mCourseNumber >= gRaceSetup->mCourseCount;
         }
-        gRaceGoalS->mUpdate = func_020c13d0;
+        gRaceGoalS->mUpdate = FinishRaceGoalS;
         gRaceGoalS->mUpdateFrames = 0;
     }
 }

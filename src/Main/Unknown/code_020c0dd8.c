@@ -151,8 +151,8 @@ void RefreshRaceGoalSCourseCountReached(void) {
 
     if (gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE) {
         if (gRaceSetup->mUseTeams != 0) {
-            bestValue = func_020c0dd8_inline(0)->mUnk_02;
-            teamOneValue = func_020c0dd8_inline(1)->mUnk_02;
+            bestValue = func_020c0dd8_inline(0)->mWinCount;
+            teamOneValue = func_020c0dd8_inline(1)->mWinCount;
             if (bestValue <= teamOneValue) {
                 bestValue = teamOneValue;
             }
@@ -163,6 +163,6 @@ void RefreshRaceGoalSCourseCountReached(void) {
     } else {
         gRaceGoalS->mCourseCountReached = gRaceSetup->mCourseNumber >= gRaceSetup->mCourseCount;
     }
-    gRaceGoalS->mUpdate = func_020c13d0;
+    gRaceGoalS->mUpdate = FinishRaceGoalS;
     gRaceGoalS->mUpdateFrames = 0;
 }

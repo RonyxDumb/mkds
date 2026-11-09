@@ -31,7 +31,7 @@ int GetChoisesSPickedValue(void) {
     int courseCountReached;
     int pickedValue;
     pickedValue = gChoisesS->mPickedValue;
-    if ((pickedValue == 2) && (courseCountReached = func_020c3db4(), courseCountReached != 0)) {
+    if ((pickedValue == 2) && (courseCountReached = IsRaceGoalSRuleCourseCountReached(), courseCountReached != 0)) {
         pickedValue = 7;
     }
     return pickedValue;

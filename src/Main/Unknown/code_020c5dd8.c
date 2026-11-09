@@ -59,7 +59,7 @@ void InitRaceNewRecordTa(void) {
         return;
     }
     gRaceNewRecordTa = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0xe8);
-    gRaceNewRecordTa->mUpdate = func_020c610c;
+    gRaceNewRecordTa->mUpdate = StartRaceNewRecordTa;
     gRaceNewRecordTa->mUpdateFrames = 0;
     gRaceNewRecordTa->mFinishTimeIsRecord = 0;
     gRaceNewRecordTa->mFinishRecordIndex = -1;
@@ -252,7 +252,7 @@ void DrawRaceNewRecordTa(RaceHudOamBuffer *oamBuffer) {
     DrawRaceNewRecordTaRow(oamBuffer, i, gRaceNewRecordTa->mOffsetX + 1, 0xb4);
 }
 
-BOOL func_020c657c(s32 store) {
+BOOL TryStoreRaceNewRecordTaFinishTime(s32 store) {
     u8 minute;
     u8 second;
     u16 millisecond;
@@ -307,7 +307,7 @@ found:
     return TRUE;
 }
 
-BOOL func_020c6428(s32 store) {
+BOOL TryStoreRaceNewRecordTaBestLap(s32 store) {
     u8 minute;
     u8 second;
     u16 millisecond;
@@ -344,7 +344,7 @@ BOOL func_020c6428(s32 store) {
     return TRUE;
 }
 
-void func_020c610c(void) {
+void StartRaceNewRecordTa(void) {
     MinuteSecondMillisecondTime setupTime;
     MinuteSecondMillisecondTime finishTime;
     u8 minute;
@@ -369,12 +369,12 @@ void func_020c610c(void) {
         return;
     }
     if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
-        gRaceNewRecordTa->mFinishTimeIsRecord = func_020c657c(1);
-        gRaceNewRecordTa->mBestLapIsRecord = func_020c6428(1);
+        gRaceNewRecordTa->mFinishTimeIsRecord = TryStoreRaceNewRecordTaFinishTime(1);
+        gRaceNewRecordTa->mBestLapIsRecord = TryStoreRaceNewRecordTaBestLap(1);
         if (gRaceNewRecordTa->mFinishTimeIsRecord != 0 || gRaceNewRecordTa->mBestLapIsRecord != 0) {
             gRaceNewRecordTa->mUnk_18 = 1;
             WriteBackupCourseTimeRecords();
-            gRaceNewRecordTa->mUpdate = func_020c5f7c;
+            gRaceNewRecordTa->mUpdate = StoreRaceNewRecordTaGhost;
             gRaceNewRecordTa->mUpdateFrames = 0;
         } else {
             r = FALSE;
@@ -398,7 +398,7 @@ void func_020c610c(void) {
             if (r != FALSE) {
                 gRaceNewRecordTa->mUnk_18 = 1;
                 FillAndWriteCourseGhostRecord(gRaceSetup->mCourseId, gRaceSetup->mEntryIndex);
-                gRaceNewRecordTa->mUpdate = func_020c5f08;
+                gRaceNewRecordTa->mUpdate = AdvanceRaceNewRecordTaAfterSave;
                 gRaceNewRecordTa->mUpdateFrames = 0;
             } else {
                 gRaceNewRecordTa->mUpdate = SlideInRaceNewRecordTa;
@@ -436,10 +436,10 @@ void func_020c610c(void) {
     gRaceNewRecordTa->mUnk_dc = 1;
 }
 
-void func_020c5f7c(void) {
+void StoreRaceNewRecordTaGhost(void) {
     MinuteSecondMillisecondTime setupTime;
     MinuteSecondMillisecondTime finishTime;
-    BOOL r;
+    BOOL storeGhost;
     BOOL hasSetupTime;
     s32 waiting;
 
@@ -451,7 +451,7 @@ void func_020c5f7c(void) {
     if (waiting != 0) {
         return;
     }
-    r = FALSE;
+    storeGhost = FALSE;
     if (IsRaceKeyRecordingNotFull() != 0) {
         if (gRaceSetup->mMode == MODE_TIME_ATTACK && gRaceSetup->mFirstGhostRecordFilled == 1) {
             MI_CpuCopy8(&gRaceSetup->mFirstGhostRecordMillisecond, &setupTime, 4);
@@ -463,16 +463,16 @@ void func_020c5f7c(void) {
             GetKartFinishTime((u16) gRaceSetup->mEntryIndex, &finishTime.mMinute, &finishTime.mSecond,
                               &finishTime.mMillisecond);
             if (IsTimeLessThan(&finishTime, &setupTime) != FALSE) {
-                r = TRUE;
+                storeGhost = TRUE;
             }
         } else {
-            r = TRUE;
+            storeGhost = TRUE;
         }
     }
-    if (r != FALSE) {
+    if (storeGhost != FALSE) {
         gRaceNewRecordTa->mUnk_18 = 1;
         FillAndWriteCourseGhostRecord(gRaceSetup->mCourseId, gRaceSetup->mEntryIndex);
-        gRaceNewRecordTa->mUpdate = func_020c5f08;
+        gRaceNewRecordTa->mUpdate = AdvanceRaceNewRecordTaAfterSave;
         gRaceNewRecordTa->mUpdateFrames = 0;
     } else {
         gRaceNewRecordTa->mUnk_18 = 0;
@@ -481,7 +481,7 @@ void func_020c5f7c(void) {
     }
 }
 
-void func_020c5f08(void) {
+void AdvanceRaceNewRecordTaAfterSave(void) {
     s32 waiting;
 
     if (data_0217aa08->mBusy == 0) {
@@ -507,31 +507,31 @@ void ShowRaceNewRecordTaSubScreen(void) {
 }
 
 void SlideInRaceNewRecordTa(void) {
-    s32 n;
+    s32 frame;
 
-    n = gRaceNewRecordTa->mUpdateFrames;
-    gRaceNewRecordTa->mUpdateFrames = n + 1;
-    if (n < 0x14) {
-        gRaceNewRecordTa->mOffsetX = InterpolateS16(1, -0x100, 0, n, 0x14);
+    frame = gRaceNewRecordTa->mUpdateFrames;
+    gRaceNewRecordTa->mUpdateFrames = frame + 1;
+    if (frame < 0x14) {
+        gRaceNewRecordTa->mOffsetX = InterpolateS16(1, -0x100, 0, frame, 0x14);
     } else {
         gRaceNewRecordTa->mOffsetX = 0;
-        gRaceNewRecordTa->mUpdate = func_020c5df0;
+        gRaceNewRecordTa->mUpdate = HoldRaceNewRecordTa;
         gRaceNewRecordTa->mUpdateFrames = 0;
     }
 }
 
-void func_020c5df0(void) {
-    s32 n;
+void HoldRaceNewRecordTa(void) {
+    s32 frame;
 
-    n = gRaceNewRecordTa->mUpdateFrames;
-    gRaceNewRecordTa->mUpdateFrames = n + 1;
-    if (n < 0x3c) {
+    frame = gRaceNewRecordTa->mUpdateFrames;
+    gRaceNewRecordTa->mUpdateFrames = frame + 1;
+    if (frame < 0x3c) {
         return;
     }
-    gRaceNewRecordTa->mUpdate = func_020c5dd8;
+    gRaceNewRecordTa->mUpdate = FinishRaceNewRecordTa;
     gRaceNewRecordTa->mUpdateFrames = 0;
 }
 
-void func_020c5dd8(void) {
+void FinishRaceNewRecordTa(void) {
     gRaceNewRecordTa->mUnk_dc = 0;
 }

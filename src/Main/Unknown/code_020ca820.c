@@ -3,13 +3,13 @@
 #include "Main/Unknown/code_020cab8c.h"
 
 #pragma thumb on
-void func_020ca83c(void) {
+void WriteEmblemChoisesScreenMapWrapper(void) {
     u32 unusedValue;
-    func_020cab8c();
+    WriteEmblemChoisesScreenMap();
 }
 #pragma thumb off
 
-void *func_020ca820(void) {
+void *EmblemChoisesGetCurrentHeap(void) {
     void *value0;
     value0 = GetCurrentHeapCall();
     value0 = GetHeap(value0);

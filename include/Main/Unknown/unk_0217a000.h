@@ -1633,8 +1633,8 @@ typedef struct KartCourseResult {
 // One team's result for a course: points, win count and a flag. Two make an element of the table at member 0x144 of
 // CupRecords.
 typedef struct CourseTeamResult {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u8 mUnk_02;
+    /* 00 */ u16 mTotalPoints;
+    /* 02 */ u8 mWinCount;
     /* 03 */ union {
         u8 mUnk_03;
         struct {

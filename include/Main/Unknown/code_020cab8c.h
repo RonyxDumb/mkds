@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_020cab8c(void);
+void WriteEmblemChoisesScreenMap(void);

@@ -17,7 +17,7 @@ s32 MoveEmblemChoisesIndex(s32 step) {
     if (gEmblemChoises->mShown != 0) {
         choisesCount = gEmblemChoises->mChoisesCount;
         if (step != 0) {
-            gEmblemChoises->mUnk_24 = 0;
+            gEmblemChoises->mCycleFrames = 0;
             StartSoundOncePerFrame(0);
         }
         gEmblemChoises->mChoisesIndex = (previousIndex + step + choisesCount) % choisesCount;
@@ -25,7 +25,7 @@ s32 MoveEmblemChoisesIndex(s32 step) {
     return previousIndex;
 }
 
-s32 func_020cacc0(void) {
+s32 MoveEmblemChoisesIndexByTouch(void) {
     BOOL touched;
     s32 choisesCount;
     BOOL zeroStep;
@@ -53,7 +53,7 @@ s32 func_020cacc0(void) {
                     gEmblemChoises->mChoisesIndex = j;
                     MoveEmblemChoisesIndex(zeroStep);
                 } else {
-                    gEmblemChoises->mUnk_10 = TRUE;
+                    gEmblemChoises->mPickStartedOnSelected = TRUE;
                 }
                 switch (gEmblemChoises->mChoisesIndex) {
                     case 0:
@@ -76,18 +76,18 @@ s32 func_020cacc0(void) {
 void ResetEmblemChoisesState(void) {
     gEmblemChoises->mResult = -1;
     gEmblemChoises->mChoisesIndex = 0;
-    gEmblemChoises->mUnk_24 = 0;
-    gEmblemChoises->mUnk_10 = FALSE;
-    gEmblemChoises->mUnk_14 = 0;
-    gEmblemChoises->mUnk_18 = 0;
+    gEmblemChoises->mCycleFrames = 0;
+    gEmblemChoises->mPickStartedOnSelected = FALSE;
+    gEmblemChoises->mPickFrames = 0;
+    gEmblemChoises->mCloseFrames = 0;
 }
 
-void func_020cac68(u16 *mapData, s32 column, s32 row) {
+void WriteEmblemChoisesChoiceTiles(u16 *mapData, s32 column, s32 row) {
     SetScreenMapBlockLowBits(mapData, column, row, 1, 1, 4);
     SetScreenMapBlockLowBits(mapData, column, row + 1, 1, 1, 0x24);
 }
 
-void func_020cac18(void) {
+void WriteEmblemChoisesTiles(void) {
     s32 choisesCount;
     u16 *mapData;
     s32 i;
@@ -96,7 +96,7 @@ void func_020cac18(void) {
     mapData = gEmblemChoises->mChoisesS3Nscr->mData;
     if (mapData != NULL) {
         for (i = 0; i < choisesCount; i++) {
-            func_020cac68(mapData, 2, 13 - choisesCount * 2 + i * 4);
+            WriteEmblemChoisesChoiceTiles(mapData, 2, 13 - choisesCount * 2 + i * 4);
         }
         SetScreenMapBlockTopBits(mapData, 0, 0, 0x20, 0x18, 0xf);
     }
@@ -112,9 +112,9 @@ void func_020caba4(s32 choiceIndex) {
     choisesCount = emblemChoises->mChoisesCount;
     mapData = emblemChoises->mChoisesS3Nscr->mData;
     if (mapData != NULL) {
-        if (emblemChoises->mUnk_10 == FALSE || emblemChoises->mUnk_14 >= 5) {
+        if (emblemChoises->mPickStartedOnSelected == FALSE || emblemChoises->mPickFrames >= 5) {
             firstRow = 13 - choisesCount * 2 + choiceIndex * 4;
-            if (emblemChoises->mUnk_24 < 0x1e) {
+            if (emblemChoises->mCycleFrames < 0x1e) {
                 SetScreenMapBlockLowBits(mapData, 2, firstRow, 1, 1, 0x21);
                 SetScreenMapBlockLowBits(mapData, 2, firstRow + 1, 1, 1, 0x41);
             }

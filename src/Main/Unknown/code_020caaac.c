@@ -10,18 +10,18 @@
 
 #pragma thumb on
 
-void func_020cab8c(void) {
-    func_020cac18();
+void WriteEmblemChoisesScreenMap(void) {
+    WriteEmblemChoisesTiles();
     func_020caba4(MoveEmblemChoisesIndex(0));
 }
 
 #pragma thumb off
 
-u32 func_020cab74(void) {
+u32 GetSubDispcntBits(void) {
     return (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
 }
 
-u32 func_020cab58(u32 bits) {
+u32 EmblemChoisesWriteSubDispcntBits(u32 bits) {
     u32 value0 = bits;
     u32 registerValue;
     registerValue = reg_GXS_DB_DISPCNT;
@@ -31,14 +31,14 @@ u32 func_020cab58(u32 bits) {
     return value0;
 }
 
-void func_020cab2c(u32 x, u32 y) {
-    reg_G2S_DB_BG0OFS = (x & 0x1ff) | ((y << 16) & 0x1ff0000);
+void EmblemChoisesWriteSubBg0Offset(u32 offsetX, u32 offsetY) {
+    reg_G2S_DB_BG0OFS = (offsetX & 0x1ff) | ((offsetY << 16) & 0x1ff0000);
 }
 
-void func_020caae8(u32 plane1, u32 plane2, u32 ev1, u32 ev2, s32 brightness) {
+void WriteSubBlendBrightness(u32 plane1, u32 plane2, u32 ev1, u32 ev2, s32 brightness) {
     G2x_SetBlendBrightnessExt_(&reg_G2S_DB_BLDCNT, plane1, plane2, ev1, ev2, brightness);
 }
 
-void func_020caaac(u32 plane1, u32 plane2, u32 ev1, u32 ev2) {
+void EmblemChoisesWriteSubBlendAlpha(u32 plane1, u32 plane2, u32 ev1, u32 ev2) {
     G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, plane1, plane2, ev1, ev2);
 }

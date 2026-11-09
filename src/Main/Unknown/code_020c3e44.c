@@ -69,8 +69,8 @@
 #include "Main/Unknown/code_02077bc0.h"
 #include "registers.h"
 
-u32 func_020c5dc4(void) {
-    return (gRaceGoalM->mUnk_00);
+BOOL IsRaceGoalMReady(void) {
+    return (gRaceGoalM->mReady);
 }
 
 u32 GetRaceGoalMUpdateFrames(void) {
@@ -79,7 +79,7 @@ u32 GetRaceGoalMUpdateFrames(void) {
 
 void InitRaceGoalM(void) {
     gRaceGoalM = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x1c);
-    gRaceGoalM->mUnk_00 = 1;
+    gRaceGoalM->mReady = 1;
     gRaceGoalM->mUpdateFrames = 0;
     gRaceGoalM->mRankIndex = 0;
     gRaceGoalM->mPointsGained = 0;
@@ -112,7 +112,7 @@ void UpdateRaceGoalM(void) {
     frame = gRaceGoalM->mUpdateFrames;
     followedKartIndex = GetFollowedKartOrEntryIndex();
     if (gRaceProgress->mKarts[followedKartIndex].mStatus == 1 || gRaceProgress->mRaceDone != 0) {
-        gRaceGoalM->mUnk_00 = 0;
+        gRaceGoalM->mReady = 0;
     }
     if (IsRaceHudGoalMEnabled() == 0) {
         return;
@@ -136,12 +136,12 @@ void UpdateRaceGoalM(void) {
             a = record->mTotalPoints;
             gRaceGoalM->mPointsGained = a - GetKartPreviousTotalPoints(GetFollowedKartOrEntryIndex());
             if (frame > 0x14) {
-                gRaceGoalM->mUnk_00 = 1;
+                gRaceGoalM->mReady = 1;
             }
             break;
         case MODE_TIME_ATTACK:
             if (frame > 0x14) {
-                gRaceGoalM->mUnk_00 = 1;
+                gRaceGoalM->mReady = 1;
             }
             break;
         case MODE_VS:
@@ -154,7 +154,7 @@ void UpdateRaceGoalM(void) {
             }
             gRaceGoalM->mFirstPlaceKartIndex = i;
             if (frame > 0x14) {
-                gRaceGoalM->mUnk_00 = 1;
+                gRaceGoalM->mReady = 1;
             }
             break;
         case MODE_MISSION_RUN:
@@ -183,14 +183,14 @@ void UpdateRaceGoalM(void) {
                             break;
                     }
                 } else if (frame > 0x1e) {
-                    gRaceGoalM->mUnk_00 = 1;
+                    gRaceGoalM->mReady = 1;
                 }
             } else if (frame > 0x4b) {
-                gRaceGoalM->mUnk_00 = 1;
+                gRaceGoalM->mReady = 1;
             }
             break;
         default:
-            gRaceGoalM->mUnk_00 = 1;
+            gRaceGoalM->mReady = 1;
             break;
     }
 }
@@ -471,7 +471,7 @@ void InitRaceStartGp(void) {
     Unk02021dc8 *ncer;
     u8 charCanvas[0x20];
     TextCanvas textCanvas;
-    void *r;
+    void *font;
     s32 messageIndex;
     s32 i;
 
@@ -488,11 +488,11 @@ void InitRaceStartGp(void) {
     for (i = 0; i < 3; i++) {
         gRaceStartGp->mRaceStartGpMNcerEntries[i] = NNS_G2dGetCellDataByIdx(ncer, (u16) i);
     }
-    r = GetFontByIndex(2);
+    font = GetFontByIndex(2);
     messageIndex = -1;
     NNS_G2dCharCanvasInitForBG(charCanvas, gRaceStartGp->mRaceStartGpMONcgr->mData, 0x20, 4, 4);
     textCanvas.mCharCanvas = charCanvas;
-    textCanvas.mFont = r;
+    textCanvas.mFont = font;
     textCanvas.mCharSpacing = 1;
     textCanvas.mLineSpacing = 0;
     if (gRaceSetup->mMode == MODE_GRAND_PRIX) {
@@ -681,9 +681,9 @@ void DrawRaceTaPositions(RaceHudOamBuffer *oamBuffer) {
     s32 sampleCellPosition[2];
     u16 firstRotationSlot;
     void *sampleCell;
-    float f;
-    s32 v;
-    s32 s;
+    float productWithHalf;
+    s32 roundedProduct;
+    s32 scale;
     s32 i;
     s32 j;
     u32 m;
@@ -705,19 +705,19 @@ void DrawRaceTaPositions(RaceHudOamBuffer *oamBuffer) {
         AllocOamMatrixIndex(oamBuffer);
     }
     if ((GetRaceHudSubScreenCourseScale() * 3) > 0) {
-        f = (GetRaceHudSubScreenCourseScale() * 0x3000) + 0.5f;
+        productWithHalf = (GetRaceHudSubScreenCourseScale() * 0x3000) + 0.5f;
     } else {
-        f = (GetRaceHudSubScreenCourseScale() * 0x3000) - 0.5f;
+        productWithHalf = (GetRaceHudSubScreenCourseScale() * 0x3000) - 0.5f;
     }
-    v = f;
-    s = ((s64) v * 20) >> 12;
+    roundedProduct = productWithHalf;
+    scale = ((s64) roundedProduct * 20) >> 12;
     for (i = 0; i < gRaceSetup->mKartCount; i++) {
         if (gRaceTaPositions->mKartVisible[i] != 0) {
             if (gRaceProgress->mRaceDone == 0) {
                 for (j = 0; j < gRaceTaPositions->mUnk_790[i].mUnk_00; j++) {
                     if (gRaceTaPositions->mUnk_790[i].mUnk_34[j] < 0x28) {
                         if (ComputeRaceHudSubScreenPosition(&gRaceTaPositions->mUnk_790[i].mUnk_04[j], &trailPosition,
-                                                            s, 1, 1) != FALSE) {
+                                                            scale, 1, 1) != FALSE) {
                             m = gRaceTaPositions->mUnk_790[i].mUnk_28[j];
                             trailCell = GetRaceSNcerEntry(0x4f);
                             trailOamIndex = oamBuffer->mOamCount;
@@ -740,8 +740,8 @@ void DrawRaceTaPositions(RaceHudOamBuffer *oamBuffer) {
                 u16 angle =
                     (u16) (gRaceTaPositions->mSamples[i][j].mAngle + GetSubScreenAngleAndClearScrollTimer()) + 0x800;
                 u16 rotationIndex = ((angle << 4) / 0x10000) % 16;
-                if (ComputeRaceHudSubScreenPosition(&gRaceTaPositions->mSamples[i][j].mPos, &samplePosition, s, 1, 1) !=
-                    FALSE) {
+                if (ComputeRaceHudSubScreenPosition(&gRaceTaPositions->mSamples[i][j].mPos, &samplePosition, scale, 1,
+                                                    1) != FALSE) {
                     switch (gRaceTaPositions->mSamples[i][j].mKind) {
                         case 0:
                             sampleCell = NULL;

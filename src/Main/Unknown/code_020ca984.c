@@ -11,18 +11,18 @@ u32 GetEmblemChoisesInputSlot(void) {
     return 0x8u;
 }
 
-u16 func_020ca9c8(InputSlot *slot, u32 mask) {
+u16 EmblemChoisesGetInputSlotNewBits(InputSlot *slot, u32 mask) {
     return slot->mPressedBits & mask;
 }
 
-u16 func_020ca9ac(u32 slotIndex, u32 mask) {
-    return func_020ca9c8(&gInputSlots[slotIndex], mask);
+u16 EmblemChoisesGetNewBits(u32 slotIndex, u32 mask) {
+    return EmblemChoisesGetInputSlotNewBits(&gInputSlots[slotIndex], mask);
 }
 
-u32 func_020ca994(u32 seqIndex, u32 seqArcNo) {
+u32 EmblemChoisesStartSeqArc(u32 seqIndex, u32 seqArcNo) {
     return NNS_SndArcPlayerStartSeqArc(&data_0217d068, seqArcNo, seqIndex);
 }
 
 u32 StartEmblemChoisesSound(u32 seqIndex) {
-    return func_020ca994(seqIndex, 0u);
+    return EmblemChoisesStartSeqArc(seqIndex, 0u);
 }

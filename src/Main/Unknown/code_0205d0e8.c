@@ -30,8 +30,8 @@ void ResetCupRecords(void) {
         }
         for (team = 0; team < 2; team++) {
             teamRecord = &cupRecords->mTeamResults[course].mTeams[team];
-            teamRecord->mUnk_00 = 0;
-            teamRecord->mUnk_02 = 0;
+            teamRecord->mTotalPoints = 0;
+            teamRecord->mWinCount = 0;
         }
     }
     x = FALSE;
@@ -203,7 +203,7 @@ void SetTeamWinCountsAndPoints(s32 winningTeam) {
         if (previousCourse < 0) {
             winCount = 0;
         } else {
-            winCount = gCupRecords->mTeamResults[previousCourse].mTeams[team].mUnk_02;
+            winCount = gCupRecords->mTeamResults[previousCourse].mTeams[team].mWinCount;
         }
         if (team == winningTeam) {
             winCount = (u8) (winCount + 1);
@@ -211,7 +211,7 @@ void SetTeamWinCountsAndPoints(s32 winningTeam) {
         if (winCount > 99) {
             winCount = 99;
         }
-        teamRecord->mUnk_02 = winCount;
+        teamRecord->mWinCount = winCount;
         for (kart = 0; kart < (u32) gRaceSetup->mKartCount; kart++) {
             if (team == gRaceSetup->mCurrentEntries[kart].mPlayer.mTeamIndex) {
                 points =
@@ -222,7 +222,7 @@ void SetTeamWinCountsAndPoints(s32 winningTeam) {
         if (points > 9999) {
             points = 9999;
         }
-        teamRecord->mUnk_00 = points;
+        teamRecord->mTotalPoints = points;
     }
 }
 

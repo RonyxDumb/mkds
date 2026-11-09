@@ -136,19 +136,19 @@ typedef struct ViewFrustum {
 // 0x0c.
 typedef struct EmblemChoises {
     /* 00 */ s32 mShown;
-    /* 04 */ s32 mUnk_04;
+    /* 04 */ s32 mDrawnShown;
     /* 08 */ BOOL mGraphicsUploadRequested;
-    /* 0c */ UnkFunc *mUnk_0c;
-    /* 10 */ BOOL mUnk_10;
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ s32 mUnk_18;
+    /* 0c */ UnkFunc *mHideCallback;
+    /* 10 */ BOOL mPickStartedOnSelected;
+    /* 14 */ s32 mPickFrames;
+    /* 18 */ s32 mCloseFrames;
     /* 1c */ s32 mResult;
     /* 20 */ s32 mChoisesIndex;
-    /* 24 */ s32 mUnk_24;
+    /* 24 */ s32 mCycleFrames;
     /* 28 */ s32 mChoisesCount;
-    /* 2c */ void *mUnk_2c;
-    /* 30 */ Unk02023374 mUnk_30;
-    /* 50 */ TextCanvas mUnk_50;
+    /* 2c */ void *mFont;
+    /* 30 */ Unk02023374 mCharCanvas;
+    /* 50 */ TextCanvas mTextCanvas;
     /* 60 */ struct Nclr *mChoisesSBNclr;
     /* 64 */ struct Ncgr *mChoisesSBNcgr;
     /* 68 */ struct Nscr *mChoisesS3Nscr;
@@ -673,7 +673,8 @@ typedef struct RaceGoalS {
     /* 0060 */ s32 mPreviousRowKartIndex[8];
     /* 0080 */ s32 mRankComparison[8];
     /* 00a0 */ s32 mOffsetX;
-    /* 00a4 */ s32 mUnk_00a4;
+    // 1 from the first results step (the race is done) until the last results step clears it; 0 in Time Trial.
+    /* 00a4 */ s32 mRunning;
     /* 00a8 */ s32 mHiddenRowCount;
     /* 00ac */ void (*mUpdate)(void);
     /* 00b0 */ s32 mUpdateFrames;

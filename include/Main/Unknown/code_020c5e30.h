@@ -6,7 +6,7 @@
 typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 
 // Time-attack record handling of the race (mode 1 only), one record behind gRaceNewRecordTa (0xe8 bytes, allocated by
-// InitRaceNewRecordTa, set NULL by ClearRaceNewRecordTaPointer): mUnk_00 is the function it runs every frame
+// InitRaceNewRecordTa, set NULL by ClearRaceNewRecordTaPointer): mUpdate is the function it runs every frame
 // (UpdateRaceNewRecordTa), which compares the finished run with the course's saved records, inserts and saves a new one
 // (SetCourseTimeRecord) and slides in and draws the new-record page (DrawRaceNewRecordTa).
 typedef struct RaceNewRecordTa {
@@ -37,10 +37,10 @@ void UpdateRaceNewRecordTa(void);
 void DrawRaceNewRecordTaTime(RaceHudOamBuffer *oamBuffer, s32 x, s32 y, TimeRecord *record);
 void DrawRaceNewRecordTaRow(RaceHudOamBuffer *oamBuffer, s32 b, s32 x, s32 y);
 void DrawRaceNewRecordTa(RaceHudOamBuffer *oamBuffer);
-BOOL func_020c657c(s32 store);
-BOOL func_020c6428(s32 store);
-void func_020c610c(void);
-void func_020c5f7c(void);
-void func_020c5f08(void);
+BOOL TryStoreRaceNewRecordTaFinishTime(s32 store);
+BOOL TryStoreRaceNewRecordTaBestLap(s32 store);
+void StartRaceNewRecordTa(void);
+void StoreRaceNewRecordTaGhost(void);
+void AdvanceRaceNewRecordTaAfterSave(void);
 void ShowRaceNewRecordTaSubScreen(void);
 void SlideInRaceNewRecordTa(void);

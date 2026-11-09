@@ -925,7 +925,7 @@ void func_ov001_021a2cf0(void) {
             break;
     }
     UpdateEmblemChoises();
-    func_020ca83c();
+    WriteEmblemChoisesScreenMapWrapper();
 }
 
 void func_ov001_021a2a40(void) {

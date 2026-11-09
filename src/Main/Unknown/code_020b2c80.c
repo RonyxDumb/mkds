@@ -32,7 +32,7 @@ u32 GetChoisesSListIndex(void) {
             }
             return 1;
         }
-        if (func_020c3db4() != 0) {
+        if (IsRaceGoalSRuleCourseCountReached() != 0) {
             return 2;
         }
         return 1;

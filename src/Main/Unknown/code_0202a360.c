@@ -58,12 +58,12 @@ u32 func_0202a360(void) {
         ownTeamIndex = gRaceSetup->mCurrentEntries[ownEntryIndex].mPlayer.mTeamIndex;
         switch (gRaceSetup->mRuleKind) {
             case 1:
-                team0Score = func_0202a360_inline(0)->mUnk_02;
-                team1Score = func_0202a360_inline(1)->mUnk_02;
+                team0Score = func_0202a360_inline(0)->mWinCount;
+                team1Score = func_0202a360_inline(1)->mWinCount;
                 break;
             case 2:
-                team0Score = func_0202a360_inline(0)->mUnk_00;
-                team1Score = func_0202a360_inline(1)->mUnk_00;
+                team0Score = func_0202a360_inline(0)->mTotalPoints;
+                team1Score = func_0202a360_inline(1)->mTotalPoints;
                 break;
         }
         if (team0Score == team1Score) {

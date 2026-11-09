@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_020cab74(void);
+u32 GetSubDispcntBits(void);

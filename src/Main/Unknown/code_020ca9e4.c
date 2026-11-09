@@ -19,20 +19,20 @@ void DrawEmblemChoises(void) {
     if (gEmblemChoises->mShown != 0) {
         GXS_LoadBG0Scr(gEmblemChoises->mChoisesS3Nscr->mData, 0, 0x600);
     }
-    if (gEmblemChoises->mShown != gEmblemChoises->mUnk_04) {
+    if (gEmblemChoises->mShown != gEmblemChoises->mDrawnShown) {
         if (gEmblemChoises->mShown != 0) {
-            func_020cab58(func_020cab74() | 1);
-            func_020cab2c(0, 0);
-            func_020caae8(0x3e, 0x3f, 8, 8, -7);
+            EmblemChoisesWriteSubDispcntBits(GetSubDispcntBits() | 1);
+            EmblemChoisesWriteSubBg0Offset(0, 0);
+            WriteSubBlendBrightness(0x3e, 0x3f, 8, 8, -7);
         } else {
-            func_020cab58(func_020cab74() & ~1);
-            if (gEmblemChoises->mUnk_0c != NULL) {
-                gEmblemChoises->mUnk_0c();
+            EmblemChoisesWriteSubDispcntBits(GetSubDispcntBits() & ~1);
+            if (gEmblemChoises->mHideCallback != NULL) {
+                gEmblemChoises->mHideCallback();
             } else {
-                func_020caaac(0, 0, 6, 10);
+                EmblemChoisesWriteSubBlendAlpha(0, 0, 6, 10);
             }
         }
     }
-    gEmblemChoises->mUnk_04 = gEmblemChoises->mShown;
+    gEmblemChoises->mDrawnShown = gEmblemChoises->mShown;
 }
 #pragma thumb off

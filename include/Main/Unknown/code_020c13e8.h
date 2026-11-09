@@ -2,11 +2,11 @@
 
 #include "types.h"
 
-void func_020c1ef8(void);
+void StartRaceGoalS(void);
 void SlideInRaceGoalS(void);
-void func_020c1de4(void);
-void func_020c1bc0(void);
-void func_020c195c(void);
-void func_020c1728(void);
-void func_020c155c(void);
-void func_020c13e8(void);
+void HoldRaceGoalSPreviousNumbers(void);
+void CountUpRaceGoalSNumbers(void);
+void HoldRaceGoalSNumbers(void);
+void HideRaceGoalSRows(void);
+void ShowRaceGoalSRows(void);
+void HoldRaceGoalSRows(void);
