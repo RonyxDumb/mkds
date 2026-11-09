@@ -3,7 +3,7 @@
 
 #pragma thumb on
 
-void PickRandomCharactersAndKarts(u8 *picks) {
+void PickRandomCharactersAndKarts(CharacterKartPicks *picks) {
     PickRandomCharacters(picks);
     PickRandomKarts(picks);
 }

@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-void PickRandomCharactersAndKarts(u8 *picks);
+typedef struct CharacterKartPicks CharacterKartPicks;
+
+void PickRandomCharactersAndKarts(CharacterKartPicks *picks);

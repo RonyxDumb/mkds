@@ -144,8 +144,8 @@ s32 func_02034370(SceneNumbersView *sceneNumbers) {
                     for (i = 0; i < 4; i++) {
                         j = i + 4;
                         if (TryGetScanGhostInfo(i, &ghostRecordInfo, &idBytes[0], &idBytes[1], &idBytes[2],
-                                                &ghostRecordInfo.mMinute, &ghostRecordInfo.mSecond,
-                                                &ghostRecordInfo.mMillisecond)) {
+                                                &ghostRecordInfo.mTime.mMinute, &ghostRecordInfo.mTime.mSecond,
+                                                &ghostRecordInfo.mTime.mMillisecond)) {
                             ghostRecordInfo.mUnk_18[1] = idBytes[0];
                             ghostRecordInfo.mUnk_18[0] = idBytes[1];
                             ghostRecordInfo.mUnk_18[2] = idBytes[2];

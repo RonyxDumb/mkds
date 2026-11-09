@@ -127,7 +127,7 @@ void func_02034f60(void) {
         PrintGhostRecordInfo((SelectCharacter *) &data_02174e64->mCellFileSets[0], data_02154034, selectedEntry,
                              selectedEntry->mInfo.mUnk_18[0], selectedEntry->mInfo.mUnk_18[1],
                              selectedEntry->mInfo.mUnk_18[2],
-                             (MinuteSecondMillisecondTime *) &selectedEntry->mInfo.mMillisecond);
+                             &selectedEntry->mInfo.mTime);
     }
 }
 
@@ -171,8 +171,8 @@ BOOL AreGhostRecordInfosDifferent(GhostRecordInfo *storedInfo, GhostRecordInfo *
     }
     if (nameDiffers != 0 || storedInfo->mUnk_18[1] != newInfo->mUnk_18[1] ||
         storedInfo->mUnk_18[0] != newInfo->mUnk_18[0] || storedInfo->mUnk_18[2] != newInfo->mUnk_18[2] ||
-        storedInfo->mMinute != newInfo->mMinute || storedInfo->mSecond != newInfo->mSecond ||
-        storedInfo->mMillisecond != newInfo->mMillisecond) {
+        storedInfo->mTime.mMinute != newInfo->mTime.mMinute || storedInfo->mTime.mSecond != newInfo->mTime.mSecond ||
+        storedInfo->mTime.mMillisecond != newInfo->mTime.mMillisecond) {
         return TRUE;
     }
     return FALSE;

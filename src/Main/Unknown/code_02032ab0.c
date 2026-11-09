@@ -236,9 +236,8 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
     LoadCellFileSet(subCellFileSet, gResultsBattleSNcgrName, gResultsBattleSNcerName, gResultsBattleSONclrName,
                     gResultsBattleSBnclName, gResultsBattleSBnllName, NULL, FindSceneFile);
     InitLayoutTable(heap, subCellFileSet->mCellLayout, subCellFileSet->mLabelLayout, &subCellFileSet->mCellTable);
-    GXS_LoadOBJ(((Ncgr *) results->mCellFileSets[1].mChars)->mData, 0,
-                ((Ncgr *) results->mCellFileSets[1].mChars)->mDataSize);
-    GXS_LoadOBJPltt(((Nclr *) subCellFileSet->mPalette)->mData, 0, ((Nclr *) subCellFileSet->mPalette)->mDataSize);
+    GXS_LoadOBJ(results->mCellFileSets[1].mChars->mData, 0, results->mCellFileSets[1].mChars->mDataSize);
+    GXS_LoadOBJPltt(subCellFileSet->mPalette->mData, 0, subCellFileSet->mPalette->mDataSize);
     for (i = 0; i < subCellFileSet->mLabelLayout->mUnk_06; i++) {
         remainingObjSize -= func_02025a00(1, heap, subCellFileSet, data_02153f00[i], remainingObjSize);
     }

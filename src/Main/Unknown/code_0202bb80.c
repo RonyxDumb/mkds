@@ -370,10 +370,9 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
         }
         gPlayerEntryList->mUnk_20c = FALSE;
     }
-    CallQueueAppend(0x13, 0, ((Unk02174e3c_00 *) gPlayerEntryList->mParts.mChars)->mUnk_14,
-                    ((Unk02174e3c_00 *) gPlayerEntryList->mParts.mChars)->mUnk_10);
-    CallQueueAppend(0xe, 0, ((Unk0212463c_d *) fileSet->mPalette)->mUnk_0c, 0x1a0);
-    CallQueueAppend(0xe, 0x1c0, ((Unk0212463c_d *) fileSet->mPalette)->mUnk_0c + 0x1c0, 0x40);
+    CallQueueAppend(0x13, 0, gPlayerEntryList->mParts.mChars->mData, gPlayerEntryList->mParts.mChars->mDataSize);
+    CallQueueAppend(0xe, 0, fileSet->mPalette->mData, 0x1a0);
+    CallQueueAppend(0xe, 0x1c0, (u8 *) fileSet->mPalette->mData + 0x1c0, 0x40);
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
         QueueCellChars(gTitleCellIndices[gPlayerEntryList->mScreenKind], titleFileSet->mCells, titleFileSet->mChars,
                        titleFileSet->mCellLayout, 0, 0x19, fileSet->mCells, fileSet->mCellLayout);

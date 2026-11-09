@@ -38,9 +38,11 @@ typedef struct PaletteBlend {
     /* 8c */ BOOL mFirstBlend;
 } PaletteBlend;
 
+typedef struct CharacterKartPicks CharacterKartPicks;
+
 // Object behind gPicksHolder.
 typedef struct PicksHolder {
-    /* 00 */ u8 *mPicks;
+    /* 00 */ CharacterKartPicks *mPicks;
 } PicksHolder;
 
 struct Nclr;

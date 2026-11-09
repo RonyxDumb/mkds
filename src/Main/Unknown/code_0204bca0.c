@@ -219,7 +219,7 @@ u32 ReloadRomArchiveFromBlock(u32 *block) {
     return positionOffset;
 }
 
-void RomArchiveSendCallback(void) {
+void RomArchiveSendCallback(BlockTransferRecord *record) {
     RomArchiveTransfer *transfer = &gRomArchiveTransfer;
 
     if (transfer->mState == 0) {

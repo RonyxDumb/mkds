@@ -10,10 +10,12 @@ typedef struct SceneNumbers SceneNumbers;
 typedef struct GhostRecord GhostRecord;
 typedef struct Unk0202ddd8 Unk0202ddd8;
 
-void SetGivenKart(u8 *rawPicks, u32 entryIndex, u32 kartIndex);
-void SetGivenCharacter(u8 *rawPicks, u32 entryIndex, u32 characterIndex);
-void InitCharacterKartPicks(u8 *rawPicks);
-u8 *func_0203bedc(void *heap);
+typedef struct CharacterKartPicks CharacterKartPicks;
+
+void SetGivenKart(CharacterKartPicks *picks, u32 entryIndex, u32 kartIndex);
+void SetGivenCharacter(CharacterKartPicks *picks, u32 entryIndex, u32 characterIndex);
+void InitCharacterKartPicks(CharacterKartPicks *picks);
+CharacterKartPicks *func_0203bedc(void *heap);
 void func_0203bf04(GhostRecord *courseGhost, Unk0202ddd8 *slotGhost);
 void GetClockTimeOrZero(RTCTime *time);
 void GetClockDateOrDefault(s32 *date);

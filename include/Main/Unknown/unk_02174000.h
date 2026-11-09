@@ -9,6 +9,7 @@
 #include "Main/Unknown/code_02124094.h" // LayoutTableEntry, Unk0201ea30
 #include "Main/Unknown/code_020b3f7c.h" // Bmg
 #include "Main/Unknown/code_0202f688.h"
+#include "Main/Unknown/unk_021759c0.h" // MinuteSecondMillisecondTime
 #include "Main/Unknown/code_0205ee14.h" // KartAppear
 #include "code_02022a90.h" // NNSG2dCellTransferState
 
@@ -123,8 +124,8 @@ extern HeapCall gRootHeapCall;
 // 0x1c-byte part of SelectCharacter, at 0x00, 0x1c and 0x38; InitSelectCharacter has two on the stack, one filled by
 // func_02025b84. ResultsBattle has four from 0x48.
 typedef struct CellFileSet {
-    /* 00 */ struct Unk0212463c_c *mChars;
-    /* 04 */ struct Unk0212463c_d *mPalette;
+    /* 00 */ Ncgr *mChars;
+    /* 04 */ Nclr *mPalette;
     /* 08 */ struct Unk02021dc8 *mCells;
     /* 0c */ Unk0201ea30 *mCellLayout;
     /* 10 */ struct Unk0201ea30 *mRects;
@@ -232,9 +233,7 @@ typedef struct GhostRecordInfo {
     /* 00 */ u16 mName[11];
     /* 16 */ u8 mUnk_16[2];
     /* 18 */ s32 mUnk_18[3];
-    /* 24 */ u16 mMillisecond;
-    /* 26 */ u8 mMinute;
-    /* 27 */ u8 mSecond;
+    /* 24 */ MinuteSecondMillisecondTime mTime;
 } GhostRecordInfo;
 
 // 0x3c-byte entries from 0x9c of Unk02174e64.

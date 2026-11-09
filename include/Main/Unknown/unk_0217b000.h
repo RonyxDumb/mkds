@@ -554,7 +554,7 @@ typedef struct TitleScene {
     /* 0ac */ u8 pad_ac[4];
     /* 0b0 */ Unk020ae630 mMainOam;
     /* 4b4 */ Unk020ae630 mSubOam;
-    /* 8b8 */ u8 *mCharacterKartPicks;
+    /* 8b8 */ struct CharacterKartPicks *mCharacterKartPicks;
 } TitleScene;
 
 extern TitleScene *gTitleScene;

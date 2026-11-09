@@ -7,8 +7,7 @@
 
 #pragma thumb on
 
-void PickRandomKarts(u8 *rawPicks) {
-    CharacterKartPicks *picks;
+void PickRandomKarts(CharacterKartPicks *picks) {
     RandomState64 localRandom;
     u32 givenBits;
     u8 entry;
@@ -25,7 +24,6 @@ void PickRandomKarts(u8 *rawPicks) {
     u64 firstTick;
     u64 secondTick;
 
-    picks = (CharacterKartPicks *) rawPicks;
     givenBits = picks->mKartGivenBits;
     useSharedRandom = FALSE;
     if ((data_0217aa00 == NULL ? 0 : data_0217aa00->mUnk_0000) != 0 && data_0217aa00->mUnk_0004 != 0xd) {
@@ -93,8 +91,7 @@ void PickRandomKarts(u8 *rawPicks) {
     }
 }
 
-void PickRandomCharacters(u8 *rawPicks) {
-    CharacterKartPicks *picks;
+void PickRandomCharacters(CharacterKartPicks *picks) {
     RandomState64 localRandom;
     u16 availableBits;
     BOOL useSharedRandom;
@@ -113,7 +110,6 @@ void PickRandomCharacters(u8 *rawPicks) {
     u64 firstTick;
     u64 secondTick;
 
-    picks = (CharacterKartPicks *) rawPicks;
     availableBits = 0;
     givenBits = picks->mCharacterGivenBits;
     useSharedRandom = FALSE;

@@ -88,7 +88,7 @@ void func_0204ead0(u16 a, s32 b) {
     v = b;
     data_0217aa00->mUnk_000c = 0x2e;
     data_0217aa00->mRequestPending = 1;
-    if (RequestSendBytes(a, &v, 4, (void (*)(void)) func_0204ea94) == 0) {
+    if (RequestSendBytes(a, &v, 4, func_0204ea94) == 0) {
         data_0217aa00->mRequestPending = 0;
     }
 }

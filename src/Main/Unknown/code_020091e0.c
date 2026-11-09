@@ -318,8 +318,8 @@ u32 AddScanResult(EntryCallbackFunc callback, u32 b, ScanBlock *scanBlock) {
     if (func_020091fc(scanBlock) == 0) {
         return 0;
     }
-    MIi_CpuCopy16(scanBlock, data_0216fce0, 0xc0);
-    scanBlock = (ScanBlock *) data_0216fce0;
+    MIi_CpuCopy16(scanBlock, &data_0216fce0, 0xc0);
+    scanBlock = &data_0216fce0;
     gReceivedGameInfo = data_0216fd30;
     if (ComputeU16Checksum(OFFSET_PTR(u16, gReceivedGameInfo, 8), 0x68) != 0) {
         return 0;

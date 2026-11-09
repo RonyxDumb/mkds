@@ -5,6 +5,7 @@
 
 typedef struct Ncgr Ncgr;
 typedef struct Nclr Nclr;
+typedef struct CharacterKartPicks CharacterKartPicks;
 typedef struct Unk02021dc8 Unk02021dc8;
 
 // Elements of the table at member 0x14 of MenuScene.
@@ -42,7 +43,7 @@ typedef struct MenuScene {
     /* 948 */ LayoutTableEntry *mSinglePlaySelectModeSLayoutTable;
     /* 94c */ struct Unk0201ea30 *mSinglePlaySelectModeSBncl;
     /* 950 */ void *mSinglePlaySelectModeSBnbl;
-    /* 954 */ u8 *mUnk_954;
+    /* 954 */ CharacterKartPicks *mUnk_954;
     /* 958 */ BOOL mUnk_958;
     /* 95c */ BOOL mUnk_95c;
 } MenuScene;

@@ -7,6 +7,9 @@
 #include "code_02022030.h" // Unk020224e0_c, Unk020224e0_s
 #include "code_0201ea58.h" // Unk0201ea30
 
+typedef struct Ncgr Ncgr;
+typedef struct Nclr Nclr;
+
 // 8-byte elements from offset 8 of an Unk0201ea30 (func_0201ea30 indexes them).
 typedef struct CellLayoutEntry {
     /* 00 */ union {
@@ -82,19 +85,6 @@ typedef struct LabelLayoutEntry {
     /* 08 */ u8 mUnk_08[4];
 } LabelLayoutEntry;
 
-// Object whose mUnk_14 is the base address QueueCellCharsAndFirstPalette, QueueCellChars and func_0212481c add offsets
-// to.
-typedef struct Unk0212463c_c {
-    /* 00 */ u8 mUnk_00[0x14];
-    /* 14 */ u8 *mUnk_14;
-} Unk0212463c_c;
-
-// Object whose mUnk_0c is the base address QueueCellCharsAndFirstPalette and func_0212481c add an offset to.
-typedef struct Unk0212463c_d {
-    /* 00 */ u8 mUnk_00[0xc];
-    /* 0c */ u8 *mUnk_0c;
-} Unk0212463c_d;
-
 BOOL func_02124ae4(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
 void SetLayoutEntryAngleAndScale(LayoutTableEntry *entry, s32 angle, s32 scale);
 void func_02124a98(u32 index, s32 value, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
@@ -103,11 +93,11 @@ void SetCellPaletteIndex(s32 index, s32 paletteIndex, Unk02021dc8 *cells, Unk020
 u8 func_021249f0(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
 void func_021249a8(u32 index, u32 value, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
 u16 GetCellCharIndex(u32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
-void func_0212481c(u32 index, Unk02021dc8 *cells, Unk0212463c_c *chars, Unk0212463c_d *palette, Unk0201ea30 *cellLayout,
+void func_0212481c(u32 index, Unk02021dc8 *cells, Ncgr *chars, Nclr *palette, Unk0201ea30 *cellLayout,
                    s32 queueSelector, u32 destIndex, Unk02021dc8 *destCells, Unk0201ea30 *destCellLayout);
-void QueueCellChars(u32 index, Unk02021dc8 *cells, void *chars, Unk0201ea30 *cellLayout, s32 queueSelector,
+void QueueCellChars(u32 index, Unk02021dc8 *cells, Ncgr *chars, Unk0201ea30 *cellLayout, s32 queueSelector,
                     u32 destIndex, Unk02021dc8 *destCells, Unk0201ea30 *destCellLayout);
-void QueueCellCharsAndFirstPalette(u32 index, Unk02021dc8 *cells, Unk0212463c_c *chars, Unk0212463c_d *palette,
+void QueueCellCharsAndFirstPalette(u32 index, Unk02021dc8 *cells, Ncgr *chars, Nclr *palette,
                                    Unk0201ea30 *cellLayout, s32 queueSelector, u32 destIndex, Unk02021dc8 *destCells,
                                    Unk0201ea30 *destCellLayout);
 s32 InitLabelCanvas(void *heap, s32 labelIndex, Unk0201ea30 *labelLayout, s32 width, s32 height, s32 entryIndex,

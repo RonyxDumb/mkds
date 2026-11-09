@@ -93,7 +93,7 @@ extern u32 data_0216fc44;
 extern void (*data_0216fc48)(u32 a);
 extern GameInfoList gGameInfoList;
 extern GameInfoBlock gGameInfoBlock;
-extern u8 data_0216fce0[0xc0];
+extern ScanBlock data_0216fce0;
 extern Unk0216fc1c data_0216fd30[1];
 
 u32 func_020091fc(ScanBlock *scanBlock);

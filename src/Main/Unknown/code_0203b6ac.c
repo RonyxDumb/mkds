@@ -89,7 +89,7 @@ u32 func_0203b8e4(RandomState64 *random) {
     return cupIndex;
 }
 
-void SetNextDemoRace(u8 *picks) {
+void SetNextDemoRace(CharacterKartPicks *picks) {
     RandomState64 random;
     RTCTime time;
     u16 otherKartIndices[2];

@@ -135,18 +135,17 @@ void func_0203bf04(GhostRecord *courseGhost, Unk0202ddd8 *slotGhost) {
 
 #pragma thumb on
 
-u8 *func_0203bedc(void *heap) {
+CharacterKartPicks *func_0203bedc(void *heap) {
     CharacterKartPicks *picks;
     void *kartAppear;
     picks = HeapAlloc(heap, 0x48);
     kartAppear = CreateKartAppear(heap);
     picks->mKartAppear = kartAppear;
-    InitCharacterKartPicks((u8 *) picks);
-    return (u8 *) picks;
+    InitCharacterKartPicks(picks);
+    return picks;
 }
 
-void InitCharacterKartPicks(u8 *rawPicks) {
-    CharacterKartPicks *picks = (CharacterKartPicks *) rawPicks;
+void InitCharacterKartPicks(CharacterKartPicks *picks) {
     u8 entryIndex;
     picks->mKartGivenBits = 0;
     picks->mCharacterGivenBits = 0;
@@ -156,14 +155,12 @@ void InitCharacterKartPicks(u8 *rawPicks) {
     }
 }
 
-void SetGivenCharacter(u8 *rawPicks, u32 entryIndex, u32 characterIndex) {
-    CharacterKartPicks *picks = (CharacterKartPicks *) rawPicks;
+void SetGivenCharacter(CharacterKartPicks *picks, u32 entryIndex, u32 characterIndex) {
     picks->mCharacterGivenBits |= 1 << entryIndex;
     picks->mCharacterIndices[entryIndex] = characterIndex;
 }
 
-void SetGivenKart(u8 *rawPicks, u32 entryIndex, u32 kartIndex) {
-    CharacterKartPicks *picks = (CharacterKartPicks *) rawPicks;
+void SetGivenKart(CharacterKartPicks *picks, u32 entryIndex, u32 kartIndex) {
     picks->mKartGivenBits |= 1 << entryIndex;
     picks->mKartIndices[entryIndex] = kartIndex;
 }

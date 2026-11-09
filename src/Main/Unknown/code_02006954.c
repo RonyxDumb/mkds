@@ -29,7 +29,7 @@ void SetSendChunkSize(u32 chunkSize) {
 }
 
 BlockTransfer *GetBlockTransfer(void) {
-    return (BlockTransfer *) gBlockTransfer;
+    return &gBlockTransfer;
 }
 
 u32 GetNextRequestAddress(void) {
@@ -249,7 +249,7 @@ u32 RequestBlockData(u16 indexMask, u32 blockId, const void *buffers, u32 blockS
     return TrySetNextRequest(&request);
 }
 
-u32 RequestSendBytes(u16 indexMask, const void *bytes, s32 byteCount, void (*callback)(void)) {
+u32 RequestSendBytes(u16 indexMask, const void *bytes, s32 byteCount, void (*callback)(BlockTransferRecord *)) {
     BlockTransferRecord request;
     BlockTransferRecord *requestPointer;
     if (byteCount < 0 || byteCount > 9) {
@@ -258,7 +258,7 @@ u32 RequestSendBytes(u16 indexMask, const void *bytes, s32 byteCount, void (*cal
     request.mKind = 10;
     requestPointer = &request;
     requestPointer->mIndexMask = indexMask;
-    requestPointer->mCallback = (void (*)(BlockTransferRecord *)) callback;
+    requestPointer->mCallback = callback;
     MI_CpuCopy8(bytes, &requestPointer->mUnk_14, byteCount);
     *((u8 *) requestPointer + 0x1d) = byteCount;
     return TrySetNextRequest(&request);

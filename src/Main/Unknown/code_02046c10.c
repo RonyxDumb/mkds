@@ -83,7 +83,7 @@ void UpdateTouchMicInput(void) {
 
     latestIndex = TP_GetLatestIndexInAuto();
     touchMicInput = gTouchMicInput;
-    touchMicInput->mCalibratedPoint = *(TPData *) &touchMicInput->mAutoSamples[latestIndex];
+    touchMicInput->mCalibratedPoint = touchMicInput->mAutoSamples[latestIndex];
     TP_GetCalibratedPoint(&touchMicInput->mCalibratedPoint, &touchMicInput->mCalibratedPoint);
     if (gTouchMicInput->mMicAutoSampling) {
         gTouchMicInput->mMicOverThreshold = func_0210f090(gTouchMicInput->mMicBuffer) > 0x14;

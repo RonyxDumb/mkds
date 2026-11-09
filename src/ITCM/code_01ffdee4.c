@@ -307,10 +307,10 @@ BOOL func_01ffdee4(Vec3 *a, Vec3 *b, Vec3 *c, int r, u16 fl, short e, Vec3 *f, V
         lk:
             tq = qq;
             reg_CP_SQRTCNT = 1;
-            *(vs64 *) 0x40002b8 = tq;
+            reg_CP_SQRT_PARAM = tq;
             while (reg_CP_SQRTCNT & 0x8000) {
             }
-            pe = *(vs32 *) 0x40002b4 - d0;
+            pe = reg_CP_SQRT_RESULT - d0;
             if (pe < 0) {
                 continue;
             }

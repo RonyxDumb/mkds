@@ -10,13 +10,13 @@ void LocateCellFileSet(void *fileSetPointer, const char *charsName, const char *
                        void *(*findFile)(const char *) ) {
     CellFileSet *fileSet = fileSetPointer;
     if (charsName) {
-        LocateNcgr2((Ncgr **) &fileSet->mChars, findFile(charsName));
+        LocateNcgr2(&fileSet->mChars, findFile(charsName));
     }
     if (cellsName) {
-        LocateNcer((Unk02021dc8 **) &fileSet->mCells, findFile(cellsName));
+        LocateNcer(&fileSet->mCells, findFile(cellsName));
     }
     if (paletteName) {
-        LocateNclr((Nclr **) &fileSet->mPalette, findFile(paletteName));
+        LocateNclr(&fileSet->mPalette, findFile(paletteName));
     }
     if (cellLayoutName) {
         fileSet->mCellLayout = findFile(cellLayoutName);
@@ -34,13 +34,13 @@ void LoadCellFileSet(void *fileSetPointer, const char *charsName, const char *ce
                      void *(*findFile)(const char *) ) {
     CellFileSet *fileSet = fileSetPointer;
     if (charsName) {
-        LoadNcgrData2((Ncgr **) &fileSet->mChars, findFile(charsName));
+        LoadNcgrData2(&fileSet->mChars, findFile(charsName));
     }
     if (cellsName) {
-        LoadNcerData((Unk02021dc8 **) &fileSet->mCells, findFile(cellsName));
+        LoadNcerData(&fileSet->mCells, findFile(cellsName));
     }
     if (paletteName) {
-        LoadNclrData((Nclr **) &fileSet->mPalette, findFile(paletteName));
+        LoadNclrData(&fileSet->mPalette, findFile(paletteName));
     }
     if (cellLayoutName) {
         fileSet->mCellLayout = findFile(cellLayoutName);
@@ -59,13 +59,13 @@ void func_02025a50(u32 a, void *heap, void *fileSetPointer) {
     InitLayoutTable(heap, fileSet->mCellLayout, fileSet->mLabelLayout, &fileSet->mCellTable);
     if (a == 0) {
         r = 0x13;
-        CallQueueAppend(0xe, 0, ((Nclr *) fileSet->mPalette)->mData, 0x1a0);
-        CallQueueAppend(0xe, 0x1c0, (u8 *) ((Nclr *) fileSet->mPalette)->mData + 0x1c0, 0x40);
+        CallQueueAppend(0xe, 0, fileSet->mPalette->mData, 0x1a0);
+        CallQueueAppend(0xe, 0x1c0, (u8 *) fileSet->mPalette->mData + 0x1c0, 0x40);
     } else {
         r = 0x23;
-        CallQueueAppend(0x1e, 0, ((Nclr *) fileSet->mPalette)->mData, ((Nclr *) fileSet->mPalette)->mDataSize);
+        CallQueueAppend(0x1e, 0, fileSet->mPalette->mData, fileSet->mPalette->mDataSize);
     }
-    CallQueueAppend(r, 0, ((Ncgr *) fileSet->mChars)->mData, ((Ncgr *) fileSet->mChars)->mDataSize);
+    CallQueueAppend(r, 0, fileSet->mChars->mData, fileSet->mChars->mDataSize);
 }
 
 s32 func_02025a00(u32 a, void *heap, void *fileSetPointer, void *entryPointer, s32 e) {

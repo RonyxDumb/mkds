@@ -8,8 +8,8 @@
 // Seven words at 0x24 of MultiSelectMemberGroup, passed by address to LocateCellFileSet, func_02025a50 and
 // func_02025a00.
 typedef struct Unk02174e50_24 {
-    /* 00 */ void *mUnk_00;
-    /* 04 */ s32 mUnk_04;
+    /* 00 */ Ncgr *mUnk_00;
+    /* 04 */ Nclr *mUnk_04;
     /* 08 */ struct Unk02021dc8 *mUnk_08;
     /* 0c */ struct Unk0201ea30 *mUnk_0c;
     /* 10 */ Unk0201ea30 *mUnk_10;

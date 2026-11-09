@@ -19,13 +19,6 @@ typedef struct EntryLabelTextRow {
     /* 02 */ u8 mUnk_02[6];
 } EntryLabelTextRow;
 
-// What the first member of PlayerEntryList points to.
-typedef struct Unk02174e3c_00 {
-    /* 00 */ u8 mUnk_00[0x10];
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ void *mUnk_14;
-} Unk02174e3c_00;
-
 extern u16 gTitleCellIndices[];
 extern s16 gEntrySlotOffsetsX[];
 extern u16 gNormalTimerDigitCellIndices[];

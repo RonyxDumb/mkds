@@ -162,7 +162,7 @@ void InitSelectKart(void *a, s32 b, void *c, void *d) {
         i = data_usa_02153834[4];
         func_0212426c(1, i, p->mUnk_14, w, p->mUnk_0c, p->mUnk_18);
         SetLabelPaletteIndex(i, 1, p->mUnk_14, p->mUnk_18, p->mUnk_0c);
-        InitPaletteBlend(gSelectKart->mHeap, (Nclr *) p->mUnk_04, 1);
+        InitPaletteBlend(gSelectKart->mHeap, p->mUnk_04, 1);
         p->mUnk_18[2].mVisible = 0;
         p->mUnk_18[3].mVisible = p->mUnk_18[2].mVisible;
     } else {

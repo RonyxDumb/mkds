@@ -306,7 +306,7 @@ void func_01ff9cb0(Kart *p) {
     if (p->mUnk_208->mUnk_00 == NULL) {
         return;
     }
-    func_020e0538((Unk020e04b0 *) p->mUnk_208, &p->mPos);
+    func_020e0538(p->mUnk_208, &p->mPos);
     p->mUnk_208->mUnk_00 = NULL;
 }
 

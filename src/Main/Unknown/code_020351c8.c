@@ -72,7 +72,7 @@ void func_02035c50(s32 a, s32 b, s32 listIndex, s32 d) {
     s32 i;
     s32 v;
     s32 e;
-    u8 time[4];
+    MinuteSecondMillisecondTime time;
     s16 timeText[12];
 
     subCellFileSet = &data_02174e68->mCellFileSets[1];
@@ -81,8 +81,8 @@ void func_02035c50(s32 a, s32 b, s32 listIndex, s32 d) {
         func_0212426c(1, b, subCellFileSet->mLabelLayout,
                       GetBmgEntry(data_02174e68->mGhostMessages, func_02025d74(GetListedGhostCourseId(listIndex))),
                       subCellFileSet->mCellLayout, subCellFileSet->mCellTable);
-        GetListedGhostTime(listIndex, time);
-        WriteMinuteSecondMillisecondText(timeText, time[2], time[3], *(u16 *) time);
+        GetListedGhostTime(listIndex, &time);
+        WriteMinuteSecondMillisecondText(timeText, time.mMinute, time.mSecond, time.mMillisecond);
         func_02124224(1, b + 7, subCellFileSet->mLabelLayout, timeText, subCellFileSet->mCellLayout,
                       subCellFileSet->mCellTable, 7);
     } else if (a == 0) {
@@ -176,7 +176,7 @@ void PrintSelectedGhostRecord(void) {
     u32 characterIndex;
     u32 kartIndex;
     u32 courseId;
-    u32 time;
+    MinuteSecondMillisecondTime time;
     u8 ghostName[0x14];
     u16 nameText[11];
 
@@ -189,7 +189,7 @@ void PrintSelectedGhostRecord(void) {
     kartIndex = GetListedGhostKartIndex(listIndex);
     courseId = GetListedGhostCourseId(listIndex);
     PrintGhostRecordInfo((SelectCharacter *) &data_02174e68->mCellFileSets[0], data_0215404c, nameText, characterIndex,
-                         kartIndex, courseId, (MinuteSecondMillisecondTime *) &time);
+                         kartIndex, courseId, &time);
 }
 
 void func_020357dc(void *parentHeap, void *b, void *c) {

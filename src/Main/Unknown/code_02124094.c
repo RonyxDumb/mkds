@@ -131,7 +131,7 @@ u16 GetCellCharIndex(u32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout) {
     return cellData->mUnk_04->mUnk_04 & 0x3ff;
 }
 
-void func_0212481c(u32 index, Unk02021dc8 *cells, Unk0212463c_c *chars, Unk0212463c_d *palette, Unk0201ea30 *cellLayout,
+void func_0212481c(u32 index, Unk02021dc8 *cells, Ncgr *chars, Nclr *palette, Unk0201ea30 *cellLayout,
                    s32 queueSelector, u32 destIndex, Unk02021dc8 *destCells, Unk0201ea30 *destCellLayout) {
     u8 usedPalettes[16];
     s32 oamCount;
@@ -170,7 +170,7 @@ void func_0212481c(u32 index, Unk02021dc8 *cells, Unk0212463c_c *chars, Unk02124
         y = (((u32) oamEntry->mUnk_02 << 16) & 0xc0000000) >> 30;
         x = ((u32) cellData->mUnk_04[j].mUnk_00 & 0xc000) >> 14;
         charBytes = (&data_0215d024[y])[x * 4] << 5;
-        charsSource = chars->mUnk_14 + ((w & 0x3ff) << 5);
+        charsSource = (u8 *) chars->mData + ((w & 0x3ff) << 5);
         DC_FlushRange(charsSource, charBytes);
         if (queueSelector == 0) {
             CallQueueAppend(0x13, destCharOffset, charsSource, charBytes);
@@ -189,7 +189,7 @@ void func_0212481c(u32 index, Unk02021dc8 *cells, Unk0212463c_c *chars, Unk02124
             runLength++;
         } else if (runLength > 0) {
             runStart <<= 5;
-            paletteSource = palette->mUnk_0c + runStart;
+            paletteSource = (u8 *) palette->mData + runStart;
             runBytes = runLength << 5;
             if (queueSelector == 0) {
                 CallQueueAppend(0xe, runStart, paletteSource, runBytes);
@@ -204,7 +204,7 @@ void func_0212481c(u32 index, Unk02021dc8 *cells, Unk0212463c_c *chars, Unk02124
     }
 }
 
-void QueueCellChars(u32 index, Unk02021dc8 *cells, void *chars, Unk0201ea30 *cellLayout, s32 queueSelector,
+void QueueCellChars(u32 index, Unk02021dc8 *cells, Ncgr *chars, Unk0201ea30 *cellLayout, s32 queueSelector,
                     u32 destIndex, Unk02021dc8 *destCells, Unk0201ea30 *destCellLayout) {
     s32 i;
     Unk020224e0_c *cellData;
@@ -232,7 +232,7 @@ void QueueCellChars(u32 index, Unk02021dc8 *cells, void *chars, Unk0201ea30 *cel
         t = (((u32) oamEntry->mUnk_02 << 16) & 0xc0000000) >> 30;
         x = ((u32) cellData->mUnk_04[i].mUnk_00 & 0xc000) >> 14;
         charBytes = (&data_0215d024[t])[x * 4] << 5;
-        charsSource = ((Unk0212463c_c *) chars)->mUnk_14 + ((oamEntry->mUnk_04 & 0x3ff) << 5);
+        charsSource = (u8 *) chars->mData + ((oamEntry->mUnk_04 & 0x3ff) << 5);
         DC_FlushRange(charsSource, charBytes);
         if (queueSelector == 0) {
             CallQueueAppend(0x13, destCharOffset, charsSource, charBytes);
@@ -242,7 +242,7 @@ void QueueCellChars(u32 index, Unk02021dc8 *cells, void *chars, Unk0201ea30 *cel
     }
 }
 
-void QueueCellCharsAndFirstPalette(u32 index, Unk02021dc8 *cells, Unk0212463c_c *chars, Unk0212463c_d *palette,
+void QueueCellCharsAndFirstPalette(u32 index, Unk02021dc8 *cells, Ncgr *chars, Nclr *palette,
                                    Unk0201ea30 *cellLayout, s32 queueSelector, u32 destIndex, Unk02021dc8 *destCells,
                                    Unk0201ea30 *destCellLayout) {
     s32 j;
@@ -274,7 +274,7 @@ void QueueCellCharsAndFirstPalette(u32 index, Unk02021dc8 *cells, Unk0212463c_c 
         y = (((u32) oamEntry->mUnk_02 << 16) & 0xc0000000) >> 30;
         x = ((u32) cellData->mUnk_04[j].mUnk_00 & 0xc000) >> 14;
         charBytes = (&data_0215d024[y])[x * 4] << 5;
-        charsSource = chars->mUnk_14 + ((oamEntry->mUnk_04 & 0x3ff) << 5);
+        charsSource = (u8 *) chars->mData + ((oamEntry->mUnk_04 & 0x3ff) << 5);
         DC_FlushRange(charsSource, charBytes);
         if (queueSelector == 0) {
             CallQueueAppend(0x13, destCharOffset, charsSource, charBytes);
@@ -283,7 +283,7 @@ void QueueCellCharsAndFirstPalette(u32 index, Unk02021dc8 *cells, Unk0212463c_c 
         }
     }
     destPaletteOffset = (((u32) destCellData->mUnk_04->mUnk_04 & 0xf000) >> 12) << 5;
-    paletteSource = palette->mUnk_0c + ((((u32) cellData->mUnk_04->mUnk_04 & 0xf000) >> 12) << 5);
+    paletteSource = (u8 *) palette->mData + ((((u32) cellData->mUnk_04->mUnk_04 & 0xf000) >> 12) << 5);
     if (queueSelector == 0) {
         queueCommand = 0xe;
     } else {

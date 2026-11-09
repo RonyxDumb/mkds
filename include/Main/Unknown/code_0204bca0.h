@@ -112,7 +112,7 @@ void FreeRomArchiveNode(RomArchiveParentView *view, RomArchiveFileNode *node);
 void func_0204d110(RomArchiveFileNode **fromHead, RomArchiveFileNode **toHead, RomArchiveFileNode *node);
 void func_0204d18c(RomArchiveParentView *view, RomArchiveFileNode *node, s32 c);
 void SendRomArchiveMessage(void);
-void RomArchiveSendCallback(void);
+void RomArchiveSendCallback(BlockTransferRecord *record);
 u32 ReloadRomArchiveFromBlock(u32 *block);
 void CreateRomArchiveBlock(FSFile *file, s32 appendOverlays);
 s32 RomArchiveChildProc(FSFile *file, u32 command);

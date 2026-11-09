@@ -13,5 +13,5 @@ typedef struct CharacterKartPicks {
     /* 44 */ struct KartAppear *mKartAppear;
 } CharacterKartPicks;
 
-void PickRandomCharacters(u8 *rawPicks);
-void PickRandomKarts(u8 *rawPicks);
+void PickRandomCharacters(CharacterKartPicks *picks);
+void PickRandomKarts(CharacterKartPicks *picks);

@@ -25,7 +25,7 @@ void BuildChildPacketUnchecked(u8 *buffer, s32 bufferSize);
 void ReceiveParentPacket(const u8 *packet, u32 size);
 void ReceivePacketFromIndex(u32 index, const u8 *packet, int size);
 s32 BuildParentPacketUnchecked(u8 *buffer, s32 bufferSize);
-u32 RequestSendBytes(u16 indexMask, const void *bytes, s32 byteCount, void (*callback)(void));
+u32 RequestSendBytes(u16 indexMask, const void *bytes, s32 byteCount, void (*callback)(BlockTransferRecord *));
 u32 RequestBlockData(u16 indexMask, u32 blockId, const void *buffers, u32 blockSize, const void *chunkBitmaps,
                      void (*callback)(BlockTransferRecord *));
 u32 RequestBlockNode(u16 indexMask, u32 blockIdOrPosition, const void *buffers,
