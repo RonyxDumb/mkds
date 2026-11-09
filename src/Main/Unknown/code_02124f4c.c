@@ -301,8 +301,7 @@ void DrawTextLines(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, 
             }
         } else {
             if (fixedAdvance == -1 || (fixedDigitsOnly != 0 && !func_021253f8_inline(charCode))) {
-                x += NNS_G2dCharCanvasDrawChar(textCanvas->mCharCanvas, textCanvas->mFont, x, y, color,
-                                               charCode);
+                x += NNS_G2dCharCanvasDrawChar(textCanvas->mCharCanvas, textCanvas->mFont, x, y, color, charCode);
             } else {
                 glyphIndex = NNS_G2dFontFindGlyphIndex(font, charCode);
                 if (glyphIndex == 0xffff) {
@@ -310,8 +309,7 @@ void DrawTextLines(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, 
                 }
                 charWidths = NNS_G2dFontGetCharWidthsFromIndex(font, glyphIndex);
                 x += (fixedAdvance - charWidths->mCharWidth) >> 1;
-                NNS_G2dCharCanvasDrawChar(textCanvas->mCharCanvas, textCanvas->mFont, x, y, color,
-                                          charCode);
+                NNS_G2dCharCanvasDrawChar(textCanvas->mCharCanvas, textCanvas->mFont, x, y, color, charCode);
                 x += fixedAdvance - ((fixedAdvance - charWidths->mCharWidth) >> 1);
             }
             if (x > right) {
@@ -360,11 +358,11 @@ void FormatMessageWithText(u16 *insertText, u16 *message, u16 *formattedText, u3
 
 void *func_021250b0(void *heap) {
     DisplaySettingsDesc desc = {1, 0x12, 0x18, 1, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 4, 0x100, 0, 0, 8, 0};
-    Unk02180774 *displaySettings;
+    DisplaySettings *displaySettings;
 
     displaySettings = CreateDisplaySettings(heap, &desc);
-    SetBg1Record(displaySettings->mMainBgRecords, 0, 0, 0, 0, 0x12, 2, 0);
-    SetBg3RecordParams(displaySettings->mSubBgRecords, 1, 0, 0, 0, 0x10, 4);
+    SetBg1Record(&displaySettings->mMainBgRecords, 0, 0, 0, 0, 0x12, 2, 0);
+    SetBg3RecordParams(&displaySettings->mSubBgRecords, 1, 0, 0, 0, 0x10, 4);
     InitDisplayFromSettings(displaySettings);
     reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffcfffef) | 0x10;
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffcfffef) | 0x10;
@@ -373,11 +371,11 @@ void *func_021250b0(void *heap) {
 
 void *func_02125028(void *heap) {
     DisplaySettingsDesc desc = {1, 0x13, 0x18, 1, 0, 1, 0, 4, 0x60, 0, 0, 3, 0x10, 0, 0x80, 0x100, 0, 0, 8, 0};
-    Unk02180774 *displaySettings;
+    DisplaySettings *displaySettings;
 
     displaySettings = CreateDisplaySettings(heap, &desc);
-    SetBg1Record(displaySettings->mMainBgRecords, 0, 0, 0, 0, 0x12, 2, 0);
-    SetBg3RecordParams(displaySettings->mSubBgRecords, 1, 0, 0, 0, 0xf, 0);
+    SetBg1Record(&displaySettings->mMainBgRecords, 0, 0, 0, 0, 0x12, 2, 0);
+    SetBg3RecordParams(&displaySettings->mSubBgRecords, 1, 0, 0, 0, 0xf, 0);
     InitDisplayFromSettings(displaySettings);
     reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffcfffef) | 0x10;
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffcfffef) | 0x10;

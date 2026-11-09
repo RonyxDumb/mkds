@@ -343,12 +343,12 @@ void func_ov001_021834c4(Unk02188950 *donketu) {
     StartStateFrameCountCallback(donketu, donketu->mPrm->mUnk_03c, &func_ov001_021834fc);
 }
 
-void InitDonketuObjects(Unk0218fa78 *list) {
+void InitDonketuObjects(MapObjectList *list) {
     s32 i;
     Unk02188950 *donketu;
 
     if (list != NULL) {
-        for (i = 0; i < list->mUnk_04 && (donketu = list->mUnk_00[i]) != NULL; i++) {
+        for (i = 0; i < list->mMapObjectCount && (donketu = list->mMapObjects[i]) != NULL; i++) {
             func_ov001_02187eb0(donketu);
             donketu->mUnk_000.mCourseMapRow->mUnk_00.x = 0;
             donketu->mUnk_000.mCourseMapRow->mUnk_00.z = 0;
@@ -421,12 +421,12 @@ void func_ov001_02183294(Unk02188950 *donketu) {
     donketu->mUnk_000.mFarDistanceSquared = data_0217cbec[20];
 }
 
-void InitBossDonketu(Unk0218fa78 *list) {
+void InitBossDonketu(MapObjectList *list) {
     Unk02188950 *donketu;
     s32 i;
 
     if (list != NULL) {
-        for (i = 0; i < list->mUnk_04 && (donketu = list->mUnk_00[i]) != NULL; i++) {
+        for (i = 0; i < list->mMapObjectCount && (donketu = list->mMapObjects[i]) != NULL; i++) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(donketu);
             }
@@ -440,12 +440,12 @@ void InitBossDonketu(Unk0218fa78 *list) {
     }
 }
 
-void InitKingIceDonketu(Unk0218fa78 *list) {
+void InitKingIceDonketu(MapObjectList *list) {
     Unk02188950 *donketu;
     s32 i;
 
     if (list != NULL) {
-        for (i = 0; i < list->mUnk_04 && (donketu = list->mUnk_00[i]) != NULL; i++) {
+        for (i = 0; i < list->mMapObjectCount && (donketu = list->mMapObjects[i]) != NULL; i++) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(donketu);
             }

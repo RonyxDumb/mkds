@@ -97,18 +97,6 @@ typedef struct SceneRunState {
     /* 120 */ s8 mNextScene;
 } SceneRunState;
 
-// Part of DisplaySettings at 0x28, 0x38, 0x70 and 0x80: seven halfwords.
-typedef struct Bg01Cnt {
-    /* 00 */ u16 mBgCntLow2;
-    /* 02 */ u16 mBgCntBit6;
-    /* 04 */ u16 mBgCntVal14;
-    /* 06 */ u16 mBgCntVal7;
-    /* 08 */ u16 mBgCntVal8;
-    /* 0a */ u16 mBgCntVal2;
-    /* 0c */ u16 mBgCntVal13;
-    /* 0e */ u8 mUnk_0e[0x2];
-} Bg01Cnt;
-
 // Object behind member 0x6c of DisplaySettings.
 typedef struct G3xParams {
     /* 00 */ u16 mClearColor;
@@ -138,19 +126,9 @@ typedef struct DisplaySettings {
     /* 22 */ u16 mBankForSubOBJExtPltt;
     /* 24 */ u16 mBankForARM7;
     /* 26 */ u16 mBankForLCDC;
-    /* 28 */ Bg01Cnt mMainBg0;
-    /* 38 */ Bg01Cnt mMainBg1;
-    /* 48 */ Bg23Cnt mMainBg2;
-    /* 58 */ Bg23Cnt mMainBg3;
-    /* 68 */ u16 mUnk_68;
-    /* 6a */ u16 mUnk_6a;
+    /* 28 */ DisplayBgRecords mMainBgRecords;
     /* 6c */ G3xParams *mG3xParams;
-    /* 70 */ Bg01Cnt mSubBg0;
-    /* 80 */ Bg01Cnt mSubBg1;
-    /* 90 */ Bg23Cnt mSubBg2;
-    /* a0 */ Bg23Cnt mSubBg3;
-    /* b0 */ u16 mUnk_b0;
-    /* b2 */ u16 mUnk_b2;
+    /* 70 */ DisplayBgRecords mSubBgRecords;
     /* b4 */ u32 mUnk_b4;
     /* b8 */ void (*mIrqCallback)(void);
     /* bc */ u64 mFrameStartTick;

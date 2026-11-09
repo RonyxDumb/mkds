@@ -13,6 +13,7 @@
 #include "ITCM/code_01ffdee4.h" // CourseCollision
 #include "code_02146d78.h"
 #include "Main/Unknown/code_020e6fd4.h"
+#include "Main/Unknown/code_020467d0.h" // StateMachine
 #include "Main/Unknown/code_0209bc74.h" // MapObjectModel
 #include "Main/Unknown/unk_02158000.h"
 #include "Main/Unknown/code_0208fd8c.h"
@@ -986,13 +987,7 @@ extern s32 data_0217b8c4;
 extern s32 gJgVisible;
 extern s32 data_0217b900;
 
-// The Jg's state machine record, seen only through its state halfword at 0xe.
-typedef struct Unk0217b9ec {
-    /* 000 */ u8 mUnk_000[0xe];
-    /* 00e */ u16 mState;
-} Unk0217b9ec;
-
-extern Unk0217b9ec gJgStateMachine;
+extern StateMachine gJgStateMachine;
 extern Vec3 *gItemPushVector;
 extern struct Nsbmd *gBridge;
 extern ModelAnimation *gBridgeNsbca;

@@ -93,7 +93,7 @@ void DrawKart(Kart *kart) {
     if (b == 0) {
         func_0207ae58(modelsEntry->mShadowModel);
     }
-    SendLight01Color(&modelsEntry->mUnk_040);
+    SendLight01Color(&modelsEntry->mCourseColorBlend.mColor);
     if (modelsEntry->mUnk_058 == 0) {
         SetKartModelTireAlpha(modelsEntry, modelsEntry->mUnk_060 == FALSE);
         func_02063cc4_inline(0x13, 0x1c);
@@ -169,7 +169,7 @@ BOOL DrawKartKillerItem(Kart *kart) {
         NNS_G3dGeBufferOP_N(0x14, &f, 1);
         NNS_G3dGeBufferOP_N(0x19, &matrix, 0xc);
         NNS_G3dGeBufferOP_N(0x1b, &scale, 3);
-        SendLight01Color(&modelsEntry->mUnk_040);
+        SendLight01Color(&modelsEntry->mCourseColorBlend.mColor);
         SetKillerItemKartIndex(kart->mIndex);
         frame = kart->mKartModelsEntry->mUnk_098.mFrameIndex;
         killerItemNsbca = GetKillerItemNsbca();

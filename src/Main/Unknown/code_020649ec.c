@@ -217,7 +217,7 @@ void InitKart(Kart *kart, void (**slotFunctions)(Kart *)) {
     GetHeap(GetCurrentHeapCall());
     isPeer = gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind == PLAYER_KIND_PEER;
     kart->mKartModelsEntry = GetKartModelsEntry(kart->mIndex);
-    InitCourseColorBlend(&kart->mKartModelsEntry->mUnk_040, 1);
+    InitCourseColorBlend(&kart->mKartModelsEntry->mCourseColorBlend, 1);
     if (gRaceSetup->mMode == 5) {
         for (i = 0; i < 9; i++) {
             if (i == 3) {

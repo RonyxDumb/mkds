@@ -152,19 +152,19 @@ void *func_ov001_021807e4(void) {
     return GetHeap(GetCurrentHeapCall());
 }
 
-void func_ov001_021807a8(Unk02180774 *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7, u32 cntVal8,
-                         u32 cntVal2, u32 cntVal13) {
-    SetBg1Record(displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, cntVal7, cntVal8, cntVal2, cntVal13);
+void func_ov001_021807a8(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7,
+                         u32 cntVal8, u32 cntVal2, u32 cntVal13) {
+    SetBg1Record(&displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, cntVal7, cntVal8, cntVal2, cntVal13);
 }
 
-void func_ov001_02180774(Unk02180774 *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 p4, u32 cntVal8,
+void func_ov001_02180774(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 p4, u32 cntVal8,
                          u32 cntVal2) {
-    SetBg2RecordParams(displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, p4, cntVal8, cntVal2);
+    SetBg2RecordParams(&displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, p4, cntVal8, cntVal2);
 }
 
-void func_ov001_02180740(Unk02180774 *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 p4, u32 cntVal8,
+void func_ov001_02180740(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 p4, u32 cntVal8,
                          u32 cntVal2) {
-    SetBg2RecordParams(displaySettings->mSubBgRecords, cntLow2, cntBit6, cntVal14, p4, cntVal8, cntVal2);
+    SetBg2RecordParams(&displaySettings->mSubBgRecords, cntLow2, cntBit6, cntVal14, p4, cntVal8, cntVal2);
 }
 
 void func_ov001_02180728(TextCanvas *textCanvas, void *charCanvas, void *font, s32 charSpacing, s32 lineSpacing) {
@@ -178,7 +178,7 @@ void func_ov001_02180728(TextCanvas *textCanvas, void *charCanvas, void *font, s
 
 void func_ov001_02180610(void) {
     DisplaySettingsDesc displaySettingsDesc = {1, 0x16, 4, 1, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 8, 0};
-    void *displaySettings;
+    DisplaySettings *displaySettings;
     int i;
 
     gTestScene = HeapAlloc(func_ov001_021807e4(), 0x66a8);

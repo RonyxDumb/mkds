@@ -98,12 +98,13 @@ void DrawMissionGate(void *mapObjectList, MissionGateObject *missionGateObject) 
     DrawMapObjectModel(mapObjectList, gMissionGate, missionGateObject);
 }
 
-void InitMissionGateObjects(MissionGateList *missionGateList) {
+void InitMissionGateObjects(MapObjectList *missionGateList) {
     s32 i;
     MissionGateObject *missionGateObject;
 
     if (missionGateList) {
-        for (i = 0; i < missionGateList->mObjectCount && (missionGateObject = missionGateList->mObjects[i]) != NULL;
+        for (i = 0;
+             i < missionGateList->mMapObjectCount && (missionGateObject = missionGateList->mMapObjects[i]) != NULL;
              i++) {
             if (missionGateObject->mMapObject.mCourseMapRow->mUnk_28 != 0) {
                 missionGateObject->mMapObject.mFlags |= data_ov001_021a6580;

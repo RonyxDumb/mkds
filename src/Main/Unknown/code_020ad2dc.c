@@ -3,6 +3,8 @@
 #include "Main/Unknown/code_020364e0.h"
 #include "Main/Unknown/code_02036820.h"
 #include "Main/Unknown/code_02036c5c.h"
+#include "Main/Unknown/unk_02175000.h"
+#include "00/code_02181f98.h"
 #include "Main/Unknown/code_0203be88.h"
 #include "Main/Unknown/code_02090354.h"
 
@@ -18,6 +20,7 @@
 #include "Main/Unknown/code_02124094.h"
 #include "Main/Unknown/code_02124bf0.h"
 #include "Main/Unknown/code_02125960.h"
+#include "Main/Unknown/code_02125da0.h"
 #include "Main/Unknown/code_02125de0.h"
 #include "code_02148950.h"
 #include "Main/Unknown/code_020acaa4.h"
@@ -51,24 +54,24 @@ u32 GetTitleBlendDone(void) {
     return (data_0217b488->mTitleBlendDone);
 }
 
-void func_020ad9c0(Unk02180774 *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7, u32 cntVal8,
+void func_020ad9c0(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7, u32 cntVal8,
                    u32 cntVal2, u32 cntVal13) {
-    SetBg1Record(displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, cntVal7, cntVal8, cntVal2, cntVal13);
+    SetBg1Record(&displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, cntVal7, cntVal8, cntVal2, cntVal13);
 }
 
-void func_020ad98c(Unk02180774 *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8,
+void func_020ad98c(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8,
                    u32 cntVal2) {
-    SetBg2RecordParams(displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, e, cntVal8, cntVal2);
+    SetBg2RecordParams(&displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, e, cntVal8, cntVal2);
 }
 
-void func_020ad958(Unk02180774 *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8,
+void func_020ad958(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8,
                    u32 cntVal2) {
-    SetBg3RecordParams(displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, e, cntVal8, cntVal2);
+    SetBg3RecordParams(&displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, e, cntVal8, cntVal2);
 }
 
-void func_020ad924(Unk02180774 *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8,
+void func_020ad924(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8,
                    u32 cntVal2) {
-    SetBg3RecordParams(displaySettings->mSubBgRecords, cntLow2, cntBit6, cntVal14, e, cntVal8, cntVal2);
+    SetBg3RecordParams(&displaySettings->mSubBgRecords, cntLow2, cntBit6, cntVal14, e, cntVal8, cntVal2);
 }
 
 void func_020ad904(u32 bits) {
@@ -116,7 +119,7 @@ void func_020ad820(u32 value) {
 void CreateTitleScene(void) {
     s32 useTrueFiles;
     s32 objSizeLeft;
-    void *displaySettings;
+    DisplaySettings *displaySettings;
     Unk02125de0Arg config;
 
     useTrueFiles = IsAllGrandPrixRecordsTopRank();

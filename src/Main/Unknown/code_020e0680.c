@@ -180,7 +180,7 @@ void DrawVehicle(VehicleDrawList *drawList, Unk020e1e98 *vehicle, u32 c, u32 alp
         animation->mHead.mFrameIndex = vehicle->mUnk_130 << 12;
         animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
     }
-    SendLight01Color(&vehicle->mUnk_132);
+    SendLight01Color(&vehicle->mCourseColorBlend.mColor);
     DrawNsbmdWithMatrixAndMaxAlpha((void *) vehicle->mUnk_124, &vehicle->mUnk_000.mMatrix, &vehicle->mUnk_000.mScale,
                                    alpha);
     if (skipShadowAndTires) {
@@ -251,7 +251,7 @@ void UpdateVehicle(u32 a, Unk020e1e98 *vehicle) {
                                     NULL) != 0) {
             if (hitFlags & 0x1e34ef) {
                 QuaternionFromYAxisToVec3(&u, &vehicle->mUnk_0b4);
-                AdvanceCourseColorBlend(&vehicle->mUnk_132, (hitFlags & 0x3c000000) >> 26, 0x5000);
+                AdvanceCourseColorBlend(&vehicle->mCourseColorBlend, (hitFlags & 0x3c000000) >> 26, 0x5000);
                 if (vehicle->mUnk_0fe != 0 && vehicle->mUnk_000.mUnk_10.y < 0) {
                     if (vehicle->mUnk_000.mFlags & 1) {
                         vehicle->mUnk_000.mFlags &= ~1;
@@ -546,7 +546,7 @@ void ResetVehicleToStartEntry(Unk020e1e98 *vehicle) {
     vehicle->mUnk_0fe = 0;
     vehicle->mUnk_152 = vehicle->mUnk_150;
     vehicle->mUnk_10c = 0;
-    InitCourseColorBlend(&vehicle->mUnk_132, 1);
+    InitCourseColorBlend(&vehicle->mCourseColorBlend, 1);
 }
 
 #pragma thumb off

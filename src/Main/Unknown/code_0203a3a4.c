@@ -94,33 +94,33 @@ void SetupRaceDisplay(void *heap) {
     DisplaySettings *settings;
     settings = CreateDisplaySettings(heap, gRaceDisplaySettingsDescs[gRaceSetup->mRaceKind]);
     SetG3xSwapBits(settings, 1, 1);
-    SetBg0Record(&settings->mMainBg0, 1, 0, 0, 1, 0, 0, 0);
+    SetBg0Record(&settings->mMainBgRecords, 1, 0, 0, 1, 0, 0, 0);
     switch (gRaceSetup->mRaceKind) {
         case RACE_KIND_NORMAL:
         case 2:
         case RACE_KIND_STAFF_ROLL:
-            SetBg2RecordParams(&settings->mMainBg0, 1, 0, 0, 0, 7, 0);
-            SetBg0Record(&settings->mSubBg0, 0, 0, 0, 0, 0xd, 0, 0);
-            SetBg1Record(&settings->mSubBg0, 1, 0, 0, 0, 0xe, 0, 0);
-            SetBg2RecordParams(&settings->mSubBg0, 2, 0, 0, 0, 0xf, 0);
+            SetBg2RecordParams(&settings->mMainBgRecords, 1, 0, 0, 0, 7, 0);
+            SetBg0Record(&settings->mSubBgRecords, 0, 0, 0, 0, 0xd, 0, 0);
+            SetBg1Record(&settings->mSubBgRecords, 1, 0, 0, 0, 0xe, 0, 0);
+            SetBg2RecordParams(&settings->mSubBgRecords, 2, 0, 0, 0, 0xf, 0);
             SetDispCapMode(0);
             break;
         case RACE_KIND_DEMO:
-            SetBg2RecordParams(&settings->mMainBg0, 1, 0, 0, 0, 7, 0);
-            SetBg0Record(&settings->mSubBg0, 0, 0, 0, 0, 0xd, 0, 0);
-            SetBg1Record(&settings->mSubBg0, 1, 0, 0, 0, 0xe, 0, 0);
-            SetBg2RecordParams(&settings->mSubBg0, 2, 0, 0, 0, 0xf, 0);
+            SetBg2RecordParams(&settings->mMainBgRecords, 1, 0, 0, 0, 7, 0);
+            SetBg0Record(&settings->mSubBgRecords, 0, 0, 0, 0, 0xd, 0, 0);
+            SetBg1Record(&settings->mSubBgRecords, 1, 0, 0, 0, 0xe, 0, 0);
+            SetBg2RecordParams(&settings->mSubBgRecords, 2, 0, 0, 0, 0xf, 0);
             SetDispCapMode(0);
             break;
         case RACE_KIND_START_GP:
         case RACE_KIND_AWARD:
-            SetBg2RecordParams(&settings->mMainBg0, 1, 0, 0, 0, 7, 0);
-            SetBg2RecordMode5(&settings->mSubBg0, 0, 0, 1, 0, 0);
+            SetBg2RecordParams(&settings->mMainBgRecords, 1, 0, 0, 0, 7, 0);
+            SetBg2RecordMode5(&settings->mSubBgRecords, 0, 0, 1, 0, 0);
             func_02038c94(settings, 0x20);
             SetDispCapMode(1);
             break;
         case 4:
-            SetBg2RecordParams(&settings->mMainBg0, 1, 0, 0, 0, 7, 0);
+            SetBg2RecordParams(&settings->mMainBgRecords, 1, 0, 0, 0, 7, 0);
             SetDispCapMode(0);
             break;
     }

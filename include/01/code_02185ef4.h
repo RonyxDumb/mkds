@@ -19,12 +19,6 @@ typedef struct MissionGateObject {
     /* 0ac */ s32 mState;
 } MissionGateObject;
 
-// Table of objects walked by InitMissionGateObjects.
-typedef struct MissionGateList {
-    /* 00 */ MissionGateObject **mObjects;
-    /* 04 */ u16 mObjectCount;
-} MissionGateList;
-
 #include "01/code_0219b250.h"
 #include "01/code_0218155c.h"
 #include "ITCM/code_01ff9000.h"

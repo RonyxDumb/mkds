@@ -41,7 +41,7 @@
 
 void InitGhostScene(void *heap) {
     Unk02125de0Arg arg;
-    u8 *displaySettings;
+    DisplaySettings *displaySettings;
     s32 i;
     u32 courseId;
     GhostRecordHead *courseRecords;
@@ -51,8 +51,8 @@ void InitGhostScene(void *heap) {
     gGhostScene->mCourseGhostBuffer = HeapAllocAligned(heap, 0xe00, 0x20);
     gGhostScene->mSlotGhostBuffer = HeapAllocAligned(heap, 0x1000, 0x20);
     displaySettings = CreateDisplaySettings(heap, gGhostSceneDisplaySettingsDesc);
-    SetBg0Record(displaySettings + 0x28, 1, 0, 0, 0, 0, 1, 0);
-    SetBg3RecordParams(displaySettings + 0x70, 2, 0, 0, 0, 0xf, 0);
+    SetBg0Record(&displaySettings->mMainBgRecords, 1, 0, 0, 0, 0, 1, 0);
+    SetBg3RecordParams(&displaySettings->mSubBgRecords, 2, 0, 0, 0, 0xf, 0);
     InitDisplayFromSettings(displaySettings);
     LoadGhostSceneFiles();
     arg.mUnk_00 = 1;

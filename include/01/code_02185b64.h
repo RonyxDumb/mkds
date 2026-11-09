@@ -4,7 +4,7 @@
 
 typedef struct MissionGateObject MissionGateObject;
 typedef struct Kart Kart;
-typedef struct MissionGateList MissionGateList;
+typedef struct MapObjectList MapObjectList;
 typedef struct MapObjectModel MapObjectModel;
 
 void CreateMissionGateUpdateList(void);
@@ -12,7 +12,7 @@ void CreateMissionGateDrawList(void);
 void CreateMissionGateKindData(void);
 void UpdateMissionGate(
     void *a, MissionGateObject *missionGateObject); /* skipped for objects with mFlags & 4 (parked pool objects) */
-void InitMissionGateObjects(MissionGateList *missionGateList);
+void InitMissionGateObjects(MapObjectList *missionGateList);
 void DrawMissionGate(void *mapObjectList, MissionGateObject *missionGateObject);
 void func_ov001_02185d18(void);
 void LoadMissionGate(void *a);

@@ -113,36 +113,36 @@ void func_020cc36c(void) {
 }
 #pragma thumb off
 
-void SetMainBg0Record(Unk02180774 *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h) {
-    SetBg0Record(displaySettings->mMainBgRecords, b, c, d, e, f, g, h);
+void SetMainBg0Record(DisplaySettings *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h) {
+    SetBg0Record(&displaySettings->mMainBgRecords, b, c, d, e, f, g, h);
 }
 
-void func_020cc2f4(Unk02180774 *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h) {
-    SetBg1Record(displaySettings->mMainBgRecords, b, c, d, e, f, g, h);
+void func_020cc2f4(DisplaySettings *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h) {
+    SetBg1Record(&displaySettings->mMainBgRecords, b, c, d, e, f, g, h);
 }
 
-void func_020cc2c0(Unk02180774 *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g) {
-    SetBg2RecordParams(displaySettings->mMainBgRecords, b, c, d, e, f, g);
+void func_020cc2c0(DisplaySettings *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g) {
+    SetBg2RecordParams(&displaySettings->mMainBgRecords, b, c, d, e, f, g);
 }
 
-void func_020cc28c(Unk02180774 *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g) {
-    SetBg3RecordParams(displaySettings->mMainBgRecords, b, c, d, e, f, g);
+void func_020cc28c(DisplaySettings *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g) {
+    SetBg3RecordParams(&displaySettings->mMainBgRecords, b, c, d, e, f, g);
 }
 
-void SetSubBg0Record(Unk02180774 *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h) {
-    SetBg0Record(displaySettings->mSubBgRecords, b, c, d, e, f, g, h);
+void SetSubBg0Record(DisplaySettings *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h) {
+    SetBg0Record(&displaySettings->mSubBgRecords, b, c, d, e, f, g, h);
 }
 
-void SetSubBg1Record(Unk02180774 *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h) {
-    SetBg1Record(displaySettings->mSubBgRecords, b, c, d, e, f, g, h);
+void SetSubBg1Record(DisplaySettings *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h) {
+    SetBg1Record(&displaySettings->mSubBgRecords, b, c, d, e, f, g, h);
 }
 
-void func_020cc1e0(Unk02180774 *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g) {
-    SetBg2RecordParams(displaySettings->mSubBgRecords, b, c, d, e, f, g);
+void func_020cc1e0(DisplaySettings *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g) {
+    SetBg2RecordParams(&displaySettings->mSubBgRecords, b, c, d, e, f, g);
 }
 
-void func_020cc1ac(Unk02180774 *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g) {
-    SetBg3RecordParams(displaySettings->mSubBgRecords, b, c, d, e, f, g);
+void func_020cc1ac(DisplaySettings *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g) {
+    SetBg3RecordParams(&displaySettings->mSubBgRecords, b, c, d, e, f, g);
 }
 
 void func_020cc18c(u32 bits) {

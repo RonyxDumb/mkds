@@ -65,7 +65,7 @@
 void InitMenu(void) {
     MenuScene *menu;
     Unk02125de0Arg config;
-    Unk02180774 *displaySettings;
+    DisplaySettings *displaySettings;
 
     data_0217b43c = HeapAlloc(func_020cb99c(), 0x960);
     CreateRaceSetupCopy(func_020cb99c());

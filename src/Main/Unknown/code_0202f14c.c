@@ -41,7 +41,7 @@ void func_0202f454(u32 bits) {
 #pragma thumb on
 
 void InitWLMenuScene(void *heap) {
-    Unk02180774 *displaySettings;
+    DisplaySettings *displaySettings;
     Unk02125de0Arg v1;
 
     gWLMenuScene = HeapAllocAligned(heap, 0x874, 0x20);

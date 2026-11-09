@@ -85,7 +85,7 @@ static inline CourseTeamResults *func_02032f94_inline_3(void) {
 }
 
 void InitResultsBattle(void *heap, s32 b, s32 c) {
-    Unk02180774 *displaySettings;
+    DisplaySettings *displaySettings;
     CellFileSet *mainCellFileSet;
     CellFileSet *subCellFileSet;
     ResultsBattle *results;
@@ -111,11 +111,11 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
     }
     Init3dEngine();
     displaySettings = CreateDisplaySettings(heap, data_021547f0);
-    SetBg0Record(displaySettings->mMainBgRecords, 3, 0, 0, 0, 0xd, 2, 0);
-    SetBg1Record(displaySettings->mMainBgRecords, 0, 0, 0, 0, 0xc, 0, 0);
-    SetBg2RecordParams(displaySettings->mMainBgRecords, 2, 0, 0, 0, 0x1e, 6);
-    SetBg3RecordParams(displaySettings->mMainBgRecords, 3, 0, 0, 0, 0x1d, 6);
-    SetBg3RecordParams(displaySettings->mSubBgRecords, 3, 0, 0, 0, 1, 6);
+    SetBg0Record(&displaySettings->mMainBgRecords, 3, 0, 0, 0, 0xd, 2, 0);
+    SetBg1Record(&displaySettings->mMainBgRecords, 0, 0, 0, 0, 0xc, 0, 0);
+    SetBg2RecordParams(&displaySettings->mMainBgRecords, 2, 0, 0, 0, 0x1e, 6);
+    SetBg3RecordParams(&displaySettings->mMainBgRecords, 3, 0, 0, 0, 0x1d, 6);
+    SetBg3RecordParams(&displaySettings->mSubBgRecords, 3, 0, 0, 0, 1, 6);
     InitDisplayFromSettings(displaySettings);
     v.mUnk_00 = 0;
     v.mUnk_04 = NULL;

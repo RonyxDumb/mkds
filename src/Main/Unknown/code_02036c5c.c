@@ -75,23 +75,22 @@ void WaitIrqAndTurnOnDisplays(void) {
     reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT | 0x10000;
 }
 
-void InitDisplayBgRecords(void *recordsBase, u32 bgMode) {
-    DisplayBgRecords *records = recordsBase;
+void InitDisplayBgRecords(DisplayBgRecords *records, u32 bgMode) {
     u32 bgCntMode;
-    records->mBg0CntLow2 = 0;
-    records->mBg0CntBit6 = 0;
-    records->mBg0CntVal14 = 0;
-    records->mBg0CntVal7 = 0;
-    records->mBg0CntVal8 = 0;
-    records->mBg0CntVal2 = 0;
-    records->mBg0CntVal13 = 0;
-    records->mBg1CntLow2 = 1;
-    records->mBg1CntVal14 = 0;
-    records->mBg1CntVal7 = 0;
-    records->mBg1CntBit6 = 0;
-    records->mBg1CntVal8 = 0;
-    records->mBg1CntVal2 = 0;
-    records->mBg1CntVal13 = 0;
+    records->mBg0.mBgCntLow2 = 0;
+    records->mBg0.mBgCntBit6 = 0;
+    records->mBg0.mBgCntVal14 = 0;
+    records->mBg0.mBgCntVal7 = 0;
+    records->mBg0.mBgCntVal8 = 0;
+    records->mBg0.mBgCntVal2 = 0;
+    records->mBg0.mBgCntVal13 = 0;
+    records->mBg1.mBgCntLow2 = 1;
+    records->mBg1.mBgCntVal14 = 0;
+    records->mBg1.mBgCntVal7 = 0;
+    records->mBg1.mBgCntBit6 = 0;
+    records->mBg1.mBgCntVal8 = 0;
+    records->mBg1.mBgCntVal2 = 0;
+    records->mBg1.mBgCntVal13 = 0;
     bgCntMode = 6;
     switch (bgMode) {
         case 0:
@@ -109,30 +108,30 @@ void InitDisplayBgRecords(void *recordsBase, u32 bgMode) {
         case 6:
             break;
     }
-    records->mBg2Mode = bgCntMode;
+    records->mBg2.mMode = bgCntMode;
     switch (bgCntMode) {
         case 1:
-            records->mBg2CntLow2 = 2;
-            records->mBg2CntVal14 = 0;
-            records->mUnk_2a = 0;
-            records->mBg2CntBit6 = 0;
-            records->mBg2CntVal8 = 0;
-            records->mBg2CntVal2 = 0;
+            records->mBg2.mFields.mBgCntLow2 = 2;
+            records->mBg2.mFields.mBgCntVal14 = 0;
+            records->mBg2.mFields.mUnk_06 = 0;
+            records->mBg2.mFields.mBgCntBit6 = 0;
+            records->mBg2.mFields.mBgCntVal8 = 0;
+            records->mBg2.mFields.mBgCntVal2 = 0;
             break;
         case 2:
-            records->mBg2CntLow2 = 2;
-            records->mBg2CntVal14 = 0;
-            records->mBg2CntBit6 = 0;
-            records->mUnk_2a = 0;
-            records->mBg2CntVal8 = 0;
-            records->mBg2CntVal2 = 0;
+            records->mBg2.mFields.mBgCntLow2 = 2;
+            records->mBg2.mFields.mBgCntVal14 = 0;
+            records->mBg2.mFields.mBgCntBit6 = 0;
+            records->mBg2.mFields.mUnk_06 = 0;
+            records->mBg2.mFields.mBgCntVal8 = 0;
+            records->mBg2.mFields.mBgCntVal2 = 0;
             break;
         case 3:
-            records->mBg2CntLow2 = 2;
-            records->mBg2CntBit6 = 0;
-            records->mBg2CntVal14 = 0;
-            records->mUnk_2a = 0;
-            records->mBg2CntVal8 = 0;
+            records->mBg2.mFields.mBgCntLow2 = 2;
+            records->mBg2.mFields.mBgCntBit6 = 0;
+            records->mBg2.mFields.mBgCntVal14 = 0;
+            records->mBg2.mFields.mUnk_06 = 0;
+            records->mBg2.mFields.mBgCntVal8 = 0;
             break;
     }
     bgCntMode = 6;
@@ -152,30 +151,30 @@ void InitDisplayBgRecords(void *recordsBase, u32 bgMode) {
         case 6:
             break;
     }
-    records->mBg3Mode = bgCntMode;
+    records->mBg3.mMode = bgCntMode;
     switch (bgCntMode) {
         case 1:
-            records->mBg3CntLow2 = 2;
-            records->mBg3CntVal14 = 0;
-            records->mUnk_3a = 0;
-            records->mBg3CntBit6 = 0;
-            records->mBg3CntVal8 = 0;
-            records->mBg3CntVal2 = 0;
+            records->mBg3.mFields.mBgCntLow2 = 2;
+            records->mBg3.mFields.mBgCntVal14 = 0;
+            records->mBg3.mFields.mUnk_06 = 0;
+            records->mBg3.mFields.mBgCntBit6 = 0;
+            records->mBg3.mFields.mBgCntVal8 = 0;
+            records->mBg3.mFields.mBgCntVal2 = 0;
             break;
         case 2:
-            records->mBg3CntLow2 = 2;
-            records->mBg3CntVal14 = 0;
-            records->mBg3CntBit6 = 0;
-            records->mUnk_3a = 0;
-            records->mBg3CntVal8 = 0;
-            records->mBg3CntVal2 = 0;
+            records->mBg3.mFields.mBgCntLow2 = 2;
+            records->mBg3.mFields.mBgCntVal14 = 0;
+            records->mBg3.mFields.mBgCntBit6 = 0;
+            records->mBg3.mFields.mUnk_06 = 0;
+            records->mBg3.mFields.mBgCntVal8 = 0;
+            records->mBg3.mFields.mBgCntVal2 = 0;
             break;
         case 3:
-            records->mBg3CntLow2 = 2;
-            records->mBg3CntBit6 = 0;
-            records->mBg3CntVal14 = 0;
-            records->mUnk_3a = 0;
-            records->mBg3CntVal8 = 0;
+            records->mBg3.mFields.mBgCntLow2 = 2;
+            records->mBg3.mFields.mBgCntBit6 = 0;
+            records->mBg3.mFields.mBgCntVal14 = 0;
+            records->mBg3.mFields.mUnk_06 = 0;
+            records->mBg3.mFields.mBgCntVal8 = 0;
             break;
     }
     records->mUnk_40 = 0;
@@ -185,8 +184,8 @@ void InitDisplayBgRecords(void *recordsBase, u32 bgMode) {
 void InitDisplaySettings(DisplaySettings *settings, void *descriptorBase) {
     DisplaySettingsDesc *descriptor = descriptorBase;
     *(DisplaySettingsDesc *) settings = *descriptor;
-    InitDisplayBgRecords(&settings->mMainBg0, descriptor->mMainBgMode);
-    InitDisplayBgRecords(&settings->mSubBg0, descriptor->mSubBgMode);
+    InitDisplayBgRecords(&settings->mMainBgRecords, descriptor->mMainBgMode);
+    InitDisplayBgRecords(&settings->mSubBgRecords, descriptor->mSubBgMode);
     settings->mG3xParams = NULL;
     settings->mFrameStartTick = 0;
     settings->mWaitEndTick = 0;
@@ -198,7 +197,7 @@ void InitDisplaySettings(DisplaySettings *settings, void *descriptorBase) {
     settings->mFrameFlags = 0;
 }
 
-void *CreateDisplaySettings(void *heap, void *descriptor) {
+DisplaySettings *CreateDisplaySettings(void *heap, void *descriptor) {
     DisplaySettings *settings = HeapAlloc(heap, 0xdc);
     G3xParams *g3xParams;
     InitDisplaySettings(settings, descriptor);
@@ -212,58 +211,55 @@ void *CreateDisplaySettings(void *heap, void *descriptor) {
     return settings;
 }
 
-void SetBg0Record(void *recordsBase, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7, u32 cntVal8, u32 cntVal2,
-                  u32 cntVal13) {
-    DisplayBgRecords *records = recordsBase;
-    records->mBg0CntLow2 = cntLow2;
-    records->mBg0CntVal14 = cntVal14;
-    records->mBg0CntVal7 = cntVal7;
-    records->mBg0CntBit6 = cntBit6;
-    records->mBg0CntVal8 = cntVal8;
-    records->mBg0CntVal2 = cntVal2;
-    records->mBg0CntVal13 = cntVal13;
+void SetBg0Record(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7, u32 cntVal8,
+                  u32 cntVal2, u32 cntVal13) {
+    records->mBg0.mBgCntLow2 = cntLow2;
+    records->mBg0.mBgCntVal14 = cntVal14;
+    records->mBg0.mBgCntVal7 = cntVal7;
+    records->mBg0.mBgCntBit6 = cntBit6;
+    records->mBg0.mBgCntVal8 = cntVal8;
+    records->mBg0.mBgCntVal2 = cntVal2;
+    records->mBg0.mBgCntVal13 = cntVal13;
 }
 
-void SetBg1Record(void *recordsBase, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7, u32 cntVal8, u32 cntVal2,
-                  u32 cntVal13) {
-    DisplayBgRecords *records = recordsBase;
-    records->mBg1CntLow2 = cntLow2;
-    records->mBg1CntVal14 = cntVal14;
-    records->mBg1CntVal7 = cntVal7;
-    records->mBg1CntBit6 = cntBit6;
-    records->mBg1CntVal8 = cntVal8;
-    records->mBg1CntVal2 = cntVal2;
-    records->mBg1CntVal13 = cntVal13;
+void SetBg1Record(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7, u32 cntVal8,
+                  u32 cntVal2, u32 cntVal13) {
+    records->mBg1.mBgCntLow2 = cntLow2;
+    records->mBg1.mBgCntVal14 = cntVal14;
+    records->mBg1.mBgCntVal7 = cntVal7;
+    records->mBg1.mBgCntBit6 = cntBit6;
+    records->mBg1.mBgCntVal8 = cntVal8;
+    records->mBg1.mBgCntVal2 = cntVal2;
+    records->mBg1.mBgCntVal13 = cntVal13;
 }
 
-void SetBg2RecordParams(void *recordsBase, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8, u32 cntVal2) {
-    DisplayBgRecords *records = recordsBase;
-    records->mBg2CntLow2 = cntLow2;
-    records->mBg2CntBit6 = cntBit6;
-    records->mBg2CntVal14 = cntVal14;
-    records->mUnk_2a = e;
-    records->mBg2CntVal8 = cntVal8;
-    records->mBg2CntVal2 = cntVal2;
+void SetBg2RecordParams(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8,
+                        u32 cntVal2) {
+    records->mBg2.mFields.mBgCntLow2 = cntLow2;
+    records->mBg2.mFields.mBgCntBit6 = cntBit6;
+    records->mBg2.mFields.mBgCntVal14 = cntVal14;
+    records->mBg2.mFields.mUnk_06 = e;
+    records->mBg2.mFields.mBgCntVal8 = cntVal8;
+    records->mBg2.mFields.mBgCntVal2 = cntVal2;
 }
 
-void SetBg3RecordParams(void *recordsBase, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8, u32 cntVal2) {
-    DisplayBgRecords *records = recordsBase;
-    records->mBg3CntLow2 = cntLow2;
-    records->mBg3CntBit6 = cntBit6;
-    records->mBg3CntVal14 = cntVal14;
-    records->mUnk_3a = e;
-    records->mBg3CntVal8 = cntVal8;
-    records->mBg3CntVal2 = cntVal2;
+void SetBg3RecordParams(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8,
+                        u32 cntVal2) {
+    records->mBg3.mFields.mBgCntLow2 = cntLow2;
+    records->mBg3.mFields.mBgCntBit6 = cntBit6;
+    records->mBg3.mFields.mBgCntVal14 = cntVal14;
+    records->mBg3.mFields.mUnk_06 = e;
+    records->mBg3.mFields.mBgCntVal8 = cntVal8;
+    records->mBg3.mFields.mBgCntVal2 = cntVal2;
 }
 
-void SetBg2RecordMode5(void *recordsBase, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8) {
-    DisplayBgRecords *records = recordsBase;
-    records->mBg2Mode = 5;
-    records->mBg2CntLow2 = cntLow2;
-    records->mBg2CntBit6 = cntBit6;
-    records->mBg2CntVal14 = cntVal14;
-    records->mUnk_2a = e;
-    records->mBg2CntVal8 = cntVal8;
+void SetBg2RecordMode5(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8) {
+    records->mBg2.mMode = 5;
+    records->mBg2.mFields.mBgCntLow2 = cntLow2;
+    records->mBg2.mFields.mBgCntBit6 = cntBit6;
+    records->mBg2.mFields.mBgCntVal14 = cntVal14;
+    records->mBg2.mFields.mUnk_06 = e;
+    records->mBg2.mFields.mBgCntVal8 = cntVal8;
 }
 
 void SetG3xSwapBits(DisplaySettings *settings, u32 swapBit0, u32 swapBit1) {
@@ -272,7 +268,7 @@ void SetG3xSwapBits(DisplaySettings *settings, u32 swapBit0, u32 swapBit1) {
 }
 
 void func_02038c94(DisplaySettings *settings, u32 value) {
-    settings->mUnk_b2 = value;
+    settings->mSubBgRecords.mUnk_42 = value;
 }
 
 // Enum-typed parameters of the inlines below: their values are read before the register.
@@ -566,12 +562,10 @@ static inline void func_02037abc_inline6(vu16 *cntReg, Unk02037abc_Arg val14, Un
     *cntReg = (*cntReg & 0x43) | (val14 << 14) | (val7 << 7) | (val8 << 8) | (val2 << 2) | (val13 << 13);
 }
 
-void InitDisplayFromSettings(void *settingsPtr) {
-    DisplaySettings *settings;
+void InitDisplayFromSettings(DisplaySettings *settings) {
     Bg01Cnt *cnt;
     u16 clearColor;
 
-    settings = settingsPtr;
     gDisplaySettings = settings;
     ClearLcdcBanksByState();
     func_02037abc_inline(0xc0, (void *) 0x07000000, 0x400);
@@ -637,7 +631,7 @@ void InitDisplayFromSettings(void *settingsPtr) {
         G3X_SetClearColor((u16) (clearColor & 0x7fff), (u8) ((clearColor & 0x8000) >> 15), 0x7fff, 0x3f, 0);
     }
     if (settings->mMainDisplayMask & 1) {
-        cnt = &settings->mMainBg0;
+        cnt = &settings->mMainBgRecords.mBg0;
         func_02037abc_inline2(&reg_G2_BG0CNT, cnt);
         if (settings->mBg0As == 1) {
             G2Bg0OfsWrite(0);
@@ -650,7 +644,7 @@ void InitDisplayFromSettings(void *settingsPtr) {
     }
     if (settings->mSubDisplayMask & 1) {
         reg_G2S_DB_BG0OFS = 0;
-        cnt = &settings->mSubBg0;
+        cnt = &settings->mSubBgRecords.mBg0;
         func_02037abc_inline2(&reg_G2S_DB_BG0CNT, cnt);
         func_02037abc_inline6(&reg_G2S_DB_BG0CNT, (Unk02037abc_Arg) cnt->mBgCntVal14, (Unk02037abc_Arg) cnt->mBgCntVal7,
                               (Unk02037abc_Arg) cnt->mBgCntVal8, (Unk02037abc_Arg) cnt->mBgCntVal2,
@@ -658,7 +652,7 @@ void InitDisplayFromSettings(void *settingsPtr) {
     }
     if (settings->mMainDisplayMask & 2) {
         reg_G2_BG1OFS = 0;
-        cnt = &settings->mMainBg1;
+        cnt = &settings->mMainBgRecords.mBg1;
         func_02037abc_inline2(&reg_G2_BG1CNT, cnt);
         func_02037abc_inline6(&reg_G2_BG1CNT, (Unk02037abc_Arg) cnt->mBgCntVal14, (Unk02037abc_Arg) cnt->mBgCntVal7,
                               (Unk02037abc_Arg) cnt->mBgCntVal8, (Unk02037abc_Arg) cnt->mBgCntVal2,
@@ -666,31 +660,31 @@ void InitDisplayFromSettings(void *settingsPtr) {
     }
     if (settings->mSubDisplayMask & 2) {
         reg_G2S_DB_BG1OFS = 0;
-        cnt = &settings->mSubBg1;
+        cnt = &settings->mSubBgRecords.mBg1;
         func_02037abc_inline2(&reg_G2S_DB_BG1CNT, cnt);
         func_02037abc_inline6(&reg_G2S_DB_BG1CNT, (Unk02037abc_Arg) cnt->mBgCntVal14, (Unk02037abc_Arg) cnt->mBgCntVal7,
                               (Unk02037abc_Arg) cnt->mBgCntVal8, (Unk02037abc_Arg) cnt->mBgCntVal2,
                               (Unk02037abc_Arg) cnt->mBgCntVal13);
     }
     if (settings->mMainDisplayMask & 4) {
-        ApplyBg2Cnt(&settings->mMainBg2, 1);
+        ApplyBg2Cnt(&settings->mMainBgRecords.mBg2, 1);
     }
     if (settings->mSubDisplayMask & 4) {
-        ApplyBg2Cnt(&settings->mSubBg2, 0);
+        ApplyBg2Cnt(&settings->mSubBgRecords.mBg2, 0);
     }
     if (settings->mMainDisplayMask & 8) {
-        ApplyBg3Cnt(&settings->mMainBg3, 1);
+        ApplyBg3Cnt(&settings->mMainBgRecords.mBg3, 1);
     }
     if (settings->mSubDisplayMask & 8) {
-        ApplyBg3Cnt(&settings->mSubBg3, 0);
+        ApplyBg3Cnt(&settings->mSubBgRecords.mBg3, 0);
     }
     if (settings->mMainDisplayMask & 0x10) {
-        func_02037abc_inline3(&reg_GX_DISPCNT, (Unk02037abc_Arg) settings->mUnk_68);
-        func_02037abc_inline4((Unk02037abc_Arg) settings->mUnk_6a);
+        func_02037abc_inline3(&reg_GX_DISPCNT, (Unk02037abc_Arg) settings->mMainBgRecords.mUnk_40);
+        func_02037abc_inline4((Unk02037abc_Arg) settings->mMainBgRecords.mUnk_42);
     }
     if (settings->mSubDisplayMask & 0x10) {
-        func_02037abc_inline3(&reg_GXS_DB_DISPCNT, (Unk02037abc_Arg) settings->mUnk_b0);
-        func_02037abc_inline5((Unk02037abc_Arg) settings->mUnk_b2);
+        func_02037abc_inline3(&reg_GXS_DB_DISPCNT, (Unk02037abc_Arg) settings->mSubBgRecords.mUnk_40);
+        func_02037abc_inline5((Unk02037abc_Arg) settings->mSubBgRecords.mUnk_42);
     }
     reg_GX_POWCNT |= 0x8000;
 }

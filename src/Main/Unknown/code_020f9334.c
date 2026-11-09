@@ -116,11 +116,11 @@ void ReleaseItemObject(ItemObject *item) {
     }
 }
 
-void func_020f98a0(ItemObject *itemParam, Vec3 *prevPos, Vec3 *normal, u16 *colorBlend, s32 param_5) {
+void func_020f98a0(ItemObject *itemParam, Vec3 *prevPos, Vec3 *normal, CourseColorBlend *colorBlend, s32 param_5) {
     ItemObject *item = itemParam;
     item->mPrevPos = *prevPos;
     if (colorBlend != NULL) {
-        item->mColorBlend = *(CourseColorBlend *) colorBlend;
+        item->mColorBlend = *colorBlend;
     } else {
         InitCourseColorBlend(&item->mColorBlend, 1);
     }

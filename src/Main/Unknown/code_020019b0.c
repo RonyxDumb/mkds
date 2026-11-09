@@ -56,11 +56,11 @@ void LoadBg1FromSceneFiles(Bg1Files *files, s32 mainScreen, const char *paletteF
 
 void InitLogoScene(void *heap) {
     Unk02125de0Arg arg;
-    u8 *displaySettings;
+    DisplaySettings *displaySettings;
     gLogoScene = HeapAlloc(heap, 60);
     displaySettings = CreateDisplaySettings(heap, data_usa_021547c8);
-    SetBg1Record(displaySettings + 0x28, 1, 0, 0, 0, 0, 1, 0);
-    SetBg1Record(displaySettings + 0x70, 1, 0, 0, 0, 0, 2, 0);
+    SetBg1Record(&displaySettings->mMainBgRecords, 1, 0, 0, 0, 0, 1, 0);
+    SetBg1Record(&displaySettings->mSubBgRecords, 1, 0, 0, 0, 0, 2, 0);
     InitDisplayFromSettings(displaySettings);
     LoadBg1FromSceneFiles(&gLogoScene->mMainBg, 1, data_usa_ov001_021a768c, data_usa_ov001_021a76a8,
                           data_usa_ov001_021a76c4);

@@ -1230,14 +1230,14 @@ void func_ov001_0218fd20(Unk02188950 *a, Unk0218fd20 *b) {
     }
 }
 
-void func_ov001_0218fcc4(Unk0218fa78 *a) {
+void func_ov001_0218fcc4(MapObjectList *a) {
     int i;
     Unk02188950 *obj;
     int zero;
 
     if (a != NULL) {
         zero = 0;
-        for (i = 0; i < a->mUnk_04 && (obj = a->mUnk_00[i]) != NULL; i++) {
+        for (i = 0; i < a->mMapObjectCount && (obj = a->mMapObjects[i]) != NULL; i++) {
             InitMissionRunMapObject((void *) zero, obj, (const char *) zero, (const char *) zero, data_ov001_021a7eb0);
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(obj);
@@ -1262,12 +1262,12 @@ void func_ov001_0218fc4c(u32 a, Unk02188950 *b) {
     AdvanceMissionRunMapObject(a, b);
 }
 
-void InitIwanteObjects(Unk0218fa78 *a) {
+void InitIwanteObjects(MapObjectList *a) {
     int i;
     Unk02188950 *obj;
 
     if (a != NULL) {
-        for (i = 0; i < a->mUnk_04 && (obj = a->mUnk_00[i]) != NULL; i++) {
+        for (i = 0; i < a->mMapObjectCount && (obj = a->mMapObjects[i]) != NULL; i++) {
             if (GetRaceUseChainCameras()) {
                 obj->mUnk_000.mPos.y += obj->mPrm->mUnk_080;
                 func_ov001_0218fef8(obj);
@@ -1309,12 +1309,12 @@ void UpdateIwante(u32 a, Unk02188950 *b) {
 }
 
 // Iwante: the two stone hands of Mission Run.
-void InitIwante(Unk0218fa78 *a) {
+void InitIwante(MapObjectList *a) {
     int i;
     Unk02188950 *obj;
 
     if (a != NULL) {
-        for (i = 0; i < a->mUnk_04 && (obj = a->mUnk_00[i]) != NULL; i++) {
+        for (i = 0; i < a->mMapObjectCount && (obj = a->mMapObjects[i]) != NULL; i++) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(obj);
             }

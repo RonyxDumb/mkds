@@ -3,11 +3,7 @@
 #include "types.h"
 #include "01/code_02188950.h"
 
-// List of objects: an array of pointers and its length.
-typedef struct Unk0218fa78 {
-    /* 00 */ Unk02188950 **mUnk_00;
-    /* 04 */ u16 mUnk_04;
-} Unk0218fa78;
+typedef struct MapObjectList MapObjectList;
 
 // Offsets 0x50..0x5b of the object are a position.
 typedef struct Unk0218fd20 {
@@ -43,11 +39,11 @@ void *func_ov001_0218f9ec(void);
 void *func_ov001_0218fa04(void);
 void func_ov001_0218fa20(void);
 void func_ov001_0218fa58(void *a, Unk02188950 *b);
-void InitIwante(Unk0218fa78 *a);
+void InitIwante(MapObjectList *a);
 void UpdateIwante(u32 a, Unk02188950 *b);
-void InitIwanteObjects(Unk0218fa78 *a);
+void InitIwanteObjects(MapObjectList *a);
 void func_ov001_0218fc4c(u32 a, Unk02188950 *b);
-void func_ov001_0218fcc4(Unk0218fa78 *a);
+void func_ov001_0218fcc4(MapObjectList *a);
 void func_ov001_0218fd20(Unk02188950 *a, Unk0218fd20 *b);
 void func_ov001_0218fee0(Unk02188950 *a);
 void func_ov001_0218fef8(Unk02188950 *a);

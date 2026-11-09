@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "code_02146d78.h"
+#include "Main/Unknown/code_0208ab98.h" // CourseColorBlend
 #include "Main/Unknown/code_020e6fd4.h" // MapObject
 #include "Main/Unknown/code_02087d0c.h" // ModelAnimation
 #include "Main/Unknown/code_020e005c.h"
@@ -105,9 +106,7 @@ typedef struct Unk020e1e98 {
     /* 128 */ u32 mUnk_128;
     /* 12c */ ModelAnimation *mUnk_12c;
     /* 130 */ u16 mUnk_130;
-    /* 132 */ u16 mUnk_132;
-    /* 134 */ u8 mUnk_134[0xc];
-    /* 140 */ void *mUnk_140;
+    /* 132 */ CourseColorBlend mCourseColorBlend;
     /* 144 */ Vec3 mUnk_144;
     /* 150 */ u16 mUnk_150;
     /* 152 */ u16 mUnk_152;

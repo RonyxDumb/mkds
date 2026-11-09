@@ -11,8 +11,7 @@
 #include "Main/Unknown/code_0207a880.h"
 #include "Main/Unknown/code_020b502c.h"
 
-void *InitCourseColorBlend(void *object, u32 colorMask) {
-    CourseColorBlend *blend = object;
+CourseColorBlend *InitCourseColorBlend(CourseColorBlend *blend, u32 colorMask) {
     u16 colorIndex;
     u16 color;
 
@@ -31,11 +30,10 @@ void *InitCourseColorBlend(void *object, u32 colorMask) {
     blend->mComponentDelta1 = 0;
     blend->mComponentDelta2 = 0;
     blend->mBlendFactor = 0x1000;
-    return object;
+    return blend;
 }
 
-void SetCourseColorBlendColor(void *object, u32 colorMask) {
-    CourseColorBlend *blend = object;
+void SetCourseColorBlendColor(CourseColorBlend *blend, u32 colorMask) {
     u16 colorIndex;
 
     for (colorIndex = 0; colorIndex < 4; colorIndex++) {
@@ -47,8 +45,7 @@ void SetCourseColorBlendColor(void *object, u32 colorMask) {
     blend->mColorBit = 1 << colorIndex;
 }
 
-void AdvanceCourseColorBlend(void *object, u16 colorMask, s32 c) {
-    CourseColorBlend *blend = object;
+void AdvanceCourseColorBlend(CourseColorBlend *blend, u16 colorMask, s32 c) {
     u16 newColorBits = ~blend->mColorBit & colorMask;
     u16 colorIndex;
     u16 color;

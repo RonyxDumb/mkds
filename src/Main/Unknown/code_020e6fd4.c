@@ -101,7 +101,7 @@ void func_020e7760(void) {
     gJgKartIndex = gRaceSetup->mEntryIndex;
     kart = GetKart(gJgKartIndex);
     gJgKart = kart;
-    data_0217b8c0 = &kart->mKartModelsEntry->mUnk_040;
+    data_0217b8c0 = &kart->mKartModelsEntry->mCourseColorBlend.mColor;
     gJgTargetPos.x = 0;
     gJgTargetPos.y = 0;
     gJgTargetPos.z = 0;

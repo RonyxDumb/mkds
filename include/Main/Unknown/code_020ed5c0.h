@@ -5,6 +5,7 @@
 #include "Main/Unknown/code_020846c0.h" // Nsbmd
 #include "Main/Unknown/code_02087d0c.h" // ModelAnimation
 #include "Main/Unknown/code_0207adf8.h" // ShadowModel
+#include "Main/Unknown/code_0208ab98.h" // CourseColorBlend
 #include "Main/Unknown/code_020e5d0c.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/code_02087d0c.h"
@@ -85,8 +86,8 @@ typedef struct KartModelsEntry {
     /* 01c */ ShadowModel *mShadowModel;
     /* 020 */ KartOffsetData *mKartOffsetData;
     /* 024 */ CharacterAnimationState mAnimationState;
-    /* 040 */ u16 mUnk_040;
-    /* 042 */ u8 mUnk_042[0x12];
+    /* 040 */ CourseColorBlend mCourseColorBlend;
+    /* 052 */ u8 mUnk_052[2];
     /* 054 */ Unk0206bcb0_590_54 *mUnk_054;
     /* 058 */ s32 mUnk_058;
     /* 05c */ s32 mUnk_05c;

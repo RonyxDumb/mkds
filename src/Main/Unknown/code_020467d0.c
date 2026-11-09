@@ -47,10 +47,10 @@ void AdvanceStateMachine(void *rawStateMachine) {
 }
 
 void func_02046ae4(void) {
-    u8 *displaySettings;
+    DisplaySettings *displaySettings;
 
     displaySettings = CreateDisplaySettings(GetHeap(GetCurrentHeapCall()), data_usa_02154868);
-    SetBg1Record(displaySettings + 0x28, 0, 0, 0, 0, 4, 0, 0);
+    SetBg1Record(&displaySettings->mMainBgRecords, 0, 0, 0, 0, 4, 0, 0);
     InitDisplayFromSettings(displaySettings);
 }
 

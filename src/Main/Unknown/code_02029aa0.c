@@ -60,7 +60,7 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     CellFileSet cupNameFileSet;
     CellFileSet *mainFileSet;
     CellFileSet *subFileSet;
-    Unk02180774 *displaySettings;
+    DisplaySettings *displaySettings;
     u32 mainObjSize;
     u32 subObjSizeLeft;
     u32 characterIndex;

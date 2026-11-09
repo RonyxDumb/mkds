@@ -778,7 +778,7 @@ void func_020efd1c(KartItems *kartItems, ItemObject *object) {
     } else {
         axis = &data_021595d8;
     }
-    func_020f98a0(object, &kart->mDrawMatrixPos, axis, &kart->mKartModelsEntry->mUnk_040, func_0206c0a8(kart));
+    func_020f98a0(object, &kart->mDrawMatrixPos, axis, &kart->mKartModelsEntry->mCourseColorBlend, func_0206c0a8(kart));
     if ((kart->mUnk_48 & 1) != 0) {
         object->mFlags |= 0x40000000;
     }

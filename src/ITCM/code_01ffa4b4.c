@@ -60,7 +60,7 @@ void func_01ffa4b4(Kart *p, Vec3 *a) {
                                 p->mCollisionSlot, &v1, &v5, &v2, &f, &v3, &v4, &h, &w) != 0) {
         m = f & 0x1e34ef;
         VEC_Add(&p->mPos, &v1, &p->mPos);
-        AdvanceCourseColorBlend(&p->mKartModelsEntry->mUnk_040, (f & 0x3c000000) >> 26, p->mVelocityLength);
+        AdvanceCourseColorBlend(&p->mKartModelsEntry->mCourseColorBlend, (f & 0x3c000000) >> 26, p->mVelocityLength);
         func_01ff9c9c(p, f);
         func_0206f694(p, f, &v4, h);
         if (f & 0x200300) {

@@ -123,7 +123,7 @@ void StartItemInUse(ItemInUse *itemInUse, HeldItem *heldItem) {
         SetActiveItem(itemInUse->mKartItems, itemInUse->mItemInfoIndex);
     }
     objects = itemInUse->mObjects;
-    kartModelHalfwords = &itemInUse->mKart->mKartModelsEntry->mUnk_040;
+    kartModelHalfwords = &itemInUse->mKart->mKartModelsEntry->mCourseColorBlend.mColor;
     objectCount = itemInUse->mObjectCount;
     for (i = 0; i < objectCount; i++) {
         object = objects[i];
