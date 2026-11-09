@@ -1,10 +1,10 @@
 #include "Main/Unknown/code_020cae6c.h"
-#include "Main/Unknown/code_020cadf4.h"
+#include "Main/Unknown/code_020487fc.h"
 
 #pragma thumb on
-void RequestGhostScene(Unk020cadf4 *sceneNumbers) {
+void RequestGhostScene(SceneNumbers *sceneNumbers) {
     if (sceneNumbers != NULL) {
-        sceneNumbers->mUnk_04 = 0xd;
+        sceneNumbers->mNextScene = 0xd;
     }
 }
 #pragma thumb off

@@ -22,12 +22,6 @@ typedef struct Unk020a0318 {
     /* c8 */ s32 mSoundTimer;
 } Unk020a0318;
 
-// Array of object pointers: pointer to the array and the number of entries (func_020a066c).
-typedef struct Unk020a066c {
-    /* 00 */ Unk020a0318 **mMapObjects;
-    /* 04 */ u16 mMapObjectCount;
-} Unk020a066c;
-
 #include "Main/Unknown/code_020b1dbc.h"
 #include "Main/Unknown/code_0207b960.h"
 #include "Main/Unknown/code_020b4e5c.h"

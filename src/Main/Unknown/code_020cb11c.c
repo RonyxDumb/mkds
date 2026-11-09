@@ -4,21 +4,21 @@
 
 #pragma optimize_for_size on
 
-BOOL MenuIsPairRecentlyLost(u16 *pair) {
-    if (MenuGetPairHasPair(pair) == 0 && pair[8] < 5) {
+BOOL MenuIsPairRecentlyLost(InputSlotPair *pair) {
+    if (MenuGetPairHasPair(pair) == 0 && pair->mNoPairCount < 5) {
         return TRUE;
     }
     return FALSE;
 }
 
-BOOL MenuIsPairNew(u16 *pair) {
-    if (pair[6] == 0 && pair[2] != 0) {
+BOOL MenuIsPairNew(InputSlotPair *pair) {
+    if (pair->mPrevHasPair == 0 && pair->mHasPair != 0) {
         return TRUE;
     }
     return FALSE;
 }
 
-BOOL MenuIsPairNewUnlessRecentlyLost(u16 *pair) {
+BOOL MenuIsPairNewUnlessRecentlyLost(InputSlotPair *pair) {
     if (MenuIsPairRecentlyLost(pair) == FALSE && MenuIsPairNew(pair) != FALSE) {
         return TRUE;
     }
@@ -26,5 +26,5 @@ BOOL MenuIsPairNewUnlessRecentlyLost(u16 *pair) {
 }
 
 BOOL MenuIsSlotPairNew(u32 slotIndex) {
-    return MenuIsPairNewUnlessRecentlyLost(&gInputSlots[slotIndex].mPair.mPairX);
+    return MenuIsPairNewUnlessRecentlyLost(&gInputSlots[slotIndex].mPair);
 }

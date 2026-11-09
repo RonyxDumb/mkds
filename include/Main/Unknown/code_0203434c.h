@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-typedef struct Unk0203a0dc Unk0203a0dc;
+typedef struct SceneNumbers SceneNumbers;
 
 void func_0203434c(void);
-s32 func_02034370(Unk0203a0dc *sceneNumbers);
+s32 func_02034370(SceneNumbers *sceneNumbers);

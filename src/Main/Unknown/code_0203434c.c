@@ -1,5 +1,5 @@
 #include "Main/Unknown/code_0203434c.h"
-#include "Main/Unknown/code_02039e08.h" // Unk0203a0dc
+#include "Main/Unknown/code_020487fc.h" // SceneNumbers
 #include "Main/Unknown/code_0202d990.h"
 #include "Main/Unknown/code_02034bf4.h"
 #include "Main/Unknown/code_020351c8.h"
@@ -78,7 +78,7 @@ static inline s32 func_02034370_inline_2(void) {
     return 1;
 }
 
-s32 func_02034370(Unk0203a0dc *sceneNumbers) {
+s32 func_02034370(SceneNumbers *sceneNumbers) {
     CellFileSet *subCellFileSet;
     CellFileSet *cellFileSet;
     s32 previousSelectedIndex;

@@ -6,7 +6,7 @@
 #pragma optimize_for_size on
 #pragma thumb on
 
-void UpdateTitleState5(Unk0203a0dc *a) {
+void UpdateTitleState5(SceneNumbers *a) {
     s16 v[5] = {1, 6, 12, 7, 8};
 
     if (a != NULL) {

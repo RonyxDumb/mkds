@@ -47,7 +47,7 @@ void InitResultsByMode(void *heap) {
 
 #pragma thumb on
 
-void AdvanceResultsByMode(Unk0203a0dc *sceneNumbers) {
+void AdvanceResultsByMode(SceneNumbers *sceneNumbers) {
     int result;
     result = func_02049b6c();
     if (result == 0) {

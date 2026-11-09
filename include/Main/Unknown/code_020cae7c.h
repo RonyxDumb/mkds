@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk020cadf4 Unk020cadf4;
+typedef struct SceneNumbers SceneNumbers;
 
-void RequestTitleScene(Unk020cadf4 *sceneNumbers);
+void RequestTitleScene(SceneNumbers *sceneNumbers);

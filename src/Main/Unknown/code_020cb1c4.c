@@ -1,5 +1,6 @@
 #include "Main/Unknown/code_020cb1c4.h"
 
+#include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/code_020cb1cc.h"
 #include "Main/Unknown/code_020cb1dc.h"
 #include "Main/Unknown/unk_0217d068.h"
@@ -13,6 +14,6 @@ u32 StartMenuSound(u32 seqIndex) {
     return MenuStartSeqArc(seqIndex, 0u);
 }
 
-u32 MenuGetPairHasPair(u16 *pair) {
-    return pair[2];
+u32 MenuGetPairHasPair(InputSlotPair *pair) {
+    return pair->mHasPair;
 }

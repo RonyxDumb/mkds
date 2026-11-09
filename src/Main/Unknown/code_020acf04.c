@@ -34,7 +34,7 @@ void UpdateTitleState1(void) {
             titleTable[i + subBase].mOffsetX = 0;
         }
         SetTitleState(2, 8);
-        gTitleScene->mSelectedPressed = FALSE;
+        gTitleScene->mStartedOnSelected = FALSE;
     }
     SetupAndDrawTitleTable();
 }

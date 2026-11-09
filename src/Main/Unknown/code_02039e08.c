@@ -41,7 +41,7 @@
 #include "code_020176c0.h"
 #include "Main/Unknown/code_02044618.h"
 
-void UpdateRaceScene(Unk0203a0dc *sceneNumbers, u32 sceneFrames) {
+void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
     RaceSetup *raceSetup;
     u32 c;
     if (func_02049b6c() == 0) {

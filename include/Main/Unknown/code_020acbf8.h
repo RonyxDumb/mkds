@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk0203a0dc Unk0203a0dc;
+typedef struct SceneNumbers SceneNumbers;
 
-void UpdateTitleState2(Unk0203a0dc *sceneNumbers);
+void UpdateTitleState2(SceneNumbers *sceneNumbers);

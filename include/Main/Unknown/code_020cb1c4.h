@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-unsigned int MenuGetPairHasPair(u16 *pair);
+typedef struct InputSlotPair InputSlotPair;
+
+unsigned int MenuGetPairHasPair(InputSlotPair *pair);

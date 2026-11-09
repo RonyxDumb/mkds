@@ -516,7 +516,7 @@ typedef struct TitleScene {
     /* 04c */ s32 mNoInputFrames;
     /* 050 */ BOOL mBlendDone;
     /* 054 */ s32 mSelectedIndex;
-    /* 058 */ BOOL mSelectedPressed;
+    /* 058 */ BOOL mStartedOnSelected;
     /* 05c */ BOOL mPreferEntry4;
     /* 060 */ s16 mSelectedOffset;
     /* 064 */ s32 mBlendFrames;

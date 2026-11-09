@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_02039e08.h" // Unk0203a0dc
+#include "Main/Unknown/code_02039e08.h" // SceneNumbers
 
 typedef struct Bg1Files Bg1Files;
 
@@ -15,7 +15,7 @@ extern const char data_usa_ov001_021a7720[];
 
 void UpdateLogoState0(void);
 void EnterLogoState0(void);
-void UpdateLogoScene(Unk0203a0dc *sceneNumbers);
+void UpdateLogoScene(SceneNumbers *sceneNumbers);
 void WriteLogoSceneRegisters(void);
 void ApplySavedSoundMode(void);
 void InitLogoScene(void *heap);

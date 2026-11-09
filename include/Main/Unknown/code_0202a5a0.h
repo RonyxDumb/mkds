@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-typedef struct Unk0203a0dc Unk0203a0dc;
+typedef struct SceneNumbers SceneNumbers;
 
 // Object behind gResultScene, 0x80c bytes (InitResultsByMode allocates it).
 typedef struct ResultScene {
@@ -13,5 +13,5 @@ typedef struct ResultScene {
 
 void func_0202a5a0(void);
 void func_0202a5d8(void);
-void AdvanceResultsByMode(Unk0203a0dc *sceneNumbers);
+void AdvanceResultsByMode(SceneNumbers *sceneNumbers);
 void InitResultsByMode(void *heap);

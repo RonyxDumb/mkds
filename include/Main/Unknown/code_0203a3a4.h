@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-typedef struct Unk0203a0dc Unk0203a0dc;
+typedef struct SceneNumbers SceneNumbers;
 
 unsigned int func_0203a3a4(void);
 void SetNextRaceKind(unsigned int raceKind);
@@ -14,7 +14,7 @@ u16 GetDownBits(u32 slotIndex, u32 mask);
 unsigned int func_0203a4cc(void);
 void func_0203a4d4(u32 a);
 unsigned int GetCurrentRaceKind(void);
-void SetNextSceneFromPickedValue(Unk0203a0dc *sceneNumbers, u32 pickedValue);
+void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue);
 void func_0203a8e0(unsigned int pickedValue);
 unsigned int func_0203a8f4(void);
 u32 ShouldEndStaffRoll(u32 sceneFrames);

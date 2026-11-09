@@ -41,7 +41,7 @@ u32 TitleGetSlotPairY(u32 slotIndex) {
 
 #pragma thumb on
 
-void UpdateTitleState2(Unk0203a0dc *sceneNumbers) {
+void UpdateTitleState2(SceneNumbers *sceneNumbers) {
     u32 slotIndex;
     s32 previousIndex;
     s32 rectIndex;
@@ -51,7 +51,7 @@ void UpdateTitleState2(Unk0203a0dc *sceneNumbers) {
         if (TitleGetNewBits(slotIndex, PAD_KEY_A) != 0) {
             SetTitleState(4, 8);
             StartTitleSelectedSound();
-            gTitleScene->mSelectedPressed = TRUE;
+            gTitleScene->mStartedOnSelected = TRUE;
         } else if (GetNewOrRepeatBits(slotIndex, (PAD_KEY_LEFT | PAD_KEY_RIGHT)) != 0) {
             switch (gTitleScene->mSelectedIndex) {
                 case 3:
@@ -117,7 +117,7 @@ void UpdateTitleState2(Unk0203a0dc *sceneNumbers) {
             rectIndex = FindRectContainingPoint(pointX, pointY, gTitleScene->mTitleSBnbl);
             if (rectIndex != -1) {
                 if (previousIndex == rectIndex) {
-                    gTitleScene->mSelectedPressed = TRUE;
+                    gTitleScene->mStartedOnSelected = TRUE;
                 }
                 gTitleScene->mSelectedIndex = rectIndex;
                 SetTitleState(4, 8);

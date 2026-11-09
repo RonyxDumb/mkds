@@ -1,12 +1,6 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020a826c.h" // CourseSoundObject
-
-// Array of object pointers: pointer to the array and the number of entries (InitCourseSoundObjects).
-typedef struct Unk020a8a6c {
-    /* 00 */ CourseSoundObject **mMapObjects;
-    /* 04 */ u16 mMapObjectCount;
-} Unk020a8a6c;
+#include "Main/Unknown/code_020e6fd4.h" // MapObjectList
 
 void InitCourseSoundObjects(MapObjectList *mapObjectList);

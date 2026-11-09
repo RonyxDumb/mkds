@@ -1,5 +1,5 @@
 #include "Main/Unknown/code_0202f688.h"
-#include "Main/Unknown/code_02039e08.h" // Unk0203a0dc
+#include "Main/Unknown/code_020487fc.h" // SceneNumbers
 #include "Main/Unknown/code_020302a0.h"
 
 #include "Main/Unknown/unk_02174000.h"
@@ -335,7 +335,7 @@ void InitMultiSelectMemberGroup(void *parentHeap, void *scene, void *oamList) {
     FrmHeapShrinkInParent(gMultiSelectMemberGroup->mHeap);
 }
 
-s32 AdvanceMultiSelectMemberGroup(Unk0203a0dc *sceneNumbers) {
+s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
     CellFileSet *cellFileSet;
     s32 result;
     u16 slotIndex;

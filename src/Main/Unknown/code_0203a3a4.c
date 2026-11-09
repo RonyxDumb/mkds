@@ -294,7 +294,7 @@ void func_0203a8e0(u32 pickedValue) {
 }
 
 // Turns the value picked on the choice screen into the next scene and the settings that go with it.
-void SetNextSceneFromPickedValue(Unk0203a0dc *sceneNumbers, u32 pickedValue) {
+void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
     s32 nextScene;
     data_0217b488->mUnk_08 = 0;
     nextScene = -1;
