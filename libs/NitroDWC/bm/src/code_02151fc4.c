@@ -12,7 +12,7 @@
 #pragma thumb on
 
 // Seconds since 2000-01-01, or -1 for a bad date.
-s64 func_02152244(const u32 *date, const u32 *time) {
+s64 func_02152244(const RTCDate *date, const RTCTime *time) {
     s32 day;
     s32 sec;
     day = func_021522a0(date);
@@ -75,19 +75,19 @@ BOOL DWCi_AUTH_GetNewWiFiInfo(DWCWiFiInfo *info) {
     u8 vendor;
     u32 macLow;
     u8 mac[6];
-    u32 date[4];
-    u32 time[3];
+    RTCDate date;
+    RTCTime time;
     s64 seconds;
     u32 seed;
     DWCi_BM_GetWiFiInfo(info);
     RTC_Init();
-    if (RTC_GetDate((RTCDate *) date) != 0) {
+    if (RTC_GetDate(&date) != 0) {
         return 0;
     }
-    if (RTC_GetTime((RTCTime *) time) != 0) {
+    if (RTC_GetTime(&time) != 0) {
         return 0;
     }
-    seconds = func_02152244(date, time);
+    seconds = func_02152244(&date, &time);
     seed = seconds;
     if (seconds < 0) {
         return 0;

@@ -2,9 +2,10 @@
 
 #include "types.h"
 #include "code_02012b30.h" // MtxFx43
+#include "code_021479b4.h" // MtxFx44
 
 void MTX_Identity43_(MtxFx43 *dst);
-void MTX_Copy43To44_(const MtxFx43 *src, s32 *dst);
+void MTX_Copy43To44_(const MtxFx43 *src, MtxFx44 *dst);
 void MTX_Scale43_(MtxFx43 *dst, s32 x, s32 y, s32 z);
 void MTX_RotX43_(s32 *dst, s32 sinVal, s32 cosVal);
 void MTX_RotY43_(MtxFx43 *dst, s32 sinVal, s32 cosVal);

@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-u32 CreateCourseGhostRecords(u32 heap);
+typedef struct GhostRecordHead GhostRecordHead;
+
+GhostRecordHead *CreateCourseGhostRecords(void *heap);

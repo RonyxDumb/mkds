@@ -110,9 +110,9 @@ void NNS_G3dDraw1Mat1Shp(NNSG3dResMdl *resMdl, u32 matId, u32 shpId, BOOL sendMa
 void NNSi_G3dFuncSbc_BB(NNSG3dRS *state, u32 mode) {
     u32 restoreIdx;
     u32 storeIdx;
-    s32 clipMtx[16];
-    s32 invWV[16];
-    s32 camMtx[16];
+    MtxFx44 clipMtx;
+    MtxFx44 invWV;
+    MtxFx44 camMtx;
     u32 timing;
     u32 n = 2;
     Vec3 *pos = &data_0216190c;
@@ -149,21 +149,21 @@ void NNSi_G3dFuncSbc_BB(NNSG3dRS *state, u32 mode) {
         reg_G3X_GXFIFO = 0x151110;
         reg_G3X_GXFIFO = 0;
         reg_G3X_GXFIFO = 0;
-        while (G3X_GetClipMtx(clipMtx) != 0) {
+        while (G3X_GetClipMtx(&clipMtx) != 0) {
         }
         if (data_0217029c.mFlag & 1) {
-            MTX_Copy43To44_(NNS_G3dGlbGetWV(), invWV);
-            MTX_Concat44(clipMtx, invWV, clipMtx);
+            MTX_Copy43To44_(NNS_G3dGlbGetWV(), &invWV);
+            MTX_Concat44(&clipMtx, &invWV, &clipMtx);
         } else if (data_0217029c.mFlag & 2) {
-            MTX_Copy43To44_(&data_0217029c.mCameraMtx, camMtx);
-            MTX_Concat44(clipMtx, camMtx, clipMtx);
+            MTX_Copy43To44_(&data_0217029c.mCameraMtx, &camMtx);
+            MTX_Concat44(&clipMtx, &camMtx, &clipMtx);
         }
-        pos->x = clipMtx[12];
-        pos->y = clipMtx[13];
-        pos->z = clipMtx[14];
-        scale->x = VEC_Mag((Vec3 *) &clipMtx[0]);
-        scale->y = VEC_Mag((Vec3 *) &clipMtx[4]);
-        scale->z = VEC_Mag((Vec3 *) &clipMtx[8]);
+        pos->x = clipMtx.mUnk_00[3].x;
+        pos->y = clipMtx.mUnk_00[3].y;
+        pos->z = clipMtx.mUnk_00[3].z;
+        scale->x = VEC_Mag((Vec3 *) &clipMtx.mUnk_00[0]);
+        scale->y = VEC_Mag((Vec3 *) &clipMtx.mUnk_00[1]);
+        scale->z = VEC_Mag((Vec3 *) &clipMtx.mUnk_00[2]);
         if (data_0217029c.mFlag & 1) {
             reg_G3X_GXFIFO = 0x171012;
             MIi_CpuSend32(data_021618e0, &reg_G3X_GXFIFO, 8);
@@ -201,9 +201,9 @@ void NNSi_G3dFuncSbc_BB(NNSG3dRS *state, u32 mode) {
 void NNSi_G3dFuncSbc_BBY(NNSG3dRS *state, u32 mode) {
     u32 restoreIdx;
     u32 storeIdx;
-    s32 clipMtx[16];
-    s32 invWV[16];
-    s32 camMtx[16];
+    MtxFx44 clipMtx;
+    MtxFx44 invWV;
+    MtxFx44 camMtx;
     u32 timing;
     u32 n = 2;
     Vec3 *pos = &data_02161954;
@@ -241,27 +241,27 @@ void NNSi_G3dFuncSbc_BBY(NNSG3dRS *state, u32 mode) {
         reg_G3X_GXFIFO = 0x151110;
         reg_G3X_GXFIFO = 0;
         reg_G3X_GXFIFO = 0;
-        while (G3X_GetClipMtx(clipMtx) != 0) {
+        while (G3X_GetClipMtx(&clipMtx) != 0) {
         }
         if (data_0217029c.mFlag & 1) {
-            MTX_Copy43To44_(NNS_G3dGlbGetWV(), invWV);
-            MTX_Concat44(clipMtx, invWV, clipMtx);
+            MTX_Copy43To44_(NNS_G3dGlbGetWV(), &invWV);
+            MTX_Concat44(&clipMtx, &invWV, &clipMtx);
         } else if (data_0217029c.mFlag & 2) {
-            MTX_Copy43To44_(&data_0217029c.mCameraMtx, camMtx);
-            MTX_Concat44(clipMtx, camMtx, clipMtx);
+            MTX_Copy43To44_(&data_0217029c.mCameraMtx, &camMtx);
+            MTX_Concat44(&clipMtx, &camMtx, &clipMtx);
         }
-        pos->x = clipMtx[12];
-        pos->y = clipMtx[13];
-        pos->z = clipMtx[14];
-        scale->x = VEC_Mag((Vec3 *) &clipMtx[0]);
-        scale->y = VEC_Mag((Vec3 *) &clipMtx[4]);
-        scale->z = VEC_Mag((Vec3 *) &clipMtx[8]);
-        if (clipMtx[5] != 0 || clipMtx[6] != 0) {
-            VEC_Normalize((Vec3 *) &clipMtx[4], &axes[1]);
+        pos->x = clipMtx.mUnk_00[3].x;
+        pos->y = clipMtx.mUnk_00[3].y;
+        pos->z = clipMtx.mUnk_00[3].z;
+        scale->x = VEC_Mag((Vec3 *) &clipMtx.mUnk_00[0]);
+        scale->y = VEC_Mag((Vec3 *) &clipMtx.mUnk_00[1]);
+        scale->z = VEC_Mag((Vec3 *) &clipMtx.mUnk_00[2]);
+        if (clipMtx.mUnk_00[1].y != 0 || clipMtx.mUnk_00[1].z != 0) {
+            VEC_Normalize((Vec3 *) &clipMtx.mUnk_00[1], &axes[1]);
             axes[2].y = -axes[1].z;
             axes[2].z = axes[1].y;
         } else {
-            VEC_Normalize((Vec3 *) &clipMtx[8], &axes[2]);
+            VEC_Normalize((Vec3 *) &clipMtx.mUnk_00[2], &axes[2]);
             axes[1].z = -axes[2].y;
             axes[1].y = axes[2].z;
         }

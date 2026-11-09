@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-u32 CreateSlotGhostRecords(u32 heap);
+typedef struct Unk0206152c Unk0206152c;
+
+Unk0206152c *CreateSlotGhostRecords(void *heap);

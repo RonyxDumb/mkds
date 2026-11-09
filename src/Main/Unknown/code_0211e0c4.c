@@ -21,6 +21,7 @@
 #include "Main/Unknown/code_02060000.h"
 #include "Main/Unknown/code_0214d000.h"
 #include "Main/Unknown/unk_0217d000.h"
+#include "Main/Unknown/unk_0217a000.h" // GhostRecordHead, Unk0206152c
 #include "code_0214cfe4.h"
 #include "code_0214d018.h"
 
@@ -28,10 +29,10 @@
 
 void InitGhostRecordSet(void *heap) {
     gGhostRecordSet = HeapAlloc(heap, 0x14);
-    gGhostRecordSet->mCourseGhostRecords = (u8 *) CreateCourseGhostRecords((u32) heap);
+    gGhostRecordSet->mCourseGhostRecords = CreateCourseGhostRecords(heap);
     StartReadCourseGhostRecords(gGhostRecordSet->mCourseGhostRecords);
     WaitThreadFunctionsDone();
-    gGhostRecordSet->mSlotGhostRecords = (u8 *) CreateSlotGhostRecords((u32) heap);
+    gGhostRecordSet->mSlotGhostRecords = CreateSlotGhostRecords(heap);
     StartReadSlotGhostRecords(gGhostRecordSet->mSlotGhostRecords);
     WaitThreadFunctionsDone();
     gGhostRecordSet->mGhostFileRecords = (u8 *) CreateGhostFileRecords((u32) heap);
@@ -50,8 +51,8 @@ void SetupGhostRecordSetForCourse(u32 courseId) {
     gGhostRecordSet->mCourseId = courseId;
     gGhostRecordSet->mSlotIndex = -1;
     for (i = 0; i < 0xa; i++) {
-        if (IsGhostRecordFilled(gGhostRecordSet->mSlotGhostRecords + (u8) i * 0x230) != FALSE &&
-            GetGhostRecordCourseId(gGhostRecordSet->mSlotGhostRecords + (u8) i * 0x230) == courseId) {
+        if (IsGhostRecordFilled(&gGhostRecordSet->mSlotGhostRecords[(u8) i]) != FALSE &&
+            GetGhostRecordCourseId(&gGhostRecordSet->mSlotGhostRecords[(u8) i]) == courseId) {
             gGhostRecordSet->mSlotIndex = i;
             return;
         }
@@ -59,15 +60,16 @@ void SetupGhostRecordSetForCourse(u32 courseId) {
 }
 
 void GetGhostRecordSetTime(u32 kind, void *time) {
+    GhostRecordHead *courseRecords;
     u8 *records;
 
     switch (kind) {
         case 0:
-            records = gGhostRecordSet->mCourseGhostRecords;
-            GetGhostRecordTime(records + FindCupCourseIndex(gGhostRecordSet->mCourseId) * 0x30, time);
+            courseRecords = gGhostRecordSet->mCourseGhostRecords;
+            GetGhostRecordTime(&courseRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)], time);
             break;
         case 1:
-            GetGhostRecordTime(gGhostRecordSet->mSlotGhostRecords + (u8) gGhostRecordSet->mSlotIndex * 0x230, time);
+            GetGhostRecordTime(&gGhostRecordSet->mSlotGhostRecords[(u8) gGhostRecordSet->mSlotIndex], time);
             break;
         case 2:
             records = gGhostRecordSet->mGhostFileRecords;
@@ -79,17 +81,17 @@ void GetGhostRecordSetTime(u32 kind, void *time) {
 }
 
 void GetGhostRecordSetName(u32 kind, void *name) {
+    GhostRecordHead *courseRecords;
     u8 *records;
     u8 ghostName[0x14];
 
     switch (kind) {
         case 0:
-            records = gGhostRecordSet->mCourseGhostRecords;
-            GetGhostRecordName(records + FindCupCourseIndex(gGhostRecordSet->mCourseId) * 0x30, ghostName);
+            courseRecords = gGhostRecordSet->mCourseGhostRecords;
+            GetGhostRecordName(&courseRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)], ghostName);
             break;
         case 1:
-            GetGhostRecordName(gGhostRecordSet->mSlotGhostRecords + (u8) gGhostRecordSet->mSlotIndex * 0x230,
-                               ghostName);
+            GetGhostRecordName(&gGhostRecordSet->mSlotGhostRecords[(u8) gGhostRecordSet->mSlotIndex], ghostName);
             break;
         case 2:
             records = gGhostRecordSet->mGhostFileRecords;
@@ -103,6 +105,7 @@ void GetGhostRecordSetName(u32 kind, void *name) {
 }
 
 s32 GetGhostRecordSetCharacterIndex(u32 kind) {
+    GhostRecordHead *courseRecords;
     u8 *records;
     s32 characterIndex = -1;
 
@@ -111,13 +114,13 @@ s32 GetGhostRecordSetCharacterIndex(u32 kind) {
             characterIndex = -1;
             break;
         case 0:
-            records = gGhostRecordSet->mCourseGhostRecords;
+            courseRecords = gGhostRecordSet->mCourseGhostRecords;
             characterIndex =
-                GetGhostRecordCharacterIndex(records + FindCupCourseIndex(gGhostRecordSet->mCourseId) * 0x30);
+                GetGhostRecordCharacterIndex(&courseRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)]);
             break;
         case 1:
-            characterIndex = GetGhostRecordCharacterIndex(gGhostRecordSet->mSlotGhostRecords +
-                                                          (u8) gGhostRecordSet->mSlotIndex * 0x230);
+            characterIndex =
+                GetGhostRecordCharacterIndex(&gGhostRecordSet->mSlotGhostRecords[(u8) gGhostRecordSet->mSlotIndex]);
             break;
         case 2:
             records = gGhostRecordSet->mGhostFileRecords;
@@ -129,6 +132,7 @@ s32 GetGhostRecordSetCharacterIndex(u32 kind) {
 }
 
 s32 GetGhostRecordSetKartIndex(u32 kind) {
+    GhostRecordHead *courseRecords;
     u8 *records;
     s32 kartIndex = -1;
 
@@ -137,12 +141,12 @@ s32 GetGhostRecordSetKartIndex(u32 kind) {
             kartIndex = -1;
             break;
         case 0:
-            records = gGhostRecordSet->mCourseGhostRecords;
-            kartIndex = GetGhostRecordKartIndex(records + FindCupCourseIndex(gGhostRecordSet->mCourseId) * 0x30);
+            courseRecords = gGhostRecordSet->mCourseGhostRecords;
+            kartIndex = GetGhostRecordKartIndex(&courseRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)]);
             break;
         case 1:
             kartIndex =
-                GetGhostRecordKartIndex(gGhostRecordSet->mSlotGhostRecords + (u8) gGhostRecordSet->mSlotIndex * 0x230);
+                GetGhostRecordKartIndex(&gGhostRecordSet->mSlotGhostRecords[(u8) gGhostRecordSet->mSlotIndex]);
             break;
         case 2:
             records = gGhostRecordSet->mGhostFileRecords;
@@ -154,15 +158,15 @@ s32 GetGhostRecordSetKartIndex(u32 kind) {
 
 s32 func_0211e160(u32 kind) {
     s32 result = 0;
-    u8 *records;
+    GhostRecordHead *courseRecords;
 
     switch (kind) {
         case 4:
             result = 1;
             break;
         case 0:
-            records = gGhostRecordSet->mCourseGhostRecords;
-            result = IsGhostRecordFilled(records + FindCupCourseIndex(gGhostRecordSet->mCourseId) * 0x30);
+            courseRecords = gGhostRecordSet->mCourseGhostRecords;
+            result = IsGhostRecordFilled(&courseRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)]);
             break;
         case 1:
             if (gGhostRecordSet->mSlotIndex != -1) {

@@ -31,19 +31,19 @@ BOOL DWCi_AUTH_RemakeWiFiID(DWCWiFiInfo *info) {
     u8 vendor;
     u32 macLow;
     u8 mac[6] = {0, 0, 0, 0, 0, 0};
-    u32 date[4];
-    u32 time[3];
+    RTCDate date;
+    RTCTime time;
     s64 seconds;
     u32 seed;
     DWCi_BM_GetWiFiInfo(info);
     RTC_Init();
-    if (RTC_GetDate((RTCDate *) date) != 0) {
+    if (RTC_GetDate(&date) != 0) {
         return 0;
     }
-    if (RTC_GetTime((RTCTime *) time) != 0) {
+    if (RTC_GetTime(&time) != 0) {
         return 0;
     }
-    seconds = func_02152244(date, time);
+    seconds = func_02152244(&date, &time);
     seed = seconds;
     if (seconds < 0) {
         return 0;

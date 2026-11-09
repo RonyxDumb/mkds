@@ -319,16 +319,16 @@ void NNS_G3dMdlSetMdlXLDepthUpdateAll(NNSG3dResMdl *mdl, u32 flag) {
 
 // Reads the current position and vector matrices back from the geometry engine; either pointer may be NULL.
 void NNS_G3dGetCurrentMtx(MtxFx43 *pos, void *vec) {
-    s32 clipMtx[16];
+    MtxFx44 clipMtx;
 
     func_01ff9234();
     reg_G3_MTX_MODE = 0;
     reg_G3_MTX_PUSH = 0;
     reg_G3_MTX_IDENTITY = 0;
     if (pos != 0) {
-        while (G3X_GetClipMtx(clipMtx) != 0) {
+        while (G3X_GetClipMtx(&clipMtx) != 0) {
         }
-        MTX_Copy44To43_(clipMtx, pos);
+        MTX_Copy44To43_(&clipMtx, pos);
     }
     if (vec != 0) {
         while (G3X_GetVectorMtx(vec) != 0) {

@@ -2,10 +2,8 @@
 
 #pragma thumb on
 
-u32 ComputeSecondsOfDay(const void *values) {
-    return (
-        ((*OFFSET_PTR(const u32, values, 8))) +
-        (((0x3cu) * ((((*OFFSET_PTR(const u32, values, 4))) + (((0x3cu) * ((*OFFSET_PTR(const u32, values, 0))))))))));
+u32 ComputeSecondsOfDay(const RTCTime *values) {
+    return values->mSecond + 0x3cu * (values->mMinute + 0x3cu * values->mHour);
 }
 
 #pragma thumb off

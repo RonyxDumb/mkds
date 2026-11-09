@@ -30,16 +30,16 @@ void G3i_FrustumW_(s32 top, s32 bottom, s32 left, s32 right, s32 nearPlane, s32 
         fifo = &reg_G3_MTX_LOAD_4x4;
     }
     if (mtx != 0) {
-        mtx->mUnk_00[1] = 0;
-        mtx->mUnk_00[2] = 0;
-        mtx->mUnk_00[3] = 0;
-        mtx->mUnk_00[4] = 0;
-        mtx->mUnk_00[6] = 0;
-        mtx->mUnk_00[7] = 0;
-        mtx->mUnk_00[11] = -scaleW;
-        mtx->mUnk_00[12] = 0;
-        mtx->mUnk_00[13] = 0;
-        mtx->mUnk_00[15] = 0;
+        mtx->mUnk_00[0].y = 0;
+        mtx->mUnk_00[0].z = 0;
+        mtx->mUnk_00[0].w = 0;
+        mtx->mUnk_00[1].x = 0;
+        mtx->mUnk_00[1].z = 0;
+        mtx->mUnk_00[1].w = 0;
+        mtx->mUnk_00[2].w = -scaleW;
+        mtx->mUnk_00[3].x = 0;
+        mtx->mUnk_00[3].y = 0;
+        mtx->mUnk_00[3].w = 0;
     }
     dblNear = nearPlane << 1;
     invWidth = FX_GetDivResultFx64c();
@@ -56,7 +56,7 @@ void G3i_FrustumW_(s32 top, s32 bottom, s32 left, s32 right, s32 nearPlane, s32 
         *fifo = 0;
     }
     if (mtx != 0) {
-        mtx->mUnk_00[0] = m00;
+        mtx->mUnk_00[0].x = m00;
     }
     invHeight = FX_GetDivResultFx64c();
     reg_CP_DIV_NUMER = 0x100000000000ULL;
@@ -72,7 +72,7 @@ void G3i_FrustumW_(s32 top, s32 bottom, s32 left, s32 right, s32 nearPlane, s32 
         *fifo = 0;
     }
     if (mtx != 0) {
-        mtx->mUnk_00[5] = m11;
+        mtx->mUnk_00[1].y = m11;
     }
     {
         s32 sumLR = right + left;
@@ -84,8 +84,8 @@ void G3i_FrustumW_(s32 top, s32 bottom, s32 left, s32 right, s32 nearPlane, s32 
             *fifo = m21;
         }
         if (mtx != 0) {
-            mtx->mUnk_00[8] = m20;
-            mtx->mUnk_00[9] = m21;
+            mtx->mUnk_00[2].x = m20;
+            mtx->mUnk_00[2].y = m21;
         }
     }
     invDepth = FX_GetDivResultFx64c();
@@ -104,8 +104,8 @@ void G3i_FrustumW_(s32 top, s32 bottom, s32 left, s32 right, s32 nearPlane, s32 
         *fifo = 0;
     }
     if (mtx != 0) {
-        mtx->mUnk_00[10] = m22;
-        mtx->mUnk_00[14] = m32;
+        mtx->mUnk_00[2].z = m22;
+        mtx->mUnk_00[3].z = m32;
     }
 }
 
@@ -127,16 +127,16 @@ void G3i_OrthoW_(s32 top, s32 bottom, s32 left, s32 right, s32 nearPlane, s32 fa
         fifo = &reg_G3_MTX_LOAD_4x4;
     }
     if (mtx != 0) {
-        mtx->mUnk_00[1] = 0;
-        mtx->mUnk_00[2] = 0;
-        mtx->mUnk_00[3] = 0;
-        mtx->mUnk_00[4] = 0;
-        mtx->mUnk_00[6] = 0;
-        mtx->mUnk_00[7] = 0;
-        mtx->mUnk_00[8] = 0;
-        mtx->mUnk_00[9] = 0;
-        mtx->mUnk_00[11] = 0;
-        mtx->mUnk_00[15] = scaleW;
+        mtx->mUnk_00[0].y = 0;
+        mtx->mUnk_00[0].z = 0;
+        mtx->mUnk_00[0].w = 0;
+        mtx->mUnk_00[1].x = 0;
+        mtx->mUnk_00[1].z = 0;
+        mtx->mUnk_00[1].w = 0;
+        mtx->mUnk_00[2].x = 0;
+        mtx->mUnk_00[2].y = 0;
+        mtx->mUnk_00[2].w = 0;
+        mtx->mUnk_00[3].w = scaleW;
     }
     invWidth = FX_GetDivResultFx64c();
     reg_CP_DIV_NUMER = 0x100000000000ULL;
@@ -153,7 +153,7 @@ void G3i_OrthoW_(s32 top, s32 bottom, s32 left, s32 right, s32 nearPlane, s32 fa
         *fifo = 0;
     }
     if (mtx != 0) {
-        mtx->mUnk_00[0] = m00;
+        mtx->mUnk_00[0].x = m00;
     }
     invHeight = FX_GetDivResultFx64c();
     reg_CP_DIV_NUMER = 0x100000000000ULL;
@@ -170,7 +170,7 @@ void G3i_OrthoW_(s32 top, s32 bottom, s32 left, s32 right, s32 nearPlane, s32 fa
         *fifo = 0;
     }
     if (mtx != 0) {
-        mtx->mUnk_00[5] = m11;
+        mtx->mUnk_00[1].y = m11;
     }
     invDepth = FX_GetDivResultFx64c();
     if (scaleW != 0x1000) {
@@ -182,7 +182,7 @@ void G3i_OrthoW_(s32 top, s32 bottom, s32 left, s32 right, s32 nearPlane, s32 fa
         *fifo = 0;
     }
     if (mtx != 0) {
-        mtx->mUnk_00[10] = m22;
+        mtx->mUnk_00[2].z = m22;
     }
     {
         s32 negSumLR = -(right + left);
@@ -198,9 +198,9 @@ void G3i_OrthoW_(s32 top, s32 bottom, s32 left, s32 right, s32 nearPlane, s32 fa
             *fifo = scaleW;
         }
         if (mtx != 0) {
-            mtx->mUnk_00[12] = m30;
-            mtx->mUnk_00[13] = m31;
-            mtx->mUnk_00[14] = m32;
+            mtx->mUnk_00[3].x = m30;
+            mtx->mUnk_00[3].y = m31;
+            mtx->mUnk_00[3].z = m32;
         }
     }
 }

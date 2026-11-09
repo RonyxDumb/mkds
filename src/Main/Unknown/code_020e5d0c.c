@@ -33,10 +33,10 @@
 
 #pragma thumb on
 
-void func_020e6514(Unk020e52bc *model, Unk020e6514 *animation, NsbmdModel *record) {
-    Unk020e52bc_4 *a;
-    Unk020e52bc_8 *b;
-    Unk020e52bc_c *c;
+void func_020e6514(Nsbmd *model, Unk020e6514 *animation, NsbmdModel *record) {
+    NNSG3dResMdl *a;
+    NNSG3dResMat *b;
+    NNSG3dResShp *c;
     Unk020e53ac *d;
     Unk020e54e4 *e;
     Unk020e6514_8 x;
@@ -45,14 +45,14 @@ void func_020e6514(Unk020e52bc *model, Unk020e6514 *animation, NsbmdModel *recor
     void *t;
     enum { K0 } k;
 
-    a = model->mUnk_004;
-    b = OFFSET_PTR(Unk020e52bc_8, a->mUnk_000, a->mUnk_008);
-    d = OFFSET_PTR(Unk020e53ac, b->mUnk_000, ((u32 *) &b->mUnk_000[b->mUnk_00a])[2]);
-    c = OFFSET_PTR(Unk020e52bc_c, a->mUnk_000, a->mUnk_00c);
-    e = OFFSET_PTR(Unk020e54e4, c->mUnk_000, ((u32 *) &c->mUnk_000[c->mUnk_006])[1]);
+    a = model->mResMdl;
+    b = OFFSET_PTR(NNSG3dResMat, a, a->mOfsMat);
+    d = OFFSET_PTR(Unk020e53ac, b, ((u32 *) OFFSET_PTR(u8, b, b->mDict.mOfsEntry))[2]);
+    c = OFFSET_PTR(NNSG3dResShp, a, a->mOfsShp);
+    e = OFFSET_PTR(Unk020e54e4, c, ((u32 *) OFFSET_PTR(u8, c, c->mDict.mOfsEntry))[1]);
     record->mUnk_00 = &e->mUnk_000[e->mUnk_008];
     record->mUnk_04 = e->mUnk_00c;
-    record->mUnk_08 = model->mUnk_004->mUnk_01c;
+    record->mUnk_08 = model->mResMdl->mInfo.mPosScale;
     record->mUnk_0c = d->mUnk_004;
     record->mUnk_10 = d->mUnk_008;
     record->mUnk_14 = d->mUnk_00c & 0xfffffff0;

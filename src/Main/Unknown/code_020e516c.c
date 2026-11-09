@@ -96,19 +96,19 @@ void func_020e5348(u32 a, u32 b) {
 #pragma thumb on
 
 void CreateObjShadowAndJgShadow(void) {
-    Unk020e52bc_4 *a;
-    Unk020e52bc_8 *b;
-    Unk020e52bc_c *c;
+    NNSG3dResMdl *a;
+    NNSG3dResMat *b;
+    NNSG3dResShp *c;
 
-    CreateNsbmd((Nsbmd **) &gObjShadow, FindMainRaceOrMainEffectMapObjFile(gObjShadowNsbmdName), NULL);
+    CreateNsbmd(&gObjShadow, FindMainRaceOrMainEffectMapObjFile(gObjShadowNsbmdName), NULL);
     SetNsbmdPolygonIdAll(gObjShadow, 0x3f);
     SetNsbmdLightEnableFlagAll(gObjShadow, 0);
-    a = gObjShadow->mUnk_004;
-    b = (Unk020e52bc_8 *) &a->mUnk_000[a->mUnk_008];
-    data_0217b814 = (Unk020e53ac *) &b->mUnk_000[((u32 *) &b->mUnk_000[b->mUnk_00a])[2]];
-    a = gObjShadow->mUnk_004;
-    c = (Unk020e52bc_c *) &a->mUnk_000[a->mUnk_00c];
-    data_0217b818 = (Unk020e54e4 *) &c->mUnk_000[((u32 *) &c->mUnk_000[c->mUnk_006])[1]];
+    a = gObjShadow->mResMdl;
+    b = OFFSET_PTR(NNSG3dResMat, a, a->mOfsMat);
+    data_0217b814 = OFFSET_PTR(Unk020e53ac, b, ((u32 *) OFFSET_PTR(u8, b, b->mDict.mOfsEntry))[2]);
+    a = gObjShadow->mResMdl;
+    c = OFFSET_PTR(NNSG3dResShp, a, a->mOfsShp);
+    data_0217b818 = OFFSET_PTR(Unk020e54e4, c, ((u32 *) OFFSET_PTR(u8, c, c->mDict.mOfsEntry))[1]);
     if (gRaceSetup->mRaceKind != RACE_KIND_STAFF_ROLL) {
         CreateShadowModel((void **) &gJgShadow, FindSceneFile(gJgShadowNsbmdName), 0x3f);
     }

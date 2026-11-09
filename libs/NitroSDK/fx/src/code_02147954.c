@@ -17,7 +17,7 @@ asm void MTX_Identity44_(MtxFx44 *dst) {
 }
 
 // Copies the first three words of each of the four rows of the 4x4 matrix at src to dst (a 4x3 matrix).
-asm void MTX_Copy44To43_(const s32 *src, MtxFx43 *dst) {
+asm void MTX_Copy44To43_(const MtxFx44 *src, MtxFx43 *dst) {
     ldmia r0!, {r2, r3, ip}
     add r0, r0, #4
     stmia r1!, {r2, r3, ip}

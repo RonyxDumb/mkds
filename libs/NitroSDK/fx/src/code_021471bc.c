@@ -16,7 +16,7 @@ asm void MTX_Identity43_(MtxFx43 *dst) {
 }
 
 // Copies the four rows of three words at src to dst as four rows of four, the fourth column being 0, 0, 0, 0x1000.
-asm void MTX_Copy43To44_(const MtxFx43 *src, s32 *dst) {
+asm void MTX_Copy43To44_(const MtxFx43 *src, MtxFx44 *dst) {
     stmdb sp!, {r4}
     mov ip, #0
     ldmia r0!, {r2, r3, r4}

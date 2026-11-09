@@ -1,12 +1,13 @@
 #pragma once
 
 #include "types.h"
+#include "code_0214d93c.h" // RTCDate
 
 typedef struct DWCAccFriendData DWCAccFriendData;
 
 typedef struct DWCAccUserData DWCAccUserData;
 
-s32 func_021522a0(const u32 *date);
+s32 func_021522a0(const RTCDate *date);
 u32 IsMultipleOf4(u32 year);
 void DWC_ReportUserData(const DWCAccUserData *userdata);
 void DWC_ReportFriendData(const DWCAccUserData *userdata, const DWCAccFriendData *frienddata);

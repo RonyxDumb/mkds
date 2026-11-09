@@ -76,7 +76,7 @@ void InitGhostScene(void *heap) {
     for (i = 0; i < 10; i++) {
         gGhostScene->mSlotIndices[i] = -1;
     }
-    gGhostScene->mCourseGhostRecords = (GhostRecordHead *) CreateCourseGhostRecords((u32) heap);
+    gGhostScene->mCourseGhostRecords = CreateCourseGhostRecords(heap);
     StartReadCourseGhostRecords(gGhostScene->mCourseGhostRecords);
     WaitThreadFunctionsDone();
     for (i = 0; i < 0x20; i++) {
@@ -89,7 +89,7 @@ void InitGhostScene(void *heap) {
             gGhostScene->mCourseGhostCount++;
         }
     }
-    gGhostScene->mSlotGhostRecords = (Unk0206152c *) CreateSlotGhostRecords((u32) heap);
+    gGhostScene->mSlotGhostRecords = CreateSlotGhostRecords(heap);
     StartReadSlotGhostRecords(gGhostScene->mSlotGhostRecords);
     WaitThreadFunctionsDone();
     for (i = 0; i < 10; i++) {

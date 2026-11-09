@@ -89,4 +89,4 @@ Unk020e5a40 *CreatePendulumDrawList(void);
 Unk020e5a9c *CreatePendulumKindData(void);
 void func_020e6488(NsbmdModel **recordSlot, void *nsbmdFile, void *nsbtpFile, u32 param_4);
 void func_020e64b8(NsbmdModel *record, void *nsbmdFile, void *nsbtpFile, s32 c);
-void func_020e6514(Unk020e52bc *model, Unk020e6514 *animation, NsbmdModel *record);
+void func_020e6514(Nsbmd *model, Unk020e6514 *animation, NsbmdModel *record);

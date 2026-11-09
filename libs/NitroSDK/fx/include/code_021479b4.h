@@ -2,9 +2,9 @@
 
 #include "types.h"
 
-// Sixteen words.
+// Four rows of four words.
 typedef struct MtxFx44 {
-    /* 00 */ s32 mUnk_00[16];
+    /* 00 */ Vec4 mUnk_00[4];
 } MtxFx44;
 
-void MTX_Concat44(const s32 *a, const s32 *b, s32 *ab);
+void MTX_Concat44(const MtxFx44 *a, const MtxFx44 *b, MtxFx44 *ab);

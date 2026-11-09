@@ -432,8 +432,8 @@ typedef struct SeqQueue {
 
 // Object behind gGhostRecordSet, allocated by InitGhostRecordSet.
 typedef struct GhostRecordSet {
-    /* 00 */ u8 *mCourseGhostRecords;
-    /* 04 */ u8 *mSlotGhostRecords;
+    /* 00 */ struct GhostRecordHead *mCourseGhostRecords;
+    /* 04 */ struct Unk0206152c *mSlotGhostRecords;
     /* 08 */ u8 *mGhostFileRecords;
     /* 0c */ u32 mCourseId;
     /* 10 */ s16 mSlotIndex;
