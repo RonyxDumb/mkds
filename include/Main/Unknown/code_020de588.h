@@ -19,15 +19,15 @@ typedef struct ItemBox {
     /* 0a4 */ u16 mFramesSinceHit;
     /* 0a6 */ u8 mUnk_0a6[2];
     /* 0a8 */ s32 mUsesGroupShadow;
-    /* 0ac */ s32 mUnk_0ac;
+    /* 0ac */ s32 mShortSpin;
     /* 0b0 */ s16 mShadowMode;
     /* 0b2 */ u8 mUnk_0b2[2];
     /* 0b4 */ ShadowMatrix mUnk_0b4;
     /* 0e8 */ s32 mBoxAlpha;
     /* 0ec */ s32 mQuestionAlpha;
     /* 0f0 */ u16 mPolygonId;
-    /* 0f2 */ u16 mUnk_0f2;
-    /* 0f4 */ u16 mUnk_0f4;
+    /* 0f2 */ u16 mForcedRowHumanGhostPeer;
+    /* 0f4 */ u16 mForcedRowCpu;
     /* 0f6 */ u8 mUnk_0f6[2];
     /* 0f8 */ s32 mNoCourseRow;
     /* 0fc */ Vec3 *mPositionSource;

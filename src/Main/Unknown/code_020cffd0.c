@@ -162,7 +162,7 @@ void DrawRaceGoalTimes(RaceHudOamBuffer *oamBuffer) {
     if (gRaceSetup->mMode != MODE_GRAND_PRIX && gRaceSetup->mMode != MODE_TIME_ATTACK) {
         return;
     }
-    if (gRaceSetup->mRaceKind == 4 || gRaceSetup->mRaceKind == RACE_KIND_DEMO) {
+    if (gRaceSetup->mRaceKind == RACE_KIND_START_BATTLE || gRaceSetup->mRaceKind == RACE_KIND_DEMO) {
         return;
     }
     if (IsRaceNewRecordTaSaving() != 0) {

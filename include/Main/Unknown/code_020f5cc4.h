@@ -5,4 +5,4 @@
 
 typedef struct ItemKouraR ItemKouraR;
 
-void func_020f5cc4(ItemKouraR *kouraR, u32 kartIndex);
+void RequestItemKouraRState4ForKart(ItemKouraR *kouraR, u32 kartIndex);

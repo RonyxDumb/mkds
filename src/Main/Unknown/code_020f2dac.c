@@ -64,7 +64,7 @@ void UpdateHeldItem(HeldItem *rec) {
         rec->mObjectStartFramesLeft = 0;
         rec->mUnk_0c = 0;
         rec->mTimer = 0;
-        rec->mUnk_12 = 0;
+        rec->mUseTimerLimit = 0;
         for (i = 0; i < 3; i++) {
             rec->mObjects[i] = NULL;
         }
@@ -83,26 +83,26 @@ void SetHeldItem(HeldItem *rec, s32 kind) {
     SetupKartAiHeldItemEntry(rec->mKartItems->mKart);
     rec->mUnk_0c = gItemInfos[kind].mUnk_10;
     rec->mTimer = 0;
-    rec->mUnk_12 = 0;
+    rec->mUseTimerLimit = 0;
     k = gItemInfos[kind].mObjectKind;
     reservedCount = gItemPools[k].mReservedCount;
     gItemPools[(s32) k].mReservedCount = reservedCount + rec->mObjectCount;
 }
 
-void RemoveHeldItemObjects(HeldItem *rec, s32 n) {
+void RemoveHeldItemObjects(HeldItem *rec, s32 amount) {
     s32 i;
     int objectKind;
 
-    rec->mObjectCount -= n;
+    rec->mObjectCount -= amount;
     objectKind = gItemInfos[rec->mItemInfoIndex].mObjectKind;
-    gItemPools[(s32) objectKind].mReservedCount = gItemPools[objectKind].mReservedCount - n;
+    gItemPools[(s32) objectKind].mReservedCount = gItemPools[objectKind].mReservedCount - amount;
     if (rec->mObjectCount == 0) {
         rec->mItemInfoIndex = 0x13;
         rec->mObjectCount = 0;
         rec->mObjectStartFramesLeft = 0;
         rec->mUnk_0c = 0;
         rec->mTimer = 0;
-        rec->mUnk_12 = 0;
+        rec->mUseTimerLimit = 0;
         for (i = 0; i < 3; i++) {
             rec->mObjects[i] = NULL;
         }
@@ -117,7 +117,7 @@ void ResetHeldItem(HeldItem *rec) {
     rec->mObjectStartFramesLeft = 0;
     rec->mUnk_0c = 0;
     rec->mTimer = 0;
-    rec->mUnk_12 = 0;
+    rec->mUseTimerLimit = 0;
     for (i = 0; i < 3; i++) {
         rec->mObjects[i] = NULL;
     }
@@ -155,7 +155,7 @@ void ReleaseHeldItem(HeldItem *rec, s32 keep) {
     rec->mObjectStartFramesLeft = 0;
     rec->mUnk_0c = 0;
     rec->mTimer = 0;
-    rec->mUnk_12 = 0;
+    rec->mUseTimerLimit = 0;
     for (i = 0; i < 3; i++) {
         rec->mObjects[i] = NULL;
     }
@@ -185,11 +185,11 @@ void TakeHeldItemObjects(HeldItem *rec) {
     s32 poolIndex;
     s32 radius;
     s32 angle;
-    s32 va;
-    s32 vb;
-    s32 w1;
-    s32 w2;
-    s32 d;
+    s32 radiusTimesAnglePairFirst;
+    s32 radiusTimesAnglePairSecond;
+    s32 rowXJittered;
+    s32 rowYJittered;
+    s32 directionAmount;
     s32 rowX;
     s32 rowY;
 
@@ -207,8 +207,8 @@ void TakeHeldItemObjects(HeldItem *rec) {
         radius = 0x1800;
     }
     count = rec->mObjectCount;
-    va = MUL_FIXED12_NO_ROUND(radius, gPairsByAngle[angle * 2]);
-    vb = MUL_FIXED12_NO_ROUND(radius, gPairsByAngle[angle * 2 + 1]);
+    radiusTimesAnglePairFirst = MUL_FIXED12_NO_ROUND(radius, gPairsByAngle[angle * 2]);
+    radiusTimesAnglePairSecond = MUL_FIXED12_NO_ROUND(radius, gPairsByAngle[angle * 2 + 1]);
     TakeItemPoolObjects(&gItemPools[poolIndex], count, rec->mObjects, owner->mIndex, &owner->mDrawMatrixPos);
     i = 0;
     if (i < count) {
@@ -216,15 +216,17 @@ void TakeHeldItemObjects(HeldItem *rec) {
         do {
             rowX = row->mUnk_00[i].mUnk_00;
             rowY = row->mUnk_00[i].mUnk_04;
-            w1 = MUL_FIXED12_NO_ROUND(rowX, 0x1000 + (s32) TakeHeldItemObjects_inline(generator, 0x333));
-            w2 = MUL_FIXED12_NO_ROUND(rowY, 0x1000 + (s32) TakeHeldItemObjects_inline(generator, 0x333));
-            d = MUL_FIXED12_NO_ROUND(w1, vb) - MUL_FIXED12_NO_ROUND(w2, va);
+            rowXJittered = MUL_FIXED12_NO_ROUND(rowX, 0x1000 + (s32) TakeHeldItemObjects_inline(generator, 0x333));
+            rowYJittered = MUL_FIXED12_NO_ROUND(rowY, 0x1000 + (s32) TakeHeldItemObjects_inline(generator, 0x333));
+            directionAmount = MUL_FIXED12_NO_ROUND(rowXJittered, radiusTimesAnglePairSecond) -
+                              MUL_FIXED12_NO_ROUND(rowYJittered, radiusTimesAnglePairFirst);
             object = rec->mObjects[i];
-            object->mVelocity.x = MUL_FIXED12_NO_ROUND(dir->x, d);
-            object->mVelocity.y = MUL_FIXED12_NO_ROUND(dir->y, d);
-            object->mVelocity.z = MUL_FIXED12_NO_ROUND(dir->z, d);
-            VEC_MultAdd(MUL_FIXED12_NO_ROUND(w2, vb) + MUL_FIXED12_NO_ROUND(d, va), axis,
-                        &object->mVelocity, &object->mVelocity);
+            object->mVelocity.x = MUL_FIXED12_NO_ROUND(dir->x, directionAmount);
+            object->mVelocity.y = MUL_FIXED12_NO_ROUND(dir->y, directionAmount);
+            object->mVelocity.z = MUL_FIXED12_NO_ROUND(dir->z, directionAmount);
+            VEC_MultAdd(MUL_FIXED12_NO_ROUND(rowYJittered, radiusTimesAnglePairSecond) +
+                            MUL_FIXED12_NO_ROUND(directionAmount, radiusTimesAnglePairFirst),
+                        axis, &object->mVelocity, &object->mVelocity);
             object->mScale.x = 0xcd;
             object->mScale.y = 0xcd;
             object->mScale.z = 0xcd;
@@ -240,16 +242,17 @@ void StartHeldItemObjects(HeldItem *rec) {
     TakeHeldItemObjects(rec);
 }
 
-BOOL StartHeldItemTimer(HeldItem *rec, s32 v) {
+BOOL StartHeldItemTimer(HeldItem *rec, s32 frames) {
     if (rec->mTimer != 0) {
         return FALSE;
     }
-    rec->mTimer = v;
+    rec->mTimer = frames;
     return TRUE;
 }
 
-void func_020f4188(HeldItem *rec, s32 v) {
-    rec->mUnk_12 = rec->mTimer - v;
+// The held item can be used again once the timer has counted down by this many frames.
+void SetHeldItemUseDelay(HeldItem *rec, s32 frames) {
+    rec->mUseTimerLimit = rec->mTimer - frames;
 }
 
 void RemoveHeldItem(HeldItem *rec, s32 *kind, s32 *count) {
@@ -262,7 +265,7 @@ void RemoveHeldItem(HeldItem *rec, s32 *kind, s32 *count) {
     rec->mObjectStartFramesLeft = 0;
     rec->mUnk_0c = 0;
     rec->mTimer = 0;
-    rec->mUnk_12 = 0;
+    rec->mUseTimerLimit = 0;
     for (i = 0; i < 3; i++) {
         rec->mObjects[i] = NULL;
     }
@@ -276,7 +279,7 @@ void SetHeldItemWithCount(HeldItem *rec, s32 kind, s32 count) {
     SetupKartAiHeldItemEntry(rec->mKartItems->mKart);
     rec->mUnk_0c = gItemInfos[kind].mUnk_10;
     rec->mTimer = 0;
-    rec->mUnk_12 = 0;
+    rec->mUseTimerLimit = 0;
 }
 
 void RemoveReservedItemObjects(s32 itemInfoIndex, s32 amount) {
@@ -285,8 +288,8 @@ void RemoveReservedItemObjects(s32 itemInfoIndex, s32 amount) {
     gItemPools[(s32) objectKind].mReservedCount = gItemPools[objectKind].mReservedCount - amount;
 }
 
-s32 func_020f4090(s32 idx) {
-    return data_0217bc38[idx];
+s32 GetItemPointLinkByIndex(s32 idx) {
+    return gItemPointLinksByIndex[idx];
 }
 
 void InitSegmentPoints(SegmentPoints *segmentPoints, Vec3 *points, s32 scale) {
@@ -625,7 +628,7 @@ s32 SetItemPointLinkRefFromIndex(u32 index, u32 *ref) {
 }
 
 u32 GetItemPointLinkDirection(ItemPointLink *link, Vec3 *directionOut) {
-    u32 value0;
+    u32 scaledDirectionZ;
     u32 component;
     component = link->mDirectionX;
     component = (component << 6);
@@ -633,15 +636,15 @@ u32 GetItemPointLinkDirection(ItemPointLink *link, Vec3 *directionOut) {
     component = link->mDirectionY;
     component = (component << 6);
     directionOut->y = component;
-    value0 = link->mDirectionZ;
-    value0 = (value0 << 6);
-    directionOut->z = value0;
-    return value0;
+    scaledDirectionZ = link->mDirectionZ;
+    scaledDirectionZ = (scaledDirectionZ << 6);
+    directionOut->z = scaledDirectionZ;
+    return scaledDirectionZ;
 }
 
 #pragma thumb on
 
-// Sets each link's direction to its first next link; also fills data_0217bc38.
+// Sets each link's direction to its first next link; also fills gItemPointLinksByIndex.
 void InitItemPointLinkDirections(void) {
     ItemPointLink *link;
     Vec3 direction;
@@ -652,11 +655,11 @@ void InitItemPointLinkDirections(void) {
     link = gCourseMap->mItemPointLinks;
     i = 0;
     for (i = 0; i < 4; i++) {
-        data_0217bc38[i] = 0;
+        gItemPointLinksByIndex[i] = 0;
     }
     for (i = 0; i < linkCount; i++, link++) {
         if (link->mUnk_1c >= 0x3e8000) {
-            data_0217bc38[link->mUnk_20] = (s32) link;
+            gItemPointLinksByIndex[link->mUnk_20] = (s32) link;
         }
     }
     link = gCourseMap->mItemPointLinks;
@@ -684,14 +687,14 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
                        s32 forwardSpeed, s32 forwardUpSpeed, s32 backwardUpSpeed) {
     Vec3 v;
     s32 n;
-    BOOL m;
+    BOOL kartHasBit1;
     Vec3 *scale;
     s32 dx;
-    s32 dy;
-    s32 dz;
+    s32 alongY;
+    s32 alongZ;
 
     n = Vec3DotUnrounded(&itemInUse->mKartMovement, &itemInUse->mKartOrientation.mUnk_00[2]);
-    m = (itemInUse->mKart->mUnk_48 & 1) != 0;
+    kartHasBit1 = (itemInUse->mKart->mUnk_48 & 1) != 0;
     n = MUL_FIXED12_NO_ROUND(n, 0x1ec);
     if (n < 0x666) {
         n = 0x666;
@@ -713,7 +716,7 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
     v.x = MUL_FIXED12_NO_ROUND(v.x, n);
     v.y = MUL_FIXED12_NO_ROUND(v.y, n);
     v.z = MUL_FIXED12_NO_ROUND(v.z, n);
-    if (!m) {
+    if (!kartHasBit1) {
         if (throwForward != 0) {
             n = forwardUpSpeed + MUL_FIXED12_NO_ROUND(itemInUse->mKartVelocityLength, 0x200) +
                 MUL_FIXED12_NO_ROUND(itemInUse->mKartMovement.y, 0x2000);
@@ -747,16 +750,16 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
     item->mBouncesRemaining = bounceCount;
     item->mItemObject.mBounce = BounceItemObject;
     item->mItemObject.mFlags &= ~0x7000000;
-    if (!m) {
+    if (!kartHasBit1) {
         return;
     }
     n = VEC_DotProduct(&itemInUse->mKartOrientation.mUnk_00[1], &item->mItemObject.mVelocity);
     dx = MUL_FIXED12_NO_ROUND(itemInUse->mKartOrientation.mUnk_00[1].x, n);
-    dy = MUL_FIXED12_NO_ROUND(itemInUse->mKartOrientation.mUnk_00[1].y, n);
-    dz = MUL_FIXED12_NO_ROUND(itemInUse->mKartOrientation.mUnk_00[1].z, n);
+    alongY = MUL_FIXED12_NO_ROUND(itemInUse->mKartOrientation.mUnk_00[1].y, n);
+    alongZ = MUL_FIXED12_NO_ROUND(itemInUse->mKartOrientation.mUnk_00[1].z, n);
     item->mItemObject.mVelocity.x -= dx;
-    item->mItemObject.mVelocity.y -= dy;
-    item->mItemObject.mVelocity.z -= dz;
+    item->mItemObject.mVelocity.y -= alongY;
+    item->mItemObject.mVelocity.z -= alongZ;
     VEC_MultAdd(throwForward != 0 ? 0x8800 : -0x1000, &itemInUse->mKartOrientation.mUnk_00[1],
                 &item->mItemObject.mVelocity, &item->mItemObject.mVelocity);
     item->mBouncesRemaining = 0;

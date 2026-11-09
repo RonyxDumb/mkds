@@ -27,7 +27,8 @@
 #include "Main/Unknown/code_0203c8dc.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-BOOL func_020f14a0(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
+// Returns TRUE when the kart is off the shell plane but near it horizontally.
+BOOL SteerItemKouraRToKart(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
     Vec3 t;
     Vec3 firstNormal;
     Vec3 secondNormal;
@@ -64,8 +65,8 @@ BOOL func_020f14a0(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
             t.z = MUL_FIXED12_NO_ROUND(t.z, speed);
             if (item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x8000000) {
                 if (n < MUL_FIXED12_ROUNDED(kart->mPhysicalParam->mRadius, kart->mScale.z)) {
-                    item->mUnk_238 = item->mUnk_238 + 1;
-                    if (item->mUnk_238 > 0x5a) {
+                    item->mNearKartFrames = item->mNearKartFrames + 1;
+                    if (item->mNearKartFrames > 0x5a) {
                         func_020f7070(&item->mUnk_000.mUnk_000.mUnk_000, 1);
                         return FALSE;
                     }
@@ -74,14 +75,14 @@ BOOL func_020f14a0(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
                     t.z = 0;
                 }
             }
-            VEC_Subtract(&t, &item->mUnk_22c, &t);
+            VEC_Subtract(&t, &item->mTowardKartVelocity, &t);
             if (0x64000 - n > 0) {
                 gain += MUL_FIXED12_NO_ROUND(0x64000 - n, 16);
             }
             t.x = MUL_FIXED12_NO_ROUND(t.x, gain);
             t.y = MUL_FIXED12_NO_ROUND(t.y, gain);
             t.z = MUL_FIXED12_NO_ROUND(t.z, gain);
-            VEC_Add(&item->mUnk_22c, &t, &item->mUnk_22c);
+            VEC_Add(&item->mTowardKartVelocity, &t, &item->mTowardKartVelocity);
             VEC_Subtract(&item->mKartItems->mKart->mVelocity, velocity, &t);
             t.y = 0;
             t.x = MUL_FIXED12_NO_ROUND(t.x, gain);
@@ -90,8 +91,8 @@ BOOL func_020f14a0(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
             VEC_Add(velocity, &t, velocity);
         }
     }
-    item->mKartItems->mUnk_208 = TRUE;
-    VEC_Add(&item->mUnk_22c, pos, pos);
+    item->mKartItems->mTargetedByKouraR = TRUE;
+    VEC_Add(&item->mTowardKartVelocity, pos, pos);
     VEC_Add(velocity, pos, pos);
     if (CollideSphereWithCourse(pos, &item->mUnk_000.mUnk_000.mUnk_000.mPrevPos, 0,
                                 item->mUnk_000.mUnk_000.mUnk_000.mUnk_dc, 4,
@@ -133,7 +134,7 @@ BOOL func_020f14a0(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
             return FALSE;
         }
     }
-    func_020f2028(&item->mUnk_000.mUnk_000.mUnk_000);
+    ApplyItemObjectGravityWithGroundPull(&item->mUnk_000.mUnk_000.mUnk_000);
     return result;
 }
 
@@ -196,9 +197,9 @@ int TrySetItemKouraRKartItems(ItemKouraR *item, int kartIndex, s32 maxDistanceSq
         return 0;
     }
     item->mKartItems = &gKartItems[kartIndex];
-    item->mUnk_22c.x = 0;
-    item->mUnk_22c.y = 0;
-    item->mUnk_22c.z = 0;
-    item->mUnk_238 = 0;
+    item->mTowardKartVelocity.x = 0;
+    item->mTowardKartVelocity.y = 0;
+    item->mTowardKartVelocity.z = 0;
+    item->mNearKartFrames = 0;
     return distanceSquared;
 }

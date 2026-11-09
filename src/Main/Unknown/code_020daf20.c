@@ -82,7 +82,7 @@ MapObjectList *CreateDossunUpdateList(void) {
 void DrawDossun(void *unused0, Dossun *dossun, void *unused1, s32 maxAlpha) {
     MtxFx43 *drawMatrix;
     drawMatrix = &dossun->mMapObject.mMatrix;
-    if (dossun->mUnk_b4 != 0) {
+    if (dossun->mHitState != 0) {
         drawMatrix = &gDossunDrawMatrix;
         MTX_RotY33_(&gDossunDrawMatrix.mUnk_00_m, gPairsByAngle[((u16) dossun->mSpinAngle >> 4) * 2],
                     gPairsByAngle[((u16) dossun->mSpinAngle >> 4) * 2 + 1]);
@@ -105,7 +105,7 @@ void UpdateDossun(void *unused, Dossun *dossun) {
     s32 sine;
     dossun->mEnteredState5 = FALSE;
     follower = &dossun->mFollower;
-    if (dossun->mUnk_b4 != 0) {
+    if (dossun->mHitState != 0) {
         dossun->mSpinAngle += dossun->mSpinSpeed;
         stateValue = dossun->mSpinSpeed;
         if (stateValue > 0x3e8 || stateValue < -0x3e8) {
@@ -114,7 +114,7 @@ void UpdateDossun(void *unused, Dossun *dossun) {
             } else {
                 dossun->mSpinSpeed = (stateValue * 0xf80c) >> 16;
             }
-        } else if (dossun->mUnk_b4 == 2) {
+        } else if (dossun->mHitState == 2) {
             if (stateValue * dossun->mSpinAngle <= 0) {
                 return;
             }
@@ -123,13 +123,13 @@ void UpdateDossun(void *unused, Dossun *dossun) {
             }
             dossun->mSpinSpeed = 0;
             dossun->mSpinAngle = dossun->mSpinSpeed;
-            dossun->mUnk_b4 = 0;
+            dossun->mHitState = 0;
             dossun->mKartMask = 0;
             dossun->mTimer = 0x1e;
             dossun->mState = 0;
             return;
         }
-        if (dossun->mUnk_b4 != 1) {
+        if (dossun->mHitState != 1) {
             return;
         }
         speed = follower->mSpeed;
@@ -157,7 +157,7 @@ void UpdateDossun(void *unused, Dossun *dossun) {
                 ReverseGroupFollower(follower);
                 SetGroupFollowerSegmentEnd(follower);
             }
-            dossun->mUnk_b4 = 2;
+            dossun->mHitState = 2;
             return;
         }
         GetGroupFollowerLinearPosition(follower, &dossun->mMapObject.mPos);
@@ -171,13 +171,13 @@ void UpdateDossun(void *unused, Dossun *dossun) {
                 return;
             }
             dossun->mState++;
-            t = dossun->mUnk_f0 != 0 ? 0xc00 : 0x3000;
+            t = dossun->mIsSlowVariant != 0 ? 0xc00 : 0x3000;
             follower->mSpeed = t;
             follower->mProgressStep =
                 MUL_FIXED12_NO_ROUND(t, follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength);
             return;
         case 1:
-            if (dossun->mUnk_f0 != 0) {
+            if (dossun->mIsSlowVariant != 0) {
                 StartMapObjectSoundWhileRequested(&dossun->mMapObject, 0x18b);
             }
             break;
@@ -305,7 +305,7 @@ u32 CollideKartWithDossun(Dossun *dossun, Kart *kart, u8 *firstResponsePtr, u8 *
             follower->mSpeed = speed;
             follower->mProgressStep =
                 MUL_FIXED12_NO_ROUND(speed, follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength);
-            dossun->mUnk_b4 = 1;
+            dossun->mHitState = 1;
             dossun->mSpinSpeed = 0x1b58;
             if ((s64) kartOffset.z * kart->mVelocity.x - (s64) kartOffset.x * kart->mVelocity.z < 0) {
                 dossun->mSpinSpeed = -dossun->mSpinSpeed;
@@ -333,12 +333,12 @@ s32 GetDossunMapDotOffset(Dossun *dossun) {
     progress = GetGroupFollowerProgress(&dossun->mFollower);
     state = dossun->mState;
     if (state < 4) {
-        if (dossun->mUnk_f0 != 0) {
+        if (dossun->mIsSlowVariant != 0) {
             return 0;
         }
         return 0x1000;
     }
-    switch (dossun->mUnk_b4) {
+    switch (dossun->mHitState) {
         case 0:
             switch (state) {
                 case 4:
@@ -382,7 +382,7 @@ void SetupDossunAtStartEntry(Dossun *dossun) {
     }
     dossun->mState = state;
     dossun->mTimer = follower->mFromEntry->mUnk_0e;
-    dossun->mUnk_b4 = 0;
+    dossun->mHitState = 0;
     dossun->mSpinAngle = 0;
     dossun->mSpinSpeed = dossun->mSpinAngle;
     dossun->mKartMask = 0;
@@ -401,8 +401,8 @@ void CreateDossunAndDossunShadow(void) {
 
 #pragma thumb on
 void InitDossun(Dossun *dossun, CourseMapRow *row) {
-    dossun->mUnk_f0 = row->mUnk_28;
-    InitGroupFollower(&dossun->mFollower, row, dossun->mUnk_f0 != 0 ? 0xc00 : 0x3000);
+    dossun->mIsSlowVariant = row->mUnk_28;
+    InitGroupFollower(&dossun->mFollower, row, dossun->mIsSlowVariant != 0 ? 0xc00 : 0x3000);
     dossun->mStartEntryIndex = row->mUnk_2a;
     dossun->mUnk_f4 = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.x, 0x28000);
     dossun->mHeightOffset = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0x2d000);
@@ -412,7 +412,7 @@ void InitDossun(Dossun *dossun, CourseMapRow *row) {
     dossun->mUnk_108 = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0x2000);
     dossun->mUnk_c4 = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0x3000);
     SetupDossunAtStartEntry(dossun);
-    if (dossun->mUnk_f0 != 0) {
+    if (dossun->mIsSlowVariant != 0) {
         CreateMapObjectSoundSourceFalloff3(&dossun->mMapObject);
     } else {
         dossun->mMapObject.mFarDistanceSquared = gSoundFalloffs[3].mUnk_20;

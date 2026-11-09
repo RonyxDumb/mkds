@@ -80,7 +80,7 @@ void StartRestingItemObject(ItemObject *item, void *b) {
 
     VEC_MultAdd(-item->mUnk_dc, &item->mNormal, &item->mPos, &item->mUnk_108);
     UpdateCollisionHitLink(b, item->mCollisionBits, item->mUnk_104, &item->mUnk_108, &item->mNormal);
-    if (item->mUnk_104->mObject != NULL && func_020e0448((Unk020e0448 *) item->mUnk_104) != 0) {
+    if (item->mUnk_104->mObject != NULL && IsHitLinkOutsideGearRadiusOrFlagged((Unk020e0448 *) item->mUnk_104) != 0) {
         item->mUnk_11a = 0xe10;
     } else {
         item->mUnk_11a = 0;
@@ -92,7 +92,7 @@ void StartRestingItemObject(ItemObject *item, void *b) {
             item->mAdvance = AdvanceRestingItemObject;
         }
     }
-    item->mBounce = func_020f6830;
+    item->mBounce = BounceRestingItemObject;
     kind = item->mKind;
     k = gItemKinds[kind].mUnk_7c;
     fallSpeed = item->mVelocity.y;
@@ -107,7 +107,7 @@ void StartRestingItemObject(ItemObject *item, void *b) {
     item->mVelocity.y = 0;
     item->mVelocity.z = 0;
     func_020f90dc(item);
-    func_020f0e2c(&gItemPools[*(vs32 *) &item->mKind], item);
+    AddRestingItemPoolObject(&gItemPools[*(vs32 *) &item->mKind], item);
     kind = *(vs32 *) &item->mKind;
     func_020f91fc(item, gItemKinds[kind].mUnk_9c);
 }
@@ -155,7 +155,7 @@ void AdvanceRestingItemObject(ItemObject *item) {
     }
 }
 
-void func_020f6830(ItemObject *item, Vec3 *otherVelocity, Vec3 *normal) {
+void BounceRestingItemObject(ItemObject *item, Vec3 *otherVelocity, Vec3 *normal) {
     s32 scaleDifference;
     s32 dot;
     u32 kind;
@@ -173,7 +173,7 @@ void func_020f6830(ItemObject *item, Vec3 *otherVelocity, Vec3 *normal) {
     item->mUnk_100 = item->mUnk_100 >> 1;
 }
 
-void func_020f6630(ItemObject *itemParam, s32 pushStrength, Vec3 *fromPos, Vec3 *fromVelocity, Vec3 *normal) {
+void LaunchItemObjectFromPos(ItemObject *itemParam, s32 pushStrength, Vec3 *fromPos, Vec3 *fromVelocity, Vec3 *normal) {
     ItemObject *item;
     Vec3 away;
     Vec3 *velocity;
@@ -212,7 +212,7 @@ void func_020f6630(ItemObject *itemParam, s32 pushStrength, Vec3 *fromPos, Vec3 
         if (!(item->mFlags & 0x180000)) {
             item->mAdvance = AdvanceFallingItemObject;
         }
-        item->mBounce = func_020f6388;
+        item->mBounce = FallingBounceItemObject;
         item->mFlags &= ~0x7000000;
     } else {
         item->mFlags &= ~0x4000;
@@ -231,7 +231,7 @@ void StartFallingItemObject(ItemObject *item) {
             item->mAdvance = AdvanceFallingItemObject;
         }
     }
-    item->mBounce = func_020f6388;
+    item->mBounce = FallingBounceItemObject;
     item->mFlags &= ~0x7000000;
 }
 
@@ -283,7 +283,7 @@ void AdvanceFallingItemObject(ItemObject *item) {
     StartRestingItemObject(item, &w);
 }
 
-void func_020f6388(ItemObject *item, Vec3 *otherVelocity, Vec3 *normal) {
+void FallingBounceItemObject(ItemObject *item, Vec3 *otherVelocity, Vec3 *normal) {
     BounceItemVelocityOffSurface(&item->mVelocity, normal);
     if (item->mFlags & 0x1000000) {
         return;
@@ -369,7 +369,7 @@ void AdvanceItemKouraG(ItemKouraG *koura) {
                     StartItemKouraGSound, koura, 0);
 }
 
-void *func_020f6038(void *buffer, ItemKouraG *koura, void *toBuffer) {
+void *CopyItemKouraGData(void *buffer, ItemKouraG *koura, void *toBuffer) {
     void *result;
 
     if (koura != NULL && toBuffer != NULL) {
@@ -402,13 +402,13 @@ void StartItemKouraRSound(void *kouraParam, s32 b) {
     if (!(kouraR->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x400000)) {
         return;
     }
-    AdvanceSoundDistanceSquaredChange(&kouraR->mUnk_258,
+    AdvanceSoundDistanceSquaredChange(&kouraR->mSoundDistanceSquaredChange,
                                       kouraR->mUnk_000.mUnk_000.mUnk_000.mDistanceSquaredAndFlags & ~0xc000001f);
     StartSoundWhileRequested(&kouraR->mUnk_000.mUnk_000.mUnk_000.mSoundSource, 0xd8, 0x7f, 0);
 }
 
-void func_020f5f7c(ItemKouraR *kouraR, Vec3 *otherVelocity, Vec3 *normal) {
-    func_020f29e8(kouraR);
+void DeflectItemKouraROnHit(ItemKouraR *kouraR, Vec3 *otherVelocity, Vec3 *normal) {
+    SetItemObjectDirectionFromVelocity(kouraR);
     DeflectItemObjectOnHit(&kouraR->mUnk_000.mUnk_000, otherVelocity, normal);
     kouraR->mStateMachine.mNextState = 1;
     kouraR->mStateMachine.mNextStateRequested = 1;
@@ -421,7 +421,7 @@ s32 InitItemKouraR(ItemInUse *itemInUse, ItemKouraR *kouraR) {
     u16 rankAhead;
 
     func_020f9114(&kouraR->mUnk_000.mUnk_000.mUnk_000);
-    ResetSoundDistanceSquaredChange(&kouraR->mUnk_258);
+    ResetSoundDistanceSquaredChange(&kouraR->mSoundDistanceSquaredChange);
     kouraR->mUnk_000.mUnk_000.mUnk_000.mSoundSource.mTrackParamsFunction =
         (void (*)(void *, void *, void *)) func_0210a77c;
     InitStateMachine(&kouraR->mStateMachine, gItemKouraRStateTable, 7, kouraR);
@@ -434,7 +434,7 @@ s32 InitItemKouraR(ItemInUse *itemInUse, ItemKouraR *kouraR) {
         kouraR->mUnk_000.mPreviousLink.mNextLinksUsed = 1;
     } else {
         kouraR->mThrowForward = 1;
-        if (gRaceSetup->mMode != MODE_BATTLE && itemInUse->mKartItems->mUnk_1f0.mLink != NULL) {
+        if (gRaceSetup->mMode != MODE_BATTLE && itemInUse->mKartItems->mItemLink.mLink != NULL) {
             ownerKartIndex = !(kouraR->mUnk_000.mUnk_000.mUnk_000.mUnk_78 & 0x8000)
                                  ? (u16) (kouraR->mUnk_000.mUnk_000.mUnk_000.mUnk_78 & ~0xff00)
                                  : 8;
@@ -481,7 +481,7 @@ void UpdateItemKouraRState0And1(ItemKouraR *kouraR) {
                     StartItemKouraRSound, kouraR, 0);
 }
 
-void func_020f5cc4(ItemKouraR *kouraR, u32 kartIndex) {
+void RequestItemKouraRState4ForKart(ItemKouraR *kouraR, u32 kartIndex) {
     u32 value1 = kartIndex;
     u32 minusOne;
     u32 collisionSlotIndex;
@@ -496,7 +496,7 @@ void func_020f5cc4(ItemKouraR *kouraR, u32 kartIndex) {
     if (collisionSlotCompared == minusOneCompared) {
         return;
     }
-    func_020f1150(kouraR, value1);
+    SetItemKouraRKartItemsAndClearTowardKartVelocity(kouraR, value1);
     value1 = 4u;
     kouraR->mStateMachine.mNextState = value1;
     value1 = 1u;
@@ -538,7 +538,7 @@ void UpdateItemKouraRState2(ItemKouraR *kouraR) {
 }
 
 void EnterItemKouraRState3(ItemKouraR *kouraR) {
-    kouraR->mUnk_000.mUnk_000.mUnk_000.mBounce = (void (*)(ItemObject *, Vec3 *, Vec3 *)) func_020f5f7c;
+    kouraR->mUnk_000.mUnk_000.mUnk_000.mBounce = (void (*)(ItemObject *, Vec3 *, Vec3 *)) DeflectItemKouraROnHit;
 }
 
 void UpdateItemKouraRState3(ItemKouraR *kouraR) {
@@ -567,7 +567,7 @@ void UpdateItemKouraRState3(ItemKouraR *kouraR) {
         return;
     }
     if (kouraR->mStateMachine.mStateFrames > 0x708) {
-        func_020f29e8(kouraR);
+        SetItemObjectDirectionFromVelocity(kouraR);
         kouraR->mStateMachine.mNextState = 1;
         kouraR->mStateMachine.mNextStateRequested = 1;
         return;
@@ -598,44 +598,44 @@ void UpdateItemKouraRState3(ItemKouraR *kouraR) {
 }
 
 void EnterItemKouraRState4(ItemKouraR *kouraR) {
-    kouraR->mUnk_000.mUnk_000.mUnk_000.mBounce = (void (*)(ItemObject *, Vec3 *, Vec3 *)) func_020f5f7c;
+    kouraR->mUnk_000.mUnk_000.mUnk_000.mBounce = (void (*)(ItemObject *, Vec3 *, Vec3 *)) DeflectItemKouraROnHit;
 }
 
 // Runs the two 0x7c/0x4c checks of the object in the 0x1fc word of the 0x1c pointer, then
-// one of the four func_020f14a0 calls, and stores the 0x24c/0x24e halfwords it picks.
+// one of the four SteerItemKouraRToKart calls, and stores the 0x24c/0x24e halfwords it picks.
 void UpdateItemKouraRState4(ItemKouraR *kouraR) {
     KartItems *kartItems;
     Kart *kart;
-    BOOL d;
+    BOOL kartFlagged;
     u32 kartBits;
     s32 n;
 
     kartItems = kouraR->mKartItems;
     kart = kartItems->mKart;
     kartBits = kart->mUnk_7c;
-    d = TRUE;
+    kartFlagged = TRUE;
     if ((kartBits & 0x402020) == 0) {
         if ((kart->mUnk_4c & 0x800) == 0) {
-            d = FALSE;
+            kartFlagged = FALSE;
         }
     }
-    if (d != FALSE) {
-        func_020f1104(kouraR);
+    if (kartFlagged != FALSE) {
+        AddItemKouraRTowardKartToVelocity(kouraR);
         kouraR->mStateMachine.mNextState = 6;
         kouraR->mStateMachine.mNextStateRequested = 1;
     } else {
         n = kouraR->mUnk_000.mUnk_000.mUnk_000.mFlags;
         if (n & 0x10000000) {
             if (kartBits & 1) {
-                n = func_020f14a0(kouraR, 0x5333, 0x19a, 1);
+                n = SteerItemKouraRToKart(kouraR, 0x5333, 0x19a, 1);
             } else {
-                n = func_020f14a0(kouraR, 0x4b33, 0x19a, 0);
+                n = SteerItemKouraRToKart(kouraR, 0x4b33, 0x19a, 0);
             }
         } else {
-            n = func_020f14a0(kouraR, 0x4800, 0x19a, (n & 0x8000000) == 0);
+            n = SteerItemKouraRToKart(kouraR, 0x4800, 0x19a, (n & 0x8000000) == 0);
         }
         if (n != 0) {
-            func_020f1104(kouraR);
+            AddItemKouraRTowardKartToVelocity(kouraR);
             kouraR->mStateMachine.mNextState = 2;
             kouraR->mStateMachine.mNextStateRequested = 1;
             kouraR->mUnk_000.mPreviousLink.mLink = NULL;
@@ -663,7 +663,7 @@ void UpdateItemKouraRState5(ItemKouraR *kouraR) {
     if (func_0206c0e0(kart) != FALSE) {
         func_020f6f10(&kouraR->mUnk_000.mUnk_000.mUnk_000, 0, 8);
     } else {
-        func_020f14a0(kouraR, 0x10000, 0x333, 0);
+        SteerItemKouraRToKart(kouraR, 0x10000, 0x333, 0);
     }
     if ((kouraR->mUnk_000.mUnk_000.mUnk_000.mFlags & 1) == 0) {
         AddSoundRequest(&data_0217d294, kouraR->mUnk_000.mUnk_000.mUnk_000.mDistanceSquaredAndFlags & ~0xc000001f,
@@ -692,7 +692,7 @@ void UpdateItemKouraRState6(ItemKouraR *kouraR) {
 
 // Runs func_0210a598 with the 0x3bc word of the 0x1fc object when the 0x78 high bits of the
 // third parameter match that object's 0x74 halfword and the 0x74/0x78/0xdc tests pass.
-void func_020f5614(void *kouraParam, s32 hitType, ItemObject *otherParam) {
+void StartTargetKartSoundOnOwnItemHit(void *kouraParam, s32 hitType, ItemObject *otherParam) {
     ItemKouraR *kouraR;
     ItemObject *other;
     KartItems *kartItems;
@@ -731,7 +731,7 @@ void func_020f5614(void *kouraParam, s32 hitType, ItemObject *otherParam) {
 
 // Hands the 0x44 word and the 0x5c/0x130/0x250/0x254/0x60/0x54 addresses of b to
 // CopyItemObjectData, CopyItemPointLinkIndex, StoreItemDataFlagBit, LoadItemDataFlagBit and AddItemDataSizedByKind.
-void *func_020f5550(void *buffer, ItemKouraR *kouraR, void *toBuffer) {
+void *CopyItemKouraRData(void *buffer, ItemKouraR *kouraR, void *toBuffer) {
     s32 dot;
     void *result;
 
@@ -743,7 +743,7 @@ void *func_020f5550(void *buffer, ItemKouraR *kouraR, void *toBuffer) {
     result = CopyItemObjectData(buffer, kouraR, toBuffer);
     result = CopyItemPointLinkIndex(result, kouraR != NULL ? &kouraR->mUnk_000.mPreviousLink : 0, toBuffer);
     if (kouraR != NULL && toBuffer == NULL) {
-        LoadItemDataFlagBit(kouraR->mUnk_000.mUnk_000.mUnk_000.mVelocity.y, &kouraR->mUnk_250);
+        LoadItemDataFlagBit(kouraR->mUnk_000.mUnk_000.mUnk_000.mVelocity.y, &kouraR->mReverse);
         LoadItemDataFlagBit(kouraR->mUnk_000.mUnk_000.mUnk_000.mPos.y, &kouraR->mThrowForward);
     }
     if (kouraR != NULL && toBuffer != NULL) {
@@ -761,7 +761,7 @@ void InitItemKouraRFromData(ItemKouraR *kouraR) {
     u16 rankAhead;
 
     SetupItemObjectFromData(&kouraR->mUnk_000.mUnk_000.mUnk_000);
-    ResetSoundDistanceSquaredChange(&kouraR->mUnk_258);
+    ResetSoundDistanceSquaredChange(&kouraR->mSoundDistanceSquaredChange);
     kouraR->mUnk_000.mUnk_000.mUnk_000.mSoundSource.mTrackParamsFunction =
         (void (*)(void *, void *, void *)) func_0210a77c;
     InitStateMachine(&kouraR->mStateMachine, gItemKouraRStateTable, 7, kouraR);
@@ -782,24 +782,25 @@ void InitItemKouraRFromData(ItemKouraR *kouraR) {
                 }
                 targetKartIndex = gRaceProgress->mKartAtRank[(rankAhead & 0xff) - 1];
             }
-            InitLinkFollowingItem(&kouraR->mUnk_000, 0x2d, 0x5b, 0, 1, kouraR->mUnk_250, targetKartIndex, 0);
+            InitLinkFollowingItem(&kouraR->mUnk_000, 0x2d, 0x5b, 0, 1, kouraR->mReverse, targetKartIndex, 0);
         } else {
             kouraR->mStateMachine.mNextState = 2;
             kouraR->mStateMachine.mNextStateRequested = 1;
-            InitItemObjectMotion(kouraR, 0, kouraR->mUnk_250, 0);
+            InitItemObjectMotion(kouraR, 0, kouraR->mReverse, 0);
         }
         kouraR->mUnk_000.mUnk_000.mUnk_000.mFlags |= 0x200000;
     } else {
         kouraR->mStateMachine.mNextState = 1;
         kouraR->mStateMachine.mNextStateRequested = 1;
-        InitItemObjectMotion(kouraR, 0, kouraR->mUnk_250, 0);
+        InitItemObjectMotion(kouraR, 0, kouraR->mReverse, 0);
     }
     ResetItemKouraRKartItems(kouraR);
 }
 
 // Returns 1 while GetKart(b) is within the 0x1d0/0x1d4 radius of the 0x50/0x54/0x58
 // words, or when the 0xda halfword is -1; otherwise sets the 0x24c/0x24e halfwords, returns 0.
-BOOL func_020f5324(void *kouraParam, s32 kartIndex) {
+// Returns FALSE when it requested state 5 because the shell is not yet at the kart.
+BOOL RequestItemKouraRState5IfFar(void *kouraParam, s32 kartIndex) {
     ItemKouraR *kouraR;
     Kart *kart;
     s32 deltaZ;
@@ -872,7 +873,7 @@ void AdvanceItemBanana(ItemBanana *banana) {
 
 // Hands the 0x130 word and the 0x60 word to StoreItemDataFlagBit/LoadItemDataFlagBit around the
 // CopyItemObjectData call, and returns AddItemDataSizedByKind's value when b and c are both set.
-void *func_020f5108(void *buffer, ItemBanana *banana, void *toBuffer) {
+void *CopyItemBananaData(void *buffer, ItemBanana *banana, void *toBuffer) {
     void *result;
 
     if (banana != NULL && toBuffer != NULL) {
@@ -920,11 +921,11 @@ void ResetItemKinoko(ItemKinoko *kinoko) {
 #pragma thumb off
 
 // Runs DrawItemObjectModel with the last two parameters swapped when the 0x134 word is set.
-void DrawItemKinoko(ItemKinoko *kinoko, void *b, void *c) {
+void DrawItemKinoko(ItemKinoko *kinoko, void *viewAxis, void *model) {
     if (kinoko->mVisible == FALSE) {
         return;
     }
-    DrawItemObjectModel(&kinoko->mUnk_000.mItemObject, c, b);
+    DrawItemObjectModel(&kinoko->mUnk_000.mItemObject, model, viewAxis);
 }
 
 // Decreases the 0x130 word by one; when it goes below zero func_020f7658 runs first.
@@ -972,7 +973,7 @@ ItemKinoko *StartItemKinokoOrZero(void) {
 }
 
 // Stores the two Vec3s in the object and sets the word at 0x80.
-void func_020f4e78(ItemKinoko *kinoko, Vec3 *normal, Vec3 *pos) {
+void ShowItemKinokoAt(ItemKinoko *kinoko, Vec3 *normal, Vec3 *pos) {
     kinoko->mVisible = TRUE;
     SetCourseColorBlendColor(&kinoko->mUnk_000.mItemObject.mColorBlend, 1);
     if (normal != NULL) {
@@ -988,14 +989,14 @@ void func_020f4e78(ItemKinoko *kinoko, Vec3 *normal, Vec3 *pos) {
 }
 
 // Runs the object's first word and stores the 0x120 and 0x130 words.
-void StartBouncingItemKinoko(void **kinokoSlot, Vec3 *b, s32 timer) {
+void StartBouncingItemKinoko(void **kinokoSlot, Vec3 *velocity, s32 timer) {
     ItemKinoko *kinoko;
 
     kinoko = kinokoSlot[0];
     kinoko->mUnk_000.mItemObject.mUnk_78 |= data_0215969c;
     CreateItemObjectCollisionSlot(&kinoko->mUnk_000.mItemObject);
     func_020f9114(&kinoko->mUnk_000.mItemObject);
-    InitBouncingItem(&kinoko->mUnk_000, 0, b);
+    InitBouncingItem(&kinoko->mUnk_000, 0, velocity);
     if ((kinoko->mUnk_000.mItemObject.mFlags & 0x180000) == 0) {
         kinoko->mUnk_000.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceBouncingItemKinoko;
     }
@@ -1058,7 +1059,7 @@ void InitHeldItem(HeldItem *heldItem, KartItems *kartItems) {
     heldItem->mObjectStartFramesLeft = 0;
     heldItem->mUnk_0c = 0;
     heldItem->mTimer = 0;
-    heldItem->mUnk_12 = 0;
+    heldItem->mUseTimerLimit = 0;
     for (i = 0; i < 3; i++) {
         heldItem->mObjects[i] = NULL;
     }
@@ -1089,10 +1090,10 @@ void StartNextHeldItemObject(HeldItem *heldItem) {
     kartDrawPos = &kart->mDrawMatrixPos;
     kartVelocity = &kart->mVelocity;
     StartItemObject(gItemPools + item->mKind, item);
-    func_020efd1c(heldItem->mKartItems, item);
+    CopyKartPlacementToItemObject(heldItem->mKartItems, item);
     VEC_MultAdd(0xb33, kartVelocity, &item->mVelocity, &item->mVelocity);
     item->mPos = *kartDrawPos;
-    func_020f6630(item, 0, kartDrawPos, kartVelocity, &kart->mGroundNormal);
+    LaunchItemObjectFromPos(item, 0, kartDrawPos, kartVelocity, &kart->mGroundNormal);
     kind = item->mKind;
     kindCallback = gItemKinds[kind].mUnk_38;
     if (kindCallback != NULL) {
@@ -1106,7 +1107,7 @@ void StartNextHeldItemObject(HeldItem *heldItem) {
     heldItem->mObjectStartFramesLeft = 0;
     heldItem->mUnk_0c = 0;
     heldItem->mTimer = 0;
-    heldItem->mUnk_12 = 0;
+    heldItem->mUseTimerLimit = 0;
     for (i = 0; i < 3; i++) {
         heldItem->mObjects[i] = NULL;
     }

@@ -76,7 +76,7 @@ void InitItemObjectThrow(void *objectParam, ItemInUse *inUseParam, s32 hitLimit,
     object->mUnk_164 = 4;
 }
 
-void func_020f2a6c(Vec3 *direction, Vec3 *normal, Vec3 *result) {
+void ComputeItemSurfaceDirection(Vec3 *direction, Vec3 *normal, Vec3 *result) {
     s32 n;
 
     n = normal->y * normal->y;
@@ -99,7 +99,7 @@ void func_020f2a6c(Vec3 *direction, Vec3 *normal, Vec3 *result) {
     }
 }
 
-void func_020f29e8(ItemKouraR *item) {
+void SetItemObjectDirectionFromVelocity(ItemKouraR *item) {
     DirectedItemObject *object;
     Vec3 *normal;
     s32 speed;
@@ -114,12 +114,12 @@ void func_020f29e8(ItemKouraR *item) {
         speed = Vec3NormalizeAndGetLengthUnchecked(&object->mUnk_000.mVelocity, &object->mDirection);
     }
     object->mSpeed = speed;
-    func_020f2a6c(&object->mDirection, normal, &object->mSurfaceDirection);
+    ComputeItemSurfaceDirection(&object->mDirection, normal, &object->mSurfaceDirection);
     Vec3CrossUnrounded(&object->mSurfaceDirection, normal, &object->mSideDirection);
     object->mUnk_000.mBounce = (void (*)(ItemObject *, Vec3 *, Vec3 *)) DeflectItemObjectOnHit;
 }
 
-void func_020f288c(DirectedItemObject *object, Vec3 *hitNormal) {
+void DeflectItemObjectAlongSurfaceAndStartSound(DirectedItemObject *object, Vec3 *hitNormal) {
     Vec3 along;
     Vec3 *velocityDirection;
     Vec3 *flatDirection;
@@ -158,13 +158,13 @@ void func_020f288c(DirectedItemObject *object, Vec3 *hitNormal) {
 void DeflectItemObjectAndStartSound(DirectedItemObject *object, Vec3 *hitNormal, Vec3 *c) {
     Vec3 along;
     Vec3 *direction;
-    s32 n;
+    s32 normalDot;
 
     direction = &object->mDirection;
-    n = VEC_DotProduct(hitNormal, direction);
-    along.x = MUL_FIXED12_NO_ROUND(hitNormal->x, n);
-    along.y = MUL_FIXED12_NO_ROUND(hitNormal->y, n);
-    along.z = MUL_FIXED12_NO_ROUND(hitNormal->z, n);
+    normalDot = VEC_DotProduct(hitNormal, direction);
+    along.x = MUL_FIXED12_NO_ROUND(hitNormal->x, normalDot);
+    along.y = MUL_FIXED12_NO_ROUND(hitNormal->y, normalDot);
+    along.z = MUL_FIXED12_NO_ROUND(hitNormal->z, normalDot);
     object->mDirection.x -= along.x;
     direction->y -= along.y;
     direction->z -= along.z;
@@ -230,7 +230,7 @@ void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
                     }
                     *direction = object->mSurfaceDirection;
                 } else {
-                    func_020f2a6c(direction, &hitNormal, &object->mSurfaceDirection);
+                    ComputeItemSurfaceDirection(direction, &hitNormal, &object->mSurfaceDirection);
                 }
                 Vec3CrossUnrounded(&object->mSurfaceDirection, &hitNormal, &object->mSideDirection);
             }
@@ -242,7 +242,7 @@ void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
             }
             if (flag80000 != 0) {
                 VEC_Subtract(&v3, &object->mUnk_000.mNormal, &v3);
-                func_020f288c(object, &v3);
+                DeflectItemObjectAlongSurfaceAndStartSound(object, &v3);
             } else {
                 v3.y = 0;
                 DeflectItemObjectAndStartSound(object, &v3, NULL);
@@ -340,7 +340,7 @@ void ApplyItemObjectGravity(void *objectParam) {
     }
 }
 
-void func_020f2028(ItemObject *object) {
+void ApplyItemObjectGravityWithGroundPull(ItemObject *object) {
     Vec3 *velocity;
     Vec3 normalPart;
     s32 verticalSpeed;

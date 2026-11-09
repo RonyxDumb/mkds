@@ -295,7 +295,7 @@ By variable shape:
   as its own statement (enum-typed copy) it gets it after `o`.
 - `*q++ = x` vs `*q = x; q++;` moves `q` to the end of the order. Write post-increments as separate statements
   (`*base = *r; base++; r++;`). Counter-example: `a[n++] = 0;` needed the folded form. Try both.
-- Two locals live across the same calls that swap and that no move fixes: declare one last (func_020f14a0).
+- Two locals live across the same calls that swap and that no move fixes: declare one last (SteerItemKouraRToKart).
 
 Operand and pointer shape:
 - `p[c]` vs `p += c; *p`: indexing in place loads the other operand first.
@@ -424,7 +424,7 @@ Pointer locals and addresses:
   Thumb: `r = (u8 *) &data_ov000_021b6706;` (func_ov000_021ad264; the plain name and `+ 0` don't).
 - A pointer local with one use is folded into it; with two uses it stays, and the field at offset 0 is read from the
   base register while the others go through the pointer. Read every field through the local in the ROM's order
-  (func_02094e8c), or write the accesses through the existing pointer locals (func_020f14a0).
+  or write the accesses through the existing pointer locals (SteerItemKouraRToKart).
 - An address computed from a pointer already loaded for a store: write the address statement above the store so the
   base isn't loaded again (FinishRaceProgressKartWithEndKind). An address the ROM computes before a test's branch:
   assign it in the block of that test (func_0206938c).

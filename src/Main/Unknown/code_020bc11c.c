@@ -773,7 +773,7 @@ void DrawRaceLapAndTimeDifference(RaceHudOamBuffer *oamBuffer) {
     s32 showLapTimeFrames;
     Unk020224e0_c *cell;
 
-    if (gRaceSetup->mRaceKind == 4) {
+    if (gRaceSetup->mRaceKind == RACE_KIND_START_BATTLE) {
         return;
     }
     if (gRaceSetup->mRaceKind == RACE_KIND_DEMO) {

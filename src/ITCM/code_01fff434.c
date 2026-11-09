@@ -41,7 +41,7 @@ void UpdateKartItems(KartItems *p) {
     }
     if (func_02068eac(q) != FALSE) {
         p->mKinokoBoostStarted = FALSE;
-        p->mUnk_208 = FALSE;
+        p->mTargetedByKouraR = FALSE;
         return;
     }
     p->mKinokoBoostStarted = FALSE;
@@ -72,7 +72,7 @@ void UpdateKartItems(KartItems *p) {
             SetHeldItem(b, k);
         }
     }
-    if (p->mKartIndex == GetRaceUpdateFramesMod8() && (r = &p->mUnk_1f0)->mLink != NULL) {
+    if (p->mKartIndex == GetRaceUpdateFramesMod8() && (r = &p->mItemLink)->mLink != NULL) {
         q = p->mKart;
         v = &q->mDrawMatrixPos;
         PickNearestNearbyItemPointLink(r, r, v);
@@ -82,7 +82,7 @@ void UpdateKartItems(KartItems *p) {
             FollowItemPointLinksToPos(r, r, v);
         }
     }
-    p->mUnk_208 = FALSE;
+    p->mTargetedByKouraR = FALSE;
 }
 
 void func_01fff524(KartItems *p) {
@@ -97,13 +97,13 @@ void func_01fff524(KartItems *p) {
             r = (u32) (gItemInfos[a].mUseKind - 1) <= 1;
         }
         if (r != FALSE) {
-            if ((p->mFlags & 0x4000) && func_020f0154(p) != FALSE) {
+            if ((p->mFlags & 0x4000) && TryAddKartItemFlags(p) != FALSE) {
                 p->mFlags |= data_usa_021595b0;
             }
             goto after;
         }
     }
-    if ((p->mFlags & 0x2000) && func_020f0154(p) != FALSE) {
+    if ((p->mFlags & 0x2000) && TryAddKartItemFlags(p) != FALSE) {
         p->mFlags |= data_usa_021595b0;
     }
 after:
@@ -114,7 +114,7 @@ after:
     if (gRaceSetup->mMode != 5 && (p->mFlags & 0x1000)) {
         return;
     }
-    if (func_020f0154(p) == FALSE) {
+    if (TryAddKartItemFlags(p) == FALSE) {
         return;
     }
     p->mFlags |= data_usa_021595b4;

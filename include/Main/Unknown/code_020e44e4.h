@@ -23,7 +23,6 @@ typedef struct Pukupuku {
 extern MapObjectList *gRotaryUpdateList;
 extern MapObjectList data_02158e9c;
 
-
 extern MapObjectDrawList data_02158ec4;
 
 extern MapObjectKindData data_02158ef0;
@@ -33,7 +32,7 @@ extern MapObjectKindData data_02158f70;
 void UpdateRotary(u32 unused, Rotary *object);
 MapObjectList *CreateRotaryUpdateList(void);
 MapObjectDrawList *CreateRotaryDrawList(void);
-MapObjectKindData *func_020e46c8(void);
-MapObjectKindData *func_020e4718(void);
-MapObjectKindData *func_020e4768(void);
+MapObjectKindData *CreateRotaryBridgeKindData(void);
+MapObjectKindData *CreateRotaryRoomKindData(void);
+MapObjectKindData *CreateRotaryGearTestCylinderKindData(void);
 void InitPukupuku(Pukupuku *pukupuku, Vec3 *position);

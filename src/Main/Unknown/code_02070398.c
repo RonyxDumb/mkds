@@ -157,9 +157,9 @@ void ResetKartToRespawnPoint(Kart *kart) {
     MTX_RotY33_(&rotationMatrix, gPairsByAngle[i * 2], gPairsByAngle[i * 2 + 1]);
     MTX_MultVec33(&data_02154f70, &rotationMatrix, &respawnForward);
     if (gRaceSetup->mMode != MODE_BATTLE && gCourseMap->mItemRouteCount != 0) {
-        (kartItems = &gKartItems[kart->mIndex])->mUnk_1f0.mLink =
+        (kartItems = &gKartItems[kart->mIndex])->mItemLink.mLink =
             GetCourseMapRespawnItemPointLink((u16) kart->mRespawnSlot);
-        kartItems->mUnk_1f0.mNextLinksUsed = 1;
+        kartItems->mItemLink.mNextLinksUsed = 1;
     }
     if (gRaceSetup->mMode != MODE_TIME_ATTACK) {
         x = data_usa_02154d4c[kart->mIndex][0];
@@ -976,15 +976,12 @@ void func_02071568(Kart *kart) {
     if (nextTableIndex >= 8) {
         nextTableIndex = 0;
     }
-    kart->mUnk_4f0.x =
-        data_02154b64[tableIndex] +
-        MUL_FIXED12_NO_ROUND((data_02154b64[nextTableIndex] - data_02154b64[tableIndex]) >> 1, fraction);
-    kart->mUnk_4f0.y =
-        data_02154b84[tableIndex] +
-        MUL_FIXED12_NO_ROUND((data_02154b84[nextTableIndex] - data_02154b84[tableIndex]) >> 1, fraction);
-    kart->mUnk_4f0.z =
-        data_02154ba4[tableIndex] +
-        MUL_FIXED12_NO_ROUND((data_02154ba4[nextTableIndex] - data_02154ba4[tableIndex]) >> 1, fraction);
+    kart->mUnk_4f0.x = data_02154b64[tableIndex] +
+                       MUL_FIXED12_NO_ROUND((data_02154b64[nextTableIndex] - data_02154b64[tableIndex]) >> 1, fraction);
+    kart->mUnk_4f0.y = data_02154b84[tableIndex] +
+                       MUL_FIXED12_NO_ROUND((data_02154b84[nextTableIndex] - data_02154b84[tableIndex]) >> 1, fraction);
+    kart->mUnk_4f0.z = data_02154ba4[tableIndex] +
+                       MUL_FIXED12_NO_ROUND((data_02154ba4[nextTableIndex] - data_02154ba4[tableIndex]) >> 1, fraction);
     v = kart->mUnk_4d4;
     s = MUL_FIXED12_NO_ROUND(v, 0x333);
     if (v > 0xf33) {
@@ -1391,8 +1388,7 @@ void PlaceKartAtKeyedPlacement(Kart *kart, u32 key) {
     kart->mForwardSpeed = 0x5000;
     kart->mTurnedForward = placementForward;
     kart->mEasedTurnedForward = kart->mTurnedForward;
-    kart->mHeadingAngle =
-        MUL_FIXED12_NO_ROUND(FX_Atan2(placementForward.x, placementForward.z), 0x28be60dLL) >> 12;
+    kart->mHeadingAngle = MUL_FIXED12_NO_ROUND(FX_Atan2(placementForward.x, placementForward.z), 0x28be60dLL) >> 12;
     axis = data_02165524;
     QuaternionFromAxisAngle(&axis, kart->mHeadingAngle, &kart->mUnk_e0_m);
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {

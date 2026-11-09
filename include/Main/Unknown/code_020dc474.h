@@ -13,7 +13,7 @@ typedef struct Wanwan {
     /* 00 */ MapObject mMapObject;
     /* a0 */ Vec3 mCenterPos;
     /* ac */ s32 mUnk_ac;
-    /* b0 */ s32 mUnk_b0;
+    /* b0 */ s32 mUsesCourseCollision;
     /* b4 */ Quaternion mOrientation;
     /* c4 */ Quaternion mSurfaceOrientation;
     /* d4 */ Quaternion mYawQuaternion;

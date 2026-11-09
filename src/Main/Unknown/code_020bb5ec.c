@@ -189,7 +189,7 @@ void DrawRaceTimeDigits(RaceHudOamBuffer *oamBuffer) {
     if (GetRaceHudSubScreenState() == 6) {
         return;
     }
-    if (gRaceSetup->mRaceKind == 4) {
+    if (gRaceSetup->mRaceKind == RACE_KIND_START_BATTLE) {
         return;
     }
     if (gRaceSetup->mRaceKind == RACE_KIND_DEMO) {

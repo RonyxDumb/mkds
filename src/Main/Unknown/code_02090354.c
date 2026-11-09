@@ -513,7 +513,7 @@ void SetupKartKillerCursor(KartKillerCursor *kartKillerCursor, u32 kartIndex) {
     kart = GetKart(kartIndex);
     kartKillerCursor->mKillerKartIndex = kartIndex;
     SetupPointLinkCursor(&kartKillerCursor->mPointLinkCursor, kartIndex,
-                         (RacePointLink *) gKartItems[kartIndex].mUnk_1f0.mLink);
+                         (RacePointLink *) gKartItems[kartIndex].mItemLink.mLink);
     kartKillerCursor->mUnk_26 = 0;
     kartKillerCursor->mUnk_28 = 0;
     kart->mTurnAngle = 0;

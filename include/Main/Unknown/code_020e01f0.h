@@ -20,7 +20,7 @@ void UpdateKoopaBlock(void *unused, Unk020e005c *koopaBlock);
 void *CreateKoopaBlockUpdateList(void);
 void *CreateKoopaBlockDrawList(void);
 void *CreateKoopaBlockKindData(void);
-s32 func_020e0448(Unk020e0448 *link);
+s32 IsHitLinkOutsideGearRadiusOrFlagged(Unk020e0448 *link);
 BOOL GetCollisionHitLinkPosAndVelocity(CollisionHitLink *link, Vec3 *outPosition, Vec3 *outVelocity);
 void GetCollisionHitLinkPosition(CollisionHitLink *link, Vec3 *outPosition);
 void SetCollisionHitLink(Unk020e1d10 *object, Vec3 *position, Vec3 *velocity, CollisionHitLink *link);

@@ -82,7 +82,7 @@ void StartItemInUse(ItemInUse *itemInUse, HeldItem *heldItem) {
     useKind = gItemInfos[itemInfoIndex].mUseKind;
     isMode5 = gRaceSetup->mMode == 5;
     if (heldItem->mUnk_0c != 0) {
-        if (heldItem->mTimer > heldItem->mUnk_12) {
+        if (heldItem->mTimer > heldItem->mUseTimerLimit) {
             return;
         }
     }
@@ -177,7 +177,7 @@ void CollideItemObjects(ItemObject *object, ItemObject *other) {
     if (other->mKind != 1) {
         return;
     }
-    func_020f5614(other, m, object);
+    StartTargetKartSoundOnOwnItemHit(other, m, object);
 }
 
 void UpdateItemInUseObjects(ItemInUse *itemInUse) {
@@ -288,7 +288,7 @@ void AdvanceItemInUse(ItemInUse *itemInUse) {
     kart = itemInUse->mKart;
     object = itemInUse->mObjects[objectIndex];
     StartItemInUseObject(itemInUse, object);
-    func_020f6630(object, objectIndex + 1, &kart->mDrawMatrixPos, &kart->mVelocity, &kart->mGroundNormal);
+    LaunchItemObjectFromPos(object, objectIndex + 1, &kart->mDrawMatrixPos, &kart->mVelocity, &kart->mGroundNormal);
     kind = object->mKind;
     if (gItemKinds[kind].mUnk_38 != NULL) {
         gItemKinds[kind].mUnk_38(object);

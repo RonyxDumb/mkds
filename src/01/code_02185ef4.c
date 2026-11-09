@@ -99,7 +99,7 @@ void ThrowItemKinokoFromPosition(void *kinoko, Vec3 *position, Vec3 *velocity, s
     if (kinoko != NULL && position != NULL) {
         upNormal = data_ov001_021a7a70;
         normalPointer = &upNormal;
-        func_020f4e78(kinoko, normalPointer, position);
+        ShowItemKinokoAt(kinoko, normalPointer, position);
         if (velocity != NULL) {
             StartBouncingItemKinoko(&kinoko, velocity, timer);
         } else {

@@ -214,7 +214,7 @@ void StartWoodbox1ItemObject(Woodbox1 *woodbox, Vec3 *velocity) {
     itemObject->mScale.x = 0xcd;
     itemObject->mScale.y = 0xcd;
     itemObject->mScale.z = 0xcd;
-    func_020f6630(itemObject, 2, &woodbox->mUnk_000.mPos, velocity, &woodbox->mGroundUp);
+    LaunchItemObjectFromPos(itemObject, 2, &woodbox->mUnk_000.mPos, velocity, &woodbox->mGroundUp);
 }
 
 void EnterWoodbox1State1(Woodbox1 *woodbox) {

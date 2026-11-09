@@ -470,7 +470,7 @@ void func_020446e0(void) {
             if (data_021759d0->mMultiSimple != 0) {
                 gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_NORMAL;
             } else {
-                gRaceSetup->mNextHeader.mRaceKind = 4;
+                gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_START_BATTLE;
             }
             break;
         case MODE_MISSION_RUN:

@@ -1139,5 +1139,5 @@ void DrawItemTeresa(ItemTeresa *teresa, s32 c, NsbmdModel *model) {
     drawAlpha = teresa->mUnk_000.mAlpha;
     model->mPolygonAttributes = model->mPolygonAttributes & ~0x1f0000;
     model->mPolygonAttributes = model->mPolygonAttributes | (drawAlpha << 16);
-    func_020ed588(&teresa->mUnk_000, model);
+    DrawItemModelAtObjectPos(&teresa->mUnk_000, model);
 }

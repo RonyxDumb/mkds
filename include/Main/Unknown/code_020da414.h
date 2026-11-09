@@ -21,7 +21,7 @@ typedef struct Kuribo {
     /* f4 */ s32 mFrameRandomized;
     /* f8 */ u16 mOrientationBlendAmount;
     /* fa */ u8 mUnk_fa[2];
-    /* fc */ s32 mUnk_fc;
+    /* fc */ s32 mReturnsAfterWait;
     /* 100 */ u16 mModelAlpha;
     /* 102 */ s16 mUnk_102;
     /* 104 */ s32 mUnk_104;

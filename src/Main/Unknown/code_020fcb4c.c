@@ -8,5 +8,5 @@ void StartItemKinokoPBoost(ItemInUse *inUse, HeldItem *heldItem) {
     StartHeldItemTimer(heldItem, 0x1c2);
     StartKartKinokoBoost(heldItem->mKartItems->mKart);
     inUse->mKartItems->mKinokoBoostStarted = TRUE;
-    func_020f4188(heldItem, 0xc);
+    SetHeldItemUseDelay(heldItem, 0xc);
 }

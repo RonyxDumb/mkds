@@ -195,12 +195,12 @@ void func_020f95d4(ItemObject *item, ItemObject *other) {
     func_020f77f8(item, hitType, &other->mPos, &other->mVelocity, NULL);
     func_020f77f8(other, otherHitType, &item->mPos, &itemVelocity, NULL);
     if (item->mKind == 1) {
-        func_020f5614(item, hitType, other);
+        StartTargetKartSoundOnOwnItemHit(item, hitType, other);
     }
     if (other->mKind != 1) {
         return;
     }
-    func_020f5614(other, otherHitType, item);
+    StartTargetKartSoundOnOwnItemHit(other, otherHitType, item);
 }
 
 void func_020f944c(ItemObject *itemParam, MapObject *mapObjectParam) {

@@ -86,9 +86,9 @@ void ReleaseItemPoolObject(ItemPool *pool, ItemObject *object) {
     }
     i = pool->mTakenCount;
 found:
-    if (i < pool->mUnk_18) {
-        pool->mUnk_18 = pool->mUnk_18 - 1;
-        endIndex = pool->mUnk_18;
+    if (i < pool->mRestingCount) {
+        pool->mRestingCount = pool->mRestingCount - 1;
+        endIndex = pool->mRestingCount;
         for (; i < endIndex; i++) {
             objects[i] = objects[i + 1];
         }
@@ -149,7 +149,8 @@ found:
     }
 }
 
-void func_020f0e2c(ItemPool *pool, ItemObject *object) {
+// Moves a resting object into the resting part of the pool.
+void AddRestingItemPoolObject(ItemPool *pool, ItemObject *object) {
     s32 i;
     s32 n;
     ItemObject **objects;
@@ -165,24 +166,24 @@ void func_020f0e2c(ItemPool *pool, ItemObject *object) {
     }
     i = n;
 found:
-    n = pool->mUnk_18;
+    n = pool->mRestingCount;
     if (i < n) {
         return;
     }
     objects[i] = objects[n];
-    objects[pool->mUnk_18] = object;
-    pool->mUnk_18 = pool->mUnk_18 + 1;
+    objects[pool->mRestingCount] = object;
+    pool->mRestingCount = pool->mRestingCount + 1;
 }
 
 void DrawItemPool(ItemPool *pool, void *viewAxis) {
-    if (pool->mUnk_24 != NULL) {
-        DrawItemPoolWithCallback(pool, viewAxis, pool->mUnk_24);
+    if (pool->mDraw != NULL) {
+        DrawItemPoolWithCallback(pool, viewAxis, pool->mDraw);
     } else {
         DrawItemPoolModels(pool, viewAxis);
     }
 }
 
-void func_020f0d04(ItemObject *object) {
+void RoundTripItemObjectData(ItemObject *object) {
     void *(*copyData)(void *, void *, s32);
     s32 kind;
     void *data;
@@ -214,7 +215,7 @@ void func_020f0d04(ItemObject *object) {
     object->mFlags |= 0x20000000;
 }
 
-void func_020f0b00(ItemPool *pool, s32 a, void *data, s32 c) {
+void StartItemObjectFromData(ItemPool *pool, s32 frameDifference, void *data, s32 c) {
     ItemObject *object;
     s32 takenIndex;
     s32 scanIndex;
@@ -285,13 +286,13 @@ found:
             func_02071894(GetKart(k));
         }
     }
-    if (a > 0) {
-        object->mUnk_7a = a;
+    if (frameDifference > 0) {
+        object->mUnk_7a = frameDifference;
         object->mUnk_7a |= data_02159618;
     }
 }
 
-s32 func_020f0950(ItemPool *pool, s32 eventByte, s32 objectId) {
+BOOL ApplyItemObjectEventById(ItemPool *pool, s32 eventByte, s32 objectId) {
     enum { K0 } k;
     s32 i;
     ItemObject *object;
@@ -342,7 +343,7 @@ s32 func_020f0950(ItemPool *pool, s32 eventByte, s32 objectId) {
                 break;
             case 3:
                 if (pool->mKind == 1) {
-                    if (func_020f5324(object, eventValue) == 0) {
+                    if (RequestItemKouraRState5IfFar(object, eventValue) == 0) {
                         break;
                     }
                 }
@@ -359,7 +360,7 @@ s32 func_020f0950(ItemPool *pool, s32 eventByte, s32 objectId) {
     return found;
 }
 
-s32 func_020f0898(ItemPool *pool, u8 *packet) {
+BOOL SetItemObjectKartFromPacket(ItemPool *pool, u8 *packet) {
     s32 objectId;
     s32 i;
     s32 activeCount;
@@ -381,7 +382,7 @@ s32 func_020f0898(ItemPool *pool, u8 *packet) {
         found = TRUE;
         value = packet[2];
         if (pool->mKind == 1) {
-            func_020f5cc4((ItemKouraR *) object, value);
+            RequestItemKouraRState4ForKart((ItemKouraR *) object, value);
         }
         if (pool->mKind == 5) {
             SetItemKouraWKartItemsAndStateIfNone((ItemKouraW *) object, value);
@@ -393,7 +394,7 @@ s32 func_020f0898(ItemPool *pool, u8 *packet) {
     return found;
 }
 
-void ProcessItemPoolMessage(ItemPool *pool, s32 messageKind, s32 b, u8 *packet, s32 d) {
+void ProcessItemPoolMessage(ItemPool *pool, s32 messageKind, s32 frameDifference, u8 *packet, s32 frameStamp) {
     enum { K0 } kind;
 
     switch (messageKind) {
@@ -405,7 +406,7 @@ void ProcessItemPoolMessage(ItemPool *pool, s32 messageKind, s32 b, u8 *packet, 
             if (packet[1] == 0xff) {
                 return;
             }
-            func_020f0b00(pool, b, packet, 0);
+            StartItemObjectFromData(pool, frameDifference, packet, 0);
             if (pool->mKind == 6) {
                 func_020f82e8(0);
             }
@@ -414,25 +415,26 @@ void ProcessItemPoolMessage(ItemPool *pool, s32 messageKind, s32 b, u8 *packet, 
             }
             return;
         case 1:
-            func_020f0b00(pool, b, packet, 1);
+            StartItemObjectFromData(pool, frameDifference, packet, 1);
             return;
         case 2:
-            if (func_020f0950(pool, packet[2], packet[1]) != 0) {
+            if (ApplyItemObjectEventById(pool, packet[2], packet[1]) != 0) {
                 return;
             }
             break;
         case 3:
-            if (func_020f0898(pool, packet) != 0) {
+            if (SetItemObjectKartFromPacket(pool, packet) != 0) {
                 return;
             }
             break;
         default:
             return;
     }
-    DelayItemDataWithFrameStamp(pool->mKind, messageKind, b, packet, d);
+    DelayItemDataWithFrameStamp(pool->mKind, messageKind, frameDifference, packet, frameStamp);
 }
 
-void func_020f0684(ItemObject **objects, s32 pairIndex, s32 endIndex, s32 step) {
+// Moves resting objects that are old enough to release toward the front, comparing every seventh neighbouring pair.
+void OrderItemPoolObjectsForRelease(ItemObject **objects, s32 pairIndex, s32 endIndex, s32 step) {
     ItemObject *previous;
     ItemObject *current;
     s32 j;
@@ -452,10 +454,10 @@ void func_020f0684(ItemObject **objects, s32 pairIndex, s32 endIndex, s32 step) 
             }
             j = 0;
             do {
-                if ((current->mCollisionBits & data_021595e4[j]) != 0) {
+                if ((current->mCollisionBits & gItemCollisionBitOrder[j]) != 0) {
                     goto next;
                 }
-                if ((previous->mCollisionBits & data_021595e4[j]) != 0) {
+                if ((previous->mCollisionBits & gItemCollisionBitOrder[j]) != 0) {
                     objects[pairIndex - 1] = current;
                     objects[pairIndex] = previous;
                     goto next;
@@ -483,10 +485,10 @@ void UpdateItemPool(ItemPool *pool) {
     s32 i;
     s32 frameMod8;
     s32 pendingUpdateCount;
-    s32 w;
+    s32 hasFlag8000;
     s32 distanceSquared;
-    s32 z;
-    s32 m;
+    s32 shiftedCount;
+    s32 orderEndIndex;
     s32 deltaY;
     s32 deltaZ;
     u16 kartIndex;
@@ -494,16 +496,16 @@ void UpdateItemPool(ItemPool *pool) {
     objects = pool->mObjects;
     activeCount = pool->mActiveCount;
     if (pool->mLimit > 1 && pool->mLimit - pool->mReservedCount < 2) {
-        m = pool->mUnk_18;
+        orderEndIndex = pool->mRestingCount;
         if ((frameMod8 = GetRaceUpdateFramesMod8()) == 0) {
             if (pool->mLimit - pool->mReservedCount < 1 && pool->mActiveCount > 0) {
                 func_020f9ba8(pool->mObjects[0]);
             }
         } else {
             if (pool->mKind == 2) {
-                m -= 3;
+                orderEndIndex -= 3;
             }
-            func_020f0684(objects, frameMod8, m, 7);
+            OrderItemPoolObjectsForRelease(objects, frameMod8, orderEndIndex, 7);
         }
     }
     if (gRaceSetup->mMode != 5) {
@@ -523,15 +525,15 @@ void UpdateItemPool(ItemPool *pool) {
                 i--;
             }
         } else {
-            w = object->mUnk_7a & 0x8000;
+            hasFlag8000 = object->mUnk_7a & 0x8000;
             updateCount = 1;
-            if (w != 0) {
+            if (hasFlag8000 != 0) {
                 min = 0x5f592e1;
                 object->mUnk_7a &= ~0x8000;
                 updateCount += pendingUpdateCount;
             } else {
                 updateCount++;
-                for (z = pendingUpdateCount >> 2; z != 0; z >>= 2) {
+                for (shiftedCount = pendingUpdateCount >> 2; shiftedCount != 0; shiftedCount >>= 2) {
                     updateCount++;
                 }
             }
@@ -544,7 +546,7 @@ void UpdateItemPool(ItemPool *pool) {
                     i--;
                     break;
                 }
-                if (w != 0) {
+                if (hasFlag8000 != 0) {
                     objectPos = object->mUnk_d0;
                     kartIndex = object->mUnk_78 & ~0xff00;
                     kart = GetKart(kartIndex);
@@ -590,7 +592,7 @@ void CreateItemPool(ItemPool *pool, s32 kind, s32 *objectIdCounter) {
     pool->mUnk_0c = gItemKinds[kind].mUnk_10;
     pool->mTakenCount = 0;
     pool->mActiveCount = 0;
-    pool->mUnk_18 = 0;
+    pool->mRestingCount = 0;
     pool->mReservedCount = 0;
     pool->mLimit = gItemKinds[kind].mLimit;
     for (i = 0; i < objectCount; i++) {
@@ -599,8 +601,8 @@ void CreateItemPool(ItemPool *pool, s32 kind, s32 *objectIdCounter) {
         objectId++;
         pool->mObjects[i]->mPoolIndex = i;
     }
-    pool->mUnk_24 = gItemKinds[kind].mDraw;
-    pool->mUnk_28 = gItemKinds[kind].mViewTest;
+    pool->mDraw = gItemKinds[kind].mDraw;
+    pool->mViewTest = gItemKinds[kind].mViewTest;
     pool->mUnk_2c = gItemKinds[kind].mUnk_70;
     pool->mUnk_30 = gItemKinds[kind].mUnk_74;
     pool->mUnk_34 = gItemKinds[kind].mUnk_78;
@@ -610,7 +612,7 @@ void CreateItemPool(ItemPool *pool, s32 kind, s32 *objectIdCounter) {
 }
 
 #pragma thumb off
-BOOL func_020f0154(KartItems *kartItems) {
+BOOL TryAddKartItemFlags(KartItems *kartItems) {
     Kart *kart;
     u16 padBits;
     enum { K0 } entryIndex;
@@ -626,26 +628,26 @@ BOOL func_020f0154(KartItems *kartItems) {
         return FALSE;
     }
     if (kartItems->mItemInUse.mObjectKind != 0xf) {
-        kartItems->mFlags |= data_021595b8;
+        kartItems->mFlags |= gKartItemsInUseBit;
     } else if (kartItems->mHeldItem.mItemInfoIndex != 0x13) {
-        kartItems->mFlags |= data_021595bc;
+        kartItems->mFlags |= gKartItemsHeldBit;
     } else if (kartItems->mSlotState != 0) {
-        kartItems->mFlags |= data_021595c0;
+        kartItems->mFlags |= gKartItemsSlotBit;
     }
     entryIndex = kartItems->mEntryIndex;
     padBits = gInputSlots[entryIndex].mBits & ITEM_THROW_FORWARD_BIT;
     if (padBits != 0) {
-        kartItems->mFlags |= data_021595c4;
+        kartItems->mFlags |= gKartItemsThrowForwardBit;
     }
     entryIndex = kartItems->mEntryIndex;
     padBits = gInputSlots[entryIndex].mBits & PAD_KEY_DOWN;
     if (padBits != 0) {
-        kartItems->mFlags |= data_021595c8;
+        kartItems->mFlags |= gKartItemsDownBit;
     }
     return TRUE;
 }
 
-void func_020f00f0(KartItems *kartItems) {
+void StopRunningKartItemSlot(KartItems *kartItems) {
     if ((kartItems->mKart->mUnk_7c & 0x400) != 0) {
         return;
     }
@@ -683,7 +685,7 @@ void ReleaseKartItems(KartItems *kartItems) {
     ReleaseItemInUse(&kartItems->mItemInUse);
 }
 
-void func_020eff40(KartItems *kartItems) {
+void StartKartItemObjectCountdowns(KartItems *kartItems) {
     BOOL isMode5;
 
     isMode5 = gRaceSetup->mMode == 5;
@@ -717,7 +719,7 @@ void func_020eff40(KartItems *kartItems) {
     StartItemInUseObjectCountdown(&kartItems->mItemInUse);
 }
 
-void func_020efea4(KartItems *kartItems) {
+void StartKartItemInUseOneCountdown(KartItems *kartItems) {
     if ((u32) (kartItems->mKart->mItemEffect - 2) <= 1) {
         return;
     }
@@ -769,7 +771,7 @@ BOOL func_020efd84(KartItems *kartItems, s32 itemInfoIndex) {
     return heldItem->mItemInfoIndex == 0x13;
 }
 
-void func_020efd1c(KartItems *kartItems, ItemObject *object) {
+void CopyKartPlacementToItemObject(KartItems *kartItems, ItemObject *object) {
     Kart *kart;
     Vec3 *axis;
 
@@ -777,7 +779,7 @@ void func_020efd1c(KartItems *kartItems, ItemObject *object) {
     if ((kart->mUnk_48 & 1) != 0) {
         axis = &kart->mUnk_15c;
     } else {
-        axis = &data_021595d8;
+        axis = &gKartItemsVec3UnitY;
     }
     func_020f98a0(object, &kart->mDrawMatrixPos, axis, &kart->mKartModelsEntry->mCourseColorBlend, func_0206c0a8(kart));
     if ((kart->mUnk_48 & 1) != 0) {
@@ -785,17 +787,17 @@ void func_020efd1c(KartItems *kartItems, ItemObject *object) {
     }
 }
 
-void func_020efc74(KartItems *kartItems, s32 a) {
+void SetKartItemLinkFromHitValue(KartItems *kartItems, s32 hitValue) {
     ItemPointLinkRef *linkRef;
     Kart *kart;
     Vec3 *kartPos;
     s64 distanceSquared;
     s32 linkByIndex;
-    if ((linkByIndex = func_020f4090(a)) != 0) {
-        kartItems->mUnk_1f0.mLink = (ItemPointLink *) linkByIndex;
-        kartItems->mUnk_1f0.mNextLinksUsed = 1;
+    if ((linkByIndex = GetItemPointLinkByIndex(hitValue)) != 0) {
+        kartItems->mItemLink.mLink = (ItemPointLink *) linkByIndex;
+        kartItems->mItemLink.mNextLinksUsed = 1;
     }
-    if ((linkRef = &kartItems->mUnk_1f0)->mLink == NULL) {
+    if ((linkRef = &kartItems->mItemLink)->mLink == NULL) {
         return;
     }
     kart = kartItems->mKart;
@@ -820,17 +822,17 @@ void InitKartItems(KartItems *kartItems, s32 kartIndex) {
     InitHeldItem(&kartItems->mHeldItem, kartItems);
     InitItemInUse(&kartItems->mItemInUse, kartItems);
     courseMap = (Unk02175620_060 *) gCourseMap;
-    kartItems->mUnk_1f0.mLink = courseMap->mUnk_060 != 0 ? courseMap->mUnk_0b0 : 0;
-    kartItems->mUnk_1f0.mNextLinksUsed = 1;
+    kartItems->mItemLink.mLink = courseMap->mUnk_060 != 0 ? courseMap->mUnk_0b0 : 0;
+    kartItems->mItemLink.mNextLinksUsed = 1;
     kartItems->mKinokoBoostStarted = FALSE;
-    kartItems->mUnk_208 = FALSE;
+    kartItems->mTargetedByKouraR = FALSE;
     kartItems->mUnk_20c = FALSE;
 }
 
 #pragma thumb off
 void StartItemInUseObject(ItemInUse *itemInUse, ItemObject *object) {
     StartItemObject(&gItemPools[object->mKind], object);
-    func_020efd1c(itemInUse->mKartItems, object);
+    CopyKartPlacementToItemObject(itemInUse->mKartItems, object);
     object->mFlags &= ~0x1000;
 }
 
@@ -846,7 +848,7 @@ void StartLastItemInUseObjectAndInit(ItemInUse *itemInUse, s32 callKart) {
     initFunc = gItemKinds[object->mKind].mInit;
     StartItemInUseObject(itemInUse, object);
     if (initFunc(itemInUse, object) == 0) {
-        if (itemInUse->mKartItems->mUnk_208 != FALSE) {
+        if (itemInUse->mKartItems->mTargetedByKouraR != FALSE) {
             object->mUnk_78 |= data_021595ac;
             callKart = 0;
         }
@@ -1089,10 +1091,10 @@ void AdvanceItemInUseTrail(ItemInUse *itemInUse) {
     s32 maxGap;
     s32 d;
     s32 delayedHopHeight;
-    s32 s;
+    s32 velocityLengthSquared;
     Vec3 kartVector;
     Vec3 offset;
-    Vec3 v58;
+    Vec3 directionChange;
     Vec3 *previousPos;
     s32 i;
     s32 minDistance;
@@ -1118,11 +1120,12 @@ void AdvanceItemInUseTrail(ItemInUse *itemInUse) {
     }
     if (objectCount > 1) {
         if (itemInUse->mMovingForward != 0) {
-            VEC_Subtract(&inUseAlias->mUnk_0d8, &inUseAlias->mBehindDirection, &v58);
-            s = MUL_FIXED12_NO_ROUND(itemInUse->mKartVelocityLength, itemInUse->mKartVelocityLength);
-            v58.x = MUL_FIXED12_NO_ROUND(v58.x, s);
-            v58.y = MUL_FIXED12_NO_ROUND(v58.y, s);
-            v58.z = MUL_FIXED12_NO_ROUND(v58.z, s);
+            VEC_Subtract(&inUseAlias->mUnk_0d8, &inUseAlias->mBehindDirection, &directionChange);
+            velocityLengthSquared =
+                MUL_FIXED12_NO_ROUND(itemInUse->mKartVelocityLength, itemInUse->mKartVelocityLength);
+            directionChange.x = MUL_FIXED12_NO_ROUND(directionChange.x, velocityLengthSquared);
+            directionChange.y = MUL_FIXED12_NO_ROUND(directionChange.y, velocityLengthSquared);
+            directionChange.z = MUL_FIXED12_NO_ROUND(directionChange.z, velocityLengthSquared);
         }
         inUseAlias->mUnk_0d8 = inUseAlias->mBehindDirection;
         historyIndex = inUseAlias->mUnk_16c & 0xf;
@@ -1141,7 +1144,7 @@ void AdvanceItemInUseTrail(ItemInUse *itemInUse) {
             VEC_Add(&objects[i - 1]->mVelocity, &object->mVelocity, &object->mVelocity);
         }
         if (itemInUse->mMovingForward != 0) {
-            VEC_MultAdd(i * 0x1800, &v58, trailPos, trailPos);
+            VEC_MultAdd(i * 0x1800, &directionChange, trailPos, trailPos);
         }
         if (inUseAlias->mUnk_0cc[i] > 0) {
             VEC_MultAdd(inUseAlias->mUnk_0cc[i], &itemInUse->mKartMovement, trailPos, trailPos);
@@ -1221,10 +1224,10 @@ void PlaceItemInUseCircleObjects(ItemInUse *itemInUse) {
     s32 objectCount;
     s32 radius;
     s32 offsetX;
-    s32 k;
-    s32 m;
-    s32 t;
-    s32 u;
+    s32 offsetYScaled;
+    s32 offsetXScaled;
+    s32 negativeHalfOffsetY;
+    s32 negativeHalfOffsetX;
     s32 i;
     Vec3 *objectPos;
     Vec3 *thirdAxis;
@@ -1237,25 +1240,25 @@ void PlaceItemInUseCircleObjects(ItemInUse *itemInUse) {
     radius = itemInUse->mCircleRadius;
     offsetY = MUL_FIXED12_NO_ROUND(radius, gPairsByAngle[i * 2 + 1]);
     offsetX = MUL_FIXED12_NO_ROUND(radius, gPairsByAngle[i * 2]);
-    t = -offsetY >> 1;
-    u = -offsetX >> 1;
+    negativeHalfOffsetY = -offsetY >> 1;
+    negativeHalfOffsetX = -offsetX >> 1;
     objects = itemInUse->mObjects;
     thirdAxis = &itemInUse->mKartOrientation.mUnk_00[2];
     firstAxis = &itemInUse->mKartOrientation.mUnk_00[0];
     center = &itemInUse->mCircleCenter;
-    k = MUL_FIXED12_NO_ROUND(offsetY, 0xddb);
-    m = MUL_FIXED12_NO_ROUND(offsetX, 0xddb);
+    offsetYScaled = MUL_FIXED12_NO_ROUND(offsetY, 0xddb);
+    offsetXScaled = MUL_FIXED12_NO_ROUND(offsetX, 0xddb);
     for (i = 0; i < objectCount; i++) {
         objectPos = &objects[i]->mPos;
         if (itemInUse->mCircleSlots[i] == 0) {
             VEC_MultAdd(offsetY, thirdAxis, center, objectPos);
             VEC_MultAdd(offsetX, firstAxis, objectPos, objectPos);
         } else if (itemInUse->mCircleSlots[i] == 1) {
-            VEC_MultAdd(t - m, thirdAxis, center, objectPos);
-            VEC_MultAdd(u + k, firstAxis, objectPos, objectPos);
+            VEC_MultAdd(negativeHalfOffsetY - offsetXScaled, thirdAxis, center, objectPos);
+            VEC_MultAdd(negativeHalfOffsetX + offsetYScaled, firstAxis, objectPos, objectPos);
         } else {
-            VEC_MultAdd(t + m, thirdAxis, center, objectPos);
-            VEC_MultAdd(u - k, firstAxis, objectPos, objectPos);
+            VEC_MultAdd(negativeHalfOffsetY + offsetXScaled, thirdAxis, center, objectPos);
+            VEC_MultAdd(negativeHalfOffsetX - offsetYScaled, firstAxis, objectPos, objectPos);
         }
     }
 }

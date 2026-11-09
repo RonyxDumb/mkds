@@ -50,7 +50,7 @@ void InitPukupuku(Pukupuku *pukupuku, Vec3 *position) {
 
 #pragma thumb off
 
-MapObjectKindData *func_020e4768(void) {
+MapObjectKindData *CreateRotaryGearTestCylinderKindData(void) {
     MapObjectKindData *kindData;
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
     *kindData = data_02158f70;
@@ -58,14 +58,14 @@ MapObjectKindData *func_020e4768(void) {
     return kindData;
 }
 
-MapObjectKindData *func_020e4718(void) {
+MapObjectKindData *CreateRotaryRoomKindData(void) {
     MapObjectKindData *kindData;
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
     *kindData = data_02158f30;
     return kindData;
 }
 
-MapObjectKindData *func_020e46c8(void) {
+MapObjectKindData *CreateRotaryBridgeKindData(void) {
     MapObjectKindData *kindData;
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
     *kindData = data_02158ef0;

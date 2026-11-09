@@ -77,7 +77,8 @@ BOOL GetCollisionHitLinkPosAndVelocity(CollisionHitLink *link, Vec3 *outPosition
     return FALSE;
 }
 
-s32 func_020e0448(Unk020e0448 *link) {
+// Any map object: the clock gears compare against their radius, every other object returns its collision flag.
+s32 IsHitLinkOutsideGearRadiusOrFlagged(Unk020e0448 *link) {
     Rotary *object = link->mUnk_00;
     s64 horizontalDistanceSquared;
     s64 limitSquared;

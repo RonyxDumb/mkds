@@ -81,7 +81,7 @@ BOOL func_0206a24c(Kart *kart) {
         SetCameraHalfFovAngleGoal(0x1f40);
     }
     kart->mUnk_394 = 0xb33;
-    func_020eff40(&(gKartItems)[kart->mIndex]);
+    StartKartItemObjectCountdowns(&(gKartItems)[kart->mIndex]);
     mode = gRaceSetup->mMode;
     if (mode == MODE_MISSION_RUN) {
         if (mode == MODE_MISSION_RUN) {

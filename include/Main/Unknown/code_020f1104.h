@@ -4,6 +4,6 @@
 
 typedef struct ItemKouraR ItemKouraR;
 
-void func_020f1104(ItemKouraR *item);
+void AddItemKouraRTowardKartToVelocity(ItemKouraR *item);
 void SetItemKouraRKartItems(ItemKouraR *item, int kartIndex);
-void func_020f1150(ItemKouraR *item, int kartIndex);
+void SetItemKouraRKartItemsAndClearTowardKartVelocity(ItemKouraR *item, int kartIndex);

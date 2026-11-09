@@ -371,7 +371,7 @@ void InitRaceHud(void) {
     InitRaceHudSubScreenProjection();
     InitRaceNcerNclrNcgrTables();
     InitRaceHudSubScreenBgColors();
-    if (gRaceSetup->mRaceKind == 4) {
+    if (gRaceSetup->mRaceKind == RACE_KIND_START_BATTLE) {
         InitRaceStartBattle();
     }
     InitRaceItemSlot();
@@ -718,7 +718,7 @@ void ReleaseRaceHud(void) {
     ClearRaceEndPointer();
     ClearRaceHudSubScreenProjection();
     ClearRaceNcerNclrNcgrTablesPointer();
-    if (gRaceSetup->mRaceKind == 4) {
+    if (gRaceSetup->mRaceKind == RACE_KIND_START_BATTLE) {
         ClearRaceStartBattlePointer();
     }
     ClearRaceItemSlotPointer();
@@ -769,7 +769,7 @@ void UpdateRaceHud(void) {
     }
     UpdateRaceStartSequence();
     UpdateRaceEnd();
-    if (gRaceSetup->mRaceKind == 4) {
+    if (gRaceSetup->mRaceKind == RACE_KIND_START_BATTLE) {
         UpdateRaceStartBattleNop();
     }
     v = gRaceSetup->mMode;

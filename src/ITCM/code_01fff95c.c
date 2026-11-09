@@ -79,7 +79,7 @@ BOOL UpdateItemObject(ItemPool *a, ItemObject *p, s32 f) {
 
     p->mFlags &= -0x1000;
     if (p->mAgeFrames == 1 && (p->mFlags & 0x8000000) && !(p->mFlags & 0x10000000)) {
-        func_020f0d04(p);
+        RoundTripItemObjectData(p);
     }
     if (p->mUnk_114 <= 5) {
         p->mUnk_114 += 1;
@@ -189,7 +189,7 @@ BOOL UpdateItemObject(ItemPool *a, ItemObject *p, s32 f) {
     }
     k = p->mKind;
     m = gItemKinds[k].mUnk_60;
-    p->mDistanceSquaredAndFlags = a->mUnk_28(p->mUnk_d0, p->mRadius * m, a->mUnk_38, a->mUnk_3c, 0x1f);
+    p->mDistanceSquaredAndFlags = a->mViewTest(p->mUnk_d0, p->mRadius * m, a->mUnk_38, a->mUnk_3c, 0x1f);
     if (p->mDistanceSquaredAndFlags & 3) {
         p->mFlags |= 0x10000;
     } else {

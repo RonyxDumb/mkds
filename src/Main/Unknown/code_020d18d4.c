@@ -17,7 +17,7 @@ void DrawRaceMNumberPair(RaceHudOamBuffer *oamBuffer) {
     s32 startFrames;
 
     startFrames = GetRaceStartSequenceFrames();
-    if (gRaceSetup->mRaceKind == 4 || gRaceSetup->mRaceKind == RACE_KIND_DEMO) {
+    if (gRaceSetup->mRaceKind == RACE_KIND_START_BATTLE || gRaceSetup->mRaceKind == RACE_KIND_DEMO) {
         return;
     }
     if (startFrames >= 0xb4) {

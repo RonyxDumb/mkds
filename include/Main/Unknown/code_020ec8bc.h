@@ -13,21 +13,22 @@ typedef struct LinkFollowingItemObject {
     /* 168 */ ItemPointLinkRef mTargetLink;
     /* 170 */ SegmentPoints mSegmentPoints;
     /* 214 */ s32 mRampTimer;
-    /* 218 */ s32 mUnk_218;
+    /* 218 */ s32 mRampWeightPerCount;
     /* 21c */ ItemPointLinkRef mPreviousLink;
-    /* 224 */ s32 mUnk_224;
+    /* 224 */ s32 mLinkWasBehind;
 } LinkFollowingItemObject;
 
 void InitLinkFollowingItem(LinkFollowingItemObject *follower, s32 rampCount, s32 rampWeightPerCount, s32 c,
-                           s32 endsOnFirstHit, s32 reverse, u16 targetKartIndex, s32 g);
+                           s32 endsOnFirstHit, s32 reverse, u16 targetKartIndex, s32 flag);
 void AdvanceLinkFollowingItem(LinkFollowingItemObject *follower, s32 targetSpeed, s32 speedEase, s32 targetKartIndex,
-                              s32 d);
-void func_020ec9c0(LinkFollowingItemObject *follower, s32 targetSpeed, s32 speedEase, s32 targetKartIndex, s32 e);
-void func_020ece1c(LinkFollowingItemObject *follower, s32 targetSpeed, s32 targetKartIndex, s32 c);
-BOOL func_020ed0f4(LinkFollowingItemObject *follower);
+                              s32 flag);
+void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 targetSpeed, s32 speedEase,
+                                      s32 targetKartIndex, s32 flag);
+void SteerLinkFollowingItemToLink(LinkFollowingItemObject *follower, s32 targetSpeed, s32 targetKartIndex, s32 flag);
+BOOL TryInitLinkFollowingSegments(LinkFollowingItemObject *follower);
 void InitLinkFollowingItemFromInUse(LinkFollowingItemObject *follower, ItemInUse *inUse, s32 rampCount,
                                     s32 rampWeightPerCount, s32 throwForward, s32 d, s32 endsOnFirstHit, s32 baseSpeed,
-                                    u16 targetKartIndex, s32 h);
+                                    u16 targetKartIndex, s32 flag);
 void CreateItemModels(void);
 void *CreateItemNsbmd(u8 *modelName, u8 *textureName);
 NsbmdModel *CreateItemModel(u8 *modelName, u8 *animationName, u8 *textureName);

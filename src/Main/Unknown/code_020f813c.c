@@ -60,7 +60,7 @@ s32 PickItem(s32 kartVariant, s32 forcedRowHandle, s32 param_3, s32 param_4, s32
     if (gRaceSetup->mMode != MODE_MISSION_RUN) {
         for (i = 0; i < 0xe; i++) {
             t += (u16) (gItemKinds[(s32) i].mUnk_90 *
-                        (gItemPools[(s32) i].mReservedCount - gItemPools[(s32) i].mUnk_18));
+                        (gItemPools[(s32) i].mReservedCount - gItemPools[(s32) i].mRestingCount));
         }
     }
     for (j = 0; j < itemCount; j++) {

@@ -113,7 +113,7 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
     s32 t;
     s32 falloffIndex;
 
-    h = wanwan->mUnk_b0;
+    h = wanwan->mUsesCourseCollision;
     AdvanceStateMachine(&wanwan->mMapObject.mStateMachine);
     wanwan->mMapObject.mUnk_10.y -= 0x400;
     wanwan->mMapObject.mPos.y += wanwan->mMapObject.mUnk_10.y;
@@ -329,8 +329,7 @@ void UpdateWanwanState0(Wanwan *wanwan) {
                 angleIndex = (u16) (((random->mValue >> 32) * 0x10000) >> 32) >> 4;
                 attemptCount++;
                 candidate->x = wanwan->mCenterPos.x + MUL_FIXED12_NO_ROUND(gPairsByAngle[angleIndex * 2], radius);
-                candidate->z =
-                    wanwan->mCenterPos.z + MUL_FIXED12_NO_ROUND(gPairsByAngle[angleIndex * 2 + 1], radius);
+                candidate->z = wanwan->mCenterPos.z + MUL_FIXED12_NO_ROUND(gPairsByAngle[angleIndex * 2 + 1], radius);
                 if (attemptCount > 5) {
                     break;
                 }

@@ -163,7 +163,7 @@ s32 InitItemKouraW(ItemInUse *itemInUse, ItemKouraW *item) {
     Kart *kart;
 
     func_020f9114(&item->mUnk_000.mUnk_000.mUnk_000);
-    if (itemInUse->mKartItems->mUnk_1f0.mLink != NULL) {
+    if (itemInUse->mKartItems->mItemLink.mLink != NULL) {
         InitLinkFollowingItemFromInUse(&item->mUnk_000, itemInUse, 0x14, 0xcc, 1, 1, 0, 0x6000, item->mRankKartIndex,
                                        1);
         SetStateMachineState(&item->mStateMachine, 1);
@@ -243,10 +243,8 @@ void UpdateItemKouraWOrientation(ItemKouraW *item, Vec3 *direction, s32 followDe
         }
         item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[2] = buf;
         if (followDelta != 0) {
-            smoothedDelta->x +=
-                MUL_FIXED12_NO_ROUND(direction->x - previousDirection->x - smoothedDelta->x, 0x148);
-            smoothedDelta->z +=
-                MUL_FIXED12_NO_ROUND(direction->z - previousDirection->z - smoothedDelta->z, 0x148);
+            smoothedDelta->x += MUL_FIXED12_NO_ROUND(direction->x - previousDirection->x - smoothedDelta->x, 0x148);
+            smoothedDelta->z += MUL_FIXED12_NO_ROUND(direction->z - previousDirection->z - smoothedDelta->z, 0x148);
         } else {
             smoothedDelta->x = MUL_FIXED12_NO_ROUND(smoothedDelta->x, 0xc00);
             smoothedDelta->z = MUL_FIXED12_NO_ROUND(smoothedDelta->z, 0xc00);
@@ -472,7 +470,7 @@ void UpdateItemKouraWState2(ItemKouraW *item) {
     UpdateItemKouraWDrawPos(item);
     normal = func_020fbd98_inline(item);
     UpdateItemKouraWOrientation(item, &item->mUnk_000.mUnk_000.mUnk_000.mVelocity, 1, normal);
-    link = item->mKartItems->mUnk_1f0.mLink;
+    link = item->mKartItems->mItemLink.mLink;
     for (i = 0; i < 4; i++) {
         if (link == item->mUnk_000.mTargetLink.mLink) {
             item->mStateMachine.mNextState = 3;

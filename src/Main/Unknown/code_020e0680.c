@@ -128,7 +128,7 @@ void SetVehicleLinkDirection(VehicleDrawList *drawList) {
         return;
     }
     if (entryIndex < 8) {
-        GetItemPointLinkDirection(gKartItems[entryIndex].mUnk_1f0.mLink, &drawList->mEntryKartLinkDirection);
+        GetItemPointLinkDirection(gKartItems[entryIndex].mItemLink.mLink, &drawList->mEntryKartLinkDirection);
         drawList->mUnk_03c = Vec3DotUnrounded(&drawList->mEntryKartLinkDirection, GetViewTransposeMatrixAxis2()) < 0;
     } else {
         drawList->mUnk_03c = FALSE;
@@ -567,8 +567,8 @@ void DrawMapObjectModelAtPos(Unk020e1d10 *mapObject, void *viewMatrix, u32 alpha
     mapObject->mMapObject.mMatrix.mUnk_00[3].x = mapObject->mMapObject.mPos.x >> 4;
     mapObject->mMapObject.mMatrix.mUnk_00[3].y = mapObject->mMapObject.mPos.y >> 4;
     mapObject->mMapObject.mMatrix.mUnk_00[3].z = mapObject->mMapObject.mPos.z >> 4;
-    DrawNsbmdWithMatrixAndMaxAlpha(mapObject->mModel, &mapObject->mMapObject.mMatrix,
-                                   &mapObject->mMapObject.mScale.x, alpha);
+    DrawNsbmdWithMatrixAndMaxAlpha(mapObject->mModel, &mapObject->mMapObject.mMatrix, &mapObject->mMapObject.mScale.x,
+                                   alpha);
 }
 
 void SetMapObjectsModel(MapObjectList *list, void *model) {

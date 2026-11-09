@@ -71,7 +71,7 @@ void UpdateRaceHudSubScreen(void) {
                 subScreenEnabled = FALSE;
                 switchAllowed = FALSE;
                 raceKindAllowsSwitch = FALSE;
-                if (gRaceSetup->mRaceKind != RACE_KIND_DEMO && gRaceSetup->mRaceKind != 4) {
+                if (gRaceSetup->mRaceKind != RACE_KIND_DEMO && gRaceSetup->mRaceKind != RACE_KIND_START_BATTLE) {
                     raceKindAllowsSwitch = TRUE;
                 }
                 if (raceKindAllowsSwitch != FALSE) {
@@ -126,7 +126,7 @@ void UpdateRaceHudSubScreen(void) {
                 subScreenEnabled = FALSE;
                 switchAllowed = FALSE;
                 raceKindAllowsSwitch = FALSE;
-                if (gRaceSetup->mRaceKind != RACE_KIND_DEMO && gRaceSetup->mRaceKind != 4) {
+                if (gRaceSetup->mRaceKind != RACE_KIND_DEMO && gRaceSetup->mRaceKind != RACE_KIND_START_BATTLE) {
                     raceKindAllowsSwitch = TRUE;
                 }
                 if (raceKindAllowsSwitch != FALSE) {
@@ -202,7 +202,7 @@ void UpdateRaceHudSubScreen(void) {
                 subScreenEnabled = FALSE;
                 switchAllowed = FALSE;
                 raceKindAllowsSwitch = FALSE;
-                if (gRaceSetup->mRaceKind != RACE_KIND_DEMO && gRaceSetup->mRaceKind != 4) {
+                if (gRaceSetup->mRaceKind != RACE_KIND_DEMO && gRaceSetup->mRaceKind != RACE_KIND_START_BATTLE) {
                     raceKindAllowsSwitch = TRUE;
                 }
                 if (raceKindAllowsSwitch != FALSE) {
@@ -272,7 +272,7 @@ void UpdateRaceHudSubScreen(void) {
                     subScreenEnabled = FALSE;
                     switchAllowed = FALSE;
                     raceKindAllowsSwitch = FALSE;
-                    if (gRaceSetup->mRaceKind != RACE_KIND_DEMO && gRaceSetup->mRaceKind != 4) {
+                    if (gRaceSetup->mRaceKind != RACE_KIND_DEMO && gRaceSetup->mRaceKind != RACE_KIND_START_BATTLE) {
                         raceKindAllowsSwitch = TRUE;
                     }
                     if (raceKindAllowsSwitch != FALSE) {
@@ -319,7 +319,7 @@ void UpdateRaceHudSubScreen(void) {
                 subScreenEnabled = FALSE;
                 switchAllowed = FALSE;
                 raceKindAllowsSwitch = FALSE;
-                if (gRaceSetup->mRaceKind != RACE_KIND_DEMO && gRaceSetup->mRaceKind != 4) {
+                if (gRaceSetup->mRaceKind != RACE_KIND_DEMO && gRaceSetup->mRaceKind != RACE_KIND_START_BATTLE) {
                     raceKindAllowsSwitch = TRUE;
                 }
                 if (raceKindAllowsSwitch != FALSE) {

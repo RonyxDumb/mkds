@@ -21,7 +21,7 @@ typedef struct Dossun {
     /* a8 */ s32 mUnk_a8;
     /* ac */ s32 mUnk_ac;
     /* b0 */ BOOL mEnteredState5;
-    /* b4 */ s32 mUnk_b4;
+    /* b4 */ s32 mHitState;
     /* b8 */ s16 mSpinSpeed;
     /* ba */ s16 mSpinAngle;
     /* bc */ u32 mLastHitFrame;
@@ -31,7 +31,7 @@ typedef struct Dossun {
     /* c8 */ GroupFollower mFollower;
     /* ec */ u16 mStartEntryIndex;
     /* ee */ u8 mUnk_ee[2];
-    /* f0 */ s32 mUnk_f0;
+    /* f0 */ s32 mIsSlowVariant;
     /* f4 */ s32 mUnk_f4;
     /* f8 */ s32 mHeightOffset;
     /* fc */ s32 mUnk_fc;

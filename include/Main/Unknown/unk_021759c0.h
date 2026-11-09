@@ -61,7 +61,7 @@ typedef struct KartEntry {
 #define MODE_MISSION_RUN 4
 
 // Values of the mCourseId member of RaceSetup and of RaceSetupHeader, and of the course id stored in the race
-// Values of the mRaceKind member of RaceSetup and of RaceSetupHeader; 2 and 4 occur in the code and stay numbers.
+// Values of the mRaceKind member of RaceSetup and of RaceSetupHeader.
 // Normal race.
 #define RACE_KIND_NORMAL 0
 // Demo race that SetNextDemoRace sets up from the title screen.
@@ -69,6 +69,8 @@ typedef struct KartEntry {
 // Start scene: it creates RaceStartGp instead of the race HUD; set before each Grand Prix course and for mission
 // column 9.
 #define RACE_KIND_START_GP 3
+// Offline Battle stage fly-over: it creates RaceStartBattle; the kind is 0 once the race starts.
+#define RACE_KIND_START_BATTLE 4
 // Award scene: the course is COURSE_ID_AWARD.
 #define RACE_KIND_AWARD 5
 // Staff roll: the course is COURSE_ID_STAFFROLL or COURSE_ID_STAFFROLLTRUE.

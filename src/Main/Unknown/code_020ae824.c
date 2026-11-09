@@ -52,7 +52,7 @@ void DrawRaceHud(void) {
     RaceHudDrawNop();
     gRaceHud->mMainOam.mOamCount = 0;
     gRaceHud->mMainOam.mMatrixCount = 0;
-    if (gRaceSetup->mRaceKind == 4) {
+    if (gRaceSetup->mRaceKind == RACE_KIND_START_BATTLE) {
         DrawRaceStartBattle(&gRaceHud->mMainOam);
     }
     v = gRaceSetup->mMode;

@@ -48,7 +48,7 @@ void StartKartState2(Kart *p, int a, int b) {
     p->mYRotationAngleSum = 0;
     p->mYRotationCount = a;
     p->mUnk_4c |= 0x20;
-    func_020efea4(&(gKartItems)[p->mIndex]);
+    StartKartItemInUseOneCountdown(&(gKartItems)[p->mIndex]);
     if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
         func_ov001_0218173c();
     }
@@ -124,7 +124,7 @@ void StartKartState6(Kart *p) {
     p->mUnk_344 = 0;
     p->mLaunchStartY = p->mPos.y;
     p->mLaunchFrames = 0;
-    func_020eff40(&(gKartItems)[p->mIndex]);
+    StartKartItemObjectCountdowns(&(gKartItems)[p->mIndex]);
     if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
         func_ov001_0218173c();
     }
@@ -282,7 +282,7 @@ void StartKartState3(Kart *p) {
     if (!(p->mUnk_48 & 0x840)) {
         StartKartSeqArcSound(p, p->mSoundIndex, 2);
     }
-    func_020efea4(&(gKartItems)[p->mIndex]);
+    StartKartItemInUseOneCountdown(&(gKartItems)[p->mIndex]);
     if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
         func_ov001_0218173c();
     }
@@ -399,7 +399,7 @@ void StartKartState4(Kart *p, const Vec3 *a, s32 b) {
     p->mRotationEndFrames = 0;
     v = data_02154f7c;
     Vec3CrossUnrounded(&v, a, &p->mRotationAxis);
-    func_020eff40(&(gKartItems)[p->mIndex]);
+    StartKartItemObjectCountdowns(&(gKartItems)[p->mIndex]);
     if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
         func_ov001_0218173c();
     }
@@ -524,7 +524,7 @@ s32 StartKartState5(Kart *p, const Vec3 *a, s32 b) {
         }
     }
     QuaternionFromAxisAngle(&p->mRotationAxis, p->mRotationAngle, &p->mRotationQuaternion);
-    func_020eff40(&(gKartItems)[p->mIndex]);
+    StartKartItemObjectCountdowns(&(gKartItems)[p->mIndex]);
     if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
         func_ov001_0218173c();
     }
@@ -615,7 +615,7 @@ void StartKartThunderShrink(Kart *p) {
     p->mUnk_4c |= KART_4C_THUNDER_SHRINK;
     TrySpinKart(p, 2, 1);
     RequestThunderShrinkSound(p);
-    func_020eff40(&(gKartItems)[p->mIndex]);
+    StartKartItemObjectCountdowns(&(gKartItems)[p->mIndex]);
     if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
         func_ov001_0218173c();
     }

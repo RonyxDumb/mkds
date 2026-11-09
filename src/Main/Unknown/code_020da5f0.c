@@ -126,7 +126,7 @@ u32 EnterKuriboState4(u32 value) {
 }
 
 void UpdateKuriboState4(Kuribo *kuribo) {
-    if (kuribo->mUnk_fc != 0) {
+    if (kuribo->mReturnsAfterWait != 0) {
         if (kuribo->mMapObject.mStateMachine.mStateFrames > 0x12c) {
             kuribo->mMapObject.mStateMachine.mNextState = 5;
             kuribo->mMapObject.mStateMachine.mNextStateRequested = 1;
@@ -210,7 +210,7 @@ void StartItemKinokoFromKuribo(Kuribo *kuribo, Vec3 *hitVector) {
     itemObject->mVelocity.z = MUL_FIXED12_NO_ROUND(launchDirection.z, d);
     itemObject->mVelocity.y += 0xf000;
     VEC_Add(&itemObject->mPos, &itemObject->mVelocity, &itemObject->mPos);
-    func_020f6630(itemObject, 0, &kuribo->mMapObject.mPos, hitVector, &data_021581f8);
+    LaunchItemObjectFromPos(itemObject, 0, &kuribo->mMapObject.mPos, hitVector, &data_021581f8);
 }
 
 u32 CollideKartWithKuribo(Kuribo *kuribo, Kart *kart, u8 *firstResponsePtr, u8 *secondResponsePtr) {

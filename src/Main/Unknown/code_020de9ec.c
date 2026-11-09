@@ -354,8 +354,9 @@ u8 CollideKartWithItemBox(ItemBox *itemBox, Kart *kart, void *firstResponsePtr, 
             kindInMask = TRUE;
         }
     }
-    StartItemSlotAndEffects(&itemBox->mUnk_000.mPos, kart, kindInMask != FALSE ? itemBox->mUnk_0f2 : itemBox->mUnk_0f4,
-                            distanceBits, itemBox->mUnk_0ac);
+    StartItemSlotAndEffects(&itemBox->mUnk_000.mPos, kart,
+                            kindInMask != FALSE ? itemBox->mForcedRowHumanGhostPeer : itemBox->mForcedRowCpu,
+                            distanceBits, itemBox->mShortSpin);
     if (itemBox->mNoCourseRow != 0 || itemBox->mUnk_000.mCourseMapRow->mUnk_32 != 0) {
         itemBox->mFramesSinceHit = 0x80;
         ParkMapObject(&itemBox->mUnk_000);

@@ -344,7 +344,7 @@ void DrawRaceItemSlot(RaceHudOamBuffer *oamBuffer) {
         GetRaceMNcerEntry(gRaceSetup->mUseTeams == 0                                                           ? 8
                           : gRaceSetup->mCurrentEntries[GetFollowedKartOrEntryIndex()].mPlayer.mTeamIndex == 0 ? 9
                                                                                                                : 10);
-    if (gRaceSetup->mRaceKind == 4) {
+    if (gRaceSetup->mRaceKind == RACE_KIND_START_BATTLE) {
         return;
     }
     if (gRaceSetup->mRaceKind == RACE_KIND_DEMO) {
@@ -514,7 +514,7 @@ void DrawRaceModeCount(RaceHudOamBuffer *oamBuffer) {
     GXOamAttr *oam;
     Unk020224e0_c *cell;
 
-    if (gRaceSetup->mRaceKind == 4) {
+    if (gRaceSetup->mRaceKind == RACE_KIND_START_BATTLE) {
         return;
     }
     if (gRaceSetup->mRaceKind == RACE_KIND_DEMO) {

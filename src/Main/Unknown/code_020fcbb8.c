@@ -73,7 +73,7 @@ BOOL TrySetItemKouraWKartItems(ItemKouraW *item, s32 kartIndex) {
     }
     kartItems = &(gKartItems)[kartIndex];
     kartPos = &kart->mDrawMatrixPos;
-    if (kartItems->mUnk_1f0.mLink != item->mUnk_000.mTargetLink.mLink) {
+    if (kartItems->mItemLink.mLink != item->mUnk_000.mTargetLink.mLink) {
         shortRange = ((item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x40000000) || (kart->mUnk_48 & 1)) ? 1 : 0;
         VEC_Subtract(kartPos, &item->mUnk_000.mUnk_000.mUnk_000.mPos, &v);
         offsetX = v.x >> 12;

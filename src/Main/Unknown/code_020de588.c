@@ -77,20 +77,20 @@ void InitItemBox(ItemBox *itemBox, CourseMapRow *row) {
             v1 = FALSE;
         }
         itemBox->mUsesGroupShadow = v1;
-        itemBox->mUnk_0ac = row->mUnk_34;
+        itemBox->mShortSpin = row->mUnk_34;
         itemBox->mNoCourseRow = 0;
     } else {
         itemBox->mUsesGroupShadow = 1;
-        itemBox->mUnk_0ac = 0;
+        itemBox->mShortSpin = 0;
         itemBox->mNoCourseRow = 1;
         SetMapObjectScale(&itemBox->mUnk_000, &data_02158694);
     }
     if (itemBox->mNoCourseRow != 0) {
-        itemBox->mUnk_0f2 = 0;
-        itemBox->mUnk_0f4 = 0;
+        itemBox->mForcedRowHumanGhostPeer = 0;
+        itemBox->mForcedRowCpu = 0;
     } else {
-        itemBox->mUnk_0f2 = row->mUnk_2a;
-        itemBox->mUnk_0f4 = row->mUnk_2c;
+        itemBox->mForcedRowHumanGhostPeer = row->mUnk_2a;
+        itemBox->mForcedRowCpu = row->mUnk_2c;
     }
     if (itemBox->mNoCourseRow != 0) {
         itemBox->mShadowMode = 1;

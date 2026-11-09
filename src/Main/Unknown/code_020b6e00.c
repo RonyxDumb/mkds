@@ -134,7 +134,7 @@ void InitRaceNcerNclrNcgrTables(void) {
         case MODE_BATTLE:
             LoadNclrData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[3].mNclr,
                          FindSceneFileWrapper("race_battle_m_o.NCLR"));
-            if (gRaceSetup->mRaceKind == 4) {
+            if (gRaceSetup->mRaceKind == RACE_KIND_START_BATTLE) {
                 LoadNclrData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[10].mNclr,
                              FindSceneFileWrapper("race_start_battle_m_o.NCLR"));
             }
@@ -157,7 +157,7 @@ void InitRaceNcerNclrNcgrTables(void) {
         case MODE_BATTLE:
             LoadNcgrData2(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[3].mNcgr,
                           FindSceneFileWrapper("race_battle_m_o.NCGR"));
-            if (gRaceSetup->mRaceKind == 4) {
+            if (gRaceSetup->mRaceKind == RACE_KIND_START_BATTLE) {
                 LoadNcgrData2(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[10].mNcgr,
                               FindSceneFileWrapper("race_start_battle_m_o.NCGR"));
             }
@@ -215,7 +215,7 @@ void InitRaceNcerNclrNcgrTables(void) {
                            gRaceNcerNclrNcgrTables->mNclrNcgrPairs[0].mNcgr->mData, 0, 0);
             break;
         case MODE_BATTLE:
-            if (gRaceSetup->mRaceKind != 4) {
+            if (gRaceSetup->mRaceKind != RACE_KIND_START_BATTLE) {
                 raceBattleMCells = NULL;
                 LoadNcerData(&raceBattleMCells, FindSceneFileWrapper("race_battle_m.NCER"));
                 for (i = 0; i < 0xd; i++) {

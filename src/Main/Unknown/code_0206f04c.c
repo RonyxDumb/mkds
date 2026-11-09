@@ -142,7 +142,7 @@ void func_0206ff50(Kart *kart, u32 collisionFlags) {
         StopKartKillerEffect(kart->mIndex);
         StartSound(&kart->mSoundSource, 0xfd, 0x7f, 0);
     }
-    func_020f00f0(&(gKartItems)[kart->mIndex]);
+    StopRunningKartItemSlot(&(gKartItems)[kart->mIndex]);
     if (collisionFlags & 0x400) {
         b = PickCollisionHitValue(0x400);
         kart->mUnk_48 |= 0x2000;

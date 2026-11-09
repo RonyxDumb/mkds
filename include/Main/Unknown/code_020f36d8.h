@@ -308,8 +308,8 @@ typedef struct ItemKind {
     // Called with the object by func_020f7184 when its second argument is 0; returns 0 to end the call with 2, 1 to end
     // it with 0, anything else lets it continue.
     /* 34 */ UnkWordFunc *mUnk_34;
-    // Called with the object after StartItemObject and func_020f6630 have set it up from a kart; the entries that exist
-    // set the object's mUnk_120 to the kind's mAdvance unless flags 0x180000 are set.
+    // Called with the object after StartItemObject and LaunchItemObjectFromPos have set it up from a kart; the entries
+    // that exist set the object's mUnk_120 to the kind's mAdvance unless flags 0x180000 are set.
     /* 38 */ void (*mUnk_38)(void *);
     // Called with the object at the end of ReleaseItemObject.
     /* 3c */ void (*mRelease)(void *);
@@ -462,15 +462,15 @@ typedef struct ItemPool {
     /* 10 */ s32 mTakenCount;
     // Objects that were started, the first part of mObjects; UpdateItemPool runs over these.
     /* 14 */ s32 mActiveCount;
-    /* 18 */ s32 mUnk_18;
+    /* 18 */ s32 mRestingCount;
     // Taken objects plus the uses promised to a kart before they are taken (a gained held item adds its object
     // count).
     /* 1c */ s32 mReservedCount;
     // The most objects of the kind that may be in use; the pool is full when mLimit - mReservedCount <= 0, and a
     // held-item gain can push mReservedCount past mLimit.
     /* 20 */ s32 mLimit;
-    /* 24 */ void (*mUnk_24)(void *, void *, void *);
-    /* 28 */ s32 (*mUnk_28)(Vec3 *, s32, s32, s32, u16);
+    /* 24 */ void (*mDraw)(void *, void *, void *);
+    /* 28 */ s32 (*mViewTest)(Vec3 *, s32, s32, s32, u16);
     /* 2c */ s32 mUnk_2c;
     /* 30 */ s32 mUnk_30;
     /* 34 */ s32 mUnk_34;
@@ -489,7 +489,7 @@ typedef struct HeldItem {
     /* 08 */ s32 mObjectCount;
     /* 0c */ s32 mUnk_0c;
     /* 10 */ s16 mTimer;
-    /* 12 */ s16 mUnk_12;
+    /* 12 */ s16 mUseTimerLimit;
     /* 14 */ ItemObject *mObjects[3];
     /* 20 */ s32 mObjectStartFramesLeft;
     /* 24 */ BOOL mUnk_24;
@@ -497,7 +497,7 @@ typedef struct HeldItem {
 
 #include "Main/Unknown/code_020d6dc0.h"
 
-extern s32 data_0217bc38[];
+extern s32 gItemPointLinksByIndex[];
 extern ItemKind *gItemKinds;
 extern RaceProgress *gRaceProgress;
 extern ItemSpreadRow gItemSpreadRows[];
@@ -512,16 +512,16 @@ BOOL CopyCloserItemPointLinkRef(ItemPointLinkRef *current, ItemPointLinkRef *can
 BOOL PickNearestNearbyItemPointLink(ItemPointLinkRef *in, ItemPointLinkRef *out, Vec3 *pos);
 s32 PushSegmentPoint(SegmentPoints *segmentPoints, Vec3 *point);
 void InitSegmentPoints(SegmentPoints *segmentPoints, Vec3 *points, s32 scale);
-s32 func_020f4090(s32 idx);
+s32 GetItemPointLinkByIndex(s32 idx);
 void RemoveReservedItemObjects(s32 itemInfoIndex, s32 amount);
 void SetHeldItemWithCount(HeldItem *rec, s32 kind, s32 count);
 void RemoveHeldItem(HeldItem *rec, s32 *kind, s32 *count);
-void func_020f4188(HeldItem *rec, s32 v);
-BOOL StartHeldItemTimer(HeldItem *rec, s32 v);
+void SetHeldItemUseDelay(HeldItem *rec, s32 frames);
+BOOL StartHeldItemTimer(HeldItem *rec, s32 frames);
 void StartHeldItemObjects(HeldItem *rec);
 void TakeHeldItemObjects(HeldItem *rec);
 void ReleaseHeldItem(HeldItem *rec, s32 keep);
 void ResetHeldItem(HeldItem *rec);
-void RemoveHeldItemObjects(HeldItem *rec, s32 n);
+void RemoveHeldItemObjects(HeldItem *rec, s32 amount);
 void SetHeldItem(HeldItem *rec, s32 kind);
 void UpdateHeldItem(HeldItem *rec);

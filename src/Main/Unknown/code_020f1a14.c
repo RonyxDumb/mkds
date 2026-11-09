@@ -3,5 +3,5 @@
 
 void ResetItemKouraRKartItems(ItemKouraR *item) {
     item->mKartItems = NULL;
-    item->mUnk_238 = 0;
+    item->mNearKartFrames = 0;
 }

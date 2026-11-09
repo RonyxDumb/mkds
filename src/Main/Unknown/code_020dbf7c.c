@@ -100,7 +100,7 @@ void InitWanwanOnChain(Wanwan *wanwan, CourseMapRow *row) {
     wanwan->mMaxRadius = row->mUnk_28 << 12;
     wanwan->mUnk_1fc = wanwan->mUnk_f8 - (wanwan->mUnk_f0 << 1);
     wanwan->mFollowsPath = 0;
-    wanwan->mUnk_b0 = 0;
+    wanwan->mUsesCourseCollision = 0;
     wanwan->mChainObject = (WanwanChainObject *) CreateMapObjectFromObject(&wanwan->mMapObject, 0x197);
     wanwan->mUnk_ac = wanwan->mCenterPos.y;
     wanwan->mCenterPos.y = wanwan->mCenterPos.y + wanwan->mUnk_f0;
@@ -119,7 +119,7 @@ void InitWanwanOnPath(Wanwan *wanwan, CourseMapRow *row) {
     wanwan->mUnk_f0 = MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mScale.y, 0x1e000);
     wanwan->mUnk_f4 = 0xf000 - wanwan->mUnk_f0;
     wanwan->mFollowsPath = 1;
-    wanwan->mUnk_b0 = row->mUnk_2a;
+    wanwan->mUsesCourseCollision = row->mUnk_2a;
     wanwan->mUnk_ac = wanwan->mCenterPos.y;
     wanwan->mCenterPos.y = wanwan->mCenterPos.y + wanwan->mUnk_f0;
     InitStateMachine(&wanwan->mMapObject.mStateMachine, gWanwanStateTable, 6, wanwan);

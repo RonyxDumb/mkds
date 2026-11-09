@@ -113,16 +113,16 @@ void CreateItemModels(void) {
 
 void InitLinkFollowingItemFromInUse(LinkFollowingItemObject *follower, ItemInUse *inUse, s32 rampCount,
                                     s32 rampWeightPerCount, s32 throwForward, s32 d, s32 endsOnFirstHit, s32 baseSpeed,
-                                    u16 targetKartIndex, s32 h) {
+                                    u16 targetKartIndex, s32 flag) {
     InitItemObjectThrow(follower, inUse, (endsOnFirstHit == 0) ? -1 : 0, throwForward, d, baseSpeed);
     follower->mRampTimer = rampCount;
-    follower->mUnk_218 = rampWeightPerCount;
-    follower->mPreviousLink = inUse->mKartItems->mUnk_1f0;
-    PickNextItemPointLink(&follower->mPreviousLink, &follower->mTargetLink, targetKartIndex, h);
-    follower->mUnk_224 = 0;
+    follower->mRampWeightPerCount = rampWeightPerCount;
+    follower->mPreviousLink = inUse->mKartItems->mItemLink;
+    PickNextItemPointLink(&follower->mPreviousLink, &follower->mTargetLink, targetKartIndex, flag);
+    follower->mLinkWasBehind = 0;
 }
 
-BOOL func_020ed0f4(LinkFollowingItemObject *follower) {
+BOOL TryInitLinkFollowingSegments(LinkFollowingItemObject *follower) {
     Vec3 vectors[6];
     Vec3 *direction;
     Vec3 *pos;
@@ -156,7 +156,7 @@ BOOL func_020ed0f4(LinkFollowingItemObject *follower) {
     return FALSE;
 }
 
-void func_020ece1c(LinkFollowingItemObject *follower, s32 targetSpeed, s32 targetKartIndex, s32 c) {
+void SteerLinkFollowingItemToLink(LinkFollowingItemObject *follower, s32 targetSpeed, s32 targetKartIndex, s32 flag) {
     Vec3 toLink;
     Vec3 *direction;
     Vec3 *surfaceDirection;
@@ -183,7 +183,7 @@ void func_020ece1c(LinkFollowingItemObject *follower, s32 targetSpeed, s32 targe
     surfaceDirection = &follower->mUnk_000.mSurfaceDirection;
     if (CopyCloserItemPointLinkRef(&follower->mPreviousLink, &follower->mTargetLink, &follower->mPreviousLink,
                                    &follower->mUnk_000.mUnk_000.mPos) != FALSE) {
-        PickNextItemPointLink(&follower->mPreviousLink, &follower->mTargetLink, targetKartIndex, c);
+        PickNextItemPointLink(&follower->mPreviousLink, &follower->mTargetLink, targetKartIndex, flag);
     }
     VEC_Subtract(follower->mTargetLink.mLink->mPointPos, &follower->mUnk_000.mUnk_000.mPos, &toLink);
     if (follower->mUnk_000.mUnk_000.mFlags & 0x40000000) {
@@ -209,18 +209,19 @@ void func_020ece1c(LinkFollowingItemObject *follower, s32 targetSpeed, s32 targe
             toLink.y = -sideDirection->y;
             toLink.z = -sideDirection->z;
         }
-        follower->mUnk_224 = 1;
+        follower->mLinkWasBehind = 1;
     }
     if ((s64) toLink.x * toLink.x + (s64) toLink.y * toLink.y + (s64) toLink.z * toLink.z >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&toLink, &toLink);
     }
-    s = 0x1000 - follower->mRampTimer * follower->mUnk_218;
-    n = (follower->mUnk_224 != 0) ? 0x266 : 0x148;
+    s = 0x1000 - follower->mRampTimer * follower->mRampWeightPerCount;
+    n = (follower->mLinkWasBehind != 0) ? 0x266 : 0x148;
     BlendDirectionTowardVector(direction, ((u64) ((s64) n * s)) >> 12, &toLink, &toLink);
     SetItemObjectDirection(follower, &toLink);
 }
 
-void func_020ec9c0(LinkFollowingItemObject *follower, s32 targetSpeed, s32 speedEase, s32 targetKartIndex, s32 e) {
+void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 targetSpeed, s32 speedEase,
+                                      s32 targetKartIndex, s32 flag) {
     SegmentPoints *segmentPoints;
     Vec3 *pos;
     Vec3 *velocity;
@@ -229,23 +230,23 @@ void func_020ec9c0(LinkFollowingItemObject *follower, s32 targetSpeed, s32 speed
     Vec3 wallNormal;
     Vec3 v4c;
     s32 s;
-    BOOL f;
+    BOOL hasFlag40000000;
     s32 alongNormal;
 
     segmentPoints = &follower->mSegmentPoints;
     pos = &follower->mUnk_000.mUnk_000.mPos;
     velocity = &follower->mUnk_000.mUnk_000.mVelocity;
-    f = (follower->mUnk_000.mUnk_000.mFlags & 0x40000000) != 0;
+    hasFlag40000000 = (follower->mUnk_000.mUnk_000.mFlags & 0x40000000) != 0;
     targetSpeed -= follower->mUnk_000.mSpeed;
     follower->mUnk_000.mSpeed = follower->mUnk_000.mSpeed + (s32) (((u64) ((s64) targetSpeed * speedEase)) >> 12);
     SetSegmentProgressRate(&segmentPoints->mSegmentProgress, follower->mUnk_000.mSpeed);
     if (AdvanceSegmentProgress(&segmentPoints->mSegmentProgress) != FALSE) {
         do {
             follower->mPreviousLink = follower->mTargetLink;
-            PickNextItemPointLink(&follower->mPreviousLink, &follower->mTargetLink, targetKartIndex, e);
+            PickNextItemPointLink(&follower->mPreviousLink, &follower->mTargetLink, targetKartIndex, flag);
         } while (PushSegmentPoint(segmentPoints, follower->mTargetLink.mLink->mPointPos) != 0);
     }
-    if (f) {
+    if (hasFlag40000000) {
         v4c = *pos;
         GetSegmentProgressPoint(segmentPoints, pos);
         velocity->y = 0;
@@ -321,11 +322,11 @@ void func_020ec9c0(LinkFollowingItemObject *follower, s32 targetSpeed, s32 speed
 }
 
 void AdvanceLinkFollowingItem(LinkFollowingItemObject *follower, s32 targetSpeed, s32 speedEase, s32 targetKartIndex,
-                              s32 d) {
+                              s32 flag) {
     if (follower->mRampTimer >= 0) {
-        func_020ece1c(follower, targetSpeed, targetKartIndex, d);
+        SteerLinkFollowingItemToLink(follower, targetSpeed, targetKartIndex, flag);
         if (follower->mRampTimer == 0) {
-            if (func_020ed0f4(follower) != FALSE) {
+            if (TryInitLinkFollowingSegments(follower) != FALSE) {
                 follower->mRampTimer = -1;
             }
             return;
@@ -337,15 +338,15 @@ void AdvanceLinkFollowingItem(LinkFollowingItemObject *follower, s32 targetSpeed
         }
         follower->mRampTimer -= 1;
     } else {
-        func_020ec9c0(follower, targetSpeed, speedEase, targetKartIndex, d);
+        AdvanceLinkFollowingItemSegments(follower, targetSpeed, speedEase, targetKartIndex, flag);
     }
 }
 
 void InitLinkFollowingItem(LinkFollowingItemObject *follower, s32 rampCount, s32 rampWeightPerCount, s32 c,
-                           s32 endsOnFirstHit, s32 reverse, u16 targetKartIndex, s32 g) {
+                           s32 endsOnFirstHit, s32 reverse, u16 targetKartIndex, s32 flag) {
     InitItemObjectMotion(follower, (endsOnFirstHit == 0) ? -1 : 0, reverse, c);
     follower->mRampTimer = rampCount;
-    follower->mUnk_218 = rampWeightPerCount;
-    PickNextItemPointLink(&follower->mPreviousLink, &follower->mTargetLink, targetKartIndex, g);
-    follower->mUnk_224 = 0;
+    follower->mRampWeightPerCount = rampWeightPerCount;
+    PickNextItemPointLink(&follower->mPreviousLink, &follower->mTargetLink, targetKartIndex, flag);
+    follower->mLinkWasBehind = 0;
 }

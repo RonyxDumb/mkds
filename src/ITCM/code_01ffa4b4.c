@@ -120,10 +120,11 @@ void func_01ffa4b4(Kart *p, Vec3 *a) {
             }
         }
         if (f & 0x400000) {
-            func_020efc74(&(gKartItems)[p->mIndex], (u16) ((PickCollisionHitValue(0x400000) & 0xe0) >> 5));
+            SetKartItemLinkFromHitValue(&(gKartItems)[p->mIndex],
+                                        (u16) ((PickCollisionHitValue(0x400000) & 0xe0) >> 5));
             if (p->mUnk_4c & 0x10000000) {
                 ResetKartKillerCursorTo(&p->mUnk_538.mKillerCursor,
-                                        (RacePointLink *) (gKartItems)[p->mIndex].mUnk_1f0.mLink);
+                                        (RacePointLink *) (gKartItems)[p->mIndex].mItemLink.mLink);
             }
             if ((p->mUnk_7c & 2) && (f & 0x400000) && p->mState != KART_STATE_LAUNCH_DOUBLE_FLIP) {
                 CallKartAiRequestLink(p->mAi);

@@ -38,9 +38,9 @@ void *StartItemBombWithParkedItemBox(u16 a) {
     parkedMapObject = FindParkedMapObject(0xc9);
     if (parkedMapObject != NULL) {
         SetItemBoxFramesSinceHitMax(parkedMapObject);
-        parkedMapObject->mUnk_0f2 = a;
-        parkedMapObject->mUnk_0f4 = a;
-        parkedMapObject->mUnk_0ac = 1;
+        parkedMapObject->mForcedRowHumanGhostPeer = a;
+        parkedMapObject->mForcedRowCpu = a;
+        parkedMapObject->mShortSpin = 1;
         return StartItemBombWithMapObject(parkedMapObject, 0xa000);
     }
     return NULL;
