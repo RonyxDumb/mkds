@@ -122,12 +122,12 @@ typedef struct Unk020e1d10 {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ CollisionData mCollisionData;
     /* 13c */ s32 mUnk_13c;
+    /* 140 */ struct Nsbmd *mModel; // set by SetMapObjectsModel, drawn by DrawMapObjectModelAtPos
 } Unk020e1d10;
 
 // Koopa block: the shared part, then the path follower.
 typedef struct Unk020e005c {
     /* 000 */ Unk020e1d10 mUnk_000;
-    /* 140 */ void *mUnk_140;
     /* 144 */ GroupFollower mUnk_144;
     /* 168 */ s32 mUnk_168;
     /* 16c */ u16 mUnk_16c;
@@ -136,7 +136,6 @@ typedef struct Unk020e005c {
 // Object InitRotary fills.
 typedef struct Unk020e3ef4 {
     /* 000 */ Unk020e1d10 mUnk_000;
-    /* 140 */ struct Nsbmd *mModel;
     /* 144 */ u16 mRampFrameCount;
     /* 146 */ u16 mSteadyFrameCount;
     /* 148 */ u16 mPauseFrameCount;
@@ -172,8 +171,8 @@ void InitVehicleUpdateList(MapObjectList *updateList);
 void InitVehicleDrawList(VehicleDrawList *drawList);
 void InitVehicle(Unk020e1e98 *vehicle, struct CourseMapRow *courseRow, Unk020e1e98_154 *kindInfo);
 void ResetVehicleToStartEntry(Unk020e1e98 *vehicle);
-void DrawVisibleMapObjects(MapObjectList *list, void *viewMatrix, void (*drawObject)(Unk020e3ef4 *, void *, u32));
-void DrawMapObjectModelAtPos(Unk020e3ef4 *mapObject, void *viewMatrix, u32 alpha);
+void DrawVisibleMapObjects(MapObjectList *list, void *viewMatrix, void (*drawObject)(Unk020e1d10 *, void *, u32));
+void DrawMapObjectModelAtPos(Unk020e1d10 *mapObject, void *viewMatrix, u32 alpha);
 void SetMapObjectsModel(MapObjectList *list, void *model);
 s32 ComputeSphereHitOnCollisionData(Unk020e1d10 *object, Vec3 *sphereCenter, s32 sphereRadius, u16 queryFlags,
                                     CollisionHitRecord *firstHitRecord, CollisionHitRecord *secondHitRecord,

@@ -550,25 +550,25 @@ void ResetVehicleToStartEntry(Unk020e1e98 *vehicle) {
 
 #pragma thumb off
 
-void DrawVisibleMapObjects(MapObjectList *list, void *viewMatrix, void (*drawObject)(Unk020e3ef4 *, void *, u32)) {
+void DrawVisibleMapObjects(MapObjectList *list, void *viewMatrix, void (*drawObject)(Unk020e1d10 *, void *, u32)) {
     s32 index;
     s32 count = list->mMapObjectCount;
 
     for (index = 0; index < count; index++) {
-        Unk020e3ef4 *mapObject = list->mMapObjects[index];
+        Unk020e1d10 *mapObject = list->mMapObjects[index];
 
-        if ((mapObject->mUnk_000.mMapObject.mFlags & 0x12) == 0 && mapObject->mUnk_000.mMapObject.mAlpha != 0) {
-            drawObject(mapObject, viewMatrix, mapObject->mUnk_000.mMapObject.mAlpha);
+        if ((mapObject->mMapObject.mFlags & 0x12) == 0 && mapObject->mMapObject.mAlpha != 0) {
+            drawObject(mapObject, viewMatrix, mapObject->mMapObject.mAlpha);
         }
     }
 }
 
-void DrawMapObjectModelAtPos(Unk020e3ef4 *mapObject, void *viewMatrix, u32 alpha) {
-    mapObject->mUnk_000.mMapObject.mMatrix.mUnk_00[3].x = mapObject->mUnk_000.mMapObject.mPos.x >> 4;
-    mapObject->mUnk_000.mMapObject.mMatrix.mUnk_00[3].y = mapObject->mUnk_000.mMapObject.mPos.y >> 4;
-    mapObject->mUnk_000.mMapObject.mMatrix.mUnk_00[3].z = mapObject->mUnk_000.mMapObject.mPos.z >> 4;
-    DrawNsbmdWithMatrixAndMaxAlpha(mapObject->mModel, &mapObject->mUnk_000.mMapObject.mMatrix,
-                                   &mapObject->mUnk_000.mMapObject.mScale.x, alpha);
+void DrawMapObjectModelAtPos(Unk020e1d10 *mapObject, void *viewMatrix, u32 alpha) {
+    mapObject->mMapObject.mMatrix.mUnk_00[3].x = mapObject->mMapObject.mPos.x >> 4;
+    mapObject->mMapObject.mMatrix.mUnk_00[3].y = mapObject->mMapObject.mPos.y >> 4;
+    mapObject->mMapObject.mMatrix.mUnk_00[3].z = mapObject->mMapObject.mPos.z >> 4;
+    DrawNsbmdWithMatrixAndMaxAlpha(mapObject->mModel, &mapObject->mMapObject.mMatrix,
+                                   &mapObject->mMapObject.mScale.x, alpha);
 }
 
 void SetMapObjectsModel(MapObjectList *list, void *model) {
@@ -576,7 +576,7 @@ void SetMapObjectsModel(MapObjectList *list, void *model) {
     s32 count = list->mMapObjectCount;
 
     for (index = 0; index < count; index++) {
-        Unk020e3ef4 *mapObject = list->mMapObjects[index];
+        Unk020e1d10 *mapObject = list->mMapObjects[index];
 
         mapObject->mModel = model;
     }

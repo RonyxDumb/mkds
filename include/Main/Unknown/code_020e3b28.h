@@ -4,6 +4,7 @@
 #include "Main/Unknown/code_020f9c6c.h"
 
 typedef struct Unk020e1e98_154 Unk020e1e98_154;
+typedef struct Unk020e1d10 Unk020e1d10;
 typedef struct Unk020e3ef4 Unk020e3ef4;
 typedef struct BridgeDrawList BridgeDrawList;
 typedef struct Bridge Bridge;
@@ -20,5 +21,5 @@ void *CreateBridgeKindData(void);
 void *CreateBridgeDrawList(void);
 void *CreateBridgeUpdateList(void);
 void UpdateBridge(s32 unused, Bridge *bridge); /* skipped for objects with mFlags & 4 (parked pool objects) */
-void DrawBridge(Unk020e3ef4 *object, void *viewMatrix, u32 alpha);
+void DrawBridge(Unk020e1d10 *object, void *viewMatrix, u32 alpha);
 void DrawAllBridges(void *viewMatrix);

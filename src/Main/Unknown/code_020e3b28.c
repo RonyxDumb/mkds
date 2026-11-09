@@ -97,19 +97,19 @@ void CreateRotary(BridgeDrawList *list) {
         object = list->mMapObjectList.mMapObjects[assignIndex];
         switch (object->mModelIndex) {
             case 0:
-                object->mModel = gTestCylinder;
+                object->mUnk_000.mModel = gTestCylinder;
                 break;
             case 1:
-                object->mModel = gGearBlack;
+                object->mUnk_000.mModel = gGearBlack;
                 break;
             case 2:
-                object->mModel = gGearWhite;
+                object->mUnk_000.mModel = gGearWhite;
                 break;
             case 3:
-                object->mModel = gRotaryRoom;
+                object->mUnk_000.mModel = gRotaryRoom;
                 break;
             case 4:
-                object->mModel = gRotaryBridge;
+                object->mUnk_000.mModel = gRotaryBridge;
                 break;
         }
     }
@@ -293,17 +293,18 @@ void UpdateBridge(s32 unused, Bridge *bridge) {
     }
 }
 
-void DrawBridge(Unk020e3ef4 *object, void *viewMatrix, u32 alpha) {
+void DrawBridge(Unk020e1d10 *object, void *viewMatrix, u32 alpha) {
+    Bridge *bridge = (Bridge *) object;
     ModelAnimation *animation;
 
-    object->mUnk_000.mMapObject.mMatrix.mUnk_00[3].x = object->mUnk_000.mMapObject.mPos.x >> 4;
-    object->mUnk_000.mMapObject.mMatrix.mUnk_00[3].y = object->mUnk_000.mMapObject.mPos.y >> 4;
-    object->mUnk_000.mMapObject.mMatrix.mUnk_00[3].z = object->mUnk_000.mMapObject.mPos.z >> 4;
+    object->mMapObject.mMatrix.mUnk_00[3].x = object->mMapObject.mPos.x >> 4;
+    object->mMapObject.mMatrix.mUnk_00[3].y = object->mMapObject.mPos.y >> 4;
+    object->mMapObject.mMatrix.mUnk_00[3].z = object->mMapObject.mPos.z >> 4;
     animation = gBridgeNsbca;
-    animation->mHead.mFrameIndex = object->mUnk_154;
+    animation->mHead.mFrameIndex = bridge->mAnimationFrameIndex;
     animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
-    DrawNsbmdWithMatrixAndMaxAlpha(object->mModel, &object->mUnk_000.mMapObject.mMatrix,
-                                   &object->mUnk_000.mMapObject.mScale.x, alpha);
+    DrawNsbmdWithMatrixAndMaxAlpha(object->mModel, &object->mMapObject.mMatrix,
+                                   &object->mMapObject.mScale.x, alpha);
 }
 
 void DrawAllBridges(void *viewMatrix) {
