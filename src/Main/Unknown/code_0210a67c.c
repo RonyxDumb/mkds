@@ -461,7 +461,7 @@ void StartKartPlayingSoundSeq(Kart *kart, PlayingSound *playingSound, s32 c) {
         } else if (g == 3) {
             f = 5;
         } else if (g == 6) {
-            if (IsThunderShrinkFlagSet() != 0 || IsKartNear() != 0) {
+            if (IsTeresaSoundFlagSet() != 0 || IsKartNear() != 0) {
                 f = 7;
             }
         }

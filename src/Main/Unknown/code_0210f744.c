@@ -557,7 +557,7 @@ void func_0210faf4(void) {
     func_0210fb88(&gSeqPlayerControl, &data_0217d07c);
 }
 
-u32 IsThunderShrinkFlagSet(void) {
+u32 IsTeresaSoundFlagSet(void) {
     if ((gSeqPlayerControl.mFlags >> 2) & 1) {
         return 1;
     }
