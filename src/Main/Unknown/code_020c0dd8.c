@@ -15,129 +15,129 @@
 #include "Main/Unknown/code_020b1000.h"
 #include "Main/Unknown/code_0203c8dc.h"
 
-void func_020c1060(void) {
-    s32 a[8];
-    s32 c;
-    u32 p;
-    u32 r;
-    u32 w;
-    KartCourseResult *s;
-    s32 v;
-    BOOL x0;
-    s32 x1;
-    BOOL x2;
-    s32 x3;
+void RefreshRaceGoalSRows(void) {
+    s32 sortKeys[8];
+    s32 humanGhostPeerFlag;
+    u32 lowByte;
+    u32 courseIndexInCup;
+    u32 score;
+    KartCourseResult *record;
+    s32 isHumanGhostOrPeer;
+    BOOL falseValueFirst;
+    s32 zeroFirst;
+    BOOL falseValueSecond;
+    s32 zeroSecond;
     u16 i;
-    u16 j;
-    u16 k;
-    s32 m;
-    s32 n;
-    s32 neg;
+    u16 rowIndex;
+    u16 kartIndex;
+    s32 newRowIndex;
+    s32 previousRowIndex;
+    s32 minusOne;
 
-    neg = -1;
-    x0 = FALSE;
-    x1 = 0;
-    x2 = FALSE;
-    x3 = 0;
+    minusOne = -1;
+    falseValueFirst = FALSE;
+    zeroFirst = 0;
+    falseValueSecond = FALSE;
+    zeroSecond = 0;
     {
         for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
             if (gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE) {
-                v = x0;
+                isHumanGhostOrPeer = falseValueFirst;
                 if (gRaceSetup->mCurrentEntries[i].mPlayer.mKind <= 3 &&
                     ((1 << gRaceSetup->mCurrentEntries[i].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
-                    v = 1;
+                    isHumanGhostOrPeer = 1;
                 }
-                c = v != 0 ? 1 : x1;
-                p = GetLowByte(i);
-                r = GetCourseIndexInCup();
-                w = gCupRecords->mKartResults[r][GetLowByte(p)].mWinCount;
-                a[i] = w * 16 + c * 8 + 8 - GetKartRank(i);
+                humanGhostPeerFlag = isHumanGhostOrPeer != 0 ? 1 : zeroFirst;
+                lowByte = GetLowByte(i);
+                courseIndexInCup = GetCourseIndexInCup();
+                score = gCupRecords->mKartResults[courseIndexInCup][GetLowByte(lowByte)].mWinCount;
+                sortKeys[i] = score * 16 + humanGhostPeerFlag * 8 + 8 - GetKartRank(i);
             } else {
-                v = x2;
+                isHumanGhostOrPeer = falseValueSecond;
                 if (gRaceSetup->mCurrentEntries[i].mPlayer.mKind <= 3 &&
                     ((1 << gRaceSetup->mCurrentEntries[i].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
-                    v = 1;
+                    isHumanGhostOrPeer = 1;
                 }
-                c = v != 0 ? 1 : x3;
-                p = GetLowByte(i);
-                r = GetCourseIndexInCup();
-                s = &gCupRecords->mKartResults[r][GetLowByte(p)];
-                w = s->mTotalPoints;
-                a[i] = w * 16 + c * 8 + 8 - GetKartRank(i);
-                p = GetLowByte(i);
-                r = GetCourseIndexInCup();
-                s = &gCupRecords->mKartResults[r][GetLowByte(p)];
-                gRaceGoalS->mShownNumbers[i] = s->mTotalPoints;
+                humanGhostPeerFlag = isHumanGhostOrPeer != 0 ? 1 : zeroSecond;
+                lowByte = GetLowByte(i);
+                courseIndexInCup = GetCourseIndexInCup();
+                record = &gCupRecords->mKartResults[courseIndexInCup][GetLowByte(lowByte)];
+                score = record->mTotalPoints;
+                sortKeys[i] = score * 16 + humanGhostPeerFlag * 8 + 8 - GetKartRank(i);
+                lowByte = GetLowByte(i);
+                courseIndexInCup = GetCourseIndexInCup();
+                record = &gCupRecords->mKartResults[courseIndexInCup][GetLowByte(lowByte)];
+                gRaceGoalS->mShownNumbers[i] = record->mTotalPoints;
             }
         }
     }
     for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
         gRaceGoalS->mRowKartIndex[i] = i;
-        a[i] = a[i] * neg;
+        sortKeys[i] = sortKeys[i] * minusOne;
     }
-    SortIndicesByKey(gRaceGoalS->mRowKartIndex, a, gRaceSetup->mKartCount);
-    for (k = 0; k < (u32) gRaceSetup->mKartCount; k++) {
+    SortIndicesByKey(gRaceGoalS->mRowKartIndex, sortKeys, gRaceSetup->mKartCount);
+    for (kartIndex = 0; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
         {
-            for (j = 0; j < (u32) gRaceSetup->mKartCount; j++) {
-                if (k == gRaceGoalS->mRowKartIndex[j]) {
-                    m = j;
-                    SetKartCupRank(k, (j + 1) & 0xff);
-                    data_0217b488->mUnk_ec[k] = j;
+            for (rowIndex = 0; rowIndex < (u32) gRaceSetup->mKartCount; rowIndex++) {
+                if (kartIndex == gRaceGoalS->mRowKartIndex[rowIndex]) {
+                    newRowIndex = rowIndex;
+                    SetKartCupRank(kartIndex, (rowIndex + 1) & 0xff);
+                    data_0217b488->mUnk_ec[kartIndex] = rowIndex;
                     break;
                 }
             }
             for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
-                if (k == gRaceGoalS->mPreviousRowKartIndex[i]) {
-                    n = i;
+                if (kartIndex == gRaceGoalS->mPreviousRowKartIndex[i]) {
+                    previousRowIndex = i;
                     break;
                 }
             }
-            if (m < n) {
-                gRaceGoalS->mRankComparison[k] = 1;
-            } else if (m > n) {
-                gRaceGoalS->mRankComparison[k] = 0;
+            if (newRowIndex < previousRowIndex) {
+                gRaceGoalS->mRankComparison[kartIndex] = 1;
+            } else if (newRowIndex > previousRowIndex) {
+                gRaceGoalS->mRankComparison[kartIndex] = 0;
             } else {
-                gRaceGoalS->mRankComparison[k] = 2;
+                gRaceGoalS->mRankComparison[kartIndex] = 2;
             }
         }
     }
 }
 
-void func_020c0fd0(void) {
-    s32 n;
+void SlideOutRaceGoalS(void) {
+    s32 frame;
 
-    n = gRaceGoalS->mUpdateFrames++;
-    if (n < 0x14) {
-        gRaceGoalS->mOffsetX = InterpolateS16(1, 0, 0x100, n, 0x14);
+    frame = gRaceGoalS->mUpdateFrames++;
+    if (frame < 0x14) {
+        gRaceGoalS->mOffsetX = InterpolateS16(1, 0, 0x100, frame, 0x14);
     } else {
         gRaceGoalS->mOffsetX = 0x100;
-        gRaceGoalS->mUpdate = func_020c0f48;
+        gRaceGoalS->mUpdate = SlideInRaceGoalSTeams;
         gRaceGoalS->mUpdateFrames = 0;
         RequestRaceHudSubScreenState5();
     }
 }
 
-void func_020c0f48(void) {
-    s32 n;
+void SlideInRaceGoalSTeams(void) {
+    s32 frame;
 
-    n = gRaceGoalS->mUpdateFrames++;
-    if (n < 0x14) {
-        gRaceGoalS->mOffsetX = InterpolateS16(1, 0x80, 0, n, 0x14);
+    frame = gRaceGoalS->mUpdateFrames++;
+    if (frame < 0x14) {
+        gRaceGoalS->mOffsetX = InterpolateS16(1, 0x80, 0, frame, 0x14);
     } else {
         gRaceGoalS->mOffsetX = 0;
-        gRaceGoalS->mUpdate = func_020c0f0c;
+        gRaceGoalS->mUpdate = AdvanceRaceGoalSRefreshRows;
         gRaceGoalS->mUpdateFrames = 0;
     }
 }
 
-void func_020c0f0c(void) {
-    func_020c1060();
-    gRaceGoalS->mUpdate = func_020c0ee4;
+void AdvanceRaceGoalSRefreshRows(void) {
+    RefreshRaceGoalSRows();
+    gRaceGoalS->mUpdate = AdvanceRaceGoalSToRefreshCourseCountReached;
     gRaceGoalS->mUpdateFrames = 0;
 }
 
-void func_020c0ee4(void) {
-    gRaceGoalS->mUpdate = func_020c0dd8;
+void AdvanceRaceGoalSToRefreshCourseCountReached(void) {
+    gRaceGoalS->mUpdate = RefreshRaceGoalSCourseCountReached;
     gRaceGoalS->mUpdateFrames = 0;
 }
 
@@ -145,23 +145,23 @@ static inline CourseTeamResult *func_020c0dd8_inline(s32 j) {
     return &gCupRecords->mTeamResults[GetCourseIndexInCup()].mTeams[j];
 }
 
-void func_020c0dd8(void) {
-    s32 a;
-    s32 b;
+void RefreshRaceGoalSCourseCountReached(void) {
+    s32 bestValue;
+    s32 teamOneValue;
 
     if (gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE) {
         if (gRaceSetup->mUseTeams != 0) {
-            a = func_020c0dd8_inline(0)->mUnk_02;
-            b = func_020c0dd8_inline(1)->mUnk_02;
-            if (a <= b) {
-                a = b;
+            bestValue = func_020c0dd8_inline(0)->mUnk_02;
+            teamOneValue = func_020c0dd8_inline(1)->mUnk_02;
+            if (bestValue <= teamOneValue) {
+                bestValue = teamOneValue;
             }
         } else {
-            a = gRaceGoalS->mShownNumbers[gRaceGoalS->mRowKartIndex[0]];
+            bestValue = gRaceGoalS->mShownNumbers[gRaceGoalS->mRowKartIndex[0]];
         }
-        gRaceGoalS->mUnk_00b4 = a >= gRaceSetup->mCourseCount;
+        gRaceGoalS->mCourseCountReached = bestValue >= gRaceSetup->mCourseCount;
     } else {
-        gRaceGoalS->mUnk_00b4 = gRaceSetup->mCourseNumber >= gRaceSetup->mCourseCount;
+        gRaceGoalS->mCourseCountReached = gRaceSetup->mCourseNumber >= gRaceSetup->mCourseCount;
     }
     gRaceGoalS->mUpdate = func_020c13d0;
     gRaceGoalS->mUpdateFrames = 0;

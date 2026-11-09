@@ -320,7 +320,7 @@ void UploadRaceHud(void) {
             }
             break;
     }
-    if (func_020b2e98() != 0) {
+    if (IsChoisesSOpen() != 0) {
         if (gRaceProgress->mRaceDone == 0) {
             w = (reg_GX_DISPCNT & 0x1f00) >> 8;
             reg_GX_DISPCNT = (reg_GX_DISPCNT & ~0x1f00) | ((w | 4) << 8);

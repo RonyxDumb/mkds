@@ -162,7 +162,7 @@ void UpdateRaceScene(Unk0203a0dc *sceneNumbers, u32 sceneFrames) {
 void PreSleepRaceScene(void) {
     data_021759d0->mUnk_54 = FALSE;
     if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
-        func_020b2e64(1);
+        SetChoisesSOpenDuringRace(1);
     }
     func_02046e84();
     while ((u32) data_0217c7ac != 0) {

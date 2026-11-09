@@ -9,13 +9,13 @@
 
 #pragma thumb on
 
-void func_020b2e64(u32 openFlag) {
+void SetChoisesSOpenDuringRace(u32 openFlag) {
     int wasOpen;
     int v2;
     wasOpen = GetChoisesSOpenDuringRace();
     v2 = IsChoisesSOpenAllowedDuringRace();
     if (v2 != 0) {
-        func_020b2f88(openFlag);
+        SetChoisesSOpen(openFlag);
     }
     v2 = GetChoisesSOpenDuringRace();
     if ((wasOpen == 0) && (v2 != 0)) {
@@ -28,10 +28,10 @@ u32 GetChoisesSPrevOpenDuringRace(void) {
 }
 
 int GetChoisesSPickedValue(void) {
-    int v1;
+    int courseCountReached;
     int pickedValue;
     pickedValue = gChoisesS->mPickedValue;
-    if ((pickedValue == 2) && (v1 = func_020c3db4(), v1 != 0)) {
+    if ((pickedValue == 2) && (courseCountReached = func_020c3db4(), courseCountReached != 0)) {
         pickedValue = 7;
     }
     return pickedValue;

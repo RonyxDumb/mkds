@@ -116,7 +116,7 @@ void UpdateRaceGoalSOffset(void) {
             if (func_020c1728 == gRaceGoalS->mUpdate) {
                 gRaceGoalS->mOffsetState = 3;
                 gRaceGoalS->mOffsetStateFrames = 0;
-            } else if (func_020c0fd0 == gRaceGoalS->mUpdate) {
+            } else if (SlideOutRaceGoalS == gRaceGoalS->mUpdate) {
                 gRaceGoalS->mOffsetState = 9;
                 gRaceGoalS->mOffsetStateFrames = 0;
             }
@@ -209,7 +209,7 @@ void InitRaceGoalS(void) {
     gRaceGoalS->mHiddenRowCount = 0;
     gRaceGoalS->mUpdate = func_020c1ef8;
     gRaceGoalS->mUpdateFrames = 0;
-    gRaceGoalS->mUnk_00b4 = 0;
+    gRaceGoalS->mCourseCountReached = 0;
     gRaceGoalS->mOffsetX = -0x100;
     for (j = 0; j < gRaceSetup->mKartCount; j = (u16) (j + 1)) {
         if (gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE) {
@@ -338,9 +338,8 @@ void DrawRaceGoalSKarts(RaceHudOamBuffer *oamBuffer) {
                 cell2bPosition[0] = 0x80000;
                 cell2bPosition[1] = (offset + 0x60) << 12;
                 oam = &oamBuffer->mOamBits[oamIndex];
-                oamBuffer->mOamCount +=
-                    NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, cell2bPosition, 0,
-                                          1);
+                oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL,
+                                                              cell2bPosition, 0, 1);
                 for (; oamIndex < oamBuffer->mOamCount; oamIndex++, oam++) {
                     oam->mUnk_0e = 1;
                 }

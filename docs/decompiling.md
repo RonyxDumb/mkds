@@ -950,7 +950,7 @@ Expression shapes:
 - `add rD, inv, mod` where `inv + k % 4` gives the operands swapped: pass the invariant as a parameter of a static
   inline that writes `r + k % 4` (func_020b41e8).
 - `adds r0, r0, #0` / `#4` kept before a byte load after a table-index call: a static inline returning
-  `&tbl[idx()].mUnk_00[j]`, used as `helper(j)->member` (func_0202a360; may also fit func_020c0dd8 and func_020c13e8).
+  `&tbl[idx()].mUnk_00[j]`, used as `helper(j)->member` (may also fit RefreshRaceGoalSCourseCountReached).
 - Inline arguments moved into place in the wrong order (they are passed right to left) while the registers are right:
   the inline assigns its parameters to its own locals in the original's order, `i = size; p = a; q = b;`, declared
   `p, q, t, i` (func_021382a8).

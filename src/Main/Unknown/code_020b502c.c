@@ -126,7 +126,7 @@ BOOL IsCourseWithSubBg3CntBit13(void) {
 u16 GetSubScreenAngleAndClearScrollTimer(void) {
     u16 angle = 0;
     Camera *camera;
-    s32 a;
+    s32 rawAngle;
 
     switch (GetRaceHudSubScreenState()) {
         case 1:
@@ -135,16 +135,16 @@ u16 GetSubScreenAngleAndClearScrollTimer(void) {
             } else {
                 camera = GetChaseCamera();
             }
-            a = FX_Atan2Idx(camera->mViewMatrix.mUnk_00[2].z, camera->mViewMatrix.mUnk_00[0].z);
-            angle = (0x14000 - a) % 0x10000;
+            rawAngle = FX_Atan2Idx(camera->mViewMatrix.mUnk_00[2].z, camera->mViewMatrix.mUnk_00[0].z);
+            angle = (0x14000 - rawAngle) % 0x10000;
             gRaceHudSubScreenProjection->mScrollTimer = 0;
             break;
         case 2:
             angle = 0;
             break;
         case 3:
-            a = GetFixed12Whole(func_020b57e4()->mUnk_10);
-            angle = (a << 16) / 360 + 0x8000;
+            rawAngle = GetFixed12Whole(func_020b57e4()->mUnk_10);
+            angle = (rawAngle << 16) / 360 + 0x8000;
             break;
         default:
             break;
@@ -295,7 +295,7 @@ BOOL ComputeRaceHudSubScreenPosition(const Vec3 *pos, UnkPair020b502c *out, s32 
     s32 projectedX;
     s32 projectedY;
     s32 dy;
-    s32 e;
+    s32 deltaY;
     s32 screenX;
     s32 screenY;
     UnkPair020b502c centerWhole;
@@ -334,11 +334,13 @@ BOOL ComputeRaceHudSubScreenPosition(const Vec3 *pos, UnkPair020b502c *out, s32 
             GetFixed12Whole(MulFixed12NoRound(pairFirstScaled, dx) + MulFixed12NoRound(pairSecondScaled, dy)) + 0x60;
     } else {
         dx = projectedX - centerX;
-        e = projectedY - centerY;
+        deltaY = projectedY - centerY;
         screenX =
-            GetFixed12Whole(MulFixed12NoRound(pairSecondScaled, dx) - MulFixed12NoRound(pairFirstScaled, e)) + 0x80;
+            GetFixed12Whole(MulFixed12NoRound(pairSecondScaled, dx) - MulFixed12NoRound(pairFirstScaled, deltaY)) +
+            0x80;
         screenY =
-            GetFixed12Whole(MulFixed12NoRound(pairFirstScaled, dx) + MulFixed12NoRound(pairSecondScaled, e)) + 0x60;
+            GetFixed12Whole(MulFixed12NoRound(pairFirstScaled, dx) + MulFixed12NoRound(pairSecondScaled, deltaY)) +
+            0x60;
     }
     if (screenX > -32 && screenX < 0x120 && screenY > -32 && screenY < 0xe0) {
         out->mUnk_00 = screenX;

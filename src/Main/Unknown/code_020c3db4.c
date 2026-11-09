@@ -3,7 +3,7 @@
 #include "Main/Unknown/unk_0217b000.h"
 
 u32 func_020c3db4(void) {
-    u32 v = gRaceGoalS->mUnk_00b4;
+    u32 v = gRaceGoalS->mCourseCountReached;
     RaceSetup *setup = gRaceSetup;
 
     if (setup->mMode == MODE_VS || setup->mMode == 5 || setup->mMode == MODE_BATTLE) {

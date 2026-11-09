@@ -4,4 +4,4 @@
 
 int GetChoisesSPickedValue(void);
 unsigned int GetChoisesSPrevOpenDuringRace(void);
-void func_020b2e64(u32 openFlag);
+void SetChoisesSOpenDuringRace(u32 openFlag);

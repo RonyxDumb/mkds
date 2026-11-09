@@ -8,14 +8,14 @@
 
 #pragma thumb on
 
-void func_020b2c68(void) {
-    func_020b2da4();
+void WriteChoisesSListScreenMap(void) {
+    WriteChoisesSListTiles();
     MoveChoisesSSelectedValue(0);
-    func_020b2c80();
+    WriteChoisesSSelectedValueTiles();
 }
 
 #pragma thumb off
 
-u32 func_020b2c54(void) {
+u32 ChoisesSIsBackupEnabled(void) {
     return (gBackupAccess->mBackupEnabled);
 }

@@ -40,7 +40,7 @@ u32 GetChoisesSListIndex(void) {
     return 0;
 }
 
-void func_020b2c80(s32 selectedIndex) {
+void WriteChoisesSSelectedValueTiles(s32 selectedIndex) {
     s32 valueCount;
     s32 row;
     u16 *screenMap;

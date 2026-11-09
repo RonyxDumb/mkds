@@ -11,9 +11,9 @@
 
 void UpdateChoisesSScreenMap(void) {
     int isOpen;
-    isOpen = func_020b2e98();
+    isOpen = IsChoisesSOpen();
     if (isOpen != 0) {
-        func_020b2c68();
+        WriteChoisesSListScreenMap();
     }
 }
 

@@ -36,7 +36,7 @@ void func_020c1ef8(void) {
     }
     gRaceGoalS->mUnk_00a4 = 1;
     if (gRaceSetup->mMode == MODE_BATTLE && gRaceSetup->mUseTeams != 0) {
-        gRaceGoalS->mUpdate = func_020c0f48;
+        gRaceGoalS->mUpdate = SlideInRaceGoalSTeams;
         gRaceGoalS->mUpdateFrames = 0;
         RequestRaceHudSubScreenState5();
     } else {
@@ -181,7 +181,7 @@ void func_020c195c(void) {
         }
     } else {
         if (gRaceSetup->mUseTeams != 0) {
-            gRaceGoalS->mUpdate = func_020c0fd0;
+            gRaceGoalS->mUpdate = SlideOutRaceGoalS;
             gRaceGoalS->mUpdateFrames = 0;
         } else if (gRaceSetup->mCourseNumber == 1) {
             gRaceGoalS->mUpdate = func_020c13e8;
@@ -195,7 +195,7 @@ void func_020c195c(void) {
     keyABits = gInputSlots[inputSlot].mPressedBits & PAD_KEY_A;
     if (keyABits != 0 && frame >= 0x2d) {
         if (gRaceSetup->mUseTeams != 0) {
-            gRaceGoalS->mUpdate = func_020c0fd0;
+            gRaceGoalS->mUpdate = SlideOutRaceGoalS;
             gRaceGoalS->mUpdateFrames = 0;
         } else if (gRaceSetup->mCourseNumber == 1) {
             gRaceGoalS->mUpdate = func_020c13e8;
@@ -249,7 +249,7 @@ void func_020c1728(void) {
             }
         }
     } else {
-        func_020c1060();
+        RefreshRaceGoalSRows();
         gRaceGoalS->mUpdate = func_020c155c;
         gRaceGoalS->mUpdateFrames = 0;
     }
@@ -260,7 +260,7 @@ void func_020c1728(void) {
             gRaceGoalS->mRowVisible[j] = 0;
         }
         gRaceGoalS->mHiddenRowCount = gRaceSetup->mKartCount;
-        func_020c1060();
+        RefreshRaceGoalSRows();
         gRaceGoalS->mUpdate = func_020c155c;
         gRaceGoalS->mUpdateFrames = 0;
     }
@@ -329,7 +329,7 @@ void func_020c13e8(void) {
 
     frame = gRaceGoalS->mUpdateFrames++;
     if (frame < 0x3c) {
-        func_020c1060();
+        RefreshRaceGoalSRows();
         for (i = 0; i < gRaceSetup->mKartCount; i++) {
             gRaceGoalS->mRowVisible[i] = 1;
         }
@@ -344,9 +344,9 @@ void func_020c13e8(void) {
             } else {
                 a = gRaceGoalS->mShownNumbers[gRaceGoalS->mRowKartIndex[0]];
             }
-            gRaceGoalS->mUnk_00b4 = a >= gRaceSetup->mCourseCount;
+            gRaceGoalS->mCourseCountReached = a >= gRaceSetup->mCourseCount;
         } else {
-            gRaceGoalS->mUnk_00b4 = gRaceSetup->mCourseNumber >= gRaceSetup->mCourseCount;
+            gRaceGoalS->mCourseCountReached = gRaceSetup->mCourseNumber >= gRaceSetup->mCourseCount;
         }
         gRaceGoalS->mUpdate = func_020c13d0;
         gRaceGoalS->mUpdateFrames = 0;

@@ -4,7 +4,7 @@
 
 #pragma thumb on
 #pragma optimize_for_size on
-u32 func_020b2e98(void) {
+u32 IsChoisesSOpen(void) {
     if (GetChoisesSOpenDuringRace() != 0 || gChoisesS->mOpenAfterRace != 0) {
         return 1;
     }

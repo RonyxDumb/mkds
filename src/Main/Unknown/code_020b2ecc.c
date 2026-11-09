@@ -53,7 +53,7 @@ s32 MoveChoisesSSelectedValue(s32 step) {
     s32 listIndex;
     ChoisesS *choisesS;
 
-    if (func_020b2e98() != 0) {
+    if (IsChoisesSOpen() != 0) {
         listIndex = GetChoisesSListIndex();
         valueCount = gChoisesS->mLists[listIndex].mValueCount;
         for (; selectedIndex < valueCount; selectedIndex++) {
@@ -85,7 +85,7 @@ static inline ChoisesS *func_020b302c_inline(void) {
     return gChoisesS;
 }
 
-u32 func_020b302c(void) {
+u32 MoveChoisesSSelectedValueByTouch(void) {
     u32 touched = 0;
     s32 valueCount;
     s32 listIndex;
@@ -94,7 +94,7 @@ u32 func_020b302c(void) {
     s32 firstRectRow;
     s32 top;
 
-    if (func_020b2e98() != 0) {
+    if (IsChoisesSOpen() != 0) {
         MoveChoisesSSelectedValue(0);
         listIndex = GetChoisesSListIndex();
         valueCount = gChoisesS->mLists[listIndex].mValueCount;
@@ -106,7 +106,7 @@ u32 func_020b302c(void) {
             valueRects[valueIndex].mMaxY = top + 0x16;
         }
         for (valueIndex = 0; valueIndex < valueCount; valueIndex++) {
-            if (IsNewPairInRect(func_020b2b54(), valueRects[valueIndex]) != 0) {
+            if (IsNewPairInRect(GetChoisesSInputSlot(), valueRects[valueIndex]) != 0) {
                 if (gChoisesS->mSelectedValue != func_020b302c_inline()->mLists[listIndex].mValues[valueIndex]) {
                     gChoisesS->mSelectedValue = gChoisesS->mLists[listIndex].mValues[valueIndex];
                     MoveChoisesSSelectedValue(0);
@@ -135,23 +135,23 @@ void ResetChoisesSSelection(void) {
     choisesS->mSelectedValue = choisesS->mLists[GetChoisesSListIndex()].mValues[0];
 }
 
-void func_020b2f88(s32 openFlag) {
+void SetChoisesSOpen(s32 openFlag) {
     if (gChoisesS->mPickLocked != 0) {
         return;
     }
-    if (openFlag != 0 && func_020b2e98() == 0) {
+    if (openFlag != 0 && IsChoisesSOpen() == 0) {
         if (IsChoisesSOpenAllowedDuringRace() != 0) {
             gChoisesS->mOpenDuringRace = openFlag;
-        } else if (func_020b2b70() != 0) {
+        } else if (IsChoisesSOpenAllowedAfterRace() != 0) {
             gChoisesS->mOpenAfterRace = openFlag;
         } else {
             return;
         }
         ResetChoisesSSelection();
-    } else if (openFlag == 0 && func_020b2e98() != 0) {
+    } else if (openFlag == 0 && IsChoisesSOpen() != 0) {
         if (IsChoisesSOpenAllowedDuringRace() != 0) {
             gChoisesS->mOpenDuringRace = openFlag;
-        } else if (func_020b2b70() != 0) {
+        } else if (IsChoisesSOpenAllowedAfterRace() != 0) {
             gChoisesS->mOpenAfterRace = openFlag;
         } else {
             return;

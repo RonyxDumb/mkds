@@ -9,18 +9,18 @@ u32 func_020b2b5c(void) {
     return (data_0217b488->mUnk_10);
 }
 
-u32 func_020b2b54(void) {
+u32 GetChoisesSInputSlot(void) {
     return 0x8u;
 }
 
-u16 func_020b2b40(InputSlot *slot, u32 mask) {
+u16 ChoisesSGetInputSlotNewBits(InputSlot *slot, u32 mask) {
     return slot->mPressedBits & mask;
 }
 
-u16 func_020b2b24(s32 slotIndex, u32 mask) {
-    return func_020b2b40(&gInputSlots[slotIndex], mask);
+u16 ChoisesSGetNewBits(s32 slotIndex, u32 mask) {
+    return ChoisesSGetInputSlotNewBits(&gInputSlots[slotIndex], mask);
 }
 
-u32 func_020b2b1c(const void *inputSlotPair) {
+u32 ChoisesSGetPairHasPair(const void *inputSlotPair) {
     return (*OFFSET_PTR(const u16, inputSlotPair, 4));
 }

@@ -8,11 +8,11 @@ u32 RaceHudSubScreenGetCurrentMode(void) {
 
 u32 func_020b4dc4(int kartIndex) {
     int currentMode;
-    u32 v2;
+    u32 result;
     currentMode = RaceHudSubScreenGetCurrentMode();
     if ((currentMode == MODE_TIME_ATTACK) && (kartIndex != 0)) {
         return 1;
     }
-    v2 = func_0207a68c(kartIndex);
-    return v2;
+    result = func_0207a68c(kartIndex);
+    return result;
 }

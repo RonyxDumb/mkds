@@ -677,7 +677,7 @@ typedef struct RaceGoalS {
     /* 00a8 */ s32 mHiddenRowCount;
     /* 00ac */ void (*mUpdate)(void);
     /* 00b0 */ s32 mUpdateFrames;
-    /* 00b4 */ s32 mUnk_00b4;
+    /* 00b4 */ s32 mCourseCountReached;
     /* 00b8 */ struct Nclr *mRaceGoalSBNclr;
     /* 00bc */ struct Ncgr *mRaceGoalSBNcgr;
     /* 00c0 */ struct Nscr *mRaceGoalSNscrs[6];

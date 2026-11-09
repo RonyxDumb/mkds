@@ -83,7 +83,7 @@ void UpdateRaceHudSubScreen(void) {
                     switchPressed = TRUE;
                     if ((u16) (data_0217562c[func_020435bc()].mPressedBits & 0x800) == 0) {
                         e = FALSE;
-                        if (func_020b2e98() == 0) {
+                        if (IsChoisesSOpen() == 0) {
                             if (data_02175680[func_020435bc()].mPressedBits == 5) {
                                 e = TRUE;
                             }
@@ -138,7 +138,7 @@ void UpdateRaceHudSubScreen(void) {
                     switchPressed = TRUE;
                     if ((u16) (data_0217562c[func_020435bc()].mPressedBits & 0x800) == 0) {
                         e = FALSE;
-                        if (func_020b2e98() == 0) {
+                        if (IsChoisesSOpen() == 0) {
                             if (data_02175680[func_020435bc()].mPressedBits == 5) {
                                 e = TRUE;
                             }
@@ -214,7 +214,7 @@ void UpdateRaceHudSubScreen(void) {
                     switchPressed = TRUE;
                     if ((u16) (data_0217562c[func_020435bc()].mPressedBits & 0x800) == 0) {
                         e = FALSE;
-                        if (func_020b2e98() == 0) {
+                        if (IsChoisesSOpen() == 0) {
                             if (data_02175680[func_020435bc()].mPressedBits == 5) {
                                 e = TRUE;
                             }
@@ -284,7 +284,7 @@ void UpdateRaceHudSubScreen(void) {
                         switchPressed = TRUE;
                         if ((u16) (data_0217562c[func_020435bc()].mPressedBits & 0x800) == 0) {
                             e = FALSE;
-                            if (func_020b2e98() == 0) {
+                            if (IsChoisesSOpen() == 0) {
                                 if (data_02175680[func_020435bc()].mPressedBits == 5) {
                                     e = TRUE;
                                 }
@@ -331,7 +331,7 @@ void UpdateRaceHudSubScreen(void) {
                     switchPressed = TRUE;
                     if ((u16) (data_0217562c[func_020435bc()].mPressedBits & 0x800) == 0) {
                         e = FALSE;
-                        if (func_020b2e98() == 0) {
+                        if (IsChoisesSOpen() == 0) {
                             if (data_02175680[func_020435bc()].mPressedBits == 5) {
                                 e = TRUE;
                             }

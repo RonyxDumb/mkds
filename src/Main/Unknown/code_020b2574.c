@@ -30,7 +30,7 @@ void UpdateChoisesS(void) {
     if (gChoisesS->mCycleFrames >= 0x32) {
         gChoisesS->mCycleFrames = 0;
     }
-    if (func_020b2bf0() != 0) {
+    if (ChoisesSIsBackupBusy() != 0) {
         return;
     }
     if ((ChoisesSGetCurrentMode() == MODE_GRAND_PRIX || ChoisesSGetCurrentMode() == MODE_TIME_ATTACK) &&
@@ -39,16 +39,18 @@ void UpdateChoisesS(void) {
     }
     if (gChoisesS->mPickFrames == 0 && gChoisesS->mCloseFrames == 0 && IsChoisesSPickLocked() == 0) {
         if (func_020b2bc8() != 0) {
-            if (func_020b2b70() != 0) {
+            if (IsChoisesSOpenAllowedAfterRace() != 0) {
                 if (ChoisesSGetCurrentMode() == MODE_MISSION_RUN && func_020b2b5c() != 0 && func_020b2f58() != 0) {
-                    if (func_020b2b24(func_020b2b54(), PAD_KEY_A) != 0 || func_020b2a74(func_020b2b54()) != 0) {
+                    if (ChoisesSGetNewBits(GetChoisesSInputSlot(), PAD_KEY_A) != 0 ||
+                        ChoisesSIsSlotPairNew(GetChoisesSInputSlot()) != 0) {
                         gChoisesS->mPickedValue = 10;
                         gChoisesS->mSelectedValue = gChoisesS->mPickedValue;
                         gChoisesS->mPickLocked = 1;
                         StartChoisesSSelectedValueSeq();
                     }
                 } else if (ChoisesSGetCurrentMode() == MODE_MISSION_RUN && func_020b2ecc() != 0) {
-                    if (func_020b2b24(func_020b2b54(), PAD_KEY_A) != 0 || func_020b2a74(func_020b2b54()) != 0) {
+                    if (ChoisesSGetNewBits(GetChoisesSInputSlot(), PAD_KEY_A) != 0 ||
+                        ChoisesSIsSlotPairNew(GetChoisesSInputSlot()) != 0) {
                         gChoisesS->mPickedValue = 6;
                         gChoisesS->mSelectedValue = gChoisesS->mPickedValue;
                         gChoisesS->mPickLocked = 1;
@@ -56,24 +58,25 @@ void UpdateChoisesS(void) {
                         func_020b2a60(1);
                     }
                 } else if (ChoisesSGetCurrentMode() == MODE_MISSION_RUN && func_020b2b5c() != 0) {
-                    if (func_020b2b24(func_020b2b54(), PAD_KEY_A) != 0 || func_020b2a74(func_020b2b54()) != 0) {
+                    if (ChoisesSGetNewBits(GetChoisesSInputSlot(), PAD_KEY_A) != 0 ||
+                        ChoisesSIsSlotPairNew(GetChoisesSInputSlot()) != 0) {
                         gChoisesS->mPickedValue = 6;
                         gChoisesS->mSelectedValue = gChoisesS->mPickedValue;
                         gChoisesS->mPickLocked = 1;
                         StartChoisesSSelectedValueSeq();
                     }
-                } else if (func_020b2b24(func_020b2b54(), 8) != 0) {
-                    if (func_020b2e98() != 0) {
+                } else if (ChoisesSGetNewBits(GetChoisesSInputSlot(), 8) != 0) {
+                    if (IsChoisesSOpen() != 0) {
                         RaiseSndHandleVolumes();
                         gChoisesS->mCloseFrames = 1;
                     } else {
                         LowerSndHandleVolumes();
-                        func_020b2f88(1);
+                        SetChoisesSOpen(1);
                     }
-                } else if (func_020b302c() != 0) {
+                } else if (MoveChoisesSSelectedValueByTouch() != 0) {
                     gChoisesS->mPickFrames = 1;
-                } else if (func_020b2b24(func_020b2b54(), PAD_KEY_A) != 0) {
-                    if (func_020b2e98() != 0) {
+                } else if (ChoisesSGetNewBits(GetChoisesSInputSlot(), PAD_KEY_A) != 0) {
+                    if (IsChoisesSOpen() != 0) {
                         if (gChoisesS->mSelectedValue == 0) {
                             RaiseSndHandleVolumes();
                         } else {
@@ -83,32 +86,32 @@ void UpdateChoisesS(void) {
                         gChoisesS->mPickStartedOnSelected = TRUE;
                     } else {
                         LowerSndHandleVolumes();
-                        func_020b2f88(1);
+                        SetChoisesSOpen(1);
                     }
-                } else if (func_020b2b24(func_020b2b54(), PAD_KEY_B) != 0) {
-                    if (func_020b2e98() != 0) {
+                } else if (ChoisesSGetNewBits(GetChoisesSInputSlot(), PAD_KEY_B) != 0) {
+                    if (IsChoisesSOpen() != 0) {
                         RaiseSndHandleVolumes();
                         gChoisesS->mCloseFrames = 1;
                     }
-                } else if (GetNewOrRepeatBits(func_020b2b54(), PAD_KEY_UP) != 0) {
+                } else if (GetNewOrRepeatBits(GetChoisesSInputSlot(), PAD_KEY_UP) != 0) {
                     MoveChoisesSSelectedValue(-1);
-                } else if (GetNewOrRepeatBits(func_020b2b54(), PAD_KEY_DOWN) != 0) {
+                } else if (GetNewOrRepeatBits(GetChoisesSInputSlot(), PAD_KEY_DOWN) != 0) {
                     MoveChoisesSSelectedValue(1);
                 }
             }
         } else if (IsChoisesSOpenAllowedDuringRace() != 0) {
-            if (func_020b2b24(func_020b2b54(), 8) != 0) {
-                if (func_020b2e98() != 0) {
+            if (ChoisesSGetNewBits(GetChoisesSInputSlot(), 8) != 0) {
+                if (IsChoisesSOpen() != 0) {
                     RaiseSndHandleVolumes();
                     gChoisesS->mCloseFrames = 1;
                 } else {
                     LowerSndHandleVolumes();
-                    func_020b2f88(1);
+                    SetChoisesSOpen(1);
                 }
-            } else if (func_020b302c() != 0) {
+            } else if (MoveChoisesSSelectedValueByTouch() != 0) {
                 gChoisesS->mPickFrames = 1;
-            } else if (func_020b2b24(func_020b2b54(), PAD_KEY_A) != 0) {
-                if (func_020b2e98() != 0) {
+            } else if (ChoisesSGetNewBits(GetChoisesSInputSlot(), PAD_KEY_A) != 0) {
+                if (IsChoisesSOpen() != 0) {
                     if (gChoisesS->mSelectedValue == 0) {
                         RaiseSndHandleVolumes();
                     } else {
@@ -117,14 +120,14 @@ void UpdateChoisesS(void) {
                     gChoisesS->mPickFrames = 1;
                     gChoisesS->mPickStartedOnSelected = TRUE;
                 }
-            } else if (func_020b2b24(func_020b2b54(), PAD_KEY_B) != 0) {
-                if (func_020b2e98() != 0) {
+            } else if (ChoisesSGetNewBits(GetChoisesSInputSlot(), PAD_KEY_B) != 0) {
+                if (IsChoisesSOpen() != 0) {
                     RaiseSndHandleVolumes();
                     gChoisesS->mCloseFrames = 1;
                 }
-            } else if (GetNewOrRepeatBits(func_020b2b54(), PAD_KEY_UP) != 0) {
+            } else if (GetNewOrRepeatBits(GetChoisesSInputSlot(), PAD_KEY_UP) != 0) {
                 MoveChoisesSSelectedValue(-1);
-            } else if (GetNewOrRepeatBits(func_020b2b54(), PAD_KEY_DOWN) != 0) {
+            } else if (GetNewOrRepeatBits(GetChoisesSInputSlot(), PAD_KEY_DOWN) != 0) {
                 MoveChoisesSSelectedValue(1);
             }
         }
@@ -134,15 +137,15 @@ void UpdateChoisesS(void) {
         gChoisesS->mPickFrames = a + 1;
         if (gChoisesS->mPickFrames > 0xf) {
             if (func_020b2bc8() != 0) {
-                if (func_020b2e98() != 0) {
+                if (IsChoisesSOpen() != 0) {
                     gChoisesS->mPickedValue = gChoisesS->mSelectedValue;
-                    func_020b2f88(0);
+                    SetChoisesSOpen(0);
                 } else {
-                    func_020b2f88(1);
+                    SetChoisesSOpen(1);
                 }
-            } else if (func_020b2e98() != 0) {
+            } else if (IsChoisesSOpen() != 0) {
                 gChoisesS->mPickedValue = gChoisesS->mSelectedValue;
-                func_020b2f88(0);
+                SetChoisesSOpen(0);
             }
             gChoisesS->mPickFrames = 0;
             gChoisesS->mPickStartedOnSelected = FALSE;
@@ -153,13 +156,13 @@ void UpdateChoisesS(void) {
         gChoisesS->mCloseFrames = a + 1;
         if (gChoisesS->mCloseFrames > 4) {
             if (func_020b2bc8() != 0) {
-                if (func_020b2e98() != 0) {
-                    func_020b2f88(0);
+                if (IsChoisesSOpen() != 0) {
+                    SetChoisesSOpen(0);
                 } else {
-                    func_020b2f88(1);
+                    SetChoisesSOpen(1);
                 }
-            } else if (func_020b2e98() != 0) {
-                func_020b2f88(0);
+            } else if (IsChoisesSOpen() != 0) {
+                SetChoisesSOpen(0);
             }
             gChoisesS->mCloseFrames = 0;
         }

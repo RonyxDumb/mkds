@@ -3,27 +3,27 @@
 #include "Main/Unknown/unk_02175628.h"
 
 #pragma optimize_for_size on
-u32 func_020b2aec(InputSlotPair *inputSlotPair) {
-    if (func_020b2b1c(inputSlotPair) == 0 && inputSlotPair->mNoPairCount < 5) {
+u32 ChoisesSIsPairRecentlyLost(InputSlotPair *inputSlotPair) {
+    if (ChoisesSGetPairHasPair(inputSlotPair) == 0 && inputSlotPair->mNoPairCount < 5) {
         return 1;
     }
     return 0;
 }
 
-u32 func_020b2ac8(InputSlotPair *inputSlotPair) {
+u32 ChoisesSIsPairNew(InputSlotPair *inputSlotPair) {
     if (inputSlotPair->mPrevHasPair == 0 && inputSlotPair->mHasPair != 0) {
         return 1;
     }
     return 0;
 }
 
-u32 func_020b2a94(InputSlotPair *inputSlotPair) {
-    if (func_020b2aec(inputSlotPair) == 0 && func_020b2ac8(inputSlotPair) != 0) {
+u32 ChoisesSIsPairNewUnlessRecentlyLost(InputSlotPair *inputSlotPair) {
+    if (ChoisesSIsPairRecentlyLost(inputSlotPair) == 0 && ChoisesSIsPairNew(inputSlotPair) != 0) {
         return 1;
     }
     return 0;
 }
 
-u32 func_020b2a74(s32 slotIndex) {
-    return func_020b2a94(&gInputSlots[slotIndex].mPair);
+u32 ChoisesSIsSlotPairNew(s32 slotIndex) {
+    return ChoisesSIsPairNewUnlessRecentlyLost(&gInputSlots[slotIndex].mPair);
 }

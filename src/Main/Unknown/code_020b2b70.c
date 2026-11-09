@@ -16,18 +16,18 @@
 #include "01/code_021956dc.h"
 
 #pragma optimize_for_size on
-s32 func_020b2c24(void) {
-    if (func_020b2c54() != 0) {
+s32 ChoisesSIsBackupCommandRunning(void) {
+    if (ChoisesSIsBackupEnabled() != 0) {
         return gBackupAccess->mCommandRunning;
     }
     return 0;
 }
 
-s32 func_020b2bf0(void) {
+s32 ChoisesSIsBackupBusy(void) {
     if (data_0217aa08->mBusy != 0) {
         return 1;
     }
-    return func_020b2c24();
+    return ChoisesSIsBackupCommandRunning();
 }
 
 #pragma thumb on
@@ -38,7 +38,7 @@ u32 func_020b2bc8(void) {
     return 0;
 }
 
-u32 func_020b2b70(void) {
+u32 IsChoisesSOpenAllowedAfterRace(void) {
     if (IsRaceStartSequenceDone() != 0 && func_020b2bc8() != 0 && func_020c5dc4() != 0 && func_020c3da0() == 0 &&
         func_020c70bc() == 0 && func_020c70a0() == 0 && GetShowLapTime() == 0 &&
         (GetChoisesSOpenDuringRace() != 0 || func_02055b1c() == FALSE)) {

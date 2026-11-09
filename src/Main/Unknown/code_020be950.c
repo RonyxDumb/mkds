@@ -907,8 +907,8 @@ void ClearRaceHudSubScreenCellGroups(void) {
 void UpdateRaceHudSubScreenCellGroups(void) {
     Vec3 followedKartPosition;
     s32 i;
-    s32 n;
-    float f;
+    s32 roundedProduct;
+    float productWithHalf;
 
     switch (GetRaceHudSubScreenState()) {
         case 0:
@@ -918,12 +918,12 @@ void UpdateRaceHudSubScreenCellGroups(void) {
         case 2:
         case 3:
             if (GetRaceHudSubScreenCourseScale() * 3 > 0) {
-                f = 0.5f + (GetRaceHudSubScreenCourseScale() * 0x3000);
+                productWithHalf = 0.5f + (GetRaceHudSubScreenCourseScale() * 0x3000);
             } else {
-                f = (GetRaceHudSubScreenCourseScale() * 0x3000) - 0.5f;
+                productWithHalf = (GetRaceHudSubScreenCourseScale() * 0x3000) - 0.5f;
             }
-            n = f;
-            gRaceHudSubScreenCellGroups->mScale = ((s64) n * 20) >> 12;
+            roundedProduct = productWithHalf;
+            gRaceHudSubScreenCellGroups->mScale = ((s64) roundedProduct * 20) >> 12;
             gRaceHudSubScreenCellGroups->mUnk_008 = FX_Div(0x2400, gRaceHudSubScreenCellGroups->mScale);
             UpdateRaceHudSubScreenProjectionAndBgAffine(GetRaceHudSubScreenBgAffine(),
                                                         gRaceHudSubScreenCellGroups->mScale);
