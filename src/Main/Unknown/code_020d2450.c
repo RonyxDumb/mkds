@@ -7,12 +7,12 @@
 void RefreshMapObjectMatrixFromHitNormal(MapObject *mapObject) {
     int hit;
     Vec3 normal;
-    u8 quaternion[20];
+    Quaternion quaternion;
     hit = CollideSphereWithCourse(&mapObject->mPos, NULL, 0, 0xa000, 8, 0xfffffffe, NULL, &normal, NULL, NULL, NULL,
                                   NULL, NULL, NULL);
     if (hit != 0) {
-        QuaternionFromYAxisToVec3(&normal, quaternion);
-        Matrix3x3FromQuaternion(&mapObject->mMatrix.mUnk_00_m, quaternion);
+        QuaternionFromYAxisToVec3(&normal, &quaternion);
+        Matrix3x3FromQuaternion(&mapObject->mMatrix.mUnk_00_m, &quaternion);
         return;
     }
 }

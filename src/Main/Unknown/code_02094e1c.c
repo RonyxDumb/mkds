@@ -208,7 +208,7 @@ void func_02094e8c(void *a, Unk02094e8c *o) {
             break;
     }
     if (GetUnparkedTeresaCount() > 0) {
-        func_020d26e0(GetKart((u16) gRaceSetup->mEntryIndex), 0x11e);
+        func_020d26e0(&GetKart((u16) gRaceSetup->mEntryIndex)->mSoundSource, 0x11e);
     }
 }
 

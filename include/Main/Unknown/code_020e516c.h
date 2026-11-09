@@ -3,14 +3,9 @@
 #include "types.h"
 #include "code_02012b30.h" // MtxFx43
 #include "Main/Unknown/code_020846c0.h" // Nsbmd
+#include "Main/Unknown/code_0207adf8.h" // ShadowModel
 
-// Object behind gJgShadow; only the field at 0x6e is used here.
-typedef struct Unk020e5348 {
-    /* 000 */ u8 mUnk_000[0x6e];
-    /* 06e */ u16 mUnk_06e;
-} Unk020e5348;
-
-extern Unk020e5348 *gJgShadow;
+extern ShadowModel *gJgShadow;
 
 extern Nsbmd *gObjShadow;
 
@@ -44,6 +39,6 @@ typedef struct ShadowMatrix {
 void func_020e5348(u32 a, u32 b);
 void DrawJgShadowWithMatrix(Vec3 *scale, MtxFx43 *matrix, u32 c, u32 d);
 void func_020e53ac(ShadowMatrix *shadow, void *wordPointer, u32 unused, u32 alpha);
-void func_020e54e4(void *shadowData, void *wordPointer, u32 unused, u32 alpha);
-s32 RefreshShadowMatrix(void *shadow, Vec3 *position, s32 scale, u32 alphaCap);
+void func_020e54e4(ShadowMatrix *shadow, void *wordPointer, u32 unused, u32 alpha);
+s32 RefreshShadowMatrix(ShadowMatrix *shadowCopy, Vec3 *position, s32 scale, u32 alphaCap);
 void CreateObjShadowAndJgShadow(void);

@@ -204,7 +204,7 @@ void func_020357dc(void *parentHeap, void *b, void *c) {
     s32 labelIndex;
     s32 secondLabelIndex;
     s16 *row;
-    void *cellTable;
+    LayoutTableEntry *cellTable;
     u16 w[3];
 
     heap = CreateFrmHeapFromMaxFree(parentHeap);
@@ -251,13 +251,12 @@ void func_020357dc(void *parentHeap, void *b, void *c) {
         labelIndex = row[0];
         secondLabelIndex = data_02164470[j + 7][0];
         cellTable = cellFileSet->mCellTable;
-        func_02025c1c(cellIndex, (u8 *) cellTable + (cellIndex << 6), cellFileSet->mCellLayout);
-        func_02025bf0(labelIndex, (u8 *) cellTable + (labelIndex << 6) + (cellCount << 6), cellFileSet->mLabelLayout);
-        func_02025bf0(secondLabelIndex, (u8 *) cellTable + (secondLabelIndex << 6) + (cellCount << 6),
-                      cellFileSet->mLabelLayout);
+        func_02025c1c(cellIndex, &cellTable[cellIndex], cellFileSet->mCellLayout);
+        func_02025bf0(labelIndex, &cellTable[labelIndex] + cellCount, cellFileSet->mLabelLayout);
+        func_02025bf0(secondLabelIndex, &cellTable[secondLabelIndex] + cellCount, cellFileSet->mLabelLayout);
         row += 4;
     }
-    func_02025c1c(7, (u8 *) cellFileSet->mCellTable + 0x1c0, cellFileSet->mCellLayout);
+    func_02025c1c(7, &cellFileSet->mCellTable[7], cellFileSet->mCellLayout);
     w[0] = 0;
     w[1] = cellCount;
     w[2] = cellCount + 7;

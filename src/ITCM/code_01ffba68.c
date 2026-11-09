@@ -53,8 +53,8 @@ void QuaternionBlend(Vec4 *a, const Vec4 *b, Vec4 *c, s32 d) {
     c->w = a->w + ((d * (b->w - a->w)) >> 12);
 }
 
-void Matrix4x3FromQuaternion(void *a, const Vec4 *b) {
-    s32 *o = a;
+void Matrix4x3FromQuaternion(MtxFx43 *a, const Vec4 *b) {
+    s32 *o = &a->mUnk_00[0].x;
     s32 w;
     s32 x;
     s32 y;

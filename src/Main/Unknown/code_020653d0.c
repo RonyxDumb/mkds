@@ -179,7 +179,7 @@ void func_020653d0(Kart *kart, ParticipantKartRecord *record, s32 stepCount) {
                 }
                 QuaternionFromAxisAngle(&data_02154f7c, kart->mHeadingAngle, &kart->mUnk_e0_m);
                 QuaternionMultiply(&kart->mUnk_f0_q, &kart->mUnk_e0_m, &kart->mUnk_110_q);
-                Matrix4x3FromQuaternion(&kart->mUnk_120, &kart->mUnk_110_q);
+                Matrix4x3FromQuaternion(&kart->mUnk_120_m, &kart->mUnk_110_q);
                 stateAgain = kart->mUnk_514;
                 stateAgain->mEasedTurnAngle =
                     stateAgain->mEasedTurnAngle +

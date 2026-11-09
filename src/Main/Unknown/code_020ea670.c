@@ -160,7 +160,7 @@ void AdvanceWoodbox1(u32 unused, u32 woodbox) {
 }
 
 void EnterWoodbox1State0(Woodbox1 *woodbox) {
-    Vec3 rotation;
+    Quaternion rotation;
     Vec3 *velocity;
 
     velocity = &woodbox->mUnk_000.mUnk_10;
@@ -291,7 +291,7 @@ BOOL BounceWoodbox1OffGround(Woodbox1 *woodbox) {
 }
 
 void EnterWoodbox1State2(Woodbox1 *woodbox) {
-    Vec3 rotation;
+    Quaternion rotation;
     u32 frameCount;
     u16 headingOffset;
 
@@ -333,7 +333,7 @@ void UpdateWoodbox1State2(Woodbox1 *woodbox) {
 }
 
 void UpdateWoodbox1State3(Woodbox1 *woodbox) {
-    Vec3 rotation;
+    Quaternion rotation;
     s32 headingOffset;
 
     BounceWoodbox1OffGround(woodbox);
@@ -424,7 +424,7 @@ void ClearWoodbox1Pointer(MapObjectList *list) {
 }
 
 void InitWoodbox1(Woodbox1 *woodbox, CourseMapRow *courseRow) {
-    Vec3 rotation;
+    Quaternion rotation;
     s32 length;
 
     if (CollideSphereWithCourse(&woodbox->mUnk_000.mPos, NULL, 0, 0xa000, 8, -2, NULL, &woodbox->mGroundUp, NULL, NULL,

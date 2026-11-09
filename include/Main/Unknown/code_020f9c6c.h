@@ -35,8 +35,8 @@ typedef struct Unk020e6b38 {
 // QuaternionFromYAxisToVec3 write.
 typedef struct DirectionQuaternion {
     /* 00 */ Vec3 mDirection;
-    /* 0c */ Vec3 mQuaternion;
-    /* 18 */ u8 mUnk_18[8];
+    /* 0c */ Quaternion mQuaternion;
+    /* 1c */ u8 mUnk_1c[4];
 } DirectionQuaternion;
 
 // Object of item kind 5, element of gItemPools[5].

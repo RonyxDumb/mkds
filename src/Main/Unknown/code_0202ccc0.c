@@ -295,7 +295,7 @@ void InitTimeAttackGhostSend(void *parentHeap, void *mainOam, void *subOam) {
         func_02025c1c(cellIndex, &cellTable[cellIndex], subFileSet->mCellLayout);
         func_02025bf0(labelIndex, cellTable + subCellCount + labelIndex, subFileSet->mLabelLayout);
     }
-    func_02025c1c(0xe, (u8 *) subFileSet->mCellTable + 0x380, subFileSet->mCellLayout);
+    func_02025c1c(0xe, &subFileSet->mCellTable[0xe], subFileSet->mCellLayout);
     if (GetGhostCount() != 0) {
         Unk02174e40_24 *screenMapFileSet = &gTimeAttackGhostSend->mUnk_024;
         r[0] = 0;

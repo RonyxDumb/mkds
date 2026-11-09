@@ -214,7 +214,7 @@ static inline s16 func_020e2630_inline2(Unk020e1e98 *b) {
 
 void UpdateVehicle(u32 a, Unk020e1e98 *vehicle) {
     enum { K0 } isInHitReaction;
-    void *baseRotation;
+    Quaternion *baseRotation;
     u32 hitFlags;
     Quaternion targetRotation;
     Vec3 previousPosition;

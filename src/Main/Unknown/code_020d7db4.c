@@ -27,8 +27,7 @@
 
 #pragma thumb off
 
-void GetSegmentProgressPointXzLinearY(void *segmentProgressPointer, Vec3 *position) {
-    SegmentProgress *segmentProgress = segmentProgressPointer;
+void GetSegmentProgressPointXzLinearY(SegmentProgress *segmentProgress, Vec3 *position) {
     GetSegmentCurveXzLinearY(&segmentProgress->mSegment, segmentProgress->mProgress, position);
 }
 

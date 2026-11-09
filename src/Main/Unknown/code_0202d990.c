@@ -27,7 +27,7 @@ void GetListedGhostTime(u32 index, void *time) {
         GetGhostRecordTime(&courseRecords[cupCourseIndex], time);
     } else {
         index -= gGhostScene->mCourseGhostCount;
-        GetGhostRecordTime(&gGhostScene->mSlotGhostRecords[(u8) gGhostScene->mSlotIndices[index]], time);
+        GetGhostRecordTime(&gGhostScene->mSlotGhostRecords[(u8) gGhostScene->mSlotIndices[index]].mHead, time);
     }
 }
 
@@ -42,7 +42,7 @@ void GetListedGhostName(u32 index, void *name) {
         GetGhostRecordName(&courseRecords[cupCourseIndex], name);
     } else {
         index -= gGhostScene->mCourseGhostCount;
-        GetGhostRecordName(&gGhostScene->mSlotGhostRecords[(u8) gGhostScene->mSlotIndices[index]], name);
+        GetGhostRecordName(&gGhostScene->mSlotGhostRecords[(u8) gGhostScene->mSlotIndices[index]].mHead, name);
     }
 }
 
@@ -57,7 +57,7 @@ u32 GetListedGhostCharacterIndex(u32 index) {
         return GetGhostRecordCharacterIndex(&courseRecords[cupCourseIndex]);
     }
     index -= gGhostScene->mCourseGhostCount;
-    return GetGhostRecordCharacterIndex(&gGhostScene->mSlotGhostRecords[(u8) gGhostScene->mSlotIndices[index]]);
+    return GetGhostRecordCharacterIndex(&gGhostScene->mSlotGhostRecords[(u8) gGhostScene->mSlotIndices[index]].mHead);
 }
 
 u32 GetListedGhostKartIndex(u32 index) {
@@ -71,7 +71,7 @@ u32 GetListedGhostKartIndex(u32 index) {
         return GetGhostRecordKartIndex(&courseRecords[cupCourseIndex]);
     }
     index -= gGhostScene->mCourseGhostCount;
-    return GetGhostRecordKartIndex(&gGhostScene->mSlotGhostRecords[(u8) gGhostScene->mSlotIndices[index]]);
+    return GetGhostRecordKartIndex(&gGhostScene->mSlotGhostRecords[(u8) gGhostScene->mSlotIndices[index]].mHead);
 }
 
 u32 GetListedGhostCourseId(u32 index) {
@@ -81,7 +81,7 @@ u32 GetListedGhostCourseId(u32 index) {
     }
     index -= gGhostScene->mCourseGhostCount;
     slotRecords = gGhostScene->mSlotGhostRecords;
-    return GetGhostRecordCourseId(&slotRecords[(u8) gGhostScene->mSlotIndices[index]]);
+    return GetGhostRecordCourseId(&slotRecords[(u8) gGhostScene->mSlotIndices[index]].mHead);
 }
 
 void StartReadListedGhost(s32 index) {
@@ -101,7 +101,7 @@ s32 DoesAnySlotGhostMatchCourse(s32 courseId) {
     found = FALSE;
     for (i = 0; i < (s32) GetSlotGhostCount(); i++) {
         if (courseId ==
-            GetGhostRecordCourseId(&gGhostScene->mSlotGhostRecords[(u8) gGhostScene->mSlotIndices[i]])) {
+            GetGhostRecordCourseId(&gGhostScene->mSlotGhostRecords[(u8) gGhostScene->mSlotIndices[i]].mHead)) {
             found = TRUE;
             break;
         }
@@ -112,7 +112,7 @@ s32 DoesAnySlotGhostMatchCourse(s32 courseId) {
 s32 FindUnfilledGhostSlot(void) {
     s32 slot;
     for (slot = 0; slot < 10; slot++) {
-        if (IsGhostRecordFilled(&gGhostScene->mSlotGhostRecords[(u8) slot]) == FALSE) {
+        if (IsGhostRecordFilled(&gGhostScene->mSlotGhostRecords[(u8) slot].mHead) == FALSE) {
             return slot;
         }
     }
@@ -125,7 +125,7 @@ s32 FindSlotGhostForCourse(s32 courseId) {
     slot = -1;
     for (i = 0; i < (s32) GetSlotGhostCount(); i++) {
         if (courseId ==
-            GetGhostRecordCourseId(&gGhostScene->mSlotGhostRecords[(u8) gGhostScene->mSlotIndices[i]])) {
+            GetGhostRecordCourseId(&gGhostScene->mSlotGhostRecords[(u8) gGhostScene->mSlotIndices[i]].mHead)) {
             slot = gGhostScene->mSlotIndices[i];
             break;
         }

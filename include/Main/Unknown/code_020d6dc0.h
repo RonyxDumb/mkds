@@ -19,19 +19,19 @@ void func_020d7d18(SegmentProgress *segmentProgress, s32 a, Vec3 **points, s32 r
 BOOL func_020d7c84(SegmentProgress *segmentProgress, s32 a, Vec3 **points);
 // Stores in gViewYawQuaternion the rotation about Y by the angle of the matrix a.
 void SetViewYawQuaternion(MtxFx43 *viewMatrix);
-void QuaternionFromYAxisToVec3(Vec3 *p, void *output);
+void QuaternionFromYAxisToVec3(Vec3 *p, Quaternion *quaternion);
 void QuaternionFromAngleAroundY(s32 angle, Quaternion *quaternion);
 // Writes to q the quaternion QuaternionFromYAxisToVec3 gives for p combined with the Y rotation
 // QuaternionFromAngleAroundY gives for b.
-void QuaternionFromVec3AndAngleAroundY(void *directionPtr, s32 angle, void *outputPtr);
-void QuaternionMultiplyAngleAroundYIgnoreY(void *quaternionPtr, u32 angle, void *outputPtr);
+void QuaternionFromVec3AndAngleAroundY(Vec3 *direction, s32 angle, Quaternion *quaternion);
+void QuaternionMultiplyAngleAroundYIgnoreY(Quaternion *quaternion, u32 angle, Quaternion *result);
 void func_020d7938(Quaternion *first, Quaternion *second, Quaternion *result);
 void QuaternionMultiplyAngleAroundX(Quaternion *quaternion, s32 angle, Quaternion *result);
-void QuaternionMultiplyAngleAroundY(void *quaternionPtr, s32 angle, void *resultPtr);
-void QuaternionMultiplyAngleAroundZ(void *quaternionPtr, s32 angle, void *resultPtr);
+void QuaternionMultiplyAngleAroundY(Quaternion *quaternion, s32 angle, Quaternion *result);
+void QuaternionMultiplyAngleAroundZ(Quaternion *quaternion, s32 angle, Quaternion *result);
 void func_020d76a8(Quaternion *quaternion, s32 angle, Quaternion *result);
 // Blends p toward q by d, toward the negated q when their dot product is negative.
-void QuaternionBlendTowardNearerSign(void *fromPtr, void *toPtr, void *resultPtr, s32 amount);
+void QuaternionBlendTowardNearerSign(Quaternion *from, Quaternion *to, Quaternion *result, s32 amount);
 void QuaternionNormalizeUnlessNearOne(Quaternion *input, Quaternion *output);
 void QuaternionFromVec3Degrees(Vec3 *degrees, Quaternion *result);
 s32 Vec3NormalizeAndGetLengthOrZero(Vec3 *vector, Vec3 *result);

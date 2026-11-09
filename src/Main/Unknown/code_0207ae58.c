@@ -366,8 +366,7 @@ NNSG3dResMdl *InitShadowModel(void *model, NNSG3dResFileHeader *resFileHeader, u
 }
 
 // Draws the shadow with matrix b; when c is not NULL its three words are sent after the matrix.
-void DrawShadowWithMatrix(void *model, const void *matrix, Vec3 *extraVector) {
-    ShadowModel *shadowModel = model;
+void DrawShadowWithMatrix(ShadowModel *shadowModel, const void *matrix, Vec3 *extraVector) {
     s32 v;
     Vec3 copiedVector;
 

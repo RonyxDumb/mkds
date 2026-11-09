@@ -39,7 +39,7 @@ void func_020641f0(Kart *kart) {
     CharacterAnimationState *r;
     enum { K0 } o;
 
-    Matrix4x3FromQuaternion(&kart->mUnk_120, kart->mUnk_50c);
+    Matrix4x3FromQuaternion(&kart->mUnk_120_m, kart->mUnk_50c);
     n = kart->mUnk_4c;
     if ((n & 0x10) != 0) {
         drawMatrix = &kart->mUnk_150_m;

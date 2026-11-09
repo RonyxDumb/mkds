@@ -93,7 +93,7 @@ void InitGhostScene(void *heap) {
     StartReadSlotGhostRecords(gGhostScene->mSlotGhostRecords);
     WaitThreadFunctionsDone();
     for (i = 0; i < 10; i++) {
-        if (IsGhostRecordFilled(&gGhostScene->mSlotGhostRecords[(u8) i]) != FALSE) {
+        if (IsGhostRecordFilled(&gGhostScene->mSlotGhostRecords[(u8) i].mHead) != FALSE) {
             gGhostScene->mSlotIndices[gGhostScene->mSlotGhostCount] = i;
             gGhostScene->mGhostCount++;
             gGhostScene->mSlotGhostCount++;

@@ -28,15 +28,14 @@ void func_020e55b4(void) {
     NNS_G3dGeBufferOP_N(0x31, &data_0217b814->mUnk_008, 1);
 }
 
-void func_020e54e4(void *shadowData, void *wordPointer, u32 unused, u32 alpha) {
+void func_020e54e4(ShadowMatrix *shadow, void *wordPointer, u32 unused, u32 alpha) {
     u32 word;
     u32 b;
     u32 threeWords[3];
-    ShadowMatrix *shadow = shadowData;
 
     b = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &b, 1);
-    NNS_G3dGeBufferOP_N(0x19, shadowData, 0xc);
+    NNS_G3dGeBufferOP_N(0x19, shadow, 0xc);
     if (wordPointer != NULL) {
         u32 firstWord;
         firstWord = *(u32 *) wordPointer;
@@ -84,12 +83,12 @@ void func_020e53ac(ShadowMatrix *shadow, void *wordPointer, u32 unused, u32 alph
 }
 
 void DrawJgShadowWithMatrix(Vec3 *scale, MtxFx43 *matrix, u32 c, u32 d) {
-    gJgShadow->mUnk_06e = c < d ? c : d;
+    gJgShadow->mAlpha = c < d ? c : d;
     DrawShadowWithMatrix(gJgShadow, matrix, scale);
 }
 
 void func_020e5348(u32 a, u32 b) {
-    gJgShadow->mUnk_06e = a < b ? a : b;
+    gJgShadow->mAlpha = a < b ? a : b;
     DrawShadowModelIfDrawFlag(gJgShadow);
 }
 
@@ -114,13 +113,12 @@ void CreateObjShadowAndJgShadow(void) {
     }
 }
 
-s32 RefreshShadowMatrix(void *shadow, Vec3 *position, s32 scale, u32 alphaCap) {
+s32 RefreshShadowMatrix(ShadowMatrix *shadowCopy, Vec3 *position, s32 scale, u32 alphaCap) {
     Quaternion rotation;
     Vec3 direction;
     Vec3 raisedPosition;
     s32 scaleTenth;
     BOOL hit;
-    ShadowMatrix *shadowCopy = shadow;
 
     raisedPosition = *position;
     hit = FALSE;

@@ -71,7 +71,7 @@ void func_020646f0(Kart *kart, s32 b) {
     kart->mHeadingAngle = (u32) (startRotation.y * 0xb6) >> 12;
     QuaternionFromAxisAngle(&data_02154a3c, kart->mHeadingAngle, &kart->mUnk_e0_m);
     kart->mUnk_110_q = kart->mUnk_e0_m;
-    Matrix4x3FromQuaternion(&kart->mUnk_120, &kart->mUnk_110_q);
+    Matrix4x3FromQuaternion(&kart->mUnk_120_m, &kart->mUnk_110_q);
     kart->mUnk_150_m = kart->mUnk_120_m;
     kart->mPrevPos = kart->mPos;
     kart->mDrawMatrixPos = kart->mPrevPos;

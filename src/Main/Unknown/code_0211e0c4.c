@@ -51,8 +51,8 @@ void SetupGhostRecordSetForCourse(u32 courseId) {
     gGhostRecordSet->mCourseId = courseId;
     gGhostRecordSet->mSlotIndex = -1;
     for (i = 0; i < 0xa; i++) {
-        if (IsGhostRecordFilled(&gGhostRecordSet->mSlotGhostRecords[(u8) i]) != FALSE &&
-            GetGhostRecordCourseId(&gGhostRecordSet->mSlotGhostRecords[(u8) i]) == courseId) {
+        if (IsGhostRecordFilled(&gGhostRecordSet->mSlotGhostRecords[(u8) i].mHead) != FALSE &&
+            GetGhostRecordCourseId(&gGhostRecordSet->mSlotGhostRecords[(u8) i].mHead) == courseId) {
             gGhostRecordSet->mSlotIndex = i;
             return;
         }
@@ -69,11 +69,11 @@ void GetGhostRecordSetTime(u32 kind, void *time) {
             GetGhostRecordTime(&courseRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)], time);
             break;
         case 1:
-            GetGhostRecordTime(&gGhostRecordSet->mSlotGhostRecords[(u8) gGhostRecordSet->mSlotIndex], time);
+            GetGhostRecordTime(&gGhostRecordSet->mSlotGhostRecords[(u8) gGhostRecordSet->mSlotIndex].mHead, time);
             break;
         case 2:
             records = gGhostRecordSet->mGhostFileRecords;
-            GetGhostRecordTime(&records[FindCupCourseIndex(gGhostRecordSet->mCourseId)], time);
+            GetGhostRecordTime(&records[FindCupCourseIndex(gGhostRecordSet->mCourseId)].mHead, time);
             break;
         case 4:
             break;
@@ -91,11 +91,11 @@ void GetGhostRecordSetName(u32 kind, void *name) {
             GetGhostRecordName(&courseRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)], ghostName);
             break;
         case 1:
-            GetGhostRecordName(&gGhostRecordSet->mSlotGhostRecords[(u8) gGhostRecordSet->mSlotIndex], ghostName);
+            GetGhostRecordName(&gGhostRecordSet->mSlotGhostRecords[(u8) gGhostRecordSet->mSlotIndex].mHead, ghostName);
             break;
         case 2:
             records = gGhostRecordSet->mGhostFileRecords;
-            GetGhostRecordName(&records[FindCupCourseIndex(gGhostRecordSet->mCourseId)], ghostName);
+            GetGhostRecordName(&records[FindCupCourseIndex(gGhostRecordSet->mCourseId)].mHead, ghostName);
             break;
         case 4:
             break;
@@ -119,13 +119,13 @@ s32 GetGhostRecordSetCharacterIndex(u32 kind) {
                 GetGhostRecordCharacterIndex(&courseRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)]);
             break;
         case 1:
-            characterIndex =
-                GetGhostRecordCharacterIndex(&gGhostRecordSet->mSlotGhostRecords[(u8) gGhostRecordSet->mSlotIndex]);
+            characterIndex = GetGhostRecordCharacterIndex(
+                &gGhostRecordSet->mSlotGhostRecords[(u8) gGhostRecordSet->mSlotIndex].mHead);
             break;
         case 2:
             records = gGhostRecordSet->mGhostFileRecords;
             characterIndex =
-                GetGhostRecordCharacterIndex(&records[FindCupCourseIndex(gGhostRecordSet->mCourseId)]);
+                GetGhostRecordCharacterIndex(&records[FindCupCourseIndex(gGhostRecordSet->mCourseId)].mHead);
             break;
     }
     return characterIndex;
@@ -146,11 +146,11 @@ s32 GetGhostRecordSetKartIndex(u32 kind) {
             break;
         case 1:
             kartIndex =
-                GetGhostRecordKartIndex(&gGhostRecordSet->mSlotGhostRecords[(u8) gGhostRecordSet->mSlotIndex]);
+                GetGhostRecordKartIndex(&gGhostRecordSet->mSlotGhostRecords[(u8) gGhostRecordSet->mSlotIndex].mHead);
             break;
         case 2:
             records = gGhostRecordSet->mGhostFileRecords;
-            kartIndex = GetGhostRecordKartIndex(&records[FindCupCourseIndex(gGhostRecordSet->mCourseId)]);
+            kartIndex = GetGhostRecordKartIndex(&records[FindCupCourseIndex(gGhostRecordSet->mCourseId)].mHead);
             break;
     }
     return kartIndex;
@@ -175,7 +175,7 @@ s32 func_0211e160(u32 kind) {
             break;
         case 2:
             if (IsTimeRecordFilled(gGhostRecordSet->mCourseId, 0) != FALSE) {
-                u32 time;
+                MinuteSecondMillisecondTime time;
 
                 GetTimeRecordTime(gGhostRecordSet->mCourseId, 0, &time);
                 result = IsTimeLessThanStaffGhostTime(gGhostRecordSet->mCourseId, &time);

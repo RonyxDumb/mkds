@@ -79,8 +79,7 @@ void SetViewYawQuaternion(MtxFx43 *viewMatrix) {
     gViewYawQuaternion.mComponents[3] = gPairsByAngle[pairIndex * 2 + 1];
 }
 
-void QuaternionFromYAxisToVec3(Vec3 *direction, void *output) {
-    Quaternion *quaternion = output;
+void QuaternionFromYAxisToVec3(Vec3 *direction, Quaternion *quaternion) {
     s32 root = FX_Sqrt((direction->y + 0x1000) << 1);
     FX_DivAsync(direction->z, root);
     quaternion->mComponents[1] = 0;
@@ -98,9 +97,7 @@ void QuaternionFromAngleAroundY(s32 angle, Quaternion *quaternion) {
     quaternion->mComponents[3] = gPairsByAngle[pairIndex * 2 + 1];
 }
 
-void QuaternionFromVec3AndAngleAroundY(void *directionPtr, s32 angle, void *outputPtr) {
-    Vec3 *direction = directionPtr;
-    Quaternion *quaternion = outputPtr;
+void QuaternionFromVec3AndAngleAroundY(Vec3 *direction, s32 angle, Quaternion *quaternion) {
     s32 root;
     s32 quotient;
     s32 pairIndex;
@@ -125,9 +122,7 @@ void QuaternionFromVec3AndAngleAroundY(void *directionPtr, s32 angle, void *outp
     quaternion->mComponents[2] = quaternion->mComponents[2] + ((quotient * pairSecond) >> 12);
 }
 
-void QuaternionMultiplyAngleAroundYIgnoreY(void *quaternionPtr, u32 angle, void *outputPtr) {
-    Quaternion *quaternion = quaternionPtr;
-    Quaternion *result = outputPtr;
+void QuaternionMultiplyAngleAroundYIgnoreY(Quaternion *quaternion, u32 angle, Quaternion *result) {
     s32 pairIndex = (u16) (angle >> 1) >> 4;
     s32 pairFirst = gPairsByAngle[pairIndex * 2];
     s32 pairSecond = gPairsByAngle[pairIndex * 2 + 1];
@@ -157,9 +152,7 @@ void QuaternionMultiplyAngleAroundX(Quaternion *quaternion, s32 angle, Quaternio
     result->mComponents[3] = (source.mComponents[3] * pairSecond - source.mComponents[0] * pairFirst) >> 12;
 }
 
-void QuaternionMultiplyAngleAroundY(void *quaternionPtr, s32 angle, void *resultPtr) {
-    Quaternion *quaternion = quaternionPtr;
-    Quaternion *result = resultPtr;
+void QuaternionMultiplyAngleAroundY(Quaternion *quaternion, s32 angle, Quaternion *result) {
     Quaternion source = *quaternion;
     s32 pairIndex = (u16) (angle >> 1) >> 4;
     s32 pairFirst = gPairsByAngle[pairIndex * 2];
@@ -170,9 +163,7 @@ void QuaternionMultiplyAngleAroundY(void *quaternionPtr, s32 angle, void *result
     result->mComponents[3] = (source.mComponents[3] * pairSecond - source.mComponents[1] * pairFirst) >> 12;
 }
 
-void QuaternionMultiplyAngleAroundZ(void *quaternionPtr, s32 angle, void *resultPtr) {
-    Quaternion *quaternion = quaternionPtr;
-    Quaternion *result = resultPtr;
+void QuaternionMultiplyAngleAroundZ(Quaternion *quaternion, s32 angle, Quaternion *result) {
     Quaternion source = *quaternion;
     s32 pairIndex = (u16) (angle >> 1) >> 4;
     s32 pairFirst = gPairsByAngle[pairIndex * 2];
@@ -194,10 +185,7 @@ void func_020d76a8(Quaternion *quaternion, s32 angle, Quaternion *result) {
     result->mComponents[3] = (source.mComponents[3] * pairSecond) >> 12;
 }
 
-void QuaternionBlendTowardNearerSign(void *fromPtr, void *toPtr, void *resultPtr, s32 amount) {
-    Quaternion *from = fromPtr;
-    Quaternion *to = toPtr;
-    Quaternion *result = resultPtr;
+void QuaternionBlendTowardNearerSign(Quaternion *from, Quaternion *to, Quaternion *result, s32 amount) {
     s32 dot = from->mComponents[0] * to->mComponents[0] + from->mComponents[1] * to->mComponents[1] +
               from->mComponents[2] * to->mComponents[2] + from->mComponents[3] * to->mComponents[3];
     if (dot < 0) {

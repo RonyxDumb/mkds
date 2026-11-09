@@ -258,7 +258,7 @@ void ResetKartAndSetPos(Kart *kart, const Vec3 *position, const Vec3 *forward, P
         axis = data_02165524;
         QuaternionFromAxisAngle(&axis, kart->mHeadingAngle, &kart->mUnk_e0_m);
     }
-    Matrix4x3FromQuaternion(&kart->mUnk_120, &kart->mUnk_e0_m);
+    Matrix4x3FromQuaternion(&kart->mUnk_120_m, &kart->mUnk_e0_m);
     GetKartForward(kart, &kart->mForward);
     kart->mTurnedForward = kart->mForward;
     kart->mEasedTurnedForward = kart->mTurnedForward;
@@ -359,7 +359,7 @@ void ResetKartToStartPlacement(Kart *kart) {
     GetCourseMapKartStartPlacement(&startPos, &startAngles, kart->mIndex);
     kart->mHeadingAngle = (u32) (startAngles.y * 0xb6) >> 12;
     QuaternionFromAxisAngle(&data_02154f7c, kart->mHeadingAngle, &kart->mUnk_e0_m);
-    Matrix4x3FromQuaternion(&kart->mUnk_120, &kart->mUnk_e0_m);
+    Matrix4x3FromQuaternion(&kart->mUnk_120_m, &kart->mUnk_e0_m);
     GetKartForward(kart, &forward);
     ResetKartAndSetPos(kart, &startPos, &forward, NULL);
     if (gRaceSetup->mMode == 5) {

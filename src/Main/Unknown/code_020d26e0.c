@@ -19,9 +19,8 @@ void func_020d26ec(void *soundSource, u32 soundId) {
     value0 = StartSoundFullVolume(value0, soundIdCopy);
 }
 
-void func_020d26e0(void *soundSource, u32 soundId) {
-    SoundSource *soundSourceCopy = soundSource;
+void func_020d26e0(SoundSource *soundSource, u32 soundId) {
     u32 soundIdCopy = soundId;
     u32 unused;
-    StartSoundWhileRequestedFullVolume(soundSourceCopy, soundIdCopy);
+    StartSoundWhileRequestedFullVolume(soundSource, soundIdCopy);
 }

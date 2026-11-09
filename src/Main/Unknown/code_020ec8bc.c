@@ -259,7 +259,7 @@ void func_020ec9c0(LinkFollowingItemObject *follower, s32 targetSpeed, s32 speed
     } else {
         if (follower->mUnk_000.mUnk_158 != 0 && (follower->mUnk_000.mUnk_000.mFlags & 0x20000) != 0) {
             v28.y = pos->y;
-            GetSegmentProgressPointXzLinearY(segmentPoints, pos);
+            GetSegmentProgressPointXzLinearY(&segmentPoints->mSegmentProgress, pos);
             if (pos->y < v28.y) {
                 pos->y = v28.y;
             }

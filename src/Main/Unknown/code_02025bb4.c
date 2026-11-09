@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_02025bb4.h"
+#include "Main/Unknown/code_02124094.h"
 #include "code_0201ea30.h"
 #include "code_0201ea58.h"
 
@@ -27,22 +28,20 @@ void func_02025c48(u32 destinationId, u32 sourceId, Unk0201ea30 *cellLayout) {
     destinationEntry[1] = sourceEntry[1];
 }
 
-void func_02025c1c(u32 entryId, void *outputPointer, Unk0201ea30 *cellLayout) {
-    Unk02025bb4Entry *output = outputPointer;
+void func_02025c1c(u32 entryId, LayoutTableEntry *output, Unk0201ea30 *cellLayout) {
     short *layoutEntry;
     layoutEntry = func_0201ea30(cellLayout, entryId);
     output->mUnk_08 = 1;
-    output->mUnk_0c = ((*layoutEntry << 0x14) >> 0x14);
-    output->mUnk_0e = ((layoutEntry[1] << 0x14) >> 0x14);
+    output->mPositionX = ((*layoutEntry << 0x14) >> 0x14);
+    output->mPositionY = ((layoutEntry[1] << 0x14) >> 0x14);
 }
 
-void func_02025bf0(u32 entryId, void *outputPointer, Unk0201ea30 *labelLayout) {
-    Unk02025bb4Entry *output = outputPointer;
+void func_02025bf0(u32 entryId, LayoutTableEntry *output, Unk0201ea30 *labelLayout) {
     short *layoutEntry;
     layoutEntry = func_0201ea58(labelLayout, entryId);
     output->mUnk_08 = 1;
-    output->mUnk_0c = ((*layoutEntry << 0x14) >> 0x14);
-    output->mUnk_0e = ((layoutEntry[1] << 0x14) >> 0x14);
+    output->mPositionX = ((*layoutEntry << 0x14) >> 0x14);
+    output->mPositionY = ((layoutEntry[1] << 0x14) >> 0x14);
 }
 
 void RectTableSetEntryXY(int id, int x, int y, Unk0201ea30 *graphics) {

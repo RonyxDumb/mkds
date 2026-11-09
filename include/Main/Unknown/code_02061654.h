@@ -2,6 +2,7 @@
 
 #include "types.h"
 
+typedef struct GhostRecordHead GhostRecordHead;
 typedef struct TimeRecord TimeRecord;
 typedef struct Camera Camera;
 typedef struct Race Race;
@@ -13,12 +14,12 @@ extern u16 data_021653e8;
 extern s16 data_021653ec;
 extern Vec3 data_021653f0;
 
-u32 GetGhostRecordCourseId(void *ghostRecord);
-s32 GetGhostRecordKartIndex(void *ghostRecord);
-s32 GetGhostRecordCharacterIndex(void *ghostRecord);
-BOOL GetGhostRecordName(void *ghostRecord, void *name);
-BOOL GetGhostRecordTime(void *ghostRecord, TimeRecord *timeRecord);
-BOOL IsGhostRecordFilled(void *ghostRecord);
+u32 GetGhostRecordCourseId(GhostRecordHead *ghostRecord);
+s32 GetGhostRecordKartIndex(GhostRecordHead *ghostRecord);
+s32 GetGhostRecordCharacterIndex(GhostRecordHead *ghostRecord);
+BOOL GetGhostRecordName(GhostRecordHead *ghostRecord, void *name);
+BOOL GetGhostRecordTime(GhostRecordHead *ghostRecord, TimeRecord *timeRecord);
+BOOL IsGhostRecordFilled(GhostRecordHead *ghostRecord);
 u16 GetSplMaxPolyId(void);
 s32 GetMapObjectFirstPolygonId(void);
 // Returns TRUE and writes the number of update frames since SetRaceUpdateFramesAtEntryEnd to a, or returns FALSE when

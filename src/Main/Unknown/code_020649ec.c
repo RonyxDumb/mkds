@@ -73,7 +73,7 @@ void func_020651fc(Kart *kart) {
         return;
     }
     b = kart->mUnk_514;
-    Matrix4x3FromQuaternion(&kart->mUnk_120, &kart->mUnk_110_q);
+    Matrix4x3FromQuaternion(&kart->mUnk_120_m, &kart->mUnk_110_q);
     func_02066ac0(kart);
     if (kart->mForwardSpeed > 0x3000) {
         b->mUnk_a8 = data_02154f94;
@@ -288,7 +288,8 @@ void InitKart(Kart *kart, void (**slotFunctions)(Kart *)) {
         if ((kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) != 0) {
             AdvanceKartCharacterAnimation(kart);
             characterAnimation = kart->mKartModelsEntry->mCharacterAnimation;
-            characterAnimation->mAnmObjs[characterAnimation->mCurrentIndex]->mFrame = characterAnimation->mHead.mFrameIndex;
+            characterAnimation->mAnmObjs[characterAnimation->mCurrentIndex]->mFrame =
+                characterAnimation->mHead.mFrameIndex;
         }
     }
     ResetParticipantKartRecordPos(kart);

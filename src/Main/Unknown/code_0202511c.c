@@ -11,8 +11,7 @@ SoundRow GetSoundRow(u32 rowIndex) {
     return gSoundRowTable[rowIndex];
 }
 
-u32 GetCourseSoundRowIndex(u32 courseId, void *outputPointer) {
-    SoundRow *output = outputPointer;
+u32 GetCourseSoundRowIndex(u32 courseId, SoundRow *output) {
     u32 rowIndex;
 
     rowIndex = 0x36;
@@ -141,8 +140,7 @@ u32 GetCourseSoundRowIndex(u32 courseId, void *outputPointer) {
     return rowIndex;
 }
 
-u32 GetSceneSoundRowIndex(s32 sceneNumber, void *outputPointer) {
-    SoundRow *output = outputPointer;
+u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
     enum { K0 } rowIndex;
     BOOL rowWritten;
     s32 raceMode;

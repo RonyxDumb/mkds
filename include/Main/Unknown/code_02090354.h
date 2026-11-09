@@ -40,7 +40,7 @@ void AdvanceKartKillerAlongPointLinks(KartKillerCursor *kartKillerCursor);
 s32 func_0209081c(KartKillerCursor *kartKillerCursor);
 void ResetKartKillerCursorTo(KartKillerCursor *kartKillerCursor, RacePointLink *link);
 void SetupKartKillerCursor(KartKillerCursor *kartKillerCursor, u32 kartIndex);
-BOOL IsTimeLessThanStaffGhostTime(u32 entryNumber, void *time);
+BOOL IsTimeLessThanStaffGhostTime(u32 entryNumber, MinuteSecondMillisecondTime *time);
 void LoadStaffGhostTime(void *heap);
 BOOL IsAllGrandPrixRecordsTopRank(void);
 s32 func_020909cc(void);
