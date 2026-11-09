@@ -150,7 +150,6 @@ extern Unk0216c324 data_0216c324[];
 // at 0x0c and hands it to func_0210b760.
 extern Unk0210b7a8 data_0217b9dc;
 extern JgKindRow gJgKindRows[];
-extern JgKindRow gJgKindRowLapModels[];
 extern JgKindRow data_0217bb08[];
 
 void func_020e6fd4(MapObjectList *list);

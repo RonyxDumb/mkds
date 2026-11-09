@@ -277,7 +277,7 @@ void DrawJg(void) {
             break;
         case 0:
         case 1:
-            lapModel = gJgKindRowLapModels[gJgKind].mModel;
+            lapModel = gJgKindRows[gJgKind].mLapModel;
             break;
     }
     func_0208ab4c(data_0217b8c0);

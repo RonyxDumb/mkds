@@ -37,7 +37,7 @@ static inline void func_020653d0_inline(Kart *entryKart, Kart *sourceKart, Vec3 
     Vec3 offset;
     Vec3 crossProduct;
 
-    *direction = *(Vec3 *) &sourceKart->mUnk_120;
+    *direction = sourceKart->mUnk_120;
     VEC_Subtract(&entryKart->mPos, &sourceKart->mPos, &offset);
     VEC_CrossProduct(&sourceKart->mUnk_138, &offset, &crossProduct);
     if (VEC_DotProduct(&crossProduct, &sourceKart->mUnk_12c) < 0) {
@@ -110,13 +110,13 @@ void func_020653d0(Kart *kart, ParticipantKartRecord *record, s32 stepCount) {
         ResetKartAndSetPos(kart, &newPos, 0, 0);
         kart->mHeadingAngle = s;
         headingAxis = data_02165530;
-        QuaternionFromAxisAngle(&headingAxis, kart->mHeadingAngle, (Vec4 *) &kart->mUnk_e0);
-        *(Vec4 *) &kart->mUnk_108.z = *(Vec4 *) &kart->mUnk_e0;
+        QuaternionFromAxisAngle(&headingAxis, kart->mHeadingAngle, &kart->mUnk_e0_m);
+        kart->mUnk_110_q = kart->mUnk_e0_m;
         if (kart->mUnk_7c & 0x400) {
             stateAgain = kart->mUnk_514;
             stateAgain->mUnk_00 = kart->mPos;
             stateAgain->mUnk_10 = stateAgain->mUnk_00;
-            stateAgain->mUnk_4c = *(Vec4 *) &kart->mUnk_108.z;
+            stateAgain->mUnk_4c = kart->mUnk_110_q;
             stateAgain->mUnk_a8 = data_02154f94;
             stateAgain->mUnk_b4 = 0;
         }
@@ -177,9 +177,9 @@ void func_020653d0(Kart *kart, ParticipantKartRecord *record, s32 stepCount) {
                 if (i < 3 && i < stepCount / 2) {
                     func_01ffc090(kart, func_01ffc27c(kart, 0));
                 }
-                QuaternionFromAxisAngle(&data_02154f7c, kart->mHeadingAngle, (Vec4 *) &kart->mUnk_e0);
-                QuaternionMultiply((Vec4 *) &kart->mUnk_f0, (Vec4 *) &kart->mUnk_e0, (Vec4 *) &kart->mUnk_108.z);
-                Matrix4x3FromQuaternion(&kart->mUnk_120, (Vec4 *) &kart->mUnk_108.z);
+                QuaternionFromAxisAngle(&data_02154f7c, kart->mHeadingAngle, &kart->mUnk_e0_m);
+                QuaternionMultiply(&kart->mUnk_f0_q, &kart->mUnk_e0_m, &kart->mUnk_110_q);
+                Matrix4x3FromQuaternion(&kart->mUnk_120, &kart->mUnk_110_q);
                 stateAgain = kart->mUnk_514;
                 stateAgain->mEasedTurnAngle =
                     stateAgain->mEasedTurnAngle +

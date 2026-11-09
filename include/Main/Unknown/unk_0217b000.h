@@ -1085,7 +1085,6 @@ extern s16 *data_0217b8a0;
 extern s16 *data_0217b8e0;
 extern s16 *data_0217b904;
 extern s32 gJgTableIndex;
-extern u32 data_0217bb04[];
 extern Vec3 data_0217b96c;
 extern s32 data_0217b8d0;
 extern s32 data_0217b898;

@@ -249,7 +249,7 @@ void ResetKartAndSetPos(Kart *kart, const Vec3 *position, const Vec3 *forward, P
         q = kart->mUnk_514;
         q->mUnk_00 = kart->mPos;
         q->mUnk_10 = q->mUnk_00;
-        q->mUnk_4c = *(Vec4 *) &kart->mUnk_108.z;
+        q->mUnk_4c = kart->mUnk_110_q;
         q->mUnk_a8 = data_02154f94;
         q->mUnk_b4 = 0;
     }
@@ -482,9 +482,9 @@ void ResetKart(Kart *kart) {
     kart->mUnk_1fc = zeroVector;
     kart->mSpeedLimitFactor = 0x1000;
     kart->mUnk_e0_m = data_usa_02154f14;
-    *(Vec4 *) &kart->mUnk_f0 = data_usa_02154f24;
-    *(Vec4 *) &kart->mUnk_100 = data_usa_02154f34;
-    *(Vec4 *) &kart->mUnk_108.z = data_usa_02154f44;
+    kart->mUnk_f0_q = data_usa_02154f24;
+    kart->mUnk_100_q = data_usa_02154f34;
+    kart->mUnk_110_q = data_usa_02154f44;
     kart->mAirTiltAngle = 0;
     kart->mHeadingAngle = 0;
     kart->mBoostTimer = 0;
@@ -657,7 +657,7 @@ void func_02071f44(Kart *kart) {
     q = kart->mUnk_514;
     q->mUnk_00 = kart->mPos;
     q->mUnk_10 = q->mUnk_00;
-    q->mUnk_4c = *(Vec4 *) &kart->mUnk_108.z;
+    q->mUnk_4c = kart->mUnk_110_q;
     q->mUnk_a8 = data_02154f94;
     q->mUnk_b4 = 0;
 }
@@ -1326,7 +1326,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
         func_020708a4_inline(&flatForward, &flatForward);
         kart->mHeadingAngle = (s32) (((s64) FX_Atan2(flatForward.x, flatForward.z) * 0x28be60d) >> 12) >> 12;
         axis = data_02165524;
-        QuaternionFromAxisAngle(&axis, kart->mHeadingAngle, (Vec4 *) &kart->mUnk_e0);
+        QuaternionFromAxisAngle(&axis, kart->mHeadingAngle, &kart->mUnk_e0_m);
         Vec3CrossUnrounded(&data_02154f7c, &kart->mTurnedForward, &l);
         Vec3CrossUnrounded(&kart->mTurnedForward, &l, &groundNormal);
         if (kart->mAirTiltAngle > -5000) {
@@ -1393,7 +1393,7 @@ void PlaceKartAtKeyedPlacement(Kart *kart, u32 key) {
     kart->mEasedTurnedForward = kart->mTurnedForward;
     kart->mHeadingAngle = (s32) (((s64) FX_Atan2(placementForward.x, placementForward.z) * 0x28be60dLL) >> 12) >> 12;
     axis = data_02165524;
-    QuaternionFromAxisAngle(&axis, kart->mHeadingAngle, (Vec4 *) &kart->mUnk_e0);
+    QuaternionFromAxisAngle(&axis, kart->mHeadingAngle, &kart->mUnk_e0_m);
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         SetupCameraBehindKart();
         if (data_0217c780 & 1) {
