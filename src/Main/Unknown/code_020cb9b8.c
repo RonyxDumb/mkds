@@ -19,7 +19,7 @@ void ReleaseMenu(void) {
         gMenuScene->mScreenNumber = 0x1f;
         ReleasePreviousMenuScreen();
     }
-    if (func_020cbad0() == 0) {
+    if (IsDownloadBootWrapper() == 0) {
         ClearCupPicturePointer();
         ClearGhostRecordSetPointer();
     }
@@ -27,9 +27,9 @@ void ReleaseMenu(void) {
     ClearLinkLevelIconsPointer();
     ClearPicksHolderPointer();
     ReleaseAllResFiles();
-    func_020cbabc(0);
+    SetMenuEntryKind(0);
     func_020cbaa8(0);
-    func_020cba6c(0, 0x3f, 6, 10);
-    func_020cba30(0, 0x3f, 6, 10);
+    WriteMainBlendAlpha(0, 0x3f, 6, 10);
+    MenuWriteSubBlendAlpha(0, 0x3f, 6, 10);
     gMenuScene = NULL;
 }

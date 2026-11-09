@@ -17,14 +17,14 @@ void UpdateVsSelectCupCourse(void) {
 }
 #pragma thumb off
 
-Unk027ffc40 *func_020ce7ac(void) {
+Unk027ffc40 *VsSelectCupGetBootInfo(void) {
     return gBootInfo;
 }
 
-u32 func_020ce784(void) {
-    return func_020ce7ac()->mUnk_00 == 2 ? 1 : 0;
+BOOL VsSelectCupIsDownloadBoot(void) {
+    return VsSelectCupGetBootInfo()->mUnk_00 == 2 ? 1 : 0;
 }
 
-u32 func_020ce778(void) {
-    return func_020ce784();
+BOOL VsSelectCupIsDownloadBootWrapper(void) {
+    return VsSelectCupIsDownloadBoot();
 }

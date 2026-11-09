@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_020a2e4c.h"
 
-void func_020a2e68(Balloon *balloon) {
-    balloon->mUnk_e0 = 0;
+void DisableBalloonHorizontalPull(Balloon *balloon) {
+    balloon->mHorizontalPullEnabled = 0;
 }
 
 // Returns mScaleFactor.

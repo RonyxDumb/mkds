@@ -301,8 +301,8 @@ typedef struct KartStanding {
     /* 4c */ s32 mBalloonOrShineCount;
     /* 50 */ u16 mBalloonsLeftToMake;
     /* 52 */ u8 mUnk_52[0x12];
-    /* 64 */ s32 mUnk_64;
-    /* 68 */ s32 mUnk_68;
+    /* 64 */ s32 mMicInflateTimer;
+    /* 68 */ s32 mSelectKeyInflate;
     /* 6c */ s32 mInflatingBalloon;
 } KartStanding;
 
@@ -339,8 +339,8 @@ typedef struct Standings {
     // spawner stops placing at 3. Parking every shine at once, as the shine mode's end callback does, does not
     // subtract.
     /* 3a0 */ u16 mShineCount;
-    /* 3a2 */ u16 mUnk_3a2;
-    /* 3a4 */ u16 mUnk_3a4;
+    /* 3a2 */ u16 mTimeLimitSeconds;
+    /* 3a4 */ u16 mTimeLimitIndex;
     /* 3a6 */ u8 mUnk_3a6[2];
     // Frames left before mEndCallback runs once a winner is decided: mode 2 stores 0x5a and counts it down; at 0 it
     // becomes -1 and the callback runs. A value below 0 means the end is reached. Mode 4 stores 0 and ends through the

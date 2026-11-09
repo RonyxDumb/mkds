@@ -36,21 +36,21 @@ typedef struct RaceSetupCopyEntry {
 } RaceSetupCopyEntry;
 
 // Copy of the race setup that the screens edit: filled from the current half of gRaceSetup (or from the Wi-Fi
-// session), written to the next half by func_020cc744 or func_020297bc. Object behind gRaceSetupCopy, returned by
-// GetRaceSetupCopy.
+// session), written to the next half by SetNextRaceSetupFromCopy or func_020297bc. Object behind gRaceSetupCopy,
+// returned by GetRaceSetupCopy.
 typedef struct RaceSetupCopy {
     /* 00 */ RaceSetupCopyEntry mEntries[8];
     /* c0 */ s32 mCpuDifficulty;
     /* c4 */ s32 mKartCount;
     // A MODE_* value of unk_021759c0.h: copied from the current mode (3 for most modes in a Wi-Fi race), set by the
-    // select screens, stored as the next mode by func_020cc744.
+    // select screens, stored as the next mode by SetNextRaceSetupFromCopy.
     /* c8 */ s32 mMode;
     /* cc */ s32 mCupIndex;
     /* d0 */ s32 mCourseId;
     /* d4 */ s32 mEngineIndex;
     /* d8 */ s32 mMirrorMode;
     /* dc */ s32 mUseTeams;
-    /* e0 */ s32 mUnk_e0;
+    /* e0 */ s32 mGhostRecordIndex;
     /* e4 */ s32 mBattleKind;
     /* e8 */ u16 mCourseCount;
     /* ea */ u8 mUnk_ea[2];

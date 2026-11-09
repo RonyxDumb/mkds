@@ -28,13 +28,13 @@ void UpdateSelectBattleStage(void) {
             break;
         case -2:
             SwitchMenuScreen(0xe, 0x1f);
-            func_020ceb0c(0);
-            func_020ceaf8(1);
+            BattleStageSetMenuEntryKind(0);
+            BattleStageSetRaceSetupRequested(1);
             break;
         case -1:
             SwitchMenuScreen(0x1b, 0x1f);
-            func_020ceb0c(0);
-            func_020ceaf8(1);
+            BattleStageSetMenuEntryKind(0);
+            BattleStageSetRaceSetupRequested(1);
             break;
     }
 }

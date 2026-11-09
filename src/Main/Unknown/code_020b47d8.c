@@ -82,7 +82,8 @@ void Matrix2x2RotationReciprocalScale(MtxFx22 *matrix, s32 scale, s32 angle) {
     matrix->mUnk_00[3] = matrix->mUnk_00[0];
 }
 
-BOOL func_020b4b98(s32 number) {
+// TRUE when the points word is plural for this number; one language counts 0 as singular.
+BOOL IsPointsLabelPlural(s32 number) {
     switch (data_021759d0->mLanguageIndex) {
         case 0:
         case 1:

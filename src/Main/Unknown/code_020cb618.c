@@ -137,7 +137,7 @@ void InitCurrentMenuScreen(void) {
                 InitSelectCupM(MenuGetCurrentHeap(), menu->mMainOam, menu->mSubOam);
                 break;
             case 29:
-                func_020cc744();
+                SetNextRaceSetupFromCopy();
                 break;
         }
         switch (gMenuScene->mScreenNumber) {

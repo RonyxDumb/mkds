@@ -99,11 +99,11 @@ u32 TitleWriteSubWinEnableBits(u32 bits) {
 }
 
 void func_020ad85c(u32 value) {
-    data_0217b488->mUnk_04 = value;
+    data_0217b488->mRaceSetupRequested = value;
 }
 
 void func_020ad848(u32 value) {
-    data_0217b488->mUnk_08 = value;
+    data_0217b488->mMenuEntryKind = value;
 }
 
 void func_020ad834(u32 value) {

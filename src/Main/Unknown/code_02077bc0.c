@@ -167,7 +167,7 @@ void InitKarts(u32 kartCount) {
         gKarts[i].mEntryIndex = gRaceSetup->mCurrentEntries[i].mPlayer.mIndex;
         InitKart(&gKarts[i], gKartDefaultSlotFunctions);
     }
-    gKartKind3ShapeMask = 0;
+    gKartKind3ShapeListMask = 0;
 }
 
 void UpdateKarts(void) {
@@ -268,19 +268,19 @@ u32 GetKartForwardSpeedRatio(void) {
 }
 
 // Sets bit i when the kart is inside kind 3 shape list i.
-void SetKartKind3ShapeMask(s32 kartIndex) {
+void SetKartKind3ShapeListMask(s32 kartIndex) {
     u16 i;
 
-    gKartKind3ShapeMask = 0;
+    gKartKind3ShapeListMask = 0;
     for (i = 0; i < 8; i++) {
         if (IsKartInCourseMapKind3ShapeList(kartIndex, i) != 0) {
-            gKartKind3ShapeMask |= 1 << i;
+            gKartKind3ShapeListMask |= 1 << i;
         }
     }
 }
 
-u32 GetKartKind3ShapeMask(void) {
-    return gKartKind3ShapeMask;
+u32 GetKartKind3ShapeListMask(void) {
+    return gKartKind3ShapeListMask;
 }
 
 // Stores the forward speed as a part of the speed limit, 0x1000 = 1.0.

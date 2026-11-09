@@ -104,8 +104,8 @@ typedef struct Unk0217b488_20 {
 // Object behind data_0217b488, 0x130 bytes (func_020cefa0 allocates it).
 typedef struct Unk0217b488 {
     /* 000 */ s32 mTitleBlendDone;
-    /* 004 */ s32 mUnk_04;
-    /* 008 */ s32 mUnk_08;
+    /* 004 */ s32 mRaceSetupRequested;
+    /* 008 */ s32 mMenuEntryKind;
     /* 00c */ s32 mGhostSceneInitialCallbacksIndex;
     /* 010 */ s32 mUnk_10;
     /* 014 */ s32 mUnk_14;
@@ -120,7 +120,7 @@ typedef struct Unk0217b488 {
     /* 06c */ BOOL mUnk_6c;
     /* 070 */ s32 mUnk_70;
     /* 074 */ s32 mUnk_74;
-    /* 078 */ s32 mUnk_78;
+    /* 078 */ s32 mResultArchiveDl;
     /* 07c */ s32 mCupRankIndex;
     /* 080 */ s32 mUnk_80;
     /* 084 */ s32 mCupIndex;

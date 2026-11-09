@@ -4,11 +4,11 @@
 #pragma thumb off
 
 void func_ov001_02185490(u32 value) {
-    data_0217b488->mUnk_08 = value;
+    data_0217b488->mMenuEntryKind = value;
 }
 
 void func_ov001_0218547c(u32 value) {
-    data_0217b488->mUnk_04 = value;
+    data_0217b488->mRaceSetupRequested = value;
 }
 
 #pragma thumb on

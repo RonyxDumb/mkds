@@ -20,8 +20,8 @@ void FillShuffledIndices(void) {
 
     remainingCount = 8;
     if (data_0217b488->mIndicesShuffled == 0) {
-        if (func_020cef08() == 1 || func_020cef08() == 2) {
-            random = func_020ceeec();
+        if (ShuffledIndicesGetConnectionKind() == 1 || ShuffledIndicesGetConnectionKind() == 2) {
+            random = ShuffledIndicesGetConnectionWorkRandomState();
             for (i = 0; i < 8; i++) {
                 remaining[i] = i;
             }
@@ -40,13 +40,13 @@ void FillShuffledIndices(void) {
 
 void ClearShuffledIndices(void) {
     s32 i;
-    BOOL v;
+    BOOL clearValue;
 
-    v = FALSE;
+    clearValue = FALSE;
     for (i = 0; i < 8; i++) {
-        data_0217b488->mShuffledIndices[i] = v;
+        data_0217b488->mShuffledIndices[i] = clearValue;
     }
-    data_0217b488->mIndicesShuffled = v;
+    data_0217b488->mIndicesShuffled = clearValue;
 }
 #pragma thumb off
 

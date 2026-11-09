@@ -387,7 +387,7 @@ void DrawRaceGoalSKarts(RaceHudOamBuffer *oamBuffer) {
             oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                           0x80 - oamBuffer->mOamCount, cell, NULL, onesPosition, 0, 1);
             if (!(gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE)) {
-                cellIndex = func_020b4b98(number) != FALSE ? 0x1a : 0x1b;
+                cellIndex = IsPointsLabelPlural(number) != FALSE ? 0x1a : 0x1b;
                 cell = GetRaceGoalSNcerEntry(cellIndex);
                 cell1aOr1bPosition[0] = (offsetX + 0xd1) << 12;
                 cell1aOr1bPosition[1] = rowYs[i] << 12;

@@ -511,7 +511,7 @@ void func_02088d34(KartAi *kartAi) {
         return;
     }
     if (func_01ffc67c(kartAi->mKart) != FALSE) {
-        func_020a228c(kartAi->mIndex);
+        StopKartMicInflate(kartAi->mIndex);
         return;
     }
     balloonOrShineCount = GetBalloonOrShineCount(kartAi->mIndex);
@@ -529,7 +529,7 @@ void func_02088d34(KartAi *kartAi) {
     }
     kartAi->mUnk_c2++;
     if (kartAi->mUnk_c2 > data_0217b030->mUnk_18) {
-        func_020a22ac(kartAi->mIndex);
+        StartKartMicInflate(kartAi->mIndex);
         kartAi->mUnk_c2 = 0;
     }
     kartAi->mUnk_c4 = TRUE;

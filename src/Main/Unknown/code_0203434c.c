@@ -285,7 +285,7 @@ s32 func_02034370(SceneNumbers *sceneNumbers) {
         case 12:
             if (func_02054f58() == 1) {
                 func_0204f804();
-                data_0217b488->mUnk_08 = 5;
+                data_0217b488->mMenuEntryKind = 5;
                 if (sceneNumbers != NULL) {
                     sceneNumbers->mNextScene = 1;
                 }
@@ -369,7 +369,7 @@ s32 func_02034370(SceneNumbers *sceneNumbers) {
             break;
         case 14:
             if (GetTxtSystemDone() != 0) {
-                data_0217b488->mUnk_08 = 5;
+                data_0217b488->mMenuEntryKind = 5;
                 if (sceneNumbers != NULL) {
                     sceneNumbers->mNextScene = 1;
                 }

@@ -253,7 +253,7 @@ void DrawRaceGoalMGrandPrix(RaceHudOamBuffer *oamBuffer) {
     oamBuffer->mOamCount +=
         NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, pointsPosition, 0, 1);
 
-    cell = GetRaceGoalMNcerEntry(func_020b4b98(gRaceGoalM->mPointsGained) != FALSE ? 0x13 : 0x14);
+    cell = GetRaceGoalMNcerEntry(IsPointsLabelPlural(gRaceGoalM->mPointsGained) != FALSE ? 0x13 : 0x14);
     cell13Or14Position[0] = 0x48000;
     cell13Or14Position[1] = (offsetY + 0xb0) << 12;
     oamIndex = oamBuffer->mOamCount;

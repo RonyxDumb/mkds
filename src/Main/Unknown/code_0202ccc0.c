@@ -349,7 +349,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
     switch (gTimeAttackGhostSend->mState) {
         case 0:
             if (GetTxtSystemDone() != 0) {
-                data_0217b488->mUnk_08 = 5;
+                data_0217b488->mMenuEntryKind = 5;
                 if (advanceArg != NULL) {
                     advanceArg->mUnk_04 = 1;
                 }
@@ -399,7 +399,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
                 } else {
                     keyB = gInputSlots[slotIndex].mPressedBits & PAD_KEY_B;
                     if (keyB != 0 || returnTouched != 0) {
-                        data_0217b488->mUnk_08 = 5;
+                        data_0217b488->mMenuEntryKind = 5;
                         if (advanceArg != NULL) {
                             advanceArg->mUnk_04 = 1;
                         }
@@ -478,7 +478,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
         case 9:
             if (func_02054f58() == 1) {
                 func_0204f804();
-                data_0217b488->mUnk_08 = 5;
+                data_0217b488->mMenuEntryKind = 5;
                 if (advanceArg != NULL) {
                     advanceArg->mUnk_04 = 1;
                 }
@@ -501,7 +501,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
             break;
         case 13:
             if (GetTxtSystemDone() != 0) {
-                data_0217b488->mUnk_08 = 5;
+                data_0217b488->mMenuEntryKind = 5;
                 if (advanceArg != NULL) {
                     advanceArg->mUnk_04 = 1;
                 }

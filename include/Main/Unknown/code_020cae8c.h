@@ -43,7 +43,7 @@ typedef struct MenuScene {
     /* 948 */ LayoutTableEntry *mSinglePlaySelectModeSLayoutTable;
     /* 94c */ struct Unk0201ea30 *mSinglePlaySelectModeSBncl;
     /* 950 */ void *mSinglePlaySelectModeSBnbl;
-    /* 954 */ CharacterKartPicks *mUnk_954;
+    /* 954 */ CharacterKartPicks *mCharacterKartPicks;
     /* 958 */ BOOL mDataSharingSyncStarted;
     /* 95c */ BOOL mDataSharingSyncFinished;
 } MenuScene;

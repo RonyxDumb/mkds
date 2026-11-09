@@ -181,7 +181,7 @@ void InitWiFiStates(void *heap, s32 b) {
     }
     gWiFiStates->mNextState = -1;
     gWiFiStates->mCallbacks.mInit(gWiFiStates->mStateHeap);
-    data_0217b488->mUnk_78 = 1;
+    data_0217b488->mResultArchiveDl = 1;
 }
 
 void ReleaseWiFiStates(void) {

@@ -18,11 +18,13 @@
 
 #pragma thumb on
 #pragma optimize_for_size on
-void func_020cc744(void) {
+// Copies the menu picks from the race setup copy into the next setup (entry kind 2: only the cup and course), then
+// prepares the CPU numbers and course list when a race setup was requested.
+void SetNextRaceSetupFromCopy(void) {
     u16 rowIndex;
     u8 tableRowColumn[2];
 
-    if (func_020cc120() != 2) {
+    if (GetMenuEntryKind() != 2) {
         if (GetRaceSetupCopy()->mMode == 0) {
             switch (GetRaceSetupCopy()->mEngineIndex) {
                 case 0:
@@ -70,13 +72,13 @@ void func_020cc744(void) {
         }
         SetNextEngineIndex(GetRaceSetupCopy()->mEngineIndex);
         SetNextMirrorMode(GetRaceSetupCopy()->mMirrorMode);
-        func_020cca24(GetRaceSetupCopy()->mUnk_e0);
+        SetNextGhostRecordIndex(GetRaceSetupCopy()->mGhostRecordIndex);
         SetNextBattleKind(GetRaceSetupCopy()->mBattleKind);
         SetNextUseTeams(GetRaceSetupCopy()->mUseTeams);
         SetCourseCount(GetRaceSetupCopy()->mCourseCount);
         SetNextRuleKind(GetRaceSetupCopy()->mRuleKind);
         SetNextCourseListMode(GetRaceSetupCopy()->mCourseListMode);
-        if (GetRaceSetupCopy()->mMode == 4 && func_020cbad0() == 0) {
+        if (GetRaceSetupCopy()->mMode == 4 && IsDownloadBootWrapper() == 0) {
             rowIndex = GetRaceSetupCopy()->mMissionFileRowIndex;
             FindMissionTableCell(GetRaceSetupCopy()->mMissionFileRows[rowIndex].mMissionTableValue, &tableRowColumn[0],
                                  &tableRowColumn[1]);
@@ -87,12 +89,12 @@ void func_020cc744(void) {
         SetNextCourseId(GetRaceSetupCopy()->mCourseId);
     }
     if (GetRaceSetupCopy()->mMode == 0) {
-        func_020cc9a8(0);
+        SetResultArchiveDl(0);
     } else {
-        func_020cc9a8(1);
+        SetResultArchiveDl(1);
     }
-    if (func_020cc994() != 0) {
+    if (GetRaceSetupRequested() != 0) {
         func_02045ed0();
-        func_020cc10c(0);
+        SetRaceSetupRequested(0);
     }
 }

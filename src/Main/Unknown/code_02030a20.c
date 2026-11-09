@@ -755,8 +755,8 @@ s32 func_02030ea4(Unk02030b18 *sceneNumbers) {
             if (gMultiSelectMember->mState2Frames >= 5) {
                 func_02031b30(1);
                 if (gMultiSelectMember->mUnk_70 == 11) {
-                    data_0217b488->mUnk_04 = 1;
-                    data_0217b488->mUnk_08 = 4;
+                    data_0217b488->mRaceSetupRequested = 1;
+                    data_0217b488->mMenuEntryKind = 4;
                     if (sceneNumbers != NULL) {
                         sceneNumbers->mUnk_04 = 1;
                     }
@@ -901,8 +901,8 @@ s32 func_02030b18(Unk02030b18 *sceneNumbers) {
                 }
             }
             if (gMultiSelectMember->mUnk_70 == 11) {
-                data_0217b488->mUnk_04 = 1;
-                data_0217b488->mUnk_08 = 4;
+                data_0217b488->mRaceSetupRequested = 1;
+                data_0217b488->mMenuEntryKind = 4;
                 if (sceneNumbers != NULL) {
                     sceneNumbers->mUnk_04 = 1;
                 }

@@ -14,13 +14,13 @@ void UpdateVsSelectCupGrid(void) {
             SwitchMenuScreen(0xa, 0x1f);
             break;
         case 3:
-            if (func_020ce8bc() == 0) {
+            if (VsSelectCupGetConnectionKind() == 0) {
                 SwitchMenuScreen(0, 0x1f);
             } else {
                 SwitchMenuScreen(0xe, 0x1f);
             }
-            func_020ce8a8(0);
-            func_020ce894(1);
+            VsSelectCupSetMenuEntryKind(0);
+            VsSelectCupSetRaceSetupRequested(1);
             break;
     }
 }

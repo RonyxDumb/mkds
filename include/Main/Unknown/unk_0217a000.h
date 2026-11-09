@@ -1397,7 +1397,7 @@ extern u16 gKillerItemKartIndex;
 extern char gCharacterNsbcaPathBuffer[];
 // 1 when this is a mission run and the course has a shape of kind 2, else 0; set by InitKarts.
 extern s32 gMissionRunKind2ShapesPresent;
-extern u32 gKartKind3ShapeMask;
+extern u32 gKartKind3ShapeListMask;
 extern s32 gKartSpeedLimitReciprocal;
 extern s32 gKartForwardSpeedRatio;
 struct Unk0201ca6c;

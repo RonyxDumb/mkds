@@ -56,7 +56,7 @@ void InitIronBall(IronBall *ironBall) {
     ironBall->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
     InitSoundSource(&ironBall->mUnk_000.mSound->mSoundSource, 10, &ironBall->mUnk_000.mPos);
     ironBall->mUnk_000.mFarDistanceSquared = gSoundFalloffs[10].mUnk_20;
-    ironBall->mUnk_128 = DecimalNonZeroDigitsToBitMask(ironBall->mUnk_000.mCourseMapRow->mUnk_34);
+    ironBall->mSoundOffKind3ShapeListMask = DecimalNonZeroDigitsToBitMask(ironBall->mUnk_000.mCourseMapRow->mUnk_34);
 }
 
 u32 CollideKartWithIronBall(IronBall *ironBall, void *kart, u8 *b, u8 *c) {

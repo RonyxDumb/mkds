@@ -1,14 +1,14 @@
 #include "Main/Unknown/code_020ce894.h"
 #include "00/code_02181f98.h"
 
-u32 func_020ce8bc(void) {
+u32 VsSelectCupGetConnectionKind(void) {
     return (data_021759d0->mConnectionKind);
 }
 
-void func_020ce8a8(u32 value) {
-    data_0217b488->mUnk_08 = value;
+void VsSelectCupSetMenuEntryKind(u32 entryKind) {
+    data_0217b488->mMenuEntryKind = entryKind;
 }
 
-void func_020ce894(u32 value) {
-    data_0217b488->mUnk_04 = value;
+void VsSelectCupSetRaceSetupRequested(u32 requested) {
+    data_0217b488->mRaceSetupRequested = requested;
 }

@@ -84,32 +84,32 @@ void SetStandingsKartOffsetCallback(void (*callback)(u16, Vec3 *)) {
     gStandings->mKartOffsetCallback = callback;
 }
 
-void func_020a22ac(u16 kartIndex) {
+void StartKartMicInflate(u16 kartIndex) {
     if (IsRaceStarted() != 1) {
         return;
     }
     if (func_01ffc67c(GetKart(kartIndex)) != FALSE) {
         return;
     }
-    gStandings->mKarts[kartIndex].mUnk_64 = 10;
+    gStandings->mKarts[kartIndex].mMicInflateTimer = 10;
 }
 
-void func_020a228c(int kartIndex) {
-    gStandings->mKarts[kartIndex].mUnk_64 = 0xffffffff;
+void StopKartMicInflate(int kartIndex) {
+    gStandings->mKarts[kartIndex].mMicInflateTimer = 0xffffffff;
 }
 
-s32 func_020a2264(u16 kartIndex) {
+s32 GetKartMicInflateTimer(u16 kartIndex) {
     if (gStandings->mWinnerTeamId >= 0) {
         return -1;
     }
-    return gStandings->mKarts[kartIndex].mUnk_64;
+    return gStandings->mKarts[kartIndex].mMicInflateTimer;
 }
 
-s32 func_020a223c(u16 kartIndex) {
+s32 GetKartSelectKeyInflate(u16 kartIndex) {
     if (gStandings->mWinnerTeamId >= 0) {
         return -1;
     }
-    return gStandings->mKarts[kartIndex].mUnk_68;
+    return gStandings->mKarts[kartIndex].mSelectKeyInflate;
 }
 
 void SetKartInflatingBalloon(u16 kartIndex, u32 inflating) {
@@ -485,7 +485,9 @@ void EliminateKartAndCheckWinner(u16 kartIndex) {
     SetWinnerIfOneTeamLeft();
 }
 
-u16 func_020a1520(void) {
+// Steps to the next time limit, eliminates the karts with the lowest shine count (none when all counts are equal) and
+// returns the new limit in seconds; 0 when a winner is decided.
+u16 AdvanceShineBattleTimeLimit(void) {
     NNSSndSeqPlayer **seqPlayerHandle;
     s32 v;
     u16 kartIndex;
@@ -497,12 +499,12 @@ u16 func_020a1520(void) {
     if (gStandings->mWinnerTeamId >= 0) {
         return 0;
     }
-    v = gStandings->mUnk_3a4 + 1;
+    v = gStandings->mTimeLimitIndex + 1;
     if (v >= 3) {
         v = 3;
     }
-    gStandings->mUnk_3a4 = v;
-    gStandings->mUnk_3a2 = data_021565f0[gStandings->mUnk_3a4];
+    gStandings->mTimeLimitIndex = v;
+    gStandings->mTimeLimitSeconds = gShineBattleTimeLimits[gStandings->mTimeLimitIndex];
     lowestCount = gStandings->mLowestBalloonOrShineCount;
     if (lowestCount != gStandings->mHighestBalloonOrShineCount) {
         kartCount = gRaceSetup->mKartCount;
@@ -531,7 +533,7 @@ u16 func_020a1520(void) {
             NNS_SndArcPlayerStartSeqArc(seqPlayerHandle, 0, 0x4b);
         }
     }
-    return gStandings->mUnk_3a2;
+    return gStandings->mTimeLimitSeconds;
 }
 
 void EliminateKartsUntilWinnerDecided(void) {
@@ -821,21 +823,21 @@ void UpdateStandings(void) {
         } else if (gStandings->mWinnerTeamId < 0 && kartStanding->mBalloonOrShineCount > 0) {
             kart = GetKart((u16) i);
             kartStanding = &gStandings->mKarts[i];
-            v = kartStanding->mUnk_64 - 1;
+            v = kartStanding->mMicInflateTimer - 1;
             if (v <= 0) {
                 v = 0;
             }
-            kartStanding->mUnk_64 = v;
-            gStandings->mKarts[i].mUnk_68 = -(gStandings->mKarts[i].mUnk_68 <= 0);
+            kartStanding->mMicInflateTimer = v;
+            gStandings->mKarts[i].mSelectKeyInflate = -(gStandings->mKarts[i].mSelectKeyInflate <= 0);
             if (func_01ffc67c(kart) != FALSE ||
                 (u16) (gInputSlots[kart->mEntryIndex].mBits & (PAD_KEY_A | PAD_KEY_B)) != 0) {
-                gStandings->mKarts[i].mUnk_68 = -1;
-                gStandings->mKarts[i].mUnk_64 = -1;
+                gStandings->mKarts[i].mSelectKeyInflate = -1;
+                gStandings->mKarts[i].mMicInflateTimer = -1;
             } else if (IsRaceStarted() == 1) {
                 if ((u16) (gInputSlots[(u32) kart->mEntryIndex].mBits & 4) != 0) {
-                    gStandings->mKarts[i].mUnk_68 = 1;
+                    gStandings->mKarts[i].mSelectKeyInflate = 1;
                 } else if (gInputSlots[kart->mEntryIndex].mPair.mUnk_12[0] != 0) {
-                    gStandings->mKarts[i].mUnk_64 = 10;
+                    gStandings->mKarts[i].mMicInflateTimer = 10;
                 }
             }
             if (gStandings->mKartHitCallback != NULL) {

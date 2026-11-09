@@ -2,10 +2,10 @@
 #include "Main/Unknown/unk_02175000.h"
 #include "Main/Unknown/unk_0217a000.h"
 
-u32 func_020cef08(void) {
+u32 ShuffledIndicesGetConnectionKind(void) {
     return (data_021759d0->mConnectionKind);
 }
 
-RandomState64 *func_020ceeec(void) {
+RandomState64 *ShuffledIndicesGetConnectionWorkRandomState(void) {
     return &gConnectionWork->mRandomState;
 }

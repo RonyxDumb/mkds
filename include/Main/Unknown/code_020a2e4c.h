@@ -33,7 +33,7 @@ typedef struct Balloon {
     /* d4 */ s32 mScaleFactorPerFrame;
     /* d8 */ s32 mScaleSwing;
     /* dc */ s32 mScaleSwingPerFrame;
-    /* e0 */ s32 mUnk_e0;
+    /* e0 */ s32 mHorizontalPullEnabled;
     /* e4 */ s32 mDrawScale;
     /* e8 */ Vec3 mDrawPos;
     // Number of balloons this object draws: 1 for the local kart's balloons (each draws itself), the kart's count for
@@ -49,4 +49,4 @@ typedef struct Balloon {
 void SetBalloonDrawCountAndList(Balloon *balloon, u16 drawCount, void *drawList);
 void SetBalloonKartIndex(Balloon *balloon, u16 kartIndex);
 s32 GetBalloonScaleFactor(Balloon *balloon);
-void func_020a2e68(Balloon *balloon);
+void DisableBalloonHorizontalPull(Balloon *balloon);

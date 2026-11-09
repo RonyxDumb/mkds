@@ -737,7 +737,7 @@ BOOL BalloonKartHitByKartCallback(u16 hitKartIndex, u16 hitByKartIndex) {
                 kartBalloons->mBalloons[GetBalloonOrShineCount(hitByKartIndex)];
             kartBalloons->mBalloons[GetBalloonOrShineCount(hitByKartIndex)] = lastBalloon;
             AddBalloonOrShineCountAndMoveRank(hitByKartIndex, 1);
-            func_020a2e68(lastBalloon);
+            DisableBalloonHorizontalPull(lastBalloon);
             SetBalloonKartIndex(lastBalloon, hitByKartIndex);
             if (GetBalloonOrShineCount(hitByKartIndex) >= 2 && IsKartInflatingBalloon(hitByKartIndex) != 0) {
                 kartBalloons->mState = 4;
@@ -806,7 +806,7 @@ s32 BalloonKartsHitEachOtherCallback(u16 firstKartIndex, u16 secondKartIndex) {
             secondKartBalloons->mBalloons[GetBalloonOrShineCount(secondKartIndex)];
         secondKartBalloons->mBalloons[GetBalloonOrShineCount(secondKartIndex)] = firstLastBalloon;
         AddBalloonOrShineCountAndMoveRank(secondKartIndex, 1);
-        func_020a2e68(firstLastBalloon);
+        DisableBalloonHorizontalPull(firstLastBalloon);
         SetBalloonKartIndex(firstLastBalloon, secondKartIndex);
         if (GetBalloonOrShineCount(secondKartIndex) >= 2 && IsKartInflatingBalloon(secondKartIndex) != 0) {
             secondKartBalloons->mState = 4;
@@ -820,7 +820,7 @@ s32 BalloonKartsHitEachOtherCallback(u16 firstKartIndex, u16 secondKartIndex) {
             firstKartBalloons->mBalloons[GetBalloonOrShineCount(firstKartIndex)];
         firstKartBalloons->mBalloons[GetBalloonOrShineCount(firstKartIndex)] = secondLastBalloon;
         AddBalloonOrShineCountAndMoveRank(firstKartIndex, 1);
-        func_020a2e68(secondLastBalloon);
+        DisableBalloonHorizontalPull(secondLastBalloon);
         SetBalloonKartIndex(secondLastBalloon, firstKartIndex);
         if (GetBalloonOrShineCount(firstKartIndex) >= 2 && IsKartInflatingBalloon(firstKartIndex) != 0) {
             firstKartBalloons->mState = 4;
@@ -1064,7 +1064,7 @@ void UpdateKartBalloons(void *mapObjectList, KartBalloonsObject *kartBalloonsObj
                 if (GetBalloonOrShineCount(i) >= 3) {
                     break;
                 }
-                if (func_020a2264(i) <= 0 && func_020a223c(i) <= 0) {
+                if (GetKartMicInflateTimer(i) <= 0 && GetKartSelectKeyInflate(i) <= 0) {
                     break;
                 }
                 balloon = StartBalloon(kartBalloons->mBalloonNsbtpFrameIndex, &balloonPos);
@@ -1098,7 +1098,7 @@ void UpdateKartBalloons(void *mapObjectList, KartBalloonsObject *kartBalloonsObj
                 }
                 break;
             case 2:
-                if (func_020a2264(i) < 0) {
+                if (GetKartMicInflateTimer(i) < 0) {
                     kartBalloons->mState = 4;
                     break;
                 }
@@ -1109,13 +1109,13 @@ void UpdateKartBalloons(void *mapObjectList, KartBalloonsObject *kartBalloonsObj
                 }
                 break;
             case 3:
-                if (func_020a2264(i) < 0) {
+                if (GetKartMicInflateTimer(i) < 0) {
                     kartBalloons->mState = 4;
                     break;
                 }
-                if (func_020a223c(i) > 0) {
+                if (GetKartSelectKeyInflate(i) > 0) {
                     UpdateBalloonInflating(kartBalloons->mBalloons[GetBalloonOrShineCount(i)], i, 0x10);
-                } else if (func_020a2264(i) > 0) {
+                } else if (GetKartMicInflateTimer(i) > 0) {
                     UpdateBalloonInflating(kartBalloons->mBalloons[GetBalloonOrShineCount(i)], i, 0x29);
                 } else {
                     balloon = kartBalloons->mBalloons[GetBalloonOrShineCount(i)];
@@ -1150,7 +1150,7 @@ void UpdateKartBalloons(void *mapObjectList, KartBalloonsObject *kartBalloonsObj
             kartBalloons->mState = 0;
         }
         if (i == gRaceSetup->mEntryIndex) {
-            if (func_020a2264(i) > 0 || func_020a223c(i) > 0) {
+            if (GetKartMicInflateTimer(i) > 0 || GetKartSelectKeyInflate(i) > 0) {
                 swingStep = GetBalloonOrShineCount(i) >= 3 ? 600 : 300;
                 swingPerFrameDecrement = GetBalloonOrShineCount(i) >= 3 ? 200 : 100;
                 kartBalloons->mSwing += kartBalloons->mSwingPerFrame;

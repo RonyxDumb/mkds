@@ -103,7 +103,7 @@ void CopyMenuScreenCallbacks(void) {
 }
 
 void WriteMenuSceneRegisters(void) {
-    if (func_020cbad0() == 0) {
+    if (IsDownloadBootWrapper() == 0) {
         AdvanceKartModelMenuLoad();
     }
     gMenuScene->mScreenCallbacks[gMenuScene->mScreenNumber].mWriteRegisters();

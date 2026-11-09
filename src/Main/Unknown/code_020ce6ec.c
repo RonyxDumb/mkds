@@ -12,7 +12,7 @@ void WriteVsSelectCupMRegisters(void) {
     int flag;
     flag = GetMenuScreenSwitched();
     if (flag != 0) {
-        flag = func_020ce778();
+        flag = VsSelectCupIsDownloadBootWrapper();
         if (flag == 0) {
             GxDispCntBits8To12Write(0x19);
             GX_SetGraphicsMode(1, 0, 0);

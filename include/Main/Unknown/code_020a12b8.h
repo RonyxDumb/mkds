@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-u16 func_020a1520(void);
+u16 AdvanceShineBattleTimeLimit(void);
 void EliminateKartAndCheckWinner(u16 kartIndex);
 void EliminateKartsUntilWinnerDecided(void);

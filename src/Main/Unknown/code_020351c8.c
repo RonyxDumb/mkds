@@ -367,7 +367,7 @@ s32 func_0203551c(u16 *sceneNumbers) {
             break;
         case 4:
             if (GetTxtSystemDone() != 0) {
-                data_0217b488->mUnk_08 = 5;
+                data_0217b488->mMenuEntryKind = 5;
                 if (sceneNumbers != NULL) {
                     sceneNumbers[2] = 1;
                 }

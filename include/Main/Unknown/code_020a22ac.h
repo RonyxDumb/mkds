@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_020a22ac(u16 kartIndex);
+void StartKartMicInflate(u16 kartIndex);

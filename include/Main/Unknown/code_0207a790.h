@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void SetKartKind3ShapeMask(s32 kartIndex);
+void SetKartKind3ShapeListMask(s32 kartIndex);

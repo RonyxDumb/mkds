@@ -296,7 +296,7 @@ void func_0203a8e0(u32 pickedValue) {
 // Turns the value picked on the choice screen into the next scene and the settings that go with it.
 void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
     s32 nextScene;
-    data_0217b488->mUnk_08 = 0;
+    data_0217b488->mMenuEntryKind = 0;
     nextScene = -1;
     switch (pickedValue) {
         case 10:
@@ -327,8 +327,8 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                     } else {
                         nextScene = 1;
                     }
-                    data_0217b488->mUnk_08 = 4;
-                    data_0217b488->mUnk_04 = 1;
+                    data_0217b488->mMenuEntryKind = 4;
+                    data_0217b488->mRaceSetupRequested = 1;
                 } else {
                     nextScene = 0;
                 }
@@ -365,7 +365,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                         }
                     } else {
                         if (gRaceSetup->mCourseListMode == 0) {
-                            data_0217b488->mUnk_08 = 2;
+                            data_0217b488->mMenuEntryKind = 2;
                         }
                         if (data_021759d0->mUnk_1c_2 == 0) {
                             nextScene = 1;
@@ -394,7 +394,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                         }
                     } else {
                         if (gRaceSetup->mCourseListMode == 0) {
-                            data_0217b488->mUnk_08 = 2;
+                            data_0217b488->mMenuEntryKind = 2;
                         }
                         if (data_021759d0->mUnk_1c_2 == 0) {
                             nextScene = 1;
@@ -431,14 +431,14 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
             break;
         case 5:
             nextScene = 1;
-            data_0217b488->mUnk_08 = nextScene;
+            data_0217b488->mMenuEntryKind = nextScene;
             break;
         case 4:
-            data_0217b488->mUnk_08 = 2;
+            data_0217b488->mMenuEntryKind = 2;
             nextScene = 1;
             break;
         case 6:
-            data_0217b488->mUnk_08 = 3;
+            data_0217b488->mMenuEntryKind = 3;
             nextScene = 1;
             break;
     }

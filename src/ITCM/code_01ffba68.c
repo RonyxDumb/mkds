@@ -176,7 +176,7 @@ void AdvanceKartCollision(Kart *p) {
         ComputeKartSidePoints(p);
     }
     if ((p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && IsRaceStarted() == 1) {
-        SetKartKind3ShapeMask(p->mIndex);
+        SetKartKind3ShapeListMask(p->mIndex);
     }
     func_01ffc920(p);
     AdvanceKartCollisionTimer(p);

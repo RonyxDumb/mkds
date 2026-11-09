@@ -148,7 +148,7 @@ void func_020294ac(u16 entryIndex, u32 b) {
 #pragma thumb on
 
 void func_0202949c(u32 p0) {
-    gRaceSetupCopy->mUnk_e0 = p0;
+    gRaceSetupCopy->mGhostRecordIndex = p0;
 }
 
 void SetMissionTableRow(u32 missionTableRow) {

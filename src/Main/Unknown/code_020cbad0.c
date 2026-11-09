@@ -70,7 +70,7 @@ void InitMenu(void) {
 
     gMenuScene = HeapAlloc(MenuGetCurrentHeap(), 0x960);
     CreateRaceSetupCopy(MenuGetCurrentHeap());
-    displaySettings = CreateDisplaySettings(MenuGetCurrentHeap(), data_0215688c);
+    displaySettings = CreateDisplaySettings(MenuGetCurrentHeap(), gMenuDisplaySettingsDesc);
     SetMainBg0Record(displaySettings, 1, 0, 0, 0, 0xd, 2, 0);
     SetMainBg1Record(displaySettings, 0, 0, 0, 0, 0xc, 0, 0);
     SetMainBg2RecordParams(displaySettings, 0, 0, 0, 0, 0x1e, 6);
@@ -95,13 +95,13 @@ void InitMenu(void) {
     SetHeapGroupId(5);
     func_020629a4();
     SetHeapGroupId(9);
-    if (func_020cbad0() == 0) {
+    if (IsDownloadBootWrapper() == 0) {
         InitKartModelMenuWithParamFiles(MenuGetCurrentHeap());
         RequestKartModelMenuCharacter(-1);
         RequestKartModelMenuKart(-1);
     }
     SetHeapGroupId(5);
-    if (func_020cbad0() == 0) {
+    if (IsDownloadBootWrapper() == 0) {
         InitGhostRecordSet(MenuGetCurrentHeap());
         InitCupPicture();
         LoadNclrData(&gMenuScene->mSinglePlaySelectModeMONclr,
@@ -139,14 +139,14 @@ void InitMenu(void) {
     }
     LoadPlayerEntryListFiles();
     InitPlayerEntryList(MenuGetCurrentHeap(), gMenuScene->mMainOam);
-    gMenuScene->mUnk_954 = func_0203bedc(MenuGetCurrentHeap());
+    gMenuScene->mCharacterKartPicks = func_0203bedc(MenuGetCurrentHeap());
     SetMainDispcntBits(0x10);
     SetSubDispcntBits(0x10);
-    func_020cba6c(0, 0x3f, 6, 10);
-    func_020cba30(0, 0x3f, 6, 10);
+    WriteMainBlendAlpha(0, 0x3f, 6, 10);
+    MenuWriteSubBlendAlpha(0, 0x3f, 6, 10);
     MenuWriteMainWinEnableBits(0);
     MenuWriteSubWinEnableBits(0);
-    if (func_020cbad0() == 0) {
+    if (IsDownloadBootWrapper() == 0) {
         func_02025f90();
         func_02027df8();
         LoadTimeAttackTopMenuData();
@@ -161,7 +161,7 @@ void InitMenu(void) {
     }
     LoadSelectGameData();
     LoadSelectRaceRuleAndWaitData();
-    config.mUseTxtSystem = func_020cbad0();
+    config.mUseTxtSystem = IsDownloadBootWrapper();
     config.mTxtSystemFont = GetFontByIndex(1);
     config.mUseCanvas1 = 0;
     config.mUseCanvas2 = 1;
@@ -177,18 +177,18 @@ void InitMenu(void) {
         ClearSelectReturnDisplayBitOn();
     }
     InitLinkLevelIcons(MenuGetCurrentHeap(), gMenuScene->mMainOam);
-    switch (func_020cc120()) {
+    switch (GetMenuEntryKind()) {
         case 0:
             SwitchMenuScreen(0, 0x1f);
-            func_020cc10c(1);
+            SetRaceSetupRequested(1);
             break;
         case 1:
             CopyCurrentToRaceSetupCopy();
             switch (GetRaceSetupCopy()->mMode) {
                 case 0:
                     SwitchMenuScreen(5, 0x1f);
-                    func_020cbabc(0);
-                    func_020cc10c(1);
+                    SetMenuEntryKind(0);
+                    SetRaceSetupRequested(1);
                     break;
                 case 3:
                     SwitchMenuScreen(8, 0x1f);
@@ -198,8 +198,8 @@ void InitMenu(void) {
                     break;
                 case 1:
                     SwitchMenuScreen(0x15, 0x1f);
-                    func_020cbabc(0);
-                    func_020cc10c(1);
+                    SetMenuEntryKind(0);
+                    SetRaceSetupRequested(1);
                     break;
             }
             break;
@@ -214,8 +214,8 @@ void InitMenu(void) {
                     break;
                 case 1:
                     SwitchMenuScreen(0x17, 0x1f);
-                    func_020cbabc(0);
-                    func_020cc10c(1);
+                    SetMenuEntryKind(0);
+                    SetRaceSetupRequested(1);
                     break;
             }
             break;
@@ -226,8 +226,8 @@ void InitMenu(void) {
             } else {
                 SwitchMenuScreen(SCREEN_MISSION_RUN_MSSEL, 0x1f);
             }
-            func_020cbabc(0);
-            func_020cc10c(1);
+            SetMenuEntryKind(0);
+            SetRaceSetupRequested(1);
             break;
         case 4:
             SwitchMenuScreen(0xe, 0x1f);
@@ -236,8 +236,8 @@ void InitMenu(void) {
             CopyCurrentToRaceSetupCopy();
             GetRaceSetupCopy()->mMode = 1;
             SwitchMenuScreen(SCREEN_TIME_ATTACK_TOP_MENU, 0x1f);
-            func_020cbabc(0);
-            func_020cc10c(1);
+            SetMenuEntryKind(0);
+            SetRaceSetupRequested(1);
             break;
     }
     CreateCharacterKartPicks(MenuGetCurrentHeap());
@@ -264,14 +264,14 @@ void InitMenu(void) {
 }
 #pragma thumb off
 
-u16 *func_020cbb04(void) {
+u16 *GetBootInfoHalfwordPointer(void) {
     return &gBootInfo->mUnk_00;
 }
 
-BOOL func_020cbadc(void) {
-    return *func_020cbb04() == 2;
+BOOL IsDownloadBoot(void) {
+    return *GetBootInfoHalfwordPointer() == 2;
 }
 
-s32 func_020cbad0(void) {
-    return func_020cbadc();
+BOOL IsDownloadBootWrapper(void) {
+    return IsDownloadBoot();
 }

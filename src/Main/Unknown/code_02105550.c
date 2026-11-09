@@ -750,7 +750,7 @@ void InitSceneSounds(s32 e) {
     if (GetCurrentSceneNumber() != 1) {
         return;
     }
-    if (data_0217b488->mUnk_08 == 3) {
+    if (data_0217b488->mMenuEntryKind == 3) {
         data_0217d070.mSeqStartProgress = 0xff;
     }
 }

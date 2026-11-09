@@ -20,7 +20,7 @@ void LoadNclrData(Nclr **out, void *file);
 BOOL IsLanguageJa(void);
 s32 GetLanguageCharSpacing(void);
 BOOL RaceStartIsLanguageJa(void);
-BOOL func_020b4b98(s32 number);
+BOOL IsPointsLabelPlural(s32 number);
 void Matrix2x2RotationReciprocalScale(MtxFx22 *matrix, s32 scale, s32 angle);
 void Matrix2x2ReflectedRotation(MtxFx22 *matrix, s32 angle);
 void Matrix2x2Rotation(MtxFx22 *matrix, s32 angle);

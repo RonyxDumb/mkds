@@ -232,7 +232,7 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
         SetSelectChoisesSoundId(0, 5);
         SetSelectChoisesSoundId(1, 0xf);
     }
-    data_0217b488->mUnk_08 = 0;
+    data_0217b488->mMenuEntryKind = 0;
     FrmHeapShrinkInParent(gSelectGame->mHeap);
 }
 

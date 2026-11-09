@@ -4,7 +4,7 @@
 #include "Main/Unknown/code_0208fd8c.h" // KartAiItemUseEntry
 
 // Objects whose layout isn't known yet.
-extern u8 data_0215688c[];
+extern u8 gMenuDisplaySettingsDesc[];
 extern u8 gSmanHitFlag[];
 extern u16 data_0215645c;
 extern u16 data_021564c0;
@@ -16,7 +16,7 @@ extern u32 data_021564b8;
 extern u32 data_021564bc;
 extern u16 data_02156598;
 extern u16 data_021565e4;
-extern u32 data_021565f0[];
+extern u32 gShineBattleTimeLimits[];
 extern u16 data_021568e8;
 extern const u16 data_021568b4;
 extern const u16 data_021568b8;

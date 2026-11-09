@@ -24,12 +24,12 @@ u32 MenuWriteSubWinEnableBits(u32 bits) {
     return value0;
 }
 
-u32 func_020cc120(void) {
-    return (data_0217b488->mUnk_08);
+u32 GetMenuEntryKind(void) {
+    return (data_0217b488->mMenuEntryKind);
 }
 
-void func_020cc10c(u32 value) {
-    data_0217b488->mUnk_04 = value;
+void SetRaceSetupRequested(u32 requested) {
+    data_0217b488->mRaceSetupRequested = requested;
 }
 
 u32 func_020cc0f8(void) {

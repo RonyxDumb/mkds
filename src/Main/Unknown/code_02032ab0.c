@@ -408,12 +408,12 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                             case 0:
                                 if (data_021759d0->mUnk_1c_2 != 0) {
                                     data_0217b488->mUnk_74 = 3;
-                                    data_0217b488->mUnk_08 = 4;
+                                    data_0217b488->mMenuEntryKind = 4;
                                     if (sceneNumbers != NULL) {
                                         sceneNumbers->mNextScene = 6;
                                     }
                                 } else {
-                                    data_0217b488->mUnk_08 = 4;
+                                    data_0217b488->mMenuEntryKind = 4;
                                     if (sceneNumbers != NULL) {
                                         sceneNumbers->mNextScene = 1;
                                     }
@@ -503,7 +503,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
 }
 
 void func_02032ab0(void) {
-    data_0217b488->mUnk_04 = 1;
+    data_0217b488->mRaceSetupRequested = 1;
     ReleaseSceneText();
 }
 

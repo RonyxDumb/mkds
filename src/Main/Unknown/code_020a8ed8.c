@@ -165,7 +165,8 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
         default:
             return;
     }
-    if (!(GetKartKind3ShapeMask() & ironBall->mUnk_128) && !(ironBall->mUnk_000.mDistanceSquaredAndFlags & 4)) {
+    if (!(GetKartKind3ShapeListMask() & ironBall->mSoundOffKind3ShapeListMask) &&
+        !(ironBall->mUnk_000.mDistanceSquaredAndFlags & 4)) {
         func_0210b874(ironBall->mUnk_000.mSound, ironBall->mPathSpeed);
     }
     v = ironBall->mPathSpeed;
@@ -258,7 +259,7 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
             ironBall->mHeightSpeed = ((s64) ironBall->mHeightSpeed * -0x800) >> 12;
             if (ironBall->mHeightSpeed < 0x1000) {
                 ironBall->mHeightSpeed = 0;
-            } else if (!(GetKartKind3ShapeMask() & ironBall->mUnk_128) &&
+            } else if (!(GetKartKind3ShapeListMask() & ironBall->mSoundOffKind3ShapeListMask) &&
                        !(ironBall->mUnk_000.mDistanceSquaredAndFlags & 4)) {
                 func_0210b8bc(ironBall->mUnk_000.mSound, ironBall->mHeightSpeed);
             }

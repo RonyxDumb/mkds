@@ -214,8 +214,8 @@ void FollowBalloonTarget(Balloon *balloon) {
     absOffsetX = offsetX < 0 ? -offsetX : offsetX;
     offsetDistance = absOffsetX / 2 + absOffsetZ / 2;
     if (offsetDistance <= distanceLimit) {
-        balloon->mUnk_e0 = 1;
-    } else if (balloon->mUnk_e0 != 0) {
+        balloon->mHorizontalPullEnabled = 1;
+    } else if (balloon->mHorizontalPullEnabled != 0) {
         if (offsetDistance > distanceLimit) {
             pullRatio = FX_Div(offsetDistance - distanceLimit, offsetDistance);
             pullOffset.x = ((s64) offsetX * pullRatio) >> 12;
@@ -454,7 +454,7 @@ Balloon *StartBalloon(u16 nsbtpFrameIndex, Vec3 *targetPos) {
     balloon->mScaleFactorPerFrame = 0;
     balloon->mScaleSwing = 0;
     balloon->mScaleSwingPerFrame = 0;
-    balloon->mUnk_e0 = 0;
+    balloon->mHorizontalPullEnabled = 0;
     balloon->mNsbtpFrameIndex = nsbtpFrameIndex;
     balloon->mState = 0;
     return balloon;

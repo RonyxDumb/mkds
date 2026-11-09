@@ -25,8 +25,8 @@ void SetNextMirrorMode(u32 mirrorMode) {
     gRaceSetup->mNextHeader.mMirrorMode = (u8) mirrorMode;
 }
 
-void func_020cca24(u32 p0) {
-    gRaceSetup->mNextHeader.mGhostRecordIndex = p0;
+void SetNextGhostRecordIndex(u32 ghostRecordIndex) {
+    gRaceSetup->mNextHeader.mGhostRecordIndex = ghostRecordIndex;
 }
 
 void SetNextBattleKind(u32 battleKind) {
@@ -49,10 +49,10 @@ void SetNextCourseListMode(u32 courseListMode) {
     gRaceSetup->mNextHeader.mCourseListMode = courseListMode;
 }
 
-void func_020cc9a8(u32 p0) {
-    data_0217b488->mUnk_78 = p0;
+void SetResultArchiveDl(u32 resultArchiveDl) {
+    data_0217b488->mResultArchiveDl = resultArchiveDl;
 }
 
-u32 func_020cc994(void) {
-    return (data_0217b488->mUnk_04);
+u32 GetRaceSetupRequested(void) {
+    return (data_0217b488->mRaceSetupRequested);
 }
