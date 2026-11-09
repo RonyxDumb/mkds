@@ -90,7 +90,7 @@ Unk020e4610 *func_020e4610(void) {
     return data_0217b7dc;
 }
 
-void func_020e44e4(u32 unused, Unk020e3ef4 *object) {
+void func_020e44e4(u32 unused, Rotary *object) {
     s32 previousAngle;
     s32 angleChange;
     previousAngle = object->mUnk_000.mMapObject.mAngle;

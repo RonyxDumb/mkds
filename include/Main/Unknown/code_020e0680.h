@@ -134,7 +134,7 @@ typedef struct Unk020e005c {
 } Unk020e005c;
 
 // Object InitRotary fills.
-typedef struct Unk020e3ef4 {
+typedef struct Rotary {
     /* 000 */ Unk020e1d10 mUnk_000;
     /* 144 */ u16 mRampFrameCount;
     /* 146 */ u16 mSteadyFrameCount;
@@ -145,7 +145,7 @@ typedef struct Unk020e3ef4 {
     /* 154 */ s32 mUnk_154;
     /* 158 */ s32 mModelIndex;
     /* 15c */ s32 mSoundId;
-} Unk020e3ef4;
+} Rotary;
 
 // Object behind gBridgeDrawList, and the list of the kinds 0xcb, 0xce, 0xd0 and 0xd1.
 typedef struct BridgeDrawList {

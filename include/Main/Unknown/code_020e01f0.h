@@ -12,7 +12,7 @@ typedef struct CollisionHitLink {
 
 // Object holding a pointer at 0x0 and a vector at 0x4.
 typedef struct Unk020e0448 {
-    /* 00 */ Unk020e3ef4 *mUnk_00;
+    /* 00 */ Rotary *mUnk_00;
     /* 04 */ Vec3 mUnk_04;
 } Unk020e0448;
 

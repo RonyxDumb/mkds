@@ -24,7 +24,7 @@
 
 #pragma thumb off
 
-void UpdateRotaryState3(Unk020e3ef4 *object) {
+void UpdateRotaryState3(Rotary *object) {
     if (object->mUnk_000.mMapObject.mStateMachine.mStateFrames > object->mPauseFrameCount) {
         object->mUnk_000.mMapObject.mStateMachine.mNextState = 0;
         object->mUnk_000.mMapObject.mStateMachine.mNextStateRequested = 1;
@@ -50,7 +50,7 @@ BOOL IsRotaryKind(s32 kind) {
 #pragma thumb on
 
 void CreateRotary(BridgeDrawList *list) {
-    Unk020e3ef4 *object;
+    Rotary *object;
     s32 objectIndex;
     s32 modelIndex;
     s32 objectCount;
@@ -116,7 +116,7 @@ void CreateRotary(BridgeDrawList *list) {
 }
 
 void InitRotaryObjects(BridgeDrawList *list) {
-    Unk020e3ef4 *object;
+    Rotary *object;
     s32 index;
     s32 previousIndex;
     s32 count;
@@ -124,7 +124,7 @@ void InitRotaryObjects(BridgeDrawList *list) {
     u32 zeroHeight;
     Vec3 offset;
     void **objects;
-    Unk020e3ef4 *previousObject;
+    Rotary *previousObject;
 
     objects = list->mMapObjectList.mMapObjects;
     previousIndex = -1;
@@ -151,7 +151,7 @@ void InitRotaryObjects(BridgeDrawList *list) {
 
 // Rotary: turns up to full speed, keeps that speed, slows down, pauses, then turns the other way; the course row sets
 // the timings.
-void InitRotary(Unk020e3ef4 *object, struct CourseMapRow *courseRow, Unk020e1e98_154 *kindInfo) {
+void InitRotary(Rotary *object, struct CourseMapRow *courseRow, Unk020e1e98_154 *kindInfo) {
     InitStateMachine(&object->mUnk_000.mMapObject.mStateMachine, gRotaryStateTable, 4, object);
     object->mUnk_000.mCollisionData.mUnk_e8 = object->mUnk_000.mMapObject.mPos;
     object->mUnk_000.mCollisionData.mPrevMatrix = object->mUnk_000.mMapObject.mMatrix.mUnk_00_m;

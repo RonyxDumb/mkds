@@ -8,11 +8,11 @@
 #include "Main/Unknown/code_020e4474.h"
 #include "Main/Unknown/code_020e44d8.h"
 
-void EnterRotaryState0(Unk020e3ef4 *object) {
+void EnterRotaryState0(Rotary *object) {
     object->mSpeedFraction = 0x0u;
 }
 
-void UpdateRotaryState0(Unk020e3ef4 *object) {
+void UpdateRotaryState0(Rotary *object) {
     object->mSpeedFraction = object->mSpeedFraction + object->mSpeedFractionPerFrame;
     object->mUnk_000.mMapObject.mAngle =
         object->mUnk_000.mMapObject.mAngle + (s16) MUL_FIXED12_NO_ROUND(object->mSpeedFraction, object->mAnglePerFrame);
@@ -26,7 +26,7 @@ u32 RotaryState1ReturnArgument(u32 value) {
     return value;
 }
 
-void UpdateRotaryState1(Unk020e3ef4 *object) {
+void UpdateRotaryState1(Rotary *object) {
     object->mUnk_000.mMapObject.mAngle = object->mUnk_000.mMapObject.mAngle + object->mAnglePerFrame;
     if (object->mSteadyFrameCount != 0) {
         if (object->mUnk_000.mMapObject.mStateMachine.mStateFrames > object->mSteadyFrameCount) {
@@ -36,11 +36,11 @@ void UpdateRotaryState1(Unk020e3ef4 *object) {
     }
 }
 
-void EnterRotaryState2(Unk020e3ef4 *object) {
+void EnterRotaryState2(Rotary *object) {
     object->mSpeedFraction = 0x1000u;
 }
 
-void UpdateRotaryState2(Unk020e3ef4 *object) {
+void UpdateRotaryState2(Rotary *object) {
     object->mSpeedFraction = object->mSpeedFraction - object->mSpeedFractionPerFrame;
     object->mUnk_000.mMapObject.mAngle =
         object->mUnk_000.mMapObject.mAngle + (s16) MUL_FIXED12_NO_ROUND(object->mSpeedFraction, object->mAnglePerFrame);

@@ -78,7 +78,7 @@ BOOL GetCollisionHitLinkPosAndVelocity(CollisionHitLink *link, Vec3 *outPosition
 }
 
 s32 func_020e0448(Unk020e0448 *link) {
-    Unk020e3ef4 *object = link->mUnk_00;
+    Rotary *object = link->mUnk_00;
     s64 horizontalDistanceSquared;
     s64 limitSquared;
 

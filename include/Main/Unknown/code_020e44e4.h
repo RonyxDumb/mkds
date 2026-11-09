@@ -4,7 +4,7 @@
 #include "Main/Unknown/code_020e516c.h" // ShadowMatrix
 #include "Main/Unknown/code_020ec538.h" // PushedObject
 
-typedef struct Unk020e3ef4 Unk020e3ef4;
+typedef struct Rotary Rotary;
 
 // Object InitPukupuku sets up, 0x10c bytes.
 typedef struct Pukupuku {
@@ -77,7 +77,7 @@ extern Unk020e46c8 data_02158ef0;
 extern Unk020e46c8 data_02158f30;
 extern Unk020e46c8 data_02158f70;
 
-void func_020e44e4(u32 unused, Unk020e3ef4 *object);
+void func_020e44e4(u32 unused, Rotary *object);
 Unk020e4610 *func_020e4610(void);
 Unk020e466c *func_020e466c(void);
 Unk020e46c8 *func_020e46c8(void);

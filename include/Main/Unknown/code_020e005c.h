@@ -40,7 +40,7 @@ typedef enum {
     COLLISION_SHAPE_CYLINDER
 } CollisionShape;
 
-// Collision-body block at 0xa0 of Unk020e1d10, Bridge, Unk020e3ef4 and Unk020ff97c. Names carry the offset in the
+// Collision-body block at 0xa0 of Unk020e1d10, Bridge, Rotary and Unk020ff97c. Names carry the offset in the
 // object.
 typedef struct CollisionData {
     /* 00 */ MtxFx33 mPrevMatrix;

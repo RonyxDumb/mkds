@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk020e3ef4 Unk020e3ef4;
+typedef struct Rotary Rotary;
 
-void UpdateRotaryState0(Unk020e3ef4 *object);
+void UpdateRotaryState0(Rotary *object);
