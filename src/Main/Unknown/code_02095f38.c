@@ -626,8 +626,8 @@ void *CreateCoverPooHoleUpdateList(void) {
     return CreateMapObjectUpdateList(InitCoverPooHoleObjects, UpdateCoverPooHole, NULL);
 }
 
-BOOL func_02095f38(Unk0217b498_00 *a) {
-    if (a->mUnk_b0 == 1 || a->mUnk_b0 == 4) {
+BOOL func_02095f38(CoverPooHole *a) {
+    if (a->mState == 1 || a->mState == 4) {
         return TRUE;
     }
     return FALSE;

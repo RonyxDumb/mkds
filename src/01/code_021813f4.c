@@ -54,7 +54,7 @@ void ClearRaceHudSubScreenCoinCells(void) {
 void UpdateRaceHudSubScreenCoinCells(void) {
     s32 i;
     s32 cellCount;
-    Unk0217b498_00 *object;
+    MapObject *object;
     Vec3 *position;
     u32 v;
 

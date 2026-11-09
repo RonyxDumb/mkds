@@ -25,7 +25,7 @@ void UpdateRaceHudSubScreenShine16Cells(void) {
     n = 0;
     v = GetRaceHudSubScreenScale();
     for (i = 0; i < gRaceHudSubScreenShine16Cells->mObjectCount; i++) {
-        Unk0217b498_00 *p;
+        MapObject *p;
 
         p = gRaceHudSubScreenShine16Cells->mObjects[i];
         if (!(p->mFlags & 1)) {

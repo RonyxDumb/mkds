@@ -23,7 +23,7 @@ void UpdateRaceHudSubScreenItemBoxCells(void) {
     s32 k;
     s32 n;
     s32 c;
-    Unk0217b498_00 *p;
+    MapObject *p;
     Vec3 *v;
 
     n = 0;

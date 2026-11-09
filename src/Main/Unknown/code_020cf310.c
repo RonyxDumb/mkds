@@ -100,7 +100,7 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
             break;
         case 0x11: {
             s32 table[5] = {0, 5, 10, 16, 21};
-            Unk0217b498_00 **objects;
+            MapObject **objects;
             void *p;
             u16 angle;
 
@@ -195,7 +195,7 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
             break;
         case 0x20: {
             void *p;
-            Unk0217b498_00 **objects;
+            MapObject **objects;
             Unk020e005c **blocks;
 
             p = FindMapObjectKindDrawList0(0xd0);

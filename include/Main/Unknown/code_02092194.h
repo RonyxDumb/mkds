@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-struct Unk0217b498_00;
+typedef struct Basabasa Basabasa;
 
-unsigned int func_02092194(struct Unk0217b498_00 *object);
+unsigned int func_02092194(Basabasa *object);

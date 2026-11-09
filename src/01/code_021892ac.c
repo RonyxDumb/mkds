@@ -53,7 +53,7 @@ void UpdateRaceHudSubScreenIwanteCells(void) {
     s32 i;
     s32 cellCount = 0;
     u32 entryIndex;
-    Unk0217b498_00 *object;
+    MapObject *object;
     Vec3 *position;
 
     var = GetRaceHudSubScreenScale();
@@ -98,7 +98,7 @@ void UpdateRaceHudSubScreenKurikingCells(void) {
     s32 cellCount = 0;
     s32 row;
     s32 k;
-    Unk0217b498_00 *object;
+    MapObject *object;
     u16 *racePalette;
     Nclr *nclr;
     Vec3 *position;
@@ -156,7 +156,7 @@ void UpdateRaceHudSubScreenBombKingCells(void) {
     s32 i;
     s32 cellCount;
     u32 unk;
-    Unk0217b498_00 *object;
+    MapObject *object;
     Vec3 *position;
 
     cellCount = 0;
@@ -195,7 +195,7 @@ void UpdateRaceHudSubScreenBossDonketuCells(void) {
     s32 i;
     s32 cellCount;
     u32 unk;
-    Unk0217b498_00 *object;
+    MapObject *object;
     Vec3 *position;
 
     cellCount = 0;
@@ -234,7 +234,7 @@ void UpdateRaceHudSubScreenStopSignCells(void) {
     s32 i;
     s32 cellCount;
     u32 unk;
-    Unk0217b498_00 *object;
+    MapObject *object;
     Vec3 *position;
 
     cellCount = 0;
@@ -270,7 +270,7 @@ void UpdateRaceHudSubScreenMissionGateCells(void) {
     s32 i;
     s32 cellCount;
     u32 unk;
-    Unk0217b498_00 *object;
+    MapObject *object;
     Vec3 *position;
 
     cellCount = 0;
@@ -307,7 +307,7 @@ void UpdateRaceHudSubScreenHanachanCells(void) {
     s32 i;
     s32 cellCount;
     u32 unk;
-    Unk0217b498_00 *object;
+    MapObject *object;
     Vec3 *position;
 
     cellCount = 0;

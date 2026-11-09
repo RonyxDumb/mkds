@@ -26,7 +26,7 @@ void func_020ced2c(void) {
     s32 i;
     s32 cellCount;
     s32 v;
-    Unk0217b498_00 *object;
+    MapObject *object;
 
     cellCount = 0;
     v = GetRaceHudSubScreenScale();

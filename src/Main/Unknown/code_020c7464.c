@@ -58,7 +58,7 @@ void UpdateRaceHudSubScreenCrabCells(void) {
     cellCount = 0;
     v = GetRaceHudSubScreenScale();
     for (i = 0; i < gRaceHudSubScreenCrabCells->mObjectCount; i++) {
-        Unk0217b498_00 *object;
+        MapObject *object;
 
         object = gRaceHudSubScreenCrabCells->mObjects[i];
         if (!(object->mFlags & 1)) {
@@ -880,7 +880,7 @@ void ClearRaceHudSubScreenChoropuCells(void) {
 void UpdateRaceHudSubScreenChoropuCells(void) {
     s32 i;
     s32 cellCount;
-    Unk0217b498_00 *object;
+    MapObject *object;
     u32 a;
     s32 height;
     s32 isPositiveHeight;
@@ -892,7 +892,7 @@ void UpdateRaceHudSubScreenChoropuCells(void) {
             object = gRaceHudSubScreenChoropuCells->mObjects[i];
             if (ComputeRaceHudSubScreenPosition(
                     &object->mPos, &gRaceHudSubScreenChoropuCells->mCells[cellCount].mDrawPos, a, 0, 0) != FALSE) {
-                height = object->mPos.y - object->mUnk_a8;
+                height = object->mPos.y - ((Unk020e2f0c *) object)->mUnk_0a8;
                 if (height >= -0x9000) {
                     isPositiveHeight = height > 0 ? 1 : 0;
                     gRaceHudSubScreenChoropuCells->mCells[cellCount].mCell =
@@ -930,7 +930,7 @@ void ClearRaceHudSubScreenPukupukuCells(void) {
 void UpdateRaceHudSubScreenPukupukuCells(void) {
     s32 i;
     s32 cellCount;
-    Unk0217b498_00 *object;
+    MapObject *object;
     u32 a;
 
     cellCount = 0;
@@ -997,7 +997,7 @@ void ClearRaceHudSubScreenSmanCells(void) {
 void UpdateRaceHudSubScreenSmanCells(void) {
     s32 i;
     s32 cellCount;
-    Unk0217b498_00 *object;
+    MapObject *object;
     u32 a;
 
     cellCount = 0;
@@ -1033,7 +1033,7 @@ void ClearRaceHudSubScreenDossunCells(void) {
 void UpdateRaceHudSubScreenDossunCells(void) {
     s32 i;
     s32 cellCount;
-    Unk0217b498_00 *object;
+    MapObject *object;
     u32 a;
     s32 offset;
 
@@ -1115,7 +1115,7 @@ void ClearRaceHudSubScreenEarthenPipeCells(void) {
 void UpdateRaceHudSubScreenEarthenPipeCells(void) {
     s32 i;
     s32 cellCount;
-    Unk0217b498_00 *object;
+    MapObject *object;
     Vec3 *position;
     u32 a;
 

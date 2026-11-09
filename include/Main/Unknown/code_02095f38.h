@@ -40,10 +40,9 @@ typedef struct CoverPooHole {
     /* 108 */ u8 mUnk_108;
 } CoverPooHole;
 
-#include "Main/Unknown/unk_0217b000.h" // Unk0217b498_00
 #include "Main/Unknown/code_0206bcb0.h" // Kart
 
-BOOL func_02095f38(Unk0217b498_00 *a);
+BOOL func_02095f38(CoverPooHole *a);
 void *CreateCoverPooHoleUpdateList(void);
 void *CreateCoverPooHoleDrawList(void);
 void CreateCoverPooHoleKindData(void);

@@ -46,7 +46,7 @@ void UpdateRaceHudSubScreenFireball2Cells(void) {
     s32 cellCount;
     BOOL inFirstHalf;
     u32 a;
-    Unk0217b498_00 *object;
+    MapObject *object;
     Vec3 *position;
 
     cellCount = 0;
@@ -280,7 +280,7 @@ void UpdateRaceHudSubScreenBerryCells(void) {
     s32 i;
     s32 cellCount;
     u32 a;
-    Unk0217b498_00 *object;
+    MapObject *object;
     Vec3 *position;
 
     cellCount = 0;
@@ -295,7 +295,7 @@ void UpdateRaceHudSubScreenBerryCells(void) {
         gRaceHudSubScreenBerryCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xb8);
         gRaceHudSubScreenBerryCells->mCells[cellCount].mUnk_0c = IsPositionOutsideBox(position) != 0 ? 2 : 3;
         gRaceHudSubScreenBerryCells->mCells[cellCount].mUnk_10 = object->mAngle;
-        gRaceHudSubScreenBerryCells->mUnk_0c[cellCount].mUnk_00 = object->mScaleX / 6;
+        gRaceHudSubScreenBerryCells->mUnk_0c[cellCount].mUnk_00 = object->mScale.x / 6;
         cellCount++;
     }
     gRaceHudSubScreenBerryCells->mCellCount = cellCount;
@@ -317,7 +317,7 @@ void UpdateRaceHudSubScreenCreamCells(void) {
     s32 i;
     s32 cellCount;
     s32 v;
-    Unk0217b498_00 *object;
+    MapObject *object;
     Vec3 *position;
 
     cellCount = 0;
@@ -330,7 +330,7 @@ void UpdateRaceHudSubScreenCreamCells(void) {
             gRaceHudSubScreenCreamCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xb7);
             gRaceHudSubScreenCreamCells->mCells[cellCount].mUnk_0c = IsPositionOutsideBox(position) != 0 ? 2 : 3;
             gRaceHudSubScreenCreamCells->mCells[cellCount].mUnk_10 = object->mAngle;
-            gRaceHudSubScreenCreamCells->mUnk_0c[cellCount].mUnk_00 = object->mScaleX / 6;
+            gRaceHudSubScreenCreamCells->mUnk_0c[cellCount].mUnk_00 = object->mScale.x / 6;
             cellCount++;
         }
     }

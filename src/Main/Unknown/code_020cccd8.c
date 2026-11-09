@@ -27,6 +27,10 @@
 #include "Main/Unknown/code_02095000.h"
 #include "Main/Unknown/code_020931ac.h"
 #include "Main/Unknown/code_02092194.h"
+#include "Main/Unknown/code_0209219c.h" // Basabasa
+#include "Main/Unknown/code_02095f38.h" // CoverPooHole
+#include "Main/Unknown/code_020df48c.h" // MkdEfBubbleObject
+#include "Main/Unknown/code_020e5684.h" // ObPakkunSf
 #include "Main/Unknown/code_021000d0.h"
 
 void ClearRaceHudSubScreenRainStarCells(void) {
@@ -37,7 +41,7 @@ void UpdateRaceHudSubScreenRainStarCells(void) {
     s32 i;
     s32 cellCount;
     u32 n;
-    Unk0217b498_00 *object;
+    MapObject *object;
     Vec3 *position;
 
     cellCount = 0;
@@ -74,7 +78,7 @@ void UpdateRaceHudSubScreenBasabasaCells(void) {
     s32 cellCount;
     u32 n;
     u32 m;
-    Unk0217b498_00 *object;
+    MapObject *object;
     Vec3 *position;
     void *cell;
 
@@ -83,7 +87,7 @@ void UpdateRaceHudSubScreenBasabasaCells(void) {
     for (i = 0; i < gRaceHudSubScreenBasabasaCells->mObjectCount; i++) {
         object = gRaceHudSubScreenBasabasaCells->mObjects[i];
         if ((object->mFlags & 1) == 0) {
-            m = func_02092194(object);
+            m = func_02092194((Basabasa *) object);
             if (m != 0) {
                 position = &object->mPos;
                 if (ComputeRaceHudSubScreenPosition(
@@ -120,7 +124,7 @@ void UpdateRaceHudSubScreenMkdEfBubbleCells(void) {
     s32 i;
     s32 cellCount;
     u32 n;
-    Unk0217b498_00 *object;
+    MapObject *object;
     s32 d;
     Vec3 *position;
 
@@ -129,7 +133,7 @@ void UpdateRaceHudSubScreenMkdEfBubbleCells(void) {
     for (i = 0; i < gRaceHudSubScreenMkdEfBubbleCells->mObjectCount; i++) {
         if (IsRaceHudSubScreenPairNearCenter(&gRaceHudSubScreenMkdEfBubbleCells->mUnk_0c[i]) != FALSE) {
             object = gRaceHudSubScreenMkdEfBubbleCells->mObjects[i];
-            d = object->mPos.y - object->mUnk_ac;
+            d = object->mPos.y - ((MkdEfBubbleObject *) object)->mInitialY;
             if (d >= 0) {
                 position = &object->mPos;
                 if (ComputeRaceHudSubScreenPosition(
@@ -162,7 +166,7 @@ void UpdateRaceHudSubScreenBoundCells(void) {
     s32 i;
     s32 cellCount;
     u32 n;
-    Unk0217b498_00 *object;
+    MapObject *object;
     Vec3 *position;
 
     cellCount = 0;
@@ -175,7 +179,7 @@ void UpdateRaceHudSubScreenBoundCells(void) {
             gRaceHudSubScreenBoundCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x91);
             gRaceHudSubScreenBoundCells->mCells[cellCount].mUnk_0c = IsPositionOutsideBox(position) != 0 ? 2 : 3;
             gRaceHudSubScreenBoundCells->mCells[cellCount].mUnk_10 = object->mAngle;
-            gRaceHudSubScreenBoundCells->mUnk_0c[cellCount].mUnk_00 = object->mScaleX / 6;
+            gRaceHudSubScreenBoundCells->mUnk_0c[cellCount].mUnk_00 = object->mScale.x / 6;
             cellCount++;
         }
     }
@@ -199,7 +203,7 @@ void UpdateRaceHudSubScreenMkdEfBurnerCells(void) {
     s32 cellCount;
     s32 inFirstHalf;
     u32 n;
-    Unk0217b498_00 *object;
+    MapObject *object;
     Vec3 *position;
 
     cellCount = 0;
@@ -212,7 +216,7 @@ void UpdateRaceHudSubScreenMkdEfBurnerCells(void) {
     inFirstHalf = gRaceHudSubScreenMkdEfBurnerCells->mUnk_0c[0].mUnk_04 < 4 ? 1 : 0;
     for (i = 0; i < gRaceHudSubScreenMkdEfBurnerCells->mObjectCount; i++) {
         object = gRaceHudSubScreenMkdEfBurnerCells->mObjects[i];
-        if ((object->mFlags & 1) == 0 && func_020931ac(object) != 0) {
+        if ((object->mFlags & 1) == 0 && func_020931ac((MkdEfBurner *) object) != 0) {
             position = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(
                     position, &gRaceHudSubScreenMkdEfBurnerCells->mCells[cellCount].mDrawPos, n, 0, 0) != FALSE) {
@@ -244,7 +248,7 @@ void UpdateRaceHudSubScreenSunFireballCells(void) {
     s32 i;
     s32 cellCount;
     u32 n;
-    Unk0217b498_00 *object;
+    MapObject *object;
     Vec3 *position;
 
     cellCount = 0;
@@ -281,7 +285,7 @@ void UpdateRaceHudSubScreenIronBallCells(void) {
     s32 i;
     s32 cellCount;
     u32 n;
-    Unk0217b498_00 *object;
+    MapObject *object;
     Vec3 *position;
 
     cellCount = 0;
@@ -318,7 +322,7 @@ void UpdateRaceHudSubScreenKuriboCells(void) {
     s32 i;
     s32 cellCount;
     u32 n;
-    Unk0217b498_00 *object;
+    MapObject *object;
     Vec3 *position;
 
     cellCount = 0;
@@ -354,7 +358,7 @@ void UpdateRaceHudSubScreenObPakkunSfCells(void) {
     s32 i;
     s32 cellCount;
     u32 n;
-    Unk0217b498_00 *object;
+    MapObject *object;
     Vec3 *position;
 
     cellCount = 0;
@@ -367,7 +371,7 @@ void UpdateRaceHudSubScreenObPakkunSfCells(void) {
                 if (ComputeRaceHudSubScreenPosition(
                         position, &gRaceHudSubScreenObPakkunSfCells->mCells[cellCount].mDrawPos, n, 0, 0) != FALSE) {
                     gRaceHudSubScreenObPakkunSfCells->mCells[cellCount].mCell =
-                        GetRaceSNcerEntry(((object->mUnk_b8 & 0x10) >> 4) != 0 ? 0xa2 : 0xa1);
+                        GetRaceSNcerEntry(((((ObPakkunSf *) object)->mFramesSinceInit & 0x10) >> 4) != 0 ? 0xa2 : 0xa1);
                     gRaceHudSubScreenObPakkunSfCells->mCells[cellCount].mUnk_0c =
                         IsPositionOutsideBox(position) != 0 ? 2 : 3;
                     cellCount++;
@@ -394,7 +398,7 @@ void UpdateRaceHudSubScreenCoverPooHoleCells(void) {
     s32 i;
     s32 cellCount;
     u32 n;
-    Unk0217b498_00 *object;
+    MapObject *object;
     Vec3 *position;
 
     cellCount = 0;
@@ -407,9 +411,9 @@ void UpdateRaceHudSubScreenCoverPooHoleCells(void) {
                 if (ComputeRaceHudSubScreenPosition(
                         position, &gRaceHudSubScreenCoverPooHoleCells->mCells[cellCount].mDrawPos, n, 0, 0) != FALSE) {
                     gRaceHudSubScreenCoverPooHoleCells->mCells[cellCount].mDrawPos.mUnk_04 -=
-                        func_02095f30(object) >> 14;
+                        func_02095f30((CoverPooHole *) object) >> 14;
                     gRaceHudSubScreenCoverPooHoleCells->mCells[cellCount].mCell =
-                        GetRaceSNcerEntry(func_02095f38(object) != FALSE ? 0xab : 0xaa);
+                        GetRaceSNcerEntry(func_02095f38((CoverPooHole *) object) != FALSE ? 0xab : 0xaa);
                     gRaceHudSubScreenCoverPooHoleCells->mCells[cellCount].mUnk_0c =
                         IsPositionOutsideBox(position) != 0 ? 2 : 3;
                     cellCount++;
@@ -436,7 +440,7 @@ void UpdateRaceHudSubScreenRock2Cells(void) {
     s32 i;
     s32 cellCount;
     u32 n;
-    Unk0217b498_00 *object;
+    MapObject *object;
     Vec3 *position;
 
     cellCount = 0;
@@ -473,7 +477,7 @@ void UpdateRaceHudSubScreenSanboCells(void) {
     s32 i;
     s32 cellCount;
     u32 n;
-    Unk0217b498_00 *object;
+    MapObject *object;
     Vec3 *position;
 
     cellCount = 0;
@@ -512,7 +516,7 @@ void UpdateRaceHudSubScreenRockCells(void) {
     s32 i;
     s32 cellCount;
     u32 n;
-    Unk0217b498_00 *object;
+    MapObject *object;
     Vec3 *position;
 
     cellCount = 0;
@@ -549,7 +553,7 @@ void UpdateRaceHudSubScreenWoodbox1Cells(void) {
     s32 i;
     s32 cellCount;
     u32 n;
-    Unk0217b498_00 *object;
+    MapObject *object;
     Vec3 *position;
 
     cellCount = 0;
@@ -588,7 +592,7 @@ void UpdateRaceHudSubScreenFlipperCells(void) {
     s32 i;
     s32 cellCount;
     u32 n;
-    Unk0217b498_00 *object;
+    MapObject *object;
     Vec3 *position;
 
     cellCount = 0;
@@ -679,7 +683,7 @@ void UpdateRaceHudSubScreenNsKiller2Cells(void) {
     s32 i;
     s32 cellCount;
     u32 n;
-    Unk0217b498_00 *object;
+    MapObject *object;
 
     cellCount = 0;
     n = GetRaceHudSubScreenScale();
@@ -715,7 +719,7 @@ void UpdateRaceHudSubScreenPendulumCells(void) {
     s32 i;
     s32 cellCount;
     u32 n;
-    Unk0217b498_00 *object;
+    MapObject *object;
     Vec3 *position;
 
     cellCount = 0;

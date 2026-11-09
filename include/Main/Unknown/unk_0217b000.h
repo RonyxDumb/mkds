@@ -63,27 +63,9 @@ typedef struct RaceHudSubScreenCell {
     /* 12 */ u8 mUnk_12[2];
 } RaceHudSubScreenCell;
 
-typedef struct Unk0217b498_00 {
-    /* 00 */ u8 mUnk_00[2];
-    /* 02 */ u16 mFlags;
-    /* 04 */ Vec3 mPos;
-    /* 10 */ u8 mUnk_10[0xc];
-    /* 1c */ s32 mScaleX;
-    /* 20 */ u8 mUnk_20[0x5e];
-    /* 7e */ u16 mAngle;
-    /* 80 */ u8 mUnk_80[0x28];
-    /* a8 */ s32 mUnk_a8;
-    /* ac */ s32 mUnk_ac;
-    /* b0 */ s32 mUnk_b0;
-    /* b4 */ s32 mUnk_b4;
-    /* b8 */ u16 mUnk_b8;
-    /* ba */ u8 mUnk_ba[6];
-    /* c0 */ u16 mUnk_c0;
-} Unk0217b498_00;
-
 // Shared by the gRaceHudSubScreenItemBoxCells..gRaceHudSubScreenFireball2Cells lists and the ov001 pointers.
 typedef struct RaceHudSubScreenCells {
-    /* 00 */ Unk0217b498_00 **mObjects;
+    /* 00 */ MapObject **mObjects;
     /* 04 */ s32 mCellCount;
     /* 08 */ s32 mObjectCount;
     /* 0c */ Unk0217b498_0c *mUnk_0c;

@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-struct Unk0217b498_00;
+typedef struct CoverPooHole CoverPooHole;
 
-s32 func_02095f30(struct Unk0217b498_00 *object);
+s32 func_02095f30(CoverPooHole *object);

@@ -39,7 +39,7 @@ void UpdateRaceHudSubScreenKingIceDonketuCells(void) {
     s32 i;
     s32 cellCount = 0;
     u32 v = GetRaceHudSubScreenScale();
-    Unk0217b498_00 *object;
+    MapObject *object;
     Vec3 *pos;
 
     for (i = 0; i < gRaceHudSubScreenKingIceDonketuCells->mObjectCount; i++) {
@@ -75,7 +75,7 @@ void func_ov001_02188ff8(void) {
     s32 i;
     s32 cellCount = 0;
     u32 v = GetRaceHudSubScreenScale();
-    Unk0217b498_00 *object;
+    MapObject *object;
     Vec3 *pos;
 
     for (i = 0; i < data_ov001_021a9ba4->mObjectCount; i++) {

@@ -99,7 +99,7 @@ BOOL CreateRaceHudSubScreenCells(RaceHudSubScreenCells **outCells, s32 kind) {
     }
     *outCells = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x14);
     if (fromUpdateList != FALSE) {
-        (*outCells)->mObjects = (Unk0217b498_00 **) GetMapObjects(updateList);
+        (*outCells)->mObjects = (MapObject **) GetMapObjects(updateList);
     } else {
         (*outCells)->mObjects = RaceHudSubScreenGetMapObjects(drawList);
     }
