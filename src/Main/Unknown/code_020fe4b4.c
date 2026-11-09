@@ -199,7 +199,7 @@ static inline u8 *CopyItemIdByte(u8 *cursor, s16 *valueSlot, void *toData) {
     return cursor + 1;
 }
 
-static inline u8 *func_020fecdc_inline2(u8 *cursor, u32 *valueSlot, void *toData) {
+static inline u8 *CopyItemFlagsHalfword(u8 *cursor, u32 *valueSlot, void *toData) {
     volatile u16 halfword;
 
     if (valueSlot != NULL) {
@@ -219,7 +219,7 @@ static inline u8 *func_020fecdc_inline2(u8 *cursor, u32 *valueSlot, void *toData
     return cursor + 2;
 }
 
-static inline u8 *func_020fecdc_inline3(u8 *cursor, s32 *valueSlot, void *toData) {
+static inline u8 *CopyItemPosHalfword(u8 *cursor, s32 *valueSlot, void *toData) {
     if (valueSlot != NULL) {
         if (toData != NULL) {
             *(s16 *) cursor = *valueSlot >> 9;
@@ -230,7 +230,7 @@ static inline u8 *func_020fecdc_inline3(u8 *cursor, s32 *valueSlot, void *toData
     return cursor + 2;
 }
 
-static inline u8 *func_020fecdc_inline4(u8 *cursor, s32 *valueSlot, void *toData, s32 shift) {
+static inline u8 *CopyItemVelocityByte(u8 *cursor, s32 *valueSlot, void *toData, s32 shift) {
     if (valueSlot != NULL) {
         if (toData != NULL) {
             *cursor = *valueSlot >> shift;
@@ -254,22 +254,22 @@ u8 *CopyItemObjectData(u8 *cursor, void *object, void *toData) {
         cursor++;
     }
     cursor = CopyItemIdByte(cursor, object != NULL ? &item->mId : 0, toData);
-    cursor = func_020fecdc_inline2(cursor, object != NULL ? &item->mFlags : 0, toData);
-    cursor = func_020fecdc_inline3(
+    cursor = CopyItemFlagsHalfword(cursor, object != NULL ? &item->mFlags : 0, toData);
+    cursor = CopyItemPosHalfword(
         cursor, (object != NULL ? &item->mPos : 0) != NULL ? &(object != NULL ? &item->mPos : 0)->x : 0, toData);
-    cursor = func_020fecdc_inline3(
+    cursor = CopyItemPosHalfword(
         cursor, (object != NULL ? &item->mPos : 0) != NULL ? &(object != NULL ? &item->mPos : 0)->y : 0, toData);
-    cursor = func_020fecdc_inline3(
+    cursor = CopyItemPosHalfword(
         cursor, (object != NULL ? &item->mPos : 0) != NULL ? &(object != NULL ? &item->mPos : 0)->z : 0, toData);
     cursor =
         CopyItemPrevPosOffset(cursor, object != NULL ? &item->mPos : 0, object != NULL ? &item->mPrevPos : 0, toData);
-    cursor = func_020fecdc_inline4(
+    cursor = CopyItemVelocityByte(
         cursor, (object != NULL ? &item->mVelocity : 0) != NULL ? &(object != NULL ? &item->mVelocity : 0)->x : 0,
         toData, 10);
-    cursor = func_020fecdc_inline4(
+    cursor = CopyItemVelocityByte(
         cursor, (object != NULL ? &item->mVelocity : 0) != NULL ? &(object != NULL ? &item->mVelocity : 0)->y : 0,
         toData, 9);
-    cursor = func_020fecdc_inline4(
+    cursor = CopyItemVelocityByte(
         cursor, (object != NULL ? &item->mVelocity : 0) != NULL ? &(object != NULL ? &item->mVelocity : 0)->z : 0,
         toData, 10);
     p = object != NULL ? &item->mUnk_78 : 0;

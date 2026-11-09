@@ -768,7 +768,7 @@ void InitSceneSoundState(u32 sceneSoundRowIndex, Unk021073ec b, SceneSoundState 
     sceneSoundState->mRankSeqFrames = -1;
     sceneSoundState->mVolumesLowered = 0;
     func_0210d740(&data_0217d070, sceneSoundState, sceneSoundRowIndex, b);
-    data_0217d084.mUnk_18 = &data_0217c81c;
+    data_0217d084.mUnk_18 = &gSceneSoundState.mKartStarSeq;
     SetSoundMode(&data_0217d084, 0);
 }
 
@@ -944,12 +944,12 @@ void StartKartStarSeq(void) {
         return;
     }
     NNS_SndPlayerSetTrackMuteEx(&data_0217d07c, 0xffff, 1);
-    func_0210d614(&data_0217d070, 0x49, &data_0217c81c);
+    func_0210d614(&data_0217d070, 0x49, &gSceneSoundState.mKartStarSeq);
 }
 
 void StopKartStarSeq(void) {
     NNS_SndPlayerSetTrackMuteEx(&data_0217d07c, 0xffff, 0);
-    NNS_SndPlayerStopSeq(&data_0217c81c, 0);
+    NNS_SndPlayerStopSeq(&gSceneSoundState.mKartStarSeq, 0);
     if (data_0217c78c != 0) {
         if (gSceneSoundState.mRaceState == 1) {
             func_0210d5c0(&data_0217d070);
@@ -971,7 +971,7 @@ void EndRaceSounds(void) {
     gSceneSoundState.mRaceState = 2;
     func_0210d590(&data_0217d070, GetEndRaceFadeSteps());
     NNS_SndPlayerSetTrackMuteEx(&data_0217d07c, 0xffff, 0);
-    NNS_SndPlayerStopSeq(&data_0217c81c, 0);
+    NNS_SndPlayerStopSeq(&gSceneSoundState.mKartStarSeq, 0);
     if (data_0217c78c != 0) {
         if (gSceneSoundState.mRaceState == 1) {
             func_0210d5c0(&data_0217d070);
@@ -1018,7 +1018,7 @@ void AdvanceSceneSoundLap(void) {
         gSceneSoundState.mOnLastLap = 1;
         func_0210d590(&data_0217d070, 0);
         if (gSceneSoundState.mKartStarSeq != NULL) {
-            NNS_SndPlayerSetTrackMuteEx(&data_0217c81c, 0xffff, 1);
+            NNS_SndPlayerSetTrackMuteEx(&gSceneSoundState.mKartStarSeq, 0xffff, 1);
         }
         func_0210d614(&data_0217d070, 0x3e, NULL);
         gSceneSoundState.mLastLapSeqState = 1;
@@ -1198,13 +1198,13 @@ void UpdateRaceSounds(void) {
                     gSceneSoundState.mKartStarSeqOn = 1;
                     if ((gSceneSoundState.mLastLapSeqState & 1) == 0) {
                         NNS_SndPlayerSetTrackMuteEx(&data_0217d07c, 0xffff, 1);
-                        func_0210d614(&data_0217d070, 0x49, &data_0217c81c);
+                        func_0210d614(&data_0217d070, 0x49, &gSceneSoundState.mKartStarSeq);
                     }
                 }
                 data_0217c7a8 = 0;
                 data_0217c78c = 1;
             } else if (gSceneSoundState.mKartStarSeq != NULL) {
-                NNS_SndPlayerSetTrackMuteEx(&data_0217c81c, 0xffff, 0);
+                NNS_SndPlayerSetTrackMuteEx(&gSceneSoundState.mKartStarSeq, 0xffff, 0);
                 data_0217c78c = 1;
             } else if (gSceneSoundState.mRaceState == 1) {
                 func_0210d5c0(&data_0217d070);

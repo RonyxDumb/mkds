@@ -86,7 +86,6 @@ extern u32 data_0217c7b0;
 extern u8 data_0217c7d8[];
 extern s32 data_0217c804[];
 extern u32 data_0217c80c[];
-extern NNSSndSeqPlayer *data_0217c81c;
 extern u32 gPooledMapObjectNextIndex;
 extern struct MapObject **gPooledMapObjects;
 extern s32 gPooledMapObjectCount;
