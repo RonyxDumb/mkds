@@ -1,6 +1,7 @@
 #include "Main/Unknown/code_020e7a84.h"
 
 #include "Main/Unknown/code_020467d0.h"
+#include "Main/Unknown/code_020846c0.h" // Nsbmd
 #include "Main/Unknown/code_020d4c28.h"
 #include "Main/Unknown/unk_02159000.h"
 #include "Main/Unknown/unk_0215d000.h"
@@ -255,7 +256,7 @@ void DrawJg(void) {
     BOOL sentOpening;
     s32 tableScaleX;
     s32 tableScaleY;
-    Unk020e9810 *kindModel;
+    Nsbmd *kindModel;
     NsbmdModel *lapModel;
 
     if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
@@ -290,7 +291,7 @@ void DrawJg(void) {
     gJgCloud.mPolygonAttributes &= ~0x1f0000;
     gJgCloud.mPolygonAttributes |= gJgAlpha << 16;
     if (kindModel != NULL) {
-        NNS_G3dMdlSetMdlAlphaAll(kindModel->mUnk_04, gJgAlpha);
+        NNS_G3dMdlSetMdlAlphaAll(kindModel->mResMdl, gJgAlpha);
     }
     if (lapModel != NULL) {
         lapModel->mPolygonAttributes &= ~0x1f0000;

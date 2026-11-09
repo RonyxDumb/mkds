@@ -17,7 +17,7 @@
 
 void InitChandelierObjects(Unk0209f514 *a) {
     s32 i;
-    Unk0209f1c8 *o;
+    Unk0209f338 *o;
     RandomState64 *r;
 
     if (a == NULL) {
@@ -30,7 +30,7 @@ void InitChandelierObjects(Unk0209f514 *a) {
     }
 }
 
-void UpdateChandelier(void *a, Unk0209f1c8 *b) {
+void UpdateChandelier(void *a, Unk0209f338 *b) {
     Unk0210b7a8 s1;
     Unk0210b7a8 s2;
     Unk0210b7a8 s3;

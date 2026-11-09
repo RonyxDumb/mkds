@@ -144,11 +144,11 @@ s32 SendWiFiPacketToParticipant(u32 a, void *b, s32 c, u32 (*d)(void)) {
 }
 
 // Returns the name+emblem part of the index's record, or NULL if the index is not in mKartMask.
-void *GetWiFiSessionPlayerRecordData(u32 index) {
+Unk0217aa00_45c *GetWiFiSessionPlayerRecordData(u32 index) {
     WiFiSession *session = gWiFiSession;
 
     if (session->mKartMask & (1 << index)) {
-        return &session->mPlayerRecords[index].mName;
+        return &session->mPlayerRecords[index].mPlayer;
     }
     return NULL;
 }

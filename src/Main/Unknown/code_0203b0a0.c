@@ -25,10 +25,10 @@
 #include "Main/Unknown/code_0204f240.h"
 #include "Main/Unknown/code_0203c5f8.h"
 
-void SumTimes(TimeRecord *firstTime, Unk0217aa1c_144_00 *secondTime, TimeRecord *sum) {
-    u16 milliseconds = firstTime->mMillisecond + secondTime->mUnk_00;
-    u16 minutes = firstTime->mMinute + secondTime->mUnk_02;
-    u16 seconds = firstTime->mSecond + secondTime->mUnk_03;
+void SumTimes(TimeRecord *firstTime, MinuteSecondMillisecondTime *secondTime, TimeRecord *sum) {
+    u16 milliseconds = firstTime->mMillisecond + secondTime->mMillisecond;
+    u16 minutes = firstTime->mMinute + secondTime->mMinute;
+    u16 seconds = firstTime->mSecond + secondTime->mSecond;
     u16 carry = milliseconds / 1000;
     if (carry != 0) {
         seconds += carry;

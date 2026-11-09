@@ -304,7 +304,7 @@ void AddChild(u32 aid, u8 *b, Unk0217aa00_45c *playerEntry) {
     children->mEntries[0].mUnk_00[5] = b[5];
     MI_CpuCopy8(playerEntry, &data_0217aa00->mUnk_045c[aid], 0x14);
     data_0217aa00->mUnk_008b |= 8;
-    if ((playerEntry->mUnk_014 & 1) != 0) {
+    if ((playerEntry->mEmblem[0] & 1) != 0) {
         data_0217aa00->mUnk_0457 |= 1 << aid;
     }
 }

@@ -14,6 +14,6 @@ u32 TrySetMissionRecord(void);
 BOOL TrySetGrandPrixRecord(void);
 BOOL ShouldSetGrandPrixRecord(TimeRecord *storedRecord, TimeRecord *newRecord);
 void FillGrandPrixRecord(TimeRecord *record);
-void SumTimes(TimeRecord *firstTime, Unk0217aa1c_144_00 *secondTime, TimeRecord *sum);
+void SumTimes(TimeRecord *firstTime, MinuteSecondMillisecondTime *secondTime, TimeRecord *sum);
 
 #include "00/code_021832d8.h"

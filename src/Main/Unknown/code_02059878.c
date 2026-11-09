@@ -98,7 +98,7 @@ void ProcessMPChunk(u8 *chunk) {
             finished = 1;
             break;
         default:
-            MI_CpuCopy8(chunk + 4, entry->mUnk_000 + byteOffset, *(u16 *) (chunk + 2));
+            MI_CpuCopy8(chunk + 4, entry->mName + byteOffset, *(u16 *) (chunk + 2));
             data_0217aa00->mChunkReceivedFlags[chunk[0]][chunk[1]] = 1;
             if (IsAllMPChunksReceived(chunk[0]) != 0) {
                 finished = 1;

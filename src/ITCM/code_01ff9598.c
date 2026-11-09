@@ -395,7 +395,7 @@ void func_01ff9940(Unk01ff9940 *a, Unk01ff9940_B *b, Unk01ff9940_C *c, u32 d) {
         a->mUnk_00 |= 1;
         if (t & 2) {
             i = c->mUnk_01;
-            data_02170500->mUnk_c4[i >> 5] |= 1 << (i & 0x1f);
+            data_02170500->mIsScaleCacheOne[i >> 5] |= 1 << (i & 0x1f);
         }
     } else {
         a->mUnk_04.x = b->mUnk_00.x;
@@ -403,7 +403,7 @@ void func_01ff9940(Unk01ff9940 *a, Unk01ff9940_B *b, Unk01ff9940_C *c, u32 d) {
         a->mUnk_04.z = b->mUnk_00.z;
         if (t & 2) {
             i = c->mUnk_01;
-            data_02170500->mUnk_c4[i >> 5] &= ~(1 << (i & 0x1f));
+            data_02170500->mIsScaleCacheOne[i >> 5] &= ~(1 << (i & 0x1f));
             data_usa_021712f0[i].mUnk_00.x = b->mUnk_0c.x;
             data_usa_021712f0[i].mUnk_00.y = b->mUnk_0c.y;
             data_usa_021712f0[i].mUnk_00.z = b->mUnk_0c.z;
@@ -412,7 +412,7 @@ void func_01ff9940(Unk01ff9940 *a, Unk01ff9940_B *b, Unk01ff9940_C *c, u32 d) {
     if (t & 1) {
         i = c->mUnk_02;
         a->mUnk_00 |= 0x20;
-        if (data_02170500->mUnk_c4[i >> 5] & (1 << (i & 0x1f))) {
+        if (data_02170500->mIsScaleCacheOne[i >> 5] & (1 << (i & 0x1f))) {
             a->mUnk_00 |= 8;
         } else {
             a->mUnk_10 = data_usa_021712f0[i].mUnk_00;

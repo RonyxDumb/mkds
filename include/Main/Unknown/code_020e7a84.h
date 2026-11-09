@@ -2,12 +2,6 @@
 
 #include "types.h"
 
-// Object at 0x00 of a gJgKindRows row, as DrawJg reads it: the word at 0x04.
-typedef struct Unk020e9810 {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ void *mUnk_04;
-} Unk020e9810;
-
 void UpdateJgState6(void);
 void EnterJgState6(void);
 void UpdateJgState5(void);

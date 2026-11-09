@@ -8,7 +8,7 @@
 
 #pragma thumb on
 
-static inline Unk0217aa1c_144_00 *func_0202a360_inline(s32 teamIndex) {
+static inline CourseTeamResult *func_0202a360_inline(s32 teamIndex) {
     return &gCupRecords->mTeamResults[GetCourseIndexInCup()].mTeams[teamIndex];
 }
 

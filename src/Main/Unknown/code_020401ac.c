@@ -168,7 +168,7 @@ s16 ComputeRaceProgressKartScore(s32 kartIndex) {
 
 void InitRaceProgressKart(RaceProgressKart *raceProgressKart, s32 kartIndex) {
     s32 i;
-    Unk0217aa1c_144_00 *lapTime;
+    MinuteSecondMillisecondTime *lapTime;
     CourseMapRoute *route;
     s32 firstEntry;
 
@@ -199,12 +199,12 @@ void InitRaceProgressKart(RaceProgressKart *raceProgressKart, s32 kartIndex) {
     raceProgressKart->mUnk_3c = raceProgressKart->mUnk_3c & ~0x300;
     lapTime = raceProgressKart->mLapTimes;
     for (i = 0; i < 5; i++) {
-        ComputeRaceTime(&lapTime->mUnk_02, &lapTime->mUnk_03, &lapTime->mUnk_00, 0,
+        ComputeRaceTime(&lapTime->mMinute, &lapTime->mSecond, &lapTime->mMillisecond, 0,
                         gRaceProgress->mUnk_000[0].mElapsedFrames);
         lapTime++;
     }
-    ComputeRaceTime(&raceProgressKart->mLapTimes[5].mUnk_02, &raceProgressKart->mLapTimes[5].mUnk_03,
-                    &raceProgressKart->mLapTimes[5].mUnk_00, 0, gRaceProgress->mUnk_000[0].mElapsedFrames);
+    ComputeRaceTime(&raceProgressKart->mLapTimes[5].mMinute, &raceProgressKart->mLapTimes[5].mSecond,
+                    &raceProgressKart->mLapTimes[5].mMillisecond, 0, gRaceProgress->mUnk_000[0].mElapsedFrames);
     if (kartIndex == gRaceSetup->mEntryIndex) {
         raceProgressKart->mFlags = raceProgressKart->mFlags | 1;
     }
@@ -220,8 +220,8 @@ static inline void func_020401ac_inline2(Unk0217561c_000 *q) {
     q->mClockEnabled = 0;
 }
 
-static inline void func_020401ac_inline3(Unk0217aa1c_144_00 *time, u32 frames) {
-    ComputeRaceTime(&time->mUnk_02, &time->mUnk_03, &time->mUnk_00, 0, frames);
+static inline void func_020401ac_inline3(MinuteSecondMillisecondTime *time, u32 frames) {
+    ComputeRaceTime(&time->mMinute, &time->mSecond, &time->mMillisecond, 0, frames);
 }
 
 static inline void func_020401ac_inline4(RandomState64 *randomState64, u32 seed) {

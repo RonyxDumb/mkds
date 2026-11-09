@@ -93,7 +93,7 @@ static inline BOOL ReplyToWiFiRaceSyncProbe(void) {
         if (sync->mPeers[participant].mProbePending != FALSE) {
             MI_CpuCopy8(&sync->mPeers[participant], payload, 0x28);
             *(u64 *) &payload->mUnk_0c[2] = OS_GetTick();
-            if (SendWiFiRaceSyncPacket(participant, 0, 0x28) != 0) {
+            if (SendWiFiRaceSyncPacket(participant, WIFI_RACE_SYNC_PACKET_PROBE, 0x28) != 0) {
                 gWiFiRaceSync->mPeers[participant].mProbePending = FALSE;
             } else {
                 MI_CpuFill8(payload, 0, 0x28);
@@ -141,8 +141,8 @@ void InitWiFiRaceSync(void *heap) {
     gWiFiRaceSync->mFlags |= 1;
     gWiFiRaceSync->mFlags |= 0x40;
     sync = gWiFiRaceSync;
-    sync->mUnk_010 = 0;
-    sync->mUnk_012 = 1;
+    sync->mStateMachine.mNextState = 0;
+    sync->mStateMachine.mNextStateRequested = 1;
     gWiFiRaceSync->mSharedState = 0;
     for (participant = 0; participant < 4; participant++) {
         j = gParticipantKartMap->mKartOfParticipant[participant];
@@ -153,7 +153,7 @@ void InitWiFiRaceSync(void *heap) {
             gWiFiRaceSync->mEntries[participant].mRank = 0;
         }
     }
-    InitStateMachine(gWiFiRaceSync, gWiFiRaceSyncStateTable, 6, NULL);
+    InitStateMachine(&gWiFiRaceSync->mStateMachine, gWiFiRaceSyncStateTable, 6, NULL);
 }
 
 void AdvanceWiFiRaceSyncFrames(void) {
@@ -163,7 +163,7 @@ void AdvanceWiFiRaceSyncFrames(void) {
     if (sync == NULL) {
         return;
     }
-    switch (sync->mUnk_00e) {
+    switch (sync->mStateMachine.mState) {
         case 4:
         case 5:
             sync->mSyncFrames++;
@@ -224,8 +224,8 @@ void UpdateWiFiRaceSyncState1(void) {
     if (sync->mParticipantMask == (sync->mParticipantMask & mask)) {
         sync->mUnk_0fb = mask;
         sync = gWiFiRaceSync;
-        sync->mUnk_010 = 2;
-        sync->mUnk_012 = 1;
+        sync->mStateMachine.mNextState = 2;
+        sync->mStateMachine.mNextStateRequested = 1;
     }
     if (ReplyToWiFiRaceSyncProbe() != FALSE) {
         return;
@@ -247,7 +247,7 @@ void UpdateWiFiRaceSyncState1(void) {
                 payload->mUnk_0c[3] = 0;
                 payload->mUnk_0c[4] = 0;
                 *(u32 *) &payload->mUnk_20[0] = 0;
-                SendWiFiRaceSyncPacket(targetParticipant, 0, 0x28);
+                SendWiFiRaceSyncPacket(targetParticipant, WIFI_RACE_SYNC_PACKET_PROBE, 0x28);
             } else {
                 if (sync->mPeers[targetParticipant].mUnk_36 == 0) {
                     SendWiFiRaceSyncPacket(targetParticipant, 5, 0);
@@ -315,7 +315,7 @@ void SendWiFiRaceSyncReady(u32 participant) {
     }
     index = participant;
     if (gWiFiRaceSync->mParticipantMask & (1 << index)) {
-        if (SendWiFiRaceSyncPacket(index, 1, 8) != 0) {
+        if (SendWiFiRaceSyncPacket(index, WIFI_RACE_SYNC_PACKET_READY, 8) != 0) {
             gWiFiRaceSync->mSendParticipantIndex = index;
         }
     }
@@ -332,7 +332,7 @@ void UpdateWiFiRaceSyncState2(void) {
         if (sync->mPeers[participant].mProbePending != FALSE) {
             MI_CpuCopy8(&sync->mPeers[participant], payload, 0x28);
             *(u64 *) &payload->mUnk_0c[2] = OS_GetTick();
-            if (SendWiFiRaceSyncPacket(participant, 0, 0x28) != 0) {
+            if (SendWiFiRaceSyncPacket(participant, WIFI_RACE_SYNC_PACKET_PROBE, 0x28) != 0) {
                 gWiFiRaceSync->mPeers[participant].mProbePending = FALSE;
             } else {
                 MI_CpuFill8(payload, 0, 0x28);
@@ -342,8 +342,8 @@ void UpdateWiFiRaceSyncState2(void) {
     }
     sync = gWiFiRaceSync;
     if (sync->mParticipantMask == (sync->mParticipantMask & sync->mReadyMask)) {
-        sync->mUnk_010 = 3;
-        sync->mUnk_012 = 1;
+        sync->mStateMachine.mNextState = 3;
+        sync->mStateMachine.mNextStateRequested = 1;
         return;
     }
     CallWithNextWiFiRaceSyncParticipant(sync->mSendParticipantIndex, SendWiFiRaceSyncReady);
@@ -362,7 +362,7 @@ void SendWiFiRaceSyncCountdown(u32 participant) {
     payload = &sendBuffer->mUnk_04;
     payload->mUnk_00_h = gWiFiRaceSync->mCountdownTimer - gWiFiRaceSync->mEntries[participant].mRoundTripAverage;
     payload->mUnk_04_b[0] = gWiFiRaceSync->mUnk_0fb;
-    if (SendWiFiRaceSyncPacket(participant, 2, 8) != 0) {
+    if (SendWiFiRaceSyncPacket(participant, WIFI_RACE_SYNC_PACKET_COUNTDOWN, 8) != 0) {
         gWiFiRaceSync->mUnk_734 = participant;
     }
 }
@@ -374,8 +374,8 @@ void UpdateWiFiRaceSyncState3(void) {
     if (gWiFiRaceSync->mCountdownTimer <= 0) {
         gWiFiRaceSync->mCountdownTimer = -1;
         sync = gWiFiRaceSync;
-        sync->mUnk_010 = 4;
-        sync->mUnk_012 = 1;
+        sync->mStateMachine.mNextState = 4;
+        sync->mStateMachine.mNextStateRequested = 1;
         return;
     }
     CallWithNextWiFiRaceSyncParticipant(gWiFiRaceSync->mUnk_734, SendWiFiRaceSyncCountdown);
@@ -417,7 +417,7 @@ int SendWiFiRaceSyncPacket(u8 participant, u32 kind, int dataSize) {
     }
     if (participant != GetOwnParticipantIndex()) {
         r = dataSize + 4;
-        packet = (WiFiRaceSyncPacket *) gWiFiRaceSync->mSendBuffer;
+        packet = &gWiFiRaceSync->mSendBuffer->mPacket;
         gWiFiRaceSync->mFlags = gWiFiRaceSync->mFlags | 4;
         packet->mSender = GetOwnParticipantIndex();
         packet->mTarget = participant;
@@ -452,7 +452,7 @@ void SendWiFiRaceSyncRecord(s32 dataSize) {
     }
     while (sentCount < 1 && participant != lastParticipant) {
         if (participant != GetOwnParticipantIndex() && (gWiFiRaceSync->mParticipantMask & (1 << participant)) != 0) {
-            if (SendWiFiRaceSyncPacket(participant, 3, dataSize) != 0) {
+            if (SendWiFiRaceSyncPacket(participant, WIFI_RACE_SYNC_PACKET_RECORD, dataSize) != 0) {
                 participant = participant + 1;
                 if (participant >= 4) {
                     participant = 0;
@@ -652,14 +652,14 @@ void UpdateWiFiRaceSyncState4(void) {
             case 7:
                 gWiFiRaceSync->mSharedState = 4;
                 sync = gWiFiRaceSync;
-                sync->mUnk_010 = 5;
-                sync->mUnk_012 = 1;
+                sync->mStateMachine.mNextState = 5;
+                sync->mStateMachine.mNextStateRequested = 1;
                 break;
             case 9:
                 gWiFiRaceSync->mSharedState = 3;
                 sync = gWiFiRaceSync;
-                sync->mUnk_010 = 5;
-                sync->mUnk_012 = 1;
+                sync->mStateMachine.mNextState = 5;
+                sync->mStateMachine.mNextStateRequested = 1;
                 break;
         }
     }
@@ -822,7 +822,7 @@ void ReceiveWiFiRaceSyncRecord(u32 fromIndex, WiFiRaceSyncPacket *packet, u32 si
     entryFrames = sync->mEntries[participant].mUnk_00_0;
     entry = &sync->mEntries[participant];
     recordSize = bodyBytes[3];
-    if (sync->mUnk_00e != 4 && sync->mUnk_00e != 5) {
+    if (sync->mStateMachine.mState != 4 && sync->mStateMachine.mState != 5) {
         return;
     }
     if (entryFrames != 0 && entryFrames >= packetFrames) {
@@ -845,7 +845,7 @@ void ReceiveWiFiRaceSyncCountdown(u32 fromIndex, WiFiRaceSyncPacket *packet, u32
     senderCountdown = packet->mUnk_04.mUnk_00_s;
     sync = gWiFiRaceSync;
     ownCountdown = sync->mCountdownTimer;
-    if (sync->mUnk_00e == 2) {
+    if (sync->mStateMachine.mState == 2) {
         participantBit = 1 << packet->mSender;
         if ((sync->mReadyMask & participantBit) == 0) {
             sync->mReadyMask |= participantBit;
@@ -887,7 +887,7 @@ void ReceiveWiFiRaceSyncPacket(u32 fromIndex, WiFiRaceSyncPacket *packet, u32 si
     gWiFiRaceSync->mPeerDroppedMasks[packet->mSender] = packet->mDroppedParticipantMask;
     gWiFiRaceSync->mPeerSharedStates[packet->mSender] = packet->mSharedState;
     switch (((volatile WiFiRaceSyncPacket *) packet)->mKind) {
-        case 0:
+        case WIFI_RACE_SYNC_PACKET_PROBE:
             body = &packet->mUnk_04;
             sender = packet->mSender;
             ownParticipant = GetOwnParticipantIndex();
@@ -906,13 +906,13 @@ void ReceiveWiFiRaceSyncPacket(u32 fromIndex, WiFiRaceSyncPacket *packet, u32 si
             peer->mUnk_10 = tick >> 32;
             gWiFiRaceSync->mPeers[sender].mProbePending = TRUE;
             break;
-        case 1:
+        case WIFI_RACE_SYNC_PACKET_READY:
             gWiFiRaceSync->mReadyMask = gWiFiRaceSync->mReadyMask | (1 << packet->mSender);
             break;
-        case 2:
+        case WIFI_RACE_SYNC_PACKET_COUNTDOWN:
             ReceiveWiFiRaceSyncCountdown(fromIndex, packet, size);
             break;
-        case 3:
+        case WIFI_RACE_SYNC_PACKET_RECORD:
             ReceiveWiFiRaceSyncRecord(fromIndex, packet, size);
             break;
 // Kinds 4 and 5 have no body; only kind 5 is sent (state 1, once a peer has 12 samples), nothing sends

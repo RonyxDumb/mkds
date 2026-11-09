@@ -317,7 +317,7 @@ void func_020c155c(void) {
     }
 }
 
-static inline Unk0217aa1c_144_00 *func_020c13e8_inline(s32 teamIndex) {
+static inline CourseTeamResult *func_020c13e8_inline(s32 teamIndex) {
     return &gCupRecords->mTeamResults[GetCourseIndexInCup()].mTeams[teamIndex];
 }
 

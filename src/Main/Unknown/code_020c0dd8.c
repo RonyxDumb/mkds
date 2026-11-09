@@ -141,7 +141,7 @@ void func_020c0ee4(void) {
     gRaceGoalS->mUpdateFrames = 0;
 }
 
-static inline Unk0217aa1c_144_00 *func_020c0dd8_inline(s32 j) {
+static inline CourseTeamResult *func_020c0dd8_inline(s32 j) {
     return &gCupRecords->mTeamResults[GetCourseIndexInCup()].mTeams[j];
 }
 

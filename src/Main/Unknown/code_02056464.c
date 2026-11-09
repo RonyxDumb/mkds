@@ -88,18 +88,18 @@ s32 GetGhostFinishTimeByIndex(s32 ghostRecordIndex, MinuteSecondMillisecondTime 
 }
 
 void FillPlayerRecord(Unk0217aa00_45c *a) {
-    MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, a->mUnk_000, 0x14);
+    MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, a->mName, 0x14);
     if (data_0217aa08->mEmblemRecord->mFilled != 0 && data_0217aa08->mFirstBlock->mUnk_31_3 == 0) {
         a->mUnk_214 = 1;
-        MI_CpuCopy8(data_0217aa08->mEmblemRecord->mEmblemData, &a->mUnk_014, 0x200);
+        MI_CpuCopy8(data_0217aa08->mEmblemRecord->mEmblemData, a->mEmblem, 0x200);
     } else {
         a->mUnk_214 = 0;
-        MI_CpuFill8(&a->mUnk_014, 0, 0x200);
+        MI_CpuFill8(a->mEmblem, 0, 0x200);
     }
     MI_CpuCopy8(data_0217aa08->mFirstBlock->mFlags, a->mBits, 4);
-    a->mUnk_228_0 = data_021759d0->mUnk_00;
+    a->mRegion = data_021759d0->mUnk_00;
     a->mUnk_228_4 = data_021759d0->mLanguageIndex;
-    a->mUnk_216 = data_0217aa08->mFirstBlock->mElo;
+    a->mElo = data_0217aa08->mFirstBlock->mElo;
     a->mUnk_229 = func_02056208();
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
         MI_CpuFill8(&a->mUnk_218, 0, 0xc);

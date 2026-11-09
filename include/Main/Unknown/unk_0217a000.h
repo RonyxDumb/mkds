@@ -18,6 +18,9 @@
 #include "code_02003024.h"
 #include "Main/Unknown/code_020653d0.h" // ParticipantKartRecord
 #include "code_02152490.h" // DWCAccFriendData, DWCAccUserData
+#include "Main/Unknown/code_020467d0.h" // StateMachine
+#include "Main/Unknown/unk_021759c0.h" // MinuteSecondMillisecondTime
+#include "Main/Unknown/code_0205b0f4.h" // WiFiRaceSyncPacket
 
 // Values of BackupFirstBlock.mSoundMode.
 typedef enum { SOUND_MODE_SURROUND, SOUND_MODE_STEREO, SOUND_MODE_HEADPHONES } SoundMode;
@@ -446,20 +449,19 @@ typedef struct Unk0217aa00_16a0_view {
     /* 7a7 */ u8 mUnk_7a7[1];
 } Unk0217aa00_16a0_view;
 
-// 0x22c-byte entries from 0x45c of ConnectionWork.
+// 0x22c-byte entries from 0x45c of ConnectionWork; also the tail from 0xc of WiFiPlayerRecord.
 typedef struct Unk0217aa00_45c {
-    /* 000 */ u8 mUnk_000[0x14];
-    /* 014 */ u8 mUnk_014;
-    /* 015 */ u8 mUnk_015[0x1ff];
+    /* 000 */ u8 mName[0x14];
+    /* 014 */ u8 mEmblem[0x200];
     /* 214 */ u8 mUnk_214;
     /* 215 */ u8 mUnk_215;
-    /* 216 */ u16 mUnk_216;
+    /* 216 */ s16 mElo;
     /* 218 */ DWCAccFriendData mUnk_218;
     /* 224 */ u8 mBits[4];
     /* 228 */ union {
         u8 mUnk_228;
         struct {
-            u8 mUnk_228_0 : 4;
+            u8 mRegion : 4;
             u8 mUnk_228_4 : 4;
         };
     };
@@ -945,19 +947,19 @@ typedef struct Unk0217aa14_754_04 {
 
 // What member 0x754 of WiFiRaceSync points to.
 typedef struct Unk0217aa14_754 {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ Unk0217aa14_754_04 mUnk_04;
+    union {
+        // The first 0x28 bytes are the packet that goes out.
+        WiFiRaceSyncPacket mPacket;
+        struct {
+            /* 00 */ u8 mUnk_00[4];
+            /* 04 */ Unk0217aa14_754_04 mUnk_04;
+        };
+    };
 } Unk0217aa14_754;
 
 // Object behind gWiFiRaceSync.
 typedef struct WiFiRaceSync {
-    /* 000 */ void *mUnk_000;
-    /* 004 */ s32 mUnk_004;
-    /* 008 */ void *mUnk_008;
-    /* 00c */ u16 mUnk_00c;
-    /* 00e */ u16 mUnk_00e;
-    /* 010 */ u16 mUnk_010;
-    /* 012 */ u16 mUnk_012;
+    /* 000 */ StateMachine mStateMachine;
     /* 014 */ WiFiRaceSyncPeer mPeers[4];
     /* 0f4 */ s32 mUnk_0f4;
 // Participant the next probe goes to in state 1; the last participant sent to in states 2 and 3.
@@ -1630,13 +1632,12 @@ typedef struct KartCourseResult {
     /* 03 */ u8 mUnk_03;
     /* 04 */ u8 mUnk_04;
     /* 05 */ u8 mWinCount;
-    /* 06 */ u16 mUnk_06;
-    /* 08 */ u8 mUnk_08;
-    /* 09 */ u8 mUnk_09;
+    /* 06 */ MinuteSecondMillisecondTime mFinishTime;
 } KartCourseResult;
 
-// 4-byte object, two of which make an element of the table at member 0x144 of CupRecords.
-typedef struct Unk0217aa1c_144_00 {
+// One team's result for a course: points, win count and a flag. Two make an element of the table at member 0x144 of
+// CupRecords.
+typedef struct CourseTeamResult {
     /* 00 */ u16 mUnk_00;
     /* 02 */ u8 mUnk_02;
     /* 03 */ union {
@@ -1645,11 +1646,11 @@ typedef struct Unk0217aa1c_144_00 {
             u8 mUnk_03_0 : 1;
         };
     };
-} Unk0217aa1c_144_00;
+} CourseTeamResult;
 
 // 8-byte elements of the table at member 0x144 of CupRecords.
 typedef struct CourseTeamResults {
-    /* 00 */ Unk0217aa1c_144_00 mTeams[2];
+    /* 00 */ CourseTeamResult mTeams[2];
 } CourseTeamResults;
 
 // The kart results for each course of a cup, and the team results.

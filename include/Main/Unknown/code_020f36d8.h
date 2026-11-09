@@ -19,7 +19,7 @@
 #include "Main/Unknown/code_0210bcf4.h"
 #include "Main/Unknown/code_020d849c.h"
 #include "Main/Unknown/code_020d22c0.h" // RandomState64
-#include "Main/Unknown/unk_0217a000.h" // Unk0217aa1c_144_00
+#include "Main/Unknown/unk_0217a000.h" // MinuteSecondMillisecondTime
 
 // One item point: the links that follow it and come before it, and a pointer to its position.
 typedef struct ItemPointLink {
@@ -112,7 +112,7 @@ typedef struct RaceProgressKart {
     /* 08 */ s32 mUnk_08;
     // Slot k-1 holds lap k, slot 5 the finish time. Laps not yet run still hold the value written at init, so
     // GetKartBestLapTime is only meaningful after all laps.
-    /* 0c */ Unk0217aa1c_144_00 mLapTimes[6];
+    /* 0c */ MinuteSecondMillisecondTime mLapTimes[6];
     /* 24 */ s32 mLap;
     // Counted for the leader at each ranking step (kart 0 in a one-kart race); read by ComputeGrandPrixScoreTerms.
     /* 28 */ s32 mFirstPlaceFrames;
@@ -166,7 +166,7 @@ typedef struct Unk0217561c_000 {
             /* 0a */ u8 mUnk_0a;
             /* 0b */ u8 mUnk_0b;
         };
-        Unk0217aa1c_144_00 mUnk_08_view;
+        MinuteSecondMillisecondTime mUnk_08_view;
     };
     // Frames from the file, 0 = course absent. Compared with mElapsedFrames.
     /* 0c */ u16 mRankTime;

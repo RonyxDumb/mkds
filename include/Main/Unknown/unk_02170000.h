@@ -31,7 +31,7 @@ extern u32 data_02170270;
 extern u32 data_02170274[2];
 
 extern NNSG3dGlb data_0217029c;
-extern Unk02170500 *data_02170500;
+extern NNSG3dRS *data_02170500;
 // The three vectors passed to G3i_LookAt_, written together before each call.
 extern Vec3 data_021704dc[3];
 extern NNSG3dMatAnmResult data_usa_021704e4[];

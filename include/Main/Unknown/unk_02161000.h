@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-typedef struct Unk02170500 Unk02170500;
+typedef struct NNSG3dRS NNSG3dRS;
 typedef struct NNSG3dAnmObj NNSG3dAnmObj;
 typedef struct NNSG3dAnmObjInitFunc NNSG3dAnmObjInitFunc;
 typedef struct NNSG3dMatAnmResult NNSG3dMatAnmResult;
@@ -105,9 +105,9 @@ extern const char gSelectCharacterSBnblName[];
 
 extern void (*data_usa_02161844[])(NNSG3dJntAnmResult *);
 extern void (*data_usa_02161850[])(NNSG3dJntAnmResult *, void *, u8 *, u32);
-extern void (*data_usa_0216187c[])(Unk02170500 *, u32, void *, u32);
-extern void (*data_usa_0216188c[])(Unk02170500 *, u32, void *, u32);
-extern void (*data_usa_0216196c[])(Unk02170500 *, u32);
+extern void (*data_usa_0216187c[])(NNSG3dRS *, u32, void *, u32);
+extern void (*data_usa_0216188c[])(NNSG3dRS *, u32, void *, u32);
+extern void (*data_usa_0216196c[])(NNSG3dRS *, u32);
 
 // Strings from gKartSelectBmgName on.
 extern const char gKartSelectBmgName[];

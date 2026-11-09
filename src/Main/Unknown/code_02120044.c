@@ -22,23 +22,23 @@
 #include "00/code_021a2ccc.h"
 
 u32 func_021202f0(u32 index) {
-    return (u32) &gWiFiSession->mPlayerRecords[index].mUnk_224;
+    return (u32) &gWiFiSession->mPlayerRecords[index].mPlayer.mUnk_218;
 }
 
 u32 GetPlayerRecordRegion(u32 index) {
-    return gWiFiSession->mPlayerRecords[index].mRegion;
+    return gWiFiSession->mPlayerRecords[index].mPlayer.mRegion;
 }
 
 void *GetPlayerRecordName(u32 index) {
-    return &gWiFiSession->mPlayerRecords[index].mName;
+    return &gWiFiSession->mPlayerRecords[index].mPlayer.mName;
 }
 
 void *GetPlayerRecordEmblem(u32 index) {
-    return &gWiFiSession->mPlayerRecords[index].mEmblem;
+    return &gWiFiSession->mPlayerRecords[index].mPlayer.mEmblem;
 }
 
 u8 func_02120278(u32 index) {
-    return gWiFiSession->mPlayerRecords[index].mUnk_220;
+    return gWiFiSession->mPlayerRecords[index].mPlayer.mUnk_214;
 }
 
 u32 func_0212025c(u32 index) {
@@ -50,15 +50,15 @@ u32 func_02120240(u32 index) {
 }
 
 int GetPlayerRecordElo(int index) {
-    return gWiFiSession->mPlayerRecords[index].mElo;
+    return gWiFiSession->mPlayerRecords[index].mPlayer.mElo;
 }
 
 void SetPlayerRecordElo(int index, s16 elo) {
-    gWiFiSession->mPlayerRecords[index].mElo = elo;
+    gWiFiSession->mPlayerRecords[index].mPlayer.mElo = elo;
 }
 
 u8 func_021201e4(int index) {
-    return gWiFiSession->mPlayerRecords[index].mUnk_235;
+    return gWiFiSession->mPlayerRecords[index].mPlayer.mUnk_229;
 }
 
 void func_02120150(void) {
@@ -126,8 +126,8 @@ void EnterWiFiSessionState5(void) {
     func_ov000_021a3250(FinishWiFiRaceSyncSend);
     func_ov000_021a323c(func_0211fef4);
     p = gWiFiRaceSync;
-    p->mUnk_010 = 1;
-    p->mUnk_012 = 1;
+    p->mStateMachine.mNextState = 1;
+    p->mStateMachine.mNextStateRequested = 1;
 }
 
 void UpdateWiFiSessionState5(void) {

@@ -254,14 +254,14 @@ void SetupDrawCow(void *a) {
     func_0209bbd0(a, gCow);
 }
 
-void DrawCow(void *a, Unk020919e8 *b) {
+void DrawCow(void *a, MapObject *b) {
     s32 w;
 
     w = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &w, 1);
-    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&b->mUnk_00.mPos), 0xc);
-    NNS_G3dGeBufferOP_N(0x1b, &b->mUnk_00.mScale, 3);
-    SetMapObjectModelNsbtpFrameIndex(gCow, b->mUnk_00.mCourseMapRow->mUnk_28);
+    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&b->mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &b->mScale, 3);
+    SetMapObjectModelNsbtpFrameIndex(gCow, b->mCourseMapRow->mUnk_28);
     DrawMapObjectModel(a, gCow, b);
 }
 

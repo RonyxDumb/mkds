@@ -15,7 +15,8 @@
 #include "Main/Unknown/code_020f36d8.h"
 
 void StoreRaceProgressKartLapTime(RaceProgressKart *a, s32 b);
-void AddLapTimes(const Unk0217aa1c_144_00 *a, const Unk0217aa1c_144_00 *b, Unk0217aa1c_144_00 *c);
+void AddLapTimes(const MinuteSecondMillisecondTime *a, const MinuteSecondMillisecondTime *b,
+                 MinuteSecondMillisecondTime *c);
 // d is a sub-frame correction.
 void ComputeRaceTime(u8 *a, u8 *b, u16 *c, s32 d, u32 e);
 s16 FindKartCheckpointBackward(RaceProgressKart *a, s32 *b, Vec3 *c, u16 d, u16 e, s32 f);

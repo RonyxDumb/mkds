@@ -342,14 +342,15 @@ void ComputeRaceTime(u8 *a, u8 *b, u16 *c, s32 d, u32 e) {
     *c = f;
 }
 
-void AddLapTimes(const Unk0217aa1c_144_00 *a, const Unk0217aa1c_144_00 *b, Unk0217aa1c_144_00 *c) {
+void AddLapTimes(const MinuteSecondMillisecondTime *a, const MinuteSecondMillisecondTime *b,
+                 MinuteSecondMillisecondTime *c) {
     s16 y;
     s16 x;
     s16 z;
 
-    y = a->mUnk_02 + b->mUnk_02;
-    x = a->mUnk_00 + b->mUnk_00;
-    z = a->mUnk_03 + b->mUnk_03;
+    y = a->mMinute + b->mMinute;
+    x = a->mMillisecond + b->mMillisecond;
+    z = a->mSecond + b->mSecond;
     if (x > 999) {
         x -= 1000;
         z++;
@@ -363,9 +364,9 @@ void AddLapTimes(const Unk0217aa1c_144_00 *a, const Unk0217aa1c_144_00 *b, Unk02
         x = 999;
         z = 59;
     }
-    c->mUnk_02 = y;
-    c->mUnk_03 = z;
-    c->mUnk_00 = x;
+    c->mMinute = y;
+    c->mSecond = z;
+    c->mMillisecond = x;
 }
 
 void StoreRaceProgressKartLapTime(RaceProgressKart *a, s32 b) {
@@ -373,10 +374,10 @@ void StoreRaceProgressKartLapTime(RaceProgressKart *a, s32 b) {
     Vec3 v;
     Vec3 p;
     Vec3 w;
-    Unk0217aa1c_144_00 *q;
+    MinuteSecondMillisecondTime *q;
     u8 j;
     s32 i;
-    Unk0217aa1c_144_00 *e;
+    MinuteSecondMillisecondTime *e;
     s32 n;
     u16 k;
     s16 t;
@@ -403,18 +404,18 @@ void StoreRaceProgressKartLapTime(RaceProgressKart *a, s32 b) {
         VEC_Add(&p, &w, &p);
         i++;
     } while (n > 0 && i < 0x11);
-    ComputeRaceTime(&e[a->mLap - 2].mUnk_02, &e[a->mLap - 2].mUnk_03, &e[a->mLap - 2].mUnk_00, -i * 0xf0,
+    ComputeRaceTime(&e[a->mLap - 2].mMinute, &e[a->mLap - 2].mSecond, &e[a->mLap - 2].mMillisecond, -i * 0xf0,
                     a->mLapFrames);
     a->mLapFrames = 0;
     q = &e[5];
-    q->mUnk_02 = 0;
-    q->mUnk_03 = 0;
-    e[5].mUnk_00 = 0;
+    q->mMinute = 0;
+    q->mSecond = 0;
+    e[5].mMillisecond = 0;
     for (j = 0; j < a->mLap - 1; j++) {
         AddLapTimes(&e[j], q, q);
     }
     if (b != 0) {
         return;
     }
-    a->mFinishTimeMs = (q->mUnk_02 * 60 + q->mUnk_03) * 1000 + q->mUnk_00;
+    a->mFinishTimeMs = (q->mMinute * 60 + q->mSecond) * 1000 + q->mMillisecond;
 }

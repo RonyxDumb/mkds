@@ -4,6 +4,14 @@
 
 typedef struct WiFiRaceSyncEntry WiFiRaceSyncEntry;
 
+// Values of WiFiRaceSyncPacket.mKind.
+typedef enum {
+    WIFI_RACE_SYNC_PACKET_PROBE,
+    WIFI_RACE_SYNC_PACKET_READY,
+    WIFI_RACE_SYNC_PACKET_COUNTDOWN,
+    WIFI_RACE_SYNC_PACKET_RECORD
+} WiFiRaceSyncPacketKind;
+
 // Body after the 4-byte header. Kind 0: probing participant at 0, its tick at 4. Kind 2: sender countdown at 0. Kind 3:
 // 24-bit frame count at 0, then record bytes.
 typedef struct WiFiRaceSyncPacketBody {

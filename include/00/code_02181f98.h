@@ -128,7 +128,7 @@ typedef struct Unk0217b488 {
     /* 08c */ s32 mMirrorMode;
     /* 090 */ s32 mCharacterIndex;
     /* 094 */ s32 mKartIndex;
-    /* 098 */ Unk0217aa1c_144_00 mCourseTimes[4];
+    /* 098 */ MinuteSecondMillisecondTime mCourseTimes[4];
     /* 0a8 */ u16 mTotalPoints;
     /* 0aa */ u8 mUnk_aa[0x2];
     /* 0ac */ s32 mUnk_ac[8];
@@ -172,15 +172,7 @@ typedef struct WiFiPlayerRecord {
     // The sender's mKartMask; written, not read through this struct.
     /* 00a */ u8 mKartMask;
     /* 00b */ u8 mUnk_00b;
-    /* 00c */ u8 mName[0x14];
-    /* 020 */ u8 mEmblem[0x200];
-    /* 220 */ u8 mUnk_220;
-    /* 221 */ u8 mUnk_221[0x1];
-    /* 222 */ s16 mElo;
-    /* 224 */ u8 mUnk_224[0x10];
-    /* 234 */ u8 mRegion : 4;
-    /* 235 */ u8 mUnk_235;
-    /* 236 */ u8 mUnk_236[0x2];
+    /* 00c */ Unk0217aa00_45c mPlayer;
     /* 238 */ s32 mUnk_238;
     /* 23c */ s32 mUnk_23c;
     /* 240 */ s32 mSeed;

@@ -105,6 +105,14 @@ struct NNSG3dRS {
     /* d4 */ void *mResNodeInfo;
     /* d8 */ NNSG3dResMat *mResMat;
     /* dc */ void *mResShp;
+    /* e0 */ s32 mUnk_e0;
+    /* e4 */ s32 mUnk_e4;
+    /* e8 */ UnkFunc *mUnk_e8; // called with four arguments by getJntSRTAnmResult_ and getMdlScale_
+    /* ec */ void (*mUnk_ec)(NNSG3dJntAnmResult *);
+    /* f0 */ void (*mUnk_f0)(NNSG3dMatAnmResult *);
+    /* f4 */ NNSG3dMatAnmResult mUnk_f4;
+    /* 12c */ NNSG3dJntAnmResult mUnk_12c;
+    /* 184 */ NNSG3dVisAnmResult mUnk_184;
 };
 
 // Entry of the table of animation formats (8 bytes).

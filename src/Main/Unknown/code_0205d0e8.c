@@ -13,7 +13,7 @@ void ResetCupRecords(void) {
     s32 team;
     KartCourseResult *record;
     BOOL x;
-    Unk0217aa1c_144_00 *teamRecord;
+    CourseTeamResult *teamRecord;
 
     cupRecords = gCupRecords;
     for (course = 0; course < 4; course++) {
@@ -24,9 +24,9 @@ void ResetCupRecords(void) {
             record->mTotalPoints = 0;
             record->mWinCount = 0;
             record->mUnk_02 = 0;
-            record->mUnk_08 = 0;
-            record->mUnk_09 = 0;
-            record->mUnk_06 = 0;
+            record->mFinishTime.mMinute = 0;
+            record->mFinishTime.mSecond = 0;
+            record->mFinishTime.mMillisecond = 0;
         }
         for (team = 0; team < 2; team++) {
             teamRecord = &cupRecords->mTeamResults[course].mTeams[team];
@@ -140,26 +140,26 @@ void func_0205d88c(u32 kart, s32 b) {
     record->mWinCount = winCount;
 }
 
-void SetKartCourseFinishTime(u32 kart, Unk0217aa1c_144_00 *finishTime) {
+void SetKartCourseFinishTime(u32 kart, MinuteSecondMillisecondTime *finishTime) {
     KartCourseResult *record;
-    Unk0217aa1c_144_00 *recordTime;
+    MinuteSecondMillisecondTime *recordTime;
 
     record = &gCupRecords->mKartResults[(u8) ((gRaceSetup->mCourseNumber - 1) % 4)][(u8) kart];
-    recordTime = (Unk0217aa1c_144_00 *) &record->mUnk_06;
-    recordTime->mUnk_02 = finishTime->mUnk_02;
-    recordTime->mUnk_03 = finishTime->mUnk_03;
-    recordTime->mUnk_00 = finishTime->mUnk_00;
+    recordTime = &record->mFinishTime;
+    recordTime->mMinute = finishTime->mMinute;
+    recordTime->mSecond = finishTime->mSecond;
+    recordTime->mMillisecond = finishTime->mMillisecond;
 }
 
-void GetKartCourseFinishTime(Unk0217aa1c_144_00 *finishTime, u32 kart, u32 course) {
+void GetKartCourseFinishTime(MinuteSecondMillisecondTime *finishTime, u32 kart, u32 course) {
     KartCourseResult *record;
-    Unk0217aa1c_144_00 *recordTime;
+    MinuteSecondMillisecondTime *recordTime;
 
     record = &gCupRecords->mKartResults[course][(u8) kart];
-    recordTime = (Unk0217aa1c_144_00 *) &record->mUnk_06;
-    finishTime->mUnk_02 = recordTime->mUnk_02;
-    finishTime->mUnk_03 = recordTime->mUnk_03;
-    finishTime->mUnk_00 = recordTime->mUnk_00;
+    recordTime = &record->mFinishTime;
+    finishTime->mMinute = recordTime->mMinute;
+    finishTime->mSecond = recordTime->mSecond;
+    finishTime->mMillisecond = recordTime->mMillisecond;
 }
 
 void SetKartCupRank(s32 kart, u8 rank) {
@@ -169,7 +169,7 @@ void SetKartCupRank(s32 kart, u8 rank) {
 // Flags the team as winning this course and clears the flag of the other team.
 void SetCupWinningTeam(s32 team) {
     s32 otherTeam;
-    Unk0217aa1c_144_00 *p, *q;
+    CourseTeamResult *p, *q;
 
     otherTeam = 0;
     if (team == 0) {
@@ -188,7 +188,7 @@ void SetTeamWinCountsAndPoints(s32 winningTeam) {
     u32 winCount;
     s8 previousCourse;
     CourseTeamResults *courseTeams;
-    Unk0217aa1c_144_00 *teamRecord;
+    CourseTeamResult *teamRecord;
 
     for (team = 0; team < 2; team++) {
         points = 0;

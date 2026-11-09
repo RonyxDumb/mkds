@@ -105,7 +105,7 @@ void SetKartCupRanks(void) {
     }
 }
 
-static inline Unk0217aa1c_144_00 *func_020b3b58_inline(s32 teamIndex) {
+static inline CourseTeamResult *func_020b3b58_inline(s32 teamIndex) {
     return &gCupRecords->mTeamResults[GetCourseIndexInCup()].mTeams[teamIndex];
 }
 
@@ -119,7 +119,7 @@ void SetCupWinningTeamFromRecords(void) {
     s32 secondTeamScore;
     BOOL isRuleKind1OrBattle;
     u16 i;
-    Unk0217aa1c_144_00 *firstTeamRecord;
+    CourseTeamResult *firstTeamRecord;
 
     if (raceSetup->mUseTeams == 0) {
         return;

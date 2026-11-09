@@ -3,10 +3,11 @@
 #include "types.h"
 
 typedef struct Unk0217aa14_104_68 Unk0217aa14_104_68;
+typedef struct Unk0203a0dc Unk0203a0dc;
 
 struct MapObjectKindDescriptor;
 
-void UpdateResultScene(u32 arg0);
+void UpdateResultScene(Unk0203a0dc *arg0);
 void func_02059bcc(void);
 void ReleaseResultScene(void);
 void InitResultScene(void);

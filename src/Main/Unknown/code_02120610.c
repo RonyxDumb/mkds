@@ -409,9 +409,9 @@ void RegisterKartKeysAndStart(void) {
 
     func_02120610();
     MI_CpuFill8(gWiFiSession->mPlayerRecords, 0, 0x910);
-    FillPlayerRecord((Unk0217aa00_45c *) &gWiFiSession->mPlayerRecords[0].mName);
-    gWiFiSession->mKeys[0].mValue = gWiFiSession->mPlayerRecords[0].mRegion;
-    gWiFiSession->mKeys[3].mValue = gWiFiSession->mPlayerRecords[0].mElo;
+    FillPlayerRecord(&gWiFiSession->mPlayerRecords[0].mPlayer);
+    gWiFiSession->mKeys[0].mValue = gWiFiSession->mPlayerRecords[0].mPlayer.mRegion;
+    gWiFiSession->mKeys[3].mValue = gWiFiSession->mPlayerRecords[0].mPlayer.mElo;
     __memcpy(gWiFiSession->mKeys[2].mName, "kart_filter", 12);
     gWiFiSession->mKeys[2].mId =
         func_ov000_021a2ad0(gWiFiSession->mKeys[2].mId, gWiFiSession->mKeys[2].mName, "ds_mario_kart_product");
@@ -424,11 +424,11 @@ void RegisterKartKeysAndStart(void) {
     __memcpy(gWiFiSession->mKeys[0].mName, "kart_region", 12);
     gWiFiSession->mKeys[0].mId =
         func_ov000_021a2b9c(gWiFiSession->mKeys[0].mId, gWiFiSession->mKeys[0].mName, &gWiFiSession->mKeys[0]);
-    eloLow = gWiFiSession->mPlayerRecords[0].mElo - 0x3e8;
+    eloLow = gWiFiSession->mPlayerRecords[0].mPlayer.mElo - 0x3e8;
     if (eloLow <= 0) {
         eloLow = 0;
     }
-    eloHigh = gWiFiSession->mPlayerRecords[0].mElo + 0x3e8;
+    eloHigh = gWiFiSession->mPlayerRecords[0].mPlayer.mElo + 0x3e8;
     if (eloHigh > 0x2710) {
         eloHigh = 0x2710;
     }
@@ -487,10 +487,10 @@ s32 ComputeEloEval(u32 a) {
         return 0;
     }
     session = gWiFiSession;
-    if (session->mPlayerRecords[0].mElo > z) {
-        z = session->mPlayerRecords[0].mElo - z;
+    if (session->mPlayerRecords[0].mPlayer.mElo > z) {
+        z = session->mPlayerRecords[0].mPlayer.mElo - z;
     } else {
-        z = z - session->mPlayerRecords[0].mElo;
+        z = z - session->mPlayerRecords[0].mPlayer.mElo;
     }
     if (z < 0x3e8) {
         if (kartType == 1) {
@@ -513,7 +513,7 @@ BOOL ComputeRegionEval(u32 a) {
         return FALSE;
     }
     if (kartType == 3) {
-        if (gWiFiSession->mPlayerRecords[0].mRegion == kartRegion) {
+        if (gWiFiSession->mPlayerRecords[0].mPlayer.mRegion == kartRegion) {
             return TRUE;
         }
     }
@@ -533,17 +533,17 @@ s32 ComputeRegionEloEval(u32 a) {
         return 0;
     }
     if (kartType == 4) {
-        return (kartRegion != gWiFiSession->mPlayerRecords[0].mRegion ? 2 : 1) * 0x7d0;
+        return (kartRegion != gWiFiSession->mPlayerRecords[0].mPlayer.mRegion ? 2 : 1) * 0x7d0;
     }
     if (kartType == 1) {
         session = gWiFiSession;
-        if (session->mPlayerRecords[0].mElo > z) {
-            z = session->mPlayerRecords[0].mElo - z;
+        if (session->mPlayerRecords[0].mPlayer.mElo > z) {
+            z = session->mPlayerRecords[0].mPlayer.mElo - z;
         } else {
-            z = z - session->mPlayerRecords[0].mElo;
+            z = z - session->mPlayerRecords[0].mPlayer.mElo;
         }
         if (z < 0x3e8) {
-            if (kartRegion != session->mPlayerRecords[0].mRegion) {
+            if (kartRegion != session->mPlayerRecords[0].mPlayer.mRegion) {
                 return 0x7d0 - z;
             }
             return 0x3e8 - z;
@@ -572,7 +572,7 @@ void KartKeysStartCallback(u32 a, s32 b) {
             i++;
         }
         MI_CpuFill8(session->mPlayerRecords, 0, 0x910);
-        FillPlayerRecord((Unk0217aa00_45c *) &gWiFiSession->mPlayerRecords[GetOwnParticipantIndex()].mName);
+        FillPlayerRecord(&gWiFiSession->mPlayerRecords[GetOwnParticipantIndex()].mPlayer);
         SetupWiFiSession(0);
         gWiFiSession->mStartStatus = 3;
     } else {

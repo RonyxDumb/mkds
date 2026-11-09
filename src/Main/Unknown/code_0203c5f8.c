@@ -43,10 +43,10 @@ void GetKartFinishTime(s32 kartIndex, u8 *outMinute, u8 *outSecond, u16 *outMill
                 break;
         }
         if (ended != FALSE) {
-            Unk0217aa1c_144_00 *finishTime = &kart->mLapTimes[5];
-            *outMinute = finishTime->mUnk_02;
-            *outSecond = finishTime->mUnk_03;
-            *outMillisecond = finishTime->mUnk_00;
+            MinuteSecondMillisecondTime *finishTime = &kart->mLapTimes[5];
+            *outMinute = finishTime->mMinute;
+            *outSecond = finishTime->mSecond;
+            *outMillisecond = finishTime->mMillisecond;
             return;
         }
     }
@@ -57,12 +57,12 @@ void GetKartFinishTime(s32 kartIndex, u8 *outMinute, u8 *outSecond, u16 *outMill
 
 void GetKartLapTime(s32 kartIndex, u16 lap, u8 *outMinute, u8 *outSecond, u16 *outMillisecond) {
     s32 lapSlot = lap - 1;
-    Unk0217aa1c_144_00 *kartLapTimes =
-        OFFSET_PTR(Unk0217aa1c_144_00, &gRaceProgress->mKarts[0].mLapTimes[0], kartIndex * 0x8c);
-    Unk0217aa1c_144_00 *lapTime = &kartLapTimes[lapSlot];
-    *outMinute = lapTime->mUnk_02;
-    *outSecond = lapTime->mUnk_03;
-    *outMillisecond = lapTime->mUnk_00;
+    MinuteSecondMillisecondTime *kartLapTimes =
+        OFFSET_PTR(MinuteSecondMillisecondTime, &gRaceProgress->mKarts[0].mLapTimes[0], kartIndex * 0x8c);
+    MinuteSecondMillisecondTime *lapTime = &kartLapTimes[lapSlot];
+    *outMinute = lapTime->mMinute;
+    *outSecond = lapTime->mSecond;
+    *outMillisecond = lapTime->mMillisecond;
 }
 
 u16 GetKartBestLapTime(u16 kartIndex, u8 *outMinute, u8 *outSecond, u16 *outMillisecond) {
@@ -70,15 +70,15 @@ u16 GetKartBestLapTime(u16 kartIndex, u8 *outMinute, u8 *outSecond, u16 *outMill
     u16 lap;
     BOOL first = TRUE;
     u32 kartOffset;
-    Unk0217aa1c_144_00 bestTime;
-    Unk0217aa1c_144_00 *lapTime;
+    MinuteSecondMillisecondTime bestTime;
+    MinuteSecondMillisecondTime *lapTime;
     BOOL isBest;
-    Unk0217aa1c_144_00 *bestTimeRef;
+    MinuteSecondMillisecondTime *bestTimeRef;
     lap = 1;
     if (gCourseMap->mSettings->mLapCountOrBattleSeconds >= 1) {
         kartOffset = kartIndex * 0x8c;
         do {
-            lapTime = OFFSET_PTR(Unk0217aa1c_144_00, &gRaceProgress->mKarts[0].mLapTimes[0], kartOffset) + (lap - 1);
+            lapTime = OFFSET_PTR(MinuteSecondMillisecondTime, &gRaceProgress->mKarts[0].mLapTimes[0], kartOffset) + (lap - 1);
             if (first != FALSE) {
                 first = FALSE;
                 bestLap = lap;
@@ -86,8 +86,8 @@ u16 GetKartBestLapTime(u16 kartIndex, u8 *outMinute, u8 *outSecond, u16 *outMill
             } else {
                 bestTimeRef = &bestTime;
                 isBest = FALSE;
-                if (((lapTime->mUnk_02 * 60 + lapTime->mUnk_03) * 1000 + lapTime->mUnk_00) <=
-                    (u32) ((bestTime.mUnk_02 * 60 + bestTime.mUnk_03) * 1000 + bestTime.mUnk_00)) {
+                if (((lapTime->mMinute * 60 + lapTime->mSecond) * 1000 + lapTime->mMillisecond) <=
+                    (u32) ((bestTime.mMinute * 60 + bestTime.mSecond) * 1000 + bestTime.mMillisecond)) {
                     isBest = TRUE;
                     if (lapTime != bestTimeRef) {
                         MI_CpuCopy8(lapTime, bestTimeRef, 4);
@@ -105,8 +105,8 @@ u16 GetKartBestLapTime(u16 kartIndex, u8 *outMinute, u8 *outSecond, u16 *outMill
             lap++;
         } while (lap <= gCourseMap->mSettings->mLapCountOrBattleSeconds);
     }
-    *outMinute = bestTime.mUnk_02;
-    *outSecond = bestTime.mUnk_03;
-    *outMillisecond = bestTime.mUnk_00;
+    *outMinute = bestTime.mMinute;
+    *outSecond = bestTime.mSecond;
+    *outMillisecond = bestTime.mMillisecond;
     return bestLap;
 }

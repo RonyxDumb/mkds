@@ -21,12 +21,12 @@ void StartRaceInput(void) {
 }
 
 void GetRaceClockTime(u8 *outMinute, u8 *outSecond, u16 *outMillisecond) {
-    Unk0217aa1c_144_00 *clockTime;
+    MinuteSecondMillisecondTime *clockTime;
 
     clockTime = &gRaceProgress->mUnk_000[0].mUnk_08_view;
-    *outMinute = clockTime->mUnk_02;
-    *outSecond = clockTime->mUnk_03;
-    *outMillisecond = clockTime->mUnk_00;
+    *outMinute = clockTime->mMinute;
+    *outSecond = clockTime->mSecond;
+    *outMillisecond = clockTime->mMillisecond;
 }
 
 u32 GetKartRank(u32 kartIndex) {

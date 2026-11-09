@@ -151,7 +151,7 @@ void FinishRemainingRaceProgressKarts(void) {
     BOOL ended;
     BOOL u;
     BOOL v;
-    Unk0217aa1c_144_00 *finishTime;
+    MinuteSecondMillisecondTime *finishTime;
     u32 frames;
     u = FALSE;
     v = FALSE;
@@ -179,7 +179,7 @@ void FinishRemainingRaceProgressKarts(void) {
                     frames = 0x57e40;
                 }
             }
-            ComputeRaceTime(&finishTime->mUnk_02, &finishTime->mUnk_03, &finishTime->mUnk_00, u, frames);
+            ComputeRaceTime(&finishTime->mMinute, &finishTime->mSecond, &finishTime->mMillisecond, u, frames);
             FinishRaceProgressKart(raceProgressKart, v);
         }
     }
@@ -193,7 +193,7 @@ void func_0203ecf0(void) {
     BOOL ended;
     BOOL u;
     BOOL v;
-    Unk0217aa1c_144_00 *finishTime;
+    MinuteSecondMillisecondTime *finishTime;
     u32 frames;
     u = FALSE;
     v = FALSE;
@@ -221,7 +221,7 @@ void func_0203ecf0(void) {
                     frames = 0x57e40;
                 }
             }
-            ComputeRaceTime(&finishTime->mUnk_02, &finishTime->mUnk_03, &finishTime->mUnk_00, u, frames);
+            ComputeRaceTime(&finishTime->mMinute, &finishTime->mSecond, &finishTime->mMillisecond, u, frames);
             func_0205ae8c(kartIndex);
             FinishRaceProgressKart(raceProgressKart, v);
         }
@@ -237,7 +237,7 @@ void FinishRemainingMissionRunKarts(void) {
     BOOL ended;
     u32 succeeded;
     u8 *missionSettings;
-    Unk0217aa1c_144_00 *finishTime;
+    MinuteSecondMillisecondTime *finishTime;
     u32 frames;
     for (kartIndex = 0; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
         status = (OFFSET_PTR(Unk0217561c_000, gRaceProgress, kartIndex * 0x8c))->mStatus;
@@ -263,7 +263,7 @@ void FinishRemainingMissionRunKarts(void) {
                     frames = 0x57e40;
                 }
             }
-            ComputeRaceTime(&finishTime->mUnk_02, &finishTime->mUnk_03, &finishTime->mUnk_00, 0, frames);
+            ComputeRaceTime(&finishTime->mMinute, &finishTime->mSecond, &finishTime->mMillisecond, 0, frames);
             succeeded = 1;
             missionSettings = (u8 *) &gRaceSetup->mMissionTimeLimitFrameCount;
             entryKartCounters = GetEntryKartCounters();
@@ -293,7 +293,7 @@ void FinishRemainingMissionRunKarts(void) {
 }
 
 void FinishRaceProgressKart(RaceProgressKart *raceProgressKart, s32 finished) {
-    Unk0217aa1c_144_00 *finishTime;
+    MinuteSecondMillisecondTime *finishTime;
     s32 inputSlotIndex;
     s32 mode;
     s16 score;
@@ -318,7 +318,7 @@ void FinishRaceProgressKart(RaceProgressKart *raceProgressKart, s32 finished) {
     finishTime = &raceProgressKart->mLapTimes[5];
     if (finished != 0) {
         raceProgressKart->mFinishTimeMs =
-            (finishTime->mUnk_02 * 0x3c + finishTime->mUnk_03) * 1000 + finishTime->mUnk_00;
+            (finishTime->mMinute * 0x3c + finishTime->mSecond) * 1000 + finishTime->mMillisecond;
     } else if (gRaceSetup->mMode != 5) {
         raceProgressKart->mFinishTimeMs = 0x5b8d80;
     }
@@ -339,7 +339,7 @@ void FinishRaceProgressKart(RaceProgressKart *raceProgressKart, s32 finished) {
 
 void FinishRaceProgressKartWithEndKind(s32 kartIndex, s32 endKind) {
     Kart *kart;
-    Unk0217aa1c_144_00 finishTime;
+    MinuteSecondMillisecondTime finishTime;
     s32 status;
     BOOL ended;
     RaceProgressKart *raceProgressKart;
@@ -365,7 +365,7 @@ void FinishRaceProgressKartWithEndKind(s32 kartIndex, s32 endKind) {
     kart = GetKart(kartIndex);
     raceProgressKart = OFFSET_PTR(RaceProgressKart, &gRaceProgress->mKarts[0], kartIndex * 0x8c);
     gRaceProgress->mUnk_000[0].mClockEnabled = 0;
-    ComputeRaceTime(&finishTime.mUnk_02, &finishTime.mUnk_03, &finishTime.mUnk_00, 0,
+    ComputeRaceTime(&finishTime.mMinute, &finishTime.mSecond, &finishTime.mMillisecond, 0,
                     gRaceProgress->mUnk_000[0].mElapsedFrames);
     raceProgressKart->mLapTimes[5] = finishTime;
     if ((raceProgressKart->mFlags & 1) != 0) {

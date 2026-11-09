@@ -47,15 +47,15 @@ void InitResultsByMode(void *heap) {
 
 #pragma thumb on
 
-void AdvanceResultsByMode(u32 sceneNumbers) {
+void AdvanceResultsByMode(Unk0203a0dc *sceneNumbers) {
     int result;
     result = func_02049b6c();
     if (result == 0) {
         ClearOamListCounts(gResultScene, gResultScene->mSubOam);
         if (gResultScene->mMode == 0) {
-            AdvanceResultsGp((Unk0203a0dc *) sceneNumbers);
+            AdvanceResultsGp(sceneNumbers);
         } else {
-            AdvanceResultsBattle((Unk0203a0dc *) sceneNumbers);
+            AdvanceResultsBattle(sceneNumbers);
         }
         func_020ae630(gResultScene, gResultScene->mSubOam);
         AdvanceLinkLevelIcons();

@@ -319,7 +319,7 @@ BOOL func_02045bd4(void) {
     data_0217b488->mTotalPoints = courseResult->mTotalPoints;
     data_0217b488->mKartIndex = gRaceSetup->mCurrentEntries[(u8) entryIndex].mKartIndex;
     for (i = 0; i < 4; i++) {
-        Unk0217aa1c_144_00 finishTime;
+        MinuteSecondMillisecondTime finishTime;
         GetKartCourseFinishTime(&finishTime, (u16) gRaceSetup->mEntryIndex, i);
         data_0217b488->mCourseTimes[i] = finishTime;
     }

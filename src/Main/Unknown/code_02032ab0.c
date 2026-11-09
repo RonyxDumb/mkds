@@ -76,7 +76,7 @@ static inline void func_02032f94_inline(void *buffer, s32 byteCount) {
     MIi_CpuClear16(fillValue, buffer, byteCount);
 }
 
-static inline Unk0217aa1c_144_00 *func_02032f94_inline_2(s32 index) {
+static inline CourseTeamResult *func_02032f94_inline_2(s32 index) {
     return &gCupRecords->mTeamResults[GetCourseIndexInCup()].mTeams[index];
 }
 

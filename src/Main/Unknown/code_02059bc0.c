@@ -313,8 +313,8 @@ void func_02059bcc(void) {
     func_0202a5a0();
 }
 
-void UpdateResultScene(u32 arg0) {
-    u32 value0 = arg0;
+void UpdateResultScene(Unk0203a0dc *arg0) {
+    Unk0203a0dc *value0 = arg0;
     u32 value12;
     AdvanceResultsByMode(value0);
 }

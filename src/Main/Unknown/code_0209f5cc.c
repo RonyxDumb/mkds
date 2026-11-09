@@ -3,7 +3,7 @@
 #include "Main/Unknown/unk_0217b000.h"
 #include "ITCM/code_01ff8000.h"
 
-void DrawChandelier(void *a, Unk0209f1c8 *b) {
+void DrawChandelier(void *a, Unk0209f338 *b) {
     MtxFx43 *v1;
     u32 v2;
     v2 = 0x1e;

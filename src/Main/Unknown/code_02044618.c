@@ -175,9 +175,9 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
                 return;
             }
             *nameSlot = func_02045084_inline(q, entryIndex);
-            *emblemDataSlot = &func_02045084_inline(data_0217aa00, entryIndex)->mUnk_014;
+            *emblemDataSlot = &func_02045084_inline(data_0217aa00, entryIndex)->mEmblem[0];
             *b2 = func_02045084_inline(data_0217aa00, entryIndex)->mUnk_214;
-            *b3 = func_02045084_inline(data_0217aa00, entryIndex)->mUnk_228_0;
+            *b3 = func_02045084_inline(data_0217aa00, entryIndex)->mRegion;
             *b5 =
                 func_02045084_inline2() || (data_0217aa00->mUnk_0457 & (1 << data_0217aa00->mUnk_1e8c[entryIndex])) != 0
                     ? 0

@@ -48,7 +48,7 @@ static inline u16 func_02092b5c_inline_2(u32 n) {
 
 void func_020930c8(MapObjectList *mapObjectList) {
     s32 i;
-    Unk020919e8 *p;
+    Unk02092b5c *p;
 
     if (mapObjectList == NULL) {
         return;
@@ -69,7 +69,7 @@ static inline s64 func_02092b5c_inline_4(const Vec3 *a, const Vec3 *b) {
     return (s64) v1 * v1 + (s64) v2 * v2;
 }
 
-static inline BOOL func_02092b5c_inline_3(Unk020919e8 *p, s32 k) {
+static inline BOOL func_02092b5c_inline_3(Unk02092b5c *p, s32 k) {
     s32 i;
     BOOL f;
     s32 d;
@@ -117,7 +117,7 @@ s16 func_02093080(s32 angle) {
     return gPairsByAngle[(angle >> 4) * 2 + 1];
 }
 
-void func_02092b5c(void *a, Unk020919e8 *p) {
+void func_02092b5c(void *a, Unk02092b5c *p) {
     s32 i;
     s32 horizontalSpeed;
     u16 k;
