@@ -26,7 +26,7 @@ s32 IsKartEnded(u32 kartIndex) {
 }
 
 void GetKartFinishTime(s32 kartIndex, u8 *outMinute, u8 *outSecond, u16 *outMillisecond) {
-    RaceProgressKart *kart = OFFSET_PTR(RaceProgressKart, &gRaceProgress->mKarts[0], kartIndex * 0x8c);
+    RaceProgressKart *kart = &gRaceProgress->mKarts[kartIndex];
     BOOL g = TRUE;
     if (gRaceSetup->mMode == MODE_BATTLE) {
         if (gRaceSetup->mBattleKind == BATTLE_KIND_SHINE) {
@@ -57,8 +57,7 @@ void GetKartFinishTime(s32 kartIndex, u8 *outMinute, u8 *outSecond, u16 *outMill
 
 void GetKartLapTime(s32 kartIndex, u16 lap, u8 *outMinute, u8 *outSecond, u16 *outMillisecond) {
     s32 lapSlot = lap - 1;
-    MinuteSecondMillisecondTime *kartLapTimes =
-        OFFSET_PTR(MinuteSecondMillisecondTime, &gRaceProgress->mKarts[0].mLapTimes[0], kartIndex * 0x8c);
+    MinuteSecondMillisecondTime *kartLapTimes = gRaceProgress->mKarts[kartIndex].mLapTimes;
     MinuteSecondMillisecondTime *lapTime = &kartLapTimes[lapSlot];
     *outMinute = lapTime->mMinute;
     *outSecond = lapTime->mSecond;
@@ -78,7 +77,8 @@ u16 GetKartBestLapTime(u16 kartIndex, u8 *outMinute, u8 *outSecond, u16 *outMill
     if (gCourseMap->mSettings->mLapCountOrBattleSeconds >= 1) {
         kartOffset = kartIndex * 0x8c;
         do {
-            lapTime = OFFSET_PTR(MinuteSecondMillisecondTime, &gRaceProgress->mKarts[0].mLapTimes[0], kartOffset) + (lap - 1);
+            lapTime =
+                OFFSET_PTR(MinuteSecondMillisecondTime, &gRaceProgress->mKarts[0].mLapTimes[0], kartOffset) + (lap - 1);
             if (first != FALSE) {
                 first = FALSE;
                 bestLap = lap;

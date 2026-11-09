@@ -1023,10 +1023,8 @@ void UploadKartAPaletteSlice(Nsbmd *nsbmd, s32 kartIndex, void *kartAPalette) {
             NNS_G3dGetResDictIdxByName(&OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat)->mDict, data_usa_02155088);
         matBlock = OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat);
         entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &matBlock->mDict, matBlock->mDict.mOfsEntry);
-        paletteBase =
-            OFFSET_PTR(NNSG3dResMatData, matBlock, *(u32 *) (entries->mData + entries->mSizeUnit * materialIndex))
-                ->mTexPlttBase
-            << 4;
+        paletteBase = OFFSET_PTR(NNSG3dResMatData, matBlock, *DICT_ENTRY(u32, entries, materialIndex))->mTexPlttBase
+                      << 4;
         GX_BeginLoadTexPltt();
         GX_LoadTexPltt(paletteSlice, paletteBase, 0x10);
         GX_EndLoadTexPltt();
@@ -1124,8 +1122,8 @@ void CreateKartShadow(KartModelsEntry *kartModelsEntry, void *heap) {
     AddResFileEntry(&kartModelsEntry->mShadowModel->mNsbmd.mResFileEntry, nsbmdFile, nsbmdFile);
     mdlSet = NNS_G3dGetMdlSet(nsbmdFile);
     entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &mdlSet->mDict, mdlSet->mDict.mOfsEntry);
-    InitShadowModelFromResMdl(kartModelsEntry->mShadowModel, OFFSET_PTR(NNSG3dResMdl, mdlSet, *(u32 *) entries->mData),
-                              3);
+    InitShadowModelFromResMdl(kartModelsEntry->mShadowModel,
+                              OFFSET_PTR(NNSG3dResMdl, mdlSet, *DICT_ENTRY(u32, entries, 0)), 3);
 }
 
 void CreateKillerItem(void *heap) {
@@ -1273,8 +1271,7 @@ void QueueKartEmblemTexture(void *emblemData, void *emblemPalette) {
             NNS_G3dGetResDictIdxByName(&OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat)->mDict, data_usa_02155018);
         matBlock = OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat);
         entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &matBlock->mDict, matBlock->mDict.mOfsEntry);
-        material =
-            OFFSET_PTR(NNSG3dResMatData, matBlock, *(u32 *) (entries->mData + entries->mSizeUnit * materialIndex));
+        material = OFFSET_PTR(NNSG3dResMatData, matBlock, *DICT_ENTRY(u32, entries, materialIndex));
         paletteBase = material->mTexPlttBase << 4;
         CallQueueAppend(0, (material->mTexImageParam & 0xffff) << 3, emblemData, 0x200);
         CallQueueAppend(1, paletteBase, emblemPalette, 0x20);
@@ -1840,9 +1837,7 @@ void UploadHeyhoPalette(int kartIndex, struct KartModelsEntry *kartModelsEntry, 
     }
     matBlock = OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat);
     entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &matBlock->mDict, matBlock->mDict.mOfsEntry);
-    paletteBase = OFFSET_PTR(NNSG3dResMatData, matBlock, *(u32 *) (entries->mData + entries->mSizeUnit * materialIndex))
-                      ->mTexPlttBase
-                  << 4;
+    paletteBase = OFFSET_PTR(NNSG3dResMatData, matBlock, *DICT_ENTRY(u32, entries, materialIndex))->mTexPlttBase << 4;
     GX_BeginLoadTexPltt();
     GX_LoadTexPltt(palette, paletteBase, 0x20);
     GX_EndLoadTexPltt();

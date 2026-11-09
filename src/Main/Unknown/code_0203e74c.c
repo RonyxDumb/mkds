@@ -156,7 +156,7 @@ void FinishRemainingRaceProgressKarts(void) {
     u = FALSE;
     v = FALSE;
     for (kartIndex = 0; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
-        status = (OFFSET_PTR(Unk0217561c_000, gRaceProgress, kartIndex * 0x8c))->mStatus;
+        status = gRaceProgress->mUnk_000[kartIndex].mStatus;
         ended = FALSE;
         switch (status) {
             case 1:
@@ -166,7 +166,7 @@ void FinishRemainingRaceProgressKarts(void) {
                 break;
         }
         if (ended == FALSE && status != 4) {
-            raceProgressKart = OFFSET_PTR(RaceProgressKart, &gRaceProgress->mKarts[0], kartIndex * 0x8c);
+            raceProgressKart = &gRaceProgress->mKarts[kartIndex];
             finishTime = &raceProgressKart->mLapTimes[5];
             frames = gRaceProgress->mUnk_000[0].mElapsedFrames;
             if (gRaceSetup->mMode == MODE_GRAND_PRIX) {
@@ -198,7 +198,7 @@ void func_0203ecf0(void) {
     u = FALSE;
     v = FALSE;
     for (kartIndex = 0; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
-        status = (OFFSET_PTR(Unk0217561c_000, gRaceProgress, kartIndex * 0x8c))->mStatus;
+        status = gRaceProgress->mUnk_000[kartIndex].mStatus;
         ended = FALSE;
         switch (status) {
             case 1:
@@ -208,7 +208,7 @@ void func_0203ecf0(void) {
                 break;
         }
         if (ended == FALSE && status != 4) {
-            raceProgressKart = OFFSET_PTR(RaceProgressKart, &gRaceProgress->mKarts[0], kartIndex * 0x8c);
+            raceProgressKart = &gRaceProgress->mKarts[kartIndex];
             finishTime = &raceProgressKart->mLapTimes[5];
             frames = gRaceProgress->mUnk_000[0].mElapsedFrames;
             if (gRaceSetup->mMode == MODE_GRAND_PRIX) {
@@ -240,7 +240,7 @@ void FinishRemainingMissionRunKarts(void) {
     MinuteSecondMillisecondTime *finishTime;
     u32 frames;
     for (kartIndex = 0; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
-        status = (OFFSET_PTR(Unk0217561c_000, gRaceProgress, kartIndex * 0x8c))->mStatus;
+        status = gRaceProgress->mUnk_000[kartIndex].mStatus;
         ended = FALSE;
         switch (status) {
             case 1:
@@ -250,7 +250,7 @@ void FinishRemainingMissionRunKarts(void) {
                 break;
         }
         if (ended == FALSE) {
-            raceProgressKart = OFFSET_PTR(RaceProgressKart, &gRaceProgress->mKarts[0], kartIndex * 0x8c);
+            raceProgressKart = &gRaceProgress->mKarts[kartIndex];
             finishTime = &raceProgressKart->mLapTimes[5];
             frames = gRaceProgress->mUnk_000[0].mElapsedFrames;
             if (gRaceSetup->mMode == MODE_GRAND_PRIX) {
@@ -343,7 +343,7 @@ void FinishRaceProgressKartWithEndKind(s32 kartIndex, s32 endKind) {
     s32 status;
     BOOL ended;
     RaceProgressKart *raceProgressKart;
-    raceProgressKart = OFFSET_PTR(RaceProgressKart, &gRaceProgress->mKarts[0], kartIndex * 0x8c);
+    raceProgressKart = &gRaceProgress->mKarts[kartIndex];
     status = raceProgressKart->mStatus;
     ended = FALSE;
     switch (status) {
@@ -363,7 +363,7 @@ void FinishRaceProgressKartWithEndKind(s32 kartIndex, s32 endKind) {
         return;
     }
     kart = GetKart(kartIndex);
-    raceProgressKart = OFFSET_PTR(RaceProgressKart, &gRaceProgress->mKarts[0], kartIndex * 0x8c);
+    raceProgressKart = &gRaceProgress->mKarts[kartIndex];
     gRaceProgress->mUnk_000[0].mClockEnabled = 0;
     ComputeRaceTime(&finishTime.mMinute, &finishTime.mSecond, &finishTime.mMillisecond, 0,
                     gRaceProgress->mUnk_000[0].mElapsedFrames);

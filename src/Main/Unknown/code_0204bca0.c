@@ -26,38 +26,6 @@
 #include "Main/Unknown/unk_02165000.h"
 #include "code_021458c4.h"
 
-typedef struct RomTableHeader {
-    u8 mUnk_00[0x40];
-    union {
-        struct {
-            u32 mFntOffset;
-            u32 mFntSize;
-        };
-        Unk02005704 mFntTable;
-    };
-    union {
-        struct {
-            u32 mFatOffset;
-            u32 mFatSize;
-        };
-        Unk02005704 mFatTable;
-    };
-    union {
-        struct {
-            u32 mOverlayTable0Offset;
-            u32 mOverlayTable0Size;
-        };
-        Unk02005704 mOverlayTable0;
-    };
-    union {
-        struct {
-            u32 mOverlayTable1Offset;
-            u32 mOverlayTable1Size;
-        };
-        Unk02005704 mOverlayTable1;
-    };
-} RomTableHeader;
-
 s32 RomArchiveChildProc(FSFile *file, u32 command) {
     switch (command) {
         case 0:
@@ -77,7 +45,7 @@ s32 RomArchiveChildProc(FSFile *file, u32 command) {
 }
 
 void CreateRomArchiveBlock(FSFile *file, s32 appendOverlays) {
-    RomTableHeader fileHeader;
+    RomHeaderStart fileHeader;
     FSFile romFile;
     Unk02005704 tables[4];
     u32 paddedSizes[4];
@@ -87,7 +55,7 @@ void CreateRomArchiveBlock(FSFile *file, s32 appendOverlays) {
     enum { K0 } appendOverlayEntries;
     u32 imageOffset;
     u32 positionOffset;
-    RomTableHeader *header;
+    RomHeaderStart *header;
     u32 origin;
     u32 pairSize;
     u32 v13;
@@ -109,7 +77,7 @@ void CreateRomArchiveBlock(FSFile *file, s32 appendOverlays) {
     if (noFile != FALSE) {
         imageOffset = 0;
         positionOffset = 0;
-        header = (RomTableHeader *) HW_ROM_HEADER_BUF;
+        header = &HW_ROM_HEADER_BUF->mHead;
     } else {
         i = file->mUnk_2c - file->mProp.w.mUnk_04;
         imageOffset = i + file->mProp.w.mUnk_04;
@@ -124,8 +92,8 @@ void CreateRomArchiveBlock(FSFile *file, s32 appendOverlays) {
         tables[2] = header->mOverlayTable0;
         tables[3] = header->mOverlayTable1;
     } else {
-        tables[0] = HW_ROM_HEADER_BUF->mFatTable;
-        tables[1] = HW_ROM_HEADER_BUF->mFntTable;
+        tables[0] = HW_ROM_HEADER_BUF->mHead.mFatTable;
+        tables[1] = HW_ROM_HEADER_BUF->mHead.mFntTable;
         positionOffset = 0;
         tables[2].mUnk_00 = (u8 *) (header->mOverlayTable0Offset + imageOffset);
         tables[2].mUnk_04 = header->mOverlayTable0Size;

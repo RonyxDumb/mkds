@@ -9,9 +9,8 @@ typedef struct Unk02005704 {
     /* 04 */ u32 mUnk_04;
 } Unk02005704;
 
-// The 0x160-byte ROM header the card leaves in shared memory at 0x027ffe00, and the copy of it kept for the
-// application.
-typedef struct CARDRomHeader {
+// The first 0x60 bytes of the ROM header, the part FS_ReadFile reads to find the tables.
+typedef struct RomHeaderStart {
     /* 00 */ u8 mUnk_00[0x20];
     /* 20 */ u32 mUnk_20;
     /* 24 */ u8 mUnk_24[0x4];
@@ -48,6 +47,12 @@ typedef struct CARDRomHeader {
         };
         /* 58 */ Unk02005704 mOverlayTable1;
     };
+} RomHeaderStart;
+
+// The 0x160-byte ROM header the card leaves in shared memory at 0x027ffe00, and the copy of it kept for the
+// application.
+typedef struct CARDRomHeader {
+    /* 00 */ RomHeaderStart mHead;
     /* 60 */ u32 mUnk_60;
     /* 64 */ u8 mUnk_64[0x1c];
     /* 80 */ u32 mUnk_80;

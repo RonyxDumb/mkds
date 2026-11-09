@@ -127,7 +127,7 @@ void func_0203d078(void) {
     u32 kartIndex;
     if (IsWinnerDecidedAndEndReached() != 0) {
         for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
-            RaceProgressKart *kart = OFFSET_PTR(RaceProgressKart, &gRaceProgress->mKarts[0], kartIndex * 0x8c);
+            RaceProgressKart *kart = &gRaceProgress->mKarts[kartIndex];
             if (kart->mStatus == 0) {
                 if (IsKartOnWinningTeamAtEnd(kartIndex) != 0) {
                     kart->mStatus = 1;
@@ -141,7 +141,7 @@ void func_0203d078(void) {
     }
     for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
         if (IsKartEliminated(kartIndex) != FALSE) {
-            RaceProgressKart *kart = OFFSET_PTR(RaceProgressKart, &gRaceProgress->mKarts[0], kartIndex * 0x8c);
+            RaceProgressKart *kart = &gRaceProgress->mKarts[kartIndex];
             if (kart->mStatus == 0) {
                 if (IsKartOnWinningTeamAtEnd(kartIndex) != 0) {
                     kart->mStatus = 1;
@@ -298,7 +298,7 @@ void UpdateRaceProgress(void) {
     UpdateRaceClock();
     if (gRaceSetup->mMode == 5) {
         for (i = 0; i < gRaceSetup->mKartCount; i = (u16) (i + 1)) {
-            RaceProgressKart *kart = OFFSET_PTR(RaceProgressKart, &gRaceProgress->mKarts[0], i * 0x8c);
+            RaceProgressKart *kart = &gRaceProgress->mKarts[i];
             if (kart->mFinishRequest != 0) {
                 FinishRaceProgressKart(kart, kart->mFinishRequest == 1 ? 1 : 0);
                 if (IsRaceEndConditionMet() != 0) {

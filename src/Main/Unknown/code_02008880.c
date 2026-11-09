@@ -20,8 +20,8 @@ u16 ComputeU16Checksum(const u16 *data, s32 byteCount) {
 }
 
 u32 func_02008880(FSFile *a) {
-    Unk02008880 header;
-    Unk02008880 *headerPtr;
+    RomHeaderStart header;
+    RomHeaderStart *headerPtr;
     u32 size;
     s32 v4;
     headerPtr = NULL;
@@ -33,7 +33,7 @@ u32 func_02008880(FSFile *a) {
         }
         FS_SeekFile(a, v4, 0);
     } else {
-        headerPtr = (Unk02008880 *) HW_ROM_HEADER_BUF;
+        headerPtr = &HW_ROM_HEADER_BUF->mHead;
     }
     if (headerPtr != NULL) {
         size = headerPtr->mUnk_2c + 0x268 + headerPtr->mUnk_3c;

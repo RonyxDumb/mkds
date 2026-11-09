@@ -91,23 +91,23 @@ int func_02008570(FSFile *file, void *buffer, u32 bufferSize) {
         if (remaining >= 0x10) {
             v6 = (u32 *) v3;
             v6[0] = 0;
-            v6[1] = header->mUnk_20 + (basePosition + activeFile->mProp.w.mUnk_04);
-            v6[2] = header->mUnk_30 + (basePosition + activeFile->mProp.w.mUnk_04);
+            v6[1] = header->mHead.mUnk_20 + (basePosition + activeFile->mProp.w.mUnk_04);
+            v6[2] = header->mHead.mUnk_30 + (basePosition + activeFile->mProp.w.mUnk_04);
             v3 += 0x10;
             remaining -= 0x10;
         } else {
             remaining = 0;
         }
-        v8 = header->mUnk_2c + header->mUnk_3c;
+        v8 = header->mHead.mUnk_2c + header->mHead.mUnk_3c;
         if (remaining >= v8) {
             v10 = activeFile->mProp.w.mUnk_04;
             FS_SeekFile(activeFile, v6[1] - v10, 0);
-            FS_ReadFile(activeFile, v3, header->mUnk_2c);
-            AddDataRange(rangeTable, v6[1], header->mUnk_2c, v3, 3);
-            v3 += header->mUnk_2c;
+            FS_ReadFile(activeFile, v3, header->mHead.mUnk_2c);
+            AddDataRange(rangeTable, v6[1], header->mHead.mUnk_2c, v3, 3);
+            v3 += header->mHead.mUnk_2c;
             FS_SeekFile(activeFile, v6[2] - v10, 0);
-            FS_ReadFile(activeFile, v3, header->mUnk_3c);
-            AddDataRange(rangeTable, v6[2], header->mUnk_3c, v3, 3);
+            FS_ReadFile(activeFile, v3, header->mHead.mUnk_3c);
+            AddDataRange(rangeTable, v6[2], header->mHead.mUnk_3c, v3, 3);
             result = TRUE;
         } else if (remaining >= 0xcc00) {
             v10 = activeFile->mProp.w.mUnk_04;
@@ -128,9 +128,9 @@ int func_02008570(FSFile *file, void *buffer, u32 bufferSize) {
             FS_CloseFile(&openedFile);
             if (result != FALSE) {
                 v6 = data_usa_02161788;
-                v14[0] = header->mUnk_20;
-                v14[1] = header->mUnk_28 - header->mUnk_20;
-                v14[2] = (u32) rangeTable->mRanges[1].mData - header->mUnk_20;
+                v14[0] = header->mHead.mUnk_20;
+                v14[1] = header->mHead.mUnk_28 - header->mHead.mUnk_20;
+                v14[2] = (u32) rangeTable->mRanges[1].mData - header->mHead.mUnk_20;
                 v14[3] = bufferSize;
                 CopyOrClearRange(v14, 0x4000, 0x8000, 1);
                 while (((s32 *) v6)[1] != 0) {
@@ -138,7 +138,7 @@ int func_02008570(FSFile *file, void *buffer, u32 bufferSize) {
                     v6 += 2;
                 }
                 v3 = rangeTable->mRanges[1].mData;
-                v3 += (u32) AutoloadCallback - header->mUnk_28;
+                v3 += (u32) AutoloadCallback - header->mHead.mUnk_28;
                 *(u32 *) v3 = 0xe12fff1e;
             }
         }
