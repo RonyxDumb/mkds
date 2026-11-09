@@ -120,7 +120,7 @@ void GetClockTimeOrZero(RTCTime *time) {
     }
 }
 
-void func_0203bf04(GhostRecord *courseGhost, Unk0202ddd8 *slotGhost) {
+void func_0203bf04(GhostRecord *courseGhost, SlotGhostRecord *slotGhost) {
     MI_CpuCopy8(courseGhost, slotGhost, 0x30);
     MI_CpuCopy8(courseGhost->mUnk_030, slotGhost->mUnk_230, 0xdcc);
     if (data_0217aa08->mEmblemRecord->mFilled != 0 && data_0217aa08->mFirstBlock->mUnk_31_3 == 0) {

@@ -48,7 +48,7 @@ void WriteBackupSlotGhost(s32 index, const void *record) {
     }
 }
 
-void ReadBackupSlotGhost(u32 index, Unk0202ddd8 *ghostRecord) {
+void ReadBackupSlotGhost(u32 index, SlotGhostRecord *ghostRecord) {
     u32 offset;
     BackupAccess *backupAccess;
     s32 backupEnabled;

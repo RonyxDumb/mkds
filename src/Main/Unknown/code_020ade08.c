@@ -190,7 +190,7 @@ u32 GetCupCourseId(s32 cupIndex, s32 courseIndex) {
 }
 
 void FindMissionTableCell(u32 value, u8 *outRow, u8 *outColumn) {
-    Unk0203b680 *table;
+    MissionTable *table;
     s32 rowCount;
     s32 columnCount;
     u8 row;

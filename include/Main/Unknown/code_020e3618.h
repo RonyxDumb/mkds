@@ -19,7 +19,7 @@ extern const Unk020e039c data_02158c10;
 // mUnk_13c.
 typedef struct Bridge {
     /* 000 */ MapObject mMapObject;
-    /* 0a0 */ Unk020e005c_a0 mUnk_a0;
+    /* 0a0 */ CollisionData mCollisionData;
     /* 13c */ u8 mUnk_13c[0x8];
     /* 144 */ u16 mSwingAmplitude;
     /* 146 */ u16 mSwingAnglePerFrame;

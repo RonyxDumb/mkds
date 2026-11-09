@@ -191,7 +191,7 @@ GhostRecord *GetCourseGhostBuffer(void) {
     return gGhostScene->mCourseGhostBuffer;
 }
 
-Unk0202ddd8 *GetSlotGhostBuffer(void) {
+SlotGhostRecord *GetSlotGhostBuffer(void) {
     return gGhostScene->mSlotGhostBuffer;
 }
 

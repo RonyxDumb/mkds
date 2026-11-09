@@ -14,17 +14,17 @@ void EnterPushedObjectState1(MapObject *object) {
     object->mCollisionSlotIndex = newSlot;
 }
 
-void UpdatePushedObjectState1(Unk020ec538 *object) {
-    if (object->mUnk_a0.mUnk_0a8) {
-        object->mUnk_a0.mUnk_0ac = object->mUnk_a0.mUnk_0ac + object->mUnk_a0.mUnk_0ae;
+void UpdatePushedObjectState1(PushedObject *object) {
+    if (object->mMotion.mAngleIncreasing) {
+        object->mMotion.mAngle = object->mMotion.mAngle + object->mMotion.mAngleStep;
     } else {
-        object->mUnk_a0.mUnk_0ac = object->mUnk_a0.mUnk_0ac - object->mUnk_a0.mUnk_0ae;
+        object->mMotion.mAngle = object->mMotion.mAngle - object->mMotion.mAngleStep;
     }
-    object->mUnk_00.mUnk_10.y -= object->mUnk_a0.mUnk_0a4;
-    VEC_Add(&object->mUnk_00.mPos, &object->mUnk_00.mUnk_10, &object->mUnk_00.mPos);
-    if (object->mUnk_00.mPos.y < object->mUnk_a0.mUnk_0a0) {
-        object->mUnk_00.mStateMachine.mNextState = 2;
-        object->mUnk_00.mStateMachine.mNextStateRequested = 1;
+    object->mMapObject.mUnk_10.y -= object->mMotion.mGravity;
+    VEC_Add(&object->mMapObject.mPos, &object->mMapObject.mUnk_10, &object->mMapObject.mPos);
+    if (object->mMapObject.mPos.y < object->mMotion.mLowestY) {
+        object->mMapObject.mStateMachine.mNextState = 2;
+        object->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 

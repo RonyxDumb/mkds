@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/Unknown/code_020e6fd4.h" // MapObjectList
 
-typedef struct Unk020ec538 Unk020ec538;
+typedef struct PushedObject PushedObject;
 typedef struct Woodbox1 Woodbox1;
 
 extern MapObjectList *data_0217bbf4;
@@ -54,5 +54,5 @@ void DrawWoodbox1(void *a, Woodbox1 *woodbox, void *c, u32 maxAlpha);
 MapObjectList *CreateWoodbox1UpdateList(void);
 Woodbox1DrawList *CreateWoodbox1DrawList(void);
 Unk02159538 *CreateWoodbox1KindData(void);
-BOOL func_020ec41c(Unk020ec538 *mapObject, void *other, u8 *firstResponse);
-BOOL func_020ec450(Unk020ec538 *mapObject, void *other, u8 *firstResponse);
+BOOL func_020ec41c(PushedObject *mapObject, void *other, u8 *firstResponse);
+BOOL func_020ec450(PushedObject *mapObject, void *other, u8 *firstResponse);

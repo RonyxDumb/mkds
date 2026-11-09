@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk020e47c8 Unk020e47c8;
+typedef struct Pukupuku Pukupuku;
 
-s32 CollideItemObjectWithPukupuku(Unk020e47c8 *pukupuku, void *itemObject, u8 *b, u8 *c);
+s32 CollideItemObjectWithPukupuku(Pukupuku *pukupuku, void *itemObject, u8 *b, u8 *c);

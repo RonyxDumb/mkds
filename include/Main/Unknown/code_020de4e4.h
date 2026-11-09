@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk020ec538 Unk020ec538;
+typedef struct PushedObject PushedObject;
 
-void DrawEarthenPipe(u32 unused0, Unk020ec538 *pipe, u32 unused1, u16 d);
+void DrawEarthenPipe(u32 unused0, PushedObject *pipe, u32 unused1, u16 d);

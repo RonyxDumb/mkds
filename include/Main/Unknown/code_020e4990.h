@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk020e47c8 Unk020e47c8;
+typedef struct Pukupuku Pukupuku;
 
-void UpdatePukupukuState3(Unk020e47c8 *pukupuku);
+void UpdatePukupukuState3(Pukupuku *pukupuku);

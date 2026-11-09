@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-typedef struct Unk020e47c8 Unk020e47c8;
+typedef struct Pukupuku Pukupuku;
 
 // 0x10-byte request built on the stack here.
 typedef struct Unk020e4e08 {
@@ -10,4 +10,4 @@ typedef struct Unk020e4e08 {
     /* 04 */ Vec3 mUnk_04;
 } Unk020e4e08;
 
-void DrawPukupukuShadow(u32 a, Unk020e47c8 *pukupuku, u32 b, u32 alpha);
+void DrawPukupukuShadow(u32 a, Pukupuku *pukupuku, u32 b, u32 alpha);

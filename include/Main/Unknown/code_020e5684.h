@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/Unknown/code_020d6dc0.h" // Quaternion
 #include "Main/Unknown/code_020e6fd4.h" // MapObject
-#include "Main/Unknown/code_020ec538.h" // Unk020ec538
+#include "Main/Unknown/code_020ec538.h" // PushedObject
 
 // Object InitSecondHand sets up, 0xd0 bytes.
 typedef struct SecondHand {
@@ -19,10 +19,10 @@ typedef struct SecondHand {
 } SecondHand;
 
 // Object InitObPakkunSf sets up.
-typedef struct Unk020e5aec {
-    /* 00 */ Unk020ec538 mUnk_00;
-    /* b8 */ u16 mUnk_b8;
-} Unk020e5aec;
+typedef struct ObPakkunSf {
+    /* 00 */ PushedObject mPushedObject;
+    /* b8 */ u16 mFramesSinceInit;
+} ObPakkunSf;
 
 // Second argument of InitSecondHand: a vector at 0x0c, halfwords from 0x28.
 typedef struct Unk020e5684 {
@@ -103,4 +103,4 @@ void DrawSecondHand(u32 a, SecondHand *secondHand, u32 b, u32 alpha);
 Unk020e59e4 *CreateSecondHandUpdateList(void);
 Unk020e5a40 *CreateSecondHandDrawList(void);
 Unk020e5a9c *CreateSecondHandKindData(void);
-void InitObPakkunSf(Unk020e5aec *obPakkunSf);
+void InitObPakkunSf(ObPakkunSf *obPakkunSf);

@@ -90,7 +90,7 @@ typedef struct MissionRunMSsel {
     /* 44 */ LayoutTableEntry *mMissionRunMSselSTable;
     /* 48 */ void *mUnk_48;
     // missionTable.mtbl; GetMissionTableValue(table, row, column) returns the mission number
-    /* 4c */ Unk0203b680 *mMissionTableMtbl;
+    /* 4c */ MissionTable *mMissionTableMtbl;
     /* 50 */ Unk021ca414_50 *mUnk_50;
     /* 54 */ struct Bmg *mCommonMessages;
     /* 58 */ void *mMissionMessages;

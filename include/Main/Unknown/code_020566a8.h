@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk0202ddd8 Unk0202ddd8;
+typedef struct SlotGhostRecord SlotGhostRecord;
 
-void WriteSlotGhostRecord(u32 index, Unk0202ddd8 *source);
+void WriteSlotGhostRecord(u32 index, SlotGhostRecord *source);

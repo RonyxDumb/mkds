@@ -12,9 +12,9 @@
 #include "Main/Unknown/unk_0217b000.h"
 
 #pragma thumb on
-void InitEarthenPipe(Unk020ec538 *pipe) {
-    pipe->mUnk_00.mPos.y += (s32) (((s64) pipe->mUnk_00.mScale.y * 0xd000) >> 12);
-    InitPushedMotion(pipe, pipe->mUnk_00.mPos.y - 0xc0000, 0x400, 0x400, 0x5000, 0x2000);
+void InitEarthenPipe(PushedObject *pipe) {
+    pipe->mMapObject.mPos.y += (s32) (((s64) pipe->mMapObject.mScale.y * 0xd000) >> 12);
+    InitPushedMotion(pipe, pipe->mMapObject.mPos.y - 0xc0000, 0x400, 0x400, 0x5000, 0x2000);
     InitPushedObjectStates(pipe);
 }
 #pragma thumb off

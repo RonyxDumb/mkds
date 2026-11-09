@@ -149,8 +149,8 @@ typedef struct Unk0217b79c {
 
 // Object func_020e3ef4 fills.
 typedef struct Unk020e3ef4 {
-    /* 000 */ MapObject mUnk_000;
-    /* 0a0 */ Unk020e005c_a0 mUnk_a0;
+    /* 000 */ MapObject mMapObject;
+    /* 0a0 */ CollisionData mCollisionData;
     /* 13c */ u8 mUnk_13c[0x4];
     /* 140 */ struct Nsbmd *mModel;
     /* 144 */ u16 mUnk_144;
@@ -165,12 +165,12 @@ typedef struct Unk020e3ef4 {
 } Unk020e3ef4;
 
 // Object behind data_0217b7c4.
-typedef struct Unk020e1dc0 {
-    /* 00 */ Unk020e3ef4 **mUnk_00;
-    /* 04 */ u16 mUnk_04;
+typedef struct BridgeDrawList {
+    /* 00 */ Unk020e3ef4 **mMapObjects;
+    /* 04 */ u16 mMapObjectCount;
     /* 06 */ u8 mUnk_06[0x26];
-    /* 2c */ s32 mUnk_2c;
-} Unk020e1dc0;
+    /* 2c */ s32 mAnimationFrameCount;
+} BridgeDrawList;
 
 void InitChoropu(Unk020e1e98 *choropu, struct CourseMapRow *courseRow);
 void *CreateCarAKindData(void);
@@ -189,9 +189,9 @@ void func_020e230c(Unk0217b79c *updateList);
 void func_020e20a8(Unk020e20a8 *drawList);
 void func_020e1f54(Unk020e1e98 *vehicle, struct CourseMapRow *courseRow, Unk020e1e98_154 *kindInfo);
 void func_020e1e98(Unk020e1e98 *vehicle);
-void func_020e1e38(Unk020e1dc0 *list, void *viewMatrix, void (*drawObject)(Unk020e3ef4 *, void *, u32));
+void func_020e1e38(BridgeDrawList *list, void *viewMatrix, void (*drawObject)(Unk020e3ef4 *, void *, u32));
 void func_020e1dec(Unk020e3ef4 *mapObject, void *viewMatrix, u32 alpha);
-void SetMapObjectsModel(Unk020e1dc0 *list, void *model);
+void SetMapObjectsModel(BridgeDrawList *list, void *model);
 s32 func_020e1d10(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u16 d, Unk020e0764 *e, Unk020e0764 *f,
                   Vec3 *g, u16 *h, Vec3 *i, u16 *j);
 void func_020e1a80(s32 a, s32 b, s32 c, u32 d, u16 e, u16 *f, s32 v, Unk020e005c *object, Vec3 *g, Vec3 *h,

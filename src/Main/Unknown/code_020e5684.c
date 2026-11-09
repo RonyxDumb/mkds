@@ -43,51 +43,51 @@
 #include "Main/Unknown/code_020e337c.h"
 #include "Main/Unknown/code_020e5c6c.h"
 
-void DrawObPakkunSf(u32 a, Unk020e5aec *obPakkunSf, u32 c, u16 alpha) {
+void DrawObPakkunSf(u32 a, ObPakkunSf *obPakkunSf, u32 c, u16 alpha) {
     MtxFx43 *matrix;
-    gObPakkunSf->mFrameIndex = ((obPakkunSf->mUnk_b8 & 0x10) >> 4);
-    if (obPakkunSf->mUnk_00.mUnk_00.mStateMachine.mState == 0) {
-        matrix = func_020e6cbc(&obPakkunSf->mUnk_00.mUnk_00.mPos);
-        func_020e67c4(gObPakkunSf, matrix, &obPakkunSf->mUnk_00.mUnk_00.mScale, 0, alpha);
+    gObPakkunSf->mFrameIndex = ((obPakkunSf->mFramesSinceInit & 0x10) >> 4);
+    if (obPakkunSf->mPushedObject.mMapObject.mStateMachine.mState == 0) {
+        matrix = func_020e6cbc(&obPakkunSf->mPushedObject.mMapObject.mPos);
+        func_020e67c4(gObPakkunSf, matrix, &obPakkunSf->mPushedObject.mMapObject.mScale, 0, alpha);
         return;
     }
-    matrix = func_020e6cbc(&obPakkunSf->mUnk_00.mUnk_00.mPos);
-    func_020e66e4(gObPakkunSf, matrix, obPakkunSf->mUnk_00.mUnk_a0.mUnk_0ac, &obPakkunSf->mUnk_00.mUnk_00.mScale, 0,
-                  alpha);
+    matrix = func_020e6cbc(&obPakkunSf->mPushedObject.mMapObject.mPos);
+    func_020e66e4(gObPakkunSf, matrix, obPakkunSf->mPushedObject.mMotion.mAngle,
+                  &obPakkunSf->mPushedObject.mMapObject.mScale, 0, alpha);
 }
 
-void UpdateObPakkunSf(u32 a, Unk020e5aec *obPakkunSf) {
+void UpdateObPakkunSf(u32 a, ObPakkunSf *obPakkunSf) {
     Unk0210b7a8 soundRequest;
     s32 falloffIndex;
 
-    obPakkunSf->mUnk_b8 = obPakkunSf->mUnk_b8 + 1;
-    if ((obPakkunSf->mUnk_b8 & 0x1f) == 0 &&
-        (obPakkunSf->mUnk_00.mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
-        if (obPakkunSf->mUnk_00.mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+    obPakkunSf->mFramesSinceInit = obPakkunSf->mFramesSinceInit + 1;
+    if ((obPakkunSf->mFramesSinceInit & 0x1f) == 0 &&
+        (obPakkunSf->mPushedObject.mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
+        if (obPakkunSf->mPushedObject.mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
             falloffIndex = 2;
-        } else if (obPakkunSf->mUnk_00.mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+        } else if (obPakkunSf->mPushedObject.mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
             falloffIndex = 3;
         } else {
             falloffIndex = 4;
         }
         soundRequest.mSoundId = 0x163;
-        soundRequest.mPositionSource = &obPakkunSf->mUnk_00.mUnk_00.mPos;
+        soundRequest.mPositionSource = &obPakkunSf->mPushedObject.mMapObject.mPos;
         soundRequest.mUnk_08 = falloffIndex;
-        soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&obPakkunSf->mUnk_00.mUnk_00.mPos);
+        soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&obPakkunSf->mPushedObject.mMapObject.mPos);
         func_0210b7a8(&soundRequest);
     }
-    AdvanceStateMachine(&obPakkunSf->mUnk_00.mUnk_00.mStateMachine);
+    AdvanceStateMachine(&obPakkunSf->mPushedObject.mMapObject.mStateMachine);
 }
 
-u8 CollideKartWithObPakkunSf(Unk020e5aec *obPakkunSf, void *kart, u8 *b, u8 *c) {
-    if (func_020ec450(&obPakkunSf->mUnk_00, kart, b) != FALSE) {
-        StartSoundIfKartStarOrKiller(&obPakkunSf->mUnk_00.mUnk_00, kart);
+u8 CollideKartWithObPakkunSf(ObPakkunSf *obPakkunSf, void *kart, u8 *b, u8 *c) {
+    if (func_020ec450(&obPakkunSf->mPushedObject, kart, b) != FALSE) {
+        StartSoundIfKartStarOrKiller(&obPakkunSf->mPushedObject.mMapObject, kart);
     }
     return *c;
 }
 
-u8 CollideItemObjectWithObPakkunSf(Unk020e5aec *obPakkunSf, void *itemObject, u8 *b, u8 *c) {
-    func_020ec41c(&obPakkunSf->mUnk_00, itemObject, b);
+u8 CollideItemObjectWithObPakkunSf(ObPakkunSf *obPakkunSf, void *itemObject, u8 *b, u8 *c) {
+    func_020ec41c(&obPakkunSf->mPushedObject, itemObject, b);
     return *c;
 }
 
@@ -106,12 +106,14 @@ void CreateObPakkunSf(void) {
 
 #pragma thumb on
 
-void InitObPakkunSf(Unk020e5aec *obPakkunSf) {
-    obPakkunSf->mUnk_00.mUnk_00.mPos.y =
-        obPakkunSf->mUnk_00.mUnk_00.mPos.y + (s32) (((s64) obPakkunSf->mUnk_00.mUnk_00.mScale.y * 0xa000) >> 12);
-    obPakkunSf->mUnk_b8 = 0;
-    InitPushedMotion(&obPakkunSf->mUnk_00, obPakkunSf->mUnk_00.mUnk_00.mPos.y - 0x18000, 0x400, 0x800, 0x4000, 0x1800);
-    InitPushedObjectStates(&obPakkunSf->mUnk_00);
+void InitObPakkunSf(ObPakkunSf *obPakkunSf) {
+    obPakkunSf->mPushedObject.mMapObject.mPos.y =
+        obPakkunSf->mPushedObject.mMapObject.mPos.y +
+        (s32) (((s64) obPakkunSf->mPushedObject.mMapObject.mScale.y * 0xa000) >> 12);
+    obPakkunSf->mFramesSinceInit = 0;
+    InitPushedMotion(&obPakkunSf->mPushedObject, obPakkunSf->mPushedObject.mMapObject.mPos.y - 0x18000, 0x400, 0x800,
+                     0x4000, 0x1800);
+    InitPushedObjectStates(&obPakkunSf->mPushedObject);
 }
 
 #pragma thumb off

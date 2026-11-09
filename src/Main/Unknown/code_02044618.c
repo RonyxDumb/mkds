@@ -267,7 +267,7 @@ BOOL func_02044e9c(s32 courseId, s32 entryIndex) {
 }
 
 s32 func_02044d4c(s32 courseId, s32 entryIndex) {
-    Unk0202ddd8 *ghostRecord;
+    SlotGhostRecord *ghostRecord;
     s32 filled;
     u8 i;
 
@@ -292,7 +292,7 @@ s32 func_02044d4c(s32 courseId, s32 entryIndex) {
 }
 
 BOOL func_02044bf8(s32 courseId, s32 entryIndex) {
-    Unk0202ddd8 *ghostRecord;
+    SlotGhostRecord *ghostRecord;
     u8 i;
 
     if (gRaceSetup->mNextHeader.mRaceKind == 2) {

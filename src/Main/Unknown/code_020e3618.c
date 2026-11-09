@@ -39,19 +39,19 @@ void CreateBridge(void) {
     file = FindCourseMapObjFile(gBridgeNsbmdName);
     CreateNsbmd(&gBridge, file, NULL);
     CreateModelAnimation(0, gBridge, &gBridgeNsbca, file, FindCourseMapObjFile(gBridgeNsbcaName));
-    data_0217b7c4->mUnk_2c = GetModelAnimationFrameCountFixed(gBridgeNsbca);
+    data_0217b7c4->mAnimationFrameCount = GetModelAnimationFrameCountFixed(gBridgeNsbca);
     func_02084968(gBridge, 0x3f, 2, 0x294a);
     SetMapObjectsModel(data_0217b7c4, gBridge);
 }
 
 void InitBridge(Bridge *bridge, struct CourseMapRow *courseRow) {
-    bridge->mUnk_a0.mUnk_e8 = bridge->mMapObject.mPos;
-    bridge->mUnk_a0.mUnk_a0 = bridge->mMapObject.mMatrix.mUnk_00_m;
-    bridge->mUnk_a0.mUnk_c4 = bridge->mMapObject.mMatrix.mUnk_00_m;
-    bridge->mUnk_a0.mUnk_124.x = 0;
-    bridge->mUnk_a0.mUnk_124.y = 0;
-    bridge->mUnk_a0.mUnk_124.z = 0;
-    bridge->mUnk_a0.mUnk_130 = 1;
+    bridge->mCollisionData.mUnk_e8 = bridge->mMapObject.mPos;
+    bridge->mCollisionData.mPrevMatrix = bridge->mMapObject.mMatrix.mUnk_00_m;
+    bridge->mCollisionData.mInitialMatrix = bridge->mMapObject.mMatrix.mUnk_00_m;
+    bridge->mCollisionData.mAngleChangeVector.x = 0;
+    bridge->mCollisionData.mAngleChangeVector.y = 0;
+    bridge->mCollisionData.mAngleChangeVector.z = 0;
+    bridge->mCollisionData.mUnk_130 = 1;
     bridge->mSwingAmplitude = ((courseRow->mUnk_28 * 0x10000) / 0x168) >> 1;
     bridge->mSwingAnglePerFrame = (0x10000 / courseRow->mUnk_2a) >> 1;
     bridge->mPeakPauseFrameCount = courseRow->mUnk_2c;
@@ -62,17 +62,17 @@ void InitBridge(Bridge *bridge, struct CourseMapRow *courseRow) {
         bridge->mSwingAnglePerFrame = 0;
         bridge->mSwingAngle = ((courseRow->mUnk_30 * 0x10000) / 0x168) >> 1;
     }
-    bridge->mUnk_a0.mUnk_100 = ((s64) bridge->mMapObject.mScale.x * 0x5a000) >> 12;
-    bridge->mUnk_a0.mUnk_104 = (s32) (((s64) bridge->mMapObject.mScale.y * 0x1e000) >> 12) >> 1;
-    bridge->mUnk_a0.mUnk_108 = ((s64) bridge->mMapObject.mScale.z * 0x15e000) >> 12;
-    bridge->mUnk_a0.mUnk_10c = ((s64) bridge->mMapObject.mScale.z * 0x32000) >> 12;
-    bridge->mUnk_a0.mUnk_110 = 0;
-    bridge->mUnk_a0.mUnk_114.x = 1;
-    bridge->mUnk_a0.mUnk_114.y = 0;
-    bridge->mUnk_a0.mUnk_114.z = 1;
-    bridge->mUnk_a0.mUnk_120 = 0x800;
-    bridge->mUnk_a0.mUnk_134 = 0;
-    bridge->mUnk_a0.mUnk_138 = 0;
+    bridge->mCollisionData.mUnk_100 = ((s64) bridge->mMapObject.mScale.x * 0x5a000) >> 12;
+    bridge->mCollisionData.mHalfSizeY = (s32) (((s64) bridge->mMapObject.mScale.y * 0x1e000) >> 12) >> 1;
+    bridge->mCollisionData.mPositiveHalfSizeZ = ((s64) bridge->mMapObject.mScale.z * 0x15e000) >> 12;
+    bridge->mCollisionData.mNegativeHalfSizeZ = ((s64) bridge->mMapObject.mScale.z * 0x32000) >> 12;
+    bridge->mCollisionData.mUnk_110 = 0;
+    bridge->mCollisionData.mUnk_114.x = 1;
+    bridge->mCollisionData.mUnk_114.y = 0;
+    bridge->mCollisionData.mUnk_114.z = 1;
+    bridge->mCollisionData.mUnk_120 = 0x800;
+    bridge->mCollisionData.mUnk_134 = 0;
+    bridge->mCollisionData.mUnk_138 = 0;
     bridge->mMapObject.mFlags |= data_02158c88;
     bridge->mMapObject.mFlags &= ~2;
     bridge->mMapObject.mFlags &= ~8;

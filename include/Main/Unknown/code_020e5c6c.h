@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk020e5aec Unk020e5aec;
+typedef struct ObPakkunSf ObPakkunSf;
 
-void DrawObPakkunSf(u32 a, Unk020e5aec *obPakkunSf, u32 c, u16 alpha);
+void DrawObPakkunSf(u32 a, ObPakkunSf *obPakkunSf, u32 c, u16 alpha);

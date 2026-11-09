@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk020ec538 Unk020ec538;
+typedef struct PushedObject PushedObject;
 
-void InitPushedObjectStates(Unk020ec538 *object);
+void InitPushedObjectStates(PushedObject *object);

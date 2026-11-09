@@ -474,8 +474,8 @@ void func_020e20a8(Unk020e20a8 *drawList) {
         NNS_G3dMdlSetMdlPolygonID(carModel, carMaterialIndex, 7);
     }
     func_02084968(gTruckA, 0x3f, 2, 0x294a);
-    for (truckMaterialIndex = 0, truckModel = gTruckA->mResMdl;
-         truckMaterialIndex < truckModel->mInfo.mNumMat; truckMaterialIndex++) {
+    for (truckMaterialIndex = 0, truckModel = gTruckA->mResMdl; truckMaterialIndex < truckModel->mInfo.mNumMat;
+         truckMaterialIndex++) {
         NNS_G3dMdlSetMdlPolygonID(truckModel, truckMaterialIndex, 7);
     }
     func_02084968(gBusA, 0x3f, 2, 0x294a);
@@ -484,8 +484,8 @@ void func_020e20a8(Unk020e20a8 *drawList) {
         NNS_G3dMdlSetMdlPolygonID(busModel, busMaterialIndex, 7);
     }
     func_02084968(gCarTire, 0x3f, 2, 0x294a);
-    for (tireMaterialIndex = 0, tireModel = gCarTire->mResMdl;
-         tireMaterialIndex < tireModel->mInfo.mNumMat; tireMaterialIndex++) {
+    for (tireMaterialIndex = 0, tireModel = gCarTire->mResMdl; tireMaterialIndex < tireModel->mInfo.mNumMat;
+         tireMaterialIndex++) {
         NNS_G3dMdlSetMdlPolygonID(tireModel, tireMaterialIndex, 7);
     }
     SetNsbmdLightEnableFlagAll(gCarTire, 0);
@@ -545,39 +545,39 @@ void func_020e1e98(Unk020e1e98 *vehicle) {
 
 #pragma thumb off
 
-void func_020e1e38(Unk020e1dc0 *list, void *viewMatrix, void (*drawObject)(Unk020e3ef4 *, void *, u32)) {
+void func_020e1e38(BridgeDrawList *list, void *viewMatrix, void (*drawObject)(Unk020e3ef4 *, void *, u32)) {
     s32 index;
-    s32 count = list->mUnk_04;
+    s32 count = list->mMapObjectCount;
 
     for (index = 0; index < count; index++) {
-        Unk020e3ef4 *mapObject = list->mUnk_00[index];
+        Unk020e3ef4 *mapObject = list->mMapObjects[index];
 
-        if ((mapObject->mUnk_000.mFlags & 0x12) == 0 && mapObject->mUnk_000.mAlpha != 0) {
-            drawObject(mapObject, viewMatrix, mapObject->mUnk_000.mAlpha);
+        if ((mapObject->mMapObject.mFlags & 0x12) == 0 && mapObject->mMapObject.mAlpha != 0) {
+            drawObject(mapObject, viewMatrix, mapObject->mMapObject.mAlpha);
         }
     }
 }
 
 void func_020e1dec(Unk020e3ef4 *mapObject, void *viewMatrix, u32 alpha) {
-    mapObject->mUnk_000.mMatrix.mUnk_00[3].x = mapObject->mUnk_000.mPos.x >> 4;
-    mapObject->mUnk_000.mMatrix.mUnk_00[3].y = mapObject->mUnk_000.mPos.y >> 4;
-    mapObject->mUnk_000.mMatrix.mUnk_00[3].z = mapObject->mUnk_000.mPos.z >> 4;
-    DrawNsbmdWithMatrixAndMaxAlpha(mapObject->mModel, &mapObject->mUnk_000.mMatrix, &mapObject->mUnk_000.mScale.x,
+    mapObject->mMapObject.mMatrix.mUnk_00[3].x = mapObject->mMapObject.mPos.x >> 4;
+    mapObject->mMapObject.mMatrix.mUnk_00[3].y = mapObject->mMapObject.mPos.y >> 4;
+    mapObject->mMapObject.mMatrix.mUnk_00[3].z = mapObject->mMapObject.mPos.z >> 4;
+    DrawNsbmdWithMatrixAndMaxAlpha(mapObject->mModel, &mapObject->mMapObject.mMatrix, &mapObject->mMapObject.mScale.x,
                                    alpha);
 }
 
-void SetMapObjectsModel(Unk020e1dc0 *list, void *model) {
+void SetMapObjectsModel(BridgeDrawList *list, void *model) {
     s32 index;
-    s32 count = list->mUnk_04;
+    s32 count = list->mMapObjectCount;
 
     for (index = 0; index < count; index++) {
-        list->mUnk_00[index]->mModel = model;
+        list->mMapObjects[index]->mModel = model;
     }
 }
 
 s32 func_020e1d10(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u16 d, Unk020e0764 *e, Unk020e0764 *f,
                   Vec3 *g, u16 *h, Vec3 *i, u16 *j) {
-    switch (object->mUnk_a0.mUnk_134) {
+    switch (object->mCollisionData.mUnk_134) {
         case 0:
             return func_020e0bac(object, sphereCenter, sphereRadius, d, e, f, g, h, i, j);
         case 1:
@@ -601,7 +601,7 @@ void func_020e1a80(s32 a, s32 b, s32 c, u32 d, u16 e, u16 *f, s32 v, Unk020e005c
         } else {
             t = -h->y;
         }
-        if (t > object->mUnk_a0.mUnk_120) {
+        if (t > object->mCollisionData.mUnk_120) {
             q = TRUE;
         }
     }
@@ -612,7 +612,7 @@ void func_020e1a80(s32 a, s32 b, s32 c, u32 d, u16 e, u16 *f, s32 v, Unk020e005c
     u.y = ((s64) u.y * b) >> 12;
     u.z = ((s64) u.z * b) >> 12;
     if (q) {
-        n = object->mUnk_a0.mUnk_114.z != 0 && (d & 8) ? 0x12 : 0;
+        n = object->mCollisionData.mUnk_114.z != 0 && (d & 8) ? 0x12 : 0;
         *f = n;
         s = i;
     } else {
@@ -685,7 +685,7 @@ BOOL func_020e16dc(s32 a, s32 b, s32 c, u32 d, u16 e, u16 f, u16 *g, u16 h, s32 
         k = FALSE;
         if (i != 0) {
             t = (d & e) ? m->y : -m->y;
-            if (t > object->mUnk_a0.mUnk_120) {
+            if (t > object->mCollisionData.mUnk_120) {
                 k = TRUE;
             }
         }
@@ -693,7 +693,7 @@ BOOL func_020e16dc(s32 a, s32 b, s32 c, u32 d, u16 e, u16 f, u16 *g, u16 h, s32 
             k = FALSE;
             if (j != 0) {
                 t = (d & f) ? n->y : -n->y;
-                if (t > object->mUnk_a0.mUnk_120) {
+                if (t > object->mCollisionData.mUnk_120) {
                     k = TRUE;
                 }
             }
@@ -736,7 +736,7 @@ BOOL func_020e16dc(s32 a, s32 b, s32 c, u32 d, u16 e, u16 f, u16 *g, u16 h, s32 
         c = a;
     }
     if (u) {
-        if (object->mUnk_a0.mUnk_114.z != 0 && (d & 8)) {
+        if (object->mCollisionData.mUnk_114.z != 0 && (d & 8)) {
             *g = 0x1e;
             x = p;
         } else {
@@ -805,22 +805,22 @@ BOOL func_020e0bac(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u1
     s32 t;
 
     n = 0;
-    VEC_Subtract(sphereCenter, &object->mUnk_a0.mUnk_f4, &v);
+    VEC_Subtract(sphereCenter, &object->mCollisionData.mCenterPos, &v);
     f6 = Vec3DotUnrounded(&v, &object->mUnk_028.mUnk_00[0]);
     if (f6 > 0) {
-        if (f6 > object->mUnk_a0.mUnk_100 + sphereRadius) {
+        if (f6 > object->mCollisionData.mUnk_100 + sphereRadius) {
             return FALSE;
         }
-        if (f6 > object->mUnk_a0.mUnk_100) {
+        if (f6 > object->mCollisionData.mUnk_100) {
             n |= 0xa00;
         } else {
             n |= 0x900;
         }
     } else {
-        if (f6 < -(object->mUnk_a0.mUnk_100 + sphereRadius)) {
+        if (f6 < -(object->mCollisionData.mUnk_100 + sphereRadius)) {
             return FALSE;
         }
-        if (f6 < -object->mUnk_a0.mUnk_100) {
+        if (f6 < -object->mCollisionData.mUnk_100) {
             n |= 0x600;
         } else {
             n |= 0x500;
@@ -828,19 +828,19 @@ BOOL func_020e0bac(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u1
     }
     f5 = Vec3DotUnrounded(&v, &object->mUnk_028.mUnk_00[1]);
     if (f5 > 0) {
-        if (f5 > object->mUnk_a0.mUnk_104 + sphereRadius) {
+        if (f5 > object->mCollisionData.mHalfSizeY + sphereRadius) {
             return FALSE;
         }
-        if (f5 > object->mUnk_a0.mUnk_104) {
+        if (f5 > object->mCollisionData.mHalfSizeY) {
             n |= 0xa0;
         } else {
             n |= 0x90;
         }
     } else {
-        if (f5 < -(object->mUnk_a0.mUnk_104 + sphereRadius)) {
+        if (f5 < -(object->mCollisionData.mHalfSizeY + sphereRadius)) {
             return FALSE;
         }
-        if (f5 < -object->mUnk_a0.mUnk_104) {
+        if (f5 < -object->mCollisionData.mHalfSizeY) {
             n |= 0x60;
         } else {
             n |= 0x50;
@@ -848,19 +848,19 @@ BOOL func_020e0bac(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u1
     }
     f4 = Vec3DotUnrounded(&v, &object->mUnk_028.mUnk_00[2]);
     if (f4 > 0) {
-        if (f4 > object->mUnk_a0.mUnk_108 + sphereRadius) {
+        if (f4 > object->mCollisionData.mPositiveHalfSizeZ + sphereRadius) {
             return FALSE;
         }
-        if (f4 > object->mUnk_a0.mUnk_108) {
+        if (f4 > object->mCollisionData.mPositiveHalfSizeZ) {
             n |= 0xa;
         } else {
             n |= 0x9;
         }
     } else {
-        if (f4 < -(object->mUnk_a0.mUnk_10c + sphereRadius)) {
+        if (f4 < -(object->mCollisionData.mNegativeHalfSizeZ + sphereRadius)) {
             return FALSE;
         }
-        if (f4 < -object->mUnk_a0.mUnk_10c) {
+        if (f4 < -object->mCollisionData.mNegativeHalfSizeZ) {
             n |= 0x6;
         } else {
             n |= 0x5;
@@ -872,20 +872,20 @@ BOOL func_020e0bac(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u1
     if (n & 0x100) {
         if (n & 0x10) {
             if (n & 0x8) {
-                f4 = (object->mUnk_a0.mUnk_108 + sphereRadius) - f4;
+                f4 = (object->mCollisionData.mPositiveHalfSizeZ + sphereRadius) - f4;
             } else {
-                f4 = -(object->mUnk_a0.mUnk_10c + sphereRadius) - f4;
+                f4 = -(object->mCollisionData.mNegativeHalfSizeZ + sphereRadius) - f4;
             }
             if (n & 0x1) {
                 if (n & 0x800) {
-                    k6 = (object->mUnk_a0.mUnk_100 + sphereRadius) - f6;
+                    k6 = (object->mCollisionData.mUnk_100 + sphereRadius) - f6;
                 } else {
-                    k6 = -(object->mUnk_a0.mUnk_100 + sphereRadius) - f6;
+                    k6 = -(object->mCollisionData.mUnk_100 + sphereRadius) - f6;
                 }
                 if (n & 0x80) {
-                    k5 = (object->mUnk_a0.mUnk_104 + sphereRadius) - f5;
+                    k5 = (object->mCollisionData.mHalfSizeY + sphereRadius) - f5;
                 } else {
-                    k5 = -(object->mUnk_a0.mUnk_104 + sphereRadius) - f5;
+                    k5 = -(object->mCollisionData.mHalfSizeY + sphereRadius) - f5;
                 }
                 m6 = k6 > 0 ? k6 : -k6;
                 m5 = k5 > 0 ? k5 : -k5;
@@ -896,9 +896,9 @@ BOOL func_020e0bac(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u1
             goto call_8;
         }
         if (n & 0x80) {
-            k5 = (object->mUnk_a0.mUnk_104 + sphereRadius) - f5;
+            k5 = (object->mCollisionData.mHalfSizeY + sphereRadius) - f5;
         } else {
-            k5 = -(object->mUnk_a0.mUnk_104 + sphereRadius) - f5;
+            k5 = -(object->mCollisionData.mHalfSizeY + sphereRadius) - f5;
         }
         if (!(n & 0x1)) {
             goto call_80_8;
@@ -907,9 +907,9 @@ BOOL func_020e0bac(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u1
         goto call_80;
     }
     if (n & 0x800) {
-        k6 = (object->mUnk_a0.mUnk_100 + sphereRadius) - f6;
+        k6 = (object->mCollisionData.mUnk_100 + sphereRadius) - f6;
     } else {
-        k6 = -(object->mUnk_a0.mUnk_100 + sphereRadius) - f6;
+        k6 = -(object->mCollisionData.mUnk_100 + sphereRadius) - f6;
     }
     if (n & 0x10) {
         if (!(n & 0x1)) {
@@ -923,15 +923,15 @@ BOOL func_020e0bac(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u1
         goto call_800_80;
     }
 call_800:
-    func_020e1a80(sphereRadius, k6, m6, n, 0x800, g, object->mUnk_a0.mUnk_110, object, sphereCenter,
+    func_020e1a80(sphereRadius, k6, m6, n, 0x800, g, object->mCollisionData.mUnk_110, object, sphereCenter,
                   &object->mUnk_028.mUnk_00[0], o, p, q, r, s);
     return TRUE;
 call_80:
-    func_020e1a80(sphereRadius, k5, m5, n, 0x80, g, object->mUnk_a0.mUnk_114.x, object, sphereCenter,
+    func_020e1a80(sphereRadius, k5, m5, n, 0x80, g, object->mCollisionData.mUnk_114.x, object, sphereCenter,
                   &object->mUnk_028.mUnk_00[1], o, p, q, r, s);
     return TRUE;
 call_8:
-    func_020e1a80(sphereRadius, f4, m4, n, 8, g, object->mUnk_a0.mUnk_114.y, object, sphereCenter,
+    func_020e1a80(sphereRadius, f4, m4, n, 8, g, object->mCollisionData.mUnk_114.y, object, sphereCenter,
                   &object->mUnk_028.mUnk_00[2], o, p, q, r, s);
     return TRUE;
 smallest:
@@ -947,45 +947,45 @@ smallest:
     goto call_80;
 call_800_80:
     if (n & 0x800) {
-        f6 = f6 - object->mUnk_a0.mUnk_100;
+        f6 = f6 - object->mCollisionData.mUnk_100;
     } else {
-        f6 = f6 + object->mUnk_a0.mUnk_100;
+        f6 = f6 + object->mCollisionData.mUnk_100;
     }
     if (n & 0x80) {
-        f5 = f5 - object->mUnk_a0.mUnk_104;
+        f5 = f5 - object->mCollisionData.mHalfSizeY;
     } else {
-        f5 = f5 + object->mUnk_a0.mUnk_104;
+        f5 = f5 + object->mCollisionData.mHalfSizeY;
     }
-    return func_020e16dc(sphereRadius, f6, f5, n, 0x800, 0x80, g, d, object->mUnk_a0.mUnk_110,
-                         object->mUnk_a0.mUnk_114.x, object, sphereCenter, &object->mUnk_028.mUnk_00[0],
+    return func_020e16dc(sphereRadius, f6, f5, n, 0x800, 0x80, g, d, object->mCollisionData.mUnk_110,
+                         object->mCollisionData.mUnk_114.x, object, sphereCenter, &object->mUnk_028.mUnk_00[0],
                          &object->mUnk_028.mUnk_00[1], o, p, q, r, s);
 call_80_8:
     if (n & 0x80) {
-        f5 = f5 - object->mUnk_a0.mUnk_104;
+        f5 = f5 - object->mCollisionData.mHalfSizeY;
     } else {
-        f5 = f5 + object->mUnk_a0.mUnk_104;
+        f5 = f5 + object->mCollisionData.mHalfSizeY;
     }
     if (n & 0x8) {
-        f4 = f4 - object->mUnk_a0.mUnk_108;
+        f4 = f4 - object->mCollisionData.mPositiveHalfSizeZ;
     } else {
-        f4 = f4 + object->mUnk_a0.mUnk_10c;
+        f4 = f4 + object->mCollisionData.mNegativeHalfSizeZ;
     }
-    return func_020e16dc(sphereRadius, f5, f4, n, 0x80, 0x8, g, d, object->mUnk_a0.mUnk_114.x,
-                         object->mUnk_a0.mUnk_114.y, object, sphereCenter, &object->mUnk_028.mUnk_00[1],
+    return func_020e16dc(sphereRadius, f5, f4, n, 0x80, 0x8, g, d, object->mCollisionData.mUnk_114.x,
+                         object->mCollisionData.mUnk_114.y, object, sphereCenter, &object->mUnk_028.mUnk_00[1],
                          &object->mUnk_028.mUnk_00[2], o, p, q, r, s);
 call_8_800:
     if (n & 0x8) {
-        f4 = f4 - object->mUnk_a0.mUnk_108;
+        f4 = f4 - object->mCollisionData.mPositiveHalfSizeZ;
     } else {
-        f4 = f4 + object->mUnk_a0.mUnk_10c;
+        f4 = f4 + object->mCollisionData.mNegativeHalfSizeZ;
     }
     if (n & 0x800) {
-        f6 = f6 - object->mUnk_a0.mUnk_100;
+        f6 = f6 - object->mCollisionData.mUnk_100;
     } else {
-        f6 = f6 + object->mUnk_a0.mUnk_100;
+        f6 = f6 + object->mCollisionData.mUnk_100;
     }
-    return func_020e16dc(sphereRadius, f4, f6, n, 8, 0x800, g, d, object->mUnk_a0.mUnk_114.y,
-                         object->mUnk_a0.mUnk_110, object, sphereCenter, &object->mUnk_028.mUnk_00[2],
+    return func_020e16dc(sphereRadius, f4, f6, n, 8, 0x800, g, d, object->mCollisionData.mUnk_114.y,
+                         object->mCollisionData.mUnk_110, object, sphereCenter, &object->mUnk_028.mUnk_00[2],
                          &object->mUnk_028.mUnk_00[0], o, p, q, r, s);
 rest:
     u = FALSE;
@@ -993,17 +993,17 @@ rest:
         e = TRUE;
         y = TRUE;
         h = FALSE;
-        if (object->mUnk_a0.mUnk_110 != 0) {
+        if (object->mCollisionData.mUnk_110 != 0) {
             t = (n & 0x800) ? object->mUnk_028.mUnk_00[0].y : -object->mUnk_028.mUnk_00[0].y;
-            if (t > object->mUnk_a0.mUnk_120) {
+            if (t > object->mCollisionData.mUnk_120) {
                 h = TRUE;
             }
         }
         if (h == FALSE) {
             h = FALSE;
-            if (object->mUnk_a0.mUnk_114.x != 0) {
+            if (object->mCollisionData.mUnk_114.x != 0) {
                 t = (n & 0x80) ? object->mUnk_028.mUnk_00[1].y : -object->mUnk_028.mUnk_00[1].y;
-                if (t > object->mUnk_a0.mUnk_120) {
+                if (t > object->mCollisionData.mUnk_120) {
                     h = TRUE;
                 }
             }
@@ -1013,9 +1013,9 @@ rest:
         }
         if (y == FALSE) {
             k5 = 0;
-            if (object->mUnk_a0.mUnk_114.y != 0) {
+            if (object->mCollisionData.mUnk_114.y != 0) {
                 t = (n & 0x8) ? object->mUnk_028.mUnk_00[2].y : -object->mUnk_028.mUnk_00[2].y;
-                if (t > object->mUnk_a0.mUnk_120) {
+                if (t > object->mCollisionData.mUnk_120) {
                     k5 = 1;
                 }
             }
@@ -1028,19 +1028,19 @@ rest:
         }
     }
     if (n & 0x800) {
-        f6 = f6 - object->mUnk_a0.mUnk_100;
+        f6 = f6 - object->mCollisionData.mUnk_100;
     } else {
-        f6 = f6 + object->mUnk_a0.mUnk_100;
+        f6 = f6 + object->mCollisionData.mUnk_100;
     }
     if (n & 0x80) {
-        f5 = f5 - object->mUnk_a0.mUnk_104;
+        f5 = f5 - object->mCollisionData.mHalfSizeY;
     } else {
-        f5 = f5 + object->mUnk_a0.mUnk_104;
+        f5 = f5 + object->mCollisionData.mHalfSizeY;
     }
     if (n & 0x8) {
-        f4 = f4 - object->mUnk_a0.mUnk_108;
+        f4 = f4 - object->mCollisionData.mPositiveHalfSizeZ;
     } else {
-        f4 = f4 + object->mUnk_a0.mUnk_10c;
+        f4 = f4 + object->mCollisionData.mNegativeHalfSizeZ;
     }
     v.x = ((s64) object->mUnk_028.mUnk_00[0].x * f6) >> 12;
     v.y = ((s64) object->mUnk_028.mUnk_00[0].y * f6) >> 12;
@@ -1076,7 +1076,7 @@ rest:
         tmp.z = ((s64) w.z * sphereRadius) >> 12;
     }
     if (u) {
-        if (object->mUnk_a0.mUnk_114.z != 0 && (n & 0x8)) {
+        if (object->mCollisionData.mUnk_114.z != 0 && (n & 0x8)) {
             *g = 0x1e;
             x = p;
         } else {
@@ -1137,34 +1137,34 @@ BOOL func_020e0764(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u1
     s32 n;
 
     fl = 0;
-    VEC_Subtract(sphereCenter, &object->mUnk_a0.mUnk_f4, &v);
+    VEC_Subtract(sphereCenter, &object->mCollisionData.mCenterPos, &v);
     x = Vec3DotUnrounded(&v, &object->mUnk_028.mUnk_00[0]);
     y = Vec3DotUnrounded(&v, &object->mUnk_028.mUnk_00[2]);
     sq = (s64) x * x + (s64) y * y;
-    t = object->mUnk_a0.mUnk_100 + sphereRadius;
+    t = object->mCollisionData.mUnk_100 + sphereRadius;
     if ((s64) t * t < sq) {
         return FALSE;
     }
-    if ((s64) object->mUnk_a0.mUnk_100 * object->mUnk_a0.mUnk_100 < sq) {
+    if ((s64) object->mCollisionData.mUnk_100 * object->mCollisionData.mUnk_100 < sq) {
         fl |= data_021588e8;
     } else {
         fl |= data_021588ec;
     }
     n = Vec3DotUnrounded(&v, &object->mUnk_028.mUnk_00[1]);
     if (n > 0) {
-        if (n > object->mUnk_a0.mUnk_104 + sphereRadius) {
+        if (n > object->mCollisionData.mHalfSizeY + sphereRadius) {
             return FALSE;
         }
-        if (n > object->mUnk_a0.mUnk_104) {
+        if (n > object->mCollisionData.mHalfSizeY) {
             fl |= 0xa0;
         } else {
             fl |= 0x90;
         }
     } else {
-        if (n < -(object->mUnk_a0.mUnk_104 + sphereRadius)) {
+        if (n < -(object->mCollisionData.mHalfSizeY + sphereRadius)) {
             return FALSE;
         }
-        if (n < -object->mUnk_a0.mUnk_104) {
+        if (n < -object->mCollisionData.mHalfSizeY) {
             fl |= 0x60;
         } else {
             fl |= 0x50;
@@ -1172,9 +1172,9 @@ BOOL func_020e0764(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u1
     }
     if (fl & 0x1000) {
         if (fl & 0x80) {
-            n = object->mUnk_a0.mUnk_104 + sphereRadius - n;
+            n = object->mCollisionData.mHalfSizeY + sphereRadius - n;
         } else {
-            n = -(object->mUnk_a0.mUnk_104 + sphereRadius) - n;
+            n = -(object->mCollisionData.mHalfSizeY + sphereRadius) - n;
         }
         if (n > 0) {
             d0 = n;
@@ -1217,22 +1217,23 @@ BOOL func_020e0764(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u1
     }
     goto tail;
 apply80:
-    func_020e1a80(sphereRadius, n, d0, fl, 0x80, g, object->mUnk_a0.mUnk_114.x, object, sphereCenter,
+    func_020e1a80(sphereRadius, n, d0, fl, 0x80, g, object->mCollisionData.mUnk_114.x, object, sphereCenter,
                   &object->mUnk_028.mUnk_00[1], o, p, q, r, s);
     return TRUE;
 apply3000:
-    func_020e1a80(sphereRadius, k, x, fl, 0x3000, g, object->mUnk_a0.mUnk_110, object, sphereCenter, &w, o, p, q, r, s);
+    func_020e1a80(sphereRadius, k, x, fl, 0x3000, g, object->mCollisionData.mUnk_110, object, sphereCenter, &w, o, p, q,
+                  r, s);
     return TRUE;
 tail:
-    x = x - object->mUnk_a0.mUnk_100;
+    x = x - object->mCollisionData.mUnk_100;
     if (fl & 0x80) {
-        n = n - object->mUnk_a0.mUnk_104;
+        n = n - object->mCollisionData.mHalfSizeY;
     } else {
-        n = n + object->mUnk_a0.mUnk_104;
+        n = n + object->mCollisionData.mHalfSizeY;
     }
-    return func_020e16dc(sphereRadius, x, n, fl, 0x3000, 0x80, g, d, object->mUnk_a0.mUnk_110,
-                         object->mUnk_a0.mUnk_114.x, object, sphereCenter, &w, &object->mUnk_028.mUnk_00[1], o, p, q,
-                         r, s);
+    return func_020e16dc(sphereRadius, x, n, fl, 0x3000, 0x80, g, d, object->mCollisionData.mUnk_110,
+                         object->mCollisionData.mUnk_114.x, object, sphereCenter, &w, &object->mUnk_028.mUnk_00[1], o,
+                         p, q, r, s);
 cmp:
     if (k < d0) {
         goto apply3000;
@@ -1248,12 +1249,15 @@ void func_020e0680(Unk020e005c *object, Vec3 *position, Vec3 *c, Vec3 *d, u16 *e
         d->y = -object->mUnk_010.y;
         d->z = -object->mUnk_010.z;
         VEC_Subtract(position, &object->mPos, &offset);
-        VEC_MultAdd(Vec3DotUnrounded(&offset, &object->mUnk_028.mUnk_00[0]), &object->mUnk_a0.mUnk_a0.mUnk_00[0], d, d);
-        VEC_MultAdd(Vec3DotUnrounded(&offset, &object->mUnk_028.mUnk_00[1]), &object->mUnk_a0.mUnk_a0.mUnk_00[1], d, d);
-        VEC_MultAdd(Vec3DotUnrounded(&offset, &object->mUnk_028.mUnk_00[2]), &object->mUnk_a0.mUnk_a0.mUnk_00[2], d, d);
+        VEC_MultAdd(Vec3DotUnrounded(&offset, &object->mUnk_028.mUnk_00[0]),
+                    &object->mCollisionData.mPrevMatrix.mUnk_00[0], d, d);
+        VEC_MultAdd(Vec3DotUnrounded(&offset, &object->mUnk_028.mUnk_00[1]),
+                    &object->mCollisionData.mPrevMatrix.mUnk_00[1], d, d);
+        VEC_MultAdd(Vec3DotUnrounded(&offset, &object->mUnk_028.mUnk_00[2]),
+                    &object->mCollisionData.mPrevMatrix.mUnk_00[2], d, d);
         VEC_Subtract(&offset, d, d);
     }
     if (e != NULL) {
-        *e = Vec3DotUnrounded(&object->mUnk_a0.mUnk_124, c);
+        *e = Vec3DotUnrounded(&object->mCollisionData.mAngleChangeVector, c);
     }
 }

@@ -4,7 +4,7 @@
 
 #pragma thumb on
 
-Unk0202ddd8 *LoadGhostRecordFile(const char *path) {
+SlotGhostRecord *LoadGhostRecordFile(const char *path) {
     int result;
     result = ReadWholeFile(path, data_0217aa08->mSlotGhostRecords[1], (0x00001000u));
     if (result != 0) {

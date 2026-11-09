@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/Unknown/code_020e6fd4.h" // MapObjectList
 
-typedef struct Unk020e47c8 Unk020e47c8;
+typedef struct Pukupuku Pukupuku;
 typedef struct MapObjectKindData MapObjectKindData;
 
 extern MapObjectList *gPukupukuUpdateList;
@@ -49,4 +49,4 @@ PukupukuDrawList *CreatePukupukuDrawList(void);
 PukupukuShadowDrawList *CreatePukupukuShadowDrawList(void);
 MapObjectList *CreatePukupukuUpdateList(void);
 void SetupDrawPukupuku(void);
-void DrawPukupuku(u32 a, Unk020e47c8 *pukupuku, u32 b, u16 alpha);
+void DrawPukupuku(u32 a, Pukupuku *pukupuku, u32 b, u16 alpha);

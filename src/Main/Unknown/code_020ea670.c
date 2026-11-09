@@ -80,23 +80,23 @@ const Unk02159538 data_02159538 = {
     0,
 };
 
-BOOL func_020ec450(Unk020ec538 *mapObject, void *other, u8 *firstResponse) {
+BOOL func_020ec450(PushedObject *mapObject, void *other, u8 *firstResponse) {
     if (*firstResponse != 1) {
         return FALSE;
     }
     SetPushedMotionFromKart(mapObject, other);
-    mapObject->mUnk_00.mStateMachine.mNextState = 1;
-    mapObject->mUnk_00.mStateMachine.mNextStateRequested = 1;
+    mapObject->mMapObject.mStateMachine.mNextState = 1;
+    mapObject->mMapObject.mStateMachine.mNextStateRequested = 1;
     return TRUE;
 }
 
-BOOL func_020ec41c(Unk020ec538 *mapObject, void *other, u8 *firstResponse) {
+BOOL func_020ec41c(PushedObject *mapObject, void *other, u8 *firstResponse) {
     if (*firstResponse != 1) {
         return FALSE;
     }
     SetPushedMotionFromItemObject(mapObject, other);
-    mapObject->mUnk_00.mStateMachine.mNextState = 1;
-    mapObject->mUnk_00.mStateMachine.mNextStateRequested = 1;
+    mapObject->mMapObject.mStateMachine.mNextState = 1;
+    mapObject->mMapObject.mStateMachine.mNextStateRequested = 1;
     return TRUE;
 }
 

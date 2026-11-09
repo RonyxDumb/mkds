@@ -14,10 +14,10 @@ void func_020e44d8(Unk020e3ef4 *object) {
 
 void func_020e4474(Unk020e3ef4 *object) {
     object->mUnk_14c = object->mUnk_14c + object->mUnk_150;
-    object->mUnk_000.mAngle = object->mUnk_000.mAngle + (s16) (((s64) object->mUnk_14c * object->mUnk_14a) >> 12);
-    if (object->mUnk_000.mStateMachine.mStateFrames > object->mUnk_144) {
-        object->mUnk_000.mStateMachine.mNextState = 1;
-        object->mUnk_000.mStateMachine.mNextStateRequested = 1;
+    object->mMapObject.mAngle = object->mMapObject.mAngle + (s16) (((s64) object->mUnk_14c * object->mUnk_14a) >> 12);
+    if (object->mMapObject.mStateMachine.mStateFrames > object->mUnk_144) {
+        object->mMapObject.mStateMachine.mNextState = 1;
+        object->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
@@ -26,11 +26,11 @@ u32 func_020e4470(u32 unused) {
 }
 
 void func_020e4434(Unk020e3ef4 *object) {
-    object->mUnk_000.mAngle = object->mUnk_000.mAngle + object->mUnk_14a;
+    object->mMapObject.mAngle = object->mMapObject.mAngle + object->mUnk_14a;
     if (object->mUnk_146 != 0) {
-        if (object->mUnk_000.mStateMachine.mStateFrames > object->mUnk_146) {
-            object->mUnk_000.mStateMachine.mNextState = 2;
-            object->mUnk_000.mStateMachine.mNextStateRequested = 1;
+        if (object->mMapObject.mStateMachine.mStateFrames > object->mUnk_146) {
+            object->mMapObject.mStateMachine.mNextState = 2;
+            object->mMapObject.mStateMachine.mNextStateRequested = 1;
         }
     }
 }
@@ -41,11 +41,11 @@ void func_020e4428(Unk020e3ef4 *object) {
 
 void func_020e43a8(Unk020e3ef4 *object) {
     object->mUnk_14c = object->mUnk_14c - object->mUnk_150;
-    object->mUnk_000.mAngle = object->mUnk_000.mAngle + (s16) (((s64) object->mUnk_14c * object->mUnk_14a) >> 12);
-    if (object->mUnk_000.mStateMachine.mStateFrames > object->mUnk_144) {
+    object->mMapObject.mAngle = object->mMapObject.mAngle + (s16) (((s64) object->mUnk_14c * object->mUnk_14a) >> 12);
+    if (object->mMapObject.mStateMachine.mStateFrames > object->mUnk_144) {
         object->mUnk_14a = -object->mUnk_14a;
-        object->mUnk_000.mStateMachine.mNextState = 3;
-        object->mUnk_000.mStateMachine.mNextStateRequested = 1;
+        object->mMapObject.mStateMachine.mNextState = 3;
+        object->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 

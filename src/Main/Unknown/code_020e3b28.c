@@ -25,9 +25,9 @@
 #pragma thumb off
 
 void func_020e4380(Unk020e3ef4 *object) {
-    if (object->mUnk_000.mStateMachine.mStateFrames > object->mUnk_148) {
-        object->mUnk_000.mStateMachine.mNextState = 0;
-        object->mUnk_000.mStateMachine.mNextStateRequested = 1;
+    if (object->mMapObject.mStateMachine.mStateFrames > object->mUnk_148) {
+        object->mMapObject.mStateMachine.mNextState = 0;
+        object->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
@@ -49,7 +49,7 @@ BOOL func_020e4320(s32 kind) {
 
 #pragma thumb on
 
-void func_020e4184(Unk020e1dc0 *list) {
+void func_020e4184(BridgeDrawList *list) {
     Unk020e3ef4 *object;
     s32 objectIndex;
     s32 modelIndex;
@@ -62,9 +62,9 @@ void func_020e4184(Unk020e1dc0 *list) {
     for (modelIndex = 0; modelIndex < 5; modelIndex++) {
         modelLoaded[modelIndex] = 0;
     }
-    objectCount = list->mUnk_04;
+    objectCount = list->mMapObjectCount;
     for (objectIndex = 0; objectIndex < objectCount; objectIndex++) {
-        object = list->mUnk_00[objectIndex];
+        object = list->mMapObjects[objectIndex];
         loadedFlagSlot = &modelLoaded[object->mUnk_158];
         if (modelLoaded[object->mUnk_158] == 0) {
             switch (object->mUnk_158) {
@@ -92,9 +92,9 @@ void func_020e4184(Unk020e1dc0 *list) {
             *loadedFlagSlot = 1;
         }
     }
-    l = list->mUnk_04;
+    l = list->mMapObjectCount;
     for (j = 0; j < l; j++) {
-        object = list->mUnk_00[j];
+        object = list->mMapObjects[j];
         switch (object->mUnk_158) {
             case 0:
                 object->mModel = gTestCylinder;
@@ -115,7 +115,7 @@ void func_020e4184(Unk020e1dc0 *list) {
     }
 }
 
-void func_020e410c(Unk020e1dc0 *list) {
+void func_020e410c(BridgeDrawList *list) {
     Unk020e3ef4 *object;
     s32 index;
     s32 previousIndex;
@@ -125,21 +125,21 @@ void func_020e410c(Unk020e1dc0 *list) {
     Vec3 offset;
     Unk020e3ef4 **objects;
 
-    objects = list->mUnk_00;
+    objects = list->mMapObjects;
     previousIndex = -1;
     z = 0;
     z2 = 0;
-    count = list->mUnk_04;
+    count = list->mMapObjectCount;
     for (index = 0; index < count; index++) {
         object = objects[index];
-        if (object->mUnk_000.mKind == 0xcb) {
+        if (object->mMapObject.mKind == 0xcb) {
             if (previousIndex < 0) {
-                object->mUnk_a0.mUnk_138 = z;
+                object->mCollisionData.mUnk_138 = z;
             } else {
-                VEC_Subtract(&objects[previousIndex]->mUnk_000.mPos, &object->mUnk_000.mPos, &offset);
+                VEC_Subtract(&objects[previousIndex]->mMapObject.mPos, &object->mMapObject.mPos, &offset);
                 offset.y = z2;
                 object->mUnk_154 = VEC_Mag(&offset);
-                object->mUnk_154 -= objects[previousIndex]->mUnk_000.mExtent.x;
+                object->mUnk_154 -= objects[previousIndex]->mMapObject.mExtent.x;
             }
             previousIndex = index;
         }
@@ -147,14 +147,14 @@ void func_020e410c(Unk020e1dc0 *list) {
 }
 
 void func_020e3ef4(Unk020e3ef4 *object, struct CourseMapRow *courseRow, Unk020e1e98_154 *kindInfo) {
-    InitStateMachine(&object->mUnk_000.mStateMachine, (UnkFunc *const *) data_0216c168, 4, object);
-    object->mUnk_a0.mUnk_e8 = object->mUnk_000.mPos;
-    object->mUnk_a0.mUnk_a0 = object->mUnk_000.mMatrix.mUnk_00_m;
-    object->mUnk_a0.mUnk_c4 = object->mUnk_000.mMatrix.mUnk_00_m;
-    object->mUnk_a0.mUnk_124.x = 0;
-    object->mUnk_a0.mUnk_124.y = 0;
-    object->mUnk_a0.mUnk_124.z = 0;
-    object->mUnk_a0.mUnk_130 = kindInfo->mUnk_00 != 0 ? 0 : 1;
+    InitStateMachine(&object->mMapObject.mStateMachine, (UnkFunc *const *) data_0216c168, 4, object);
+    object->mCollisionData.mUnk_e8 = object->mMapObject.mPos;
+    object->mCollisionData.mPrevMatrix = object->mMapObject.mMatrix.mUnk_00_m;
+    object->mCollisionData.mInitialMatrix = object->mMapObject.mMatrix.mUnk_00_m;
+    object->mCollisionData.mAngleChangeVector.x = 0;
+    object->mCollisionData.mAngleChangeVector.y = 0;
+    object->mCollisionData.mAngleChangeVector.z = 0;
+    object->mCollisionData.mUnk_130 = kindInfo->mUnk_00 != 0 ? 0 : 1;
     object->mUnk_144 = courseRow->mUnk_2c;
     object->mUnk_146 = courseRow->mUnk_2a;
     object->mUnk_148 = courseRow->mUnk_2e;
@@ -162,43 +162,43 @@ void func_020e3ef4(Unk020e3ef4 *object, struct CourseMapRow *courseRow, Unk020e1
     if (courseRow->mUnk_30 != 0) {
         object->mUnk_14a = -object->mUnk_14a;
     }
-    object->mUnk_000.mAngle = 0;
+    object->mMapObject.mAngle = 0;
     if (object->mUnk_144 != 0) {
         object->mUnk_150 = 0x1000 / object->mUnk_144;
     } else {
         object->mUnk_150 = 0;
     }
     object->mUnk_14c = 0;
-    object->mUnk_a0.mUnk_100 = ((s64) kindInfo->mUnk_04 * object->mUnk_000.mScale.x) >> 12;
-    object->mUnk_a0.mUnk_104 = (s32) (((s64) kindInfo->mUnk_08 * object->mUnk_000.mScale.y) >> 12) >> 1;
+    object->mCollisionData.mUnk_100 = ((s64) kindInfo->mUnk_04 * object->mMapObject.mScale.x) >> 12;
+    object->mCollisionData.mHalfSizeY = (s32) (((s64) kindInfo->mUnk_08 * object->mMapObject.mScale.y) >> 12) >> 1;
     if (kindInfo->mUnk_00 != 0) {
-        object->mUnk_a0.mUnk_110 = FALSE;
-        object->mUnk_a0.mUnk_114.x = 1;
+        object->mCollisionData.mUnk_110 = FALSE;
+        object->mCollisionData.mUnk_114.x = 1;
     } else {
-        object->mUnk_a0.mUnk_110 = TRUE;
-        object->mUnk_a0.mUnk_114.x = 0;
+        object->mCollisionData.mUnk_110 = TRUE;
+        object->mCollisionData.mUnk_114.x = 0;
     }
-    object->mUnk_a0.mUnk_114.z = 0;
-    object->mUnk_a0.mUnk_120 = kindInfo->mUnk_10;
-    object->mUnk_a0.mUnk_134 = 1;
-    object->mUnk_a0.mUnk_138 = kindInfo->mUnk_14;
-    object->mUnk_000.mFlags |= data_02158d58;
-    object->mUnk_000.mStateMachine.mNextState = 0;
-    object->mUnk_000.mStateMachine.mNextStateRequested = 1;
+    object->mCollisionData.mUnk_114.z = 0;
+    object->mCollisionData.mUnk_120 = kindInfo->mUnk_10;
+    object->mCollisionData.mUnk_134 = 1;
+    object->mCollisionData.mUnk_138 = kindInfo->mUnk_14;
+    object->mMapObject.mFlags |= data_02158d58;
+    object->mMapObject.mStateMachine.mNextState = 0;
+    object->mMapObject.mStateMachine.mNextStateRequested = 1;
     object->mUnk_158 = kindInfo->mUnk_0c;
     if (object->mUnk_158 == 1 && courseRow->mUnk_32 == 0) {
         object->mUnk_158 = 2;
     }
-    object->mUnk_000.mFlags &= ~2;
-    object->mUnk_000.mFlags &= ~8;
-    object->mUnk_000.mAlpha = 0x1f;
+    object->mMapObject.mFlags &= ~2;
+    object->mMapObject.mFlags &= ~8;
+    object->mMapObject.mAlpha = 0x1f;
     if (kindInfo->mUnk_0c == 0) {
         object->mUnk_15c = courseRow->mUnk_0c.x > 0 ? 0x175 : 0x176;
     } else {
         object->mUnk_15c = kindInfo->mUnk_18;
     }
     if (object->mUnk_15c != -1) {
-        CreateMapObjectSoundSourceFalloff3(&object->mUnk_000);
+        CreateMapObjectSoundSourceFalloff3(&object->mMapObject);
     }
 }
 
@@ -213,7 +213,7 @@ void *CreateBridgeKindData(void) {
 }
 
 void *CreateBridgeDrawList(void) {
-    Unk020e1dc0 *drawList;
+    BridgeDrawList *drawList;
 
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x30);
     data_0217b7c4 = drawList;
@@ -248,16 +248,16 @@ void UpdateBridge(s32 a, Bridge *bridge) {
     if (angleDelta < -0x8000) {
         angleDelta += 0x10000;
     }
-    bridge->mUnk_a0.mUnk_124.x = ((s64) bridge->mMapObject.mMatrix.mUnk_00[0].x * angleDelta) >> 12;
-    bridge->mUnk_a0.mUnk_124.y = ((s64) bridge->mMapObject.mMatrix.mUnk_00[0].y * angleDelta) >> 12;
-    bridge->mUnk_a0.mUnk_124.z = ((s64) bridge->mMapObject.mMatrix.mUnk_00[0].z * angleDelta) >> 12;
+    bridge->mCollisionData.mAngleChangeVector.x = ((s64) bridge->mMapObject.mMatrix.mUnk_00[0].x * angleDelta) >> 12;
+    bridge->mCollisionData.mAngleChangeVector.y = ((s64) bridge->mMapObject.mMatrix.mUnk_00[0].y * angleDelta) >> 12;
+    bridge->mCollisionData.mAngleChangeVector.z = ((s64) bridge->mMapObject.mMatrix.mUnk_00[0].z * angleDelta) >> 12;
     bridge->mAngleX = y;
-    bridge->mUnk_a0.mUnk_a0 = bridge->mMapObject.mMatrix.mUnk_00_m;
+    bridge->mCollisionData.mPrevMatrix = bridge->mMapObject.mMatrix.mUnk_00_m;
     MTX_RotX33_(&bridge->mMapObject.mMatrix.mUnk_00_m, gPairsByAngle[(y >> 4) * 2], gPairsByAngle[(y >> 4) * 2 + 1]);
-    MTX_Concat33(&bridge->mMapObject.mMatrix.mUnk_00_m, &bridge->mUnk_a0.mUnk_c4,
+    MTX_Concat33(&bridge->mMapObject.mMatrix.mUnk_00_m, &bridge->mCollisionData.mInitialMatrix,
                  &bridge->mMapObject.mMatrix.mUnk_00_m);
-    VEC_MultAdd(-bridge->mUnk_a0.mUnk_104, &bridge->mMapObject.mMatrix.mUnk_00[1], &bridge->mMapObject.mPos,
-                &bridge->mUnk_a0.mUnk_f4);
+    VEC_MultAdd(-bridge->mCollisionData.mHalfSizeY, &bridge->mMapObject.mMatrix.mUnk_00[1], &bridge->mMapObject.mPos,
+                &bridge->mCollisionData.mCenterPos);
     if (bridge->mPauseTimer != 0) {
         bridge->mPauseTimer--;
         return;
@@ -274,8 +274,8 @@ void UpdateBridge(s32 a, Bridge *bridge) {
     y = 0x10000 - bridge->mAngleX;
     bridge->mAnimationFrameIndex = (s32) ((((s64) (s32) (u16) (0x10000 - bridge->mAngleX) * 0x1680000) + 0x80000) >> 20)
                                    << 1;
-    if (bridge->mAnimationFrameIndex > data_0217b7c4->mUnk_2c) {
-        bridge->mAnimationFrameIndex = data_0217b7c4->mUnk_2c;
+    if (bridge->mAnimationFrameIndex > data_0217b7c4->mAnimationFrameCount) {
+        bridge->mAnimationFrameIndex = data_0217b7c4->mAnimationFrameCount;
     }
     if (bridge->mAnimationFrameIndex < 0) {
         bridge->mAnimationFrameIndex = 0;
@@ -285,13 +285,13 @@ void UpdateBridge(s32 a, Bridge *bridge) {
 void DrawBridge(Unk020e3ef4 *object, void *viewMatrix, u32 alpha) {
     Unk020e1e98_12c *animation;
 
-    object->mUnk_000.mMatrix.mUnk_00[3].x = object->mUnk_000.mPos.x >> 4;
-    object->mUnk_000.mMatrix.mUnk_00[3].y = object->mUnk_000.mPos.y >> 4;
-    object->mUnk_000.mMatrix.mUnk_00[3].z = object->mUnk_000.mPos.z >> 4;
+    object->mMapObject.mMatrix.mUnk_00[3].x = object->mMapObject.mPos.x >> 4;
+    object->mMapObject.mMatrix.mUnk_00[3].y = object->mMapObject.mPos.y >> 4;
+    object->mMapObject.mMatrix.mUnk_00[3].z = object->mMapObject.mPos.z >> 4;
     animation = gBridgeNsbca;
     animation->mUnk_0c = object->mUnk_154;
     *animation->mUnk_1c[animation->mUnk_1a] = animation->mUnk_0c;
-    DrawNsbmdWithMatrixAndMaxAlpha(object->mModel, &object->mUnk_000.mMatrix, &object->mUnk_000.mScale.x, alpha);
+    DrawNsbmdWithMatrixAndMaxAlpha(object->mModel, &object->mMapObject.mMatrix, &object->mMapObject.mScale.x, alpha);
 }
 
 void DrawAllBridges(void *viewMatrix) {

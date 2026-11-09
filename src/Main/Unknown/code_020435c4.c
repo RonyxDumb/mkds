@@ -169,7 +169,7 @@ void func_0204419c(u32 courseId, u32 b) {
 }
 
 void func_02044060(u32 courseId) {
-    Unk0202ddd8 *ghostRecord;
+    SlotGhostRecord *ghostRecord;
     char path[0x80];
 
     ghostRecord = NULL;

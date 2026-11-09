@@ -15,7 +15,7 @@
 #pragma thumb on
 
 void ReadSlotGhostRecord(u32 slotIndex) {
-    Unk0202ddd8 *ghostRecord;
+    SlotGhostRecord *ghostRecord;
 
     ghostRecord = data_0217aa08->mSlotGhostRecords[0];
     if (IsSlotGhostBitSet(slotIndex) == 0) {

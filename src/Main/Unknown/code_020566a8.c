@@ -7,9 +7,9 @@
 
 #pragma thumb on
 
-void WriteSlotGhostRecord(u32 index, Unk0202ddd8 *source) {
+void WriteSlotGhostRecord(u32 index, SlotGhostRecord *source) {
     int slotBit;
-    Unk0202ddd8 *destination;
+    SlotGhostRecord *destination;
     destination = data_0217aa08->mSlotGhostRecords[0];
     source->mHead.mUnk_08 = source->mHead.mUnk_08 & 0xfffffffe | 1;
     MI_CpuCopy8(source, destination, (0x00001000u));

@@ -48,23 +48,23 @@ typedef struct Unk020e005c_080 {
 
 // Collision-body block at 0xa0 of Unk020e005c, Bridge, Unk020e3ef4 and Unk020ff97c. Names carry the offset in the
 // object.
-typedef struct Unk020e005c_a0 {
-    /* 00 */ MtxFx33 mUnk_a0;
-    /* 24 */ MtxFx33 mUnk_c4;
+typedef struct CollisionData {
+    /* 00 */ MtxFx33 mPrevMatrix;
+    /* 24 */ MtxFx33 mInitialMatrix;
     /* 48 */ Vec3 mUnk_e8;
-    /* 54 */ Vec3 mUnk_f4;
+    /* 54 */ Vec3 mCenterPos;
     /* 60 */ s32 mUnk_100;
-    /* 64 */ s32 mUnk_104;
-    /* 68 */ s32 mUnk_108;
-    /* 6c */ s32 mUnk_10c;
+    /* 64 */ s32 mHalfSizeY;
+    /* 68 */ s32 mPositiveHalfSizeZ;
+    /* 6c */ s32 mNegativeHalfSizeZ;
     /* 70 */ BOOL mUnk_110;
     /* 74 */ Vec3 mUnk_114;
     /* 80 */ s32 mUnk_120;
-    /* 84 */ Vec3 mUnk_124;
+    /* 84 */ Vec3 mAngleChangeVector;
     /* 90 */ BOOL mUnk_130;
     /* 94 */ s32 mUnk_134;
     /* 98 */ s32 mUnk_138;
-} Unk020e005c_a0;
+} CollisionData;
 
 typedef struct Unk020e005c {
     /* 000 */ u16 mUnk_000;
@@ -91,7 +91,7 @@ typedef struct Unk020e005c {
     // State machine of the kind, the same bytes as MapObject.mStateMachine.
     /* 080 */ Unk020e005c_080 mStateMachine;
     /* 094 */ u8 mUnk_094[0xc];
-    /* 0a0 */ Unk020e005c_a0 mUnk_a0;
+    /* 0a0 */ CollisionData mCollisionData;
     /* 13c */ s32 mUnk_13c;
     /* 140 */ void *mUnk_140;
     /* 144 */ GroupFollower mUnk_144;
