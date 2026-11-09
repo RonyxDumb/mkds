@@ -42,9 +42,9 @@ void SetRaceRandomPointers(void) {
 }
 
 RandomState64 *GetMapObjectRandom(void) {
-    return (RandomState64 *) ((u32) gMapObjectRandom);
+    return gMapObjectRandom;
 }
 
 RandomState64 *GetRaceRandom(void) {
-    return (RandomState64 *) ((u32) gRaceRandom);
+    return gRaceRandom;
 }

@@ -1191,7 +1191,7 @@ void UpdateKartBalloons(void *b, Unk020a3fa8 *c) {
     }
 }
 
-u32 CreateKartBalloonsKindData(void) {
+MapObjectKindData *CreateKartBalloonsKindData(void) {
     RaceSetup *d;
     s32 k;
 

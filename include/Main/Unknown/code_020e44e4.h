@@ -34,6 +34,7 @@ typedef struct Unk020e4610 {
 } Unk020e4610;
 
 extern Unk020e4610 *data_0217b7dc;
+extern Unk020e4610 data_02158e9c;
 
 // 0x2c-byte object built from a table.
 typedef struct Unk020e466c {
@@ -49,6 +50,8 @@ typedef struct Unk020e466c {
     /* 24 */ u32 mUnk_24;
     /* 28 */ u32 mUnk_28;
 } Unk020e466c;
+
+extern Unk020e466c data_02158ec4;
 
 // 0x40-byte object built from a table.
 typedef struct Unk020e46c8 {
@@ -69,6 +72,10 @@ typedef struct Unk020e46c8 {
     /* 38 */ u32 mUnk_38;
     /* 3c */ u32 mUnk_3c;
 } Unk020e46c8;
+
+extern Unk020e46c8 data_02158ef0;
+extern Unk020e46c8 data_02158f30;
+extern Unk020e46c8 data_02158f70;
 
 void func_020e44e4(u32 unused, Unk020e3ef4 *object);
 Unk020e4610 *func_020e4610(void);

@@ -71,7 +71,6 @@ extern UnkFunc *gPushedObjectStateTable[];
 extern s32 data_0216cb28;
 extern const char gBridgeNsbcaName[];
 extern const char gBridgeNsbmdName[];
-extern const u8 data_0216c044[];
 extern const char gCarANsbmdName[];
 extern const char gTruckANsbmdName[];
 extern const char gBusANsbmdName[];

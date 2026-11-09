@@ -717,8 +717,8 @@ void *CreateMapObjectKindData(void *collideKartCallback, void *collideItemObject
     return kindData;
 }
 
-u32 CreateEmptyMapObjectKindData(void) {
-    return (u32) CreateMapObjectKindData(NULL, NULL, NULL, 0, 1);
+MapObjectKindData *CreateEmptyMapObjectKindData(void) {
+    return CreateMapObjectKindData(NULL, NULL, NULL, 0, 1);
 }
 
 MapObjectKindData *func_0209bf70(void *collideKartCallback, void *collideItemObjectCallback, void *sphereHitCallback,

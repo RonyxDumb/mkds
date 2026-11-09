@@ -50,7 +50,7 @@ void InitPukupuku(Unk020e47c8 *pukupuku, Vec3 *position) {
 Unk020e46c8 *func_020e4768(void) {
     Unk020e46c8 *kindData;
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *kindData = *(Unk020e46c8 *) data_02158f70;
+    *kindData = data_02158f70;
     kindData->mUnk_38 = 0x2bc000;
     return kindData;
 }
@@ -58,14 +58,14 @@ Unk020e46c8 *func_020e4768(void) {
 Unk020e46c8 *func_020e4718(void) {
     Unk020e46c8 *kindData;
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *kindData = *(Unk020e46c8 *) data_02158f30;
+    *kindData = data_02158f30;
     return kindData;
 }
 
 Unk020e46c8 *func_020e46c8(void) {
     Unk020e46c8 *kindData;
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *kindData = *(Unk020e46c8 *) data_02158ef0;
+    *kindData = data_02158ef0;
     return kindData;
 }
 
@@ -73,7 +73,7 @@ Unk020e466c *func_020e466c(void) {
     Unk020e466c *drawList;
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     data_0217b7e4 = drawList;
-    *drawList = *(Unk020e466c *) data_02158ec4;
+    *drawList = data_02158ec4;
     func_020d49d8(&data_0217b7e4);
     return data_0217b7e4;
 }
@@ -82,7 +82,7 @@ Unk020e4610 *func_020e4610(void) {
     Unk020e4610 *updateList;
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
     data_0217b7dc = updateList;
-    *updateList = *(Unk020e4610 *) data_02158e9c;
+    *updateList = data_02158e9c;
     SetUpdateListSlot(&data_0217b7dc);
     return data_0217b7dc;
 }

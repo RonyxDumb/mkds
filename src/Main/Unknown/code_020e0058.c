@@ -91,26 +91,26 @@ s32 func_020e0448(Unk020e0448 *link) {
 }
 
 void *CreateKoopaBlockKindData(void) {
-    void *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    Unk020e03f8 *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
 
-    *(Unk020e03f8 *) kindData = *(const Unk020e03f8 *) data_021588a8;
+    *kindData = data_021588a8;
     return kindData;
 }
 
 void *CreateKoopaBlockDrawList(void) {
-    void *drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    Unk020e039c *drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
 
     data_0217b784 = drawList;
-    *(Unk020e039c *) drawList = *(const Unk020e039c *) data_0215887c;
+    *drawList = data_0215887c;
     func_020d49d8(&data_0217b784);
     return data_0217b784;
 }
 
 void *CreateKoopaBlockUpdateList(void) {
-    void *updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
+    Unk020e0340 *updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
 
     data_0217b780 = updateList;
-    *(Unk020e0340 *) updateList = *(const Unk020e0340 *) data_02158854;
+    *updateList = data_02158854;
     SetUpdateListSlot(&data_0217b780);
     return data_0217b780;
 }

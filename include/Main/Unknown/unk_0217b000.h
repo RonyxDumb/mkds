@@ -561,14 +561,16 @@ extern TitleScene *gTitleScene;
 extern const TitleStateHandlers gTitleStateHandlers[7];
 extern u8 data_0217b344[];
 extern u16 *data_0217b34c;
-// 0x20 bytes: four words, then four more words.
-typedef struct Unk0217b350_858 {
-    /* 00 */ s32 mUnk_00[4];
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ s32 mUnk_1c;
-} Unk0217b350_858;
+typedef struct RaceHudSubScreenBgAffine {
+    /* 00 */ s32 mMatrix0;
+    /* 04 */ s32 mMatrix1;
+    /* 08 */ s32 mMatrix2;
+    /* 0c */ s32 mMatrix3;
+    /* 10 */ s32 mCenterX;
+    /* 14 */ s32 mCenterY;
+    /* 18 */ s32 mX1;
+    /* 1c */ s32 mY1;
+} RaceHudSubScreenBgAffine;
 
 // On-screen display of the race, one record behind gRaceHud (0x914 bytes, allocated by func_020b03bc on the scene heap,
 // set NULL by the release slot func_020af86c, never freed). It holds the two 0x400-byte sprite entry buffers the
@@ -607,7 +609,7 @@ typedef struct RaceHud {
     /* 84c */ s32 mUnk_84c;
     /* 850 */ s32 mUnk_850;
     /* 854 */ s32 mSubScreenCourseScale;
-    /* 858 */ Unk0217b350_858 mUnk_858[2];
+    /* 858 */ RaceHudSubScreenBgAffine mUnk_858[2];
     // FALSE from func_020b03bc until the scene's screen set-up func_020af99c ends and sets it TRUE (never cleared
     // again); the step, the draw, the page choice and the upload slot return at once while FALSE.
     /* 898 */ BOOL mEnabled;

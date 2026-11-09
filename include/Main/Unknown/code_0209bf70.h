@@ -85,7 +85,7 @@ extern const char data_usa_02167328[];
 
 MapObjectKindData *func_0209bf70(void *collideKartCallback, void *collideItemObjectCallback, void *sphereHitCallback,
                                  u32 d, u16 e, u16 f);
-u32 CreateEmptyMapObjectKindData(void);
+MapObjectKindData *CreateEmptyMapObjectKindData(void);
 void *CreateMapObjectKindData(void *collideKartCallback, void *collideItemObjectCallback, void *sphereHitCallback,
                               u32 param_4, u16 param_5);
 BOOL StartBoundWobble(s32 a);

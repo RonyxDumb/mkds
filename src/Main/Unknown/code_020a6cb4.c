@@ -156,7 +156,7 @@ void func_020a6d8c(MapObjectList *a, Unk020a6cb4 *b) {
     }
 }
 
-s32 CreateShineBattleKindData(void) {
+MapObjectKindData *CreateShineBattleKindData(void) {
     if (gRaceSetup->mMode == MODE_BATTLE && gRaceSetup->mBattleKind == BATTLE_KIND_SHINE) {
         return CreateEmptyMapObjectKindData();
     }

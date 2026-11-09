@@ -67,7 +67,7 @@ MapObjectKindDescriptor gMiniDokanKindDescriptor = {0, {0, 0}, 0xa0, 0, func_020
 MapObjectKindData *func_0209a728(void) {
     MapObjectKindData *kindData;
 
-    kindData = (MapObjectKindData *) CreateEmptyMapObjectKindData();
+    kindData = CreateEmptyMapObjectKindData();
     kindData->mUnk_24 = 0x84;
     return kindData;
 }

@@ -243,15 +243,14 @@ void func_020b0b8c(void) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 GXS_LoadOBJPltt(GetRaceNclrNcgr(6)->mNclr->mData, 0, GetRaceNclrNcgr(6)->mNclr->mDataSize);
             }
-            G2x_SetBGyAffine_(&reg_G2S_DB_BG2PA, gRaceHud->mUnk_858[0].mUnk_00, gRaceHud->mUnk_858[0].mUnk_10,
-                              gRaceHud->mUnk_858[0].mUnk_14, gRaceHud->mUnk_858[0].mUnk_18,
-                              gRaceHud->mUnk_858[0].mUnk_1c);
+            G2x_SetBGyAffine_(&reg_G2S_DB_BG2PA, &gRaceHud->mUnk_858[0].mMatrix0, gRaceHud->mUnk_858[0].mCenterX,
+                              gRaceHud->mUnk_858[0].mCenterY, gRaceHud->mUnk_858[0].mX1, gRaceHud->mUnk_858[0].mY1);
             if (IsCourseWithMap2DLocal3() != 0) {
-                G2x_SetBGyAffine_(&reg_G2S_DB_BG3PA, gRaceHud->mUnk_858[1].mUnk_00, gRaceHud->mUnk_858[1].mUnk_10,
-                                  gRaceHud->mUnk_858[1].mUnk_14, gRaceHud->mUnk_858[1].mUnk_18,
-                                  gRaceHud->mUnk_858[1].mUnk_1c);
+                G2x_SetBGyAffine_(&reg_G2S_DB_BG3PA, &gRaceHud->mUnk_858[1].mMatrix0, gRaceHud->mUnk_858[1].mCenterX,
+                                  gRaceHud->mUnk_858[1].mCenterY, gRaceHud->mUnk_858[1].mX1,
+                                  gRaceHud->mUnk_858[1].mY1);
             }
-            UpdateRaceHudSubScreenBgPalette((RaceHudSubScreenBgPalette *) &data_0217b34c[0x100]);
+            UpdateRaceHudSubScreenBgPalette(&data_0217b34c[0x100]);
             if (IsCourseWithMap2DLocal3() != 0) {
                 if (IsFollowedKartOutsideBox() != 0) {
                     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | 0x1c00;

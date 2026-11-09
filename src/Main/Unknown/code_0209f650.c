@@ -172,17 +172,17 @@ void func_0209fc38(void) {
     for (i = 0; i < 19; i++) {
         data_usa_0217b18c[i] = NULL;
     }
-    data_usa_0217b18c[0] = (MapObjectKindData *) CreateEmptyMapObjectKindData();
+    data_usa_0217b18c[0] = CreateEmptyMapObjectKindData();
 }
 
-void func_0209fc2c(void) {
+void func_0209fc2c(MapObjectList *mapObjectList) {
     func_020e6c0c();
 }
 
-void CreateTownMonte(MapObjectModel *mapObjectModel) {
-    mapObjectModel->mShadowModel = (void *) func_0209fc2c;
+void CreateTownMonte(MapObjectList *mapObjectList) {
+    mapObjectList->mAfterObjects = func_0209fc2c;
     SetMapObjectModelPolygonId(
-        gTownMonte = CreateMapObjectModelNsbmdNsbtp(mapObjectModel, gTownMonteNsbmdName, gTownMonteNsbtpName), 0x3f);
+        gTownMonte = CreateMapObjectModelNsbmdNsbtp(mapObjectList, gTownMonteNsbmdName, gTownMonteNsbtpName), 0x3f);
 }
 
 void DrawTownMonte(void *a, TownMonte *townMonte) {

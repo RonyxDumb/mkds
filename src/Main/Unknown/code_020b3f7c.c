@@ -8,15 +8,15 @@
 #pragma optimize_for_size on
 void LocateBmgSections(Bmg *bmg) {
     u32 i;
-    u32 p;
-    u32 section;
+    BmgSectionHeader *p;
+    BmgSectionHeader *section;
     u32 tag;
 
-    p = (u32) &bmg->mFirstSection;
+    p = &bmg->mFirstSection;
     for (i = 0; i < bmg->mSectionCount; i++) {
         section = p;
-        p = p + ((BmgSectionHeader *) p)->mNextOffset;
-        tag = ReverseBytes32(((BmgSectionHeader *) section)->mTag);
+        p = OFFSET_PTR(BmgSectionHeader, p, p->mNextOffset);
+        tag = ReverseBytes32(section->mTag);
         switch (tag) {
             case 0x494e4631:
                 data_0217b360 = (Unk0217b340 *) section;

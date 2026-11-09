@@ -8,10 +8,7 @@ typedef struct Unk020e3ef4 Unk020e3ef4;
 typedef struct Unk020e1dc0 Unk020e1dc0;
 typedef struct Bridge Bridge;
 
-// Block of twelve words.
-typedef struct Unk020e3e48 {
-    /* 00 */ u32 mUnk_00[12];
-} Unk020e3e48;
+extern const Unk020e1dc0 data_02158ce8;
 
 void func_020e4380(Unk020e3ef4 *object);
 void func_020e435c(void *viewMatrix);

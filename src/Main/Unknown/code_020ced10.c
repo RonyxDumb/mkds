@@ -19,10 +19,7 @@
 #include "Main/Unknown/code_020cedf8.h"
 
 void func_020cedf8(void) {
-    u32 address;
-    u32 value12;
-    address = (u32) &data_0217b484;
-    ClearRaceHudSubScreenCells((RaceHudSubScreenCells **) address);
+    ClearRaceHudSubScreenCells(&data_0217b484);
 }
 
 void func_020ced2c(void) {

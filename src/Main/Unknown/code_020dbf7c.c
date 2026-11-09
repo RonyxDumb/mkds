@@ -101,7 +101,7 @@ void func_020dc1d8(Wanwan *wanwan, CourseMapRow *row) {
     wanwan->mUnk_1fc = wanwan->mUnk_f8 - (wanwan->mUnk_f0 << 1);
     wanwan->mUnk_fc = 0;
     wanwan->mUnk_b0 = 0;
-    wanwan->mChainObject = (Unk020dc474_1d8 *) CreateMapObjectFromObject(&wanwan->mUnk_00, 0x197);
+    wanwan->mChainObject = (WanwanChainObject *) CreateMapObjectFromObject(&wanwan->mUnk_00, 0x197);
     wanwan->mUnk_ac = wanwan->mCenterPos.y;
     wanwan->mCenterPos.y = wanwan->mCenterPos.y + wanwan->mUnk_f0;
     InitStateMachine(&wanwan->mUnk_00.mStateMachine, data_0216befc, 6, wanwan);
@@ -145,7 +145,7 @@ void ResetWanwan(Wanwan *wanwan) {
     Matrix3x3FromQuaternion(&wanwan->mUnk_00.mMatrix.mUnk_00_m, &wanwan->mUnk_b4);
     wanwan->mUnk_e4 = 0;
     if (wanwan->mUnk_fc == 0) {
-        ResetWanwanChainPoints((WanwanChainObject *) wanwan->mChainObject);
+        ResetWanwanChainPoints(wanwan->mChainObject);
     }
     if (wanwan->mUnk_fc == 0) {
         wanwan->mCurvePoints[0] = &wanwan->mCurvePointValues[0];

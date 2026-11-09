@@ -26,10 +26,7 @@
 #include "Main/Unknown/code_020cf2fc.h"
 
 void ClearRaceHudSubScreenBombKouraWCells(void) {
-    u32 address;
-    u32 unused;
-    address = (u32) &gRaceHudSubScreenBombKouraWCells;
-    ClearRaceHudSubScreenCells((RaceHudSubScreenCells **) address);
+    ClearRaceHudSubScreenCells(&gRaceHudSubScreenBombKouraWCells);
 }
 
 void UpdateRaceHudSubScreenBombKouraWCells(void) {

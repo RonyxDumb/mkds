@@ -14,7 +14,7 @@ typedef struct Unk020a6cb4 {
 
 void func_020a6cb4(s32 a);
 void *CreateShineBattleUpdateList(void);
-s32 CreateShineBattleKindData(void);
+MapObjectKindData *CreateShineBattleKindData(void);
 void func_020a6d8c(MapObjectList *a, Unk020a6cb4 *b);
 void func_020a6e70(MapObjectList *a);
 BOOL TryStartShine16AtRandomObject(MapObjectList *a);

@@ -32,13 +32,13 @@
 
 #pragma thumb on
 
-void InitGroupItemBox(ItemBox *itemBox, Unk020de6a8_1 *row) {
+void InitGroupItemBox(ItemBox *itemBox, CourseMapRow *row) {
     InitItemBox(itemBox, row);
     if (itemBox->mUnk_0f8 != 0) {
         itemBox->mFollower.mUnk_00.mGroupIndex = (0x0000ffffu);
         return;
     }
-    func_020d7d4c(&itemBox->mFollower, (CourseMapRow *) row, *&data_02158908, row->mUnk_28);
+    func_020d7d4c(&itemBox->mFollower, row, *&data_02158908, row->mUnk_28);
     SetupGroupFollowerWithSpeeds(&itemBox->mFollower, row->mUnk_30, 1);
     GetGroupFollowerCurvePosition(&itemBox->mFollower.mUnk_00, &itemBox->mUnk_000.mPos);
 }

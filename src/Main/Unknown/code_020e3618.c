@@ -88,36 +88,36 @@ void *CreateChoropuKindData(void) {
     Unk020e03f8 *kindData;
 
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *kindData = *(const Unk020e03f8 *) data_02158c3c;
+    *kindData = data_02158c3c;
     return kindData;
 }
 
 void *CreateChoropuDrawList(void) {
-    void *drawList;
+    Unk020e039c *drawList;
 
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     data_0217b7bc = drawList;
-    *(Unk020e039c *) drawList = *(const Unk020e039c *) data_02158c10;
+    *drawList = data_02158c10;
     func_020d49d8(&data_0217b7bc);
     return data_0217b7bc;
 }
 
 void *CreateChoropuShadowDrawList(void) {
-    void *drawList;
+    Unk020e039c *drawList;
 
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     data_0217b7c0 = drawList;
-    *(Unk020e039c *) drawList = *(const Unk020e039c *) data_02158be4;
+    *drawList = data_02158be4;
     func_020d49d8(&data_0217b7c0);
     return data_0217b7c0;
 }
 
 void *CreateChoropuUpdateList(void) {
-    void *updateList;
+    Unk020e0340 *updateList;
 
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
     data_0217b7b4 = updateList;
-    *(Unk020e0340 *) updateList = *(const Unk020e0340 *) data_02158bbc;
+    *updateList = data_02158bbc;
     SetUpdateListSlot(&data_0217b7b4);
     return data_0217b7b4;
 }

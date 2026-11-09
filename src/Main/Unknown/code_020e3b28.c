@@ -205,29 +205,29 @@ void func_020e3ef4(Unk020e3ef4 *object, struct CourseMapRow *courseRow, Unk020e1
 #pragma thumb off
 
 void *CreateBridgeKindData(void) {
-    void *kindData;
+    Unk020e03f8 *kindData;
 
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *(Unk020e03f8 *) kindData = *(const Unk020e03f8 *) data_02158d18;
+    *kindData = data_02158d18;
     return kindData;
 }
 
 void *CreateBridgeDrawList(void) {
-    void *drawList;
+    Unk020e1dc0 *drawList;
 
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x30);
     data_0217b7c4 = drawList;
-    *(Unk020e3e48 *) drawList = *(const Unk020e3e48 *) data_02158ce8;
+    *drawList = data_02158ce8;
     func_020d49d8(&data_0217b7c4);
     return data_0217b7c4;
 }
 
 void *CreateBridgeUpdateList(void) {
-    void *updateList;
+    Unk020e0340 *updateList;
 
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
     data_0217b7c8 = updateList;
-    *(Unk020e0340 *) updateList = *(const Unk020e0340 *) data_02158cc0;
+    *updateList = data_02158cc0;
     SetUpdateListSlot(&data_0217b7c8);
     return data_0217b7c8;
 }

@@ -11,7 +11,7 @@
 
 #pragma optimize_for_size on
 
-void GetFontGlyphOfChar(u32 *glyph, Unk02022aa8 *font, u32 code) {
+void GetFontGlyphOfChar(NNSG2dGlyph *glyph, Unk02022aa8 *font, u32 code) {
     GetFontGlyph(glyph, font, GetFontGlyphIndex(font, code));
 }
 
@@ -21,7 +21,7 @@ s32 CopyTextWithinWidth(const u16 *source, u16 *destination) {
     s32 i;
     s32 widthSum;
     s32 charWidth;
-    u32 glyph[2];
+    NNSG2dGlyph glyph;
     void *font;
 
     widthSum = 0;
@@ -31,8 +31,8 @@ s32 CopyTextWithinWidth(const u16 *source, u16 *destination) {
         if (source[i] == 0) {
             return i;
         }
-        GetFontGlyphOfChar(glyph, font, source[i]);
-        charWidth = ((NNSG2dCharWidths *) glyph[0])->mCharWidth;
+        GetFontGlyphOfChar(&glyph, font, source[i]);
+        charWidth = glyph.mPWidths->mCharWidth;
         if (widthSum + charWidth > 0x30) {
             return i;
         }

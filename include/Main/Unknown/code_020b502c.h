@@ -372,17 +372,6 @@ typedef struct CourseMap {
     /* 10f */ u8 mKind2ShapeCountInMode4;
 } CourseMap;
 
-typedef struct RaceHudSubScreenBgAffine {
-    /* 00 */ s32 mMatrix0;
-    /* 04 */ s32 mMatrix1;
-    /* 08 */ s32 mMatrix2;
-    /* 0c */ s32 mMatrix3;
-    /* 10 */ s32 mCenterX;
-    /* 14 */ s32 mCenterY;
-    /* 18 */ s32 mX1;
-    /* 1c */ s32 mY1;
-} RaceHudSubScreenBgAffine;
-
 typedef struct RaceHudSubScreenProjection {
     /* 00 */ UnkPair020b502c mCenter;
     /* 08 */ s32 mCenterRemainderX;

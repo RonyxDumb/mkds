@@ -14,13 +14,20 @@ typedef struct Unk020e0340 {
 } Unk020e0340;
 
 extern const Unk020e0340 data_02158a54;
+extern const Unk020e0340 data_02158854;
+extern const Unk020e0340 data_02158bbc;
+extern const Unk020e0340 data_02158cc0;
 
 // Block of sixteen words.
 typedef struct Unk020e03f8 {
     /* 00 */ u32 mUnk_00[16];
 } Unk020e03f8;
 
+extern const u16 data_02158a50;
 extern const Unk020e03f8 data_02158a7c;
+extern const Unk020e03f8 data_021588a8;
+extern const Unk020e03f8 data_02158c3c;
+extern const Unk020e03f8 data_02158d18;
 extern const Unk020e03f8 data_02158abc;
 extern const Unk020e03f8 data_02158afc;
 extern const Unk020e03f8 data_02158b3c;
@@ -62,12 +69,6 @@ typedef struct Unk020e246c {
     /* 0ac */ s32 mUnk_0ac;
 } Unk020e246c;
 
-// Object behind gCarA, gTruckA, gBusA and gCarTire.
-typedef struct Unk0217b7a0 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ NNSG3dResMdl *mUnk_04;
-} Unk0217b7a0;
-
 // Object a pointer at 0x12c of Unk020e1e98 points to (also behind gBridgeNsbca).
 typedef struct Unk020e1e98_12c {
     /* 00 */ u8 mUnk_00[0xc];
@@ -102,6 +103,8 @@ typedef struct Unk020e1e98_0b4 {
     /* 08 */ s32 mUnk_08;
     /* 0c */ s32 mUnk_0c;
 } Unk020e1e98_0b4;
+
+extern const Unk020e1e98_0b4 data_0216c044;
 
 // 0x164 bytes.
 typedef struct Unk020e1e98 {

@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk02022aa8 Unk02022aa8;
+#include "g2d_CharCanvas.h" // NNSG2dGlyph
 
-void GetFontGlyph(u32 *glyph, Unk02022aa8 *font, u32 glyphIndex);
+void GetFontGlyph(NNSG2dGlyph *glyph, Unk02022aa8 *font, u32 glyphIndex);

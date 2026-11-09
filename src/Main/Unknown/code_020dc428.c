@@ -2,6 +2,7 @@
 
 #include "Main/Unknown/code_020dc448.h"
 #include "Main/Unknown/code_020dc474.h"
+#include "Main/Unknown/code_020dda38.h" // WanwanChainObject
 #include "code_02147cd8.h"
 #include "Main/Unknown/code_020dc5dc.h"
 #include "Main/Unknown/code_02036820.h"
@@ -259,7 +260,7 @@ void EnterWanwanState0(Wanwan *wanwan) {
 
     wanwan->mUnk_e8 = 0x555;
     wanwan->mUnk_ec = 0x1c2;
-    wanwan->mChainObject->mUnk_a8 = 0x599;
+    wanwan->mChainObject->mChain.mDownwardStep = 0x599;
     savedPoint = wanwan->mCurvePoints[0];
     wanwan->mCurvePoints[0] = NULL;
     *wanwan->mCurvePoints[1] = wanwan->mUnk_00.mPos;
@@ -391,7 +392,7 @@ void EnterWanwanState1(Wanwan *wanwan) {
     wanwan->mUnk_e8 = 0x2000;
     wanwan->mUnk_ec = 0x1c2;
     wanwan->mUnk_1e0 = wanwan->mUnk_00.mPos;
-    wanwan->mChainObject->mUnk_a8 = 0x219;
+    wanwan->mChainObject->mChain.mDownwardStep = 0x219;
     wanwan->mUnk_1f8 = 0;
     if (wanwan->mUnk_00.mDistanceSquaredAndFlags & 4) {
         return;
@@ -486,7 +487,7 @@ void EnterWanwanState2(Wanwan *wanwan) {
     wanwan->mUnk_e8 = 0xd000;
     wanwan->mUnk_ec = 0x1c2;
     if (wanwan->mUnk_fc == 0) {
-        wanwan->mChainObject->mUnk_a8 = 0x219;
+        wanwan->mChainObject->mChain.mDownwardStep = 0x219;
     }
     wanwan->mUnk_00.mUnk_10.y = 0x8000;
 }
@@ -538,7 +539,7 @@ void UpdateWanwanState2(Wanwan *wanwan) {
 void EnterWanwanState3(Wanwan *wanwan) {
     wanwan->mUnk_e8 = 0x555;
     wanwan->mUnk_ec = 0x1c2;
-    wanwan->mChainObject->mUnk_a8 = 0x599;
+    wanwan->mChainObject->mChain.mDownwardStep = 0x599;
 }
 
 static inline s64 func_020dc474_inline(const Vec3 *vector) {
@@ -572,7 +573,7 @@ void UpdateWanwanState3(Wanwan *wanwan) {
 void EnterWanwanState4(Wanwan *wanwan) {
     wanwan->mUnk_e8 = 0x555;
     wanwan->mUnk_ec = 0x1c2;
-    wanwan->mChainObject->mUnk_a8 = 0x599;
+    wanwan->mChainObject->mChain.mDownwardStep = 0x599;
 }
 
 void func_020dc444(Wanwan *wanwan) {}

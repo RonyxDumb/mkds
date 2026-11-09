@@ -212,7 +212,7 @@ void func_02094e8c(void *a, Unk02094e8c *o) {
     }
 }
 
-u32 func_02094e3c(void) {
+MapObjectKindData *func_02094e3c(void) {
     s32 mode;
 
     mode = gRaceSetup->mMode;

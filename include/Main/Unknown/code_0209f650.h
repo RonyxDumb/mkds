@@ -40,8 +40,8 @@ void InitTownMonteObjects(Unk0209f800 *a);
 void DrawTownMonte(void *a, TownMonte *townMonte);
 // The parameter is the draw group (typed MapObjectModel here); its +0x14 is the callback that runs after the group's
 // draw.
-void CreateTownMonte(MapObjectModel *mapObjectModel); /* also stores the hook func_0209fc2c in the record's +0x14 */
-void func_0209fc2c(void);
+void CreateTownMonte(MapObjectList *mapObjectList); /* also stores the hook func_0209fc2c in the list */
+void func_0209fc2c(MapObjectList *mapObjectList);
 void func_0209fc38(void);
 void func_0209fc78(MapObject *mapObject);
 void *CreateAirshipUpdateList(void);

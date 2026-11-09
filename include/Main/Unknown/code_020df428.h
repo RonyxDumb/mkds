@@ -2,7 +2,8 @@
 
 #include "types.h"
 
-typedef struct ItemBox ItemBox;
-typedef struct Unk020de6a8_1 Unk020de6a8_1;
+#include "Main/Unknown/code_020f9c6c.h" // CourseMapRow
 
-void InitGroupItemBox(ItemBox *itemBox, Unk020de6a8_1 *row);
+typedef struct ItemBox ItemBox;
+
+void InitGroupItemBox(ItemBox *itemBox, CourseMapRow *row);

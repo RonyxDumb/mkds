@@ -56,7 +56,7 @@ void CreateBoxAndQuestion(void) {
     }
 }
 
-void InitItemBox(ItemBox *itemBox, Unk020de6a8_1 *row) {
+void InitItemBox(ItemBox *itemBox, CourseMapRow *row) {
     RandomState64 *random;
     Vec3 shadowPos;
     BOOL v1;

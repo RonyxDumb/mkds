@@ -45,7 +45,7 @@ typedef struct Shine16 {
 #include "Main/Unknown/code_020a3fa8.h" // Unk020a3fa8
 
 void *CreateKartBalloonsUpdateList(void);
-u32 CreateKartBalloonsKindData(void);
+MapObjectKindData *CreateKartBalloonsKindData(void);
 void InitKartBalloons(Unk020a3fa8 *a);
 void BalloonKartOffsetCallback(u16 a, Vec3 *b);
 void BalloonEndCallback(void);

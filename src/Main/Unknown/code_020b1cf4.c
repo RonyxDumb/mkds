@@ -5,7 +5,7 @@ s32 GetRaceHudSubScreenCourseScale(void) {
 }
 
 RaceHudSubScreenBgAffine *GetRaceHudSubScreenBgAffine(void) {
-    return (RaceHudSubScreenBgAffine *) gRaceHud->mUnk_858;
+    return gRaceHud->mUnk_858;
 }
 
 u32 func_020b1d20(void) {

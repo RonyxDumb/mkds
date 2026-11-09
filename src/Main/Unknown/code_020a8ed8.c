@@ -230,7 +230,7 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
             ironBall->mUnk_000.mUnk_10.x = 0;
             ironBall->mUnk_000.mUnk_10.y = 0;
             ironBall->mUnk_000.mUnk_10.z = 0;
-            n = ((const CourseMapGroupEntry *) fromEntry)->mUnk_0e;
+            n = fromEntry->mUnk_0e;
             if (n < 200) {
                 StartBoundWobble(n - 100);
                 ironBall->mPathSpeed = 0xf000;
