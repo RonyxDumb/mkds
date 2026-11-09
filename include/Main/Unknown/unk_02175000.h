@@ -178,13 +178,6 @@ typedef struct InputState {
 } InputState;
 
 extern InputState *data_02175624;
-// 0x5c-byte entries; AdvanceKartToKeyedPlacement writes the halfword at 0x00 of entry Kart.mEntryIndex.
-typedef struct Unk0217566a {
-    /* 00 */ u16 mBitMask;
-    /* 02 */ u8 mUnk_02[0x5a];
-} Unk0217566a;
-
-extern Unk0217566a data_0217566a[];
 // Entries of 0x0c bytes from 0x9b0 of Unk021759c8.
 typedef struct ArchiveBuffer {
     /* 00 */ void *mHeap;

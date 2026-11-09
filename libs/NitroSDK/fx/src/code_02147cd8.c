@@ -218,19 +218,19 @@ void FX_DivAsync(s32 numer, s32 denom) {
 // Integer division on the divider.
 s32 FX_DivS32(s32 numer, s32 denom) {
     reg_CP_DIVCNT = 0;
-    *(vu32 *) 0x04000290 = numer;
+    reg_CP_DIV_NUMER_LO = numer;
     reg_CP_DIV_DENOM = (u32) denom;
     while (reg_CP_DIVCNT & 0x8000) {
     }
-    return *(vu32 *) 0x040002A0;
+    return reg_CP_DIV_RESULT_LO;
 }
 
 // Integer remainder on the divider.
 s32 FX_ModS32(s32 numer, s32 denom) {
     reg_CP_DIVCNT = 0;
-    *(vu32 *) 0x04000290 = numer;
+    reg_CP_DIV_NUMER_LO = numer;
     reg_CP_DIV_DENOM = (u32) denom;
     while (reg_CP_DIVCNT & 0x8000) {
     }
-    return *(vu32 *) 0x040002A8;
+    return reg_CP_DIVREM_RESULT_LO;
 }

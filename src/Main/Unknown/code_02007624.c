@@ -8,7 +8,7 @@ void *func_02007e38(u32 child) {
     u32 savedInterrupts;
     savedInterrupts = OS_DisableInterrupts();
     if (data_0216fdac != NULL && IsChildIndexInRange(child) != 0) {
-        MI_CpuCopy8(data_0216fdac->mUnk_1340 + (child - 1) * 0x16, data_0216fdac->mUnk_1772, 0x16);
+        MI_CpuCopy8(&data_0216fdac->mUnk_1340[child - 1], data_0216fdac->mUnk_1772, 0x16);
         OS_RestoreInterrupts(savedInterrupts);
         return data_0216fdac->mUnk_1772;
     }
@@ -99,7 +99,7 @@ void func_020079c4(s32 eventCode, Unk021425e8 *eventData) {
             if (child != 0 && child < 16) {
                 data_0216fdac->mUnk_148a[eventData->mUnk_10 - 1] = 0;
                 MI_CpuFill8(data_0216fdac->mUnk_14a8 + (eventData->mUnk_10 - 1), 0, 4);
-                MI_CpuFill8(data_0216fdac->mUnk_1340 + (eventData->mUnk_10 - 1) * 0x16, 0, 0x16);
+                MI_CpuFill8(&data_0216fdac->mUnk_1340[eventData->mUnk_10 - 1], 0, 0x16);
                 ClearChildPieces(eventData->mUnk_10);
                 v2 = 0;
                 data_0216fdac->mUnk_1754[eventData->mUnk_10 - 1] = v2;
@@ -232,8 +232,8 @@ void func_02007698(Unk021432ac *childData, u32 child) {
                 data_0216fdac->mUnk_14a8[arrayIndex] = payloadCopy.mUnk_00;
                 data_0216fdac->mUnk_148a[v12] = payloadCopy.mUnk_1a;
                 v12 *= 0x16;
-                MI_CpuCopy8(payloadCopy.mUnk_04, data_0216fdac->mUnk_1340 + v12, 0x16);
-                ((Unk0216fdac_1340 *) &data_0216fdac->mUnk_1340[v12])->mUnk_00_4 = child;
+                MI_CpuCopy8(payloadCopy.mUnk_04, OFFSET_PTR(Unk0216fc1c_10, data_0216fdac->mUnk_1340, v12), 0x16);
+                OFFSET_PTR(Unk0216fc1c_10, data_0216fdac->mUnk_1340, v12)->mUnk_00_4 = child;
                 func_02007d18(child, 0xa, payloadCopy.mUnk_04);
             }
             if (childValue == 10) {

@@ -5,6 +5,7 @@
 #include "Main/Unknown/code_0200f000.h"
 #include "code_0200fc8c.h"
 #include "Main/Unknown/code_0200aeb4.h"
+#include "Main/Unknown/code_02008934.h"
 
 struct Unk02008188;
 
@@ -14,13 +15,6 @@ typedef struct Unk02009ff4 {
     /* 01 */ u8 mUnk_01;
     /* 02 */ u16 mUnk_02[10];
 } Unk02009ff4;
-
-// One of the 15 entries of 0x16 bytes in mUnk_1340 of Unk0216fdac.
-typedef struct Unk0216fdac_1340 {
-    /* 00 */ u8 mUnk_00_0 : 4;
-    /* 00 */ u8 mUnk_00_4 : 4;
-    /* 01 */ u8 mUnk_01[0x15];
-} Unk0216fdac_1340;
 
 // Object behind data_0216fdac. The members from 0x1788 on are reached from a pointer advanced in steps of 0x5d4
 // bytes, so their offsets here include the 0x1788.
@@ -32,7 +26,7 @@ typedef struct Unk0216fdac {
     /* 131c */ u32 mUnk_131c;
     /* 1320 */ u32 mUnk_1320;
     /* 1324 */ u8 mUnk_1324[0x1340 - 0x1324];
-    /* 1340 */ u8 mUnk_1340[0x14a];
+    /* 1340 */ Unk0216fc1c_10 mUnk_1340[15];
     /* 148a */ u16 mUnk_148a[15];
     /* 14a8 */ u32 mUnk_14a8[15];
     /* 14e4 */ void (*mCallback)(u32, u32, void *);

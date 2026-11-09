@@ -802,7 +802,7 @@ void DisconnectChild(u32 childIndex) {
         slot = childIndex - 1;
         data_0216fdac->mUnk_148a[slot] = 0;
         MI_CpuFill8(data_0216fdac->mUnk_14a8 + slot, 0, 4);
-        MI_CpuFill8(data_0216fdac->mUnk_1340 + slot * 0x16, 0, 0x16);
+        MI_CpuFill8(OFFSET_PTR(Unk0216fc1c_10, data_0216fdac->mUnk_1340, slot * 0x16), 0, 0x16);
         ClearChildPieces(childIndex);
         v2 = 0;
         data_0216fdac->mUnk_1754[slot] = v2;

@@ -6,6 +6,7 @@
 #include "code_0200e77c.h"
 #include "code_0214d5b8.h"
 #include "snd_work.h"
+#include "registers.h"
 
 u32 data_021732cc;
 u32 data_021732e8;
@@ -375,8 +376,8 @@ u32 IsCommandAvailable(void) {
         return 1;
     }
     enabled = OS_DisableInterrupts();
-    *(vu32 *) 0x04fff200 = 0x10;
-    value = *(vu32 *) 0x04fff200;
+    reg_EMU_PORT = 0x10;
+    value = reg_EMU_PORT;
     OS_RestoreInterrupts(enabled);
     return value != 0;
 }

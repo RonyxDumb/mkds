@@ -309,10 +309,10 @@ void UpdateItemBox(void *unused, ItemBox *itemBox) {
     }
 }
 
-void func_020deb2c(Vec3 *position, void *kart, u32 c, int d, u32 e) {
+void func_020deb2c(Vec3 *position, Kart *kart, u32 c, int d, u32 e) {
     void *effect;
     u32 kartIndex;
-    kartIndex = *OFFSET_PTR(u16, kart, 0x74);
+    kartIndex = kart->mIndex;
     if (d == 0) {
         if (kartIndex == gRaceSetup->mEntryIndex) {
             effect = StartEffect(0x2d, position);

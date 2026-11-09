@@ -59,7 +59,7 @@ void CTRDGi_InitModuleInfo(void) {
         return;
     }
     gHeaderCopyStarted = 1;
-    if ((*(u16 *) 0x04000300 & 1) == 0) {
+    if ((reg_GX_POSTFLG & 1) == 0) {
         return;
     }
     savedIrqMask = OS_SetIrqMask(0x40000);

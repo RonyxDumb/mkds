@@ -377,7 +377,7 @@ u32 ComputeSoundDistanceAndOffsets(SoundParams *p) {
         a = p->mUnk_20->mUnk_0c;
     }
     reg_CP_SQRTCNT = 0;
-    *(vu32 *) 0x040002b8 = a;
+    reg_CP_SQRT_PARAM_LO = a;
     b = p->mPositionSource;
     p->mUnk_08 = GetCameraForwardDistance(b) >> 12;
     p->mUnk_0c = GetCameraSideDistance(b) >> 12;

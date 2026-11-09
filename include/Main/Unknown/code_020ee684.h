@@ -57,7 +57,9 @@ typedef struct KartItems {
 // Element of the table behind data_0217562a.
 typedef struct Unk0217562a {
     /* 00 */ u16 mBits;
-    /* 02 */ u8 mUnk_02[0x5a];
+    /* 02 */ u8 mUnk_02[0x3e];
+    /* 40 */ u16 mBitMask;
+    /* 42 */ u8 mUnk_42[0x1a];
 } Unk0217562a;
 
 extern Unk0217562a data_0217562a[];
