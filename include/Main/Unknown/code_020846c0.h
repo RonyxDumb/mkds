@@ -31,7 +31,7 @@ typedef struct Nsbmd {
     /* 5c */ ResFileEntry mResFileEntry;
 } Nsbmd;
 
-void func_020846c0(void *heap);
+void InitKartEffectTables(void *heap);
 void ReleaseAllResFiles(void);
 void SetNsbmdCullModeAll(Nsbmd *nsbmd, u32 cullMode);
 void SetNsbmdPolygonIdLightEmiAll(Nsbmd *nsbmd, u32 polygonId, u32 light, u32 color);
@@ -47,7 +47,7 @@ NNSG3dResMdl *InitNsbmdWithTextureInfoCopy(void *heap, Nsbmd *nsbmd, NNSG3dResFi
 NNSG3dResMdl *InitNsbmdWithoutCullSwap(Nsbmd *nsbmd, NNSG3dResFileHeader *file);
 NNSG3dResMdl *InitNsbmdWithTextureFile(Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile, NNSG3dResFileHeader *textureFile);
 NNSG3dResMdl *InitNsbmd(Nsbmd *nsbmd, NNSG3dResFileHeader *file);
-void func_02084f10(Nsbmd *nsbmd, NNSG3dResMdl *resMdl);
+void InitNsbmdRenderObjWrapper(Nsbmd *nsbmd, NNSG3dResMdl *resMdl);
 void SetNsbmdCullModeUnmirrored(Nsbmd *nsbmd);
 void SetNsbmdCullModeMirrored(Nsbmd *nsbmd);
 void InitNsbmdRenderObj(Nsbmd *nsbmd, NNSG3dResMdl *resMdl, u32 allowCullSwap);

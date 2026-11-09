@@ -342,7 +342,7 @@ void StartKartCharacterAnimationOnce(Kart *kart, s32 animationIndex, s32 nextAni
 void InitShadowModelFromResMdl(ShadowModel *shadowModel, void *resFile, u32 polygonId) {
     NNSG3dResMdl *resMdl;
 
-    func_02084f10(&shadowModel->mNsbmd, resFile);
+    InitNsbmdRenderObjWrapper(&shadowModel->mNsbmd, resFile);
     resMdl = shadowModel->mNsbmd.mResMdl;
     shadowModel->mPolygonId = polygonId;
     shadowModel->mAlpha = 0xd;

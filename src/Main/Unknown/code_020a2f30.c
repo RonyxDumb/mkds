@@ -178,7 +178,7 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
 }
 
 void func_020a392c(Unk0201ca6c *effect, Balloon *balloon) {
-    effect->mUnk_72 = func_0208606c(balloon->mNsbtpFrameIndex);
+    effect->mUnk_72 = GetKartPaletteColorFromTable(balloon->mNsbtpFrameIndex);
 }
 
 void func_020a36a8(Balloon *balloon) {

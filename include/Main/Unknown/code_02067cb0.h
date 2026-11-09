@@ -19,8 +19,8 @@ int CollideKartWithMapObjectResponse5(Kart *p, s32 *a);
 // Collision response 6 of gCollideKartWithMapObjectResponses (indexed by the value func_020d6be0 returns for the kart
 // and the map object): when mVelocityLength of the kart is above 0x3000 or flag 0x200 of mFlags of the object is set it
 // runs TrySpinKart with 2 and, when that succeeds, for the selected kart increments the counter of the record
-// GetEntryKartCounters returns and runs func_020812d0 with the kart index; it then stores 4 through the second
-// parameter. Otherwise it stores 0. Returns 0.
+// GetEntryKartCounters returns and runs StartKartSpinSideEffects with the kart index; it then stores 4 through the
+// second parameter. Otherwise it stores 0. Returns 0.
 int CollideKartWithMapObjectResponse6(Kart *p, s32 *a, MapObject *c);
 // Collision response 4 of gCollideKartWithMapObjectResponses (indexed by the value func_020d6be0 returns for the kart
 // and the map object): when mVelocityLength of the kart is above 0x3000 or flag 0x200 of mFlags of the object is set it

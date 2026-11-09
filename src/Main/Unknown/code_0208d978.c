@@ -345,7 +345,7 @@ void SetupModelEffectKind(void *heap, s32 kind, NNSG3dResFileHeader *modelFile, 
     resMdl = OFFSET_PTR(NNSG3dResMdl, modelSet, *OFFSET_PTR(u32, modelSet + *OFFSET_PTR(u16, modelSet, 0xe), 0xc));
     for (objectIndex = 0; objectIndex < kindRow->mObjectCount; objectIndex++) {
         modelEffect = gModelEffects->mObjects[kind][objectIndex];
-        func_02084f10(&modelEffect->mNsbmd, resMdl);
+        InitNsbmdRenderObjWrapper(&modelEffect->mNsbmd, resMdl);
         NNS_G3dMdlSetMdlFogEnableFlagAll(modelEffect->mNsbmd.mResMdl, fogEnabled);
         o = modelEffect->mAnimations[0];
         if (o != NULL) {

@@ -7,7 +7,7 @@
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-void func_020812d0(s32 kartIndex) {
+void StartKartSpinSideEffects(s32 kartIndex) {
     Kart *kart = GetKart(kartIndex);
     Unk0201ca6c *effect;
     u16 effectIndex;
@@ -21,11 +21,11 @@ void func_020812d0(s32 kartIndex) {
         effect->mUnk_94 = kart;
         effect->mUnk_98_24 = effectIndex;
         effectIndex = effectIndex + 1;
-        effect->mUnk_90 = func_02081298;
+        effect->mUnk_90 = AdvanceKartSpinSideEffect;
     } while (effectIndex < 2);
 }
 
-void func_02081298(Unk0201ca6c *effect, s32 a) {
+void AdvanceKartSpinSideEffect(Unk0201ca6c *effect, s32 a) {
     if (a != 0) {
         return;
     }
@@ -37,22 +37,22 @@ void func_02081298(Unk0201ca6c *effect, s32 a) {
     }
 }
 
-void func_02081224(u32 kartIndex) {
+void StartKartSpinFollowEffect(u32 kartIndex) {
     KartEffects *kartEffects = &gKartEffects[kartIndex];
     Unk0201ca6c *effect;
 
-    if (kartEffects->mUnk_30 != NULL) {
-        DeleteEffect(kartEffects->mUnk_30);
+    if (kartEffects->mSpinFollowEffect != NULL) {
+        DeleteEffect(kartEffects->mSpinFollowEffect);
     }
-    kartEffects->mUnk_30 = StartEffect(0x5e, &data_02155a14);
-    effect = kartEffects->mUnk_30;
+    kartEffects->mSpinFollowEffect = StartEffect(0x5e, &data_02155a14);
+    effect = kartEffects->mSpinFollowEffect;
     effect->mUnk_98_16 = 0;
     effect->mUnk_98_8 = 0x78;
     effect->mUnk_98_24 = kartIndex;
-    effect->mUnk_90 = func_02081120;
+    effect->mUnk_90 = AdvanceKartSpinFollowEffect;
 }
 
-void func_02081120(Unk0201ca6c *effect, s32 a) {
+void AdvanceKartSpinFollowEffect(Unk0201ca6c *effect, s32 a) {
     u32 ended;
     u8 elapsedFrames;
     u8 kartIndex;
@@ -83,7 +83,7 @@ void func_02081120(Unk0201ca6c *effect, s32 a) {
         effect->mUnk_98_16 = elapsedFrames + 1;
     }
     if (ended != 0) {
-        gKartEffects[kartIndex].mUnk_30 = NULL;
+        gKartEffects[kartIndex].mSpinFollowEffect = NULL;
         return;
     }
     effect->mUnk_6c = (s16) GetKart(kartIndex)->mScale.z;

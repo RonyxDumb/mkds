@@ -58,7 +58,7 @@ static inline s32 func_0207f554_inline(u32 kartIndex, u32 targetIndex) {
                 isHumanGhostOrPeer = TRUE;
             }
         }
-        if (isHumanGhostOrPeer != FALSE || func_02085824(kartIndex) <= 0) {
+        if (isHumanGhostOrPeer != FALSE || GetNonCpuKartCountOutsideKartTeam(kartIndex) <= 0) {
             if (func_0207f600_inline(targetIndex)) {
                 result = TRUE;
             }
@@ -125,7 +125,7 @@ void AdvanceStaffRollPointLinkCursor(PointLinkCursor *pointLinkCursor) {
 
 void func_0207fba0(void) {
     data_usa_0217ae40 = gRaceSetup->mMode == MODE_BATTLE ? &data_usa_021557bc : &data_usa_021557c0;
-    switch (func_020853dc()) {
+    switch (GetKartAiEngineOrDifficultyIndex()) {
         case 0:
             data_usa_0217ae38 = data_usa_0215572c;
             gKartAiDriftChargeRandomLimits = data_usa_02155798;
@@ -331,7 +331,7 @@ s32 ShouldKartAiTargetKart(u32 kartIndex, u32 targetIndex) {
                 isHumanGhostOrPeer = TRUE;
             }
         }
-        if (isHumanGhostOrPeer != FALSE || func_02085824(kartIndex) <= 0) {
+        if (isHumanGhostOrPeer != FALSE || GetNonCpuKartCountOutsideKartTeam(kartIndex) <= 0) {
             if ((GetKart(targetIndex)->mUnk_7c & 0x402020) == 0) {
                 result = TRUE;
             }

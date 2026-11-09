@@ -290,8 +290,8 @@ void StopKartItemsAndEffects(Kart *kart) {
     ReleaseKartSurfaceEffects(kart);
     ReleaseKartStarEffects(kart->mIndex);
     ReleaseKartKillerEffect(kart->mIndex);
-    func_02081338(kart->mIndex);
-    func_020810e4(kart->mIndex);
+    ReleaseKartContactEffect(kart->mIndex);
+    ReleaseKartSpinFollowEffect(kart->mIndex);
     ReleaseKartAheadEffect(kart);
     ReleaseKartNearRankEffect(kart);
     ReleaseKartTurnEffects(GetKartTurnEffects(kart->mIndex));

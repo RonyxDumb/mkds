@@ -52,7 +52,7 @@ int CollideKartWithMapObjectResponse6(Kart *p, s32 *a, MapObject *c) {
             if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
                 GetEntryKartCounters()->mMapObjectHitCount++;
             }
-            func_020812d0(p->mIndex);
+            StartKartSpinSideEffects(p->mIndex);
         }
         *a = 4;
     } else {

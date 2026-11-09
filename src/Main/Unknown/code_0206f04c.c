@@ -547,7 +547,7 @@ s32 func_0206f04c(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseSpee
         }
         kart->mTurnAngle = 0;
     } else if (e == 4) {
-        func_020813ec(kart->mIndex, contactNormal);
+        StartAndPlaceKartContactEffect(kart->mIndex, contactNormal);
     }
     if (kart->mState != KART_STATE_NORMAL) {
         kart->mHeadingAnglePerFrame = 0;

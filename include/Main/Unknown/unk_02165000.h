@@ -83,7 +83,7 @@ extern u16 data_usa_021656a0;
 extern s32 gCourseWobbleAmplitude;
 extern s32 data_usa_021656c0;
 extern Vec3 data_02165530;
-extern s32 data_02165948;
+extern s32 gStarEffectEngineScale;
 extern s32 data_0216593c;
 extern s32 data_02165944;
 extern s32 data_0216594c;

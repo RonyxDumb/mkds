@@ -150,7 +150,7 @@ void SetNsbmdCullModeUnmirrored(Nsbmd *nsbmd) {
     }
 }
 
-void func_02084f10(Nsbmd *nsbmd, NNSG3dResMdl *resMdl) {
+void InitNsbmdRenderObjWrapper(Nsbmd *nsbmd, NNSG3dResMdl *resMdl) {
     InitNsbmdRenderObj(nsbmd, resMdl, 1);
 }
 
@@ -186,7 +186,7 @@ NNSG3dResMdl *InitNsbmd(Nsbmd *nsbmd, NNSG3dResFileHeader *file) {
 }
 
 NNSG3dResMdl *InitNsbmdWithTextureFile(Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile, NNSG3dResFileHeader *textureFile) {
-    Nsbmd *o = nsbmd;
+    Nsbmd *nsbmdAlias = nsbmd;
 
     NNSG3dResMdlSet *modelSet;
     NNSG3dResTex *texture;
@@ -194,10 +194,10 @@ NNSG3dResMdl *InitNsbmdWithTextureFile(Nsbmd *nsbmd, NNSG3dResFileHeader *modelF
 
     modelSet = NNS_G3dGetMdlSet(modelFile);
     texture = NNS_G3dGetTex(textureFile);
-    o->mResFileEntry.mTexture = NULL;
-    o->mResFileEntry.mFile = NULL;
-    NNS_FndAppendListObject(&gResFileEntries, &o->mResFileEntry);
-    o->mResFileEntry.mFile = modelFile;
+    nsbmdAlias->mResFileEntry.mTexture = NULL;
+    nsbmdAlias->mResFileEntry.mFile = NULL;
+    NNS_FndAppendListObject(&gResFileEntries, &nsbmdAlias->mResFileEntry);
+    nsbmdAlias->mResFileEntry.mFile = modelFile;
     if (texture != NULL) {
         texture->mTexInfo.mFlag &= ~1;
         texture->mTex4x4Info.mFlag &= ~1;
@@ -206,15 +206,15 @@ NNSG3dResMdl *InitNsbmdWithTextureFile(Nsbmd *nsbmd, NNSG3dResFileHeader *modelF
         texture->mPlttInfo.mFlag &= ~1;
         texture->mPlttInfo.mVramKey = 0;
         UploadResTexture(texture);
-        o->mResFileEntry.mTexture = texture;
+        nsbmdAlias->mResFileEntry.mTexture = texture;
         if (modelSet->mHeader.mSignature == 0x304c444d) {
             NNS_G3dBindMdlSet(modelSet, texture);
         }
     }
     modelSet = NNS_G3dGetMdlSet(modelFile);
     entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &modelSet->mDict, modelSet->mDict.mOfsEntry);
-    InitNsbmdRenderObj(o, OFFSET_PTR(NNSG3dResMdl, modelSet, *DICT_ENTRY(u32, entries, 0)), 1);
-    return o->mResMdl;
+    InitNsbmdRenderObj(nsbmdAlias, OFFSET_PTR(NNSG3dResMdl, modelSet, *DICT_ENTRY(u32, entries, 0)), 1);
+    return nsbmdAlias->mResMdl;
 }
 
 NNSG3dResMdl *InitNsbmdWithoutCullSwap(Nsbmd *nsbmd, NNSG3dResFileHeader *file) {
@@ -384,7 +384,7 @@ void ReleaseAllResFiles(void) {
     }
 }
 
-void func_020846c0(void *heap) {
+void InitKartEffectTables(void *heap) {
     u32 kartCount;
     u16 i;
     u16 j;
@@ -406,28 +406,28 @@ void func_020846c0(void *heap) {
             gKartEffectIdSetIndex[i] = 1;
         }
     }
-    data_0217ae6c = 0x7fff;
+    gKartEffectColor = 0x7fff;
     switch (gRaceSetup->mCourseId) {
         case COURSE_ID_MANSION:
         case COURSE_ID_KOOPA:
-            data_0217ae6c = 0x1667;
+            gKartEffectColor = 0x1667;
             break;
         case COURSE_ID_TOWN:
-            data_0217ae6c = 0x2ff;
+            gKartEffectColor = 0x2ff;
             break;
         case COURSE_ID_GARDEN:
-            data_0217ae6c = 0x3e67;
+            gKartEffectColor = 0x3e67;
             break;
     }
     gOtherKartFullPairCount = (gRaceSetup->mKartCount - 1) / 2;
     gOtherKartOddCount = (gRaceSetup->mKartCount - 1) % 2;
-    data_02165948 = 0x1000;
+    gStarEffectEngineScale = 0x1000;
     switch (gRaceSetup->mEngineIndex) {
         case 0:
-            data_02165948 = 0xb33;
+            gStarEffectEngineScale = 0xb33;
             break;
         case 1:
-            data_02165948 = 0xd9a;
+            gStarEffectEngineScale = 0xd9a;
             break;
     }
 }

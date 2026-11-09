@@ -6,7 +6,7 @@
 // 0x24-byte entry: the word at 0x00 and the halfword at 0x08 are tested by DrawKartNameTagTexture and
 // UploadTextureAndPalette, the words at 0x1c and 0x20 are passed to the function given to DrawKartNameTagTexture.
 typedef struct TexPlttEntry {
-    /* 00 */ u32 mUnk_00;
+    /* 00 */ u32 mTexImageParam;
     /* 04 */ s32 mTexByteCount;
     /* 08 */ u16 mPlttByteCount;
     /* 0a */ u8 mUnk_0a[2];
@@ -43,10 +43,10 @@ void DrawKartNameTagTexture(TexPlttEntry *texPlttEntry, KartNameTag *kartObject,
                             UnkFunc *drawVertices);
 
 u16 *GetKartIndicesByDistance(void);
-u16 func_0208606c(int index);
+u16 GetKartPaletteColorFromTable(int index);
 u32 GetKartCameraDistanceSquared(int kartIndex);
 void DrawKartNameTags(MtxFx43 *viewMatrix);
-void func_020865ec(void);
-void func_020866b4(void);
-void func_0208677c(void);
-void func_02086a04(void);
+void SortKartsByDistanceOnePass(void);
+void SortKartsByDistanceAlongViewOnePass(void);
+void UpdateKartNameTags(void);
+void UpdateKartViewDistancesAndOutOfView(void);

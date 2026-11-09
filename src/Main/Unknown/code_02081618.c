@@ -39,13 +39,13 @@ void InitKartEffects(u32 kartCount) {
 
     i = 0;
     gKartEffects = HeapAlloc(GetHeap(GetCurrentHeapCall()), kartCount * 0x58);
-    data_0217ae70 = kartCount;
+    gKartEffectsCount = kartCount;
     for (; i < kartCount; i++) {
         kartEffects = &gKartEffects[i];
         kartEffects->mCurrentEffect = NULL;
-        kartEffects->mUnk_28 = NULL;
+        kartEffects->mContactEffect = NULL;
         kartEffects->mKillerEffect = NULL;
-        kartEffects->mUnk_30 = NULL;
+        kartEffects->mSpinFollowEffect = NULL;
         kartEffects->mCurrentEffectId = -1;
         kartEffects->mWaterEffect0 = kartEffects->mWaterEffect1 = 0;
         for (j = 0; j < 2; j++) {
@@ -83,7 +83,7 @@ void ComputeKartSidePoints(Kart *kart) {
     }
 }
 
-void func_0208442c(Kart *kart) {
+void SurfaceEffectStopKartCurrentEffects(Kart *kart) {
     KartEffects *kartEffects;
 
     kartEffects = &gKartEffects[kart->mIndex];
@@ -95,20 +95,20 @@ void func_0208442c(Kart *kart) {
     StopKartEffectPairs(kart, 0);
 }
 
-void func_020843d8(Kart *kart) {
+void ApplyKartCurrentEffectRow0(Kart *kart) {
     gKartSurfaceEffectRows[0].mStartEffects(
         &gKartSurfaceEffectRows[0].mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]],
         gKartSurfaceEffectRows[0].mVelocityFactorIndex, kart);
     StopKartEffectPairs(kart, 0);
 }
 
-void func_02084384(Kart *kart) {
+void ApplyKartCurrentEffectRow1(Kart *kart) {
     gKartSurfaceEffectRow1.mStartEffects(&gKartSurfaceEffectRow1.mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]],
                                          gKartSurfaceEffectRow1.mVelocityFactorIndex, kart);
     StopKartEffectPairs(kart, 0);
 }
 
-void func_02084334(Kart *kart) {
+void ApplyKartSideEffectsRow2(Kart *kart) {
     KartEffects *kartEffects;
 
     kartEffects = &gKartEffects[kart->mIndex];
@@ -117,10 +117,10 @@ void func_02084334(Kart *kart) {
         kartEffects->mCurrentEffect = NULL;
         kartEffects->mCurrentEffectId = -1;
     }
-    func_02083de8(2, kart);
+    ApplyKartSurfaceEffectRow(2, kart);
 }
 
-void func_020842ac(Kart *kart) {
+void ApplyKartSideEffectsRow3(Kart *kart) {
     KartEffects *kartEffects;
 
     kartEffects = &gKartEffects[kart->mIndex];
@@ -133,7 +133,7 @@ void func_020842ac(Kart *kart) {
                                          gKartSurfaceEffectRow3.mVelocityFactorIndex, kart);
 }
 
-void func_02084224(Kart *kart) {
+void ApplyKartSideEffectsRow4(Kart *kart) {
     KartEffects *kartEffects;
 
     kartEffects = &gKartEffects[kart->mIndex];
@@ -146,7 +146,7 @@ void func_02084224(Kart *kart) {
                                          gKartSurfaceEffectRow4.mVelocityFactorIndex, kart);
 }
 
-void func_0208419c(Kart *kart) {
+void ApplyKartSideEffectsRow5(Kart *kart) {
     KartEffects *kartEffects;
 
     kartEffects = &gKartEffects[kart->mIndex];
@@ -159,7 +159,7 @@ void func_0208419c(Kart *kart) {
                                          gKartSurfaceEffectRow5.mVelocityFactorIndex, kart);
 }
 
-void func_02084114(Kart *kart) {
+void ApplyKartSideEffectsRow6(Kart *kart) {
     KartEffects *kartEffects;
 
     kartEffects = &gKartEffects[kart->mIndex];
@@ -172,7 +172,7 @@ void func_02084114(Kart *kart) {
                                          gKartSurfaceEffectRow6.mVelocityFactorIndex, kart);
 }
 
-void func_020840c0(Kart *kart) {
+void ApplyKartCurrentEffectRow7(Kart *kart) {
     gKartSurfaceEffectRow7.mStartEffects(&gKartSurfaceEffectRow7.mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]],
                                          gKartSurfaceEffectRow7.mVelocityFactorIndex, kart);
     StopKartEffectPairs(kart, 0);
@@ -241,7 +241,7 @@ void ApplyKartWaterEffects(Kart *kart) {
     }
 }
 
-void func_02083de8(s32 rowIndex, Kart *kart) {
+void ApplyKartSurfaceEffectRow(s32 rowIndex, Kart *kart) {
     KartSurfaceEffectRow *row;
     KartEffectIdSet *effectIdSet;
     KartEffects *kartEffects;
@@ -257,7 +257,7 @@ void func_02083de8(s32 rowIndex, Kart *kart) {
     for (i = 0; i < effectIdSet->mCount; i++) {
         for (j = 0; j < 2; j++) {
             if (kartEffects->mEffectPairs[i].mUnk_00_a[j] != 0) {
-                kartEffects->mEffectPairs[i].mUnk_00_a[j]->mUnk_72 = data_0217ae6c;
+                kartEffects->mEffectPairs[i].mUnk_00_a[j]->mUnk_72 = gKartEffectColor;
             }
         }
     }
@@ -485,7 +485,7 @@ void AdvanceKartCurrentEffect(Unk0201ca6c *effect, s32 a) {
     u32 stepCount;
     s32 velocityFactor;
     u32 counting;
-    u32 f;
+    u32 stopsEmission;
 
     if (a != 0) {
         return;
@@ -495,13 +495,13 @@ void AdvanceKartCurrentEffect(Unk0201ca6c *effect, s32 a) {
     velocityFactor = gKartEffectVelocityFactors[effect->mUnk_98_b.mUnk_00];
     stepCount = effect->mUnk_98_b.mUnk_02;
     counting = effect->mUnk_98_b.mUnk_01;
-    f = 1;
+    stopsEmission = 1;
     if (IsKartTurnEffectsActive(kart) == 0) {
         if (kart->mVelocityLength >= 0x119a) {
-            f = 0;
+            stopsEmission = 0;
         }
     }
-    effect->mUnk_24.mUnk_00_1 = (f != 0);
+    effect->mUnk_24.mUnk_00_1 = (stopsEmission != 0);
     s = &kart->mUnk_138;
     offsetBehind.x = ((s64) s->x * -0x5000) >> 12;
     offsetBehind.y = ((s64) s->y * -0x5000) >> 12;
@@ -527,13 +527,13 @@ void AdvanceKartCurrentEffect(Unk0201ca6c *effect, s32 a) {
 }
 
 void AdvanceKartSideEffect(Unk0201ca6c *effect, s32 a) {
-    s32 x;
+    s32 sideCoordinate;
     Kart *kart;
     u32 stepCount;
     KartEffects *kartEffects;
     u32 counting;
     u32 sideIndex;
-    u32 f;
+    u32 stopsEmission;
 
     if (a != 0) {
         return;
@@ -543,13 +543,13 @@ void AdvanceKartSideEffect(Unk0201ca6c *effect, s32 a) {
     stepCount = effect->mUnk_98_b.mUnk_02;
     counting = effect->mUnk_98_b.mUnk_01;
     sideIndex = effect->mUnk_98_b.mUnk_03;
-    f = 1;
+    stopsEmission = 1;
     if (IsKartTurnEffectsActive(kart) == 0) {
         if (kart->mVelocityLength >= 0x119a) {
-            f = 0;
+            stopsEmission = 0;
         }
     }
-    effect->mUnk_24.mUnk_00_1 = (f != 0);
+    effect->mUnk_24.mUnk_00_1 = (stopsEmission != 0);
     if (counting != 0) {
         stepCount = (u8) (stepCount + 1);
         if (stepCount == 10) {
@@ -558,16 +558,16 @@ void AdvanceKartSideEffect(Unk0201ca6c *effect, s32 a) {
     }
     effect->mUnk_98_b.mUnk_02 = stepCount;
     effect->mUnk_50 = kartEffects->mSideDirections[sideIndex];
-    x = kartEffects->mSidePositions[sideIndex].x;
-    effect->mUnk_28.x = x + effect->mUnk_20->mUnk_00->mUnk_04.x;
-    x = kartEffects->mSidePositions[sideIndex].y;
-    effect->mUnk_28.y = x + effect->mUnk_20->mUnk_00->mUnk_04.y;
-    x = kartEffects->mSidePositions[sideIndex].z;
-    effect->mUnk_28.z = x + effect->mUnk_20->mUnk_00->mUnk_04.z;
+    sideCoordinate = kartEffects->mSidePositions[sideIndex].x;
+    effect->mUnk_28.x = sideCoordinate + effect->mUnk_20->mUnk_00->mUnk_04.x;
+    sideCoordinate = kartEffects->mSidePositions[sideIndex].y;
+    effect->mUnk_28.y = sideCoordinate + effect->mUnk_20->mUnk_00->mUnk_04.y;
+    sideCoordinate = kartEffects->mSidePositions[sideIndex].z;
+    effect->mUnk_28.z = sideCoordinate + effect->mUnk_20->mUnk_00->mUnk_04.z;
 }
 
 void AdvanceKartSideEffectWithVelocity(Unk0201ca6c *effect, s32 a) {
-    s32 x;
+    s32 sideCoordinate;
     Vec3 velocity;
     Kart *kart;
     u32 stepCount;
@@ -575,7 +575,7 @@ void AdvanceKartSideEffectWithVelocity(Unk0201ca6c *effect, s32 a) {
     u32 counting;
     u32 sideIndex;
     s32 velocityFactor;
-    u32 f;
+    u32 stopsEmission;
 
     if (a != 0) {
         return;
@@ -587,13 +587,13 @@ void AdvanceKartSideEffectWithVelocity(Unk0201ca6c *effect, s32 a) {
     counting = effect->mUnk_98_b.mUnk_01;
     sideIndex = effect->mUnk_98_b.mUnk_03;
     velocityFactor = gKartEffectVelocityFactors[effect->mUnk_98_b.mUnk_00];
-    f = 1;
+    stopsEmission = 1;
     if (IsKartTurnEffectsActive(kart) == 0) {
         if (kart->mVelocityLength >= 0x119a) {
-            f = 0;
+            stopsEmission = 0;
         }
     }
-    effect->mUnk_24.mUnk_00_1 = (f != 0);
+    effect->mUnk_24.mUnk_00_1 = (stopsEmission != 0);
     if (counting != 0) {
         stepCount = (u8) (stepCount + 1);
         if (stepCount == 10) {
@@ -602,12 +602,12 @@ void AdvanceKartSideEffectWithVelocity(Unk0201ca6c *effect, s32 a) {
     }
     effect->mUnk_98_b.mUnk_02 = stepCount;
     effect->mUnk_50 = kartEffects->mSideDirections[sideIndex];
-    x = kartEffects->mSidePositions[sideIndex].x;
-    effect->mUnk_28.x = x + effect->mUnk_20->mUnk_00->mUnk_04.x;
-    x = kartEffects->mSidePositions[sideIndex].y;
-    effect->mUnk_28.y = x + effect->mUnk_20->mUnk_00->mUnk_04.y;
-    x = kartEffects->mSidePositions[sideIndex].z;
-    effect->mUnk_28.z = x + effect->mUnk_20->mUnk_00->mUnk_04.z;
+    sideCoordinate = kartEffects->mSidePositions[sideIndex].x;
+    effect->mUnk_28.x = sideCoordinate + effect->mUnk_20->mUnk_00->mUnk_04.x;
+    sideCoordinate = kartEffects->mSidePositions[sideIndex].y;
+    effect->mUnk_28.y = sideCoordinate + effect->mUnk_20->mUnk_00->mUnk_04.y;
+    sideCoordinate = kartEffects->mSidePositions[sideIndex].z;
+    effect->mUnk_28.z = sideCoordinate + effect->mUnk_20->mUnk_00->mUnk_04.z;
     velocity.x = ((s64) velocity.x * velocityFactor) >> 12;
     velocity.y = ((s64) velocity.y * velocityFactor) >> 12;
     velocity.z = ((s64) velocity.z * velocityFactor) >> 12;
@@ -616,16 +616,16 @@ void AdvanceKartSideEffectWithVelocity(Unk0201ca6c *effect, s32 a) {
 
 // Keeps the water effect at the kart's side, raised by the depth below the water surface.
 void AdvanceKartWaterEffect(Unk0201ca6c *effect, s32 a) {
-    s32 x;
+    s32 sideCoordinate;
     Vec3 velocity;
     u32 counting;
     Kart *kart;
     u32 stepCount;
     KartEffects *kartEffects;
-    u32 f;
+    u32 isSlowOrTurning;
     u32 sideIndex;
     s32 velocityFactor;
-    u32 g;
+    u32 stopsEmission;
 
     if (a != 0) {
         return;
@@ -633,23 +633,23 @@ void AdvanceKartWaterEffect(Unk0201ca6c *effect, s32 a) {
     kart = effect->mUnk_94;
     kartEffects = &gKartEffects[kart->mIndex];
     velocity = kart->mEffectVelocity;
-    g = 1;
-    f = 1;
+    stopsEmission = 1;
+    isSlowOrTurning = 1;
     stepCount = effect->mUnk_98_b.mUnk_02;
     counting = effect->mUnk_98_b.mUnk_01;
     sideIndex = effect->mUnk_98_b.mUnk_03;
     velocityFactor = gKartEffectVelocityFactors[effect->mUnk_98_b.mUnk_00];
     if (IsKartTurnEffectsActive(kart) == 0) {
         if (kart->mVelocityLength >= 0x119a) {
-            f = 0;
+            isSlowOrTurning = 0;
         }
     }
-    if (f == 0) {
+    if (isSlowOrTurning == 0) {
         if (kart->mWaterDepth <= 0x5000) {
-            g = 0;
+            stopsEmission = 0;
         }
     }
-    effect->mUnk_24.mUnk_00_1 = (g != 0);
+    effect->mUnk_24.mUnk_00_1 = (stopsEmission != 0);
     if (counting != 0) {
         stepCount = (u8) (stepCount + 1);
         if (stepCount == 10) {
@@ -658,12 +658,12 @@ void AdvanceKartWaterEffect(Unk0201ca6c *effect, s32 a) {
     }
     effect->mUnk_98_b.mUnk_02 = stepCount;
     effect->mUnk_50 = kartEffects->mSideDirections[sideIndex];
-    x = kartEffects->mSidePositions[sideIndex].x;
-    effect->mUnk_28.x = x + effect->mUnk_20->mUnk_00->mUnk_04.x;
-    x = kartEffects->mSidePositions[sideIndex].y;
-    effect->mUnk_28.y = x + effect->mUnk_20->mUnk_00->mUnk_04.y;
-    x = kartEffects->mSidePositions[sideIndex].z;
-    effect->mUnk_28.z = x + effect->mUnk_20->mUnk_00->mUnk_04.z;
+    sideCoordinate = kartEffects->mSidePositions[sideIndex].x;
+    effect->mUnk_28.x = sideCoordinate + effect->mUnk_20->mUnk_00->mUnk_04.x;
+    sideCoordinate = kartEffects->mSidePositions[sideIndex].y;
+    effect->mUnk_28.y = sideCoordinate + effect->mUnk_20->mUnk_00->mUnk_04.y;
+    sideCoordinate = kartEffects->mSidePositions[sideIndex].z;
+    effect->mUnk_28.z = sideCoordinate + effect->mUnk_20->mUnk_00->mUnk_04.z;
     effect->mUnk_28.y = effect->mUnk_28.y + (kart->mWaterDepth >> 4);
     velocity.x = ((s64) velocity.x * velocityFactor) >> 12;
     velocity.y = ((s64) velocity.y * velocityFactor) >> 12;
@@ -689,7 +689,7 @@ void StartEffectsAtOtherKarts(s32 pairSetIndex) {
     s32 kindIndex;
     KartIndexPair *pair;
     s32 startedCount;
-    u32 f;
+    u32 initialToggle;
     s32 fullPairCount;
     s32 i;
     s32 oddCount;
@@ -710,7 +710,7 @@ void StartEffectsAtOtherKarts(s32 pairSetIndex) {
     }
     effectKind = gOtherKartEffectKinds;
     for (kindIndex = 0; kindIndex < 2; kindIndex++) {
-        f = (kindIndex != 0) ? 1 : 0;
+        initialToggle = (kindIndex != 0) ? 1 : 0;
         startedCount = 0;
         pair = gOtherKartPairsCopy.mPairs;
         do {
@@ -723,7 +723,7 @@ void StartEffectsAtOtherKarts(s32 pairSetIndex) {
             effect->mUnk_98_0 = pair->mFirst;
             effect->mUnk_98_8 = (pair->mSecond < 0) ? 0xff : (u8) pair->mSecond;
             pair++;
-            effect->mUnk_98_16 = f;
+            effect->mUnk_98_16 = initialToggle;
             effect->mUnk_98_24 = 0;
             effect->mUnk_94_u = 0;
         } while (startedCount < 4);
@@ -732,27 +732,27 @@ void StartEffectsAtOtherKarts(s32 pairSetIndex) {
 }
 
 void PlaceOtherKartEffect(Unk0201ca6c *effect, s32 a) {
-    Unk0201ca6c_98 *s;
+    Unk0201ca6c_98 *state;
     Kart *kart;
-    u32 n;
-    u32 f;
-    u32 x;
+    u32 stepCount;
+    u32 isShown;
+    u32 secondKart;
     s32 kartIndex;
     s32 pointX;
     s32 pointY;
     s32 pointZ;
 
-    s = &effect->mUnk_98_b;
-    kartIndex = s->mUnk_02;
-    n = effect->mUnk_94_u;
-    kartIndex = (kartIndex == 0) ? s->mUnk_00 : s->mUnk_01;
-    x = s->mUnk_01;
-    f = 1;
-    if (x > 8) {
+    state = &effect->mUnk_98_b;
+    kartIndex = state->mUnk_02;
+    stepCount = effect->mUnk_94_u;
+    kartIndex = (kartIndex == 0) ? state->mUnk_00 : state->mUnk_01;
+    secondKart = state->mUnk_01;
+    isShown = 1;
+    if (secondKart > 8) {
         if (kartIndex > 8) {
-            f = 0;
+            isShown = 0;
         }
-        kartIndex = s->mUnk_00;
+        kartIndex = state->mUnk_00;
     }
     kart = GetKart(kartIndex);
     pointX = kart->mPointAlongUp.x;
@@ -762,13 +762,13 @@ void PlaceOtherKartEffect(Unk0201ca6c *effect, s32 a) {
     effect->mUnk_28.y = (pointY >> 4) + effect->mUnk_20->mUnk_00->mUnk_04.y;
     effect->mUnk_28.z = (pointZ >> 4) + effect->mUnk_20->mUnk_00->mUnk_04.z;
     if (kart->mUnk_7c & 0x402000) {
-        f = 0;
+        isShown = 0;
     }
-    effect->mUnk_24.mUnk_00_3 = (f == 0);
-    if (n + 1 >= 0x32) {
+    effect->mUnk_24.mUnk_00_3 = (isShown == 0);
+    if (stepCount + 1 >= 0x32) {
         effect->mUnk_24.mUnk_00_0 = 1;
     }
-    effect->mUnk_94_u = n + 1;
+    effect->mUnk_94_u = stepCount + 1;
 }
 
 // Sets the effect speed scale, then starts the effects of two courses and ties them to the camera.
@@ -786,7 +786,7 @@ void InitCourseCameraEffects(void) {
             engineScale = 0xb33;
             break;
     }
-    data_0217ae9c = FX_Div(0x1000, ((s64) engineScale * 0x779a + 0x800) >> 12);
+    gCourseCameraEffectSpeedReciprocal = FX_Div(0x1000, ((s64) engineScale * 0x779a + 0x800) >> 12);
     gSecondCourseCameraEffect = NULL;
     gFirstCourseCameraEffect = NULL;
     switch (gRaceSetup->mCourseId) {
@@ -796,24 +796,24 @@ void InitCourseCameraEffects(void) {
             if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
                 effect = StartEffect(0x24, &data_02155a14);
                 gFirstCourseCameraEffect = effect;
-                effect->mUnk_90 = func_02082750;
+                effect->mUnk_90 = AdvanceOldLuigiAgbFirstChaseEffect;
                 effect = StartEffect(0x27, &data_02155a14);
                 gSecondCourseCameraEffect = effect;
-                effect->mUnk_90 = func_02082a10;
+                effect->mUnk_90 = AdvanceOldLuigiAgbSecondChaseEffect;
             } else if (GetRaceUseChainCameras() != 0) {
                 effect = StartEffect(0x3d, &data_02155a14);
                 gFirstCourseCameraEffect = effect;
-                effect->mUnk_90 = func_020824d0;
+                effect->mUnk_90 = AdvanceOldLuigiAgbFirstCurrentCameraEffect;
                 effect = StartEffect(0x3f, &data_02155a14);
                 gSecondCourseCameraEffect = effect;
-                effect->mUnk_90 = func_0208266c;
+                effect->mUnk_90 = AdvanceOldLuigiAgbSecondCurrentCameraEffect;
             } else {
                 effect = StartEffect(0x3c, &data_02155a14);
                 gFirstCourseCameraEffect = effect;
-                effect->mUnk_90 = func_020824d0;
+                effect->mUnk_90 = AdvanceOldLuigiAgbFirstCurrentCameraEffect;
                 effect = StartEffect(0x3f, &data_02155a14);
                 gSecondCourseCameraEffect = effect;
-                effect->mUnk_90 = func_0208266c;
+                effect->mUnk_90 = AdvanceOldLuigiAgbSecondCurrentCameraEffect;
             }
             break;
         }
@@ -823,25 +823,25 @@ void InitCourseCameraEffects(void) {
             if (GetRaceUseChainCameras() != 0) {
                 effect = StartEffect(0x3e, &data_02155a14);
                 gFirstCourseCameraEffect = effect;
-                effect->mUnk_90 = func_02082034;
+                effect->mUnk_90 = AdvanceOldFrappe64FirstCurrentCameraEffect;
             } else if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
                 effect = StartEffect(0x29, &data_02155a14);
                 gFirstCourseCameraEffect = effect;
-                effect->mUnk_90 = func_020821cc;
+                effect->mUnk_90 = AdvanceOldFrappe64FirstChaseEffect;
                 effect = StartEffect(0x25, &data_02155a14);
                 gSecondCourseCameraEffect = effect;
-                effect->mUnk_90 = func_02082368;
+                effect->mUnk_90 = AdvanceOldFrappe64SecondChaseEffect;
             } else {
                 effect = StartEffect(0x29, &data_02155a14);
                 gFirstCourseCameraEffect = effect;
-                effect->mUnk_90 = func_02082034;
+                effect->mUnk_90 = AdvanceOldFrappe64FirstCurrentCameraEffect;
             }
             break;
         }
     }
 }
 
-void func_02082a10(Unk0201ca6c *effect, s32 a) {
+void AdvanceOldLuigiAgbSecondChaseEffect(Unk0201ca6c *effect, s32 a) {
     Vec3 forwardFlat;
     Vec3 effectPos;
     Camera *chaseCamera;
@@ -864,8 +864,8 @@ void func_02082a10(Unk0201ca6c *effect, s32 a) {
     effect->mUnk_28.z = effectPos.z + effect->mUnk_20->mUnk_00->mUnk_04.z;
 }
 
-void func_02082750(Unk0201ca6c *effect, s32 a) {
-    Vec3s16 h;
+void AdvanceOldLuigiAgbFirstChaseEffect(Unk0201ca6c *effect, s32 a) {
+    Vec3s16 directionHalfwords;
     Vec3 forwardFlat;
     Vec3 axis;
     Vec3 effectPos;
@@ -874,8 +874,8 @@ void func_02082750(Unk0201ca6c *effect, s32 a) {
     Camera *chaseCamera;
     Kart *kart;
     s32 speedRatio;
-    s32 k;
-    s32 s;
+    s32 extraDistance;
+    s32 distanceSlope;
     u16 angle;
 
     if (a != 0) {
@@ -891,26 +891,26 @@ void func_02082750(Unk0201ca6c *effect, s32 a) {
         Vec3NormalizeAndGetLengthUnchecked(&forwardFlat, &forwardFlat);
     }
     VEC_CrossProduct(&data_02155a08, &forwardFlat, &axis);
-    speedRatio = ((s64) kart->mVelocityLength * data_0217ae9c + 0x800) >> 12;
+    speedRatio = ((s64) kart->mVelocityLength * gCourseCameraEffectSpeedReciprocal + 0x800) >> 12;
     rotatedVector = data_02165984;
-    k = 0;
+    extraDistance = 0;
     if (speedRatio > 0x1000) {
         speedRatio = 0x1000;
     }
     if (kart->mUnk_44 & 0x100) {
         speedRatio = speedRatio * 0xffffffff;
-        k = data_02165938;
+        extraDistance = data_02165938;
     }
     angle = (s32) (((s64) speedRatio * 0x38e3 + 0x800) >> 12);
     MTX_RotAxis33(&rotation, &axis, gPairsByAngle[(angle >> 4) * 2], gPairsByAngle[(angle >> 4) * 2 + 1]);
     MTX_MultVec33(&rotatedVector, &rotation, &rotatedVector);
-    h.x = rotatedVector.x;
-    h.y = rotatedVector.y;
-    h.z = rotatedVector.z;
+    directionHalfwords.x = rotatedVector.x;
+    directionHalfwords.y = rotatedVector.y;
+    directionHalfwords.z = rotatedVector.z;
     effect->mUnk_68 = (s16) ((s32) (((s64) (0x1000 - speedRatio) * 0x800 + 0x800) >> 12) + 0x800);
-    effect->mUnk_50 = h;
-    s = data_02165954 + k;
-    VEC_MultAdd(data_02165938 + (s32) (((s64) s * (s64) speedRatio + 0x800) >> 12), &forwardFlat,
+    effect->mUnk_50 = directionHalfwords;
+    distanceSlope = data_02165954 + extraDistance;
+    VEC_MultAdd(data_02165938 + (s32) (((s64) distanceSlope * (s64) speedRatio + 0x800) >> 12), &forwardFlat,
                 &chaseCamera->mViewPos, &effectPos);
     effectPos.y = GetKart(gRaceSetup->mEntryIndex)->mPosSource->y >> 4;
     effectPos.y = effectPos.y - (s32) (((s64) data_02165934 * speedRatio + 0x800) >> 12);
@@ -919,7 +919,7 @@ void func_02082750(Unk0201ca6c *effect, s32 a) {
     effect->mUnk_28.z = effectPos.z + effect->mUnk_20->mUnk_00->mUnk_04.z;
 }
 
-void func_0208266c(Unk0201ca6c *effect, s32 a) {
+void AdvanceOldLuigiAgbSecondCurrentCameraEffect(Unk0201ca6c *effect, s32 a) {
     Vec3 forwardFlat;
     Vec3 effectPos;
     Camera *currentCamera;
@@ -942,12 +942,12 @@ void func_0208266c(Unk0201ca6c *effect, s32 a) {
     effect->mUnk_28.z = effectPos.z + effect->mUnk_20->mUnk_00->mUnk_04.z;
 }
 
-void func_020824d0(Unk0201ca6c *effect, s32 a) {
-    Vec3s16 h;
+void AdvanceOldLuigiAgbFirstCurrentCameraEffect(Unk0201ca6c *effect, s32 a) {
+    Vec3s16 directionHalfwords;
     Vec3 forwardFlat;
-    Vec3 x;
+    Vec3 axis;
     Vec3 effectPos;
-    Vec3 w;
+    Vec3 negatedUnitY;
     Camera *currentCamera;
 
     if (a != 0) {
@@ -956,20 +956,20 @@ void func_020824d0(Unk0201ca6c *effect, s32 a) {
     currentCamera = GetCurrentCamera();
     GetKart(gRaceSetup->mEntryIndex);
     forwardFlat = currentCamera->mForward;
-    w = data_02155a08;
+    negatedUnitY = data_02155a08;
     forwardFlat.y = 0;
     if ((s64) forwardFlat.z * forwardFlat.z +
             ((s64) forwardFlat.x * forwardFlat.x + (s64) forwardFlat.y * forwardFlat.y) >=
         16) {
         Vec3NormalizeAndGetLengthUnchecked(&forwardFlat, &forwardFlat);
     }
-    VEC_CrossProduct(&data_02155a08, &forwardFlat, &x);
-    w.y = w.y * 0xffffffff;
-    h.x = w.x;
-    h.y = w.y;
-    h.z = w.z;
+    VEC_CrossProduct(&data_02155a08, &forwardFlat, &axis);
+    negatedUnitY.y = negatedUnitY.y * 0xffffffff;
+    directionHalfwords.x = negatedUnitY.x;
+    directionHalfwords.y = negatedUnitY.y;
+    directionHalfwords.z = negatedUnitY.z;
     effect->mUnk_68 = 0x1000;
-    effect->mUnk_50 = h;
+    effect->mUnk_50 = directionHalfwords;
     VEC_MultAdd(data_02165964, &forwardFlat, &currentCamera->mViewPos, &effectPos);
     effectPos.y =
         effectPos.y + (data_02165968 + (s32) (((s64) currentCamera->mForward.y * data_02165960 + 0x800) >> 12));
@@ -978,7 +978,7 @@ void func_020824d0(Unk0201ca6c *effect, s32 a) {
     effect->mUnk_28.z = effectPos.z + effect->mUnk_20->mUnk_00->mUnk_04.z;
 }
 
-void func_02082368(Unk0201ca6c *effect, s32 a) {
+void AdvanceOldFrappe64SecondChaseEffect(Unk0201ca6c *effect, s32 a) {
     Vec3 forwardFlat;
     Vec3 effectPos;
     Camera *chaseCamera;
@@ -1002,18 +1002,18 @@ void func_02082368(Unk0201ca6c *effect, s32 a) {
     effect->mUnk_28.x = effectPos.x + effect->mUnk_20->mUnk_00->mUnk_04.x;
     effect->mUnk_28.y = effectPos.y + effect->mUnk_20->mUnk_00->mUnk_04.y;
     effect->mUnk_28.z = effectPos.z + effect->mUnk_20->mUnk_00->mUnk_04.z;
-    speedRatio = ((s64) kart->mVelocityLength * data_0217ae9c + 0x800) >> 12;
+    speedRatio = ((s64) kart->mVelocityLength * gCourseCameraEffectSpeedReciprocal + 0x800) >> 12;
     if (speedRatio > 0x1000) {
         speedRatio = 0x1000;
     }
     effect->mUnk_58 = ((s64) (0x1000 - speedRatio) * 0x400 + 0x800) >> 12;
 }
 
-void func_020821cc(Unk0201ca6c *effect, s32 a) {
+void AdvanceOldFrappe64FirstChaseEffect(Unk0201ca6c *effect, s32 a) {
     Vec3 forwardFlat;
     Vec3 effectPos;
     Camera *chaseCamera;
-    s32 k;
+    s32 extraDistance;
     Kart *kart;
     s32 speedRatio;
 
@@ -1023,23 +1023,23 @@ void func_020821cc(Unk0201ca6c *effect, s32 a) {
     chaseCamera = GetChaseCamera();
     kart = GetKart(gRaceSetup->mEntryIndex);
     forwardFlat = chaseCamera->mForward;
-    speedRatio = ((s64) kart->mVelocityLength * data_0217ae9c + 0x800) >> 12;
-    k = 0;
+    speedRatio = ((s64) kart->mVelocityLength * gCourseCameraEffectSpeedReciprocal + 0x800) >> 12;
+    extraDistance = 0;
     forwardFlat.y = 0;
     if (speedRatio > 0x1000) {
         speedRatio = 0x1000;
     }
     if (kart->mUnk_44 & 0x100) {
-        k = -0x5800;
+        extraDistance = -0x5800;
     }
     if ((s64) forwardFlat.z * forwardFlat.z +
             ((s64) forwardFlat.x * forwardFlat.x + (s64) forwardFlat.y * forwardFlat.y) >=
         16) {
         Vec3NormalizeAndGetLengthUnchecked(&forwardFlat, &forwardFlat);
     }
-    k = k * 3;
-    VEC_MultAdd((s32) (((s64) k * (s64) speedRatio + 0x800) >> 12) + 0x5800, &forwardFlat, &chaseCamera->mViewPos,
-                &effectPos);
+    extraDistance = extraDistance * 3;
+    VEC_MultAdd((s32) (((s64) extraDistance * (s64) speedRatio + 0x800) >> 12) + 0x5800, &forwardFlat,
+                &chaseCamera->mViewPos, &effectPos);
     effectPos.y = GetKart(gRaceSetup->mEntryIndex)->mPosSource->y >> 4;
     effect->mUnk_28.x = effectPos.x + effect->mUnk_20->mUnk_00->mUnk_04.x;
     effect->mUnk_28.y = effectPos.y + effect->mUnk_20->mUnk_00->mUnk_04.y;
@@ -1047,7 +1047,7 @@ void func_020821cc(Unk0201ca6c *effect, s32 a) {
     effect->mUnk_58 = ((s64) 0x800 * speedRatio + 0x800) >> 12;
 }
 
-void func_02082034(Unk0201ca6c *effect, s32 a) {
+void AdvanceOldFrappe64FirstCurrentCameraEffect(Unk0201ca6c *effect, s32 a) {
     Vec3 forwardFlat;
     Vec3 effectPos;
     Vec3 extraOffset;
@@ -1082,7 +1082,7 @@ void func_02082034(Unk0201ca6c *effect, s32 a) {
     effect->mUnk_58 = 0x800;
 }
 
-void func_02081f30(void) {
+void SwitchCourseCameraEffectsToCurrentCamera(void) {
     Unk0201ca6c *effect;
 
     switch (gRaceSetup->mCourseId) {
@@ -1091,7 +1091,7 @@ void func_02081f30(void) {
                 DeleteEffect(gFirstCourseCameraEffect);
                 effect = StartEffect(0x3c, &data_02155a14);
                 gFirstCourseCameraEffect = effect;
-                effect->mUnk_90 = func_020824d0;
+                effect->mUnk_90 = AdvanceOldLuigiAgbFirstCurrentCameraEffect;
             }
             if (gSecondCourseCameraEffect == NULL) {
                 return;
@@ -1099,11 +1099,11 @@ void func_02081f30(void) {
             DeleteEffect(gSecondCourseCameraEffect);
             effect = StartEffect(0x3f, &data_02155a14);
             gSecondCourseCameraEffect = effect;
-            effect->mUnk_90 = func_0208266c;
+            effect->mUnk_90 = AdvanceOldLuigiAgbSecondCurrentCameraEffect;
             break;
         case COURSE_ID_OLD_FRAPPE_64:
             if (gFirstCourseCameraEffect != NULL) {
-                gFirstCourseCameraEffect->mUnk_90 = func_02082034;
+                gFirstCourseCameraEffect->mUnk_90 = AdvanceOldFrappe64FirstCurrentCameraEffect;
             }
             if (gSecondCourseCameraEffect == NULL) {
                 return;
@@ -1192,30 +1192,30 @@ void AdvanceKartFollowEffectWithVelocity(Unk0201ca6c *effect, s32 a) {
 }
 
 void PlaceKartAheadEffect(Unk0201ca6c *effect, Kart *kart, void *a) {
-    u32 r;
-    u32 f;
+    u32 isShown;
+    u32 kartFlags;
 
     if (a == NULL) {
         PlaceEffectAheadAndUpOfKart(effect, kart, 0x733, 0xb33);
         effect->mUnk_5c = (s16) (((s64) kart->mScale.z * 0xb33 + 0x800) >> 12);
     } else {
-        r = 1;
+        isShown = 1;
         PlaceEffectAheadAndUpOfKart(effect, kart, 0x99a, 0xe66);
         effect->mUnk_6c = (s16) kart->mScale.z;
-        f = kart->mUnk_7c;
-        if (!(f & 1)) {
-            if (f & 0x402000) {
-                r = 0;
+        kartFlags = kart->mUnk_7c;
+        if (!(kartFlags & 1)) {
+            if (kartFlags & 0x402000) {
+                isShown = 0;
             }
         }
-        effect->mUnk_24.mUnk_00_3 = (r == 0);
+        effect->mUnk_24.mUnk_00_3 = (isShown == 0);
     }
 }
 
 // Puts the effect ahead of the kart by b and above it by a, pointing backward.
 void PlaceEffectAheadAndUpOfKart(Unk0201ca6c *effect, Kart *kart, s32 upDistance, s32 aheadDistance) {
     Vec3 position;
-    Vec3 w;
+    Vec3 direction;
     Vec3s16 backwardDirection;
     Vec3 *kartPos = kart->mPosSource;
 
@@ -1227,13 +1227,13 @@ void PlaceEffectAheadAndUpOfKart(Unk0201ca6c *effect, Kart *kart, s32 upDistance
     effect->mUnk_28.x = position.x + effect->mUnk_20->mUnk_00->mUnk_04.x;
     effect->mUnk_28.y = position.y + effect->mUnk_20->mUnk_00->mUnk_04.y;
     effect->mUnk_28.z = position.z + effect->mUnk_20->mUnk_00->mUnk_04.z;
-    GetKartForward(kart, &w);
-    w.x = -w.x;
-    w.y = -w.y;
-    w.z = -w.z;
-    backwardDirection.x = w.x;
-    backwardDirection.y = w.y;
-    backwardDirection.z = w.z;
+    GetKartForward(kart, &direction);
+    direction.x = -direction.x;
+    direction.y = -direction.y;
+    direction.z = -direction.z;
+    backwardDirection.x = direction.x;
+    backwardDirection.y = direction.y;
+    backwardDirection.z = direction.z;
     effect->mUnk_50 = backwardDirection;
 }
 
@@ -1277,7 +1277,7 @@ void StartKartStarEffects(s32 kartIndex) {
     } while (i < 3);
 }
 
-static inline s32 func_0208181c_inline(s32 a, s32 b) {
+static inline s32 MulFixed12Rounded(s32 a, s32 b) {
     return ((s64) a * b + 0x800) >> 12;
 }
 
@@ -1291,10 +1291,10 @@ void AdvanceKartStarEffects(s32 kartIndex) {
     Vec3 effectPos;
 
     kart = GetKart(kartIndex);
-    y = func_0208181c_inline(
-        data_0216593c + func_0208181c_inline(kart->mVelocityLengthRatio, data_02165950 - data_0216593c), data_02165948);
-    x = func_0208181c_inline(
-        data_02165944 + func_0208181c_inline(kart->mVelocityLengthRatio, data_0216594c - data_02165944), data_02165948);
+    y = MulFixed12Rounded(data_0216593c + MulFixed12Rounded(kart->mVelocityLengthRatio, data_02165950 - data_0216593c),
+                          gStarEffectEngineScale);
+    x = MulFixed12Rounded(data_02165944 + MulFixed12Rounded(kart->mVelocityLengthRatio, data_0216594c - data_02165944),
+                          gStarEffectEngineScale);
     i = 0;
     do {
         if (starEffects->mEffects[i] != NULL) {

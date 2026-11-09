@@ -1434,9 +1434,9 @@ typedef struct KartEffects {
         };
         struct Unk0201ca6c *mUnk_20_a[2];
     };
-    /* 28 */ struct Unk0201ca6c *mUnk_28;
+    /* 28 */ struct Unk0201ca6c *mContactEffect;
     /* 2c */ struct Unk0201ca6c *mKillerEffect;
-    /* 30 */ struct Unk0201ca6c *mUnk_30;
+    /* 30 */ struct Unk0201ca6c *mSpinFollowEffect;
     // Position in effect units (position / 16) of each side of the Kart: model point 2 or 3 moved by the x offset
     // 0x1800 or -0x1800 of gKartSideOffsetsX, scaled by the Kart scale and transformed by the Kart matrix; written only
     // by ComputeKartSidePoints.
@@ -1463,8 +1463,8 @@ extern const s32 *gKartAiDriftChargeRandomLimits;
 extern const s32 *data_usa_0217ae2c;
 extern const s32 *gKartAiRaceStartBoostRandomLimits;
 extern const s32 *data_usa_0217ae34;
-extern u16 data_0217ae6c;
-extern u16 data_0217ae70;
+extern u16 gKartEffectColor;
+extern u16 gKartEffectsCount;
 extern struct Unk0201ca6c **gKartNearRankEffects;
 // Three objects per entry, 0xc bytes each.
 typedef struct KartStarEffects {
@@ -1497,22 +1497,22 @@ typedef struct KartAiShared {
     /* 020 */ s32 mKartAtRank[8];
     /* 040 */ s32 mKind1KartByRank[8];
     /* 060 */ s32 mNonCpuKartByRank[8];
-    /* 080 */ s32 mUnk_080;
-    /* 084 */ s32 mUnk_084;
-    /* 088 */ s32 mUnk_088;
-    /* 08c */ s32 mUnk_08c;
+    /* 080 */ s32 mLastRankCpuKart;
+    /* 084 */ s32 mLastRankNotCpuKart;
+    /* 088 */ s32 mFirstRankNotCpuKart;
+    /* 08c */ s32 mFirstRankProgressRatio;
     /* 090 */ s32 mTableIndex[8];
     /* 0b0 */ KartAiTableIndexEntry mTableIndexEntries[8];
     /* 110 */ s32 mUnk_110;
-    /* 114 */ s32 mUnk_114[2];
+    /* 114 */ s32 mListedCpuKartPoints[2];
     /* 11c */ s32 mUnk_11c;
-    /* 120 */ s32 mUnk_120;
-    /* 124 */ s16 mUnk_124;
+    /* 120 */ s32 mOneKartNotHumanOrPeer;
+    /* 124 */ s16 mNonCpuRank;
     /* 126 */ u8 mUnk_126[2];
     // The race's random generator, or the per-console one in time attack.
     /* 128 */ RandomState64 *mRandom;
     /* 12c */ NNSFndList mTableIndexList;
-    /* 138 */ s32 mUnk_138;
+    /* 138 */ s32 mEngineOrDifficultyIndex;
     /* 13c */ s16 mNonCpuKartCount;
     /* 13e */ s16 mTeamNonCpuKartCounts[3];
 } KartAiShared;
@@ -1522,19 +1522,19 @@ extern KartAiShared *gKartAiShared;
 extern KartAiParamRow *gKartAiParamRow;
 extern u8 *gKartEntryNameTexBuffer;
 extern u16 *gKartEntryNamePlltBuffer;
-extern u8 *data_0217aecc;
+extern u8 *gKartNameTagMaskedTexBuffer;
 extern Vec3 *gKartDistanceLimitsSquared;
 extern u16 *gKartEmblemPlltBuffer;
 extern s32 data_0217aedc;
-extern MtxFx44 data_0217aee0;
+extern MtxFx44 gKartNameTagProjection;
 
 struct KartNameTag;
 
-// Object behind data_0217aed0, 0x194 bytes: tables of eight entries.
-typedef struct Unk0217aed0 {
+// Object behind gKartNameTags, 0x194 bytes: tables of eight entries.
+typedef struct KartNameTags {
     /* 000 */ struct KartNameTag *mNameTagByKart[8];
     /* 020 */ s32 mNameTagCount;
-    /* 024 */ s16 mUnk_024[8];
+    /* 024 */ s16 mStartOrderIndex[8];
     /* 034 */ s16 mAlongViewOrderOffset[8];
     /* 044 */ u16 mKartIndicesByDistanceAlongView[8];
     /* 054 */ s32 mSortedDistanceAlongView[8];
@@ -1551,9 +1551,9 @@ typedef struct Unk0217aed0 {
     /* 184 */ s32 mUnk_184;
     /* 188 */ void *mUnk_188;
     /* 18c */ u8 mUnk_18c[8];
-} Unk0217aed0;
+} KartNameTags;
 
-extern Unk0217aed0 *data_0217aed0;
+extern KartNameTags *gKartNameTags;
 extern const char *gKartModelPathPrefix;
 extern char gKartModelPathBuffer[];
 

@@ -122,7 +122,7 @@ void AdvanceStaffRollKartAi(struct KartAi *kartAi) {
 void InitKartAiTables(void) {
     s32 cpuAndGhostKartCount;
 
-    switch (func_020853dc()) {
+    switch (GetKartAiEngineOrDifficultyIndex()) {
         case 0:
             gKartAiRaceStartBoostRandomLimits = data_usa_02155630;
             data_usa_0217ae2c = data_usa_0215569c;
@@ -242,7 +242,7 @@ void AdvanceRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, st
             raceSpeedLimit->mRank = GetKartRankAmongKind1(kartAi->mIndex);
         }
         raceSpeedLimit->mSpeedLimitAddition = GetKartAiParamRow()->mSpeedLimitAddition;
-        if (func_02085390() != 0) {
+        if (IsOneKartNotHumanOrPeer() != 0) {
             raceSpeedLimit->mSpeedLimitAddition = raceSpeedLimit->mSpeedLimitAddition >> 1;
         }
         kart = kartAi->mKart;
@@ -351,9 +351,9 @@ void func_0207d9f0(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *k
     }
     v = t[n - 1];
     k[2] = ((s64) v * kartAiParamRow->mUnk_04) >> 12;
-    if (func_02085390() != 0) {
+    if (IsOneKartNotHumanOrPeer() != 0) {
         n = kartAiParamRow->mUnk_04;
-        d = func_02085434();
+        d = GetKartAtNonCpuRank();
         if (d >= 0) {
             e = GetKartRaceProgressScaled(kartAi->mIndex);
             e -= GetKartRaceProgressScaled((u16) d);
@@ -373,7 +373,7 @@ void func_0207d9f0(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *k
         raceSpeedLimit->mSpeedLimitReduced = 1;
     } else if (n == e) {
         if (n == 1) {
-            d = func_020854a0((u16) n, data_usa_021658f0);
+            d = GetKind1KartByRankPlusOffset((u16) n, data_usa_021658f0);
             if (d >= 0) {
                 g = GetKartRaceProgressScaled(kartIndex);
                 g -= GetKartRaceProgressScaled((u16) d);
@@ -387,19 +387,19 @@ void func_0207d9f0(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *k
             d = GetFirstKind1KartByRank();
             if (d >= 0) {
                 e = GetKartRaceProgressScaled((u16) d) - g;
-                e -= (s32) (((s64) k[2] * func_0208548c()) >> 12);
+                e -= (s32) (((s64) k[2] * GetFirstRankProgressRatio()) >> 12);
                 if (e > 0) {
                     raceSpeedLimit->mSpeedLimitBeforeTurn =
                         raceSpeedLimit->mSpeedLimitBeforeTurn + (s32) (((s64) e * 0x3000) >> 12);
                 } else {
-                    d = func_02085458(n);
+                    d = GetKind1KartAheadOfRank(n);
                     if (d >= 0) {
                         Kart *otherKart = GetKart(d);
                         s32 w = kartAiParamRow->mUnk_08;
 
                         if (otherKart->mAi->mUnk_e8.mSpeedLimit > (s32) (((s64) w * 0xcd0) >> 12)) {
                             e = GetKartRaceProgressScaled((u16) d) - g;
-                            if (e < (s32) (((s64) k[2] * func_0208548c()) >> 12)) {
+                            if (e < (s32) (((s64) k[2] * GetFirstRankProgressRatio()) >> 12)) {
                                 raceSpeedLimit->mSpeedLimitBeforeTurn =
                                     ((s64) raceSpeedLimit->mSpeedLimitBeforeTurn * 0xfae) >> 12;
                                 raceSpeedLimit->mSpeedLimitReduced = 1;

@@ -129,7 +129,7 @@ void InitRace(void) {
     InitKartNameTagsAndDistanceOrder();
     InitKartModels(heap, gRaceSetup->mKartCount);
     SetupHeyhoPalettes();
-    func_020872a4();
+    UploadKartNameTagTextures();
     func_02047728();
     InitMap2D();
     SetHeapGroupId(2);
@@ -182,7 +182,7 @@ void InitRace(void) {
     InitItems();
     SetHeapGroupId(6);
     InitEffects(heap);
-    func_020846c0(heap);
+    InitKartEffectTables(heap);
     InitModelEffects(heap);
     InitPosStrips(heap);
     SetHeapGroupId(9);
@@ -346,7 +346,7 @@ void UpdateRace(void) {
     UpdateStemSets();
     UpdateRaceProgress();
     UpdateKartSoundDistancesSquared();
-    func_0208677c();
+    UpdateKartNameTags();
     if (gRaceSetup->mMode == 5) {
         if (gRace->mUpdateFramesUnlimited == FALSE) {
             if (gRace->mUpdateFramesLimitReached == FALSE) {

@@ -78,7 +78,7 @@ s32 CollideKartWithMapObjectResponse14(Kart *kart, s32 *output) {
         StopDispCapBlend();
     }
     if (TrySpinKart(kart, 1, 0) != FALSE) {
-        func_02081224(kart->mIndex);
+        StartKartSpinFollowEffect(kart->mIndex);
     }
     return 5;
 }
@@ -368,7 +368,7 @@ void func_02066fe0(Kart *kart) {
             DisableEntryCameraUpdate();
         } else {
             StartEntryCameraKind6Entry();
-            func_02081f30();
+            SwitchCourseCameraEffectsToCurrentCamera();
         }
     } else if (gRaceSetup->mMode == MODE_VS || gRaceSetup->mMode == 5) {
         if (gRaceProgress->mKarts[kart->mIndex].mStatus == 1) {
