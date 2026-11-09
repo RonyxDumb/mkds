@@ -5,18 +5,18 @@
 #include "Main/Unknown/code_020cb114.h"
 #include "Main/Unknown/unk_02175628.h"
 
-u32 func_020cb114(InputSlotPair *pairAddress) {
+u32 MenuGetPairX(InputSlotPair *pairAddress) {
     return pairAddress->mPairX;
 }
 
-u32 func_020cb0f4(u32 slotIndex) {
-    return func_020cb114(&gInputSlots[slotIndex].mPair);
+u32 MenuGetSlotPairX(u32 slotIndex) {
+    return MenuGetPairX(&gInputSlots[slotIndex].mPair);
 }
 
-u32 func_020cb0ec(InputSlotPair *pairAddress) {
+u32 MenuGetPairY(InputSlotPair *pairAddress) {
     return pairAddress->mPairY;
 }
 
-u32 func_020cb0cc(u32 slotIndex) {
-    return func_020cb0ec(&gInputSlots[slotIndex].mPair);
+u32 MenuGetSlotPairY(u32 slotIndex) {
+    return MenuGetPairY(&gInputSlots[slotIndex].mPair);
 }

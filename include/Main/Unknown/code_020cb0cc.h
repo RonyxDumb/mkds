@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_020cb0cc(u32 slotIndex);
+u32 MenuGetSlotPairY(u32 slotIndex);

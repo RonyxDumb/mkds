@@ -14,9 +14,9 @@
 #pragma thumb on
 #pragma optimize_for_size on
 void ReleaseMenu(void) {
-    if (data_0217b43c->mScreenInitPending == FALSE) {
-        data_0217b43c->mPreviousScreenNumber = data_0217b43c->mScreenNumber;
-        data_0217b43c->mScreenNumber = 0x1f;
+    if (gMenuScene->mScreenInitPending == FALSE) {
+        gMenuScene->mPreviousScreenNumber = gMenuScene->mScreenNumber;
+        gMenuScene->mScreenNumber = 0x1f;
         ReleasePreviousMenuScreen();
     }
     if (func_020cbad0() == 0) {
@@ -31,5 +31,5 @@ void ReleaseMenu(void) {
     func_020cbaa8(0);
     func_020cba6c(0, 0x3f, 6, 10);
     func_020cba30(0, 0x3f, 6, 10);
-    data_0217b43c = NULL;
+    gMenuScene = NULL;
 }

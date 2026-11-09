@@ -11,11 +11,11 @@
 
 void DrawSinglePlaySelectCells(void) {
     MenuScene *menu;
-    func_020cb340();
-    menu = data_0217b43c;
+    UpdateSinglePlaySelectSubCells();
+    menu = gMenuScene;
     DrawLayoutTable(menu->mSinglePlaySelectModeMBncl, menu->mSinglePlaySelectModeMNcer, NULL, menu->mMainOam,
                     menu->mSinglePlaySelectModeMLayoutTable);
-    menu = data_0217b43c;
+    menu = gMenuScene;
     DrawLayoutTable(menu->mSinglePlaySelectModeSBncl, menu->mSinglePlaySelectModeSNcer, NULL, menu->mSubOam,
                     menu->mSinglePlaySelectModeSLayoutTable);
 }
@@ -23,7 +23,7 @@ void DrawSinglePlaySelectCells(void) {
 #pragma thumb off
 
 #pragma thumb on
-void func_020cb2cc(void) {
+void WriteSinglePlaySelect0Registers(void) {
     u32 unusedValue;
     SetupSinglePlaySelectGraphics();
 }

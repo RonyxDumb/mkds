@@ -16,37 +16,37 @@
 
 #pragma thumb on
 #pragma optimize_for_size on
-void UpdateMenuScreen(u32 a) {
+void UpdateMenuScreen(u32 sceneArg) {
     MenuScene *menu;
     enum { K0 } screenNumber;
 
     if (func_02049b6c() == 0) {
-        if (func_020cae54() == 1 || func_020cae54() == 2) {
-            if (data_0217b43c->mUnk_958 == FALSE) {
+        if (MenuGetConnectionKind() == 1 || MenuGetConnectionKind() == 2) {
+            if (gMenuScene->mDataSharingSyncStarted == FALSE) {
                 if (StartDataSharingSync() != 1) {
                     return;
                 }
-                data_0217b43c->mUnk_958 = TRUE;
+                gMenuScene->mDataSharingSyncStarted = TRUE;
             }
-            if (data_0217b43c->mUnk_95c == FALSE) {
+            if (gMenuScene->mDataSharingSyncFinished == FALSE) {
                 if (FinishDataSharingSync() != 1) {
                     return;
                 }
-                data_0217b43c->mUnk_95c = TRUE;
+                gMenuScene->mDataSharingSyncFinished = TRUE;
             }
         }
-        ClearOamListCounts(data_0217b43c->mMainOam, data_0217b43c->mSubOam);
-        if (data_0217b43c->mScreenInitPending != FALSE) {
-            data_0217b43c->mScreenInitPending = FALSE;
+        ClearOamListCounts(gMenuScene->mMainOam, gMenuScene->mSubOam);
+        if (gMenuScene->mScreenInitPending != FALSE) {
+            gMenuScene->mScreenInitPending = FALSE;
             InitCurrentMenuScreen();
-            menu = data_0217b43c;
+            menu = gMenuScene;
             screenNumber = menu->mScreenNumber;
-            menu->mScreenCallbacks[screenNumber].mUpdate(a);
+            menu->mScreenCallbacks[screenNumber].mUpdate(sceneArg);
         } else {
-            menu = data_0217b43c;
+            menu = gMenuScene;
             screenNumber = menu->mScreenNumber;
-            menu->mScreenCallbacks[screenNumber].mUpdate(a);
-            if (data_0217b43c->mScreenSwitched != 0) {
+            menu->mScreenCallbacks[screenNumber].mUpdate(sceneArg);
+            if (gMenuScene->mScreenSwitched != 0) {
                 ReleasePreviousMenuScreen();
                 InitCurrentMenuScreen();
             }
@@ -54,18 +54,18 @@ void UpdateMenuScreen(u32 a) {
         AdvanceSceneText();
         AdvanceLinkLevelIcons();
         if (AreBrightnessFadesClear() != 0) {
-            func_020cb600(&data_0217b43c->mFramesSinceScreenSwitch);
+            MenuIncrementCounterSaturating(&gMenuScene->mFramesSinceScreenSwitch);
         }
     }
 }
 
-void func_020cb4c0(void) {
+void HideUnusedMenuOams(void) {
     if (func_02049b6c() == 0) {
-        if (func_020cae54() == 1 || func_020cae54() == 2) {
-            if (data_0217b43c->mUnk_958 == FALSE || data_0217b43c->mUnk_95c == FALSE) {
+        if (MenuGetConnectionKind() == 1 || MenuGetConnectionKind() == 2) {
+            if (gMenuScene->mDataSharingSyncStarted == FALSE || gMenuScene->mDataSharingSyncFinished == FALSE) {
                 return;
             }
         }
-        HideUnusedOams(data_0217b43c->mMainOam, data_0217b43c->mSubOam);
+        HideUnusedOams(gMenuScene->mMainOam, gMenuScene->mSubOam);
     }
 }

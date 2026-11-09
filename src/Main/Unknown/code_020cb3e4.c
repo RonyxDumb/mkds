@@ -9,7 +9,7 @@
 #include "code_0214b824.h"
 #include "registers.h"
 
-void func_020cb4a8(int bits) {
+void MenuWriteMainDispcntBits(int bits) {
     u32 value0 = bits;
     u32 registerValue;
     registerValue = reg_GX_DISPCNT;
@@ -18,7 +18,7 @@ void func_020cb4a8(int bits) {
     reg_GX_DISPCNT = value0;
 }
 
-void func_020cb48c(int bits) {
+void MenuWriteSubDispcntBits(int bits) {
     u32 value0 = bits;
     u32 registerValue;
     registerValue = reg_GXS_DB_DISPCNT;
@@ -33,18 +33,17 @@ void SetupSinglePlaySelectGraphics(void) {
     int screenChanged;
     screenChanged = GetMenuScreenSwitched();
     if (screenChanged != 0) {
-        func_020cb4a8(0x18);
+        MenuWriteMainDispcntBits(0x18);
         GX_SetGraphicsMode(1, 0, 0);
-        GX_LoadOBJPltt(data_0217b43c->mSinglePlaySelectModeMONclr->mData, 0, (0x000001a0u));
-        GX_LoadOBJPltt(&data_0217b43c->mSinglePlaySelectModeMONclr->mData[0xe0], 0x1c0, 0x40);
-        GX_LoadOBJ(data_0217b43c->mSinglePlaySelectModeMNcgr->mData, 0,
-                   data_0217b43c->mSinglePlaySelectModeMNcgr->mDataSize);
-        func_020cb48c(0x16);
+        GX_LoadOBJPltt(gMenuScene->mSinglePlaySelectModeMONclr->mData, 0, (0x000001a0u));
+        GX_LoadOBJPltt(&gMenuScene->mSinglePlaySelectModeMONclr->mData[0xe0], 0x1c0, 0x40);
+        GX_LoadOBJ(gMenuScene->mSinglePlaySelectModeMNcgr->mData, 0, gMenuScene->mSinglePlaySelectModeMNcgr->mDataSize);
+        MenuWriteSubDispcntBits(0x16);
         GXS_SetGraphicsMode(0);
-        GXS_LoadOBJPltt(data_0217b43c->mSinglePlaySelectModeSONclr->mData, 0,
-                        data_0217b43c->mSinglePlaySelectModeSONclr->mDataSize);
-        GXS_LoadOBJ(data_0217b43c->mSinglePlaySelectModeSNcgr->mData, 0,
-                    data_0217b43c->mSinglePlaySelectModeSNcgr->mDataSize);
+        GXS_LoadOBJPltt(gMenuScene->mSinglePlaySelectModeSONclr->mData, 0,
+                        gMenuScene->mSinglePlaySelectModeSONclr->mDataSize);
+        GXS_LoadOBJ(gMenuScene->mSinglePlaySelectModeSNcgr->mData, 0,
+                    gMenuScene->mSinglePlaySelectModeSNcgr->mDataSize);
     }
 }
 

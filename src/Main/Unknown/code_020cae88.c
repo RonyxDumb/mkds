@@ -2,7 +2,7 @@
 
 #pragma thumb on
 
-u32 func_020cae88(u32 value) {
+u32 MenuScreen27ReturnArgument(u32 value) {
     return value;
 }
 

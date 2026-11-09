@@ -217,7 +217,7 @@ void WriteMenuSceneRegistersCallback(void) {
 
 void UpdateMenuScene(void) {
     UpdateMenuScreen();
-    func_020cb4c0();
+    HideUnusedMenuOams();
 }
 
 u32 RunMenuScene(SceneNumbers *sceneNumbers) {

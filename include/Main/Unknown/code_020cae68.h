@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int func_020cae68(unsigned int value);
+unsigned int MenuScreen29ReturnArgument(unsigned int value);

@@ -64,7 +64,7 @@ void func_020cc744(void) {
         } else if (GetRaceSetupCopy()->mMode == 2) {
             GetRaceSetupCopy()->mEngineIndex = 0;
         } else if (GetRaceSetupCopy()->mMode == 3) {
-            if (func_020cae54() != 0 && func_020cae38() != 0) {
+            if (MenuGetConnectionKind() != 0 && func_020cae38() != 0) {
                 GetRaceSetupCopy()->mEngineIndex = 1;
             }
         }

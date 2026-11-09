@@ -56,7 +56,7 @@ void CopyCurrentToRaceSetupCopy(void) {
     GetRaceSetupCopy()->mCupIndex = GetCurrentCupIndex();
     GetRaceSetupCopy()->mCpuDifficulty = GetCurrentCpuDifficulty();
     GetRaceSetupCopy()->mKartCount = GetCurrentKartCount();
-    if (func_020cae54() != 0) {
+    if (MenuGetConnectionKind() != 0) {
         u32 currentMode;
 
         currentMode = GetCurrentMode();
@@ -97,8 +97,8 @@ void CopyMenuScreenCallbacks(void) {
     s32 i;
 
     for (i = 0; i < 0x1e; i++) {
-        data_0217b43c->mScreenCallbacks[i].mWriteRegisters = gMenuScreenCallbacks[i].mWriteRegisters;
-        data_0217b43c->mScreenCallbacks[i].mUpdate = gMenuScreenCallbacks[i].mUpdate;
+        gMenuScene->mScreenCallbacks[i].mWriteRegisters = gMenuScreenCallbacks[i].mWriteRegisters;
+        gMenuScene->mScreenCallbacks[i].mUpdate = gMenuScreenCallbacks[i].mUpdate;
     }
 }
 
@@ -106,10 +106,10 @@ void WriteMenuSceneRegisters(void) {
     if (func_020cbad0() == 0) {
         AdvanceKartModelMenuLoad();
     }
-    data_0217b43c->mScreenCallbacks[data_0217b43c->mScreenNumber].mWriteRegisters();
+    gMenuScene->mScreenCallbacks[gMenuScene->mScreenNumber].mWriteRegisters();
     WriteSceneTextRegisters();
-    data_0217b43c->mScreenSwitched = 0;
-    UploadOamLists(data_0217b43c->mMainOam, data_0217b43c->mSubOam);
+    gMenuScene->mScreenSwitched = 0;
+    UploadOamLists(gMenuScene->mMainOam, gMenuScene->mSubOam);
 }
 #pragma thumb off
 

@@ -787,10 +787,10 @@ void func_020471b0(void *heap) {
     u32 uncompressedSize;
     void *data;
 
-    uncompressedSize = *func_020cade8() >> 8;
+    uncompressedSize = *GetCompressedArchive() >> 8;
     data_021759c8->mUnk_8b8 = 0;
     data = HeapAllocAligned(heap, uncompressedSize, 0x20);
-    func_020487e0(func_020cade8(), data, uncompressedSize);
+    func_020487e0(GetCompressedArchive(), data, uncompressedSize);
     ArchiveLoadFromMemory(&data_021759c8->mUnk_850, (const u8 *) gArchiveNames[19], data);
     data_021759c8->mUnk_8bc = data;
     data_021759c8->mUnk_8b8 = 1;

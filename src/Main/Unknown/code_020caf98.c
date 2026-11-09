@@ -26,35 +26,35 @@ void UpdateSinglePlaySelectInput(s32 a) {
     MenuScene *menu;
 
     if (a != 0) {
-        v = func_020cb224();
-        if (func_020cb1f4(v, PAD_KEY_A)) {
+        v = GetMenuInputSlot();
+        if (MenuGetNewBits(v, PAD_KEY_A)) {
             SwitchMenuScreen(3, 0x1f);
-            func_020cb1cc(5);
-            data_0217b43c->mUnk_934 = TRUE;
-        } else if (func_020cb1f4(v, PAD_KEY_B)) {
+            StartMenuSound(5);
+            gMenuScene->mSinglePlaySelectStartedOnSelected = TRUE;
+        } else if (MenuGetNewBits(v, PAD_KEY_B)) {
             SwitchMenuScreen(2, 0x1b);
             RequestSelectReturnState3WithSound(1);
         } else if (GetNewOrRepeatBits(v, PAD_KEY_UP)) {
-            menu = data_0217b43c;
+            menu = gMenuScene;
             menu->mSinglePlaySelectModeIndex = (menu->mSinglePlaySelectModeIndex + 4) % 5;
             StartSoundOncePerFrame(0);
         } else if (GetNewOrRepeatBits(v, PAD_KEY_DOWN)) {
-            menu = data_0217b43c;
+            menu = gMenuScene;
             menu->mSinglePlaySelectModeIndex = (menu->mSinglePlaySelectModeIndex + 6) % 5;
             StartSoundOncePerFrame(0);
-        } else if (func_020cb11c(v)) {
-            pairX = func_020cb0f4(v);
-            v = func_020cb0cc(v);
-            touchedIndex = FindRectContainingPoint(pairX, v, data_0217b43c->mSinglePlaySelectModeSBnbl);
-            menu = data_0217b43c;
+        } else if (MenuIsSlotPairNew(v)) {
+            pairX = MenuGetSlotPairX(v);
+            v = MenuGetSlotPairY(v);
+            touchedIndex = FindRectContainingPoint(pairX, v, gMenuScene->mSinglePlaySelectModeSBnbl);
+            menu = gMenuScene;
             previousSelected = menu->mSinglePlaySelectModeIndex;
             if (touchedIndex != -1) {
                 if (previousSelected == touchedIndex) {
-                    menu->mUnk_934 = TRUE;
+                    menu->mSinglePlaySelectStartedOnSelected = TRUE;
                 }
-                data_0217b43c->mSinglePlaySelectModeIndex = touchedIndex;
+                gMenuScene->mSinglePlaySelectModeIndex = touchedIndex;
                 SwitchMenuScreen(3, 0x1f);
-                func_020cb1cc(5);
+                StartMenuSound(5);
             } else if (IsSelectReturnState2NoState3Or4RequestAndInRect(pairX, v)) {
                 SwitchMenuScreen(2, 0x1b);
                 RequestSelectReturnState3WithSound(1);

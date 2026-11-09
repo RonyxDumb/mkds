@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_020caf00(void);
+void WriteSinglePlaySelect3Registers(void);

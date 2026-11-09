@@ -3,7 +3,7 @@
 #include "types.h"
 
 // Screen numbers: the first argument of SwitchMenuScreen (stored as the current screen number, member 0xc of the object
-// behind data_0217b43c) and the number GetPreviousMenuScreenNumber returns for the previous screen. Only the screens
+// behind gMenuScene) and the number GetPreviousMenuScreenNumber returns for the previous screen. Only the screens
 // that have a single number and a named Init class are defined. InitSelectEngine /
 // ReleaseSelectEngine (started and released by InitCurrentMenuScreen and ReleasePreviousMenuScreen).
 #define SCREEN_SELECT_ENGINE 4

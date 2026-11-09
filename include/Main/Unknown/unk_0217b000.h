@@ -694,7 +694,7 @@ extern struct RaceGoalM *gRaceGoalM;
 extern struct RaceNewRecordTa *gRaceNewRecordTa;
 extern s32 data_0217b3f8;
 extern EmblemChoises *gEmblemChoises;
-extern struct MenuScene *data_0217b43c;
+extern struct MenuScene *gMenuScene;
 extern struct CupPicture *gCupPicture;
 extern struct Unk0217b4b0 *data_0217b4b0;
 extern struct RandomState64 *gRaceRandom;

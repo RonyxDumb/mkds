@@ -4,4 +4,4 @@
 
 typedef struct Unk020cadf4 Unk020cadf4;
 
-void func_020cae7c(Unk020cadf4 *a);
+void RequestTitleScene(Unk020cadf4 *sceneNumbers);

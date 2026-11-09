@@ -14,7 +14,7 @@ typedef struct ScreenCallbacks {
     /* 4 */ void (*mUpdate)(u32 a);
 } ScreenCallbacks;
 
-// Object behind data_0217b43c.
+// Object behind gMenuScene.
 typedef struct MenuScene {
     /* 000 */ s32 mFramesSinceScreenSwitch;
     /* 004 */ s32 mScreenSwitched;
@@ -34,8 +34,8 @@ typedef struct MenuScene {
     /* 928 */ Unk02021dc8 *mSinglePlaySelectModeSNcer;
     /* 92c */ u8 mUnk_92c[4];
     /* 930 */ s32 mSinglePlaySelectModeIndex;
-    /* 934 */ BOOL mUnk_934;
-    /* 938 */ s16 mUnk_938;
+    /* 934 */ BOOL mSinglePlaySelectStartedOnSelected;
+    /* 938 */ s16 mSinglePlaySelectModePressOffset;
     /* 93a */ u8 mUnk_93a[2];
     /* 93c */ LayoutTableEntry *mSinglePlaySelectModeMLayoutTable;
     /* 940 */ struct Unk0201ea30 *mSinglePlaySelectModeMBncl;
@@ -44,8 +44,8 @@ typedef struct MenuScene {
     /* 94c */ struct Unk0201ea30 *mSinglePlaySelectModeSBncl;
     /* 950 */ void *mSinglePlaySelectModeSBnbl;
     /* 954 */ CharacterKartPicks *mUnk_954;
-    /* 958 */ BOOL mUnk_958;
-    /* 95c */ BOOL mUnk_95c;
+    /* 958 */ BOOL mDataSharingSyncStarted;
+    /* 95c */ BOOL mDataSharingSyncFinished;
 } MenuScene;
 
-void func_020cae8c(void);
+void UpdateSinglePlaySelectMenuScreen3(void);

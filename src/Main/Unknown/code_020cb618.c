@@ -36,111 +36,111 @@ void InitCurrentMenuScreen(void) {
     MenuScene *menu;
     s32 variant;
 
-    menu = data_0217b43c;
+    menu = gMenuScene;
     if (menu->mScreenNumber != menu->mPreviousScreenNumber) {
         switch (menu->mScreenNumber) {
             case SCREEN_SELECT_ENGINE:
-                InitSelectEngine(func_020cb99c(), menu->mMainOam, menu->mSubOam);
+                InitSelectEngine(MenuGetCurrentHeap(), menu->mMainOam, menu->mSubOam);
                 break;
             case 5:
             case 8:
             case 15:
             case 21:
-                variant = (func_020cae54() == 0) ? UNK_020CB6C0_0 : UNK_020CB6C0_1;
-                menu = data_0217b43c;
-                InitSelectCharacter(func_020cb99c(), variant, menu->mMainOam, menu->mSubOam);
+                variant = (MenuGetConnectionKind() == 0) ? UNK_020CB6C0_0 : UNK_020CB6C0_1;
+                menu = gMenuScene;
+                InitSelectCharacter(MenuGetCurrentHeap(), variant, menu->mMainOam, menu->mSubOam);
                 break;
             case 6:
             case 9:
             case 22:
-                variant = (func_020cae54() == 0) ? UNK_020CB6C0_0 : UNK_020CB6C0_1;
-                menu = data_0217b43c;
-                InitSelectKart(func_020cb99c(), variant, menu->mMainOam, menu->mSubOam);
+                variant = (MenuGetConnectionKind() == 0) ? UNK_020CB6C0_0 : UNK_020CB6C0_1;
+                menu = gMenuScene;
+                InitSelectKart(MenuGetCurrentHeap(), variant, menu->mMainOam, menu->mSubOam);
                 break;
             case 7:
-                InitSelectCupGrid(func_020cb99c(), menu->mMainOam, menu->mSubOam, 0);
+                InitSelectCupGrid(MenuGetCurrentHeap(), menu->mMainOam, menu->mSubOam, 0);
                 break;
             case 11:
-                if (func_020cae54() == 0) {
+                if (MenuGetConnectionKind() == 0) {
                     variant = 2;
                 } else if (func_020cae38() != 0) {
                     variant = 3;
                 } else {
                     variant = 4;
                 }
-                menu = data_0217b43c;
-                InitSelectCupGrid(func_020cb99c(), menu->mMainOam, menu->mSubOam, variant);
+                menu = gMenuScene;
+                InitSelectCupGrid(MenuGetCurrentHeap(), menu->mMainOam, menu->mSubOam, variant);
                 break;
             case 23:
-                InitSelectCupGrid(func_020cb99c(), menu->mMainOam, menu->mSubOam, 1);
+                InitSelectCupGrid(MenuGetCurrentHeap(), menu->mMainOam, menu->mSubOam, 1);
                 break;
             case 13:
-                if (func_020cae54() == 0) {
+                if (MenuGetConnectionKind() == 0) {
                     variant = 1;
                 } else if (func_020cae38() != 0) {
                     variant = 2;
                 } else {
                     variant = 3;
                 }
-                menu = data_0217b43c;
-                InitSelectCupCourse(func_020cb99c(), menu->mMainOam, menu->mSubOam, variant);
+                menu = gMenuScene;
+                InitSelectCupCourse(MenuGetCurrentHeap(), menu->mMainOam, menu->mSubOam, variant);
                 break;
             case 25:
-                InitSelectCupCourse(func_020cb99c(), menu->mMainOam, menu->mSubOam, 0);
+                InitSelectCupCourse(MenuGetCurrentHeap(), menu->mMainOam, menu->mSubOam, 0);
                 break;
             case 10:
-                if (func_020cae54() == 0) {
+                if (MenuGetConnectionKind() == 0) {
                     variant = 0;
                 } else if (func_020cae38() != 0) {
                     variant = 2;
                 } else {
                     variant = 4;
                 }
-                menu = data_0217b43c;
-                InitSelectRaceRule(func_020cb99c(), (s32) menu->mMainOam, menu->mSubOam, variant);
+                menu = gMenuScene;
+                InitSelectRaceRule(MenuGetCurrentHeap(), (s32) menu->mMainOam, menu->mSubOam, variant);
                 break;
             case 16:
-                if (func_020cae54() == 0) {
+                if (MenuGetConnectionKind() == 0) {
                     variant = 1;
                 } else if (func_020cae38() != 0) {
                     variant = 3;
                 } else {
                     variant = 5;
                 }
-                menu = data_0217b43c;
-                InitSelectRaceRule(func_020cb99c(), (s32) menu->mMainOam, menu->mSubOam, variant);
+                menu = gMenuScene;
+                InitSelectRaceRule(MenuGetCurrentHeap(), (s32) menu->mMainOam, menu->mSubOam, variant);
                 break;
             case 14:
-                variant = (func_020cae54() == 0) ? UNK_020CB6C0_0 : UNK_020CB6C0_1;
-                menu = data_0217b43c;
-                InitSelectGame(func_020cb99c(), variant, menu->mMainOam, menu->mSubOam);
+                variant = (MenuGetConnectionKind() == 0) ? UNK_020CB6C0_0 : UNK_020CB6C0_1;
+                menu = gMenuScene;
+                InitSelectGame(MenuGetCurrentHeap(), variant, menu->mMainOam, menu->mSubOam);
                 break;
             case SCREEN_SELECT_BATTLE_STAGE:
                 variant = (GetRaceSetupCopy()->mBattleKind == BATTLE_KIND_BALLOON) ? UNK_020CB6C0_1 : UNK_020CB6C0_0;
-                menu = data_0217b43c;
-                InitSelectBattleStage(func_020cb99c(), variant, menu->mMainOam, menu->mSubOam);
+                menu = gMenuScene;
+                InitSelectBattleStage(MenuGetCurrentHeap(), variant, menu->mMainOam, menu->mSubOam);
                 break;
             case SCREEN_MISSION_RUN_LVSEL:
-                InitMissionRunLVsel(func_020cb99c(), menu->mMainOam, menu->mSubOam);
+                InitMissionRunLVsel(MenuGetCurrentHeap(), menu->mMainOam, menu->mSubOam);
                 break;
             case SCREEN_MISSION_RUN_MSSEL:
-                InitMissionRunMSsel(func_020cb99c(), menu->mMainOam, menu->mSubOam);
+                InitMissionRunMSsel(MenuGetCurrentHeap(), menu->mMainOam, menu->mSubOam);
                 break;
             case SCREEN_TIME_ATTACK_TOP_MENU:
-                InitTimeAttackTopMenu(func_020cb99c(), menu->mMainOam, (s32) menu->mSubOam);
+                InitTimeAttackTopMenu(MenuGetCurrentHeap(), menu->mMainOam, (s32) menu->mSubOam);
                 break;
             case SCREEN_SELECT_GHOST:
-                InitSelectGhost(func_020cb99c(), (u32) menu->mMainOam, (u32) menu->mSubOam);
+                InitSelectGhost(MenuGetCurrentHeap(), (u32) menu->mMainOam, (u32) menu->mSubOam);
                 break;
             case 12:
             case 24:
-                InitSelectCupM(func_020cb99c(), menu->mMainOam, menu->mSubOam);
+                InitSelectCupM(MenuGetCurrentHeap(), menu->mMainOam, menu->mSubOam);
                 break;
             case 29:
                 func_020cc744();
                 break;
         }
-        switch (data_0217b43c->mScreenNumber) {
+        switch (gMenuScene->mScreenNumber) {
             case 10:
             case 11:
             case 12:
@@ -148,14 +148,14 @@ void InitCurrentMenuScreen(void) {
             case 14:
             case 16:
             case SCREEN_SELECT_BATTLE_STAGE:
-                data_0217b43c->mUnk_958 = FALSE;
-                data_0217b43c->mUnk_95c = FALSE;
+                gMenuScene->mDataSharingSyncStarted = FALSE;
+                gMenuScene->mDataSharingSyncFinished = FALSE;
                 break;
             case 8:
             case 15:
                 if (GetPreviousMenuScreenNumber() == 0xe) {
-                    data_0217b43c->mUnk_958 = FALSE;
-                    data_0217b43c->mUnk_95c = FALSE;
+                    gMenuScene->mDataSharingSyncStarted = FALSE;
+                    gMenuScene->mDataSharingSyncFinished = FALSE;
                 }
                 break;
         }
@@ -163,8 +163,8 @@ void InitCurrentMenuScreen(void) {
 }
 
 void ReleasePreviousMenuScreen(void) {
-    if (data_0217b43c->mScreenNumber != data_0217b43c->mPreviousScreenNumber) {
-        switch (data_0217b43c->mPreviousScreenNumber) {
+    if (gMenuScene->mScreenNumber != gMenuScene->mPreviousScreenNumber) {
+        switch (gMenuScene->mPreviousScreenNumber) {
             case SCREEN_SELECT_ENGINE:
                 ReleaseSelectEngine();
                 break;

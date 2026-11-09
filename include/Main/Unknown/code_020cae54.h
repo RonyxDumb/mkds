@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int func_020cae54(void);
+unsigned int MenuGetConnectionKind(void);

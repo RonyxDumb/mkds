@@ -4,12 +4,12 @@
 #include "Main/Unknown/code_020cb3e4.h"
 
 #pragma thumb on
-void func_020cb22c(void) {
+void WriteSinglePlaySelect1Registers(void) {
     u32 unusedValue;
     SetupSinglePlaySelectGraphics();
 }
 #pragma thumb off
 
-u32 func_020cb224(void) {
+u32 GetMenuInputSlot(void) {
     return 0x8u;
 }

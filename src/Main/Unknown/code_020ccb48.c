@@ -24,13 +24,13 @@ void SetNextGrandPrixEntries(void) {
     if (a <= b) {
         b++;
     }
-    SetGivenCharacterAndKart(data_0217b43c->mUnk_954, 0, GetRaceSetupCopy()->mEntries[0].mCharacterIndex,
+    SetGivenCharacterAndKart(gMenuScene->mUnk_954, 0, GetRaceSetupCopy()->mEntries[0].mCharacterIndex,
                              GetRaceSetupCopy()->mEntries[0].mKartIndex);
-    PickRandomCharactersAndKarts(data_0217b43c->mUnk_954);
+    PickRandomCharactersAndKarts(gMenuScene->mUnk_954);
     SetNextRaceEntry(0, GetRaceSetupCopy()->mEntries[0].mCharacterIndex, GetRaceSetupCopy()->mEntries[0].mKartIndex, 0,
                      -1, 3);
     for (i = 1; i < 8; i++) {
-        GetEntryCharacterAndKart(data_0217b43c->mUnk_954, i, &characterIndex, &kartIndex);
+        GetEntryCharacterAndKart(gMenuScene->mUnk_954, i, &characterIndex, &kartIndex);
         SetNextRaceEntry(i, characterIndex, kartIndex, 1, -1, i == a ? 0 : i == b ? 1 : 3);
     }
 }

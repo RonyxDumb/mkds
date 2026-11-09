@@ -68,9 +68,9 @@ void InitMenu(void) {
     SceneTextInitParams config;
     DisplaySettings *displaySettings;
 
-    data_0217b43c = HeapAlloc(func_020cb99c(), 0x960);
-    CreateRaceSetupCopy(func_020cb99c());
-    displaySettings = CreateDisplaySettings(func_020cb99c(), data_0215688c);
+    gMenuScene = HeapAlloc(MenuGetCurrentHeap(), 0x960);
+    CreateRaceSetupCopy(MenuGetCurrentHeap());
+    displaySettings = CreateDisplaySettings(MenuGetCurrentHeap(), data_0215688c);
     SetMainBg0Record(displaySettings, 1, 0, 0, 0, 0xd, 2, 0);
     SetMainBg1Record(displaySettings, 0, 0, 0, 0, 0xc, 0, 0);
     SetMainBg2RecordParams(displaySettings, 0, 0, 0, 0, 0x1e, 6);
@@ -80,66 +80,66 @@ void InitMenu(void) {
     SetSubBg2RecordParams(displaySettings, 0, 0, 0, 0, 0xe, 0);
     SetSubBg3RecordParams(displaySettings, 2, 0, 0, 0, 0xf, 0);
     InitDisplayFromSettings(displaySettings);
-    data_0217b43c->mFramesSinceScreenSwitch = 0;
-    data_0217b43c->mScreenSwitched = 1;
-    data_0217b43c->mPreviousScreenNumber = 0x1f;
-    data_0217b43c->mScreenNumber = 0x1f;
-    data_0217b43c->mNextScreenNumber = 0x1f;
-    data_0217b43c->mScreenInitPending = TRUE;
-    data_0217b43c->mUnk_958 = TRUE;
-    data_0217b43c->mUnk_95c = TRUE;
+    gMenuScene->mFramesSinceScreenSwitch = 0;
+    gMenuScene->mScreenSwitched = 1;
+    gMenuScene->mPreviousScreenNumber = 0x1f;
+    gMenuScene->mScreenNumber = 0x1f;
+    gMenuScene->mNextScreenNumber = 0x1f;
+    gMenuScene->mScreenInitPending = TRUE;
+    gMenuScene->mDataSharingSyncStarted = TRUE;
+    gMenuScene->mDataSharingSyncFinished = TRUE;
     CopyMenuScreenCallbacks();
-    ResetOamLists(data_0217b43c->mMainOam, data_0217b43c->mSubOam);
+    ResetOamLists(gMenuScene->mMainOam, gMenuScene->mSubOam);
     SetHeapGroupId(9);
     Init3dEngine();
     SetHeapGroupId(5);
     func_020629a4();
     SetHeapGroupId(9);
     if (func_020cbad0() == 0) {
-        InitKartModelMenuWithParamFiles(func_020cb99c());
+        InitKartModelMenuWithParamFiles(MenuGetCurrentHeap());
         RequestKartModelMenuCharacter(-1);
         RequestKartModelMenuKart(-1);
     }
     SetHeapGroupId(5);
     if (func_020cbad0() == 0) {
-        InitGhostRecordSet(func_020cb99c());
+        InitGhostRecordSet(MenuGetCurrentHeap());
         InitCupPicture();
-        LoadNclrData(&data_0217b43c->mSinglePlaySelectModeMONclr,
+        LoadNclrData(&gMenuScene->mSinglePlaySelectModeMONclr,
                      FindSceneFileWrapper("common/single_play_select_mode_m_o.NCLR"));
-        LoadNcgrData2(&data_0217b43c->mSinglePlaySelectModeMNcgr,
+        LoadNcgrData2(&gMenuScene->mSinglePlaySelectModeMNcgr,
                       FindSceneFileWrapper("common/single_play_select_mode_m.nce.ncgr"));
-        LoadNcerData(&data_0217b43c->mSinglePlaySelectModeMNcer,
+        LoadNcerData(&gMenuScene->mSinglePlaySelectModeMNcer,
                      FindSceneFileWrapper("common/single_play_select_mode_m.nce.ncer"));
-        data_0217b43c->mSinglePlaySelectModeMBncl = FindSceneFileWrapper("common/single_play_select_mode_m.bncl");
-        data_0217b43c->mUnk_944 = 0;
-        LoadNclrData(&data_0217b43c->mSinglePlaySelectModeSONclr,
+        gMenuScene->mSinglePlaySelectModeMBncl = FindSceneFileWrapper("common/single_play_select_mode_m.bncl");
+        gMenuScene->mUnk_944 = 0;
+        LoadNclrData(&gMenuScene->mSinglePlaySelectModeSONclr,
                      FindSceneFileWrapper("common/single_play_select_mode_s_o.NCLR"));
-        LoadNcgrData2(&data_0217b43c->mSinglePlaySelectModeSNcgr,
+        LoadNcgrData2(&gMenuScene->mSinglePlaySelectModeSNcgr,
                       FindSceneFileWrapper("common/single_play_select_mode_s.nce.ncgr"));
-        LoadNcerData(&data_0217b43c->mSinglePlaySelectModeSNcer,
+        LoadNcerData(&gMenuScene->mSinglePlaySelectModeSNcer,
                      FindSceneFileWrapper("common/single_play_select_mode_s.nce.ncer"));
-        data_0217b43c->mSinglePlaySelectModeSBncl = FindSceneFileWrapper("common/single_play_select_mode_s.bncl");
-        data_0217b43c->mSinglePlaySelectModeSBnbl = FindSceneFileWrapper("common/single_play_select_mode_s.bnbl");
-        menu = data_0217b43c;
-        InitLayoutTable(func_020cb99c(), menu->mSinglePlaySelectModeMBncl, NULL,
+        gMenuScene->mSinglePlaySelectModeSBncl = FindSceneFileWrapper("common/single_play_select_mode_s.bncl");
+        gMenuScene->mSinglePlaySelectModeSBnbl = FindSceneFileWrapper("common/single_play_select_mode_s.bnbl");
+        menu = gMenuScene;
+        InitLayoutTable(MenuGetCurrentHeap(), menu->mSinglePlaySelectModeMBncl, NULL,
                         &menu->mSinglePlaySelectModeMLayoutTable);
-        menu = data_0217b43c;
-        InitLayoutTable(func_020cb99c(), menu->mSinglePlaySelectModeSBncl, NULL,
+        menu = gMenuScene;
+        InitLayoutTable(MenuGetCurrentHeap(), menu->mSinglePlaySelectModeSBncl, NULL,
                         &menu->mSinglePlaySelectModeSLayoutTable);
-        menu = data_0217b43c;
+        menu = gMenuScene;
         func_02124a98(0, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
-        menu = data_0217b43c;
+        menu = gMenuScene;
         func_02124a98(1, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
-        menu = data_0217b43c;
+        menu = gMenuScene;
         func_02124a98(2, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
-        menu = data_0217b43c;
+        menu = gMenuScene;
         func_02124a98(3, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
-        menu = data_0217b43c;
+        menu = gMenuScene;
         func_02124a98(4, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
     }
     LoadPlayerEntryListFiles();
-    InitPlayerEntryList(func_020cb99c(), data_0217b43c->mMainOam);
-    data_0217b43c->mUnk_954 = func_0203bedc(func_020cb99c());
+    InitPlayerEntryList(MenuGetCurrentHeap(), gMenuScene->mMainOam);
+    gMenuScene->mUnk_954 = func_0203bedc(MenuGetCurrentHeap());
     SetMainDispcntBits(0x10);
     SetSubDispcntBits(0x10);
     func_020cba6c(0, 0x3f, 6, 10);
@@ -172,11 +172,11 @@ void InitMenu(void) {
     config.mUseBackScreen = 1;
     config.mBackScreenKind = 0;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-    InitSceneText(func_020cb99c(), &config);
-    if (func_020cae54() == 2) {
+    InitSceneText(MenuGetCurrentHeap(), &config);
+    if (MenuGetConnectionKind() == 2) {
         ClearSelectReturnDisplayBitOn();
     }
-    InitLinkLevelIcons(func_020cb99c(), data_0217b43c->mMainOam);
+    InitLinkLevelIcons(MenuGetCurrentHeap(), gMenuScene->mMainOam);
     switch (func_020cc120()) {
         case 0:
             SwitchMenuScreen(0, 0x1f);
@@ -240,27 +240,27 @@ void InitMenu(void) {
             func_020cc10c(1);
             break;
     }
-    CreateCharacterKartPicks(func_020cb99c());
+    CreateCharacterKartPicks(MenuGetCurrentHeap());
     switch (GetRaceSetupCopy()->mMode) {
         case 0:
         default:
-            data_0217b43c->mSinglePlaySelectModeIndex = 0;
+            gMenuScene->mSinglePlaySelectModeIndex = 0;
             break;
         case 1:
-            data_0217b43c->mSinglePlaySelectModeIndex = 1;
+            gMenuScene->mSinglePlaySelectModeIndex = 1;
             break;
         case 2:
-            data_0217b43c->mSinglePlaySelectModeIndex = 3;
+            gMenuScene->mSinglePlaySelectModeIndex = 3;
             break;
         case 3:
-            data_0217b43c->mSinglePlaySelectModeIndex = 2;
+            gMenuScene->mSinglePlaySelectModeIndex = 2;
             break;
         case 4:
-            data_0217b43c->mSinglePlaySelectModeIndex = 4;
+            gMenuScene->mSinglePlaySelectModeIndex = 4;
             break;
     }
-    data_0217b43c->mUnk_934 = FALSE;
-    data_0217b43c->mUnk_938 = 0;
+    gMenuScene->mSinglePlaySelectStartedOnSelected = FALSE;
+    gMenuScene->mSinglePlaySelectModePressOffset = 0;
 }
 #pragma thumb off
 

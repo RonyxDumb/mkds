@@ -10,16 +10,16 @@
 
 #pragma thumb on
 #pragma optimize_for_size on
-void func_020cae8c(void) {
+void UpdateSinglePlaySelectMenuScreen3(void) {
     s32 nextScreenAndModeTable[5][2] = {{4, 0}, {0x14, 1}, {8, 3}, {0xe, 2}, {0x12, 4}};
     s32 framesSinceSwitch;
 
     framesSinceSwitch = GetFramesSinceMenuScreenSwitch();
-    data_0217b43c->mUnk_938 = GetSelectedPressOffset(framesSinceSwitch);
+    gMenuScene->mSinglePlaySelectModePressOffset = GetSelectedPressOffset(framesSinceSwitch);
     if (framesSinceSwitch >= 10) {
-        SwitchMenuScreen(2, nextScreenAndModeTable[data_0217b43c->mSinglePlaySelectModeIndex][0]);
+        SwitchMenuScreen(2, nextScreenAndModeTable[gMenuScene->mSinglePlaySelectModeIndex][0]);
         ResetRaceSetupCopy();
-        GetRaceSetupCopy()->mMode = nextScreenAndModeTable[data_0217b43c->mSinglePlaySelectModeIndex][1];
+        GetRaceSetupCopy()->mMode = nextScreenAndModeTable[gMenuScene->mSinglePlaySelectModeIndex][1];
     }
     DrawSinglePlaySelectCells();
 }

@@ -18,11 +18,11 @@ u32 func_02039e08(NNSiFndHeapHead *heap, void **outBackHeap, void **outSoundBuff
 u32 RunMenuScene(SceneNumbers *sceneNumbers);
 void UpdateMenuScene(void);
 void WriteMenuSceneRegistersCallback(void);
-// Slot mRelease: releases the current screen (ReleaseMenu, clears data_0217b43c), clears bit 0 of
+// Slot mRelease: releases the current screen (ReleaseMenu, clears gMenuScene), clears bit 0 of
 // data_021759d0->mUnk_50 and, in mode 1, resets the CPU entries 1..7 of mNextEntries
 // (ResetTimeAttackNextEntries).
 void ReleaseMenuScene(void);
-// Wrapper of InitMenu, which allocates data_0217b43c and loads the single_play_select_mode
+// Wrapper of InitMenu, which allocates gMenuScene and loads the single_play_select_mode
 // files.
 void InitMenuScene(void);
 // Scene function of gSceneFuncs[2] (scene 'Race' in gSceneNames): copies the callbacks and calls

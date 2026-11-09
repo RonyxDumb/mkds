@@ -19,8 +19,8 @@ void UpdateSinglePlaySelectMenuScreen0(void) {
     s16 offset;
 
     frame = GetFramesSinceMenuScreenSwitch();
-    mainCells = data_0217b43c->mSinglePlaySelectModeMLayoutTable;
-    subCells = data_0217b43c->mSinglePlaySelectModeSLayoutTable;
+    mainCells = gMenuScene->mSinglePlaySelectModeMLayoutTable;
+    subCells = gMenuScene->mSinglePlaySelectModeSLayoutTable;
     if (frame < 10) {
         mainCells->mOffsetY = InterpolateS16(1, -0x28, 0, frame, 10);
         offset = InterpolateS16(1, 0xf0, 0, frame, 10);
@@ -35,7 +35,7 @@ void UpdateSinglePlaySelectMenuScreen0(void) {
         }
         SwitchMenuScreen(1, 0x1f);
         SetSelectReturnSoundId(0xf);
-        data_0217b43c->mUnk_934 = FALSE;
+        gMenuScene->mSinglePlaySelectStartedOnSelected = FALSE;
     }
     DrawSinglePlaySelectCells();
 }
