@@ -449,8 +449,8 @@ void OrderItemPoolObjectsForRelease(ItemObject **objects, s32 pairIndex, s32 end
         if ((previous->mFlags & 0x180000) != 0) {
             goto next;
         }
-        if (func_020f9c08(previous) != 0) {
-            if (func_020f9c08(current) == 0) {
+        if (IsItemObjectOldAndResting(previous) != 0) {
+            if (IsItemObjectOldAndResting(current) == 0) {
                 goto next;
             }
             j = 0;
@@ -465,7 +465,7 @@ void OrderItemPoolObjectsForRelease(ItemObject **objects, s32 pairIndex, s32 end
                 }
                 j++;
             } while (j < 0xd);
-        } else if (func_020f9c08(current) != 0) {
+        } else if (IsItemObjectOldAndResting(current) != 0) {
             objects[pairIndex - 1] = current;
             objects[pairIndex] = previous;
         }
@@ -500,7 +500,7 @@ void UpdateItemPool(ItemPool *pool) {
         orderEndIndex = pool->mRestingCount;
         if ((frameMod8 = GetRaceUpdateFramesMod8()) == 0) {
             if (pool->mLimit - pool->mReservedCount < 1 && pool->mActiveCount > 0) {
-                func_020f9ba8(pool->mObjects[0]);
+                StartItemObjectReleaseIfOldResting(pool->mObjects[0]);
             }
         } else {
             if (pool->mKind == 2) {
@@ -548,7 +548,7 @@ void UpdateItemPool(ItemPool *pool) {
                     break;
                 }
                 if (hasFlag8000 != 0) {
-                    objectPos = object->mUnk_d0;
+                    objectPos = object->mPosPointer;
                     kartIndex = object->mOwnerKartIndexAndFlags & ~0xff00;
                     kart = GetKart(kartIndex);
                     kartPos = &kart->mDrawMatrixPos;
@@ -782,7 +782,8 @@ void CopyKartPlacementToItemObject(KartItems *kartItems, ItemObject *object) {
     } else {
         axis = &gKartItemsVec3UnitY;
     }
-    func_020f98a0(object, &kart->mDrawMatrixPos, axis, &kart->mKartModelsEntry->mCourseColorBlend, func_0206c0a8(kart));
+    SetItemObjectPlacement(object, &kart->mDrawMatrixPos, axis, &kart->mKartModelsEntry->mCourseColorBlend,
+                           func_0206c0a8(kart));
     if ((kart->mUnk_48 & 1) != 0) {
         object->mFlags |= 0x40000000;
     }
@@ -855,8 +856,8 @@ void StartLastItemInUseObjectAndInit(ItemInUse *itemInUse, s32 callKart) {
         }
     }
     object->mDistanceSquaredAndFlags =
-        gItemKinds[object->mKind].mViewTest(object->mUnk_d0, object->mRadius << 1, gItemKinds[object->mKind].mUnk_5c,
-                                            gItemKinds[object->mKind].mUnk_a4, 0x1f);
+        gItemKinds[object->mKind].mViewTest(object->mPosPointer, object->mRadius << 1,
+                                            gItemKinds[object->mKind].mUnk_5c, gItemKinds[object->mKind].mUnk_a4, 0x1f);
     if (object->mFlags & 0x400000) {
         UpdateItemObjectSoundSource(object);
     }
@@ -989,7 +990,7 @@ void AdvanceItemInUseOne(ItemInUse *itemInUse) {
         itemInUse->mObjectStartFramesLeft == 0) {
         StartLastItemInUseObjectAndInit(itemInUse, 1);
     }
-    if (itemInUse->mUnk_170 != NULL) {
+    if (itemInUse->mIsActiveItem != FALSE) {
         kartItems->mActiveItem = 0x13;
         entryIndex = kartItems->mEntryIndex;
         if ((u16) (gInputSlots[entryIndex].mBits & ITEM_THROW_FORWARD_BIT) != 0) {

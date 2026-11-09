@@ -103,7 +103,7 @@ void func_020ff97c(Unk020ff97c *object) {
 void SetItemFBoxDrawMatrix(ItemFBox *fbox, MtxFx43 *out) {
     Vec3 *position;
 
-    position = fbox->mUnk_000.mItemObject.mUnk_d0;
+    position = fbox->mUnk_000.mItemObject.mPosPointer;
     fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[3].x = position->x >> 4;
     fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[3].y = position->y >> 4;
     fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[3].z = position->z >> 4;
@@ -179,7 +179,7 @@ void func_020ff6d8(ItemFBox *fbox, MtxFx43 *out) {
                                &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0]);
         }
     }
-    position = fbox->mUnk_000.mItemObject.mUnk_d0;
+    position = fbox->mUnk_000.mItemObject.mPosPointer;
     fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[3].x = position->x >> 4;
     fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[3].y = position->y >> 4;
     fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[3].z = position->z >> 4;

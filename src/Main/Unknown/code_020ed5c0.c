@@ -105,7 +105,7 @@ void StartItemInUse(ItemInUse *itemInUse, HeldItem *heldItem) {
     itemInUse->mObjectCount = gItemInfos[itemInfoIndex].mObjectCount;
     itemInUse->mUseKind = useKind;
     itemInUse->mItemInfoIndex = itemInfoIndex;
-    itemInUse->mUnk_170 = NULL;
+    itemInUse->mIsActiveItem = FALSE;
     itemInUse->mUnk_0e8 = gItemInfos[itemInfoIndex].mObjectKind == 8 ? 0xb400 : 0x4333;
     poolIndex = *(vs32 *) &itemInUse->mObjectKind;
     TakeItemPoolObjects(&gItemPools[poolIndex], itemInUse->mObjectCount, itemInUse->mObjects, itemInUse->mKart->mIndex,
@@ -119,7 +119,7 @@ void StartItemInUse(ItemInUse *itemInUse, HeldItem *heldItem) {
     }
     SetupKartAiItemInUseEntry(itemInUse->mKart);
     ResetHeldItem(heldItem);
-    if (itemInUse->mUnk_170 != NULL) {
+    if (itemInUse->mIsActiveItem != FALSE) {
         SetActiveItem(itemInUse->mKartItems, itemInUse->mItemInfoIndex);
     }
     objects = itemInUse->mObjects;
@@ -132,7 +132,7 @@ void StartItemInUse(ItemInUse *itemInUse, HeldItem *heldItem) {
         object->mVelocity = itemInUse->mKartVelocity;
         SetItemObjectScaleByRatios(object, itemInUse->mKartScaleFactorTimesBase.x,
                                    itemInUse->mKartScaleFactorTimesBase.y);
-        object->mUnk_90 = kartModelHalfwords;
+        object->mKartLightColor = kartModelHalfwords;
         object->mFlags |= 0x1000;
     }
 }
@@ -244,7 +244,7 @@ void UpdateItemInUseObjects(ItemInUse *itemInUse) {
                 if (DoesMapObjectRespondToItemObject(other, object) == FALSE) {
                     continue;
                 }
-                func_020f944c(object, other);
+                ApplyMapObjectHitToItemObject(object, other);
             }
             if (object->mCollisionSlotIndex == -1) {
                 break;
@@ -371,17 +371,17 @@ void ReleaseItemInUse(ItemInUse *itemInUse) {
                               itemInUse->mObjects[itemInUse->mObjectCount]);
     }
     ResetItemInUse(itemInUse);
-    if (itemInUse->mUnk_170 != NULL) {
+    if (itemInUse->mIsActiveItem != FALSE) {
         itemInUse->mKartItems->mActiveItem = 0x13;
-        itemInUse->mUnk_170 = NULL;
+        itemInUse->mIsActiveItem = FALSE;
     }
 }
 
 void StartItemInUseObjectCountdown(ItemInUse *itemInUse) {
     itemInUse->mObjectStartFramesLeft = 0xa;
-    if (itemInUse->mUnk_170 != NULL) {
+    if (itemInUse->mIsActiveItem != FALSE) {
         itemInUse->mKartItems->mActiveItem = 0x13;
-        itemInUse->mUnk_170 = NULL;
+        itemInUse->mIsActiveItem = FALSE;
     }
 }
 
@@ -419,14 +419,14 @@ void *BuildItemObjectMatrix(ItemObject *object, Vec3 *viewAxis) {
         {
             Vec3 *position;
 
-            position = object->mUnk_d0;
+            position = object->mPosPointer;
             object->mUnk_94.mUnk_00[3].x = position->x >> 4;
             object->mUnk_94.mUnk_00[3].y = position->y >> 4;
             object->mUnk_94.mUnk_00[3].z = position->z >> 4;
         }
         return &object->mUnk_94.mUnk_00[0];
     } else {
-        return SetViewAxis2MatrixPos(object->mUnk_d0);
+        return SetViewAxis2MatrixPos(object->mPosPointer);
     }
 }
 
@@ -451,7 +451,7 @@ void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis) {
             continue;
         }
         if ((object->mFlags & 0x1000) != 0) {
-            SendLight01Color(object->mUnk_90);
+            SendLight01Color(object->mKartLightColor);
         } else {
             SendLight01Color(&object->mColorBlend.mColor);
         }
@@ -476,14 +476,14 @@ void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis) {
             {
                 Vec3 *position;
 
-                position = object->mUnk_d0;
+                position = object->mPosPointer;
                 object->mUnk_94.mUnk_00[3].x = position->x >> 4;
                 object->mUnk_94.mUnk_00[3].y = position->y >> 4;
                 object->mUnk_94.mUnk_00[3].z = position->z >> 4;
             }
             matrix = &object->mUnk_94.mUnk_00[0];
         } else {
-            matrix = SetViewAxis2MatrixPos(object->mUnk_d0);
+            matrix = SetViewAxis2MatrixPos(object->mPosPointer);
         }
         DrawNsbmdModelWithMatrixAndMaxAlpha(model, matrix, &object->mScale, 0, 0x1f);
         if ((d8 = object->mAlpha) != 0x1f) {
@@ -505,7 +505,7 @@ void DrawItemPoolWithCallback(ItemPool *pool, void *callbackArg, void (*drawCall
             continue;
         }
         if ((object->mFlags & 0x1000) != 0) {
-            SendLight01Color(object->mUnk_90);
+            SendLight01Color(object->mKartLightColor);
         } else {
             SendLight01Color(&object->mColorBlend.mColor);
         }
@@ -535,14 +535,14 @@ void DrawItemObjectModel(ItemObject *object, NsbmdModel *model, Vec3 *viewAxis) 
         {
             Vec3 *position;
 
-            position = object->mUnk_d0;
+            position = object->mPosPointer;
             object->mUnk_94.mUnk_00[3].x = position->x >> 4;
             object->mUnk_94.mUnk_00[3].y = position->y >> 4;
             object->mUnk_94.mUnk_00[3].z = position->z >> 4;
         }
         matrix = &object->mUnk_94.mUnk_00[0];
     } else {
-        matrix = SetViewAxis2MatrixPos(object->mUnk_d0);
+        matrix = SetViewAxis2MatrixPos(object->mPosPointer);
     }
     DrawNsbmdModelWithMatrixAndMaxAlpha(model, matrix, &object->mScale, 0, 0x1f);
     if ((d = object->mAlpha) != 0x1f) {

@@ -17,27 +17,27 @@ void SteerItemKouraWToAnglePoint(ItemKouraW *item, s32 maxStep, s32 angle, s32 r
     s32 s;
 
     kart = item->mKartItems->mKart;
-    item->mUnk_22c = kart->mSignedTurnedForward;
+    item->mKartForward = kart->mSignedTurnedForward;
     pos = &item->mUnk_000.mUnk_000.mUnk_000.mPos;
     velocity = &item->mUnk_000.mUnk_000.mUnk_000.mVelocity;
-    toTarget = &item->mUnk_238;
+    toTarget = &item->mToTarget;
     if (kart->mUnk_44 & 0x100) {
-        item->mUnk_22c.x = -item->mUnk_22c.x;
-        item->mUnk_22c.y = -item->mUnk_22c.y;
-        item->mUnk_22c.z = -item->mUnk_22c.z;
+        item->mKartForward.x = -item->mKartForward.x;
+        item->mKartForward.y = -item->mKartForward.y;
+        item->mKartForward.z = -item->mKartForward.z;
     }
-    Vec3CrossUnrounded(&item->mUnk_22c, &kart->mGroundNormal, &t);
+    Vec3CrossUnrounded(&item->mKartForward, &kart->mGroundNormal, &t);
     s = MUL_FIXED12_NO_ROUND(radius, gPairsByAngle[(angle >> 4) * 2 + 1]);
-    item->mUnk_250.x = MUL_FIXED12_NO_ROUND(t.x, s);
-    item->mUnk_250.y = MUL_FIXED12_NO_ROUND(t.y, s);
-    item->mUnk_250.z = MUL_FIXED12_NO_ROUND(t.z, s);
+    item->mAnglePointOffset.x = MUL_FIXED12_NO_ROUND(t.x, s);
+    item->mAnglePointOffset.y = MUL_FIXED12_NO_ROUND(t.y, s);
+    item->mAnglePointOffset.z = MUL_FIXED12_NO_ROUND(t.z, s);
     s = MUL_FIXED12_NO_ROUND(radius, gPairsByAngle[(angle >> 4) * 2]);
-    VEC_MultAdd(s, &item->mUnk_22c, &item->mUnk_250, &item->mUnk_250);
-    VEC_MultAdd(0x1e000, &item->mUnk_22c, &item->mUnk_250, &t);
+    VEC_MultAdd(s, &item->mKartForward, &item->mAnglePointOffset, &item->mAnglePointOffset);
+    VEC_MultAdd(0x1e000, &item->mKartForward, &item->mAnglePointOffset, &t);
     if (func_0206c0b0(kart) == FALSE) {
-        item->mUnk_244 = kart->mDrawMatrixPos;
+        item->mKartDrawPos = kart->mDrawMatrixPos;
     }
-    VEC_Add(&t, &item->mUnk_244, &t);
+    VEC_Add(&t, &item->mKartDrawPos, &t);
     VEC_Subtract(&t, pos, toTarget);
     t.x = MUL_FIXED12_NO_ROUND(toTarget->x, gain);
     t.y = MUL_FIXED12_NO_ROUND(toTarget->y, gain);

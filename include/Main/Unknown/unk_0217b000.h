@@ -1107,7 +1107,7 @@ extern u16 gItemWeightSums[];
 extern s32 gKouraWState7ScaleLimit;
 extern s32 gKouraWState7InverseLimit;
 extern s32 gKouraWState7ScaleStep;
-extern volatile s32 data_0217bd34;
+extern volatile s32 gKouraWState7MaxRadiusSquared;
 extern s32 data_0217bd48;
 extern s32 data_0217bd4c;
 extern s32 data_0217bd50;

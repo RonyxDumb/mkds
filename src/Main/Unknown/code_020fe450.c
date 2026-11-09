@@ -18,11 +18,11 @@ void InitIndexLinks(u8 *usedHead, u8 *freeHead, u8 (*entries)[2]) {
     entries[next - 1][0] = 0xff;
 }
 
-void func_020fe46c(void) {
+void InitItemDataQueueLinks(void) {
     InitIndexLinks(gItemDataQueueUsedHead, gItemDataQueueFreeHead, gItemDataQueueLinks);
 }
 
-void func_020fe450(void) {
+void InitItemDataDelayedLinks(void) {
     InitIndexLinks(gItemDataDelayedUsedHead, gItemDataDelayedFreeHead, gItemDataDelayedLinks);
 }
 

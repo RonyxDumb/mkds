@@ -10,7 +10,7 @@ void InitItemObject(ItemObject *a, u32 b, int c) {
     a->mUnk_48 = b;
     CreateCollisionHitLink(&a->mCollisionHitLink);
     InitSoundSource(&a->mSoundSource, gItemKinds[c].mFalloffIndex, &a->mPos);
-    func_02109054(&a->mSoundSource);
+    ReleaseSoundSourceWrapper(&a->mSoundSource);
 }
 
 #pragma thumb off

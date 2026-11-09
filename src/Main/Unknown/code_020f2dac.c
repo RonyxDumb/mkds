@@ -801,7 +801,7 @@ void AdvanceBouncingItem(BouncingItemObject *item, s32 gravity, s32 velocityFact
             n = item->mBouncesRemaining;
             item->mBouncesRemaining = n - 1;
             if (n <= 0) {
-                func_020f9334(&item->mItemObject, pos, velocity, gravity, &hitNormal);
+                LandItemObjectIfOnGround(&item->mItemObject, pos, velocity, gravity, &hitNormal);
             } else {
                 item->mItemObject.mFlags |= 0x10;
                 n = VEC_DotProduct(&hitNormal, velocity);

@@ -435,10 +435,10 @@ void func_0206d18c(Kart *kart) {
         return;
     }
     if (kart->mUnk_4c & 0x10000040) {
-        if (itemObject->mUnk_128 & (u8) (1 << kart->mIndex)) {
+        if (itemObject->mKartSoundMask & (u8) (1 << kart->mIndex)) {
             return;
         }
-        itemObject->mUnk_128 |= (u8) (1 << kart->mIndex);
+        itemObject->mKartSoundMask |= (u8) (1 << kart->mIndex);
         StartSound(&kart->mSoundSource, 0xe9, 0x7f, 0);
         return;
     }

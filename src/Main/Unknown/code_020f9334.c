@@ -24,14 +24,14 @@
 #include "Main/Unknown/code_02109000.h"
 #include "code_02147cd8.h"
 
-BOOL func_020f9c08(ItemObject *item) {
+BOOL IsItemObjectOldAndResting(ItemObject *item) {
     if (item->mAgeFrames > 0x12c && (item->mFlags & 0x8000) != 0 && item->mAdvance == AdvanceRestingItemObject) {
         return TRUE;
     }
     return FALSE;
 }
 
-void func_020f9ba8(ItemObject *item) {
+void StartItemObjectReleaseIfOldResting(ItemObject *item) {
     if (item->mAgeFrames <= 0x12c) {
         return;
     }
@@ -44,7 +44,7 @@ void func_020f9ba8(ItemObject *item) {
     StartItemObjectReleaseTimerSynced(item, 1);
 }
 
-void func_020f9b0c(ItemObject *item) {
+void StartItemObjectReleaseOnTimeout(ItemObject *item) {
     if ((item->mFlags & 0x8000) != 0) {
         StartItemObjectReleaseTimerSynced(item, 1);
         return;
@@ -70,22 +70,22 @@ void ResetItemObject(ItemObject *item, s32 kind) {
     item->mRadius = 0x7b;
     item->mAlpha = 0x1f;
     item->mCollisionBits = 0;
-    item->mUnk_118 = 0;
-    item->mUnk_114 = 5;
+    item->mCourseReleaseTimer = 0;
+    item->mFramesSinceCourseHit = 5;
     item->mBounce = NULL;
-    item->mUnk_d0 = &item->mPos;
+    item->mPosPointer = &item->mPos;
     item->mCollisionSlotIndex = -1;
     item->mCollisionHitLink->mObject = NULL;
     if (gRaceSetup->mMode == 5) {
         item->mFlags |= 0x8000000;
     }
-    item->mOwnerKartIndexAndFlags |= data_02159cac;
+    item->mOwnerKartIndexAndFlags |= gItemObjectOwnerExcludedBit;
     InitCourseColorBlend(&item->mColorBlend, 1);
-    item->mUnk_90 = NULL;
+    item->mKartLightColor = NULL;
     if (reset != NULL) {
         reset(item);
     }
-    item->mUnk_128 = 0;
+    item->mKartSoundMask = 0;
 }
 
 void ResetItemObjectAtPos(ItemObject *item, s32 kind, u16 ownerAndFlags, Vec3 *pos) {
@@ -105,7 +105,7 @@ void ReleaseItemObject(ItemObject *item) {
         item->mCollisionSlotIndex = FreeCollisionSlot(item->mCollisionSlotIndex);
     }
     if ((item->mFlags & 0x400000) != 0) {
-        func_02109054(&item->mSoundSource);
+        ReleaseSoundSourceWrapper(&item->mSoundSource);
         item->mSoundSource.mTrackParamsFunction = NULL;
         item->mFlags &= ~0x400000;
     }
@@ -116,7 +116,8 @@ void ReleaseItemObject(ItemObject *item) {
     }
 }
 
-void func_020f98a0(ItemObject *itemParam, Vec3 *prevPos, Vec3 *normal, CourseColorBlend *colorBlend, s32 param_5) {
+void SetItemObjectPlacement(ItemObject *itemParam, Vec3 *prevPos, Vec3 *normal, CourseColorBlend *colorBlend,
+                            s32 param_5) {
     ItemObject *item = itemParam;
     item->mPrevPos = *prevPos;
     if (colorBlend != NULL) {
@@ -132,7 +133,7 @@ s32 func_020f9880(ItemObject *item) {
     return gItemKinds[item->mKind].mUnk_84;
 }
 
-BOOL func_020f97e0(ItemObject *item, Kart *kart) {
+BOOL IsItemObjectOverlappingKart(ItemObject *item, Kart *kart) {
     Vec3 offset;
     s32 hitRadius;
 
@@ -159,7 +160,7 @@ BOOL IsItemObjectOverlappingSphere(ItemObject *item, Vec3 *center, s32 radius) {
     return LENGTH_SQUARED(offset) < (s64) sumRadius * sumRadius;
 }
 
-void func_020f95d4(ItemObject *item, ItemObject *other) {
+void CollideItemObjectWithItemObject(ItemObject *item, ItemObject *other) {
     Vec3 itemVelocity;
     s32 hitType;
     s32 otherHitType;
@@ -202,10 +203,10 @@ void func_020f95d4(ItemObject *item, ItemObject *other) {
     StartTargetKartSoundOnOwnItemHit(other, otherHitType, item);
 }
 
-void func_020f944c(ItemObject *itemParam, MapObject *mapObjectParam) {
+void ApplyMapObjectHitToItemObject(ItemObject *itemParam, MapObject *mapObjectParam) {
     Vec3 a;
     Vec3 otherPos;
-    s32 b;
+    s32 firstResponse;
     MapObject *reportedMapObject;
     ItemObject *item = itemParam;
     MapObject *mapObject = mapObjectParam;
@@ -217,13 +218,13 @@ void func_020f944c(ItemObject *itemParam, MapObject *mapObjectParam) {
         DoesItemObjectRespondToMapObject(item->mKind, mapObject) != 0) {
         VEC_Add(&item->mPos, &a, &item->mPos);
     }
-    switch (CollideItemObjectWithMapObject(item, mapObject, &b)) {
+    switch (CollideItemObjectWithMapObject(item, mapObject, &firstResponse)) {
         case 1:
             otherPos.x = mapObject->mPos.x;
             otherPos.y = item->mPos.y;
             otherPos.z = mapObject->mPos.z;
             a = otherPos;
-            if (b == 1 || (mapObject->mDistanceSquaredAndFlags & 0x80000000) != 0) {
+            if (firstResponse == 1 || (mapObject->mDistanceSquaredAndFlags & 0x80000000) != 0) {
                 mapObject->mDistanceSquaredAndFlags &= ~0x80000000;
                 reportedMapObject = mapObject;
             } else {
@@ -234,7 +235,7 @@ void func_020f944c(ItemObject *itemParam, MapObject *mapObjectParam) {
             item->mOwnerKartIndexAndFlags &= ~0x4000;
             return;
         case 2:
-            if (b == 1 || (mapObject->mDistanceSquaredAndFlags & 0x80000000) != 0) {
+            if (firstResponse == 1 || (mapObject->mDistanceSquaredAndFlags & 0x80000000) != 0) {
                 mapObject->mDistanceSquaredAndFlags &= ~0x80000000;
                 reportedMapObject = mapObject;
             } else {
@@ -246,7 +247,7 @@ void func_020f944c(ItemObject *itemParam, MapObject *mapObjectParam) {
     }
 }
 
-void func_020f9334(ItemObject *item, Vec3 *pos, Vec3 *velocity, s32 minFallSpeed, Vec3 *normal) {
+void LandItemObjectIfOnGround(ItemObject *item, Vec3 *pos, Vec3 *velocity, s32 minFallSpeed, Vec3 *normal) {
     Vec3 lowerPos;
     u32 collisionBits;
     s32 x;

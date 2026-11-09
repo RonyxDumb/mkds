@@ -188,7 +188,7 @@ void UpdateItemBombState2(ItemBomb *bomb) {
 
     stateFrames = bomb->mStateMachine.mStateFrames;
     if (GrowItemObjectScale(&bomb->mUnk_000.mItemObject, data_0217bd50, data_0217bd54) != 0) {
-        func_020f9fa8(&bomb->mUnk_000.mItemObject);
+        RefreshItemObjectScaleExact(&bomb->mUnk_000.mItemObject);
     }
     if (stateFrames < 0x16) {
         return;

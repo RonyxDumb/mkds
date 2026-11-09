@@ -92,7 +92,7 @@ void StopItemObjectSoundSource(ItemObject *itemParam) {
     if ((item->mFlags & 0x400000) == 0) {
         return;
     }
-    func_02109054(&item->mSoundSource);
+    ReleaseSoundSourceWrapper(&item->mSoundSource);
     item->mSoundSource.mTrackParamsFunction = NULL;
     item->mFlags &= ~0x400000;
 }
@@ -133,7 +133,7 @@ void SetupItemObjectFromData(ItemObject *item) {
     item->mRadius = MUL_FIXED12_NO_ROUND(item->mScale.y, kindRadius);
     SetCollisionSlotRadius(item->mCollisionSlotIndex, item->mRadius + 0xa000);
     InitCourseColorBlend(&item->mColorBlend, 1);
-    item->mUnk_90 = NULL;
+    item->mKartLightColor = NULL;
     item->mNormal = gItemVec3UnitY;
     item->mCollisionBits = 0;
     item->mUnk_100 = 0;
@@ -141,9 +141,9 @@ void SetupItemObjectFromData(ItemObject *item) {
     item->mUnk_108.x = 0;
     item->mUnk_108.y = 0;
     item->mUnk_108.z = 0;
-    item->mUnk_114 = 5;
+    item->mFramesSinceCourseHit = 5;
     item->mUnk_116 = 0;
-    item->mUnk_118 = 0;
+    item->mCourseReleaseTimer = 0;
     item->mUnk_11a = 0;
     item->mAgeFrames = 1;
     if ((item->mFlags & 0x400000) == 0) {

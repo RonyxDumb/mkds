@@ -73,10 +73,10 @@ typedef struct ItemObject {
     /* 7a */ u16 mUnk_7a;
     /* 7c */ CourseColorBlend mColorBlend;
     /* 08e */ u8 mUnk_08e[2];
-    /* 090 */ u16 *mUnk_90;
+    /* 090 */ u16 *mKartLightColor;
     /* 094 */ MtxFx43 mUnk_94;
     /* 0c4 */ Vec3 mDrawPos;
-    /* d0 */ Vec3 *mUnk_d0;
+    /* d0 */ Vec3 *mPosPointer;
     /* 0d4 */ s32 mDistanceSquaredAndFlags;
     /* 0d8 */ s16 mAlpha;
     /* 0da */ s16 mCollisionSlotIndex;
@@ -88,16 +88,16 @@ typedef struct ItemObject {
     /* 100 */ s32 mUnk_100;
     /* 104 */ struct CollisionHitLink *mCollisionHitLink;
     /* 108 */ Vec3 mUnk_108;
-    /* 114 */ s16 mUnk_114;
+    /* 114 */ s16 mFramesSinceCourseHit;
     /* 116 */ s16 mUnk_116;
-    /* 118 */ s16 mUnk_118;
+    /* 118 */ s16 mCourseReleaseTimer;
     /* 11a */ s16 mUnk_11a;
     // Frames since the object was taken by a kart or started, counted per UpdateItemObject call (several per frame in
     // mode 5); held objects count too.
     /* 11c */ s32 mAgeFrames;
     /* 120 */ void (*mAdvance)(struct ItemObject *);
     /* 124 */ void (*mBounce)(struct ItemObject *, Vec3 *, Vec3 *);
-    /* 128 */ u8 mUnk_128;
+    /* 128 */ u8 mKartSoundMask;
     /* 129 */ u8 mUnk_129[3];
 } ItemObject;
 

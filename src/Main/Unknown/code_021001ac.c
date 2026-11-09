@@ -48,12 +48,13 @@
 #include "code_02146d78.h"
 #include "code_02147cd8.h"
 #include "Main/Unknown/code_021025d8.h"
+#include "Main/Unknown/code_020ed5c0.h"
 #include "01/code_021a2034.h"
 #include "Main/Unknown/code_0203c8dc.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-void func_02102668(Unk02102668 *inUse) {
-    inUse->mUnk_170 = 0x1u;
+void TeresaMarkItemInUseAsActiveItem(ItemInUse *itemInUse) {
+    itemInUse->mIsActiveItem = TRUE;
 }
 
 void ResetItemTeresa(ItemTeresa *teresa) {
@@ -295,7 +296,7 @@ void AdvanceItemTeresa(ItemTeresa *teresa) {
 
     AdvanceStateMachine(&teresa->mStateMachine);
     VEC_Subtract(&teresa->mUnk_000.mPos, &teresa->mUnk_000.mPrevPos, &teresa->mUnk_000.mVelocity);
-    if (teresa->mUnk_000.mUnk_d0 != &teresa->mUnk_000.mDrawPos) {
+    if (teresa->mUnk_000.mPosPointer != &teresa->mUnk_000.mDrawPos) {
         return;
     }
     kart = teresa->mKart;
@@ -397,7 +398,7 @@ void EnterItemTeresaState0(ItemTeresa *teresa) {
     teresa->mOffsetVelocityY = 0;
     teresa->mUnk_000.mAlpha = 0x1f;
     if (teresa->mKart->mUnk_48 & 1) {
-        teresa->mUnk_000.mUnk_d0 = &teresa->mUnk_000.mDrawPos;
+        teresa->mUnk_000.mPosPointer = &teresa->mUnk_000.mDrawPos;
     }
 }
 
@@ -419,7 +420,7 @@ void func_0210174c(ItemTeresa *teresa) {
     }
     GetSegmentProgressPoint(&teresa->mUnk_1a4, &s);
     SetSegmentProgressRate(&teresa->mUnk_1a4.mSegmentProgress, s.y);
-    if (teresa->mUnk_000.mUnk_d0 == &teresa->mUnk_000.mDrawPos) {
+    if (teresa->mUnk_000.mPosPointer == &teresa->mUnk_000.mDrawPos) {
         v = (Vec3){s.x};
     } else {
         s32 f = s.x;
@@ -593,9 +594,9 @@ void EnterItemTeresaState2(ItemTeresa *teresa) {
             pickFunction(teresa, -1);
         }
     }
-    if (teresa->mUnk_000.mUnk_d0 == &teresa->mUnk_000.mDrawPos) {
+    if (teresa->mUnk_000.mPosPointer == &teresa->mUnk_000.mDrawPos) {
         teresa->mUnk_000.mPos = teresa->mUnk_000.mDrawPos;
-        teresa->mUnk_000.mUnk_d0 = &teresa->mUnk_000.mPos;
+        teresa->mUnk_000.mPosPointer = &teresa->mUnk_000.mPos;
     }
     if (teresa->mPickedKartIndex < 8) {
         teresa->mKart = GetKart(teresa->mPickedKartIndex);
@@ -604,7 +605,7 @@ void EnterItemTeresaState2(ItemTeresa *teresa) {
         teresa->mUnk_144 = FALSE;
         StartEntryKartSound(teresa->mKart, 0xf4);
         if (teresa->mKart->mUnk_48 & 1) {
-            teresa->mUnk_000.mUnk_d0 = &teresa->mUnk_000.mDrawPos;
+            teresa->mUnk_000.mPosPointer = &teresa->mUnk_000.mDrawPos;
         }
     }
     offset[0] = MUL_FIXED12_NO_ROUND(camera->mSide.x, -0xa000);
@@ -801,13 +802,13 @@ void UpdateItemTeresaState4(ItemTeresa *teresa) {
 }
 
 void SetItemTeresaPosPointerToDrawPos(ItemTeresa *teresa) {
-    teresa->mUnk_000.mUnk_d0 = &teresa->mUnk_000.mDrawPos;
+    teresa->mUnk_000.mPosPointer = &teresa->mUnk_000.mDrawPos;
 }
 
 void func_02100b54(ItemTeresa *teresa) {
-    if (teresa->mUnk_000.mUnk_d0 == &teresa->mUnk_000.mDrawPos) {
+    if (teresa->mUnk_000.mPosPointer == &teresa->mUnk_000.mDrawPos) {
         teresa->mUnk_000.mPos = teresa->mUnk_000.mDrawPos;
-        teresa->mUnk_000.mUnk_d0 = &teresa->mUnk_000.mPos;
+        teresa->mUnk_000.mPosPointer = &teresa->mUnk_000.mPos;
     }
 }
 
@@ -1091,7 +1092,7 @@ void DrawItemTeresa(ItemTeresa *teresa, s32 c, NsbmdModel *model) {
     }
     a = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &a, 1);
-    NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(teresa->mUnk_000.mUnk_d0), 0xc);
+    NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(teresa->mUnk_000.mPosPointer), 0xc);
     scaleZ = teresa->mUnk_000.mScale.z;
     scaleY = teresa->mUnk_000.mScale.y;
     scaleX = teresa->mUnk_000.mScale.x;

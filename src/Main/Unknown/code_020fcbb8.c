@@ -24,18 +24,18 @@ void SteerItemKouraWToKartForward(ItemKouraW *item, s32 gain, s32 lift) {
 
     kart = item->mKartItems->mKart;
     flagBit0 = (kart->mUnk_48 & 1) ? 1 : 0;
-    item->mUnk_22c = kart->mSignedTurnedForward;
+    item->mKartForward = kart->mSignedTurnedForward;
     pos = &item->mUnk_000.mUnk_000.mUnk_000.mPos;
     velocity = &item->mUnk_000.mUnk_000.mUnk_000.mVelocity;
     if (kart->mUnk_44 & 0x100) {
-        item->mUnk_22c.x = -item->mUnk_22c.x;
-        item->mUnk_22c.y = -item->mUnk_22c.y;
-        item->mUnk_22c.z = -item->mUnk_22c.z;
+        item->mKartForward.x = -item->mKartForward.x;
+        item->mKartForward.y = -item->mKartForward.y;
+        item->mKartForward.z = -item->mKartForward.z;
     }
     if (func_0206c0b0(kart) == FALSE) {
-        item->mUnk_244 = kart->mDrawMatrixPos;
+        item->mKartDrawPos = kart->mDrawMatrixPos;
     }
-    VEC_MultAdd(0x14ffa, &item->mUnk_22c, &item->mUnk_244, &v);
+    VEC_MultAdd(0x14ffa, &item->mKartForward, &item->mKartDrawPos, &v);
     if (flagBit0 == 0) {
         v.y += lift;
     } else {
@@ -90,6 +90,6 @@ BOOL TrySetItemKouraWKartItems(ItemKouraW *item, s32 kartIndex) {
         return FALSE;
     }
     item->mKartItems = kartItems;
-    item->mUnk_244 = *kartPos;
+    item->mKartDrawPos = *kartPos;
     return TRUE;
 }

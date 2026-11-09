@@ -81,8 +81,8 @@ BOOL UpdateItemObject(ItemPool *a, ItemObject *p, s32 f) {
     if (p->mAgeFrames == 1 && (p->mFlags & 0x8000000) && !(p->mFlags & 0x10000000)) {
         RoundTripItemObjectData(p);
     }
-    if (p->mUnk_114 <= 5) {
-        p->mUnk_114 += 1;
+    if (p->mFramesSinceCourseHit <= 5) {
+        p->mFramesSinceCourseHit += 1;
     }
     if (p->mUnk_116 <= 5) {
         p->mUnk_116 += 1;
@@ -101,7 +101,7 @@ BOOL UpdateItemObject(ItemPool *a, ItemObject *p, s32 f) {
         L_a20:
             if (p->mFlags & 0xc000) {
                 r = GrowItemObjectScale(p, a->mUnk_30, 0x19a);
-                if (func_020f9dc8(p) == 0 && r != 0) {
+                if (SwingItemObjectScale(p) == 0 && r != 0) {
                     RefreshItemObjectScale(p);
                 }
             } else if (GrowItemObjectScale(p, a->mUnk_30, a->mUnk_34) != 0) {
@@ -123,12 +123,12 @@ BOOL UpdateItemObject(ItemPool *a, ItemObject *p, s32 f) {
             w = gFoundCollisionSlotFlags[i];
             if (w & 0x4000) {
                 if (p->mCollisionSlotIndex != gFoundCollisionSlotIndices[i]) {
-                    func_020f95d4(p, gFoundCollisionSlotObjects[i]);
+                    CollideItemObjectWithItemObject(p, gFoundCollisionSlotObjects[i]);
                 } else {
                     continue;
                 }
             } else if (w & 0x2000) {
-                func_020f944c(p, gFoundCollisionSlotObjects[i]);
+                ApplyMapObjectHitToItemObject(p, gFoundCollisionSlotObjects[i]);
             }
             if (p->mCollisionSlotIndex == -1) {
                 break;
@@ -142,17 +142,17 @@ BOOL UpdateItemObject(ItemPool *a, ItemObject *p, s32 f) {
         AdvanceCourseColorBlend(&p->mColorBlend, (v & 0x3c000000) >> 26, 0x5000);
     }
     if (v & 0x1e34ef) {
-        p->mUnk_114 = 0;
+        p->mFramesSinceCourseHit = 0;
         if (v & 0x1000000) {
             p->mUnk_116 = 0;
         }
         if (v & 0x80400) {
             if (v & 0x400) {
-                if (p->mUnk_118 == 0) {
+                if (p->mCourseReleaseTimer == 0) {
                     if (p->mFlags & 0x8000) {
-                        p->mUnk_118 = 0xb4;
+                        p->mCourseReleaseTimer = 0xb4;
                     } else {
-                        p->mUnk_118 = 2;
+                        p->mCourseReleaseTimer = 2;
                     }
                 }
             }
@@ -165,16 +165,16 @@ BOOL UpdateItemObject(ItemPool *a, ItemObject *p, s32 f) {
             p->mFlags &= ~0x40000000;
         }
     }
-    if (p->mUnk_118 != 0 && !(p->mFlags & 0x180000)) {
-        p->mUnk_118 -= 1;
-        if (p->mUnk_118 == 0) {
-            func_020f9b0c(p);
+    if (p->mCourseReleaseTimer != 0 && !(p->mFlags & 0x180000)) {
+        p->mCourseReleaseTimer -= 1;
+        if (p->mCourseReleaseTimer == 0) {
+            StartItemObjectReleaseOnTimeout(p);
         }
     }
     if (p->mPos.y < 0 && p->mKind != 0xb && p->mKind != 0xa) {
         StartItemObjectReleaseTimerSynced(p, 1);
     }
-    if (p->mUnk_114 < 5) {
+    if (p->mFramesSinceCourseHit < 5) {
         p->mFlags &= ~0x20000;
     } else {
         p->mFlags |= 0x20000;
@@ -189,7 +189,7 @@ BOOL UpdateItemObject(ItemPool *a, ItemObject *p, s32 f) {
     }
     k = p->mKind;
     m = gItemKinds[k].mUnk_60;
-    p->mDistanceSquaredAndFlags = a->mViewTest(p->mUnk_d0, p->mRadius * m, a->mUnk_38, a->mUnk_3c, 0x1f);
+    p->mDistanceSquaredAndFlags = a->mViewTest(p->mPosPointer, p->mRadius * m, a->mUnk_38, a->mUnk_3c, 0x1f);
     if (p->mDistanceSquaredAndFlags & 3) {
         p->mFlags |= 0x10000;
     } else {

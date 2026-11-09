@@ -175,7 +175,7 @@ void func_0205aa60(void) {
                 if (slot->mItemKind == 15) {
                     slot->mDataSize = 0;
                 } else {
-                    slot->mDataSize = func_020fa0e8(slot->mItemKind, slot->mMessageKind);
+                    slot->mDataSize = GetItemDataSize(slot->mItemKind, slot->mMessageKind);
                 }
                 if (slot->mDataSize != 0) {
                     MI_CpuCopy8(dataCursor, slot->mData, slot->mDataSize);

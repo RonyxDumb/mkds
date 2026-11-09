@@ -2,7 +2,7 @@
 #include "Main/Unknown/code_020ea670.h"
 #include "Main/Unknown/code_020f36d8.h"
 
-void func_020f9320(ItemObject *item, u32 clearBits) {
+void ClearItemObjectCollisionBits(ItemObject *item, u32 clearBits) {
     item->mCollisionBits = (((item->mCollisionBits)) & ((~(clearBits))));
 }
 

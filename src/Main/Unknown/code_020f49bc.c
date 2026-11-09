@@ -254,7 +254,7 @@ void AdvanceFallingItemObject(ItemObject *item) {
                                 &groundNormal, &bounceNormal, &item->mCollisionBits, NULL, NULL, NULL, &w) != 0) {
         VEC_Add(&pushOut, pos, pos);
         if (item->mCollisionBits & 0x1e34ef) {
-            func_020f9334(item, pos, velocity, 0x385, &groundNormal);
+            LandItemObjectIfOnGround(item, pos, velocity, 0x385, &groundNormal);
         }
         if (item->mCollisionBits & 0x214300) {
             item->mFlags |= 0x20;

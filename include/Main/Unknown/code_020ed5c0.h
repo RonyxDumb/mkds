@@ -139,7 +139,7 @@ typedef struct ItemInUse {
     /* 0e8 */ s32 mUnk_0e8;
     /* 0ec */ s32 mUnk_0ec[2][16];
     /* 16c */ s32 mUnk_16c;
-    /* 170 */ void *mUnk_170;
+    /* 170 */ BOOL mIsActiveItem;
     /* 174 */ u16 mCircleAngle;
     /* 176 */ u16 mCircleAngleSpeed;
     /* 178 */ s32 mCircleRadius;

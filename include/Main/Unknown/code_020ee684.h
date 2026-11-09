@@ -96,8 +96,8 @@ void CreateItemPool(ItemPool *pool, s32 kind, s32 *objectIdCounter);
 // active.
 BOOL TryReleaseFirstItemObject(ItemPool *tab);
 // Runs UpdateItemObject for every active object (mode 5: some get several sub-steps). When mLimit is above 1 and
-// mLimit - mReservedCount is below 2 it first calls func_020f9ba8 on the first object or sorts with
-// OrderItemPoolObjectsForRelease.
+// mLimit - mReservedCount is below 2 it first calls StartItemObjectReleaseIfOldResting on the first object or sorts
+// with OrderItemPoolObjectsForRelease.
 void UpdateItemPool(ItemPool *pool);
 void OrderItemPoolObjectsForRelease(ItemObject **objects, s32 pairIndex, s32 endIndex, s32 step);
 void ProcessItemPoolMessage(ItemPool *pool, s32 messageKind, s32 frameDifference, u8 *packet, s32 frameStamp);
@@ -113,4 +113,4 @@ void StartItemObject(ItemPool *tab, ItemObject *object);
 // Hands an object back to its pool behind the active and taken parts and counts it out; what the object holds is
 // freed by ReleaseItemObject.
 void ReleaseItemPoolObject(ItemPool *tab, ItemObject *object);
-void TakeItemPoolObjects(ItemPool *tab, s32 count, ItemObject **out, u16 kind, Vec3 *pos);
+void TakeItemPoolObjects(ItemPool *pool, s32 count, ItemObject **out, u16 kartIndex, Vec3 *pos);
