@@ -211,7 +211,7 @@ void DrawShine16Shadow(void *a, Shine16 *shine16, void *b, s32 c) {
     shadowScaleVector.y = 0x2000;
     shadowScaleVector.z = 0x2000;
     NNS_G3dGeBufferOP_N(0x1b, &shadowScaleVector, 3);
-    func_020e5348(8, c);
+    DrawJgShadow(8, c);
 }
 
 void UpdateShine16(void *a, Shine16 *shine16) {

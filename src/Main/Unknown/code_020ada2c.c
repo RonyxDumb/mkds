@@ -12,7 +12,7 @@ void AdvanceTitleStates(s32 a) {
     i = gTitleScene->mState;
     gTitleScene->mStateHandlers[i].mUpdate(a);
     IncrementCounterSaturating((s32 *) gTitleScene);
-    func_02125928();
+    AdvanceSceneText();
     HideUnusedOams(&gTitleScene->mMainOam, &gTitleScene->mSubOam);
 }
 

@@ -105,7 +105,7 @@ void InitWiFiStates(void *heap, s32 b) {
     c.mUseBackScreen = TRUE;
     c.mBackScreenKind = 1;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-    func_02125de0(heap, &c);
+    InitSceneText(heap, &c);
     LoadWiFiMenuSceneData();
     InitPlayerEntryList(heap, func_ov000_021804f4());
     InitKartModelMenuWithParamFiles(GetHeap(GetCurrentHeapCall()));
@@ -191,7 +191,7 @@ void ReleaseWiFiStates(void) {
     ClearWiFiStateCallbacks();
     ReleasePlayerEntryList();
     ClearLinkLevelIconsPointer();
-    func_02125da0();
+    ReleaseSceneText();
     gWiFiStates = NULL;
 }
 
@@ -243,7 +243,7 @@ void AdvanceWiFiStates(void) {
             gWiFiStates->mCallbacks.mInit(gWiFiStates->mStateHeap);
         }
     }
-    func_02125928();
+    AdvanceSceneText();
     AdvanceLinkLevelIcons();
     gWiFiStates->mUnk_14++;
     if (gWiFiStates->mUnk_14 > 0) {
@@ -255,7 +255,7 @@ void func_ov000_02180704(void) {
     if (gWiFiStates->mCallbacks.mUnk_0c != NULL) {
         gWiFiStates->mCallbacks.mUnk_0c();
     }
-    func_021258f0();
+    WriteSceneTextRegisters();
 }
 
 void SetWiFiStateCallbacks(const WiFiStateCallbacks *callbacks) {

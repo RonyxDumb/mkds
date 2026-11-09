@@ -211,8 +211,8 @@ void ReleaseMenuScene(void) {
     ResetTimeAttackNextEntries();
 }
 
-void func_02039f50(void) {
-    func_020cc36c();
+void WriteMenuSceneRegistersCallback(void) {
+    WriteMenuSceneRegisters();
 }
 
 void UpdateMenuScene(void) {

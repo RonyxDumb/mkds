@@ -6,7 +6,7 @@
 #pragma thumb on
 void SwitchMenuScreen(s32 screenNumber, s32 nextScreenNumber) {
     data_0217b43c->mFramesSinceScreenSwitch = 0;
-    data_0217b43c->mUnk_004 = 1;
+    data_0217b43c->mScreenSwitched = 1;
     data_0217b43c->mPreviousScreenNumber = data_0217b43c->mScreenNumber;
     data_0217b43c->mScreenNumber = screenNumber;
     data_0217b43c->mNextScreenNumber = nextScreenNumber;

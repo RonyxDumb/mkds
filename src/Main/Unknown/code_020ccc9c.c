@@ -8,8 +8,8 @@ s32 GetFramesSinceMenuScreenSwitch(void) {
     return data_0217b43c->mFramesSinceScreenSwitch;
 }
 
-u32 func_020cccc0(void) {
-    return (data_0217b43c->mUnk_004);
+u32 GetMenuScreenSwitched(void) {
+    return (data_0217b43c->mScreenSwitched);
 }
 
 u32 GetPreviousMenuScreenNumber(void) {

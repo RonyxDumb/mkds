@@ -81,7 +81,7 @@ void InitLogoScene(void *heap) {
     arg.mBackScreenKind = 0;
     arg.mUseCanvas2 = 1;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-    func_02125de0(heap, &arg);
+    InitSceneText(heap, &arg);
 }
 
 void ApplySavedSoundMode(void) {
@@ -102,14 +102,14 @@ void ApplySavedSoundMode(void) {
             break;
     }
     SetSoundOutputEffect(outputEffect);
-    func_02125da0();
+    ReleaseSceneText();
 }
 
 void WriteLogoSceneRegisters(void) {
     s32 brightness;
     s32 frames;
     brightness = 0;
-    func_021258f0();
+    WriteSceneTextRegisters();
     frames = gLogoScene->mState0Frames;
     if (frames > 90) {
         brightness = (-(frames - 90) * 16) / 30;
@@ -123,7 +123,7 @@ void UpdateLogoScene(Unk0203a0dc *sceneNumbers) {
     if (sceneNumbers != NULL && gLogoScene->mStateMachine.mState == 11) {
         sceneNumbers->mNextScene = 0;
     }
-    func_02125928();
+    AdvanceSceneText();
 }
 
 void EnterLogoState0(void) {

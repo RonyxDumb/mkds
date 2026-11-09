@@ -6,26 +6,26 @@
 
 #pragma thumb on
 
-void func_02125928(void) {
-    if (data_0217d3ec->mUseTxtSystem != FALSE) {
+void AdvanceSceneText(void) {
+    if (gSceneText->mUseTxtSystem != FALSE) {
         AdvanceTxtSystem();
     }
-    if (data_0217d3ec->mUseSelectChoises != FALSE) {
+    if (gSceneText->mUseSelectChoises != FALSE) {
         AdvanceSelectChoises();
     }
-    if (data_0217d3ec->mUnk_08 != FALSE) {
+    if (gSceneText->mUnk_08 != FALSE) {
         AdvanceSelectReturn();
     }
 }
 
-void func_021258f0(void) {
-    if (data_0217d3ec->mUseTxtSystem != FALSE) {
+void WriteSceneTextRegisters(void) {
+    if (gSceneText->mUseTxtSystem != FALSE) {
         WriteTxtSystemRegisters();
     }
-    if (data_0217d3ec->mUseSelectChoises != FALSE) {
+    if (gSceneText->mUseSelectChoises != FALSE) {
         WriteSelectChoisesRegisters();
     }
-    if (data_0217d3ec->mUnk_08 != FALSE) {
+    if (gSceneText->mUnk_08 != FALSE) {
         WriteSelectReturnRegisters();
     }
 }

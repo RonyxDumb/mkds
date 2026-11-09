@@ -55,6 +55,6 @@ void func_ov001_02182f98(void *f, Coin *coin, void *h, u32 l) {
         d.y = 0x2000;
         d.z = 0x199a;
         NNS_G3dGeBufferOP_N(0x1b, &d, 3);
-        func_020e5348(8, l);
+        DrawJgShadow(8, l);
     }
 }

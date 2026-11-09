@@ -19,22 +19,22 @@
 #include "Main/Unknown/code_020e55b4.h"
 #include "code_02146cbc.h"
 
-void func_020e55b4(void) {
-    u32 value;
-    value = data_0217b814->mUnk_01c;
-    NNS_G3dGeBufferOP_N(0x2b, &value, 1);
-    NNS_G3dGeBufferOP_N(0x2a, &data_0217b814->mUnk_014, 1);
-    NNS_G3dGeBufferOP_N(0x30, &data_0217b814->mUnk_004, 1);
-    NNS_G3dGeBufferOP_N(0x31, &data_0217b814->mUnk_008, 1);
+void SendObjShadowMaterial(void) {
+    u32 plttBase;
+    plttBase = gObjShadowMaterial->mUnk_01c;
+    NNS_G3dGeBufferOP_N(0x2b, &plttBase, 1);
+    NNS_G3dGeBufferOP_N(0x2a, &gObjShadowMaterial->mUnk_014, 1);
+    NNS_G3dGeBufferOP_N(0x30, &gObjShadowMaterial->mUnk_004, 1);
+    NNS_G3dGeBufferOP_N(0x31, &gObjShadowMaterial->mUnk_008, 1);
 }
 
-void func_020e54e4(ShadowMatrix *shadow, void *wordPointer, u32 unused, u32 alpha) {
-    u32 word;
-    u32 b;
+void DrawObjShadowAfterMaterial(ShadowMatrix *shadow, void *wordPointer, u32 unused, u32 alpha) {
+    u32 polygonAttributes;
+    u32 value;
     u32 threeWords[3];
 
-    b = 0x1e;
-    NNS_G3dGeBufferOP_N(0x14, &b, 1);
+    value = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &value, 1);
     NNS_G3dGeBufferOP_N(0x19, shadow, 0xc);
     if (wordPointer != NULL) {
         u32 firstWord;
@@ -44,27 +44,27 @@ void func_020e54e4(ShadowMatrix *shadow, void *wordPointer, u32 unused, u32 alph
         threeWords[2] = firstWord;
         NNS_G3dGeBufferOP_N(0x1b, threeWords, 3);
     }
-    word = data_0217b814->mUnk_00c;
+    polygonAttributes = gObjShadowMaterial->mUnk_00c;
     alpha = alpha < shadow->mAlphaCap ? alpha : shadow->mAlphaCap;
-    word = word & ~0x1f0000;
-    word = word | (alpha << 16);
-    NNS_G3dGeBufferOP_N(0x29, &word, 1);
-    NNS_G3dGeSendDL(&data_0217b818->mUnk_000[data_0217b818->mUnk_008], data_0217b818->mUnk_00c);
+    polygonAttributes = polygonAttributes & ~0x1f0000;
+    polygonAttributes = polygonAttributes | (alpha << 16);
+    NNS_G3dGeBufferOP_N(0x29, &polygonAttributes, 1);
+    NNS_G3dGeSendDL(&gObjShadowShape->mUnk_000[gObjShadowShape->mUnk_008], gObjShadowShape->mUnk_00c);
 }
 
-void func_020e53ac(ShadowMatrix *shadow, void *wordPointer, u32 unused, u32 alpha) {
-    u32 x;
-    u32 word;
-    u32 b;
+void DrawObjShadow(ShadowMatrix *shadow, void *wordPointer, u32 unused, u32 alpha) {
+    u32 plttBase;
+    u32 polygonAttributes;
+    u32 value;
     u32 threeWords[3];
 
-    x = data_0217b814->mUnk_01c;
-    NNS_G3dGeBufferOP_N(0x2b, &x, 1);
-    NNS_G3dGeBufferOP_N(0x2a, &data_0217b814->mUnk_014, 1);
-    NNS_G3dGeBufferOP_N(0x30, &data_0217b814->mUnk_004, 1);
-    NNS_G3dGeBufferOP_N(0x31, &data_0217b814->mUnk_008, 1);
-    b = 0x1e;
-    NNS_G3dGeBufferOP_N(0x14, &b, 1);
+    plttBase = gObjShadowMaterial->mUnk_01c;
+    NNS_G3dGeBufferOP_N(0x2b, &plttBase, 1);
+    NNS_G3dGeBufferOP_N(0x2a, &gObjShadowMaterial->mUnk_014, 1);
+    NNS_G3dGeBufferOP_N(0x30, &gObjShadowMaterial->mUnk_004, 1);
+    NNS_G3dGeBufferOP_N(0x31, &gObjShadowMaterial->mUnk_008, 1);
+    value = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &value, 1);
     NNS_G3dGeBufferOP_N(0x19, shadow, 0xc);
     if (wordPointer != NULL) {
         u32 wordCopy;
@@ -74,40 +74,40 @@ void func_020e53ac(ShadowMatrix *shadow, void *wordPointer, u32 unused, u32 alph
         threeWords[2] = wordCopy;
         NNS_G3dGeBufferOP_N(0x1b, threeWords, 3);
     }
-    word = data_0217b814->mUnk_00c;
+    polygonAttributes = gObjShadowMaterial->mUnk_00c;
     alpha = alpha < shadow->mAlphaCap ? alpha : shadow->mAlphaCap;
-    word = word & ~0x1f0000;
-    word = word | (alpha << 16);
-    NNS_G3dGeBufferOP_N(0x29, &word, 1);
-    NNS_G3dGeSendDL(&data_0217b818->mUnk_000[data_0217b818->mUnk_008], data_0217b818->mUnk_00c);
+    polygonAttributes = polygonAttributes & ~0x1f0000;
+    polygonAttributes = polygonAttributes | (alpha << 16);
+    NNS_G3dGeBufferOP_N(0x29, &polygonAttributes, 1);
+    NNS_G3dGeSendDL(&gObjShadowShape->mUnk_000[gObjShadowShape->mUnk_008], gObjShadowShape->mUnk_00c);
 }
 
-void DrawJgShadowWithMatrix(Vec3 *scale, MtxFx43 *matrix, u32 c, u32 d) {
-    gJgShadow->mAlpha = c < d ? c : d;
+void DrawJgShadowWithMatrix(Vec3 *scale, MtxFx43 *matrix, u32 alphaCap, u32 maxAlpha) {
+    gJgShadow->mAlpha = alphaCap < maxAlpha ? alphaCap : maxAlpha;
     DrawShadowWithMatrix(gJgShadow, matrix, scale);
 }
 
-void func_020e5348(u32 a, u32 b) {
-    gJgShadow->mAlpha = a < b ? a : b;
+void DrawJgShadow(u32 alphaCap, u32 maxAlpha) {
+    gJgShadow->mAlpha = alphaCap < maxAlpha ? alphaCap : maxAlpha;
     DrawShadowModelIfDrawFlag(gJgShadow);
 }
 
 #pragma thumb on
 
 void CreateObjShadowAndJgShadow(void) {
-    NNSG3dResMdl *a;
-    NNSG3dResMat *b;
-    NNSG3dResShp *c;
+    NNSG3dResMdl *resMdl;
+    NNSG3dResMat *resMat;
+    NNSG3dResShp *resShp;
 
     CreateNsbmd(&gObjShadow, FindMainRaceOrMainEffectMapObjFile(gObjShadowNsbmdName), NULL);
     SetNsbmdPolygonIdAll(gObjShadow, 0x3f);
     SetNsbmdLightEnableFlagAll(gObjShadow, 0);
-    a = gObjShadow->mResMdl;
-    b = OFFSET_PTR(NNSG3dResMat, a, a->mOfsMat);
-    data_0217b814 = OFFSET_PTR(Unk020e53ac, b, ((u32 *) OFFSET_PTR(u8, b, b->mDict.mOfsEntry))[2]);
-    a = gObjShadow->mResMdl;
-    c = OFFSET_PTR(NNSG3dResShp, a, a->mOfsShp);
-    data_0217b818 = OFFSET_PTR(Unk020e54e4, c, ((u32 *) OFFSET_PTR(u8, c, c->mDict.mOfsEntry))[1]);
+    resMdl = gObjShadow->mResMdl;
+    resMat = OFFSET_PTR(NNSG3dResMat, resMdl, resMdl->mOfsMat);
+    gObjShadowMaterial = OFFSET_PTR(Unk020e53ac, resMat, ((u32 *) OFFSET_PTR(u8, resMat, resMat->mDict.mOfsEntry))[2]);
+    resMdl = gObjShadow->mResMdl;
+    resShp = OFFSET_PTR(NNSG3dResShp, resMdl, resMdl->mOfsShp);
+    gObjShadowShape = OFFSET_PTR(Unk020e54e4, resShp, ((u32 *) OFFSET_PTR(u8, resShp, resShp->mDict.mOfsEntry))[1]);
     if (gRaceSetup->mRaceKind != RACE_KIND_STAFF_ROLL) {
         CreateShadowModel(&gJgShadow, FindSceneFile(gJgShadowNsbmdName), 0x3f);
     }

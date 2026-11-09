@@ -478,15 +478,15 @@ typedef struct RecordList {
     /* 0c */ void *mUnk_0c;
 } RecordList;
 
-// Object behind data_0217d3ec: 0x814 bytes allocated by func_02125de0.
-typedef struct Unk0217d3ec {
+// Object behind gSceneText: 0x814 bytes allocated by InitSceneText.
+typedef struct SceneText {
     /* 000 */ BOOL mUseTxtSystem;
     /* 004 */ BOOL mUseSelectChoises;
     /* 008 */ BOOL mUnk_08;
     /* 00c */ s32 mBackScreenKind;
     /* 010 */ u16 mBackScreenSNscrCopy[0x400];
     /* 810 */ s32 mSubCharOffset;
-} Unk0217d3ec;
+} SceneText;
 
 // Objects of 0x10 bytes passed first to func_0212583c; member 0x00 points to one Unk02023374.
 typedef struct Unk0217d3f0_2178 {
@@ -748,7 +748,7 @@ extern SelectCupM *gSelectCupM;
 extern TrophyIcon *gTrophyIcon;
 extern SelectRaceRuleWait *gSelectRaceRuleWait;
 extern char gKartFilterString[0x64];
-extern Unk0217d3ec *data_0217d3ec;
+extern SceneText *gSceneText;
 extern TxtSystem *gTxtSystem;
 extern SelectChoises *gSelectChoises;
 extern SelectReturn *gSelectReturn;

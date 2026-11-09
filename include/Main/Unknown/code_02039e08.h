@@ -17,7 +17,7 @@ u32 func_02039e08(NNSiFndHeapHead *heap, void **outBackHeap, void **outSoundBuff
 // RunScene. Returns 0. Scene 4 (func_02046a88) also carries the name 'Menu'.
 u32 RunMenuScene(SceneNumbers *sceneNumbers);
 void UpdateMenuScene(void);
-void func_02039f50(void);
+void WriteMenuSceneRegistersCallback(void);
 // Slot mRelease: releases the current screen (ReleaseMenu, clears data_0217b43c), clears bit 0 of
 // data_021759d0->mUnk_50 and, in mode 1, resets the CPU entries 1..7 of mNextEntries
 // (ResetTimeAttackNextEntries).

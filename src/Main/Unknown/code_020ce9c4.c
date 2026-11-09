@@ -8,7 +8,7 @@
 
 void WriteVsSelectKartRegisters(void) {
     int screenChanged;
-    screenChanged = func_020cccc0();
+    screenChanged = GetMenuScreenSwitched();
     if (screenChanged != 0) {
         GxDispCntBits8To12Write(0xb);
         GX_SetGraphicsMode(1, 0, 1);

@@ -148,7 +148,7 @@ void DrawWoodbox1(void *a, Woodbox1 *woodbox, void *c, u32 maxAlpha) {
                   (s32) (((s64) woodbox->mGroundUp.z * woodbox->mPosOffset.z) >> 12);
     VEC_MultAdd(-woodbox->mUnk_000.mExtent.x, &woodbox->mGroundUp, &shadowPos, &shadowPos);
     SetShadowPositionRaised(&woodbox->mUnk_114, &shadowPos);
-    func_020e53ac(&woodbox->mUnk_114, &t, 0, maxAlpha);
+    DrawObjShadow(&woodbox->mUnk_114, &t, 0, maxAlpha);
 }
 
 void AdvanceWoodbox1(u32 unused, Woodbox1 *woodbox) {

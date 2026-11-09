@@ -7,7 +7,7 @@
 
 void func_ov001_021854a4(void) {
     int screenChanged;
-    screenChanged = func_020cccc0();
+    screenChanged = GetMenuScreenSwitched();
     if (screenChanged != 0) {
         func_ov001_021854f4(0x19);
         GX_SetGraphicsMode(1, 0, 0);

@@ -792,7 +792,7 @@ void InitRecordSceneObject(void *heap, s16 previousScene) {
     v.mUseBackScreen = TRUE;
     v.mBackScreenKind = 0;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-    func_02125de0(heap, &v);
+    InitSceneText(heap, &v);
     CreateRecordList(gRecordScene->mHeap);
     BuildRecordList();
     gRecordScene->mStateHeap = CreateExpHeapFromMaxFree(gRecordScene->mHeap);
@@ -823,7 +823,7 @@ void ReleaseRecordSceneObject(void) {
     gRecordScene->mScreenCallbacks.mRelease();
     func_02111a98();
     ClearLinkLevelIconsPointer();
-    func_02125da0();
+    ReleaseSceneText();
     *&gRecordScene = NULL;
 }
 
@@ -865,7 +865,7 @@ void AdvanceRecordScene(void) {
         gRecordScene->mScreenCallbacks.mInit(gRecordScene->mStateHeap);
     }
     gRecordScene->mScreenCallbacks.mAdvance();
-    func_02125928();
+    AdvanceSceneText();
     AdvanceLinkLevelIcons();
 }
 
@@ -875,7 +875,7 @@ void AdvanceRecordScene(void) {
 
 void WriteRecordSceneRegisters(void) {
     gRecordScene->mScreenCallbacks.mWriteOffsets();
-    func_021258f0();
+    WriteSceneTextRegisters();
 }
 
 #pragma thumb off

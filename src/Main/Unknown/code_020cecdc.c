@@ -9,7 +9,7 @@
 
 void WriteSelectGameRegisters(void) {
     int screenChanged;
-    screenChanged = func_020cccc0();
+    screenChanged = GetMenuScreenSwitched();
     if (screenChanged != 0) {
         GxDispCntBits8To12Write2(0x18);
         GX_SetGraphicsMode(1, 0, 0);

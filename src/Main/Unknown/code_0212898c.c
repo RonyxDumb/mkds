@@ -198,7 +198,7 @@ void InitKeyboard(void *heap, s32 mode) {
         config.mBackScreenKind = 0;
     }
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-    func_02125de0(heap, &config);
+    InitSceneText(heap, &config);
     func_02129c18();
     LoadKeyboardFiles();
     ResetOamLists(GetKeyboardFirstBuffer(), GetKeyboardSecondBuffer());
@@ -271,7 +271,7 @@ void InitKeyboard(void *heap, s32 mode) {
 
 void ReleaseKeyboard(void) {
     ClearLinkLevelIconsPointer();
-    func_02125da0();
+    ReleaseSceneText();
     *(u32 *) &gKeyboard = 0;
 }
 
@@ -1035,7 +1035,7 @@ void AdvanceKeyboard(void) {
     s32 i;
     Keyboard *keyboard;
     AdvanceLinkLevelIcons();
-    func_02125928();
+    AdvanceSceneText();
     gKeyboard->mState = gKeyboard->mNextState;
     if (gKeyboard->mTextEntryEnabled != FALSE) {
         AdvanceKeyboardTextEntry();
@@ -1104,7 +1104,7 @@ void func_0212899c(void) {
     SetKeyboardOffset(0, gKeyboard->mOffsetY + 0x28);
     reg_G2S_DB_BG3OFS = (-gKeyboard->mOffsetY << 16) & 0x1ff0000;
     UploadKeyboardBg2Data();
-    func_021258f0();
+    WriteSceneTextRegisters();
 }
 #pragma thumb off
 

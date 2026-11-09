@@ -191,7 +191,7 @@ void DrawMkdEfBubble(void *a, MkdEfBubbleObject *bubble, void *c, s32 alpha) {
     if (v <= 0) {
         return;
     }
-    func_020e53ac(&bubble->mShadowMatrix, &v, 0, alpha);
+    DrawObjShadow(&bubble->mShadowMatrix, &v, 0, alpha);
 }
 
 void AdvanceMkdEfBubbleAnimation(void) {

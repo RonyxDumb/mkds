@@ -62,7 +62,7 @@ void DrawMoveTree(void *a, MoveTree *moveTree, u32 c, u32 d) {
         return;
     }
     SetShadowPositionXZ(&moveTree->mUnk_dc, &moveTree->mUnk_00.mPos);
-    func_020e53ac(&moveTree->mUnk_dc, NULL, c, d);
+    DrawObjShadow(&moveTree->mUnk_dc, NULL, c, d);
 }
 
 void InitMoveTreeObjects(MapObjectList *mapObjectList) {

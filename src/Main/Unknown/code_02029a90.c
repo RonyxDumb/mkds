@@ -5,13 +5,13 @@
 #pragma thumb on
 void func_02029a98(void) {
     u32 unused;
-    func_02125da0();
+    ReleaseSceneText();
 }
 #pragma thumb off
 
 #pragma thumb on
 void func_02029a90(void) {
     u32 unused;
-    func_021258f0();
+    WriteSceneTextRegisters();
 }
 #pragma thumb off

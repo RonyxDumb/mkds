@@ -72,16 +72,16 @@ void InitMenu(void) {
     CreateRaceSetupCopy(func_020cb99c());
     displaySettings = CreateDisplaySettings(func_020cb99c(), data_0215688c);
     SetMainBg0Record(displaySettings, 1, 0, 0, 0, 0xd, 2, 0);
-    func_020cc2f4(displaySettings, 0, 0, 0, 0, 0xc, 0, 0);
-    func_020cc2c0(displaySettings, 0, 0, 0, 0, 0x1e, 6);
-    func_020cc28c(displaySettings, 3, 0, 0, 0, 0x1d, 4);
+    SetMainBg1Record(displaySettings, 0, 0, 0, 0, 0xc, 0, 0);
+    SetMainBg2RecordParams(displaySettings, 0, 0, 0, 0, 0x1e, 6);
+    SetMainBg3RecordParams(displaySettings, 3, 0, 0, 0, 0x1d, 4);
     SetSubBg0Record(displaySettings, 0, 0, 0, 0, 0xb, 0, 0);
     SetSubBg1Record(displaySettings, 3, 0, 0, 0, 0xd, 0, 0);
-    func_020cc1e0(displaySettings, 0, 0, 0, 0, 0xe, 0);
-    func_020cc1ac(displaySettings, 2, 0, 0, 0, 0xf, 0);
+    SetSubBg2RecordParams(displaySettings, 0, 0, 0, 0, 0xe, 0);
+    SetSubBg3RecordParams(displaySettings, 2, 0, 0, 0, 0xf, 0);
     InitDisplayFromSettings(displaySettings);
     data_0217b43c->mFramesSinceScreenSwitch = 0;
-    data_0217b43c->mUnk_004 = 1;
+    data_0217b43c->mScreenSwitched = 1;
     data_0217b43c->mPreviousScreenNumber = 0x1f;
     data_0217b43c->mScreenNumber = 0x1f;
     data_0217b43c->mNextScreenNumber = 0x1f;
@@ -140,7 +140,7 @@ void InitMenu(void) {
     LoadPlayerEntryListFiles();
     InitPlayerEntryList(func_020cb99c(), data_0217b43c->mMainOam);
     data_0217b43c->mUnk_954 = func_0203bedc(func_020cb99c());
-    func_020cc18c(0x10);
+    SetMainDispcntBits(0x10);
     SetSubDispcntBits(0x10);
     func_020cba6c(0, 0x3f, 6, 10);
     func_020cba30(0, 0x3f, 6, 10);
@@ -172,7 +172,7 @@ void InitMenu(void) {
     config.mUseBackScreen = 1;
     config.mBackScreenKind = 0;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-    func_02125de0(func_020cb99c(), &config);
+    InitSceneText(func_020cb99c(), &config);
     if (func_020cae54() == 2) {
         ClearSelectReturnDisplayBitOn();
     }

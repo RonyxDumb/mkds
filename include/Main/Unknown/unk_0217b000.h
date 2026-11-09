@@ -758,7 +758,7 @@ extern ModelAnimation *gMkdEfBubbleNsbta;
 extern struct Nsbmd *gKoopaBlock;
 extern NsbmdModel *gChoropu;
 extern NsbmdModel *gPukupuku;
-extern Unk020e53ac *data_0217b814;
+extern Unk020e53ac *gObjShadowMaterial;
 extern NsbmdModel *gObPakkunSf;
 extern MtxFx43 *gTranslationMatrix;
 extern MtxFx43 *gViewTransposeMatrix;

@@ -17,7 +17,7 @@ void func_02028fac(void) {
     s32 count;
     if (func_020280dc() == 0) {
         parts = &gSelectKart->mSelectKartSParts;
-        count = func_02029000(parts->mCellLayout) + func_02028ff8(parts->mLabelLayout);
+        count = GetCellLayoutCount(parts->mCellLayout) + GetLabelLayoutCount(parts->mLabelLayout);
         for (i = 0; i < count; i++) {
             parts->mCellTable[i].mOffsetY = GetInterpolatedValue(&gSelectKart->mInterpolations[4]);
         }
@@ -40,7 +40,8 @@ void func_02028f20(void) {
         message = GetBmgEntry(gSelectKart->mKartSelectMessages, GetKartMessageIndex(gSelectKart->mKartIndex));
         parts = &gSelectKart->mSelectKartSParts;
         for (i = 8; i >= 7; i--) {
-            func_0212426c(1, data_usa_021537f4[i].mUnk_00, parts->mLabelLayout, message, parts->mCellLayout, parts->mCellTable);
+            func_0212426c(1, data_usa_021537f4[i].mUnk_00, parts->mLabelLayout, message, parts->mCellLayout,
+                          parts->mCellTable);
         }
     }
 }

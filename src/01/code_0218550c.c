@@ -41,7 +41,7 @@ void func_ov001_02185740(u32 a, u32 b, u32 c, u32 d, u32 e) {
 #pragma thumb on
 
 void WriteSelectGhostScreenRegisters(void) {
-    if (func_020cccc0() != 0) {
+    if (GetMenuScreenSwitched() != 0) {
         func_ov001_021856a8(0x19);
         GX_SetGraphicsMode(1, 0, 0);
         WriteMainBg1Offset(0, 0);
@@ -78,7 +78,7 @@ void func_ov001_0218568c(u32 bits) {
 #pragma thumb on
 
 void func_ov001_02185658(void) {
-    if (func_020cccc0() != 0) {
+    if (GetMenuScreenSwitched() != 0) {
         func_ov001_021856a8(0x19);
         GX_SetGraphicsMode(1, 0, 0);
         func_ov001_0218568c(0x1e);
@@ -99,7 +99,7 @@ void UpdateSelectCupM(void) {
 }
 
 void func_ov001_021855f8(void) {
-    if (func_020cccc0() != 0) {
+    if (GetMenuScreenSwitched() != 0) {
         func_ov001_021854f4(0x1b);
         GX_SetGraphicsMode(1, 0, 0);
         func_ov001_021854d8(0x16);
@@ -120,7 +120,7 @@ void UpdateSelectEngine(void) {
 }
 
 void WriteSelectCharacterScreenRegisters(void) {
-    if (func_020cccc0() != 0) {
+    if (GetMenuScreenSwitched() != 0) {
         func_ov001_021854f4(0xb);
         GX_SetGraphicsMode(1, 0, 1);
         func_ov001_021854d8(8);
@@ -141,7 +141,7 @@ void UpdateSelectCharacter(void) {
 }
 
 void WriteSelectKartScreenRegisters(void) {
-    if (func_020cccc0() != 0) {
+    if (GetMenuScreenSwitched() != 0) {
         func_ov001_021854f4(9);
         GX_SetGraphicsMode(1, 0, 1);
         func_ov001_021854d8(8);

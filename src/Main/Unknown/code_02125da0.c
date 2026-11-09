@@ -16,36 +16,35 @@
 
 #pragma thumb on
 
-void func_02125de0(void *heap, SceneTextInitParams *config) {
+void InitSceneText(void *heap, SceneTextInitParams *config) {
     TxtSystemArgs txtConfig;
 
-    data_0217d3ec = HeapAlloc(heap, 0x814);
-    data_0217d3ec->mSubCharOffset = 0x5800;
-    data_0217d3ec->mUseTxtSystem = FALSE;
-    data_0217d3ec->mUseSelectChoises = FALSE;
-    data_0217d3ec->mUnk_08 = FALSE;
+    gSceneText = HeapAlloc(heap, 0x814);
+    gSceneText->mSubCharOffset = 0x5800;
+    gSceneText->mUseTxtSystem = FALSE;
+    gSceneText->mUseSelectChoises = FALSE;
+    gSceneText->mUnk_08 = FALSE;
     if (config->mUseTxtSystem != FALSE) {
         txtConfig.mFont = (u32) config->mTxtSystemFont;
         txtConfig.mUseCanvas1 = config->mUseCanvas1;
         txtConfig.mUseCanvas2 = config->mUseCanvas2;
         txtConfig.mUseCanvas3 = config->mUseCanvas3;
-        txtConfig.mSubCharOffset = data_0217d3ec->mSubCharOffset;
-        data_0217d3ec->mUseTxtSystem = TRUE;
-        data_0217d3ec->mSubCharOffset = InitTxtSystem(heap, &txtConfig);
+        txtConfig.mSubCharOffset = gSceneText->mSubCharOffset;
+        gSceneText->mUseTxtSystem = TRUE;
+        gSceneText->mSubCharOffset = InitTxtSystem(heap, &txtConfig);
     }
     if (config->mUseSelectChoises != FALSE) {
-        data_0217d3ec->mUseSelectChoises = TRUE;
-        data_0217d3ec->mSubCharOffset =
-            InitSelectChoises(heap, config->mSelectChoisesFont, data_0217d3ec->mSubCharOffset);
+        gSceneText->mUseSelectChoises = TRUE;
+        gSceneText->mSubCharOffset = InitSelectChoises(heap, config->mSelectChoisesFont, gSceneText->mSubCharOffset);
     }
     if (config->mUseSelectReturn != FALSE) {
-        data_0217d3ec->mUnk_08 = TRUE;
-        data_0217d3ec->mSubCharOffset = InitSelectReturn(heap, data_0217d3ec->mSubCharOffset);
+        gSceneText->mUnk_08 = TRUE;
+        gSceneText->mSubCharOffset = InitSelectReturn(heap, gSceneText->mSubCharOffset);
     }
     if (config->mUseBackScreen != FALSE) {
-        data_0217d3ec->mBackScreenKind = config->mBackScreenKind;
+        gSceneText->mBackScreenKind = config->mBackScreenKind;
         func_02125ba4();
-        data_0217d3ec->mSubCharOffset = LoadBackScreen(data_0217d3ec->mSubCharOffset);
+        gSceneText->mSubCharOffset = LoadBackScreen(gSceneText->mSubCharOffset);
     }
 }
 
@@ -53,17 +52,17 @@ void func_02125de0(void *heap, SceneTextInitParams *config) {
 
 #pragma thumb on
 
-void func_02125da0(void) {
-    if (data_0217d3ec->mUseTxtSystem != FALSE) {
+void ReleaseSceneText(void) {
+    if (gSceneText->mUseTxtSystem != FALSE) {
         ClearTxtSystemPointer();
     }
-    if (data_0217d3ec->mUseSelectChoises != FALSE) {
+    if (gSceneText->mUseSelectChoises != FALSE) {
         ClearSelectChoisesPointer();
     }
-    if (data_0217d3ec->mUnk_08 != FALSE) {
+    if (gSceneText->mUnk_08 != FALSE) {
         ClearSelectReturnPointer();
     }
-    *&data_0217d3ec = NULL;
+    *&gSceneText = NULL;
 }
 
 #pragma thumb off

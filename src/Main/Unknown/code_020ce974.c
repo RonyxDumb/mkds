@@ -8,7 +8,7 @@
 
 void WriteVsSelectRaceRuleRegisters(void) {
     int screenChanged;
-    screenChanged = func_020cccc0();
+    screenChanged = GetMenuScreenSwitched();
     if (screenChanged != 0) {
         GxsDispCntBits8To12Write(0x1f);
         GXS_SetGraphicsMode(0);

@@ -114,7 +114,7 @@ void DrawPukupuku(u32 a, Pukupuku *pukupuku, u32 b, u16 alpha) {
 
 void func_020e4e9c(void) {
     u32 value12;
-    func_020e55b4();
+    SendObjShadowMaterial();
 }
 
 void DrawPukupukuShadow(u32 a, Pukupuku *pukupuku, u32 b, u32 alpha) {
@@ -129,7 +129,7 @@ void DrawPukupukuShadow(u32 a, Pukupuku *pukupuku, u32 b, u32 alpha) {
     shadowParams.mUnk_04 = pukupuku->mPushedObject.mMapObject.mPos;
     shadowParams.mUnk_04.y = pukupuku->mInitialGroundY + pukupuku->mGroundYOffset;
     SetShadowPositionRaised(&pukupuku->mShadowMatrix, &shadowParams.mUnk_04);
-    func_020e54e4(&pukupuku->mShadowMatrix, &shadowParams, 0, alpha);
+    DrawObjShadowAfterMaterial(&pukupuku->mShadowMatrix, &shadowParams, 0, alpha);
 }
 
 void func_020e4df8(u32 arg0, Pukupuku *pukupuku) {

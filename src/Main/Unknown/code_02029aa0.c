@@ -102,7 +102,7 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     config.mUseBackScreen = 0;
     config.mBackScreenKind = 0;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-    func_02125de0(heap, &config);
+    InitSceneText(heap, &config);
     func_02025854(0, &mainScreenMapFileSet, gResultsGpMBNcgrName, gResultsGpMBNclrName, gResultsGpM1NscrName, 1,
                   FindSceneFile);
     LoadNscrData(&mainScreenMapFileSet.mScreenMaps[3], FindSceneFile(gResultsGpM2NscrName));
@@ -349,7 +349,7 @@ void AdvanceResultsGp(Unk0203a0dc *sceneNumbers) {
             }
             break;
     }
-    func_02125928();
+    AdvanceSceneText();
 }
 
 #pragma thumb off

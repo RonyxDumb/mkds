@@ -43,7 +43,7 @@ void func_ov001_021987d4(void *heap, s16 a) {
     arg.mUseBackScreen = TRUE;
     arg.mBackScreenKind = 0;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-    func_02125de0(heap, &arg);
+    InitSceneText(heap, &arg);
     data_ov001_021a9be4->mUnk_0c = a;
     data_ov001_021a9be4->mUnk_0e = -1;
     data_ov001_021a9be4->mUnk_00 = 0;
@@ -52,7 +52,7 @@ void func_ov001_021987d4(void *heap, s16 a) {
 }
 
 void func_ov001_021987bc(void) {
-    func_02125da0();
+    ReleaseSceneText();
     *(u32 *) &data_ov001_021a9be4 = 0;
 }
 
@@ -144,7 +144,7 @@ void func_ov001_021985b0(void) {
 }
 
 void func_ov001_02198554(void) {
-    func_02125928();
+    AdvanceSceneText();
     data_ov001_021a9be4->mUnk_00 = data_ov001_021a9be4->mUnk_04;
     switch (data_ov001_021a9be4->mUnk_00) {
         case 0:
@@ -163,7 +163,7 @@ void func_ov001_02198554(void) {
 }
 
 void func_ov001_0219854c(void) {
-    func_021258f0();
+    WriteSceneTextRegisters();
 }
 
 int func_ov001_0219853c(void) {

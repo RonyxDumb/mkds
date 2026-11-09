@@ -10,7 +10,7 @@
 void WriteTitleSceneRegisters(void) {
     gTitleScene->mStateHandlers[gTitleScene->mState].mUnk_00();
     gTitleScene->mStateChanged = FALSE;
-    func_021258f0();
+    WriteSceneTextRegisters();
     UploadOamLists(&gTitleScene->mMainOam, &gTitleScene->mSubOam);
 }
 

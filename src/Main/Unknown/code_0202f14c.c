@@ -63,7 +63,7 @@ void InitWLMenuScene(void *heap) {
         v1.mUseBackScreen = func_0202f498() == 0;
         v1.mBackScreenKind = 0;
         LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-        func_02125de0(heap, &v1);
+        InitSceneText(heap, &v1);
     }
     InitLinkLevelIcons(heap, gWLMenuScene);
     switch (func_0202f498()) {
@@ -117,7 +117,7 @@ void AdvanceWLMenuScene(void *a) {
         HideUnusedOams(gWLMenuScene, gWLMenuScene->mSubOam);
     }
     if (func_0202f19c() == 0) {
-        func_02125928();
+        AdvanceSceneText();
     }
 }
 
@@ -130,7 +130,7 @@ void ReleaseWLMenuScene(void) {
     gWLMenuScene->mCurrentCallbacks->mUnk_08();
     v1 = func_0202f19c();
     if (v1 == 0) {
-        func_02125da0();
+        ReleaseSceneText();
     }
     ClearLinkLevelIconsPointer();
 }
@@ -155,7 +155,7 @@ void func_0202f160(void) {
     int v1;
     v1 = func_0202f19c();
     if (v1 == 0) {
-        func_021258f0();
+        WriteSceneTextRegisters();
     }
     gWLMenuScene->mCurrentCallbacks->mUnk_0c();
     UploadOamLists(gWLMenuScene, gWLMenuScene->mSubOam);

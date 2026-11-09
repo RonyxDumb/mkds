@@ -74,7 +74,7 @@ s32 LoadBackScreen(s32 subCharOffset) {
     s32 nclrMOffset;
     s32 nclrMSize;
 
-    kind = data_0217d3ec->mBackScreenKind;
+    kind = gSceneText->mBackScreenKind;
     indexM = gBackScreenKindMIndices[kind * 2];
     indexS = gBackScreenKindSIndices[kind * 2];
     nclrMOffset = gBackScreenMNclrStarts[indexM] << 5;
@@ -115,11 +115,11 @@ s32 LoadBackScreen(s32 subCharOffset) {
     CallQueueAppend(0x15, subCharOffset, ncgrS->mData, ncgrS->mDataSize);
     for (i = 0; i < 0x20; i++) {
         for (j = 0; j < 0x20; j++) {
-            *(data_0217d3ec->mBackScreenSNscrCopy + i * 0x20 + j) =
+            *(gSceneText->mBackScreenSNscrCopy + i * 0x20 + j) =
                 (subCharOffset >> 5) + *((u16 *) nscrS->mData + i * 0x20 + j);
         }
     }
-    CallQueueAppend(0x19, 0, data_0217d3ec->mBackScreenSNscrCopy, nscrS->mDataSize);
+    CallQueueAppend(0x19, 0, gSceneText->mBackScreenSNscrCopy, nscrS->mDataSize);
     CallQueueAppend(0x1f, nclrSOffset, OFFSET_PTR(void, nclrS->mData, nclrSOffset), nclrSSize);
     return subCharOffset;
 }

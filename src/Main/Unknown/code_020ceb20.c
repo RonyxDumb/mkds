@@ -8,7 +8,7 @@
 #pragma optimize_for_size on
 #pragma thumb on
 void WriteBattleStageScreenRegisters(void) {
-    if (func_020cccc0() != 0) {
+    if (GetMenuScreenSwitched() != 0) {
         GxDispCntBits8To12Write2(0x1e);
         GX_SetGraphicsMode(1, 0, 0);
         GxsDispCntBits8To12Write2(0x1f);

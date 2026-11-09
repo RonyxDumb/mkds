@@ -66,7 +66,7 @@ void InitGhostScene(void *heap) {
     arg.mUseBackScreen = 1;
     arg.mBackScreenKind = 0;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-    func_02125de0(heap, &arg);
+    InitSceneText(heap, &arg);
     SetTxtSystemMode(1);
     InitLinkLevelIcons(heap, gGhostScene);
     CreateKartIcon(heap);
@@ -137,21 +137,21 @@ void AdvanceGhostScene(s32 sceneNumbers) {
         }
         HideUnusedOams(gGhostScene, gGhostScene->mSubOam);
     }
-    func_02125928();
+    AdvanceSceneText();
     AdvanceLinkLevelIcons();
 }
 
 void ReleaseGhostScene(void) {
     reg_GX_DISPCNT = reg_GX_DISPCNT & 0xffff1fff;
     reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT & 0xffff1fff;
-    func_02125da0();
+    ReleaseSceneText();
     ClearLinkLevelIconsPointer();
     ClearKartIconPointer();
     func_0204f7f4();
 }
 
 void func_0202dec8(void) {
-    func_021258f0();
+    WriteSceneTextRegisters();
     gGhostScene->mCurrentCallbacks->mUnk_0c();
     UploadOamLists(gGhostScene, gGhostScene->mSubOam);
 }

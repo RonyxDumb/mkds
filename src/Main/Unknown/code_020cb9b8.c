@@ -23,7 +23,7 @@ void ReleaseMenu(void) {
         ClearCupPicturePointer();
         ClearGhostRecordSetPointer();
     }
-    func_02125da0();
+    ReleaseSceneText();
     ClearLinkLevelIconsPointer();
     ClearPicksHolderPointer();
     ReleaseAllResFiles();

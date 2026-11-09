@@ -54,7 +54,7 @@ void DrawIronBallShadow(void *a, IronBall *ironBall, u32 c, u32 d) {
     if (shadowAlphaCap > 0x1c) {
         return;
     }
-    func_020e53ac(&ironBall->mShadowMatrix, NULL, c, d);
+    DrawObjShadow(&ironBall->mShadowMatrix, NULL, c, d);
 }
 
 void InitIronBallObjects(MapObjectList *mapObjectList) {

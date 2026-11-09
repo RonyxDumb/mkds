@@ -128,7 +128,7 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
     v.mUseBackScreen = 0;
     v.mBackScreenKind = 0;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-    func_02125de0(heap, &v);
+    InitSceneText(heap, &v);
     func_020629a4();
     gResultsBattle->mCommonMessages = FindFileInLoadedArchives(data_0216416c);
     switch (gResultsBattle->mMode) {
@@ -499,12 +499,12 @@ void AdvanceResultsBattle(Unk0203a0dc *sceneNumbers) {
                              subCellFileSet->mCellLayout);
         subCellFileSet->mCellTable[i + cellCount].mOffsetY = subCellFileSet->mCellTable[i + cellCount].mOffsetY - 1;
     }
-    func_02125928();
+    AdvanceSceneText();
 }
 
 void func_02032ab0(void) {
     data_0217b488->mUnk_04 = 1;
-    func_02125da0();
+    ReleaseSceneText();
 }
 
 #pragma thumb off

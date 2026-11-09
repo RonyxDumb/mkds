@@ -97,55 +97,63 @@ void CopyMenuScreenCallbacks(void) {
     s32 i;
 
     for (i = 0; i < 0x1e; i++) {
-        data_0217b43c->mScreenCallbacks[i].mUnk_00 = data_0216ab34[i].mUnk_00;
-        data_0217b43c->mScreenCallbacks[i].mUpdate = data_0216ab34[i].mUpdate;
+        data_0217b43c->mScreenCallbacks[i].mWriteRegisters = gMenuScreenCallbacks[i].mWriteRegisters;
+        data_0217b43c->mScreenCallbacks[i].mUpdate = gMenuScreenCallbacks[i].mUpdate;
     }
 }
 
-void func_020cc36c(void) {
+void WriteMenuSceneRegisters(void) {
     if (func_020cbad0() == 0) {
         AdvanceKartModelMenuLoad();
     }
-    data_0217b43c->mScreenCallbacks[data_0217b43c->mScreenNumber].mUnk_00();
-    func_021258f0();
-    data_0217b43c->mUnk_004 = 0;
+    data_0217b43c->mScreenCallbacks[data_0217b43c->mScreenNumber].mWriteRegisters();
+    WriteSceneTextRegisters();
+    data_0217b43c->mScreenSwitched = 0;
     UploadOamLists(data_0217b43c->mMainOam, data_0217b43c->mSubOam);
 }
 #pragma thumb off
 
-void SetMainBg0Record(DisplaySettings *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h) {
-    SetBg0Record(&displaySettings->mMainBgRecords, b, c, d, e, f, g, h);
+void SetMainBg0Record(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7,
+                      u32 cntVal8, u32 cntVal2, u32 cntVal13) {
+    SetBg0Record(&displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, cntVal7, cntVal8, cntVal2, cntVal13);
 }
 
-void func_020cc2f4(DisplaySettings *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h) {
-    SetBg1Record(&displaySettings->mMainBgRecords, b, c, d, e, f, g, h);
+void SetMainBg1Record(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7,
+                      u32 cntVal8, u32 cntVal2, u32 cntVal13) {
+    SetBg1Record(&displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, cntVal7, cntVal8, cntVal2, cntVal13);
 }
 
-void func_020cc2c0(DisplaySettings *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g) {
-    SetBg2RecordParams(&displaySettings->mMainBgRecords, b, c, d, e, f, g);
+void SetMainBg2RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e,
+                            u32 cntVal8, u32 cntVal2) {
+    SetBg2RecordParams(&displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, e, cntVal8, cntVal2);
 }
 
-void func_020cc28c(DisplaySettings *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g) {
-    SetBg3RecordParams(&displaySettings->mMainBgRecords, b, c, d, e, f, g);
+void SetMainBg3RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e,
+                            u32 cntVal8, u32 cntVal2) {
+    SetBg3RecordParams(&displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, e, cntVal8, cntVal2);
 }
 
-void SetSubBg0Record(DisplaySettings *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h) {
-    SetBg0Record(&displaySettings->mSubBgRecords, b, c, d, e, f, g, h);
+void SetSubBg0Record(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7, u32 cntVal8,
+                     u32 cntVal2, u32 cntVal13) {
+    SetBg0Record(&displaySettings->mSubBgRecords, cntLow2, cntBit6, cntVal14, cntVal7, cntVal8, cntVal2, cntVal13);
 }
 
-void SetSubBg1Record(DisplaySettings *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h) {
-    SetBg1Record(&displaySettings->mSubBgRecords, b, c, d, e, f, g, h);
+void SetSubBg1Record(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7, u32 cntVal8,
+                     u32 cntVal2, u32 cntVal13) {
+    SetBg1Record(&displaySettings->mSubBgRecords, cntLow2, cntBit6, cntVal14, cntVal7, cntVal8, cntVal2, cntVal13);
 }
 
-void func_020cc1e0(DisplaySettings *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g) {
-    SetBg2RecordParams(&displaySettings->mSubBgRecords, b, c, d, e, f, g);
+void SetSubBg2RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8,
+                           u32 cntVal2) {
+    SetBg2RecordParams(&displaySettings->mSubBgRecords, cntLow2, cntBit6, cntVal14, e, cntVal8, cntVal2);
 }
 
-void func_020cc1ac(DisplaySettings *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g) {
-    SetBg3RecordParams(&displaySettings->mSubBgRecords, b, c, d, e, f, g);
+void SetSubBg3RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8,
+                           u32 cntVal2) {
+    SetBg3RecordParams(&displaySettings->mSubBgRecords, cntLow2, cntBit6, cntVal14, e, cntVal8, cntVal2);
 }
 
-void func_020cc18c(u32 bits) {
+void SetMainDispcntBits(u32 bits) {
     reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffcfffef) | bits;
 }
 

@@ -1112,8 +1112,8 @@ func_02028f08 kind:function(arm,size=0x18) addr:0x02028f08
 func_02028f20 kind:function(thumb,size=0x64) addr:0x02028f20
 func_02028f84 kind:function(thumb,size=0x28) addr:0x02028f84
 func_02028fac kind:function(thumb,size=0x4c) addr:0x02028fac
-func_02028ff8 kind:function(arm,size=0x8) addr:0x02028ff8
-func_02029000 kind:function(arm,size=0x8) addr:0x02029000
+GetLabelLayoutCount kind:function(arm,size=0x8) addr:0x02028ff8
+GetCellLayoutCount kind:function(arm,size=0x8) addr:0x02029000
 func_02029008 kind:function(thumb,size=0xa4) addr:0x02029008
 IsSelectKartTouchRepeat kind:function(thumb,size=0x50) addr:0x020290ac
 UpdateSelectKartTouchHold kind:function(thumb,size=0xc8) addr:0x020290fc
@@ -1548,7 +1548,7 @@ func_02039e00 kind:function(arm,size=0x8) addr:0x02039e00
 func_02039e08 kind:function(arm,size=0xe4) addr:0x02039e08
 RunMenuScene kind:function(arm,size=0x48) addr:0x02039eec
 UpdateMenuScene kind:function(arm,size=0x1c) addr:0x02039f34
-func_02039f50 kind:function(arm,size=0xc) addr:0x02039f50
+WriteMenuSceneRegistersCallback kind:function(arm,size=0xc) addr:0x02039f50
 ReleaseMenuScene kind:function(arm,size=0x34) addr:0x02039f5c
 InitMenuScene kind:function(arm,size=0xc) addr:0x02039f90
 RunRaceScene kind:function(arm,size=0xb4) addr:0x02039f9c
@@ -4619,16 +4619,16 @@ func_020cc120 kind:function(arm,size=0x14) addr:0x020cc120
 MenuWriteSubWinEnableBits kind:function(arm,size=0x1c) addr:0x020cc134
 MenuWriteMainWinEnableBits kind:function(arm,size=0x18) addr:0x020cc150
 SetSubDispcntBits kind:function(arm,size=0x24) addr:0x020cc168
-func_020cc18c kind:function(arm,size=0x20) addr:0x020cc18c
-func_020cc1ac kind:function(arm,size=0x34) addr:0x020cc1ac
-func_020cc1e0 kind:function(arm,size=0x34) addr:0x020cc1e0
+SetMainDispcntBits kind:function(arm,size=0x20) addr:0x020cc18c
+SetSubBg3RecordParams kind:function(arm,size=0x34) addr:0x020cc1ac
+SetSubBg2RecordParams kind:function(arm,size=0x34) addr:0x020cc1e0
 SetSubBg1Record kind:function(arm,size=0x3c) addr:0x020cc214
 SetSubBg0Record kind:function(arm,size=0x3c) addr:0x020cc250
-func_020cc28c kind:function(arm,size=0x34) addr:0x020cc28c
-func_020cc2c0 kind:function(arm,size=0x34) addr:0x020cc2c0
-func_020cc2f4 kind:function(arm,size=0x3c) addr:0x020cc2f4
+SetMainBg3RecordParams kind:function(arm,size=0x34) addr:0x020cc28c
+SetMainBg2RecordParams kind:function(arm,size=0x34) addr:0x020cc2c0
+SetMainBg1Record kind:function(arm,size=0x3c) addr:0x020cc2f4
 SetMainBg0Record kind:function(arm,size=0x3c) addr:0x020cc330
-func_020cc36c kind:function(thumb,size=0x4c) addr:0x020cc36c
+WriteMenuSceneRegisters kind:function(thumb,size=0x4c) addr:0x020cc36c
 CopyMenuScreenCallbacks kind:function(thumb,size=0x30) addr:0x020cc3b8
 CopyCurrentToRaceSetupCopy kind:function(thumb,size=0x1ae) addr:0x020cc3e8
 GetRaceSetupMissionTableColumn kind:function(arm,size=0x20) addr:0x020cc598
@@ -4672,7 +4672,7 @@ SwitchMenuScreen kind:function(thumb,size=0x28) addr:0x020ccc74
 GetNextMenuScreenNumber kind:function(thumb,size=0xc) addr:0x020ccc9c
 GetMenuScreenNumber kind:function(thumb,size=0xc) addr:0x020ccca8
 GetPreviousMenuScreenNumber kind:function(thumb,size=0xc) addr:0x020cccb4
-func_020cccc0 kind:function(thumb,size=0xc) addr:0x020cccc0
+GetMenuScreenSwitched kind:function(thumb,size=0xc) addr:0x020cccc0
 GetFramesSinceMenuScreenSwitch kind:function(thumb,size=0xc) addr:0x020ccccc
 DrawRaceHudSubScreenPendulumCells kind:function(arm,size=0x1c) addr:0x020cccd8
 UpdateRaceHudSubScreenPendulumCells kind:function(arm,size=0x11c) addr:0x020cccf4
@@ -5285,11 +5285,11 @@ CreatePukupukuKindData kind:function(arm,size=0x50) addr:0x020e50dc
 func_020e512c kind:function(thumb,size=0x40) addr:0x020e512c
 RefreshShadowMatrix kind:function(thumb,size=0x150) addr:0x020e516c
 CreateObjShadowAndJgShadow kind:function(thumb,size=0x8c) addr:0x020e52bc
-func_020e5348 kind:function(arm,size=0x28) addr:0x020e5348
+DrawJgShadow kind:function(arm,size=0x28) addr:0x020e5348
 DrawJgShadowWithMatrix kind:function(arm,size=0x3c) addr:0x020e5370
-func_020e53ac kind:function(arm,size=0x138) addr:0x020e53ac
-func_020e54e4 kind:function(arm,size=0xd0) addr:0x020e54e4
-func_020e55b4 kind:function(arm,size=0x80) addr:0x020e55b4
+DrawObjShadow kind:function(arm,size=0x138) addr:0x020e53ac
+DrawObjShadowAfterMaterial kind:function(arm,size=0xd0) addr:0x020e54e4
+SendObjShadowMaterial kind:function(arm,size=0x80) addr:0x020e55b4
 SetShadowPositionRaised kind:function(arm,size=0x34) addr:0x020e5634
 SetShadowPositionXZ kind:function(arm,size=0x1c) addr:0x020e5668
 InitSecondHand kind:function(thumb,size=0xe8) addr:0x020e5684
@@ -6701,13 +6701,13 @@ func_021257d8 kind:function(thumb,size=0x30) addr:0x021257d8
 func_02125808 kind:function(thumb,size=0x32) addr:0x02125808
 func_0212583c kind:function(thumb,size=0x2e) addr:0x0212583c
 DrawTextInRect kind:function(thumb,size=0x84) addr:0x0212586c
-func_021258f0 kind:function(thumb,size=0x38) addr:0x021258f0
-func_02125928 kind:function(thumb,size=0x38) addr:0x02125928
+WriteSceneTextRegisters kind:function(thumb,size=0x38) addr:0x021258f0
+AdvanceSceneText kind:function(thumb,size=0x38) addr:0x02125928
 LoadBackScreen kind:function(thumb,size=0x244) addr:0x02125960
 func_02125ba4 kind:function(thumb,size=0x88) addr:0x02125ba4
 LoadTxtSystemAndSelectChoisesAndSelectReturnData kind:function(thumb,size=0x174) addr:0x02125c2c
-func_02125da0 kind:function(thumb,size=0x40) addr:0x02125da0
-func_02125de0 kind:function(thumb,size=0xdc) addr:0x02125de0
+ReleaseSceneText kind:function(thumb,size=0x40) addr:0x02125da0
+InitSceneText kind:function(thumb,size=0xdc) addr:0x02125de0
 SetTxtSystemOpenSoundId kind:function(thumb,size=0x14) addr:0x02125ebc
 SetTxtSystemSoundId kind:function(thumb,size=0x18) addr:0x02125ed0
 SetTxtSystemBgOffsetRequested kind:function(thumb,size=0x44) addr:0x02125ee8
@@ -10288,7 +10288,7 @@ gRaceHudSubScreenItemPoolIndices kind:data(any) addr:0x021696b8
 data_usa_0216975c kind:data(any) addr:0x0216975c
 data_02169780 kind:data(any) addr:0x02169760
 @3718 kind:data(any) addr:0x0216aaec local
-data_0216ab34 kind:data(any) addr:0x0216ab14
+gMenuScreenCallbacks kind:data(any) addr:0x0216ab14
 @4818 kind:data(any) addr:0x0216ac04 local
 @4819 kind:data(any) addr:0x0216ac2c local
 @4820 kind:data(any) addr:0x0216ac58 local
@@ -11747,8 +11747,8 @@ gPukupukuShadowDrawList kind:bss addr:0x0217b7dc
 gPukupukuDrawScale kind:bss addr:0x0217b7e0
 gObjShadow kind:bss addr:0x0217b7ec
 gJgShadow kind:bss addr:0x0217b7f0
-data_0217b814 kind:bss addr:0x0217b7f4
-data_0217b818 kind:bss addr:0x0217b7f8
+gObjShadowMaterial kind:bss addr:0x0217b7f4
+gObjShadowShape kind:bss addr:0x0217b7f8
 data_0217b81c kind:bss addr:0x0217b7fc
 gSecondHand kind:bss addr:0x0217b800
 data_0217b824 kind:bss addr:0x0217b804
@@ -12046,7 +12046,7 @@ gTrophyIcon kind:bss addr:0x0217d35c
 gSelectRaceRuleWait kind:bss addr:0x0217d360
 gWiFiSession kind:bss addr:0x0217d364
 gKartFilterString kind:bss addr:0x0217d368
-data_0217d3ec kind:bss addr:0x0217d3cc
+gSceneText kind:bss addr:0x0217d3cc
 gTxtSystem kind:bss addr:0x0217d3d0
 gSelectChoises kind:bss addr:0x0217d3d4
 gSelectReturn kind:bss addr:0x0217d3d8

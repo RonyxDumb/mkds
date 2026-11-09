@@ -208,7 +208,7 @@ void CreateTitleScene(void) {
     config.mUseBackScreen = 0;
     config.mBackScreenKind = 0;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-    func_02125de0(TitleGetCurrentHeap(), &config);
+    InitSceneText(TitleGetCurrentHeap(), &config);
     gTitleScene->mCharacterKartPicks = func_0203bedc(TitleGetCurrentHeap());
     SetConnectionKind(0);
     func_0204aa28(0);
@@ -225,7 +225,7 @@ void CreateTitleScene(void) {
 #pragma thumb on
 
 void ReleaseTitleSceneObject(void) {
-    func_02125da0();
+    ReleaseSceneText();
     gTitleScene = NULL;
 }
 

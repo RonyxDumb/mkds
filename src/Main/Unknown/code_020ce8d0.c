@@ -10,7 +10,7 @@
 
 void WriteVsSelectCupGridRegisters(void) {
     int flag;
-    flag = func_020cccc0();
+    flag = GetMenuScreenSwitched();
     if (flag != 0) {
         flag = func_020ce778();
         if (flag == 0) {

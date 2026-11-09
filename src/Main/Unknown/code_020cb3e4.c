@@ -31,7 +31,7 @@ void func_020cb48c(int bits) {
 
 void SetupSinglePlaySelectGraphics(void) {
     int screenChanged;
-    screenChanged = func_020cccc0();
+    screenChanged = GetMenuScreenSwitched();
     if (screenChanged != 0) {
         func_020cb4a8(0x18);
         GX_SetGraphicsMode(1, 0, 0);

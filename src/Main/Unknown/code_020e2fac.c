@@ -40,11 +40,11 @@
 
 void SetupDrawChoropuShadow(void) {
     u32 value12;
-    func_020e55b4();
+    SendObjShadowMaterial();
 }
 
 void DrawChoropuShadow(void *a, Unk020e2f0c *choropu, u32 c, u32 alpha) {
-    func_020e54e4(&choropu->mUnk_0bc, NULL, 0, alpha);
+    DrawObjShadowAfterMaterial(&choropu->mUnk_0bc, NULL, 0, alpha);
 }
 
 void func_020e35e4(u32 arg0, Unk020e2f0c *choropu) {

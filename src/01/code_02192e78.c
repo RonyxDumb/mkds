@@ -90,7 +90,7 @@ void InitOptionStates(void *heap, s16 a) {
     arg.mUseBackScreen = TRUE;
     arg.mBackScreenKind = 0;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-    func_02125de0(heap, &arg);
+    InitSceneText(heap, &arg);
     gOptionStates->mStateHeap = CreateExpHeapFromMaxFree(gOptionStates->mHeap);
     LoadOptionData();
     ClearOptionStateCallbacks();
@@ -127,7 +127,7 @@ void func_ov001_02192f8c(void) {
     }
     ClearOptionStateCallbacks();
     ClearLinkLevelIconsPointer();
-    func_02125da0();
+    ReleaseSceneText();
     gOptionStates = NULL;
 }
 
@@ -161,7 +161,7 @@ void AdvanceOptionStates(void) {
             gOptionStates->mCallbacks.mInit(gOptionStates->mStateHeap);
         }
     }
-    func_02125928();
+    AdvanceSceneText();
     AdvanceLinkLevelIcons();
 }
 
@@ -169,7 +169,7 @@ void func_ov001_02192ec4(void) {
     if (gOptionStates->mCallbacks.mUnk_0c != NULL) {
         (*gOptionStates->mCallbacks.mUnk_0c)();
     }
-    func_021258f0();
+    WriteSceneTextRegisters();
 }
 
 void SetOptionStateCallbacks(UnkFunc **a) {

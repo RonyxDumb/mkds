@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-// Argument block of func_02125de0 (ten words read from it).
+// Argument block of InitSceneText (ten words read from it).
 typedef struct SceneTextInitParams {
     /* 00 */ BOOL mUseTxtSystem;
     /* 04 */ void *mTxtSystemFont;
@@ -16,4 +16,4 @@ typedef struct SceneTextInitParams {
     /* 24 */ s32 mBackScreenKind;
 } SceneTextInitParams;
 
-void func_02125de0(void *heap, SceneTextInitParams *config);
+void InitSceneText(void *heap, SceneTextInitParams *config);

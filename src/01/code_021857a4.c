@@ -32,7 +32,7 @@ u16 func_ov001_02185b50(MissionGateObject *missionGateObject) {
 }
 
 void func_ov001_02185b1c(void) {
-    if (func_020cccc0()) {
+    if (GetMenuScreenSwitched()) {
         func_ov001_02185ad8(0x19);
         GX_SetGraphicsMode(1, 0, 0);
         func_ov001_02185abc(0x16);
@@ -65,7 +65,7 @@ void func_ov001_02185abc(u32 bits) {
 #pragma thumb on
 
 void func_ov001_02185a88(void) {
-    if (func_020cccc0()) {
+    if (GetMenuScreenSwitched()) {
         func_ov001_02185ad8(0x1b);
         GX_SetGraphicsMode(1, 0, 0);
         func_ov001_02185abc(0x16);
@@ -86,7 +86,7 @@ void UpdateMissionRunMSsel(void) {
 }
 
 void func_ov001_02185a28(void) {
-    if (func_020cccc0()) {
+    if (GetMenuScreenSwitched()) {
         func_ov001_021856a8(0x19);
         GX_SetGraphicsMode(1, 0, 0);
         func_ov001_0218568c(0x16);
@@ -121,7 +121,7 @@ void UpdateTimeAttackTopMenu(void) {
 }
 
 void func_ov001_02185980(void) {
-    if (func_020cccc0()) {
+    if (GetMenuScreenSwitched()) {
         func_ov001_021856a8(0xb);
         GX_SetGraphicsMode(1, 0, 1);
         func_ov001_0218568c(8);
@@ -143,7 +143,7 @@ void UpdateTimeAttackSelectCharacter(void) {
 }
 
 void func_ov001_02185928(void) {
-    if (func_020cccc0()) {
+    if (GetMenuScreenSwitched()) {
         func_ov001_021856a8(0xb);
         GX_SetGraphicsMode(1, 0, 1);
     }
@@ -163,7 +163,7 @@ void UpdateTimeAttackSelectKart(void) {
 }
 
 void func_ov001_021858c8(void) {
-    if (func_020cccc0()) {
+    if (GetMenuScreenSwitched()) {
         func_ov001_021856a8(0x19);
         GX_SetGraphicsMode(1, 0, 0);
         func_ov001_0218568c(0x16);
@@ -199,7 +199,7 @@ void UpdateTimeAttackSelectCupGrid(void) {
 }
 
 void func_ov001_02185828(void) {
-    if (func_020cccc0()) {
+    if (GetMenuScreenSwitched()) {
         func_ov001_021856a8(0x19);
         GX_SetGraphicsMode(1, 0, 0);
         func_ov001_0218568c(0x1e);

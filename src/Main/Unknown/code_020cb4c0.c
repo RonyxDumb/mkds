@@ -46,12 +46,12 @@ void UpdateMenuScreen(u32 a) {
             menu = data_0217b43c;
             screenNumber = menu->mScreenNumber;
             menu->mScreenCallbacks[screenNumber].mUpdate(a);
-            if (data_0217b43c->mUnk_004 != 0) {
+            if (data_0217b43c->mScreenSwitched != 0) {
                 ReleasePreviousMenuScreen();
                 InitCurrentMenuScreen();
             }
         }
-        func_02125928();
+        AdvanceSceneText();
         AdvanceLinkLevelIcons();
         if (AreBrightnessFadesClear() != 0) {
             func_020cb600(&data_0217b43c->mFramesSinceScreenSwitch);

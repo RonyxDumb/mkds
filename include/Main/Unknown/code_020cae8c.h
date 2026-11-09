@@ -10,14 +10,14 @@ typedef struct Unk02021dc8 Unk02021dc8;
 
 // Elements of the table at member 0x14 of MenuScene.
 typedef struct ScreenCallbacks {
-    /* 0 */ void (*mUnk_00)(void);
+    /* 0 */ void (*mWriteRegisters)(void);
     /* 4 */ void (*mUpdate)(u32 a);
 } ScreenCallbacks;
 
 // Object behind data_0217b43c.
 typedef struct MenuScene {
     /* 000 */ s32 mFramesSinceScreenSwitch;
-    /* 004 */ s32 mUnk_004;
+    /* 004 */ s32 mScreenSwitched;
     /* 008 */ s32 mPreviousScreenNumber;
     /* 00c */ s32 mScreenNumber;
     /* 010 */ s32 mNextScreenNumber;

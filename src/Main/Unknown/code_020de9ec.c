@@ -212,7 +212,7 @@ void DrawQuestion(void *unused0, ItemBox *itemBox, void *unused1, u16 d) {
 void func_020dee8c(void) {
     s32 angleIndex;
 
-    func_020e55b4();
+    SendObjShadowMaterial();
     if (GetChoisesSOpenDuringRace() != 0) {
         return;
     }
@@ -259,7 +259,7 @@ void func_020dec4c(void *unused, ItemBox *itemBox, u32 c, u32 d) {
     }
     if (itemBox->mShadowMode == 0) {
         itemBox->mUnk_0b4.mAlphaCap = n;
-        func_020e54e4(&itemBox->mUnk_0b4, itemBox->mUnk_0a8 != 0 ? &data_0217b75c : 0, c, d);
+        DrawObjShadowAfterMaterial(&itemBox->mUnk_0b4, itemBox->mUnk_0a8 != 0 ? &data_0217b75c : 0, c, d);
         return;
     }
     if (itemBox->mShadowMode != 1) {
