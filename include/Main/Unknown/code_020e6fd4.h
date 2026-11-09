@@ -114,8 +114,8 @@ typedef struct MapObjectList {
     /* 10 */ UnkFunc *mForEachObject;
     /* 14 */ void (*mAfterObjects)(struct MapObjectList *p);
     /* 18 */ s32 mUnk_18;
-    // A callback in the update lists (func_020e6fd4); the draw lists test it for non-zero (InitMapObjectDrawOrder, the
-    // draw loop) and the kinds' creators set it to 1.
+    // A callback in the update lists (CallMapObjectListCallback); the draw lists test it for non-zero
+    // (InitMapObjectDrawOrder, the draw loop) and the kinds' creators set it to 1.
     /* 1c */ union {
         s32 (*mUnk_1c)(MapObject *e, void *a, void *b, void *c);
         s32 mSortByDistance;
@@ -157,7 +157,7 @@ extern Unk0210b7a8 data_0217b9dc;
 extern JgKindRow gJgKindRows[];
 extern JgKindRow data_0217bb08[];
 
-void func_020e6fd4(MapObjectList *list);
+void CallMapObjectListCallback(MapObjectList *list);
 void UpdateMapObjectList(MapObjectList *list);
 void func_020e71a0(MapObject *object);
 void func_020e72cc(Unk020e730c *object, struct CourseMapRow *courseRow);
@@ -169,4 +169,4 @@ void func_020e7460(void);
 void func_020e7760(void);
 void func_020e79c4(void);
 void func_020e7a18(void);
-void func_020e7a40(void);
+void SetJgState4(void);

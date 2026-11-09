@@ -11,7 +11,7 @@ typedef struct Bridge Bridge;
 extern const BridgeDrawList data_02158ce8;
 
 void func_020e4380(Unk020e3ef4 *object);
-void func_020e435c(void *viewMatrix);
+void DrawAllKind203MapObjects(void *viewMatrix);
 BOOL func_020e4320(s32 kind);
 void func_020e4184(BridgeDrawList *list);
 void func_020e410c(BridgeDrawList *list);

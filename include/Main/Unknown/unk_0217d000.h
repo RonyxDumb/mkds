@@ -410,12 +410,13 @@ typedef struct SelectRaceRuleWait {
     /* 24 */ s32 mStateFrames;
 } SelectRaceRuleWait;
 
-// Object at data_0217d244 (0x10 bytes).
+// Object at gSeqPlayerControl (0x10 bytes).
 typedef struct SeqPlayerControl {
     // 0: normal; 1: volume target 0; 2: volume target full.
     /* 00 */ s32 mVolumeOverride;
     /* 04 */ s32 mPitchAngle;
-    // Bit 2 is set while the selected Kart is small from the Thunder item.
+    // Mask 2 is set while the selected Kart is small from the Thunder item (SetThunderShrinkSoundFlag); mask 4 while a
+    // Teresa effect runs on it (SetTeresaSoundFlag).
     /* 08 */ s32 mFlags;
     /* 0c */ u32 mKartNear;
 } SeqPlayerControl;
@@ -733,7 +734,7 @@ extern s32 data_0217d1f4;
 extern s32 data_0217d20c;
 extern s32 data_0217d21c;
 extern u32 gAnySeqVariableEnabled;
-extern SeqPlayerControl data_0217d244;
+extern SeqPlayerControl gSeqPlayerControl;
 extern struct RecordScene *gRecordScene;
 extern RecordVSErase *gRecordVSErase;
 extern Wait *gWait;

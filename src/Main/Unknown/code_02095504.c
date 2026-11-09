@@ -49,9 +49,9 @@ void DrawMoveTree(void *a, MoveTree *moveTree, u32 c, u32 d) {
     s32 t;
 
     t = 0x1e;
-    func_01ff9048(0x14, &t, 1);
-    func_01ff9048(0x19, SetViewRotatedMatrixPos(&moveTree->mUnk_00.mPos), 12);
-    func_01ff9048(0x1b, &moveTree->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x14, &t, 1);
+    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&moveTree->mUnk_00.mPos), 12);
+    NNS_G3dGeBufferOP_N(0x1b, &moveTree->mUnk_00.mScale, 3);
     if ((s32) (moveTree->mUnk_00.mDistanceSquaredAndFlags & ~0xc000001f) < 0xc5c10) {
         SetMapObjectModelNsbcaFrameIndex(gMoveTree, moveTree->mNsbcaFrameIndex);
         DrawMapObjectModel(a, gMoveTree, moveTree);
@@ -201,16 +201,16 @@ void DrawBakubaku(void *a, Bakubaku *bakubaku) {
         return;
     }
     t = 0x1e;
-    func_01ff9048(0x14, &t, 1);
+    NNS_G3dGeBufferOP_N(0x14, &t, 1);
     bakubaku->mUnk_00.mMatrix.mUnk_00[3].x = bakubaku->mUnk_00.mPos.x >> 4;
     bakubaku->mUnk_00.mMatrix.mUnk_00[3].y = bakubaku->mUnk_00.mPos.y >> 4;
     bakubaku->mUnk_00.mMatrix.mUnk_00[3].z = bakubaku->mUnk_00.mPos.z >> 4;
-    func_01ff9048(0x19, &bakubaku->mUnk_00.mMatrix, 12);
-    func_01ff9048(0x1b, &bakubaku->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x19, &bakubaku->mUnk_00.mMatrix, 12);
+    NNS_G3dGeBufferOP_N(0x1b, &bakubaku->mUnk_00.mScale, 3);
     DrawMapObjectModel(a, gBakuShadow, bakubaku);
     i = (u16) (u32) FX_Atan2Idx(-bakubaku->mUnk_00.mUnk_10.y, 0xc000) >> 4;
     MTX_RotX33_(&m, gPairsByAngle[i * 2], gPairsByAngle[i * 2 + 1]);
-    func_01ff9048(0x1a, &m, 9);
+    NNS_G3dGeBufferOP_N(0x1a, &m, 9);
     DrawMapObjectModel(a, gBakubaku, bakubaku);
 }
 

@@ -416,7 +416,7 @@ u32 CollideItemObjectWithWoodbox1(Woodbox1 *woodbox, ItemObject *itemObject, u8 
 
 void CreateWoodbox1(MapObjectList *list) {
     CreateNsbmd(&gWoodbox1, FindCourseMapObjFile(gWoodbox1NsbmdName), NULL);
-    func_02084968(gWoodbox1, 0x3f, 2, 0x294a);
+    SetNsbmdPolygonIdLightEmiAll(gWoodbox1, 0x3f, 2, 0x294a);
 }
 
 void ClearWoodbox1Pointer(MapObjectList *list) {
@@ -427,8 +427,8 @@ void InitWoodbox1(Woodbox1 *woodbox, CourseMapRow *courseRow) {
     Vec3 rotation;
     s32 length;
 
-    if (func_01ffdee4(&woodbox->mUnk_000.mPos, NULL, 0, 0xa000, 8, -2, NULL, &woodbox->mGroundUp, NULL, NULL, NULL,
-                      NULL, NULL, NULL) == 0) {
+    if (CollideSphereWithCourse(&woodbox->mUnk_000.mPos, NULL, 0, 0xa000, 8, -2, NULL, &woodbox->mGroundUp, NULL, NULL,
+                                NULL, NULL, NULL, NULL) == 0) {
         woodbox->mGroundUp = data_0216c3d8;
     }
     woodbox->mUnk_000.mPos.y = woodbox->mUnk_000.mPos.y + woodbox->mUnk_000.mExtent.x;
@@ -806,7 +806,7 @@ void DrawShadowWithMaxAlpha(ShadowModel *shadow, void *matrix, Vec3 *scale, u32 
 }
 
 void func_020ea84c(void) {
-    func_01ff9048(0x29, &data_0217bbe8, 1);
+    NNS_G3dGeBufferOP_N(0x29, &data_0217bbe8, 1);
 }
 
 void DrawNsbmdWithMaxAlpha(Nsbmd *model, s32 maxAlpha) {

@@ -33,7 +33,7 @@ extern const ItemKind gItemKindKiller;
 
 void CreatePooledMapObjects(void);
 void StartItemKiller(ItemInUse *itemInUse, HeldItem *heldItem);
-void func_0210515c(s32 kartIndex);
+void ResetKartActiveItemAfterKiller(s32 kartIndex);
 void UpdateBouncingItemBoxTimers(void);
 void func_02104f84(s32 kartIndex);
 void StartBouncingItemBox(BouncingItemBox *box);

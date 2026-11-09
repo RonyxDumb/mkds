@@ -22,7 +22,7 @@ void StartKartSurfaceSoundWhileRequested(Kart *kart, s32 entryIndex, s32 surface
 void func_0210b234(Kart *kart, s32 b, s32 c, s32 d, s32 f);
 void func_0210b198(s32 a, s32 b, u32 volume, s32 d, s32 e);
 void StartKartCollisionSound(Kart *kart, s32 b, s16 d);
-void func_0210af40(Kart *kart, s32 b, s32 c);
+void StartKartSeqArcSound(Kart *kart, s32 soundIndex, s32 soundOffset);
 void InitKartSoundQueue(void);
 void UpdateKartSoundQueue(void);
 void QueueKartSound(Kart *kart, s32 b);

@@ -60,17 +60,17 @@ void DrawMkdEfBurner(void *a, MkdEfBurner *mkdEfBurner) {
     }
     SetMapObjectModelPolygonId(gMkdEfBurner, AllocPolygonIdWrapping());
     s0 = 0x1e;
-    func_01ff9048(0x14, &s0, 1);
-    func_01ff9048(0x19, SetViewRotatedMatrixPos(&mkdEfBurner->mUnk_00.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x14, &s0, 1);
+    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&mkdEfBurner->mUnk_00.mPos), 0xc);
     s4.y = mkdEfBurner->mUnk_00.mExtent.y >> 4;
     s4.x = 0;
     s4.z = 0;
-    func_01ff9048(0x1c, &s4, 3);
+    NNS_G3dGeBufferOP_N(0x1c, &s4, 3);
     s10.x = mkdEfBurner->mScaleFixed12;
     s10.y = s10.x;
     s10.z = s10.x;
-    func_01ff9048(0x1b, &s10, 3);
-    func_01ff9048(0x1b, &mkdEfBurner->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &s10, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &mkdEfBurner->mUnk_00.mScale, 3);
     SetMapObjectModelNsbtaFrameIndex(gMkdEfBurner, mkdEfBurner->mNsbtaFrameIndex);
     DrawMapObjectModel(a, gMkdEfBurner, mkdEfBurner);
 }

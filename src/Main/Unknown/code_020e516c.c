@@ -22,10 +22,10 @@
 void func_020e55b4(void) {
     u32 value;
     value = data_0217b814->mUnk_01c;
-    func_01ff9048(0x2b, &value, 1);
-    func_01ff9048(0x2a, &data_0217b814->mUnk_014, 1);
-    func_01ff9048(0x30, &data_0217b814->mUnk_004, 1);
-    func_01ff9048(0x31, &data_0217b814->mUnk_008, 1);
+    NNS_G3dGeBufferOP_N(0x2b, &value, 1);
+    NNS_G3dGeBufferOP_N(0x2a, &data_0217b814->mUnk_014, 1);
+    NNS_G3dGeBufferOP_N(0x30, &data_0217b814->mUnk_004, 1);
+    NNS_G3dGeBufferOP_N(0x31, &data_0217b814->mUnk_008, 1);
 }
 
 void func_020e54e4(void *shadowData, void *wordPointer, u32 unused, u32 alpha) {
@@ -35,22 +35,22 @@ void func_020e54e4(void *shadowData, void *wordPointer, u32 unused, u32 alpha) {
     ShadowMatrix *shadow = shadowData;
 
     b = 0x1e;
-    func_01ff9048(0x14, &b, 1);
-    func_01ff9048(0x19, shadowData, 0xc);
+    NNS_G3dGeBufferOP_N(0x14, &b, 1);
+    NNS_G3dGeBufferOP_N(0x19, shadowData, 0xc);
     if (wordPointer != NULL) {
         u32 firstWord;
         firstWord = *(u32 *) wordPointer;
         threeWords[0] = firstWord;
         threeWords[1] = firstWord;
         threeWords[2] = firstWord;
-        func_01ff9048(0x1b, threeWords, 3);
+        NNS_G3dGeBufferOP_N(0x1b, threeWords, 3);
     }
     word = data_0217b814->mUnk_00c;
     alpha = alpha < shadow->mAlphaCap ? alpha : shadow->mAlphaCap;
     word = word & ~0x1f0000;
     word = word | (alpha << 16);
-    func_01ff9048(0x29, &word, 1);
-    func_01ff9144(&data_0217b818->mUnk_000[data_0217b818->mUnk_008], data_0217b818->mUnk_00c);
+    NNS_G3dGeBufferOP_N(0x29, &word, 1);
+    NNS_G3dGeSendDL(&data_0217b818->mUnk_000[data_0217b818->mUnk_008], data_0217b818->mUnk_00c);
 }
 
 void func_020e53ac(ShadowMatrix *shadow, void *wordPointer, u32 unused, u32 alpha) {
@@ -60,27 +60,27 @@ void func_020e53ac(ShadowMatrix *shadow, void *wordPointer, u32 unused, u32 alph
     u32 threeWords[3];
 
     x = data_0217b814->mUnk_01c;
-    func_01ff9048(0x2b, &x, 1);
-    func_01ff9048(0x2a, &data_0217b814->mUnk_014, 1);
-    func_01ff9048(0x30, &data_0217b814->mUnk_004, 1);
-    func_01ff9048(0x31, &data_0217b814->mUnk_008, 1);
+    NNS_G3dGeBufferOP_N(0x2b, &x, 1);
+    NNS_G3dGeBufferOP_N(0x2a, &data_0217b814->mUnk_014, 1);
+    NNS_G3dGeBufferOP_N(0x30, &data_0217b814->mUnk_004, 1);
+    NNS_G3dGeBufferOP_N(0x31, &data_0217b814->mUnk_008, 1);
     b = 0x1e;
-    func_01ff9048(0x14, &b, 1);
-    func_01ff9048(0x19, shadow, 0xc);
+    NNS_G3dGeBufferOP_N(0x14, &b, 1);
+    NNS_G3dGeBufferOP_N(0x19, shadow, 0xc);
     if (wordPointer != NULL) {
         u32 wordCopy;
         wordCopy = *(u32 *) wordPointer;
         threeWords[0] = wordCopy;
         threeWords[1] = wordCopy;
         threeWords[2] = wordCopy;
-        func_01ff9048(0x1b, threeWords, 3);
+        NNS_G3dGeBufferOP_N(0x1b, threeWords, 3);
     }
     word = data_0217b814->mUnk_00c;
     alpha = alpha < shadow->mAlphaCap ? alpha : shadow->mAlphaCap;
     word = word & ~0x1f0000;
     word = word | (alpha << 16);
-    func_01ff9048(0x29, &word, 1);
-    func_01ff9144(&data_0217b818->mUnk_000[data_0217b818->mUnk_008], data_0217b818->mUnk_00c);
+    NNS_G3dGeBufferOP_N(0x29, &word, 1);
+    NNS_G3dGeSendDL(&data_0217b818->mUnk_000[data_0217b818->mUnk_008], data_0217b818->mUnk_00c);
 }
 
 void DrawJgShadowWithMatrix(Vec3 *scale, MtxFx43 *matrix, u32 c, u32 d) {
@@ -125,8 +125,8 @@ s32 RefreshShadowMatrix(void *shadow, Vec3 *position, s32 scale, u32 alphaCap) {
     raisedPosition = *position;
     hit = FALSE;
     raisedPosition.y = raisedPosition.y + 0x1999;
-    if (func_01ffdee4(&raisedPosition, NULL, 0, 0xa000, 8, -2, NULL, &direction, NULL, NULL, NULL, NULL, NULL, NULL) !=
-        0) {
+    if (CollideSphereWithCourse(&raisedPosition, NULL, 0, 0xa000, 8, -2, NULL, &direction, NULL, NULL, NULL, NULL, NULL,
+                                NULL) != 0) {
         hit = TRUE;
         QuaternionFromYAxisToVec3(&direction, &rotation);
         Matrix3x3FromQuaternion(&shadowCopy->mMatrix.mUnk_00_m, &rotation);

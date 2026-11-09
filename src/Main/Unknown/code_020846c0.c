@@ -130,7 +130,7 @@ void InitNsbmdRenderObj(Nsbmd *nsbmd, NNSG3dResMdl *resMdl, u32 allowCullSwap) {
     }
 }
 
-void func_02084f68(Nsbmd *nsbmd) {
+void SetNsbmdCullModeMirrored(Nsbmd *nsbmd) {
     u32 i;
     NNSG3dResMdl *resMdl;
 
@@ -140,7 +140,7 @@ void func_02084f68(Nsbmd *nsbmd) {
     }
 }
 
-void func_02084f20(Nsbmd *nsbmd) {
+void SetNsbmdCullModeUnmirrored(Nsbmd *nsbmd) {
     u32 i;
     NNSG3dResMdl *resMdl;
 
@@ -292,7 +292,7 @@ NNSG3dResMdl *InitNsbmdWithTextureInfoCopy(void *heap, Nsbmd *nsbmd, NNSG3dResFi
     return resMdl;
 }
 
-void func_02084ad8(void *object, u8 alpha) {
+void SetNsbmdFirstDrawMaterial(void *object, u8 alpha) {
     Nsbmd *nsbmd = object;
 
     NNSG3dResMdl *resMdl = nsbmd->mResMdl;
@@ -308,7 +308,7 @@ void func_02084ad8(void *object, u8 alpha) {
     NNS_G3dMdlSetMdlAlpha(resMdl, 0, alpha);
 }
 
-void func_02084a88(void *object, u8 alpha, u8 polygonId) {
+void SetNsbmdSecondDrawMaterial(void *object, u8 alpha, u8 polygonId) {
     Nsbmd *nsbmd = object;
 
     NNSG3dResMdl *resMdl = nsbmd->mResMdl;
@@ -329,8 +329,8 @@ void DrawNsbmdWithMatrix(Nsbmd *object, MtxFx43 *matrix, u32 *scale) {
     s32 commandParam = 30;
     u32 scaleCopy[3];
 
-    func_01ff9048(20, &commandParam, 1);
-    func_01ff9048(25, matrix, 12);
+    NNS_G3dGeBufferOP_N(20, &commandParam, 1);
+    NNS_G3dGeBufferOP_N(25, matrix, 12);
     if (scale != NULL) {
         u32 z = scale[2];
         u32 y = scale[1];
@@ -338,7 +338,7 @@ void DrawNsbmdWithMatrix(Nsbmd *object, MtxFx43 *matrix, u32 *scale) {
         scaleCopy[0] = x;
         scaleCopy[1] = y;
         scaleCopy[2] = z;
-        func_01ff9048(27, &scaleCopy, 3);
+        NNS_G3dGeBufferOP_N(27, &scaleCopy, 3);
     }
     gNsbmdDrawFunctions[object->mDrawKind](object);
 }
@@ -367,7 +367,7 @@ void SetNsbmdEmiAll(void *object, u32 color) {
     NNS_G3dMdlSetMdlEmiAll(nsbmd->mResMdl, color);
 }
 
-void func_02084968(void *object, u32 polygonId, u32 light, u32 color) {
+void SetNsbmdPolygonIdLightEmiAll(void *object, u32 polygonId, u32 light, u32 color) {
     Nsbmd *nsbmd = object;
 
     NNS_G3dMdlSetMdlPolygonIDAll(nsbmd->mResMdl, polygonId);
@@ -401,14 +401,14 @@ void func_020846c0(void *heap) {
     kartCount = gRaceSetup->mKartCount;
     gKartEffectIdSetIndex = HeapAlloc(heap, kartCount * 2);
     gKartStarEffects = HeapAlloc(heap, kartCount * 12);
-    data_0217ae94 = HeapAlloc(heap, kartCount * 4);
-    data_0217ae74 = HeapAlloc(heap, kartCount * 4);
+    gKartAheadEffects = HeapAlloc(heap, kartCount * 4);
+    gKartNearRankEffects = HeapAlloc(heap, kartCount * 4);
     for (i = 0; i < kartCount; i++) {
         for (j = 0; j < 3; j++) {
             gKartStarEffects[i].mEffects[j] = NULL;
         }
-        data_0217ae94[i] = NULL;
-        data_0217ae74[i] = NULL;
+        gKartAheadEffects[i] = NULL;
+        gKartNearRankEffects[i] = NULL;
         if (i == gRaceSetup->mEntryIndex) {
             gKartEffectIdSetIndex[i] = 0;
         } else {

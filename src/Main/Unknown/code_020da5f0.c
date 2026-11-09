@@ -80,8 +80,8 @@ void UpdateKuriboState1(Kuribo *kuribo) {
     kuribo->mMapObject.mPos.y += kuribo->mMapObject.mUnk_10.y;
     probePos = kuribo->mMapObject.mPos;
     probePos.y += 0xa000;
-    if (func_01ffdee4(&probePos, NULL, 0, 0xa000, 8, -2, &correction, &surfaceNormal, NULL, &surfaceFlags, NULL, NULL,
-                      NULL, NULL) != 0) {
+    if (CollideSphereWithCourse(&probePos, NULL, 0, 0xa000, 8, -2, &correction, &surfaceNormal, NULL, &surfaceFlags,
+                                NULL, NULL, NULL, NULL) != 0) {
         VEC_Add(&kuribo->mMapObject.mPos, &correction, &kuribo->mMapObject.mPos);
         kuribo->mMapObject.mUnk_10.y = 0;
         if ((surfaceFlags & 0x1e34ef) != 0) {

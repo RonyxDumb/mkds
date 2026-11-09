@@ -281,7 +281,7 @@ void StopDispCapBlend(void) {
     }
 }
 
-void func_02055c18(u32 frameCount) {
+void StartDispCapFadeToFaded(u32 frameCount) {
     if (func_02049838() != 2) {
         return;
     }
@@ -289,7 +289,7 @@ void func_02055c18(u32 frameCount) {
     StartFadeToFadedNegativeOneScreen(frameCount, 1);
 }
 
-void func_02055bd4(u32 frameCount) {
+void StartDispCapFadeToClear(u32 frameCount) {
     if (func_02049838() != 2) {
         return;
     }

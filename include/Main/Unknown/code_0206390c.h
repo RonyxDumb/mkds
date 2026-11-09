@@ -23,5 +23,5 @@ typedef struct Unk0206390c {
 extern const u32 data_02154a2c[];
 
 void PlaceKartKillerEffectCallback(Unk0206390c *renderState);
-void func_02063a68(Kart *kart);
-void func_02063ad0(Kart *kart);
+void KartAiCallKartSlot6AndToggleFlag(Kart *kart);
+void CallKartSlot6AndToggleFlag(Kart *kart);

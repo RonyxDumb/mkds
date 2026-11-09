@@ -145,16 +145,16 @@ void DrawShine16(void *a, Shine16 *p) {
         return;
     }
     t = 0x1e;
-    func_01ff9048(0x14, &t, 1);
-    func_01ff9048(0x19, SetViewRotatedMatrixPos(&p->mUnk_00.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x14, &t, 1);
+    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&p->mUnk_00.mPos), 0xc);
     n = p->mDrawScale;
     if (n != 0x1000) {
         s.x = n;
         s.y = n;
         s.z = n;
-        func_01ff9048(0x1b, &s, 3);
+        NNS_G3dGeBufferOP_N(0x1b, &s, 3);
     }
-    func_01ff9048(0x1b, &p->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &p->mUnk_00.mScale, 3);
     SetMapObjectModelMirror(gShine16, p->mMirror, 0);
     SetMapObjectModelNsbtpFrameIndex(gShine16, p->mNsbtpFrameIndex);
     DrawMapObjectModel(a, gShine16, p);
@@ -193,23 +193,23 @@ void func_020a683c(void *a, Shine16 *p, void *b, s32 c) {
         return;
     }
     t = 0x1e;
-    func_01ff9048(0x14, &t, 1);
-    func_01ff9048(0x19, SetViewRotatedMatrixPos(&p->mUnk_00.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x14, &t, 1);
+    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&p->mUnk_00.mPos), 0xc);
     n = p->mDrawScale;
     if (n < 0x1000) {
         s.x = n;
         s.y = n;
         s.z = n;
-        func_01ff9048(0x1b, &s, 3);
+        NNS_G3dGeBufferOP_N(0x1b, &s, 3);
     }
-    func_01ff9048(0x1b, &p->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &p->mUnk_00.mScale, 3);
     x = data_021567a4[data_0217b220] >> 4;
     MTX_RotY33_(&m, gPairsByAngle[x * 2 + 1], gPairsByAngle[x * 2]);
-    func_01ff9048(0x1a, &m, 9);
+    NNS_G3dGeBufferOP_N(0x1a, &m, 9);
     u.x = 0x2000;
     u.y = 0x2000;
     u.z = 0x2000;
-    func_01ff9048(0x1b, &u, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &u, 3);
     func_020e5348(8, c);
 }
 
@@ -501,7 +501,8 @@ void UpdateShine16(void *a, Shine16 *p) {
                 c.x = p->mUnk_00.mPos.x;
                 c.y = p->mUnk_00.mExtent.x + (p->mUnk_00.mPos.y - 0x14000);
                 c.z = p->mUnk_00.mPos.z;
-                if (func_01ffdee4(&c, NULL, 0, p->mUnk_00.mExtent.x, 8, -2, &b, &d, &e, &f, NULL, NULL, NULL, NULL)) {
+                if (CollideSphereWithCourse(&c, NULL, 0, p->mUnk_00.mExtent.x, 8, -2, &b, &d, &e, &f, NULL, NULL, NULL,
+                                            NULL)) {
                     VEC_Add(&p->mUnk_00.mPos, &b, &p->mUnk_00.mPos);
                     if (f & 0x214300) {
                         t = p->mUnk_00.mUnk_10.y;

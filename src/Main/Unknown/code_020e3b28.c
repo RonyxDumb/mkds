@@ -31,7 +31,7 @@ void func_020e4380(Unk020e3ef4 *object) {
     }
 }
 
-void func_020e435c(void *viewMatrix) {
+void DrawAllKind203MapObjects(void *viewMatrix) {
     DrawVisibleMapObjects(data_0217b7e4, viewMatrix, DrawMapObjectModelAtPos);
 }
 
@@ -70,23 +70,23 @@ void func_020e4184(BridgeDrawList *list) {
             switch (object->mUnk_158) {
                 case 0:
                     CreateNsbmd(&gTestCylinder, FindCourseMapObjFile(gTestCylinderNsbmdName), NULL);
-                    func_02084968(gTestCylinder, 0x3f, 2, 0x294a);
+                    SetNsbmdPolygonIdLightEmiAll(gTestCylinder, 0x3f, 2, 0x294a);
                     break;
                 case 1:
                     CreateNsbmd(&gGearBlack, FindCourseMapObjFile(gGearBlackNsbmdName), NULL);
-                    func_02084968(gGearBlack, 0x3f, 2, 0x294a);
+                    SetNsbmdPolygonIdLightEmiAll(gGearBlack, 0x3f, 2, 0x294a);
                     break;
                 case 2:
                     CreateNsbmd(&gGearWhite, FindCourseMapObjFile(gGearWhiteNsbmdName), NULL);
-                    func_02084968(gGearWhite, 0x3f, 2, 0x294a);
+                    SetNsbmdPolygonIdLightEmiAll(gGearWhite, 0x3f, 2, 0x294a);
                     break;
                 case 3:
                     CreateNsbmd(&gRotaryRoom, FindCourseMapObjFile(gRotaryRoomNsbmdName), NULL);
-                    func_02084968(gRotaryRoom, 0x3f, 2, 0x294a);
+                    SetNsbmdPolygonIdLightEmiAll(gRotaryRoom, 0x3f, 2, 0x294a);
                     break;
                 case 4:
                     CreateNsbmd(&gRotaryBridge, FindCourseMapObjFile(gRotaryBridgeNsbmdName), NULL);
-                    func_02084968(gRotaryBridge, 0x3f, 2, 0x294a);
+                    SetNsbmdPolygonIdLightEmiAll(gRotaryBridge, 0x3f, 2, 0x294a);
                     break;
             }
             *loadedFlagSlot = 1;
@@ -173,7 +173,8 @@ void func_020e3ef4(Unk020e3ef4 *object, struct CourseMapRow *courseRow, Unk020e1
     }
     object->mUnk_14c = 0;
     object->mUnk_000.mCollisionData.mUnk_100 = ((s64) kindInfo->mUnk_04 * object->mUnk_000.mMapObject.mScale.x) >> 12;
-    object->mUnk_000.mCollisionData.mHalfSizeY = (s32) (((s64) kindInfo->mUnk_08 * object->mUnk_000.mMapObject.mScale.y) >> 12) >> 1;
+    object->mUnk_000.mCollisionData.mHalfSizeY =
+        (s32) (((s64) kindInfo->mUnk_08 * object->mUnk_000.mMapObject.mScale.y) >> 12) >> 1;
     if (kindInfo->mUnk_00 != 0) {
         object->mUnk_000.mCollisionData.mUnk_110 = FALSE;
         object->mUnk_000.mCollisionData.mUnk_114.x = 1;
@@ -251,16 +252,20 @@ void UpdateBridge(s32 a, Bridge *bridge) {
     if (angleDelta < -0x8000) {
         angleDelta += 0x10000;
     }
-    bridge->mUnk_000.mCollisionData.mAngleChangeVector.x = ((s64) bridge->mUnk_000.mMapObject.mMatrix.mUnk_00[0].x * angleDelta) >> 12;
-    bridge->mUnk_000.mCollisionData.mAngleChangeVector.y = ((s64) bridge->mUnk_000.mMapObject.mMatrix.mUnk_00[0].y * angleDelta) >> 12;
-    bridge->mUnk_000.mCollisionData.mAngleChangeVector.z = ((s64) bridge->mUnk_000.mMapObject.mMatrix.mUnk_00[0].z * angleDelta) >> 12;
+    bridge->mUnk_000.mCollisionData.mAngleChangeVector.x =
+        ((s64) bridge->mUnk_000.mMapObject.mMatrix.mUnk_00[0].x * angleDelta) >> 12;
+    bridge->mUnk_000.mCollisionData.mAngleChangeVector.y =
+        ((s64) bridge->mUnk_000.mMapObject.mMatrix.mUnk_00[0].y * angleDelta) >> 12;
+    bridge->mUnk_000.mCollisionData.mAngleChangeVector.z =
+        ((s64) bridge->mUnk_000.mMapObject.mMatrix.mUnk_00[0].z * angleDelta) >> 12;
     bridge->mAngleX = y;
     bridge->mUnk_000.mCollisionData.mPrevMatrix = bridge->mUnk_000.mMapObject.mMatrix.mUnk_00_m;
-    MTX_RotX33_(&bridge->mUnk_000.mMapObject.mMatrix.mUnk_00_m, gPairsByAngle[(y >> 4) * 2], gPairsByAngle[(y >> 4) * 2 + 1]);
+    MTX_RotX33_(&bridge->mUnk_000.mMapObject.mMatrix.mUnk_00_m, gPairsByAngle[(y >> 4) * 2],
+                gPairsByAngle[(y >> 4) * 2 + 1]);
     MTX_Concat33(&bridge->mUnk_000.mMapObject.mMatrix.mUnk_00_m, &bridge->mUnk_000.mCollisionData.mInitialMatrix,
                  &bridge->mUnk_000.mMapObject.mMatrix.mUnk_00_m);
-    VEC_MultAdd(-bridge->mUnk_000.mCollisionData.mHalfSizeY, &bridge->mUnk_000.mMapObject.mMatrix.mUnk_00[1], &bridge->mUnk_000.mMapObject.mPos,
-                &bridge->mUnk_000.mCollisionData.mCenterPos);
+    VEC_MultAdd(-bridge->mUnk_000.mCollisionData.mHalfSizeY, &bridge->mUnk_000.mMapObject.mMatrix.mUnk_00[1],
+                &bridge->mUnk_000.mMapObject.mPos, &bridge->mUnk_000.mCollisionData.mCenterPos);
     if (bridge->mPauseTimer != 0) {
         bridge->mPauseTimer--;
         return;
@@ -294,7 +299,8 @@ void DrawBridge(Unk020e3ef4 *object, void *viewMatrix, u32 alpha) {
     animation = gBridgeNsbca;
     animation->mUnk_0c = object->mUnk_154;
     *animation->mUnk_1c[animation->mUnk_1a] = animation->mUnk_0c;
-    DrawNsbmdWithMatrixAndMaxAlpha(object->mModel, &object->mUnk_000.mMapObject.mMatrix, &object->mUnk_000.mMapObject.mScale.x, alpha);
+    DrawNsbmdWithMatrixAndMaxAlpha(object->mModel, &object->mUnk_000.mMapObject.mMatrix,
+                                   &object->mUnk_000.mMapObject.mScale.x, alpha);
 }
 
 void DrawAllBridges(void *viewMatrix) {

@@ -87,12 +87,12 @@ void DrawMissionGate(void *mapObjectList, MissionGateObject *missionGateObject) 
     s32 buf;
 
     buf = 0x1e;
-    func_01ff9048(0x14, &buf, 1);
+    NNS_G3dGeBufferOP_N(0x14, &buf, 1);
     missionGateObject->mMapObject.mMatrix.mUnk_00[3].x = missionGateObject->mMapObject.mPos.x >> 4;
     missionGateObject->mMapObject.mMatrix.mUnk_00[3].y = missionGateObject->mMapObject.mPos.y >> 4;
     missionGateObject->mMapObject.mMatrix.mUnk_00[3].z = missionGateObject->mMapObject.mPos.z >> 4;
-    func_01ff9048(0x19, &missionGateObject->mMapObject.mMatrix, 0xc);
-    func_01ff9048(0x1b, &missionGateObject->mMapObject.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x19, &missionGateObject->mMapObject.mMatrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &missionGateObject->mMapObject.mScale, 3);
     SetMapObjectModelNsbtpFrameIndex(gMissionGate, missionGateObject->mMapObject.mCourseMapRow->mUnk_28);
     SetMapObjectModelNsbmaFrameIndex(gMissionGate, missionGateObject->mNsbmaFrameIndex);
     DrawMapObjectModel(mapObjectList, gMissionGate, missionGateObject);

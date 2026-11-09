@@ -258,15 +258,14 @@ void DrawStemSets(void) {
         MTX_Identity33_(&baseTransform.mUnk_00_m);
         for (nsbmdIndex = 0; nsbmdIndex < gStemSets->mSets[8]->mNsbmdCount; nsbmdIndex++) {
             nsbmd = &gStemSets->mSets[8]->mNsbmds[nsbmdIndex];
-            G3i_OrthoW_(0x60000, -0x60000, -0x80000, 0x80000, 0, 0x1000, 0x1f6, 0,
-                        &data_0217029c.mProjMtx);
+            G3i_OrthoW_(0x60000, -0x60000, -0x80000, 0x80000, 0, 0x1000, 0x1f6, 0, &data_0217029c.mProjMtx);
             data_0217029c.mFlag &= ~0x50;
             NNS_G3dGlbSetBaseScale(&baseScale);
             MI_Copy36B(&baseTransform, &data_0217029c.mPrmBaseRot);
             data_0217029c.mFlag &= ~0xa4;
             NNS_G3dGlbSetBaseTrans(&baseTransform.mUnk_00[3]);
             NNS_G3dGlbFlushP();
-            func_01ff8cf0(nsbmd);
+            DrawNsbmdRenderObj(nsbmd);
         }
     }
     if (gStemSets->mTimedQuad.mEnabled != FALSE) {
@@ -282,7 +281,7 @@ void DrawStemSets(void) {
     }
 }
 
-u32 func_02089f9c(u32 value) {
+u32 ReturnArgument(u32 value) {
     return value;
 }
 
@@ -338,7 +337,7 @@ void DrawTimedQuad(TimedQuad *timedQuad) {
     reg_G3_END_VTXS = 0;
 }
 
-void func_02089d14(u32 tableIndex) {
+void StartTimedQuadFromTable(u32 tableIndex) {
     gStemSets->mStartFunction = data_02155ec8[tableIndex];
     gStemSets->mUpdateFunction = data_02155ecc[tableIndex];
     gStemSets->mStartFunction(&gStemSets->mTimedQuad);

@@ -153,31 +153,31 @@ void DrawPakkunMouth(void *a, Pakkun *pakkun) {
     s32 g[3];
     s32 t;
     w = 0x1e;
-    func_01ff9048(0x14, &w, 1);
+    NNS_G3dGeBufferOP_N(0x14, &w, 1);
     pakkun->mUnk_000.mMatrix.mUnk_00[3].x = pakkun->mUnk_000.mPos.x >> 4;
     pakkun->mUnk_000.mMatrix.mUnk_00[3].y = pakkun->mUnk_000.mPos.y >> 4;
     pakkun->mUnk_000.mMatrix.mUnk_00[3].z = pakkun->mUnk_000.mPos.z >> 4;
-    func_01ff9048(0x19, &pakkun->mUnk_000.mMatrix, 12);
+    NNS_G3dGeBufferOP_N(0x19, &pakkun->mUnk_000.mMatrix, 12);
     f[1] = pakkun->mUnk_1f8 >> 4;
     f[0] = 0;
     f[2] = 0;
-    func_01ff9048(0x1c, f, 3);
+    NNS_G3dGeBufferOP_N(0x1c, f, 3);
     if (pakkun->mUnk_1dc != 0) {
         MTX_RotY33_(&m, gPairsByAngle[((u16) pakkun->mUnk_1dc >> 4) * 2],
                     gPairsByAngle[((u16) pakkun->mUnk_1dc >> 4) * 2 + 1]);
-        func_01ff9048(0x1a, &m, 9);
+        NNS_G3dGeBufferOP_N(0x1a, &m, 9);
     }
     if (pakkun->mUnk_1e0 != 0) {
         MTX_RotX33_(&n, gPairsByAngle[((u16) pakkun->mUnk_1e0 >> 4) * 2],
                     gPairsByAngle[((u16) pakkun->mUnk_1e0 >> 4) * 2 + 1]);
-        func_01ff9048(0x1a, &n, 9);
+        NNS_G3dGeBufferOP_N(0x1a, &n, 9);
     }
     t = pakkun->mUnk_1f0;
     g[0] = t;
     g[1] = t;
     g[2] = t;
-    func_01ff9048(0x1b, g, 3);
-    func_01ff9048(0x1b, &pakkun->mUnk_000.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, g, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &pakkun->mUnk_000.mScale, 3);
     SetMapObjectModelPolygonId(gPakkunMouth, pakkun->mPolygonId);
     SetMapObjectModelNsbcaFrameIndex(gPakkunMouth, pakkun->mUnk_0a4 >> 12);
     DrawMapObjectModel(a, gPakkunMouth, pakkun);
@@ -201,14 +201,14 @@ void DrawPakkunZHead(void *a, Pakkun *pakkun) {
     position.y = pakkun->mUnk_000.mPos.y + pakkun->mUnk_1f8;
     position.z = pakkun->mUnk_000.mPos.z;
     w = 0x1e;
-    func_01ff9048(0x14, &w, 1);
-    func_01ff9048(0x19, SetViewTransposeMatrixPos(&position), 12);
+    NNS_G3dGeBufferOP_N(0x14, &w, 1);
+    NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&position), 12);
     t = pakkun->mUnk_1f0;
     f[0] = t;
     f[1] = t;
     f[2] = t;
-    func_01ff9048(0x1b, f, 3);
-    func_01ff9048(0x1b, &pakkun->mUnk_000.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, f, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &pakkun->mUnk_000.mScale, 3);
     SetMapObjectModelPolygonId(gPakkunZHead, pakkun->mPolygonId);
     DrawMapObjectModel(a, gPakkunZHead, pakkun);
 }
@@ -233,13 +233,13 @@ void DrawPakkunBody(void *a, Pakkun *pakkun) {
     y = pakkun->mUnk_1f0;
     d = 0x3000 - x - y;
     w = 0x1e;
-    func_01ff9048(0x14, &w, 1);
-    func_01ff9048(0x19, SetViewRotatedMatrixPos(&pakkun->mUnk_000.mPos), 12);
+    NNS_G3dGeBufferOP_N(0x14, &w, 1);
+    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&pakkun->mUnk_000.mPos), 12);
     v[0] = d;
     v[1] = x + y - 0x1000;
     v[2] = d;
-    func_01ff9048(0x1b, v, 3);
-    func_01ff9048(0x1b, &pakkun->mUnk_000.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, v, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &pakkun->mUnk_000.mScale, 3);
     DrawMapObjectModel(a, gPakkunBody, pakkun);
 }
 

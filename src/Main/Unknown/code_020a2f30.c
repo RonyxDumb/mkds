@@ -104,24 +104,24 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
             balloon->mDrawScale = 0x1000;
         }
         w0 = 0x1e;
-        func_01ff9048(0x14, &w0, 1);
-        func_01ff9048(0x19, SetViewTransposeMatrixPos(&balloon->mDrawPos), 12);
+        NNS_G3dGeBufferOP_N(0x14, &w0, 1);
+        NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&balloon->mDrawPos), 12);
         if (balloon->mUnk_00.mAngle != 0) {
             i = (balloon->mUnk_00.mAngle >> 4) * 2;
             MTX_RotZ33_(&m0, gPairsByAngle[i + 1], gPairsByAngle[i]);
-            func_01ff9048(0x1a, &m0, 9);
+            NNS_G3dGeBufferOP_N(0x1a, &m0, 9);
         }
         drawScale = balloon->mDrawScale;
         f0[0] = drawScale;
         f0[1] = drawScale;
         f0[2] = drawScale;
-        func_01ff9048(0x1b, f0, 3);
+        NNS_G3dGeBufferOP_N(0x1b, f0, 3);
         t = balloon->mScaleFactor + balloon->mUnk_d8;
         if (t != 0x1000) {
             g0[0] = t;
             g0[1] = t;
             g0[2] = t;
-            func_01ff9048(0x1b, g0, 3);
+            NNS_G3dGeBufferOP_N(0x1b, g0, 3);
         }
         SetMapObjectModelPolygonId(gBalloon, AllocPolygonIdWrapping());
         SetMapObjectModelNsbtpFrameIndex(gBalloon, balloon->mNsbtpFrameIndex);
@@ -143,36 +143,36 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
             balloon->mDrawScale = 0x1000;
         }
         w1 = 0x1e;
-        func_01ff9048(0x14, &w1, 1);
-        func_01ff9048(0x19, SetViewRotatedMatrixPos(&balloon->mDrawPos), 12);
+        NNS_G3dGeBufferOP_N(0x14, &w1, 1);
+        NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&balloon->mDrawPos), 12);
         drawScale = balloon->mDrawScale;
         f1[0] = drawScale;
         f1[1] = drawScale;
         f1[2] = drawScale;
-        func_01ff9048(0x1b, f1, 3);
+        NNS_G3dGeBufferOP_N(0x1b, f1, 3);
         for (j = 0; j < drawCount; j++) {
             i = data_02156720[drawCount - 1][j];
             listBalloon = balloon->mDrawList[i];
-            func_01ff9048(0x11, NULL, 0);
+            NNS_G3dGeBufferOP_N(0x11, NULL, 0);
             k = data_02156700[drawCount - 1][i];
             MTX_RotZ33_(&m1, gPairsByAngle[(k >> 4) * 2 + 1], gPairsByAngle[(k >> 4) * 2]);
-            func_01ff9048(0x1a, &m1, 9);
+            NNS_G3dGeBufferOP_N(0x1a, &m1, 9);
             t = listBalloon->mScaleFactor;
             if (t != 0x1000) {
                 g1[0] = t;
                 g1[1] = t;
                 g1[2] = t;
-                func_01ff9048(0x1b, g1, 3);
+                NNS_G3dGeBufferOP_N(0x1b, g1, 3);
             }
             h[0] = 0;
             h[1] = 0xf66;
             h[2] = 0;
-            func_01ff9048(0x1c, h, 3);
+            NNS_G3dGeBufferOP_N(0x1c, h, 3);
             SetMapObjectModelPolygonId(gBalloon, AllocPolygonIdWrapping());
             SetMapObjectModelNsbtpFrameIndex(gBalloon, listBalloon->mNsbtpFrameIndex);
             DrawMapObjectModel(mapObjectList, gBalloon, balloon);
             w2 = 1;
-            func_01ff9048(0x12, &w2, 1);
+            NNS_G3dGeBufferOP_N(0x12, &w2, 1);
         }
     }
 }

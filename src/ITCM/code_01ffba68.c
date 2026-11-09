@@ -310,7 +310,7 @@ void func_01ffc6c0(Kart *p) {
         if (p->mUnk_48 & 0x840) {
             return;
         }
-        func_0210af40(p, p->mSoundIndex, 8);
+        StartKartSeqArcSound(p, p->mSoundIndex, 8);
         return;
     }
     AdvanceKartRank(p);

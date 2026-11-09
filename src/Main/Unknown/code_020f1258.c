@@ -93,10 +93,10 @@ BOOL func_020f14a0(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
     item->mKartItems->mUnk_208 = TRUE;
     VEC_Add(&item->mUnk_22c, pos, pos);
     VEC_Add(velocity, pos, pos);
-    if (func_01ffdee4(pos, &item->mUnk_000.mUnk_000.mUnk_000.mPrevPos, 0,
-                      item->mUnk_000.mUnk_000.mUnk_000.mUnk_dc, 4, item->mUnk_000.mUnk_000.mUnk_000.mCollisionSlotIndex,
-                      &t, &firstNormal, &secondNormal, &item->mUnk_000.mUnk_000.mUnk_000.mCollisionBits, NULL,
-                      NULL, NULL, NULL) != 0) {
+    if (CollideSphereWithCourse(pos, &item->mUnk_000.mUnk_000.mUnk_000.mPrevPos, 0,
+                                item->mUnk_000.mUnk_000.mUnk_000.mUnk_dc, 4,
+                                item->mUnk_000.mUnk_000.mUnk_000.mCollisionSlotIndex, &t, &firstNormal, &secondNormal,
+                                &item->mUnk_000.mUnk_000.mUnk_000.mCollisionBits, NULL, NULL, NULL, NULL) != 0) {
         VEC_Add(&t, pos, pos);
         if (item->mUnk_000.mUnk_000.mUnk_000.mCollisionBits & 0x1e34ef) {
             n = VEC_DotProduct(&firstNormal, velocity);

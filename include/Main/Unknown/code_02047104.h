@@ -69,7 +69,7 @@ void InitArchiveBuffer(NNSiFndHeapHead *heap, s32 bufferIndex, s32 c, u32 uncomp
 void func_020476ac(void);
 void func_020476ec(void);
 void func_02047728(void);
-void func_0204775c(void);
+void ReplaceKm1ArchiveWithKm2(void);
 void *GetKartModelFile(const char *path);
 void *FindFileInLoadedArchives(const char *name);
 void SetHeapGroupId(u32 groupId);

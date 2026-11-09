@@ -40,7 +40,7 @@ s32 DoesItemObjectRespondToMapObject(s32 itemKind, MapObject *mapObject);
 s32 DoesKartRespondToMapObject(s32 itemEffect, MapObject *mapObject);
 // Response code for the ItemObject a and the map object b; the kind's own callback may change it; the second value goes
 // to *c.
-s32 func_020d6a54(ItemObject *itemObject, MapObject *mapObject, s32 *firstResponseOut);
+s32 CollideItemObjectWithMapObject(ItemObject *itemObject, MapObject *mapObject, s32 *firstResponseOut);
 // Index into gCollideKartWithMapObjectResponses of the Kart a response to the map object b; the kind's own callback may
 // change it.
 s32 func_020d6be0(Kart *kart, MapObject *mapObject);

@@ -2,6 +2,6 @@
 #include "Main/Unknown/code_02109054.h"
 #include "Main/Unknown/code_02109000.h"
 
-void func_0210bad4(void *soundSource, int soundId) {
+void MapStartSoundWhileRequestedFullVolume(void *soundSource, int soundId) {
     StartSoundWhileRequested(soundSource, soundId, 0x7f, 0);
 }

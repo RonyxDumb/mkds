@@ -75,17 +75,17 @@ void DrawSun(void *a, Unk0209d3fc *b) {
     Vec3 v;
 
     s = 0x1e;
-    func_01ff9048(0x14, &s, 1);
-    func_01ff9048(0x19, SetViewTransposeMatrixPos(&b->mUnk_00.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x14, &s, 1);
+    NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&b->mUnk_00.mPos), 0xc);
     if (b->mState == 3 || b->mState == 4) {
         t = (s32) (((s64) gPairsByAngle[((u16) b->mUnk_ac >> 4) * 2 + 1] * -0x14000) >> 12) + 0x14000;
         k = (b->mUnk_b0 >> 4) * 2;
         v.x = (s32) (((s64) t * gPairsByAngle[k + 1]) >> 12) >> 4;
         v.y = (s32) (((s64) t * gPairsByAngle[k]) >> 12) >> 4;
         v.z = 0;
-        func_01ff9048(0x1c, &v, 3);
+        NNS_G3dGeBufferOP_N(0x1c, &v, 3);
     }
-    func_01ff9048(0x1b, &b->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &b->mUnk_00.mScale, 3);
     if (GetCurrentCameraKind() == 2) {
         func_0209bbd0(a, gSun);
         SetMapObjectModelNsbcaFrameIndex(gSun, b->mNsbcaFrameIndex);
@@ -423,20 +423,20 @@ void DrawBound(MapObjectList *mapObjectList, Bound *bound) {
     s32 y;
 
     v[0] = 0x1e;
-    func_01ff9048(0x14, &v[0], 1);
+    NNS_G3dGeBufferOP_N(0x14, &v[0], 1);
     bound->mUnk_000.mMatrix.mUnk_00[3].x = bound->mUnk_000.mPos.x >> 4;
     bound->mUnk_000.mMatrix.mUnk_00[3].y = bound->mUnk_000.mPos.y >> 4;
     bound->mUnk_000.mMatrix.mUnk_00[3].z = bound->mUnk_000.mPos.z >> 4;
-    func_01ff9048(0x19, &bound->mUnk_000.mMatrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x19, &bound->mUnk_000.mMatrix, 0xc);
     if (bound->mWobbling == TRUE) {
         x = bound->mWobbleScaleX;
         y = bound->mWobbleScaleY;
         v[1] = x;
         v[2] = y;
         v[3] = x;
-        func_01ff9048(0x1b, &v[1], 3);
+        NNS_G3dGeBufferOP_N(0x1b, &v[1], 3);
     }
-    func_01ff9048(0x1b, &bound->mUnk_000.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &bound->mUnk_000.mScale, 3);
     SetMapObjectModelNsbtpFrameIndex(gBound, bound->mNsbtpFrameIndex);
     DrawMapObjectModel(mapObjectList, gBound, bound);
 }
@@ -457,20 +457,20 @@ void DrawCream(MapObjectList *mapObjectList, Bound *bound) {
     s32 y;
 
     v[0] = 0x1e;
-    func_01ff9048(0x14, &v[0], 1);
+    NNS_G3dGeBufferOP_N(0x14, &v[0], 1);
     bound->mUnk_000.mMatrix.mUnk_00[3].x = bound->mUnk_000.mPos.x >> 4;
     bound->mUnk_000.mMatrix.mUnk_00[3].y = bound->mUnk_000.mPos.y >> 4;
     bound->mUnk_000.mMatrix.mUnk_00[3].z = bound->mUnk_000.mPos.z >> 4;
-    func_01ff9048(0x19, &bound->mUnk_000.mMatrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x19, &bound->mUnk_000.mMatrix, 0xc);
     if (bound->mWobbling == TRUE) {
         x = bound->mWobbleScaleX;
         y = bound->mWobbleScaleY;
         v[1] = x;
         v[2] = y;
         v[3] = x;
-        func_01ff9048(0x1b, &v[1], 3);
+        NNS_G3dGeBufferOP_N(0x1b, &v[1], 3);
     }
-    func_01ff9048(0x1b, &bound->mUnk_000.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &bound->mUnk_000.mScale, 3);
     DrawMapObjectModel(mapObjectList, gCream, bound);
 }
 
@@ -480,20 +480,20 @@ void DrawBerry(MapObjectList *mapObjectList, Bound *bound) {
     s32 y;
 
     v[0] = 0x1e;
-    func_01ff9048(0x14, &v[0], 1);
+    NNS_G3dGeBufferOP_N(0x14, &v[0], 1);
     bound->mUnk_000.mMatrix.mUnk_00[3].x = bound->mUnk_000.mPos.x >> 4;
     bound->mUnk_000.mMatrix.mUnk_00[3].y = bound->mUnk_000.mPos.y >> 4;
     bound->mUnk_000.mMatrix.mUnk_00[3].z = bound->mUnk_000.mPos.z >> 4;
-    func_01ff9048(0x19, &bound->mUnk_000.mMatrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x19, &bound->mUnk_000.mMatrix, 0xc);
     if (bound->mWobbling == TRUE) {
         x = bound->mWobbleScaleX;
         y = bound->mWobbleScaleY;
         v[1] = x;
         v[2] = y;
         v[3] = x;
-        func_01ff9048(0x1b, &v[1], 3);
+        NNS_G3dGeBufferOP_N(0x1b, &v[1], 3);
     }
-    func_01ff9048(0x1b, &bound->mUnk_000.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &bound->mUnk_000.mScale, 3);
     DrawMapObjectModel(mapObjectList, gBerry, bound);
 }
 

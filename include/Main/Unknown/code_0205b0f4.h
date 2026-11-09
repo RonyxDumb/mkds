@@ -4,7 +4,8 @@
 
 typedef struct WiFiRaceSyncEntry WiFiRaceSyncEntry;
 
-// 0x24 bytes from 0x04 of WiFiRaceSyncPacket, followed by four 8-byte values.
+// Body after the 4-byte header. Kind 0: probing participant at 0, its tick at 4. Kind 2: sender countdown at 0. Kind 3:
+// 24-bit frame count at 0, then record bytes.
 typedef struct WiFiRaceSyncPacketBody {
     /* 00 */ union {
         u16 mUnk_00;

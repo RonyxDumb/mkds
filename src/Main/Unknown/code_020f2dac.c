@@ -791,9 +791,9 @@ void AdvanceBouncingItem(BouncingItemObject *item, s32 gravity, s32 velocityFact
     velocity->x = ((s64) velocity->x * velocityFactor) >> 12;
     velocity->y = ((s64) velocity->y * velocityFactor) >> 12;
     velocity->z = ((s64) velocity->z * velocityFactor) >> 12;
-    if (func_01ffdee4(pos, &item->mItemObject.mPrevPos, 0, item->mItemObject.mUnk_dc, 0x24,
-                      item->mItemObject.mCollisionSlotIndex, &t, &hitNormal, &wallNormal,
-                      &item->mItemObject.mCollisionBits, NULL, NULL, NULL, e) != 0) {
+    if (CollideSphereWithCourse(pos, &item->mItemObject.mPrevPos, 0, item->mItemObject.mUnk_dc, 0x24,
+                                item->mItemObject.mCollisionSlotIndex, &t, &hitNormal, &wallNormal,
+                                &item->mItemObject.mCollisionBits, NULL, NULL, NULL, e) != 0) {
         VEC_Add(&t, pos, pos);
         if (item->mItemObject.mCollisionBits & 0x1e34ef) {
             n = item->mBouncesRemaining;

@@ -18,5 +18,5 @@ void StartKartStar(Kart *kart);
 void StartKartKinokoBoost(Kart *kart);
 void StartKartThunder(Kart *kart);
 void func_02069ea8(Kart *kart);
-void func_02069f6c(Kart *kart);
+void AdvanceKartScaleTableEffect(Kart *kart);
 BOOL func_0206a24c(Kart *kart);

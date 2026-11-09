@@ -368,22 +368,22 @@ void func_01ff9a94(Unk01ff9940 *a) {
     }
     if ((w & 0x20) && !(w & 8)) {
         if (r) {
-            func_01ff9048(0x1c, &a->mUnk_4c, 3);
+            NNS_G3dGeBufferOP_N(0x1c, &a->mUnk_4c, 3);
             r = FALSE;
         }
-        func_01ff9048(0x1b, &a->mUnk_10, 3);
+        NNS_G3dGeBufferOP_N(0x1b, &a->mUnk_10, 3);
     }
     if (!(a->mUnk_00 & 2)) {
         if (r) {
-            func_01ff9048(0x19, &a->mUnk_28, 0xc);
+            NNS_G3dGeBufferOP_N(0x19, &a->mUnk_28, 0xc);
         } else {
-            func_01ff9048(0x1a, &a->mUnk_28, 9);
+            NNS_G3dGeBufferOP_N(0x1a, &a->mUnk_28, 9);
         }
     } else if (r) {
-        func_01ff9048(0x1c, &a->mUnk_4c, 3);
+        NNS_G3dGeBufferOP_N(0x1c, &a->mUnk_4c, 3);
     }
     if (!(a->mUnk_00 & 1)) {
-        func_01ff9048(0x1b, &a->mUnk_04, 3);
+        NNS_G3dGeBufferOP_N(0x1b, &a->mUnk_04, 3);
     }
 }
 

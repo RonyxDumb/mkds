@@ -11,87 +11,89 @@
 #include "cp_context.h"
 #include "registers.h"
 
-void func_01ff92e0(Unk01ff9048 *a) {
-    if (data_usa_021731e4 == 0) {
-        a->mUnk_00 = 0;
-        data_usa_021731e4 = a;
+void NNS_G3dGeSetBuffer(GxCommandBuffer *a) {
+    if (NNS_G3dGeBuffer == 0) {
+        a->mWordCount = 0;
+        NNS_G3dGeBuffer = a;
     }
 }
 
-Unk01ff9048 *func_01ff92b4(void) {
-    Unk01ff9048 *p;
+GxCommandBuffer *NNS_G3dGeReleaseBuffer(void) {
+    GxCommandBuffer *p;
 
-    func_01ff9234();
-    p = data_usa_021731e4;
-    data_usa_021731e4 = 0;
+    NNS_G3dGeFlushBuffer();
+    p = NNS_G3dGeBuffer;
+    NNS_G3dGeBuffer = 0;
     return p;
 }
 // clang-format on
 
-void func_01ff9234(void) {
-    if (data_usa_021731e8 != 0) {
-        func_01ff921c();
+void NNS_G3dGeFlushBuffer(void) {
+    if (NNS_G3dFlagGXDmaAsync != 0) {
+        NNS_G3dGeWaitSendDL();
     }
-    if (data_usa_021731e4 == 0) {
+    if (NNS_G3dGeBuffer == 0) {
         return;
     }
-    if (data_usa_021731e4->mUnk_00 == 0) {
+    if (NNS_G3dGeBuffer->mWordCount == 0) {
         return;
     }
-    MIi_CpuSend32(data_usa_021731e4->mUnk_04, &reg_G3X_GXFIFO, data_usa_021731e4->mUnk_00 * 4);
-    data_usa_021731e4->mUnk_00 = 0;
+    MIi_CpuSend32(NNS_G3dGeBuffer->mWords, &reg_G3X_GXFIFO, NNS_G3dGeBuffer->mWordCount * 4);
+    NNS_G3dGeBuffer->mWordCount = 0;
 }
 
-void func_01ff921c(void) {
-    while (data_usa_021731e8 != 0) {
+void NNS_G3dGeWaitSendDL(void) {
+    while (NNS_G3dFlagGXDmaAsync != 0) {
     }
 }
 
-void func_01ff9210(u32 *a) {
+void simpleUnlock_(u32 *a) {
     *a = 0;
 }
 
-void func_01ff9144(const void *a, u32 b) {
-    if (b < 0x100 || data_0216f074[0] == 0xffffffff) {
-        func_01ff9048(*(u32 *) a, a + 4, (b >> 2) - 1);
+void NNS_G3dGeSendDL(const void *commands, u32 commandLength) {
+    if (commandLength < 0x100 || data_0216f074[0] == 0xffffffff) {
+        NNS_G3dGeBufferOP_N(*(u32 *) commands, commands + 4, (commandLength >> 2) - 1);
         return;
     }
-    func_01ff9234();
-    data_usa_021731e8 = 1;
-    if (data_0217320c != 0) {
-        MI_SendGXCommandAsyncFast(data_0216f074[0], a, b, (MIDmaCallback) func_01ff9210, &data_usa_021731e8);
+    NNS_G3dGeFlushBuffer();
+    NNS_G3dFlagGXDmaAsync = 1;
+    if (NNS_G3dFlagUseFastDma != 0) {
+        MI_SendGXCommandAsyncFast(data_0216f074[0], commands, commandLength, (MIDmaCallback) simpleUnlock_,
+                                  &NNS_G3dFlagGXDmaAsync);
     } else {
-        MI_SendGXCommandAsync(data_0216f074[0], a, b, (MIDmaCallback) func_01ff9210, &data_usa_021731e8);
+        MI_SendGXCommandAsync(data_0216f074[0], commands, commandLength, (MIDmaCallback) simpleUnlock_,
+                              &NNS_G3dFlagGXDmaAsync);
     }
 }
 
-void func_01ff9048(u32 a, const void *b, u32 n) {
-    u32 c;
+void NNS_G3dGeBufferOP_N(u32 command, const void *parameters, u32 parameterCount) {
+    u32 wordCount;
 
-    if (data_usa_021731e4 != 0) {
-        if (data_usa_021731e8 != 0) {
-            c = data_usa_021731e4->mUnk_00;
-            if (c + 1 + n <= 0xc0) {
-                data_usa_021731e4->mUnk_00 = c + 1;
-                data_usa_021731e4->mUnk_04[c] = a;
-                if (n == 0) {
+    if (NNS_G3dGeBuffer != 0) {
+        if (NNS_G3dFlagGXDmaAsync != 0) {
+            wordCount = NNS_G3dGeBuffer->mWordCount;
+            if (wordCount + 1 + parameterCount <= 0xc0) {
+                NNS_G3dGeBuffer->mWordCount = wordCount + 1;
+                NNS_G3dGeBuffer->mWords[wordCount] = command;
+                if (parameterCount == 0) {
                     return;
                 }
-                MIi_CpuCopyFast(b, &data_usa_021731e4->mUnk_04[data_usa_021731e4->mUnk_00], n * 4);
-                data_usa_021731e4->mUnk_00 += n;
+                MIi_CpuCopyFast(parameters, &NNS_G3dGeBuffer->mWords[NNS_G3dGeBuffer->mWordCount], parameterCount * 4);
+                NNS_G3dGeBuffer->mWordCount += parameterCount;
                 return;
             }
         }
-        if (data_usa_021731e4->mUnk_00 != 0) {
-            func_01ff9234();
-        } else if (data_usa_021731e8 != 0) {
-            func_01ff921c();
+        if (NNS_G3dGeBuffer->mWordCount != 0) {
+            NNS_G3dGeFlushBuffer();
+        } else if (NNS_G3dFlagGXDmaAsync != 0) {
+            NNS_G3dGeWaitSendDL();
         }
-    } else if (data_usa_021731e8 != 0) {
-        func_01ff921c();
+    } else if (NNS_G3dFlagGXDmaAsync != 0) {
+        NNS_G3dGeWaitSendDL();
     }
-    reg_G3X_GXFIFO = a;
-    MIi_CpuSend32(b, &reg_G3X_GXFIFO, n * 4);
+    reg_G3X_GXFIFO = command;
+    MIi_CpuSend32(parameters, &reg_G3X_GXFIFO, parameterCount * 4);
 }
 
 void func_01ff8ff8(Unk02170500 *s) {
@@ -161,32 +163,32 @@ void func_01ff8dec(u32 *a, NNSG3dAnmObj *b) {
     } while (b != 0);
 }
 
-void func_01ff8cf0(void *a) {
-    Unk02170500_04 *i;
-    Unk02170500 v1;
+void DrawNsbmdRenderObj(void *object) {
+    Unk02170500_04 *renderObj;
+    Unk02170500 renderState;
 
-    i = a;
-    if ((i->mUnk_00 & 0x10) == 0x10) {
-        func_01ff8cf0_inline(i->mUnk_3c);
-        func_01ff8cf0_inline(i->mUnk_44);
-        func_01ff8cf0_inline(i->mUnk_4c);
-        if (i->mUnk_08 != 0) {
-            func_01ff8dec(i->mUnk_3c, i->mUnk_08);
+    renderObj = object;
+    if ((renderObj->mUnk_00 & 0x10) == 0x10) {
+        func_01ff8cf0_inline(renderObj->mUnk_3c);
+        func_01ff8cf0_inline(renderObj->mUnk_44);
+        func_01ff8cf0_inline(renderObj->mUnk_4c);
+        if (renderObj->mUnk_08 != 0) {
+            func_01ff8dec(renderObj->mUnk_3c, renderObj->mUnk_08);
         }
-        if (i->mUnk_10 != 0) {
-            func_01ff8dec(i->mUnk_44, i->mUnk_10);
+        if (renderObj->mUnk_10 != 0) {
+            func_01ff8dec(renderObj->mUnk_44, renderObj->mUnk_10);
         }
-        if (i->mUnk_18 != 0) {
-            func_01ff8dec(i->mUnk_4c, i->mUnk_18);
+        if (renderObj->mUnk_18 != 0) {
+            func_01ff8dec(renderObj->mUnk_4c, renderObj->mUnk_18);
         }
-        i->mUnk_00 &= ~0x10;
+        renderObj->mUnk_00 &= ~0x10;
     }
     if (data_02170500 != 0) {
-        func_01ff8e64(data_02170500, i);
+        func_01ff8e64(data_02170500, renderObj);
         return;
     }
-    data_02170500 = &v1;
-    func_01ff8e64(&v1, i);
+    data_02170500 = &renderState;
+    func_01ff8e64(&renderState, renderObj);
     data_02170500 = 0;
 }
 
@@ -249,7 +251,7 @@ void func_01ff8b08(Unk02170500 *s, u32 a) {
         }
         v = s->mUnk_00[1];
         if (!(s->mUnk_08 & 0x100)) {
-            func_01ff9048(0x14, &v, 1);
+            NNS_G3dGeBufferOP_N(0x14, &v, 1);
         }
         if (w == 3) {
             s->mUnk_08 &= ~0x40;
@@ -372,7 +374,7 @@ done:
             v2[4] = 0x2b2a;
             v2[5] = v1->mUnk_10;
             v2[6] = v1->mUnk_14;
-            func_01ff9048(v2[0], &v2[1], 6);
+            NNS_G3dGeBufferOP_N(v2[0], &v2[1], 6);
             if (v1->mUnk_00 & 0x18) {
                 s->mUnk_f0(v1);
             }
@@ -417,7 +419,7 @@ void func_01ff8648(Unk02170500 *s, u32 a, NNSG3dResShpData *c) {
         w = 0;
     }
     if (!(s->mUnk_08 & 0x100)) {
-        func_01ff9144((u8 *) c + c->mOfsDL, c->mSizeDL);
+        NNS_G3dGeSendDL((u8 *) c + c->mOfsDL, c->mSizeDL);
     }
     if (w == 3) {
         s->mUnk_08 &= ~0x40;
@@ -478,7 +480,7 @@ void func_01ff8220(Unk02170500 *s, u32 a) {
             n += 1;
             if (!(f & 0x100)) {
                 t = s->mUnk_00[4];
-                func_01ff9048(0x14, &t, 1);
+                NNS_G3dGeBufferOP_N(0x14, &t, 1);
             }
         }
         s->mUnk_00 += n;
@@ -492,7 +494,7 @@ void func_01ff8220(Unk02170500 *s, u32 a) {
             q = s->mUnk_00[5];
         }
         if (!(s->mUnk_08 & 0x100)) {
-            func_01ff9048(0x14, &q, 1);
+            NNS_G3dGeBufferOP_N(0x14, &q, 1);
         }
     }
     s->mUnk_b4 = &s->mUnk_12c;
@@ -580,7 +582,7 @@ done:
         n += 1;
         if (c == 0 && !(s->mUnk_08 & 0x100)) {
             t2 = s->mUnk_00[4];
-            func_01ff9048(0x13, &t2, 1);
+            NNS_G3dGeBufferOP_N(0x13, &t2, 1);
         }
     }
     s->mUnk_00 += n;
@@ -602,7 +604,7 @@ void func_01ff81b4(Unk02170500 *s, u32 a) {
             v[1] = x;
             v[0] = x;
         }
-        func_01ff9048(0x1b, v, 3);
+        NNS_G3dGeBufferOP_N(0x1b, v, 3);
     }
     s->mUnk_00 += 1;
 }

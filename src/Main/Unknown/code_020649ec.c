@@ -54,7 +54,7 @@ void func_020651fc(Kart *kart) {
     f = kart->mUnk_7c;
     if ((f & 0xa0) != 0) {
         if ((f & 0x20) != 0) {
-            func_02068b98(kart);
+            AdvanceKartRemovalShrink(kart);
             return;
         }
         kart->mUnk_3c8 = kart->mUnk_3c8 + 1;
@@ -150,8 +150,8 @@ void func_02064f50(Kart *kart) {
         h.y = (s64) k->y * -0x7000 >> 12;
         h.z = (s64) k->z * -0x7000 >> 12;
         VEC_Add(&g, &h, &g);
-        if (func_01ffdee4(&g, NULL, 0, kart->mRadius, 1, kart->mCollisionSlot, &i, NULL, NULL, &j, NULL, NULL, NULL,
-                          NULL) != 0) {
+        if (CollideSphereWithCourse(&g, NULL, 0, kart->mRadius, 1, kart->mCollisionSlot, &i, NULL, NULL, &j, NULL, NULL,
+                                    NULL, NULL) != 0) {
             VEC_Add(&i, &h, &i);
             VEC_Add(&b->mUnk_00, &i, &b->mUnk_00);
         }

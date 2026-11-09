@@ -44,12 +44,12 @@ void DrawNsKiller1(void *a, NsKiller1 *nsKiller1) {
     s32 t;
 
     t = 0x1e;
-    func_01ff9048(0x14, &t, 1);
-    func_01ff9048(0x1b, &nsKiller1->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x14, &t, 1);
+    NNS_G3dGeBufferOP_N(0x1b, &nsKiller1->mUnk_00.mScale, 3);
     nsKiller1->mUnk_00.mMatrix.mUnk_00[3].x = nsKiller1->mUnk_00.mPos.x >> 4;
     nsKiller1->mUnk_00.mMatrix.mUnk_00[3].y = nsKiller1->mUnk_00.mPos.y >> 4;
     nsKiller1->mUnk_00.mMatrix.mUnk_00[3].z = nsKiller1->mUnk_00.mPos.z >> 4;
-    func_01ff9048(0x19, &nsKiller1->mUnk_00.mMatrix, 12);
+    NNS_G3dGeBufferOP_N(0x19, &nsKiller1->mUnk_00.mMatrix, 12);
     DrawMapObjectModel(a, gNsKiller1, nsKiller1);
 }
 
@@ -126,9 +126,10 @@ void CreateNsKiller1UpdateList(void) {
 void InitNsKiller2(NsKiller2 *nsKiller2) {
     nsKiller2->mUnk_00.mFlags |= data_021564b4;
     ParkMapObject(&nsKiller2->mUnk_00);
-    nsKiller2->mSoundDistanceSquaredChange = func_020d286c(&nsKiller2->mUnk_00);
+    nsKiller2->mSoundDistanceSquaredChange = CreateVehicleSoundSource(&nsKiller2->mUnk_00);
     ResetSoundDistanceSquaredChange(nsKiller2->mSoundDistanceSquaredChange);
-    nsKiller2->mUnk_00.mSound->mSoundSource.mTrackParamsFunction = (void (*)(void *, void *, void *)) func_0210a6b4;
+    nsKiller2->mUnk_00.mSound->mSoundSource.mTrackParamsFunction =
+        (void (*)(void *, void *, void *)) SetNsKiller2SoundTrackParams;
 }
 
 u8 CollideKartWithNsKiller2(NsKiller2 *nsKiller2, Kart *kart, u8 *c, u8 *d) {
@@ -168,12 +169,12 @@ void DrawNsKiller2(void *a, NsKiller2 *nsKiller2) {
         return;
     }
     t = 0x1e;
-    func_01ff9048(0x14, &t, 1);
-    func_01ff9048(0x19, SetTranslationMatrixPos(&nsKiller2->mUnk_00.mPos), 12);
+    NNS_G3dGeBufferOP_N(0x14, &t, 1);
+    NNS_G3dGeBufferOP_N(0x19, SetTranslationMatrixPos(&nsKiller2->mUnk_00.mPos), 12);
     angleIndex = nsKiller2->mUnk_00.mAngle >> 4;
     MTX_RotY33_(&rotationMatrix, gPairsByAngle[angleIndex * 2], gPairsByAngle[angleIndex * 2 + 1]);
-    func_01ff9048(0x1a, &rotationMatrix, 9);
-    func_01ff9048(0x1b, &nsKiller2->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
+    NNS_G3dGeBufferOP_N(0x1b, &nsKiller2->mUnk_00.mScale, 3);
     DrawMapObjectModel(a, gNsKiller2S, nsKiller2);
     DrawMapObjectModel(a, gNsKiller2, nsKiller2);
 }

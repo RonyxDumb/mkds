@@ -284,7 +284,8 @@ recheck:
     }
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         distanceSquared = GetKartCameraDistanceSquared(kart->mIndex);
-        AddSoundRequest(&data_0217d284, distanceSquared + func_0210a578(), KartStartSoundFullVolume, kart, 0xcf);
+        AddSoundRequest(&data_0217d284, distanceSquared + GetKartFullVolumeSoundSortOffset(), KartStartSoundFullVolume,
+                        kart, 0xcf);
     }
     kart->mUnk_44 |= 0x806;
     kart->mUnk_44 &= 0xffff7ff7;
@@ -483,9 +484,9 @@ void StartKartState(Kart *kart, KartState mode) {
         kart->mUnk_4c &= ~0x2000;
         kart->mUnk_d8 = 0x1000;
         if (!(kart->mUnk_4c & 0x8000000)) {
-            func_0207b0d0(kart);
+            ResetKartModelsCourseColors(kart);
         }
-        func_02080ee4(kart);
+        StopKartNearRankEffect(kart);
     }
 }
 

@@ -237,7 +237,7 @@ void ResetRock(RockObject *rock) {
 void CreateNsbmdAndShadowNsbmd(void *a, const char *name, const char *shadowName) {
     CreateNsbmd(&gRock, FindCourseMapObjFile(name), NULL);
     CreateShadowModel((void **) &gRockShadow, FindCourseMapObjFile(shadowName), 7);
-    func_02084968(gRock, 0x3f, 2, 0x294a);
+    SetNsbmdPolygonIdLightEmiAll(gRock, 0x3f, 2, 0x294a);
     SetNsbmdPolygonIdAll(gRock, 7);
 }
 #pragma thumb off
@@ -306,10 +306,10 @@ void InitRock(RockObject *rock, struct CourseMapRow *courseRow) {
 // Turns the stored offsets of the loaded collision file into pointers.
 void LoadCourseCollisionData(CourseCollision *collision, CourseCollision *file) {
     *collision = *file;
-    collision->mUnk_00 = OFFSET_PTR(Vec3, file, (u32) collision->mUnk_00);
-    collision->mUnk_04 = OFFSET_PTR(Vec3s16, file, (u32) collision->mUnk_04);
-    collision->mUnk_08 = OFFSET_PTR(Unk0217b614_08, file, (u32) collision->mUnk_08);
-    collision->mUnk_0c = OFFSET_PTR(u8, file, (u32) collision->mUnk_0c);
+    collision->mPoints = OFFSET_PTR(Vec3, file, (u32) collision->mPoints);
+    collision->mNormals = OFFSET_PTR(Vec3s16, file, (u32) collision->mNormals);
+    collision->mTriangles = OFFSET_PTR(CourseTriangle, file, (u32) collision->mTriangles);
+    collision->mTree = OFFSET_PTR(u8, file, (u32) collision->mTree);
     data_0217b610 = 0;
 }
 #pragma thumb off
@@ -322,16 +322,16 @@ void InitCourseCollision(void) {
 
 // Keeps the link c on the first object of the hit list a: clears it when b has the top bit or the object changed, sets
 // it when b has a bit of 0x1e34ef.
-void func_020d5aa0(void *hitListPtr, u32 b, Unk020e04b0 *link, Vec3 *d, Vec3 *e) {
+void func_020d5aa0(void *hitListPtr, u32 collisionBits, Unk020e04b0 *link, Vec3 *position, Vec3 *e) {
     Unk020d5a68 **hitList = hitListPtr;
     Unk020d5a68 *firstHit;
 
     if (link->mUnk_00 != NULL) {
-        if (b & 0x80000000) {
+        if (collisionBits & 0x80000000) {
             link->mUnk_00 = NULL;
             return;
         }
-        func_020e0538(link, d);
+        func_020e0538(link, position);
         firstHit = *hitList;
         if (firstHit->mUnk_04 == 0 && link->mUnk_00 == firstHit->mUnk_00) {
             return;
@@ -339,7 +339,7 @@ void func_020d5aa0(void *hitListPtr, u32 b, Unk020e04b0 *link, Vec3 *d, Vec3 *e)
         link->mUnk_00 = NULL;
         return;
     }
-    if (b & 0x80000000) {
+    if (collisionBits & 0x80000000) {
         return;
     }
     firstHit = *hitList;
@@ -349,10 +349,10 @@ void func_020d5aa0(void *hitListPtr, u32 b, Unk020e04b0 *link, Vec3 *d, Vec3 *e)
     if (firstHit->mUnk_04 != 0) {
         return;
     }
-    if (!(b & 0x1e34ef)) {
+    if (!(collisionBits & 0x1e34ef)) {
         return;
     }
-    func_020e0584(firstHit->mUnk_00, d, e, link);
+    func_020e0584(firstHit->mUnk_00, position, e, link);
 }
 
 // TRUE when b has the top bit, the hit list a has a non-zero word at 4, or its object differs from the link c.

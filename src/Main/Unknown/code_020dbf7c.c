@@ -86,7 +86,7 @@ void UpdateWanwanState5(Wanwan *wanwan) {
 void CreateWanwanAndRockShadow(void) {
     CreateNsbmd(&gWanwan, FindCourseMapObjFile("wanwan.nsbmd"), NULL);
     CreateShadowModel((void **) &gWanwanRockShadow, FindCourseMapObjFile("rock_shadow.nsbmd"), 0x3f);
-    func_02084968(gWanwan, 0x3f, 2, 0x294a);
+    SetNsbmdPolygonIdLightEmiAll(gWanwan, 0x3f, 2, 0x294a);
 }
 #pragma thumb off
 

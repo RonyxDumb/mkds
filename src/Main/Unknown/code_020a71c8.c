@@ -116,26 +116,26 @@ void DrawSanbo(void *a, Sanbo *p) {
     s32 t;
 
     w0 = 0x1e;
-    func_01ff9048(0x14, &w0, 1);
+    NNS_G3dGeBufferOP_N(0x14, &w0, 1);
     switch (p->mState) {
         case 0:
         case 1:
-            func_01ff9048(0x19, SetViewTransposeMatrixPos(&p->mUnk_000.mPos), 12);
+            NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&p->mUnk_000.mPos), 12);
             f0[0] = 0;
             f0[1] = 0xa00;
             f0[2] = 0;
-            func_01ff9048(0x1c, f0, 3);
+            NNS_G3dGeBufferOP_N(0x1c, f0, 3);
             for (i = 0; i < p->mPieceCount; i++) {
                 if (p->mPieces[i].mRotateZAngle != 0) {
                     k = ((u16) p->mPieces[i].mRotateZAngle >> 4) * 2;
                     MTX_RotZ33_(&m0, gPairsByAngle[k], gPairsByAngle[k + 1]);
-                    func_01ff9048(0x1a, &m0, 9);
+                    NNS_G3dGeBufferOP_N(0x1a, &m0, 9);
                 }
                 if (i != 0) {
                     f1[0] = 0;
                     f1[1] = 0x1400;
                     f1[2] = 0x80;
-                    func_01ff9048(0x1c, f1, 3);
+                    NNS_G3dGeBufferOP_N(0x1c, f1, 3);
                 }
                 if (i == 3) {
                     func_0209bbd0(a, gSanboH);
@@ -149,23 +149,23 @@ void DrawSanbo(void *a, Sanbo *p) {
         case 2:
             for (i = 0; i < p->mPieceCount; i++) {
                 w1 = 0x1e;
-                func_01ff9048(0x14, &w1, 1);
+                NNS_G3dGeBufferOP_N(0x14, &w1, 1);
                 f2[0] = 0;
                 f2[1] = 0xa00;
                 f2[2] = 0;
-                func_01ff9048(0x1c, f2, 3);
-                func_01ff9048(0x19, SetViewTransposeMatrixPos(&p->mPieces[i].mPos), 12);
+                NNS_G3dGeBufferOP_N(0x1c, f2, 3);
+                NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&p->mPieces[i].mPos), 12);
                 if ((p->mUnk_000.mFlags & 0x12) == 0 && p->mPieces[i].mRotateZAngle != 0) {
                     k = ((u16) p->mPieces[i].mRotateZAngle >> 4) * 2;
                     MTX_RotZ33_(&m1, gPairsByAngle[k], gPairsByAngle[k + 1]);
-                    func_01ff9048(0x1a, &m1, 9);
+                    NNS_G3dGeBufferOP_N(0x1a, &m1, 9);
                 }
                 t = p->mPieces[i].mDrawScale;
                 if (t < 0x1000) {
                     g2[0] = t;
                     g2[1] = t;
                     g2[2] = 0;
-                    func_01ff9048(0x1b, g2, 3);
+                    NNS_G3dGeBufferOP_N(0x1b, g2, 3);
                 }
                 if (i == 3) {
                     func_0209bbd0(a, gSanboH);
@@ -179,18 +179,18 @@ void DrawSanbo(void *a, Sanbo *p) {
         case 3:
             for (i = 0; i < p->mPieceCount; i++) {
                 w2 = 0x1e;
-                func_01ff9048(0x14, &w2, 1);
-                func_01ff9048(0x19, SetViewTransposeMatrixPos(&p->mUnk_000.mPos), 12);
+                NNS_G3dGeBufferOP_N(0x14, &w2, 1);
+                NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&p->mUnk_000.mPos), 12);
                 f3[2] = 0x80;
                 f3[0] = 0;
                 f3[1] = (i * 0x14000 + 0xa000) >> 4;
-                func_01ff9048(0x1c, f3, 3);
+                NNS_G3dGeBufferOP_N(0x1c, f3, 3);
                 t = p->mPieces[i].mDrawScale;
                 if (t < 0x1000) {
                     g3[0] = t;
                     g3[1] = t;
                     g3[2] = 0;
-                    func_01ff9048(0x1b, g3, 3);
+                    NNS_G3dGeBufferOP_N(0x1b, g3, 3);
                 }
                 if (i == 3) {
                     func_0209bbd0(a, gSanboH);

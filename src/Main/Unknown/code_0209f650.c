@@ -192,15 +192,15 @@ void DrawTownMonte(void *a, TownMonte *townMonte) {
 
     d = (0x16c000 - townMonte->mUnk_a4) >> 12;
     v = 0x1e;
-    func_01ff9048(0x14, &v, 1);
+    NNS_G3dGeBufferOP_N(0x14, &v, 1);
     if (townMonte->mMirror != 0) {
         h = TiltViewRotatedMatrix(&townMonte->mUnk_00.mPos, -d, d);
-        func_01ff9048(0x19, h, 0xc);
+        NNS_G3dGeBufferOP_N(0x19, h, 0xc);
     } else {
         h = TiltViewRotatedMatrix(&townMonte->mUnk_00.mPos, d, d);
-        func_01ff9048(0x19, h, 0xc);
+        NNS_G3dGeBufferOP_N(0x19, h, 0xc);
     }
-    func_01ff9048(0x1b, &townMonte->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &townMonte->mUnk_00.mScale, 3);
     SetMapObjectModelNsbtpFrameIndex(gTownMonte, townMonte->mNsbtpFrameIndex);
     func_0209bbd0(a, gTownMonte);
     DrawMapObjectModel(a, gTownMonte, townMonte);

@@ -353,16 +353,16 @@ void DrawCoin(void *b, Coin *coin) {
 
     if (coin->mScaleFactor > 0 && coin->mModelAlpha != 0) {
         a = 0x1e;
-        func_01ff9048(0x14, (&a), 1);
-        func_01ff9048(0x19, SetViewRotatedMatrixPos(&coin->mUnk_000.mPos), 0xc);
+        NNS_G3dGeBufferOP_N(0x14, (&a), 1);
+        NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&coin->mUnk_000.mPos), 0xc);
         scaleFactor = coin->mScaleFactor;
         if (scaleFactor != 0x1000) {
             scale.x = scaleFactor;
             scale.y = scaleFactor;
             scale.z = scaleFactor;
-            func_01ff9048(0x1b, (&scale), 3);
+            NNS_G3dGeBufferOP_N(0x1b, (&scale), 3);
         }
-        func_01ff9048(0x1b, (&coin->mUnk_000.mScale), 3);
+        NNS_G3dGeBufferOP_N(0x1b, (&coin->mUnk_000.mScale), 3);
         SetMapObjectModelPolygonId(data_ov001_021a9b98, AllocPolygonIdWrapping());
         alpha = coin->mModelAlpha;
         if (alpha >= 0x1f) {
@@ -541,8 +541,8 @@ void UpdateCoin(void *a, Coin *coin) {
             pos.x = coin->mUnk_000.mPos.x;
             pos.y = coin->mUnk_000.mExtent.x + (coin->mUnk_000.mPos.y - 0xe000);
             pos.z = coin->mUnk_000.mPos.z;
-            if (func_020d2c2c(&pos, &coin->mUnk_000.mUnk_10, coin->mUnk_000.mExtent.x,
-                              coin->mUnk_000.mCollisionSlotIndex, 2, &delta) != 0) {
+            if (CollideSphereWithMapObjects(&pos, &coin->mUnk_000.mUnk_10, coin->mUnk_000.mExtent.x,
+                                            coin->mUnk_000.mCollisionSlotIndex, 2, &delta) != 0) {
                 VEC_Add(&coin->mUnk_000.mPos, &delta, &coin->mUnk_000.mPos);
                 if ((s64) delta.x * delta.x + (s64) delta.y * delta.y + (s64) delta.z * delta.z >= 0x10) {
                     Vec3NormalizeAndGetLengthUnchecked(&delta, &coin->mUnk_000.mUnk_10);
@@ -551,8 +551,8 @@ void UpdateCoin(void *a, Coin *coin) {
                 coin->mUnk_000.mUnk_10.y = ((s64) coin->mUnk_000.mUnk_10.y * 0x1400) >> 12;
                 coin->mUnk_000.mUnk_10.z = ((s64) coin->mUnk_000.mUnk_10.z * 0x1400) >> 12;
             }
-            if (func_01ffdee4(&pos, NULL, 0, coin->mUnk_000.mExtent.x, 1, coin->mUnk_000.mCollisionSlotIndex, &delta,
-                              &out1, &out2, &flags, NULL, NULL, NULL, NULL) != 0) {
+            if (CollideSphereWithCourse(&pos, NULL, 0, coin->mUnk_000.mExtent.x, 1, coin->mUnk_000.mCollisionSlotIndex,
+                                        &delta, &out1, &out2, &flags, NULL, NULL, NULL, NULL) != 0) {
                 VEC_Add(&coin->mUnk_000.mPos, &delta, &coin->mUnk_000.mPos);
                 if (flags & 0x214300) {
                     BounceVelocityOffSurface(&coin->mUnk_000.mUnk_10, &out2, 0x1000, 0x1000, 0xc00,

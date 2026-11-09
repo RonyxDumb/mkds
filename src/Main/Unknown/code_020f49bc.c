@@ -130,8 +130,8 @@ void AdvanceRestingItemObject(ItemObject *item) {
             if ((item->mUnk_48 & 7) != GetRaceUpdateFramesMod8()) {
                 return;
             }
-            if (func_01ffdee4(&item->mPos, NULL, 0, item->mUnk_dc, 0x44, item->mCollisionSlotIndex, NULL, NULL, NULL,
-                              &item->mCollisionBits, NULL, NULL, NULL, &w) == 0) {
+            if (CollideSphereWithCourse(&item->mPos, NULL, 0, item->mUnk_dc, 0x44, item->mCollisionSlotIndex, NULL,
+                                        NULL, NULL, &item->mCollisionBits, NULL, NULL, NULL, &w) == 0) {
                 return;
             }
             if (func_020d5a68(&w, item->mCollisionBits, item->mUnk_104) != FALSE) {
@@ -249,8 +249,8 @@ void AdvanceFallingItemObject(ItemObject *item) {
     VEC_Add(velocity, pos, pos);
     item->mVelocity.x = ((s64) item->mVelocity.x * 0xfec) >> 12;
     velocity->z = ((s64) velocity->z * 0xfec) >> 12;
-    if (func_01ffdee4(pos, &item->mPrevPos, 0, item->mUnk_dc, 0x44, item->mCollisionSlotIndex, &pushOut, &groundNormal,
-                      &bounceNormal, &item->mCollisionBits, NULL, NULL, NULL, &w) != 0) {
+    if (CollideSphereWithCourse(pos, &item->mPrevPos, 0, item->mUnk_dc, 0x44, item->mCollisionSlotIndex, &pushOut,
+                                &groundNormal, &bounceNormal, &item->mCollisionBits, NULL, NULL, NULL, &w) != 0) {
         VEC_Add(&pushOut, pos, pos);
         if (item->mCollisionBits & 0x1e34ef) {
             func_020f9334(item, pos, velocity, 0x385, &groundNormal);

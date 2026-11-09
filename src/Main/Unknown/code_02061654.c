@@ -244,7 +244,7 @@ void func_020629a4(void) {
 void Init3dEngine(void) {
     NNS_G3dInit();
     NNS_G3dGlbInit();
-    func_01ff92b4();
+    NNS_G3dGeReleaseBuffer();
     NNS_G3dGeUseFastDma(1);
     data_021759d0->mUnk_1c |= 8;
     NNS_G3dGlbLightVector(0, 0, -0x1000, 0);
@@ -259,7 +259,7 @@ void Init3dEngine(void) {
     NNS_G3dGlbMaterialColorSpecEmi(0, 0, 1);
     NNS_G3dGlbPolygonAttr(15, 0, 2, 0, 31, 0);
     data_0217aa74 = HeapAlloc(data_021759d0->mHeap, 772);
-    func_01ff92e0(data_0217aa74);
+    NNS_G3dGeSetBuffer(data_0217aa74);
 }
 
 // Advances the race one frame. Skipped while func_02049b6c or func_0204359c refuse (the draw is not), and in kind 6 for
@@ -442,23 +442,23 @@ void DrawRaceWorld(void) {
     NNS_G3dGlbLightVector(1, (s16) lightVector.x, (s16) lightVector.y, (s16) lightVector.z);
     NNS_G3dGlbLightColor(1, 0x7fff);
     NNS_G3dGlbFlushP();
-    func_01ff9048(23, gCurrentViewMatrix, 12);
+    NNS_G3dGeBufferOP_N(23, gCurrentViewMatrix, 12);
     v = 30;
-    func_01ff9048(19, &v, 1);
+    NNS_G3dGeBufferOP_N(19, &v, 1);
     DrawCourseModelV();
     ApplyCameraFrustum(gCurrentCamera, 0);
     NNS_G3dGlbFlushP();
-    func_01ff92e0(data_0217aa74);
+    NNS_G3dGeSetBuffer(data_0217aa74);
     DrawCourseModel();
     DrawKoopaBlocksKind203AndBridges(gCurrentCamera);
-    func_01ff92b4();
+    NNS_G3dGeReleaseBuffer();
     DrawKarts();
     NNS_G3dGlbLightVector(0, gRace->mLightVectorX, gRace->mLightVectorY, gRace->mLightVectorZ);
     DrawJg();
     DrawMapObjects(gCurrentCamera);
     DrawItems(gCurrentViewMatrix);
     DrawModelEffects();
-    func_01ff9234();
+    NNS_G3dGeFlushBuffer();
 }
 
 void func_02062004(void) {

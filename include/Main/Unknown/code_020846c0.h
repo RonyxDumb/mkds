@@ -34,22 +34,22 @@ typedef struct Nsbmd {
 void func_020846c0(void *heap);
 void ReleaseAllResFiles(void);
 void SetNsbmdCullModeAll(void *object, u32 cullMode);
-void func_02084968(void *object, u32 polygonId, u32 light, u32 color);
+void SetNsbmdPolygonIdLightEmiAll(void *object, u32 polygonId, u32 light, u32 color);
 void SetNsbmdEmiAll(void *object, u32 color);
 void SetNsbmdLightEnableFlagAll(void *object, u32 light);
 void SetNsbmdPolygonIdAll(void *object, u32 polygonId);
 void DrawNsbmd(void *object);
 void DrawNsbmdWithMatrix(Nsbmd *object, MtxFx43 *matrix, u32 *scale);
-void func_02084a88(void *object, u8 alpha, u8 polygonId);
-void func_02084ad8(void *object, u8 alpha);
+void SetNsbmdSecondDrawMaterial(void *object, u8 alpha, u8 polygonId);
+void SetNsbmdFirstDrawMaterial(void *object, u8 alpha);
 NNSG3dResMdl *InitNsbmdWithTextureInfoCopy(void *heap, Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile,
                                            NNSG3dResFileHeader *textureFile);
 NNSG3dResMdl *InitNsbmdWithoutCullSwap(Nsbmd *nsbmd, NNSG3dResFileHeader *file);
 NNSG3dResMdl *InitNsbmdWithTextureFile(Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile, NNSG3dResFileHeader *textureFile);
 NNSG3dResMdl *InitNsbmd(void *object, NNSG3dResFileHeader *file);
 void func_02084f10(Nsbmd *nsbmd, NNSG3dResMdl *resMdl);
-void func_02084f20(Nsbmd *nsbmd);
-void func_02084f68(Nsbmd *nsbmd);
+void SetNsbmdCullModeUnmirrored(Nsbmd *nsbmd);
+void SetNsbmdCullModeMirrored(Nsbmd *nsbmd);
 void InitNsbmdRenderObj(Nsbmd *nsbmd, NNSG3dResMdl *resMdl, u32 allowCullSwap);
 u32 UploadResTexture(NNSG3dResTex *texture);
 void AddResFileEntry(ResFileEntry *entry, NNSG3dResFileHeader *modelFile, NNSG3dResFileHeader *textureFile);

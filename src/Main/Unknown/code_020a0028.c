@@ -22,21 +22,21 @@ void DrawAirship(void *a, Airship *airship) {
     Vec3 w;
 
     v = 0x1e;
-    func_01ff9048(0x14, &v, 1);
+    NNS_G3dGeBufferOP_N(0x14, &v, 1);
     w.y = (airship->mUnk_a0 + airship->mWobbleOffset) >> 4;
     w.x = 0;
     w.z = 0;
-    func_01ff9048(0x1c, &w, 3);
+    NNS_G3dGeBufferOP_N(0x1c, &w, 3);
     airship->mUnk_00.mMatrix.mUnk_00[3].x = airship->mUnk_00.mPos.x >> 4;
     airship->mUnk_00.mMatrix.mUnk_00[3].y = airship->mUnk_00.mPos.y >> 4;
     airship->mUnk_00.mMatrix.mUnk_00[3].z = airship->mUnk_00.mPos.z >> 4;
-    func_01ff9048(0x19, &airship->mUnk_00.mMatrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x19, &airship->mUnk_00.mMatrix, 0xc);
     if (airship->mUnk_00.mAngle != 0) {
         MTX_RotY33_(&rotationMatrix, gPairsByAngle[((airship->mUnk_00.mAngle >> 4) << 1)],
                     gPairsByAngle[((airship->mUnk_00.mAngle >> 4) << 1) + 1]);
-        func_01ff9048(0x1a, &rotationMatrix, 9);
+        NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
     }
-    func_01ff9048(0x1b, &airship->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &airship->mUnk_00.mScale, 3);
     DrawMapObjectModel(a, gAirship, airship);
 }
 

@@ -1088,15 +1088,15 @@ void DrawItemTeresa(ItemTeresa *teresa, s32 c, NsbmdModel *model) {
         return;
     }
     a = 0x1e;
-    func_01ff9048(0x14, &a, 1);
-    func_01ff9048(0x19, SetViewTransposeMatrixPos(teresa->mUnk_000.mUnk_d0), 0xc);
+    NNS_G3dGeBufferOP_N(0x14, &a, 1);
+    NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(teresa->mUnk_000.mUnk_d0), 0xc);
     scaleZ = teresa->mUnk_000.mScale.z;
     scaleY = teresa->mUnk_000.mScale.y;
     scaleX = teresa->mUnk_000.mScale.x;
     scale[0] = scaleX;
     scale[1] = scaleY;
     scale[2] = scaleZ;
-    func_01ff9048(0x1b, scale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, scale, 3);
     if (teresa->mItemObjectKind < 0xe && teresa->mState >= 3) {
         itemModel = GetItemModel(teresa->mItemObjectKind);
         itemModelAlpha = teresa->mItemModelAlpha;
@@ -1112,14 +1112,14 @@ void DrawItemTeresa(ItemTeresa *teresa, s32 c, NsbmdModel *model) {
         if (itemModelAlpha < 1) {
             itemModelAlpha = 1;
         }
-        func_01ff9048(0x11, NULL, 0);
+        NNS_G3dGeBufferOP_N(0x11, NULL, 0);
         itemModel->mPolygonAttributes = itemModel->mPolygonAttributes & ~0x1f0000;
         itemModel->mPolygonAttributes = itemModel->mPolygonAttributes | ((u16) itemModelAlpha << 16);
         QueueNsbmdModelMaterial(itemModel);
         index = 0;
         itemModel->mFrameIndex = 0;
         while (index < itemCount) {
-            func_01ff9048(0x1c, &data_0215a190[itemCount == 2 ? 1 - index : index + 1], 3);
+            NNS_G3dGeBufferOP_N(0x1c, &data_0215a190[itemCount == 2 ? 1 - index : index + 1], 3);
             polygonId = AllocPolygonIdWrapping();
             itemModel->mPolygonAttributes = itemModel->mPolygonAttributes & ~0x3f000000;
             itemModel->mPolygonAttributes = itemModel->mPolygonAttributes | (polygonId << 24);
@@ -1127,7 +1127,7 @@ void DrawItemTeresa(ItemTeresa *teresa, s32 c, NsbmdModel *model) {
             index++;
         }
         b = 1;
-        func_01ff9048(0x12, &b, 1);
+        NNS_G3dGeBufferOP_N(0x12, &b, 1);
         if (itemModelAlpha != 0x1f) {
             itemModel->mPolygonAttributes = itemModel->mPolygonAttributes & ~0x1f0000;
             itemModel->mPolygonAttributes = itemModel->mPolygonAttributes | 0x1f0000;

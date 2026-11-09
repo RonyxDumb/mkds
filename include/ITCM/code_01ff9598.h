@@ -29,7 +29,7 @@ typedef struct Unk01ff9598 {
     /* 2e */ u16 mUnk_2e;
 } Unk01ff9598;
 
-// Object with a flag word at 0x00, vectors at 0x04 and 0x10, and blocks at 0x28 and 0x4c passed to func_01ff9048.
+// Object with a flag word at 0x00, vectors at 0x04 and 0x10, and blocks at 0x28 and 0x4c passed to NNS_G3dGeBufferOP_N.
 typedef struct Unk01ff9940 {
     /* 00 */ u32 mUnk_00;
     /* 04 */ Vec3 mUnk_04;

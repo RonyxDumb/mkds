@@ -83,7 +83,7 @@ void StartItemKiller(ItemInUse *itemInUse, HeldItem *heldItem) {
     SetActiveItem(itemInUse->mKartItems, 0xe);
 }
 
-void func_0210515c(s32 kartIndex) {
+void ResetKartActiveItemAfterKiller(s32 kartIndex) {
     gKartItems[kartIndex].mActiveItem = 0x13;
     if (gRaceSetup->mMode != 5) {
         return;

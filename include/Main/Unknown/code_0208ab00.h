@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void func_0208ab00(void);
-void func_0208ab4c(u16 *colorPtr);
+void SendWhiteLight01Color(void);
+void SendLight01Color(u16 *colorPtr);

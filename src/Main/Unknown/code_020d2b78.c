@@ -52,7 +52,8 @@ void func_020d2d94(void) {
 
 #pragma thumb on
 
-s32 func_020d2c2c(Vec3 *position, Vec3 *velocity, s32 radius, s16 collisionSlotIndex, s32 itemKind, Vec3 *hitOffset) {
+s32 CollideSphereWithMapObjects(Vec3 *position, Vec3 *velocity, s32 radius, s16 collisionSlotIndex, s32 itemKind,
+                                Vec3 *hitOffset) {
     s32 bestResponse;
     s32 i;
     bestResponse = 0;
@@ -90,7 +91,7 @@ s32 func_020d2c2c(Vec3 *position, Vec3 *velocity, s32 radius, s16 collisionSlotI
                 itemObject->mPos = *position;
                 itemObject->mVelocity = *velocity;
                 itemObject->mKind = itemKind;
-                response = func_020d6a54(itemObject, mapObject, NULL);
+                response = CollideItemObjectWithMapObject(itemObject, mapObject, NULL);
                 if (response > bestResponse) {
                     bestResponse = response;
                 }

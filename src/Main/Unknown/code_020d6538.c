@@ -125,7 +125,7 @@ void QuaternionFromVec3AndAngleAroundY(void *directionPtr, s32 angle, void *outp
     quaternion->mComponents[2] = quaternion->mComponents[2] + ((quotient * pairSecond) >> 12);
 }
 
-void func_020d79b0(void *quaternionPtr, u32 angle, void *outputPtr) {
+void QuaternionMultiplyAngleAroundYIgnoreY(void *quaternionPtr, u32 angle, void *outputPtr) {
     Quaternion *quaternion = quaternionPtr;
     Quaternion *result = outputPtr;
     s32 pairIndex = (u16) (angle >> 1) >> 4;
@@ -430,7 +430,7 @@ s32 func_020d6be0(Kart *kart, MapObject *mapObject) {
     return flagBit != 0 ? 2 : 0;
 }
 
-s32 func_020d6a54(ItemObject *itemObject, MapObject *mapObject, s32 *firstResponseOut) {
+s32 CollideItemObjectWithMapObject(ItemObject *itemObject, MapObject *mapObject, s32 *firstResponseOut) {
     s32 kindRemainder = mapObject->mKind;
     s32 kindHundreds = 0;
     s32 flagBit = mapObject->mFlags & 0x800;

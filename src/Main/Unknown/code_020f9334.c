@@ -25,8 +25,7 @@
 #include "code_02147cd8.h"
 
 BOOL func_020f9c08(ItemObject *item) {
-    if (item->mAgeFrames > 0x12c && (item->mFlags & 0x8000) != 0 &&
-        item->mAdvance == AdvanceRestingItemObject) {
+    if (item->mAgeFrames > 0x12c && (item->mFlags & 0x8000) != 0 && item->mAdvance == AdvanceRestingItemObject) {
         return TRUE;
     }
     return FALSE;
@@ -219,7 +218,7 @@ void func_020f944c(ItemObject *itemParam, MapObject *mapObjectParam) {
         DoesItemObjectRespondToMapObject(item->mKind, mapObject) != 0) {
         VEC_Add(&item->mPos, &a, &item->mPos);
     }
-    switch (func_020d6a54(item, mapObject, &b)) {
+    switch (CollideItemObjectWithMapObject(item, mapObject, &b)) {
         case 1:
             otherPos.x = mapObject->mPos.x;
             otherPos.y = item->mPos.y;
@@ -264,8 +263,8 @@ void func_020f9334(void *itemParam, Vec3 *pos, Vec3 *velocity, s32 minFallSpeed,
     lowerPos.y = y;
     lowerPos.z = z;
 
-    func_01ffdee4(&lowerPos, pos, 0, item->mUnk_dc >> 1, 0x24, item->mCollisionSlotIndex, NULL, NULL, NULL,
-                  &collisionBits, NULL, NULL, NULL, NULL);
+    CollideSphereWithCourse(&lowerPos, pos, 0, item->mUnk_dc >> 1, 0x24, item->mCollisionSlotIndex, NULL, NULL, NULL,
+                            &collisionBits, NULL, NULL, NULL, NULL);
     if ((collisionBits & 0x1e34ef) != 0 || (item->mCollisionBits & 0x80000) != 0) {
         if ((item->mFlags & 0x4000000) != 0) {
             return;

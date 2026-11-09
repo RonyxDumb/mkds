@@ -144,8 +144,8 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
             }
         }
     } else {
-        if (func_01ffdee4(&probePos, NULL, 0, 0xd000, 8, -2, &correction, &surfaceNormal, NULL, &surfaceFlags, NULL,
-                          NULL, NULL, NULL) != 0) {
+        if (CollideSphereWithCourse(&probePos, NULL, 0, 0xd000, 8, -2, &correction, &surfaceNormal, NULL, &surfaceFlags,
+                                    NULL, NULL, NULL, NULL) != 0) {
             k = TRUE;
             if (wanwan->mUnk_fc != 0) {
                 if (!(wanwan->mUnk_00.mDistanceSquaredAndFlags & 4)) {

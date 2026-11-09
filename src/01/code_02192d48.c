@@ -35,12 +35,12 @@ void LoadStopSign(Unk0219b478 *a) {
 
 void DrawStopSign(void *a, StopSignObject *b) {
     s32 v = 0x1e;
-    func_01ff9048(0x14, &v, 1);
+    NNS_G3dGeBufferOP_N(0x14, &v, 1);
     b->mUnk_4c = b->mUnk_04 >> 4;
     b->mUnk_50 = b->mUnk_08 >> 4;
     b->mUnk_54 = b->mUnk_0c >> 4;
-    func_01ff9048(0x19, b->mUnk_28, 0xc);
-    func_01ff9048(0x1b, b->mUnk_1c, 3);
+    NNS_G3dGeBufferOP_N(0x19, b->mUnk_28, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, b->mUnk_1c, 3);
     DrawMapObjectModel(a, gStopSign, b);
 }
 

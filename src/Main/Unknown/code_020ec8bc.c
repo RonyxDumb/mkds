@@ -66,7 +66,7 @@ void *CreateItemNsbmd(u8 *modelName, u8 *textureName) {
     model = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x6c);
     modelFile = FindItemFile(modelName);
     InitNsbmd(model, modelFile);
-    func_02084968(model, 4, 2, 0x294a);
+    SetNsbmdPolygonIdLightEmiAll(model, 4, 2, 0x294a);
     return model;
 }
 
@@ -268,9 +268,9 @@ void func_020ec9c0(LinkFollowingItemObject *follower, s32 targetSpeed, s32 speed
         }
         pos->y = pos->y + velocity->y;
     }
-    if (func_01ffdee4(pos, &follower->mUnk_000.mUnk_000.mPrevPos, 0, follower->mUnk_000.mUnk_000.mUnk_dc, 4,
-                      follower->mUnk_000.mUnk_000.mCollisionSlotIndex, &v28, &hitNormal, &wallNormal,
-                      &follower->mUnk_000.mUnk_000.mCollisionBits, NULL, NULL, NULL, NULL) != 0) {
+    if (CollideSphereWithCourse(pos, &follower->mUnk_000.mUnk_000.mPrevPos, 0, follower->mUnk_000.mUnk_000.mUnk_dc, 4,
+                                follower->mUnk_000.mUnk_000.mCollisionSlotIndex, &v28, &hitNormal, &wallNormal,
+                                &follower->mUnk_000.mUnk_000.mCollisionBits, NULL, NULL, NULL, NULL) != 0) {
         if (follower->mUnk_000.mUnk_158 != 0) {
             if (v28.y > 0) {
                 pos->y = pos->y + v28.y;

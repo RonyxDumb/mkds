@@ -528,7 +528,7 @@ void DrawMapObjects(Camera *view) {
     lists = gMapObjects->mFirstPassDrawLists;
     for (; i < firstPassCount; i++) {
         list = lists[i];
-        func_0208ab00();
+        SendWhiteLight01Color();
         if (list->mBeforeObjects != NULL) {
             list->mBeforeObjects(list);
         }
@@ -561,7 +561,7 @@ void DrawKoopaBlocksKind203AndBridges(Camera *view) {
         DrawAllKoopaBlocks(viewMatrix);
     }
     if (gMapObjects->mUnk_180 != 0) {
-        func_020e435c(viewMatrix);
+        DrawAllKind203MapObjects(viewMatrix);
     }
     if (gMapObjects->mUnk_184 != 0) {
         DrawAllBridges(viewMatrix);
@@ -807,13 +807,13 @@ void RunMapObjectListCallbacks(void) {
     listCount = mapObjects->mUpdateListCount;
     lists = mapObjects->mUpdateLists;
     for (; i < listCount; i++) {
-        func_020e6fd4(lists[i]);
+        CallMapObjectListCallback(lists[i]);
     }
 }
 
 s32 GetMapObjectHitResponse(MapObject *mapObject, s32 itemKind, Vec3 *hitOffset) {
-    return func_020d2c2c(&mapObject->mPos, &mapObject->mUnk_10, mapObject->mExtent.x, mapObject->mCollisionSlotIndex,
-                         itemKind, hitOffset);
+    return CollideSphereWithMapObjects(&mapObject->mPos, &mapObject->mUnk_10, mapObject->mExtent.x,
+                                       mapObject->mCollisionSlotIndex, itemKind, hitOffset);
 }
 
 void SetMapObjectsRunUpdateLists(void) {

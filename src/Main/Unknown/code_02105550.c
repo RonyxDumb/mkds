@@ -946,7 +946,7 @@ void StartKartStarSeq(void) {
     func_0210d614(&data_0217d070, 0x49, &data_0217c81c);
 }
 
-void func_02106dc8(void) {
+void StopKartStarSeq(void) {
     NNS_SndPlayerSetTrackMuteEx(&data_0217d07c, 0xffff, 0);
     NNS_SndPlayerStopSeq(&data_0217c81c, 0);
     if (data_0217c78c != 0) {

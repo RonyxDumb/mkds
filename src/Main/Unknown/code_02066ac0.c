@@ -346,10 +346,10 @@ void func_02066fe0(Kart *kart) {
         StopKartStarEffects(kart->mIndex);
         SetKartCharacterAnimation(kart, 0, 1);
         if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0 && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
-            func_02106dc8();
+            StopKartStarSeq();
         }
         if ((kart->mUnk_4c & 0x2000) != 0) {
-            func_0207b13c(kart);
+            SetKartModelsGrayColors(kart);
         }
     }
     effectState = &kart->mUnk_538;
@@ -410,7 +410,7 @@ void func_02066fe0(Kart *kart) {
     if ((kart->mUnk_48 & 0x840) != 0) {
         return;
     }
-    func_0210af40(kart, kart->mSoundIndex, d);
+    StartKartSeqArcSound(kart, kart->mSoundIndex, d);
 }
 
 void AdvanceKartWobble(Kart *kart) {

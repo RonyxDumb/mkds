@@ -117,8 +117,8 @@ void UpdateSunFireball(void *a, SunFireball *sunFireball) {
                 sunFireball->mUnk_00.mUnk_10.y = t;
                 VEC_Add(&sunFireball->mUnk_00.mPos, &sunFireball->mUnk_00.mUnk_10, &sunFireball->mUnk_00.mPos);
                 if (sunFireball->mTimer > 0x78 && sunFireball->mUnk_00.mUnk_10.y < 0) {
-                    if (func_01ffdee4(&sunFireball->mUnk_00.mPos, NULL, 0, sunFireball->mUnk_00.mExtent.x, 8, -2, &v,
-                                      NULL, NULL, &f, NULL, NULL, NULL, NULL) != 0 &&
+                    if (CollideSphereWithCourse(&sunFireball->mUnk_00.mPos, NULL, 0, sunFireball->mUnk_00.mExtent.x, 8,
+                                                -2, &v, NULL, NULL, &f, NULL, NULL, NULL, NULL) != 0 &&
                         (f & 0x3f77ef) != 0) {
                         VEC_Add(&sunFireball->mUnk_00.mPos, &v, &sunFireball->mUnk_00.mPos);
                         t = sunFireball->mUnk_00.mPos.x - sunFireball->mStartPos.x;

@@ -395,7 +395,7 @@ void func_020db430(Dossun *dossun) {
 void CreateDossunAndDossunShadow(void) {
     CreateNsbmd(&gDossun, FindCourseMapObjFile("dossun.nsbmd"), NULL);
     CreateShadowModel((void **) &gDossunShadow, FindCourseMapObjFile("dossun_shadow.nsbmd"), 0x3f);
-    func_02084968(gDossun, 0x3f, 2, 0x294a);
+    SetNsbmdPolygonIdLightEmiAll(gDossun, 0x3f, 2, 0x294a);
 }
 #pragma thumb off
 

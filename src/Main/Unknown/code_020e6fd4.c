@@ -47,12 +47,12 @@
 #include "Main/Unknown/code_020ed5c0.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-void func_020e7a40(void) {
-    u32 value0;
+void SetJgState4(void) {
+    u32 raceKindValue;
     u32 raceKind;
     u32 staffRollKind;
-    value0 = gRaceSetup->mRaceKind;
-    raceKind = value0;
+    raceKindValue = gRaceSetup->mRaceKind;
+    raceKind = raceKindValue;
     staffRollKind = 6u;
     if (raceKind == staffRollKind) {
     }
@@ -231,7 +231,7 @@ void func_020e7460(void) {
             kindRow->mModel = HeapAlloc(heap, 0x6c);
             file = FindSceneFile(sourceRow->mUnk_00);
             InitNsbmd(kindRow->mModel, file);
-            func_02084968(kindRow->mModel, 0x3f, n, 0x294a);
+            SetNsbmdPolygonIdLightEmiAll(kindRow->mModel, 0x3f, n, 0x294a);
             SetNsbmdCullModeAll(kindRow->mModel, 3);
         } else {
             kindRow->mModel = NULL;
@@ -418,7 +418,7 @@ void UpdateMapObjectList(MapObjectList *list) {
     }
 }
 
-void func_020e6fd4(MapObjectList *list) {
+void CallMapObjectListCallback(MapObjectList *list) {
     MapObject *object;
     u8 callbackArgs[2];
     s32 i;

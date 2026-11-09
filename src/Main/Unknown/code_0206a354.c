@@ -58,7 +58,7 @@ void StartKartState2(Kart *p, int a, int b) {
     if (p->mUnk_48 & 0x840) {
         return;
     }
-    func_0210af40(p, p->mSoundIndex, 1);
+    StartKartSeqArcSound(p, p->mSoundIndex, 1);
 }
 
 void AdvanceKartState1And2(Kart *p) {
@@ -105,9 +105,9 @@ void StartKartState6(Kart *p) {
         p->mUnk_4c &= ~0x2000;
         p->mUnk_d8 = 0x1000;
         if (!(p->mUnk_4c & 0x8000000)) {
-            func_0207b0d0(p);
+            ResetKartModelsCourseColors(p);
         }
-        func_02080ee4(p);
+        StopKartNearRankEffect(p);
     }
     p->mState = KART_STATE_LAUNCH_DOUBLE_FLIP;
     p->mUnk_4c |= 0x10;
@@ -129,7 +129,7 @@ void StartKartState6(Kart *p) {
         func_ov001_0218173c();
     }
     if (!(p->mUnk_48 & 0x840)) {
-        func_0210af40(p, p->mSoundIndex, 2);
+        StartKartSeqArcSound(p, p->mSoundIndex, 2);
     }
     p->mUnk_4c &= ~0x80000000;
     if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
@@ -280,7 +280,7 @@ void StartKartState3(Kart *p) {
         StartEffect(0xe, &p->mPos);
     }
     if (!(p->mUnk_48 & 0x840)) {
-        func_0210af40(p, p->mSoundIndex, 2);
+        StartKartSeqArcSound(p, p->mSoundIndex, 2);
     }
     func_020efea4(&(gKartItems)[p->mIndex]);
     if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
@@ -425,7 +425,7 @@ void StartKartState4(Kart *p, const Vec3 *a, s32 b) {
     }
     p->mUnk_4c |= 0x1;
     if (!(p->mUnk_48 & 0x840)) {
-        func_0210af40(p, p->mSoundIndex, 2);
+        StartKartSeqArcSound(p, p->mSoundIndex, 2);
     }
     if (b == 0) {
         return;
@@ -534,7 +534,7 @@ s32 StartKartState5(Kart *p, const Vec3 *a, s32 b) {
         StartEffect(0xe, &p->mPos);
     }
     if (!(p->mUnk_48 & 0x840)) {
-        func_0210af40(p, p->mSoundIndex, 2);
+        StartKartSeqArcSound(p, p->mSoundIndex, 2);
     }
     p->mUnk_4c |= 0x1;
     if (b != 0) {
@@ -624,7 +624,7 @@ void StartKartThunderShrink(Kart *p) {
     p->mScaleFactor.z = 0x1000;
     func_0210a644(p);
     if (p->mIndex == gRaceSetup->mEntryIndex) {
-        func_0210fa74(1);
+        SetThunderShrinkSoundFlag(1);
     }
     if (p->mUnk_7c & 0x200) {
         p->mUnk_514->mUnk_2c ^= 0x8000;
@@ -656,9 +656,9 @@ void AdvanceKartThunderShrink(Kart *p) {
                     p->mUnk_394 = 0x1000;
                 }
                 if (p->mIndex == gRaceSetup->mEntryIndex) {
-                    func_0210fa74(0);
+                    SetThunderShrinkSoundFlag(0);
                 }
-                func_0210a664(p);
+                ResetKartTrackParamsFunction(p);
                 return;
             }
             p->mUnk_4c |= 0x100;
@@ -700,5 +700,5 @@ void AdvanceKartThunderShrink(Kart *p) {
         p->mScale.z = ((s64) p->mScaleBase.z * p->mScaleFactor.z) >> 12;
         p->mScale.y = ((s64) p->mScaleYFactor * p->mScale.y) >> 12;
     }
-    func_0210fa3c();
+    KartThunderShrinkNop();
 }

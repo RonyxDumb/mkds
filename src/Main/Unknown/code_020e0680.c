@@ -180,7 +180,7 @@ void DrawVehicle(VehicleDrawList *drawList, Unk020e1e98 *vehicle, u32 c, u32 alp
         animation->mUnk_0c = vehicle->mUnk_130 << 12;
         *animation->mUnk_1c[animation->mUnk_1a] = animation->mUnk_0c;
     }
-    func_0208ab4c(&vehicle->mUnk_132);
+    SendLight01Color(&vehicle->mUnk_132);
     DrawNsbmdWithMatrixAndMaxAlpha((void *) vehicle->mUnk_124, &vehicle->mUnk_000.mMatrix, &vehicle->mUnk_000.mScale,
                                    alpha);
     if (skipShadowAndTires) {
@@ -194,13 +194,13 @@ void DrawVehicle(VehicleDrawList *drawList, Unk020e1e98 *vehicle, u32 c, u32 alp
     tireMatrix.mUnk_00[0].x = vehicle->mUnk_100[0];
     tireMatrix.mUnk_00[3].y = vehicle->mUnk_100[1];
     tireMatrix.mUnk_00[3].z = vehicle->mUnk_100[2];
-    func_01ff9048(0x11, NULL, 0);
-    func_01ff9048(0x19, &tireMatrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x11, NULL, 0);
+    NNS_G3dGeBufferOP_N(0x19, &tireMatrix, 0xc);
     DrawNsbmd(gCarTire);
     one = 1;
-    func_01ff9048(0x12, &one, 1);
+    NNS_G3dGeBufferOP_N(0x12, &one, 1);
     tireMatrix.mUnk_00[3].z = -tireMatrix.mUnk_00[3].z;
-    func_01ff9048(0x19, &tireMatrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x19, &tireMatrix, 0xc);
     DrawNsbmd(gCarTire);
 }
 
@@ -247,7 +247,8 @@ void UpdateVehicle(u32 a, Unk020e1e98 *vehicle) {
         testPosition.y = vehicle->mUnk_000.mPos.y + (isInHitReaction ? 0xf000 : 0);
         testPosition.z = vehicle->mUnk_000.mPos.z;
         u = testPosition;
-        if (func_01ffdee4(&u, NULL, 0, 0xf000, 8, -2, &probeOffset, &u, NULL, &hitFlags, NULL, NULL, NULL, NULL) != 0) {
+        if (CollideSphereWithCourse(&u, NULL, 0, 0xf000, 8, -2, &probeOffset, &u, NULL, &hitFlags, NULL, NULL, NULL,
+                                    NULL) != 0) {
             if (hitFlags & 0x1e34ef) {
                 QuaternionFromYAxisToVec3(&u, &vehicle->mUnk_0b4);
                 AdvanceCourseColorBlend(&vehicle->mUnk_132, (hitFlags & 0x3c000000) >> 26, 0x5000);
@@ -309,7 +310,7 @@ void UpdateVehicle(u32 a, Unk020e1e98 *vehicle) {
         if (vehicle->mUnk_0fe == 0) {
             baseRotation = &vehicle->mUnk_0b4;
         }
-        func_020d79b0(baseRotation, vehicle->mUnk_000.mAngle, &targetRotation);
+        QuaternionMultiplyAngleAroundYIgnoreY(baseRotation, vehicle->mUnk_000.mAngle, &targetRotation);
     }
     QuaternionBlendTowardNearerSign(&vehicle->mUnk_0a4, &targetRotation, &vehicle->mUnk_0a4, vehicle->mUnk_152);
     Matrix3x3FromQuaternion(&vehicle->mUnk_000.mMatrix.mUnk_00_m, &vehicle->mUnk_0a4);
@@ -471,22 +472,22 @@ void InitVehicleDrawList(VehicleDrawList *drawList) {
     CreateShadowModel(&gBusAShadow, FindCourseMapObjFile(gBusAShadowNsbmdName), 7);
     CreateModelAnimation(2, gCarA, &gCarANsbtp, carFile, FindCourseMapObjFile(gCarANsbtpName));
     CreateModelAnimation(2, gTruckA, &gTruckANsbtp, truckFile, FindCourseMapObjFile(gTruckANsbtpName));
-    func_02084968(gCarA, 0x3f, 2, 0x294a);
+    SetNsbmdPolygonIdLightEmiAll(gCarA, 0x3f, 2, 0x294a);
     for (carMaterialIndex = 0, carModel = gCarA->mResMdl; carMaterialIndex < carModel->mInfo.mNumMat;
          carMaterialIndex++) {
         NNS_G3dMdlSetMdlPolygonID(carModel, carMaterialIndex, 7);
     }
-    func_02084968(gTruckA, 0x3f, 2, 0x294a);
+    SetNsbmdPolygonIdLightEmiAll(gTruckA, 0x3f, 2, 0x294a);
     for (truckMaterialIndex = 0, truckModel = gTruckA->mResMdl; truckMaterialIndex < truckModel->mInfo.mNumMat;
          truckMaterialIndex++) {
         NNS_G3dMdlSetMdlPolygonID(truckModel, truckMaterialIndex, 7);
     }
-    func_02084968(gBusA, 0x3f, 2, 0x294a);
+    SetNsbmdPolygonIdLightEmiAll(gBusA, 0x3f, 2, 0x294a);
     for (busMaterialIndex = 0, busModel = gBusA->mResMdl; busMaterialIndex < busModel->mInfo.mNumMat;
          busMaterialIndex++) {
         NNS_G3dMdlSetMdlPolygonID(busModel, busMaterialIndex, 7);
     }
-    func_02084968(gCarTire, 0x3f, 2, 0x294a);
+    SetNsbmdPolygonIdLightEmiAll(gCarTire, 0x3f, 2, 0x294a);
     for (tireMaterialIndex = 0, tireModel = gCarTire->mResMdl; tireMaterialIndex < tireModel->mInfo.mNumMat;
          tireMaterialIndex++) {
         NNS_G3dMdlSetMdlPolygonID(tireModel, tireMaterialIndex, 7);
@@ -522,9 +523,10 @@ void InitVehicle(Unk020e1e98 *vehicle, struct CourseMapRow *courseRow, Unk020e1e
     vehicle->mUnk_110 = kindInfo->mUnk_1c;
     ResetVehicleToStartEntry(vehicle);
     vehicle->mUnk_15c = kindInfo->mUnk_2c;
-    vehicle->mUnk_158 = func_020d286c(&vehicle->mUnk_000);
+    vehicle->mUnk_158 = CreateVehicleSoundSource(&vehicle->mUnk_000);
     ResetSoundDistanceSquaredChange(vehicle->mUnk_158);
-    vehicle->mUnk_000.mSound->mSoundSource.mTrackParamsFunction = (void (*)(void *, void *, void *)) func_0210a6ec;
+    vehicle->mUnk_000.mSound->mSoundSource.mTrackParamsFunction =
+        (void (*)(void *, void *, void *)) SetVehicleSoundTrackParams;
     vehicle->mUnk_160 = kindInfo->mUnk_30;
 }
 
@@ -534,11 +536,12 @@ void ResetVehicleToStartEntry(Unk020e1e98 *vehicle) {
     vehicle->mUnk_000.mPos.y = vehicle->mUnk_0a0;
     vehicle->mUnk_000.mUnk_10.y = 0;
     vehicle->mUnk_0b4 = gIdentityQuaternion;
-    func_020d79b0(&vehicle->mUnk_0b4,
-                  (u16) (((s64) FX_Atan2(vehicle->mUnk_000.mUnk_10.x, vehicle->mUnk_000.mUnk_10.z) * 0x28be60db9391 +
-                          0x80000000000) >>
-                         44),
-                  &vehicle->mUnk_0a4);
+    QuaternionMultiplyAngleAroundYIgnoreY(
+        &vehicle->mUnk_0b4,
+        (u16) (((s64) FX_Atan2(vehicle->mUnk_000.mUnk_10.x, vehicle->mUnk_000.mUnk_10.z) * 0x28be60db9391 +
+                0x80000000000) >>
+               44),
+        &vehicle->mUnk_0a4);
     Matrix3x3FromQuaternion(&vehicle->mUnk_000.mMatrix.mUnk_00_m, &vehicle->mUnk_0a4);
     vehicle->mUnk_0fe = 0;
     vehicle->mUnk_152 = vehicle->mUnk_150;
@@ -565,8 +568,8 @@ void DrawMapObjectModelAtPos(Unk020e3ef4 *mapObject, void *viewMatrix, u32 alpha
     mapObject->mUnk_000.mMapObject.mMatrix.mUnk_00[3].x = mapObject->mUnk_000.mMapObject.mPos.x >> 4;
     mapObject->mUnk_000.mMapObject.mMatrix.mUnk_00[3].y = mapObject->mUnk_000.mMapObject.mPos.y >> 4;
     mapObject->mUnk_000.mMapObject.mMatrix.mUnk_00[3].z = mapObject->mUnk_000.mMapObject.mPos.z >> 4;
-    DrawNsbmdWithMatrixAndMaxAlpha(mapObject->mModel, &mapObject->mUnk_000.mMapObject.mMatrix, &mapObject->mUnk_000.mMapObject.mScale.x,
-                                   alpha);
+    DrawNsbmdWithMatrixAndMaxAlpha(mapObject->mModel, &mapObject->mUnk_000.mMapObject.mMatrix,
+                                   &mapObject->mUnk_000.mMapObject.mScale.x, alpha);
 }
 
 void SetMapObjectsModel(MapObjectList *list, void *model) {

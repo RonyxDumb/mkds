@@ -141,14 +141,14 @@ void DrawFireball2(void *a, Fireball2 *b) {
         if (f ^ g) {
             for (j = 0; j < b->mRowElementCount; j++) {
                 s1 = 0x1e;
-                func_01ff9048(0x14, &s1, 1);
-                func_01ff9048(0x19, SetViewTransposeMatrixPos(&b->mElements[i][j].mUnk_00), 0xc);
+                NNS_G3dGeBufferOP_N(0x14, &s1, 1);
+                NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&b->mElements[i][j].mUnk_00), 0xc);
                 if (b->mElements[i][j].mUnk_0e != 0) {
                     MTX_RotZ33_(&m1, gPairsByAngle[(b->mElements[i][j].mUnk_0e >> 4) * 2],
                                 gPairsByAngle[(b->mElements[i][j].mUnk_0e >> 4) * 2 + 1]);
-                    func_01ff9048(0x1a, &m1, 9);
+                    NNS_G3dGeBufferOP_N(0x1a, &m1, 9);
                 }
-                func_01ff9048(0x1b, &b->mMapObject.mScale, 3);
+                NNS_G3dGeBufferOP_N(0x1b, &b->mMapObject.mScale, 3);
                 SetMapObjectModelPolygonId(gFireball2, AllocPolygonIdWrapping());
                 DrawMapObjectModel(a, gFireball2, b);
             }
@@ -156,14 +156,14 @@ void DrawFireball2(void *a, Fireball2 *b) {
     }
     if (b->mRowElementCount > 1) {
         s2 = 0x1e;
-        func_01ff9048(0x14, &s2, 1);
-        func_01ff9048(0x19, SetViewTransposeMatrixPos(&b->mCenterPos), 0xc);
+        NNS_G3dGeBufferOP_N(0x14, &s2, 1);
+        NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&b->mCenterPos), 0xc);
         if (b->mCenterRotationAngle != 0) {
             MTX_RotZ33_(&m2, gPairsByAngle[(b->mCenterRotationAngle >> 4) * 2],
                         gPairsByAngle[(b->mCenterRotationAngle >> 4) * 2 + 1]);
-            func_01ff9048(0x1a, &m2, 9);
+            NNS_G3dGeBufferOP_N(0x1a, &m2, 9);
         }
-        func_01ff9048(0x1b, &b->mMapObject.mScale, 3);
+        NNS_G3dGeBufferOP_N(0x1b, &b->mMapObject.mScale, 3);
         SetMapObjectModelPolygonId(gFireball2, AllocPolygonIdWrapping());
         DrawMapObjectModel(a, gFireball2, b);
     }
@@ -181,14 +181,14 @@ void DrawFireball2(void *a, Fireball2 *b) {
         if ((f ^ g) == 0) {
             for (j = b->mRowElementCount - 1; j >= 0; j--) {
                 s3 = 0x1e;
-                func_01ff9048(0x14, &s3, 1);
-                func_01ff9048(0x19, SetViewTransposeMatrixPos(&b->mElements[i][j].mUnk_00), 0xc);
+                NNS_G3dGeBufferOP_N(0x14, &s3, 1);
+                NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&b->mElements[i][j].mUnk_00), 0xc);
                 if (b->mElements[i][j].mUnk_0e != 0) {
                     MTX_RotZ33_(&m3, gPairsByAngle[(b->mElements[i][j].mUnk_0e >> 4) * 2],
                                 gPairsByAngle[(b->mElements[i][j].mUnk_0e >> 4) * 2 + 1]);
-                    func_01ff9048(0x1a, &m3, 9);
+                    NNS_G3dGeBufferOP_N(0x1a, &m3, 9);
                 }
-                func_01ff9048(0x1b, &b->mMapObject.mScale, 3);
+                NNS_G3dGeBufferOP_N(0x1b, &b->mMapObject.mScale, 3);
                 SetMapObjectModelPolygonId(gFireball2, AllocPolygonIdWrapping());
                 DrawMapObjectModel(a, gFireball2, b);
             }

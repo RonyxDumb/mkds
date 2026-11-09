@@ -23,4 +23,4 @@ void func_02068a00(Kart *kart);
 void func_02068a10(Kart *kart);
 void SetKartCharacterAnimation(Kart *kart, s32 b, s32 c);
 void func_02068b5c(Kart *kart);
-void func_02068b98(Kart *kart);
+void AdvanceKartRemovalShrink(Kart *kart);

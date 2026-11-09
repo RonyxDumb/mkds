@@ -185,8 +185,7 @@ void func_020653d0(Kart *kart, ParticipantKartRecord *record, s32 stepCount) {
                     stateAgain->mEasedTurnAngle +
                     (s32) (((s64) (stateAgain->mTargetTurnAngle - stateAgain->mEasedTurnAngle) * 0x333 + 0x800) >> 12);
                 kart->mTurnAngle = stateAgain->mEasedTurnAngle;
-                MTX_RotAxis33(&turnMatrix, &kart->mUnk_12c,
-                              gPairsByAngle[((u16) kart->mTurnAngle >> 4) * 2],
+                MTX_RotAxis33(&turnMatrix, &kart->mUnk_12c, gPairsByAngle[((u16) kart->mTurnAngle >> 4) * 2],
                               gPairsByAngle[((u16) kart->mTurnAngle >> 4) * 2 + 1]);
                 if (kart->mUnk_48 & 1) {
                     MTX_RotAxis33(&fixedAngleMatrix, &kart->mUnk_120, gPairsByAngle[0xba], gPairsByAngle[0xbb]);
@@ -217,8 +216,8 @@ void func_020653d0(Kart *kart, ParticipantKartRecord *record, s32 stepCount) {
                     kart->mUnk_44 &= ~0x2000;
                 }
             }
-            if (func_01ffdee4(&newPos, &prevPos, 0, kart->mRadius, 1, kart->mCollisionSlot, &collisionOffset, 0,
-                              0, &w, 0, 0, 0, 0)) {
+            if (CollideSphereWithCourse(&newPos, &prevPos, 0, kart->mRadius, 1, kart->mCollisionSlot, &collisionOffset,
+                                        0, 0, &w, 0, 0, 0, 0)) {
                 VEC_Add(&newPos, &collisionOffset, &newPos);
             }
             prevPos = newPos;
@@ -320,7 +319,7 @@ void func_020653d0(Kart *kart, ParticipantKartRecord *record, s32 stepCount) {
         kart->mUnk_4c |= 0x8000000;
         kart->mUnk_4c &= ~0x20000;
         if (kart->mUnk_4c & 0x2000) {
-            func_0207b0d0(kart);
+            ResetKartModelsCourseColors(kart);
         }
         StartKartModelColorBlend(kart->mKartModelsEntry, 0, 0x1084, 0);
         if (kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) {
@@ -328,7 +327,7 @@ void func_020653d0(Kart *kart, ParticipantKartRecord *record, s32 stepCount) {
             SetCharacterFaceFrameIndex(kart->mKartModelsEntry, 1);
         }
         if (!(kart->mUnk_48 & 0x840)) {
-            func_0210af40(kart, kart->mSoundIndex, 0);
+            StartKartSeqArcSound(kart, kart->mSoundIndex, 0);
         }
         StartOrthoQuadsGesoSumi(kart->mIndex, 0);
     }

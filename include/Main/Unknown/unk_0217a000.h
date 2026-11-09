@@ -884,6 +884,8 @@ typedef struct WiFiRaceSyncEntry {
             /* 7c */ u16 mUnk_7c;
             /* 7e */ u8 mUnk_7e[2];
             /* 80 */ s32 mUnk_80;
+// Average round trip time to this peer in the unit of mCountdownTimer: mean ticks times 64 / 0x82ea,
+// divided by 33 and rounded; 0 without samples.
             /* 84 */ u16 mRoundTripAverage;
             /* 86 */ union {
                 u8 mUnk_86;
@@ -958,6 +960,7 @@ typedef struct WiFiRaceSync {
     /* 012 */ u16 mUnk_012;
     /* 014 */ WiFiRaceSyncPeer mPeers[4];
     /* 0f4 */ s32 mUnk_0f4;
+// Participant the next probe goes to in state 1; the last participant sent to in states 2 and 3.
     /* 0f8 */ u16 mSendParticipantIndex;
     /* 0fa */ u8 mReadyMask;
     /* 0fb */ u8 mUnk_0fb;
@@ -970,6 +973,7 @@ typedef struct WiFiRaceSync {
     /* 6e4 */ u8 mUnk_6e4[16][4];
     /* 724 */ u16 mUnk_724;
     /* 726 */ u8 mUnk_726[0x2];
+// Counted by AdvanceWiFiRaceSyncFrames, one per call, only in states 4 and 5.
     /* 728 */ s32 mSyncFrames;
     /* 72c */ BOOL mUnk_72c;
     /* 730 */ u8 mUnk_730[0x4];
@@ -982,6 +986,7 @@ typedef struct WiFiRaceSync {
     /* 73d */ u8 mUnk_73d;
     /* 73e */ u8 mUnk_73e;
     /* 73f */ u8 mUnk_73f;
+// Per participant: calls of RemoveDroppedParticipants since the last packet from it; zeroed on every packet.
     /* 740 */ u16 mTimeoutFrames[4];
     /* 748 */ u8 mDroppedParticipantMask;
     /* 749 */ u8 mParticipantMask;
@@ -1155,8 +1160,8 @@ typedef struct Camera {
     /* 174 */ s32 mCollisionOffsetLength;
     // Added to the eye height of the view only, not to the look-at.
     /* 178 */ s32 mViewPosYOffset;
-    // The push-out vector of the collision test (func_01ffdee4) scaled by 3 to 8, kept and eased; added to the position
-    // goal.
+    // The push-out vector of the collision test (CollideSphereWithCourse) scaled by 3 to 8, kept and eased; added to
+    // the position goal.
     /* 17c */ Vec3 mPosGoalCollisionOffset;
     // Kart.mUnk_120 (a row of the Kart's matrix) times mPosGoalKartOffsetScale; added to the position goal.
     /* 188 */ Vec3 mPosGoalKartOffset;
@@ -1175,17 +1180,18 @@ typedef struct Camera {
     /* 220 */ struct Unk02077750 *mUnk_220;
     /* 224 */ u16 mUnk_224;
     /* 226 */ u8 mUnk_226[0x2];
-    // TRUE from StartEntryCameraKind6Entry until mKind6EntryFrames reaches 300 (outside mode 2) or func_02075d08
-    // replaces the entry. While TRUE the entry is not replaced by the one picked from the Kart's position; in mode 2
-    // TryUpdateEntryCamera steps the entry by its kind on every call and only func_02075d08 clears it.
+    // TRUE from StartEntryCameraKind6Entry until mKind6EntryFrames reaches 300 (outside mode 2) or
+    // SetEntryCameraUpdateHold replaces the entry. While TRUE the entry is not replaced by the one picked from the
+    // Kart's position; in mode 2 TryUpdateEntryCamera steps the entry by its kind on every call and only
+    // SetEntryCameraUpdateHold clears it.
     /* 228 */ BOOL mKind6EntryRunning;
     // Counts the calls of TryUpdateEntryCamera outside mode 2 while mKind6EntryRunning is TRUE; at 300 it clears
     // mKind6EntryRunning. Only SetupCamera zeroes it, so it carries over a restart.
     /* 22c */ u16 mKind6EntryFrames;
     /* 22e */ u8 mUnk_22e[0x2];
-    // Set to 1 by func_02075d08(1), which only does so while the current entry is of kind 5 or 6, and to 0 by
-    // func_02075d08(0) and SetupCamera. While non-zero TryUpdateEntryCamera returns FALSE at once, so the chase camera
-    // is shown.
+    // Set to 1 by SetEntryCameraUpdateHold(1), which only does so while the current entry is of kind 5 or 6, and to 0
+    // by SetEntryCameraUpdateHold(0) and SetupCamera. While non-zero TryUpdateEntryCamera returns FALSE at once, so the
+    // chase camera is shown.
     /* 230 */ s32 mEntryUpdateHold;
     // Set to 1 once by DisableEntryCameraUpdate and never cleared (SetupCamera zeroes it). While set
     // TryUpdateEntryCamera returns FALSE at once, so the chase camera is shown.
@@ -1463,7 +1469,7 @@ extern const s32 *gKartAiRaceStartBoostRandomLimits;
 extern const s32 *data_usa_0217ae34;
 extern u16 data_0217ae6c;
 extern u16 data_0217ae70;
-extern struct Unk0201ca6c **data_0217ae74;
+extern struct Unk0201ca6c **gKartNearRankEffects;
 // Three objects per entry, 0xc bytes each.
 typedef struct KartStarEffects {
     /* 00 */ struct Unk0201ca6c *mEffects[3];
@@ -1472,7 +1478,7 @@ typedef struct KartStarEffects {
 extern KartStarEffects *gKartStarEffects;
 extern u16 *gKartEffectIdSetIndex;
 extern s32 gOtherKartOddCount;
-extern struct Unk0201ca6c **data_0217ae94;
+extern struct Unk0201ca6c **gKartAheadEffects;
 extern s32 gOtherKartFullPairCount;
 
 // Entry of the eight 0xc-byte entries at 0xb0 of KartAiShared: a word, then the links of a list.

@@ -915,6 +915,8 @@ void ReceiveWiFiRaceSyncPacket(u32 fromIndex, WiFiRaceSyncPacket *packet, u32 si
         case 3:
             ReceiveWiFiRaceSyncRecord(fromIndex, packet, size);
             break;
+// Kinds 4 and 5 have no body; only kind 5 is sent (state 1, once a peer has 12 samples), nothing sends
+// kind 4.
         case 4:
         case 5:
             break;
@@ -983,6 +985,9 @@ void UpdateParticipantElos(void) {
     }
 }
 
+// Marks a peer dropped after 300 silent calls (600 before its first sample); a peer every live peer also reports
+// dropped is removed with its kart. With one participant or none left, lowers a backup counter by the other kart count
+// (session state non-zero) and calls func_021208e8(2).
 void RemoveDroppedParticipants(void) {
     u8 participant;
     u32 agreedDroppedMask;

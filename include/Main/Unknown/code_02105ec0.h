@@ -125,7 +125,7 @@ void InitSceneSoundState(u32 a, Unk021073ec b, SceneSoundState *c);
 void StartSceneSounds(void);
 void StartRaceSounds(void);
 void StartKartStarSeq(void);
-void func_02106dc8(void);
+void StopKartStarSeq(void);
 void EndRaceSounds(void);
 void AdvanceSceneSoundLap(void);
 void SetSceneSoundRank(u32 a);

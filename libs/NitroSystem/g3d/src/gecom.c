@@ -3,5 +3,5 @@
 
 // Selects the fast DMA transfer for display lists when set.
 void NNS_G3dGeUseFastDma(BOOL enabled) {
-    data_0217320c = enabled;
+    NNS_G3dFlagUseFastDma = enabled;
 }

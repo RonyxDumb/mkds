@@ -330,7 +330,7 @@ void func_0206d578(Kart *kart) {
                 if (!(kart->mUnk_4c & 0x2000)) {
                     kart->mUnk_d8 = 0x1000;
                 }
-                func_02081000(kart);
+                StopKartAheadEffect(kart);
             }
         }
     }
@@ -453,7 +453,7 @@ void func_0206d18c(Kart *kart) {
             func_0207a70c(i);
         }
         if (!(ownerKart->mUnk_48 & 0x840)) {
-            func_0210af40(ownerKart, ownerKart->mSoundIndex, 8);
+            StartKartSeqArcSound(ownerKart, ownerKart->mSoundIndex, 8);
         }
         f = ownerKart->mUnk_7c;
         if ((f & 0x10) && !(f & 0x30000)) {
@@ -470,7 +470,7 @@ void func_0206d138(Kart *kart) {
     u32 f;
 
     if (!(kart->mUnk_48 & 0x840)) {
-        func_0210af40(kart, kart->mSoundIndex, 8);
+        StartKartSeqArcSound(kart, kart->mSoundIndex, 8);
     }
     f = kart->mUnk_7c;
     if (!(f & 0x10)) {

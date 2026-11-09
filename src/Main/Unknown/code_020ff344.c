@@ -29,7 +29,7 @@
 
 void CreateDram(void) {
     CreateNsbmd(&gDram, FindCourseMapObjFile(gDramNsbmdName), NULL);
-    func_02084968(gDram, 0x3f, 2, 0x294a);
+    SetNsbmdPolygonIdLightEmiAll(gDram, 0x3f, 2, 0x294a);
 }
 
 void InitDram(Dram *dram, struct CourseMapRow *courseRow) {
@@ -75,7 +75,8 @@ void func_020ff97c(Unk020ff97c *object) {
     object->mUnk_000.mCollisionData.mAngleChangeVector.z = 0;
     object->mUnk_000.mCollisionData.mUnk_130 = 0;
     object->mUnk_000.mCollisionData.mUnk_100 = ((s64) object->mUnk_000.mMapObject.mScale.x * 0x190000) >> 12;
-    object->mUnk_000.mCollisionData.mHalfSizeY = (s32) (((s64) object->mUnk_000.mMapObject.mScale.y * 0x64000) >> 12) >> 1;
+    object->mUnk_000.mCollisionData.mHalfSizeY =
+        (s32) (((s64) object->mUnk_000.mMapObject.mScale.y * 0x64000) >> 12) >> 1;
     object->mUnk_000.mCollisionData.mPositiveHalfSizeZ = ((s64) object->mUnk_000.mMapObject.mScale.z * 0xaf000) >> 12;
     object->mUnk_000.mCollisionData.mNegativeHalfSizeZ = ((s64) object->mUnk_000.mMapObject.mScale.z * 0xaf000) >> 12;
     object->mUnk_000.mCollisionData.mUnk_110 = 0;
@@ -87,8 +88,8 @@ void func_020ff97c(Unk020ff97c *object) {
     object->mUnk_000.mMapObject.mUnk_10.x = 0;
     object->mUnk_000.mMapObject.mUnk_10.y = 0;
     object->mUnk_000.mMapObject.mUnk_10.z = 0;
-    VEC_MultAdd(-object->mUnk_000.mCollisionData.mHalfSizeY, &object->mUnk_000.mMapObject.mMatrix.mUnk_00[1], &object->mUnk_000.mMapObject.mPos,
-                &object->mUnk_000.mCollisionData.mCenterPos);
+    VEC_MultAdd(-object->mUnk_000.mCollisionData.mHalfSizeY, &object->mUnk_000.mMapObject.mMatrix.mUnk_00[1],
+                &object->mUnk_000.mMapObject.mPos, &object->mUnk_000.mCollisionData.mCenterPos);
     object->mUnk_000.mCollisionData.mUnk_134 = COLLISION_SHAPE_BOX;
     object->mUnk_000.mCollisionData.mUnk_138 = 0;
     object->mUnk_000.mUnk_13c = 1;

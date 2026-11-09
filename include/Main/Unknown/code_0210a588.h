@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int func_0210a588(void);
+unsigned int GetKartSoundRequestSortOffset(void);

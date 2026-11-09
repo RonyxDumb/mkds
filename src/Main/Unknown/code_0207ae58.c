@@ -293,7 +293,7 @@ void StopKartStarModels(Kart *kart) {
     modelsEntry->mStarModelsSet = FALSE;
 }
 
-void func_0207b13c(Kart *kart) {
+void SetKartModelsGrayColors(Kart *kart) {
     KartModelsEntry *modelsEntry = kart->mKartModelsEntry;
     NNSG3dResMdl *resMdl;
 
@@ -308,7 +308,7 @@ void func_0207b13c(Kart *kart) {
     SetKartModelMaterialColors(resMdl, 3);
 }
 
-void func_0207b0d0(Kart *kart) {
+void ResetKartModelsCourseColors(Kart *kart) {
     KartModelsEntry *modelsEntry = kart->mKartModelsEntry;
     NNSG3dResMdl *resMdl;
 
@@ -375,8 +375,8 @@ void DrawShadowWithMatrix(void *model, const void *matrix, Vec3 *extraVector) {
         return;
     }
     v = 0x1e;
-    func_01ff9048(0x14, &v, 1);
-    func_01ff9048(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x14, &v, 1);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
     if (extraVector != NULL) {
         s32 z = extraVector->z;
         s32 y = extraVector->y;
@@ -384,11 +384,11 @@ void DrawShadowWithMatrix(void *model, const void *matrix, Vec3 *extraVector) {
         copiedVector.x = x;
         copiedVector.y = y;
         copiedVector.z = z;
-        func_01ff9048(0x1b, &copiedVector, 3);
+        NNS_G3dGeBufferOP_N(0x1b, &copiedVector, 3);
     }
-    func_02084ad8(shadowModel, shadowModel->mAlpha);
+    SetNsbmdFirstDrawMaterial(shadowModel, shadowModel->mAlpha);
     gNsbmdDrawFunctions[shadowModel->mNsbmd.mDrawKind](shadowModel);
-    func_02084a88(shadowModel, shadowModel->mAlpha, shadowModel->mPolygonId);
+    SetNsbmdSecondDrawMaterial(shadowModel, shadowModel->mAlpha, shadowModel->mPolygonId);
     gNsbmdDrawFunctions[shadowModel->mNsbmd.mDrawKind](shadowModel);
 }
 
@@ -396,8 +396,8 @@ void func_0207ae58(ShadowModel *shadowModel) {
     if ((shadowModel->mFlags & 1) == 0) {
         return;
     }
-    func_02084ad8(shadowModel, shadowModel->mAlpha);
+    SetNsbmdFirstDrawMaterial(shadowModel, shadowModel->mAlpha);
     gNsbmdDrawFunctions[shadowModel->mNsbmd.mDrawKind](shadowModel);
-    func_02084a88(shadowModel, shadowModel->mAlpha, shadowModel->mPolygonId);
+    SetNsbmdSecondDrawMaterial(shadowModel, shadowModel->mAlpha, shadowModel->mPolygonId);
     gNsbmdDrawFunctions[shadowModel->mNsbmd.mDrawKind](shadowModel);
 }

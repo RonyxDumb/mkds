@@ -23,5 +23,5 @@ void InitKartSoundCallbacks(Kart *kart, KartSound *b) {
 }
 
 void func_0210a598(Kart *kart, s32 soundIndex) {
-    func_0210af40(kart, soundIndex, 8);
+    StartKartSeqArcSound(kart, soundIndex, 8);
 }

@@ -89,12 +89,12 @@ BOOL func_0206a24c(Kart *kart) {
         }
     }
     if (!(kart->mUnk_48 & 0x840)) {
-        func_0210af40(kart, kart->mSoundIndex, 0);
+        StartKartSeqArcSound(kart, kart->mSoundIndex, 0);
     }
     return TRUE;
 }
 
-void func_02069f6c(Kart *kart) {
+void AdvanceKartScaleTableEffect(Kart *kart) {
     KartItemEffectState *effectState;
 
     effectState = &kart->mUnk_538;
@@ -168,9 +168,9 @@ void func_02069ea8(Kart *kart) {
         kart->mScaleBase.y = 0x1000;
         kart->mScaleBase.z = 0x1000;
         if (kart->mIndex == gRaceSetup->mEntryIndex) {
-            func_0210fa74(0);
+            SetThunderShrinkSoundFlag(0);
         }
-        func_0210a664(kart);
+        ResetKartTrackParamsFunction(kart);
     }
     kart->mScale.x = 0x1000;
     kart->mScale.y = 0x1000;
@@ -233,12 +233,12 @@ void StartKartStar(Kart *kart) {
         } else {
             StartSound(&kart->mSoundSource, 0xf9, 0x7f, 0);
         }
-        func_0210fa40(0, (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
+        SetTeresaSoundFlag(0, (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
     }
     if (kart->mUnk_4c & 0x8000000) {
         kart->mUnk_4c &= ~0x8020000;
         if (kart->mUnk_4c & 0x2000) {
-            func_0207b13c(kart);
+            SetKartModelsGrayColors(kart);
         }
         SetKartModelsEntryCourseColors(kart->mKartModelsEntry);
     }
@@ -275,10 +275,10 @@ void StartKartTeresa(Kart *kart) {
         StopKartStarEffects(kart->mIndex);
         SetKartCharacterAnimation(kart, 0, 1);
         if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
-            func_02106dc8();
+            StopKartStarSeq();
         }
         if (kart->mUnk_4c & 0x2000) {
-            func_0207b13c(kart);
+            SetKartModelsGrayColors(kart);
         }
     }
     kart->mUnk_7c |= 0x2000;
@@ -294,7 +294,7 @@ void StartKartTeresa(Kart *kart) {
                                      GetKartCourseAmbColor());
         }
     }
-    func_0210fa40(1, (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
+    SetTeresaSoundFlag(1, (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         kart->mUnk_7c |= 0x4000;
     } else {
@@ -357,7 +357,7 @@ void AdvanceKartTeresa(Kart *kart) {
         } else {
             StartSound(&kart->mSoundSource, 0xf9, 0x7f, 0);
         }
-        func_0210fa40(0, (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
+        SetTeresaSoundFlag(0, (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
     }
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         return;
@@ -400,12 +400,12 @@ void StartKartKiller(Kart *kart) {
         } else {
             StartSound(&kart->mSoundSource, 0xf9, 0x7f, 0);
         }
-        func_0210fa40(0, (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
+        SetTeresaSoundFlag(0, (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
     }
     if (kart->mUnk_4c & 0x8000000) {
         kart->mUnk_4c &= ~0x8020000;
         if (kart->mUnk_4c & 0x2000) {
-            func_0207b13c(kart);
+            SetKartModelsGrayColors(kart);
         }
         SetKartModelsEntryCourseColors(kart->mKartModelsEntry);
     }
@@ -417,10 +417,10 @@ void StartKartKiller(Kart *kart) {
         StopKartStarEffects(kart->mIndex);
         SetKartCharacterAnimation(kart, 0, 1);
         if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
-            func_02106dc8();
+            StopKartStarSeq();
         }
         if (kart->mUnk_4c & 0x2000) {
-            func_0207b13c(kart);
+            SetKartModelsGrayColors(kart);
         }
     }
     kart->mItemEffect = 3;
@@ -428,9 +428,9 @@ void StartKartKiller(Kart *kart) {
         kart->mUnk_4c &= ~0x2000;
         kart->mUnk_d8 = 0x1000;
         if (!(kart->mUnk_4c & 0x8000000)) {
-            func_0207b0d0(kart);
+            ResetKartModelsCourseColors(kart);
         }
-        func_02080ee4(kart);
+        StopKartNearRankEffect(kart);
     }
     if (kart->mKartModelsEntry->mUnk_058 == 0) {
         effectIds = gKartFollowEffectIds;
@@ -476,7 +476,7 @@ void AdvanceKartKiller(Kart *kart) {
             return;
         }
         kart->mUnk_4c &= ~0x10000000;
-        func_0210515c(kart->mIndex);
+        ResetKartActiveItemAfterKiller(kart->mIndex);
         if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
             ResetCameraHalfFovAngleGoal();
         }
@@ -545,7 +545,7 @@ void StartKartGesso(Kart *kart, u32 orthoQuadCount) {
     kart->mUnk_4c |= 0x8000000;
     kart->mUnk_4c &= ~0x20000;
     if (kart->mUnk_4c & 0x2000) {
-        func_0207b0d0(kart);
+        ResetKartModelsCourseColors(kart);
     }
     StartKartModelColorBlend(kart->mKartModelsEntry, 0, 0x1084, 0);
     if (kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) {
@@ -553,7 +553,7 @@ void StartKartGesso(Kart *kart, u32 orthoQuadCount) {
         SetCharacterFaceFrameIndex(kart->mKartModelsEntry, 1);
     }
     if (!(kart->mUnk_48 & 0x840)) {
-        func_0210af40(kart, kart->mSoundIndex, 0);
+        StartKartSeqArcSound(kart, kart->mSoundIndex, 0);
     }
     StartOrthoQuadsGesoSumi(kart->mIndex, orthoQuadCount);
     if (kart->mUnk_7c & 0x200) {
@@ -586,7 +586,7 @@ void AdvanceKartGesso(Kart *kart) {
     }
     kart->mUnk_4c &= ~0x8020000;
     if (kart->mUnk_4c & 0x2000) {
-        func_0207b13c(kart);
+        SetKartModelsGrayColors(kart);
     }
     SetKartModelsEntryCourseColors(kart->mKartModelsEntry);
 }
@@ -602,13 +602,13 @@ void func_02069068(Kart *kart) {
     if (!(kart->mUnk_4c & 0x2000)) {
         kart->mUnk_4c |= 0x2000;
         if (!(kart->mUnk_4c & 0x8000000)) {
-            func_0207b13c(kart);
+            SetKartModelsGrayColors(kart);
         }
     }
     if (kart->mUnk_4c & 0x48000) {
-        func_02080f44(kart);
+        StartKartNearRankEffect(kart);
     }
-    func_02081000(kart);
+    StopKartAheadEffect(kart);
     StopKartSoundWhileRequested(kart);
     if (!(kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
         StartSound(&kart->mSoundSource, 0xa4, 0x7f, 0);

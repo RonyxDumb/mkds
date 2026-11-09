@@ -238,7 +238,7 @@ typedef struct Kart {
     /* b0 */ Vec3 mVelocityDirection;
     // Size scale of the kart (x, y, z; 0x1000 = 1.0): mScaleBase times mScaleFactor per axis, y also times
     // mScaleYFactor. Zero at the start placement (ResetKartToStartPlacement) and where the kart is moved to a far
-    // corner (func_02068b98, func_02068640).
+    // corner (AdvanceKartRemovalShrink, func_02068640).
     /* bc */ Vec3 mScale;
     // Negative step added by ApplyKartGravity to mVerticalSpeed, by AdvanceKartHop to mHopSpeed while hopping and to a
     // speed of the mode-5 record; -0x2b9 at reset, 0 after the water-height branch of func_0206ff50.
@@ -482,7 +482,8 @@ typedef struct Kart {
     // Part of mScale held at 0x1000, eased down to 0x800 while the countdown of AdvanceKartThunderShrink runs and set
     // back to 0x1000 at its end; mScaleFactor is the table-driven part.
     /* 428 */ Vec3 mScaleBase;
-    // Factor of mScale.y only: 0x1000 normally, lowered by 0x4cd per call to a floor of 0x4cd in func_02069f6c.
+    // Factor of mScale.y only: 0x1000 normally, lowered by 0x4cd per call to a floor of 0x4cd in
+    // AdvanceKartScaleTableEffect.
     /* 434 */ s32 mScaleYFactor;
     /* 438 */ struct MapObject *mPrevTouchingMapObjects[2];
     /* 440 */ u16 mUnk_440[2];

@@ -106,7 +106,7 @@ void AdvanceKartScaleFactor(Kart *kart) {
     entryIndex = kart->mEntryIndex;
     data_0217566a[entryIndex].mBitMask = 0xff7;
     if (kart->mUnk_7c & 0x20) {
-        func_02068b98(kart);
+        AdvanceKartRemovalShrink(kart);
         return;
     }
     kart->mUnk_3c8 = kart->mUnk_3c8 + 1;
@@ -195,8 +195,8 @@ void ResetKartToRespawnPoint(Kart *kart) {
     kart->mUnk_4c |= 0xc00;
     kart->mUnk_48 |= 0x2000000;
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-        func_02055bd4(0x3c);
-        func_02075d08(0);
+        StartDispCapFadeToClear(0x3c);
+        SetEntryCameraUpdateHold(0);
     }
 }
 
@@ -222,13 +222,13 @@ s32 AdvanceKartRespawnWait(Kart *kart, s32 *a) {
         if (kart->mRespawnFrames == 0x16) {
             func_02055a94();
         } else if (kart->mRespawnFrames == 0x19) {
-            func_02055c18(0x3c);
+            StartDispCapFadeToFaded(0x3c);
         }
     }
     if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && kart->mRespawnFrames == 0x55) {
-        func_020e7a40();
+        SetJgState4();
     } else if (kart->mRespawnFrames > 0x78) {
-        func_02063ad0(kart);
+        CallKartSlot6AndToggleFlag(kart);
         finished = TRUE;
     }
     return finished;
@@ -276,7 +276,7 @@ void ResetKartAndSetPos(Kart *kart, const Vec3 *position, const Vec3 *forward, P
     }
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         ResetCameraBehind(position, &kart->mUnk_e0_m);
-        func_02089f9c(((u32(*)(void)) ResetCameraHalfFovAngle)());
+        ReturnArgument(((u32(*)(void)) ResetCameraHalfFovAngle)());
         SetCameraHeightHold(0);
     }
 }
@@ -291,16 +291,16 @@ void StopKartItemsAndEffects(Kart *kart) {
     ReleaseKartKillerEffect(kart->mIndex);
     func_02081338(kart->mIndex);
     func_020810e4(kart->mIndex);
-    func_02080fb8(kart);
-    func_02080e9c(kart);
+    ReleaseKartAheadEffect(kart);
+    ReleaseKartNearRankEffect(kart);
     ReleaseKartTurnEffects(GetKartTurnEffects(kart->mIndex));
     InitKartSoundParams(kart);
     if (kart->mIndex == gRaceSetup->mEntryIndex) {
-        func_0210fa74(0);
+        SetThunderShrinkSoundFlag(0);
     }
-    func_0210a664(kart);
+    ResetKartTrackParamsFunction(kart);
     if (kart->mUnk_4c & 0x2000) {
-        func_0207b0d0(kart);
+        ResetKartModelsCourseColors(kart);
     }
     if (kart->mUnk_4c & 0x40) {
         kart->mUnk_4c &= ~0x40;
@@ -309,15 +309,15 @@ void StopKartItemsAndEffects(Kart *kart) {
         StopKartStarEffects(kart->mIndex);
         SetKartCharacterAnimation(kart, 0, 1);
         if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
-            func_02106dc8();
+            StopKartStarSeq();
         }
         if (kart->mUnk_4c & 0x2000) {
-            func_0207b13c(kart);
+            SetKartModelsGrayColors(kart);
         }
     }
     if (kart->mUnk_4c & 0x10000000) {
         kart->mUnk_4c &= ~0x10000000;
-        func_0210515c(kart->mIndex);
+        ResetKartActiveItemAfterKiller(kart->mIndex);
         if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
             ResetCameraHalfFovAngleGoal();
         }
@@ -343,7 +343,7 @@ void StopKartItemsAndEffects(Kart *kart) {
         } else {
             StartSound(&kart->mSoundSource, 0xf9, 0x7f, 0);
         }
-        func_0210fa40(0, (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
+        SetTeresaSoundFlag(0, (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
     }
 }
 
@@ -841,7 +841,7 @@ void InitKartSoundParams(Kart *kart) {
             break;
     }
     kartSound->mUnk_68 = soundIndex;
-    soundRowIndex = func_0202578c(kart->mKartModelsEntry->mKartIndex);
+    soundRowIndex = GetKartSoundTableRow(kart->mKartModelsEntry->mKartIndex);
     rowOffset = soundRowIndex * 0x1c;
     a = *(s32 *) (data_02161ae8 + rowOffset);
     b = *(s32 *) (data_02161aec + rowOffset);
@@ -922,14 +922,15 @@ void RequestKartSound(void *kart, int soundId) {
     int sortKeyBase;
 
     sortKeyBase = GetKartCameraDistanceSquared(((Kart *) kart)->mIndex);
-    AddSoundRequest(&data_0217d284, sortKeyBase + func_0210a588(), StartKartSoundWhileRequested, kart, soundId);
+    AddSoundRequest(&data_0217d284, sortKeyBase + GetKartSoundRequestSortOffset(), StartKartSoundWhileRequested, kart,
+                    soundId);
 }
 
 void func_02071894(Kart *kart) {
     if (kart->mUnk_48 & 0x840) {
         return;
     }
-    func_0210af40(kart, kart->mSoundIndex, 7);
+    StartKartSeqArcSound(kart, kart->mSoundIndex, 7);
 }
 
 void AdvanceKartModelScaleAnimation(Kart *kart) {
@@ -1092,11 +1093,11 @@ void ResetKartMotionState(Kart *kart, s32 b) {
         kart->mUnk_4c &= ~0x2000;
         kart->mUnk_d8 = 0x1000;
         if (!(kart->mUnk_4c & 0x8000000)) {
-            func_0207b0d0(kart);
+            ResetKartModelsCourseColors(kart);
         }
-        func_02080ee4(kart);
+        StopKartNearRankEffect(kart);
     }
-    func_02080fb8(kart);
+    ReleaseKartAheadEffect(kart);
     kart->mUnk_44 &= 0xfffff7f4;
     kart->mTurnDirection = 0;
     kart->mDriftCharge = 0;
@@ -1117,7 +1118,7 @@ void ResetKartMotionState(Kart *kart, s32 b) {
     StartCameraWobbleByCourse();
     switch (gRaceSetup->mCourseId) {
         case COURSE_ID_AIRSHIP:
-            func_02089d14(0);
+            StartTimedQuadFromTable(0);
             playingSound = StartSound(&kart->mSoundSource, 0x15c, 0x7f, 0);
             if (playingSound != NULL) {
                 playingSound->mFlags |= 0x10;
@@ -1252,7 +1253,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
             AdvanceKartThunderShrink(kart);
         }
         if (kart->mUnk_4c & 0x10000) {
-            func_02069f6c(kart);
+            AdvanceKartScaleTableEffect(kart);
         }
         if (kart->mUnk_7c & 0x402000) {
             AdvanceKartTeresa(kart);
@@ -1269,9 +1270,9 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
             kart->mUnk_4c &= ~0x2000;
             kart->mUnk_d8 = 0x1000;
             if (!(kart->mUnk_4c & 0x8000000)) {
-                func_0207b0d0(kart);
+                ResetKartModelsCourseColors(kart);
             }
-            func_02080ee4(kart);
+            StopKartNearRankEffect(kart);
         }
     }
 
@@ -1290,10 +1291,10 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
             StopKartStarEffects(kart->mIndex);
             SetKartCharacterAnimation(kart, 0, 1);
             if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
-                func_02106dc8();
+                StopKartStarSeq();
             }
             if (kart->mUnk_4c & 0x2000) {
-                func_0207b13c(kart);
+                SetKartModelsGrayColors(kart);
             }
         }
     }

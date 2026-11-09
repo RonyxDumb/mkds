@@ -41,7 +41,7 @@ extern u8 data_02161adc[];
 extern u8 data_02161ae0[];
 extern u8 data_02161ae4[];
 
-// Seven word tables, entries 0x1c bytes apart, indexed by the result of func_0202578c.
+// Seven word tables, entries 0x1c bytes apart, indexed by the result of GetKartSoundTableRow.
 extern u8 data_02161ae8[];
 extern u8 data_02161aec[];
 extern u8 data_02161af0[];

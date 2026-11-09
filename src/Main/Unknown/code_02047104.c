@@ -589,7 +589,7 @@ void *LoadKartModelFile(const char *path) {
 
 #pragma thumb on
 
-void func_0204775c(void) {
+void ReplaceKm1ArchiveWithKm2(void) {
     ReleaseArchiveSlot(6);
     SetHeapGroupId((u16) 0);
     LoadArchiveSlotForScene(7, 2);

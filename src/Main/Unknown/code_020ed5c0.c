@@ -450,9 +450,9 @@ void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis) {
             continue;
         }
         if ((object->mFlags & 0x1000) != 0) {
-            func_0208ab4c(object->mUnk_90);
+            SendLight01Color(object->mUnk_90);
         } else {
-            func_0208ab4c(&object->mColorBlend.mColor);
+            SendLight01Color(&object->mColorBlend.mColor);
         }
         if ((d8 = object->mAlpha) != 0x1f) {
             model->mPolygonAttributes &= ~0x1f0000;
@@ -504,9 +504,9 @@ void DrawItemPoolWithCallback(ItemPool *pool, void *callbackArg, void (*drawCall
             continue;
         }
         if ((object->mFlags & 0x1000) != 0) {
-            func_0208ab4c(object->mUnk_90);
+            SendLight01Color(object->mUnk_90);
         } else {
-            func_0208ab4c(&object->mColorBlend.mColor);
+            SendLight01Color(&object->mColorBlend.mColor);
         }
         drawCallback(object, callbackArg, gItemModels[pool->mKind]);
     }

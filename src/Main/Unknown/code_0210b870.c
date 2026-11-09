@@ -26,7 +26,7 @@ void func_0210ba78(void *mapSound, s32 baseSoundId) {
 
 void func_0210ba38(struct MapObjectSound *mapSound, s32 soundId) {
     AddSoundRequest(&data_0217d29c, mapSound->mSoundSource.mDistanceSquared + 0x15f90,
-                    func_0210bad4, mapSound, soundId);
+                    MapStartSoundWhileRequestedFullVolume, mapSound, soundId);
 }
 
 void func_0210b98c(struct MapObjectSound *mapSound, s32 soundId) {

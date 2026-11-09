@@ -279,17 +279,17 @@ void DrawCoverPooHole(void *a, CoverPooHole *coverPooHole) {
     s32 r;
     s32 t;
     w0 = 0x1e;
-    func_01ff9048(0x14, &w0, 1);
-    func_01ff9048(0x11, NULL, 0);
+    NNS_G3dGeBufferOP_N(0x14, &w0, 1);
+    NNS_G3dGeBufferOP_N(0x11, NULL, 0);
     f0[1] = coverPooHole->mUnk_a8 >> 4;
     f0[0] = 0;
     f0[2] = 0;
-    func_01ff9048(0x1c, f0, 3);
-    func_01ff9048(0x19, SetViewRotatedMatrixPos(&coverPooHole->mUnk_00.mPos), 12);
+    NNS_G3dGeBufferOP_N(0x1c, f0, 3);
+    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&coverPooHole->mUnk_00.mPos), 12);
     func_0209bbd0(a, gHole);
     DrawMapObjectModel(a, gHole, coverPooHole);
     w1 = 1;
-    func_01ff9048(0x12, &w1, 1);
+    NNS_G3dGeBufferOP_N(0x12, &w1, 1);
     switch (coverPooHole->mState) {
         case 1:
         case 2:
@@ -303,25 +303,25 @@ void DrawCoverPooHole(void *a, CoverPooHole *coverPooHole) {
             break;
     }
     if (coverPooHole->mState != 0) {
-        func_01ff9048(0x11, NULL, 0);
+        NNS_G3dGeBufferOP_N(0x11, NULL, 0);
         if (coverPooHole->mUnk_104 != 0) {
             t = coverPooHole->mUnk_b8 >> 4;
             f1[0] = 0;
             f1[1] = t;
             f1[2] = 0;
-            func_01ff9048(0x1c, f1, 3);
+            NNS_G3dGeBufferOP_N(0x1c, f1, 3);
         } else {
             t = coverPooHole->mUnk_a4 >> 4;
             f2[0] = 0;
             f2[1] = t;
             f2[2] = 0;
-            func_01ff9048(0x1c, f2, 3);
+            NNS_G3dGeBufferOP_N(0x1c, f2, 3);
         }
-        func_01ff9048(0x19, SetViewRotatedMatrixPos(&coverPooHole->mUnk_00.mPos), 12);
+        NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&coverPooHole->mUnk_00.mPos), 12);
         func_0209bbd0(a, gPoo);
         DrawMapObjectModel(a, gPoo, coverPooHole);
         w2 = 1;
-        func_01ff9048(0x12, &w2, 1);
+        NNS_G3dGeBufferOP_N(0x12, &w2, 1);
     }
     if (coverPooHole->mUnk_104 == 1) {
         goto L;
@@ -336,23 +336,23 @@ void DrawCoverPooHole(void *a, CoverPooHole *coverPooHole) {
             r = -r;
         }
         t = coverPooHole->mUnk_b4 + r;
-        func_01ff9048(0x19, SetViewRotatedMatrixPos(&coverPooHole->mUnk_00.mPos), 12);
+        NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&coverPooHole->mUnk_00.mPos), 12);
         f3[1] = t >> 4;
         f3[0] = 0;
         f3[2] = 0;
-        func_01ff9048(0x1c, f3, 3);
+        NNS_G3dGeBufferOP_N(0x1c, f3, 3);
         j = (e >> 4) * 2;
         MTX_RotY33_(&m, gPairsByAngle[j], gPairsByAngle[j + 1]);
-        func_01ff9048(0x1a, &m, 9);
+        NNS_G3dGeBufferOP_N(0x1a, &m, 9);
         MTX_RotZ33_(&m, v1, gPairsByAngle[k + 1]);
-        func_01ff9048(0x1a, &m, 9);
+        NNS_G3dGeBufferOP_N(0x1a, &m, 9);
     } else {
         t = coverPooHole->mUnk_a0 >> 4;
         f4[0] = 0;
         f4[1] = t;
         f4[2] = 0;
-        func_01ff9048(0x1c, f4, 3);
-        func_01ff9048(0x19, SetViewRotatedMatrixPos(&coverPooHole->mUnk_00.mPos), 12);
+        NNS_G3dGeBufferOP_N(0x1c, f4, 3);
+        NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&coverPooHole->mUnk_00.mPos), 12);
     }
     func_0209bbd0(a, gCover);
     DrawMapObjectModel(a, gCover, coverPooHole);

@@ -11,8 +11,8 @@ void DrawShadowWithMatrix(void *shadowModel, const void *matrix, Vec3 *extraVect
 NNSG3dResMdl *InitShadowModel(void *shadowModel, NNSG3dResFileHeader *resFileHeader, u32 polygonId);
 void InitShadowModelFromResMdl(ShadowModel *shadowModel, void *resFile, u32 polygonId);
 void StartKartCharacterAnimationOnce(Kart *kart, s32 animationIndex, s32 nextAnimationIndex);
-void func_0207b0d0(Kart *kart);
-void func_0207b13c(Kart *kart);
+void ResetKartModelsCourseColors(Kart *kart);
+void SetKartModelsGrayColors(Kart *kart);
 void StopKartStarModels(Kart *kart);
 void StartKartStarModels(Kart *kart);
 void AdvanceKartAnimationChangeTimer(Kart *kart);

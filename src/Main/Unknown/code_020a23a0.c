@@ -237,29 +237,29 @@ void DrawTrophy(void) {
     }
     DrawEffects(&gTrophy->mEffectMatrix);
     NNS_G3dGlbFlushP();
-    func_01ff9048(0x15, NULL, 0);
+    NNS_G3dGeBufferOP_N(0x15, NULL, 0);
     scale[0] = 0x1000;
     scale[1] = 0x1000;
     scale[2] = 0x1000;
-    func_01ff9048(0x1b, scale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, scale, 3);
     translation[0] = 0;
     translation[1] = -0xcd;
     translation[2] = -0x2000;
-    func_01ff9048(0x1c, translation, 3);
+    NNS_G3dGeBufferOP_N(0x1c, translation, 3);
     rotateZAngle = gTrophy->mRotateZWobble.mValue;
     MTX_RotX33_(&rotateXMatrix, data_0215d6b4[0x76], data_0215d6b4[0x77]);
     MTX_RotY33_(&rotateYMatrix, gPairsByAngle[(gTrophy->mRotateYAngle >> 4) * 2],
                 gPairsByAngle[(gTrophy->mRotateYAngle >> 4) * 2 + 1]);
     MTX_RotZ33_(&rotateZMatrix, gPairsByAngle[(rotateZAngle >> 4) * 2], gPairsByAngle[(rotateZAngle >> 4) * 2 + 1]);
-    func_01ff9048(0x1a, &rotateXMatrix, 9);
-    func_01ff9048(0x1a, &rotateYMatrix, 9);
-    func_01ff9048(0x1a, &rotateZMatrix, 9);
+    NNS_G3dGeBufferOP_N(0x1a, &rotateXMatrix, 9);
+    NNS_G3dGeBufferOP_N(0x1a, &rotateYMatrix, 9);
+    NNS_G3dGeBufferOP_N(0x1a, &rotateZMatrix, 9);
     v3[0] = 0;
     v3[1] = 0;
     v3[2] = 0;
-    func_01ff9048(0x1c, v3, 3);
+    NNS_G3dGeBufferOP_N(0x1c, v3, 3);
     DrawNsbmd(&gTrophy->mModel);
-    func_01ff9234();
+    NNS_G3dGeFlushBuffer();
 }
 
 s32 func_020a23a0(Kart *kart) {

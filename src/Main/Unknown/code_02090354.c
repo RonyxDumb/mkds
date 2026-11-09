@@ -59,16 +59,16 @@ void DrawSmanTop(void *mapObjectList, Sman *sman) {
     MtxFx33 matrix;
     s32 topOffset[3];
     c = 0x1e;
-    func_01ff9048(0x14, &c, 1);
-    func_01ff9048(0x19, SetViewRotatedMatrixPos(&sman->mMapObject.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x14, &c, 1);
+    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&sman->mMapObject.mPos), 0xc);
     topOffset[1] = sman->mTopHeight >> 4;
     topOffset[0] = 0;
     topOffset[2] = 0;
-    func_01ff9048(0x1c, topOffset, 3);
-    func_01ff9048(0x1b, &sman->mMapObject.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1c, topOffset, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &sman->mMapObject.mScale, 3);
     MTX_RotZ33_(&matrix, gPairsByAngle[((u16) sman->mAngleZ >> 4) * 2],
                 gPairsByAngle[((u16) sman->mAngleZ >> 4) * 2 + 1]);
-    func_01ff9048(0x1a, &matrix, 9);
+    NNS_G3dGeBufferOP_N(0x1a, &matrix, 9);
     DrawMapObjectModel(mapObjectList, gSmanTop, sman);
 }
 
@@ -88,14 +88,14 @@ void DrawSmanBottom(void *mapObjectList, Sman *sman) {
     s32 scale[3];
     s32 bottomScale;
     c = 0x1e;
-    func_01ff9048(0x14, &c, 1);
-    func_01ff9048(0x19, SetViewRotatedMatrixPos(&sman->mMapObject.mPos), 0xc);
-    func_01ff9048(0x1b, &sman->mMapObject.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x14, &c, 1);
+    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&sman->mMapObject.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &sman->mMapObject.mScale, 3);
     bottomScale = sman->mBottomScale;
     scale[0] = bottomScale;
     scale[1] = bottomScale;
     scale[2] = bottomScale;
-    func_01ff9048(0x1b, scale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, scale, 3);
     DrawMapObjectModel(mapObjectList, gSmanBottom, sman);
 }
 

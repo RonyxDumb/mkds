@@ -171,9 +171,9 @@ void func_02025854(u32 a, void *fileSetPointer, const char *charsName, const cha
 
 #pragma thumb off
 
-u32 func_0202578c(u32 a) {
+u32 GetKartSoundTableRow(u32 kartIndex) {
     u32 result = 3;
-    switch (a) {
+    switch (kartIndex) {
         case 0:
         case 3:
         case 6:

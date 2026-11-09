@@ -85,10 +85,10 @@ void DrawBeachTree1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
     matrix = SetViewRotatedMatrixPos(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
     DrawMapObjectModelWithPos(a, gBeachTree1, mapObject);
 }
 
@@ -109,10 +109,10 @@ void DrawOpaTree1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
     matrix = SetViewRotatedMatrixPos(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
     DrawMapObjectModelWithPos(a, gOpaTree1, mapObject);
 }
 
@@ -133,10 +133,10 @@ void DrawOlgMush1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
     matrix = SetViewRotatedMatrixPos(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
     DrawMapObjectModelWithPos(a, gOlgMush1, mapObject);
 }
 
@@ -157,10 +157,10 @@ void DrawOlgPipe1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
     matrix = SetViewRotatedMatrixPos(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
     DrawMapObjectModelWithPos(a, gOlgPipe1, mapObject);
 }
 
@@ -181,10 +181,10 @@ void DrawOf6yoshi1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
     matrix = SetViewRotatedMatrixPos(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
     DrawMapObjectModelWithPos(a, gOf6yoshi1, mapObject);
 }
 
@@ -205,10 +205,10 @@ void DrawNsCannon1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
     matrix = SetViewRotatedMatrixPos(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
     DrawMapObjectModelWithPos(a, gNsCannon1, mapObject);
 }
 
@@ -229,10 +229,10 @@ void DrawCrossTree1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
     matrix = SetViewRotatedMatrixPos(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
     DrawMapObjectModelWithPos(a, gCrossTree1, mapObject);
 }
 
@@ -253,10 +253,10 @@ void DrawBankTree1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
     matrix = SetViewRotatedMatrixPos(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
     DrawMapObjectModelWithPos(a, gBankTree1, mapObject);
 }
 
@@ -277,10 +277,10 @@ void DrawGardenTree1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
     matrix = SetViewRotatedMatrixPos(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
     DrawMapObjectModelWithPos(a, gGardenTree1, mapObject);
 }
 
@@ -301,10 +301,10 @@ void DrawTownTree1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
     matrix = SetViewRotatedMatrixPos(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
     DrawMapObjectModelWithPos(a, gTownTree1, mapObject);
 }
 
@@ -325,10 +325,10 @@ void DrawMarioTree3(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
     matrix = SetViewRotatedMatrixPos(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
     DrawMapObjectModelWithPos(a, gMarioTree3, mapObject);
 }
 
@@ -349,10 +349,10 @@ void DrawSnowTree1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
     matrix = SetViewRotatedMatrixPos(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
     DrawMapObjectModelWithPos(a, gSnowTree1, mapObject);
 }
 
@@ -373,10 +373,10 @@ void DrawDeTree1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
     matrix = SetViewRotatedMatrixPos(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
     DrawMapObjectModelWithPos(a, gDeTree1, mapObject);
 }
 
@@ -397,10 +397,10 @@ void DrawOlaTree1c(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
     matrix = SetViewRotatedMatrixPos(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
     DrawMapObjectModelWithPos(a, gOlaTree1c, mapObject);
 }
 
@@ -421,10 +421,10 @@ void DrawOsaTree1c(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
     matrix = SetViewRotatedMatrixPos(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
     DrawMapObjectModelWithPos(a, gOsaTree1c, mapObject);
 }
 
@@ -445,10 +445,10 @@ void DrawKinoHouse1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
     matrix = SetViewRotatedMatrixPos(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
     DrawMapObjectModelWithPos(a, gKinoHouse1, mapObject);
 }
 
@@ -469,10 +469,10 @@ void DrawKinoHouse2(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
     matrix = SetViewRotatedMatrixPos(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
     DrawMapObjectModelWithPos(a, gKinoHouse2, mapObject);
 }
 
@@ -493,10 +493,10 @@ void DrawKinoMount1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
     matrix = SetViewRotatedMatrixPos(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
     DrawMapObjectModelWithPos(a, gKinoMount1, mapObject);
 }
 
@@ -517,10 +517,10 @@ void DrawKinoMount2(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
     matrix = SetViewRotatedMatrixPos(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
     DrawMapObjectModelWithPos(a, gKinoMount2, mapObject);
 }
 
@@ -541,10 +541,10 @@ void DrawOm6Tree1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
     matrix = SetViewRotatedMatrixPos(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
     DrawMapObjectModelWithPos(a, gOm6Tree1, mapObject);
 }
 
@@ -565,10 +565,10 @@ void DrawOf6Tree1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
     matrix = SetViewRotatedMatrixPos(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
     DrawMapObjectModelWithPos(a, gOf6Tree1, mapObject);
 }
 
@@ -589,10 +589,10 @@ void DrawBankEgg1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
     matrix = SetViewRotatedMatrixPos(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
     DrawMapObjectModelWithPos(a, gBankEgg1, mapObject);
 }
 
@@ -613,10 +613,10 @@ void DrawMiniDokan(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
     matrix = SetViewRotatedMatrixPos(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
     DrawMapObjectModelWithPos(a, gMiniDokan, mapObject);
 }
 

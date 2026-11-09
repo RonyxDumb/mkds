@@ -242,7 +242,7 @@ void ComputeSphereHitOnSecondHand(SecondHand *secondHand, Vec3 *sphereCenter, s3
 
 void CreateSecondHand(void) {
     CreateNsbmd(&gSecondHand, FindCourseMapObjFile(gSecondHandNsbmdName), NULL);
-    func_02084968(gSecondHand, 0x3f, 2, 0x294a);
+    SetNsbmdPolygonIdLightEmiAll(gSecondHand, 0x3f, 2, 0x294a);
 }
 
 void InitSecondHand(SecondHand *secondHand, Unk020e5684 *courseRow) {

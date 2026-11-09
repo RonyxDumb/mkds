@@ -236,7 +236,7 @@ BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s3
 void CreatePendulumAndPendulumShadow(void) {
     CreateNsbmd(&gPendulum, FindCourseMapObjFile(gPendulumNsbmdName), NULL);
     CreateShadowModel(&gPendulumShadow, FindCourseMapObjFile(gPendulumShadowNsbmdName), 0x3f);
-    func_02084968(gPendulum, 0x3f, 2, 0x294a);
+    SetNsbmdPolygonIdLightEmiAll(gPendulum, 0x3f, 2, 0x294a);
 }
 
 void InitPendulum(PendulumObject *pendulum, Unk020e5e24_2 *courseRow) {

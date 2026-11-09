@@ -706,8 +706,8 @@ void AdvanceMissionRunMapObject(u32 a, Unk02188950 *mapObject) {
     probePosition.y = mapObject->mUnk_000.mPos.y + 0x14000;
     probePosition.z = mapObject->mUnk_000.mPos.z;
     mapObject->mCollisionBits = 0;
-    if (func_01ffdee4(&probePosition, NULL, 0, 0x14000, mapObject->mUnk_2b8 == 1 ? (u16) 4 : (u16) 1, -2, &pushOut,
-                      &v50, &v5c, &mapObject->mCollisionBits, NULL, NULL, NULL, NULL)) {
+    if (CollideSphereWithCourse(&probePosition, NULL, 0, 0x14000, mapObject->mUnk_2b8 == 1 ? (u16) 4 : (u16) 1, -2,
+                                &pushOut, &v50, &v5c, &mapObject->mCollisionBits, NULL, NULL, NULL, NULL)) {
         if (mapObject->mUnk_2b8 == 2 || mapObject->mUnk_2b8 == 3) {
             mapObject->mUnk_000.mPos.y += pushOut.y;
         } else {
@@ -876,14 +876,14 @@ void DrawMissionRunMapObject(void *mapObjectList, Unk02188950 *mapObject) {
             }
         }
         value = 0x1e;
-        func_01ff9048(0x14, &value, 1);
-        func_01ff9048(0x19, SetTranslationMatrixPos(&mapObject->mUnk_000.mPos), 0xc);
+        NNS_G3dGeBufferOP_N(0x14, &value, 1);
+        NNS_G3dGeBufferOP_N(0x19, SetTranslationMatrixPos(&mapObject->mUnk_000.mPos), 0xc);
         if (mapObject->mUnk_000.mAngle != 0) {
             pairIndex = mapObject->mUnk_000.mAngle >> 4;
             MTX_RotY33_(&rotationMatrix, gPairsByAngle[pairIndex * 2], gPairsByAngle[pairIndex * 2 + 1]);
-            func_01ff9048(0x1a, &rotationMatrix, 9);
+            NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
         }
-        func_01ff9048(0x1b, &mapObject->mUnk_000.mScale.x, 3);
+        NNS_G3dGeBufferOP_N(0x1b, &mapObject->mUnk_000.mScale.x, 3);
         SetMapObjectModelAlpha(mapObject->mNsbmd, alpha);
         SetMapObjectModelMirror(mapObject->mNsbmd, mapObject->mUnk_000.mFlags & 0x400, 0);
         DrawMapObjectModel(mapObjectList, mapObject->mNsbmd, mapObject);
@@ -933,24 +933,24 @@ void DrawMissionRunMapObjectShadow(void *mapObjectList, Unk02188950 *mapObject, 
         s32 c;
 
         value = 0x1e;
-        func_01ff9048(0x14, &value, 1);
-        func_01ff9048(0x19, SetTranslationMatrixPos(&shadowPosition), 0xc);
+        NNS_G3dGeBufferOP_N(0x14, &value, 1);
+        NNS_G3dGeBufferOP_N(0x19, SetTranslationMatrixPos(&shadowPosition), 0xc);
         pairIndex = (u16) mapObject->mAngle >> 4;
         MTX_RotY33_(&rotationMatrix, gPairsByAngle[pairIndex * 2], gPairsByAngle[pairIndex * 2 + 1]);
-        func_01ff9048(0x1a, &rotationMatrix, 9);
+        NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
         c = mapObject->mShadowOffsetZ >> 4;
         b = mapObject->mShadowOffsetY >> 4;
         a = mapObject->mShadowOffsetX >> 4;
         w.x = a;
         w.y = b;
         w.z = c;
-        func_01ff9048(0x1c, &w, 3);
-        func_01ff9048(0x1b, &mapObject->mShadowScaleX, 3);
+        NNS_G3dGeBufferOP_N(0x1c, &w, 3);
+        NNS_G3dGeBufferOP_N(0x1b, &mapObject->mShadowScaleX, 3);
         if (gShadowScaleToggle == 0) {
             u.x = 0x1333;
             u.y = 0x1000;
             u.z = 0x1333;
-            func_01ff9048(0x1b, &u, 3);
+            NNS_G3dGeBufferOP_N(0x1b, &u, 3);
         }
         SetMapObjectModelPolygonId(mapObject->mShadowNsbmd, 3);
         SetMapObjectModelAlpha(mapObject->mShadowNsbmd, depth);

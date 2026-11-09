@@ -321,7 +321,7 @@ void NNS_G3dMdlSetMdlXLDepthUpdateAll(NNSG3dResMdl *mdl, u32 flag) {
 void NNS_G3dGetCurrentMtx(MtxFx43 *pos, void *vec) {
     MtxFx44 clipMtx;
 
-    func_01ff9234();
+    NNS_G3dGeFlushBuffer();
     reg_G3_MTX_MODE = 0;
     reg_G3_MTX_PUSH = 0;
     reg_G3_MTX_IDENTITY = 0;

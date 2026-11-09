@@ -24,7 +24,7 @@ void QuaternionFromAngleAroundY(s32 angle, Quaternion *quaternion);
 // Writes to q the quaternion QuaternionFromYAxisToVec3 gives for p combined with the Y rotation
 // QuaternionFromAngleAroundY gives for b.
 void QuaternionFromVec3AndAngleAroundY(void *directionPtr, s32 angle, void *outputPtr);
-void func_020d79b0(void *quaternionPtr, u32 angle, void *outputPtr);
+void QuaternionMultiplyAngleAroundYIgnoreY(void *quaternionPtr, u32 angle, void *outputPtr);
 void func_020d7938(Quaternion *first, Quaternion *second, Quaternion *result);
 void QuaternionMultiplyAngleAroundX(Quaternion *quaternion, s32 angle, Quaternion *result);
 void QuaternionMultiplyAngleAroundY(void *quaternionPtr, s32 angle, void *resultPtr);

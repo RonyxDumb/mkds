@@ -745,7 +745,7 @@ void func_0207e668(KartAi *kartAi) {
             break;
         case 3:
             kartAi->mUnk_a8 = 4;
-            func_02063a68(kartAi->mKart);
+            KartAiCallKartSlot6AndToggleFlag(kartAi->mKart);
             break;
     }
 }

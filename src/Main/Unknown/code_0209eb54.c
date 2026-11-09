@@ -26,12 +26,12 @@ void DrawPicture(void *a, Picture *b) {
     s32 s;
 
     s = 0x1e;
-    func_01ff9048(0x14, &s, 1);
+    NNS_G3dGeBufferOP_N(0x14, &s, 1);
     b->mUnk_00.mMatrix.mUnk_00[3].x = b->mUnk_00.mPos.x >> 4;
     b->mUnk_00.mMatrix.mUnk_00[3].y = b->mUnk_00.mPos.y >> 4;
     b->mUnk_00.mMatrix.mUnk_00[3].z = b->mUnk_00.mPos.z >> 4;
-    func_01ff9048(0x19, &b->mUnk_00.mMatrix, 0xc);
-    func_01ff9048(0x1b, &b->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x19, &b->mUnk_00.mMatrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &b->mUnk_00.mScale, 3);
     switch (b->mPictureIndex) {
         case 0:
             SetMapObjectModelNsbcaFrameIndex(gPicture1, b->mNsbcaFrameIndex);
@@ -173,15 +173,15 @@ void DrawPuddle(void *a, MapObject *b) {
     Vec3 v;
 
     s = 0x1e;
-    func_01ff9048(0x14, &s, 1);
+    NNS_G3dGeBufferOP_N(0x14, &s, 1);
     z = b->mPos.z >> 4;
     y = (b->mPos.y + 0x1ccd) >> 4;
     x = b->mPos.x >> 4;
     v.x = x;
     v.y = y;
     v.z = z;
-    func_01ff9048(0x1c, &v, 3);
-    func_01ff9048(0x1b, &b->mScale, 3);
-    func_01ff9048(0x1a, &b->mMatrix, 9);
+    NNS_G3dGeBufferOP_N(0x1c, &v, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &b->mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1a, &b->mMatrix, 9);
     DrawMapObjectModel(a, gPuddle, b);
 }

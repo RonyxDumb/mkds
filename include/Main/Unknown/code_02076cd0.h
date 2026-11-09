@@ -45,6 +45,6 @@ void func_02077998(void);
 void LoadEmblemSBNclr(void *a);
 u16 GetKartListCount(void);
 u16 func_02077a5c(void);
-BOOL func_02077a70(s32 *characterIndex, u32 kartIndex);
+BOOL FindKartModelMenuCharacter(s32 *characterIndex, u32 kartIndex);
 void ClearKartModelMenuRequests(void);
 void QueueKartModelMenuLoad(void);

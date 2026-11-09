@@ -64,7 +64,7 @@ void func_01ffb130(Kart *p) {
             AdvanceKartThunderShrink(p);
         }
         if (p->mUnk_4c & 0x10000) {
-            func_02069f6c(p);
+            AdvanceKartScaleTableEffect(p);
         }
         if (p->mUnk_7c & 0x402000) {
             AdvanceKartTeresa(p);
@@ -80,9 +80,9 @@ void func_01ffb130(Kart *p) {
             p->mUnk_4c &= ~0x2000;
             p->mUnk_d8 = 0x1000;
             if (!(p->mUnk_4c & 0x8000000)) {
-                func_0207b0d0(p);
+                ResetKartModelsCourseColors(p);
             }
-            func_02080ee4(p);
+            StopKartNearRankEffect(p);
         }
     }
     if (p->mUnk_4c & 0x40) {
@@ -100,10 +100,10 @@ void func_01ffb130(Kart *p) {
             StopKartStarEffects(p->mIndex);
             SetKartCharacterAnimation(p, 0, 1);
             if ((p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
-                func_02106dc8();
+                StopKartStarSeq();
             }
             if (p->mUnk_4c & 0x2000) {
-                func_0207b13c(p);
+                SetKartModelsGrayColors(p);
             }
         }
     }

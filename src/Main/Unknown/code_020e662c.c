@@ -179,18 +179,18 @@ void SetNsbmdModelFixedAttributes(NsbmdModel *model) {
 
 void QueueViewMatrix(void) {
     u32 commandArg[1];
-    func_01ff9048(0x17, gViewMatrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x17, gViewMatrix, 0xc);
     commandArg[0] = 0x1e;
-    func_01ff9048(0x13, (void *) ((u32) commandArg), 1);
+    NNS_G3dGeBufferOP_N(0x13, (void *) ((u32) commandArg), 1);
 }
 
 void QueueNsbmdModelMaterial(NsbmdModel *model) {
     if (model->mFrameCount == 1) {
-        func_01ff9048(0x2b, model->mUnk_20, 1);
-        func_01ff9048(0x2a, model->mUnk_1c, 1);
+        NNS_G3dGeBufferOP_N(0x2b, model->mUnk_20, 1);
+        NNS_G3dGeBufferOP_N(0x2a, model->mUnk_1c, 1);
     }
-    func_01ff9048(0x30, &model->mUnk_0c, 1);
-    func_01ff9048(0x31, &model->mUnk_10, 1);
+    NNS_G3dGeBufferOP_N(0x30, &model->mUnk_0c, 1);
+    NNS_G3dGeBufferOP_N(0x31, &model->mUnk_10, 1);
 }
 
 s32 ComputeViewDepthAlpha(Vec3 *position) {
@@ -215,7 +215,7 @@ void DrawNsbmdModelWithMaxAlpha(NsbmdModel *model, Vec3 *position, s32 usePositi
     scale[0] = model->mScale;
     scale[1] = scale[0];
     scale[2] = scale[0];
-    func_01ff9048(0x1b, scale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, scale, 3);
     attributes = model->mPolygonAttributes;
     currentAlpha = (attributes & 0x1f0000) >> 16;
     if (maxAlpha < currentAlpha) {
@@ -240,15 +240,15 @@ void DrawNsbmdModelWithMaxAlpha(NsbmdModel *model, Vec3 *position, s32 usePositi
             attributes |= polygonId << 24;
         }
     }
-    func_01ff9048(0x29, &attributes, 1);
+    NNS_G3dGeBufferOP_N(0x29, &attributes, 1);
     if (model->mFrameCount != 1) {
         u16 frameIndex;
 
         frameIndex = model->mFrameIndex;
-        func_01ff9048(0x2b, model->mUnk_20 + frameIndex, 1);
-        func_01ff9048(0x2a, model->mUnk_1c + frameIndex, 1);
+        NNS_G3dGeBufferOP_N(0x2b, model->mUnk_20 + frameIndex, 1);
+        NNS_G3dGeBufferOP_N(0x2a, model->mUnk_1c + frameIndex, 1);
     }
-    func_01ff9144(model->mUnk_00, model->mUnk_04);
+    NNS_G3dGeSendDL(model->mUnk_00, model->mUnk_04);
 }
 
 void DrawNsbmdModelWithMatrixAndMaxAlpha(NsbmdModel *model, MtxFx43 *matrix, Vec3 *scale, s32 usePosition,
@@ -260,8 +260,8 @@ void DrawNsbmdModelWithMatrixAndMaxAlpha(NsbmdModel *model, MtxFx43 *matrix, Vec
     s32 scaleY;
 
     commandArg = 0x1e;
-    func_01ff9048(0x14, &commandArg, 1);
-    func_01ff9048(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x14, &commandArg, 1);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
     if (scale != NULL) {
         scaleZ = scale->z;
         scaleY = scale->y;
@@ -269,7 +269,7 @@ void DrawNsbmdModelWithMatrixAndMaxAlpha(NsbmdModel *model, MtxFx43 *matrix, Vec
         scaleCopy.x = scaleX;
         scaleCopy.y = scaleY;
         scaleCopy.z = scaleZ;
-        func_01ff9048(0x1b, &scaleCopy, 3);
+        NNS_G3dGeBufferOP_N(0x1b, &scaleCopy, 3);
     }
     DrawNsbmdModelWithMaxAlpha(model, &matrix->mUnk_00[3], usePosition, maxAlpha);
 }
@@ -284,12 +284,12 @@ void DrawNsbmdModelWithMatrixAndAngle(NsbmdModel *model, MtxFx43 *matrix, s32 an
     s32 scaleY;
 
     commandArg = 0x1e;
-    func_01ff9048(0x14, &commandArg, 1);
-    func_01ff9048(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x14, &commandArg, 1);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
     if (angle != 0) {
         angleIndex = angle >> 4;
         MTX_RotZ33_(gRotationZMatrix, gPairsByAngle[angleIndex * 2], gPairsByAngle[angleIndex * 2 + 1]);
-        func_01ff9048(0x1a, gRotationZMatrix, 9);
+        NNS_G3dGeBufferOP_N(0x1a, gRotationZMatrix, 9);
     }
     if (scale != NULL) {
         scaleZ = scale->z;
@@ -298,7 +298,7 @@ void DrawNsbmdModelWithMatrixAndAngle(NsbmdModel *model, MtxFx43 *matrix, s32 an
         scaleCopy.x = scaleX;
         scaleCopy.y = scaleY;
         scaleCopy.z = scaleZ;
-        func_01ff9048(0x1b, &scaleCopy, 3);
+        NNS_G3dGeBufferOP_N(0x1b, &scaleCopy, 3);
     }
     DrawNsbmdModelWithMaxAlpha(model, &matrix->mUnk_00[3], usePosition, maxAlpha);
 }

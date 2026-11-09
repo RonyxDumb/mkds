@@ -4,5 +4,5 @@
 
 typedef struct Nsbmd Nsbmd;
 
-void func_02085354(void *object);
+void DrawNsbmdRenderObjWrapper(void *object);
 void DrawNsbmd1Mat1Shp(Nsbmd *nsbmd);

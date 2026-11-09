@@ -144,21 +144,21 @@ void DrawCrab(void *a, Crab *crab) {
     MtxFx33 handRotation;
 
     w = 0x1e;
-    func_01ff9048(0x14, &w, 1);
+    NNS_G3dGeBufferOP_N(0x14, &w, 1);
     BuildYAxisMatrix(&crab->mUnk_000.mMatrix.mUnk_00[1]);
-    func_01ff9048(0x19, SetYAxisMatrixPos(&crab->mUnk_000.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x19, SetYAxisMatrixPos(&crab->mUnk_000.mPos), 0xc);
     if (crab->mRotateZAngle != 0) {
         MTX_RotZ33_(&crabRotation, gPairsByAngle[(crab->mRotateZAngle >> 4) * 2],
                     gPairsByAngle[(crab->mRotateZAngle >> 4) * 2 + 1]);
-        func_01ff9048(0x1a, &crabRotation, 9);
+        NNS_G3dGeBufferOP_N(0x1a, &crabRotation, 9);
     }
-    func_01ff9048(0x1b, &crab->mUnk_000.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &crab->mUnk_000.mScale, 3);
     SetMapObjectModelNsbtpFrameIndex(gCrab, crab->mCrabNsbtpFrameIndexFixed12 >> 12);
     func_0209bbd0(a, gCrab);
     DrawMapObjectModel(a, gCrab, crab);
     MTX_RotZ33_(&handRotation, gPairsByAngle[((u16) crab->mHandWobble.mValue >> 4) * 2],
                 gPairsByAngle[((u16) crab->mHandWobble.mValue >> 4) * 2 + 1]);
-    func_01ff9048(0x1a, &handRotation, 9);
+    NNS_G3dGeBufferOP_N(0x1a, &handRotation, 9);
     SetMapObjectModelNsbtpFrameIndex(gCrabHand, crab->mHandNsbtpFrameIndexFixed12 >> 12);
     func_0209bbd0(a, gCrabHand);
     DrawMapObjectModel(a, gCrabHand, crab);

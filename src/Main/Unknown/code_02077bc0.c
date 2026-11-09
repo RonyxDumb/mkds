@@ -127,9 +127,9 @@
 
 void DrawShadowModelIfDrawFlag(ShadowModel *shadowModel, u32 b, u32 c) {
     if ((shadowModel->mFlags & 1) != 0) {
-        func_02084ad8(shadowModel, shadowModel->mAlpha);
+        SetNsbmdFirstDrawMaterial(shadowModel, shadowModel->mAlpha);
         gNsbmdDrawFunctions[shadowModel->mNsbmd.mDrawKind](shadowModel);
-        func_02084a88(shadowModel, shadowModel->mAlpha, shadowModel->mPolygonId);
+        SetNsbmdSecondDrawMaterial(shadowModel, shadowModel->mAlpha, shadowModel->mPolygonId);
         gNsbmdDrawFunctions[shadowModel->mNsbmd.mDrawKind](shadowModel);
     }
 }
@@ -153,7 +153,7 @@ void InitKarts(u32 kartCount) {
     entryKartCounters->mMapObjectHitCount = 0;
     entryKartCounters->mRespawnCount = 0;
     data_usa_021658bc = gRaceSetup->mMode == MODE_BATTLE ? 1 : 2;
-    func_02073630();
+    InitKartMapObjectResponses();
     RegisterKartAiCallbacks();
     InitKartEffects(kartCount);
     gMissionRunKind2ShapesPresent = 0;
@@ -842,7 +842,7 @@ void InitKartModels(void *heap, u32 kartCount) {
         CopyKartPhysicalParams(i, (u16) entry->mKartIndex, (u16) entries[i].mCharacterIndex);
     }
     CreateKartModelsEntryModels(heap, 1);
-    func_0204775c();
+    ReplaceKm1ArchiveWithKm2();
     CreateKartModelsEntryModels(heap, 0);
     for (i = 0; i < gKartModels->mKartCount; i++) {
         entry = &gKartModels->mKartModelsEntries[i];
@@ -1323,7 +1323,7 @@ void InitKartModelMenuWithKartList(void *heap) {
     gKartModelMenu->mKartListCount = kartIndex;
     gKartModelMenu->mKartListPos = kartIndex;
     while (kartIndex < 0x24) {
-        if (func_02077a70(&characterIndex, kartIndex) != 0) {
+        if (FindKartModelMenuCharacter(&characterIndex, kartIndex) != 0) {
             gKartModelMenu->mKartListCount++;
         }
         kartIndex++;
@@ -1470,7 +1470,7 @@ void SetFrustumProjection(s32 mirrored) {
         right = -unmirroredRight;
         left = unmirroredRight;
     }
-    func_01ff9048(0x15, NULL, 0);
+    NNS_G3dGeBufferOP_N(0x15, NULL, 0);
     G3i_FrustumW_(top, bottom, left, right, 0x200, 0x64000, 0x1000, 0, &data_0217029c.mProjMtx);
     data_0217029c.mFlag &= ~0x50;
     NNS_G3dGlbFlushP();
@@ -1543,7 +1543,7 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
     data_0217029c.mFlag &= ~0xa4;
     NNS_G3dGlbFlushP();
     if (gKartModelMenu->mSelectModel != NULL) {
-        func_01ff8cf0(gKartModelMenu->mSelectModel);
+        DrawNsbmdRenderObj(gKartModelMenu->mSelectModel);
     }
     MI_Copy36B(&rotationMatrix, &data_0217029c.mPrmBaseRot);
     data_0217029c.mFlag &= ~0xa4;
@@ -1561,11 +1561,11 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
         }
         if (slot->mKartNsbmd != NULL) {
             if (mirrored != 0) {
-                func_02084f68(slot->mKartNsbmd);
+                SetNsbmdCullModeMirrored(slot->mKartNsbmd);
             } else {
-                func_02084f20(slot->mKartNsbmd);
+                SetNsbmdCullModeUnmirrored(slot->mKartNsbmd);
             }
-            func_01ff8cf0(slot->mKartNsbmd);
+            DrawNsbmdRenderObj(slot->mKartNsbmd);
         }
         if (slot->mTireNsbmd != NULL) {
             for (i = 0; i < 4; i++) {
@@ -1587,11 +1587,11 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
                     NNS_G3dGlbSetBaseTrans(&translation);
                     NNS_G3dGlbFlushP();
                     if (mirrored != 0) {
-                        func_02084f68(slot->mTireNsbmd);
+                        SetNsbmdCullModeMirrored(slot->mTireNsbmd);
                     } else {
-                        func_02084f20(slot->mTireNsbmd);
+                        SetNsbmdCullModeUnmirrored(slot->mTireNsbmd);
                     }
-                    func_01ff8cf0(slot->mTireNsbmd);
+                    DrawNsbmdRenderObj(slot->mTireNsbmd);
                 }
             }
         }
@@ -1600,11 +1600,11 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
             NNS_G3dGlbSetBaseTrans(&translation);
             NNS_G3dGlbFlushP();
             if (mirrored != 0) {
-                func_02084f68(slot->mCharacterNsbmd);
+                SetNsbmdCullModeMirrored(slot->mCharacterNsbmd);
             } else {
-                func_02084f20(slot->mCharacterNsbmd);
+                SetNsbmdCullModeUnmirrored(slot->mCharacterNsbmd);
             }
-            func_01ff8cf0(slot->mCharacterNsbmd);
+            DrawNsbmdRenderObj(slot->mCharacterNsbmd);
         }
     }
 }
@@ -1689,7 +1689,7 @@ void AdvanceKartModelMenuInput(void) {
                 if (gKartModelMenu->mKartIndex > 0x23) {
                     gKartModelMenu->mKartIndex = a;
                 }
-                if (func_02077a70(&characterIndex, gKartModelMenu->mKartIndex) != 0) {
+                if (FindKartModelMenuCharacter(&characterIndex, gKartModelMenu->mKartIndex) != 0) {
                     RequestKartModelMenuCharacter(characterIndex);
                     RequestKartModelMenuKart(gKartModelMenu->mKartIndex);
                     d = 1;
@@ -1707,7 +1707,7 @@ void AdvanceKartModelMenuInput(void) {
                 if (gKartModelMenu->mKartIndex < 0) {
                     gKartModelMenu->mKartIndex = 0x23;
                 }
-                if (func_02077a70(&characterIndex, gKartModelMenu->mKartIndex) != 0) {
+                if (FindKartModelMenuCharacter(&characterIndex, gKartModelMenu->mKartIndex) != 0) {
                     RequestKartModelMenuCharacter(characterIndex);
                     RequestKartModelMenuKart(gKartModelMenu->mKartIndex);
                     d = 1;
@@ -1789,7 +1789,7 @@ void DrawKartModelMenu(void) {
         if (view->mCharacterIndex != -1 && view->mKartIndex != -1) {
             SetupLightFrustumAndLookAt(view->mBg0Offset, data_usa_021656ec);
             DrawKartModelMenuSlot(slot, &gKartModelMenu->mView, gKartModelMenu->mMirrorMode);
-            func_01ff9234();
+            NNS_G3dGeFlushBuffer();
         }
     }
 }
@@ -1800,7 +1800,7 @@ void DrawKartModelMenuUnmirrored(void) {
         slot = &gKartModelMenu->mSlots[gKartModelMenu->mShownSlotIndex];
         SetupLightFrustumAndLookAt(0, data_usa_021656ec);
         DrawKartModelMenuSlot(slot, &gKartModelMenu->mView, 0);
-        func_01ff9234();
+        NNS_G3dGeFlushBuffer();
     }
 }
 

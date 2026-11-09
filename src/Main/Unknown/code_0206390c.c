@@ -35,7 +35,7 @@ void GetKartForward(const Kart *kart, Vec3 *forward) {
     forward->z = matrix->mUnk_00[2].z;
 }
 
-void func_02063ad0(Kart *kart) {
+void CallKartSlot6AndToggleFlag(Kart *kart) {
     if ((kart->mUnk_7c & 0x400) != 0) {
         return;
     }
@@ -45,7 +45,7 @@ void func_02063ad0(Kart *kart) {
     }
 }
 
-void func_02063a68(Kart *kart) {
+void KartAiCallKartSlot6AndToggleFlag(Kart *kart) {
     u32 b;
 
     b = kart->mUnk_7c & 0x400;

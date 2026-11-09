@@ -73,12 +73,12 @@ void DrawKanoke64(void *a, Unk020919e8 *p) {
 
     SetMapObjectModelNsbcaFrameIndex(gKanoke64, p->mUnk_a0);
     w = 0x1e;
-    func_01ff9048(0x14, &w, 1);
+    NNS_G3dGeBufferOP_N(0x14, &w, 1);
     p->mUnk_00.mMatrix.mUnk_00[3].x = p->mUnk_00.mPos.x >> 4;
     p->mUnk_00.mMatrix.mUnk_00[3].y = p->mUnk_00.mPos.y >> 4;
     p->mUnk_00.mMatrix.mUnk_00[3].z = p->mUnk_00.mPos.z >> 4;
-    func_01ff9048(0x19, &p->mUnk_00.mMatrix, 0xc);
-    func_01ff9048(0x1b, &p->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x19, &p->mUnk_00.mMatrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &p->mUnk_00.mScale, 3);
     DrawMapObjectModel(a, gKanoke64, p);
 }
 
@@ -258,9 +258,9 @@ void DrawCow(void *a, Unk020919e8 *b) {
     s32 w;
 
     w = 0x1e;
-    func_01ff9048(0x14, &w, 1);
-    func_01ff9048(0x19, SetViewRotatedMatrixPos(&b->mUnk_00.mPos), 0xc);
-    func_01ff9048(0x1b, &b->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x14, &w, 1);
+    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&b->mUnk_00.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &b->mUnk_00.mScale, 3);
     SetMapObjectModelNsbtpFrameIndex(gCow, b->mUnk_00.mCourseMapRow->mUnk_28);
     DrawMapObjectModel(a, gCow, b);
 }

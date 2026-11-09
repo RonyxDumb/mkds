@@ -38,18 +38,18 @@ void StartKartAheadEffectIfSelectedEntry(Kart *kart) {
     if (!(kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
         return;
     }
-    if (data_0217ae94[kart->mIndex] != NULL) {
+    if (gKartAheadEffects[kart->mIndex] != NULL) {
         return;
     }
-    data_0217ae94[kart->mIndex] = StartEffect(0x80, &data_02155a14);
-    effect = data_0217ae94[kart->mIndex];
+    gKartAheadEffects[kart->mIndex] = StartEffect(0x80, &data_02155a14);
+    effect = gKartAheadEffects[kart->mIndex];
     effect->mUnk_98_24 = kart->mIndex;
     effect->mUnk_94 = 0;
     effect->mUnk_90 = AdvanceKartAheadEffect;
 }
 
-void func_02081000(Kart *kart) {
-    Unk0201ca6c *effect = data_0217ae94[kart->mIndex];
+void StopKartAheadEffect(Kart *kart) {
+    Unk0201ca6c *effect = gKartAheadEffects[kart->mIndex];
 
     if (effect == NULL) {
         return;
@@ -57,32 +57,32 @@ void func_02081000(Kart *kart) {
     effect->mUnk_98_16 = 0;
     effect->mUnk_98_8 = 3;
     effect->mUnk_90 = AdvanceKartAheadEffectWithLimit;
-    data_0217ae94[kart->mIndex] = NULL;
+    gKartAheadEffects[kart->mIndex] = NULL;
 }
 
-void func_02080fb8(Kart *kart) {
-    if (data_0217ae94[kart->mIndex] == NULL) {
+void ReleaseKartAheadEffect(Kart *kart) {
+    if (gKartAheadEffects[kart->mIndex] == NULL) {
         return;
     }
-    DeleteEffect(data_0217ae94[kart->mIndex]);
-    data_0217ae94[kart->mIndex] = NULL;
+    DeleteEffect(gKartAheadEffects[kart->mIndex]);
+    gKartAheadEffects[kart->mIndex] = NULL;
 }
 
-void func_02080f44(Kart *kart) {
+void StartKartNearRankEffect(Kart *kart) {
     Unk0201ca6c *effect;
 
-    if (data_0217ae74[kart->mIndex] != NULL) {
+    if (gKartNearRankEffects[kart->mIndex] != NULL) {
         return;
     }
-    data_0217ae74[kart->mIndex] = StartEffect(0x7f, &data_02155a14);
-    effect = data_0217ae74[kart->mIndex];
+    gKartNearRankEffects[kart->mIndex] = StartEffect(0x7f, &data_02155a14);
+    effect = gKartNearRankEffects[kart->mIndex];
     effect->mUnk_98_24 = kart->mIndex;
     effect->mUnk_94 = (void *) 1;
     effect->mUnk_90 = AdvanceKartAheadEffect;
 }
 
-void func_02080ee4(Kart *kart) {
-    Unk0201ca6c *effect = data_0217ae74[kart->mIndex];
+void StopKartNearRankEffect(Kart *kart) {
+    Unk0201ca6c *effect = gKartNearRankEffects[kart->mIndex];
 
     if (effect == NULL) {
         return;
@@ -90,15 +90,15 @@ void func_02080ee4(Kart *kart) {
     effect->mUnk_98_16 = 0;
     effect->mUnk_98_8 = 5;
     effect->mUnk_90 = AdvanceKartAheadEffectWithLimit;
-    data_0217ae74[kart->mIndex] = NULL;
+    gKartNearRankEffects[kart->mIndex] = NULL;
 }
 
-void func_02080e9c(Kart *kart) {
-    if (data_0217ae74[kart->mIndex] == NULL) {
+void ReleaseKartNearRankEffect(Kart *kart) {
+    if (gKartNearRankEffects[kart->mIndex] == NULL) {
         return;
     }
-    DeleteEffect(data_0217ae74[kart->mIndex]);
-    data_0217ae74[kart->mIndex] = NULL;
+    DeleteEffect(gKartNearRankEffects[kart->mIndex]);
+    gKartNearRankEffects[kart->mIndex] = NULL;
 }
 
 void func_02080e88(Unk0201ca6c *effect, Kart *kart) {
@@ -215,8 +215,7 @@ void AdvancePointLinkCursor(PointLinkCursor *pointLinkCursor) {
     }
     pointLinkCursor->mPreviousLink = pointLinkCursor->mLink;
     pointLinkCursor->mLink = pointLinkCursor->mLink->mNextLinks[nextIndex];
-    VEC_Subtract(pointLinkCursor->mLink->mPoint, pointLinkCursor->mPreviousLink->mPoint,
-                 &pointLinkCursor->mDirection);
+    VEC_Subtract(pointLinkCursor->mLink->mPoint, pointLinkCursor->mPreviousLink->mPoint, &pointLinkCursor->mDirection);
     Vec3NormalizeAndGetLengthUnchecked(&pointLinkCursor->mDirection, &pointLinkCursor->mDirection);
 }
 

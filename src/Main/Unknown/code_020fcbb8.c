@@ -49,8 +49,9 @@ void SteerItemKouraWToKartForward(ItemKouraW *item, s32 gain, s32 lift) {
     if (flagBit0 == 0) {
         return;
     }
-    if (func_01ffdee4(pos, &item->mUnk_000.mPrevPos, 0, item->mUnk_000.mUnk_dc, 4, item->mUnk_000.mCollisionSlotIndex,
-                      &v, NULL, NULL, NULL, NULL, NULL, NULL, NULL) == 0) {
+    if (CollideSphereWithCourse(pos, &item->mUnk_000.mPrevPos, 0, item->mUnk_000.mUnk_dc, 4,
+                                item->mUnk_000.mCollisionSlotIndex, &v, NULL, NULL, NULL, NULL, NULL, NULL,
+                                NULL) == 0) {
         return;
     }
     VEC_Add(pos, &v, pos);

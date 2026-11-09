@@ -51,7 +51,7 @@
 #include "Main/Unknown/code_02073eb8.h"
 #include "Main/Unknown/code_0203c5f8.h"
 
-void func_02068b98(Kart *kart) {
+void AdvanceKartRemovalShrink(Kart *kart) {
     u32 kartBits;
     s32 c;
     BOOL winnerDecidedAndEndReached;
@@ -84,7 +84,7 @@ void func_02068b98(Kart *kart) {
         if ((currentBits & 0x800006) == 0 && winnerDecidedAndEndReached == FALSE && (currentBits & 0x40000) != 0) {
             if (kart->mUnk_3c8 >= 0xb9) {
                 *bitsPointer = *bitsPointer | 0x80000;
-                func_02063ad0(kart);
+                CallKartSlot6AndToggleFlag(kart);
                 collisionCenter = gRaceSetup->mMode == 5 ? &kart->mPointAlongUp : &kart->mCollisionCenter;
                 if (kart->mCollisionSlot == -1) {
                     kart->mCollisionSlot =
@@ -117,7 +117,7 @@ void func_02068b98(Kart *kart) {
                 if (c == 0x70) {
                     func_02055a94();
                 } else if (c == 0x73) {
-                    func_02055c18(0x3c);
+                    StartDispCapFadeToFaded(0x3c);
                     func_0210fb54();
                 }
             }
@@ -210,7 +210,7 @@ void func_02068a10(Kart *kart) {
     if ((kart->mUnk_48 & 0x840) != 0) {
         return;
     }
-    func_0210af40(kart, kart->mSoundIndex, 0);
+    StartKartSeqArcSound(kart, kart->mSoundIndex, 0);
 }
 
 void func_02068a00(Kart *kart) {
@@ -392,7 +392,7 @@ void func_02068494(Kart *kart, s32 b, s32 c) {
     if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) == 0) {
         return;
     }
-    func_02055bd4(0);
+    StartDispCapFadeToClear(0);
     func_020e79c4();
 }
 

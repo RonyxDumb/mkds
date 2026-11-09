@@ -92,7 +92,7 @@ void CreateKoopaBlock(void) {
 
     file = FindCourseMapObjFile("koopa_block.nsbmd");
     CreateNsbmd(&gKoopaBlock, file, NULL);
-    func_02084968(gKoopaBlock, 0x3f, 2, 0x294a);
+    SetNsbmdPolygonIdLightEmiAll(gKoopaBlock, 0x3f, 2, 0x294a);
     SetMapObjectsModel(data_0217b784, gKoopaBlock);
 }
 
@@ -167,14 +167,14 @@ void DrawMkdEfBubble(void *a, MkdEfBubbleObject *bubble, void *c, s32 alpha) {
         return;
     }
     w = 0x1e;
-    func_01ff9048(0x14, &w, 1);
-    func_01ff9048(0x19, SetViewTransposeMatrixPos(&bubble->mMapObject.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x14, &w, 1);
+    NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&bubble->mMapObject.mPos), 0xc);
     if (bubble->mAngleZ != 0) {
         n = bubble->mAngleZ >> 4;
         MTX_RotZ33_(&rotationMatrix, gPairsByAngle[n * 2], gPairsByAngle[n * 2 + 1]);
-        func_01ff9048(0x1a, &rotationMatrix, 9);
+        NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
     }
-    func_01ff9048(0x1b, &bubble->mMapObject.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &bubble->mMapObject.mScale, 3);
     DrawNsbmdWithMaxAlpha(gMkdEfBubble, alpha);
     v = bubble->mMapObject.mPos.y - bubble->mInitialY;
     if (v > 0x10000) {

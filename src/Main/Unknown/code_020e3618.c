@@ -40,7 +40,7 @@ void CreateBridge(void) {
     CreateNsbmd(&gBridge, file, NULL);
     CreateModelAnimation(0, gBridge, &gBridgeNsbca, file, FindCourseMapObjFile(gBridgeNsbcaName));
     data_0217b7c4->mAnimationFrameCount = GetModelAnimationFrameCountFixed(gBridgeNsbca);
-    func_02084968(gBridge, 0x3f, 2, 0x294a);
+    SetNsbmdPolygonIdLightEmiAll(gBridge, 0x3f, 2, 0x294a);
     SetMapObjectsModel(&data_0217b7c4->mMapObjectList, gBridge);
 }
 
@@ -63,7 +63,8 @@ void InitBridge(Bridge *bridge, struct CourseMapRow *courseRow) {
         bridge->mSwingAngle = ((courseRow->mUnk_30 * 0x10000) / 0x168) >> 1;
     }
     bridge->mUnk_000.mCollisionData.mUnk_100 = ((s64) bridge->mUnk_000.mMapObject.mScale.x * 0x5a000) >> 12;
-    bridge->mUnk_000.mCollisionData.mHalfSizeY = (s32) (((s64) bridge->mUnk_000.mMapObject.mScale.y * 0x1e000) >> 12) >> 1;
+    bridge->mUnk_000.mCollisionData.mHalfSizeY =
+        (s32) (((s64) bridge->mUnk_000.mMapObject.mScale.y * 0x1e000) >> 12) >> 1;
     bridge->mUnk_000.mCollisionData.mPositiveHalfSizeZ = ((s64) bridge->mUnk_000.mMapObject.mScale.z * 0x15e000) >> 12;
     bridge->mUnk_000.mCollisionData.mNegativeHalfSizeZ = ((s64) bridge->mUnk_000.mMapObject.mScale.z * 0x32000) >> 12;
     bridge->mUnk_000.mCollisionData.mUnk_110 = 0;

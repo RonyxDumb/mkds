@@ -42,7 +42,7 @@ void DrawMapObjectModel(MapObjectList *mapObjectList, void *b, void *d) {
     MapObjectModel *mapObjectModel = b;
     MapObject *mapObject = d;
 
-    func_01ff9048(0x1b, mapObjectModel, 3);
+    NNS_G3dGeBufferOP_N(0x1b, mapObjectModel, 3);
     if (mapObjectModel->mNsbmdModel != NULL) {
         func_020ea5b0(mapObjectModel->mNsbmdModel, mapObject->mAlpha, NULL);
     }
@@ -67,7 +67,7 @@ void DrawMapObjectModel(MapObjectList *mapObjectList, void *b, void *d) {
 void DrawMapObjectModelWithPos(u32 a, MapObjectModel *mapObjectModel, MapObject *mapObject) {
     MapObjectModel *o = mapObjectModel;
 
-    func_01ff9048(0x1b, o, 3);
+    NNS_G3dGeBufferOP_N(0x1b, o, 3);
     if (o->mNsbmdModel != NULL) {
         func_020ea5b0(o->mNsbmdModel, mapObject->mAlpha, &mapObject->mPos);
     }

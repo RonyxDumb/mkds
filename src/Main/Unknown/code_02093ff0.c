@@ -52,15 +52,15 @@ void DrawTeresa(void *a, Teresa *teresa) {
     SetMapObjectModelFogEnabled(gTeresa, IsFadeFogActive());
     SetMapObjectModelMirror(gTeresa, teresa->mMirror, 0);
     w = 0x1e;
-    func_01ff9048(0x14, &w, 1);
-    func_01ff9048(0x19, SetViewTransposeMatrixPos(&teresa->mUnk_00.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x14, &w, 1);
+    NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&teresa->mUnk_00.mPos), 0xc);
     if (GetCurrentCameraKind() == 2) {
         v[0] = 0x2000;
         v[1] = 0x2000;
         v[2] = 0x2000;
-        func_01ff9048(0x1b, v, 3);
+        NNS_G3dGeBufferOP_N(0x1b, v, 3);
     }
-    func_01ff9048(0x1b, &teresa->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &teresa->mUnk_00.mScale, 3);
     DrawMapObjectModel(a, gTeresa, teresa);
 }
 

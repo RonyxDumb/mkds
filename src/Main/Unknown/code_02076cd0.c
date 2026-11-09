@@ -48,31 +48,31 @@ void ClearKartModelMenuRequests(void) {
     gKartModelMenu->mCharacterRequested = gKartModelMenu->mKartRequested;
 }
 
-BOOL func_02077a70(s32 *characterIndex, u32 kartIndex) {
-    u32 n;
-    enum { K0 } i;
+BOOL FindKartModelMenuCharacter(s32 *characterIndex, u32 kartIndex) {
+    u32 backupFlagIndex;
+    enum { K0 } candidateCharacter;
 
     *characterIndex = _s32_div_f((u16) kartIndex, 3);
     if (*characterIndex >= 8) {
         switch (*characterIndex) {
             case 8:
-                n = 0x14;
+                backupFlagIndex = 0x14;
                 break;
             case 9:
-                n = 0x15;
+                backupFlagIndex = 0x15;
                 break;
             case 10:
-                n = 0x16;
+                backupFlagIndex = 0x16;
                 break;
             case 11:
-                n = 0x17;
+                backupFlagIndex = 0x17;
                 break;
         }
-        if (IsBackupFlagSet(n) == 0) {
+        if (IsBackupFlagSet(backupFlagIndex) == 0) {
             *characterIndex = -1;
-            for (i = 0; i < 8; i++) {
-                if (IsKartAppearWithinLimit(gKartModelMenu->mKartAppear, i, kartIndex) != 0) {
-                    *characterIndex = i;
+            for (candidateCharacter = 0; candidateCharacter < 8; candidateCharacter++) {
+                if (IsKartAppearWithinLimit(gKartModelMenu->mKartAppear, candidateCharacter, kartIndex) != 0) {
+                    *characterIndex = candidateCharacter;
                     break;
                 }
             }

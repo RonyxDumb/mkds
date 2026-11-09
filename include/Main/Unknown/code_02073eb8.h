@@ -123,7 +123,7 @@ void UpdateCameraByEntryKind(Camera *camera);
 // is 0 and func_0203c5e4() is non-zero.
 BOOL TryUpdateEntryCamera(Camera *camera);
 void DisableEntryCameraUpdate(void);
-void func_02075d08(s32 hold);
+void SetEntryCameraUpdateHold(s32 hold);
 // Does nothing when CourseMap.mFirstKind6Entry is NULL. Otherwise sets mKind6EntryRunning and makes that entry the
 // current entry of gEntryCamera (fresh mFovBlend, field of view pair and mShakeKind), sets up its mPosCurve (and
 // mUnk_1d0 in mode 2), advances the local random once when the entry Kart has ended and sets gCameraEntryChanged.

@@ -58,26 +58,26 @@ void DrawShineBalloon(void *a, ShineBalloonObject *b) {
         return;
     }
     s0 = 0x1e;
-    func_01ff9048(0x14, &s0, 1);
-    func_01ff9048(0x19, SetViewTransposeMatrixPos(&b->mUnk_00.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x14, &s0, 1);
+    NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&b->mUnk_00.mPos), 0xc);
     v2.y = func_020a23a0(b->mUnk_ac) >> 4;
     v2.x = 0;
     v2.z = 0;
-    func_01ff9048(0x1c, &v2, 3);
+    NNS_G3dGeBufferOP_N(0x1c, &v2, 3);
     t = b->mUnk_a0;
     if (t != 0x1000) {
         v3.x = t;
         v3.y = t;
         v3.z = t;
-        func_01ff9048(0x1b, &v3, 3);
+        NNS_G3dGeBufferOP_N(0x1b, &v3, 3);
     }
-    func_01ff9048(0x1b, &b->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &b->mUnk_00.mScale, 3);
     VEC_Subtract(&b->mUnk_00.mPos, &GetCurrentCamera()->mPos, &v1);
     v5 = VEC_Mag(&v1);
     v4.x = v5;
     v4.y = v5;
     v4.z = v5;
-    func_01ff9048(0x1b, &v4, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &v4, 3);
     DrawMapObjectModel(a, gShineBalloon, b);
 }
 

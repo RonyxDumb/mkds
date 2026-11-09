@@ -280,7 +280,7 @@ void DrawJg(void) {
             lapModel = gJgKindRows[gJgKind].mLapModel;
             break;
     }
-    func_0208ab4c(data_0217b8c0);
+    SendLight01Color(data_0217b8c0);
     gJgAlpha++;
     if (gJgAlpha > 0x1f) {
         gJgAlpha = 0x1f;
@@ -298,80 +298,80 @@ void DrawJg(void) {
     }
     if (data_0217b900 != 0) {
         commandArg1 = 0;
-        func_01ff9048(0x10, &commandArg1, 1);
-        func_01ff9048(0x11, NULL, 0);
+        NNS_G3dGeBufferOP_N(0x10, &commandArg1, 1);
+        NNS_G3dGeBufferOP_N(0x11, NULL, 0);
         smallScale.x = 0x19a;
         smallScale.y = 0x19a;
         smallScale.z = 0x19a;
-        func_01ff9048(0x1b, &smallScale, 3);
+        NNS_G3dGeBufferOP_N(0x1b, &smallScale, 3);
         commandArg2 = 2;
-        func_01ff9048(0x10, &commandArg2, 1);
+        NNS_G3dGeBufferOP_N(0x10, &commandArg2, 1);
         sentOpening = TRUE;
     }
     commandArg3 = 0x1e;
-    func_01ff9048(0x14, &commandArg3, 1);
-    func_01ff9048(0x19, SetViewTransposeMatrixPos(&gJgEasedPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x14, &commandArg3, 1);
+    NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&gJgEasedPos), 0xc);
     tableOffset.y = data_0217b8a4[gJgTableIndex];
     tableOffset.x = 0;
     tableOffset.z = 0;
-    func_01ff9048(0x1c, &tableOffset, 3);
+    NNS_G3dGeBufferOP_N(0x1c, &tableOffset, 3);
     baseScale.x = data_0217b8f8 != 0 ? 0x1666 : -0x1666;
     baseScale.y = 0x1666;
     baseScale.z = 0x1666;
-    func_01ff9048(0x1b, &baseScale, 3);
-    func_01ff9048(0x11, NULL, 0);
+    NNS_G3dGeBufferOP_N(0x1b, &baseScale, 3);
+    NNS_G3dGeBufferOP_N(0x11, NULL, 0);
     tableScaleX = data_0217b904[gJgTableIndex];
     tableScaleY = data_0217b8e0[gJgTableIndex];
     tableScale.x = tableScaleX;
     tableScale.y = tableScaleY;
     tableScale.z = 0;
-    func_01ff9048(0x1b, &tableScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &tableScale, 3);
     QueueNsbmdModelMaterial(&gJgCloud);
     DrawNsbmdModelWithMaxAlpha(&gJgCloud, NULL, 0, 0x1f);
     commandArg4 = 1;
-    func_01ff9048(0x12, &commandArg4, 1);
+    NNS_G3dGeBufferOP_N(0x12, &commandArg4, 1);
     mainOffset.x = 0;
     mainOffset.y = 0;
     mainOffset.z = 0xa4;
-    func_01ff9048(0x1c, &mainOffset, 3);
+    NNS_G3dGeBufferOP_N(0x1c, &mainOffset, 3);
     MTX_RotZ33_(&rotation, data_0217b8a8[gJgTableIndex], data_0217b8a0[gJgTableIndex]);
-    func_01ff9048(0x1a, &rotation, 9);
+    NNS_G3dGeBufferOP_N(0x1a, &rotation, 9);
     QueueNsbmdModelMaterial(&gJgMain);
     DrawNsbmdModelWithMaxAlpha(&gJgMain, NULL, 0, 0x1f);
     if (kindModel != NULL) {
         if (gJgKind == 3) {
             commandArg5 = 0;
-            func_01ff9048(0x12, &commandArg5, 1);
-            func_01ff8cf0(kindModel);
+            NNS_G3dGeBufferOP_N(0x12, &commandArg5, 1);
+            DrawNsbmdRenderObj(kindModel);
         } else {
-            func_01ff9048(0x1c, &data_021593c8, 3);
+            NNS_G3dGeBufferOP_N(0x1c, &data_021593c8, 3);
             if (data_0217b8f8 == 0) {
                 mirrorScale1.x = -0x1000;
                 mirrorScale1.y = 0x1000;
                 mirrorScale1.z = 0x1000;
-                func_01ff9048(0x1b, &mirrorScale1, 3);
+                NNS_G3dGeBufferOP_N(0x1b, &mirrorScale1, 3);
             }
-            func_01ff8cf0(kindModel);
+            DrawNsbmdRenderObj(kindModel);
         }
     }
     if (lapModel != NULL) {
-        func_01ff9048(0x1c, &data_021593c8, 3);
+        NNS_G3dGeBufferOP_N(0x1c, &data_021593c8, 3);
         if (data_0217b8f8 == 0) {
             mirrorScale2.x = -0x1000;
             mirrorScale2.y = 0x1000;
             mirrorScale2.z = 0x1000;
-            func_01ff9048(0x1b, &mirrorScale2, 3);
+            NNS_G3dGeBufferOP_N(0x1b, &mirrorScale2, 3);
         }
         QueueNsbmdModelMaterial(lapModel);
         DrawNsbmdModelWithMaxAlpha(lapModel, NULL, 0, 0x1f);
     }
     if (sentOpening != FALSE) {
         commandArg6 = 0;
-        func_01ff9048(0x10, &commandArg6, 1);
+        NNS_G3dGeBufferOP_N(0x10, &commandArg6, 1);
         commandArg7 = 1;
-        func_01ff9048(0x12, &commandArg7, 1);
+        NNS_G3dGeBufferOP_N(0x12, &commandArg7, 1);
         commandArg8 = 2;
-        func_01ff9048(0x10, &commandArg8, 1);
+        NNS_G3dGeBufferOP_N(0x10, &commandArg8, 1);
     }
     goto done;
 reset:
@@ -508,8 +508,8 @@ void UpdateJgPosition(void) {
                         pushed = TRUE;
                     }
                 }
-                if (func_01ffdee4(&data_0217b93c, previousPos, 0, 0x12000, 4, -1, &t, NULL, NULL, &data_0217b8fc, NULL,
-                                  NULL, NULL, NULL) != 0) {
+                if (CollideSphereWithCourse(&data_0217b93c, previousPos, 0, 0x12000, 4, -1, &t, NULL, NULL,
+                                            &data_0217b8fc, NULL, NULL, NULL, NULL) != 0) {
                     UpdateJgPosition_inline(&pushMin, &t, &pushMin);
                     UpdateJgPosition_inline_2(&pushMax, &t, &pushMax);
                     pushed = TRUE;
@@ -536,8 +536,8 @@ void UpdateJgPosition(void) {
             data_0217b90c.x = gJgPos.x + data_0217b870 * (s32) (((s64) gJgKart->mVelocity.x * 0x5000) >> 12);
             data_0217b90c.z = gJgPos.z + data_0217b870 * (s32) (((s64) gJgKart->mVelocity.z * 0x5000) >> 12);
             data_0217b90c.y = gJgPos.y;
-            if (func_01ffdee4(&data_0217b90c, NULL, 0, 0x18e66, 0x10, -1, NULL, NULL, &v, NULL, NULL, NULL, NULL,
-                              NULL) != 0) {
+            if (CollideSphereWithCourse(&data_0217b90c, NULL, 0, 0x18e66, 0x10, -1, NULL, NULL, &v, NULL, NULL, NULL,
+                                        NULL, NULL) != 0) {
                 w = gJgKart->mForwardSpeed;
                 if (w <= 0) {
                     w = -w;

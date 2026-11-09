@@ -24,15 +24,15 @@ void NNSi_G3dSendJointSRTBasic(const NNSG3dJntAnmResult *result) {
     flag = result->mFlag;
     if ((flag & 4) == 0) {
         if ((flag & 2) == 0) {
-            func_01ff9048(0x19, &result->mRot, 0xc);
+            NNS_G3dGeBufferOP_N(0x19, &result->mRot, 0xc);
         } else {
-            func_01ff9048(0x1c, &result->mTrans, 3);
+            NNS_G3dGeBufferOP_N(0x1c, &result->mTrans, 3);
         }
     } else if ((flag & 2) == 0) {
-        func_01ff9048(0x1a, &result->mRot, 9);
+        NNS_G3dGeBufferOP_N(0x1a, &result->mRot, 9);
     }
     if ((result->mFlag & 1) == 0) {
-        func_01ff9048(0x1b, &result->mScale, 3);
+        NNS_G3dGeBufferOP_N(0x1b, &result->mScale, 3);
     }
 }
 

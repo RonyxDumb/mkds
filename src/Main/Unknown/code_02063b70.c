@@ -25,7 +25,7 @@ void SetKartSoundDistanceSquaredAndChange(Kart *kart) {
 }
 
 static inline void func_02063cc4_inline(u32 command, s32 value) {
-    func_01ff9048(command, &value, 1);
+    NNS_G3dGeBufferOP_N(command, &value, 1);
 }
 
 static inline void func_02063cc4_inline2(u32 command, s32 valueX, s32 valueY, s32 valueZ) {
@@ -34,7 +34,7 @@ static inline void func_02063cc4_inline2(u32 command, s32 valueX, s32 valueY, s3
     vector.x = valueX;
     vector.y = valueY;
     vector.z = valueZ;
-    func_01ff9048(command, &vector, 3);
+    NNS_G3dGeBufferOP_N(command, &vector, 3);
 }
 
 static inline void func_02063cc4_inline3(Vec3 *destination, const Vec3 *source) {
@@ -80,20 +80,20 @@ void DrawKart(Kart *kart) {
     func_02063cc4_inline(0x14, 0x1e);
     if (b != 0) {
         func_02063cc4_inline3(&kart->mUnk_144, kart->mPosSource);
-        func_01ff9048(0x19, &kart->mUnk_120, 0xc);
-        func_01ff9048(0x1b, &kart->mScale, 3);
+        NNS_G3dGeBufferOP_N(0x19, &kart->mUnk_120, 0xc);
+        NNS_G3dGeBufferOP_N(0x1b, &kart->mScale, 3);
         func_02063cc4_inline2(0x1b, kart->mModelScaleX, kart->mModelScaleY, kart->mModelScaleZ);
         func_0207ae58(modelsEntry->mShadowModel);
         func_02063cc4_inline(0x14, 0x1e);
     }
-    func_01ff9048(0x19, kart->mDrawMatrix, 0xc);
-    func_01ff9048(0x1b, &kart->mScale, 3);
+    NNS_G3dGeBufferOP_N(0x19, kart->mDrawMatrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &kart->mScale, 3);
     func_02063cc4_inline(0x13, 0x1d);
     func_02063cc4_inline2(0x1b, kart->mModelScaleX, kart->mModelScaleY, kart->mModelScaleZ);
     if (b == 0) {
         func_0207ae58(modelsEntry->mShadowModel);
     }
-    func_0208ab4c(&modelsEntry->mUnk_040);
+    SendLight01Color(&modelsEntry->mUnk_040);
     if (modelsEntry->mUnk_058 == 0) {
         SetKartModelTireAlpha(modelsEntry, modelsEntry->mUnk_060 == FALSE);
         func_02063cc4_inline(0x13, 0x1c);
@@ -103,29 +103,29 @@ void DrawKart(Kart *kart) {
             f = kart->mKartModelsEntry->mUnk_054;
             h = kart->mKartModelsEntry->mKartOffsetData->mFirstTiresScale;
             func_02063cc4_inline(0x14, 0x1c);
-            func_01ff9048(0x1c, &f->mUnk_18, 3);
+            NNS_G3dGeBufferOP_N(0x1c, &f->mUnk_18, 3);
             pairIndex = (kart->mTireSpinAngle >> 4) * 2;
             MTX_RotX33_(&spinMatrix, gPairsByAngle[pairIndex], gPairsByAngle[pairIndex + 1]);
-            func_01ff9048(0x1a, &spinMatrix, 9);
+            NNS_G3dGeBufferOP_N(0x1a, &spinMatrix, 9);
             DrawNsbmd(modelsEntry->mModels[2]);
             if (f->mUnk_18 != 0) {
                 func_02063cc4_inline2(0x1c, f->mUnk_24, 0, 0);
                 DrawNsbmd(modelsEntry->mModels[2]);
             }
             func_02063cc4_inline(0x14, 0x1c);
-            func_01ff9048(0x1c, f, 3);
+            NNS_G3dGeBufferOP_N(0x1c, f, 3);
             func_02063cc4_inline2(0x1b, h, h, h);
-            func_01ff9048(0x11, NULL, 0);
+            NNS_G3dGeBufferOP_N(0x11, NULL, 0);
             pairIndex = (kart->mUnk_4cc >> 4) * 2;
             MTX_RotY33_(&k, gPairsByAngle[pairIndex], gPairsByAngle[pairIndex + 1]);
-            func_01ff9048(0x1a, &k, 9);
-            func_01ff9048(0x1a, &spinMatrix, 9);
+            NNS_G3dGeBufferOP_N(0x1a, &k, 9);
+            NNS_G3dGeBufferOP_N(0x1a, &spinMatrix, 9);
             DrawNsbmd(modelsEntry->mModels[2]);
             if (f->mUnk_00 != 0) {
                 func_02063cc4_inline(0x12, 1);
                 func_02063cc4_inline2(0x1c, f->mUnk_0c, 0, 0);
-                func_01ff9048(0x1a, &k, 9);
-                func_01ff9048(0x1a, &spinMatrix, 9);
+                NNS_G3dGeBufferOP_N(0x1a, &k, 9);
+                NNS_G3dGeBufferOP_N(0x1a, &spinMatrix, 9);
                 DrawNsbmd(modelsEntry->mModels[2]);
             }
         }
@@ -136,7 +136,7 @@ void DrawKart(Kart *kart) {
     translation = modelsEntry->mKartOffsetData->mCharacterOffsets[modelsEntry->mCharacterIndex];
     translation.y = translation.y + (kart->mModelOffsetY + kart->mUnk_4f0.z);
     func_02063cc4_inline(0x14, 0x1d);
-    func_01ff9048(0x1c, &translation, 3);
+    NNS_G3dGeBufferOP_N(0x1c, &translation, 3);
     DrawNsbmd(modelsEntry->mModels[0]);
 }
 
@@ -166,10 +166,10 @@ BOOL DrawKartKillerItem(Kart *kart) {
         scale.y = (s64) kart->mScale.y * radiusFactor >> 12;
         scale.z = (s64) kart->mScale.z * radiusFactor >> 12;
         f = 0x1e;
-        func_01ff9048(0x14, &f, 1);
-        func_01ff9048(0x19, &matrix, 0xc);
-        func_01ff9048(0x1b, &scale, 3);
-        func_0208ab4c(&modelsEntry->mUnk_040);
+        NNS_G3dGeBufferOP_N(0x14, &f, 1);
+        NNS_G3dGeBufferOP_N(0x19, &matrix, 0xc);
+        NNS_G3dGeBufferOP_N(0x1b, &scale, 3);
+        SendLight01Color(&modelsEntry->mUnk_040);
         SetKillerItemKartIndex(kart->mIndex);
         frame = kart->mKartModelsEntry->mUnk_0a4;
         killerItemNsbca = GetKillerItemNsbca();

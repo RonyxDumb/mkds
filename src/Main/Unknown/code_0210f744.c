@@ -527,38 +527,38 @@ void func_0210fb88(SeqPlayerControl *control, NNSSndSeqPlayer **handle) {
 u32 func_0210fb68(void) {
     u32 controlAddress;
     u32 zero;
-    controlAddress = (u32) &data_0217d244;
+    controlAddress = (u32) &gSeqPlayerControl;
     zero = 0u;
-    data_0217d244.mPitchAngle = zero;
-    data_0217d244.mFlags = zero;
-    data_0217d244.mKartNear = zero;
-    data_0217d244.mVolumeOverride = zero;
+    gSeqPlayerControl.mPitchAngle = zero;
+    gSeqPlayerControl.mFlags = zero;
+    gSeqPlayerControl.mKartNear = zero;
+    gSeqPlayerControl.mVolumeOverride = zero;
     return controlAddress;
 }
 
 u32 func_0210fb54(void) {
     u32 controlAddress;
     u32 overrideValue;
-    controlAddress = (u32) &data_0217d244;
+    controlAddress = (u32) &gSeqPlayerControl;
     overrideValue = 1u;
-    data_0217d244.mVolumeOverride = overrideValue;
+    gSeqPlayerControl.mVolumeOverride = overrideValue;
     return controlAddress;
 }
 
 void func_0210fb10(void) {
     NNSSndSeqPlayer **handle;
     handle = &data_0217d07c;
-    data_0217d244.mVolumeOverride = 2;
+    gSeqPlayerControl.mVolumeOverride = 2;
     NNS_SndPlayerSetTrackMuteEx(handle, 1, 1);
     NNS_SndPlayerSetTempoRatio(&data_0217d07c, 0xd9);
 }
 
 void func_0210faf4(void) {
-    func_0210fb88(&data_0217d244, &data_0217d07c);
+    func_0210fb88(&gSeqPlayerControl, &data_0217d07c);
 }
 
 u32 IsThunderShrinkFlagSet(void) {
-    if ((data_0217d244.mFlags >> 2) & 1) {
+    if ((gSeqPlayerControl.mFlags >> 2) & 1) {
         return 1;
     }
     return 0;
@@ -566,41 +566,41 @@ u32 IsThunderShrinkFlagSet(void) {
 
 u32 IsKartNear(void) {
     u32 kartNear;
-    kartNear = data_0217d244.mKartNear;
+    kartNear = gSeqPlayerControl.mKartNear;
     return kartNear;
 }
 
 u32 func_0210faac(void) {
     u32 controlAddress;
     u32 flags;
-    controlAddress = (u32) &data_0217d244;
-    flags = data_0217d244.mFlags;
+    controlAddress = (u32) &gSeqPlayerControl;
+    flags = gSeqPlayerControl.mFlags;
     flags = (flags) | (8u);
-    data_0217d244.mFlags = flags;
+    gSeqPlayerControl.mFlags = flags;
     return controlAddress;
 }
 
-void func_0210fa74(u32 enabled) {
+void SetThunderShrinkSoundFlag(u32 enabled) {
     if (enabled == 1) {
-        data_0217d244.mFlags |= 2;
+        gSeqPlayerControl.mFlags |= 2;
     } else {
-        data_0217d244.mFlags &= ~2;
+        gSeqPlayerControl.mFlags &= ~2;
     }
-    data_0217d244.mPitchAngle = 0;
+    gSeqPlayerControl.mPitchAngle = 0;
 }
 
-void func_0210fa40(u32 enabled, u32 b) {
-    if (b == 0) {
+void SetTeresaSoundFlag(u32 enabled, u32 isSelectedEntry) {
+    if (isSelectedEntry == 0) {
         return;
     }
     if (enabled == 1) {
-        data_0217d244.mFlags |= 4;
+        gSeqPlayerControl.mFlags |= 4;
     } else {
-        data_0217d244.mFlags &= ~4;
+        gSeqPlayerControl.mFlags &= ~4;
     }
 }
 
-u32 func_0210fa3c(u32 value) {
+u32 KartThunderShrinkNop(u32 value) {
     return value;
 }
 

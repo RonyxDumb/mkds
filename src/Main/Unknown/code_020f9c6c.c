@@ -604,9 +604,9 @@ void UpdateItemKouraWState6(ItemKouraW *item) {
         Vec3 *position;
 
         position = &item->mUnk_000.mPos;
-        if (func_01ffdee4(position, &item->mUnk_000.mPrevPos, 0, item->mUnk_000.mUnk_dc, 4,
-                          item->mUnk_000.mCollisionSlotIndex, &hitOffset, NULL, NULL, &item->mUnk_000.mCollisionBits,
-                          NULL, NULL, NULL, NULL) != 0) {
+        if (CollideSphereWithCourse(position, &item->mUnk_000.mPrevPos, 0, item->mUnk_000.mUnk_dc, 4,
+                                    item->mUnk_000.mCollisionSlotIndex, &hitOffset, NULL, NULL,
+                                    &item->mUnk_000.mCollisionBits, NULL, NULL, NULL, NULL) != 0) {
             VEC_Add(&hitOffset, position, position);
             func_020f7104(&item->mUnk_000, 0);
             if (item->mUnk_000.mFlags & 0x8000000) {
@@ -1146,7 +1146,7 @@ void StartCourseMapItemObjects(void) {
         row = &gCourseMap->mRows[i];
         if (row->mKind == 0x6d) {
             kind = row->mUnk_28;
-            if (func_01ffdee4(&row->mUnk_00, 0, 0, 0xa000, 8, -2, 0, &m, 0, 0, 0, 0, 0, &v) == 0) {
+            if (CollideSphereWithCourse(&row->mUnk_00, 0, 0, 0xa000, 8, -2, 0, &m, 0, 0, 0, 0, 0, &v) == 0) {
                 m = data_02159cb0;
             }
             item = func_020fa3d0_inline(kind, 8, row, &m);

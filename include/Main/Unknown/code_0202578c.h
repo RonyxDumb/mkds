@@ -11,7 +11,7 @@ typedef struct Unk02153918 {
     /* 08 */ s32 mUnk_08;
 } Unk02153918;
 
-u32 func_0202578c(u32 a);
+u32 GetKartSoundTableRow(u32 kartIndex);
 void func_02025854(u32 a, void *fileSetPointer, const char *charsName, const char *paletteName,
                    const char *screenMapName, s32 index, void *(*findFile)(const char *) );
 void LoadScreenMapFileSet(void *fileSetPointer, const char *charsName, const char *paletteName,

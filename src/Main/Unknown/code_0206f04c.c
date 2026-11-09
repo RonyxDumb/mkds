@@ -125,7 +125,7 @@ void func_0206ff50(Kart *kart, u32 collisionFlags) {
     }
     if (kart->mUnk_4c & 0x10000000) {
         kart->mUnk_4c &= ~0x10000000;
-        func_0210515c(kart->mIndex);
+        ResetKartActiveItemAfterKiller(kart->mIndex);
         if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
             ResetCameraHalfFovAngleGoal();
         }
@@ -155,7 +155,7 @@ void func_0206ff50(Kart *kart, u32 collisionFlags) {
     kart->mUnk_4bc = kart->mUnk_3f8;
     kart->mUnk_4c |= 0x200000;
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-        func_02075d08(1);
+        SetEntryCameraUpdateHold(1);
     }
     if ((u16) (b + 0xffff) <= 1) {
         g = kart->mPos;
@@ -172,7 +172,7 @@ void func_0206ff50(Kart *kart, u32 collisionFlags) {
         StartSound(&kart->mSoundSource, b, 0x7f, 0);
         kart->mGravity = 0;
     }
-    func_0210af40(kart, kart->mSoundIndex, 0);
+    StartKartSeqArcSound(kart, kart->mSoundIndex, 0);
 }
 
 void ApplyKartWaterDepth(Kart *kart) {
@@ -262,7 +262,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
                         }
                     }
                     if (!(kart->mUnk_48 & 0x840)) {
-                        func_0210af40(kart, kart->mSoundIndex, 3);
+                        StartKartSeqArcSound(kart, kart->mSoundIndex, 3);
                     }
                     StartKartModelScaleAnimation(kart, 1);
                     kart->mModelScaleKind = 1;
@@ -273,7 +273,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
                 kart->mUnk_44 |= 0x1800000;
                 StartKartBoost(kart, KART_BOOST_RACE_START, (s16) kart->mRaceStartFrameCount);
                 if (!(kart->mUnk_48 & 0x840)) {
-                    func_0210af40(kart, kart->mSoundIndex, 5);
+                    StartKartSeqArcSound(kart, kart->mSoundIndex, 5);
                 }
                 kart->mUnk_48 |= 0x8000;
                 if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
@@ -300,7 +300,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
                         }
                     }
                     if (!(kart->mUnk_48 & 0x840)) {
-                        func_0210af40(kart, kart->mSoundIndex, 3);
+                        StartKartSeqArcSound(kart, kart->mSoundIndex, 3);
                     }
                     StartKartModelScaleAnimation(kart, 1);
                     kart->mModelScaleKind = 1;
@@ -320,7 +320,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
                 kart->mUnk_44 |= 0x1800000;
                 StartKartBoost(kart, KART_BOOST_RACE_START, (s16) kart->mRaceStartFrameCount);
                 if (!(kart->mUnk_48 & 0x840)) {
-                    func_0210af40(kart, kart->mSoundIndex, 5);
+                    StartKartSeqArcSound(kart, kart->mSoundIndex, 5);
                 }
                 kart->mUnk_48 |= 0x8000;
                 if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {

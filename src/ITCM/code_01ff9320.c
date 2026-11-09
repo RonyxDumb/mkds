@@ -90,5 +90,5 @@ void func_01ff9320(NNSG3dMatAnmResult *p) {
         b.mUnk_08[5] = ((s64) p->mUnk_34 * b.mUnk_08[5]) >> 12;
         b.mUnk_08[13] = ((s64) p->mUnk_34 * b.mUnk_08[13]) >> 12;
     }
-    func_01ff9048(b.mUnk_00, (u32 *) &b + 1, 0x12);
+    NNS_G3dGeBufferOP_N(b.mUnk_00, (u32 *) &b + 1, 0x12);
 }
