@@ -814,7 +814,7 @@ void InitKartItems(KartItems *kartItems, s32 kartIndex) {
 
     kartItems->mKartIndex = kartIndex;
     kartItems->mKart = GetKart(kartIndex);
-    kartItems->mEntryIndex = ((Unk021759c0_000 *) gRaceSetup)->mUnk_07c[kartIndex].mUnk_00;
+    kartItems->mEntryIndex = gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mIndex;
     InitItemSlot(kartItems, kartItems);
     InitHeldItem(&kartItems->mHeldItem, kartItems);
     InitItemInUse(&kartItems->mItemInUse, kartItems);

@@ -114,7 +114,7 @@ void SetupWiFiSessionLogin(void) {
     if (CheckUserDataValidConsole() != 0) {
         MI_CpuCopy8(&data_0217aa08->mFirstBlock->mUserData, &gWiFiSession->mUserData, 0x40);
     } else {
-        DWC_CreateUserData((DWCAccUserData *) &gWiFiSession->mUserData, 0x414d434a);
+        DWC_CreateUserData(&gWiFiSession->mUserData, 0x414d434a);
     }
     CopyBuddyFriendDataList(&gWiFiSession->mBuddies[0]);
     func_ov000_021a39c4(&gWiFiSession->mLogin);
@@ -165,7 +165,7 @@ u32 UpdateWiFiSessionLogin(void) {
                                           : 1) {
                 break;
             }
-            DWC_ReportUserData((DWCAccUserData *) &gWiFiSession->mUserData);
+            DWC_ReportUserData(&gWiFiSession->mUserData);
             if (StartWiFiBuddySync(NULL, WiFiSessionBuddySyncCallback, NULL, SetBuddyStatus, NULL, func_0211f6e8,
                                    NULL) == 0) {
                 gWiFiSession->mLogin.mStep = 7;
@@ -188,8 +188,8 @@ u32 UpdateWiFiSessionLogin(void) {
 
 void WiFiSessionLoginCallback(s32 result) {
     if (result == 0) {
-        if (DWCi_Acc_IsDirty((DWCAccUserData *) &gWiFiSession->mUserData) != 0) {
-            DWCi_Acc_ClearDirty((DWCAccUserData *) &gWiFiSession->mUserData);
+        if (DWCi_Acc_IsDirty(&gWiFiSession->mUserData) != 0) {
+            DWCi_Acc_ClearDirty(&gWiFiSession->mUserData);
             MI_CpuCopy8(&gWiFiSession->mUserData, &data_0217aa08->mFirstBlock->mUserData, 0x40);
             func_02056d40();
         }
@@ -209,8 +209,7 @@ void WiFiSessionBuddySyncCallback(s32 result, s32 changed) {
         i = 0;
         if (func_ov000_0219d9b0(&gWiFiSession->mBuddies[0], 0x3c) > 0) {
             do {
-                DWC_ReportFriendData((DWCAccUserData *) &gWiFiSession->mUserData,
-                                     (DWCAccFriendData *) &gWiFiSession->mBuddies[i]);
+                DWC_ReportFriendData(&gWiFiSession->mUserData, &gWiFiSession->mBuddies[i]);
                 i++;
             } while (i < func_ov000_0219d9b0(&gWiFiSession->mBuddies[0], 0x3c));
         }

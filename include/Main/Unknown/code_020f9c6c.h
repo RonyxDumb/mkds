@@ -41,7 +41,7 @@ typedef struct DirectionQuaternion {
 // Object of item kind 5, element of gItemPools[5].
 typedef struct ItemKouraW {
     /* 000 */ ItemObject mUnk_000;
-    /* 12c */ u8 mUnk_12c[4];
+    /* 12c */ s32 mUnk_12c;
     /* 130 */ Vec3 mDirection;
     /* 13c */ u8 mUnk_13c[0x24];
     /* 160 */ s32 mUnk_160;
@@ -77,7 +77,7 @@ typedef struct ItemKouraW {
     /* 298 */ Vec3 mUnk_298;
     /* 2a4 */ Vec3 mUnk_2a4;
     /* 2b0 */ struct ModelEffect *mModelEffect;
-    /* 2b4 */ u8 mUnk_2b4[0x30];
+    /* 2b4 */ MtxFx43 mUnk_2b4;
     /* 2e4 */ s32 mHitSpinsKart;
     /* 2e8 */ u8 mUnk_2e8[4];
     /* 2ec */ u32 mStateFrames;

@@ -63,7 +63,7 @@ struct Nscr;
 
 typedef struct Wait {
     /* 00 */ struct Unk02021dc8 *mNcer;
-    /* 04 */ void *mNcgr;
+    /* 04 */ struct Ncgr *mNcgr;
     /* 08 */ struct Nclr *mNclr;
     /* 0c */ void *mBncl;
     /* 10 */ struct Unk02021dc8 *mDestinationNcer;
@@ -76,7 +76,7 @@ typedef struct Wait {
 } Wait;
 
 typedef struct RecordVSErase {
-    /* 00 */ u8 mRecordVSMNcgr[4];
+    /* 00 */ struct Ncgr *mRecordVSMNcgr;
     /* 04 */ struct Unk02021dc8 *mRecordVSMNcer;
     /* 08 */ Unk0201ea30 *mRecordVSMBncl;
     /* 0c */ struct Unk0201ea30 *mRecordVSMBnll;
@@ -121,7 +121,7 @@ typedef struct RecordVSErase {
 } RecordVSErase;
 
 typedef struct SelectCupNameM {
-    /* 00 */ void *mNcgr;
+    /* 00 */ struct Ncgr *mNcgr;
     /* 04 */ struct Unk02021dc8 *mNcer;
     /* 08 */ void *mBncl;
 } SelectCupNameM;

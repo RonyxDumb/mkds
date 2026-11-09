@@ -19,7 +19,7 @@ void func_0210d6cc(ScenePlayers *scenePlayers) {
     if (scenePlayers->mUnk_0a != 2) {
         return;
     }
-    func_0210d614_inline(scenePlayers, data_0217d070.mUnk_0b, (NNSSndSeqPlayer **) (u32) &data_0217d07c);
+    func_0210d614_inline(scenePlayers, data_0217d070.mUnk_0b, &data_0217d07c);
 }
 
 void func_0210d65c(ScenePlayers *scenePlayers) {
@@ -27,7 +27,7 @@ void func_0210d65c(ScenePlayers *scenePlayers) {
     if (scenePlayers->mUnk_0a != 3) {
         return;
     }
-    func_0210d614_inline(scenePlayers, data_0217d070.mUnk_0b, (NNSSndSeqPlayer **) (u32) &data_0217d07c);
+    func_0210d614_inline(scenePlayers, data_0217d070.mUnk_0b, &data_0217d07c);
 }
 
 void func_0210d614(ScenePlayers *scenePlayers, u32 seqNo, NNSSndSeqPlayer **handle) {
@@ -35,7 +35,7 @@ void func_0210d614(ScenePlayers *scenePlayers, u32 seqNo, NNSSndSeqPlayer **hand
 }
 
 void func_0210d5c0(ScenePlayers *scenePlayers) {
-    func_0210d614_inline(scenePlayers, data_0217d070.mUnk_0b, (NNSSndSeqPlayer **) (u32) &data_0217d07c);
+    func_0210d614_inline(scenePlayers, data_0217d070.mUnk_0b, &data_0217d07c);
 }
 
 void func_0210d590(ScenePlayers *scenePlayers, u32 fadeSteps) {

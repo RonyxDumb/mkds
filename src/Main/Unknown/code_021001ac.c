@@ -361,7 +361,7 @@ void func_02101964(ItemTeresa *teresa, s32 a) {
         c = 0x400;
     }
     if (a != 0) {
-        n = ((s64) * (s32 *) kart->mPhysicalParam * kart->mScale.z + 0x800) >> 12;
+        n = ((s64) kart->mPhysicalParam->mRadius * kart->mScale.z + 0x800) >> 12;
         position->x += (s32) (((s64) -n * cameraSide->x) >> 12);
         position->z += (s32) (((s64) -n * cameraSide->z) >> 12);
     }
@@ -391,7 +391,7 @@ void EnterItemTeresaState0(ItemTeresa *teresa) {
     teresa->mKartDrawMatrixPos = teresa->mKart->mDrawMatrixPos;
     teresa->mKartVelocity = teresa->mKart->mVelocity;
     teresa->mOffset =
-        (Vec3){0, (s32) (((s64) * (s32 *) teresa->mKart->mPhysicalParam * teresa->mKart->mScale.z + 0x800) >> 12), 0};
+        (Vec3){0, (s32) (((s64) teresa->mKart->mPhysicalParam->mRadius * teresa->mKart->mScale.z + 0x800) >> 12), 0};
     teresa->mOffsetVelocityY = 0;
     teresa->mUnk_000.mAlpha = 0x1f;
     if (teresa->mKart->mUnk_48 & 1) {

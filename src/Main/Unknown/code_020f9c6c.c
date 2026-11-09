@@ -105,7 +105,7 @@ void func_020fcb30(ItemKouraW *item) {
 
 void ResetItemKouraW(ItemKouraW *item) {
     InitStateMachine(&item->mUnk_2e8, (UnkFunc *const *) gItemKouraWStateTable, 8, item);
-    MTX_Identity43_((MtxFx43 *) item->mUnk_2b4);
+    MTX_Identity43_(&item->mUnk_2b4);
     item->mRank = 1;
     item->mRankKartIndex = gRaceProgress->mKartAtRank[0];
     item->mUnk_278 = 0;
@@ -317,7 +317,7 @@ void UpdateItemKouraWState1(ItemKouraW *item) {
             StartSoundWhileRequested(&item->mUnk_000.mSoundSource, item->mSoundId, 0x7f, 0);
         }
     }
-    item->mUnk_000.mVelocity.y -= (s32) (((s64) * (s32 *) item->mUnk_12c * 0x66) >> 12);
+    item->mUnk_000.mVelocity.y -= (s32) (((s64) item->mUnk_12c * 0x66) >> 12);
     if (item->mUnk_000.mFlags & 1) {
         return;
     }

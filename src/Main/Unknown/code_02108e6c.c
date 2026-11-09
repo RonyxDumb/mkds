@@ -63,8 +63,7 @@ u32 SetCurrentSndArc(void) {
     u32 value0;
     u32 value12;
     value12 = (u32) &NNS_SndArcSetCurrent;
-    value0 = (u32) &data_0217d0a0;
-    value0 = (u32) NNS_SndArcSetCurrent((NNSSndArc *) value0);
+    value0 = (u32) NNS_SndArcSetCurrent(&data_0217d0a0);
     return value0;
 }
 

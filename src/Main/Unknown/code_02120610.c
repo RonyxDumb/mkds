@@ -594,7 +594,7 @@ void ResetWiFiSession(void) {
     MI_CpuFill8(gWiFiSession->mPlayerRecords, 0, 0x910);
     MI_CpuFill8(gWiFiSession->mConnection, 0, 0xe24);
     MI_CpuFill8(&gWiFiSession->mStep, 0, 0x60);
-    MI_CpuFill8(gWiFiSession->mUserData, 0, 0x350);
+    MI_CpuFill8(&gWiFiSession->mUserData, 0, 0x350);
     MI_CpuFill8(gWiFiSession->mReceiveBuffers, 0, 0x110);
     MI_CpuFill8(gWiFiSession->mIndexMessages, 0, 0x110);
     MI_CpuFill8(&gWiFiSession->mLogin, 0, 0x10);

@@ -4,6 +4,7 @@
 #include "code_0212bcac.h"
 #include "code_0212d214.h"
 #include "Main/Unknown/code_021035ac.h"
+#include "Main/Unknown/code_0210bafc.h"
 
 typedef struct NNSSndSeqPlayer NNSSndSeqPlayer;
 typedef struct NNSSndHeap NNSSndHeap;
@@ -47,7 +48,7 @@ extern u32 data_0217c780;
 extern u32 data_0217cc6c[];
 extern u32 data_0217c7fc[];
 extern s32 data_0217ccac;
-extern u32 data_0217cd30[];
+extern Unk0217cd30 data_0217cd30[];
 extern s32 gOrthoQuadHoldFrameCount;
 extern s32 gOrthoQuadFrames;
 extern s32 gOrthoQuadCount;

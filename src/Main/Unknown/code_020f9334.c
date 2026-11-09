@@ -26,7 +26,7 @@
 
 BOOL func_020f9c08(ItemObject *item) {
     if (item->mAgeFrames > 0x12c && (item->mFlags & 0x8000) != 0 &&
-        item->mAdvance == (void (*)(ItemObject *)) AdvanceRestingItemObject) {
+        item->mAdvance == AdvanceRestingItemObject) {
         return TRUE;
     }
     return FALSE;
@@ -39,7 +39,7 @@ void func_020f9ba8(ItemObject *item) {
     if ((item->mFlags & 0x8000) == 0) {
         return;
     }
-    if (item->mAdvance != (void (*)(ItemObject *)) AdvanceRestingItemObject) {
+    if (item->mAdvance != AdvanceRestingItemObject) {
         return;
     }
     func_020f7658(item, 1);

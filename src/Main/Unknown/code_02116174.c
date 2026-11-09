@@ -29,7 +29,7 @@ void LocateAndQueueRecordVSErase(void) {
     sbPalette = NULL;
     eraseScreenMap[0] = NULL;
     sceneFile = FindSceneFile(gRecordVSMNcgrName);
-    LocateNcgr2((Ncgr **) gRecordVSErase, sceneFile);
+    LocateNcgr2(&gRecordVSErase->mRecordVSMNcgr, sceneFile);
     sceneFile = FindSceneFile(gRecordVSMNcerName);
     LocateNcer(&gRecordVSErase->mRecordVSMNcer, sceneFile);
     sceneFile = FindSceneFile(gRecordVSMBnclName);

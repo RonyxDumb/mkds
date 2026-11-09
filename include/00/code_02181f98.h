@@ -244,11 +244,7 @@ typedef struct WiFiSession {
     /* 19ac */ u8 mUnk_19ac;
     /* 19ad */ u8 mUnk_19ad;
     /* 19ae */ u8 mUnk_19ae[2];
-    /* 19b0 */ u8 mUserData[0x20];
-    /* 19d0 */ s32 mUnk_19d0;
-    /* 19d4 */ s32 mUnk_19d4;
-    /* 19d8 */ u8 mUnk_19d8[0x14];
-    /* 19ec */ u32 mUnk_19ec;
+    /* 19b0 */ DWCAccUserData mUserData;
     // 0x3c saved buddy entries (12 bytes each), loaded from the save at login and written back; their GP status is
     // polled one per frame.
     /* 19f0 */ DWCAccFriendData mBuddies[0x3c];

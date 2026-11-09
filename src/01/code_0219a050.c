@@ -675,7 +675,7 @@ void WriteRecordTopMenuRegisters(void) {
 }
 
 void RegisterRecordTopMenuCallbacks(void) {
-    UnkFunc *tbl[5] = {InitRecordTopMenu, ReleaseRecordTopMenu, AdvanceRecordTopMenu, func_ov001_0219a0c0,
-                       WriteRecordTopMenuRegisters};
-    SetRecordScreenCallbacks(tbl);
+    RecordScreenCallbacks tbl = {InitRecordTopMenu, ReleaseRecordTopMenu, AdvanceRecordTopMenu, func_ov001_0219a0c0,
+                                 WriteRecordTopMenuRegisters};
+    SetRecordScreenCallbacks(&tbl);
 }

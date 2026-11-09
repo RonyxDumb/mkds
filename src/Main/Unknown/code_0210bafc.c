@@ -66,7 +66,7 @@ u32 GetSurfaceSoundId(s32 entryIndex, s32 surfaceKind, s32 surfaceVariant) {
     s32 idArray;
     s32 v;
 
-    idArray = ((Unk0217cd30 *) data_0217cd30)[surfaceKind].mUnk_00[surfaceVariant];
+    idArray = data_0217cd30[surfaceKind].mUnk_00[surfaceVariant];
     v = idArray != 0 ? ((u32 *) idArray)[entryIndex] : 0xffff;
     if (v != 0xffff) {
         return (u16) v;
@@ -85,7 +85,7 @@ u32 func_0210bafc(s32 entryIndex, s32 rowIndex, s32 columnIndex) {
     s32 idArray;
     s32 v;
 
-    idArray = ((Unk0217cd30 *) data_0217cd30)[rowIndex].mUnk_00[columnIndex];
+    idArray = data_0217cd30[rowIndex].mUnk_00[columnIndex];
     v = idArray != 0 ? ((u32 *) idArray)[entryIndex] : 0xffff;
     if (v != 0xffff) {
         return (u16) v;

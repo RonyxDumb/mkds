@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-void SetRecordScreenCallbacks(const void *callbacks);
+#include "Main/Unknown/code_021114cc.h" // RecordScreenCallbacks
+
+void SetRecordScreenCallbacks(const RecordScreenCallbacks *callbacks);

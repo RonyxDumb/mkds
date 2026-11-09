@@ -100,15 +100,16 @@ u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout, Unk0
 void DrawLayoutTable(Unk0201ea30 *cellLayout, Unk02021dc8 *cells, Unk0201ea30 *labelLayout, void *oamList,
                      LayoutTableEntry *table) {
     s32 i;
-    for (i = ((Unk0201ea30 *) cellLayout)->mUnk_06 - 1; i >= 0; i--) {
-        DrawLayoutEntry(i, cells, cellLayout, labelLayout, oamList, (LayoutTableEntry *) table + i, 1);
+    for (i = cellLayout->mUnk_06 - 1; i >= 0; i--) {
+        DrawLayoutEntry(i, cells, cellLayout, labelLayout, oamList, table + i, 1);
     }
 }
 
-void func_02124bf0(Unk0201ea30 *cellLayout, Unk02021dc8 *cells, void *labelLayout, void *oamList, void *table) {
+void func_02124bf0(Unk0201ea30 *cellLayout, Unk02021dc8 *cells, Unk0201ea30 *labelLayout, void *oamList,
+                  LayoutTableEntry *table) {
     s32 i;
-    for (i = ((Unk0201ea30 *) cellLayout)->mUnk_06 - 1; i >= 0; i--) {
-        DrawLayoutEntry(i, cells, cellLayout, labelLayout, oamList, (LayoutTableEntry *) table + i, 0);
+    for (i = cellLayout->mUnk_06 - 1; i >= 0; i--) {
+        DrawLayoutEntry(i, cells, cellLayout, labelLayout, oamList, table + i, 0);
     }
 }
 

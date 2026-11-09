@@ -128,7 +128,7 @@ void CreateSelectCupNameM(void *heap) {
     allocation = ((u32) HeapAlloc(heap, 0xc));
     *(s32 *) &gSelectCupNameM = allocation;
     sceneFile = FindSceneFile(gSelectCupNameMNcgrName);
-    LocateNcgr2((Ncgr **) gSelectCupNameM, sceneFile);
+    LocateNcgr2(&gSelectCupNameM->mNcgr, sceneFile);
     sceneFile = FindSceneFile(gSelectCupNameMNcerName);
     LocateNcer(&gSelectCupNameM->mNcer, sceneFile);
     sceneFile = FindSceneFile(gSelectCupNameMBnclName);

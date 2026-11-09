@@ -908,10 +908,10 @@ void WriteRecordVSEraseRegisters(void) {
 }
 
 void RegisterRecordVSEraseCallbacks(void) {
-    void (*callbacks[5])() = {InitRecordVSErase, ReleaseRecordVSErase, AdvanceRecordVSErase,
-                              WriteRecordVSEraseBgOffsets, WriteRecordVSEraseRegisters};
+    RecordScreenCallbacks callbacks = {InitRecordVSErase, ReleaseRecordVSErase, AdvanceRecordVSErase,
+                                       WriteRecordVSEraseBgOffsets, WriteRecordVSEraseRegisters};
 
-    SetRecordScreenCallbacks(callbacks);
+    SetRecordScreenCallbacks(&callbacks);
 }
 
 #pragma thumb off

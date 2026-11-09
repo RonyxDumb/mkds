@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_02151f88.h"
+#include "code_021510a4.h"
 #include "code_02151868.h"
 #include "code_02151fc4.h"
 
@@ -6,12 +7,12 @@
 
 u32 WriteNewWiFiInfoToNvram(u32 work) {
     int result;
-    u8 wifiInfo[24];
-    result = DWCi_AUTH_GetNewWiFiInfo((DWCWiFiInfo *) wifiInfo);
+    DWCWiFiInfo wifiInfo;
+    result = DWCi_AUTH_GetNewWiFiInfo(&wifiInfo);
     if (result == 0) {
         return 0;
     }
-    result = DWCi_BM_SetWiFiInfo((DWCWiFiInfo *) wifiInfo, (u8 *) work);
+    result = DWCi_BM_SetWiFiInfo(&wifiInfo, (u8 *) work);
     if (result != 0) {
         return 1;
     }

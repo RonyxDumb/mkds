@@ -882,8 +882,8 @@ void WriteRecordSceneRegisters(void) {
 
 #pragma thumb on
 
-void SetRecordScreenCallbacks(const void *callbacks) {
-    gRecordScene->mScreenCallbacks = *(const RecordScreenCallbacks *) callbacks;
+void SetRecordScreenCallbacks(const RecordScreenCallbacks *callbacks) {
+    gRecordScene->mScreenCallbacks = *callbacks;
 }
 
 #pragma thumb off
