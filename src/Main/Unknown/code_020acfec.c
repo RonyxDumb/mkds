@@ -20,10 +20,6 @@ void SetupAndDrawTitleTable(void) {
 
 #pragma thumb on
 u32 func_020acfec(u32 value) {
-    u32 value0 = value;
-    u32 functionAddress;
-    functionAddress = (u32) &func_020ad230;
-    value0 = func_020ad230(value0);
-    return value0;
+    return func_020ad230(value);
 }
 #pragma thumb off

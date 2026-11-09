@@ -3,10 +3,6 @@
 
 #pragma thumb on
 u32 GetFriendDataType(const DWCAccFriendData *friendData) {
-    u32 dataType;
-    u32 value3;
-    value3 = (u32) &DWCi_Acc_GetFlag_DataType;
-    dataType = DWCi_Acc_GetFlag_DataType(friendData);
-    return dataType;
+    return DWCi_Acc_GetFlag_DataType(friendData);
 }
 #pragma thumb off

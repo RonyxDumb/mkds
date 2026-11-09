@@ -90,16 +90,7 @@ s32 UpdateMessageScreen(void) {
 
 #pragma thumb on
 void ClearMessageScreenChars(void) {
-    u32 address;
-    u32 fillValue;
-    u32 size;
-    u32 value3;
-    address = (u32) &gMessageScreen;
-    address = *(const u32 *) ((address) + 0u);
-    address = (address) + 68u;
-    fillValue = 0u;
-    size = 0x1400u;
-    MI_CpuFill8((void *) address, fillValue, size);
+    MI_CpuFill8(gMessageScreen->mCharBuffer, 0u, 0x1400u);
 }
 #pragma thumb off
 
@@ -280,11 +271,7 @@ void InitLinkLevelIcons(void *heap, void *oamList) {
 
 #pragma thumb on
 void ClearLinkLevelIconsPointer(void) {
-    u32 address;
-    u32 zero;
-    zero = 0u;
-    address = (u32) &gLinkLevelIcons;
-    *(u32 *) ((address) + 0u) = zero;
+    gLinkLevelIcons = NULL;
 }
 #pragma thumb off
 
@@ -387,12 +374,6 @@ void AdvanceLinkLevelIcons(void) {
 
 #pragma thumb on
 void SetLinkLevelIconEnabled(u32 index, u32 enabled) {
-    u32 value0 = index;
-    u32 storedValue = enabled;
-    u32 address;
-    address = (u32) &gLinkLevelIcons;
-    address = *(const u32 *) ((address) + 0u);
-    value0 = (value0 << 2);
-    *(u32 *) ((address) + (value0)) = storedValue;
+    gLinkLevelIcons->mIconEnabled[index] = enabled;
 }
 #pragma thumb off

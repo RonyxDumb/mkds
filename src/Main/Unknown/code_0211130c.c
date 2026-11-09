@@ -29,27 +29,16 @@ void InitRecordScene(s16 *sceneNumbers) {
 
 #pragma thumb on
 void ReleaseRecordScene(void) {
-    u32 address;
-    u32 zero;
     ReleaseRecordSceneObject();
-    zero = 0u;
-    address = (u32) &gRecordMainOam;
-    *(u32 *) ((address) + 0u) = zero;
-    address = (u32) &gRecordSubOam;
-    *(u32 *) ((address) + 0u) = zero;
+    gRecordMainOam = NULL;
+    gRecordSubOam = NULL;
 }
 #pragma thumb off
 
 #pragma thumb on
 void func_02111368(void) {
-    u32 mainOam;
-    u32 subOam;
     WriteRecordSceneRegisters();
-    mainOam = (u32) &gRecordMainOam;
-    mainOam = *(const u32 *) ((mainOam) + 0u);
-    subOam = (u32) &gRecordSubOam;
-    subOam = *(const u32 *) ((subOam) + 0u);
-    UploadOamLists((void *) mainOam, (void *) subOam);
+    UploadOamLists(gRecordMainOam, gRecordSubOam);
 }
 #pragma thumb off
 

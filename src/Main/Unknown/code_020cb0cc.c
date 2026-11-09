@@ -5,38 +5,18 @@
 #include "Main/Unknown/code_020cb114.h"
 #include "Main/Unknown/unk_02175628.h"
 
-u32 func_020cb114(u32 pairAddress) {
-    return (*OFFSET_PTR(const u16, pairAddress, 0));
+u32 func_020cb114(InputSlotPair *pairAddress) {
+    return pairAddress->mPairX;
 }
 
 u32 func_020cb0f4(u32 slotIndex) {
-    u32 value0 = slotIndex;
-    u32 value1;
-    u32 slotsAddress;
-    u32 calleeAddress;
-    slotsAddress = (u32) &data_02175628;
-    value1 = 0x5cu;
-    value1 = (value0) * (value1) + (slotsAddress);
-    calleeAddress = (u32) &func_020cb114;
-    value0 = (value1) + (0x48u);
-    value0 = func_020cb114(value0);
-    return value0;
+    return func_020cb114(&data_02175628[slotIndex].mUnk_48);
 }
 
-u32 func_020cb0ec(u32 pairAddress) {
-    return (*OFFSET_PTR(const u16, pairAddress, 2));
+u32 func_020cb0ec(InputSlotPair *pairAddress) {
+    return pairAddress->mPairY;
 }
 
 u32 func_020cb0cc(u32 slotIndex) {
-    u32 value0 = slotIndex;
-    u32 value1;
-    u32 slotsAddress;
-    u32 calleeAddress;
-    slotsAddress = (u32) &data_02175628;
-    value1 = 0x5cu;
-    value1 = (value0) * (value1) + (slotsAddress);
-    calleeAddress = (u32) &func_020cb0ec;
-    value0 = (value1) + (0x48u);
-    value0 = func_020cb0ec(value0);
-    return value0;
+    return func_020cb0ec(&data_02175628[slotIndex].mUnk_48);
 }

@@ -20,23 +20,9 @@ u16 func_020ca9ac(u32 slotIndex, u32 mask) {
 }
 
 u32 func_020ca994(u32 seqIndex, u32 seqArcNo) {
-    u32 value0 = seqIndex;
-    u32 seqArcNoCopy = seqArcNo;
-    u32 seqIndexCopy;
-    u32 calleeAddress;
-    calleeAddress = (u32) &NNS_SndArcPlayerStartSeqArc;
-    seqIndexCopy = value0;
-    value0 = (u32) &data_0217d068;
-    value0 = NNS_SndArcPlayerStartSeqArc((const void *) value0, seqArcNoCopy, seqIndexCopy);
-    return value0;
+    return NNS_SndArcPlayerStartSeqArc(&data_0217d068, seqArcNo, seqIndex);
 }
 
 u32 StartEmblemChoisesSound(u32 seqIndex) {
-    u32 value0 = seqIndex;
-    u32 seqArcNo;
-    u32 calleeAddress;
-    calleeAddress = (u32) &func_020ca994;
-    seqArcNo = 0u;
-    value0 = func_020ca994(value0, seqArcNo);
-    return value0;
+    return func_020ca994(seqIndex, 0u);
 }

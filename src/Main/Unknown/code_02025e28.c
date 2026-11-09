@@ -37,11 +37,6 @@ s32 FindKartTableIndex(u32 kartIndex) {
 
 #pragma thumb on
 u32 GetKartIndexAtTableIndex(u32 tableIndex) {
-    u32 value0 = (u32) tableIndex;
-    u32 byteOffset;
-    byteOffset = (value0 << 2);
-    value0 = (u32) &gKartIndexTable;
-    value0 = *(const u32 *) ((value0) + (byteOffset));
-    return value0;
+    return gKartIndexTable[tableIndex];
 }
 #pragma thumb off

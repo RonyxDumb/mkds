@@ -4,23 +4,13 @@
 
 #pragma thumb on
 u32 GetKartMessageIndex(u32 kartIndex) {
-    u32 value0 = (u32) kartIndex;
-    u32 byteOffset;
-    byteOffset = (value0 << 2);
-    value0 = (u32) &gKartMessageIndexTable;
-    value0 = *(const u32 *) ((value0) + (byteOffset));
-    return value0;
+    return gKartMessageIndexTable[kartIndex];
 }
 #pragma thumb off
 
 #pragma thumb on
 u32 GetCourseMessageIndex(u32 courseId) {
-    u32 value0 = (u32) courseId;
-    u32 byteOffset;
-    byteOffset = (value0 << 2);
-    value0 = (u32) &gCourseMessageIndexTable;
-    value0 = *(const u32 *) ((value0) + (byteOffset));
-    return value0;
+    return gCourseMessageIndexTable[courseId];
 }
 #pragma thumb off
 
@@ -28,7 +18,7 @@ u32 GetCourseMessageIndex(u32 courseId) {
 
 int func_02025d74(int a) {
     int v1;
-    v1 = ((s32 *) &gCourseMessageIndexTable)[a];
+    v1 = gCourseMessageIndexTable[a];
     if (v1 != -1) {
         v1 = v1 + -0x1a;
     }
@@ -37,7 +27,7 @@ int func_02025d74(int a) {
 
 int func_02025d5c(int a) {
     int v1;
-    v1 = ((s32 *) &gCourseMessageIndexTable)[a];
+    v1 = gCourseMessageIndexTable[a];
     if (v1 != -1) {
         v1 = v1 + 4;
     }

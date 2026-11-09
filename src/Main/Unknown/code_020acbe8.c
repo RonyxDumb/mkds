@@ -23,40 +23,20 @@
 #include "Main/Unknown/code_020acde4.h"
 #include "Main/Unknown/code_020ace0c.h"
 
-u32 func_020ace0c(u32 pair) {
-    return (*OFFSET_PTR(const u16, pair, 0));
+u32 func_020ace0c(InputSlotPair *pair) {
+    return pair->mPairX;
 }
 
 u32 func_020acdec(u32 slotIndex) {
-    u32 value0 = slotIndex;
-    u32 value1;
-    u32 slotsAddress;
-    u32 functionAddress;
-    slotsAddress = (u32) &data_02175628;
-    value1 = 0x5cu;
-    value1 = (value0) * (value1) + (slotsAddress);
-    functionAddress = (u32) &func_020ace0c;
-    value0 = (value1) + (0x48u);
-    value0 = func_020ace0c(value0);
-    return value0;
+    return func_020ace0c(&data_02175628[slotIndex].mUnk_48);
 }
 
-u32 func_020acde4(u32 pair) {
-    return (*OFFSET_PTR(const u16, pair, 2));
+u32 func_020acde4(InputSlotPair *pair) {
+    return pair->mPairY;
 }
 
 u32 func_020acdc4(u32 slotIndex) {
-    u32 value0 = slotIndex;
-    u32 value1;
-    u32 slotsAddress;
-    u32 functionAddress;
-    slotsAddress = (u32) &data_02175628;
-    value1 = 0x5cu;
-    value1 = (value0) * (value1) + (slotsAddress);
-    functionAddress = (u32) &func_020acde4;
-    value0 = (value1) + (0x48u);
-    value0 = func_020acde4(value0);
-    return value0;
+    return func_020acde4(&data_02175628[slotIndex].mUnk_48);
 }
 
 #pragma thumb on
@@ -161,11 +141,7 @@ void UpdateTitleState2(Unk0203a0dc *a) {
 
 #pragma thumb on
 u32 func_020acbf0(u32 value) {
-    u32 value0 = value;
-    u32 functionAddress;
-    functionAddress = (u32) &func_020ad230;
-    value0 = func_020ad230(value0);
-    return value0;
+    return func_020ad230(value);
 }
 #pragma thumb off
 

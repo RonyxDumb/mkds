@@ -932,25 +932,13 @@ void AdvanceRecordSceneRegistersTimer(void) {
 
 #pragma thumb on
 u32 GetRecordScenePageIndex(void) {
-    u32 value0;
-    u32 recordScene;
-    value0 = (u32) &gRecordScene;
-    recordScene = *(const u32 *) ((value0) + 0u);
-    value0 = 48u;
-    value0 = *(const s16 *) ((recordScene) + (value0));
-    return value0;
+    return gRecordScene->mPageIndex;
 }
 #pragma thumb off
 
 #pragma thumb on
 u32 GetRecordSceneIndex(void) {
-    u32 value0;
-    u32 recordScene;
-    value0 = (u32) &gRecordScene;
-    recordScene = *(const u32 *) ((value0) + 0u);
-    value0 = 50u;
-    value0 = *(const s16 *) ((recordScene) + (value0));
-    return value0;
+    return gRecordScene->mIndex;
 }
 #pragma thumb off
 

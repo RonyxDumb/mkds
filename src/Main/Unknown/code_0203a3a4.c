@@ -470,16 +470,7 @@ u16 GetDownBits(u32 slotIndex, u32 mask) {
 }
 
 u32 func_0203a48c(u32 index) {
-    u32 value0 = index;
-    u32 value1;
-    u32 value2;
-    u32 value12;
-    value12 = (u32) &NNS_SndArcPlayerStartSeqArc;
-    value2 = value0;
-    value0 = (u32) &data_0217d068;
-    value1 = 0u;
-    value0 = NNS_SndArcPlayerStartSeqArc((const void *) value0, value1, value2);
-    return value0;
+    return NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0u, index);
 }
 
 u32 func_0203a440(u32 slotIndex) {

@@ -640,13 +640,13 @@ void UpdateJgPosition(void) {
     data_0217b8f4 = distanceSquared >= 0x3d090000000LL ? 1 : 0;
 }
 
-u32 EnterJgState0(void) {
+s32 *EnterJgState0(void) {
     gJgKind = 4;
     gJgVisible = 0;
     data_0217b8c4 = 0;
     data_0217b900 = 0;
     data_0217b8ac = 0;
-    return (u32) &data_0217b8ac;
+    return &data_0217b8ac;
 }
 
 u32 func_020e8a74(u32 value) {

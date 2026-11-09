@@ -52,10 +52,6 @@ void CreateWait(void *heap, Unk02021dc8 *destinationNcer, Unk0201ea30 *destinati
 
 #pragma thumb on
 void ClearWaitPointer(void) {
-    u32 pointerAddress;
-    u32 zero;
-    zero = 0u;
-    pointerAddress = (u32) &gWait;
-    *(u32 *) ((pointerAddress) + 0u) = zero;
+    gWait = NULL;
 }
 #pragma thumb off

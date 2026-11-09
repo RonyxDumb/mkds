@@ -231,13 +231,6 @@ void func_0202b618(s32 a) {
 
 #pragma thumb on
 void RequestPlayerEntryListSetup(void) {
-    u32 value0;
-    u32 entryList;
-    u32 requested;
-    requested = 1u;
-    value0 = (u32) &gPlayerEntryList;
-    entryList = *(const u32 *) ((value0) + 0u);
-    value0 = 0x1fcu;
-    *(u32 *) ((entryList) + (value0)) = requested;
+    gPlayerEntryList->mSetupRequested = TRUE;
 }
 #pragma thumb off

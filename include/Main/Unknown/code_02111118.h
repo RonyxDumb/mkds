@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-u32 ResetRaceEndSeqState(void);
+s32 *ResetRaceEndSeqState(void);
 u32 GetSeqRowSceneSeq(void);

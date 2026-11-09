@@ -1,5 +1,6 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_021031f4.h"
 
-u32 ClearOrthoQuadCreamEffectPointer(void);
+OrthoQuadModel *ClearOrthoQuadCreamEffectPointer(void);

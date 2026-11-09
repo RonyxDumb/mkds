@@ -146,11 +146,7 @@ s32 InitTxtSystem(void *heap, TxtSystemArgs *args) {
 
 #pragma thumb on
 void ClearTxtSystemPointer(void) {
-    u32 address;
-    u32 zero;
-    zero = 0u;
-    address = (u32) &gTxtSystem;
-    *(u32 *) ((address) + 0u) = zero;
+    gTxtSystem = NULL;
 }
 #pragma thumb off
 

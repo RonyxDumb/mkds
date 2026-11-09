@@ -874,8 +874,6 @@ PlayingSound *StartSoundFullVolume(SoundSource *soundSource, u32 soundId) {
     u32 soundIdCopy = soundId;
     u32 volume;
     u32 pitch;
-    u32 value12;
-    value12 = (u32) &StartSound;
     volume = 0x7fu;
     pitch = 0u;
     return StartSound(sourceCopy, soundIdCopy, volume, pitch);

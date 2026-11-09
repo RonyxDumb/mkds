@@ -107,11 +107,7 @@ void CreateRecordList(void *heap) {
 
 #pragma thumb on
 void ClearRecordListPointer(void) {
-    u32 address;
-    u32 zero;
-    zero = 0u;
-    address = (u32) &gRecordList;
-    *(u32 *) ((address) + 0u) = zero;
+    gRecordList = NULL;
 }
 #pragma thumb off
 
@@ -481,31 +477,17 @@ void RefreshRecordVSPage(void) {
 
 #pragma thumb on
 u32 IncrementRecordVSPageIndex(void) {
-    u32 value0;
-    u32 recordVS;
-    value0 = (u32) &gRecordVS;
-    recordVS = *(const u32 *) ((value0) + 0u);
-    value0 = 106u;
-    value0 = *(const s16 *) ((recordVS) + (value0));
-    value0 = (value0) + (1u);
-    recordVS = (recordVS) + 106u;
-    *(u16 *) ((recordVS) + 0u) = value0;
-    return value0;
+    s32 v = gRecordVS->mPageIndex + 1;
+    gRecordVS->mPageIndex = v;
+    return v;
 }
 #pragma thumb off
 
 #pragma thumb on
 u32 DecrementRecordVSPageIndex(void) {
-    u32 value0;
-    u32 recordVS;
-    value0 = (u32) &gRecordVS;
-    recordVS = *(const u32 *) ((value0) + 0u);
-    value0 = 106u;
-    value0 = *(const s16 *) ((recordVS) + (value0));
-    value0 = (value0) - (1u);
-    recordVS = (recordVS) + 106u;
-    *(u16 *) ((recordVS) + 0u) = value0;
-    return value0;
+    s32 v = gRecordVS->mPageIndex - 1;
+    gRecordVS->mPageIndex = v;
+    return v;
 }
 #pragma thumb off
 

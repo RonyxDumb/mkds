@@ -251,31 +251,17 @@ void func_02116244(void) {
 
 #pragma thumb on
 u32 IncrementRecordVSErasePageIndex(void) {
-    u32 value0;
-    u32 value1;
-    value0 = (u32) &gRecordVSErase;
-    value1 = *(const u32 *) ((value0) + 0u);
-    value0 = 118u;
-    value0 = *(const s16 *) ((value1) + (value0));
-    value0 = (value0) + (1u);
-    value1 = (value1) + 118u;
-    *(u16 *) ((value1) + 0u) = value0;
-    return value0;
+    s32 v = gRecordVSErase->mPageIndex + 1;
+    gRecordVSErase->mPageIndex = v;
+    return v;
 }
 #pragma thumb off
 
 #pragma thumb on
 u32 DecrementRecordVSErasePageIndex(void) {
-    u32 value0;
-    u32 value1;
-    value0 = (u32) &gRecordVSErase;
-    value1 = *(const u32 *) ((value0) + 0u);
-    value0 = 118u;
-    value0 = *(const s16 *) ((value1) + (value0));
-    value0 = (value0) - (1u);
-    value1 = (value1) + 118u;
-    *(u16 *) ((value1) + 0u) = value0;
-    return value0;
+    s32 v = gRecordVSErase->mPageIndex - 1;
+    gRecordVSErase->mPageIndex = v;
+    return v;
 }
 #pragma thumb off
 

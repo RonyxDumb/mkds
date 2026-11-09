@@ -79,11 +79,7 @@ void CreateCommonCupMark(void *heap) {
 
 #pragma thumb on
 void ClearCupMarkPointer(void) {
-    u32 pointerAddress;
-    u32 zero;
-    zero = 0u;
-    pointerAddress = (u32) &gCupMark;
-    *(u32 *) ((pointerAddress) + 0u) = zero;
+    gCupMark = NULL;
 }
 #pragma thumb off
 
@@ -139,11 +135,7 @@ void CreateSelectCupNameM(void *heap) {
 
 #pragma thumb on
 void ClearSelectCupNameMPointer(void) {
-    u32 pointerAddress;
-    u32 zero;
-    zero = 0u;
-    pointerAddress = (u32) &gSelectCupNameM;
-    *(u32 *) ((pointerAddress) + 0u) = zero;
+    gSelectCupNameM = NULL;
 }
 #pragma thumb off
 

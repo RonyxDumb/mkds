@@ -601,9 +601,9 @@ void SkipOrthoQuadsHoldAndSetVelocities(int kartIndex) {
     } while (i < gOrthoQuadCount);
 }
 
-u32 ClearOrthoQuadCreamEffectPointer(void) {
+OrthoQuadModel *ClearOrthoQuadCreamEffectPointer(void) {
     gOrthoQuadCreamEffect.mModel = NULL;
-    return (u32) &gOrthoQuadCreamEffect;
+    return &gOrthoQuadCreamEffect;
 }
 
 void CreateOrthoQuadCreamEffect(const char *fileName) {

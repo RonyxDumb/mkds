@@ -29,12 +29,8 @@ void InitKeyboardScene(s16 *sceneNumbers) {
 
 #pragma thumb on
 void ReleaseKeyboardScene(void) {
-    u32 address;
-    u32 zero;
     ReleaseKeyboard();
-    zero = 0u;
-    address = (u32) &data_0217d3fc;
-    *(u32 *) ((address) + 0u) = zero;
+    data_0217d3fc = NULL;
 }
 #pragma thumb off
 

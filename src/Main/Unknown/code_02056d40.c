@@ -4,11 +4,6 @@
 
 #pragma thumb on
 void WriteBackupFirstBlockWrapper(void) {
-    u32 value0;
-    u32 value3;
-    value0 = (u32) &data_0217aa08;
-    value0 = *(const u32 *) ((value0) + 0u);
-    value0 = *(const u32 *) ((value0) + 0u);
-    WriteBackupFirstBlock((void *) value0);
+    WriteBackupFirstBlock(data_0217aa08->mFirstBlock);
 }
 #pragma thumb off

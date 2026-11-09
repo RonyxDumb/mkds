@@ -64,11 +64,7 @@ s32 InitSelectReturn(void *heap, s32 subCharOffset) {
 
 #pragma thumb on
 void ClearSelectReturnPointer(void) {
-    u32 address;
-    u32 zero;
-    zero = 0u;
-    address = (u32) &gSelectReturn;
-    *(u32 *) ((address) + 0u) = zero;
+    gSelectReturn = NULL;
 }
 #pragma thumb off
 
@@ -340,14 +336,7 @@ BOOL IsSelectReturnState2NoState3Or4RequestAndInRect(s32 pointX, s32 pointY) {
 
 #pragma thumb on
 void ClearSelectReturnDisplayBitOn(void) {
-    u32 value0;
-    u32 object;
-    u32 zero;
-    zero = 0u;
-    value0 = (u32) &gSelectReturn;
-    object = *(const u32 *) ((value0) + 0u);
-    value0 = 0x820u;
-    *(u32 *) ((object) + (value0)) = zero;
+    gSelectReturn->mDisplayBitOn = 0;
 }
 #pragma thumb off
 
@@ -361,13 +350,7 @@ void SetSelectReturnDisplayBitOn(void) {
 
 #pragma thumb on
 void SetSelectReturnSoundId(u32 soundId) {
-    u32 value0 = soundId;
-    u32 value1;
-    u32 object;
-    value1 = (u32) &gSelectReturn;
-    object = *(const u32 *) ((value1) + 0u);
-    value1 = 0x824u;
-    *(u32 *) ((object) + (value1)) = value0;
+    gSelectReturn->mSoundId = soundId;
 }
 #pragma thumb off
 
@@ -436,11 +419,7 @@ s32 InitSelectChoises(void *heap, void *font, s32 subCharOffset) {
 
 #pragma thumb on
 void ClearSelectChoisesPointer(void) {
-    u32 address;
-    u32 zero;
-    zero = 0u;
-    address = (u32) &gSelectChoises;
-    *(u32 *) ((address) + 0u) = zero;
+    gSelectChoises = NULL;
 }
 #pragma thumb off
 

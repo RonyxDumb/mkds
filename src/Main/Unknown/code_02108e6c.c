@@ -59,30 +59,16 @@ void func_02108edc(s32 count, s32 countLimit) {
 
 void func_02108ed8(void) {}
 
-u32 SetCurrentSndArc(void) {
-    u32 value0;
-    u32 value12;
-    value12 = (u32) &NNS_SndArcSetCurrent;
-    value0 = (u32) NNS_SndArcSetCurrent(&gFileSndArc);
-    return value0;
+NNSSndArc *SetCurrentSndArc(void) {
+    return NNS_SndArcSetCurrent(&gFileSndArc);
 }
 
 void SetPlayerVolumeTarget(u32 index, u32 value) {
-    u32 indexCopy = index;
-    u32 valueCopy = value;
-    u32 table;
-    table = (u32) &gPlayerVolumeTargets;
-    *(u32 *) ((table) + ((indexCopy << 2))) = valueCopy;
+    gPlayerVolumeTargets[index] = value;
 }
 
 SoundHandlePool *GetSoundHandlePool(u32 index) {
-    u32 value0 = index;
-    u32 elementSize;
-    u32 base;
-    base = (u32) &data_0217c7c4;
-    elementSize = 0x14u;
-    value0 = (elementSize) * (value0) + (base);
-    return (SoundHandlePool *) value0;
+    return &(&data_0217c7c4)[index];
 }
 
 void SetSoundOutputEffect(s32 type) {

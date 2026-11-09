@@ -605,9 +605,9 @@ u32 KartThunderShrinkNop(u32 value) {
     return value;
 }
 
-u32 ResetThunderShrinkSoundCounter(void) {
+u32 *ResetThunderShrinkSoundCounter(void) {
     gThunderShrinkSoundCounter = 0;
-    return (u32) &gThunderShrinkSoundCounter;
+    return &gThunderShrinkSoundCounter;
 }
 
 void StartThunderShrinkSound(void *kartAddress, int b) {

@@ -1,5 +1,6 @@
 #pragma once
 
 #include "types.h"
+#include "code_0212d214.h"
 
-u32 SetCurrentSndArc(void);
+NNSSndArc *SetCurrentSndArc(void);

@@ -7,11 +7,7 @@
 
 #pragma thumb on
 void ClearEmblemChoisesPointer(void) {
-    u32 pointerAddress;
-    u32 zero;
-    zero = 0u;
-    pointerAddress = (u32) &gEmblemChoises;
-    *(u32 *) ((pointerAddress) + 0u) = zero;
+    gEmblemChoises = NULL;
 }
 #pragma thumb off
 

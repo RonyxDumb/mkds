@@ -160,9 +160,9 @@ void DrawShine16(void *a, Shine16 *p) {
     DrawMapObjectModel(a, gShine16, p);
 }
 
-u32 func_020a69a0(void) {
+u16 *func_020a69a0(void) {
     data_0217b220 = 0;
-    return (u32) &data_0217b220;
+    return &data_0217b220;
 }
 
 void func_020a697c(void) {

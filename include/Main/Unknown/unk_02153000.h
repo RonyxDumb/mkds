@@ -67,11 +67,11 @@ extern u16 data_02153f00[][4];
 extern SoundRow gSoundRowTable[];
 
 // Objects whose layout isn't known yet.
-extern u8 gCourseMessageIndexTable[];
+extern s32 gCourseMessageIndexTable[];
 extern u8 data_02153158[];
 
-extern u8 data_021532a8[];
-extern u8 gKartMessageIndexTable[];
+extern u32 data_021532a8[];
+extern u32 gKartMessageIndexTable[];
 extern u32 gKartIndexTable[];
 extern s32 data_usa_02153240[];
 extern s32 data_usa_02153274[];

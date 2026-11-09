@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 ResetThunderShrinkSoundCounter(void);
+u32 *ResetThunderShrinkSoundCounter(void);

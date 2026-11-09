@@ -2,66 +2,36 @@
 
 #pragma thumb on
 Unk02022aa8 *GetFontByIndex(s32 index) {
-    u32 value0 = index;
-    u32 byteOffset;
-    byteOffset = (value0 << 2);
-    value0 = (u32) &gFontTable;
-    value0 = *(const u32 *) ((value0) + (byteOffset));
-    return (void *) value0;
+    return gFontTable[index];
 }
 #pragma thumb off
 
 #pragma thumb on
 void *GetPlayerCharacterNclr(int index) {
-    u32 value0 = index;
-    u32 byteOffset;
-    byteOffset = (value0 << 2);
-    value0 = (u32) &gPlayerCharacterNclr;
-    value0 = *(const u32 *) ((value0) + (byteOffset));
-    return (void *) value0;
+    return gPlayerCharacterNclr[index];
 }
 #pragma thumb off
 
 #pragma thumb on
 Nclr *GetPlayerCharacterShyguyNclr(u32 index) {
-    u32 value0 = (u32) index;
-    u32 byteOffset;
-    byteOffset = (value0 << 2);
-    value0 = (u32) &gPlayerCharacterShyguyNclr;
-    value0 = *(const u32 *) ((value0) + (byteOffset));
-    return (void *) value0;
+    return gPlayerCharacterShyguyNclr[index];
 }
 #pragma thumb off
 
 #pragma thumb on
 Ncgr *GetPlayerCharacterNcgr(int index) {
-    u32 value0 = index;
-    u32 byteOffset;
-    byteOffset = (value0 << 2);
-    value0 = (u32) &gPlayerCharacterNcgr;
-    value0 = *(const u32 *) ((value0) + (byteOffset));
-    return (void *) value0;
+    return gPlayerCharacterNcgr[index];
 }
 #pragma thumb off
 
 #pragma thumb on
 Unk02021dc8 *GetPlayerCharacterNcer(int index) {
-    u32 value0 = index;
-    u32 byteOffset;
-    byteOffset = (value0 << 2);
-    value0 = (u32) &gPlayerCharacterNcer;
-    value0 = *(const u32 *) ((value0) + (byteOffset));
-    return (void *) value0;
+    return gPlayerCharacterNcer[index];
 }
 #pragma thumb off
 
 #pragma thumb on
 void *GetPlayerCharacterBncl(int index) {
-    u32 value0 = index;
-    u32 byteOffset;
-    byteOffset = (value0 << 2);
-    value0 = (u32) &gPlayerCharacterBncl;
-    value0 = *(const u32 *) ((value0) + (byteOffset));
-    return (void *) value0;
+    return gPlayerCharacterBncl[index];
 }
 #pragma thumb off

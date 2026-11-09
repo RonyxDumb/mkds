@@ -100,11 +100,7 @@ void CreateCommonKartIcon(void *heap) {
 
 #pragma thumb on
 void ClearKartIconPointer(void) {
-    u32 pointerAddress;
-    u32 zero;
-    zero = 0u;
-    pointerAddress = (u32) &gKartIcon;
-    *(u32 *) ((pointerAddress) + 0u) = zero;
+    gKartIcon = NULL;
 }
 #pragma thumb off
 
