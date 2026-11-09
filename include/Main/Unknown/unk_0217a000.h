@@ -16,6 +16,8 @@
 #include "Main/Unknown/code_020846c0.h" // Nsbmd
 #include "Main/Unknown/code_02087d0c.h" // ModelAnimation
 #include "code_02003024.h"
+#include "Main/Unknown/code_020653d0.h" // ParticipantKartRecord
+#include "code_02152490.h" // DWCAccFriendData, DWCAccUserData
 
 // Values of BackupFirstBlock.mSoundMode.
 typedef enum { SOUND_MODE_SURROUND, SOUND_MODE_STEREO, SOUND_MODE_HEADPHONES } SoundMode;
@@ -42,15 +44,7 @@ typedef struct BackupFirstBlock {
     };
     /* 32 */ u8 mUnk_32[0x2];
     /* 34 */ u32 mUnk_34[6];
-    /* 4c */ u8 mUserData[0x4];
-    /* 50 */ s32 mUnk_50;
-    /* 54 */ s32 mUnk_54;
-    /* 58 */ s32 mUnk_58;
-    /* 5c */ u8 mUnk_5c[0xc];
-    /* 68 */ s32 mUnk_68;
-    /* 6c */ u8 mUnk_6c[0x4];
-    /* 70 */ s32 mUnk_70;
-    /* 74 */ u8 mUnk_74[0x18];
+    /* 4c */ DWCAccUserData mUserData;
 } BackupFirstBlock;
 
 // The player's saved emblem: a filled flag and the 0x200 emblem bytes.
@@ -212,7 +206,7 @@ typedef struct BuddyRecord {
 typedef struct BuddyRecordBlock {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ BuddyRecord mRecords[60];
-    /* 874 */ u8 mUnk_874[60][0xc];
+    /* 874 */ DWCAccFriendData mUnk_874[60];
 } BuddyRecordBlock;
 
 // 0xb00 bytes behind member 0x24 of Unk0217aa08: a byte at 0x04 and five 0x200-byte rows from 0x08.
@@ -454,9 +448,7 @@ typedef struct Unk0217aa00_45c {
     /* 214 */ u8 mUnk_214;
     /* 215 */ u8 mUnk_215;
     /* 216 */ u16 mUnk_216;
-    /* 218 */ s32 mUnk_218;
-    /* 21c */ s32 mUnk_21c;
-    /* 220 */ s32 mUnk_220;
+    /* 218 */ DWCAccFriendData mUnk_218;
     /* 224 */ u8 mBits[4];
     /* 228 */ union {
         u8 mUnk_228;
@@ -632,12 +624,7 @@ typedef struct ConnectionWork {
     /* 00ac */ union {
         struct {
             /* 00ac */ ScanSlot mUnk_00ac[4];
-            /* 042c */ u8 mUnk_042c;
-            /* 042d */ u8 mUnk_042d;
-            /* 042e */ u8 mUnk_042e;
-            /* 042f */ u8 mUnk_042f;
-            /* 0430 */ u8 mUnk_0430;
-            /* 0431 */ u8 mUnk_0431;
+            /* 042c */ Unk0217aa00_42c mUnk_042c;
             /* 0432 */ u16 mOwnIndex;
             /* 0434 */ u16 mUnk_0434;
             /* 0436 */ u16 mUnk_0436;
@@ -877,7 +864,7 @@ typedef struct Unk0217aa14_104 {
         };
     };
     /* 04 */ s32 mUnk_04;
-    /* 08 */ u8 mUnk_08[0x18];
+    /* 08 */ ParticipantKartRecord mUnk_08;
     /* 20 */ Unk0217aa14_104_20 mUnk_20[4];
     /* 28 */ u8 mUnk_28[0x40];
     /* 68 */ union {

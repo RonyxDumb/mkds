@@ -104,7 +104,7 @@ void SetupCameraBehindKart(void) {
     chaseCamera->mPrevPos = chaseCamera->mPos;
     chaseCamera->mKartMoveScale = 0x1000;
     gChaseCamera->mHeightHold = 0;
-    UpdateViewFrustum((Unk020d4f94 *) &chaseCamera->mViewMatrix);
+    UpdateViewFrustum(&chaseCamera->mViewMatrix);
     RequestViewTestRefresh();
     gChaseCamera->mLookAt.y = kart->mPos.y + gChaseCamera->mLookAtHeight;
 }
@@ -1089,7 +1089,7 @@ void ResetCameraBehind(const Vec3 *kartPos, void *quaternion) {
     chaseCamera->mPrevPos = chaseCamera->mPos;
     chaseCamera->mKartMoveScale = 0x1000;
     gChaseCamera->mHeightHold = 0;
-    UpdateViewFrustum((Unk020d4f94 *) &chaseCamera->mViewMatrix);
+    UpdateViewFrustum(&chaseCamera->mViewMatrix);
     RequestViewTestRefresh();
 }
 

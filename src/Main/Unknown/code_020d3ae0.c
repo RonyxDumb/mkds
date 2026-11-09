@@ -69,11 +69,11 @@ u32 GetViewTestRefreshPending(void) {
     return value0;
 }
 
-void UpdateViewFrustum(Unk020d4f94 *viewMatrix) {
+void UpdateViewFrustum(MtxFx43 *viewMatrix) {
     MtxFx33 buf;
 
     MTX_Transpose33_(viewMatrix, &buf);
-    MTX_MultVec33(&viewMatrix->mUnk_24, &buf, &gViewFrustum.mCameraPos);
+    MTX_MultVec33(&viewMatrix->mUnk_00[3], &buf, &gViewFrustum.mCameraPos);
     gViewFrustum.mCameraPos.x = -gViewFrustum.mCameraPos.x;
     gViewFrustum.mCameraPos.y = -gViewFrustum.mCameraPos.y;
     gViewFrustum.mCameraPos.z = -gViewFrustum.mCameraPos.z;

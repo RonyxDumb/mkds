@@ -6,12 +6,12 @@
 
 void ReadCourseGhostRecords(void) {
     u8 i;
-    u8 *records;
+    GhostRecordHead *records;
     GhostRecordHead *record;
 
     records = data_0217aa08->mReadDestination;
     for (i = 0; i < 0x20; i++) {
-        record = (GhostRecordHead *) (records + i * 0x30);
+        record = records + i;
         if (IsCourseGhostBitSet(i) != 0) {
             func_0205786c(1, i, record);
             if (gBackupAccess->mBackupEnabled != 0) {

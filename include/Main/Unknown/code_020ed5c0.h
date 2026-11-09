@@ -67,7 +67,7 @@ typedef struct CharacterAnimationState {
     /* 00 */ s32 mTurnFrameOffset;
     /* 04 */ BOOL mAnimationChangeTimerSet;
     /* 08 */ s32 mMiddleFrame;
-    /* 0c */ u8 mUnk_0c[4];
+    /* 0c */ s32 mMiddleFrameReciprocal;
     /* 10 */ s16 mAnimationChangeTimer;
     /* 12 */ u8 mUnk_12[2];
     /* 14 */ BOOL mNextAnimationPending;
@@ -84,11 +84,7 @@ typedef struct KartModelsEntry {
     /* 10 */ Nsbmd *mModels[3];
     /* 01c */ ShadowModel *mShadowModel;
     /* 020 */ KartOffsetData *mKartOffsetData;
-    /* 024 */ s32 mTurnFrameOffset;
-    /* 028 */ u8 mUnk_028[4];
-    /* 02c */ s32 mMiddleFrame;
-    /* 030 */ s32 mMiddleFrameReciprocal;
-    /* 034 */ u8 mUnk_034[0xc];
+    /* 024 */ CharacterAnimationState mAnimationState;
     /* 040 */ u16 mUnk_040;
     /* 042 */ u8 mUnk_042[0x12];
     /* 054 */ Unk0206bcb0_590_54 *mUnk_054;

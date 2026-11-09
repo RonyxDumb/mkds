@@ -325,7 +325,7 @@ void func_02084a88(void *object, u8 alpha, u8 polygonId) {
 }
 
 // Draws with matrix b; when c is not NULL its three words (a scale, 0x1000 = 1.0) are sent first.
-void DrawNsbmdWithMatrix(void *object, MtxFx43 *matrix, u32 *scale) {
+void DrawNsbmdWithMatrix(Nsbmd *object, MtxFx43 *matrix, u32 *scale) {
     s32 commandParam = 30;
     u32 scaleCopy[3];
 
@@ -340,7 +340,7 @@ void DrawNsbmdWithMatrix(void *object, MtxFx43 *matrix, u32 *scale) {
         scaleCopy[2] = z;
         func_01ff9048(27, &scaleCopy, 3);
     }
-    gNsbmdDrawFunctions[((Nsbmd *) object)->mDrawKind](object);
+    gNsbmdDrawFunctions[object->mDrawKind](object);
 }
 
 void DrawNsbmd(void *object) {

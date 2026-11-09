@@ -39,7 +39,7 @@ void SetNsbmdEmiAll(void *object, u32 color);
 void SetNsbmdLightEnableFlagAll(void *object, u32 light);
 void SetNsbmdPolygonIdAll(void *object, u32 polygonId);
 void DrawNsbmd(void *object);
-void DrawNsbmdWithMatrix(void *object, MtxFx43 *matrix, u32 *scale);
+void DrawNsbmdWithMatrix(Nsbmd *object, MtxFx43 *matrix, u32 *scale);
 void func_02084a88(void *object, u8 alpha, u8 polygonId);
 void func_02084ad8(void *object, u8 alpha);
 NNSG3dResMdl *InitNsbmdWithTextureInfoCopy(void *heap, Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile,

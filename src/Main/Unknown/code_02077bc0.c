@@ -959,9 +959,10 @@ void CreateCharacter(KartModelsEntry *kartModelsEntry, void *heap, s32 pNameUsed
         } while (i < 4);
         if (hasFirstAnimation != FALSE) {
             SetModelAnimation(kartModelsEntry->mCharacterAnimation, 0);
-            kartModelsEntry->mMiddleFrame =
+            kartModelsEntry->mAnimationState.mMiddleFrame =
                 (GetModelAnimationFrameCountFixed(kartModelsEntry->mCharacterAnimation) - 0x1000) / 2;
-            kartModelsEntry->mMiddleFrameReciprocal = FX_Div(0x1000, kartModelsEntry->mMiddleFrame);
+            kartModelsEntry->mAnimationState.mMiddleFrameReciprocal =
+                FX_Div(0x1000, kartModelsEntry->mAnimationState.mMiddleFrame);
         } else {
             kartModelsEntry->mCharacterAnimation->mAnmObjCount = 0;
         }
@@ -1120,8 +1121,8 @@ void CreateKartShadow(KartModelsEntry *kartModelsEntry, void *heap) {
     AddResFileEntry(&kartModelsEntry->mShadowModel->mNsbmd.mResFileEntry, nsbmdFile, nsbmdFile);
     mdlSet = NNS_G3dGetMdlSet(nsbmdFile);
     entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &mdlSet->mDict, mdlSet->mDict.mOfsEntry);
-    InitShadowModelFromResMdl(&kartModelsEntry->mShadowModel->mNsbmd,
-                              OFFSET_PTR(NNSG3dResMdl, mdlSet, *(u32 *) entries->mData), 3);
+    InitShadowModelFromResMdl(kartModelsEntry->mShadowModel, OFFSET_PTR(NNSG3dResMdl, mdlSet, *(u32 *) entries->mData),
+                              3);
 }
 
 void CreateKillerItem(void *heap) {

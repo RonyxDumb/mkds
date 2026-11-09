@@ -216,7 +216,7 @@ void FindOrAddScanSlot(ScanBlock *scanBuffer, Unk0217aa00_42c *key, Unk0217aa00_
                 chosenSlot->mAge = 0;
             } else {
                 connection = data_0217aa00;
-                *(Unk0217aa00_42c *) &connection->mUnk_042c = *key;
+                connection->mUnk_042c =*key;
                 connection->mUnk_0438 = 0xf;
             }
         }

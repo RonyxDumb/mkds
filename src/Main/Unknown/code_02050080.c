@@ -49,7 +49,7 @@ u32 func_020501b0(u32 entryIndex) {
             MI_CpuCopy8(entry, data_0217aa00->mUnk_0024, 0xc0);
             DC_StoreRange(data_0217aa00->mUnk_0024, 0xc0);
             q = data_0217aa00;
-            *(Unk0217aa00_42c *) &q->mUnk_042c = entry->mKey;
+            q->mUnk_042c = entry->mKey;
             q->mUnk_043c = entry->mLanguageIndex;
             result = 1;
         }

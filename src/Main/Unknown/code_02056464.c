@@ -104,8 +104,7 @@ void FillPlayerRecord(Unk0217aa00_45c *a) {
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
         MI_CpuFill8(&a->mUnk_218, 0, 0xc);
     } else {
-        DWC_CreateExchangeToken((DWCAccUserData *) data_0217aa08->mFirstBlock->mUserData,
-                                (DWCAccFriendData *) &a->mUnk_218);
+        DWC_CreateExchangeToken(&data_0217aa08->mFirstBlock->mUserData, &a->mUnk_218);
     }
 }
 

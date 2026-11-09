@@ -27,7 +27,7 @@
 #include "code_021471bc.h"
 
 static inline void func_0206331c_inline(u32 animationKind, u8 *animation, Nsbmd *nsbmd, void *heap,
-                                        const char *modelFile, const char *animationFile, u16 *animationCount) {
+                                        void *modelFile, const char *animationFile, u16 *animationCount) {
     if (animationFile == NULL) {
         *animationCount = 0;
     } else {
@@ -97,8 +97,8 @@ void func_020636f8(Kart *kart) {
 
 // Also sets the matrix and the per-course flags (CreateCourseModels would be the verb for just finding and building).
 void InitCourseModels(void *heap) {
-    const char *nsbmdFile;
-    const char *nsbtxFile;
+    NNSG3dResFileHeader *nsbmdFile;
+    NNSG3dResFileHeader *nsbtxFile;
     const char *animationFile;
     NNSG3dResMdl *resMdl;
     s32 materialIndex;
@@ -108,8 +108,7 @@ void InitCourseModels(void *heap) {
     nsbmdFile = FindCourseFile(data_usa_02165404);
     nsbtxFile = FindCourseFile(data_usa_02165418);
     gCourseModels.mNsbmd = HeapAlloc(heap, 0x6c);
-    resMdl = InitNsbmdWithTextureInfoCopy(heap, gCourseModels.mNsbmd, (NNSG3dResFileHeader *) nsbmdFile,
-                                          (NNSG3dResFileHeader *) nsbtxFile);
+    resMdl = InitNsbmdWithTextureInfoCopy(heap, gCourseModels.mNsbmd, nsbmdFile, nsbtxFile);
     animationFile = FindCourseFile(data_usa_0216542c);
     func_0206331c_inline(2, data_usa_0217ab04, gCourseModels.mNsbmd, heap, nsbmdFile, animationFile,
                          &gCourseModels.mNsbtpAnmObjCount);
@@ -142,8 +141,7 @@ void InitCourseModels(void *heap) {
     nsbtxFile = FindCourseFile(data_usa_0216546c);
     if (nsbmdFile != NULL) {
         gCourseModels.mVNsbmd = HeapAlloc(heap, 0x6c);
-        InitNsbmdWithTextureInfoCopy(heap, gCourseModels.mVNsbmd, (NNSG3dResFileHeader *) nsbmdFile,
-                                     (NNSG3dResFileHeader *) nsbtxFile);
+        InitNsbmdWithTextureInfoCopy(heap, gCourseModels.mVNsbmd, nsbmdFile, nsbtxFile);
         SetNsbmdPolygonIdAll(gCourseModels.mVNsbmd, 8);
         animationFile = FindCourseFile(data_usa_02165484);
         func_0206331c_inline(1, data_usa_0217ab74, gCourseModels.mVNsbmd, heap, nsbmdFile, animationFile,

@@ -6,13 +6,7 @@
 #include "code_02146d78.h"
 #include "Main/Unknown/code_020e6fd4.h"
 
-// Object UpdateViewFrustum reads: a vector at 0x24.
-typedef struct Unk020d4f94 {
-    /* 00 */ u8 mUnk_00[0x24];
-    /* 24 */ Vec3 mUnk_24;
-} Unk020d4f94;
-
-void UpdateViewFrustum(Unk020d4f94 *viewMatrix);
+void UpdateViewFrustum(MtxFx43 *viewMatrix);
 u32 func_020d4f34(Vec3 *position, s32 b, s32 c, s32 distanceLimitSquared);
 s32 GetHorizontalCameraDistanceSquared(Vec3 *position);
 void func_020d4e28(ItemObject *itemObject, Vec3 *position, u32 distanceAndFlags);

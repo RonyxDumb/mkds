@@ -155,21 +155,21 @@ void func_02068a64(Kart *kart, s32 b, s32 c) {
     KartModelsEntry *modelsEntry;
     BOOL faceFrame;
     BOOL changeAnimation;
-    s32 *f;
+    CharacterAnimationState *f;
     s32 currentAnimation;
 
     kartBits = kart->mUnk_7c;
     if ((kartBits & KART_7C_MODELS_ENTRY_008_SET) != 0) {
         modelsEntry = kart->mKartModelsEntry;
         faceFrame = FALSE;
-        f = &modelsEntry->mTurnFrameOffset;
+        f = &modelsEntry->mAnimationState;
         currentAnimation = modelsEntry->mCharacterAnimation->mCurrentIndex;
         changeAnimation = TRUE;
-        if (f[5] != 0) {
+        if (f->mNextAnimationPending != 0) {
             if (currentAnimation != 0) {
                 func_02087cfc(modelsEntry->mCharacterAnimation, (u16) currentAnimation, 1);
             }
-            f[5] = 0;
+            f->mNextAnimationPending = 0;
         }
         if (b == 1) {
             b = 1;

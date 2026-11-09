@@ -36,7 +36,7 @@ void func_020641f0(Kart *kart) {
     u32 n;
     MtxFx43 *drawMatrix;
     Vec3 *q;
-    Vec4 *r;
+    CharacterAnimationState *r;
     enum { K0 } o;
 
     Matrix4x3FromQuaternion(&kart->mUnk_120, kart->mUnk_50c);
@@ -93,8 +93,8 @@ void func_020641f0(Kart *kart) {
     }
     modelsEntry = kart->mKartModelsEntry;
     if (modelsEntry->mModels[2] != NULL) {
-        r = (Vec4 *) &modelsEntry->mTurnFrameOffset;
-        j = (s64) r->w * r->x >> 12;
+        r = &modelsEntry->mAnimationState;
+        j = (s64) r->mMiddleFrameReciprocal * r->mTurnFrameOffset >> 12;
         l = (s64) j * 0xce4 >> 12;
         k = kart->mVelocityLengthRatio;
         if (kart->mUnk_4d4 > k) {

@@ -470,7 +470,7 @@ void func_02066ac0(Kart *kart) {
     state->mUnk_24 = IsRaceStarted() == 1 ? 0x333 : appliedNow;
     if (h > state->mUnk_20) {
         entry = func_0205b978(((u8 *) gParticipantKartMap)[kart->mIndex & 0xff], h);
-        record = entry != NULL ? (ParticipantKartRecord *) entry->mUnk_08 : 0;
+        record = entry != NULL ? &entry->mUnk_08 : 0;
         if (record != NULL) {
             difference = data_0217aa14->mUnk_728 - h;
             if (difference < 0) {

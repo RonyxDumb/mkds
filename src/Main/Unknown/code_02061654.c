@@ -314,7 +314,7 @@ void UpdateRace(void) {
         gCurrentViewMatrix = &gRaceChaseCamera->mViewMatrix;
     }
     RefreshCameraProjection(gCurrentCamera);
-    UpdateViewFrustum((Unk020d4f94 *) gCurrentViewMatrix);
+    UpdateViewFrustum(gCurrentViewMatrix);
     if (GetCameraEntryChanged() != 0) {
         RequestViewTestRefresh();
     }

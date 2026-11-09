@@ -89,6 +89,6 @@ void func_020646f0(Kart *kart, s32 b) {
         return;
     }
     if (characterAnimation->mAnmObjCount != 0) {
-        characterAnimation->mFrameIndex = kart->mKartModelsEntry->mMiddleFrame;
+        characterAnimation->mFrameIndex = kart->mKartModelsEntry->mAnimationState.mMiddleFrame;
     }
 }

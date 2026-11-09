@@ -36,8 +36,8 @@ u32 GetCharacterAnimationLoopFlag(int animationIndex) {
 void ClearCharacterTurnAndNextAnimation(struct KartModelsEntry *kartModelsEntry) {
     CharacterAnimationState *animationState;
 
-    kartModelsEntry->mTurnFrameOffset = 0;
-    animationState = (CharacterAnimationState *) &kartModelsEntry->mTurnFrameOffset;
+    kartModelsEntry->mAnimationState.mTurnFrameOffset = 0;
+    animationState = &kartModelsEntry->mAnimationState;
     animationState->mNextAnimationPending = FALSE;
     animationState->mNextAnimationIndex = 0;
 }
@@ -53,7 +53,7 @@ void AdvanceKartCharacterAnimation(Kart *kart) {
     ModelAnimation *faceAnimation;
 
     modelsEntry = kart->mKartModelsEntry;
-    animationState = (CharacterAnimationState *) &modelsEntry->mTurnFrameOffset;
+    animationState = &modelsEntry->mAnimationState;
     characterAnimation = modelsEntry->mCharacterAnimation;
     turnFrameLimit = animationState->mMiddleFrame;
     turnFrameStep = (kart->mUnk_44 & KART_44_DRIFTING) != 0 ? 0x2000 : 0x1000;
@@ -183,7 +183,7 @@ void StartKartWinOrLoseAnimation(Kart *kart) {
     }
     if (finishResult == 0) {
         KartModelsEntry *modelsEntry = kart->mKartModelsEntry;
-        animationState = (CharacterAnimationState *) &modelsEntry->mTurnFrameOffset;
+        animationState = &modelsEntry->mAnimationState;
         func_02087cfc(modelsEntry->mCharacterAnimation, (u16) finishResult, 1);
         func_02068a64(kart, 2, 1);
         if (isRuleKindWinner != 0) {
@@ -213,7 +213,7 @@ void StartKartWinOrLoseAnimation(Kart *kart) {
 }
 
 void AdvanceKartAnimationChangeTimer(Kart *kart) {
-    CharacterAnimationState *animationState = (CharacterAnimationState *) &kart->mKartModelsEntry->mTurnFrameOffset;
+    CharacterAnimationState *animationState = &kart->mKartModelsEntry->mAnimationState;
     RandomState64 *localRandom;
     KartModelsEntry *modelsEntry;
 
@@ -327,7 +327,7 @@ void func_0207b0d0(Kart *kart) {
 void StartKartCharacterAnimationOnce(Kart *kart, s32 animationIndex, s32 nextAnimationIndex) {
     KartModelsEntry *modelsEntry = kart->mKartModelsEntry;
     ModelAnimation *characterAnimation;
-    CharacterAnimationState *animationState = (CharacterAnimationState *) &modelsEntry->mTurnFrameOffset;
+    CharacterAnimationState *animationState = &modelsEntry->mAnimationState;
 
     characterAnimation = modelsEntry->mCharacterAnimation;
     if (animationState->mNextAnimationPending != FALSE && characterAnimation->mCurrentIndex != 0) {
@@ -339,12 +339,11 @@ void StartKartCharacterAnimationOnce(Kart *kart, s32 animationIndex, s32 nextAni
     func_02087cfc(characterAnimation, (u16) animationIndex, 0);
 }
 
-void InitShadowModelFromResMdl(Nsbmd *nsbmd, void *resFile, u32 polygonId) {
-    ShadowModel *shadowModel = (ShadowModel *) nsbmd;
+void InitShadowModelFromResMdl(ShadowModel *shadowModel, void *resFile, u32 polygonId) {
     NNSG3dResMdl *resMdl;
 
-    func_02084f10(nsbmd, resFile);
-    resMdl = nsbmd->mResMdl;
+    func_02084f10(&shadowModel->mNsbmd, resFile);
+    resMdl = shadowModel->mNsbmd.mResMdl;
     shadowModel->mPolygonId = polygonId;
     shadowModel->mAlpha = 0xd;
     shadowModel->mFlags |= 1;
