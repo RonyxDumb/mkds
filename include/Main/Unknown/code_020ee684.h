@@ -107,7 +107,7 @@ BOOL TryReleaseFirstItemObject(ItemPool *tab);
 // mLimit - mReservedCount is below 2 it first calls func_020f9ba8 on the first object or sorts with func_020f0684.
 void UpdateItemPool(ItemPool *pool);
 void func_020f0684(ItemObject **objects, s32 pairIndex, s32 endIndex, s32 step);
-void func_020f0758(ItemPool *pool, s32 messageKind, s32 b, u8 *packet, s32 d);
+void ProcessItemPoolMessage(ItemPool *pool, s32 messageKind, s32 b, u8 *packet, s32 d);
 s32 func_020f0898(ItemPool *pool, u8 *packet);
 s32 func_020f0950(ItemPool *pool, s32 eventByte, s32 objectId);
 void func_020f0b00(ItemPool *tab, s32 a, void *data, s32 c);

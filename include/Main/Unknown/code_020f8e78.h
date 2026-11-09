@@ -12,4 +12,4 @@ void func_020f9114(void *itemParam);
 void func_020f90dc(ItemObject *itemParam);
 void func_020f90bc(ItemObject *itemParam);
 void ResetItemObjectFromData(ItemObject *itemParam, s32 kind, void *buffer, s32 d);
-void func_020f8e78(void *itemParam);
+void SetupItemObjectFromData(void *itemParam);

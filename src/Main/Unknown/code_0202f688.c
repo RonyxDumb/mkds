@@ -267,14 +267,14 @@ void func_0202fd2c(void) {
                         }
                     }
                     if (isNewEntry != FALSE) {
-                        NNS_SndArcSetCurrent(&data_0217c868);
+                        NNS_SndArcSetCurrent(&gOnMemorySndArc);
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 4);
-                        NNS_SndArcSetCurrent(&data_0217d0a0);
+                        NNS_SndArcSetCurrent(&gFileSndArc);
                     }
                 } else if (oldWord0 != 0 && gMultiSelectMemberGroup->mUnk_58[i].mUnk_00 == 0) {
-                    NNS_SndArcSetCurrent(&data_0217c868);
+                    NNS_SndArcSetCurrent(&gOnMemorySndArc);
                     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
-                    NNS_SndArcSetCurrent(&data_0217d0a0);
+                    NNS_SndArcSetCurrent(&gFileSndArc);
                 }
                 changed |= oldWord0 != gMultiSelectMemberGroup->mUnk_58[i].mUnk_00 ? 1 : 0;
                 changed |= oldWord8 != gMultiSelectMemberGroup->mUnk_58[i].mUnk_08 ? 1 : 0;
@@ -326,8 +326,8 @@ void InitMultiSelectMemberGroup(void *parentHeap, void *scene, void *oamList) {
         } else {
             text = GetBmgEntry(gMultiSelectMemberGroup->mBannerMessages, gMemberGroupLabelMessageRows[i].mMessageIndex);
         }
-        func_0212426c(1, gMemberGroupLabelMessageRows[i].mLabelIndex, cellFileSet->mLabelLayout, text, cellFileSet->mCellLayout,
-                      cellFileSet->mCellTable);
+        func_0212426c(1, gMemberGroupLabelMessageRows[i].mLabelIndex, cellFileSet->mLabelLayout, text,
+                      cellFileSet->mCellLayout, cellFileSet->mCellTable);
     }
     RefreshMultiSelectMemberGroup(1);
     SetSelectReturnSoundId(0xf);
@@ -415,9 +415,9 @@ s32 AdvanceMultiSelectMemberGroup(Unk0203a0dc *sceneNumbers) {
                         if ((data_0217aa00 == NULL ? 0 : data_0217aa00->mUnk_0000) == 2) {
                             data_0217aa00->mUnk_0436 |= 1;
                         }
-                        NNS_SndArcSetCurrent(&data_0217c868);
+                        NNS_SndArcSetCurrent(&gOnMemorySndArc);
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 2);
-                        NNS_SndArcSetCurrent(&data_0217d0a0);
+                        NNS_SndArcSetCurrent(&gFileSndArc);
                     }
                 } else {
                     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x4f);
@@ -455,9 +455,9 @@ s32 AdvanceMultiSelectMemberGroup(Unk0203a0dc *sceneNumbers) {
                         selectionChanged = gMultiSelectMemberGroup->mSelectedIndex != i ? 1 : 0;
                         if (gMultiSelectMemberGroup->mUnk_58[i].mUnk_00 != 0 &&
                             gMultiSelectMemberGroup->mUnk_58[i].mUnk_08 < 7) {
-                            NNS_SndArcSetCurrent(&data_0217c868);
+                            NNS_SndArcSetCurrent(&gOnMemorySndArc);
                             NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 2);
-                            NNS_SndArcSetCurrent(&data_0217d0a0);
+                            NNS_SndArcSetCurrent(&gFileSndArc);
                             gMultiSelectMemberGroup->mSelectedIndex = i;
                             RefreshMultiSelectMemberGroup(selectionChanged);
                             gMultiSelectMemberGroup->mState2Frames = 0;

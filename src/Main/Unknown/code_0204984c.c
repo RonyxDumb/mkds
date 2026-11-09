@@ -239,7 +239,7 @@ void func_0204a1a8(void *arg) {
         if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
             func_02108d00();
         } else {
-            func_02108c80();
+            StartMessageScreenSeq();
         }
         if (sessionHeapCreated != FALSE) {
             switch (gSceneRunState->mUnk_118) {
@@ -317,7 +317,7 @@ void func_02049f60(void) {
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
         func_02108d00();
     } else {
-        func_02108c80();
+        StartMessageScreenSeq();
     }
     PM_DeletePreSleepCallback(&gSceneRunState->mPreSleepCallback);
     PM_DeletePostSleepCallback(&gSceneRunState->mPostSleepCallback);

@@ -64,10 +64,10 @@ void UpdateChoisesS(void) {
                     }
                 } else if (func_020b2b24(func_020b2b54(), 8) != 0) {
                     if (func_020b2e98() != 0) {
-                        func_02105c4c();
+                        RaiseSndHandleVolumes();
                         gChoisesS->mCloseFrames = 1;
                     } else {
-                        func_02105d70();
+                        LowerSndHandleVolumes();
                         func_020b2f88(1);
                     }
                 } else if (func_020b302c() != 0) {
@@ -75,19 +75,19 @@ void UpdateChoisesS(void) {
                 } else if (func_020b2b24(func_020b2b54(), PAD_KEY_A) != 0) {
                     if (func_020b2e98() != 0) {
                         if (gChoisesS->mSelectedValue == 0) {
-                            func_02105c4c();
+                            RaiseSndHandleVolumes();
                         } else {
                             StartChoisesSSelectedValueSeq();
                         }
                         gChoisesS->mPickFrames = 1;
                         gChoisesS->mUnk_010 = TRUE;
                     } else {
-                        func_02105d70();
+                        LowerSndHandleVolumes();
                         func_020b2f88(1);
                     }
                 } else if (func_020b2b24(func_020b2b54(), PAD_KEY_B) != 0) {
                     if (func_020b2e98() != 0) {
-                        func_02105c4c();
+                        RaiseSndHandleVolumes();
                         gChoisesS->mCloseFrames = 1;
                     }
                 } else if (GetNewOrRepeatBits(func_020b2b54(), PAD_KEY_UP) != 0) {
@@ -99,10 +99,10 @@ void UpdateChoisesS(void) {
         } else if (func_020b29c4() != 0) {
             if (func_020b2b24(func_020b2b54(), 8) != 0) {
                 if (func_020b2e98() != 0) {
-                    func_02105c4c();
+                    RaiseSndHandleVolumes();
                     gChoisesS->mCloseFrames = 1;
                 } else {
-                    func_02105d70();
+                    LowerSndHandleVolumes();
                     func_020b2f88(1);
                 }
             } else if (func_020b302c() != 0) {
@@ -110,7 +110,7 @@ void UpdateChoisesS(void) {
             } else if (func_020b2b24(func_020b2b54(), PAD_KEY_A) != 0) {
                 if (func_020b2e98() != 0) {
                     if (gChoisesS->mSelectedValue == 0) {
-                        func_02105c4c();
+                        RaiseSndHandleVolumes();
                     } else {
                         StartChoisesSSelectedValueSeq();
                     }
@@ -119,7 +119,7 @@ void UpdateChoisesS(void) {
                 }
             } else if (func_020b2b24(func_020b2b54(), PAD_KEY_B) != 0) {
                 if (func_020b2e98() != 0) {
-                    func_02105c4c();
+                    RaiseSndHandleVolumes();
                     gChoisesS->mCloseFrames = 1;
                 }
             } else if (GetNewOrRepeatBits(func_020b2b54(), PAD_KEY_UP) != 0) {

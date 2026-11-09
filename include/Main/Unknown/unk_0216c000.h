@@ -125,7 +125,7 @@ extern u8 data_0216c7c4[];
 extern s32 data_0216c7d4;
 extern s32 data_0216c7f8[];
 extern s32 data_0216c82c[];
-extern u8 data_0216c8d0[];
+extern u8 gSoundDataSdatPath[];
 extern u32 gItemKouraRStateTable[];
 extern u8 data_0216c1ec[];
 extern const char gObjShadowNsbmdName[];

@@ -12,7 +12,7 @@ void InitSceneSoundSetPlayer(s32 seqId) {
         return;
     }
     data_021759d0->mSoundSetPlayerInitialized = 1;
-    func_0210f8b0(&data_021759d0->mSoundSetPlayer, seqId, 0xff);
+    InitSoundSetPlayerWithVariables(&data_021759d0->mSoundSetPlayer, seqId, 0xff);
 }
 
 void StartSceneSoundSetSeq(void) {

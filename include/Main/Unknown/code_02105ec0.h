@@ -22,14 +22,14 @@ typedef struct Unk0216c7e0 {
 
 extern Unk0216c7e0 data_0216c7e0;
 
-// Object behind data_0216c7d8.
-typedef struct Unk0216c7d8 {
-    /* 00 */ u16 mUnk_00;
+// Object behind gLoadedSoundBanks.
+typedef struct LoadedSoundBanks {
+    /* 00 */ u16 mBankMask;
     /* 02 */ u8 mUnk_02[2];
-    /* 04 */ u32 mUnk_04;
-} Unk0216c7d8;
+    /* 04 */ u32 mLoadMarker;
+} LoadedSoundBanks;
 
-extern Unk0216c7d8 data_0216c7d8;
+extern LoadedSoundBanks gLoadedSoundBanks;
 
 // 0x03-byte argument of InitSceneSoundState and InitSceneSounds.
 typedef struct Unk021073ec {
@@ -38,20 +38,20 @@ typedef struct Unk021073ec {
     /* 02 */ u8 mUnk_02;
 } Unk021073ec;
 
-// Object behind data_0217c7f0.
-typedef struct Unk0217c7f0 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
+// Object behind gPlayerVolumeFade.
+typedef struct PlayerVolumeFade {
+    /* 00 */ u32 mVolumePerFrame;
+    /* 04 */ s32 mVolume;
+    /* 08 */ u32 mRaceStarted;
     /* 0c */ u32 mUnk_0c;
     /* 10 */ u32 mUnk_10;
     /* 14 */ u32 mUnk_14;
     /* 18 */ u32 mUnk_18;
     /* 1c */ u32 mUnk_1c;
     /* 20 */ u32 mUnk_20;
-} Unk0217c7f0;
+} PlayerVolumeFade;
 
-extern Unk0217c7f0 data_0217c7f0;
+extern PlayerVolumeFade gPlayerVolumeFade;
 
 // View of data_0217c7c4; IncrementSoundHandleAges takes it.
 typedef struct SoundHandlePool {
@@ -74,18 +74,18 @@ typedef struct SoundHandleEntry {
 typedef struct SceneSoundState {
     /* 00 */ u32 mRaceFrames;
     /* 04 */ u32 mSceneFrames;
-    /* 08 */ NNSSndSeqPlayer *mUnk_08;
+    /* 08 */ NNSSndSeqPlayer *mKartStarSeq;
     /* 0c */ u32 mRaceState;
     /* 10 */ u32 mOnLastLap;
     /* 14 */ u8 mLapCount;
     /* 15 */ u8 mLapsDone;
-    /* 16 */ u8 mUnk_16;
-    /* 17 */ u8 mUnk_17;
+    /* 16 */ u8 mLastLapSeqState;
+    /* 17 */ u8 mKartStarSeqOn;
     /* 18 */ u8 mRankIndex;
     /* 19 */ u8 mRankIndexAtSeq;
     /* 1a */ u8 mUnk_1a[2];
     /* 1c */ s32 mRankSeqFrames;
-    /* 20 */ u32 mUnk_20;
+    /* 20 */ u32 mVolumesLowered;
 } SceneSoundState;
 
 extern SceneSoundState gSceneSoundState;
@@ -114,23 +114,23 @@ typedef enum { E0 = 0, E1 = 1, E2 = 2 } Unk02108344;
 
 BOOL LoadSndBanksAndWaveArcs(s32 bankMask);
 BOOL LoadSndBanksAndWaveArcsIfChanged(s32 bankMask);
-int GetSndHeapsBufferSize(int a);
-int GetSndInitBufferSize(int a);
+int GetSndHeapsBufferSize(int heapSizeKind);
+int GetSndInitBufferSize(int heapSizeKind);
 void ReleaseSndHeaps(void);
-void CreateSndHeaps(u32 a, u32 buffer);
-void InitSound(void *buffer, u32 b, u32 c);
+void CreateSndHeaps(u32 heapSizeKind, u32 buffer);
+void InitSound(void *buffer, u32 b, u32 useFileArchive);
 void UpdateSounds(void);
 void InitSceneSounds(s32 e);
-void InitSceneSoundState(u32 a, Unk021073ec b, SceneSoundState *c);
+void InitSceneSoundState(u32 sceneSoundRowIndex, Unk021073ec b, SceneSoundState *sceneSoundState);
 void StartSceneSounds(void);
 void StartRaceSounds(void);
 void StartKartStarSeq(void);
 void StopKartStarSeq(void);
 void EndRaceSounds(void);
 void AdvanceSceneSoundLap(void);
-void SetSceneSoundRank(u32 a);
+void SetSceneSoundRank(u32 rankIndex);
 void UpdateRaceSounds(void);
-void func_021062a8(void);
+void UpdateCourseSeqAtSceneFrames(void);
 void UpdateSceneSoundState(void);
 void StopSceneSounds(void);
 void StopSceneSoundsAtOnce(void);

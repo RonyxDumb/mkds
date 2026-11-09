@@ -340,9 +340,9 @@ s32 func_0203551c(u16 *sceneNumbers) {
             break;
         case 2:
             if (GetTxtSystemInputAccepted() != 0 && GetTxtSystemSelectedIndex() == 0) {
-                NNS_SndArcSetCurrent(&data_0217c868);
+                NNS_SndArcSetCurrent(&gOnMemorySndArc);
                 NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 10);
-                NNS_SndArcSetCurrent(&data_0217d0a0);
+                NNS_SndArcSetCurrent(&gFileSndArc);
             }
             if (GetTxtSystemDone() != 0) {
                 if (GetTxtSystemSelectedIndex() == 0) {

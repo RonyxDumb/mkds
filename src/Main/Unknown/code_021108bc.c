@@ -293,7 +293,7 @@ void func_02110a60(void) {
     data_0217d204 = 0;
     data_0217d1e0 = 0;
     data_0217d1e4 = 0;
-    data_0217d1f4 = 7;
+    gEmblemSoundValue = 7;
 }
 
 void func_021108bc(s32 a) {

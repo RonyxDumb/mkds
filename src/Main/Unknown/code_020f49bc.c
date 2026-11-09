@@ -316,7 +316,7 @@ void StartItemThunder(ItemInUse *itemInUse, HeldItem *heldItem) {
     if (gRaceSetup->mMode != 5) {
         return;
     }
-    func_020fe958(6);
+    AddItemDataFrameOnly(6);
 }
 
 void StartItemStar(ItemInUse *itemInUse, HeldItem *heldItem) {
@@ -325,7 +325,7 @@ void StartItemStar(ItemInUse *itemInUse, HeldItem *heldItem) {
     if (gRaceSetup->mMode != 5) {
         return;
     }
-    func_020fe958(4);
+    AddItemDataFrameOnly(4);
 }
 
 void StartItemKouraGSound(void *kouraParam, s32 b) {
@@ -373,22 +373,22 @@ void *func_020f6038(void *buffer, ItemKouraG *koura, void *toBuffer) {
     void *result;
 
     if (koura != NULL && toBuffer != NULL) {
-        func_020ff1b8(Vec3DotUnrounded(&koura->mDirectedItemObject.mUnk_000.mVelocity,
-                                       &koura->mDirectedItemObject.mDirection) < 0,
-                      &koura->mDirectedItemObject.mUnk_000.mVelocity.y);
+        StoreItemDataFlagBit(Vec3DotUnrounded(&koura->mDirectedItemObject.mUnk_000.mVelocity,
+                                              &koura->mDirectedItemObject.mDirection) < 0,
+                             &koura->mDirectedItemObject.mUnk_000.mVelocity.y);
     }
     result = CopyItemObjectData(buffer, koura, toBuffer);
     if (koura != NULL && toBuffer == NULL) {
-        func_020ff1a0(koura->mDirectedItemObject.mUnk_000.mVelocity.y, &koura->mReverse);
+        LoadItemDataFlagBit(koura->mDirectedItemObject.mUnk_000.mVelocity.y, &koura->mReverse);
     }
     if (koura != NULL && toBuffer != NULL) {
-        return func_020fe8ac(koura->mDirectedItemObject.mUnk_000.mKind);
+        return AddItemDataSizedByKind(koura->mDirectedItemObject.mUnk_000.mKind);
     }
     return result;
 }
 
 void InitItemKouraGFromData(ItemKouraG *koura) {
-    func_020f8e78(koura);
+    SetupItemObjectFromData(koura);
     ResetSoundDistanceSquaredChange(&koura->mSoundDistanceSquaredChange);
     koura->mDirectedItemObject.mUnk_000.mSoundSource.mTrackParamsFunction =
         (void (*)(void *, void *, void *)) func_0210a77c;
@@ -521,7 +521,7 @@ void UpdateItemKouraRState2(ItemKouraR *kouraR) {
         if (!(kouraR->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x8000000)) {
             return;
         }
-        func_020fe71c(1, kouraR->mKartItems->mKartIndex, kouraR->mUnk_000.mUnk_000.mUnk_000.mId);
+        AddItemDataItemIdAndKart(1, kouraR->mKartItems->mKartIndex, kouraR->mUnk_000.mUnk_000.mUnk_000.mId);
         return;
     }
     if (kouraR->mStateMachine.mStateFrames > 4) {
@@ -533,7 +533,7 @@ void UpdateItemKouraRState2(ItemKouraR *kouraR) {
         if (!(kouraR->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x8000000)) {
             return;
         }
-        func_020fe71c(1, kouraR->mKartItems->mKartIndex, kouraR->mUnk_000.mUnk_000.mUnk_000.mId);
+        AddItemDataItemIdAndKart(1, kouraR->mKartItems->mKartIndex, kouraR->mUnk_000.mUnk_000.mUnk_000.mId);
     }
 }
 
@@ -581,7 +581,7 @@ void UpdateItemKouraRState3(ItemKouraR *kouraR) {
         if (!(kouraR->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x8000000)) {
             return;
         }
-        func_020fe71c(1, kouraR->mKartItems->mKartIndex, kouraR->mUnk_000.mUnk_000.mUnk_000.mId);
+        AddItemDataItemIdAndKart(1, kouraR->mKartItems->mKartIndex, kouraR->mUnk_000.mUnk_000.mUnk_000.mId);
         return;
     }
     if (kouraR->mStateMachine.mStateFrames > 4) {
@@ -593,7 +593,7 @@ void UpdateItemKouraRState3(ItemKouraR *kouraR) {
         if (!(kouraR->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x8000000)) {
             return;
         }
-        func_020fe71c(1, kouraR->mKartItems->mKartIndex, kouraR->mUnk_000.mUnk_000.mUnk_000.mId);
+        AddItemDataItemIdAndKart(1, kouraR->mKartItems->mKartIndex, kouraR->mUnk_000.mUnk_000.mUnk_000.mId);
     }
 }
 
@@ -730,24 +730,24 @@ void func_020f5614(void *kouraParam, s32 hitType, ItemObject *otherParam) {
 }
 
 // Hands the 0x44 word and the 0x5c/0x130/0x250/0x254/0x60/0x54 addresses of b to
-// CopyItemObjectData, CopyItemPointLinkIndex, func_020ff1b8, func_020ff1a0 and func_020fe8ac.
+// CopyItemObjectData, CopyItemPointLinkIndex, StoreItemDataFlagBit, LoadItemDataFlagBit and AddItemDataSizedByKind.
 void *func_020f5550(void *buffer, ItemKouraR *kouraR, void *toBuffer) {
     s32 dot;
     void *result;
 
     if (kouraR != NULL && toBuffer != NULL) {
         dot = Vec3DotUnrounded(&kouraR->mUnk_000.mUnk_000.mUnk_000.mVelocity, &kouraR->mUnk_000.mUnk_000.mDirection);
-        func_020ff1b8(dot < 0, &kouraR->mUnk_000.mUnk_000.mUnk_000.mVelocity.y);
-        func_020ff1b8(kouraR->mThrowForward, &kouraR->mUnk_000.mUnk_000.mUnk_000.mPos.y);
+        StoreItemDataFlagBit(dot < 0, &kouraR->mUnk_000.mUnk_000.mUnk_000.mVelocity.y);
+        StoreItemDataFlagBit(kouraR->mThrowForward, &kouraR->mUnk_000.mUnk_000.mUnk_000.mPos.y);
     }
     result = CopyItemObjectData(buffer, kouraR, toBuffer);
     result = CopyItemPointLinkIndex(result, kouraR != NULL ? &kouraR->mUnk_000.mPreviousLink : 0, toBuffer);
     if (kouraR != NULL && toBuffer == NULL) {
-        func_020ff1a0(kouraR->mUnk_000.mUnk_000.mUnk_000.mVelocity.y, &kouraR->mUnk_250);
-        func_020ff1a0(kouraR->mUnk_000.mUnk_000.mUnk_000.mPos.y, &kouraR->mThrowForward);
+        LoadItemDataFlagBit(kouraR->mUnk_000.mUnk_000.mUnk_000.mVelocity.y, &kouraR->mUnk_250);
+        LoadItemDataFlagBit(kouraR->mUnk_000.mUnk_000.mUnk_000.mPos.y, &kouraR->mThrowForward);
     }
     if (kouraR != NULL && toBuffer != NULL) {
-        return func_020fe8ac(kouraR->mUnk_000.mUnk_000.mUnk_000.mKind);
+        return AddItemDataSizedByKind(kouraR->mUnk_000.mUnk_000.mUnk_000.mKind);
     }
     return result;
 }
@@ -760,7 +760,7 @@ void InitItemKouraRFromData(ItemKouraR *kouraR) {
     u16 targetKartIndex;
     u16 rankAhead;
 
-    func_020f8e78(kouraR);
+    SetupItemObjectFromData(kouraR);
     ResetSoundDistanceSquaredChange(&kouraR->mUnk_258);
     kouraR->mUnk_000.mUnk_000.mUnk_000.mSoundSource.mTrackParamsFunction =
         (void (*)(void *, void *, void *)) func_0210a77c;
@@ -870,27 +870,27 @@ void AdvanceItemBanana(ItemBanana *banana) {
     StartRestingItemObject(&banana->mUnk_000.mItemObject, &v);
 }
 
-// Hands the 0x130 word and the 0x60 word to func_020ff1b8/func_020ff1a0 around the
-// CopyItemObjectData call, and returns func_020fe8ac's value when b and c are both set.
+// Hands the 0x130 word and the 0x60 word to StoreItemDataFlagBit/LoadItemDataFlagBit around the
+// CopyItemObjectData call, and returns AddItemDataSizedByKind's value when b and c are both set.
 void *func_020f5108(void *buffer, ItemBanana *banana, void *toBuffer) {
     void *result;
 
     if (banana != NULL && toBuffer != NULL) {
-        func_020ff1b8(banana->mThrowForward, &banana->mUnk_000.mItemObject.mVelocity.y);
+        StoreItemDataFlagBit(banana->mThrowForward, &banana->mUnk_000.mItemObject.mVelocity.y);
     }
     result = CopyItemObjectData(buffer, banana, toBuffer);
     if (banana != NULL && toBuffer == NULL) {
-        func_020ff1a0(banana->mUnk_000.mItemObject.mVelocity.y, &banana->mThrowForward);
+        LoadItemDataFlagBit(banana->mUnk_000.mItemObject.mVelocity.y, &banana->mThrowForward);
     }
     if (banana != NULL && toBuffer != NULL) {
-        return func_020fe8ac(banana->mUnk_000.mItemObject.mKind);
+        return AddItemDataSizedByKind(banana->mUnk_000.mItemObject.mKind);
     }
     return result;
 }
 
-// Runs func_020f8e78 and StartItemObjectBouncing, then StartSound when the two 0x74/0x130 tests pass.
+// Runs SetupItemObjectFromData and StartItemObjectBouncing, then StartSound when the two 0x74/0x130 tests pass.
 void InitItemBananaFromData(ItemBanana *banana) {
-    func_020f8e78(banana);
+    SetupItemObjectFromData(banana);
     StartItemObjectBouncing(&banana->mUnk_000, 0);
     if ((banana->mUnk_000.mItemObject.mFlags & 0x10000000) == 0) {
         return;
@@ -910,7 +910,7 @@ void StartItemKinokoBoost(ItemInUse *itemInUse, HeldItem *heldItem) {
     if (gRaceSetup->mMode != 5) {
         return;
     }
-    func_020fe958(3);
+    AddItemDataFrameOnly(3);
 }
 
 void ResetItemKinoko(ItemKinoko *kinoko) {

@@ -111,14 +111,14 @@ void ResetItemObjectFromData(ItemObject *itemParam, s32 kind, void *buffer, s32 
     ItemObject *item = itemParam;
     void *(*copyData)(void *, void *, s32);
 
-    copyData = d != 0 ? func_020fe4c0 : gItemKinds[kind].mCopyData;
+    copyData = d != 0 ? CopyItemObjectDataAndAdd : gItemKinds[kind].mCopyData;
     ResetItemObject(item, kind);
     copyData(buffer, item, 0);
     item->mFlags &= ~0x400000;
     item->mFlags |= 0x10000000;
 }
 
-void func_020f8e78(void *itemParam) {
+void SetupItemObjectFromData(void *itemParam) {
     ItemObject *item = itemParam;
     ItemKind *kindInfo;
     BOOL hasCollisionSlot;

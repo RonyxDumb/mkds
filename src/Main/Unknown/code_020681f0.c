@@ -107,7 +107,7 @@ void AdvanceKartRemovalShrink(Kart *kart) {
                 }
                 func_02104f84(kart->mIndex);
                 if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
-                    func_0210fb10();
+                    StartKartRemovalSeqEffect();
                 }
                 func_0210ab30(kart);
                 return;
@@ -118,7 +118,7 @@ void AdvanceKartRemovalShrink(Kart *kart) {
                     func_02055a94();
                 } else if (c == 0x73) {
                     StartDispCapFadeToFaded(0x3c);
-                    func_0210fb54();
+                    FadeSeqVolumeToZeroAfterKartRemoval();
                 }
             }
             kart->mUnk_3c8 = kart->mUnk_3c8 + 1;

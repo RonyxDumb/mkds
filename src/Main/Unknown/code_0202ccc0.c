@@ -388,9 +388,9 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
                     PrintSelectedGhostSendRecord();
                 }
                 if (IsScrollListPickStarted() != 0) {
-                    NNS_SndArcSetCurrent(&data_0217c868);
+                    NNS_SndArcSetCurrent(&gOnMemorySndArc);
                     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 7);
-                    NNS_SndArcSetCurrent(&data_0217d0a0);
+                    NNS_SndArcSetCurrent(&gFileSndArc);
                 }
                 if (IsScrollListPickFinished() != 0) {
                     func_0202d5c0();
@@ -446,9 +446,9 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
             } else if (func_0204eb08(gTimeAttackGhostSend->mUnk_0b8) != 0) {
                 RequestSelectReturnState4();
                 func_02108c04();
-                NNS_SndArcSetCurrent(&data_0217c868);
+                NNS_SndArcSetCurrent(&gOnMemorySndArc);
                 NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 9);
-                NNS_SndArcSetCurrent(&data_0217d0a0);
+                NNS_SndArcSetCurrent(&gFileSndArc);
                 func_0202d5f8(0xb, 0);
                 gTimeAttackGhostSend->mState = 7;
             }
@@ -457,9 +457,9 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
             i = func_0205465c();
             switch (i) {
                 case 1:
-                    NNS_SndArcSetCurrent(&data_0217c868);
+                    NNS_SndArcSetCurrent(&gOnMemorySndArc);
                     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0xa);
-                    NNS_SndArcSetCurrent(&data_0217d0a0);
+                    NNS_SndArcSetCurrent(&gFileSndArc);
                     gTimeAttackGhostSend->mState = 0xa;
                     break;
                 case 2:

@@ -173,7 +173,7 @@ void func_020f7658(ItemObject *item, s32 c) {
     if (c == 0) {
         return;
     }
-    func_020fe7a0(item->mKind, 4, 8, item->mId);
+    AddItemDataItemIdAndParts(item->mKind, 4, 8, item->mId);
 }
 
 void StartItemObjectReleaseTimer(ItemObject *item) {
@@ -249,7 +249,7 @@ void func_020f7430(ItemObject *item, s32 c) {
     if (c == 0) {
         return;
     }
-    func_020fe7a0(item->mKind, 5, 8, item->mId);
+    AddItemDataItemIdAndParts(item->mKind, 5, 8, item->mId);
 }
 
 void StartItemObjectRelease(ItemObject *item) {

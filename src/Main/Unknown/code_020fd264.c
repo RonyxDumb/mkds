@@ -357,21 +357,21 @@ void *func_020fda50(void *cursor, ItemBomb *bomb, void *toData) {
     void *nextCursor;
 
     if (bomb != NULL && toData != NULL) {
-        func_020ff1b8(bomb->mUnk_130, &bomb->mUnk_000.mItemObject.mVelocity.y);
+        StoreItemDataFlagBit(bomb->mUnk_130, &bomb->mUnk_000.mItemObject.mVelocity.y);
     }
     nextCursor = CopyItemObjectData(cursor, bomb, toData);
-    nextCursor = func_020fefe8(nextCursor, bomb != NULL ? &bomb->mUnk_134 : 0, toData);
+    nextCursor = CopyItemShiftedByte(nextCursor, bomb != NULL ? &bomb->mUnk_134 : 0, toData);
     if (bomb != NULL && toData == NULL) {
-        func_020ff1a0(bomb->mUnk_000.mItemObject.mVelocity.y, &bomb->mUnk_130);
+        LoadItemDataFlagBit(bomb->mUnk_000.mItemObject.mVelocity.y, &bomb->mUnk_130);
     }
     if (bomb != NULL && toData != NULL) {
-        return func_020fe8ac(bomb->mUnk_000.mItemObject.mKind);
+        return AddItemDataSizedByKind(bomb->mUnk_000.mItemObject.mKind);
     }
     return nextCursor;
 }
 
 void InitItemBombFromData(ItemBomb *bomb) {
-    func_020f8e78(bomb);
+    SetupItemObjectFromData(bomb);
     StartItemObjectBouncing(&bomb->mUnk_000, bomb->mUnk_130 != 0 ? 3 : 2);
     InitStateMachine(&bomb->mUnk_184, (UnkFunc *const *) gItemBombStateTable, 4, bomb);
     if (!(bomb->mUnk_000.mItemObject.mFlags & 0x10000000)) {

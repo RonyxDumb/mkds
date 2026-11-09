@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void func_0210faf4(void);
+void UpdateSceneSeqPlayerControl(void);
 u32 IsTeresaSoundFlagSet(void);

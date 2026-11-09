@@ -265,13 +265,13 @@ void func_ov001_0219f198(void) {
     switch (gMissionRunLVsel->mResult) {
         case 1:
             if (func_ov001_0219f31c() != FALSE) {
-                func_02105980(3, 10);
+                StopMissionRunLVselSeqsWithSteps(3, 10);
             } else {
-                func_02105980(0, 10);
+                StopMissionRunLVselSeqsWithSteps(0, 10);
             }
             break;
         case 2:
-            func_02105980(4, 10);
+            StopMissionRunLVselSeqsWithSteps(4, 10);
             break;
     }
 }
@@ -297,13 +297,13 @@ void InitMissionRunLVsel(void *a, void *b, void *c) {
     if (data_0217b488->mUnk_14 != 0) {
         gMissionRunLVsel->mIndex = 6;
         data_0217b488->mUnk_14 = 0;
-        func_02105a30(2);
+        StartMissionRunLVselSeq(2);
     } else {
         gMissionRunLVsel->mIndex = GetMissionTableRow() - 1;
         if (GetPreviousMenuScreenNumber() == 0x1f) {
-            func_02105a30(1);
+            StartMissionRunLVselSeq(1);
         } else {
-            func_02105a30(0);
+            StartMissionRunLVselSeq(0);
         }
     }
     func_ov001_0219f3a4();
@@ -329,9 +329,9 @@ void ReleaseMissionRunLVsel(void) {
     switch (gMissionRunLVsel->mResult) {
         case 1:
             if (func_ov001_0219f31c() != FALSE) {
-                func_02105980(3, 10);
+                StopMissionRunLVselSeqsWithSteps(3, 10);
             } else {
-                func_02105980(0, 10);
+                StopMissionRunLVselSeqsWithSteps(0, 10);
             }
             break;
         case 2:
@@ -344,7 +344,7 @@ void ReleaseMissionRunLVsel(void) {
 
 void AdvanceMissionRunLVselState0(void) {
     int v1;
-    func_021059e0();
+    StartSceneSeqIfIdle();
     v1 = AreBrightnessFadesClear();
     if (v1 != 0) {
         func_ov001_0219f260();
@@ -357,7 +357,7 @@ void AdvanceMissionRunLVselState1(void) {
     s32 count;
     s16 value;
 
-    func_021059e0();
+    StartSceneSeqIfIdle();
     count = gMissionRunLVsel->mMissionRunLVselS7Or6Bncl->mUnk_06;
     gMissionRunLVsel->mStateFrames = gMissionRunLVsel->mStateFrames + 1;
     value = InterpolateS16(1, gMissionRunLVsel->mUnk_48, 0, gMissionRunLVsel->mStateFrames, 10);
@@ -375,7 +375,7 @@ void AdvanceMissionRunLVselState1(void) {
 
 void AdvanceMissionRunLVselState2(void) {
     int v1;
-    func_021059e0();
+    StartSceneSeqIfIdle();
     v1 = IsSelectReturnState2NoState3Or4Request();
     if (v1 != 0) {
         RequestMissionRunLVselState3();
@@ -389,7 +389,7 @@ void AdvanceMissionRunLVselState3(void) {
     BOOL f1;
     s16 n;
 
-    func_021059e0();
+    StartSceneSeqIfIdle();
     f2 = FALSE;
     f1 = FALSE;
     if (data_02175628[i].mUnk_48.mHasPair == 0 && data_02175628[i].mUnk_48.mNoPairCount < 5) {
@@ -480,7 +480,7 @@ next:
 
 void AdvanceMissionRunLVselState4(void) {
     gMissionRunLVsel->mStateFrames = gMissionRunLVsel->mStateFrames + 1;
-    func_021059e0();
+    StartSceneSeqIfIdle();
     if (gMissionRunLVsel->mStateFrames >= 5) {
         func_ov001_0219f198();
         gMissionRunLVsel->mUnk_48 = -256;

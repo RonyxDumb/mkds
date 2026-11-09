@@ -3,5 +3,5 @@
 
 void func_02036258(void) {
     u32 value12;
-    func_02108ddc();
+    StartSeqZeroLoop();
 }

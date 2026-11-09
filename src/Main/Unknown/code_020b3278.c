@@ -8,29 +8,29 @@
 // In mode 5 the sequence index is always 4, whatever the selected value.
 void StartChoisesSSelectedValueSeq(void) {
     if (func_020b252c() == 5) {
-        func_02105b64(4);
+        StartChoisesSValueSeq(4);
     } else {
         switch (gChoisesS->mSelectedValue) {
             case 0:
             case 8:
-                func_02105b64(0);
+                StartChoisesSValueSeq(0);
                 break;
             case 1:
             case 3:
-                func_02105b64(1);
+                StartChoisesSValueSeq(1);
                 break;
             case 2:
             case 7:
             case 10:
-                func_02105b64(5);
+                StartChoisesSValueSeq(5);
                 break;
             case 4:
             case 5:
             case 6:
-                func_02105b64(2);
+                StartChoisesSValueSeq(2);
                 break;
             case 9:
-                func_02105b64(3);
+                StartChoisesSValueSeq(3);
                 break;
         }
     }

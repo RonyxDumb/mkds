@@ -128,9 +128,9 @@ s32 func_02034370(Unk0203a0dc *sceneNumbers) {
             switch (AdvanceConnectionSetup(0, NULL)) {
                 case 1:
                     SetupTxtSystemSubText(GetBmgEntry(data_02174e64->mGhostMessages, 0xf));
-                    NNS_SndArcSetCurrent(&data_0217c868);
+                    NNS_SndArcSetCurrent(&gOnMemorySndArc);
                     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 9);
-                    NNS_SndArcSetCurrent(&data_0217d0a0);
+                    NNS_SndArcSetCurrent(&gFileSndArc);
                     data_02174e64->mState = 5;
                     break;
                 case 0:
@@ -166,9 +166,9 @@ s32 func_02034370(Unk0203a0dc *sceneNumbers) {
                                 if (data_02174e64->mSelectedIndex == i) {
                                     func_02034f60();
                                 }
-                                NNS_SndArcSetCurrent(&data_0217c868);
+                                NNS_SndArcSetCurrent(&gOnMemorySndArc);
                                 NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 7);
-                                NNS_SndArcSetCurrent(&data_0217d0a0);
+                                NNS_SndArcSetCurrent(&gFileSndArc);
                             }
                         } else {
                             func_02025f14(&data_02174e64->mGhostInfoEntries[i].mInterpolation, 2);
@@ -315,17 +315,17 @@ s32 func_02034370(Unk0203a0dc *sceneNumbers) {
                 data_02174e64->mGhostSlot = FindUnfilledGhostSlot();
                 GetSlotGhostBuffer()->mHead.mFilled = 1;
                 WriteSlotGhostRecord((u8) data_02174e64->mGhostSlot, GetSlotGhostBuffer());
-                NNS_SndArcSetCurrent(&data_0217c868);
+                NNS_SndArcSetCurrent(&gOnMemorySndArc);
                 NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 10);
-                NNS_SndArcSetCurrent(&data_0217d0a0);
+                NNS_SndArcSetCurrent(&gFileSndArc);
                 data_02174e64->mState = 11;
             }
             break;
         case 9:
             if (GetTxtSystemInputAccepted() != 0 && GetTxtSystemSelectedIndex() == 0) {
-                NNS_SndArcSetCurrent(&data_0217c868);
+                NNS_SndArcSetCurrent(&gOnMemorySndArc);
                 NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 10);
-                NNS_SndArcSetCurrent(&data_0217d0a0);
+                NNS_SndArcSetCurrent(&gFileSndArc);
             }
             if (GetTxtSystemDone() != 0) {
                 RequestTxtSystemClose();

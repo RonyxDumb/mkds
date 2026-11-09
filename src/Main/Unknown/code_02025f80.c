@@ -474,7 +474,7 @@ int AdvanceSelectCharacter(void) {
                         }
                     }
                     func_020270fc(previousTableIndex);
-                    func_021106a8(func_02025eb0(gSelectCharacter->mCharacterIndex), 0);
+                    StartSeqPair(func_02025eb0(gSelectCharacter->mCharacterIndex), 0);
                     gSelectCharacter->mUnk_068 = 0;
                     gSelectCharacter->mUnk_06c = 5;
                 } else if (gSelectCharacter->mUnk_080 == 0 &&
@@ -485,7 +485,7 @@ int AdvanceSelectCharacter(void) {
                 gSelectCharacter->mUnk_068 = 0;
                 gSelectCharacter->mUnk_08c = 3;
                 gSelectCharacter->mUnk_06c = 6;
-                func_021106a8(func_02025eb0(gSelectCharacter->mCharacterIndex), 0);
+                StartSeqPair(func_02025eb0(gSelectCharacter->mCharacterIndex), 0);
                 func_02077f48(1);
                 selectCharacterReload = gSelectCharacter;
                 switch (selectCharacterReload->mUnk_080) {
@@ -506,7 +506,7 @@ int AdvanceSelectCharacter(void) {
                     gSelectCharacter->mUnk_068 = 0;
                     gSelectCharacter->mUnk_06c = 5;
                     func_02027188();
-                    func_021106a8(func_02025eb0(gSelectCharacter->mCharacterIndex), 0);
+                    StartSeqPair(func_02025eb0(gSelectCharacter->mCharacterIndex), 0);
                 } else if (gSelectCharacter->mUnk_080 == 0 && (u16) (keyBits & PAD_KEY_B) != 0) {
                     StartSelectCharacterReturn();
                 } else {
@@ -536,7 +536,7 @@ int AdvanceSelectCharacter(void) {
                         }
                     }
                     if (gSelectCharacter->mUnk_060 != previousTableIndex) {
-                        func_02110698();
+                        StartCursorMoveSound();
                         func_020270fc(previousTableIndex);
                         gSelectCharacter->mUnk_06c = 4;
                     }

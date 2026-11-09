@@ -201,11 +201,11 @@ void CopyItemGessoData(void *data, ItemGesso *gesso, void *toData) {
     if (toData == NULL) {
         return;
     }
-    func_020fe8ac(gesso->mUnk_000.mKind);
+    AddItemDataSizedByKind(gesso->mUnk_000.mKind);
 }
 
 void InitItemGessoFromData(ItemGesso *gesso) {
-    func_020f8e78(gesso);
+    SetupItemObjectFromData(gesso);
     SetupItemGesso(gesso, 1);
 }
 

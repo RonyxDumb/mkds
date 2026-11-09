@@ -176,7 +176,7 @@ void func_ov001_021a0b3c(void) {
                 gMissionRunMSsel->mUnk_a4 = TRUE;
             }
         }
-        func_021057f0(0, GetMissionTableRow());
+        LoadMissionRunMSselSoundData(0, GetMissionTableRow());
         if (i == 8) {
             SetCellPaletteIndex(data_ov001_021a6e7c[i][2], 2, gMissionRunMSsel->mMissionRunMSselSNcer,
                                 gMissionRunMSsel->mMissionRunMSselSBncl);
@@ -192,7 +192,7 @@ void func_ov001_021a0b3c(void) {
                                         gMissionRunMSsel->mMissionRunMSselSBncl);
                     SetCellPaletteIndex(data_ov001_021a6e7c[i][1], 0xe, gMissionRunMSsel->mMissionRunMSselSNcer,
                                         gMissionRunMSsel->mMissionRunMSselSBncl);
-                    func_021057f0(3, GetMissionTableRow());
+                    LoadMissionRunMSselSoundData(3, GetMissionTableRow());
                 }
             }
         }
@@ -340,10 +340,11 @@ void func_ov001_021a0774(void) {
     d = gMissionRunMSsel;
     func_0212426c(
         0, 0, gMissionRunMSsel->mMissionRunMSselMBnll,
-        GetBmgEntry(d->mMissionMessages, d->mUnk_50[GetMissionTableValue(gMissionRunMSsel->mMissionTableMtbl,
-                                                                         GetMissionTableRow(), d->mIndex + 1) -
-                                                    1]
-                                             .mUnk_0c),
+        GetBmgEntry(
+            d->mMissionMessages,
+            d->mUnk_50[GetMissionTableValue(gMissionRunMSsel->mMissionTableMtbl, GetMissionTableRow(), d->mIndex + 1) -
+                       1]
+                .mUnk_0c),
         d->mMissionRunMSselMBncl, d->mMissionRunMSselMTable);
 }
 
@@ -492,10 +493,10 @@ void func_ov001_021a03a0(void) {
     RequestSelectReturnState4();
     switch (gMissionRunMSsel->mResult) {
         case 1:
-            func_02105584(4, 10, GetMissionTableRow());
+            StopMissionRunMSselSeqsWithSteps(4, 10, GetMissionTableRow());
             break;
         case 2:
-            func_02105584(0, 10, GetMissionTableRow());
+            StopMissionRunMSselSeqsWithSteps(0, 10, GetMissionTableRow());
             break;
     }
 }
@@ -563,10 +564,10 @@ void InitMissionRunMSsel(void *a, void *b, void *c) {
 void ReleaseMissionRunMSsel(void) {
     switch (gMissionRunMSsel->mResult) {
         case 1:
-            func_02105550(4, GetMissionTableRow());
+            StopMissionRunMSselSeqsAtOnce(4, GetMissionTableRow());
             break;
         case 2:
-            func_02105550(0, GetMissionTableRow());
+            StopMissionRunMSselSeqsAtOnce(0, GetMissionTableRow());
             break;
     }
     func_ov001_021a64a0();
@@ -575,7 +576,7 @@ void ReleaseMissionRunMSsel(void) {
 }
 
 void AdvanceMissionRunMSselState0(void) {
-    func_021055b0(gMissionRunMSsel->mUnk_a8);
+    UpdateMissionRunMSselSounds(gMissionRunMSsel->mUnk_a8);
     if (AreBrightnessFadesClear() != 0) {
         RequestMissionRunMSselState1();
     }
@@ -589,7 +590,7 @@ void AdvanceMissionRunMSselState1(void) {
     u16 b;
     s16 v1;
 
-    func_021055b0(gMissionRunMSsel->mUnk_a8);
+    UpdateMissionRunMSselSounds(gMissionRunMSsel->mUnk_a8);
     a = gMissionRunMSsel->mMissionRunMSselMBncl->mUnk_06;
     b = gMissionRunMSsel->mMissionRunMSselSBncl->mUnk_06;
     gMissionRunMSsel->mStateFrames = gMissionRunMSsel->mStateFrames + 1;
@@ -624,7 +625,7 @@ void AdvanceMissionRunMSselState1(void) {
 }
 
 void AdvanceMissionRunMSselState2(void) {
-    func_021055b0(gMissionRunMSsel->mUnk_a8);
+    UpdateMissionRunMSselSounds(gMissionRunMSsel->mUnk_a8);
     if (IsSelectReturnState2NoState3Or4Request()) {
         RequestMissionRunMSselState3();
     }
@@ -640,7 +641,7 @@ void AdvanceMissionRunMSselState3(void) {
     s16 delta;
     s16 target;
 
-    func_021055b0(gMissionRunMSsel->mUnk_a8);
+    UpdateMissionRunMSselSounds(gMissionRunMSsel->mUnk_a8);
     func_ov001_021a0620();
     flag_b = FALSE;
     flag_a = FALSE;
@@ -758,7 +759,7 @@ skip:
 }
 
 void AdvanceMissionRunMSselState4(void) {
-    func_021055b0(gMissionRunMSsel->mUnk_a8);
+    UpdateMissionRunMSselSounds(gMissionRunMSsel->mUnk_a8);
     func_ov001_021a0620();
     gMissionRunMSsel->mStateFrames = gMissionRunMSsel->mStateFrames + 1;
     if (gMissionRunMSsel->mStateFrames >= 5) {
@@ -769,7 +770,7 @@ void AdvanceMissionRunMSselState4(void) {
 }
 
 void AdvanceMissionRunMSselState5(void) {
-    func_021055b0(gMissionRunMSsel->mUnk_a8);
+    UpdateMissionRunMSselSounds(gMissionRunMSsel->mUnk_a8);
     func_ov001_021a0620();
     if (IsSelectChoisesState1NoState0Request()) {
         RequestMissionRunMSselState6();
@@ -777,7 +778,7 @@ void AdvanceMissionRunMSselState5(void) {
 }
 
 void AdvanceMissionRunMSselState6(void) {
-    func_021055b0(gMissionRunMSsel->mUnk_a8);
+    UpdateMissionRunMSselSounds(gMissionRunMSsel->mUnk_a8);
     func_ov001_021a0620();
     if (GetSelectChoisesDone()) {
         func_ov001_021a03f8();
@@ -788,7 +789,7 @@ void AdvanceMissionRunMSselState7(void) {
     s32 i;
     s32 r;
 
-    func_021055b0(gMissionRunMSsel->mUnk_a8);
+    UpdateMissionRunMSselSounds(gMissionRunMSsel->mUnk_a8);
     func_ov001_021a0620();
     if (IsSelectChoisesState0NoState1Request()) {
         r = GetSelectChoisesIndex();

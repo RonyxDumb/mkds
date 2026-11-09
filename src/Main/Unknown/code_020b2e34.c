@@ -19,7 +19,7 @@ void func_020b2e64(u32 openFlag) {
     }
     v2 = GetChoisesSOpenDuringRace();
     if ((wasOpen == 0) && (v2 != 0)) {
-        func_02105d70();
+        LowerSndHandleVolumes();
     }
 }
 

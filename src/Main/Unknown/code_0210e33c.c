@@ -287,8 +287,8 @@ u32 LoadSndDataFromFile(void) {
     u32 loaded;
     u32 listCount;
 
-    NNS_SndArcSetCurrent(&data_0217c868);
-    loadResult = SetupSndArcFromFile(&data_0217d0a0, data_0216cb30, data_0217d130, 0);
+    NNS_SndArcSetCurrent(&gOnMemorySndArc);
+    loadResult = SetupSndArcFromFile(&gFileSndArc, data_0216cb30, data_0217d130, 0);
     func_0210d990(1);
     if (loadResult == 0) {
         return 0;
@@ -351,7 +351,7 @@ u32 LoadCourseSoundSet(u32 a, u32 b) {
     soundSet.mSeqId = rowCopy.mUnk_00[1];
     soundSet.mUnk_04 = rowCopy.mUnk_00[2];
     soundSet.mUnk_08 = rowCopy.mUnk_00[3];
-    NNS_SndArcSetCurrent(&data_0217d0a0);
+    NNS_SndArcSetCurrent(&gFileSndArc);
     loaded = LoadSoundSetIfChanged(soundSet, 1) != 0;
     if (loaded != 0) {
         loaded = LoadSeqRowIfChanged(a);
@@ -369,7 +369,7 @@ u32 func_0210e524(void) {
     soundSet.mSeqId = rowCopy.mUnk_00[1];
     soundSet.mUnk_04 = rowCopy.mUnk_00[2];
     soundSet.mUnk_08 = rowCopy.mUnk_00[3];
-    NNS_SndArcSetCurrent(&data_0217d0a0);
+    NNS_SndArcSetCurrent(&gFileSndArc);
     return LoadSoundSetIfChanged(soundSet, 1) != 0;
 }
 

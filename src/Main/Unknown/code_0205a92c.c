@@ -213,8 +213,8 @@ void ProcessOtherParticipantItemData(void) {
                     if (slot->mMessageKind <= 1) {
                         func_0205a630(participantIndex);
                     }
-                    func_020fe5b8(slot->mItemKind, slot->mMessageKind, data,
-                                  gParticipantKartMap->mKartOfParticipant[participantIndex]);
+                    ProcessItemDataMessage(slot->mItemKind, slot->mMessageKind, data,
+                                           gParticipantKartMap->mKartOfParticipant[participantIndex]);
                     *handledFlag = 1;
                 }
             }

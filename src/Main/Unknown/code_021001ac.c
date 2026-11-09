@@ -332,7 +332,7 @@ void func_02101964(ItemTeresa *teresa, s32 a) {
     if (m != FALSE) {
         if (teresa->mUnk_144 == FALSE && (teresa->mUnk_000.mFlags & 0x8000000) && teresa->mUnk_24c != FALSE) {
             teresa->mUnk_144 = TRUE;
-            func_020fe694(0xb, teresa->mUnk_000.mId, 1, teresa->mState & 0xff);
+            AddItemDataItemIdAndBytes(0xb, teresa->mUnk_000.mId, 1, teresa->mState & 0xff);
         } else {
             teresa->mUnk_144 = TRUE;
         }
@@ -544,7 +544,7 @@ void EnterItemTeresaState1(ItemTeresa *teresa) {
         return;
     }
     PickItemTeresaKartByRank(teresa, -1);
-    func_020fe694(0xb, teresa->mUnk_000.mId, 0, teresa->mPickedKartIndex & 0xff);
+    AddItemDataItemIdAndBytes(0xb, teresa->mUnk_000.mId, 0, teresa->mPickedKartIndex & 0xff);
     teresa->mUnk_250 = teresa->mPickedKartIndex;
     teresa->mUnk_24c = FALSE;
 }
@@ -673,8 +673,8 @@ void UpdateItemTeresaState2(ItemTeresa *teresa) {
                     teresa->mItemObjectKind = func_02101014(teresa);
                     teresa->mItemModelAlpha = 0;
                     if (teresa->mUnk_000.mFlags & 0x8000000) {
-                        func_020fe694(0xb, teresa->mUnk_000.mId, 2,
-                                      ((teresa->mItemInfoIndex << 2) | teresa->mItemCount) & 0xff);
+                        AddItemDataItemIdAndBytes(0xb, teresa->mUnk_000.mId, 2,
+                                                  ((teresa->mItemInfoIndex << 2) | teresa->mItemCount) & 0xff);
                     }
                 }
             } else if (framesLeft <= 0xa) {
@@ -831,7 +831,7 @@ void EnterItemTeresaState5(ItemTeresa *teresa) {
         } else {
             teresa->mUnk_144 = TRUE;
             if (teresa->mUnk_000.mFlags & 0x8000000) {
-                func_020fe694(0xb, teresa->mUnk_000.mId, 1, 5);
+                AddItemDataItemIdAndBytes(0xb, teresa->mUnk_000.mId, 1, 5);
             }
             teresa->mOffsetX = 0;
             teresa->mOffsetZ = 0;
@@ -870,7 +870,7 @@ void UpdateItemTeresaState5(ItemTeresa *teresa) {
     if (teresa->mUnk_24c != FALSE && ownerKartItems->mActiveItem != 0x10 && teresa->mItemCount != -0x40) {
         teresa->mUnk_144 = TRUE;
         if (teresa->mUnk_000.mFlags & 0x8000000) {
-            func_020fe694(0xb, teresa->mUnk_000.mId, 1, 5);
+            AddItemDataItemIdAndBytes(0xb, teresa->mUnk_000.mId, 1, 5);
         }
     } else {
         framesLeft = 0x28 - func_021014a0(teresa, teresa->mUnk_15c == FALSE ? 1 : 0, 6);
@@ -918,7 +918,7 @@ void UpdateItemTeresaState5(ItemTeresa *teresa) {
                     teresa->mItemObjectKind = 0xe;
                 }
                 if ((teresa->mUnk_000.mFlags & 0x8000000) && teresa->mUnk_24c != FALSE) {
-                    func_020fe694(
+                    AddItemDataItemIdAndBytes(
                         0xb, teresa->mUnk_000.mId, 3,
                         ((ownerKartItems->mHeldItem.mItemInfoIndex << 2) | ownerKartItems->mHeldItem.mObjectCount) &
                             0xff);
@@ -1031,13 +1031,13 @@ void func_021004c4(void *cursor, ItemTeresa *teresa, void *toData) {
     if (toData == NULL) {
         return;
     }
-    func_020fe8ac(teresa->mUnk_000.mKind);
+    AddItemDataSizedByKind(teresa->mUnk_000.mKind);
 }
 
 void InitItemTeresaFromData(ItemTeresa *teresa) {
     int ownerKartIndex;
 
-    func_020f8e78(teresa);
+    SetupItemObjectFromData(teresa);
     InitCourseColorBlend(&teresa->mUnk_000.mColorBlend, 1);
     SetStateMachineState(teresa->mUnk_12c, 0);
     if ((teresa->mUnk_000.mUnk_78 & 0x8000) == 0) {

@@ -117,7 +117,7 @@ int AdvanceSelectKart(void) {
                 gSelectKart->mState = 4;
                 p->mCellTable[18].mVisible = 0;
                 SetLabelPaletteIndex(data_usa_02153834[4], 0, p->mLabelLayout, p->mCellTable, p->mCellLayout);
-                func_021106a8(func_02025eb0(gSelectKart->mCharacterIndex), 1);
+                StartSeqPair(func_02025eb0(gSelectKart->mCharacterIndex), 1);
                 func_02077f48(1);
                 StopPaletteBlend();
             } else if (func_020286f4(t, PAD_KEY_B) != 0 || x != 0) {
@@ -146,7 +146,7 @@ int AdvanceSelectKart(void) {
                 p->mCellTable[2].mVisible = 1;
             }
             if (e != gSelectKart->mKartIndex) {
-                func_02110698();
+                StartCursorMoveSound();
                 func_02028f20();
                 RefreshKartMenuParamElements();
                 gSelectKart->mState = 3;

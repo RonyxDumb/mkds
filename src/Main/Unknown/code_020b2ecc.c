@@ -118,7 +118,7 @@ u32 func_020b302c(void) {
         }
         if (touched != 0) {
             if (gChoisesS->mSelectedValue == 0) {
-                func_02105c4c();
+                RaiseSndHandleVolumes();
             } else {
                 StartChoisesSSelectedValueSeq();
             }

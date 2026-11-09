@@ -213,10 +213,10 @@ void func_ov001_0218f2a8(Unk02188950 *a) {
     SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_0fc, a->mPrm->mUnk_100);
     func_ov001_02188c48(a, a->mPrm->mUnk_104, a->mPrm->mUnk_108);
     SetPointInRangeCallback(a, a->mPrm->mUnk_218, 0, &v, (UnkFunc *) func_ov001_0218f454);
-    if (data_0217d20c != 2) {
-        data_0217d21c = data_0217d20c;
+    if (gKingTeresaState != 2) {
+        gPreviousKingTeresaState = gKingTeresaState;
     }
-    data_0217d20c = 2;
+    gKingTeresaState = 2;
     SetKartCollisionCallback(a, func_ov001_0218e298);
     a->mUnk_000.mFlags |= data_ov001_021a65b0;
 }
@@ -247,10 +247,10 @@ void func_ov001_0218f16c(Unk02188950 *a) {
     SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_0d4, a->mPrm->mUnk_0d8);
     func_ov001_02188c48(a, a->mPrm->mUnk_0dc, a->mPrm->mUnk_0e0);
     SetPointInRangeCallback(a, a->mPrm->mUnk_0e4, 0, &v, (UnkFunc *) func_ov001_0218f2a8);
-    if (data_0217d20c != 1) {
-        data_0217d21c = data_0217d20c;
+    if (gKingTeresaState != 1) {
+        gPreviousKingTeresaState = gKingTeresaState;
     }
-    data_0217d20c = 1;
+    gKingTeresaState = 1;
 }
 
 s32 func_ov001_0218efc4(Unk02188950 *a) {
@@ -292,10 +292,10 @@ void func_ov001_0218ef30(Unk02188950 *a) {
     StartAnimationNoEndCallback(a, a->mPrm->mUnk_090, a->mPrm->mUnk_094);
     SetSpeedAndClearTarget(a, a->mPrm->mUnk_0a0);
     func_ov001_02188adc(a, a->mPrm->mUnk_0b0, 0x270f000, a->mPrm->mUnk_0a8, 0x270f000, 0);
-    if (data_0217d20c != 0) {
-        data_0217d21c = data_0217d20c;
+    if (gKingTeresaState != 0) {
+        gPreviousKingTeresaState = gKingTeresaState;
     }
-    data_0217d20c = 0;
+    gKingTeresaState = 0;
 }
 
 void func_ov001_0218ee88(Unk02188950 *a) {
@@ -349,10 +349,10 @@ void func_ov001_0218ec40(Unk02188950 *a) {
     }
     SetAnglePointAndMoveAnglePoint(a, &GetCurrentGroupEntry(a)->mPos);
     SetPointInRangeCallback(a, a->mPrm->mUnk_138, a->mPrm->mUnk_13c, &GetCurrentGroupEntry(a)->mPos, NULL);
-    if (data_0217d20c != 5) {
-        data_0217d21c = data_0217d20c;
+    if (gKingTeresaState != 5) {
+        gPreviousKingTeresaState = gKingTeresaState;
     }
-    data_0217d20c = 5;
+    gKingTeresaState = 5;
 }
 
 void func_ov001_0218eb94(Unk02188950 *a) {
@@ -366,10 +366,10 @@ void func_ov001_0218eb94(Unk02188950 *a) {
     func_ov001_02187218(a, 5, (s32(*)(Unk02188950 *)) func_ov001_0218edb8);
     func_ov001_0218f900(a);
     StartStateFrameCountCallback(a, a->mPrm->mUnk_1b4, NULL);
-    if (data_0217d20c != 5) {
-        data_0217d21c = data_0217d20c;
+    if (gKingTeresaState != 5) {
+        gPreviousKingTeresaState = gKingTeresaState;
     }
-    data_0217d20c = 5;
+    gKingTeresaState = 5;
 }
 
 void func_ov001_0218ead0(Unk02188950 *a) {
@@ -392,10 +392,10 @@ void func_ov001_0218ead0(Unk02188950 *a) {
         v2 = 1;
     }
     a->mUnk_0a8 = v2;
-    if (data_0217d20c != 3) {
-        data_0217d21c = data_0217d20c;
+    if (gKingTeresaState != 3) {
+        gPreviousKingTeresaState = gKingTeresaState;
     }
-    data_0217d20c = 3;
+    gKingTeresaState = 3;
     a->mCollisionExtentTargetZ = a->mPrm->mUnk_00c;
     a->mCollisionExtent.z = a->mCollisionExtentTargetZ;
     a->mCollisionExtentTargetX = a->mCollisionExtent.z;
@@ -425,10 +425,10 @@ void func_ov001_0218e92c(Unk02188950 *p) {
     StartEffectAtOffset(p, 0, 0, 0, 0x431, 0);
     StartEffectAtOffset(p, 0, 0, 0, 0x430, 0);
     StartEffectAtOffset(p, 0, 0, 0, 0x432, 0);
-    if (data_0217d20c != 4) {
-        data_0217d21c = data_0217d20c;
+    if (gKingTeresaState != 4) {
+        gPreviousKingTeresaState = gKingTeresaState;
     }
-    data_0217d20c = 4;
+    gKingTeresaState = 4;
     SetKartCollisionCallback(p, func_ov001_0218e38c);
     p->mUnk_000.mFlags |= data_ov001_021a65b0;
     func_ov001_02182a3c(p->mPrm->mUnk_18c < (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunBossCount() : 0)
@@ -458,10 +458,10 @@ void func_ov001_0218e860(Unk02188950 *a) {
     func_ov001_02187218(a, 5, (s32(*)(Unk02188950 *)) func_ov001_0218f688);
     func_ov001_0218f850(a);
     StartStateFrameCountCallback(a, a->mPrm->mUnk_1a8, func_ov001_0218e8b0);
-    if (data_0217d20c != 3) {
-        data_0217d21c = data_0217d20c;
+    if (gKingTeresaState != 3) {
+        gPreviousKingTeresaState = gKingTeresaState;
     }
-    data_0217d20c = 3;
+    gKingTeresaState = 3;
 }
 
 void func_ov001_0218e7d0(Unk02188950 *p) {
@@ -471,10 +471,10 @@ void func_ov001_0218e7d0(Unk02188950 *p) {
     SetAlphaLimitTargetAndPerCall(p, p->mPrm->mUnk_1a0, p->mPrm->mUnk_1a4);
     SetSpeedAndClearTarget(p, 0);
     func_ov001_02188c90(p);
-    if (data_0217d20c != 3) {
-        data_0217d21c = data_0217d20c;
+    if (gKingTeresaState != 3) {
+        gPreviousKingTeresaState = gKingTeresaState;
     }
-    data_0217d20c = 3;
+    gKingTeresaState = 3;
     p->mUnk_000.mFlags |= data_ov001_021a65bc;
 }
 
@@ -487,10 +487,10 @@ void func_ov001_0218e760(Unk02188950 *p) {
     func_ov001_02187218(p, 5, func_ov001_0218f688);
     func_ov001_0218f850(p);
     StartStateFrameCountCallback(p, p->mPrm->mUnk_1a8, func_ov001_0218e7b0);
-    if (data_0217d20c != 3) {
-        data_0217d21c = data_0217d20c;
+    if (gKingTeresaState != 3) {
+        gPreviousKingTeresaState = gKingTeresaState;
     }
-    data_0217d20c = 3;
+    gKingTeresaState = 3;
 }
 
 void func_ov001_0218e710(Unk02188950 *p) {
@@ -498,10 +498,10 @@ void func_ov001_0218e710(Unk02188950 *p) {
     StartAnimationNoEndCallback(p, p->mPrm->mUnk_078, p->mPrm->mUnk_07c);
     func_ov001_02188c90(p);
     SetSpeedAndClearTarget(p, 0);
-    if (data_0217d20c != 6) {
-        data_0217d21c = data_0217d20c;
+    if (gKingTeresaState != 6) {
+        gPreviousKingTeresaState = gKingTeresaState;
     }
-    data_0217d20c = 6;
+    gKingTeresaState = 6;
     SetFadeFogHoldFramesToLimit();
 }
 
@@ -510,10 +510,10 @@ void func_ov001_0218e690(Unk02188950 *p) {
     StartAnimationNoEndCallback(p, p->mPrm->mUnk_070, p->mPrm->mUnk_074);
     StartEffect(0x3fe, &p->mUnk_000.mPos);
     StartEffect(0x3fd, &p->mUnk_000.mPos);
-    if (data_0217d20c != 7) {
-        data_0217d21c = data_0217d20c;
+    if (gKingTeresaState != 7) {
+        gPreviousKingTeresaState = gKingTeresaState;
     }
-    data_0217d20c = 7;
+    gKingTeresaState = 7;
     p->mUnk_000.mFlags |= data_ov001_021a65b4;
     p->mUnk_000.mFlags |= data_ov001_021a65b8;
     p->mUnk_000.mFlags |= data_ov001_021a65bc;
@@ -536,10 +536,10 @@ void func_ov001_0218e5c4(Unk02188950 *a) {
     func_ov001_02187218(a, 8, func_ov001_0218e650);
     StartAnimationNoEndCallback(a, a->mPrm->mUnk_070, a->mPrm->mUnk_074);
     StartStateFrameCountCallback(a, 0x3c, func_ov001_0218e690);
-    if (data_0217d20c != 7) {
-        data_0217d21c = data_0217d20c;
+    if (gKingTeresaState != 7) {
+        gPreviousKingTeresaState = gKingTeresaState;
     }
-    data_0217d20c = 7;
+    gKingTeresaState = 7;
     a->mUnk_000.mFlags &= ~1;
 }
 
@@ -724,11 +724,11 @@ void UpdateKingTeresa(u32 a, Unk02188950 *b) {
                 }
             }
         }
-        if (data_0217d20c == 0) {
+        if (gKingTeresaState == 0) {
             func_02110350(b->mUnk_000.mSound);
         } else if (func_02110324() != 0) {
             StartMapObjectSoundWhileRequested(&b->mUnk_000, 0x22a);
-        } else if (data_0217d20c == 4) {
+        } else if (gKingTeresaState == 4) {
             StartMapObjectSoundWhileRequested(&b->mUnk_000, 0x22b);
         }
     }

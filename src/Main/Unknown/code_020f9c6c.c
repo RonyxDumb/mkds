@@ -171,7 +171,7 @@ s32 InitItemKouraW(ItemInUse *itemInUse, ItemKouraW *item) {
         item->mNextState = ((item->mUnk_000.mFlags & 0x40000000) || (kart->mUnk_48 & 1)) ? 2 : 3;
         item->mNextStateRequested = 1;
         if (item->mUnk_000.mFlags & 0x8000000) {
-            func_020fe71c(5, item->mKartItems->mKartIndex, item->mUnk_000.mId);
+            AddItemDataItemIdAndKart(5, item->mKartItems->mKartIndex, item->mUnk_000.mId);
         }
     }
     func_020fc94c(item);
@@ -360,7 +360,7 @@ void UpdateItemKouraWState1(ItemKouraW *item) {
         item->mNextState = r;
         item->mNextStateRequested = 1;
         if (item->mUnk_000.mFlags & 0x8000000) {
-            func_020fe71c(5, item->mKartItems->mKartIndex, item->mUnk_000.mId);
+            AddItemDataItemIdAndKart(5, item->mKartItems->mKartIndex, item->mUnk_000.mId);
         }
         return;
     }
@@ -372,7 +372,7 @@ void UpdateItemKouraWState1(ItemKouraW *item) {
         item->mNextState = v;
         item->mNextStateRequested = 1;
         if (item->mUnk_000.mFlags & 0x8000000) {
-            func_020fe71c(5, item->mKartItems->mKartIndex, item->mUnk_000.mId);
+            AddItemDataItemIdAndKart(5, item->mKartItems->mKartIndex, item->mUnk_000.mId);
         }
         return;
     }
@@ -474,7 +474,7 @@ void EnterItemKouraWState4(ItemKouraW *item) {
         item->mPosStrip = NULL;
     }
     if (item->mUnk_000.mFlags & 0x8000000) {
-        func_020fe71c(5, item->mKartItems->mKartIndex, item->mUnk_000.mId);
+        AddItemDataItemIdAndKart(5, item->mKartItems->mKartIndex, item->mUnk_000.mId);
     }
 }
 
@@ -598,7 +598,7 @@ void UpdateItemKouraWState6(ItemKouraW *item) {
     if (item->mUnk_260 < -0x32000) {
         func_020f7104(&item->mUnk_000, 0);
         if (item->mUnk_000.mFlags & 0x8000000) {
-            func_020fe71c(5, item->mKartItems->mKartIndex, item->mUnk_000.mId);
+            AddItemDataItemIdAndKart(5, item->mKartItems->mKartIndex, item->mUnk_000.mId);
         }
     } else {
         Vec3 *position;
@@ -610,7 +610,7 @@ void UpdateItemKouraWState6(ItemKouraW *item) {
             VEC_Add(&hitOffset, position, position);
             func_020f7104(&item->mUnk_000, 0);
             if (item->mUnk_000.mFlags & 0x8000000) {
-                func_020fe71c(5, item->mKartItems->mKartIndex, item->mUnk_000.mId);
+                AddItemDataItemIdAndKart(5, item->mKartItems->mKartIndex, item->mUnk_000.mId);
             }
         }
     }
@@ -683,16 +683,16 @@ void *func_020fb208(void *param_1, ItemKouraW *item, void *param_3) {
     void *t;
 
     if (item != NULL && param_3 != NULL) {
-        func_020ff1b8(Vec3DotUnrounded(&item->mUnk_000.mVelocity, &item->mDirection) < 0 ? 1 : 0,
-                      &item->mUnk_000.mVelocity.y);
+        StoreItemDataFlagBit(Vec3DotUnrounded(&item->mUnk_000.mVelocity, &item->mDirection) < 0 ? 1 : 0,
+                             &item->mUnk_000.mVelocity.y);
     }
     t = CopyItemObjectData(param_1, item, param_3);
     r = CopyItemPointLinkIndex(t, item != NULL ? (void *) &item->mPreviousLink : 0, param_3);
     if (item != NULL && param_3 == NULL) {
-        func_020ff1a0(item->mUnk_000.mVelocity.y, &item->mUnk_2fc);
+        LoadItemDataFlagBit(item->mUnk_000.mVelocity.y, &item->mUnk_2fc);
     }
     if (item != NULL && param_3 != NULL) {
-        return func_020fe8ac(item->mUnk_000.mKind);
+        return AddItemDataSizedByKind(item->mUnk_000.mKind);
     }
     return r;
 }
@@ -703,7 +703,7 @@ void InitItemKouraWFromData(ItemKouraW *item) {
     Kart *kart;
     s32 nextState;
 
-    func_020f8e78(item);
+    SetupItemObjectFromData(item);
     if (item->mPreviousLink != 0) {
         InitLinkFollowingItem((LinkFollowingItemObject *) item, 0x14, 0xcc, 1, 0, item->mUnk_2fc,
                               gRaceProgress->mKartAtRank[0], 1);
@@ -725,7 +725,7 @@ void InitItemKouraWFromData(ItemKouraW *item) {
         item->mNextState = nextState;
         item->mNextStateRequested = 1;
         if (item->mUnk_000.mFlags & 0x8000000) {
-            func_020fe71c(5, item->mKartItems->mKartIndex, item->mUnk_000.mId);
+            AddItemDataItemIdAndKart(5, item->mKartItems->mKartIndex, item->mUnk_000.mId);
         }
     }
     func_020fc94c(item);
@@ -938,8 +938,8 @@ void UpdateItems(void) {
     u16 kartIndex;
 
     if (gRaceSetup->mMode == 5) {
-        func_020fec30();
-        func_020feb44();
+        AddQueuedItemData();
+        ProcessDelayedItemData();
     }
     for (poolIndex = 0; poolIndex < 0xe; poolIndex++) {
         if (gItemPools[poolIndex].mActiveCount != 0) {

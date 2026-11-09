@@ -189,9 +189,9 @@ void func_020f0d04(ItemObject *object) {
     data = NULL;
     kind = object->mKind;
     if ((object->mUnk_78 & 0xf00) != 0) {
-        data = func_020fe4c0(data, object, 1);
-        func_020fe4c0(data, object, 0);
-        func_020fe4b4(object);
+        data = CopyItemObjectDataAndAdd(data, object, 1);
+        CopyItemObjectDataAndAdd(data, object, 0);
+        SetupItemObjectFromDataWrapper(object);
         if (object->mUnk_78 & 0x800) {
             func_020f70f0(object);
         }
@@ -258,7 +258,7 @@ found:
         gItemKinds[kind].mStart(object);
     }
     if (c != 0) {
-        initFunc = func_020fe4b4;
+        initFunc = SetupItemObjectFromDataWrapper;
     } else {
         kind = object->mKind;
         initFunc = gItemKinds[kind].mInitFromData;
@@ -392,7 +392,7 @@ s32 func_020f0898(ItemPool *pool, u8 *packet) {
     return found;
 }
 
-void func_020f0758(ItemPool *pool, s32 messageKind, s32 b, u8 *packet, s32 d) {
+void ProcessItemPoolMessage(ItemPool *pool, s32 messageKind, s32 b, u8 *packet, s32 d) {
     enum { K0 } kind;
 
     switch (messageKind) {
@@ -428,7 +428,7 @@ void func_020f0758(ItemPool *pool, s32 messageKind, s32 b, u8 *packet, s32 d) {
         default:
             return;
     }
-    func_020fe56c(pool->mKind, messageKind, b, packet, d);
+    DelayItemDataWithFrameStamp(pool->mKind, messageKind, b, packet, d);
 }
 
 void func_020f0684(ItemObject **objects, s32 pairIndex, s32 endIndex, s32 step) {

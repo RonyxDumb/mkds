@@ -35,7 +35,7 @@ void func_0210d894(void *heapMemory, u32 heapSize, const u8 *filePath) {
     data_0217d130 = NNS_SndHeapCreate(heapMemory, heapSize);
     data_0217d06c = NNS_SndHeapAlloc(data_0217d130, 0x1020, func_0210d890, NULL, 0);
     if (filePath != NULL) {
-        NNS_SndArcInit(&data_0217d0a0, filePath, data_0217d130, 0);
+        NNS_SndArcInit(&gFileSndArc, filePath, data_0217d130, 0);
         data_0217d064 = 1;
         NNS_SndArcPlayerSetup(data_0217d130);
     }

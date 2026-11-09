@@ -147,7 +147,7 @@ u32 func_02035e44(void) {
 
 void func_02035e38(void) {
     u32 value12;
-    func_02108d80();
+    StopSeqZeroLoop();
 }
 
 void SetNextScene(u32 sceneNumbers, u32 nextScene) {

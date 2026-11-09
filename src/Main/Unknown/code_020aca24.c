@@ -26,7 +26,7 @@ void UpdateTitleState5(Unk0203a0dc *a) {
                 break;
         }
         a->mNextScene = v[gTitleScene->mSelectedIndex];
-        func_02105e98();
+        StopSceneSeqWithFadeSteps();
     }
 }
 

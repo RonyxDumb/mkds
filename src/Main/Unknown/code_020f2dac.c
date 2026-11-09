@@ -51,7 +51,7 @@ void UpdateHeldItem(HeldItem *rec) {
     if (gRaceSetup->mMode == 5) {
         if (gRaceSetup->mEntryIndex == rec->mKartItems->mKartIndex) {
             kind = (Unk020f40dc_Kind) rec->mItemInfoIndex;
-            func_020fe958(gItemInfos[kind].mObjectKind);
+            AddItemDataFrameOnly(gItemInfos[kind].mObjectKind);
         }
     }
     rec->mObjectCount -= 1;
@@ -137,7 +137,7 @@ void ReleaseHeldItem(HeldItem *rec, s32 keep) {
         objectCount = rec->mObjectCount;
         if (rec->mUnk_24 == FALSE) {
             for (i = 0; i < objectCount; i++) {
-                func_020fe828(poolIndex);
+                AddItemDataNoItemId(poolIndex);
             }
         }
     }

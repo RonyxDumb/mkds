@@ -99,7 +99,7 @@ void func_020f7104(ItemObject *item, s32 b) {
     if (b == 0) {
         return;
     }
-    func_020fe7a0(item->mKind, 0, 8, item->mId);
+    AddItemDataItemIdAndParts(item->mKind, 0, 8, item->mId);
 }
 
 void func_020f70f0(ItemObject *item) {
@@ -121,7 +121,7 @@ void func_020f7070(void *objectParam, s32 b) {
     if (b == 0) {
         return;
     }
-    func_020fe7a0(item->mKind, 1, 8, item->mId);
+    AddItemDataItemIdAndParts(item->mKind, 1, 8, item->mId);
 }
 
 void func_020f705c(ItemObject *item) {
@@ -150,7 +150,7 @@ void func_020f6fc4(void *objectParam, s32 b) {
     if (item->mKind == 5) {
         return;
     }
-    func_020fe7a0(item->mKind, 2, 8, item->mId);
+    AddItemDataItemIdAndParts(item->mKind, 2, 8, item->mId);
 }
 
 void func_020f6f10(ItemObject *item, s32 b, s32 c) {
@@ -174,7 +174,7 @@ void func_020f6f10(ItemObject *item, s32 b, s32 c) {
     if (item->mKind == 5) {
         return;
     }
-    func_020fe7a0(item->mKind, 3, c, item->mId);
+    AddItemDataItemIdAndParts(item->mKind, 3, c, item->mId);
 }
 
 void func_020f6e58(ItemObject *item) {

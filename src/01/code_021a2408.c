@@ -152,21 +152,21 @@ void func_ov001_021a2408(void) {
     if (gEmblem->mUnk_10b8 != FALSE) {
         if (func_ov001_021a639c() == 0) {
             if (func_ov001_021a637c() == 0) {
-                func_021108ac(0);
+                SetEmblemSoundValue(0);
             } else if (func_ov001_021a637c() == 1) {
-                func_021108ac(1);
+                SetEmblemSoundValue(1);
                 gEmblem->mUnk_10bc = 1;
             } else if (func_ov001_021a637c() == 2) {
-                func_021108ac(2);
+                SetEmblemSoundValue(2);
                 gEmblem->mUnk_10bc = 2;
             }
         } else if (func_ov001_021a639c() == 1) {
             if (func_ov001_021a637c() == 0) {
-                func_021108ac(3);
+                SetEmblemSoundValue(3);
             } else if (func_ov001_021a637c() == 1) {
-                func_021108ac(4);
+                SetEmblemSoundValue(4);
             } else if (func_ov001_021a637c() == 2) {
-                func_021108ac(5);
+                SetEmblemSoundValue(5);
             }
         }
         gEmblem->mUnk_10b8 = FALSE;

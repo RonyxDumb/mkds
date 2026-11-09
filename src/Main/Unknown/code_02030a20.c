@@ -341,7 +341,7 @@ void func_02031960(void) {
                         } else {
                             RequestTxtSystemClose();
                         }
-                        func_02108d80();
+                        StopSeqZeroLoop();
                         StartCopyOtherEmblems(1);
                         gMultiSelectMember->mUnk_148 = FALSE;
                         gMultiSelectMember->mUnk_70 = 6;
@@ -416,7 +416,7 @@ void func_020317a0(void) {
                     }
                     if (gMultiSelectMember->mTimer == 0) {
                         SetupTxtSystemSubText(GetBmgEntry(gMultiSelectMember->mCommonMessages, 0x81));
-                        func_02108d80();
+                        StopSeqZeroLoop();
                         StartCopyOtherEmblems(1);
                         gMultiSelectMember->mUnk_148 = FALSE;
                         gMultiSelectMember->mTimer = 0x78;
@@ -679,13 +679,13 @@ s32 func_02030ea4(Unk02030b18 *sceneNumbers) {
         if (gMultiSelectMember->mChildCount != previousChildCount) {
             PrintMultiSelectMemberNames();
             if (gMultiSelectMember->mChildCount > previousChildCount) {
-                NNS_SndArcSetCurrent(&data_0217c868);
+                NNS_SndArcSetCurrent(&gOnMemorySndArc);
                 NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 2);
-                NNS_SndArcSetCurrent(&data_0217d0a0);
+                NNS_SndArcSetCurrent(&gFileSndArc);
             } else {
-                NNS_SndArcSetCurrent(&data_0217c868);
+                NNS_SndArcSetCurrent(&gOnMemorySndArc);
                 NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 3);
-                NNS_SndArcSetCurrent(&data_0217d0a0);
+                NNS_SndArcSetCurrent(&gFileSndArc);
             }
         }
     }
@@ -695,7 +695,7 @@ s32 func_02030ea4(Unk02030b18 *sceneNumbers) {
     if (gMultiSelectMember->mUnk_148 != FALSE) {
         gMultiSelectMember->mUnk_14c = gMultiSelectMember->mUnk_14c + 1;
         if (gMultiSelectMember->mUnk_14c > 0x96) {
-            func_02108ddc();
+            StartSeqZeroLoop();
             gMultiSelectMember->mUnk_148 = FALSE;
         }
     }
@@ -730,9 +730,9 @@ s32 func_02030ea4(Unk02030b18 *sceneNumbers) {
                     func_02031b30(0);
                     RequestSelectReturnState4();
                     StopPaletteBlend();
-                    NNS_SndArcSetCurrent(&data_0217c868);
+                    NNS_SndArcSetCurrent(&gOnMemorySndArc);
                     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 6);
-                    NNS_SndArcSetCurrent(&data_0217d0a0);
+                    NNS_SndArcSetCurrent(&gFileSndArc);
                     gMultiSelectMember->mUnk_78 = TRUE;
                     gMultiSelectMember->mUnk_148 = TRUE;
                     gMultiSelectMember->mState = 2;
@@ -745,9 +745,9 @@ s32 func_02030ea4(Unk02030b18 *sceneNumbers) {
                 gMultiSelectMember->mUnk_7c = TRUE;
                 RequestTxtSystemClose();
                 RequestSelectReturnState3WithSound(0);
-                NNS_SndArcSetCurrent(&data_0217c868);
+                NNS_SndArcSetCurrent(&gOnMemorySndArc);
                 NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
-                NNS_SndArcSetCurrent(&data_0217d0a0);
+                NNS_SndArcSetCurrent(&gFileSndArc);
             }
             break;
         case 2:
@@ -824,13 +824,13 @@ s32 func_02030b18(Unk02030b18 *sceneNumbers) {
             PrintMultiSelectMemberNames();
             if (gMultiSelectMember->mUnk_88 == FALSE) {
                 if (gMultiSelectMember->mChildCount > previousChildCount) {
-                    NNS_SndArcSetCurrent(&data_0217c868);
+                    NNS_SndArcSetCurrent(&gOnMemorySndArc);
                     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 2);
-                    NNS_SndArcSetCurrent(&data_0217d0a0);
+                    NNS_SndArcSetCurrent(&gFileSndArc);
                 } else if (gMultiSelectMember->mChildCount < previousChildCount) {
-                    NNS_SndArcSetCurrent(&data_0217c868);
+                    NNS_SndArcSetCurrent(&gOnMemorySndArc);
                     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 3);
-                    NNS_SndArcSetCurrent(&data_0217d0a0);
+                    NNS_SndArcSetCurrent(&gFileSndArc);
                 }
                 gMultiSelectMember->mUnk_88 = FALSE;
             }
@@ -851,7 +851,7 @@ s32 func_02030b18(Unk02030b18 *sceneNumbers) {
     if (gMultiSelectMember->mUnk_148 != FALSE) {
         gMultiSelectMember->mUnk_14c = gMultiSelectMember->mUnk_14c + 1;
         if (gMultiSelectMember->mUnk_14c > 0x96) {
-            func_02108ddc();
+            StartSeqZeroLoop();
             gMultiSelectMember->mUnk_148 = FALSE;
         }
     }
@@ -892,9 +892,9 @@ s32 func_02030b18(Unk02030b18 *sceneNumbers) {
                 if (x != FALSE) {
                     RequestSelectReturnState4();
                     func_02025f14(&gMultiSelectMember->mInterpolations[0], 2);
-                    NNS_SndArcSetCurrent(&data_0217c868);
+                    NNS_SndArcSetCurrent(&gOnMemorySndArc);
                     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 6);
-                    NNS_SndArcSetCurrent(&data_0217d0a0);
+                    NNS_SndArcSetCurrent(&gFileSndArc);
                     gMultiSelectMember->mUnk_148 = TRUE;
                     gMultiSelectMember->mUnk_90 = 1;
                     break;
@@ -914,9 +914,9 @@ s32 func_02030b18(Unk02030b18 *sceneNumbers) {
                     gMultiSelectMember->mUnk_7c = TRUE;
                     RequestTxtSystemClose();
                     RequestSelectReturnState3WithSound(0);
-                    NNS_SndArcSetCurrent(&data_0217c868);
+                    NNS_SndArcSetCurrent(&gOnMemorySndArc);
                     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 3);
-                    NNS_SndArcSetCurrent(&data_0217d0a0);
+                    NNS_SndArcSetCurrent(&gFileSndArc);
                 }
             }
             break;

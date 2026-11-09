@@ -59,9 +59,9 @@ u32 func_02030688(u32 slotIndex, u32 mask) {
 }
 
 void func_02030654(u32 index) {
-    NNS_SndArcSetCurrent(&data_0217c868);
+    NNS_SndArcSetCurrent(&gOnMemorySndArc);
     func_0203063c(index, 0);
-    NNS_SndArcSetCurrent(&data_0217d0a0);
+    NNS_SndArcSetCurrent(&gFileSndArc);
 }
 
 void func_0203063c(u32 index, u32 seqArcNo) {

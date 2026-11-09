@@ -361,13 +361,13 @@ typedef struct ItemKind {
     /* 40 */ s32 mUnk_40;
     /* 44 */ s32 mUnk_44;
     // Copies the object's fields into the byte buffer (third argument non-zero) or back from it (zero); after a write
-    // it also stamps the frame count and hands the buffer on (func_020fe8ac); with no object and no buffer it returns
-    // the byte count.
+    // it also stamps the frame count and hands the buffer on (AddItemDataSizedByKind); with no object and no buffer it
+    // returns the byte count.
     /* 48 */ void *(*mCopyData)(void *, void *, s32);
     // Byte count that mCopyData copies after the first byte of its record.
     /* 4c */ s32 mDataSize;
     // Called with the object right after a buffer was read into it (see mCopyData); every entry starts with
-    // func_020f8e78.
+    // SetupItemObjectFromData.
     /* 50 */ void (*mInitFromData)(void *);
     /* 54 */ s32 mUnk_54;
     // Returns the kind's far distance squared; when NULL the value of gSoundFalloffs[1].mUnk_20 is used.

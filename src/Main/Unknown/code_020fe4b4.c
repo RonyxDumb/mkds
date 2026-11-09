@@ -26,24 +26,24 @@
 
 #pragma thumb off
 
-u8 *func_020ff2b0(u8 *cursor, ItemFBox *fbox, void *toData) {
+u8 *CopyItemFBoxData(u8 *cursor, ItemFBox *fbox, void *toData) {
     u8 *nextCursor;
 
     if (fbox != NULL && toData != NULL) {
-        func_020ff1b8(fbox->mThrownForward, &fbox->mUnk_000.mItemObject.mVelocity.y);
+        StoreItemDataFlagBit(fbox->mThrownForward, &fbox->mUnk_000.mItemObject.mVelocity.y);
     }
     nextCursor = CopyItemObjectData(cursor, fbox, toData);
     if (fbox != NULL && toData == NULL) {
-        func_020ff1a0(fbox->mUnk_000.mItemObject.mVelocity.y, &fbox->mThrownForward);
+        LoadItemDataFlagBit(fbox->mUnk_000.mItemObject.mVelocity.y, &fbox->mThrownForward);
     }
     if (fbox != NULL && toData != NULL) {
-        return func_020fe8ac(fbox->mUnk_000.mItemObject.mKind);
+        return AddItemDataSizedByKind(fbox->mUnk_000.mItemObject.mKind);
     }
     return nextCursor;
 }
 
 void InitItemFBoxFromData(ItemFBox *fbox) {
-    func_020f8e78(fbox);
+    SetupItemObjectFromData(fbox);
     StartItemObjectBouncing(&fbox->mUnk_000, 0);
     if ((fbox->mUnk_000.mItemObject.mFlags & 0x10000000) == 0) {
         return;
@@ -56,7 +56,7 @@ void InitItemFBoxFromData(ItemFBox *fbox) {
 
 #pragma thumb on
 
-void func_020ff1d8(void) {
+void SetupItemFBoxPooledMapObjects(void) {
     Vec3 axis;
     ItemPool *pool;
     ItemFBox *fbox;
@@ -83,7 +83,7 @@ void func_020ff1d8(void) {
 
 #pragma thumb off
 
-void func_020ff1b8(s32 flag, s32 *word) {
+void StoreItemDataFlagBit(s32 flag, s32 *word) {
     if (flag != 0) {
         *word |= 0x200;
     } else {
@@ -91,7 +91,7 @@ void func_020ff1b8(s32 flag, s32 *word) {
     }
 }
 
-void func_020ff1a0(s32 word, s32 *flag) {
+void LoadItemDataFlagBit(s32 word, s32 *flag) {
     if (word & 0x200) {
         *flag = 1;
     } else {
@@ -103,7 +103,7 @@ s32 ComputeItemObjectId(ItemObject *item) {
     return (s16) (((s16) (u16) (item->mUnk_78 & ~0xff00) << 4) | item->mPoolIndex);
 }
 
-static inline u8 *func_020ff0b0_inline(u8 *cursor, volatile s32 *value, void *toData, s32 shift) {
+static inline u8 *CopyItemShiftedByteInline(u8 *cursor, volatile s32 *value, void *toData, s32 shift) {
     if (toData != NULL) {
         *cursor = *value >> shift;
     } else {
@@ -119,9 +119,9 @@ u8 *CopyItemPrevPosOffset(u8 *cursor, Vec3 *position, Vec3 *prevPosition, void *
         if (toData != NULL) {
             VEC_Subtract(prevPosition, position, (Vec3 *) offset);
         }
-        cursor = func_020ff0b0_inline(cursor, &offset[0], toData, 10);
-        cursor = func_020ff0b0_inline(cursor, &offset[1], toData, 9);
-        cursor = func_020ff0b0_inline(cursor, &offset[2], toData, 10);
+        cursor = CopyItemShiftedByteInline(cursor, &offset[0], toData, 10);
+        cursor = CopyItemShiftedByteInline(cursor, &offset[1], toData, 9);
+        cursor = CopyItemShiftedByteInline(cursor, &offset[2], toData, 10);
         if (toData == NULL) {
             VEC_Add((Vec3 *) offset, position, prevPosition);
         }
@@ -155,7 +155,7 @@ u8 *CopyItemPointLinkIndex(u8 *cursor, void *pointLink, void *toData) {
     return cursor;
 }
 
-u8 *func_020fefe8(u8 *cursor, s32 *valueSlot, void *toData) {
+u8 *CopyItemShiftedByte(u8 *cursor, s32 *valueSlot, void *toData) {
     volatile s32 value;
 
     if (valueSlot != NULL) {
@@ -177,7 +177,7 @@ u8 *func_020fefe8(u8 *cursor, s32 *valueSlot, void *toData) {
     return cursor;
 }
 
-static inline u8 *func_020fecdc_inline(u8 *cursor, s16 *valueSlot, void *toData) {
+static inline u8 *CopyItemIdByte(u8 *cursor, s16 *valueSlot, void *toData) {
     volatile u8 byteValue;
     u8 *nextCursor;
 
@@ -253,7 +253,7 @@ u8 *CopyItemObjectData(u8 *cursor, void *object, void *toData) {
         }
         cursor++;
     }
-    cursor = func_020fecdc_inline(cursor, object != NULL ? &item->mId : 0, toData);
+    cursor = CopyItemIdByte(cursor, object != NULL ? &item->mId : 0, toData);
     cursor = func_020fecdc_inline2(cursor, object != NULL ? &item->mFlags : 0, toData);
     cursor = func_020fecdc_inline3(
         cursor, (object != NULL ? &item->mPos : 0) != NULL ? &(object != NULL ? &item->mPos : 0)->x : 0, toData);
@@ -283,7 +283,7 @@ u8 *CopyItemObjectData(u8 *cursor, void *object, void *toData) {
     return cursor + 2;
 }
 
-void func_020fec30(void) {
+void AddQueuedItemData(void) {
     u32 index;
     s32 available;
     u32 nextIndex;
@@ -311,7 +311,7 @@ void func_020fec30(void) {
     } while (nextIndex != 0xff);
 }
 
-void func_020feb44(void) {
+void ProcessDelayedItemData(void) {
     u32 raceUpdateFrames;
     u32 index;
     u32 previousIndex;
@@ -338,8 +338,9 @@ void func_020feb44(void) {
             }
             record = &gItemDataDelayed[index];
             if (record->mRaceUpdateFramesStamp == 0 || (record->mRaceUpdateFramesStamp + 0x100) >= raceUpdateFrames) {
-                u32 k = *(vu32 *) &record->mKind;
-                func_020f0758(gItemPools + k, record->mUnk_18, 0, (u8 *) record, record->mRaceUpdateFramesStamp);
+                u32 kind = *(vu32 *) &record->mKind;
+                ProcessItemPoolMessage(gItemPools + kind, record->mUnk_18, 0, (u8 *) record,
+                                       record->mRaceUpdateFramesStamp);
             }
         } else {
             previousIndex = index;
@@ -348,7 +349,8 @@ void func_020feb44(void) {
     }
 }
 
-void func_020fea84(u32 kind, u32 messageKind, void *packet, u8 size) {
+// Keeps a packet for AddQueuedItemData when the sync has no free slot.
+void QueueItemData(u32 kind, u32 messageKind, void *packet, u8 size) {
     u32 index;
     ItemDataRecord *record;
 
@@ -379,7 +381,8 @@ void func_020fea84(u32 kind, u32 messageKind, void *packet, u8 size) {
     gItemDataQueueLinks[index][1] = size;
 }
 
-void func_020fe9d0(u32 kind, u32 messageKind, s32 frameDifference, void *packet, u32 frameStamp) {
+// Keeps a packet that arrived early; ProcessDelayedItemData passes it on when its countdown ends.
+void DelayItemData(u32 kind, u32 messageKind, s32 frameDifference, void *packet, u32 frameStamp) {
     u32 index;
     ItemDataRecord *record;
 
@@ -402,7 +405,7 @@ void func_020fe9d0(u32 kind, u32 messageKind, s32 frameDifference, void *packet,
     gItemDataDelayedUsedHead[0] = index;
 }
 
-u8 *func_020fe958(u32 kind) {
+u8 *AddItemDataFrameOnly(u32 kind) {
     s32 available;
 
     gItemDataBuffer[0] = GetRaceUpdateFrames();
@@ -410,12 +413,12 @@ u8 *func_020fe958(u32 kind) {
     if (available >= 1 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 0, gItemDataBuffer, 1);
     } else {
-        func_020fea84(kind, 0, gItemDataBuffer, 1);
+        QueueItemData(kind, 0, gItemDataBuffer, 1);
     }
     return gItemDataBuffer;
 }
 
-u8 *func_020fe8ac(u32 kind) {
+u8 *AddItemDataSizedByKind(u32 kind) {
     u32 dataSize;
     s32 available;
 
@@ -425,12 +428,12 @@ u8 *func_020fe8ac(u32 kind) {
     if (available >= (u8) (dataSize + 1) && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 0, gItemDataBuffer, dataSize + 1);
     } else {
-        func_020fea84(kind, 0, gItemDataBuffer, dataSize + 1);
+        QueueItemData(kind, 0, gItemDataBuffer, dataSize + 1);
     }
     return gItemDataBuffer;
 }
 
-u8 *func_020fe828(u32 kind) {
+u8 *AddItemDataNoItemId(u32 kind) {
     s32 available;
 
     gItemDataBuffer[1] = 0xff;
@@ -439,27 +442,27 @@ u8 *func_020fe828(u32 kind) {
     if (available >= 2 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 0, gItemDataBuffer, 2);
     } else {
-        func_020fea84(kind, 0, gItemDataBuffer, 2);
+        QueueItemData(kind, 0, gItemDataBuffer, 2);
     }
     return gItemDataBuffer;
 }
 
-u8 *func_020fe7a0(u32 kind, u32 b, u32 c, u32 itemId) {
+u8 *AddItemDataItemIdAndParts(u32 kind, u32 lowPart, u32 highPart, u32 itemId) {
     s32 available;
 
     gItemDataBuffer[1] = itemId;
-    gItemDataBuffer[2] = b | (c << 4);
+    gItemDataBuffer[2] = lowPart | (highPart << 4);
     gItemDataBuffer[0] = GetRaceUpdateFrames();
     available = gWiFiRaceSync->mUnk_724;
     if (available >= 3 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 2, gItemDataBuffer, 3);
     } else {
-        func_020fea84(kind, 2, gItemDataBuffer, 3);
+        QueueItemData(kind, 2, gItemDataBuffer, 3);
     }
     return gItemDataBuffer;
 }
 
-u8 *func_020fe71c(u32 kind, u32 kartIndex, u32 itemId) {
+u8 *AddItemDataItemIdAndKart(u32 kind, u32 kartIndex, u32 itemId) {
     s32 available;
 
     gItemDataBuffer[1] = itemId;
@@ -469,35 +472,35 @@ u8 *func_020fe71c(u32 kind, u32 kartIndex, u32 itemId) {
     if (available >= 3 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 3, gItemDataBuffer, 3);
     } else {
-        func_020fea84(kind, 3, gItemDataBuffer, 3);
+        QueueItemData(kind, 3, gItemDataBuffer, 3);
     }
     return gItemDataBuffer;
 }
 
-u8 *func_020fe694(u32 kind, u32 itemId, u32 c, u32 d) {
+u8 *AddItemDataItemIdAndBytes(u32 kind, u32 itemId, u32 thirdByte, u32 fourthByte) {
     s32 available;
 
     gItemDataBuffer[1] = itemId;
-    gItemDataBuffer[2] = c;
-    gItemDataBuffer[3] = d;
+    gItemDataBuffer[2] = thirdByte;
+    gItemDataBuffer[3] = fourthByte;
     gItemDataBuffer[0] = GetRaceUpdateFrames();
     available = gWiFiRaceSync->mUnk_724;
     if (available >= 4 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 3, gItemDataBuffer, 4);
     } else {
-        func_020fea84(kind, 3, gItemDataBuffer, 4);
+        QueueItemData(kind, 3, gItemDataBuffer, 4);
     }
     return gItemDataBuffer;
 }
 
-void func_020fe5b8(u32 kind, u32 messageKind, u8 *packet, u32 kartIndex) {
+void ProcessItemDataMessage(u32 kind, u32 messageKind, u8 *packet, u32 kartIndex) {
     s8 frameDifference;
 
     frameDifference = (u8) GetRaceUpdateFrames() - packet[0];
     if (frameDifference >= 0) {
-        func_020f0758(gItemPools + kind, messageKind, frameDifference, packet, 0);
+        ProcessItemPoolMessage(gItemPools + kind, messageKind, frameDifference, packet, 0);
     } else {
-        func_020fe9d0(kind, messageKind, frameDifference, packet, 0);
+        DelayItemData(kind, messageKind, frameDifference, packet, 0);
     }
     if (kind != 0xb) {
         return;
@@ -511,17 +514,17 @@ void func_020fe5b8(u32 kind, u32 messageKind, u8 *packet, u32 kartIndex) {
     SetActiveItem(&gKartItems[(u16) kartIndex], 0x10);
 }
 
-void func_020fe56c(u32 kind, u32 messageKind, u32 frameDifference, void *packet, u32 frameStamp) {
+void DelayItemDataWithFrameStamp(u32 kind, u32 messageKind, u32 frameDifference, void *packet, u32 frameStamp) {
     u32 storedFrameStamp;
 
     storedFrameStamp = frameStamp;
     if (storedFrameStamp == 0) {
         storedFrameStamp = GetRaceUpdateFrames();
     }
-    func_020fe9d0(kind, messageKind, frameDifference, packet, storedFrameStamp);
+    DelayItemData(kind, messageKind, frameDifference, packet, storedFrameStamp);
 }
 
-void *func_020fe4c0(void *cursor, void *object, s32 toData) {
+void *CopyItemObjectDataAndAdd(void *cursor, void *object, s32 toData) {
     ItemObject *item;
     u8 *nextCursor;
     s32 kind;
@@ -541,11 +544,11 @@ void *func_020fe4c0(void *cursor, void *object, s32 toData) {
     if (available >= 0x12 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 1, gItemDataBuffer, 0x12);
     } else {
-        func_020fea84(kind, 1, gItemDataBuffer, 0x12);
+        QueueItemData(kind, 1, gItemDataBuffer, 0x12);
     }
     return gItemDataBuffer;
 }
 
-void func_020fe4b4(void *object) {
-    func_020f8e78(object);
+void SetupItemObjectFromDataWrapper(void *object) {
+    SetupItemObjectFromData(object);
 }
