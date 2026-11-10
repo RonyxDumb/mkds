@@ -175,7 +175,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
                 kart->mPos.y -= 0x19a;
             } else {
                 if (i < 3 && i < stepCount / 2) {
-                    func_01ffc090(kart, func_01ffc27c(kart, 0));
+                    AdvanceKartTurnHeading(kart, ApplyKartTurnInput(kart, 0));
                 }
                 QuaternionFromAxisAngle(&data_02154f7c, kart->mHeadingAngle, &kart->mUnk_e0_m);
                 QuaternionMultiply(&kart->mUnk_f0_q, &kart->mUnk_e0_m, &kart->mUnk_110_q);

@@ -161,4 +161,4 @@ extern Vec3 gItemFBoxRotationAxis;
 extern const StateCallbacks gDramStateTable[];
 extern const char gDramNsbmdName[];
 extern s32 gSoundOutputEffectType;
-extern s32 data_usa_0216ca38[];
+extern s32 gKartSurfaceSoundSortOffsets[];

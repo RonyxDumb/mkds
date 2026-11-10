@@ -88,7 +88,7 @@ void StartKartMicInflate(u16 kartIndex) {
     if (IsRaceStarted() != 1) {
         return;
     }
-    if (func_01ffc67c(GetKart(kartIndex)) != FALSE) {
+    if (IsKartNotNormalOrFlagged(GetKart(kartIndex)) != FALSE) {
         return;
     }
     gStandings->mKarts[kartIndex].mMicInflateTimer = 10;
@@ -829,7 +829,7 @@ void UpdateStandings(void) {
             }
             kartStanding->mMicInflateTimer = v;
             gStandings->mKarts[i].mSelectKeyInflate = -(gStandings->mKarts[i].mSelectKeyInflate <= 0);
-            if (func_01ffc67c(kart) != FALSE ||
+            if (IsKartNotNormalOrFlagged(kart) != FALSE ||
                 (u16) (gInputSlots[kart->mEntryIndex].mBits & (PAD_KEY_A | PAD_KEY_B)) != 0) {
                 gStandings->mKarts[i].mSelectKeyInflate = -1;
                 gStandings->mKarts[i].mMicInflateTimer = -1;

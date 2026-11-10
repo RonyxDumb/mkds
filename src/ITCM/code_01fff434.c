@@ -46,10 +46,11 @@ void UpdateKartItems(KartItems *kartItems) {
     }
     kartItems->mKinokoBoostStarted = FALSE;
     if (kartItems->mUnk_20c != FALSE) {
-        if (func_01ffc67c(kart) == FALSE && !(kart->mUnk_48 & 0x10000) && (kart->mUnk_44 & KART_44_ON_GROUND)) {
+        if (IsKartNotNormalOrFlagged(kart) == FALSE && !(kart->mUnk_48 & 0x10000) &&
+            (kart->mUnk_44 & KART_44_ON_GROUND)) {
             kartItems->mUnk_20c = FALSE;
         }
-    } else if (func_01ffc67c(kart) != FALSE || (kart->mUnk_48 & 0x10000)) {
+    } else if (IsKartNotNormalOrFlagged(kart) != FALSE || (kart->mUnk_48 & 0x10000)) {
         kartItems->mUnk_20c = TRUE;
     } else {
         AddKartItemUseFlags(kartItems);
@@ -122,13 +123,15 @@ after:
     kartItems->mFlags |= gKartItemsEndUseBit;
 }
 
-void func_01fff434(s32 a, s32 b, s32 c, Vec3 *d, const Vec3 *e, const Vec3 *f, s64 *g) {
-    s32 q;
-    s32 u;
-    q = FX_Div(MUL_FIXED12_NO_ROUND(a, b) - c, MUL_FIXED12_NO_ROUND(a, a) - 0x1000);
-    u = b - MUL_FIXED12_NO_ROUND(q, a);
-    d->x = MUL_FIXED12_NO_ROUND(q, e->x) + MUL_FIXED12_NO_ROUND(u, f->x);
-    d->y = MUL_FIXED12_NO_ROUND(q, e->y) + MUL_FIXED12_NO_ROUND(u, f->y);
-    d->z = MUL_FIXED12_NO_ROUND(q, e->z) + MUL_FIXED12_NO_ROUND(u, f->z);
-    *g = LENGTH_SQUARED(*d);
+void ComputeVec3FromDotProducts(s32 normalsDot, s32 secondDot, s32 firstDot, Vec3 *result, const Vec3 *firstVector,
+                                const Vec3 *secondVector, s64 *lengthSquared) {
+    s32 firstWeight;
+    s32 secondWeight;
+    firstWeight = FX_Div(MUL_FIXED12_NO_ROUND(normalsDot, secondDot) - firstDot,
+                         MUL_FIXED12_NO_ROUND(normalsDot, normalsDot) - 0x1000);
+    secondWeight = secondDot - MUL_FIXED12_NO_ROUND(firstWeight, normalsDot);
+    result->x = MUL_FIXED12_NO_ROUND(firstWeight, firstVector->x) + MUL_FIXED12_NO_ROUND(secondWeight, secondVector->x);
+    result->y = MUL_FIXED12_NO_ROUND(firstWeight, firstVector->y) + MUL_FIXED12_NO_ROUND(secondWeight, secondVector->y);
+    result->z = MUL_FIXED12_NO_ROUND(firstWeight, firstVector->z) + MUL_FIXED12_NO_ROUND(secondWeight, secondVector->z);
+    *lengthSquared = LENGTH_SQUARED(*result);
 }

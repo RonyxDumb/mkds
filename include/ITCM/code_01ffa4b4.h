@@ -4,4 +4,4 @@
 
 typedef struct Kart Kart;
 
-void func_01ffa4b4(Kart *p, Vec3 *a);
+void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal);

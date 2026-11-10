@@ -65,7 +65,7 @@ flush_line:
     ldr r1, =data_027e0000
     add r1, r1, #0x3fc0
     add r1, r1, #0x3c
-    ldr r0, =func_01ff8000
+    ldr r0, =OS_IrqHandler
     str r0, [r1, #0x0]
     bl _fp_init
     bl NitroStartUp

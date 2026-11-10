@@ -5,17 +5,17 @@
 typedef struct NNSG3dMatAnmResult NNSG3dMatAnmResult;
 
 // Command word and the 18 words sent with it: a mode, a 4x4 matrix and a trailing value.
-typedef struct Unk01ff9320_buf {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ s32 mUnk_08[16];
-    /* 48 */ u32 mUnk_48;
+typedef struct TexMtxCommand {
+    /* 00 */ u32 mCommand;
+    /* 04 */ u32 mMtxModeTex;
+    /* 08 */ s32 mMatrix[16];
+    /* 48 */ u32 mMtxModePosVec;
     /* 4c */ u32 mUnk_4c;
-} Unk01ff9320_buf;
+} TexMtxCommand;
 
 typedef void (*Unk01ff9320_Fn)(s32 *, NNSG3dMatAnmResult *);
 
-void func_01ff9320(NNSG3dMatAnmResult *p);
-void func_01ff946c(s32 *o);
-void func_01ff9490(s32 *o, const NNSG3dMatAnmResult *in);
-void func_01ff94d4(s32 *o, const NNSG3dMatAnmResult *in);
+void NNSi_G3dSendTexSRTMaya(NNSG3dMatAnmResult *matAnmResult);
+void texmtxCalc_flagTRS_(s32 *matrix);
+void texmtxCalc_flagTR_(s32 *matrix, const NNSG3dMatAnmResult *in);
+void texmtxCalc_flagTS_(s32 *matrix, const NNSG3dMatAnmResult *in);

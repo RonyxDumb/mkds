@@ -292,13 +292,13 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *c, int ra
             }
             goto lk;
         lg:
-            func_01fff434(dot, d2, d1, &ua, &triangleNormals[1], &triangleNormals[2], &qq);
+            ComputeVec3FromDotProducts(dot, d2, d1, &ua, &triangleNormals[1], &triangleNormals[2], &qq);
             goto lj;
         lh:
-            func_01fff434(dot, d3, d2, &ua, &triangleNormals[2], &triangleNormals[3], &qq);
+            ComputeVec3FromDotProducts(dot, d3, d2, &ua, &triangleNormals[2], &triangleNormals[3], &qq);
             goto lj;
         li:
-            func_01fff434(dot, d1, d3, &ua, &triangleNormals[3], &triangleNormals[1], &qq);
+            ComputeVec3FromDotProducts(dot, d1, d3, &ua, &triangleNormals[3], &triangleNormals[1], &qq);
         lj:
             qq = radiusSquared - qq;
             if (qq <= 0) {

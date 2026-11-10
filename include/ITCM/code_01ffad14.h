@@ -9,4 +9,4 @@ typedef struct Kart Kart;
 void AdvanceKartQuaternionFromVector(Kart *p, Vec3 *a);
 void ScaleKartVelocityAndSetCappedLengthAndDirection(Kart *p, s32 a);
 s32 LimitKartForwardSpeedAndGetScaled(Kart *p);
-void func_01ffb0cc(Kart *p);
+void AdvanceKartOffsetCycleIndex(Kart *kart);

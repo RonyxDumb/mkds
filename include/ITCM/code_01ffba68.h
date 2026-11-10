@@ -6,8 +6,8 @@ typedef struct Kart Kart;
 typedef struct MtxFx33 MtxFx33;
 typedef struct MtxFx43 MtxFx43;
 
-void func_01ffba68(Kart *p);
-void func_01ffbd9c(Kart *p);
+void AdvanceKartForwardSpeedAndAngles(Kart *kart);
+void UpdateKartForwardAndLengthRatio(Kart *kart);
 void UpdateKartSpeedLimit(Kart *p);
 void UpdateKartSpeedLimitGoal(Kart *p);
 // Stores the previous collision center: the point mRadius plus 0x400 along the up vector from mUnk_98. Slot 5 of
@@ -17,24 +17,24 @@ void SetKartPrevCollisionCenter(Kart *p);
 // Writes the point mRadius + c along the vector at 0x15c, starting from b plus the move since the last step, to a.
 void ComputeKartCollisionCenter(Vec3 *a, const Vec3 *b, s32 c, Kart *p);
 void ComputeKartPointAlongUp(Vec3 *a, const Vec3 *b, s32 c, Kart *p);
-void func_01ffc090(Kart *p, s32 a);
+void AdvanceKartTurnHeading(Kart *kart, s32 turnApplied);
 // One step of a turn in direction c (1 or -1) with e the mUnk_48 bit set for it; always returns 1.
 s32 ApplyKartTurn(Kart *p, s16 a, s16 b, s32 c, s32 d, u32 e);
-s32 func_01ffc27c(Kart *p, s32 a);
+s32 ApplyKartTurnInput(Kart *kart, s32 lowSpeedTurn);
 // Multiplies *a by 0xe6a / 0x1000 and sets it to 0 once its size is below 0x7b.
 void DecayValueToZero(s32 *a);
-void func_01ffc558(Kart *p);
-void func_01ffc5a0(Kart *p);
-BOOL func_01ffc67c(Kart *p);
-void func_01ffc6c0(Kart *p);
+void SetKartMissionRunInputMask(Kart *kart);
+void UpdateKartInputFlags(Kart *kart);
+BOOL IsKartNotNormalOrFlagged(Kart *kart);
+void AdvanceKartInputAndTurn(Kart *kart);
 // Counts mKartCollisionTimer down and starts the collision sound when it reaches 0.
 void AdvanceKartCollisionTimer(Kart *p);
-void func_01ffc920(Kart *p);
+void UpdateKartSoundWrapper(Kart *kart);
 // Stores the rank in mRank; returns TRUE when the Kart moved up and the Kart now right behind it is not flagged in
 // mUnk_7c.
 s32 AdvanceKartRank(Kart *p);
-void func_01ffc9e8(Kart *p, s32 a);
-void func_01ffca50(Kart *p);
+void AddKartSurfaceSoundRequest(Kart *kart, s32 entryIndex);
+void ResetKartTurnAndRadius(Kart *kart);
 // First step of UpdateKarts for one Kart: copies the near-Kart mask, the position, mUnk_1d8, mUnk_2e4 and mUnk_2d8 into
 // their previous values, clears mTestedKartMask, mNearKartMask and some bits of mUnk_44 and mUnk_4c, then runs slot 5
 // of Kart.mSlotFunctions.

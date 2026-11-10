@@ -52,7 +52,7 @@ void ApplyKartLanding(Kart *kart, Vec3 *groundNormal) {
     kart->mUnk_44 |= 0x10000;
     if (kart->mLandingTimer <= 0) {
         soundQueueIndex = (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 3 : 2;
-        sortKeyOffset = data_usa_0216ca38[2];
+        sortKeyOffset = gKartSurfaceSoundSortOffsets[2];
         distanceSquared = GetKartCameraDistanceSquared(kart->mIndex);
         AddSoundRequest(gSoundRequestQueues + soundQueueIndex, distanceSquared + sortKeyOffset,
                         (void (*)(void *, int)) StartSurfaceSoundFromKart, kart, 2);

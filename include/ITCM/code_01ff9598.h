@@ -4,7 +4,8 @@
 
 typedef struct Kart Kart;
 
-// Six words of a table written by func_01ff9598 and the functions after it, at 0x00, 0x04, 0x10, 0x14, 0x30 and 0x34.
+// Six words of a table written by texmtxCalc_flagT_ and the functions after it, at 0x00, 0x04, 0x10, 0x14, 0x30 and
+// 0x34.
 typedef struct Unk01ff9598_A {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s32 mUnk_04;
@@ -16,7 +17,7 @@ typedef struct Unk01ff9598_A {
     /* 34 */ s32 mUnk_34;
 } Unk01ff9598_A;
 
-// Read by func_01ff9598, func_01ff9684, func_01ff96cc, func_01ff974c and func_01ff9828.
+// Read by texmtxCalc_flagT_, texmtxCalc_flagRS_, texmtxCalc_flagR_, texmtxCalc_flagS_ and texmtxCalc_flag_.
 typedef struct Unk01ff9598 {
     /* 00 */ u8 mUnk_00[0x18];
     /* 18 */ s32 mUnk_18;
@@ -51,24 +52,25 @@ typedef struct Unk01ff9940_C {
     /* 03 */ u8 mUnk_03;
 } Unk01ff9940_C;
 
-void func_01ff9598(Unk01ff9598_A *a, Unk01ff9598 *b);
-void func_01ff9684(Unk01ff9598_A *a, Unk01ff9598 *b);
-void func_01ff96cc(Unk01ff9598_A *a, Unk01ff9598 *b);
-void func_01ff974c(Unk01ff9598_A *a, Unk01ff9598 *b);
-void func_01ff9828(Unk01ff9598_A *a, Unk01ff9598 *b);
-void func_01ff9940(Unk01ff9940 *a, Unk01ff9940_B *b, Unk01ff9940_C *c, u32 d);
-void func_01ff9a94(Unk01ff9940 *a);
+void texmtxCalc_flagT_(Unk01ff9598_A *matrix, Unk01ff9598 *matAnmResult);
+void texmtxCalc_flagRS_(Unk01ff9598_A *matrix, Unk01ff9598 *matAnmResult);
+void texmtxCalc_flagR_(Unk01ff9598_A *matrix, Unk01ff9598 *matAnmResult);
+void texmtxCalc_flagS_(Unk01ff9598_A *matrix, Unk01ff9598 *matAnmResult);
+void texmtxCalc_flag_(Unk01ff9598_A *matrix, Unk01ff9598 *matAnmResult);
+void NNSi_G3dGetJointScaleMaya(Unk01ff9940 *jntAnmResult, Unk01ff9940_B *scaleValues, Unk01ff9940_C *command,
+                               u32 srtFlags);
+void NNSi_G3dSendJointSRTMaya(Unk01ff9940 *jntAnmResult);
 void AdvanceKartEffects(Kart *p);
 void AdvanceKartHop(Kart *p);
-void func_01ff9c9c(Kart *p, u32 a);
-void func_01ff9cb0(Kart *p);
-void func_01ff9d18(Kart *p);
+void SetKartCourseHitAttributeBit(Kart *kart, u32 hitValue);
+void StopKartStillHold(Kart *kart);
+void AdvanceKartBoosts(Kart *kart);
 void RefreshKartSurface(Kart *p);
 void AdvanceKartOrientation(Kart *p, Vec3 *a);
 void UpdateKartAirborne(Kart *p);
 void AdvanceKartQuaternionBlendFactor(Kart *p, const Vec3 *a);
-BOOL func_01ffa1f8(Kart *p);
-void func_01ffa350(Kart *p, u32 a);
-BOOL func_01ffa380(Kart *p, u32 a, Vec3 *b);
-BOOL func_01ffa41c(Kart *p, u32 a, Vec3 *b);
-BOOL func_01ffa478(Kart *p, u32 a, Vec3 *b);
+BOOL StartKartRespawnWaitIfBelowZero(Kart *kart);
+void ClearKartGroundContact(Kart *kart, u32 clearedBits);
+BOOL IsLowestOffsetFarOnHitBitOrYAbove(Kart *kart, u32 collisionBits, Vec3 *lowestOffset);
+BOOL IsLowestOffsetFarOnHitBitOrKartBit(Kart *kart, u32 collisionBits, Vec3 *lowestOffset);
+BOOL IsLowestOffsetFarOnHitBit(Kart *kart, u32 collisionBits, Vec3 *lowestOffset);

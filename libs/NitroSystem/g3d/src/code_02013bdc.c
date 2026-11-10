@@ -505,7 +505,7 @@ void getMdlTrans_(NNSG3dJntAnmResult *out) {
     NNSG3dResNodeData *node;
     const u32 *src;
 
-    rs = data_02170500;
+    rs = NNS_G3dRS;
     nodeInfo = rs->mResNodeInfo;
     table = (u8 *) nodeInfo + nodeInfo->mUnk_06;
     node = OFFSET_PTR(NNSG3dResNodeData, nodeInfo, *(u32 *) (table + *(u16 *) table * rs->mC[1] + 4));
@@ -528,7 +528,7 @@ void getMdlScale_(NNSG3dJntAnmResult *out) {
     u8 *scalePtr;
     u8 *cmd;
 
-    rs = data_02170500;
+    rs = NNS_G3dRS;
     nodeInfo = rs->mResNodeInfo;
     cmd = rs->mC;
     table = (u8 *) nodeInfo + nodeInfo->mUnk_06;
@@ -558,7 +558,7 @@ void getMdlRot_(NNSG3dJntAnmResult *out) {
     NNSG3dResNodeData *node;
     const s16 *vals;
 
-    rs = data_02170500;
+    rs = NNS_G3dRS;
     nodeInfo = rs->mResNodeInfo;
     table = (u8 *) nodeInfo + nodeInfo->mUnk_06;
     node = OFFSET_PTR(NNSG3dResNodeData, nodeInfo, *(u32 *) (table + *(u16 *) table * rs->mC[1] + 4));
@@ -733,7 +733,7 @@ void getJntSRTAnmResult_(const NNSG3dResJntAnm *jntAnm, int node, s32 frame, NNS
             return;
         }
     }
-    data_02170500->mUnk_e8(out, scaleOut, data_02170500->mC, (out->mFlag & 1) ? 4 : 0);
+    NNS_G3dRS->mUnk_e8(out, scaleOut, NNS_G3dRS->mC, (out->mFlag & 1) ? 4 : 0);
 }
 
 void getTransData_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm *jntAnm) {

@@ -2,14 +2,14 @@
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/unk_02165000.h"
 
-void func_01ffb9e0(Kart *p) {
-    if ((p->mUnk_44 & 0x400) || p->mState != KART_STATE_NORMAL) {
-        p->mForwardSpeed = (s64) p->mForwardSpeed * p->mPhysicalParam->mUnk_2c >> 12;
+void ScaleKartForwardSpeed(Kart *kart) {
+    if ((kart->mUnk_44 & 0x400) || kart->mState != KART_STATE_NORMAL) {
+        kart->mForwardSpeed = (s64) kart->mForwardSpeed * kart->mPhysicalParam->mUnk_2c >> 12;
     }
-    if (!(p->mUnk_48 & 0x2000)) {
+    if (!(kart->mUnk_48 & 0x2000)) {
         return;
     }
-    p->mForwardSpeed = (s64) p->mForwardSpeed * 0xe66 >> 12;
+    kart->mForwardSpeed = (s64) kart->mForwardSpeed * 0xe66 >> 12;
 }
 
 void ApplyKartGravity(Kart *p) {
@@ -38,6 +38,6 @@ void ReduceKartSpeedByTurnRatio(s32 *a, Kart *p) {
     if (b <= 0) {
         b = -b;
     }
-    c = (s64) *a * data_usa_021654d8 >> 12;
+    c = (s64) *a * gSpeedReductionAtFullTurnRatio >> 12;
     *a -= (s32) ((s64) c * b >> 12);
 }

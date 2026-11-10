@@ -9,4 +9,4 @@ typedef struct Kart Kart;
 void ReduceKartSpeedByTurnRatio(s32 *a, Kart *p);
 // Adds mGravity to mVerticalSpeed.
 void ApplyKartGravity(Kart *p);
-void func_01ffb9e0(Kart *p);
+void ScaleKartForwardSpeed(Kart *kart);

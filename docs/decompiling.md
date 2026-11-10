@@ -768,7 +768,7 @@ Expression shapes:
 - A cast on the address can swap address and value registers in a read-modify-write of a global. A pointer local
   initialised with a cast (`T *p = (T *) &g;`) changes addressing (1.1). Try both.
 - A word the original loads from the pool as `.word SYMBOL` where ours has a plain number: write the symbol, cast
-  to the field's type: `(int) func_01ff8000` (func_ov000_021a6908).
+  to the field's type: `(int) OS_IrqHandler`.
 - A small value (0, 1, 2, 3, 0x2000000) loaded from a pool word with no relocation is a symbol the compiler can't
   fold: an absolute address defined by the linker. Bytes match with such a symbol in place (RunDWCUtility,
   InitStartup).

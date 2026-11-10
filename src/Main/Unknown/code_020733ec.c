@@ -39,13 +39,13 @@ void InitKartMapObjectResponses(void) {
     void **responseSlot;
     void **secondResponseSlot;
 
-    data_0217ac14 = func_01ffa478;
+    data_0217ac14 = IsLowestOffsetFarOnHitBit;
     raceSetup = gRaceSetup;
     i = 0;
     responseSlot = gCollideKartWithMapObjectResponses;
     secondResponseSlot = gKartMapObjectSecondResponses;
     if (raceSetup->mCourseId == COURSE_ID_RAINBOW || raceSetup->mCourseId == COURSE_ID_OLD_SKY_AGB) {
-        data_0217ac14 = func_01ffa380;
+        data_0217ac14 = IsLowestOffsetFarOnHitBitOrYAbove;
     }
     data_0217ac10 = 0;
     if (raceSetup->mMode == MODE_BATTLE) {
@@ -53,7 +53,7 @@ void InitKartMapObjectResponses(void) {
             case COURSE_ID_MINI_BLOCK_64:
             case COURSE_ID_MINI_DOKAN_GC:
                 data_0217ac10 = 1;
-                data_0217ac14 = func_01ffa41c;
+                data_0217ac14 = IsLowestOffsetFarOnHitBitOrKartBit;
                 break;
         }
     }
@@ -137,7 +137,7 @@ void InitKartResources(Kart *kart) {
         SetKartSpeedLimitReciprocal(FX_Div(0x1000, kart->mPhysicalParam->mBaseSpeedLimit));
     }
     InitKartSound(kart);
-    CreateCollisionHitLink(&kart->mUnk_208);
+    CreateCollisionHitLink(&kart->mCollisionHitLink);
     kart->mAi = HeapAlloc(heap, 0x158);
     if (gCourseMap->mRaceRouteCount != 0 || gCourseMap->mBattleRouteCount != 0) {
         if (gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind == PLAYER_KIND_CPU) {

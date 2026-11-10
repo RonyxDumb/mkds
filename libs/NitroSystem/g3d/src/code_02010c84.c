@@ -63,7 +63,7 @@ void NNS_G3dDraw1Mat1Shp(NNSG3dResMdl *resMdl, u32 matId, u32 shpId, BOOL sendMa
         words[6] = matData->mTexPlttBase;
         NNS_G3dGeBufferOP_N(words[0], &words[1], 6);
         if (matData->mFlag & 1) {
-            sendTexSRT = data_0216185c[resMdl->mInfo.mTexMtxMode];
+            sendTexSRT = NNS_G3dSendTexSRT_FuncArray[resMdl->mInfo.mTexMtxMode];
             texResult.mUnk_00 = 8;
             texResult.mUnk_2c = matData->mOrigWidth;
             texResult.mUnk_2e = matData->mOrigHeight;

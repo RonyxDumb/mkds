@@ -125,7 +125,7 @@ void AdvanceKartDriftTurnAngle(Kart *kart, int fromLowSpeedTurn) {
     if (!(kart->mUnk_44 & KART_44_ON_GROUND)) {
         return;
     }
-    func_01ffc9e8(kart, 1);
+    AddKartSurfaceSoundRequest(kart, 1);
     kart->mUnk_4c |= 0x2;
     if (kart->mDriftCharge < 3) {
         return;
@@ -299,8 +299,8 @@ recheck:
     kart->mTurnCountTimer = 0;
     GetKartForward(kart, &kart->mHopStartForward);
     GetKartUp(kart, &kart->mHopStartUp);
-    if (kart->mUnk_208->mObject != NULL) {
-        kart->mUnk_208->mObject = NULL;
+    if (kart->mCollisionHitLink->mObject != NULL) {
+        kart->mCollisionHitLink->mObject = NULL;
     }
     if (kart->mUnk_7c & 0x200) {
         kart->mUnk_514->mEventToggleFlags ^= 0x1;

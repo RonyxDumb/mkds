@@ -6,89 +6,88 @@
 
 #pragma opt_arithtransformation off
 
-// The table below is initialized data kept in .text ahead of the code (the original has it at 0x01ff9300, right
-// before func_01ff9320); 1.2 puts initialized non-const data in the section a `#pragma section` names.
+// The table below is initialized data kept in .text ahead of the code, right before NNSi_G3dSendTexSRTMaya.
 #pragma define_section ITCM ".text"                                                                                    \
                             ".bss" abs32 RWX
 #pragma section ITCM begin
 
-Unk01ff9320_Fn data_01ff9300[8] = {
-    (Unk01ff9320_Fn) func_01ff9828, (Unk01ff9320_Fn) func_01ff974c, (Unk01ff9320_Fn) func_01ff96cc,
-    (Unk01ff9320_Fn) func_01ff9684, (Unk01ff9320_Fn) func_01ff9598, (Unk01ff9320_Fn) func_01ff94d4,
-    (Unk01ff9320_Fn) func_01ff9490, (Unk01ff9320_Fn) func_01ff946c,
+Unk01ff9320_Fn calcTexMtx_[8] = {
+    (Unk01ff9320_Fn) texmtxCalc_flag_,   (Unk01ff9320_Fn) texmtxCalc_flagS_,   (Unk01ff9320_Fn) texmtxCalc_flagR_,
+    (Unk01ff9320_Fn) texmtxCalc_flagRS_, (Unk01ff9320_Fn) texmtxCalc_flagT_,   (Unk01ff9320_Fn) texmtxCalc_flagTS_,
+    (Unk01ff9320_Fn) texmtxCalc_flagTR_, (Unk01ff9320_Fn) texmtxCalc_flagTRS_,
 };
 
 #pragma section ITCM end
 
-void func_01ff94d4(s32 *o, const NNSG3dMatAnmResult *v1) {
-    s32 a;
-    s32 b;
+void texmtxCalc_flagTS_(s32 *matrix, const NNSG3dMatAnmResult *matAnmResult) {
+    s32 widthFixed;
+    s32 heightFixed;
     s32 t;
 
-    a = v1->mUnk_2c << 12;
-    b = v1->mUnk_2e << 12;
-    FX_DivAsync(b, a);
-    o[0] = v1->mUnk_20[1];
-    o[5] = v1->mUnk_20[1];
-    o[1] = (-v1->mUnk_20[0] * FX_GetDivResult()) >> 12;
-    FX_DivAsync(a, b);
-    t = -(v1->mUnk_20[0] + v1->mUnk_20[1]);
-    o[12] = (v1->mUnk_2c * (t + 0x1000)) << 3;
-    o[13] = (v1->mUnk_2e * (v1->mUnk_20[0] - v1->mUnk_20[1] + 0x1000)) << 3;
-    o[4] = (v1->mUnk_20[0] * FX_GetDivResult()) >> 12;
+    widthFixed = matAnmResult->mUnk_2c << 12;
+    heightFixed = matAnmResult->mUnk_2e << 12;
+    FX_DivAsync(heightFixed, widthFixed);
+    matrix[0] = matAnmResult->mUnk_20[1];
+    matrix[5] = matAnmResult->mUnk_20[1];
+    matrix[1] = (-matAnmResult->mUnk_20[0] * FX_GetDivResult()) >> 12;
+    FX_DivAsync(widthFixed, heightFixed);
+    t = -(matAnmResult->mUnk_20[0] + matAnmResult->mUnk_20[1]);
+    matrix[12] = (matAnmResult->mUnk_2c * (t + 0x1000)) << 3;
+    matrix[13] = (matAnmResult->mUnk_2e * (matAnmResult->mUnk_20[0] - matAnmResult->mUnk_20[1] + 0x1000)) << 3;
+    matrix[4] = (matAnmResult->mUnk_20[0] * FX_GetDivResult()) >> 12;
 }
 
-void func_01ff9490(s32 *o, const NNSG3dMatAnmResult *v1) {
+void texmtxCalc_flagTR_(s32 *matrix, const NNSG3dMatAnmResult *matAnmResult) {
     s32 t;
 
-    o[0] = v1->mUnk_18[0];
-    o[5] = v1->mUnk_18[1];
-    o[1] = 0;
-    o[12] = 0;
-    t = -(v1->mUnk_18[1] << 1);
-    o[13] = (v1->mUnk_2e * (t + 0x2000)) << 3;
-    o[4] = 0;
+    matrix[0] = matAnmResult->mUnk_18[0];
+    matrix[5] = matAnmResult->mUnk_18[1];
+    matrix[1] = 0;
+    matrix[12] = 0;
+    t = -(matAnmResult->mUnk_18[1] << 1);
+    matrix[13] = (matAnmResult->mUnk_2e * (t + 0x2000)) << 3;
+    matrix[4] = 0;
 }
 
-void func_01ff946c(s32 *o) {
-    o[0] = 0x1000;
-    o[1] = 0;
-    o[4] = 0;
-    o[5] = 0x1000;
-    o[12] = 0;
-    o[13] = 0;
+void texmtxCalc_flagTRS_(s32 *matrix) {
+    matrix[0] = 0x1000;
+    matrix[1] = 0;
+    matrix[4] = 0;
+    matrix[5] = 0x1000;
+    matrix[12] = 0;
+    matrix[13] = 0;
 }
 
-void func_01ff9320(NNSG3dMatAnmResult *p) {
-    Unk01ff9320_buf b;
+void NNSi_G3dSendTexSRTMaya(NNSG3dMatAnmResult *matAnmResult) {
+    TexMtxCommand command;
 
-    if (p->mUnk_00 & 8) {
-        b.mUnk_00 = 0x101610;
+    if (matAnmResult->mUnk_00 & 8) {
+        command.mCommand = 0x101610;
     } else {
-        b.mUnk_00 = 0x101810;
+        command.mCommand = 0x101810;
     }
-    b.mUnk_04 = 3;
-    b.mUnk_48 = 2;
-    b.mUnk_08[14] = 0;
-    b.mUnk_08[11] = 0;
-    b.mUnk_08[10] = 0;
-    b.mUnk_08[9] = 0;
-    b.mUnk_08[8] = 0;
-    b.mUnk_08[7] = 0;
-    b.mUnk_08[6] = 0;
-    b.mUnk_08[3] = 0;
-    b.mUnk_08[2] = 0;
-    b.mUnk_08[15] = 0x1000;
-    data_01ff9300[p->mUnk_00 & 7](b.mUnk_08, p);
-    if (p->mUnk_30 != 0x1000) {
-        b.mUnk_08[0] = MUL_FIXED12_NO_ROUND(p->mUnk_30, b.mUnk_08[0]);
-        b.mUnk_08[1] = MUL_FIXED12_NO_ROUND(p->mUnk_30, b.mUnk_08[1]);
-        b.mUnk_08[12] = MUL_FIXED12_NO_ROUND(p->mUnk_30, b.mUnk_08[12]);
+    command.mMtxModeTex = 3;
+    command.mMtxModePosVec = 2;
+    command.mMatrix[14] = 0;
+    command.mMatrix[11] = 0;
+    command.mMatrix[10] = 0;
+    command.mMatrix[9] = 0;
+    command.mMatrix[8] = 0;
+    command.mMatrix[7] = 0;
+    command.mMatrix[6] = 0;
+    command.mMatrix[3] = 0;
+    command.mMatrix[2] = 0;
+    command.mMatrix[15] = 0x1000;
+    calcTexMtx_[matAnmResult->mUnk_00 & 7](command.mMatrix, matAnmResult);
+    if (matAnmResult->mUnk_30 != 0x1000) {
+        command.mMatrix[0] = MUL_FIXED12_NO_ROUND(matAnmResult->mUnk_30, command.mMatrix[0]);
+        command.mMatrix[1] = MUL_FIXED12_NO_ROUND(matAnmResult->mUnk_30, command.mMatrix[1]);
+        command.mMatrix[12] = MUL_FIXED12_NO_ROUND(matAnmResult->mUnk_30, command.mMatrix[12]);
     }
-    if (p->mUnk_34 != 0x1000) {
-        b.mUnk_08[4] = MUL_FIXED12_NO_ROUND(p->mUnk_34, b.mUnk_08[4]);
-        b.mUnk_08[5] = MUL_FIXED12_NO_ROUND(p->mUnk_34, b.mUnk_08[5]);
-        b.mUnk_08[13] = MUL_FIXED12_NO_ROUND(p->mUnk_34, b.mUnk_08[13]);
+    if (matAnmResult->mUnk_34 != 0x1000) {
+        command.mMatrix[4] = MUL_FIXED12_NO_ROUND(matAnmResult->mUnk_34, command.mMatrix[4]);
+        command.mMatrix[5] = MUL_FIXED12_NO_ROUND(matAnmResult->mUnk_34, command.mMatrix[5]);
+        command.mMatrix[13] = MUL_FIXED12_NO_ROUND(matAnmResult->mUnk_34, command.mMatrix[13]);
     }
-    NNS_G3dGeBufferOP_N(b.mUnk_00, (u32 *) &b + 1, 0x12);
+    NNS_G3dGeBufferOP_N(command.mCommand, (u32 *) &command + 1, 0x12);
 }

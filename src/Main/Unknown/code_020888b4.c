@@ -510,7 +510,7 @@ void AdvanceBattleKartAiMicInflate(KartAi *kartAi) {
     if (gRaceSetup->mBattleKind != BATTLE_KIND_BALLOON) {
         return;
     }
-    if (func_01ffc67c(kartAi->mKart) != FALSE) {
+    if (IsKartNotNormalOrFlagged(kartAi->mKart) != FALSE) {
         StopKartMicInflate(kartAi->mIndex);
         return;
     }

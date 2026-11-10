@@ -200,7 +200,7 @@ typedef struct ParticipantKartRecordState {
 // Set for the part of the blink cycle where the kart is not drawn.
 #define KART_4C_BLINK_HIDDEN 0x1000000
 // Bits of Kart.mUnk_48.
-// The Kart steers left in this step (from the input bits or the CPU); func_01ffca50 clears both turn bits.
+// The Kart steers left in this step (from the input bits or the CPU); ResetKartTurnAndRadius clears both turn bits.
 #define KART_48_TURN_LEFT 8
 // The Kart steers right in this step.
 #define KART_48_TURN_RIGHT 0x10
@@ -327,7 +327,7 @@ typedef struct Kart {
     /* 1e4 */ Vec3 mPrevPointAlongUp;
     /* 1f0 */ Vec3 mUnk_1f0;
     /* 1fc */ Vec3 mPointMotion;
-    /* 208 */ struct CollisionHitLink *mUnk_208;
+    /* 208 */ struct CollisionHitLink *mCollisionHitLink;
     // The functions of one Kart, one per slot index: 0 set-up at creation, 1 reset to the starting values, 2 stores the
     // squared distance in the sound source, 3 and 4 the two steps UpdateKarts runs for every Kart, 5 stores the
     // previous collision center, 6 respawn, 7 start placement, 8 does nothing. 7 and 8 are never called. InitKart fills
@@ -438,7 +438,7 @@ typedef struct Kart {
     // ApplyKartContact, 0 at reset.
     /* 386 */ s16 mHeadingAnglePerFrame;
     // Angle that follows mTurnDirection: eased toward 11000 or -11000, changed by the turn input and cut back to 0 on
-    // the ground; it is the angle of the rotation of mUnk_278 about mUnk_244 in func_01ffb130.
+    // the ground; it is the angle of the rotation of mUnk_278 about mUnk_244 in AdvanceKartByVelocity.
     /* 388 */ s16 mTurnAngle;
     /* 38a */ s16 mUnk_38a;
     /* 38c */ s32 mSpeedLimitHitFactor;
@@ -534,7 +534,7 @@ typedef struct Kart {
     /* 4e8 */ s32 mUnk_4e8;
     /* 4ec */ s32 mUnk_4ec;
     /* 4f0 */ Vec3 mUnk_4f0;
-    /* 4fc */ u16 mUnk_4fc;
+    /* 4fc */ u16 mOffsetCycleIndex;
     /* 4fe */ u8 mUnk_4fe[2];
     /* 500 */ u32 mWaterDepth;
     /* 504 */ u16 mBlinkFrames;

@@ -78,12 +78,12 @@ void AdvancePeerKartMotion(Kart *kart) {
     if (kart->mForwardSpeed > 0x3000) {
         recordState->mPosOffset = data_02154f94;
     }
-    func_01ffca50(kart);
+    ResetKartTurnAndRadius(kart);
     UpdateKartSpeedLimitGoal(kart);
     UpdateKartSpeedLimit(kart);
-    func_01ffbd9c(kart);
-    func_01ffc6c0(kart);
-    func_01ff9d18(kart);
+    UpdateKartForwardAndLengthRatio(kart);
+    AdvanceKartInputAndTurn(kart);
+    AdvanceKartBoosts(kart);
     recordState = kart->mUnk_514;
     recordState->mHopSpeed = recordState->mHopSpeed + kart->mGravity;
     recordState->mHopHeight = recordState->mHopHeight + recordState->mHopSpeed;
@@ -92,12 +92,12 @@ void AdvancePeerKartMotion(Kart *kart) {
         recordState->mHopSpeed = 0;
     }
     if (IsRaceStarted() == 1) {
-        kart->mUnk_230 = func_01ffb0cc;
+        kart->mUnk_230 = AdvanceKartOffsetCycleIndex;
     }
     if ((kart->mUnk_514->mUnk_44 & 1) != 0) {
         kart->mVerticalSpeed = 0;
     }
-    func_01ffb130(kart);
+    AdvanceKartByVelocity(kart);
 }
 
 // The peer version of AdvanceKartCollision; it also moves the shown position and rotation toward the simulated kart.
@@ -123,11 +123,11 @@ void AdvancePeerKartCollision(Kart *kart) {
         kart->mUnk_44 = kart->mUnk_44 & ~0x80000;
     }
     ComputeKartPointAlongUp(&kart->mCollisionCenter, &kart->mPos, 0x400, kart);
-    func_01ffa4b4(kart, &groundNormal);
+    CollideKartWithCourse(kart, &groundNormal);
     AdvancePeerKartOrientation(kart, &groundNormal);
     kart->mGroundNormal = groundNormal;
     kart->mUnk_4d0 = kart->mUnk_4d0 + 1;
-    func_01ffc920(kart);
+    UpdateKartSoundWrapper(kart);
     AdvanceKartCollisionTimer(kart);
     if ((kart->mUnk_4c & KART_4C_NEAR_PLAYER_RANK) != 0) {
         ComputeKartSidePoints(kart);

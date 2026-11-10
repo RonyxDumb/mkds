@@ -330,7 +330,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
                 }
             }
         }
-        kart->mUnk_230 = func_01ffb0cc;
+        kart->mUnk_230 = AdvanceKartOffsetCycleIndex;
         if (!(kart->mUnk_4c & KART_4C_HEADING_SWING)) {
             kart->mUnk_44 |= 0x1000000;
         }

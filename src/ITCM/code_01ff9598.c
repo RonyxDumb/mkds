@@ -43,92 +43,94 @@
 
 #pragma opt_arithtransformation off
 
-BOOL func_01ffa478(Kart *p, u32 a, Vec3 *b) {
-    BOOL t = FALSE;
+BOOL IsLowestOffsetFarOnHitBit(Kart *kart, u32 collisionBits, Vec3 *lowestOffset) {
+    BOOL farEnough = FALSE;
 
-    if (a & 0x2000000) {
-        if (HORIZONTAL_LENGTH_SQUARED(*b) > 0x1000000) {
-            t = TRUE;
+    if (collisionBits & 0x2000000) {
+        if (HORIZONTAL_LENGTH_SQUARED(*lowestOffset) > 0x1000000) {
+            farEnough = TRUE;
         }
     }
-    return t != FALSE;
+    return farEnough != FALSE;
 }
 
-BOOL func_01ffa41c(Kart *p, u32 a, Vec3 *b) {
-    BOOL r = TRUE;
-    BOOL t = FALSE;
+BOOL IsLowestOffsetFarOnHitBitOrKartBit(Kart *kart, u32 collisionBits, Vec3 *lowestOffset) {
+    BOOL result = TRUE;
+    BOOL farEnough = FALSE;
 
-    if (a & 0x2000000) {
-        if (HORIZONTAL_LENGTH_SQUARED(*b) > 0x1000000) {
-            t = TRUE;
+    if (collisionBits & 0x2000000) {
+        if (HORIZONTAL_LENGTH_SQUARED(*lowestOffset) > 0x1000000) {
+            farEnough = TRUE;
         }
     }
-    if (t == FALSE) {
-        if (!(p->mUnk_44 & 0x4000000)) {
-            r = FALSE;
+    if (farEnough == FALSE) {
+        if (!(kart->mUnk_44 & 0x4000000)) {
+            result = FALSE;
         }
     }
-    return r != FALSE;
+    return result != FALSE;
 }
 
-BOOL func_01ffa380(Kart *p, u32 a, Vec3 *b) {
-    BOOL r = TRUE;
-    BOOL t = FALSE;
+BOOL IsLowestOffsetFarOnHitBitOrYAbove(Kart *kart, u32 collisionBits, Vec3 *lowestOffset) {
+    BOOL result = TRUE;
+    BOOL farEnough = FALSE;
 
-    if (a & 0x2000000) {
-        if (HORIZONTAL_LENGTH_SQUARED(*b) > 0x1000000) {
-            t = TRUE;
+    if (collisionBits & 0x2000000) {
+        if (HORIZONTAL_LENGTH_SQUARED(*lowestOffset) > 0x1000000) {
+            farEnough = TRUE;
         }
     }
-    if (t == FALSE) {
-        if (b->y <= MUL_FIXED12_ROUNDED(p->mRadius, -0xb33)) {
-            r = FALSE;
+    if (farEnough == FALSE) {
+        if (lowestOffset->y <= MUL_FIXED12_ROUNDED(kart->mRadius, -0xb33)) {
+            result = FALSE;
         }
     }
-    return r != FALSE;
+    return result != FALSE;
 }
 
-void func_01ffa350(Kart *p, u32 a) {
-    p->mUnk_44 = p->mUnk_44 & ~a;
-    p->mUnk_208->mObject = NULL;
-    p->mSurfaceGroup = -1;
-    StopKartCurrentEffects(p);
+void ClearKartGroundContact(Kart *kart, u32 clearedBits) {
+    kart->mUnk_44 = kart->mUnk_44 & ~clearedBits;
+    kart->mCollisionHitLink->mObject = NULL;
+    kart->mSurfaceGroup = -1;
+    StopKartCurrentEffects(kart);
 }
 
-BOOL func_01ffa1f8(Kart *p) {
-    void *q;
-    u32 i;
-    u32 r;
+// Returns TRUE while the kart is below y = 0 and starts the respawn wait once; at y >= 0 it clears kart flag bits and
+// returns FALSE.
+BOOL StartKartRespawnWaitIfBelowZero(Kart *kart) {
+    void *soundHandleEntry;
+    u32 kartIndex;
+    u32 respawnSlot;
 
-    if (p->mPos.y < 0) {
-        if (!(p->mUnk_7c & 0x400) && !(p->mUnk_48 & 0x800)) {
-            p->mUnk_48 = p->mUnk_48 | 0x800;
-            i = p->mIndex;
+    if (kart->mPos.y < 0) {
+        if (!(kart->mUnk_7c & 0x400) && !(kart->mUnk_48 & 0x800)) {
+            kart->mUnk_48 = kart->mUnk_48 | 0x800;
+            kartIndex = kart->mIndex;
             if (gRaceSetup->mMode == MODE_BATTLE) {
-                r = GetCourseMapRespawnSlot(0);
+                respawnSlot = GetCourseMapRespawnSlot(0);
             } else {
-                r = GetCourseMapRespawnSlot(gRaceProgress->mKarts[i].mCheckpoint);
+                respawnSlot = GetCourseMapRespawnSlot(gRaceProgress->mKarts[kartIndex].mCheckpoint);
             }
-            p->mRespawnSlot = r;
-            if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+            kart->mRespawnSlot = respawnSlot;
+            if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
                 if (gRaceSetup->mCourseId == COURSE_ID_RAINBOW && (data_0217c780 & 1)) {
-                    q = TakeSoundHandleEntry(GetSoundHandlePool(0));
+                    soundHandleEntry = TakeSoundHandleEntry(GetSoundHandlePool(0));
                     if (data_0217d084.mUnk_0c != 0) {
-                        if (*(u32 *) q != 0) {
-                            NNS_SndPlayerStopSeq(q, 0);
+                        if (*(u32 *) soundHandleEntry != 0) {
+                            NNS_SndPlayerStopSeq(soundHandleEntry, 0);
                         }
-                        if (*(u32 *) q != 0) {
-                            NNS_SndPlayerStopSeq(q, 0);
+                        if (*(u32 *) soundHandleEntry != 0) {
+                            NNS_SndPlayerStopSeq(soundHandleEntry, 0);
                         }
-                        NNS_SndArcPlayerStartSeqArc(q, 0, 0x1b7);
+                        NNS_SndArcPlayerStartSeqArc(soundHandleEntry, 0, 0x1b7);
                     }
                 }
             }
         }
         return TRUE;
     }
-    p->mUnk_44 = p->mUnk_44 & 0xbbceffff;
-    p->mUnk_48 = p->mUnk_48 & 0xff9ffbfe;
+    kart->mUnk_44 = kart->mUnk_44 & 0xbbceffff;
+    kart->mUnk_48 = kart->mUnk_48 & 0xff9ffbfe;
     return FALSE;
 }
 
@@ -146,7 +148,7 @@ void AdvanceKartQuaternionBlendFactor(Kart *p, const Vec3 *a) {
     }
     if (d >= 0xe66) {
         if (p->mUnk_44 & 0x1000) {
-            if (p->mUnk_208->mObject == NULL && p->mPointMotion.x == 0 && p->mPointMotion.y == 0 &&
+            if (p->mCollisionHitLink->mObject == NULL && p->mPointMotion.x == 0 && p->mPointMotion.y == 0 &&
                 p->mPointMotion.z == 0 && p->mUnk_4d0 > 100) {
                 p->mQuaternionBlendFactor = 0;
                 return;
@@ -248,73 +250,75 @@ void RefreshKartSurface(Kart *p) {
     p->mSurfaceGroup = k;
 }
 
-void func_01ff9d18(Kart *p) {
-    u32 r;
-    s32 d;
-    enum { K0 } j;
+void AdvanceKartBoosts(Kart *kart) {
+    u32 raceUpdateFrames;
+    s32 frameDifference;
+    enum { K0 } entryIndex;
 
-    if (p->mUnk_48 & KART_48_MINI_TURBO) {
-        p->mMiniTurboTimer = p->mMiniTurboTimer - 1;
-        if (p->mMiniTurboTimer <= 0) {
-            p->mUnk_48 = p->mUnk_48 & ~KART_48_MINI_TURBO;
-            p->mMiniTurboTimer = 0;
+    if (kart->mUnk_48 & KART_48_MINI_TURBO) {
+        kart->mMiniTurboTimer = kart->mMiniTurboTimer - 1;
+        if (kart->mMiniTurboTimer <= 0) {
+            kart->mUnk_48 = kart->mUnk_48 & ~KART_48_MINI_TURBO;
+            kart->mMiniTurboTimer = 0;
         }
     }
-    if (p->mUnk_48 & 0x100000) {
-        p->mUnk_538.mUnk_00 = p->mUnk_538.mUnk_00 - 1;
-        if (p->mUnk_538.mUnk_00 <= 0) {
-            p->mUnk_48 = p->mUnk_48 & ~0x20100000;
-            p->mUnk_538.mUnk_00 = 0;
+    if (kart->mUnk_48 & 0x100000) {
+        kart->mUnk_538.mUnk_00 = kart->mUnk_538.mUnk_00 - 1;
+        if (kart->mUnk_538.mUnk_00 <= 0) {
+            kart->mUnk_48 = kart->mUnk_48 & ~0x20100000;
+            kart->mUnk_538.mUnk_00 = 0;
         }
     }
-    if (!(p->mUnk_44 & 0x1000000) && !(p->mUnk_7c & 0x400)) {
-        AdvanceKartRaceStartBoost(p);
+    if (!(kart->mUnk_44 & 0x1000000) && !(kart->mUnk_7c & 0x400)) {
+        AdvanceKartRaceStartBoost(kart);
     }
-    if (!(p->mUnk_4c & 0x400)) {
+    if (!(kart->mUnk_4c & 0x400)) {
         return;
     }
-    r = GetRaceUpdateFrames();
-    if (p->mUnk_410 == 0) {
-        j = p->mEntryIndex;
-        if ((u16) (gInputSlots[j].mPressedBits & PAD_KEY_A) != 0) {
-            p->mUnk_410 = r;
+    raceUpdateFrames = GetRaceUpdateFrames();
+    if (kart->mUnk_410 == 0) {
+        entryIndex = kart->mEntryIndex;
+        if ((u16) (gInputSlots[entryIndex].mPressedBits & PAD_KEY_A) != 0) {
+            kart->mUnk_410 = raceUpdateFrames;
         }
     }
-    if (p->mUnk_40c == 0) {
+    if (kart->mUnk_40c == 0) {
         return;
     }
-    if (p->mUnk_410 == 0) {
+    if (kart->mUnk_410 == 0) {
         return;
     }
-    d = p->mUnk_410 - p->mUnk_40c;
-    if (d <= 0) {
-        d = -d;
+    frameDifference = kart->mUnk_410 - kart->mUnk_40c;
+    if (frameDifference <= 0) {
+        frameDifference = -frameDifference;
     }
-    if (d <= 2) {
-        StartKartBoost(p, KART_BOOST_RESPAWN, 10);
+    if (frameDifference <= 2) {
+        StartKartBoost(kart, KART_BOOST_RESPAWN, 10);
     }
-    p->mUnk_4c = p->mUnk_4c & ~0x400;
+    kart->mUnk_4c = kart->mUnk_4c & ~0x400;
 }
 
-void func_01ff9cb0(Kart *p) {
-    if (!(p->mUnk_4c & 2)) {
+// Ends the hold TryHoldKartStill started: clears the hold bit and, if the hit link holds an object, moves mPos to the
+// link position; also requests surface sound entry 0 while the race runs.
+void StopKartStillHold(Kart *kart) {
+    if (!(kart->mUnk_4c & 2)) {
         if (IsRaceStarted() == 1) {
-            func_01ffc9e8(p, 0);
+            AddKartSurfaceSoundRequest(kart, 0);
         }
     }
-    p->mUnk_44 = p->mUnk_44 & ~0x1000;
-    if (p->mUnk_208->mObject == NULL) {
+    kart->mUnk_44 = kart->mUnk_44 & ~0x1000;
+    if (kart->mCollisionHitLink->mObject == NULL) {
         return;
     }
-    GetCollisionHitLinkPosition(p->mUnk_208, &p->mPos);
-    p->mUnk_208->mObject = NULL;
+    GetCollisionHitLinkPosition(kart->mCollisionHitLink, &kart->mPos);
+    kart->mCollisionHitLink->mObject = NULL;
 }
 
-void func_01ff9c9c(Kart *p, u32 a) {
-    u32 b = a & 0x1000000;
+void SetKartCourseHitAttributeBit(Kart *kart, u32 hitValue) {
+    u32 attributeBit = hitValue & 0x1000000;
 
-    if (b != p->mCourseHitAttributeBit) {
-        p->mCourseHitAttributeBit = b;
+    if (attributeBit != kart->mCourseHitAttributeBit) {
+        kart->mCourseHitAttributeBit = attributeBit;
     }
 }
 
@@ -358,161 +362,165 @@ void AdvanceKartEffects(Kart *p) {
     p->mEffectVelocity.z = p->mEffectVelocity.z >> 4;
 }
 
-void func_01ff9a94(Unk01ff9940 *a) {
-    BOOL r;
-    u32 w = a->mUnk_00;
+void NNSi_G3dSendJointSRTMaya(Unk01ff9940 *jntAnmResult) {
+    BOOL translationPending;
+    u32 resultFlags = jntAnmResult->mUnk_00;
 
-    r = FALSE;
-    if ((w & 4) == 0) {
-        r = TRUE;
+    translationPending = FALSE;
+    if ((resultFlags & 4) == 0) {
+        translationPending = TRUE;
     }
-    if ((w & 0x20) && !(w & 8)) {
-        if (r) {
-            NNS_G3dGeBufferOP_N(0x1c, &a->mUnk_4c, 3);
-            r = FALSE;
+    if ((resultFlags & 0x20) && !(resultFlags & 8)) {
+        if (translationPending) {
+            NNS_G3dGeBufferOP_N(0x1c, &jntAnmResult->mUnk_4c, 3);
+            translationPending = FALSE;
         }
-        NNS_G3dGeBufferOP_N(0x1b, &a->mUnk_10, 3);
+        NNS_G3dGeBufferOP_N(0x1b, &jntAnmResult->mUnk_10, 3);
     }
-    if (!(a->mUnk_00 & 2)) {
-        if (r) {
-            NNS_G3dGeBufferOP_N(0x19, &a->mUnk_28, 0xc);
+    if (!(jntAnmResult->mUnk_00 & 2)) {
+        if (translationPending) {
+            NNS_G3dGeBufferOP_N(0x19, &jntAnmResult->mUnk_28, 0xc);
         } else {
-            NNS_G3dGeBufferOP_N(0x1a, &a->mUnk_28, 9);
+            NNS_G3dGeBufferOP_N(0x1a, &jntAnmResult->mUnk_28, 9);
         }
-    } else if (r) {
-        NNS_G3dGeBufferOP_N(0x1c, &a->mUnk_4c, 3);
+    } else if (translationPending) {
+        NNS_G3dGeBufferOP_N(0x1c, &jntAnmResult->mUnk_4c, 3);
     }
-    if (!(a->mUnk_00 & 1)) {
-        NNS_G3dGeBufferOP_N(0x1b, &a->mUnk_04, 3);
+    if (!(jntAnmResult->mUnk_00 & 1)) {
+        NNS_G3dGeBufferOP_N(0x1b, &jntAnmResult->mUnk_04, 3);
     }
 }
 
-void func_01ff9940(Unk01ff9940 *a, Unk01ff9940_B *b, Unk01ff9940_C *c, u32 d) {
-    u8 t = c->mUnk_03;
-    u32 i;
+void NNSi_G3dGetJointScaleMaya(Unk01ff9940 *jntAnmResult, Unk01ff9940_B *scaleValues, Unk01ff9940_C *command,
+                               u32 srtFlags) {
+    u8 optionFlags = command->mUnk_03;
+    u32 nodeIndex;
 
-    if (d & 4) {
-        a->mUnk_00 |= 1;
-        if (t & 2) {
-            i = c->mUnk_01;
-            data_02170500->mIsScaleCacheOne[i >> 5] |= 1 << (i & 0x1f);
+    if (srtFlags & 4) {
+        jntAnmResult->mUnk_00 |= 1;
+        if (optionFlags & 2) {
+            nodeIndex = command->mUnk_01;
+            NNS_G3dRS->mIsScaleCacheOne[nodeIndex >> 5] |= 1 << (nodeIndex & 0x1f);
         }
     } else {
-        a->mUnk_04.x = b->mUnk_00.x;
-        a->mUnk_04.y = b->mUnk_00.y;
-        a->mUnk_04.z = b->mUnk_00.z;
-        if (t & 2) {
-            i = c->mUnk_01;
-            data_02170500->mIsScaleCacheOne[i >> 5] &= ~(1 << (i & 0x1f));
-            data_usa_021712f0[i].mUnk_00.x = b->mUnk_0c.x;
-            data_usa_021712f0[i].mUnk_00.y = b->mUnk_0c.y;
-            data_usa_021712f0[i].mUnk_00.z = b->mUnk_0c.z;
+        jntAnmResult->mUnk_04.x = scaleValues->mUnk_00.x;
+        jntAnmResult->mUnk_04.y = scaleValues->mUnk_00.y;
+        jntAnmResult->mUnk_04.z = scaleValues->mUnk_00.z;
+        if (optionFlags & 2) {
+            nodeIndex = command->mUnk_01;
+            NNS_G3dRS->mIsScaleCacheOne[nodeIndex >> 5] &= ~(1 << (nodeIndex & 0x1f));
+            data_usa_021712f0[nodeIndex].mUnk_00.x = scaleValues->mUnk_0c.x;
+            data_usa_021712f0[nodeIndex].mUnk_00.y = scaleValues->mUnk_0c.y;
+            data_usa_021712f0[nodeIndex].mUnk_00.z = scaleValues->mUnk_0c.z;
         }
     }
-    if (t & 1) {
-        i = c->mUnk_02;
-        a->mUnk_00 |= 0x20;
-        if (data_02170500->mIsScaleCacheOne[i >> 5] & (1 << (i & 0x1f))) {
-            a->mUnk_00 |= 8;
+    if (optionFlags & 1) {
+        nodeIndex = command->mUnk_02;
+        jntAnmResult->mUnk_00 |= 0x20;
+        if (NNS_G3dRS->mIsScaleCacheOne[nodeIndex >> 5] & (1 << (nodeIndex & 0x1f))) {
+            jntAnmResult->mUnk_00 |= 8;
         } else {
-            a->mUnk_10 = data_usa_021712f0[i].mUnk_00;
+            jntAnmResult->mUnk_10 = data_usa_021712f0[nodeIndex].mUnk_00;
         }
     }
-    a->mUnk_00 |= 0x10;
+    jntAnmResult->mUnk_00 |= 0x10;
 }
 
-void func_01ff9828(Unk01ff9598_A *a, Unk01ff9598 *b) {
-    s32 w = b->mUnk_2c << 12;
-    s32 h = b->mUnk_2e << 12;
-    s32 k22;
-    s32 k18;
-    s32 k20;
-    s32 v1;
-    s32 c;
-    s32 d;
-    s32 e;
-    s32 f;
+void texmtxCalc_flag_(Unk01ff9598_A *matrix, Unk01ff9598 *matAnmResult) {
+    s32 widthFixed = matAnmResult->mUnk_2c << 12;
+    s32 heightFixed = matAnmResult->mUnk_2e << 12;
+    s32 cosR;
+    s32 scaleS;
+    s32 sinR;
+    s32 scaleT;
+    s32 scaleSCos;
+    s32 scaleSSin;
+    s32 scaleTSin;
+    s32 scaleTCos;
 
-    FX_DivAsync(h, w);
-    k22 = b->mUnk_22;
-    k18 = b->mUnk_18;
-    k20 = b->mUnk_20;
-    v1 = b->mUnk_1c;
-    d = MUL_FIXED12_NO_ROUND(k18, k20);
-    c = MUL_FIXED12_NO_ROUND(k18, k22);
-    e = MUL_FIXED12_NO_ROUND(v1, k20);
-    f = MUL_FIXED12_NO_ROUND(v1, k22);
-    a->mUnk_00 = c;
-    a->mUnk_14 = f;
-    a->mUnk_04 = -e * FX_GetDivResult() >> 12;
-    FX_DivAsync(w, h);
-    a->mUnk_30 = (b->mUnk_2c * (b->mUnk_18 - (d + c)) << 3) - b->mUnk_2c * (s32) ((s64) b->mUnk_18 * b->mUnk_24 >> 8);
-    a->mUnk_34 =
-        b->mUnk_2e * (s32) ((s64) b->mUnk_1c * b->mUnk_28 >> 8) + (b->mUnk_2e * (e - f - b->mUnk_1c + 0x2000) << 3);
-    a->mUnk_10 = d * FX_GetDivResult() >> 12;
+    FX_DivAsync(heightFixed, widthFixed);
+    cosR = matAnmResult->mUnk_22;
+    scaleS = matAnmResult->mUnk_18;
+    sinR = matAnmResult->mUnk_20;
+    scaleT = matAnmResult->mUnk_1c;
+    scaleSSin = MUL_FIXED12_NO_ROUND(scaleS, sinR);
+    scaleSCos = MUL_FIXED12_NO_ROUND(scaleS, cosR);
+    scaleTSin = MUL_FIXED12_NO_ROUND(scaleT, sinR);
+    scaleTCos = MUL_FIXED12_NO_ROUND(scaleT, cosR);
+    matrix->mUnk_00 = scaleSCos;
+    matrix->mUnk_14 = scaleTCos;
+    matrix->mUnk_04 = -scaleTSin * FX_GetDivResult() >> 12;
+    FX_DivAsync(widthFixed, heightFixed);
+    matrix->mUnk_30 = (matAnmResult->mUnk_2c * (matAnmResult->mUnk_18 - (scaleSSin + scaleSCos)) << 3) -
+                      matAnmResult->mUnk_2c * (s32) ((s64) matAnmResult->mUnk_18 * matAnmResult->mUnk_24 >> 8);
+    matrix->mUnk_34 = matAnmResult->mUnk_2e * (s32) ((s64) matAnmResult->mUnk_1c * matAnmResult->mUnk_28 >> 8) +
+                      (matAnmResult->mUnk_2e * (scaleTSin - scaleTCos - matAnmResult->mUnk_1c + 0x2000) << 3);
+    matrix->mUnk_10 = scaleSSin * FX_GetDivResult() >> 12;
 }
 
-void func_01ff974c(Unk01ff9598_A *a, Unk01ff9598 *b) {
-    s32 w = b->mUnk_2c << 12;
-    s32 h = b->mUnk_2e << 12;
-    s32 t;
+void texmtxCalc_flagS_(Unk01ff9598_A *matrix, Unk01ff9598 *matAnmResult) {
+    s32 widthFixed = matAnmResult->mUnk_2c << 12;
+    s32 heightFixed = matAnmResult->mUnk_2e << 12;
+    s32 sinPlusCos;
 
-    FX_DivAsync(h, w);
-    a->mUnk_00 = b->mUnk_22;
-    a->mUnk_14 = b->mUnk_22;
-    a->mUnk_04 = -b->mUnk_20 * FX_GetDivResult() >> 12;
-    FX_DivAsync(w, h);
-    t = b->mUnk_20 + b->mUnk_22;
-    a->mUnk_30 = (b->mUnk_2c * (-t + 0x1000) << 3) - (b->mUnk_24 * b->mUnk_2c << 4);
-    a->mUnk_34 = (b->mUnk_2e * (b->mUnk_20 - b->mUnk_22 + 0x1000) << 3) + (b->mUnk_28 * b->mUnk_2e << 4);
-    a->mUnk_10 = b->mUnk_20 * FX_GetDivResult() >> 12;
+    FX_DivAsync(heightFixed, widthFixed);
+    matrix->mUnk_00 = matAnmResult->mUnk_22;
+    matrix->mUnk_14 = matAnmResult->mUnk_22;
+    matrix->mUnk_04 = -matAnmResult->mUnk_20 * FX_GetDivResult() >> 12;
+    FX_DivAsync(widthFixed, heightFixed);
+    sinPlusCos = matAnmResult->mUnk_20 + matAnmResult->mUnk_22;
+    matrix->mUnk_30 =
+        (matAnmResult->mUnk_2c * (-sinPlusCos + 0x1000) << 3) - (matAnmResult->mUnk_24 * matAnmResult->mUnk_2c << 4);
+    matrix->mUnk_34 = (matAnmResult->mUnk_2e * (matAnmResult->mUnk_20 - matAnmResult->mUnk_22 + 0x1000) << 3) +
+                      (matAnmResult->mUnk_28 * matAnmResult->mUnk_2e << 4);
+    matrix->mUnk_10 = matAnmResult->mUnk_20 * FX_GetDivResult() >> 12;
 }
 
-void func_01ff96cc(Unk01ff9598_A *a, Unk01ff9598 *b) {
-    a->mUnk_00 = b->mUnk_18;
-    a->mUnk_14 = b->mUnk_1c;
-    a->mUnk_04 = 0;
-    a->mUnk_30 = b->mUnk_2c * -(s32) ((s64) b->mUnk_18 * b->mUnk_24 >> 8);
-    a->mUnk_34 =
-        b->mUnk_2e * (s32) ((s64) b->mUnk_1c * b->mUnk_28 >> 8) + (b->mUnk_2e * (b->mUnk_1c * -2 + 0x2000) << 3);
-    a->mUnk_10 = 0;
+void texmtxCalc_flagR_(Unk01ff9598_A *matrix, Unk01ff9598 *matAnmResult) {
+    matrix->mUnk_00 = matAnmResult->mUnk_18;
+    matrix->mUnk_14 = matAnmResult->mUnk_1c;
+    matrix->mUnk_04 = 0;
+    matrix->mUnk_30 = matAnmResult->mUnk_2c * -(s32) ((s64) matAnmResult->mUnk_18 * matAnmResult->mUnk_24 >> 8);
+    matrix->mUnk_34 = matAnmResult->mUnk_2e * (s32) ((s64) matAnmResult->mUnk_1c * matAnmResult->mUnk_28 >> 8) +
+                      (matAnmResult->mUnk_2e * (matAnmResult->mUnk_1c * -2 + 0x2000) << 3);
+    matrix->mUnk_10 = 0;
 }
 
-void func_01ff9684(Unk01ff9598_A *a, Unk01ff9598 *b) {
-    a->mUnk_00 = 0x1000;
-    a->mUnk_14 = 0x1000;
-    a->mUnk_04 = 0;
-    a->mUnk_30 = -(b->mUnk_24 * b->mUnk_2c) << 4;
-    a->mUnk_34 = b->mUnk_28 * b->mUnk_2e << 4;
-    a->mUnk_10 = 0;
+void texmtxCalc_flagRS_(Unk01ff9598_A *matrix, Unk01ff9598 *matAnmResult) {
+    matrix->mUnk_00 = 0x1000;
+    matrix->mUnk_14 = 0x1000;
+    matrix->mUnk_04 = 0;
+    matrix->mUnk_30 = -(matAnmResult->mUnk_24 * matAnmResult->mUnk_2c) << 4;
+    matrix->mUnk_34 = matAnmResult->mUnk_28 * matAnmResult->mUnk_2e << 4;
+    matrix->mUnk_10 = 0;
 }
 
-void func_01ff9598(Unk01ff9598_A *a, Unk01ff9598 *b) {
-    s32 w = b->mUnk_2c << 12;
-    s32 h = b->mUnk_2e << 12;
-    s32 k22;
-    s32 k18;
-    s32 k20;
-    s32 v1;
-    s32 c;
-    s32 d;
-    s32 e;
-    s32 f;
+void texmtxCalc_flagT_(Unk01ff9598_A *matrix, Unk01ff9598 *matAnmResult) {
+    s32 widthFixed = matAnmResult->mUnk_2c << 12;
+    s32 heightFixed = matAnmResult->mUnk_2e << 12;
+    s32 cosR;
+    s32 scaleS;
+    s32 sinR;
+    s32 scaleT;
+    s32 scaleSCos;
+    s32 scaleSSin;
+    s32 scaleTSin;
+    s32 scaleTCos;
 
-    FX_DivAsync(h, w);
-    k22 = b->mUnk_22;
-    k18 = b->mUnk_18;
-    k20 = b->mUnk_20;
-    v1 = b->mUnk_1c;
-    d = MUL_FIXED12_NO_ROUND(k18, k20);
-    c = MUL_FIXED12_NO_ROUND(k18, k22);
-    e = MUL_FIXED12_NO_ROUND(v1, k20);
-    f = MUL_FIXED12_NO_ROUND(v1, k22);
-    a->mUnk_00 = c;
-    a->mUnk_14 = f;
-    a->mUnk_04 = -e * FX_GetDivResult() >> 12;
-    FX_DivAsync(w, h);
-    a->mUnk_30 = b->mUnk_2c * (b->mUnk_18 - (d + c)) << 3;
-    a->mUnk_34 = b->mUnk_2e * (e - f - b->mUnk_1c + 0x2000) << 3;
-    a->mUnk_10 = d * FX_GetDivResult() >> 12;
+    FX_DivAsync(heightFixed, widthFixed);
+    cosR = matAnmResult->mUnk_22;
+    scaleS = matAnmResult->mUnk_18;
+    sinR = matAnmResult->mUnk_20;
+    scaleT = matAnmResult->mUnk_1c;
+    scaleSSin = MUL_FIXED12_NO_ROUND(scaleS, sinR);
+    scaleSCos = MUL_FIXED12_NO_ROUND(scaleS, cosR);
+    scaleTSin = MUL_FIXED12_NO_ROUND(scaleT, sinR);
+    scaleTCos = MUL_FIXED12_NO_ROUND(scaleT, cosR);
+    matrix->mUnk_00 = scaleSCos;
+    matrix->mUnk_14 = scaleTCos;
+    matrix->mUnk_04 = -scaleTSin * FX_GetDivResult() >> 12;
+    FX_DivAsync(widthFixed, heightFixed);
+    matrix->mUnk_30 = matAnmResult->mUnk_2c * (matAnmResult->mUnk_18 - (scaleSSin + scaleSCos)) << 3;
+    matrix->mUnk_34 = matAnmResult->mUnk_2e * (scaleTSin - scaleTCos - matAnmResult->mUnk_1c + 0x2000) << 3;
+    matrix->mUnk_10 = scaleSSin * FX_GetDivResult() >> 12;
 }

@@ -7,14 +7,14 @@
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/unk_02154000.h"
 
-void func_01ffb0cc(Kart *p) {
-    p->mUnk_4fc = p->mUnk_4fc + 1;
-    if (p->mUnk_4fc >= 8) {
-        p->mUnk_4fc = 0;
+void AdvanceKartOffsetCycleIndex(Kart *kart) {
+    kart->mOffsetCycleIndex = kart->mOffsetCycleIndex + 1;
+    if (kart->mOffsetCycleIndex >= 8) {
+        kart->mOffsetCycleIndex = 0;
     }
-    p->mUnk_4f0.x = data_02154b64[p->mUnk_4fc];
-    p->mUnk_4f0.y = data_02154b84[p->mUnk_4fc];
-    p->mUnk_4f0.z = data_02154ba4[p->mUnk_4fc];
+    kart->mUnk_4f0.x = gKartOffsetCycleX[kart->mOffsetCycleIndex];
+    kart->mUnk_4f0.y = gKartOffsetCycleY[kart->mOffsetCycleIndex];
+    kart->mUnk_4f0.z = gKartOffsetCycleZ[kart->mOffsetCycleIndex];
 }
 
 s32 LimitKartForwardSpeedAndGetScaled(Kart *p) {

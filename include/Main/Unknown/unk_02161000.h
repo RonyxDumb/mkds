@@ -58,7 +58,7 @@ extern NNSG3dAnmObjInitFunc data_021617f4[];
 extern BOOL (*data_021617f0)(NNSG3dMatAnmResult *, const NNSG3dAnmObj *, u32);
 extern BOOL (*data_021617ec)(NNSG3dJntAnmResult *, const NNSG3dAnmObj *, u32);
 extern BOOL (*data_021617e8)(NNSG3dVisAnmResult *, const NNSG3dAnmObj *, u32);
-extern void (*data_0216185c[])(NNSG3dMatAnmResult *);
+extern void (*NNS_G3dSendTexSRT_FuncArray[])(NNSG3dMatAnmResult *);
 extern u32 data_0216186c[2];
 extern u32 data_02161874[2];
 extern s32 data_0216189c[16];
@@ -99,11 +99,11 @@ extern const char gSelectCharacterSONclrName[];
 extern const char gSelectCharacterSBnclName[];
 extern const char gSelectCharacterSBnblName[];
 
-extern void (*data_usa_02161844[])(NNSG3dJntAnmResult *);
-extern void (*data_usa_02161850[])(NNSG3dJntAnmResult *, void *, u8 *, u32);
-extern void (*data_usa_0216187c[])(NNSG3dRS *, u32, void *, u32);
-extern void (*data_usa_0216188c[])(NNSG3dRS *, u32, void *, u32);
-extern void (*data_usa_0216196c[])(NNSG3dRS *, u32);
+extern void (*NNS_G3dSendJointSRT_FuncArray[])(NNSG3dJntAnmResult *);
+extern void (*NNS_G3dGetJointScale_FuncArray[])(NNSG3dJntAnmResult *, void *, u8 *, u32);
+extern void (*NNS_G3dFuncSbcMatTable[])(NNSG3dRS *, u32, void *, u32);
+extern void (*NNS_G3dFuncSbcShpTable[])(NNSG3dRS *, u32, void *, u32);
+extern void (*NNS_G3dFuncSbcTable[])(NNSG3dRS *, u32);
 
 // Strings from gKartSelectBmgName on.
 extern const char gKartSelectBmgName[];

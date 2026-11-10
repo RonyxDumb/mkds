@@ -598,7 +598,7 @@ void ResetKart(Kart *kart) {
     kart->mUnk_4e8 = 0x1000;
     kart->mUnk_4f0 = data_usa_02154f64;
     kart->mUnk_4f0.z = 0;
-    kart->mUnk_4fc = 0;
+    kart->mOffsetCycleIndex = 0;
     kart->mWaterDepth = 0;
     kart->mBlinkCycleFrames = 0;
     kart->mBlinkFrames = kart->mBlinkCycleFrames;
@@ -976,12 +976,15 @@ void AdvanceKartOffsetCycle(Kart *kart) {
     if (nextTableIndex >= 8) {
         nextTableIndex = 0;
     }
-    kart->mUnk_4f0.x = data_02154b64[tableIndex] +
-                       MUL_FIXED12_NO_ROUND((data_02154b64[nextTableIndex] - data_02154b64[tableIndex]) >> 1, fraction);
-    kart->mUnk_4f0.y = data_02154b84[tableIndex] +
-                       MUL_FIXED12_NO_ROUND((data_02154b84[nextTableIndex] - data_02154b84[tableIndex]) >> 1, fraction);
-    kart->mUnk_4f0.z = data_02154ba4[tableIndex] +
-                       MUL_FIXED12_NO_ROUND((data_02154ba4[nextTableIndex] - data_02154ba4[tableIndex]) >> 1, fraction);
+    kart->mUnk_4f0.x =
+        gKartOffsetCycleX[tableIndex] +
+        MUL_FIXED12_NO_ROUND((gKartOffsetCycleX[nextTableIndex] - gKartOffsetCycleX[tableIndex]) >> 1, fraction);
+    kart->mUnk_4f0.y =
+        gKartOffsetCycleY[tableIndex] +
+        MUL_FIXED12_NO_ROUND((gKartOffsetCycleY[nextTableIndex] - gKartOffsetCycleY[tableIndex]) >> 1, fraction);
+    kart->mUnk_4f0.z =
+        gKartOffsetCycleZ[tableIndex] +
+        MUL_FIXED12_NO_ROUND((gKartOffsetCycleZ[nextTableIndex] - gKartOffsetCycleZ[tableIndex]) >> 1, fraction);
     v = kart->mUnk_4d4;
     s = MUL_FIXED12_NO_ROUND(v, 0x333);
     if (v > 0xf33) {
@@ -1469,7 +1472,7 @@ BOOL TryHoldKartStill(Kart *kart, u32 b, void *c) {
             kart->mPos.x = kart->mPrevPos.x;
             kart->mPos.z = kart->mPrevPos.z;
         } else {
-            UpdateCollisionHitLink(c, b, kart->mUnk_208, &kart->mPos, NULL);
+            UpdateCollisionHitLink(c, b, kart->mCollisionHitLink, &kart->mPos, NULL);
         }
         kart->mVelocity = data_02154f94;
         kart->mVelocityLength = 0;

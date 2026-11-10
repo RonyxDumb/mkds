@@ -146,8 +146,8 @@ typedef struct Unk02165608 {
 
 extern const Unk02165608 data_usa_02165608;
 extern s32 data_usa_02165504;
-extern const s32 data_usa_02165500;
-extern const s16 data_usa_021654c0;
+extern const s32 gTurnHeadingEaseFactor;
+extern const s16 gTurnHeadingReductionAtSpeedLimit;
 
 extern u16 data_usa_021658f0;
 extern const s32 *data_usa_021658f4;
@@ -155,4 +155,4 @@ extern const u16 data_usa_021658f8[3];
 extern const u16 data_usa_02165900[3];
 extern const u16 data_usa_02165908[3];
 extern const s32 *const data_usa_02165910[];
-extern s32 data_usa_021654d8;
+extern s32 gSpeedReductionAtFullTurnRatio;

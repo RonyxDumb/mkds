@@ -37,195 +37,196 @@
 #include "Main/Unknown/code_0206e874.h"
 #include "Main/Unknown/code_020681f0.h"
 
-void func_01ffb130(Kart *p) {
-    s32 k;
-    s32 a;
-    s32 b;
-    Vec3 v1;
-    Vec3 v2;
-    MtxFx33 m1;
+void AdvanceKartByVelocity(Kart *kart) {
+    s32 easeFactor;
+    s32 scaledForwardSpeed;
+    s32 velocityScale;
+    Vec3 velocity;
+    Vec3 forward;
+    MtxFx33 turnMatrix;
     MtxFx33 m2;
     Vec3 v3;
-    Vec3 v4;
-    KartItemEffectState *q;
+    Vec3 easeDelta;
+    KartItemEffectState *itemEffectState;
     s32 d;
-    s32 f;
+    s32 hitVelocityDecay;
     u32 w;
 
-    b = p->mUnk_3f8;
-    if (p->mUnk_4c & 0x8000000) {
-        AdvanceKartGesso(p);
+    velocityScale = kart->mUnk_3f8;
+    if (kart->mUnk_4c & 0x8000000) {
+        AdvanceKartGesso(kart);
     }
-    w = p->mUnk_4c;
+    w = kart->mUnk_4c;
     if (w & 0x10000000) {
-        AdvanceKartKiller(p);
+        AdvanceKartKiller(kart);
     } else {
         if (w & KART_4C_THUNDER_SHRINK) {
-            AdvanceKartThunderShrink(p);
+            AdvanceKartThunderShrink(kart);
         }
-        if (p->mUnk_4c & 0x10000) {
-            AdvanceKartScaleTableEffect(p);
+        if (kart->mUnk_4c & 0x10000) {
+            AdvanceKartScaleTableEffect(kart);
         }
-        if (p->mUnk_7c & 0x402000) {
-            AdvanceKartTeresa(p);
+        if (kart->mUnk_7c & 0x402000) {
+            AdvanceKartTeresa(kart);
         }
     }
-    if (p->mUnk_4c & KART_4C_AHEAD_BOOST) {
-        q = &p->mUnk_538;
-        if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-            AddSoundRequest(gSoundRequestQueues, GetKartCameraDistanceSquared(p->mIndex), RequestKartSound, p, 0xa3);
+    if (kart->mUnk_4c & KART_4C_AHEAD_BOOST) {
+        itemEffectState = &kart->mUnk_538;
+        if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+            AddSoundRequest(gSoundRequestQueues, GetKartCameraDistanceSquared(kart->mIndex), RequestKartSound, kart,
+                            0xa3);
         }
-        q->mAheadBoostFrames++;
-        if (q->mAheadBoostFrames > 0xb4 && (p->mUnk_4c & KART_4C_AHEAD_BOOST)) {
-            p->mUnk_4c &= ~KART_4C_AHEAD_BOOST;
-            p->mAheadSpeedLimitFactor = 0x1000;
-            if (!(p->mUnk_4c & 0x8000000)) {
-                ResetKartModelsCourseColors(p);
+        itemEffectState->mAheadBoostFrames++;
+        if (itemEffectState->mAheadBoostFrames > 0xb4 && (kart->mUnk_4c & KART_4C_AHEAD_BOOST)) {
+            kart->mUnk_4c &= ~KART_4C_AHEAD_BOOST;
+            kart->mAheadSpeedLimitFactor = 0x1000;
+            if (!(kart->mUnk_4c & 0x8000000)) {
+                ResetKartModelsCourseColors(kart);
             }
-            StopKartNearRankEffect(p);
+            StopKartNearRankEffect(kart);
         }
     }
-    if (p->mUnk_4c & 0x40) {
-        q = &p->mUnk_538;
-        AdvanceKartStarEffects(p->mIndex);
-        if ((p->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) &&
-            p->mKartModelsEntry->mCharacterAnimation->mCurrentIndex == 0) {
-            SetKartCharacterAnimation(p, 2, 1);
+    if (kart->mUnk_4c & 0x40) {
+        itemEffectState = &kart->mUnk_538;
+        AdvanceKartStarEffects(kart->mIndex);
+        if ((kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) &&
+            kart->mKartModelsEntry->mCharacterAnimation->mCurrentIndex == 0) {
+            SetKartCharacterAnimation(kart, 2, 1);
         }
-        q->mUnk_06++;
-        if (q->mUnk_06 > 0x1c2) {
-            p->mUnk_4c &= ~0x40;
-            StopKartStarModels(p);
-            p->mItemEffect = 0;
-            StopKartStarEffects(p->mIndex);
-            SetKartCharacterAnimation(p, 0, 1);
-            if ((p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
+        itemEffectState->mUnk_06++;
+        if (itemEffectState->mUnk_06 > 0x1c2) {
+            kart->mUnk_4c &= ~0x40;
+            StopKartStarModels(kart);
+            kart->mItemEffect = 0;
+            StopKartStarEffects(kart->mIndex);
+            SetKartCharacterAnimation(kart, 0, 1);
+            if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
                 StopKartStarSeq();
             }
-            if (p->mUnk_4c & KART_4C_AHEAD_BOOST) {
-                SetKartModelsGrayColors(p);
+            if (kart->mUnk_4c & KART_4C_AHEAD_BOOST) {
+                SetKartModelsGrayColors(kart);
             }
         }
     }
-    if ((p->mUnk_48 & 0x800) && AdvanceKartRespawnWait(p, &b) != 0) {
+    if ((kart->mUnk_48 & 0x800) && AdvanceKartRespawnWait(kart, &velocityScale) != 0) {
         return;
     }
-    if (p->mUnk_7c & KART_7C_REMOVED) {
+    if (kart->mUnk_7c & KART_7C_REMOVED) {
         return;
     }
-    gKartStateFunctions[p->mState](p);
-    func_01ffb9e0(p);
-    if (p->mUnk_48 & 0x40) {
-        p->mSinkFrames++;
-        if (p->mSinkFrames > 0x41) {
-            p->mUnk_48 &= ~0x240;
-            if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+    gKartStateFunctions[kart->mState](kart);
+    ScaleKartForwardSpeed(kart);
+    if (kart->mUnk_48 & 0x40) {
+        kart->mSinkFrames++;
+        if (kart->mSinkFrames > 0x41) {
+            kart->mUnk_48 &= ~0x240;
+            if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
                 SetJgState4Countdown();
             }
         } else {
-            p->mPos.y -= 0x19a;
+            kart->mPos.y -= 0x19a;
         }
     } else {
-        ApplyKartGravity(p);
+        ApplyKartGravity(kart);
     }
-    if (p->mUnk_44 & KART_44_ON_GROUND) {
-        GetKartForward(p, &v2);
-        if (!(p->mUnk_48 & 6) && p->mGroundNormal.y > 0 && (v2.y > 0 ? v2.y : -v2.y) > 0xcd &&
-            p->mSpeedLimitHitFactor <= 0) {
-            p->mForwardSpeed += MUL_FIXED12_NO_ROUND(-v2.y, 0x19a);
+    if (kart->mUnk_44 & KART_44_ON_GROUND) {
+        GetKartForward(kart, &forward);
+        if (!(kart->mUnk_48 & 6) && kart->mGroundNormal.y > 0 && (forward.y > 0 ? forward.y : -forward.y) > 0xcd &&
+            kart->mSpeedLimitHitFactor <= 0) {
+            kart->mForwardSpeed += MUL_FIXED12_NO_ROUND(-forward.y, 0x19a);
         }
     }
-    if ((p->mUnk_44 & KART_44_ON_GROUND) || (p->mUnk_4c & 0x10000000)) {
-        MTX_RotAxis33(&m1, &p->mGroundNormal, gPairsByAngle[((u16) p->mTurnAngle >> 4) * 2],
-                      gPairsByAngle[((u16) p->mTurnAngle >> 4) * 2 + 1]);
-        if (p->mUnk_48 & KART_48_ON_BOOST_SURFACE) {
-            MTX_RotAxis33(&m2, &p->mUnk_120, gPairsByAngle[0xba], gPairsByAngle[0xbb]);
-            MTX_Concat33(&m2, &m1, &m1);
+    if ((kart->mUnk_44 & KART_44_ON_GROUND) || (kart->mUnk_4c & 0x10000000)) {
+        MTX_RotAxis33(&turnMatrix, &kart->mGroundNormal, gPairsByAngle[((u16) kart->mTurnAngle >> 4) * 2],
+                      gPairsByAngle[((u16) kart->mTurnAngle >> 4) * 2 + 1]);
+        if (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE) {
+            MTX_RotAxis33(&m2, &kart->mUnk_120, gPairsByAngle[0xba], gPairsByAngle[0xbb]);
+            MTX_Concat33(&m2, &turnMatrix, &turnMatrix);
         }
-        MTX_MultVec33(&p->mForward, &m1, &p->mTurnedForward);
-        d = VEC_DotProduct(&p->mGroundNormal, &p->mTurnedForward);
-        v3.x = p->mTurnedForward.x - MUL_FIXED12_NO_ROUND(p->mGroundNormal.x, d);
-        v3.y = p->mTurnedForward.y - MUL_FIXED12_NO_ROUND(p->mGroundNormal.y, d);
-        v3.z = p->mTurnedForward.z - MUL_FIXED12_NO_ROUND(p->mGroundNormal.z, d);
-        p->mUnk_d4 = VEC_Mag(&v3);
+        MTX_MultVec33(&kart->mForward, &turnMatrix, &kart->mTurnedForward);
+        d = VEC_DotProduct(&kart->mGroundNormal, &kart->mTurnedForward);
+        v3.x = kart->mTurnedForward.x - MUL_FIXED12_NO_ROUND(kart->mGroundNormal.x, d);
+        v3.y = kart->mTurnedForward.y - MUL_FIXED12_NO_ROUND(kart->mGroundNormal.y, d);
+        v3.z = kart->mTurnedForward.z - MUL_FIXED12_NO_ROUND(kart->mGroundNormal.z, d);
+        kart->mUnk_d4 = VEC_Mag(&v3);
     } else {
-        d = Vec3DotUnrounded(&p->mForward, &p->mGroundNormal);
-        p->mTurnedForward = p->mForward;
-        if (p->mUnk_3e8 > 0) {
-            p->mUnk_d4 = 0x1000;
+        d = Vec3DotUnrounded(&kart->mForward, &kart->mGroundNormal);
+        kart->mTurnedForward = kart->mForward;
+        if (kart->mUnk_3e8 > 0) {
+            kart->mUnk_d4 = 0x1000;
         } else if (d < 0) {
-            p->mUnk_d4 = 0x1000 - d;
+            kart->mUnk_d4 = 0x1000 - d;
         } else {
-            p->mUnk_d4 = 0x1000;
+            kart->mUnk_d4 = 0x1000;
         }
     }
-    a = LimitKartForwardSpeedAndGetScaled(p);
-    ReduceKartSpeedByTurnRatio(&a, p);
-    if ((p->mUnk_44 & 0x90) || (p->mUnk_4c & 0x10000000)) {
-        k = p->mTurnedForwardEaseFactor;
-        VEC_Subtract(&p->mTurnedForward, &p->mEasedTurnedForward, &v4);
-        v4.x = MUL_FIXED12_NO_ROUND(v4.x, k);
-        v4.y = MUL_FIXED12_NO_ROUND(v4.y, k);
-        v4.z = MUL_FIXED12_NO_ROUND(v4.z, k);
-        VEC_Add(&p->mEasedTurnedForward, &v4, &p->mEasedTurnedForward);
-        p->mEasedTurnedForward.y = p->mTurnedForward.y;
+    scaledForwardSpeed = LimitKartForwardSpeedAndGetScaled(kart);
+    ReduceKartSpeedByTurnRatio(&scaledForwardSpeed, kart);
+    if ((kart->mUnk_44 & 0x90) || (kart->mUnk_4c & 0x10000000)) {
+        easeFactor = kart->mTurnedForwardEaseFactor;
+        VEC_Subtract(&kart->mTurnedForward, &kart->mEasedTurnedForward, &easeDelta);
+        easeDelta.x = MUL_FIXED12_NO_ROUND(easeDelta.x, easeFactor);
+        easeDelta.y = MUL_FIXED12_NO_ROUND(easeDelta.y, easeFactor);
+        easeDelta.z = MUL_FIXED12_NO_ROUND(easeDelta.z, easeFactor);
+        VEC_Add(&kart->mEasedTurnedForward, &easeDelta, &kart->mEasedTurnedForward);
+        kart->mEasedTurnedForward.y = kart->mTurnedForward.y;
     }
-    v1.x = MUL_FIXED12_NO_ROUND(p->mEasedTurnedForward.x, a);
-    v1.y = MUL_FIXED12_NO_ROUND(p->mEasedTurnedForward.y, a);
-    v1.z = MUL_FIXED12_NO_ROUND(p->mEasedTurnedForward.z, a);
-    if (a >= 0) {
-        p->mSignedTurnedForward = p->mTurnedForward;
+    velocity.x = MUL_FIXED12_NO_ROUND(kart->mEasedTurnedForward.x, scaledForwardSpeed);
+    velocity.y = MUL_FIXED12_NO_ROUND(kart->mEasedTurnedForward.y, scaledForwardSpeed);
+    velocity.z = MUL_FIXED12_NO_ROUND(kart->mEasedTurnedForward.z, scaledForwardSpeed);
+    if (scaledForwardSpeed >= 0) {
+        kart->mSignedTurnedForward = kart->mTurnedForward;
     } else {
-        p->mSignedTurnedForward.x = -p->mTurnedForward.x;
-        p->mSignedTurnedForward.y = -p->mTurnedForward.y;
-        p->mSignedTurnedForward.z = -p->mTurnedForward.z;
+        kart->mSignedTurnedForward.x = -kart->mTurnedForward.x;
+        kart->mSignedTurnedForward.y = -kart->mTurnedForward.y;
+        kart->mSignedTurnedForward.z = -kart->mTurnedForward.z;
     }
-    if (p->mState == KART_STATE_LAUNCH_DOUBLE_FLIP) {
-        v1.y = 0;
+    if (kart->mState == KART_STATE_LAUNCH_DOUBLE_FLIP) {
+        velocity.y = 0;
     }
-    p->mVelocity = v1;
-    VEC_Add(&p->mVelocity, &p->mUnk_374, &p->mVelocity);
-    p->mVelocity.y += p->mVerticalSpeed;
-    VEC_MultAdd(p->mAttractorPullSpeed, &p->mAttractorPullDirection, &p->mVelocity, &p->mVelocity);
-    if (!(p->mUnk_44 & KART_44_ON_GROUND) && p->mAirborneFrames > 5 && p->mVelocity.y < -0x6000) {
-        p->mVelocity.y = -0x6000;
+    kart->mVelocity = velocity;
+    VEC_Add(&kart->mVelocity, &kart->mUnk_374, &kart->mVelocity);
+    kart->mVelocity.y += kart->mVerticalSpeed;
+    VEC_MultAdd(kart->mAttractorPullSpeed, &kart->mAttractorPullDirection, &kart->mVelocity, &kart->mVelocity);
+    if (!(kart->mUnk_44 & KART_44_ON_GROUND) && kart->mAirborneFrames > 5 && kart->mVelocity.y < -0x6000) {
+        kart->mVelocity.y = -0x6000;
     }
-    VEC_Add(&p->mVelocity, &p->mUnk_2f0, &p->mVelocity);
-    VEC_Add(&p->mVelocity, &p->mPointMotion, &p->mVelocity);
-    AdvanceKartHop(p);
-    ScaleKartVelocityAndSetCappedLengthAndDirection(p, b);
-    if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-        SetKartForwardSpeedRatio(Vec3DotUnrounded(&p->mVelocity, &p->mTurnedForward));
-        if ((p->mUnk_44 & 0x1000000) && p->mUnk_4d4 != 0) {
-            p->mUnk_4d4 = MUL_FIXED12_NO_ROUND(p->mUnk_4d4, 0xfae);
-            if (p->mUnk_4d4 < 0xcd) {
-                p->mUnk_4d4 = 0;
+    VEC_Add(&kart->mVelocity, &kart->mUnk_2f0, &kart->mVelocity);
+    VEC_Add(&kart->mVelocity, &kart->mPointMotion, &kart->mVelocity);
+    AdvanceKartHop(kart);
+    ScaleKartVelocityAndSetCappedLengthAndDirection(kart, velocityScale);
+    if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+        SetKartForwardSpeedRatio(Vec3DotUnrounded(&kart->mVelocity, &kart->mTurnedForward));
+        if ((kart->mUnk_44 & 0x1000000) && kart->mUnk_4d4 != 0) {
+            kart->mUnk_4d4 = MUL_FIXED12_NO_ROUND(kart->mUnk_4d4, 0xfae);
+            if (kart->mUnk_4d4 < 0xcd) {
+                kart->mUnk_4d4 = 0;
             }
         }
     }
-    if (!(p->mUnk_7c & KART_7C_REMOVED)) {
-        VEC_Add(&p->mPos, &p->mVelocity, &p->mPos);
-        p->mSpeedLimitHitFactor = 0x1000;
+    if (!(kart->mUnk_7c & KART_7C_REMOVED)) {
+        VEC_Add(&kart->mPos, &kart->mVelocity, &kart->mPos);
+        kart->mSpeedLimitHitFactor = 0x1000;
     }
-    f = (p->mUnk_44 & KART_44_ON_GROUND) ? 0xee1 : 0xfae;
-    p->mHitVelocity.x = MUL_FIXED12_NO_ROUND(p->mHitVelocity.x, f);
-    p->mHitVelocity.y = MUL_FIXED12_NO_ROUND(p->mHitVelocity.y, f);
-    p->mHitVelocity.z = MUL_FIXED12_NO_ROUND(p->mHitVelocity.z, f);
-    if ((s64) p->mHitVelocity.x * p->mHitVelocity.x + (s64) p->mHitVelocity.y * p->mHitVelocity.y +
-            (s64) p->mHitVelocity.z * p->mHitVelocity.z >=
+    hitVelocityDecay = (kart->mUnk_44 & KART_44_ON_GROUND) ? 0xee1 : 0xfae;
+    kart->mHitVelocity.x = MUL_FIXED12_NO_ROUND(kart->mHitVelocity.x, hitVelocityDecay);
+    kart->mHitVelocity.y = MUL_FIXED12_NO_ROUND(kart->mHitVelocity.y, hitVelocityDecay);
+    kart->mHitVelocity.z = MUL_FIXED12_NO_ROUND(kart->mHitVelocity.z, hitVelocityDecay);
+    if ((s64) kart->mHitVelocity.x * kart->mHitVelocity.x + (s64) kart->mHitVelocity.y * kart->mHitVelocity.y +
+            (s64) kart->mHitVelocity.z * kart->mHitVelocity.z >=
         0xa429) {
-        p->mUnk_44 |= 0x2000;
+        kart->mUnk_44 |= 0x2000;
     } else {
-        p->mHitVelocity = data_02154f94;
-        p->mUnk_44 &= ~0x2000;
+        kart->mHitVelocity = data_02154f94;
+        kart->mUnk_44 &= ~0x2000;
     }
-    FindCollisionSlotsOverlappingSlot(p->mCollisionSlot, 0xe800);
-    CollideKartWithMapObjects(p);
-    if (p->mUnk_7c & 0x8000000) {
+    FindCollisionSlotsOverlappingSlot(kart->mCollisionSlot, 0xe800);
+    CollideKartWithMapObjects(kart);
+    if (kart->mUnk_7c & 0x8000000) {
         return;
     }
-    ComputeKartPointAlongUp(&p->mPointAlongUp, p->mUnk_510, p->mPhysicalParam->mUnk_04, p);
-    ApplyItemObjectHitToKart(p);
-    CollideKartWithKarts(p);
-    UpdateKartAheadEffect(p);
+    ComputeKartPointAlongUp(&kart->mPointAlongUp, kart->mUnk_510, kart->mPhysicalParam->mUnk_04, kart);
+    ApplyItemObjectHitToKart(kart);
+    CollideKartWithKarts(kart);
+    UpdateKartAheadEffect(kart);
 }

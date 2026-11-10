@@ -686,7 +686,7 @@ void AdvanceItemBitRequests(struct KartAiItemUse *itemUse, struct KartAi *kartAi
     u16 kartIndex;
     KartItems *kartItems;
 
-    if (func_01ffc67c(kartAi->mKart) != FALSE) {
+    if (IsKartNotNormalOrFlagged(kartAi->mKart) != FALSE) {
         return;
     }
     kartIndex = kartAi->mIndex;
