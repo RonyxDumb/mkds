@@ -357,7 +357,7 @@ s32 AdvanceSelectGame(void) {
             }
             break;
         case 8:
-            if (func_02054f58() == 1) {
+            if (AdvanceConnectionEndStopOnError() == 1) {
                 a = gSelectGame->mResult;
                 gSelectGame->mState = 11;
             }

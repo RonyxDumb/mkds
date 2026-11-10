@@ -2,12 +2,12 @@
 
 #include "types.h"
 
-void func_02058efc(void);
-s32 func_02058f20(void);
+void LoadSndDataFromFileCallback(void);
+s32 WLMenuToResultAdvanceMPStateMachineWrapper(void);
 void UpdateMPState19(void);
-void func_02058f58(void);
-void func_02058f7c(void);
+void LoadResultSceneSoundSetCallback(void);
+void EnterMPState19(void);
 void UpdateMPState18(void);
-void func_02058fe0(void);
+void EnterMPState18(void);
 void UpdateMPState21(void);
-void func_02059034(void);
+void EnterMPState21(void);

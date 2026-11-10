@@ -34,12 +34,12 @@ s32 AdvanceWLMenuMBChildMessage(u32 sceneNumbers) {
 
     switch (gWLMenuMessage->mState) {
         case 0:
-            if (func_0205579c(0, 1) == 1) {
+            if (AdvanceSetupByMultiBoot(0, 1) == 1) {
                 gWLMenuMessage->mState = 2;
             }
             break;
         case 2:
-            result = func_02055730(0);
+            result = AdvanceConnectByMultiBoot(0);
             switch (result) {
                 case 1:
                     SetMultiSimple(WLMenuIsWMInitializeStarted());
@@ -50,7 +50,7 @@ s32 AdvanceWLMenuMBChildMessage(u32 sceneNumbers) {
             }
             break;
         case 4:
-            result = func_02058cac();
+            result = AdvanceMPStateMachineWithOwnIndex();
             switch (result) {
                 case 1:
                     if (func_02035e44() != 0) {
@@ -85,7 +85,7 @@ s32 AdvanceWLMenuMessageToRace(u32 sceneNumbers) {
 
     switch (gWLMenuMessage->mState) {
         case 9:
-            result = func_020591c4();
+            result = WLMenuToRaceAdvanceMPStateMachineWrapper();
             switch (result) {
                 case 1:
                     if (func_02035e44() != 0) {
@@ -115,7 +115,7 @@ s32 AdvanceWLMenuMessageToResult(u32 sceneNumbers) {
 
     switch (gWLMenuMessage->mState) {
         case 9:
-            result = func_02058f20();
+            result = WLMenuToResultAdvanceMPStateMachineWrapper();
             switch (result) {
                 case 1:
                     if (func_02035e44() != 0) {
@@ -162,7 +162,7 @@ s32 AdvanceWLMenuMessageToMenu(u32 sceneNumbers) {
 
     switch (gWLMenuMessage->mState) {
         case 9:
-            result = func_020591bc();
+            result = WLMenuToMenuAdvanceMPStateMachineWrapper();
             switch (result) {
                 case 1:
                     if (func_02035e44() != 0) {

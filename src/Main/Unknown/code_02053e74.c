@@ -416,7 +416,7 @@ void InitConnectionBuffers(void *heap) {
 }
 
 void FinishConnectionEnd(void) {
-    while (func_02054f58() != 1) {
+    while (AdvanceConnectionEndStopOnError() != 1) {
     }
     gConnectionWork->mUnk_0456_0 = 0;
 }
@@ -475,7 +475,7 @@ void ResetConnectionData(void) {
     gConnectionWork->mParentChannel = -1;
     gConnectionWork->mRemovedChildMask = 0;
     gConnectionWork->mUnk_008b = 0;
-    gConnectionWork->mUnk_0044.mUnk_3e = 0;
+    gConnectionWork->mUnk_0044.mNameSendIndex = 0;
     MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, gConnectionWork->mUnk_0044.mUnk_38, 0x14);
     gConnectionWork->mUnk_0044.mUnk_38->mUnk_0e.mLanguageIndex = data_021759d0->mLanguageIndex;
     gConnectionWork->mUnk_0044.mUnk_38->mUnk_0e.mChildCount = 0;
@@ -494,7 +494,7 @@ void ResetConnectionData(void) {
     gConnectionWork->mUnk_043a = 0;
     gConnectionWork->mUnk_0436 = 0;
     gConnectionWork->mUnk_043c = 0;
-    gConnectionWork->mUnk_043d = 0;
+    gConnectionWork->mReceivedNameMask = 0;
     gConnectionWork->mUnk_043b = 0;
     q = gConnectionWork->mUnk_00ac_view.mUnk_380;
     for (l = 0; l < 6; l++) {

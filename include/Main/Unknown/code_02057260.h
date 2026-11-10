@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_02057260(void);
+void ClearCourseAndFirstSlotGhost(void);

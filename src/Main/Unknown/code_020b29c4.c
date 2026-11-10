@@ -35,7 +35,7 @@ BOOL IsChoisesSOpenAllowedDuringRace(void) {
         }
     }
     if (modeAllowsOpen != 0) {
-        if (GetChoisesSOpenDuringRace() != 0 || func_02055b1c() == FALSE) {
+        if (GetChoisesSOpenDuringRace() != 0 || IsSharedDispCapFadeFlagSet() == FALSE) {
             result = 1;
         }
     }

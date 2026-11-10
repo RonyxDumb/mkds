@@ -473,7 +473,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
             }
             break;
         case 6:
-            if (func_02054f58() == 1) {
+            if (AdvanceConnectionEndStopOnError() == 1) {
                 if (sceneNumbers != NULL) {
                     sceneNumbers->mNextScene = 0;
                 }

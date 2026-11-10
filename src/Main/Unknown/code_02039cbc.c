@@ -57,12 +57,12 @@ void InitAfterStartup(void) {
     }
     InitInputSlotsAndTouchMic(backHeap);
     CreateBackupAccess(backHeap);
-    func_02057ed8(backHeap);
+    InitThreadFunctionQueue(backHeap);
     InitOverlayTable(backHeap);
     func_020cefa0(backHeap);
     InitCompressedArchiveAndMBChild(backHeap);
     InitMessageScreen(backHeap);
-    func_02057ed4();
+    InitAfterStartupNop();
     if (gBootInfo->mUnk_00 == 2) {
         InitArchiveBuffers(firstFrontHeap, secondFrontHeap, thirdFrontHeap);
     }

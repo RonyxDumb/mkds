@@ -5,7 +5,7 @@
 
 #pragma thumb on
 
-void func_0205786c(u32 isCourseGhost, u32 index, GhostRecordHead *ghostRecord) {
+void ReadBackupGhostRecordHead(u32 isCourseGhost, u32 index, GhostRecordHead *ghostRecord) {
     BackupAccess *backupAccess;
     u32 sectionOffset;
     u32 recordOffset;
@@ -29,11 +29,13 @@ void func_0205786c(u32 isCourseGhost, u32 index, GhostRecordHead *ghostRecord) {
             magic = 0x47444b4e;
         }
         backupAccess->mReadTarget = ghostRecord;
-        StartBackupReadOneCopy(recordOffset + (sectionOffset + 0xaf00), buffer, recordSize, func_020578e8, magic);
+        StartBackupReadOneCopy(recordOffset + (sectionOffset + 0xaf00), buffer, recordSize,
+                               CopyBackupReadToGhostRecordHead, magic);
     }
 }
 
-void func_02057800(u32 isCourseGhost, u32 index, GhostRecordHead *ghostRecord) {
+// The only caller passes isCourseGhost 0; for 1 the course record head is copied instead.
+void ReadBackupGhostListEntry(u32 isCourseGhost, u32 index, GhostRecordHead *ghostRecord) {
     void (*readCallback)(u32 *, u32);
     BackupAccess *backupAccess;
     u32 sectionOffset;
@@ -50,14 +52,14 @@ void func_02057800(u32 isCourseGhost, u32 index, GhostRecordHead *ghostRecord) {
             recordOffset = index * recordSize;
             buffer = backupAccess->mBuffer;
             magic = 0x47504b4e;
-            readCallback = func_020578e8;
+            readCallback = CopyBackupReadToGhostRecordHead;
         } else {
             sectionOffset = 0x1c000;
             recordSize = 0x1000;
             recordOffset = index * recordSize;
             buffer = backupAccess->mBuffer;
             magic = 0x47444b4e;
-            readCallback = func_020578d0;
+            readCallback = CopyBackupReadToGhostListEntry;
         }
         backupAccess->mReadTarget = ghostRecord;
         StartBackupReadOneCopy(recordOffset + (sectionOffset + 0xaf00), buffer, recordSize, readCallback, magic);

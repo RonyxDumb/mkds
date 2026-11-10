@@ -12,7 +12,7 @@
 void RunQueuedThreadFunctions(void *threadArgument) {
     for (;;) {
         if (gThreadFunctionQueue->mRunRequested != 0) {
-            void (*queuedFunction)(void) = func_02057f8c(gThreadFunctionQueue);
+            void (*queuedFunction)(void) = DequeueThreadFunction(gThreadFunctionQueue);
             if (queuedFunction == NULL) {
                 gThreadFunctionQueue->mRunRequested = 0;
             } else {

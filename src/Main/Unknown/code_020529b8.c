@@ -108,7 +108,7 @@ void StepDataSharing(void) {
             role = gConnectionWork->mConnectionMode;
         }
         if (role == 1) {
-            if (func_02055afc() != FALSE) {
+            if (IsDispCapFadeFlagSet() != FALSE) {
                 sendData->mUnk_06_0 |= 4;
             } else {
                 sendData->mUnk_06_0 &= ~4;
@@ -511,7 +511,7 @@ void StartRomArchiveSend(void) {
     }
     if (shouldStart != FALSE) {
         StartRomArchivePacketSend();
-        gConnectionWork->mUnk_1e34 = 0;
+        gConnectionWork->mSyncState = 0;
         gConnectionWork->mUnk_0454 |= 0x100;
     }
     gConnectionWork->mRequestPending = 0;

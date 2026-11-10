@@ -322,7 +322,7 @@ end:
             UpdateSounds();
             func_020487fc_inline8();
             func_020487fc_inline9(b);
-            if (func_02054f58() == 1) {
+            if (AdvanceConnectionEndStopOnError() == 1) {
                 if (!func_020487fc_inline14()) {
                     c = TRUE;
                 }
@@ -339,7 +339,7 @@ end:
         gConnectionWork->mUnk_0454 &= ~4;
     }
     StartDataSharingSync();
-    func_02055340();
+    AdvanceConnection();
     if (b->mRelease != NULL) {
         b->mRelease(a);
     }

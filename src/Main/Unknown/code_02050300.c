@@ -394,11 +394,11 @@ void RemoveChild(u32 aid) {
 void ProcessMPData(u32 aid, MPMessage *message) {
     switch (message->mKind) {
         case 3:
-            gConnectionWork->mUnk_1d54 &= ~(1 << aid);
+            gConnectionWork->mSyncDoneChildMask &= ~(1 << aid);
             break;
         case 4:
-            gConnectionWork->mUnk_1d54 |= 1 << aid;
-            if (gConnectionWork->mUnk_1d54 == gConnectionWork->mUnk_0044.mChildMask) {
+            gConnectionWork->mSyncDoneChildMask |= 1 << aid;
+            if (gConnectionWork->mSyncDoneChildMask == gConnectionWork->mUnk_0044.mChildMask) {
                 gConnectionWork->mRequestPending = 0;
             }
             break;
@@ -409,7 +409,7 @@ void ProcessMPData(u32 aid, MPMessage *message) {
         case 1:
             gConnectionWork->mParticipantMask = message->mUnk_04;
             RefreshParticipantTables();
-            func_02058b10();
+            RequestMPState15AfterCombine();
             break;
         case 2:
             if (func_02050650_inline() == 2) {
@@ -420,7 +420,7 @@ void ProcessMPData(u32 aid, MPMessage *message) {
         case 6:
             switch (gConnectionWork->mState) {
                 case 6:
-                    func_020559ec(message->mUnk_02, message->mUnk_16, message->mUnk_17);
+                    StoreReceivedPlayerName(message->mUnk_02, message->mUnk_16, message->mUnk_17);
                     break;
                 case 0xa:
                     func_020597d0(message->mUnk_02, (u8) aid, message->mUnk_16, message->mUnk_17);

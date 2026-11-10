@@ -14,5 +14,5 @@ void SetParticipantMask(u8 mask) {
     u32 value0 = mask;
     gConnectionWork->mParticipantMask = value0;
     RefreshParticipantTables();
-    func_02058b10();
+    RequestMPState15AfterCombine();
 }

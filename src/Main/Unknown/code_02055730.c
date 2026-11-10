@@ -35,7 +35,9 @@
 
 #pragma thumb on
 
-u8 func_02056208(void) {
+// Returns 0 unless all 32 Grand Prix records are filled with a value of 5 or more; else the lowest value (5 to 7)
+// minus 4.
+u8 GetLowestGrandPrixRecordValue(void) {
     u8 cupIndex;
     s32 lowestValue;
     u8 engineClass;
@@ -297,7 +299,7 @@ void StartDispCapFadeToClear(u32 frameCount) {
     StartFadeToClearNegativeOneScreen(frameCount, 1);
 }
 
-BOOL func_02055b1c(void) {
+BOOL IsSharedDispCapFadeFlagSet(void) {
     if (func_02055b1c_inline()) {
         if (IsDataSharingSyncDone() != 0) {
             return (gConnectionWork->mUnk_15bc_view.mUnk_0c->mUnk_06_0 & 4) != 0;
@@ -307,11 +309,12 @@ BOOL func_02055b1c(void) {
     return (gDispCap->mFlags & 8) != 0;
 }
 
-BOOL func_02055afc(void) {
+BOOL IsDispCapFadeFlagSet(void) {
     return (gDispCap->mFlags & 8) != 0;
 }
 
-void func_02055a94(void) {
+// Sets bit 8; it stays set until the brightness fades are clear. A child console in a link leaves it alone.
+void SetDispCapFadeFlag(void) {
     if (func_02055808_inline2() != 0 && func_02055808_inline() != 1) {
         return;
     }
@@ -325,15 +328,15 @@ s32 RunRecordScene(SceneNumbers *sceneNumbers) {
     return 0;
 }
 
-void func_020559ec(const void *entryName, s32 entryIndex, s32 keepMask) {
+void StoreReceivedPlayerName(const void *entryName, s32 entryIndex, s32 keepMask) {
     u8 keptBits;
 
-    keptBits = gConnectionWork->mUnk_043d & keepMask;
+    keptBits = gConnectionWork->mReceivedNameMask & keepMask;
     MI_CpuCopy8(entryName, &gConnectionWork->mUnk_045c[entryIndex], 0x14);
-    gConnectionWork->mUnk_043d = keptBits | (1 << entryIndex);
+    gConnectionWork->mReceivedNameMask = keptBits | (1 << entryIndex);
 }
 
-s32 func_02055808(s32 a) {
+s32 AdvanceNonMultiBootSetup(s32 isParent) {
     BOOL result;
 
     result = FALSE;
@@ -355,7 +358,7 @@ s32 func_02055808(s32 a) {
             break;
         case 2:
         case 36:
-            if (a != 0) {
+            if (isParent != 0) {
                 SetLifeTime(0x14);
             } else {
                 result = TRUE;
@@ -379,7 +382,7 @@ s32 func_02055808(s32 a) {
             break;
         case 11:
             gConnectionWork->mState = 2;
-            gConnectionWork->mUnk_0044.mUnk_3e = 0;
+            gConnectionWork->mUnk_0044.mNameSendIndex = 0;
             result = TRUE;
             gConnectionWork->mUnk_008b &= ~8;
             break;
@@ -390,25 +393,25 @@ s32 func_02055808(s32 a) {
     return result;
 }
 
-s32 func_0205579c(s32 a, s32 b) {
-    if (a != 0) {
-        if (b != 0) {
-            return AdvanceMultiBootSetup(a);
+s32 AdvanceSetupByMultiBoot(s32 isParent, s32 isMultiBoot) {
+    if (isParent != 0) {
+        if (isMultiBoot != 0) {
+            return AdvanceMultiBootSetup(isParent);
         }
-        return func_02055808(a);
+        return AdvanceNonMultiBootSetup(isParent);
     }
     if (gBootInfo->mUnk_00 == 2) {
-        return AdvanceMultiBootSetup(a);
+        return AdvanceMultiBootSetup(isParent);
     }
-    return func_02055808(a);
+    return AdvanceNonMultiBootSetup(isParent);
 }
 
-s32 func_02055730(u16 a) {
+s32 AdvanceConnectByMultiBoot(u16 entryIndex) {
     if (gConnectionWork->mUnk_0436 & 1) {
         gConnectionWork->mUnk_0436 &= ~1;
     }
-    if (gBootInfo->mUnk_00 == 2 || IsScanSlotMultiBoot(a) != 0) {
-        return AdvanceScanConnect(a);
+    if (gBootInfo->mUnk_00 == 2 || IsScanSlotMultiBoot(entryIndex) != 0) {
+        return AdvanceScanConnect(entryIndex);
     }
-    return func_02055564(a);
+    return AdvanceNonMultiBootConnect(entryIndex);
 }

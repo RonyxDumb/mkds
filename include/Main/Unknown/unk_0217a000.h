@@ -365,7 +365,8 @@ typedef struct ChildList {
     /* 00 */ ChildEntry mEntries[7];
     /* 38 */ UserGameInfo *mUnk_38;
     /* 3c */ u16 mUnk_3c;
-    /* 3e */ u16 mUnk_3e;
+// Next player name to send (0 to 7); 8 to 0x2c count a pause, then it restarts at 0.
+    /* 3e */ u16 mNameSendIndex;
     /* 40 */ u8 mChildCount;
     /* 41 */ s8 mDisconnectingIndex;
     /* 42 */ u8 mUnk_42;
@@ -392,10 +393,11 @@ typedef struct Unk0217aa00_1e52 {
 // Part of ConnectionWork from 0x1608.
 typedef struct MPStateMachine {
     /* 00 */ StateMachine mStateMachine;
-    /* 14 */ u16 mUnk_14;
-    /* 16 */ u16 mUnk_16;
-    /* 18 */ s16 mUnk_18;
-    /* 1a */ u8 mUnk_1a;
+    /* 14 */ u16 mChildDataWaitFrames;
+    /* 16 */ u16 mEntryWaitFrames;
+    /* 18 */ s16 mDelayTimer;
+// Only bit 0 is used: set when a chunk may be queued, cleared while one is queued.
+    /* 1a */ u8 mChunkSendFlags;
     /* 1b */ u8 mUnk_1b[0x1];
 } MPStateMachine;
 
@@ -636,7 +638,7 @@ typedef struct ConnectionWork {
             /* 043a */ u8 mUnk_043a;
             /* 043b */ s8 mUnk_043b;
             /* 043c */ u8 mUnk_043c;
-            /* 043d */ u8 mUnk_043d;
+            /* 043d */ u8 mReceivedNameMask;
             /* 043e */ u8 mUnk_043e[0x2];
             /* 0440 */ s32 (*mUnk_0440)();
             /* 0444 */ s32 (*mUnk_0444)();
@@ -687,7 +689,7 @@ typedef struct ConnectionWork {
     /* 164c */ u8 mUnk_164c;
     /* 164d */ u8 mUnk_164d;
     /* 164e */ u8 mUnk_164e;
-    /* 164f */ u8 mUnk_164f;
+    /* 164f */ u8 mCallbackFailed;
     /* 1650 */ void *mCourseId;
     /* 1654 */ void *mMode;
     /* 1658 */ union {
@@ -722,7 +724,7 @@ typedef struct ConnectionWork {
             /* 1d08 */ u16 mNextLoadIndex;
             /* 1d0a */ u16 mUnk_1d0a;
             /* 1d0c */ FSFile mFile;
-            /* 1d54 */ u8 mUnk_1d54;
+            /* 1d54 */ u8 mSyncDoneChildMask;
             /* 1d55 */ u8 mUnk_1d55[0x3];
             /* 1d58 */ void *mCompressedBuffer;
             /* 1d5c */ s16 mBlockIndex;
@@ -736,7 +738,7 @@ typedef struct ConnectionWork {
             /* 1e28 */ s32 mMPSendBufferSize;
             /* 1e2c */ s32 mMPReceiveBufferSize;
             /* 1e30 */ u8 *mPacketBuffer;
-            /* 1e34 */ s32 mUnk_1e34;
+            /* 1e34 */ s32 mSyncState;
             /* 1e38 */ s32 mZeroWordReceived;
             /* 1e3c */ s32 mUnk_1e3c;
             /* 1e40 */ u16 mGhostBlockCount;

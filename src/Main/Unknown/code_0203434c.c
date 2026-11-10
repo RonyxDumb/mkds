@@ -283,13 +283,13 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
             }
             break;
         case 7:
-            if (func_02054f58() == 1) {
+            if (AdvanceConnectionEndStopOnError() == 1) {
                 SendLedPatternWireless();
                 gTimeAttackGhostGetScan->mState = 8;
             }
             break;
         case 12:
-            if (func_02054f58() == 1) {
+            if (AdvanceConnectionEndStopOnError() == 1) {
                 SendLedPatternWireless();
                 data_0217b488->mMenuEntryKind = 5;
                 if (sceneNumbers != NULL) {

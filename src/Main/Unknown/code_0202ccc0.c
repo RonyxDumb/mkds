@@ -480,7 +480,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
             }
             break;
         case 9:
-            if (func_02054f58() == 1) {
+            if (AdvanceConnectionEndStopOnError() == 1) {
                 SendLedPatternWireless();
                 data_0217b488->mMenuEntryKind = 5;
                 if (advanceArg != NULL) {
@@ -490,14 +490,14 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
             }
             break;
         case 10:
-            if (func_02054f58() == 1) {
+            if (AdvanceConnectionEndStopOnError() == 1) {
                 SendLedPatternWireless();
                 SetupGhostSendSubTextWithName(0xc, 1);
                 gTimeAttackGhostSend->mState = 0xd;
             }
             break;
         case 11:
-            if (func_02054f58() == 1) {
+            if (AdvanceConnectionEndStopOnError() == 1) {
                 SendLedPatternWireless();
                 SetupGhostSendMainText();
                 gTimeAttackGhostSend->mState = 3;

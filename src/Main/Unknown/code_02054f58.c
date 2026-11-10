@@ -43,13 +43,13 @@ static inline s32 func_02055030_inline4(void) {
     return r;
 }
 
-s32 func_02055564(s32 a) {
+s32 AdvanceNonMultiBootConnect(s32 entryIndex) {
     s32 status;
 
     status = 0;
     if (gConnectionWork->mRequestPending != 0) {
         if (gConnectionWork->mStep == 7 && gConnectionWork->mUnk_043b == 1) {
-            if (TrySelectScanSlot(a) == 0) {
+            if (TrySelectScanSlot(entryIndex) == 0) {
                 SetRequestErrorCode(5);
             }
         }
@@ -63,7 +63,7 @@ s32 func_02055564(s32 a) {
             EndScan();
             break;
         case 9:
-            StartConnect(NULL, NULL, NULL, func_02055710, NULL);
+            StartConnect(NULL, NULL, NULL, NonMultiBootResetOwnIndex, NULL);
             break;
         case 2:
         case 10:
@@ -86,7 +86,7 @@ s32 func_02055564(s32 a) {
     return status;
 }
 
-s32 func_020554e4(void) {
+s32 AdvanceGameInfoOnChildChange(void) {
     if (gConnectionWork->mRequestPending != 0) {
         return 0;
     }
@@ -104,7 +104,7 @@ s32 func_020554e4(void) {
     return 0;
 }
 
-void func_02055340(void) {
+void AdvanceConnection(void) {
     u8 participantMask;
     u8 childMask;
     u8 participantIndex;
@@ -130,21 +130,21 @@ void func_02055340(void) {
         case 2:
             childMask = gConnectionWork->mUnk_0044.mChildMask;
             participantMask = childMask | 1;
-            if (gConnectionWork->mUnk_0044.mUnk_3e >= 8) {
-                gConnectionWork->mUnk_0044.mUnk_3e++;
-                if ((s32) gConnectionWork->mUnk_0044.mUnk_3e > 0x2c) {
-                    gConnectionWork->mUnk_0044.mUnk_3e = 0;
+            if (gConnectionWork->mUnk_0044.mNameSendIndex >= 8) {
+                gConnectionWork->mUnk_0044.mNameSendIndex++;
+                if ((s32) gConnectionWork->mUnk_0044.mNameSendIndex > 0x2c) {
+                    gConnectionWork->mUnk_0044.mNameSendIndex = 0;
                 }
                 return;
             }
-            participantIndex = gConnectionWork->mUnk_0044.mUnk_3e % 8;
+            participantIndex = gConnectionWork->mUnk_0044.mNameSendIndex % 8;
             if (participantMask & (1 << participantIndex)) {
                 if (QueueMPDataPlayerName(participantIndex, childMask) == FALSE) {
                     return;
                 }
-                gConnectionWork->mUnk_0044.mUnk_3e++;
+                gConnectionWork->mUnk_0044.mNameSendIndex++;
             } else {
-                gConnectionWork->mUnk_0044.mUnk_3e++;
+                gConnectionWork->mUnk_0044.mNameSendIndex++;
             }
             break;
     }
@@ -277,7 +277,7 @@ s32 AdvanceConnectionEnd(void) {
     return finished;
 }
 
-s32 func_02054f58(void) {
+s32 AdvanceConnectionEndStopOnError(void) {
     s32 status;
     s32 result;
 

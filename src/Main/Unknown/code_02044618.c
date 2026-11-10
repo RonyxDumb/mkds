@@ -158,7 +158,7 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
         *emblemDataSlot = &data_0217aa08->mEmblemRecord->mEmblemData;
         *b2 = g != FALSE ? 1 : 0;
         *b3 = data_021759d0->mRegion;
-        *b4 = func_02056208();
+        *b4 = GetLowestGrandPrixRecordValue();
         return;
     }
     switch (gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind) {

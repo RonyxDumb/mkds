@@ -14,7 +14,7 @@ void ReadSlotGhostRecords(void) {
     for (i = 0; i < 10; i++) {
         record = &records[i].mHead;
         if (IsSlotGhostBitSet(i) != 0) {
-            func_02057800(0, i, record);
+            ReadBackupGhostListEntry(0, i, record);
             if (gBackupAccess->mBackupEnabled != 0) {
                 CARD_WaitBackupAsync();
             }

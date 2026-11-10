@@ -42,7 +42,7 @@ u32 IsRaceDoneOrReplayPastStartFrames(void) {
 u32 IsChoisesSOpenAllowedAfterRace(void) {
     if (IsRaceStartSequenceDone() != 0 && IsRaceDoneOrReplayPastStartFrames() != 0 && IsRaceGoalMReady() != 0 &&
         IsRaceGoalSRunning() == 0 && IsRaceNewRecordTaSaving() == 0 && IsRaceNewRecordTaRunning() == 0 &&
-        GetShowLapTime() == 0 && (GetChoisesSOpenDuringRace() != 0 || func_02055b1c() == FALSE)) {
+        GetShowLapTime() == 0 && (GetChoisesSOpenDuringRace() != 0 || IsSharedDispCapFadeFlagSet() == FALSE)) {
         return 1;
     }
     return 0;

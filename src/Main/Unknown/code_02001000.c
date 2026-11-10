@@ -4,7 +4,7 @@
 
 void func_0200104c(void) {
     gConnectionWork->mState = 2;
-    gConnectionWork->mUnk_0044.mUnk_3e = 0;
+    gConnectionWork->mUnk_0044.mNameSendIndex = 0;
     gConnectionWork->mUnk_008b &= ~8;
 }
 

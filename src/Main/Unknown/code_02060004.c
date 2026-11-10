@@ -417,7 +417,7 @@ void ClearCourseTimeRecords(s32 courseId) {
         SetCourseTimeRecord(courseId, recordIndex, &timeRecord);
     }
     if (ghostBitCleared != FALSE) {
-        func_020563ec();
+        WriteCourseTimeRecordsAndFirstBlock();
     } else {
         WriteBackupCourseTimeRecords();
     }

@@ -88,7 +88,7 @@ void FillAndWriteCourseGhostRecord(s32 courseId, u16 entryIndex) {
     ghostRecord->mHead.mHasEmblem = 0;
     ghostRecord->mHead.mUnk_08_2 = data_021759d0->mRegion;
     ghostRecord->mHead.mUnk_08_4 = 0;
-    ghostRecord->mHead.mUnk_2f_0 = func_02056208();
+    ghostRecord->mHead.mUnk_2f_0 = GetLowestGrandPrixRecordValue();
     GetKartFinishTime(entryIndex, &kartTime.mMinute, &kartTime.mSecond, &kartTime.mMillisecond);
     ghostRecord->mHead.mMinute = kartTime.mMinute;
     ghostRecord->mHead.mSecond = kartTime.mSecond;

@@ -12,14 +12,14 @@
 
 #pragma thumb on
 
-void func_02059034(void) {
-    int v1;
+void EnterMPState21(void) {
+    int connectionMode;
     if (gConnectionWork == NULL) {
-        v1 = 0;
+        connectionMode = 0;
     } else {
-        v1 = gConnectionWork->mConnectionMode;
+        connectionMode = gConnectionWork->mConnectionMode;
     }
-    if (v1 == 1) {
+    if (connectionMode == 1) {
         SetMPFrequency(0);
     }
 }
@@ -27,7 +27,7 @@ void func_02059034(void) {
 void UpdateMPState21(void) {
     int result;
     MPStateMachine *stateMachine;
-    result = func_0205910c();
+    result = AdvanceMenuDLArchives();
     if (result == 1) {
         stateMachine = &gConnectionWork->mUnk_1608;
         stateMachine->mStateMachine.mNextState = 0x14;
@@ -35,14 +35,14 @@ void UpdateMPState21(void) {
     }
 }
 
-void func_02058fe0(void) {
-    int v1;
+void EnterMPState18(void) {
+    int connectionMode;
     if (gConnectionWork == NULL) {
-        v1 = 0;
+        connectionMode = 0;
     } else {
-        v1 = gConnectionWork->mConnectionMode;
+        connectionMode = gConnectionWork->mConnectionMode;
     }
-    if (v1 == 1) {
+    if (connectionMode == 1) {
         SetMPFrequency(0);
     }
 }
@@ -50,7 +50,7 @@ void func_02058fe0(void) {
 void UpdateMPState18(void) {
     int result;
     MPStateMachine *stateMachine;
-    result = func_0205905c();
+    result = AdvanceResultDLArchives();
     if (result == 1) {
         stateMachine = &gConnectionWork->mUnk_1608;
         stateMachine->mStateMachine.mNextState = 0x13;
@@ -62,15 +62,15 @@ void UpdateMPState18(void) {
 
 #pragma thumb on
 
-void func_02058f7c(void) {
-    gConnectionWork->mUnk_1e34 = 0;
+void EnterMPState19(void) {
+    gConnectionWork->mSyncState = 0;
     gConnectionWork->mUnk_1e44 &= ~2;
-    gConnectionWork->mUnk_164f = 0;
+    gConnectionWork->mCallbackFailed = 0;
 }
 
-void func_02058f58(void) {
+void LoadResultSceneSoundSetCallback(void) {
     if (LoadResultSceneSoundSet() == 0) {
-        gConnectionWork->mUnk_164f = 1;
+        gConnectionWork->mCallbackFailed = 1;
     }
 }
 
@@ -81,7 +81,7 @@ void func_02058f58(void) {
 void UpdateMPState19(void) {
     int result;
     MPStateMachine *stateMachine;
-    result = func_02058dc0(func_02058f58);
+    result = AdvanceSyncedCallback(LoadResultSceneSoundSetCallback);
     if (result == 1) {
         stateMachine = &gConnectionWork->mUnk_1608;
         stateMachine->mStateMachine.mNextState = 0xf;
@@ -93,19 +93,19 @@ void UpdateMPState19(void) {
 
 #pragma thumb on
 
-s32 func_02058f20(void) {
-    return func_020591cc();
+s32 WLMenuToResultAdvanceMPStateMachineWrapper(void) {
+    return AdvanceMPStateMachine();
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void func_02058efc(void) {
+void LoadSndDataFromFileCallback(void) {
     int result;
     result = LoadSndDataFromFile();
     if (result == 0) {
-        gConnectionWork->mUnk_164f = 1;
+        gConnectionWork->mCallbackFailed = 1;
     }
 }
 

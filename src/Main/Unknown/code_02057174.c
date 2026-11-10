@@ -16,7 +16,7 @@ void ResetBackupFirstBlockAndRecords(u32 copyOwnerName) {
     ClearGrandPrixRecordBlock();
     ClearCourseTimeRecordBlock();
     ClearMissionRecordBlock();
-    func_02057260();
+    ClearCourseAndFirstSlotGhost();
     ClearBuddyRecordBlock();
     ResetBackupFirstBlock(copyOwnerName);
 }

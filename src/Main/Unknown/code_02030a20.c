@@ -303,7 +303,7 @@ void UpdateMultiSelectMemberKeySetup(void) {
 
     switch (gMultiSelectMember->mSetupState) {
         case 0:
-            if (func_0205579c(1, data_021759d0->mMultiSimple) == 1) {
+            if (AdvanceSetupByMultiBoot(1, data_021759d0->mMultiSimple) == 1) {
                 gMultiSelectMember->mSetupState = 1;
             }
             break;
@@ -318,7 +318,7 @@ void UpdateMultiSelectMemberKeySetup(void) {
                 gMultiSelectMember->mReturnPending = FALSE;
                 gMultiSelectMember->mSetupState = 7;
             } else {
-                func_020554e4();
+                AdvanceGameInfoOnChildChange();
             }
             break;
         case 3:
@@ -332,7 +332,7 @@ void UpdateMultiSelectMemberKeySetup(void) {
             }
             break;
         case 4:
-            switch (func_02058cac()) {
+            switch (AdvanceMPStateMachineWithOwnIndex()) {
                 case 1:
                     if (gMultiSelectMember->mTimer == 0) {
                         if ((u8) ((gConnectionWork->mParticipantMask & ~gConnectionWork->mUnk_0457) & 0xfe) != 0) {
@@ -354,7 +354,7 @@ void UpdateMultiSelectMemberKeySetup(void) {
             break;
         case 7:
         case 8:
-            if (func_02054f58() == 1) {
+            if (AdvanceConnectionEndStopOnError() == 1) {
                 gMultiSelectMember->mSetupState = 11;
             }
             break;
@@ -385,7 +385,7 @@ void UpdateMultiSelectMemberNoKeySetup(void) {
                 gMultiSelectMember->mSetupState = 7;
                 return;
             }
-            switch (func_02055730(GetWLMenuSceneScanSlotPick()->mSlotIndex)) {
+            switch (AdvanceConnectByMultiBoot(GetWLMenuSceneScanSlotPick()->mSlotIndex)) {
                 case 1:
                     if (data_021759d0->mConnectionKind == 2) {
                         SetMultiSimple((gConnectionWork->mUnk_0454 & 0x40) != 0 ? 1 : 0);
@@ -408,7 +408,7 @@ void UpdateMultiSelectMemberNoKeySetup(void) {
                 gMultiSelectMember->mSetupState = 7;
                 return;
             }
-            switch (func_02058cac()) {
+            switch (AdvanceMPStateMachineWithOwnIndex()) {
                 case 1:
                     if (gMultiSelectMember->mUnk_84 == 0 && gMultiSelectMember->mConnectionNamesDone == FALSE) {
                         PrintMultiSelectConnectionNames();
@@ -430,7 +430,7 @@ void UpdateMultiSelectMemberNoKeySetup(void) {
             break;
         case 7:
         case 8:
-            if (func_02054f58() == 1) {
+            if (AdvanceConnectionEndStopOnError() == 1) {
                 gMultiSelectMember->mSetupState = 11;
             }
             break;

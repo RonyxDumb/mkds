@@ -130,7 +130,7 @@ void CopyCourseGhostToSlotGhost(GhostRecord *courseGhost, SlotGhostRecord *slotG
         MI_CpuFill8(slotGhost->mEmblem, 0, 0x200);
         slotGhost->mHead.mUnk_08 &= ~2;
     }
-    slotGhost->mHead.mUnk_2f_0 = func_02056208();
+    slotGhost->mHead.mUnk_2f_0 = GetLowestGrandPrixRecordValue();
 }
 
 #pragma thumb on

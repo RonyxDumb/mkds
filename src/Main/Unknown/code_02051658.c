@@ -480,7 +480,7 @@ void StartMPCallback(Unk021425e8 *event) {
             switch (event->mUnk_04) {
                 case 0xa:
                     gConnectionWork->mUnk_0454 |= 1;
-                    gConnectionWork->mUnk_1d54 = 0;
+                    gConnectionWork->mSyncDoneChildMask = 0;
                     gConnectionWork->mRequestPending = 0;
                     break;
                 case 0xb:

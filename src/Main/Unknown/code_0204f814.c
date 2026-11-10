@@ -145,7 +145,7 @@ BOOL TryGetPlayerName(u16 entryIndex, void *destination) {
             break;
         case 2:
             result = FALSE;
-            if ((gConnectionWork->mUnk_043d & (1 << entryIndex)) != 0) {
+            if ((gConnectionWork->mReceivedNameMask & (1 << entryIndex)) != 0) {
                 if (destination != NULL) {
                     MI_CpuCopy8(&gConnectionWork->mUnk_045c[entryIndex], destination, 0x14);
                 }

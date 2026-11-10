@@ -4,12 +4,12 @@
 
 void RaiseKartAppearLimit(u32 value);
 u8 GetKartAppearLimit(void);
-u8 func_02056dac(u8 *bytes);
+u8 GetKartAppearLimitFromBits(u8 *bytes);
 BOOL IsBackupFlagSet(u32 flagIndex);
-BOOL func_02056e00(s32 bitIndex, u8 *bytes);
+BOOL IsBitSetInBytes(s32 bitIndex, u8 *bytes);
 void SetBackupFlag(s32 flagIndex);
 void StartResetFailedBackupBlocks(void);
 void ResetFailedBackupBlocks(void);
 void StartReadBackupFirstBlockAndRecords(void);
 void ReadBackupFirstBlockAndRecords(void);
-void func_02057130(void);
+void ResetBackupAndStartWrite(void);

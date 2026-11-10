@@ -115,7 +115,7 @@ void AdvanceKartRemovalShrink(Kart *kart) {
             if ((currentBits & 1) != 0) {
                 c = kart->mFramesSinceRemovalOrReset;
                 if (c == 0x70) {
-                    func_02055a94();
+                    SetDispCapFadeFlag();
                 } else if (c == 0x73) {
                     StartDispCapFadeToFaded(0x3c);
                     FadeSeqVolumeToZeroAfterKartRemoval();

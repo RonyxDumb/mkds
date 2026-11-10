@@ -299,7 +299,7 @@ void AdvanceOptionTopMenuState7(void) {
     }
     if (IsTxtSystemState0NoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
-            func_02057130();
+            ResetBackupAndStartWrite();
             gOptionTopMenu->mNextState = 8;
             SetupTxtSystemSubTextEx(GetBmgEntry(gOptionTopMenu->mOptionMessages, 5), 1, 1, 1, 0, 1);
         } else {

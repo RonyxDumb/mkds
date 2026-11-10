@@ -221,7 +221,7 @@ s32 AdvanceKartRespawnWait(Kart *kart, s32 *a) {
     kart->mRespawnFrames = kart->mRespawnFrames + 1;
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         if (kart->mRespawnFrames == 0x16) {
-            func_02055a94();
+            SetDispCapFadeFlag();
         } else if (kart->mRespawnFrames == 0x19) {
             StartDispCapFadeToFaded(0x3c);
         }

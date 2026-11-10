@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-unsigned int func_02057fe4(unsigned int value);
+unsigned int EnterMPState15ReturnArgument(unsigned int value);
 void UpdateMPState14(void);
 void EnterMPState14(void);
 void UpdateMPState13(void);
@@ -18,7 +18,7 @@ void EnterMPState9(void);
 void UpdateMPState8(void);
 BOOL GetEntryChunk(u8 *entry, s32 chunkIndex, s32 chunkSize, u8 **outChunk, u16 *outSize);
 BOOL QueueMPChunk(u8 chunkNumber, u8 *data, u16 size, u8 playerIndex, u8 destBitmap);
-void func_02058754(void);
+void QueueMPChunkCallback(void);
 void EnterMPState8(void);
 void UpdateMPState7(void);
 void EnterMPState7(void);
@@ -31,4 +31,4 @@ void UpdateMPState3(void);
 void EnterMPState3(void);
 void UpdateMPState6(void);
 void UpdateMPState5(void);
-void func_02058b10(void);
+void RequestMPState15AfterCombine(void);

@@ -13,7 +13,7 @@ void ReadCourseGhostRecords(void) {
     for (i = 0; i < 0x20; i++) {
         record = records + i;
         if (IsCourseGhostBitSet(i) != 0) {
-            func_0205786c(1, i, record);
+            ReadBackupGhostRecordHead(1, i, record);
             if (gBackupAccess->mBackupEnabled != 0) {
                 CARD_WaitBackupAsync();
             }

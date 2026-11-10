@@ -6,7 +6,7 @@
 #include "Main/Unknown/unk_0217a000.h"
 #include "os_thread.h"
 
-void (*func_02057f8c(ThreadFunctionQueue *queue))(void) {
+void (*DequeueThreadFunction(ThreadFunctionQueue *queue))(void) {
     void (**lastFilledSlot)(void) = NULL;
     void (*callback)(void) = NULL;
     s32 filledCount = 0;
@@ -30,7 +30,7 @@ void (*func_02057f8c(ThreadFunctionQueue *queue))(void) {
     return callback;
 }
 
-void func_02057ed8(void *heap) {
+void InitThreadFunctionQueue(void *heap) {
     ThreadFunctionQueue *queue;
     s32 i;
     gThreadFunctionQueue = HeapAlloc(heap, 0xfc);

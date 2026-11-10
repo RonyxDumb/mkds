@@ -144,8 +144,8 @@ void func_02059878(void) {
 
     InitStateMachine(&gConnectionWork->mUnk_1608.mStateMachine, gMPStateTable, 0x17, NULL);
     gConnectionWork->mUnk_164e = 0;
-    gConnectionWork->mUnk_1608.mUnk_14 = 0;
-    gConnectionWork->mUnk_1608.mUnk_1a = 0;
+    gConnectionWork->mUnk_1608.mChildDataWaitFrames = 0;
+    gConnectionWork->mUnk_1608.mChunkSendFlags = 0;
     gConnectionWork->mEntryChunkIndex = 0;
     gConnectionWork->mUnk_162a = 0;
     gConnectionWork->mUnk_164c = 0;

@@ -170,7 +170,7 @@ void UpdateLogoState5(void) {
 
 void EnterLogoState6(void) {
     void *message;
-    func_02057130();
+    ResetBackupAndStartWrite();
     if (gLogoScene->mUnk_2c_0 == 0) {
         return;
     }

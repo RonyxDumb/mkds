@@ -147,14 +147,14 @@ s32 IsBitSetInAllParticipants(s32 bitIndex) {
     if (func_0205f218_inline() == FALSE) {
         return IsBackupFlagSet(bitIndex);
     }
-    return func_02056e00(bitIndex, data_0217aa08->mParticipantAndBits);
+    return IsBitSetInBytes(bitIndex, data_0217aa08->mParticipantAndBits);
 }
 
 s32 IsBitSetInAnyParticipant(s32 bitIndex) {
     if (func_0205f218_inline() == FALSE) {
         return IsBackupFlagSet(bitIndex);
     }
-    return func_02056e00(bitIndex, data_0217aa08->mParticipantOrBits);
+    return IsBitSetInBytes(bitIndex, data_0217aa08->mParticipantOrBits);
 }
 
 void AddBuddyRecordResult(u32 entryIndex, s32 *date, u32 matchKind, u32 resultKind) {

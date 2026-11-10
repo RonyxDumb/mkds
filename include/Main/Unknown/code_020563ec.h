@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_020563ec(void);
+void WriteCourseTimeRecordsAndFirstBlock(void);

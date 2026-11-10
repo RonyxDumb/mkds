@@ -41,10 +41,10 @@ static inline s32 func_0205905c_inline4(void) {
 
 #pragma thumb on
 
-BOOL func_020591cc(void) {
-    BOOL r;
+BOOL AdvanceMPStateMachine(void) {
+    BOOL finished;
 
-    r = FALSE;
+    finished = FALSE;
     if (!func_0205905c_inline2()) {
         return TRUE;
     }
@@ -55,20 +55,20 @@ BOOL func_020591cc(void) {
         }
     }
     if (gConnectionWork->mUnk_1608.mStateMachine.mState == 0xf) {
-        r = TRUE;
+        finished = TRUE;
     }
-    return r;
+    return finished;
 }
 
-s32 func_020591c4(void) {
-    return func_020591cc();
+s32 WLMenuToRaceAdvanceMPStateMachineWrapper(void) {
+    return AdvanceMPStateMachine();
 }
 
-s32 func_020591bc(void) {
-    return func_020591cc();
+s32 WLMenuToMenuAdvanceMPStateMachineWrapper(void) {
+    return AdvanceMPStateMachine();
 }
 
-u32 func_0205910c(void) {
+u32 AdvanceMenuDLArchives(void) {
     if (func_0205905c_inline4()) {
         return 3;
     }
@@ -85,7 +85,7 @@ u32 func_0205910c(void) {
     }
 }
 
-u32 func_0205905c(void) {
+u32 AdvanceResultDLArchives(void) {
     if (func_0205905c_inline4()) {
         return 3;
     }

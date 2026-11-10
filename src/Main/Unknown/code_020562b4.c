@@ -27,7 +27,7 @@ void CombineParticipantBits(void) {
                 }
             }
             entry = &gConnectionWork->mUnk_045c[i];
-            value = func_02056dac(entry->mBits);
+            value = GetKartAppearLimitFromBits(entry->mBits);
             if (i == 0) {
                 data_0217aa08->mParticipantMaxValue = value;
                 data_0217aa08->mParticipantMinValue = value;

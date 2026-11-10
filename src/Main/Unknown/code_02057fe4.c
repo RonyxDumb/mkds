@@ -34,7 +34,7 @@
 
 #pragma thumb on
 
-void func_02058b10(void) {
+void RequestMPState15AfterCombine(void) {
     MPStateMachine *stateMachine;
     CombineParticipantBits();
     stateMachine = &gConnectionWork->mUnk_1608;
@@ -64,12 +64,12 @@ void UpdateMPState5(void) {
                 SetParticipantMask(participantMask);
             }
         } else {
-            waitFrames = gConnectionWork->mUnk_1608.mUnk_14;
+            waitFrames = gConnectionWork->mUnk_1608.mChildDataWaitFrames;
             if (waitFrames > 0xe10) {
                 SetRequestErrorCode(7);
                 return;
             }
-            gConnectionWork->mUnk_1608.mUnk_14 = waitFrames + 1;
+            gConnectionWork->mUnk_1608.mChildDataWaitFrames = waitFrames + 1;
         }
     }
 }
@@ -87,7 +87,7 @@ void UpdateMPState6(void) {
 }
 
 void EnterMPState3(void) {
-    gConnectionWork->mUnk_1e34 = 0;
+    gConnectionWork->mSyncState = 0;
     gConnectionWork->mUnk_1e44 &= ~2;
 }
 
@@ -169,9 +169,9 @@ void UpdateMPState2(void) {
 }
 
 void EnterMPState4(void) {
-    gConnectionWork->mUnk_1e34 = 0;
+    gConnectionWork->mSyncState = 0;
     gConnectionWork->mUnk_1e44 &= ~2;
-    gConnectionWork->mUnk_164f = 0;
+    gConnectionWork->mCallbackFailed = 0;
 }
 
 #pragma thumb off
@@ -181,7 +181,7 @@ void EnterMPState4(void) {
 void UpdateMPState4(void) {
     int result;
     MPStateMachine *stateMachine;
-    result = func_02058dc0(func_02058efc);
+    result = AdvanceSyncedCallback(LoadSndDataFromFileCallback);
     if (result == 1) {
         stateMachine = &gConnectionWork->mUnk_1608;
         stateMachine->mStateMachine.mNextState = 0xc;
@@ -250,16 +250,16 @@ void EnterMPState8(void) {
 
     ownIndex = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
     FillPlayerRecord(&gConnectionWork->mUnk_045c[ownIndex]);
-    gConnectionWork->mUnk_1608.mUnk_1a |= 1;
+    gConnectionWork->mUnk_1608.mChunkSendFlags |= 1;
     gConnectionWork->mEntryChunkIndex = 0;
-    gConnectionWork->mUnk_1608.mUnk_16 = 0;
+    gConnectionWork->mUnk_1608.mEntryWaitFrames = 0;
 }
 
 #pragma thumb off
 
 #pragma thumb on
-void func_02058754(void) {
-    gConnectionWork->mUnk_1608.mUnk_1a |= 1;
+void QueueMPChunkCallback(void) {
+    gConnectionWork->mUnk_1608.mChunkSendFlags |= 1;
 }
 #pragma thumb off
 
@@ -281,7 +281,7 @@ static inline void func_0205821c_inline2(u16 nextState) {
 BOOL QueueMPChunk(u8 chunkNumber, u8 *data, u16 size, u8 playerIndex, u8 destBitmap) {
     u8 *packet;
 
-    if ((gConnectionWork->mUnk_1608.mUnk_1a & 1) == 0) {
+    if ((gConnectionWork->mUnk_1608.mChunkSendFlags & 1) == 0) {
         return FALSE;
     }
     packet = gConnectionWork->mChunkBuffer;
@@ -294,9 +294,9 @@ BOOL QueueMPChunk(u8 chunkNumber, u8 *data, u16 size, u8 playerIndex, u8 destBit
         size = 0;
     }
     DC_StoreRange(packet, size + 4);
-    gConnectionWork->mUnk_1608.mUnk_1a &= ~1;
-    if (QueueMPDataToPort(gConnectionWork->mChunkBuffer, size + 4, destBitmap, NULL, &data_021652a0) == 0) {
-        gConnectionWork->mUnk_1608.mUnk_1a |= 1;
+    gConnectionWork->mUnk_1608.mChunkSendFlags &= ~1;
+    if (QueueMPDataToPort(gConnectionWork->mChunkBuffer, size + 4, destBitmap, NULL, &gQueueMPChunkParams) == 0) {
+        gConnectionWork->mUnk_1608.mChunkSendFlags |= 1;
         return FALSE;
     }
     return TRUE;
@@ -342,13 +342,13 @@ void UpdateMPState8(void) {
             } else {
                 v = 0x258;
             }
-            gConnectionWork->mUnk_1608.mUnk_16++;
-            if (gConnectionWork->mUnk_1608.mUnk_16 > v) {
+            gConnectionWork->mUnk_1608.mEntryWaitFrames++;
+            if (gConnectionWork->mUnk_1608.mEntryWaitFrames > v) {
                 gConnectionWork->mUnk_0044.mUnk_42 = gConnectionWork->mUnk_0044.mChildMask;
             }
         }
     } else {
-        if ((gConnectionWork->mUnk_1608.mUnk_1a & 1) != 0) {
+        if ((gConnectionWork->mUnk_1608.mChunkSendFlags & 1) != 0) {
             chunkIndex = gConnectionWork->mEntryChunkIndex;
             v = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
             if (GetEntryChunk((u8 *) &gConnectionWork->mUnk_045c[v], chunkIndex, 0x20, &chunkData, &chunkSize) !=
@@ -365,7 +365,7 @@ void UpdateMPState8(void) {
 
 void EnterMPState9(void) {
     gConnectionWork->mState = 10;
-    gConnectionWork->mUnk_1608.mUnk_16 = 0;
+    gConnectionWork->mUnk_1608.mEntryWaitFrames = 0;
     gConnectionWork->mUnk_162a = 0;
     gConnectionWork->mEntryChunkIndex = 0;
     gConnectionWork->mEntryChunkSlot = 0;
@@ -381,7 +381,7 @@ void UpdateMPState9(void) {
     u16 waitLimit;
 
     if (func_0205821c_inline() == 1) {
-        if ((gConnectionWork->mUnk_1608.mUnk_1a & 1) != 0) {
+        if ((gConnectionWork->mUnk_1608.mChunkSendFlags & 1) != 0) {
             slotDone = 1;
             slot = gConnectionWork->mEntryChunkSlot;
             if (((u8) (gConnectionWork->mUnk_0044.mChildMask | 1) & (1 << slot)) != 0) {
@@ -406,8 +406,8 @@ void UpdateMPState9(void) {
         } else {
             waitLimit = 0x258;
         }
-        gConnectionWork->mUnk_1608.mUnk_16++;
-        if (gConnectionWork->mUnk_1608.mUnk_16 > waitLimit) {
+        gConnectionWork->mUnk_1608.mEntryWaitFrames++;
+        if (gConnectionWork->mUnk_1608.mEntryWaitFrames > waitLimit) {
             gConnectionWork->mUnk_162a = gConnectionWork->mUnk_0044.mChildMask;
             func_0205821c_inline2(10);
         }
@@ -602,7 +602,7 @@ void UpdateMPState14(void) {
 
 #pragma thumb on
 
-u32 func_02057fe4(u32 value) {
+u32 EnterMPState15ReturnArgument(u32 value) {
     return value;
 }
 

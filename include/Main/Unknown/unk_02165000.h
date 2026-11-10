@@ -43,7 +43,7 @@ extern const SceneCallbacks gRecordSceneCallbacks;
 extern const SceneCallbacks gSecondMenuSceneCallbacks;
 extern const SceneCallbacks gEmblemSceneCallbacks;
 extern const SceneCallbacks gLogoSceneCallbacks;
-extern QueueMPDataToPortParams data_021652a0;
+extern QueueMPDataToPortParams gQueueMPChunkParams;
 extern u16 data_usa_02165228;
 extern QueueMPDataToPortParams data_usa_0216522c;
 extern const StateCallbacks gMPStateTable[];

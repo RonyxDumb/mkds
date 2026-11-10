@@ -12,7 +12,7 @@
 
 #pragma thumb on
 
-void func_02057130(void) {
+void ResetBackupAndStartWrite(void) {
     ResetBackupFirstBlockAndRecords(gBootInfo->mUnk_00 == 2);
     if (gBootInfo->mUnk_00 != 2) {
         SetBackupBusy();
@@ -154,7 +154,7 @@ void SetBackupFlag(s32 flagIndex) {
     flagBytes[flagIndex >> 3] |= 1 << (flagIndex & 7);
 }
 
-BOOL func_02056e00(s32 bitIndex, u8 *bytes) {
+BOOL IsBitSetInBytes(s32 bitIndex, u8 *bytes) {
     u32 isSet;
 
     isSet = 1;
@@ -165,25 +165,25 @@ BOOL func_02056e00(s32 bitIndex, u8 *bytes) {
 }
 
 BOOL IsBackupFlagSet(u32 flagIndex) {
-    return func_02056e00(flagIndex, data_0217aa08->mFirstBlock->mFlags);
+    return IsBitSetInBytes(flagIndex, data_0217aa08->mFirstBlock->mFlags);
 }
 
-u8 func_02056dac(u8 *bytes) {
+u8 GetKartAppearLimitFromBits(u8 *bytes) {
     u8 result;
 
     result = 1;
-    if (func_02056e00(0x13, bytes)) {
+    if (IsBitSetInBytes(0x13, bytes)) {
         result = 4;
-    } else if (func_02056e00(0x12, bytes)) {
+    } else if (IsBitSetInBytes(0x12, bytes)) {
         result = 3;
-    } else if (func_02056e00(0x11, bytes)) {
+    } else if (IsBitSetInBytes(0x11, bytes)) {
         result = 2;
     }
     return result;
 }
 
 u8 GetKartAppearLimit(void) {
-    return func_02056dac(data_0217aa08->mFirstBlock->mFlags);
+    return GetKartAppearLimitFromBits(data_0217aa08->mFirstBlock->mFlags);
 }
 
 void RaiseKartAppearLimit(u32 value) {

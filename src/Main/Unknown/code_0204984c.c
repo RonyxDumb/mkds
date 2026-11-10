@@ -258,7 +258,7 @@ void RunMessageScreenThread(void *unused) {
             if (hasDisplaySettings != FALSE) {
                 PrepareDisplayFrame();
             }
-            d = sessionHeapCreated == FALSE ? func_02054f58() == 1 : 1;
+            d = sessionHeapCreated == FALSE ? AdvanceConnectionEndStopOnError() == 1 : 1;
             UpdateSounds();
             VBlankIntrWait();
             if (hasDisplaySettings != FALSE) {
@@ -342,7 +342,7 @@ void RunMessageScreen(void) {
             PrepareDisplayFrame();
         }
         if (sessionHeapCreated == FALSE) {
-            waitDone = func_02054f58() == 1;
+            waitDone = AdvanceConnectionEndStopOnError() == 1;
             sleepAllowed = waitDone;
         } else {
             waitDone = TRUE;
@@ -421,7 +421,7 @@ void ScenePreSleepCallback(void *arg) {
 
     do {
         PrepareDisplayFrame();
-        b = func_02054f58() != 1;
+        b = AdvanceConnectionEndStopOnError() != 1;
         c = func_0204984c_inline8();
         if (b == FALSE && c == 0) {
             done = TRUE;
@@ -534,7 +534,7 @@ s32 RunMessageScreenOnDisconnect(SceneNumbers *sceneNumbers, s32 b) {
         result = TRUE;
         gConnectionWork->mErrorCode = 9;
     } else {
-        func_02055340();
+        AdvanceConnection();
     }
     return result;
 }

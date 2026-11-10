@@ -210,7 +210,7 @@ void UpdateMemberRowsFromScanSlots(void) {
     changed = 0;
     switch (gMultiSelectMemberGroup->mUpdateState) {
         case 0:
-            if (func_0205579c(0, 0) == 1) {
+            if (AdvanceSetupByMultiBoot(0, 0) == 1) {
                 gMultiSelectMemberGroup->mUpdateState = 1;
             }
             return;
@@ -288,7 +288,7 @@ void UpdateMemberRowsFromScanSlots(void) {
             return;
         case 5:
         case 8:
-            if (func_02054f58() == 1) {
+            if (AdvanceConnectionEndStopOnError() == 1) {
                 gMultiSelectMemberGroup->mUpdateState = 0xb;
             }
             return;
