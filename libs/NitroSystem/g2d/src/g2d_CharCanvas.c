@@ -89,9 +89,9 @@ void LetterChar(Unk02023d84 *pInfo) {
     u32 rowHi;
     u32 row;
     s32 glyphBpp;
-    Unk020247fc reader;
+    NNSiG2dBitReader reader;
     u32 pixel;
-    Unk020247fc reader8;
+    NNSiG2dBitReader reader8;
 
     x = pInfo->mUnk_08;
     y = pInfo->mUnk_0c;
@@ -128,12 +128,12 @@ void LetterChar(Unk02023d84 *pInfo) {
         if (pRow < pRowEnd) {
             do {
                 row = *pRow;
-                reader.mUnk_00 = pGlyphBits + ((u32) bitPos >> 3);
-                reader.mUnk_04 = 0;
-                reader.mUnk_05 = 0;
-                BitStreamReadBits(&reader, bitPos % 8);
+                reader.mSrc = pGlyphBits + ((u32) bitPos >> 3);
+                reader.mAvailableBits = 0;
+                reader.mBits = 0;
+                NNSi_G2dBitReaderRead(&reader, bitPos % 8);
                 for (bitX = xStart; bitX < xEnd; bitX += 4) {
-                    pixel = BitStreamReadBits(&reader, glyphBpp);
+                    pixel = NNSi_G2dBitReaderRead(&reader, glyphBpp);
                     if (pixel != 0) {
                         row = (row & ~(0xf << bitX)) | ((colorBase + pixel) << bitX);
                     }
@@ -151,12 +151,12 @@ void LetterChar(Unk02023d84 *pInfo) {
     for (; pRow < pRowEnd; pRow += 2) {
         rowLo = pRow[0];
         rowHi = pRow[1];
-        reader8.mUnk_00 = pGlyphBits + ((u32) bitPos >> 3);
-        reader8.mUnk_04 = 0;
-        reader8.mUnk_05 = 0;
-        BitStreamReadBits(&reader8, bitPos % 8);
+        reader8.mSrc = pGlyphBits + ((u32) bitPos >> 3);
+        reader8.mAvailableBits = 0;
+        reader8.mBits = 0;
+        NNSi_G2dBitReaderRead(&reader8, bitPos % 8);
         for (bitX = xStart; bitX < xEnd; bitX += 8) {
-            pixel = BitStreamReadBits(&reader8, glyphBpp);
+            pixel = NNSi_G2dBitReaderRead(&reader8, glyphBpp);
             if (pixel != 0) {
                 if ((u32) bitX < 0x20) {
                     rowLo = (rowLo & ~(0xff << bitX)) | ((colorBase8 + pixel) << bitX);

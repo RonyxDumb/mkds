@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-// Header: a tag word at 0, a halfword at 4 and one at 6 (func_0202469c compares it), a halfword at 0x0c
+// Header: a tag word at 0, a halfword at 4 and one at 6 (NNSi_G2dGetUnpackedFont compares it), a halfword at 0x0c
 // (offset of the first part) and a halfword at 0x0e (number of parts). Each part starts with a tag word and its
 // size.
 typedef struct Unk02021f9c {

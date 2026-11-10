@@ -6,7 +6,6 @@
 #include "code_0200e77c.h"
 #include "Main/Unknown/code_0200e000.h"
 #include "Main/Unknown/code_0214d000.h"
-#include "code_0201ec30.h"
 #include "Main/Unknown/code_02021000.h"
 #include "resource_mgr.h"
 #include "code_0212f788.h"
@@ -177,7 +176,7 @@ s32 NNSi_SndCaptureStart(u32 type, u8 *left, u8 *right, u32 length, u32 format, 
     capture->mCallback = callback;
     capture->mCallbackArg = callbackArg;
     capture->mVolume = volume;
-    InterpolatorInit(&capture->mFader);
+    NNSi_SndFaderInit(&capture->mFader);
     NNSi_SndFaderSet(&capture->mFader, volume << 8, 1);
     capture->mFadeOutFlag = 0;
     return 1;
@@ -225,7 +224,8 @@ void NNSi_SndCaptureBeginSleep(void) {
     if (capture->mActiveFlag == 0) {
         return;
     }
-    SND_StopTimer(capture->mPlayChBitMask, capture->mCapBitMask, capture->mAlarmNo >= 0 ? 1 << capture->mAlarmNo : 0, 0);
+    SND_StopTimer(capture->mPlayChBitMask, capture->mCapBitMask, capture->mAlarmNo >= 0 ? 1 << capture->mAlarmNo : 0,
+                  0);
     tag = SND_GetCurrentCommandTag();
     SND_FlushCommand(1);
     SND_WaitForCommandProc(tag);
@@ -247,7 +247,8 @@ void NNSi_SndCaptureEndSleep(void) {
     MIi_CpuClear32(zeroR, capture->mBufferR, capture->mBufLen);
     DC_FlushRange(capture->mBufferL, capture->mBufLen);
     DC_FlushRange(capture->mBufferR, capture->mBufLen);
-    SND_StartTimer(capture->mPlayChBitMask, capture->mCapBitMask, capture->mAlarmNo >= 0 ? 1 << capture->mAlarmNo : 0, 0);
+    SND_StartTimer(capture->mPlayChBitMask, capture->mCapBitMask, capture->mAlarmNo >= 0 ? 1 << capture->mAlarmNo : 0,
+                   0);
 }
 
 // Alarm handler: hands the current block of both buffers to the callback, directly or through the message queue

@@ -480,7 +480,7 @@ s32 FSi_TranslateCommand(FSFile *file, u32 command) {
         result = 7;
     }
     if (result == 7) {
-        result = data_02152b5c[command](file);
+        result = fsi_default_command[command](file);
     }
     if (result == 6) {
         if (((file->mStat & 4) ? 1 : 0) != 0) {

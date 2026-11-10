@@ -31,13 +31,13 @@ u32 NNS_GfdAllocLnkPlttVram(u32 szByte, s32 b4Pltt, u32 opt) {
         return 0;
     }
     if (b4Pltt != 0) {
-        result = RangeListAllocAligned(&data_02173250.mMgr, &data_02173254, &addr, size, 8);
+        result = NNSi_GfdAllocLnkVramAligned(&data_02173250.mMgr, &data_02173254, &addr, size, 8);
         if (addr + size > 0x10000) {
-            RangeListFree(&data_02173250.mMgr, &data_02173254, addr, size);
+            NNSi_GfdFreeLnkVram(&data_02173250.mMgr, &data_02173254, addr, size);
             return 0;
         }
     } else {
-        result = RangeListAllocAligned(&data_02173250.mMgr, &data_02173254, &addr, size, 0x10);
+        result = NNSi_GfdAllocLnkVramAligned(&data_02173250.mMgr, &data_02173254, &addr, size, 0x10);
     }
     if (result != 0) {
         return ((size >> 3) << 16) | ((addr >> 3) & 0xffff);
@@ -46,12 +46,13 @@ u32 NNS_GfdAllocLnkPlttVram(u32 szByte, s32 b4Pltt, u32 opt) {
 }
 
 s32 NNS_GfdFreeLnkPlttVram(u32 plttKey) {
-    return RangeListFree(&data_02173250.mMgr, &data_02173254, (plttKey & 0xffff) << 3,
-                         ((plttKey & -0x10000) >> 0x10) << 3) == 0;
+    return NNSi_GfdFreeLnkVram(&data_02173250.mMgr, &data_02173254, (plttKey & 0xffff) << 3,
+                               ((plttKey & -0x10000) >> 0x10) << 3) == 0;
 }
 
 void NNS_GfdResetLnkPlttVramState(void) {
-    data_02173250.mBlockList = RangeEntryPoolInit(data_02173250.mWorkHead, data_02173250.mSzByteManagementWork >> 4);
-    RangeListInit(&data_02173250.mMgr);
-    RangeListAdd(&data_02173250.mMgr, &data_02173254, 0, data_02173250.mSzByte);
+    data_02173250.mBlockList =
+        NNSi_GfdInitLnkVramBlockPool(data_02173250.mWorkHead, data_02173250.mSzByteManagementWork >> 4);
+    NNSi_GfdInitLnkVramMan(&data_02173250.mMgr);
+    NNSi_GfdAddNewFreeBlock(&data_02173250.mMgr, &data_02173254, 0, data_02173250.mSzByte);
 }

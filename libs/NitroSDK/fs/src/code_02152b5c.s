@@ -1,5 +1,5 @@
-// Two tables kept in .text after DWC_Init: the nine File functions in the order data_02152b5c is indexed, and the
-// words of data_02152b80.
+// Two tables kept in .text after DWC_Init: the nine File functions in the order fsi_default_command is indexed, and the
+// words of fsi_def_digest_key.
 //
 // Hand-written asm: the data has to sit in .text.
 
@@ -14,9 +14,9 @@
     .extern FSi_OpenFileDirectCommand
     .extern FSi_CloseFileCommand
 
-    .global data_02152b5c
-    .type data_02152b5c, @object
-data_02152b5c:
+    .global fsi_default_command
+    .type fsi_default_command, @object
+fsi_default_command:
     .word FSi_ReadFileCommand
     .word FSi_WriteFileCommand
     .word FSi_SeekDirCommand
@@ -26,11 +26,11 @@ data_02152b5c:
     .word FSi_OpenFileFastCommand
     .word FSi_OpenFileDirectCommand
     .word FSi_CloseFileCommand
-    .size data_02152b5c, . - data_02152b5c
+    .size fsi_default_command, . - fsi_default_command
 
-    .global data_02152b80
-    .type data_02152b80, @object
-data_02152b80:
+    .global fsi_def_digest_key
+    .type fsi_def_digest_key, @object
+fsi_def_digest_key:
     .word 0xdec00621
     .word 0x3fce98ba
     .word 0x9de392a6
@@ -47,4 +47,4 @@ data_02152b80:
     .word 0x986483ca
     .word 0x373efdac
     .word 0x24584687
-    .size data_02152b80, . - data_02152b80
+    .size fsi_def_digest_key, . - fsi_def_digest_key

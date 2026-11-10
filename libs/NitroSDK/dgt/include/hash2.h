@@ -15,7 +15,7 @@ typedef struct Hash20State {
 
 typedef struct Hash20State Hash20State;
 
-// Function pointer that DGT_SetOverlayTableMode switches between DGTi_Hash2ProcessMessageBlock and func_02150e1c.
+// Function pointer that DGT_SetOverlayTableMode switches between DGTi_Hash2ProcessMessageBlock and DGTi_hash2_arm4_small.
 extern void (*data_0216f26c)(Hash20State *ctx, u8 *source, int length);
 
 void DGT_Hash2CalcHmac(u8 *digest, const u8 *bin, u32 binLen, const u8 *key, s32 keyLen);

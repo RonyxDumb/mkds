@@ -119,7 +119,7 @@ void InitStaffRollText(void *heap) {
     gStaffRollText->mHeap = heap;
     gStaffRollText->mState = 0;
     gStaffRollText->mNextState = 0;
-    CallQueueInit(HeapAlloc(heap, 0xa0), 0xa);
+    NNS_GfdInitVramTransferManager(HeapAlloc(heap, 0xa0), 0xa);
     gStaffRollText->mScrollYFixed = 0;
     gStaffRollText->mNextReadScrollY = 0;
     gStaffRollText->mScrollYRemaining = -1;
@@ -288,7 +288,7 @@ void AdvanceStaffRollText(void) {
 
 void SetStaffRollScrollAndDrainQueue(void) {
     reg_G2S_DB_BG0OFS = (((gStaffRollText->mScrollYFixed >> 12) % 256) << 16) & 0x1ff0000;
-    CallQueueDrain();
+    NNS_GfdDoVramTransfer();
 }
 
 void StartStaffRollText(void) {

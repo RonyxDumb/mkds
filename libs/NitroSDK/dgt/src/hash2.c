@@ -17,7 +17,7 @@ u32 DGT_SetOverlayTableMode(u32 flag) {
     if (flag != 0) {
         data_0216f26c = DGTi_Hash2ProcessMessageBlock;
     } else {
-        data_0216f26c = func_02150e1c;
+        data_0216f26c = DGTi_hash2_arm4_small;
     }
     return prev;
 }
@@ -177,7 +177,7 @@ void DGTi_Hash2ProcessMessageBlock(Hash20State *ctx, u8 *source, int length) {
         saved38 = *OFFSET_PTR(u32, source, 0x38);
         *OFFSET_PTR(u32, source, 0x18) = 0;
         *OFFSET_PTR(u32, source, 0x38) = 0;
-        func_02150e1c(ctx, source, 0x40);
+        DGTi_hash2_arm4_small(ctx, source, 0x40);
         *OFFSET_PTR(u32, source, 0x18) = saved18;
         *OFFSET_PTR(u32, source, 0x38) = saved38;
         source += 0x40;

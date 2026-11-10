@@ -2,23 +2,21 @@
 
 #include "types.h"
 #include "gfd_LinkedListPlttVramMan.h"
-#include "code_0201ec30.h" // Unk02173290
+#include "mic.h" // MICAutoParam
 
 typedef struct GxCommandBuffer GxCommandBuffer;
 typedef struct NNSGfdFrmPlttVramManager NNSGfdFrmPlttVramManager;
-typedef struct CallQueue CallQueue;
 
 extern u32 data_02173274;
 
 extern BOOL NNS_G3dFlagUseFastDma;
 
-extern CallQueue data_02173220;
 extern NNSGfdFrmPlttVramManager data_02173214;
 extern NNS_GfdLnkTexVramManager data_02173234;
-extern RangeEntry *data_02173238;
-extern RangeEntry *data_0217323c;
+extern NNSiGfdLnkVramBlock *data_02173238;
+extern NNSiGfdLnkVramBlock *data_0217323c;
 extern NNS_GfdLnkPlttVramManager data_02173250;
-extern RangeEntry *data_02173254;
+extern NNSiGfdLnkVramBlock *data_02173254;
 
 extern vu16 data_02173278;
 extern vu16 data_0217327c;
@@ -27,7 +25,7 @@ extern void (*data_02173284)(u32, s32);
 
 extern u8 data_02173288;
 extern s32 data_0217328c;
-extern Unk02173290 *data_02173290;
+extern MICAutoParam *data_02173290;
 extern s32 data_02173294;
 extern s32 data_02173298;
 extern s32 data_0217329c;

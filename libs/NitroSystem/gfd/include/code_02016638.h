@@ -3,28 +3,28 @@
 #include "types.h"
 
 // 16 bytes: an index into data_02152c54 and three words passed to the function it selects.
-typedef struct CallQueueEntry {
-    /* 00 */ u32 mFuncIndex;
-    /* 04 */ const void *mSource;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mSize;
-} CallQueueEntry;
+typedef struct NNSGfdVramTransferTask {
+    /* 00 */ u32 mType;
+    /* 04 */ const void *mPSrc;
+    /* 08 */ u32 mDstAddr;
+    /* 0c */ u32 mSzByte;
+} NNSGfdVramTransferTask;
 
-typedef struct CallQueueEntry CallQueueEntry;
+// Object at data_02173220: a pointer to an array of NNSGfdVramTransferTask, its length at 04, two indices at 08 and 0a
+// that GetNextIndex_ advances modulo the length, and a count at 0c (IsVramTransferTaskQueueFull_ compares it with the
+// length, IsVramTransferTaskQueueEmpty_ tests it for zero).
+typedef struct NNSGfdVramTransferTaskQueue {
+    /* 00 */ NNSGfdVramTransferTask *mPTaskArray;
+    /* 04 */ u32 mLengthOfArray;
+    /* 08 */ u16 mIdxFront;
+    /* 0a */ u16 mIdxRear;
+    /* 0c */ u16 mNumTasks;
+    /* 10 */ u32 mTotalSize;
+} NNSGfdVramTransferTaskQueue;
 
-// Object at data_02173220: a pointer to an array of CallQueueEntry, its length at 04, two indices at 08 and 0a that
-// CallQueueNextIndex advances modulo the length, and a count at 0c (CallQueueIsFull compares it with the length,
-// CallQueueIsEmpty tests it for zero).
-typedef struct CallQueue {
-    /* 00 */ CallQueueEntry *mEntries;
-    /* 04 */ u32 mCapacity;
-    /* 08 */ u16 mHeadIndex;
-    /* 0a */ u16 mTailIndex;
-    /* 0c */ u16 mCount;
-    /* 10 */ u32 mQueuedSize;
-} CallQueue;
+extern void (*const data_02152c54[36])(const void *a, u32 b, u32 c);
 
-void CallQueueRunEntry(CallQueueEntry *p);
+void DoTransfer_(NNSGfdVramTransferTask *p);
 void DoTransfer2dObjCharSub(const void *pSrc, u32 offset, u32 szByte);
 void DoTransfer2dObjOamSub(const void *pSrc, u32 offset, u32 szByte);
 void DoTransfer2dBGExtPlttSub(const void *pSrc, u32 offset, u32 szByte);
@@ -61,6 +61,6 @@ void DoTransfer3dClearImageDepth(const void *pSrc, u32 offset, u32 szByte);
 void DoTransfer3dClearImageColor(const void *pSrc, u32 offset, u32 szByte);
 void DoTransfer3dTexPltt(const void *pSrc, u32 offset, u32 szByte);
 void DoTransfer3dTex(const void *pSrc, u32 offset, u32 szByte);
-s32 CallQueueIsEmpty(CallQueue *p);
-s32 CallQueueIsFull(CallQueue *p);
-u16 CallQueueNextIndex(CallQueue *p, u32 v);
+s32 IsVramTransferTaskQueueEmpty_(NNSGfdVramTransferTaskQueue *p);
+s32 IsVramTransferTaskQueueFull_(NNSGfdVramTransferTaskQueue *p);
+u16 GetNextIndex_(NNSGfdVramTransferTaskQueue *p, u32 v);

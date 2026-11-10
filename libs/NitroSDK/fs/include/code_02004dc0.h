@@ -41,6 +41,7 @@ extern u32 data_0216f358;
 extern Unk02005704 data_0216f35c;
 extern Unk02005704 data_0216f364;
 extern FSArchive data_0216f36c;
+extern u8 fsi_def_digest_key[];
 extern u8 data_02161764[];
 extern void *data_02161768;
 extern u32 data_0216176c;

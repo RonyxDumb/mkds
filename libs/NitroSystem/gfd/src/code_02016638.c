@@ -1,22 +1,20 @@
 #include "code_02016638.h"
 
 #include "code_0200eddc.h"
-#include "Main/Unknown/code_0200e000.h"
-#include "Main/Unknown/unk_02152000.h"
 #include "code_0214b824.h"
 #include "code_0214b338.h"
 #include "gx_load3d.h"
 
-u16 CallQueueNextIndex(CallQueue *p, u32 v) {
-    return (v + 1) % p->mCapacity;
+u16 GetNextIndex_(NNSGfdVramTransferTaskQueue *p, u32 v) {
+    return (v + 1) % p->mLengthOfArray;
 }
 
-s32 CallQueueIsFull(CallQueue *p) {
-    return p->mCount == p->mCapacity;
+s32 IsVramTransferTaskQueueFull_(NNSGfdVramTransferTaskQueue *p) {
+    return p->mNumTasks == p->mLengthOfArray;
 }
 
-s32 CallQueueIsEmpty(CallQueue *p) {
-    return p->mCount == 0;
+s32 IsVramTransferTaskQueueEmpty_(NNSGfdVramTransferTaskQueue *p) {
+    return p->mNumTasks == 0;
 }
 
 void DoTransfer3dTex(const void *pSrc, u32 offset, u32 szByte) {
@@ -179,10 +177,10 @@ void DoTransfer2dObjCharSub(const void *pSrc, u32 offset, u32 szByte) {
     GXS_LoadOBJ(pSrc, offset, szByte);
 }
 
-void CallQueueRunEntry(CallQueueEntry *p) {
+void DoTransfer_(NNSGfdVramTransferTask *p) {
     void (*f)(const void *, u32, u32);
 
-    f = data_02152c54[p->mFuncIndex];
-    DC_FlushRange(p->mSource, p->mSize);
-    f(p->mSource, p->mUnk_08, p->mSize);
+    f = data_02152c54[p->mType];
+    DC_FlushRange(p->mPSrc, p->mSzByte);
+    f(p->mPSrc, p->mDstAddr, p->mSzByte);
 }

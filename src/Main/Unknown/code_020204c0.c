@@ -1,10 +1,10 @@
-#include "code_020204c0.h"
+#include "Main/Unknown/code_020204c0.h"
 #include "code_0200eddc.h"
 #include "code_0214d018.h"
 #include "Main/Unknown/code_0200e000.h"
 #include "Main/Unknown/code_0214d000.h"
 
-s32 func_020204c0(ScanBlock *a) {
+s32 IsScanBlockGameInfoMatch(ScanBlock *a) {
     // volatile only so that v1[0] is read again for the second compare
     volatile u16 v1[4];
 

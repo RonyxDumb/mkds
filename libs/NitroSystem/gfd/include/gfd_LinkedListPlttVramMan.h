@@ -2,23 +2,23 @@
 
 #include "types.h"
 
-typedef struct RangeEntry RangeEntry;
+#include "code_020169a4.h" // NNSiGfdLnkVramBlock
 
 typedef struct NNS_GfdLnkTexVramManager {
-    /* 00 */ RangeEntry *mMgrNrm;
-    /* 04 */ RangeEntry *mMgr4x4;
-    /* 08 */ RangeEntry *mBlockList;
+    /* 00 */ NNSiGfdLnkVramBlock *mMgrNrm;
+    /* 04 */ NNSiGfdLnkVramBlock *mMgr4x4;
+    /* 08 */ NNSiGfdLnkVramBlock *mBlockList;
     /* 0c */ u32 mSzByte;
     /* 10 */ u32 mSzByteFor4x4;
-    /* 14 */ RangeEntry *mWorkHead;
+    /* 14 */ NNSiGfdLnkVramBlock *mWorkHead;
     /* 18 */ u32 mSzByteManagementWork;
 } NNS_GfdLnkTexVramManager;
 
 typedef struct NNS_GfdLnkPlttVramManager {
-    /* 00 */ RangeEntry *mMgr;
-    /* 04 */ RangeEntry *mBlockList;
+    /* 00 */ NNSiGfdLnkVramBlock *mMgr;
+    /* 04 */ NNSiGfdLnkVramBlock *mBlockList;
     /* 08 */ u32 mSzByte;
-    /* 0c */ RangeEntry *mWorkHead;
+    /* 0c */ NNSiGfdLnkVramBlock *mWorkHead;
     /* 10 */ u32 mSzByteManagementWork;
 } NNS_GfdLnkPlttVramManager;
 

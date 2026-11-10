@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_02051658.h"
 #include "Main/Unknown/code_0200e000.h"
 #include "code_0200eddc.h"
-#include "code_020204c0.h"
+#include "Main/Unknown/code_020204c0.h"
 #include "Main/Unknown/code_0204e000.h"
 #include "Main/Unknown/code_02051640.h"
 #include "Main/Unknown/code_020529b8.h"
@@ -256,7 +256,7 @@ void StartScanCallback(Unk021425e8 *event) {
                 DC_StoreRange(&scanBuffer, 0xc0);
                 if (gConnectionWork->mState == 0xd) {
                     v = event->mUnk_12;
-                    if (func_020204c0(&scanBuffer) != 0) {
+                    if (IsScanBlockGameInfoMatch(&scanBuffer) != 0) {
                         gConnectionWork->mUnk_1ed0 = 1;
                         gConnectionWork->mUnk_1ed4 = v;
                         gConnectionWork->mUnk_1ed6 = 0;

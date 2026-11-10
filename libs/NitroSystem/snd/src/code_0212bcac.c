@@ -9,7 +9,6 @@
 #include "code_0212f788.h"
 #include "code_0201750c.h"
 #include "Main/Unknown/code_02017000.h"
-#include "code_0201ec30.h"
 #include "Main/Unknown/code_02021000.h"
 #include "code_0212f864.h"
 #include "Main/Unknown/unk_02152000.h"
@@ -387,7 +386,7 @@ void InitPlayer(NNSSndSeqPlayer *seq) {
     seq->mVolume = 0;
     seq->mInitVolume = 0x7f;
     seq->mExtVolume = 0x7f;
-    InterpolatorInit(&seq->mFader);
+    NNSi_SndFaderInit(&seq->mFader);
     NNSi_SndFaderSet(&seq->mFader, 0x7f00, 1);
 }
 

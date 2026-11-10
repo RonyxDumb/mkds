@@ -208,7 +208,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
     LoadArchiveSlotsForScene(a->mScene);
     SetHeapGroupId(9);
     GetHeap(GetCurrentHeapCall());
-    CallQueueInit(HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x800), 0x80);
+    NNS_GfdInitVramTransferManager(HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x800), 0x80);
     if (TryGetSceneSoundSetSeqId(a->mScene, &n)) {
         InitSceneSoundSetPlayer(n);
     }
@@ -237,7 +237,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
         func_020487fc_inline8();
         func_020487fc_inline9(b);
         r = RunMessageScreenOnDisconnect(a, gSceneRunState->mRunStep != 4);
-        CallQueueDrain();
+        NNS_GfdDoVramTransfer();
         if (r) {
             a->mNextScene = gSceneRunState->mNextScene;
             goto end;
@@ -259,7 +259,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
         v = func_020487fc_inline8();
         func_020487fc_inline9(b);
         r = RunMessageScreenOnDisconnect(a, gSceneRunState->mRunStep != 4);
-        CallQueueDrain();
+        NNS_GfdDoVramTransfer();
         if (r) {
             a->mNextScene = gSceneRunState->mNextScene;
             goto end;
@@ -299,7 +299,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
         func_020487fc_inline8();
         func_020487fc_inline9(b);
         RunMessageScreenOnDisconnect(a, gSceneRunState->mRunStep != 4);
-        CallQueueDrain();
+        NNS_GfdDoVramTransfer();
         if (b->mUnk_0c != NULL) {
             b->mUnk_0c(0, gSceneRunState->mSceneFrames);
         }
@@ -328,7 +328,7 @@ end:
                 }
             }
             RunMessageScreenOnDisconnect(a, gSceneRunState->mRunStep != 4);
-            CallQueueDrain();
+            NNS_GfdDoVramTransfer();
             UpdateWiFiSession();
             RecordFrameTimes();
         } while (!c);

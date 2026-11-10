@@ -1,10 +1,10 @@
-#include "code_0201ec30.h"
+#include "Main/Unknown/code_0201ec30.h"
 
 #include "code_0200eddc.h"
 #include "Main/Unknown/unk_02173000.h"
 #include "Main/Unknown/unk_02161000.h"
 #include "Main/Unknown/code_0200e000.h"
-#include "code_020204b4.h"
+#include "Main/Unknown/code_020204b4.h"
 #include "mic.h"
 
 u8 data_02161ad8 = 1;
@@ -13,20 +13,20 @@ u8 data_02173288;
 s32 data_021732a8;
 s32 data_0217328c;
 s32 data_021732a4;
-Unk02173290 *data_02173290;
+MICAutoParam *data_02173290;
 s32 data_02173294;
 s32 data_02173298;
 u8 data_021732a0[4];
 s32 data_0217329c;
 
-s32 func_02020498(s32 a) {
+s32 GetMicSampleAmplitude(s32 a) {
     if (a > 0x7f && a <= 0xfe) {
         return a - 0x7f;
     }
     return 0x7f - a;
 }
 
-void func_02020430(Unk02173290 *a) {
+void InitMicSampleAnalysis(MICAutoParam *a) {
     s32 i;
 
     data_02173290 = a;
@@ -38,11 +38,11 @@ void func_02020430(Unk02173290 *a) {
     }
 }
 
-void func_0202041c(void) {
+void StartMicSampleAnalysis(void) {
     data_02173294 = 1;
 }
 
-void func_020203e4(void) {
+void StopMicSampleAnalysis(void) {
     if (data_02173294 == 0) {
         return;
     }
@@ -51,11 +51,11 @@ void func_020203e4(void) {
     data_02173298 = 0;
 }
 
-void func_020203d4(u32 arg0) {
+void SetMicSampleAnalysisMode(u32 arg0) {
     data_02161ad8 = arg0;
 }
 
-u8 func_0201ec30(void) {
+u8 UpdateMicSampleAnalysis(void) {
     u8 *p;
     s32 n;
     s32 prev;
@@ -81,7 +81,7 @@ u8 func_0201ec30(void) {
 
     cnt = 0;
     n = 0;
-    len = data_02173290->mUnk_08;
+    len = data_02173290->mSize;
     last = 9999;
     maxv = 0;
     lim = 2;
@@ -94,14 +94,14 @@ u8 func_0201ec30(void) {
     }
     mind = len;
     p = MIC_GetLastSamplingAddress();
-    buf = data_02173290->mUnk_04;
+    buf = data_02173290->mBuffer;
     pos = p - buf;
     if (pos >= len / 8) {
         i = pos - len / 8;
         DC_InvalidateRange(buf + i, pos);
         for (; i < pos; i++) {
-            if (data_02173290->mUnk_00 == 0) {
-                v = func_02020498(func_020204b4(buf[i]));
+            if (data_02173290->mType == 0) {
+                v = GetMicSampleAmplitude(ClampMicSample(buf[i]));
             } else {
                 v = (s8) buf[i];
                 if (v < 0) {
@@ -119,8 +119,8 @@ u8 func_0201ec30(void) {
         i = len - (len / 8 - pos);
         DC_InvalidateRange(buf + i, (u16) len);
         for (; i < len; i++) {
-            if (data_02173290->mUnk_00 == 0) {
-                v = func_02020498(func_020204b4(buf[i]));
+            if (data_02173290->mType == 0) {
+                v = GetMicSampleAmplitude(ClampMicSample(buf[i]));
             } else {
                 v = (s8) buf[i];
                 if (v < 0) {
@@ -136,8 +136,8 @@ u8 func_0201ec30(void) {
         }
         DC_InvalidateRange(buf, pos);
         for (i = 0; i < pos; i++) {
-            if (data_02173290->mUnk_00 == 0) {
-                v = func_02020498(func_020204b4(buf[i]));
+            if (data_02173290->mType == 0) {
+                v = GetMicSampleAmplitude(ClampMicSample(buf[i]));
             } else {
                 v = (s8) buf[i];
                 if (v < 0) {
@@ -156,10 +156,10 @@ u8 func_0201ec30(void) {
         data_021732a0[j] = 0;
     }
     for (i = pos; i < len; i++) {
-        if (data_02173290->mUnk_00 != 0) {
+        if (data_02173290->mType != 0) {
             v = (s8) buf[i] + 127;
         } else {
-            v = func_020204b4(buf[i]);
+            v = ClampMicSample(buf[i]);
         }
         if (maxv > 30) {
             if (v > 127 && prev <= 127) {
@@ -195,10 +195,10 @@ u8 func_0201ec30(void) {
     }
     cnt3 = last - len;
     for (i = 0; i < pos; i++) {
-        if (data_02173290->mUnk_00 != 0) {
+        if (data_02173290->mType != 0) {
             v = (s8) buf[i] + 127;
         } else {
-            v = func_020204b4(buf[i]);
+            v = ClampMicSample(buf[i]);
         }
         if (maxv > 30) {
             if (v > 127 && prev <= 127) {
@@ -239,8 +239,8 @@ u8 func_0201ec30(void) {
     ok = 0;
     data_02173288 = 0;
     if (m > 99) {
-        if (data_02173290->mUnk_00 == 0) {
-            func_02020498(func_020204b4(*p));
+        if (data_02173290->mType == 0) {
+            GetMicSampleAmplitude(ClampMicSample(*p));
         }
         n = m;
         if (m > 1883) {

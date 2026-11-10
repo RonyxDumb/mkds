@@ -26,7 +26,7 @@ Unk02005704 data_0216f364;
 Unk02005704 data_0216f35c;
 FSArchive data_0216f36c;
 
-void *data_02161768 = data_02152b80;
+void *data_02161768 = fsi_def_digest_key;
 u8 data_02161764[4] = "rom";
 u32 data_0216176c = 0x40;
 

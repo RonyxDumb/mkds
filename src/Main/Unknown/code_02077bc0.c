@@ -2012,8 +2012,8 @@ void AdvanceKartModelMenuLoad(void) {
 void InitLnkVramManagers(void *heap) {
     u32 texWorkSize;
     u32 plttWorkSize;
-    RangeEntry *texWork;
-    RangeEntry *plttWork;
+    NNSiGfdLnkVramBlock *texWork;
+    NNSiGfdLnkVramBlock *plttWork;
     texWorkSize = NNS_GfdGetLnkTexVramManagerWorkSize(0x20);
     plttWorkSize = func_020172d0(0x20);
     texWork = HeapAlloc(heap, texWorkSize);

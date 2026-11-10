@@ -213,7 +213,7 @@ void NNS_G2dFontInitAuto(Unk02022aa8 *pFont, Unk02021f9c *pNftrFile) {
     u32 result;
     u32 encoding;
 
-    result = func_0202469c(pNftrFile, &pFont->mUnk_00);
+    result = NNSi_G2dGetUnpackedFont(pNftrFile, &pFont->mUnk_00);
     encoding = pFont->mUnk_00->mUnk_07;
     pFont->mUnk_08 = result - 1;
     pFont->mUnk_0a = pFont->mUnk_08 != 0 ? 2 : 3;
@@ -221,9 +221,9 @@ void NNS_G2dFontInitAuto(Unk02022aa8 *pFont, Unk02021f9c *pNftrFile) {
 }
 
 void NNS_G2dFontInitUTF16(Unk02022aa8 *pFont, Unk02021f9c *pNftrFile) {
-    pFont->mUnk_08 = func_0202469c(pNftrFile, &pFont->mUnk_00) - 1;
+    pFont->mUnk_08 = NNSi_G2dGetUnpackedFont(pNftrFile, &pFont->mUnk_00) - 1;
     pFont->mUnk_0a = pFont->mUnk_08 != 0 ? 2 : 3;
-    pFont->mUnk_04 = CharReadHalfword;
+    pFont->mUnk_04 = NNSi_G2dSplitCharUTF16;
 }
 
 u32 NNS_G2dFontFindGlyphIndex(Unk02022aa8 *pFont, u32 code) {

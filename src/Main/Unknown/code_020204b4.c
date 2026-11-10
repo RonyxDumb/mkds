@@ -1,6 +1,6 @@
-#include "code_020204b4.h"
+#include "Main/Unknown/code_020204b4.h"
 
-u32 func_020204b4(u32 arg0) {
+u32 ClampMicSample(u32 arg0) {
     u32 value0 = arg0;
     u32 compareLeft0;
     u32 compareRight0;

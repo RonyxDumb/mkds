@@ -484,43 +484,43 @@ libs/NitroSystem/gfd/src/gfd_FramePlttVramMan.c:
     .text       start:0x020162b0 end:0x02016468
 
 // provisional: file name and boundaries
-libs/Unknown/src/code_02016468.c:
+libs/NitroSystem/gfd/src/code_02016468.c:
     complete
     .text       start:0x02016468 end:0x02016574
     .bss        start:0x02173200 end:0x02173214
 
 // provisional: file name and boundaries
-libs/Unknown/src/code_02016574.c:
+libs/NitroSystem/gfd/src/code_02016574.c:
     complete
     .text       start:0x02016574 end:0x020165b8
 
 // provisional: file name and boundaries
-libs/Unknown/src/code_020165b8.c:
+libs/NitroSystem/gfd/src/code_020165b8.c:
     complete
     .text       start:0x020165b8 end:0x020165d8
 
 // provisional: file name and boundaries
-libs/Unknown/src/code_020165d8.c:
+libs/NitroSystem/gfd/src/code_020165d8.c:
     complete
     .text       start:0x020165d8 end:0x0201661c
 
 // provisional: file name and boundaries
-libs/Unknown/src/code_0201661c.c:
+libs/NitroSystem/gfd/src/code_0201661c.c:
     complete
     .text       start:0x0201661c end:0x02016638
 
 // provisional: file name and boundaries
-libs/Unknown/src/code_02016638.c:
+libs/NitroSystem/gfd/src/code_02016638.c:
     complete
     .text       start:0x02016638 end:0x020169a4
 
 // provisional: file name and boundaries
-libs/Unknown/src/code_020169a4.c:
+libs/NitroSystem/gfd/src/code_020169a4.c:
     complete
     .text       start:0x020169a4 end:0x02016d28
 
 // provisional: file name and boundaries
-libs/Unknown/src/code_02016d28.c:
+libs/NitroSystem/gfd/src/code_02016d28.c:
     complete
     .text       start:0x02016d28 end:0x02016d34
 
@@ -601,19 +601,19 @@ libs/Unknown/src/code_0201ea58.c:
     .text       start:0x0201ea58 end:0x0201ec30
 
 // provisional: file name and boundaries
-libs/Unknown/src/code_0201ec30.c:
+src/Main/Unknown/code_0201ec30.c:
     complete
     .text       start:0x0201ec30 end:0x020204b4
     .data       start:0x02161ad8 end:0x02161adc
     .bss        start:0x02173268 end:0x0217328c
 
 // provisional: file name and boundaries
-libs/Unknown/src/code_020204b4.c:
+src/Main/Unknown/code_020204b4.c:
     complete
     .text       start:0x020204b4 end:0x020204c0
 
 // provisional: file name and boundaries
-libs/Unknown/src/code_020204c0.c:
+src/Main/Unknown/code_020204c0.c:
     complete
     .text       start:0x020204c0 end:0x0202056c
 
@@ -746,7 +746,7 @@ libs/NitroSystem/g2d/src/code_02024184.c:
     .text       start:0x02024184 end:0x020245a4
 
 // provisional: file name and boundaries
-libs/Unknown/src/code_020245a4.c:
+libs/NitroSystem/g2d/src/code_020245a4.c:
     complete
     .text       start:0x020245a4 end:0x02024974
 
@@ -5120,7 +5120,7 @@ src/Main/Unknown/code_0212b1a8.c:
     .text       start:0x0212b1a8 end:0x0212b9ec
 
 // provisional: file name and boundaries
-libs/Unknown/src/code_0212b9ec.c:
+libs/NitroSystem/snd/src/code_0212b9ec.c:
     complete
     .text       start:0x0212b9ec end:0x0212ba34
 
@@ -5184,7 +5184,7 @@ libs/NitroSystem/snd/src/code_0212f788.c:
     .text       start:0x0212f788 end:0x0212f864
 
 // provisional: file name and boundaries
-libs/Unknown/src/code_0212f864.c:
+libs/NitroSystem/snd/src/code_0212f864.c:
     complete
     .text       start:0x0212f864 end:0x0212f884
 
@@ -5676,7 +5676,7 @@ libs/NitroSDK/dgt/src/hash2.c:
     .bss        start:0x02180470 end:0x02180474
 
 // provisional: file name and boundaries
-libs/Unknown/src/code_02150e1c.s:
+libs/NitroSDK/dgt/src/code_02150e1c.s:
     complete
     .text       start:0x02150e08 end:0x0215109c
 
@@ -5836,6 +5836,6 @@ libs/NitroDWC/account/src/code_02152ac8.c:
     .text       start:0x02152ac8 end:0x02152b5c
 
 // provisional: file name and boundaries
-libs/Unknown/src/code_02152b5c.s:
+libs/NitroSDK/fs/src/code_02152b5c.s:
     complete
     .text       start:0x02152b5c end:0x02152bc0
