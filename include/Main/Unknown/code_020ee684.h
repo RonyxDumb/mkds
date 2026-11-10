@@ -8,6 +8,8 @@
 // Copy of ITEM_THROW_FORWARD_BIT in KartItems.mFlags (TryAddKartItemFlags and AdvanceItemInUseOne set it from the input
 // word).
 #define KART_ITEMS_THROW_FORWARD 0x10
+// The down key was held when the item was used (TryAddKartItemFlags and AdvanceItemInUseOne set it).
+#define KART_ITEMS_DOWN 0x20
 // One item record per kart (the array behind gKartItems, 0x210 bytes each): the item roulette in the first 0x30 bytes,
 // the held item at 0x30, the item in use at 0x58, the course reference at 0x1f0, the kart index and the Kart at 0x1f8 /
 // 0x1fc and four words of use state at 0x200..0x20c. A bag named after whose item state it is: no single role. Race
@@ -40,8 +42,8 @@ typedef struct KartItems {
     // Record of the item in use (ItemInUse: object kind at 0, 0xf = none; item index at 4; use state at 8; Kart at
     // 0x10; three object pointers at 0x14)
     /* 058 */ ItemInUse mItemInUse;
-    // Bits set from data words and masks by the kart step; 0x200 / 0x40 / 0x2 / 0x4 combine in the use tests; meanings
-    // not read
+    // Bits set from data words and masks by the kart step; 0x10 / 0x20 are the throw-forward and down keys held at use;
+    // 0x200 / 0x40 / 0x2 / 0x4 combine in the use tests; their meanings are not read
     /* 1ec */ u16 mFlags;
     /* 1ee */ u8 mUnk_1ee[2];
     /* 1f0 */ ItemPointLinkRef mItemLink;

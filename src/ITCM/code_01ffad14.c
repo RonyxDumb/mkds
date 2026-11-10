@@ -30,7 +30,7 @@ s32 LimitKartForwardSpeedAndGetScaled(Kart *p) {
     a = a > 0 ? a : -a;
     b = p->mAttractorPullSpeed;
     c = p->mSpeedLimit - b;
-    if ((f & 4) && (p->mUnk_44 & 0x100)) {
+    if ((f & 4) && (p->mUnk_44 & KART_44_REVERSING)) {
         if (c > 0x3000) {
             c = 0x3000;
         }

@@ -59,7 +59,7 @@ void CreateBoxAndQuestion(void) {
 void InitItemBox(ItemBox *itemBox, CourseMapRow *row) {
     RandomState64 *random;
     Vec3 shadowPos;
-    BOOL v1;
+    BOOL usesGroupShadow;
 
     itemBox->mUnk_000.mPos.y += 0xc000;
     itemBox->mPositionSource = &itemBox->mUnk_000.mPos;
@@ -72,11 +72,11 @@ void InitItemBox(ItemBox *itemBox, CourseMapRow *row) {
     itemBox->mFramesSinceHit = 0x80;
     if (row != NULL) {
         if (itemBox->mUnk_000.mKind == 0xc9 && row->mUnk_26 >= 0) {
-            v1 = TRUE;
+            usesGroupShadow = TRUE;
         } else {
-            v1 = FALSE;
+            usesGroupShadow = FALSE;
         }
-        itemBox->mUsesGroupShadow = v1;
+        itemBox->mUsesGroupShadow = usesGroupShadow;
         itemBox->mShortSpin = row->mUnk_34;
         itemBox->mNoCourseRow = 0;
     } else {
@@ -107,7 +107,7 @@ void InitItemBox(ItemBox *itemBox, CourseMapRow *row) {
         }
     }
     if (row != NULL) {
-        if (func_020e512c(&row->mUnk_00) != 0) {
+        if (HasCourseTriangleFlag2At(&row->mUnk_00) != 0) {
             itemBox->mUnk_000.mFlags |= data_02158568;
         }
     }

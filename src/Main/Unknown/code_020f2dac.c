@@ -686,14 +686,14 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
                        s32 forwardSpeed, s32 forwardUpSpeed, s32 backwardUpSpeed) {
     Vec3 v;
     s32 n;
-    BOOL kartHasBit1;
+    BOOL kartOnBoostSurface;
     Vec3 *scale;
     s32 dx;
     s32 alongY;
     s32 alongZ;
 
     n = Vec3DotUnrounded(&itemInUse->mKartMovement, &itemInUse->mKartOrientation.mUnk_00[2]);
-    kartHasBit1 = (itemInUse->mKart->mUnk_48 & 1) != 0;
+    kartOnBoostSurface = (itemInUse->mKart->mUnk_48 & KART_48_ON_BOOST_SURFACE) != 0;
     n = MUL_FIXED12_NO_ROUND(n, 0x1ec);
     if (n < 0x666) {
         n = 0x666;
@@ -715,7 +715,7 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
     v.x = MUL_FIXED12_NO_ROUND(v.x, n);
     v.y = MUL_FIXED12_NO_ROUND(v.y, n);
     v.z = MUL_FIXED12_NO_ROUND(v.z, n);
-    if (!kartHasBit1) {
+    if (!kartOnBoostSurface) {
         if (throwForward != 0) {
             n = forwardUpSpeed + MUL_FIXED12_NO_ROUND(itemInUse->mKartVelocityLength, 0x200) +
                 MUL_FIXED12_NO_ROUND(itemInUse->mKartMovement.y, 0x2000);
@@ -749,7 +749,7 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
     item->mBouncesRemaining = bounceCount;
     item->mItemObject.mBounce = BounceItemObject;
     item->mItemObject.mFlags &= ~0x7000000;
-    if (!kartHasBit1) {
+    if (!kartOnBoostSurface) {
         return;
     }
     n = VEC_DotProduct(&itemInUse->mKartOrientation.mUnk_00[1], &item->mItemObject.mVelocity);

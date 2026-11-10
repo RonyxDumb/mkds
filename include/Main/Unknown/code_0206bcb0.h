@@ -156,9 +156,9 @@ typedef struct ParticipantKartRecordState {
 #define KART_7C_ENTRY_KIND_2 0x4
 // Set at set-up when mKartModelsEntry->mUnk_008 != NULL (a snapshot taken then).
 #define KART_7C_MODELS_ENTRY_008_SET 0x10
-// Set by AdvanceKartRemovalShrink once the removal shrink has finished (25 steps after KART_7C_REMOVED).
-// The staff-roll AI also sets and clears it, as a literal.
-#define KART_7C_REMOVAL_SHRINK_DONE 0x40
+// Kart is hidden: AdvanceKartRemovalShrink sets it once the removal shrink has finished (25 steps after
+// KART_7C_REMOVED). The staff roll sets it on every Kart but the entry Kart and clears it as each one comes into view.
+#define KART_7C_HIDDEN 0x40
 // Set by the removal step (battle elimination, a removed race entry, a finished entry-kind-2 Kart).
 // Cleared when the Kart is put back at its start.
 #define KART_7C_REMOVED 0x20
@@ -173,6 +173,8 @@ typedef struct ParticipantKartRecordState {
 // Set on both Karts of a pair when the near test passed; cleared at the start of the next step (inside the literal
 // 0x57ffffdf).
 #define KART_44_NEAR_KART 0x20
+// Set in the step when mForwardSpeed is negative (the Kart is reversing).
+#define KART_44_REVERSING 0x100
 
 // Bits of Kart.mUnk_4c.
 // Set while mHeadingAngleOffset swings (AdvanceKartRaceStartBoost sets it, AdvanceKartHeadingSwing clears it).
@@ -187,6 +189,8 @@ typedef struct ParticipantKartRecordState {
 // Set while the Kart is small from the Thunder item (StartKartThunderShrink sets it, AdvanceKartThunderShrink clears
 // it).
 #define KART_4C_THUNDER_SHRINK 0x80
+// Set by ResetKartToRespawnPoint (with 0x400) while the Kart drops onto the track; the landing clears it.
+#define KART_4C_RESPAWN_DROP 0x800
 // Bits of Kart.mUnk_48.
 // The Kart steers left in this step (from the input bits or the CPU); func_01ffca50 clears both turn bits.
 #define KART_48_TURN_LEFT 8
@@ -196,6 +200,8 @@ typedef struct ParticipantKartRecordState {
 #define KART_48_BOOST 0x20
 // Set from the release of a fully charged drift until mUnk_23c has counted down.
 #define KART_48_MINI_TURBO 0x80000
+// Set by ApplyKartSurfaceKind19 (the boost surface) and read as "the Kart is on a boost surface".
+#define KART_48_ON_BOOST_SURFACE 1
 
 // The values of Kart.mState; each indexes gKartStateFunctions.
 typedef enum {
@@ -553,8 +559,8 @@ extern int data_02154f10[];
 void StartKartState(Kart *kart, KartState mode);
 BOOL func_0206c094(Kart *kart);
 int func_0206c0a8(Kart *kart);
-BOOL func_0206c0b0(Kart *kart);
-BOOL func_0206c0e0(Kart *kart);
+BOOL IsKartRemovedOrRespawning(Kart *kart);
+BOOL IsKartNotNormal(Kart *kart);
 void SetupKartAiItemInUseEntry(Kart *kart);
 void SetupKartAiHeldItemEntry(Kart *kart);
 void func_0206c17c(Kart *kart);

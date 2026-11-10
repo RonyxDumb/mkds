@@ -45,7 +45,7 @@ BOOL SteerItemKouraRToKart(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
     if ((item->mUnk_000.mUnk_000.mUnk_000.mUnk_48 & 1) == GetRaceUpdateFramesMod2()) {
         kart = item->mKartItems->mKart;
         if (!(item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x20000)) {
-            if (func_0206c0e0(kart) != FALSE) {
+            if (IsKartNotNormal(kart) != FALSE) {
                 speed >>= 1;
             }
             VEC_Subtract(&kart->mDrawMatrixPos, pos, &t);
@@ -167,7 +167,8 @@ int TrySetItemKouraRKartItems(ItemKouraR *item, int kartIndex, s32 maxDistanceSq
             }
         }
     }
-    if ((kart->mUnk_7c & 0x402020) || (kart->mUnk_4c & 0x800) || (kartRank != 1 && kart->mState != KART_STATE_NORMAL)) {
+    if ((kart->mUnk_7c & 0x402020) || (kart->mUnk_4c & KART_4C_RESPAWN_DROP) ||
+        (kartRank != 1 && kart->mState != KART_STATE_NORMAL)) {
         return 0;
     }
     GetKartPos(&offset, kartIndex);

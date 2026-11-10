@@ -114,9 +114,9 @@ void AdvanceStaffRollPointLinkCursor(PointLinkCursor *pointLinkCursor) {
     }
     if (pointLinkCursor->mKartIndex != 0) {
         if (pointLinkCursor->mLink->mUnk_20[3] == 0) {
-            kart->mUnk_7c &= ~0x40;
+            kart->mUnk_7c &= ~KART_7C_HIDDEN;
         } else {
-            kart->mUnk_7c |= 0x40;
+            kart->mUnk_7c |= KART_7C_HIDDEN;
         }
     }
     VEC_Subtract(pointLinkCursor->mLink->mPoint, pointLinkCursor->mPreviousLink->mPoint, &pointLinkCursor->mDirection);
@@ -635,8 +635,7 @@ void AdvanceKartAiSideOffset(KartAi *kartAi) {
         kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
         randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
         newSideOffsetRatio =
-            kartAi->mSideOffsetRatio +
-            MUL_FIXED12_NO_ROUND(MUL_FIXED12_NO_ROUND(randomValue, 0x2000) - 0x1000, 0x267);
+            kartAi->mSideOffsetRatio + MUL_FIXED12_NO_ROUND(MUL_FIXED12_NO_ROUND(randomValue, 0x2000) - 0x1000, 0x267);
         if (GetAbsoluteValue(newSideOffsetRatio) > 0xb36) {
             if (newSideOffsetRatio > 0) {
                 newSideOffsetRatio = 0xb36;

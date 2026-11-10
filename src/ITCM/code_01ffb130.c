@@ -138,7 +138,7 @@ void func_01ffb130(Kart *p) {
     if ((p->mUnk_44 & KART_44_ON_GROUND) || (p->mUnk_4c & 0x10000000)) {
         MTX_RotAxis33(&m1, &p->mGroundNormal, gPairsByAngle[((u16) p->mTurnAngle >> 4) * 2],
                       gPairsByAngle[((u16) p->mTurnAngle >> 4) * 2 + 1]);
-        if (p->mUnk_48 & 1) {
+        if (p->mUnk_48 & KART_48_ON_BOOST_SURFACE) {
             MTX_RotAxis33(&m2, &p->mUnk_120, gPairsByAngle[0xba], gPairsByAngle[0xbb]);
             MTX_Concat33(&m2, &m1, &m1);
         }

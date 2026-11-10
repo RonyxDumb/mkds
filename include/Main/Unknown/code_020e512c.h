@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_020e512c(Vec3 *position);
+u32 HasCourseTriangleFlag2At(Vec3 *position);

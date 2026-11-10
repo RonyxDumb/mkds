@@ -778,7 +778,7 @@ void UpdateJgState1(void) {
     } else {
         data_0217b8c4 = 0;
     }
-    if ((gJgKart->mUnk_48 & 1) == 0) {
+    if ((gJgKart->mUnk_48 & KART_48_ON_BOOST_SURFACE) == 0) {
         return;
     }
     SetStateMachineState(&gJgStateMachine, 5);
@@ -921,7 +921,7 @@ void EnterJgState5(void) {
     MTX_MultVec43(&gJgTargetPos, &gJgPreviousInverseMatrix, &data_0217b984);
     data_0217b89c = 0;
     initialSpeed = 0;
-    if ((gJgKart->mUnk_48 & 1) == 0) {
+    if ((gJgKart->mUnk_48 & KART_48_ON_BOOST_SURFACE) == 0) {
         initialSpeed = 0xffffbccd;
     }
     data_0217b8d8 = initialSpeed;
@@ -931,7 +931,7 @@ void UpdateJgState5(void) {
     s32 acceleration;
 
     MTX_MultVec43(&data_0217b984, &gJgMatrix, &gJgTargetPos);
-    if ((gJgKart->mUnk_48 & 1) != 0) {
+    if ((gJgKart->mUnk_48 & KART_48_ON_BOOST_SURFACE) != 0) {
         acceleration = 0x2000;
     } else {
         acceleration = 0x800;

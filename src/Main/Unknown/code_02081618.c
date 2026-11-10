@@ -897,7 +897,7 @@ void AdvanceOldLuigiAgbFirstChaseEffect(Unk0201ca6c *effect, s32 a) {
     if (speedRatio > 0x1000) {
         speedRatio = 0x1000;
     }
-    if (kart->mUnk_44 & 0x100) {
+    if (kart->mUnk_44 & KART_44_REVERSING) {
         speedRatio = speedRatio * 0xffffffff;
         extraDistance = data_02165938;
     }
@@ -1028,7 +1028,7 @@ void AdvanceOldFrappe64FirstChaseEffect(Unk0201ca6c *effect, s32 a) {
     if (speedRatio > 0x1000) {
         speedRatio = 0x1000;
     }
-    if (kart->mUnk_44 & 0x100) {
+    if (kart->mUnk_44 & KART_44_REVERSING) {
         extraDistance = -0x5800;
     }
     if ((s64) forwardFlat.z * forwardFlat.z +

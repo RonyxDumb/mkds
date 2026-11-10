@@ -80,7 +80,7 @@ void AdvanceItemGesso(ItemGesso *gesso) {
             }
         }
     }
-    if (kart->mUnk_4c & 0x800) {
+    if (kart->mUnk_4c & KART_4C_RESPAWN_DROP) {
         gesso->mEnded = TRUE;
         gesso->mVisible = FALSE;
     }

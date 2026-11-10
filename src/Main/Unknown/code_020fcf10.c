@@ -21,7 +21,7 @@ void SteerItemKouraWToAnglePoint(ItemKouraW *item, s32 maxStep, s32 angle, s32 r
     pos = &item->mUnk_000.mUnk_000.mUnk_000.mPos;
     velocity = &item->mUnk_000.mUnk_000.mUnk_000.mVelocity;
     toTarget = &item->mToTarget;
-    if (kart->mUnk_44 & 0x100) {
+    if (kart->mUnk_44 & KART_44_REVERSING) {
         item->mKartForward.x = -item->mKartForward.x;
         item->mKartForward.y = -item->mKartForward.y;
         item->mKartForward.z = -item->mKartForward.z;
@@ -34,7 +34,7 @@ void SteerItemKouraWToAnglePoint(ItemKouraW *item, s32 maxStep, s32 angle, s32 r
     scaledRadius = MUL_FIXED12_NO_ROUND(radius, gPairsByAngle[(angle >> 4) * 2]);
     VEC_MultAdd(scaledRadius, &item->mKartForward, &item->mAnglePointOffset, &item->mAnglePointOffset);
     VEC_MultAdd(0x1e000, &item->mKartForward, &item->mAnglePointOffset, &t);
-    if (func_0206c0b0(kart) == FALSE) {
+    if (IsKartRemovedOrRespawning(kart) == FALSE) {
         item->mKartDrawPos = kart->mDrawMatrixPos;
     }
     VEC_Add(&t, &item->mKartDrawPos, &t);
@@ -59,7 +59,7 @@ void SteerItemKouraWToAnglePoint(ItemKouraW *item, s32 maxStep, s32 angle, s32 r
             item->mUnk_000.mUnk_000.mUnk_000.mCollisionSlotIndex, &t, NULL, NULL, NULL, NULL, NULL, NULL, NULL) == 0) {
         return;
     }
-    if ((kart->mUnk_48 & 1) == 0) {
+    if ((kart->mUnk_48 & KART_48_ON_BOOST_SURFACE) == 0) {
         pos->y += t.y;
         return;
     }

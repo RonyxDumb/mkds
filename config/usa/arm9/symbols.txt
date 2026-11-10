@@ -2616,7 +2616,7 @@ func_02068494 kind:function(arm,size=0x1ac) addr:0x02068494
 func_02068640 kind:function(arm,size=0x260) addr:0x02068640
 func_020688a0 kind:function(arm,size=0x160) addr:0x020688a0
 func_02068a00 kind:function(arm,size=0x10) addr:0x02068a00
-func_02068a10 kind:function(arm,size=0x54) addr:0x02068a10
+StartKartHitReaction kind:function(arm,size=0x54) addr:0x02068a10
 SetKartCharacterAnimation kind:function(arm,size=0xf8) addr:0x02068a64
 func_02068b5c kind:function(arm,size=0x3c) addr:0x02068b5c
 AdvanceKartRemovalShrink kind:function(arm,size=0x314) addr:0x02068b98
@@ -2656,8 +2656,8 @@ TryStartKartState kind:function(arm,size=0x134) addr:0x0206be54
 StartKartState kind:function(arm,size=0x10c) addr:0x0206bf88
 func_0206c094 kind:function(arm,size=0x14) addr:0x0206c094
 func_0206c0a8 kind:function(arm,size=0x8) addr:0x0206c0a8
-func_0206c0b0 kind:function(arm,size=0x30) addr:0x0206c0b0
-func_0206c0e0 kind:function(arm,size=0x3c) addr:0x0206c0e0
+IsKartRemovedOrRespawning kind:function(arm,size=0x30) addr:0x0206c0b0
+IsKartNotNormal kind:function(arm,size=0x3c) addr:0x0206c0e0
 SetupKartAiItemInUseEntry kind:function(arm,size=0x30) addr:0x0206c11c
 SetupKartAiHeldItemEntry kind:function(arm,size=0x30) addr:0x0206c14c
 func_0206c17c kind:function(arm,size=0x30) addr:0x0206c17c
@@ -5282,7 +5282,7 @@ CreatePukupukuUpdateList kind:function(arm,size=0x5c) addr:0x020e4fc8
 CreatePukupukuShadowDrawList kind:function(arm,size=0x5c) addr:0x020e5024
 CreatePukupukuDrawList kind:function(arm,size=0x5c) addr:0x020e5080
 CreatePukupukuKindData kind:function(arm,size=0x50) addr:0x020e50dc
-func_020e512c kind:function(thumb,size=0x40) addr:0x020e512c
+HasCourseTriangleFlag2At kind:function(thumb,size=0x40) addr:0x020e512c
 RefreshShadowMatrix kind:function(thumb,size=0x150) addr:0x020e516c
 CreateObjShadowAndJgShadow kind:function(thumb,size=0x8c) addr:0x020e52bc
 DrawJgShadow kind:function(arm,size=0x28) addr:0x020e5348
@@ -8575,8 +8575,8 @@ data_02159578 kind:data(any) addr:0x02159578
 gVec3UnitX kind:data(any) addr:0x0215957c
 data_02159588 kind:data(any) addr:0x02159588
 data_02159594 kind:data(any) addr:0x02159594
-data_021595a0 kind:data(any) addr:0x021595a0
-data_021595a4 kind:data(any) addr:0x021595a4
+gItemInUseThrowForwardBit kind:data(any) addr:0x021595a0
+gItemInUseDownBit kind:data(any) addr:0x021595a4
 data_021595a8 kind:data(any) addr:0x021595a8
 data_021595ac kind:data(any) addr:0x021595ac
 data_usa_021595b0 kind:data(any) addr:0x021595b0
@@ -8636,7 +8636,7 @@ data_02159f24 kind:data(any) addr:0x02159f24
 gItemBombNoOwnerBit kind:data(any) addr:0x02159f28
 gItemObjectDistanceSquaredMask kind:data(any) addr:0x02159f2c
 gItemBombState2StartScale kind:data(any) addr:0x02159f30
-data_02159f3c kind:data(any) addr:0x02159f3c
+gItemBombExcludedUntilCourseHitBit kind:data(any) addr:0x02159f3c
 gItemBombVec3UnitY kind:data(any) addr:0x02159f40
 data_02159f4c kind:data(any) addr:0x02159f4c
 data_02159f68 kind:data(any) addr:0x02159f68

@@ -20,7 +20,7 @@ void func_02068494(Kart *kart, s32 b, s32 c);
 void func_02068640(Kart *kart, s32 b);
 void func_020688a0(Kart *kart);
 void func_02068a00(Kart *kart);
-void func_02068a10(Kart *kart);
+void StartKartHitReaction(Kart *kart);
 void SetKartCharacterAnimation(Kart *kart, s32 b, s32 c);
 void func_02068b5c(Kart *kart);
 void AdvanceKartRemovalShrink(Kart *kart);

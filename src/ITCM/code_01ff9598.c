@@ -136,7 +136,7 @@ void AdvanceKartQuaternionBlendFactor(Kart *p, const Vec3 *a) {
     s32 d = Vec3DotUnrounded(&p->mGroundNormal, a);
     s32 m;
 
-    if (p->mUnk_48 & 1) {
+    if (p->mUnk_48 & KART_48_ON_BOOST_SURFACE) {
         m = 0x4cd;
     } else {
         m = 0x1ec;

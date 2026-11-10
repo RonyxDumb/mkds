@@ -215,7 +215,7 @@ void func_0206d7c8(Kart *pushingKart, Kart *pushedKart, const Vec3 *v, s32 c, Ve
     b = MUL_FIXED12_NO_ROUND(a, t);
     v2 = MUL_FIXED12_NO_ROUND(b, v2);
     d = pushedKart->mTurnedForward;
-    if (pushedKart->mUnk_44 & 0x100) {
+    if (pushedKart->mUnk_44 & KART_44_REVERSING) {
         d.x = -d.x;
         d.y = -d.y;
         d.z = -d.z;
@@ -359,7 +359,7 @@ void func_0206d18c(Kart *kart) {
     if (kart->mUnk_7c & 0x402020) {
         return;
     }
-    if (kart->mUnk_4c & 0x800) {
+    if (kart->mUnk_4c & KART_4C_RESPAWN_DROP) {
         return;
     }
     itemObject = GetCollidedItemObject(0);

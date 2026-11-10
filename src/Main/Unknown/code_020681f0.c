@@ -62,7 +62,7 @@ void AdvanceKartRemovalShrink(Kart *kart) {
     Vec3 *collisionCenter;
 
     kartBits = kart->mUnk_7c;
-    if ((kartBits & KART_7C_REMOVAL_SHRINK_DONE) != 0) {
+    if ((kartBits & KART_7C_HIDDEN) != 0) {
         if ((kartBits & 0x40000) == 0) {
             return;
         }
@@ -78,7 +78,7 @@ void AdvanceKartRemovalShrink(Kart *kart) {
                 winnerDecidedAndEndReached = TRUE;
             }
         }
-        kart->mUnk_7c = kart->mUnk_7c | KART_7C_REMOVAL_SHRINK_DONE;
+        kart->mUnk_7c = kart->mUnk_7c | KART_7C_HIDDEN;
         bitsPointer = &kart->mUnk_7c;
         currentBits = *bitsPointer;
         if ((currentBits & 0x800006) == 0 && winnerDecidedAndEndReached == FALSE && (currentBits & 0x40000) != 0) {
@@ -202,7 +202,8 @@ void SetKartCharacterAnimation(Kart *kart, s32 b, s32 c) {
     }
 }
 
-void func_02068a10(Kart *kart) {
+// Animation, face frame and voice of a kart that was robbed of its item or hit by an object.
+void StartKartHitReaction(Kart *kart) {
     if ((kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) != 0) {
         StartKartCharacterAnimationOnce(kart, 1, 0);
         SetCharacterFaceFrameIndex(kart->mKartModelsEntry, 1);

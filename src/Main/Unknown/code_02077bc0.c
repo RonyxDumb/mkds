@@ -260,7 +260,7 @@ void func_0207a828(s32 kartIndex) {
 }
 
 BOOL func_0207a7fc(s32 kartIndex) {
-    return (gKarts[kartIndex].mUnk_48 & 1) != 0;
+    return (gKarts[kartIndex].mUnk_48 & KART_48_ON_BOOST_SURFACE) != 0;
 }
 
 u32 GetKartForwardSpeedRatio(void) {

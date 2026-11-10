@@ -144,7 +144,7 @@ void func_01ffa4b4(Kart *p, Vec3 *a) {
                 }
                 AdvanceKartQuaternionBlendFactor(p, a);
                 if (p->mVerticalSpeed < 0) {
-                    p->mVerticalSpeed = (p->mUnk_48 & 1) ? -0x2b9 : -0xd9d;
+                    p->mVerticalSpeed = (p->mUnk_48 & KART_48_ON_BOOST_SURFACE) ? -0x2b9 : -0xd9d;
                 }
                 func_0206edac(p, a);
                 if (f & 0x80000000) {

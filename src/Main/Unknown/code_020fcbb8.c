@@ -17,26 +17,26 @@ void SteerItemKouraWToNextAnglePoint(ItemKouraW *item, s32 gain, s32 maxStep, s3
 
 void SteerItemKouraWToKartForward(ItemKouraW *item, s32 gain, s32 lift) {
     Vec3 v;
-    s32 flagBit0;
+    s32 onBoostSurface;
     Vec3 *pos;
     Vec3 *velocity;
     Kart *kart;
 
     kart = item->mKartItems->mKart;
-    flagBit0 = (kart->mUnk_48 & 1) ? 1 : 0;
+    onBoostSurface = (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE) ? 1 : 0;
     item->mKartForward = kart->mSignedTurnedForward;
     pos = &item->mUnk_000.mUnk_000.mUnk_000.mPos;
     velocity = &item->mUnk_000.mUnk_000.mUnk_000.mVelocity;
-    if (kart->mUnk_44 & 0x100) {
+    if (kart->mUnk_44 & KART_44_REVERSING) {
         item->mKartForward.x = -item->mKartForward.x;
         item->mKartForward.y = -item->mKartForward.y;
         item->mKartForward.z = -item->mKartForward.z;
     }
-    if (func_0206c0b0(kart) == FALSE) {
+    if (IsKartRemovedOrRespawning(kart) == FALSE) {
         item->mKartDrawPos = kart->mDrawMatrixPos;
     }
     VEC_MultAdd(0x14ffa, &item->mKartForward, &item->mKartDrawPos, &v);
-    if (flagBit0 == 0) {
+    if (onBoostSurface == 0) {
         v.y += lift;
     } else {
         VEC_MultAdd(lift, &kart->mGroundNormal, &v, &v);
@@ -46,7 +46,7 @@ void SteerItemKouraWToKartForward(ItemKouraW *item, s32 gain, s32 lift) {
     velocity->y = MUL_FIXED12_NO_ROUND(v.y, gain);
     velocity->z = MUL_FIXED12_NO_ROUND(v.z, gain);
     VEC_Add(velocity, pos, pos);
-    if (flagBit0 == 0) {
+    if (onBoostSurface == 0) {
         return;
     }
     if (CollideSphereWithCourse(
@@ -68,13 +68,15 @@ BOOL TrySetItemKouraWKartItems(ItemKouraW *item, s32 kartIndex) {
     s32 offsetZ;
 
     kart = GetKart(kartIndex);
-    if (func_0206c0b0(kart) != FALSE) {
+    if (IsKartRemovedOrRespawning(kart) != FALSE) {
         return FALSE;
     }
     kartItems = &(gKartItems)[kartIndex];
     kartPos = &kart->mDrawMatrixPos;
     if (kartItems->mItemLink.mLink != item->mUnk_000.mTargetLink.mLink) {
-        shortRange = ((item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x40000000) || (kart->mUnk_48 & 1)) ? 1 : 0;
+        shortRange =
+            ((item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x40000000) || (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE)) ? 1
+                                                                                                                   : 0;
         VEC_Subtract(kartPos, &item->mUnk_000.mUnk_000.mUnk_000.mPos, &kartOffset);
         offsetX = kartOffset.x >> 12;
         offsetZ = kartOffset.z >> 12;

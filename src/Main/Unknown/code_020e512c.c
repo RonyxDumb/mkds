@@ -3,7 +3,8 @@
 
 #pragma thumb on
 
-u32 func_020e512c(Vec3 *position) {
+// Whether a course triangle with flag bit 0x2 lies at the position.
+u32 HasCourseTriangleFlag2At(Vec3 *position) {
     u32 outValue[1];
     outValue[0] = 0;
     CollideSphereWithCourse(position, NULL, 0, 0x0000a000u, 8, 0xfffffffe, NULL, NULL, NULL, outValue, NULL, NULL, NULL,

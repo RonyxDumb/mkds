@@ -11,7 +11,8 @@ typedef struct ItemTeresa {
     /* 000 */ ItemObject mItemObject;
     /* 12c */ StateMachine mStateMachine;
     /* 140 */ s32 mPickedKartIndex;
-    /* 144 */ BOOL mUnk_144;
+// TRUE once the followed kart is hurt or the owner lost the Boo; the Boo then moves on the saved kart velocity.
+    /* 144 */ BOOL mFollowEnded;
     /* 148 */ BOOL mPicksAheadFirst;
     /* 14c */ s32 mSavedOffsetY;
     /* 150 */ s32 mSavedOffsetVelocityY;

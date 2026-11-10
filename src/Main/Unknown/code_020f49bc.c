@@ -349,7 +349,7 @@ BOOL InitItemKouraG(ItemInUse *itemInUse, ItemKouraG *koura) {
     ResetSoundDistanceSquaredChange(&koura->mSoundDistanceSquaredChange);
     koura->mDirectedItemObject.mUnk_000.mSoundSource.mTrackParamsFunction =
         (void (*)(void *, void *, void *)) SetItemKouraSoundTrackParams;
-    if (itemInUse->mKartItems->mFlags & 0x20) {
+    if (itemInUse->mKartItems->mFlags & KART_ITEMS_DOWN) {
         InitItemObjectThrow(koura, itemInUse, isBattle != FALSE ? 2 : 4, 0, 0, 0x5000);
         return FALSE;
     }
@@ -426,7 +426,7 @@ s32 InitItemKouraR(ItemInUse *itemInUse, ItemKouraR *kouraR) {
     kouraR->mUnk_000.mUnk_000.mUnk_000.mSoundSource.mTrackParamsFunction =
         (void (*)(void *, void *, void *)) SetItemKouraSoundTrackParams;
     InitStateMachine(&kouraR->mStateMachine, gItemKouraRStateTable, 7, kouraR);
-    if (itemInUse->mKartItems->mFlags & 0x20) {
+    if (itemInUse->mKartItems->mFlags & KART_ITEMS_DOWN) {
         kouraR->mThrowForward = 0;
         InitItemObjectThrow(kouraR, itemInUse, 0, 0, 0, 0x5000);
         kouraR->mStateMachine.mNextState = 1;
@@ -616,7 +616,7 @@ void UpdateItemKouraRState4(ItemKouraR *kouraR) {
     kartBits = kart->mUnk_7c;
     kartFlagged = TRUE;
     if ((kartBits & 0x402020) == 0) {
-        if ((kart->mUnk_4c & 0x800) == 0) {
+        if ((kart->mUnk_4c & KART_4C_RESPAWN_DROP) == 0) {
             kartFlagged = FALSE;
         }
     }
@@ -650,7 +650,7 @@ void UpdateItemKouraRState4(ItemKouraR *kouraR) {
                     StartItemKouraRSound, kouraR, 0);
 }
 
-// Checks func_0206c0e0 of the 0x1fc object, then the 0x240 counter and the sum of the two
+// Checks IsKartNotNormal of the Kart, then the 0x240 counter and the sum of the two
 // squares of the 0x50/0x54/0x58 differences against the 0x1d0/0x1d4/0x1e0 square.
 void UpdateItemKouraRState5(ItemKouraR *kouraR) {
     KartItems *kartItems;
@@ -661,7 +661,7 @@ void UpdateItemKouraRState5(ItemKouraR *kouraR) {
 
     kartItems = kouraR->mKartItems;
     kart = kartItems->mKart;
-    if (func_0206c0e0(kart) != FALSE) {
+    if (IsKartNotNormal(kart) != FALSE) {
         FadeOutItemObjectHitByKart(&kouraR->mUnk_000.mUnk_000.mUnk_000, 0, 8);
     } else {
         SteerItemKouraRToKart(kouraR, 0x10000, 0x333, 0);

@@ -357,7 +357,7 @@ void func_01ffc5a0(Kart *p) {
         }
     }
     if (p->mForwardSpeed < 0) {
-        p->mUnk_44 |= 0x100;
+        p->mUnk_44 |= KART_44_REVERSING;
     }
 }
 

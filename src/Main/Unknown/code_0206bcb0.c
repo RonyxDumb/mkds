@@ -437,15 +437,17 @@ void SetupKartAiItemInUseEntry(Kart *kart) {
     }
 }
 
-BOOL func_0206c0e0(Kart *kart) {
-    if ((kart->mUnk_7c & 0x402020) || (kart->mUnk_4c & 0x800) || kart->mState != KART_STATE_NORMAL) {
+// TRUE for a removed, Boo or respawning kart, or any state but normal driving.
+BOOL IsKartNotNormal(Kart *kart) {
+    if ((kart->mUnk_7c & 0x402020) || (kart->mUnk_4c & KART_4C_RESPAWN_DROP) || kart->mState != KART_STATE_NORMAL) {
         return TRUE;
     }
     return FALSE;
 }
 
-BOOL func_0206c0b0(Kart *kart) {
-    if ((kart->mUnk_7c & 0x400020) || (kart->mUnk_4c & 0x800)) {
+// TRUE for a removed kart or one in the respawn drop.
+BOOL IsKartRemovedOrRespawning(Kart *kart) {
+    if ((kart->mUnk_7c & 0x400020) || (kart->mUnk_4c & KART_4C_RESPAWN_DROP)) {
         return TRUE;
     }
     return FALSE;

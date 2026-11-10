@@ -108,7 +108,7 @@ void func_020641f0(Kart *kart) {
                     IsRaceStarted() == 1) {
                     k = k + 0x190;
                 }
-            } else if ((kart->mUnk_44 & 0x100) != 0) {
+            } else if ((kart->mUnk_44 & KART_44_REVERSING) != 0) {
                 k *= -1;
             }
             if (k > 0xfa0) {

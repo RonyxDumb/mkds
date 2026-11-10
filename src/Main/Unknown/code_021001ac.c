@@ -66,7 +66,7 @@ void ResetItemTeresa(ItemTeresa *teresa) {
     teresa->mItemObjectKind = 0xe;
     InitStateMachine(&teresa->mStateMachine, stateTable, 7, teresa);
     teresa->mPickedKartIndex = 8;
-    teresa->mUnk_144 = 0;
+    teresa->mFollowEnded = 0;
     FreeItemObjectCollisionSlot(&teresa->mItemObject);
     teresa->mUnk_24c = 0;
     teresa->mPendingPickedKartIndex = 0xffffffff;
@@ -283,7 +283,7 @@ void InitItemTeresa(ItemInUse *inUse, ItemTeresa *teresa) {
     StartEntryKartSound(kart, 0xf6);
     SetActiveItem(inUse->mKartItems, 0x10);
     InitCourseColorBlend(&teresa->mItemObject.mColorBlend, 1);
-    if (inUse->mKartItems->mFlags & 0x20) {
+    if (inUse->mKartItems->mFlags & KART_ITEMS_DOWN) {
         teresa->mPicksAheadFirst = FALSE;
     } else {
         teresa->mPicksAheadFirst = TRUE;
@@ -336,16 +336,16 @@ void PlaceItemTeresaAtKart(ItemTeresa *teresa, s32 shiftAlongCameraSide) {
         m = FALSE;
     }
     if (m != FALSE) {
-        if (teresa->mUnk_144 == FALSE && (teresa->mItemObject.mFlags & 0x8000000) && teresa->mUnk_24c != FALSE) {
-            teresa->mUnk_144 = TRUE;
+        if (teresa->mFollowEnded == FALSE && (teresa->mItemObject.mFlags & 0x8000000) && teresa->mUnk_24c != FALSE) {
+            teresa->mFollowEnded = TRUE;
             AddItemDataItemIdAndBytes(0xb, teresa->mItemObject.mId, 1, teresa->mStateMachine.mState & 0xff);
         } else {
-            teresa->mUnk_144 = TRUE;
+            teresa->mFollowEnded = TRUE;
         }
     }
     ((Vec3 *) delta)->x = position->x - (&teresa->mItemObject.mVelocity)->x;
     delta[2] = position->z - (&teresa->mItemObject.mVelocity)->z;
-    if (teresa->mUnk_144 != FALSE) {
+    if (teresa->mFollowEnded != FALSE) {
         VEC_Add(&teresa->mKartDrawMatrixPos, &teresa->mKartVelocity, &teresa->mKartDrawMatrixPos);
         teresa->mKartVelocity.x = MUL_FIXED12_NO_ROUND(teresa->mKartVelocity.x, 0xeb8);
         teresa->mKartVelocity.y = MUL_FIXED12_NO_ROUND(teresa->mKartVelocity.y, 0xeb8);
@@ -400,7 +400,7 @@ void EnterItemTeresaState0(ItemTeresa *teresa) {
         (Vec3){0, MUL_FIXED12_ROUNDED(teresa->mKart->mPhysicalParam->mRadius, teresa->mKart->mScale.z), 0};
     teresa->mOffsetVelocityY = 0;
     teresa->mItemObject.mAlpha = 0x1f;
-    if (teresa->mKart->mUnk_48 & 1) {
+    if (teresa->mKart->mUnk_48 & KART_48_ON_BOOST_SURFACE) {
         teresa->mItemObject.mPosPointer = &teresa->mItemObject.mDrawPos;
     }
 }
@@ -533,14 +533,14 @@ void UpdateItemTeresaState0(ItemTeresa *teresa) {
     if (teresa->mUnk_24c != FALSE) {
         return;
     }
-    if (teresa->mUnk_144 != FALSE) {
+    if (teresa->mFollowEnded != FALSE) {
         return;
     }
     if (teresa->mReportedState == 0xffffffff) {
         return;
     }
     if (teresa->mReportedState == 0 || teresa->mReportedState == 7) {
-        teresa->mUnk_144 = TRUE;
+        teresa->mFollowEnded = TRUE;
         teresa->mReportedState = -1;
     }
 }
@@ -605,9 +605,9 @@ void EnterItemTeresaState2(ItemTeresa *teresa) {
         teresa->mKart = GetKart(teresa->mPickedKartIndex);
         teresa->mKartDrawMatrixPos = teresa->mKart->mDrawMatrixPos;
         teresa->mKartVelocity = teresa->mKart->mVelocity;
-        teresa->mUnk_144 = FALSE;
+        teresa->mFollowEnded = FALSE;
         StartEntryKartSound(teresa->mKart, 0xf4);
-        if (teresa->mKart->mUnk_48 & 1) {
+        if (teresa->mKart->mUnk_48 & KART_48_ON_BOOST_SURFACE) {
             teresa->mItemObject.mPosPointer = &teresa->mItemObject.mDrawPos;
         }
     }
@@ -636,7 +636,7 @@ s32 RemoveItemTeresaPickedKartItem(ItemTeresa *teresa) {
     if (heldItem->mItemInfoIndex == 0x10) {
         return 0xf;
     }
-    if (teresa->mUnk_144 != FALSE) {
+    if (teresa->mFollowEnded != FALSE) {
         return 0xf;
     }
     a = b = 1;
@@ -656,7 +656,7 @@ s32 RemoveItemTeresaPickedKartItem(ItemTeresa *teresa) {
     } else {
         RemoveHeldItem(heldItem, &teresa->mItemInfoIndex, &teresa->mItemCount);
     }
-    func_02068a10(kart);
+    StartKartHitReaction(kart);
     itemInfoIndex = teresa->mItemInfoIndex;
     return gItemInfos[itemInfoIndex].mObjectKind;
 }
@@ -718,14 +718,14 @@ void UpdateItemTeresaState2(ItemTeresa *teresa) {
     if (teresa->mUnk_24c != FALSE) {
         return;
     }
-    if (teresa->mUnk_144 != FALSE) {
+    if (teresa->mFollowEnded != FALSE) {
         return;
     }
     if (teresa->mReportedState == 0xffffffff) {
         return;
     }
     if (teresa->mReportedState == 2 || teresa->mReportedState == 7) {
-        teresa->mUnk_144 = TRUE;
+        teresa->mFollowEnded = TRUE;
         teresa->mReportedState = -1;
     }
 }
@@ -776,14 +776,14 @@ void UpdateItemTeresaState3(ItemTeresa *teresa) {
         if (teresa->mUnk_24c != FALSE) {
             return;
         }
-        if (teresa->mUnk_144 != FALSE) {
+        if (teresa->mFollowEnded != FALSE) {
             return;
         }
         if (teresa->mReportedState == 0xffffffff) {
             return;
         }
         if (teresa->mReportedState - 2 <= 1) {
-            teresa->mUnk_144 = TRUE;
+            teresa->mFollowEnded = TRUE;
             teresa->mReportedState = -1;
         }
     }
@@ -827,7 +827,7 @@ void EnterItemTeresaState5(ItemTeresa *teresa) {
     }
     ownerKartItems = &gKartItems[(u16) ownerKartIndex];
     teresa->mKart = ownerKartItems->mKart;
-    teresa->mUnk_144 = FALSE;
+    teresa->mFollowEnded = FALSE;
     if (teresa->mUnk_24c != FALSE) {
         if (ownerKartItems->mActiveItem == 0x10) {
             teresa->mKartDrawMatrixPos = teresa->mKart->mDrawMatrixPos;
@@ -835,7 +835,7 @@ void EnterItemTeresaState5(ItemTeresa *teresa) {
             teresa->mOffsetX = 0;
             teresa->mOffsetZ = 0;
         } else {
-            teresa->mUnk_144 = TRUE;
+            teresa->mFollowEnded = TRUE;
             if (teresa->mItemObject.mFlags & 0x8000000) {
                 AddItemDataItemIdAndBytes(0xb, teresa->mItemObject.mId, 1, 5);
             }
@@ -851,11 +851,12 @@ void EnterItemTeresaState5(ItemTeresa *teresa) {
         teresa->mOffsetVelocityY = -teresa->mSavedOffsetVelocityY;
         teresa->mOffsetY = teresa->mSavedOffsetY;
     }
-    if (teresa->mUnk_144 == FALSE) {
+    if (teresa->mFollowEnded == FALSE) {
         StartEntryKartSound(teresa->mKart, 0xf7);
     }
     teresa->mStallFrames = 0;
-    positionFunction = (teresa->mKart->mUnk_48 & 1) ? SetItemTeresaPosPointerToDrawPos : RestoreItemTeresaPosPointer;
+    positionFunction = (teresa->mKart->mUnk_48 & KART_48_ON_BOOST_SURFACE) ? SetItemTeresaPosPointerToDrawPos
+                                                                           : RestoreItemTeresaPosPointer;
     positionFunction(teresa);
 }
 
@@ -874,7 +875,7 @@ void UpdateItemTeresaState5(ItemTeresa *teresa) {
     }
     ownerKartItems = &gKartItems[(u16) ownerKartIndex];
     if (teresa->mUnk_24c != FALSE && ownerKartItems->mActiveItem != 0x10 && teresa->mItemCount != -0x40) {
-        teresa->mUnk_144 = TRUE;
+        teresa->mFollowEnded = TRUE;
         if (teresa->mItemObject.mFlags & 0x8000000) {
             AddItemDataItemIdAndBytes(0xb, teresa->mItemObject.mId, 1, 5);
         }
@@ -933,7 +934,7 @@ void UpdateItemTeresaState5(ItemTeresa *teresa) {
         }
     }
 skip:
-    if (teresa->mFollowsPath == FALSE && teresa->mUnk_144 != FALSE) {
+    if (teresa->mFollowsPath == FALSE && teresa->mFollowEnded != FALSE) {
         startOffsetX = teresa->mOffsetX;
         startOffsetZ = teresa->mOffsetZ;
         AdvanceItemTeresaFadeIn(teresa, 1, 6);
@@ -949,14 +950,14 @@ skip:
     if (teresa->mUnk_24c != FALSE) {
         return;
     }
-    if (teresa->mUnk_144 != FALSE) {
+    if (teresa->mFollowEnded != FALSE) {
         return;
     }
     if (teresa->mReportedState == 0xffffffff) {
         return;
     }
     if (teresa->mReportedState == 5 || teresa->mReportedState == 7) {
-        teresa->mUnk_144 = TRUE;
+        teresa->mFollowEnded = TRUE;
         teresa->mReportedState = -1;
     }
 }
@@ -999,14 +1000,14 @@ void UpdateItemTeresaState6(ItemTeresa *teresa) {
     if (teresa->mUnk_24c != FALSE) {
         return;
     }
-    if (teresa->mUnk_144 != FALSE) {
+    if (teresa->mFollowEnded != FALSE) {
         return;
     }
     if (teresa->mReportedState == 0xffffffff) {
         return;
     }
     if (teresa->mReportedState - 5 <= 1) {
-        teresa->mUnk_144 = TRUE;
+        teresa->mFollowEnded = TRUE;
         teresa->mReportedState = -1;
     }
 }

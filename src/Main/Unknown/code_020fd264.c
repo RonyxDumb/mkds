@@ -76,16 +76,16 @@ void ResetItemBomb(ItemBomb *bomb) {
 
 s32 InitItemBomb(ItemInUse *inUse, ItemBomb *bomb) {
     StartItemObjectSoundSource(&bomb->mUnk_000.mItemObject);
-    bomb->mUnk_000.mItemObject.mOwnerKartIndexAndFlags |= data_02159f3c;
+    bomb->mUnk_000.mItemObject.mOwnerKartIndexAndFlags |= gItemBombExcludedUntilCourseHitBit;
     bomb->mReflectFactor = MUL_FIXED12_NO_ROUND(inUse->mKartVelocityLength, 0x1ec) + 0x333;
     if (bomb->mReflectFactor > 0xccd) {
         bomb->mReflectFactor = 0xccd;
     }
-    if (inUse->mKartItems->mFlags & 0x20) {
+    if (inUse->mKartItems->mFlags & KART_ITEMS_DOWN) {
         ThrowBouncingItem(&bomb->mUnk_000, inUse, 2, 0, 0x7800, 0x5000, 0x219a);
         bomb->mTimer = 0x5a;
-        bomb->mUnk_130 = 0;
-        return bomb->mUnk_130;
+        bomb->mIsThrown = 0;
+        return bomb->mIsThrown;
     }
     if (inUse->mKartItems->mFlags & KART_ITEMS_THROW_FORWARD) {
         ThrowBouncingItem(&bomb->mUnk_000, inUse, 3, 1, 0x9800, 0x5000, 0x59a);
@@ -93,8 +93,8 @@ s32 InitItemBomb(ItemInUse *inUse, ItemBomb *bomb) {
         ThrowBouncingItem(&bomb->mUnk_000, inUse, 3, 1, 0x6000, 0x5000, 0x59a);
     }
     StartSound(&bomb->mUnk_000.mItemObject.mSoundSource, 0xda, 0x7f, 0);
-    bomb->mUnk_130 = 1;
-    return bomb->mUnk_130;
+    bomb->mIsThrown = 1;
+    return bomb->mIsThrown;
 }
 
 u32 ItemBombState0ReturnArgument(u32 value) {
@@ -104,7 +104,7 @@ u32 ItemBombState0ReturnArgument(u32 value) {
 void UpdateItemBombState0(ItemBomb *bomb) {
     u32 v;
 
-    if (bomb->mUnk_130 != 0) {
+    if (bomb->mIsThrown != 0) {
         AdvanceBouncingItem(&bomb->mUnk_000, 0x385, 0xff8, 0x733, &v);
     } else {
         AdvanceBouncingItem(&bomb->mUnk_000, 0x47b, 0xf91, bomb->mReflectFactor, &v);
@@ -118,7 +118,7 @@ void UpdateItemBombState0(ItemBomb *bomb) {
     if (bomb->mUnk_000.mItemObject.mFlags & 0x3) {
         return;
     }
-    if (bomb->mUnk_130 != 0) {
+    if (bomb->mIsThrown != 0) {
         bomb->mUnk_000.mItemObject.mVelocity.y *= 2;
     }
     StopSound(&bomb->mUnk_000.mItemObject.mSoundSource, 0xda);
@@ -225,7 +225,7 @@ void AdvanceItemBombNearestKart(ItemBomb *bomb) {
         return;
     }
     kart = GetKart(candidateKartIndex);
-    if (func_0206c0e0(kart) != 0) {
+    if (IsKartNotNormal(kart) != 0) {
         return;
     }
     if (bomb->mNearestKartDistanceSquared < 8) {
@@ -332,7 +332,7 @@ void AdvanceItemBomb(ItemBomb *bomb) {
     if (bomb->mUnk_000.mBouncesRemaining >= 3) {
         return;
     }
-    if (bomb->mUnk_130 == 0 && bomb->mUnk_000.mBouncesRemaining >= 2) {
+    if (bomb->mIsThrown == 0 && bomb->mUnk_000.mBouncesRemaining >= 2) {
         return;
     }
     if ((bomb->mUnk_000.mItemObject.mOwnerKartIndexAndFlags & 0x8000) == 0) {
@@ -358,12 +358,12 @@ void *CopyItemBombData(void *cursor, ItemBomb *bomb, void *toData) {
     void *nextCursor;
 
     if (bomb != NULL && toData != NULL) {
-        StoreItemDataFlagBit(bomb->mUnk_130, &bomb->mUnk_000.mItemObject.mVelocity.y);
+        StoreItemDataFlagBit(bomb->mIsThrown, &bomb->mUnk_000.mItemObject.mVelocity.y);
     }
     nextCursor = CopyItemObjectData(cursor, bomb, toData);
     nextCursor = CopyItemShiftedByte(nextCursor, bomb != NULL ? &bomb->mReflectFactor : 0, toData);
     if (bomb != NULL && toData == NULL) {
-        LoadItemDataFlagBit(bomb->mUnk_000.mItemObject.mVelocity.y, &bomb->mUnk_130);
+        LoadItemDataFlagBit(bomb->mUnk_000.mItemObject.mVelocity.y, &bomb->mIsThrown);
     }
     if (bomb != NULL && toData != NULL) {
         return AddItemDataSizedByKind(bomb->mUnk_000.mItemObject.mKind);
@@ -373,12 +373,12 @@ void *CopyItemBombData(void *cursor, ItemBomb *bomb, void *toData) {
 
 void InitItemBombFromData(ItemBomb *bomb) {
     SetupItemObjectFromData(&bomb->mUnk_000.mItemObject);
-    StartItemObjectBouncing(&bomb->mUnk_000, bomb->mUnk_130 != 0 ? 3 : 2);
+    StartItemObjectBouncing(&bomb->mUnk_000, bomb->mIsThrown != 0 ? 3 : 2);
     InitStateMachine(&bomb->mStateMachine, gItemBombStateTable, 4, bomb);
     if (!(bomb->mUnk_000.mItemObject.mFlags & 0x10000000)) {
         return;
     }
-    if (bomb->mUnk_130 == 0) {
+    if (bomb->mIsThrown == 0) {
         return;
     }
     StartSound(&bomb->mUnk_000.mItemObject.mSoundSource, 0xda, 0x7f, 0);
@@ -429,7 +429,7 @@ void RequestItemBombState1(ItemBomb *bomb) {
     bomb->mStateMachine.mNextState = 1;
     bomb->mStateMachine.mNextStateRequested = 1;
     bomb->mTimerEndBlockTimer = 0x10e;
-    bomb->mUnk_130 = 0;
+    bomb->mIsThrown = 0;
     bomb->mUnk_000.mBouncesRemaining = 0;
 }
 
@@ -532,7 +532,7 @@ void ThrowItemBombFromSlot(void **bombSlot, Vec3 *velocity, s32 timerStart) {
     bomb->mHitSpinsKart = FALSE;
     bomb->mReflectFactor = 0xccd;
     bomb->mTimer = timerStart;
-    bomb->mUnk_130 = 1;
+    bomb->mIsThrown = 1;
     InitBouncingItem(&bomb->mUnk_000, 3, velocity);
     if ((bomb->mUnk_000.mItemObject.mFlags & 0x180000) == 0) {
         bomb->mUnk_000.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemBomb;

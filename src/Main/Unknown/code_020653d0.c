@@ -187,7 +187,7 @@ void func_020653d0(Kart *kart, ParticipantKartRecord *record, s32 stepCount) {
                 kart->mTurnAngle = stateAgain->mEasedTurnAngle;
                 MTX_RotAxis33(&turnMatrix, &kart->mUnk_12c, gPairsByAngle[((u16) kart->mTurnAngle >> 4) * 2],
                               gPairsByAngle[((u16) kart->mTurnAngle >> 4) * 2 + 1]);
-                if (kart->mUnk_48 & 1) {
+                if (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE) {
                     MTX_RotAxis33(&fixedAngleMatrix, &kart->mUnk_120, gPairsByAngle[0xba], gPairsByAngle[0xbb]);
                     MTX_Concat33(&fixedAngleMatrix, &turnMatrix, &turnMatrix);
                 }

@@ -777,14 +777,14 @@ void CopyKartPlacementToItemObject(KartItems *kartItems, ItemObject *object) {
     Vec3 *axis;
 
     kart = kartItems->mKart;
-    if ((kart->mUnk_48 & 1) != 0) {
+    if ((kart->mUnk_48 & KART_48_ON_BOOST_SURFACE) != 0) {
         axis = &kart->mUnk_15c;
     } else {
         axis = &gKartItemsVec3UnitY;
     }
     SetItemObjectPlacement(object, &kart->mDrawMatrixPos, axis, &kart->mKartModelsEntry->mCourseColorBlend,
                            func_0206c0a8(kart));
-    if ((kart->mUnk_48 & 1) != 0) {
+    if ((kart->mUnk_48 & KART_48_ON_BOOST_SURFACE) != 0) {
         object->mFlags |= 0x40000000;
     }
 }
@@ -994,11 +994,11 @@ void AdvanceItemInUseOne(ItemInUse *itemInUse) {
         kartItems->mActiveItem = 0x13;
         entryIndex = kartItems->mEntryIndex;
         if ((u16) (gInputSlots[entryIndex].mBits & ITEM_THROW_FORWARD_BIT) != 0) {
-            kartItems->mFlags |= data_021595a0;
+            kartItems->mFlags |= gItemInUseThrowForwardBit;
         }
         entryIndex = kartItems->mEntryIndex;
         if ((u16) (gInputSlots[entryIndex].mBits & PAD_KEY_DOWN) != 0) {
-            kartItems->mFlags |= data_021595a4;
+            kartItems->mFlags |= gItemInUseDownBit;
         }
         StartLastItemInUseObjectAndInit(itemInUse, 1);
     }

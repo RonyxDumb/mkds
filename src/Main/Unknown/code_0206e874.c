@@ -60,7 +60,7 @@ void func_0206edac(Kart *kart, Vec3 *groundNormal) {
     }
     kart->mLandingTimer = 7;
     if (kart->mUnk_48 & 0x2000000) {
-        kart->mUnk_4c &= ~0x800;
+        kart->mUnk_4c &= ~KART_4C_RESPAWN_DROP;
         kart->mUnk_48 &= ~0x2000000;
         kart->mUnk_40c = GetRaceUpdateFrames();
         ResetRaceTaKartPositions(kart->mIndex);

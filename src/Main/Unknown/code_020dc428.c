@@ -362,7 +362,7 @@ void UpdateWanwanState0(Wanwan *wanwan) {
     if (!(wanwan->mMapObject.mFlags & 0x800)) {
         kartIndex = GetRaceUpdateFramesModKartCount();
         kart = GetKart(kartIndex);
-        if (func_0206c0e0(kart) == FALSE) {
+        if (IsKartNotNormal(kart) == FALSE) {
             e = wanwan->mUnk_1dc;
             if ((s64) (kart->mPos.x - wanwan->mCenterPos.x) * (kart->mPos.x - wanwan->mCenterPos.x) +
                     (s64) (kart->mPos.z - wanwan->mCenterPos.z) * (kart->mPos.z - wanwan->mCenterPos.z) <

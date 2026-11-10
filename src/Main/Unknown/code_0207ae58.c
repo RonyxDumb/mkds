@@ -225,7 +225,7 @@ void AdvanceKartAnimationChangeTimer(Kart *kart) {
         return;
     }
     modelsEntry = kart->mKartModelsEntry;
-    if ((kart->mUnk_7c & 0x40) != 0 || modelsEntry->mCharacterAnimation->mCurrentIndex == 2) {
+    if ((kart->mUnk_7c & KART_7C_HIDDEN) != 0 || modelsEntry->mCharacterAnimation->mCurrentIndex == 2) {
         SetKartCharacterAnimation(kart, 0, 1);
     } else if (modelsEntry->mCharacterAnimation->mCurrentIndex == 0) {
         SetKartCharacterAnimation(kart, 2, 1);
