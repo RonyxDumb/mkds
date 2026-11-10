@@ -28,7 +28,7 @@ s32 LimitKartForwardSpeedAndGetScaled(Kart *p) {
     v1 = a < 0;
 
     a = a > 0 ? a : -a;
-    b = p->mUnk_274;
+    b = p->mAttractorPullSpeed;
     c = p->mSpeedLimit - b;
     if ((f & 4) && (p->mUnk_44 & 0x100)) {
         if (c > 0x3000) {
@@ -81,7 +81,7 @@ s32 LimitKartForwardSpeedAndGetScaled(Kart *p) {
             }
         }
     }
-    return ((s64) p->mForwardSpeed * (0x1000 - (p->mUnk_274 >> 3)) + 0x800) >> 12;
+    return ((s64) p->mForwardSpeed * (0x1000 - (p->mAttractorPullSpeed >> 3)) + 0x800) >> 12;
 }
 
 void ScaleKartVelocityAndSetCappedLengthAndDirection(Kart *p, s32 a) {

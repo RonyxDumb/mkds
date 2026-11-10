@@ -129,8 +129,8 @@ void SetItemObjectPlacement(ItemObject *itemParam, Vec3 *prevPos, Vec3 *normal, 
     item->mUnk_116 = param_5 != 0 ? 0 : 5;
 }
 
-s32 func_020f9880(ItemObject *item) {
-    return gItemKinds[item->mKind].mUnk_84;
+s32 DoesItemObjectHurtKart(ItemObject *item) {
+    return gItemKinds[item->mKind].mHurtsKart;
 }
 
 BOOL IsItemObjectOverlappingKart(ItemObject *item, Kart *kart) {

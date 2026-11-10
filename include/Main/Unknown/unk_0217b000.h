@@ -770,7 +770,7 @@ extern MtxFx43 *gViewMatrix;
 extern MtxFx33 *gRotationZMatrix;
 extern MtxFx43 *gViewAxis2Matrix;
 extern MtxFx43 *gViewRotatedMatrix;
-extern u16 *data_0217b868;
+extern u16 *gAttractorStrengths;
 extern s32 gKouraWBlockTimer;
 extern s32 gThunderBlockTimer;
 
@@ -901,7 +901,7 @@ extern u16 gNextPolygonId;
 extern GrpconfTblRow *gGrpconfTbl;
 extern MapObject **gFoundMapObjects;
 extern struct BridgeDrawList *gBridgeDrawList;
-extern Vec3 **gMapObjectPositionByTableIndex;
+extern Vec3 **gAttractorPositions;
 // Indexed by object kind; 14 slots, 13 files (kind 8 aliases kind 7)
 extern NsbmdModel *gItemModels[];
 struct ItemObject;
@@ -1031,7 +1031,7 @@ extern Vec3 gPukupukuDrawScale;
 extern struct Nsbmd *gPendulum;
 extern struct ShadowModel *gPendulumShadow;
 extern struct Nsbmd *gSecondHand;
-extern struct MapObjectList *data_0217b864;
+extern struct MapObjectList *gAttractorUpdateList;
 extern s32 data_0217b8b4;
 extern u16 gJgFinalLap;
 extern u16 gJgState2FrameCount;

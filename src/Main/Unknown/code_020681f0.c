@@ -62,7 +62,7 @@ void AdvanceKartRemovalShrink(Kart *kart) {
     Vec3 *collisionCenter;
 
     kartBits = kart->mUnk_7c;
-    if ((kartBits & 0x40) != 0) {
+    if ((kartBits & KART_7C_REMOVAL_SHRINK_DONE) != 0) {
         if ((kartBits & 0x40000) == 0) {
             return;
         }
@@ -70,7 +70,7 @@ void AdvanceKartRemovalShrink(Kart *kart) {
             return;
         }
     }
-    c = kart->mUnk_3c8;
+    c = kart->mFramesSinceRemovalOrReset;
     if (c >= 0x19 || (kartBits & KART_7C_ENTRY_KIND_2) != 0) {
         winnerDecidedAndEndReached = FALSE;
         if (gRaceSetup->mMode == MODE_BATTLE) {
@@ -78,11 +78,11 @@ void AdvanceKartRemovalShrink(Kart *kart) {
                 winnerDecidedAndEndReached = TRUE;
             }
         }
-        kart->mUnk_7c = kart->mUnk_7c | 0x40;
+        kart->mUnk_7c = kart->mUnk_7c | KART_7C_REMOVAL_SHRINK_DONE;
         bitsPointer = &kart->mUnk_7c;
         currentBits = *bitsPointer;
         if ((currentBits & 0x800006) == 0 && winnerDecidedAndEndReached == FALSE && (currentBits & 0x40000) != 0) {
-            if (kart->mUnk_3c8 >= 0xb9) {
+            if (kart->mFramesSinceRemovalOrReset >= 0xb9) {
                 *bitsPointer = *bitsPointer | 0x80000;
                 CallKartSlot6AndToggleFlag(kart);
                 collisionCenter = gRaceSetup->mMode == 5 ? &kart->mPointAlongUp : &kart->mCollisionCenter;
@@ -113,7 +113,7 @@ void AdvanceKartRemovalShrink(Kart *kart) {
                 return;
             }
             if ((currentBits & 1) != 0) {
-                c = kart->mUnk_3c8;
+                c = kart->mFramesSinceRemovalOrReset;
                 if (c == 0x70) {
                     func_02055a94();
                 } else if (c == 0x73) {
@@ -121,7 +121,7 @@ void AdvanceKartRemovalShrink(Kart *kart) {
                     FadeSeqVolumeToZeroAfterKartRemoval();
                 }
             }
-            kart->mUnk_3c8 = kart->mUnk_3c8 + 1;
+            kart->mFramesSinceRemovalOrReset = kart->mFramesSinceRemovalOrReset + 1;
             return;
         }
         kart->mPos.x = 0x1000000;
@@ -137,7 +137,7 @@ void AdvanceKartRemovalShrink(Kart *kart) {
         kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleBase.y, kart->mScaleFactor.y);
         kart->mScale.z = MUL_FIXED12_NO_ROUND(kart->mScaleBase.z, kart->mScaleFactor.z);
         kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleYFactor, kart->mScale.y);
-        kart->mUnk_3c8 = kart->mUnk_3c8 + 1;
+        kart->mFramesSinceRemovalOrReset = kart->mFramesSinceRemovalOrReset + 1;
     }
 }
 
@@ -286,7 +286,7 @@ void func_02068640(Kart *kart, s32 b) {
     if ((kart->mUnk_7c & 0x100000) != 0) {
         return;
     }
-    func_020fa9e4();
+    ReleaseItemsAtFinish();
     if (b != 0) {
         kart->mUnk_7c = kart->mUnk_7c | 0x2000000;
     }
@@ -294,7 +294,7 @@ void func_02068640(Kart *kart, s32 b) {
     kart->mUnk_7c = kart->mUnk_7c | 8;
     kart->mUnk_48 = kart->mUnk_48 | 0x2000;
     kart->mUnk_7c = kart->mUnk_7c & 0xffbf1fff;
-    if ((kart->mUnk_7c & 0x20) != 0) {
+    if ((kart->mUnk_7c & KART_7C_REMOVED) != 0) {
         GetCourseMapKartStartPlacement(&startPos, &startAngles, kart->mIndex);
         kart->mHeadingAngle = (u32) (startAngles.y * 0xb6) >> 12;
         QuaternionFromAxisAngle(&data_02154f7c, kart->mHeadingAngle, &kart->mUnk_e0_m);

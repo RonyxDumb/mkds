@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-Vec3 *GetMapObjectPositionByTableIndex(u32 index);
+Vec3 *GetAttractorPosition(u32 index);

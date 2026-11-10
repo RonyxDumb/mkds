@@ -108,7 +108,7 @@ void ResetItemKouraW(ItemKouraW *item) {
     MTX_Identity43_(&item->mUnk_2b4);
     item->mRank = 1;
     item->mRankKartIndex = gRaceProgress->mKartAtRank[0];
-    item->mUnk_278 = 0;
+    item->mRankTargetSkipped = 0;
     item->mPosStrip = NULL;
     item->mSoundId = 0xdc;
     item->mKartMask = 0;
@@ -335,7 +335,7 @@ void UpdateItemKouraWState1(ItemKouraW *item) {
     UpdateItemKouraWDrawPos(item);
     normal = func_020fbd98_inline(item);
     UpdateItemKouraWOrientation(item, &item->mUnk_000.mUnk_000.mUnk_000.mVelocity, 1, normal);
-    if (item->mUnk_278 == 0) {
+    if (item->mRankTargetSkipped == 0) {
         if (gRaceProgress->mRaceDone != 0) {
             item->mRank = 1;
             item->mRankKartIndex = gRaceProgress->mKartAtRank[(u8) item->mRank - 1];
@@ -350,18 +350,18 @@ void UpdateItemKouraWState1(ItemKouraW *item) {
                 (u16) (!(item->mUnk_000.mUnk_000.mUnk_000.mOwnerKartIndexAndFlags & 0x8000)
                            ? (u16) (item->mUnk_000.mUnk_000.mUnk_000.mOwnerKartIndexAndFlags & ~0xff00)
                            : 8) ||
-            func_02068eac(GetKart(item->mRankKartIndex)) != 0) {
-            item->mUnk_278 = 1;
+            IsKartRemoved(GetKart(item->mRankKartIndex)) != 0) {
+            item->mRankTargetSkipped = 1;
         } else {
             item->mKartMask |= 1 << item->mRankKartIndex;
         }
     }
-    if (item->mUnk_278 != 0) {
+    if (item->mRankTargetSkipped != 0) {
         u32 kartCount;
         kartCount = (u8) gRaceSetup->mKartCount;
         for (i = 1; i <= kartCount; i = (u16) (i + 1)) {
             item->mRankKartIndex = gRaceProgress->mKartAtRank[(u8) i - 1];
-            if (func_02068eac(GetKart(item->mRankKartIndex)) == 0) {
+            if (IsKartRemoved(GetKart(item->mRankKartIndex)) == 0) {
                 break;
             }
         }
@@ -942,7 +942,7 @@ BOOL TryReleaseItemObjectsForItemInfo(s32 itemInfoIndex) {
     return TRUE;
 }
 
-void func_020fa9e4(void) {
+void ReleaseItemsAtFinish(void) {
     enum { K0 } poolIndex;
     u16 kartIndex;
 
@@ -1081,7 +1081,7 @@ s32 CollideKartWithItemObjects(Kart *kart) {
         if (isHit == 0) {
             continue;
         }
-        if ((kart->mUnk_7c & 0x2000) && func_020f9880(item) != 0) {
+        if ((kart->mUnk_7c & KART_7C_TERESA) && DoesItemObjectHurtKart(item) != 0) {
             continue;
         }
         gCollidedItemObjects[hitCount++] = item;
@@ -1089,8 +1089,8 @@ s32 CollideKartWithItemObjects(Kart *kart) {
             RemoveItemInUseObject(&gKartItems[(u16) (item->mOwnerKartIndexAndFlags & ~0xff00)].mItemInUse, item);
         }
         kind = item->mKind;
-        if (gItemKinds[kind].mUnk_88 != 0) {
-            if (func_020f9880(item) != 0) {
+        if (gItemKinds[kind].mEndsOnKartHit != 0) {
+            if (DoesItemObjectHurtKart(item) != 0) {
                 ApplyItemObjectPush(item, &kart->mCollisionCenter, &kart->mVelocity, &kart->mSignedTurnedForward);
                 FadeOutItemObjectHitByKart(item, 1, (u16) kart->mIndex);
             } else {

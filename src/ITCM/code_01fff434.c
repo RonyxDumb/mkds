@@ -39,7 +39,7 @@ void UpdateKartItems(KartItems *p) {
     } else if (g) {
         p->mFlags |= data_usa_021595d0;
     }
-    if (func_02068eac(q) != FALSE) {
+    if (IsKartRemoved(q) != FALSE) {
         p->mKinokoBoostStarted = FALSE;
         p->mTargetedByKouraR = FALSE;
         return;

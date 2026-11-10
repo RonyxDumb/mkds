@@ -17,7 +17,7 @@ void ResetItemObjectAtPos(ItemObject *item, s32 kind, u16 ownerAndFlags, Vec3 *p
 void ReleaseItemObject(ItemObject *item);
 void SetItemObjectPlacement(ItemObject *itemParam, Vec3 *prevPos, Vec3 *normal, CourseColorBlend *colorBlend,
                             s32 param_5);
-s32 func_020f9880(ItemObject *item);
+s32 DoesItemObjectHurtKart(ItemObject *item);
 BOOL IsItemObjectOverlappingKart(ItemObject *item, Kart *kart);
 BOOL IsItemObjectOverlappingSphere(ItemObject *item, Vec3 *center, s32 radius);
 void CollideItemObjectWithItemObject(ItemObject *item, ItemObject *other);

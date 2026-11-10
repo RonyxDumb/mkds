@@ -110,7 +110,7 @@ void func_01ffb130(Kart *p) {
     if ((p->mUnk_48 & 0x800) && AdvanceKartRespawnWait(p, &b) != 0) {
         return;
     }
-    if (p->mUnk_7c & 0x20) {
+    if (p->mUnk_7c & KART_7C_REMOVED) {
         return;
     }
     gKartStateFunctions[p->mState](p);
@@ -186,7 +186,7 @@ void func_01ffb130(Kart *p) {
     p->mVelocity = v1;
     VEC_Add(&p->mVelocity, &p->mUnk_374, &p->mVelocity);
     p->mVelocity.y += p->mVerticalSpeed;
-    VEC_MultAdd(p->mUnk_274, &p->mUnk_268, &p->mVelocity, &p->mVelocity);
+    VEC_MultAdd(p->mAttractorPullSpeed, &p->mAttractorPullDirection, &p->mVelocity, &p->mVelocity);
     if (!(p->mUnk_44 & KART_44_ON_GROUND) && p->mAirborneFrames > 5 && p->mVelocity.y < -0x6000) {
         p->mVelocity.y = -0x6000;
     }
@@ -203,7 +203,7 @@ void func_01ffb130(Kart *p) {
             }
         }
     }
-    if (!(p->mUnk_7c & 0x20)) {
+    if (!(p->mUnk_7c & KART_7C_REMOVED)) {
         VEC_Add(&p->mPos, &p->mVelocity, &p->mPos);
         p->mSpeedLimitHitFactor = 0x1000;
     }

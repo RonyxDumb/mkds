@@ -134,7 +134,7 @@ void UpdateChaseCamera(Camera *camera, Kart *kart) {
         GetKartForward(kart, &forward);
         func_02076528_inline(&forward, camera->mFollowDirectionSign);
     }
-    if (kart->mUnk_7c & 0x20) {
+    if (kart->mUnk_7c & KART_7C_REMOVED) {
         if (IsWaterPresent() == FALSE) {
             return;
         }

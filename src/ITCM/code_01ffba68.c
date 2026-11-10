@@ -159,7 +159,7 @@ void AdvanceKartMotion(Kart *p) {
 void AdvanceKartCollision(Kart *p) {
     Vec3 v;
 
-    if (p->mUnk_7c & 0x20) {
+    if (p->mUnk_7c & KART_7C_REMOVED) {
         return;
     }
     if (p->mUnk_44 & KART_44_NEAR_KART) {
@@ -205,8 +205,7 @@ static inline const s32 func_01ffc090_inline(void) {
 
 void func_01ffca50(Kart *p) {
     p->mUnk_48 &= ~(KART_48_TURN_LEFT | KART_48_TURN_RIGHT);
-    p->mRadius =
-        MUL_FIXED12_NO_ROUND(p->mRadiusFactor, MUL_FIXED12_NO_ROUND(p->mPhysicalParam->mRadius, p->mUnk_394));
+    p->mRadius = MUL_FIXED12_NO_ROUND(p->mRadiusFactor, MUL_FIXED12_NO_ROUND(p->mPhysicalParam->mRadius, p->mUnk_394));
     p->mUnk_1d4 = MUL_FIXED12_NO_ROUND(p->mPhysicalParam->mUnk_04, p->mScale.z);
     p->mTurnHeadingAnglePerFrameGoal = 0;
 }
@@ -511,7 +510,7 @@ void func_01ffc090(Kart *p, s32 a) {
         p->mTurnHeadingAnglePerFrame =
             p->mTurnHeadingAnglePerFrame +
             MUL_FIXED12_ROUNDED(p->mTurnHeadingAnglePerFrameGoal - p->mTurnHeadingAnglePerFrame,
-                                      func_01ffc090_inline());
+                                func_01ffc090_inline());
     }
     p->mHeadingAngle += (u16) p->mTurnHeadingAnglePerFrame;
 }

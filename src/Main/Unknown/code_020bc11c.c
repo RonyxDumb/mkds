@@ -269,7 +269,8 @@ void DrawRaceRankListRankCells(RaceHudOamBuffer *oamBuffer) {
         markerIndex = 0;
         if (gRaceSetup->mMode == MODE_BATTLE && IsKartEliminated(i) != FALSE) {
             markerIndex = 1;
-        } else if (gRaceSetup->mMode != MODE_BATTLE && (GetRaceHudKartRemoved(i) != 0 || func_0207a84c(i) != 0)) {
+        } else if (gRaceSetup->mMode != MODE_BATTLE &&
+                   (GetRaceHudKartRemoved(i) != 0 || IsKartRemovedWrapper(i) != 0)) {
             markerIndex = 1;
         }
         if (markerIndex != 0) {
@@ -337,7 +338,7 @@ void DrawRaceRankListState0Rows(RaceHudOamBuffer *oamBuffer) {
         if (gRaceSetup->mMode == MODE_BATTLE && IsKartEliminated((u16) kartIndex) != FALSE) {
             secondKartCellBase = 1;
         } else if (gRaceSetup->mMode != MODE_BATTLE &&
-                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || func_0207a84c((u16) kartIndex) != 0)) {
+                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || IsKartRemovedWrapper((u16) kartIndex) != 0)) {
             secondKartCellBase = 1;
         }
         secondKartCellBase = secondKartCellBase != 0 ? 0x6d : 0x65;
@@ -351,7 +352,7 @@ void DrawRaceRankListState0Rows(RaceHudOamBuffer *oamBuffer) {
         if (gRaceSetup->mMode == MODE_BATTLE && IsKartEliminated((u16) kartIndex) != FALSE) {
             markerIndex = 1;
         } else if (gRaceSetup->mMode != MODE_BATTLE &&
-                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || func_0207a84c((u16) kartIndex) != 0)) {
+                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || IsKartRemovedWrapper((u16) kartIndex) != 0)) {
             markerIndex = 1;
         }
         if (markerIndex != 0) {
@@ -417,7 +418,7 @@ void DrawRaceRankListState1To3Rows(RaceHudOamBuffer *oamBuffer) {
         if (gRaceSetup->mMode == MODE_BATTLE && IsKartEliminated((u16) kartIndex) != FALSE) {
             markerIndex = 1;
         } else if (gRaceSetup->mMode != MODE_BATTLE &&
-                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || func_0207a84c((u16) kartIndex) != 0)) {
+                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || IsKartRemovedWrapper((u16) kartIndex) != 0)) {
             markerIndex = 1;
         }
         if (markerIndex != 0) {
@@ -505,7 +506,7 @@ void DrawRaceRankListBattleState0Rows(RaceHudOamBuffer *oamBuffer) {
         if (gRaceSetup->mMode == MODE_BATTLE && IsKartEliminated((u16) kartIndex) != FALSE) {
             secondKartCellBase = 1;
         } else if (gRaceSetup->mMode != MODE_BATTLE &&
-                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || func_0207a84c((u16) kartIndex) != 0)) {
+                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || IsKartRemovedWrapper((u16) kartIndex) != 0)) {
             secondKartCellBase = 1;
         }
         secondKartCellBase = secondKartCellBase != 0 ? 0x6d : 0x65;
@@ -557,7 +558,7 @@ void DrawRaceRankListBattleState0Rows(RaceHudOamBuffer *oamBuffer) {
         if (gRaceSetup->mMode == MODE_BATTLE && IsKartEliminated((u16) kartIndex) != FALSE) {
             markerIndex = 1;
         } else if (gRaceSetup->mMode != MODE_BATTLE &&
-                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || func_0207a84c((u16) kartIndex) != 0)) {
+                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || IsKartRemovedWrapper((u16) kartIndex) != 0)) {
             markerIndex = 1;
         }
         if (markerIndex != 0) {
@@ -666,7 +667,7 @@ void DrawRaceRankListBattleState1To3Rows(RaceHudOamBuffer *oamBuffer) {
         if (gRaceSetup->mMode == MODE_BATTLE && IsKartEliminated((u16) kartIndex) != FALSE) {
             markerIndex = 1;
         } else if (gRaceSetup->mMode != MODE_BATTLE &&
-                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || func_0207a84c((u16) kartIndex) != 0)) {
+                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || IsKartRemovedWrapper((u16) kartIndex) != 0)) {
             markerIndex = 1;
         }
         if (markerIndex != 0) {

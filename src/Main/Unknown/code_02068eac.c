@@ -224,8 +224,8 @@ void StartKartStar(Kart *kart) {
     if (kart->mUnk_4c & 0x10000000) {
         return;
     }
-    if (kart->mUnk_7c & 0x2000) {
-        kart->mUnk_7c &= ~0x2000;
+    if (kart->mUnk_7c & KART_7C_TERESA) {
+        kart->mUnk_7c &= ~KART_7C_TERESA;
         kart->mUnk_7c &= ~0xc000;
         kart->mItemEffect = 0;
         if (!(kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
@@ -281,7 +281,7 @@ void StartKartTeresa(Kart *kart) {
             SetKartModelsGrayColors(kart);
         }
     }
-    kart->mUnk_7c |= 0x2000;
+    kart->mUnk_7c |= KART_7C_TERESA;
     kart->mItemEffect = 2;
     SkipOrthoQuadsHold(kart->mIndex);
     kartBits = kart->mUnk_4c;
@@ -348,8 +348,8 @@ void AdvanceKartTeresa(Kart *kart) {
         HideKartTurnEffects(GetKartTurnEffects(kart->mIndex));
     }
     effectState->mTeresaFrames++;
-    if (effectState->mTeresaFrames > KART_TERESA_MAX_FRAMES && (kart->mUnk_7c & 0x2000)) {
-        kart->mUnk_7c &= ~0x2000;
+    if (effectState->mTeresaFrames > KART_TERESA_MAX_FRAMES && (kart->mUnk_7c & KART_7C_TERESA)) {
+        kart->mUnk_7c &= ~KART_7C_TERESA;
         kart->mUnk_7c &= ~0xc000;
         kart->mItemEffect = 0;
         if (!(kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
@@ -391,8 +391,8 @@ void StartKartKiller(Kart *kart) {
         effectState->mKillerEndRank = 1;
     }
     kart->mKartModelsEntry->mUnk_098.mFrameIndex = 0;
-    if (kart->mUnk_7c & 0x2000) {
-        kart->mUnk_7c &= ~0x2000;
+    if (kart->mUnk_7c & KART_7C_TERESA) {
+        kart->mUnk_7c &= ~KART_7C_TERESA;
         kart->mUnk_7c &= ~0xc000;
         kart->mItemEffect = 0;
         if (!(kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
@@ -538,7 +538,7 @@ void StartKartGesso(Kart *kart, u32 orthoQuadCount) {
     if (kart->mUnk_4c & 0x10000040) {
         return;
     }
-    if (kartBits & 0x2000) {
+    if (kartBits & KART_7C_TERESA) {
         return;
     }
     kart->mUnk_538.mUnk_1c = 0;
@@ -645,7 +645,7 @@ s32 func_02068ec0(Kart *kart, s32 a) {
             DecrementKartAiNonCpuCount(kart->mIndex);
             kart->mUnk_7c |= 0x4000000;
         }
-        kart->mUnk_7c |= 0x20;
+        kart->mUnk_7c |= KART_7C_REMOVED;
         if (kart->mCollisionSlot != -1) {
             kart->mCollisionSlot = FreeCollisionSlot(kart->mCollisionSlot);
         }
@@ -667,12 +667,12 @@ s32 func_02068ec0(Kart *kart, s32 a) {
                 }
             }
         }
-        kart->mUnk_3c8 = 0;
+        kart->mFramesSinceRemovalOrReset = 0;
         StopKartItemsAndEffects(kart);
     }
     return removed;
 }
 
-BOOL func_02068eac(Kart *kart) {
+BOOL IsKartRemoved(Kart *kart) {
     return (kart->mUnk_7c & 0x60) != 0;
 }

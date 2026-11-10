@@ -251,8 +251,8 @@ u32 IsMissionRunWithKind2Shapes(void) {
     return gMissionRunKind2ShapesPresent;
 }
 
-BOOL func_0207a84c(s32 kartIndex) {
-    return func_02068eac(&gKarts[kartIndex]);
+BOOL IsKartRemovedWrapper(s32 kartIndex) {
+    return IsKartRemoved(&gKarts[kartIndex]);
 }
 
 void func_0207a828(s32 kartIndex) {
@@ -524,19 +524,17 @@ s32 AdvanceKartModelColorBlend(struct KartModelsEntry *kartModelsEntry, s32 blen
             blend->mBlendProgress = 0x1000;
             finished = TRUE;
         }
-        blend->mDiffColor =
-            (s16) (blend->mUnk_06 + MUL_FIXED12_ROUNDED(blend->mUnk_0c, blend->mBlendProgress)) +
-            ((s16) (blend->mUnk_08 + MUL_FIXED12_ROUNDED(blend->mUnk_0e, blend->mBlendProgress)) << 5) +
-            ((s16) (blend->mUnk_0a + MUL_FIXED12_ROUNDED(blend->mUnk_10, blend->mBlendProgress)) << 10);
+        blend->mDiffColor = (s16) (blend->mUnk_06 + MUL_FIXED12_ROUNDED(blend->mUnk_0c, blend->mBlendProgress)) +
+                            ((s16) (blend->mUnk_08 + MUL_FIXED12_ROUNDED(blend->mUnk_0e, blend->mBlendProgress)) << 5) +
+                            ((s16) (blend->mUnk_0a + MUL_FIXED12_ROUNDED(blend->mUnk_10, blend->mBlendProgress)) << 10);
         NNS_G3dMdlSetMdlDiffAll(kartModelsEntry->mModels[0]->mResMdl, blend->mDiffColor);
         NNS_G3dMdlSetMdlDiffAll(kartModelsEntry->mModels[1]->mResMdl, blend->mDiffColor);
         if (kartModelsEntry->mModels[2] != NULL) {
             NNS_G3dMdlSetMdlDiffAll(kartModelsEntry->mModels[2]->mResMdl, blend->mDiffColor);
         }
-        blend->mEmiColor =
-            (s16) (blend->mUnk_12 + MUL_FIXED12_ROUNDED(blend->mUnk_18, blend->mBlendProgress)) +
-            ((s16) (blend->mUnk_14 + MUL_FIXED12_ROUNDED(blend->mUnk_1a, blend->mBlendProgress)) << 5) +
-            ((s16) (blend->mUnk_16 + MUL_FIXED12_ROUNDED(blend->mUnk_1c, blend->mBlendProgress)) << 10);
+        blend->mEmiColor = (s16) (blend->mUnk_12 + MUL_FIXED12_ROUNDED(blend->mUnk_18, blend->mBlendProgress)) +
+                           ((s16) (blend->mUnk_14 + MUL_FIXED12_ROUNDED(blend->mUnk_1a, blend->mBlendProgress)) << 5) +
+                           ((s16) (blend->mUnk_16 + MUL_FIXED12_ROUNDED(blend->mUnk_1c, blend->mBlendProgress)) << 10);
         NNS_G3dMdlSetMdlEmiAll(kartModelsEntry->mModels[0]->mResMdl, blend->mEmiColor);
         NNS_G3dMdlSetMdlEmiAll(kartModelsEntry->mModels[1]->mResMdl, blend->mEmiColor);
         if (kartModelsEntry->mModels[2] != NULL) {

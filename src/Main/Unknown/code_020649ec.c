@@ -53,12 +53,12 @@ void func_020651fc(Kart *kart) {
 
     f = kart->mUnk_7c;
     if ((f & 0xa0) != 0) {
-        if ((f & 0x20) != 0) {
+        if ((f & KART_7C_REMOVED) != 0) {
             AdvanceKartRemovalShrink(kart);
             return;
         }
-        kart->mUnk_3c8 = kart->mUnk_3c8 + 1;
-        tableIndex = kart->mUnk_3c8;
+        kart->mFramesSinceRemovalOrReset = kart->mFramesSinceRemovalOrReset + 1;
+        tableIndex = kart->mFramesSinceRemovalOrReset;
         if (tableIndex >= 0x19) {
             kart->mUnk_7c = kart->mUnk_7c & ~0x80;
             return;
@@ -113,7 +113,7 @@ void func_02064f50(Kart *kart) {
     Vec3 *k;
 
     b = kart->mUnk_514;
-    if ((kart->mUnk_7c & 0x20) != 0) {
+    if ((kart->mUnk_7c & KART_7C_REMOVED) != 0) {
         return;
     }
     if ((kart->mUnk_44 & KART_44_NEAR_KART) != 0) {

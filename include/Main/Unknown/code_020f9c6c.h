@@ -57,7 +57,7 @@ typedef struct ItemKouraW {
     /* 270 */ s32 mSoundId;
     /* 274 */ u16 mRank;
     /* 276 */ u16 mRankKartIndex;
-    /* 278 */ s32 mUnk_278;
+    /* 278 */ s32 mRankTargetSkipped;
     /* 27c */ s32 mUnk_27c;
     /* 280 */ u16 mKartMask;
     /* 282 */ u8 mUnk_282[2];
@@ -107,7 +107,7 @@ void DrawItems(void *a);
 // Per-frame item step: mode-5 sync, the object pools whose mUnk_14 is set, every kart's record, the item timers, two
 // map-object steps
 void UpdateItems(void);
-void func_020fa9e4(void);
+void ReleaseItemsAtFinish(void);
 BOOL TryReleaseItemObjectsForItemInfo(s32 itemInfoIndex);
 BOOL ReplaceUnavailableItem(s32 *itemInfoIndexPointer);
 BOOL IsItemInfoObjectCountFree(s32 itemInfoIndex);

@@ -4,7 +4,7 @@
 
 typedef struct Kart Kart;
 
-BOOL func_02068eac(Kart *kart);
+BOOL IsKartRemoved(Kart *kart);
 s32 func_02068ec0(Kart *kart, s32 a);
 void func_02069044(Kart *kart);
 void func_02069068(Kart *kart);

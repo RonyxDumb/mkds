@@ -156,6 +156,14 @@ typedef struct ParticipantKartRecordState {
 #define KART_7C_ENTRY_KIND_2 0x4
 // Set at set-up when mKartModelsEntry->mUnk_008 != NULL (a snapshot taken then).
 #define KART_7C_MODELS_ENTRY_008_SET 0x10
+// Set by AdvanceKartRemovalShrink once the removal shrink has finished (25 steps after KART_7C_REMOVED).
+// The staff-roll AI also sets and clears it, as a literal.
+#define KART_7C_REMOVAL_SHRINK_DONE 0x40
+// Set by the removal step (battle elimination, a removed race entry, a finished entry-kind-2 Kart).
+// Cleared when the Kart is put back at its start.
+#define KART_7C_REMOVED 0x20
+// Set while the Kart is a Teresa (the Boo item, mItemEffect 2); item objects with mHurtsKart pass through it.
+#define KART_7C_TERESA 0x2000
 
 // Bits of Kart.mUnk_44.
 // Set from the start of a drift until it ends.
@@ -335,8 +343,8 @@ typedef struct Kart {
             /* 264 */ u8 mUnk_264[4];
         };
     };
-    /* 268 */ Vec3 mUnk_268;
-    /* 274 */ s32 mUnk_274;
+    /* 268 */ Vec3 mAttractorPullDirection;
+    /* 274 */ s32 mAttractorPullSpeed;
     /* 278 */ Vec3 mForward;
     /* 284 */ Vec3 mHopStartUp;
     /* 290 */ Vec3 mHopStartForward;
@@ -442,7 +450,7 @@ typedef struct Kart {
     // Number of the course respawn slot this Kart goes back to, set when it falls or when it respawns with none chosen;
     // -1 means none chosen (ResetKart writes -1).
     /* 3c4 */ s32 mRespawnSlot;
-    /* 3c8 */ s16 mUnk_3c8;
+    /* 3c8 */ s16 mFramesSinceRemovalOrReset;
     /* 3ca */ u8 mUnk_3ca[2];
     /* 3cc */ s32 mSoundIndex;
     /* 3d0 */ s16 mUnk_3d0;
@@ -497,7 +505,7 @@ typedef struct Kart {
     /* 4cc */ s32 mUnk_4cc;
     /* 4d0 */ u32 mUnk_4d0;
     /* 4d4 */ s32 mUnk_4d4;
-    /* 4d8 */ s16 mUnk_4d8;
+    /* 4d8 */ s16 mAttractorIndex;
     /* 4da */ s16 mUnk_4da;
     /* 4dc */ s16 mLandingTimer;
     // Angle added to mHeadingAngle when the orientation is built, never to mHeadingAngle itself;

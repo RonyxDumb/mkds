@@ -337,8 +337,8 @@ typedef struct ItemKind {
     /* 78 */ s32 mUnk_78;
     /* 7c */ s32 mUnk_7c;
     /* 80 */ s32 mUnk_80;
-    /* 84 */ s32 mUnk_84;
-    /* 88 */ s32 mUnk_88;
+    /* 84 */ s32 mHurtsKart;
+    /* 88 */ s32 mEndsOnKartHit;
     /* 8c */ u8 mUnk_8c[4];
     /* 90 */ s32 mObjectCapCost;
     /* 94 */ s32 mUsedUpSoundId;

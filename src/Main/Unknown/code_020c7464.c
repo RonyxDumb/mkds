@@ -233,7 +233,8 @@ void UpdateRaceHudSubScreenKarts(void) {
                 ComputeSubScreenState0KartPosition(i, &gRaceHudSubScreenKarts->mScreenPos[i]);
                 screenX = gRaceHudSubScreenKarts->mScreenPos[i].mUnk_00;
                 screenY = gRaceHudSubScreenKarts->mScreenPos[i].mUnk_04;
-                if (screenX > -0x10 && screenX < 0x110 && screenY > -0x10 && screenY < 0xd0 && func_0207a84c(i) == 0) {
+                if (screenX > -0x10 && screenX < 0x110 && screenY > -0x10 && screenY < 0xd0 &&
+                    IsKartRemovedWrapper(i) == 0) {
                     gRaceHudSubScreenKarts->mVisible[i] = 1;
                     if (gRaceSetup->mMode == MODE_TIME_ATTACK &&
                         gRaceSetup->mCurrentEntries[i].mPlayer.mKind == PLAYER_KIND_GHOST) {
@@ -262,7 +263,8 @@ void UpdateRaceHudSubScreenKarts(void) {
                 ComputeRaceHudSubScreenKartPosition(i, &gRaceHudSubScreenKarts->mScreenPos[i], a);
                 screenX = gRaceHudSubScreenKarts->mScreenPos[i].mUnk_00;
                 screenY = gRaceHudSubScreenKarts->mScreenPos[i].mUnk_04;
-                if (screenX > -0x10 && screenX < 0x110 && screenY > -0x10 && screenY < 0xd0 && func_0207a84c(i) == 0) {
+                if (screenX > -0x10 && screenX < 0x110 && screenY > -0x10 && screenY < 0xd0 &&
+                    IsKartRemovedWrapper(i) == 0) {
                     gRaceHudSubScreenKarts->mVisible[i] = 1;
                     gRaceHudSubScreenKarts->mUnk_040[i] = func_020b4dc4(i);
                     GetKartScale(&gRaceHudSubScreenKarts->mScale[i], i);

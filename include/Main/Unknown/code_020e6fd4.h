@@ -40,8 +40,8 @@ typedef struct MapObjectKindData {
 
 // Element object up to 0xa0, which every kind shares: UpdateMapObjectList and UpdateMapObjectSoundSource read 0x78 and
 // 0x94 of every object, DoesItemObjectRespondToMapObject reads 0x00, 0x02 and 0x98. InitKuribo and InitDram pass the
-// StateMachine at 0x80 to InitStateMachine. From 0xa0 on, the objects of func_020e72cc (Unk020e730c), InitDram (Dram),
-// InitMissionRunBoxMapObject (Unk020ff97c) and InitItemBox (ItemBox) use the bytes in different ways.
+// StateMachine at 0x80 to InitStateMachine. From 0xa0 on, the objects of InitAttractorMapObject (AttractorMapObject),
+// InitDram (Dram), InitMissionRunBoxMapObject (Unk020ff97c) and InitItemBox (ItemBox) use the bytes in different ways.
 typedef struct MapObject {
     /* 00 */ u16 mKind;
     /* 02 */ u16 mFlags;
@@ -98,12 +98,13 @@ typedef struct MapObject {
     /* 9c */ struct CourseMapRow *mCourseMapRow;
 } MapObject;
 
-// Object of func_020e72cc and func_020e730c: two u16s after the shared part.
-typedef struct Unk020e730c {
-    /* 00 */ MapObject mUnk_00;
+// Invisible attractor (map object kind 2): a table index and a strength after the shared part; a Kart on a hit-bit
+// 0x20000 surface is pulled toward it.
+typedef struct AttractorMapObject {
+    /* 00 */ MapObject mMapObject;
     /* a0 */ u16 mTableIndex;
-    /* a2 */ u16 mEntryValue;
-} Unk020e730c;
+    /* a2 */ u16 mStrength;
+} AttractorMapObject;
 
 // Objects drawn or updated together: mInit runs once when the lists are set up, mBeforeObjects and mAfterObjects run
 // around the loop over the objects, mForEachObject runs for each object.
@@ -157,11 +158,11 @@ extern JgKindRow data_0217bb08[];
 void CallMapObjectListCallback(MapObjectList *list);
 void UpdateMapObjectList(MapObjectList *list);
 void UpdateMapObjectSoundSource(MapObject *object);
-void func_020e72cc(Unk020e730c *object, struct CourseMapRow *courseRow);
-void func_020e730c(void);
-u16 func_020e7388(int index);
-MapObjectList *func_020e73b4(void);
-MapObjectKindData *func_020e7410(void);
+void InitAttractorMapObject(AttractorMapObject *object, struct CourseMapRow *courseRow);
+void BuildAttractorTables(void);
+u16 GetAttractorStrength(int index);
+MapObjectList *CreateAttractorUpdateList(void);
+MapObjectKindData *CreateAttractorKindData(void);
 void CreateJg(void);
 void InitJg(void);
 void ReleaseJg(void);

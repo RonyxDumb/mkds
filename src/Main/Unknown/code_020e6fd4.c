@@ -265,62 +265,62 @@ void CreateJg(void) {
 }
 #pragma thumb off
 
-MapObjectKindData *func_020e7410(void) {
+MapObjectKindData *CreateAttractorKindData(void) {
     MapObjectKindData *kindData;
 
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *kindData = data_02159370;
+    *kindData = gAttractorKindData;
     return kindData;
 }
 
-MapObjectList *func_020e73b4(void) {
+MapObjectList *CreateAttractorUpdateList(void) {
     MapObjectList *list;
 
     list = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
-    data_0217b864 = list;
-    *list = data_02159348;
-    SetUpdateListSlot(&data_0217b864);
-    return data_0217b864;
+    gAttractorUpdateList = list;
+    *list = gAttractorUpdateListData;
+    SetUpdateListSlot(&gAttractorUpdateList);
+    return gAttractorUpdateList;
 }
 
-Vec3 *GetMapObjectPositionByTableIndex(u32 index) {
-    return gMapObjectPositionByTableIndex[index];
+Vec3 *GetAttractorPosition(u32 index) {
+    return gAttractorPositions[index];
 }
 
-u16 func_020e7388(int index) {
-    return data_0217b868[index];
+u16 GetAttractorStrength(int index) {
+    return gAttractorStrengths[index];
 }
 
 #pragma thumb on
-void func_020e730c(void) {
-    Unk020e730c *object;
+void BuildAttractorTables(void) {
+    AttractorMapObject *object;
     s32 objectCount;
     s32 i;
 
-    objectCount = data_0217b864->mMapObjectCount;
-    gMapObjectPositionByTableIndex = HeapAlloc(GetHeap(GetCurrentHeapCall()), objectCount * 4);
-    data_0217b868 = HeapAlloc(GetHeap(GetCurrentHeapCall()), objectCount * 2);
-    for (i = 0; i < data_0217b864->mMapObjectCount; i++) {
+    objectCount = gAttractorUpdateList->mMapObjectCount;
+    gAttractorPositions = HeapAlloc(GetHeap(GetCurrentHeapCall()), objectCount * 4);
+    gAttractorStrengths = HeapAlloc(GetHeap(GetCurrentHeapCall()), objectCount * 2);
+    for (i = 0; i < gAttractorUpdateList->mMapObjectCount; i++) {
         s32 tableIndex;
 
-        object = data_0217b864->mMapObjects[i];
+        object = gAttractorUpdateList->mMapObjects[i];
         tableIndex = object->mTableIndex;
-        gMapObjectPositionByTableIndex[tableIndex] = &object->mUnk_00.mPos;
-        data_0217b868[tableIndex] = object->mEntryValue;
+        gAttractorPositions[tableIndex] = &object->mMapObject.mPos;
+        gAttractorStrengths[tableIndex] = object->mStrength;
     }
 }
 
-void func_020e72cc(Unk020e730c *object, struct CourseMapRow *courseRow) {
+void InitAttractorMapObject(AttractorMapObject *object, struct CourseMapRow *courseRow) {
     object->mTableIndex = courseRow->mUnk_28;
     switch (gRaceSetup->mEngineIndex) {
         case 0:
-            object->mEntryValue = courseRow->mUnk_2a;
+            object->mStrength = courseRow->mUnk_2a;
             break;
         case 1:
-            object->mEntryValue = courseRow->mUnk_2c;
+            object->mStrength = courseRow->mUnk_2c;
             break;
         case 2:
-            object->mEntryValue = courseRow->mUnk_2e;
+            object->mStrength = courseRow->mUnk_2e;
             break;
     }
 }

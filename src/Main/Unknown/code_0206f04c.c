@@ -338,32 +338,32 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
     kart->mUnk_4e8 = kart->mUnk_4d4 + 0x1000;
 }
 
-void func_0206f824(Kart *kart, Vec3 *groundNormal, s32 bit100000WasSet) {
-    Vec3 *mapObjectPosition;
+void ApplyKartAttractorPull(Kart *kart, Vec3 *groundNormal, s32 bit100000WasSet) {
+    Vec3 *attractorPosition;
     s32 limit;
     s32 step;
-    Vec3 f;
-    Vec3 g;
+    Vec3 normalCrossOffset;
+    Vec3 offsetToAttractor;
 
-    mapObjectPosition = GetMapObjectPositionByTableIndex((u16) kart->mUnk_4d8);
-    limit = func_020e7388((u16) kart->mUnk_4d8) * 150;
+    attractorPosition = GetAttractorPosition((u16) kart->mAttractorIndex);
+    limit = GetAttractorStrength((u16) kart->mAttractorIndex) * 150;
     step = 0x333;
     if (kart->mUnk_7c & 2) {
         limit >>= 1;
         step >>= 1;
     }
     if (bit100000WasSet == 0) {
-        VEC_Subtract(mapObjectPosition, &kart->mPos, &g);
-        Vec3CrossUnrounded(groundNormal, &g, &f);
-        Vec3CrossUnrounded(&f, groundNormal, &g);
-        if (!(LENGTH_SQUARED(g) < 0x10)) {
-            Vec3NormalizeAndGetLengthUnchecked(&g, &kart->mUnk_268);
+        VEC_Subtract(attractorPosition, &kart->mPos, &offsetToAttractor);
+        Vec3CrossUnrounded(groundNormal, &offsetToAttractor, &normalCrossOffset);
+        Vec3CrossUnrounded(&normalCrossOffset, groundNormal, &offsetToAttractor);
+        if (!(LENGTH_SQUARED(offsetToAttractor) < 0x10)) {
+            Vec3NormalizeAndGetLengthUnchecked(&offsetToAttractor, &kart->mAttractorPullDirection);
         }
     }
     kart->mUnk_44 |= 0x100000;
-    kart->mUnk_274 = kart->mUnk_274 + step;
-    if (kart->mUnk_274 > limit) {
-        kart->mUnk_274 = limit;
+    kart->mAttractorPullSpeed = kart->mAttractorPullSpeed + step;
+    if (kart->mAttractorPullSpeed > limit) {
+        kart->mAttractorPullSpeed = limit;
     }
 }
 

@@ -138,7 +138,7 @@ void func_01ffa4b4(Kart *p, Vec3 *a) {
                 RefreshKartSurface(p);
                 if ((f & 0x20000) && !(p->mUnk_4c & 0x10000040) && !(p->mUnk_7c & 0x402000)) {
                     p->mUnk_4c |= 0x40000000;
-                    p->mUnk_4d8 = (PickCollisionHitValue(0x20000) & 0xe0) >> 5;
+                    p->mAttractorIndex = (PickCollisionHitValue(0x20000) & 0xe0) >> 5;
                 } else {
                     p->mUnk_4c &= ~0x40000000;
                 }
@@ -192,12 +192,12 @@ void func_01ffa4b4(Kart *p, Vec3 *a) {
         ApplyKartWaterDepth(p);
     }
     if ((p->mUnk_4c & 0x40000000) && p->mState == KART_STATE_NORMAL) {
-        func_0206f824(p, a, b1);
+        ApplyKartAttractorPull(p, a, b1);
     }
-    p->mUnk_274 = MUL_FIXED12_NO_ROUND(p->mUnk_274, 0xf33);
-    t = p->mUnk_274;
+    p->mAttractorPullSpeed = MUL_FIXED12_NO_ROUND(p->mAttractorPullSpeed, 0xf33);
+    t = p->mAttractorPullSpeed;
     if ((t > 0 ? t : -t) < 0x29) {
-        p->mUnk_274 = 0;
+        p->mAttractorPullSpeed = 0;
     }
     UpdateKartAirborne(p);
     if (!(p->mUnk_4c & 0x20)) {

@@ -431,7 +431,7 @@ void func_0206d18c(Kart *kart) {
     if (gRaceSetup->mMode == MODE_BATTLE) {
         SetKartHitByKartIndexFromItem(kart->mIndex, itemObject);
     }
-    if (func_020f9880(itemObject) == 0) {
+    if (DoesItemObjectHurtKart(itemObject) == 0) {
         return;
     }
     if (kart->mUnk_4c & 0x10000040) {

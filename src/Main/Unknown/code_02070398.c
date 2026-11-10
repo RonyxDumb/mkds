@@ -106,12 +106,12 @@ void AdvanceKartScaleFactor(Kart *kart) {
 
     entryIndex = kart->mEntryIndex;
     gInputSlots[entryIndex].mBitMask = 0xff7;
-    if (kart->mUnk_7c & 0x20) {
+    if (kart->mUnk_7c & KART_7C_REMOVED) {
         AdvanceKartRemovalShrink(kart);
         return;
     }
-    kart->mUnk_3c8 = kart->mUnk_3c8 + 1;
-    frameIndex = kart->mUnk_3c8;
+    kart->mFramesSinceRemovalOrReset = kart->mFramesSinceRemovalOrReset + 1;
+    frameIndex = kart->mFramesSinceRemovalOrReset;
     if (frameIndex >= 0x19) {
         kart->mUnk_7c &= ~0x80;
         return;
@@ -335,8 +335,8 @@ void StopKartItemsAndEffects(Kart *kart) {
         StopKartKillerEffect(kart->mIndex);
         StartSound(&kart->mSoundSource, 0xfd, 0x7f, 0);
     }
-    if (kart->mUnk_7c & 0x2000) {
-        kart->mUnk_7c &= ~0x2000;
+    if (kart->mUnk_7c & KART_7C_TERESA) {
+        kart->mUnk_7c &= ~KART_7C_TERESA;
         kart->mUnk_7c &= ~0xc000;
         kart->mItemEffect = 0;
         if (!(kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
@@ -354,7 +354,7 @@ void ResetKartToStartPlacement(Kart *kart) {
     Vec3 startAngles;
     Vec3 *collisionPos;
 
-    if (!(kart->mUnk_7c & 0x20)) {
+    if (!(kart->mUnk_7c & KART_7C_REMOVED)) {
         return;
     }
     GetCourseMapKartStartPlacement(&startPos, &startAngles, kart->mIndex);
@@ -426,8 +426,8 @@ void ResetKartMotionVectorsAndFactors(Kart *kart) {
     kart->mSpeedLimitHitFactor = 0x1000;
     zeroVector = data_02154f94;
     kart->mUnk_25c = zeroVector;
-    kart->mUnk_268 = zeroVector;
-    kart->mUnk_274 = 0;
+    kart->mAttractorPullDirection = zeroVector;
+    kart->mAttractorPullSpeed = 0;
     kart->mForward = zeroVector;
     kart->mHopStartForward = zeroVector;
     kart->mHitVelocity = zeroVector;
@@ -495,8 +495,8 @@ void ResetKart(Kart *kart) {
     kart->mGroundNormal = data_02154f7c;
     kart->mUnk_250 = zeroVector;
     kart->mUnk_25c = zeroVector;
-    kart->mUnk_268 = zeroVector;
-    kart->mUnk_274 = 0;
+    kart->mAttractorPullDirection = zeroVector;
+    kart->mAttractorPullSpeed = 0;
     kart->mForward = zeroVector;
     kart->mHopStartForward = zeroVector;
     kart->mTurnedForward = zeroVector;
@@ -556,7 +556,7 @@ void ResetKart(Kart *kart) {
     kart->mRaceStartFrameCount = 0;
     kart->mRespawnFrames = 0;
     kart->mRespawnSlot = -1;
-    kart->mUnk_3c8 = 0;
+    kart->mFramesSinceRemovalOrReset = 0;
     kart->mKartCollisionTimer = 0;
     kart->mKartCollisionDelayTimer = 0;
     kart->mSurfaceGroup = -1;
@@ -587,7 +587,7 @@ void ResetKart(Kart *kart) {
     kart->mRadiusFactor = 0x1000;
     kart->mUnk_4d0 = 0;
     kart->mUnk_4d4 = 0;
-    kart->mUnk_4d8 = -1;
+    kart->mAttractorIndex = -1;
     kart->mLandingTimer = 0;
     kart->mUnk_4da = 0;
     kart->mHeadingAngleOffset = 0;
@@ -1464,7 +1464,7 @@ BOOL TryHoldKartStill(Kart *kart, u32 b, void *c) {
     flags = kart->mUnk_44;
     if (!(flags & 0xc2200) && !(kart->mUnk_7c & 0x400)) {
         if (!(flags & 0xc0000) && !(kart->mUnk_4c & 0x100) && kart->mUnk_1fc.x == 0 && kart->mUnk_1fc.y == 0 &&
-            kart->mUnk_1fc.z == 0 && kart->mUnk_274 == 0 && kart->mUnk_4d0 >= 0x64) {
+            kart->mUnk_1fc.z == 0 && kart->mAttractorPullSpeed == 0 && kart->mUnk_4d0 >= 0x64) {
             kart->mPos.x = kart->mPrevPos.x;
             kart->mPos.z = kart->mPrevPos.z;
         } else {
