@@ -155,7 +155,7 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
         case 2:
             switch (gRaceSetup->mRaceKind) {
                 case RACE_KIND_NORMAL:
-                case 2:
+                case RACE_KIND_REPLAY:
                     raceMode = gRaceSetup->mMode;
                     rowIndex = GetCourseSoundRowIndex(gRaceSetup->mCourseId, output);
                     rowWritten = TRUE;

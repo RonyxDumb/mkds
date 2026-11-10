@@ -151,9 +151,9 @@ typedef struct ParticipantKartRecordState {
 // Bits of Kart.mUnk_7c.
 // Set once at set-up (InitKartFlags) when mIndex == gRaceSetup->mEntryIndex, i.e. the selected entry.
 #define KART_7C_INDEX_IS_SELECTED_ENTRY 0x1
-// Set at set-up when the entry's mKind is 2. Bit 0x2 and this bit are also tested together as 6 / 0x402004 (left
+// Set at set-up when the entry is PLAYER_KIND_GHOST. Bit 0x2 and this bit are also tested together as 6 / 0x402004 (left
 // literal).
-#define KART_7C_ENTRY_KIND_2 0x4
+#define KART_7C_ENTRY_IS_GHOST 0x4
 // Set at set-up when mKartModelsEntry->mUnk_008 != NULL (a snapshot taken then).
 #define KART_7C_MODELS_ENTRY_008_SET 0x10
 // Kart is hidden: AdvanceKartRemovalShrink sets it once the removal shrink has finished (25 steps after

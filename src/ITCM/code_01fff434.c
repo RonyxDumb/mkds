@@ -14,110 +14,112 @@
 #include "Main/Unknown/unk_021759c0.h"
 #include "code_02147cd8.h"
 
-void UpdateKartItems(KartItems *p) {
-    HeldItem *b = &p->mHeldItem;
-    ItemInUse *a = &p->mItemInUse;
-    Kart *q;
-    ItemPointLinkRef *r;
-    Vec3 *v;
-    s64 d;
-    s32 k;
-    u16 f;
-    u16 t;
-    u32 g;
-    f = p->mFlags;
-    g = f & 0x1000;
-    t = gInputSlots[p->mEntryIndex].mBits & ITEM_BITS;
-    q = p->mKart;
-    p->mFlags &= ~0xf200;
-    if (t) {
-        if (!g) {
-            p->mFlags |= 0x3000;
+void UpdateKartItems(KartItems *kartItems) {
+    HeldItem *heldItem = &kartItems->mHeldItem;
+    ItemInUse *itemInUse = &kartItems->mItemInUse;
+    Kart *kart;
+    ItemPointLinkRef *itemLink;
+    Vec3 *drawMatrixPos;
+    s64 distanceSquared;
+    s32 slotResult;
+    u16 previousFlags;
+    u16 itemKeyBits;
+    u32 keyWasDown;
+    previousFlags = kartItems->mFlags;
+    keyWasDown = previousFlags & 0x1000;
+    itemKeyBits = gInputSlots[kartItems->mEntryIndex].mBits & ITEM_BITS;
+    kart = kartItems->mKart;
+    kartItems->mFlags &= ~0xf200;
+    if (itemKeyBits) {
+        if (!keyWasDown) {
+            kartItems->mFlags |= 0x3000;
         } else {
-            p->mFlags |= data_usa_021595cc;
+            kartItems->mFlags |= gKartItemsKeyDownBit;
         }
-    } else if (g) {
-        p->mFlags |= data_usa_021595d0;
+    } else if (keyWasDown) {
+        kartItems->mFlags |= gKartItemsKeyReleasedBit;
     }
-    if (IsKartRemoved(q) != FALSE) {
-        p->mKinokoBoostStarted = FALSE;
-        p->mTargetedByKouraR = FALSE;
+    if (IsKartRemoved(kart) != FALSE) {
+        kartItems->mKinokoBoostStarted = FALSE;
+        kartItems->mTargetedByKouraR = FALSE;
         return;
     }
-    p->mKinokoBoostStarted = FALSE;
-    if (p->mUnk_20c != FALSE) {
-        if (func_01ffc67c(q) == FALSE && !(q->mUnk_48 & 0x10000) && (q->mUnk_44 & KART_44_ON_GROUND)) {
-            p->mUnk_20c = FALSE;
+    kartItems->mKinokoBoostStarted = FALSE;
+    if (kartItems->mUnk_20c != FALSE) {
+        if (func_01ffc67c(kart) == FALSE && !(kart->mUnk_48 & 0x10000) && (kart->mUnk_44 & KART_44_ON_GROUND)) {
+            kartItems->mUnk_20c = FALSE;
         }
-    } else if (func_01ffc67c(q) != FALSE || (q->mUnk_48 & 0x10000)) {
-        p->mUnk_20c = TRUE;
+    } else if (func_01ffc67c(kart) != FALSE || (kart->mUnk_48 & 0x10000)) {
+        kartItems->mUnk_20c = TRUE;
     } else {
-        func_01fff524(p);
-        p->mFlags |= data_usa_021595d4;
+        AddKartItemUseFlags(kartItems);
+        kartItems->mFlags |= data_usa_021595d4;
     }
-    if (a->mObjectKind != 0xf) {
-        AdvanceItemInUse(a);
+    if (itemInUse->mObjectKind != 0xf) {
+        AdvanceItemInUse(itemInUse);
     }
-    if (b->mItemInfoIndex != 0x13) {
-        if ((p->mFlags & 0x242) == 0x242 && b->mItemInfoIndex != 0x13 && b->mObjectStartFramesLeft == 0 &&
-            (p->mFlags & 0x200) && q->mState == KART_STATE_NORMAL) {
-            StartItemInUse(a, b);
+    if (heldItem->mItemInfoIndex != 0x13) {
+        if ((kartItems->mFlags & 0x242) == 0x242 && heldItem->mItemInfoIndex != 0x13 &&
+            heldItem->mObjectStartFramesLeft == 0 && (kartItems->mFlags & 0x200) && kart->mState == KART_STATE_NORMAL) {
+            StartItemInUse(itemInUse, heldItem);
         }
-        UpdateHeldItem(b);
+        UpdateHeldItem(heldItem);
     }
-    if (p->mSlotState != 0 && UpdateItemSlot(p, p) != FALSE) {
-        k = p->mSlotResult;
-        FinishItemSlot(p);
-        if (gItemInfos[k].mEnabled != FALSE) {
-            SetHeldItem(b, k);
-        }
-    }
-    if (p->mKartIndex == GetRaceUpdateFramesMod8() && (r = &p->mItemLink)->mLink != NULL) {
-        q = p->mKart;
-        v = &q->mDrawMatrixPos;
-        PickNearestNearbyItemPointLink(r, r, v);
-        d = (s64) (r->mLink->mPointPos->x - v->x) * (r->mLink->mPointPos->x - v->x);
-        d += (s64) (r->mLink->mPointPos->z - v->z) * (r->mLink->mPointPos->z - v->z);
-        if (d >= ((s64) 0x15f9 << 32)) {
-            FollowItemPointLinksToPos(r, r, v);
+    if (kartItems->mSlotState != 0 && UpdateItemSlot(kartItems, kartItems) != FALSE) {
+        slotResult = kartItems->mSlotResult;
+        FinishItemSlot(kartItems);
+        if (gItemInfos[slotResult].mEnabled != FALSE) {
+            SetHeldItem(heldItem, slotResult);
         }
     }
-    p->mTargetedByKouraR = FALSE;
+    if (kartItems->mKartIndex == GetRaceUpdateFramesMod8() && (itemLink = &kartItems->mItemLink)->mLink != NULL) {
+        kart = kartItems->mKart;
+        drawMatrixPos = &kart->mDrawMatrixPos;
+        PickNearestNearbyItemPointLink(itemLink, itemLink, drawMatrixPos);
+        distanceSquared = (s64) (itemLink->mLink->mPointPos->x - drawMatrixPos->x) *
+                          (itemLink->mLink->mPointPos->x - drawMatrixPos->x);
+        distanceSquared += (s64) (itemLink->mLink->mPointPos->z - drawMatrixPos->z) *
+                           (itemLink->mLink->mPointPos->z - drawMatrixPos->z);
+        if (distanceSquared >= ((s64) 0x15f9 << 32)) {
+            FollowItemPointLinksToPos(itemLink, itemLink, drawMatrixPos);
+        }
+    }
+    kartItems->mTargetedByKouraR = FALSE;
 }
 
-void func_01fff524(KartItems *p) {
-    BOOL r;
-    s32 a;
-    p->mFlags &= ~0xff;
+void AddKartItemUseFlags(KartItems *kartItems) {
+    BOOL heldItemNotInUseKindOneOrTwo;
+    s32 heldItemIndex;
+    kartItems->mFlags &= ~0xff;
     if (gRaceSetup->mMode == 5) {
-        a = p->mHeldItem.mItemInfoIndex;
-        if (a == 0x13 || p->mItemInUse.mObjectKind != 0xf) {
-            r = FALSE;
+        heldItemIndex = kartItems->mHeldItem.mItemInfoIndex;
+        if (heldItemIndex == 0x13 || kartItems->mItemInUse.mObjectKind != 0xf) {
+            heldItemNotInUseKindOneOrTwo = FALSE;
         } else {
-            r = (u32) (gItemInfos[a].mUseKind - 1) <= 1;
+            heldItemNotInUseKindOneOrTwo = (u32) (gItemInfos[heldItemIndex].mUseKind - 1) <= 1;
         }
-        if (r != FALSE) {
-            if ((p->mFlags & 0x4000) && TryAddKartItemFlags(p) != FALSE) {
-                p->mFlags |= data_usa_021595b0;
+        if (heldItemNotInUseKindOneOrTwo != FALSE) {
+            if ((kartItems->mFlags & 0x4000) && TryAddKartItemFlags(kartItems) != FALSE) {
+                kartItems->mFlags |= gKartItemsStartUseBit;
             }
             goto after;
         }
     }
-    if ((p->mFlags & 0x2000) && TryAddKartItemFlags(p) != FALSE) {
-        p->mFlags |= data_usa_021595b0;
+    if ((kartItems->mFlags & 0x2000) && TryAddKartItemFlags(kartItems) != FALSE) {
+        kartItems->mFlags |= gKartItemsStartUseBit;
     }
 after:
-    if (!(p->mFlags & 0x100)) {
+    if (!(kartItems->mFlags & KART_ITEMS_IN_USE_ADVANCED)) {
         return;
     }
-    p->mFlags &= ~0x100;
-    if (gRaceSetup->mMode != 5 && (p->mFlags & 0x1000)) {
+    kartItems->mFlags &= ~KART_ITEMS_IN_USE_ADVANCED;
+    if (gRaceSetup->mMode != 5 && (kartItems->mFlags & 0x1000)) {
         return;
     }
-    if (TryAddKartItemFlags(p) == FALSE) {
+    if (TryAddKartItemFlags(kartItems) == FALSE) {
         return;
     }
-    p->mFlags |= data_usa_021595b4;
+    kartItems->mFlags |= gKartItemsEndUseBit;
 }
 
 void func_01fff434(s32 a, s32 b, s32 c, Vec3 *d, const Vec3 *e, const Vec3 *f, s64 *g) {

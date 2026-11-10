@@ -161,7 +161,7 @@ void UpdateRaceItemSlot(void) {
         gRaceItemSlot->mSlotFrames = 0;
         slotFrames = gRaceItemSlot->mSlotFrames;
         if (GetKartItemsAtOffset(kartOffset)->mSlotShownItem >= 9) {
-            if (gRaceSetup->mRaceKind != 2) {
+            if (gRaceSetup->mRaceKind != RACE_KIND_REPLAY) {
                 endSeqNo = 0x40;
                 if (gRaceSetup->mCourseId == COURSE_ID_PINBALL) {
                     endSeqNo = 0x1c6;
@@ -180,7 +180,7 @@ void UpdateRaceItemSlot(void) {
                 }
             }
         } else {
-            if (gRaceSetup->mRaceKind != 2) {
+            if (gRaceSetup->mRaceKind != RACE_KIND_REPLAY) {
                 endSeqNo = 0x3f;
                 if (gRaceSetup->mCourseId == COURSE_ID_PINBALL) {
                     endSeqNo = 0x1c5;
@@ -201,7 +201,8 @@ void UpdateRaceItemSlot(void) {
         }
         gRaceItemSlot->mSlotRunning = 0;
     }
-    if (gRaceItemSlot->mPrevSlotRunning == 0 && gRaceItemSlot->mSlotRunning != 0 && gRaceSetup->mRaceKind != 2) {
+    if (gRaceItemSlot->mPrevSlotRunning == 0 && gRaceItemSlot->mSlotRunning != 0 &&
+        gRaceSetup->mRaceKind != RACE_KIND_REPLAY) {
         sndHandle = GetSndHandles();
         startSeqNo = 0x3e;
         if (gRaceSetup->mCourseId == COURSE_ID_PINBALL) {

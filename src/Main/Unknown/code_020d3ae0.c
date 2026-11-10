@@ -226,7 +226,7 @@ void DrawMapObjectList(MapObjectList *list, MtxFx43 *viewMatrix) {
 void InitMapObjectViewState(void) {
     gViewFrustum.mViewTestRefreshRequested = TRUE;
     gViewFrustum.mViewTestRefreshPending = FALSE;
-    if (gRaceSetup->mRaceKind == 2) {
+    if (gRaceSetup->mRaceKind == RACE_KIND_REPLAY) {
         gItemSoundCameraHeightLimit = 0x258000;
         return;
     }

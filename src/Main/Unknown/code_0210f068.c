@@ -4,12 +4,12 @@
 
 void PreSleepMicBuffer(MicBuffer *micBuffer) {
     u32 unused;
-    micBuffer->mSkipCount = 1;
+    micBuffer->mSkipFrames = 1;
     func_020203e4();
 }
 
 void PostSleepMicBuffer(MicBuffer *micBuffer) {
     u32 unused;
-    micBuffer->mSkipCount = 2;
+    micBuffer->mSkipFrames = 2;
     func_0202041c();
 }

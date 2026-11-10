@@ -119,7 +119,7 @@ void func_020431e4(void) {
             if (entryIndex == raceSetup->mEntryIndex) {
                 if (func_020431e4_inline(z) != 0) {
                     gInputSlots[inputSlotIndex].mSourceKind = 4;
-                } else if (raceSetup->mRaceKind == 2) {
+                } else if (raceSetup->mRaceKind == RACE_KIND_REPLAY) {
                     gInputSlots[inputSlotIndex].mSourceKind = 1;
                 } else {
                     gInputSlots[inputSlotIndex].mSourceKind = 2;

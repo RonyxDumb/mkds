@@ -265,7 +265,7 @@ void InitRaceProgress(void) {
     gRaceProgress->mRaceDone = 0;
     switch (gRaceSetup->mRaceKind) {
         case RACE_KIND_DEMO:
-        case 2:
+        case RACE_KIND_REPLAY:
         case RACE_KIND_STAFF_ROLL:
             f = TRUE;
             break;
@@ -300,7 +300,7 @@ void InitRaceProgress(void) {
         gRaceProgress->mKartAtRank[i] = -1;
     }
     switch (gRaceSetup->mRaceKind) {
-        case 2:
+        case RACE_KIND_REPLAY:
             seed = gRaceSetup->mUnk_05c;
             break;
         case RACE_KIND_AWARD:

@@ -23,16 +23,16 @@ const Unk0215a64c gPooledItemBoxKindDescriptor = {0,
 
 const Unk0215a680 gPooledItemBoxKindData = {{0, 0, 0, 0xf000, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0}};
 
-BOOL IsRaceSceneNormalOrKind2(void) {
+BOOL IsRaceSceneNormalOrReplay(void) {
     u32 result = 0;
-    u32 isNormalOrKind2;
+    u32 isNormalOrReplay;
     if (GetCurrentSceneNumber() == 2) {
         s32 raceKind = gRaceSetup->mRaceKind;
-        isNormalOrKind2 = 1;
-        if (raceKind != RACE_KIND_NORMAL && raceKind != 2) {
-            isNormalOrKind2 = 0;
+        isNormalOrReplay = 1;
+        if (raceKind != RACE_KIND_NORMAL && raceKind != RACE_KIND_REPLAY) {
+            isNormalOrReplay = 0;
         }
-        if (isNormalOrKind2 != 0) {
+        if (isNormalOrReplay != 0) {
             result = 1;
         }
     }

@@ -248,7 +248,7 @@ BOOL func_02044e9c(s32 courseId, s32 entryIndex) {
     GhostRecord *ghostRecord;
 
     result = FALSE;
-    if (gRaceSetup->mNextHeader.mRaceKind == 2) {
+    if (gRaceSetup->mNextHeader.mRaceKind == RACE_KIND_REPLAY) {
         return TRUE;
     }
     ghostRecord = data_0217aa08->mCourseGhostRecord;
@@ -271,7 +271,7 @@ s32 func_02044d4c(s32 courseId, s32 entryIndex) {
     s32 filled;
     u8 i;
 
-    if (gRaceSetup->mNextHeader.mRaceKind == 2) {
+    if (gRaceSetup->mNextHeader.mRaceKind == RACE_KIND_REPLAY) {
         return 1;
     }
     ghostRecord = data_0217aa08->mSlotGhostRecords[0];
@@ -295,7 +295,7 @@ BOOL func_02044bf8(s32 courseId, s32 entryIndex) {
     SlotGhostRecord *ghostRecord;
     u8 i;
 
-    if (gRaceSetup->mNextHeader.mRaceKind == 2) {
+    if (gRaceSetup->mNextHeader.mRaceKind == RACE_KIND_REPLAY) {
         return TRUE;
     }
     ghostRecord = data_0217aa08->mSlotGhostRecords[1];
@@ -382,7 +382,7 @@ void SetCurrentRaceFromNext(void) {
             entryCount = 8;
             break;
         case RACE_KIND_NORMAL:
-        case 2:
+        case RACE_KIND_REPLAY:
         case RACE_KIND_START_GP:
         case 4:
             entryIndex = 0;

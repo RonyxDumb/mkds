@@ -32,7 +32,8 @@ s32 ChoisesSIsBackupBusy(void) {
 
 #pragma thumb on
 u32 func_020b2bc8(void) {
-    if (GetRaceDone() != 0 || (ChoisesSGetCurrentRaceKind() == 2 && GetRaceStartSequenceFrames() > 0xf0)) {
+    if (GetRaceDone() != 0 ||
+        (ChoisesSGetCurrentRaceKind() == RACE_KIND_REPLAY && GetRaceStartSequenceFrames() > 0xf0)) {
         return 1;
     }
     return 0;

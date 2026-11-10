@@ -347,7 +347,7 @@ int TryTurnKartAtLowSpeed(Kart *kart) {
                 func_0206cc60(kart, 1);
             }
         }
-        func_0210b4e0(kart, dir, kart->mSurfaceKind, kart->mSurfaceVariant);
+        StartKartLowSpeedTurnSound(kart, dir, kart->mSurfaceKind, kart->mSurfaceVariant);
     }
     if (pending) {
         StopKartTurnStartEffects(GetKartTurnEffects(kart->mIndex));

@@ -65,7 +65,7 @@ void InitSoundFalloffs(void) {
     static SoundFalloffSettings s0 = {800, 500, 47, 150, 127};
     static SoundFalloffSettings s1 = {800, 500, 47, 150, 95};
 
-    if (GetCurrentSceneNumber() == 2 && gRaceSetup->mRaceKind == 2) {
+    if (GetCurrentSceneNumber() == 2 && gRaceSetup->mRaceKind == RACE_KIND_REPLAY) {
         f = TRUE;
     } else {
         f = FALSE;

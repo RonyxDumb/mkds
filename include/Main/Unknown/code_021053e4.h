@@ -26,7 +26,7 @@ typedef struct Unk0215a64c {
 extern const Unk0215a64c gPooledItemBoxKindDescriptor;
 extern const Unk0215a680 gPooledItemBoxKindData;
 
-BOOL IsRaceSceneNormalOrKind2(void);
+BOOL IsRaceSceneNormalOrReplay(void);
 BOOL IsMissionRunBossColumn(void);
 Unk0215a680 *CreatePooledItemBoxKindData(void);
 void InitPooledItemBox(void *mapObject, void *row);

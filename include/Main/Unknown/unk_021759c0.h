@@ -66,6 +66,9 @@ typedef struct KartEntry {
 #define RACE_KIND_NORMAL 0
 // Demo race that SetNextDemoRace sets up from the title screen.
 #define RACE_KIND_DEMO 1
+// Replay of the race just finished: the REPLAY entry of the end-of-race menu sets it (SetNextSceneFromPickedValue case
+// 8).
+#define RACE_KIND_REPLAY 2
 // Start scene: it creates RaceStartGp instead of the race HUD; set before each Grand Prix course and for mission
 // column 9.
 #define RACE_KIND_START_GP 3
@@ -180,7 +183,7 @@ typedef struct RaceSetup {
     /* 004 */ s32 mCupIndex;
     /* 08 */ s32 mMode;
 // Which kind of race scene this is (RACE_KIND_*): the display table and the scene code are chosen by it.
-// The values 2 and 4 are not named.
+// RACE_KIND_REPLAY is 2; the value 4 is RACE_KIND_START_BATTLE.
     /* 00c */ u32 mRaceKind;
     /* 010 */ s32 mEngineIndex;
     /* 014 */ s32 mCpuDifficulty;

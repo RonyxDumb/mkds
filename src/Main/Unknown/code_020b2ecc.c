@@ -21,7 +21,7 @@
 void *GetChoisesSValueMessage(s32 listIndex, s32 value) {
     s32 entryNumbers[11] = {0x5d, 0x67, 0x62, 0x64, 0x65, 0x66, 0x69, 0x62, 0x61, 0x5f, 0x75};
 
-    if (ChoisesSGetCurrentRaceKind() == 2) {
+    if (ChoisesSGetCurrentRaceKind() == RACE_KIND_REPLAY) {
         entryNumbers[0] = 0x6a;
         entryNumbers[8] = 0x63;
     }

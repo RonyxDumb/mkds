@@ -397,7 +397,7 @@ void UpdateRaceProgressKarts(void) {
     f = FALSE;
     switch (gRaceSetup->mRaceKind) {
         case RACE_KIND_DEMO:
-        case 2:
+        case RACE_KIND_REPLAY:
         case RACE_KIND_STAFF_ROLL:
             f = TRUE;
             break;

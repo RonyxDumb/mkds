@@ -150,7 +150,7 @@ void StartRaceEndSeq(s32 unused) {
     u32 *seqRow;
     seqId = -1;
     c = gRaceSetup->mRaceKind;
-    if (c != 2 && c != RACE_KIND_NORMAL) {
+    if (c != RACE_KIND_REPLAY && c != RACE_KIND_NORMAL) {
         return;
     }
     if (data_0217d084.mMode != 2) {

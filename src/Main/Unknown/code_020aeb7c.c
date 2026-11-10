@@ -155,7 +155,7 @@ void UpdateRaceHudSubScreen(void) {
                 }
                 if (subScreenEnabled != FALSE) {
                     gRaceHud->mSubScreenEnabled = TRUE;
-                    if (gRaceSetup->mRaceKind != 2) {
+                    if (gRaceSetup->mRaceKind != RACE_KIND_REPLAY) {
                         switch (gRaceHud->mSubScreenState) {
                             case 0:
                                 gRaceHud->mSubScreenState = 1;

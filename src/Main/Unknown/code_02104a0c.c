@@ -137,7 +137,9 @@ void UpdateBouncingItemBoxTimers(void) {
     }
 }
 
-void func_02104f84(s32 kartIndex) {
+// Battle: the first time a removed kart gets here it sets its bouncing item box timer from -1 to 0 and releases its
+// items.
+void ReleaseEliminatedKartItems(s32 kartIndex) {
     if (gRaceSetup->mMode != MODE_BATTLE) {
         return;
     }

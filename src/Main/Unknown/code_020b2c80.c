@@ -22,7 +22,7 @@ s32 GetEntryEndKind(void) {
 #pragma thumb on
 #pragma optimize_for_size on
 u32 GetChoisesSListIndex(void) {
-    if (ChoisesSGetCurrentRaceKind() == 2 && GetRaceDone() == 0) {
+    if (ChoisesSGetCurrentRaceKind() == RACE_KIND_REPLAY && GetRaceDone() == 0) {
         return 3;
     }
     if (GetRaceDone() != 0) {

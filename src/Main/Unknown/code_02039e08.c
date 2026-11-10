@@ -89,7 +89,7 @@ void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
                             SetNextRaceKind(0);
                         }
                         break;
-                    case 2:
+                    case RACE_KIND_REPLAY:
                         switch (func_0203a8f4()) {
                             case MODE_GRAND_PRIX:
                             case MODE_TIME_ATTACK:
@@ -128,7 +128,7 @@ void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
         UpdateRaceHudSubScreen();
         switch (GetCurrentRaceKind()) {
             case RACE_KIND_NORMAL:
-            case 2:
+            case RACE_KIND_REPLAY:
             case RACE_KIND_START_GP:
             case 4:
                 UpdateChoisesS();

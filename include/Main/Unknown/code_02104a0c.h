@@ -35,7 +35,7 @@ void CreatePooledMapObjects(void);
 void StartItemKiller(ItemInUse *itemInUse, HeldItem *heldItem);
 void ResetKartActiveItemAfterKiller(s32 kartIndex);
 void UpdateBouncingItemBoxTimers(void);
-void func_02104f84(s32 kartIndex);
+void ReleaseEliminatedKartItems(s32 kartIndex);
 void StartBouncingItemBox(BouncingItemBox *box);
 void ReleaseBouncingItemBox(BouncingItemBox *box);
 void CollideKartWithBouncingItemBox(BouncingItemBox *box, void *kart);

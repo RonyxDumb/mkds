@@ -89,10 +89,12 @@ void StartSurfaceSound(SoundSource *source, int entryIndex, u32 surfaceKind, u32
     }
 }
 
-void func_0210b4e0(Kart *kart, s32 withSurfaceSound, s32 surfaceKind, s32 surfaceVariant) {
+// Sound of the low-speed turn: the vehicle's row sound on every call, plus a surface sound when a direction key is
+// held.
+void StartKartLowSpeedTurnSound(Kart *kart, s32 withSurfaceSound, s32 surfaceKind, s32 surfaceVariant) {
     u32 soundId;
 
-    switch (kart->mUnk_450.mUnk_40.mSoundRowIndex) {
+    switch (kart->mUnk_450.mSoundRow.mSoundRowIndex) {
         case 0:
             soundId = 0xb2;
             break;
@@ -206,7 +208,7 @@ void StartKartSeqArcSoundWithVolume(s32 soundIndex, s32 soundOffset, u32 volume,
     NNSSndSeqPlayer *sndHandle;
     u16 sequenceNo;
 
-    if (IsRaceSceneNormalOrKind2() == 0) {
+    if (IsRaceSceneNormalOrReplay() == 0) {
         return;
     }
     NNS_SndHandleInit(&sndHandle);
@@ -253,7 +255,7 @@ void StartKartSeqArcSound(Kart *kart, s32 soundIndex, s32 soundOffset) {
     if (kart->mUnk_4c & 0x10000000) {
         return;
     }
-    if (kart->mUnk_7c & KART_7C_ENTRY_KIND_2) {
+    if (kart->mUnk_7c & KART_7C_ENTRY_IS_GHOST) {
         return;
     }
     if (gSceneSoundState.mRaceState != 1) {
@@ -268,7 +270,7 @@ void StartKartSeqArcSound(Kart *kart, s32 soundIndex, s32 soundOffset) {
             volume = 0x7f;
         }
         if (isEntryKart != FALSE) {
-            if (IsRaceSceneNormalOrKind2() == 0) {
+            if (IsRaceSceneNormalOrReplay() == 0) {
                 return;
             }
             NNS_SndHandleInit(&sndHandle);
@@ -403,7 +405,7 @@ void StartQueuedKartSound(Kart *kart, s32 soundIndex, s32 useKartSource, s32 vol
         StartSoundEx(&kart->mSoundSource, 2, soundIndex * 0xe + soundOffset, 0x7f, 0);
         return;
     }
-    if (IsRaceSceneNormalOrKind2() == 0) {
+    if (IsRaceSceneNormalOrReplay() == 0) {
         return;
     }
     NNS_SndHandleInit(&sndHandle);
@@ -416,14 +418,15 @@ void StartQueuedKartSound(Kart *kart, s32 soundIndex, s32 useKartSource, s32 vol
     NNS_SndHandleReleaseSeq(&sndHandle);
 }
 
-void func_0210ab48(s32 soundIndex, s32 b) {
+// Plays the winner or loser sound of the character in the battle end; also disables the kart sound queue.
+void StartBattleWinOrLoseSound(s32 soundIndex, s32 isWinner) {
     NNSSndSeqPlayer *sndHandle;
     s32 soundOffset;
     u16 sequenceNo;
 
-    soundOffset = b != 0 ? 0xc : 0xd;
+    soundOffset = isWinner != 0 ? 0xc : 0xd;
     gKartSoundQueue.mDisabled = TRUE;
-    if (IsRaceSceneNormalOrKind2() == 0) {
+    if (IsRaceSceneNormalOrReplay() == 0) {
         return;
     }
     NNS_SndHandleInit(&sndHandle);
@@ -436,7 +439,7 @@ void func_0210ab48(s32 soundIndex, s32 b) {
     NNS_SndHandleReleaseSeq(&sndHandle);
 }
 
-void EntryKind2KartStartSeqNop(Kart *kart, PlayingSound *playingSound, s32 unused) {}
+void GhostKartStartSeqNop(Kart *kart, PlayingSound *playingSound, s32 unused) {}
 
 void RemovedKartStartSeqNop(Kart *kart, PlayingSound *playingSound, s32 unused) {}
 

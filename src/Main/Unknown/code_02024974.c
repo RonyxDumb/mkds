@@ -54,7 +54,7 @@ void func_0202506c(Kart *kart, KartSound *soundRecord) {
 void func_02025030(Kart *kart, KartSound *soundRecord) {
     PlayingSound *playingSound;
 
-    playingSound = StartSoundWhileRequested(&kart->mSoundSource, soundRecord->mUnk_40.mLowRatioSoundId,
+    playingSound = StartSoundWhileRequested(&kart->mSoundSource, soundRecord->mSoundRow.mLowRatioSoundId,
                                             soundRecord->mVolume, (soundRecord->mPitch << 4) >> 16);
     if (playingSound != NULL) {
         playingSound->mFlags |= 0x80;
@@ -75,7 +75,7 @@ void func_02024fc0(Kart *kart, KartSound *soundRecord) {
     if (clampedValue > 0x440000) {
         clampedValue = 0x440000;
     }
-    StartSoundWhileRequested(&kart->mSoundSource, soundRecord->mUnk_40.mUnk_1c, soundRecord->mVolume,
+    StartSoundWhileRequested(&kart->mSoundSource, soundRecord->mSoundRow.mUnk_1c, soundRecord->mVolume,
                              (clampedValue << 4) >> 16);
 }
 
@@ -143,9 +143,9 @@ void func_02024a88(Kart *kart) {
         soundRecord->mTargetPitch = 0x6c0000;
         soundRecord->mPitchPerCall = 0;
         if (f != 0) {
-            soundRecord->mSoundId = soundRecord->mUnk_40.mUnk_20;
+            soundRecord->mSoundId = soundRecord->mSoundRow.mUnk_20;
         } else {
-            soundRecord->mSoundId = soundRecord->mUnk_40.mHighRatioSoundId;
+            soundRecord->mSoundId = soundRecord->mSoundRow.mHighRatioSoundId;
         }
         soundRecord->mUnk_14 = f;
         soundRecord->mVolume = 0x46;
@@ -166,14 +166,14 @@ void func_02024a88(Kart *kart) {
                 }
                 g = func_02024eec(&kart->mUnk_450, i, 0);
                 soundRecord->mVolume = 0x7f;
-                soundRecord->mSoundId = soundRecord->mUnk_40.mUnk_04;
+                soundRecord->mSoundId = soundRecord->mSoundRow.mUnk_04;
                 AddSoundRequest(&data_0217d274, GetKartCameraDistanceSquared(kart->mIndex),
                                 (void (*)(void *, int)) func_02024fc0, kart, (s32) soundRecord);
             } else {
                 i = MUL_FIXED12_ROUNDED(h, 0x480000);
                 g = func_02024eec(&kart->mUnk_450, i, 0);
                 soundRecord->mVolume = 0x46;
-                soundRecord->mSoundId = soundRecord->mUnk_40.mUnk_04;
+                soundRecord->mSoundId = soundRecord->mSoundRow.mUnk_04;
                 AddSoundRequest(&data_0217d274, GetKartCameraDistanceSquared(kart->mIndex),
                                 (void (*)(void *, int)) func_02024fc0, kart, (s32) soundRecord);
             }
@@ -211,7 +211,7 @@ void func_02024a88(Kart *kart) {
         soundRecord->mVolume = 0x7f;
         if (soundRecord->mUnk_14 == 0) {
             soundRecord->mSoundId =
-                kart->mVelocityLengthRatio < 0x333 ? soundRecord->mUnk_40.mUnk_24 : soundRecord->mUnk_40.mUnk_20;
+                kart->mVelocityLengthRatio < 0x333 ? soundRecord->mSoundRow.mUnk_24 : soundRecord->mSoundRow.mUnk_20;
         }
         AddSoundRequest(&data_0217d274, GetKartCameraDistanceSquared(kart->mIndex),
                         (void (*)(void *, int)) func_0202506c, kart, (s32) soundRecord);
@@ -224,11 +224,11 @@ void func_02024a88(Kart *kart) {
         g = func_02024eec(&kart->mUnk_450, i, aboveSpeedLimit);
         soundRecord->mVolume = 0x32;
         if (kart->mVelocityLengthRatio < 0x19a) {
-            soundRecord->mSoundId = soundRecord->mUnk_40.mLowRatioSoundId;
+            soundRecord->mSoundId = soundRecord->mSoundRow.mLowRatioSoundId;
         } else if (kart->mVelocityLengthRatio < 0x4cd) {
-            soundRecord->mSoundId = soundRecord->mUnk_40.mMidRatioSoundId;
+            soundRecord->mSoundId = soundRecord->mSoundRow.mMidRatioSoundId;
         } else {
-            soundRecord->mSoundId = soundRecord->mUnk_40.mHighRatioSoundId;
+            soundRecord->mSoundId = soundRecord->mSoundRow.mHighRatioSoundId;
         }
         AddSoundRequest(&data_0217d274, GetKartCameraDistanceSquared(kart->mIndex),
                         (void (*)(void *, int)) func_0202506c, kart, (s32) soundRecord);

@@ -97,7 +97,7 @@ void SetupRaceDisplay(void *heap) {
     SetBg0Record(&settings->mMainBgRecords, 1, 0, 0, 1, 0, 0, 0);
     switch (gRaceSetup->mRaceKind) {
         case RACE_KIND_NORMAL:
-        case 2:
+        case RACE_KIND_REPLAY:
         case RACE_KIND_STAFF_ROLL:
             SetBg2RecordParams(&settings->mMainBgRecords, 1, 0, 0, 0, 7, 0);
             SetBg0Record(&settings->mSubBgRecords, 0, 0, 0, 0, 0xd, 0, 0);

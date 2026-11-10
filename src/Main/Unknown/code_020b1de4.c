@@ -200,7 +200,7 @@ void InitChoisesS(void) {
         choisesS = gChoisesS;
         ChoisesSInitTextCanvas(&choisesS->mTextCanvases[3], choisesS->mCharCanvases[3], choisesS->mFont, IsLanguageJa(),
                                0);
-        if (ChoisesSGetCurrentRaceKind() != 2) {
+        if (ChoisesSGetCurrentRaceKind() != RACE_KIND_REPLAY) {
             for (i = 0; i < gChoisesS->mLists[0].mValueCount; i++) {
                 ChoisesSDrawTextOnCanvas(&gChoisesS->mTextCanvases[0], 0x90, i * 16 + 9, 0xc, 0x412,
                                          GetChoisesSValueMessage(0, gChoisesS->mLists[0].mValues[i]));

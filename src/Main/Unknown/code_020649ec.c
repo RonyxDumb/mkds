@@ -256,7 +256,7 @@ void InitKart(Kart *kart, void (**slotFunctions)(Kart *)) {
     if (kart->mSlotFunctions[0] != 0) {
         kart->mSlotFunctions[0](kart);
     }
-    if (gRaceSetup->mRaceKind == 2 || (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) == 0) {
+    if (gRaceSetup->mRaceKind == RACE_KIND_REPLAY || (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) == 0) {
         kart->mSlotFunctions[2] = SetKartSoundDistanceSquaredAndChange;
     } else {
         kart->mSlotFunctions[2] = SetKartSoundDistanceSquared;

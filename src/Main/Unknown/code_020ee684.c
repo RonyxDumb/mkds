@@ -1002,7 +1002,7 @@ void AdvanceItemInUseOne(ItemInUse *itemInUse) {
         }
         StartLastItemInUseObjectAndInit(itemInUse, 1);
     }
-    kartItems->mFlags |= data_021595a8;
+    kartItems->mFlags |= gItemInUseAdvancedBit;
 }
 
 void AdvanceItemInUseOneWithOrientation(ItemInUse *itemInUse) {

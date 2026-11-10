@@ -135,7 +135,7 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
                     if (descriptor->mKindData->mUnk_3c == 0) {
                         descriptor->mKindData->mUnk_3c = -0x64000;
                     }
-                    if (gRaceSetup->mRaceKind == 2) {
+                    if (gRaceSetup->mRaceKind == RACE_KIND_REPLAY) {
                         if (descriptor->mKindData->mUnk_38 < 0x44c000) {
                             descriptor->mKindData->mUnk_38 = 0x44c000;
                         }

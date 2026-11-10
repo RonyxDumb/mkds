@@ -331,7 +331,7 @@ void func_02066fe0(Kart *kart) {
                 kart->mUnk_7c = kart->mUnk_7c | 0x200000;
                 kart->mUnk_48 = kart->mUnk_48 | 0x2000;
             }
-            if ((kart->mUnk_7c & KART_7C_ENTRY_KIND_2) != 0) {
+            if ((kart->mUnk_7c & KART_7C_ENTRY_IS_GHOST) != 0) {
                 func_02068ec0(kart, 0);
             }
         }

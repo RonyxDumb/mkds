@@ -34,7 +34,7 @@ void UpdateChoisesS(void) {
         return;
     }
     if ((ChoisesSGetCurrentMode() == MODE_GRAND_PRIX || ChoisesSGetCurrentMode() == MODE_TIME_ATTACK) &&
-        ChoisesSGetCurrentRaceKind() == 2 && func_0203c0bc() != 0) {
+        ChoisesSGetCurrentRaceKind() == RACE_KIND_REPLAY && func_0203c0bc() != 0) {
         return;
     }
     if (gChoisesS->mPickFrames == 0 && gChoisesS->mCloseFrames == 0 && IsChoisesSPickLocked() == 0) {

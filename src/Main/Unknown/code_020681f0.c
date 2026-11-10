@@ -71,7 +71,7 @@ void AdvanceKartRemovalShrink(Kart *kart) {
         }
     }
     c = kart->mFramesSinceRemovalOrReset;
-    if (c >= 0x19 || (kartBits & KART_7C_ENTRY_KIND_2) != 0) {
+    if (c >= 0x19 || (kartBits & KART_7C_ENTRY_IS_GHOST) != 0) {
         winnerDecidedAndEndReached = FALSE;
         if (gRaceSetup->mMode == MODE_BATTLE) {
             if (IsWinnerDecidedAndEndReached() != 0) {
@@ -105,7 +105,7 @@ void AdvanceKartRemovalShrink(Kart *kart) {
                 } else {
                     kart->mUnk_7c = kart->mUnk_7c | 0x8000;
                 }
-                func_02104f84(kart->mIndex);
+                ReleaseEliminatedKartItems(kart->mIndex);
                 if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
                     StartKartRemovalSeqEffect();
                 }
@@ -338,7 +338,7 @@ void func_02068640(Kart *kart, s32 b) {
     if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) == 0) {
         return;
     }
-    func_0210ab48(kart->mSoundIndex, b);
+    StartBattleWinOrLoseSound(kart->mSoundIndex, b);
 }
 
 void func_02068494(Kart *kart, s32 b, s32 c) {

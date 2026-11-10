@@ -678,7 +678,7 @@ void InitKartFlags(Kart *kart) {
         kart->mUnk_7c |= 0x400;
     }
     if (gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind == PLAYER_KIND_GHOST) {
-        kart->mUnk_7c |= KART_7C_ENTRY_KIND_2;
+        kart->mUnk_7c |= KART_7C_ENTRY_IS_GHOST;
         kart->mVisible = 0;
     }
     if (kart->mKartModelsEntry->mCharacterAnimation != NULL) {
@@ -759,7 +759,7 @@ void InitKartSound(Kart *kart) {
         if (!(kart->mSoundSource.mSourceFlags & 1)) {
             SetSoundSourceFlagBit(&kart->mSoundSource, 2, 1);
         }
-        if (gRaceSetup->mRaceKind == 2) {
+        if (gRaceSetup->mRaceKind == RACE_KIND_REPLAY) {
             ResetSoundDistanceSquaredChange(&kart->mSoundDistanceSquaredChange);
         }
     } else {
@@ -772,7 +772,7 @@ void InitKartSound(Kart *kart) {
 
 void InitKartSoundParams(Kart *kart) {
     KartSound *kartSound;
-    Unk02024eec_40 soundRow;
+    KartSoundRow soundRow;
     s32 soundRowIndex;
     s32 soundIndex;
     s32 rowOffset;
@@ -867,7 +867,7 @@ void InitKartSoundParams(Kart *kart) {
     }
     soundRow.mUnk_20 = b;
     soundRow.mUnk_24 = a;
-    kartSound->mUnk_40 = soundRow;
+    kartSound->mSoundRow = soundRow;
 }
 
 PlayingSound *StartSoundFullVolume(SoundSource *soundSource, u32 soundId) {

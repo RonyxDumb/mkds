@@ -3,13 +3,13 @@
 #include "code_0201ec30.h"
 
 u32 UpdateMicBufferInput(MicBuffer *micBuffer) {
-    if (micBuffer->mSkipCount == 0) {
+    if (micBuffer->mSkipFrames == 0) {
         return func_0201ec30();
     }
-    if (micBuffer->mSkipCount < 0x1e) {
-        micBuffer->mSkipCount = micBuffer->mSkipCount + 1;
+    if (micBuffer->mSkipFrames < 0x1e) {
+        micBuffer->mSkipFrames = micBuffer->mSkipFrames + 1;
     } else {
-        micBuffer->mSkipCount = 0;
+        micBuffer->mSkipFrames = 0;
     }
     return 0;
 }

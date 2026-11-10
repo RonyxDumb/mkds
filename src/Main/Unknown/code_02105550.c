@@ -477,7 +477,7 @@ void InitSceneSounds(s32 e) {
     v = 0x69;
     b = FALSE;
     if (GetCurrentSceneNumber() == 2) {
-        raceKindMatches = gRaceSetup->mRaceKind == RACE_KIND_NORMAL || gRaceSetup->mRaceKind == 2;
+        raceKindMatches = gRaceSetup->mRaceKind == RACE_KIND_NORMAL || gRaceSetup->mRaceKind == RACE_KIND_REPLAY;
         if (raceKindMatches != 0) {
             b = TRUE;
         }
@@ -796,7 +796,7 @@ void StartSceneSounds(void) {
     gPlayerVolumeFade.mTargetVolumeAfterRaceStart = 0x7f;
     gPlayerVolumeFade.mRaceStarted = 0;
     if (GetCurrentSceneNumber() == 2) {
-        raceKindMatches = gRaceSetup->mRaceKind == RACE_KIND_NORMAL || gRaceSetup->mRaceKind == 2;
+        raceKindMatches = gRaceSetup->mRaceKind == RACE_KIND_NORMAL || gRaceSetup->mRaceKind == RACE_KIND_REPLAY;
         if (raceKindMatches != 0) {
             b = 1;
         }
@@ -1062,7 +1062,7 @@ void SetSceneSoundRank(u32 rankIndex) {
 
     b = FALSE;
     if (GetCurrentSceneNumber() == 2) {
-        raceKindMatches = gRaceSetup->mRaceKind == RACE_KIND_NORMAL || gRaceSetup->mRaceKind == 2;
+        raceKindMatches = gRaceSetup->mRaceKind == RACE_KIND_NORMAL || gRaceSetup->mRaceKind == RACE_KIND_REPLAY;
         if (raceKindMatches != FALSE) {
             b = TRUE;
         }
@@ -1360,7 +1360,7 @@ void UpdateSceneSoundState(void) {
     if (GetCurrentSceneNumber() == 2) {
         switch (gRaceSetup->mRaceKind) {
             case RACE_KIND_NORMAL:
-            case 2:
+            case RACE_KIND_REPLAY:
                 UpdateRaceSounds();
                 break;
             case RACE_KIND_START_GP:

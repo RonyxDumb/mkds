@@ -16,7 +16,7 @@ typedef struct KartSoundQueue {
 
 extern KartSoundQueue gKartSoundQueue;
 
-void func_0210b4e0(Kart *kart, s32 withSurfaceSound, s32 surfaceKind, s32 surfaceVariant);
+void StartKartLowSpeedTurnSound(Kart *kart, s32 withSurfaceSound, s32 surfaceKind, s32 surfaceVariant);
 void StartKartSurfaceSoundWhileRequested(Kart *kart, s32 entryIndex, s32 surfaceKind, s32 surfaceVariant,
                                          u32 waterDepth);
 void StartKartSurfaceSound(Kart *kart, s32 entryIndex, s32 surfaceKind, s32 surfaceVariant, s32 unused);
@@ -27,4 +27,4 @@ void InitKartSoundQueue(void);
 void UpdateKartSoundQueue(void);
 void QueueKartSound(Kart *kart, s32 soundIndex);
 void StartQueuedKartSound(Kart *kart, s32 soundIndex, s32 useKartSource, s32 volume);
-void func_0210ab48(s32 soundIndex, s32 b);
+void StartBattleWinOrLoseSound(s32 soundIndex, s32 isWinner);
