@@ -51,7 +51,7 @@ static inline void func_0205dee0_inline(void *c, void *overlayId) {
         f = 1;
         languageIndex = data_021759d0->mLanguageIndex;
         if (languageIndex < 6) {
-            f = data_02154904[languageIndex];
+            f = gDWCUtilityLanguageTable[languageIndex];
         }
         func_ov003_021c2494(c, f, 0x20);
         EnableVBlankIrq();
@@ -59,9 +59,10 @@ static inline void func_0205dee0_inline(void *c, void *overlayId) {
     }
 }
 
-void func_0205dee0(void) {
+// Runs the DWC utility from overlay 3, then rebuilds the sound heaps.
+void RunDWCUtility(void) {
     void *expHeapFromMaxFree;
-    void *c;
+    void *utilityWork;
     void *a;
     a = GetHeap(GetCurrentHeapCall());
     WaitThreadFunctionsDone();
@@ -75,8 +76,8 @@ void func_0205dee0(void) {
     }
     RunScenesSoundNop();
     expHeapFromMaxFree = CreateExpHeapFromMaxFree(a);
-    c = HeapAllocAligned(expHeapFromMaxFree, 0x40000, 0x20);
-    func_0205dee0_inline(c, SDK_OVERLAY_OV003_ID);
+    utilityWork = HeapAllocAligned(expHeapFromMaxFree, 0x40000, 0x20);
+    func_0205dee0_inline(utilityWork, SDK_OVERLAY_OV003_ID);
     HeapDestroy(expHeapFromMaxFree);
     GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, 0x10);
     GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, 0x10);
@@ -88,7 +89,7 @@ void func_0205dee0(void) {
 }
 
 static inline BOOL func_0205dd38_inline(void) {
-    if (gRunScenesState->mUnk_04 == 3 || gRunScenesState->mUnk_04 == gRunScenesState->mUnk_00) {
+    if (gRunScenesState->mNextKind == 3 || gRunScenesState->mNextKind == gRunScenesState->mKind) {
         return TRUE;
     }
     return FALSE;
@@ -97,9 +98,9 @@ static inline BOOL func_0205dd38_inline(void) {
 s32 RunScenes(s16 *sceneNumber) {
     HeapCall heapCall;
     void *heap;
-    func_0205e0b0();
+    InitRunScenesKind();
     while (func_0205dd38_inline()) {
-        gRunScenesState->mUnk_04 = 3;
+        gRunScenesState->mNextKind = 3;
         gSceneNumbers[0] = gSceneNumbers[1];
         gSceneNumbers[1] = *sceneNumber;
         gSceneNumbers[2] = -1;
@@ -114,13 +115,13 @@ s32 RunScenes(s16 *sceneNumber) {
             case 0:
             case 1:
             case 2:
-                gRunScenesState->mUnk_04 = 0;
+                gRunScenesState->mNextKind = 0;
                 break;
             case 3:
-                gRunScenesState->mUnk_04 = 1;
+                gRunScenesState->mNextKind = 1;
                 break;
             case 4:
-                func_0205dee0();
+                RunDWCUtility();
                 data_021759d0->mConnectionKind = 3;
                 break;
         }
@@ -131,7 +132,7 @@ s32 RunScenes(s16 *sceneNumber) {
         HeapFree(heap, gRunScenesState->mSndHeapsBuffer);
         gRunScenesState->mSndHeapsBuffer = NULL;
     }
-    switch (gRunScenesState->mUnk_00) {
+    switch (gRunScenesState->mKind) {
         case 0:
             FinishConnectionEnd();
             break;
@@ -145,16 +146,16 @@ s32 RunScenes(s16 *sceneNumber) {
 void RunScenesForever(void) {
     HeapCall heapCall;
     gRunScenesState->mSceneNumber = 9;
-    gRunScenesState->mUnk_00 = 0;
+    gRunScenesState->mKind = 0;
     if (gBootInfo->mUnk_00 == 2) {
         data_021759d0->mConnectionKind = 2;
         data_0217b488->mWLMenuKind = 0;
         gRunScenesState->mSceneNumber = 6;
     }
     do {
-        gRunScenesState->mUnk_04 = 3;
+        gRunScenesState->mNextKind = 3;
         InitHeapCall(&heapCall, (u32) RunScenes);
         RunHeapCall(&heapCall, (u32) &gRunScenesState->mSceneNumber);
-        gRunScenesState->mUnk_00 = gRunScenesState->mUnk_04;
+        gRunScenesState->mKind = gRunScenesState->mNextKind;
     } while (1);
 }

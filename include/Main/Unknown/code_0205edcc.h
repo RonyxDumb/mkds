@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void func_0205edcc(void);
+void WriteBuddyRecordsAndFirstBlock(void);
 void WriteBackupBuddyRecords(void);

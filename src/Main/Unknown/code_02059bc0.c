@@ -35,54 +35,55 @@ static inline void func_0205a140_inline(s32 entryIndex, s32 overlayId, u32 start
     }
 }
 
-void func_0205a4b0(Unk0217aa14_104_68 *a, s32 b) {
-    s32 t;
+void StartSlotResultSync(SlotResultSyncState *syncState, s32 itemInfoIndex) {
+    s32 syncFrames;
 
-    a->mUnk_0e = 0;
-    t = gWiFiRaceSync->mSyncFrames;
-    a->mUnk_0c = 2;
-    a->mUnk_00 = b;
-    a->mUnk_08 = t + 0x78;
-    a->mUnk_04 = 0x13;
+    syncState->mSendCount = 0;
+    syncFrames = gWiFiRaceSync->mSyncFrames;
+    syncState->mState = 2;
+    syncState->mItemInfoIndex = itemInfoIndex;
+    syncState->mEndSyncFrame = syncFrames + 0x78;
+    syncState->mPendingItemInfoIndex = 0x13;
 }
 
-void func_0205a350(void) {
-    u8 i;
-    Unk0217aa14_104_68 *p;
-    s32 d;
-    Unk0217aa14_104_20 *h;
+// Steps the slot result sync of each participant once per call.
+void UpdateSlotResultSyncs(void) {
+    u8 participantIndex;
+    SlotResultSyncState *syncState;
+    s32 remainingFrames;
+    Unk0217aa14_104_20 *receivedHalfword;
 
-    for (i = 0; i < 4; i++) {
-        if (func_0205a50c(i) != 0) {
-            p = &gWiFiRaceSync->mEntries[i].mUnk_68_view;
-            h = func_0205a4e8(i, i);
-            switch (p->mUnk_0c) {
+    for (participantIndex = 0; participantIndex < 4; participantIndex++) {
+        if (IsInParticipantMask(participantIndex) != 0) {
+            syncState = &gWiFiRaceSync->mEntries[participantIndex].mUnk_68_view;
+            receivedHalfword = GetEntrySlotResultSyncHalfword(participantIndex, participantIndex);
+            switch (syncState->mState) {
                 case 0:
-                    if (h->mUnk_00_12 == 2) {
-                        func_0205a71c(i);
-                        func_0205a4b0(p, h->mUnk_00_7);
+                    if (receivedHalfword->mState == 2) {
+                        StartParticipantResultPending(participantIndex);
+                        StartSlotResultSync(syncState, receivedHalfword->mItemInfoIndex);
                     }
                     break;
                 case 2:
-                    d = p->mUnk_08 - gWiFiRaceSync->mSyncFrames;
-                    if ((s32) p->mUnk_0e < 100) {
-                        func_0205a7dc(i, d, p->mUnk_00, 2);
-                        p->mUnk_0e = p->mUnk_0e + 1;
-                    } else if (d > 20) {
-                        func_0205a7dc(i, d, p->mUnk_00, 2);
+                    remainingFrames = syncState->mEndSyncFrame - gWiFiRaceSync->mSyncFrames;
+                    if ((s32) syncState->mSendCount < 100) {
+                        SetSendSlotResultSync(participantIndex, remainingFrames, syncState->mItemInfoIndex, 2);
+                        syncState->mSendCount = syncState->mSendCount + 1;
+                    } else if (remainingFrames > 20) {
+                        SetSendSlotResultSync(participantIndex, remainingFrames, syncState->mItemInfoIndex, 2);
                     } else {
-                        func_0205a7ac(i);
-                        if (d <= 0) {
-                            p->mUnk_0c = 3;
+                        ClearSendSlotResultSync(participantIndex);
+                        if (remainingFrames <= 0) {
+                            syncState->mState = 3;
                         }
                     }
                     break;
                 case 3:
-                    func_0205a534(p);
+                    CopySlotResultToPending(syncState);
                     break;
                 case 4:
-                    if (h->mUnk_00_12 != 2) {
-                        p->mUnk_0c = 0;
+                    if (receivedHalfword->mState != 2) {
+                        syncState->mState = 0;
                     }
                     break;
             }
@@ -90,31 +91,31 @@ void func_0205a350(void) {
     }
 }
 
-s32 func_0205a310(s32 a) {
-    BOOL r;
-    WiFiRaceSyncEntry *e;
+BOOL IsParticipantSlotResultSyncing(s32 participantIndex) {
+    BOOL isSyncing;
+    WiFiRaceSyncEntry *entry;
 
-    e = &gWiFiRaceSync->mEntries[a];
-    r = FALSE;
-    if ((u16) (e->mUnk_74 + 0xffff) <= 1) {
-        r = TRUE;
+    entry = &gWiFiRaceSync->mEntries[participantIndex];
+    isSyncing = FALSE;
+    if ((u16) (entry->mState + 0xffff) <= 1) {
+        isSyncing = TRUE;
     }
-    return r;
+    return isSyncing;
 }
 
-s32 func_0205a2ac(s32 a) {
-    s32 r;
-    BOOL f;
+s32 GetParticipantSlotResult(s32 participantIndex) {
+    s32 itemInfoIndex;
+    BOOL isSyncing;
 
-    r = 0x13;
-    f = FALSE;
-    if ((u16) (gWiFiRaceSync->mEntries[a].mUnk_74 + 0xffff) <= 1) {
-        f = TRUE;
+    itemInfoIndex = 0x13;
+    isSyncing = FALSE;
+    if ((u16) (gWiFiRaceSync->mEntries[participantIndex].mState + 0xffff) <= 1) {
+        isSyncing = TRUE;
     }
-    if (f == FALSE) {
-        r = gWiFiRaceSync->mEntries[a].mUnk_68;
+    if (isSyncing == FALSE) {
+        itemInfoIndex = gWiFiRaceSync->mEntries[participantIndex].mItemInfoIndex;
     }
-    return r;
+    return itemInfoIndex;
 }
 
 // Allocates the overlay record and fills the table of the three overlays and the address range they cover.
@@ -308,7 +309,7 @@ void ReleaseResultScene(void) {
     ReleaseResultsByMode();
 }
 
-void func_02059bcc(void) {
+void WriteResultSceneRegistersCallback(void) {
     u32 value12;
     WriteResultsByMode();
 }

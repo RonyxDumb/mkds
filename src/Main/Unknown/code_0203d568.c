@@ -504,7 +504,7 @@ void StopRaceInput(void) {
             func_0203d568_b_inline();
             break;
         case MODE_MISSION_RUN:
-            func_0205e2b8();
+            ClearShapeMapObjectCountListPointer();
             break;
         case MODE_BATTLE:
             func_0203d568_b_inline();

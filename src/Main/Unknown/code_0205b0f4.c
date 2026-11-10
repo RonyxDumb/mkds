@@ -86,7 +86,7 @@ void SetParticipantKartMapFromMask(u32 participantMask) {
 static inline BOOL ReplyToWiFiRaceSyncProbe(void) {
     u8 participant;
     WiFiRaceSync *sync;
-    Unk0217aa14_754_04 *payload;
+    WiFiRaceSyncRecord *payload;
 
     sync = gWiFiRaceSync;
     payload = &sync->mSendBuffer->mUnk_04;
@@ -119,9 +119,9 @@ void InitWiFiRaceSync(void *heap) {
     gWiFiRaceSync = HeapAlloc(heap, 0x760);
     gWiFiRaceSync->mSendBuffer = HeapAllocAligned(heap, 0x6c, 0x20);
     for (i = 0; i < 16; i++) {
-        gWiFiRaceSync->mUnk_324[i].mData = HeapAllocAligned(heap, 20, 32);
+        gWiFiRaceSync->mItemDataSlots[i].mData = HeapAllocAligned(heap, 20, 32);
         for (j = 0; j < 4; j++) {
-            gWiFiRaceSync->mUnk_3e4[i][j].mData = HeapAllocAligned(heap, 20, 32);
+            gWiFiRaceSync->mReceivedItemDataSlots[i][j].mData = HeapAllocAligned(heap, 20, 32);
         }
     }
     gWiFiRaceSync->mStartParticipantMask = gParticipantKartMap->mUnk_04;
@@ -138,7 +138,7 @@ void InitWiFiRaceSync(void *heap) {
         gWiFiRaceSync->mTimeoutFrames[k] = 0;
     }
     ResetItemDataSlots();
-    func_0205a6b4();
+    InitSlotResultSyncStates();
     gWiFiRaceSync->mFlags |= 1;
     gWiFiRaceSync->mFlags |= 0x40;
     sync = gWiFiRaceSync;
@@ -212,8 +212,8 @@ void UpdateWiFiRaceSyncState1(void) {
     u16 sendParticipantIndex;
     u8 targetParticipant;
     WiFiRaceSync *sync;
-    Unk0217aa14_754_04 *payload;
-    Unk0217aa14_754 *sendBuffer;
+    WiFiRaceSyncRecord *payload;
+    WiFiRaceSyncSendBuffer *sendBuffer;
 
     mask = 0;
     for (participant = 0; participant < 4; participant++) {
@@ -247,7 +247,7 @@ void UpdateWiFiRaceSyncState1(void) {
                 payload->mUnk_0c[2] = 0;
                 payload->mUnk_0c[3] = 0;
                 payload->mUnk_0c[4] = 0;
-                *(u32 *) &payload->mUnk_20[0] = 0;
+                *(u32 *) &payload->mSlotResultSyncs[0] = 0;
                 SendWiFiRaceSyncPacket(targetParticipant, WIFI_RACE_SYNC_PACKET_PROBE, 0x28);
             } else {
                 if (sync->mPeers[targetParticipant].mUnk_36 == 0) {
@@ -325,7 +325,7 @@ void SendWiFiRaceSyncReady(u32 participant) {
 void UpdateWiFiRaceSyncState2(void) {
     WiFiRaceSync *sync;
     u8 participant;
-    Unk0217aa14_754_04 *payload;
+    WiFiRaceSyncRecord *payload;
 
     sync = gWiFiRaceSync;
     payload = &sync->mSendBuffer->mUnk_04;
@@ -356,8 +356,8 @@ void EnterWiFiRaceSyncState3(void) {
 }
 
 void SendWiFiRaceSyncCountdown(u32 participant) {
-    Unk0217aa14_754 *sendBuffer;
-    Unk0217aa14_754_04 *payload;
+    WiFiRaceSyncSendBuffer *sendBuffer;
+    WiFiRaceSyncRecord *payload;
 
     sendBuffer = gWiFiRaceSync->mSendBuffer;
     payload = &sendBuffer->mUnk_04;
@@ -616,15 +616,15 @@ void UpdateWiFiRaceSyncState4(void) {
     u16 recordSize;
     u32 progressWord;
     WiFiRaceSync *sync;
-    Unk0217aa14_754 *sendBuffer;
-    Unk0217aa14_754_04 *payload;
+    WiFiRaceSyncSendBuffer *sendBuffer;
+    WiFiRaceSyncRecord *payload;
 
     UpdateItemDataSlots();
-    func_0205a350();
+    UpdateSlotResultSyncs();
     sync = gWiFiRaceSync;
     sendBuffer = sync->mSendBuffer;
     payload = &sendBuffer->mUnk_04;
-    recordSize = 0x68 - sync->mUnk_724;
+    recordSize = 0x68 - sync->mUnusedItemDataBytes;
     sendBuffer->mUnk_04.mUnk_00_0 = sync->mSyncFrames;
     payload->mUnk_00_b[3] = recordSize;
     if (gParticipantKartMap->mKartOfParticipant[GetOwnParticipantIndex()] < 0) {
@@ -738,16 +738,16 @@ void UpdateWiFiRaceSyncSharedState(void) {
 void UpdateWiFiRaceSyncState5(void) {
     u16 recordSize;
     WiFiRaceSync *sync;
-    Unk0217aa14_754 *sendBuffer;
-    Unk0217aa14_754_04 *payload;
+    WiFiRaceSyncSendBuffer *sendBuffer;
+    WiFiRaceSyncRecord *payload;
     s32 progressWord;
 
     UpdateItemDataSlots();
-    func_0205a350();
+    UpdateSlotResultSyncs();
     sync = gWiFiRaceSync;
     sendBuffer = sync->mSendBuffer;
     payload = &sendBuffer->mUnk_04;
-    recordSize = 0x68 - sync->mUnk_724;
+    recordSize = 0x68 - sync->mUnusedItemDataBytes;
     sendBuffer->mUnk_04.mUnk_00_0 = sync->mSyncFrames;
     payload->mUnk_00_b[3] = recordSize;
     if (gParticipantKartMap->mKartOfParticipant[GetOwnParticipantIndex()] < 0) {

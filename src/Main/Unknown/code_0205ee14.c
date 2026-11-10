@@ -127,7 +127,7 @@ BOOL IsKartAppearWithinLimit(KartAppear *kartAppear, u32 characterIndex, u32 kar
     return 0;
 }
 
-BOOL func_0205fc98(KartAppear *kartAppear, u32 characterIndex, u32 kartIndex) {
+BOOL IsKartAppearWithinParticipantLimit(KartAppear *kartAppear, u32 characterIndex, u32 kartIndex) {
     u8 limit;
     u8 appearValue;
 
@@ -306,7 +306,7 @@ void AddVSBuddyRecordResults(void) {
     if (countsChanged != FALSE) {
         data_0217aa08->mFirstBlock->mUnk_34[0] = firstTotal;
         data_0217aa08->mFirstBlock->mUnk_34[1] = secondTotal;
-        func_0205edcc();
+        WriteBuddyRecordsAndFirstBlock();
     } else {
         WriteBackupBuddyRecords();
     }
@@ -374,13 +374,13 @@ void AddBattleBuddyRecordResults(void) {
     if (countsChanged != FALSE) {
         data_0217aa08->mFirstBlock->mUnk_34[2] = firstTotal;
         data_0217aa08->mFirstBlock->mUnk_34[3] = secondTotal;
-        func_0205edcc();
+        WriteBuddyRecordsAndFirstBlock();
     } else {
         WriteBackupBuddyRecords();
     }
 }
 
-void func_0205f218(void) {
+void AddShineBattleBuddyRecordResults(void) {
     u16 entryIndex;
     u32 firstTotal;
     u32 secondTotal;
@@ -443,7 +443,7 @@ void func_0205f218(void) {
     if (countsChanged != FALSE) {
         data_0217aa08->mFirstBlock->mUnk_34[2] = firstTotal;
         data_0217aa08->mFirstBlock->mUnk_34[3] = secondTotal;
-        func_0205edcc();
+        WriteBuddyRecordsAndFirstBlock();
     } else {
         WriteBackupBuddyRecords();
     }
@@ -463,7 +463,7 @@ static inline u16 func_0205ef70_inline(u16 entryIndex) {
     return courseResult->mTotalPoints;
 }
 
-void func_0205ef70(void) {
+void AddWiFiRaceBuddyRecordResults(void) {
     u16 entryIndex;
     s32 ownCupRank;
     u32 firstTotal;
@@ -530,7 +530,7 @@ void func_0205ef70(void) {
     data_0217aa08->mFirstBlock->mElo = GetPlayerRecordElo(GetOwnParticipantIndex());
     data_0217aa08->mFirstBlock->mUnk_34[4] = firstTotal;
     data_0217aa08->mFirstBlock->mUnk_34[5] = secondTotal;
-    func_0205edcc();
+    WriteBuddyRecordsAndFirstBlock();
 }
 
 void SetRaceResultRecords(void) {
@@ -548,12 +548,12 @@ void SetRaceResultRecords(void) {
                         AddBattleBuddyRecordResults();
                         break;
                     case BATTLE_KIND_SHINE:
-                        func_0205f218();
+                        AddShineBattleBuddyRecordResults();
                         break;
                 }
                 break;
             case 5:
-                func_0205ef70();
+                AddWiFiRaceBuddyRecordResults();
                 break;
         }
     }

@@ -22,7 +22,7 @@ extern u8 data_usa_02154868[];
 extern u8 data_021547f0[];
 extern u8 data_02154818[];
 extern const Vec3 data_02154f70;
-extern u8 data_02154904[];
+extern u8 gDWCUtilityLanguageTable[];
 // The 16 scene functions, indexed by scene number; the names are in gSceneNames
 // (data_usa_021541a8).
 extern u32 gSceneFuncs[];

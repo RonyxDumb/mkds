@@ -99,14 +99,14 @@ void FinishRaceProgress(void) {
                     } else {
                         e = 1;
                     }
-                    func_0205d88c(kartIndex, 1);
+                    SetBattleKartCourseResult(kartIndex, 1);
                 } else {
                     if (usesTeams != FALSE) {
                         e = winningTeamIndex == gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex ? 1 : 0;
                     } else {
                         e = 0;
                     }
-                    func_0205d88c(kartIndex, 0);
+                    SetBattleKartCourseResult(kartIndex, 0);
                     if (gRaceProgress->mKarts[kartIndex].mStatus == 0) {
                         gRaceProgress->mKarts[kartIndex].mStatus = 2;
                     }
@@ -278,7 +278,7 @@ void AdvanceMissionRunEnd(void) {
         }
     }
     if (endFound == FALSE) {
-        if (func_0205e1c4() != 0) {
+        if (UpdateShapeMapObjectCounts() != 0) {
             endKind = 4;
             endFound = TRUE;
         }

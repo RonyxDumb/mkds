@@ -423,7 +423,7 @@ void ProcessMPData(u32 aid, MPMessage *message) {
                     StoreReceivedPlayerName(message->mUnk_02, message->mUnk_16, message->mUnk_17);
                     break;
                 case 0xa:
-                    func_020597d0(message->mUnk_02, (u8) aid, message->mUnk_16, message->mUnk_17);
+                    StoreReceivedPlayerNameByState(message->mUnk_02, (u8) aid, message->mUnk_16, message->mUnk_17);
                     break;
             }
             break;

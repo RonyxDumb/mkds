@@ -279,24 +279,24 @@ u8 CountEmblemEntries(void) {
 
 #pragma thumb on
 
-void func_0205e530(void) {
+void InitGhostSceneCallback(void) {
     InitGhostScene(GetHeap(GetCurrentHeapCall()));
 }
 
-void func_0205e528(void) {
+void ReleaseGhostSceneCallback(void) {
     ReleaseGhostScene();
 }
 
-void func_0205e520(void) {
+void WriteGhostSceneRegistersCallback(void) {
     WriteGhostSceneRegisters();
 }
 
-void func_0205e518(u32 sceneNumbers) {
+void UpdateGhostSceneCallback(u32 sceneNumbers) {
     AdvanceGhostScene(sceneNumbers);
 }
 
 s32 RunGhostScene(SceneNumbers *sceneNumbers) {
-    SceneCallbacks callbacks = data_021653c0;
+    SceneCallbacks callbacks = gRunGhostSceneCallbacks;
 
     RunScene(sceneNumbers, &callbacks);
     return 0;
@@ -322,21 +322,21 @@ void CreateShapeMapObjectCountList(void *heap) {
     s32 y;
     shapeCount = gCourseMap->mShapeCount;
     entryCount = 0;
-    data_0217aa24 = HeapAlloc(heap, 8);
+    gShapeMapObjectCountList = HeapAlloc(heap, 8);
     for (i = 0; i < shapeCount; i++) {
         if (GetCourseMapShape(i)->mKind == 5) {
             entryCount = entryCount + 1;
         }
     }
     if (entryCount != 0) {
-        data_0217aa24->mEntries = HeapAlloc(heap, entryCount * 0xc);
+        gShapeMapObjectCountList->mEntries = HeapAlloc(heap, entryCount * 0xc);
     }
     entryIndex = 0;
-    data_0217aa24->mEntryCount = entryCount;
+    gShapeMapObjectCountList->mEntryCount = entryCount;
     for (shapeIndex = 0; shapeIndex < shapeCount; shapeIndex++) {
         courseMapShape = GetCourseMapShape(shapeIndex);
         if (courseMapShape->mKind == 5) {
-            entry = &data_0217aa24->mEntries[entryIndex];
+            entry = &gShapeMapObjectCountList->mEntries[entryIndex];
             entry->mShapeIndex = shapeIndex;
             u = 0;
             switch (courseMapShape->mShapeKind) {

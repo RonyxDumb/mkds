@@ -161,7 +161,7 @@ void UpdateRaceGoalM(void) {
             if (IsKartEnded((u16) gRaceSetup->mEntryIndex) != 0 ? gRaceProgress->mEntryEndKind : 6) {
                 gRaceGoalM->mUnk_18 = 9;
             } else {
-                gRaceGoalM->mUnk_18 = func_0205d140();
+                gRaceGoalM->mUnk_18 = ComputeMissionRecordValue();
             }
             if ((IsKartEnded((u16) gRaceSetup->mEntryIndex) != 0 ? gRaceProgress->mEntryEndKind : 6) == 0) {
                 if (frame == 1) {

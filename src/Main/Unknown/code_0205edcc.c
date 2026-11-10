@@ -7,7 +7,7 @@ void WriteBackupBuddyRecords(void) {
     WriteBackupBuddyRecordBlock(data_0217aa08->mBuddyRecordBlock);
 }
 
-void func_0205edcc(void) {
+void WriteBuddyRecordsAndFirstBlock(void) {
     WriteBackupBuddyRecordBlock(data_0217aa08->mBuddyRecordBlock);
     StartWriteBackupFirstBlock();
 }

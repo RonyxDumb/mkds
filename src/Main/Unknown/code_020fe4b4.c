@@ -294,7 +294,7 @@ void AddQueuedItemData(void) {
         return;
     }
     do {
-        available = gWiFiRaceSync->mUnk_724;
+        available = gWiFiRaceSync->mUnusedItemDataBytes;
         nextIndex = gItemDataQueueLinks[index][0];
         if (available < gItemDataQueueLinks[index][1]) {
             return;
@@ -409,7 +409,7 @@ u8 *AddItemDataFrameOnly(u32 kind) {
     s32 available;
 
     gItemDataBuffer[0] = GetRaceUpdateFrames();
-    available = gWiFiRaceSync->mUnk_724;
+    available = gWiFiRaceSync->mUnusedItemDataBytes;
     if (available >= 1 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 0, gItemDataBuffer, 1);
     } else {
@@ -424,7 +424,7 @@ u8 *AddItemDataSizedByKind(u32 kind) {
 
     dataSize = gItemKinds[kind].mDataSize & 0xff;
     gItemDataBuffer[0] = GetRaceUpdateFrames();
-    available = gWiFiRaceSync->mUnk_724;
+    available = gWiFiRaceSync->mUnusedItemDataBytes;
     if (available >= (u8) (dataSize + 1) && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 0, gItemDataBuffer, dataSize + 1);
     } else {
@@ -438,7 +438,7 @@ u8 *AddItemDataNoItemId(u32 kind) {
 
     gItemDataBuffer[1] = 0xff;
     gItemDataBuffer[0] = GetRaceUpdateFrames();
-    available = gWiFiRaceSync->mUnk_724;
+    available = gWiFiRaceSync->mUnusedItemDataBytes;
     if (available >= 2 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 0, gItemDataBuffer, 2);
     } else {
@@ -453,7 +453,7 @@ u8 *AddItemDataItemIdAndParts(u32 kind, u32 lowPart, u32 highPart, u32 itemId) {
     gItemDataBuffer[1] = itemId;
     gItemDataBuffer[2] = lowPart | (highPart << 4);
     gItemDataBuffer[0] = GetRaceUpdateFrames();
-    available = gWiFiRaceSync->mUnk_724;
+    available = gWiFiRaceSync->mUnusedItemDataBytes;
     if (available >= 3 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 2, gItemDataBuffer, 3);
     } else {
@@ -468,7 +468,7 @@ u8 *AddItemDataItemIdAndKart(u32 kind, u32 kartIndex, u32 itemId) {
     gItemDataBuffer[1] = itemId;
     gItemDataBuffer[2] = kartIndex;
     gItemDataBuffer[0] = GetRaceUpdateFrames();
-    available = gWiFiRaceSync->mUnk_724;
+    available = gWiFiRaceSync->mUnusedItemDataBytes;
     if (available >= 3 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 3, gItemDataBuffer, 3);
     } else {
@@ -484,7 +484,7 @@ u8 *AddItemDataItemIdAndBytes(u32 kind, u32 itemId, u32 thirdByte, u32 fourthByt
     gItemDataBuffer[2] = thirdByte;
     gItemDataBuffer[3] = fourthByte;
     gItemDataBuffer[0] = GetRaceUpdateFrames();
-    available = gWiFiRaceSync->mUnk_724;
+    available = gWiFiRaceSync->mUnusedItemDataBytes;
     if (available >= 4 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 3, gItemDataBuffer, 4);
     } else {
@@ -540,7 +540,7 @@ void *CopyItemObjectDataAndAdd(void *cursor, void *object, s32 toData) {
     }
     kind = item->mKind;
     gItemDataBuffer[0] = GetRaceUpdateFrames();
-    available = gWiFiRaceSync->mUnk_724;
+    available = gWiFiRaceSync->mUnusedItemDataBytes;
     if (available >= 0x12 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 1, gItemDataBuffer, 0x12);
     } else {

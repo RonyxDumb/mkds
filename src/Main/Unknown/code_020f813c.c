@@ -176,7 +176,7 @@ void StartItemSlot(KartItems *slot, s32 forcedRowHandle, s32 rank, s32 isHumanGh
                                      isEntryKart, 0x12);
     }
     if (isMode5) {
-        func_0205a750(slot->mSlotResult);
+        StartOwnSlotResultSync(slot->mSlotResult);
         slot->mResultPending = TRUE;
         return;
     }
@@ -238,8 +238,8 @@ BOOL UpdateItemSlot(KartItems *slot, KartItems *kartItems) {
             mode = gRaceSetup->mMode;
             if (mode == 5 && slot->mResultPending != FALSE) {
                 b = kartItems->mKartIndex & 0xff;
-                if (func_0205a310(((u8 *) gParticipantKartMap)[b]) == 0) {
-                    b = func_0205a2ac(((u8 *) gParticipantKartMap)[b]);
+                if (IsParticipantSlotResultSyncing(((u8 *) gParticipantKartMap)[b]) == 0) {
+                    b = GetParticipantSlotResult(((u8 *) gParticipantKartMap)[b]);
                     if (IsItemInfoObjectCountFree(b) != FALSE) {
                         TryReleaseItemObjectsForItemInfo(b);
                     }

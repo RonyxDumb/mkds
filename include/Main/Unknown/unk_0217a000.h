@@ -842,23 +842,23 @@ typedef struct Unk0217aa14_104_20 {
         u16 mUnk_00;
         struct {
             u16 : 7;
-            u16 mUnk_00_7 : 5;
-            u16 mUnk_00_12 : 2;
+            u16 mItemInfoIndex : 5;
+            u16 mState : 2;
         };
     };
 } Unk0217aa14_104_20;
 
 // The 0x20 bytes from 0x68 of WiFiRaceSyncEntry.
-typedef struct Unk0217aa14_104_68 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ u16 mUnk_0c;
-    /* 0e */ u16 mUnk_0e;
+typedef struct SlotResultSyncState {
+    /* 00 */ s32 mItemInfoIndex;
+    /* 04 */ s32 mPendingItemInfoIndex;
+    /* 08 */ s32 mEndSyncFrame;
+    /* 0c */ u16 mState;
+    /* 0e */ u16 mSendCount;
     /* 10 */ s32 mUnk_10;
     /* 14 */ u16 mUnk_14;
     /* 16 */ u8 mUnk_16[0xa];
-} Unk0217aa14_104_68;
+} SlotResultSyncState;
 
 // 0x88-byte entries from 0x104 of WiFiRaceSync.
 typedef struct WiFiRaceSyncEntry {
@@ -870,15 +870,15 @@ typedef struct WiFiRaceSyncEntry {
     };
     /* 04 */ s32 mUnk_04;
     /* 08 */ ParticipantKartRecord mUnk_08;
-    /* 20 */ Unk0217aa14_104_20 mUnk_20[4];
-    /* 28 */ u8 mUnk_28[0x40];
+    /* 20 */ Unk0217aa14_104_20 mSlotResultSyncs[4];
+    /* 28 */ u8 mItemData[0x40];
     /* 68 */ union {
         struct {
-            /* 68 */ s32 mUnk_68;
-            /* 6c */ s32 mUnk_6c;
-            /* 70 */ s32 mUnk_70;
-            /* 74 */ u16 mUnk_74;
-            /* 76 */ u16 mUnk_76;
+            /* 68 */ s32 mItemInfoIndex;
+            /* 6c */ s32 mPendingItemInfoIndex;
+            /* 70 */ s32 mEndSyncFrame;
+            /* 74 */ u16 mState;
+            /* 76 */ u16 mSendCount;
             /* 78 */ s32 mUnk_78;
             /* 7c */ u16 mUnk_7c;
             /* 7e */ u8 mUnk_7e[2];
@@ -895,34 +895,34 @@ typedef struct WiFiRaceSyncEntry {
             };
             /* 87 */ u8 mUnk_87;
         };
-        Unk0217aa14_104_68 mUnk_68_view;
+        SlotResultSyncState mUnk_68_view;
     };
 } WiFiRaceSyncEntry;
 
 // 0xc-byte entries from 0x324 of WiFiRaceSync.
 typedef struct ItemDataSlot {
-    /* 00 */ s32 mUnk_00;
+    /* 00 */ s32 mSendUntilSyncFrame;
     /* 04 */ void *mData;
-    /* 08 */ u8 mUnk_08;
+    /* 08 */ u8 mState;
     /* 09 */ u8 mItemKind;
     /* 0a */ u8 mMessageKind;
     /* 0b */ u8 mDataSize;
 } ItemDataSlot;
 
-// Halfword of the table at 0x20 of Unk0217aa14_754_04: bits 0 to 6, 7 to 11 and 12 to 13.
-typedef struct Unk0217aa14_754_04_20 {
+// Halfword of the table at 0x20 of WiFiRaceSyncRecord: bits 0 to 6, 7 to 11 and 12 to 13.
+typedef struct SlotResultSyncHalfword {
     /* 00 */ union {
         u16 mUnk_00;
         struct {
-            u16 mUnk_00_0 : 7;
-            u16 mUnk_00_7 : 5;
-            u16 mUnk_00_12 : 2;
+            u16 mFramesRemaining : 7;
+            u16 mItemInfoIndex : 5;
+            u16 mState : 2;
         };
     };
-} Unk0217aa14_754_04_20;
+} SlotResultSyncHalfword;
 
 // 0x68 bytes from 0x04 of what member 0x754 of WiFiRaceSync points to.
-typedef struct Unk0217aa14_754_04 {
+typedef struct WiFiRaceSyncRecord {
     /* 00 */ union {
         u32 mUnk_00;
         u16 mUnk_00_h;
@@ -937,22 +937,22 @@ typedef struct Unk0217aa14_754_04 {
     };
     /* 08 */ u32 mUnk_08;
     /* 0c */ u32 mUnk_0c[5];
-    /* 20 */ Unk0217aa14_754_04_20 mUnk_20[4];
-    /* 28 */ u8 mUnk_28[0x10];
-    /* 38 */ u8 mUnk_38[0x30];
-} Unk0217aa14_754_04;
+    /* 20 */ SlotResultSyncHalfword mSlotResultSyncs[4];
+    /* 28 */ u8 mItemDataHeaders[0x10];
+    /* 38 */ u8 mItemDataBytes[0x30];
+} WiFiRaceSyncRecord;
 
 // What member 0x754 of WiFiRaceSync points to.
-typedef struct Unk0217aa14_754 {
+typedef struct WiFiRaceSyncSendBuffer {
     union {
         // The first 0x28 bytes are the packet that goes out.
         WiFiRaceSyncPacket mPacket;
         struct {
             /* 00 */ u8 mUnk_00[4];
-            /* 04 */ Unk0217aa14_754_04 mUnk_04;
+            /* 04 */ WiFiRaceSyncRecord mUnk_04;
         };
     };
-} Unk0217aa14_754;
+} WiFiRaceSyncSendBuffer;
 
 // Object behind gWiFiRaceSync.
 typedef struct WiFiRaceSync {
@@ -967,10 +967,10 @@ typedef struct WiFiRaceSync {
     /* 0fd */ u8 mUnk_0fd;
     /* 0fe */ u8 mUnk_0fe[6];
     /* 104 */ WiFiRaceSyncEntry mEntries[4];
-    /* 324 */ ItemDataSlot mUnk_324[16];
-    /* 3e4 */ ItemDataSlot mUnk_3e4[16][4];
-    /* 6e4 */ u8 mUnk_6e4[16][4];
-    /* 724 */ u16 mUnk_724;
+    /* 324 */ ItemDataSlot mItemDataSlots[16];
+    /* 3e4 */ ItemDataSlot mReceivedItemDataSlots[16][4];
+    /* 6e4 */ u8 mItemDataHandled[16][4];
+    /* 724 */ u16 mUnusedItemDataBytes;
     /* 726 */ u8 mUnk_726[0x2];
 // Counted by AdvanceWiFiRaceSyncFrames, one per call, only in states 4 and 5.
     /* 728 */ s32 mSyncFrames;
@@ -992,7 +992,7 @@ typedef struct WiFiRaceSync {
     /* 74a */ u8 mPeerDroppedMasks[4];
     /* 74e */ u8 mPeerSharedStates[4];
     /* 752 */ u8 mUnk_752[2];
-    /* 754 */ Unk0217aa14_754 *mSendBuffer;
+    /* 754 */ WiFiRaceSyncSendBuffer *mSendBuffer;
     /* 758 */ s32 mSharedState;
     /* 75c */ u16 mFlags;
 } WiFiRaceSync;
@@ -1583,8 +1583,8 @@ typedef struct DispCap {
 extern DispCap *gDispCap;
 // Object behind gRunScenesState, 0x10 bytes.
 typedef struct RunScenesState {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
+    /* 00 */ s32 mKind;
+    /* 04 */ s32 mNextKind;
     /* 08 */ s16 mSceneNumber;
     /* 0a */ u8 mUnk_0a[2];
     /* 0c */ void *mSndHeapsBuffer;
@@ -1600,7 +1600,7 @@ typedef struct ShapeMapObjectCount {
     /* 0a */ u8 mUnk_0a[2];
 } ShapeMapObjectCount;
 
-// Object behind data_0217aa24, 8 bytes.
+// Object behind gShapeMapObjectCountList, 8 bytes.
 typedef struct ShapeMapObjectCountList {
     /* 00 */ ShapeMapObjectCount *mEntries;
     /* 04 */ u16 mEntryCount;
@@ -1608,7 +1608,7 @@ typedef struct ShapeMapObjectCountList {
 } ShapeMapObjectCountList;
 
 extern RunScenesState *gRunScenesState;
-extern ShapeMapObjectCountList *data_0217aa24;
+extern ShapeMapObjectCountList *gShapeMapObjectCountList;
 extern u16 gFadeFogHoldFrames;
 // Set to 1 when TryUpdateEntryCamera is entered; cleared once per UpdateRace call by ClearCameraEntryFlags.
 // RefreshCameraProjection does not skip the chase camera's projection while it is 1.
@@ -1626,9 +1626,9 @@ extern ParticipantKartMap *gParticipantKartMap;
 // 0xa-byte elements of the rows (eight each) of the table at member 0 of CupRecords.
 typedef struct KartCourseResult {
     /* 00 */ u16 mTotalPoints;
-    /* 02 */ u8 mUnk_02;
-    /* 03 */ u8 mUnk_03;
-    /* 04 */ u8 mUnk_04;
+    /* 02 */ u8 mCupRank;
+    /* 03 */ u8 mRank;
+    /* 04 */ u8 mPoints;
     /* 05 */ u8 mWinCount;
     /* 06 */ MinuteSecondMillisecondTime mFinishTime;
 } KartCourseResult;
@@ -1654,7 +1654,7 @@ typedef struct CourseTeamResults {
 // The kart results for each course of a cup, and the team results.
 typedef struct CupRecords {
     /* 000 */ KartCourseResult mKartResults[4][8];
-    /* 140 */ s32 mUnk_140;
+    /* 140 */ s32 mScore;
     /* 144 */ CourseTeamResults mTeamResults[4];
     /* 164 */ union {
         u32 mUnk_164;

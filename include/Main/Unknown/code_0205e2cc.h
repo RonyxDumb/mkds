@@ -17,10 +17,10 @@ void CreateShapeMapObjectCountList(void *heap);
 // Scene function of gSceneFuncs[13] (scene 'Ghost' in gSceneNames): copies the callbacks and calls
 // RunScene. Returns 0.
 s32 RunGhostScene(SceneNumbers *sceneNumbers);
-void func_0205e518(u32 sceneNumbers);
-void func_0205e520(void);
-void func_0205e528(void);
-void func_0205e530(void);
+void UpdateGhostSceneCallback(u32 sceneNumbers);
+void WriteGhostSceneRegistersCallback(void);
+void ReleaseGhostSceneCallback(void);
+void InitGhostSceneCallback(void);
 u8 CountEmblemEntries(void);
 void StartCopyOtherEmblems(s32 useConnection);
 void CopyWiFiOtherEmblemsToBlocks(void);

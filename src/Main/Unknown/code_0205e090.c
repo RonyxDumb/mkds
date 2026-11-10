@@ -16,11 +16,11 @@
 #include "Main/Unknown/code_020d411c.h"
 #include "Main/Unknown/unk_0217a000.h"
 
-void func_0205e2b8(void) {
-    data_0217aa24 = NULL;
+void ClearShapeMapObjectCountListPointer(void) {
+    gShapeMapObjectCountList = NULL;
 }
 
-s32 func_0205e1c4(void) {
+s32 UpdateShapeMapObjectCounts(void) {
     BOOL result = FALSE;
     u16 i = 0;
     ShapeMapObjectCount *entry;
@@ -28,8 +28,8 @@ s32 func_0205e1c4(void) {
     s32 mapObjectCount;
     u16 j;
     u8 insideCount;
-    for (i = 0; i < data_0217aa24->mEntryCount; i++) {
-        entry = &data_0217aa24->mEntries[i];
+    for (i = 0; i < gShapeMapObjectCountList->mEntryCount; i++) {
+        entry = &gShapeMapObjectCountList->mEntries[i];
         courseMapShape = GetCourseMapShape(entry->mShapeIndex);
         mapObjectCount = FindMapObjectsOfKindInRadius(&courseMapShape->mPos, entry->mRadius, courseMapShape->mUnk_3c);
         insideCount = 0;
@@ -52,16 +52,16 @@ s32 func_0205e1c4(void) {
 
 void CreateRunScenesState(void *heap) {
     gRunScenesState = HeapAlloc(heap, 0x10);
-    gRunScenesState->mUnk_00 = 0;
-    gRunScenesState->mUnk_04 = 3;
+    gRunScenesState->mKind = 0;
+    gRunScenesState->mNextKind = 3;
     gRunScenesState->mSndHeapsBuffer = NULL;
 }
 
-void func_0205e0b0(void) {
+void InitRunScenesKind(void) {
     void *h;
     s32 m;
     h = GetHeap(GetCurrentHeapCall());
-    switch (gRunScenesState->mUnk_00) {
+    switch (gRunScenesState->mKind) {
         case 0:
             if (gBootInfo->mUnk_00 == 2) {
                 m = 2;

@@ -2,13 +2,13 @@
 
 #include "types.h"
 
-typedef struct Unk0217aa14_104_68 Unk0217aa14_104_68;
+typedef struct SlotResultSyncState SlotResultSyncState;
 typedef struct SceneNumbers SceneNumbers;
 
 struct MapObjectKindDescriptor;
 
 void UpdateResultScene(SceneNumbers *arg0);
-void func_02059bcc(void);
+void WriteResultSceneRegistersCallback(void);
 void ReleaseResultScene(void);
 void InitResultScene(void);
 u32 IsInOverlayRange(struct MapObjectKindDescriptor *address);
@@ -21,7 +21,7 @@ void StartLoadOverlay(s32 overlay);
 void ResetCurrentOverlay(void);
 void CreateOverlayFrmHeap(void);
 void InitOverlayTable(void *heap);
-s32 func_0205a2ac(s32 a);
-s32 func_0205a310(s32 a);
-void func_0205a350(void);
-void func_0205a4b0(Unk0217aa14_104_68 *a, s32 b);
+s32 GetParticipantSlotResult(s32 participantIndex);
+BOOL IsParticipantSlotResultSyncing(s32 participantIndex);
+void UpdateSlotResultSyncs(void);
+void StartSlotResultSync(SlotResultSyncState *syncState, s32 itemInfoIndex);

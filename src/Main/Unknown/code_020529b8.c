@@ -80,7 +80,7 @@ void ResetConnection(void) {
     blocks->mUnk_798 = FALSE;
     blocks->mUnk_79c = FALSE;
     ResetConnectionBuffers(&gConnectionWork->mUnk_1658_view);
-    func_02059878();
+    InitMPStateMachine();
     FillParentParameter(1);
 }
 

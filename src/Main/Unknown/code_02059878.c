@@ -124,23 +124,23 @@ void ProcessMPChunk(u8 *chunk) {
     }
 }
 
-void func_02059920(Unk02059920 *a) {
-    if (a->mUnk_02 == 0 && a->mUnk_0c != NULL && a->mUnk_10 >= 4) {
-        DC_StoreRange(a->mUnk_0c, a->mUnk_10);
-        switch (a->mUnk_04) {
+void MPChunkPortCallback(Unk02059920 *event) {
+    if (event->mUnk_02 == 0 && event->mUnk_0c != NULL && event->mUnk_10 >= 4) {
+        DC_StoreRange(event->mUnk_0c, event->mUnk_10);
+        switch (event->mUnk_04) {
             case 7:
             case 9:
                 break;
             case 0x15:
-                ProcessMPChunk(a->mUnk_0c);
+                ProcessMPChunk(event->mUnk_0c);
                 break;
         }
     }
 }
 
-void func_02059878(void) {
-    ConnectionWork *p;
-    u32 v;
+void InitMPStateMachine(void) {
+    ConnectionWork *connectionWork;
+    u32 connectionMode;
 
     InitStateMachine(&gConnectionWork->mUnk_1608.mStateMachine, gMPStateTable, 0x17, NULL);
     gConnectionWork->mUnk_164e = 0;
@@ -149,13 +149,14 @@ void func_02059878(void) {
     gConnectionWork->mEntryChunkIndex = 0;
     gConnectionWork->mUnk_162a = 0;
     gConnectionWork->mUnk_164c = 0;
-    p = gConnectionWork;
-    v = 0;
-    if (p != NULL) {
-        v = p->mConnectionMode;
+    connectionWork = gConnectionWork;
+    connectionMode = 0;
+    if (connectionWork != NULL) {
+        connectionMode = connectionWork->mConnectionMode;
     }
-    if (v == 1) {
-        p->mUnk_0044.mUnk_42 = (p->mUnk_0454 & 0x40) != 0 ? p->mUnk_1695 : p->mUnk_0044.mChildMask;
+    if (connectionMode == 1) {
+        connectionWork->mUnk_0044.mUnk_42 =
+            (connectionWork->mUnk_0454 & 0x40) != 0 ? connectionWork->mUnk_1695 : connectionWork->mUnk_0044.mChildMask;
     }
     gConnectionWork->mUnk_1eb0 = 0;
 }

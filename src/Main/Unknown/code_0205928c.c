@@ -78,13 +78,13 @@ static inline s32 func_0205955c_inline4(void) {
     return r;
 }
 
-void func_020597d0(const void *data, s32 b, s32 playerIndex, s32 d) {
-    s32 v;
+void StoreReceivedPlayerNameByState(const void *data, s32 aid, s32 playerIndex, s32 keepMask) {
+    s32 state;
     s32 playerBit;
 
-    v = gConnectionWork->mState;
-    if (v != 11) {
-        StoreReceivedPlayerName(data, playerIndex, d);
+    state = gConnectionWork->mState;
+    if (state != 11) {
+        StoreReceivedPlayerName(data, playerIndex, keepMask);
         return;
     }
     playerBit = 1 << playerIndex;
@@ -112,7 +112,7 @@ s32 IsAllMPChildSharedDataCopied(void) {
     return allCopied;
 }
 
-s32 func_02059700(void) {
+s32 AdvanceParentSync(void) {
     BOOL done;
 
     done = FALSE;
@@ -139,7 +139,7 @@ s32 func_02059700(void) {
     return done;
 }
 
-s32 func_020595e8(s32 a, void *b, void *c) {
+s32 AdvanceChildArchiveSync(s32 archiveKind, void *courseId, void *mode) {
     BOOL done;
 
     done = FALSE;
@@ -151,12 +151,12 @@ s32 func_020595e8(s32 a, void *b, void *c) {
             break;
         case 2:
             if (gBootInfo->mUnk_00 == 2) {
-                switch (a) {
+                switch (archiveKind) {
                     case 0:
                         RequestMainAndMenuDLArchives();
                         break;
                     case 1:
-                        RequestRaceArchives(b, c);
+                        RequestRaceArchives(courseId, mode);
                         break;
                     case 2:
                         RequestResultDLArchives();
@@ -194,15 +194,15 @@ s32 func_020595e8(s32 a, void *b, void *c) {
     return done;
 }
 
-u32 func_0205955c(void) {
+u32 AdvanceMainAndMenuDLArchives(void) {
     if (func_0205955c_inline4()) {
         return 3;
     }
     switch (func_0205955c_inline()) {
         case 1:
-            return func_02059700();
+            return AdvanceParentSync();
         case 2:
-            return func_020595e8(0, NULL, NULL);
+            return AdvanceChildArchiveSync(0, NULL, NULL);
         default:
             return 3;
     }
@@ -279,7 +279,7 @@ void RequestMPState21(void) {
     stateMachine->mStateMachine.mNextStateRequested = 1;
 }
 
-u32 func_020593dc(void) {
+u32 AdvanceRaceArchives(void) {
     if (func_020593dc_inline4()) {
         return 3;
     }
@@ -288,9 +288,9 @@ u32 func_020593dc(void) {
     }
     switch (func_020593dc_inline()) {
         case 1:
-            return func_02059700();
+            return AdvanceParentSync();
         case 2:
-            return func_020595e8(1, gConnectionWork->mCourseId, gConnectionWork->mMode);
+            return AdvanceChildArchiveSync(1, gConnectionWork->mCourseId, gConnectionWork->mMode);
         default:
             return 3;
     }
@@ -315,7 +315,7 @@ void EnterMPState16(void) {
 void UpdateMPState16(void) {
     int result;
     MPStateMachine *stateMachine;
-    result = func_020593dc();
+    result = AdvanceRaceArchives();
     if (result == 1) {
         stateMachine = &gConnectionWork->mUnk_1608;
         stateMachine->mStateMachine.mNextState = 0x11;
@@ -327,7 +327,7 @@ void UpdateMPState16(void) {
 
 #pragma thumb on
 
-void func_0205933c(void) {
+void LoadCourseSoundSetCallback(void) {
     u32 loaded;
 
     loaded = LoadCourseSoundSet((u32) gConnectionWork->mMode, (u32) gConnectionWork->mCourseId);
@@ -339,7 +339,7 @@ void func_0205933c(void) {
     }
 }
 
-void func_02059304(void) {
+void EnterMPState17(void) {
     gConnectionWork->mSyncState = 0;
     gConnectionWork->mUnk_1e44 &= ~2;
     gConnectionWork->mCallbackFailed = 0;
@@ -352,7 +352,7 @@ void func_02059304(void) {
 void UpdateMPState17(void) {
     int result;
     MPStateMachine *stateMachine;
-    result = AdvanceSyncedCallback(func_0205933c);
+    result = AdvanceSyncedCallback(LoadCourseSoundSetCallback);
     if (result == 1) {
         stateMachine = &gConnectionWork->mUnk_1608;
         stateMachine->mStateMachine.mNextState = 0x14;

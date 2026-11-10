@@ -98,7 +98,7 @@ void EnterMPState3(void) {
 void UpdateMPState3(void) {
     int result;
     MPStateMachine *stateMachine;
-    result = func_0205955c();
+    result = AdvanceMainAndMenuDLArchives();
     if (result == 1) {
         stateMachine = &gConnectionWork->mUnk_1608;
         stateMachine->mStateMachine.mNextState = 4;
@@ -212,7 +212,7 @@ void EnterMPState7(void) {
     u32 flagIndex;
     u32 flagCount;
 
-    WM_SetPortCallback(14, func_02059920, NULL);
+    WM_SetPortCallback(14, MPChunkPortCallback, NULL);
     if (func_02058820_inline() == 1) {
         SetMPFrequency(0);
     }

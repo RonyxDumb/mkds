@@ -141,7 +141,7 @@ u32 TrySetMissionRecord(void) {
     }
     GetMissionRecord((u16) missionRow, (u16) missionColumn, &storedRecord);
     newRecord.mFilled = 1;
-    newRecord.mValue = func_0205d140();
+    newRecord.mValue = ComputeMissionRecordValue();
     if (storedRecord.mFilled == 0) {
         shouldStore = TRUE;
     } else {

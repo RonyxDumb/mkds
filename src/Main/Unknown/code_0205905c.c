@@ -77,9 +77,9 @@ u32 AdvanceMenuDLArchives(void) {
     }
     switch (func_0205905c_inline()) {
         case 1:
-            return func_02059700();
+            return AdvanceParentSync();
         case 2:
-            return func_020595e8(3, NULL, NULL);
+            return AdvanceChildArchiveSync(3, NULL, NULL);
         default:
             return 3;
     }
@@ -94,9 +94,9 @@ u32 AdvanceResultDLArchives(void) {
     }
     switch (func_0205905c_inline()) {
         case 1:
-            return func_02059700();
+            return AdvanceParentSync();
         case 2:
-            return func_020595e8(2, NULL, NULL);
+            return AdvanceChildArchiveSync(2, NULL, NULL);
         default:
             return 3;
     }

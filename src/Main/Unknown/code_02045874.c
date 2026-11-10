@@ -308,7 +308,7 @@ BOOL CopyEntryResultAndSetupAwardRace(void) {
     KartCourseResult *courseResult;
     entryIndex = gRaceSetup->mEntryIndex;
     data_0217b488->mCupRankIndex = GetKartCupRank((u16) entryIndex) - 1;
-    data_0217b488->mUnk_80 = func_0205d190();
+    data_0217b488->mUnk_80 = ComputeGrandPrixRecordValue();
     data_0217b488->mCharacterIndex = gRaceSetup->mCurrentEntries[(u8) entryIndex].mCharacterIndex;
     data_0217b488->mCupIndex = gRaceSetup->mCupIndex;
     data_0217b488->mEngineIndex = gRaceSetup->mEngineIndex;

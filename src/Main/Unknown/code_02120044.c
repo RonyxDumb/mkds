@@ -132,7 +132,7 @@ void EnterWiFiSessionState5(void) {
 
 void UpdateWiFiSessionState5(void) {
     u32 unused;
-    func_0205b0b4();
+    AdvanceWiFiRaceSync();
 }
 
 void UpdateWiFiSessionState6Nop(void) {}

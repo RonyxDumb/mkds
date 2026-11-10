@@ -123,7 +123,7 @@ s32 AdvanceScanConnect(u16 entryIndex) {
             break;
         case 11:
             connectionWork->mState = 6;
-            func_02059878();
+            InitMPStateMachine();
             result = 1;
             break;
     }
@@ -217,7 +217,7 @@ s32 AdvanceMultiBootParent(void) {
         case 11:
         case 15:
             if (AdvanceChildMaskCovered() != 0) {
-                func_02059878();
+                InitMPStateMachine();
                 result = TRUE;
             }
             break;

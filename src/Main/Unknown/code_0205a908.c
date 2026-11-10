@@ -3,7 +3,7 @@
 
 void UpdateItemDataSlots(void) {
     ExpireItemDataSlots();
-    func_0205ac38();
-    func_0205aa60();
+    WriteItemDataSlotsToSendBuffer();
+    StoreReceivedItemDataSlots();
     ProcessOtherParticipantItemData();
 }

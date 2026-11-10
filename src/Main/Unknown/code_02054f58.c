@@ -79,7 +79,7 @@ s32 AdvanceNonMultiBootConnect(s32 entryIndex) {
             break;
         case 11:
             gConnectionWork->mState = 6;
-            func_02059878();
+            InitMPStateMachine();
             status = 1;
             break;
     }

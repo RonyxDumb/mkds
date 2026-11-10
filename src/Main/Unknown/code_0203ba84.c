@@ -48,7 +48,7 @@ void PickRandomKarts(CharacterKartPicks *picks) {
             u = 0;
             firstKart = character * 3;
             for (; u < 3; u++) {
-                if (func_0205fc98(picks->mKartAppear, character, u + firstKart) != FALSE) {
+                if (IsKartAppearWithinParticipantLimit(picks->mKartAppear, character, u + firstKart) != FALSE) {
                     candidateBits = candidateBits | (1 << u);
                 }
             }
@@ -60,7 +60,7 @@ void PickRandomKarts(CharacterKartPicks *picks) {
             }
             if (candidateBits == 0) {
                 for (u = 0; u < 3; u++) {
-                    if (func_0205fc98(picks->mKartAppear, character, u + firstKart) != FALSE) {
+                    if (IsKartAppearWithinParticipantLimit(picks->mKartAppear, character, u + firstKart) != FALSE) {
                         candidateBits = candidateBits | (1 << u);
                     }
                 }

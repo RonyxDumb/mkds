@@ -9,41 +9,42 @@
 #include "00/code_0219b580.h"
 #include "code_0214d018.h"
 
-void func_0205ae8c(u32 kartIndex) {
+// Lowers the rank by one for each better-ranked kart whose participant dropped out of the race.
+void SubtractDroppedFromRank(u32 kartIndex) {
     u8 otherKartIndex;
     u8 rank;
-    u8 f;
+    u8 isDropped;
     u8 otherRank;
     s32 participantIndex;
     s32 otherParticipantIndex;
-    ParticipantKartMap *g;
-    WiFiRaceSync *p;
+    ParticipantKartMap *participantKartMap;
+    WiFiRaceSync *wiFiRaceSync;
 
-    g = gParticipantKartMap;
-    p = gWiFiRaceSync;
-    participantIndex = g->mParticipantOfKart[(u8) kartIndex];
-    rank = p->mEntries[participantIndex].mRank;
+    participantKartMap = gParticipantKartMap;
+    wiFiRaceSync = gWiFiRaceSync;
+    participantIndex = participantKartMap->mParticipantOfKart[(u8) kartIndex];
+    rank = wiFiRaceSync->mEntries[participantIndex].mRank;
     if (participantIndex < 0) {
         return;
     }
     otherKartIndex = 0;
     for (otherKartIndex = 0; otherKartIndex < (s32) gRaceSetup->mKartCount; otherKartIndex++) {
         if (otherKartIndex != kartIndex) {
-            otherParticipantIndex = g->mParticipantOfKart[otherKartIndex];
-            otherRank = p->mEntries[otherParticipantIndex].mRank;
+            otherParticipantIndex = participantKartMap->mParticipantOfKart[otherKartIndex];
+            otherRank = wiFiRaceSync->mEntries[otherParticipantIndex].mRank;
             if (otherParticipantIndex >= 0 && otherRank < rank) {
-                f = 0;
-                if ((p->mStartParticipantMask & (1 << (u8) otherParticipantIndex)) != 0 &&
-                    (p->mParticipantMask & (1 << (u8) otherParticipantIndex)) == 0) {
-                    f = 1;
+                isDropped = 0;
+                if ((wiFiRaceSync->mStartParticipantMask & (1 << (u8) otherParticipantIndex)) != 0 &&
+                    (wiFiRaceSync->mParticipantMask & (1 << (u8) otherParticipantIndex)) == 0) {
+                    isDropped = 1;
                 }
-                if (f != 0) {
+                if (isDropped != 0) {
                     rank = rank - 1;
                 }
             }
         }
     }
-    p->mEntries[participantIndex].mRank = rank;
+    wiFiRaceSync->mEntries[participantIndex].mRank = rank;
 }
 
 void ResetItemDataSlots(void) {
@@ -53,59 +54,59 @@ void ResetItemDataSlots(void) {
 
     for (slotIndex = 0; slotIndex < 16; slotIndex++) {
         for (participantIndex = 0; participantIndex < 4; participantIndex++) {
-            slot = &gWiFiRaceSync->mUnk_3e4[slotIndex][participantIndex];
-            slot->mUnk_08 = 0;
-            slot->mUnk_00 = 0;
+            slot = &gWiFiRaceSync->mReceivedItemDataSlots[slotIndex][participantIndex];
+            slot->mState = 0;
+            slot->mSendUntilSyncFrame = 0;
             slot->mItemKind = 15;
             slot->mMessageKind = 0;
             slot->mDataSize = 0;
             MI_CpuFill8(slot->mData, 0, 20);
-            gWiFiRaceSync->mUnk_6e4[slotIndex][participantIndex] = 0;
+            gWiFiRaceSync->mItemDataHandled[slotIndex][participantIndex] = 0;
         }
-        slot = &gWiFiRaceSync->mUnk_324[slotIndex];
-        slot->mUnk_08 = 0;
-        slot->mUnk_00 = 0;
+        slot = &gWiFiRaceSync->mItemDataSlots[slotIndex];
+        slot->mState = 0;
+        slot->mSendUntilSyncFrame = 0;
         slot->mItemKind = 15;
         slot->mMessageKind = 0;
         slot->mDataSize = 0;
         MI_CpuFill8(slot->mData, 0, 20);
     }
-    gWiFiRaceSync->mUnk_724 = 0x30;
+    gWiFiRaceSync->mUnusedItemDataBytes = 0x30;
 }
 
 BOOL IsAnyItemDataSlotFree(void) {
     u16 slotIndex;
 
     for (slotIndex = 0; slotIndex < 16; slotIndex++) {
-        if (gWiFiRaceSync->mUnk_324[slotIndex].mUnk_08 == 0) {
+        if (gWiFiRaceSync->mItemDataSlots[slotIndex].mState == 0) {
             return TRUE;
         }
     }
     return FALSE;
 }
 
-void func_0205ac38(void) {
+void WriteItemDataSlotsToSendBuffer(void) {
     u16 slotIndex;
     u8 *headerCursor;
     u8 *dataCursor;
     u16 usedSize;
     ItemDataSlot *slot;
-    Unk0217aa14_754_04 *q;
+    WiFiRaceSyncRecord *payload;
     u8 headerByte;
 
     usedSize = 0;
-    q = (void *) &gWiFiRaceSync->mSendBuffer->mUnk_04;
-    headerCursor = q->mUnk_28;
+    payload = (void *) &gWiFiRaceSync->mSendBuffer->mUnk_04;
+    headerCursor = payload->mItemDataHeaders;
     dataCursor = headerCursor + 16;
     for (slotIndex = 0; slotIndex < 16; slotIndex++) {
-        slot = &gWiFiRaceSync->mUnk_324[slotIndex];
-        if (slot->mUnk_08 == 0 || slot->mUnk_08 == 2 || slot->mItemKind == 15) {
+        slot = &gWiFiRaceSync->mItemDataSlots[slotIndex];
+        if (slot->mState == 0 || slot->mState == 2 || slot->mItemKind == 15) {
             headerByte = 15;
         } else {
             headerByte = (slot->mItemKind & 0x1f) | ((slot->mMessageKind << 5) & 0xe0);
         }
         *headerCursor++ = headerByte;
-        switch (slot->mUnk_08) {
+        switch (slot->mState) {
             case 0:
                 break;
             case 1:
@@ -119,7 +120,7 @@ void func_0205ac38(void) {
                 break;
         }
     }
-    gWiFiRaceSync->mUnk_724 = 0x30 - usedSize;
+    gWiFiRaceSync->mUnusedItemDataBytes = 0x30 - usedSize;
 }
 
 void ExpireItemDataSlots(void) {
@@ -127,17 +128,17 @@ void ExpireItemDataSlots(void) {
     ItemDataSlot *slot;
 
     for (slotIndex = 0; slotIndex < 16; slotIndex++) {
-        slot = &gWiFiRaceSync->mUnk_324[slotIndex];
+        slot = &gWiFiRaceSync->mItemDataSlots[slotIndex];
         if (slot->mItemKind == 15) {
             continue;
         }
-        switch (slot->mUnk_08) {
+        switch (slot->mState) {
             case 0:
                 break;
             case 2:
-                if (slot->mUnk_00 + 30 < (u32) gWiFiRaceSync->mSyncFrames) {
-                    slot->mUnk_08 = 0;
-                    slot->mUnk_00 = 0;
+                if (slot->mSendUntilSyncFrame + 30 < (u32) gWiFiRaceSync->mSyncFrames) {
+                    slot->mState = 0;
+                    slot->mSendUntilSyncFrame = 0;
                     slot->mItemKind = 15;
                     slot->mMessageKind = 0;
                     slot->mDataSize = 0;
@@ -145,15 +146,15 @@ void ExpireItemDataSlots(void) {
                 }
                 break;
             case 1:
-                if (slot->mUnk_00 < (u32) gWiFiRaceSync->mSyncFrames) {
-                    slot->mUnk_08 = 2;
+                if (slot->mSendUntilSyncFrame < (u32) gWiFiRaceSync->mSyncFrames) {
+                    slot->mState = 2;
                 }
                 break;
         }
     }
 }
 
-void func_0205aa60(void) {
+void StoreReceivedItemDataSlots(void) {
     u8 participantIndex;
     u16 slotIndex;
     u8 *headerCursor;
@@ -169,7 +170,7 @@ void func_0205aa60(void) {
             dataCursor = headerCursor + 16;
             for (slotIndex = 0; slotIndex < 16; slotIndex++) {
                 headerByte = *headerCursor++;
-                slot = &gWiFiRaceSync->mUnk_3e4[slotIndex][participantIndex];
+                slot = &gWiFiRaceSync->mReceivedItemDataSlots[slotIndex][participantIndex];
                 slot->mItemKind = headerByte & 0x1f;
                 slot->mMessageKind = (headerByte & 0xe0) >> 5;
                 if (slot->mItemKind == 15) {
@@ -200,8 +201,8 @@ void ProcessOtherParticipantItemData(void) {
             gWiFiRaceSync->mEntries[participantIndex].mUnk_86_0 != 0) {
             for (slotIndex = 0; slotIndex < 16; slotIndex++) {
                 p = gWiFiRaceSync;
-                slot = &p->mUnk_3e4[slotIndex][participantIndex];
-                handledFlag = &p->mUnk_6e4[slotIndex][participantIndex];
+                slot = &p->mReceivedItemDataSlots[slotIndex][participantIndex];
+                handledFlag = &p->mItemDataHandled[slotIndex][participantIndex];
                 if (slot->mItemKind == 15) {
                     *handledFlag = 0;
                 } else if (*handledFlag == 0) {
@@ -211,7 +212,7 @@ void ProcessOtherParticipantItemData(void) {
                         data = slot->mData;
                     }
                     if (slot->mMessageKind <= 1) {
-                        func_0205a630(participantIndex);
+                        ApplyParticipantPendingItem(participantIndex);
                     }
                     ProcessItemDataMessage(slot->mItemKind, slot->mMessageKind, data,
                                            gParticipantKartMap->mKartOfParticipant[participantIndex]);

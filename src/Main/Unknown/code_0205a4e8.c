@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_0205a4e8.h"
 #include "Main/Unknown/unk_0217a000.h"
 
-Unk0217aa14_104_20 *func_0205a4e8(u32 entryIndex, u32 halfwordIndex) {
+Unk0217aa14_104_20 *GetEntrySlotResultSyncHalfword(u32 entryIndex, u32 halfwordIndex) {
     WiFiRaceSyncEntry *entry = &gWiFiRaceSync->mEntries[entryIndex];
-    return &entry->mUnk_20[halfwordIndex];
+    return &entry->mSlotResultSyncs[halfwordIndex];
 }

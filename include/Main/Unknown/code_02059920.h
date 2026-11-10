@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-// Object passed to func_02059920: a word at 4 and a pointer with its size.
+// Object passed to MPChunkPortCallback: a word at 4 and a pointer with its size.
 typedef struct Unk02059920 {
     /* 00 */ u8 mUnk_00[2];
     /* 02 */ u16 mUnk_02;
@@ -12,4 +12,4 @@ typedef struct Unk02059920 {
     /* 10 */ u16 mUnk_10;
 } Unk02059920;
 
-void func_02059920(Unk02059920 *a);
+void MPChunkPortCallback(Unk02059920 *event);

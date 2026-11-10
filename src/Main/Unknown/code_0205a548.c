@@ -13,8 +13,8 @@ void AddItemData(u32 itemKind, u32 messageKind, void *data, u8 size) {
     u16 slotIndex;
 
     for (slotIndex = 0; slotIndex < 16; slotIndex++) {
-        slot = &gWiFiRaceSync->mUnk_324[slotIndex];
-        if (slot->mUnk_08 == 0) {
+        slot = &gWiFiRaceSync->mItemDataSlots[slotIndex];
+        if (slot->mState == 0) {
             goto found;
         }
     }
@@ -22,8 +22,8 @@ void AddItemData(u32 itemKind, u32 messageKind, void *data, u8 size) {
 found:
     slot->mItemKind = itemKind;
     slot->mMessageKind = messageKind;
-    slot->mUnk_08 = 1;
-    slot->mUnk_00 = gWiFiRaceSync->mSyncFrames + 0x28;
+    slot->mState = 1;
+    slot->mSendUntilSyncFrame = gWiFiRaceSync->mSyncFrames + 0x28;
     MI_CpuFill8(slot->mData, 0, 20);
     if (size == 0) {
         slot->mDataSize = 0;
@@ -33,84 +33,84 @@ found:
     slot->mDataSize = size;
 }
 
-void func_0205a7dc(s32 participantIndex, u16 remaining, s32 itemIndex, s32 state) {
-    Unk0217aa14_754_04_20 *entry;
+void SetSendSlotResultSync(s32 participantIndex, u16 remaining, s32 itemIndex, s32 state) {
+    SlotResultSyncHalfword *entry;
 
-    entry = &((Unk0217aa14_754_04 *) (void *) &gWiFiRaceSync->mSendBuffer->mUnk_04)->mUnk_20[participantIndex];
-    entry->mUnk_00_0 = remaining;
-    entry->mUnk_00_7 = itemIndex;
-    entry->mUnk_00_12 = state;
+    entry = &((WiFiRaceSyncRecord *) (void *) &gWiFiRaceSync->mSendBuffer->mUnk_04)->mSlotResultSyncs[participantIndex];
+    entry->mFramesRemaining = remaining;
+    entry->mItemInfoIndex = itemIndex;
+    entry->mState = state;
 }
 
-void func_0205a7ac(s32 participantIndex) {
-    Unk0217aa14_754_04 *p = (void *) &gWiFiRaceSync->mSendBuffer->mUnk_04;
-    MI_CpuFill8(&p->mUnk_20[participantIndex], 0, 2);
+void ClearSendSlotResultSync(s32 participantIndex) {
+    WiFiRaceSyncRecord *payload = (void *) &gWiFiRaceSync->mSendBuffer->mUnk_04;
+    MI_CpuFill8(&payload->mSlotResultSyncs[participantIndex], 0, 2);
 }
 
-void func_0205a750(s32 itemIndex) {
-    Unk0217aa14_104_68 *view;
-    s32 t;
+void StartOwnSlotResultSync(s32 itemIndex) {
+    SlotResultSyncState *view;
+    s32 syncFrames;
 
     view = &gWiFiRaceSync->mEntries[GetOwnParticipantIndex()].mUnk_68_view;
-    view->mUnk_0e = 0;
-    t = gWiFiRaceSync->mSyncFrames;
-    view->mUnk_0c = 2;
-    view->mUnk_00 = itemIndex;
-    view->mUnk_08 = t + 0x78;
-    view->mUnk_04 = 0x13;
+    view->mSendCount = 0;
+    syncFrames = gWiFiRaceSync->mSyncFrames;
+    view->mState = 2;
+    view->mItemInfoIndex = itemIndex;
+    view->mEndSyncFrame = syncFrames + 0x78;
+    view->mPendingItemInfoIndex = 0x13;
 }
 
-void func_0205a71c(s32 participantIndex) {
+void StartParticipantResultPending(s32 participantIndex) {
     StartItemSlotResultPending(&gKartItems[(u8) gParticipantKartMap->mKartOfParticipant[participantIndex]]);
 }
 
-void func_0205a6b4(void) {
+void InitSlotResultSyncStates(void) {
     u16 participantIndex;
-    Unk0217aa14_104_68 *view;
+    SlotResultSyncState *view;
 
     for (participantIndex = 0; participantIndex < 4;) {
         view = &gWiFiRaceSync->mEntries[participantIndex].mUnk_68_view;
         participantIndex++;
-        view->mUnk_00 = 0x13;
-        view->mUnk_04 = 0x13;
-        view->mUnk_08 = 0;
-        view->mUnk_0c = 0;
+        view->mItemInfoIndex = 0x13;
+        view->mPendingItemInfoIndex = 0x13;
+        view->mEndSyncFrame = 0;
+        view->mState = 0;
         view->mUnk_10 = 0x13;
         view->mUnk_14 = 0;
     }
 }
 
-s32 func_0205a630(s32 participantIndex) {
+BOOL ApplyParticipantPendingItem(s32 participantIndex) {
     BOOL result;
     s32 itemInfoIndex;
 
-    itemInfoIndex = gWiFiRaceSync->mEntries[participantIndex].mUnk_6c;
+    itemInfoIndex = gWiFiRaceSync->mEntries[participantIndex].mPendingItemInfoIndex;
     result = FALSE;
     if (func_020efd84(&gKartItems[(u8) gParticipantKartMap->mKartOfParticipant[participantIndex]], itemInfoIndex) !=
         FALSE) {
-        gWiFiRaceSync->mEntries[participantIndex].mUnk_6c = 0x13;
+        gWiFiRaceSync->mEntries[participantIndex].mPendingItemInfoIndex = 0x13;
         result = TRUE;
     }
     return result;
 }
 
 void ResetParticipantHeldItem(u32 participantIndex) {
-    Unk0217aa14_104_68 *view;
+    SlotResultSyncState *view;
 
     view = &gWiFiRaceSync->mEntries[participantIndex].mUnk_68_view;
-    if (view->mUnk_0c != 0) {
+    if (view->mState != 0) {
         return;
     }
-    view->mUnk_04 = 0x13;
+    view->mPendingItemInfoIndex = 0x13;
     ResetHeldItem(&gKartItems[(u16) gParticipantKartMap->mKartOfParticipant[participantIndex]].mHeldItem);
 }
 
 void SetParticipantHeldItem(s32 participantIndex, s32 itemInfoIndex, s32 count) {
-    Unk0217aa14_104_68 *view;
+    SlotResultSyncState *view;
 
     view = &gWiFiRaceSync->mEntries[participantIndex].mUnk_68_view;
-    view->mUnk_00 = itemInfoIndex;
-    view->mUnk_04 = itemInfoIndex;
+    view->mItemInfoIndex = itemInfoIndex;
+    view->mPendingItemInfoIndex = itemInfoIndex;
     SetHeldItemWithCount(&gKartItems[(u16) gParticipantKartMap->mKartOfParticipant[participantIndex]].mHeldItem,
                          itemInfoIndex, count);
 }

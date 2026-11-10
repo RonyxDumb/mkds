@@ -19,11 +19,11 @@ void ResetCupRecords(void) {
     for (course = 0; course < 4; course++) {
         for (kart = 0; kart < 8; kart++) {
             record = &cupRecords->mKartResults[course][kart];
-            record->mUnk_03 = 0;
-            record->mUnk_04 = 0;
+            record->mRank = 0;
+            record->mPoints = 0;
             record->mTotalPoints = 0;
             record->mWinCount = 0;
-            record->mUnk_02 = 0;
+            record->mCupRank = 0;
             record->mFinishTime.mMinute = 0;
             record->mFinishTime.mSecond = 0;
             record->mFinishTime.mMillisecond = 0;
@@ -43,7 +43,7 @@ void ResetCupRecords(void) {
     } else {
         gCupRecords->mUnk_164_0 = 0;
     }
-    cupRecords->mUnk_140 = 0;
+    cupRecords->mScore = 0;
 }
 
 u8 GetCourseIndexInCup(void) {
@@ -86,8 +86,8 @@ void SetKartCourseResult(u32 kart, s32 rank, u32 points) {
         winCount = gCupRecords->mKartResults[j][(u8) kart].mWinCount;
     }
     record = &gCupRecords->mKartResults[(u8) course][(u8) kart];
-    record->mUnk_03 = rank;
-    record->mUnk_04 = points;
+    record->mRank = rank;
+    record->mPoints = points;
     record->mTotalPoints = previousTotal + points;
     if (record->mTotalPoints > 9999) {
         record->mTotalPoints = 9999;
@@ -105,33 +105,33 @@ void ClearKartCourseTotalPoints(u32 kart) {
     gCupRecords->mKartResults[(u8) ((gRaceSetup->mCourseNumber - 1) % 4)][(u8) kart].mTotalPoints = 0;
 }
 
-void func_0205d88c(u32 kart, s32 b) {
+void SetBattleKartCourseResult(u32 kart, s32 isAlive) {
     RaceSetup *raceSetup;
-    s8 i;
-    s32 mode, course, k;
+    s8 previousCourse;
+    s32 mode, course, courseMinusOne;
     u8 winCount;
     KartCourseResult *record;
 
     raceSetup = gRaceSetup;
     course = (raceSetup->mCourseNumber - 1) % 4;
     mode = raceSetup->mMode;
-    k = (u8) course - 1;
-    i = k;
+    courseMinusOne = (u8) course - 1;
+    previousCourse = courseMinusOne;
     if (mode == MODE_BATTLE || mode == MODE_VS || mode == 5) {
-        if (i < 0) {
-            i = i + 4;
+        if (previousCourse < 0) {
+            previousCourse = previousCourse + 4;
         }
     }
-    if (i < 0) {
+    if (previousCourse < 0) {
         winCount = 0;
     } else {
-        winCount = gCupRecords->mKartResults[i][(u8) kart].mWinCount;
+        winCount = gCupRecords->mKartResults[previousCourse][(u8) kart].mWinCount;
     }
     record = &gCupRecords->mKartResults[(u8) course][(u8) kart];
-    record->mUnk_04 = 0;
-    record->mUnk_03 = 1;
+    record->mPoints = 0;
+    record->mRank = 1;
     record->mTotalPoints = 0;
-    if (b != 0) {
+    if (isAlive != 0) {
         winCount = winCount + 1;
     }
     if (winCount > 99) {
@@ -163,7 +163,7 @@ void GetKartCourseFinishTime(MinuteSecondMillisecondTime *finishTime, u32 kart, 
 }
 
 void SetKartCupRank(s32 kart, u8 rank) {
-    gCupRecords->mKartResults[(u8) ((gRaceSetup->mCourseNumber - 1) % 4)][(u8) kart].mUnk_02 = rank;
+    gCupRecords->mKartResults[(u8) ((gRaceSetup->mCourseNumber - 1) % 4)][(u8) kart].mCupRank = rank;
 }
 
 // Flags the team as winning this course and clears the flag of the other team.
@@ -236,7 +236,7 @@ s32 GetKartCupRank(u32 kart) {
     if (mode == MODE_GRAND_PRIX || mode == MODE_VS || mode == 5) {
         courseRecords = gCupRecords->mKartResults[(u8) ((gRaceSetup->mCourseNumber - 1) % 4)];
         record = &courseRecords[(u8) kart];
-        return record->mUnk_02;
+        return record->mCupRank;
     }
     return 0;
 }
@@ -311,7 +311,7 @@ u8 GetKartStartRank(u32 kart) {
         if (previousCourse < 0) {
             rank = raceSetup->mKartCount - kart;
         } else {
-            rank = gCupRecords->mKartResults[previousCourse][(u8) kart].mUnk_03;
+            rank = gCupRecords->mKartResults[previousCourse][(u8) kart].mRank;
         }
     } else {
         rank = raceSetup->mKartCount - kart;
@@ -322,67 +322,69 @@ u8 GetKartStartRank(u32 kart) {
     return rank;
 }
 
-s32 func_0205d190(void) {
+// 0 to 7 from the Grand Prix score and the entry kart's total points; stored in the Grand Prix record.
+s32 ComputeGrandPrixRecordValue(void) {
     RaceSetup *raceSetup;
     CupRecords *cupRecords;
-    s32 a, x, y, z;
+    s32 score, scoreBucket, pointsBucket, bucketSum;
     u16 totalPoints, entryIndex;
-    u32 d;
+    u32 entryKartIndex;
 
     raceSetup = gRaceSetup;
     cupRecords = gCupRecords;
     entryIndex = raceSetup->mEntryIndex;
-    a = cupRecords->mUnk_140;
-    d = (u8) entryIndex;
-    totalPoints = cupRecords->mKartResults[(u8) ((raceSetup->mCourseNumber - 1) % 4)][(u8) d].mTotalPoints;
-    if (a >= 1000) {
-        x = 0;
-    } else if (a >= 700) {
-        x = 1;
-    } else if (a >= 400) {
-        x = 2;
-    } else if (a >= 200) {
-        x = 3;
-    } else if (a >= 0) {
-        x = 4;
+    score = cupRecords->mScore;
+    entryKartIndex = (u8) entryIndex;
+    totalPoints = cupRecords->mKartResults[(u8) ((raceSetup->mCourseNumber - 1) % 4)][(u8) entryKartIndex].mTotalPoints;
+    if (score >= 1000) {
+        scoreBucket = 0;
+    } else if (score >= 700) {
+        scoreBucket = 1;
+    } else if (score >= 400) {
+        scoreBucket = 2;
+    } else if (score >= 200) {
+        scoreBucket = 3;
+    } else if (score >= 0) {
+        scoreBucket = 4;
     } else {
-        x = 5;
+        scoreBucket = 5;
     }
     if (totalPoints >= 40) {
-        y = 0;
+        pointsBucket = 0;
     } else if (totalPoints >= 36) {
-        y = 1;
+        pointsBucket = 1;
     } else if (totalPoints >= 30) {
-        y = 2;
+        pointsBucket = 2;
     } else if (totalPoints >= 20) {
-        y = 3;
+        pointsBucket = 3;
     } else {
-        y = 4;
+        pointsBucket = 4;
     }
-    z = x + y;
-    if (z >= 8) {
-        z = 7;
+    bucketSum = scoreBucket + pointsBucket;
+    if (bucketSum >= 8) {
+        bucketSum = 7;
     }
-    return 7 - z;
+    return 7 - bucketSum;
 }
 
-s32 func_0205d140(void) {
-    s32 a;
+// 2 to 7 from the Mission Run score; stored in the Mission Run record.
+s32 ComputeMissionRecordValue(void) {
+    s32 score;
 
-    a = gCupRecords->mUnk_140;
-    if (a >= 100) {
+    score = gCupRecords->mScore;
+    if (score >= 100) {
         return 7;
     }
-    if (a >= 90) {
+    if (score >= 90) {
         return 6;
     }
-    if (a >= 70) {
+    if (score >= 70) {
         return 5;
     }
-    if (a >= 50) {
+    if (score >= 50) {
         return 4;
     }
-    if (a >= 0) {
+    if (score >= 0) {
         return 3;
     }
     return 2;

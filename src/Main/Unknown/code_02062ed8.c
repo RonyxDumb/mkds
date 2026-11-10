@@ -75,7 +75,7 @@ void func_020637c4(Kart *kart) {
 
 void func_020636f8(Kart *kart) {
     ParticipantKartRecordState *b;
-    Unk0217aa14_754_04 *recordBase;
+    WiFiRaceSyncRecord *recordBase;
     ParticipantKartRecord *record;
 
     recordBase = &gWiFiRaceSync->mSendBuffer->mUnk_04;

@@ -222,7 +222,7 @@ void FinishRemainingWiFiRaceKarts(void) {
                 }
             }
             ComputeRaceTime(&finishTime->mMinute, &finishTime->mSecond, &finishTime->mMillisecond, u, frames);
-            func_0205ae8c(kartIndex);
+            SubtractDroppedFromRank(kartIndex);
             FinishRaceProgressKart(raceProgressKart, finished);
         }
     }
@@ -328,9 +328,9 @@ void FinishRaceProgressKart(RaceProgressKart *raceProgressKart, s32 finished) {
             raceProgressKart->mScore = ComputeRaceProgressKartScore((u32) (raceProgressKart->mUnk_3c << 24) >> 28);
             score = raceProgressKart->mScore;
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-                gCupRecords->mUnk_140 = score;
+                gCupRecords->mScore = score;
             } else {
-                gCupRecords->mUnk_140 += score;
+                gCupRecords->mScore += score;
             }
         }
     }
