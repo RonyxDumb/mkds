@@ -15,4 +15,4 @@ void AdvanceKeyboardState1(void);
 void UpdateKeyboardFriendKeyButtons(void);
 // Handler of state 0 of the Keyboard mState switch in AdvanceKeyboard.
 void AdvanceKeyboardState0(void);
-void func_02129c18(void);
+void InitKeyboardDisplay(void);

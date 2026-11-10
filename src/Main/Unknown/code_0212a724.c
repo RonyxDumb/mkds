@@ -5,7 +5,7 @@
 #include "Main/Unknown/code_02124094.h"
 #include "Main/Unknown/code_02120610.h"
 
-s32 func_0212a8d0(void) {
+BOOL IsLocateFriendOnWithBuddyStatus4(void) {
     BOOL result = FALSE;
     if (!data_0217aa08->mFirstBlock->mLocateFriendOff) {
         if (HasWiFiBuddyStatus4() != FALSE) {
@@ -24,21 +24,22 @@ void InitKeyboardLabelCanvases(void) {
         {{16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}}};
     s32 i;
     s32 j;
-    s32 l;
+    s32 bufferIndex;
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 2; j++) {
-            remaining[1] -= InitLabelCanvas(
-                gKeyboard->mHeap, data_0215d0e4[i][j], gKeyboard->mBnlls[i], buttonSizes[i][j][0], buttonSizes[i][j][1],
-                data_0215d128[i][j][0], gKeyboard->mNcer, gKeyboard->mBncls[i], gKeyboard->mTables[i][1], remaining[1]);
+            remaining[1] -=
+                InitLabelCanvas(gKeyboard->mHeap, gKeyboardButtonLabelIndices[i][j], gKeyboard->mBnlls[i],
+                                buttonSizes[i][j][0], buttonSizes[i][j][1], gKeyboardButtonEntryIndices[i][j][0],
+                                gKeyboard->mNcer, gKeyboard->mBncls[i], gKeyboard->mTables[i][1], remaining[1]);
         }
     }
     for (j = 0; j < 2; j++) {
-        for (l = 0; l < 2; l++) {
+        for (bufferIndex = 0; bufferIndex < 2; bufferIndex++) {
             for (i = 0; i < gKeyboardTextLimits[j]; i++) {
-                remaining[l] -=
-                    InitLabelCanvas(gKeyboard->mHeap, data_0215d134[j][i], gKeyboard->mBnlls[j], charSizes[j][i][0],
-                                    charSizes[j][i][1], data_0215d14c[j][i], gKeyboard->mNcer, gKeyboard->mBncls[j],
-                                    gKeyboard->mTables[j][l], remaining[l]);
+                remaining[bufferIndex] -= InitLabelCanvas(
+                    gKeyboard->mHeap, gKeyboardTextCharLabelIndices[j][i], gKeyboard->mBnlls[j], charSizes[j][i][0],
+                    charSizes[j][i][1], gKeyboardTextIndexEntryIndices[j][i], gKeyboard->mNcer, gKeyboard->mBncls[j],
+                    gKeyboard->mTables[j][bufferIndex], remaining[bufferIndex]);
             }
         }
     }

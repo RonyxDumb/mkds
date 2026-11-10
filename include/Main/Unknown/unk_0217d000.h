@@ -560,7 +560,7 @@ typedef struct SelectChoises {
     /* 82c */ u32 mToggleOnFirstTile;
     /* 830 */ u32 mToggleOffFirstTile;
     /* 834 */ Unk02023374 mCharCanvases[2];
-    /* 874 */ Unk0217d3f0_2178 mUnk_874[2];
+    /* 874 */ Unk0217d3f0_2178 mTextCanvases[2];
     /* 894 */ u8 *mCharBuffers[2];
     /* 89c */ s32 mFirstTileIndex;
     /* 8a0 */ u32 mUseCharBuffers;
@@ -587,35 +587,35 @@ typedef struct SelectReturn {
 
 // Records of 8 bytes: 0x80 of them start a RaceHudOamBuffer, and two are at member 0x10c of LinkLevelIcons
 // (AdvanceLinkLevelIcons copies 6 bytes of a record into one of those).
-typedef struct Unk0217d3fc_00_00 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u16 mUnk_04;
+typedef struct LinkLevelIconOam {
+    /* 00 */ u32 mPositionAndSizeBits;
+    /* 04 */ u16 mCharAndPaletteBits;
     /* 06 */ u8 mUnk_06[2];
-} Unk0217d3fc_00_00;
+} LinkLevelIconOam;
 
-// Object behind data_0217d3fc: 0x808 bytes allocated by InitKeyboardScene, two RaceHudOamBuffers.
-typedef struct Unk0217d3fc {
-    /* 000 */ RaceHudOamBuffer mUnk_00;
-    /* 404 */ RaceHudOamBuffer mUnk_404;
-} Unk0217d3fc;
+// Object behind gKeyboardScene: 0x808 bytes allocated by InitKeyboardScene, the main and sub OAM lists.
+typedef struct KeyboardScene {
+    /* 000 */ RaceHudOamBuffer mMainOam;
+    /* 404 */ RaceHudOamBuffer mSubOam;
+} KeyboardScene;
 
 // Objects of 0x18 bytes, three of them at 0x2c of Keyboard: 0 and 1 are read as halfword strings, 2 also as the
 // fields at 0x10, 0x14 and 0x16.
-typedef struct Unk0217d400_2c {
+typedef struct KeyboardRecord {
     /* 00 */ union {
         u16 mChars[12];
         struct {
             /* 00 */ u16 mUnk_00_0[8];
-            /* 10 */ s32 mUnk_10;
-            // Mode of the screen as passed in by the scene (0xc, 7 or 0xb); element 2 of Keyboard.mUnk_2c only: in
+            /* 10 */ s32 mFirstButtonChosen;
+            // Mode of the screen as passed in by the scene (0xc, 7 or 0xb); element 2 of Keyboard.mRecords only: in
             // element 0 these bytes are character 10 of the text.
             /* 14 */ s16 mMode;
-            // Scene to run when the keyboard ends, -1 until set; element 2 of Keyboard.mUnk_2c only: in element 0
+            // Scene to run when the keyboard ends, -1 until set; element 2 of Keyboard.mRecords only: in element 0
             // these bytes are character 11 of the text.
             /* 16 */ s16 mNextScene;
         };
     };
-} Unk0217d400_2c;
+} KeyboardRecord;
 
 // Object behind gKeyboard: 0xc4 bytes allocated by InitKeyboard.
 typedef struct Keyboard {
@@ -635,7 +635,7 @@ typedef struct Keyboard {
     // only while GetTxtSystemDone or IsTxtSystemState0NoOpenRequest returns non-zero; zeroed by the handler that
     // leaves; the slide states hold it at 0xf.
     /* 28 */ s32 mStateFrames;
-    /* 2c */ Unk0217d400_2c mUnk_2c[3];
+    /* 2c */ KeyboardRecord mRecords[3];
     // Object tables of the keyboard, indexed by kind and by the buffer they are drawn to.
     /* 74 */ LayoutTableEntry *mTables[2][2];
     // Vertical shift in lines of the whole screen (0xc0 = slid out of view, 0 = in place); also stored negated into the
@@ -660,10 +660,10 @@ typedef struct CharTile {
     /* 00 */ u8 mUnk_00[0x20];
 } CharTile;
 
-typedef struct Unk0217d404_28 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-} Unk0217d404_28;
+typedef struct LinkLevelIconPos {
+    /* 00 */ s32 mX;
+    /* 04 */ s32 mY;
+} LinkLevelIconPos;
 
 // Object behind gLinkLevelIcons: 0x11c bytes allocated by InitLinkLevelIcons.
 typedef struct LinkLevelIcons {
@@ -671,12 +671,12 @@ typedef struct LinkLevelIcons {
     /* 014 */ s32 mIconKind[2];
     /* 01c */ s32 mIconLevel[2];
     /* 024 */ s32 mCycleFrames;
-    /* 028 */ Unk0217d404_28 mUnk_028[2];
+    /* 028 */ LinkLevelIconPos mIconPositions[2];
     /* 038 */ RaceHudOamBuffer *mOamList;
-    /* 03c */ u8 mUnk_03c[0x20];
+    /* 03c */ u8 mZeroChars[0x20];
     /* 05c */ u8 mUnk_05c[0x60];
     /* 0bc */ CharTile *mIconChars[5][4];
-    /* 10c */ Unk0217d3fc_00_00 mOamRecords[2];
+    /* 10c */ LinkLevelIconOam mOamRecords[2];
 } LinkLevelIcons;
 
 // Object behind gMessageScreen: 0x1a44 bytes allocated by InitMessageScreen; the 0x20 bytes at 0x14 are set up by
@@ -716,9 +716,9 @@ typedef struct StaffRollText {
     /* 020 */ u8 mCharCanvas[0x20];
     /* 040 */ TextCanvas mTextCanvas;
     /* 050 */ u8 mCharBuffer[0x800];
-    /* 850 */ s8 mUnk_850;
+    /* 850 */ s8 mTextColor;
     /* 851 */ u8 mUnk_851[3];
-    /* 854 */ s32 mUnk_854;
+    /* 854 */ s32 mAlignFlags;
     /* 858 */ void *mHeap;
 } StaffRollText;
 
@@ -752,7 +752,7 @@ extern SceneText *gSceneText;
 extern TxtSystem *gTxtSystem;
 extern SelectChoises *gSelectChoises;
 extern SelectReturn *gSelectReturn;
-extern Unk0217d3fc *data_0217d3fc;
+extern KeyboardScene *gKeyboardScene;
 extern Keyboard *gKeyboard;
 extern MessageScreen *gMessageScreen;
 extern u32 gThunderShrinkSoundCounter;

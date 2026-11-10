@@ -173,12 +173,12 @@ void PrintMessageScreenText(void) {
     GX_LoadBG1Scr(gMessageScreen->mScreenMap, 0, 0x600);
 }
 
-void func_0212ae2c(void) {
-    u16 a[11];
-    a[0] = 0;
-    MIi_CpuClear16(a[0], &a[1], 0x14);
-    FormatAsciiNumber(GetWiFiSessionErrorCodeNegated(), &a[1]);
-    FormatMessageWithText(&a[1], gMessageScreen->mText, gMessageScreen->mScreenMap, 0x600);
+void FormatMessageScreenErrorCode(void) {
+    u16 text[11];
+    text[0] = 0;
+    MIi_CpuClear16(text[0], &text[1], 0x14);
+    FormatAsciiNumber(GetWiFiSessionErrorCodeNegated(), &text[1]);
+    FormatMessageWithText(&text[1], gMessageScreen->mText, gMessageScreen->mScreenMap, 0x600);
     gMessageScreen->mText = gMessageScreen->mScreenMap;
 }
 
@@ -190,7 +190,7 @@ void OpenMessageScreen(s32 messageKind, s32 inputEnabled) {
         gMessageScreen->mKind = messageKind;
         gMessageScreen->mText = GetMessageScreenText();
         if (gMessageScreen->mKind == 4) {
-            func_0212ae2c();
+            FormatMessageScreenErrorCode();
         }
         PrintMessageScreenText();
         if (GetCurrentSceneNumber() == 2) {
@@ -219,10 +219,10 @@ void OpenMessageScreen(s32 messageKind, s32 inputEnabled) {
 void InitLinkLevelIcons(void *heap, void *oamList) {
     s32 i;
     LinkLevelIcons *linkLevelIcons;
-    Unk0217d3fc_00_00 *oam;
+    LinkLevelIconOam *oam;
     gLinkLevelIcons = HeapAlloc(heap, 0x11c);
     gLinkLevelIcons->mOamList = oamList;
-    MI_CpuFill8(gLinkLevelIcons->mUnk_03c, 0, 0x20);
+    MI_CpuFill8(gLinkLevelIcons->mZeroChars, 0, 0x20);
     gLinkLevelIcons->mCycleFrames = 0;
     for (i = 0; i < 5; i++) {
         gLinkLevelIcons->mIconEnabled[i] = 0;
@@ -262,9 +262,9 @@ void InitLinkLevelIcons(void *heap, void *oamList) {
     for (i = 0; i < 2; i++) {
         linkLevelIcons = gLinkLevelIcons;
         oam = &linkLevelIcons->mOamRecords[i];
-        oam->mUnk_00 = ((linkLevelIcons->mUnk_028[i].mUnk_00 & 0x1ff) << 16) |
-                       ((linkLevelIcons->mUnk_028[i].mUnk_04 & 0xff) | 0x40000000);
-        oam->mUnk_04 = (0x400 - (i + 1) * 4) | 0xd000;
+        oam->mPositionAndSizeBits = ((linkLevelIcons->mIconPositions[i].mX & 0x1ff) << 16) |
+                                    ((linkLevelIcons->mIconPositions[i].mY & 0xff) | 0x40000000);
+        oam->mCharAndPaletteBits = (0x400 - (i + 1) * 4) | 0xd000;
     }
 }
 #pragma thumb off
@@ -281,30 +281,31 @@ void SetupLinkLevelIcons(void) {
     Ncgr *chars;
     Unk02021dc8 *cells;
     Nclr *palette;
-    void *a;
+    void *searchIconCellLayout;
     Unk0201ea30 *cellLayout;
     DownloadScreenFiles *loadedFiles;
     CellLayoutEntry *cellEntry;
     s32 j;
     loadedFiles = GetDownloadScreenFiles();
-    a = loadedFiles->mSearchIconCellLayout;
+    searchIconCellLayout = loadedFiles->mSearchIconCellLayout;
     cellLayout = loadedFiles->mSearchIconLayoutCellLayout;
     chars = loadedFiles->mSearchIconChars;
     cells = loadedFiles->mSearchIconCells;
     palette = loadedFiles->mSearchIconPalette;
     for (i = 0; i < 5; i++) {
-        for (j = 0; j < data_0215d168[i]; j++) {
+        for (j = 0; j < gLinkLevelIconCharCounts[i]; j++) {
             gLinkLevelIcons->mIconChars[i][j] =
-                (CharTile *) chars->mData + GetCellCharIndex(data_0215d170[i][j], cells, a);
+                (CharTile *) chars->mData +
+                GetCellCharIndex(gLinkLevelIconCharCellEntryIndices[i][j], cells, searchIconCellLayout);
         }
     }
     for (i = 0; i < 2; i++) {
-        cellEntry = func_0201ea30(cellLayout, data_0215d164[i]);
-        gLinkLevelIcons->mUnk_028[i].mUnk_00 = func_0201ebe8(cellEntry->mUnk_00_0, 0x10);
-        gLinkLevelIcons->mUnk_028[i].mUnk_04 = func_0201eba0(cellEntry->mUnk_00_2, 0x10);
+        cellEntry = func_0201ea30(cellLayout, gLinkLevelIconSlotCellEntryIndices[i]);
+        gLinkLevelIcons->mIconPositions[i].mX = func_0201ebe8(cellEntry->mUnk_00_0, 0x10);
+        gLinkLevelIcons->mIconPositions[i].mY = func_0201eba0(cellEntry->mUnk_00_2, 0x10);
     }
     for (i = 0; i < 2; i++) {
-        CallQueueAppend(0x13, (0x400 - (i + 1) * 4) << 5, gLinkLevelIcons->mUnk_03c, 0x80);
+        CallQueueAppend(0x13, (0x400 - (i + 1) * 4) << 5, gLinkLevelIcons->mZeroChars, 0x80);
     }
     CallQueueAppend(0xe, 0x1a0, palette->mData + 0xd0, 0x20);
 }
@@ -344,7 +345,7 @@ void UpdateLinkLevelIconTiles(void) {
     }
     for (i = 0; i < 2; i++) {
         if (gLinkLevelIcons->mIconKind[i] == -1) {
-            CallQueueAppend(0x13, (0x400 - (i + 1) * 4) << 5, gLinkLevelIcons->mUnk_03c, 0x80);
+            CallQueueAppend(0x13, (0x400 - (i + 1) * 4) << 5, gLinkLevelIcons->mZeroChars, 0x80);
         } else {
             CallQueueAppend(0x13, (0x400 - (i + 1) * 4) << 5,
                             gLinkLevelIcons->mIconChars[gLinkLevelIcons->mIconKind[i]][gLinkLevelIcons->mIconLevel[i]],
@@ -355,15 +356,15 @@ void UpdateLinkLevelIconTiles(void) {
 
 void AdvanceLinkLevelIcons(void) {
     s32 i;
-    u32 slotValue;
+    u32 iconKind;
     gLinkLevelIcons->mCycleFrames++;
     if (gLinkLevelIcons->mCycleFrames > 0x78) {
         gLinkLevelIcons->mCycleFrames = 0;
     }
     UpdateLinkLevelIconTiles();
     for (i = 0; i < 2; i++) {
-        slotValue = gLinkLevelIcons->mIconKind[i];
-        if (gLinkLevelIcons->mCycleFrames < 0x69 || slotValue <= 1) {
+        iconKind = gLinkLevelIcons->mIconKind[i];
+        if (gLinkLevelIcons->mCycleFrames < 0x69 || iconKind <= 1) {
             MIi_CpuCopy16(&gLinkLevelIcons->mOamRecords[i],
                           &gLinkLevelIcons->mOamList->mOams[gLinkLevelIcons->mOamList->mOamCount], 6);
             gLinkLevelIcons->mOamList->mOamCount++;

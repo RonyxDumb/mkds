@@ -2,8 +2,8 @@
 
 #include "types.h"
 
-s32 IsSelectReturnState0NoState1Request(void);
-s32 IsSelectReturnState2NoState3Or4Request(void);
+BOOL IsSelectReturnState0NoState1Request(void);
+BOOL IsSelectReturnState2NoState3Or4Request(void);
 void RequestSelectReturnState4(void);
 void RequestSelectReturnState3WithSound(s32 requestState4);
 void RequestSelectReturnState1(void);

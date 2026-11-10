@@ -5,12 +5,12 @@
 // Returns the scene number the Keyboard screen asks for (-1 = none yet); UpdateKeyboardScene copies it into
 // SceneNumbers.mNextScene when it is not -1.
 u32 GetKeyboardNextScene(void);
-void func_0212899c(void);
+void WriteKeyboardRegisters(void);
 // Advances the Keyboard screen by one step: takes mNextState as mState, runs the handler of that state
 // (AdvanceKeyboardState0 to AdvanceKeyboardState13) and then runs the cell and drawing helpers of the screen.
 void AdvanceKeyboard(void);
 void ShowKeyboardLayoutObject(void);
-void func_02128b54(void);
+void ShowKeyboardRemainingCharObjects(void);
 void ShowKeyboardTextIndexObject(void);
 void ShowKeyboardDisabledButtonObjects(void);
 void ShowKeyboardCursorButtonObjects(void);

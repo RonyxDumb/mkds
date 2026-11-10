@@ -22,7 +22,7 @@
 void InitKeyboardScene(s16 *sceneNumbers) {
     void *heap;
     heap = GetHeap(GetCurrentHeapCall());
-    data_0217d3fc = HeapAlloc(heap, 0x808);
+    gKeyboardScene = HeapAlloc(heap, 0x808);
     InitKeyboard(heap, sceneNumbers[0]);
 }
 #pragma thumb off
@@ -30,23 +30,23 @@ void InitKeyboardScene(s16 *sceneNumbers) {
 #pragma thumb on
 void ReleaseKeyboardScene(void) {
     ReleaseKeyboard();
-    data_0217d3fc = NULL;
+    gKeyboardScene = NULL;
 }
 #pragma thumb off
 
 SceneCallbacks gKeyboardSceneCallbacks = {
-    InitKeyboardScene, UpdateKeyboardScene, ReleaseKeyboardScene, func_0212891c, 0, 0, 10, 10, 0};
+    InitKeyboardScene, UpdateKeyboardScene, ReleaseKeyboardScene, WriteKeyboardSceneRegistersCallback, 0, 0, 10, 10, 0};
 
 #pragma thumb on
-void func_0212891c(void) {
-    func_0212899c();
-    UploadOamLists(data_0217d3fc, &data_0217d3fc->mUnk_404);
+void WriteKeyboardSceneRegistersCallback(void) {
+    WriteKeyboardRegisters();
+    UploadOamLists(gKeyboardScene, &gKeyboardScene->mSubOam);
 }
 
 void UpdateKeyboardScene(s16 *sceneNumbers) {
-    ClearOamListCounts(data_0217d3fc, &data_0217d3fc->mUnk_404);
+    ClearOamListCounts(gKeyboardScene, &gKeyboardScene->mSubOam);
     AdvanceKeyboard();
-    HideUnusedOams(data_0217d3fc, &data_0217d3fc->mUnk_404);
+    HideUnusedOams(gKeyboardScene, &gKeyboardScene->mSubOam);
     if (sceneNumbers != NULL) {
         if (GetKeyboardNextScene() != -1) {
             sceneNumbers[2] = GetKeyboardNextScene();
@@ -64,11 +64,11 @@ s32 RunKeyboardScene(void *sceneNumbers) {
 #pragma thumb on
 
 RaceHudOamBuffer *GetKeyboardFirstBuffer(void) {
-    return &data_0217d3fc->mUnk_00;
+    return &gKeyboardScene->mMainOam;
 }
 
 RaceHudOamBuffer *GetKeyboardSecondBuffer(void) {
-    return &data_0217d3fc->mUnk_404;
+    return &gKeyboardScene->mSubOam;
 }
 
 #pragma thumb off

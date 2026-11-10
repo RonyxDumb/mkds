@@ -10,4 +10,4 @@ extern SceneCallbacks gKeyboardSceneCallbacks;
 // calls RunScene. Returns 0.
 s32 RunKeyboardScene(void *sceneNumbers);
 void UpdateKeyboardScene(s16 *sceneNumbers);
-void func_0212891c(void);
+void WriteKeyboardSceneRegistersCallback(void);

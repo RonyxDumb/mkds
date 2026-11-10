@@ -161,7 +161,7 @@ void AdvanceSelectReturnState2(void) {
 void AdvanceSelectReturnState3(void) {
     SelectReturn *selectReturn;
     selectReturn = gSelectReturn;
-    selectReturn->mBg2Offset = data_0215d0b4[selectReturn->mStateFrames];
+    selectReturn->mBg2Offset = gSelectReturnState3Bg2Offsets[selectReturn->mStateFrames];
     gSelectReturn->mStateFrames++;
     selectReturn = gSelectReturn;
     if (selectReturn->mStateFrames >= 9) {
@@ -270,17 +270,17 @@ void RequestSelectReturnState4(void) {
     gSelectReturn->mState3Requested = FALSE;
 }
 
-s32 IsSelectReturnState2NoState3Or4Request(void) {
+BOOL IsSelectReturnState2NoState3Or4Request(void) {
     BOOL result;
-    BOOL t;
+    BOOL state2NoState4Request;
     SelectReturn *selectReturn;
     result = FALSE;
-    t = FALSE;
+    state2NoState4Request = FALSE;
     selectReturn = gSelectReturn;
     if (selectReturn->mState == 2 && selectReturn->mState4Requested == FALSE) {
-        t = TRUE;
+        state2NoState4Request = TRUE;
     }
-    if (t != FALSE) {
+    if (state2NoState4Request != FALSE) {
         if (selectReturn->mState3Requested == FALSE) {
             result = TRUE;
         }
@@ -288,7 +288,7 @@ s32 IsSelectReturnState2NoState3Or4Request(void) {
     return result;
 }
 
-s32 IsSelectReturnState0NoState1Request(void) {
+BOOL IsSelectReturnState0NoState1Request(void) {
     BOOL result;
     SelectReturn *selectReturn;
     result = FALSE;
@@ -309,7 +309,7 @@ int LookupSelectReturnState1Bg2Offset(int frame) {
     if (10 <= frame) {
         frame = 9;
     }
-    return data_0215d0c0[frame];
+    return gSelectReturnState1Bg2Offsets[frame];
 }
 
 int LookupSelectReturnState4Bg2Offset(int frame) {
@@ -319,7 +319,7 @@ int LookupSelectReturnState4Bg2Offset(int frame) {
     if (10 <= frame) {
         frame = 9;
     }
-    return data_0215d0cc[frame];
+    return gSelectReturnState4Bg2Offsets[frame];
 }
 
 #pragma thumb off
@@ -385,7 +385,7 @@ s32 InitSelectChoises(void *heap, void *font, s32 subCharOffset) {
         charCanvas = &gSelectChoises->mCharCanvases[i];
         charCanvas->mUnk_18(charCanvas, 0);
         charSpacing = IsLanguageJa();
-        textCanvas = &gSelectChoises->mUnk_874[i];
+        textCanvas = &gSelectChoises->mTextCanvases[i];
         textCanvas->mUnk_00 = &gSelectChoises->mCharCanvases[i];
         textCanvas->mUnk_04 = (u32) font;
         textCanvas->mUnk_08 = charSpacing;
@@ -417,21 +417,21 @@ void ClearSelectChoisesPointer(void) {
 
 #pragma thumb on
 u32 InitSelectChoisesDisplay(void) {
-    u32 value0;
+    u32 operandBits;
     u32 registerValue;
     u32 registerAddress;
     registerAddress = 0x4001008u;
     registerValue = *(const u16 *) ((registerAddress) + 0u);
-    value0 = 3u;
-    registerValue = (registerValue) & ~(value0);
+    operandBits = 3u;
+    registerValue = (registerValue) & ~(operandBits);
     *(u16 *) ((registerAddress) + 0u) = registerValue;
     registerValue = *(const u16 *) ((registerAddress) + 0u);
-    value0 = 67u;
-    registerValue = (registerValue) & (value0);
-    value0 = 0xb00u;
-    registerValue = (registerValue) | (value0);
+    operandBits = 67u;
+    registerValue = (registerValue) & (operandBits);
+    operandBits = 0xb00u;
+    registerValue = (registerValue) | (operandBits);
     *(u16 *) ((registerAddress) + 0u) = registerValue;
-    return value0;
+    return operandBits;
 }
 #pragma thumb off
 
@@ -441,7 +441,7 @@ s32 LoadSelectChoises(s32 subCharOffset) {
     Ncgr *chars;
     Nscr *screenMap;
     Nclr *palette;
-    s32 s;
+    s32 firstTileIndex;
     s32 i;
     s32 j;
     s32 tileColumn;
@@ -452,13 +452,13 @@ s32 LoadSelectChoises(s32 subCharOffset) {
     LocateNscr(&screenMap, FindFileInLoadedArchives(gSelectChoisesSBgNscrName));
     LocateNclr(&palette, FindFileInLoadedArchives(gSelectChoisesSBNclrName));
     subCharOffset = subCharOffset - chars->mDataSize;
-    s = subCharOffset >> 5;
-    gSelectChoises->mFirstTileIndex = s;
+    firstTileIndex = subCharOffset >> 5;
+    gSelectChoises->mFirstTileIndex = firstTileIndex;
     DC_FlushRange(chars->mData, chars->mDataSize);
     GXS_LoadBG0Char(chars->mData, subCharOffset, chars->mDataSize);
     for (i = 0; i < 32; i++) {
         for (j = 0; j < 32; j++) {
-            *(gSelectChoises->mNscrCopy + i * 32 + j) = s + *((u16 *) screenMap->mData + i * 32 + j);
+            *(gSelectChoises->mNscrCopy + i * 32 + j) = firstTileIndex + *((u16 *) screenMap->mData + i * 32 + j);
         }
     }
     DC_FlushRange(gSelectChoises->mNscrCopy, screenMap->mDataSize);
@@ -549,7 +549,7 @@ void RefreshAndQueueSelectChoises(void) {
     }
 }
 
-void func_02127d28(void) {
+void RefreshSelectChoisesPaletteNoIndex(void) {
     s32 savedIndex;
 
     savedIndex = gSelectChoises->mIndex;
@@ -589,7 +589,7 @@ void AdvanceSelectChoisesState0(void) {
     }
 }
 
-static inline BOOL func_02127a84_inline(u16 pointX, u16 pointY, u8 minX, u8 maxX, u8 minY, u8 maxY) {
+static inline BOOL SelectChoisesIsPointInByteRect(u16 pointX, u16 pointY, u8 minX, u8 maxX, u8 minY, u8 maxY) {
     if (pointX >= minX && pointX <= maxX && pointY >= minY && pointY <= maxY) {
         return TRUE;
     }
@@ -597,7 +597,7 @@ static inline BOOL func_02127a84_inline(u16 pointX, u16 pointY, u8 minX, u8 maxX
 }
 
 static inline s32 func_02127a84_inline2(u32 inputSlotIndex) {
-    BOOL r = FALSE;
+    BOOL result = FALSE;
     BOOL s = FALSE;
     u16 c = data_02175674[inputSlotIndex].mPressedBits;
 
@@ -605,9 +605,9 @@ static inline s32 func_02127a84_inline2(u32 inputSlotIndex) {
         s = TRUE;
     }
     if (s == FALSE && data_0217567c[inputSlotIndex].mPressedBits == 0 && c != 0) {
-        r = TRUE;
+        result = TRUE;
     }
-    return r;
+    return result;
 }
 
 void AdvanceSelectChoisesState1(void) {
@@ -627,19 +627,21 @@ void AdvanceSelectChoisesState1(void) {
     }
     hit = -1;
     if (func_02127a84_inline2(inputSlotIndex) != 0) {
-        if (func_02127a84_inline(touchX, touchY, gSelectChoisesHitRects[0].mMinX, gSelectChoisesHitRects[0].mMaxX,
-                                 gSelectChoisesHitRects[0].mMinY, gSelectChoisesHitRects[0].mMaxY) != FALSE) {
+        if (SelectChoisesIsPointInByteRect(touchX, touchY, gSelectChoisesHitRects[0].mMinX,
+                                           gSelectChoisesHitRects[0].mMaxX, gSelectChoisesHitRects[0].mMinY,
+                                           gSelectChoisesHitRects[0].mMaxY) != FALSE) {
             hit = 0;
         }
-        if (func_02127a84_inline(touchX, touchY, gSelectChoisesHitRects[1].mMinX, gSelectChoisesHitRects[1].mMaxX,
-                                 gSelectChoisesHitRects[1].mMinY, gSelectChoisesHitRects[1].mMaxY) != FALSE) {
+        if (SelectChoisesIsPointInByteRect(touchX, touchY, gSelectChoisesHitRects[1].mMinX,
+                                           gSelectChoisesHitRects[1].mMaxX, gSelectChoisesHitRects[1].mMinY,
+                                           gSelectChoisesHitRects[1].mMaxY) != FALSE) {
             hit = 1;
         }
     }
     keys = gInputSlots[inputSlotIndex].mPressedBits;
     if ((u16) (keys & PAD_KEY_A) != 0 || hit != -1) {
         if (hit == -1 || gSelectChoises->mIndex == hit) {
-            func_02127d28();
+            RefreshSelectChoisesPaletteNoIndex();
         } else {
             gSelectChoises->mIndex = hit;
             RefreshAndQueueSelectChoises();
@@ -768,8 +770,8 @@ void StartSelectChoises(void *firstText, void *secondText, s32 startOnSecond) {
     charCanvas->mUnk_18(charCanvas, 5);
     charCanvas = &gSelectChoises->mCharCanvases[1];
     charCanvas->mUnk_18(charCanvas, 5);
-    DrawTextInRectNoFixedAdvance(&gSelectChoises->mUnk_874[0], 0x28, 0, 0xd8, 0x10, 0xc, 0x480, 1, firstText);
-    DrawTextInRectNoFixedAdvance(&gSelectChoises->mUnk_874[1], 0x28, 0, 0xd8, 0x10, 0xc, 0x480, 1, secondText);
+    DrawTextInRectNoFixedAdvance(&gSelectChoises->mTextCanvases[0], 0x28, 0, 0xd8, 0x10, 0xc, 0x480, 1, firstText);
+    DrawTextInRectNoFixedAdvance(&gSelectChoises->mTextCanvases[1], 0x28, 0, 0xd8, 0x10, 0xc, 0x480, 1, secondText);
     ClearSelectChoisesUseCharBuffers();
     gSelectChoises->mUseCharBuffers = 1;
     RequestSelectChoisesState1();
@@ -789,7 +791,7 @@ void RequestSelectChoisesState0(void) {
     gSelectChoises->mState0Requested = 1;
 }
 
-u32 IsSelectChoisesState1NoState0Request(void) {
+BOOL IsSelectChoisesState1NoState0Request(void) {
     u32 result;
 
     result = 0;
@@ -799,7 +801,7 @@ u32 IsSelectChoisesState1NoState0Request(void) {
     return result;
 }
 
-s32 IsSelectChoisesState0NoState1Request(void) {
+BOOL IsSelectChoisesState0NoState1Request(void) {
     BOOL result;
 
     result = FALSE;

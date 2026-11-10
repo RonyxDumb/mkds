@@ -355,7 +355,7 @@ void UpdateRaceLinkLevel(void) {
     if (gRaceSetup->mMode == 5) {
         gRaceLinkLevel->mUnk_04 = GetWiFiLinkLevel();
         gRaceLinkLevel->mUnk_0c = gRaceLinkLevel->mUnk_10;
-        gRaceLinkLevel->mUnk_10 = func_0212a8d0();
+        gRaceLinkLevel->mUnk_10 = IsLocateFriendOnWithBuddyStatus4();
         if (gRaceLinkLevel->mUnk_10 != 0 && gRaceLinkLevel->mUnk_0c == 0) {
             NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x26);
         }

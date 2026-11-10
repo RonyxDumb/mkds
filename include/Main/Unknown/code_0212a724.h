@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-s32 func_0212a8d0(void);
+BOOL IsLocateFriendOnWithBuddyStatus4(void);
 void InitKeyboardLabelCanvases(void);

@@ -125,8 +125,8 @@ void InitStaffRollText(void *heap) {
     gStaffRollText->mScrollYRemaining = -1;
     gStaffRollText->mScrollYPerFrame = 0x70a;
     gStaffRollText->mCharSpacing = 1;
-    gStaffRollText->mUnk_850 = 1;
-    gStaffRollText->mUnk_854 = 0x240;
+    gStaffRollText->mTextColor = 1;
+    gStaffRollText->mAlignFlags = 0x240;
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | 0x100;
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~3) | 1;
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & 0x43) | 0x1000;
@@ -160,20 +160,20 @@ void AdvanceStaffRollTextState1(void) {
     u8 *textPosition;
     StaffRollText *staffRollText;
     u16 lineText[100];
-    s32 v;
+    s32 color;
     BOOL lineDone;
     s32 variant;
     s32 argument;
     u32 character;
-    s32 a;
+    s32 bgPositionY;
     StaffRollTag *tag;
     gStaffRollText->mScrollYFixed += gStaffRollText->mScrollYPerFrame;
-    a = (gStaffRollText->mScrollYFixed >> 12) - 8;
-    if (a < 0) {
-        a += 0x100;
+    bgPositionY = (gStaffRollText->mScrollYFixed >> 12) - 8;
+    if (bgPositionY < 0) {
+        bgPositionY += 0x100;
     }
-    a = a % 256;
-    MemFillWordsByBlock_inline((void *) (G2S_GetBG0CharPtr() + ((a >> 3) << 10)), 0x400);
+    bgPositionY = bgPositionY % 256;
+    MemFillWordsByBlock_inline((void *) (G2S_GetBG0CharPtr() + ((bgPositionY >> 3) << 10)), 0x400);
     staffRollText = gStaffRollText;
     if (staffRollText->mScrollYRemaining > 0) {
         staffRollText->mScrollYRemaining -= staffRollText->mScrollYPerFrame;
@@ -204,16 +204,16 @@ void AdvanceStaffRollTextState1(void) {
                 }
                 switch (variant) {
                     case 0:
-                        staffRollText->mUnk_854 = 0x40;
+                        staffRollText->mAlignFlags = 0x40;
                         switch (argument) {
                             case 0:
-                                gStaffRollText->mUnk_854 |= 0x200;
+                                gStaffRollText->mAlignFlags |= 0x200;
                                 break;
                             case 1:
-                                gStaffRollText->mUnk_854 |= 0x400;
+                                gStaffRollText->mAlignFlags |= 0x400;
                                 break;
                             case 2:
-                                gStaffRollText->mUnk_854 |= 0x800;
+                                gStaffRollText->mAlignFlags |= 0x800;
                                 break;
                         }
                         break;
@@ -222,7 +222,7 @@ void AdvanceStaffRollTextState1(void) {
                         staffRollText->mNextReadScrollY += argument << 16;
                         break;
                     case 2:
-                        staffRollText->mUnk_850 = argument * 2 + 1;
+                        staffRollText->mTextColor = argument * 2 + 1;
                         break;
                     case 3:
                         staffRollText->mCharSpacing = argument;
@@ -252,24 +252,24 @@ void AdvanceStaffRollTextState1(void) {
         }
     } while (lineDone == FALSE);
     MI_CpuFill8(gStaffRollText->mCharBuffer, 0, 0x800);
-    v = gStaffRollText->mUnk_850;
+    color = gStaffRollText->mTextColor;
     c = 0;
-    if (v == 3) {
+    if (color == 3) {
         c = 2;
     }
-    NNSi_G2dTextCanvasDrawTextRect(&gStaffRollText->mTextCanvas, 8, c, 0xf0, 0x10, v, gStaffRollText->mUnk_854,
+    NNSi_G2dTextCanvasDrawTextRect(&gStaffRollText->mTextCanvas, 8, c, 0xf0, 0x10, color, gStaffRollText->mAlignFlags,
                                    lineText);
     staffRollText = gStaffRollText;
-    a = (((staffRollText->mScrollYFixed >> 12) % 256) + 0xc0) >> 3;
-    a = a << 3;
-    if (a >= 0x100) {
-        a -= 0x100;
+    bgPositionY = (((staffRollText->mScrollYFixed >> 12) % 256) + 0xc0) >> 3;
+    bgPositionY = bgPositionY << 3;
+    if (bgPositionY >= 0x100) {
+        bgPositionY -= 0x100;
     }
-    if (a + 0x10 > 0x100) {
-        CallQueueAppend(0x14, a << 7, staffRollText->mCharBuffer, (0x100 - a) << 7);
-        CallQueueAppend(0x14, 0, &gStaffRollText->mCharBuffer[a << 7], (a - 0xf0) << 7);
+    if (bgPositionY + 0x10 > 0x100) {
+        CallQueueAppend(0x14, bgPositionY << 7, staffRollText->mCharBuffer, (0x100 - bgPositionY) << 7);
+        CallQueueAppend(0x14, 0, &gStaffRollText->mCharBuffer[bgPositionY << 7], (bgPositionY - 0xf0) << 7);
     } else {
-        CallQueueAppend(0x14, a << 7, staffRollText->mCharBuffer, 0x800);
+        CallQueueAppend(0x14, bgPositionY << 7, staffRollText->mCharBuffer, 0x800);
     }
 }
 
