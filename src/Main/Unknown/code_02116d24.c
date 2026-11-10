@@ -28,10 +28,10 @@ void AdvanceWait(void) {
         q = p->mNclr->mData;
         switch (p->mUnk_20) {
             case 0:
-                CallQueueAppend(0xe, p->mPaletteIndex << 5, q + 0xe0, 0x20);
+                NNS_GfdRegisterNewVramTransferTask(0xe, p->mPaletteIndex << 5, q + 0xe0, 0x20);
                 break;
             case 1:
-                CallQueueAppend(0x1e, p->mPaletteIndex << 5, q + 0xe0, 0x20);
+                NNS_GfdRegisterNewVramTransferTask(0x1e, p->mPaletteIndex << 5, q + 0xe0, 0x20);
                 break;
         }
     }

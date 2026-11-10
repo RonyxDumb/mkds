@@ -8,12 +8,11 @@
 // With a trap enabled the routines call a handler (FloatTrapPairPairToPair, FloatTrapPairToPair, FloatTrapPairToWord, FloatTrapWordToWord)
 // with an event code (high byte: the event, low byte: the operation) and return its result.
 //
-// Not compiled code: _dadd and the subtraction (_dsub, code_02130cb4.s) branch into each other past their first
-// instructions, and _d2f branches into the middle of the two blocks after it; a compiled function is entered only
-// at its start. All of it also uses tst, which the 1.2 compiler never builds (docs/compiler.md).
+// Hand-written asm: _dadd and the subtraction (_dsub, code_02130cb4.s) branch into each other past their first
+// instructions, and _d2f branches into the middle of the two blocks after it. All of it also uses tst.
 
     .text
-    .extern .L_02130cdc
+    .extern .L_dsub_same_sign
     .extern FloatTrapPairPairToPair
     .extern FloatTrapPairToPair
     .extern FloatTrapPairToWord
@@ -30,10 +29,10 @@ _dadd:
     stmfd sp!, {r0, r1, r2, r3, r4, lr}
     eors ip, r1, r3
     eormi r3, r3, #0x80000000           // different signs: negate the second operand
-    bmi .L_02130cdc                     // and subtract
+    bmi .L_dsub_same_sign                     // and subtract
     // Entry from the subtraction (same signs). Order the operands so that |r1:r0| >= |r3:r2|.
-    .global .L_0212f894
-.L_0212f894:
+    .global .L_dadd_same_sign
+.L_dadd_same_sign:
     subs ip, r0, r2
     sbcs lr, r1, r3
     bhs dadd_unpack
@@ -479,14 +478,14 @@ _d2f:
     and r2, r1, #0x80000000
     mov ip, r1, lsr #20
     bics ip, ip, #0x800
-    beq ff0c_zero_check
+    beq d2f_nan_zero_check
     mov r3, ip, lsl #21
     cmn r3, #0x200000
     bhs d2f_inf_or_nan                  // infinity or NaN
     subs ip, ip, #0x380
-    bls f40_small                       // too small
+    bls d2f_range_small                       // too small
     cmp ip, #255
-    bge f40_overflow                    // too large
+    bge d2f_range_overflow                    // too large
     // Pack sign, exponent and the top 23 bits; r1 = the 29 bits shifted out. Exact results return.
     mov r1, r1, lsl #12
     orr r3, r2, r1, lsr #9
@@ -501,7 +500,7 @@ _d2f:
     ldmfd sp!, {r0, r1, r2, r3, lr}
     ldr r3, [ip]
     tst r3, #0x1000
-    bne f40_trap_inexact
+    bne d2f_range_trap_inexact
     orr r3, r3, #0x10
     str r3, [ip]
     tst r3, #0x800000
@@ -521,7 +520,7 @@ d2f_round_up:
     cmn r1, #0x1000000
     bxlo lr
     tst r3, #0x400
-    bne f40_trap_overflow_round
+    bne d2f_range_trap_overflow_round
     orr r3, r3, #0x14
     str r3, [ip]
     bx lr
@@ -552,9 +551,9 @@ d2f_nan:
 
 // Part of _d2f: a NaN input. A quiet NaN gives 0x7fffffff; a signalling one also raises invalid (or traps). Not entered
 // at its start: _d2f branches to its last two instructions and into the middle.
-    .global func_0212ff0c
-    .type func_0212ff0c, @function
-func_0212ff0c:
+    .global DoubleToFloatNan
+    .type DoubleToFloatNan, @function
+DoubleToFloatNan:
     // A signalling NaN: raise invalid (or trap). A quiet or a signalling NaN gives 0x7fffffff.
     stmfd sp!, {r0, r1, r3, ip, lr}
     bl GetFloatStatus
@@ -562,23 +561,23 @@ func_0212ff0c:
     ldmfd sp!, {r0, r1, r3, ip, lr}
     ldr r3, [r2]
     tst r3, #0x100
-    bne f40_trap_invalid
+    bne d2f_range_trap_invalid
     orr r3, r3, #1
     str r3, [r2]
 d2f_nan_result:
     mvn r0, #0x80000000
     bx lr
     // Exponent 0: a zero gives a signed zero; a denormal is far too small for a float.
-ff0c_zero_check:
+d2f_nan_zero_check:
     orrs r3, r0, r1, lsl #12
-    beq f40_zero
-    .size func_0212ff0c, . - func_0212ff0c
+    beq d2f_range_zero
+    .size DoubleToFloatNan, . - DoubleToFloatNan
 
 // Part of _d2f: results too small for a normal float (underflow), too large (overflow), and the trap calls. Its blocks
-// are reached by branches from _d2f and func_0212ff0c, not through its first instruction.
-    .global func_0212ff40
-    .type func_0212ff40, @function
-func_0212ff40:
+// are reached by branches from _d2f and DoubleToFloatNan, not through its first instruction.
+    .global DoubleToFloatRange
+    .type DoubleToFloatRange, @function
+DoubleToFloatRange:
     // A denormal input: underflow trap if enabled, else the tiny-result path.
     stmfd sp!, {r0, r1, r2, ip, lr}
     bl GetFloatStatus
@@ -586,24 +585,24 @@ func_0212ff40:
     ldmfd sp!, {r0, r1, r2, ip, lr}
     ldr r3, [r3]
     tst r3, #0x800
-    bne f40_trap_underflow
-    beq f40_tiny
-f40_zero:
+    bne d2f_range_trap_underflow
+    beq d2f_range_tiny
+d2f_range_zero:
     mov r0, r2
     bx lr
     // Exponent 0x380 or below: the result is a float denormal. The underflow trap gets the exact value; otherwise
-    // exponent 0x380 - 23 (ip = -23) keeps only the rounding bit, smaller ones go to f40_tiny.
-f40_small:
+    // exponent 0x380 - 23 (ip = -23) keeps only the rounding bit, smaller ones go to d2f_range_tiny.
+d2f_range_small:
     stmfd sp!, {r0, r1, r2, ip, lr}
     bl GetFloatStatus
     mov r3, r0
     ldmfd sp!, {r0, r1, r2, ip, lr}
     ldr r3, [r3]
     tst r3, #0x800                      // underflow traps take the exact value
-    bne f40_trap_underflow
+    bne d2f_range_trap_underflow
     cmn ip, #23
-    beq f40_round_bit_only              // exponent 0x380 - 23: only the rounding bit
-    bmi f40_tiny
+    beq d2f_range_round_bit_only              // exponent 0x380 - 23: only the rounding bit
+    bmi d2f_range_tiny
     // Shift the significand into a float denormal; r3 collects the bits shifted out.
     mov r1, r1, lsl #11
     orr r1, r1, #0x80000000
@@ -624,13 +623,13 @@ f40_small:
     ldmfd sp!, {r0, r1, r2, r3, lr}
     ldr r3, [ip]
     tst r3, #0x1000
-    bne f40_trap_inexact
+    bne d2f_range_trap_inexact
     orr r3, r3, #0x18
     str r3, [ip]
     tst r3, #0x800000
-    bne f40_mode_down
+    bne d2f_range_mode_down
     tst r3, #0x400000
-    bne f40_mode_up
+    bne d2f_range_mode_up
     tst r1, #0x80000000
     bxeq lr
     movs r1, r1, lsl #1
@@ -638,17 +637,17 @@ f40_small:
     addne r0, r0, #1
     bx lr
     // Rounding up: positive results grow.
-f40_mode_up:
+d2f_range_mode_up:
     cmp r2, #0
     addeq r0, r0, #1
     bx lr
     // Rounding down or toward zero: down grows only negative results.
-f40_mode_down:
+d2f_range_mode_down:
     tst r3, #0x400000
     addeq r0, r0, r0, lsr #31
     bx lr
     // Only the rounding bit survives: round it as above.
-f40_round_bit_only:
+d2f_range_round_bit_only:
     orr r0, r0, r1, lsl #12
     movs r1, r0
     mov r0, r2
@@ -658,19 +657,19 @@ f40_round_bit_only:
     ldmfd sp!, {r0, r1, r2, r3, lr}
     ldr r3, [ip]
     tst r3, #0x1000
-    bne f40_trap_inexact
+    bne d2f_range_trap_inexact
     orr r3, r3, #0x18
     str r3, [ip]
     cmp r1, #0
     tst r3, #0x800000
-    bne f40_mode_down
+    bne d2f_range_mode_down
     tst r3, #0x400000
-    bne f40_mode_up
+    bne d2f_range_mode_up
     cmp r1, #0
     addne r0, r0, #1
     bx lr
     // Too small for any float: the result is a signed zero, or the smallest denormal by the mode.
-f40_tiny:
+d2f_range_tiny:
     mov r0, r2
     stmfd sp!, {r0, r1, r2, r3, lr}
     bl GetFloatStatus
@@ -678,11 +677,11 @@ f40_tiny:
     ldmfd sp!, {r0, r1, r2, r3, lr}
     ldr r3, [ip]
     tst r3, #0x1000
-    bne f40_trap_inexact
+    bne d2f_range_trap_inexact
     orr r3, r3, #0x18
     str r3, [ip]
     tst r3, #0x800000
-    bne f40_mode_down
+    bne d2f_range_mode_down
     tst r3, #0x400000
     bxeq lr
     cmp r0, #0
@@ -690,79 +689,79 @@ f40_tiny:
     bx lr
     // Too large: trap if overflow traps are enabled, else set overflow and inexact and return infinity, or the largest
     // float when the mode rounds toward zero for this sign.
-f40_overflow:
+d2f_range_overflow:
     stmfd sp!, {r0, r1, r2, r3, lr}
     bl GetFloatStatus
     mov ip, r0
     ldmfd sp!, {r0, r1, r2, r3, lr}
     ldr r3, [ip]
     tst r3, #0x400
-    bne f40_trap_overflow
+    bne d2f_range_trap_overflow
     orr r3, r3, #0x14
     str r3, [ip]
     mov r0, #0xff000000
     orr r0, r2, r0, lsr #1
     tst r3, #0x800000
-    bne f40_overflow_down
+    bne d2f_range_overflow_down
     tst r3, #0x400000
     subne r0, r0, r2, lsr #31
     bx lr
     // Down or toward zero: the largest float, infinity again for negative results when down.
-f40_overflow_down:
+d2f_range_overflow_down:
     sub r0, r0, #1
     tst r3, #0x400000
     addeq r0, r0, r2, lsr #31
     bx lr
     // Overflow trap: pass the double with its exponent lowered by 0xc0 (in float terms).
-f40_trap_overflow:
+d2f_range_trap_overflow:
     sub r1, r1, #0xc000000
     and r0, r0, #0xe0000000
     stmdb sp!, {lr}
-    ldr r2, f40_code_overflow
+    ldr r2, d2f_range_code_overflow
     bl FloatTrapPairToWord
     ldmia sp!, {lr}
     bx lr
     // Overflow trap after rounding up: pass the double 0x3bf00000:00000000.
-f40_trap_overflow_round:
-    ldr r1, f40_overflow_high
+d2f_range_trap_overflow_round:
+    ldr r1, d2f_range_overflow_high
     mov r0, #0
     stmdb sp!, {lr}
-    ldr r2, f40_code_overflow
+    ldr r2, d2f_range_code_overflow
     bl FloatTrapPairToWord
     ldmia sp!, {lr}
     bx lr
     // Underflow trap: pass the double with its exponent raised by 0xc0 (in float terms).
-f40_trap_underflow:
+d2f_range_trap_underflow:
     add r1, r1, #0xc000000
     and r0, r0, #0xe0000000
     stmdb sp!, {lr}
-    ldr r2, f40_code_underflow
+    ldr r2, d2f_range_code_underflow
     bl FloatTrapPairToWord
     ldmia sp!, {lr}
     bx lr
     // Invalid trap.
-f40_trap_invalid:
-    ldr r2, f40_code_invalid
+d2f_range_trap_invalid:
+    ldr r2, d2f_range_code_invalid
     stmdb sp!, {lr}
     bl FloatTrapPairToWord
     ldmia sp!, {lr}
     bx lr
     // Inexact trap: pass the rounded float.
-f40_trap_inexact:
+d2f_range_trap_inexact:
     stmdb sp!, {lr}
-    ldr r1, f40_code_inexact
+    ldr r1, d2f_range_code_inexact
     bl FloatTrapWordToWord
     ldmia sp!, {lr}
     bx lr
     // Constant words: event codes and the high word passed by the overflow trap.
-f40_code_overflow:
+d2f_range_code_overflow:
     .word 0x10000088
-f40_overflow_high:
+d2f_range_overflow_high:
     .word 0x3bf00000
-f40_code_underflow:
+d2f_range_code_underflow:
     .word 0x20000088
-f40_code_invalid:
+d2f_range_code_invalid:
     .word 0x04000088
-f40_code_inexact:
+d2f_range_code_inexact:
     .word 0x40000088
-    .size func_0212ff40, . - func_0212ff40
+    .size DoubleToFloatRange, . - DoubleToFloatRange

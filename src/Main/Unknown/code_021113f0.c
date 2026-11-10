@@ -80,7 +80,7 @@ void AdvanceRecordVSState1(void) {
     offset = InterpolateS16(1, -192, 0, gRecordVS->mStateFrames, 10);
     gRecordVS->mBg0OffsetY = offset;
     gRecordVS->mBg1OffsetY = offset;
-    mainBase = gRecordVS->mRecordVSMBncl->mUnk_06;
+    mainBase = gRecordVS->mRecordVSMBncl->mCount;
     gRecordVS->mRecordVSMTable[0].mOffsetY = offset;
     gRecordVS->mRecordVSMTable[1].mOffsetY = offset;
     gRecordVS->mRecordVSMTable[2].mOffsetY = offset;
@@ -94,7 +94,7 @@ void AdvanceRecordVSState1(void) {
             gRecordVS->mRecordVSMTable[mainBase + gRecordVSGridLabelIndices[i][j]].mOffsetY = offset;
         }
     }
-    transientBase = gRecordVS->mRecordVSMTransientBncl->mUnk_06;
+    transientBase = gRecordVS->mRecordVSMTransientBncl->mCount;
     gRecordVS->mRecordVSMTransientTable[1].mOffsetY = offset;
     gRecordVS->mRecordVSMTransientTable[0].mOffsetY = offset;
     gRecordVS->mRecordVSMTransientTable[transientBase].mOffsetY = offset;
@@ -115,7 +115,7 @@ void AdvanceRecordVSState2(void) {
     AdvanceRecordVSOffsetTimers();
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
     offset = InterpolateS16(1, 0x100, 0, gRecordVS->mStateFrames, 10);
-    subBase = gRecordVS->mRecordVSSBncl->mUnk_06;
+    subBase = gRecordVS->mRecordVSSBncl->mCount;
     gRecordVS->mRecordVSSTable[20].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[21].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[24].mOffsetX = offset;
@@ -325,9 +325,9 @@ void AdvanceRecordVSState5(void) {
             break;
     }
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
-    mainBase = gRecordVS->mRecordVSMBncl->mUnk_06;
-    transientBase = gRecordVS->mRecordVSMTransientBncl->mUnk_06;
-    subBase = gRecordVS->mRecordVSSBncl->mUnk_06;
+    mainBase = gRecordVS->mRecordVSMBncl->mCount;
+    transientBase = gRecordVS->mRecordVSMTransientBncl->mCount;
+    subBase = gRecordVS->mRecordVSSBncl->mCount;
     offset = InterpolateS16(1, 0, endOffset, gRecordVS->mStateFrames, 10);
     gRecordVS->mBg0OffsetX = offset;
     gRecordVS->mBg1OffsetX = offset;
@@ -382,9 +382,9 @@ void AdvanceRecordVSState6(void) {
             break;
     }
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
-    mainBase = gRecordVS->mRecordVSMBncl->mUnk_06;
-    transientBase = gRecordVS->mRecordVSMTransientBncl->mUnk_06;
-    subBase = gRecordVS->mRecordVSSBncl->mUnk_06;
+    mainBase = gRecordVS->mRecordVSMBncl->mCount;
+    transientBase = gRecordVS->mRecordVSMTransientBncl->mCount;
+    subBase = gRecordVS->mRecordVSSBncl->mCount;
     offset = InterpolateS16(1, startOffset, 0, gRecordVS->mStateFrames, 10);
     gRecordVS->mBg0OffsetX = offset;
     gRecordVS->mBg1OffsetX = offset;
@@ -425,7 +425,7 @@ void AdvanceRecordVSState7(void) {
     u16 subBase;
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
     offset = InterpolateS16(1, 0, 0x100, gRecordVS->mStateFrames, 10);
-    subBase = gRecordVS->mRecordVSSBncl->mUnk_06;
+    subBase = gRecordVS->mRecordVSSBncl->mCount;
     gRecordVS->mRecordVSSTable[20].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[21].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[24].mOffsetX = offset;
@@ -461,7 +461,7 @@ void AdvanceRecordVSState8(void) {
     offset = InterpolateS16(1, 0, -192, gRecordVS->mStateFrames, 10);
     gRecordVS->mBg0OffsetY = offset;
     gRecordVS->mBg1OffsetY = offset;
-    mainBase = gRecordVS->mRecordVSMBncl->mUnk_06;
+    mainBase = gRecordVS->mRecordVSMBncl->mCount;
     gRecordVS->mRecordVSMTable[0].mOffsetY = offset;
     gRecordVS->mRecordVSMTable[1].mOffsetY = offset;
     gRecordVS->mRecordVSMTable[2].mOffsetY = offset;
@@ -475,7 +475,7 @@ void AdvanceRecordVSState8(void) {
             gRecordVS->mRecordVSMTable[mainBase + gRecordVSGridLabelIndices[i][j]].mOffsetY = offset;
         }
     }
-    transientBase = gRecordVS->mRecordVSMTransientBncl->mUnk_06;
+    transientBase = gRecordVS->mRecordVSMTransientBncl->mCount;
     gRecordVS->mRecordVSMTransientTable[1].mOffsetY = offset;
     gRecordVS->mRecordVSMTransientTable[0].mOffsetY = offset;
     gRecordVS->mRecordVSMTransientTable[transientBase].mOffsetY = offset;
@@ -494,7 +494,7 @@ void AdvanceRecordVSState9(void) {
     u16 subBase;
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
     offset = GetSelectedPressOffset(gRecordVS->mStateFrames);
-    subBase = gRecordVS->mRecordVSSBncl->mUnk_06;
+    subBase = gRecordVS->mRecordVSSBncl->mCount;
     gRecordVS->mRecordVSSTable[24].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[25].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[26].mOffsetX = offset;
@@ -510,7 +510,7 @@ void AdvanceRecordVSState10(void) {
     u16 subBase;
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
     offset = InterpolateS16(1, 0, 0x100, gRecordVS->mStateFrames, 10);
-    subBase = gRecordVS->mRecordVSSBncl->mUnk_06;
+    subBase = gRecordVS->mRecordVSSBncl->mCount;
     gRecordVS->mRecordVSSTable[20].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[21].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[24].mOffsetX = offset;
@@ -540,7 +540,7 @@ void AdvanceRecordVSState11(void) {
     AdvanceRecordVSOffsetTimers();
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
     offset = InterpolateS16(1, 0x100, 0, gRecordVS->mStateFrames, 10);
-    subBase = gRecordVS->mRecordVSSBncl->mUnk_06;
+    subBase = gRecordVS->mRecordVSSBncl->mCount;
     gRecordVS->mRecordVSSTable[20].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[21].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[24].mOffsetX = offset;

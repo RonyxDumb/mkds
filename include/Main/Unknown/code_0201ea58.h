@@ -22,7 +22,7 @@ typedef struct RectTableEntry {
 // GetLabelLayoutEntry 12-byte ones, RectTableGetEntry and RectTableFindContaining 6-byte ones).
 typedef struct LayoutEntryTable {
     /* 00 */ u8 mUnk_00[6];
-    /* 06 */ u16 mUnk_06;
+    /* 06 */ u16 mCount;
 } LayoutEntryTable;
 
 void *GetLabelLayoutEntry(LayoutEntryTable *a, s32 b);

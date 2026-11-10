@@ -74,13 +74,13 @@ void LocateAndQueueOptionEmbremSelect(void) {
     LocateNcgr2(&gOptionEmbremSelect->mOptionEmbremSelectSNcgr, FindSceneFile(gOptionEmbremSelectSNcgrName));
     LocateNcer(&gOptionEmbremSelect->mOptionEmbremSelectSNcer, FindSceneFile(gOptionEmbremSelectSNcerName));
     LocateNclr(&gOptionEmbremSelect->mOptionEmbremSelectSONclr, FindSceneFile(gOptionEmbremSelectSONclrName));
-    CallQueueAppend(4, 0, a->mData, a->mDataSize);
-    CallQueueAppend(8, 0, b->mData, b->mDataSize);
-    CallQueueAppend(0xf, 0, c->mData, 0x100);
-    CallQueueAppend(0x23, 0, gOptionEmbremSelect->mOptionEmbremSelectSNcgr->mData,
-                    gOptionEmbremSelect->mOptionEmbremSelectSNcgr->mDataSize);
-    CallQueueAppend(0x1e, 0, gOptionEmbremSelect->mOptionEmbremSelectSONclr->mData,
-                    gOptionEmbremSelect->mOptionEmbremSelectSONclr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(4, 0, a->mData, a->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(8, 0, b->mData, b->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xf, 0, c->mData, 0x100);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, gOptionEmbremSelect->mOptionEmbremSelectSNcgr->mData,
+                                       gOptionEmbremSelect->mOptionEmbremSelectSNcgr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gOptionEmbremSelect->mOptionEmbremSelectSONclr->mData,
+                                       gOptionEmbremSelect->mOptionEmbremSelectSONclr->mDataSize);
 }
 
 BOOL func_ov001_0219de38(void) {
@@ -321,7 +321,7 @@ void func_ov001_0219d858(void) {
     s32 index;
     s32 k;
 
-    index = gOptionEmbremSelect->mOptionEmbremSelectSBncl->mUnk_06;
+    index = gOptionEmbremSelect->mOptionEmbremSelectSBncl->mCount;
     for (i = 0; i < 2; i++) {
         for (j = 0; j < data_ov001_021a6c28[i]; j++) {
             gOptionEmbremSelect->mOptionEmbremSelectSTable[data_ov001_021a6c38[i][j]].mOffsetX =

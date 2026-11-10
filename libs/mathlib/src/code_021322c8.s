@@ -3,11 +3,9 @@
 // Floats are passed and returned in one register each; the status word from GetFloatStatus and the trap
 // handlers are as described in code_0212f884.s.
 //
-// Not compiled code: _ffix branches into the middle of func_02132364, and the conversion to float at _fflt is a
-// second entry in the middle of func_021323c4, called from other code; _fmul ends in an entry that has
-// no return and runs on into _fsub (code_021329f8.s). A compiled function is entered only at its start and ends
-// in a return. All of it also uses tst, and _fflt, func_021323c4 and _fmul clz, which the 1.2 compiler
-// never builds (docs/compiler.md).
+// Hand-written asm: _ffix branches into the middle of FloatToIntRange, and the conversion to float at _fflt is a
+// second entry in the middle of _ffltu, called from other code; _fmul ends in an entry that has
+// no return and runs on into _fsub (code_021329f8.s). All of it also uses tst, and _fflt, _ffltu and _fmul clz.
 
     .text
     .extern FloatTrapWordWordToWord
@@ -15,7 +13,7 @@
     .extern GetFloatStatus
 
 // Converts the float r0 to a signed integer in r0, dropping the fraction (inexact, or a trap, when bits are lost).
-// Values outside the integer range continue in func_02132364.
+// Values outside the integer range continue in FloatToIntRange.
     .global _ffix
     .type _ffix, @function
 _ffix:
@@ -70,9 +68,9 @@ ffix_too_large:
 
 // Part of _ffix: an out-of-range value or NaN raises invalid (or traps) and gives 0x7fffffff for positive inputs,
 // 0x80000000 for negative ones; -2^31 itself is exact. Also holds the two trap calls of _ffix.
-    .global func_02132364
-    .type func_02132364, @function
-func_02132364:
+    .global FloatToIntRange
+    .type FloatToIntRange, @function
+FloatToIntRange:
     // Invalid: trap if enabled, else set the flag.
     stmfd sp!, {r0, r1, r3, ip, lr}
     bl GetFloatStatus
@@ -107,13 +105,13 @@ ffix_code_invalid:
     .word 0x04c00048
 ffix_code_inexact:
     .word 0x40c00048
-    .size func_02132364, . - func_02132364
+    .size FloatToIntRange, . - FloatToIntRange
 
 // Converts the unsigned integer r0 to a float in r0, rounded as the status word says. _fflt, in the middle, does the
 // same for a signed integer; the rounding blocks at the end serve both.
-    .global func_021323c4
-    .type func_021323c4, @function
-func_021323c4:
+    .global _ffltu
+    .type _ffltu, @function
+_ffltu:
     // Zero gives 0. Shift the leading one to bit 31 with clz and lower the exponent 0x9e by the shift.
     cmp r0, #0
     bxeq lr
@@ -219,7 +217,7 @@ uflt_code_inexact:
     .word 0x40000308
 flt_code_inexact:
     .word 0x40000208
-    .size func_021323c4, . - func_021323c4
+    .size _ffltu, . - _ffltu
 
 // Multiplies the floats r0 and r1 and returns the product in r0, rounded as the status word says. Denormals are
 // normalised first; underflow, overflow, inexact and invalid (zero times infinity, signalling NaNs) set their flags or

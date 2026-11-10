@@ -22,9 +22,9 @@
     // the signalling tests raise invalid for any NaN.
     //
     // Three-way float compare of r0 and r1: 0 equal, 1 less, 2 greater, 3 unordered.
-    .global func_02131694
-    .type func_02131694, @function
-func_02131694:
+    .global FloatCompare3Way
+    .type FloatCompare3Way, @function
+FloatCompare3Way:
     mov r3, #0xff000000
     cmp r3, r0, lsl #1
     mov r2, #3
@@ -252,7 +252,7 @@ fcmp_invalid:
     ldmfd sp!, {r0, r1, r2, r3, lr}
     ldr r3, [ip, #0]
     tst r3, #0x100
-    bne func_021321cc
+    bne FloatCompareInvalidTrap
     orr r3, r3, #1
     str r3, [ip, #0]
     mov r0, r2
@@ -266,7 +266,7 @@ fflags_invalid_ne:
     ldmfd sp!, {r0, r1, r2, r3, lr}
     ldr r3, [ip, #0]
     tst r3, #0x100
-    bne func_021321cc
+    bne FloatCompareInvalidTrap
     orr r3, r3, #1
     str r3, [ip, #0]
     movs r2, #1
@@ -280,7 +280,7 @@ fflags_invalid_hi:
     ldmfd sp!, {r0, r1, r2, r3, lr}
     ldr r3, [ip, #0]
     tst r3, #0x100
-    bne func_021321cc
+    bne FloatCompareInvalidTrap
     orr r3, r3, #1
     str r3, [ip, #0]
     mov r2, #0xff000000
@@ -295,7 +295,7 @@ fflags_invalid_eq:
     ldmfd sp!, {r0, r1, r2, r3, lr}
     ldr r3, [ip, #0]
     tst r3, #0x100
-    bne func_021321cc
+    bne FloatCompareInvalidTrap
     orr r3, r3, #1
     str r3, [ip, #0]
     mov r2, #0
@@ -835,7 +835,7 @@ dcmp_invalid:
     ldmfd sp!, {r0, r1, r2, r3, lr}
     ldr lr, [ip, #0]
     tst lr, #0x100
-    bne func_021321e0
+    bne DoubleCompareInvalidTrap
     orr lr, lr, #1
     str lr, [ip, #0]
     ldmfd sp!, {r0}
@@ -851,7 +851,7 @@ dflags_invalid_ne:
     ldmfd sp!, {r0, r1, r2, r3, lr}
     ldr lr, [ip, #0]
     tst lr, #0x100
-    bne func_021321e0
+    bne DoubleCompareInvalidTrap
     orr lr, lr, #1
     str lr, [ip, #0]
     add sp, sp, #4
@@ -868,7 +868,7 @@ dflags_invalid_hi:
     ldmfd sp!, {r0, r1, r2, r3, lr}
     ldr lr, [ip, #0]
     tst lr, #0x100
-    bne func_021321e0
+    bne DoubleCompareInvalidTrap
     orr lr, lr, #1
     str lr, [ip, #0]
     add sp, sp, #4
@@ -886,7 +886,7 @@ dflags_invalid_eq:
     ldmfd sp!, {r0, r1, r2, r3, lr}
     ldr lr, [ip, #0]
     tst lr, #0x100
-    bne func_021321e0
+    bne DoubleCompareInvalidTrap
     orr lr, lr, #1
     str lr, [ip, #0]
     add sp, sp, #4
@@ -936,23 +936,23 @@ dflags_b_nan:
 dflags_return_ne:
     movs ip, #1
     bx lr
-    .size func_02131694, . - func_02131694
+    .size FloatCompare3Way, . - FloatCompare3Way
 
 // Invalid trap for floats: event code 0x04000049 with the operands in r0, r1.
-    .global func_021321cc
-    .type func_021321cc, @function
-func_021321cc:
+    .global FloatCompareInvalidTrap
+    .type FloatCompareInvalidTrap, @function
+FloatCompareInvalidTrap:
     stmfd sp!, {lr}
     ldr r2, fcmp_code_invalid
     bl FloatTrapWordWordToWord
     ldmfd sp!, {lr}
     bx lr
-    .size func_021321cc, . - func_021321cc
+    .size FloatCompareInvalidTrap, . - FloatCompareInvalidTrap
 
 // Invalid trap for doubles: event code 0x040000c9 on the stack, the operands in r0-r3.
-    .global func_021321e0
-    .type func_021321e0, @function
-func_021321e0:
+    .global DoubleCompareInvalidTrap
+    .type DoubleCompareInvalidTrap, @function
+DoubleCompareInvalidTrap:
     ldr ip, dcmp_code_invalid
     stmfd sp!, {ip}
     bl FloatTrapPairPairToWord
@@ -964,4 +964,4 @@ fcmp_code_invalid:
     .word 0x04000049
 dcmp_code_invalid:
     .word 0x040000c9
-    .size func_021321e0, . - func_021321e0
+    .size DoubleCompareInvalidTrap, . - DoubleCompareInvalidTrap

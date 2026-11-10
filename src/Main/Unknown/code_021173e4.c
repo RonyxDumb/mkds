@@ -89,7 +89,7 @@ void InitSelectCupGridCells(void) {
     SelectCupGrid *grid;
 
     if (gBootInfo->mUnk_00 != 2) {
-        mainCellCount = gSelectCupGrid->mSelectCupMBncl->mUnk_06;
+        mainCellCount = gSelectCupGrid->mSelectCupMBncl->mCount;
         for (i = 0; i < 4; i++) {
             gSelectCupGrid->mSelectCupMTable[gSelectCupGridCourseLabelCells[i]].mVisible = 0;
             gSelectCupGrid->mSelectCupMTable[mainCellCount + gSelectCupGridCourseLabelIndices[i]].mVisible = 1;
@@ -253,7 +253,7 @@ void AdvanceSelectCupGridIndexChange(void) {
             gSelectCupGrid->mShownIndex = gSelectCupGrid->mIndex;
             SetupSelectCupGridIndex();
         } else if (gBootInfo->mUnk_00 != 2) {
-            mainCellCount = gSelectCupGrid->mSelectCupMBncl->mUnk_06;
+            mainCellCount = gSelectCupGrid->mSelectCupMBncl->mCount;
             offsetY = LookupIndexChangeOffset(7 - gSelectCupGrid->mIndexChangeTimer, 1);
             gSelectCupGrid->mBg0Offset = offsetY;
             gSelectCupGrid->mSelectCupMTable[19].mOffsetY = offsetY;
@@ -323,7 +323,7 @@ void RequestSelectCupGridState0(void) {
     gSelectCupGrid->mNextState = 0;
     gSelectCupGrid->mStateFrames = 0;
     if (gBootInfo->mUnk_00 != 2) {
-        mainCellCount = gSelectCupGrid->mSelectCupMBncl->mUnk_06;
+        mainCellCount = gSelectCupGrid->mSelectCupMBncl->mCount;
         if (GetPreviousMenuScreenNumber() == 0x18 || GetPreviousMenuScreenNumber() == 0xc) {
             offsetY = 0;
             gSelectCupGrid->mBg0Offset = offsetY;
@@ -583,7 +583,7 @@ void AdvanceSelectCupGridState1(void) {
 
     gSelectCupGrid->mStateFrames = gSelectCupGrid->mStateFrames + 1;
     if (gBootInfo->mUnk_00 != 2) {
-        mainCellCount = gSelectCupGrid->mSelectCupMBncl->mUnk_06;
+        mainCellCount = gSelectCupGrid->mSelectCupMBncl->mCount;
         offsetX = InterpolateS16(1, 0xe0, 0, gSelectCupGrid->mStateFrames, 0xa);
         offsetY = InterpolateS16(1, -192, 0, gSelectCupGrid->mStateFrames, 0xa);
         if (GetPreviousMenuScreenNumber() != 0x18 && GetPreviousMenuScreenNumber() != 0xc) {
@@ -939,7 +939,7 @@ void AdvanceSelectCupGridState11(void) {
 
     gSelectCupGrid->mStateFrames = gSelectCupGrid->mStateFrames + 1;
     if (gBootInfo->mUnk_00 != 2) {
-        mainCellCount = gSelectCupGrid->mSelectCupMBncl->mUnk_06;
+        mainCellCount = gSelectCupGrid->mSelectCupMBncl->mCount;
         offsetX = InterpolateS16(1, 0, 0xe0, gSelectCupGrid->mStateFrames, 0xa);
         offsetY = InterpolateS16(1, 0, -192, gSelectCupGrid->mStateFrames, 0xa);
         if (gSelectCupGrid->mResult == 2 || gSelectCupGrid->mResult == 3 || gSelectCupGrid->mMode == 0) {
@@ -1028,11 +1028,11 @@ s32 AdvanceSelectCupGrid(void) {
     if (gBootInfo->mUnk_00 != 2) {
         if (gSelectCupGrid->mCupPicturePending != FALSE && IsCupPictureReady() != FALSE) {
             screenMap = GetCupPictureNscrData();
-            CallQueueAppend(0xf, 0, GetCupPictureNclrData(), 0xe0);
-            CallQueueAppend(4, 0x20, GetCupPictureNcgrData(), 0xdc0);
+            NNS_GfdRegisterNewVramTransferTask(0xf, 0, GetCupPictureNclrData(), 0xe0);
+            NNS_GfdRegisterNewVramTransferTask(4, 0x20, GetCupPictureNcgrData(), 0xdc0);
             for (i = 0; i < 11; i++) {
                 screenMapIndex = (i + 8) * 0x20 + 0x16;
-                CallQueueAppend(8, screenMapIndex * 2, screenMap + screenMapIndex, 0x14);
+                NNS_GfdRegisterNewVramTransferTask(8, screenMapIndex * 2, screenMap + screenMapIndex, 0x14);
             }
             gSelectCupGrid->mCupPicturePending = FALSE;
         }

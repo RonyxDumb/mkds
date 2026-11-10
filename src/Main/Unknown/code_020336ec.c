@@ -148,9 +148,9 @@ void QueueResultsBattleCharacterIcon(s32 cellFileSetIndex, s32 entryIndex, s32 c
         shuffledIndex = data_0217b488->mShuffledIndices[entryIndex];
         paletteBlock = shuffledIndex * 0x20 + (u8 *) palette->mData;
         if (cellFileSetIndex == 0) {
-            CallQueueAppend(0xe, cellPaletteIndex << 5, paletteBlock, 0x20);
+            NNS_GfdRegisterNewVramTransferTask(0xe, cellPaletteIndex << 5, paletteBlock, 0x20);
         } else {
-            CallQueueAppend(0x1e, cellPaletteIndex << 5, paletteBlock, 0x20);
+            NNS_GfdRegisterNewVramTransferTask(0x1e, cellPaletteIndex << 5, paletteBlock, 0x20);
         }
     }
 }
@@ -167,13 +167,13 @@ void SetupResultsBattleOwnEntry(void *heap) {
     gResultsBattle->mTimerDigitCellBase = 1;
     gResultsBattle->mTimerTensCell = 0xb;
     index = 0;
-    if ((s32) mainCellFileSet->mLabelLayout->mUnk_06 > 0) {
+    if ((s32) mainCellFileSet->mLabelLayout->mCount > 0) {
         labelEntry = gResultsBattleOwnEntryLabelTextRows;
         do {
             remainingObjSize -= SetupLabelCanvas(0, heap, mainCellFileSet, labelEntry, remainingObjSize);
             labelEntry += 8;
             index++;
-        } while (index < mainCellFileSet->mLabelLayout->mUnk_06);
+        } while (index < mainCellFileSet->mLabelLayout->mCount);
     }
     func_020338f8_inline(entryName, 0x16);
     CopyKartEntryName((u16) gResultsBattle->mOwnEntryIndex, entryName, 1);
@@ -197,18 +197,18 @@ void SetupResultsBattleRankZeroNames(void *heap) {
     mainCellFileSet = &gResultsBattle->mCellFileSets[0];
     remainingObjSize = GX_GetSizeOfOBJ();
     n = 0;
-    cellCount = mainCellFileSet->mCellLayout->mUnk_06;
+    cellCount = mainCellFileSet->mCellLayout->mCount;
     gResultsBattle->mTimerDigitCellBase = 8;
     gResultsBattle->mTimerTensCell = 0x12;
     labelIndex = 0;
-    labelCount = mainCellFileSet->mLabelLayout->mUnk_06;
+    labelCount = mainCellFileSet->mLabelLayout->mCount;
     if (labelCount > 0) {
         labelEntry = gResultsBattleRankZeroLabelTextRows;
         do {
             remainingObjSize -= SetupLabelCanvas(n, heap, mainCellFileSet, labelEntry, remainingObjSize);
             labelEntry += 8;
             labelIndex++;
-        } while (labelIndex < mainCellFileSet->mLabelLayout->mUnk_06);
+        } while (labelIndex < mainCellFileSet->mLabelLayout->mCount);
     }
     PrintLabelLayoutTextNoFixedAdvance(0, 0, mainCellFileSet->mLabelLayout,
                                        GetBmgEntry(gResultsBattle->mCommonMessages, 0x7a), mainCellFileSet->mCellLayout,

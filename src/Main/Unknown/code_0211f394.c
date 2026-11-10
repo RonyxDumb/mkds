@@ -36,8 +36,8 @@ void LocateAndQueueSelectRaceRuleWait(void) {
     gSelectRaceRuleWait->mBncl = sceneFile;
     sceneFile = FindSceneFile(gSelectRaceRuleWaitBnllName);
     gSelectRaceRuleWait->mBnll = sceneFile;
-    CallQueueAppend(0x23, 0, cellChars->mData, cellChars->mDataSize);
-    CallQueueAppend(0x1e, 0, cellPalette[0]->mData, cellPalette[0]->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, cellChars->mData, cellChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, cellPalette[0]->mData, cellPalette[0]->mDataSize);
 }
 
 #pragma thumb off
@@ -49,7 +49,7 @@ void RequestSelectRaceRuleWaitState0(void) {
 
     gSelectRaceRuleWait->mNextState = 0;
     gSelectRaceRuleWait->mStateFrames = 0;
-    cellEntryCount = gSelectRaceRuleWait->mBncl->mUnk_06;
+    cellEntryCount = gSelectRaceRuleWait->mBncl->mCount;
     gSelectRaceRuleWait->mTable[0x2a].mOffsetY = 0xc0;
     gSelectRaceRuleWait->mTable[cellEntryCount + 0xe].mOffsetY = 0xc0;
 }
@@ -64,7 +64,7 @@ void RequestSelectRaceRuleWaitState2(void) {
 
     gSelectRaceRuleWait->mNextState = 2;
     gSelectRaceRuleWait->mStateFrames = 0;
-    cellEntryCount = gSelectRaceRuleWait->mBncl->mUnk_06;
+    cellEntryCount = gSelectRaceRuleWait->mBncl->mCount;
     gSelectRaceRuleWait->mTable[0x2a].mOffsetY = 0;
     gSelectRaceRuleWait->mTable[cellEntryCount + 0xe].mOffsetY = 0;
 }
@@ -89,7 +89,7 @@ void InitSelectRaceRuleWait(void *heap, void *oamList) {
                                        GetBmgEntry(selectRaceRuleWait->mCommonMessages, 0x79),
                                        selectRaceRuleWait->mBncl, selectRaceRuleWait->mTable);
     i = 0;
-    cellEntryCount = gSelectRaceRuleWait->mBncl->mUnk_06;
+    cellEntryCount = gSelectRaceRuleWait->mBncl->mCount;
     for (; i < cellEntryCount; i++) {
         gSelectRaceRuleWait->mTable[i].mVisible = 0;
     }
@@ -117,7 +117,7 @@ void AdvanceSelectRaceRuleWaitState0(void) {
     u16 cellEntryCount;
     s16 offsetY;
 
-    cellEntryCount = gSelectRaceRuleWait->mBncl->mUnk_06;
+    cellEntryCount = gSelectRaceRuleWait->mBncl->mCount;
     gSelectRaceRuleWait->mStateFrames++;
     offsetY = InterpolateS16(1, 0xc0, 0, gSelectRaceRuleWait->mStateFrames, 10);
     gSelectRaceRuleWait->mTable[0x2a].mOffsetY = offsetY;
@@ -131,7 +131,7 @@ void AdvanceSelectRaceRuleWaitState2(void) {
     u16 cellEntryCount;
     s16 offsetY;
 
-    cellEntryCount = gSelectRaceRuleWait->mBncl->mUnk_06;
+    cellEntryCount = gSelectRaceRuleWait->mBncl->mCount;
     gSelectRaceRuleWait->mStateFrames++;
     offsetY = InterpolateS16(1, 0, 0xc0, gSelectRaceRuleWait->mStateFrames, 10);
     gSelectRaceRuleWait->mTable[0x2a].mOffsetY = offsetY;

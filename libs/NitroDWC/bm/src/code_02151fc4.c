@@ -12,10 +12,10 @@
 #pragma thumb on
 
 // Seconds since 2000-01-01, or -1 for a bad date.
-s64 func_02152244(const RTCDate *date, const RTCTime *time) {
+s64 DateTimeToSeconds(const RTCDate *date, const RTCTime *time) {
     s32 day;
     s32 sec;
-    day = func_021522a0(date);
+    day = DateToDayCount(date);
     if (day == -1) {
         return -1;
     }
@@ -87,7 +87,7 @@ BOOL DWCi_AUTH_GetNewWiFiInfo(DWCWiFiInfo *info) {
     if (RTC_GetTime(&time) != 0) {
         return 0;
     }
-    seconds = func_02152244(&date, &time);
+    seconds = DateTimeToSeconds(&date, &time);
     seed = seconds;
     if (seconds < 0) {
         return 0;

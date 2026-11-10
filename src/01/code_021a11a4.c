@@ -91,15 +91,15 @@ void LocateAndQueueSelectEngine(void) {
         gSelectEngine->mSelectEngineAOrBSBnbl = FindSceneFile(gSelectEngineASBnblName);
     }
     h = b->mData;
-    CallQueueAppend(4, 0, e->mData, e->mDataSize);
-    CallQueueAppend(0xf, 0, g->mData, 0x100);
-    CallQueueAppend(8, 0, f->mData, f->mDataSize);
-    CallQueueAppend(8, 0x800, gSelectEngine->mUnk_1c, 0x800);
-    CallQueueAppend(0x13, 0, a->mData, a->mDataSize);
-    CallQueueAppend(0xe, 0, b->mData, 0x1a0);
-    CallQueueAppend(0xe, 0x1c0, (u8 *) h + 0x1c0, 0x40);
-    CallQueueAppend(0x23, 0, c->mData, c->mDataSize);
-    CallQueueAppend(0x1e, 0, d->mData, d->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(4, 0, e->mData, e->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xf, 0, g->mData, 0x100);
+    NNS_GfdRegisterNewVramTransferTask(8, 0, f->mData, f->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gSelectEngine->mUnk_1c, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(0x13, 0, a->mData, a->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0, b->mData, 0x1a0);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, (u8 *) h + 0x1c0, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, c->mData, c->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, d->mData, d->mDataSize);
 }
 
 void func_ov001_021a1cb0(void) {

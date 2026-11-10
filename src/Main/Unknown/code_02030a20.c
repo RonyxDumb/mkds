@@ -162,10 +162,10 @@ void UpdateMultiSelectMemberCells(void) {
 
     mainFileSet = &gMultiSelectMember->mCellFileSets[0];
     subFileSet = &gMultiSelectMember->mCellFileSets[1];
-    mainLabelCount = mainFileSet->mLabelLayout->mUnk_06;
-    mainCellCount = mainFileSet->mCellLayout->mUnk_06;
-    subLabelCount = subFileSet->mLabelLayout->mUnk_06;
-    n3 = subFileSet->mCellLayout->mUnk_06;
+    mainLabelCount = mainFileSet->mLabelLayout->mCount;
+    mainCellCount = mainFileSet->mCellLayout->mCount;
+    subLabelCount = subFileSet->mLabelLayout->mCount;
+    n3 = subFileSet->mCellLayout->mCount;
     AdvanceInterpolation(&gMultiSelectMember->mInterpolations[0]);
     mainFileSet->mCellTable[2].mOffsetY = GetInterpolatedValue(&gMultiSelectMember->mInterpolations[0]);
     mainFileSet->mCellTable[1].mOffsetY = mainFileSet->mCellTable[2].mOffsetY;
@@ -572,10 +572,10 @@ void InitMultiSelectMemberNoKeyStart(void *parentHeap, void *mainOam, void *subO
         SetupTxtSystemMainTextEx(bannerMessage, 0, 0, 1, 0, 0, 0);
     }
     if (gMultiSelectMember->mUnk_84 != 0) {
-        n0 = mainFileSet->mLabelLayout->mUnk_06;
-        mainCellCount = mainFileSet->mCellLayout->mUnk_06;
-        subLabelCount = subFileSet->mLabelLayout->mUnk_06;
-        subCellCount = subFileSet->mCellLayout->mUnk_06;
+        n0 = mainFileSet->mLabelLayout->mCount;
+        mainCellCount = mainFileSet->mCellLayout->mCount;
+        subLabelCount = subFileSet->mLabelLayout->mCount;
+        subCellCount = subFileSet->mCellLayout->mCount;
         i = 0;
         mainFileSet->mCellTable[0xb].mVisible = 0;
         mainFileSet->mCellTable[0xa].mVisible = mainFileSet->mCellTable[0xb].mVisible;

@@ -71,7 +71,7 @@ u32 IsMultipleOf4(u32 year) {
     return 0;
 }
 
-s32 func_021522a0(const RTCDate *date) {
+s32 DateToDayCount(const RTCDate *date) {
     s32 dayNum;
     if (date->mYear >= 100 || date->mMonth < 1 || date->mMonth > 12 || date->mDay < 1 || date->mDay > 31 ||
         (s32) date->mWeek >= 7 || date->mMonth < 1 || date->mMonth > 12) {

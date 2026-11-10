@@ -91,7 +91,7 @@ void AdvanceSelectRaceRuleState8(void) {
     rowsOffsetY = selectRaceRule->mOffsetY + c;
     returnOffsetY = -LookupSelectReturnState4Bg2Offset(selectRaceRule->mStateFrames);
     gSelectRaceRule->mBg3Offset = rowsOffsetY;
-    c = gSelectRaceRule->mBncl->mUnk_06;
+    c = gSelectRaceRule->mBncl->mCount;
     for (i = 0; i < 5; i++) {
         for (j = 0; j < 2; j++) {
             gSelectRaceRule->mTable[gSelectRaceRuleStepCellsHighlighted[i][j]].mOffsetY = rowsOffsetY;
@@ -130,7 +130,7 @@ void AdvanceSelectRaceRuleState8(void) {
 
 void DrawSelectRaceRuleOffsetLabel(s32 labelIndex) {
     s32 tableIndex;
-    tableIndex = gSelectRaceRule->mBncl->mUnk_06 + labelIndex;
+    tableIndex = gSelectRaceRule->mBncl->mCount + labelIndex;
     gSelectRaceRule->mTable[tableIndex].mOffsetY++;
     SetLabelPaletteIndex(labelIndex, 1, gSelectRaceRule->mBnll, gSelectRaceRule->mTable, gSelectRaceRule->mBncl);
     DrawLayoutTableEntry(tableIndex, gSelectRaceRule->mBncl, gSelectRaceRule->mNcer, gSelectRaceRule->mBnll,
@@ -297,21 +297,21 @@ void LocateAndQueueSelectCupCourse(void) {
     LocateNcer(&gSelectCupCourse->mSelectCupMNcer, FindSceneFile(data_0216d8a8));
     LocateNclr(&cupCellPalette, FindSceneFile(data_0216d85c));
     courseCellPaletteData = courseCellPalette->mData;
-    CallQueueAppend(4, 0, modeChars->mData, modeChars->mDataSize);
-    CallQueueAppend(0xf, 0, modePalette->mData, 0x140);
-    CallQueueAppend(8, 0, modeScreenMap->mData, modeScreenMap->mDataSize);
-    CallQueueAppend(8, 0x800, gSelectCupCourse->mUnk_24, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(4, 0, modeChars->mData, modeChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xf, 0, modePalette->mData, 0x140);
+    NNS_GfdRegisterNewVramTransferTask(8, 0, modeScreenMap->mData, modeScreenMap->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gSelectCupCourse->mUnk_24, 0x800);
     if (GetPreviousMenuScreenNumber() != 0x18 && GetPreviousMenuScreenNumber() != 0xc) {
-        CallQueueAppend(0x17, 0, fixedChars->mData, fixedChars->mDataSize);
-        CallQueueAppend(0x1f, 0, fixedPalette->mData, 0x140);
-        CallQueueAppend(0x1b, 0, fixedScreenMap->mData, fixedScreenMap->mDataSize);
-        CallQueueAppend(0x1b, 0x800, gSelectCupCourse->mUnk_24, 0x800);
+        NNS_GfdRegisterNewVramTransferTask(0x17, 0, fixedChars->mData, fixedChars->mDataSize);
+        NNS_GfdRegisterNewVramTransferTask(0x1f, 0, fixedPalette->mData, 0x140);
+        NNS_GfdRegisterNewVramTransferTask(0x1b, 0, fixedScreenMap->mData, fixedScreenMap->mDataSize);
+        NNS_GfdRegisterNewVramTransferTask(0x1b, 0x800, gSelectCupCourse->mUnk_24, 0x800);
     }
-    CallQueueAppend(0x13, 0, courseCellChars->mData, courseCellChars->mDataSize);
-    CallQueueAppend(0xe, 0, courseCellPalette->mData, 0x1a0);
-    CallQueueAppend(0xe, 0x1c0, courseCellPaletteData + 0xe0, 0x40);
-    CallQueueAppend(0x23, 0, cupCellChars->mData, cupCellChars->mDataSize);
-    CallQueueAppend(0x1e, 0, cupCellPalette->mData, cupCellPalette->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x13, 0, courseCellChars->mData, courseCellChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0, courseCellPalette->mData, 0x1a0);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, courseCellPaletteData + 0xe0, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, cupCellChars->mData, cupCellChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, cupCellPalette->mData, cupCellPalette->mDataSize);
 }
 
 void SetupSelectCupCourseObjects(void) {
@@ -320,8 +320,8 @@ void SetupSelectCupCourseObjects(void) {
     u32 cupEntryCount;
     SelectCupCourse *selectCupCourse;
     if (gBootInfo->mUnk_00 != 2) {
-        courseEntryCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mUnk_06;
-        cupEntryCount = gSelectCupCourse->mSelectCupMBncl->mUnk_06;
+        courseEntryCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mCount;
+        cupEntryCount = gSelectCupCourse->mSelectCupMBncl->mCount;
         for (i = 0; i < 8; i++) {
             gSelectCupCourse->mSelectCupMTable[gSelectCupCourseRecordCells[i]].mVisible = 0;
         }

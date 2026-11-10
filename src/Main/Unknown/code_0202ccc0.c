@@ -224,8 +224,8 @@ void SetGhostSendCellsOffsetY(void) {
     s16 subOffsetY;
     mainFileSet = &gTimeAttackGhostSend->mUnk_050[0];
     subFileSet = &gTimeAttackGhostSend->mUnk_050[1];
-    mainEntryCount = mainFileSet->mCellLayout->mUnk_06 + mainFileSet->mLabelLayout->mUnk_06;
-    subEntryCount = subFileSet->mCellLayout->mUnk_06 + subFileSet->mLabelLayout->mUnk_06;
+    mainEntryCount = mainFileSet->mCellLayout->mCount + mainFileSet->mLabelLayout->mCount;
+    subEntryCount = subFileSet->mCellLayout->mCount + subFileSet->mLabelLayout->mCount;
     subOffsetY = GetInterpolatedValue(&gTimeAttackGhostSend->mInterpolation);
     for (i = 0; i < mainEntryCount; i++) {
         mainFileSet->mCellTable[i].mOffsetY = -subOffsetY;
@@ -264,7 +264,7 @@ void InitTimeAttackGhostSend(void *parentHeap, void *mainOam, void *subOam) {
                       gTimeAttackGhostSendMONclrName, gTimeAttackGhostSendMBnclName, gTimeAttackGhostSendMBnllName,
                       NULL, FindSceneFile);
     SetupCellFileSet(0, gTimeAttackGhostSend->mHeap, mainFileSet);
-    for (i = 0; i < mainFileSet->mLabelLayout->mUnk_06; i++) {
+    for (i = 0; i < mainFileSet->mLabelLayout->mCount; i++) {
         objSizeLeft -= SetupLabelCanvas(0, gTimeAttackGhostSend->mHeap, mainFileSet,
                                         gTimeAttackGhostSendMLabelTextRows[i], objSizeLeft);
     }
@@ -277,8 +277,8 @@ void InitTimeAttackGhostSend(void *parentHeap, void *mainOam, void *subOam) {
                       gTimeAttackGhostSendSONclrName, gTimeAttackGhostSendSBnclName, gTimeAttackGhostSendSBnllName,
                       gTimeAttackGhostSendSBnblName, FindSceneFile);
     SetupCellFileSet(1, gTimeAttackGhostSend->mHeap, subFileSet);
-    subCellCount = subFileSet->mCellLayout->mUnk_06;
-    for (i = 0; i < subFileSet->mLabelLayout->mUnk_06; i++) {
+    subCellCount = subFileSet->mCellLayout->mCount;
+    for (i = 0; i < subFileSet->mLabelLayout->mCount; i++) {
         if (gTimeAttackGhostSendSLabelTextRows[i][3] < 0) {
             gTimeAttackGhostSendSLabelTextRows[i][3] = subCellCount + assignedCount++;
         }

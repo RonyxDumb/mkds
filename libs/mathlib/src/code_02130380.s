@@ -336,9 +336,9 @@ dmul_round_bit_only:
     b dmul_half_smallest
     .size _dmul, . - _dmul
 
-    .global func_021307a4
-    .type func_021307a4, @function
-func_021307a4:
+    .global DoubleMulTail
+    .type DoubleMulTail, @function
+DoubleMulTail:
     // Return infinity with the product's sign.
 dmul_return_inf:
     ldr r1, dmul_const_0
@@ -557,4 +557,4 @@ dmul_const_3:
     .word 0x04000093
 dmul_const_4:
     .word 0x40000093
-    .size func_021307a4, . - func_021307a4
+    .size DoubleMulTail, . - DoubleMulTail

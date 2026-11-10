@@ -58,12 +58,12 @@ void LocateAndQueueTimeAttackTopMenu(void) {
     LocateNcgr2(&a, FindSceneFile(gTimeAttackTopMenuSNcgrName));
     LocateNcer(&gTimeAttackTopMenu->mTimeAttackTopMenuSNcer, FindSceneFile(gTimeAttackTopMenuSNcerName));
     LocateNclr(&b, FindSceneFile(gTimeAttackTopMenuSONclrName));
-    CallQueueAppend(4, 0, c->mData, c->mDataSize);
-    CallQueueAppend(0xf, 0, d->mData, 0x20);
-    CallQueueAppend(8, 0, &e->mData, e->mDataSize);
-    CallQueueAppend(8, 0x800, gTimeAttackTopMenu->mUnk_10, 0x800);
-    CallQueueAppend(0x23, 0, a->mData, a->mDataSize);
-    CallQueueAppend(0x1e, 0, b->mData, b->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(4, 0, c->mData, c->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xf, 0, d->mData, 0x20);
+    NNS_GfdRegisterNewVramTransferTask(8, 0, &e->mData, e->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gTimeAttackTopMenu->mUnk_10, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, a->mData, a->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, b->mData, b->mDataSize);
 }
 
 void func_ov001_02198368(void) {

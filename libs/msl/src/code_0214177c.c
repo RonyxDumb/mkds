@@ -27,7 +27,7 @@ int StrcmpMapped(const char *a, const char *b) {
     }
 }
 
-int func_02142368(const char *a, const char *b) {
+int CompareStringsMapped(const char *a, const char *b) {
     return StrcmpMapped(a, b);
 }
 

@@ -133,7 +133,7 @@ BOOL CheckBackupBlockPrefix(u8 *cursor) {
     allMatch = TRUE;
     index = 0;
     while (allMatch == TRUE && index < 8) {
-        if (*cursor != (u8) (func_02133458(0x3031565353444b4dull, index * 8) & 0xff)) {
+        if (*cursor != (u8) (ShiftRightLogical64(0x3031565353444b4dull, index * 8) & 0xff)) {
             allMatch = FALSE;
         }
         index++;

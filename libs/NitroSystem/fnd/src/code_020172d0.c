@@ -113,6 +113,6 @@ void *NNS_FndGetNthListObject(NNSFndList *list, u16 index) {
     return 0;
 }
 
-s32 func_020172d0(s32 a) {
+s32 NNS_GfdGetLnkPlttVramManagerWorkSize(s32 a) {
     return a << 4;
 }

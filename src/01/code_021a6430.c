@@ -63,5 +63,5 @@ void QueueMissionRunBossIcon(s32 a, s32 flagB, void *c, void *d, u32 e, u16 f, s
     } else {
         v1 = 7;
     }
-    CallQueueAppend(v0, f << 5, dst + (v1 << 5), 32);
+    NNS_GfdRegisterNewVramTransferTask(v0, f << 5, dst + (v1 << 5), 32);
 }

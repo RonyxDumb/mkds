@@ -91,19 +91,19 @@ void LocateAndQueueMissionRunMSsel(void) {
     LocateNcer(&gMissionRunMSsel->mMissionRunMSselSNcer, FindSceneFile(gMissionRunMSselSNcerName));
     LocateNclr((Nclr **) &gMissionRunMSsel->mUnk_1c, FindSceneFile(gMissionRunMSselSONclrName));
     p = b->mData;
-    CallQueueAppend(4, 0, d->mData, d->mDataSize);
-    CallQueueAppend(0xf, 0, g->mData, 0x40);
-    CallQueueAppend(8, 0, e->mData, e->mDataSize);
-    CallQueueAppend(8, 0x800, gMissionRunMSsel->mUnk_48, 0x800);
-    CallQueueAppend(8, 0x1000, gMissionRunMSsel->mUnk_48, 0x800);
-    CallQueueAppend(8, 0x1800, gMissionRunMSsel->mUnk_48, 0x800);
-    CallQueueAppend(9, 0, f->mData, f->mDataSize);
-    CallQueueAppend(9, 0x800, gMissionRunMSsel->mUnk_48, 0x800);
-    CallQueueAppend(0x13, 0, a->mData, a->mDataSize);
-    CallQueueAppend(0xe, 0, b->mData, 0x1a0);
-    CallQueueAppend(0xe, 0x1c0, p + 0xe0, 0x40);
-    CallQueueAppend(0x23, 0, c->mData, c->mDataSize);
-    CallQueueAppend(0x1e, 0, gMissionRunMSsel->mUnk_1c->mUnk_0c, gMissionRunMSsel->mUnk_1c->mUnk_08);
+    NNS_GfdRegisterNewVramTransferTask(4, 0, d->mData, d->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xf, 0, g->mData, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(8, 0, e->mData, e->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gMissionRunMSsel->mUnk_48, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(8, 0x1000, gMissionRunMSsel->mUnk_48, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(8, 0x1800, gMissionRunMSsel->mUnk_48, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(9, 0, f->mData, f->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(9, 0x800, gMissionRunMSsel->mUnk_48, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(0x13, 0, a->mData, a->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0, b->mData, 0x1a0);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, p + 0xe0, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, c->mData, c->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gMissionRunMSsel->mUnk_1c->mUnk_0c, gMissionRunMSsel->mUnk_1c->mUnk_08);
 }
 
 void func_ov001_021a0e34(void) {
@@ -130,8 +130,8 @@ void func_ov001_021a0b3c(void) {
     s32 j;
     s32 out;
     u16 buf[18];
-    cnt04 = gMissionRunMSsel->mMissionRunMSselMBncl->mUnk_06;
-    cnt10 = gMissionRunMSsel->mMissionRunMSselSBncl->mUnk_06;
+    cnt04 = gMissionRunMSsel->mMissionRunMSselMBncl->mCount;
+    cnt10 = gMissionRunMSsel->mMissionRunMSselSBncl->mCount;
     for (i = 0; i < 9; i++) {
         gMissionRunMSsel->mMissionRunMSselMTable[data_ov001_021a6dd4[i]].mVisible = 0;
         for (j = 0; j < 9; j++) {
@@ -273,7 +273,7 @@ void func_ov001_021a09a4(void) {
                 gMissionRunMSsel->mUnk_20[k] = r | ((bl << 10) | (g << 5));
             }
             DC_FlushRange(gMissionRunMSsel->mUnk_20, 0x20);
-            CallQueueAppend(0x1e, c2 << 5, gMissionRunMSsel->mUnk_20, 0x20);
+            NNS_GfdRegisterNewVramTransferTask(0x1e, c2 << 5, gMissionRunMSsel->mUnk_20, 0x20);
         }
     }
 }
@@ -376,7 +376,7 @@ void func_ov001_021a0620(void) {
             gMissionRunMSsel->mUnk_b0 = gMissionRunMSsel->mIndex;
             func_ov001_021a0774();
         } else {
-            b = gMissionRunMSsel->mMissionRunMSselMBncl->mUnk_06;
+            b = gMissionRunMSsel->mMissionRunMSselMBncl->mCount;
             v = LookupIndexChangeOffset(7 - gMissionRunMSsel->mUnk_ac, 1);
             gMissionRunMSsel->mBg0OffsetY = v;
             gMissionRunMSsel->mMissionRunMSselMTable[0].mOffsetY = v;
@@ -406,8 +406,8 @@ void func_ov001_021a04f0(void) {
     u16 a;
     u16 b;
 
-    a = gMissionRunMSsel->mMissionRunMSselMBncl->mUnk_06;
-    b = gMissionRunMSsel->mMissionRunMSselSBncl->mUnk_06;
+    a = gMissionRunMSsel->mMissionRunMSselMBncl->mCount;
+    b = gMissionRunMSsel->mMissionRunMSselSBncl->mCount;
     gMissionRunMSsel->mNextState = 0;
     gMissionRunMSsel->mStateFrames = 0;
     gMissionRunMSsel->mBg0OffsetX = 0x100;
@@ -550,7 +550,7 @@ void InitMissionRunMSsel(void *a, void *b, void *c) {
         base = data_ov001_021a6e10[i][0];
         rem -= InitLabelCanvas(gMissionRunMSsel->mHeap, data_ov001_021a6e10[i][1],
                                gMissionRunMSsel->mMissionRunMSselSBnll, data_ov001_021a6e34[i][1],
-                               data_ov001_021a6e58[i][1], base + gMissionRunMSsel->mMissionRunMSselSBncl->mUnk_06,
+                               data_ov001_021a6e58[i][1], base + gMissionRunMSsel->mMissionRunMSselSBncl->mCount,
                                gMissionRunMSsel->mMissionRunMSselSNcer, gMissionRunMSsel->mMissionRunMSselSBncl,
                                gMissionRunMSsel->mMissionRunMSselSTable, rem);
     }
@@ -592,8 +592,8 @@ void AdvanceMissionRunMSselState1(void) {
     s16 v1;
 
     UpdateMissionRunMSselSounds(gMissionRunMSsel->mUnk_a8);
-    a = gMissionRunMSsel->mMissionRunMSselMBncl->mUnk_06;
-    b = gMissionRunMSsel->mMissionRunMSselSBncl->mUnk_06;
+    a = gMissionRunMSsel->mMissionRunMSselMBncl->mCount;
+    b = gMissionRunMSsel->mMissionRunMSselSBncl->mCount;
     gMissionRunMSsel->mStateFrames = gMissionRunMSsel->mStateFrames + 1;
     v0 = InterpolateS16(1, 0x100, 0, gMissionRunMSsel->mStateFrames, 10);
     v1 = InterpolateS16(1, -192, 0, gMissionRunMSsel->mStateFrames, 10);
@@ -820,8 +820,8 @@ void AdvanceMissionRunMSselState8(void) {
     u16 a;
     u16 b;
 
-    a = gMissionRunMSsel->mMissionRunMSselMBncl->mUnk_06;
-    b = gMissionRunMSsel->mMissionRunMSselSBncl->mUnk_06;
+    a = gMissionRunMSsel->mMissionRunMSselMBncl->mCount;
+    b = gMissionRunMSsel->mMissionRunMSselSBncl->mCount;
     gMissionRunMSsel->mStateFrames = gMissionRunMSsel->mStateFrames + 1;
     first = InterpolateS16(1, 0, gMissionRunMSsel->mUnk_9c, gMissionRunMSsel->mStateFrames, 10);
     second = InterpolateS16(1, 0, -0xc0, gMissionRunMSsel->mStateFrames, 10);
@@ -849,7 +849,7 @@ void AdvanceMissionRunMSselState8(void) {
         }
     }
     if (gMissionRunMSsel->mStateFrames == 5) {
-        CallQueueAppend(9, 0, gMissionRunMSsel->mUnk_48, 0x800);
+        NNS_GfdRegisterNewVramTransferTask(9, 0, gMissionRunMSsel->mUnk_48, 0x800);
     }
 }
 

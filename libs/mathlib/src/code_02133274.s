@@ -1,15 +1,13 @@
 // Unsigned 32-bit division.
 //
-// Not compiled code: _ll_udiv (code_021329f8.s) calls .L_0213327c, a second entry past the zero check, where a
-// compiled function is entered only at its start; the computed jump `add pc, pc, r2, lsl #2` has no bound
-// check and lands inside straight-line code, where 1.2 dispatches only switches, through `addls pc` and a
-// table of branches; and every step tests the carry of an `adcs` with `sublo`, a condition 1.2 takes only
-// from a compare (docs/compiler.md, Conditions).
+// Hand-written asm: _ll_udiv (code_021329f8.s) calls .L_u32_div_f_no_zero_check, a second entry past the zero check;
+// the computed jump `add pc, pc, r2, lsl #2` has no bound check and lands inside straight-line code; and every step
+// tests the carry of an `adcs` with `sublo`.
 
     .text
 
 // Unsigned 32-bit division: r0 divided by r1 gives the quotient in r0 and the remainder in r1. Division by zero returns
-// at once. .L_0213327c skips that check. The dividend is shifted up by the number of leading quotient bits that must be
+// at once. .L_u32_div_f_no_zero_check skips that check. The dividend is shifted up by the number of leading quotient bits that must be
 // zero (found four at a time), then a computed jump enters a run of 32 identical steps at the right place; each step
 // shifts the next dividend bit into the remainder and subtracts the divisor when it fits, the carry giving the quotient
 // bit.
@@ -20,8 +18,8 @@ _u32_div_f:
     cmp r1, #0
     bxeq lr
     // Entry without the zero check. A dividend below the divisor gives quotient 0, remainder the dividend.
-    .global .L_0213327c
-.L_0213327c:
+    .global .L_u32_div_f_no_zero_check
+.L_u32_div_f_no_zero_check:
     cmp r0, r1
     movlo r1, r0
     movlo r0, #0

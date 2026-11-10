@@ -39,7 +39,7 @@ void func_ov000_021856a8(void) {
     s32 i;
     s16 z[2];
 
-    c = gWiFiAikotobaCheck->mWiFiAikotobaCheckBncl->mUnk_06;
+    c = gWiFiAikotobaCheck->mWiFiAikotobaCheckBncl->mCount;
     SetWiFiAikotobaCheckDigits();
     for (i = 0; i < 12; i++) {
         if (b[i] == 0) {
@@ -112,7 +112,7 @@ void func_ov000_021854f8(void) {
     }
     for (i = 0; i < 12; i++) {
         gWiFiAikotobaCheck
-            ->mWiFiAikotobaCheckTable[data_ov000_021b06dc[i] + gWiFiAikotobaCheck->mWiFiAikotobaCheckBncl->mUnk_06]
+            ->mWiFiAikotobaCheckTable[data_ov000_021b06dc[i] + gWiFiAikotobaCheck->mWiFiAikotobaCheckBncl->mCount]
             .mOffsetY = gWiFiAikotobaCheck->mOffset;
     }
 }

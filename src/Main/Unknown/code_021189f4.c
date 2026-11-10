@@ -270,7 +270,7 @@ void AdvanceSelectCupCourseState8(void) {
     InterpolateS16(1, 0, 0x100, gSelectCupCourse->mStateFrames, 10);
     offsetY = InterpolateS16(1, 0, -0xc0, gSelectCupCourse->mStateFrames, 10);
     if (movesTaOrVsCells != FALSE) {
-        cellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mUnk_06;
+        cellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mCount;
         gSelectCupCourse->mBg0Offset = offsetY;
         gSelectCupCourse->mSelectCupCourseTaOrVsMTable[0].mOffsetY = offsetY;
         gSelectCupCourse->mSelectCupCourseTaOrVsMTable[2].mOffsetY = offsetY;
@@ -286,7 +286,7 @@ void AdvanceSelectCupCourseState8(void) {
         gSelectCupCourse->mSelectCupCourseTaOrVsMTable[cellCount + 5].mOffsetY = offsetY;
     }
     if (gSelectCupCourse->mResult != 2) {
-        cellCount = gSelectCupCourse->mSelectCupMBncl->mUnk_06;
+        cellCount = gSelectCupCourse->mSelectCupMBncl->mCount;
         gSelectCupCourse->mBg3Offset = offsetY - 0x20;
         gSelectCupCourse->mSelectCupMTable[0x14].mOffsetY = offsetY - 0x20;
         gSelectCupCourse->mSelectCupMTable[0x13].mOffsetY = offsetY - 0x20;
@@ -342,10 +342,11 @@ s32 AdvanceSelectCupCourse(void) {
     if (gBootInfo->mUnk_00 != 2) {
         if (gSelectCupCourse->mCupPicturePending != FALSE && IsCupPictureReady() != FALSE) {
             screenMap = GetCupPictureNscrData();
-            CallQueueAppend(0x1f, 0, GetCupPictureNclrData(), 0xe0);
-            CallQueueAppend(0x17, 0x20, GetCupPictureNcgrData(), 0xdc0);
+            NNS_GfdRegisterNewVramTransferTask(0x1f, 0, GetCupPictureNclrData(), 0xe0);
+            NNS_GfdRegisterNewVramTransferTask(0x17, 0x20, GetCupPictureNcgrData(), 0xdc0);
             for (i = 0; i < 11; i++) {
-                CallQueueAppend(0x1b, ((i + 8) * 0x20 + 0x16) * 2, screenMap + ((i + 8) * 0x20 + 0x16), 0x14);
+                NNS_GfdRegisterNewVramTransferTask(0x1b, ((i + 8) * 0x20 + 0x16) * 2,
+                                                   screenMap + ((i + 8) * 0x20 + 0x16), 0x14);
             }
             gSelectCupCourse->mCupPicturePending = FALSE;
         }
@@ -426,16 +427,16 @@ void LocateAndQueueSelectCupGrid(void) {
     LocateNclr(&selectCupSOPalette, FindSceneFile(gSelectCupGridSONclrName));
     paletteData = selectCupMOPalette->mData;
     if (GetPreviousMenuScreenNumber() != 0x18 && GetPreviousMenuScreenNumber() != 0xc) {
-        CallQueueAppend(4, 0, selectCupMBChars->mData, selectCupMBChars->mDataSize);
-        CallQueueAppend(0xf, 0, selectCupMBPalette->mData, 0x100);
-        CallQueueAppend(8, 0, &selectCupMScreenMap->mData, selectCupMScreenMap->mDataSize);
-        CallQueueAppend(8, 0x800, gSelectCupGrid->mUnk_20, 0x800);
+        NNS_GfdRegisterNewVramTransferTask(4, 0, selectCupMBChars->mData, selectCupMBChars->mDataSize);
+        NNS_GfdRegisterNewVramTransferTask(0xf, 0, selectCupMBPalette->mData, 0x100);
+        NNS_GfdRegisterNewVramTransferTask(8, 0, &selectCupMScreenMap->mData, selectCupMScreenMap->mDataSize);
+        NNS_GfdRegisterNewVramTransferTask(8, 0x800, gSelectCupGrid->mUnk_20, 0x800);
     }
-    CallQueueAppend(0x13, 0, selectCupMChars->mData, selectCupMChars->mDataSize);
-    CallQueueAppend(0xe, 0, selectCupMOPalette->mData, 0x1a0);
-    CallQueueAppend(0xe, 0x1c0, paletteData + 0xe0, 0x40);
-    CallQueueAppend(0x23, 0, selectCupSChars->mData, selectCupSChars->mDataSize);
-    CallQueueAppend(0x1e, 0, selectCupSOPalette->mData, selectCupSOPalette->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x13, 0, selectCupMChars->mData, selectCupMChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0, selectCupMOPalette->mData, 0x1a0);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, paletteData + 0xe0, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, selectCupSChars->mData, selectCupSChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, selectCupSOPalette->mData, selectCupSOPalette->mDataSize);
 }
 
 u32 GetSelectCupGridCupEnabled(u32 cupIndex) {

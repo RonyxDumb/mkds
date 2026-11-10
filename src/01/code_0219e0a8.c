@@ -73,18 +73,21 @@ void func_ov001_0219e660(void) {
 }
 
 void QueueEndingSceneNcgrNscrNclr(int i) {
-    CallQueueAppend(4, 0, gEndingScene->mLogoEndMarioKartMBAndThanksYouMBNcgrs[i]->mData,
-                    gEndingScene->mLogoEndMarioKartMBAndThanksYouMBNcgrs[i]->mDataSize);
-    CallQueueAppend(8, 0, gEndingScene->mLogoEndMarioKartMBgAndThanksYouMBgNscrs[i]->mData,
-                    gEndingScene->mLogoEndMarioKartMBgAndThanksYouMBgNscrs[i]->mDataSize);
-    CallQueueAppend(0xf, 0, gEndingScene->mLogoEndMarioKartMBAndThanksYouMBNclrs[i]->mData,
-                    gEndingScene->mLogoEndMarioKartMBAndThanksYouMBNclrs[i]->mDataSize);
-    CallQueueAppend(0x14, 0, gEndingScene->mEndAllRightsReservedSBAndLogoEndNintendoSBNcgrs[i]->mData,
-                    gEndingScene->mEndAllRightsReservedSBAndLogoEndNintendoSBNcgrs[i]->mDataSize);
-    CallQueueAppend(0x18, 0, gEndingScene->mEndAllRightsReservedSBgAndLogoEndNintendoSBgNscrs[i]->mData,
-                    gEndingScene->mEndAllRightsReservedSBgAndLogoEndNintendoSBgNscrs[i]->mDataSize);
-    CallQueueAppend(0x1f, 0, gEndingScene->mEndAllRightsReservedSBAndLogoEndNintendoSBNclrs[i]->mData,
-                    gEndingScene->mEndAllRightsReservedSBAndLogoEndNintendoSBNclrs[i]->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(4, 0, gEndingScene->mLogoEndMarioKartMBAndThanksYouMBNcgrs[i]->mData,
+                                       gEndingScene->mLogoEndMarioKartMBAndThanksYouMBNcgrs[i]->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(8, 0, gEndingScene->mLogoEndMarioKartMBgAndThanksYouMBgNscrs[i]->mData,
+                                       gEndingScene->mLogoEndMarioKartMBgAndThanksYouMBgNscrs[i]->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xf, 0, gEndingScene->mLogoEndMarioKartMBAndThanksYouMBNclrs[i]->mData,
+                                       gEndingScene->mLogoEndMarioKartMBAndThanksYouMBNclrs[i]->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x14, 0,
+                                       gEndingScene->mEndAllRightsReservedSBAndLogoEndNintendoSBNcgrs[i]->mData,
+                                       gEndingScene->mEndAllRightsReservedSBAndLogoEndNintendoSBNcgrs[i]->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x18, 0,
+                                       gEndingScene->mEndAllRightsReservedSBgAndLogoEndNintendoSBgNscrs[i]->mData,
+                                       gEndingScene->mEndAllRightsReservedSBgAndLogoEndNintendoSBgNscrs[i]->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1f, 0,
+                                       gEndingScene->mEndAllRightsReservedSBAndLogoEndNintendoSBNclrs[i]->mData,
+                                       gEndingScene->mEndAllRightsReservedSBAndLogoEndNintendoSBNclrs[i]->mDataSize);
 }
 
 void func_ov001_0219e5a0(void) {
@@ -152,7 +155,8 @@ void LoadAndQueueEndingSceneData(void) {
     } else {
         QueueEndingSceneNcgrNscrNclr(0);
     }
-    CallQueueAppend(0xe, 0, gEndingScene->mThanksYouMO00Nclr->mData, gEndingScene->mThanksYouMO00Nclr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0, gEndingScene->mThanksYouMO00Nclr->mData,
+                                       gEndingScene->mThanksYouMO00Nclr->mDataSize);
 }
 
 void AdvanceEndingSceneState0(void) {

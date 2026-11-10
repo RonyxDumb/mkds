@@ -130,7 +130,7 @@ void AdvancePlayerEntryListOffsets(void) {
     PlayerEntryList *entryList = gPlayerEntryList;
     CellFileSet *fileSet = &entryList->mParts;
     s32 i;
-    s32 cellCount = fileSet->mCellLayout->mUnk_06;
+    s32 cellCount = fileSet->mCellLayout->mCount;
     s32 onesCell;
     s32 d;
     s16 offsetX;
@@ -371,9 +371,10 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
         }
         gPlayerEntryList->mMoveInnerPending = FALSE;
     }
-    CallQueueAppend(0x13, 0, gPlayerEntryList->mParts.mChars->mData, gPlayerEntryList->mParts.mChars->mDataSize);
-    CallQueueAppend(0xe, 0, fileSet->mPalette->mData, 0x1a0);
-    CallQueueAppend(0xe, 0x1c0, (u8 *) fileSet->mPalette->mData + 0x1c0, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(0x13, 0, gPlayerEntryList->mParts.mChars->mData,
+                                       gPlayerEntryList->mParts.mChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0, fileSet->mPalette->mData, 0x1a0);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, (u8 *) fileSet->mPalette->mData + 0x1c0, 0x40);
     if (gBootInfo->mUnk_00 != 2) {
         QueueCellChars(gTitleCellIndices[gPlayerEntryList->mScreenKind], titleFileSet->mCells, titleFileSet->mChars,
                        titleFileSet->mCellLayout, 0, 0x19, fileSet->mCells, fileSet->mCellLayout);

@@ -126,7 +126,7 @@ void HideKeyboardFirstBufferObjects(void) {
             for (k = 0; k < 3; k++) {
                 gKeyboard->mTables[i][0][gKeyboardButtonEntryIndices[i][j][k]].mVisible = 0;
             }
-            gKeyboard->mTables[i][0][gKeyboardButtonLabelIndices[i][j] + gKeyboard->mBncls[i]->mUnk_06].mVisible = 0;
+            gKeyboard->mTables[i][0][gKeyboardButtonLabelIndices[i][j] + gKeyboard->mBncls[i]->mCount].mVisible = 0;
         }
     }
     for (i = 0; i < 2; i++) {
@@ -293,7 +293,7 @@ void WriteKeyboardObjectOffsets(void) {
     s16 offsetY;
     s16 keyboardOffsetY;
     for (i = 0; i < 2; i++) {
-        cellCounts[i] = gKeyboard->mBncls[i]->mUnk_06;
+        cellCounts[i] = gKeyboard->mBncls[i]->mCount;
         for (j = 0; j < 2; j++) {
             offsetY = -500;
             if (i == 1 || gKeyboard->mRecords[2].mMode == 0xc) {
@@ -353,7 +353,7 @@ void WriteKeyboardObjectOffsets(void) {
 void QueueKeyboardScreenMap(void) {
     Nscr *screenMap;
     screenMap = gKeyboard->mNscrs[gKeyboard->mKind];
-    CallQueueAppend(0x1b, 0, screenMap->mData, screenMap->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1b, 0, screenMap->mData, screenMap->mDataSize);
 }
 
 void LoadKeyboardFiles(void) {

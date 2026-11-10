@@ -58,12 +58,12 @@ void LocateAndQueueMissionRunLVsel(void) {
     LocateNcer(&gMissionRunLVsel->mMissionRunLVselSNcer, FindSceneFile(gMissionRunLVselSNcerName));
     LocateNclr(&v2, FindSceneFile(gMissionRunLVselSONclrName));
     gMissionRunLVsel->mUnk_14 = HeapAlloc(gMissionRunLVsel->mHeap, 0x800);
-    CallQueueAppend(4, 0, v3->mData, v3->mDataSize);
-    CallQueueAppend(8, 0, v4->mData, v4->mDataSize);
-    CallQueueAppend(8, 0x800, gMissionRunLVsel->mUnk_14, 0x800);
-    CallQueueAppend(0xf, 0, v5->mData, 0x40);
-    CallQueueAppend(0x23, 0, v1->mData, v1->mDataSize);
-    CallQueueAppend(0x1e, 0, v2->mData, v2->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(4, 0, v3->mData, v3->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(8, 0, v4->mData, v4->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gMissionRunLVsel->mUnk_14, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(0xf, 0, v5->mData, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, v1->mData, v1->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, v2->mData, v2->mDataSize);
 }
 
 s32 func_ov001_0219f6a0(s16 a) {
@@ -99,7 +99,7 @@ void func_ov001_0219f4f8(void) {
     s32 i;
     u16 cnt;
     s32 r;
-    cnt = gMissionRunLVsel->mMissionRunLVselS7Or6Bncl->mUnk_06;
+    cnt = gMissionRunLVsel->mMissionRunLVselS7Or6Bncl->mCount;
     for (i = 0; i < 7; i++) {
         gMissionRunLVsel->mMissionRunLVselS7Or6Table[data_ov001_021a6ce0[i][0]].mVisible = 0;
         gMissionRunLVsel->mMissionRunLVselS7Or6Table[data_ov001_021a6ce0[i][1]].mVisible = 0;
@@ -215,7 +215,7 @@ void func_ov001_0219f2a4(void) {
     s32 j;
     s32 count;
 
-    count = gMissionRunLVsel->mMissionRunLVselS7Or6Bncl->mUnk_06;
+    count = gMissionRunLVsel->mMissionRunLVselS7Or6Bncl->mCount;
     i = 0;
     gMissionRunLVsel->mNextState = 0;
     gMissionRunLVsel->mStateFrames = 0;
@@ -358,7 +358,7 @@ void AdvanceMissionRunLVselState1(void) {
     s16 value;
 
     StartSceneSeqIfIdle();
-    count = gMissionRunLVsel->mMissionRunLVselS7Or6Bncl->mUnk_06;
+    count = gMissionRunLVsel->mMissionRunLVselS7Or6Bncl->mCount;
     gMissionRunLVsel->mStateFrames = gMissionRunLVsel->mStateFrames + 1;
     value = InterpolateS16(1, gMissionRunLVsel->mUnk_48, 0, gMissionRunLVsel->mStateFrames, 10);
     gMissionRunLVsel->mBg0Offset = InterpolateS16(1, -192, 0, gMissionRunLVsel->mStateFrames, 10);
@@ -494,7 +494,7 @@ void AdvanceMissionRunLVselState5(void) {
     s32 count;
     s16 value;
 
-    count = gMissionRunLVsel->mMissionRunLVselS7Or6Bncl->mUnk_06;
+    count = gMissionRunLVsel->mMissionRunLVselS7Or6Bncl->mCount;
     gMissionRunLVsel->mStateFrames = gMissionRunLVsel->mStateFrames + 1;
     value = InterpolateS16(1, 0, gMissionRunLVsel->mUnk_48, gMissionRunLVsel->mStateFrames, 10);
     gMissionRunLVsel->mBg0Offset = InterpolateS16(1, 0, -192, gMissionRunLVsel->mStateFrames, 10);

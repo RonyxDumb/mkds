@@ -63,11 +63,11 @@ void LocateAndQueueRecordVSErase(void) {
     sceneFile = FindSceneFile(gRecordVSM03NscrName);
     LocateNscr(&gRecordVSErase->mRecordVSM03Nscr, sceneFile);
     emblemPalette = GetEmblemSBNclr();
-    CallQueueAppend(0x17, 0, sbChars->mData, sbChars->mDataSize);
-    CallQueueAppend(0x1b, 0, eraseScreenMap[0]->mData, eraseScreenMap[0]->mDataSize);
-    CallQueueAppend(0x1b, (0x00000800u), gRecordVSErase->mUnk_4c, (0x00000800u));
-    CallQueueAppend(0x1f, 0, sbPalette->mData, 0x40);
-    CallQueueAppend(0xe, 0x40, emblemPalette->mData, 0x20);
+    NNS_GfdRegisterNewVramTransferTask(0x17, 0, sbChars->mData, sbChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1b, 0, eraseScreenMap[0]->mData, eraseScreenMap[0]->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1b, (0x00000800u), gRecordVSErase->mUnk_4c, (0x00000800u));
+    NNS_GfdRegisterNewVramTransferTask(0x1f, 0, sbPalette->mData, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0x40, emblemPalette->mData, 0x20);
 }
 
 #pragma thumb off
@@ -102,7 +102,7 @@ void UpdateRecordVSEraseRows(void) {
     s32 eraseCellCount;
     s32 firstRecordIndex;
 
-    eraseCellCount = gRecordVSErase->mRecordVSSEraseBncl->mUnk_06;
+    eraseCellCount = gRecordVSErase->mRecordVSSEraseBncl->mCount;
     firstRecordIndex = GetRecordVSEraseFirstRecordIndex();
     for (i = 0; i < 5; i++) {
         gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnhighlightedIndices[i]].mVisible = 0;
@@ -159,10 +159,12 @@ void PrintRecordVSEraseShownRecord(void) {
     firstRecordIndex = GetRecordVSEraseFirstRecordIndex();
     if (GetRecordFriendKeyText(firstRecordIndex + gRecordVSErase->mShownIndex, friendKeyText)) {
         gRecordVSErase->mTransientDrawn = 1;
-        CallQueueAppend(9, 0, gRecordVSErase->mRecordVSM03Nscr->mData, gRecordVSErase->mRecordVSM03Nscr->mDataSize);
+        NNS_GfdRegisterNewVramTransferTask(9, 0, gRecordVSErase->mRecordVSM03Nscr->mData,
+                                           gRecordVSErase->mRecordVSM03Nscr->mDataSize);
     } else {
         gRecordVSErase->mTransientDrawn = 0;
-        CallQueueAppend(9, 0, gRecordVSErase->mRecordVSM02Nscr->mData, gRecordVSErase->mRecordVSM02Nscr->mDataSize);
+        NNS_GfdRegisterNewVramTransferTask(9, 0, gRecordVSErase->mRecordVSM02Nscr->mData,
+                                           gRecordVSErase->mRecordVSM02Nscr->mDataSize);
     }
     switch (gRecordVSErase->mTransientDrawn) {
         case 0:
@@ -206,9 +208,9 @@ void PrintRecordVSEraseShownRecord(void) {
                                             gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable, 6);
             ReadRecordEmblem(firstRecordIndex + gRecordVSErase->mShownIndex, gRecordVSErase->mEmblem,
                              gRecordVSErase->mEmblemConverted);
-            CallQueueAppend(0x13,
-                            GetCellCharIndex(3, gRecordVSErase->mRecordVSMNcer, gRecordVSErase->mRecordVSMBncl) << 5,
-                            gRecordVSErase->mEmblemConverted, 0x200);
+            NNS_GfdRegisterNewVramTransferTask(
+                0x13, GetCellCharIndex(3, gRecordVSErase->mRecordVSMNcer, gRecordVSErase->mRecordVSMBncl) << 5,
+                gRecordVSErase->mEmblemConverted, 0x200);
             break;
         case 1:
             CopyRecordText(firstRecordIndex + gRecordVSErase->mShownIndex, text, 0x20);
@@ -224,7 +226,7 @@ void PrintRecordVSEraseShownRecord(void) {
             }
             ReadRecordEmblem(firstRecordIndex + gRecordVSErase->mShownIndex, gRecordVSErase->mEmblem,
                              gRecordVSErase->mEmblemConverted);
-            CallQueueAppend(
+            NNS_GfdRegisterNewVramTransferTask(
                 0x13, GetCellCharIndex(1, gRecordVSErase->mRecordVSMNcer, gRecordVSErase->mRecordVSMTransientBncl) << 5,
                 gRecordVSErase->mEmblemConverted, 0x200);
             break;

@@ -14,5 +14,5 @@ void DigitsRoundTo(DigitRecord *a, int n);
 void DigitsIncrement(DigitRecord *a, int n);
 int DigitsRoundCompare(const DigitRecord *a, int n);
 int CountLowZeroBits(u32 a);
-int func_02142368(const char *a, const char *b);
+int CompareStringsMapped(const char *a, const char *b);
 int StrcmpMapped(const char *a, const char *b);

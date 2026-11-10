@@ -46,7 +46,7 @@ asm u32 FloatStatusClearXor(u32 a, u32 b) {
 // 30 set.
 // Not compiled code: it saves r0-r2, ip and lr around its call, inside the body; 1.2 saves registers only in its
 // prologue, never ip or the argument registers, and pads every frame to 8 bytes.
-asm u32 func_02133e04(u32 a, u32 b) {
+asm u32 FloatFlagsClearXor(u32 a, u32 b) {
     and r2, r0, #0x1f
     and r3, r0, #0x1f0000
     orr r0, r2, r3, lsr #8

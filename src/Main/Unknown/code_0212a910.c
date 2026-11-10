@@ -305,9 +305,9 @@ void SetupLinkLevelIcons(void) {
         gLinkLevelIcons->mIconPositions[i].mY = GetLayoutAxisStartY(cellEntry->mUnk_00_2, 0x10);
     }
     for (i = 0; i < 2; i++) {
-        CallQueueAppend(0x13, (0x400 - (i + 1) * 4) << 5, gLinkLevelIcons->mZeroChars, 0x80);
+        NNS_GfdRegisterNewVramTransferTask(0x13, (0x400 - (i + 1) * 4) << 5, gLinkLevelIcons->mZeroChars, 0x80);
     }
-    CallQueueAppend(0xe, 0x1a0, palette->mData + 0xd0, 0x20);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0x1a0, palette->mData + 0xd0, 0x20);
 }
 
 void UpdateLinkLevelIconTiles(void) {
@@ -345,11 +345,11 @@ void UpdateLinkLevelIconTiles(void) {
     }
     for (i = 0; i < 2; i++) {
         if (gLinkLevelIcons->mIconKind[i] == -1) {
-            CallQueueAppend(0x13, (0x400 - (i + 1) * 4) << 5, gLinkLevelIcons->mZeroChars, 0x80);
+            NNS_GfdRegisterNewVramTransferTask(0x13, (0x400 - (i + 1) * 4) << 5, gLinkLevelIcons->mZeroChars, 0x80);
         } else {
-            CallQueueAppend(0x13, (0x400 - (i + 1) * 4) << 5,
-                            gLinkLevelIcons->mIconChars[gLinkLevelIcons->mIconKind[i]][gLinkLevelIcons->mIconLevel[i]],
-                            0x80);
+            NNS_GfdRegisterNewVramTransferTask(
+                0x13, (0x400 - (i + 1) * 4) << 5,
+                gLinkLevelIcons->mIconChars[gLinkLevelIcons->mIconKind[i]][gLinkLevelIcons->mIconLevel[i]], 0x80);
         }
     }
 }

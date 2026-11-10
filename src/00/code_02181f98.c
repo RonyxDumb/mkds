@@ -159,13 +159,13 @@ void LocateAndQueueWiFiVSSetting(void) {
     zero = 0;
     MIi_CpuClear16(zero, gWiFiVSSetting->mNscrCopy, 0x1000);
     MIi_CpuCopy16(scrn->mData, gWiFiVSSetting->mNscrCopy, 0x800);
-    CallQueueAppend(0x17, 0, chr->mData, chr->mDataSize);
-    CallQueueAppend(0x1b, 0, gWiFiVSSetting->mNscrCopy, 0x1000);
-    CallQueueAppend(0x1f, 0, pltt->mData, 0x80);
-    CallQueueAppend(0x23, 0, gWiFiVSSetting->mWiFiVSSettingSNcgr->mData,
-                    gWiFiVSSetting->mWiFiVSSettingSNcgr->mDataSize);
-    CallQueueAppend(0x1e, 0, gWiFiVSSetting->mWiFiVSSettingSONclr->mData,
-                    gWiFiVSSetting->mWiFiVSSettingSONclr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x17, 0, chr->mData, chr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1b, 0, gWiFiVSSetting->mNscrCopy, 0x1000);
+    NNS_GfdRegisterNewVramTransferTask(0x1f, 0, pltt->mData, 0x80);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, gWiFiVSSetting->mWiFiVSSettingSNcgr->mData,
+                                       gWiFiVSSetting->mWiFiVSSettingSNcgr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gWiFiVSSetting->mWiFiVSSettingSONclr->mData,
+                                       gWiFiVSSetting->mWiFiVSSettingSONclr->mDataSize);
 }
 
 void func_ov000_02182de8(void) {
@@ -586,7 +586,7 @@ void func_ov000_02182270(void) {
     s32 k;
     s32 v;
 
-    v = gWiFiVSSetting->mWiFiVSSettingBncl->mUnk_06;
+    v = gWiFiVSSetting->mWiFiVSSettingBncl->mCount;
     for (i = 0; i < 3; i++) {
         for (j = 0; j < data_ov000_021b0600[i]; j++) {
             gWiFiVSSetting->mWiFiVSSettingTable[data_ov000_021b060c[i][j]].mOffsetX = gWiFiVSSetting->mRowOffsets[i][0];

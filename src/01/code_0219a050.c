@@ -69,15 +69,15 @@ void LocateAndQueueRecordTopMenu(void) {
     LocateNcer(&gRecordTopMenu->mRecordTopMenuSNcer, FindSceneFile(gRecordTopMenuSNcerName));
     LocateNclr(&d, FindSceneFile(gRecordTopMenuSONclrName));
     q = b->mData;
-    CallQueueAppend(4, 0, e->mData, e->mDataSize);
-    CallQueueAppend(15, 0, f->mData, 0x60);
-    CallQueueAppend(8, 0, g->mData, g->mDataSize);
-    CallQueueAppend(8, 0x800, gRecordTopMenu->mUnk_28, 0x800);
-    CallQueueAppend(0x13, 0, a->mData, a->mDataSize);
-    CallQueueAppend(14, 0, b->mData, 0x1a0);
-    CallQueueAppend(14, 0x1c0, q + 0xe0, 0x40);
-    CallQueueAppend(0x23, 0, c->mData, c->mDataSize);
-    CallQueueAppend(0x1e, 0, d->mData, d->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(4, 0, e->mData, e->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(15, 0, f->mData, 0x60);
+    NNS_GfdRegisterNewVramTransferTask(8, 0, g->mData, g->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gRecordTopMenu->mUnk_28, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(0x13, 0, a->mData, a->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(14, 0, b->mData, 0x1a0);
+    NNS_GfdRegisterNewVramTransferTask(14, 0x1c0, q + 0xe0, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, c->mData, c->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, d->mData, d->mDataSize);
 }
 
 void SetRecordTopMenuRowOn(s32 a) {
@@ -101,7 +101,7 @@ void ResetRecordTopMenu(void) {
     gRecordTopMenu->mNextState = 0;
     gRecordTopMenu->mStateFrames = 0;
     gRecordTopMenu->mBg0Offset = ~0xbf;
-    n = gRecordTopMenu->mRecordTopMenuMBncl->mUnk_06;
+    n = gRecordTopMenu->mRecordTopMenuMBncl->mCount;
     gRecordTopMenu->mRecordTopMenuMTable[0].mOffsetY = ~0xbf;
     gRecordTopMenu->mRecordTopMenuMTable[1].mOffsetY = ~0xbf;
     gRecordTopMenu->mRecordTopMenuMTable[n].mOffsetY = ~0xbf;
@@ -281,7 +281,7 @@ void InitRecordTopMenu(void *heap) {
                                        GetBmgEntry(gRecordTopMenu->mRecordMessages, 9),
                                        gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMTable);
     x = 1;
-    base = gRecordTopMenu->mRecordTopMenuMBncl->mUnk_06;
+    base = gRecordTopMenu->mRecordTopMenuMBncl->mCount;
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 3; j++) {
             rem -= InitLabelCanvas(heap, data_ov001_021a6ae4[i][j], gRecordTopMenu->mRecordTopMenuMBnll,
@@ -353,7 +353,7 @@ void AdvanceRecordTopMenuState1(void) {
     a = InterpolateS16(1, 0xe0, 0, gRecordTopMenu->mStateFrames, 10);
     b = InterpolateS16(1, -0xc0, 0, gRecordTopMenu->mStateFrames, 10);
     gRecordTopMenu->mBg0Offset = b;
-    idx = gRecordTopMenu->mRecordTopMenuMBncl->mUnk_06;
+    idx = gRecordTopMenu->mRecordTopMenuMBncl->mCount;
     gRecordTopMenu->mRecordTopMenuMTable[0].mOffsetY = b;
     gRecordTopMenu->mRecordTopMenuMTable[1].mOffsetY = b;
     gRecordTopMenu->mRecordTopMenuMTable[idx].mOffsetY = b;
@@ -514,7 +514,7 @@ void AdvanceRecordTopMenuState6(void) {
     a = InterpolateS16(1, 0, 0xe0, gRecordTopMenu->mStateFrames, 10);
     b = InterpolateS16(1, 0, -0xc0, gRecordTopMenu->mStateFrames, 10);
     gRecordTopMenu->mBg0Offset = b;
-    idx = gRecordTopMenu->mRecordTopMenuMBncl->mUnk_06;
+    idx = gRecordTopMenu->mRecordTopMenuMBncl->mCount;
     gRecordTopMenu->mRecordTopMenuMTable[0].mOffsetY = b;
     gRecordTopMenu->mRecordTopMenuMTable[1].mOffsetY = b;
     gRecordTopMenu->mRecordTopMenuMTable[idx].mOffsetY = b;

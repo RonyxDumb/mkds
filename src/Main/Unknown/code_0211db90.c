@@ -82,12 +82,12 @@ void LocateAndQueueSelectRaceRule(void) {
     LocateNcer(&gSelectRaceRule->mNcer, sceneFile);
     sceneFile = FindSceneFile(data_0216dbec);
     LocateNclr(&gSelectRaceRule->mNclr, sceneFile);
-    CallQueueAppend(0x14, 0, bgChars->mData, bgChars->mDataSize);
-    CallQueueAppend(0x1b, 0, gSelectRaceRule->mNscr->mData, gSelectRaceRule->mNscr->mDataSize);
-    CallQueueAppend(0x1b, (0x00000800u), gSelectRaceRule->mUnk_24, (0x00000800u));
-    CallQueueAppend(0x1f, 0, bgPalette->mData, 0x80);
-    CallQueueAppend(0x23, 0, cellChars->mData, cellChars->mDataSize);
-    CallQueueAppend(0x1e, 0, gSelectRaceRule->mNclr->mData, gSelectRaceRule->mNclr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x14, 0, bgChars->mData, bgChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1b, 0, gSelectRaceRule->mNscr->mData, gSelectRaceRule->mNscr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1b, (0x00000800u), gSelectRaceRule->mUnk_24, (0x00000800u));
+    NNS_GfdRegisterNewVramTransferTask(0x1f, 0, bgPalette->mData, 0x80);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, cellChars->mData, cellChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gSelectRaceRule->mNclr->mData, gSelectRaceRule->mNclr->mDataSize);
 }
 
 #pragma thumb off

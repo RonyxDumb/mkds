@@ -75,18 +75,20 @@ void LocateAndQueueRecordTAtt(void) {
     LocateNclr(&l1c, FindSceneFile(gRecordTAttSBNclrName));
     LocateNscr(&l20, FindSceneFile(gRecordTAttSNscrName));
     p = l0->mData;
-    CallQueueAppend(0x13, 0, gRecordTAtt->mRecordTAttMNcgr->mData, gRecordTAtt->mRecordTAttMNcgr->mDataSize);
-    CallQueueAppend(0xe, 0, l0->mData, 0x1a0);
-    CallQueueAppend(0xe, 0x1c0, (u8 *) p + 0x1c0, 0x40);
-    CallQueueAppend(0x23, 0, gRecordTAtt->mRecordTAttSNcgr->mData, gRecordTAtt->mRecordTAttSNcgr->mDataSize);
-    CallQueueAppend(0x1e, 0, l14->mData, l14->mDataSize);
-    CallQueueAppend(4, 0, l4->mData, l4->mDataSize);
-    CallQueueAppend(8, 0, lc->mData, lc->mDataSize);
-    CallQueueAppend(9, 0, l10->mData, l10->mDataSize);
-    CallQueueAppend(0xf, 0, l8->mData, 0x40);
-    CallQueueAppend(0x17, 0, l18->mData, l18->mDataSize);
-    CallQueueAppend(0x1f, 0, l1c->mData, 0x40);
-    CallQueueAppend(0x1b, 0, l20->mData, l20->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x13, 0, gRecordTAtt->mRecordTAttMNcgr->mData,
+                                       gRecordTAtt->mRecordTAttMNcgr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0, l0->mData, 0x1a0);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, (u8 *) p + 0x1c0, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, gRecordTAtt->mRecordTAttSNcgr->mData,
+                                       gRecordTAtt->mRecordTAttSNcgr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, l14->mData, l14->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(4, 0, l4->mData, l4->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(8, 0, lc->mData, lc->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(9, 0, l10->mData, l10->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xf, 0, l8->mData, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(0x17, 0, l18->mData, l18->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1f, 0, l1c->mData, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(0x1b, 0, l20->mData, l20->mDataSize);
 }
 
 void func_ov001_021975f4(u16 a) {
@@ -112,14 +114,15 @@ void func_ov001_021975f4(u16 a) {
         QueueCellChars(tile, gRecordTAtt->mUnk_2c, gRecordTAtt->mUnk_28, gRecordTAtt->mUnk_34, 0, index,
                        gRecordTAtt->mRecordTAttMNcer, gRecordTAtt->mRecordTAttMBncl);
         palette = (u8 *) ((Nclr *) gRecordTAtt->mUnk_30)->mData;
-        CallQueueAppend(0xe, data_ov001_021a683c[0] << 5,
-                        palette + (GetCellPaletteIndex(tile, gRecordTAtt->mUnk_2c, gRecordTAtt->mUnk_34) << 5), 0x20);
+        NNS_GfdRegisterNewVramTransferTask(
+            0xe, data_ov001_021a683c[0] << 5,
+            palette + (GetCellPaletteIndex(tile, gRecordTAtt->mUnk_2c, gRecordTAtt->mUnk_34) << 5), 0x20);
         result = GetTimeRecordKartIndex(data_ov001_021a6900[gRecordTAtt->mIndex], value);
         slot = data_ov001_021a6850[0][1];
         gRecordTAtt->mRecordTAttMTable[slot].mVisible = 1;
         QueueKartIcon(result, gRecordTAtt->mRecordTAttMNcer, gRecordTAtt->mRecordTAttMBncl, slot,
                       data_ov001_021a683c[5], 0);
-        cnt = gRecordTAtt->mRecordTAttMBncl->mUnk_06;
+        cnt = gRecordTAtt->mRecordTAttMBncl->mCount;
         GetTimeRecordTime(data_ov001_021a6900[gRecordTAtt->mIndex], value, &time);
         FormatTimeAscii(&time, str);
         pal = data_ov001_021a67d4[0];
@@ -144,14 +147,15 @@ void func_ov001_021975f4(u16 a) {
         QueueCellChars(tile, gRecordTAtt->mUnk_2c, gRecordTAtt->mUnk_28, gRecordTAtt->mUnk_34, 1, index,
                        gRecordTAtt->mRecordTAttSNcer, gRecordTAtt->mRecordTAttSBncl);
         palette = (u8 *) ((Nclr *) gRecordTAtt->mUnk_30)->mData;
-        CallQueueAppend(0x1e, data_ov001_021a683c[a] << 5,
-                        palette + (GetCellPaletteIndex(tile, gRecordTAtt->mUnk_2c, gRecordTAtt->mUnk_34) << 5), 0x20);
+        NNS_GfdRegisterNewVramTransferTask(
+            0x1e, data_ov001_021a683c[a] << 5,
+            palette + (GetCellPaletteIndex(tile, gRecordTAtt->mUnk_2c, gRecordTAtt->mUnk_34) << 5), 0x20);
         result = GetTimeRecordKartIndex(data_ov001_021a6900[gRecordTAtt->mIndex], value);
         slot = data_ov001_021a6852[a][0];
         gRecordTAtt->mRecordTAttSTable[slot].mVisible = 1;
         QueueKartIcon(result, gRecordTAtt->mRecordTAttSNcer, gRecordTAtt->mRecordTAttSBncl, slot,
                       data_ov001_021a6846[a], 1);
-        cnt = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
+        cnt = gRecordTAtt->mRecordTAttSBncl->mCount;
         GetTimeRecordTime(data_ov001_021a6900[gRecordTAtt->mIndex], value, &time);
         FormatTimeAscii(&time, str);
         pal = data_ov001_021a67d4[a];
@@ -174,7 +178,7 @@ void func_ov001_0219750c(u16 a) {
     if (a == 0) {
         gRecordTAtt->mRecordTAttMTable[data_ov001_021a6850[0][0]].mVisible = 0;
         gRecordTAtt->mRecordTAttMTable[data_ov001_021a6850[0][1]].mVisible = 0;
-        cnt = gRecordTAtt->mRecordTAttMBncl->mUnk_06;
+        cnt = gRecordTAtt->mRecordTAttMBncl->mCount;
         gRecordTAtt->mRecordTAttMTable[cnt + data_ov001_021a67d4[0]].mVisible = 1;
         PrintLabelLayoutTextFixedDigits(0, data_ov001_021a67d4[0], gRecordTAtt->mRecordTAttMBnll, L"--:--:---",
                                         gRecordTAtt->mRecordTAttMBncl, gRecordTAtt->mRecordTAttMTable, 7);
@@ -182,7 +186,7 @@ void func_ov001_0219750c(u16 a) {
     } else {
         gRecordTAtt->mRecordTAttSTable[data_ov001_021a6850[a][0]].mVisible = 0;
         gRecordTAtt->mRecordTAttSTable[data_ov001_021a6852[a][0]].mVisible = 0;
-        cnt = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
+        cnt = gRecordTAtt->mRecordTAttSBncl->mCount;
         gRecordTAtt->mRecordTAttSTable[cnt + data_ov001_021a67d4[a]].mVisible = 1;
         PrintLabelLayoutTextFixedDigits(1, data_ov001_021a67d4[a], gRecordTAtt->mRecordTAttSBnll, L"--:--:---",
                                         gRecordTAtt->mRecordTAttSBncl, gRecordTAtt->mRecordTAttSTable, 7);
@@ -212,7 +216,7 @@ void func_ov001_021972f4(void) {
             func_ov001_0219750c(i);
         }
     }
-    cnt = gRecordTAtt->mRecordTAttMBncl->mUnk_06;
+    cnt = gRecordTAtt->mRecordTAttMBncl->mCount;
     if (IsTimeRecordFilled(data_ov001_021a6900[gRecordTAtt->mIndex], 5)) {
         result = GetTimeRecordCharacterIndex(data_ov001_021a6900[gRecordTAtt->mIndex], 5);
         gRecordTAtt->mRecordTAttMTable[5].mVisible = 1;
@@ -220,8 +224,8 @@ void func_ov001_021972f4(void) {
         QueueCellChars(tile, gRecordTAtt->mUnk_2c, gRecordTAtt->mUnk_28, gRecordTAtt->mUnk_34, 0, 5,
                        gRecordTAtt->mRecordTAttMNcer, gRecordTAtt->mRecordTAttMBncl);
         palette = (u8 *) ((Nclr *) gRecordTAtt->mUnk_30)->mData;
-        CallQueueAppend(0xe, 0x80,
-                        palette + (GetCellPaletteIndex(tile, gRecordTAtt->mUnk_2c, gRecordTAtt->mUnk_34) << 5), 0x20);
+        NNS_GfdRegisterNewVramTransferTask(
+            0xe, 0x80, palette + (GetCellPaletteIndex(tile, gRecordTAtt->mUnk_2c, gRecordTAtt->mUnk_34) << 5), 0x20);
         result = GetTimeRecordKartIndex(data_ov001_021a6900[gRecordTAtt->mIndex], 5);
         gRecordTAtt->mRecordTAttMTable[6].mVisible = 1;
         QueueKartIcon(result, gRecordTAtt->mRecordTAttMNcer, gRecordTAtt->mRecordTAttMBncl, 6, 6, 0);
@@ -291,8 +295,8 @@ void func_ov001_02197058(void) {
     gRecordTAtt->mBg1OffsetX = -256;
     gRecordTAtt->mBg1OffsetY = -192;
     gRecordTAtt->mBg3OffsetX = -256;
-    n = gRecordTAtt->mRecordTAttMBncl->mUnk_06;
-    m = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
+    n = gRecordTAtt->mRecordTAttMBncl->mCount;
+    m = gRecordTAtt->mRecordTAttSBncl->mCount;
     gRecordTAtt->mRecordTAttMTable[0].mOffsetY = -192;
     gRecordTAtt->mRecordTAttMTable[0].mOffsetX = 0x100;
     gRecordTAtt->mRecordTAttMTable[1].mOffsetX = 0x100;
@@ -613,8 +617,8 @@ void AdvanceRecordTAttState1(void) {
     v = InterpolateS16(1, 0x100, 0, gRecordTAtt->mStateFrames, 10);
     gRecordTAtt->mBg1OffsetX = v;
     gRecordTAtt->mBg3OffsetX = v;
-    x = gRecordTAtt->mRecordTAttMBncl->mUnk_06;
-    y = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
+    x = gRecordTAtt->mRecordTAttMBncl->mCount;
+    y = gRecordTAtt->mRecordTAttSBncl->mCount;
     gRecordTAtt->mRecordTAttMTable[0].mOffsetX = v;
     gRecordTAtt->mRecordTAttMTable[1].mOffsetX = v;
     gRecordTAtt->mRecordTAttMTable[2].mOffsetX = v;
@@ -754,8 +758,8 @@ void AdvanceRecordTAttState3(void) {
     v = InterpolateS16(1, 0, k, gRecordTAtt->mStateFrames, 10);
     gRecordTAtt->mBg1OffsetX = v;
     gRecordTAtt->mBg3OffsetX = v;
-    x = gRecordTAtt->mRecordTAttMBncl->mUnk_06;
-    y = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
+    x = gRecordTAtt->mRecordTAttMBncl->mCount;
+    y = gRecordTAtt->mRecordTAttSBncl->mCount;
     gRecordTAtt->mRecordTAttMTable[0].mOffsetX = v;
     gRecordTAtt->mRecordTAttMTable[1].mOffsetX = v;
     gRecordTAtt->mRecordTAttMTable[2].mOffsetX = v;
@@ -803,8 +807,8 @@ void AdvanceRecordTAttState4(void) {
     v = InterpolateS16(1, k, 0, gRecordTAtt->mStateFrames, 10);
     gRecordTAtt->mBg1OffsetX = v;
     gRecordTAtt->mBg3OffsetX = v;
-    x = gRecordTAtt->mRecordTAttMBncl->mUnk_06;
-    y = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
+    x = gRecordTAtt->mRecordTAttMBncl->mCount;
+    y = gRecordTAtt->mRecordTAttSBncl->mCount;
     gRecordTAtt->mRecordTAttMTable[0].mOffsetX = v;
     gRecordTAtt->mRecordTAttMTable[1].mOffsetX = v;
     gRecordTAtt->mRecordTAttMTable[2].mOffsetX = v;
@@ -841,8 +845,8 @@ void AdvanceRecordTAttState5(void) {
     v = InterpolateS16(1, 0, 0x100, gRecordTAtt->mStateFrames, 10);
     gRecordTAtt->mBg1OffsetX = v;
     gRecordTAtt->mBg3OffsetX = v;
-    x = gRecordTAtt->mRecordTAttMBncl->mUnk_06;
-    y = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
+    x = gRecordTAtt->mRecordTAttMBncl->mCount;
+    y = gRecordTAtt->mRecordTAttSBncl->mCount;
     gRecordTAtt->mRecordTAttMTable[0].mOffsetX = v;
     gRecordTAtt->mRecordTAttMTable[1].mOffsetX = v;
     gRecordTAtt->mRecordTAttMTable[2].mOffsetX = v;
@@ -893,7 +897,7 @@ void AdvanceRecordTAttState7(void) {
 
     gRecordTAtt->mStateFrames++;
     v = GetSelectedPressOffset(gRecordTAtt->mStateFrames);
-    x = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
+    x = gRecordTAtt->mRecordTAttSBncl->mCount;
     gRecordTAtt->mRecordTAttSTable[12].mOffsetX = v;
     gRecordTAtt->mRecordTAttSTable[13].mOffsetX = v;
     gRecordTAtt->mRecordTAttSTable[14].mOffsetX = v;
@@ -912,7 +916,7 @@ void AdvanceRecordTAttState8(void) {
     gRecordTAtt->mStateFrames++;
     v = InterpolateS16(1, 0, 0x100, gRecordTAtt->mStateFrames, 10);
     gRecordTAtt->mBg3OffsetX = v;
-    x = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
+    x = gRecordTAtt->mRecordTAttSBncl->mCount;
     gRecordTAtt->mRecordTAttSTable[15].mOffsetX = v;
     gRecordTAtt->mRecordTAttSTable[16].mOffsetX = v;
     gRecordTAtt->mRecordTAttSTable[12].mOffsetX = v;
@@ -968,7 +972,7 @@ void AdvanceRecordTAttState11(void) {
     if (gRecordTAtt->mUnk_74 != FALSE) {
         v = InterpolateS16(1, 0, 0x100, gRecordTAtt->mStateFrames, 10);
         gRecordTAtt->mBg1OffsetX = v;
-        w = gRecordTAtt->mRecordTAttMBncl->mUnk_06;
+        w = gRecordTAtt->mRecordTAttMBncl->mCount;
         gRecordTAtt->mRecordTAttMTable[0].mOffsetX = v;
         gRecordTAtt->mRecordTAttMTable[1].mOffsetX = v;
         gRecordTAtt->mRecordTAttMTable[2].mOffsetX = v;
@@ -1001,7 +1005,7 @@ void AdvanceRecordTAttState12(void) {
         u16 w;
 
         gRecordTAtt->mBg1OffsetX = v;
-        w = gRecordTAtt->mRecordTAttMBncl->mUnk_06;
+        w = gRecordTAtt->mRecordTAttMBncl->mCount;
         gRecordTAtt->mRecordTAttMTable[0].mOffsetX = v;
         gRecordTAtt->mRecordTAttMTable[1].mOffsetX = v;
         gRecordTAtt->mRecordTAttMTable[2].mOffsetX = v;
@@ -1016,7 +1020,7 @@ void AdvanceRecordTAttState12(void) {
         gRecordTAtt->mRecordTAttMTable[w + 4].mOffsetX = v;
     }
     gRecordTAtt->mBg3OffsetX = v;
-    x = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
+    x = gRecordTAtt->mRecordTAttSBncl->mCount;
     gRecordTAtt->mRecordTAttSTable[15].mOffsetX = v;
     gRecordTAtt->mRecordTAttSTable[16].mOffsetX = v;
     gRecordTAtt->mRecordTAttSTable[12].mOffsetX = v;
@@ -1050,7 +1054,7 @@ void AdvanceRecordTAttState13(void) {
     gRecordTAtt->mStateFrames++;
     v = InterpolateS16(1, 0, 0x100, gRecordTAtt->mStateFrames, 10);
     gRecordTAtt->mBg3OffsetX = v;
-    x = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
+    x = gRecordTAtt->mRecordTAttSBncl->mCount;
     gRecordTAtt->mRecordTAttSTable[15].mOffsetX = v;
     gRecordTAtt->mRecordTAttSTable[16].mOffsetX = v;
     gRecordTAtt->mRecordTAttSTable[12].mOffsetX = v;
@@ -1124,7 +1128,7 @@ void AdvanceRecordTAttState17(void) {
     gRecordTAtt->mStateFrames++;
     v = InterpolateS16(1, 0x100, 0, gRecordTAtt->mStateFrames, 10);
     gRecordTAtt->mBg3OffsetX = v;
-    m = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
+    m = gRecordTAtt->mRecordTAttSBncl->mCount;
     gRecordTAtt->mRecordTAttSTable[15].mOffsetX = v;
     gRecordTAtt->mRecordTAttSTable[16].mOffsetX = v;
     gRecordTAtt->mRecordTAttSTable[12].mOffsetX = v;

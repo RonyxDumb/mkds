@@ -71,7 +71,7 @@ s32 func_ov000_0218d3d8(u32 *a, u32 *b) {
     s32 r;
     x = SbServerGetValue((SbServer *) *a, data_ov000_021b4d24->mUnk_498, data_ov000_021b2260);
     y = SbServerGetValue((SbServer *) *b, data_ov000_021b4d24->mUnk_498, data_ov000_021b2260);
-    r = func_02142368(x, y);
+    r = CompareStringsMapped(x, y);
     if (data_ov000_021b4d24->mUnk_49c == 0) {
         r = -r;
     }
@@ -1624,7 +1624,7 @@ u32 func_ov000_0218b44c(HashtableNameEntry *entry, u32 modulus) {
 }
 
 s32 func_ov000_0218b440(const char *const *first, const char *const *second) {
-    return func_02142368(*first, *second);
+    return CompareStringsMapped(*first, *second);
 }
 
 void func_ov000_0218b434(u32 arg0) {
@@ -1925,7 +1925,7 @@ u32 func_ov000_0218afac(HashtableNameEntry *entry, u32 modulus) {
 }
 
 s32 func_ov000_0218afa0(const char *const *first, const char *const *second) {
-    return func_02142368(*first, *second);
+    return CompareStringsMapped(*first, *second);
 }
 
 u32 func_ov000_0218af9c(SbServer *a) {

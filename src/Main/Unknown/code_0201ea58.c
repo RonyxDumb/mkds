@@ -31,7 +31,7 @@ s32 GetLayoutAxisStartY(LayoutAxis a, s32 b) {
 }
 
 u16 RectTableGetCount(LayoutEntryTable *a) {
-    return a->mUnk_06;
+    return a->mCount;
 }
 
 RectTableEntry *RectTableGetEntry(LayoutEntryTable *a, s32 b) {
@@ -71,7 +71,7 @@ void *GetLabelLayoutEntry(LayoutEntryTable *a, s32 b) {
     s32 n;
 
     p = (u8 *) (a + 1);
-    n = a->mUnk_06;
+    n = a->mCount;
     if (b < 0 || b >= n) {
         return 0;
     }

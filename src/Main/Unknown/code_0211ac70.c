@@ -116,7 +116,7 @@ void AdvanceSelectRaceRuleHighlight(void) {
         SetScreenMapBlockTopBits(gSelectRaceRule->mNscr->mData, nscrRect.mFirstColumn, nscrRect.mFirstRow,
                                  nscrRect.mColumnCount, nscrRect.mRowCount, nscrRect.mHighlightedTopBits);
     }
-    CallQueueAppend(0x1b, 0, gSelectRaceRule->mNscr->mData, 0x600);
+    NNS_GfdRegisterNewVramTransferTask(0x1b, 0, gSelectRaceRule->mNscr->mData, 0x600);
 }
 
 // Stores the count, kept from 1 to 10, and draws it.
@@ -176,7 +176,7 @@ void SetAndPrintSelectRaceRuleRaceCount(s16 count) {
 }
 
 void AdvanceSelectRaceRuleValueObjects(void) {
-    u16 cellEntryCount = gSelectRaceRule->mBncl->mUnk_06;
+    u16 cellEntryCount = gSelectRaceRule->mBncl->mCount;
 
     if (data_021759d0->mConnectionKind != 2) {
         switch (gSelectRaceRule->mRowValues[3]) {
@@ -267,7 +267,7 @@ u16 GetSelectRaceRuleCpuCount(void) {
 // skipped.
 void MoveSelectRaceRuleRowNext(void) {
     u32 a = 1;
-    u16 cellEntryCount = gSelectRaceRule->mBncl->mUnk_06;
+    u16 cellEntryCount = gSelectRaceRule->mBncl->mCount;
     Unk027ffc40 *bootInfo;
 
     if (gSelectRaceRule->mOnButton != 0) {
@@ -305,7 +305,7 @@ void MoveSelectRaceRuleRowNext(void) {
 // skipped.
 void MoveSelectRaceRuleRowPrevious(void) {
     u32 a = 1;
-    u16 cellEntryCount = gSelectRaceRule->mBncl->mUnk_06;
+    u16 cellEntryCount = gSelectRaceRule->mBncl->mCount;
     Unk027ffc40 *bootInfo;
 
     if (gSelectRaceRule->mOnButton != 0) {
@@ -1085,7 +1085,7 @@ void AdvanceSelectRaceRuleChangeObjects(void) {
 void PrintSelectRaceRuleRow4Message(void) {
     SelectRaceRule *selectRaceRule;
     if (data_021759d0->mConnectionKind == 2) {
-        gSelectRaceRule->mTable[gSelectRaceRule->mBncl->mUnk_06 + 14].mVisible = 1;
+        gSelectRaceRule->mTable[gSelectRaceRule->mBncl->mCount + 14].mVisible = 1;
         selectRaceRule = gSelectRaceRule;
         if (selectRaceRule->mRowValues[4] == 2) {
             PrintLabelLayoutTextNoFixedAdvance(1, 0xe, gSelectRaceRule->mBnll,
@@ -1278,7 +1278,7 @@ void ResetSelectRaceRulePositions(void) {
     gSelectRaceRule->mBg3Offset = c;
     c = gSelectRaceRule->mOffsetY - 0xc0;
     gSelectRaceRule->mBg3Offset = c;
-    c = gSelectRaceRule->mBncl->mUnk_06;
+    c = gSelectRaceRule->mBncl->mCount;
     gSelectRaceRule->mTable[40].mOffsetY = gSelectRaceRule->mOffsetY + 0xc0;
     gSelectRaceRule->mTable[41].mOffsetY = gSelectRaceRule->mOffsetY + 0xc0;
     gSelectRaceRule->mTable[42].mOffsetY = gSelectRaceRule->mOffsetY + 0xc0;
@@ -1422,7 +1422,7 @@ void InitSelectRaceRule(void *parentHeap, s32 b, void *oamList, s32 mode) {
     InitLayoutTable(gSelectRaceRule->mHeap, gSelectRaceRule->mBncl, gSelectRaceRule->mBnll, &gSelectRaceRule->mTable);
     gSelectRaceRule->mCommonMessages = FindFileInLoadedArchives(data_0216de38);
     gSelectRaceRule->mRuleMessages = FindSceneFile(data_0216de44);
-    cellEntryCount = gSelectRaceRule->mBncl->mUnk_06;
+    cellEntryCount = gSelectRaceRule->mBncl->mCount;
     remainingSubObjSize = GX_GetSizeOfSubOBJ();
     for (i = 0; i < 5; i++) {
         for (j = 0; j < 2; j++) {
@@ -1675,7 +1675,7 @@ void AdvanceSelectRaceRuleState1(void) {
     c = InterpolateS16(1, -192, 0, selectRaceRule->mStateFrames, 10);
     rowsOffsetY = selectRaceRule->mOffsetY + c;
     selectRaceRule->mBg3Offset = rowsOffsetY;
-    c = gSelectRaceRule->mBncl->mUnk_06;
+    c = gSelectRaceRule->mBncl->mCount;
     for (i = 0; i < 5; i++) {
         for (j = 0; j < 2; j++) {
             gSelectRaceRule->mTable[gSelectRaceRuleStepCellsHighlighted[i][j]].mOffsetY = rowsOffsetY;
@@ -1715,7 +1715,7 @@ void AdvanceSelectRaceRuleState2(void) {
     AdvanceSelectRaceRuleChangeObjects();
     gSelectRaceRule->mStateFrames++;
     returnOffsetY = -LookupSelectReturnState1Bg2Offset(gSelectRaceRule->mStateFrames);
-    cellEntryCount = gSelectRaceRule->mBncl->mUnk_06;
+    cellEntryCount = gSelectRaceRule->mBncl->mCount;
     if (data_021759d0->mConnectionKind != 2) {
         gSelectRaceRule->mTable[0x28].mOffsetY = returnOffsetY;
         gSelectRaceRule->mTable[0x29].mOffsetY = returnOffsetY;

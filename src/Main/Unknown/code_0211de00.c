@@ -103,7 +103,7 @@ void QueueCupMark(u32 cupMarkIndex, Unk02021dc8 *cells, LayoutEntryTable *cellLa
     cupMark = gCupMark;
     dst = (u8 *) cupMark->mNclr->mData;
     paletteIndex = GetCellPaletteIndex(id, cupMark->mNcer, cupMark->mBncl);
-    CallQueueAppend(v0, paletteSlot << 5, dst + (paletteIndex << 5), 32);
+    NNS_GfdRegisterNewVramTransferTask(v0, paletteSlot << 5, dst + (paletteIndex << 5), 32);
 }
 
 void LoadSelectCupNameMData(void) {

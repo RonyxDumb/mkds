@@ -82,7 +82,7 @@ int sprintf(char *buf, const char *fmt, ...) {
 
 #pragma avoid_byte all
 
-void func_02135010(void) {}
+void NopWriteHook(void) {}
 
 void MemsetBody(u8 *p, int c, u32 n) {
     u32 *w;
@@ -387,7 +387,7 @@ u32 FwriteBody(const char *a, u32 b, u32 c, FILE *d) {
         return 0;
     }
     if (d->mUnk_04_7 == 2) {
-        func_02135010();
+        NopWriteHook();
     }
     m = 1;
     if (d->mUnk_04_12 != 0) {
@@ -461,7 +461,7 @@ u32 FwriteBody(const char *a, u32 b, u32 c, FILE *d) {
     return t / b;
 }
 
-void func_0213453c(u8 *a, u32 *b) {}
+void ConvertTextNewlinesNop(u8 *a, u32 *b) {}
 
 void FileResetBuffer(FILE *a) {
     a->mBufferNext = a->mBuffer;
@@ -478,7 +478,7 @@ int FileFlushBuffer(FILE *a, u32 *b) {
     if (n != 0) {
         a->mBufferRemaining = n;
         if (a->mUnk_04_12 == 0) {
-            func_0213453c(a->mBuffer, &a->mBufferRemaining);
+            ConvertTextNewlinesNop(a->mBuffer, &a->mBufferRemaining);
         }
         r = a->mWriteFunc(a->mUnk_00, a->mBuffer, &a->mBufferRemaining, a->mUnk_48);
         if (b != 0) {

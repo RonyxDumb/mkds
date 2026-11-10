@@ -175,9 +175,9 @@ void QueueCellCharsAndCopyPalettes(u32 index, Unk02021dc8 *cells, Ncgr *chars, N
         charsSource = (u8 *) chars->mData + ((sourceAttr2 & 0x3ff) << 5);
         DC_FlushRange(charsSource, charBytes);
         if (queueSelector == 0) {
-            CallQueueAppend(0x13, destCharOffset, charsSource, charBytes);
+            NNS_GfdRegisterNewVramTransferTask(0x13, destCharOffset, charsSource, charBytes);
         } else {
-            CallQueueAppend(0x23, destCharOffset, charsSource, charBytes);
+            NNS_GfdRegisterNewVramTransferTask(0x23, destCharOffset, charsSource, charBytes);
         }
         paletteIndex = (sourceAttr2 & 0xf000) >> 12;
         usedPalettes[paletteIndex] = 1;
@@ -194,9 +194,9 @@ void QueueCellCharsAndCopyPalettes(u32 index, Unk02021dc8 *cells, Ncgr *chars, N
             paletteSource = (u8 *) palette->mData + runStart;
             runBytes = runLength << 5;
             if (queueSelector == 0) {
-                CallQueueAppend(0xe, runStart, paletteSource, runBytes);
+                NNS_GfdRegisterNewVramTransferTask(0xe, runStart, paletteSource, runBytes);
             } else {
-                CallQueueAppend(0x1e, runStart, paletteSource, runBytes);
+                NNS_GfdRegisterNewVramTransferTask(0x1e, runStart, paletteSource, runBytes);
             }
             runStart = paletteRow + 1;
             runLength = 0;
@@ -237,9 +237,9 @@ void QueueCellChars(u32 index, Unk02021dc8 *cells, Ncgr *chars, LayoutEntryTable
         charsSource = (u8 *) chars->mData + ((oamEntry->mUnk_04 & 0x3ff) << 5);
         DC_FlushRange(charsSource, charBytes);
         if (queueSelector == 0) {
-            CallQueueAppend(0x13, destCharOffset, charsSource, charBytes);
+            NNS_GfdRegisterNewVramTransferTask(0x13, destCharOffset, charsSource, charBytes);
         } else {
-            CallQueueAppend(0x23, destCharOffset, charsSource, charBytes);
+            NNS_GfdRegisterNewVramTransferTask(0x23, destCharOffset, charsSource, charBytes);
         }
     }
 }
@@ -279,9 +279,9 @@ void QueueCellCharsAndFirstPalette(u32 index, Unk02021dc8 *cells, Ncgr *chars, N
         charsSource = (u8 *) chars->mData + ((oamEntry->mUnk_04 & 0x3ff) << 5);
         DC_FlushRange(charsSource, charBytes);
         if (queueSelector == 0) {
-            CallQueueAppend(0x13, destCharOffset, charsSource, charBytes);
+            NNS_GfdRegisterNewVramTransferTask(0x13, destCharOffset, charsSource, charBytes);
         } else {
-            CallQueueAppend(0x23, destCharOffset, charsSource, charBytes);
+            NNS_GfdRegisterNewVramTransferTask(0x23, destCharOffset, charsSource, charBytes);
         }
     }
     destPaletteOffset = (((u32) destCellData->mUnk_04->mUnk_04 & 0xf000) >> 12) << 5;
@@ -291,7 +291,7 @@ void QueueCellCharsAndFirstPalette(u32 index, Unk02021dc8 *cells, Ncgr *chars, N
     } else {
         queueCommand = 0x1e;
     }
-    CallQueueAppend(queueCommand, destPaletteOffset, paletteSource, 0x20);
+    NNS_GfdRegisterNewVramTransferTask(queueCommand, destPaletteOffset, paletteSource, 0x20);
 }
 
 s32 InitLabelCanvas(void *heap, s32 labelIndex, LayoutEntryTable *labelLayout, s32 width, s32 height, s32 entryIndex,
@@ -313,7 +313,7 @@ s32 InitLabelCanvas(void *heap, s32 labelIndex, LayoutEntryTable *labelLayout, s
     s32 lineSpacing;
     s32 cellEntryCount;
     void *font;
-    cellEntryCount = cellLayout->mUnk_06;
+    cellEntryCount = cellLayout->mCount;
     table[entryIndex].mLabelIndex = labelIndex;
     canvas = HeapAlloc(heap, 0x48);
     table[cellEntryCount + labelIndex].mLabelCanvas = canvas;
@@ -408,7 +408,7 @@ void PrintLabelLayoutText(s32 queueSelector, s32 labelIndex, LayoutEntryTable *l
     s32 destOffset;
     s32 charBytes;
     labelEntry = GetLabelLayoutEntry(labelLayout, labelIndex);
-    canvas = (table + cellLayout->mUnk_06 + labelIndex)->mLabelCanvas;
+    canvas = (table + cellLayout->mCount + labelIndex)->mLabelCanvas;
     canvasWidth = canvas->mTextCanvas.mWidth;
     canvasHeight = canvas->mTextCanvas.mHeight;
     alignedWidth = ((canvasWidth - 1) >> 3) + 1 << 3;
@@ -442,9 +442,9 @@ void PrintLabelLayoutText(s32 queueSelector, s32 labelIndex, LayoutEntryTable *l
     charBytes = canvas->mTextCanvas.mCharBytes;
     DC_FlushRange(chars, charBytes);
     if (queueSelector == 0) {
-        CallQueueAppend(0x13, destOffset, chars, charBytes);
+        NNS_GfdRegisterNewVramTransferTask(0x13, destOffset, chars, charBytes);
     } else {
-        CallQueueAppend(0x23, destOffset, chars, charBytes);
+        NNS_GfdRegisterNewVramTransferTask(0x23, destOffset, chars, charBytes);
     }
 }
 
@@ -471,16 +471,16 @@ void ClearAndQueueLabelLayoutText(s32 queueSelector, s32 labelIndex, LayoutEntry
     s32 destOffset;
     s32 charBytes;
     GetLabelLayoutEntry(labelLayout, labelIndex);
-    canvas = (table + cellLayout->mUnk_06 + labelIndex)->mLabelCanvas;
+    canvas = (table + cellLayout->mCount + labelIndex)->mLabelCanvas;
     canvas->mCharCanvas.mUnk_18(&canvas->mCharCanvas, 0);
     chars = canvas->mTextCanvas.mCharBuffer;
     destOffset = canvas->mTextCanvas.mCharIndex << 5;
     charBytes = canvas->mTextCanvas.mCharBytes;
     DC_FlushRange(chars, charBytes);
     if (queueSelector == 0) {
-        CallQueueAppend(0x13, destOffset, chars, charBytes);
+        NNS_GfdRegisterNewVramTransferTask(0x13, destOffset, chars, charBytes);
     } else {
-        CallQueueAppend(0x23, destOffset, chars, charBytes);
+        NNS_GfdRegisterNewVramTransferTask(0x23, destOffset, chars, charBytes);
     }
 }
 
@@ -488,7 +488,7 @@ BOOL IsLabelOamModeXlu(s32 labelIndex, void *labelLayout, LayoutTableEntry *tabl
     LayoutTableEntry *entry;
     LayoutTableEntry *labelTableEntry;
     entry = table + labelIndex;
-    labelTableEntry = entry + cellLayout->mUnk_06;
+    labelTableEntry = entry + cellLayout->mCount;
     if ((labelTableEntry->mLabelCanvas->mCellData->mUnk_04->mUnk_00 & 0xc00) >> 10 == 1) {
         return TRUE;
     }
@@ -503,7 +503,7 @@ void SetLabelOamModeXlu(u32 labelIndex, u32 enableXlu, LayoutEntryTable *labelLa
     Unk020224e0_c *cellData;
     Unk020224e0_s *oamEntry;
     entry = table + labelIndex;
-    labelTableEntry = entry + cellLayout->mUnk_06;
+    labelTableEntry = entry + cellLayout->mCount;
     cellData = labelTableEntry->mLabelCanvas->mCellData;
     oamEntry = cellData->mUnk_04;
     for (i = 0; i < cellData->mUnk_00; i++) {
@@ -523,7 +523,7 @@ void SetLabelPaletteIndex(s32 labelIndex, u8 paletteIndex, LayoutEntryTable *lab
     Unk020224e0_c *cellData;
     Unk020224e0_s *oamEntry;
     entry = table + labelIndex;
-    labelTableEntry = entry + cellLayout->mUnk_06;
+    labelTableEntry = entry + cellLayout->mCount;
     cellData = labelTableEntry->mLabelCanvas->mCellData;
     oamEntry = cellData->mUnk_04;
     for (i = 0; i < cellData->mUnk_00; i++) {
@@ -537,7 +537,7 @@ u8 GetLabelPriority(s32 labelIndex, void *labelLayout, LayoutTableEntry *table, 
     LayoutTableEntry *entry;
     LayoutTableEntry *labelTableEntry;
     entry = table + labelIndex;
-    labelTableEntry = entry + cellLayout->mUnk_06;
+    labelTableEntry = entry + cellLayout->mCount;
     return (labelTableEntry->mLabelCanvas->mCellData->mUnk_04->mUnk_04 & 0xc00) >> 10;
 }
 
@@ -549,7 +549,7 @@ void SetLabelPriority(u32 labelIndex, u32 priority, LayoutEntryTable *labelLayou
     Unk020224e0_c *cellData;
     Unk020224e0_s *oamEntry;
     entry = table + labelIndex;
-    labelTableEntry = entry + cellLayout->mUnk_06;
+    labelTableEntry = entry + cellLayout->mCount;
     cellData = labelTableEntry->mLabelCanvas->mCellData;
     oamEntry = cellData->mUnk_04;
     for (i = 0; i < cellData->mUnk_00; i++) {

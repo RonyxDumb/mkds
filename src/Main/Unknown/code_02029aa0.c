@@ -106,8 +106,8 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     LoadAndQueueScreenMapFileSet(0, &mainScreenMapFileSet, gResultsGpMBNcgrName, gResultsGpMBNclrName,
                                  gResultsGpM1NscrName, 1, FindSceneFile);
     LoadNscrData(&mainScreenMapFileSet.mScreenMaps[3], FindSceneFile(gResultsGpM2NscrName));
-    CallQueueAppend(0xb, 0, &mainScreenMapFileSet.mScreenMaps[3]->mData,
-                    mainScreenMapFileSet.mScreenMaps[3]->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xb, 0, &mainScreenMapFileSet.mScreenMaps[3]->mData,
+                                       mainScreenMapFileSet.mScreenMaps[3]->mDataSize);
     mainObjSize = GX_GetSizeOfOBJ();
     mainFileSet = &gResultsGp->mCellFileSets[0];
     LoadCellFileSet(mainFileSet, gResultsGpMNcgrName, gResultsGpMNcerName, gResultsGpMONclrName, gResultsGpMBnclName,

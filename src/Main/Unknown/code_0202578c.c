@@ -58,13 +58,13 @@ void SetupCellFileSet(u32 screen, void *heap, CellFileSet *fileSet) {
     InitLayoutTable(heap, fileSet->mCellLayout, fileSet->mLabelLayout, &fileSet->mCellTable);
     if (screen == 0) {
         charsCode = 0x13;
-        CallQueueAppend(0xe, 0, fileSet->mPalette->mData, 0x1a0);
-        CallQueueAppend(0xe, 0x1c0, (u8 *) fileSet->mPalette->mData + 0x1c0, 0x40);
+        NNS_GfdRegisterNewVramTransferTask(0xe, 0, fileSet->mPalette->mData, 0x1a0);
+        NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, (u8 *) fileSet->mPalette->mData + 0x1c0, 0x40);
     } else {
         charsCode = 0x23;
-        CallQueueAppend(0x1e, 0, fileSet->mPalette->mData, fileSet->mPalette->mDataSize);
+        NNS_GfdRegisterNewVramTransferTask(0x1e, 0, fileSet->mPalette->mData, fileSet->mPalette->mDataSize);
     }
-    CallQueueAppend(charsCode, 0, fileSet->mChars->mData, fileSet->mChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(charsCode, 0, fileSet->mChars->mData, fileSet->mChars->mDataSize);
 }
 
 s32 SetupLabelCanvas(u32 screen, void *heap, CellFileSet *fileSet, void *entryPointer, s32 objSizeLeft) {
@@ -123,9 +123,10 @@ void QueueScreenMapFileSet(u32 screen, void *fileSetPointer, u32 index) {
                 break;
         }
     }
-    CallQueueAppend(charsCode, 0, fileSet->mChars[index]->mData, fileSet->mChars[index]->mDataSize);
-    CallQueueAppend(paletteCode, 0, fileSet->mPalette->mData, 0x140);
-    CallQueueAppend(screenMapCode, 0, &fileSet->mScreenMaps[index]->mData, fileSet->mScreenMaps[index]->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(charsCode, 0, fileSet->mChars[index]->mData, fileSet->mChars[index]->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(paletteCode, 0, fileSet->mPalette->mData, 0x140);
+    NNS_GfdRegisterNewVramTransferTask(screenMapCode, 0, &fileSet->mScreenMaps[index]->mData,
+                                       fileSet->mScreenMaps[index]->mDataSize);
 }
 
 void LocateScreenMapFileSet(void *fileSetPointer, const char *charsName, const char *paletteName,

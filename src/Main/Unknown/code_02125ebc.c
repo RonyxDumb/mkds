@@ -297,12 +297,16 @@ void QueueTxtSystemButtonColors(void) {
     TxtSystem *txtSystem;
     txtSystem = gTxtSystem;
     if (0 < txtSystem->mExtraCanvasCount) {
-        CallQueueAppend(0x1f, ((0xee - txtSystem->mSelectedIndex) * 2), &txtSystem->mSelectedButtonColor, 2);
-        CallQueueAppend(0x1f, (0xfe - gTxtSystem->mSelectedIndex) * 2, &gTxtSystem->mSelectedButtonColor, 2);
+        NNS_GfdRegisterNewVramTransferTask(0x1f, ((0xee - txtSystem->mSelectedIndex) * 2),
+                                           &txtSystem->mSelectedButtonColor, 2);
+        NNS_GfdRegisterNewVramTransferTask(0x1f, (0xfe - gTxtSystem->mSelectedIndex) * 2,
+                                           &gTxtSystem->mSelectedButtonColor, 2);
         txtSystem = gTxtSystem;
         if (txtSystem->mExtraCanvasCount == 2) {
-            CallQueueAppend(0x1f, ((txtSystem->mSelectedIndex + 0xed) * 2), &txtSystem->mUnselectedButtonColor, 2);
-            CallQueueAppend(0x1f, (gTxtSystem->mSelectedIndex + 0xfd) * 2, &gTxtSystem->mUnselectedButtonColor, 2);
+            NNS_GfdRegisterNewVramTransferTask(0x1f, ((txtSystem->mSelectedIndex + 0xed) * 2),
+                                               &txtSystem->mUnselectedButtonColor, 2);
+            NNS_GfdRegisterNewVramTransferTask(0x1f, (gTxtSystem->mSelectedIndex + 0xfd) * 2,
+                                               &gTxtSystem->mUnselectedButtonColor, 2);
         }
     }
 }
@@ -312,8 +316,10 @@ void ResetTxtSystemButtonColors(void) {
     if (0 < gTxtSystem->mExtraCanvasCount) {
         buttonEntryIndex = 0;
         do {
-            CallQueueAppend(0x1f, ((buttonEntryIndex + 0xed) * 2), &gTxtSystem->mUnselectedButtonColor, 2);
-            CallQueueAppend(0x1f, ((buttonEntryIndex + 0xfd) * 2), &gTxtSystem->mUnselectedButtonColor, 2);
+            NNS_GfdRegisterNewVramTransferTask(0x1f, ((buttonEntryIndex + 0xed) * 2),
+                                               &gTxtSystem->mUnselectedButtonColor, 2);
+            NNS_GfdRegisterNewVramTransferTask(0x1f, ((buttonEntryIndex + 0xfd) * 2),
+                                               &gTxtSystem->mUnselectedButtonColor, 2);
             buttonEntryIndex = buttonEntryIndex + 1;
         } while (buttonEntryIndex < 2);
     }
@@ -349,8 +355,8 @@ void AdvanceTxtSystemState0(void) {
             }
         }
         RefreshTxtSystemScreenBuffers(drawFlags);
-        CallQueueAppend(10, 0, gTxtSystem->mMainScreenBuffer, 0x1000);
-        CallQueueAppend(0x18, 0, &gTxtSystem->mSubScreenBuffer, 0x1000);
+        NNS_GfdRegisterNewVramTransferTask(10, 0, gTxtSystem->mMainScreenBuffer, 0x1000);
+        NNS_GfdRegisterNewVramTransferTask(0x18, 0, &gTxtSystem->mSubScreenBuffer, 0x1000);
         gTxtSystem->mNextState = 1;
         gTxtSystem->mStateFrames = 0;
         for (i = 0; i < 2; i++) {
@@ -366,9 +372,9 @@ void AdvanceTxtSystemState0(void) {
                 if ((u32) i <= 1) {
                     queueCommand = 6;
                 }
-                CallQueueAppend(queueCommand,
-                                (gTxtSystem->mCanvasFileCharIndex[i] + gTxtSystemCanvasCharOffsets[i]) << 5,
-                                gTxtSystem->mCharBuffers[i], bufferSize);
+                NNS_GfdRegisterNewVramTransferTask(
+                    queueCommand, (gTxtSystem->mCanvasFileCharIndex[i] + gTxtSystemCanvasCharOffsets[i]) << 5,
+                    gTxtSystem->mCharBuffers[i], bufferSize);
             }
         }
         if (gTxtSystem->mExtraCanvasCount > 0) {
@@ -592,8 +598,8 @@ void AdvanceTxtSystem(void) {
                     gTxtSystem->mAnimFrameIndex = 0;
                 }
                 RefreshTxtSystemAnim();
-                CallQueueAppend(10, 0, gTxtSystem->mMainScreenBuffer, 0x1000);
-                CallQueueAppend(0x18, 0, &gTxtSystem->mSubScreenBuffer, 0x1000);
+                NNS_GfdRegisterNewVramTransferTask(10, 0, gTxtSystem->mMainScreenBuffer, 0x1000);
+                NNS_GfdRegisterNewVramTransferTask(0x18, 0, &gTxtSystem->mSubScreenBuffer, 0x1000);
             }
         }
     }

@@ -4,7 +4,7 @@
 #include "code_02004dc0.h"
 #include "Main/Unknown/unk_0217e000.h"
 
-void func_02142590(void) {
+void ExitViaSwi(void) {
     SwiCall24();
 }
 
@@ -64,7 +64,7 @@ s32 SwiWriteBytes(s32 a, const u8 *b, const u32 *c) {
     return 0;
 }
 
-s32 func_0214241c(void) {
+s32 SwiCloseFile(void) {
     return 0;
 }
 

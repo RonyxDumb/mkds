@@ -115,7 +115,7 @@ void SetSelectReturnPaletteBits(s32 paletteKind) {
         gSelectReturn->mScreenMapCopy[i] |= paletteBits;
     }
     if (gBootInfo->mUnk_00 != 2) {
-        CallQueueAppend(0x1a, 0x4c0, &gSelectReturn->mScreenMapCopy[0x260], 0x200);
+        NNS_GfdRegisterNewVramTransferTask(0x1a, 0x4c0, &gSelectReturn->mScreenMapCopy[0x260], 0x200);
     }
 }
 
@@ -545,7 +545,7 @@ void RefreshAndQueueSelectChoises(void) {
     RefreshSelectChoisesPaletteBits();
     RefreshSelectChoisesNscrCopy();
     if (gBootInfo->mUnk_00 != 2) {
-        CallQueueAppend(0x18, 0, gSelectChoises->mNscrCopy, 0x800);
+        NNS_GfdRegisterNewVramTransferTask(0x18, 0, gSelectChoises->mNscrCopy, 0x800);
     }
 }
 
@@ -559,7 +559,7 @@ void RefreshSelectChoisesPaletteNoIndex(void) {
     gSelectChoises->mToggleFrames = 0;
     gSelectChoises->mToggleOn = 1;
     if (gBootInfo->mUnk_00 != 2) {
-        CallQueueAppend(0x18, 0, gSelectChoises->mNscrCopy, 0x800);
+        NNS_GfdRegisterNewVramTransferTask(0x18, 0, gSelectChoises->mNscrCopy, 0x800);
     }
 }
 
@@ -580,8 +580,9 @@ void AdvanceSelectChoisesState0(void) {
                 for (j = 0; j < 2; j++) {
                     tileOffset = (j + i * 2) * 32 + 5;
                     if (gBootInfo->mUnk_00 != 2) {
-                        CallQueueAppend(0x14, (gSelectChoises->mFirstTileIndex + tileOffset) << 5,
-                                        gSelectChoises->mCharBuffers[i] + ((j * 32 + 5) << 5), 0x360);
+                        NNS_GfdRegisterNewVramTransferTask(0x14, (gSelectChoises->mFirstTileIndex + tileOffset) << 5,
+                                                           gSelectChoises->mCharBuffers[i] + ((j * 32 + 5) << 5),
+                                                           0x360);
                     }
                 }
             }
@@ -731,7 +732,7 @@ void AdvanceSelectChoises(void) {
             gSelectChoises->mToggleFrames = 0;
             RefreshSelectChoisesNscrCopy();
             if (gBootInfo->mUnk_00 != 2) {
-                CallQueueAppend(0x18, 0, gSelectChoises->mNscrCopy, 0x800);
+                NNS_GfdRegisterNewVramTransferTask(0x18, 0, gSelectChoises->mNscrCopy, 0x800);
             }
         }
     }

@@ -48,5 +48,5 @@ void ExitTail(int a) {
         data_0217e984 = 0;
     }
     fflush(0);
-    func_02142590();
+    ExitViaSwi();
 }

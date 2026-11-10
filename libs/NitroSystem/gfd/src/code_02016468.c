@@ -27,7 +27,7 @@ void NNS_GfdDoVramTransfer(void) {
     }
 }
 
-s32 CallQueueAppend(u32 a, u32 b, void *c, u32 d) {
+s32 NNS_GfdRegisterNewVramTransferTask(u32 a, u32 b, void *c, u32 d) {
     NNSGfdVramTransferTaskQueue *p;
     NNSGfdVramTransferTask *e;
 

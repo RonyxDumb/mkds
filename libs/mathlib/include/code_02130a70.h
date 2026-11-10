@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-double func_02130a70(double a);
+double SqrtDouble(double a);

@@ -7,7 +7,7 @@ typedef struct DWCAccFriendData DWCAccFriendData;
 
 typedef struct DWCAccUserData DWCAccUserData;
 
-s32 func_021522a0(const RTCDate *date);
+s32 DateToDayCount(const RTCDate *date);
 u32 IsMultipleOf4(u32 year);
 void DWC_ReportUserData(const DWCAccUserData *userdata);
 void DWC_ReportFriendData(const DWCAccUserData *userdata, const DWCAccFriendData *frienddata);

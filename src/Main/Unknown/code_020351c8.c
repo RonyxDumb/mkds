@@ -161,8 +161,8 @@ void UpdateSlotSlideOffsets(void) {
 
     mainCellFileSet = &gTimeAttackGhostGetSlot->mCellFileSets[0];
     subCellFileSet = &gTimeAttackGhostGetSlot->mCellFileSets[1];
-    mainEntryCount = mainCellFileSet->mCellLayout->mUnk_06 + mainCellFileSet->mLabelLayout->mUnk_06;
-    subEntryCount = subCellFileSet->mCellLayout->mUnk_06 + subCellFileSet->mLabelLayout->mUnk_06;
+    mainEntryCount = mainCellFileSet->mCellLayout->mCount + mainCellFileSet->mLabelLayout->mCount;
+    subEntryCount = subCellFileSet->mCellLayout->mCount + subCellFileSet->mLabelLayout->mCount;
     offset = GetInterpolatedValue(&gTimeAttackGhostGetSlot->mInterpolation);
     for (i = 0; i < mainEntryCount; i++) {
         mainCellFileSet->mCellTable[i].mOffsetY = -offset;
@@ -221,7 +221,7 @@ void InitTimeAttackGhostGetSlot(void *parentHeap, void *mainOam, void *subOam) {
     LocateCellFileSet(cellFileSet, data_021644f8, data_02164518, data_02164538, data_02164558, data_02164574, NULL,
                       FindSceneFile);
     SetupCellFileSet(0, gTimeAttackGhostGetSlot->mHeap, cellFileSet);
-    for (i = 0; i < cellFileSet->mLabelLayout->mUnk_06; i++) {
+    for (i = 0; i < cellFileSet->mLabelLayout->mCount; i++) {
         remainingObjSize -= SetupLabelCanvas(0, gTimeAttackGhostGetSlot->mHeap, cellFileSet,
                                              gTimeAttackGhostGetSlotMLabelTextRows[i], remainingObjSize);
     }
@@ -233,9 +233,9 @@ void InitTimeAttackGhostGetSlot(void *parentHeap, void *mainOam, void *subOam) {
     LocateCellFileSet(cellFileSet, data_021645ec, data_0216460c, data_0216462c, gTimeAttackGhostGetSBnclName,
                       gTimeAttackGhostGetSBnllName, gTimeAttackGhostGetSBnblName, FindSceneFile);
     SetupCellFileSet(1, gTimeAttackGhostGetSlot->mHeap, cellFileSet);
-    cellCount = cellFileSet->mCellLayout->mUnk_06;
+    cellCount = cellFileSet->mCellLayout->mCount;
     j = 0;
-    if (j < cellFileSet->mLabelLayout->mUnk_06) {
+    if (j < cellFileSet->mLabelLayout->mCount) {
         row = gTimeAttackGhostGetSlotSLabelTextRows[0];
         do {
             if (row[3] < 0) {
@@ -245,7 +245,7 @@ void InitTimeAttackGhostGetSlot(void *parentHeap, void *mainOam, void *subOam) {
                                                  gTimeAttackGhostGetSlotSLabelTextRows[j], remainingObjSize);
             row += 4;
             j++;
-        } while (j < cellFileSet->mLabelLayout->mUnk_06);
+        } while (j < cellFileSet->mLabelLayout->mCount);
     }
     for (i = 0; i < 8; i++) {
         SetCellPriority(i, 3, cellFileSet->mCells, cellFileSet->mCellLayout);

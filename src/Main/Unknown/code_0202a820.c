@@ -94,7 +94,7 @@ void SetWiFiVSCourseSelectRowsOffsetY(void) {
     s32 i;
 
     fileSet = &gWiFiVSCourseSelect->mWiFiVSCourseSelectMParts;
-    cellCount = fileSet->mCellLayout->mUnk_06;
+    cellCount = fileSet->mCellLayout->mCount;
     for (i = 0; i < gWiFiVSCourseSelect->mPlayerCount; i++) {
         fileSet->mCellTable[gWiFiVSCourseSelectMLabelTextRows[i].mCellIndex].mOffsetY = InterpolateS16(
             1, 0,
@@ -121,7 +121,7 @@ void ShowWiFiSessionCourse(void) {
     u16 *text;
 
     fileSet = &gWiFiVSCourseSelect->mWiFiVSCourseSelectMParts;
-    cellCount = fileSet->mCellLayout->mUnk_06;
+    cellCount = fileSet->mCellLayout->mCount;
     courseId = GetWiFiSessionCourseId();
     text = GetBmgEntry(gWiFiVSCourseSelect->mCommonMessages, GetCourseMessageIndex(courseId));
     for (i = 0; i < 4; i++) {
@@ -153,7 +153,7 @@ void AdvanceSubCellsOffsetY(void) {
     s32 i;
 
     fileSet = &gWiFiVSCourseSelect->mWiFiVSCourseSelectSParts;
-    entryCount = fileSet->mCellLayout->mUnk_06 + fileSet->mLabelLayout->mUnk_06;
+    entryCount = fileSet->mCellLayout->mCount + fileSet->mLabelLayout->mCount;
     AdvanceInterpolation(&gWiFiVSCourseSelect->mInterpolations[0]);
     gWiFiVSCourseSelect->mSubOffsetY = GetInterpolatedValue(&gWiFiVSCourseSelect->mInterpolations[0]);
     for (i = 0; i < entryCount; i++) {
@@ -169,7 +169,7 @@ void AdvancePickedCourseRows(void) {
     void *text;
 
     fileSet = &gWiFiVSCourseSelect->mWiFiVSCourseSelectMParts;
-    cellCount = fileSet->mCellLayout->mUnk_06;
+    cellCount = fileSet->mCellLayout->mCount;
     for (i = 0; i < gWiFiVSCourseSelect->mPlayerCount; i++) {
         AdvanceInterpolation(&gWiFiVSCourseSelect->mRowInterpolations[i]);
         if (GetIndexOfPackedIndex(i) >= 0) {
@@ -321,11 +321,11 @@ void InitWiFiVSCourseSelect(void *parentHeap, void *mainOam, void *subOam) {
                       gWiFiVSCourseSelectMONclrName, gWiFiVSCourseSelectMBnclName, gWiFiVSCourseSelectMBnllName, NULL,
                       FindSceneFile);
     SetupCellFileSet(0, gWiFiVSCourseSelect->mHeap, mainFileSet);
-    n = mainFileSet->mCellLayout->mUnk_06;
+    n = mainFileSet->mCellLayout->mCount;
     for (i = 0; i < n; i++) {
         SetCellPriority(i, 1, mainFileSet->mCells, mainFileSet->mCellLayout);
     }
-    for (i = 0; i < mainFileSet->mLabelLayout->mUnk_06; i++) {
+    for (i = 0; i < mainFileSet->mLabelLayout->mCount; i++) {
         objSizeLeft -= SetupLabelCanvas(0, gWiFiVSCourseSelect->mHeap, mainFileSet,
                                         &gWiFiVSCourseSelectMLabelTextRows[i], objSizeLeft);
     }
@@ -348,11 +348,11 @@ void InitWiFiVSCourseSelect(void *parentHeap, void *mainOam, void *subOam) {
                       gWiFiVSCourseSelectSONclrName, gWiFiVSCourseSelectSBnclName, gWiFiVSCourseSelectSBnllName,
                       gWiFiVSCourseSelectSBnblName, FindSceneFile);
     SetupCellFileSet(1, gWiFiVSCourseSelect->mHeap, subFileSet);
-    subCellCount = subFileSet->mCellLayout->mUnk_06;
+    subCellCount = subFileSet->mCellLayout->mCount;
     for (j = 0; j < subCellCount; j++) {
         SetCellPriority(j, 1, subFileSet->mCells, subFileSet->mCellLayout);
     }
-    for (j = 0; j < subFileSet->mLabelLayout->mUnk_06; j++) {
+    for (j = 0; j < subFileSet->mLabelLayout->mCount; j++) {
         objSizeLeft -= SetupLabelCanvas(1, gWiFiVSCourseSelect->mHeap, subFileSet,
                                         &gWiFiVSCourseSelectSLabelTextRows[j], objSizeLeft);
     }

@@ -248,8 +248,8 @@ u32 OS_IsRunOnEmulator(void) {
 }
 
 // On the first call stores ReadCartridgeMarkerBits's result with one bit added in the top bits (0x10000000 when
-// OS_IsRunOnEmulator is nonzero, else 0x40000000 when func_0200e77c is nonzero, else 0x20000000 when bit 24 of the
-// result is set, else 0x80000000), or-ed with a halfword read from a fixed address. The stored value is -1 until
+// OS_IsRunOnEmulator is nonzero, else 0x40000000 when OSi_IsRunOnDebugger is nonzero, else 0x20000000 when bit 24 of
+// the result is set, else 0x80000000), or-ed with a halfword read from a fixed address. The stored value is -1 until
 // then.
 u32 OS_GetConsoleType(void) {
     u32 type;
@@ -258,7 +258,7 @@ u32 OS_GetConsoleType(void) {
         type = ReadCartridgeMarkerBits();
         if (OS_IsRunOnEmulator() != 0) {
             type |= 0x10000000;
-        } else if (func_0200e77c() != 0) {
+        } else if (OSi_IsRunOnDebugger() != 0) {
             type |= 0x40000000;
         } else if (type & 0x1000000) {
             type |= 0x20000000;
@@ -303,7 +303,7 @@ u32 ReadCartridgeMarkerBits(void) {
 }
 
 // 1 when a halfword is 1; which of two fixed addresses it is read from depends on whether another halfword is 0.
-u32 func_0200e77c(void) {
+u32 OSi_IsRunOnDebugger(void) {
     u16 *p;
 
     if (*HW_CHECK_DEBUGGER_SW == 0) {

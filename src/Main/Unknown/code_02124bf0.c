@@ -15,9 +15,9 @@ void InitLayoutTable(void *heap, LayoutEntryTable *cellLayout, LayoutEntryTable 
                      LayoutTableEntry **tableOut) {
     u16 count;
 
-    count = cellLayout->mUnk_06;
+    count = cellLayout->mCount;
     if (labelLayout != NULL) {
-        count = count + labelLayout->mUnk_06;
+        count = count + labelLayout->mCount;
     }
     *tableOut = HeapAlloc(heap, count << 6);
     InitLayoutTableEntries(*tableOut, count);
@@ -39,15 +39,15 @@ u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, LayoutEntryTable *cellLayout,
     GXOamAffine *group;
 
     if (entry->mLabelIndex != -1) {
-        DrawLayoutEntry(entry->mLabelIndex + cellLayout->mUnk_06, cells, cellLayout, labelLayout, oamList,
-                        entry - index + cellLayout->mUnk_06 + entry->mLabelIndex, incrementFlag);
+        DrawLayoutEntry(entry->mLabelIndex + cellLayout->mCount, cells, cellLayout, labelLayout, oamList,
+                        entry - index + cellLayout->mCount + entry->mLabelIndex, incrementFlag);
     }
     matrix = NULL;
     if (entry->mVisible == 0) {
         return (u32) matrix;
     }
-    if (index >= cellLayout->mUnk_06) {
-        LabelLayoutEntry *labelEntry = GetLabelLayoutEntry(labelLayout, index - cellLayout->mUnk_06);
+    if (index >= cellLayout->mCount) {
+        LabelLayoutEntry *labelEntry = GetLabelLayoutEntry(labelLayout, index - cellLayout->mCount);
         cellData = entry->mLabelCanvas->mCellData;
         axisRecords[0] = labelEntry->mAxisX;
         axisRecords[1] = labelEntry->mAxisY;
@@ -67,7 +67,7 @@ u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, LayoutEntryTable *cellLayout,
         position[1] = ((height >> 1) + GetLayoutAxisStartY(cellEntry->mUnk_00_2, height)) << 12;
     }
     if (entry->mUsePosition != FALSE) {
-        if (index >= cellLayout->mUnk_06) {
+        if (index >= cellLayout->mCount) {
             position[0] = entry->mPositionX << 12;
             position[1] = entry->mPositionY << 12;
         } else {
@@ -101,7 +101,7 @@ u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, LayoutEntryTable *cellLayout,
 void DrawLayoutTable(LayoutEntryTable *cellLayout, Unk02021dc8 *cells, LayoutEntryTable *labelLayout, void *oamList,
                      LayoutTableEntry *table) {
     s32 i;
-    for (i = cellLayout->mUnk_06 - 1; i >= 0; i--) {
+    for (i = cellLayout->mCount - 1; i >= 0; i--) {
         DrawLayoutEntry(i, cells, cellLayout, labelLayout, oamList, table + i, 1);
     }
 }
@@ -109,7 +109,7 @@ void DrawLayoutTable(LayoutEntryTable *cellLayout, Unk02021dc8 *cells, LayoutEnt
 void DrawLayoutTableKeepMatrixCount(LayoutEntryTable *cellLayout, Unk02021dc8 *cells, LayoutEntryTable *labelLayout,
                                     void *oamList, LayoutTableEntry *table) {
     s32 i;
-    for (i = cellLayout->mUnk_06 - 1; i >= 0; i--) {
+    for (i = cellLayout->mCount - 1; i >= 0; i--) {
         DrawLayoutEntry(i, cells, cellLayout, labelLayout, oamList, table + i, 0);
     }
 }

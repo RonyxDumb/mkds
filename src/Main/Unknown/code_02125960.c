@@ -108,19 +108,19 @@ s32 LoadBackScreen(s32 subCharOffset) {
             LoadNclrData(&nclrS, FindSceneFile(gBackScreenSNclrNames[indexS]));
         }
     }
-    CallQueueAppend(7, 0, ncgrM->mData, ncgrM->mDataSize);
-    CallQueueAppend(0xb, 0, nscrM->mData, nscrM->mDataSize);
-    CallQueueAppend(0xf, nclrMOffset, OFFSET_PTR(void, nclrM->mData, nclrMOffset), nclrMSize);
+    NNS_GfdRegisterNewVramTransferTask(7, 0, ncgrM->mData, ncgrM->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xb, 0, nscrM->mData, nscrM->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xf, nclrMOffset, OFFSET_PTR(void, nclrM->mData, nclrMOffset), nclrMSize);
     subCharOffset -= ncgrS->mDataSize;
-    CallQueueAppend(0x15, subCharOffset, ncgrS->mData, ncgrS->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x15, subCharOffset, ncgrS->mData, ncgrS->mDataSize);
     for (i = 0; i < 0x20; i++) {
         for (j = 0; j < 0x20; j++) {
             *(gSceneText->mBackScreenSNscrCopy + i * 0x20 + j) =
                 (subCharOffset >> 5) + *((u16 *) nscrS->mData + i * 0x20 + j);
         }
     }
-    CallQueueAppend(0x19, 0, gSceneText->mBackScreenSNscrCopy, nscrS->mDataSize);
-    CallQueueAppend(0x1f, nclrSOffset, OFFSET_PTR(void, nclrS->mData, nclrSOffset), nclrSSize);
+    NNS_GfdRegisterNewVramTransferTask(0x19, 0, gSceneText->mBackScreenSNscrCopy, nscrS->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1f, nclrSOffset, OFFSET_PTR(void, nclrS->mData, nclrSOffset), nclrSSize);
     return subCharOffset;
 }
 

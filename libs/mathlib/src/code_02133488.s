@@ -4,13 +4,11 @@
 // Arguments and results, the status word from GetFloatStatus and the trap handlers are as described in
 // code_0212f884.s; division by zero sets status bit 0x02 (trap enable 0x200).
 //
-// Not compiled code: the routines branch into each other's middles (_ddiv into func_0213379c and back to
-// _ddiv+0x24 and _ddiv+0x38), func_02133488 and func_02133630 have no return and run on into the next
+// Hand-written asm: the routines branch into each other's middles (_ddiv into DoubleDivSpecial and back to
+// _ddiv+0x24 and _ddiv+0x38), DoubleDivReversed and DoubleDivRoundUpResult have no return and run on into the next
 // routine, the tails pop a frame they did not push, and _ddiv reads a constant word kept in
-// func_0213379c's constants and the table through a pc-relative address. A compiled function is entered
-// only at its start, ends in a return and keeps its constants after itself. They also use tst and clz, which
-// the 1.2 compiler never builds (docs/compiler.md). The table has to sit in .text between the routines; 1.2 puts
-// a C table in .rodata (also with `#pragma section` or a section attribute), so it is written here as bytes.
+// DoubleDivSpecial's constants and the table through a pc-relative address. They also use tst and clz. The table
+// has to sit in .text between the routines, so it is written here as bytes.
 
     .text
     .extern FloatTrapPairPairToPair
@@ -19,9 +17,9 @@
 
 // Reversed division: swaps the doubles r1:r0 and r3:r2 (three exclusive ors per word) and runs on into _ddiv, so it
 // returns r3:r2 divided by r1:r0.
-    .global func_02133488
-    .type func_02133488, @function
-func_02133488:
+    .global DoubleDivReversed
+    .type DoubleDivReversed, @function
+DoubleDivReversed:
     // Swap r1:r0 and r3:r2.
     eor r1, r1, r3
     eor r3, r1, r3
@@ -29,12 +27,12 @@ func_02133488:
     eor r0, r0, r2
     eor r2, r0, r2
     eor r0, r0, r2
-    .size func_02133488, . - func_02133488
+    .size DoubleDivReversed, . - DoubleDivReversed
 
 // Divides the double r1:r0 by r3:r2 and returns the quotient in r1:r0, rounded as the status word says. The quotient is
 // estimated from the reciprocal table below and two refinement steps, then corrected and rounded by multiplying back.
-// Special operands, overflow and underflow continue in func_0213379c; the rounding ends in the tails func_02133620 to
-// func_02133790. The operands stay saved on the stack for the trap calls.
+// Special operands, overflow and underflow continue in DoubleDivSpecial; the rounding ends in the tails DoubleDivReturn to
+// DoubleDivRoundUpTail. The operands stay saved on the stack for the trap calls.
     .global _ddiv
     .type _ddiv, @function
 _ddiv:
@@ -42,7 +40,7 @@ _ddiv:
     // twice the first exponent, plus the sign in bit 0; exponent 0 or 0x7ff goes to ddivx_a_special. Replace the
     // exponent bits with the leading one.
     stmfd sp!, {r0, r1, r2, r3, r4, r5, r6, lr}
-    ldr lr, ddiv_exponent_mask          // constant word in func_0213379c
+    ldr lr, ddiv_exponent_mask          // constant word in DoubleDivSpecial
     eor r4, r1, r3
     ands ip, lr, r1, lsr #19
     cmpne ip, lr
@@ -99,7 +97,7 @@ ddiv_estimate:
     adc r4, r4, r6, lsr #8
     // Rebias the exponent: 0x800 or more overflows, below 0 underflows; pack the high word into r1.
     cmp ip, #0x800
-    bge func_0213379c
+    bge DoubleDivSpecial
     add ip, ip, #0x7f0
     adds ip, ip, #12
     bmi ddivx_underflow
@@ -116,13 +114,13 @@ ddiv_estimate:
     mla lr, r5, r3, lr
     cmp lr, r0, lsl #20
     cmpeq r6, #0
-    beq func_02133620
+    beq DoubleDivReturn
     adds r4, r6, r2
     adc ip, lr, r3
     cmp ip, r0, lsl #20
     bmi ddiv_adjust
     cmpeq r4, #0
-    beq func_02133630
+    beq DoubleDivRoundUpResult
     b ddiv_round
     // One unit low: add one and take the divisor off the remainder.
 ddiv_adjust:
@@ -130,9 +128,9 @@ ddiv_adjust:
     mov r6, r4
     adds r5, r5, #1
     adc r1, r1, #0
-    // Inexact: trap if enabled, else set the flag. Down or toward zero: func_0213377c; up: func_02133790; nearest:
-    // compare twice the remainder with the divisor and round up (func_02133630) when above half, else return
-    // (func_02133620).
+    // Inexact: trap if enabled, else set the flag. Down or toward zero: DoubleDivRoundDownTail; up: DoubleDivRoundUpTail; nearest:
+    // compare twice the remainder with the divisor and round up (DoubleDivRoundUpResult) when above half, else return
+    // (DoubleDivReturn).
 ddiv_round:
     adds r6, r6, r6
     adc lr, lr, lr
@@ -148,28 +146,28 @@ ddiv_round:
     orr r3, r3, #0x10
     str r3, [r2]
     tst r3, #0x800000
-    bne func_0213377c
+    bne DoubleDivRoundDownTail
     tst r3, #0x400000
-    bne func_02133790
+    bne DoubleDivRoundUpTail
     cmp lr, r0, lsl #21
-    bmi func_02133630
+    bmi DoubleDivRoundUpResult
     .size _ddiv, . - _ddiv
 
 // Tail of _ddiv: returns the result (low word in r5, high word in r1) and removes _ddiv's frame.
-    .global func_02133620
-    .type func_02133620, @function
-func_02133620:
+    .global DoubleDivReturn
+    .type DoubleDivReturn, @function
+DoubleDivReturn:
     mov r0, r5
     add sp, sp, #16
     ldmfd sp!, {r4, r5, r6, lr}
     bx lr
-    .size func_02133620, . - func_02133620
+    .size DoubleDivReturn, . - DoubleDivReturn
 
 // Tail of _ddiv: rounds the result up by one unit; reaching exponent 0x7ff is an overflow: trap if enabled, else it
-// runs on into func_02133668.
-    .global func_02133630
-    .type func_02133630, @function
-func_02133630:
+// runs on into DoubleDivSetOverflowInexact.
+    .global DoubleDivRoundUpResult
+    .type DoubleDivRoundUpResult, @function
+DoubleDivRoundUpResult:
     // Round up; no carry into exponent 0x7ff returns.
     adds r0, r5, #1
     adc r1, r1, #0
@@ -186,24 +184,24 @@ func_02133630:
     ldr r3, [ip]
     tst r3, #0x400
     bne ddivx_trap_overflow_round
-    .size func_02133630, . - func_02133630
+    .size DoubleDivRoundUpResult, . - DoubleDivRoundUpResult
 
 // Tail of _ddiv: sets overflow and inexact (r3 = the status word, ip = its address) and returns the result.
-    .global func_02133668
-    .type func_02133668, @function
-func_02133668:
+    .global DoubleDivSetOverflowInexact
+    .type DoubleDivSetOverflowInexact, @function
+DoubleDivSetOverflowInexact:
     orr r3, r3, #0x14
     str r3, [ip]
     add sp, sp, #16
     ldmfd sp!, {r4, r5, r6, lr}
     bx lr
-    .size func_02133668, . - func_02133668
+    .size DoubleDivSetOverflowInexact, . - DoubleDivSetOverflowInexact
 
 // Reciprocal table read by _ddiv, indexed by the 8 significand bits below the divisor's leading one: entry i is 0x10000
 // / (256.5 + i) rounded to the nearest integer, 0xff for i = 0 (checked for all 256 entries).
-    .global data_0213367c
-    .type data_0213367c, @object
-data_0213367c:
+    .global ddiv_reciprocal_table
+    .type ddiv_reciprocal_table, @object
+ddiv_reciprocal_table:
     .byte 0xff, 0xff, 0xfe, 0xfd, 0xfc, 0xfb, 0xfa, 0xf9, 0xf8, 0xf7, 0xf6, 0xf5, 0xf4, 0xf3, 0xf2, 0xf1
     .byte 0xf0, 0xf0, 0xef, 0xee, 0xed, 0xec, 0xeb, 0xea, 0xea, 0xe9, 0xe8, 0xe7, 0xe6, 0xe6, 0xe5, 0xe4
     .byte 0xe3, 0xe2, 0xe2, 0xe1, 0xe0, 0xdf, 0xdf, 0xde, 0xdd, 0xdc, 0xdc, 0xdb, 0xda, 0xd9, 0xd9, 0xd8
@@ -222,35 +220,35 @@ data_0213367c:
     .byte 0x8d, 0x8d, 0x8c, 0x8c, 0x8c, 0x8c, 0x8b, 0x8b, 0x8b, 0x8a, 0x8a, 0x8a, 0x8a, 0x89, 0x89, 0x89
     .byte 0x88, 0x88, 0x88, 0x88, 0x87, 0x87, 0x87, 0x86, 0x86, 0x86, 0x86, 0x85, 0x85, 0x85, 0x85, 0x84
     .byte 0x84, 0x84, 0x83, 0x83, 0x83, 0x83, 0x82, 0x82, 0x82, 0x82, 0x81, 0x81, 0x81, 0x81, 0x80, 0x80
-    .size data_0213367c, . - data_0213367c
+    .size ddiv_reciprocal_table, . - ddiv_reciprocal_table
 
 // Tail of _ddiv, rounding down or toward zero (r3 = the status word, r1 = the result's high word): toward zero keeps
-// the result; down rounds negative results up in magnitude (func_02133630).
-    .global func_0213377c
-    .type func_0213377c, @function
-func_0213377c:
+// the result; down rounds negative results up in magnitude (DoubleDivRoundUpResult).
+    .global DoubleDivRoundDownTail
+    .type DoubleDivRoundDownTail, @function
+DoubleDivRoundDownTail:
     tst r3, #0x400000
-    bne func_02133620
+    bne DoubleDivReturn
     tst r1, #0x80000000
-    bne func_02133630
-    b func_02133620
-    .size func_0213377c, . - func_0213377c
+    bne DoubleDivRoundUpResult
+    b DoubleDivReturn
+    .size DoubleDivRoundDownTail, . - DoubleDivRoundDownTail
 
-// Tail of _ddiv, rounding up: positive results grow (func_02133630), negative ones keep the result.
-    .global func_02133790
-    .type func_02133790, @function
-func_02133790:
+// Tail of _ddiv, rounding up: positive results grow (DoubleDivRoundUpResult), negative ones keep the result.
+    .global DoubleDivRoundUpTail
+    .type DoubleDivRoundUpTail, @function
+DoubleDivRoundUpTail:
     tst r1, #0x80000000
-    beq func_02133630
-    b func_02133620
-    .size func_02133790, . - func_02133790
+    beq DoubleDivRoundUpResult
+    b DoubleDivReturn
+    .size DoubleDivRoundUpTail, . - DoubleDivRoundUpTail
 
 // The rest of _ddiv, entered at its blocks by branches from _ddiv and its tails: overflow (at its start), underflow,
 // operands with exponent 0 or 0x7ff (zero, denormal, infinity, NaN), division by zero, invalid operations, and the trap
 // calls (event codes ending in 0x94). Denormal operands are normalised here and division continues in _ddiv.
-    .global func_0213379c
-    .type func_0213379c, @function
-func_0213379c:
+    .global DoubleDivSpecial
+    .type DoubleDivSpecial, @function
+DoubleDivSpecial:
     // Overflow: trap if enabled, else set overflow and inexact. Nearest gives infinity, toward zero the largest finite
     // value, up and down one or the other by the sign (ip bit 0).
     stmfd sp!, {r0, r1, r3, ip, lr}
@@ -644,7 +642,7 @@ ddivx_invalid:
     add sp, sp, #16
     ldmfd sp!, {r4, r5, r6, lr}
     bx lr
-    // Overflow trap from func_02133630: pass infinity's exponent minus 0x600 with the sign.
+    // Overflow trap from DoubleDivRoundUpResult: pass infinity's exponent minus 0x600 with the sign.
 ddivx_trap_overflow_round:
     add sp, sp, #16
     and r1, r1, #0x80000000
@@ -705,15 +703,14 @@ ddivx_trap_inexact:
     bl FloatTrapPairToPair
     ldmfd sp!, {r4, r5, r6, lr}
     bx lr
-    .size func_0213379c, . - func_0213379c
+    .size DoubleDivSpecial, . - DoubleDivSpecial
 
 // Constant words: the exponent mask read by _ddiv, then event codes.
-    .global data_02133d90
-    .type data_02133d90, @object
-data_02133d90:
+    .global ddiv_exponent_mask
+    .type ddiv_exponent_mask, @object
 ddiv_exponent_mask:
     .word 0x00000ffe
-    .size data_02133d90, . - data_02133d90
+    .size ddiv_exponent_mask, . - ddiv_exponent_mask
 ddivx_code_overflow:
     .word 0x10000094
 ddivx_code_underflow:

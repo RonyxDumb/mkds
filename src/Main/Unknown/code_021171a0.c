@@ -121,7 +121,7 @@ void QueueKartIcon(s32 iconIndex, Unk02021dc8 *destinationNcer, LayoutEntryTable
     }
     QueueCellChars(gKartIconRows[iconIndex].mBnclIndex, gKartIcon->mNcer, gKartIcon->mNcgr, gKartIcon->mBncl, f,
                    destinationBnclIndex, destinationNcer, destinationBncl);
-    CallQueueAppend(
+    NNS_GfdRegisterNewVramTransferTask(
         queueKind, paletteIndex * 32,
         gKartIcon->mNclrs[gKartIconRows[iconIndex].mNclrIndex]->mData + gKartIconRows[iconIndex].mNclrStart * 16, 0x20);
 }

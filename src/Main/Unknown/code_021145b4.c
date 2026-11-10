@@ -74,8 +74,8 @@ void AdvanceRecordVSEraseIndexChange(void) {
             gRecordVSErase->mShownIndex = gRecordVSErase->mIndex;
             PrintRecordVSEraseShownRecord();
         } else {
-            mainCellCount = gRecordVSErase->mRecordVSMBncl->mUnk_06;
-            transientCellCount = gRecordVSErase->mRecordVSMTransientBncl->mUnk_06;
+            mainCellCount = gRecordVSErase->mRecordVSMBncl->mCount;
+            transientCellCount = gRecordVSErase->mRecordVSMTransientBncl->mCount;
             offsetY = LookupIndexChangeOffset(7 - gRecordVSErase->mIndexChangeTimer, 0);
             gRecordVSErase->mBg0OffsetY = offsetY;
             gRecordVSErase->mRecordVSMTable[3].mOffsetY = offsetY;
@@ -99,7 +99,7 @@ void RequestRecordVSEraseState0(void) {
     gRecordVSErase->mNextState = 0;
     gRecordVSErase->mStateFrames = 0;
     gRecordVSErase->mBg3Offset = ~0xbf;
-    eraseCellCount = gRecordVSErase->mRecordVSSEraseBncl->mUnk_06;
+    eraseCellCount = gRecordVSErase->mRecordVSSEraseBncl->mCount;
     gRecordVSErase->mRecordVSSEraseTable[30].mOffsetX = 0x100;
     gRecordVSErase->mRecordVSSEraseTable[31].mOffsetX = 0x100;
     gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + 5].mOffsetY = ~0xbf;
@@ -270,7 +270,7 @@ void InitRecordVSErase(void *heap) {
         InitLabelCanvas(heap, 0xc, gRecordVSErase->mRecordVSMBnll, 0x46, 0x10, 3, gRecordVSErase->mRecordVSMNcer,
                         gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable, remainingSize);
     cellIndex = 4;
-    mainCellCount = gRecordVSErase->mRecordVSMBncl->mUnk_06;
+    mainCellCount = gRecordVSErase->mRecordVSMBncl->mCount;
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 3; j++) {
             remainingSize -=
@@ -396,7 +396,7 @@ void AdvanceRecordVSEraseState3(void) {
     gRecordVSErase->mStateFrames++;
     offsetX = InterpolateS16(1, 0x100, 0, gRecordVSErase->mStateFrames, 0xa);
     offsetY = InterpolateS16(1, ~0xbf, 0, gRecordVSErase->mStateFrames, 0xa);
-    eraseCellCount = gRecordVSErase->mRecordVSSEraseBncl->mUnk_06;
+    eraseCellCount = gRecordVSErase->mRecordVSSEraseBncl->mCount;
     gRecordVSErase->mBg3Offset = offsetY;
     gRecordVSErase->mRecordVSSEraseTable[30].mOffsetX = offsetX;
     gRecordVSErase->mRecordVSSEraseTable[31].mOffsetX = offsetX;
@@ -551,9 +551,9 @@ void AdvanceRecordVSEraseState5(void) {
             break;
     }
     gRecordVSErase->mStateFrames++;
-    mainCellCount = gRecordVSErase->mRecordVSMBncl->mUnk_06;
-    transientCellCount = gRecordVSErase->mRecordVSMTransientBncl->mUnk_06;
-    eraseCellCount = gRecordVSErase->mRecordVSSEraseBncl->mUnk_06;
+    mainCellCount = gRecordVSErase->mRecordVSMBncl->mCount;
+    transientCellCount = gRecordVSErase->mRecordVSMTransientBncl->mCount;
+    eraseCellCount = gRecordVSErase->mRecordVSSEraseBncl->mCount;
     offsetX = InterpolateS16(1, 0, targetOffsetX, gRecordVSErase->mStateFrames, 0xa);
     gRecordVSErase->mBg0OffsetX = offsetX;
     gRecordVSErase->mBg1OffsetX = offsetX;
@@ -611,9 +611,9 @@ void AdvanceRecordVSEraseState6(void) {
             break;
     }
     gRecordVSErase->mStateFrames++;
-    mainCellCount = gRecordVSErase->mRecordVSMBncl->mUnk_06;
-    transientCellCount = gRecordVSErase->mRecordVSMTransientBncl->mUnk_06;
-    eraseCellCount = gRecordVSErase->mRecordVSSEraseBncl->mUnk_06;
+    mainCellCount = gRecordVSErase->mRecordVSMBncl->mCount;
+    transientCellCount = gRecordVSErase->mRecordVSMTransientBncl->mCount;
+    eraseCellCount = gRecordVSErase->mRecordVSSEraseBncl->mCount;
     offsetX = InterpolateS16(1, startOffsetX, 0, gRecordVSErase->mStateFrames, 0xa);
     gRecordVSErase->mBg0OffsetX = offsetX;
     gRecordVSErase->mBg1OffsetX = offsetX;
@@ -660,7 +660,7 @@ void AdvanceRecordVSEraseState7(void) {
     gRecordVSErase->mStateFrames++;
     offsetX = InterpolateS16(1, 0, 0x100, gRecordVSErase->mStateFrames, 0xa);
     offsetY = InterpolateS16(1, 0, ~0xbf, gRecordVSErase->mStateFrames, 0xa);
-    eraseCellCount = gRecordVSErase->mRecordVSSEraseBncl->mUnk_06;
+    eraseCellCount = gRecordVSErase->mRecordVSSEraseBncl->mCount;
     gRecordVSErase->mBg3Offset = offsetY;
     gRecordVSErase->mRecordVSSEraseTable[30].mOffsetX = offsetX;
     gRecordVSErase->mRecordVSSEraseTable[31].mOffsetX = offsetX;
@@ -722,8 +722,8 @@ void AdvanceRecordVSEraseState10(void) {
 
     gRecordVSErase->mStateFrames++;
     offsetX = InterpolateS16(1, 0, -0x100, gRecordVSErase->mStateFrames, 10);
-    mainCellCount = gRecordVSErase->mRecordVSMBncl->mUnk_06;
-    transientCellCount = gRecordVSErase->mRecordVSMTransientBncl->mUnk_06;
+    mainCellCount = gRecordVSErase->mRecordVSMBncl->mCount;
+    transientCellCount = gRecordVSErase->mRecordVSMTransientBncl->mCount;
     if (GetRecordCount() != 0 && gRecordVSErase->mErased != 0) {
         gRecordVSErase->mBg1OffsetX = offsetX;
         gRecordVSErase->mRecordVSMTable[1].mOffsetX = offsetX;
@@ -774,9 +774,9 @@ void AdvanceRecordVSEraseState11(void) {
     gRecordVSErase->mStateFrames++;
     offsetX = InterpolateS16(1, 0x100, 0, gRecordVSErase->mStateFrames, 10);
     offsetY = InterpolateS16(1, -0xc0, 0, gRecordVSErase->mStateFrames, 10);
-    mainCellCount = gRecordVSErase->mRecordVSMBncl->mUnk_06;
-    transientCellCount = gRecordVSErase->mRecordVSMTransientBncl->mUnk_06;
-    eraseCellCount = gRecordVSErase->mRecordVSSEraseBncl->mUnk_06;
+    mainCellCount = gRecordVSErase->mRecordVSMBncl->mCount;
+    transientCellCount = gRecordVSErase->mRecordVSMTransientBncl->mCount;
+    eraseCellCount = gRecordVSErase->mRecordVSSEraseBncl->mCount;
     if (gRecordVSErase->mErased != 0) {
         gRecordVSErase->mBg1OffsetX = offsetX;
         gRecordVSErase->mRecordVSMTable[1].mOffsetX = offsetX;
@@ -830,7 +830,7 @@ void AdvanceRecordVSEraseState12(void) {
     gRecordVSErase->mStateFrames++;
     offsetX = InterpolateS16(1, 0, 0x100, gRecordVSErase->mStateFrames, 10);
     offsetY = InterpolateS16(1, 0, -0xc0, gRecordVSErase->mStateFrames, 10);
-    eraseCellCount = gRecordVSErase->mRecordVSSEraseBncl->mUnk_06;
+    eraseCellCount = gRecordVSErase->mRecordVSSEraseBncl->mCount;
     gRecordVSErase->mBg3Offset = offsetY;
     gRecordVSErase->mRecordVSSEraseTable[30].mOffsetX = offsetX;
     gRecordVSErase->mRecordVSSEraseTable[31].mOffsetX = offsetX;

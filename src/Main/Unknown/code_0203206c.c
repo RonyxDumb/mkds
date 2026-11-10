@@ -99,14 +99,14 @@ void SetSelectGameCellTableOffsets(void) {
 
     if (gBootInfo->mUnk_00 != 2) {
         selectGame = gSelectGame;
-        mainCellCount = selectGame->mCellFileSets[0].mCellLayout->mUnk_06;
-        m = selectGame->mCellFileSets[0].mLabelLayout->mUnk_06;
+        mainCellCount = selectGame->mCellFileSets[0].mCellLayout->mCount;
+        m = selectGame->mCellFileSets[0].mLabelLayout->mCount;
         for (i = 0; i < m; i++) {
             selectGame->mCellFileSets[0].mCellTable[i + mainCellCount].mOffsetY = gSelectGame->mMainOffsetY;
         }
     }
     subFileSet = &gSelectGame->mCellFileSets[1];
-    m = subFileSet->mCellLayout->mUnk_06;
+    m = subFileSet->mCellLayout->mCount;
     for (i = 0; i < m; i++) {
         subFileSet->mCellTable[i].mOffsetX = gSelectGame->mSubOffsetX;
     }
@@ -133,7 +133,7 @@ void SetSelectGameSubCellsVisible(s32 visible) {
     CellFileSet *subFileSet;
 
     subFileSet = &gSelectGame->mCellFileSets[1];
-    for (i = 0; i < subFileSet->mCellLayout->mUnk_06; i++) {
+    for (i = 0; i < subFileSet->mCellLayout->mCount; i++) {
         subFileSet->mCellTable[i].mVisible = visible;
     }
 }
@@ -188,8 +188,8 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
         LocateCellFileSet(selectGame, gSelectGameMNceNcgrName2, gSelectGameMNceNcerName2, gSelectGameMONclrName2,
                           gSelectGameMBnclName, gSelectGameMBnllName, NULL, FindSceneFile);
         SetupCellFileSet(0, gSelectGame->mHeap, selectGame->mCellFileSets);
-        mainCellCount = selectGame->mCellFileSets[0].mCellLayout->mUnk_06;
-        mainLabelCount = selectGame->mCellFileSets[0].mLabelLayout->mUnk_06;
+        mainCellCount = selectGame->mCellFileSets[0].mCellLayout->mCount;
+        mainLabelCount = selectGame->mCellFileSets[0].mLabelLayout->mCount;
         i = 0;
         if (mainLabelCount > 0) {
             canvasRow = gSelectGameLabelMessageRows;

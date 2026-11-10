@@ -66,7 +66,7 @@ void AdvanceSelectCupCourseIndexChange(void) {
             gSelectCupCourse->mShownIndex = gSelectCupCourse->mIndex;
             RefreshSelectCupCourseForIndex();
         } else if (gBootInfo->mUnk_00 != 2) {
-            taOrVsCellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mUnk_06;
+            taOrVsCellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mCount;
             offsetY = LookupIndexChangeOffset(7 - gSelectCupCourse->mIndexChangeTimer, 1);
             gSelectCupCourse->mSelectCupCourseTaOrVsMTable[taOrVsCellCount].mOffsetY = offsetY;
             gSelectCupCourse->mSelectCupCourseTaOrVsMTable[taOrVsCellCount + 1].mOffsetY = offsetY;
@@ -87,7 +87,7 @@ void RequestSelectCupCourseState0(void) {
     gSelectCupCourse->mStateFrames = 0;
     if (gBootInfo->mUnk_00 != 2) {
         if (GetPreviousMenuScreenNumber() != SCREEN_SELECT_GHOST) {
-            taOrVsCellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mUnk_06;
+            taOrVsCellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mCount;
             gSelectCupCourse->mBg0Offset = -0xc0;
             gSelectCupCourse->mSelectCupCourseTaOrVsMTable[0].mOffsetY = -0xc0;
             gSelectCupCourse->mSelectCupCourseTaOrVsMTable[2].mOffsetY = -0xc0;
@@ -107,7 +107,7 @@ void RequestSelectCupCourseState0(void) {
         } else {
             subOffsetY = -0xe0;
         }
-        selectCupMCellCount = gSelectCupCourse->mSelectCupMBncl->mUnk_06;
+        selectCupMCellCount = gSelectCupCourse->mSelectCupMBncl->mCount;
         gSelectCupCourse->mBg3Offset = subOffsetY;
         gSelectCupCourse->mSelectCupMTable[0x14].mOffsetY = subOffsetY;
         gSelectCupCourse->mSelectCupMTable[0x13].mOffsetY = subOffsetY;
@@ -347,7 +347,7 @@ void AdvanceSelectCupCourseState1(void) {
         InterpolateS16(1, 0x100, 0, gSelectCupCourse->mStateFrames, 10);
         offsetY = InterpolateS16(1, -0xc0, 0, gSelectCupCourse->mStateFrames, 10);
         if (GetPreviousMenuScreenNumber() != SCREEN_SELECT_GHOST) {
-            taOrVsCellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mUnk_06;
+            taOrVsCellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mCount;
             gSelectCupCourse->mBg0Offset = offsetY;
             gSelectCupCourse->mSelectCupCourseTaOrVsMTable[0].mOffsetY = offsetY;
             gSelectCupCourse->mSelectCupCourseTaOrVsMTable[2].mOffsetY = offsetY;
@@ -363,7 +363,7 @@ void AdvanceSelectCupCourseState1(void) {
             gSelectCupCourse->mSelectCupCourseTaOrVsMTable[taOrVsCellCount + 5].mOffsetY = offsetY;
         }
         if (GetPreviousMenuScreenNumber() == SCREEN_SELECT_GHOST) {
-            taOrVsCellCount = gSelectCupCourse->mSelectCupMBncl->mUnk_06;
+            taOrVsCellCount = gSelectCupCourse->mSelectCupMBncl->mCount;
             gSelectCupCourse->mBg3Offset = offsetY - 0x20;
             gSelectCupCourse->mSelectCupMTable[0x14].mOffsetY = offsetY - 0x20;
             gSelectCupCourse->mSelectCupMTable[0x13].mOffsetY = offsetY - 0x20;

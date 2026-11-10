@@ -70,7 +70,7 @@ void UpdateScanEntryOffsetX(void) {
     s16 offsetX;
 
     subCellFileSet = &gTimeAttackGhostGetScan->mCellFileSets[1];
-    cellCount = subCellFileSet->mCellLayout->mUnk_06;
+    cellCount = subCellFileSet->mCellLayout->mCount;
     for (i = 0; i < 4; i++) {
         AdvanceInterpolation(&gTimeAttackGhostGetScan->mGhostInfoEntries[i].mInterpolation);
         interpolatedValue = GetInterpolatedValue(&gTimeAttackGhostGetScan->mGhostInfoEntries[i].mInterpolation);
@@ -98,8 +98,8 @@ void UpdateScanSlideOffsets(void) {
 
     mainCellFileSet = &gTimeAttackGhostGetScan->mCellFileSets[0];
     subCellFileSet = &gTimeAttackGhostGetScan->mCellFileSets[1];
-    mainEntryCount = mainCellFileSet->mCellLayout->mUnk_06 + mainCellFileSet->mLabelLayout->mUnk_06;
-    subEntryCount = subCellFileSet->mCellLayout->mUnk_06 + subCellFileSet->mLabelLayout->mUnk_06;
+    mainEntryCount = mainCellFileSet->mCellLayout->mCount + mainCellFileSet->mLabelLayout->mCount;
+    subEntryCount = subCellFileSet->mCellLayout->mCount + subCellFileSet->mLabelLayout->mCount;
     offset = GetInterpolatedValue(&gTimeAttackGhostGetScan->mInterpolation);
     for (i = 0; i < mainEntryCount; i++) {
         mainCellFileSet->mCellTable[i].mOffsetY = -offset;
@@ -118,7 +118,7 @@ void RefreshScanSelectedGhostInfo(void) {
 
     mainCellFileSet = &gTimeAttackGhostGetScan->mCellFileSets[0];
     selectedEntry = &gTimeAttackGhostGetScan->mGhostInfoEntries[gTimeAttackGhostGetScan->mSelectedIndex];
-    entryCount = mainCellFileSet->mCellLayout->mUnk_06 + mainCellFileSet->mLabelLayout->mUnk_06;
+    entryCount = mainCellFileSet->mCellLayout->mCount + mainCellFileSet->mLabelLayout->mCount;
     for (i = 0; i < entryCount; i++) {
         if (gTimeAttackGhostGetScan->mSelectedIndex >= 0) {
             hasSelection = TRUE;
@@ -217,16 +217,16 @@ void InitTimeAttackGhostGetScan(void *parentHeap, void *mainOam, void *subOam) {
     screen = FALSE;
     SetupCellFileSet(0, gTimeAttackGhostGetScan->mHeap, cellFileSet);
     i = 0;
-    if (i < cellFileSet->mLabelLayout->mUnk_06) {
+    if (i < cellFileSet->mLabelLayout->mCount) {
         row = (s16 *) gTimeAttackGhostGetScanMLabelTextRows;
         do {
             remainingObjSize -=
                 SetupLabelCanvas(screen, gTimeAttackGhostGetScan->mHeap, cellFileSet, row, remainingObjSize);
             row += 4;
             i++;
-        } while (i < cellFileSet->mLabelLayout->mUnk_06);
+        } while (i < cellFileSet->mLabelLayout->mCount);
     }
-    j = cellFileSet->mCellLayout->mUnk_06 + cellFileSet->mLabelLayout->mUnk_06;
+    j = cellFileSet->mCellLayout->mCount + cellFileSet->mLabelLayout->mCount;
     for (i = 0; i < j; i++) {
         cellFileSet->mCellTable[i].mVisible = 0;
     }
@@ -236,9 +236,9 @@ void InitTimeAttackGhostGetScan(void *parentHeap, void *mainOam, void *subOam) {
     LocateCellFileSet(cellFileSet, data_021643a0, data_021643c0, data_021643e0, gTimeAttackGhostGetSSelBnclName,
                       gTimeAttackGhostGetSSelBnllName, gTimeAttackGhostGetSSelBnblName, FindSceneFile);
     SetupCellFileSet(1, gTimeAttackGhostGetScan->mHeap, cellFileSet);
-    cellCount = cellFileSet->mCellLayout->mUnk_06;
+    cellCount = cellFileSet->mCellLayout->mCount;
     i = 0;
-    if (i < cellFileSet->mLabelLayout->mUnk_06) {
+    if (i < cellFileSet->mLabelLayout->mCount) {
         row = (s16 *) gTimeAttackGhostGetScanSSelLabelTextRows;
         do {
             if (row[3] < 0) {
@@ -248,7 +248,7 @@ void InitTimeAttackGhostGetScan(void *parentHeap, void *mainOam, void *subOam) {
                                                  gTimeAttackGhostGetScanSSelLabelTextRows[i], remainingObjSize);
             row += 4;
             i++;
-        } while (i < cellFileSet->mLabelLayout->mUnk_06);
+        } while (i < cellFileSet->mLabelLayout->mCount);
     }
     for (j = 0; j < cellCount; j++) {
         SetCellPriority(j, 3, cellFileSet->mCells, cellFileSet->mCellLayout);

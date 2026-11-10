@@ -85,13 +85,13 @@ void LocateAndQueueOptionTopMenu(void) {
     LocateNcgr2(&gOptionTopMenu->mOptionTopMenuSNcgr, FindSceneFile(data_ov001_021a8200));
     LocateNcer(&gOptionTopMenu->mOptionTopMenuSNcer, FindSceneFile(data_ov001_021a821c));
     LocateNclr(&gOptionTopMenu->mOptionTopMenuSONclr, FindSceneFile(data_ov001_021a8238));
-    CallQueueAppend(4, 0, a->mData, a->mDataSize);
-    CallQueueAppend(8, 0, b->mData, b->mDataSize);
-    CallQueueAppend(15, 0, c->mData, 0x100);
-    CallQueueAppend(0x23, 0, gOptionTopMenu->mOptionTopMenuSNcgr->mData,
-                    gOptionTopMenu->mOptionTopMenuSNcgr->mDataSize);
-    CallQueueAppend(0x1e, 0, gOptionTopMenu->mOptionTopMenuSONclr->mData,
-                    gOptionTopMenu->mOptionTopMenuSONclr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(4, 0, a->mData, a->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(8, 0, b->mData, b->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(15, 0, c->mData, 0x100);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, gOptionTopMenu->mOptionTopMenuSNcgr->mData,
+                                       gOptionTopMenu->mOptionTopMenuSNcgr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gOptionTopMenu->mOptionTopMenuSONclr->mData,
+                                       gOptionTopMenu->mOptionTopMenuSONclr->mDataSize);
 }
 
 void AdvanceOptionTopMenuState0(void) {

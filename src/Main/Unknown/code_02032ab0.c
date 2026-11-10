@@ -222,7 +222,7 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
             break;
     }
     cellLayout = mainCellFileSet->mCellLayout;
-    for (i = 0; i < cellLayout->mUnk_06; i++) {
+    for (i = 0; i < cellLayout->mCount; i++) {
         GetCellLayoutEntry(mainCellFileSet->mCellLayout, i);
     }
     screenMapFileSet = &gResultsBattle->mScreenMapFileSets[1];
@@ -239,10 +239,10 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
     InitLayoutTable(heap, subCellFileSet->mCellLayout, subCellFileSet->mLabelLayout, &subCellFileSet->mCellTable);
     GXS_LoadOBJ(results->mCellFileSets[1].mChars->mData, 0, results->mCellFileSets[1].mChars->mDataSize);
     GXS_LoadOBJPltt(subCellFileSet->mPalette->mData, 0, subCellFileSet->mPalette->mDataSize);
-    for (i = 0; i < subCellFileSet->mLabelLayout->mUnk_06; i++) {
+    for (i = 0; i < subCellFileSet->mLabelLayout->mCount; i++) {
         remainingObjSize -= SetupLabelCanvas(1, heap, subCellFileSet, data_02153f00[i], remainingObjSize);
     }
-    for (i = 0; i < subCellFileSet->mCellLayout->mUnk_06; i++) {
+    for (i = 0; i < subCellFileSet->mCellLayout->mCount; i++) {
         SetCellPriority(i, 2, subCellFileSet->mCells, subCellFileSet->mCellLayout);
     }
     for (i = 0; i < 8; i++) {
@@ -488,7 +488,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                         gResultsBattle->mCellFileSets[i].mLabelLayout, (void *) gResultsBattle->mUnk_0b8[i],
                         gResultsBattle->mCellFileSets[i].mCellTable);
     }
-    cellCount = subCellFileSet->mCellLayout->mUnk_06;
+    cellCount = subCellFileSet->mCellLayout->mCount;
     for (i = 0; i < 8; i++) {
         subCellFileSet->mCellTable[i + cellCount].mOffsetY = subCellFileSet->mCellTable[i + cellCount].mOffsetY + 1;
         SetLabelPaletteIndex(i, 0xe, subCellFileSet->mLabelLayout, subCellFileSet->mCellTable,

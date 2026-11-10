@@ -3,14 +3,12 @@
 // Arguments and results, the status word from GetFloatStatus and the trap handlers are as described in
 // code_0212f884.s; floats are passed and returned in one register each.
 //
-// Not compiled code: func_02130cb4 has no return and runs on into _dsub; _dsub and _dadd (code_0212f884.s), and
-// _fadd and _fsub (code_021329f8.s), branch into each other past their first instructions, where a compiled
-// function is entered only at its start. All three also use tst, which the 1.2 compiler never builds
-// (docs/compiler.md).
+// Hand-written asm: DoubleSubReversed has no return and runs on into _dsub; _dsub and _dadd (code_0212f884.s), and
+// _fadd and _fsub (code_021329f8.s), branch into each other past their first instructions. All three also use tst.
 
     .text
-    .extern .L_0212f894
-    .extern .L_02132a0c
+    .extern .L_dadd_same_sign
+    .extern .L_fsub_same_sign
     .extern FloatTrapPairPairToPair
     .extern FloatTrapWordWordToWord
     .extern FloatTrapPairToPair
@@ -19,9 +17,9 @@
 
 // Reversed subtraction: swaps the doubles r1:r0 and r3:r2 (three exclusive ors per word) and runs on into _dsub, so it
 // returns r3:r2 minus r1:r0.
-    .global func_02130cb4
-    .type func_02130cb4, @function
-func_02130cb4:
+    .global DoubleSubReversed
+    .type DoubleSubReversed, @function
+DoubleSubReversed:
     // Swap r1:r0 and r3:r2.
     eor r1, r1, r3
     eor r3, r1, r3
@@ -29,7 +27,7 @@ func_02130cb4:
     eor r0, r0, r2
     eor r2, r0, r2
     eor r0, r0, r2
-    .size func_02130cb4, . - func_02130cb4
+    .size DoubleSubReversed, . - DoubleSubReversed
 
 // Subtracts the double r3:r2 from r1:r0 and returns the difference in r1:r0, rounded as the status word says. Operands
 // of different sign continue in _dadd, with the second operand negated; _dadd comes here the same way. The operands
@@ -41,11 +39,11 @@ _dsub:
     stmfd sp!, {r0, r1, r2, r3, r4, lr}
     eors ip, r1, r3
     eormi r3, r3, #0x80000000           // different signs: negate the second operand
-    bmi .L_0212f894                     // and add
+    bmi .L_dadd_same_sign                     // and add
     // Entry from _dadd (same signs). Order the operands so that |r1:r0| >= |r3:r2|; swapping them flips the sign of the
     // result.
-    .global .L_02130cdc
-.L_02130cdc:
+    .global .L_dsub_same_sign
+.L_dsub_same_sign:
     subs ip, r0, r2
     sbcs lr, r1, r3
     bhs dsub_unpack
@@ -475,10 +473,10 @@ _fadd:
     stmfd sp!, {r0, r1, r2}
     eors r2, r0, r1
     eormi r1, r1, #0x80000000           // different signs: negate the second operand
-    bmi .L_02132a0c                     // and subtract
+    bmi .L_fsub_same_sign                     // and subtract
     // Entry from _fsub (same signs). Order the operands so that |r0| >= |r1|.
-    .global .L_02131248
-.L_02131248:
+    .global .L_fadd_same_sign
+.L_fadd_same_sign:
     subs ip, r0, r1
     sublo r0, r0, ip
     addlo r1, r1, ip

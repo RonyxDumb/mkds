@@ -70,21 +70,27 @@ void LocateAndQueueRecordGpx(void) {
     LocateNclr(&l18, FindSceneFile(gRecordGpxSBNclrName));
     LocateNscr(&gRecordGpx->mRecordGpxSNscr, FindSceneFile(gRecordGpxSNscrName));
     x = l0->mData;
-    CallQueueAppend(0x13, 0, gRecordGpx->mRecordGpxMNcgr->mData, gRecordGpx->mRecordGpxMNcgr->mDataSize);
-    CallQueueAppend(0xe, 0, l0->mData, 0x1a0);
-    CallQueueAppend(0xe, 0x1c0, (u8 *) x + 0x1c0, 0x40);
-    CallQueueAppend(0x23, 0, gRecordGpx->mRecordGpxSNcgr->mData, gRecordGpx->mRecordGpxSNcgr->mDataSize);
-    CallQueueAppend(0x1e, 0, l10->mData, l10->mDataSize);
-    CallQueueAppend(4, 0, l4->mData, l4->mDataSize);
-    CallQueueAppend(0xf, 0, l8->mData, 0x40);
-    CallQueueAppend(8, 0, lc->mData, lc->mDataSize);
-    CallQueueAppend(0x17, 0, l14->mData, l14->mDataSize);
-    CallQueueAppend(0x1f, 0, l18->mData, 0x40);
-    CallQueueAppend(0x1b, 0, gRecordGpx->mRecordGpxSNscr->mData, gRecordGpx->mRecordGpxSNscr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x13, 0, gRecordGpx->mRecordGpxMNcgr->mData,
+                                       gRecordGpx->mRecordGpxMNcgr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0, l0->mData, 0x1a0);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, (u8 *) x + 0x1c0, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, gRecordGpx->mRecordGpxSNcgr->mData,
+                                       gRecordGpx->mRecordGpxSNcgr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, l10->mData, l10->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(4, 0, l4->mData, l4->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xf, 0, l8->mData, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(8, 0, lc->mData, lc->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x17, 0, l14->mData, l14->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1f, 0, l18->mData, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(0x1b, 0, gRecordGpx->mRecordGpxSNscr->mData,
+                                       gRecordGpx->mRecordGpxSNscr->mDataSize);
     x = gRecordGpx->mRecordTrophySONclr->mData;
-    CallQueueAppend(0x1e, data_ov001_021a6604[0] << 5, (u8 *) x + (data_ov001_021a660c[0] << 5), 0x20);
-    CallQueueAppend(0x1e, data_ov001_021a6604[1] << 5, (u8 *) x + (data_ov001_021a660c[1] << 5), 0x20);
-    CallQueueAppend(0x1e, data_ov001_021a6604[2] << 5, (u8 *) x + (data_ov001_021a660c[2] << 5), 0x20);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, data_ov001_021a6604[0] << 5, (u8 *) x + (data_ov001_021a660c[0] << 5),
+                                       0x20);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, data_ov001_021a6604[1] << 5, (u8 *) x + (data_ov001_021a660c[1] << 5),
+                                       0x20);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, data_ov001_021a6604[2] << 5, (u8 *) x + (data_ov001_021a660c[2] << 5),
+                                       0x20);
 }
 
 void SetupRecordGpxValues(s32 a) {
@@ -110,16 +116,17 @@ void SetupRecordGpxValues(s32 a) {
                    (gRecordGpx->mPlayerCharacterMBncl), 1, data_ov001_021a6674[a][0], (gRecordGpx->mRecordGpxSNcer),
                    (gRecordGpx->mRecordGpxSBncl));
     p = gRecordGpx->mPlayerCharacterMONclr->mUnk_0c;
-    CallQueueAppend(0x1e, data_ov001_021a6684[a] << 5,
-                    p + (GetCellPaletteIndex(data_ov001_021a66e4[k], (gRecordGpx->mPlayerCharacterMNcer),
-                                             (gRecordGpx->mPlayerCharacterMBncl))
-                         << 5),
-                    0x20);
+    NNS_GfdRegisterNewVramTransferTask(
+        0x1e, data_ov001_021a6684[a] << 5,
+        p + (GetCellPaletteIndex(data_ov001_021a66e4[k], (gRecordGpx->mPlayerCharacterMNcer),
+                                 (gRecordGpx->mPlayerCharacterMBncl))
+             << 5),
+        0x20);
     k = GetGrandPrixRecordKartIndex(data_ov001_021a6740[gRecordGpx->mIndex], data_ov001_021a6694[a]);
     gRecordGpx->mRecordGpxSTable[data_ov001_021a6674[a][1]].mVisible = 1;
     QueueKartIcon(k, gRecordGpx->mRecordGpxSNcer, gRecordGpx->mRecordGpxSBncl, data_ov001_021a6674[a][1],
                   data_ov001_021a668c[a], 1);
-    count = gRecordGpx->mRecordGpxSBncl->mUnk_06;
+    count = gRecordGpx->mRecordGpxSBncl->mCount;
     GetGrandPrixRecordTime(data_ov001_021a6740[gRecordGpx->mIndex], data_ov001_021a6694[a], &value);
     FormatTimeAscii(&value, buf);
     gRecordGpx->mRecordGpxSTable[count + data_ov001_021a6614[a]].mVisible = 1;
@@ -209,9 +216,10 @@ void SetupRecordGpx(void) {
     void *p;
     u8 v;
 
-    n = gRecordGpx->mRecordGpxSBncl->mUnk_06;
+    n = gRecordGpx->mRecordGpxSBncl->mCount;
     if (func_ov001_02194d04(gRecordGpx->mIndex) != 0) {
-        CallQueueAppend(0x1b, 0x3c6, OFFSET_PTR(u8, gRecordGpx->mRecordGpxSNscr, 0xc) + 0x3c6, 0x134);
+        NNS_GfdRegisterNewVramTransferTask(0x1b, 0x3c6, OFFSET_PTR(u8, gRecordGpx->mRecordGpxSNscr, 0xc) + 0x3c6,
+                                           0x134);
         gRecordGpx->mRecordGpxSTable[data_ov001_021a6654[3]].mVisible = 1;
         for (i = 0; i < 3; i++) {
             gRecordGpx->mRecordGpxSTable[data_ov001_021a66cc[3][i]].mVisible = 1;
@@ -221,7 +229,7 @@ void SetupRecordGpx(void) {
         gRecordGpx->mRecordGpxSTable[n + data_ov001_021a662c[3]].mVisible = 1;
         gRecordGpx->mRecordGpxSTable[n + data_ov001_021a663c[3]].mVisible = 1;
     } else {
-        CallQueueAppend(0x1b, 0x3c6, (u8 *) gRecordGpx->mZeroBuffer + 0x3c6, 0x134);
+        NNS_GfdRegisterNewVramTransferTask(0x1b, 0x3c6, (u8 *) gRecordGpx->mZeroBuffer + 0x3c6, 0x134);
         gRecordGpx->mRecordGpxSTable[data_ov001_021a6654[3]].mVisible = 0;
         for (i = 0; i < 3; i++) {
             gRecordGpx->mRecordGpxSTable[data_ov001_021a66cc[3][i]].mVisible = 0;
@@ -312,8 +320,8 @@ void func_ov001_02194a50(void) {
     gRecordGpx->mStateFrames = 0;
     gRecordGpx->mBg0Offset = ~0xbf;
     gRecordGpx->mBg3OffsetX = ~0xff;
-    count0 = gRecordGpx->mRecordGpxMBncl->mUnk_06;
-    count1 = gRecordGpx->mRecordGpxSBncl->mUnk_06;
+    count0 = gRecordGpx->mRecordGpxMBncl->mCount;
+    count1 = gRecordGpx->mRecordGpxSBncl->mCount;
     gRecordGpx->mRecordGpxMTable[0].mOffsetX = 0x100;
     gRecordGpx->mRecordGpxMTable[1].mOffsetX = 0x100;
     gRecordGpx->mRecordGpxMTable[count0].mOffsetX = 0x100;
@@ -488,8 +496,8 @@ void AdvanceRecordGpxState1(void) {
     gRecordGpx->mStateFrames++;
     v = InterpolateS16(1, 0x100, 0, gRecordGpx->mStateFrames, 10);
     gRecordGpx->mBg3OffsetX = v;
-    a = gRecordGpx->mRecordGpxMBncl->mUnk_06;
-    b = gRecordGpx->mRecordGpxSBncl->mUnk_06;
+    a = gRecordGpx->mRecordGpxMBncl->mCount;
+    b = gRecordGpx->mRecordGpxSBncl->mCount;
     gRecordGpx->mRecordGpxMTable[0].mOffsetX = v;
     gRecordGpx->mRecordGpxMTable[1].mOffsetX = v;
     gRecordGpx->mRecordGpxMTable[a].mOffsetX = v;
@@ -612,8 +620,8 @@ void AdvanceRecordGpxState3(void) {
     gRecordGpx->mStateFrames++;
     v = InterpolateS16(1, 0, x, gRecordGpx->mStateFrames, 10);
     gRecordGpx->mBg3OffsetX = v;
-    a = gRecordGpx->mRecordGpxMBncl->mUnk_06;
-    b = gRecordGpx->mRecordGpxSBncl->mUnk_06;
+    a = gRecordGpx->mRecordGpxMBncl->mCount;
+    b = gRecordGpx->mRecordGpxSBncl->mCount;
     gRecordGpx->mRecordGpxMTable[0].mOffsetX = v;
     gRecordGpx->mRecordGpxMTable[1].mOffsetX = v;
     gRecordGpx->mRecordGpxMTable[a].mOffsetX = v;
@@ -659,8 +667,8 @@ void AdvanceRecordGpxState4(void) {
     gRecordGpx->mStateFrames++;
     v = InterpolateS16(1, x, 0, gRecordGpx->mStateFrames, 10);
     gRecordGpx->mBg3OffsetX = v;
-    a = gRecordGpx->mRecordGpxMBncl->mUnk_06;
-    b = gRecordGpx->mRecordGpxSBncl->mUnk_06;
+    a = gRecordGpx->mRecordGpxMBncl->mCount;
+    b = gRecordGpx->mRecordGpxSBncl->mCount;
     gRecordGpx->mRecordGpxMTable[0].mOffsetX = v;
     gRecordGpx->mRecordGpxMTable[1].mOffsetX = v;
     gRecordGpx->mRecordGpxMTable[a].mOffsetX = v;
@@ -696,8 +704,8 @@ void AdvanceRecordGpxState5(void) {
     gRecordGpx->mStateFrames++;
     v = InterpolateS16(1, 0, 0x100, gRecordGpx->mStateFrames, 10);
     gRecordGpx->mBg3OffsetX = v;
-    a = gRecordGpx->mRecordGpxMBncl->mUnk_06;
-    b = gRecordGpx->mRecordGpxSBncl->mUnk_06;
+    a = gRecordGpx->mRecordGpxMBncl->mCount;
+    b = gRecordGpx->mRecordGpxSBncl->mCount;
     gRecordGpx->mRecordGpxMTable[0].mOffsetX = v;
     gRecordGpx->mRecordGpxMTable[1].mOffsetX = v;
     gRecordGpx->mRecordGpxMTable[a].mOffsetX = v;

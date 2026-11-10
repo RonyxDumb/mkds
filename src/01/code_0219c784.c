@@ -135,16 +135,16 @@ void LocateAndQueueSelectBattleStage(void) {
     LocateNclr(&nclrSO, FindSceneFile("mg/select_battle_stage_s_o.nclr"));
     z = 0;
     MIi_CpuClear16(z, gSelectBattleStage->mSelectBattleStageMNscrCopy, 0x1000);
-    CallQueueAppend(6, 0, ncgrMB->mData, ncgrMB->mDataSize);
-    CallQueueAppend(10, 0, gSelectBattleStage->mSelectBattleStageMNscrCopy, 0x1000);
-    CallQueueAppend(15, 0, nclrMB->mData, 0x180);
-    CallQueueAppend(19, 0, gSelectBattleStage->mSelectBattleStageMNcgr->mData,
-                    gSelectBattleStage->mSelectBattleStageMNcgr->mDataSize);
-    CallQueueAppend(14, 0, nclrMO->mData, 0x1a0);
-    CallQueueAppend(14, 0x1c0, nclrMO->mData + 0xe0, 0x40);
-    CallQueueAppend(35, 0, gSelectBattleStage->mSelectBattleStageSNcgr->mData,
-                    gSelectBattleStage->mSelectBattleStageSNcgr->mDataSize);
-    CallQueueAppend(30, 0, nclrSO->mData, nclrSO->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(6, 0, ncgrMB->mData, ncgrMB->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(10, 0, gSelectBattleStage->mSelectBattleStageMNscrCopy, 0x1000);
+    NNS_GfdRegisterNewVramTransferTask(15, 0, nclrMB->mData, 0x180);
+    NNS_GfdRegisterNewVramTransferTask(19, 0, gSelectBattleStage->mSelectBattleStageMNcgr->mData,
+                                       gSelectBattleStage->mSelectBattleStageMNcgr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(14, 0, nclrMO->mData, 0x1a0);
+    NNS_GfdRegisterNewVramTransferTask(14, 0x1c0, nclrMO->mData + 0xe0, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(35, 0, gSelectBattleStage->mSelectBattleStageSNcgr->mData,
+                                       gSelectBattleStage->mSelectBattleStageSNcgr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(30, 0, nclrSO->mData, nclrSO->mDataSize);
 }
 
 void CopyAndQueueSelectBattleStageNscrRect(void) {
@@ -165,12 +165,12 @@ void CopyAndQueueSelectBattleStageNscrRect(void) {
                   (gSelectBattleStageNscrRects[gSelectBattleStage->mIndex].mFirstRow + y) * 32);
         }
     }
-    CallQueueAppend(10, 0, gSelectBattleStage->mSelectBattleStageMNscrCopy, 0x600);
+    NNS_GfdRegisterNewVramTransferTask(10, 0, gSelectBattleStage->mSelectBattleStageMNscrCopy, 0x600);
 }
 
 void func_ov001_0219cec4(void) {
     s32 i;
-    u16 x = gSelectBattleStage->mSelectBattleStageBncls[0]->mUnk_06;
+    u16 x = gSelectBattleStage->mSelectBattleStageBncls[0]->mCount;
 
     for (i = 0; i < 1; i++) {
         gSelectBattleStage->mSelectBattleStageTables[0][data_ov001_021a6bc4[i]].mOffsetY = -gSelectBattleStage->mUnk_14;

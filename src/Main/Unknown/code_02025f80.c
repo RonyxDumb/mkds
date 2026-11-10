@@ -126,7 +126,7 @@ void SetSelectCharacterAngleAndScale(void) {
     s32 i;
     s32 elementCount;
     if (gBootInfo->mUnk_00 != 2) {
-        elementCount = sParts->mCellLayout->mUnk_06;
+        elementCount = sParts->mCellLayout->mCount;
         for (i = 0; i < elementCount; i++) {
             SetLayoutEntryAngleAndScale(&sParts->mCellTable[i], gSelectCharacter->mAngle, gSelectCharacter->mScale);
         }

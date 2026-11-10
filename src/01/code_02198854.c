@@ -162,17 +162,17 @@ void LocateAndQueueOptionSelectMenu(void) {
     LocateNcgr2(&gOptionSelectMenu->mOptionSelectMenuSNcgr, FindSceneFile(data_ov001_021a85e8));
     LocateNcer(&gOptionSelectMenu->mOptionSelectMenuSNcer, FindSceneFile(data_ov001_021a8608));
     LocateNclr(&gOptionSelectMenu->mOptionSelectMenuSONclr, FindSceneFile(data_ov001_021a8628));
-    CallQueueAppend(5, 0, a->mData, a->mDataSize);
-    CallQueueAppend(9, 0, b->mData, b->mDataSize);
-    CallQueueAppend(0xf, 0x20, c->mData + 0x10, 0x20);
-    CallQueueAppend(0x13, 0, gOptionSelectMenu->mOptionSelectMenuMNcgr->mData,
-                    gOptionSelectMenu->mOptionSelectMenuMNcgr->mDataSize);
-    CallQueueAppend(0x23, 0, gOptionSelectMenu->mOptionSelectMenuSNcgr->mData,
-                    gOptionSelectMenu->mOptionSelectMenuSNcgr->mDataSize);
-    CallQueueAppend(0xe, 0, gOptionSelectMenu->mOptionSelectMenuMONclr->mData,
-                    gOptionSelectMenu->mOptionSelectMenuMONclr->mDataSize);
-    CallQueueAppend(0x1e, 0, gOptionSelectMenu->mOptionSelectMenuSONclr->mData,
-                    gOptionSelectMenu->mOptionSelectMenuSONclr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(5, 0, a->mData, a->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(9, 0, b->mData, b->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xf, 0x20, c->mData + 0x10, 0x20);
+    NNS_GfdRegisterNewVramTransferTask(0x13, 0, gOptionSelectMenu->mOptionSelectMenuMNcgr->mData,
+                                       gOptionSelectMenu->mOptionSelectMenuMNcgr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, gOptionSelectMenu->mOptionSelectMenuSNcgr->mData,
+                                       gOptionSelectMenu->mOptionSelectMenuSNcgr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0, gOptionSelectMenu->mOptionSelectMenuMONclr->mData,
+                                       gOptionSelectMenu->mOptionSelectMenuMONclr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gOptionSelectMenu->mOptionSelectMenuSONclr->mData,
+                                       gOptionSelectMenu->mOptionSelectMenuSONclr->mDataSize);
 }
 
 void ApplyOptionSelectMenuSound(void) {
@@ -474,8 +474,8 @@ void WriteOptionSelectMenuTableOffsets(void) {
     u16 a;
     u16 b;
 
-    a = gOptionSelectMenu->mOptionSelectMenuMBncl->mUnk_06;
-    b = gOptionSelectMenu->mOptionSelectMenuSBncl->mUnk_06;
+    a = gOptionSelectMenu->mOptionSelectMenuMBncl->mCount;
+    b = gOptionSelectMenu->mOptionSelectMenuSBncl->mCount;
     for (i = 0; i < 1; i++) {
         gOptionSelectMenu->mOptionSelectMenuMTable[data_ov001_021a6a20[i]].mOffsetY = gOptionSelectMenu->mBg0Bg1Offset;
     }

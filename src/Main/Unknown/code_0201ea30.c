@@ -5,7 +5,7 @@ void *GetCellLayoutEntry(LayoutEntryTable *a, s32 b) {
     s32 n;
 
     p = (u8 *) (a + 1);
-    n = a->mUnk_06;
+    n = a->mCount;
     if (b < 0 || b >= n) {
         return 0;
     }

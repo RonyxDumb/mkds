@@ -1271,8 +1271,8 @@ void QueueKartEmblemTexture(void *emblemData, void *emblemPalette) {
         entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &matBlock->mDict, matBlock->mDict.mOfsEntry);
         material = OFFSET_PTR(NNSG3dResMatData, matBlock, *DICT_ENTRY(u32, entries, materialIndex));
         paletteBase = material->mTexPlttBase << 4;
-        CallQueueAppend(0, (material->mTexImageParam & 0xffff) << 3, emblemData, 0x200);
-        CallQueueAppend(1, paletteBase, emblemPalette, 0x20);
+        NNS_GfdRegisterNewVramTransferTask(0, (material->mTexImageParam & 0xffff) << 3, emblemData, 0x200);
+        NNS_GfdRegisterNewVramTransferTask(1, paletteBase, emblemPalette, 0x20);
     }
 }
 
@@ -2015,7 +2015,7 @@ void InitLnkVramManagers(void *heap) {
     NNSiGfdLnkVramBlock *texWork;
     NNSiGfdLnkVramBlock *plttWork;
     texWorkSize = NNS_GfdGetLnkTexVramManagerWorkSize(0x20);
-    plttWorkSize = func_020172d0(0x20);
+    plttWorkSize = NNS_GfdGetLnkPlttVramManagerWorkSize(0x20);
     texWork = HeapAlloc(heap, texWorkSize);
     plttWork = HeapAlloc(heap, plttWorkSize);
     NNS_GfdInitLnkTexVramManager(0x00040000u, 0x00020000u, texWork, texWorkSize, 1);

@@ -90,12 +90,13 @@ void LocateAndQueueSelectGhost(void) {
     gSelectGhost->mPlayerCharacterMNcer = GetPlayerCharacterNcer(0);
     gSelectGhost->mPlayerCharacterMONclr = GetPlayerCharacterNclr(0);
     gSelectGhost->mPlayerCharacterMBncl = GetPlayerCharacterBncl(0);
-    CallQueueAppend(0x17, 0, b->mData, b->mDataSize);
-    CallQueueAppend(0x1f, 0, c->mData, 0x20);
-    CallQueueAppend(0x1b, 0, d->mData, d->mDataSize);
-    CallQueueAppend(0x1b, 0x800, gSelectGhost->mUnk_40, 0x800);
-    CallQueueAppend(0x23, 0, a->mData, a->mDataSize);
-    CallQueueAppend(0x1e, 0, gSelectGhost->mSelectGhostSONclr->mData, gSelectGhost->mSelectGhostSONclr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x17, 0, b->mData, b->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1f, 0, c->mData, 0x20);
+    NNS_GfdRegisterNewVramTransferTask(0x1b, 0, d->mData, d->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1b, 0x800, gSelectGhost->mUnk_40, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, a->mData, a->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gSelectGhost->mSelectGhostSONclr->mData,
+                                       gSelectGhost->mSelectGhostSONclr->mDataSize);
 }
 
 void ResetSelectGhost(void) {
@@ -111,7 +112,7 @@ void ResetSelectGhost(void) {
     }
     gSelectGhost->mSelectGhostSTable[10].mOffsetY = -0xc0;
     gSelectGhost->mSelectGhostSTable[11].mOffsetY = -0xc0;
-    cnt = gSelectGhost->mSelectGhostSBncl->mUnk_06;
+    cnt = gSelectGhost->mSelectGhostSBncl->mCount;
     for (i = 0; i < 5; i++) {
         gSelectGhost->mSelectGhostSTable[cnt + gSelectGhostSBnllIndices[i]].mOffsetY = -0xc0;
     }
@@ -208,7 +209,7 @@ void RefreshSelectGhostForIndex(void) {
     u16 buf18[16];
 
     q = p->mSelectGhostSBncl;
-    n = q->mUnk_06;
+    n = q->mCount;
     PrintLabelLayoutTextNoFixedAdvance(1, gSelectGhostSBnllIndices[4], gSelectGhost->mSelectGhostSBnll,
                                        GetBmgEntry(p->mMenuMessages, gSelectGhostMenuMessageIndices[p->mIndex]), q,
                                        p->mSelectGhostSTable);
@@ -238,7 +239,7 @@ void RefreshSelectGhostForIndex(void) {
                    gSelectGhost->mPlayerCharacterMBncl, 1, a, gSelectGhost->mSelectGhostSONcer,
                    gSelectGhost->mSelectGhostSBncl);
     blk = gSelectGhost->mPlayerCharacterMONclr->mUnk_0c;
-    CallQueueAppend(
+    NNS_GfdRegisterNewVramTransferTask(
         0x1e, 0x100,
         blk + (GetCellPaletteIndex(r, gSelectGhost->mPlayerCharacterMNcer, gSelectGhost->mPlayerCharacterMBncl) << 5),
         0x20);
@@ -293,7 +294,7 @@ void func_ov001_0219bfc0(void) {
 }
 
 void func_ov001_0219be5c(void) {
-    u16 n = gSelectGhost->mSelectCupCourseTaMBncl->mUnk_06;
+    u16 n = gSelectGhost->mSelectCupCourseTaMBncl->mCount;
 
     gSelectGhost->mSelectCupCourseTaMTable[0].mVisible = 1;
     gSelectGhost->mSelectCupCourseTaMTable[2].mVisible = 1;
@@ -426,7 +427,7 @@ void AdvanceSelectGhostState0(void) {
     s32 i;
 
     AdvanceSelectGhostOffsetTimers();
-    n = gSelectGhost->mSelectGhostSBncl->mUnk_06;
+    n = gSelectGhost->mSelectGhostSBncl->mCount;
     gSelectGhost->mStateFrames++;
     v = InterpolateS16(1, ~0xbf, 0, gSelectGhost->mStateFrames, 10);
     gSelectGhost->mBg3Offset = v;
@@ -450,7 +451,7 @@ void AdvanceSelectGhostState1(void) {
     s16 w;
 
     AdvanceSelectGhostOffsetTimers();
-    n = gSelectGhost->mSelectGhostSBncl->mUnk_06;
+    n = gSelectGhost->mSelectGhostSBncl->mCount;
     gSelectGhost->mStateFrames++;
     w = -LookupSelectReturnState1Bg2Offset(gSelectGhost->mStateFrames);
     gSelectGhost->mSelectGhostSTable[10].mOffsetY = w;
@@ -588,7 +589,7 @@ void AdvanceSelectGhostState7(void) {
     gSelectGhost->mStateFrames++;
     v = InterpolateS16(1, 0, ~0xbf, gSelectGhost->mStateFrames, 10);
     if (flag) {
-        n = gSelectGhost->mSelectCupCourseTaMBncl->mUnk_06;
+        n = gSelectGhost->mSelectCupCourseTaMBncl->mCount;
         gSelectGhost->mBg0Offset = v;
         gSelectGhost->mSelectCupCourseTaMTable[0].mOffsetY = v;
         gSelectGhost->mSelectCupCourseTaMTable[2].mOffsetY = v;
@@ -603,7 +604,7 @@ void AdvanceSelectGhostState7(void) {
         gSelectGhost->mSelectCupCourseTaMTable[n + 4].mOffsetY = v;
         gSelectGhost->mSelectCupCourseTaMTable[n + 5].mOffsetY = v;
     }
-    n = gSelectGhost->mSelectGhostSBncl->mUnk_06;
+    n = gSelectGhost->mSelectGhostSBncl->mCount;
     w = -LookupSelectReturnState4Bg2Offset(gSelectGhost->mStateFrames);
     gSelectGhost->mBg3Offset = v;
     for (i = 0; i < 6; i++) {

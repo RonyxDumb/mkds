@@ -3,16 +3,14 @@
 // Floats are passed and returned in one register each, 64-bit integers in two (low word first); the status
 // word from GetFloatStatus and the trap handlers are as described in code_0212f884.s.
 //
-// Not compiled code: _fsub and _fadd (code_02130cb4.s) branch into each other past their first instructions,
+// Hand-written asm: _fsub and _fadd (code_02130cb4.s) branch into each other past their first instructions,
 // and _fmul (code_021322c8.s) runs on into _fsub with no return; _ll_udiv has a second entry, _ull_mod,
-// in its middle, and branches into the middle of _ll_sdiv and of _u32_div_f (code_02133274.s). A compiled
-// function is entered only at its start. _fsub also uses tst and clz, which the 1.2 compiler never builds, and
-// the division routines save ip and an odd number of registers, where 1.2 never saves ip and pads every frame to
-// 8 bytes (docs/compiler.md; frame layout in the compiler).
+// in its middle, and branches into the middle of _ll_sdiv and of _u32_div_f (code_02133274.s). _fsub also uses tst
+// The division routines save ip and an odd number of registers.
 
     .text
-    .extern .L_02131248
-    .extern .L_0213327c
+    .extern .L_fadd_same_sign
+    .extern .L_u32_div_f_no_zero_check
     .extern _s32_div_f
     .extern FloatTrapWordWordToWord
     .extern FloatTrapWordToWord
@@ -29,11 +27,11 @@ _fsub:
     stmfd sp!, {r0, r1, r2}
     eors r2, r0, r1
     eormi r1, r1, #0x80000000
-    bmi .L_02131248
+    bmi .L_fadd_same_sign
     // Entry from _fadd (same signs). Order the operands so that |r0| >= |r1|; swapping them flips the sign of the
     // result.
-    .global .L_02132a0c
-.L_02132a0c:
+    .global .L_fsub_same_sign
+.L_fsub_same_sign:
     subs ip, r0, r1
     eorlo ip, ip, #0x80000000
     sublo r0, r0, ip
@@ -396,7 +394,7 @@ lludiv_divide:
     orrs r5, r1, r3
     bne lldiv_unsigned
     mov r1, r2
-    bl .L_0213327c
+    bl .L_u32_div_f_no_zero_check
     cmp r4, #0
     movne r0, r1
     mov r1, #0

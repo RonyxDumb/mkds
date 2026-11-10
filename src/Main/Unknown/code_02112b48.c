@@ -301,15 +301,17 @@ void LocateAndQueueRecordVS(void) {
     file = FindSceneFile(gRecordVSMBNclrName);
     LocateNclr(&mbPalette, file);
     moPaletteData = moPalette->mData;
-    CallQueueAppend(0x13, 0, (gRecordVS->mRecordVSMNcgr->mData), gRecordVS->mRecordVSMNcgr->mDataSize);
-    CallQueueAppend(0xe, 0, moPalette->mData, (0x000001a0u));
-    CallQueueAppend(0xe, 0x1c0, moPaletteData + 0xe0, 0x40);
-    CallQueueAppend(0x23, 0, (gRecordVS->mRecordVSSNcgr->mData), gRecordVS->mRecordVSSNcgr->mDataSize);
-    CallQueueAppend(0x1e, 0, soPalette->mData, soPalette->mDataSize);
-    CallQueueAppend(4, 0, mbChars->mData, mbChars->mDataSize);
-    CallQueueAppend(8, 0, mainScreenMap->mData, mainScreenMap->mDataSize);
-    CallQueueAppend(0xf, 0, mbPalette->mData, 0x40);
-    CallQueueAppend(0xe, 0x40, emblemPalette->mData, 0x20);
+    NNS_GfdRegisterNewVramTransferTask(0x13, 0, (gRecordVS->mRecordVSMNcgr->mData),
+                                       gRecordVS->mRecordVSMNcgr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0, moPalette->mData, (0x000001a0u));
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, moPaletteData + 0xe0, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, (gRecordVS->mRecordVSSNcgr->mData),
+                                       gRecordVS->mRecordVSSNcgr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, soPalette->mData, soPalette->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(4, 0, mbChars->mData, mbChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(8, 0, mainScreenMap->mData, mainScreenMap->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xf, 0, mbPalette->mData, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0x40, emblemPalette->mData, 0x20);
 }
 
 #pragma thumb off
@@ -345,7 +347,7 @@ void AdvanceRecordVSRowObjects(void) {
     u16 firstIndex;
     u16 subBase;
 
-    subBase = gRecordVS->mRecordVSSBncl->mUnk_06;
+    subBase = gRecordVS->mRecordVSSBncl->mCount;
     firstIndex = GetRecordVSFirstRecordIndex();
     for (i = 0; i < 5; i++) {
         gRecordVS->mRecordVSSTable[gRecordVSUnhighlightedObjectIndices[i]].mVisible = 0;
@@ -385,10 +387,12 @@ void PrintRecordVSShownRecord(void) {
     firstIndex = GetRecordVSFirstRecordIndex();
     if (GetRecordFriendKeyText(firstIndex + gRecordVS->mShownIndex, friendKey)) {
         gRecordVS->mShowsFriendKey = 1;
-        CallQueueAppend(9, 0, &gRecordVS->mRecordVSM03Nscr->mData, gRecordVS->mRecordVSM03Nscr->mDataSize);
+        NNS_GfdRegisterNewVramTransferTask(9, 0, &gRecordVS->mRecordVSM03Nscr->mData,
+                                           gRecordVS->mRecordVSM03Nscr->mDataSize);
     } else {
         gRecordVS->mShowsFriendKey = 0;
-        CallQueueAppend(9, 0, &gRecordVS->mRecordVSM02Nscr->mData, gRecordVS->mRecordVSM02Nscr->mDataSize);
+        NNS_GfdRegisterNewVramTransferTask(9, 0, &gRecordVS->mRecordVSM02Nscr->mData,
+                                           gRecordVS->mRecordVSM02Nscr->mDataSize);
     }
     switch (gRecordVS->mShowsFriendKey) {
         case 0:
@@ -432,8 +436,9 @@ void PrintRecordVSShownRecord(void) {
                                             gRecordVS->mRecordVSMTable, 6);
             ReadRecordEmblem(firstIndex + gRecordVS->mShownIndex, gRecordVS->mEmblem, gRecordVS->mEmblemConverted);
             recordVS = gRecordVS;
-            CallQueueAppend(0x13, GetCellCharIndex(3, recordVS->mRecordVSMNcer, recordVS->mRecordVSMBncl) << 5,
-                            recordVS->mEmblemConverted, 0x200);
+            NNS_GfdRegisterNewVramTransferTask(
+                0x13, GetCellCharIndex(3, recordVS->mRecordVSMNcer, recordVS->mRecordVSMBncl) << 5,
+                recordVS->mEmblemConverted, 0x200);
             break;
         case 1:
             CopyRecordText(firstIndex + gRecordVS->mShownIndex, buf, 0x20);
@@ -447,8 +452,9 @@ void PrintRecordVSShownRecord(void) {
             }
             ReadRecordEmblem(firstIndex + gRecordVS->mShownIndex, gRecordVS->mEmblem, gRecordVS->mEmblemConverted);
             recordVS = gRecordVS;
-            CallQueueAppend(0x13, GetCellCharIndex(1, recordVS->mRecordVSMNcer, recordVS->mRecordVSMTransientBncl) << 5,
-                            recordVS->mEmblemConverted, 0x200);
+            NNS_GfdRegisterNewVramTransferTask(
+                0x13, GetCellCharIndex(1, recordVS->mRecordVSMNcer, recordVS->mRecordVSMTransientBncl) << 5,
+                recordVS->mEmblemConverted, 0x200);
             break;
     }
 }
@@ -600,8 +606,8 @@ void AdvanceRecordVSIndexChange(void) {
             gRecordVS->mShownIndex = gRecordVS->mIndex;
             PrintRecordVSShownRecord();
         } else {
-            mainBase = gRecordVS->mRecordVSMBncl->mUnk_06;
-            transientBase = gRecordVS->mRecordVSMTransientBncl->mUnk_06;
+            mainBase = gRecordVS->mRecordVSMBncl->mCount;
+            transientBase = gRecordVS->mRecordVSMTransientBncl->mCount;
             offset = LookupIndexChangeOffset(7 - gRecordVS->mIndexChangeTimer, 0);
             gRecordVS->mBg0OffsetY = offset;
             gRecordVS->mRecordVSMTable[3].mOffsetY = offset;
@@ -631,9 +637,9 @@ void RequestRecordVSState0(void) {
     gRecordVS->mBg0OffsetY = -192;
     gRecordVS->mBg1OffsetX = 0;
     gRecordVS->mBg1OffsetY = -192;
-    mainBase = gRecordVS->mRecordVSMBncl->mUnk_06;
-    transientBase = gRecordVS->mRecordVSMTransientBncl->mUnk_06;
-    subBase = gRecordVS->mRecordVSSBncl->mUnk_06;
+    mainBase = gRecordVS->mRecordVSMBncl->mCount;
+    transientBase = gRecordVS->mRecordVSMTransientBncl->mCount;
+    subBase = gRecordVS->mRecordVSSBncl->mCount;
     gRecordVS->mRecordVSMTable[0].mOffsetY = -192;
     gRecordVS->mRecordVSMTable[1].mOffsetY = -192;
     gRecordVS->mRecordVSMTable[2].mOffsetY = -192;
@@ -733,7 +739,7 @@ void RequestRecordVSState8(void) {
     gRecordVS->mNextState = 8;
     i = 0;
     gRecordVS->mStateFrames = 0;
-    subBase = gRecordVS->mRecordVSSBncl->mUnk_06;
+    subBase = gRecordVS->mRecordVSSBncl->mCount;
     gRecordVS->mRecordVSSTable[20].mOffsetX = 0x100;
     gRecordVS->mRecordVSSTable[21].mOffsetX = 0x100;
     gRecordVS->mRecordVSSTable[24].mOffsetX = 0x100;
@@ -773,7 +779,7 @@ void RequestRecordVSState11AndRefreshPage(void) {
     gRecordVS->mNextState = 11;
     i = 0;
     gRecordVS->mStateFrames = 0;
-    subBase = gRecordVS->mRecordVSSBncl->mUnk_06;
+    subBase = gRecordVS->mRecordVSSBncl->mCount;
     gRecordVS->mRecordVSSTable[20].mOffsetX = 0x100;
     gRecordVS->mRecordVSSTable[21].mOffsetX = 0x100;
     gRecordVS->mRecordVSSTable[24].mOffsetX = -256;
@@ -838,7 +844,7 @@ void InitRecordVS(void *heap) {
     remaining -= InitLabelCanvas(heap, 0xc, gRecordVS->mRecordVSMBnll, 0x46, 0x10, 3, gRecordVS->mRecordVSMNcer,
                                  gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable, remaining);
     objectIndex = 4;
-    mainBase = gRecordVS->mRecordVSMBncl->mUnk_06;
+    mainBase = gRecordVS->mRecordVSMBncl->mCount;
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 3; j++) {
             remaining -= InitLabelCanvas(heap, gRecordVSGridLabelIndices[i][j], gRecordVS->mRecordVSMBnll,

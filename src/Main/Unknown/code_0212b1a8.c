@@ -70,7 +70,7 @@ void BlendPaletteColors(s32 weight) {
                                             << 5));
     }
     if (gPaletteBlend->mFirstBlend == FALSE) {
-        CallQueueAppend(0x1e, gPaletteBlend->mPaletteIndex << 5, gPaletteBlend->mPalette, 0x20);
+        NNS_GfdRegisterNewVramTransferTask(0x1e, gPaletteBlend->mPaletteIndex << 5, gPaletteBlend->mPalette, 0x20);
     } else {
         gPaletteBlend->mFirstBlend = FALSE;
     }
@@ -135,7 +135,7 @@ void InitStaffRollText(void *heap) {
         ((u16 *) G2S_GetBG0ScrPtr())[i] = i | 0xf000;
     }
     LoadNclrData(&nclr, FindSceneFile(gEndingStaffRollB00NclrName));
-    CallQueueAppend(0x1f, 0x1e0, nclr->mData + 0xf0, 0x20);
+    NNS_GfdRegisterNewVramTransferTask(0x1f, 0x1e0, nclr->mData + 0xf0, 0x20);
     NNS_G2dCharCanvasInitForBG(gStaffRollText->mCharCanvas, gStaffRollText->mCharBuffer, 0x20, 2, 4);
     charSpacing = gStaffRollText->mCharSpacing;
     font = GetFontByIndex(2);
@@ -266,10 +266,12 @@ void AdvanceStaffRollTextState1(void) {
         bgPositionY -= 0x100;
     }
     if (bgPositionY + 0x10 > 0x100) {
-        CallQueueAppend(0x14, bgPositionY << 7, staffRollText->mCharBuffer, (0x100 - bgPositionY) << 7);
-        CallQueueAppend(0x14, 0, &gStaffRollText->mCharBuffer[bgPositionY << 7], (bgPositionY - 0xf0) << 7);
+        NNS_GfdRegisterNewVramTransferTask(0x14, bgPositionY << 7, staffRollText->mCharBuffer,
+                                           (0x100 - bgPositionY) << 7);
+        NNS_GfdRegisterNewVramTransferTask(0x14, 0, &gStaffRollText->mCharBuffer[bgPositionY << 7],
+                                           (bgPositionY - 0xf0) << 7);
     } else {
-        CallQueueAppend(0x14, bgPositionY << 7, staffRollText->mCharBuffer, 0x800);
+        NNS_GfdRegisterNewVramTransferTask(0x14, bgPositionY << 7, staffRollText->mCharBuffer, 0x800);
     }
 }
 

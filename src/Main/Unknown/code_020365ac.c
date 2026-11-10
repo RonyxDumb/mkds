@@ -49,7 +49,7 @@ void InitStartupLibraries(void) {
     data_02174e78.mUnk_00 = 0;
     OS_InitTick();
     OS_InitAlarm();
-    func_02148904();
+    FX_Init();
     GX_Init();
     InitWvrState();
     ClearLcdcBanksByState();

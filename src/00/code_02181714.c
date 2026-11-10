@@ -94,8 +94,10 @@ void LocateAndQueueWiFiTopMenu(void) {
     LocateNcer(&gWiFiTopMenu->mWiFiTopMenuSNcer, v1);
     v1 = FindSceneFile(gWiFiTopMenuSONclrName);
     LocateNclr(&gWiFiTopMenu->mWiFiTopMenuSONclr, v1);
-    CallQueueAppend(0x23, 0, (gWiFiTopMenu->mWiFiTopMenuSNcgr->mData), gWiFiTopMenu->mWiFiTopMenuSNcgr->mDataSize);
-    CallQueueAppend(0x1e, 0, (gWiFiTopMenu->mWiFiTopMenuSONclr->mData), gWiFiTopMenu->mWiFiTopMenuSONclr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, (gWiFiTopMenu->mWiFiTopMenuSNcgr->mData),
+                                       gWiFiTopMenu->mWiFiTopMenuSNcgr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, (gWiFiTopMenu->mWiFiTopMenuSONclr->mData),
+                                       gWiFiTopMenu->mWiFiTopMenuSONclr->mDataSize);
 }
 
 s32 func_ov000_02181df0(void) {

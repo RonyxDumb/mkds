@@ -75,13 +75,13 @@ void LocateAndQueueOptionHensyuMenu(void) {
     LocateNcgr2(&gOptionHensyuMenu->mOptionHensyuMenuSNcgr, FindSceneFile(data_ov001_021a86f4));
     LocateNcer(&gOptionHensyuMenu->mOptionHensyuMenuSNcer, FindSceneFile(data_ov001_021a8714));
     LocateNclr(&gOptionHensyuMenu->mOptionHensyuMenuSONclr, FindSceneFile(data_ov001_021a8734));
-    CallQueueAppend(4, 0, a->mData, a->mDataSize);
-    CallQueueAppend(8, 0, b->mData, b->mDataSize);
-    CallQueueAppend(15, 0, c->mData, 0x100);
-    CallQueueAppend(0x23, 0, gOptionHensyuMenu->mOptionHensyuMenuSNcgr->mData,
-                    gOptionHensyuMenu->mOptionHensyuMenuSNcgr->mDataSize);
-    CallQueueAppend(0x1e, 0, gOptionHensyuMenu->mOptionHensyuMenuSONclr->mData,
-                    gOptionHensyuMenu->mOptionHensyuMenuSONclr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(4, 0, a->mData, a->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(8, 0, b->mData, b->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(15, 0, c->mData, 0x100);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, gOptionHensyuMenu->mOptionHensyuMenuSNcgr->mData,
+                                       gOptionHensyuMenu->mOptionHensyuMenuSNcgr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gOptionHensyuMenu->mOptionHensyuMenuSONclr->mData,
+                                       gOptionHensyuMenu->mOptionHensyuMenuSONclr->mDataSize);
 }
 
 void AdvanceOptionHensyuMenuState0(void) {
