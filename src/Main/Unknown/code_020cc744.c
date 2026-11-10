@@ -82,7 +82,8 @@ void SetNextRaceSetupFromCopy(void) {
             rowIndex = GetRaceSetupCopy()->mMissionFileRowIndex;
             FindMissionTableCell(GetRaceSetupCopy()->mMissionFileRows[rowIndex].mMissionTableValue, &tableRowColumn[0],
                                  &tableRowColumn[1]);
-            func_02044380(&GetRaceSetupCopy()->mMissionFileRows[rowIndex], tableRowColumn[0], tableRowColumn[1]);
+            SetNextRaceFromMissionRow(&GetRaceSetupCopy()->mMissionFileRows[rowIndex], tableRowColumn[0],
+                                      tableRowColumn[1]);
         }
     } else {
         SetNextCupIndex(GetRaceSetupCopy()->mCupIndex);
@@ -94,7 +95,7 @@ void SetNextRaceSetupFromCopy(void) {
         SetResultArchiveDl(1);
     }
     if (GetRaceSetupRequested() != 0) {
-        func_02045ed0();
+        AssignCpuNumbersAndSetupFirstCourse();
         SetRaceSetupRequested(0);
     }
 }

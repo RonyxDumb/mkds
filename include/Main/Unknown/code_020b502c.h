@@ -405,7 +405,7 @@ extern CourseMap *gCourseMap;
 
 extern RaceHudSubScreenProjection *gRaceHudSubScreenProjection;
 
-extern u16 func_020435bc(void);
+extern u16 GetPadInputSlot(void);
 s32 MulFixed12NoRound(s32 multiplicand, s32 multiplier);
 void UpdateRaceHudSubScreenProjectionAndBgAffine(RaceHudSubScreenBgAffine *bgAffines, s32 scale);
 s32 RaceHudSubScreenGetCurrentMirrorMode(void);

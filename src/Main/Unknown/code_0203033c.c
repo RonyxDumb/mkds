@@ -87,7 +87,7 @@ s32 AdvanceMultiSelectNS(void) {
     u16 slotIndex;
 
     result = -1;
-    slotIndex = func_020435bc();
+    slotIndex = GetPadInputSlot();
     multiSelectNS = gMultiSelectNS;
     switch (multiSelectNS->mState) {
         case 0:

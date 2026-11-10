@@ -45,7 +45,7 @@ void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
     RaceSetup *raceSetup;
     u32 c;
     if (func_02049b6c() == 0) {
-        if (func_0204359c() == 0) {
+        if (IsInputOpenDuringRace() == 0) {
             if (sceneNumbers != NULL) {
                 if (RaceSceneGetCurrentMode() == 5) {
                     c = GetWiFiRaceSyncPickedValue();
@@ -195,7 +195,7 @@ u32 RunRaceScene(SceneNumbers *sceneNumbers) {
         callbacks.mFadeToFadedFrameCount = 0x78;
     }
     if (gBootInfo->mUnk_00 != 2) {
-        func_02043f28(1);
+        LoadSndBanksForCharacters(1);
     }
     RunScene(sceneNumbers, &callbacks);
     return 0;

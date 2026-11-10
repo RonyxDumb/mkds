@@ -203,16 +203,16 @@ void InitKartAiGrandPrixPoints(void) {
                 if (previousTotalPoints > bestCpuPoints) {
                     bestCpuPoints = previousTotalPoints;
                 }
-                if (i == gRaceSetup->mUnk_3d5[0]) {
+                if (i == gRaceSetup->mListedCpuEntryIndices[0]) {
                     gKartAiShared->mListedCpuKartPoints[0] = previousTotalPoints;
-                } else if (i == gRaceSetup->mUnk_3d5[1]) {
+                } else if (i == gRaceSetup->mListedCpuEntryIndices[1]) {
                     gKartAiShared->mListedCpuKartPoints[1] = previousTotalPoints;
                 }
             }
         }
         pointsDifference = bestNonCpuPoints - bestCpuPoints;
         if (pointsDifference <= -5) {
-            if (gRaceSetup->mUnk_3d4 > 1) {
+            if (gRaceSetup->mListedCpuCount > 1) {
                 gKartAiShared->mUnk_110 = 0;
                 if (gKartAiShared->mListedCpuKartPoints[0] > gKartAiShared->mListedCpuKartPoints[1]) {
                     gKartAiShared->mUnk_11c = 1;
@@ -241,7 +241,7 @@ void InitKartAiTableIndices(void) {
     nextNonCpuTableIndex = gRaceSetup->mKartCount;
     NNS_FndInitList(&gKartAiShared->mTableIndexList, 4);
     for (i = 0; i < 2; i++) {
-        if (gRaceSetup->mUnk_3d5[i] >= 0) {
+        if (gRaceSetup->mListedCpuEntryIndices[i] >= 0) {
             a++;
         }
     }
@@ -324,16 +324,16 @@ s32 PickKartAiTableIndex(u16 kartIndex, u32 *nextNonCpuTableIndexPointer) {
             } else {
                 otherIndex = 0;
             }
-            if (kartIndex == raceSetup->mUnk_3d5[s]) {
+            if (kartIndex == raceSetup->mListedCpuEntryIndices[s]) {
                 tableIndex = 1;
                 hasFixedIndex = TRUE;
-            } else if (kartIndex == (u16) raceSetup->mUnk_3d5[otherIndex]) {
+            } else if (kartIndex == (u16) raceSetup->mListedCpuEntryIndices[otherIndex]) {
                 tableIndex = 2;
                 hasFixedIndex = TRUE;
             }
         } else {
             for (listedIndex = 0; listedIndex < 2; listedIndex++) {
-                s = raceSetup->mUnk_3d5[listedIndex];
+                s = raceSetup->mListedCpuEntryIndices[listedIndex];
                 if (s == kartIndex) {
                     if (listedIndex == 0) {
                         tableIndex = 1;

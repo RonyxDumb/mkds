@@ -206,13 +206,13 @@ void ReadGhostRecordsForKind(u32 kind) {
             func_02043fb0(gGhostRecordSet->mCourseId);
             break;
         case 0:
-            func_020442d0(gGhostRecordSet->mCourseId);
+            ReadCourseGhostRecordAndWait(gGhostRecordSet->mCourseId);
             break;
         case 1:
-            func_0204419c(gGhostRecordSet->mCourseId, (u8) gGhostRecordSet->mSlotIndex);
+            ReadCourseAndSlotGhostRecords(gGhostRecordSet->mCourseId, (u8) gGhostRecordSet->mSlotIndex);
             break;
         case 2:
-            func_02044060(gGhostRecordSet->mCourseId);
+            ReadCourseGhostRecordAndLoadFile(gGhostRecordSet->mCourseId);
             break;
     }
 }

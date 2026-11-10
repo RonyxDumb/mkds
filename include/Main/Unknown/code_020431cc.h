@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-s32 func_020431cc(void);
-s32 func_020431d4(void);
-s32 func_020431dc(void);
+s32 GetFixed12Of50(void);
+s32 GetFixed12Of100(void);
+s32 ShapeMapObjectCountGetFixed12Of50(void);

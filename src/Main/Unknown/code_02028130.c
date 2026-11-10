@@ -73,7 +73,7 @@ int AdvanceSelectKart(void) {
     r = 0;
     q = &d->mSelectCharacterGpMParts;
     p = &d->mSelectKartSParts;
-    t = func_020435bc();
+    t = GetPadInputSlot();
     AdvanceInterpolation(&gSelectKart->mInterpolations[0]);
     AdvanceInterpolation(&gSelectKart->mInterpolations[1]);
     AdvanceInterpolation(&gSelectKart->mInterpolations[2]);

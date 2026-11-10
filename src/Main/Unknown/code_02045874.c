@@ -29,35 +29,35 @@ static inline u32 func_02046524_inline(RandomState64 *randomState64, u32 limit) 
     return (u16) result;
 }
 
-BOOL func_02046648(s32 a) {
-    u32 n;
-    n = (u8) gRaceSetup->mNextHeader.mEngineIndex;
+BOOL IsCupEnabled(s32 cupIndex) {
+    u32 engineOrMirrorIndex;
+    engineOrMirrorIndex = (u8) gRaceSetup->mNextHeader.mEngineIndex;
     if (gRaceSetup->mNextHeader.mMirrorMode != 0) {
-        n = 3;
+        engineOrMirrorIndex = 3;
     }
-    switch (a) {
+    switch (cupIndex) {
         case 0:
         case 1:
         case 4:
         case 5:
             return TRUE;
         case 2:
-            if (IsBitSetInAnyParticipant(n)) {
+            if (IsBitSetInAnyParticipant(engineOrMirrorIndex)) {
                 return TRUE;
             }
             break;
         case 3:
-            if (IsBitSetInAnyParticipant(n + 4)) {
+            if (IsBitSetInAnyParticipant(engineOrMirrorIndex + 4)) {
                 return TRUE;
             }
             break;
         case 6:
-            if (IsBitSetInAnyParticipant(n + 8)) {
+            if (IsBitSetInAnyParticipant(engineOrMirrorIndex + 8)) {
                 return TRUE;
             }
             break;
         case 7:
-            if (IsBitSetInAnyParticipant(n + 12)) {
+            if (IsBitSetInAnyParticipant(engineOrMirrorIndex + 12)) {
                 return TRUE;
             }
             break;
@@ -152,7 +152,7 @@ void BuildCourseList(s32 isVersus) {
                 }
                 c = 0;
                 for (f = 0; f < n; f++) {
-                    if (func_02046648(t[p]) != FALSE) {
+                    if (IsCupEnabled(t[p]) != FALSE) {
                         gRaceSetup->mCourseList[c] = gCupCourseIdTable[t[p]][q];
                         c = (u8) (c + 1);
                     }
@@ -209,7 +209,7 @@ void BuildCourseList(s32 isVersus) {
                 for (k = 0; k < n; k++) {
                     p = k / 4;
                     q = k % 4;
-                    if (func_02046648(t[p]) != FALSE) {
+                    if (IsCupEnabled(t[p]) != FALSE) {
                         gRaceSetup->mCourseList[c] = gCupCourseIdTable[t[p]][q];
                         c = (u8) (c + 1);
                     }
@@ -255,7 +255,7 @@ void BuildCourseList(s32 isVersus) {
     }
 }
 
-void func_02045ed0(void) {
+void AssignCpuNumbersAndSetupFirstCourse(void) {
     u8 i;
     u8 humanIndex;
     AssignCpuNumbers();
@@ -298,7 +298,7 @@ void func_02045ed0(void) {
     }
 }
 
-BOOL func_02045bd4(void) {
+BOOL CopyEntryResultAndSetupAwardRace(void) {
     s8 entryIndex;
     u8 i;
     s8 j;
@@ -408,7 +408,7 @@ s32 AdvanceToNextCourse(void) {
     s32 x;
     result = TRUE;
     gRaceSetup->mNextHeader.mCourseNumber++;
-    if (gRaceSetup->mUnk_3d4 > 1) {
+    if (gRaceSetup->mListedCpuCount > 1) {
         for (i = 0; i < gRaceSetup->mKartCount; i++) {
             x = gRaceSetup->mCurrentEntries[i].mPlayer.mListedCpuSlot;
             v = 3;
@@ -438,11 +438,11 @@ s32 AdvanceToNextCourse(void) {
     return result;
 }
 
-s32 func_02045914(void) {
+s32 AdvanceToNextCourseWrapper(void) {
     return AdvanceToNextCourse();
 }
 
-s32 func_020458cc(void) {
+s32 AdvanceToNextBattleCourse(void) {
     if (data_021759d0->mMultiSimple) {
         gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_NORMAL;
     } else {
@@ -451,7 +451,7 @@ s32 func_020458cc(void) {
     return AdvanceToNextCourse();
 }
 
-BOOL func_02045874(void) {
+BOOL CopyCourseIdAndAdvanceCourseNumber(void) {
     data_0217b488->mUnk_5c[gRaceSetup->mCourseNumber] = gRaceSetup->mCourseId;
     gRaceSetup->mNextHeader.mCourseNumber++;
     return gRaceSetup->mNextHeader.mCourseNumber <= 4;

@@ -49,8 +49,8 @@ void func_02046ae4(void) {
     InitDisplayFromSettings(displaySettings);
 }
 
-void func_02046ad8(void) {
-    func_020446e0();
+void SetNextRaceByModeWrapper(void) {
+    SetNextRaceByMode();
 }
 
 u32 func_02046ad4(u32 value) {

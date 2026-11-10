@@ -50,7 +50,7 @@ static inline void func_0203d568_b_inline(void) {
         for (entryIndex = 0; entryIndex < (u32) gRaceSetup->mKartCount; entryIndex++) {
             if (gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind == PLAYER_KIND_HUMAN &&
                 (gConnectionWork->mParticipantMask & (1 << gConnectionWork->mUnk_1e8c[entryIndex])) == 0) {
-                func_0204451c(entryIndex);
+                ReplaceEntryWithCpu(entryIndex);
             }
         }
     }

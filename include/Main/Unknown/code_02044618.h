@@ -9,11 +9,11 @@ typedef struct RaceSetupBlock {
 
 u16 GetLapCount(void);
 void ResetTimeAttackNextEntries(void);
-void func_020446e0(void);
+void SetNextRaceByMode(void);
 void SetCurrentRaceFromNext(void);
-BOOL func_02044bf8(s32 courseId, s32 entryIndex);
-s32 func_02044d4c(s32 courseId, s32 entryIndex);
-BOOL func_02044e9c(s32 courseId, s32 entryIndex);
-void func_02044fc0(void);
+BOOL SetNextEntryFromSecondSlotGhost(s32 courseId, s32 entryIndex);
+BOOL SetNextEntryFromFirstSlotGhost(s32 courseId, s32 entryIndex);
+BOOL SetNextEntryFromCourseGhost(s32 courseId, s32 entryIndex);
+void RefreshListedCpuEntryIndices(void);
 void SetCurrentEntryPlayer(s32 entryIndex);
 void ResetRaceSetup(void);

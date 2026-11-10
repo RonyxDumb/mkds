@@ -334,7 +334,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
     BackupAccess *d;
     CellFileSet *fileSets;
     s32 i;
-    slotIndex = func_020435bc();
+    slotIndex = GetPadInputSlot();
     returnTouched = 0;
     AdvanceInterpolation(&gTimeAttackGhostSend->mInterpolation);
     b = returnTouched;

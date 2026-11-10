@@ -369,7 +369,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
         case 3:
             switch (gResultsBattle->mMode) {
                 case 0:
-                    if ((u16) (gInputSlots[func_020435bc()].mPressedBits & PAD_KEY_A) != 0) {
+                    if ((u16) (gInputSlots[GetPadInputSlot()].mPressedBits & PAD_KEY_A) != 0) {
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
                         if (sceneNumbers != NULL) {
                             sceneNumbers->mNextScene = 1;
@@ -390,7 +390,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                     if (IsResultsBattleTimerRunOut() != 0) {
                         SetWiFiSessionOwnContinueChoice(1);
                         gResultsBattle->mState = 5;
-                    } else if ((u16) (gInputSlots[func_020435bc()].mPressedBits & PAD_KEY_A) != 0 ||
+                    } else if ((u16) (gInputSlots[GetPadInputSlot()].mPressedBits & PAD_KEY_A) != 0 ||
                                IsResultsBattleTimerBelow300() != 0) {
                         StartResultsBattleChoices();
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);

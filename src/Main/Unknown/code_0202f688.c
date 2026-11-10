@@ -352,7 +352,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
     s32 selectionChanged;
 
     result = -1;
-    slotIndex = func_020435bc();
+    slotIndex = GetPadInputSlot();
     cellFileSet = &gMultiSelectMemberGroup->mGroupSParts;
     if (gMultiSelectMemberGroup->mEntriesCleared == FALSE) {
         gMultiSelectMemberGroup->mEntriesClearFrames++;

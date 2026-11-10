@@ -99,9 +99,9 @@ static inline void func_020487fc_inline7(void) {
         }
         func_02049e38(3);
     }
-    func_02043a34();
+    UpdatePadKeysAndTouchMic();
     if (!func_02049b6c()) {
-        func_02043648();
+        UpdateInputSlots();
     }
     if (func_02049820() == 1) {
         if (!ShouldGoSleepMode()) {
@@ -213,12 +213,12 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
         InitSceneSoundSetPlayer(n);
     }
     InitSceneSounds(0);
-    func_02043410();
+    ResetInputSlotsFromParticipants();
     if (func_020487fc_inline2()) {
         gConnectionWork->mUnk_0454 |= 4;
     }
     LoadFontAndPlayerCharacterData();
-    func_02043b48();
+    StartInputSlots();
     CARD_SetPulledOutCallback(func_0204a540);
     data_021759d0->mUnk_78 = 0;
     if (b->mInit != NULL) {
@@ -246,7 +246,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
         gSceneRunState->mPassCount++;
         RecordFrameTimes();
     } while (FinishDataSharingSync() != 1);
-    func_02043b04();
+    ClearInputSlots();
     StartFadeToClear(b->mFadeToClearFrameCount);
     gSceneRunState->mUnk_10c = 2;
     do {
@@ -311,7 +311,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
         RecordFrameTimes();
     } while (!AreBrightnessFadesFaded());
 end:
-    func_02043ae0();
+    SetNoKeysAndUpdateInputSlots();
     if (func_020487fc_inline13() && (v != 0 || GetNextSceneNumber() == 0)) {
         gSceneRunState->mUnk_10c = 4;
         data_021759d0->mConnectionKind = 0;
@@ -347,7 +347,7 @@ end:
     if (gDisplaySettings != NULL) {
         DisableAllBanksAndNullDisplaySettings();
     }
-    func_02043b3c();
+    StopTouchAutoSamplingWrapper();
     ClearFontAndPlayerCharacterTables();
     ClearLcdcBankAndStartWvrAndWait();
     StopSceneSoundsAtOnce();

@@ -81,29 +81,29 @@ static inline RaceSetup *func_02043f28_inline(void) {
     return gRaceSetup;
 }
 
-void func_0204451c(u32 entryIndex) {
-    s32 f;
+void ReplaceEntryWithCpu(u32 entryIndex) {
+    s32 listedCpuSlot;
     RaceSetup *raceSetup;
 
-    f = 3;
-    if (gRaceSetup->mUnk_3d5[0] == -1) {
-        f = 0;
-    } else if (gRaceSetup->mUnk_3d5[1] == -1) {
-        f = 1;
+    listedCpuSlot = 3;
+    if (gRaceSetup->mListedCpuEntryIndices[0] == -1) {
+        listedCpuSlot = 0;
+    } else if (gRaceSetup->mListedCpuEntryIndices[1] == -1) {
+        listedCpuSlot = 1;
     }
     SetNextRaceEntry(entryIndex, gRaceSetup->mCurrentEntries[entryIndex].mCharacterIndex,
                      gRaceSetup->mCurrentEntries[entryIndex].mKartIndex, PLAYER_KIND_CPU,
-                     gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mTeamIndex, f);
+                     gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mTeamIndex, listedCpuSlot);
     raceSetup = gRaceSetup;
     raceSetup->mCurrentEntries[entryIndex] = raceSetup->mNextEntries[entryIndex];
-    if (f < 2) {
-        raceSetup->mUnk_3d5[f] = entryIndex;
+    if (listedCpuSlot < 2) {
+        raceSetup->mListedCpuEntryIndices[listedCpuSlot] = entryIndex;
     }
     gRaceSetup->mNextEntries[entryIndex].mPlayer.mNumber = gRaceSetup->mNextCpuNumber;
     gRaceSetup->mNextCpuNumber = gRaceSetup->mNextCpuNumber + 1;
 }
 
-void func_02044380(MissionFileRow *missionFileRow, u32 tableRow, u32 tableColumn) {
+void SetNextRaceFromMissionRow(MissionFileRow *missionFileRow, u32 tableRow, u32 tableColumn) {
     u8 i;
 
     gRaceSetup->mNextHeader.mMissionFileRow = *missionFileRow;
@@ -131,7 +131,7 @@ void func_02044380(MissionFileRow *missionFileRow, u32 tableRow, u32 tableColumn
     }
 }
 
-void func_020442d0(u32 courseId) {
+void ReadCourseGhostRecordAndWait(u32 courseId) {
     data_0217aa08->mSlotGhostRecords[0]->mHead.mFilled = 0;
     data_0217aa08->mSlotGhostRecords[1]->mHead.mFilled = 0;
     data_0217aa08->mCourseGhostRecord->mHead.mFilled = 0;
@@ -145,7 +145,7 @@ void func_020442d0(u32 courseId) {
     }
 }
 
-void func_0204419c(u32 courseId, u32 b) {
+void ReadCourseAndSlotGhostRecords(u32 courseId, u32 slotIndex) {
     data_0217aa08->mSlotGhostRecords[0]->mHead.mFilled = 0;
     data_0217aa08->mSlotGhostRecords[1]->mHead.mFilled = 0;
     data_0217aa08->mCourseGhostRecord->mHead.mFilled = 0;
@@ -160,7 +160,7 @@ void func_0204419c(u32 courseId, u32 b) {
     if (gBackupAccess->mErrorCode != 0) {
         data_0217aa08->mCourseGhostRecord->mHead.mFilled = 0;
     }
-    ReadSlotGhostRecord(b);
+    ReadSlotGhostRecord(slotIndex);
     WaitThreadFunctionsDone();
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
@@ -170,7 +170,9 @@ void func_0204419c(u32 courseId, u32 b) {
     }
 }
 
-void func_02044060(u32 courseId) {
+// Reads the course ghost record, then loads its ghost file; a failed load leaves a NULL record that is then
+// zero-filled.
+void ReadCourseGhostRecordAndLoadFile(u32 courseId) {
     SlotGhostRecord *ghostRecord;
     char path[0x80];
 
@@ -213,24 +215,24 @@ void func_02043fb0(u32 courseId) {
     }
 }
 
-void func_02043f28(u32 a) {
+void LoadSndBanksForCharacters(u32 useCurrentEntries) {
     u16 i;
     RaceSetup *raceSetup;
-    u32 r;
+    u32 bankMask;
 
-    r = 0;
+    bankMask = 0;
     i = 0;
     for (; i < (u32) (raceSetup = func_02043f28_inline())->mKartCount; i++) {
-        if (a != 0) {
-            r |= data_021540ec[raceSetup->mCurrentEntries[i].mCharacterIndex];
+        if (useCurrentEntries != 0) {
+            bankMask |= data_021540ec[raceSetup->mCurrentEntries[i].mCharacterIndex];
         } else {
-            r |= data_021540ec[raceSetup->mNextEntries[i].mCharacterIndex];
+            bankMask |= data_021540ec[raceSetup->mNextEntries[i].mCharacterIndex];
         }
     }
-    LoadSndBanksAndWaveArcsIfChanged(r);
+    LoadSndBanksAndWaveArcsIfChanged(bankMask);
 }
 
-void func_02043d10(void *heap) {
+void InitInputSlotsAndTouchMic(void *heap) {
     s32 i;
 
     InitTouchPanelAndSetCalibration();
@@ -251,7 +253,7 @@ void ResetInputSlots(void) {
     func_02043c14_inline();
 }
 
-void func_02043b48(void) {
+void StartInputSlots(void) {
     s32 i;
     s32 j;
     InputSlot *inputSlot;
@@ -265,7 +267,7 @@ void func_02043b48(void) {
         inputSlot++;
     }
     StartTouchAutoSampling();
-    func_02043648();
+    UpdateInputSlots();
     slot = gInputSlots;
     for (j = 0; j < 10; j++) {
         slot->mHoldLong = 0;
@@ -277,11 +279,11 @@ void func_02043b48(void) {
     data_02175624->mFlags = 0;
 }
 
-void func_02043b3c(void) {
+void StopTouchAutoSamplingWrapper(void) {
     StopTouchAutoSampling();
 }
 
-void func_02043b04(void) {
+void ClearInputSlots(void) {
     s32 i;
     InputSlot *inputSlot;
 
@@ -292,13 +294,13 @@ void func_02043b04(void) {
     }
 }
 
-void func_02043ae0(void) {
-    data_02175624->mFlags |= 8;
-    func_02043648();
+void SetNoKeysAndUpdateInputSlots(void) {
+    data_02175624->mFlags |= INPUT_STATE_NO_KEYS;
+    UpdateInputSlots();
 }
 
-void func_02043ad4(void) {
-    func_02046c74();
+void ReleaseTouchMicInputWrapper(void) {
+    ReleaseTouchMicInput();
 }
 
 void SetLeftRightKeysSwapped(u32 mirrorMode) {
@@ -309,7 +311,7 @@ void SetLeftRightKeysSwapped(u32 mirrorMode) {
     }
 }
 
-void func_02043a34(void) {
+void UpdatePadKeysAndTouchMic(void) {
     func_02043a34_inline();
 }
 
@@ -325,44 +327,45 @@ static inline s32 func_02043648_inline(ConnectionWork *p) {
     return r;
 }
 
-void func_02043648(void) {
+void UpdateInputSlots(void) {
     u8 slotIndex;
-    u16 y;
-    u16 a;
-    u16 b;
+    u16 packedTouchPoint;
+    u16 padOrParticipantKeys;
+    u16 padOrParticipantTouchPoint;
     u16 padKeys;
-    s32 k;
+    s32 micOverThreshold;
     u16 slotKeys;
     u16 t;
-    s32 n;
+    s32 touchPoint;
     InputSlot *inputSlot;
-    s32 o;
+    s32 micValue;
     BOOL skipUpdate;
-    s32 c;
+    s32 canReadKeys;
     s32 f;
     s32 sourceKind;
     u16 flags;
 
     padKeys = data_02175624->mPadKeys;
-    y = GetPackedTouchPoint();
-    a = padKeys;
-    b = y;
-    k = gTouchMicInput->mMicOverThreshold;
+    packedTouchPoint = GetPackedTouchPoint();
+    padOrParticipantKeys = padKeys;
+    padOrParticipantTouchPoint = packedTouchPoint;
+    micOverThreshold = gTouchMicInput->mMicOverThreshold;
     if (func_02043648_inline(gConnectionWork) != 0) {
-        a = func_0204ffe8(GetParticipantIndex(data_02175624->mUnk_08));
-        b = gConnectionWork->mUnk_15bc_view.mUnk_0c[GetParticipantIndex(data_02175624->mUnk_08)].mUnk_00_2;
+        padOrParticipantKeys = func_0204ffe8(GetParticipantIndex(data_02175624->mUnk_08));
+        padOrParticipantTouchPoint =
+            gConnectionWork->mUnk_15bc_view.mUnk_0c[GetParticipantIndex(data_02175624->mUnk_08)].mUnk_00_2;
         GetParticipantIndex(data_02175624->mUnk_08);
     }
     for (slotIndex = 0; slotIndex < 10; slotIndex++) {
         slotKeys = 0;
-        n = 0xffff;
-        o = slotKeys;
+        touchPoint = 0xffff;
+        micValue = slotKeys;
         f = (data_02175624->mFlags & INPUT_STATE_OPEN_DURING_RACE) ? 1 : 0;
         skipUpdate = FALSE;
-        c = (GetCurrentSceneNumber() != 2 || (data_02175624->mFlags & INPUT_STATE_READ_RACE_KEYS)) ? 1 : 0;
+        canReadKeys = (GetCurrentSceneNumber() != 2 || (data_02175624->mFlags & INPUT_STATE_READ_RACE_KEYS)) ? 1 : 0;
         inputSlot = &gInputSlots[slotIndex];
         flags = data_02175624->mFlags;
-        if (!(flags & 8)) {
+        if (!(flags & INPUT_STATE_NO_KEYS)) {
             sourceKind = inputSlot->mSourceKind;
             if (f == 0) {
                 f = inputSlot->mUnk_44;
@@ -370,18 +373,18 @@ void func_02043648(void) {
             switch (sourceKind) {
                 case 1:
                     if (f == 0) {
-                        if (c != 0) {
+                        if (canReadKeys != 0) {
                             slotKeys = ReadKeysFromKeyRecording(&inputSlot->mUnk_28);
                         }
                     } else {
                         skipUpdate = TRUE;
                     }
-                    n = 0xffff;
-                    o = 0;
+                    touchPoint = 0xffff;
+                    micValue = 0;
                     break;
                 case 2:
                     if (f == 0) {
-                        if (c != 0) {
+                        if (canReadKeys != 0) {
                             slotKeys = padKeys;
                             if (flags & 4) {
                                 slotKeys = padKeys & 0xffcf;
@@ -397,28 +400,28 @@ void func_02043648(void) {
                     } else {
                         skipUpdate = TRUE;
                     }
-                    n = y;
-                    o = k;
+                    touchPoint = packedTouchPoint;
+                    micValue = micOverThreshold;
                     break;
                 case 3:
                 case 7:
                     if (f != 0) {
                         skipUpdate = TRUE;
                     } else {
-                        o = 0;
+                        micValue = 0;
                         slotKeys = inputSlot->mRequestedBits;
-                        n = 0xffff;
-                        inputSlot->mRequestedBits = o;
+                        touchPoint = 0xffff;
+                        inputSlot->mRequestedBits = micValue;
                     }
                     break;
                 case 5:
-                    slotKeys = a;
-                    n = b;
-                    o = 0;
+                    slotKeys = padOrParticipantKeys;
+                    touchPoint = padOrParticipantTouchPoint;
+                    micValue = 0;
                     break;
                 case 4:
                     if (f == 0) {
-                        if (c != 0) {
+                        if (canReadKeys != 0) {
                             slotKeys = func_0204ffe8(GetParticipantIndex(slotIndex));
                             if (data_02175624->mFlags & 4) {
                                 t = slotKeys & 0xffcf;
@@ -434,18 +437,18 @@ void func_02043648(void) {
                     } else {
                         skipUpdate = TRUE;
                     }
-                    n = gConnectionWork->mUnk_15bc_view.mUnk_0c[GetParticipantIndex(slotIndex)].mUnk_00_2;
-                    o = gConnectionWork->mUnk_15bc_view.mUnk_0c[GetParticipantIndex(slotIndex)].mUnk_06_7;
+                    touchPoint = gConnectionWork->mUnk_15bc_view.mUnk_0c[GetParticipantIndex(slotIndex)].mUnk_00_2;
+                    micValue = gConnectionWork->mUnk_15bc_view.mUnk_0c[GetParticipantIndex(slotIndex)].mUnk_06_7;
                     break;
                 case 6:
                     slotKeys = padKeys;
-                    n = y;
-                    o = k;
+                    touchPoint = packedTouchPoint;
+                    micValue = micOverThreshold;
                     break;
                 case 0:
                     slotKeys = 0;
-                    n = 0xffff;
-                    o = slotKeys;
+                    touchPoint = 0xffff;
+                    micValue = slotKeys;
                     break;
             }
         }
@@ -453,7 +456,7 @@ void func_02043648(void) {
         if (skipUpdate == FALSE) {
             UpdateInputSlot(t, inputSlot);
         }
-        func_02046ca8(&inputSlot->mPair, n, o);
+        func_02046ca8(&inputSlot->mPair, touchPoint, micValue);
     }
 }
 

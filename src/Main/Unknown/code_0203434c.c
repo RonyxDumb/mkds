@@ -102,7 +102,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
     u16 formattedText[0x100];
 
     previousSelectedIndex = gTimeAttackGhostGetScan->mSelectedIndex;
-    slotIndex = func_020435bc();
+    slotIndex = GetPadInputSlot();
     touchInReturnRect = 0;
     result = -1;
     rectIndex = -1;

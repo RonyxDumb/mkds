@@ -81,10 +81,10 @@ void UpdateRaceHudSubScreen(void) {
                 }
                 if (switchAllowed != FALSE) {
                     switchPressed = TRUE;
-                    if ((u16) (data_0217562c[func_020435bc()].mPressedBits & 0x800) == 0) {
+                    if ((u16) (data_0217562c[GetPadInputSlot()].mPressedBits & 0x800) == 0) {
                         e = FALSE;
                         if (IsChoisesSOpen() == 0) {
-                            if (data_02175680[func_020435bc()].mPressedBits == 5) {
+                            if (data_02175680[GetPadInputSlot()].mPressedBits == 5) {
                                 e = TRUE;
                             }
                         } else {
@@ -136,10 +136,10 @@ void UpdateRaceHudSubScreen(void) {
                 }
                 if (switchAllowed != FALSE) {
                     switchPressed = TRUE;
-                    if ((u16) (data_0217562c[func_020435bc()].mPressedBits & 0x800) == 0) {
+                    if ((u16) (data_0217562c[GetPadInputSlot()].mPressedBits & 0x800) == 0) {
                         e = FALSE;
                         if (IsChoisesSOpen() == 0) {
-                            if (data_02175680[func_020435bc()].mPressedBits == 5) {
+                            if (data_02175680[GetPadInputSlot()].mPressedBits == 5) {
                                 e = TRUE;
                             }
                         } else {
@@ -212,10 +212,10 @@ void UpdateRaceHudSubScreen(void) {
                 }
                 if (switchAllowed != FALSE) {
                     switchPressed = TRUE;
-                    if ((u16) (data_0217562c[func_020435bc()].mPressedBits & 0x800) == 0) {
+                    if ((u16) (data_0217562c[GetPadInputSlot()].mPressedBits & 0x800) == 0) {
                         e = FALSE;
                         if (IsChoisesSOpen() == 0) {
-                            if (data_02175680[func_020435bc()].mPressedBits == 5) {
+                            if (data_02175680[GetPadInputSlot()].mPressedBits == 5) {
                                 e = TRUE;
                             }
                         } else {
@@ -282,10 +282,10 @@ void UpdateRaceHudSubScreen(void) {
                     }
                     if (switchAllowed != FALSE) {
                         switchPressed = TRUE;
-                        if ((u16) (data_0217562c[func_020435bc()].mPressedBits & 0x800) == 0) {
+                        if ((u16) (data_0217562c[GetPadInputSlot()].mPressedBits & 0x800) == 0) {
                             e = FALSE;
                             if (IsChoisesSOpen() == 0) {
-                                if (data_02175680[func_020435bc()].mPressedBits == 5) {
+                                if (data_02175680[GetPadInputSlot()].mPressedBits == 5) {
                                     e = TRUE;
                                 }
                             } else {
@@ -329,10 +329,10 @@ void UpdateRaceHudSubScreen(void) {
                 }
                 if (switchAllowed != FALSE) {
                     switchPressed = TRUE;
-                    if ((u16) (data_0217562c[func_020435bc()].mPressedBits & 0x800) == 0) {
+                    if ((u16) (data_0217562c[GetPadInputSlot()].mPressedBits & 0x800) == 0) {
                         e = FALSE;
                         if (IsChoisesSOpen() == 0) {
-                            if (data_02175680[func_020435bc()].mPressedBits == 5) {
+                            if (data_02175680[GetPadInputSlot()].mPressedBits == 5) {
                                 e = TRUE;
                             }
                         } else {
@@ -387,7 +387,7 @@ void UpdateRaceHudSubScreen(void) {
                     gRaceHud->mGoalMEnabled = 1;
                 }
             }
-            if ((u16) (data_0217562c[func_020435bc()].mPressedBits & 0x800) != 0) {
+            if ((u16) (data_0217562c[GetPadInputSlot()].mPressedBits & 0x800) != 0) {
                 NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x19);
             }
             gRaceHud->mSubScreenEnabled = FALSE;

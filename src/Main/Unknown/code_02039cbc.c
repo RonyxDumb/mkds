@@ -55,7 +55,7 @@ void InitAfterStartup(void) {
     if (OS_IsRunOnEmulator() == 0) {
         RTC_Init();
     }
-    func_02043d10(backHeap);
+    InitInputSlotsAndTouchMic(backHeap);
     CreateBackupAccess(backHeap);
     func_02057ed8(backHeap);
     InitOverlayTable(backHeap);

@@ -231,7 +231,7 @@ void AdvanceResultsGp(SceneNumbers *sceneNumbers) {
     u32 inputSlotIndex;
     void *secretMessage;
     s32 i;
-    inputSlotIndex = func_020435bc();
+    inputSlotIndex = GetPadInputSlot();
     secretMessage = NULL;
     for (i = 0; i < 2; i++) {
         DrawLayoutTable(gResultsGp->mCellFileSets[i].mCellLayout, gResultsGp->mCellFileSets[i].mCells,

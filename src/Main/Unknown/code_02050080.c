@@ -87,8 +87,8 @@ void func_02050080(void) {
         gConnectionWork->mParticipantIndices[participantCount] = 0xffff;
     }
     if (GetCurrentSceneNumber() == 2) {
-        func_020431e4();
+        ResetInputSlotsFromRaceSetup();
     } else {
-        func_02043410();
+        ResetInputSlotsFromParticipants();
     }
 }

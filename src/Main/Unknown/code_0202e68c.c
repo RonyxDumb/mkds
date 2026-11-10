@@ -34,7 +34,7 @@ u16 ScrollListGetDownBits(u32 slotIndex, u32 mask) {
 
 // State 0: starts a pick, a selection move or a scroll from the keys and the touch.
 void AdvanceScrollListState0(void) {
-    u32 slotIndex = func_020435bc();
+    u32 slotIndex = GetPadInputSlot();
     BOOL rowChanged;
     if (gScrollList->mEnabled == 0) {
         return;

@@ -38,7 +38,7 @@ u32 ScrollListSlotHasPairOrLost(u32 slotIndex) {
 #pragma thumb on
 
 void AdvanceScrollListInput(void) {
-    u32 slotIndex = func_020435bc();
+    u32 slotIndex = GetPadInputSlot();
     u32 pairX;
     u32 pairY;
     s32 rectIndex;

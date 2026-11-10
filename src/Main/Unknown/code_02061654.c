@@ -262,9 +262,9 @@ void Init3dEngine(void) {
     NNS_G3dGeSetBuffer(data_0217aa74);
 }
 
-// Advances the race one frame. Skipped while func_02049b6c or func_0204359c refuse (the draw is not), and in kind 6 for
-// the first 0x708 frames (neither update nor draw). The HUD step and the end-of-race state are in the scene slot
-// UpdateRaceScene, which calls this; the exit loop also runs it with a == NULL.
+// Advances the race one frame. Skipped while func_02049b6c or IsInputOpenDuringRace refuse (the draw is not), and in
+// kind 6 for the first 0x708 frames (neither update nor draw). The HUD step and the end-of-race state are in the scene
+// slot UpdateRaceScene, which calls this; the exit loop also runs it with a == NULL.
 void UpdateRace(void) {
     void *viewMatrix;
 

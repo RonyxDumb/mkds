@@ -341,15 +341,15 @@ void CreateShapeMapObjectCountList(void *heap) {
             u = 0;
             switch (courseMapShape->mShapeKind) {
                 case 0:
-                    u = func_0205e2cc_inline(func_020431cc(), courseMapShape->mScale.x);
-                    v = func_0205e2cc_inline(func_020431d4(), courseMapShape->mScale.y) >> 1;
-                    y = func_0205e2cc_inline(func_020431cc(), courseMapShape->mScale.z);
+                    u = func_0205e2cc_inline(GetFixed12Of50(), courseMapShape->mScale.x);
+                    v = func_0205e2cc_inline(GetFixed12Of100(), courseMapShape->mScale.y) >> 1;
+                    y = func_0205e2cc_inline(GetFixed12Of50(), courseMapShape->mScale.z);
                     w = func_0205e2cc_inline(u, u) + func_0205e2cc_inline(v, v);
                     y = func_0205e2cc_inline(y, y);
                     u = FX_Sqrt(y + w);
                     break;
                 case 1:
-                    u = func_0205e2cc_inline(func_020431dc(), courseMapShape->mScale.x);
+                    u = func_0205e2cc_inline(ShapeMapObjectCountGetFixed12Of50(), courseMapShape->mScale.x);
                     break;
             }
             entry->mRadius = u;

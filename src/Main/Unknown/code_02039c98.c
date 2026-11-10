@@ -6,6 +6,6 @@
 u32 InitAndRunScenesForever(void) {
     InitAfterStartup();
     RunScenesForever();
-    func_02043ad4();
+    ReleaseTouchMicInputWrapper();
     return 0;
 }

@@ -412,7 +412,7 @@ int AdvanceSelectCharacter(void) {
     s16 interpolatedValue;
 
     result = 0;
-    inputSlot = func_020435bc();
+    inputSlot = GetPadInputSlot();
     selectCharacter = gSelectCharacter;
     sParts = &selectCharacter->mSParts;
     switch (selectCharacter->mUnk_06c) {

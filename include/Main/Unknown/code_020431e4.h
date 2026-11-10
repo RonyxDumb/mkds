@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-void func_020431e4(void);
-void func_02043410(void);
+void ResetInputSlotsFromRaceSetup(void);
+void ResetInputSlotsFromParticipants(void);
 void SetReadRaceKeys(u32 enable);
-u32 func_0204359c(void);
+BOOL IsInputOpenDuringRace(void);

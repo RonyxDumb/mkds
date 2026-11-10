@@ -140,7 +140,7 @@ void UpdateLogoState0(void) {
         stateMachine->mNextState = 1;
         stateMachine->mNextStateRequested = 1;
     }
-    slotIndex = func_020435bc();
+    slotIndex = GetPadInputSlot();
     if ((gInputSlots[slotIndex].mBits & 0xf03) != 0xf03) {
         return;
     }

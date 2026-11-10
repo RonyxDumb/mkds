@@ -465,7 +465,7 @@ void UpdateRaceHudSubScreenScroll(void) {
     Vec3 dir;
 
     GetRaceHudSubScreenScrollLimits(&scrollMin, &scrollMax);
-    if (RaceHudSubScreenGetDownBits(func_020435bc(), PAD_KEY_LEFT) != 0) {
+    if (RaceHudSubScreenGetDownBits(GetPadInputSlot(), PAD_KEY_LEFT) != 0) {
         if (gRaceHudSubScreenProjection->mScrollTimer != 0) {
             gRaceHudSubScreenProjection->mScrollPosition.x -= 0xa000;
             if (gRaceHudSubScreenProjection->mScrollPosition.x < scrollMin.mUnk_00) {
@@ -476,7 +476,7 @@ void UpdateRaceHudSubScreenScroll(void) {
         }
         gRaceHudSubScreenProjection->mScrollTimer = 600;
     }
-    if (RaceHudSubScreenGetDownBits(func_020435bc(), PAD_KEY_RIGHT) != 0) {
+    if (RaceHudSubScreenGetDownBits(GetPadInputSlot(), PAD_KEY_RIGHT) != 0) {
         if (gRaceHudSubScreenProjection->mScrollTimer != 0) {
             gRaceHudSubScreenProjection->mScrollPosition.x += 0xa000;
             if (gRaceHudSubScreenProjection->mScrollPosition.x > scrollMax.mUnk_00) {
@@ -487,7 +487,7 @@ void UpdateRaceHudSubScreenScroll(void) {
         }
         gRaceHudSubScreenProjection->mScrollTimer = 600;
     }
-    if (RaceHudSubScreenGetDownBits(func_020435bc(), PAD_KEY_UP) != 0) {
+    if (RaceHudSubScreenGetDownBits(GetPadInputSlot(), PAD_KEY_UP) != 0) {
         if (gRaceHudSubScreenProjection->mScrollTimer != 0) {
             gRaceHudSubScreenProjection->mScrollPosition.z -= 0xa000;
             if (gRaceHudSubScreenProjection->mScrollPosition.z < scrollMin.mUnk_04) {
@@ -498,7 +498,7 @@ void UpdateRaceHudSubScreenScroll(void) {
         }
         gRaceHudSubScreenProjection->mScrollTimer = 600;
     }
-    if (RaceHudSubScreenGetDownBits(func_020435bc(), PAD_KEY_DOWN) != 0) {
+    if (RaceHudSubScreenGetDownBits(GetPadInputSlot(), PAD_KEY_DOWN) != 0) {
         if (gRaceHudSubScreenProjection->mScrollTimer != 0) {
             gRaceHudSubScreenProjection->mScrollPosition.z += 0xa000;
             if (gRaceHudSubScreenProjection->mScrollPosition.z > scrollMax.mUnk_04) {

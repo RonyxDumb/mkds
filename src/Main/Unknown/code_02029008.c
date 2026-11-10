@@ -22,7 +22,7 @@
 s32 UpdateSelectKartTouchHold(void) {
     s32 result = -1;
     CellFileSet *p = &gSelectKart->mSelectKartSParts;
-    u16 slotIndex = func_020435bc();
+    u16 slotIndex = GetPadInputSlot();
     s32 pairX;
     s32 pairY;
     s32 rectIndex;

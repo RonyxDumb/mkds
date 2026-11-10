@@ -332,7 +332,7 @@ void func_0205933c(void) {
 
     loaded = LoadCourseSoundSet((u32) gConnectionWork->mMode, (u32) gConnectionWork->mCourseId);
     if (gBootInfo->mUnk_00 == 2) {
-        func_02043f28(0);
+        LoadSndBanksForCharacters(0);
     }
     if (loaded == 0) {
         gConnectionWork->mUnk_164f = 1;

@@ -654,7 +654,7 @@ s32 AdvanceMultiSelectMemberKeyStart(Unk02030b18 *sceneNumbers) {
     s32 pairY;
 
     result = -1;
-    slotIndex = func_020435bc();
+    slotIndex = GetPadInputSlot();
     subFileSet = &gMultiSelectMember->mCellFileSets[1];
     previousChildCount = gMultiSelectMember->mChildCount;
     if (gMultiSelectMember->mTimer > 0) {
@@ -812,7 +812,7 @@ s32 AdvanceMultiSelectMemberNoKeyStart(Unk02030b18 *sceneNumbers) {
     s32 started;
 
     result = -1;
-    slotIndex = func_020435bc();
+    slotIndex = GetPadInputSlot();
     touchInReturnRect = 0;
     subFileSet = &gMultiSelectMember->mCellFileSets[1];
     if (gMultiSelectMember->mTimer > 0) {

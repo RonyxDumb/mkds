@@ -51,7 +51,7 @@ void AdvanceWiFiVSCourseSelectState(void) {
         GetRaceSetupCopy()->mKartCount = b;
         SetNextRaceSetupFromKartMask();
         if ((u32) data_0217b488->mUnk_1c <= 2) {
-            func_02045ed0();
+            AssignCpuNumbersAndSetupFirstCourse();
             func_020612b0();
             data_0217b488->mUnk_6c = TRUE;
         }

@@ -290,7 +290,7 @@ s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers) {
     void *buttonText;
 
     result = K0;
-    slotIndex = func_020435bc();
+    slotIndex = GetPadInputSlot();
     touchInReturnRect = 0;
     AdvanceInterpolation(&gTimeAttackGhostGetSlot->mInterpolation);
     pairIsNew = FALSE;

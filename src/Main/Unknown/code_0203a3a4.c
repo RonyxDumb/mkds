@@ -146,7 +146,7 @@ void InitRaceScene(void) {
     SetHeapGroupId(7);
     InitDispCap(p);
     SetupRaceDisplay(p);
-    func_020431e4();
+    ResetInputSlotsFromRaceSetup();
     SetHeapGroupId(9);
     InitRace();
     SetHeapGroupId(5);
@@ -357,7 +357,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                     nextScene = 2;
                     break;
                 case MODE_VS:
-                    if (func_02045914() != 0) {
+                    if (AdvanceToNextCourseWrapper() != 0) {
                         if (data_021759d0->mMultiSimple == 0) {
                             nextScene = 2;
                         } else {
@@ -377,7 +377,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                     }
                     break;
                 case 5:
-                    if (func_02045874() != FALSE) {
+                    if (CopyCourseIdAndAdvanceCourseNumber() != FALSE) {
                         nextScene = 0xc;
                         data_0217b488->mUnk_1c = 3;
                     } else {
@@ -386,7 +386,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                     }
                     break;
                 case MODE_BATTLE:
-                    if (func_020458cc() != 0) {
+                    if (AdvanceToNextBattleCourse() != 0) {
                         if (data_021759d0->mMultiSimple == 0) {
                             nextScene = 2;
                         } else {
@@ -410,7 +410,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
         case 7:
             switch (gRaceSetup->mMode) {
                 case MODE_GRAND_PRIX:
-                    if (func_02045bd4() != FALSE) {
+                    if (CopyEntryResultAndSetupAwardRace() != FALSE) {
                         nextScene = 2;
                     } else {
                         nextScene = 0xa;

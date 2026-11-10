@@ -28,7 +28,7 @@ void func_02046a3c(void *heap);
 s32 func_02046a88(void *a);
 unsigned int func_02046ad0(unsigned int value);
 unsigned int func_02046ad4(unsigned int value);
-void func_02046ad8(void);
+void SetNextRaceByModeWrapper(void);
 void func_02046ae4(void);
 void AdvanceStateMachine(StateMachine *stateMachine);
 void SetStateMachineState(StateMachine *stateMachine, u16 state);

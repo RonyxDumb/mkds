@@ -28,11 +28,11 @@ static inline s32 func_020431e4_inline(ConnectionWork *p) {
     return r;
 }
 
-u16 func_020435bc(void) {
+u16 GetPadInputSlot(void) {
     return 9;
 }
 
-u32 func_0204359c(void) {
+BOOL IsInputOpenDuringRace(void) {
     return (data_02175624->mFlags & INPUT_STATE_OPEN_DURING_RACE) != 0;
 }
 
@@ -44,10 +44,10 @@ void SetReadRaceKeys(u32 enable) {
     }
 }
 
-void func_02043410(void) {
+void ResetInputSlotsFromParticipants(void) {
     u16 i;
     u16 j;
-    ConnectionWork *z;
+    ConnectionWork *connectionWork;
     InputSlot *inputSlot;
 
     for (i = 0; i < 8; i++) {
@@ -61,10 +61,10 @@ void func_02043410(void) {
         ResetKeyRecording(&inputSlot->mUnk_28);
         ResetInputSlotPair(&inputSlot->mPair);
     }
-    z = gConnectionWork;
-    if (func_020431e4_inline(z) != 0) {
+    connectionWork = gConnectionWork;
+    if (func_020431e4_inline(connectionWork) != 0) {
         for (j = 0; j < 8; j++) {
-            if (z->mParticipantMask & (1 << z->mUnk_1e8c[j])) {
+            if (connectionWork->mParticipantMask & (1 << connectionWork->mUnk_1e8c[j])) {
                 gInputSlots[j].mSourceKind = 4;
             }
         }
@@ -73,15 +73,15 @@ void func_02043410(void) {
     data_02175624->mUnk_0c = FALSE;
 }
 
-void func_020431e4(void) {
+void ResetInputSlotsFromRaceSetup(void) {
     s32 i;
     s32 k;
     u16 entryIndex;
     s32 inputSlotIndex;
-    BOOL t;
+    BOOL isNonCpu;
     InputSlot *inputSlot;
     RaceSetup *raceSetup;
-    ConnectionWork *z;
+    ConnectionWork *connectionWork;
     s32 playerKind;
 
     for (i = 0; i < 10; i++) {
@@ -107,17 +107,17 @@ void func_020431e4(void) {
         inputSlot++;
     }
     raceSetup = gRaceSetup;
-    z = gConnectionWork;
+    connectionWork = gConnectionWork;
     for (entryIndex = 0; entryIndex < 8; entryIndex++) {
         playerKind = raceSetup->mCurrentEntries[entryIndex].mPlayer.mKind;
-        t = FALSE;
+        isNonCpu = FALSE;
         inputSlotIndex = raceSetup->mCurrentEntries[entryIndex].mPlayer.mIndex;
         if ((u32) playerKind <= 3 && ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
-            t = TRUE;
+            isNonCpu = TRUE;
         }
-        if (t != FALSE) {
+        if (isNonCpu != FALSE) {
             if (entryIndex == raceSetup->mEntryIndex) {
-                if (func_020431e4_inline(z) != 0) {
+                if (func_020431e4_inline(connectionWork) != 0) {
                     gInputSlots[inputSlotIndex].mSourceKind = 4;
                 } else if (raceSetup->mRaceKind == RACE_KIND_REPLAY) {
                     gInputSlots[inputSlotIndex].mSourceKind = 1;

@@ -24,7 +24,7 @@ void ReleaseRaceScene(void);
 // Slot mInit of the Race scene; not the whole preparation (RunRaceScene and RunScene's prologue run
 // before it). Calls in order: CreateOverlayExpHeap (creates the heap that FreeOverlayExpHeap destroys),
 // StopWvrAndWait (kinds 3 and 5) or ClearLcdcBankAndStartWvrAndWait + func_02053e74, Init3dEngine, InitDispCap,
-// SetupRaceDisplay (screen layout), func_020431e4, InitRace, InitChoisesS, InitRaceHud,
+// SetupRaceDisplay (screen layout), ResetInputSlotsFromRaceSetup, InitRace, InitChoisesS, InitRaceHud,
 // SetupRaceHudScreens (not kind 3), SetLeftRightKeysSwapped, and the mode 5 net state / mode 2 StartMicInput
 // extras. Does not allocate gRace: InitRace does.
 void InitRaceScene(void);

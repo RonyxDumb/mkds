@@ -92,9 +92,9 @@ void ResetRaceSetup(void) {
     for (i = 0; i < 2; i++) {
         gRaceSetup->mTeamKartCounts[i] = 0;
     }
-    gRaceSetup->mUnk_3d4 = 0;
+    gRaceSetup->mListedCpuCount = 0;
     for (i = 0; i < 2; i++) {
-        gRaceSetup->mUnk_3d5[i] = -1;
+        gRaceSetup->mListedCpuEntryIndices[i] = -1;
     }
     gRaceSetup->mCourseCount = 0;
     for (i = 0; i < 0x21; i++) {
@@ -225,24 +225,24 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
     }
 }
 
-void func_02044fc0(void) {
-    u8 n;
+void RefreshListedCpuEntryIndices(void) {
+    u8 listedCount;
     s8 j;
 
-    n = 0;
+    listedCount = 0;
     for (j = 0; j < 2; j++) {
-        gRaceSetup->mUnk_3d5[j] = -1;
+        gRaceSetup->mListedCpuEntryIndices[j] = -1;
     }
     for (j = 0; j < gRaceSetup->mKartCount; j++) {
         if ((gRaceSetup->mCurrentEntries[(u16) j].mPlayer.mUnk_14 & 1) != 0) {
-            gRaceSetup->mUnk_3d5[(u8) gRaceSetup->mCurrentEntries[j].mPlayer.mListedCpuSlot] = j;
-            n++;
+            gRaceSetup->mListedCpuEntryIndices[(u8) gRaceSetup->mCurrentEntries[j].mPlayer.mListedCpuSlot] = j;
+            listedCount++;
         }
     }
-    gRaceSetup->mUnk_3d4 = n;
+    gRaceSetup->mListedCpuCount = listedCount;
 }
 
-BOOL func_02044e9c(s32 courseId, s32 entryIndex) {
+BOOL SetNextEntryFromCourseGhost(s32 courseId, s32 entryIndex) {
     u8 i;
     BOOL result;
     GhostRecord *ghostRecord;
@@ -266,7 +266,7 @@ BOOL func_02044e9c(s32 courseId, s32 entryIndex) {
     return result;
 }
 
-s32 func_02044d4c(s32 courseId, s32 entryIndex) {
+BOOL SetNextEntryFromFirstSlotGhost(s32 courseId, s32 entryIndex) {
     SlotGhostRecord *ghostRecord;
     s32 filled;
     u8 i;
@@ -291,7 +291,7 @@ s32 func_02044d4c(s32 courseId, s32 entryIndex) {
     return filled;
 }
 
-BOOL func_02044bf8(s32 courseId, s32 entryIndex) {
+BOOL SetNextEntryFromSecondSlotGhost(s32 courseId, s32 entryIndex) {
     SlotGhostRecord *ghostRecord;
     u8 i;
 
@@ -349,17 +349,17 @@ void SetCurrentRaceFromNext(void) {
             }
             switch (gRaceSetup->mNextHeader.mGhostRecordIndex) {
                 case 0:
-                    if (func_02044e9c(gRaceSetup->mNextHeader.mCourseId, 1) != 0) {
+                    if (SetNextEntryFromCourseGhost(gRaceSetup->mNextHeader.mCourseId, 1) != 0) {
                         n++;
                     }
                     break;
                 case 1:
-                    if (func_02044d4c(gRaceSetup->mNextHeader.mCourseId, 1) != 0) {
+                    if (SetNextEntryFromFirstSlotGhost(gRaceSetup->mNextHeader.mCourseId, 1) != 0) {
                         n++;
                     }
                     break;
                 case 2:
-                    if (func_02044bf8(gRaceSetup->mNextHeader.mCourseId, 1) != FALSE) {
+                    if (SetNextEntryFromSecondSlotGhost(gRaceSetup->mNextHeader.mCourseId, 1) != FALSE) {
                         n++;
                     }
                     break;
@@ -406,18 +406,18 @@ void SetCurrentRaceFromNext(void) {
     }
     *(RaceSetupBlock *) gRaceSetup = *(RaceSetupBlock *) &gRaceSetup->mNextHeader;
     RefreshRaceSetupKartCounts(entryCount);
-    func_02044fc0();
+    RefreshListedCpuEntryIndices();
     for (n = 0; n < 8; n++) {
         SetCurrentEntryPlayer(n);
     }
 }
 
-void func_020446e0(void) {
+void SetNextRaceByMode(void) {
     u8 i;
     u32 tableIndex;
     u8 cupIndex;
     u8 courseIndexInCup;
-    RaceSetupHeader *a;
+    RaceSetupHeader *nextHeader;
     s32 cupCourseId;
     u8 rankIndex;
     s32 kartIndex;
@@ -461,7 +461,7 @@ void func_020446e0(void) {
                     }
                 }
                 gRaceSetup->mNextHeader.mCourseNumber = (u8) (courseIndexInCup + 1);
-                a = &gRaceSetup->mNextHeader;
+                nextHeader = &gRaceSetup->mNextHeader;
                 gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_START_GP;
                 gRaceSetup->mNextHeader.mCupIndex = cupIndex;
             }

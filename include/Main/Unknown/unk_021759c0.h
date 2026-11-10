@@ -234,8 +234,8 @@ typedef struct RaceSetup {
     /* 3d0 */ u8 mKartCount;
     /* 3d1 */ u8 mHumanAndPeerKartCount;
     /* 3d2 */ u8 mTeamKartCounts[2];
-    /* 3d4 */ u8 mUnk_3d4;
-    /* 3d5 */ s8 mUnk_3d5[3];
+    /* 3d4 */ u8 mListedCpuCount;
+    /* 3d5 */ s8 mListedCpuEntryIndices[3];
     /* 3d8 */ u16 mCourseCount;
     /* 3da */ u8 mUnk_3da[0x2];
     /* 3dc */ u8 *mCourseList;

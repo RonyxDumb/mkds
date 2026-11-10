@@ -120,7 +120,7 @@ void func_02046ca8(InputSlotPair *pair, s32 b, s32 c) {
     }
 }
 
-void func_02046c74(void) {
+void ReleaseTouchMicInput(void) {
     TouchMicInputStopMicAutoSampling(gTouchMicInput->mMicBuffer);
     gTouchMicInput = NULL;
 }

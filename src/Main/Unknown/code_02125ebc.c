@@ -440,7 +440,7 @@ void AdvanceTxtSystemState2(void) {
             inputSlotIndex = 8;
             break;
         case 1:
-            inputSlotIndex = func_020435bc();
+            inputSlotIndex = GetPadInputSlot();
             break;
     }
     touchX = data_02175670[inputSlotIndex].mPressedBits;

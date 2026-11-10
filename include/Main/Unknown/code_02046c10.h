@@ -5,7 +5,7 @@
 typedef struct InputSlotPair InputSlotPair;
 
 u16 GetPackedTouchPoint(void);
-void func_02046c74(void);
+void ReleaseTouchMicInput(void);
 void func_02046ca8(InputSlotPair *pair, s32 b, s32 c);
 void UpdateTouchMicInput(void);
 void func_02046e24(void);
