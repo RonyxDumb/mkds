@@ -8,8 +8,8 @@
 // their first member. It holds the list of the sounds started on it, the pointer to the position the distance to the
 // camera is measured to, and the number of its volume curve. A sound is started on it only while bit 0 of its mUnk_34
 // member is set; InitSoundSource clears that bit. data_0217d048 is addressed in rows of twelve bytes;
-// RefreshSoundSourceUpdateList and func_0210c0bc address the container of one of those rows. Kart and the gItemPools
-// elements (ItemObject) start with it: StartSoundWhileRequested and StartSound pass either one to
+// RefreshSoundSourceUpdateList and UnlinkSoundSourceSounds address the container of one of those rows. Kart and the
+// gItemPools elements (ItemObject) start with it: StartSoundWhileRequested and StartSound pass either one to
 // StartSoundWhileRequestedEx and StartSoundEx. InitSoundSource writes the byte at 0x3c and the word at 0x40.
 typedef struct SoundSource {
     /* 00 */ u8 mUnk_00[2];
@@ -38,14 +38,14 @@ typedef struct SoundSource {
 
 // One sound started on a SoundSource, from the start request until it is stopped. The entries are taken from a pool of
 // twelve and linked into the list of the source. The mUnk_00 member is the library player handle, NULL until the player
-// is started. Returned by TakeSoundHandleEntry and passed to func_0210bcf4; func_0210c084 writes its byte at 0x19.
-// func_0210bf24 subtracts one NNSFndList from mUnk_10 to reach the SoundSource holding it.
+// is started. Returned by TakeSoundHandleEntry and passed to StartOrUpdateSndHandleSound; StopPlayingSoundSeq writes
+// its byte at 0x19. StartSoundOnPoolEntry subtracts one NNSFndList from mUnk_10 to reach the SoundSource holding it.
 typedef struct PlayingSound {
     /* 00 */ NNSSndSeqPlayer *mSeqPlayer;
     /* 04 */ s32 mUnk_04;
     /* 08 */ u32 mUnk_08;
     /* 0c */ u32 mUnk_0c;
-    /* 10 */ NNSFndList *mUnk_10;
+    /* 10 */ NNSFndList *mSourceList;
     /* 14 */ s16 mPitch;
     // Number of the sound this entry plays.
     /* 16 */ u16 mSoundId;
@@ -63,7 +63,7 @@ typedef struct SoundStartParams {
     /* 0c */ u32 mDistanceSquared;
 } SoundStartParams;
 
-// Held on the stack by func_0210bcf4 and SetPlayingSoundsParams and passed to the three functions
+// Held on the stack by StartOrUpdateSndHandleSound and SetPlayingSoundsParams and passed to the three functions
 // data_0217d018, data_0217d014 and data_0217d01c point at.
 typedef struct SoundParams {
     /* 00 */ SoundSource *mSource;
@@ -77,10 +77,12 @@ typedef struct SoundParams {
     /* 20 */ SoundStartParams *mUnk_20;
 } SoundParams;
 
-u32 func_0210bcf4(u32 seqArcNo, u32 soundId, Vec3 *positionSource, NNSSndSeqPlayer **handle, void *request);
-u32 func_0210bee8(u32 seqArcNo, u32 soundId, Vec3 *positionSource, NNSSndSeqPlayer **handle, void *request);
-void func_0210bf24(u32 seqArcNo, u32 soundId, Vec3 *positionSource, void *request);
+u32 StartOrUpdateSndHandleSound(u32 seqArcNo, u32 soundId, Vec3 *positionSource, NNSSndSeqPlayer **handle,
+                                void *request);
+u32 StartOrUpdateSndHandleSoundInMode2(u32 seqArcNo, u32 soundId, Vec3 *positionSource, NNSSndSeqPlayer **handle,
+                                       void *request);
+void StartSoundOnPoolEntry(u32 seqArcNo, u32 soundId, Vec3 *positionSource, void *request);
 void RefreshSoundSourceUpdateList(SoundSource *source);
-void func_0210c084(PlayingSound *sound, u32 fadeSteps);
-void func_0210c0bc(SoundSource *source);
+void StopPlayingSoundSeq(PlayingSound *sound, u32 fadeSteps);
+void UnlinkSoundSourceSounds(SoundSource *source);
 void ItemObjectInitAndRegisterSoundSource(SoundSource *source, Vec3 *positionSource);

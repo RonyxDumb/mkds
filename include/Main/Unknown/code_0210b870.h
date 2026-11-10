@@ -4,7 +4,7 @@
 
 struct MapObjectSound;
 
-// The four words of data_0216ca48, read as one 16-byte object.
+// The four words of gBalloonSoundStartParams, read as one 16-byte object.
 typedef struct Unk0216ca48 {
     /* 00 */ u32 mUnk_00;
     /* 04 */ Vec3 *mUnk_04;
@@ -14,14 +14,14 @@ typedef struct Unk0216ca48 {
 
 #include "Main/Unknown/code_0206bcb0.h" // Kart
 
-extern Unk0216ca48 data_0216ca48;
+extern Unk0216ca48 gBalloonSoundStartParams;
 
 void InitSceneSoundsNop(void);
-void func_0210b874(struct MapObjectSound *mapSound, s32 fixedValue);
-void func_0210b8bc(struct MapObjectSound *soundSource, s32 fixedValue);
-void func_0210b8f4(void *position, s32 distanceSquared);
-void func_0210b924(void *position, s32 distanceSquared);
-void func_0210b98c(struct MapObjectSound *mapSound, s32 soundId);
-void func_0210ba38(struct MapObjectSound *mapSound, s32 soundId);
-void func_0210ba78(void *mapSound, s32 baseSoundId);
+void StartIronBallSpeedSound(struct MapObjectSound *mapSound, s32 fixedValue);
+void StartIronBallBounceSound(struct MapObjectSound *soundSource, s32 fixedValue);
+void QueueBalloonSound(void *position, s32 distanceSquared);
+void StartBalloonSound(void *position, s32 distanceSquared);
+void QueueShine16Sound(struct MapObjectSound *mapSound, s32 soundId);
+void QueueShine16SoundWhileRequested(struct MapObjectSound *mapSound, s32 soundId);
+void StartMapObjectCounterSound(void *mapSound, s32 baseSoundId);
 void ResetMapObjectSoundCounter(void);

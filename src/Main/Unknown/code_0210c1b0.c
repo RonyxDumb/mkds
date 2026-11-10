@@ -147,7 +147,7 @@ u32 SetPlayingSoundsParams(SoundSource *source) {
         params.mPan = data_0217d01c(&params);
     }
     if (params.mVolume <= 0) {
-        func_0210c0bc(source);
+        UnlinkSoundSourceSounds(source);
         return 0;
     }
     for (sound = source->mPlayingSounds.mHead; sound != NULL;
@@ -202,8 +202,8 @@ PlayingSound *StartSoundEx(SoundSource *source, u32 seqArcNo, u32 soundId, u32 v
     }
     if (sound == NULL) {
         sound = TakeSoundHandleEntry(&data_0217d034);
-        func_0210c084(sound, 0);
-        sourceList = sound->mUnk_10;
+        StopPlayingSoundSeq(sound, 0);
+        sourceList = sound->mSourceList;
         if (sourceList != NULL) {
             RemoveListObject(sourceList, sound);
             RefreshSoundSourceUpdateList((SoundSource *) (sourceList - 1));
@@ -277,8 +277,8 @@ PlayingSound *StartSoundWhileRequestedEx(SoundSource *source, u32 seqArcNo, u32 
     }
     if (sound == NULL) {
         sound = TakeSoundHandleEntry(&data_0217d034);
-        func_0210c084(sound, 0);
-        sourceList = sound->mUnk_10;
+        StopPlayingSoundSeq(sound, 0);
+        sourceList = sound->mSourceList;
         if (sourceList != NULL) {
             RemoveListObject(sourceList, sound);
             RefreshSoundSourceUpdateList((SoundSource *) (sourceList - 1));

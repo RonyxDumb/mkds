@@ -94,7 +94,7 @@ void func_ov001_02183f0c(Unk02188950 *donketu) {
 
         soundRequest.mPositionSource = &donketu->mUnk_000.mPos;
         soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&donketu->mUnk_000.mPos);
-        func_0210b734(&soundRequest, GetSecondSndHandleSlot());
+        StartSndHandleSoundUnchecked(&soundRequest, GetSecondSndHandleSlot());
     }
     donketu->mUnk_000.mFlags |= data_ov001_021a6578;
 }

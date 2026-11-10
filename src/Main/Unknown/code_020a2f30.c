@@ -381,7 +381,7 @@ void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
             StartEffectWithCallback(0x5b, &balloon->mUnk_00.mPos, balloon, SetBalloonEffectColor);
             StartEffectWithCallback(0x5c, &balloon->mUnk_00.mPos, balloon, SetBalloonEffectColor);
             StartEffectWithCallback(0x5d, &balloon->mUnk_00.mPos, balloon, SetBalloonEffectColor);
-            func_0210b8f4(&balloon->mUnk_00.mPos, GetHorizontalCameraDistanceSquared(&balloon->mUnk_00.mPos));
+            QueueBalloonSound(&balloon->mUnk_00.mPos, GetHorizontalCameraDistanceSquared(&balloon->mUnk_00.mPos));
             ParkMapObject(&balloon->mUnk_00);
         } else {
             balloon->mSwingAngle = balloon->mSwingAngle + balloon->mSwingAnglePerFrame;

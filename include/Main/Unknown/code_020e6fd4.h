@@ -150,7 +150,7 @@ typedef struct JgKindRow {
 
 extern JgKindFileNames data_0216c324[];
 // Filled in by InitJg; UpdateJgState1 stores GetHorizontalCameraDistanceSquared's return value
-// at 0x0c and hands it to func_0210b760.
+// at 0x0c and hands it to StartSndHandleSound.
 extern SoundStartParams data_0217b9dc;
 extern JgKindRow gJgKindRows[];
 extern JgKindRow data_0217bb08[];

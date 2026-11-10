@@ -92,7 +92,7 @@ void UpdateWater(Water *water) {
                     highSoundRequest.mPositionSource = NULL;
                     highSoundRequest.mFalloffIndex = 4;
                     highSoundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(NULL);
-                    func_0210b760(&highSoundRequest, soundHandleSlot);
+                    StartSndHandleSound(&highSoundRequest, soundHandleSlot);
                 }
             } else if (water->mHoldFrames > (water->mHighHoldFrameCount >> 1)) {
                 water->mUnk_3e = water->mUnk_3e + 1;
@@ -123,7 +123,7 @@ void UpdateWater(Water *water) {
                     lowSoundRequest.mPositionSource = NULL;
                     lowSoundRequest.mFalloffIndex = 4;
                     lowSoundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(NULL);
-                    func_0210b760(&lowSoundRequest, soundHandleSlot);
+                    StartSndHandleSound(&lowSoundRequest, soundHandleSlot);
                 }
             } else if (water->mHoldFrames > (water->mLowHoldFrameCount >> 1)) {
                 water->mUnk_3e = water->mUnk_3e + 1;

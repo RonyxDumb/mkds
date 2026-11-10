@@ -1019,7 +1019,7 @@ void func_020a0318(void *mapObjectList, Unk020a0318 *mapObject) {
                 slot8Request.mPositionSource = NULL;
                 slot8Request.mFalloffIndex = 4;
                 slot8Request.mDistanceSquared = GetHorizontalCameraDistanceSquared(NULL);
-                func_0210b760(&slot8Request, sndHandleSlot);
+                StartSndHandleSound(&slot8Request, sndHandleSlot);
                 randomState = &gRaceProgress->mLocalRandom;
                 randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
                 mapObject->mSoundTimer = (u16) (((u64) (u32) (randomState->mValue >> 32) * 0x3c) >> 32) + 0x78;
@@ -1044,7 +1044,7 @@ void func_020a0318(void *mapObjectList, Unk020a0318 *mapObject) {
             slot9Request.mPositionSource = NULL;
             slot9Request.mFalloffIndex = 4;
             slot9Request.mDistanceSquared = GetHorizontalCameraDistanceSquared(NULL);
-            func_0210b760(&slot9Request, sndHandleSlot);
+            StartSndHandleSound(&slot9Request, sndHandleSlot);
         }
     }
     if (*GetSndHandleSlot(9) == NULL) {

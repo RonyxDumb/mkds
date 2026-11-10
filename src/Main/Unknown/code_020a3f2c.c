@@ -79,7 +79,7 @@ void InitShine16(MapObject *mapObject) {
     ParkMapObject(mapObject);
     mapObject->mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
     InitSoundSource(&mapObject->mSound->mSoundSource, 0xb, &mapObject->mPos);
-    func_0210bae8(&mapObject->mSound->mSoundSource);
+    SetShine16TrackParamsReturnArgument(&mapObject->mSound->mSoundSource);
     mapObject->mFarDistanceSquared = gSoundFalloffs[0xb].mUnk_20;
 }
 
@@ -120,8 +120,8 @@ u32 CollideKartWithShine16(Shine16 *shine16, Kart *kart, u8 *a, u8 *b) {
         isEntryKart = kart->mIndex == gRaceSetup->mEntryIndex ? 1 : 0;
         highestBalloonOrShineCount = GetHighestBalloonOrShineCount();
         balloonOrShineCount = GetBalloonOrShineCount(kart->mIndex);
-        func_0210b98c(shine16->mUnk_00.mSound,
-                      func_02024974(0, isEntryKart, highestBalloonOrShineCount, balloonOrShineCount));
+        QueueShine16Sound(shine16->mUnk_00.mSound,
+                          func_02024974(0, isEntryKart, highestBalloonOrShineCount, balloonOrShineCount));
         shine16->mEffect = StartEffect(0x7d, &shine16->mUnk_00.mPos);
         shine16->mEffectTimer = 0xe;
     }
@@ -261,7 +261,7 @@ void UpdateShine16(void *a, Shine16 *shine16) {
                 shine16->mUnk_00.mUnk_10.y = 0;
                 shine16->mState = 1;
             }
-            func_0210b98c(shine16->mUnk_00.mSound, 0x139);
+            QueueShine16Sound(shine16->mUnk_00.mSound, 0x139);
             return;
         case 1:
             shine16->mNsbtpFrameStepProgress += 1;
@@ -281,7 +281,7 @@ void UpdateShine16(void *a, Shine16 *shine16) {
             if (shine16->mDrawScale >= 0x1000) {
                 shine16->mDrawScale = 0x1000;
             }
-            func_0210ba38(shine16->mUnk_00.mSound, 0x14e);
+            QueueShine16SoundWhileRequested(shine16->mUnk_00.mSound, 0x14e);
             return;
         case 6:
             shine16->mNsbtpFrameStepProgress += 4;
@@ -534,7 +534,7 @@ void UpdateShine16(void *a, Shine16 *shine16) {
                             shine16->mUnk_00.mUnk_10.y = 0;
                             shine16->mState = 1;
                         }
-                        func_0210b98c(shine16->mUnk_00.mSound, 0x139);
+                        QueueShine16Sound(shine16->mUnk_00.mSound, 0x139);
                     }
                     if (f & 0x1000000) {
                         shine16->mUnk_00.mFlags |= data_021567ac;
@@ -624,7 +624,7 @@ void StartShine16(Vec3 *position, s32 spawnObjectIndex, s32 dropFromAbove) {
     shine16->mUnk_00.mFlags &= ~1;
     shine16->mUnk_00.mFlags &= ~0x20;
     AddShineCount(1);
-    func_0210b98c(shine16->mUnk_00.mSound, 0x138);
+    QueueShine16Sound(shine16->mUnk_00.mSound, 0x138);
 }
 
 void StartShine16FromKart(Kart *hitKart, Kart *hitByKart) {
@@ -664,8 +664,8 @@ void StartShine16FromKart(Kart *hitKart, Kart *hitByKart) {
     isEntryKart = hitKart->mIndex == gRaceSetup->mEntryIndex ? 1 : 0;
     highestBalloonOrShineCount = GetHighestBalloonOrShineCount();
     balloonOrShineCount = GetBalloonOrShineCount(hitKart->mIndex);
-    func_0210b98c(shine16->mUnk_00.mSound,
-                  func_02024974(1, isEntryKart, highestBalloonOrShineCount, balloonOrShineCount));
+    QueueShine16Sound(shine16->mUnk_00.mSound,
+                      func_02024974(1, isEntryKart, highestBalloonOrShineCount, balloonOrShineCount));
 }
 
 BOOL BalloonKartHitByKartCallback(u16 hitKartIndex, u16 hitByKartIndex) {

@@ -39,9 +39,9 @@ static inline void func_020a826c_inline(CourseSoundObjectPart *soundPart) {
     if (soundPart->mStartParams.mDistanceSquared < falloffDistanceSquared) {
         soundPart->mInRangeUpdateCount = soundPart->mInRangeUpdateCount == 0 ? 1 : 2;
         if (GetRaceUseChainCameras() != 0) {
-            func_0210b734(&soundPart->mStartParams, soundPart->mSndHandleSlot);
+            StartSndHandleSoundUnchecked(&soundPart->mStartParams, soundPart->mSndHandleSlot);
         } else {
-            func_0210b760(&soundPart->mStartParams, soundPart->mSndHandleSlot);
+            StartSndHandleSound(&soundPart->mStartParams, soundPart->mSndHandleSlot);
         }
     } else {
         soundPart->mInRangeUpdateCount = 0;

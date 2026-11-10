@@ -94,7 +94,7 @@ void UpdateNsKiller1(void *a, NsKiller1 *nsKiller1) {
                     s = data_0216676c;
                     s.mPositionSource = &nsKiller1->mUnk_00.mPos;
                     s.mDistanceSquared = GetHorizontalCameraDistanceSquared(&nsKiller1->mUnk_00.mPos);
-                    func_0210b708(&s, GetSndHandleSlot(8));
+                    StartSndHandleSoundEx(&s, GetSndHandleSlot(8));
                 }
             } else if (nsKiller1->mStateTimer <= 0) {
                 nsKiller1->mStateTimer = 0;

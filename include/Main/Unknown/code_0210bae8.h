@@ -4,5 +4,5 @@
 
 typedef struct SoundSource SoundSource;
 
-void func_0210bae8(SoundSource *soundSource);
-unsigned int func_0210baf8(unsigned int value);
+void SetShine16TrackParamsReturnArgument(SoundSource *soundSource);
+unsigned int Shine16TrackParamsReturnArgument(unsigned int value);

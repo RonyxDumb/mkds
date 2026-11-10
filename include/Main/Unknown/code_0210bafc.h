@@ -10,10 +10,10 @@ typedef struct SurfaceSoundIdRow {
 #include "code_0212d214.h"
 
 // Addressed at the byte offset NNSFndList.mLinkOffset of the pointer passed to RemoveListObject.
-typedef struct Unk0210bc54 {
+typedef struct ListObjectLink {
     /* 0 */ u8 mUnk_00[8];
-    /* 8 */ void *mUnk_08;
-} Unk0210bc54;
+    /* 8 */ void *mList;
+} ListObjectLink;
 
 u32 func_0210bafc(s32 entryIndex, s32 rowIndex, s32 columnIndex);
 u32 GetSurfaceSoundId(s32 entryIndex, s32 surfaceKind, s32 surfaceVariant);

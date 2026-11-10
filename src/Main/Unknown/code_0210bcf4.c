@@ -32,7 +32,7 @@ void ItemObjectInitAndRegisterSoundSource(SoundSource *source, Vec3 *positionSou
     TryAppendListObject(&data_0217d028, source);
 }
 
-void func_0210c0bc(SoundSource *source) {
+void UnlinkSoundSourceSounds(SoundSource *source) {
     void *sound;
 
     StopSoundsStartedWhileRequested(source, 0);
@@ -45,7 +45,7 @@ void func_0210c0bc(SoundSource *source) {
     }
 }
 
-void func_0210c084(PlayingSound *sound, u32 fadeSteps) {
+void StopPlayingSoundSeq(PlayingSound *sound, u32 fadeSteps) {
     NNS_SndPlayerStopSeq(&sound->mSeqPlayer, fadeSteps);
     sound->mFlags &= ~4;
     sound->mFlags &= ~8;
@@ -81,7 +81,7 @@ void RefreshSoundSourceUpdateList(SoundSource *source) {
     }
 }
 
-void func_0210bf24(u32 seqArcNo, u32 soundId, Vec3 *positionSource, void *request) {
+void StartSoundOnPoolEntry(u32 seqArcNo, u32 soundId, Vec3 *positionSource, void *request) {
     PlayingSound *sound;
     NNSFndList *sourceList;
 
@@ -89,42 +89,44 @@ void func_0210bf24(u32 seqArcNo, u32 soundId, Vec3 *positionSource, void *reques
         return;
     }
     sound = TakeSoundHandleEntry(&data_0217d034);
-    func_0210c084(sound, 0);
-    sourceList = sound->mUnk_10;
+    StopPlayingSoundSeq(sound, 0);
+    sourceList = sound->mSourceList;
     if (sourceList != NULL) {
         RemoveListObject(sourceList, (u8 *) sound);
         RefreshSoundSourceUpdateList((SoundSource *) (sourceList - 1));
     }
     ResetPlayingSound(sound);
-    func_0210bcf4(seqArcNo, soundId, positionSource, &sound->mSeqPlayer, request);
+    StartOrUpdateSndHandleSound(seqArcNo, soundId, positionSource, &sound->mSeqPlayer, request);
 }
 
-u32 func_0210bee8(u32 seqArcNo, u32 soundId, Vec3 *positionSource, NNSSndSeqPlayer **handle, void *request) {
+u32 StartOrUpdateSndHandleSoundInMode2(u32 seqArcNo, u32 soundId, Vec3 *positionSource, NNSSndSeqPlayer **handle,
+                                       void *request) {
     if (data_0217d084.mUnk_10 == 0) {
         return seqArcNo;
     }
-    return func_0210bcf4(seqArcNo, soundId, positionSource, handle, request);
+    return StartOrUpdateSndHandleSound(seqArcNo, soundId, positionSource, handle, request);
 }
 
-u32 func_0210bcf4(u32 seqArcNo, u32 soundId, Vec3 *positionSource, NNSSndSeqPlayer **handle, void *request) {
+u32 StartOrUpdateSndHandleSound(u32 seqArcNo, u32 soundId, Vec3 *positionSource, NNSSndSeqPlayer **handle,
+                                void *request) {
     SoundParams params;
-    u32 v;
+    u32 startsNewSound;
     u32 runThisCall;
     u32 countThisPass;
     s32 priority;
     s32 volumeForPriority;
 
-    v = 0;
-    runThisCall = v;
+    startsNewSound = 0;
+    runThisCall = startsNewSound;
     if (data_0217d084.mMode == 4) {
-        return v;
+        return startsNewSound;
     }
     if (data_0217d084.mMode == 0) {
-        return v;
+        return startsNewSound;
     }
     if (*handle == NULL) {
-        v = 1;
-        runThisCall = v;
+        startsNewSound = 1;
+        runThisCall = startsNewSound;
     } else {
         countThisPass = data_0217d024[0];
         data_0217d024[0] = countThisPass + 1;
@@ -166,7 +168,7 @@ u32 func_0210bcf4(u32 seqArcNo, u32 soundId, Vec3 *positionSource, NNSSndSeqPlay
     } else {
         priority = 0;
     }
-    if (v != 0) {
+    if (startsNewSound != 0) {
         data_0216cb1c[0](handle, seqArcNo, soundId, priority);
     }
     NNS_SndPlayerSetVolume(handle, params.mVolume);

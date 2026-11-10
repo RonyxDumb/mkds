@@ -14,7 +14,7 @@ void ResetMapObjectSoundCounter(void) {
     gMapObjectSoundCounter = 0;
 }
 
-void func_0210ba78(void *mapSound, s32 baseSoundId) {
+void StartMapObjectCounterSound(void *mapSound, s32 baseSoundId) {
     MapObjectSound *mapSoundCopy;
     s32 counter;
 
@@ -24,12 +24,12 @@ void func_0210ba78(void *mapSound, s32 baseSoundId) {
     gMapObjectSoundCounter = gMapObjectSoundCounter + 0xa;
 }
 
-void func_0210ba38(struct MapObjectSound *mapSound, s32 soundId) {
+void QueueShine16SoundWhileRequested(struct MapObjectSound *mapSound, s32 soundId) {
     AddSoundRequest(&data_0217d29c, mapSound->mSoundSource.mDistanceSquared + 0x15f90,
                     MapStartSoundWhileRequestedFullVolume, mapSound, soundId);
 }
 
-void func_0210b98c(struct MapObjectSound *mapSound, s32 soundId) {
+void QueueShine16Sound(struct MapObjectSound *mapSound, s32 soundId) {
     s32 distanceOffset;
 
     distanceOffset = 0;
@@ -56,28 +56,28 @@ void func_0210b98c(struct MapObjectSound *mapSound, s32 soundId) {
             distanceOffset = 0x19;
             break;
     }
-    AddSoundRequest(&data_0217d29c, mapSound->mSoundSource.mDistanceSquared + distanceOffset, func_0210ba78, mapSound,
-                    soundId);
+    AddSoundRequest(&data_0217d29c, mapSound->mSoundSource.mDistanceSquared + distanceOffset,
+                    StartMapObjectCounterSound, mapSound, soundId);
 }
 
-void func_0210b924(void *position, s32 distanceSquared) {
+void StartBalloonSound(void *position, s32 distanceSquared) {
     Unk0216ca48 requestCopy;
     Unk0216ca48 *request;
 
     request = &requestCopy;
-    *request = data_0216ca48;
+    *request = gBalloonSoundStartParams;
     request->mUnk_04 = position;
     request->mUnk_0c = distanceSquared;
     if (data_0217c780 & 1) {
-        func_0210bf24(0, request->mUnk_00, request->mUnk_04, request);
+        StartSoundOnPoolEntry(0, request->mUnk_00, request->mUnk_04, request);
     }
 }
 
-void func_0210b8f4(void *position, s32 distanceSquared) {
-    AddSoundRequest(&data_0217d29c, distanceSquared, func_0210b924, position, distanceSquared);
+void QueueBalloonSound(void *position, s32 distanceSquared) {
+    AddSoundRequest(&data_0217d29c, distanceSquared, StartBalloonSound, position, distanceSquared);
 }
 
-void func_0210b8bc(struct MapObjectSound *soundSource, s32 fixedValue) {
+void StartIronBallBounceSound(struct MapObjectSound *soundSource, s32 fixedValue) {
     s32 clampedValue;
 
     clampedValue = fixedValue >> 12;
@@ -87,7 +87,7 @@ void func_0210b8bc(struct MapObjectSound *soundSource, s32 fixedValue) {
     StartSound(&soundSource->mSoundSource, 0x1ce, ((clampedValue * 2) + 0x3c) & 0xff, clampedValue - 0xa);
 }
 
-void func_0210b874(struct MapObjectSound *mapSound, s32 fixedValue) {
+void StartIronBallSpeedSound(struct MapObjectSound *mapSound, s32 fixedValue) {
     s32 pitchAndModSpeed;
     PlayingSound *sound;
 

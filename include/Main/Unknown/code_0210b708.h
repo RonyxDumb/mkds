@@ -5,5 +5,5 @@
 
 typedef struct SoundStartParams SoundStartParams;
 
-void func_0210b708(SoundStartParams *request, NNSSndSeqPlayer **handle);
-void func_0210b734(SoundStartParams *request, NNSSndSeqPlayer **handle);
+void StartSndHandleSoundEx(SoundStartParams *request, NNSSndSeqPlayer **handle);
+void StartSndHandleSoundUnchecked(SoundStartParams *request, NNSSndSeqPlayer **handle);

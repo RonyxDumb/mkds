@@ -764,7 +764,7 @@ void UpdateJgState1(void) {
         seqPlayer = GetSndHandleSlot(4);
         data_0217b9dc.mDistanceSquared = GetHorizontalCameraDistanceSquared(&gJgPos);
         NNS_SndPlayerStopSeq(seqPlayer, 0);
-        func_0210b760(&data_0217b9dc, seqPlayer);
+        StartSndHandleSound(&data_0217b9dc, seqPlayer);
     }
     if (IsKartEnded(gJgKartIndex) != 0 || (gJgKart->mUnk_48 & 0x800) != 0) {
         SetStateMachineState(&gJgStateMachine, 5);

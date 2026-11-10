@@ -9,14 +9,14 @@
 
 u32 TryAppendListObject(void *list, void *object) {
     BOOL willAppend;
-    Unk0210bc54 *link;
+    ListObjectLink *link;
 
-    link = OFFSET_PTR(Unk0210bc54, object, ((NNSFndList *) list)->mLinkOffset);
-    if (link->mUnk_08 != 0) {
+    link = OFFSET_PTR(ListObjectLink, object, ((NNSFndList *) list)->mLinkOffset);
+    if (link->mList != 0) {
         willAppend = FALSE;
     } else {
         willAppend = TRUE;
-        link->mUnk_08 = list;
+        link->mList = list;
     }
     if (willAppend != FALSE) {
         NNS_FndAppendListObject(list, object);
@@ -27,12 +27,12 @@ u32 TryAppendListObject(void *list, void *object) {
 }
 
 void RemoveListObject(NNSFndList *list, void *object) {
-    Unk0210bc54 *link;
+    ListObjectLink *link;
 
     NNS_FndRemoveListObject(list, object);
-    link = OFFSET_PTR(Unk0210bc54, object, list->mLinkOffset);
-    if (link->mUnk_08 != 0) {
-        link->mUnk_08 = 0;
+    link = OFFSET_PTR(ListObjectLink, object, list->mLinkOffset);
+    if (link->mList != 0) {
+        link->mList = 0;
     }
 }
 
