@@ -95,13 +95,13 @@ void InitMenu(void) {
     SetHeapGroupId(5);
     func_020629a4();
     SetHeapGroupId(9);
-    if (IsDownloadBootWrapper() == 0) {
+    if (MenuMB_IsMultiBootChildWrapper() == 0) {
         InitKartModelMenuWithParamFiles(MenuGetCurrentHeap());
         RequestKartModelMenuCharacter(-1);
         RequestKartModelMenuKart(-1);
     }
     SetHeapGroupId(5);
-    if (IsDownloadBootWrapper() == 0) {
+    if (MenuMB_IsMultiBootChildWrapper() == 0) {
         InitGhostRecordSet(MenuGetCurrentHeap());
         InitCupPicture();
         LoadNclrData(&gMenuScene->mSinglePlaySelectModeMONclr,
@@ -140,13 +140,13 @@ void InitMenu(void) {
     LoadPlayerEntryListFiles();
     InitPlayerEntryList(MenuGetCurrentHeap(), gMenuScene->mMainOam);
     gMenuScene->mCharacterKartPicks = CreateCharacterKartPicks(MenuGetCurrentHeap());
-    SetMainDispcntBits(0x10);
-    SetSubDispcntBits(0x10);
+    MenuGX_SetOBJVRamModeChar(0x10);
+    MenuGXS_SetOBJVRamModeChar(0x10);
     WriteMainBlendAlpha(0, 0x3f, 6, 10);
     MenuWriteSubBlendAlpha(0, 0x3f, 6, 10);
     MenuWriteMainWinEnableBits(0);
     MenuWriteSubWinEnableBits(0);
-    if (IsDownloadBootWrapper() == 0) {
+    if (MenuMB_IsMultiBootChildWrapper() == 0) {
         LoadSelectCharacterData();
         LoadSelectKartData();
         LoadTimeAttackTopMenuData();
@@ -161,7 +161,7 @@ void InitMenu(void) {
     }
     LoadSelectGameData();
     LoadSelectRaceRuleAndWaitData();
-    config.mUseTxtSystem = IsDownloadBootWrapper();
+    config.mUseTxtSystem = MenuMB_IsMultiBootChildWrapper();
     config.mTxtSystemFont = GetFontByIndex(1);
     config.mUseCanvas1 = 0;
     config.mUseCanvas2 = 1;
@@ -264,14 +264,14 @@ void InitMenu(void) {
 }
 #pragma thumb off
 
-u16 *GetBootInfoHalfwordPointer(void) {
+u16 *MenuMB_GetMultiBootParam(void) {
     return &gBootInfo->mUnk_00;
 }
 
-BOOL IsDownloadBoot(void) {
-    return *GetBootInfoHalfwordPointer() == 2;
+BOOL MenuMB_IsMultiBootChild(void) {
+    return *MenuMB_GetMultiBootParam() == 2;
 }
 
-BOOL IsDownloadBootWrapper(void) {
-    return IsDownloadBoot();
+BOOL MenuMB_IsMultiBootChildWrapper(void) {
+    return MenuMB_IsMultiBootChild();
 }

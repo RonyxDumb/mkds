@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void MenuWriteSubDispcntBits(int bits);
-void MenuWriteMainDispcntBits(int bits);
+void MenuGXS_SetVisiblePlane(int bits);
+void MenuGX_SetVisiblePlane(int bits);

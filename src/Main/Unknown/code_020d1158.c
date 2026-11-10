@@ -24,14 +24,14 @@ void DrawRaceStartBattle(RaceHudOamBuffer *oamBuffer) {
                                                   cell, NULL, positions[1], 0, 1);
 }
 
-u16 *CupPictureGetBootInfoHalfwordPointer(void) {
+u16 *CupPictureMB_GetMultiBootParam(void) {
     return &gBootInfo->mUnk_00;
 }
 
-u32 CupPictureIsDownloadBoot(void) {
-    return *CupPictureGetBootInfoHalfwordPointer() == 2;
+u32 CupPictureMB_IsMultiBootChild(void) {
+    return *CupPictureMB_GetMultiBootParam() == 2;
 }
 
-u32 CupPictureIsDownloadBootWrapper(void) {
-    return CupPictureIsDownloadBoot();
+u32 CupPictureMB_IsMultiBootChildWrapper(void) {
+    return CupPictureMB_IsMultiBootChild();
 }

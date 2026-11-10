@@ -47,7 +47,7 @@ void SetupWLMenuCommonMessage(void *heap) {
     }
     DC_StoreRange(gWLMenuMessage->mScreenMap, 0x600);
     GXS_LoadBG3Scr(gWLMenuMessage->mScreenMap, 0, 0x600);
-    func_02036264(gWLMenuMessage->mScreenMap, 0x600);
+    WLMenuMessageMI_CpuClearFast(gWLMenuMessage->mScreenMap, 0x600);
     for (row = 0x14; row < 0x16; row++) {
         for (column = 0; column < 0x20; column++) {
             gWLMenuMessage->mScreenMap[column + row * 0x20] = column + (row - 0x14) * 0x20 + 0x20;

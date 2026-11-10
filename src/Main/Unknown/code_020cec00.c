@@ -10,7 +10,7 @@ void WriteBattleSelectRaceRuleRegisters(void) {
     int screenChanged;
     screenChanged = GetMenuScreenSwitched();
     if (screenChanged != 0) {
-        GxsDispCntBits8To12Write2(0x1f);
+        BattleGXS_SetVisiblePlane(0x1f);
         GXS_SetGraphicsMode(0);
     }
     WriteSelectRaceRuleRegisters();

@@ -78,7 +78,7 @@ void SetNextRaceSetupFromCopy(void) {
         SetCourseCount(GetRaceSetupCopy()->mCourseCount);
         SetNextRuleKind(GetRaceSetupCopy()->mRuleKind);
         SetNextCourseListMode(GetRaceSetupCopy()->mCourseListMode);
-        if (GetRaceSetupCopy()->mMode == 4 && IsDownloadBootWrapper() == 0) {
+        if (GetRaceSetupCopy()->mMode == 4 && MenuMB_IsMultiBootChildWrapper() == 0) {
             rowIndex = GetRaceSetupCopy()->mMissionFileRowIndex;
             FindMissionTableCell(GetRaceSetupCopy()->mMissionFileRows[rowIndex].mMissionTableValue, &tableRowColumn[0],
                                  &tableRowColumn[1]);

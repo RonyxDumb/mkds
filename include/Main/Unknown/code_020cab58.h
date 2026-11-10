@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 EmblemChoisesWriteSubDispcntBits(u32 bits);
+u32 EmblemChoisesGXS_SetVisiblePlane(u32 bits);

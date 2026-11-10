@@ -15,7 +15,7 @@ void SetSelectKartSPartsOffsetY(void) {
     CellFileSet *parts;
     s32 i;
     s32 count;
-    if (func_020280dc() == 0) {
+    if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
         parts = &gSelectKart->mSelectKartSParts;
         count = GetCellLayoutCount(parts->mCellLayout) + GetLabelLayoutCount(parts->mLabelLayout);
         for (i = 0; i < count; i++) {
@@ -36,7 +36,7 @@ void PrintSelectKartMessage(void) {
     s32 i;
     CellFileSet *parts;
     void *message;
-    if (func_020280dc() == 0) {
+    if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
         message = GetBmgEntry(gSelectKart->mKartSelectMessages, GetKartMessageIndex(gSelectKart->mKartIndex));
         parts = &gSelectKart->mSelectKartSParts;
         for (i = 8; i >= 7; i--) {

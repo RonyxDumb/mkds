@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_0202e680(const void *src, void *dst, u32 size);
+void ScrollListMI_CpuCopy16(const void *src, void *dst, u32 size);

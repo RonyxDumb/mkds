@@ -20,8 +20,8 @@ typedef struct WLMenuMessage {
 
 void WriteWLMenuMessageRegistersWrapper(void);
 void WriteWLMenuMessageRegisters(void);
-void WriteSubBg3Offset(u32 offsetX, int offsetY);
-void WriteSubDispcntBits(int bits);
+void WLMenuMessageG2S_SetBG3Offset(u32 offsetX, int offsetY);
+void WLMenuMessageGXS_SetVisiblePlane(int bits);
 void ReleaseWLMenuMessage(void);
 s32 AdvanceWLMenuMessageToMenu(u32 sceneNumbers);
 void SetNextScene(unsigned int sceneNumbers, unsigned int nextScene);

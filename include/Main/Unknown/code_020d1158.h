@@ -11,6 +11,6 @@ enum {
 };
 
 void DrawRaceStartBattle(RaceHudOamBuffer *oamBuffer);
-u16 *CupPictureGetBootInfoHalfwordPointer(void);
-u32 CupPictureIsDownloadBoot(void);
-u32 CupPictureIsDownloadBootWrapper(void);
+u16 *CupPictureMB_GetMultiBootParam(void);
+u32 CupPictureMB_IsMultiBootChild(void);
+u32 CupPictureMB_IsMultiBootChildWrapper(void);

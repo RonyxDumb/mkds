@@ -25,5 +25,5 @@ void SetSubBg2RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cn
                            u32 cntVal2);
 void SetSubBg3RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8,
                            u32 cntVal2);
-void SetMainDispcntBits(u32 bits);
-void SetSubDispcntBits(u32 bits);
+void MenuGX_SetOBJVRamModeChar(u32 bits);
+void MenuGXS_SetOBJVRamModeChar(u32 bits);

@@ -11,9 +11,9 @@ void WriteSelectGameRegisters(void) {
     int screenChanged;
     screenChanged = GetMenuScreenSwitched();
     if (screenChanged != 0) {
-        GxDispCntBits8To12Write2(0x18);
+        BattleGX_SetVisiblePlane(0x18);
         GX_SetGraphicsMode(1, 0, 0);
-        GxsDispCntBits8To12Write2(0x12);
+        BattleGXS_SetVisiblePlane(0x12);
         GXS_SetGraphicsMode(0);
     }
     WriteSelectGameMainRegisters();

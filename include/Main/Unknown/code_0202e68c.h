@@ -4,8 +4,8 @@
 
 typedef struct InputSlot InputSlot;
 
-void func_0202e68c(void *dest, u32 size);
-void func_0202e6a0(void *dest, u32 value, u32 size);
+void ScrollListMI_CpuClearFast(void *dest, u32 size);
+void ScrollListMI_CpuFillFast(void *dest, u32 value, u32 size);
 void AdvanceScrollListPick(void);
 void AdvanceScrollListScrollDown(void);
 void AdvanceScrollListScrollUp(void);

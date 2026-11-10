@@ -9,9 +9,9 @@
 #pragma thumb on
 void WriteBattleStageScreenRegisters(void) {
     if (GetMenuScreenSwitched() != 0) {
-        GxDispCntBits8To12Write2(0x1e);
+        BattleGX_SetVisiblePlane(0x1e);
         GX_SetGraphicsMode(1, 0, 0);
-        GxsDispCntBits8To12Write2(0x1f);
+        BattleGXS_SetVisiblePlane(0x1f);
         GXS_SetGraphicsMode(0);
     }
     WriteSelectBattleStageRegisters();

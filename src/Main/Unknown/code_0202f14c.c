@@ -31,11 +31,11 @@
 #include "registers.h"
 #include "Main/Unknown/code_0211d4a8.h"
 
-void func_0202f478(u32 bits) {
+void WLMenuGX_SetOBJVRamModeChar(u32 bits) {
     reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffcfffef) | bits;
 }
 
-void func_0202f454(u32 bits) {
+void WLMenuGXS_SetOBJVRamModeChar(u32 bits) {
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffcfffef) | bits;
 }
 
@@ -46,12 +46,12 @@ void InitWLMenuScene(void *heap) {
     SceneTextInitParams v1;
 
     gWLMenuScene = HeapAllocAligned(heap, 0x874, 0x20);
-    func_0202f51c(gWLMenuScene, 0x874);
+    WLMenuMI_CpuClearFast(gWLMenuScene, 0x874);
     displaySettings = CreateDisplaySettings(heap, data_02154818);
     WLMenuSetMainBg1Record(displaySettings, 0, 0, 0, 0, 0xc, 0, 0);
     WLMenuSetSubBg3RecordParams(displaySettings, 2, 0, 0, 0, 0xf, 6);
     InitDisplayFromSettings(displaySettings);
-    if (func_0202f19c() == 0) {
+    if (WLMenuMB_IsMultiBootChildWrapper() == 0) {
         v1.mUseTxtSystem = 1;
         v1.mTxtSystemFont = GetFontByIndex(1);
         v1.mUseCanvas1 = 0;
@@ -68,7 +68,7 @@ void InitWLMenuScene(void *heap) {
     InitLinkLevelIcons(heap, gWLMenuScene);
     switch (GetWLMenuKind()) {
         case 0:
-            gWLMenuScene->mRequestedCallbacksIndex = func_0202f19c() != 0 ? 4 : 0;
+            gWLMenuScene->mRequestedCallbacksIndex = WLMenuMB_IsMultiBootChildWrapper() != 0 ? 4 : 0;
             InitWLMenuResetRaceSetup(heap);
             func_02053d00();
             break;
@@ -88,12 +88,12 @@ void InitWLMenuScene(void *heap) {
     gWLMenuScene->mCurrentCallbacksIndex = gWLMenuScene->mRequestedCallbacksIndex;
     gWLMenuScene->mCurrentCallbacks = gWLMenuCallbacks[gWLMenuScene->mRequestedCallbacksIndex];
     gWLMenuScene->mHeap = CreateExpHeapFromMaxFree(heap);
-    if (func_0202f19c() == 0) {
+    if (WLMenuMB_IsMultiBootChildWrapper() == 0) {
         LoadMultiSelectFiles();
     }
     ResetOamLists(gWLMenuScene, gWLMenuScene->mSubOam);
-    func_0202f478(0x10);
-    func_0202f454(0x10);
+    WLMenuGX_SetOBJVRamModeChar(0x10);
+    WLMenuGXS_SetOBJVRamModeChar(0x10);
     gWLMenuScene->mCurrentCallbacks->mInit(gWLMenuScene->mHeap, gWLMenuScene, gWLMenuScene->mSubOam);
 }
 
@@ -116,7 +116,7 @@ void AdvanceWLMenuScene(void *a) {
         AdvanceLinkLevelIcons();
         HideUnusedOams(gWLMenuScene, gWLMenuScene->mSubOam);
     }
-    if (func_0202f19c() == 0) {
+    if (WLMenuMB_IsMultiBootChildWrapper() == 0) {
         AdvanceSceneText();
     }
 }
@@ -128,7 +128,7 @@ void AdvanceWLMenuScene(void *a) {
 void ReleaseWLMenuScene(void) {
     int v1;
     gWLMenuScene->mCurrentCallbacks->mRelease();
-    v1 = func_0202f19c();
+    v1 = WLMenuMB_IsMultiBootChildWrapper();
     if (v1 == 0) {
         ReleaseSceneText();
     }
@@ -137,23 +137,23 @@ void ReleaseWLMenuScene(void) {
 
 #pragma thumb off
 
-u16 *func_0202f1d0(void) {
+u16 *WLMenuMB_GetMultiBootParam(void) {
     return &gBootInfo->mUnk_00;
 }
 
-u32 func_0202f1a8(void) {
-    return *func_0202f1d0() == 2;
+u32 WLMenuMB_IsMultiBootChild(void) {
+    return *WLMenuMB_GetMultiBootParam() == 2;
 }
 
-u32 func_0202f19c(void) {
-    return func_0202f1a8();
+u32 WLMenuMB_IsMultiBootChildWrapper(void) {
+    return WLMenuMB_IsMultiBootChild();
 }
 
 #pragma thumb on
 
 void WriteWLMenuSceneRegisters(void) {
     int v1;
-    v1 = func_0202f19c();
+    v1 = WLMenuMB_IsMultiBootChildWrapper();
     if (v1 == 0) {
         WriteSceneTextRegisters();
     }

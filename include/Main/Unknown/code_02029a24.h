@@ -3,6 +3,6 @@
 #include "types.h"
 
 unsigned int RaceSetupCopyGetConnectionKind(void);
-void func_02029a38(void *destination, u32 size);
-void func_02029a4c(void *destination, u32 value, u32 size);
+void RaceSetupCopyMI_CpuClearFast(void *destination, u32 size);
+void RaceSetupCopyMI_CpuFillFast(void *destination, u32 value, u32 size);
 void CreateRaceSetupCopy(void *heap);

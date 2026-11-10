@@ -245,11 +245,11 @@ void AdvanceScrollListPick(void) {
 
 #pragma thumb off
 
-void func_0202e6a0(void *dest, u32 value, u32 size) {
+void ScrollListMI_CpuFillFast(void *dest, u32 value, u32 size) {
     volatile u32 valueCopy = value;
     MIi_CpuClearFast(valueCopy, dest, size);
 }
 
-void func_0202e68c(void *dest, u32 size) {
-    func_0202e6a0(dest, 0, size);
+void ScrollListMI_CpuClearFast(void *dest, u32 size) {
+    ScrollListMI_CpuFillFast(dest, 0, size);
 }

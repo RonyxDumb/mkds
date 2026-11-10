@@ -80,10 +80,10 @@ int AdvanceSelectKart(void) {
     AdvanceInterpolation(&gSelectKart->mInterpolations[3]);
     AdvanceInterpolation(&gSelectKart->mInterpolations[4]);
     SetSelectKartGpMPartsOffsets();
-    if (func_020280dc() == 0) {
+    if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
         AdvancePaletteBlend();
     }
-    if (func_020280dc() == 0) {
+    if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
         gSelectKart->mTouchRect = UpdateSelectKartTouchHold();
     } else {
         gSelectKart->mTouchRect = -1;
@@ -93,7 +93,7 @@ int AdvanceSelectKart(void) {
         case 0:
             if (d->mInterpolations[4].mState == 1) {
                 d->mStateFrames = 0;
-                if (func_020280dc() != 0) {
+                if (SelectKartMB_IsMultiBootChildWrapper() != 0) {
                     v = 1;
                 } else {
                     v = 2;
@@ -221,7 +221,7 @@ int AdvanceSelectKart(void) {
                 } else {
                     StartSelectKartEntryListKindIfUsed(2);
                 }
-                if (func_020280dc() == 0) {
+                if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
                     StartKartModelMenuBg0Decrease();
                 } else {
                     SlideOutSelectRaceRuleWait();
@@ -241,7 +241,7 @@ int AdvanceSelectKart(void) {
             r = d->mResult;
             break;
     }
-    if (func_020280dc() == 0) {
+    if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
         RequestKartModelMenuCharacter(gSelectKart->mCharacterIndex);
         RequestKartModelMenuKart(gSelectKart->mKartIndex);
         AdvanceKartModelMenu(GetRaceSetupCopy()->mMirrorMode);
@@ -253,7 +253,7 @@ int AdvanceSelectKart(void) {
     } else {
         DrawLayoutTable(q->mCellLayout, q->mCells, NULL, d->mUnk_080, q->mCellTable);
     }
-    if (func_020280dc() == 0) {
+    if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
         d = gSelectKart;
         if (d->mState != 8) {
             DrawLayoutTable(p->mCellLayout, p->mCells, p->mLabelLayout, d->mUnk_084, p->mCellTable);

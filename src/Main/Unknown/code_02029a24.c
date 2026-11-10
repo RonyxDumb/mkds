@@ -19,13 +19,13 @@ void CreateRaceSetupCopy(void *heap) {
 
 #pragma thumb off
 
-void func_02029a4c(void *destination, u32 value, u32 size) {
+void RaceSetupCopyMI_CpuFillFast(void *destination, u32 value, u32 size) {
     volatile u32 valueCopy = value;
     MIi_CpuClearFast(valueCopy, destination, size);
 }
 
-void func_02029a38(void *destination, u32 size) {
-    func_02029a4c(destination, 0, size);
+void RaceSetupCopyMI_CpuClearFast(void *destination, u32 size) {
+    RaceSetupCopyMI_CpuFillFast(destination, 0, size);
 }
 
 u32 RaceSetupCopyGetConnectionKind(void) {

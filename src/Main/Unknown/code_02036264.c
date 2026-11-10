@@ -49,7 +49,7 @@ void SetupWLMenuMBChildMessage(void *heap) {
     }
     DC_StoreRange(gWLMenuMessage->mScreenMap, 0x600);
     GXS_LoadBG3Scr(gWLMenuMessage->mScreenMap, 0, 0x600);
-    func_02036264(gWLMenuMessage->mScreenMap, 0x600);
+    WLMenuMessageMI_CpuClearFast(gWLMenuMessage->mScreenMap, 0x600);
     for (row = 10; row < 14; row++) {
         for (column = 0; column < 0x20; column++) {
             gWLMenuMessage->mScreenMap[column + row * 0x20] = column + (row - 10) * 0x20 + 0x20;
@@ -74,11 +74,11 @@ u32 WLMenuDrawTextOnCanvas(TextCanvas *textCanvas, s32 textX, s32 textY, u32 col
     return NNSi_G2dTextCanvasDrawText(textCanvas, textX, textY, color, flags, text);
 }
 
-void func_02036278(void *dest, u32 fillValue, u32 size) {
+void WLMenuMessageMI_CpuFillFast(void *dest, u32 fillValue, u32 size) {
     volatile u32 fillData = fillValue;
     MIi_CpuClearFast(fillData, dest, size);
 }
 
-void func_02036264(void *dest, u32 size) {
-    func_02036278(dest, 0, size);
+void WLMenuMessageMI_CpuClearFast(void *dest, u32 size) {
+    WLMenuMessageMI_CpuFillFast(dest, 0, size);
 }

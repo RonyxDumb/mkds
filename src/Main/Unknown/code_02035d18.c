@@ -197,19 +197,19 @@ void ReleaseWLMenuMessage(void) {
 
 #pragma thumb off
 
-void WriteSubDispcntBits(int bits) {
+void WLMenuMessageGXS_SetVisiblePlane(int bits) {
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | (bits << 8);
 }
 
-void WriteSubBg3Offset(u32 offsetX, int offsetY) {
+void WLMenuMessageG2S_SetBG3Offset(u32 offsetX, int offsetY) {
     reg_G2S_DB_BG3OFS = (offsetX & 0x1ff) | ((offsetY << 16) & 0x01ff0000);
 }
 
 #pragma thumb on
 
 void WriteWLMenuMessageRegisters(void) {
-    WriteSubDispcntBits(10);
-    WriteSubBg3Offset(-gWLMenuMessage->mBg3Offset, 0);
+    WLMenuMessageGXS_SetVisiblePlane(10);
+    WLMenuMessageG2S_SetBG3Offset(-gWLMenuMessage->mBg3Offset, 0);
 }
 
 #pragma thumb off

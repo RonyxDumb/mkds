@@ -21,7 +21,7 @@ u32 GetSubDispcntBits(void) {
     return (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
 }
 
-u32 EmblemChoisesWriteSubDispcntBits(u32 bits) {
+u32 EmblemChoisesGXS_SetVisiblePlane(u32 bits) {
     u32 value0 = bits;
     u32 registerValue;
     registerValue = reg_GXS_DB_DISPCNT;

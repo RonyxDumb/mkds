@@ -19,7 +19,7 @@ void ReleaseMenu(void) {
         gMenuScene->mScreenNumber = 0x1f;
         ReleasePreviousMenuScreen();
     }
-    if (IsDownloadBootWrapper() == 0) {
+    if (MenuMB_IsMultiBootChildWrapper() == 0) {
         ClearCupPicturePointer();
         ClearGhostRecordSetPointer();
     }

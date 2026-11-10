@@ -12,7 +12,7 @@ void InitCupPicture(void) {
     int result;
     CupPicture *cupPicture;
     u32 heap;
-    result = CupPictureIsDownloadBootWrapper();
+    result = CupPictureMB_IsMultiBootChildWrapper();
     if (result == 0) {
         heap = CupPictureGetCurrentHeap();
         cupPicture = HeapAlloc((void *) heap, (0x0000185cu));

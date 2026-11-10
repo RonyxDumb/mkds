@@ -5,10 +5,10 @@
 typedef struct InputSlot InputSlot;
 typedef struct InputSlotPair InputSlotPair;
 
-void func_0203033c(u32 lowBits, u32 extraBitFlag);
-void func_02030364(u32 lowBits, u32 extraBitFlag);
+void MultiSelectNSG2S_SetWndOutsidePlane(u32 lowBits, u32 extraBitFlag);
+void MultiSelectNSG2S_SetWnd0InsidePlane(u32 lowBits, u32 extraBitFlag);
 void MultiSelectNSWriteSubWinEnableBits(u32 bits);
-void func_020303a8(u32 bits);
+void MultiSelectNSGXS_SetVisiblePlane(u32 bits);
 void ReleaseMultiSelectNS(void);
 s32 AdvanceMultiSelectNS(void);
 void MultiSelectNSStartSeqArcWrapper(u32 index);

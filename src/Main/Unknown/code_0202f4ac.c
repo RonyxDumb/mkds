@@ -5,14 +5,14 @@
 #include "Main/Unknown/code_0214d000.h"
 #include "code_0214d018.h"
 
-void func_0202f530(void *dest, u32 fillValue, u32 size) {
+void WLMenuMI_CpuFillFast(void *dest, u32 fillValue, u32 size) {
     volatile u32 value = fillValue;
 
     MIi_CpuClearFast(value, dest, size);
 }
 
-void func_0202f51c(void *dest, u32 size) {
-    func_0202f530(dest, 0, size);
+void WLMenuMI_CpuClearFast(void *dest, u32 size) {
+    WLMenuMI_CpuFillFast(dest, 0, size);
 }
 
 void WLMenuSetMainBg1Record(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7,

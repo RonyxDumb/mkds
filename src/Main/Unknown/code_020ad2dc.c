@@ -74,11 +74,11 @@ void TitleSetSubBg3RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u
     SetBg3RecordParams(&displaySettings->mSubBgRecords, cntLow2, cntBit6, cntVal14, e, cntVal8, cntVal2);
 }
 
-void TitleSetMainDispcntBits(u32 bits) {
+void TitleGX_SetOBJVRamModeChar(u32 bits) {
     reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffcfffef) | bits;
 }
 
-void TitleSetSubDispcntBits(u32 bits) {
+void TitleGXS_SetOBJVRamModeChar(u32 bits) {
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffcfffef) | bits;
 }
 
@@ -193,8 +193,8 @@ void CreateTitleScene(void) {
     GXS_LoadBG3Scr(gTitleScene->mTitleSBgNscr->mData, 0, 0x800);
     GXS_LoadOBJPltt(gTitleScene->mTitleSONclr->mData, 0, gTitleScene->mTitleSONclr->mDataSize);
     GXS_LoadOBJ(gTitleScene->mTitleSNceNcgr->mData, 0, gTitleScene->mTitleSNceNcgr->mDataSize);
-    TitleSetMainDispcntBits(0x10);
-    TitleSetSubDispcntBits(0x10);
+    TitleGX_SetOBJVRamModeChar(0x10);
+    TitleGXS_SetOBJVRamModeChar(0x10);
     TitleWriteMainBlendAlpha(4, 8, 0, 0x10);
     TitleWriteSubBlendAlpha(0, 0x3f, 6, 10);
     WriteMainWinEnableBits(0);

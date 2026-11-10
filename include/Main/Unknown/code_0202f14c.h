@@ -37,11 +37,11 @@ typedef struct WLMenuScene {
 
 WLMenuScanSlotPick *GetWLMenuSceneScanSlotPick(void);
 void WriteWLMenuSceneRegisters(void);
-u32 func_0202f19c(void);
-u32 func_0202f1a8(void);
-u16 *func_0202f1d0(void);
+u32 WLMenuMB_IsMultiBootChildWrapper(void);
+u32 WLMenuMB_IsMultiBootChild(void);
+u16 *WLMenuMB_GetMultiBootParam(void);
 void ReleaseWLMenuScene(void);
 void AdvanceWLMenuScene(void *a);
 void InitWLMenuScene(void *heap);
-void func_0202f454(u32 bits);
-void func_0202f478(u32 bits);
+void WLMenuGXS_SetOBJVRamModeChar(u32 bits);
+void WLMenuGX_SetOBJVRamModeChar(u32 bits);

@@ -49,7 +49,7 @@ void InitSelectKart(void *a, s32 b, void *c, void *d) {
     void *w;
     h = CreateFrmHeapFromMaxFree(a);
     gSelectKart = HeapAlloc(h, 0x118);
-    func_02028e00(gSelectKart, 0x118);
+    SelectKartMI_CpuClearFast(gSelectKart, 0x118);
     gSelectKart->mHeap = h;
     gSelectKart->mMode = b;
     gSelectKart->mTouchRect = -1;
@@ -61,7 +61,7 @@ void InitSelectKart(void *a, s32 b, void *c, void *d) {
         case 0:
             SetupInterpolation(&gSelectKart->mInterpolations[0], 0, 10, -0x80, 0);
             SetupInterpolation(&gSelectKart->mInterpolations[2], 0, 10, 0x60, 0);
-            if (func_020280dc() == 0) {
+            if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
                 StartKartModelMenuBg0Increase();
                 func_02077f48(0);
             }
@@ -103,7 +103,7 @@ void InitSelectKart(void *a, s32 b, void *c, void *d) {
             gSelectKart->mEntryIndex = GetRaceSetupCopyEntryIndex();
             break;
     }
-    if (func_020280dc() == 0) {
+    if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
         gSelectKart->mKartSelectMessages = FindFileInLoadedArchives(gKartSelectBmgName);
         gSelectKart->mKartAppear = CreateKartAppear(gSelectKart->mHeap);
     }
@@ -120,7 +120,7 @@ void InitSelectKart(void *a, s32 b, void *c, void *d) {
     GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartIndex = -1;
     GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartStored = 0;
     gSelectKart->mKartTableIndex = FindKartTableIndex(gSelectKart->mKartIndex);
-    if (func_020280dc() == 0) {
+    if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
         g = gSelectKart;
         if (g->mEntryListUsed == FALSE) {
             p = &g->mSelectCharacterGpMParts;
@@ -139,11 +139,11 @@ void InitSelectKart(void *a, s32 b, void *c, void *d) {
                            p->mCells, p->mCellLayout);
         }
     }
-    if (func_020280dc() == 0) {
+    if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
         LocateAndQueueScreenMapFileSet(1, &gSelectKart->mSelectKartSBParts, gSelectKartSBNcgrName,
                                        gSelectKartSBNclrName, gSelectKartSNscrName, 3, FindFileInLoadedArchives);
     }
-    if (func_020280dc() == 0) {
+    if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
         n = GX_GetSizeOfSubOBJ();
         p = &gSelectKart->mSelectKartSParts;
         LocateCellFileSet(p, gSelectKartSNcgrName, gSelectKartSNcerName, gSelectKartSONclrName, gSelectKartSBnclName,
@@ -172,7 +172,7 @@ void InitSelectKart(void *a, s32 b, void *c, void *d) {
     RefreshKartMenuParamElements();
     SetSelectKartPositionDigits();
     PrintSelectKartMessage();
-    if (func_020280dc() == 0) {
+    if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
         RequestSelectReturnState1();
     }
     if (SelectKartGetConnectionKind() == 2) {

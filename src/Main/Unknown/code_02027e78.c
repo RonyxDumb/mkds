@@ -20,19 +20,19 @@ u32 SelectKartGetConnectionKind(void) {
     return (data_021759d0->mConnectionKind);
 }
 
-u16 *func_02028110(void) {
+u16 *SelectKartMB_GetMultiBootParam(void) {
     return &gBootInfo->mUnk_00;
 }
 
-u32 func_020280e8(void) {
-    if (*func_02028110() == 2) {
+u32 SelectKartMB_IsMultiBootChild(void) {
+    if (*SelectKartMB_GetMultiBootParam() == 2) {
         return 1;
     }
     return 0;
 }
 
-u32 func_020280dc(void) {
-    return func_020280e8();
+u32 SelectKartMB_IsMultiBootChildWrapper(void) {
+    return SelectKartMB_IsMultiBootChild();
 }
 
 #pragma thumb on
@@ -42,7 +42,7 @@ void ReleaseSelectKart(void) {
     if ((gSelectKart->mResult == 1) && (result = SelectKartGetConnectionKind(), result == 2)) {
         ClearSelectReturnDisplayBitOn();
     }
-    result = func_020280dc();
+    result = SelectKartMB_IsMultiBootChildWrapper();
     if (result == 0) {
         ClearPaletteBlendPointer();
     } else {
@@ -54,19 +54,19 @@ void ReleaseSelectKart(void) {
 
 #pragma thumb off
 
-u32 func_02028074(u32 bits) {
+u32 SelectKartGX_SetVisiblePlane(u32 bits) {
     u32 value = (reg_GX_DISPCNT & ~0x1f00) | (bits << 8);
     reg_GX_DISPCNT = value;
     return value;
 }
 
-u32 func_02028058(u32 bits) {
+u32 SelectKartGXS_SetVisiblePlane(u32 bits) {
     u32 value = (reg_GXS_DB_DISPCNT & ~0x1f00) | (bits << 8);
     reg_GXS_DB_DISPCNT = value;
     return value;
 }
 
-void func_0202802c(u32 offsetX, u32 offsetY) {
+void SelectKartG2S_SetBG3Offset(u32 offsetX, u32 offsetY) {
     reg_G2S_DB_BG3OFS = (offsetX & 0x1ff) | ((offsetY << 16) & 0x1ff0000);
 }
 
@@ -84,7 +84,7 @@ u32 WriteSubWinEnableBits(u32 bits) {
     return value;
 }
 
-void WriteSubWinInBits(u32 lowBits, u32 extraBitFlag) {
+void SelectKartG2S_SetWnd0InsidePlane(u32 lowBits, u32 extraBitFlag) {
     u32 value = (reg_G2S_DB_WININ & ~0x3f) | lowBits;
     if (extraBitFlag != 0) {
         value |= 0x20;
@@ -92,7 +92,7 @@ void WriteSubWinInBits(u32 lowBits, u32 extraBitFlag) {
     reg_G2S_DB_WININ = value;
 }
 
-void WriteSubWinOutBits(u32 lowBits, u32 extraBitFlag) {
+void SelectKartG2S_SetWndOutsidePlane(u32 lowBits, u32 extraBitFlag) {
     u32 value = (reg_G2S_DB_WINOUT & ~0x3f) | lowBits;
     if (extraBitFlag != 0) {
         value |= 0x20;
@@ -100,7 +100,7 @@ void WriteSubWinOutBits(u32 lowBits, u32 extraBitFlag) {
     reg_G2S_DB_WINOUT = value;
 }
 
-void WriteSubWin0HV(u32 startX, u32 startY, u32 endX, u32 endY) {
+void SelectKartG2S_SetWnd0Position(u32 startX, u32 startY, u32 endX, u32 endY) {
     reg_G2S_DB_WIN0H = ((startX << 8) & 0xff00) | (endX & 0xff);
     reg_G2S_DB_WIN0V = ((startY << 8) & 0xff00) | (endY & 0xff);
 }
@@ -113,16 +113,16 @@ void WriteSelectKartRegisters(void) {
     if (gSelectKart->mState != 8) {
         displayBits |= 8;
     }
-    func_02028074(0x19);
-    func_02028058(displayBits);
-    func_0202802c(0, -interpolatedValue);
+    SelectKartGX_SetVisiblePlane(0x19);
+    SelectKartGXS_SetVisiblePlane(displayBits);
+    SelectKartG2S_SetBG3Offset(0, -interpolatedValue);
     WriteSubBg3CntBits(2);
     WriteSubBlendAlpha(0, 0x3f, 6, 10);
     if (interpolatedValue != 0 && gSelectKart->mState != 8) {
         WriteSubWinEnableBits(1);
-        WriteSubWinInBits(0x1f, 1);
-        WriteSubWinOutBits(7, 1);
-        WriteSubWin0HV(0, 0, 0xff, interpolatedValue + 0xc0);
+        SelectKartG2S_SetWnd0InsidePlane(0x1f, 1);
+        SelectKartG2S_SetWndOutsidePlane(7, 1);
+        SelectKartG2S_SetWnd0Position(0, 0, 0xff, interpolatedValue + 0xc0);
     } else {
         WriteSubWinEnableBits(0);
     }

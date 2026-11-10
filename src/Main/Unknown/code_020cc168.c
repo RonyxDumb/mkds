@@ -103,7 +103,7 @@ void CopyMenuScreenCallbacks(void) {
 }
 
 void WriteMenuSceneRegisters(void) {
-    if (IsDownloadBootWrapper() == 0) {
+    if (MenuMB_IsMultiBootChildWrapper() == 0) {
         AdvanceKartModelMenuLoad();
     }
     gMenuScene->mScreenCallbacks[gMenuScene->mScreenNumber].mWriteRegisters();
@@ -153,10 +153,10 @@ void SetSubBg3RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cn
     SetBg3RecordParams(&displaySettings->mSubBgRecords, cntLow2, cntBit6, cntVal14, e, cntVal8, cntVal2);
 }
 
-void SetMainDispcntBits(u32 bits) {
+void MenuGX_SetOBJVRamModeChar(u32 bits) {
     reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffcfffef) | bits;
 }
 
-void SetSubDispcntBits(u32 bits) {
+void MenuGXS_SetOBJVRamModeChar(u32 bits) {
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffcfffef) | bits;
 }

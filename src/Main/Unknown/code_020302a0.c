@@ -6,7 +6,7 @@
 
 #pragma optimize_for_size on
 
-void func_020302f0(u32 startX, u32 startY, u32 endX, u32 endY) {
+void MultiSelectNSG2S_SetWnd0Position(u32 startX, u32 startY, u32 endX, u32 endY) {
     reg_G2S_DB_WIN0H = ((startX << 8) & 0xff00) | (endX & 0xff);
     reg_G2S_DB_WIN0V = ((startY << 8) & 0xff00) | (endY & 0xff);
 }
@@ -16,13 +16,13 @@ void func_020302f0(u32 startX, u32 startY, u32 endX, u32 endY) {
 void WriteMultiSelectNSRegisters(void) {
     MultiSelectNS *multiSelectNS;
 
-    func_020303a8(0x16);
+    MultiSelectNSGXS_SetVisiblePlane(0x16);
     multiSelectNS = gMultiSelectNS;
     if (multiSelectNS->mOffset != 0) {
         MultiSelectNSWriteSubWinEnableBits(1);
-        func_02030364(0x1f, 1);
-        func_0203033c(7, 1);
-        func_020302f0(0, 0, 0xff, gMultiSelectNS->mOffset + 0xc0);
+        MultiSelectNSG2S_SetWnd0InsidePlane(0x1f, 1);
+        MultiSelectNSG2S_SetWndOutsidePlane(7, 1);
+        MultiSelectNSG2S_SetWnd0Position(0, 0, 0xff, gMultiSelectNS->mOffset + 0xc0);
     } else {
         MultiSelectNSWriteSubWinEnableBits(0);
     }

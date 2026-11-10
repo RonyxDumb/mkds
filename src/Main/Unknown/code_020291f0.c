@@ -28,7 +28,7 @@ void SetSelectKartPositionDigits(void) {
     s32 kartCount;
     SelectKart *selectKart;
     CellFileSet *gpMParts;
-    if (func_020280dc() == 0) {
+    if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
         selectKart = gSelectKart;
         kartPosition = GetKartPositionWithinAppearLimit(selectKart->mKartAppear, selectKart->mCharacterIndex,
                                                         selectKart->mKartIndex);

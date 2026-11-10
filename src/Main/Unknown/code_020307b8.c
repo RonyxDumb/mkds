@@ -78,13 +78,13 @@ void RefreshMultiSelectNS(s32 showSelected) {
 
 #pragma thumb off
 
-void func_02030930(void *destination, u32 value, u32 size) {
+void MultiSelectNSMI_CpuFillFast(void *destination, u32 value, u32 size) {
     volatile u32 valueCopy = value;
     MIi_CpuClearFast(valueCopy, destination, size);
 }
 
-void func_0203091c(void *destination, u32 size) {
-    func_02030930(destination, 0, size);
+void MultiSelectNSMI_CpuClearFast(void *destination, u32 size) {
+    MultiSelectNSMI_CpuFillFast(destination, 0, size);
 }
 
 #pragma thumb on
@@ -99,7 +99,7 @@ void InitMultiSelectNS(void *parentHeap, void *scene, void *oamList) {
 
     heap = CreateFrmHeapFromMaxFree(parentHeap);
     gMultiSelectNS = HeapAlloc(heap, 0x40);
-    func_0203091c(gMultiSelectNS, 0x40);
+    MultiSelectNSMI_CpuClearFast(gMultiSelectNS, 0x40);
     gMultiSelectNS->mHeap = heap;
     gMultiSelectNS->mUnk_1c = scene;
     gMultiSelectNS->mOamList = oamList;

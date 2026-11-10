@@ -6,26 +6,26 @@
 #include "Main/Unknown/code_0211d4a8.h"
 
 #pragma optimize_for_size on
-u16 *func_02029a18(void) {
+u16 *RaceSetupCopyMB_GetMultiBootParam(void) {
     return &gBootInfo->mUnk_00;
 }
 
-u32 func_020299f0(void) {
-    if (*func_02029a18() == 2) {
+u32 RaceSetupCopyMB_IsMultiBootChild(void) {
+    if (*RaceSetupCopyMB_GetMultiBootParam() == 2) {
         return 1;
     }
     return 0;
 }
 
-u32 func_020299e4(void) {
-    return func_020299f0();
+u32 RaceSetupCopyMB_IsMultiBootChildWrapper(void) {
+    return RaceSetupCopyMB_IsMultiBootChild();
 }
 
 #pragma thumb on
 
 void ResetRaceSetupCopy(void) {
     s32 entryIndex;
-    func_02029a38(gRaceSetupCopy, 0x110);
+    RaceSetupCopyMI_CpuClearFast(gRaceSetupCopy, 0x110);
     for (entryIndex = 0; entryIndex < 8; entryIndex++) {
         gRaceSetupCopy->mEntries[entryIndex].mCharacterIndex = -1;
         gRaceSetupCopy->mEntries[entryIndex].mKartIndex = -1;
@@ -36,7 +36,7 @@ void ResetRaceSetupCopy(void) {
     gRaceSetupCopy->mMissionTableRow = 1;
     gRaceSetupCopy->mMissionTableColumn = 1;
     if (RaceSetupCopyGetConnectionKind() == 0) {
-        if (func_020299e4() == 0) {
+        if (RaceSetupCopyMB_IsMultiBootChildWrapper() == 0) {
             gRaceSetupCopy->mMissionFile = FindSceneFile(data_usa_0216212c);
         } else {
             gRaceSetupCopy->mMissionFile = NULL;

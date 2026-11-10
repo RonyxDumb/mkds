@@ -21,11 +21,11 @@ void DrawEmblemChoises(void) {
     }
     if (gEmblemChoises->mShown != gEmblemChoises->mDrawnShown) {
         if (gEmblemChoises->mShown != 0) {
-            EmblemChoisesWriteSubDispcntBits(GetSubDispcntBits() | 1);
+            EmblemChoisesGXS_SetVisiblePlane(GetSubDispcntBits() | 1);
             EmblemChoisesWriteSubBg0Offset(0, 0);
             WriteSubBlendBrightness(0x3e, 0x3f, 8, 8, -7);
         } else {
-            EmblemChoisesWriteSubDispcntBits(GetSubDispcntBits() & ~1);
+            EmblemChoisesGXS_SetVisiblePlane(GetSubDispcntBits() & ~1);
             if (gEmblemChoises->mHideCallback != NULL) {
                 gEmblemChoises->mHideCallback();
             } else {

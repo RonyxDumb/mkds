@@ -31,7 +31,7 @@ void RefreshKartMenuParamElements(void) {
     int result;
     CellFileSet *parts;
     short *params;
-    result = func_020280dc();
+    result = SelectKartMB_IsMultiBootChildWrapper();
     if (result == 0) {
         params = ComputeKartMenuParams(gSelectKart->mKartIndex, gSelectKart->mCharacterIndex);
         parts = &gSelectKart->mSelectKartSParts;
@@ -46,13 +46,13 @@ void RefreshKartMenuParamElements(void) {
 
 #pragma thumb off
 
-void func_02028e14(void *destination, u32 value, u32 size) {
+void SelectKartMI_CpuFillFast(void *destination, u32 value, u32 size) {
     volatile u32 valueCopy = value;
     MIi_CpuClearFast(valueCopy, destination, size);
 }
 
-void func_02028e00(void *destination, u32 size) {
-    func_02028e14(destination, 0, size);
+void SelectKartMI_CpuClearFast(void *destination, u32 size) {
+    SelectKartMI_CpuFillFast(destination, 0, size);
 }
 
 u16 GetOwnIndexOrZero(void) {

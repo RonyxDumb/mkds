@@ -185,7 +185,7 @@ void ReleaseMultiSelectNS(void) {
 
 #pragma thumb off
 
-void func_020303a8(u32 bits) {
+void MultiSelectNSGXS_SetVisiblePlane(u32 bits) {
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | (bits << 8);
 }
 
@@ -193,7 +193,7 @@ void MultiSelectNSWriteSubWinEnableBits(u32 bits) {
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0xe000) | (bits << 13);
 }
 
-void func_02030364(u32 lowBits, u32 extraBitFlag) {
+void MultiSelectNSG2S_SetWnd0InsidePlane(u32 lowBits, u32 extraBitFlag) {
     u32 value = (reg_G2S_DB_WININ & ~0x3f) | lowBits;
 
     if (extraBitFlag != 0) {
@@ -202,7 +202,7 @@ void func_02030364(u32 lowBits, u32 extraBitFlag) {
     reg_G2S_DB_WININ = value;
 }
 
-void func_0203033c(u32 lowBits, u32 extraBitFlag) {
+void MultiSelectNSG2S_SetWndOutsidePlane(u32 lowBits, u32 extraBitFlag) {
     u32 value = (reg_G2S_DB_WINOUT & ~0x3f) | lowBits;
 
     if (extraBitFlag != 0) {

@@ -19,7 +19,7 @@ void InitWLMenuMessage(void *heap) {
     frameHeap = CreateFrmHeapFromMaxFree(heap);
     object = ((u32) HeapAlloc(frameHeap, (0x00000654u)));
     *(s32 *) &gWLMenuMessage = object;
-    func_02036264((void *) object, (0x00000654u));
+    WLMenuMessageMI_CpuClearFast((void *) object, (0x00000654u));
     gWLMenuMessage->mHeap = frameHeap;
     SetSubBg1Cnt(0, 0, 0x10, 0, 0);
     chars = GetDownloadScreenFiles()->mMultiDownloadChars;
