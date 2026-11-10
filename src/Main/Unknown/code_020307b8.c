@@ -31,7 +31,8 @@ void SetMultiSelectNSCellTableOffsetY(void) {
     s32 entryCount;
 
     multiSelectNS = gMultiSelectNS;
-    entryCount = func_02030a18(multiSelectNS->mBncl) + func_02030a10(multiSelectNS->mBnll);
+    entryCount =
+        MultiSelectNSGetCellLayoutCount(multiSelectNS->mBncl) + MultiSelectNSGetLabelLayoutCount(multiSelectNS->mBnll);
     for (i = 0; i < entryCount; i++) {
         multiSelectNS->mCellTable[i].mOffsetY = gMultiSelectNS->mOffset;
     }

@@ -502,7 +502,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
     AdvanceSceneText();
 }
 
-void func_02032ab0(void) {
+void ReleaseResultsBattle(void) {
     data_0217b488->mRaceSetupRequested = 1;
     ReleaseSceneText();
 }

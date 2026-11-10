@@ -110,8 +110,8 @@ extern s16 data_0215404c[][4];
 extern LabelMessageRow data_usa_02153d64[];
 extern LabelMessageRow data_usa_02153d7c[];
 extern LabelMessageRow data_usa_02153d88[];
-extern u16 data_usa_02153d44[][2];
-extern u16 data_usa_02153d46[][2];
+extern u16 gMultiSelectMemberCycleCells[][2];
+extern u16 gMultiSelectMemberCycleFrameLimits[][2];
 extern u16 gMultiSelectMemberCountCellIndices[];
 extern s16 data_usa_02153dbc[];
 

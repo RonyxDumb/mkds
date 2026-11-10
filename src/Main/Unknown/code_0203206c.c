@@ -35,7 +35,7 @@
 
 #pragma thumb on
 
-void func_02032a20(void) {
+void WriteSelectGameRowToRaceSetupCopy(void) {
     BOOL battleKind;
 
     if (gSelectGame->mMode == 0) {
@@ -295,13 +295,13 @@ s32 AdvanceSelectGame(void) {
             }
             if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0) {
                 SetSelectGameSelectedRowVisible(0);
-                func_02032a20();
+                WriteSelectGameRowToRaceSetupCopy();
             } else if (d >= 0) {
                 for (i = 0; i < gSelectGame->mTableCount; i++) {
                     if (d == gSelectGame->mTable[i].mRectEntryId) {
                         SetSelectGameSelectedRowVisible(gSelectGame->mSelectedIndex != i ? 1 : 0);
                         gSelectGame->mSelectedIndex = i;
-                        func_02032a20();
+                        WriteSelectGameRowToRaceSetupCopy();
                         break;
                     }
                 }
@@ -422,7 +422,7 @@ void ReleaseSelectGame(void) {
     gSelectGame = NULL;
 }
 
-void func_02032138(void) {
+void WriteSelectGameMainRegisters(void) {
     u32 displayBits;
     u32 bgControlBits;
     s32 windowEndY;

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int func_020307b0(const void *record);
+unsigned int MultiSelectNSGetPairHasPair(const void *pair);

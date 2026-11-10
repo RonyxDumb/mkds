@@ -66,7 +66,7 @@ void ReleaseResultsByMode(void) {
     if (gResultScene->mMode == 0) {
         ReleaseSceneTextWrapper();
     } else {
-        func_02032ab0();
+        ReleaseResultsBattle();
     }
     ClearLinkLevelIconsPointer();
 }
@@ -75,7 +75,7 @@ void WriteResultsByMode(void) {
     if (gResultScene->mMode == 0) {
         WriteSceneTextRegistersWrapper();
     } else {
-        func_02032aa8();
+        ResultsBattleWriteSceneTextRegistersWrapper();
     }
     UploadOamLists(gResultScene, gResultScene->mSubOam);
 }

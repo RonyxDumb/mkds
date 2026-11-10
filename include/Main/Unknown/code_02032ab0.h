@@ -4,6 +4,6 @@
 
 typedef struct SceneNumbers SceneNumbers;
 
-void func_02032ab0(void);
+void ReleaseResultsBattle(void);
 void AdvanceResultsBattle(SceneNumbers *sceneNumbers);
 void InitResultsBattle(void *heap, s32 b, s32 c);

@@ -104,7 +104,7 @@ s32 AdvanceMultiSelectNS(void) {
         case 1:
             touchInReturnRect = 0;
             b = -1;
-            if (func_02030708(slotIndex) != 0) {
+            if (MultiSelectNSIsSlotPairNew(slotIndex) != 0) {
                 b = MultiSelectNSGetSlotPairX(slotIndex);
                 pairY = MultiSelectNSGetSlotPairY(slotIndex);
                 touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(b, pairY);

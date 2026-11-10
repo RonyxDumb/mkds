@@ -2,8 +2,8 @@
 #include "Main/Unknown/code_021258f0.h"
 
 #pragma thumb on
-void func_02032aa8(void) {
-    u32 value3;
+void ResultsBattleWriteSceneTextRegistersWrapper(void) {
+    u32 unused;
     WriteSceneTextRegisters();
 }
 #pragma thumb off

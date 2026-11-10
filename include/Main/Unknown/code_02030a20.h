@@ -23,16 +23,16 @@ typedef struct MultiSelectMember {
     /* 60 */ void *mSubOam;
     /* 64 */ Bmg *mBannerMessages;
     /* 68 */ Bmg *mCommonMessages;
-    /* 6c */ s32 mUnk_6c;
-    /* 70 */ s32 mUnk_70;
+    /* 6c */ s32 mResult;
+    /* 70 */ s32 mSetupState;
     /* 74 */ s32 mChildCount;
-    /* 78 */ BOOL mUnk_78;
-    /* 7c */ BOOL mUnk_7c;
-    /* 80 */ BOOL mUnk_80;
+    /* 78 */ BOOL mStartPending;
+    /* 7c */ BOOL mReturnPending;
+    /* 80 */ BOOL mNameLabelDone;
     /* 84 */ s32 mUnk_84;
     /* 88 */ BOOL mUnk_88;
-    /* 8c */ BOOL mUnk_8c;
-    /* 90 */ s32 mUnk_90;
+    /* 8c */ BOOL mConnectionNamesDone;
+    /* 90 */ s32 mStarted;
     /* 94 */ s32 mState;
     /* 98 */ s32 mState2Frames;
     /* 9c */ s32 mTimer;
@@ -40,12 +40,12 @@ typedef struct MultiSelectMember {
     /* e0 */ MultiSelectMemberRow mRows[8];
     /* 140 */ s32 mCycleIndex;
     /* 144 */ s32 mCycleFrames;
-    /* 148 */ BOOL mUnk_148;
-    /* 14c */ s32 mUnk_14c;
+    /* 148 */ BOOL mSeqZeroLoopStartPending;
+    /* 14c */ s32 mSeqZeroLoopStartFrames;
     /* 150 */ void *mHeap;
 } MultiSelectMember;
 
-// Object whose u16 at 4 func_02030b18 and func_02030ea4 set.
+// Object whose u16 at 4 AdvanceMultiSelectMemberNoKeyStart and AdvanceMultiSelectMemberKeyStart set.
 typedef struct Unk02030b18 {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ u16 mUnk_04;
@@ -55,20 +55,20 @@ typedef struct Unk02030b18 {
 
 void WriteMultiSelectMemberRegisters(void);
 void ReleaseMultiSelectMember(void);
-s32 func_02030b18(Unk02030b18 *sceneNumbers);
-s32 func_02030ea4(Unk02030b18 *sceneNumbers);
+s32 AdvanceMultiSelectMemberNoKeyStart(Unk02030b18 *sceneNumbers);
+s32 AdvanceMultiSelectMemberKeyStart(Unk02030b18 *sceneNumbers);
 void DrawMultiSelectMember(void);
-u32 func_02031250(void);
-u32 func_02031268(void);
-void func_02031280(void *parentHeap, void *mainOam, void *subOam);
-void func_0203147c(void *parentHeap, void *mainOam, void *subOam);
+BOOL MultiSelectMemberIsSubSlideOutDone(void);
+BOOL MultiSelectMemberIsSubSlideInDone(void);
+void InitMultiSelectMemberNoKeyStart(void *parentHeap, void *mainOam, void *subOam);
+void InitMultiSelectMemberKeyStart(void *parentHeap, void *mainOam, void *subOam);
 void InitMultiSelectMember(void *parentHeap, void *mainOam, void *subOam);
-void func_020317a0(void);
-void func_02031960(void);
-void func_02031b30(s32 visible);
+void UpdateMultiSelectMemberNoKeySetup(void);
+void UpdateMultiSelectMemberKeySetup(void);
+void SetMultiSelectMemberSubCellVisible(s32 visible);
 void SetMultiSelectChildCountCellsVisible(void);
-void func_02031ba4(void);
-void func_02031e80(void);
+void UpdateMultiSelectMemberCells(void);
+void PrintMultiSelectConnectionNames(void);
 void PrintMultiSelectMemberNames(void);
 s32 CountMultiSelectChildren(void);
-void func_02032028(void);
+void SetupMultiSelectMemberSubTextButton(void);

@@ -16,7 +16,7 @@ void WriteSelectGameRegisters(void) {
         GxsDispCntBits8To12Write2(0x12);
         GXS_SetGraphicsMode(0);
     }
-    func_02032138();
+    WriteSelectGameMainRegisters();
 }
 
 #pragma thumb off

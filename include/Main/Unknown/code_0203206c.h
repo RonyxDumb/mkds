@@ -69,7 +69,7 @@ extern const char gSelectGameSNceNcgrName2[];
 extern const char gSelectGameSNceNcerName2[];
 extern const char gSelectGameSONclrName2[];
 
-void func_02032138(void);
+void WriteSelectGameMainRegisters(void);
 void LoadSelectGameData(void);
 void ReleaseSelectGame(void);
 s32 AdvanceSelectGame(void);
@@ -79,4 +79,4 @@ void SetSelectGameSelectedRowVisible(s32 showSelected);
 void SetSelectGameCellTableOffsets(void);
 void SetSelectGameRowOffsetX(void);
 void SetSelectGameRowCellsVisible(s32 visible);
-void func_02032a20(void);
+void WriteSelectGameRowToRaceSetupCopy(void);
