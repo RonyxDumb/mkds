@@ -39,7 +39,7 @@ void DisconnectChildren(u32 aidBitmap) {
     }
     if (gConnectionWork->mUnk_0004 == 9) {
         if (func_02050650_inline() == 1) {
-            gConnectionWork->mUnk_008a = 0;
+            gConnectionWork->mRemovedChildMask = 0;
         }
     }
     gConnectionWork->mRequestPending = 0;
@@ -54,11 +54,11 @@ void DisconnectChildrenCallback(Unk021425e8 *event) {
         switch (gConnectionWork->mUnk_0004) {
             case 8:
             case 9:
-                gConnectionWork->mUnk_1eac[0] = gConnectionWork->mUnk_1eac[0] | gConnectionWork->mUnk_008a;
+                gConnectionWork->mUnk_1eac[0] = gConnectionWork->mUnk_1eac[0] | gConnectionWork->mRemovedChildMask;
                 break;
         }
     }
-    gConnectionWork->mUnk_008a = 0;
+    gConnectionWork->mRemovedChildMask = 0;
 }
 
 void EndDataSharing(void) {
@@ -350,7 +350,7 @@ static inline void func_02050b88_inline(u16 v1) {
             if (func_02050650_inline() == 1) {
                 gConnectionWork->mUnk_0044.mChildMask &= ~(1 << i);
                 if (f != 0) {
-                    gConnectionWork->mUnk_008a |= 1 << i;
+                    gConnectionWork->mRemovedChildMask |= 1 << i;
                 }
             }
             gConnectionWork->mUnk_0457 &= ~(1 << i);

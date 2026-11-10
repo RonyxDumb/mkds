@@ -35,7 +35,7 @@ extern struct BlockTransferRecord gNextRequest;
 struct WirelessWork;
 extern struct WirelessWork *gWirelessWork;
 struct Unk0216fdac;
-extern struct Unk0216fdac *data_0216fdac;
+extern struct Unk0216fdac *mbc;
 struct WorkerQueue;
 extern struct WorkerQueue *gWorkerQueue;
 extern u16 gScanConnectInitialized;

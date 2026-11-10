@@ -15,10 +15,10 @@
 #pragma section MAIN_TEXT begin
 
 StateCallbacks gLogoStateTable[12] = {
-    {EnterLogoState0, UpdateLogoState0}, {func_020019ac, UpdateLogoState1},     {EnterLogoState2, UpdateLogoState2},
-    {EnterLogoState3, UpdateLogoState3}, {EnterLogoState4, UpdateLogoState4},   {EnterLogoState5, UpdateLogoState5},
-    {EnterLogoState6, UpdateLogoState6}, {EnterLogoState7, func_02001294},      {func_02001290, UpdateLogoState8},
-    {EnterLogoState9, UpdateLogoState9}, {EnterLogoState10, UpdateLogoState10}, {NULL, NULL},
+    {EnterLogoState0, UpdateLogoState0}, {EnterLogoState1Nop, UpdateLogoState1}, {EnterLogoState2, UpdateLogoState2},
+    {EnterLogoState3, UpdateLogoState3}, {EnterLogoState4, UpdateLogoState4},    {EnterLogoState5, UpdateLogoState5},
+    {EnterLogoState6, UpdateLogoState6}, {EnterLogoState7, UpdateLogoState7},    {EnterLogoState8Nop, UpdateLogoState8},
+    {EnterLogoState9, UpdateLogoState9}, {EnterLogoState10, UpdateLogoState10},  {NULL, NULL},
 };
 
 #pragma section MAIN_TEXT end

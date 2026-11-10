@@ -4,5 +4,5 @@
 
 typedef struct FSFile FSFile;
 
-u32 func_02008880(FSFile *a);
+u32 MB_GetSegmentLength(FSFile *file);
 u16 ComputeU16Checksum(const u16 *data, s32 byteCount);

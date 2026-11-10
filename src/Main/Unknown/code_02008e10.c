@@ -18,7 +18,7 @@ s32 FindOrAddEntry(const u8 *scanBlock, EntryCallbackFunc callback) {
             entry->mBssid[0] == scanBlock[4] && entry->mBssid[1] == scanBlock[5] && entry->mBssid[2] == scanBlock[6] &&
             entry->mBssid[3] == scanBlock[7] && entry->mBssid[4] == scanBlock[8] && entry->mBssid[5] == scanBlock[9] &&
             gReceivedGameInfo->mUnk_04_2 == entryTable->mEntries[i].mUnk_4b5) {
-            if ((entryTable->mUnk_04 & entryBit) == 0) {
+            if ((entryTable->mValidGameInfoFlag & entryBit) == 0) {
                 SetScanBssidFromEntry(i);
             }
             return i;
@@ -43,16 +43,16 @@ s32 FindOrAddEntry(const u8 *scanBlock, EntryCallbackFunc callback) {
     return -1;
 }
 
-void func_02008ff0(u32 entryIndex, EntryCallbackFunc callback) {
+void MBi_CheckCompleteGameInfoFlagments(u32 entryIndex, EntryCallbackFunc callback) {
     EntryRecord *entry;
     u32 entryBit;
     entry = &gEntryTable->mEntries[entryIndex];
     if (entry->mUnk_580 == entry->mUnk_584 && entry->mUnk_580 != 0 && entry->mUnk_35a != 0 &&
         entry->mUnk_588 == entry->mUnk_35a) {
         entryBit = 1 << entryIndex;
-        if ((gEntryTable->mUnk_04 & entryBit) == 0) {
-            gEntryTable->mUnk_04 |= entryBit;
-            gEntryTable->mUnk_02 |= entryBit;
+        if ((gEntryTable->mValidGameInfoFlag & entryBit) == 0) {
+            gEntryTable->mValidGameInfoFlag |= entryBit;
+            gEntryTable->mUsefulGameInfoFlag |= entryBit;
             ClearScanBssid();
             if (callback != NULL) {
                 callback(1, entry, entryIndex);
@@ -60,8 +60,8 @@ void func_02008ff0(u32 entryIndex, EntryCallbackFunc callback) {
         }
     } else {
         entryBit = 1 << entryIndex;
-        if ((gEntryTable->mUnk_04 & entryBit) != 0) {
-            gEntryTable->mUnk_04 ^= entryBit;
+        if ((gEntryTable->mValidGameInfoFlag & entryBit) != 0) {
+            gEntryTable->mValidGameInfoFlag ^= entryBit;
             if (callback != NULL) {
                 callback(2, entry, entryIndex);
             }
@@ -80,13 +80,13 @@ void UpdateEntryTimers(EntryCallbackFunc callback, u32 b) {
         EntryRecord *entry = OFFSET_PTR(EntryRecord, gEntryTable->mEntries, entryOffset);
         u16 entryBit = 1 << i;
         if (gEntryTable->mUsedMask & entryBit) {
-            entry->mTimer -= gEntryTable->mUnk_0c;
+            entry->mTimer -= gEntryTable->mScanCountUnit;
             if (entry->mTimer < 0) {
                 entry->mTimer = 0;
-                if ((gEntryTable->mUnk_04 & entryBit) != 0 && callback != NULL) {
+                if ((gEntryTable->mValidGameInfoFlag & entryBit) != 0 && callback != NULL) {
                     callback(3, NULL, i);
                 }
-                if ((gEntryTable->mUnk_06 & entryBit) != 0) {
+                if ((gEntryTable->mNowScanTargetFlag & entryBit) != 0) {
                     stopFollowing = 1;
                 }
                 gEntryTable->mUsedMask &= ~entryBit;
@@ -95,21 +95,21 @@ void UpdateEntryTimers(EntryCallbackFunc callback, u32 b) {
         }
         entryOffset += sizeof(EntryRecord);
     }
-    if (gEntryTable->mUnk_06 != 0 && gEntryTable->mUnk_08 > 0) {
-        gEntryTable->mUnk_08 -= gEntryTable->mUnk_0c;
-        if (gEntryTable->mUnk_08 < 0) {
+    if (gEntryTable->mNowScanTargetFlag != 0 && gEntryTable->mNowLockTimeCount > 0) {
+        gEntryTable->mNowLockTimeCount -= gEntryTable->mScanCountUnit;
+        if (gEntryTable->mNowLockTimeCount < 0) {
             stopFollowing = 1;
         } else if (b == 0) {
-            gEntryTable->mUnk_0a++;
-            if (gEntryTable->mUnk_0a > 4) {
+            gEntryTable->mNotFoundLockTargetCount++;
+            if (gEntryTable->mNotFoundLockTargetCount > 4) {
                 stopFollowing = 1;
             }
         } else {
-            gEntryTable->mUnk_0a = 0;
+            gEntryTable->mNotFoundLockTargetCount = 0;
         }
     }
     if (stopFollowing != 0) {
-        gEntryTable->mUnk_08 = 0;
+        gEntryTable->mNowLockTimeCount = 0;
         ClearScanBssid();
     }
 }
@@ -117,8 +117,8 @@ void UpdateEntryTimers(EntryCallbackFunc callback, u32 b) {
 void UpdateEntryFromScan(u8 *scanBlock, u32 entryIndex, u32 c) {
     EntryRecord *entry;
     ReplaceEntryIfChanged(scanBlock, entryIndex);
-    func_02008d68(entryIndex);
-    func_02008d30(entryIndex);
+    MBi_CheckSeqNoFixed(entryIndex);
+    MBi_CheckSeqNoVolat(entryIndex);
     entry = &gEntryTable->mEntries[entryIndex];
     if (entry->mLastSequence == gReceivedGameInfo->mSequence) {
         entry->mSequenceRepeats++;
@@ -135,11 +135,11 @@ void UpdateEntryFromScan(u8 *scanBlock, u32 entryIndex, u32 c) {
     entry->mUnk_4b8 = gReceivedGameInfo->mUnk_00;
     entry->mUnk_4b5 = gReceivedGameInfo->mUnk_04_2;
     entry->mUnk_58c = c;
-    func_020091e0((u16 *) entry->mScanBuffer, entry->mUnk_4b8);
+    MBi_SetSSIDToBssDesc((u16 *) entry->mScanBuffer, entry->mUnk_4b8);
     if (gReceivedGameInfo->mUnk_04 == 2) {
-        func_02008aa0(entryIndex);
+        MBi_RecvVolatBeacon(entryIndex);
     } else {
-        func_02008c08(entryIndex);
+        MBi_RecvFixedBeacon(entryIndex);
     }
 }
 

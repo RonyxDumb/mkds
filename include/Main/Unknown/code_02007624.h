@@ -13,11 +13,11 @@
 #include "code_02142eac.h"
 #include "code_0200fc8c.h"
 
-void func_02007624(Unk021432ac *header);
-void func_02007698(Unk021432ac *childData, u32 child);
-void func_020079c4(s32 eventCode, Unk021425e8 *eventData);
-void func_02007cf8(u32 child, u32 value, void *data);
-void func_02007d18(u32 child, u32 value, void *data);
-u32 func_02007d50(u32 child, u32 pairIndex);
-u32 func_02007df8(u32 child);
-void *func_02007e38(u32 child);
+void MBi_CommParentRecvData(Unk021432ac *header);
+void MBi_CommParentRecvDataPerChild(Unk021432ac *childData, u32 child);
+void MBi_CommParentCallback(s32 eventCode, Unk021425e8 *eventData);
+void MBi_CommChangeParentStateCallbackOnly(u32 child, u32 value, void *data);
+void MBi_CommChangeParentState(u32 child, u32 value, void *data);
+u32 MB_CommResponseRequest(u32 child, u32 pairIndex);
+u32 MB_CommIsBootable(u32 child);
+void *MB_CommGetChildUser(u32 child);

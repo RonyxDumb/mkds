@@ -63,7 +63,7 @@ void func_ov003_021cf978(u32 a, u32 b) {
 
 void func_ov003_021cf93c(Unk021cf8ac *a, u16 b) {
     func_ov003_021cf36c(2);
-    if (func_02009cc8(b) != 0) {
+    if (MB_StartParentFromIdle(b) != 0) {
         func_ov003_021cf36c(7);
         return;
     }
@@ -87,11 +87,11 @@ u32 func_ov003_021cf8ac(Unk021cf8ac *a) {
         }
         q = &s;
     }
-    if (func_02008880(q) != 0) {
+    if (MB_GetSegmentLength(q) != 0) {
         data_ov003_021da288->mUnk_1b144 = (u8 *) data_ov003_021da288 + 0x2c;
         if (data_ov003_021da288->mUnk_1b144 != NULL) {
-            if (func_02008570(q, data_ov003_021da288->mUnk_1b144, 0x10000) != 0) {
-                if (func_02008310(a, data_ov003_021da288->mUnk_1b144) != 0) {
+            if (MB_ReadSegment(q, data_ov003_021da288->mUnk_1b144, 0x10000) != 0) {
+                if (MB_RegisterFile(a, data_ov003_021da288->mUnk_1b144) != 0) {
                     r = 1;
                 }
             }
@@ -107,7 +107,7 @@ void func_ov003_021cf844(u32 a) {
     u16 m;
     u32 t;
 
-    if (func_02007d50(a, 1) == 0) {
+    if (MB_CommResponseRequest(a, 1) == 0) {
         m = ~(1 << a);
         t = OS_DisableInterrupts();
         data_ov003_021da288->mMask &= m;
@@ -126,7 +126,7 @@ void func_ov003_021cf7b8(u32 a) {
     u32 t;
     s32 v1;
 
-    if (func_02007d50(a, 0) == 0) {
+    if (MB_CommResponseRequest(a, 0) == 0) {
         m = ~(1 << a);
         t = OS_DisableInterrupts();
         data_ov003_021da288->mMask &= m;
@@ -151,7 +151,7 @@ void func_ov003_021cf72c(u32 a) {
     u32 t;
     s32 v1;
 
-    if (func_02007d50(a, 2) == 0) {
+    if (MB_CommResponseRequest(a, 2) == 0) {
         m = ~(1 << a);
         t = OS_DisableInterrupts();
         data_ov003_021da288->mMask &= m;
@@ -209,7 +209,7 @@ u32 func_ov003_021cf64c(void) {
     }
     for (i = 1; i < 16; i++) {
         if ((data_ov003_021da288->mMask & (1 << i)) != 0) {
-            if (func_02007df8(i) == 0) {
+            if (MB_CommIsBootable(i) == 0) {
                 return 0;
             }
         }
@@ -229,7 +229,7 @@ void func_ov003_021cf5ac(void) {
     for (; i < 16; i++) {
         v1 = 1 << i;
         if ((data_ov003_021da288->mUnk_0a & v1) != 0) {
-            if (func_02007d50(i, 3) == 0) {
+            if (MB_CommResponseRequest(i, 3) == 0) {
                 m = ~v1;
                 t = OS_DisableInterrupts();
                 data_ov003_021da288->mMask &= m;
@@ -254,7 +254,7 @@ void func_ov003_021cf5ac(void) {
 
 void func_ov003_021cf598(void) {
     func_ov003_021cf36c(6);
-    func_02009c04();
+    MB_EndToIdle();
 }
 
 void func_ov003_021cf378(u32 a, u32 b, Unk021425e8 *c) {
@@ -300,7 +300,7 @@ void func_ov003_021cf378(u32 a, u32 b, Unk021425e8 *c) {
             }
             data_ov003_021da288->mUnk_04 |= 1 << a;
             func_ov003_021cf844(a);
-            t = (u32) func_02007e38(a);
+            t = (u32) MB_CommGetChildUser(a);
             if (t != 0) {
                 MI_CpuCopy8((void *) t, &data_ov003_021da288->mRecords[a - 1], 0x16);
             }
@@ -320,7 +320,7 @@ void func_ov003_021cf378(u32 a, u32 b, Unk021425e8 *c) {
             data_ov003_021da288->mUnk_0a &= ~(1 << a);
             data_ov003_021da288->mUnk_0c |= 1 << a;
             if (data_ov003_021da288->mMask == data_ov003_021da288->mUnk_0c) {
-                func_02009c04();
+                MB_EndToIdle();
             }
             break;
         case 12:

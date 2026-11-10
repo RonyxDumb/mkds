@@ -393,7 +393,7 @@ void CARDi_RequestStreamCommandCore(CARDiCommon *p) {
     reqType = p->mReqType;
     reqMode = p->mReqMode;
     retryCount = p->mReqRetry;
-    func_02000b44((u32) (BuildInfo + 0x24));
+    OSi_ReferSymbol((u32) (BuildInfo + 0x24));
     do {
         len = p->mLen;
         if (len > 0x100) {
@@ -452,7 +452,7 @@ int CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, UnkFunc *callback, voi
     u32 enabled;
 
     p = (CARDiCommon *) (u32) &gAccessState;
-    func_02000b44((u32) (BuildInfo + 0x24));
+    OSi_ReferSymbol((u32) (BuildInfo + 0x24));
     enabled = OS_DisableInterrupts();
     while (p->mFlag & 4) {
         OS_SleepThread(&p->mBusyQ);
@@ -484,7 +484,7 @@ int CARD_IdentifyBackup(s32 type) {
     u32 enabled;
 
     p = &gAccessState;
-    func_02000b44((u32) (BuildInfo + 0x24));
+    OSi_ReferSymbol((u32) (BuildInfo + 0x24));
     if (type == 0) {
         OS_Terminate();
     }

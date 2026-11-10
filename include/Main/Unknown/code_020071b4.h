@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-int func_020071b4(void);
-u32 func_020072c0(void);
+int MBi_CommParentSendData(void);
+u32 MBi_CommParentSendBlock(void);

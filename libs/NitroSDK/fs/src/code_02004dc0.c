@@ -215,7 +215,7 @@ void FS_StartOverlay(FSOverlayInfo *info) {
         }
     }
     if (info->mUnk_1c.b[3] & 1) {
-        func_02000934(info->mRamAddress + size);
+        MIi_UncompressBackward(info->mRamAddress + size);
     }
     DC_FlushRange(info->mRamAddress, info->mRamSize);
     initFunc = info->mSinitInit;

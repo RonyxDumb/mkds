@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_02001290(void);
+void EnterLogoState8Nop(void);

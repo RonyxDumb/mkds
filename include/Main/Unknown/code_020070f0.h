@@ -5,5 +5,5 @@
 void ResetRequestId(void);
 void AdvanceRequestId(void);
 unsigned int GetRequestId(void);
-void func_02007120(u32 a, u16 b);
+void MBi_CommCallParentError(u32 aid, u16 errcode);
 u32 IsChildIndexInRange(u32 a);

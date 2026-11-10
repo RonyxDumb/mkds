@@ -8,7 +8,7 @@
 #include "Main/Unknown/code_02008934.h"
 #include "Main/Unknown/unk_0216f000.h"
 
-struct Unk02008188;
+struct SegmentBuffer;
 
 // The 0x16 bytes at 0x1300 of Unk0216fdac: a count at mUnk_01 and that many halfwords from mUnk_02.
 typedef struct Unk02009ff4 {
@@ -17,52 +17,52 @@ typedef struct Unk02009ff4 {
     /* 02 */ u16 mUnk_02[10];
 } Unk02009ff4;
 
-// Object behind data_0216fdac. The members from 0x1788 on are reached from a pointer advanced in steps of 0x5d4
+// Object behind mbc. The members from 0x1788 on are reached from a pointer advanced in steps of 0x5d4
 // bytes, so their offsets here include the 0x1788.
 typedef struct Unk0216fdac {
     /* 0000 */ u8 mUnk_0000[0x1300];
-    /* 1300 */ Unk02009ff4 mUnk_1300;
-    /* 1316 */ u16 mUnk_1316;
-    /* 1318 */ s32 mUnk_1318;
-    /* 131c */ u32 mUnk_131c;
-    /* 1320 */ u32 mUnk_1320;
+    /* 1300 */ Unk02009ff4 mUser;
+    /* 1316 */ u16 mIsMbInitialized;
+    /* 1318 */ s32 mBlockSizeMax;
+    /* 131c */ u32 mStartMpBusy;
+    /* 1320 */ u32 mIsStartedEx;
     /* 1324 */ u8 mUnk_1324[0x1340 - 0x1324];
-    /* 1340 */ Unk0216fc1c_10 mUnk_1340[15];
-    /* 148a */ u16 mUnk_148a[15];
-    /* 14a8 */ u32 mUnk_14a8[15];
+    /* 1340 */ Unk0216fc1c_10 mChildUser[15];
+    /* 148a */ u16 mChildversion[15];
+    /* 14a8 */ u32 mChildggid[15];
     /* 14e4 */ void (*mCallback)(u32, u32, void *);
-    /* 14e8 */ u32 mUnk_14e8[15];
+    /* 14e8 */ u32 mPCommState[15];
     /* 1524 */ u8 mEntryCount;
-    /* 1525 */ u8 mUnk_1525;
+    /* 1525 */ u8 mCurFileid;
     /* 1526 */ s8 mChildEntryIndex[15];
-    /* 1535 */ u8 mUnk_1535;
-    /* 1536 */ u16 mUnk_1536;
+    /* 1535 */ u8 mChildNum;
+    /* 1536 */ u16 mChildEntryBmp;
     /* 1538 */ PieceBuffer mUnk_1538;
-    /* 1754 */ u16 mUnk_1754[15];
-    /* 1772 */ u8 mUnk_1772[0x16];
+    /* 1754 */ u16 mReq2child[15];
+    /* 1772 */ u8 mChildUserBuf[0x16];
     /* 1788 */ u8 mUnk_1788[0x1d1f - 0x1788];
     /* 1d1f */ u8 mUnk_1d1f;
     /* 1d20 */ u8 mUnk_1d20;
     /* 1d21 */ u8 mUnk_1d21;
     /* 1d22 */ u8 mUnk_1d22[0x1d2c - 0x1d22];
     /* 1d2c */ u8 mUnk_1d2c[0x14];
-    /* 1d40 */ DataRangeTable *mUnk_1d40;
-    /* 1d44 */ struct Unk02008188 *mUnk_1d44;
-    /* 1d48 */ u16 mUnk_1d48;
-    /* 1d4a */ u16 mUnk_1d4a;
-    /* 1d4c */ u16 mUnk_1d4c;
-    /* 1d4e */ u16 mUnk_1d4e;
-    /* 1d50 */ u16 mUnk_1d50;
+    /* 1d40 */ DataRangeTable *mGameReg;
+    /* 1d44 */ struct SegmentBuffer *mSrcAdr;
+    /* 1d48 */ u16 mCurrentb;
+    /* 1d4a */ u16 mNextb;
+    /* 1d4c */ u16 mPollbmp;
+    /* 1d4e */ u16 mGameinfoChildBmp;
+    /* 1d50 */ u16 mGameinfoChangedBmp;
     /* 1d52 */ u8 mEntryUsed;
     /* 1d53 */ u8 mUnk_1d53;
-    /* 1d54 */ DataRangeTable *mUnk_1d54;
-    /* 1d58 */ u32 *mUnk_1d58;
+    /* 1d54 */ DataRangeTable *mCacheList;
+    /* 1d58 */ u32 *mCardMapping;
     /* 1d5c */ u8 mUnk_1d5c[0x74c8 - 0x1d5c];
-    /* 74c8 */ s32 mUnk_74c8;
+    /* 74c8 */ s32 mUseWvrFlag;
     /* 74cc */ u8 mUnk_74cc[0x74e0 - 0x74cc];
     /* 74e0 */ WorkerQueue mUnk_74e0;
     /* ---- */ u8 mUnk_74e0_end[0x800 - sizeof(WorkerQueue)];
-    /* 7ce0 */ u8 mUnk_7ce0[0x18];
+    /* 7ce0 */ u8 mCurTask[0x18];
 } Unk0216fdac;
 
 u32 GetLargerValue(u32 first, u32 second);

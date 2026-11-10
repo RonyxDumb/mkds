@@ -473,7 +473,7 @@ void ResetConnectionData(void) {
     gConnectionWork->mUnk_0044.mUnk_3c = 0;
     gConnectionWork->mUnk_0044.mDisconnectingIndex = -1;
     gConnectionWork->mUnk_0088 = -1;
-    gConnectionWork->mUnk_008a = 0;
+    gConnectionWork->mRemovedChildMask = 0;
     gConnectionWork->mUnk_008b = 0;
     gConnectionWork->mUnk_0044.mUnk_3e = 0;
     MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, gConnectionWork->mUnk_0044.mUnk_38, 0x14);

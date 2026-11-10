@@ -33,7 +33,7 @@ typedef struct WirelessWork {
     /* 504 */ void *mReceiveBuffer;
     /* 508 */ Unk021425e8Func mCommandCallback;
     /* 50c */ u8 mDataQueued;
-    /* 50d */ u8 mUnk_50d;
+    /* 50d */ u8 mMbIsStarted;
     /* 50e */ u8 mUnk_50e[0x518 - 0x50e];
     /* 518 */ u16 mSendBufferSize;
     /* 51a */ u16 mReceiveBufferSize;
@@ -74,7 +74,7 @@ typedef struct DataRangeTable {
     /* 30 */ DataRange mRanges[4];
 } DataRangeTable;
 
-void func_0200ad00(void);
+void MBi_OnInitializeDone(void);
 u32 IsMPReadyToSendData(void);
 u32 AdvanceScanChannel(Unk02143a78 *scanParams);
 u32 CopyFromDataRanges(DataRangeTable *table, u32 offset, void *destination, u32 byteCount);

@@ -5,52 +5,52 @@
 
 #pragma thumb on
 
-u32 func_020074d8(void) {
+u32 MBi_CommParentSendDLFileInfo(void) {
     ParentMessage message;
-    u8 v2[16];
+    u8 requestCounts[16];
     u16 child;
-    u32 v4;
+    u32 candidateFile;
     u16 childMask;
-    u8 v6;
+    u8 fid;
     Unk0216fdac *work;
     u8 v8;
-    u8 *v9;
+    u8 *sendBlock;
     childMask = 0;
-    v4 = -1;
-    MI_CpuFill8(v2, 0, 16);
+    candidateFile = -1;
+    MI_CpuFill8(requestCounts, 0, 16);
     child = 1;
-    work = data_0216fdac;
+    work = mbc;
     for (; child <= 15; child++) {
-        if (work->mUnk_14e8[child - 1] == 5) {
-            v2[work->mChildEntryIndex[child - 1]]++;
+        if (work->mPCommState[child - 1] == 5) {
+            requestCounts[work->mChildEntryIndex[child - 1]]++;
         }
     }
-    v6 = data_usa_02161784;
+    fid = data_usa_02161784;
     v8 = 0;
     do {
-        v6 = (v6 + 1) % 16;
-        if ((OFFSET_PTR(Unk0216fdac, work, v6 * 0x5d4))->mEntryUsed != 0 && v2[v6] != 0) {
-            v4 = (s8) v6;
+        fid = (fid + 1) % 16;
+        if ((OFFSET_PTR(Unk0216fdac, work, fid * 0x5d4))->mEntryUsed != 0 && requestCounts[fid] != 0) {
+            candidateFile = (s8) fid;
             break;
         }
         v8++;
     } while (v8 < 16);
-    if (v4 == -1) {
+    if (candidateFile == -1) {
         return 21;
     }
-    data_usa_02161784 = v4;
+    data_usa_02161784 = candidateFile;
     for (child = 1; child <= 15; child++) {
-        if (work->mUnk_14e8[child - 1] == 5 && v4 == work->mChildEntryIndex[child - 1]) {
+        if (work->mPCommState[child - 1] == 5 && candidateFile == work->mChildEntryIndex[child - 1]) {
             childMask |= 1 << child;
         }
     }
     message.mKind = 3;
-    message.mUnk_02 = v4;
-    v9 = WriteParentMessage((u8 *) &message, (u8 *) work);
-    if (v9 != NULL) {
-        MI_CpuCopy8(data_0216fdac->mUnk_1788 + v4 * 0x5d4, v9, 0xe4);
+    message.mUnk_02 = candidateFile;
+    sendBlock = WriteParentMessage((u8 *) &message, (u8 *) work);
+    if (sendBlock != NULL) {
+        MI_CpuCopy8(mbc->mUnk_1788 + candidateFile * 0x5d4, sendBlock, 0xe4);
     }
-    return FlushAndSendMPData(0xea, childMask, *(u32 *) &data_0216fdac);
+    return FlushAndSendMPData(0xea, childMask, *(u32 *) &mbc);
 }
 
 void LoadDataRange(DataRangeLoadJob *job) {

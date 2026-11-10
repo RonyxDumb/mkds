@@ -9,26 +9,27 @@
 
 #pragma thumb on
 
-u32 func_0200b15c(u32 entryIndex, ScanBlock *scanBlock, u16 c, u16 d, u32 e, u32 f) {
-    u32 bit8;
-    u32 bit4;
-    if (func_0200b1b0(entryIndex, scanBlock) == 0) {
+u32 MB_FakeReadParentBssDesc(u32 entryIndex, ScanBlock *scanBlock, u16 parentMaxSize, u16 childMaxSize, u32 ksFlag,
+                             u32 flagTwo) {
+    u32 csAttribute;
+    u32 ksAttribute;
+    if (MB_FakeGetParentBssDesc(entryIndex, scanBlock) == 0) {
         return 0;
     }
     scanBlock->mUnk_3c = 0x10;
     scanBlock->mUnk_4a = 0;
-    scanBlock->mUnk_4c = c;
-    scanBlock->mUnk_4e = d;
-    bit8 = 0;
-    if (f != 0) {
-        bit8 = 8;
+    scanBlock->mUnk_4c = parentMaxSize;
+    scanBlock->mUnk_4e = childMaxSize;
+    csAttribute = 0;
+    if (flagTwo != 0) {
+        csAttribute = 8;
     }
-    if (e != 0) {
-        bit4 = 4;
+    if (ksFlag != 0) {
+        ksAttribute = 4;
     } else {
-        bit4 = 0;
+        ksAttribute = 0;
     }
-    scanBlock->mFlags = bit4 | bit8 | 1;
+    scanBlock->mFlags = ksAttribute | csAttribute | 1;
     return 1;
 }
 
@@ -87,7 +88,7 @@ void StartWorkerThread(WorkerQueue *workerQueue, u32 totalSize) {
     savedInterrupts = OS_DisableInterrupts();
     if (gWorkerQueue == NULL) {
         gWorkerQueue = workerQueue;
-        func_0200b00c(&workerQueue->mStopTask);
+        MBi_InitTaskInfo(&workerQueue->mStopTask);
         workerQueue->mFirstTask = NULL;
         stackSize = (totalSize - 0xe4) & ~3;
         OS_CreateThread(&workerQueue->mThread, RunWorkerTasks, workerQueue, (u8 *) workerQueue + 0xe4 + stackSize,
@@ -111,14 +112,14 @@ u32 IsWorkerActive(void) {
 #pragma thumb off
 
 #pragma thumb on
-void func_0200b00c(void *arg0) {
-    void *value0 = arg0;
+void MBi_InitTaskInfo(void *taskInfo) {
+    void *target = taskInfo;
     u32 fillValue;
     u32 byteCount;
     u32 value3;
     fillValue = 0u;
     byteCount = 32u;
-    MI_CpuFill8(value0, fillValue, byteCount);
+    MI_CpuFill8(target, fillValue, byteCount);
 }
 #pragma thumb off
 

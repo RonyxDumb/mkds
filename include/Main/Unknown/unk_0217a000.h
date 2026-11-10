@@ -316,8 +316,9 @@ typedef struct Unk0217aa00_24_50 {
 } Unk0217aa00_24_50;
 
 // 0xc0-byte record: the first 0x3c bytes are taken from 0x027ffc42 when the halfword at 0x027ffc40 is 2 (or from
-// address 0); the halfwords at 0x4c and 0x4e and the bytes from 0x4a are set by func_02007ec4 and func_0200b15c.
-// Also the buffer behind member 0x24 of ConnectionWork and the first 0xc0 bytes of each ScanSlot.
+// address 0); the halfwords at 0x4c and 0x4e and the bytes from 0x4a are set by MB_ReadMultiBootParentBssDesc and
+// MB_FakeReadParentBssDesc. Also the buffer behind member 0x24 of ConnectionWork and the first 0xc0 bytes of each
+// ScanSlot.
 typedef struct ScanBlock {
     /* 00 */ u8 mUnk_00[0xc];
     /* 0c */ u16 mUnk_0c;
@@ -619,7 +620,7 @@ typedef struct ConnectionWork {
             u8 mUnk_0089_4 : 4;
         };
     };
-    /* 008a */ u8 mUnk_008a;
+    /* 008a */ u8 mRemovedChildMask;
     /* 008b */ u8 mUnk_008b;
     /* 008c */ s16 mUnk_008c[0xe];
     /* 00a8 */ u8 mUnk_00a8[4];

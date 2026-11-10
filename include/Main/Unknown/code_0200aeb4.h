@@ -31,8 +31,9 @@ typedef struct WorkerQueue WorkerQueue;
 void RequestWorkerStop(void *done);
 void QueueWorkerTask(WorkerTask *task, void *run, void *done, u32 priority);
 u32 IsWorkerTaskInUse(WorkerTask *task);
-void func_0200b00c(void *arg0);
+void MBi_InitTaskInfo(void *taskInfo);
 u32 IsWorkerActive(void);
 void StartWorkerThread(WorkerQueue *workerQueue, u32 totalSize);
 void RunWorkerTasks(void *argument);
-u32 func_0200b15c(u32 entryIndex, ScanBlock *scanBlock, u16 c, u16 d, u32 e, u32 f);
+u32 MB_FakeReadParentBssDesc(u32 entryIndex, ScanBlock *scanBlock, u16 parentMaxSize, u16 childMaxSize, u32 ksFlag,
+                             u32 flagTwo);

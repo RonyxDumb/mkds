@@ -6,7 +6,7 @@
 
 void ReplaceEntryIfChanged(u8 *newBlock, int entryIndex) {
     if (*OFFSET_PTR(u16, newBlock, 0x48) != gEntryTable->mEntries[entryIndex].mUnk_508) {
-        func_0200895c(entryIndex);
+        MB_DeleteRecvGameInfoWithoutBssdesc(entryIndex);
         MIi_CpuCopy16(newBlock, gEntryTable->mEntries[entryIndex].mScanBuffer, 0xc0);
         SetScanBssidFromEntry(entryIndex);
     }

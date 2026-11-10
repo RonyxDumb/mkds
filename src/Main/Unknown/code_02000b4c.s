@@ -1,4 +1,4 @@
-// Build information block, kept in .text after func_02000b48: the addresses the startup code reads (the list of blocks
+// Build information block, kept in .text after NitroStartUp: the addresses the startup code reads (the list of blocks
 // to copy and clear, the range of words to clear) and the version strings.
 //
 // Hand-written asm: the data has to sit in .text.

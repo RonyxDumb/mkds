@@ -36,5 +36,5 @@ typedef struct LogoScene {
 extern LogoScene *gLogoScene;
 extern s32 data_usa_02174e54;
 
-void func_02001000(void);
+void DisconnectRemovedChildren(void);
 void func_0200104c(void);

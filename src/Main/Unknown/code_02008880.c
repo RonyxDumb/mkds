@@ -20,19 +20,19 @@ u16 ComputeU16Checksum(const u16 *data, s32 byteCount) {
     return (folded + (folded >> 16)) ^ 0xffff;
 }
 
-u32 func_02008880(FSFile *a) {
+u32 MB_GetSegmentLength(FSFile *file) {
     RomHeaderStart header;
     RomHeaderStart *headerPtr;
     u32 size;
-    s32 v4;
+    s32 backupPosition;
     headerPtr = NULL;
     size = 0;
-    if (a != NULL) {
-        v4 = a->mUnk_2c - a->mProp.w.mUnk_04;
-        if ((u32) FS_ReadFile(a, &header, 0x60) >= 0x60) {
+    if (file != NULL) {
+        backupPosition = file->mUnk_2c - file->mProp.w.mUnk_04;
+        if ((u32) FS_ReadFile(file, &header, 0x60) >= 0x60) {
             headerPtr = &header;
         }
-        FS_SeekFile(a, v4, 0);
+        FS_SeekFile(file, backupPosition, 0);
     } else {
         headerPtr = &SYSTEM_WORK->mRomHeader.mHead;
     }

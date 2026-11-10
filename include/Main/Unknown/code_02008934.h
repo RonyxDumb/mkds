@@ -37,12 +37,12 @@ typedef struct EntryRecord {
 // Object behind gEntryTable: sixteen entries from 0x10 on.
 typedef struct EntryTable {
     /* 00 */ u16 mUsedMask;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-    /* 08 */ s16 mUnk_08;
-    /* 0a */ s16 mUnk_0a;
-    /* 0c */ u16 mUnk_0c;
+    /* 02 */ u16 mUsefulGameInfoFlag;
+    /* 04 */ u16 mValidGameInfoFlag;
+    /* 06 */ u16 mNowScanTargetFlag;
+    /* 08 */ s16 mNowLockTimeCount;
+    /* 0a */ s16 mNotFoundLockTargetCount;
+    /* 0c */ u16 mScanCountUnit;
     /* 0e */ u16 mUnk_0e;
     /* 10 */ EntryRecord mEntries[16];
 } EntryTable;
@@ -77,12 +77,12 @@ extern EntryTable *gEntryTable;
 extern Unk0216fc1c *gReceivedGameInfo;
 
 EntryRecord *GetEntryOrNull();
-void func_0200895c(u32 entryIndex);
+void MB_DeleteRecvGameInfoWithoutBssdesc(u32 entryIndex);
 void ClearEntry(u32 entryIndex);
 void ClearScanBssid(void);
 void SetScanBssidFromEntry(u32 entryIndex);
-void func_02008aa0(u32 entryIndex);
-void func_02008c08(u32 entryIndex);
+void MBi_RecvVolatBeacon(u32 entryIndex);
+void MBi_RecvFixedBeacon(u32 entryIndex);
 void ExpireEntriesWithBssid(const u8 *bssid);
-void func_02008d30(u32 entryIndex);
-void func_02008d68(u32 entryIndex);
+void MBi_CheckSeqNoVolat(u32 entryIndex);
+void MBi_CheckSeqNoFixed(u32 entryIndex);

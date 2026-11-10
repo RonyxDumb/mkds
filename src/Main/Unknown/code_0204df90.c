@@ -28,7 +28,7 @@ void func_0204e928(void *heap, u32 b, void *bmg) {
     gConnectionWork->mUnk_1660 = workSize;
     gConnectionWork->mUnk_165c = HeapAllocAligned(heap, gConnectionWork->mUnk_1660, 0x20);
     if (gBootInfo->mUnk_00 != 2) {
-        gConnectionWork->mUnk_168c = func_02008880(NULL);
+        gConnectionWork->mUnk_168c = MB_GetSegmentLength(NULL);
         if (gConnectionWork->mUnk_168c > 0x80000) {
             gConnectionWork->mUnk_168c = 0x80000;
         }
@@ -57,9 +57,9 @@ void func_0204e6e8(u32 index, u32 code, Unk0204e4d8 *c) {
                 v = 0;
             }
             if (v != 0) {
-                func_02007d50(index, 1);
+                MB_CommResponseRequest(index, 1);
             } else {
-                func_02007d50(index, 0);
+                MB_CommResponseRequest(index, 0);
             }
             return;
         }
@@ -161,7 +161,7 @@ void func_0204e568(void) {
     }
     SetMPLimits(0x1fe, 7);
     SetCallback(func_0204e6e8);
-    if (((s32(*)(u32)) func_02009cc8)(gConnectionWork->mUnk_0088) != 0) {
+    if (((s32(*)(u32)) MB_StartParentFromIdle)(gConnectionWork->mUnk_0088) != 0) {
         func_02050e60(5);
     }
     if (func_0204ea3c() == 0) {
@@ -218,7 +218,7 @@ s32 FindScanEntryIndex(u32 entryIndex) {
     result = -1;
     if (gConnectionWork->mUnk_000c == 0x1e) {
         for (index = 0; index < 16; index++) {
-            if (func_0200b1b0(index, &scanBlock) != 0) {
+            if (MB_FakeGetParentBssDesc(index, &scanBlock) != 0) {
                 u8 *tableBytes = gConnectionWork->mUnk_00ac[0].mKey.mUnk_00;
                 u8 *entryBytes = tableBytes + entryIndex * 0xe0;
                 if (scanBlock.mUnk_00[4] == tableBytes[entryIndex * 0xe0] && scanBlock.mUnk_00[5] == entryBytes[1] &&
@@ -369,7 +369,7 @@ void func_0204e128(void) {
     gConnectionWork->mUnk_1697 = count;
     gConnectionWork->mUnk_1694 |= index;
     for (; index <= 15; index++) {
-        if (func_02007d50(index, 2) == 1) {
+        if (MB_CommResponseRequest(index, 2) == 1) {
             count++;
         }
     }
@@ -388,7 +388,7 @@ void func_0204e0bc(void) {
     count = 0;
     gConnectionWork->mUnk_1695 = count;
     for (; index <= 15; index++) {
-        if (func_02007d50(index, 3) == 1) {
+        if (MB_CommResponseRequest(index, 3) == 1) {
             count++;
         }
     }
@@ -401,7 +401,7 @@ void func_0204e090(void) {
     gConnectionWork->mUnk_000c = 0x1b;
     gConnectionWork->mRequestPending = 1;
     gConnectionWork->mUnk_1694 &= ~2;
-    func_02009c04();
+    MB_EndToIdle();
 }
 
 void StartRequestEndScan(void) {
@@ -423,7 +423,7 @@ void func_0204dfe0(u32 a) {
     u32 result;
     gConnectionWork->mUnk_000c = 0x23;
     gConnectionWork->mRequestPending = 1;
-    result = func_0200b15c(a, gConnectionWork->mUnk_0024, 0x1bc, 0x36, 0, 0);
+    result = MB_FakeReadParentBssDesc(a, gConnectionWork->mUnk_0024, 0x1bc, 0x36, 0, 0);
     gConnectionWork->mRequestPending = 0;
     gConnectionWork->mUnk_0024->mUnk_48 = (gConnectionWork->mUnk_0024->mUnk_48 + 7) & 0x7fff;
     if (result == 0) {
@@ -434,7 +434,7 @@ void func_0204dfe0(u32 a) {
 void func_0204df90(void) {
     gConnectionWork->mUnk_000c = 0x1a;
     gConnectionWork->mRequestPending = 1;
-    func_02007ec4(gConnectionWork->mUnk_0024, 0x1bc, 0x36, 0, 0);
+    MB_ReadMultiBootParentBssDesc(gConnectionWork->mUnk_0024, 0x1bc, 0x36, 0, 0);
     gConnectionWork->mUnk_0024->mUnk_48 = (gConnectionWork->mUnk_0024->mUnk_48 + 7) & 0x7fff;
     gConnectionWork->mRequestPending = 0;
 }

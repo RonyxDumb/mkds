@@ -125,7 +125,7 @@ void func_02055340(void) {
             if (func_02055030_inline() != 1) {
                 return;
             }
-            func_02001000();
+            DisconnectRemovedChildren();
             break;
         case 2:
             childMask = gConnectionWork->mUnk_0044.mChildMask;

@@ -12,10 +12,10 @@ u32 IsChildIndexInRange(u32 a) {
     return 0;
 }
 
-void func_02007120(u32 a, u16 b) {
-    u16 value[1];
-    value[0] = b;
-    func_02007cf8(a, 0xd, value);
+void MBi_CommCallParentError(u32 aid, u16 errcode) {
+    u16 errorStatus[1];
+    errorStatus[0] = errcode;
+    MBi_CommChangeParentStateCallbackOnly(aid, 0xd, errorStatus);
 }
 
 u32 GetRequestId(void) {

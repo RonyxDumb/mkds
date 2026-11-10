@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-u32 func_02009c90(void);
+u32 MBi_OnReset(void);
 int StartWirelessReset(void);

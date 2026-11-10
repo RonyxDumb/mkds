@@ -9,26 +9,26 @@
 
 #pragma thumb on
 
-u32 func_02008310(void *rangeTable, Unk02008188 *source) {
+u32 MB_RegisterFile(void *rangeTable, SegmentBuffer *source) {
     u32 entryIndex;
     u32 savedInterrupts;
     u32 entryOffset;
     Unk0216fdac *work;
-    Unk020082b4 *record;
+    MBDownloadFileInfo *record;
     u8 i;
     entryIndex = 0xff;
     savedInterrupts = OS_DisableInterrupts();
-    if (func_02009958() == 0) {
+    if (MBi_IsStarted() == 0) {
         OS_RestoreInterrupts(savedInterrupts);
         return 0;
     }
-    work = data_0216fdac;
+    work = mbc;
     if (work->mEntryCount + 1 > 0x10) {
         OS_RestoreInterrupts(savedInterrupts);
         return 0;
     }
     for (i = 0; i < 0x10; i++) {
-        if ((OFFSET_PTR(Unk0216fdac, work, i * 0x5d4))->mUnk_1d40 == rangeTable) {
+        if ((OFFSET_PTR(Unk0216fdac, work, i * 0x5d4))->mGameReg == rangeTable) {
             OS_RestoreInterrupts(savedInterrupts);
             return 0;
         }
@@ -42,56 +42,55 @@ u32 func_02008310(void *rangeTable, Unk02008188 *source) {
         return 0;
     }
     entryOffset = entryIndex * 0x5d4;
-    (OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->mUnk_1d40 = rangeTable;
-    record = (Unk020082b4 *) (data_0216fdac->mUnk_1788 + entryOffset);
-    func_020082b4(record, source);
-    MI_CpuCopy8((u8 *) rangeTable + 0x1c, record->mUnk_c4, 0x20);
-    if (func_020080e8((ChunkTable *) (data_0216fdac->mUnk_1d2c + entryOffset), record) == 0) {
+    (OFFSET_PTR(Unk0216fdac, mbc, entryOffset))->mGameReg = rangeTable;
+    record = (MBDownloadFileInfo *) (mbc->mUnk_1788 + entryOffset);
+    MBi_MakeDownloadFileInfo(record, source);
+    MI_CpuCopy8((u8 *) rangeTable + 0x1c, record->mReserved, 0x20);
+    if (MBi_MakeBlockInfoTable((ChunkTable *) (mbc->mUnk_1d2c + entryOffset), record) == 0) {
         OS_RestoreInterrupts(savedInterrupts);
         return 0;
     }
-    func_02009828((GameInfoEntry *) (data_0216fdac->mUnk_1788 + 0xe4 + entryOffset), rangeTable,
-                  (const u8 *) &data_0216fdac->mUnk_1300);
-    (OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->mUnk_1d21 = entryIndex;
-    AppendGameInfoEntry((GameInfoEntry *) (data_0216fdac->mUnk_1788 + 0xe4 + entryOffset));
-    (OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->mUnk_1d1f = data_0216fc30++;
-    (OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->mUnk_1d4e = 1;
-    (OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->mUnk_1d44 = source;
-    (OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->mUnk_1d54 = &source->mUnk_1e8;
-    (OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->mUnk_1d58 = source->mUnk_258;
-    if ((OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->mUnk_1d54->mRanges[3].mUnk_0c != 0) {
+    MBi_MakeGameInfo((GameInfoEntry *) (mbc->mUnk_1788 + 0xe4 + entryOffset), rangeTable, (const u8 *) &mbc->mUser);
+    (OFFSET_PTR(Unk0216fdac, mbc, entryOffset))->mUnk_1d21 = entryIndex;
+    AppendGameInfoEntry((GameInfoEntry *) (mbc->mUnk_1788 + 0xe4 + entryOffset));
+    (OFFSET_PTR(Unk0216fdac, mbc, entryOffset))->mUnk_1d1f = data_0216fc30++;
+    (OFFSET_PTR(Unk0216fdac, mbc, entryOffset))->mGameinfoChildBmp = 1;
+    (OFFSET_PTR(Unk0216fdac, mbc, entryOffset))->mSrcAdr = source;
+    (OFFSET_PTR(Unk0216fdac, mbc, entryOffset))->mCacheList = &source->mUnk_1e8;
+    (OFFSET_PTR(Unk0216fdac, mbc, entryOffset))->mCardMapping = source->mUnk_258;
+    if ((OFFSET_PTR(Unk0216fdac, mbc, entryOffset))->mCacheList->mRanges[3].mUnk_0c != 0) {
         if (IsWorkerActive() == 0) {
-            func_0200b00c(data_0216fdac->mUnk_7ce0);
-            StartWorkerThread(&data_0216fdac->mUnk_74e0, 0x800);
+            MBi_InitTaskInfo(mbc->mCurTask);
+            StartWorkerThread(&mbc->mUnk_74e0, 0x800);
         }
     }
-    (OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->mEntryUsed = 1;
-    data_0216fdac->mEntryCount++;
+    (OFFSET_PTR(Unk0216fdac, mbc, entryOffset))->mEntryUsed = 1;
+    mbc->mEntryCount++;
     OS_RestoreInterrupts(savedInterrupts);
     return 1;
 }
 
-void func_020082b4(Unk020082b4 *record, Unk02008188 *source) {
+void MBi_MakeDownloadFileInfo(MBDownloadFileInfo *record, SegmentBuffer *source) {
     u32 nextAddress;
     u8 *headerTail;
     u32 *kinds;
-    Unk020082b4_0c *range;
+    MbSegmentInfo *range;
     s32 i;
     nextAddress = 0x022c0000;
     headerTail = source->mUnk_160;
-    record->mUnk_00 = source->mUnk_024;
-    record->mUnk_04 = source->mUnk_034;
-    range = record->mUnk_0c;
-    kinds = data_02152bc0;
+    record->mArm9EntryAddr = source->mUnk_024;
+    record->mArm7EntryAddr = source->mUnk_034;
+    range = record->mSeg;
+    kinds = MBi_defaultLoadSegList;
     for (i = 0; i < 3; i++) {
-        func_02008188(source, kinds, range, &nextAddress);
+        MBi_SetSegmentInfo(source, kinds, range, &nextAddress);
         range++;
         kinds++;
     }
-    MI_CpuCopy8(headerTail, record->mUnk_3c, 0x88);
+    MI_CpuCopy8(headerTail, record->mAuthCode, 0x88);
 }
 
-void func_02008188(Unk02008188 *source, u32 *kindWord, Unk020082b4_0c *range, u32 *nextAddress) {
+void MBi_SetSegmentInfo(SegmentBuffer *source, u32 *kindWord, MbSegmentInfo *range, u32 *nextAddress) {
     u32 outOfBounds;
     u32 useNextAddress;
     u32 *pair;
@@ -101,10 +100,10 @@ void func_02008188(Unk02008188 *source, u32 *kindWord, Unk020082b4_0c *range, u3
             pair = source->mUnk_028;
             if (source->mUnk_028[0] >= 0x02000000 && source->mUnk_028[0] < 0x022c0000 &&
                 source->mUnk_028[0] + pair[1] <= 0x022c0000) {
-                range->mUnk_08 = pair[1];
-                range->mUnk_04 = pair[0];
-                range->mUnk_00 = range->mUnk_04;
-                range->mUnk_0c &= ~1;
+                range->mSize = pair[1];
+                range->mLoadAddr = pair[0];
+                range->mRecvAddr = range->mLoadAddr;
+                range->mTarget &= ~1;
                 return;
             }
             OS_Terminate();
@@ -134,34 +133,34 @@ void func_02008188(Unk02008188 *source, u32 *kindWord, Unk020082b4_0c *range, u3
             if (outOfBounds == 1) {
                 OS_Terminate();
             }
-            range->mUnk_08 = pair[1];
-            range->mUnk_04 = pair[0];
+            range->mSize = pair[1];
+            range->mLoadAddr = pair[0];
             if (useNextAddress == 0) {
-                range->mUnk_00 = range->mUnk_04;
+                range->mRecvAddr = range->mLoadAddr;
             } else {
-                range->mUnk_00 = *nextAddress;
-                *nextAddress = *nextAddress + range->mUnk_08;
+                range->mRecvAddr = *nextAddress;
+                *nextAddress = *nextAddress + range->mSize;
             }
-            range->mUnk_0c = (range->mUnk_0c & ~1) | 1;
+            range->mTarget = (range->mTarget & ~1) | 1;
             return;
         case 2:
-            range->mUnk_08 = 0x160;
-            range->mUnk_04 = 0x027ffe00;
-            range->mUnk_00 = range->mUnk_04;
-            range->mUnk_0c &= ~1;
+            range->mSize = 0x160;
+            range->mLoadAddr = 0x027ffe00;
+            range->mRecvAddr = range->mLoadAddr;
+            range->mTarget &= ~1;
             return;
     }
 }
 
 static inline struct Unk0216fdac *func_0200806c_inline(void) {
-    return data_0216fdac;
+    return mbc;
 }
 
-u32 func_020080e8(ChunkTable *chunkTable, Unk020082b4 *record) {
+u32 MBi_MakeBlockInfoTable(ChunkTable *chunkTable, MBDownloadFileInfo *record) {
     u32 offset;
     u16 nextChunk;
     u8 i;
-    Unk020082b4_0c *range;
+    MbSegmentInfo *range;
     u16 *chunkStarts;
     chunkStarts = chunkTable->mChunkStarts;
     offset = 0;
@@ -170,13 +169,13 @@ u32 func_020080e8(ChunkTable *chunkTable, Unk020082b4 *record) {
     }
     for (i = 0; i < 3; i++) {
         chunkTable->mRangeOffsets[i] = offset;
-        offset += record->mUnk_0c[i].mUnk_08;
+        offset += record->mSeg[i].mSize;
     }
     chunkStarts[0] = 0;
     for (i = 0; i < 3; i++) {
-        range = &record->mUnk_0c[i];
-        nextChunk = chunkStarts[i] + (u16) ((range->mUnk_08 + data_0216fdac->mUnk_1318 - 1) / data_0216fdac->mUnk_1318);
-        if (func_02007f38(i, range->mUnk_04, range->mUnk_08) == 0) {
+        range = &record->mSeg[i];
+        nextChunk = chunkStarts[i] + (u16) ((range->mSize + mbc->mBlockSizeMax - 1) / mbc->mBlockSizeMax);
+        if (IsAbleToLoad(i, range->mLoadAddr, range->mSize) == 0) {
             return 0;
         }
         if (i < 2) {
@@ -190,8 +189,8 @@ u32 func_020080e8(ChunkTable *chunkTable, Unk020082b4 *record) {
 
 BOOL func_0200806c(Unk020072c0_buf *result, void *b, u16 chunk, void *d) {
     u32 offset;
-    Unk020082b4 *record;
-    Unk020082b4_0c *range;
+    MBDownloadFileInfo *record;
+    MbSegmentInfo *range;
     ChunkTable *chunkTable;
     s8 i;
     chunkTable = b;
@@ -207,20 +206,20 @@ BOOL func_0200806c(Unk020072c0_buf *result, void *b, u16 chunk, void *d) {
     if (i < 0) {
         return FALSE;
     }
-    offset = (chunk - chunkTable->mChunkStarts[i]) * func_0200806c_inline()->mUnk_1318;
-    range = &record->mUnk_0c[i];
-    result->mUnk_04 = range->mUnk_08 - offset;
-    if (result->mUnk_04 > data_0216fdac->mUnk_1318) {
-        result->mUnk_04 = data_0216fdac->mUnk_1318;
+    offset = (chunk - chunkTable->mChunkStarts[i]) * func_0200806c_inline()->mBlockSizeMax;
+    range = &record->mSeg[i];
+    result->mSize = range->mSize - offset;
+    if (result->mSize > mbc->mBlockSizeMax) {
+        result->mSize = mbc->mBlockSizeMax;
     }
-    result->mUnk_08 = offset + chunkTable->mRangeOffsets[i];
-    result->mUnk_00 = offset + range->mUnk_00;
-    result->mUnk_0c = i;
+    result->mOffset = offset + chunkTable->mRangeOffsets[i];
+    result->mChildAddress = offset + range->mRecvAddr;
+    result->mSegmentNo = i;
     return TRUE;
 }
 
-u32 func_02007ff0(u32 rangeIndex, u32 address, u32 size) {
-    switch (data_02152bc0[rangeIndex]) {
+u32 MBi_IsAbleToRecv(u32 rangeIndex, u32 address, u32 size) {
+    switch (MBi_defaultLoadSegList[rangeIndex]) {
         case 2:
             if (address >= 0x027ffe00 && address + size <= 0x027fff60) {
                 return 1;
@@ -245,12 +244,12 @@ u32 func_02007ff0(u32 rangeIndex, u32 address, u32 size) {
     return 0;
 }
 
-u32 func_02007f38(u32 rangeIndex, u32 address, u32 size) {
+u32 IsAbleToLoad(u32 rangeIndex, u32 address, u32 size) {
     u32 end;
-    switch (data_02152bc0[rangeIndex]) {
+    switch (MBi_defaultLoadSegList[rangeIndex]) {
         case 0:
         case 2:
-            return func_02007ff0(rangeIndex, address, size);
+            return MBi_IsAbleToRecv(rangeIndex, address, size);
         case 1:
             if (address >= 0x02000000 && address < 0x023fe800) {
                 end = address + size;
@@ -278,27 +277,27 @@ u32 func_02007f38(u32 rangeIndex, u32 address, u32 size) {
     return 0;
 }
 
-void func_02007ec4(ScanBlock *record, u16 b, u16 c, u32 d, u32 e) {
-    u32 v1;
-    u32 v2;
-    Unk027ffc40 *p = gBootInfo;
-    MI_CpuCopy8(p->mUnk_00 == 2 ? p->mUnk_02 : NULL, record, 0x3c);
-    record->mUnk_3c = 0x10;
-    record->mUnk_44 = record->mUnk_0c | (record->mUnk_0e << 16);
-    record->mUnk_48 = record->mUnk_10;
-    record->mUnk_4a = 0;
-    record->mUnk_4c = b;
-    record->mUnk_4e = c;
-    v1 = 0;
-    if (e != 0) {
-        v1 = 8;
+void MB_ReadMultiBootParentBssDesc(ScanBlock *bssDesc, u16 parentMaxSize, u16 childMaxSize, u32 ksFlag, u32 flagTwo) {
+    u32 csAttribute;
+    u32 ksAttribute;
+    Unk027ffc40 *bootInfo = gBootInfo;
+    MI_CpuCopy8(bootInfo->mUnk_00 == 2 ? bootInfo->mUnk_02 : NULL, bssDesc, 0x3c);
+    bssDesc->mUnk_3c = 0x10;
+    bssDesc->mUnk_44 = bssDesc->mUnk_0c | (bssDesc->mUnk_0e << 16);
+    bssDesc->mUnk_48 = bssDesc->mUnk_10;
+    bssDesc->mUnk_4a = 0;
+    bssDesc->mUnk_4c = parentMaxSize;
+    bssDesc->mUnk_4e = childMaxSize;
+    csAttribute = 0;
+    if (flagTwo != 0) {
+        csAttribute = 8;
     }
-    if (d != 0) {
-        v2 = 4;
+    if (ksFlag != 0) {
+        ksAttribute = 4;
     } else {
-        v2 = 0;
+        ksAttribute = 0;
     }
-    record->mFlags = v2 | v1 | 1;
+    bssDesc->mFlags = ksAttribute | csAttribute | 1;
 }
 
 #pragma thumb off

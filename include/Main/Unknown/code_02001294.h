@@ -4,7 +4,7 @@
 
 extern const char data_usa_ov001_021a7680[];
 
-void func_02001294(void);
+void UpdateLogoState7(void);
 void EnterLogoState7(void);
 void UpdateLogoState6(void);
 void EnterLogoState6(void);

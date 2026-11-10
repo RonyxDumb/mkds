@@ -234,7 +234,7 @@ void EnterLogoState7(void) {
     SetupTxtSystemSubTextButton(message, GetBmgEntry(gLogoScene->mCommonMessages, 4));
 }
 
-void func_02001294(void) {
+void UpdateLogoState7(void) {
     StateMachine *stateMachine;
     if (GetTxtSystemDone() != 0) {
         SetTxtSystemOpenSoundId(35);

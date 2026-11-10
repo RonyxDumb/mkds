@@ -11,7 +11,7 @@
 #include "Main/Unknown/code_02008e10.h"
 
 // Entry of the list that gGameInfoList walks (the lists are chained through mUnk_4bc). GetEntryOrNull returns one;
-// the 0xc0 bytes at 0x4c0 are moved out by func_0200b1b0.
+// the 0xc0 bytes at 0x4c0 are moved out by MB_FakeGetParentBssDesc.
 typedef struct GameInfoEntry {
     /* 000 */ u8 mUnk_000[0x220];
     /* 220 */ u8 mUnk_220[0x16];
@@ -51,8 +51,8 @@ typedef struct GameInfoList {
     /* 12 */ u8 mUnk_12[2];
 } GameInfoList;
 
-// 0x70-byte block that func_020092d0 and func_020094b8 fill and pass to WM_SetGameInfo. The halfword at 0xc and
-// the bytes from 0xe have another layout in func_020094b8.
+// 0x70-byte block that MBi_SendVolatBeacon and MBi_SendFixedBeacon fill and pass to WM_SetGameInfo. The halfword at 0xc
+// and the bytes from 0xe have another layout in MBi_SendFixedBeacon.
 typedef struct GameInfoBlock {
     /* 00 */ u32 mUnk_00;
     /* 04 */ union {
@@ -77,16 +77,16 @@ typedef struct GameInfoBlock {
     /* 68 */ u8 mUnk_68[8];
 } GameInfoBlock;
 
-// Fields func_02009828 reads.
-typedef struct Unk02009828 {
+// Fields MBi_MakeGameInfo reads.
+typedef struct MBGameRegistry {
     /* 00 */ u8 mUnk_00[4];
-    /* 04 */ const u16 *mUnk_04;
-    /* 08 */ const u8 *mUnk_08;
-    /* 0c */ const u8 *mUnk_0c;
-    /* 10 */ const u8 *mUnk_10;
-    /* 14 */ u32 mUnk_14;
-    /* 18 */ u8 mUnk_18;
-} Unk02009828;
+    /* 04 */ const u16 *mGameNamep;
+    /* 08 */ const u8 *mGameIntroductionp;
+    /* 0c */ const u8 *mIconCharPathp;
+    /* 10 */ const u8 *mIconPalettePathp;
+    /* 14 */ u32 mGgid;
+    /* 18 */ u8 mMaxPlayerNum;
+} MBGameRegistry;
 
 extern u8 data_0216fc30;
 extern u32 data_0216fc44;
@@ -96,19 +96,19 @@ extern GameInfoBlock gGameInfoBlock;
 extern ScanBlock data_0216fce0;
 extern Unk0216fc1c data_0216fd30[1];
 
-u32 func_020091fc(ScanBlock *scanBlock);
+u32 MBi_CheckMBParent(ScanBlock *scanBlock);
 u32 AddScanResult(EntryCallbackFunc callback, u32 b, ScanBlock *scanBlock);
-void func_020092d0(u32 ggid, u16 tgid, u32 attr);
-void func_02009494(void);
-void func_020094b8(u32 ggid, u16 tgid, u32 attr);
-void func_020095c4(void);
+void MBi_SendVolatBeacon(u32 ggid, u16 tgid, u32 attr);
+void MBi_InitSendVolatBeacon(void);
+void MBi_SendFixedBeacon(u32 ggid, u16 tgid, u32 attr);
+void MBi_InitSendFixedBeacon(void);
 u32 AdvanceGameInfoEntry(void);
 void SetNextGameInfo(u32 ggid, u16 tgid, u32 attr);
 void ResetGameInfoWalk(void);
 void InitGameInfoList(void);
 void AppendGameInfoEntry(GameInfoEntry *newEntry);
 u32 GetU16StringLength(const u16 *string);
-void func_0200973c(GameInfoEntry *entry, const void *records, u32 recordMask, u32 d);
+void MB_UpdateGameInfoMember(GameInfoEntry *entry, const void *records, u32 recordMask, u32 d);
 u32 LoadFileIfSizeMatches(const u8 *path, u8 *buffer, u32 isLarge);
-void func_02009828(GameInfoEntry *entry, Unk02009828 *params, const u8 *record);
+void MBi_MakeGameInfo(GameInfoEntry *entry, MBGameRegistry *params, const u8 *record);
 

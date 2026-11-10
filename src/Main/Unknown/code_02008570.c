@@ -22,7 +22,7 @@ static inline u32 func_02008570_inline(CARDRomHeader *a) {
     return b;
 }
 
-int func_02008570(FSFile *file, void *buffer, u32 bufferSize) {
+int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
     FSFile *activeFile;
     CARDRomHeader *header;
     u8 *v3;
@@ -128,7 +128,7 @@ int func_02008570(FSFile *file, void *buffer, u32 bufferSize) {
         if (openedHere != FALSE) {
             FS_CloseFile(&openedFile);
             if (result != FALSE) {
-                v6 = data_usa_02161788;
+                v6 = mbi_seg_header;
                 v14[0] = header->mHead.mUnk_20;
                 v14[1] = header->mHead.mUnk_28 - header->mHead.mUnk_20;
                 v14[2] = (u32) rangeTable->mRanges[1].mData - header->mHead.mUnk_20;

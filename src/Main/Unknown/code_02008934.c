@@ -4,15 +4,15 @@
 
 #pragma thumb on
 
-void func_02008d68(u32 entryIndex) {
+void MBi_CheckSeqNoFixed(u32 entryIndex) {
     if (gReceivedGameInfo->mUnk_05 != gEntryTable->mEntries[entryIndex].mUnk_4b3) {
-        func_0200895c(entryIndex);
+        MB_DeleteRecvGameInfoWithoutBssdesc(entryIndex);
         SetScanBssidFromEntry(entryIndex);
         gEntryTable->mEntries[entryIndex].mUnk_4b3 = gReceivedGameInfo->mUnk_05;
     }
 }
 
-void func_02008d30(u32 entryIndex) {
+void MBi_CheckSeqNoVolat(u32 entryIndex) {
     if (gReceivedGameInfo->mUnk_06 != gEntryTable->mEntries[entryIndex].mUnk_4b4) {
         SetScanBssidFromEntry(entryIndex);
     }
@@ -38,7 +38,7 @@ void ExpireEntriesWithBssid(const u8 *bssid) {
     }
 }
 
-void func_02008c08(u32 entryIndex) {
+void MBi_RecvFixedBeacon(u32 entryIndex) {
     EntryRecord *entry;
     u8 *dataEnd;
     u8 *destination;
@@ -66,7 +66,7 @@ void func_02008c08(u32 entryIndex) {
     entry->mUnk_584 = (1 << gReceivedGameInfo->mUnk_0b) - 1;
 }
 
-void func_02008aa0(u32 entryIndex) {
+void MBi_RecvVolatBeacon(u32 entryIndex) {
     EntryRecord *entry;
     s32 i;
     u32 j;
@@ -87,12 +87,12 @@ void func_02008aa0(u32 entryIndex) {
                 record += 0x16;
             }
             *(u16 *) &entry->mUnk_588 &= ~gReceivedGameInfo->mUnk_0e;
-            gEntryTable->mUnk_04 &= ~(1 << entryIndex);
+            gEntryTable->mValidGameInfoFlag &= ~(1 << entryIndex);
         } else {
-            vu16 v2 = 0;
-            MIi_CpuClear16(v2, entry->mUnk_35e, 0x14a);
+            vu16 zeroValue = 0;
+            MIi_CpuClear16(zeroValue, entry->mUnk_35e, 0x14a);
             entry->mUnk_588 = 0;
-            gEntryTable->mUnk_04 &= ~(1 << entryIndex);
+            gEntryTable->mValidGameInfoFlag &= ~(1 << entryIndex);
         }
         entry->mUnk_4b4 = gReceivedGameInfo->mUnk_06;
     } else if (entry->mUnk_588 == gReceivedGameInfo->mUnk_0c) {
@@ -115,41 +115,41 @@ void func_02008aa0(u32 entryIndex) {
 }
 
 void SetScanBssidFromEntry(u32 entryIndex) {
-    if (gEntryTable->mUnk_06 == 0) {
+    if (gEntryTable->mNowScanTargetFlag == 0) {
         if (gSetBssidCallback != NULL) {
             gSetBssidCallback(gEntryTable->mEntries[entryIndex].mBssid);
         }
-        gEntryTable->mUnk_0c = 0x16;
-        gEntryTable->mUnk_06 = 1 << entryIndex;
-        gEntryTable->mUnk_08 = 0x321;
+        gEntryTable->mScanCountUnit = 0x16;
+        gEntryTable->mNowScanTargetFlag = 1 << entryIndex;
+        gEntryTable->mNowLockTimeCount = 0x321;
     }
 }
 
 void ClearScanBssid(void) {
-    if (gEntryTable->mUnk_06 != 0) {
+    if (gEntryTable->mNowScanTargetFlag != 0) {
         if (*gClearBssidCallback != 0) {
             (*gClearBssidCallback)();
         }
-        gEntryTable->mUnk_0c = 1;
-        gEntryTable->mUnk_06 = 0;
-        gEntryTable->mUnk_0a = 0;
+        gEntryTable->mScanCountUnit = 1;
+        gEntryTable->mNowScanTargetFlag = 0;
+        gEntryTable->mNotFoundLockTargetCount = 0;
     }
 }
 
 void ClearEntry(u32 entryIndex) {
     u32 entryBit = 1 << entryIndex;
     vu16 clearValue;
-    gEntryTable->mUnk_02 &= ~entryBit;
-    gEntryTable->mUnk_04 &= ~entryBit;
+    gEntryTable->mUsefulGameInfoFlag &= ~entryBit;
+    gEntryTable->mValidGameInfoFlag &= ~entryBit;
     clearValue = 0;
     MIi_CpuClear16(clearValue, &gEntryTable->mEntries[entryIndex], sizeof(EntryRecord));
 }
 
-void func_0200895c(u32 entryIndex) {
+void MB_DeleteRecvGameInfoWithoutBssdesc(u32 entryIndex) {
     u32 entryBit = 1 << entryIndex;
     vu16 clearValue;
-    gEntryTable->mUnk_02 &= ~entryBit;
-    gEntryTable->mUnk_04 &= ~entryBit;
+    gEntryTable->mUsefulGameInfoFlag &= ~entryBit;
+    gEntryTable->mValidGameInfoFlag &= ~entryBit;
     gEntryTable->mEntries[entryIndex].mUnk_580 = 0;
     gEntryTable->mEntries[entryIndex].mUnk_584 = 0;
     gEntryTable->mEntries[entryIndex].mUnk_588 = 0;
@@ -159,7 +159,7 @@ void func_0200895c(u32 entryIndex) {
 }
 
 EntryRecord *GetEntryOrNull(u32 entryIndex) {
-    if ((gEntryTable->mUnk_02 & (1 << entryIndex)) == 0) {
+    if ((gEntryTable->mUsefulGameInfoFlag & (1 << entryIndex)) == 0) {
         return NULL;
     }
     return &gEntryTable->mEntries[entryIndex];

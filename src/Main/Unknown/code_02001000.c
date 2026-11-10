@@ -8,14 +8,14 @@ void func_0200104c(void) {
     gConnectionWork->mUnk_008b &= ~8;
 }
 
-void func_02001000(void) {
-    u8 v1;
-    v1 = gConnectionWork->mUnk_008a;
-    if (v1 == 0) {
+void DisconnectRemovedChildren(void) {
+    u8 removedChildMask;
+    removedChildMask = gConnectionWork->mRemovedChildMask;
+    if (removedChildMask == 0) {
         return;
     }
-    if (QueueMPDataHalfwordAndWord(7, gConnectionWork->mUnk_0044.mChildMask, v1) == FALSE) {
+    if (QueueMPDataHalfwordAndWord(7, gConnectionWork->mUnk_0044.mChildMask, removedChildMask) == FALSE) {
         return;
     }
-    DisconnectChildren(v1);
+    DisconnectChildren(removedChildMask);
 }

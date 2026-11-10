@@ -25,7 +25,7 @@ extern void *gWMSysBuf;
 extern u16 *data_usa_021617a0;
 extern u32 data_usa_021617a4;
 
-s32 func_02009cc8(u16 channel);
+s32 MB_StartParentFromIdle(u16 channel);
 s32 StartParentOnChannel(u16 channel);
 s32 StartWirelessInitialize(void);
 u32 SetMPLimits(u32 sendDataSize, u32 maxChildren);

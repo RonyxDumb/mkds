@@ -8,7 +8,7 @@
 void SetCallback(UnkFunc *p0) {
     u32 enabled = (OS_DisableInterrupts());
     u32 v7;
-    data_0216fdac->mCallback = p0;
+    mbc->mCallback = p0;
     v7 = (OS_RestoreInterrupts(enabled));
 }
 

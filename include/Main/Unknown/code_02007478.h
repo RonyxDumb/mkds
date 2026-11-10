@@ -22,4 +22,4 @@ typedef struct DataRangeLoadJob {
 extern u8 data_usa_02161784;
 
 void LoadDataRange(DataRangeLoadJob *job);
-u32 func_020074d8(void);
+u32 MBi_CommParentSendDLFileInfo(void);

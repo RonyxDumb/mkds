@@ -515,7 +515,7 @@ Expression shapes:
   `const T *` read (a const-parameter inline helper) keeps the second load apart.
 - A stack parameter loaded before the other operands of an `mla` statement: an explicit same-type cast `(s32) e` on two
   of its uses (the only spelling that matched; func_020fcf10).
-- A mask computed after the load it is tested against and then reused: write `1U << b` at the test only (func_02007698).
+- A mask computed after the load it is tested against and then reused: write `1U << b` at the test only (MBi_CommParentRecvDataPerChild).
 - `x == f()` compiled with the compare operands the other way round: put the result in a local and write it on the left,
   `k = f(); if (k == x)` (DWC_BM_Init).
 - `cmp t, reg` with the hardware word read before `t`: read the word through a static inline helper and write `t ==
@@ -543,7 +543,7 @@ Expression shapes:
 - A call's later argument computed before the call in an earlier argument: pass through a static inline wrapper taking
   all the arguments (func_ov003_021c25e0).
 - Index scaled (`lsl #2`) before the base pointer is reloaded: compute the entry address inside the statement that uses
-  the index, and set the pointer local after it (func_020072c0).
+  the index, and set the pointer local after it (MBi_CommParentSendBlock).
 - A field load after an abs branch, with the `-K` constant load filling its delay and taking r0 across the multiply:
   read the field into a local before the `if` (func_020f6a6c).
 - A table byte loaded before the loop's offset init in ours, after it in the original: the table is in `.rodata`, so
@@ -592,7 +592,7 @@ Expression shapes:
 - `i * 0x20` strength-reduced across the outer loop where the original shifts each pass: write `(u32) i * 0x20` (or
   `0x20U`) in the subscript (func_020362dc).
 - An address used twice that is shared as `(base + i * 2) + off`: write one of the two accesses through `(u8 *) base + i
-  * 2` (func_02007698).
+  * 2` (MBi_CommParentRecvDataPerChild).
 - Only `i * 12` kept across a call and `a + r7` formed twice: a same-type cast on the base at the first use only, `f((T
   *) a + i)`, and `&a[i]` later (func_ov000_0219d2e8).
 - A global's loads hoisted out of a loop with calls and kept in stack slots, ours reloading each pass: declare the
@@ -649,7 +649,7 @@ Expression shapes:
   (func_ov003_021c06e0).
 - A loop counter taking its register before `counter + off` and before the loop's sum, the reverse of the original:
   count with the variable an earlier loop used, and sum into a variable first used in this loop (HeadphoneProc).
-- Loop pointer and counter registers swapped: declare the counter right before the pointer local (func_020072c0).
+- Loop pointer and counter registers swapped: declare the counter right before the pointer local (MBi_CommParentSendBlock).
 - A hand-rotated do-while guard giving `bcc` (ROM `blt`) and swapped registers at `j++`: a plain `for (j = 1; j <= f();
   j++)` with the increment at the end (StartRaceHudLapTimeDisplay).
 - A later loop's counter and its strength-reduced offset swapped: a new named counter and a new named bound for that
@@ -729,7 +729,7 @@ Expression shapes:
   (UpdateSun; seen once).
 - `cmp #K; beq` to a call placed at the end: `if (x != K) { ... } else { call(); }` (func_02106580).
 - The else arm placed first, with the last test branching to the then arm: `if (!A || !B || C != D) { else-body } else {
-  then-body }` (func_02007698).
+  then-body }` (MBi_CommParentRecvDataPerChild).
 - `movcc #0` then `movcs #1` where `c = (b < K) ? 0 : 1` gives `movcs` first: write `if (b < K) { c = 0; } else { c = 1;
   }` (UpdateRaceScene).
 - Switch case bodies placed in a different order: write the case bodies in the order of the original's branch targets
@@ -813,7 +813,7 @@ Expression shapes:
   too early. Narrow the call: `(a << 16) + (u32) OS_GetTick()` (InitWiFiVSCourseSelect). The opposite shows as `adds` with
   the high word dropped: the sum is of `u64` locals and the result truncated (InitRaceProgress).
 - Where the narrowing sits shows what was narrowed. `lsl #1` then `lsl #16; lsr #16` (ROM) against one `lsl #17;
-  lsr #16`: `v1 = f(...) * 2; g(..., (u16) v1);` (func_02009828). `lsl #4; lsr #16` for a `u16` argument is how
+  lsr #16`: `v1 = f(...) * 2; g(..., (u16) v1);` (MBi_MakeGameInfo). `lsl #4; lsr #16` for a `u16` argument is how
   `x >> 12` is narrowed: pass `p->mUnk_0a4 >> 12`, not `(u32) x << 4 >> 16` (DrawPakkunMouth).
 - No `lsl/lsr` narrowing after an add and a signed `movge` against a `u16` compare in the ROM: the value is `s32`
   (UpdateKanoke64).
@@ -821,7 +821,7 @@ Expression shapes:
   the ROM re-reads from the frame. Make the parameter itself volatile (`volatile Unk b`; the header prototype stays
   without it), AdvanceKeyboardInput.
 - A nibble store that loads the byte, clears it with `bic`, then ors `(v & 0xf) << 4` is a bit-field member
-  (func_02007698).
+  (MBi_CommParentRecvDataPerChild).
 - A halfword stored through `lsl 8; asr 16; lsl 16; lsr 16` with the x/y chains in crossed registers: `x = m >> 4; ...`
   and `(u16) (s16) (x >> 8)` for the store (NNSi_G3dFuncSbc_PRJMAP).
 - A `-0x8000` compare constant that takes r0 before the final value: write `(s16) (x >> 7)` instead of `(s32) (x << 9)
@@ -914,7 +914,7 @@ Expression shapes:
   (`h.mUnk_008`; func_ov000_0219fbec).
 - Thumb: values read before a call and kept across it: read them into locals before the call (InitTimeAttackGhostSend).
 - Thumb: a `movs` copy of `b - 1` right after a call, used for an index and then times `0x16`: `v = b - 1; ... a[v] ...;
-  v *= 0x16;` (func_02007698).
+  v *= 0x16;` (MBi_CommParentRecvDataPerChild).
 
 ### 1.10 Inlines and Macros
 

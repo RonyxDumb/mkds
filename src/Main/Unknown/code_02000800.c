@@ -4,7 +4,7 @@
 // clang-format off
 // Start-up: sets the stacks of the IRQ, supervisor and system modes, clears the stack memory and two other areas,
 // unpacks main and runs the autoload copies, clears the uninitialised data and its cache lines, sets the IRQ handler
-// address, then calls FloatInit, func_02000b48 and CallCtorTable and jumps to main with lr = 0xffff0000.
+// address, then calls FloatInit, NitroStartUp and CallCtorTable and jumps to main with lr = 0xffff0000.
 // Not compiled code: it switches processor modes and sets sp directly (msr), writes coprocessor 15 (mcr) and ends in a
 // jump with a set return address instead of a call; C has no way to do any of these.
 asm void Entry(void) {
@@ -30,18 +30,18 @@ asm void Entry(void) {
     mov r0, #0x0
     ldr r1, =data_027e0000
     mov r2, #0x4000
-    bl func_02000920
+    bl INITi_CpuClear32
     mov r0, #0x0
     ldr r1, =0x5000000
     mov r2, #0x400
-    bl func_02000920
+    bl INITi_CpuClear32
     mov r0, #0x200
     ldr r1, =0x7000000
     mov r2, #0x400
-    bl func_02000920
+    bl INITi_CpuClear32
     ldr r1, =BuildInfo
     ldr r0, [r1, #0x14]
-    bl func_02000934
+    bl MIi_UncompressBackward
     bl func_020009e0
     ldr r0, =BuildInfo
     ldr r1, [r0, #0xc]
@@ -68,7 +68,7 @@ flush_line:
     ldr r0, =func_01ff8000
     str r0, [r1, #0x0]
     bl FloatInit
-    bl func_02000b48
+    bl NitroStartUp
     bl CallCtorTable
     ldr r1, =main
     ldr lr, =0xffff0000

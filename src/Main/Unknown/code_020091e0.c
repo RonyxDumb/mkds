@@ -24,27 +24,27 @@ void SetScanBssidCallbacks(void (*setCallback)(const u8 *), void (*clearCallback
 
 #pragma thumb on
 
-void func_02009828(GameInfoEntry *entry, Unk02009828 *params, const u8 *record) {
+void MBi_MakeGameInfo(GameInfoEntry *entry, MBGameRegistry *params, const u8 *record) {
     u32 v1;
     u32 v2;
     volatile u16 clearValue;
     clearValue = 0;
     MIi_CpuClear16(clearValue, entry, 0x4c0);
     entry->mUnk_4b2 = 0;
-    v1 = LoadFileIfSizeMatches(params->mUnk_0c, (u8 *) entry, 1) == 0;
-    v2 = LoadFileIfSizeMatches(params->mUnk_10, (u8 *) entry, 0) == 0;
+    v1 = LoadFileIfSizeMatches(params->mIconCharPathp, (u8 *) entry, 1) == 0;
+    v2 = LoadFileIfSizeMatches(params->mIconPalettePathp, (u8 *) entry, 0) == 0;
     if ((v1 | v2) != 0) {
         entry->mUnk_4b2 = 1;
         MemFillWordsByBlock_inline(entry, 0x220);
     }
-    entry->mUnk_4b8 = params->mUnk_14;
+    entry->mUnk_4b8 = params->mGgid;
     if (record != NULL) {
         MIi_CpuCopy16(record, entry->mUnk_220, 0x16);
     }
-    entry->mUnk_236 = params->mUnk_18;
-    v1 = GetU16StringLength(params->mUnk_04) * 2;
-    MIi_CpuCopy16(params->mUnk_04, entry->mUnk_238, (u16) v1);
-    MIi_CpuCopy16(params->mUnk_08, entry->mUnk_298, 0xc0);
+    entry->mUnk_236 = params->mMaxPlayerNum;
+    v1 = GetU16StringLength(params->mGameNamep) * 2;
+    MIi_CpuCopy16(params->mGameNamep, entry->mUnk_238, (u16) v1);
+    MIi_CpuCopy16(params->mGameIntroductionp, entry->mUnk_298, 0xc0);
     entry->mUnk_358 = 1;
     entry->mUnk_35a = 1;
     entry->mUnk_4b0 = 1;
@@ -78,7 +78,7 @@ u32 LoadFileIfSizeMatches(const u8 *path, u8 *buffer, u32 isLarge) {
     return 1;
 }
 
-void func_0200973c(GameInfoEntry *entry, const void *records, u32 recordMask, u32 d) {
+void MB_UpdateGameInfoMember(GameInfoEntry *entry, const void *records, u32 recordMask, u32 d) {
     u8 v1;
     s32 i;
     v1 = 1;
@@ -146,16 +146,16 @@ void SetNextGameInfo(u32 ggid, u16 tgid, u32 attr) {
                 }
                 break;
             case 2:
-                func_020095c4();
+                MBi_InitSendFixedBeacon();
                 break;
             case 3:
-                func_020094b8(ggid, tgid, attr);
+                MBi_SendFixedBeacon(ggid, tgid, attr);
                 return;
             case 4:
-                func_02009494();
+                MBi_InitSendVolatBeacon();
                 break;
             case 5:
-                func_020092d0(ggid, tgid, attr);
+                MBi_SendVolatBeacon(ggid, tgid, attr);
                 return;
             case 6:
                 break;
@@ -181,7 +181,7 @@ u32 AdvanceGameInfoEntry(void) {
     return 1;
 }
 
-void func_020095c4(void) {
+void MBi_InitSendFixedBeacon(void) {
     GameInfoEntry *entry;
     if (gGameInfoList.mState == 2) {
         entry = gGameInfoList.mCurrent;
@@ -196,7 +196,7 @@ void func_020095c4(void) {
     }
 }
 
-void func_020094b8(u32 ggid, u16 tgid, u32 attr) {
+void MBi_SendFixedBeacon(u32 ggid, u16 tgid, u32 attr) {
     GameInfoEntry *entry;
     u8 *source;
     u8 *dataEnd;
@@ -233,13 +233,13 @@ void func_020094b8(u32 ggid, u16 tgid, u32 attr) {
     WM_SetGameInfo(NULL, &gGameInfoBlock, 0x70, ggid, tgid, attr);
 }
 
-void func_02009494(void) {
+void MBi_InitSendVolatBeacon(void) {
     gGameInfoList.mCurrent->mUnk_4b0 = 1;
     gGameInfoList.mUnk_0e = gGameInfoList.mCurrent->mUnk_4b4;
     gGameInfoList.mState = 5;
 }
 
-void func_020092d0(u32 ggid, u16 tgid, u32 attr) {
+void MBi_SendVolatBeacon(u32 ggid, u16 tgid, u32 attr) {
     GameInfoEntry *entry;
     u32 pendingMask;
     u32 recordBit;
@@ -249,7 +249,7 @@ void func_020092d0(u32 ggid, u16 tgid, u32 attr) {
     u32 recordCount;
     volatile u16 clearValue;
     if (gGameInfoList.mUnk_0e != gGameInfoList.mCurrent->mUnk_4b4) {
-        func_02009494();
+        MBi_InitSendVolatBeacon();
     }
     gGameInfoBlock.mUnk_04_0 = 2;
     entry = gGameInfoList.mCurrent;
@@ -304,12 +304,12 @@ void func_020092d0(u32 ggid, u16 tgid, u32 attr) {
 
 void ClearEntryTable(void) {
     MemFillWordsByBlock_inline(gEntryTable, 0x5910);
-    gEntryTable->mUnk_0c = 1;
+    gEntryTable->mScanCountUnit = 1;
 }
 
 u32 AddScanResult(EntryCallbackFunc callback, u32 b, ScanBlock *scanBlock) {
     s32 entryIndex;
-    if (func_020091fc(scanBlock) == 0) {
+    if (MBi_CheckMBParent(scanBlock) == 0) {
         return 0;
     }
     MIi_CpuCopy16(scanBlock, &data_0216fce0, 0xc0);
@@ -323,11 +323,11 @@ u32 AddScanResult(EntryCallbackFunc callback, u32 b, ScanBlock *scanBlock) {
         return 0;
     }
     UpdateEntryFromScan((u8 *) scanBlock, entryIndex, b);
-    func_02008ff0(entryIndex, callback);
+    MBi_CheckCompleteGameInfoFlagments(entryIndex, callback);
     return 1;
 }
 
-u32 func_020091fc(ScanBlock *scanBlock) {
+u32 MBi_CheckMBParent(ScanBlock *scanBlock) {
     if ((scanBlock->mFlags & 2) == 0 || scanBlock->mUnk_40 != 1) {
         return 0;
     }
@@ -338,7 +338,7 @@ u32 func_020091fc(ScanBlock *scanBlock) {
 
 #pragma thumb on
 
-void func_020091e0(u16 *scanBlock, u32 p1) {
+void MBi_SetSSIDToBssDesc(u16 *scanBlock, u32 p1) {
     scanBlock[5] = 0x20u;
     scanBlock[6] = p1;
     scanBlock[7] = ((((p1) & (0xffff0000u))) >> 16);

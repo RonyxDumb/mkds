@@ -11,10 +11,10 @@
 
 // Filled by func_0200806c.
 typedef struct Unk020072c0_buf {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u8 mUnk_0c;
+    /* 00 */ u32 mChildAddress;
+    /* 04 */ u32 mSize;
+    /* 08 */ u32 mOffset;
+    /* 0c */ u8 mSegmentNo;
     /* 0d */ u8 mUnk_0d[3];
 } Unk020072c0_buf;
 
@@ -24,26 +24,27 @@ typedef struct ChunkTable {
     /* 0c */ u16 mChunkStarts[4];
 } ChunkTable;
 
-// 0x10-byte entry of Unk020082b4.
-typedef struct Unk020082b4_0c {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
-} Unk020082b4_0c;
+// 0x10-byte entry of MBDownloadFileInfo.
+typedef struct MbSegmentInfo {
+    /* 00 */ u32 mRecvAddr;
+    /* 04 */ u32 mLoadAddr;
+    /* 08 */ u32 mSize;
+    /* 0c */ u32 mTarget;
+} MbSegmentInfo;
 
-// 0xe4-byte object that func_020082b4 sets up at 0x1788 of an entry of Unk0216fdac.
-typedef struct Unk020082b4 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
+// 0xe4-byte object that MBi_MakeDownloadFileInfo sets up at 0x1788 of an entry of Unk0216fdac.
+typedef struct MBDownloadFileInfo {
+    /* 00 */ u32 mArm9EntryAddr;
+    /* 04 */ u32 mArm7EntryAddr;
     /* 08 */ u8 mUnk_08[4];
-    /* 0c */ Unk020082b4_0c mUnk_0c[3];
-    /* 3c */ u8 mUnk_3c[0x88];
-    /* c4 */ u8 mUnk_c4[0x20];
-} Unk020082b4;
+    /* 0c */ MbSegmentInfo mSeg[3];
+    /* 3c */ u8 mAuthCode[0x88];
+    /* c4 */ u8 mReserved[0x20];
+} MBDownloadFileInfo;
 
-// Object func_02008310 and func_020082b4 read; the DataRangeTable at 0x1e8 and the words at 0x258 go to the entry.
-typedef struct Unk02008188 {
+// Object MB_RegisterFile and MBi_MakeDownloadFileInfo read; the DataRangeTable at 0x1e8 and the words at 0x258 go to
+// the entry.
+typedef struct SegmentBuffer {
     /* 000 */ u8 mUnk_000[0x24];
     /* 024 */ u32 mUnk_024;
     /* 028 */ u32 mUnk_028[2];
@@ -54,13 +55,13 @@ typedef struct Unk02008188 {
     /* 160 */ u8 mUnk_160[0x88];
     /* 1e8 */ DataRangeTable mUnk_1e8;
     /* 258 */ u32 mUnk_258[1];
-} Unk02008188;
+} SegmentBuffer;
 
-void func_02007ec4(ScanBlock *record, u16 b, u16 c, u32 d, u32 e);
-u32 func_02007f38(u32 rangeIndex, u32 address, u32 size);
-u32 func_02007ff0(u32 rangeIndex, u32 address, u32 size);
+void MB_ReadMultiBootParentBssDesc(ScanBlock *bssDesc, u16 parentMaxSize, u16 childMaxSize, u32 ksFlag, u32 flagTwo);
+u32 IsAbleToLoad(u32 rangeIndex, u32 address, u32 size);
+u32 MBi_IsAbleToRecv(u32 rangeIndex, u32 address, u32 size);
 BOOL func_0200806c(Unk020072c0_buf *result, void *b, u16 chunk, void *d);
-u32 func_020080e8(ChunkTable *chunkTable, Unk020082b4 *record);
-void func_02008188(Unk02008188 *source, u32 *kindWord, Unk020082b4_0c *range, u32 *nextAddress);
-void func_020082b4(Unk020082b4 *record, Unk02008188 *source);
-u32 func_02008310(void *rangeTable, Unk02008188 *source);
+u32 MBi_MakeBlockInfoTable(ChunkTable *chunkTable, MBDownloadFileInfo *record);
+void MBi_SetSegmentInfo(SegmentBuffer *source, u32 *kindWord, MbSegmentInfo *range, u32 *nextAddress);
+void MBi_MakeDownloadFileInfo(MBDownloadFileInfo *record, SegmentBuffer *source);
+u32 MB_RegisterFile(void *rangeTable, SegmentBuffer *source);

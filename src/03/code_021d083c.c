@@ -58,7 +58,7 @@ u32 func_ov003_021d1290(void) {
         if (b == 4 && a->mUnk_a98 < 6) {
             return 0;
         }
-        func_02009c04();
+        MB_EndToIdle();
         data_ov003_021da2ac->mUnk_a90 = 0x10;
         data_ov003_021da2ac->mUnk_aac = 2;
         return 1;
@@ -158,7 +158,7 @@ void func_ov003_021d0ee0(void) {
             }
             return;
         case 18:
-            func_02009c04();
+            MB_EndToIdle();
             data_ov003_021da2ac->mUnk_a9c = 0;
             data_ov003_021da2ac->mUnk_a90 = 0x16;
             return;
@@ -248,7 +248,7 @@ void func_ov003_021d0e9c(u8 *a, u8 *b) {
 }
 
 void *func_ov003_021d0e90(void) {
-    return func_02007e38(1);
+    return MB_CommGetChildUser(1);
 }
 
 void func_ov003_021d0df8(void) {

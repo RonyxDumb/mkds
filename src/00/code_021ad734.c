@@ -87,7 +87,7 @@ s32 func_ov000_021b04cc(void) {
 }
 
 void func_ov000_021b02fc(Unk021b5fa8 *a) {
-    func_02000b44(0x2000bfc);
+    OSi_ReferSymbol(0x2000bfc);
     if (*(u64 *) &a->mUnk_14 != 0) {
         data_ov000_021b63e0[0] = *(u64 *) &a->mUnk_14;
         data_ov000_021b63e0[1] = 0x5d588b656c078965ULL;

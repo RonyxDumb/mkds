@@ -8,33 +8,33 @@
 
 #pragma thumb on
 
-u32 func_020072c0(void) {
+u32 MBi_CommParentSendBlock(void) {
     ParentMessage message;
-    Unk020072c0_buf v2;
+    Unk020072c0_buf blockInfo;
     u8 v11;
-    u8 v14;
+    u8 segmentNum;
     Unk0216fdac *work;
     Unk0216fdac *childEntry;
     DataRangeTable *rangeTable;
     DataRange *lowestRange;
     s32 i;
     DataRange *range;
-    u8 *v9;
-    u32 v10;
+    u8 *sendBlock;
+    u32 readOffset;
     DataRangeLoadJob *loadJob;
     Unk0216fdac *v12;
     Unk0216fdac *v13;
-    v12 = data_0216fdac;
+    v12 = mbc;
     if (v12->mEntryCount == 0) {
         return 21;
     }
     v11 = 0;
     do {
-        work = data_0216fdac;
-        work->mUnk_1525 = (work->mUnk_1525 + 1) % 16;
-        v13 = (Unk0216fdac *) *(u32 *) &data_0216fdac;
-        childEntry = OFFSET_PTR(Unk0216fdac, v13, v13->mUnk_1525 * 0x5d4);
-        if (childEntry->mEntryUsed != 0 && childEntry->mUnk_1d4c != 0) {
+        work = mbc;
+        work->mCurFileid = (work->mCurFileid + 1) % 16;
+        v13 = (Unk0216fdac *) *(u32 *) &mbc;
+        childEntry = OFFSET_PTR(Unk0216fdac, v13, v13->mCurFileid * 0x5d4);
+        if (childEntry->mEntryUsed != 0 && childEntry->mPollbmp != 0) {
             break;
         }
         v11++;
@@ -42,26 +42,27 @@ u32 func_020072c0(void) {
     if (v11 == 16) {
         return 21;
     }
-    func_02007154(v13->mUnk_1525);
-    work = data_0216fdac;
-    childEntry = OFFSET_PTR(Unk0216fdac, work, work->mUnk_1525 * 0x5d4);
-    if (func_0200806c(&v2, work->mUnk_1d2c + work->mUnk_1525 * 0x5d4, childEntry->mUnk_1d48,
-                      work->mUnk_1788 + work->mUnk_1525 * 0x5d4) == FALSE) {
+    func_02007154(v13->mCurFileid);
+    work = mbc;
+    childEntry = OFFSET_PTR(Unk0216fdac, work, work->mCurFileid * 0x5d4);
+    if (func_0200806c(&blockInfo, work->mUnk_1d2c + work->mCurFileid * 0x5d4, childEntry->mCurrentb,
+                      work->mUnk_1788 + work->mCurFileid * 0x5d4) == FALSE) {
         return 21;
     }
     message.mKind = 4;
-    work = data_0216fdac;
-    message.mUnk_02 = work->mUnk_1525;
-    message.mUnk_04 = (OFFSET_PTR(Unk0216fdac, work, work->mUnk_1525 * 0x5d4))->mUnk_1d48;
-    v9 = WriteParentMessage((u8 *) &message, (u8 *) work);
-    v14 = v2.mUnk_0c;
-    work = data_0216fdac;
-    v10 = v2.mUnk_08 - ((u32 *) (OFFSET_PTR(Unk0216fdac, work, work->mUnk_1525 * 0x5d4))->mUnk_1d2c)[v14] +
-          (OFFSET_PTR(Unk0216fdac, work, work->mUnk_1525 * 0x5d4))->mUnk_1d58[v14];
-    childEntry = OFFSET_PTR(Unk0216fdac, work, work->mUnk_1525 * 0x5d4);
-    rangeTable = childEntry->mUnk_1d54;
-    if (CopyFromDataRanges(rangeTable, v10, v9, v2.mUnk_04) == 0) {
-        loadJob = (DataRangeLoadJob *) data_0216fdac->mUnk_7ce0;
+    work = mbc;
+    message.mUnk_02 = work->mCurFileid;
+    message.mUnk_04 = (OFFSET_PTR(Unk0216fdac, work, work->mCurFileid * 0x5d4))->mCurrentb;
+    sendBlock = WriteParentMessage((u8 *) &message, (u8 *) work);
+    segmentNum = blockInfo.mSegmentNo;
+    work = mbc;
+    readOffset = blockInfo.mOffset -
+               ((u32 *) (OFFSET_PTR(Unk0216fdac, work, work->mCurFileid * 0x5d4))->mUnk_1d2c)[segmentNum] +
+               (OFFSET_PTR(Unk0216fdac, work, work->mCurFileid * 0x5d4))->mCardMapping[segmentNum];
+    childEntry = OFFSET_PTR(Unk0216fdac, work, work->mCurFileid * 0x5d4);
+    rangeTable = childEntry->mCacheList;
+    if (CopyFromDataRanges(rangeTable, readOffset, sendBlock, blockInfo.mSize) == 0) {
+        loadJob = (DataRangeLoadJob *) mbc->mCurTask;
         if (IsWorkerTaskInUse(&loadJob->mUnk_00) == 0) {
             if (rangeTable->mUnk_00 != 0) {
                 range = rangeTable->mRanges;
@@ -78,7 +79,7 @@ u32 func_020072c0(void) {
                 }
                 rangeTable->mUnk_00 = 0;
                 lowestRange->mUnk_0c = 1;
-                lowestRange->mOffset = v10 & ~0x1f;
+                lowestRange->mOffset = readOffset & ~0x1f;
                 loadJob->mDataRange = lowestRange;
                 loadJob->mDataRangeTable = rangeTable;
                 QueueWorkerTask(&loadJob->mUnk_00, (void *) LoadDataRange, NULL, 4);
@@ -86,12 +87,12 @@ u32 func_020072c0(void) {
         }
         return 21;
     }
-    work = data_0216fdac;
-    return FlushAndSendMPData(v2.mUnk_04 + 6, (OFFSET_PTR(Unk0216fdac, work, work->mUnk_1525 * 0x5d4))->mUnk_1d4c,
+    work = mbc;
+    return FlushAndSendMPData(blockInfo.mSize + 6, (OFFSET_PTR(Unk0216fdac, work, work->mCurFileid * 0x5d4))->mPollbmp,
                               (u32) work);
 }
 
-int func_020071b4(void) {
+int MBi_CommParentSendData(void) {
     u16 childMasks[6];
     u16 i;
     int result;
@@ -99,9 +100,9 @@ int func_020071b4(void) {
     childMasks[0] = 0;
     MIi_CpuClear16(childMasks[0], &childMasks[1], 10);
     i = 1;
-    work = data_0216fdac;
+    work = mbc;
     for (; i <= 15; i++) {
-        switch (work->mUnk_14e8[i - 1]) {
+        switch (work->mPCommState[i - 1]) {
             case 2:
                 childMasks[1] |= 1 << i;
                 break;
@@ -128,9 +129,9 @@ int func_020071b4(void) {
     } else if (childMasks[3] != 0) {
         result = SendParentMessage(2, childMasks[3]);
     } else if (childMasks[2] != 0) {
-        result = func_020074d8();
+        result = MBi_CommParentSendDLFileInfo();
     } else {
-        result = func_020072c0();
+        result = MBi_CommParentSendBlock();
     }
     if (result == 21) {
         result = SendParentMessage(0, 0xffff);

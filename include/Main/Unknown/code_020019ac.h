@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_020019ac(void);
+void EnterLogoState1Nop(void);
