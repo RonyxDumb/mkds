@@ -21,19 +21,6 @@ typedef struct CourseSoundSlot {
     /* 0f */ u8 mUnk_0f;
 } CourseSoundSlot;
 
-// Object data_0217d1c4: a word at 0 and twelve bytes at 4; ApplyCourseSoundTableEntry writes the word at 0 and
-// UpdateCourseSound reads it.
-typedef struct Unk0217d1c4 {
-    /* 00 */ u32 mPreviousVolumeHandle;
-    /* 04 */ u8 mUnk_04[0xc];
-} Unk0217d1c4;
-
-// Object data_0217d1c8: a word at 0 and twelve bytes at 4; ApplyCourseSoundTableEntry reads the word at 0.
-typedef struct Unk0217d1c8 {
-    /* 00 */ u32 mFirstTableIndex;
-    /* 04 */ u8 mUnk_04[0xc];
-} Unk0217d1c8;
-
 // Object data_0217d1cc: sixteen bytes; UpdateCourseSound and StartCourseSoundAtVolume read one byte of the row that the
 // first word of the gCourseSoundSlots element selects.
 typedef struct Unk0217d1cc {
@@ -41,10 +28,7 @@ typedef struct Unk0217d1cc {
 } Unk0217d1cc;
 
 extern CourseSoundSlot gCourseSoundSlots[];
-extern Unk0217d1c4 data_0217d1c4[];
-extern Unk0217d1c8 data_0217d1c8[];
 extern Unk0217d1cc data_0217d1cc[];
-extern CourseSoundSlot data_0217d1d0[];
 extern u32 gCourseSoundTableIndex;
 extern CourseSoundTableRow gCourseSoundTable[5];
 

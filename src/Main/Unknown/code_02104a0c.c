@@ -66,8 +66,8 @@ void CreatePooledMapObjects(void) {
     gPooledMapObjects = HeapAlloc(GetHeap(GetCurrentHeapCall()), gPooledMapObjectCount * 4);
     buf = data_0215a6cc;
     gPooledMapObjectRow.mUnk_00 = buf;
-    gPooledMapObjectRowDegrees = buf;
-    gPooledMapObjectRowScale = gVec3Ones;
+    gPooledMapObjectRow.mUnk_0c = buf;
+    gPooledMapObjectRow.mUnk_18 = gVec3Ones;
     gPooledMapObjectRow.mKind = 0x6f;
     gPooledMapObjectRow.mUnk_2e = 1;
     for (i = 0; i < gPooledMapObjectCount; i++) {

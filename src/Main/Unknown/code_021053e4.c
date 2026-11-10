@@ -21,7 +21,7 @@ const Unk0215a64c gPooledItemBoxKindDescriptor = {0,
                                                   CreateBoxDrawList,
                                                   {0}};
 
-const Unk0215a680 gPooledItemBoxKindData = {{0, 0, 0, 0xf000, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0}};
+const MapObjectKindData gPooledItemBoxKindData = {0, 0, 0, 0xf000, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0};
 
 BOOL IsRaceSceneNormalOrReplay(void) {
     u32 result = 0;
@@ -52,8 +52,8 @@ BOOL IsMissionRunBossColumn(void) {
     return result;
 }
 
-Unk0215a680 *CreatePooledItemBoxKindData(void) {
-    Unk0215a680 *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+MapObjectKindData *CreatePooledItemBoxKindData(void) {
+    MapObjectKindData *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
     *kindData = gPooledItemBoxKindData;
     return kindData;
 }

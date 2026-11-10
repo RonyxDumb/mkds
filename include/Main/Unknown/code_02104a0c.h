@@ -20,10 +20,6 @@ typedef struct BouncingItemBox {
     /* 148 */ s32 mScaleRatio;
 } BouncingItemBox;
 
-extern Vec3 gPooledMapObjectRowScale;
-
-extern Vec3 gPooledMapObjectRowDegrees;
-
 extern struct CourseMapRow gPooledMapObjectRow;
 
 extern const u16 gBouncingItemBoxUntilCourseHitBit;

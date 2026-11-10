@@ -50,7 +50,7 @@ void SelectCourseSoundTable(u32 courseId) {
     if (tableIndex != 0xffff) {
         slotIndex = 0;
         InitCourseSoundSlot(gCourseSoundSlots, 3, slotIndex);
-        InitCourseSoundSlot(data_0217d1d0, 3, slotIndex);
+        InitCourseSoundSlot(&gCourseSoundSlots[1], 3, slotIndex);
         for (; slotIndex < 2; slotIndex++) {
             groupValue = (slotIndex == 0 ? 0x1000 : 0x2000);
             for (entryIndex = 0; entryIndex < 8; entryIndex++) {
@@ -115,8 +115,8 @@ void ApplyCourseSoundTableEntry(s32 a) {
         return;
     }
     slotIndex = ((tableValue & 0xf000) >> 12) - 1;
-    a = a - data_0217d1c8[slotIndex].mFirstTableIndex;
-    data_0217d1c4[slotIndex].mPreviousVolumeHandle = gCourseSoundSlots[slotIndex].mVolumeHandle;
+    a = a - gCourseSoundSlots[slotIndex].mFirstTableIndex;
+    gCourseSoundSlots[slotIndex].mPreviousVolumeHandle = gCourseSoundSlots[slotIndex].mVolumeHandle;
     gCourseSoundSlots[slotIndex].mVolumeHandle = a;
 }
 
@@ -191,7 +191,7 @@ BOOL UpdateCourseSound(u32 slotIndex, u32 soundId) {
                 }
             }
             SetSndHandleTrackVolume(handle, trackVolume);
-        } else if (*handle != NULL && data_0217d1c4[slotIndex].mPreviousVolumeHandle != volumeHandle) {
+        } else if (*handle != NULL && gCourseSoundSlots[slotIndex].mPreviousVolumeHandle != volumeHandle) {
             SetSndHandleTrackVolume(handle, trackVolume);
         }
     } else {
