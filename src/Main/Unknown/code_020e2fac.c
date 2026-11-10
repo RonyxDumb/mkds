@@ -48,115 +48,115 @@ void DrawChoropuShadow(void *unused0, Choropu *choropu, u32 unused1, u32 alpha) 
 }
 
 void UpdateChoropu(u32 unused, Choropu *choropu) {
-    AdvanceStateMachine(&choropu->mUnk_000.mStateMachine);
+    AdvanceStateMachine(&choropu->mMapObject.mStateMachine);
 }
 
 void EnterChoropuState0(Choropu *choropu) {
-    choropu->mUnk_000.mPos.y = choropu->mBottomY;
-    choropu->mUnk_000.mUnk_10.y = 0;
-    choropu->mUnk_000.mFlags |= data_02158bb8;
-    choropu->mUnk_000.mFlags |= data_02158bb4;
+    choropu->mMapObject.mPos.y = choropu->mBottomY;
+    choropu->mMapObject.mUnk_10.y = 0;
+    choropu->mMapObject.mFlags |= data_02158bb8;
+    choropu->mMapObject.mFlags |= data_02158bb4;
 }
 
 void UpdateChoropuState0(Choropu *choropu) {
-    if (choropu->mUnk_000.mStateMachine.mStateFrames >= choropu->mStartDelayFrameCount) {
-        choropu->mUnk_000.mStateMachine.mNextState = 1;
-        choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
+    if (choropu->mMapObject.mStateMachine.mStateFrames >= choropu->mStartDelayFrameCount) {
+        choropu->mMapObject.mStateMachine.mNextState = 1;
+        choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
 void EnterChoropuState1(Choropu *choropu) {
-    choropu->mUnk_000.mPos.y = choropu->mBottomY;
-    choropu->mUnk_000.mUnk_10.y = 0x1000;
+    choropu->mMapObject.mPos.y = choropu->mBottomY;
+    choropu->mMapObject.mUnk_10.y = 0x1000;
     choropu->mSpinAngle = 0;
-    choropu->mUnk_000.mFlags |= data_02158bb8;
-    choropu->mUnk_000.mFlags |= data_02158bb4;
+    choropu->mMapObject.mFlags |= data_02158bb8;
+    choropu->mMapObject.mFlags |= data_02158bb4;
 }
 
 void UpdateChoropuState1(Choropu *choropu) {
-    choropu->mUnk_000.mPos.y = choropu->mUnk_000.mPos.y + choropu->mUnk_000.mUnk_10.y;
-    if (choropu->mUnk_000.mPos.y > choropu->mBottomY + 0x11199) {
-        choropu->mUnk_000.mPos.y = choropu->mBottomY + 0x11199;
-        choropu->mUnk_000.mStateMachine.mNextState = 2;
-        choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
+    choropu->mMapObject.mPos.y = choropu->mMapObject.mPos.y + choropu->mMapObject.mUnk_10.y;
+    if (choropu->mMapObject.mPos.y > choropu->mBottomY + 0x11199) {
+        choropu->mMapObject.mPos.y = choropu->mBottomY + 0x11199;
+        choropu->mMapObject.mStateMachine.mNextState = 2;
+        choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
 void EnterChoropuState2(Choropu *choropu) {
-    choropu->mUnk_000.mUnk_10.y = 0;
+    choropu->mMapObject.mUnk_10.y = 0;
 }
 
 void UpdateChoropuState2(Choropu *choropu) {
-    if (choropu->mUnk_000.mStateMachine.mStateFrames >= 0x14) {
-        choropu->mUnk_000.mStateMachine.mNextState = 3;
-        choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
+    if (choropu->mMapObject.mStateMachine.mStateFrames >= 0x14) {
+        choropu->mMapObject.mStateMachine.mNextState = 3;
+        choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
 void EnterChoropuState3(Choropu *choropu) {
-    choropu->mUnk_000.mUnk_10.y = -0x1000;
+    choropu->mMapObject.mUnk_10.y = -0x1000;
 }
 
 void UpdateChoropuState3(Choropu *choropu) {
     SoundStartParams soundRequest;
     s32 falloffIndex;
 
-    choropu->mUnk_000.mPos.y = choropu->mUnk_000.mPos.y + choropu->mUnk_000.mUnk_10.y;
-    if (choropu->mUnk_000.mPos.y >= choropu->mBottomY) {
+    choropu->mMapObject.mPos.y = choropu->mMapObject.mPos.y + choropu->mMapObject.mUnk_10.y;
+    if (choropu->mMapObject.mPos.y >= choropu->mBottomY) {
         return;
     }
-    if ((choropu->mUnk_000.mDistanceSquaredAndFlags & 0x4) == 0) {
-        falloffIndex = choropu->mUnk_000.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20
+    if ((choropu->mMapObject.mDistanceSquaredAndFlags & 0x4) == 0) {
+        falloffIndex = choropu->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20
                            ? 2
-                           : (choropu->mUnk_000.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20 ? 3 : 4);
+                           : (choropu->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20 ? 3 : 4);
         soundRequest.mSoundId = 0x128;
-        soundRequest.mPositionSource = &choropu->mUnk_000.mPos;
+        soundRequest.mPositionSource = &choropu->mMapObject.mPos;
         soundRequest.mFalloffIndex = falloffIndex;
-        soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&choropu->mUnk_000.mPos);
+        soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&choropu->mMapObject.mPos);
         StartSoundFromParams(&soundRequest);
     }
-    choropu->mUnk_000.mStateMachine.mNextState = 4;
-    choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
+    choropu->mMapObject.mStateMachine.mNextState = 4;
+    choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
 }
 
 void EnterChoropuState4(Choropu *choropu) {
-    choropu->mUnk_000.mPos.y = choropu->mBottomY;
-    choropu->mUnk_000.mUnk_10.y = 0x4800;
-    choropu->mUnk_000.mFlags &= ~0x1;
-    if ((choropu->mUnk_000.mDistanceSquaredAndFlags & 0x3) != 0) {
+    choropu->mMapObject.mPos.y = choropu->mBottomY;
+    choropu->mMapObject.mUnk_10.y = 0x4800;
+    choropu->mMapObject.mFlags &= ~0x1;
+    if ((choropu->mMapObject.mDistanceSquaredAndFlags & 0x3) != 0) {
         if (GetEntryRaceEnded() == 0) {
             return;
         }
     }
-    StartEffect(0x30, &choropu->mUnk_000.mCourseMapRow->mUnk_00);
+    StartEffect(0x30, &choropu->mMapObject.mCourseMapRow->mUnk_00);
 }
 
 void UpdateChoropuState4(Choropu *choropu) {
-    choropu->mUnk_000.mUnk_10.y -= 0x266;
-    choropu->mUnk_000.mPos.y = choropu->mUnk_000.mPos.y + choropu->mUnk_000.mUnk_10.y;
-    if (choropu->mUnk_000.mPos.y < choropu->mLowestY) {
-        choropu->mUnk_000.mStateMachine.mNextState = 5;
-        choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
+    choropu->mMapObject.mUnk_10.y -= 0x266;
+    choropu->mMapObject.mPos.y = choropu->mMapObject.mPos.y + choropu->mMapObject.mUnk_10.y;
+    if (choropu->mMapObject.mPos.y < choropu->mLowestY) {
+        choropu->mMapObject.mStateMachine.mNextState = 5;
+        choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
 // Same body as EnterChoropuState0; this is the enter slot of state 5.
 void EnterChoropuState5(Choropu *choropu) {
-    choropu->mUnk_000.mPos.y = choropu->mBottomY;
-    choropu->mUnk_000.mUnk_10.y = 0;
-    choropu->mUnk_000.mFlags |= data_02158bb8;
-    choropu->mUnk_000.mFlags |= data_02158bb4;
+    choropu->mMapObject.mPos.y = choropu->mBottomY;
+    choropu->mMapObject.mUnk_10.y = 0;
+    choropu->mMapObject.mFlags |= data_02158bb8;
+    choropu->mMapObject.mFlags |= data_02158bb4;
 }
 
 void UpdateChoropuState5(Choropu *choropu) {
-    if (choropu->mUnk_000.mStateMachine.mStateFrames >= choropu->mRepeatDelayFrameCount) {
-        choropu->mUnk_000.mStateMachine.mNextState = 1;
-        choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
+    if (choropu->mMapObject.mStateMachine.mStateFrames >= choropu->mRepeatDelayFrameCount) {
+        choropu->mMapObject.mStateMachine.mNextState = 1;
+        choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
 void EnterChoropuState6(Choropu *choropu) {
-    choropu->mUnk_000.mFlags = (((choropu->mUnk_000.mFlags)) | ((data_02158bb4)));
+    choropu->mMapObject.mFlags = (((choropu->mMapObject.mFlags)) | ((data_02158bb4)));
 }
 
 void UpdateChoropuState6(Choropu *choropu) {
@@ -165,11 +165,11 @@ void UpdateChoropuState6(Choropu *choropu) {
     } else {
         choropu->mSpinAngle -= 0x400;
     }
-    choropu->mUnk_000.mUnk_10.y -= 0x400;
-    choropu->mUnk_000.mPos.y = choropu->mUnk_000.mPos.y + choropu->mUnk_000.mUnk_10.y;
-    if (choropu->mUnk_000.mPos.y < choropu->mLowestY) {
-        choropu->mUnk_000.mStateMachine.mNextState = 5;
-        choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
+    choropu->mMapObject.mUnk_10.y -= 0x400;
+    choropu->mMapObject.mPos.y = choropu->mMapObject.mPos.y + choropu->mMapObject.mUnk_10.y;
+    if (choropu->mMapObject.mPos.y < choropu->mLowestY) {
+        choropu->mMapObject.mStateMachine.mNextState = 5;
+        choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
@@ -178,10 +178,10 @@ u32 ChoropuState7ReturnArgument(u32 value) {
 }
 
 void UpdateChoropuState7(Choropu *choropu) {
-    choropu->mUnk_000.mUnk_10.y -= 0x266;
-    choropu->mUnk_000.mPos.y = choropu->mUnk_000.mPos.y + choropu->mUnk_000.mUnk_10.y;
-    if (choropu->mUnk_000.mPos.y < choropu->mLowestY) {
-        StateMachine *stateMachine = &choropu->mUnk_000.mStateMachine;
+    choropu->mMapObject.mUnk_10.y -= 0x266;
+    choropu->mMapObject.mPos.y = choropu->mMapObject.mPos.y + choropu->mMapObject.mUnk_10.y;
+    if (choropu->mMapObject.mPos.y < choropu->mLowestY) {
+        StateMachine *stateMachine = &choropu->mMapObject.mStateMachine;
 
         stateMachine->mNextState = 5;
         stateMachine->mNextStateRequested = 1;
@@ -202,25 +202,25 @@ u8 CollideKartWithChoropu(Choropu *choropu, Kart *kart, u8 *firstResponsePtr, u8
             if (gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind == PLAYER_KIND_GHOST) {
                 return secondResponsePtr[0];
             }
-            if (choropu->mUnk_000.mStateMachine.mState == 7) {
+            if (choropu->mMapObject.mStateMachine.mState == 7) {
                 return secondResponsePtr[0];
             }
-            choropu->mUnk_000.mStateMachine.mNextState = 7;
-            choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
-            StartSoundIfKartStarOrKiller(&choropu->mUnk_000, kart);
+            choropu->mMapObject.mStateMachine.mNextState = 7;
+            choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
+            StartSoundIfKartStarOrKiller(&choropu->mMapObject, kart);
             break;
         case 1:
-            VEC_Subtract(&choropu->mUnk_000.mPos, &kart->mPos, &offsetFromKart);
+            VEC_Subtract(&choropu->mMapObject.mPos, &kart->mPos, &offsetFromKart);
             if ((s64) offsetFromKart.z * kart->mVelocity.x - (s64) offsetFromKart.x * kart->mVelocity.z < 0) {
                 choropu->mSpinDirection = 1;
             } else {
                 choropu->mSpinDirection = 0;
             }
-            choropu->mUnk_000.mUnk_10.y = 0x4000;
-            choropu->mUnk_000.mStateMachine.mNextState = 6;
-            choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
-            choropu->mUnk_000.mFlags |= data_02158bb4;
-            StartSoundIfKartStarOrKiller(&choropu->mUnk_000, kart);
+            choropu->mMapObject.mUnk_10.y = 0x4000;
+            choropu->mMapObject.mStateMachine.mNextState = 6;
+            choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
+            choropu->mMapObject.mFlags |= data_02158bb4;
+            StartSoundIfKartStarOrKiller(&choropu->mMapObject, kart);
             break;
     }
     return secondResponsePtr[0];
@@ -233,29 +233,29 @@ u8 CollideItemObjectWithChoropu(Choropu *choropu, ItemObject *itemObject, u8 *fi
 
     if (firstResponsePtr[0] == 1) {
         if (itemObject != NULL) {
-            VEC_Subtract(&choropu->mUnk_000.mPos, &itemObject->mPos, &offsetFromItem);
+            VEC_Subtract(&choropu->mMapObject.mPos, &itemObject->mPos, &offsetFromItem);
             if ((s64) offsetFromItem.z * itemObject->mVelocity.x - (s64) offsetFromItem.x * itemObject->mVelocity.z <
                 0) {
                 choropu->mSpinDirection = 1;
             } else {
                 choropu->mSpinDirection = 0;
             }
-            choropu->mUnk_000.mUnk_10.y = 0x4000;
-            choropu->mUnk_000.mStateMachine.mNextState = 6;
-            choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
-            choropu->mUnk_000.mFlags |= data_02158bb4;
+            choropu->mMapObject.mUnk_10.y = 0x4000;
+            choropu->mMapObject.mStateMachine.mNextState = 6;
+            choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
+            choropu->mMapObject.mFlags |= data_02158bb4;
             StartMissionRunKouraEffects(itemObject);
         } else {
-            VEC_Subtract(&choropu->mUnk_000.mPos, &choropu->mUnk_000.mPos, &offset);
+            VEC_Subtract(&choropu->mMapObject.mPos, &choropu->mMapObject.mPos, &offset);
             if ((s64) offset.z * data_02158c7c.x - (s64) offset.x * data_02158c7c.z < 0) {
                 choropu->mSpinDirection = 1;
             } else {
                 choropu->mSpinDirection = 0;
             }
-            choropu->mUnk_000.mUnk_10.y = 0x4000;
-            choropu->mUnk_000.mStateMachine.mNextState = 6;
-            choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
-            choropu->mUnk_000.mFlags |= data_02158bb4;
+            choropu->mMapObject.mUnk_10.y = 0x4000;
+            choropu->mMapObject.mStateMachine.mNextState = 6;
+            choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
+            choropu->mMapObject.mFlags |= data_02158bb4;
         }
     }
     return secondResponsePtr[0];

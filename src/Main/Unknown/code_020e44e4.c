@@ -93,34 +93,36 @@ MapObjectList *CreateRotaryUpdateList(void) {
 void UpdateRotary(u32 unused, Rotary *object) {
     s32 previousAngle;
     s32 angleChange;
-    previousAngle = object->mUnk_000.mMapObject.mAngle;
-    AdvanceStateMachine(&object->mUnk_000.mMapObject.mStateMachine);
-    angleChange = object->mUnk_000.mMapObject.mAngle - previousAngle;
+    previousAngle = object->mCollisionMapObject.mMapObject.mAngle;
+    AdvanceStateMachine(&object->mCollisionMapObject.mMapObject.mStateMachine);
+    angleChange = object->mCollisionMapObject.mMapObject.mAngle - previousAngle;
     if (angleChange > 0x8000) {
         angleChange -= 0x10000;
     }
     if (angleChange < -0x8000) {
         angleChange += 0x10000;
     }
-    object->mUnk_000.mCollisionData.mAngleChangeVector.x =
-        MUL_FIXED12_NO_ROUND(object->mUnk_000.mMapObject.mMatrix.mUnk_00[1].x, angleChange);
-    object->mUnk_000.mCollisionData.mAngleChangeVector.y =
-        MUL_FIXED12_NO_ROUND(object->mUnk_000.mMapObject.mMatrix.mUnk_00[1].y, angleChange);
-    object->mUnk_000.mCollisionData.mAngleChangeVector.z =
-        MUL_FIXED12_NO_ROUND(object->mUnk_000.mMapObject.mMatrix.mUnk_00[1].z, angleChange);
-    object->mUnk_000.mCollisionData.mPrevMatrix = object->mUnk_000.mMapObject.mMatrix.mUnk_00_m;
-    MTX_RotY33_(&object->mUnk_000.mMapObject.mMatrix.mUnk_00_m,
-                gPairsByAngle[(object->mUnk_000.mMapObject.mAngle >> 4) * 2],
-                gPairsByAngle[(object->mUnk_000.mMapObject.mAngle >> 4) * 2 + 1]);
-    MTX_Concat33(&object->mUnk_000.mMapObject.mMatrix.mUnk_00_m, &object->mUnk_000.mCollisionData.mInitialMatrix,
-                 &object->mUnk_000.mMapObject.mMatrix.mUnk_00_m);
-    VEC_MultAdd(-object->mUnk_000.mCollisionData.mHalfSizeY, &object->mUnk_000.mMapObject.mMatrix.mUnk_00[1],
-                &object->mUnk_000.mMapObject.mPos, &object->mUnk_000.mCollisionData.mCenterPos);
-    if (object->mUnk_000.mMapObject.mStateMachine.mState == 3) {
+    object->mCollisionMapObject.mCollisionData.mAngleChangeVector.x =
+        MUL_FIXED12_NO_ROUND(object->mCollisionMapObject.mMapObject.mMatrix.mUnk_00[1].x, angleChange);
+    object->mCollisionMapObject.mCollisionData.mAngleChangeVector.y =
+        MUL_FIXED12_NO_ROUND(object->mCollisionMapObject.mMapObject.mMatrix.mUnk_00[1].y, angleChange);
+    object->mCollisionMapObject.mCollisionData.mAngleChangeVector.z =
+        MUL_FIXED12_NO_ROUND(object->mCollisionMapObject.mMapObject.mMatrix.mUnk_00[1].z, angleChange);
+    object->mCollisionMapObject.mCollisionData.mPrevMatrix = object->mCollisionMapObject.mMapObject.mMatrix.mUnk_00_m;
+    MTX_RotY33_(&object->mCollisionMapObject.mMapObject.mMatrix.mUnk_00_m,
+                gPairsByAngle[(object->mCollisionMapObject.mMapObject.mAngle >> 4) * 2],
+                gPairsByAngle[(object->mCollisionMapObject.mMapObject.mAngle >> 4) * 2 + 1]);
+    MTX_Concat33(&object->mCollisionMapObject.mMapObject.mMatrix.mUnk_00_m,
+                 &object->mCollisionMapObject.mCollisionData.mInitialMatrix,
+                 &object->mCollisionMapObject.mMapObject.mMatrix.mUnk_00_m);
+    VEC_MultAdd(-object->mCollisionMapObject.mCollisionData.mHalfSizeY,
+                &object->mCollisionMapObject.mMapObject.mMatrix.mUnk_00[1],
+                &object->mCollisionMapObject.mMapObject.mPos, &object->mCollisionMapObject.mCollisionData.mCenterPos);
+    if (object->mCollisionMapObject.mMapObject.mStateMachine.mState == ROTARY_STATE_PAUSE) {
         return;
     }
     if (object->mSoundId == -1) {
         return;
     }
-    StartMapObjectSoundWhileRequested(&object->mUnk_000.mMapObject, object->mSoundId);
+    StartMapObjectSoundWhileRequested(&object->mCollisionMapObject.mMapObject, object->mSoundId);
 }

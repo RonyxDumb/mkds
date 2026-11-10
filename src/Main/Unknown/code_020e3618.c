@@ -132,24 +132,24 @@ void SetupDrawChoropu(void) {
 void DrawChoropu(s32 a, Choropu *choropu, s32 c, u16 alpha) {
     MtxFx43 *matrix;
 
-    switch (choropu->mUnk_000.mStateMachine.mState) {
+    switch (choropu->mMapObject.mStateMachine.mState) {
         case 4:
             gChoropu->mFrameIndex = 1;
-            matrix = SetViewTransposeMatrixPos(&choropu->mUnk_000.mPos);
-            DrawNsbmdModelWithMatrixAndMaxAlpha(gChoropu, matrix, &choropu->mUnk_000.mScale, 0, alpha);
+            matrix = SetViewTransposeMatrixPos(&choropu->mMapObject.mPos);
+            DrawNsbmdModelWithMatrixAndMaxAlpha(gChoropu, matrix, &choropu->mMapObject.mScale, 0, alpha);
             break;
         case 5:
             break;
         case 6:
         case 7:
             gChoropu->mFrameIndex = 1;
-            matrix = SetViewTransposeMatrixPos(&choropu->mUnk_000.mPos);
-            DrawNsbmdModelWithMatrixAndAngle(gChoropu, matrix, choropu->mSpinAngle, &choropu->mUnk_000.mScale, 0,
+            matrix = SetViewTransposeMatrixPos(&choropu->mMapObject.mPos);
+            DrawNsbmdModelWithMatrixAndAngle(gChoropu, matrix, choropu->mSpinAngle, &choropu->mMapObject.mScale, 0,
                                              alpha);
             break;
         default:
             gChoropu->mFrameIndex = 0;
-            matrix = SetViewTransposeMatrixPos(&choropu->mUnk_000.mPos);
-            DrawNsbmdModelWithMatrixAndMaxAlpha(gChoropu, matrix, &choropu->mUnk_000.mScale, 0, alpha);
+            matrix = SetViewTransposeMatrixPos(&choropu->mMapObject.mPos);
+            DrawNsbmdModelWithMatrixAndMaxAlpha(gChoropu, matrix, &choropu->mMapObject.mScale, 0, alpha);
     }
 }

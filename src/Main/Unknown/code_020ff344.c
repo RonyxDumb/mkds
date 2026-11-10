@@ -94,7 +94,7 @@ void InitMissionRunBoxMapObject(Unk020ff97c *object) {
                 &object->mUnk_000.mMapObject.mPos, &object->mUnk_000.mCollisionData.mCenterPos);
     object->mUnk_000.mCollisionData.mUnk_134 = COLLISION_SHAPE_BOX;
     object->mUnk_000.mCollisionData.mUnk_138 = 0;
-    object->mUnk_000.mUnk_13c = 1;
+    object->mUnk_000.mSkipsFlaggedQueries = 1;
     object->mUnk_000.mMapObject.mFlags |= data_0215a030;
 }
 

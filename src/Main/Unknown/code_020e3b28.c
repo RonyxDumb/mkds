@@ -25,9 +25,9 @@
 #pragma thumb off
 
 void UpdateRotaryState3(Rotary *object) {
-    if (object->mUnk_000.mMapObject.mStateMachine.mStateFrames > object->mPauseFrameCount) {
-        object->mUnk_000.mMapObject.mStateMachine.mNextState = 0;
-        object->mUnk_000.mMapObject.mStateMachine.mNextStateRequested = 1;
+    if (object->mCollisionMapObject.mMapObject.mStateMachine.mStateFrames > object->mPauseFrameCount) {
+        object->mCollisionMapObject.mMapObject.mStateMachine.mNextState = ROTARY_STATE_RAMP_UP;
+        object->mCollisionMapObject.mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
@@ -37,7 +37,7 @@ void DrawAllKind203MapObjects(void *viewMatrix) {
 
 BOOL IsRotaryKind(s32 kind) {
     switch (kind) {
-        case 0xcb:
+        case MAP_OBJECT_KIND_ROTARY_GEAR:
         case 0xce:
         case 0xd0:
         case 0xd1:
@@ -57,9 +57,9 @@ void CreateRotary(BridgeDrawList *list) {
     s32 assignIndex;
     s32 assignCount;
     u32 *loadedFlagSlot;
-    u32 modelLoaded[5];
+    u32 modelLoaded[ROTARY_MODEL_COUNT];
 
-    for (modelIndex = 0; modelIndex < 5; modelIndex++) {
+    for (modelIndex = 0; modelIndex < ROTARY_MODEL_COUNT; modelIndex++) {
         modelLoaded[modelIndex] = 0;
     }
     objectCount = list->mMapObjectList.mMapObjectCount;
@@ -68,23 +68,23 @@ void CreateRotary(BridgeDrawList *list) {
         loadedFlagSlot = &modelLoaded[object->mModelIndex];
         if (modelLoaded[object->mModelIndex] == 0) {
             switch (object->mModelIndex) {
-                case 0:
+                case ROTARY_MODEL_TEST_CYLINDER:
                     CreateNsbmd(&gTestCylinder, FindCourseMapObjFile(gTestCylinderNsbmdName), NULL);
                     SetNsbmdPolygonIdLightEmiAll(gTestCylinder, 0x3f, 2, 0x294a);
                     break;
-                case 1:
+                case ROTARY_MODEL_GEAR_BLACK:
                     CreateNsbmd(&gGearBlack, FindCourseMapObjFile(gGearBlackNsbmdName), NULL);
                     SetNsbmdPolygonIdLightEmiAll(gGearBlack, 0x3f, 2, 0x294a);
                     break;
-                case 2:
+                case ROTARY_MODEL_GEAR_WHITE:
                     CreateNsbmd(&gGearWhite, FindCourseMapObjFile(gGearWhiteNsbmdName), NULL);
                     SetNsbmdPolygonIdLightEmiAll(gGearWhite, 0x3f, 2, 0x294a);
                     break;
-                case 3:
+                case ROTARY_MODEL_ROOM:
                     CreateNsbmd(&gRotaryRoom, FindCourseMapObjFile(gRotaryRoomNsbmdName), NULL);
                     SetNsbmdPolygonIdLightEmiAll(gRotaryRoom, 0x3f, 2, 0x294a);
                     break;
-                case 4:
+                case ROTARY_MODEL_BRIDGE:
                     CreateNsbmd(&gRotaryBridge, FindCourseMapObjFile(gRotaryBridgeNsbmdName), NULL);
                     SetNsbmdPolygonIdLightEmiAll(gRotaryBridge, 0x3f, 2, 0x294a);
                     break;
@@ -96,20 +96,20 @@ void CreateRotary(BridgeDrawList *list) {
     for (assignIndex = 0; assignIndex < assignCount; assignIndex++) {
         object = list->mMapObjectList.mMapObjects[assignIndex];
         switch (object->mModelIndex) {
-            case 0:
-                object->mUnk_000.mModel = gTestCylinder;
+            case ROTARY_MODEL_TEST_CYLINDER:
+                object->mCollisionMapObject.mModel = gTestCylinder;
                 break;
-            case 1:
-                object->mUnk_000.mModel = gGearBlack;
+            case ROTARY_MODEL_GEAR_BLACK:
+                object->mCollisionMapObject.mModel = gGearBlack;
                 break;
-            case 2:
-                object->mUnk_000.mModel = gGearWhite;
+            case ROTARY_MODEL_GEAR_WHITE:
+                object->mCollisionMapObject.mModel = gGearWhite;
                 break;
-            case 3:
-                object->mUnk_000.mModel = gRotaryRoom;
+            case ROTARY_MODEL_ROOM:
+                object->mCollisionMapObject.mModel = gRotaryRoom;
                 break;
-            case 4:
-                object->mUnk_000.mModel = gRotaryBridge;
+            case ROTARY_MODEL_BRIDGE:
+                object->mCollisionMapObject.mModel = gRotaryBridge;
                 break;
         }
     }
@@ -133,16 +133,17 @@ void InitRotaryObjects(BridgeDrawList *list) {
     count = list->mMapObjectList.mMapObjectCount;
     for (index = 0; index < count; index++) {
         object = objects[index];
-        if (object->mUnk_000.mMapObject.mKind == 0xcb) {
+        if (object->mCollisionMapObject.mMapObject.mKind == MAP_OBJECT_KIND_ROTARY_GEAR) {
             if (previousIndex < 0) {
-                object->mUnk_000.mCollisionData.mUnk_138 = zeroFlag;
+                object->mCollisionMapObject.mCollisionData.mUnk_138 = zeroFlag;
             } else {
                 previousObject = objects[previousIndex];
-                VEC_Subtract(&previousObject->mUnk_000.mMapObject.mPos, &object->mUnk_000.mMapObject.mPos, &offset);
+                VEC_Subtract(&previousObject->mCollisionMapObject.mMapObject.mPos,
+                             &object->mCollisionMapObject.mMapObject.mPos, &offset);
                 offset.y = zeroHeight;
-                object->mUnk_154 = VEC_Mag(&offset);
+                object->mGearRadius = VEC_Mag(&offset);
                 previousObject = objects[previousIndex];
-                object->mUnk_154 -= previousObject->mUnk_000.mMapObject.mExtent.x;
+                object->mGearRadius -= previousObject->mCollisionMapObject.mMapObject.mExtent.x;
             }
             previousIndex = index;
         }
@@ -151,15 +152,16 @@ void InitRotaryObjects(BridgeDrawList *list) {
 
 // Rotary: turns up to full speed, keeps that speed, slows down, pauses, then turns the other way; the course row sets
 // the timings.
-void InitRotary(Rotary *object, struct CourseMapRow *courseRow, Unk020e1e98_154 *kindInfo) {
-    InitStateMachine(&object->mUnk_000.mMapObject.mStateMachine, gRotaryStateTable, 4, object);
-    object->mUnk_000.mCollisionData.mUnk_e8 = object->mUnk_000.mMapObject.mPos;
-    object->mUnk_000.mCollisionData.mPrevMatrix = object->mUnk_000.mMapObject.mMatrix.mUnk_00_m;
-    object->mUnk_000.mCollisionData.mInitialMatrix = object->mUnk_000.mMapObject.mMatrix.mUnk_00_m;
-    object->mUnk_000.mCollisionData.mAngleChangeVector.x = 0;
-    object->mUnk_000.mCollisionData.mAngleChangeVector.y = 0;
-    object->mUnk_000.mCollisionData.mAngleChangeVector.z = 0;
-    object->mUnk_000.mCollisionData.mUnk_130 = kindInfo->mUnk_00 != 0 ? 0 : 1;
+void InitRotary(Rotary *object, struct CourseMapRow *courseRow, RotaryKindInfo *kindInfo) {
+    InitStateMachine(&object->mCollisionMapObject.mMapObject.mStateMachine, gRotaryStateTable, 4, object);
+    object->mCollisionMapObject.mCollisionData.mUnk_e8 = object->mCollisionMapObject.mMapObject.mPos;
+    object->mCollisionMapObject.mCollisionData.mPrevMatrix = object->mCollisionMapObject.mMapObject.mMatrix.mUnk_00_m;
+    object->mCollisionMapObject.mCollisionData.mInitialMatrix =
+        object->mCollisionMapObject.mMapObject.mMatrix.mUnk_00_m;
+    object->mCollisionMapObject.mCollisionData.mAngleChangeVector.x = 0;
+    object->mCollisionMapObject.mCollisionData.mAngleChangeVector.y = 0;
+    object->mCollisionMapObject.mCollisionData.mAngleChangeVector.z = 0;
+    object->mCollisionMapObject.mCollisionData.mUnk_130 = kindInfo->mUnk_00 != 0 ? 0 : 1;
     object->mRampFrameCount = courseRow->mUnk_2c;
     object->mSteadyFrameCount = courseRow->mUnk_2a;
     object->mPauseFrameCount = courseRow->mUnk_2e;
@@ -167,45 +169,45 @@ void InitRotary(Rotary *object, struct CourseMapRow *courseRow, Unk020e1e98_154 
     if (courseRow->mUnk_30 != 0) {
         object->mAnglePerFrame = -object->mAnglePerFrame;
     }
-    object->mUnk_000.mMapObject.mAngle = 0;
+    object->mCollisionMapObject.mMapObject.mAngle = 0;
     if (object->mRampFrameCount != 0) {
         object->mSpeedFractionPerFrame = 0x1000 / object->mRampFrameCount;
     } else {
         object->mSpeedFractionPerFrame = 0;
     }
     object->mSpeedFraction = 0;
-    object->mUnk_000.mCollisionData.mUnk_100 =
-        MUL_FIXED12_NO_ROUND(kindInfo->mUnk_04, object->mUnk_000.mMapObject.mScale.x);
-    object->mUnk_000.mCollisionData.mHalfSizeY =
-        MUL_FIXED12_NO_ROUND(kindInfo->mUnk_08, object->mUnk_000.mMapObject.mScale.y) >> 1;
+    object->mCollisionMapObject.mCollisionData.mUnk_100 =
+        MUL_FIXED12_NO_ROUND(kindInfo->mRadius, object->mCollisionMapObject.mMapObject.mScale.x);
+    object->mCollisionMapObject.mCollisionData.mHalfSizeY =
+        MUL_FIXED12_NO_ROUND(kindInfo->mHeight, object->mCollisionMapObject.mMapObject.mScale.y) >> 1;
     if (kindInfo->mUnk_00 != 0) {
-        object->mUnk_000.mCollisionData.mUnk_110 = FALSE;
-        object->mUnk_000.mCollisionData.mUnk_114.x = 1;
+        object->mCollisionMapObject.mCollisionData.mUnk_110 = FALSE;
+        object->mCollisionMapObject.mCollisionData.mUnk_114.x = 1;
     } else {
-        object->mUnk_000.mCollisionData.mUnk_110 = TRUE;
-        object->mUnk_000.mCollisionData.mUnk_114.x = 0;
+        object->mCollisionMapObject.mCollisionData.mUnk_110 = TRUE;
+        object->mCollisionMapObject.mCollisionData.mUnk_114.x = 0;
     }
-    object->mUnk_000.mCollisionData.mUnk_114.z = 0;
-    object->mUnk_000.mCollisionData.mUnk_120 = kindInfo->mUnk_10;
-    object->mUnk_000.mCollisionData.mUnk_134 = COLLISION_SHAPE_CYLINDER;
-    object->mUnk_000.mCollisionData.mUnk_138 = kindInfo->mUnk_14;
-    object->mUnk_000.mMapObject.mFlags |= data_02158d58;
-    object->mUnk_000.mMapObject.mStateMachine.mNextState = 0;
-    object->mUnk_000.mMapObject.mStateMachine.mNextStateRequested = 1;
-    object->mModelIndex = kindInfo->mUnk_0c;
-    if (object->mModelIndex == 1 && courseRow->mUnk_32 == 0) {
-        object->mModelIndex = 2;
+    object->mCollisionMapObject.mCollisionData.mUnk_114.z = 0;
+    object->mCollisionMapObject.mCollisionData.mUnk_120 = kindInfo->mUnk_10;
+    object->mCollisionMapObject.mCollisionData.mUnk_134 = COLLISION_SHAPE_CYLINDER;
+    object->mCollisionMapObject.mCollisionData.mUnk_138 = kindInfo->mCollisionFlag;
+    object->mCollisionMapObject.mMapObject.mFlags |= data_02158d58;
+    object->mCollisionMapObject.mMapObject.mStateMachine.mNextState = ROTARY_STATE_RAMP_UP;
+    object->mCollisionMapObject.mMapObject.mStateMachine.mNextStateRequested = 1;
+    object->mModelIndex = kindInfo->mModelIndex;
+    if (object->mModelIndex == ROTARY_MODEL_GEAR_BLACK && courseRow->mUnk_32 == 0) {
+        object->mModelIndex = ROTARY_MODEL_GEAR_WHITE;
     }
-    object->mUnk_000.mMapObject.mFlags &= ~2;
-    object->mUnk_000.mMapObject.mFlags &= ~8;
-    object->mUnk_000.mMapObject.mAlpha = 0x1f;
-    if (kindInfo->mUnk_0c == 0) {
+    object->mCollisionMapObject.mMapObject.mFlags &= ~2;
+    object->mCollisionMapObject.mMapObject.mFlags &= ~8;
+    object->mCollisionMapObject.mMapObject.mAlpha = 0x1f;
+    if (kindInfo->mModelIndex == 0) {
         object->mSoundId = courseRow->mUnk_0c.x > 0 ? 0x175 : 0x176;
     } else {
-        object->mSoundId = kindInfo->mUnk_18;
+        object->mSoundId = kindInfo->mSoundId;
     }
     if (object->mSoundId != -1) {
-        CreateMapObjectSoundSourceFalloff3(&object->mUnk_000.mMapObject);
+        CreateMapObjectSoundSourceFalloff3(&object->mCollisionMapObject.mMapObject);
     }
 }
 
@@ -293,7 +295,7 @@ void UpdateBridge(s32 unused, Bridge *bridge) {
     }
 }
 
-void DrawBridge(Unk020e1d10 *object, void *viewMatrix, u32 alpha) {
+void DrawBridge(CollisionMapObject *object, void *viewMatrix, u32 alpha) {
     Bridge *bridge = (Bridge *) object;
     ModelAnimation *animation;
 
@@ -303,8 +305,7 @@ void DrawBridge(Unk020e1d10 *object, void *viewMatrix, u32 alpha) {
     animation = gBridgeNsbca;
     animation->mHead.mFrameIndex = bridge->mAnimationFrameIndex;
     animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
-    DrawNsbmdWithMatrixAndMaxAlpha(object->mModel, &object->mMapObject.mMatrix,
-                                   &object->mMapObject.mScale.x, alpha);
+    DrawNsbmdWithMatrixAndMaxAlpha(object->mModel, &object->mMapObject.mMatrix, &object->mMapObject.mScale.x, alpha);
 }
 
 void DrawAllBridges(void *viewMatrix) {

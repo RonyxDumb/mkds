@@ -34,7 +34,7 @@ s32 CreateCollisionSlot(Vec3 *centerPos, s32 radius, s32 flags, void *object);
 // Object behind the pointer IsCollisionHitLinkOutdated and UpdateCollisionHitLink read: a pointer at 0x00 and a word at
 // 0x04.
 typedef struct Unk020d5a68 {
-    /* 00 */ Unk020e1d10 *mUnk_00;
+    /* 00 */ CollisionMapObject *mUnk_00;
     /* 04 */ s32 mUnk_04;
 } Unk020d5a68;
 

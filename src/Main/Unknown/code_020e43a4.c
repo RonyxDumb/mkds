@@ -14,11 +14,12 @@ void EnterRotaryState0(Rotary *object) {
 
 void UpdateRotaryState0(Rotary *object) {
     object->mSpeedFraction = object->mSpeedFraction + object->mSpeedFractionPerFrame;
-    object->mUnk_000.mMapObject.mAngle =
-        object->mUnk_000.mMapObject.mAngle + (s16) MUL_FIXED12_NO_ROUND(object->mSpeedFraction, object->mAnglePerFrame);
-    if (object->mUnk_000.mMapObject.mStateMachine.mStateFrames > object->mRampFrameCount) {
-        object->mUnk_000.mMapObject.mStateMachine.mNextState = 1;
-        object->mUnk_000.mMapObject.mStateMachine.mNextStateRequested = 1;
+    object->mCollisionMapObject.mMapObject.mAngle =
+        object->mCollisionMapObject.mMapObject.mAngle +
+        (s16) MUL_FIXED12_NO_ROUND(object->mSpeedFraction, object->mAnglePerFrame);
+    if (object->mCollisionMapObject.mMapObject.mStateMachine.mStateFrames > object->mRampFrameCount) {
+        object->mCollisionMapObject.mMapObject.mStateMachine.mNextState = ROTARY_STATE_STEADY;
+        object->mCollisionMapObject.mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
@@ -27,11 +28,12 @@ u32 RotaryState1ReturnArgument(u32 value) {
 }
 
 void UpdateRotaryState1(Rotary *object) {
-    object->mUnk_000.mMapObject.mAngle = object->mUnk_000.mMapObject.mAngle + object->mAnglePerFrame;
+    object->mCollisionMapObject.mMapObject.mAngle =
+        object->mCollisionMapObject.mMapObject.mAngle + object->mAnglePerFrame;
     if (object->mSteadyFrameCount != 0) {
-        if (object->mUnk_000.mMapObject.mStateMachine.mStateFrames > object->mSteadyFrameCount) {
-            object->mUnk_000.mMapObject.mStateMachine.mNextState = 2;
-            object->mUnk_000.mMapObject.mStateMachine.mNextStateRequested = 1;
+        if (object->mCollisionMapObject.mMapObject.mStateMachine.mStateFrames > object->mSteadyFrameCount) {
+            object->mCollisionMapObject.mMapObject.mStateMachine.mNextState = ROTARY_STATE_SLOW_DOWN;
+            object->mCollisionMapObject.mMapObject.mStateMachine.mNextStateRequested = 1;
         }
     }
 }
@@ -42,12 +44,13 @@ void EnterRotaryState2(Rotary *object) {
 
 void UpdateRotaryState2(Rotary *object) {
     object->mSpeedFraction = object->mSpeedFraction - object->mSpeedFractionPerFrame;
-    object->mUnk_000.mMapObject.mAngle =
-        object->mUnk_000.mMapObject.mAngle + (s16) MUL_FIXED12_NO_ROUND(object->mSpeedFraction, object->mAnglePerFrame);
-    if (object->mUnk_000.mMapObject.mStateMachine.mStateFrames > object->mRampFrameCount) {
+    object->mCollisionMapObject.mMapObject.mAngle =
+        object->mCollisionMapObject.mMapObject.mAngle +
+        (s16) MUL_FIXED12_NO_ROUND(object->mSpeedFraction, object->mAnglePerFrame);
+    if (object->mCollisionMapObject.mMapObject.mStateMachine.mStateFrames > object->mRampFrameCount) {
         object->mAnglePerFrame = -object->mAnglePerFrame;
-        object->mUnk_000.mMapObject.mStateMachine.mNextState = 3;
-        object->mUnk_000.mMapObject.mStateMachine.mNextStateRequested = 1;
+        object->mCollisionMapObject.mMapObject.mStateMachine.mNextState = ROTARY_STATE_PAUSE;
+        object->mCollisionMapObject.mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 

@@ -6,12 +6,12 @@
 #include "Main/Unknown/code_020e005c.h"
 #include "Main/Unknown/unk_02158000.h"
 
-void UpdateKoopaBlockState2(Unk020e005c *koopaBlock);
+void UpdateKoopaBlockState2(KoopaBlock *koopaBlock);
 void DrawAllKoopaBlocks(void *viewMatrix);
 BOOL IsKoopaBlockKind(u32 kind);
-s32 GetKoopaBlockProgress(Unk020e005c *koopaBlock);
+s32 GetKoopaBlockProgress(KoopaBlock *koopaBlock);
 void CreateKoopaBlock(void);
-void InitKoopaBlock(Unk020e005c *koopaBlock, CourseMapRow *courseRow);
+void InitKoopaBlock(KoopaBlock *koopaBlock, CourseMapRow *courseRow);
 MapObjectKindData *CreateMkdEfBubbleKindData(void);
 MapObjectDrawList *CreateMkdEfBubbleDrawList(void);
 MkdEfBubbleUpdateList *CreateMkdEfBubbleUpdateList(void);

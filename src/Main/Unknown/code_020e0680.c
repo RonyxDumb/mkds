@@ -66,17 +66,17 @@
 #pragma thumb on
 
 void InitChoropu(Choropu *choropu, struct CourseMapRow *courseRow) {
-    InitStateMachine(&choropu->mUnk_000.mStateMachine, gChoropuStateTable, 8, choropu);
-    choropu->mInitialY = choropu->mUnk_000.mPos.y;
-    choropu->mBottomY = choropu->mUnk_000.mPos.y - 0x12000;
-    choropu->mLowestY = choropu->mUnk_000.mPos.y - 0x18000;
+    InitStateMachine(&choropu->mMapObject.mStateMachine, gChoropuStateTable, 8, choropu);
+    choropu->mInitialY = choropu->mMapObject.mPos.y;
+    choropu->mBottomY = choropu->mMapObject.mPos.y - 0x12000;
+    choropu->mLowestY = choropu->mMapObject.mPos.y - 0x18000;
     choropu->mRepeatDelayFrameCount = courseRow->mUnk_28;
     choropu->mStartDelayFrameCount = courseRow->mUnk_2a;
-    choropu->mUnk_000.mStateMachine.mNextState = 0;
-    choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
-    RefreshShadowMatrix(&choropu->mShadowMatrix, &choropu->mUnk_000.mPos,
-                        MUL_FIXED12_NO_ROUND(choropu->mUnk_000.mScale.x, 0x1b000), 0x1e);
-    choropu->mUnk_000.mFlags |= data_02158b7c;
+    choropu->mMapObject.mStateMachine.mNextState = 0;
+    choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
+    RefreshShadowMatrix(&choropu->mShadowMatrix, &choropu->mMapObject.mPos,
+                        MUL_FIXED12_NO_ROUND(choropu->mMapObject.mScale.x, 0x1b000), 0x1e);
+    choropu->mMapObject.mFlags |= data_02158b7c;
 }
 
 #pragma thumb off
@@ -124,18 +124,19 @@ void SetVehicleLinkDirection(VehicleDrawList *drawList) {
     u16 entryIndex;
 
     entryIndex = gRaceSetup->mEntryIndex;
-    if (drawList->mUnk_038 == FALSE) {
+    if (drawList->mLinkCullEnabled == FALSE) {
         return;
     }
     if (entryIndex < 8) {
         GetItemPointLinkDirection(gKartItems[entryIndex].mItemLink.mLink, &drawList->mEntryKartLinkDirection);
-        drawList->mUnk_03c = Vec3DotUnrounded(&drawList->mEntryKartLinkDirection, GetViewTransposeMatrixAxis2()) < 0;
+        drawList->mLinkCullActive =
+            Vec3DotUnrounded(&drawList->mEntryKartLinkDirection, GetViewTransposeMatrixAxis2()) < 0;
     } else {
-        drawList->mUnk_03c = FALSE;
+        drawList->mLinkCullActive = FALSE;
     }
 }
 
-void DrawVehicle(VehicleDrawList *drawList, Unk020e1e98 *vehicle, u32 c, u32 alpha) {
+void DrawVehicle(VehicleDrawList *drawList, Vehicle *vehicle, u32 c, u32 alpha) {
     u32 skipShadowAndTires;
     s32 dotAxis2;
     s16 directionFlag;
@@ -149,10 +150,10 @@ void DrawVehicle(VehicleDrawList *drawList, Unk020e1e98 *vehicle, u32 c, u32 alp
     s32 x;
     s32 y;
 
-    if (drawList->mUnk_03c != FALSE) {
-        dotAxis2 = Vec3DotUnrounded(&vehicle->mUnk_000.mMatrix.mUnk_00[2], &drawList->mEntryKartLinkDirection);
-        directionFlag = vehicle->mUnk_000.mCourseMapRow->mUnk_2e;
-        dotLimit = vehicle->mUnk_0d8.mFromEntry->mUnk_12;
+    if (drawList->mLinkCullActive != FALSE) {
+        dotAxis2 = Vec3DotUnrounded(&vehicle->mMapObject.mMatrix.mUnk_00[2], &drawList->mEntryKartLinkDirection);
+        directionFlag = vehicle->mMapObject.mCourseMapRow->mUnk_2e;
+        dotLimit = vehicle->mFollower.mFromEntry->mUnk_12;
         if (directionFlag == 0) {
             dotAxis2 = -dotAxis2;
         }
@@ -161,39 +162,40 @@ void DrawVehicle(VehicleDrawList *drawList, Unk020e1e98 *vehicle, u32 c, u32 alp
         }
     }
     skipShadowAndTires =
-        (s32) (vehicle->mUnk_000.mDistanceSquaredAndFlags & 0x3FFFFFE0) > 0x77A10 && GetEntryRaceEnded() == 0;
+        (s32) (vehicle->mMapObject.mDistanceSquaredAndFlags & 0x3FFFFFE0) > 0x77A10 && GetEntryRaceEnded() == 0;
     if (!skipShadowAndTires) {
-        if (vehicle->mUnk_128 != 0) {
-            shadowPosition = vehicle->mUnk_0fe > 0xF ? &vehicle->mUnk_144 : &vehicle->mUnk_000.mPos;
-            vehicle->mUnk_000.mMatrix.mUnk_00[3].x = shadowPosition->x >> 4;
-            vehicle->mUnk_000.mMatrix.mUnk_00[3].y = shadowPosition->y >> 4;
-            vehicle->mUnk_000.mMatrix.mUnk_00[3].z = shadowPosition->z >> 4;
-            DrawShadowWithMaxAlpha((void *) vehicle->mUnk_128, &vehicle->mUnk_000.mMatrix, &vehicle->mUnk_000.mScale,
-                                   alpha);
+        if (vehicle->mShadowModel != 0) {
+            shadowPosition = vehicle->mHitReactionTimer > VEHICLE_HIT_TIMER_AIRBORNE ? &vehicle->mFollowerPosition
+                                                                                     : &vehicle->mMapObject.mPos;
+            vehicle->mMapObject.mMatrix.mUnk_00[3].x = shadowPosition->x >> 4;
+            vehicle->mMapObject.mMatrix.mUnk_00[3].y = shadowPosition->y >> 4;
+            vehicle->mMapObject.mMatrix.mUnk_00[3].z = shadowPosition->z >> 4;
+            DrawShadowWithMaxAlpha((void *) vehicle->mShadowModel, &vehicle->mMapObject.mMatrix,
+                                   &vehicle->mMapObject.mScale, alpha);
         }
     }
-    vehicle->mUnk_000.mMatrix.mUnk_00[3].x = vehicle->mUnk_000.mPos.x >> 4;
-    vehicle->mUnk_000.mMatrix.mUnk_00[3].y = vehicle->mUnk_000.mPos.y >> 4;
-    vehicle->mUnk_000.mMatrix.mUnk_00[3].z = vehicle->mUnk_000.mPos.z >> 4;
-    animation = vehicle->mUnk_12c;
+    vehicle->mMapObject.mMatrix.mUnk_00[3].x = vehicle->mMapObject.mPos.x >> 4;
+    vehicle->mMapObject.mMatrix.mUnk_00[3].y = vehicle->mMapObject.mPos.y >> 4;
+    vehicle->mMapObject.mMatrix.mUnk_00[3].z = vehicle->mMapObject.mPos.z >> 4;
+    animation = vehicle->mModelAnimation;
     if (animation != NULL) {
-        animation->mHead.mFrameIndex = vehicle->mUnk_130 << 12;
+        animation->mHead.mFrameIndex = vehicle->mAnimationFrame << 12;
         animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
     }
     SendLight01Color(&vehicle->mCourseColorBlend.mColor);
-    DrawNsbmdWithMatrixAndMaxAlpha((void *) vehicle->mUnk_124, &vehicle->mUnk_000.mMatrix, &vehicle->mUnk_000.mScale,
+    DrawNsbmdWithMatrixAndMaxAlpha((void *) vehicle->mModel, &vehicle->mMapObject.mMatrix, &vehicle->mMapObject.mScale,
                                    alpha);
     if (skipShadowAndTires) {
         return;
     }
-    angleIndex = vehicle->mUnk_10c >> 4;
+    angleIndex = vehicle->mTireAngle >> 4;
     anglePairs = gPairsByAngle;
-    x = MUL_FIXED12_ROUNDED(vehicle->mUnk_110, anglePairs[angleIndex * 2]);
-    y = MUL_FIXED12_ROUNDED(vehicle->mUnk_110, anglePairs[angleIndex * 2 + 1]);
+    x = MUL_FIXED12_ROUNDED(vehicle->mTireRadius, anglePairs[angleIndex * 2]);
+    y = MUL_FIXED12_ROUNDED(vehicle->mTireRadius, anglePairs[angleIndex * 2 + 1]);
     MTX_RotX43_(&tireMatrix, x, y);
-    tireMatrix.mUnk_00[0].x = vehicle->mUnk_100[0];
-    tireMatrix.mUnk_00[3].y = vehicle->mUnk_100[1];
-    tireMatrix.mUnk_00[3].z = vehicle->mUnk_100[2];
+    tireMatrix.mUnk_00[0].x = vehicle->mTireOffset[0];
+    tireMatrix.mUnk_00[3].y = vehicle->mTireOffset[1];
+    tireMatrix.mUnk_00[3].z = vehicle->mTireOffset[2];
     NNS_G3dGeBufferOP_N(0x11, NULL, 0);
     NNS_G3dGeBufferOP_N(0x19, &tireMatrix, 0xc);
     DrawNsbmd(gCarTire);
@@ -208,11 +210,11 @@ static inline s64 func_020e2630_inline(const Vec3 *v) {
     return HORIZONTAL_LENGTH_SQUARED(*v);
 }
 
-static inline s16 func_020e2630_inline2(Unk020e1e98 *b) {
-    return b->mUnk_0fe;
+static inline s16 func_020e2630_inline2(Vehicle *b) {
+    return b->mHitReactionTimer;
 }
 
-void UpdateVehicle(u32 a, Unk020e1e98 *vehicle) {
+void UpdateVehicle(u32 a, Vehicle *vehicle) {
     enum { K0 } isInHitReaction;
     Quaternion *baseRotation;
     u32 hitFlags;
@@ -222,171 +224,175 @@ void UpdateVehicle(u32 a, Unk020e1e98 *vehicle) {
     Vec3 u;
     Vec3 testPosition;
 
-    if (vehicle->mUnk_0fe > 0xf) {
+    if (vehicle->mHitReactionTimer > VEHICLE_HIT_TIMER_AIRBORNE) {
         isInHitReaction = 1;
         isInHitReaction = (s32) isInHitReaction;
     } else {
         isInHitReaction = 0;
     }
-    previousPosition = vehicle->mUnk_000.mPos;
-    AdvanceGroupFollower(&vehicle->mUnk_0d8);
+    previousPosition = vehicle->mMapObject.mPos;
+    AdvanceGroupFollower(&vehicle->mFollower);
     if (!isInHitReaction) {
-        GetGroupFollowerCurveXzLinearY(&vehicle->mUnk_0d8, &vehicle->mUnk_000.mPos);
-        VEC_Subtract(&vehicle->mUnk_000.mPos, &previousPosition, &vehicle->mUnk_000.mUnk_10);
+        GetGroupFollowerCurveXzLinearY(&vehicle->mFollower, &vehicle->mMapObject.mPos);
+        VEC_Subtract(&vehicle->mMapObject.mPos, &previousPosition, &vehicle->mMapObject.mUnk_10);
     } else {
-        GetGroupFollowerCurveXzLinearY(&vehicle->mUnk_0d8, &vehicle->mUnk_144);
-        vehicle->mUnk_000.mPos.x = vehicle->mUnk_144.x;
-        vehicle->mUnk_000.mUnk_10.y -= 0x59a;
-        vehicle->mUnk_000.mPos.y = vehicle->mUnk_000.mPos.y + vehicle->mUnk_000.mUnk_10.y;
-        vehicle->mUnk_000.mPos.z = vehicle->mUnk_144.z;
-        vehicle->mUnk_000.mUnk_10.x = vehicle->mUnk_000.mPos.x - previousPosition.x;
-        vehicle->mUnk_000.mUnk_10.z = vehicle->mUnk_000.mPos.z - previousPosition.z;
+        GetGroupFollowerCurveXzLinearY(&vehicle->mFollower, &vehicle->mFollowerPosition);
+        vehicle->mMapObject.mPos.x = vehicle->mFollowerPosition.x;
+        vehicle->mMapObject.mUnk_10.y -= VEHICLE_GRAVITY_PER_FRAME;
+        vehicle->mMapObject.mPos.y = vehicle->mMapObject.mPos.y + vehicle->mMapObject.mUnk_10.y;
+        vehicle->mMapObject.mPos.z = vehicle->mFollowerPosition.z;
+        vehicle->mMapObject.mUnk_10.x = vehicle->mMapObject.mPos.x - previousPosition.x;
+        vehicle->mMapObject.mUnk_10.z = vehicle->mMapObject.mPos.z - previousPosition.z;
     }
-    if (isInHitReaction || (vehicle->mUnk_0d4 & 7) == GetRaceUpdateFramesMod8()) {
-        testPosition.x = vehicle->mUnk_000.mPos.x;
-        testPosition.y = vehicle->mUnk_000.mPos.y + (isInHitReaction ? 0xf000 : 0);
-        testPosition.z = vehicle->mUnk_000.mPos.z;
+    if (isInHitReaction || (vehicle->mUpdateIndex & 7) == GetRaceUpdateFramesMod8()) {
+        testPosition.x = vehicle->mMapObject.mPos.x;
+        testPosition.y = vehicle->mMapObject.mPos.y + (isInHitReaction ? 0xf000 : 0);
+        testPosition.z = vehicle->mMapObject.mPos.z;
         u = testPosition;
         if (CollideSphereWithCourse(&u, NULL, 0, 0xf000, 8, -2, &probeOffset, &u, NULL, &hitFlags, NULL, NULL, NULL,
                                     NULL) != 0) {
             if (hitFlags & 0x1e34ef) {
-                QuaternionFromYAxisToVec3(&u, &vehicle->mUnk_0b4);
+                QuaternionFromYAxisToVec3(&u, &vehicle->mGroundRotation);
                 AdvanceCourseColorBlend(&vehicle->mCourseColorBlend, (hitFlags & 0x3c000000) >> 26, 0x5000);
-                if (vehicle->mUnk_0fe != 0 && vehicle->mUnk_000.mUnk_10.y < 0) {
-                    if (vehicle->mUnk_000.mFlags & 1) {
-                        vehicle->mUnk_000.mFlags &= ~1;
-                        vehicle->mUnk_000.mUnk_10.y = -MUL_FIXED12_NO_ROUND(
-                            vehicle->mUnk_000.mUnk_10.y, 0x733 + ((vehicle->mUnk_114.y - 0x14000) >> 9));
-                        vehicle->mUnk_0c4.mComponents[0] = -vehicle->mUnk_0c4.mComponents[0];
-                        vehicle->mUnk_0c4.mComponents[1] = -vehicle->mUnk_0c4.mComponents[1];
-                        vehicle->mUnk_0c4.mComponents[2] = -vehicle->mUnk_0c4.mComponents[2];
-                        QuaternionBlendTowardNearerSign(&vehicle->mUnk_0c4, &vehicle->mUnk_0b4, &vehicle->mUnk_0c4,
-                                                        0x8cd);
-                        vehicle->mUnk_152 = 0x320;
-                        StartMapObjectSound(&vehicle->mUnk_000, vehicle->mUnk_160);
+                if (vehicle->mHitReactionTimer != 0 && vehicle->mMapObject.mUnk_10.y < 0) {
+                    if (vehicle->mMapObject.mFlags & 1) {
+                        vehicle->mMapObject.mFlags &= ~1;
+                        vehicle->mMapObject.mUnk_10.y = -MUL_FIXED12_NO_ROUND(
+                            vehicle->mMapObject.mUnk_10.y, 0x733 + ((vehicle->mExtentPositive.y - 0x14000) >> 9));
+                        vehicle->mHitRotation.mComponents[0] = -vehicle->mHitRotation.mComponents[0];
+                        vehicle->mHitRotation.mComponents[1] = -vehicle->mHitRotation.mComponents[1];
+                        vehicle->mHitRotation.mComponents[2] = -vehicle->mHitRotation.mComponents[2];
+                        QuaternionBlendTowardNearerSign(&vehicle->mHitRotation, &vehicle->mGroundRotation,
+                                                        &vehicle->mHitRotation, 0x8cd);
+                        vehicle->mRotationBlendRate = VEHICLE_BLEND_RATE_BOUNCE;
+                        StartMapObjectSound(&vehicle->mMapObject, vehicle->mBounceSoundId);
                     } else if (isInHitReaction && vehicle != NULL) {
-                        vehicle->mUnk_0fe = 0xf;
-                        vehicle->mUnk_000.mUnk_10.y = 0;
-                        vehicle->mUnk_152 = 0x258;
+                        vehicle->mHitReactionTimer = VEHICLE_HIT_TIMER_AIRBORNE;
+                        vehicle->mMapObject.mUnk_10.y = 0;
+                        vehicle->mRotationBlendRate = VEHICLE_BLEND_RATE_LANDING;
                     }
                 }
             }
             if ((hitFlags & 0x214300) && isInHitReaction) {
-                vehicle->mUnk_000.mPos.y = vehicle->mUnk_000.mPos.y + probeOffset.y;
-                vehicle->mUnk_000.mUnk_10.y = 0;
+                vehicle->mMapObject.mPos.y = vehicle->mMapObject.mPos.y + probeOffset.y;
+                vehicle->mMapObject.mUnk_10.y = 0;
             }
         }
     }
     switch (isInHitReaction) {
         default:
-            if (vehicle->mUnk_000.mUnk_10.y < 0) {
-                vehicle->mUnk_152 = MUL_FIXED12_NO_ROUND(-vehicle->mUnk_000.mUnk_10.y, 0xc);
-                baseRotation = &vehicle->mUnk_0b4;
+            if (vehicle->mMapObject.mUnk_10.y < 0) {
+                vehicle->mRotationBlendRate = MUL_FIXED12_NO_ROUND(-vehicle->mMapObject.mUnk_10.y, 0xc);
+                baseRotation = &vehicle->mGroundRotation;
             } else {
-                baseRotation = &vehicle->mUnk_0c4;
+                baseRotation = &vehicle->mHitRotation;
             }
             break;
 
         case 0:
             if (func_020e2630_inline2(vehicle) != 0) {
-                vehicle->mUnk_0fe--;
-                if (vehicle->mUnk_0fe == 0) {
-                    vehicle->mUnk_152 = vehicle->mUnk_150;
+                vehicle->mHitReactionTimer--;
+                if (vehicle->mHitReactionTimer == 0) {
+                    vehicle->mRotationBlendRate = vehicle->mDefaultBlendRate;
                 } else {
-                    baseRotation = &vehicle->mUnk_0b4;
+                    baseRotation = &vehicle->mGroundRotation;
                 }
             }
             break;
     }
 
-    if (func_020e2630_inline(&vehicle->mUnk_000.mUnk_10) < 0x10) {
-        targetRotation = vehicle->mUnk_0b4;
+    if (func_020e2630_inline(&vehicle->mMapObject.mUnk_10) < 0x10) {
+        targetRotation = vehicle->mGroundRotation;
     } else {
-        vehicle->mUnk_000.mAngle =
-            (s16) (((s64) FX_Atan2(vehicle->mUnk_000.mUnk_10.x, vehicle->mUnk_000.mUnk_10.z) * 0x28BE60DB9391 +
+        vehicle->mMapObject.mAngle =
+            (s16) (((s64) FX_Atan2(vehicle->mMapObject.mUnk_10.x, vehicle->mMapObject.mUnk_10.z) * 0x28BE60DB9391 +
                     0x80000000000) >>
                    44);
-        if (vehicle->mUnk_0fe == 0) {
-            baseRotation = &vehicle->mUnk_0b4;
+        if (vehicle->mHitReactionTimer == 0) {
+            baseRotation = &vehicle->mGroundRotation;
         }
-        QuaternionMultiplyAngleAroundYIgnoreY(baseRotation, vehicle->mUnk_000.mAngle, &targetRotation);
+        QuaternionMultiplyAngleAroundYIgnoreY(baseRotation, vehicle->mMapObject.mAngle, &targetRotation);
     }
-    QuaternionBlendTowardNearerSign(&vehicle->mUnk_0a4, &targetRotation, &vehicle->mUnk_0a4, vehicle->mUnk_152);
-    Matrix3x3FromQuaternion(&vehicle->mUnk_000.mMatrix.mUnk_00_m, &vehicle->mUnk_0a4);
-    vehicle->mUnk_10c += 0x600;
-    if (vehicle->mUnk_000.mDistanceSquaredAndFlags & 8) {
-        AdvanceSoundDistanceSquaredChange(vehicle->mUnk_158, vehicle->mUnk_000.mDistanceSquaredAndFlags & 0x3FFFFFE0);
+    QuaternionBlendTowardNearerSign(&vehicle->mRotation, &targetRotation, &vehicle->mRotation,
+                                    vehicle->mRotationBlendRate);
+    Matrix3x3FromQuaternion(&vehicle->mMapObject.mMatrix.mUnk_00_m, &vehicle->mRotation);
+    vehicle->mTireAngle += VEHICLE_TIRE_ANGLE_STEP;
+    if (vehicle->mMapObject.mDistanceSquaredAndFlags & 8) {
+        AdvanceSoundDistanceSquaredChange(vehicle->mSoundDistanceChange,
+                                          vehicle->mMapObject.mDistanceSquaredAndFlags & 0x3FFFFFE0);
     }
-    StartMapObjectSoundWhileRequested(&vehicle->mUnk_000, vehicle->mUnk_15c);
-    if (vehicle->mUnk_000.mPos.y < 0) {
+    StartMapObjectSoundWhileRequested(&vehicle->mMapObject, vehicle->mRunSoundId);
+    if (vehicle->mMapObject.mPos.y < 0) {
         ResetVehicleToStartEntry(vehicle);
     }
 }
 
-void StartVehicleHitReaction(Unk020e1e98 *vehicle, Vec3 *hitterPosition) {
+void StartVehicleHitReaction(Vehicle *vehicle, Vec3 *hitterPosition) {
     Vec3 direction;
     s32 dotAxis0;
     s32 dotAxis2;
     s32 upwardSpeed;
 
-    direction = vehicle->mUnk_000.mPos;
+    direction = vehicle->mMapObject.mPos;
     VEC_Subtract(&direction, hitterPosition, &direction);
-    dotAxis0 = Vec3DotUnrounded(&vehicle->mUnk_000.mMatrix.mUnk_00[0], &direction);
-    dotAxis2 = Vec3DotUnrounded(&vehicle->mUnk_000.mMatrix.mUnk_00[2], &direction);
-    direction.x = (dotAxis0 > 0 ? vehicle->mUnk_000.mMatrix.mUnk_00[0].x : -vehicle->mUnk_000.mMatrix.mUnk_00[0].x) * 2;
-    direction.x += dotAxis2 > 0 ? vehicle->mUnk_000.mMatrix.mUnk_00[2].x : -vehicle->mUnk_000.mMatrix.mUnk_00[2].x;
-    direction.z = (dotAxis0 > 0 ? vehicle->mUnk_000.mMatrix.mUnk_00[0].z : -vehicle->mUnk_000.mMatrix.mUnk_00[0].z) * 2;
-    direction.z += dotAxis2 > 0 ? vehicle->mUnk_000.mMatrix.mUnk_00[2].z : -vehicle->mUnk_000.mMatrix.mUnk_00[2].z;
-    direction.y = ((vehicle->mUnk_114.y - 0x14000) >> 4) + 0x2000;
+    dotAxis0 = Vec3DotUnrounded(&vehicle->mMapObject.mMatrix.mUnk_00[0], &direction);
+    dotAxis2 = Vec3DotUnrounded(&vehicle->mMapObject.mMatrix.mUnk_00[2], &direction);
+    direction.x =
+        (dotAxis0 > 0 ? vehicle->mMapObject.mMatrix.mUnk_00[0].x : -vehicle->mMapObject.mMatrix.mUnk_00[0].x) * 2;
+    direction.x += dotAxis2 > 0 ? vehicle->mMapObject.mMatrix.mUnk_00[2].x : -vehicle->mMapObject.mMatrix.mUnk_00[2].x;
+    direction.z =
+        (dotAxis0 > 0 ? vehicle->mMapObject.mMatrix.mUnk_00[0].z : -vehicle->mMapObject.mMatrix.mUnk_00[0].z) * 2;
+    direction.z += dotAxis2 > 0 ? vehicle->mMapObject.mMatrix.mUnk_00[2].z : -vehicle->mMapObject.mMatrix.mUnk_00[2].z;
+    direction.y = ((vehicle->mExtentPositive.y - 0x14000) >> 4) + 0x2000;
     if (LENGTH_SQUARED(direction) >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
     }
-    QuaternionFromYAxisToVec3(&direction, &vehicle->mUnk_0c4);
-    vehicle->mUnk_152 = 0x384;
-    if (vehicle->mUnk_0fe > 0xf || vehicle->mUnk_000.mUnk_10.y <= 0) {
+    QuaternionFromYAxisToVec3(&direction, &vehicle->mHitRotation);
+    vehicle->mRotationBlendRate = VEHICLE_BLEND_RATE_HIT;
+    if (vehicle->mHitReactionTimer > VEHICLE_HIT_TIMER_AIRBORNE || vehicle->mMapObject.mUnk_10.y <= 0) {
         upwardSpeed = 0;
     } else {
-        upwardSpeed = vehicle->mUnk_000.mUnk_10.y;
+        upwardSpeed = vehicle->mMapObject.mUnk_10.y;
     }
-    vehicle->mUnk_000.mUnk_10.y = upwardSpeed + 0x7000;
-    vehicle->mUnk_000.mFlags |= data_02158a50;
-    vehicle->mUnk_0fe = 0x14;
+    vehicle->mMapObject.mUnk_10.y = upwardSpeed + VEHICLE_HIT_UPWARD_SPEED;
+    vehicle->mMapObject.mFlags |= data_02158a50;
+    vehicle->mHitReactionTimer = VEHICLE_HIT_TIMER_START;
 }
 
-u8 CollideKartWithVehicle(Unk020e1e98 *vehicle, Kart *kart, u8 *c, u8 *d) {
+u8 CollideKartWithVehicle(Vehicle *vehicle, Kart *kart, u8 *c, u8 *d) {
     if (*c == 1) {
         StartVehicleHitReaction(vehicle, &kart->mPos);
-        StartSoundIfKartStarOrKiller(&vehicle->mUnk_000, kart);
+        StartSoundIfKartStarOrKiller(&vehicle->mMapObject, kart);
     }
     return *d;
 }
 
-u8 CollideItemObjectWithVehicle(Unk020e1e98 *vehicle, ItemObject *itemObject, u8 *c, u8 *d) {
+u8 CollideItemObjectWithVehicle(Vehicle *vehicle, ItemObject *itemObject, u8 *c, u8 *d) {
     if (*c == 1) {
         StartVehicleHitReaction(vehicle, &itemObject->mPos);
     }
     return *d;
 }
 
-void ComputeSphereHitOnVehicle(Unk020e1e98 *vehicle, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *overlapOffset) {
+void ComputeSphereHitOnVehicle(Vehicle *vehicle, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *overlapOffset) {
     Vec3 halfSizesPositive;
     Vec3 halfSizesNegative;
     s32 x;
     s32 y;
     s32 z;
 
-    z = vehicle->mUnk_114.z;
-    y = vehicle->mUnk_114.y;
-    x = vehicle->mUnk_114.x;
+    z = vehicle->mExtentPositive.z;
+    y = vehicle->mExtentPositive.y;
+    x = vehicle->mExtentPositive.x;
     halfSizesPositive.x = x;
     halfSizesPositive.y = y;
     halfSizesPositive.z = z;
-    z = vehicle->mUnk_120;
-    x = vehicle->mUnk_114.x;
+    z = vehicle->mExtentNegativeZ;
+    x = vehicle->mExtentPositive.x;
     halfSizesNegative.x = x;
     halfSizesNegative.y = 0;
     halfSizesNegative.z = z;
-    ComputeSphereHitOnRotatedBox(sphereCenter, &vehicle->mUnk_000.mPos, &vehicle->mUnk_000.mMatrix.mUnk_00[0],
+    ComputeSphereHitOnRotatedBox(sphereCenter, &vehicle->mMapObject.mPos, &vehicle->mMapObject.mMatrix.mUnk_00[0],
                                  &halfSizesPositive, &halfSizesNegative, sphereRadius, overlapOffset);
 }
 
@@ -402,7 +408,7 @@ void InitVehicleUpdateList(MapObjectList *updateList) {
     CourseMapGroupEntry *entry;
     u16 entryIndex;
     u16 zero;
-    Unk020e1e98 *vehicle;
+    Vehicle *vehicle;
     s16 angleDegrees;
     s16 dotLimit;
     float scaledDegrees;
@@ -413,8 +419,8 @@ void InitVehicleUpdateList(MapObjectList *updateList) {
     zero = 0;
     for (index = 0; index < count; index++) {
         vehicle = *vehicleCursor;
-        groupIndex = vehicle->mUnk_000.mCourseMapRow->mUnk_26;
-        vehicle->mUnk_0d4 = index;
+        groupIndex = vehicle->mMapObject.mCourseMapRow->mUnk_26;
+        vehicle->mUpdateIndex = index;
         if ((seenGroupMask & (1 << groupIndex)) == 0) {
             entryCount = gCourseMap->mEntryGroups[groupIndex].mEntryCount;
             seenGroupMask |= 1 << groupIndex;
@@ -452,16 +458,16 @@ void InitVehicleDrawList(VehicleDrawList *drawList) {
     u32 tireMaterialIndex;
     NNSG3dResMdl *tireModel;
     s32 index;
-    Unk020e1e98 *vehicle;
+    Vehicle *vehicle;
     u32 *modelSlot;
     ModelAnimation **animationSlot;
     s32 count;
 
     carFile = FindCourseMapObjFile(gCarANsbmdName);
     truckFile = FindCourseMapObjFile(gTruckANsbmdName);
-    drawList->mUnk_038 =
+    drawList->mLinkCullEnabled =
         gRaceSetup->mMode != MODE_MISSION_RUN && GetEntryRaceEnded() == 0 && (u16) gRaceSetup->mEntryIndex < 8;
-    drawList->mUnk_03c = FALSE;
+    drawList->mLinkCullActive = FALSE;
     CreateNsbmd(&gCarA, carFile, NULL);
     CreateNsbmd(&gTruckA, truckFile, NULL);
     CreateNsbmd(&gBusA, FindCourseMapObjFile(gBusANsbmdName), NULL);
@@ -495,67 +501,68 @@ void InitVehicleDrawList(VehicleDrawList *drawList) {
     count = gVehicleDrawList->mMapObjectList.mMapObjectCount;
     for (index = 0; index < count; index++) {
         vehicle = gVehicleDrawList->mMapObjectList.mMapObjects[index];
-        modelSlot = vehicle->mUnk_154->mUnk_20;
-        vehicle->mUnk_124 = modelSlot != NULL ? *modelSlot : 0;
-        modelSlot = vehicle->mUnk_154->mUnk_24;
-        vehicle->mUnk_128 = modelSlot != NULL ? *modelSlot : 0;
-        animationSlot = vehicle->mUnk_154->mUnk_28;
-        vehicle->mUnk_12c = animationSlot != NULL ? *animationSlot : 0;
+        modelSlot = vehicle->mKindInfo->mModelSlot;
+        vehicle->mModel = modelSlot != NULL ? *modelSlot : 0;
+        modelSlot = vehicle->mKindInfo->mShadowModelSlot;
+        vehicle->mShadowModel = modelSlot != NULL ? *modelSlot : 0;
+        animationSlot = vehicle->mKindInfo->mAnimationSlot;
+        vehicle->mModelAnimation = animationSlot != NULL ? *animationSlot : 0;
     }
 }
 
-void InitVehicle(Unk020e1e98 *vehicle, struct CourseMapRow *courseRow, Unk020e1e98_154 *kindInfo) {
-    vehicle->mUnk_154 = kindInfo;
-    InitGroupFollower(&vehicle->mUnk_0d8, courseRow, (s16) courseRow->mUnk_28 * 0x3000 / 100);
-    vehicle->mUnk_0fc = courseRow->mUnk_2a;
-    vehicle->mUnk_130 = courseRow->mUnk_2c;
-    vehicle->mUnk_0a0 = GetCourseMapGroupEntry(courseRow->mUnk_26, vehicle->mUnk_0fc)->mPos.y;
-    vehicle->mUnk_114.x = MUL_FIXED12_NO_ROUND(kindInfo->mUnk_00, vehicle->mUnk_000.mScale.x);
-    vehicle->mUnk_114.y = MUL_FIXED12_NO_ROUND(kindInfo->mUnk_04, vehicle->mUnk_000.mScale.y);
-    vehicle->mUnk_114.z = MUL_FIXED12_NO_ROUND(kindInfo->mUnk_08, vehicle->mUnk_000.mScale.z);
-    vehicle->mUnk_120 = MUL_FIXED12_NO_ROUND(kindInfo->mUnk_0c, vehicle->mUnk_000.mScale.z);
-    vehicle->mUnk_152 = (u32) ((s16) courseRow->mUnk_28 * 0xfa) / 100;
-    vehicle->mUnk_150 = vehicle->mUnk_152;
-    vehicle->mUnk_100[0] = kindInfo->mUnk_10;
-    vehicle->mUnk_100[1] = kindInfo->mUnk_14 >> 4;
-    vehicle->mUnk_100[2] = kindInfo->mUnk_18 >> 4;
-    vehicle->mUnk_110 = kindInfo->mUnk_1c;
+void InitVehicle(Vehicle *vehicle, struct CourseMapRow *courseRow, VehicleKindInfo *kindInfo) {
+    vehicle->mKindInfo = kindInfo;
+    InitGroupFollower(&vehicle->mFollower, courseRow, (s16) courseRow->mUnk_28 * 0x3000 / 100);
+    vehicle->mStartEntryIndex = courseRow->mUnk_2a;
+    vehicle->mAnimationFrame = courseRow->mUnk_2c;
+    vehicle->mStartEntryY = GetCourseMapGroupEntry(courseRow->mUnk_26, vehicle->mStartEntryIndex)->mPos.y;
+    vehicle->mExtentPositive.x = MUL_FIXED12_NO_ROUND(kindInfo->mExtentX, vehicle->mMapObject.mScale.x);
+    vehicle->mExtentPositive.y = MUL_FIXED12_NO_ROUND(kindInfo->mExtentY, vehicle->mMapObject.mScale.y);
+    vehicle->mExtentPositive.z = MUL_FIXED12_NO_ROUND(kindInfo->mExtentZ, vehicle->mMapObject.mScale.z);
+    vehicle->mExtentNegativeZ = MUL_FIXED12_NO_ROUND(kindInfo->mExtentNegativeZ, vehicle->mMapObject.mScale.z);
+    vehicle->mRotationBlendRate = (u32) ((s16) courseRow->mUnk_28 * 0xfa) / 100;
+    vehicle->mDefaultBlendRate = vehicle->mRotationBlendRate;
+    vehicle->mTireOffset[0] = kindInfo->mTireOffsetX;
+    vehicle->mTireOffset[1] = kindInfo->mTireOffsetY >> 4;
+    vehicle->mTireOffset[2] = kindInfo->mTireOffsetZ >> 4;
+    vehicle->mTireRadius = kindInfo->mTireRadius;
     ResetVehicleToStartEntry(vehicle);
-    vehicle->mUnk_15c = kindInfo->mUnk_2c;
-    vehicle->mUnk_158 = CreateVehicleSoundSource(&vehicle->mUnk_000);
-    ResetSoundDistanceSquaredChange(vehicle->mUnk_158);
-    vehicle->mUnk_000.mSound->mSoundSource.mTrackParamsFunction =
+    vehicle->mRunSoundId = kindInfo->mRunSoundId;
+    vehicle->mSoundDistanceChange = CreateVehicleSoundSource(&vehicle->mMapObject);
+    ResetSoundDistanceSquaredChange(vehicle->mSoundDistanceChange);
+    vehicle->mMapObject.mSound->mSoundSource.mTrackParamsFunction =
         (void (*)(void *, void *, void *)) SetVehicleSoundTrackParams;
-    vehicle->mUnk_160 = kindInfo->mUnk_30;
+    vehicle->mBounceSoundId = kindInfo->mBounceSoundId;
 }
 
-void ResetVehicleToStartEntry(Unk020e1e98 *vehicle) {
-    SetupGroupFollowerAtEntry(&vehicle->mUnk_0d8, vehicle->mUnk_0fc, 1);
-    GetGroupFollowerCurvePosStepXz(&vehicle->mUnk_0d8, &vehicle->mUnk_000.mPos, &vehicle->mUnk_000.mUnk_10);
-    vehicle->mUnk_000.mPos.y = vehicle->mUnk_0a0;
-    vehicle->mUnk_000.mUnk_10.y = 0;
-    vehicle->mUnk_0b4 = gIdentityQuaternion;
+void ResetVehicleToStartEntry(Vehicle *vehicle) {
+    SetupGroupFollowerAtEntry(&vehicle->mFollower, vehicle->mStartEntryIndex, 1);
+    GetGroupFollowerCurvePosStepXz(&vehicle->mFollower, &vehicle->mMapObject.mPos, &vehicle->mMapObject.mUnk_10);
+    vehicle->mMapObject.mPos.y = vehicle->mStartEntryY;
+    vehicle->mMapObject.mUnk_10.y = 0;
+    vehicle->mGroundRotation = gIdentityQuaternion;
     QuaternionMultiplyAngleAroundYIgnoreY(
-        &vehicle->mUnk_0b4,
-        (u16) (((s64) FX_Atan2(vehicle->mUnk_000.mUnk_10.x, vehicle->mUnk_000.mUnk_10.z) * 0x28be60db9391 +
+        &vehicle->mGroundRotation,
+        (u16) (((s64) FX_Atan2(vehicle->mMapObject.mUnk_10.x, vehicle->mMapObject.mUnk_10.z) * 0x28be60db9391 +
                 0x80000000000) >>
                44),
-        &vehicle->mUnk_0a4);
-    Matrix3x3FromQuaternion(&vehicle->mUnk_000.mMatrix.mUnk_00_m, &vehicle->mUnk_0a4);
-    vehicle->mUnk_0fe = 0;
-    vehicle->mUnk_152 = vehicle->mUnk_150;
-    vehicle->mUnk_10c = 0;
+        &vehicle->mRotation);
+    Matrix3x3FromQuaternion(&vehicle->mMapObject.mMatrix.mUnk_00_m, &vehicle->mRotation);
+    vehicle->mHitReactionTimer = 0;
+    vehicle->mRotationBlendRate = vehicle->mDefaultBlendRate;
+    vehicle->mTireAngle = 0;
     InitCourseColorBlend(&vehicle->mCourseColorBlend, 1);
 }
 
 #pragma thumb off
 
-void DrawVisibleMapObjects(MapObjectList *list, void *viewMatrix, void (*drawObject)(Unk020e1d10 *, void *, u32)) {
+void DrawVisibleMapObjects(MapObjectList *list, void *viewMatrix,
+                           void (*drawObject)(CollisionMapObject *, void *, u32)) {
     s32 index;
     s32 count = list->mMapObjectCount;
 
     for (index = 0; index < count; index++) {
-        Unk020e1d10 *mapObject = list->mMapObjects[index];
+        CollisionMapObject *mapObject = list->mMapObjects[index];
 
         if ((mapObject->mMapObject.mFlags & 0x12) == 0 && mapObject->mMapObject.mAlpha != 0) {
             drawObject(mapObject, viewMatrix, mapObject->mMapObject.mAlpha);
@@ -563,7 +570,7 @@ void DrawVisibleMapObjects(MapObjectList *list, void *viewMatrix, void (*drawObj
     }
 }
 
-void DrawMapObjectModelAtPos(Unk020e1d10 *mapObject, void *viewMatrix, u32 alpha) {
+void DrawMapObjectModelAtPos(CollisionMapObject *mapObject, void *viewMatrix, u32 alpha) {
     mapObject->mMapObject.mMatrix.mUnk_00[3].x = mapObject->mMapObject.mPos.x >> 4;
     mapObject->mMapObject.mMatrix.mUnk_00[3].y = mapObject->mMapObject.mPos.y >> 4;
     mapObject->mMapObject.mMatrix.mUnk_00[3].z = mapObject->mMapObject.mPos.z >> 4;
@@ -576,13 +583,13 @@ void SetMapObjectsModel(MapObjectList *list, void *model) {
     s32 count = list->mMapObjectCount;
 
     for (index = 0; index < count; index++) {
-        Unk020e1d10 *mapObject = list->mMapObjects[index];
+        CollisionMapObject *mapObject = list->mMapObjects[index];
 
         mapObject->mModel = model;
     }
 }
 
-s32 ComputeSphereHitOnCollisionData(Unk020e1d10 *object, Vec3 *sphereCenter, s32 sphereRadius, u16 queryFlags,
+s32 ComputeSphereHitOnCollisionData(CollisionMapObject *object, Vec3 *sphereCenter, s32 sphereRadius, u16 queryFlags,
                                     CollisionHitRecord *firstHitRecord, CollisionHitRecord *secondHitRecord,
                                     Vec3 *lowestOffset, u16 *outFlags, Vec3 *pointMotion, u16 *angleChange) {
     switch (object->mCollisionData.mUnk_134) {
@@ -598,7 +605,7 @@ s32 ComputeSphereHitOnCollisionData(Unk020e1d10 *object, Vec3 *sphereCenter, s32
 }
 
 void AddCollisionHitOneAxis(s32 sphereRadius, s32 signedDepth, s32 depth, u32 regionFlags, u16 positiveSideBit,
-                            u16 *outFlags, s32 axisFlag, Unk020e1d10 *object, Vec3 *sphereCenter, Vec3 *normal,
+                            u16 *outFlags, s32 axisFlag, CollisionMapObject *object, Vec3 *sphereCenter, Vec3 *normal,
                             CollisionHitRecord *firstHitRecord, CollisionHitRecord *secondHitRecord, Vec3 *lowestOffset,
                             Vec3 *pointMotion, u16 *angleChange) {
     BOOL normalAboveThreshold;
@@ -683,7 +690,7 @@ void AddCollisionHitOneAxis(s32 sphereRadius, s32 signedDepth, s32 depth, u32 re
 
 BOOL AddCollisionHitTwoAxes(s32 sphereRadius, s32 firstOffset, s32 c, u32 regionFlags, u16 firstPositiveSideBit,
                             u16 secondPositiveSideBit, u16 *outFlags, u16 queryFlags, s32 firstAxisFlag,
-                            s32 secondAxisFlag, Unk020e1d10 *object, Vec3 *sphereCenter, Vec3 *firstNormal,
+                            s32 secondAxisFlag, CollisionMapObject *object, Vec3 *sphereCenter, Vec3 *firstNormal,
                             Vec3 *secondNormal, CollisionHitRecord *firstHitRecord, CollisionHitRecord *secondHitRecord,
                             Vec3 *lowestOffset, Vec3 *pointMotion, u16 *angleChange) {
     BOOL normalAboveThreshold;
@@ -799,7 +806,7 @@ BOOL AddCollisionHitTwoAxes(s32 sphereRadius, s32 firstOffset, s32 c, u32 region
     return TRUE;
 }
 
-BOOL ComputeSphereHitOnCollisionBox(Unk020e1d10 *object, Vec3 *sphereCenter, s32 sphereRadius, u16 queryFlags,
+BOOL ComputeSphereHitOnCollisionBox(CollisionMapObject *object, Vec3 *sphereCenter, s32 sphereRadius, u16 queryFlags,
                                     CollisionHitRecord *firstHitRecord, CollisionHitRecord *secondHitRecord,
                                     Vec3 *lowestOffset, u16 *outFlags, Vec3 *pointMotion, u16 *angleChange) {
     Vec3 v;
@@ -883,7 +890,7 @@ BOOL ComputeSphereHitOnCollisionBox(Unk020e1d10 *object, Vec3 *sphereCenter, s32
             regionFlags |= 0x5;
         }
     }
-    if ((queryFlags & 4) && object->mUnk_13c != 0) {
+    if ((queryFlags & 4) && object->mSkipsFlaggedQueries != 0) {
         return FALSE;
     }
     if (regionFlags & 0x100) {
@@ -1153,9 +1160,10 @@ rest:
     return TRUE;
 }
 
-BOOL ComputeSphereHitOnCollisionCylinder(Unk020e1d10 *object, Vec3 *sphereCenter, s32 sphereRadius, u16 queryFlags,
-                                         CollisionHitRecord *firstHitRecord, CollisionHitRecord *secondHitRecord,
-                                         Vec3 *lowestOffset, u16 *outFlags, Vec3 *pointMotion, u16 *angleChange) {
+BOOL ComputeSphereHitOnCollisionCylinder(CollisionMapObject *object, Vec3 *sphereCenter, s32 sphereRadius,
+                                         u16 queryFlags, CollisionHitRecord *firstHitRecord,
+                                         CollisionHitRecord *secondHitRecord, Vec3 *lowestOffset, u16 *outFlags,
+                                         Vec3 *pointMotion, u16 *angleChange) {
     Vec3 v;
     s32 axialDepth;
     Vec3 w;
@@ -1275,7 +1283,7 @@ cmp:
     goto apply80;
 }
 
-void ComputeCollisionPointMotion(Unk020e1d10 *object, Vec3 *position, Vec3 *contactNormal, Vec3 *pointMotion,
+void ComputeCollisionPointMotion(CollisionMapObject *object, Vec3 *position, Vec3 *contactNormal, Vec3 *pointMotion,
                                  u16 *angleChange) {
     Vec3 offset;
 

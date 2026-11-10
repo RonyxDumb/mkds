@@ -16,7 +16,7 @@ extern const Unk020e039c data_02158c10;
 
 // Object of kind 0xcc (Bridge) that InitBridge fills.
 typedef struct Bridge {
-    /* 000 */ Unk020e1d10 mUnk_000;
+    /* 000 */ CollisionMapObject mUnk_000;
     /* 144 */ u16 mSwingAmplitude;
     /* 146 */ u16 mSwingAnglePerFrame;
     /* 148 */ u16 mSwingAngle;

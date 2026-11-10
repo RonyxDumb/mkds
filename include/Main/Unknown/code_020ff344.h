@@ -9,11 +9,11 @@
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/code_021052fc.h"
 #include "Main/Unknown/code_020ffdd4.h"
-#include "Main/Unknown/code_020e0680.h" // Unk020e1d10
+#include "Main/Unknown/code_020e0680.h" // CollisionMapObject
 
 // Object of InitMissionRunBoxMapObject: 0x144 bytes.
 typedef struct Unk020ff97c {
-    /* 000 */ Unk020e1d10 mUnk_000;
+    /* 000 */ CollisionMapObject mUnk_000;
 } Unk020ff97c;
 
 // Object of item kind 7, element of gItemPools[7].

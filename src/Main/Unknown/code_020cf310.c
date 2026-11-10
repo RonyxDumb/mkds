@@ -104,7 +104,7 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
             void *kindDrawList;
             u16 angle;
 
-            kindDrawList = FindMapObjectKindDrawList0(0xcb);
+            kindDrawList = FindMapObjectKindDrawList0(MAP_OBJECT_KIND_ROTARY_GEAR);
             if (kindDrawList != NULL) {
                 objects = RaceHudSubScreenGetMapObjects(kindDrawList);
                 for (i = 0; i < 5; i++) {
@@ -197,7 +197,7 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
         case 0x20: {
             void *kindDrawList;
             MapObject **objects;
-            Unk020e005c **blocks;
+            KoopaBlock **blocks;
 
             kindDrawList = FindMapObjectKindDrawList0(0xd0);
             if (kindDrawList != NULL) {

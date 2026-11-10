@@ -862,7 +862,7 @@ extern Unk0217b3ec *gRaceLapNumber;
 // Object behind gRaceHudSubScreenSecondHand, 0x44 bytes allocated by CreateRaceHudSubScreenSecondHand: a table of
 // object pointers and two counts (as in RaceHudSubScreenCells), three halfwords and two arrays of three pairs.
 typedef struct RaceHudSubScreenSecondHand {
-    /* 00 */ struct Unk020e1e98 **mObjects;
+    /* 00 */ struct Vehicle **mObjects;
     /* 04 */ s32 mUnk_04;
     /* 08 */ s32 mObjectCount;
     /* 0c */ u16 mAngles[3];

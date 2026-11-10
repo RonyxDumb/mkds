@@ -40,7 +40,7 @@ typedef enum {
     COLLISION_SHAPE_CYLINDER
 } CollisionShape;
 
-// Collision-body block at 0xa0 of Unk020e1d10, Bridge, Rotary and Unk020ff97c. Names carry the offset in the
+// Collision-body block at 0xa0 of CollisionMapObject, Bridge, Rotary and Unk020ff97c. Names carry the offset in the
 // object.
 typedef struct CollisionData {
     /* 00 */ MtxFx33 mPrevMatrix;
@@ -60,9 +60,9 @@ typedef struct CollisionData {
     /* 98 */ s32 mUnk_138;
 } CollisionData;
 
-typedef struct Unk020e005c Unk020e005c;
-typedef struct Unk020e1d10 Unk020e1d10;
+typedef struct KoopaBlock KoopaBlock;
+typedef struct CollisionMapObject CollisionMapObject;
 
-void UpdateKoopaBlockState1(Unk020e005c *koopaBlock);
-void EnterKoopaBlockState1(Unk020e005c *koopaBlock);
-void UpdateKoopaBlockState0(Unk020e005c *koopaBlock);
+void UpdateKoopaBlockState1(KoopaBlock *koopaBlock);
+void EnterKoopaBlockState1(KoopaBlock *koopaBlock);
+void UpdateKoopaBlockState0(KoopaBlock *koopaBlock);

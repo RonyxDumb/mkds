@@ -556,7 +556,7 @@ void ClearRaceHudSubScreenSecondHandPointer(void) {
 void UpdateRaceHudSubScreenSecondHand(void) {
     s32 i;
     u32 a;
-    Unk020e1e98 *object;
+    Vehicle *object;
     s32 extentZ;
     Vec3 *position;
     s32 deltaX;
@@ -566,10 +566,10 @@ void UpdateRaceHudSubScreenSecondHand(void) {
     a = GetRaceHudSubScreenScale();
     for (i = 0; i < gRaceHudSubScreenSecondHand->mObjectCount; i++) {
         object = gRaceHudSubScreenSecondHand->mObjects[i];
-        extentZ = object->mUnk_000.mExtent.z;
-        position = &object->mUnk_000.mPos;
-        deltaX = MUL_FIXED12_NO_ROUND(object->mUnk_000.mMatrix.mUnk_00[2].x, extentZ);
-        deltaZ = MUL_FIXED12_NO_ROUND(object->mUnk_000.mMatrix.mUnk_00[2].z, extentZ);
+        extentZ = object->mMapObject.mExtent.z;
+        position = &object->mMapObject.mPos;
+        deltaX = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mUnk_00[2].x, extentZ);
+        deltaZ = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mUnk_00[2].z, extentZ);
         if (gRaceSetup->mMirrorMode != 0) {
             gRaceHudSubScreenSecondHand->mAngles[i] = FX_Atan2Idx(-deltaZ, deltaX) + 0x8000;
         } else {
@@ -801,7 +801,7 @@ void ClearRaceHudSubScreenCarCells(void) {
 void UpdateRaceHudSubScreenCarCells(void) {
     s32 i;
     s32 cellCount;
-    Unk020e1e98 *object;
+    Vehicle *object;
     Vec3 *position;
     u32 a;
     u16 kind;
@@ -810,15 +810,16 @@ void UpdateRaceHudSubScreenCarCells(void) {
     cellCount = 0;
     a = GetRaceHudSubScreenScale();
     for (i = 0; i < gRaceHudSubScreenCarCells->mObjectCount; i++) {
-        object = (Unk020e1e98 *) gRaceHudSubScreenCarCells->mObjects[i];
-        position = &object->mUnk_000.mPos;
-        if (ComputeRaceHudSubScreenPosition(&object->mUnk_000.mPos,
+        object = (Vehicle *) gRaceHudSubScreenCarCells->mObjects[i];
+        position = &object->mMapObject.mPos;
+        if (ComputeRaceHudSubScreenPosition(&object->mMapObject.mPos,
                                             &gRaceHudSubScreenCarCells->mCells[cellCount].mDrawPos, a, 1, 1) != FALSE) {
-            kind = object->mUnk_000.mKind;
-            angle = object->mUnk_000.mAngle;
+            kind = object->mMapObject.mKind;
+            angle = object->mMapObject.mAngle;
             switch (kind) {
                 case MAP_OBJECT_KIND_CAR_A:
-                    gRaceHudSubScreenCarCells->mCells[cellCount].mCell = GetRaceSNcerEntry(object->mUnk_130 + 0x95);
+                    gRaceHudSubScreenCarCells->mCells[cellCount].mCell =
+                        GetRaceSNcerEntry(object->mAnimationFrame + 0x95);
                     break;
                 case MAP_OBJECT_KIND_BUS_A:
                     gRaceHudSubScreenCarCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x93);

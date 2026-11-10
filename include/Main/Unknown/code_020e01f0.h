@@ -5,7 +5,7 @@
 
 // Object holding a pointer at 0x0 and two vectors.
 typedef struct CollisionHitLink {
-    /* 00 */ Unk020e1d10 *mObject;
+    /* 00 */ CollisionMapObject *mObject;
     /* 04 */ Vec3 mLocalPosition;
     /* 10 */ Vec3 mLocalVelocity;
 } CollisionHitLink;
@@ -16,11 +16,11 @@ typedef struct Unk020e0448 {
     /* 04 */ Vec3 mUnk_04;
 } Unk020e0448;
 
-void UpdateKoopaBlock(void *unused, Unk020e005c *koopaBlock);
+void UpdateKoopaBlock(void *unused, KoopaBlock *koopaBlock);
 void *CreateKoopaBlockUpdateList(void);
 void *CreateKoopaBlockDrawList(void);
 void *CreateKoopaBlockKindData(void);
 s32 IsHitLinkOutsideGearRadiusOrFlagged(Unk020e0448 *link);
 BOOL GetCollisionHitLinkPosAndVelocity(CollisionHitLink *link, Vec3 *outPosition, Vec3 *outVelocity);
 void GetCollisionHitLinkPosition(CollisionHitLink *link, Vec3 *outPosition);
-void SetCollisionHitLink(Unk020e1d10 *object, Vec3 *position, Vec3 *velocity, CollisionHitLink *link);
+void SetCollisionHitLink(CollisionMapObject *object, Vec3 *position, Vec3 *velocity, CollisionHitLink *link);
