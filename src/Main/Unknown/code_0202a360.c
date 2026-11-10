@@ -37,7 +37,7 @@ u32 GetResultSceneSeqKind(void) {
         }
         return 1;
     }
-    switch (data_021759d0->mConnectionKind) {
+    switch (gStartupWork->mConnectionKind) {
         case 0:
             ownEntryIndex = 0;
             break;
@@ -84,7 +84,7 @@ u32 GetResultSceneSeqKind(void) {
     maxScore = -1;
     allEqual = 1;
     for (; i < kartCount; i++) {
-        if (data_021759d0->mConnectionKind == 3 || gRaceSetup->mRuleKind == 2) {
+        if (gStartupWork->mConnectionKind == 3 || gRaceSetup->mRuleKind == 2) {
             kartIndex = GetLowByte((u16) i);
             courseIndex = GetCourseIndexInCup();
             record = &gCupRecords->mKartResults[courseIndex][GetLowByte(kartIndex)];

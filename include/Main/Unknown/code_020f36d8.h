@@ -260,7 +260,7 @@ typedef struct RaceProgress {
     // Read only by ComputeRaceTime: when set, the clock counts down from mTimeLimitFrameCount. Set at init in mode 4
     // (unless mUnk_2f is 6) and in mode 2 when mUnk_18 is 1.
     /* 4ec */ BOOL mTimeCountsDown;
-    /* 4f0 */ s32 mUnk_4f0;
+    /* 4f0 */ s32 mEntryRaceEnded;
     // In frames; 0 = none, clock cap 0x57e40. Compared with the frame clock; mode 2 value is mSettings->mUnk_02 * 0x3c.
     /* 4f4 */ u32 mTimeLimitFrameCount;
     /* 4f8 */ u8 mStartPlacementOffset;

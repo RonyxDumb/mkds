@@ -29,5 +29,5 @@ void RaceSetupCopyMI_CpuClearFast(void *destination, u32 size) {
 }
 
 u32 RaceSetupCopyGetConnectionKind(void) {
-    return (data_021759d0->mConnectionKind);
+    return (gStartupWork->mConnectionKind);
 }

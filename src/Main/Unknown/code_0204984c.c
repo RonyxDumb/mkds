@@ -397,7 +397,7 @@ void RunMessageScreenOfKind(s32 kind) {
     gSceneRunState->mUnk_11c = inputEnabled;
     RunMessageScreen();
     StopSceneSounds();
-    if (data_021759d0->mSoundSetSeqPlaying) {
+    if (gStartupWork->mSoundSetSeqPlaying) {
         func_02049e38_inline(0);
     }
     if (hasDisplaySettings != FALSE) {
@@ -459,7 +459,7 @@ void InitSceneRunState(void *heap) {
     PM_AppendPostSleepCallback(&gSceneRunState->mPostSleepCallback);
 }
 
-u32 func_02049b6c(void) {
+u32 IsDataSharingIncomplete(void) {
     u32 result = 0;
 
     if (gRaceSetup->mMode == 5 && func_0204984c_inline5()) {
@@ -481,7 +481,7 @@ BOOL ShouldGoSleepMode(void) {
     return TRUE;
 }
 
-u32 func_0204998c(void) {
+u32 IsVolatileHalfwordIndex39Ignored(void) {
     s32 unused;
 
     if (gBootInfo->mUnk_00 == 2 || func_0204984c_inline2() || GetCurrentSceneNumber() == 6 ||

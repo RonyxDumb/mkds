@@ -28,7 +28,7 @@ OSi_ReferSymbol kind:function(arm,size=0x4) addr:0x02000b44
 NitroStartUp kind:function(arm,size=0x4) addr:0x02000b48
 BuildInfo kind:data(any) addr:0x02000b4c
 DisconnectRemovedChildren kind:function(arm,size=0x4c) addr:0x02001000
-func_0200104c kind:function(arm,size=0x34) addr:0x0200104c
+FinishMultiBootParentSetup kind:function(arm,size=0x34) addr:0x0200104c
 gLogoStateTable kind:data(any) addr:0x02001080
 UpdateLogoState10 kind:function(arm,size=0x64) addr:0x020010e0
 EnterLogoState10 kind:function(arm,size=0x48) addr:0x02001144
@@ -1444,7 +1444,7 @@ ReleaseWLMenuMessage kind:function(thumb,size=0x24) addr:0x02035d90
 AdvanceWLMenuMessageToMenu kind:function(thumb,size=0x7c) addr:0x02035db4
 SetNextScene kind:function(arm,size=0x8) addr:0x02035e30
 StopSeqZeroLoopWrapper kind:function(arm,size=0xc) addr:0x02035e38
-func_02035e44 kind:function(arm,size=0x20) addr:0x02035e44
+HasGroupSendMask kind:function(arm,size=0x20) addr:0x02035e44
 AdvanceWLMenuMessageToResult kind:function(thumb,size=0x7c) addr:0x02035e64
 AdvanceWLMenuMessageToRace kind:function(thumb,size=0x7c) addr:0x02035ee0
 AdvanceWLMenuMBChildMessage kind:function(thumb,size=0xe8) addr:0x02035f5c
@@ -1620,7 +1620,7 @@ LookupRankPoints kind:function(arm,size=0xc8) addr:0x0203c4d0
 GetRaceElapsedFrames kind:function(arm,size=0x14) addr:0x0203c598
 GetKartLapProgress kind:function(arm,size=0x1c) addr:0x0203c5ac
 GetKartRaceProgress kind:function(arm,size=0x1c) addr:0x0203c5c8
-func_0203c5e4 kind:function(arm,size=0x14) addr:0x0203c5e4
+GetEntryRaceEnded kind:function(arm,size=0x14) addr:0x0203c5e4
 GetKartBestLapTime kind:function(arm,size=0x180) addr:0x0203c5f8
 GetKartLapTime kind:function(arm,size=0x54) addr:0x0203c778
 GetKartFinishTime kind:function(arm,size=0xb4) addr:0x0203c7cc
@@ -1669,7 +1669,7 @@ InitRaceProgress kind:function(arm,size=0x5a4) addr:0x020401ac
 InitRaceProgressKart kind:function(arm,size=0x1a0) addr:0x02040750
 ComputeRaceProgressKartScore kind:function(arm,size=0x19c) addr:0x020408f0
 ComputeGrandPrixScoreTerms kind:function(arm,size=0x134) addr:0x02040a8c
-func_02040bc0 kind:function(arm,size=0x164) addr:0x02040bc0
+IsEntryRaceEnded kind:function(arm,size=0x164) addr:0x02040bc0
 ComputeDotOfPairsRoundedS64 kind:function(arm,size=0x44) addr:0x02040d24
 ComputeDotOfPairsRounded kind:function(arm,size=0x40) addr:0x02040d68
 GetKeyedPlacementBattlePointLink kind:function(arm,size=0x38) addr:0x02040da8
@@ -1700,10 +1700,10 @@ LoadCourseMapItemRoutesData kind:function(thumb,size=0x38) addr:0x02042520
 LoadCourseMapItemPointsData kind:function(thumb,size=0x38) addr:0x02042558
 LoadCourseMapCheckpointRoutesData kind:function(thumb,size=0x98) addr:0x02042590
 LoadCourseMapCheckpointsData kind:function(thumb,size=0x84) addr:0x02042628
-func_020426ac kind:function(thumb,size=0x5c) addr:0x020426ac
+LoadCourseMapRaceEndPlacementsData kind:function(thumb,size=0x5c) addr:0x020426ac
 LoadCourseMapKeyedPlacementsData kind:function(thumb,size=0x44) addr:0x02042708
 BuildCourseMapKeyedPlacementIndexByKey kind:function(thumb,size=0x60) addr:0x0204274c
-func_020427ac kind:function(thumb,size=0x28) addr:0x020427ac
+LoadCourseMapSubScreenViewData kind:function(thumb,size=0x28) addr:0x020427ac
 ShuffleCourseMapRespawnSlots kind:function(thumb,size=0xc0) addr:0x020427d4
 LoadCourseMapRespawnsData kind:function(thumb,size=0xfc) addr:0x02042894
 LoadCourseMapStartPlacementsData kind:function(thumb,size=0x28) addr:0x02042990
@@ -1731,7 +1731,7 @@ ResetInputSlotsFromParticipants kind:function(arm,size=0x134) addr:0x02043410
 SetReadRaceKeys kind:function(arm,size=0x58) addr:0x02043544
 IsInputOpenDuringRace kind:function(arm,size=0x20) addr:0x0204359c
 GetPadInputSlot kind:function(arm,size=0x8) addr:0x020435bc
-func_020435c4 kind:function(arm,size=0x10) addr:0x020435c4
+GetVolatileHalfwordIndex39 kind:function(arm,size=0x10) addr:0x020435c4
 SetInputOpenDuringRace kind:function(arm,size=0x38) addr:0x020435d4
 RequestBits kind:function(arm,size=0x3c) addr:0x0204360c
 UpdateInputSlots kind:function(arm,size=0x3d8) addr:0x02043648
@@ -1746,7 +1746,7 @@ StartInputSlots kind:function(arm,size=0xcc) addr:0x02043b48
 ResetInputSlots kind:function(arm,size=0xfc) addr:0x02043c14
 InitInputSlotsAndTouchMic kind:function(arm,size=0x218) addr:0x02043d10
 LoadSndBanksForCharacters kind:function(arm,size=0x88) addr:0x02043f28
-func_02043fb0 kind:function(arm,size=0xb0) addr:0x02043fb0
+SelectGhostReadCourseRecordAndWait kind:function(arm,size=0xb0) addr:0x02043fb0
 ReadCourseGhostRecordAndLoadFile kind:function(arm,size=0x13c) addr:0x02044060
 ReadCourseAndSlotGhostRecords kind:function(arm,size=0x134) addr:0x0204419c
 ReadCourseGhostRecordAndWait kind:function(arm,size=0xb0) addr:0x020442d0
@@ -1863,9 +1863,9 @@ SceneRunPAD_DetectFold kind:function(arm,size=0x18) addr:0x02049820
 GetSceneRunStep kind:function(arm,size=0x14) addr:0x02049838
 RunMessageScreenOnDisconnect kind:function(arm,size=0x134) addr:0x0204984c
 RunMessageScreenOfKindWrapper kind:function(arm,size=0xc) addr:0x02049980
-func_0204998c kind:function(arm,size=0x118) addr:0x0204998c
+IsVolatileHalfwordIndex39Ignored kind:function(arm,size=0x118) addr:0x0204998c
 ShouldGoSleepMode kind:function(arm,size=0xc8) addr:0x02049aa4
-func_02049b6c kind:function(arm,size=0xd0) addr:0x02049b6c
+IsDataSharingIncomplete kind:function(arm,size=0xd0) addr:0x02049b6c
 InitSceneRunState kind:function(arm,size=0x118) addr:0x02049c3c
 ScenePostSleepCallback kind:function(arm,size=0x38) addr:0x02049d54
 ScenePreSleepCallback kind:function(arm,size=0xac) addr:0x02049d8c
@@ -1905,8 +1905,8 @@ StopSceneSoundSetSeq kind:function(arm,size=0x50) addr:0x0204ac10
 StartSceneSoundSetSeq kind:function(arm,size=0x70) addr:0x0204ac60
 InitSceneSoundSetPlayer kind:function(arm,size=0x54) addr:0x0204acd0
 ResetFrmHeap kind:function(arm,size=0x20) addr:0x0204ad24
-func_0204ad44 kind:function(arm,size=0x22c) addr:0x0204ad44
-func_0204af70 kind:function(arm,size=0x60) addr:0x0204af70
+FillStartupWork kind:function(arm,size=0x22c) addr:0x0204ad44
+InitStartupWork kind:function(arm,size=0x60) addr:0x0204af70
 RunWLMenuScene kind:function(arm,size=0x48) addr:0x0204afd0
 UpdateWLMenuSceneCallback kind:function(arm,size=0xc) addr:0x0204b018
 WriteWLMenuSceneRegistersCallback kind:function(arm,size=0xc) addr:0x0204b024
@@ -2355,7 +2355,7 @@ WriteItemDataSlotsToSendBuffer kind:function(arm,size=0x10c) addr:0x0205ac38
 IsAnyItemDataSlotFree kind:function(arm,size=0x44) addr:0x0205ad44
 ResetItemDataSlots kind:function(arm,size=0x104) addr:0x0205ad88
 SubtractDroppedFromRank kind:function(arm,size=0x104) addr:0x0205ae8c
-func_0205af90 kind:function(arm,size=0x18) addr:0x0205af90
+SetWiFiRaceSyncFinishRecorded kind:function(arm,size=0x18) addr:0x0205af90
 PackOwnKartProgress kind:function(arm,size=0x10c) addr:0x0205afa8
 AdvanceWiFiRaceSync kind:function(arm,size=0x40) addr:0x0205b0b4
 RemoveDroppedParticipants kind:function(arm,size=0x238) addr:0x0205b0f4
@@ -11274,7 +11274,7 @@ gRaceSetup kind:bss addr:0x021759a0
 gTouchMicInput kind:bss addr:0x021759a4
 data_021759c8 kind:bss addr:0x021759a8
 gSceneRunState kind:bss addr:0x021759ac
-data_021759d0 kind:bss addr:0x021759b0
+gStartupWork kind:bss addr:0x021759b0
 gBackupAccess kind:bss addr:0x021759b4
 gFileReadThread kind:bss addr:0x021759b8
 data_02175dd8 kind:bss addr:0x02175db8

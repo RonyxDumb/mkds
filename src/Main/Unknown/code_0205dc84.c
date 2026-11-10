@@ -49,7 +49,7 @@ static inline void func_0205dee0_inline(void *c, void *overlayId) {
         GX_VBlankIntr(0);
         func_ov000_021a397c(2);
         f = 1;
-        languageIndex = data_021759d0->mLanguageIndex;
+        languageIndex = gStartupWork->mLanguageIndex;
         if (languageIndex < 6) {
             f = gDWCUtilityLanguageTable[languageIndex];
         }
@@ -111,7 +111,7 @@ s32 RunScenes(s16 *sceneNumber) {
         } else {
             *sceneNumber = 9;
         }
-        switch (data_021759d0->mConnectionKind) {
+        switch (gStartupWork->mConnectionKind) {
             case 0:
             case 1:
             case 2:
@@ -122,7 +122,7 @@ s32 RunScenes(s16 *sceneNumber) {
                 break;
             case 4:
                 RunDWCUtility();
-                data_021759d0->mConnectionKind = 3;
+                gStartupWork->mConnectionKind = 3;
                 break;
         }
     }
@@ -148,7 +148,7 @@ void RunScenesForever(void) {
     gRunScenesState->mSceneNumber = 9;
     gRunScenesState->mKind = 0;
     if (gBootInfo->mUnk_00 == 2) {
-        data_021759d0->mConnectionKind = 2;
+        gStartupWork->mConnectionKind = 2;
         gMenuShared->mWLMenuKind = 0;
         gRunScenesState->mSceneNumber = 6;
     }

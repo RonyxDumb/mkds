@@ -55,7 +55,7 @@ void SetupWLMenuCommonMessage(void *heap) {
     }
     DC_StoreRange(gWLMenuMessage->mScreenMap, 0x600);
     GXS_LoadBG1Scr(gWLMenuMessage->mScreenMap, 0, 0x600);
-    if (func_02035e44() != 0) {
+    if (HasGroupSendMask() != 0) {
         StartSeqZeroLoopWrapper();
     }
     FrmHeapShrinkInParent(gWLMenuMessage->mHeap);

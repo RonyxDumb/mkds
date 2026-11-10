@@ -287,8 +287,8 @@ void AddVSBuddyRecordResults(void) {
         } else {
             outcome = func_0205f700_inline(entryIndex, ownRank);
         }
-        if ((gConnectionWork->mUnk_0457 & (1 << gConnectionWork->mUnk_1e8c[gConnectionWork->mUnk_1e8c[entryIndex]])) ==
-            0) {
+        if ((gConnectionWork->mGroupSendMask &
+             (1 << gConnectionWork->mUnk_1e8c[gConnectionWork->mUnk_1e8c[entryIndex]])) == 0) {
             AddBuddyRecordResult(entryIndex, date, 0, outcome);
         }
         if (outcome == 0) {
@@ -355,8 +355,8 @@ void AddBattleBuddyRecordResults(void) {
                 outcome = 1;
             }
         }
-        if ((gConnectionWork->mUnk_0457 & (1 << gConnectionWork->mUnk_1e8c[gConnectionWork->mUnk_1e8c[entryIndex]])) ==
-            0) {
+        if ((gConnectionWork->mGroupSendMask &
+             (1 << gConnectionWork->mUnk_1e8c[gConnectionWork->mUnk_1e8c[entryIndex]])) == 0) {
             AddBuddyRecordResult(entryIndex, date, 1, outcome);
         }
         if (outcome == 0) {
@@ -424,8 +424,8 @@ void AddShineBattleBuddyRecordResults(void) {
                 outcome = 1;
             }
         }
-        if ((gConnectionWork->mUnk_0457 & (1 << gConnectionWork->mUnk_1e8c[gConnectionWork->mUnk_1e8c[entryIndex]])) ==
-            0) {
+        if ((gConnectionWork->mGroupSendMask &
+             (1 << gConnectionWork->mUnk_1e8c[gConnectionWork->mUnk_1e8c[entryIndex]])) == 0) {
             AddBuddyRecordResult(entryIndex, date, 1, outcome);
         }
         if (outcome == 0) {

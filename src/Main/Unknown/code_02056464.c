@@ -97,8 +97,8 @@ void FillPlayerRecord(PlayerRecord *a) {
         MI_CpuFill8(a->mEmblem, 0, 0x200);
     }
     MI_CpuCopy8(data_0217aa08->mFirstBlock->mFlags, a->mBits, 4);
-    a->mRegion = data_021759d0->mRegion;
-    a->mUnk_228_4 = data_021759d0->mLanguageIndex;
+    a->mRegion = gStartupWork->mRegion;
+    a->mUnk_228_4 = gStartupWork->mLanguageIndex;
     a->mElo = data_0217aa08->mFirstBlock->mElo;
     a->mLowestGrandPrixRecordValue = GetLowestGrandPrixRecordValue();
     if (gBootInfo->mUnk_00 == 2) {

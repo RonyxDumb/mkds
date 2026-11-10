@@ -715,7 +715,7 @@ Expression shapes:
   shape and need this: look at the diff first.
 - An early test branching to the same `mov rX, #K` block that a later test falls into (ours predicates the early
   arm): `if (x == -1 || helper(x) == 0) { r = 1; }` with `helper` the `f = 0; if (...) f = 1; return f;` flag
-  (func_02040bc0).
+  (IsEntryRaceEnded).
 - A conditional branch to a shared `pop` exit where ours has predicated epilogue copies (`popne {r4, lr}`), 4 to 8
   bytes longer: the unit is compiled for size. `#pragma optimize_for_size on` after the includes matched every
   function of code_02030708.c and code_0203606c.c. Apply it only when all functions of the unit match with it.

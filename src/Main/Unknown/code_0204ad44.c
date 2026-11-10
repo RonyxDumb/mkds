@@ -37,74 +37,74 @@ s32 RunWLMenuScene(SceneNumbers *sceneNumbers) {
     return 0;
 }
 
-void func_0204af70(void *heap) {
+void InitStartupWork(void *heap) {
     u8 *arenaLo;
     u8 *arenaHi;
 
     arenaLo = OS_GetArenaLo(4);
     arenaHi = OS_GetArenaHi(4);
-    data_021759d0 = HeapAlloc(heap, 0x7c);
-    data_021759d0->mHeap = NNS_FndCreateFrmHeapEx(arenaLo, arenaHi - arenaLo, 1);
-    func_0204ad44();
+    gStartupWork = HeapAlloc(heap, 0x7c);
+    gStartupWork->mHeap = NNS_FndCreateFrmHeapEx(arenaLo, arenaHi - arenaLo, 1);
+    FillStartupWork();
 }
 
-void func_0204ad44(void) {
+void FillStartupWork(void) {
     Unk0200fddc ownerInfo;
     u64 firstTick;
     u64 secondTick;
-    Unk021759d0 *p;
+    StartupWork *startupWork;
     RandomState64 *random;
 
     OS_GetOwnerInfo(&ownerInfo);
-    MI_CpuFill8(data_021759d0->mOwnerText, 0, 0x14);
-    data_021759d0->mOwnerCharCount = ownerInfo.mUnk_18;
-    MI_CpuCopy8(ownerInfo.mUnk_04, data_021759d0->mOwnerText, data_021759d0->mOwnerCharCount << 1);
-    data_021759d0->mUnk_40 = ownerInfo.mUnk_01;
-    data_021759d0->mRegion = 1;
+    MI_CpuFill8(gStartupWork->mOwnerText, 0, 0x14);
+    gStartupWork->mOwnerCharCount = ownerInfo.mUnk_18;
+    MI_CpuCopy8(ownerInfo.mUnk_04, gStartupWork->mOwnerText, gStartupWork->mOwnerCharCount << 1);
+    gStartupWork->mUnk_40 = ownerInfo.mUnk_01;
+    gStartupWork->mRegion = 1;
     switch (ownerInfo.mUnk_00) {
         case 1:
-            data_021759d0->mLanguageIndex = 1;
+            gStartupWork->mLanguageIndex = 1;
             break;
         case 2:
-            data_021759d0->mLanguageIndex = 2;
+            gStartupWork->mLanguageIndex = 2;
             break;
         case 3:
-            data_021759d0->mLanguageIndex = 3;
+            gStartupWork->mLanguageIndex = 3;
             break;
         case 4:
-            data_021759d0->mLanguageIndex = 4;
+            gStartupWork->mLanguageIndex = 4;
             break;
         case 5:
-            data_021759d0->mLanguageIndex = 5;
+            gStartupWork->mLanguageIndex = 5;
             break;
         default:
-            data_021759d0->mLanguageIndex = 1;
+            gStartupWork->mLanguageIndex = 1;
             break;
     }
-    data_021759d0->mConnectionKind = 0;
-    data_021759d0->mUnk_28 = -1;
-    data_021759d0->mPickedValue = -1;
-    data_021759d0->mSoundSetSeqPlaying = 0;
-    data_021759d0->mSoundSetPlayerInitialized = 0;
-    data_021759d0->mUnk_58 = 0;
-    data_021759d0->mUnk_5c = 0;
+    gStartupWork->mConnectionKind = 0;
+    gStartupWork->mUnk_28 = -1;
+    gStartupWork->mPickedValue = -1;
+    gStartupWork->mSoundSetSeqPlaying = 0;
+    gStartupWork->mSoundSetPlayerInitialized = 0;
+    gStartupWork->mUnk_58 = 0;
+    gStartupWork->mUnk_5c = 0;
     NNS_G3dGeUseFastDma(0);
-    data_021759d0->mUnk_1c_3 = 0;
-    data_021759d0->mUnk_54 = FALSE;
-    data_021759d0->mDemoEndedByInput = 0;
+    gStartupWork->mUnk_1c_3 = 0;
+    gStartupWork->mUnk_54 = FALSE;
+    gStartupWork->mDemoEndedByInput = 0;
     if (gBootInfo->mUnk_00 == 2) {
-        data_021759d0->mMultiSimple = 1;
+        gStartupWork->mMultiSimple = 1;
     } else {
-        data_021759d0->mMultiSimple = 0;
+        gStartupWork->mMultiSimple = 0;
     }
     firstTick = OS_GetTick();
     secondTick = OS_GetTick();
-    p = data_021759d0;
-    random = &p->mRandom;
+    startupWork = gStartupWork;
+    random = &startupWork->mRandom;
     random->mValue = (u32) ((firstTick << 16) + secondTick);
     random->mMultiplier = 0x5d588b656c078965;
     random->mIncrement = 0x269ec3;
-    if (PM_GetBackLight(&p->mFirstBackLightOn, &p->mSecondBackLightOn) == 0) {
+    if (PM_GetBackLight(&startupWork->mFirstBackLightOn, &startupWork->mSecondBackLightOn) == 0) {
         return;
     }
     TrySetBackLights(1, 1);

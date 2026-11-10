@@ -71,7 +71,7 @@ void UpdateRaceClock(void) {
                                 break;
                         }
                     }
-                    func_0205af90();
+                    SetWiFiRaceSyncFinishRecorded();
                 }
             }
         }

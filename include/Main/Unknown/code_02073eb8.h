@@ -120,7 +120,7 @@ void UpdateCameraByEntryKind(Camera *camera);
 // and when no CourseMapShape of mKind 1 contains the followed Kart's position (GetCourseMapCameraIndexAtPos finds
 // none); mPrevPos and gEntryCameraUpdateRan are written before either. Otherwise it starts the entry that shape names
 // when it differs from the last one, runs it and returns TRUE. UpdateRace calls it only while gRace->mUseChainCameras
-// is 0 and func_0203c5e4() is non-zero.
+// is 0 and GetEntryRaceEnded() is non-zero.
 BOOL TryUpdateEntryCamera(Camera *camera);
 void DisableEntryCameraUpdate(void);
 void SetEntryCameraUpdateHold(s32 hold);

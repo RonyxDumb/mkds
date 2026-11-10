@@ -306,7 +306,7 @@ void AddChild(u32 aid, u8 *b, PlayerRecord *playerEntry) {
     MI_CpuCopy8(playerEntry, &gConnectionWork->mUnk_045c[aid], 0x14);
     gConnectionWork->mUnk_008b |= 8;
     if ((playerEntry->mEmblem[0] & 1) != 0) {
-        gConnectionWork->mUnk_0457 |= 1 << aid;
+        gConnectionWork->mGroupSendMask |= 1 << aid;
     }
 }
 
@@ -353,7 +353,7 @@ static inline void func_02050b88_inline(u16 v1) {
                     gConnectionWork->mRemovedChildMask |= 1 << i;
                 }
             }
-            gConnectionWork->mUnk_0457 &= ~(1 << i);
+            gConnectionWork->mGroupSendMask &= ~(1 << i);
         }
     }
     if (func_02050650_inline() != 1) {
@@ -362,7 +362,7 @@ static inline void func_02050b88_inline(u16 v1) {
     if ((gConnectionWork->mUnk_0454 & 0x100) == 0) {
         return;
     }
-    func_0205081c_inline(gConnectionWork->mUnk_0457);
+    func_0205081c_inline(gConnectionWork->mGroupSendMask);
 }
 
 void RemoveChild(u32 aid) {
@@ -413,7 +413,7 @@ void ProcessMPData(u32 aid, MPMessage *message) {
             break;
         case 2:
             if (func_02050650_inline() == 2) {
-                gConnectionWork->mUnk_0457 = message->mUnk_04;
+                gConnectionWork->mGroupSendMask = message->mUnk_04;
             }
             func_0205081c_inline2(1);
             break;

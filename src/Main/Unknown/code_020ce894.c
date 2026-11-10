@@ -2,7 +2,7 @@
 #include "00/code_02181f98.h"
 
 u32 VsSelectCupGetConnectionKind(void) {
-    return (data_021759d0->mConnectionKind);
+    return (gStartupWork->mConnectionKind);
 }
 
 void VsSelectCupSetMenuEntryKind(u32 entryKind) {

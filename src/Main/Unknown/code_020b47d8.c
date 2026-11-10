@@ -84,7 +84,7 @@ void Matrix2x2RotationReciprocalScale(MtxFx22 *matrix, s32 scale, s32 angle) {
 
 // TRUE when the points word is plural for this number; one language counts 0 as singular.
 BOOL IsPointsLabelPlural(s32 number) {
-    switch (data_021759d0->mLanguageIndex) {
+    switch (gStartupWork->mLanguageIndex) {
         case 0:
         case 1:
         case 3:
@@ -104,7 +104,7 @@ BOOL IsPointsLabelPlural(s32 number) {
 }
 
 BOOL RaceStartIsLanguageJa(void) {
-    switch (data_021759d0->mLanguageIndex) {
+    switch (gStartupWork->mLanguageIndex) {
         case 0:
             return TRUE;
         case 1:
@@ -117,7 +117,7 @@ BOOL RaceStartIsLanguageJa(void) {
 }
 
 s32 GetLanguageCharSpacing(void) {
-    switch (data_021759d0->mLanguageIndex) {
+    switch (gStartupWork->mLanguageIndex) {
         case 0:
             return 1;
         case 1:
@@ -130,7 +130,7 @@ s32 GetLanguageCharSpacing(void) {
 }
 
 BOOL IsLanguageJa(void) {
-    switch (data_021759d0->mLanguageIndex) {
+    switch (gStartupWork->mLanguageIndex) {
         case 0:
             return TRUE;
         case 1:

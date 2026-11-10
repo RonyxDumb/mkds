@@ -162,7 +162,7 @@ u16 GetNewOrRepeatBits(u32 slotIndex, u32 mask) {
 #pragma thumb off
 
 u32 GetConnectionKind(void) {
-    return (data_021759d0->mConnectionKind);
+    return (gStartupWork->mConnectionKind);
 }
 
 RandomState64 *GetConnectionWorkRandomState(void) {
@@ -171,7 +171,7 @@ RandomState64 *GetConnectionWorkRandomState(void) {
 
 #pragma thumb on
 
-// Connection kind 0 draws from the random state in data_021759d0 (GetRandomState), any other kind from the one in
+// Connection kind 0 draws from the random state in gStartupWork (GetRandomState), any other kind from the one in
 // ConnectionWork.
 u32 NextRandomBelowByConnectionKind(u32 limit) {
     int connectionKind;

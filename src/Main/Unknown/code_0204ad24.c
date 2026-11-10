@@ -3,5 +3,5 @@
 #include "frameheap.h"
 
 void ResetFrmHeap(void) {
-    NNS_FndFreeToFrmHeap(data_021759d0->mHeap, 3);
+    NNS_FndFreeToFrmHeap(gStartupWork->mHeap, 3);
 }

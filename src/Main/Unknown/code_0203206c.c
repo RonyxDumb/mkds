@@ -414,7 +414,7 @@ s32 AdvanceSelectGame(void) {
 void ReleaseSelectGame(void) {
     if (gSelectGame->mMode == 1) {
         RequestPlayerEntryListSetup();
-        if (data_021759d0->mMultiSimple != 0) {
+        if (gStartupWork->mMultiSimple != 0) {
             FillShuffledIndices();
         }
     }

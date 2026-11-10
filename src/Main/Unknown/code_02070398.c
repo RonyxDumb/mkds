@@ -669,7 +669,7 @@ void InitKartFlags(Kart *kart) {
         kart->mUnk_7c |= KART_7C_INDEX_IS_SELECTED_ENTRY;
         if (gRaceSetup->mMode == 5) {
             kart->mUnk_7c |= 0x200;
-            if (func_0203c5e4() != 0) {
+            if (GetEntryRaceEnded() != 0) {
                 kart->mUnk_7c &= ~0x200;
                 kart->mUnk_7c |= 0x400;
             }

@@ -1222,7 +1222,7 @@ void LoadKartModelMenuEmblemTexData(NNSG3dResFileHeader *file) {
 
 void InitKartModelMenuSlot(void *heap, KartModelMenuSlot *slot) {
     InitKartModelsEntry(slot);
-    slot->mUnk_b0 = data_021759d0->mRegion;
+    slot->mUnk_b0 = gStartupWork->mRegion;
     slot->mEmblemTex = 0;
     slot->mCharacterNsbmd = HeapAlloc(heap, 0x6c);
     slot->mKartNsbmd = HeapAlloc(heap, 0x6c);
@@ -1281,7 +1281,7 @@ void InitKartModelMenuWithParamFiles(void *heap) {
     SetHeapGroupId(1);
     Init3dEngine();
     NNS_G3dGeUseFastDma(0);
-    data_021759d0->mUnk_1c &= ~8;
+    gStartupWork->mUnk_1c &= ~8;
     InitLnkVramManagers(heap);
     ResetResFileEntries();
     SetKartModelPathPrefix(1);
@@ -1307,7 +1307,7 @@ void InitKartModelMenuWithKartList(void *heap) {
     SetHeapGroupId(1);
     Init3dEngine();
     NNS_G3dGeUseFastDma(0);
-    data_021759d0->mUnk_1c &= ~8;
+    gStartupWork->mUnk_1c &= ~8;
     InitLnkVramManagers(heap);
     ResetResFileEntries();
     SetKartModelPathPrefix(1);

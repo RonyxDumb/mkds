@@ -34,7 +34,7 @@ static inline s32 func_02040bc0_inline(s8 entryIndex) {
     return f;
 }
 
-BOOL func_02040bc0(void) {
+BOOL IsEntryRaceEnded(void) {
     BOOL result = FALSE;
     BOOL ended;
     s8 entryIndex = gRaceSetup->mEntryIndex;
@@ -270,12 +270,12 @@ void InitRaceProgress(void) {
             f = TRUE;
             break;
         case RACE_KIND_NORMAL:
-            if (func_02040bc0() != 0) {
+            if (IsEntryRaceEnded() != 0) {
                 f = TRUE;
             }
             break;
     }
-    gRaceProgress->mUnk_4f0 = f;
+    gRaceProgress->mEntryRaceEnded = f;
     gRaceProgress->mEntryEndKind = 6;
     gRaceProgress->mTimeCountsDown = FALSE;
     gRaceProgress->mTimeLimitFrameCount = 0;

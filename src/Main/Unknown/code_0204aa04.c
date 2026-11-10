@@ -11,10 +11,10 @@ u32 SetMultiSimple(u32 flag) {
         return value0;
     }
     value0 = (value0) & (1u);
-    value1 = data_021759d0->mUnk_1c;
+    value1 = gStartupWork->mUnk_1c;
     value1 = (value1) & ~(4u);
     value0 = (value1) | ((value0 << 2));
-    data_021759d0->mUnk_1c = value0;
+    gStartupWork->mUnk_1c = value0;
     return value0;
 }
 

@@ -91,7 +91,7 @@ void AdvanceSelectRaceRuleHighlight(void) {
                                  gSelectRaceRule->mTable, gSelectRaceRule->mBncl);
         }
     }
-    if (data_021759d0->mConnectionKind != 2) {
+    if (gStartupWork->mConnectionKind != 2) {
         if (gSelectRaceRule->mOnButton != 0 && gSelectRaceRule->mButtonHighlightShown != 0) {
             gSelectRaceRule->mTable[0x28].mVisible = 0;
             gSelectRaceRule->mTable[0x29].mVisible = 1;
@@ -132,7 +132,7 @@ void SetAndPrintSelectRaceRuleWinCount(s16 count) {
     }
     gSelectRaceRule->mWinCount = count;
     FormatFullWidthNumber(gSelectRaceRule->mWinCount, text);
-    if (data_021759d0->mConnectionKind != 2) {
+    if (gStartupWork->mConnectionKind != 2) {
         PrintLabelLayoutTextNoFixedAdvance(
             1, 9, gSelectRaceRule->mBnll,
             GetBmgEntry(gSelectRaceRule->mRuleMessages, gSelectRaceRuleValueMessageIndices[3][SELECT_RACE_RULE_WIN]),
@@ -160,7 +160,7 @@ void SetAndPrintSelectRaceRuleRaceCount(s16 count) {
     }
     gSelectRaceRule->mRaceCount = count;
     FormatFullWidthNumber(gSelectRaceRule->mRaceCount, text);
-    if (data_021759d0->mConnectionKind != 2) {
+    if (gStartupWork->mConnectionKind != 2) {
         PrintLabelLayoutTextNoFixedAdvance(
             1, 9, gSelectRaceRule->mBnll,
             GetBmgEntry(gSelectRaceRule->mRuleMessages, gSelectRaceRuleValueMessageIndices[3][SELECT_RACE_RULE_RACE]),
@@ -178,7 +178,7 @@ void SetAndPrintSelectRaceRuleRaceCount(s16 count) {
 void AdvanceSelectRaceRuleValueObjects(void) {
     u16 cellEntryCount = gSelectRaceRule->mBncl->mCount;
 
-    if (data_021759d0->mConnectionKind != 2) {
+    if (gStartupWork->mConnectionKind != 2) {
         switch (gSelectRaceRule->mRowValues[3]) {
             case SELECT_RACE_RULE_WIN:
             case SELECT_RACE_RULE_RACE:
@@ -831,7 +831,7 @@ void DecrementSelectRaceRuleCourseCount(void) {
 void AdvanceSelectRaceRuleRowObjects(void) {
     s32 i;
     s32 j;
-    if (data_021759d0->mConnectionKind == 2) {
+    if (gStartupWork->mConnectionKind == 2) {
         for (i = 0; i < 5; i++) {
             for (j = 0; j < 2; j++) {
                 gSelectRaceRule->mTable[gSelectRaceRuleStepCellsHighlighted[i][j]].mVisible = 0;
@@ -996,7 +996,7 @@ void WriteSelectRaceRuleToRaceSetupCopy(void) {
 void AdvanceSelectRaceRuleChangeObjects(void) {
     s32 j;
     u16 ownIndex;
-    if (data_021759d0->mConnectionKind != 2) {
+    if (gStartupWork->mConnectionKind != 2) {
         if (gSelectRaceRule->mRowValues[3] != SELECT_RACE_RULE_FREE) {
             if (gSelectRaceRule->mRow == 3 && gSelectRaceRule->mOnButton == 0) {
                 gSelectRaceRule->mTable[30].mVisible = 1;
@@ -1084,7 +1084,7 @@ void AdvanceSelectRaceRuleChangeObjects(void) {
 
 void PrintSelectRaceRuleRow4Message(void) {
     SelectRaceRule *selectRaceRule;
-    if (data_021759d0->mConnectionKind == 2) {
+    if (gStartupWork->mConnectionKind == 2) {
         gSelectRaceRule->mTable[gSelectRaceRule->mBncl->mCount + 14].mVisible = 1;
         selectRaceRule = gSelectRaceRule;
         if (selectRaceRule->mRowValues[4] == 2) {
@@ -1308,7 +1308,7 @@ void ResetSelectRaceRulePositions(void) {
                 gSelectRaceRule->mOffsetY - 0xc0;
         }
     }
-    if (data_021759d0->mConnectionKind != 2) {
+    if (gStartupWork->mConnectionKind != 2) {
         gSelectRaceRule->mTable[c + 13].mOffsetY = gSelectRaceRule->mOffsetY + 0xc0;
         c += 8;
         gSelectRaceRule->mTable[c].mOffsetY = gSelectRaceRule->mOffsetY + 0xc0;
@@ -1447,7 +1447,7 @@ void InitSelectRaceRule(void *parentHeap, s32 b, void *oamList, s32 mode) {
                 selectRaceRule->mBncl, selectRaceRule->mTable);
         }
     }
-    if (data_021759d0->mConnectionKind != 2) {
+    if (gStartupWork->mConnectionKind != 2) {
         selectRaceRule = gSelectRaceRule;
         remainingSubObjSize -=
             InitLabelCanvas(selectRaceRule->mHeap, 9, selectRaceRule->mBnll, 0x96, 0xf, cellEntryCount + 3,
@@ -1481,7 +1481,7 @@ void InitSelectRaceRule(void *parentHeap, s32 b, void *oamList, s32 mode) {
         1, 0xc, gSelectRaceRule->mBnll,
         GetBmgEntry(selectRaceRule->mRuleMessages, gSelectRaceRuleValueMessageIndices[4][2]), selectRaceRule->mBncl,
         selectRaceRule->mTable);
-    if (data_021759d0->mConnectionKind != 2) {
+    if (gStartupWork->mConnectionKind != 2) {
         selectRaceRule = gSelectRaceRule;
         remainingSubObjSize -=
             InitLabelCanvas(selectRaceRule->mHeap, 0xd, selectRaceRule->mBnll, 0x32, 0xd, 0x29, selectRaceRule->mNcer,
@@ -1697,7 +1697,7 @@ void AdvanceSelectRaceRuleState1(void) {
             gSelectRaceRule->mTable[gSelectRaceRuleCountTeamChangeCells[i][j]].mOffsetY = rowsOffsetY;
         }
     }
-    if (data_021759d0->mConnectionKind != 2) {
+    if (gStartupWork->mConnectionKind != 2) {
         c += 8;
         gSelectRaceRule->mTable[c].mOffsetY = rowsOffsetY;
         gSelectRaceRule->mTable[30].mOffsetY = rowsOffsetY;
@@ -1716,7 +1716,7 @@ void AdvanceSelectRaceRuleState2(void) {
     gSelectRaceRule->mStateFrames++;
     returnOffsetY = -LookupSelectReturnState1Bg2Offset(gSelectRaceRule->mStateFrames);
     cellEntryCount = gSelectRaceRule->mBncl->mCount;
-    if (data_021759d0->mConnectionKind != 2) {
+    if (gStartupWork->mConnectionKind != 2) {
         gSelectRaceRule->mTable[0x28].mOffsetY = returnOffsetY;
         gSelectRaceRule->mTable[0x29].mOffsetY = returnOffsetY;
         gSelectRaceRule->mTable[cellEntryCount + 13].mOffsetY = returnOffsetY;

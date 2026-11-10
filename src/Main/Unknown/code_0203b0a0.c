@@ -185,7 +185,7 @@ void InitWLMenuResetRaceSetup(void *heap) {
     } else {
         bannerFile = FindSceneFile(data_usa_0216478c);
     }
-    connectionKind = data_021759d0->mConnectionKind;
+    connectionKind = gStartupWork->mConnectionKind;
     kindIsOneOrTwo = 1;
     if (connectionKind != 1 && connectionKind != 2) {
         kindIsOneOrTwo = 0;

@@ -37,7 +37,7 @@ void UpdateWiFiMenuScene(SceneNumbers *a) {
     if (a != NULL) {
         if (GetWiFiNextScene() != -1) {
             if (GetWiFiNextScene() == 0) {
-                data_021759d0->mConnectionKind = 0;
+                gStartupWork->mConnectionKind = 0;
             }
             a->mNextScene = GetWiFiNextScene();
         }

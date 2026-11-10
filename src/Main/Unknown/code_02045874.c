@@ -117,7 +117,7 @@ void BuildCourseList(s32 isVersus) {
     gRaceSetup->mNextHeader.mCourseNumber = 1;
     if (isVersus != 0) {
         gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_NORMAL;
-    } else if (data_021759d0->mMultiSimple) {
+    } else if (gStartupWork->mMultiSimple) {
         gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_NORMAL;
     } else {
         gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_START_BATTLE;
@@ -125,7 +125,7 @@ void BuildCourseList(s32 isVersus) {
     for (i = 0; i < 0x21; i++) {
         gRaceSetup->mCourseList[i] = 0;
     }
-    switch (data_021759d0->mConnectionKind) {
+    switch (gStartupWork->mConnectionKind) {
         case 1:
         case 2:
             f = (gConnectionWork->mUnk_0454 & 0x40) != 0;
@@ -443,7 +443,7 @@ s32 AdvanceToNextCourseWrapper(void) {
 }
 
 s32 AdvanceToNextBattleCourse(void) {
-    if (data_021759d0->mMultiSimple) {
+    if (gStartupWork->mMultiSimple) {
         gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_NORMAL;
     } else {
         gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_START_BATTLE;

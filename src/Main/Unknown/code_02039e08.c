@@ -44,7 +44,7 @@
 void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
     RaceSetup *raceSetup;
     u32 c;
-    if (func_02049b6c() == 0) {
+    if (IsDataSharingIncomplete() == 0) {
         if (IsInputOpenDuringRace() == 0) {
             if (sceneNumbers != NULL) {
                 if (RaceSceneGetCurrentMode() == 5) {
@@ -160,7 +160,7 @@ void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
 }
 
 void PreSleepRaceScene(void) {
-    data_021759d0->mUnk_54 = FALSE;
+    gStartupWork->mUnk_54 = FALSE;
     if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
         SetChoisesSOpenDuringRace(1);
     }
@@ -207,7 +207,7 @@ void InitMenuScene(void) {
 
 void ReleaseMenuScene(void) {
     ReleaseMenu();
-    data_021759d0->mDemoEndedByInput &= ~1;
+    gStartupWork->mDemoEndedByInput &= ~1;
     ResetTimeAttackNextEntries();
 }
 

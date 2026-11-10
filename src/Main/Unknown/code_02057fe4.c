@@ -78,7 +78,8 @@ void UpdateMPState6(void) {
     MPStateMachine *stateMachine;
 
     if (func_02058a40_inline() == 1 && (gConnectionWork->mUnk_0454 & 1)) {
-        if (QueueMPDataHalfwordAndWord(2, gConnectionWork->mUnk_0044.mChildMask, gConnectionWork->mUnk_0457) != FALSE) {
+        if (QueueMPDataHalfwordAndWord(2, gConnectionWork->mUnk_0044.mChildMask, gConnectionWork->mGroupSendMask) !=
+            FALSE) {
             stateMachine = &gConnectionWork->mUnk_1608;
             stateMachine->mStateMachine.mNextState = 1;
             stateMachine->mStateMachine.mNextStateRequested = 1;
@@ -142,7 +143,7 @@ void UpdateMPState1(void) {
     }
     if (b != FALSE) {
         if (GetRomArchiveState() == 2) {
-            SetGroupSendMaskAsParent(gConnectionWork->mUnk_0457);
+            SetGroupSendMaskAsParent(gConnectionWork->mGroupSendMask);
         } else {
             r = FALSE;
         }
@@ -420,7 +421,7 @@ void EnterMPState10(void) {
     WM_SetPortCallback(14, NULL, NULL);
     gConnectionWork->mUnk_043c = gConnectionWork->mUnk_045c[0].mUnk_228_4;
     if (gBootInfo->mUnk_00 == 2) {
-        data_021759d0->mLanguageIndex = gConnectionWork->mUnk_043c;
+        gStartupWork->mLanguageIndex = gConnectionWork->mUnk_043c;
     }
     for (slot = 1; slot < 8; slot++) {
         if ((gConnectionWork->mUnk_162a & (1 << slot)) == 0) {

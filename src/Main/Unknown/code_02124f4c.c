@@ -135,7 +135,7 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                                 }
                             case 10:
                                 for (r7 = 0; r7 < 10; r7++) {
-                                    tagTextChar = ((u16 *) data_021759d0->mOwnerText)[r7];
+                                    tagTextChar = ((u16 *) gStartupWork->mOwnerText)[r7];
                                     if (tagTextChar == 0) {
                                         r7 = 10;
                                     } else {
@@ -156,7 +156,7 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                                 break;
                             case 11:
                                 ownerTextCharCount =
-                                    CopyTextWithinWidth((u16 *) data_021759d0->mOwnerText, ownerTextChars);
+                                    CopyTextWithinWidth((u16 *) gStartupWork->mOwnerText, ownerTextChars);
                                 for (ownerTextIndex = 0; ownerTextIndex < ownerTextCharCount; ownerTextIndex++) {
                                     *writePointer++ = ownerTextChars[ownerTextIndex];
                                     if (fixedAdvance == -1 ||

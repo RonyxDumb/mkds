@@ -214,7 +214,7 @@ BOOL TryXorBackupWordsAtFoundIndex(u32 *cursor, u32 byteCount, u32 expectedFirst
 #pragma thumb off
 
 void InitWLMenuSceneCallback(void) {
-    if (data_021759d0->mConnectionKind == 3) {
+    if (gStartupWork->mConnectionKind == 3) {
         ReleaseCurrentOverlay();
         StartLoadOverlay(0);
         FinishOverlayLoad();

@@ -53,7 +53,7 @@ s32 AdvanceWLMenuMBChildMessage(u32 sceneNumbers) {
             result = AdvanceMPStateMachineWithOwnIndex();
             switch (result) {
                 case 1:
-                    if (func_02035e44() != 0) {
+                    if (HasGroupSendMask() != 0) {
                         StopSeqZeroLoopWrapper();
                     }
                     StartCopyOtherEmblems(1);
@@ -88,7 +88,7 @@ s32 AdvanceWLMenuMessageToRace(u32 sceneNumbers) {
             result = WLMenuToRaceAdvanceMPStateMachineWrapper();
             switch (result) {
                 case 1:
-                    if (func_02035e44() != 0) {
+                    if (HasGroupSendMask() != 0) {
                         StopSeqZeroLoopWrapper();
                     }
                     gWLMenuMessage->mState = 10;
@@ -118,7 +118,7 @@ s32 AdvanceWLMenuMessageToResult(u32 sceneNumbers) {
             result = WLMenuToResultAdvanceMPStateMachineWrapper();
             switch (result) {
                 case 1:
-                    if (func_02035e44() != 0) {
+                    if (HasGroupSendMask() != 0) {
                         StopSeqZeroLoopWrapper();
                     }
                     gWLMenuMessage->mState = 10;
@@ -141,8 +141,8 @@ s32 AdvanceWLMenuMessageToResult(u32 sceneNumbers) {
 
 #pragma thumb off
 
-u32 func_02035e44(void) {
-    return gConnectionWork->mUnk_0457 != 0;
+u32 HasGroupSendMask(void) {
+    return gConnectionWork->mGroupSendMask != 0;
 }
 
 void StopSeqZeroLoopWrapper(void) {
@@ -165,7 +165,7 @@ s32 AdvanceWLMenuMessageToMenu(u32 sceneNumbers) {
             result = WLMenuToMenuAdvanceMPStateMachineWrapper();
             switch (result) {
                 case 1:
-                    if (func_02035e44() != 0) {
+                    if (HasGroupSendMask() != 0) {
                         StopSeqZeroLoopWrapper();
                     }
                     gWLMenuMessage->mState = 10;

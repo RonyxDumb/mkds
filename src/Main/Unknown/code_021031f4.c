@@ -203,7 +203,7 @@ void AdvanceOrthoQuadDelayAndStartSound(OrthoQuad *quad) {
         return;
     }
     quad->mUpdateFunction = AdvanceOrthoQuadCornersByTable;
-    if (func_0203c5e4() != 0) {
+    if (GetEntryRaceEnded() != 0) {
         return;
     }
     seqNo = gOrthoQuadUseCreamEffect != 0 ? 0x157 : 0xee;
@@ -268,7 +268,7 @@ void DrawOrthoQuadsWithModel(OrthoQuadModel *model) {
     if (gOrthoQuadCount == 0) {
         return;
     }
-    if (func_0203c5e4() != 0) {
+    if (GetEntryRaceEnded() != 0) {
         return;
     }
     reg_G3X_DISP3DCNT = (reg_G3X_DISP3DCNT & ~0x3000) | 8;

@@ -17,7 +17,7 @@
 #include "Main/Unknown/code_0211d4a8.h"
 
 u32 SelectKartGetConnectionKind(void) {
-    return (data_021759d0->mConnectionKind);
+    return (gStartupWork->mConnectionKind);
 }
 
 u16 *SelectKartMB_GetMultiBootParam(void) {

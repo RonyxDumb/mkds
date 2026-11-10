@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_0205af90(void);
+void SetWiFiRaceSyncFinishRecorded(void);

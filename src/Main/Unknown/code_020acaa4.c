@@ -34,7 +34,7 @@ void TitleState5Nop(void) {}
 #pragma thumb off
 
 void SetConnectionKind(u32 value) {
-    data_021759d0->mConnectionKind = value;
+    gStartupWork->mConnectionKind = value;
 }
 
 void TitleSetWLMenuKind(u32 value) {

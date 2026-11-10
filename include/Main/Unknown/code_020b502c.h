@@ -253,7 +253,7 @@ typedef struct CourseMap {
     /* 028 */ u16 mRespawnCount;
     /* 02a */ u8 mUnk_02a[0x2];
     /* 2c */ CourseMapSubScreenView *mSubScreenView;
-    /* 30 */ u16 mUnk_30;
+    /* 30 */ u16 mSubScreenViewCount;
     /* 32 */ u8 mUnk_32[0x2];
     // Records (position, rotation angles, battle point index, key) where the kart code puts or flies a kart to, found
     // by key through mKeyedPlacementIndexByKey; loaded from format version 0x1f on, empty in older files.
@@ -261,8 +261,8 @@ typedef struct CourseMap {
     // Number of mKeyedPlacements.
     /* 38 */ u16 mKeyedPlacementCount;
     /* 3a */ u8 mUnk_3a[0x2];
-    /* 3c */ Unk02175620_3c *mUnk_3c;
-    /* 40 */ u16 mUnk_40;
+    /* 3c */ Unk02175620_3c *mRaceEndPlacements;
+    /* 40 */ u16 mRaceEndPlacementCount;
     /* 42 */ u8 mUnk_42[0x2];
     /* 44 */ CourseMapCheckpoint *mCheckpoints;
     /* 48 */ u16 mCheckpointCount;

@@ -1058,7 +1058,7 @@ void AdvanceOldFrappe64FirstCurrentCameraEffect(Unk0201ca6c *effect, s32 a) {
     currentCamera = GetCurrentCamera();
     forwardFlat = currentCamera->mForward;
     extraOffset = data_02155a14;
-    if (func_0203c5e4() != 0) {
+    if (GetEntryRaceEnded() != 0) {
         FX_Atan2Idx(currentCamera->mHalfFovPairFirst, currentCamera->mHalfFovPairSecond);
         VEC_Subtract(&currentCamera->mPos, &currentCamera->mPrevPos, &extraOffset);
         extraOffset.x = extraOffset.x >> 4;

@@ -174,7 +174,7 @@ void DrawQuestion(void *unused0, ItemBox *itemBox, void *unused1, u16 maxAlpha) 
         return;
     }
     if ((s32) (itemBox->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0) > 0x27100) {
-        if (func_0203c5e4() == 0) {
+        if (GetEntryRaceEnded() == 0) {
             return;
         }
     }
@@ -251,7 +251,7 @@ void DrawItemBoxShadow(void *unused, ItemBox *itemBox, u32 unusedArg, u32 maxAlp
         itemBox->mQuestionAlpha = questionAlpha;
     }
     if ((s32) (itemBox->mUnk_000.mDistanceSquaredAndFlags & ~0xc000001f) > 0x27100) {
-        if (func_0203c5e4() == 0) {
+        if (GetEntryRaceEnded() == 0) {
             return;
         }
     }

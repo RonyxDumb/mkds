@@ -102,7 +102,7 @@ u32 SetupItemGesso(ItemGesso *gesso, s32 fromData) {
     gesso->mKart = GetKart(kartIndex);
     gesso->mItemObject.mPos = gesso->mKart->mDrawMatrixPos;
     VEC_MultAdd(0x5800, &camera->mUp, &gesso->mItemObject.mPos, &gesso->mItemObject.mPos);
-    VEC_MultAdd(func_0203c5e4() != 0 ? 0x5800 : 0xa800, &camera->mForward, &gesso->mItemObject.mPos,
+    VEC_MultAdd(GetEntryRaceEnded() != 0 ? 0x5800 : 0xa800, &camera->mForward, &gesso->mItemObject.mPos,
                 &gesso->mItemObject.mPos);
     VEC_Subtract(&gesso->mItemObject.mPos, &camera->mPos, &gesso->mViewOffset);
     MTX_MultVec33(&gesso->mViewOffset, &camera->mViewMatrix.mUnk_00_m, &gesso->mViewOffset);

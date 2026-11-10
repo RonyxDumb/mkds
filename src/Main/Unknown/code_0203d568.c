@@ -402,12 +402,12 @@ void UpdateRaceProgressKarts(void) {
             f = TRUE;
             break;
         case RACE_KIND_NORMAL:
-            if (func_02040bc0() != 0) {
+            if (IsEntryRaceEnded() != 0) {
                 f = TRUE;
             }
             break;
     }
-    gRaceProgress->mUnk_4f0 = f;
+    gRaceProgress->mEntryRaceEnded = f;
     for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
         s = &gRaceProgress->mKarts[i];
         f = FALSE;

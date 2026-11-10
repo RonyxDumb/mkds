@@ -161,7 +161,7 @@ void DrawVehicle(VehicleDrawList *drawList, Unk020e1e98 *vehicle, u32 c, u32 alp
         }
     }
     skipShadowAndTires =
-        (s32) (vehicle->mUnk_000.mDistanceSquaredAndFlags & 0x3FFFFFE0) > 0x77A10 && func_0203c5e4() == 0;
+        (s32) (vehicle->mUnk_000.mDistanceSquaredAndFlags & 0x3FFFFFE0) > 0x77A10 && GetEntryRaceEnded() == 0;
     if (!skipShadowAndTires) {
         if (vehicle->mUnk_128 != 0) {
             shadowPosition = vehicle->mUnk_0fe > 0xF ? &vehicle->mUnk_144 : &vehicle->mUnk_000.mPos;
@@ -460,7 +460,7 @@ void InitVehicleDrawList(VehicleDrawList *drawList) {
     carFile = FindCourseMapObjFile(gCarANsbmdName);
     truckFile = FindCourseMapObjFile(gTruckANsbmdName);
     drawList->mUnk_038 =
-        gRaceSetup->mMode != MODE_MISSION_RUN && func_0203c5e4() == 0 && (u16) gRaceSetup->mEntryIndex < 8;
+        gRaceSetup->mMode != MODE_MISSION_RUN && GetEntryRaceEnded() == 0 && (u16) gRaceSetup->mEntryIndex < 8;
     drawList->mUnk_03c = FALSE;
     CreateNsbmd(&gCarA, carFile, NULL);
     CreateNsbmd(&gTruckA, truckFile, NULL);

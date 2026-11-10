@@ -351,12 +351,12 @@ void ResetKartAtRaceEnd(Kart *kart, s32 useCourseMapRecord, s32 isWinner) {
     placement.mOldPos = kart->mPos;
     if (useCourseMapRecord != 0) {
         courseMap = gCourseMap;
-        if (courseMap->mUnk_3c == NULL) {
+        if (courseMap->mRaceEndPlacements == NULL) {
             hasCourseData = FALSE;
         } else {
-            placement.mRecordPos = courseMap->mUnk_3c->mUnk_00;
-            placement.mRecordRotation = courseMap->mUnk_3c->mUnk_0c;
-            placement.mKeepSpeedFlag = courseMap->mUnk_3c->mUnk_1a;
+            placement.mRecordPos = courseMap->mRaceEndPlacements->mUnk_00;
+            placement.mRecordRotation = courseMap->mRaceEndPlacements->mUnk_0c;
+            placement.mKeepSpeedFlag = courseMap->mRaceEndPlacements->mUnk_1a;
             hasCourseData = TRUE;
         }
         if (hasCourseData == FALSE) {

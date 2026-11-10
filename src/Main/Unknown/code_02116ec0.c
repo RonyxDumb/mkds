@@ -38,7 +38,7 @@ void ClearNonParticipantCharacterIndices(void) {
     u32 zeroValue, noIndex;
 
     InitCharacterKartPicks(gPicksHolder->mPicks);
-    if (data_021759d0->mConnectionKind == 0) {
+    if (gStartupWork->mConnectionKind == 0) {
         n = 1;
     } else {
         isEightOrNine = TRUE;
@@ -63,7 +63,7 @@ void ClearNonParticipantKartIndices(void) {
     u32 zeroValue, noIndex;
 
     InitCharacterKartPicks(gPicksHolder->mPicks);
-    if (data_021759d0->mConnectionKind == 0) {
+    if (gStartupWork->mConnectionKind == 0) {
         n = 1;
     } else {
         isEightOrNine = TRUE;
@@ -90,7 +90,7 @@ void FillRandomCharacterIndices(void) {
     u32 pickedIndex;
 
     pickedIndex = ~0;
-    if (data_021759d0->mConnectionKind == 0) {
+    if (gStartupWork->mConnectionKind == 0) {
         n = 1;
     } else {
         isEightOrNine = TRUE;
@@ -116,7 +116,7 @@ void FillRandomKartIndices(void) {
     u32 pickedIndex;
 
     pickedIndex = ~0;
-    if (data_021759d0->mConnectionKind == 0) {
+    if (gStartupWork->mConnectionKind == 0) {
         n = 1;
     } else {
         isEightOrNine = TRUE;

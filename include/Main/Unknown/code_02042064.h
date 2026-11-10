@@ -57,7 +57,7 @@ s32 LoadCourseMapItemRoutesData(void *section, ...);
 s32 LoadCourseMapItemPointsData(void *section, ...);
 s32 LoadCourseMapCheckpointRoutesData(void *section, ...);
 s32 LoadCourseMapCheckpointsData(void *section, ...);
-s32 func_020426ac(void *section, ...);
+s32 LoadCourseMapRaceEndPlacementsData(void *section, ...);
 // Takes the keyed placement section when the format version is 0x1f or more (else clears mKeyedPlacementCount and
 // mKeyedPlacements), then builds the index by key. Returns 1 when the version has the section, else 0 and the same
 // section offset goes to the next loader.
@@ -65,7 +65,7 @@ s32 LoadCourseMapKeyedPlacementsData(void *section, ...);
 // Allocates mKeyedPlacementIndexByKey (one halfword per record) and stores in it the index of each record at its key;
 // NULL when there are no records.
 void BuildCourseMapKeyedPlacementIndexByKey(void);
-s32 func_020427ac(void *section, ...);
+s32 LoadCourseMapSubScreenViewData(void *section, ...);
 void ShuffleCourseMapRespawnSlots(RandomState64 *randomState64);
 s32 LoadCourseMapRespawnsData(void *section, ...);
 s32 LoadCourseMapStartPlacementsData(void *section, ...);

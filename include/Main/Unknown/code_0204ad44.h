@@ -4,8 +4,8 @@
 
 typedef struct SceneNumbers SceneNumbers;
 
-void func_0204ad44(void);
-void func_0204af70(void *heap);
+void FillStartupWork(void);
+void InitStartupWork(void *heap);
 // Scene function of gSceneFuncs[6] (scene 'WLMenu' in gSceneNames): copies the callbacks and calls
 // RunScene. Returns 0.
 s32 RunWLMenuScene(SceneNumbers *sceneNumbers);

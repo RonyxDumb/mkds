@@ -201,7 +201,7 @@ void ReadCourseGhostRecordAndLoadFile(u32 courseId) {
     ghostRecord->mHead.mFilled = 0;
 }
 
-void func_02043fb0(u32 courseId) {
+void SelectGhostReadCourseRecordAndWait(u32 courseId) {
     data_0217aa08->mSlotGhostRecords[0]->mHead.mFilled = 0;
     data_0217aa08->mSlotGhostRecords[1]->mHead.mFilled = 0;
     data_0217aa08->mCourseGhostRecord->mHead.mFilled = 0;
@@ -475,6 +475,6 @@ void SetInputOpenDuringRace(u32 openDuringRace) {
     data_02175624->mFlags &= ~INPUT_STATE_OPEN_DURING_RACE;
 }
 
-u32 func_020435c4(void) {
+u32 GetVolatileHalfwordIndex39(void) {
     return data_02175928[0x27];
 }

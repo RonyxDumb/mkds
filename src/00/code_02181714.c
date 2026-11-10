@@ -265,7 +265,7 @@ void AdvanceWiFiTopMenuState5(void) {
         if (gWiFiTopMenu->mPendingWiFiState == 10 && GetWiFiSessionLoginResult() != 1) {
             SetWiFiNextScene(0);
         } else if (gWiFiTopMenu->mPendingWiFiState == 13) {
-            data_021759d0->mConnectionKind = 4;
+            gStartupWork->mConnectionKind = 4;
             SetWiFiNextScene(12);
         }
     }

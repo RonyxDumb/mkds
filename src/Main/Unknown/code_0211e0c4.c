@@ -203,7 +203,7 @@ BOOL HasNoSelectableGhost(void) {
 void ReadGhostRecordsForKind(u32 kind) {
     switch (kind) {
         case 4:
-            func_02043fb0(gGhostRecordSet->mCourseId);
+            SelectGhostReadCourseRecordAndWait(gGhostRecordSet->mCourseId);
             break;
         case 0:
             ReadCourseGhostRecordAndWait(gGhostRecordSet->mCourseId);

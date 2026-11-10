@@ -537,7 +537,7 @@ void InitSelectCupGrid(void *heap, void *mainOam, void *subOam, s32 mode) {
     SetupSelectCupGridIndex();
     RequestSelectCupGridState0();
     FrmHeapShrinkInParent(gSelectCupGrid->mHeap);
-    if (data_021759d0->mConnectionKind == 2) {
+    if (gStartupWork->mConnectionKind == 2) {
         ClearSelectReturnDisplayBitOn();
     }
 }

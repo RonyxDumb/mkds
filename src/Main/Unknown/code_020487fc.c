@@ -100,7 +100,7 @@ static inline void func_020487fc_inline7(void) {
         RunMessageScreenOfKind(3);
     }
     UpdatePadKeysAndTouchMic();
-    if (!func_02049b6c()) {
+    if (!IsDataSharingIncomplete()) {
         UpdateInputSlots();
     }
     if (SceneRunPAD_DetectFold() == 1) {
@@ -129,10 +129,10 @@ static inline void func_020487fc_inline7(void) {
 }
 
 static inline u32 func_020487fc_inline8(void) {
-    if (func_0204998c()) {
+    if (IsVolatileHalfwordIndex39Ignored()) {
         return 0;
     }
-    return func_020435c4();
+    return GetVolatileHalfwordIndex39();
 }
 
 static inline BOOL func_020487fc_inline12(void) {
@@ -220,7 +220,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
     LoadFontAndPlayerCharacterData();
     StartInputSlots();
     CARD_SetPulledOutCallback(ReturnNoTerminateForPulledOut);
-    data_021759d0->mUnk_78 = 0;
+    gStartupWork->mUnk_78 = 0;
     if (b->mInit != NULL) {
         b->mInit(a);
     }
@@ -276,7 +276,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
     } while (a->mNextScene == -1 && v == 0);
     gSceneRunState->mRunStep = SCENE_RUN_STEP_FADE_OUT;
     StopSceneSounds();
-    if (data_021759d0->mSoundSetSeqPlaying) {
+    if (gStartupWork->mSoundSetSeqPlaying) {
         if (a == NULL || ShouldEndSceneSoundSet(a->mScene, a->mNextScene)) {
             StopSceneSoundSetSeq();
         }
@@ -284,7 +284,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
     if ((v != 0 || GetNextSceneNumber() == 0) && gBootInfo->mUnk_00 == 2) {
         RunMessageScreenOfKind(0);
     }
-    if (data_021759d0->mConnectionKind == 4) {
+    if (gStartupWork->mConnectionKind == 4) {
         StartFadeToFadedPositive(b->mFadeToFadedFrameCount);
     } else {
         StartFadeToFadedNegative(b->mFadeToFadedFrameCount);
@@ -314,7 +314,7 @@ end:
     SetNoKeysAndUpdateInputSlots();
     if (func_020487fc_inline13() && (v != 0 || GetNextSceneNumber() == 0)) {
         gSceneRunState->mRunStep = SCENE_RUN_STEP_CARD_PULLED_OUT;
-        data_021759d0->mConnectionKind = 0;
+        gStartupWork->mConnectionKind = 0;
         c = FALSE;
         SendLedPatternNone();
         do {
@@ -351,7 +351,7 @@ end:
     ClearFontAndPlayerCharacterTables();
     ClearLcdcBankAndStartWvrAndWait();
     StopSceneSoundsAtOnce();
-    if (data_021759d0->mSoundSetPlayerInitialized && ShouldEndSceneSoundSet(a->mScene, a->mNextScene)) {
+    if (gStartupWork->mSoundSetPlayerInitialized && ShouldEndSceneSoundSet(a->mScene, a->mNextScene)) {
         ReleaseSceneSoundSetPlayer();
     }
     ReleaseArchiveSlots();

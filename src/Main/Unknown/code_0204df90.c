@@ -155,7 +155,7 @@ void StartMultiBootParent(void) {
     gConnectionWork->mRequestPending = 1;
     ResetConnectionBuffers(&gConnectionWork->mUnk_1658_view);
     user.mUnk_01 = 10;
-    user.mUnk_00_0 = data_021759d0->mUnk_40;
+    user.mUnk_00_0 = gStartupWork->mUnk_40;
     user.mUnk_00_4 = 8;
     MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, user.mUnk_02, 0x14);
     gConnectionWork->mUnk_1690 = ComputeParentTgid(1);
@@ -178,7 +178,7 @@ void SetupScanConnect(void) {
     Unk0204e4d8 b;
     gConnectionWork->mStep = 0x1c;
     gConnectionWork->mRequestPending = 1;
-    b.mUnk_00_0 = data_021759d0->mUnk_40;
+    b.mUnk_00_0 = gStartupWork->mUnk_40;
     b.mUnk_01 = 10;
     b.mUnk_00_4 = 9;
     MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, b.mUnk_02, 0x14);
@@ -291,7 +291,7 @@ s32 AdvanceMultiBootParentSetup(void) {
             StartMultiBootParent();
             break;
         case 0x16:
-            func_0200104c();
+            FinishMultiBootParentSetup();
             result = TRUE;
             break;
     }

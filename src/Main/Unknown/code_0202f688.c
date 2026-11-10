@@ -333,7 +333,7 @@ void InitMultiSelectMemberGroup(void *parentHeap, void *scene, void *oamList) {
     }
     RefreshMultiSelectMemberGroup(1);
     SetSelectReturnSoundId(0xf);
-    data_021759d0->mConnectionKind = 2;
+    gStartupWork->mConnectionKind = 2;
     FrmHeapShrinkInParent(gMultiSelectMemberGroup->mHeap);
 }
 

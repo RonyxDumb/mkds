@@ -101,7 +101,7 @@ void func_ov001_02198624(void) {
     }
     if (IsTxtSystemState0NoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
-            d = data_021759d0->mOwnerText;
+            d = gStartupWork->mOwnerText;
             data_0217aa08->mFirstBlock->mHasPlayerName = 1;
             MI_CpuFill8(data_0217aa08->mFirstBlock->mPlayerName, 0, 0x14);
             MI_CpuCopy8(d, data_0217aa08->mFirstBlock->mPlayerName, 0x14);

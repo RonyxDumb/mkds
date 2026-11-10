@@ -503,8 +503,8 @@ void ShuffleCourseMapRespawnSlots(RandomState64 *randomState64) {
     }
 }
 
-s32 func_020427ac(void *section, ...) {
-    gCourseMap->mUnk_30 = ReadCourseMapSectionCount(&section);
+s32 LoadCourseMapSubScreenViewData(void *section, ...) {
+    gCourseMap->mSubScreenViewCount = ReadCourseMapSectionCount(&section);
     gCourseMap->mSubScreenView = section;
     return 1;
 }
@@ -539,19 +539,19 @@ s32 LoadCourseMapKeyedPlacementsData(void *section, ...) {
     return loaded;
 }
 
-s32 func_020426ac(void *section, ...) {
+s32 LoadCourseMapRaceEndPlacementsData(void *section, ...) {
     enum { K0 } r = 0;
 
     if (gCourseMap->mVersion < 0x24) {
-        gCourseMap->mUnk_40 = r;
-        gCourseMap->mUnk_3c = NULL;
+        gCourseMap->mRaceEndPlacementCount = r;
+        gCourseMap->mRaceEndPlacements = NULL;
         return r;
     }
-    gCourseMap->mUnk_40 = ReadCourseMapSectionCount(&section);
-    if (gCourseMap->mUnk_40 != 0) {
-        gCourseMap->mUnk_3c = section;
+    gCourseMap->mRaceEndPlacementCount = ReadCourseMapSectionCount(&section);
+    if (gCourseMap->mRaceEndPlacementCount != 0) {
+        gCourseMap->mRaceEndPlacements = section;
     } else {
-        gCourseMap->mUnk_3c = NULL;
+        gCourseMap->mRaceEndPlacements = NULL;
     }
     return 1;
 }

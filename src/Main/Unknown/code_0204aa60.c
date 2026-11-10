@@ -8,54 +8,54 @@
 #include "pm.h"
 
 void InitSceneSoundSetPlayer(s32 seqId) {
-    if (data_021759d0->mSoundSetPlayerInitialized) {
+    if (gStartupWork->mSoundSetPlayerInitialized) {
         return;
     }
-    data_021759d0->mSoundSetPlayerInitialized = 1;
-    InitSoundSetPlayerWithVariables(&data_021759d0->mSoundSetPlayer, seqId, 0xff);
+    gStartupWork->mSoundSetPlayerInitialized = 1;
+    InitSoundSetPlayerWithVariables(&gStartupWork->mSoundSetPlayer, seqId, 0xff);
 }
 
 void StartSceneSoundSetSeq(void) {
-    if (!data_021759d0->mSoundSetPlayerInitialized) {
+    if (!gStartupWork->mSoundSetPlayerInitialized) {
         return;
     }
-    if (data_021759d0->mSoundSetSeqPlaying) {
+    if (gStartupWork->mSoundSetSeqPlaying) {
         return;
     }
-    data_021759d0->mSoundSetSeqPlaying = 1;
-    StartSoundSetSeq(&data_021759d0->mSoundSetPlayer, gSceneSeqVolume);
+    gStartupWork->mSoundSetSeqPlaying = 1;
+    StartSoundSetSeq(&gStartupWork->mSoundSetPlayer, gSceneSeqVolume);
 }
 
 void StopSceneSoundSetSeq(void) {
-    Unk021759d0 *p = data_021759d0;
+    StartupWork *p = gStartupWork;
 
     if (!p->mSoundSetSeqPlaying) {
         return;
     }
     StopSoundSetSeq(&p->mSoundSetPlayer, GetSoundFadeSteps());
-    data_021759d0->mSoundSetSeqPlaying = 0;
+    gStartupWork->mSoundSetSeqPlaying = 0;
 }
 
 void ReleaseSceneSoundSetPlayer(void) {
-    if (data_021759d0->mSoundSetSeqPlaying) {
+    if (gStartupWork->mSoundSetSeqPlaying) {
         return;
     }
-    if (!data_021759d0->mSoundSetPlayerInitialized) {
+    if (!gStartupWork->mSoundSetPlayerInitialized) {
         return;
     }
-    ReleaseSoundSetPlayer(&data_021759d0->mSoundSetPlayer);
-    data_021759d0->mSoundSetPlayerInitialized = 0;
+    ReleaseSoundSetPlayer(&gStartupWork->mSoundSetPlayer);
+    gStartupWork->mSoundSetPlayerInitialized = 0;
 }
 
 void StopSceneSoundSetSeqWithSteps(u32 fadeSteps) {
-    if (!data_021759d0->mSoundSetSeqPlaying) {
+    if (!gStartupWork->mSoundSetSeqPlaying) {
         return;
     }
-    StopSoundSetSeq(&data_021759d0->mSoundSetPlayer, fadeSteps);
+    StopSoundSetSeq(&gStartupWork->mSoundSetPlayer, fadeSteps);
 }
 
 BOOL TrySetBackLights(s32 firstRequest, s32 secondRequest) {
-    Unk021759d0 *p = data_021759d0;
+    StartupWork *p = gStartupWork;
     s32 firstBackLightOn = p->mFirstBackLightOn;
     s32 secondBackLightOn = p->mSecondBackLightOn;
     BOOL allSet = TRUE;
@@ -72,14 +72,14 @@ BOOL TrySetBackLights(s32 firstRequest, s32 secondRequest) {
     }
     if (firstBackLightOn != p->mFirstBackLightOn) {
         if (PM_SetBackLight(0, firstBackLightOn) == 0) {
-            data_021759d0->mFirstBackLightOn = firstBackLightOn;
+            gStartupWork->mFirstBackLightOn = firstBackLightOn;
         } else {
             allSet = FALSE;
         }
     }
-    if (secondBackLightOn != data_021759d0->mSecondBackLightOn) {
+    if (secondBackLightOn != gStartupWork->mSecondBackLightOn) {
         if (PM_SetBackLight(1, secondBackLightOn) == 0) {
-            data_021759d0->mSecondBackLightOn = secondBackLightOn;
+            gStartupWork->mSecondBackLightOn = secondBackLightOn;
         } else {
             allSet = FALSE;
         }
@@ -89,7 +89,7 @@ BOOL TrySetBackLights(s32 firstRequest, s32 secondRequest) {
 
 RandomState64 *GetRandomState(void) {
     void *random = NULL;
-    Unk021759d0 *p = data_021759d0;
+    StartupWork *p = gStartupWork;
 
     switch (p->mConnectionKind) {
         case 0:

@@ -40,12 +40,12 @@ void PlaceKartAtStartPlacement(Kart *kart, s32 useCourseMapRecord) {
         }
     } else {
         courseMap = gCourseMap;
-        if (courseMap->mUnk_3c != NULL) {
+        if (courseMap->mRaceEndPlacements != NULL) {
             kartPos = &kart->mPos;
             if (kartPos != NULL) {
-                *kartPos = courseMap->mUnk_3c->mUnk_00;
+                *kartPos = courseMap->mRaceEndPlacements->mUnk_00;
             }
-            startRotation = courseMap->mUnk_3c->mUnk_0c;
+            startRotation = courseMap->mRaceEndPlacements->mUnk_0c;
         }
     }
     if ((kart->mUnk_7c & 0x600) != 0) {

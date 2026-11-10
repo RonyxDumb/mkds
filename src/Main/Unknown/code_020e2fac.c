@@ -124,7 +124,7 @@ void EnterChoropuState4(Choropu *choropu) {
     choropu->mUnk_000.mUnk_10.y = 0x4800;
     choropu->mUnk_000.mFlags &= ~0x1;
     if ((choropu->mUnk_000.mDistanceSquaredAndFlags & 0x3) != 0) {
-        if (func_0203c5e4() == 0) {
+        if (GetEntryRaceEnded() == 0) {
             return;
         }
     }

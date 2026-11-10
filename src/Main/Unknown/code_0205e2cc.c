@@ -94,7 +94,7 @@ void CopyOtherPlayerEmblemsToBlocks(void) {
             ownIndex = 0;
         }
         if (playerIndex != (u16) ownIndex) {
-            if ((gConnectionWork->mUnk_0457 & (1 << gConnectionWork->mUnk_1e8c[playerIndex])) == 0) {
+            if ((gConnectionWork->mGroupSendMask & (1 << gConnectionWork->mUnk_1e8c[playerIndex])) == 0) {
                 if ((gConnectionWork->mParticipantMask & (1 << playerIndex)) != 0) {
                     playerEntry = &gConnectionWork->mUnk_045c[playerIndex];
                     buddyIndex = SetBuddyRecordFromPlayer(playerEntry, 1);

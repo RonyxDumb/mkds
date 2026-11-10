@@ -49,7 +49,7 @@ void InitResultsByMode(void *heap) {
 
 void AdvanceResultsByMode(SceneNumbers *sceneNumbers) {
     int result;
-    result = func_02049b6c();
+    result = IsDataSharingIncomplete();
     if (result == 0) {
         ClearOamListCounts(gResultScene, gResultScene->mSubOam);
         if (gResultScene->mMode == 0) {

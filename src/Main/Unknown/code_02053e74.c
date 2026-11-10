@@ -477,7 +477,7 @@ void ResetConnectionData(void) {
     gConnectionWork->mUnk_008b = 0;
     gConnectionWork->mUnk_0044.mNameSendIndex = 0;
     MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, gConnectionWork->mUnk_0044.mUnk_38, 0x14);
-    gConnectionWork->mUnk_0044.mUnk_38->mUnk_0e.mLanguageIndex = data_021759d0->mLanguageIndex;
+    gConnectionWork->mUnk_0044.mUnk_38->mUnk_0e.mLanguageIndex = gStartupWork->mLanguageIndex;
     gConnectionWork->mUnk_0044.mUnk_38->mUnk_0e.mChildCount = 0;
     for (j = 0; j < 4; j++) {
         gConnectionWork->mUnk_00ac[j].mInUse = 0;
@@ -500,7 +500,7 @@ void ResetConnectionData(void) {
     for (l = 0; l < 6; l++) {
         q[l] = 0;
     }
-    gConnectionWork->mUnk_0457 = 0;
+    gConnectionWork->mGroupSendMask = 0;
     gConnectionWork->mUnk_0458 = 0;
     gConnectionWork->mWaitToSendCount = 0;
     gConnectionWork->mUnk_0454 &= ~1;

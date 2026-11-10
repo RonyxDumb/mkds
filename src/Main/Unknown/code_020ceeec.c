@@ -3,7 +3,7 @@
 #include "Main/Unknown/unk_0217a000.h"
 
 u32 ShuffledIndicesGetConnectionKind(void) {
-    return (data_021759d0->mConnectionKind);
+    return (gStartupWork->mConnectionKind);
 }
 
 RandomState64 *ShuffledIndicesGetConnectionWorkRandomState(void) {

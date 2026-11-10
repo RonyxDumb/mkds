@@ -10,9 +10,9 @@
 #include "pm.h" // PMSleepCallbackInfo
 #include "Main/Unknown/code_02105ec0.h" // SoundSetPlayer
 
-// Object behind data_021759d0 (0x7c bytes); the 0x14 bytes at 0x2a are the source of a block move into
+// Object behind gStartupWork (0x7c bytes); the 0x14 bytes at 0x2a are the source of a block move into
 // data_0217aa08.
-typedef struct Unk021759d0 {
+typedef struct StartupWork {
     /* 00 */ s32 mRegion;
     /* 04 */ s32 mLanguageIndex;
     /* 08 */ SoundSetPlayer mSoundSetPlayer;
@@ -42,7 +42,7 @@ typedef struct Unk021759d0 {
     /* 5c */ s32 mUnk_5c;
     /* 60 */ RandomState64 mRandom;
     /* 78 */ s32 mUnk_78;
-} Unk021759d0;
+} StartupWork;
 
 // The callbacks of one scene (0x20 bytes). RunScene copies it to mSceneCallbacks and calls mInit
 // once, then mUpdate and the unnamed slot 0x0c every frame, then mRelease once. 0x0c is the second
@@ -250,7 +250,7 @@ typedef struct Unk021759c8 {
 
 extern Unk021759c8 *data_021759c8;
 extern SceneRunState *gSceneRunState;
-extern Unk021759d0 *data_021759d0;
+extern StartupWork *gStartupWork;
 
 // Object at gFileReadThread: 0x400 bytes (the end of them is the top of the stack of the OSThread) and two words.
 typedef struct FileReadThread {

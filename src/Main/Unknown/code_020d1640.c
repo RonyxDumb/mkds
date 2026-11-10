@@ -20,7 +20,7 @@ void CreateSearchIconMBChildAndMultiDownload(void *heap) {
     LoadNcgrData2(&gDownloadScreenFiles->mSearchIconChars, FindFileInLoadedArchives("search_icon_00.nce.ncgr"));
     LoadNcerData(&gDownloadScreenFiles->mSearchIconCells, FindFileInLoadedArchives("search_icon_00.nce.ncer"));
     LoadNclrData(&gDownloadScreenFiles->mSearchIconPalette, FindFileInLoadedArchives("search_icon_00_o.nclr"));
-    switch (data_021759d0->mLanguageIndex) {
+    switch (gStartupWork->mLanguageIndex) {
         default:
             InitFontIfLoaded(&gDownloadScreenFiles->mMBChildFont, FindFileInLoadedArchives("MBChild_us.NFTR"));
             break;
@@ -37,7 +37,7 @@ void CreateSearchIconMBChildAndMultiDownload(void *heap) {
             InitFontIfLoaded(&gDownloadScreenFiles->mMBChildFont, FindFileInLoadedArchives("MBChild_es.NFTR"));
             break;
     }
-    switch (data_021759d0->mLanguageIndex) {
+    switch (gStartupWork->mLanguageIndex) {
         default:
             gDownloadScreenFiles->mUnk_20 = FindFileInLoadedArchives("MBChild_us.bmg");
             break;

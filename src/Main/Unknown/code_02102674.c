@@ -176,7 +176,7 @@ void DrawItemGesso(ItemGesso *gesso, s32 param_2, NsbmdModel *model) {
     scale.x = MUL_FIXED12_NO_ROUND(gesso->mScaleX, gesso->mItemObject.mScale.x);
     scale.y = MUL_FIXED12_NO_ROUND(gesso->mUnk_184.x, gesso->mItemObject.mScale.y);
     scale.z = gesso->mItemObject.mScale.z;
-    scaleFactor = func_0203c5e4() != 0 ? 0xccd : 0x119a;
+    scaleFactor = GetEntryRaceEnded() != 0 ? 0xccd : 0x119a;
     scale.x = MUL_FIXED12_NO_ROUND(scale.x, scaleFactor);
     scale.y = MUL_FIXED12_NO_ROUND(scale.y, scaleFactor);
     d = gesso->mItemObject.mAlpha;

@@ -246,7 +246,7 @@ void Init3dEngine(void) {
     NNS_G3dGlbInit();
     NNS_G3dGeReleaseBuffer();
     NNS_G3dGeUseFastDma(1);
-    data_021759d0->mUnk_1c |= 8;
+    gStartupWork->mUnk_1c |= 8;
     NNS_G3dGlbLightVector(0, 0, -0x1000, 0);
     NNS_G3dGlbLightVector(1, 0x93d, 0x93d, 0x93d);
     NNS_G3dGlbLightVector(2, 0, -0x1000, 0);
@@ -258,13 +258,13 @@ void Init3dEngine(void) {
     NNS_G3dGlbMaterialColorDiffAmb(0x5294, 0x5294, 0);
     NNS_G3dGlbMaterialColorSpecEmi(0, 0, 1);
     NNS_G3dGlbPolygonAttr(15, 0, 2, 0, 31, 0);
-    data_0217aa74 = HeapAlloc(data_021759d0->mHeap, 772);
+    data_0217aa74 = HeapAlloc(gStartupWork->mHeap, 772);
     NNS_G3dGeSetBuffer(data_0217aa74);
 }
 
-// Advances the race one frame. Skipped while func_02049b6c or IsInputOpenDuringRace refuse (the draw is not), and in
-// kind 6 for the first 0x708 frames (neither update nor draw). The HUD step and the end-of-race state are in the scene
-// slot UpdateRaceScene, which calls this; the exit loop also runs it with a == NULL.
+// Advances the race one frame. Skipped while IsDataSharingIncomplete or IsInputOpenDuringRace refuse (the draw is not),
+// and in kind 6 for the first 0x708 frames (neither update nor draw). The HUD step and the end-of-race state are in the
+// scene slot UpdateRaceScene, which calls this; the exit loop also runs it with a == NULL.
 void UpdateRace(void) {
     void *viewMatrix;
 
@@ -297,7 +297,7 @@ void UpdateRace(void) {
         }
         gCurrentViewMatrix = viewMatrix;
         gCurrentCamera = GetCurrentChainCamera();
-    } else if (func_0203c5e4() != 0) {
+    } else if (GetEntryRaceEnded() != 0) {
         UpdateChaseCamera(gRaceChaseCamera, GetKart(gRaceSetup->mFollowedKartIndex));
         UpdateCameraView(gRaceChaseCamera);
         if (TryUpdateEntryCamera(gRaceEntryCamera) != 0) {

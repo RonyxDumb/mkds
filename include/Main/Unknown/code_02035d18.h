@@ -26,7 +26,7 @@ void ReleaseWLMenuMessage(void);
 s32 AdvanceWLMenuMessageToMenu(u32 sceneNumbers);
 void SetNextScene(unsigned int sceneNumbers, unsigned int nextScene);
 void StopSeqZeroLoopWrapper(void);
-u32 func_02035e44(void);
+u32 HasGroupSendMask(void);
 s32 AdvanceWLMenuMessageToResult(u32 sceneNumbers);
 s32 AdvanceWLMenuMessageToRace(u32 sceneNumbers);
 s32 AdvanceWLMenuMBChildMessage(u32 sceneNumbers);

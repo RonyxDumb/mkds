@@ -105,7 +105,7 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
     MemFillWordsByBlock_inline(gResultsBattle, 0x154);
     gResultsBattle->mUnk_0b8[0] = b;
     gResultsBattle->mUnk_0b8[1] = c;
-    gResultsBattle->mMode = data_021759d0->mConnectionKind;
+    gResultsBattle->mMode = gStartupWork->mConnectionKind;
     if (gResultsBattle->mMode == 3) {
         SetupWiFiSession(3);
     }
@@ -407,7 +407,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                     if (GetSelectChoisesDone() != 0) {
                         switch (GetSelectChoisesIndex()) {
                             case 0:
-                                if (data_021759d0->mMultiSimple != 0) {
+                                if (gStartupWork->mMultiSimple != 0) {
                                     gMenuShared->mWLMenuKind = 3;
                                     gMenuShared->mMenuEntryKind = 4;
                                     if (sceneNumbers != NULL) {

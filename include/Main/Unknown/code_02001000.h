@@ -37,4 +37,4 @@ extern LogoScene *gLogoScene;
 extern s32 data_usa_02174e54;
 
 void DisconnectRemovedChildren(void);
-void func_0200104c(void);
+void FinishMultiBootParentSetup(void);

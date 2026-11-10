@@ -229,7 +229,7 @@ void InitLinkLevelIcons(void *heap, void *oamList) {
     }
     switch (GetCurrentSceneNumber()) {
         case 1:
-            if ((u32) (data_021759d0->mConnectionKind - 1) <= 1) {
+            if ((u32) (gStartupWork->mConnectionKind - 1) <= 1) {
                 gLinkLevelIcons->mIconEnabled[0] = 1;
             }
             break;
@@ -241,15 +241,15 @@ void InitLinkLevelIcons(void *heap, void *oamList) {
             gLinkLevelIcons->mIconEnabled[4] = 1;
             break;
         case 10:
-            if (data_021759d0->mConnectionKind == 3) {
+            if (gStartupWork->mConnectionKind == 3) {
                 gLinkLevelIcons->mIconEnabled[1] = 1;
                 gLinkLevelIcons->mIconEnabled[4] = 1;
-            } else if ((u32) (data_021759d0->mConnectionKind - 1) <= 1) {
+            } else if ((u32) (gStartupWork->mConnectionKind - 1) <= 1) {
                 gLinkLevelIcons->mIconEnabled[0] = 1;
             }
             break;
         case 8:
-            if (data_021759d0->mConnectionKind == 3) {
+            if (gStartupWork->mConnectionKind == 3) {
                 gLinkLevelIcons->mIconEnabled[1] = 1;
                 gLinkLevelIcons->mIconEnabled[4] = 1;
             }

@@ -43,7 +43,7 @@ void InitAfterStartup(void) {
     CreateRunScenesState(backHeap);
     InitSceneRunState(backHeap);
     InitArchiveSlots(backHeap);
-    func_0204af70(backHeap);
+    InitStartupWork(backHeap);
     InitConnection(backHeap);
     if (gBootInfo->mUnk_00 != 2) {
         InitWiFiSession(backHeap);

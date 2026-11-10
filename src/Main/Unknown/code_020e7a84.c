@@ -79,7 +79,7 @@ void InitJgOffsets(void) {
     gJgKind4Offset = data_02159428;
     gJgKind4Offset.x += 0xf662;
 
-    gJgLapOffset = func_0203c5e4() ? data_021593f8 : data_0215941c;
+    gJgLapOffset = GetEntryRaceEnded() ? data_021593f8 : data_0215941c;
     gJgLapOffset.x += gJgOffsetX;
     if (data_0217b8f8 == 0) {
         gJgKind2Offset.x = -gJgKind2Offset.x;
@@ -183,7 +183,7 @@ void UpdateJg(void) {
         targetOffset.x += data_0217b88c;
         MTX_MultVec43(&targetOffset, &gJgMatrix, &gJgTargetPos);
         gJgKind = 3;
-        if (func_0203c5e4() == 0) {
+        if (GetEntryRaceEnded() == 0) {
             if ((u32) gJgKind <= 1) {
                 data_0217b900 = 1;
                 data_0217b8ac = 1;
@@ -208,7 +208,7 @@ void UpdateJg(void) {
             MTX_MultVec43(&targetOffset, &gJgMatrix, &gJgTargetPos);
             if (gJgHighestLap == gJgFinalLap) {
                 gJgKind = 1;
-                if (func_0203c5e4() == 0) {
+                if (GetEntryRaceEnded() == 0) {
                     if ((u32) gJgKind <= 1) {
                         data_0217b900 = 1;
                         data_0217b8ac = 1;
@@ -218,7 +218,7 @@ void UpdateJg(void) {
                 return;
             }
             gJgKind = 0;
-            if (func_0203c5e4() == 0) {
+            if (GetEntryRaceEnded() == 0) {
                 if ((u32) gJgKind <= 1) {
                     data_0217b900 = 1;
                     data_0217b8ac = 1;
@@ -393,7 +393,7 @@ void ComputeJgMatrixAndInverse(void) {
     gJgMatrix.mUnk_00[3].y = gJgMatrix.mUnk_00[3].y + (gJgKart->mVelocity.y - gJgKart->mHopSpeed);
     gJgMatrix.mUnk_00[1] = data_02159494;
 
-    if (func_0203c5e4() != 0) {
+    if (GetEntryRaceEnded() != 0) {
         turnedForward = &gJgKart->mTurnedForward;
         gJgMatrix.mUnk_00[2].x = -turnedForward->x;
         gJgMatrix.mUnk_00[2].y = -turnedForward->y;
@@ -852,7 +852,7 @@ void EnterJgState4(void) {
     }
     gJgMain.mFrameIndex = 1;
     data_0217b8b4 = 0;
-    if (func_0203c5e4() != 0) {
+    if (GetEntryRaceEnded() != 0) {
         matrix = GetViewRotatedMatrix();
         matrix->mUnk_00[3] = gJgKartPos;
         MTX_MultVec43(&gJgKind4Offset, matrix, &gJgTargetPos);
@@ -905,7 +905,7 @@ void UpdateJgState4(void) {
         gJgMain.mFrameIndex = 0;
         SetStateMachineState(&gJgStateMachine, 5);
     }
-    if (func_0203c5e4() != 0) {
+    if (GetEntryRaceEnded() != 0) {
         matrix = GetViewRotatedMatrix();
         matrix->mUnk_00[3] = gJgKartPos;
         MTX_MultVec43(&gJgKind4Offset, matrix, &gJgTargetPos);

@@ -571,7 +571,7 @@ typedef struct ConnectionWork {
                     u8 mUnk_0456_0 : 1;
                 };
             };
-            /* 0457 */ u8 mUnk_0457;
+            /* 0457 */ u8 mGroupSendMask;
             /* 0458 */ u8 mUnk_0458;
             /* 0459 */ u8 mUnk_0459[3];
         };

@@ -9,7 +9,7 @@
 
 typedef struct MissionFileRow MissionFileRow;
 
-u32 func_020435c4(void);
+u32 GetVolatileHalfwordIndex39(void);
 void SetInputOpenDuringRace(u32 openDuringRace);
 void RequestBits(s32 slotIndex, u32 bits);
 void UpdateInputSlots(void);
@@ -24,7 +24,7 @@ void StartInputSlots(void);
 void ResetInputSlots(void);
 void InitInputSlotsAndTouchMic(void *heap);
 void LoadSndBanksForCharacters(u32 useCurrentEntries);
-void func_02043fb0(u32 courseId);
+void SelectGhostReadCourseRecordAndWait(u32 courseId);
 void ReadCourseGhostRecordAndLoadFile(u32 courseId);
 void ReadCourseAndSlotGhostRecords(u32 courseId, u32 slotIndex);
 void ReadCourseGhostRecordAndWait(u32 courseId);

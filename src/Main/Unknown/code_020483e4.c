@@ -173,8 +173,8 @@ void BuildCourseArchivePath(char *path, s32 courseId, s32 useTexture) {
 u32 GetLanguageCode(void) {
     s32 languageIndex;
 
-    languageIndex = data_021759d0->mLanguageIndex;
-    if (data_021759d0->mRegion == 2 && languageIndex == 1) {
+    languageIndex = gStartupWork->mLanguageIndex;
+    if (gStartupWork->mRegion == 2 && languageIndex == 1) {
         languageIndex += 5;
     }
     return ((u32 *) data_02164dc8)[languageIndex];
@@ -187,7 +187,7 @@ u32 GetLanguageCode(void) {
 u32 GetMPLanguageCode(void) {
     u32 languageIndex;
     languageIndex = gConnectionWork->mUnk_043c;
-    if ((data_021759d0->mRegion == 2) && (((s32 *) data_021759d0)[1] == 1)) {
+    if ((gStartupWork->mRegion == 2) && (((s32 *) gStartupWork)[1] == 1)) {
         languageIndex = languageIndex + 5;
     }
     return ((u32 *) &data_02164dc8)[languageIndex];

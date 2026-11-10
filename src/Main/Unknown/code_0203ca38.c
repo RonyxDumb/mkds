@@ -334,12 +334,12 @@ void UpdateRaceProgress(void) {
                 t = TRUE;
                 break;
             case RACE_KIND_NORMAL:
-                if (func_02040bc0() != 0) {
+                if (IsEntryRaceEnded() != 0) {
                     t = TRUE;
                 }
                 break;
         }
-        gRaceProgress->mUnk_4f0 = t;
+        gRaceProgress->mEntryRaceEnded = t;
     }
     if (gRaceSetup->mMode == MODE_BATTLE) {
         for (i = 0; i < gRaceSetup->mKartCount; i = (u16) (i + 1)) {

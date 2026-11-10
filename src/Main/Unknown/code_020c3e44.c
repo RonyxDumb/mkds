@@ -349,7 +349,7 @@ void UpdateRaceLinkLevel(void) {
     if (gRaceLinkLevel == NULL) {
         return;
     }
-    if (data_021759d0->mConnectionKind == 0) {
+    if (gStartupWork->mConnectionKind == 0) {
         return;
     }
     if (gRaceSetup->mMode == 5) {
@@ -381,7 +381,7 @@ void DrawRaceLinkLevel(RaceHudOamBuffer *oamBuffer) {
     if (gRaceLinkLevel == NULL) {
         return;
     }
-    if (data_021759d0->mConnectionKind != 0) {
+    if (gStartupWork->mConnectionKind != 0) {
         if (IsRaceHudGoalMUploaded() == 0) {
             if (gRaceSetup->mMode == 5) {
                 levelCell = GetRaceMNcerEntry(gRaceLinkLevel->mUnk_04 + 0x28);

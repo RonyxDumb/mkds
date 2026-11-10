@@ -81,7 +81,7 @@ void ResetRaceSetup(void) {
         gRaceSetup->mNextEntries[i].mPlayer.mUnk_14 = 0;
         gRaceSetup->mNextEntries[i].mPlayer.mName = NULL;
         gRaceSetup->mNextEntries[i].mPlayer.mUnk_24 = 0;
-        gRaceSetup->mNextEntries[i].mPlayer.mUnk_25 = data_021759d0->mRegion;
+        gRaceSetup->mNextEntries[i].mPlayer.mUnk_25 = gStartupWork->mRegion;
         gRaceSetup->mNextEntries[i].mPlayer.mEmblemData = NULL;
         gRaceSetup->mNextEntries[i].mPlayer.mUnk_20 = 0;
     }
@@ -151,13 +151,13 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
     *emblemDataSlot = NULL;
     *b2 = 0;
     *b5 = 0;
-    *b3 = data_021759d0->mRegion;
+    *b3 = gStartupWork->mRegion;
     *b4 = 0;
     if (entryIndex == gRaceSetup->mEntryIndex) {
         *nameSlot = &data_0217aa08->mFirstBlock->mPlayerName;
         *emblemDataSlot = &data_0217aa08->mEmblemRecord->mEmblemData;
         *b2 = g != FALSE ? 1 : 0;
-        *b3 = data_021759d0->mRegion;
+        *b3 = gStartupWork->mRegion;
         *b4 = GetLowestGrandPrixRecordValue();
         return;
     }
@@ -179,7 +179,7 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
             *b2 = func_02045084_inline(gConnectionWork, entryIndex)->mHasEmblem;
             *b3 = func_02045084_inline(gConnectionWork, entryIndex)->mRegion;
             *b5 = func_02045084_inline2() ||
-                          (gConnectionWork->mUnk_0457 & (1 << gConnectionWork->mUnk_1e8c[entryIndex])) != 0
+                          (gConnectionWork->mGroupSendMask & (1 << gConnectionWork->mUnk_1e8c[entryIndex])) != 0
                       ? 0
                       : &func_02045084_inline(gConnectionWork, entryIndex)->mFriendData;
             *b4 = func_02045084_inline(gConnectionWork, entryIndex)->mLowestGrandPrixRecordValue;
@@ -467,7 +467,7 @@ void SetNextRaceByMode(void) {
             }
             break;
         case MODE_BATTLE:
-            if (data_021759d0->mMultiSimple != 0) {
+            if (gStartupWork->mMultiSimple != 0) {
                 gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_NORMAL;
             } else {
                 gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_START_BATTLE;
