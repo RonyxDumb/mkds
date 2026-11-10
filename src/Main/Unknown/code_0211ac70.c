@@ -131,14 +131,14 @@ void SetAndPrintSelectRaceRuleWinCount(s16 count) {
         count = 0xa;
     }
     gSelectRaceRule->mWinCount = count;
-    func_02124f4c(gSelectRaceRule->mWinCount, text);
+    FormatFullWidthNumber(gSelectRaceRule->mWinCount, text);
     if (data_021759d0->mConnectionKind != 2) {
         func_0212426c(1, 9, gSelectRaceRule->mBnll,
                       GetBmgEntry(gSelectRaceRule->mRuleMessages, data_0216dc0c[3][SELECT_RACE_RULE_WIN]),
                       gSelectRaceRule->mBncl, gSelectRaceRule->mTable);
         func_02124248(1, 8, gSelectRaceRule->mBnll, text, gSelectRaceRule->mBncl, gSelectRaceRule->mTable, 0xb);
     } else {
-        func_02124f4c(gSelectRaceRule->mWinCount, numberText);
+        FormatFullWidthNumber(gSelectRaceRule->mWinCount, numberText);
         FormatMessageWithText(numberText, GetBmgEntry(gSelectRaceRule->mRuleMessages, 0x16), text, 0x80);
         func_0212426c(1, 0xa, gSelectRaceRule->mBnll, text, gSelectRaceRule->mBncl, gSelectRaceRule->mTable);
     }
@@ -156,14 +156,14 @@ void SetAndPrintSelectRaceRuleRaceCount(s16 count) {
         count = 0x20;
     }
     gSelectRaceRule->mRaceCount = count;
-    func_02124f4c(gSelectRaceRule->mRaceCount, text);
+    FormatFullWidthNumber(gSelectRaceRule->mRaceCount, text);
     if (data_021759d0->mConnectionKind != 2) {
         func_0212426c(1, 9, gSelectRaceRule->mBnll,
                       GetBmgEntry(gSelectRaceRule->mRuleMessages, data_0216dc0c[3][SELECT_RACE_RULE_RACE]),
                       gSelectRaceRule->mBncl, gSelectRaceRule->mTable);
         func_02124248(1, 8, gSelectRaceRule->mBnll, text, gSelectRaceRule->mBncl, gSelectRaceRule->mTable, 0xb);
     } else {
-        func_02124f4c(gSelectRaceRule->mRaceCount, numberText);
+        FormatFullWidthNumber(gSelectRaceRule->mRaceCount, numberText);
         FormatMessageWithText(numberText, GetBmgEntry(gSelectRaceRule->mRuleMessages, 0x17), text, 0x80);
         func_0212426c(1, 0xa, gSelectRaceRule->mBnll, text, gSelectRaceRule->mBncl, gSelectRaceRule->mTable);
     }
@@ -1480,16 +1480,16 @@ void InitSelectRaceRule(void *parentHeap, s32 b, void *oamList, s32 mode) {
     switch (gSelectRaceRule->mMode) {
         case 2:
         case 4:
-            func_021170f8();
+            ClearNonParticipantCharacterIndices();
             FillRandomCharacterIndices();
-            func_02117060();
+            ClearNonParticipantKartIndices();
             FillRandomKartIndices();
             break;
         case 3:
         case 5:
-            func_021170f8();
+            ClearNonParticipantCharacterIndices();
             FillRandomCharacterIndices();
-            func_02117060();
+            ClearNonParticipantKartIndices();
             SetKartIndicesFromCharacters();
             break;
     }

@@ -60,7 +60,7 @@ void func_0204ad44(void) {
     data_021759d0->mOwnerCharCount = ownerInfo.mUnk_18;
     MI_CpuCopy8(ownerInfo.mUnk_04, data_021759d0->mOwnerText, data_021759d0->mOwnerCharCount << 1);
     data_021759d0->mUnk_40 = ownerInfo.mUnk_01;
-    data_021759d0->mUnk_00 = 1;
+    data_021759d0->mRegion = 1;
     switch (ownerInfo.mUnk_00) {
         case 1:
             data_021759d0->mLanguageIndex = 1;

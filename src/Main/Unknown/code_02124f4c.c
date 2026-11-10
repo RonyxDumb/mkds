@@ -409,7 +409,7 @@ s32 FormatAsciiNumber(u32 a, u16 *buffer) {
     return digitCount;
 }
 
-s32 func_02124f4c(u32 a, u16 *buffer) {
+s32 FormatFullWidthNumber(u32 a, u16 *buffer) {
     s32 digitCount;
     s32 i;
     digitCount = CountDecimalDigits(a);

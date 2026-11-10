@@ -22,7 +22,7 @@ void FormatNumberByVariant(s32 number, u16 *text, s32 variant) {
             FormatAsciiNumber(number, text);
             break;
         case 1:
-            func_02124f4c(number, text);
+            FormatFullWidthNumber(number, text);
             break;
     }
 }
@@ -49,7 +49,8 @@ void WriteZeroDigitByVariant(u16 *text, s32 variant) {
     }
 }
 
-// Writes the time as minute, second and millisecond text; c picks which digit and separator characters.
+// Writes the time as minute, second and millisecond text; variant 0 uses Ascii and 1 uses FullWidth digits and
+// separators.
 void FormatMinuteSecondMillisecondTime(MinuteSecondMillisecondTime *time, u16 *text, s32 variant) {
     u16 length;
     u16 digitText[0x12];
@@ -92,7 +93,7 @@ void FormatTimeAscii(void *time, u16 *text) {
     FormatMinuteSecondMillisecondTime(time, text, 0);
 }
 
-void func_02116b80(void *time, void *text) {
+void FormatTimeFullWidth(void *time, void *text) {
     FormatMinuteSecondMillisecondTime(time, text, 1);
 }
 
@@ -105,9 +106,9 @@ void FormatTwoDigitNumber(u32 number, u16 *text) {
     }
 }
 
-// Writes the year, month and day as text in the order data_021759d0->mUnk_00 selects.
+// Writes the year, month and day as text in the order the region selects.
 void FormatDate(DateBytes *date, u16 *text) {
-    switch (data_021759d0->mUnk_00) {
+    switch (data_021759d0->mRegion) {
         case 0:
             FormatTwoDigitNumber(0x14, text);
             FormatTwoDigitNumber(date->mYear, text + 2);

@@ -81,7 +81,7 @@ void ResetRaceSetup(void) {
         gRaceSetup->mNextEntries[i].mPlayer.mUnk_14 = 0;
         gRaceSetup->mNextEntries[i].mPlayer.mName = NULL;
         gRaceSetup->mNextEntries[i].mPlayer.mUnk_24 = 0;
-        gRaceSetup->mNextEntries[i].mPlayer.mUnk_25 = data_021759d0->mUnk_00;
+        gRaceSetup->mNextEntries[i].mPlayer.mUnk_25 = data_021759d0->mRegion;
         gRaceSetup->mNextEntries[i].mPlayer.mEmblemData = NULL;
         gRaceSetup->mNextEntries[i].mPlayer.mUnk_20 = 0;
     }
@@ -151,13 +151,13 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
     *emblemDataSlot = NULL;
     *b2 = 0;
     *b5 = 0;
-    *b3 = data_021759d0->mUnk_00;
+    *b3 = data_021759d0->mRegion;
     *b4 = 0;
     if (entryIndex == gRaceSetup->mEntryIndex) {
         *nameSlot = &data_0217aa08->mFirstBlock->mPlayerName;
         *emblemDataSlot = &data_0217aa08->mEmblemRecord->mEmblemData;
         *b2 = g != FALSE ? 1 : 0;
-        *b3 = data_021759d0->mUnk_00;
+        *b3 = data_021759d0->mRegion;
         *b4 = func_02056208();
         return;
     }

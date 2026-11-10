@@ -323,14 +323,14 @@ void SetupSelectCupCourseObjects(void) {
         courseEntryCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mUnk_06;
         cupEntryCount = gSelectCupCourse->mSelectCupMBncl->mUnk_06;
         for (i = 0; i < 8; i++) {
-            gSelectCupCourse->mSelectCupMTable[data_0215cacc[i]].mVisible = 0;
+            gSelectCupCourse->mSelectCupMTable[gSelectCupCourseRecordCells[i]].mVisible = 0;
         }
         for (i = 0; i < 4; i++) {
-            gSelectCupCourse->mSelectCupMTable[data_0215ca9c[i]].mVisible = 0;
+            gSelectCupCourse->mSelectCupMTable[gSelectCupCourseTrophyCells[i]].mVisible = 0;
         }
         for (i = 0; i < 4; i++) {
-            gSelectCupCourse->mSelectCupMTable[data_0215caa4[i]].mVisible = 0;
-            gSelectCupCourse->mSelectCupMTable[cupEntryCount + data_0215cab4[i]].mVisible = 1;
+            gSelectCupCourse->mSelectCupMTable[gSelectCupCourseLabelCells[i]].mVisible = 0;
+            gSelectCupCourse->mSelectCupMTable[cupEntryCount + gSelectCupCourseLabelIndices[i]].mVisible = 1;
         }
         gSelectCupCourse->mSelectCupCourseTaOrVsMTable[0].mVisible = 1;
         gSelectCupCourse->mSelectCupCourseTaOrVsMTable[2].mVisible = 1;
@@ -362,7 +362,7 @@ void SetupSelectCupCourseObjects(void) {
         for (i = 0; i < 4; i++) {
             selectCupCourse = gSelectCupCourse;
             func_0212426c(
-                1, data_0215cab4[i], gSelectCupCourse->mSelectCupMBnll,
+                1, gSelectCupCourseLabelIndices[i], gSelectCupCourse->mSelectCupMBnll,
                 GetBmgEntry(gSelectCupCourse->mCommonMessages, data_0215cafc[data_0215cadc[GetCupIndex()]][i]),
                 selectCupCourse->mSelectCupMBncl, selectCupCourse->mSelectCupMTable);
         }
@@ -401,12 +401,12 @@ void AdvanceSelectCupCourseHighlight(void) {
     if (gBootInfo->mUnk_00 != 2) {
         for (i = 0; i < 4; i++) {
             if (gSelectCupCourse->mIndex == i && gSelectCupCourse->mUnk_54 != FALSE) {
-                gSelectCupCourse->mSelectCupMTable[data_0215caa4[i]].mVisible = 1;
-                SetLabelPaletteIndex(data_0215cab4[i], 0xe, gSelectCupCourse->mSelectCupMBnll,
+                gSelectCupCourse->mSelectCupMTable[gSelectCupCourseLabelCells[i]].mVisible = 1;
+                SetLabelPaletteIndex(gSelectCupCourseLabelIndices[i], 0xe, gSelectCupCourse->mSelectCupMBnll,
                                      gSelectCupCourse->mSelectCupMTable, gSelectCupCourse->mSelectCupMBncl);
             } else {
-                gSelectCupCourse->mSelectCupMTable[data_0215caa4[i]].mVisible = 0;
-                SetLabelPaletteIndex(data_0215cab4[i], 0xf, gSelectCupCourse->mSelectCupMBnll,
+                gSelectCupCourse->mSelectCupMTable[gSelectCupCourseLabelCells[i]].mVisible = 0;
+                SetLabelPaletteIndex(gSelectCupCourseLabelIndices[i], 0xf, gSelectCupCourse->mSelectCupMBnll,
                                      gSelectCupCourse->mSelectCupMTable, gSelectCupCourse->mSelectCupMBncl);
             }
         }
@@ -430,7 +430,7 @@ void RefreshSelectCupCourseForIndex(void) {
                       selectCupCourse->mSelectCupCourseTaOrVsMBncl, selectCupCourse->mSelectCupCourseTaOrVsMTable);
         if (IsTimeRecordFilled(data_0215cbec[data_0215cadc[GetCupIndex()]][gSelectCupCourse->mIndex], 0)) {
             GetTimeRecordTime(data_0215cbec[data_0215cadc[GetCupIndex()]][gSelectCupCourse->mIndex], 0, &recordTime);
-            func_02116b80(&recordTime, timeText);
+            FormatTimeFullWidth(&recordTime, timeText);
             selectCupCourse = gSelectCupCourse;
             func_02124224(0, 3, selectCupCourse->mSelectCupCourseTaOrVsMBnll, timeText,
                           selectCupCourse->mSelectCupCourseTaOrVsMBncl, selectCupCourse->mSelectCupCourseTaOrVsMTable,
@@ -443,7 +443,7 @@ void RefreshSelectCupCourseForIndex(void) {
         }
         if (IsTimeRecordFilled(data_0215cbec[data_0215cadc[GetCupIndex()]][gSelectCupCourse->mIndex], 5)) {
             GetTimeRecordTime(data_0215cbec[data_0215cadc[GetCupIndex()]][gSelectCupCourse->mIndex], 5, &recordTime);
-            func_02116b80(&recordTime, timeText);
+            FormatTimeFullWidth(&recordTime, timeText);
             selectCupCourse = gSelectCupCourse;
             func_02124224(0, 5, selectCupCourse->mSelectCupCourseTaOrVsMBnll, timeText,
                           selectCupCourse->mSelectCupCourseTaOrVsMBncl, selectCupCourse->mSelectCupCourseTaOrVsMTable,

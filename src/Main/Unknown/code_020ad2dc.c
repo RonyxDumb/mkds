@@ -209,7 +209,7 @@ void CreateTitleScene(void) {
     config.mBackScreenKind = 0;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
     InitSceneText(TitleGetCurrentHeap(), &config);
-    gTitleScene->mCharacterKartPicks = func_0203bedc(TitleGetCurrentHeap());
+    gTitleScene->mCharacterKartPicks = CreateCharacterKartPicks(TitleGetCurrentHeap());
     SetConnectionKind(0);
     SetMultiSimple(0);
     ClearShuffledIndices();

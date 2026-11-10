@@ -135,7 +135,7 @@ void func_0203bf04(GhostRecord *courseGhost, SlotGhostRecord *slotGhost) {
 
 #pragma thumb on
 
-CharacterKartPicks *func_0203bedc(void *heap) {
+CharacterKartPicks *CreateCharacterKartPicks(void *heap) {
     CharacterKartPicks *picks;
     void *kartAppear;
     picks = HeapAlloc(heap, 0x48);

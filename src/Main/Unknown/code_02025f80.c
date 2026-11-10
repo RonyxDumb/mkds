@@ -356,7 +356,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
         func_0202721c();
     }
     if (gSelectCharacter->mUnk_080 == 0) {
-        func_021170f8();
+        ClearNonParticipantCharacterIndices();
         SetSelectReturnSoundId(0xe);
         RequestSelectReturnState1();
     }
@@ -570,7 +570,7 @@ int AdvanceSelectCharacter(void) {
                             GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mUnk_14 = 1;
                             func_02077f48(1);
                             gSelectCharacter->mUnk_06c = 7;
-                            func_02117060();
+                            ClearNonParticipantKartIndices();
                             SetKartIndicesFromCharacters();
                         } else {
                             func_02027424(1);

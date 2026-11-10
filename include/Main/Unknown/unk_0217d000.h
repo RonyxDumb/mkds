@@ -225,9 +225,9 @@ typedef struct RecordVS {
 
 // Object behind gSelectCupGrid: the screen that picks one of eight cups, laid out as two rows of four (a direction key
 // or a touch moves mIndex to a neighbour cup that is enabled). Choosing stores the cup and the first course of that cup
-// in the record behind gRaceSetupCopy (func_021185ec); SelectCupCourse then picks one of the four courses of the stored
-// cup. Allocated by InitSelectCupGrid, freed by ReleaseSelectCupGrid; mMode is 0, 1 or 2 to 4 by the screen that opened
-// it.
+// in the record behind gRaceSetupCopy (SetCupFromSelectCupGrid); SelectCupCourse then picks one of the four courses of
+// the stored cup. Allocated by InitSelectCupGrid, freed by ReleaseSelectCupGrid; mMode is 0, 1 or 2 to 4 by the screen
+// that opened it.
 typedef struct SelectCupGrid {
     /* 00 */ struct Unk02021dc8 *mSelectCupMNcer;
     /* 04 */ Unk0201ea30 *mSelectCupMBncl;

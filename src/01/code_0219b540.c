@@ -244,7 +244,7 @@ void RefreshSelectGhostForIndex(void) {
     k = GetGhostRecordSetKartIndex(data_ov001_021a6b78[gSelectGhost->mIndex]);
     QueueKartIcon(k, gSelectGhost->mSelectGhostSONcer, gSelectGhost->mSelectGhostSBncl, b, 9, 1);
     GetGhostRecordSetTime(data_ov001_021a6b78[gSelectGhost->mIndex], buf14);
-    func_02116b80(buf14, buf18);
+    FormatTimeFullWidth(buf14, buf18);
     func_02124224(1, y, gSelectGhost->mSelectGhostSBnll, buf18, gSelectGhost->mSelectGhostSBncl,
                   gSelectGhost->mSelectGhostSTable, 9);
     GetGhostRecordSetName(data_ov001_021a6b78[gSelectGhost->mIndex], buf18);

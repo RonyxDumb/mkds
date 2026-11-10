@@ -1222,7 +1222,7 @@ void LoadKartModelMenuEmblemTexData(NNSG3dResFileHeader *file) {
 
 void InitKartModelMenuSlot(void *heap, KartModelMenuSlot *slot) {
     InitKartModelsEntry(slot);
-    slot->mUnk_b0 = data_021759d0->mUnk_00;
+    slot->mUnk_b0 = data_021759d0->mRegion;
     slot->mEmblemTex = 0;
     slot->mCharacterNsbmd = HeapAlloc(heap, 0x6c);
     slot->mKartNsbmd = HeapAlloc(heap, 0x6c);

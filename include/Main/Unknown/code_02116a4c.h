@@ -16,7 +16,7 @@ extern const IndexChangeOffsets gIndexChangeOffsets;
 
 void FormatDate(DateBytes *date, u16 *text);
 void FormatTwoDigitNumber(u32 number, u16 *text);
-void func_02116b80(void *time, void *text);
+void FormatTimeFullWidth(void *time, void *text);
 void FormatTimeAscii(void *time, u16 *text);
 void FormatMinuteSecondMillisecondTime(MinuteSecondMillisecondTime *time, u16 *text, s32 variant);
 void WriteZeroDigitByVariant(u16 *text, s32 variant);

@@ -86,7 +86,7 @@ void FillAndWriteCourseGhostRecord(s32 courseId, u16 entryIndex) {
     ghostRecord->mHead.mCourseId = (u8) tempValue;
     ghostRecord->mHead.mFilled = 1;
     ghostRecord->mHead.mUnk_08_1 = 0;
-    ghostRecord->mHead.mUnk_08_2 = data_021759d0->mUnk_00;
+    ghostRecord->mHead.mUnk_08_2 = data_021759d0->mRegion;
     ghostRecord->mHead.mUnk_08_4 = 0;
     ghostRecord->mHead.mUnk_2f_0 = func_02056208();
     GetKartFinishTime(entryIndex, &kartTime.mMinute, &kartTime.mSecond, &kartTime.mMillisecond);

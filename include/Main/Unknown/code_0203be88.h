@@ -15,7 +15,7 @@ typedef struct CharacterKartPicks CharacterKartPicks;
 void SetGivenKart(CharacterKartPicks *picks, u32 entryIndex, u32 kartIndex);
 void SetGivenCharacter(CharacterKartPicks *picks, u32 entryIndex, u32 characterIndex);
 void InitCharacterKartPicks(CharacterKartPicks *picks);
-CharacterKartPicks *func_0203bedc(void *heap);
+CharacterKartPicks *CreateCharacterKartPicks(void *heap);
 void func_0203bf04(GhostRecord *courseGhost, SlotGhostRecord *slotGhost);
 void GetClockTimeOrZero(RTCTime *time);
 void GetClockDateOrDefault(s32 *date);

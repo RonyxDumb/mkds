@@ -15,11 +15,11 @@
 
 #pragma thumb on
 
-void CreateCharacterKartPicks(void *heap) {
+void CreatePicksHolder(void *heap) {
     u32 v1;
     v1 = ((u32) HeapAlloc(heap, 4));
     *(u32 *) &gPicksHolder = v1;
-    v1 = (u32) func_0203bedc(heap);
+    v1 = (u32) CreateCharacterKartPicks(heap);
     *(u32 *) (*(u32 *) &gPicksHolder) = v1;
 }
 
@@ -31,7 +31,8 @@ void ClearPicksHolderPointer(void) {
     gPicksHolder = NULL;
 }
 
-void func_021170f8(void) {
+// Resets the picks and clears the character index of every entry from the participant count up.
+void ClearNonParticipantCharacterIndices(void) {
     int n;
     BOOL isEightOrNine;
     u32 zeroValue, noIndex;
@@ -54,7 +55,8 @@ void func_021170f8(void) {
     }
 }
 
-void func_02117060(void) {
+// Resets the picks, copies the characters in and clears the kart index of entries from the participant count up.
+void ClearNonParticipantKartIndices(void) {
     int i;
     int n;
     BOOL isEightOrNine;
@@ -138,7 +140,7 @@ void SetKartIndicesFromCharacters(void) {
     int i;
 
     for (i = 0; i < 8; i++) {
-        SetKartIndex(i, data_0215c5d8[GetCharacterIndex(i)]);
+        SetKartIndex(i, gCharacterKartIndices[GetCharacterIndex(i)]);
         func_020294ac(i, 1);
     }
 }

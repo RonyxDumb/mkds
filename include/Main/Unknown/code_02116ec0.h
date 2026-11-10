@@ -5,7 +5,7 @@
 void SetKartIndicesFromCharacters(void);
 void FillRandomKartIndices(void);
 void FillRandomCharacterIndices(void);
-void func_02117060(void);
-void func_021170f8(void);
+void ClearNonParticipantKartIndices(void);
+void ClearNonParticipantCharacterIndices(void);
 void ClearPicksHolderPointer(void);
-void CreateCharacterKartPicks(void *heap);
+void CreatePicksHolder(void *heap);

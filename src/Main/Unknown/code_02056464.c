@@ -97,7 +97,7 @@ void FillPlayerRecord(Unk0217aa00_45c *a) {
         MI_CpuFill8(a->mEmblem, 0, 0x200);
     }
     MI_CpuCopy8(data_0217aa08->mFirstBlock->mFlags, a->mBits, 4);
-    a->mRegion = data_021759d0->mUnk_00;
+    a->mRegion = data_021759d0->mRegion;
     a->mUnk_228_4 = data_021759d0->mLanguageIndex;
     a->mElo = data_0217aa08->mFirstBlock->mElo;
     a->mUnk_229 = func_02056208();

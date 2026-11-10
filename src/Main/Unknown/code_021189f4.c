@@ -94,7 +94,7 @@ void AdvanceSelectCupCourseState3(void) {
         return;
     }
     if ((u32) touchedRectIndex <= 3) {
-        courseIndex = data_0215caac[touchedRectIndex];
+        courseIndex = gSelectCupCourseRectCourseIndices[touchedRectIndex];
         if (gSelectCupCourse->mIndex == courseIndex) {
             gSelectCupCourse->mUnk_54 = FALSE;
         }
@@ -245,9 +245,9 @@ void AdvanceSelectCupCourseState7(void) {
 }
 
 void AdvanceSelectCupCourseState8(void) {
-    BOOL a;
+    BOOL movesTaOrVsCells;
     s16 offsetY;
-    s32 w;
+    s32 cellCount;
     s32 i;
 
     gSelectCupCourse->mStateFrames++;
@@ -257,20 +257,20 @@ void AdvanceSelectCupCourseState8(void) {
     if (gSelectCupCourse->mMode == 0) {
         if (gSelectCupCourse->mResult == 1) {
             if (func_0211e130() != FALSE) {
-                a = TRUE;
+                movesTaOrVsCells = TRUE;
             } else {
-                a = FALSE;
+                movesTaOrVsCells = FALSE;
             }
         } else {
-            a = TRUE;
+            movesTaOrVsCells = TRUE;
         }
     } else {
-        a = TRUE;
+        movesTaOrVsCells = TRUE;
     }
     InterpolateS16(1, 0, 0x100, gSelectCupCourse->mStateFrames, 10);
     offsetY = InterpolateS16(1, 0, -0xc0, gSelectCupCourse->mStateFrames, 10);
-    if (a != FALSE) {
-        w = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mUnk_06;
+    if (movesTaOrVsCells != FALSE) {
+        cellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mUnk_06;
         gSelectCupCourse->mBg0Offset = offsetY;
         gSelectCupCourse->mSelectCupCourseTaOrVsMTable[0].mOffsetY = offsetY;
         gSelectCupCourse->mSelectCupCourseTaOrVsMTable[2].mOffsetY = offsetY;
@@ -278,15 +278,15 @@ void AdvanceSelectCupCourseState8(void) {
         gSelectCupCourse->mSelectCupCourseTaOrVsMTable[4].mOffsetY = offsetY;
         gSelectCupCourse->mSelectCupCourseTaOrVsMTable[3].mOffsetY = offsetY;
         gSelectCupCourse->mSelectCupCourseTaOrVsMTable[5].mOffsetY = offsetY;
-        gSelectCupCourse->mSelectCupCourseTaOrVsMTable[w].mOffsetY = offsetY;
-        gSelectCupCourse->mSelectCupCourseTaOrVsMTable[w + 1].mOffsetY = offsetY;
-        gSelectCupCourse->mSelectCupCourseTaOrVsMTable[w + 2].mOffsetY = offsetY;
-        gSelectCupCourse->mSelectCupCourseTaOrVsMTable[w + 3].mOffsetY = offsetY;
-        gSelectCupCourse->mSelectCupCourseTaOrVsMTable[w + 4].mOffsetY = offsetY;
-        gSelectCupCourse->mSelectCupCourseTaOrVsMTable[w + 5].mOffsetY = offsetY;
+        gSelectCupCourse->mSelectCupCourseTaOrVsMTable[cellCount].mOffsetY = offsetY;
+        gSelectCupCourse->mSelectCupCourseTaOrVsMTable[cellCount + 1].mOffsetY = offsetY;
+        gSelectCupCourse->mSelectCupCourseTaOrVsMTable[cellCount + 2].mOffsetY = offsetY;
+        gSelectCupCourse->mSelectCupCourseTaOrVsMTable[cellCount + 3].mOffsetY = offsetY;
+        gSelectCupCourse->mSelectCupCourseTaOrVsMTable[cellCount + 4].mOffsetY = offsetY;
+        gSelectCupCourse->mSelectCupCourseTaOrVsMTable[cellCount + 5].mOffsetY = offsetY;
     }
     if (gSelectCupCourse->mResult != 2) {
-        w = gSelectCupCourse->mSelectCupMBncl->mUnk_06;
+        cellCount = gSelectCupCourse->mSelectCupMBncl->mUnk_06;
         gSelectCupCourse->mBg3Offset = offsetY - 0x20;
         gSelectCupCourse->mSelectCupMTable[0x14].mOffsetY = offsetY - 0x20;
         gSelectCupCourse->mSelectCupMTable[0x13].mOffsetY = offsetY - 0x20;
@@ -294,12 +294,12 @@ void AdvanceSelectCupCourseState8(void) {
         gSelectCupCourse->mSelectCupMTable[1].mOffsetY = offsetY - 0x20;
         gSelectCupCourse->mSelectCupMTable[0].mOffsetY = offsetY - 0x20;
         for (i = 0; i < 8; i++) {
-            gSelectCupCourse->mSelectCupMTable[data_0215cacc[i]].mOffsetY = offsetY - 0x20;
+            gSelectCupCourse->mSelectCupMTable[gSelectCupCourseRecordCells[i]].mOffsetY = offsetY - 0x20;
         }
         offsetY -= 0x20;
         for (i = 0; i < 4; i++) {
-            gSelectCupCourse->mSelectCupMTable[data_0215caa4[i]].mOffsetY = offsetY;
-            gSelectCupCourse->mSelectCupMTable[w + data_0215cab4[i]].mOffsetY = offsetY;
+            gSelectCupCourse->mSelectCupMTable[gSelectCupCourseLabelCells[i]].mOffsetY = offsetY;
+            gSelectCupCourse->mSelectCupMTable[cellCount + gSelectCupCourseLabelIndices[i]].mOffsetY = offsetY;
         }
     }
 }
@@ -381,22 +381,22 @@ void LoadSelectCupGridData(void) {
     Nclr *selectCupMBPalette = NULL;
 
     if (gBootInfo->mUnk_00 != 2) {
-        LoadNcgrData(&selectCupMBChars, FindSceneFile(data_0216d690));
-        LoadNclrData(&selectCupMBPalette, FindSceneFile(data_0216d6b8));
-        LoadNscrData(&selectCupMScreenMap, FindSceneFile(data_0216d6bc));
-        LoadNcgrData2(&selectCupMChars, FindSceneFile(data_0216d6ac));
-        LoadNcerData(&selectCupMCells, FindSceneFile(data_0216d694));
-        LoadNclrData(&selectCupMOPalette, FindSceneFile(data_0216d6a0));
-        LoadNcgrData2(&selectCupSChars, FindSceneFile(data_0216d69c));
-        LoadNcerData(&selectCupSCells, FindSceneFile(data_0216d6b4));
-        LoadNclrData(&selectCupSOPalette, FindSceneFile(data_0216d68c));
+        LoadNcgrData(&selectCupMBChars, FindSceneFile(gSelectCupGridMBNcgrName));
+        LoadNclrData(&selectCupMBPalette, FindSceneFile(gSelectCupGridMBNclrName));
+        LoadNscrData(&selectCupMScreenMap, FindSceneFile(gSelectCupGridMNscrName));
+        LoadNcgrData2(&selectCupMChars, FindSceneFile(gSelectCupGridMNcgrName));
+        LoadNcerData(&selectCupMCells, FindSceneFile(gSelectCupGridMNcerName));
+        LoadNclrData(&selectCupMOPalette, FindSceneFile(gSelectCupGridMONclrName));
+        LoadNcgrData2(&selectCupSChars, FindSceneFile(gSelectCupGridSNcgrName));
+        LoadNcerData(&selectCupSCells, FindSceneFile(gSelectCupGridSNcerName));
+        LoadNclrData(&selectCupSOPalette, FindSceneFile(gSelectCupGridSONclrName));
         LoadSelectCupNameMData();
         LoadCommonCupMarkData();
         LoadTrophyIconData();
     }
 }
 
-void func_02118b48(void) {
+void LocateAndQueueSelectCupGrid(void) {
     Ncgr *selectCupMChars = NULL;
     Nclr *selectCupMOPalette = NULL;
     Ncgr *selectCupSChars = NULL;
@@ -407,23 +407,23 @@ void func_02118b48(void) {
     u16 *paletteData;
 
     if (gBootInfo->mUnk_00 == 2) {
-        gSelectCupGrid->mSelectCupSBnbl = FindSceneFile(data_0216d6a4);
+        gSelectCupGrid->mSelectCupSBnbl = FindSceneFile(gSelectCupGridSBnblName);
         return;
     }
-    LocateNcgr(&selectCupMBChars, FindSceneFile(data_0216d690));
-    LocateNclr(&selectCupMBPalette, FindSceneFile(data_0216d6b8));
-    LocateNscr(&selectCupMScreenMap, FindSceneFile(data_0216d6bc));
+    LocateNcgr(&selectCupMBChars, FindSceneFile(gSelectCupGridMBNcgrName));
+    LocateNclr(&selectCupMBPalette, FindSceneFile(gSelectCupGridMBNclrName));
+    LocateNscr(&selectCupMScreenMap, FindSceneFile(gSelectCupGridMNscrName));
     gSelectCupGrid->mUnk_20 = HeapAlloc(gSelectCupGrid->mHeap, 0x800);
-    gSelectCupGrid->mSelectCupMBncl = FindSceneFile(data_0216d698);
-    gSelectCupGrid->mSelectCupMBnll = FindSceneFile(data_0216d6a8);
-    LocateNcgr2(&selectCupMChars, FindSceneFile(data_0216d6ac));
-    LocateNcer(&gSelectCupGrid->mSelectCupMNcer, FindSceneFile(data_0216d694));
-    LocateNclr(&selectCupMOPalette, FindSceneFile(data_0216d6a0));
-    gSelectCupGrid->mSelectCupSBncl = FindSceneFile(data_0216d6b0);
-    gSelectCupGrid->mSelectCupSBnbl = FindSceneFile(data_0216d6a4);
-    LocateNcgr2(&selectCupSChars, FindSceneFile(data_0216d69c));
-    LocateNcer(&gSelectCupGrid->mSelectCupSNcer, FindSceneFile(data_0216d6b4));
-    LocateNclr(&selectCupSOPalette, FindSceneFile(data_0216d68c));
+    gSelectCupGrid->mSelectCupMBncl = FindSceneFile(gSelectCupGridMBnclName);
+    gSelectCupGrid->mSelectCupMBnll = FindSceneFile(gSelectCupGridMBnllName);
+    LocateNcgr2(&selectCupMChars, FindSceneFile(gSelectCupGridMNcgrName));
+    LocateNcer(&gSelectCupGrid->mSelectCupMNcer, FindSceneFile(gSelectCupGridMNcerName));
+    LocateNclr(&selectCupMOPalette, FindSceneFile(gSelectCupGridMONclrName));
+    gSelectCupGrid->mSelectCupSBncl = FindSceneFile(gSelectCupGridSBnclName);
+    gSelectCupGrid->mSelectCupSBnbl = FindSceneFile(gSelectCupGridSBnblName);
+    LocateNcgr2(&selectCupSChars, FindSceneFile(gSelectCupGridSNcgrName));
+    LocateNcer(&gSelectCupGrid->mSelectCupSNcer, FindSceneFile(gSelectCupGridSNcerName));
+    LocateNclr(&selectCupSOPalette, FindSceneFile(gSelectCupGridSONclrName));
     paletteData = selectCupMOPalette->mData;
     if (GetPreviousMenuScreenNumber() != 0x18 && GetPreviousMenuScreenNumber() != 0xc) {
         CallQueueAppend(4, 0, selectCupMBChars->mData, selectCupMBChars->mDataSize);
@@ -455,9 +455,10 @@ u32 GetSelectCupGridCupEnabled(u32 cupIndex) {
                     break;
                 default:
                     if (GetMirrorMode() != 0) {
-                        enabled = IsBackupFlagSet(data_0215c8bc[cupIndex]);
+                        enabled = IsBackupFlagSet(gSelectCupGridMirrorFlagIndices[cupIndex]);
                     } else {
-                        enabled = IsBackupFlagSet(data_0215c95c[cupIndex][data_0215c7f0[GetEngineIndex()]]);
+                        enabled = IsBackupFlagSet(
+                            gSelectCupGridEngineFlagIndices[cupIndex][gSelectCupGridEngineSlots[GetEngineIndex()]]);
                     }
                     break;
             }
@@ -474,9 +475,9 @@ u32 GetSelectCupGridCupEnabled(u32 cupIndex) {
                     enabled = 0;
                     for (i = 0; i < 4; i++) {
                         if (i == 3) {
-                            enabled |= IsBackupFlagSet(data_0215c8bc[cupIndex]);
+                            enabled |= IsBackupFlagSet(gSelectCupGridMirrorFlagIndices[cupIndex]);
                         } else {
-                            enabled |= IsBackupFlagSet(data_0215c95c[cupIndex][i]);
+                            enabled |= IsBackupFlagSet(gSelectCupGridEngineFlagIndices[cupIndex][i]);
                         }
                     }
                     break;
@@ -497,9 +498,10 @@ u32 GetSelectCupGridCupEnabled(u32 cupIndex) {
                     break;
                 default:
                     if (GetMirrorMode() != 0) {
-                        enabled = IsBitSetInAnyParticipant(data_0215c8bc[cupIndex]);
+                        enabled = IsBitSetInAnyParticipant(gSelectCupGridMirrorFlagIndices[cupIndex]);
                     } else {
-                        enabled = IsBitSetInAnyParticipant(data_0215c95c[cupIndex][data_0215c7f0[GetEngineIndex()]]);
+                        enabled = IsBitSetInAnyParticipant(
+                            gSelectCupGridEngineFlagIndices[cupIndex][gSelectCupGridEngineSlots[GetEngineIndex()]]);
                     }
                     break;
             }

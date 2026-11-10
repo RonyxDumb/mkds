@@ -115,11 +115,12 @@ void RequestSelectCupCourseState0(void) {
         gSelectCupCourse->mSelectCupMTable[1].mOffsetY = subOffsetY;
         gSelectCupCourse->mSelectCupMTable[0].mOffsetY = subOffsetY;
         for (i = 0; i < 8; i++) {
-            gSelectCupCourse->mSelectCupMTable[data_0215cacc[i]].mOffsetY = subOffsetY;
+            gSelectCupCourse->mSelectCupMTable[gSelectCupCourseRecordCells[i]].mOffsetY = subOffsetY;
         }
         for (i = 0; i < 4; i++) {
-            gSelectCupCourse->mSelectCupMTable[data_0215caa4[i]].mOffsetY = subOffsetY;
-            gSelectCupCourse->mSelectCupMTable[selectCupMCellCount + data_0215cab4[i]].mOffsetY = subOffsetY;
+            gSelectCupCourse->mSelectCupMTable[gSelectCupCourseLabelCells[i]].mOffsetY = subOffsetY;
+            gSelectCupCourse->mSelectCupMTable[selectCupMCellCount + gSelectCupCourseLabelIndices[i]].mOffsetY =
+                subOffsetY;
         }
     }
 }
@@ -283,10 +284,11 @@ void InitSelectCupCourse(void *parentHeap, void *mainOam, void *subOam, s32 mode
                         gSelectCupCourse->mSelectCupCourseTaOrVsMTable, remainingSize);
         remainingSubSize = GX_GetSizeOfSubOBJ();
         for (i = 0; i < 4; i++) {
-            remainingSubSize -= InitLabelCanvas(
-                gSelectCupCourse->mHeap, data_0215cab4[i], gSelectCupCourse->mSelectCupMBnll, data_0215cabc[i],
-                data_0215cac4[i], data_0215caa4[i], gSelectCupCourse->mSelectCupMNcer,
-                gSelectCupCourse->mSelectCupMBncl, gSelectCupCourse->mSelectCupMTable, remainingSubSize);
+            remainingSubSize -= InitLabelCanvas(gSelectCupCourse->mHeap, gSelectCupCourseLabelIndices[i],
+                                                gSelectCupCourse->mSelectCupMBnll, gSelectCupCourseLabelWidths[i],
+                                                gSelectCupCourseLabelHeights[i], gSelectCupCourseLabelCells[i],
+                                                gSelectCupCourse->mSelectCupMNcer, gSelectCupCourse->mSelectCupMBncl,
+                                                gSelectCupCourse->mSelectCupMTable, remainingSubSize);
         }
         CreateSelectCupNameM(gSelectCupCourse->mHeap);
         CreateCommonCupMark(gSelectCupCourse->mHeap);
@@ -369,12 +371,13 @@ void AdvanceSelectCupCourseState1(void) {
             gSelectCupCourse->mSelectCupMTable[1].mOffsetY = offsetY - 0x20;
             gSelectCupCourse->mSelectCupMTable[0].mOffsetY = offsetY - 0x20;
             for (i = 0; i < 8; i++) {
-                gSelectCupCourse->mSelectCupMTable[data_0215cacc[i]].mOffsetY = offsetY - 0x20;
+                gSelectCupCourse->mSelectCupMTable[gSelectCupCourseRecordCells[i]].mOffsetY = offsetY - 0x20;
             }
             offsetY -= 0x20;
             for (i = 0; i < 4; i++) {
-                gSelectCupCourse->mSelectCupMTable[data_0215caa4[i]].mOffsetY = offsetY;
-                gSelectCupCourse->mSelectCupMTable[taOrVsCellCount + data_0215cab4[i]].mOffsetY = offsetY;
+                gSelectCupCourse->mSelectCupMTable[gSelectCupCourseLabelCells[i]].mOffsetY = offsetY;
+                gSelectCupCourse->mSelectCupMTable[taOrVsCellCount + gSelectCupCourseLabelIndices[i]].mOffsetY =
+                    offsetY;
             }
         }
     }

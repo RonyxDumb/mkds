@@ -179,7 +179,7 @@ void InitSelectKart(void *a, s32 b, void *c, void *d) {
         SetSelectReturnDisplayBitOn();
     }
     if (gSelectKart->mMode == 0) {
-        func_02117060();
+        ClearNonParticipantKartIndices();
     }
     FrmHeapShrinkInParent(h);
 }

@@ -48,4 +48,4 @@ DisplaySettings *func_021250b0(void *heap);
 DisplaySettings *func_02125028(void *heap);
 s32 CountDecimalDigits(u32 a);
 s32 FormatAsciiNumber(u32 a, u16 *buffer);
-s32 func_02124f4c(u32 a, u16 *buffer);
+s32 FormatFullWidthNumber(u32 a, u16 *buffer);

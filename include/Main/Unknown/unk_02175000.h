@@ -13,7 +13,7 @@
 // Object behind data_021759d0 (0x7c bytes); the 0x14 bytes at 0x2a are the source of a block move into
 // data_0217aa08.
 typedef struct Unk021759d0 {
-    /* 00 */ s32 mUnk_00;
+    /* 00 */ s32 mRegion;
     /* 04 */ s32 mLanguageIndex;
     /* 08 */ SoundSetPlayer mSoundSetPlayer;
     /* 1c */ union {

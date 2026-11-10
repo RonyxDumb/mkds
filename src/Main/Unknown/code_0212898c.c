@@ -228,7 +228,7 @@ void InitKeyboard(void *heap, s32 mode) {
         gKeyboard->mLayout = 0;
         SetKeyboardTextLimit(gKeyboardTextLimits[0]);
     } else {
-        if (data_021759d0->mUnk_00 == 0) {
+        if (data_021759d0->mRegion == 0) {
             gKeyboard->mLayout = 1;
         } else {
             gKeyboard->mLayout = 2;
@@ -534,7 +534,7 @@ void AdvanceKeyboardState3(void) {
                     func_02126638(GetBmgEntry(gKeyboard->mCommonMessages, 8), 0, 0, 0, 0, 0, 0);
                     gKeyboard->mStateFrames = 0;
                     gKeyboard->mKind = 1;
-                    if (data_021759d0->mUnk_00 == 0) {
+                    if (data_021759d0->mRegion == 0) {
                         gKeyboard->mLayout = 1;
                     } else {
                         gKeyboard->mLayout = 2;
@@ -688,7 +688,7 @@ void AdvanceKeyboardState7(void) {
             NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x16);
         }
     } else if ((u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_Y) != 0) {
-        if (data_021759d0->mUnk_00 == 0) {
+        if (data_021759d0->mRegion == 0) {
             gKeyboard->mLayout = data_0215d11c[gKeyboard->mLayout];
         } else {
             gKeyboard->mLayout = data_0215d122[gKeyboard->mLayout];

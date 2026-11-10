@@ -139,7 +139,7 @@ void InitMenu(void) {
     }
     LoadPlayerEntryListFiles();
     InitPlayerEntryList(MenuGetCurrentHeap(), gMenuScene->mMainOam);
-    gMenuScene->mCharacterKartPicks = func_0203bedc(MenuGetCurrentHeap());
+    gMenuScene->mCharacterKartPicks = CreateCharacterKartPicks(MenuGetCurrentHeap());
     SetMainDispcntBits(0x10);
     SetSubDispcntBits(0x10);
     WriteMainBlendAlpha(0, 0x3f, 6, 10);
@@ -240,7 +240,7 @@ void InitMenu(void) {
             SetRaceSetupRequested(1);
             break;
     }
-    CreateCharacterKartPicks(MenuGetCurrentHeap());
+    CreatePicksHolder(MenuGetCurrentHeap());
     switch (GetRaceSetupCopy()->mMode) {
         case 0:
         default:
