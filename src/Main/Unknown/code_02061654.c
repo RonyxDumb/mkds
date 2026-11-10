@@ -468,7 +468,7 @@ void func_02062004(void) {
     ClearMapObjectListSlots();
     CallKartSlot8AndClearKarts();
     ReleaseAllResFiles();
-    func_0203d568();
+    StopRaceInput();
     heapCreated = FALSE;
     wiFiSession = gWiFiSession;
     if (wiFiSession != NULL && wiFiSession->mHeapCreated != FALSE) {

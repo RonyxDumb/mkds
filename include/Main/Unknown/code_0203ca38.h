@@ -15,5 +15,5 @@ void FinishRaceProgressKartWithEndKind4(u16 kartIndex);
 // the mission end checks and ends the entry with FinishRaceProgressKartWithEndKind, kind 2, 3 or 4.
 void AdvanceMissionRunEnd(void);
 BOOL ShouldFinishBattle(void);
-void func_0203d078(void);
+void UpdateBattleKartStatuses(void);
 void FinishRaceProgress(void);

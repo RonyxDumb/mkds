@@ -123,7 +123,7 @@ void FinishRaceProgress(void) {
     gRaceProgress->mRaceDone = 1;
 }
 
-void func_0203d078(void) {
+void UpdateBattleKartStatuses(void) {
     u32 kartIndex;
     if (IsWinnerDecidedAndEndReached() != 0) {
         for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
@@ -163,7 +163,7 @@ void func_0203d078(void) {
                 FinishRemainingMissionRunKarts();
                 break;
             case 5:
-                func_0203ecf0();
+                FinishRemainingWiFiRaceKarts();
                 break;
             default:
                 FinishRemainingRaceProgressKarts();
@@ -312,7 +312,7 @@ void UpdateRaceProgress(void) {
                             FinishRemainingMissionRunKarts();
                             break;
                         case 5:
-                            func_0203ecf0();
+                            FinishRemainingWiFiRaceKarts();
                             break;
                         default:
                             FinishRemainingRaceProgressKarts();
@@ -351,7 +351,7 @@ void UpdateRaceProgress(void) {
         for (i = 0; i < 8; i = (u16) (i + 1)) {
             gRaceProgress->mKartAtRank[i] = -1;
         }
-        func_0203d078();
+        UpdateBattleKartStatuses();
         if (ShouldFinishBattle() != 0) {
             FinishRaceProgress();
         }

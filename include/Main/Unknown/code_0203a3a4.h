@@ -4,23 +4,23 @@
 
 typedef struct SceneNumbers SceneNumbers;
 
-unsigned int func_0203a3a4(void);
+unsigned int RaceSceneGetCurrentCourseId(void);
 void SetNextRaceKind(unsigned int raceKind);
-u32 func_0203a3cc(u32 slotIndex);
+u32 RaceSceneIsSlotPairNew(u32 slotIndex);
 unsigned int IsCameraChainEnded(void);
-u32 func_0203a440(u32 slotIndex);
-u32 func_0203a48c(u32 index);
+u32 RaceSceneSlotHasPairOrLost(u32 slotIndex);
+u32 StartRaceSceneSound(u32 index);
 u16 GetDownBits(u32 slotIndex, u32 mask);
-unsigned int func_0203a4cc(void);
-void func_0203a4d4(u32 a);
+unsigned int GetRaceSceneInputSlot(void);
+void SetDemoEndedByInput(u32 endedByInput);
 unsigned int GetCurrentRaceKind(void);
 void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue);
-void func_0203a8e0(unsigned int pickedValue);
-unsigned int func_0203a8f4(void);
+void SetPickedValue(unsigned int pickedValue);
+unsigned int RaceSceneGetCurrentMode(void);
 u32 ShouldEndStaffRoll(u32 sceneFrames);
 u32 ShouldEndAwardRace(u32 sceneFrames);
-void func_0203aaa8(void);
-void func_0203aacc(void);
+void AdvanceDispCapAndUploadRaceHud(void);
+void ReleaseRaceScene(void);
 // Slot mInit of the Race scene; not the whole preparation (RunRaceScene and RunScene's prologue run
 // before it). Calls in order: CreateOverlayExpHeap (creates the heap that FreeOverlayExpHeap destroys),
 // StopWvrAndWait (kinds 3 and 5) or ClearLcdcBankAndStartWvrAndWait + func_02053e74, Init3dEngine, InitDispCap,

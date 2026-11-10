@@ -6,10 +6,10 @@
 #include "Main/Unknown/code_02116a4c.h"
 
 BOOL IsDateEarlier(const DateBytes *firstDate, const DateBytes *secondDate);
-void func_0203b0f8(void *heap);
-void func_0203b194(void *heap);
-void func_0203b1c8(void *heap);
-void func_0203b1fc(void *heap);
+void InitWLMenuResetRaceSetup(void *heap);
+void InitWLMenuRequestMPState21(void *heap);
+void InitWLMenuRequestMPState18(void *heap);
+void InitWLMenuRequestMPState16(void *heap);
 u32 TrySetMissionRecord(void);
 BOOL TrySetGrandPrixRecord(void);
 BOOL ShouldSetGrandPrixRecord(TimeRecord *storedRecord, TimeRecord *newRecord);

@@ -155,43 +155,43 @@ u32 TrySetMissionRecord(void) {
     return stored;
 }
 
-void func_0203b1fc(void *heap) {
+void InitWLMenuRequestMPState16(void *heap) {
     if (gBootInfo->mUnk_00 == 2) {
         InitBlockEntries(heap, 1);
     }
     RequestMPState16ForNextRace();
 }
 
-void func_0203b1c8(void *heap) {
+void InitWLMenuRequestMPState18(void *heap) {
     if (gBootInfo->mUnk_00 == 2) {
         InitBlockEntries(heap, 1);
     }
     RequestMPState18();
 }
 
-void func_0203b194(void *heap) {
+void InitWLMenuRequestMPState21(void *heap) {
     if (gBootInfo->mUnk_00 == 2) {
         InitBlockEntries(heap, 1);
     }
     RequestMPState21();
 }
 
-void func_0203b0f8(void *heap) {
+void InitWLMenuResetRaceSetup(void *heap) {
     void *bannerFile = NULL;
-    s32 t;
-    u32 f;
+    s32 connectionKind;
+    u32 kindIsOneOrTwo;
     if (gBootInfo->mUnk_00 == 2) {
         InitBlockEntries(heap, 1);
     } else {
         bannerFile = FindSceneFile(data_usa_0216478c);
     }
-    t = data_021759d0->mConnectionKind;
-    f = 1;
-    if (t != 1 && t != 2) {
-        f = 0;
+    connectionKind = data_021759d0->mConnectionKind;
+    kindIsOneOrTwo = 1;
+    if (connectionKind != 1 && connectionKind != 2) {
+        kindIsOneOrTwo = 0;
     }
-    if (f != 0) {
-        func_0204e928(heap, t == 1, bannerFile);
+    if (kindIsOneOrTwo != 0) {
+        func_0204e928(heap, connectionKind == 1, bannerFile);
         InitMPChunkBuffers(heap);
     }
     ResetRaceSetup();

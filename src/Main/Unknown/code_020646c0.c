@@ -4,7 +4,7 @@
 
 void func_020646c0(Kart *kart) {
     if (IsMissionRunWithKind2Shapes() != 0) {
-        func_0203c1a8(&kart->mPos, kart->mIndex);
+        FinishKartInCourseMapKind2Shape(&kart->mPos, kart->mIndex);
     }
     AdvanceKartMotion(kart);
 }

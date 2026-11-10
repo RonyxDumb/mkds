@@ -83,7 +83,7 @@ void func_0204ad44(void) {
     }
     data_021759d0->mConnectionKind = 0;
     data_021759d0->mUnk_28 = -1;
-    data_021759d0->mUnk_44 = -1;
+    data_021759d0->mPickedValue = -1;
     data_021759d0->mSoundSetSeqPlaying = 0;
     data_021759d0->mSoundSetPlayerInitialized = 0;
     data_021759d0->mUnk_58 = 0;
@@ -91,7 +91,7 @@ void func_0204ad44(void) {
     NNS_G3dGeUseFastDma(0);
     data_021759d0->mUnk_1c_3 = 0;
     data_021759d0->mUnk_54 = FALSE;
-    data_021759d0->mUnk_50 = 0;
+    data_021759d0->mDemoEndedByInput = 0;
     if (gBootInfo->mUnk_00 == 2) {
         data_021759d0->mMultiSimple = 1;
     } else {

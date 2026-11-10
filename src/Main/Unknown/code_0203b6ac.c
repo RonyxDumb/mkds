@@ -15,7 +15,7 @@
 
 #pragma thumb on
 
-BOOL func_0203b96c(s32 cupIndex) {
+BOOL IsCupAlwaysOrSecretMessageFlagSet(s32 cupIndex) {
     if (cupIndex == 9) {
         return FALSE;
     }
@@ -53,7 +53,7 @@ BOOL func_0203b96c(s32 cupIndex) {
     return FALSE;
 }
 
-u32 func_0203b8e4(RandomState64 *random) {
+u32 PickRandomCupIndex(RandomState64 *random) {
     u8 passingCupCount;
     u8 cupIndex;
     u16 seenCount;
@@ -63,7 +63,7 @@ u32 func_0203b8e4(RandomState64 *random) {
     passingCupCount = 0;
     seenCount = 0;
     for (cupIndex = 0; cupIndex < 8; cupIndex++) {
-        if (func_0203b96c(cupIndex) != FALSE) {
+        if (IsCupAlwaysOrSecretMessageFlagSet(cupIndex) != FALSE) {
             passingCupCount++;
         }
     }
@@ -79,7 +79,7 @@ u32 func_0203b8e4(RandomState64 *random) {
     }
     pickedPosition = randomPosition;
     for (cupIndex = 0; cupIndex < 8; cupIndex++) {
-        if (func_0203b96c(cupIndex) != FALSE) {
+        if (IsCupAlwaysOrSecretMessageFlagSet(cupIndex) != FALSE) {
             seenCount++;
             if (seenCount > pickedPosition) {
                 break;
@@ -126,7 +126,7 @@ void SetNextDemoRace(CharacterKartPicks *picks) {
     gRaceSetup->mNextHeader.mCpuDifficulty = 2;
     random.mValue = _ll_mul(random.mMultiplier, random.mValue) + random.mIncrement;
     courseIndexInCup = (u64) (u32) (random.mValue >> 32) * 4 >> 32;
-    cupIndex = func_0203b8e4(&random);
+    cupIndex = PickRandomCupIndex(&random);
     gRaceSetup->mNextHeader.mCourseId = gCupCourseIdTable[cupIndex][courseIndexInCup];
     random.mValue = _ll_mul(random.mMultiplier, random.mValue) + random.mIncrement;
     followedKartIndex = (u64) (u32) (random.mValue >> 32) * 8 >> 32;

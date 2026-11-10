@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_0203f280.h"
 #include "Main/Unknown/code_020f36d8.h"
 
-u32 func_0203f2a0(void) {
+u32 RaceProgressGetCurrentRuleKind(void) {
     return (gRaceSetup->mRuleKind);
 }
 

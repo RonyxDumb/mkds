@@ -30,16 +30,16 @@
 #include "Main/Unknown/code_0204ad44.h"
 #include "Main/Unknown/code_0204b714.h"
 
-void func_02039cbc(void) {
+void InitAfterStartup(void) {
     void *backHeap;
     void *firstFrontHeap;
     void *secondFrontHeap;
     void *thirdFrontHeap;
     void *soundBuffer;
     u32 soundBufferSize;
-    soundBufferSize = func_02039e08(GetHeap(GetCurrentHeapCall()), &backHeap, &soundBuffer, &firstFrontHeap,
-                                    &secondFrontHeap, &thirdFrontHeap);
-    CARD_SetPulledOutCallback(func_02039e00);
+    soundBufferSize = CreateFrmHeapsAndAllocSoundBuffer(GetHeap(GetCurrentHeapCall()), &backHeap, &soundBuffer,
+                                                        &firstFrontHeap, &secondFrontHeap, &thirdFrontHeap);
+    CARD_SetPulledOutCallback(ReturnTerminateForPulledOut);
     CreateRunScenesState(backHeap);
     InitSceneRunState(backHeap);
     InitArchiveSlots(backHeap);

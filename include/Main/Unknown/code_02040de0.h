@@ -37,7 +37,7 @@ PointLink *FindCourseMapKind4ShapeBattlePointLink(Vec3 *pos);
 // Returns the element of mRacePointLinks given by mPointIndex of the first mKind 4 shape that contains position a, or
 // NULL; NULL at once when the course has no kind 4 shapes.
 void *FindCourseMapKind4ShapeRacePointLink(Vec3 *pos);
-s32 func_0204176c(Vec3 *pos, s32 *outFlag);
+s32 IsPosInCourseMapKind2Shape(Vec3 *pos, s32 *outFlag);
 s32 IsPosInCourseMapShape(Vec3 *pos, CourseMapShape *shape);
 BOOL IsPosInCourseMapShapeBox(Vec3 *pos, CourseMapShape *shape);
 void GetCourseMapKartStartPlacement(Vec3 *outPos, Vec3 *outRotation, s32 kartIndex);

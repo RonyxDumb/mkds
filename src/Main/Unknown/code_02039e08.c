@@ -47,13 +47,13 @@ void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
     if (func_02049b6c() == 0) {
         if (func_0204359c() == 0) {
             if (sceneNumbers != NULL) {
-                if (func_0203a8f4() == 5) {
+                if (RaceSceneGetCurrentMode() == 5) {
                     c = GetWiFiRaceSyncPickedValue();
                 } else {
                     c = GetChoisesSPickedValue();
                 }
                 if (c != 0) {
-                    func_0203a8e0(c);
+                    SetPickedValue(c);
                     SetNextSceneFromPickedValue(sceneNumbers, c);
                 }
                 switch (GetCurrentRaceKind()) {
@@ -62,18 +62,18 @@ void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
                         if (sceneFrames > GetDemoRaceFrameLimit()) {
                             if (IsSeqVariableChanged(1) != 0) {
                                 c = 1;
-                                func_0203a4d4(0);
+                                SetDemoEndedByInput(0);
                             }
                         }
                         if (c == 0) {
-                            if (GetDownBits(func_0203a4cc(), 0x2fff) != 0) {
+                            if (GetDownBits(GetRaceSceneInputSlot(), 0x2fff) != 0) {
                                 c = 1;
-                                func_0203a48c(5);
-                                func_0203a4d4(1);
-                            } else if (func_0203a440(func_0203a4cc()) != 0) {
+                                StartRaceSceneSound(5);
+                                SetDemoEndedByInput(1);
+                            } else if (RaceSceneSlotHasPairOrLost(GetRaceSceneInputSlot()) != 0) {
                                 c = 1;
-                                func_0203a48c(5);
-                                func_0203a4d4(1);
+                                StartRaceSceneSound(5);
+                                SetDemoEndedByInput(1);
                             }
                         }
                         if (c != 0) {
@@ -83,17 +83,17 @@ void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
                     case RACE_KIND_START_GP:
                     case 4:
                         if (IsCameraChainEnded() != 0 ||
-                            (sceneFrames > 0x5a &&
-                             (GetDownBits(func_0203a4cc(), 0xc0f) != 0 || func_0203a3cc(func_0203a4cc()) != 0))) {
+                            (sceneFrames > 0x5a && (GetDownBits(GetRaceSceneInputSlot(), 0xc0f) != 0 ||
+                                                    RaceSceneIsSlotPairNew(GetRaceSceneInputSlot()) != 0))) {
                             sceneNumbers->mNextScene = 2;
                             SetNextRaceKind(0);
                         }
                         break;
                     case RACE_KIND_REPLAY:
-                        switch (func_0203a8f4()) {
+                        switch (RaceSceneGetCurrentMode()) {
                             case MODE_GRAND_PRIX:
                             case MODE_TIME_ATTACK:
-                                if (func_0203c0bc() != 0) {
+                                if (ShouldEndReplayRace() != 0) {
                                     sceneNumbers->mNextScene = 2;
                                 }
                                 break;
@@ -106,7 +106,7 @@ void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
                         break;
                     case RACE_KIND_STAFF_ROLL:
                         c = 0x2a5a;
-                        if (func_0203a3a4() == COURSE_ID_STAFFROLLTRUE) {
+                        if (RaceSceneGetCurrentCourseId() == COURSE_ID_STAFFROLLTRUE) {
                             c = 0x2b02;
                         }
                         if (sceneFrames > c) {
@@ -207,7 +207,7 @@ void InitMenuScene(void) {
 
 void ReleaseMenuScene(void) {
     ReleaseMenu();
-    data_021759d0->mUnk_50 &= ~1;
+    data_021759d0->mDemoEndedByInput &= ~1;
     ResetTimeAttackNextEntries();
 }
 
@@ -226,8 +226,8 @@ u32 RunMenuScene(SceneNumbers *sceneNumbers) {
     return 0;
 }
 
-u32 func_02039e08(NNSiFndHeapHead *heap, void **outBackHeap, void **outSoundBuffer, void **outFirstFrontHeap,
-                  void **outSecondFrontHeap, void **outThirdFrontHeap) {
+u32 CreateFrmHeapsAndAllocSoundBuffer(NNSiFndHeapHead *heap, void **outBackHeap, void **outSoundBuffer,
+                                      void **outFirstFrontHeap, void **outSecondFrontHeap, void **outThirdFrontHeap) {
     u32 soundBufferSize;
     if (gBootInfo->mUnk_00 == 2) {
         *outBackHeap = CreateFrmHeapFromBack(heap, 0x19000);

@@ -146,7 +146,7 @@ typedef struct GhostRecordHead {
         u32 mUnk_08;
         struct {
             u32 mFilled : 1;
-            u32 mUnk_08_1 : 1;
+            u32 mHasEmblem : 1;
             u32 mUnk_08_2 : 2;
             u32 mUnk_08_4 : 4;
             u32 mMinute : 7;
@@ -173,14 +173,14 @@ typedef struct GhostListEntry {
 // The 0xe00 bytes behind member 0x14 of Unk0217aa08.
 typedef struct GhostRecord {
     /* 000 */ GhostRecordHead mHead;
-    /* 030 */ u8 mUnk_030[0xdd0];
+    /* 030 */ u8 mKeyRecordingBuffer[0xdd0];
 } GhostRecord;
 
 // The 0x1000 bytes behind members 0x18 and 0x1c of Unk0217aa08.
 typedef struct SlotGhostRecord {
     /* 000 */ GhostRecordHead mHead;
     /* 030 */ u8 mEmblem[0x200];
-    /* 230 */ u8 mUnk_230[0xdcc];
+    /* 230 */ u8 mKeyRecordingBuffer[0xdcc];
 } SlotGhostRecord;
 
 // One buddy: counts per kind of match, the date of the last result, the name and four flags; 60 entries from 0x04 of

@@ -85,7 +85,7 @@ void FillAndWriteCourseGhostRecord(s32 courseId, u16 entryIndex) {
     tempValue = gRaceSetup->mCourseId;
     ghostRecord->mHead.mCourseId = (u8) tempValue;
     ghostRecord->mHead.mFilled = 1;
-    ghostRecord->mHead.mUnk_08_1 = 0;
+    ghostRecord->mHead.mHasEmblem = 0;
     ghostRecord->mHead.mUnk_08_2 = data_021759d0->mRegion;
     ghostRecord->mHead.mUnk_08_4 = 0;
     ghostRecord->mHead.mUnk_2f_0 = func_02056208();
@@ -94,7 +94,7 @@ void FillAndWriteCourseGhostRecord(s32 courseId, u16 entryIndex) {
     ghostRecord->mHead.mSecond = kartTime.mSecond;
     ghostRecord->mHead.mMillisecond = kartTime.mMillisecond;
     MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, ghostRecord->mHead.mName, 0x14);
-    MI_CpuCopy8(gInputSlots[playerIndex].mUnk_28.mBuffer, ghostRecord->mUnk_030, 0xdcc);
+    MI_CpuCopy8(gInputSlots[playerIndex].mUnk_28.mBuffer, ghostRecord->mKeyRecordingBuffer, 0xdcc);
     MI_CpuFill8(lapBytes, 0, 0xf);
     for (lapNumber = 1; lapNumber <= GetLapCount(); lapNumber++) {
         byteOffset = (lapNumber - 1) * 3;

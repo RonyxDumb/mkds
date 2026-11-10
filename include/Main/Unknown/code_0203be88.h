@@ -16,16 +16,16 @@ void SetGivenKart(CharacterKartPicks *picks, u32 entryIndex, u32 kartIndex);
 void SetGivenCharacter(CharacterKartPicks *picks, u32 entryIndex, u32 characterIndex);
 void InitCharacterKartPicks(CharacterKartPicks *picks);
 CharacterKartPicks *CreateCharacterKartPicks(void *heap);
-void func_0203bf04(GhostRecord *courseGhost, SlotGhostRecord *slotGhost);
+void CopyCourseGhostToSlotGhost(GhostRecord *courseGhost, SlotGhostRecord *slotGhost);
 void GetClockTimeOrZero(RTCTime *time);
 void GetClockDateOrDefault(s32 *date);
 // Scene function of gSceneFuncs[0] (scene 'Title' in gSceneNames): copies the callbacks and calls
 // RunScene. Returns 0.
 u32 RunTitleScene(SceneNumbers *sceneNumbers);
 void UpdateTitleScene(s32 a);
-void func_0203c07c(void);
+void WriteTitleSceneRegistersCallback(void);
 void ReleaseTitleScene(void);
 void InitTitleScene(void);
-u32 func_0203c0bc(void);
+u32 ShouldEndReplayRace(void);
 BOOL IsFramesSinceFinishPastWait(void);
-void func_0203c1a8(Vec3 *position, u32 kartIndex);
+void FinishKartInCourseMapKind2Shape(Vec3 *position, u32 kartIndex);

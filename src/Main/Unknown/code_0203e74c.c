@@ -60,8 +60,8 @@ s32 IsRaceEndConditionMet(void) {
             endConditionMet = TRUE;
             raceProgress = gRaceProgress;
             if (raceProgress->mUnk_00_header.mFinishedCount <
-                (s32) func_0203f320() - (raceProgress->mUnk_00_header.mRemovedCount + 1)) {
-                for (kartIndex = 0; kartIndex < func_0203f320(); kartIndex++) {
+                (s32) RaceProgressGetCurrentKartCount() - (raceProgress->mUnk_00_header.mRemovedCount + 1)) {
+                for (kartIndex = 0; kartIndex < RaceProgressGetCurrentKartCount(); kartIndex++) {
                     if (IsKartNonCpu(kartIndex) != FALSE && IsKartEnded(kartIndex) == 0) {
                         if (IsRaceProgressKartRemoved(kartIndex) == FALSE) {
                             endConditionMet = FALSE;
@@ -70,7 +70,7 @@ s32 IsRaceEndConditionMet(void) {
                     }
                 }
             }
-            if (endConditionMet == FALSE && func_0203f2a0() == 1) {
+            if (endConditionMet == FALSE && RaceProgressGetCurrentRuleKind() == 1) {
                 if (IsKartEnded(GetLeadingKart()) != 0) {
                     endConditionMet = TRUE;
                 }
@@ -186,17 +186,17 @@ void FinishRemainingRaceProgressKarts(void) {
     gRaceProgress->mUnk_00_header.mFinishedCount = gRaceSetup->mKartCount;
 }
 
-void func_0203ecf0(void) {
+void FinishRemainingWiFiRaceKarts(void) {
     u16 kartIndex;
     RaceProgressKart *raceProgressKart;
     s32 status;
     BOOL ended;
     BOOL u;
-    BOOL v;
+    BOOL finished;
     MinuteSecondMillisecondTime *finishTime;
     u32 frames;
     u = FALSE;
-    v = FALSE;
+    finished = FALSE;
     for (kartIndex = 0; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
         status = gRaceProgress->mKarts[kartIndex].mStatus;
         ended = FALSE;
@@ -223,7 +223,7 @@ void func_0203ecf0(void) {
             }
             ComputeRaceTime(&finishTime->mMinute, &finishTime->mSecond, &finishTime->mMillisecond, u, frames);
             func_0205ae8c(kartIndex);
-            FinishRaceProgressKart(raceProgressKart, v);
+            FinishRaceProgressKart(raceProgressKart, finished);
         }
     }
     gRaceProgress->mUnk_00_header.mFinishedCount = gRaceSetup->mKartCount;
@@ -398,7 +398,7 @@ void FinishRaceProgressKartWithEndKind(s32 kartIndex, s32 endKind) {
             FinishRemainingMissionRunKarts();
             return;
         case 5:
-            func_0203ecf0();
+            FinishRemainingWiFiRaceKarts();
             return;
         default:
             FinishRemainingRaceProgressKarts();

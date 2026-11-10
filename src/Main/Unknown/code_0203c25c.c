@@ -84,7 +84,7 @@ void RemoveRaceProgressKart(u16 a) {
                 FinishRemainingMissionRunKarts();
                 break;
             case 5:
-                func_0203ecf0();
+                FinishRemainingWiFiRaceKarts();
                 break;
             default:
                 FinishRemainingRaceProgressKarts();

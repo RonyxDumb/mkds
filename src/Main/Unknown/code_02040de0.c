@@ -173,15 +173,14 @@ s32 IsPosInCourseMapShape(Vec3 *pos, CourseMapShape *shape) {
                 x = VEC_DotProduct(&offset, &shape->mAxisX) >> 4;
                 y = VEC_DotProduct(&offset, &shape->mAxisZ) >> 4;
                 radius = MUL_FIXED12_ROUNDED(shape->mScale.x, 0x32000) >> 4;
-                inside = MUL_FIXED12_ROUNDED(radius, radius) >=
-                         MUL_FIXED12_ROUNDED(x, x) + MUL_FIXED12_ROUNDED(y, y);
+                inside = MUL_FIXED12_ROUNDED(radius, radius) >= MUL_FIXED12_ROUNDED(x, x) + MUL_FIXED12_ROUNDED(y, y);
             }
             break;
     }
     return inside;
 }
 
-s32 func_0204176c(Vec3 *pos, s32 *outFlag) {
+s32 IsPosInCourseMapKind2Shape(Vec3 *pos, s32 *outFlag) {
     u16 shapeIndex;
     CourseMapShape *shape;
     Vec3 offset;
@@ -201,8 +200,7 @@ s32 func_0204176c(Vec3 *pos, s32 *outFlag) {
                     break;
                 case 1:
                     VEC_Subtract(pos, &shape->mPos, &offset);
-                    if (VEC_DotProduct(&offset, &shape->mAxisY) <=
-                        MUL_FIXED12_ROUNDED(shape->mScale.y, 0x32000)) {
+                    if (VEC_DotProduct(&offset, &shape->mAxisY) <= MUL_FIXED12_ROUNDED(shape->mScale.y, 0x32000)) {
                         x = VEC_DotProduct(&offset, &shape->mAxisX) >> 4;
                         y = VEC_DotProduct(&offset, &shape->mAxisZ) >> 4;
                         radius = MUL_FIXED12_ROUNDED(shape->mScale.x, 0x32000) >> 4;
@@ -250,8 +248,7 @@ void *FindCourseMapKind4ShapeRacePointLink(Vec3 *pos) {
                     break;
                 case 1:
                     VEC_Subtract(pos, &shape->mPos, &offset);
-                    if (VEC_DotProduct(&offset, &shape->mAxisY) <=
-                        MUL_FIXED12_ROUNDED(shape->mScale.y, 0x32000)) {
+                    if (VEC_DotProduct(&offset, &shape->mAxisY) <= MUL_FIXED12_ROUNDED(shape->mScale.y, 0x32000)) {
                         x = VEC_DotProduct(&offset, &shape->mAxisX) >> 4;
                         y = VEC_DotProduct(&offset, &shape->mAxisZ) >> 4;
                         radius = MUL_FIXED12_ROUNDED(shape->mScale.x, 0x32000) >> 4;
@@ -294,8 +291,7 @@ PointLink *FindCourseMapKind4ShapeBattlePointLink(Vec3 *pos) {
                     break;
                 case 1:
                     VEC_Subtract(pos, &shape->mPos, &offset);
-                    if (VEC_DotProduct(&offset, &shape->mAxisY) <=
-                        MUL_FIXED12_ROUNDED(shape->mScale.y, 0x32000)) {
+                    if (VEC_DotProduct(&offset, &shape->mAxisY) <= MUL_FIXED12_ROUNDED(shape->mScale.y, 0x32000)) {
                         x = VEC_DotProduct(&offset, &shape->mAxisX) >> 4;
                         y = VEC_DotProduct(&offset, &shape->mAxisZ) >> 4;
                         radius = MUL_FIXED12_ROUNDED(shape->mScale.x, 0x32000) >> 4;
@@ -479,8 +475,7 @@ s32 IsKartInCourseMapKind3ShapeList(s32 kartIndex, u32 listIndex) {
                     x = VEC_DotProduct(&offset, &shape->mAxisX) >> 4;
                     y = VEC_DotProduct(&offset, &shape->mAxisZ) >> 4;
                     radius = MUL_FIXED12_ROUNDED(shape->mScale.x, 0x32000) >> 4;
-                    if (MUL_FIXED12_ROUNDED(radius, radius) >=
-                        MUL_FIXED12_ROUNDED(x, x) + MUL_FIXED12_ROUNDED(y, y)) {
+                    if (MUL_FIXED12_ROUNDED(radius, radius) >= MUL_FIXED12_ROUNDED(x, x) + MUL_FIXED12_ROUNDED(y, y)) {
                         inside = 1;
                     }
                 }

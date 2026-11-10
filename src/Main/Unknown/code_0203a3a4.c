@@ -188,8 +188,9 @@ void InitRaceScene(void) {
     }
 }
 
-void func_0203aacc(void) {
-    RaceSetup *p;
+// In the staff roll it also sets a backup flag once and writes the save block.
+void ReleaseRaceScene(void) {
+    RaceSetup *raceSetup;
     WiFiSession *session;
     s32 flagIndex;
     BOOL sessionHeapCreated;
@@ -202,22 +203,22 @@ void func_0203aacc(void) {
             }
         }
         if (sessionHeapCreated != FALSE) {
-            StateMachine *p;
+            StateMachine *stateMachine;
             session->mRaceSyncEnabled = FALSE;
-            p = &gWiFiSession->mStateMachine;
-            p->mNextState = 4;
-            p->mNextStateRequested = 1;
+            stateMachine = &gWiFiSession->mStateMachine;
+            stateMachine->mNextState = 4;
+            stateMachine->mNextStateRequested = 1;
         }
     }
-    p = gRaceSetup;
-    if (p->mRaceKind == RACE_KIND_STAFF_ROLL) {
+    raceSetup = gRaceSetup;
+    if (raceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
         flagIndex = 0x18;
-        if (p->mMode != MODE_GRAND_PRIX) {
-            if (p->mMode == MODE_MISSION_RUN) {
+        if (raceSetup->mMode != MODE_GRAND_PRIX) {
+            if (raceSetup->mMode == MODE_MISSION_RUN) {
                 flagIndex = 0x1a;
             }
         } else {
-            if (p->mCourseId == COURSE_ID_STAFFROLLTRUE) {
+            if (raceSetup->mCourseId == COURSE_ID_STAFFROLLTRUE) {
                 flagIndex = 0x19;
             }
         }
@@ -239,7 +240,7 @@ void func_0203aacc(void) {
     FreeOverlayExpHeap();
 }
 
-void func_0203aaa8(void) {
+void AdvanceDispCapAndUploadRaceHud(void) {
     AdvanceDispCap(GetChoisesSPrevOpenDuringRace());
     func_02062000();
     UploadRaceHud();
@@ -285,12 +286,12 @@ u32 ShouldEndStaffRoll(u32 sceneFrames) {
     return result;
 }
 
-u32 func_0203a8f4(void) {
+u32 RaceSceneGetCurrentMode(void) {
     return (gRaceSetup->mMode);
 }
 
-void func_0203a8e0(u32 pickedValue) {
-    data_021759d0->mUnk_44 = pickedValue;
+void SetPickedValue(u32 pickedValue) {
+    data_021759d0->mPickedValue = pickedValue;
 }
 
 // Turns the value picked on the choice screen into the next scene and the settings that go with it.
@@ -451,15 +452,15 @@ u32 GetCurrentRaceKind(void) {
     return gRaceSetup->mRaceKind;
 }
 
-void func_0203a4d4(u32 a) {
-    if (a != 0) {
-        data_021759d0->mUnk_50 |= 1;
+void SetDemoEndedByInput(u32 endedByInput) {
+    if (endedByInput != 0) {
+        data_021759d0->mDemoEndedByInput |= 1;
     } else {
-        data_021759d0->mUnk_50 &= ~1;
+        data_021759d0->mDemoEndedByInput &= ~1;
     }
 }
 
-u32 func_0203a4cc(void) {
+u32 GetRaceSceneInputSlot(void) {
     return 0x8u;
 }
 
@@ -469,11 +470,11 @@ u16 GetDownBits(u32 slotIndex, u32 mask) {
     return bits & mask;
 }
 
-u32 func_0203a48c(u32 index) {
+u32 StartRaceSceneSound(u32 index) {
     return NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0u, index);
 }
 
-u32 func_0203a440(u32 slotIndex) {
+u32 RaceSceneSlotHasPairOrLost(u32 slotIndex) {
     u32 result;
     u32 briefNoPair;
     u16 hasPair;
@@ -493,7 +494,7 @@ u32 IsCameraChainEnded(void) {
     return gRaceProgress->mCameraChainEnded;
 }
 
-u32 func_0203a3cc(u32 slotIndex) {
+u32 RaceSceneIsSlotPairNew(u32 slotIndex) {
     u32 result;
     u32 briefNoPair;
     result = 0;
@@ -512,6 +513,6 @@ void SetNextRaceKind(u32 raceKind) {
     gRaceSetup->mNextHeader.mRaceKind = raceKind;
 }
 
-u32 func_0203a3a4(void) {
+u32 RaceSceneGetCurrentCourseId(void) {
     return (gRaceSetup->mCourseId);
 }

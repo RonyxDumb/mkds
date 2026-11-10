@@ -5,7 +5,7 @@
 typedef struct RaceProgressKart RaceProgressKart;
 typedef struct RankTimeGp RankTimeGp;
 
-void func_0203d568(void);
+void StopRaceInput(void);
 // In mode 4 also creates the mission object.
 void CreateRaceProgress(void *heap);
 void SetRankTimeFromRankTimeGp(RankTimeGp *rankTimeGp);

@@ -34,12 +34,12 @@
 #include "01/code_0218155c.h"
 #include "Main/Unknown/code_0203e74c.h"
 
-void func_0203c1a8(Vec3 *position, u32 kartIndex) {
-    s32 v;
-    if (func_0204176c(position, &v) == 0) {
+void FinishKartInCourseMapKind2Shape(Vec3 *position, u32 kartIndex) {
+    s32 shapeFlag;
+    if (IsPosInCourseMapKind2Shape(position, &shapeFlag) == 0) {
         return;
     }
-    if (v != 0) {
+    if (shapeFlag != 0) {
         if (gRaceSetup->mMode == MODE_MISSION_RUN) {
             func_ov001_021816fc();
         }
@@ -56,7 +56,7 @@ BOOL IsFramesSinceFinishPastWait(void) {
     return gRaceProgress->mFramesSinceFinish > gRaceSetup->mFinishWaitFrameCount;
 }
 
-u32 func_0203c0bc(void) {
+u32 ShouldEndReplayRace(void) {
     u32 framesSinceEntryEnd;
     s32 entryIndex = gRaceSetup->mEntryIndex;
     if (entryIndex == -1) {
@@ -88,7 +88,7 @@ void ReleaseTitleScene(void) {
     ReleaseTitleSceneObject();
 }
 
-void func_0203c07c(void) {
+void WriteTitleSceneRegistersCallback(void) {
     u32 unused;
     WriteTitleSceneRegisters();
 }
@@ -120,9 +120,9 @@ void GetClockTimeOrZero(RTCTime *time) {
     }
 }
 
-void func_0203bf04(GhostRecord *courseGhost, SlotGhostRecord *slotGhost) {
+void CopyCourseGhostToSlotGhost(GhostRecord *courseGhost, SlotGhostRecord *slotGhost) {
     MI_CpuCopy8(courseGhost, slotGhost, 0x30);
-    MI_CpuCopy8(courseGhost->mUnk_030, slotGhost->mUnk_230, 0xdcc);
+    MI_CpuCopy8(courseGhost->mKeyRecordingBuffer, slotGhost->mKeyRecordingBuffer, 0xdcc);
     if (data_0217aa08->mEmblemRecord->mFilled != 0 && data_0217aa08->mFirstBlock->mUnk_31_3 == 0) {
         MI_CpuCopy8(data_0217aa08->mEmblemRecord->mEmblemData, slotGhost->mEmblem, 0x200);
         slotGhost->mHead.mUnk_08 |= 2;

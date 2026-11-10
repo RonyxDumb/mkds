@@ -13,7 +13,7 @@ void FinishRaceProgressKartWithEndKind(s32 kartIndex, s32 endKind);
 // b is goal reached; b == 0 ends the entry without the goal (status 3). Also tells the input source and the HUD.
 void FinishRaceProgressKart(RaceProgressKart *raceProgressKart, s32 finished);
 void FinishRemainingMissionRunKarts(void);
-void func_0203ecf0(void);
+void FinishRemainingWiFiRaceKarts(void);
 // Finishes every kart that has neither ended nor been removed, without the goal, with its time from the race clock
 // (scaled by its race progress in Grand Prix), and sets the finished count to the kart count; the end handler of the
 // modes without their own.

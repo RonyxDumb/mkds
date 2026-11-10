@@ -48,7 +48,7 @@ void func_02063880(Kart *kart) {
 
 void func_02063830(Kart *kart) {
     if (IsMissionRunWithKind2Shapes() != 0) {
-        func_0203c1a8(&kart->mPos, kart->mIndex);
+        FinishKartInCourseMapKind2Shape(&kart->mPos, kart->mIndex);
     }
     if ((kart->mUnk_4c & 0x1000) != 0) {
         func_0206d138(kart);
@@ -59,7 +59,7 @@ void func_02063830(Kart *kart) {
 
 void func_020637e0(Kart *kart) {
     if (IsMissionRunWithKind2Shapes() != 0) {
-        func_0203c1a8(&kart->mPos, kart->mIndex);
+        FinishKartInCourseMapKind2Shape(&kart->mPos, kart->mIndex);
     }
     if ((kart->mUnk_4c & 0x1000) != 0) {
         func_0206d138(kart);

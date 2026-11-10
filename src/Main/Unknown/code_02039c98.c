@@ -4,7 +4,7 @@
 #include "Main/Unknown/code_0205dc84.h"
 
 u32 InitAndRunScenesForever(void) {
-    func_02039cbc();
+    InitAfterStartup();
     RunScenesForever();
     func_02043ad4();
     return 0;

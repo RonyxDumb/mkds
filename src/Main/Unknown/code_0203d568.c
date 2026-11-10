@@ -431,7 +431,7 @@ void UpdateRaceProgressKarts(void) {
                         FinishRemainingMissionRunKarts();
                         break;
                     case 5:
-                        func_0203ecf0();
+                        FinishRemainingWiFiRaceKarts();
                         break;
                     default:
                         FinishRemainingRaceProgressKarts();
@@ -488,7 +488,7 @@ void CreateRaceProgress(void *heap) {
     InitRaceProgress();
 }
 
-void func_0203d568(void) {
+void StopRaceInput(void) {
     u16 entryIndex;
     enum { K0 } inputSlotIndex;
 

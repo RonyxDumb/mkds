@@ -196,7 +196,7 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
                 case 1:
                     *nameSlot = &data_0217aa08->mSlotGhostRecords[0]->mHead.mName;
                     *emblemDataSlot = &data_0217aa08->mSlotGhostRecords[0]->mEmblem;
-                    *b2 = data_0217aa08->mSlotGhostRecords[0]->mHead.mUnk_08_1;
+                    *b2 = data_0217aa08->mSlotGhostRecords[0]->mHead.mHasEmblem;
                     *b3 = data_0217aa08->mSlotGhostRecords[0]->mHead.mUnk_08_2;
                     *b4 = data_0217aa08->mSlotGhostRecords[0]->mHead.mUnk_2f_0;
                     break;
@@ -256,7 +256,7 @@ BOOL func_02044e9c(s32 courseId, s32 entryIndex) {
         SetNextRaceEntry(entryIndex, ghostRecord->mHead.mCharacterIndex, ghostRecord->mHead.mKartIndex,
                          PLAYER_KIND_GHOST, -1, 3);
         gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = result;
-        MI_CpuCopy8(ghostRecord->mUnk_030, gInputSlots[entryIndex].mUnk_28.mBuffer, 0xdcc);
+        MI_CpuCopy8(ghostRecord->mKeyRecordingBuffer, gInputSlots[entryIndex].mUnk_28.mBuffer, 0xdcc);
         result = TRUE;
         GetGhostFinishTimeByIndex(0, &gRaceSetup->mGhostTime);
         for (i = 1; i <= 5; i++) {
@@ -280,7 +280,7 @@ s32 func_02044d4c(s32 courseId, s32 entryIndex) {
         SetNextRaceEntry(entryIndex, ghostRecord->mHead.mCharacterIndex, ghostRecord->mHead.mKartIndex,
                          PLAYER_KIND_GHOST, -1, 3);
         gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = 1;
-        MI_CpuCopy8(ghostRecord->mUnk_230, gInputSlots[entryIndex].mUnk_28.mBuffer, 0xdcc);
+        MI_CpuCopy8(ghostRecord->mKeyRecordingBuffer, gInputSlots[entryIndex].mUnk_28.mBuffer, 0xdcc);
         GetGhostFinishTimeByIndex(1, &gRaceSetup->mGhostTime);
         for (i = 1; i <= 5; i++) {
             GetGhostLapTimeByIndex(1, i, &gRaceSetup->mGhostLapTimes[i - 1]);
@@ -303,7 +303,7 @@ BOOL func_02044bf8(s32 courseId, s32 entryIndex) {
         SetNextRaceEntry(entryIndex, ghostRecord->mHead.mCharacterIndex, ghostRecord->mHead.mKartIndex,
                          PLAYER_KIND_GHOST, -1, 3);
         gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = 2;
-        MI_CpuCopy8(ghostRecord->mUnk_230, gInputSlots[entryIndex].mUnk_28.mBuffer, 0xdcc);
+        MI_CpuCopy8(ghostRecord->mKeyRecordingBuffer, gInputSlots[entryIndex].mUnk_28.mBuffer, 0xdcc);
         GetGhostFinishTime(&ghostRecord->mHead, &gRaceSetup->mGhostTime);
         for (i = 1; i <= 5; i++) {
             GetGhostLapTime(&ghostRecord->mHead, i, &gRaceSetup->mGhostLapTimes[i - 1]);

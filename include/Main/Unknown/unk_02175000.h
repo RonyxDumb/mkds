@@ -32,10 +32,10 @@ typedef struct Unk021759d0 {
     /* 3e */ u16 mOwnerCharCount;
     /* 40 */ u8 mUnk_40;
     /* 41 */ u8 mUnk_41[0x3];
-    /* 44 */ s32 mUnk_44;
+    /* 44 */ s32 mPickedValue;
     /* 48 */ u32 mFirstBackLightOn;
     /* 4c */ u32 mSecondBackLightOn;
-    /* 50 */ u16 mUnk_50;
+    /* 50 */ u16 mDemoEndedByInput;
     /* 52 */ u8 mUnk_52[0x2];
     /* 54 */ BOOL mUnk_54;
     /* 58 */ s32 mUnk_58;

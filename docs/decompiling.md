@@ -324,7 +324,7 @@ Reused variables and own locals:
 - A value the original forms itself is not a named local: `while (*(vu8 *) &d->mUnk_1b80 != 2) {}` instead of
   `q = &d->mUnk_1b80; while (*q != 2) {}` (func_ov003_021ce848).
 - Where the original gives a local its register only after a shared expression, drop the local and write the
-  expression at each use (func_0203a3cc). It works only where nothing between the uses can write the memory.
+  expression at each use (RaceSceneIsSlotPairNew). It works only where nothing between the uses can write the memory.
 - `sz = x + 32; sz = (sz + 31) & ~31;` and `(x + 32 + 31) & ~31` give different registers, and the one expression
   folds to `+ 63`. A signed cast stops the fold: `((s32) (x + 32) + 31) & ~31` (func_02003e24).
 - A narrow value passed to a wider parameter can take the conversion's register whatever its declaration order. Fix

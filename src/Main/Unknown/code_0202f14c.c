@@ -69,20 +69,20 @@ void InitWLMenuScene(void *heap) {
     switch (GetWLMenuKind()) {
         case 0:
             gWLMenuScene->mRequestedCallbacksIndex = func_0202f19c() != 0 ? 4 : 0;
-            func_0203b0f8(heap);
+            InitWLMenuResetRaceSetup(heap);
             func_02053d00();
             break;
         case 1:
             gWLMenuScene->mRequestedCallbacksIndex = 5;
-            func_0203b1fc(heap);
+            InitWLMenuRequestMPState16(heap);
             break;
         case 2:
             gWLMenuScene->mRequestedCallbacksIndex = 6;
-            func_0203b1c8(heap);
+            InitWLMenuRequestMPState18(heap);
             break;
         case 3:
             gWLMenuScene->mRequestedCallbacksIndex = 7;
-            func_0203b194(heap);
+            InitWLMenuRequestMPState21(heap);
             break;
     }
     gWLMenuScene->mCurrentCallbacksIndex = gWLMenuScene->mRequestedCallbacksIndex;

@@ -392,7 +392,7 @@ BOOL GetTimeRecordName(s32 courseId, s32 recordIndex, void *nameOut) {
 }
 
 s32 func_020600b4(s32 courseId) {
-    return func_0203b96c(FindCupIndexOfCourse(courseId));
+    return IsCupAlwaysOrSecretMessageFlagSet(FindCupIndexOfCourse(courseId));
 }
 
 void ClearCourseTimeRecords(s32 courseId) {
