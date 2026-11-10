@@ -12,13 +12,13 @@ static inline u8 *func_0214d1fc_inline(const void *v1, u8 *v2, u32 n) {
     return v2 + n;
 }
 
-u32 BuildChildPacket(u8 *buffer, s32 bufferSize) {
+u32 WBT_MpChildSendHook(u8 *buffer, s32 bufferSize) {
     if (bufferSize > 0 && buffer != NULL) {
         BuildChildPacketUnchecked(buffer, bufferSize);
     }
 }
 
-void ReceiveParentPacketChecked(const u8 *packet, u32 size) {
+void WBT_MpChildRecvHook(const u8 *packet, u32 size) {
     if (packet != NULL && size != 0 && size != 0xffff) {
         ReceiveParentPacket(packet, size);
     }
@@ -230,7 +230,7 @@ s32 WriteBytesReplyPacket(u8 *buffer, u16 indexMask, u8 requestId) {
 
 // Picks the chunk to send next: skips the last two indexes sent for this block; -1 for an unknown id.
 s32 PickSendChunkIndex(u32 blockId, s32 chunkIndex) {
-    BlockListNode *node;
+    WBTBlockInfoList *node;
     s32 i;
     node = GetBlockListHead();
     if (blockId < 1000) {
@@ -242,7 +242,8 @@ s32 PickSendChunkIndex(u32 blockId, s32 chunkIndex) {
                 i = 0;
                 while (chunkIndex == gLastSentChunkIndex || chunkIndex == gPrevSentChunkIndex) {
                     chunkIndex++;
-                    if (chunkIndex > (node->mSize + (s32) GetSendChunkSize() - 1) / (s32) GetSendChunkSize() - 1) {
+                    if (chunkIndex >
+                        (node->mBlockSize + (s32) WBT_GetOwnPacketLength() - 1) / (s32) WBT_GetOwnPacketLength() - 1) {
                         chunkIndex = 0;
                     }
                     i++;
@@ -261,8 +262,8 @@ s32 PickSendChunkIndex(u32 blockId, s32 chunkIndex) {
 }
 
 // Address of one chunk; ids under 1000 count positions in the block list, higher ids are block ids.
-u32 GetBlockChunkAddress(u32 blockIdOrPosition, u32 chunkIndex) {
-    BlockListNode *v1;
+u32 WBTi_GetPacketBuffer(u32 blockIdOrPosition, u32 chunkIndex) {
+    WBTBlockInfoList *v1;
     u32 i;
     v1 = GetBlockListHead();
     if (blockIdOrPosition < 1000) {
@@ -271,36 +272,36 @@ u32 GetBlockChunkAddress(u32 blockIdOrPosition, u32 chunkIndex) {
                 break;
             }
             if (i == blockIdOrPosition) {
-                return (u32) v1 + chunkIndex * GetSendChunkSize();
+                return (u32) v1 + chunkIndex * WBT_GetOwnPacketLength();
             }
         }
         return 0;
     }
     for (; v1 != NULL; v1 = v1->mNext) {
         if (v1->mId == blockIdOrPosition) {
-            v1 = (BlockListNode *) v1->mData;
-            return (u32) v1 + chunkIndex * GetSendChunkSize();
+            v1 = (WBTBlockInfoList *) v1->mDataPtr;
+            return (u32) v1 + chunkIndex * WBT_GetOwnPacketLength();
         }
     }
     return 0;
 }
 
-void SetupChunkReceiveState(ChunkReceiveState *state, s32 size, void *chunkBitmap, u32 buffer) {
+void WBTi_InitBitmap(WBTPacketBitmap *state, s32 size, void *chunkBitmap, u32 buffer) {
     s32 chunkSize;
-    chunkSize = GetReceiveChunkSize();
-    state->mSize = size;
+    chunkSize = WBT_GetPeerPacketLength();
+    state->mLength = size;
     state->mPickedChunkIndex = 0;
-    state->mLastReceivedChunkIndex = 0;
-    state->mReceivedChunkCount = 0;
-    state->mChunkCount = size / chunkSize + ((size % chunkSize) != 0 ? 1 : 0);
-    state->mChunkBitmap = chunkBitmap;
+    state->mCurrent = 0;
+    state->mCount = 0;
+    state->mTotal = size / chunkSize + ((size % chunkSize) != 0 ? 1 : 0);
+    state->mBitmap = chunkBitmap;
     state->mBuffer = (u8 *) buffer;
-    MI_CpuFill8(chunkBitmap, 0, GetChunkBitmapSize(size));
+    MI_CpuFill8(chunkBitmap, 0, WBT_CalcPacketbitmapSize(size));
 }
 
-BOOL IsChunkReceived(ChunkReceiveState *state, s32 chunkIndex) {
+BOOL IsChunkReceived(WBTPacketBitmap *state, s32 chunkIndex) {
     u32 bitmapWord;
-    bitmapWord = state->mChunkBitmap[chunkIndex >> 5];
+    bitmapWord = state->mBitmap[chunkIndex >> 5];
     if ((bitmapWord & (1 << (chunkIndex & 0x1f))) != 0) {
         return TRUE;
     }

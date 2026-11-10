@@ -31,7 +31,7 @@ typedef struct RomArchiveChildView {
 // gRomArchiveTransfer.
 typedef struct RomArchiveFileNode {
     /* 000 */ struct RomArchiveFileNode *mNext;
-    /* 004 */ BlockListNode mBlockNode;
+    /* 004 */ WBTBlockInfoList mBlockNode;
     /* 038 */ FSFile mFile;
     /* 080 */ s32 mState;
     /* 084 */ s32 mChildCount;
@@ -80,8 +80,8 @@ void StartRomArchiveParent(u32 port, void (*stateCallback)(s32 port),
                            u32 parentPacketSize, FSFile *file, s32 appendOverlays);
 void InitRomArchive(u32 port, void (*stateCallback)(s32 port),
                     void *(*allocFunc)(s32 port, u32 stateCallback, void *allocFunc), u32 allocFuncArg);
-void RomArchiveChildCallback(BlockTransferRecord *record);
-void RomArchiveParentCallback(BlockTransferRecord *record);
+void RomArchiveChildCallback(WBTCommand *record);
+void RomArchiveParentCallback(WBTCommand *record);
 void RomArchivePortCallback(RomArchivePortMessage *message);
 void SendRomArchivePacket(void);
 void RequestRomArchiveBytes(FSFile *file);
@@ -89,7 +89,7 @@ void FreeRomArchiveNode(RomArchiveParentView *view, RomArchiveFileNode *node);
 void MoveRomArchiveNodeToList(RomArchiveFileNode **fromHead, RomArchiveFileNode **toHead, RomArchiveFileNode *node);
 void ActivateRomArchiveNode(RomArchiveParentView *view, RomArchiveFileNode *node, s32 unused);
 void SendRomArchiveMessage(void);
-void RomArchiveSendCallback(BlockTransferRecord *record);
+void RomArchiveSendCallback(WBTCommand *record);
 u32 ReloadRomArchiveFromBlock(u32 *block);
 void CreateRomArchiveBlock(FSFile *file, s32 appendOverlays);
 s32 RomArchiveChildProc(FSFile *file, u32 command);

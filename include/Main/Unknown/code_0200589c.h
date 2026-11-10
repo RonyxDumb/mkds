@@ -3,17 +3,17 @@
 #include "types.h"
 #include "Main/Unknown/unk_02175000.h" // RomArchiveParentViewEntry, RomArchiveMessage
 
-// Starts at offset 0x24 of an entry of BlockTransfer; 0x44 bytes (see PickMissingChunkIndex).
-typedef struct ChunkReceiveState {
-    /* 00 */ s32 mSize;
-    /* 04 */ s32 mChunkCount;
+// Starts at offset 0x24 of an entry of BlockTransfer; 0x44 bytes (see WBTi_FindBitmapIndex).
+typedef struct WBTPacketBitmap {
+    /* 00 */ s32 mLength;
+    /* 04 */ s32 mTotal;
     /* 08 */ s32 mPickedChunkIndex;
-    /* 0c */ s32 mLastReceivedChunkIndex;
-    /* 10 */ s32 mReceivedChunkCount;
-    /* 14 */ u32 *mChunkBitmap;
+    /* 0c */ s32 mCurrent;
+    /* 10 */ s32 mCount;
+    /* 14 */ u32 *mBitmap;
     /* 18 */ u8 *mBuffer;
     /* 1c */ u8 mInlineChunkBitmap[0x28];
-} ChunkReceiveState;
+} WBTPacketBitmap;
 
 // Entry of BlockTransfer; 0x68 bytes.
 typedef struct BlockTransferEntry {
@@ -33,10 +33,10 @@ typedef struct BlockTransferEntry {
     /* 14 */ u32 mChunkIndex;
     /* 18 */ u8 mUnk_18[8];
     /* 20 */ u8 *mPayload;
-    /* 24 */ ChunkReceiveState mReceive;
+    /* 24 */ WBTPacketBitmap mReceive;
 } BlockTransferEntry;
 
-// Tail of a BlockTransferRecord from 0x14, which the kinds of request fill in different ways.
+// Tail of a WBTCommand from 0x14, which the kinds of request fill in different ways.
 typedef union Unk0204c320_14 {
     u32 mUnk_w;
     struct {
@@ -59,42 +59,42 @@ typedef union Unk0204c320_14 {
     } b;
 } Unk0204c320_14;
 
-struct BlockTransferRecord;
+struct WBTCommand;
 
 // Block of 0x9c bytes; BlockTransfer holds three of them.
-typedef struct BlockTransferRecord {
-    /* 00 */ s32 mKind;
-    /* 04 */ s32 mCallbackCode;
-    /* 08 */ u16 mIndexMask;
-    /* 0a */ u16 mFromIndexMask;
-    /* 0c */ u8 mRequestId;
-    /* 0d */ u8 mReceivedRequestId;
-    /* 0e */ u16 mErrorCode;
-    /* 10 */ void (*mCallback)(struct BlockTransferRecord *);
+typedef struct WBTCommand {
+    /* 00 */ s32 mCommand;
+    /* 04 */ s32 mEvent;
+    /* 08 */ u16 mTargetBmp;
+    /* 0a */ u16 mPeerBmp;
+    /* 0c */ u8 mMyCmdCounter;
+    /* 0d */ u8 mPeerCmdCounter;
+    /* 0e */ u16 mResult;
+    /* 10 */ void (*mCallback)(struct WBTCommand *);
 // In mCallbackRecord, words 0x14 to 0x1c carry what the callback code brings: counts and chunk sizes, a block id
 // and chunk, or up to 9 bytes with their length at 0x1d.
     /* 14 */ Unk0204c320_14 mUnk_14;
     /* 5c */ void *mChunkBitmaps[16];
-} BlockTransferRecord;
+} WBTCommand;
 
 // Object at gBlockTransfer; 0x854 bytes.
 typedef struct BlockTransfer {
-    /* 000 */ BlockTransferRecord mCurrentRequest;
-    /* 09c */ BlockTransferRecord mNextRequest;
-    /* 138 */ BlockTransferRecord mCallbackRecord;
+    /* 000 */ WBTCommand mCurrentRequest;
+    /* 09c */ WBTCommand mNextRequest;
+    /* 138 */ WBTCommand mCallbackRecord;
     /* 1d4 */ BlockTransferEntry mEntries[16];
 } BlockTransfer;
 
-s32 StartNextRequest(BlockTransfer *a, u8 *b, s32 c);
-s32 WriteCurrentRequestPacket(BlockTransfer *a, u8 *b, s32 c);
+s32 WBTi_SwitchNextCommand(BlockTransfer *a, u8 *b, s32 c);
+s32 WBTi_CheckRequest(BlockTransfer *a, u8 *b, s32 c);
 s32 ReplyToBlockNodeRequestAlways(BlockTransfer *a, s32 b, u8 *c, s32 d);
 s32 ReplyToBlockNodeRequest(BlockTransfer *a, s32 b, u8 *c, s32 d);
 s32 ReplyToBlockDataRequest(BlockTransfer *a, s32 b, u8 *c, s32 d);
 s32 ReplyToBytesPacket(BlockTransfer *a, s32 b, u8 *c, s32 d);
 s32 ReplyToNoMissingChunk(BlockTransfer *a, s32 b, u8 *c, s32 d);
 s32 ReplyToBlockCountRequest(BlockTransfer *a, s32 b, u8 *c, s32 d);
-u32 ParseReceivedPacket(BlockTransfer *a, s32 b, const u8 *c, s32 d);
-void RunCurrentRequestCallback(BlockTransfer *a, s32 b, s32 c);
-void RunBlockTransferCallback(BlockTransfer *a, s32 b, s32 c, u32 d);
-BOOL StoreReceivedChunk(ChunkReceiveState *a, s32 b, const u8 *c);
-s32 PickMissingChunkIndex(ChunkReceiveState *a);
+u32 WBT_CallPacketRecvHook(BlockTransfer *a, s32 b, const u8 *c, s32 d);
+void WBTi_NotifyCompletionCallback(BlockTransfer *a, s32 b, s32 c);
+void WBTi_NotifySystemCallback(BlockTransfer *a, s32 b, s32 c, u32 d);
+BOOL StoreReceivedChunk(WBTPacketBitmap *a, s32 b, const u8 *c);
+s32 WBTi_FindBitmapIndex(WBTPacketBitmap *a);

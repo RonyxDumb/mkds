@@ -12,7 +12,7 @@
 void StopBlockTransferStep(void) {
     gConnectionWork->mStep = 0x2d;
     gConnectionWork->mRequestPending = 1;
-    StopBlockTransfer();
+    WBT_End();
     gConnectionWork->mUnk_0454 &= ~0x200;
     gConnectionWork->mRequestPending = 0;
 }
@@ -88,14 +88,14 @@ void StartSendWordRequest(u16 indexMask, s32 value) {
     valueCopy = value;
     gConnectionWork->mStep = 0x2e;
     gConnectionWork->mRequestPending = 1;
-    if (RequestSendBytes(indexMask, &valueCopy, 4, SendWordRequestCallback) == 0) {
+    if (WBT_PutUserData(indexMask, &valueCopy, 4, SendWordRequestCallback) == 0) {
         gConnectionWork->mRequestPending = 0;
     }
 }
 
-void SendWordRequestCallback(BlockTransferRecord *record) {
-    if (record->mKind == 10) {
-        if (record->mCallbackCode == 11) {
+void SendWordRequestCallback(WBTCommand *record) {
+    if (record->mCommand == 10) {
+        if (record->mEvent == 11) {
             gConnectionWork->mRequestPending = 0;
             return;
         }

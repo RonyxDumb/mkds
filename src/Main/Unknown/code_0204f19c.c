@@ -4,8 +4,8 @@
 
 #pragma thumb on
 
-void ParentBlockTransferCallback(BlockTransferRecord *record) {
-    s32 callbackCode = record->mCallbackCode;
+void ParentBlockTransferCallback(WBTCommand *record) {
+    s32 callbackCode = record->mEvent;
     if (callbackCode == 10) {
         SetZeroWordReceived(&record->mUnk_14.w.mUnk_14, record->mUnk_14.b.mUnk_1d);
         return;

@@ -18,15 +18,15 @@ void StartBlockCountRequest(void) {
     }
     gConnectionWork->mStep = 0x2a;
     gConnectionWork->mRequestPending = 1;
-    if (RequestBlockCount(mask, BlockCountRequestCallback) == 0) {
+    if (WBT_RequestSync(mask, BlockCountRequestCallback) == 0) {
         gConnectionWork->mRequestPending = 0;
         gConnectionWork->mStep = savedValue;
     }
 }
 
-void BlockCountRequestCallback(BlockTransferRecord *record) {
-    if (record->mKind == 2) {
-        if (record->mCallbackCode == 3) {
+void BlockCountRequestCallback(WBTCommand *record) {
+    if (record->mCommand == 2) {
+        if (record->mEvent == 3) {
             gConnectionWork->mBlockCount = record->mUnk_14.h.mUnk_14;
             gConnectionWork->mRequestPending = 0;
         } else {
@@ -41,16 +41,16 @@ void StartBlockNodeRequest(void) {
     s32 savedValue = gConnectionWork->mStep;
     gConnectionWork->mStep = 0x2b;
     gConnectionWork->mRequestPending = 1;
-    if (RequestBlockNode(1, gConnectionWork->mBlockIndex, gConnectionWork->mBlockInfos, BlockNodeRequestCallback) ==
+    if (WBT_GetBlockInfo(1, gConnectionWork->mBlockIndex, gConnectionWork->mBlockInfos, BlockNodeRequestCallback) ==
         0) {
         gConnectionWork->mStep = savedValue;
         gConnectionWork->mRequestPending = 0;
     }
 }
 
-void BlockNodeRequestCallback(BlockTransferRecord *record) {
-    if (record->mKind == 6) {
-        if (record->mCallbackCode == 7) {
+void BlockNodeRequestCallback(WBTCommand *record) {
+    if (record->mCommand == 6) {
+        if (record->mEvent == 7) {
             gConnectionWork->mRequestPending = 0;
         } else {
             StartBlockNodeRequest();
@@ -65,17 +65,17 @@ void StartBlockDataRequest(void) {
     gConnectionWork->mStep = 0x2c;
     gConnectionWork->mRequestPending = 1;
     gConnectionWork->mUnk_1d60 = gConnectionWork->mBlockEntries[gConnectionWork->mBlockIndex].mBuffer;
-    if (RequestBlockData(1, gConnectionWork->mBlockInfos[0]->mBlockId, &gConnectionWork->mUnk_1d60,
-                         gConnectionWork->mBlockInfos[0]->mSize, gConnectionWork->mChunkBitmaps,
-                         BlockDataRequestCallback) == 0) {
+    if (WBT_GetBlock(1, gConnectionWork->mBlockInfos[0]->mBlockId, &gConnectionWork->mUnk_1d60,
+                     gConnectionWork->mBlockInfos[0]->mSize, gConnectionWork->mChunkBitmaps,
+                     BlockDataRequestCallback) == 0) {
         gConnectionWork->mStep = savedValue;
         gConnectionWork->mRequestPending = 0;
     }
 }
 
-void BlockDataRequestCallback(BlockTransferRecord *record) {
-    if (record->mKind == 4) {
-        if (record->mCallbackCode == 5) {
+void BlockDataRequestCallback(WBTCommand *record) {
+    if (record->mCommand == 4) {
+        if (record->mEvent == 5) {
             gConnectionWork->mRequestPending = 0;
         } else {
             SetRequestErrorCode(8);
@@ -92,7 +92,7 @@ void SetOwnIndexFromConnection(void) {
             SetRequestErrorCode(8);
             return;
         }
-        SetOwnIndex(gConnectionWork->mOwnIndex);
+        WBT_SetOwnAid(gConnectionWork->mOwnIndex);
     }
 }
 
@@ -107,7 +107,8 @@ void StartMPWithBuffers(void) {
 
 void AddGhostDataBlock(void *data, u32 size) {
     u16 index = gConnectionWork->mGhostBlockCount;
-    AddBlock(&gConnectionWork->mBlockEntries[index].mNode, (u16) (index + 0x3e8), gGhostBlockInfo, data, size, 0);
+    WBT_RegisterBlock(&gConnectionWork->mBlockEntries[index].mNode, (u16) (index + 0x3e8), gGhostBlockInfo, data, size,
+                      0);
     gConnectionWork->mBlockEntries[index].mBuffer = (u32 *) data;
     gConnectionWork->mGhostBlockCount++;
 }
@@ -119,7 +120,7 @@ void AddGhostDataBlockWrapper(void *data, u32 size) {
 void RemoveGhostDataBlocks(void) {
     s32 i;
     for (i = 0; i < 12; i++) {
-        RemoveBlock((u16) (i + 0x3e8));
+        WBT_UnregisterBlock((u16) (i + 0x3e8));
         gConnectionWork->mBlockEntries[i].mBuffer = 0;
     }
     gConnectionWork->mGhostBlockCount = 0;

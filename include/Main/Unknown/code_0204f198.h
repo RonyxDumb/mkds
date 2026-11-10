@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct BlockTransferRecord BlockTransferRecord;
+typedef struct WBTCommand WBTCommand;
 
-void ChildBlockTransferCallback(BlockTransferRecord *record);
+void ChildBlockTransferCallback(WBTCommand *record);

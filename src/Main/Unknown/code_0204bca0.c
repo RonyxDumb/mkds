@@ -188,7 +188,7 @@ u32 ReloadRomArchiveFromBlock(u32 *block) {
     return positionOffset;
 }
 
-void RomArchiveSendCallback(BlockTransferRecord *record) {
+void RomArchiveSendCallback(WBTCommand *record) {
     RomArchiveTransfer *transfer = &gRomArchiveTransfer;
 
     if (transfer->mState == 0) {
@@ -232,7 +232,7 @@ void SendRomArchiveMessage(void) {
         childPacketSize = gRomArchiveTransfer.mChildPacketSize;
         view->mUnk_46e0 = FALSE;
         gRomArchiveTransfer.mParentPacketSize = g;
-        TrySetChunkSizes(g, childPacketSize);
+        WBT_SetPacketSize(g, childPacketSize);
         g = view->mUnk_46e8;
         if (g == 0) {
             return;
@@ -242,7 +242,7 @@ void SendRomArchiveMessage(void) {
         sizeMessage.mUnk_04 = 0;
         sizeMessage.mPacketSizeHigh = (gRomArchiveTransfer.mParentPacketSize >> 8) & 0xff;
         sizeMessage.mPacketSizeLow = gRomArchiveTransfer.mParentPacketSize;
-        if (RequestSendBytes(g, &sizeMessage, 9, RomArchiveSendCallback) == 0) {
+        if (WBT_PutUserData(g, &sizeMessage, 9, RomArchiveSendCallback) == 0) {
             return;
         }
         view->mMessageSendPending = TRUE;
@@ -302,7 +302,7 @@ void SendRomArchiveMessage(void) {
     replyMessage.mUnk_00_8 = 1;
     replyMessage.mPacketSizeHigh = (gRomArchiveTransfer.mParentPacketSize >> 8) & 0xff;
     replyMessage.mPacketSizeLow = gRomArchiveTransfer.mParentPacketSize;
-    if (RequestSendBytes(sendMask, &replyMessage, 9, RomArchiveSendCallback) == 0) {
+    if (WBT_PutUserData(sendMask, &replyMessage, 9, RomArchiveSendCallback) == 0) {
         return;
     }
     view->mMessageSendPending = TRUE;
@@ -325,8 +325,8 @@ void ActivateRomArchiveNode(RomArchiveParentView *view, RomArchiveFileNode *node
         if (node->mChildCount <= 0) {
             length = node->mFile.mProp.w.mUnk_08 - node->mFile.mProp.w.mUnk_04;
             blockId = node->mBlockId;
-            AddBlock(&node->mBlockNode, blockId, data_usa_0215470c, length <= 0x400u ? node->mBuffers[0] : 0, length,
-                     0);
+            WBT_RegisterBlock(&node->mBlockNode, blockId, data_usa_0215470c, length <= 0x400u ? node->mBuffers[0] : 0,
+                              length, 0);
             MoveRomArchiveNodeToList(&view->mPendingHead, &view->mActiveHead, node);
             node->mState = 2;
         }
@@ -419,7 +419,7 @@ void RequestRomArchiveBytes(FSFile *file) {
     message.mUnk_00_8 = requestedLength;
     message.mPacketSizeHigh = (gRomArchiveTransfer.mParentPacketSize >> 8) & 0xff;
     message.mPacketSizeLow = gRomArchiveTransfer.mParentPacketSize;
-    if (RequestSendBytes(1, &message, 9, RomArchiveSendCallback) != 0) {
+    if (WBT_PutUserData(1, &message, 9, RomArchiveSendCallback) != 0) {
         return;
     }
     OS_Terminate();
@@ -450,9 +450,9 @@ void SendRomArchivePacket(void) {
     }
     buffer = transfer->mPacketBuffer;
     if (isParent != 0) {
-        builtSize = BuildParentPacket(buffer, packetSize);
+        builtSize = WBT_MpParentSendHook(buffer, packetSize);
     } else {
-        builtSize = BuildChildPacket(buffer, packetSize);
+        builtSize = WBT_MpChildSendHook(buffer, packetSize);
     }
     transfer->mSendPending =
         WM_SetMPDataToPortEx(SendRomArchivePacket, NULL, buffer, builtSize, 0xffff, transfer->mPort, 3) == 2;
@@ -494,9 +494,9 @@ void RomArchivePortCallback(RomArchivePortMessage *message) {
             }
             buffer = transfer->mPacketBuffer;
             if (isParent != 0) {
-                builtSize = BuildParentPacket(buffer, packetSize);
+                builtSize = WBT_MpParentSendHook(buffer, packetSize);
             } else {
-                builtSize = BuildChildPacket(buffer, packetSize);
+                builtSize = WBT_MpChildSendHook(buffer, packetSize);
             }
             transfer->mSendPending =
                 WM_SetMPDataToPortEx(SendRomArchivePacket, NULL, buffer, builtSize, 0xffff, transfer->mPort, 3) == 2;
@@ -514,15 +514,15 @@ void RomArchivePortCallback(RomArchivePortMessage *message) {
             if (transfer->mIsParent != 0) {
                 fromIndex = message->mFromIndex;
                 view->mUnk_46d8 = view->mUnk_46d8 | (1 << fromIndex);
-                ReceivePacketFromIndexChecked(data, dataLength, fromIndex);
+                WBT_MpParentRecvHook(data, dataLength, fromIndex);
             } else {
-                ReceiveParentPacketChecked(data, dataLength);
+                WBT_MpChildRecvHook(data, dataLength);
             }
             return;
     }
 }
 
-void RomArchiveParentCallback(BlockTransferRecord *record) {
+void RomArchiveParentCallback(WBTCommand *record) {
     s32 fromIndex;
     Unk0204c320_14 *payload;
     s32 v7;
@@ -547,11 +547,11 @@ void RomArchiveParentCallback(BlockTransferRecord *record) {
     s32 blockId;
     s32 v17;
 
-    fromIndex = GetLowestSetBitIndex(record->mFromIndexMask);
-    if (record->mKind != 0xc) {
+    fromIndex = WBT_AidbitmapToAid(record->mPeerBmp);
+    if (record->mCommand != 0xc) {
         return;
     }
-    switch (record->mCallbackCode) {
+    switch (record->mEvent) {
         case 2:
             break;
         case 8:
@@ -617,7 +617,7 @@ void RomArchiveParentCallback(BlockTransferRecord *record) {
                         activeNode->mChildCount = activeNode->mChildCount - 1;
                         if (activeNode->mChildCount <= 0) {
                             activeNode->mPendingChildMask = 0;
-                            RemoveBlock(payload->mUnk_m.mUnk_04);
+                            WBT_UnregisterBlock(payload->mUnk_m.mUnk_04);
                             MoveRomArchiveNodeToList(&view->mActiveHead, &view->mPendingHead, activeNode);
                             activeNode->mState = 3;
                             WakeRomArchiveThread();
@@ -698,7 +698,7 @@ void RomArchiveParentCallback(BlockTransferRecord *record) {
     }
 }
 
-void RomArchiveChildCallback(BlockTransferRecord *record) {
+void RomArchiveChildCallback(WBTCommand *record) {
     RomArchiveChildView *childView;
     s32 fromIndex;
     u32 previousMaxSize;
@@ -713,17 +713,17 @@ void RomArchiveChildCallback(BlockTransferRecord *record) {
     u32 allocInterrupts;
     void *newBuffer;
 
-    fromIndex = GetLowestSetBitIndex(record->mFromIndexMask);
+    fromIndex = WBT_AidbitmapToAid(record->mPeerBmp);
     childView = (RomArchiveChildView *) &data_usa_021762e0;
-    switch (record->mKind) {
+    switch (record->mCommand) {
         case 2:
-            if (record->mIndexMask != 0) {
+            if (record->mTargetBmp != 0) {
                 return;
             }
             gRomArchiveTransfer.mParentPacketSize = record->mUnk_14.h.mUnk_16 + 0xe;
             gRomArchiveTransfer.mChildPacketSize = record->mUnk_14.h.mUnk_18 + 0xe;
             if (gRomArchiveTransfer.mArchiveBlock == NULL) {
-                RequestBlockNode(1, 0, childView, RomArchiveChildCallback);
+                WBT_GetBlockInfo(1, 0, childView, RomArchiveChildCallback);
                 return;
             }
             if (gRomArchiveTransfer.mPendingFile == NULL) {
@@ -780,11 +780,11 @@ void RomArchiveChildCallback(BlockTransferRecord *record) {
                 childView->mChunkBitmaps[0] = childView->mChunkBitmapBuffer;
             }
             childView->mBlockBuffers[fromIndex] = (u32) gRomArchiveTransfer.mArchiveBlock;
-            RequestBlockData(1, 0x20000, childView->mBlockBuffers, gRomArchiveTransfer.mArchiveBlockSize,
-                             childView->mChunkBitmaps, RomArchiveChildCallback);
+            WBT_GetBlock(1, 0x20000, childView->mBlockBuffers, gRomArchiveTransfer.mArchiveBlockSize,
+                         childView->mChunkBitmaps, RomArchiveChildCallback);
             return;
         case 4:
-            if (record->mIndexMask != 0) {
+            if (record->mTargetBmp != 0) {
                 return;
             }
             if (gRomArchiveTransfer.mState != 2) {
@@ -802,27 +802,27 @@ void RomArchiveChildCallback(BlockTransferRecord *record) {
             message.mUnk_00_8 = 1;
             message.mPacketSizeHigh = (gRomArchiveTransfer.mParentPacketSize >> 8) & 0xff;
             message.mPacketSizeLow = gRomArchiveTransfer.mParentPacketSize;
-            if (RequestSendBytes(1, &message, 9, RomArchiveSendCallback) != 0) {
+            if (WBT_PutUserData(1, &message, 9, RomArchiveSendCallback) != 0) {
                 return;
             }
             OS_Terminate();
             return;
         case 12:
-            if (record->mCallbackCode != 0xa) {
+            if (record->mEvent != 0xa) {
                 return;
             }
             received = &record->mUnk_14.mUnk_m;
             switch (received->mKind) {
                 case 1:
                     if (received->mUnk_00_8 == 0) {
-                        RequestBlockCount(1, RomArchiveChildCallback);
+                        WBT_RequestSync(1, RomArchiveChildCallback);
                         return;
                     }
                     childView->mFileBlockId = received->mUnk_04;
                     childView->mBlockBuffers[fromIndex] = gRomArchiveTransfer.mPendingFile->mArg.w.mUnk_00;
-                    RequestBlockData(1, childView->mFileBlockId, childView->mBlockBuffers,
-                                     gRomArchiveTransfer.mPendingFile->mArg.w.mUnk_08, childView->mChunkBitmaps,
-                                     RomArchiveChildCallback);
+                    WBT_GetBlock(1, childView->mFileBlockId, childView->mBlockBuffers,
+                                 gRomArchiveTransfer.mPendingFile->mArg.w.mUnk_08, childView->mChunkBitmaps,
+                                 RomArchiveChildCallback);
                     return;
                 case 3:
                     file = gRomArchiveTransfer.mPendingFile;
@@ -909,7 +909,7 @@ void StartRomArchiveParent(u32 port, void (*stateCallback)(s32 port),
     view->mUnk_46ec = transfer->mParentPacketSize;
     DC_FlushRange(view, 0x46f0);
     DC_WaitWriteBufferEmpty();
-    StartParentBlockTransfer(transfer->mParentPacketSize, transfer->mChildPacketSize, RomArchiveParentCallback);
+    WBT_InitParent(transfer->mParentPacketSize, transfer->mChildPacketSize, RomArchiveParentCallback);
     CreateRomArchiveBlock(file, appendOverlays);
     archiveNode = view->mFreeHead;
     view->mFreeHead = archiveNode->mNext;
@@ -917,8 +917,8 @@ void StartRomArchiveParent(u32 port, void (*stateCallback)(s32 port),
     view->mActiveHead = archiveNode;
     archiveNode->mChildCount = 1;
     MI_CpuFill8(archiveNode, 0, 0x8c0);
-    AddBlock(&archiveNode->mBlockNode, 0x20000, data_usa_0215470c, transfer->mArchiveBlock,
-             gRomArchiveTransfer.mArchiveBlockSize, 0);
+    WBT_RegisterBlock(&archiveNode->mBlockNode, 0x20000, data_usa_0215470c, transfer->mArchiveBlock,
+                      gRomArchiveTransfer.mArchiveBlockSize, 0);
     transfer->mState = 1;
     StartFileReadThread();
 }
@@ -952,7 +952,7 @@ void StartRomArchiveChild(u32 port, void (*stateCallback)(s32 port),
     view->mFileBlockId = 0;
     DC_FlushRange(view, 0xb0c);
     DC_WaitWriteBufferEmpty();
-    StartChildBlockTransfer(RomArchiveChildCallback);
+    WBT_InitChild(RomArchiveChildCallback);
     transfer->mState = 1;
 }
 
@@ -985,8 +985,8 @@ void StartRomArchivePacketSend(void) {
     if (gRomArchiveTransfer.mIsParent == 0) {
         childView = (Unk021762e0 *) &data_usa_021762e0;
         WM_ReadStatus(childView->mUnk_0340);
-        SetOwnIndex(childView->mUnk_04c4);
-        RequestBlockCount(1, RomArchiveChildCallback);
+        WBT_SetOwnAid(childView->mUnk_04c4);
+        WBT_RequestSync(1, RomArchiveChildCallback);
     } else {
         gRomArchiveTransfer.mState = 2;
         if (gRomArchiveTransfer.mStateCallback != NULL) {
@@ -1005,9 +1005,9 @@ void StartRomArchivePacketSend(void) {
     }
     buffer = transfer->mPacketBuffer;
     if (isParent != 0) {
-        builtSize = BuildParentPacket(buffer, packetSize);
+        builtSize = WBT_MpParentSendHook(buffer, packetSize);
     } else {
-        builtSize = BuildChildPacket(buffer, packetSize);
+        builtSize = WBT_MpChildSendHook(buffer, packetSize);
     }
     transfer->mSendPending =
         WM_SetMPDataToPortEx(SendRomArchivePacket, NULL, buffer, builtSize, 0xffff, transfer->mPort, 3) == 2;
@@ -1041,7 +1041,7 @@ void StopRomArchive(void) {
         } else {
             StopFileReadThread();
         }
-        StopBlockTransfer();
+        WBT_End();
         WM_SetPortCallback(gRomArchiveTransfer.mPort, NULL, NULL);
         gRomArchiveStarted = 0;
     }

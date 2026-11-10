@@ -237,7 +237,7 @@ void UpdateConnectionSendTimer(void) {
         return;
     }
     if (gConnectionWork->mStep == 0x2c) {
-        TryGetBlockReceiveProgress(gConnectionWork->mBlockInfos[0]->mBlockId, 0, &receivedChunkCount, &chunkCount);
+        WBT_GetCurrentDownloadProgress(gConnectionWork->mBlockInfos[0]->mBlockId, 0, &receivedChunkCount, &chunkCount);
     }
     if (gConnectionWork->mSendTimer != 0) {
         gConnectionWork->mSendTimer = gConnectionWork->mSendTimer - 1;

@@ -2,16 +2,16 @@
 
 #include "types.h"
 
-typedef struct BlockTransferRecord BlockTransferRecord;
+typedef struct WBTCommand WBTCommand;
 
 void RemoveGhostDataBlocks(void);
 void AddGhostDataBlockWrapper(void *data, u32 size);
 void AddGhostDataBlock(void *data, u32 size);
 void StartMPWithBuffers(void);
 void SetOwnIndexFromConnection(void);
-void BlockDataRequestCallback(BlockTransferRecord *record);
+void BlockDataRequestCallback(WBTCommand *record);
 void StartBlockDataRequest(void);
-void BlockNodeRequestCallback(BlockTransferRecord *record);
+void BlockNodeRequestCallback(WBTCommand *record);
 void StartBlockNodeRequest(void);
-void BlockCountRequestCallback(BlockTransferRecord *record);
+void BlockCountRequestCallback(WBTCommand *record);
 void StartBlockCountRequest(void);

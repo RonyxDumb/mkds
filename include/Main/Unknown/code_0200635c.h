@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct ChunkReceiveState ChunkReceiveState;
+typedef struct WBTPacketBitmap WBTPacketBitmap;
 
-void MarkChunkReceived(ChunkReceiveState *a, u32 b);
+void MarkChunkReceived(WBTPacketBitmap *a, u32 b);

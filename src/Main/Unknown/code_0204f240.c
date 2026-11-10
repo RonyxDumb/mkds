@@ -37,7 +37,7 @@ void AddPendingFile(const void *path, void *heap, void **dataOutput, u32 value, 
 void StartParentSideBlockTransfer(void) {
     gConnectionWork->mStep = 0x28;
     gConnectionWork->mRequestPending = 1;
-    StartParentBlockTransfer(0x192, 0xe, ParentBlockTransferCallback);
+    WBT_InitParent(0x192, 0xe, ParentBlockTransferCallback);
     gConnectionWork->mSendTimer = 0;
     gConnectionWork->mUnk_1e44 &= ~1;
     gConnectionWork->mUnk_0454 |= 0x200;
@@ -47,7 +47,7 @@ void StartParentSideBlockTransfer(void) {
 void StartChildSideBlockTransfer(void) {
     gConnectionWork->mStep = 0x29;
     gConnectionWork->mRequestPending = 1;
-    StartChildBlockTransfer(ChildBlockTransferCallback);
+    WBT_InitChild(ChildBlockTransferCallback);
     gConnectionWork->mSendTimer = 0;
     gConnectionWork->mUnk_1e44 &= ~1;
     gConnectionWork->mUnk_0454 |= 0x200;

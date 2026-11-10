@@ -12,11 +12,11 @@
 
 #pragma thumb on
 
-u32 GetReceiveChunkSize(void) {
+u32 WBT_GetPeerPacketLength(void) {
     return (gReceiveChunkSize);
 }
 
-u32 GetSendChunkSize(void) {
+u32 WBT_GetOwnPacketLength(void) {
     return (gSendChunkSize);
 }
 
@@ -32,7 +32,7 @@ BlockTransfer *GetBlockTransfer(void) {
     return &gBlockTransfer;
 }
 
-BlockTransferRecord *GetNextRequestAddress(void) {
+WBTCommand *GetNextRequestAddress(void) {
     return &gNextRequest;
 }
 
@@ -40,16 +40,16 @@ BlockTransferRecord *GetNextRequestAddress(void) {
 
 #pragma thumb on
 
-u32 TrySetNextRequest(const BlockTransferRecord *request) {
+u32 TrySetNextRequest(const WBTCommand *request) {
     u32 savedInterrupts;
-    BlockTransferRecord *nextRequest;
+    WBTCommand *nextRequest;
     savedInterrupts = OS_DisableInterrupts();
-    if (gBlockTransferStarted != 1) {
+    if (wbt_initialize_flag != 1) {
         OS_RestoreInterrupts(savedInterrupts);
         return 0;
     }
     nextRequest = GetNextRequestAddress();
-    if (nextRequest == NULL || nextRequest->mKind != 0) {
+    if (nextRequest == NULL || nextRequest->mCommand != 0) {
         OS_RestoreInterrupts(savedInterrupts);
         return 0;
     }
@@ -62,11 +62,11 @@ u32 TrySetNextRequest(const BlockTransferRecord *request) {
 
 #pragma thumb on
 
-BlockListNode *GetBlockListHead(void) {
+WBTBlockInfoList *GetBlockListHead(void) {
     return gBlockListHead;
 }
 
-void SetBlockListHead(BlockListNode *head) {
+void SetBlockListHead(WBTBlockInfoList *head) {
     gBlockListHead = head;
 }
 
@@ -74,8 +74,8 @@ void SetBlockListHead(BlockListNode *head) {
 
 #pragma thumb on
 
-BlockListNode *FindBlockById(u32 blockId) {
-    BlockListNode *node;
+WBTBlockInfoList *FindBlockById(u32 blockId) {
+    WBTBlockInfoList *node;
     for (node = GetBlockListHead(); node != NULL; node = node->mNext) {
         if (node->mId == blockId) {
             return node;
@@ -88,11 +88,11 @@ BlockListNode *FindBlockById(u32 blockId) {
 
 #pragma thumb on
 
-void SetOwnIndex(u32 index) {
+void WBT_SetOwnAid(u32 index) {
     gOwnIndex = index;
 }
 
-u32 GetOwnIndex(void) {
+u32 WBT_GetOwnAid(void) {
     return gOwnIndex;
 }
 
@@ -100,7 +100,7 @@ u32 GetOwnIndex(void) {
 
 #pragma thumb on
 
-s32 GetLowestSetBitIndex(s32 mask) {
+s32 WBT_AidbitmapToAid(s32 mask) {
     s32 i;
     for (i = 0; i < 16; i++) {
         if (((mask >> i) & 1) != 0) {
@@ -110,29 +110,29 @@ s32 GetLowestSetBitIndex(s32 mask) {
     return -1;
 }
 
-u32 GetChunkBitmapSize(s32 size) {
+u32 WBT_CalcPacketbitmapSize(s32 size) {
     s32 chunkSize;
     s32 chunkCount;
-    chunkSize = GetReceiveChunkSize();
+    chunkSize = WBT_GetPeerPacketLength();
     chunkCount = size / chunkSize + ((size % chunkSize) != 0 ? 1 : 0);
     return ((chunkCount >> 5) + ((chunkCount & 0x1f) != 0 ? 1 : 0)) << 2;
 }
 
-BOOL TryGetBlockReceiveProgress(u32 blockId, s32 entryIndex, s32 *receivedChunkCountOut, s32 *chunkCountOut) {
+BOOL WBT_GetCurrentDownloadProgress(u32 blockId, s32 entryIndex, s32 *receivedChunkCountOut, s32 *chunkCountOut) {
     BlockTransfer *transfer;
-    ChunkReceiveState *receive;
+    WBTPacketBitmap *receive;
     transfer = GetBlockTransfer();
     receive = &transfer->mEntries[entryIndex].mReceive;
-    if (transfer->mCurrentRequest.mKind == 4 && transfer->mCurrentRequest.mUnk_14.w.mUnk_14 == blockId) {
-        *chunkCountOut = receive->mChunkCount;
-        *receivedChunkCountOut = receive->mReceivedChunkCount;
+    if (transfer->mCurrentRequest.mCommand == 4 && transfer->mCurrentRequest.mUnk_14.w.mUnk_14 == blockId) {
+        *chunkCountOut = receive->mTotal;
+        *receivedChunkCountOut = receive->mCount;
         return TRUE;
     }
     return FALSE;
 }
 
-u32 TrySetChunkSizes(s32 sendSize, s32 receiveSize) {
-    switch (GetBlockTransfer()->mCurrentRequest.mKind) {
+u32 WBT_SetPacketSize(s32 sendSize, s32 receiveSize) {
+    switch (GetBlockTransfer()->mCurrentRequest.mCommand) {
         case 4:
         case 6:
             return 0;
@@ -146,9 +146,9 @@ u32 TrySetChunkSizes(s32 sendSize, s32 receiveSize) {
 
 #pragma thumb on
 
-int CountBlocks(void) {
+int WBT_NumOfRegisteredBlock(void) {
     int count;
-    BlockListNode *node;
+    WBTBlockInfoList *node;
     count = 0;
     for (node = GetBlockListHead(); node != NULL; node = node->mNext) {
         count = count + 1;
@@ -160,8 +160,8 @@ int CountBlocks(void) {
 
 #pragma thumb on
 
-s32 AddBlock(BlockListNode *node, u32 blockId, const void *info, u8 *data, u32 size, u16 f) {
-    BlockListNode *lastNode;
+s32 WBT_RegisterBlock(WBTBlockInfoList *node, u32 blockId, const void *info, u8 *data, u32 size, u16 f) {
+    WBTBlockInfoList *lastNode;
     u32 savedInterrupts;
     savedInterrupts = OS_DisableInterrupts();
     if (GetBlockListHead() == NULL) {
@@ -172,27 +172,27 @@ s32 AddBlock(BlockListNode *node, u32 blockId, const void *info, u8 *data, u32 s
         lastNode->mNext = node;
     }
     if (data == NULL) {
-        node->mHasNoData = 1;
+        node->mBlockType = 1;
     } else {
-        node->mData = data;
-        node->mHasNoData = 0;
+        node->mDataPtr = data;
+        node->mBlockType = 0;
     }
     node->mNext = NULL;
     node->mId = blockId;
-    node->mSize = size;
-    node->mUnk_30 = f;
+    node->mBlockSize = size;
+    node->mPermissionBmp = f;
     if (info != NULL) {
-        MI_CpuCopy8(info, node->mUnk_08, 0x20);
+        MI_CpuCopy8(info, node->mUserId, 0x20);
     } else {
-        MI_CpuFill8(node->mUnk_08, 0, 0x20);
+        MI_CpuFill8(node->mUserId, 0, 0x20);
     }
     OS_RestoreInterrupts(savedInterrupts);
     return 1;
 }
 
-BlockListNode *RemoveBlock(u32 blockId) {
-    BlockListNode *v1;
-    BlockListNode *v2;
+WBTBlockInfoList *WBT_UnregisterBlock(u32 blockId) {
+    WBTBlockInfoList *v1;
+    WBTBlockInfoList *v2;
     u32 savedInterrupts;
     savedInterrupts = OS_DisableInterrupts();
     v1 = GetBlockListHead();
@@ -216,19 +216,18 @@ BlockListNode *RemoveBlock(u32 blockId) {
     return NULL;
 }
 
-u32 RequestBlockCount(u16 indexMask, void (*callback)(BlockTransferRecord *)) {
-    BlockTransferRecord request;
-    request.mKind = 2;
-    request.mIndexMask = indexMask;
+u32 WBT_RequestSync(u16 indexMask, void (*callback)(WBTCommand *)) {
+    WBTCommand request;
+    request.mCommand = 2;
+    request.mTargetBmp = indexMask;
     request.mCallback = callback;
     return TrySetNextRequest(&request);
 }
 
-u32 RequestBlockNode(u16 indexMask, u32 blockIdOrPosition, const void *buffers,
-                     void (*callback)(BlockTransferRecord *)) {
-    BlockTransferRecord request;
-    request.mKind = 6;
-    request.mIndexMask = indexMask;
+u32 WBT_GetBlockInfo(u16 indexMask, u32 blockIdOrPosition, const void *buffers, void (*callback)(WBTCommand *)) {
+    WBTCommand request;
+    request.mCommand = 6;
+    request.mTargetBmp = indexMask;
     request.mCallback = callback;
     request.mUnk_14.w.mUnk_14 = blockIdOrPosition;
     request.mUnk_14.w.mUnk_18 = 0x28;
@@ -236,11 +235,11 @@ u32 RequestBlockNode(u16 indexMask, u32 blockIdOrPosition, const void *buffers,
     return TrySetNextRequest(&request);
 }
 
-u32 RequestBlockData(u16 indexMask, u32 blockId, const void *buffers, u32 blockSize, const void *chunkBitmaps,
-                     void (*callback)(BlockTransferRecord *)) {
-    BlockTransferRecord request;
-    request.mKind = 4;
-    request.mIndexMask = indexMask;
+u32 WBT_GetBlock(u16 indexMask, u32 blockId, const void *buffers, u32 blockSize, const void *chunkBitmaps,
+                 void (*callback)(WBTCommand *)) {
+    WBTCommand request;
+    request.mCommand = 4;
+    request.mTargetBmp = indexMask;
     request.mCallback = callback;
     request.mUnk_14.w.mUnk_14 = blockId;
     request.mUnk_14.w.mUnk_18 = blockSize;
@@ -249,15 +248,15 @@ u32 RequestBlockData(u16 indexMask, u32 blockId, const void *buffers, u32 blockS
     return TrySetNextRequest(&request);
 }
 
-u32 RequestSendBytes(u16 indexMask, const void *bytes, s32 byteCount, void (*callback)(BlockTransferRecord *)) {
-    BlockTransferRecord request;
-    BlockTransferRecord *requestPointer;
+u32 WBT_PutUserData(u16 indexMask, const void *bytes, s32 byteCount, void (*callback)(WBTCommand *)) {
+    WBTCommand request;
+    WBTCommand *requestPointer;
     if (byteCount < 0 || byteCount > 9) {
         return 0;
     }
-    request.mKind = 10;
+    request.mCommand = 10;
     requestPointer = &request;
-    requestPointer->mIndexMask = indexMask;
+    requestPointer->mTargetBmp = indexMask;
     requestPointer->mCallback = callback;
     MI_CpuCopy8(bytes, &requestPointer->mUnk_14.w.mUnk_14, byteCount);
     requestPointer->mUnk_14.b.mUnk_1d = byteCount;
@@ -296,11 +295,11 @@ s32 BuildParentPacketUnchecked(u8 *buffer, s32 bufferSize) {
             return packetSize;
         }
     } while (i != gLastReplyIndex);
-    packetSize = WriteCurrentRequestPacket(transfer, buffer, bufferSize);
+    packetSize = WBTi_CheckRequest(transfer, buffer, bufferSize);
     if (packetSize != 0) {
         return packetSize;
     }
-    packetSize = StartNextRequest(transfer, buffer, bufferSize);
+    packetSize = WBTi_SwitchNextCommand(transfer, buffer, bufferSize);
     if (packetSize != 0) {
         return packetSize;
     }
@@ -331,12 +330,12 @@ s32 BuildParentPacketUnchecked(u8 *buffer, s32 bufferSize) {
 
 void ReceivePacketFromIndex(u32 index, const u8 *packet, int size) {
     if (0 < size) {
-        ParseReceivedPacket(GetBlockTransfer(), index, packet, size);
+        WBT_CallPacketRecvHook(GetBlockTransfer(), index, packet, size);
     }
 }
 
 void ReceiveParentPacket(const u8 *packet, u32 size) {
-    ParseReceivedPacket(GetBlockTransfer(), 0, packet, size);
+    WBT_CallPacketRecvHook(GetBlockTransfer(), 0, packet, size);
 }
 
 #pragma thumb off
@@ -364,41 +363,41 @@ void BuildChildPacketUnchecked(u8 *buffer, s32 bufferSize) {
     if (ReplyToBlockNodeRequestAlways(transfer, 0, buffer, bufferSize) != 0) {
         return;
     }
-    if (WriteCurrentRequestPacket(transfer, buffer, bufferSize) != 0) {
+    if (WBTi_CheckRequest(transfer, buffer, bufferSize) != 0) {
         return;
     }
-    if (StartNextRequest(transfer, buffer, bufferSize) != 0) {
+    if (WBTi_SwitchNextCommand(transfer, buffer, bufferSize) != 0) {
         return;
     }
     WriteEmptyPacket(buffer, 0xffff, 0);
 }
 
-void StartParentBlockTransfer(s32 sendSize, s32 receiveSize, void (*callback)(BlockTransferRecord *)) {
-    BlockTransferRecord request;
+void WBT_InitParent(s32 sendSize, s32 receiveSize, void (*callback)(WBTCommand *)) {
+    WBTCommand request;
     BlockTransfer *transfer;
     s32 i;
     u32 savedInterrupts;
     savedInterrupts = OS_DisableInterrupts();
-    if (gBlockTransferStarted == 1) {
+    if (wbt_initialize_flag == 1) {
         OS_RestoreInterrupts(savedInterrupts);
         return;
     }
-    gBlockTransferStarted = 1;
-    SetOwnIndex(0);
+    wbt_initialize_flag = 1;
+    WBT_SetOwnAid(0);
     SetBlockListHead(NULL);
     transfer = GetBlockTransfer();
-    transfer->mCurrentRequest.mKind = 0;
-    transfer->mCurrentRequest.mIndexMask = 0;
-    transfer->mCurrentRequest.mFromIndexMask = 0;
+    transfer->mCurrentRequest.mCommand = 0;
+    transfer->mCurrentRequest.mTargetBmp = 0;
+    transfer->mCurrentRequest.mPeerBmp = 0;
     transfer->mCurrentRequest.mCallback = NULL;
-    transfer->mCallbackRecord.mKind = 0;
-    transfer->mCallbackRecord.mIndexMask = 0;
-    transfer->mCallbackRecord.mFromIndexMask = 0;
+    transfer->mCallbackRecord.mCommand = 0;
+    transfer->mCallbackRecord.mTargetBmp = 0;
+    transfer->mCallbackRecord.mPeerBmp = 0;
     transfer->mCallbackRecord.mCallback = callback;
     for (i = 0; i < 16; i++) {
         transfer->mEntries[i].mLastCallbackId = 0;
     }
-    request.mKind = 0;
+    request.mCommand = 0;
     TrySetNextRequest(&request);
     ResetRequestId();
     SetSendChunkSize(sendSize - 0xe);
@@ -406,32 +405,32 @@ void StartParentBlockTransfer(s32 sendSize, s32 receiveSize, void (*callback)(Bl
     OS_RestoreInterrupts(savedInterrupts);
 }
 
-void StartChildBlockTransfer(void (*callback)(BlockTransferRecord *)) {
-    BlockTransferRecord request;
+void WBT_InitChild(void (*callback)(WBTCommand *)) {
+    WBTCommand request;
     BlockTransfer *transfer;
     s32 i;
     u32 savedInterrupts;
     savedInterrupts = OS_DisableInterrupts();
-    if (gBlockTransferStarted == 1) {
+    if (wbt_initialize_flag == 1) {
         OS_RestoreInterrupts(savedInterrupts);
         return;
     }
-    gBlockTransferStarted = 1;
-    SetOwnIndex(-1);
+    wbt_initialize_flag = 1;
+    WBT_SetOwnAid(-1);
     SetBlockListHead(NULL);
     transfer = GetBlockTransfer();
-    transfer->mCurrentRequest.mKind = 0;
-    transfer->mCurrentRequest.mIndexMask = 0;
-    transfer->mCurrentRequest.mFromIndexMask = 0;
+    transfer->mCurrentRequest.mCommand = 0;
+    transfer->mCurrentRequest.mTargetBmp = 0;
+    transfer->mCurrentRequest.mPeerBmp = 0;
     transfer->mCurrentRequest.mCallback = NULL;
-    transfer->mCallbackRecord.mKind = 0;
-    transfer->mCallbackRecord.mIndexMask = 0;
-    transfer->mCallbackRecord.mFromIndexMask = 0;
+    transfer->mCallbackRecord.mCommand = 0;
+    transfer->mCallbackRecord.mTargetBmp = 0;
+    transfer->mCallbackRecord.mPeerBmp = 0;
     transfer->mCallbackRecord.mCallback = callback;
     for (i = 0; i < 16; i++) {
         transfer->mEntries[i].mLastCallbackId = 0;
     }
-    request.mKind = 0;
+    request.mCommand = 0;
     TrySetNextRequest(&request);
     ResetRequestId();
     SetSendChunkSize(0);
@@ -439,32 +438,32 @@ void StartChildBlockTransfer(void (*callback)(BlockTransferRecord *)) {
     OS_RestoreInterrupts(savedInterrupts);
 }
 
-void StopBlockTransfer(void) {
-    BlockTransferRecord request;
+void WBT_End(void) {
+    WBTCommand request;
     BlockTransfer *transfer;
     s32 i;
     u32 savedInterrupts;
     savedInterrupts = OS_DisableInterrupts();
-    if (gBlockTransferStarted == 0) {
+    if (wbt_initialize_flag == 0) {
         OS_RestoreInterrupts(savedInterrupts);
         return;
     }
-    gBlockTransferStarted = 0;
-    SetOwnIndex(-1);
+    wbt_initialize_flag = 0;
+    WBT_SetOwnAid(-1);
     SetBlockListHead(NULL);
     transfer = GetBlockTransfer();
-    transfer->mCurrentRequest.mKind = 0;
-    transfer->mCurrentRequest.mIndexMask = 0;
-    transfer->mCurrentRequest.mFromIndexMask = 0;
+    transfer->mCurrentRequest.mCommand = 0;
+    transfer->mCurrentRequest.mTargetBmp = 0;
+    transfer->mCurrentRequest.mPeerBmp = 0;
     transfer->mCurrentRequest.mCallback = NULL;
-    transfer->mCallbackRecord.mKind = 0;
-    transfer->mCallbackRecord.mIndexMask = 0;
-    transfer->mCallbackRecord.mFromIndexMask = 0;
+    transfer->mCallbackRecord.mCommand = 0;
+    transfer->mCallbackRecord.mTargetBmp = 0;
+    transfer->mCallbackRecord.mPeerBmp = 0;
     transfer->mCallbackRecord.mCallback = NULL;
     for (i = 0; i < 16; i++) {
         transfer->mEntries[i].mLastCallbackId = 0;
     }
-    request.mKind = 0;
+    request.mCommand = 0;
     TrySetNextRequest(&request);
     ResetRequestId();
     SetSendChunkSize(-1);
@@ -472,7 +471,7 @@ void StopBlockTransfer(void) {
     OS_RestoreInterrupts(savedInterrupts);
 }
 
-u32 BuildParentPacket(u8 *buffer, s32 bufferSize) {
+u32 WBT_MpParentSendHook(u8 *buffer, s32 bufferSize) {
     u16 packetSize;
     packetSize = 0;
     if (bufferSize > 0 && buffer != NULL) {

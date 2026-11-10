@@ -37,12 +37,12 @@ void QueuePacketToPort(void) {
         switch (connectionMode) {
             case 1:
                 data_usa_0216522c.mMaxDataSize = 0x192;
-                packetSize = BuildParentPacket(gConnectionWork->mPacketBuffer, 0x192);
+                packetSize = WBT_MpParentSendHook(gConnectionWork->mPacketBuffer, 0x192);
                 destMask = gConnectionWork->mUnk_0044.mChildMask;
                 break;
             case 2:
                 data_usa_0216522c.mMaxDataSize = 0xe;
-                packetSize = BuildChildPacket(gConnectionWork->mPacketBuffer, 0xe);
+                packetSize = WBT_MpChildSendHook(gConnectionWork->mPacketBuffer, 0xe);
                 destMask = 1;
                 break;
         }
@@ -74,10 +74,10 @@ void PacketPortCallback(Unk021425e8 *result) {
             }
             switch (v) {
                 case 1:
-                    ReceivePacketFromIndexChecked(packet, result->mUnk_10, result->mUnk_12);
+                    WBT_MpParentRecvHook(packet, result->mUnk_10, result->mUnk_12);
                     break;
                 case 2:
-                    ReceiveParentPacketChecked(packet, result->mUnk_10);
+                    WBT_MpChildRecvHook(packet, result->mUnk_10);
                     break;
             }
         }

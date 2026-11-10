@@ -286,7 +286,7 @@ typedef struct RomArchiveParentViewEntry {
     /* 08 */ u8 *mUnk_08;
 } RomArchiveParentViewEntry;
 
-// Nine bytes that SendRomArchiveMessage builds on the stack and passes to RequestSendBytes: two four-bit parts, a
+// Nine bytes that SendRomArchiveMessage builds on the stack and passes to WBT_PutUserData: two four-bit parts, a
 // 24-bit part, a word and a byte.
 typedef struct RomArchiveMessage {
     /* 00 */ u32 mKind : 4;

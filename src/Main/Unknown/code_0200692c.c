@@ -3,7 +3,7 @@
 
 #pragma thumb on
 
-void ReceivePacketFromIndexChecked(const u8 *data, int size, u32 fromIndex) {
+void WBT_MpParentRecvHook(const u8 *data, int size, u32 fromIndex) {
     if (((data != NULL) && (size != 0)) && (size != 0xffff)) {
         ReceivePacketFromIndex(fromIndex, data, size);
     }

@@ -2,6 +2,6 @@
 
 #pragma thumb on
 
-void ChildBlockTransferCallback(BlockTransferRecord *record) {}
+void ChildBlockTransferCallback(WBTCommand *record) {}
 
 #pragma thumb off

@@ -402,7 +402,7 @@ typedef struct MPStateMachine {
 // Object behind gConnectionWork.
 // One of the 12 entries at 0x16a0: a block to offer to the other consoles, or a file path to read in.
 typedef struct BlockEntry {
-    /* 00 */ BlockListNode mNode;
+    /* 00 */ WBTBlockInfoList mNode;
 // First byte of the 0x40-byte path; 0 means the entry is free.
     /* 34 */ u8 mPath;
     /* 35 */ u8 mUnk_35[0x3f];

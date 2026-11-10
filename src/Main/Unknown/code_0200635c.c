@@ -3,10 +3,10 @@
 
 #pragma thumb on
 
-void MarkChunkReceived(ChunkReceiveState *a, u32 b) {
-    a->mReceivedChunkCount = a->mReceivedChunkCount + 1;
-    a->mLastReceivedChunkIndex = b;
-    a->mChunkBitmap[(s32) b >> 5] = a->mChunkBitmap[(s32) b >> 5] | 1 << (b & 0x1f);
+void MarkChunkReceived(WBTPacketBitmap *a, u32 b) {
+    a->mCount = a->mCount + 1;
+    a->mCurrent = b;
+    a->mBitmap[(s32) b >> 5] = a->mBitmap[(s32) b >> 5] | 1 << (b & 0x1f);
 }
 
 #pragma thumb off
