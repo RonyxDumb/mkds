@@ -92,29 +92,31 @@ void ComputeGrandPrixScoreTerms(RaceProgressScoreTerms *scoreTerms, s32 kartInde
         scoreTerms->mTimeRemainingScore = 0;
     } else {
         scoreTerms->mTimeRemainingScore =
-            (FX_Div(rankTimeGpFile->mUnk_0a *
+            (FX_Div(rankTimeGpFile->mTimeRemainingWeight *
                         (raceProgress->mUnk_00_header.mRankTime - raceProgress->mUnk_00_header.mElapsedFrames),
                     raceProgress->mUnk_00_header.mRankTime) +
              0x800) >>
             12;
     }
-    scoreTerms->mFirstPlaceScore = (rankTimeGpFile->mUnk_0c * FX_Div(raceProgressKart->mFirstPlaceFrames << 12,
-                                                                     gRaceProgress->mUnk_00_header.mRankTime << 12)) >>
-                                   12;
+    scoreTerms->mFirstPlaceScore =
+        (rankTimeGpFile->mFirstPlaceWeight *
+         FX_Div(raceProgressKart->mFirstPlaceFrames << 12, gRaceProgress->mUnk_00_header.mRankTime << 12)) >>
+        12;
     if (entryKartCounters->mRaceStartBoosted != 0) {
-        scoreTerms->mRaceStartBoostScore = rankTimeGpFile->mUnk_0e;
+        scoreTerms->mRaceStartBoostScore = rankTimeGpFile->mRaceStartBoostPoints;
     } else {
         scoreTerms->mRaceStartBoostScore = 0;
     }
-    scoreTerms->mMiniTurboScore = rankTimeGpFile->mUnk_10 * entryKartCounters->mMiniTurboCount;
-    scoreTerms->mUnk_10 = rankTimeGpFile->mUnk_12 * entryKartCounters->mUnk_08;
-    scoreTerms->mUnk_14 = -((u32) (entryKartCounters->mUnk_0c * FX_Inv(rankTimeGpFile->mUnk_14 << 12)) >> 12);
-    scoreTerms->mUnk_18 = entryKartCounters->mUnk_10 * -rankTimeGpFile->mUnk_16;
-    scoreTerms->mMapObjectHitScore = entryKartCounters->mMapObjectHitCount * -rankTimeGpFile->mUnk_18;
-    scoreTerms->mRespawnScore = entryKartCounters->mRespawnCount * -rankTimeGpFile->mUnk_1a;
+    scoreTerms->mMiniTurboScore = rankTimeGpFile->mMiniTurboPoints * entryKartCounters->mMiniTurboCount;
+    scoreTerms->mItemHitScore = rankTimeGpFile->mItemHitPoints * entryKartCounters->mUnk_08;
+    scoreTerms->mSurfaceScore =
+        -((u32) (entryKartCounters->mUnk_0c * FX_Inv(rankTimeGpFile->mSurfaceDivisor << 12)) >> 12);
+    scoreTerms->mCourseContactScore = entryKartCounters->mUnk_10 * -rankTimeGpFile->mCourseContactPoints;
+    scoreTerms->mMapObjectHitScore = entryKartCounters->mMapObjectHitCount * -rankTimeGpFile->mMapObjectHitPoints;
+    scoreTerms->mRespawnScore = entryKartCounters->mRespawnCount * -rankTimeGpFile->mRespawnPoints;
 }
 
-// Sum of the nine score terms (also saved in gRaceProgress->mUnk_500), clamped to -9999..9999; 0 unless kart a is the
+// Sum of the nine score terms (also saved in gRaceProgress.mUnk_500), clamped to -9999..9999; 0 unless kart a is the
 // local entry in Grand Prix or Mission Run.
 s16 ComputeRaceProgressKartScore(s32 kartIndex) {
     RaceProgressScoreTerms scoreTerms;
@@ -145,9 +147,9 @@ s16 ComputeRaceProgressKartScore(s32 kartIndex) {
             scoreTerms.mFirstPlaceScore = 0;
             scoreTerms.mRaceStartBoostScore = 0;
             scoreTerms.mMiniTurboScore = 0;
-            scoreTerms.mUnk_10 = entryKartCounters->mUnk_08 * -5;
-            scoreTerms.mUnk_14 = 0;
-            scoreTerms.mUnk_18 = entryKartCounters->mUnk_10 * -5;
+            scoreTerms.mItemHitScore = entryKartCounters->mUnk_08 * -5;
+            scoreTerms.mSurfaceScore = 0;
+            scoreTerms.mCourseContactScore = entryKartCounters->mUnk_10 * -5;
             scoreTerms.mMapObjectHitScore = entryKartCounters->mMapObjectHitCount * -10;
             scoreTerms.mRespawnScore = entryKartCounters->mRespawnCount * -20;
             break;
@@ -156,9 +158,9 @@ s16 ComputeRaceProgressKartScore(s32 kartIndex) {
     }
     *savedScoreTerms = scoreTerms;
     score = savedScoreTerms->mTimeRemainingScore + savedScoreTerms->mFirstPlaceScore +
-            savedScoreTerms->mRaceStartBoostScore + savedScoreTerms->mMiniTurboScore + savedScoreTerms->mUnk_10 +
-            savedScoreTerms->mUnk_14 + savedScoreTerms->mUnk_18 + savedScoreTerms->mMapObjectHitScore +
-            savedScoreTerms->mRespawnScore;
+            savedScoreTerms->mRaceStartBoostScore + savedScoreTerms->mMiniTurboScore + savedScoreTerms->mItemHitScore +
+            savedScoreTerms->mSurfaceScore + savedScoreTerms->mCourseContactScore +
+            savedScoreTerms->mMapObjectHitScore + savedScoreTerms->mRespawnScore;
     if (score < -9999) {
         score = -9999;
     }

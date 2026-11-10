@@ -82,20 +82,20 @@ void StartRestingItemObject(ItemObject *item, void *b) {
     UpdateCollisionHitLink(b, item->mCollisionBits, item->mCollisionHitLink, &item->mUnk_108, &item->mNormal);
     if (item->mCollisionHitLink->mObject != NULL &&
         IsHitLinkOutsideGearRadiusOrFlagged((Unk020e0448 *) item->mCollisionHitLink) != 0) {
-        item->mUnk_11a = 0xe10;
+        item->mHitLinkTimer = ITEM_OBJECT_HIT_LINK_TIMER_FRAMES;
     } else {
-        item->mUnk_11a = 0;
+        item->mHitLinkTimer = 0;
     }
     item->mFlags |= 0x8000;
     kind = *(vs32 *) &item->mKind;
-    if (gItemKinds[kind].mUnk_44 == 0) {
+    if (gItemKinds[kind].mKeepsAdvanceWhenResting == 0) {
         if (!(item->mFlags & 0x180000)) {
             item->mAdvance = AdvanceRestingItemObject;
         }
     }
     item->mBounce = BounceRestingItemObject;
     kind = item->mKind;
-    k = gItemKinds[kind].mUnk_7c;
+    k = gItemKinds[kind].mBounceFactor;
     fallSpeed = item->mVelocity.y;
     if (fallSpeed <= 0) {
         fallSpeed = -fallSpeed;
@@ -110,7 +110,7 @@ void StartRestingItemObject(ItemObject *item, void *b) {
     StopItemObjectSoundSource(item);
     AddRestingItemPoolObject(&gItemPools[*(vs32 *) &item->mKind], item);
     kind = *(vs32 *) &item->mKind;
-    StartItemObjectSoundIfNear(item, gItemKinds[kind].mUnk_9c);
+    StartItemObjectSoundIfNear(item, gItemKinds[kind].mRestSoundId);
 }
 
 void AdvanceRestingItemObject(ItemObject *item) {
@@ -126,9 +126,9 @@ void AdvanceRestingItemObject(ItemObject *item) {
             }
         }
         VEC_MultAdd(item->mCourseRadius, &item->mNormal, &item->mUnk_108, &item->mPos);
-        if (item->mUnk_11a > 0) {
-            item->mUnk_11a -= 1;
-            if ((item->mUnk_48 & 7) != GetRaceUpdateFramesMod8()) {
+        if (item->mHitLinkTimer > 0) {
+            item->mHitLinkTimer -= 1;
+            if ((item->mCreationNumber & 7) != GetRaceUpdateFramesMod8()) {
                 return;
             }
             if (CollideSphereWithCourse(&item->mPos, NULL, 0, item->mCourseRadius, 0x44, item->mCollisionSlotIndex,
@@ -170,7 +170,7 @@ void BounceRestingItemObject(ItemObject *item, Vec3 *otherVelocity, Vec3 *normal
         dot = -dot;
     }
     kind = *(vs32 *) &item->mKind;
-    item->mUnk_100 = MUL_FIXED12_NO_ROUND(dot, gItemKinds[kind].mUnk_7c);
+    item->mUnk_100 = MUL_FIXED12_NO_ROUND(dot, gItemKinds[kind].mBounceFactor);
     item->mUnk_100 = item->mUnk_100 >> 1;
 }
 
@@ -185,7 +185,7 @@ void LaunchItemObjectFromPos(ItemObject *itemParam, s32 pushStrength, Vec3 *from
     item = itemParam;
     velocity = &item->mVelocity;
     kind = *(vs32 *) &item->mKind;
-    startsFalling = gItemKinds[kind].mUnk_80;
+    startsFalling = gItemKinds[kind].mStartsFalling;
     if (gRaceSetup->mMode == MODE_TIME_ATTACK || (item->mFlags & 0x8000000)) {
         startsFalling = 0;
     }
@@ -227,7 +227,7 @@ void StartFallingItemObject(ItemObject *item) {
     item->mFlags &= ~0x8000;
     item->mFlags |= 0x4000;
     kind = *(vs32 *) &item->mKind;
-    if (gItemKinds[kind].mUnk_44 == 0) {
+    if (gItemKinds[kind].mKeepsAdvanceWhenResting == 0) {
         if (!(item->mFlags & 0x180000)) {
             item->mAdvance = AdvanceFallingItemObject;
         }
@@ -1038,7 +1038,7 @@ void CreateItemInfos(void) {
             break;
         case 5:
             for (i = 0; i < 0x12; i++) {
-                if (gItemInfos[(u32) i].mEnabled != FALSE && gItemInfos[(u32) i].mUnk_04 == 0) {
+                if (gItemInfos[(u32) i].mEnabled != FALSE && gItemInfos[(u32) i].mEnabledInMode5 == 0) {
                     gItemInfos[i].mEnabled = FALSE;
                 }
             }
@@ -1058,13 +1058,13 @@ void InitHeldItem(HeldItem *heldItem, KartItems *kartItems) {
     heldItem->mItemInfoIndex = 0x13;
     heldItem->mObjectCount = 0;
     heldItem->mObjectStartFramesLeft = 0;
-    heldItem->mUnk_0c = 0;
+    heldItem->mUsesTimer = 0;
     heldItem->mTimer = 0;
     heldItem->mUseTimerLimit = 0;
     for (i = 0; i < 3; i++) {
         heldItem->mObjects[i] = NULL;
     }
-    heldItem->mUnk_24 = gRaceSetup->mCurrentEntries[kartItems->mKartIndex].mPlayer.mKind == PLAYER_KIND_PEER;
+    heldItem->mIsPeerEntry = gRaceSetup->mCurrentEntries[kartItems->mKartIndex].mPlayer.mKind == PLAYER_KIND_PEER;
 }
 
 // Starts one held object at counts 7, 5 and 3 of the countdown that StartHeldItemObjects sets.
@@ -1106,7 +1106,7 @@ void StartNextHeldItemObject(HeldItem *heldItem) {
     heldItem->mItemInfoIndex = 0x13;
     heldItem->mObjectCount = 0;
     heldItem->mObjectStartFramesLeft = 0;
-    heldItem->mUnk_0c = 0;
+    heldItem->mUsesTimer = 0;
     heldItem->mTimer = 0;
     heldItem->mUseTimerLimit = 0;
     for (i = 0; i < 3; i++) {

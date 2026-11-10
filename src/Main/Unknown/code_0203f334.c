@@ -110,7 +110,7 @@ void UpdateRaceClock(void) {
         r->mValue = r->mMultiplier * r->mValue + r->mIncrement;
         t = -(s16) (u16) (r->mValue >> 32 >> 20);
     }
-    c = &q->mUnk_00_header.mUnk_08;
+    c = &q->mUnk_00_header.mClockMillisecond;
     ComputeRaceTime((u8 *) c + 2, (u8 *) c + 3, c, t, p->mUnk_00_header.mElapsedFrames);
 }
 

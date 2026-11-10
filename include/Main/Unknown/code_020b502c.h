@@ -211,7 +211,7 @@ typedef struct CourseMapRoute {
 typedef struct {
     /* 00 */ Vec3 mPos;
     /* 0c */ s32 mRadius;
-    /* 10 */ u8 mUnk_10;
+    /* 10 */ u8 mLinkIndex;
     /* 11 */ u8 mUnk_11[3];
 } CourseMapItemPoint;
 

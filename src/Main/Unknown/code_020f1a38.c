@@ -42,7 +42,7 @@ void CreateItemKinds(void) {
         } else {
             v = gSoundFalloffs[1].mUnk_20;
         }
-        gItemKinds[i].mUnk_a4 = v;
+        gItemKinds[i].mFarDistanceSquared = v;
     }
     m = gRaceSetup->mMode;
     switch (m) {
@@ -51,7 +51,7 @@ void CreateItemKinds(void) {
             break;
         case MODE_MISSION_RUN:
             for (j = 0; j < 0xe; j++) {
-                gItemKinds[j].mLimit = gItemKinds[j].mUnk_08;
+                gItemKinds[j].mLimit = gItemKinds[j].mMissionRunLimit;
             }
             break;
         case 5:
@@ -67,7 +67,7 @@ void ComputeItemKindObjectCounts(void) {
     s32 n;
 
     for (i = 0; i < 0xe; i++) {
-        gItemKinds[i].mUnk_10 = gItemKinds[i].mLimit - 1;
+        gItemKinds[i].mObjectBudget = gItemKinds[i].mLimit - 1;
         a[i] = 1;
     }
     for (j = 0; j < 0x12; j++) {
@@ -80,8 +80,8 @@ void ComputeItemKindObjectCounts(void) {
         }
     }
     for (i = 0; i < 0xe; i++) {
-        gItemKinds[i].mUnk_10 = gItemKinds[i].mUnk_10 + a[i];
-        gItemKinds[i].mObjectCount = gItemKinds[i].mUnk_10;
+        gItemKinds[i].mObjectBudget = gItemKinds[i].mObjectBudget + a[i];
+        gItemKinds[i].mObjectCount = gItemKinds[i].mObjectBudget;
     }
     if (gRaceSetup->mMode == 5) {
         for (i = 0; i < 0xe; i++) {

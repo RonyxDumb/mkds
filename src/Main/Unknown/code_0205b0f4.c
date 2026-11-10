@@ -119,14 +119,15 @@ void InitWiFiRaceSync(void *heap) {
     gWiFiRaceSync = HeapAlloc(heap, 0x760);
     gWiFiRaceSync->mSendBuffer = HeapAllocAligned(heap, WIFI_RACE_SYNC_SEND_BUFFER_SIZE, 0x20);
     for (i = 0; i < 16; i++) {
-        gWiFiRaceSync->mItemDataSlots[i].mData = HeapAllocAligned(heap, 20, 32);
+        gWiFiRaceSync->mItemDataSlots[i].mData = HeapAllocAligned(heap, ITEM_DATA_SLOT_BUFFER_SIZE, 32);
         for (j = 0; j < WIFI_RACE_SYNC_PARTICIPANT_COUNT; j++) {
-            gWiFiRaceSync->mReceivedItemDataSlots[i][j].mData = HeapAllocAligned(heap, 20, 32);
+            gWiFiRaceSync->mReceivedItemDataSlots[i][j].mData = HeapAllocAligned(heap, ITEM_DATA_SLOT_BUFFER_SIZE, 32);
         }
     }
     gWiFiRaceSync->mStartParticipantMask = gParticipantKartMap->mUnk_04;
     MI_CpuFill8(gWiFiRaceSync->mSendBuffer, 0, WIFI_RACE_SYNC_SEND_BUFFER_SIZE);
     for (entryIndex = 0; entryIndex < WIFI_RACE_SYNC_PARTICIPANT_COUNT; entryIndex++) {
+        // Clears the record part of the entry.
         MI_CpuFill8(&gWiFiRaceSync->mEntries[entryIndex], 0, WIFI_RACE_SYNC_RECORD_SIZE);
         gWiFiRaceSync->mEntries[entryIndex].mRecordReceived = 0;
     }

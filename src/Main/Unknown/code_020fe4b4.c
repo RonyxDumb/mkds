@@ -78,7 +78,7 @@ void SetupItemFBoxPooledMapObjects(void) {
         fbox->mPooledMapObject->mPositionSource = &fbox->mUnk_000.mItemObject.mPos;
         objectCursor++;
     }
-    pool->mUnk_40 = 1;
+    pool->mDrawnByMapObjects = 1;
 }
 
 #pragma thumb off

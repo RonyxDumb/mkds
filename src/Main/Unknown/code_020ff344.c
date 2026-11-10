@@ -104,10 +104,10 @@ void SetItemFBoxDrawMatrix(ItemFBox *fbox, MtxFx43 *out) {
     Vec3 *position;
 
     position = fbox->mUnk_000.mItemObject.mPosPointer;
-    fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[3].x = position->x >> 4;
-    fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[3].y = position->y >> 4;
-    fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[3].z = position->z >> 4;
-    *out = fbox->mUnk_000.mItemObject.mUnk_94;
+    fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[3].x = position->x >> 4;
+    fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[3].y = position->y >> 4;
+    fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[3].z = position->z >> 4;
+    *out = fbox->mUnk_000.mItemObject.mTransformMtx;
     MTX_Concat33(&gItemFBoxRotation.mUnk_00_m, &out->mUnk_00_m, &out->mUnk_00_m);
 }
 
@@ -118,76 +118,77 @@ void SetItemFBoxPushedDrawMatrix(ItemFBox *fbox, MtxFx43 *out) {
     if ((fbox->mUnk_000.mItemObject.mFlags & 0x80000) && GetChoisesSOpenDuringRace() == 0) {
         s32 row0Dot, row2Dot;
 
-        row0Dot = ((s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].x * fbox->mPushDirection.x +
-                   (s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].z * fbox->mPushDirection.z) >>
+        row0Dot = ((s64) fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[0].x * fbox->mPushDirection.x +
+                   (s64) fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[0].z * fbox->mPushDirection.z) >>
                   12;
         scaledX = MUL_FIXED12_NO_ROUND(fbox->mPushDirection.x, 0xa4);
-        row2Dot = ((s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2].x * fbox->mPushDirection.x +
-                   (s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2].z * fbox->mPushDirection.z) >>
+        row2Dot = ((s64) fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[2].x * fbox->mPushDirection.x +
+                   (s64) fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[2].z * fbox->mPushDirection.z) >>
                   12;
         scaledZ = MUL_FIXED12_NO_ROUND(fbox->mPushDirection.z, 0xa4);
-        fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1].x =
-            (s32) (fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1].x + scaledX);
-        fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1].z += scaledZ;
-        if ((s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1].x * fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1].x +
-                (s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1].y *
-                    fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1].y +
-                (s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1].z *
-                    fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1].z >=
+        fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[1].x =
+            (s32) (fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[1].x + scaledX);
+        fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[1].z += scaledZ;
+        if ((s64) fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[1].x *
+                    fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[1].x +
+                (s64) fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[1].y *
+                    fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[1].y +
+                (s64) fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[1].z *
+                    fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[1].z >=
             0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(&fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1],
-                                               &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1]);
+            Vec3NormalizeAndGetLengthUnchecked(&fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[1],
+                                               &fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[1]);
         }
         if (row0Dot * row0Dot > row2Dot * row2Dot) {
-            fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2].x =
-                (s32) (fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2].x - scaledX);
-            fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2].z -= scaledZ;
-            Vec3CrossUnrounded(&fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1],
-                               &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2],
-                               &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0]);
-            if ((s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].x *
-                        fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].x +
-                    (s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].y *
-                        fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].y +
-                    (s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].z *
-                        fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].z >=
+            fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[2].x =
+                (s32) (fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[2].x - scaledX);
+            fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[2].z -= scaledZ;
+            Vec3CrossUnrounded(&fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[1],
+                               &fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[2],
+                               &fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[0]);
+            if ((s64) fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[0].x *
+                        fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[0].x +
+                    (s64) fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[0].y *
+                        fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[0].y +
+                    (s64) fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[0].z *
+                        fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[0].z >=
                 0x10) {
-                Vec3NormalizeAndGetLengthUnchecked(&fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0],
-                                                   &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0]);
+                Vec3NormalizeAndGetLengthUnchecked(&fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[0],
+                                                   &fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[0]);
             }
-            Vec3CrossUnrounded(&fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0],
-                               &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1],
-                               &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2]);
+            Vec3CrossUnrounded(&fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[0],
+                               &fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[1],
+                               &fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[2]);
         } else {
-            fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].x -= scaledX;
-            fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].z -= scaledZ;
-            Vec3CrossUnrounded(&fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0],
-                               &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1],
-                               &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2]);
-            if ((s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2].x *
-                        fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2].x +
-                    (s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2].y *
-                        fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2].y +
-                    (s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2].z *
-                        fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2].z >=
+            fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[0].x -= scaledX;
+            fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[0].z -= scaledZ;
+            Vec3CrossUnrounded(&fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[0],
+                               &fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[1],
+                               &fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[2]);
+            if ((s64) fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[2].x *
+                        fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[2].x +
+                    (s64) fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[2].y *
+                        fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[2].y +
+                    (s64) fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[2].z *
+                        fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[2].z >=
                 0x10) {
-                Vec3NormalizeAndGetLengthUnchecked(&fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2],
-                                                   &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2]);
+                Vec3NormalizeAndGetLengthUnchecked(&fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[2],
+                                                   &fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[2]);
             }
-            Vec3CrossUnrounded(&fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1],
-                               &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2],
-                               &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0]);
+            Vec3CrossUnrounded(&fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[1],
+                               &fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[2],
+                               &fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[0]);
         }
     }
     position = fbox->mUnk_000.mItemObject.mPosPointer;
-    fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[3].x = position->x >> 4;
-    fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[3].y = position->y >> 4;
-    fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[3].z = position->z >> 4;
-    *out = fbox->mUnk_000.mItemObject.mUnk_94;
+    fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[3].x = position->x >> 4;
+    fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[3].y = position->y >> 4;
+    fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[3].z = position->z >> 4;
+    *out = fbox->mUnk_000.mItemObject.mTransformMtx;
 }
 
 void ResetItemFBox(ItemFBox *fbox) {
-    fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00_m = gItemFBoxRotation.mUnk_00_m;
+    fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00_m = gItemFBoxRotation.mUnk_00_m;
     ResetPooledMapObject(fbox->mPooledMapObject);
     fbox->mPooledMapObject->mShadowMode = 2;
     SetPooledMapObjectCallback(fbox->mPooledMapObject, SetItemFBoxDrawMatrix, fbox);
@@ -206,8 +207,8 @@ void AdvanceItemFBoxInUse(ItemInUse *inUse, ItemFBox *fbox) {
 u32 InitItemFBox(ItemInUse *inUse, ItemFBox *fbox) {
     StartItemObjectSoundSource(&fbox->mUnk_000.mItemObject);
     fbox->mUnk_000.mItemObject.mOwnerKartIndexAndFlags |= gItemObjectExcludedUntilCourseHitBit;
-    MTX_Concat33(&gItemFBoxRotation.mUnk_00_m, &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00_m,
-                 &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00_m);
+    MTX_Concat33(&gItemFBoxRotation.mUnk_00_m, &fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00_m,
+                 &fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00_m);
     fbox->mPushDirection.x = 0;
     fbox->mPushDirection.y = 0;
     fbox->mPushDirection.z = 0;
@@ -268,17 +269,21 @@ s32 ItemFBoxFadeOutCallback(ItemFBox *fbox) {
 }
 
 void SetupItemFBoxAfterLaunch(ItemFBox *fbox) {
-    if ((s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].x * fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].x +
-            (s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].y * fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].y +
-            (s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].z * fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].z >=
+    if ((s64) fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[0].x *
+                fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[0].x +
+            (s64) fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[0].y *
+                fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[0].y +
+            (s64) fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[0].z *
+                fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[0].z >=
         0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0],
-                                           &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0]);
+        Vec3NormalizeAndGetLengthUnchecked(&fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[0],
+                                           &fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[0]);
     }
-    Vec3CrossUnrounded(&fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0], &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1],
-                       &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2]);
-    MTX_Concat33(&gItemFBoxRotation.mUnk_00_m, &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00_m,
-                 &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00_m);
+    Vec3CrossUnrounded(&fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[0],
+                       &fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[1],
+                       &fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00[2]);
+    MTX_Concat33(&gItemFBoxRotation.mUnk_00_m, &fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00_m,
+                 &fbox->mUnk_000.mItemObject.mTransformMtx.mUnk_00_m);
     if ((fbox->mUnk_000.mItemObject.mFlags & 0x180000) == 0) {
         fbox->mUnk_000.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemFBox;
     }

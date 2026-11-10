@@ -60,7 +60,7 @@ void InitBouncingItemBoxMapObjects(void) {
                 index = index + 1;
             } while (index < objectCount);
         }
-        pool->mUnk_40 = 1;
+        pool->mDrawnByMapObjects = 1;
     }
 }
 

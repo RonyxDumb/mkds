@@ -172,11 +172,11 @@ void BuildCourseMapItemRouteLinks(ItemPointLink *previousLink, CourseMapRoute *r
         }
     }
     link->mPointPos = &itemPoint->mPos;
-    link->mUnk_1c = itemPoint->mRadius;
+    link->mRadius = itemPoint->mRadius;
     if (gCourseMap->mVersion < COURSE_MAP_VERSION_ITEM_POINT_SIZE) {
-        link->mUnk_20 = 0;
+        link->mLinkIndex = 0;
     } else {
-        link->mUnk_20 = itemPoint->mUnk_10;
+        link->mLinkIndex = itemPoint->mLinkIndex;
     }
     for (k = 0; k < 3; k++) {
         if (previousLink->mNextLinks[k] == NULL) {
@@ -231,8 +231,8 @@ void BuildCourseMapItemPointLinks(void *heap) {
         link->mNextCount = 0;
         link->mPreviousCount = 0;
         link->mPointPos = NULL;
-        link->mUnk_20 = 0;
-        link->mUnk_1c = 0;
+        link->mLinkIndex = 0;
+        link->mRadius = 0;
     }
     routes = gCourseMap->mItemRoutes;
     previousRoute = routes + firstRoute->mPreviousRoutes[0];

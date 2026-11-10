@@ -181,7 +181,7 @@ s32 InitItemKouraW(ItemInUse *itemInUse, ItemKouraW *item) {
     }
     InitItemKouraWCommon(item);
     // one 36-byte copy of the three vectors (three Vec3 assignments give 0x160 bytes against 0x150)
-    item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00_m = itemInUse->mKartOrientation;
+    item->mUnk_000.mUnk_000.mUnk_000.mTransformMtx.mUnk_00_m = itemInUse->mKartOrientation;
     if (item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x8000000) {
         item->mStateMachine.mNextState = 0;
         item->mStateMachine.mNextStateRequested = 1;
@@ -224,15 +224,15 @@ void UpdateItemKouraWOrientation(ItemKouraW *item, Vec3 *direction, s32 followDe
 
     if (normal != NULL) {
         if (LENGTH_SQUARED(*direction) >= 0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(direction, &item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[2]);
+            Vec3NormalizeAndGetLengthUnchecked(direction, &item->mUnk_000.mUnk_000.mUnk_000.mTransformMtx.mUnk_00[2]);
         }
         smoothedDelta->x = MUL_FIXED12_NO_ROUND(smoothedDelta->x, 0xccd);
         smoothedDelta->y = MUL_FIXED12_NO_ROUND(smoothedDelta->y, 0xccd);
         smoothedDelta->z = MUL_FIXED12_NO_ROUND(smoothedDelta->z, 0xccd);
         VEC_MultAdd(0x3000, smoothedDelta, normal, &buf);
-        Vec3CrossUnrounded(&buf, &item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[2], &buf);
+        Vec3CrossUnrounded(&buf, &item->mUnk_000.mUnk_000.mUnk_000.mTransformMtx.mUnk_00[2], &buf);
         if (LENGTH_SQUARED(buf) >= 0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(&buf, &item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[0]);
+            Vec3NormalizeAndGetLengthUnchecked(&buf, &item->mUnk_000.mUnk_000.mUnk_000.mTransformMtx.mUnk_00[0]);
         }
     } else {
         if (LENGTH_SQUARED(*direction) >= 0x10) {
@@ -241,7 +241,7 @@ void UpdateItemKouraWOrientation(ItemKouraW *item, Vec3 *direction, s32 followDe
         if (buf.x * buf.x + buf.z * buf.z < 0x112510) {
             return;
         }
-        item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[2] = buf;
+        item->mUnk_000.mUnk_000.mUnk_000.mTransformMtx.mUnk_00[2] = buf;
         if (followDelta != 0) {
             smoothedDelta->x += MUL_FIXED12_NO_ROUND(direction->x - previousDirection->x - smoothedDelta->x, 0x148);
             smoothedDelta->z += MUL_FIXED12_NO_ROUND(direction->z - previousDirection->z - smoothedDelta->z, 0x148);
@@ -253,30 +253,30 @@ void UpdateItemKouraWOrientation(ItemKouraW *item, Vec3 *direction, s32 followDe
         v3.x = MUL_FIXED12_NO_ROUND(smoothedDelta->x, 0x3000);
         v3.z = MUL_FIXED12_NO_ROUND(smoothedDelta->z, 0x3000);
         buf = v3;
-        Vec3CrossUnrounded(&buf, &item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[2],
-                           &item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[0]);
-        if ((s64) item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[0].x *
-                    item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[0].x +
-                (s64) item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[0].y *
-                    item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[0].y +
-                (s64) item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[0].z *
-                    item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[0].z >=
+        Vec3CrossUnrounded(&buf, &item->mUnk_000.mUnk_000.mUnk_000.mTransformMtx.mUnk_00[2],
+                           &item->mUnk_000.mUnk_000.mUnk_000.mTransformMtx.mUnk_00[0]);
+        if ((s64) item->mUnk_000.mUnk_000.mUnk_000.mTransformMtx.mUnk_00[0].x *
+                    item->mUnk_000.mUnk_000.mUnk_000.mTransformMtx.mUnk_00[0].x +
+                (s64) item->mUnk_000.mUnk_000.mUnk_000.mTransformMtx.mUnk_00[0].y *
+                    item->mUnk_000.mUnk_000.mUnk_000.mTransformMtx.mUnk_00[0].y +
+                (s64) item->mUnk_000.mUnk_000.mUnk_000.mTransformMtx.mUnk_00[0].z *
+                    item->mUnk_000.mUnk_000.mUnk_000.mTransformMtx.mUnk_00[0].z >=
             0x10) {
-            ok = Vec3NormalizeAndGetLengthUnchecked(&item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[0],
-                                                    &item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[0]);
+            ok = Vec3NormalizeAndGetLengthUnchecked(&item->mUnk_000.mUnk_000.mUnk_000.mTransformMtx.mUnk_00[0],
+                                                    &item->mUnk_000.mUnk_000.mUnk_000.mTransformMtx.mUnk_00[0]);
         } else {
             ok = 0;
         }
         if (ok == 0) {
             Vec3 t = {0, 0, 0};
-            t.x = item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[0].z;
-            t.z = -item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[0].x;
-            item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[0] = t;
+            t.x = item->mUnk_000.mUnk_000.mUnk_000.mTransformMtx.mUnk_00[0].z;
+            t.z = -item->mUnk_000.mUnk_000.mUnk_000.mTransformMtx.mUnk_00[0].x;
+            item->mUnk_000.mUnk_000.mUnk_000.mTransformMtx.mUnk_00[0] = t;
         }
     }
-    Vec3CrossUnrounded(&item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[2],
-                       &item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[0],
-                       &item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[1]);
+    Vec3CrossUnrounded(&item->mUnk_000.mUnk_000.mUnk_000.mTransformMtx.mUnk_00[2],
+                       &item->mUnk_000.mUnk_000.mUnk_000.mTransformMtx.mUnk_00[0],
+                       &item->mUnk_000.mUnk_000.mUnk_000.mTransformMtx.mUnk_00[1]);
     *previousDirection = *direction;
 }
 
@@ -554,7 +554,7 @@ void EnterItemKouraWState5(ItemKouraW *item) {
     item->mLift = 0x28000;
     item->mUnk_264 = 0x333;
     kind = item->mUnk_000.mUnk_000.mUnk_000.mKind;
-    item->mUnk_000.mUnk_000.mUnk_000.mUnk_100 = gItemKinds[kind].mUnk_74;
+    item->mUnk_000.mUnk_000.mUnk_000.mUnk_100 = gItemKinds[kind].mTargetScale;
     item->mUnk_000.mUnk_000.mUnk_000.mFlags |= 0x800000;
     item->mEasedDirection = item->mPreviousDirection;
     item->mUnk_27c = 0x3000;
@@ -603,7 +603,7 @@ void EnterItemKouraWState6(ItemKouraW *item) {
 
     item->mLift = 0x28000;
     kind = item->mUnk_000.mUnk_000.mUnk_000.mKind;
-    item->mUnk_000.mUnk_000.mUnk_000.mUnk_100 = gItemKinds[kind].mUnk_74;
+    item->mUnk_000.mUnk_000.mUnk_000.mUnk_100 = gItemKinds[kind].mTargetScale;
     item->mUnk_000.mUnk_000.mUnk_000.mUnk_100 += 0x800;
     CreateItemObjectCollisionSlotExact(&item->mUnk_000.mUnk_000.mUnk_000);
 }
@@ -635,8 +635,8 @@ void UpdateItemKouraWState6(ItemKouraW *item) {
         }
     }
     grew = GrowItemObjectScale(&item->mUnk_000.mUnk_000.mUnk_000,
-                               gItemKinds[item->mUnk_000.mUnk_000.mUnk_000.mKind].mUnk_74,
-                               gItemKinds[item->mUnk_000.mUnk_000.mUnk_000.mKind].mUnk_78);
+                               gItemKinds[item->mUnk_000.mUnk_000.mUnk_000.mKind].mTargetScale,
+                               gItemKinds[item->mUnk_000.mUnk_000.mUnk_000.mKind].mScaleStep);
     if (EaseItemObjectScale(&item->mUnk_000.mUnk_000.mUnk_000) != 0) {
         return;
     }
@@ -765,7 +765,8 @@ void InitItemKouraWFromData(ItemKouraW *item) {
                                            &directionQuaternion.mDirection);
     }
     QuaternionFromYAxisToVec3(&directionQuaternion.mDirection, &directionQuaternion.mQuaternion);
-    Matrix3x3FromQuaternion(&item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00_m, &directionQuaternion.mQuaternion);
+    Matrix3x3FromQuaternion(&item->mUnk_000.mUnk_000.mUnk_000.mTransformMtx.mUnk_00_m,
+                            &directionQuaternion.mQuaternion);
 }
 
 void DrawItemKouraWModel(ItemKouraW *item, Vec3 *viewAxis, s32 model) {
@@ -796,10 +797,10 @@ void DrawItemKouraWModel(ItemKouraW *item, Vec3 *viewAxis, s32 model) {
         Vec3 *position;
 
         position = item->mUnk_000.mUnk_000.mUnk_000.mPosPointer;
-        item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[3].x = position->x >> 4;
-        item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[3].y = position->y >> 4;
-        item->mUnk_000.mUnk_000.mUnk_000.mUnk_94.mUnk_00[3].z = position->z >> 4;
-        matrix = &item->mUnk_000.mUnk_000.mUnk_000.mUnk_94;
+        item->mUnk_000.mUnk_000.mUnk_000.mTransformMtx.mUnk_00[3].x = position->x >> 4;
+        item->mUnk_000.mUnk_000.mUnk_000.mTransformMtx.mUnk_00[3].y = position->y >> 4;
+        item->mUnk_000.mUnk_000.mUnk_000.mTransformMtx.mUnk_00[3].z = position->z >> 4;
+        matrix = &item->mUnk_000.mUnk_000.mUnk_000.mTransformMtx;
     }
     DrawNsbmdWithMatrixAndMaxAlpha(gKouraW, matrix, &scale, 0x1f);
     if (item->mUnk_000.mUnk_000.mUnk_000.mAlpha == 0x1f) {
@@ -884,7 +885,7 @@ void SetupItemKouraWKind(void) {
 
 BOOL IsItemInfoObjectCountFree(s32 itemInfoIndex) {
     if (itemInfoIndex != 0x13) {
-        return gItemPools[gItemInfos[itemInfoIndex].mObjectKind].mUnk_0c -
+        return gItemPools[gItemInfos[itemInfoIndex].mObjectKind].mObjectBudget -
                    gItemPools[gItemInfos[itemInfoIndex].mObjectKind].mReservedCount >=
                gItemInfos[itemInfoIndex].mObjectCount;
     }
@@ -893,7 +894,7 @@ BOOL IsItemInfoObjectCountFree(s32 itemInfoIndex) {
 
 static inline BOOL func_020fab34_inline(s32 itemInfoIndex) {
     if (itemInfoIndex != 0x13) {
-        return gItemPools[gItemInfos[itemInfoIndex].mObjectKind].mUnk_0c -
+        return gItemPools[gItemInfos[itemInfoIndex].mObjectKind].mObjectBudget -
                    gItemPools[gItemInfos[itemInfoIndex].mObjectKind].mReservedCount >=
                gItemInfos[itemInfoIndex].mObjectCount;
     }
@@ -939,7 +940,7 @@ BOOL TryReleaseItemObjectsForItemInfo(s32 itemInfoIndex) {
     kind = itemInfo->mObjectKind;
     pool = &gItemPools[kind];
     objectCount = itemInfo->mObjectCount;
-    while (pool->mUnk_0c - pool->mReservedCount < objectCount) {
+    while (pool->mObjectBudget - pool->mReservedCount < objectCount) {
         if (gItemKinds[kind].mLimit == 1) {
             return FALSE;
         }
@@ -990,7 +991,7 @@ void DrawItems(void *a) {
     viewAxis = &((Unk020e6b38 *) GetViewTransposeMatrix())->mUnk_18;
     QueueViewMatrix();
     for (poolIndex = 0; poolIndex < 0xe; poolIndex++) {
-        if (gItemPools[poolIndex].mTakenCount > 0 && gItemPools[poolIndex].mUnk_40 == 0) {
+        if (gItemPools[poolIndex].mTakenCount > 0 && gItemPools[poolIndex].mDrawnByMapObjects == 0) {
             DrawItemPool(&gItemPools[poolIndex], viewAxis);
         }
     }

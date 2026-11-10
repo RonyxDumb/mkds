@@ -288,8 +288,8 @@ found:
         }
     }
     if (frameDifference > 0) {
-        object->mUnk_7a = frameDifference;
-        object->mUnk_7a |= data_02159618;
+        object->mPendingUpdateCount = frameDifference;
+        object->mPendingUpdateCount |= data_02159618;
     }
 }
 
@@ -519,18 +519,18 @@ void UpdateItemPool(ItemPool *pool) {
     }
     for (i = 0; i < activeCount; i++) {
         object = objects[i];
-        pendingUpdateCount = (u16) (object->mUnk_7a & ~0x8000);
+        pendingUpdateCount = (u16) (object->mPendingUpdateCount & ~0x8000);
         if (pendingUpdateCount <= 0) {
             if (UpdateItemObject(pool, object, 0) != 0) {
                 activeCount = pool->mActiveCount;
                 i--;
             }
         } else {
-            hasFlag8000 = object->mUnk_7a & 0x8000;
+            hasFlag8000 = object->mPendingUpdateCount & 0x8000;
             updateCount = 1;
             if (hasFlag8000 != 0) {
                 min = 0x5f592e1;
-                object->mUnk_7a &= ~0x8000;
+                object->mPendingUpdateCount &= ~0x8000;
                 updateCount += pendingUpdateCount;
             } else {
                 updateCount++;
@@ -539,9 +539,9 @@ void UpdateItemPool(ItemPool *pool) {
                 }
             }
             FindCollisionSlotsAroundPos(&object->mPos, object->mRadius + updateCount * 0xa000, 0x6000);
-            object->mUnk_7a++;
+            object->mPendingUpdateCount++;
             do {
-                object->mUnk_7a--;
+                object->mPendingUpdateCount--;
                 if (UpdateItemObject(pool, object, 1) != 0) {
                     activeCount = pool->mActiveCount;
                     i--;
@@ -590,7 +590,7 @@ void CreateItemPool(ItemPool *pool, s32 kind, s32 *objectIdCounter) {
     pool->mKind = kind;
     pool->mObjects = objectCount != 0 ? (ItemObject **) HeapAlloc(heap, objectCount * 4) : 0;
     pool->mObjectCount = objectCount;
-    pool->mUnk_0c = gItemKinds[kind].mUnk_10;
+    pool->mObjectBudget = gItemKinds[kind].mObjectBudget;
     pool->mTakenCount = 0;
     pool->mActiveCount = 0;
     pool->mRestingCount = 0;
@@ -604,11 +604,11 @@ void CreateItemPool(ItemPool *pool, s32 kind, s32 *objectIdCounter) {
     }
     pool->mDraw = gItemKinds[kind].mDraw;
     pool->mViewTest = gItemKinds[kind].mViewTest;
-    pool->mUnk_2c = gItemKinds[kind].mUnk_70;
-    pool->mUnk_30 = gItemKinds[kind].mUnk_74;
-    pool->mUnk_34 = gItemKinds[kind].mUnk_78;
-    pool->mUnk_38 = gItemKinds[kind].mUnk_5c;
-    pool->mUnk_3c = gItemKinds[kind].mUnk_a4;
+    pool->mUnk_2c = gItemKinds[kind].mScaleLimit;
+    pool->mUnk_30 = gItemKinds[kind].mTargetScale;
+    pool->mUnk_34 = gItemKinds[kind].mScaleStep;
+    pool->mUnk_38 = gItemKinds[kind].mDrawDistance;
+    pool->mUnk_3c = gItemKinds[kind].mFarDistanceSquared;
     *objectIdCounter = objectId;
 }
 
@@ -855,9 +855,9 @@ void StartLastItemInUseObjectAndInit(ItemInUse *itemInUse, s32 callKart) {
             callKart = 0;
         }
     }
-    object->mDistanceSquaredAndFlags =
-        gItemKinds[object->mKind].mViewTest(object->mPosPointer, object->mRadius << 1,
-                                            gItemKinds[object->mKind].mUnk_5c, gItemKinds[object->mKind].mUnk_a4, 0x1f);
+    object->mDistanceSquaredAndFlags = gItemKinds[object->mKind].mViewTest(
+        object->mPosPointer, object->mRadius << 1, gItemKinds[object->mKind].mDrawDistance,
+        gItemKinds[object->mKind].mFarDistanceSquared, 0x1f);
     if (object->mFlags & 0x400000) {
         UpdateItemObjectSoundSource(object);
     }
@@ -918,11 +918,12 @@ void StartItemInUseOneWithOrientation(ItemInUse *itemInUse) {
                 &inUseAlias->mBehindPos);
     VEC_MultAdd(MUL_FIXED12_NO_ROUND(itemInUse->mObjectHeight, itemInUse->mKartScaleFactorTimesBase.z),
                 &itemInUse->mKartOrientation.mUnk_00[1], &inUseAlias->mBehindPos, &object->mPos);
-    object->mUnk_94.mUnk_00[1] = itemInUse->mKartOrientation.mUnk_00[1];
-    object->mUnk_94.mUnk_00[2].x = -inUseAlias->mBehindDirection.x;
-    object->mUnk_94.mUnk_00[2].y = -inUseAlias->mBehindDirection.y;
-    object->mUnk_94.mUnk_00[2].z = -inUseAlias->mBehindDirection.z;
-    Vec3CrossUnrounded(&object->mUnk_94.mUnk_00[1], &object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0]);
+    object->mTransformMtx.mUnk_00[1] = itemInUse->mKartOrientation.mUnk_00[1];
+    object->mTransformMtx.mUnk_00[2].x = -inUseAlias->mBehindDirection.x;
+    object->mTransformMtx.mUnk_00[2].y = -inUseAlias->mBehindDirection.y;
+    object->mTransformMtx.mUnk_00[2].z = -inUseAlias->mBehindDirection.z;
+    Vec3CrossUnrounded(&object->mTransformMtx.mUnk_00[1], &object->mTransformMtx.mUnk_00[2],
+                       &object->mTransformMtx.mUnk_00[0]);
 }
 
 void ComputeItemInUseObjectPosition(ItemInUse *itemInUse, Vec3 *objectPos, Vec3 *behindPos) {
@@ -978,7 +979,7 @@ void AdvanceItemInUseOne(ItemInUse *itemInUse) {
     ComputeItemInUseObjectPosition(itemInUse, &object->mPos, &itemInUse->mBehindPos);
     if (object->mAgeFrames > 0xc) {
         kind = object->mKind;
-        if (GrowItemObjectScale(object, gItemKinds[kind].mUnk_70, 0x333) != 0) {
+        if (GrowItemObjectScale(object, gItemKinds[kind].mScaleLimit, 0x333) != 0) {
             SetItemObjectScaleByRatios(object, itemInUse->mKartScaleFactorTimesBase.x,
                                        itemInUse->mKartScaleFactorTimesBase.y);
         }
@@ -1025,11 +1026,12 @@ void AdvanceItemInUseOneWithOrientation(ItemInUse *itemInUse) {
         if (lengthSquared >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
         }
-        object->mUnk_94.mUnk_00[2].x = -direction.x;
-        object->mUnk_94.mUnk_00[2].y = -direction.y;
-        object->mUnk_94.mUnk_00[2].z = -direction.z;
-        object->mUnk_94.mUnk_00[1] = itemInUse->mKartOrientation.mUnk_00[1];
-        Vec3CrossUnrounded(&object->mUnk_94.mUnk_00[1], &object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0]);
+        object->mTransformMtx.mUnk_00[2].x = -direction.x;
+        object->mTransformMtx.mUnk_00[2].y = -direction.y;
+        object->mTransformMtx.mUnk_00[2].z = -direction.z;
+        object->mTransformMtx.mUnk_00[1] = itemInUse->mKartOrientation.mUnk_00[1];
+        Vec3CrossUnrounded(&object->mTransformMtx.mUnk_00[1], &object->mTransformMtx.mUnk_00[2],
+                           &object->mTransformMtx.mUnk_00[0]);
     }
     kind = object->mKind;
     if (gItemKinds[kind].mAdvanceInUse != NULL) {
@@ -1113,7 +1115,7 @@ void AdvanceItemInUseTrail(ItemInUse *itemInUse) {
     previousPos = &inUseAlias->mBehindPos;
     maxGap = MUL_FIXED12_NO_ROUND(itemInUse->mKartScaleFactorTimesBase.z, 0x3000);
     behindDirection = &inUseAlias->mBehindDirection;
-    scaleLimit = gItemKinds[object->mKind].mUnk_70;
+    scaleLimit = gItemKinds[object->mKind].mScaleLimit;
     ComputeItemInUseObjectPosition(itemInUse, &object->mPos, previousPos);
     if (GrowItemObjectScale(object, scaleLimit, 0x19a) != 0) {
         SetItemObjectScaleByRatios(object, itemInUse->mKartScaleFactorTimesBase.x,
@@ -1321,7 +1323,7 @@ void AdvanceItemInUseCircle(ItemInUse *itemInUse) {
     PlaceItemInUseCircleObjects(itemInUse);
     i = 0;
     kind = itemInUse->mObjectKind;
-    scaleLimit = gItemKinds[kind].mUnk_70;
+    scaleLimit = gItemKinds[kind].mScaleLimit;
     for (; i < objectCount; i++) {
         object = itemInUse->mObjects[i];
         if (GrowItemObjectScale(object, scaleLimit, 0x19a) != 0) {

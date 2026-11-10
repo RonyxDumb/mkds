@@ -458,17 +458,17 @@ void SetRankTimeFromRankTimeGp(RankTimeGp *rankTimeGp) {
 
     gRaceProgress->mUnk_00_header.mRankTime = 0;
     for (entryIndex = 0; entryIndex < rankTimeGp->mEntryCount; entryIndex++) {
-        entry = &rankTimeGp->mUnk_1c[entryIndex];
+        entry = &rankTimeGp->mEntries[entryIndex];
         if (entry->mCourseId == gRaceSetup->mCourseId) {
             switch (gRaceSetup->mEngineIndex) {
                 case 0:
-                    gRaceProgress->mUnk_00_header.mRankTime = entry->mUnk_02;
+                    gRaceProgress->mUnk_00_header.mRankTime = entry->mRankTimeEngine0;
                     return;
                 case 1:
-                    gRaceProgress->mUnk_00_header.mRankTime = entry->mUnk_04;
+                    gRaceProgress->mUnk_00_header.mRankTime = entry->mRankTimeEngine1;
                     return;
                 case 2:
-                    gRaceProgress->mUnk_00_header.mRankTime = entry->mUnk_06;
+                    gRaceProgress->mUnk_00_header.mRankTime = entry->mRankTimeEngine2;
                     break;
             }
             return;

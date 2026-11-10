@@ -7,7 +7,7 @@
 #pragma thumb on
 
 void InitItemObject(ItemObject *a, u32 b, int c) {
-    a->mUnk_48 = b;
+    a->mCreationNumber = b;
     CreateCollisionHitLink(&a->mCollisionHitLink);
     InitSoundSource(&a->mSoundSource, gItemKinds[c].mFalloffIndex, &a->mPos);
     ReleaseSoundSourceWrapper(&a->mSoundSource);

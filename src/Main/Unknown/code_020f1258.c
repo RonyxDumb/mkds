@@ -42,7 +42,7 @@ BOOL SteerItemKouraRToKart(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
     result = FALSE;
     pos = &item->mUnk_000.mUnk_000.mUnk_000.mPos;
     velocity = &item->mUnk_000.mUnk_000.mUnk_000.mVelocity;
-    if ((item->mUnk_000.mUnk_000.mUnk_000.mUnk_48 & 1) == GetRaceUpdateFramesMod2()) {
+    if ((item->mUnk_000.mUnk_000.mUnk_000.mCreationNumber & 1) == GetRaceUpdateFramesMod2()) {
         kart = item->mKartItems->mKart;
         if (!(item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x20000)) {
             if (IsKartNotNormal(kart) != FALSE) {

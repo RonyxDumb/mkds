@@ -61,7 +61,7 @@ void ResetItemObject(ItemObject *item, s32 kind) {
     reset = gItemKinds[kind].mReset;
     item->mKind = kind;
     item->mFlags = 0;
-    item->mUnk_7a = 0;
+    item->mPendingUpdateCount = 0;
     item->mScale.x = 0;
     item->mScale.y = 0;
     item->mScale.z = 0;
@@ -172,7 +172,7 @@ void CollideItemObjectWithItemObject(ItemObject *item, ItemObject *other) {
         return;
     }
     if ((other->mFlags & 0x8000) == 0) {
-        if (item->mUnk_48 > other->mUnk_48) {
+        if (item->mCreationNumber > other->mCreationNumber) {
             return;
         }
     }

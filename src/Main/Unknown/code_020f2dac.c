@@ -35,7 +35,7 @@ void UpdateHeldItem(HeldItem *rec) {
     s32 reservedCount;
 
     StartNextHeldItemObject(rec);
-    if (rec->mUnk_0c == 0) {
+    if (rec->mUsesTimer == 0) {
         return;
     }
     if (rec->mTimer == 0) {
@@ -62,7 +62,7 @@ void UpdateHeldItem(HeldItem *rec) {
         rec->mItemInfoIndex = 0x13;
         rec->mObjectCount = 0;
         rec->mObjectStartFramesLeft = 0;
-        rec->mUnk_0c = 0;
+        rec->mUsesTimer = 0;
         rec->mTimer = 0;
         rec->mUseTimerLimit = 0;
         for (i = 0; i < 3; i++) {
@@ -81,7 +81,7 @@ void SetHeldItem(HeldItem *rec, s32 kind) {
     rec->mObjectCount = k;
     rec->mObjectStartFramesLeft = 0;
     SetupKartAiHeldItemEntry(rec->mKartItems->mKart);
-    rec->mUnk_0c = gItemInfos[kind].mUnk_10;
+    rec->mUsesTimer = gItemInfos[kind].mUsesTimer;
     rec->mTimer = 0;
     rec->mUseTimerLimit = 0;
     k = gItemInfos[kind].mObjectKind;
@@ -100,7 +100,7 @@ void RemoveHeldItemObjects(HeldItem *rec, s32 amount) {
         rec->mItemInfoIndex = 0x13;
         rec->mObjectCount = 0;
         rec->mObjectStartFramesLeft = 0;
-        rec->mUnk_0c = 0;
+        rec->mUsesTimer = 0;
         rec->mTimer = 0;
         rec->mUseTimerLimit = 0;
         for (i = 0; i < 3; i++) {
@@ -115,7 +115,7 @@ void ResetHeldItem(HeldItem *rec) {
     rec->mItemInfoIndex = 0x13;
     rec->mObjectCount = 0;
     rec->mObjectStartFramesLeft = 0;
-    rec->mUnk_0c = 0;
+    rec->mUsesTimer = 0;
     rec->mTimer = 0;
     rec->mUseTimerLimit = 0;
     for (i = 0; i < 3; i++) {
@@ -135,7 +135,7 @@ void ReleaseHeldItem(HeldItem *rec, s32 keep) {
 
     if (gRaceSetup->mMode == 5) {
         objectCount = rec->mObjectCount;
-        if (rec->mUnk_24 == FALSE) {
+        if (rec->mIsPeerEntry == FALSE) {
             for (i = 0; i < objectCount; i++) {
                 AddItemDataNoItemId(poolIndex);
             }
@@ -153,7 +153,7 @@ void ReleaseHeldItem(HeldItem *rec, s32 keep) {
     rec->mItemInfoIndex = 0x13;
     rec->mObjectCount = 0;
     rec->mObjectStartFramesLeft = 0;
-    rec->mUnk_0c = 0;
+    rec->mUsesTimer = 0;
     rec->mTimer = 0;
     rec->mUseTimerLimit = 0;
     for (i = 0; i < 3; i++) {
@@ -201,7 +201,7 @@ void TakeHeldItemObjects(HeldItem *rec) {
     angle = (u16) TakeHeldItemObjects_inline(generator, 0x10000);
     angle >>= 4;
     poolIndex = gItemInfos[kind].mObjectKind;
-    if (gItemKinds[poolIndex].mUnk_80 != 0) {
+    if (gItemKinds[poolIndex].mStartsFalling != 0) {
         radius = 0x2000;
     } else {
         radius = 0x1800;
@@ -214,8 +214,8 @@ void TakeHeldItemObjects(HeldItem *rec) {
     if (i < count) {
         row = &gItemSpreadRows[count - 1];
         do {
-            rowX = row->mUnk_00[i].mUnk_00;
-            rowY = row->mUnk_00[i].mUnk_04;
+            rowX = row->mOffsets[i].mX;
+            rowY = row->mOffsets[i].mY;
             rowXJittered = MUL_FIXED12_NO_ROUND(rowX, 0x1000 + (s32) TakeHeldItemObjects_inline(generator, 0x333));
             rowYJittered = MUL_FIXED12_NO_ROUND(rowY, 0x1000 + (s32) TakeHeldItemObjects_inline(generator, 0x333));
             directionAmount = MUL_FIXED12_NO_ROUND(rowXJittered, radiusTimesAnglePairSecond) -
@@ -263,7 +263,7 @@ void RemoveHeldItem(HeldItem *rec, s32 *kind, s32 *count) {
     rec->mItemInfoIndex = 0x13;
     rec->mObjectCount = 0;
     rec->mObjectStartFramesLeft = 0;
-    rec->mUnk_0c = 0;
+    rec->mUsesTimer = 0;
     rec->mTimer = 0;
     rec->mUseTimerLimit = 0;
     for (i = 0; i < 3; i++) {
@@ -277,7 +277,7 @@ void SetHeldItemWithCount(HeldItem *rec, s32 kind, s32 count) {
     rec->mObjectCount = count;
     rec->mObjectStartFramesLeft = 0;
     SetupKartAiHeldItemEntry(rec->mKartItems->mKart);
-    rec->mUnk_0c = gItemInfos[kind].mUnk_10;
+    rec->mUsesTimer = gItemInfos[kind].mUsesTimer;
     rec->mTimer = 0;
     rec->mUseTimerLimit = 0;
 }
@@ -658,8 +658,8 @@ void InitItemPointLinkDirections(void) {
         gItemPointLinksByIndex[i] = 0;
     }
     for (i = 0; i < linkCount; i++, link++) {
-        if (link->mUnk_1c >= 0x3e8000) {
-            gItemPointLinksByIndex[link->mUnk_20] = (s32) link;
+        if (link->mRadius >= ITEM_POINT_LINK_INDEXED_RADIUS) {
+            gItemPointLinksByIndex[link->mLinkIndex] = (s32) link;
         }
     }
     link = gCourseMap->mItemPointLinks;

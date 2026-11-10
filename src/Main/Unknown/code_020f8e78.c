@@ -144,7 +144,7 @@ void SetupItemObjectFromData(ItemObject *item) {
     item->mFramesSinceCourseHit = 5;
     item->mUnk_116 = 0;
     item->mCourseReleaseTimer = 0;
-    item->mUnk_11a = 0;
+    item->mHitLinkTimer = 0;
     item->mAgeFrames = 1;
     if ((item->mFlags & 0x400000) == 0) {
         kind = item->mKind;
