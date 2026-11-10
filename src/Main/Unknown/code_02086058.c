@@ -77,7 +77,7 @@ void UpdateKartViewDistancesAndOutOfView(void) {
                 SetSoundSourceFlagBit(&kart->mSoundSource, 2, 1);
             }
             if (distanceAlongView < 0) {
-                modelsEntry->mUnk_058 = modelsEntry->mUnk_05c = modelsEntry->mUnk_060 = TRUE;
+                modelsEntry->mKartModelHidden = modelsEntry->mCharacterHidden = modelsEntry->mFarFromCamera = TRUE;
                 modelsEntry->mShadowModel->mFlags &= ~1;
                 kart->mUnk_4c |= KART_4C_OUT_OF_VIEW;
             } else {
@@ -92,17 +92,18 @@ void UpdateKartViewDistancesAndOutOfView(void) {
                     kart->mUnk_4c |= KART_4C_OUT_OF_VIEW;
                 } else {
                     kart->mUnk_4c &= ~KART_4C_OUT_OF_VIEW;
-                    modelsEntry->mUnk_058 = modelsEntry->mUnk_05c = modelsEntry->mUnk_060 = FALSE;
+                    modelsEntry->mKartModelHidden = modelsEntry->mCharacterHidden = modelsEntry->mFarFromCamera = FALSE;
                     modelsEntry->mShadowModel->mFlags |= 1;
                     if (distanceSquared > gKartDistanceLimitsSquared->z) {
                         kart->mUnk_4c |= KART_4C_OUT_OF_VIEW;
-                        modelsEntry->mUnk_058 = modelsEntry->mUnk_05c = modelsEntry->mUnk_060 = TRUE;
+                        modelsEntry->mKartModelHidden = modelsEntry->mCharacterHidden = modelsEntry->mFarFromCamera =
+                            TRUE;
                         modelsEntry->mShadowModel->mFlags &= ~1;
                     } else if (distanceSquared > gKartDistanceLimitsSquared->y) {
-                        modelsEntry->mUnk_058 = modelsEntry->mUnk_060 = TRUE;
+                        modelsEntry->mKartModelHidden = modelsEntry->mFarFromCamera = TRUE;
                         modelsEntry->mShadowModel->mFlags &= ~1;
                     } else if (distanceSquared > gKartDistanceLimitsSquared->x) {
-                        modelsEntry->mUnk_060 = TRUE;
+                        modelsEntry->mFarFromCamera = TRUE;
                         modelsEntry->mShadowModel->mFlags &= ~1;
                     }
                 }

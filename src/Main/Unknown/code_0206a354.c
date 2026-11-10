@@ -275,7 +275,7 @@ void StartKartState3(Kart *p) {
     Vec3NormalizeAndGetLengthUnchecked(&p->mRotationAxis, &p->mRotationAxis);
     QuaternionFromAxisAngle(&p->mRotationAxis, p->mRotationAngle, &p->mRotationQuaternion);
     p->mForwardSpeed = MUL_FIXED12_NO_ROUND(p->mForwardSpeed, 0x99a);
-    if (p->mKartModelsEntry->mUnk_058 == 0) {
+    if (p->mKartModelsEntry->mKartModelHidden == 0) {
         StartEffect(0xc, &p->mPos);
         StartEffect(0xd, &p->mPos);
         StartEffect(0xe, &p->mPos);
@@ -419,7 +419,7 @@ void StartKartState4(Kart *p, const Vec3 *a, s32 b) {
         }
     }
     QuaternionFromAxisAngle(&p->mRotationAxis, p->mRotationAngle, &p->mRotationQuaternion);
-    if (p->mKartModelsEntry->mUnk_058 == 0) {
+    if (p->mKartModelsEntry->mKartModelHidden == 0) {
         StartEffect(0xc, &p->mPos);
         StartEffect(0xd, &p->mPos);
         StartEffect(0xe, &p->mPos);
@@ -529,7 +529,7 @@ s32 StartKartState5(Kart *p, const Vec3 *a, s32 b) {
     if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
         func_ov001_0218173c();
     }
-    if (p->mKartModelsEntry->mUnk_058 == 0) {
+    if (p->mKartModelsEntry->mKartModelHidden == 0) {
         StartEffect(0xc, &p->mPos);
         StartEffect(0xd, &p->mPos);
         StartEffect(0xe, &p->mPos);

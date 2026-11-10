@@ -133,7 +133,7 @@ void StartKartRespawnWait(Kart *kart, u32 collisionFlags) {
         kart->mSurfaceGroup = -1;
         effectIndex = 0;
         kart->mItemEffect = 0;
-        if (kart->mKartModelsEntry->mUnk_058 == 0) {
+        if (kart->mKartModelsEntry->mKartModelHidden == 0) {
             e = gKartFollowEffectIds;
             for (effectIndex = 0; effectIndex < 3; effectIndex++) {
                 SetupKartFollowEffect(StartEffect(e.mEffectIds[effectIndex], &kart->mPos), kart->mIndex, 0x14);
@@ -253,7 +253,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
                     SetKartCharacterAnimation(kart, 1, 1);
                     g = data_usa_02165608;
                     bits7c = kart->mUnk_7c;
-                    if ((bits7c & 0x10) && kart->mKartModelsEntry->mUnk_058 == 0) {
+                    if ((bits7c & 0x10) && kart->mKartModelsEntry->mKartModelHidden == 0) {
                         if ((bits7c & 1) || !(bits7c & 0x402000)) {
                             VEC_MultAdd(g.mUnk_00[kart->mKartModelsEntry->mKartIndex] << 4, &kart->mUnk_138,
                                         &kart->mPos, &e);
@@ -291,7 +291,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
                     SetKartCharacterAnimation(kart, 1, 1);
                     h = data_usa_02165608;
                     bits7c = kart->mUnk_7c;
-                    if ((bits7c & 0x10) && kart->mKartModelsEntry->mUnk_058 == 0) {
+                    if ((bits7c & 0x10) && kart->mKartModelsEntry->mKartModelHidden == 0) {
                         if ((bits7c & 1) || !(bits7c & 0x402000)) {
                             VEC_MultAdd(h.mUnk_00[kart->mKartModelsEntry->mKartIndex] << 4, &kart->mUnk_138,
                                         &kart->mPos, &f);
@@ -492,7 +492,7 @@ s32 ApplyKartContact(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseS
                 if (surfaceKind >= 0) {
                     StartKartSurfaceSound(kart, 0, surfaceKind, surfaceVariant, 0);
                 }
-                if (f == 2 && surfaceVariant != 5 && kart->mKartModelsEntry->mUnk_058 == 0) {
+                if (f == 2 && surfaceVariant != 5 && kart->mKartModelsEntry->mKartModelHidden == 0) {
                     k = kart->mUnk_7c;
                     g = 0;
                     if (!(k & 1) && (k & 0x402000)) {

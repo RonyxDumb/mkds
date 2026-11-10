@@ -390,7 +390,7 @@ void StartKartKiller(Kart *kart) {
     if (effectState->mKillerEndRank <= 0) {
         effectState->mKillerEndRank = 1;
     }
-    kart->mKartModelsEntry->mUnk_098.mFrameIndex = 0;
+    kart->mKartModelsEntry->mKillerItemAnimation.mFrameIndex = 0;
     if (kart->mUnk_7c & KART_7C_TERESA) {
         kart->mUnk_7c &= ~KART_7C_TERESA;
         kart->mUnk_7c &= ~0xc000;
@@ -432,7 +432,7 @@ void StartKartKiller(Kart *kart) {
         }
         StopKartNearRankEffect(kart);
     }
-    if (kart->mKartModelsEntry->mUnk_058 == 0) {
+    if (kart->mKartModelsEntry->mKartModelHidden == 0) {
         effectIds = gKartFollowEffectIds;
         for (i = 0; i < 3; i++) {
             SetupKartFollowEffect(StartEffect(effectIds.mEffectIds[i], &kart->mPos), kart->mIndex, 0x14);
@@ -469,7 +469,7 @@ void AdvanceKartKiller(Kart *kart) {
             }
         }
     }
-    AdvanceModelAnimationFrame(&kart->mKartModelsEntry->mUnk_098);
+    AdvanceModelAnimationFrame(&kart->mKartModelsEntry->mKillerItemAnimation);
     if (effectState->mKillerEnding != FALSE) {
         kart->mRadiusFactor -= 0x52;
         if (kart->mRadiusFactor > 0x1000) {
@@ -484,7 +484,7 @@ void AdvanceKartKiller(Kart *kart) {
         kart->mSurfaceGroup = -1;
         i = 0;
         kart->mItemEffect = 0;
-        if (kart->mKartModelsEntry->mUnk_058 == 0) {
+        if (kart->mKartModelsEntry->mKartModelHidden == 0) {
             effectIds = gKartFollowEffectIds;
             for (i = 0; i < 3; i++) {
                 SetupKartFollowEffect(StartEffect(effectIds.mEffectIds[i], &kart->mPos), kart->mIndex, 0x14);

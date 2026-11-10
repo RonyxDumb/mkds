@@ -45,7 +45,7 @@ BOOL CopyKartToItemInUse(ItemInUse *itemInUse) {
     itemInUse->mKartDrawMatrixPos = kart->mDrawMatrixPos;
     itemInUse->mKartVelocity = kart->mVelocity;
     itemInUse->mKartVelocityLength = kart->mVelocityLength;
-    itemInUse->mUnk_078 = MUL_FIXED12_ROUNDED(kart->mPhysicalParam->mUnk_08, kart->mScale.z);
+    itemInUse->mBehindDistance = MUL_FIXED12_ROUNDED(kart->mPhysicalParam->mUnk_08, kart->mScale.z);
     itemInUse->mKartHopHeight = kart->mHopHeight;
     itemInUse->mMovingForward =
         Vec3DotUnrounded(&itemInUse->mKartOrientation.mUnk_00[2], &itemInUse->mKartVelocity) > 0;
@@ -106,7 +106,8 @@ void StartItemInUse(ItemInUse *itemInUse, HeldItem *heldItem) {
     itemInUse->mUseKind = useKind;
     itemInUse->mItemInfoIndex = itemInfoIndex;
     itemInUse->mIsActiveItem = FALSE;
-    itemInUse->mUnk_0e8 = gItemInfos[itemInfoIndex].mObjectKind == 8 ? 0xb400 : 0x4333;
+    itemInUse->mObjectHeight =
+        gItemInfos[itemInfoIndex].mObjectKind == 8 ? ITEM_IN_USE_OBJECT_HEIGHT_TALL : ITEM_IN_USE_OBJECT_HEIGHT;
     poolIndex = *(vs32 *) &itemInUse->mObjectKind;
     TakeItemPoolObjects(&gItemPools[poolIndex], itemInUse->mObjectCount, itemInUse->mObjects, itemInUse->mKart->mIndex,
                         &itemInUse->mKartDrawMatrixPos);

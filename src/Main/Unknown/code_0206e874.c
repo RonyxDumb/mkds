@@ -84,7 +84,7 @@ void ApplyKartLanding(Kart *kart, Vec3 *groundNormal) {
                 kart->mVerticalSpeed = m;
             }
             bits7c = kart->mUnk_7c;
-            if ((bits7c & 0x10) && kart->mKartModelsEntry->mUnk_058 == 0) {
+            if ((bits7c & 0x10) && kart->mKartModelsEntry->mKartModelHidden == 0) {
                 if ((bits7c & 1) || !(bits7c & 0x402000)) {
                     StartEffectWithCallback(0x4e, &kart->mPos, kart, SetEffectFlatVelocityFromKart);
                 }

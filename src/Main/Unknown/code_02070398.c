@@ -326,7 +326,7 @@ void StopKartItemsAndEffects(Kart *kart) {
         kart->mSurfaceGroup = -1;
         i = 0;
         kart->mItemEffect = 0;
-        if (kart->mKartModelsEntry->mUnk_058 == 0) {
+        if (kart->mKartModelsEntry->mKartModelHidden == 0) {
             effectIds = gKartFollowEffectIds;
             for (i = 0; i < 3; i++) {
                 SetupKartFollowEffect(StartEffect(effectIds.mEffectIds[i], &kart->mPos), kart->mIndex, 0x14);

@@ -11,7 +11,7 @@
 int CollideKartWithMapObjectResponse3(Kart *p, s32 *a, MapObject *c) {
     if (p->mVelocityLength > 0x3000 || (c->mFlags & 0x200)) {
         if (TrySpinKart(p, 1, 0)) {
-            if (p->mKartModelsEntry->mUnk_058 == 0) {
+            if (p->mKartModelsEntry->mKartModelHidden == 0) {
                 StartEffect(0xc, &p->mPos);
                 StartEffect(0xd, &p->mPos);
                 StartEffect(0xe, &p->mPos);
@@ -30,7 +30,7 @@ int CollideKartWithMapObjectResponse3(Kart *p, s32 *a, MapObject *c) {
 int CollideKartWithMapObjectResponse4(Kart *p, s32 *a, MapObject *c) {
     if (p->mVelocityLength > 0x3000 || (c->mFlags & 0x200)) {
         if (TrySpinKart(p, 2, 0)) {
-            if (p->mKartModelsEntry->mUnk_058 == 0) {
+            if (p->mKartModelsEntry->mKartModelHidden == 0) {
                 StartEffect(0xc, &p->mPos);
                 StartEffect(0xd, &p->mPos);
                 StartEffect(0xe, &p->mPos);

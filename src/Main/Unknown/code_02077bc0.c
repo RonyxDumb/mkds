@@ -204,7 +204,7 @@ void UpdateKartSoundDistancesSquared(void) {
 void DrawKarts(void) {
     s32 i = 0;
     u16 *kartIndices = GetKartIndicesByDistance();
-    (gKarts[gRaceSetup->mEntryIndex].mKartModelsEntry)->mUnk_060 = TRUE;
+    (gKarts[gRaceSetup->mEntryIndex].mKartModelsEntry)->mFarFromCamera = TRUE;
     for (; i < gKartCount; i++) {
         DrawKart(&gKarts[*kartIndices]);
         kartIndices++;
@@ -370,14 +370,14 @@ void SetKartNearPlayerRankBits(void) {
     if (kartRank == 1) {
         kartIndices[1] = GetKartIndexAtRank(2);
         if (kartIndices[1] >= 0) {
-            if ((gKarts[kartIndices[1]].mKartModelsEntry)->mUnk_060 != FALSE) {
+            if ((gKarts[kartIndices[1]].mKartModelsEntry)->mFarFromCamera != FALSE) {
                 kartIndices[1] = -1;
             }
         }
     } else {
         kartIndices[1] = GetKartIndexAtRank((u16) (kartRank - 1));
         if (kartIndices[1] >= 0) {
-            if ((gKarts[kartIndices[1]].mKartModelsEntry)->mUnk_060 != FALSE) {
+            if ((gKarts[kartIndices[1]].mKartModelsEntry)->mFarFromCamera != FALSE) {
                 kartIndices[1] = -1;
             }
         }
@@ -493,24 +493,38 @@ void StartKartModelColorBlend(struct KartModelsEntry *kartModelsEntry, u16 targe
     KartModelColorBlend *blend;
 
     blend = &kartModelsEntry->mColorBlend;
-    blend->mUnk_06 = kartModelsEntry->mColorBlend.mDiffColor & 0x1f;
-    blend->mUnk_0c = (s16) (targetDiffColor & 0x1f) - blend->mUnk_06;
-    blend->mUnk_08 = (kartModelsEntry->mColorBlend.mDiffColor >> 5) & 0x1f;
-    blend->mUnk_0e = (s16) ((targetDiffColor >> 5) & 0x1f) - blend->mUnk_08;
-    blend->mUnk_0a = (kartModelsEntry->mColorBlend.mDiffColor >> 10) & 0x1f;
-    blend->mUnk_10 = (s16) ((targetDiffColor >> 10) & 0x1f) - blend->mUnk_0a;
-    blend->mUnk_12 = blend->mEmiColor & 0x1f;
-    blend->mUnk_18 = (s16) (targetEmiColor & 0x1f) - blend->mUnk_12;
-    blend->mUnk_14 = (blend->mEmiColor >> 5) & 0x1f;
-    blend->mUnk_1a = (s16) ((targetEmiColor >> 5) & 0x1f) - blend->mUnk_14;
-    blend->mUnk_16 = (blend->mEmiColor >> 10) & 0x1f;
-    blend->mUnk_1c = (s16) ((targetEmiColor >> 10) & 0x1f) - blend->mUnk_16;
-    blend->mUnk_1e = blend->mAmbColor & 0x1f;
-    blend->mUnk_24 = (s16) (targetAmbColor & 0x1f) - blend->mUnk_1e;
-    blend->mUnk_20 = (blend->mAmbColor >> 5) & 0x1f;
-    blend->mUnk_26 = (s16) ((targetAmbColor >> 5) & 0x1f) - blend->mUnk_20;
-    blend->mUnk_22 = (blend->mAmbColor >> 10) & 0x1f;
-    blend->mUnk_28 = (s16) ((targetAmbColor >> 10) & 0x1f) - blend->mUnk_22;
+    blend->mDiffStartR = kartModelsEntry->mColorBlend.mDiffColor & KART_MODEL_COLOR_BLEND_CHANNEL_MASK;
+    blend->mDiffDeltaR = (s16) (targetDiffColor & KART_MODEL_COLOR_BLEND_CHANNEL_MASK) - blend->mDiffStartR;
+    blend->mDiffStartG = (kartModelsEntry->mColorBlend.mDiffColor >> KART_MODEL_COLOR_BLEND_GREEN_SHIFT) &
+                         KART_MODEL_COLOR_BLEND_CHANNEL_MASK;
+    blend->mDiffDeltaG =
+        (s16) ((targetDiffColor >> KART_MODEL_COLOR_BLEND_GREEN_SHIFT) & KART_MODEL_COLOR_BLEND_CHANNEL_MASK) -
+        blend->mDiffStartG;
+    blend->mDiffStartB = (kartModelsEntry->mColorBlend.mDiffColor >> KART_MODEL_COLOR_BLEND_BLUE_SHIFT) &
+                         KART_MODEL_COLOR_BLEND_CHANNEL_MASK;
+    blend->mDiffDeltaB =
+        (s16) ((targetDiffColor >> KART_MODEL_COLOR_BLEND_BLUE_SHIFT) & KART_MODEL_COLOR_BLEND_CHANNEL_MASK) -
+        blend->mDiffStartB;
+    blend->mEmiStartR = blend->mEmiColor & KART_MODEL_COLOR_BLEND_CHANNEL_MASK;
+    blend->mEmiDeltaR = (s16) (targetEmiColor & KART_MODEL_COLOR_BLEND_CHANNEL_MASK) - blend->mEmiStartR;
+    blend->mEmiStartG = (blend->mEmiColor >> KART_MODEL_COLOR_BLEND_GREEN_SHIFT) & KART_MODEL_COLOR_BLEND_CHANNEL_MASK;
+    blend->mEmiDeltaG =
+        (s16) ((targetEmiColor >> KART_MODEL_COLOR_BLEND_GREEN_SHIFT) & KART_MODEL_COLOR_BLEND_CHANNEL_MASK) -
+        blend->mEmiStartG;
+    blend->mEmiStartB = (blend->mEmiColor >> KART_MODEL_COLOR_BLEND_BLUE_SHIFT) & KART_MODEL_COLOR_BLEND_CHANNEL_MASK;
+    blend->mEmiDeltaB =
+        (s16) ((targetEmiColor >> KART_MODEL_COLOR_BLEND_BLUE_SHIFT) & KART_MODEL_COLOR_BLEND_CHANNEL_MASK) -
+        blend->mEmiStartB;
+    blend->mAmbStartR = blend->mAmbColor & KART_MODEL_COLOR_BLEND_CHANNEL_MASK;
+    blend->mAmbDeltaR = (s16) (targetAmbColor & KART_MODEL_COLOR_BLEND_CHANNEL_MASK) - blend->mAmbStartR;
+    blend->mAmbStartG = (blend->mAmbColor >> KART_MODEL_COLOR_BLEND_GREEN_SHIFT) & KART_MODEL_COLOR_BLEND_CHANNEL_MASK;
+    blend->mAmbDeltaG =
+        (s16) ((targetAmbColor >> KART_MODEL_COLOR_BLEND_GREEN_SHIFT) & KART_MODEL_COLOR_BLEND_CHANNEL_MASK) -
+        blend->mAmbStartG;
+    blend->mAmbStartB = (blend->mAmbColor >> KART_MODEL_COLOR_BLEND_BLUE_SHIFT) & KART_MODEL_COLOR_BLEND_CHANNEL_MASK;
+    blend->mAmbDeltaB =
+        (s16) ((targetAmbColor >> KART_MODEL_COLOR_BLEND_BLUE_SHIFT) & KART_MODEL_COLOR_BLEND_CHANNEL_MASK) -
+        blend->mAmbStartB;
     blend->mBlendProgress = 0;
 }
 
@@ -518,38 +532,43 @@ s32 AdvanceKartModelColorBlend(struct KartModelsEntry *kartModelsEntry, s32 blen
     KartModelColorBlend *blend = &kartModelsEntry->mColorBlend;
     BOOL finished = FALSE;
 
-    if (blend->mBlendProgress < 0x1000) {
+    if (blend->mBlendProgress < KART_MODEL_COLOR_BLEND_PROGRESS_END) {
         blend->mBlendProgress += blendAmount;
-        if (blend->mBlendProgress >= 0x1000) {
-            blend->mBlendProgress = 0x1000;
+        if (blend->mBlendProgress >= KART_MODEL_COLOR_BLEND_PROGRESS_END) {
+            blend->mBlendProgress = KART_MODEL_COLOR_BLEND_PROGRESS_END;
             finished = TRUE;
         }
-        blend->mDiffColor = (s16) (blend->mUnk_06 + MUL_FIXED12_ROUNDED(blend->mUnk_0c, blend->mBlendProgress)) +
-                            ((s16) (blend->mUnk_08 + MUL_FIXED12_ROUNDED(blend->mUnk_0e, blend->mBlendProgress)) << 5) +
-                            ((s16) (blend->mUnk_0a + MUL_FIXED12_ROUNDED(blend->mUnk_10, blend->mBlendProgress)) << 10);
+        blend->mDiffColor =
+            (s16) (blend->mDiffStartR + MUL_FIXED12_ROUNDED(blend->mDiffDeltaR, blend->mBlendProgress)) +
+            ((s16) (blend->mDiffStartG + MUL_FIXED12_ROUNDED(blend->mDiffDeltaG, blend->mBlendProgress))
+             << KART_MODEL_COLOR_BLEND_GREEN_SHIFT) +
+            ((s16) (blend->mDiffStartB + MUL_FIXED12_ROUNDED(blend->mDiffDeltaB, blend->mBlendProgress))
+             << KART_MODEL_COLOR_BLEND_BLUE_SHIFT);
         NNS_G3dMdlSetMdlDiffAll(kartModelsEntry->mModels[0]->mResMdl, blend->mDiffColor);
         NNS_G3dMdlSetMdlDiffAll(kartModelsEntry->mModels[1]->mResMdl, blend->mDiffColor);
         if (kartModelsEntry->mModels[2] != NULL) {
             NNS_G3dMdlSetMdlDiffAll(kartModelsEntry->mModels[2]->mResMdl, blend->mDiffColor);
         }
-        blend->mEmiColor = (s16) (blend->mUnk_12 + MUL_FIXED12_ROUNDED(blend->mUnk_18, blend->mBlendProgress)) +
-                           ((s16) (blend->mUnk_14 + MUL_FIXED12_ROUNDED(blend->mUnk_1a, blend->mBlendProgress)) << 5) +
-                           ((s16) (blend->mUnk_16 + MUL_FIXED12_ROUNDED(blend->mUnk_1c, blend->mBlendProgress)) << 10);
+        blend->mEmiColor = (s16) (blend->mEmiStartR + MUL_FIXED12_ROUNDED(blend->mEmiDeltaR, blend->mBlendProgress)) +
+                           ((s16) (blend->mEmiStartG + MUL_FIXED12_ROUNDED(blend->mEmiDeltaG, blend->mBlendProgress))
+                            << KART_MODEL_COLOR_BLEND_GREEN_SHIFT) +
+                           ((s16) (blend->mEmiStartB + MUL_FIXED12_ROUNDED(blend->mEmiDeltaB, blend->mBlendProgress))
+                            << KART_MODEL_COLOR_BLEND_BLUE_SHIFT);
         NNS_G3dMdlSetMdlEmiAll(kartModelsEntry->mModels[0]->mResMdl, blend->mEmiColor);
         NNS_G3dMdlSetMdlEmiAll(kartModelsEntry->mModels[1]->mResMdl, blend->mEmiColor);
         if (kartModelsEntry->mModels[2] != NULL) {
             NNS_G3dMdlSetMdlEmiAll(kartModelsEntry->mModels[2]->mResMdl, blend->mEmiColor);
         }
         {
-            s16 x = blend->mUnk_1e + MUL_FIXED12_ROUNDED(blend->mUnk_24, blend->mBlendProgress);
-            s16 y = blend->mUnk_20 + MUL_FIXED12_ROUNDED(blend->mUnk_26, blend->mBlendProgress);
-            s16 z = blend->mUnk_22 + MUL_FIXED12_ROUNDED(blend->mUnk_28, blend->mBlendProgress);
+            s16 x = blend->mAmbStartR + MUL_FIXED12_ROUNDED(blend->mAmbDeltaR, blend->mBlendProgress);
+            s16 y = blend->mAmbStartG + MUL_FIXED12_ROUNDED(blend->mAmbDeltaG, blend->mBlendProgress);
+            s16 z = blend->mAmbStartB + MUL_FIXED12_ROUNDED(blend->mAmbDeltaB, blend->mBlendProgress);
             NNS_G3dMdlSetMdlAmbAll(kartModelsEntry->mModels[0]->mResMdl, blend->mAmbColor);
             NNS_G3dMdlSetMdlAmbAll(kartModelsEntry->mModels[1]->mResMdl, blend->mAmbColor);
             if (kartModelsEntry->mModels[2] != NULL) {
                 NNS_G3dMdlSetMdlAmbAll(kartModelsEntry->mModels[2]->mResMdl, blend->mAmbColor);
             }
-            blend->mAmbColor = x + (y << 5) + (z << 10);
+            blend->mAmbColor = x + (y << KART_MODEL_COLOR_BLEND_GREEN_SHIFT) + (z << KART_MODEL_COLOR_BLEND_BLUE_SHIFT);
         }
     } else {
         finished = TRUE;
@@ -746,7 +765,7 @@ void InitKartModelsEntry(void *entry) {
 #pragma thumb on
 
 void ResetKartKillerAnimationLooping(KartModelsEntry *kartModelsEntry) {
-    ResetModelAnimationLooping(&kartModelsEntry->mUnk_098,
+    ResetModelAnimationLooping(&kartModelsEntry->mKillerItemAnimation,
                                GetModelAnimationFrameCountFixed(&gKartModels->mKillerItemNsbca));
 }
 
@@ -830,7 +849,7 @@ void InitKartModels(void *heap, u32 kartCount) {
         entries = gKartModels->mKartModelsEntries;
         entry = &entries[i];
         InitKartModelsEntry(entry);
-        entry->mUnk_0b0 = gRaceSetup->mCurrentEntries[i].mPlayer.mUnk_25;
+        entry->mRegion = gRaceSetup->mCurrentEntries[i].mPlayer.mUnk_25;
         ResetKartKillerAnimationLooping(entry);
         entries[i].mCharacterIndex = gRaceSetup->mCurrentEntries[i].mCharacterIndex;
         entry->mKartIndex = gRaceSetup->mCurrentEntries[i].mKartIndex;
@@ -902,18 +921,18 @@ void CreateKartModelsEntryModels(void *heap, s32 firstPass) {
             if (firstPass != 0) {
                 if (pNameUsed != 0) {
                     j = 0;
-                    entry->mUnk_054 = HeapAlloc(heap, 0x30);
+                    entry->mTireTranslations = HeapAlloc(heap, sizeof(KartTireTranslations));
                     do {
-                        dst = &entry->mUnk_054->mUnk_v[j];
+                        dst = &entry->mTireTranslations->mTranslations[j];
                         src = &entry->mKartOffsetData->mTireOffsets[j];
                         dst->x = src->x >> 4;
                         dst->y = src->y >> 4;
                         dst->z = src->z >> 4;
                         j++;
-                    } while (j < 4);
-                    entry->mUnk_054->mUnk_v[1].x =
-                        FX_Div(-entry->mUnk_054->mUnk_v[0].x * 2, entry->mKartOffsetData->mFirstTiresScale);
-                    entry->mUnk_054->mUnk_v[3].x = -entry->mUnk_054->mUnk_v[2].x * 2;
+                    } while (j < KART_TIRE_COUNT);
+                    entry->mTireTranslations->mTranslations[1].x = FX_Div(
+                        -entry->mTireTranslations->mTranslations[0].x * 2, entry->mKartOffsetData->mFirstTiresScale);
+                    entry->mTireTranslations->mTranslations[3].x = -entry->mTireTranslations->mTranslations[2].x * 2;
                     CreateTire(entry, heap);
                 }
                 CreateKartShadow(entry, heap);
@@ -1042,7 +1061,7 @@ void UploadKartModelsEntryPalettes(KartModelsEntry *kartModelsEntry, s32 pNameUs
     u8 *paletteAddress;
     s32 secondMaterialIndex;
     s32 materialIndex;
-    if (kartModelsEntry->mUnk_0b0 != 0) {
+    if (kartModelsEntry->mRegion != 0) {
         if ((u32) (kartModelsEntry->mKartIndex - 0x22) <= 1) {
             palette = NULL;
             mdlBytes = (u8 *) kartModelsEntry->mModels[1]->mResMdl;

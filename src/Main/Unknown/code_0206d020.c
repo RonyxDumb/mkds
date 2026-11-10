@@ -263,7 +263,7 @@ void ApplyKartPush(Kart *pushingKart, Kart *pushedKart, const Vec3 *contactDirec
     if (v10.y < 0) {
         v2 = v2 * v5;
     }
-    if (pushedKart->mKartModelsEntry->mUnk_058 != 0) {
+    if (pushedKart->mKartModelsEntry->mKartModelHidden != 0) {
         return;
     }
     t = pushedKart->mForwardSpeed;
@@ -373,7 +373,7 @@ void ApplyItemObjectHitToKart(Kart *kart) {
             break;
         case 2:
             hitResult = TrySpinKart(kart, 1, hitResult);
-            if (hitResult != 0 && kart->mKartModelsEntry->mUnk_058 == 0) {
+            if (hitResult != 0 && kart->mKartModelsEntry->mKartModelHidden == 0) {
                 StartEffect(0xc, &kart->mPos);
                 StartEffect(0xd, &kart->mPos);
                 StartEffect(0xe, &kart->mPos);
