@@ -1,10 +1,6 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_02100de4.h"
 
-typedef struct Unk02100dd8 {
-    /* 00 */ u8 mUnk_00[0x19c];
-    /* 19c */ u32 mUnk_19c;
-} Unk02100dd8;
-
-void EnterItemTeresaState3(Unk02100dd8 *teresa);
+void EnterItemTeresaState3(ItemTeresa *teresa);

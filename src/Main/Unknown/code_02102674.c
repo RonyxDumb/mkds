@@ -25,7 +25,7 @@
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-void AdvanceItemGesso(ItemGesso *p) {
+void AdvanceItemGesso(ItemGesso *gesso) {
     Kart *kart;
     Camera *camera;
     s32 ageFrames;
@@ -38,16 +38,16 @@ void AdvanceItemGesso(ItemGesso *p) {
     s32 n;
     s32 factor;
 
-    kart = p->mKart;
+    kart = gesso->mKart;
     camera = GetChaseCamera();
-    ageFrames = p->mUnk_000.mAgeFrames;
+    ageFrames = gesso->mItemObject.mAgeFrames;
     if (ageFrames == 0x3f) {
-        func_021031f4(p);
+        SetupItemGessoKarts(gesso);
     }
     if (ageFrames == 0x8f) {
         kartCount = gRaceSetup->mKartCount;
         for (i = 0; i < kartCount; i++) {
-            if (p->mOrthoQuadCounts[i] == 0) {
+            if (gesso->mOrthoQuadCounts[i] == 0) {
                 continue;
             }
             kartAtIndex = GetKart(i);
@@ -60,111 +60,111 @@ void AdvanceItemGesso(ItemGesso *p) {
             if (kartAtIndex->mUnk_48 & 0x10000) {
                 continue;
             }
-            StartKartGesso(kartAtIndex, p->mOrthoQuadCounts[i]);
+            StartKartGesso(kartAtIndex, gesso->mOrthoQuadCounts[i]);
             StartEntryKartSound(kartAtIndex, 0xf0);
         }
     }
-    if (p->mUnk_160 != FALSE) {
+    if (gesso->mEnded != FALSE) {
         if (ageFrames <= gItemGessoFrameCount) {
             return;
         }
-        ReleaseItemPoolObject(gItemPools + p->mUnk_000.mKind, &p->mUnk_000);
+        ReleaseItemPoolObject(gItemPools + gesso->mItemObject.mKind, &gesso->mItemObject);
         return;
     }
-    if (p->mStepIndex >= 4 && p->mStepIndex < 0xd) {
+    if (gesso->mStepIndex >= 4 && gesso->mStepIndex < 0xd) {
         if ((kart->mUnk_7c & 0x402020) || (kart->mUnk_4c & 0x10000840) || (kart->mUnk_48 & 0x10000)) {
-            p->mStepIndex = 0xd;
-            SetupNextItemGessoStep(p);
-            if (p->mVisible != FALSE) {
+            gesso->mStepIndex = 0xd;
+            SetupNextItemGessoStep(gesso);
+            if (gesso->mVisible != FALSE) {
                 StartEntryKartSound(kart, 0xf3);
             }
         }
     }
     if (kart->mUnk_4c & 0x800) {
-        p->mUnk_160 = TRUE;
-        p->mVisible = FALSE;
+        gesso->mEnded = TRUE;
+        gesso->mVisible = FALSE;
     }
-    v = p->mVelocityX;
-    if (p->mUnk_000.mAlpha < 0x1f && p->mUnk_194 == 0 && p->mVisible != FALSE) {
-        p->mUnk_000.mAlpha = p->mUnk_000.mAlpha + 7;
-        if (p->mUnk_000.mAlpha > 0x1f) {
-            p->mUnk_000.mAlpha = 0x1f;
+    v = gesso->mVelocityX;
+    if (gesso->mItemObject.mAlpha < 0x1f && gesso->mFadesOut == 0 && gesso->mVisible != FALSE) {
+        gesso->mItemObject.mAlpha = gesso->mItemObject.mAlpha + 7;
+        if (gesso->mItemObject.mAlpha > 0x1f) {
+            gesso->mItemObject.mAlpha = 0x1f;
         }
     }
-    p->mStepTimer = p->mStepTimer - 1;
-    if (p->mStepTimer > 0) {
-        factor = p->mApproachRate;
-        m = p->mTargetVelocityX - p->mVelocityX;
-        n = p->mTargetVelocityY - p->mVelocityY;
-        p->mVelocityX += MUL_FIXED12_NO_ROUND(factor, m);
-        p->mVelocityY += MUL_FIXED12_NO_ROUND(factor, n);
+    gesso->mStepTimer = gesso->mStepTimer - 1;
+    if (gesso->mStepTimer > 0) {
+        factor = gesso->mApproachRate;
+        m = gesso->mTargetVelocityX - gesso->mVelocityX;
+        n = gesso->mTargetVelocityY - gesso->mVelocityY;
+        gesso->mVelocityX += MUL_FIXED12_NO_ROUND(factor, m);
+        gesso->mVelocityY += MUL_FIXED12_NO_ROUND(factor, n);
     } else {
-        factor = p->mDamping;
-        p->mVelocityX = MUL_FIXED12_NO_ROUND(p->mVelocityX, factor);
-        p->mVelocityY = MUL_FIXED12_NO_ROUND(p->mVelocityY, factor);
-        if (p->mUnk_194 != 0) {
-            p->mUnk_000.mAlpha = p->mUnk_000.mAlpha - p->mUnk_170;
-            if (p->mUnk_000.mAlpha >= 1) {
-                p->mStepTimer = 0;
+        factor = gesso->mDamping;
+        gesso->mVelocityX = MUL_FIXED12_NO_ROUND(gesso->mVelocityX, factor);
+        gesso->mVelocityY = MUL_FIXED12_NO_ROUND(gesso->mVelocityY, factor);
+        if (gesso->mFadesOut != 0) {
+            gesso->mItemObject.mAlpha = gesso->mItemObject.mAlpha - gesso->mUnk_170;
+            if (gesso->mItemObject.mAlpha >= 1) {
+                gesso->mStepTimer = 0;
             } else {
-                p->mStepTimer = -1 - p->mUnk_170;
-                p->mVisible = FALSE;
-                p->mUnk_000.mAlpha = 1;
+                gesso->mStepTimer = -1 - gesso->mUnk_170;
+                gesso->mVisible = FALSE;
+                gesso->mItemObject.mAlpha = 1;
             }
         }
-        if (p->mStepTimer < -p->mUnk_170) {
-            if (SetupNextItemGessoStep(p) != FALSE) {
-                p->mUnk_160 = TRUE;
-                p->mVisible = FALSE;
+        if (gesso->mStepTimer < -gesso->mUnk_170) {
+            if (SetupNextItemGessoStep(gesso) != FALSE) {
+                gesso->mEnded = TRUE;
+                gesso->mVisible = FALSE;
                 return;
             }
         }
     }
-    p->mViewOffset.x += p->mVelocityX;
-    p->mViewOffset.y += p->mVelocityY;
-    v = MUL_FIXED12_NO_ROUND(p->mVelocityX - MUL_FIXED12_NO_ROUND(v, 0xccd), 0x19a);
+    gesso->mViewOffset.x += gesso->mVelocityX;
+    gesso->mViewOffset.y += gesso->mVelocityY;
+    v = MUL_FIXED12_NO_ROUND(gesso->mVelocityX - MUL_FIXED12_NO_ROUND(v, 0xccd), 0x19a);
     if (v > 0x19a) {
         v = 0x19a;
     } else if (v < -0x19a) {
         v = -0x19a;
     }
-    p->mUnk_19c += v;
-    p->mUnk_19c = MUL_FIXED12_NO_ROUND(p->mUnk_19c, 0xeb8);
-    if (p->mUnk_19c > 0x266) {
-        p->mUnk_19c = 0x266;
-    } else if (p->mUnk_19c < -0x266) {
-        p->mUnk_19c = -0x266;
+    gesso->mShear += v;
+    gesso->mShear = MUL_FIXED12_NO_ROUND(gesso->mShear, 0xeb8);
+    if (gesso->mShear > 0x266) {
+        gesso->mShear = 0x266;
+    } else if (gesso->mShear < -0x266) {
+        gesso->mShear = -0x266;
     }
-    factor = p->mUnk_184.z;
-    m = p->mUnk_174 - p->mUnk_180;
-    n = p->mUnk_178 - p->mUnk_184.x;
-    p->mUnk_180 += MUL_FIXED12_NO_ROUND(factor, m);
-    p->mUnk_184.x += MUL_FIXED12_NO_ROUND(factor, n);
-    viewOffset = p->mViewOffset;
-    v = MUL_FIXED12_NO_ROUND(p->mUnk_19c, 0x800);
+    factor = gesso->mUnk_184.z;
+    m = gesso->mTargetScaleX - gesso->mScaleX;
+    n = gesso->mTargetScaleY - gesso->mUnk_184.x;
+    gesso->mScaleX += MUL_FIXED12_NO_ROUND(factor, m);
+    gesso->mUnk_184.x += MUL_FIXED12_NO_ROUND(factor, n);
+    viewOffset = gesso->mViewOffset;
+    v = MUL_FIXED12_NO_ROUND(gesso->mShear, 0x800);
     viewOffset.x -= MUL_FIXED12_NO_ROUND(v, viewOffset.x);
-    p->mUnk_000.mPos.x = MUL_FIXED12_NO_ROUND(camera->mSide.x, -viewOffset.x);
-    p->mUnk_000.mPos.y = MUL_FIXED12_NO_ROUND(camera->mSide.y, -viewOffset.x);
-    p->mUnk_000.mPos.z = MUL_FIXED12_NO_ROUND(camera->mSide.z, -viewOffset.x);
-    VEC_MultAdd(viewOffset.y, &camera->mUp, &p->mUnk_000.mPos, &p->mUnk_000.mPos);
-    VEC_MultAdd(-viewOffset.z, &camera->mForward, &p->mUnk_000.mPos, &p->mUnk_000.mPos);
-    VEC_Add(&camera->mPos, &p->mUnk_000.mPos, &p->mUnk_000.mPos);
+    gesso->mItemObject.mPos.x = MUL_FIXED12_NO_ROUND(camera->mSide.x, -viewOffset.x);
+    gesso->mItemObject.mPos.y = MUL_FIXED12_NO_ROUND(camera->mSide.y, -viewOffset.x);
+    gesso->mItemObject.mPos.z = MUL_FIXED12_NO_ROUND(camera->mSide.z, -viewOffset.x);
+    VEC_MultAdd(viewOffset.y, &camera->mUp, &gesso->mItemObject.mPos, &gesso->mItemObject.mPos);
+    VEC_MultAdd(-viewOffset.z, &camera->mForward, &gesso->mItemObject.mPos, &gesso->mItemObject.mPos);
+    VEC_Add(&camera->mPos, &gesso->mItemObject.mPos, &gesso->mItemObject.mPos);
 }
 
-void DrawItemGesso(ItemGesso *p, s32 param_2, NsbmdModel *t) {
+void DrawItemGesso(ItemGesso *gesso, s32 param_2, NsbmdModel *model) {
     Vec3 scale;
     MtxFx43 matrix;
     s32 scaleFactor;
     s32 d;
 
-    if (p->mKart == NULL) {
+    if (gesso->mKart == NULL) {
         return;
     }
-    if (p->mVisible == FALSE) {
+    if (gesso->mVisible == FALSE) {
         return;
     }
-    matrix = *SetViewTransposeMatrixPos(&p->mUnk_000.mPos);
-    d = p->mUnk_19c;
+    matrix = *SetViewTransposeMatrixPos(&gesso->mItemObject.mPos);
+    d = gesso->mShear;
     if (d <= 0) {
         d = -d;
     }
@@ -172,25 +172,25 @@ void DrawItemGesso(ItemGesso *p, s32 param_2, NsbmdModel *t) {
     matrix.mUnk_00[1].x = MUL_FIXED12_NO_ROUND(matrix.mUnk_00[1].x, d);
     matrix.mUnk_00[1].y = MUL_FIXED12_NO_ROUND(matrix.mUnk_00[1].y, d);
     matrix.mUnk_00[1].z = MUL_FIXED12_NO_ROUND(matrix.mUnk_00[1].z, d);
-    VEC_MultAdd(p->mUnk_19c, &matrix.mUnk_00[0], &matrix.mUnk_00[1], &matrix.mUnk_00[1]);
-    scale.x = MUL_FIXED12_NO_ROUND(p->mUnk_180, p->mUnk_000.mScale.x);
-    scale.y = MUL_FIXED12_NO_ROUND(p->mUnk_184.x, p->mUnk_000.mScale.y);
-    scale.z = p->mUnk_000.mScale.z;
+    VEC_MultAdd(gesso->mShear, &matrix.mUnk_00[0], &matrix.mUnk_00[1], &matrix.mUnk_00[1]);
+    scale.x = MUL_FIXED12_NO_ROUND(gesso->mScaleX, gesso->mItemObject.mScale.x);
+    scale.y = MUL_FIXED12_NO_ROUND(gesso->mUnk_184.x, gesso->mItemObject.mScale.y);
+    scale.z = gesso->mItemObject.mScale.z;
     scaleFactor = func_0203c5e4() != 0 ? 0xccd : 0x119a;
     scale.x = MUL_FIXED12_NO_ROUND(scale.x, scaleFactor);
     scale.y = MUL_FIXED12_NO_ROUND(scale.y, scaleFactor);
-    d = p->mUnk_000.mAlpha;
+    d = gesso->mItemObject.mAlpha;
     if (d != 0x1f) {
-        t->mPolygonAttributes = t->mPolygonAttributes & ~0x1f0000;
-        t->mPolygonAttributes = t->mPolygonAttributes | ((u16) d << 16);
+        model->mPolygonAttributes = model->mPolygonAttributes & ~0x1f0000;
+        model->mPolygonAttributes = model->mPolygonAttributes | ((u16) d << 16);
     }
-    QueueNsbmdModelMaterial(t);
-    DrawNsbmdModelWithMatrixAndMaxAlpha(t, &matrix, &scale, 0, 0x1f);
-    if (p->mUnk_000.mAlpha == 0x1f) {
+    QueueNsbmdModelMaterial(model);
+    DrawNsbmdModelWithMatrixAndMaxAlpha(model, &matrix, &scale, 0, 0x1f);
+    if (gesso->mItemObject.mAlpha == 0x1f) {
         return;
     }
-    t->mPolygonAttributes = t->mPolygonAttributes & ~0x1f0000;
-    t->mPolygonAttributes = t->mPolygonAttributes | 0x1f0000;
+    model->mPolygonAttributes = model->mPolygonAttributes & ~0x1f0000;
+    model->mPolygonAttributes = model->mPolygonAttributes | 0x1f0000;
 }
 
 void CopyItemGessoData(void *data, ItemGesso *gesso, void *toData) {
@@ -201,11 +201,11 @@ void CopyItemGessoData(void *data, ItemGesso *gesso, void *toData) {
     if (toData == NULL) {
         return;
     }
-    AddItemDataSizedByKind(gesso->mUnk_000.mKind);
+    AddItemDataSizedByKind(gesso->mItemObject.mKind);
 }
 
 void InitItemGessoFromData(ItemGesso *gesso) {
-    SetupItemObjectFromData(&gesso->mUnk_000);
+    SetupItemObjectFromData(&gesso->mItemObject);
     SetupItemGesso(gesso, 1);
 }
 
@@ -216,7 +216,7 @@ void ComputeItemGessoFrameCount(void) {
 
     gItemGessoFrameCount = 0xf;
     for (i = 0, step = gItemGessoSteps; i < 0x11; i++) {
-        gItemGessoFrameCount += step->mUnk_08 + step->mUnk_0a;
+        gItemGessoFrameCount += step->mApproachFrameCount + step->mDampFrameCount;
         step++;
     }
 }

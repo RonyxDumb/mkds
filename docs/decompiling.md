@@ -529,7 +529,7 @@ Expression shapes:
 - A row address added before the element offset (`&t[y]` first, then the element): a pointer local, `p = &t[y][f(x)]; v
   = p->m;` (func_0202a360). A reused index, casts and row or element helpers did not help.
 - A final add that loads the local first: `p->m = d[0] + (s32) p->m;` with the same-type cast on the member; `+=` and
-  plain `d[0] + p->m` did not match (the only spelling that matched; func_02101964).
+  plain `d[0] + p->m` did not match (the only spelling that matched; PlaceItemTeresaAtKart).
 - Two differences computed before a wait loop and shifted after it: compute them into two locals before the loop
   (TP_CalcCalibrateParam).
 - A call result stored to a member before the call where the original stores after: put the call result in a local, then
@@ -896,7 +896,7 @@ Expression shapes:
   GpiOpenSockets).
 - A small local array kept in memory and reloaded after stores, where ours is in registers: one store through `((Vec3 *)
   d)->x` at the first assignment. `*(d + 0)`, `*&d[0]`, unions, wrapped arrays and inline pointer helpers did not work
-  (func_02101964).
+  (PlaceItemTeresaAtKart).
 - Thumb: `add rX, sp` before `movs #0` and four `strh`, then the address formed again for the next stores: the array as
   its own local with an initializer, `u16 v[4] = {0};`; a `{0}` on the whole struct gives word stores
   (func_ov003_021c0d2c).
@@ -1059,7 +1059,7 @@ Link order and linking:
   (func_02082750).
 - A 64-bit sum of products whose right term comes first in the target: write that term on the left (SetItemFBoxPushedDrawMatrix).
   For `smull`/`smlal` operands in a sum of products, write the products in the original's order: `(s64) w[0] * d[0] +
-  (s64) w[2] * d[2]` (func_02101964).
+  (s64) w[2] * d[2]` (PlaceItemTeresaAtKart).
 - A random draw computed after the call that follows it, with the 64-bit shift halves in the other order: `(u64) (u32)
   (x >> 32) * 4 >> 32`, no `u64` local (func_0203b6ac).
 - A zero high word set before the add in a `u64` store of a sum with a call: `(u32) (sum + call())` (Thumb;

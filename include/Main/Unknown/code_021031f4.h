@@ -23,7 +23,7 @@ extern OrthoQuadModel gOrthoQuadCreamEffect;
 // GesoSumi: the screen overlay the Gesso item starts for a hit kart.
 extern OrthoQuadModel gOrthoQuadGesoSumi;
 
-void func_021031f4(ItemGesso *gesso);
+void SetupItemGessoKarts(ItemGesso *gesso);
 void SetupOrthoQuadModel(OrthoQuadModel *quadModel, NsbmdModel *model);
 void InitOrthoQuads(void);
 void StartOrthoQuadsCreamEffect(u32 kartIndex, u32 count);

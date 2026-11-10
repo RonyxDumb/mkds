@@ -389,7 +389,7 @@ BOOL SetItemObjectKartFromPacket(ItemPool *pool, u8 *packet) {
             SetItemKouraWKartItemsAndStateIfNone((ItemKouraW *) object, value);
         }
         if (pool->mKind == 0xb) {
-            func_021003e8((ItemTeresa *) object, value, packet[3]);
+            SetItemTeresaFromPacket((ItemTeresa *) object, value, packet[3]);
         }
     }
     return found;

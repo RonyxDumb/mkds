@@ -8,16 +8,16 @@
 
 // Object of item kind 11, element of gItemPools[11].
 typedef struct ItemTeresa {
-    /* 000 */ ItemObject mUnk_000;
+    /* 000 */ ItemObject mItemObject;
     /* 12c */ StateMachine mStateMachine;
     /* 140 */ s32 mPickedKartIndex;
     /* 144 */ BOOL mUnk_144;
-    /* 148 */ BOOL mUnk_148;
+    /* 148 */ BOOL mPicksAheadFirst;
     /* 14c */ s32 mSavedOffsetY;
     /* 150 */ s32 mSavedOffsetVelocityY;
     /* 154 */ s32 mItemInfoIndex;
     /* 158 */ s32 mItemCount;
-    /* 15c */ BOOL mUnk_15c;
+    /* 15c */ BOOL mFollowsPath;
     /* 160 */ s32 mItemObjectKind;
     /* 164 */ s16 mItemModelAlpha;
     /* 166 */ u8 mUnk_166[0x2];
@@ -35,29 +35,29 @@ typedef struct ItemTeresa {
     /* 180 */ s32 mOffsetVelocityZ;
     /* 184 */ Vec3 mKartDrawMatrixPos;
     /* 190 */ Vec3 mKartVelocity;
-    /* 19c */ s32 mUnk_19c;
-    /* 1a0 */ s32 mUnk_1a0;
-    /* 1a4 */ SegmentPoints mUnk_1a4;
+    /* 19c */ s32 mOffsetAccelerationY;
+    /* 1a0 */ s32 mStartOffsetVelocityY;
+    /* 1a4 */ SegmentPoints mPathSegmentPoints;
     /* 248 */ s32 mPointIndex;
     /* 24c */ BOOL mUnk_24c;
-    /* 250 */ s32 mUnk_250;
-    /* 254 */ s32 mUnk_254;
-    /* 258 */ s32 mUnk_258;
-    /* 25c */ s32 mUnk_25c;
-    /* 260 */ s32 mUnk_260;
-    /* 264 */ u32 mUnk_264;
-    /* 268 */ s32 mUnk_268;
-    /* 26c */ BOOL mUnk_26c;
+    /* 250 */ s32 mPendingPickedKartIndex;
+    /* 254 */ s32 mTakenItemInfoIndex;
+    /* 258 */ s32 mTakenItemCount;
+    /* 25c */ s32 mGivenItemInfoIndex;
+    /* 260 */ s32 mGivenItemCount;
+    /* 264 */ u32 mReportedState;
+    /* 268 */ s32 mDelayTimer;
+    /* 26c */ BOOL mStalled;
     /* 270 */ s32 mStallFrames;
 } ItemTeresa;
 
-s32 func_02101014(ItemTeresa *teresa);
+s32 RemoveItemTeresaPickedKartItem(ItemTeresa *teresa);
 void EnterItemTeresaState2(ItemTeresa *teresa);
-s32 func_021014a0(ItemTeresa *teresa, s32 param_2, s32 param_3);
-BOOL func_02101618(ItemTeresa *teresa, s32 param_2, s32 param_3);
-void func_0210174c(ItemTeresa *teresa);
+s32 AdvanceItemTeresaFadeIn(ItemTeresa *teresa, s32 param_2, s32 param_3);
+BOOL AdvanceItemTeresaFadeOut(ItemTeresa *teresa, s32 param_2, s32 param_3);
+void AdvanceItemTeresaPath(ItemTeresa *teresa);
 void EnterItemTeresaState0(ItemTeresa *teresa);
-void func_02101964(ItemTeresa *teresa, s32 param_2);
+void PlaceItemTeresaAtKart(ItemTeresa *teresa, s32 param_2);
 void UpdateItemTeresaState0(ItemTeresa *teresa);
 void EnterItemTeresaState1(ItemTeresa *teresa);
 void UpdateItemTeresaState1(ItemTeresa *teresa);

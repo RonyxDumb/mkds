@@ -656,7 +656,7 @@ void SetupOrthoQuadModel(OrthoQuadModel *quadModel, NsbmdModel *model) {
 }
 #pragma thumb off
 
-void func_021031f4(ItemGesso *gesso) {
+void SetupItemGessoKarts(ItemGesso *gesso) {
     s32 kartCount;
     s32 entryIndex;
     s32 ownerIndex;
@@ -668,8 +668,8 @@ void func_021031f4(ItemGesso *gesso) {
     u32 ownerRank;
     u16 kartIndex;
 
-    ownerIndex = (u16) ((gesso->mUnk_000.mOwnerKartIndexAndFlags & 0x8000) == 0
-                            ? (u16) (gesso->mUnk_000.mOwnerKartIndexAndFlags & ~0xff00)
+    ownerIndex = (u16) ((gesso->mItemObject.mOwnerKartIndexAndFlags & 0x8000) == 0
+                            ? (u16) (gesso->mItemObject.mOwnerKartIndexAndFlags & ~0xff00)
                             : 8);
     entryIndex = gRaceSetup->mEntryIndex;
     if (gRaceSetup->mMode == MODE_BATTLE) {

@@ -94,7 +94,7 @@ s32 func_0205a630(s32 participantIndex) {
     return result;
 }
 
-void func_0205a5b0(u32 participantIndex) {
+void ResetParticipantHeldItem(u32 participantIndex) {
     Unk0217aa14_104_68 *view;
 
     view = &gWiFiRaceSync->mEntries[participantIndex].mUnk_68_view;
@@ -105,7 +105,7 @@ void func_0205a5b0(u32 participantIndex) {
     ResetHeldItem(&gKartItems[(u16) gParticipantKartMap->mKartOfParticipant[participantIndex]].mHeldItem);
 }
 
-void func_0205a548(s32 participantIndex, s32 itemInfoIndex, s32 count) {
+void SetParticipantHeldItem(s32 participantIndex, s32 itemInfoIndex, s32 count) {
     Unk0217aa14_104_68 *view;
 
     view = &gWiFiRaceSync->mEntries[participantIndex].mUnk_68_view;
