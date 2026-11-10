@@ -48,7 +48,7 @@ void func_ov001_02180800(void) {
         func_ov001_02180c88(mtx);
         switch (gTestScene->mState) {
             case 0:
-                func_ov001_02180c6c(1);
+                TestSceneGXS_SetVisiblePlane(1);
                 GXS_SetGraphicsMode(0);
                 WriteSubBg0Offset(0, 0);
                 WriteSubBg0CntBits(0);
@@ -60,7 +60,7 @@ void func_ov001_02180800(void) {
             case 1:
             case 2:
             case 3:
-                func_ov001_02180c6c(2);
+                TestSceneGXS_SetVisiblePlane(2);
                 GXS_SetGraphicsMode(0);
                 WriteSubBg1Offset(0, 0);
                 WriteSubBg1CntBits(0);

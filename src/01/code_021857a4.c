@@ -33,9 +33,9 @@ u16 func_ov001_02185b50(MissionGateObject *missionGateObject) {
 
 void func_ov001_02185b1c(void) {
     if (GetMenuScreenSwitched()) {
-        func_ov001_02185ad8(0x19);
+        MissionRunGX_SetVisiblePlane(0x19);
         GX_SetGraphicsMode(1, 0, 0);
-        func_ov001_02185abc(0x16);
+        MissionRunGXS_SetVisiblePlane(0x16);
         GXS_SetGraphicsMode(0);
     }
     WriteMissionRunLVselBg0Offset();
@@ -53,12 +53,12 @@ void UpdateMissionRunLVsel(void) {
 }
 
 #pragma thumb off
-void func_ov001_02185ad8(u32 bits) {
+void MissionRunGX_SetVisiblePlane(u32 bits) {
     vu32 *dispCnt = &reg_GX_DISPCNT;
     *dispCnt = (*dispCnt & ~0x1f00) | (bits << 8);
 }
 
-void func_ov001_02185abc(u32 bits) {
+void MissionRunGXS_SetVisiblePlane(u32 bits) {
     vu32 *dispCnt = &reg_GXS_DB_DISPCNT;
     *dispCnt = (*dispCnt & ~0x1f00) | (bits << 8);
 }
@@ -66,9 +66,9 @@ void func_ov001_02185abc(u32 bits) {
 
 void func_ov001_02185a88(void) {
     if (GetMenuScreenSwitched()) {
-        func_ov001_02185ad8(0x1b);
+        MissionRunGX_SetVisiblePlane(0x1b);
         GX_SetGraphicsMode(1, 0, 0);
-        func_ov001_02185abc(0x16);
+        MissionRunGXS_SetVisiblePlane(0x16);
         GXS_SetGraphicsMode(0);
     }
     func_ov001_0219f8ec();
@@ -87,9 +87,9 @@ void UpdateMissionRunMSsel(void) {
 
 void func_ov001_02185a28(void) {
     if (GetMenuScreenSwitched()) {
-        func_ov001_021856a8(0x19);
+        TimeAttackGX_SetVisiblePlane(0x19);
         GX_SetGraphicsMode(1, 0, 0);
-        func_ov001_0218568c(0x16);
+        TimeAttackGXS_SetVisiblePlane(0x16);
         GXS_SetGraphicsMode(0);
     }
     WriteTimeAttackTopMenuBg0Offset();
@@ -122,12 +122,12 @@ void UpdateTimeAttackTopMenu(void) {
 
 void func_ov001_02185980(void) {
     if (GetMenuScreenSwitched()) {
-        func_ov001_021856a8(0xb);
+        TimeAttackGX_SetVisiblePlane(0xb);
         GX_SetGraphicsMode(1, 0, 1);
-        func_ov001_0218568c(8);
+        TimeAttackGXS_SetVisiblePlane(8);
         GXS_SetGraphicsMode(0);
     }
-    func_ov001_0218568c(0x12);
+    TimeAttackGXS_SetVisiblePlane(0x12);
     WriteSelectCharacterRegisters();
 }
 
@@ -144,10 +144,10 @@ void UpdateTimeAttackSelectCharacter(void) {
 
 void func_ov001_02185928(void) {
     if (GetMenuScreenSwitched()) {
-        func_ov001_021856a8(0xb);
+        TimeAttackGX_SetVisiblePlane(0xb);
         GX_SetGraphicsMode(1, 0, 1);
     }
-    func_ov001_0218568c(0x12);
+    TimeAttackGXS_SetVisiblePlane(0x12);
     WriteSelectKartRegisters();
 }
 
@@ -164,9 +164,9 @@ void UpdateTimeAttackSelectKart(void) {
 
 void func_ov001_021858c8(void) {
     if (GetMenuScreenSwitched()) {
-        func_ov001_021856a8(0x19);
+        TimeAttackGX_SetVisiblePlane(0x19);
         GX_SetGraphicsMode(1, 0, 0);
-        func_ov001_0218568c(0x16);
+        TimeAttackGXS_SetVisiblePlane(0x16);
         GXS_SetGraphicsMode(0);
     }
     WriteSelectCupGridRegisters();
@@ -200,9 +200,9 @@ void UpdateTimeAttackSelectCupGrid(void) {
 
 void func_ov001_02185828(void) {
     if (GetMenuScreenSwitched()) {
-        func_ov001_021856a8(0x19);
+        TimeAttackGX_SetVisiblePlane(0x19);
         GX_SetGraphicsMode(1, 0, 0);
-        func_ov001_0218568c(0x1e);
+        TimeAttackGXS_SetVisiblePlane(0x1e);
         GXS_SetGraphicsMode(0);
     }
     WriteSelectCupCourseBgOffsets();

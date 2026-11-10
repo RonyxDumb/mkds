@@ -12,16 +12,16 @@ void WriteVsSelectCupGridRegisters(void) {
     int flag;
     flag = GetMenuScreenSwitched();
     if (flag != 0) {
-        flag = VsSelectCupIsDownloadBootWrapper();
+        flag = VsSelectCupMB_IsMultiBootChildWrapper();
         if (flag == 0) {
-            GxDispCntBits8To12Write(0x19);
+            VsSelectGX_SetVisiblePlane(0x19);
             GX_SetGraphicsMode(1, 0, 0);
-            GxsDispCntBits8To12Write(0x16);
+            VsSelectGXS_SetVisiblePlane(0x16);
             GXS_SetGraphicsMode(0);
         } else {
-            GxDispCntBits8To12Write(0x18);
+            VsSelectGX_SetVisiblePlane(0x18);
             GX_SetGraphicsMode(1, 0, 0);
-            GxsDispCntBits8To12Write(0x12);
+            VsSelectGXS_SetVisiblePlane(0x12);
             GXS_SetGraphicsMode(0);
         }
     }

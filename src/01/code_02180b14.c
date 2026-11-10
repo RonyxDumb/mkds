@@ -5,7 +5,7 @@
 
 #pragma thumb off
 
-void func_ov001_02180c6c(u32 bits) {
+void TestSceneGXS_SetVisiblePlane(u32 bits) {
     vu32 *reg = &reg_GXS_DB_DISPCNT;
     *reg = (*reg & ~0x1f00) | (bits << 8);
 }

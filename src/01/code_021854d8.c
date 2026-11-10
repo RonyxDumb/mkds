@@ -3,11 +3,11 @@
 
 #pragma thumb off
 
-void func_ov001_021854f4(int bits) {
+void SelectGX_SetVisiblePlane(int bits) {
     (*(u32 *) 0x4000000u) = (*(u32 *) 0x4000000u) & 0xffffe0ff | bits << 8;
 }
 
-void func_ov001_021854d8(int bits) {
+void SelectGXS_SetVisiblePlane(int bits) {
     reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT & 0xffffe0ff | bits << 8;
 }
 

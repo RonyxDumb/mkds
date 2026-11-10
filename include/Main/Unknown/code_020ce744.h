@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void GxsDispCntBits8To12Write(int bits);
-void GxDispCntBits8To12Write(int bits);
+void VsSelectGXS_SetVisiblePlane(int bits);
+void VsSelectGX_SetVisiblePlane(int bits);

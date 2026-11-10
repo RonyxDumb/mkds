@@ -17,14 +17,14 @@ void UpdateVsSelectCupCourse(void) {
 }
 #pragma thumb off
 
-Unk027ffc40 *VsSelectCupGetBootInfo(void) {
+Unk027ffc40 *VsSelectCupMB_GetMultiBootParam(void) {
     return gBootInfo;
 }
 
-BOOL VsSelectCupIsDownloadBoot(void) {
-    return VsSelectCupGetBootInfo()->mUnk_00 == 2 ? 1 : 0;
+BOOL VsSelectCupMB_IsMultiBootChild(void) {
+    return VsSelectCupMB_GetMultiBootParam()->mUnk_00 == 2 ? 1 : 0;
 }
 
-BOOL VsSelectCupIsDownloadBootWrapper(void) {
-    return VsSelectCupIsDownloadBoot();
+BOOL VsSelectCupMB_IsMultiBootChildWrapper(void) {
+    return VsSelectCupMB_IsMultiBootChild();
 }

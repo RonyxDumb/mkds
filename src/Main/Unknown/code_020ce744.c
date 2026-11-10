@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_020ce744.h"
 #include "registers.h"
 
-void GxDispCntBits8To12Write(int bits) {
+void VsSelectGX_SetVisiblePlane(int bits) {
     u32 value0 = bits;
     u32 value1;
     value1 = reg_GX_DISPCNT;
@@ -10,7 +10,7 @@ void GxDispCntBits8To12Write(int bits) {
     reg_GX_DISPCNT = value0;
 }
 
-void GxsDispCntBits8To12Write(int bits) {
+void VsSelectGXS_SetVisiblePlane(int bits) {
     u32 value0 = bits;
     u32 value1;
     value1 = reg_GXS_DB_DISPCNT;

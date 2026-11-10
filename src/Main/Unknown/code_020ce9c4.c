@@ -10,10 +10,10 @@ void WriteVsSelectKartRegisters(void) {
     int screenChanged;
     screenChanged = GetMenuScreenSwitched();
     if (screenChanged != 0) {
-        GxDispCntBits8To12Write(0xb);
+        VsSelectGX_SetVisiblePlane(0xb);
         GX_SetGraphicsMode(1, 0, 1);
     }
-    GxsDispCntBits8To12Write(0x12);
+    VsSelectGXS_SetVisiblePlane(0x12);
     WriteSelectKartRegisters();
 }
 
