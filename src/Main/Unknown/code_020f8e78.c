@@ -82,7 +82,7 @@ BOOL IsItemObjectTooFarForEffects(ItemObject *itemObject) {
 void StartItemObjectSoundSource(ItemObject *item) {
     enum { K0 } kind = item->mKind;
 
-    func_02109038(&item->mSoundSource, gItemKinds[kind].mFalloffIndex, &item->mPos);
+    ItemObjectInitSoundSource(&item->mSoundSource, gItemKinds[kind].mFalloffIndex, &item->mPos);
     SetSoundSourceEnabled(&item->mSoundSource, 1);
     item->mFlags |= 0x400000;
 }
@@ -148,7 +148,7 @@ void SetupItemObjectFromData(ItemObject *item) {
     item->mAgeFrames = 1;
     if ((item->mFlags & 0x400000) == 0) {
         kind = item->mKind;
-        func_02109038(&item->mSoundSource, gItemKinds[kind].mFalloffIndex, &item->mPos);
+        ItemObjectInitSoundSource(&item->mSoundSource, gItemKinds[kind].mFalloffIndex, &item->mPos);
         SetSoundSourceEnabled(&item->mSoundSource, 1);
         item->mFlags |= 0x400000;
     }

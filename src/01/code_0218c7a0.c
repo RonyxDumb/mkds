@@ -83,7 +83,7 @@ void func_ov001_0218d2c4(Unk02188950 *a) {
     local = data_ov001_021a7c08;
     local.mPositionSource = &a->mUnk_000.mPos;
     local.mDistanceSquared = GetHorizontalCameraDistanceSquared(&a->mUnk_000.mPos);
-    func_0210b734(&local, func_02108e7c());
+    func_0210b734(&local, GetSecondSndHandleSlot());
 }
 
 void func_ov001_0218d280(void) {

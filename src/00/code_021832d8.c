@@ -175,7 +175,7 @@ void InitWiFiVSMatching(void *a) {
 
 void func_ov000_02184354(void) {
     u32 a;
-    func_0210895c();
+    StopBothSeqHandles();
     a = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | ((a & ~8) << 8);
     reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & 0x43) | 0xf00;
@@ -315,7 +315,7 @@ void AdvanceWiFiVSMatchingState1(void) {
         gWiFiVSMatching->mPendingWiFiState = 2;
         gWiFiVSMatching->mUnk_08 = 0;
         RequestTxtSystemClose();
-        func_0210895c();
+        StopBothSeqHandles();
         return;
     }
     if (IsTxtSystemState2NoCloseRequest() != 0 && gWiFiVSMatching->mUnk_08 >= 0x78 && func_0212111c() == -1) {
@@ -384,7 +384,7 @@ void AdvanceWiFiVSMatchingState1(void) {
         RequestSelectReturnState4();
         RequestTxtSystemClose();
         RequestPlayerEntryListSetup();
-        func_02108a40();
+        StartPlayerEntryListSetupSeq();
         gWiFiVSMatching->mCurrentOtherIndex = 0;
         return;
     }
@@ -407,7 +407,7 @@ void AdvanceWiFiVSMatchingState1(void) {
         if (i < n && flag != FALSE) {
             gWiFiVSMatching->mWiFiVSMatchingTable[data_ov000_021b065c[i]].mVisible = 1;
             if (i >= gWiFiVSMatching->mUnk_38) {
-                func_02108adc();
+                StartWiFiMatchingEntryShowSeq();
                 gWiFiVSMatching->mUnk_38 = gWiFiVSMatching->mUnk_38 + 1;
             }
         } else {
@@ -416,7 +416,7 @@ void AdvanceWiFiVSMatchingState1(void) {
     }
     sh = gWiFiVSMatching->mUnk_38;
     while (n < gWiFiVSMatching->mUnk_38) {
-        func_02108a8c();
+        StartWiFiMatchingEntryHideSeq();
         sh--;
         n++;
     }

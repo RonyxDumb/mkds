@@ -110,7 +110,7 @@ typedef struct VolumeFade {
 extern VolumeFade gVolumeFade;
 
 // Values of the two switches in InitSound.
-typedef enum { E0 = 0, E1 = 1, E2 = 2 } Unk02108344;
+typedef enum { E0 = 0, E1 = 1, E2 = 2 } SndHeapSizeKind;
 
 BOOL LoadSndBanksAndWaveArcs(s32 bankMask);
 BOOL LoadSndBanksAndWaveArcsIfChanged(s32 bankMask);
@@ -118,10 +118,10 @@ int GetSndHeapsBufferSize(int heapSizeKind);
 int GetSndInitBufferSize(int heapSizeKind);
 void ReleaseSndHeaps(void);
 void CreateSndHeaps(u32 heapSizeKind, u32 buffer);
-void InitSound(void *buffer, u32 b, u32 useFileArchive);
+void InitSound(void *buffer, u32 bufferSize, u32 useFileArchive);
 void UpdateSounds(void);
 void InitSceneSounds(s32 e);
-void InitSceneSoundState(u32 sceneSoundRowIndex, ScenePlayersSeqInfo b, SceneSoundState *sceneSoundState);
+void InitSceneSoundState(u32 sceneSoundRowIndex, ScenePlayersSeqInfo seqInfo, SceneSoundState *sceneSoundState);
 void StartSceneSounds(void);
 void StartRaceSounds(void);
 void StartKartStarSeq(void);

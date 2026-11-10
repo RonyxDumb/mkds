@@ -15,7 +15,7 @@
 #include "Main/Unknown/code_0210d0b4.h"
 #include "code_0201750c.h"
 
-void func_0210c134(SoundSource *source, Vec3 *positionSource) {
+void ItemObjectInitAndRegisterSoundSource(SoundSource *source, Vec3 *positionSource) {
     void *startFunction;
     void *trackParamsFunction;
     NNS_FndInitList(&source->mPlayingSounds, 8);

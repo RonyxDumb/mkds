@@ -394,7 +394,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
                 }
                 if (IsScrollListPickFinished() != 0) {
                     func_0202d5c0();
-                    func_02108c1c();
+                    StartTimeAttackGhostSendSeq();
                     gTimeAttackGhostSend->mState = 4;
                 } else {
                     keyB = gInputSlots[slotIndex].mPressedBits & PAD_KEY_B;
@@ -441,11 +441,11 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
             if (keyB != 0 || returnTouched != 0) {
                 RequestSelectReturnState3WithSound(0);
                 SetSelectReturnSoundId(0xf);
-                func_02108c04();
+                StopTimeAttackGhostSendSeq();
                 gTimeAttackGhostSend->mState = 0xb;
             } else if (func_0204eb08(gTimeAttackGhostSend->mUnk_0b8) != 0) {
                 RequestSelectReturnState4();
-                func_02108c04();
+                StopTimeAttackGhostSendSeq();
                 NNS_SndArcSetCurrent(&gOnMemorySndArc);
                 NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 9);
                 NNS_SndArcSetCurrent(&gFileSndArc);

@@ -238,7 +238,7 @@ void func_0204a1a8(void *arg) {
         OpenMessageScreen(gSceneRunState->mUnk_118, gSceneRunState->mUnk_11c);
         StopAllSeqPlayers();
         if (gBootInfo->mUnk_00 == 2) {
-            func_02108d00();
+            BootInfoStartMessageScreenSeq();
         } else {
             StartMessageScreenSeq();
         }
@@ -316,7 +316,7 @@ void func_02049f60(void) {
     }
     StopAllSeqPlayers();
     if (gBootInfo->mUnk_00 == 2) {
-        func_02108d00();
+        BootInfoStartMessageScreenSeq();
     } else {
         StartMessageScreenSeq();
     }

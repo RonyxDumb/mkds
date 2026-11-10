@@ -164,7 +164,7 @@ void func_ov000_0218134c(void) {
             func_02126638(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
             RequestWiFiSessionLogin();
             data_ov000_021b4c68->mUnk_14 = TRUE;
-            func_02108bb4();
+            StartWiFiSessionLoginSeq();
             return;
         }
         data_ov000_021b4c68->mPendingWiFiState = 1;
@@ -248,7 +248,7 @@ void func_ov000_021810dc(void) {
             func_02126638(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
             RequestWiFiSessionLogin();
             data_ov000_021b4c68->mUnk_14 = TRUE;
-            func_02108bb4();
+            StartWiFiSessionLoginSeq();
             return;
         }
         data_ov000_021b4c68->mPendingWiFiState = 1;
@@ -296,7 +296,7 @@ void func_ov000_02180f80(void) {
             func_02126638(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
             RequestWiFiSessionLogin();
             data_ov000_021b4c68->mUnk_14 = FALSE;
-            func_02108bb4();
+            StartWiFiSessionLoginSeq();
             return;
         }
         data_ov000_021b4c68->mPendingWiFiState = 1;
@@ -325,7 +325,7 @@ void func_ov000_02180e58(void) {
                 SetupTxtSystemMainTextButton(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, v),
                                              GetBmgEntry(data_ov000_021b4c68->mCommonMessages, 6));
                 data_ov000_021b4c68->mMessageTableIndex = 0;
-                func_021089f4();
+                StartWiFiLoginErrorSeq();
                 break;
             case 0:
                 break;

@@ -4,5 +4,5 @@
 #include "code_0212bcac.h"
 
 NNSSndSeqPlayer **GetSndHandleSlot(unsigned int index);
-NNSSndSeqPlayer **func_02108e7c(void);
+NNSSndSeqPlayer **GetSecondSndHandleSlot(void);
 NNSSndSeqPlayer **GetSndHandles(void);

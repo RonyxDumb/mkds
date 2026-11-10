@@ -110,7 +110,7 @@ void StopSeqZeroLoop(void) {
     NNS_SndArcSetCurrent(&gFileSndArc);
 }
 
-void func_02108d00(void) {
+void BootInfoStartMessageScreenSeq(void) {
     NNS_SndPlayerStopSeq(&data_0217c788, 1);
     gSeqZeroLoopOn = 0;
     NNS_SndPlayerStopSeq(&data_0217c778, 1);
@@ -132,7 +132,7 @@ void StartMessageScreenSeq(void) {
     NNS_SndArcSetCurrent(&gFileSndArc);
 }
 
-void func_02108c1c(void) {
+void StartTimeAttackGhostSendSeq(void) {
     NNS_SndPlayerStopSeq(&data_0217c788, 1);
     NNS_SndArcSetCurrent(&gOnMemorySndArc);
     if (data_0217c788 != NULL) {
@@ -142,11 +142,11 @@ void func_02108c1c(void) {
     NNS_SndArcSetCurrent(&gFileSndArc);
 }
 
-void func_02108c04(void) {
+void StopTimeAttackGhostSendSeq(void) {
     NNS_SndPlayerStopSeq(&data_0217c788, 1);
 }
 
-void func_02108bb4(void) {
+void StartWiFiSessionLoginSeq(void) {
     NNS_SndPlayerStopSeq(&data_0217c788, 1);
     if (data_0217c788 != NULL) {
         NNS_SndPlayerStopSeq(&data_0217c788, 0);
@@ -167,7 +167,7 @@ void func_02108b2c(void) {
     NNS_SndArcPlayerStartSeqArc(&data_0217c788, 0, 0x204);
 }
 
-void func_02108adc(void) {
+void StartWiFiMatchingEntryShowSeq(void) {
     NNS_SndPlayerStopSeq(&data_0217c778, 1);
     if (data_0217c778 != NULL) {
         NNS_SndPlayerStopSeq(&data_0217c778, 0);
@@ -175,7 +175,7 @@ void func_02108adc(void) {
     NNS_SndArcPlayerStartSeqArc(&data_0217c778, 0, 0x205);
 }
 
-void func_02108a8c(void) {
+void StartWiFiMatchingEntryHideSeq(void) {
     NNS_SndPlayerStopSeq(&data_0217c778, 1);
     if (data_0217c778 != NULL) {
         NNS_SndPlayerStopSeq(&data_0217c778, 0);
@@ -183,13 +183,13 @@ void func_02108a8c(void) {
     NNS_SndArcPlayerStartSeqArc(&data_0217c778, 0, 0x206);
 }
 
-void func_02108a40(void) {
+void StartPlayerEntryListSetupSeq(void) {
     NNS_SndPlayerStopSeq(&data_0217c788, 1);
     NNS_SndPlayerStopSeq(&data_0217c778, 1);
     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x207);
 }
 
-void func_021089f4(void) {
+void StartWiFiLoginErrorSeq(void) {
     NNS_SndPlayerStopSeq(&data_0217c788, 1);
     NNS_SndPlayerStopSeq(&data_0217c778, 1);
     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, (0x0000020au));
@@ -203,7 +203,7 @@ void func_02108990(void) {
     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x20a);
 }
 
-void func_0210895c(void) {
+void StopBothSeqHandles(void) {
     NNS_SndPlayerStopSeq(&data_0217c788, 1);
     NNS_SndPlayerStopSeq(&data_0217c778, 1);
 }
@@ -352,10 +352,10 @@ void CreateSndHeaps(u32 heapSizeKind, u32 buffer) {
     LoadInitialSndGroup(x);
 }
 
-void InitSound(void *buffer, u32 b, u32 useFileArchive) {
+void InitSound(void *buffer, u32 bufferSize, u32 useFileArchive) {
     u32 soundHeapSize;
     u32 seqRowHeapSize;
-    Unk02108344 heapSizeKind;
+    SndHeapSizeKind heapSizeKind;
     s32 i;
 
     gSeqZeroLoopOn = 0;
@@ -384,11 +384,11 @@ void InitSound(void *buffer, u32 b, u32 useFileArchive) {
                 seqRowHeapSize = 0x35a0;
                 break;
         }
-        b = b - soundHeapSize;
+        bufferSize = bufferSize - soundHeapSize;
         data_0216c7d4 = 2;
-        b = b - seqRowHeapSize;
+        bufferSize = bufferSize - seqRowHeapSize;
     }
-    InitSoundSystem(buffer, b, useFileArchive != 0 ? gSoundDataSdatPath : 0);
+    InitSoundSystem(buffer, bufferSize, useFileArchive != 0 ? gSoundDataSdatPath : 0);
     InitSoundRequestQueues();
     NNS_SndArcInitOnMemory(&gOnMemorySndArc, gOnMemorySdat);
     NNS_SndArcSetCurrent(&gFileSndArc);
@@ -397,8 +397,8 @@ void InitSound(void *buffer, u32 b, u32 useFileArchive) {
     } else {
         ((u32 *) &gLoadedSoundBanks)[0] = data_0215a6e4[0];
         ((u32 *) &gLoadedSoundBanks)[1] = data_0215a6e4[1];
-        data_0217c77c = NNS_SndHeapCreate((buffer + b), 0x25a5c);
-        CreateSeqRowHeap((buffer + b + 0x25a5c), 0x35a0);
+        data_0217c77c = NNS_SndHeapCreate((buffer + bufferSize), 0x25a5c);
+        CreateSeqRowHeap((buffer + bufferSize + 0x25a5c), 0x35a0);
     }
     data_0216cb28 = 0x69;
     StartSoundOutputEffect(1);
@@ -406,7 +406,7 @@ void InitSound(void *buffer, u32 b, u32 useFileArchive) {
     ClearSndFileIdList(GetSndDataFileIdList());
     ClearSndFileIdList(GetSoundSetFileIdList());
     for (i = 0; i < 12; i++) {
-        NNS_SndHandleInit(&data_0217c838[i]);
+        NNS_SndHandleInit(&gSndHandleSlots[i]);
     }
     InitSoundHandlePool(&data_0217c7c4, data_0217c7d8, 3, 8);
     NNS_SndHandleInit(&data_0217c7ac);
@@ -464,10 +464,10 @@ void InitSceneSounds(s32 e) {
     s32 currentSceneNumber;
     s32 v;
     BOOL b;
-    u32 d;
+    u32 raceKindMatches;
     NNSSndHeap *savedHeap;
     SoundRow buf;
-    ScenePlayersSeqInfo s;
+    ScenePlayersSeqInfo scenePlayersSeqInfo;
 
     if (gBootInfo->mUnk_00 == 2 && GetCurrentSceneNumber() == 6) {
         return;
@@ -477,8 +477,8 @@ void InitSceneSounds(s32 e) {
     v = 0x69;
     b = FALSE;
     if (GetCurrentSceneNumber() == 2) {
-        d = gRaceSetup->mRaceKind == RACE_KIND_NORMAL || gRaceSetup->mRaceKind == 2;
-        if (d != 0) {
+        raceKindMatches = gRaceSetup->mRaceKind == RACE_KIND_NORMAL || gRaceSetup->mRaceKind == 2;
+        if (raceKindMatches != 0) {
             b = TRUE;
         }
     }
@@ -650,35 +650,35 @@ void InitSceneSounds(s32 e) {
                 Unk021759c0_28 *w = &gRaceSetup->mUnk_28_view;
                 switch (gRaceSetup->mMissionKind) {
                     case 1:
-                        data_0217c770[0] = 0x1d7;
-                        data_0217c76c[0] = 0x1d7;
+                        gMissionRunCountSeqNo[0] = 0x1d7;
+                        gMissionRunLimitSeqNo[0] = 0x1d7;
                         break;
                     case 7:
-                        data_0217c770[0] = 0x1e0;
-                        data_0217c76c[0] = 0x1e1;
+                        gMissionRunCountSeqNo[0] = 0x1e0;
+                        gMissionRunLimitSeqNo[0] = 0x1e1;
                         switch (w->mMissionTableValue) {
                             case 9:
                             case 0xa:
-                                data_0217c76c[0] = 0xff;
+                                gMissionRunLimitSeqNo[0] = 0xff;
                                 break;
                         }
                         break;
                     case 0:
-                        data_0217c770[0] = 0x1db;
-                        data_0217c76c[0] = 0x1dc;
+                        gMissionRunCountSeqNo[0] = 0x1db;
+                        gMissionRunLimitSeqNo[0] = 0x1dc;
                         break;
                     case 2:
                     case 6:
-                        data_0217c770[0] = 0xff;
-                        data_0217c76c[0] = 0xff;
+                        gMissionRunCountSeqNo[0] = 0xff;
+                        gMissionRunLimitSeqNo[0] = 0xff;
                         break;
                     case 4:
-                        data_0217c770[0] = 0x1dd;
-                        data_0217c76c[0] = 0x1de;
+                        gMissionRunCountSeqNo[0] = 0x1dd;
+                        gMissionRunLimitSeqNo[0] = 0x1de;
                         break;
                     case 3:
-                        data_0217c770[0] = 0x1dd;
-                        data_0217c76c[0] = 0x1de;
+                        gMissionRunCountSeqNo[0] = 0x1dd;
+                        gMissionRunLimitSeqNo[0] = 0x1de;
                         break;
                     case 8:
                     case 9:
@@ -724,11 +724,11 @@ void InitSceneSounds(s32 e) {
         case 0:
             break;
     }
-    s.mUnk_00 = 0xff;
-    s.mSeqStartProgress = buf.mUnk_00[0];
-    s.mSeqId = buf.mUnk_00[1];
+    scenePlayersSeqInfo.mUnk_00 = 0xff;
+    scenePlayersSeqInfo.mSeqStartProgress = buf.mUnk_00[0];
+    scenePlayersSeqInfo.mSeqId = buf.mUnk_00[1];
     InitVolumeFade();
-    InitSceneSoundState(sceneSoundRowIndex & 0xff, s, &gSceneSoundState);
+    InitSceneSoundState(sceneSoundRowIndex & 0xff, scenePlayersSeqInfo, &gSceneSoundState);
     InitSoundFalloffsAndPlayingSounds();
     InitSceneSoundsNop();
     InitKartSoundQueue();
@@ -755,7 +755,7 @@ void InitSceneSounds(s32 e) {
     }
 }
 
-void InitSceneSoundState(u32 sceneSoundRowIndex, ScenePlayersSeqInfo b, SceneSoundState *sceneSoundState) {
+void InitSceneSoundState(u32 sceneSoundRowIndex, ScenePlayersSeqInfo seqInfo, SceneSoundState *sceneSoundState) {
     sceneSoundState->mLapsDone = 0;
     NNS_SndHandleInit(&sceneSoundState->mKartStarSeq);
     sceneSoundState->mLastLapSeqState = 0;
@@ -768,14 +768,14 @@ void InitSceneSoundState(u32 sceneSoundRowIndex, ScenePlayersSeqInfo b, SceneSou
     sceneSoundState->mRankIndexAtSeq = 0xff;
     sceneSoundState->mRankSeqFrames = -1;
     sceneSoundState->mVolumesLowered = 0;
-    InitScenePlayers(&data_0217d070, sceneSoundState, sceneSoundRowIndex, b);
+    InitScenePlayers(&data_0217d070, sceneSoundState, sceneSoundRowIndex, seqInfo);
     data_0217d084.mUnk_18 = &gSceneSoundState.mKartStarSeq;
     SetSoundMode(&data_0217d084, 0);
 }
 
 void StartSceneSounds(void) {
     s32 b;
-    u32 c;
+    u32 raceKindMatches;
     s32 v;
     s32 i;
     NNSSndArc *savedArc;
@@ -796,8 +796,8 @@ void StartSceneSounds(void) {
     gPlayerVolumeFade.mTargetVolumeAfterRaceStart = 0x7f;
     gPlayerVolumeFade.mRaceStarted = 0;
     if (GetCurrentSceneNumber() == 2) {
-        c = gRaceSetup->mRaceKind == RACE_KIND_NORMAL || gRaceSetup->mRaceKind == 2;
-        if (c != 0) {
+        raceKindMatches = gRaceSetup->mRaceKind == RACE_KIND_NORMAL || gRaceSetup->mRaceKind == 2;
+        if (raceKindMatches != 0) {
             b = 1;
         }
     }
@@ -917,7 +917,7 @@ void StartRaceSounds(void) {
         return;
     }
     for (i = 7; i < 12; i++) {
-        NNS_SndPlayerStopSeq(OFFSET_PTR(NNSSndSeqPlayer *, data_0217c838, i * sizeof(NNSSndSeqPlayer *)), 0);
+        NNS_SndPlayerStopSeq(OFFSET_PTR(NNSSndSeqPlayer *, gSndHandleSlots, i * sizeof(NNSSndSeqPlayer *)), 0);
     }
     handle = &data_0217c854;
     if ((data_0217c780 & 1) == 0) {
@@ -987,7 +987,7 @@ void EndRaceSounds(void) {
         SetSoundMode(&data_0217d084, 3);
     }
     for (i = 0; i < 12; i++) {
-        NNS_SndPlayerStopSeq(data_0217c838 + i, GetEndRaceFadeSteps());
+        NNS_SndPlayerStopSeq(gSndHandleSlots + i, GetEndRaceFadeSteps());
     }
     fadeSteps = GetEndRaceFadeSteps();
     for (j = 0, playerCursor = (&data_0217c7c4)->mEntries; j < (&data_0217c7c4)->mCount; j++) {
@@ -1031,7 +1031,7 @@ void AdvanceSceneSoundLap(void) {
         return;
     }
     for (i = 7; i < 12; i++) {
-        NNS_SndPlayerStopSeq(OFFSET_PTR(NNSSndSeqPlayer *, data_0217c838, i * sizeof(NNSSndSeqPlayer *)), 0);
+        NNS_SndPlayerStopSeq(OFFSET_PTR(NNSSndSeqPlayer *, gSndHandleSlots, i * sizeof(NNSSndSeqPlayer *)), 0);
     }
     seqHandle = &data_0217c854;
     if ((data_0217c780 & 1) == 0) {
@@ -1052,7 +1052,7 @@ void AdvanceSceneSoundLap(void) {
 // Stores the selected kart's new place; in some courses it starts a seq when the place improves.
 void SetSceneSoundRank(u32 rankIndex) {
     BOOL b;
-    BOOL c;
+    BOOL raceKindMatches;
     u32 slotSeqPlaying;
     u32 shouldStartSeq;
     u32 seqNo;
@@ -1062,8 +1062,8 @@ void SetSceneSoundRank(u32 rankIndex) {
 
     b = FALSE;
     if (GetCurrentSceneNumber() == 2) {
-        c = gRaceSetup->mRaceKind == RACE_KIND_NORMAL || gRaceSetup->mRaceKind == 2;
-        if (c != FALSE) {
+        raceKindMatches = gRaceSetup->mRaceKind == RACE_KIND_NORMAL || gRaceSetup->mRaceKind == 2;
+        if (raceKindMatches != FALSE) {
             b = TRUE;
         }
     }
@@ -1084,7 +1084,7 @@ void SetSceneSoundRank(u32 rankIndex) {
             if (gSceneSoundState.mOnLastLap != 0) {
                 seqNo = 0x1c2;
                 for (i = 7; i < 12; i++) {
-                    NNS_SndPlayerStopSeq(OFFSET_PTR(NNSSndSeqPlayer *, data_0217c838, i * sizeof(NNSSndSeqPlayer *)),
+                    NNS_SndPlayerStopSeq(OFFSET_PTR(NNSSndSeqPlayer *, gSndHandleSlots, i * sizeof(NNSSndSeqPlayer *)),
                                          b);
                 }
                 b = TRUE;
@@ -1093,7 +1093,7 @@ void SetSceneSoundRank(u32 rankIndex) {
         case COURSE_ID_PINBALL:
             seqNo = rankIndex == 0 ? 0x1cb : 0x1ca;
             b = TRUE;
-            seqPlayer = data_0217c838[7];
+            seqPlayer = gSndHandleSlots[7];
             slotSeqPlaying = seqPlayer != NULL && seqPlayer->mSeqArcIndex == 0x1cc && seqPlayer->mSeqNo == 0;
             if (slotSeqPlaying != 0) {
                 b = FALSE;
@@ -1399,7 +1399,7 @@ void StopSceneSounds(void) {
     ScenePlayersReturnArgument(&data_0217d070);
     SetSoundMode(&data_0217d084, 4);
     for (i = 0; i < 12; i++) {
-        NNS_SndPlayerStopSeq(data_0217c838 + i, GetSoundFadeSteps());
+        NNS_SndPlayerStopSeq(gSndHandleSlots + i, GetSoundFadeSteps());
     }
     fadeSteps = GetSoundFadeSteps();
     for (j = 0, playerCursor = (&data_0217c7c4)->mEntries; j < (&data_0217c7c4)->mCount; j++) {
@@ -1425,7 +1425,7 @@ void StopSceneSoundsAtOnce(void) {
     ReleaseScenePlayers(&data_0217d070, 1);
     SetSoundMode(&data_0217d084, 0);
     for (i = 0; i < 12; i++) {
-        NNS_SndPlayerStopSeq(data_0217c838 + i, 0);
+        NNS_SndPlayerStopSeq(gSndHandleSlots + i, 0);
     }
     playerTable = &data_0217c7c4;
     for (j = 0, playerCursor = playerTable->mEntries; j < playerTable->mCount; j++) {
@@ -1467,7 +1467,7 @@ void LowerSndHandleVolumes(void) {
     if (gSceneSoundState.mLastLapSeqState == 1) {
         gSceneSoundState.mLastLapSeqState = 3;
     }
-    handleCursor = data_0217c838;
+    handleCursor = gSndHandleSlots;
     for (i = 0; i < 0xc; i++) {
         NNS_SndPlayerMoveVolume(handleCursor, 0, GetSoundFadeSteps());
         handleCursor++;
@@ -1505,7 +1505,7 @@ void RaiseSndHandleVolumes(void) {
     if (gSceneSoundState.mLastLapSeqState == 3) {
         gSceneSoundState.mLastLapSeqState = 1;
     }
-    handleCursor = data_0217c838;
+    handleCursor = gSndHandleSlots;
     for (i = 0; i < 0xc; i++) {
         NNS_SndPlayerMoveVolume(handleCursor, 0x7f, GetSoundFadeSteps());
         handleCursor++;
@@ -1536,7 +1536,7 @@ void StartChoisesSValueSeq(s32 valueIndex) {
     if (valueIndex == 4) {
         return;
     }
-    handleCursor = data_0217c838;
+    handleCursor = gSndHandleSlots;
     for (i = 0; i < 0xc; i++) {
         NNS_SndPlayerStopSeq(handleCursor, GetSoundFadeSteps());
         handleCursor++;
@@ -1590,7 +1590,7 @@ void StartSceneSeqIfIdle(void) {
     if (data_0217d070.mSeqPlayer != NULL) {
         return;
     }
-    if (data_0217c838[1] != NULL) {
+    if (gSndHandleSlots[1] != NULL) {
         return;
     }
     StartScenePlayersSeq(&data_0217d070);
@@ -1606,7 +1606,7 @@ void StopMissionRunLVselSeqsWithSteps(int mode, u32 fadeSteps) {
     }
 }
 
-void func_0210593c(u32 mode) {
+void StartSceneSeqAfterMissionRunLVsel(u32 mode) {
     if (mode != 4) {
         return;
     }

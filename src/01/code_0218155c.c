@@ -84,7 +84,7 @@ void func_ov001_02181aa0(void) {
         return;
     }
     missionRunData->mCount = missionRunData->mCount + 1;
-    func_02108edc(gMissionRunData->mCount, GetMissionRunCountLimit());
+    StartMissionRunCountSeq(gMissionRunData->mCount, GetMissionRunCountLimit());
     switch (gRaceSetup->mMissionKind) {
         case 0:
         case 1:

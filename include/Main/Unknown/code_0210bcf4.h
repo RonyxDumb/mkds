@@ -83,4 +83,4 @@ void func_0210bf24(u32 seqArcNo, u32 soundId, Vec3 *positionSource, void *reques
 void RefreshSoundSourceUpdateList(SoundSource *source);
 void func_0210c084(PlayingSound *sound, u32 fadeSteps);
 void func_0210c0bc(SoundSource *source);
-void func_0210c134(SoundSource *source, Vec3 *positionSource);
+void ItemObjectInitAndRegisterSoundSource(SoundSource *source, Vec3 *positionSource);

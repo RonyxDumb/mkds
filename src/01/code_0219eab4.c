@@ -335,7 +335,7 @@ void ReleaseMissionRunLVsel(void) {
             }
             break;
         case 2:
-            func_0210593c(4);
+            StartSceneSeqAfterMissionRunLVsel(4);
             break;
     }
     HeapDestroy(gMissionRunLVsel->mHeap);

@@ -60,7 +60,7 @@ void func_ov001_0218a30c(Unk02188950 *mapObject) {
     soundRequest = data_ov001_021a7ad0;
     soundRequest.mPositionSource = &mapObject->mUnk_000.mPos;
     soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&mapObject->mUnk_000.mPos);
-    func_0210b734(&soundRequest, func_02108e7c());
+    func_0210b734(&soundRequest, GetSecondSndHandleSlot());
     mapObject->mUnk_000.mFlags |= data_ov001_021a6588;
     mapObject->mUnk_000.mFlags |= data_ov001_021a658c;
     mapObject->mUnk_000.mFlags |= data_ov001_021a6590;

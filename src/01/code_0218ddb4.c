@@ -524,7 +524,7 @@ s32 func_ov001_0218e650(Unk02188950 *a) {
         SoundStartParams local = {0x22f, 0, 0xe, 0};
         local.mPositionSource = &a->mUnk_000.mPos;
         local.mDistanceSquared = GetHorizontalCameraDistanceSquared(&a->mUnk_000.mPos);
-        func_0210b734(&local, func_02108e7c());
+        func_0210b734(&local, GetSecondSndHandleSlot());
     }
     return 0;
 }

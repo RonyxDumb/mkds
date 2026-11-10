@@ -19,15 +19,15 @@
 #include "code_0212bcac.h"
 #include "code_0212df7c.h"
 
-void func_02108edc(s32 count, s32 countLimit) {
+void StartMissionRunCountSeq(s32 count, s32 countLimit) {
     u32 c;
     PlayingSound *playingSound;
 
     if (count == countLimit) {
-        if (data_0217c76c[0] != 0xff) {
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, data_0217c76c[0]);
+        if (gMissionRunLimitSeqNo[0] != 0xff) {
+            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, gMissionRunLimitSeqNo[0]);
         }
-        if (data_0217c76c[0] == 0x1d7) {
+        if (gMissionRunLimitSeqNo[0] == 0x1d7) {
             NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1de);
             return;
         }
@@ -36,7 +36,7 @@ void func_02108edc(s32 count, s32 countLimit) {
             NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0xd4);
         }
     } else {
-        c = data_0217c770[0];
+        c = gMissionRunCountSeqNo[0];
         if (c == 0xff) {
             return;
         }
@@ -57,7 +57,7 @@ void func_02108edc(s32 count, s32 countLimit) {
     }
 }
 
-void func_02108ed8(void) {}
+void RunScenesSoundNop(void) {}
 
 NNSSndArc *SetCurrentSndArc(void) {
     return NNS_SndArcSetCurrent(&gFileSndArc);
@@ -76,13 +76,13 @@ void SetSoundOutputEffect(s32 type) {
 }
 
 NNSSndSeqPlayer **GetSndHandles(void) {
-    return data_0217c838;
+    return gSndHandleSlots;
 }
 
-NNSSndSeqPlayer **func_02108e7c(void) {
+NNSSndSeqPlayer **GetSecondSndHandleSlot(void) {
     return &data_0217c83c;
 }
 
 NNSSndSeqPlayer **GetSndHandleSlot(u32 index) {
-    return data_0217c838 + index;
+    return gSndHandleSlots + index;
 }

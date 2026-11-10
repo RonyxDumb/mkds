@@ -73,7 +73,7 @@ void func_0205dee0(void) {
         HeapFree(a, gRunScenesState->mSndHeapsBuffer);
         gRunScenesState->mSndHeapsBuffer = NULL;
     }
-    func_02108ed8();
+    RunScenesSoundNop();
     expHeapFromMaxFree = CreateExpHeapFromMaxFree(a);
     c = HeapAllocAligned(expHeapFromMaxFree, 0x40000, 0x20);
     func_0205dee0_inline(c, SDK_OVERLAY_OV003_ID);
