@@ -300,7 +300,7 @@ void StopKartItemsAndEffects(Kart *kart) {
         SetThunderShrinkSoundFlag(0);
     }
     ResetKartTrackParamsFunction(kart);
-    if (kart->mUnk_4c & 0x2000) {
+    if (kart->mUnk_4c & KART_4C_AHEAD_BOOST) {
         ResetKartModelsCourseColors(kart);
     }
     if (kart->mUnk_4c & 0x40) {
@@ -312,7 +312,7 @@ void StopKartItemsAndEffects(Kart *kart) {
         if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
             StopKartStarSeq();
         }
-        if (kart->mUnk_4c & 0x2000) {
+        if (kart->mUnk_4c & KART_4C_AHEAD_BOOST) {
             SetKartModelsGrayColors(kart);
         }
     }
@@ -1085,8 +1085,8 @@ void ResetKartMotionState(Kart *kart, s32 b) {
         }
         StopDispCapBlend();
     }
-    if (kart->mUnk_4c & 0x2000) {
-        kart->mUnk_4c &= ~0x2000;
+    if (kart->mUnk_4c & KART_4C_AHEAD_BOOST) {
+        kart->mUnk_4c &= ~KART_4C_AHEAD_BOOST;
         kart->mAheadSpeedLimitFactor = 0x1000;
         if (!(kart->mUnk_4c & 0x8000000)) {
             ResetKartModelsCourseColors(kart);
@@ -1256,15 +1256,15 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
         }
     }
 
-    if (kart->mUnk_4c & 0x2000) {
+    if (kart->mUnk_4c & KART_4C_AHEAD_BOOST) {
         itemEffectState = &kart->mUnk_538;
         if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
             AddSoundRequest(gSoundRequestQueues, GetKartCameraDistanceSquared(kart->mIndex), RequestKartSound, kart,
                             0xa3);
         }
         itemEffectState->mAheadBoostFrames++;
-        if (itemEffectState->mAheadBoostFrames > KART_KILLER_RANK_END_FRAMES && (kart->mUnk_4c & 0x2000)) {
-            kart->mUnk_4c &= ~0x2000;
+        if (itemEffectState->mAheadBoostFrames > KART_KILLER_RANK_END_FRAMES && (kart->mUnk_4c & KART_4C_AHEAD_BOOST)) {
+            kart->mUnk_4c &= ~KART_4C_AHEAD_BOOST;
             kart->mAheadSpeedLimitFactor = 0x1000;
             if (!(kart->mUnk_4c & 0x8000000)) {
                 ResetKartModelsCourseColors(kart);
@@ -1290,7 +1290,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
             if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
                 StopKartStarSeq();
             }
-            if (kart->mUnk_4c & 0x2000) {
+            if (kart->mUnk_4c & KART_4C_AHEAD_BOOST) {
                 SetKartModelsGrayColors(kart);
             }
         }

@@ -197,7 +197,7 @@ void DisconnectCallback(Unk021425e8 *event) {
     }
 }
 
-BOOL IsWMInitializeStarted(void) {
+BOOL IsMultiBootSetupStarted(void) {
     return (gConnectionWork->mUnk_0454 & 0x40) != 0;
 }
 
@@ -209,7 +209,7 @@ s32 GetConnectionMode(void) {
 }
 
 static inline u32 func_02050ec0_inline(void) {
-    return IsWMInitializeStarted() != FALSE && (GetConnectionMode() == 1 || ConnectionMB_IsMultiBootChild() != FALSE);
+    return IsMultiBootSetupStarted() != FALSE && (GetConnectionMode() == 1 || ConnectionMB_IsMultiBootChild() != FALSE);
 }
 
 BOOL ConnectionMB_IsMultiBootChild(void) {

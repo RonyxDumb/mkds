@@ -40,7 +40,7 @@ static inline s32 func_0206dbf8_inline(Kart *kart) {
     u32 bits4c;
 
     bits4c = kart->mUnk_4c;
-    if (bits4c & 0x400000) {
+    if (bits4c & KART_4C_BLINK_GUARD) {
         c = FALSE;
     } else if (kart->mUnk_7c & 0x200) {
         if (kart->mState == KART_STATE_NORMAL && !(kart->mUnk_48 & 0x1800) && !(bits4c & 0x10000040)) {
@@ -302,7 +302,7 @@ void UpdateKartAheadEffect(Kart *kart) {
     aheadFound = FALSE;
     ComputeKartPointAlongUp(&kart->mUnk_1f0, kart->mUnk_510, 0x400, kart);
     VEC_MultAdd(MUL_FIXED12_NO_ROUND(kart->mRadius, -0x4000), &kart->mTurnedForward, &kart->mUnk_1f0, &kart->mUnk_1f0);
-    if (kart->mIndex == GetRaceUpdateFramesMod8() && !(kart->mUnk_4c & 0x10002000)) {
+    if (kart->mIndex == GetRaceUpdateFramesMod8() && !(kart->mUnk_4c & (0x10000000 | KART_4C_AHEAD_BOOST))) {
         if (kart->mVelocityLength > 0x4000 && kart->mState == KART_STATE_NORMAL) {
             for (i = 0; i < gFoundCollisionSlotCount; i++) {
                 otherKart = gFoundCollisionSlotObjects[i];
@@ -320,22 +320,22 @@ void UpdateKartAheadEffect(Kart *kart) {
         }
         if (!(kart->mUnk_7c & 0x400)) {
             if (aheadFound != FALSE) {
-                kart->mUnk_4c |= 0x4000;
+                kart->mUnk_4c |= KART_4C_AHEAD_BUILD_UP;
                 StartKartAheadEffectIfSelectedEntry(kart);
                 if (kart->mUnk_538.mAheadCount > 0xf && distance < 0x3c000) {
                     StartKartAheadBoost(kart);
                 }
             } else {
                 kart->mUnk_538.mAheadCount = 0;
-                kart->mUnk_4c &= ~0x4000;
-                if (!(kart->mUnk_4c & 0x2000)) {
+                kart->mUnk_4c &= ~KART_4C_AHEAD_BUILD_UP;
+                if (!(kart->mUnk_4c & KART_4C_AHEAD_BOOST)) {
                     kart->mAheadSpeedLimitFactor = 0x1000;
                 }
                 StopKartAheadEffect(kart);
             }
         }
     }
-    if (kart->mUnk_4c & 0x4000) {
+    if (kart->mUnk_4c & KART_4C_AHEAD_BUILD_UP) {
         kart->mAheadSpeedLimitFactor += 7;
         if (kart->mAheadSpeedLimitFactor > 0x1333) {
             kart->mAheadSpeedLimitFactor = 0x1333;

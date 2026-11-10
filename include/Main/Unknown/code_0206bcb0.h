@@ -191,6 +191,14 @@ typedef struct ParticipantKartRecordState {
 #define KART_4C_THUNDER_SHRINK 0x80
 // Set by ResetKartToRespawnPoint (with 0x400) while the Kart drops onto the track; the landing clears it.
 #define KART_4C_RESPAWN_DROP 0x800
+// Set while the timed ahead boost runs (StartKartAheadBoost sets it).
+#define KART_4C_AHEAD_BOOST 0x2000
+// Set while a kart is ahead and the ahead speed limit factor builds up.
+#define KART_4C_AHEAD_BUILD_UP 0x4000
+// Set from StartKartBlink for the 90 steps of the blink; the push flips refuse while set.
+#define KART_4C_BLINK_GUARD 0x400000
+// Set for the part of the blink cycle where the kart is not drawn.
+#define KART_4C_BLINK_HIDDEN 0x1000000
 // Bits of Kart.mUnk_48.
 // The Kart steers left in this step (from the input bits or the CPU); func_01ffca50 clears both turn bits.
 #define KART_48_TURN_LEFT 8

@@ -159,13 +159,13 @@ s32 CallKartCollisionCallbacks(s32 firstKartIndex, s32 secondKartIndex) {
         }
     }
     f11 = TRUE;
-    if ((firstKart->mUnk_4c & 0x400000) == 0) {
+    if ((firstKart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
         if (GetKartItemEffect(firstKartIndex) != 1) {
             f11 = FALSE;
         }
     }
     t = TRUE;
-    if ((secondKart->mUnk_4c & 0x400000) == 0) {
+    if ((secondKart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
         if (GetKartItemEffect(secondKartIndex) != 1) {
             t = FALSE;
         }
@@ -187,13 +187,13 @@ s32 CallKartCollisionCallbacks(s32 firstKartIndex, s32 secondKartIndex) {
             firstStanding->mUnk_20 = TRUE;
             if (gStandings->mKartHitByKartCallback != NULL) {
                 f4 = gStandings->mKartHitByKartCallback(firstKartIndex, secondKartIndex);
-                if ((firstKart->mUnk_4c & 0x400000) == 0) {
+                if ((firstKart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
                     StartKartBlink(firstKart);
                 }
             }
         } else if (gStandings->mKartHitByKartCallback != NULL) {
             f4 = gStandings->mKartHitByKartCallback(firstKartIndex, secondKartIndex);
-            if ((firstKart->mUnk_4c & 0x400000) == 0) {
+            if ((firstKart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
                 StartKartBlink(firstKart);
             }
         }
@@ -204,13 +204,13 @@ s32 CallKartCollisionCallbacks(s32 firstKartIndex, s32 secondKartIndex) {
             secondStanding->mUnk_20 = TRUE;
             if (gStandings->mKartHitByKartCallback != NULL) {
                 f4 = gStandings->mKartHitByKartCallback(secondKartIndex, firstKartIndex);
-                if ((secondKart->mUnk_4c & 0x400000) == 0) {
+                if ((secondKart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
                     StartKartBlink(secondKart);
                 }
             }
         } else if (gStandings->mKartHitByKartCallback != NULL) {
             f4 = gStandings->mKartHitByKartCallback(secondKartIndex, firstKartIndex);
-            if ((secondKart->mUnk_4c & 0x400000) == 0) {
+            if ((secondKart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
                 StartKartBlink(secondKart);
             }
         }
@@ -847,7 +847,7 @@ void UpdateStandings(void) {
                 if (kart->mState == KART_STATE_NORMAL && (kartFlags & 0x4000000) == 0) {
                     b = FALSE;
                 }
-                if (kartStanding->mUnk_04 == FALSE && a != FALSE && (kart->mUnk_4c & 0x400000) == 0) {
+                if (kartStanding->mUnk_04 == FALSE && a != FALSE && (kart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
                     kartStanding->mUnk_04 = TRUE;
                     kartStanding->mUnk_00 = FALSE;
                     kartStanding->mUnk_18 = -2;
@@ -863,7 +863,7 @@ void UpdateStandings(void) {
                 } else if (kartStanding->mUnk_04 == TRUE && (kart->mUnk_44 & 0x10000) != 0) {
                     kartStanding->mUnk_04 = FALSE;
                     kartStanding->mUnk_1c = 0;
-                    if ((kart->mUnk_4c & 0x400000) == 0) {
+                    if ((kart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
                         StartKartBlink(kart);
                     }
                 }
@@ -874,7 +874,7 @@ void UpdateStandings(void) {
                 } else if (kartStanding->mUnk_1c >= 0) {
                     kartStanding->mUnk_1c = kartStanding->mUnk_1c + 1;
                 }
-                if (kartStanding->mUnk_00 == FALSE && b != FALSE && (kart->mUnk_4c & 0x400000) == 0) {
+                if (kartStanding->mUnk_00 == FALSE && b != FALSE && (kart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
                     kartStanding->mUnk_00 = TRUE;
                     if (kartStanding->mBalloonOrShineCount <= 1) {
                         if ((gRaceSetup->mMode == MODE_BATTLE && gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON) ||
@@ -886,7 +886,7 @@ void UpdateStandings(void) {
                     kartStanding->mUnk_00 = FALSE;
                     if (kartStanding->mUnk_20 == FALSE) {
                         kartStanding->mUnk_18 = 0;
-                        if ((kart->mUnk_4c & 0x400000) == 0) {
+                        if ((kart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
                             StartKartBlink(kart);
                         }
                     } else {

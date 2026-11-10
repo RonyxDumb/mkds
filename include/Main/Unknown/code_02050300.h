@@ -56,7 +56,7 @@ void End(void);
 void SetStepAndRequestPending(s32 a);
 BOOL ConnectionMB_IsMultiBootChild(void);
 s32 GetConnectionMode(void);
-BOOL IsWMInitializeStarted(void);
+BOOL IsMultiBootSetupStarted(void);
 void DisconnectCallback(Unk021425e8 *event);
 void Disconnect(void);
 void EndParentCallback(Unk021425e8 *event);

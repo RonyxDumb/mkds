@@ -127,19 +127,19 @@ void AdvanceKartDrawState(Kart *kart) {
         characterAnimation = kart->mKartModelsEntry->mCharacterAnimation;
         characterAnimation->mAnmObjs[characterAnimation->mCurrentIndex]->mFrame = characterAnimation->mHead.mFrameIndex;
     }
-    if ((kart->mUnk_4c & 0x400000) != 0) {
+    if ((kart->mUnk_4c & KART_4C_BLINK_GUARD) != 0) {
         kart->mBlinkFrames = kart->mBlinkFrames + 1;
         kart->mBlinkCycleFrames = kart->mBlinkCycleFrames + 1;
         if (kart->mBlinkCycleFrames > 8) {
             kart->mBlinkCycleFrames = 0;
         }
         if (kart->mBlinkCycleFrames >= 4) {
-            kart->mUnk_4c = kart->mUnk_4c | 0x1000000;
+            kart->mUnk_4c = kart->mUnk_4c | KART_4C_BLINK_HIDDEN;
         } else {
-            kart->mUnk_4c = kart->mUnk_4c & ~0x1000000;
+            kart->mUnk_4c = kart->mUnk_4c & ~KART_4C_BLINK_HIDDEN;
         }
         if (kart->mBlinkFrames > 0x5a) {
-            kart->mUnk_4c = kart->mUnk_4c & ~0x1400000;
+            kart->mUnk_4c = kart->mUnk_4c & ~(KART_4C_BLINK_HIDDEN | KART_4C_BLINK_GUARD);
         }
     }
     AdvanceKartEffects(kart);

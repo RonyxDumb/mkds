@@ -60,9 +60,9 @@ void DrawKart(Kart *kart) {
     b = (c & 0x10) != 0;
     d = kart->mUnk_7c;
     modelsEntry = kart->mKartModelsEntry;
-    if ((d & 0x1008040) != 0 || (c & 0x11800000) != 0) {
+    if ((d & 0x1008040) != 0 || (c & (0x10000000 | KART_4C_OUT_OF_VIEW | KART_4C_BLINK_HIDDEN)) != 0) {
         killerItemShown = 0;
-        if ((d & 0x1008040) == 0 && (c & 0x1800000) == 0) {
+        if ((d & 0x1008040) == 0 && (c & (KART_4C_OUT_OF_VIEW | KART_4C_BLINK_HIDDEN)) == 0) {
             killerItemShown = DrawKartKillerItem(kart);
         }
         SetKartKillerEffectShown(kart->mIndex, killerItemShown);

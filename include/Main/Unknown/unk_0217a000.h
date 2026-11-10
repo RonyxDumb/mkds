@@ -755,17 +755,17 @@ typedef struct WiFiRaceSyncPeer {
     /* 37 */ u8 mUnk_37;
 } WiFiRaceSyncPeer;
 
-// Halfwords from 0x20 of WiFiRaceSyncEntry: bits 7 to 11 and 12 to 13.
-typedef struct Unk0217aa14_104_20 {
+// Halfword of the tables at 0x20 of WiFiRaceSyncEntry and WiFiRaceSyncRecord: bits 0 to 6, 7 to 11 and 12 to 13.
+typedef struct SlotResultSyncHalfword {
     /* 00 */ union {
         u16 mUnk_00;
         struct {
-            u16 : 7;
+            u16 mFramesRemaining : 7;
             u16 mItemInfoIndex : 5;
             u16 mState : 2;
         };
     };
-} Unk0217aa14_104_20;
+} SlotResultSyncHalfword;
 
 // The 0x20 bytes from 0x68 of WiFiRaceSyncEntry.
 typedef struct SlotResultSyncState {
@@ -789,7 +789,7 @@ typedef struct WiFiRaceSyncEntry {
     };
     /* 04 */ s32 mUnk_04;
     /* 08 */ ParticipantKartRecord mUnk_08;
-    /* 20 */ Unk0217aa14_104_20 mSlotResultSyncs[4];
+    /* 20 */ SlotResultSyncHalfword mSlotResultSyncs[4];
     /* 28 */ u8 mItemData[0x40];
     /* 68 */ union {
         struct {
@@ -827,18 +827,6 @@ typedef struct ItemDataSlot {
     /* 0a */ u8 mMessageKind;
     /* 0b */ u8 mDataSize;
 } ItemDataSlot;
-
-// Halfword of the table at 0x20 of WiFiRaceSyncRecord: bits 0 to 6, 7 to 11 and 12 to 13.
-typedef struct SlotResultSyncHalfword {
-    /* 00 */ union {
-        u16 mUnk_00;
-        struct {
-            u16 mFramesRemaining : 7;
-            u16 mItemInfoIndex : 5;
-            u16 mState : 2;
-        };
-    };
-} SlotResultSyncHalfword;
 
 // 0x68 bytes from 0x04 of what member 0x754 of WiFiRaceSync points to.
 typedef struct WiFiRaceSyncRecord {

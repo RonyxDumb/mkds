@@ -124,8 +124,8 @@ void ProcessMPChunk(u8 *chunk) {
     }
 }
 
-void MPChunkPortCallback(Unk02059920 *event) {
-    if (event->mUnk_02 == 0 && event->mUnk_0c != NULL && event->mUnk_10 >= 4) {
+void MPChunkPortCallback(Unk021425e8 *event) {
+    if (event->mResultCode == 0 && event->mUnk_0c != NULL && event->mUnk_10 >= 4) {
         DC_StoreRange(event->mUnk_0c, event->mUnk_10);
         switch (event->mUnk_04) {
             case 7:

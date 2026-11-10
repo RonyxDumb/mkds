@@ -96,7 +96,7 @@ u32 CollideKartWithShine16(Shine16 *shine16, Kart *kart, u8 *a, u8 *b) {
         return 0;
     }
     if (v1 == 1) {
-        if ((kart->mUnk_4c & 0x400000) != 0) {
+        if ((kart->mUnk_4c & KART_4C_BLINK_GUARD) != 0) {
             return v2;
         }
         if (shine16->mPickupTimer > 0) {

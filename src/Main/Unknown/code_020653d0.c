@@ -318,7 +318,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         kart->mUnk_538.mUnk_1c = 0;
         kart->mUnk_4c |= 0x8000000;
         kart->mUnk_4c &= ~0x20000;
-        if (kart->mUnk_4c & 0x2000) {
+        if (kart->mUnk_4c & KART_4C_AHEAD_BOOST) {
             ResetKartModelsCourseColors(kart);
         }
         StartKartModelColorBlend(kart->mKartModelsEntry, 0, 0x1084, 0);

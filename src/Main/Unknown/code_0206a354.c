@@ -102,8 +102,8 @@ void StartKartState6(Kart *p) {
         }
         StopDispCapBlend();
     }
-    if (p->mUnk_4c & 0x2000) {
-        p->mUnk_4c &= ~0x2000;
+    if (p->mUnk_4c & KART_4C_AHEAD_BOOST) {
+        p->mUnk_4c &= ~KART_4C_AHEAD_BOOST;
         p->mAheadSpeedLimitFactor = 0x1000;
         if (!(p->mUnk_4c & 0x8000000)) {
             ResetKartModelsCourseColors(p);
@@ -226,7 +226,7 @@ BOOL TryStartKartState3(Kart *p) {
     int v;
     u32 f = p->mUnk_4c;
 
-    if (f & 0x400000) {
+    if (f & KART_4C_BLINK_GUARD) {
         v1 = FALSE;
     } else if (p->mUnk_7c & 0x200) {
         if (p->mState == KART_STATE_NORMAL && !(p->mUnk_48 & 0x1800) && !(f & 0x10000040)) {
@@ -347,7 +347,7 @@ BOOL TryStartKartState4(Kart *p, MapObject *a) {
     int v;
     u32 f = p->mUnk_4c;
 
-    if (f & 0x400000) {
+    if (f & KART_4C_BLINK_GUARD) {
         v1 = FALSE;
     } else if (p->mUnk_7c & 0x200) {
         if (p->mState == KART_STATE_NORMAL && !(p->mUnk_48 & 0x1800) && !(f & 0x10000040)) {

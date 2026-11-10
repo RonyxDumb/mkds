@@ -51,7 +51,7 @@ void UpdateSlotResultSyncs(void) {
     u8 participantIndex;
     SlotResultSyncState *syncState;
     s32 remainingFrames;
-    Unk0217aa14_104_20 *receivedHalfword;
+    SlotResultSyncHalfword *receivedHalfword;
 
     for (participantIndex = 0; participantIndex < 4; participantIndex++) {
         if (IsInParticipantMask(participantIndex) != 0) {

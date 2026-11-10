@@ -348,7 +348,7 @@ void StartKartRaceEnd(Kart *kart) {
         if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0 && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
             StopKartStarSeq();
         }
-        if ((kart->mUnk_4c & 0x2000) != 0) {
+        if ((kart->mUnk_4c & KART_4C_AHEAD_BOOST) != 0) {
             SetKartModelsGrayColors(kart);
         }
     }

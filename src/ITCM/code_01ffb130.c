@@ -70,14 +70,14 @@ void func_01ffb130(Kart *p) {
             AdvanceKartTeresa(p);
         }
     }
-    if (p->mUnk_4c & 0x2000) {
+    if (p->mUnk_4c & KART_4C_AHEAD_BOOST) {
         q = &p->mUnk_538;
         if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
             AddSoundRequest(gSoundRequestQueues, GetKartCameraDistanceSquared(p->mIndex), RequestKartSound, p, 0xa3);
         }
         q->mAheadBoostFrames++;
-        if (q->mAheadBoostFrames > 0xb4 && (p->mUnk_4c & 0x2000)) {
-            p->mUnk_4c &= ~0x2000;
+        if (q->mAheadBoostFrames > 0xb4 && (p->mUnk_4c & KART_4C_AHEAD_BOOST)) {
+            p->mUnk_4c &= ~KART_4C_AHEAD_BOOST;
             p->mAheadSpeedLimitFactor = 0x1000;
             if (!(p->mUnk_4c & 0x8000000)) {
                 ResetKartModelsCourseColors(p);
@@ -102,7 +102,7 @@ void func_01ffb130(Kart *p) {
             if ((p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
                 StopKartStarSeq();
             }
-            if (p->mUnk_4c & 0x2000) {
+            if (p->mUnk_4c & KART_4C_AHEAD_BOOST) {
                 SetKartModelsGrayColors(p);
             }
         }

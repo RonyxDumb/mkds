@@ -63,6 +63,6 @@ void SetupWLMenuCommonMessage(void *heap) {
 
 #pragma thumb off
 
-u32 WLMenuIsWMInitializeStarted(void) {
+u32 WLMenuIsMultiBootSetupStarted(void) {
     return (gConnectionWork->mUnk_0454 & 0x40) != 0;
 }

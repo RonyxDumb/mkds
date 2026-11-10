@@ -15,7 +15,7 @@ void StartKartPushFlipOnHit(Kart *kart, const Vec3 *direction) {
     s32 state;
 
     kartBits = kart->mUnk_4c;
-    if ((kartBits & 0x400000) != 0) {
+    if ((kartBits & KART_4C_BLINK_GUARD) != 0) {
         canStart = 0;
     } else if ((kart->mUnk_7c & 0x200) != 0) {
         if (kart->mState == KART_STATE_NORMAL && (kart->mUnk_48 & 0x1800) == 0 && (kartBits & 0x10000040) == 0) {
@@ -71,7 +71,7 @@ void StartKartPushDoubleFlipOnHit(Kart *kart, const Vec3 *direction) {
     s32 state;
 
     kartBits = kart->mUnk_4c;
-    if ((kartBits & 0x400000) != 0) {
+    if ((kartBits & KART_4C_BLINK_GUARD) != 0) {
         canStart = 0;
     } else if ((kart->mUnk_7c & 0x200) != 0) {
         if (kart->mState == KART_STATE_NORMAL && (kart->mUnk_48 & 0x1800) == 0 && (kartBits & 0x10000040) == 0) {

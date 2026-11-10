@@ -306,7 +306,7 @@ void StopConnection(void) {
     if ((gConnectionWork->mUnk_0454 & 0x100) != 0) {
         gConnectionWork->mStep = 0x26;
         gConnectionWork->mRequestPending = 1;
-        if (IsWMInitializeStarted() != FALSE &&
+        if (IsMultiBootSetupStarted() != FALSE &&
             (GetConnectionMode() == 1 || ConnectionMB_IsMultiBootChild() != FALSE)) {
             allowed = TRUE;
         } else {

@@ -42,7 +42,7 @@ s32 AdvanceWLMenuMBChildMessage(u32 sceneNumbers) {
             result = AdvanceConnectByMultiBoot(0);
             switch (result) {
                 case 1:
-                    SetMultiSimple(WLMenuIsWMInitializeStarted());
+                    SetMultiSimple(WLMenuIsMultiBootSetupStarted());
                     gWLMenuMessage->mState = 4;
                     break;
                 case 2:

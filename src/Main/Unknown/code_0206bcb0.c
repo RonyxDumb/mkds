@@ -420,7 +420,7 @@ void StartKartBlink(Kart *kart) {
     if (kart->mUnk_7c & 0x40000) {
         return;
     }
-    kart->mUnk_4c |= 0x400000;
+    kart->mUnk_4c |= KART_4C_BLINK_GUARD;
     kart->mBlinkCycleFrames = 0;
     kart->mBlinkFrames = kart->mBlinkCycleFrames;
 }
@@ -481,8 +481,8 @@ void StartKartState(Kart *kart, KartState mode) {
     kart->mLeftTurnCount = kart->mRightTurnCount;
     kart->mTurnCountTimer = 0;
     StopKartTurnEffects(GetKartTurnEffects(kart->mIndex));
-    if (kart->mUnk_4c & 0x2000) {
-        kart->mUnk_4c &= ~0x2000;
+    if (kart->mUnk_4c & KART_4C_AHEAD_BOOST) {
+        kart->mUnk_4c &= ~KART_4C_AHEAD_BOOST;
         kart->mAheadSpeedLimitFactor = 0x1000;
         if (!(kart->mUnk_4c & 0x8000000)) {
             ResetKartModelsCourseColors(kart);
@@ -498,7 +498,7 @@ BOOL TryStartKartState(Kart *kart, KartState newState) {
     int currentState;
     u32 bits4c = kart->mUnk_4c;
 
-    if (bits4c & 0x400000) {
+    if (bits4c & KART_4C_BLINK_GUARD) {
         ok = FALSE;
     } else if (kart->mUnk_7c & 0x200) {
         if (kart->mState == KART_STATE_NORMAL && !(kart->mUnk_48 & 0x1800) && !(bits4c & 0x10000040)) {
@@ -565,7 +565,7 @@ BOOL TrySpinKart(Kart *kart, int rotationCount, int b) {
         }
     }
     bits4c = kart->mUnk_4c;
-    if (bits4c & 0x400000) {
+    if (bits4c & KART_4C_BLINK_GUARD) {
         ok = FALSE;
     } else if (kart->mUnk_7c & 0x200) {
         if (kart->mState == KART_STATE_NORMAL && !(kart->mUnk_48 & 0x1800) && !(bits4c & 0x10000040)) {

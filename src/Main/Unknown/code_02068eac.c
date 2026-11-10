@@ -237,7 +237,7 @@ void StartKartStar(Kart *kart) {
     }
     if (kart->mUnk_4c & 0x8000000) {
         kart->mUnk_4c &= ~0x8020000;
-        if (kart->mUnk_4c & 0x2000) {
+        if (kart->mUnk_4c & KART_4C_AHEAD_BOOST) {
             SetKartModelsGrayColors(kart);
         }
         SetKartModelsEntryCourseColors(kart->mKartModelsEntry);
@@ -277,7 +277,7 @@ void StartKartTeresa(Kart *kart) {
         if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
             StopKartStarSeq();
         }
-        if (kart->mUnk_4c & 0x2000) {
+        if (kart->mUnk_4c & KART_4C_AHEAD_BOOST) {
             SetKartModelsGrayColors(kart);
         }
     }
@@ -319,7 +319,7 @@ void AdvanceKartTeresa(Kart *kart) {
     s32 diffZ;
 
     kartBits = kart->mUnk_7c;
-    if (kartBits & 0x400000) {
+    if (kartBits & KART_4C_BLINK_GUARD) {
         return;
     }
     effectState = &kart->mUnk_538;
@@ -404,7 +404,7 @@ void StartKartKiller(Kart *kart) {
     }
     if (kart->mUnk_4c & 0x8000000) {
         kart->mUnk_4c &= ~0x8020000;
-        if (kart->mUnk_4c & 0x2000) {
+        if (kart->mUnk_4c & KART_4C_AHEAD_BOOST) {
             SetKartModelsGrayColors(kart);
         }
         SetKartModelsEntryCourseColors(kart->mKartModelsEntry);
@@ -419,13 +419,13 @@ void StartKartKiller(Kart *kart) {
         if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
             StopKartStarSeq();
         }
-        if (kart->mUnk_4c & 0x2000) {
+        if (kart->mUnk_4c & KART_4C_AHEAD_BOOST) {
             SetKartModelsGrayColors(kart);
         }
     }
     kart->mItemEffect = 3;
-    if (kart->mUnk_4c & 0x2000) {
-        kart->mUnk_4c &= ~0x2000;
+    if (kart->mUnk_4c & KART_4C_AHEAD_BOOST) {
+        kart->mUnk_4c &= ~KART_4C_AHEAD_BOOST;
         kart->mAheadSpeedLimitFactor = 0x1000;
         if (!(kart->mUnk_4c & 0x8000000)) {
             ResetKartModelsCourseColors(kart);
@@ -544,7 +544,7 @@ void StartKartGesso(Kart *kart, u32 orthoQuadCount) {
     kart->mUnk_538.mUnk_1c = 0;
     kart->mUnk_4c |= 0x8000000;
     kart->mUnk_4c &= ~0x20000;
-    if (kart->mUnk_4c & 0x2000) {
+    if (kart->mUnk_4c & KART_4C_AHEAD_BOOST) {
         ResetKartModelsCourseColors(kart);
     }
     StartKartModelColorBlend(kart->mKartModelsEntry, 0, 0x1084, 0);
@@ -585,7 +585,7 @@ void AdvanceKartGesso(Kart *kart) {
         return;
     }
     kart->mUnk_4c &= ~0x8020000;
-    if (kart->mUnk_4c & 0x2000) {
+    if (kart->mUnk_4c & KART_4C_AHEAD_BOOST) {
         SetKartModelsGrayColors(kart);
     }
     SetKartModelsEntryCourseColors(kart->mKartModelsEntry);
@@ -598,9 +598,9 @@ void StartKartAheadBoost(Kart *kart) {
     effectState->mAheadBoostFrames = 0;
     effectState->mAheadCount = 0;
     kart->mAheadSpeedLimitFactor = data_usa_021654dc;
-    kart->mUnk_4c &= ~0x4000;
-    if (!(kart->mUnk_4c & 0x2000)) {
-        kart->mUnk_4c |= 0x2000;
+    kart->mUnk_4c &= ~KART_4C_AHEAD_BUILD_UP;
+    if (!(kart->mUnk_4c & KART_4C_AHEAD_BOOST)) {
+        kart->mUnk_4c |= KART_4C_AHEAD_BOOST;
         if (!(kart->mUnk_4c & 0x8000000)) {
             SetKartModelsGrayColors(kart);
         }

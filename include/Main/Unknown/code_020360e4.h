@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-u32 WLMenuIsWMInitializeStarted(void);
+u32 WLMenuIsMultiBootSetupStarted(void);
 void SetupWLMenuCommonMessage(void *heap);
