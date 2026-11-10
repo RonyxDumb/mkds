@@ -98,7 +98,7 @@ void StartItemInUse(ItemInUse *itemInUse, HeldItem *heldItem) {
         if (useHook != NULL) {
             useHook(itemInUse, heldItem);
         }
-        func_02071894(itemInUse->mKart);
+        StartKartSeqArcSoundOffset7(itemInUse->mKart);
         return;
     }
     itemInUse->mObjectKind = gItemInfos[itemInfoIndex].mObjectKind;
@@ -313,7 +313,7 @@ s32 ComputeItemThrowForward(ItemInUse *itemInUse, s32 baseSpeed, s32 speedFactor
     } else {
         Vec3 *kartVector;
 
-        kartVector = &itemInUse->mKart->mUnk_1fc;
+        kartVector = &itemInUse->mKart->mPointMotion;
         if ((s64) kartVector->x * kartVector->x + (s64) kartVector->y * kartVector->y +
                 (s64) kartVector->z * kartVector->z >=
             0x10) {
@@ -342,7 +342,7 @@ s32 ComputeItemThrowBackward(ItemInUse *itemInUse, s32 speed, s32 speedFactor, s
     kartMoveLength = VEC_Mag(&itemInUse->mKartMovement);
     if (itemInUse->mMovingForward != 0) {
         speed -= kartMoveLength;
-        VEC_Subtract(&itemInUse->mKartMovement, &itemInUse->mKart->mUnk_1fc, &throwDirection);
+        VEC_Subtract(&itemInUse->mKartMovement, &itemInUse->mKart->mPointMotion, &throwDirection);
         VEC_MultAdd(forwardWeight, &itemInUse->mKartOrientation.mUnk_00[2], &throwDirection, &throwDirection);
         throwDirection.x = -throwDirection.x;
         throwDirection.y = -throwDirection.y;

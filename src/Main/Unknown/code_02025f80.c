@@ -369,7 +369,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
         SetSelectCharacterRowCellsVisible(0);
     }
     if (gBootInfo->mUnk_00 != 2) {
-        func_02077f48(0);
+        SetKartModelMenuSpinStopped(0);
     }
     FrmHeapShrinkInParent(gSelectCharacter->mHeap);
 }
@@ -488,7 +488,7 @@ int AdvanceSelectCharacter(void) {
                 gSelectCharacter->mUnk_08c = 3;
                 gSelectCharacter->mUnk_06c = 6;
                 StartSeqPair(GetCharacterSeqPairNo(gSelectCharacter->mCharacterIndex), 0);
-                func_02077f48(1);
+                SetKartModelMenuSpinStopped(1);
                 selectCharacterReload = gSelectCharacter;
                 switch (selectCharacterReload->mMode) {
                     case 2:
@@ -570,13 +570,13 @@ int AdvanceSelectCharacter(void) {
                         FillRandomCharacterIndices();
                         if (GetRaceSetupCopy()->mMode == 2) {
                             GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mKartStored = 1;
-                            func_02077f48(1);
+                            SetKartModelMenuSpinStopped(1);
                             gSelectCharacter->mUnk_06c = 7;
                             ClearNonParticipantKartIndices();
                             SetKartIndicesFromCharacters();
                         } else {
                             StartPlayerEntryListKindIfUsed(1);
-                            func_02077f5c();
+                            StartKartModelMenuTimedSpinStop();
                             gSelectCharacter->mUnk_06c = 8;
                             SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], 2);
                         }
@@ -590,13 +590,13 @@ int AdvanceSelectCharacter(void) {
                             SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], 2);
                             StartPlayerEntryListKindIfUsed(1);
                             gSelectCharacter->mUnk_06c = 8;
-                            func_02077f5c();
+                            StartKartModelMenuTimedSpinStop();
                         } else if (GetRaceSetupCopy()->mMode == 2) {
                             flaggedCharacterIndex = gSelectCharacter->mCharacterIndex | 0xc0;
                             if (gConnectionWork->mState == 8) {
                                 gConnectionWork->mDataSharingSendByte = flaggedCharacterIndex;
                             }
-                            func_02077f48(1);
+                            SetKartModelMenuSpinStopped(1);
                             gSelectCharacter->mUnk_06c = 6;
                         }
                         break;
@@ -605,7 +605,7 @@ int AdvanceSelectCharacter(void) {
                         SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], 2);
                         StartPlayerEntryListKindIfUsed(1);
                         gSelectCharacter->mUnk_06c = 8;
-                        func_02077f5c();
+                        StartKartModelMenuTimedSpinStop();
                         break;
                 }
             }

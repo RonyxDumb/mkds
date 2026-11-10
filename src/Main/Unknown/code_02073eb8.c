@@ -351,7 +351,7 @@ void StartEntryCameraKind6Entry(void) {
     if ((s16) courseMapCamera->mEntryGroupIndex != -1) {
         SetupPosCurve(&entryCamera->mPosCurve, courseMapCamera);
         if (gRaceSetup->mMode == MODE_BATTLE) {
-            func_0207bd6c(&entryCamera->mUnk_1d0, courseMapCamera);
+            SetupReversePosCurve(&entryCamera->mUnk_1d0, courseMapCamera);
         }
     }
     if (IsKartEnded(GetKart(gRaceSetup->mEntryIndex)->mIndex) != 0) {
@@ -398,7 +398,7 @@ void SetEntryCameraUpdateHold(s32 hold) {
     if ((s16) courseMapCamera->mEntryGroupIndex != -1) {
         SetupPosCurve(&entryCamera->mPosCurve, courseMapCamera);
         if (gRaceSetup->mMode == MODE_BATTLE) {
-            func_0207bd6c(&entryCamera->mUnk_1d0, courseMapCamera);
+            SetupReversePosCurve(&entryCamera->mUnk_1d0, courseMapCamera);
         }
     }
     if (IsKartEnded(GetKart(gRaceSetup->mEntryIndex)->mIndex) != 0) {
@@ -467,7 +467,7 @@ BOOL TryUpdateEntryCamera(Camera *camera) {
                 if ((s16) courseMapCamera->mEntryGroupIndex != -1) {
                     SetupPosCurve(&camera->mPosCurve, courseMapCamera);
                     if (gRaceSetup->mMode == MODE_BATTLE) {
-                        func_0207bd6c(&camera->mUnk_1d0, courseMapCamera);
+                        SetupReversePosCurve(&camera->mUnk_1d0, courseMapCamera);
                     }
                 }
                 if (IsKartEnded(GetKart(gRaceSetup->mEntryIndex)->mIndex) != 0) {
@@ -559,7 +559,7 @@ void StartEntryCameraKind8Entry(void) {
     if ((s16) courseMapCamera->mEntryGroupIndex != -1) {
         SetupPosCurve(&entryCamera->mPosCurve, courseMapCamera);
         if (gRaceSetup->mMode == MODE_BATTLE) {
-            func_0207bd6c(&entryCamera->mUnk_1d0, courseMapCamera);
+            SetupReversePosCurve(&entryCamera->mUnk_1d0, courseMapCamera);
         }
     }
     if (IsKartEnded(GetKart(gRaceSetup->mEntryIndex)->mIndex) != 0) {

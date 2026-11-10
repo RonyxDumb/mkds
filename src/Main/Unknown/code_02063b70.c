@@ -83,7 +83,7 @@ void DrawKart(Kart *kart) {
         NNS_G3dGeBufferOP_N(0x19, &kart->mUnk_120, 0xc);
         NNS_G3dGeBufferOP_N(0x1b, &kart->mScale, 3);
         func_02063cc4_inline2(0x1b, kart->mModelScaleX, kart->mModelScaleY, kart->mModelScaleZ);
-        func_0207ae58(modelsEntry->mShadowModel);
+        DrawShadowWithoutMatrix(modelsEntry->mShadowModel);
         func_02063cc4_inline(0x14, 0x1e);
     }
     NNS_G3dGeBufferOP_N(0x19, kart->mDrawMatrix, 0xc);
@@ -91,7 +91,7 @@ void DrawKart(Kart *kart) {
     func_02063cc4_inline(0x13, 0x1d);
     func_02063cc4_inline2(0x1b, kart->mModelScaleX, kart->mModelScaleY, kart->mModelScaleZ);
     if (b == 0) {
-        func_0207ae58(modelsEntry->mShadowModel);
+        DrawShadowWithoutMatrix(modelsEntry->mShadowModel);
     }
     SendLight01Color(&modelsEntry->mCourseColorBlend.mColor);
     if (modelsEntry->mUnk_058 == 0) {
@@ -176,7 +176,7 @@ BOOL DrawKartKillerItem(Kart *kart) {
         killerItemNsbca->mHead.mFrameIndex = frame;
         killerItemNsbca->mAnmObjs[killerItemNsbca->mCurrentIndex]->mFrame = killerItemNsbca->mHead.mFrameIndex;
         DrawNsbmd(GetKillerItem());
-        func_0207ae58(GetKillerItemS());
+        DrawShadowWithoutMatrix(GetKillerItemS());
     }
     return drawn;
 }

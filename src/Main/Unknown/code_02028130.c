@@ -120,7 +120,7 @@ int AdvanceSelectKart(void) {
                 p->mCellTable[18].mVisible = 0;
                 SetLabelPaletteIndex(data_usa_02153834[4], 0, p->mLabelLayout, p->mCellTable, p->mCellLayout);
                 StartSeqPair(GetCharacterSeqPairNo(gSelectKart->mCharacterIndex), 1);
-                func_02077f48(1);
+                SetKartModelMenuSpinStopped(1);
                 StopPaletteBlend();
             } else if (SelectKartGetNewBits(t, PAD_KEY_B) != 0 || x != 0) {
                 gSelectKart->mStateFrames = 0;

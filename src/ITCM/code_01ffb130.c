@@ -191,7 +191,7 @@ void func_01ffb130(Kart *p) {
         p->mVelocity.y = -0x6000;
     }
     VEC_Add(&p->mVelocity, &p->mUnk_2f0, &p->mVelocity);
-    VEC_Add(&p->mVelocity, &p->mUnk_1fc, &p->mVelocity);
+    VEC_Add(&p->mVelocity, &p->mPointMotion, &p->mVelocity);
     AdvanceKartHop(p);
     ScaleKartVelocityAndSetCappedLengthAndDirection(p, b);
     if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
@@ -225,7 +225,7 @@ void func_01ffb130(Kart *p) {
         return;
     }
     ComputeKartPointAlongUp(&p->mPointAlongUp, p->mUnk_510, p->mPhysicalParam->mUnk_04, p);
-    func_0206d18c(p);
+    ApplyItemObjectHitToKart(p);
     CollideKartWithKarts(p);
-    func_0206d578(p);
+    UpdateKartAheadEffect(p);
 }

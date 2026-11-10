@@ -15,9 +15,10 @@ struct KartAi;
 struct Kart;
 struct RacePointLink;
 
-void func_0207d814(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi);
+void InitKartAiRaceSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi);
 u16 PickKartAiRaceStartBoost(s32 pickLast);
-void func_0207d9f0(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi, s32 speedLimitCap);
+void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi,
+                                   s32 speedLimitCap);
 void AdvanceRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi);
 void PickKartAiRaceStart(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi);
 void ResetRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi);

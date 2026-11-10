@@ -51,7 +51,7 @@ void AdvanceLocalKartMotionSlot(Kart *kart) {
         FinishKartInCourseMapKind2Shape(&kart->mPos, kart->mIndex);
     }
     if ((kart->mUnk_4c & 0x1000) != 0) {
-        func_0206d138(kart);
+        StartKartSoundAndCharacterAnimation(kart);
     }
     kart->mUnk_4c = kart->mUnk_4c & ~0x1000;
     AdvanceKartMotion(kart);
@@ -62,7 +62,7 @@ void AdvancePeerKartMotionSlot(Kart *kart) {
         FinishKartInCourseMapKind2Shape(&kart->mPos, kart->mIndex);
     }
     if ((kart->mUnk_4c & 0x1000) != 0) {
-        func_0206d138(kart);
+        StartKartSoundAndCharacterAnimation(kart);
     }
     kart->mUnk_4c = kart->mUnk_4c & ~0x1000;
     AdvancePeerKartMotion(kart);

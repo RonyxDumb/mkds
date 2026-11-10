@@ -36,14 +36,14 @@ static inline s32 func_0206e874_inline(Vec3 *vector, Vec3 *normalized) {
     return Vec3NormalizeAndGetLengthUnchecked(vector, normalized);
 }
 
-void func_0206edac(Kart *kart, Vec3 *groundNormal) {
-    Vec3 v;
-    s32 k;
+void ApplyKartLanding(Kart *kart, Vec3 *groundNormal) {
+    Vec3 normalVelocity;
+    s32 soundQueueIndex;
     s32 s;
     s32 m;
     s32 n;
     u32 bits7c;
-    s32 x;
+    s32 sortKeyOffset;
     s32 distanceSquared;
 
     if (kart->mUnk_44 & 0x40000010) {
@@ -51,11 +51,11 @@ void func_0206edac(Kart *kart, Vec3 *groundNormal) {
     }
     kart->mUnk_44 |= 0x10000;
     if (kart->mLandingTimer <= 0) {
-        k = (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 3 : 2;
-        x = data_usa_0216ca38[2];
+        soundQueueIndex = (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 3 : 2;
+        sortKeyOffset = data_usa_0216ca38[2];
         distanceSquared = GetKartCameraDistanceSquared(kart->mIndex);
-        AddSoundRequest(gSoundRequestQueues + k, distanceSquared + x, (void (*)(void *, int)) StartSurfaceSoundFromKart,
-                        kart, 2);
+        AddSoundRequest(gSoundRequestQueues + soundQueueIndex, distanceSquared + sortKeyOffset,
+                        (void (*)(void *, int)) StartSurfaceSoundFromKart, kart, 2);
         StartKartModelScaleAnimation(kart, 0);
     }
     kart->mLandingTimer = 7;
@@ -70,12 +70,12 @@ void func_0206edac(Kart *kart, Vec3 *groundNormal) {
          (kart->mAirborneFrames > 0x19 || kart->mLastGroundY - kart->mPos.y > 0x1e000)) ||
         kart->mState == KART_STATE_LAUNCH_DOUBLE_FLIP) {
         s = VEC_DotProduct(groundNormal, &kart->mVelocity);
-        v.x = MUL_FIXED12_NO_ROUND(groundNormal->x, s);
-        v.y = MUL_FIXED12_NO_ROUND(groundNormal->y, s);
-        v.z = MUL_FIXED12_NO_ROUND(groundNormal->z, s);
-        if (VEC_Mag(&v) > 0x2000) {
+        normalVelocity.x = MUL_FIXED12_NO_ROUND(groundNormal->x, s);
+        normalVelocity.y = MUL_FIXED12_NO_ROUND(groundNormal->y, s);
+        normalVelocity.z = MUL_FIXED12_NO_ROUND(groundNormal->z, s);
+        if (VEC_Mag(&normalVelocity) > 0x2000) {
             m = MUL_FIXED12_NO_ROUND(kart->mSpeedLimitFactor, 0x1800);
-            n = v.y;
+            n = normalVelocity.y;
             if (n <= 0) {
                 n = -n;
             }
@@ -160,7 +160,7 @@ void CollideKartWithMapObjects(Kart *kart) {
                                     kart, &v, mapObject);
                             }
                             if (handlerResult & 8) {
-                                func_0206f04c(kart, &v, (kart->mUnk_44 & 0x40) ? 1 : 0, 0x1000, -1, -1, v2);
+                                ApplyKartContact(kart, &v, (kart->mUnk_44 & 0x40) ? 1 : 0, 0x1000, -1, -1, v2);
                             } else if (handlerResult & 2) {
                                 s = Vec3DotUnrounded(&kart->mTurnedForward, &v) + 0x1000;
                                 if (s > 0x1000) {

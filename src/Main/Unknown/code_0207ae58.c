@@ -390,7 +390,7 @@ void DrawShadowWithMatrix(ShadowModel *shadowModel, const void *matrix, Vec3 *ex
     gNsbmdDrawFunctions[shadowModel->mNsbmd.mDrawKind](shadowModel);
 }
 
-void func_0207ae58(ShadowModel *shadowModel) {
+void DrawShadowWithoutMatrix(ShadowModel *shadowModel) {
     if ((shadowModel->mFlags & 1) == 0) {
         return;
     }

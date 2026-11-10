@@ -480,7 +480,7 @@ void ResetKart(Kart *kart) {
     kart->mPrevCollisionCenter = kart->mPrevPointAlongUp;
     kart->mCollisionCenter = kart->mPrevCollisionCenter;
     kart->mUnk_1f0 = zeroVector;
-    kart->mUnk_1fc = zeroVector;
+    kart->mPointMotion = zeroVector;
     kart->mSpeedLimitFactor = 0x1000;
     kart->mUnk_e0_m = data_usa_02154f14;
     kart->mUnk_f0_q = data_usa_02154f24;
@@ -925,7 +925,7 @@ void RequestKartSound(void *kart, int soundId) {
                     soundId);
 }
 
-void func_02071894(Kart *kart) {
+void StartKartSeqArcSoundOffset7(Kart *kart) {
     if (kart->mUnk_48 & 0x840) {
         return;
     }
@@ -957,7 +957,7 @@ void AdvanceKartModelScaleAnimation(Kart *kart) {
     }
 }
 
-void func_02071568(Kart *kart) {
+void AdvanceKartOffsetCycle(Kart *kart) {
     s32 fraction;
     u16 tableIndex;
     u16 nextTableIndex;
@@ -1107,7 +1107,7 @@ void ResetKartMotionState(Kart *kart, s32 b) {
     SetKartCharacterAnimation(kart, 0, 1);
     kart->mUnk_44 |= 0x80000000;
     ResetKartMotionVectorsAndFactors(kart);
-    func_02070f8c(kart);
+    StartFixedPositionEffects(kart);
     if (!(kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
         return;
     }
@@ -1143,7 +1143,7 @@ void ResetKartMotionState(Kart *kart, s32 b) {
     }
 }
 
-void func_02070f8c(Kart *kart) {
+void StartFixedPositionEffects(Kart *kart) {
     s32 effectIdsOther[2];
     Vec3 effectPos;
     Vec3 effectIdsSelected;
@@ -1464,8 +1464,8 @@ BOOL TryHoldKartStill(Kart *kart, u32 b, void *c) {
 
     flags = kart->mUnk_44;
     if (!(flags & 0xc2200) && !(kart->mUnk_7c & 0x400)) {
-        if (!(flags & 0xc0000) && !(kart->mUnk_4c & 0x100) && kart->mUnk_1fc.x == 0 && kart->mUnk_1fc.y == 0 &&
-            kart->mUnk_1fc.z == 0 && kart->mAttractorPullSpeed == 0 && kart->mUnk_4d0 >= 0x64) {
+        if (!(flags & 0xc0000) && !(kart->mUnk_4c & 0x100) && kart->mPointMotion.x == 0 && kart->mPointMotion.y == 0 &&
+            kart->mPointMotion.z == 0 && kart->mAttractorPullSpeed == 0 && kart->mUnk_4d0 >= 0x64) {
             kart->mPos.x = kart->mPrevPos.x;
             kart->mPos.z = kart->mPrevPos.z;
         } else {

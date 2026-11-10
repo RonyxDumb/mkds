@@ -11,15 +11,15 @@
 
 // 0x88-byte object built from an entry of the table at CourseMap.mCameras: the entry, two PosCurve and two
 // halfwords.
-typedef struct Unk02077750 {
-    /* 00 */ CourseMapCamera *mUnk_00;
-    /* 04 */ PosCurve mUnk_04;
-    /* 40 */ PosCurve mUnk_40;
-    /* 7c */ s16 mUnk_7c;
+typedef struct Kind7CameraEntry {
+    /* 00 */ CourseMapCamera *mCourseMapCamera;
+    /* 04 */ PosCurve mPosCurve;
+    /* 40 */ PosCurve mReversePosCurve;
+    /* 7c */ s16 mPosCurveStep;
     /* 7e */ s16 mUnk_7e;
     /* 80 */ s32 mUnk_80;
     /* 84 */ s32 mUnk_84;
-} Unk02077750;
+} Kind7CameraEntry;
 
 extern const char data_usa_02165714[];
 
@@ -29,22 +29,22 @@ void RefreshCameraProjection(Camera *camera);
 void SetupCamera(Camera *camera);
 // Allocates gFirstChainCamera (0x270 bytes), sets gSecondChainCamera to NULL, runs SetupCamera, sets mKind 2, starts it
 // at CourseMap.mFirstChainStartEntry and sets up its mPosCurve when the entry has a group. With no entry it sets
-// gRaceProgress->mUnk_4d0 to 1 and returns. InitRace calls it when gRaceSetup->mUnk_00c is 4.
+// gRaceProgress.mUnk_4d0 to 1 and returns. InitRace calls it when gRaceSetup.mUnk_00c is 4.
 void CreateFirstChainCamera(void);
 // Allocates gFirstChainCamera and gSecondChainCamera (0x270 bytes each), runs SetupCamera on both, sets mKind 2, starts
 // them at CourseMap.mFirstChainStartEntry and mSecondChainStartEntry and sets up their mPosCurve when the entries have
-// a group. With no first entry it sets gRaceProgress->mUnk_4d0 to 1 and returns. InitRace calls it when
-// gRaceSetup->mUnk_00c is 3 or 5.
+// a group. With no first entry it sets gRaceProgress.mUnk_4d0 to 1 and returns. InitRace calls it when
+// gRaceSetup.mUnk_00c is 3 or 5.
 void CreateChainCameraPair(void);
-void func_02077750(Unk02077750 *a, CourseMapCamera *courseMapCamera);
+void InitKind7CameraEntry(Kind7CameraEntry *kind7Entry, CourseMapCamera *courseMapCamera);
 void CreateEntryCamera(u32 followedKartIndex);
 // Allocates the chase camera (gChaseCamera), sets it up behind the selected Kart (SetupCameraBehindKart), keeps that
 // Kart's forward vector in mSavedKartForward and refreshes the projection.
 void CreateChaseCamera(void);
-void func_02077998(void);
+void InitCameraGlobals(void);
 void LoadEmblemSBNclr(void *a);
 u16 GetKartListCount(void);
-u16 func_02077a5c(void);
+u16 GetKartListNumber(void);
 BOOL FindKartModelMenuCharacter(s32 *characterIndex, u32 kartIndex);
 void ClearKartModelMenuRequests(void);
 void QueueKartModelMenuLoad(void);

@@ -36,7 +36,7 @@ void InitItemObjectThrow(void *objectParam, ItemInUse *inUseParam, s32 hitLimit,
     object->mUnk_000.mVelocity.x = MUL_FIXED12_NO_ROUND(object->mDirection.x, object->mSpeed);
     object->mUnk_000.mVelocity.z = MUL_FIXED12_NO_ROUND(object->mDirection.z, object->mSpeed);
     if (throwForward == 0) {
-        VEC_Add(&object->mUnk_000.mVelocity, &inUse->mKart->mUnk_1fc, &object->mUnk_000.mVelocity);
+        VEC_Add(&object->mUnk_000.mVelocity, &inUse->mKart->mPointMotion, &object->mUnk_000.mVelocity);
     }
     if (inUse->mKart->mUnk_48 & KART_48_ON_BOOST_SURFACE) {
         dot = VEC_DotProduct(&inUse->mKartOrientation.mUnk_00[1], &object->mUnk_000.mVelocity);

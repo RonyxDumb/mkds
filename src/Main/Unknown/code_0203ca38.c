@@ -240,7 +240,7 @@ void AdvanceMissionRunEnd(void) {
             kart = OFFSET_PTR(RaceProgressKart, &gRaceProgress->mKarts[0], kartOffset);
             kart->mFlags &= ~0x10;
         } else if ((kart->mFlags & 0x20) != 0) {
-            if (func_0207a218() != 0) {
+            if (IsEntryKartNormalOrNotMissionRun() != 0) {
                 gRaceProgress->mFramesSinceFailure++;
             }
             if (gRaceProgress->mFramesSinceFailure <= 0x3c) {
@@ -258,13 +258,13 @@ void AdvanceMissionRunEnd(void) {
         return;
     }
     if ((raceSetup->mUnk_044 & 2) != 0) {
-        if (func_0207a574() != FALSE) {
+        if (IsEntryKartNotNormalOrScaleTableBit() != FALSE) {
             endFound = TRUE;
         }
     }
     if (endFound == FALSE) {
         if ((gRaceSetup->mUnk_044 & 4) != 0) {
-            if (func_0207a538() != 0) {
+            if (IsEntryKartInContact() != 0) {
                 endKind = 3;
                 endFound = TRUE;
             }
@@ -272,7 +272,7 @@ void AdvanceMissionRunEnd(void) {
     }
     if (endFound == FALSE) {
         if ((gRaceSetup->mUnk_044 & 8) != 0) {
-            if (func_0207a4fc() != 0) {
+            if (IsEntryKartFlag1000Set() != 0) {
                 endFound = TRUE;
             }
         }

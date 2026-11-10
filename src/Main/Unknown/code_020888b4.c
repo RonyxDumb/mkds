@@ -243,7 +243,7 @@ void ResetBattleKartAiAtPointLink(KartAi *kartAi, PointLink *pointLink) {
 void AdvanceBattleKartAi(KartAi *kartAi) {
     func_02088d34(kartAi);
     if (kartAi->mUnk_c4 == FALSE) {
-        func_0207e668(kartAi);
+        AdvanceKartAiContactStages(kartAi);
     }
     func_02089494(kartAi);
     if (gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON) {
@@ -433,7 +433,7 @@ void AdvanceBattleKartAiTargetKart(KartAi *kartAi) {
         (kartAi->mKart->mUnk_4c & 0x40) == 0) {
         goto clear;
     }
-    if (func_0207f600(kartAi->mTargetKart->mIndex) == FALSE) {
+    if (IsKartTargetable(kartAi->mTargetKart->mIndex) == FALSE) {
         goto clear;
     }
     kart = kartAi->mKart;

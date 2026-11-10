@@ -119,7 +119,7 @@ void UpdateRaceGoalM(void) {
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         if ((IsKartEnded((u16) gRaceSetup->mEntryIndex) != 0 ? gRaceProgress->mEntryEndKind : 6) != 0 &&
-            func_0207a218() == 0 && frame == 0) {
+            IsEntryKartNormalOrNotMissionRun() == 0 && frame == 0) {
             return;
         }
     }

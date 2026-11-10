@@ -63,7 +63,7 @@ void AdvanceAwardMissionRunKartAi(struct KartAi *kartAi) {
     RacePointLink *requestedLink;
 
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        func_0207e668(kartAi);
+        AdvanceKartAiContactStages(kartAi);
     }
     linkCursor = &kartAi->mUnk_08;
     kart = kartAi->mKart;
@@ -74,13 +74,13 @@ void AdvanceAwardMissionRunKartAi(struct KartAi *kartAi) {
     }
     requestedLink = linkCursor->mRequestedLink;
     GetKartPos(&kartPos, kartAi->mIndex);
-    func_0207f6f0(kartAi, linkCursor, kart, requestedLink, &kartPos, kartForward);
+    AdvanceKartAiAlongLinks(kartAi, linkCursor, kart, requestedLink, &kartPos, kartForward);
     if (kart->mState == KART_STATE_NORMAL) {
         RequestBits(kartAi->mKart->mEntryIndex, PAD_KEY_A);
         VEC_Subtract(&kartAi->mLinkPosWithSideOffset, &kartPos, &toLinkPos);
         AdvanceKartAiHeading(kartAi, &toLinkPos, kartForward);
     }
-    func_0207ebfc(kartAi);
+    AdvanceKartAiDrift(kartAi);
 }
 
 void SetupStaffRollKartAi(struct KartAi *kartAi, struct Kart *kart, s32 a) {
@@ -110,13 +110,13 @@ void AdvanceStaffRollKartAi(struct KartAi *kartAi) {
     }
     requestedLink = linkCursor->mRequestedLink;
     GetKartPos(&kartPos, kartAi->mIndex);
-    func_0207f6f0(kartAi, linkCursor, kart, requestedLink, &kartPos, kartForward);
+    AdvanceKartAiAlongLinks(kartAi, linkCursor, kart, requestedLink, &kartPos, kartForward);
     if (kart->mState == KART_STATE_NORMAL) {
         RequestBits(kartAi->mKart->mEntryIndex, PAD_KEY_A);
         VEC_Subtract(&kartAi->mLinkPosWithSideOffset, &kartPos, &toLinkPos);
         AdvanceKartAiHeading(kartAi, &toLinkPos, kartForward);
     }
-    func_0207ebfc(kartAi);
+    AdvanceKartAiDrift(kartAi);
 }
 
 void InitKartAiTables(void) {
@@ -266,7 +266,7 @@ void AdvanceRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, st
                 raceSpeedLimit->mTurnSpeedLimit =
                     MUL_FIXED12_NO_ROUND(0x1000 - MUL_FIXED12_NO_ROUND(turnExcessRatio, 0x668), 0xa000);
             }
-            func_0207d9f0(raceSpeedLimit, kartAi, t);
+            AdvanceKartAiSpeedLimitByRank(raceSpeedLimit, kartAi, t);
             t = raceSpeedLimit->mSpeedLimitBeforeTurn;
         }
         if (raceSpeedLimit->mTurnSpeedLimit < t) {
@@ -289,7 +289,8 @@ void AdvanceRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, st
     }
 }
 
-void func_0207d9f0(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi, s32 speedLimitCap) {
+void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi,
+                                   s32 speedLimitCap) {
     s32 n = raceSpeedLimit->mRank;
     u16 kartIndex = kartAi->mIndex;
     u16 i;
@@ -460,7 +461,7 @@ u16 PickKartAiRaceStartBoost(s32 pickLast) {
     return difficultyChoices[choiceIndex];
 }
 
-void func_0207d814(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi) {
+void InitKartAiRaceSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi) {
     s32 speedRatio;
 
     raceSpeedLimit->mBaseSpeedLimit = kartAi->mKart->mPhysicalParam->mBaseSpeedLimit;

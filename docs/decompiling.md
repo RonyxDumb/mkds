@@ -536,7 +536,7 @@ Expression shapes:
   the stores in order (func_021243ac).
 - `(x & mask) | (m << k)` with the shift evaluated first: write `m * (1 << k)` as a constant multiply (func_021243ac).
 - The mask or fraction computed before the table loads, with the index, next index and fraction rotated across r1-r3
-  (ARM): assign `f = x & 0xfff` before the indices and declare `f` before them (func_02071568).
+  (ARM): assign `f = x & 0xfff` before the indices and declare `f` before them (AdvanceKartOffsetCycle).
 - Six byte stores where the original computes `(a - 1) * size` before loading the base: `p = tbl->rec[a - 1].arr; p[0] =
   ...; ... p[5] = ...;` with no offset or base locals (Thumb; func_ov003_021cf378).
 - An add with the loaded `s16` element first: `x = a[i]; x += p[i].m;` (HeadphoneProc).

@@ -43,7 +43,7 @@ void ComputePosCurvePoint(Vec3 *point, PosCurve *posCurve);
 // point of the entry's group (clamped after the last) and writes the point on the curve to a. UpdateCameraPosCurve
 // calls it for groups of four or more points.
 void UpdatePosCurve(Vec3 *point, PosCurve *posCurve, struct CourseMapCamera *mapCamera, s32 paramStep);
-void func_0207bd6c(PosCurve *posCurve, struct CourseMapCamera *mapCamera);
+void SetupReversePosCurve(PosCurve *posCurve, struct CourseMapCamera *mapCamera);
 // Restarts the curve a on the entry b: clears its parameter and counters and, when the entry's group has four or more
 // points, loads the first four as its control points (nothing is loaded for fewer).
 void SetupPosCurve(PosCurve *posCurve, struct CourseMapCamera *mapCamera);
@@ -61,21 +61,21 @@ void UseItemForwardAndResetInUseTimer(KartAiItemUse *itemUse, struct KartAi *kar
 void UseItemAndResetInUseTimer(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void UseItemAndResetHeldTimer(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void SetupRaceItemEntries(void);
-void func_0207c8d8(KartAiItemUse *itemUse, struct KartAi *kartAi);
-void func_0207c978(KartAiItemUse *itemUse, struct KartAi *kartAi);
+void UseItemByRankAfterEveryCall(KartAiItemUse *itemUse, struct KartAi *kartAi);
+void UseItemByTargetOrRankAfterEveryCall(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void UseItemByRankAfterInUse(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void UseItemByTargetOrRankAfterInUse(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void UseItemAfterInUseByTrailKind(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void UseItemAfterInUseByCircleKind(KartAiItemUse *itemUse, struct KartAi *kartAi);
 unsigned int RaceItemInUseReturnArgument(unsigned int value);
-void func_0207cb74(KartAiItemUse *itemUse, struct KartAi *kartAi);
+void UseItemIfTurnUnder20ResetHeldTimer(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void UseItemAfterHeldIfTurnUnder20(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void RequestItemBitsByKartRank(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void UseItemByTargetOrRank(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void UseItemByRankAfterHeld(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void UseItemByTargetOrRankAfterHeld(KartAiItemUse *itemUse, struct KartAi *kartAi);
-void func_0207d3ec(KartAiItemUse *itemUse, struct KartAi *kartAi);
-void func_0207d474(KartAiItemUse *itemUse, struct KartAi *kartAi);
+void UseItemByRankOrEveryCall(KartAiItemUse *itemUse, struct KartAi *kartAi);
+void UseItemByTargetOrRankOrEveryCall(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void UseItemAfterHeld(KartAiItemUse *itemUse, struct KartAi *kartAi);
-void func_0207d5b8(KartAiItemUse *itemUse, struct KartAi *kartAi);
-void func_0207d6a4(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi);
+void TrailOrCircleUseItemAfterHeld(KartAiItemUse *itemUse, struct KartAi *kartAi);
+void AdvanceKartAiTurnSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi);

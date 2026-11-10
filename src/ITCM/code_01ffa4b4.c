@@ -62,9 +62,9 @@ void func_01ffa4b4(Kart *p, Vec3 *a) {
         VEC_Add(&p->mPos, &v1, &p->mPos);
         AdvanceCourseColorBlend(&p->mKartModelsEntry->mCourseColorBlend, (f & 0x3c000000) >> 26, p->mVelocityLength);
         func_01ff9c9c(p, f);
-        func_0206f694(p, f, &v4, h);
+        AdvanceKartPointMotion(p, f, &v4, h);
         if (f & 0x200300) {
-            func_0206f574(p, f, &v2);
+            ApplyKartCourseContact(p, f, &v2);
             if (m != 0) {
                 d = VEC_DotProduct(&v5, &p->mHitVelocity);
                 p->mHitVelocity.x -= MUL_FIXED12_NO_ROUND(v5.x, d);
@@ -115,7 +115,7 @@ void func_01ffa4b4(Kart *p, Vec3 *a) {
             }
             if (f & 0x8c00) {
                 if (!(f & 0x400) || !(p->mUnk_44 & 0x80) || (f & 0x800)) {
-                    func_0206ff50(p, f);
+                    StartKartRespawnWait(p, f);
                 }
             }
         }
@@ -146,9 +146,9 @@ void func_01ffa4b4(Kart *p, Vec3 *a) {
                 if (p->mVerticalSpeed < 0) {
                     p->mVerticalSpeed = (p->mUnk_48 & KART_48_ON_BOOST_SURFACE) ? -0x2b9 : -0xd9d;
                 }
-                func_0206edac(p, a);
+                ApplyKartLanding(p, a);
                 if (f & 0x80000000) {
-                    p->mUnk_1fc.y = 0;
+                    p->mPointMotion.y = 0;
                 }
                 p->mUnk_44 |= KART_44_ON_GROUND;
                 if (p->mForwardSpeed != 0 || TryHoldKartStill(p, f, &w) == FALSE) {

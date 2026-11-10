@@ -29,7 +29,7 @@
 #include "Main/Unknown/code_0203c5f8.h"
 #include "Main/Unknown/code_0203c8dc.h"
 
-void func_0207d6a4(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi) {
+void AdvanceKartAiTurnSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi) {
     s32 turnSpeedLimit;
     s32 turnAngle;
     s32 limit;
@@ -70,7 +70,7 @@ void func_0207d6a4(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *k
     kartAi->mKart->mSpeedLimitGoal = MUL_FIXED12_ROUNDED(raceSpeedLimit->mSpeedLimit, x);
 }
 
-void func_0207d5b8(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void TrailOrCircleUseItemAfterHeld(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     BOOL timerRanOut;
     RandomState64 *random;
     u16 randomLimit;
@@ -133,7 +133,7 @@ void UseItemAfterHeld(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     }
     itemUse->mItemInUseTimer = itemUse->mItemInUseEntry->mTimerBase + (u16) randomPart;
 }
-void func_0207d474(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void UseItemByTargetOrRankOrEveryCall(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     RaceSetup *raceSetup;
     u16 kartIndex;
 
@@ -147,7 +147,7 @@ void func_0207d474(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     }
     UseItemByTargetOrRankAfterHeld(itemUse, kartAi);
 }
-void func_0207d3ec(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void UseItemByRankOrEveryCall(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     RaceSetup *raceSetup;
     u16 kartIndex;
 
@@ -397,7 +397,7 @@ void UseItemAfterHeldIfTurnUnder20(KartAiItemUse *itemUse, struct KartAi *kartAi
     itemUse->mItemInUseTimer = itemUse->mItemInUseEntry->mTimerBase + (u16) randomPart;
 }
 
-void func_0207cb74(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void UseItemIfTurnUnder20ResetHeldTimer(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     BOOL timerRanOut;
     RandomState64 *random;
     u16 randomLimit;
@@ -482,7 +482,7 @@ void UseItemByRankAfterInUse(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     RequestItemBitsByKartRank(itemUse, kartAi);
 }
 
-void func_0207c978(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void UseItemByTargetOrRankAfterEveryCall(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     KartItems *kartItems;
     s32 heldItemIndex;
     BOOL timerRanOut;
@@ -491,9 +491,9 @@ void func_0207c978(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     heldItemIndex = kartItems->mHeldItem.mItemInfoIndex;
     if (itemUse->mItemBitsEveryCall != 0) {
         if (heldItemIndex != 0x13) {
-            itemUse->mUnk_0c = 1;
+            itemUse->mHeldItemSeen = 1;
         }
-        if (itemUse->mUnk_0c == 0) {
+        if (itemUse->mHeldItemSeen == 0) {
             return;
         }
         timerRanOut = FALSE;
@@ -511,7 +511,7 @@ void func_0207c978(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     }
 }
 
-void func_0207c8d8(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void UseItemByRankAfterEveryCall(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     KartItems *kartItems;
     s32 heldItemIndex;
     BOOL timerRanOut;
@@ -520,9 +520,9 @@ void func_0207c8d8(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     heldItemIndex = kartItems->mHeldItem.mItemInfoIndex;
     if (itemUse->mItemBitsEveryCall != 0) {
         if (heldItemIndex != 0x13) {
-            itemUse->mUnk_0c = 1;
+            itemUse->mHeldItemSeen = 1;
         }
-        if (itemUse->mUnk_0c == 0) {
+        if (itemUse->mHeldItemSeen == 0) {
             return;
         }
         timerRanOut = FALSE;
@@ -546,26 +546,26 @@ void SetupRaceItemEntries(void) {
             gCurrentHeldItemEntries = gRaceEasyHeldItemEntries;
             gCurrentItemInUseEntries = gRaceItemInUseEntries;
             data_0217ae48 = UseItemByRankAfterInUse;
-            data_0217ae44 = func_0207c8d8;
+            data_0217ae44 = UseItemByRankAfterEveryCall;
             data_0217ae3c = UseItemByRankAfterInUse;
-            data_0217ae40 = func_0207c8d8;
+            data_0217ae40 = UseItemByRankAfterEveryCall;
             break;
         case CPU_DIFFICULTY_NORMAL:
             gCurrentHeldItemEntries = gRaceNormalHeldItemEntries;
             gCurrentItemInUseEntries = gRaceItemInUseEntries;
             data_0217ae48 = UseItemByRankAfterInUse;
-            data_0217ae44 = func_0207c8d8;
+            data_0217ae44 = UseItemByRankAfterEveryCall;
             data_0217ae3c = UseItemByRankAfterInUse;
-            data_0217ae40 = func_0207c8d8;
+            data_0217ae40 = UseItemByRankAfterEveryCall;
             break;
         case CPU_DIFFICULTY_HARD:
         default:
             gCurrentHeldItemEntries = gRaceHardHeldItemEntries;
             gCurrentItemInUseEntries = gRaceItemInUseEntries;
             data_0217ae48 = UseItemByTargetOrRankAfterInUse;
-            data_0217ae44 = func_0207c978;
+            data_0217ae44 = UseItemByTargetOrRankAfterEveryCall;
             data_0217ae3c = UseItemByTargetOrRankAfterInUse;
-            data_0217ae40 = func_0207c978;
+            data_0217ae40 = UseItemByTargetOrRankAfterEveryCall;
             break;
     }
 }
@@ -671,7 +671,7 @@ void ClearKartAiItemUse(KartAiItemUse *itemUse) {
     itemUse->mItemInUseTimer = 0x0u;
     itemUse->mHeldItemEntry = NULL;
     itemUse->mItemInUseEntry = NULL;
-    itemUse->mUnk_0c = 0x0u;
+    itemUse->mHeldItemSeen = 0x0u;
     itemUse->mItemBitsEveryCall = 0x0u;
     itemUse->mThrowForwardPending = 0x0u;
     itemUse->mThrowBehindPending = 0x0u;
@@ -827,7 +827,7 @@ void SetupItemInUseEntry(struct KartAiItemUse *itemUse, struct KartAi *kartAi) {
 
     objectKind = gKartItems[kartAi->mIndex].mItemInUse.mObjectKind;
     itemUse->mItemInUseEntry = &gCurrentItemInUseEntries[objectKind];
-    itemUse->mUnk_0c = 0;
+    itemUse->mHeldItemSeen = 0;
     if (itemUse->mItemInUseEntry == NULL) {
         return;
     }
@@ -859,7 +859,7 @@ void SetupPosCurve(PosCurve *posCurve, struct CourseMapCamera *mapCamera) {
     }
 }
 
-void func_0207bd6c(PosCurve *posCurve, struct CourseMapCamera *mapCamera) {
+void SetupReversePosCurve(PosCurve *posCurve, struct CourseMapCamera *mapCamera) {
     s16 entryIndex;
     s16 i;
     CourseMapEntryGroup *entryGroup = &gCourseMap->mEntryGroups[mapCamera->mEntryGroupIndex];
@@ -922,25 +922,17 @@ void ComputePosCurvePoint(Vec3 *point, PosCurve *posCurve) {
     paramCubed = MUL_FIXED12_ROUNDED(paramSquared, param);
     weight0 = MUL_FIXED12_ROUNDED(MUL_FIXED12_ROUNDED(paramRemaining, 0x2ab),
                                   MUL_FIXED12_ROUNDED(paramRemaining, paramRemaining));
-    weight1 = MUL_FIXED12_ROUNDED(MUL_FIXED12_ROUNDED(paramCubed, 0x3000) -
-                                      MUL_FIXED12_ROUNDED(0x6000, paramSquared) + 0x4000,
-                                  0x2ab);
-    weight2 =
-        MUL_FIXED12_ROUNDED(MUL_FIXED12_ROUNDED(param + (paramSquared - paramCubed), 0x3000) + 0x1000, 0x2ab);
+    weight1 = MUL_FIXED12_ROUNDED(
+        MUL_FIXED12_ROUNDED(paramCubed, 0x3000) - MUL_FIXED12_ROUNDED(0x6000, paramSquared) + 0x4000, 0x2ab);
+    weight2 = MUL_FIXED12_ROUNDED(MUL_FIXED12_ROUNDED(param + (paramSquared - paramCubed), 0x3000) + 0x1000, 0x2ab);
     weight3 = MUL_FIXED12_ROUNDED(paramCubed, 0x2ab);
     for (i = 0; i < 4; i++) {
         controlPoints[i] = &posCurve->mPoints[i];
     }
-    point->x = MUL_FIXED12_ROUNDED(controlPoints[0]->x, weight0) +
-               MUL_FIXED12_ROUNDED(controlPoints[1]->x, weight1) +
-               MUL_FIXED12_ROUNDED(controlPoints[2]->x, weight2) +
-               MUL_FIXED12_ROUNDED(controlPoints[3]->x, weight3);
-    point->y = MUL_FIXED12_ROUNDED(controlPoints[0]->y, weight0) +
-               MUL_FIXED12_ROUNDED(controlPoints[1]->y, weight1) +
-               MUL_FIXED12_ROUNDED(controlPoints[2]->y, weight2) +
-               MUL_FIXED12_ROUNDED(controlPoints[3]->y, weight3);
-    point->z = MUL_FIXED12_ROUNDED(controlPoints[0]->z, weight0) +
-               MUL_FIXED12_ROUNDED(controlPoints[1]->z, weight1) +
-               MUL_FIXED12_ROUNDED(controlPoints[2]->z, weight2) +
-               MUL_FIXED12_ROUNDED(controlPoints[3]->z, weight3);
+    point->x = MUL_FIXED12_ROUNDED(controlPoints[0]->x, weight0) + MUL_FIXED12_ROUNDED(controlPoints[1]->x, weight1) +
+               MUL_FIXED12_ROUNDED(controlPoints[2]->x, weight2) + MUL_FIXED12_ROUNDED(controlPoints[3]->x, weight3);
+    point->y = MUL_FIXED12_ROUNDED(controlPoints[0]->y, weight0) + MUL_FIXED12_ROUNDED(controlPoints[1]->y, weight1) +
+               MUL_FIXED12_ROUNDED(controlPoints[2]->y, weight2) + MUL_FIXED12_ROUNDED(controlPoints[3]->y, weight3);
+    point->z = MUL_FIXED12_ROUNDED(controlPoints[0]->z, weight0) + MUL_FIXED12_ROUNDED(controlPoints[1]->z, weight1) +
+               MUL_FIXED12_ROUNDED(controlPoints[2]->z, weight2) + MUL_FIXED12_ROUNDED(controlPoints[3]->z, weight3);
 }

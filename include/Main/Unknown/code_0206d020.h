@@ -17,9 +17,9 @@ typedef enum {
 } KartBoostKind;
 
 void StartKartBoost(Kart *kart, KartBoostKind boostKind, int boostFrames);
-void func_0206d138(Kart *kart);
-void func_0206d18c(Kart *kart);
-void func_0206d578(Kart *kart);
-void func_0206d7c8(Kart *pushingKart, Kart *pushedKart, const Vec3 *v, s32 c, Vec3 *out);
+void StartKartSoundAndCharacterAnimation(Kart *kart);
+void ApplyItemObjectHitToKart(Kart *kart);
+void UpdateKartAheadEffect(Kart *kart);
+void ApplyKartPush(Kart *pushingKart, Kart *pushedKart, const Vec3 *contactDirection, s32 storeDirection, Vec3 *out);
 BOOL TryStartKartPushDoubleFlip(Kart *killerKart, Kart *hitKart);
 BOOL TryStartKartPushFlip(Kart *starKart, Kart *hitKart, const Vec3 *v);

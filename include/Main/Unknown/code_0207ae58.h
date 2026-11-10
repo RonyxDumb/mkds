@@ -6,7 +6,7 @@
 
 struct KartModelsEntry;
 
-void func_0207ae58(ShadowModel *shadowModel);
+void DrawShadowWithoutMatrix(ShadowModel *shadowModel);
 void DrawShadowWithMatrix(ShadowModel *shadowModel, const void *matrix, Vec3 *extraVector);
 NNSG3dResMdl *InitShadowModel(ShadowModel *shadowModel, NNSG3dResFileHeader *resFileHeader, u32 polygonId);
 void InitShadowModelFromResMdl(ShadowModel *shadowModel, void *resFile, u32 polygonId);

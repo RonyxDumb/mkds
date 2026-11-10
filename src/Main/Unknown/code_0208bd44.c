@@ -53,7 +53,7 @@ void SetupKartAiForAwardMissionRun(KartAi *kartAi, s32 kartIndex) {
 
     kartAi->mUnk_154 = 0;
     SetupAwardMissionRunKartAi(kartAi, kart, kartAi->mUnk_154);
-    func_0207d814(&kartAi->mUnk_e8, kartAi);
+    InitKartAiRaceSpeedLimit(&kartAi->mUnk_e8, kartAi);
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         kartAi->mUnk_e8.mBoostsAtRaceStart = 1;
         kartAi->mUnk_e8.mRaceStartBoostChoice = 4;
@@ -70,7 +70,7 @@ void func_0208bde0(KartAi *kartAi, RacePointLink *pointLink) {
 
 void func_0208bdc0(KartAi *kartAi) {
     AdvanceAwardMissionRunKartAi(kartAi);
-    func_0207d6a4(&kartAi->mUnk_e8, kartAi);
+    AdvanceKartAiTurnSpeedLimit(&kartAi->mUnk_e8, kartAi);
 }
 
 void SetupKartAiForStaffRoll(KartAi *kartAi, s32 kartIndex) {
@@ -78,7 +78,7 @@ void SetupKartAiForStaffRoll(KartAi *kartAi, s32 kartIndex) {
 
     kartAi->mUnk_154 = 0;
     SetupStaffRollKartAi(kartAi, kart, kartAi->mUnk_154);
-    func_0207d814(&kartAi->mUnk_e8, kartAi);
+    InitKartAiRaceSpeedLimit(&kartAi->mUnk_e8, kartAi);
     kartAi->mUnk_e8.mBoostsAtRaceStart = 0;
     kartAi->mUnk_e8.mRaceStartBoostChoice = 0;
     if (kart->mIndex != gRaceSetup->mEntryIndex) {

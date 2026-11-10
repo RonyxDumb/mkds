@@ -268,8 +268,8 @@ typedef struct RaceProgress {
     // Mode 4 only: counted while the local entry ended with flag 0x10, zeroed by FinishRaceProgressKartWithEndKind. No
     // init write (zero from the allocation).
     /* 4fa */ u16 mFramesSinceFinish;
-    // Calls of the end step, counted while func_0207a218 returns non-zero, since the selected entry ended without the
-    // goal; the step waits for 0x3c and then takes the entry out.
+    // Calls of the end step, counted while IsEntryKartNormalOrNotMissionRun returns non-zero, since the selected entry
+    // ended without the goal; the step waits for 0x3c and then takes the entry out.
     /* 4fc */ u16 mFramesSinceFailure;
     /* 4fe */ u16 mUnk_4fe;
     /* 500 */ RaceProgressScoreTerms mScoreTerms;

@@ -4,10 +4,11 @@
 
 typedef struct Kart Kart;
 
-s32 func_0206f04c(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseSpeedLimitHitFactor, s32 d, s32 e, s32 f);
-void func_0206f574(Kart *kart, u32 collisionFlags, Vec3 *contactNormal);
-void func_0206f694(Kart *kart, u32 collisionFlags, Vec3 *b, s32 headingDelta);
+s32 ApplyKartContact(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseSpeedLimitHitFactor, s32 surfaceKind,
+                     s32 surfaceVariant, s32 f);
+void ApplyKartCourseContact(Kart *kart, u32 collisionFlags, Vec3 *contactNormal);
+void AdvanceKartPointMotion(Kart *kart, u32 collisionFlags, Vec3 *targetPointMotion, s32 headingDelta);
 void ApplyKartAttractorPull(Kart *kart, Vec3 *groundNormal, s32 bit100000WasSet);
 void AdvanceKartRaceStartBoost(Kart *kart);
 void ApplyKartWaterDepth(Kart *kart);
-void func_0206ff50(Kart *kart, u32 collisionFlags);
+void StartKartRespawnWait(Kart *kart, u32 collisionFlags);

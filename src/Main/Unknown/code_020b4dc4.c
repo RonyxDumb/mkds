@@ -13,6 +13,6 @@ u32 func_020b4dc4(int kartIndex) {
     if ((currentMode == MODE_TIME_ATTACK) && (kartIndex != 0)) {
         return 1;
     }
-    result = func_0207a68c(kartIndex);
+    result = GetKartCourseHitAttributeBitWrapper(kartIndex);
     return result;
 }

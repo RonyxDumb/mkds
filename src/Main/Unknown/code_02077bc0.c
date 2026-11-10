@@ -292,13 +292,13 @@ void SetKartSpeedLimitReciprocal(u32 speedLimitReciprocal) {
     gKartSpeedLimitReciprocal = speedLimitReciprocal;
 }
 
-void func_0207a70c(s32 kartIndex) {
+void IncrementEntryKartItemHitCount(s32 kartIndex) {
     if (kartIndex == gRaceSetup->mEntryIndex) {
         gEntryKartCounters->mUnk_08++;
     }
 }
 
-void func_0207a6c0(Kart *kart) {
+void IncrementEntryKartSurfaceCount(Kart *kart) {
     if (kart->mIndex != gRaceSetup->mEntryIndex) {
         return;
     }
@@ -314,7 +314,7 @@ EntryKartCounters *GetEntryKartCounters(void) {
     return gEntryKartCounters;
 }
 
-u32 func_0207a68c(int kartIndex) {
+u32 GetKartCourseHitAttributeBitWrapper(int kartIndex) {
     return GetKartCourseHitAttributeBit(&gKarts[kartIndex]);
 }
 
@@ -333,11 +333,11 @@ void SetKartModelsFogEnable(s32 fogEnableFlag) {
     }
 }
 
-BOOL func_0207a5c4(s32 kartIndex) {
+BOOL IsKartInRespawnWait(s32 kartIndex) {
     return (gKarts[kartIndex].mUnk_48 & 0x800) != 0 ? 1 : 0;
 }
 
-BOOL func_0207a574(void) {
+BOOL IsEntryKartNotNormalOrScaleTableBit(void) {
     Kart *kart = &gKarts[gRaceSetup->mEntryIndex];
     if (kart->mState != KART_STATE_NORMAL || (kart->mUnk_48 & 0x4000000) != 0) {
         return TRUE;
@@ -345,11 +345,11 @@ BOOL func_0207a574(void) {
     return FALSE;
 }
 
-BOOL func_0207a538(void) {
+BOOL IsEntryKartInContact(void) {
     return (gKarts[gRaceSetup->mEntryIndex].mUnk_44 & 0xc0) != 0 ? 1 : 0;
 }
 
-BOOL func_0207a4fc(void) {
+BOOL IsEntryKartFlag1000Set(void) {
     return (gKarts[gRaceSetup->mEntryIndex].mUnk_48 & 0x1000) != 0 ? 1 : 0;
 }
 
@@ -424,7 +424,7 @@ BOOL TryGetMinKartDistanceSquared(s32 *distanceSquared) {
     return TRUE;
 }
 
-BOOL func_0207a218(void) {
+BOOL IsEntryKartNormalOrNotMissionRun(void) {
     BOOL result = TRUE;
     s32 mode = gRaceSetup->mMode;
     if (mode == MODE_MISSION_RUN) {
@@ -1347,15 +1347,15 @@ void InitKartModelMenu(void *heap) {
     gKartModelMenu->mLoadSlotIndex = 0;
     gKartModelMenu->mLoadSlot = &gKartModelMenu->mSlots[gKartModelMenu->mLoadSlotIndex];
     gKartModelMenu->mKartAPalette = NULL;
-    gKartModelMenu->mUnk_1dc = FALSE;
-    gKartModelMenu->mUnk_1d8 = 0;
+    gKartModelMenu->mSpinStopTimed = FALSE;
+    gKartModelMenu->mSpinStopped = 0;
     gKartModelMenu->mMirrorMode = 0;
     gKartModelMenu->mCharMenuParams = NULL;
     gKartModelMenu->mKartMenuParams = NULL;
     gKartModelMenu->mCharacterRequested = 0;
     gKartModelMenu->mKartRequested = 0;
     gKartModelMenu->mKartAppear = NULL;
-    gKartModelMenu->mUnk_1f0 = 0;
+    gKartModelMenu->mSpinStopFrames = 0;
     gKartModelMenu->mEmblemPalette = NULL;
     gKartModelMenu->mEmblemData = gKartModelMenu->mEmblemPalette;
     LoadEmblemSBNclr(heap);
@@ -1630,12 +1630,12 @@ void AdvanceKartModelMenu(s32 mirrorMode) {
     AdvanceKartModelMenuBg0Offset();
     if (gKartModelMenu->mShownSlotIndex >= 0) {
         shownSlot = &gKartModelMenu->mSlots[gKartModelMenu->mShownSlotIndex];
-        if (gKartModelMenu->mUnk_1d8 != 0 || gKartModelMenu->mUnk_1dc != FALSE) {
+        if (gKartModelMenu->mSpinStopped != 0 || gKartModelMenu->mSpinStopTimed != FALSE) {
             AdvanceAngleToward(&view->mSpinAngle, 0xeaab, data_usa_021656e8);
-            if (gKartModelMenu->mUnk_1d8 == 0 && gKartModelMenu->mUnk_1dc != FALSE) {
-                gKartModelMenu->mUnk_1f0++;
-                if (gKartModelMenu->mUnk_1f0 > 0x3c) {
-                    gKartModelMenu->mUnk_1dc = FALSE;
+            if (gKartModelMenu->mSpinStopped == 0 && gKartModelMenu->mSpinStopTimed != FALSE) {
+                gKartModelMenu->mSpinStopFrames++;
+                if (gKartModelMenu->mSpinStopFrames > 0x3c) {
+                    gKartModelMenu->mSpinStopTimed = FALSE;
                 }
             }
         } else {
@@ -1849,17 +1849,17 @@ HeyhoPalette *GetHeyhoPalette(int kartIndex) {
     return palette;
 }
 
-void func_02077f5c(void) {
-    gKartModelMenu->mUnk_1dc = TRUE;
-    gKartModelMenu->mUnk_1f0 = 0;
+void StartKartModelMenuTimedSpinStop(void) {
+    gKartModelMenu->mSpinStopTimed = TRUE;
+    gKartModelMenu->mSpinStopFrames = 0;
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void func_02077f48(u32 flag) {
-    gKartModelMenu->mUnk_1d8 = flag;
+void SetKartModelMenuSpinStopped(u32 flag) {
+    gKartModelMenu->mSpinStopped = flag;
 }
 
 // Moves *a toward b by a share of the distance plus 100; keeps the old value when the step would reach b.

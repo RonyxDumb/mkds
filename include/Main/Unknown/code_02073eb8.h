@@ -28,8 +28,8 @@ typedef struct CourseMapCamera {
     // CourseMap slots cc / d0 / d4).
     /* 3e */ u16 mKind;
     /* 40 */ u16 mEntryGroupIndex;
-    // Added to the position curve's parameter each call (0x1000 = one segment); also copied into Unk02077750.mUnk_7c,
-    // which nothing reads.
+    // Added to the position curve's parameter each call (0x1000 = one segment); also copied into
+    // Kind7CameraEntry.mUnk_7c, which nothing reads.
     /* 42 */ s16 mPosCurvePerFrame;
     /* 44 */ u16 mLookAtBlendPerFrame;
     // Frames the entry lasts (compared with mCourseMapCameraFrames); the battle step compares it with the race clock

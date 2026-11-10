@@ -253,7 +253,7 @@ void UpdateRaceProgressKart(Vec3 *position, RaceProgressKart *kart) {
     routeIndex = kart->mRoute;
     p = checkpoint;
     checkpointProgress = 0;
-    if (func_0207a5c4(kart->mIndex) != 0) {
+    if (IsKartInRespawnWait(kart->mIndex) != 0) {
         return;
     }
     if (TryGetKartCheckpointProgress(kart, &checkpointProgress, position, routeIndex, checkpoint) == 0) {

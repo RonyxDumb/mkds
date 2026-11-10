@@ -727,7 +727,7 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
         VEC_MultAdd(n, &itemInUse->mKartOrientation.mUnk_00[1], &v, &item->mItemObject.mVelocity);
     }
     if (throwForward == 0) {
-        VEC_Add(&item->mItemObject.mVelocity, &itemInUse->mKart->mUnk_1fc, &item->mItemObject.mVelocity);
+        VEC_Add(&item->mItemObject.mVelocity, &itemInUse->mKart->mPointMotion, &item->mItemObject.mVelocity);
     }
     if (throwForward != 0) {
         item->mItemObject.mPos = itemInUse->mKart->mCollisionCenter;

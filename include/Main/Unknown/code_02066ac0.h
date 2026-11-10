@@ -78,14 +78,14 @@ s32 ApplyKartSurfaceKind7(Kart *kart);
 // Surface kind 6 (entry 6 of gKartSurfaceFunctions): passes the entry that gKartSurfaceKind6Effects gives for
 // mSurfaceVariant to ApplyKartSurfaceEffect and returns surface group 6.
 s32 ApplyKartSurfaceKind6(Kart *kart);
-// Surface kind 5 (entry 5 of gKartSurfaceFunctions): runs func_0207a6c0, passes the entry that gKartSurfaceKind5Effects
-// gives for mSurfaceVariant to ApplyKartSurfaceEffect and returns surface group 4.
+// Surface kind 5 (entry 5 of gKartSurfaceFunctions): runs IncrementEntryKartSurfaceCount, passes the entry that
+// gKartSurfaceKind5Effects gives for mSurfaceVariant to ApplyKartSurfaceEffect and returns surface group 4.
 s32 ApplyKartSurfaceKind5(Kart *kart);
-// Surface kind 3 (entry 3 of gKartSurfaceFunctions): runs func_0207a6c0, passes the entry that gKartSurfaceKind3Effects
-// gives for mSurfaceVariant to ApplyKartSurfaceEffect and returns surface group 3.
+// Surface kind 3 (entry 3 of gKartSurfaceFunctions): runs IncrementEntryKartSurfaceCount, passes the entry that
+// gKartSurfaceKind3Effects gives for mSurfaceVariant to ApplyKartSurfaceEffect and returns surface group 3.
 s32 ApplyKartSurfaceKind3(Kart *kart);
-// Surface kind 2 (entry 2 of gKartSurfaceFunctions): runs func_0207a6c0, passes the entry that gKartSurfaceKind2Effects
-// gives for mSurfaceVariant to ApplyKartSurfaceEffect and returns surface group 2.
+// Surface kind 2 (entry 2 of gKartSurfaceFunctions): runs IncrementEntryKartSurfaceCount, passes the entry that
+// gKartSurfaceKind2Effects gives for mSurfaceVariant to ApplyKartSurfaceEffect and returns surface group 2.
 s32 ApplyKartSurfaceKind2(Kart *kart);
 // Surface kind 1 (entry 1 of gKartSurfaceFunctions): passes the entry that gKartSurfaceKind1Effects gives for
 // mSurfaceVariant to ApplyKartSurfaceEffect and returns surface group 5.

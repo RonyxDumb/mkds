@@ -85,7 +85,7 @@ BOOL FindKartModelMenuCharacter(s32 *characterIndex, u32 kartIndex) {
     return IsKartAppearWithinLimit(gKartModelMenu->mKartAppear, *characterIndex, kartIndex);
 }
 
-u16 func_02077a5c(void) {
+u16 GetKartListNumber(void) {
     return gKartModelMenu->mKartListPos + 1;
 }
 
@@ -100,22 +100,22 @@ void LoadEmblemSBNclr(void *a) {
     LoadNclrData(&gEmblemSBNclr, nclrFile);
 }
 
-void func_02077998(void) {
-    u32 i;
+void InitCameraGlobals(void) {
+    u32 tableIndex;
 
     *(u32 *) 0x4000580 = 0xbfff0000;
     gCameraEntryChanged = 1;
-    i = gEntryCameraUpdateRan = 0;
+    tableIndex = gEntryCameraUpdateRan = 0;
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        i = gRaceSetup->mUnk_036;
-        i = (u16) i;
+        tableIndex = gRaceSetup->mUnk_036;
+        tableIndex = (u16) tableIndex;
     } else {
-        i = (u16) i;
-        i = (u16) i;
+        tableIndex = (u16) tableIndex;
+        tableIndex = (u16) tableIndex;
     }
-    gDefaultFollowDistance = data_usa_02154fa0[i][0];
-    gFollowHeight = data_usa_02154fa4[i][0];
-    gDefaultLookAtHeight = data_usa_02154fa8[i][0];
+    gDefaultFollowDistance = data_usa_02154fa0[tableIndex][0];
+    gFollowHeight = data_usa_02154fa4[tableIndex][0];
+    gDefaultLookAtHeight = data_usa_02154fa8[tableIndex][0];
     if (gRaceSetup->mCourseId == COURSE_ID_AIRSHIP) {
         gCourseWobbleAmplitude = 0xa000;
     } else {
@@ -173,7 +173,7 @@ void CreateEntryCamera(u32 followedKartIndex) {
                     }
                 }
                 if (courseMapCamera->mKind == 7) {
-                    func_02077750(&gEntryCamera->mUnk_21c[listIndex], courseMapCamera);
+                    InitKind7CameraEntry(&gEntryCamera->mUnk_21c[listIndex], courseMapCamera);
                     listIndex++;
                     nextIndex = courseMapCamera->mNextIndex;
                 }
@@ -186,17 +186,17 @@ void CreateEntryCamera(u32 followedKartIndex) {
     }
 }
 
-void func_02077750(Unk02077750 *a, CourseMapCamera *courseMapCamera) {
+void InitKind7CameraEntry(Kind7CameraEntry *kind7Entry, CourseMapCamera *courseMapCamera) {
     CourseMapEntryGroup *entryGroup = &gCourseMap->mEntryGroups[courseMapCamera->mEntryGroupIndex];
 
-    a->mUnk_7c = courseMapCamera->mPosCurvePerFrame;
-    a->mUnk_7e = 2;
-    a->mUnk_00 = courseMapCamera;
-    a->mUnk_80 = 0;
-    a->mUnk_84 = 0;
+    kind7Entry->mPosCurveStep = courseMapCamera->mPosCurvePerFrame;
+    kind7Entry->mUnk_7e = 2;
+    kind7Entry->mCourseMapCamera = courseMapCamera;
+    kind7Entry->mUnk_80 = 0;
+    kind7Entry->mUnk_84 = 0;
     if (entryGroup->mEntryCount >= 4) {
-        SetupPosCurve(&a->mUnk_04, courseMapCamera);
-        func_0207bd6c(&a->mUnk_40, courseMapCamera);
+        SetupPosCurve(&kind7Entry->mPosCurve, courseMapCamera);
+        SetupReversePosCurve(&kind7Entry->mReversePosCurve, courseMapCamera);
     }
 }
 

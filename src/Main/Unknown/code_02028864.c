@@ -63,7 +63,7 @@ void InitSelectKart(void *a, s32 b, void *c, void *d) {
             SetupInterpolation(&gSelectKart->mInterpolations[2], 0, 10, 0x60, 0);
             if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
                 StartKartModelMenuBg0Increase();
-                func_02077f48(0);
+                SetKartModelMenuSpinStopped(0);
             }
             break;
     }

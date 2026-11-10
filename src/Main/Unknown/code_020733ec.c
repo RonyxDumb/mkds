@@ -124,13 +124,13 @@ void InitKartMapObjectResponses(void) {
     data_usa_021654ec = FX_Div(0x1000, MUL_FIXED12_NO_ROUND(GetFirstBaseSpeedLimit(), 0xd9aLL));
 }
 
-void func_020733ec(Kart *kart) {
+void InitKartResources(Kart *kart) {
     void *heap;
     Vec3 *collisionPos;
     u16 i;
 
     heap = GetHeap(GetCurrentHeapCall());
-    kart->mUnk_230 = func_02071568;
+    kart->mUnk_230 = AdvanceKartOffsetCycle;
     InitKartPhysicalParams(kart);
     InitKartFlags(kart);
     if (kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) {

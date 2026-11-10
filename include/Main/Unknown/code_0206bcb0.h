@@ -255,7 +255,7 @@ typedef struct Kart {
     // corner (AdvanceKartRemovalShrink, FinishKartAtBattleEnd).
     /* bc */ Vec3 mScale;
     // Negative step added by ApplyKartGravity to mVerticalSpeed, by AdvanceKartHop to mHopSpeed while hopping and to a
-    // speed of the mode-5 record; -0x2b9 at reset, 0 after the water-height branch of func_0206ff50.
+    // speed of the mode-5 record; -0x2b9 at reset, 0 after the water-height branch of StartKartRespawnWait.
     /* c8 */ s32 mGravity;
     // The value mSpeedLimit follows: it falls by x0xf37/0x1000 per step but never below it and rises to it at once.
     // Written by the step, by the companion objects (their own choice) and at set-up; read by the companion objects as
@@ -318,7 +318,7 @@ typedef struct Kart {
     /* 1d8 */ Vec3 mPointAlongUp;
     /* 1e4 */ Vec3 mPrevPointAlongUp;
     /* 1f0 */ Vec3 mUnk_1f0;
-    /* 1fc */ Vec3 mUnk_1fc;
+    /* 1fc */ Vec3 mPointMotion;
     /* 208 */ struct CollisionHitLink *mUnk_208;
     // The functions of one Kart, one per slot index: 0 set-up at creation, 1 reset to the starting values, 2 stores the
     // squared distance in the sound source, 3 and 4 the two steps UpdateKarts runs for every Kart, 5 stores the
@@ -427,7 +427,7 @@ typedef struct Kart {
     // the blink); other draw code skips its drawing while it is 0; 0 at reset for an entry of kind 2.
     /* 384 */ u16 mVisible;
     // Angle added to mHeadingAngle each step, first multiplied by 0xe66 / 0x1000 and cut to 0 below 0x14; set in
-    // func_0206f04c, 0 at reset.
+    // ApplyKartContact, 0 at reset.
     /* 386 */ s16 mHeadingAnglePerFrame;
     // Angle that follows mTurnDirection: eased toward 11000 or -11000, changed by the turn input and cut back to 0 on
     // the ground; it is the angle of the rotation of mUnk_278 about mUnk_244 in func_01ffb130.

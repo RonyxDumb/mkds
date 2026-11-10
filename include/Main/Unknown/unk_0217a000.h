@@ -986,7 +986,7 @@ typedef struct Race {
 
 extern Race *gRace;
 extern s32 gFadeFogActive;
-struct Unk02077750;
+struct Kind7CameraEntry;
 
 // The viewer of a race: position, look-at point, three axes, view matrix and frustum. One class, several instances:
 // gChaseCamera follows the selected kart, gEntryCamera and gFirstChainCamera / gSecondChainCamera step through
@@ -1094,8 +1094,8 @@ typedef struct Camera {
     // use.
     /* 214 */ s32 mLastCourseMapCameraIndex;
     /* 218 */ struct CourseMapCamera *mCourseMapCamera;
-    /* 21c */ struct Unk02077750 *mUnk_21c;
-    /* 220 */ struct Unk02077750 *mUnk_220;
+    /* 21c */ struct Kind7CameraEntry *mUnk_21c;
+    /* 220 */ struct Kind7CameraEntry *mUnk_220;
     /* 224 */ u16 mUnk_224;
     /* 226 */ u8 mUnk_226[0x2];
     // TRUE from StartEntryCameraKind6Entry until mKind6EntryFrames reaches 300 (outside mode 2) or
@@ -1298,13 +1298,13 @@ typedef struct KartModelMenuData {
     /* 1cc */ struct Nsbmd *mSelectModel;
     /* 1d0 */ void *mKartAPalette;
     /* 1d4 */ void *mEmblemTex;
-    /* 1d8 */ s32 mUnk_1d8;
-    /* 1dc */ BOOL mUnk_1dc;
+    /* 1d8 */ s32 mSpinStopped;
+    /* 1dc */ BOOL mSpinStopTimed;
     /* 1e0 */ BOOL mUseEmblemTex;
     /* 1e4 */ s32 mMirrorMode;
     /* 1e8 */ void *mEmblemData;
     /* 1ec */ void *mEmblemPalette;
-    /* 1f0 */ s16 mUnk_1f0;
+    /* 1f0 */ s16 mSpinStopFrames;
     /* 1f2 */ u8 mUnk_1f2[2];
     /* 1f4 */ KartModelMenuFiles mFiles[2];
     /* 25c */ s32 mCharacterRequested;

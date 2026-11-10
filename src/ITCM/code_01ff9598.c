@@ -146,8 +146,8 @@ void AdvanceKartQuaternionBlendFactor(Kart *p, const Vec3 *a) {
     }
     if (d >= 0xe66) {
         if (p->mUnk_44 & 0x1000) {
-            if (p->mUnk_208->mObject == NULL && p->mUnk_1fc.x == 0 && p->mUnk_1fc.y == 0 && p->mUnk_1fc.z == 0 &&
-                p->mUnk_4d0 > 100) {
+            if (p->mUnk_208->mObject == NULL && p->mPointMotion.x == 0 && p->mPointMotion.y == 0 &&
+                p->mPointMotion.z == 0 && p->mUnk_4d0 > 100) {
                 p->mQuaternionBlendFactor = 0;
                 return;
             }

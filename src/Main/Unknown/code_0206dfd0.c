@@ -223,11 +223,11 @@ void CollideKartWithKarts(Kart *p) {
             }
             if (c == FALSE) {
                 u = data_02154f94;
-                func_0206d7c8(q, p, &n, 1, &u);
+                ApplyKartPush(q, p, &n, 1, &u);
                 n.x = -n.x;
                 n.y = -n.y;
                 n.z = -n.z;
-                func_0206d7c8(p, q, &n, 0, &u);
+                ApplyKartPush(p, q, &n, 0, &u);
             }
         }
         p->mUnk_44 |= KART_44_NEAR_KART;

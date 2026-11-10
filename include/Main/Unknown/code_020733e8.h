@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int func_020733e8(unsigned int value);
+unsigned int KartSlot8ReturnArgument(unsigned int value);

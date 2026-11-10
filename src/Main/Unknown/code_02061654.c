@@ -124,7 +124,7 @@ void InitRace(void) {
         ((texBankMask >> 3) & 1) + ((texBankMask >> 2) & 1) + ((texBankMask >> 1) & 1) + (texBankMask & 1), 1);
     NNS_GfdInitFrmPlttVramManager(0x10000, 1);
     ResetResFileEntries();
-    func_02077998();
+    InitCameraGlobals();
     SetHeapGroupId(1);
     InitKartNameTagsAndDistanceOrder();
     InitKartModels(heap, gRaceSetup->mKartCount);

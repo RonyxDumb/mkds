@@ -108,19 +108,19 @@ s32 ApplyKartSurfaceKind1(Kart *kart) {
 }
 
 s32 ApplyKartSurfaceKind2(Kart *kart) {
-    func_0207a6c0(kart);
+    IncrementEntryKartSurfaceCount(kart);
     ApplyKartSurfaceEffect((u16) gKartSurfaceKind2Effects[kart->mSurfaceVariant], kart);
     return 2;
 }
 
 s32 ApplyKartSurfaceKind3(Kart *kart) {
-    func_0207a6c0(kart);
+    IncrementEntryKartSurfaceCount(kart);
     ApplyKartSurfaceEffect((u16) gKartSurfaceKind3Effects[kart->mSurfaceVariant], kart);
     return 3;
 }
 
 s32 ApplyKartSurfaceKind5(Kart *kart) {
-    func_0207a6c0(kart);
+    IncrementEntryKartSurfaceCount(kart);
     ApplyKartSurfaceEffect((u16) gKartSurfaceKind5Effects[kart->mSurfaceVariant], kart);
     return 4;
 }

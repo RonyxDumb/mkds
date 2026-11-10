@@ -454,7 +454,7 @@ void func_ov001_021a401c(void) {
     int a;
     int b;
 
-    a = func_02077a5c();
+    a = GetKartListNumber();
     b = GetKartListCount();
     AdvanceKartModelMenuInput();
     if (b >= 10) {

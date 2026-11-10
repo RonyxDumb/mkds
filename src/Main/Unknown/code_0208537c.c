@@ -122,7 +122,7 @@ void InitKartAiShared(void) {
         gKartAiParamRow->mUnk_04 = FX_Div(gKartAiParamRow->mUnk_04, 0x3000);
     }
     InitKartAiNonCpuCounts();
-    func_0207fba0();
+    SetupKartAiGlobals();
     InitKartAiTables();
     SetupRaceItemEntries();
     if (gRaceSetup->mMode == MODE_BATTLE) {

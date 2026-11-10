@@ -284,7 +284,7 @@ found:
         k = (u16) ((object->mOwnerKartIndexAndFlags & 0x8000) == 0 ? (u16) (object->mOwnerKartIndexAndFlags & ~0xff00)
                                                                    : 8);
         if (k != 8) {
-            func_02071894(GetKart(k));
+            StartKartSeqArcSoundOffset7(GetKart(k));
         }
     }
     if (frameDifference > 0) {
@@ -839,7 +839,7 @@ void StartItemInUseObject(ItemInUse *itemInUse, ItemObject *object) {
 }
 
 // Takes the last object out of the record, starts it and runs its kind's Init; the argument says whether to call
-// func_02071894 on the kart.
+// StartKartSeqArcSoundOffset7 on the kart.
 void StartLastItemInUseObjectAndInit(ItemInUse *itemInUse, s32 callKart) {
     ItemObject *object;
     s32 (*initFunc)(void *, void *);
@@ -866,7 +866,7 @@ void StartLastItemInUseObjectAndInit(ItemInUse *itemInUse, s32 callKart) {
         object->mAdvance = advanceFunc;
     }
     if (callKart != 0) {
-        func_02071894(itemInUse->mKart);
+        StartKartSeqArcSoundOffset7(itemInUse->mKart);
     }
 }
 
@@ -1107,7 +1107,7 @@ void AdvanceItemInUseTrail(ItemInUse *itemInUse) {
     kartItems = itemInUse->mKartItems;
     object = itemInUse->mObjects[0];
     objectCount = itemInUse->mObjectCount;
-    kartVector = kartItems->mKart->mUnk_1fc;
+    kartVector = kartItems->mKart->mPointMotion;
     objects = itemInUse->mObjects;
     minDistance = itemInUse->mUnk_078 + (s32) (((s64) itemInUse->mKartScaleFactorTimesBase.z << 14) >> 12);
     previousPos = &inUseAlias->mBehindPos;
