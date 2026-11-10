@@ -6594,43 +6594,43 @@ GetWiFiSessionPlayerRecordData kind:function(arm,size=0x34) addr:0x0212030c
 SendWiFiPacketToParticipant kind:function(arm,size=0xc) addr:0x02120340
 UpdateWiFiSession kind:function(arm,size=0xb8) addr:0x0212034c
 UpdateBuddyStatuses kind:function(arm,size=0xcc) addr:0x02120404
-func_021204d0 kind:function(arm,size=0x44) addr:0x021204d0
+ResetWiFiSessionToOff kind:function(arm,size=0x44) addr:0x021204d0
 DeleteWiFiSessionHeap kind:function(thumb,size=0x48) addr:0x02120514
 CreateWiFiSessionHeap kind:function(thumb,size=0x50) addr:0x0212055c
 InitWiFiSession kind:function(thumb,size=0x3c) addr:0x021205ac
-func_021205e8 kind:function(arm,size=0xc) addr:0x021205e8
-func_021205f4 kind:function(arm,size=0x1c) addr:0x021205f4
-func_02120610 kind:function(arm,size=0x34) addr:0x02120610
-func_02120644 kind:function(arm,size=0xd0) addr:0x02120644
+GetWiFiLinkLevel kind:function(arm,size=0xc) addr:0x021205e8
+GetWiFiSessionErrorCodeNegated kind:function(arm,size=0x1c) addr:0x021205f4
+ClearWiFiDisconnectStatus kind:function(arm,size=0x34) addr:0x02120610
+CheckWiFiSessionDisconnect kind:function(arm,size=0xd0) addr:0x02120644
 ResetWiFiSession kind:function(arm,size=0x1d4) addr:0x02120714
-func_021208e8 kind:function(arm,size=0x4c) addr:0x021208e8
+SetWiFiDisconnectKind kind:function(arm,size=0x4c) addr:0x021208e8
 KartKeysStartCallback kind:function(arm,size=0x130) addr:0x02120934
 ComputeRegionEloEval kind:function(arm,size=0x11c) addr:0x02120a64
 ComputeRegionEval kind:function(arm,size=0xb0) addr:0x02120b80
 ComputeEloEval kind:function(arm,size=0xe4) addr:0x02120c30
 IsKartKeysStartStatus3 kind:function(arm,size=0x3c) addr:0x02120d14
 RegisterKartKeysAndStart kind:function(arm,size=0x3cc) addr:0x02120d50
-func_0212111c kind:function(arm,size=0x74) addr:0x0212111c
-func_02121190 kind:function(arm,size=0x1ec) addr:0x02121190
+CheckWiFiMatchingResult kind:function(arm,size=0x74) addr:0x0212111c
+RequestWiFiSessionMatching kind:function(arm,size=0x1ec) addr:0x02121190
 IsKartKeysStartStatus2 kind:function(arm,size=0x24) addr:0x0212137c
-func_021213a0 kind:function(arm,size=0x48) addr:0x021213a0
-func_021213e8 kind:function(arm,size=0xc) addr:0x021213e8
-func_021213f4 kind:function(arm,size=0x24) addr:0x021213f4
-func_02121418 kind:function(arm,size=0x1c) addr:0x02121418
-func_02121434 kind:function(arm,size=0x28) addr:0x02121434
+IsWiFiSessionMatchingActive kind:function(arm,size=0x48) addr:0x021213a0
+StopWiFiSessionMatching kind:function(arm,size=0xc) addr:0x021213e8
+HasWiFiBuddyStatus4 kind:function(arm,size=0x24) addr:0x021213f4
+GetWiFiMatchingParticipantCount kind:function(arm,size=0x1c) addr:0x02121418
+IsWiFiMatchingBeforeTimeLimit kind:function(arm,size=0x28) addr:0x02121434
 EndWiFiSessionOnPicksMismatch kind:function(arm,size=0x124) addr:0x0212145c
-func_02121580 kind:function(arm,size=0x128) addr:0x02121580
-func_021216a8 kind:function(arm,size=0x140) addr:0x021216a8
+AreAllStepMessagesReceived kind:function(arm,size=0x128) addr:0x02121580
+PickNextToIndex kind:function(arm,size=0x140) addr:0x021216a8
 IsWiFiSessionMessageKindAllowed kind:function(arm,size=0x1a8) addr:0x021217e8
 DoesMessageHeaderMatch kind:function(arm,size=0x3c) addr:0x02121990
-func_021219cc kind:function(arm,size=0x128) addr:0x021219cc
+WriteWiFiSessionToRaceSetupCopy kind:function(arm,size=0x128) addr:0x021219cc
 TallyPickedCourse kind:function(arm,size=0x184) addr:0x02121af4
-func_02121c78 kind:function(arm,size=0x58) addr:0x02121c78
-func_02121cd0 kind:function(arm,size=0x3c) addr:0x02121cd0
-func_02121d0c kind:function(arm,size=0x3c) addr:0x02121d0c
-func_02121d48 kind:function(arm,size=0x4c) addr:0x02121d48
+GetWiFiSessionContinueResult kind:function(arm,size=0x58) addr:0x02121c78
+IsWiFiSessionStep10Reached kind:function(arm,size=0x3c) addr:0x02121cd0
+IsWiFiSessionStep7Reached kind:function(arm,size=0x3c) addr:0x02121d0c
+IsWiFiStep5ReachedNoDisconnect kind:function(arm,size=0x4c) addr:0x02121d48
 GetWiFiSessionCourseId kind:function(arm,size=0x58) addr:0x02121d94
-func_02121dec kind:function(arm,size=0x38) addr:0x02121dec
+SetWiFiSessionOwnContinueChoice kind:function(arm,size=0x38) addr:0x02121dec
 GetWiFiSessionPickedCourseId kind:function(arm,size=0x20) addr:0x02121e24
 GetWiFiSessionKartIndex kind:function(arm,size=0x20) addr:0x02121e44
 GetWiFiSessionCharacterIndex kind:function(arm,size=0x20) addr:0x02121e64
@@ -10899,7 +10899,7 @@ data_usa_0216e1a0 kind:data(any) addr:0x0216e1a0
 @4989 kind:data(any) addr:0x0216e1d0 local
 @4990 kind:data(any) addr:0x0216e1dc local
 data_0216e204 kind:data(any) addr:0x0216e1e4
-data_0216e21c kind:data(any) addr:0x0216e1fc
+gWiFiSessionStateTable kind:data(any) addr:0x0216e1fc
 @3846 kind:data(any) addr:0x0216e234 local
 @3847 kind:data(any) addr:0x0216e240 local
 @3848 kind:data(any) addr:0x0216e258 local

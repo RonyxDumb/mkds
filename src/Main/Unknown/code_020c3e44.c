@@ -353,7 +353,7 @@ void UpdateRaceLinkLevel(void) {
         return;
     }
     if (gRaceSetup->mMode == 5) {
-        gRaceLinkLevel->mUnk_04 = func_021205e8();
+        gRaceLinkLevel->mUnk_04 = GetWiFiLinkLevel();
         gRaceLinkLevel->mUnk_0c = gRaceLinkLevel->mUnk_10;
         gRaceLinkLevel->mUnk_10 = func_0212a8d0();
         if (gRaceLinkLevel->mUnk_10 != 0 && gRaceLinkLevel->mUnk_0c == 0) {

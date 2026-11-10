@@ -124,7 +124,7 @@ void InitWiFiStates(void *heap, s32 b) {
             gWiFiStates->mPrevState = 10;
             gWiFiStates->mState = 1;
             RegisterWiFiTopMenuCallbacks();
-            func_021204d0();
+            ResetWiFiSessionToOff();
             data_0217b488->mUnk_1c = 0;
             break;
         case 12:

@@ -388,7 +388,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                     break;
                 case 3:
                     if (IsResultsBattleTimerRunOut() != 0) {
-                        func_02121dec(1);
+                        SetWiFiSessionOwnContinueChoice(1);
                         gResultsBattle->mState = 5;
                     } else if ((u16) (gInputSlots[func_020435bc()].mPressedBits & PAD_KEY_A) != 0 ||
                                func_02033dd0() != 0) {
@@ -436,10 +436,10 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                         switch (GetSelectChoisesIndex()) {
                             case 0:
                                 gResultsBattle->mState = 5;
-                                func_02121dec(1);
+                                SetWiFiSessionOwnContinueChoice(1);
                                 break;
                             case 1:
-                                func_02121dec(0);
+                                SetWiFiSessionOwnContinueChoice(0);
                                 data_0217b488->mUnk_1c = 1;
                                 if (sceneNumbers != NULL) {
                                     sceneNumbers->mNextScene = 0xc;
@@ -456,8 +456,8 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
             }
             break;
         case 5:
-            if (func_02121c78() != 0) {
-                switch (func_02121c78()) {
+            if (GetWiFiSessionContinueResult() != 0) {
+                switch (GetWiFiSessionContinueResult()) {
                     case 1:
                         data_0217b488->mUnk_1c = 2;
                         break;

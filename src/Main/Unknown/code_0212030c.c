@@ -26,7 +26,7 @@
 #include "Main/Unknown/code_020364e0.h"
 #include "code_020176c0.h"
 
-StateCallbacks data_0216e21c[7] = {
+StateCallbacks gWiFiSessionStateTable[7] = {
     {0, 0},
     {EnterWiFiSessionState1, UpdateWiFiSessionState1},
     {0, 0},
@@ -36,7 +36,7 @@ StateCallbacks data_0216e21c[7] = {
     {0, UpdateWiFiSessionState6Nop},
 };
 
-u32 func_021205e8(void) {
+u32 GetWiFiLinkLevel(void) {
     return func_ov000_021a3758();
 }
 
@@ -45,7 +45,7 @@ void InitWiFiSession(void *heap) {
     StateMachine *stateMachine;
 
     gWiFiSession = HeapAllocAligned(heap, 0x1f58, 0x20);
-    InitStateMachine(&gWiFiSession->mStateMachine, data_0216e21c, 8, NULL);
+    InitStateMachine(&gWiFiSession->mStateMachine, gWiFiSessionStateTable, 8, NULL);
     stateMachine = &gWiFiSession->mStateMachine;
     stateMachine->mNextState = 0;
     stateMachine->mNextStateRequested = 1;
@@ -75,7 +75,7 @@ void DeleteWiFiSessionHeap(void) {
 }
 #pragma thumb off
 
-void func_021204d0(void) {
+void ResetWiFiSessionToOff(void) {
     StateMachine *stateMachine;
 
     ResetWiFiSession();
@@ -123,7 +123,7 @@ void UpdateWiFiSession(void) {
     }
     UpdateWiFiConnection();
     if (func_ov000_0219c3cc(NULL) != 0) {
-        gWiFiSession->mUnk_1f44 = func_ov000_0219c3cc(&gWiFiSession->mUnk_1f48);
+        gWiFiSession->mErrorKind = func_ov000_0219c3cc(&gWiFiSession->mErrorCode);
         func_ov000_0219c3b0();
     }
     if (gWiFiSession->mStateMachine.mState != 0) {
@@ -132,8 +132,8 @@ void UpdateWiFiSession(void) {
     AdvanceStateMachine(&gWiFiSession->mStateMachine);
 }
 
-s32 SendWiFiPacketToParticipant(u32 a, void *b, s32 c, u32 (*d)(void)) {
-    return func_ov000_021a32a0(a, b, c);
+s32 SendWiFiPacketToParticipant(u32 participantIndex, void *packet, s32 size, u32 (*finishCallback)(void)) {
+    return func_ov000_021a32a0(participantIndex, packet, size);
 }
 
 // Returns the name+emblem part of the index's record, or NULL if the index is not in mKartMask.

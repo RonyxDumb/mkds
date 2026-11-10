@@ -50,7 +50,7 @@ BOOL UpdateWiFiSessionStepTimeout(u32 limit) {
         gWiFiSession->mStepFrames = 0;
         step = gWiFiSession->mStep;
         if (step == 0 || step == 1 || step == 2) {
-            gWiFiSession->mUnk_194e = 1;
+            gWiFiSession->mEarlyStepTimedOut = 1;
             func_ov000_021a2ccc();
             func_ov000_0219bbfc();
             gWiFiSession->mStep = 11;
@@ -68,7 +68,7 @@ BOOL UpdateWiFiSessionStepTimeout(u32 limit) {
     return FALSE;
 }
 
-static inline BOOL func_02121f4c_inline(const Unk0217d384_1d00 *message, u32 fromIndex, u32 size, u8 toIndex) {
+static inline BOOL func_02121f4c_inline(const WiFiSessionMessage *message, u32 fromIndex, u32 size, u8 toIndex) {
     if (message->mKind < 10) {
         if (message->mSize == size) {
             if (message->mFromIndex == fromIndex) {
@@ -84,7 +84,7 @@ static inline BOOL func_02121f4c_inline(const Unk0217d384_1d00 *message, u32 fro
 // Receive callback of the net layer: validates the header, checks the kind against the step, copies the message into
 // the own array and sets mReceivedMask.
 void ReceiveWiFiSessionMessage(u32 fromIndex, void *buffer, u32 size) {
-    Unk0217d384_1d00 *message;
+    WiFiSessionMessage *message;
     u8 ownIndex;
     message = buffer;
     if (gWiFiSession->mStep >= 5 && (gWiFiSession->mKartMask & (1 << fromIndex)) == 0) {
@@ -115,7 +115,7 @@ void ReceiveWiFiSessionMessage(u32 fromIndex, void *buffer, u32 size) {
             if (gWiFiSession->mStep != 3) {
                 return;
             }
-            if (message->mUnk_40 == 0) {
+            if (message->mContinueChoice == 0) {
                 return;
             }
             MI_CpuCopy8(&gWiFiSession->mReceiveBuffers[fromIndex], &gWiFiSession->mIndexMessages[fromIndex], 0x44);

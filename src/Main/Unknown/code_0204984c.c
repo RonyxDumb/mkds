@@ -511,7 +511,7 @@ s32 func_0204984c(SceneNumbers *sceneNumbers, s32 b) {
 
     result = FALSE;
     if (func_0204984c_inline6()) {
-        v = func_02120644();
+        v = CheckWiFiSessionDisconnect();
         if (b != 0 && v != 0) {
             switch (v) {
                 case 1:

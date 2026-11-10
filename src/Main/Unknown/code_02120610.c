@@ -19,8 +19,9 @@
 
 #pragma opt_arithtransformation off
 
-void func_02121dec(u32 a) {
-    gWiFiSession->mIndexMessages[GetOwnParticipantIndex()].mUnk_40 = a != 0 ? 1 : 2;
+// Own answer on the battle results screen: nonzero is CONTINUE (stored 1), zero is QUIT (stored 2).
+void SetWiFiSessionOwnContinueChoice(u32 wantsContinue) {
+    gWiFiSession->mIndexMessages[GetOwnParticipantIndex()].mContinueChoice = wantsContinue != 0 ? 1 : 2;
 }
 
 s32 GetWiFiSessionCourseId(void) {
@@ -30,16 +31,16 @@ s32 GetWiFiSessionCourseId(void) {
     return GetRaceSetupCopy()->mCourseId;
 }
 
-BOOL func_02121d48(void) {
+BOOL IsWiFiStep5ReachedNoDisconnect(void) {
     if (gWiFiSession->mStep >= 5) {
-        if (func_02120644() == 0) {
+        if (CheckWiFiSessionDisconnect() == 0) {
             return TRUE;
         }
     }
     return FALSE;
 }
 
-s32 func_02121d0c(void) {
+BOOL IsWiFiSessionStep7Reached(void) {
     BOOL result = TRUE;
     WiFiSession *session = gWiFiSession;
     s32 step = session->mStep;
@@ -52,7 +53,7 @@ s32 func_02121d0c(void) {
     return result;
 }
 
-s32 func_02121cd0(void) {
+BOOL IsWiFiSessionStep10Reached(void) {
     BOOL result = TRUE;
     WiFiSession *session = gWiFiSession;
     s32 step = session->mStep;
@@ -65,7 +66,8 @@ s32 func_02121cd0(void) {
     return result;
 }
 
-s32 func_02121c78(void) {
+// Result of the CONTINUE/QUIT answers: 0 not settled, 1 more than one kart is left, 2 one kart left or the run ended.
+s32 GetWiFiSessionContinueResult(void) {
     s32 step;
 
     step = gWiFiSession->mStep;
@@ -129,38 +131,39 @@ void TallyPickedCourse(void) {
     GetRaceSetupCopy()->mCourseId = talliedCourseId;
 }
 
-void func_021219cc(void) {
+void WriteWiFiSessionToRaceSetupCopy(void) {
     BOOL ownKind = FALSE;
     u8 i;
 
     for (i = 0; i < gWiFiSession->mStartKartCount; i++) {
         if (gWiFiSession->mKartMask & (1 << i)) {
             if (i == GetOwnParticipantIndex()) {
-                s8 x;
+                s8 entryIndex;
 
-                x = gWiFiSession->mPackedIndices[i];
-                GetRaceSetupCopy()->mEntries[x].mPlayerKind = ownKind;
+                entryIndex = gWiFiSession->mPackedIndices[i];
+                GetRaceSetupCopy()->mEntries[entryIndex].mPlayerKind = ownKind;
             } else {
-                s8 x;
+                s8 entryIndex;
 
-                x = gWiFiSession->mPackedIndices[i];
-                GetRaceSetupCopy()->mEntries[x].mPlayerKind = PLAYER_KIND_PEER;
+                entryIndex = gWiFiSession->mPackedIndices[i];
+                GetRaceSetupCopy()->mEntries[entryIndex].mPlayerKind = PLAYER_KIND_PEER;
             }
             {
-                WiFiSession *d;
-                s8 x;
+                WiFiSession *wiFiSession;
+                s8 entryIndex;
 
-                d = gWiFiSession;
-                x = d->mPackedIndices[i];
-                GetRaceSetupCopy()->mEntries[x].mCharacterIndex = d->mIndexMessages[i].mCharacterIndex;
+                wiFiSession = gWiFiSession;
+                entryIndex = wiFiSession->mPackedIndices[i];
+                GetRaceSetupCopy()->mEntries[entryIndex].mCharacterIndex =
+                    wiFiSession->mIndexMessages[i].mCharacterIndex;
             }
             {
-                WiFiSession *d;
-                s8 x;
+                WiFiSession *wiFiSession;
+                s8 entryIndex;
 
-                d = gWiFiSession;
-                x = d->mPackedIndices[i];
-                GetRaceSetupCopy()->mEntries[x].mKartIndex = d->mIndexMessages[i].mKartIndex;
+                wiFiSession = gWiFiSession;
+                entryIndex = wiFiSession->mPackedIndices[i];
+                GetRaceSetupCopy()->mEntries[entryIndex].mKartIndex = wiFiSession->mIndexMessages[i].mKartIndex;
             }
         }
     }
@@ -235,40 +238,42 @@ BOOL IsWiFiSessionMessageKindAllowed(u32 kind) {
     return FALSE;
 }
 
-u8 func_021216a8(void) {
+// Index the next message goes to; mStartKartCount means none (the two calls after a pick, or no index left).
+u8 PickNextToIndex(void) {
     u8 i;
     u8 callCount;
 
-    callCount = gWiFiSession->mUnk_19ac;
+    callCount = gWiFiSession->mCallsSincePick;
     if (callCount < 2) {
-        gWiFiSession->mUnk_19ac = callCount + 1;
+        gWiFiSession->mCallsSincePick = callCount + 1;
         return gWiFiSession->mStartKartCount;
     }
-    for (i = gWiFiSession->mUnk_1999; i < gWiFiSession->mStartKartCount; i++) {
+    for (i = gWiFiSession->mPickStartIndex; i < gWiFiSession->mStartKartCount; i++) {
         if (i != GetOwnParticipantIndex()) {
             if (gWiFiSession->mKartMask & (1 << i)) {
                 break;
             }
         }
     }
-    if (gWiFiSession->mUnk_1999 >= gWiFiSession->mStartKartCount) {
-        for (i = 0; i < gWiFiSession->mUnk_1999; i++) {
+    if (gWiFiSession->mPickStartIndex >= gWiFiSession->mStartKartCount) {
+        for (i = 0; i < gWiFiSession->mPickStartIndex; i++) {
             if (i != GetOwnParticipantIndex()) {
                 if (gWiFiSession->mKartMask & (1 << i)) {
                     break;
                 }
             }
         }
-        if (i >= gWiFiSession->mUnk_1999) {
+        if (i >= gWiFiSession->mPickStartIndex) {
             return gWiFiSession->mStartKartCount;
         }
     }
-    gWiFiSession->mUnk_1999 = i + 1;
-    gWiFiSession->mUnk_19ac = 0;
+    gWiFiSession->mPickStartIndex = i + 1;
+    gWiFiSession->mCallsSincePick = 0;
     return i;
 }
 
-BOOL func_02121580(void) {
+// TRUE once every other counted index has sent the message of this step; with no other index left it ends the run.
+BOOL AreAllStepMessagesReceived(void) {
     u8 i;
     u8 receivedCount = 0;
     u8 checkedCount = 0;
@@ -333,23 +338,23 @@ void EndWiFiSessionOnPicksMismatch(u32 index) {
     gWiFiSession->mStep = 0xb;
 }
 
-BOOL func_02121434(void) {
+BOOL IsWiFiMatchingBeforeTimeLimit(void) {
     return func_ov000_021a2950(NULL) == 0;
 }
 
-u8 func_02121418(void) {
+u8 GetWiFiMatchingParticipantCount(void) {
     return func_ov000_0219bb68();
 }
 
-BOOL func_021213f4(void) {
+BOOL HasWiFiBuddyStatus4(void) {
     return gWiFiSession->mStatus4BuddyCount != 0;
 }
 
-u32 func_021213e8(void) {
+u32 StopWiFiSessionMatching(void) {
     return func_ov000_021a2cac();
 }
 
-BOOL func_021213a0(void) {
+BOOL IsWiFiSessionMatchingActive(void) {
     if (func_ov000_021a2c64() != 0) {
         if (gWiFiSession->mStateMachine.mState == 3) {
             return TRUE;
@@ -362,7 +367,7 @@ BOOL IsKartKeysStartStatus2(void) {
     return gWiFiSession->mStartStatus == 2;
 }
 
-void func_02121190(u32 kartType, s32 b, s32 c) {
+void RequestWiFiSessionMatching(u32 kartType, s32 useTimeLimit, s32 unused) {
     StateMachine *stateMachine;
 
     func_ov000_0219bbfc();
@@ -370,7 +375,7 @@ void func_02121190(u32 kartType, s32 b, s32 c) {
     MI_CpuFill8(&gWiFiSession->mKeys[1], 0, 0x18);
     MI_CpuFill8(&gWiFiSession->mKeys[2], 0, 0x18);
     MI_CpuFill8(&gWiFiSession->mKeys[3], 0, 0x18);
-    gWiFiSession->mUnk_194e = 0;
+    gWiFiSession->mEarlyStepTimedOut = 0;
     gWiFiSession->mUnk_194c = 0;
     gWiFiSession->mStatus4BuddyCount = 0;
     gWiFiSession->mKartCount = 0;
@@ -381,14 +386,14 @@ void func_02121190(u32 kartType, s32 b, s32 c) {
     MI_CpuFill8(&gWiFiSession->mStep, 0, 0x60);
     gWiFiSession->mKeys[1].mValue = kartType;
     gWiFiSession->mUnk_194c = 4;
-    if (b == 0) {
+    if (useTimeLimit == 0) {
         gWiFiSession->mUnk_18e0.mUnk_00 = 1;
         gWiFiSession->mUnk_18e0.mUnk_01 = 2;
-        gWiFiSession->mUnk_18e0.mUnk_04 = 1;
+        gWiFiSession->mUnk_18e0.mTimeLimit = 1;
     } else {
         gWiFiSession->mUnk_18e0.mUnk_00 = 1;
         gWiFiSession->mUnk_18e0.mUnk_01 = 2;
-        gWiFiSession->mUnk_18e0.mUnk_04 = 0xea60;
+        gWiFiSession->mUnk_18e0.mTimeLimit = 0xea60;
     }
     func_ov000_021a299c(0, &gWiFiSession->mUnk_18e0, 0);
     stateMachine = &gWiFiSession->mStateMachine;
@@ -396,18 +401,18 @@ void func_02121190(u32 kartType, s32 b, s32 c) {
     stateMachine->mNextStateRequested = 1;
 }
 
-s32 func_0212111c(void) {
-    if ((gWiFiSession->mUnk_194e != 0 && func_ov000_0219bb68() <= 1) || gWiFiSession->mUnk_1f44 == 7) {
+s32 CheckWiFiMatchingResult(void) {
+    if ((gWiFiSession->mEarlyStepTimedOut != 0 && func_ov000_0219bb68() <= 1) || gWiFiSession->mErrorKind == 7) {
         return -1;
     }
-    return func_02121d48() != FALSE;
+    return IsWiFiStep5ReachedNoDisconnect() != FALSE;
 }
 
 void RegisterKartKeysAndStart(void) {
     s32 eloHigh;
     s32 eloLow;
 
-    func_02120610();
+    ClearWiFiDisconnectStatus();
     MI_CpuFill8(gWiFiSession->mPlayerRecords, 0, 0x910);
     FillPlayerRecord(&gWiFiSession->mPlayerRecords[0].mPlayer);
     gWiFiSession->mKeys[0].mValue = gWiFiSession->mPlayerRecords[0].mPlayer.mRegion;
@@ -474,15 +479,15 @@ BOOL IsKartKeysStartStatus3(void) {
     return FALSE;
 }
 
-s32 ComputeEloEval(u32 a) {
+s32 ComputeEloEval(u32 serverIndex) {
     s32 kartType;
     s32 kartRegion;
     s32 z;
     WiFiSession *session;
 
-    kartType = func_ov000_021a2a88(a, gWiFiSession->mKeys[1].mName, 5);
-    kartRegion = func_ov000_021a2a88(a, gWiFiSession->mKeys[0].mName, 3);
-    z = func_ov000_021a2a88(a, gWiFiSession->mKeys[3].mName, -1);
+    kartType = func_ov000_021a2a88(serverIndex, gWiFiSession->mKeys[1].mName, 5);
+    kartRegion = func_ov000_021a2a88(serverIndex, gWiFiSession->mKeys[0].mName, 3);
+    z = func_ov000_021a2a88(serverIndex, gWiFiSession->mKeys[3].mName, -1);
     if (kartType == 5 || kartRegion == 3 || z < 0) {
         return 0;
     }
@@ -503,12 +508,12 @@ s32 ComputeEloEval(u32 a) {
     return 0;
 }
 
-BOOL ComputeRegionEval(u32 a) {
+BOOL ComputeRegionEval(u32 serverIndex) {
     s32 kartType;
     s32 kartRegion;
 
-    kartType = func_ov000_021a2a88(a, gWiFiSession->mKeys[1].mName, 5);
-    kartRegion = func_ov000_021a2a88(a, gWiFiSession->mKeys[0].mName, 3);
+    kartType = func_ov000_021a2a88(serverIndex, gWiFiSession->mKeys[1].mName, 5);
+    kartRegion = func_ov000_021a2a88(serverIndex, gWiFiSession->mKeys[0].mName, 3);
     if (kartType == 5 || kartRegion == 3) {
         return FALSE;
     }
@@ -520,15 +525,15 @@ BOOL ComputeRegionEval(u32 a) {
     return FALSE;
 }
 
-s32 ComputeRegionEloEval(u32 a) {
+s32 ComputeRegionEloEval(u32 serverIndex) {
     s32 kartType;
     s32 kartRegion;
     s32 z;
     WiFiSession *session;
 
-    kartType = func_ov000_021a2a88(a, gWiFiSession->mKeys[1].mName, 5);
-    kartRegion = func_ov000_021a2a88(a, gWiFiSession->mKeys[0].mName, 3);
-    z = func_ov000_021a2a88(a, gWiFiSession->mKeys[3].mName, -1);
+    kartType = func_ov000_021a2a88(serverIndex, gWiFiSession->mKeys[1].mName, 5);
+    kartRegion = func_ov000_021a2a88(serverIndex, gWiFiSession->mKeys[0].mName, 3);
+    z = func_ov000_021a2a88(serverIndex, gWiFiSession->mKeys[3].mName, -1);
     if (kartType == 5 || kartRegion == 3 || z < 0) {
         return 0;
     }
@@ -552,12 +557,12 @@ s32 ComputeRegionEloEval(u32 a) {
     return 0;
 }
 
-void KartKeysStartCallback(u32 a, s32 b) {
+void KartKeysStartCallback(u32 result, s32 flag) {
     WiFiSession *session;
     u8 i;
 
-    if (a == 0) {
-        if (b != 0) {
+    if (result == 0) {
+        if (flag != 0) {
             gWiFiSession->mStartStatus = 2;
             return;
         }
@@ -580,9 +585,9 @@ void KartKeysStartCallback(u32 a, s32 b) {
     }
 }
 
-void func_021208e8(s32 a) {
-    gWiFiSession->mUnk_1f40 = a;
-    if (gWiFiSession->mUnk_1f40 != 2) {
+void SetWiFiDisconnectKind(s32 kind) {
+    gWiFiSession->mDisconnectKind = kind;
+    if (gWiFiSession->mDisconnectKind != 2) {
         return;
     }
     func_ov000_021a2ccc();
@@ -601,9 +606,9 @@ void ResetWiFiSession(void) {
     gWiFiSession->mUnk_1f34 = FALSE;
     gWiFiSession->mRaceSyncEnabled = FALSE;
     gWiFiSession->mIrqCallbackCount = 0;
-    gWiFiSession->mUnk_1f40 = 0;
-    gWiFiSession->mUnk_1f44 = 0;
-    gWiFiSession->mUnk_1f48 = 0;
+    gWiFiSession->mDisconnectKind = 0;
+    gWiFiSession->mErrorKind = 0;
+    gWiFiSession->mErrorCode = 0;
     gWiFiSession->mUnk_1f4c = 0;
     gWiFiSession->mUnk_1f4d = 0;
     MI_CpuFill8(gWiFiSession->mPackedIndices, 0, 4);
@@ -615,25 +620,26 @@ void ResetWiFiSession(void) {
     gWiFiSession->mBuddyPollIndex = 0;
 }
 
-u32 func_02120644(void) {
+// 0 none, 1 no input for 30 seconds, 2 the opponent left, 3 error; for 1 and 2 it also requests state 2.
+u32 CheckWiFiSessionDisconnect(void) {
     WiFiSession *session;
     StateMachine *stateMachine;
-    s32 v;
+    s32 errorKind;
 
     session = gWiFiSession;
     if (session->mStateMachine.mState != 0) {
-        v = session->mUnk_1f44;
-        if (v == 6 || v == 3 || v == 4 || v == 0xb) {
+        errorKind = session->mErrorKind;
+        if (errorKind == 6 || errorKind == 3 || errorKind == 4 || errorKind == 0xb) {
             return 3;
         }
-        if (session->mUnk_1f40 == 2) {
+        if (session->mDisconnectKind == 2) {
             if (func_ov000_0219bb68() <= 1) {
                 stateMachine = &gWiFiSession->mStateMachine;
                 stateMachine->mNextState = 2;
                 stateMachine->mNextStateRequested = 1;
                 return 2;
             }
-        } else if (session->mUnk_1f40 == 1) {
+        } else if (session->mDisconnectKind == 1) {
             stateMachine = &session->mStateMachine;
             stateMachine->mNextState = 2;
             stateMachine->mNextStateRequested = 1;
@@ -643,8 +649,8 @@ u32 func_02120644(void) {
     return 0;
 }
 
-void func_02120610(void) {
-    gWiFiSession->mUnk_1f44 = 0;
-    gWiFiSession->mUnk_1f40 = 0;
-    gWiFiSession->mUnk_1f48 = 0;
+void ClearWiFiDisconnectStatus(void) {
+    gWiFiSession->mErrorKind = 0;
+    gWiFiSession->mDisconnectKind = 0;
+    gWiFiSession->mErrorCode = 0;
 }

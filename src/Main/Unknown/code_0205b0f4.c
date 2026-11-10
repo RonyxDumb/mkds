@@ -641,7 +641,7 @@ void UpdateWiFiRaceSyncState4(void) {
             gWiFiRaceSync->mUnk_738 = gWiFiRaceSync->mUnk_738 + 1;
             if (gWiFiRaceSync->mUnk_738 > 0x708) {
                 gWiFiRaceSync->mFlags = gWiFiRaceSync->mFlags | 0x200;
-                func_021208e8(1);
+                SetWiFiDisconnectKind(1);
             }
         } else {
             gWiFiRaceSync->mUnk_738 = 0;
@@ -988,7 +988,7 @@ void UpdateParticipantElos(void) {
 
 // Marks a peer dropped after 300 silent calls (600 before its first sample); a peer every live peer also reports
 // dropped is removed with its kart. With one participant or none left, lowers a backup counter by the other kart count
-// (session state non-zero) and calls func_021208e8(2).
+// (session state non-zero) and calls SetWiFiDisconnectKind(2).
 void RemoveDroppedParticipants(void) {
     u8 participant;
     u32 agreedDroppedMask;
@@ -1057,5 +1057,5 @@ void RemoveDroppedParticipants(void) {
             CARD_WaitBackupAsync();
         }
     }
-    func_021208e8(2);
+    SetWiFiDisconnectKind(2);
 }

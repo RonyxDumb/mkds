@@ -199,7 +199,8 @@ int AdvanceSelectKart(void) {
             }
             break;
         case 5:
-            if (d->mMode == 1 && IsEveryPlayerKartStored() != 0 || gSelectKart->mMode == 2 && func_02121d0c() != 0) {
+            if (d->mMode == 1 && IsEveryPlayerKartStored() != 0 ||
+                gSelectKart->mMode == 2 && IsWiFiSessionStep7Reached() != 0) {
                 gSelectKart->mStateFrames = 0;
                 gSelectKart->mState = 6;
             }
@@ -213,7 +214,7 @@ int AdvanceSelectKart(void) {
                 func_02025f14(&gSelectKart->mInterpolations[3], 2);
                 func_02025f14(&gSelectKart->mInterpolations[4], 2);
                 if (gSelectKart->mMode == 2) {
-                    func_021219cc();
+                    WriteWiFiSessionToRaceSetupCopy();
                     func_0202941c(3);
                 } else {
                     func_0202941c(2);

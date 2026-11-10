@@ -610,9 +610,9 @@ int AdvanceSelectCharacter(void) {
             break;
         case 6:
             if ((selectCharacter->mUnk_080 == 1 && IsEveryPlayerKartStored() != 0) ||
-                (gSelectCharacter->mUnk_080 == 2 && func_02121d0c() != 0)) {
+                (gSelectCharacter->mUnk_080 == 2 && IsWiFiSessionStep7Reached() != 0)) {
                 if (gSelectCharacter->mUnk_080 == 2) {
-                    func_021219cc();
+                    WriteWiFiSessionToRaceSetupCopy();
                 }
                 if (GetRaceSetupCopy()->mMode == 2 || func_020270d0() != 0) {
                     gSelectCharacter->mUnk_06c = 7;

@@ -51,7 +51,7 @@ void UpdateWiFiSessionKartTimeouts(void) {
     if (gWiFiSession->mStep > 2 && gWiFiSession->mStep < 9) {
         if (gWiFiSession->mStep == 3) {
             ownIndex = GetOwnParticipantIndex();
-            if (gWiFiSession->mIndexMessages[ownIndex].mUnk_40 != 1) {
+            if (gWiFiSession->mIndexMessages[ownIndex].mContinueChoice != 1) {
                 return;
             }
         }

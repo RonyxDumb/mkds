@@ -146,7 +146,7 @@ typedef struct WiFiSessionLogin {
 } WiFiSessionLogin;
 
 // 0x44-byte elements of the tables at members 0x1d00 and 0x1e10 of WiFiSession.
-typedef struct Unk0217d384_1d00 {
+typedef struct WiFiSessionMessage {
     /* 00 */ s32 mKind;
     /* 04 */ s32 mSize;
     /* 08 */ u8 mFromIndex;
@@ -160,8 +160,8 @@ typedef struct Unk0217d384_1d00 {
     /* 34 */ s32 mKartIndex;
     /* 38 */ s32 mPickedCourseId;
     /* 3c */ u8 mUnk_3c[0x4];
-    /* 40 */ s32 mUnk_40;
-} Unk0217d384_1d00;
+    /* 40 */ s32 mContinueChoice;
+} WiFiSessionMessage;
 
 // 0x244-byte elements of the table at member 0x21c of WiFiSession.
 typedef struct WiFiPlayerRecord {
@@ -183,7 +183,7 @@ typedef struct Unk0217d384_18e0 {
     /* 00 */ u8 mUnk_00;
     /* 01 */ u8 mUnk_01;
     /* 02 */ u8 mUnk_02[2];
-    /* 04 */ s32 mUnk_04;
+    /* 04 */ s32 mTimeLimit;
 } Unk0217d384_18e0;
 
 // 0x18-byte elements of the table at member 0x18ec of WiFiSession.
@@ -196,10 +196,10 @@ typedef struct KartKey {
 
 // Online session object behind gWiFiSession: 0x1f58 bytes allocated once at boot (InitWiFiSession; not created when
 // 0x027ffc40 is 2) and never freed. mStateMachine is its state machine, 7 states each with an (enter, update) pair in
-// data_0216e21c: 0 off, 1 login, 2 logged in and idle, 3 partner search with the registered keys, 4 message exchange
-// (mStep 0..12), 5 running match (set by the race), 6 never requested. mState != 0 means a session is running; its own
-// heap exists only while the WiFi scene group runs. Holds the saved buddy list, the per-index records and picks, and
-// the roster (mKartMask, mKartCount) read by the matching screens and the race.
+// gWiFiSessionStateTable: 0 off, 1 login, 2 logged in and idle, 3 partner search with the registered keys, 4 message
+// exchange (mStep 0..12), 5 running match (set by the race), 6 never requested. mState != 0 means a session is running;
+// its own heap exists only while the WiFi scene group runs. Holds the saved buddy list, the per-index records and
+// picks, and the roster (mKartMask, mKartCount) read by the matching screens and the race.
 typedef struct WiFiSession {
     /* 0000 */ void *mHeap;
     /* 0004 */ void *mHeapBuffer;
@@ -214,7 +214,7 @@ typedef struct WiFiSession {
     /* 18ec */ KartKey mKeys[4];
     /* 194c */ u8 mUnk_194c;
     /* 194d */ u8 mStatus4BuddyCount;
-    /* 194e */ u8 mUnk_194e;
+    /* 194e */ u8 mEarlyStepTimedOut;
     /* 194f */ u8 mUnk_194f;
     /* 1950 */ s32 mStep;
     /* 1954 */ RandomState64 mRandom;
@@ -226,14 +226,14 @@ typedef struct WiFiSession {
     // 300 it sets the kart's bit in mKartRemoveMask (while 2 < mStep < 9).
     /* 1984 */ s32 mSinceCallbackFrames[4];
     /* 1994 */ u8 mUnk_1994[0x5];
-    /* 1999 */ u8 mUnk_1999;
+    /* 1999 */ u8 mPickStartIndex;
     /* 199a */ u8 mUnk_199a[0x10];
     // Bit i: index i asked for our record (kind 0 message); the send step sends the record and clears the bit.
     /* 19aa */ u8 mSendRecordMask;
     // Bit i: the message of the current step has arrived from index i (kinds 3 and 5 set 0xff); zeroed at every step
     // change.
     /* 19ab */ u8 mReceivedMask;
-    /* 19ac */ u8 mUnk_19ac;
+    /* 19ac */ u8 mCallsSincePick;
     /* 19ad */ u8 mUnk_19ad;
     /* 19ae */ u8 mUnk_19ae[2];
     /* 19b0 */ DWCAccUserData mUserData;
@@ -243,19 +243,18 @@ typedef struct WiFiSession {
     // One status byte per mBuddies entry (poll or the buddy status callback). Meaning of the values not decoded.
     /* 1cc0 */ u8 mBuddyStatuses[0x3c];
     /* 1cfc */ BOOL mBuddiesChanged;
-    // 0x44-byte buffers the net layer receives the kind 0..9 messages into (posted at code_02122b14.c:75, :99 and re-
-    // posted by the receive callback). The 0x244 profile records (mPlayerRecords) and mUnk_001c (0x80 bytes,
-    // code_02122b14.c:498) are also posted as receive buffers.
-    /* 1d00 */ Unk0217d384_1d00 mReceiveBuffers[4];
-    /* 1e10 */ Unk0217d384_1d00 mIndexMessages[4];
+    // 0x44-byte buffers the net layer receives the kind 0..9 messages into (re-posted by the receive callback). The
+    // 0x244 profile records (mPlayerRecords) and mUnk_001c (0x80 bytes) are also posted as receive buffers.
+    /* 1d00 */ WiFiSessionMessage mReceiveBuffers[4];
+    /* 1e10 */ WiFiSessionMessage mIndexMessages[4];
     /* 1f20 */ WiFiSessionLogin mLogin;
     /* 1f30 */ BOOL mHeapCreated;
     /* 1f34 */ BOOL mUnk_1f34;
     /* 1f38 */ BOOL mRaceSyncEnabled;
     /* 1f3c */ s32 mIrqCallbackCount;
-    /* 1f40 */ s32 mUnk_1f40;
-    /* 1f44 */ s32 mUnk_1f44;
-    /* 1f48 */ s32 mUnk_1f48;
+    /* 1f40 */ s32 mDisconnectKind;
+    /* 1f44 */ s32 mErrorKind;
+    /* 1f48 */ s32 mErrorCode;
     /* 1f4c */ u8 mUnk_1f4c;
     /* 1f4d */ u8 mUnk_1f4d;
     // Per index: its place among the indices set in mKartMask (-1 if absent); ResetWiFiSession zeroes it to 0.

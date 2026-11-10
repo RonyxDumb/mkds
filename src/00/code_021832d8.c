@@ -248,10 +248,10 @@ void AdvanceWiFiVSMatchingState0(void) {
             gWiFiVSMatching->mNextState = 1;
             gWiFiVSMatching->mUnk_08 = 0;
             if (func_ov000_02180644() != 0) {
-                func_02121190(data_0217b488->mUnk_54, 0, 0);
+                RequestWiFiSessionMatching(data_0217b488->mUnk_54, 0, 0);
                 gWiFiVSMatching->mUnk_3c = FALSE;
             } else {
-                func_02121190(data_0217b488->mUnk_54, 1, 0);
+                RequestWiFiSessionMatching(data_0217b488->mUnk_54, 1, 0);
                 gWiFiVSMatching->mUnk_3c = TRUE;
             }
             func_02108b2c();
@@ -280,13 +280,13 @@ void AdvanceWiFiVSMatchingState1(void) {
         gWiFiVSMatching->mUnk_08 = 0x78;
     }
     gWiFiVSMatching->mUnk_08 = gWiFiVSMatching->mUnk_08 + 1;
-    if (func_021213a0() != FALSE) {
+    if (IsWiFiSessionMatchingActive() != FALSE) {
         RequestSelectReturnState1();
     } else {
         RequestSelectReturnState4();
     }
     if (gWiFiVSMatching->mUnk_3c != FALSE) {
-        if (func_02121434() == FALSE) {
+        if (IsWiFiMatchingBeforeTimeLimit() == FALSE) {
             gWiFiVSMatching->mUnk_3c = FALSE;
             func_02126638(GetBmgEntry(gWiFiVSMatching->mWiFiMessages, 12), 0, 0, 1, 0, 1, 0);
         }
@@ -307,9 +307,9 @@ void AdvanceWiFiVSMatchingState1(void) {
     if (a != FALSE &&
         IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[idx].mPair.mPairX, gInputSlots[idx].mPair.mPairY) !=
             FALSE &&
-        func_021213a0() != FALSE) {
+        IsWiFiSessionMatchingActive() != FALSE) {
     hit:
-        func_021213e8();
+        StopWiFiSessionMatching();
         RequestSelectReturnState3WithSound(0);
         gWiFiVSMatching->mNextState = 10;
         gWiFiVSMatching->mPendingWiFiState = 2;
@@ -318,7 +318,7 @@ void AdvanceWiFiVSMatchingState1(void) {
         StopBothSeqHandles();
         return;
     }
-    if (IsTxtSystemState2NoCloseRequest() != 0 && gWiFiVSMatching->mUnk_08 >= 0x78 && func_0212111c() == -1) {
+    if (IsTxtSystemState2NoCloseRequest() != 0 && gWiFiVSMatching->mUnk_08 >= 0x78 && CheckWiFiMatchingResult() == -1) {
         func_ov000_021840c8();
         gWiFiVSMatching->mNextState = 9;
         gWiFiVSMatching->mUnk_40 = TRUE;
@@ -331,7 +331,7 @@ void AdvanceWiFiVSMatchingState1(void) {
         func_02108990();
         return;
     }
-    if (IsTxtSystemState2NoCloseRequest() != 0 && func_0212111c() == 1) {
+    if (IsTxtSystemState2NoCloseRequest() != 0 && CheckWiFiMatchingResult() == 1) {
         k = 0;
         gWiFiVSMatching->mUnk_08 = 0;
         if (gWiFiSession->mKartCount <= 1) {
@@ -388,7 +388,7 @@ void AdvanceWiFiVSMatchingState1(void) {
         gWiFiVSMatching->mCurrentOtherIndex = 0;
         return;
     }
-    n = func_02121418() - 1;
+    n = GetWiFiMatchingParticipantCount() - 1;
     flag = FALSE;
     if (n > 3) {
         n = 3;

@@ -407,7 +407,7 @@ s32 AdvanceWiFiVSCourseSelect(void) {
             SetScrollListEnabled(0);
             break;
         case 2:
-            if (func_02121cd0() != 0) {
+            if (IsWiFiSessionStep10Reached() != 0) {
                 gWiFiVSCourseSelect->mState = 3;
                 func_02025f14(&gWiFiVSCourseSelect->mInterpolations[2], 2);
             }

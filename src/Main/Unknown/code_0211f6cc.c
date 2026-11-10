@@ -129,8 +129,8 @@ void SetupWiFiSessionLogin(void) {
     session = gWiFiSession;
     InitWiFiConnection(&session->mConnection, &session->mUserData, 0x4d6, "mariokartds", "yeJ3x8", 0, 0,
                        &session->mBuddies[0], 0x3c);
-    gWiFiSession->mUnk_1f44 = 0;
-    gWiFiSession->mUnk_1f48 = 0;
+    gWiFiSession->mErrorKind = 0;
+    gWiFiSession->mErrorCode = 0;
     gWiFiSession->mLogin.mStep = 1;
 }
 
@@ -145,7 +145,7 @@ void AdvanceWiFiSessionLoginStep1(void) {
             gWiFiSession->mLogin.mStep = 2;
             break;
         case 7:
-            gWiFiSession->mUnk_1f44 = func_ov000_0219c3cc(&gWiFiSession->mUnk_1f48);
+            gWiFiSession->mErrorKind = func_ov000_0219c3cc(&gWiFiSession->mErrorCode);
             ReleaseWiFiConnection();
             func_ov000_021a37dc();
             gWiFiSession->mLogin.mStep = 7;

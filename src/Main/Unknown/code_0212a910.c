@@ -78,7 +78,7 @@ s32 UpdateMessageScreen(void) {
             } else if (messageScreen->mKind == 6) {
                 data_0217b488->mUnk_1c = 1;
                 gMessageScreen->mResult = 1;
-                func_02120610();
+                ClearWiFiDisconnectStatus();
             } else {
                 messageScreen->mResult = 0;
             }
@@ -177,7 +177,7 @@ void func_0212ae2c(void) {
     u16 a[11];
     a[0] = 0;
     MIi_CpuClear16(a[0], &a[1], 0x14);
-    FormatAsciiNumber(func_021205f4(), &a[1]);
+    FormatAsciiNumber(GetWiFiSessionErrorCodeNegated(), &a[1]);
     FormatMessageWithText(&a[1], gMessageScreen->mText, gMessageScreen->mScreenMap, 0x600);
     gMessageScreen->mText = gMessageScreen->mScreenMap;
 }
@@ -321,7 +321,7 @@ void UpdateLinkLevelIconTiles(void) {
     }
     if (gLinkLevelIcons->mIconEnabled[1] != 0) {
         gLinkLevelIcons->mIconKind[0] = 1;
-        gLinkLevelIcons->mIconLevel[0] = func_021205e8();
+        gLinkLevelIcons->mIconLevel[0] = GetWiFiLinkLevel();
         slotCount = 1;
     }
     if (gLinkLevelIcons->mIconEnabled[0] != 0) {
@@ -334,7 +334,7 @@ void UpdateLinkLevelIconTiles(void) {
     } else if (gLinkLevelIcons->mIconEnabled[4] != 0) {
         flag = FALSE;
         if (!data_0217aa08->mFirstBlock->mLocateFriendOff) {
-            if (func_021213f4() != FALSE) {
+            if (HasWiFiBuddyStatus4() != FALSE) {
                 flag = TRUE;
             }
         }
