@@ -42,7 +42,7 @@ s32 UpdateShapeMapObjectCounts(void) {
             entry->mIncreaseCount++;
         }
         entry->mMapObjectCount = insideCount;
-        if (entry->mIncreaseCount > courseMapShape->mUnk_3e) {
+        if (entry->mIncreaseCount > courseMapShape->mIncreaseCountLimit) {
             result = TRUE;
             break;
         }

@@ -214,7 +214,7 @@ void SetupBattleKartAi(KartAi *kartAi, Kart *kart) {
     kartAi->mIndex = kart->mIndex;
     kartAi->mUnk_06 = kartAi->mIndex % 4;
     ResetBattlePointLinkCursorNear(&kartAi->mBattleLinkCursor, &kart->mPos, &kart->mUnk_138, kart->mIndex);
-    kartAi->mLinkPosWithSideOffset = *kartAi->mBattleLinkCursor.mLink->mUnk_20;
+    kartAi->mLinkPosWithSideOffset = *kartAi->mBattleLinkCursor.mLink->mPoint;
     ResetBattleKartAi(kartAi);
     if (gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON) {
         t = data_0217b030;
@@ -236,7 +236,7 @@ void SetupBattleKartAi(KartAi *kartAi, Kart *kart) {
 
 void ResetBattleKartAiAtPointLink(KartAi *kartAi, PointLink *pointLink) {
     ResetBattlePointLinkCursorTo(&kartAi->mBattleLinkCursor, pointLink);
-    kartAi->mLinkPosWithSideOffset = *kartAi->mBattleLinkCursor.mLink->mUnk_20;
+    kartAi->mLinkPosWithSideOffset = *kartAi->mBattleLinkCursor.mLink->mPoint;
     ResetBattleKartAi(kartAi);
 }
 
@@ -283,7 +283,7 @@ void AdvanceBattleKartAiAlongPointLinks(KartAi *kartAi) {
         AdvanceBattlePointLinkCursorTo(linkCursor, requestedLink);
         kartAi->mLinkSpeedLimit = GetBattlePointLinkSpeedLimit(linkCursor);
         AdvanceBattleKartAiSideOffset(kartAi);
-        kartAi->mLinkPosWithSideOffset = *linkCursor->mLink->mUnk_20;
+        kartAi->mLinkPosWithSideOffset = *linkCursor->mLink->mPoint;
         VEC_Add(&kartAi->mLinkPosWithSideOffset, &kartAi->mSideOffset, &kartAi->mLinkPosWithSideOffset);
     } else {
         if (kartAi->mIndex == GetRaceUpdateFramesMod8()) {
@@ -314,7 +314,7 @@ void AdvanceBattleKartAiAlongPointLinks(KartAi *kartAi) {
                                          targetKartIndex);
             kartAi->mLinkSpeedLimit = GetBattlePointLinkSpeedLimit(linkCursor);
             AdvanceBattleKartAiSideOffset(kartAi);
-            kartAi->mLinkPosWithSideOffset = *linkCursor->mLink->mUnk_20;
+            kartAi->mLinkPosWithSideOffset = *linkCursor->mLink->mPoint;
             VEC_Add(&kartAi->mLinkPosWithSideOffset, &kartAi->mSideOffset, &kartAi->mLinkPosWithSideOffset);
             linkCursor->mRequestedLink = NULL;
             linkCursor->mUnk_18 = FALSE;
@@ -362,7 +362,7 @@ void AdvanceBattleKartAiSideOffset(KartAi *kartAi) {
         }
         kartAi->mSideOffsetRatio = newSideOffsetRatio;
     }
-    sideOffsetScale = MUL_FIXED12_ROUNDED(kartAi->mSideOffsetRatio, kartAi->mBattleLinkCursor.mLink->mUnk_24);
+    sideOffsetScale = MUL_FIXED12_ROUNDED(kartAi->mSideOffsetRatio, kartAi->mBattleLinkCursor.mLink->mRadius);
     kartAi->mSideOffset.x = MUL_FIXED12_NO_ROUND(kartAi->mSideOffset.x, sideOffsetScale);
     kartAi->mSideOffset.y = MUL_FIXED12_NO_ROUND(kartAi->mSideOffset.y, sideOffsetScale);
     kartAi->mSideOffset.z = MUL_FIXED12_NO_ROUND(kartAi->mSideOffset.z, sideOffsetScale);
@@ -477,12 +477,12 @@ void AdvanceBattleKartAiTargetKart(KartAi *kartAi) {
         if (x != 0 && y == 0 && kartAi->mTargetForwardDot > 0xb33) {
             targetPos = kartAi->mTargetKart->mPos;
             targetPos.y = kartAi->mLinkPosWithSideOffset.y;
-            linkPos = *kartAi->mBattleLinkCursor.mLink->mUnk_20;
+            linkPos = *kartAi->mBattleLinkCursor.mLink->mPoint;
             vec3UnitY = gVec3UnitY;
             VEC_CrossProduct(&kartAi->mBattleLinkCursor.mDirection, &vec3UnitY, &sideDirection);
             VEC_Subtract(&targetPos, &linkPos, &linkToTarget);
             d = Vec3DotUnrounded(&linkToTarget, &sideDirection);
-            c = kartAi->mBattleLinkCursor.mLink->mUnk_24;
+            c = kartAi->mBattleLinkCursor.mLink->mRadius;
             if (GetAbsoluteValue(d) >= c) {
                 kartAi->mHeadingPos = &kartAi->mLinkPosWithSideOffset;
             } else {
@@ -596,12 +596,12 @@ void AdvanceBattleKartAiTargetShine(KartAi *kartAi) {
                 if (isAhead != FALSE && kartAi->mEntryForwardDot > 0xb33) {
                     shinePos = targetShine->mPos;
                     shinePos.y = kartAi->mLinkPosWithSideOffset.y;
-                    linkPos = *kartAi->mBattleLinkCursor.mLink->mUnk_20;
+                    linkPos = *kartAi->mBattleLinkCursor.mLink->mPoint;
                     vec3UnitY = gVec3UnitY;
                     VEC_CrossProduct(&kartAi->mBattleLinkCursor.mDirection, &vec3UnitY, &sideDirection);
                     VEC_Subtract(&shinePos, &linkPos, &linkToShine);
                     m = Vec3DotUnrounded(&linkToShine, &sideDirection);
-                    x = kartAi->mBattleLinkCursor.mLink->mUnk_24;
+                    x = kartAi->mBattleLinkCursor.mLink->mRadius;
                     if (GetAbsoluteValue(m) >= x) {
                         kartAi->mHeadingPos = &kartAi->mLinkPosWithSideOffset;
                     } else {

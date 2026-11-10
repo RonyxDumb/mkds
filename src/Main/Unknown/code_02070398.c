@@ -1220,9 +1220,9 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
     placementPos.x = gCourseMap->mKeyedPlacements[placementIndex].mPos.x;
     placementPos.y = gCourseMap->mKeyedPlacements[placementIndex].mPos.y;
     placementPos.z = gCourseMap->mKeyedPlacements[placementIndex].mPos.z;
-    placementAngles.x = gCourseMap->mKeyedPlacements[*gCourseMap->mKeyedPlacementIndexByKey].mUnk_0c.x;
-    placementAngles.y = gCourseMap->mKeyedPlacements[*gCourseMap->mKeyedPlacementIndexByKey].mUnk_0c.y;
-    placementAngles.z = gCourseMap->mKeyedPlacements[*gCourseMap->mKeyedPlacementIndexByKey].mUnk_0c.z;
+    placementAngles.x = gCourseMap->mKeyedPlacements[*gCourseMap->mKeyedPlacementIndexByKey].mRotation.x;
+    placementAngles.y = gCourseMap->mKeyedPlacements[*gCourseMap->mKeyedPlacementIndexByKey].mRotation.y;
+    placementAngles.z = gCourseMap->mKeyedPlacements[*gCourseMap->mKeyedPlacementIndexByKey].mRotation.z;
     angleIndex = (u16) (((s64) placementAngles.y * 0xb60b60b60bLL + 0x80000000LL) >> 44) >> 4;
     MTX_RotY33_(&rotationMatrix, gPairsByAngle[angleIndex * 2], gPairsByAngle[angleIndex * 2 + 1]);
     MTX_MultVec33(&data_02154f70, &rotationMatrix, &placementForward);
@@ -1372,7 +1372,7 @@ void PlaceKartAtKeyedPlacement(Kart *kart, u32 key) {
     placementPos.x = gCourseMap->mKeyedPlacements[placementIndex].mPos.x;
     placementPos.y = gCourseMap->mKeyedPlacements[placementIndex].mPos.y;
     placementPos.z = gCourseMap->mKeyedPlacements[placementIndex].mPos.z;
-    angleIndex = (u16) (((s64) gCourseMap->mKeyedPlacements[gCourseMap->mKeyedPlacementIndexByKey[key]].mUnk_0c.y *
+    angleIndex = (u16) (((s64) gCourseMap->mKeyedPlacements[gCourseMap->mKeyedPlacementIndexByKey[key]].mRotation.y *
                              0xb60b60b60bLL +
                          0x80000000LL) >>
                         44) >>

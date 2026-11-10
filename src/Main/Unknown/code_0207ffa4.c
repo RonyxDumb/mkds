@@ -110,8 +110,8 @@ BOOL IsWithinBattlePointLinkDistance(LinkCursor *linkCursor, Vec3 *position) {
     s32 radius;
     BOOL result = FALSE;
 
-    radius = linkCursor->mLink->mUnk_24;
-    VEC_Subtract(linkCursor->mLink->mUnk_20, position, &offset);
+    radius = linkCursor->mLink->mRadius;
+    VEC_Subtract(linkCursor->mLink->mPoint, position, &offset);
     offset.y = result;
     if (LENGTH_SQUARED(offset) < (s64) radius * radius) {
         result = TRUE;
@@ -121,7 +121,7 @@ BOOL IsWithinBattlePointLinkDistance(LinkCursor *linkCursor, Vec3 *position) {
 
 BOOL IsPastBattlePointLink(LinkCursor *linkCursor, Vec3 *position) {
     Vec3 offset;
-    Vec3 *linkPosition = linkCursor->mLink->mUnk_20;
+    Vec3 *linkPosition = linkCursor->mLink->mPoint;
     BOOL result = FALSE;
 
     if (linkCursor->mDirection.x != 0 || linkCursor->mDirection.y != 0 || linkCursor->mDirection.z != 0) {
@@ -167,7 +167,7 @@ BOOL IsWithinPointLinkDistance(PointLinkCursor *pointLinkCursor, Vec3 *position)
     RacePointLink *link = pointLinkCursor->mLink;
 
     result = FALSE;
-    radius = link->mUnk_1c;
+    radius = link->mRadius;
     VEC_Subtract(link->mPoint, position, &offset);
     offset.y = result;
     if (LENGTH_SQUARED(offset) < (s64) radius * radius) {
@@ -263,7 +263,7 @@ void ResetBattlePointLinkCursorNear(LinkCursor *linkCursor, Vec3 *position, Vec3
     }
     for (candidateIndex = 0; candidateIndex < 3; candidateIndex++) {
         if (nearestLinks[candidateIndex] != NULL) {
-            VEC_Subtract(nearestLinks[candidateIndex]->mUnk_20, position, &directionToLink);
+            VEC_Subtract(nearestLinks[candidateIndex]->mPoint, position, &directionToLink);
             if ((s64) directionToLink.x * directionToLink.x + (s64) directionToLink.y * directionToLink.y +
                     (s64) directionToLink.z * directionToLink.z >=
                 0x10) {
@@ -350,8 +350,7 @@ void AdvanceBattlePointLinkCursor(LinkCursor *linkCursor, Vec3 *position, Vec3 *
                 if (linkCursor->mPreviousLink == ((const LinkCursor *) linkCursor)->mLink->mLinks[linkIndex]) {
                     continue;
                 }
-                VEC_Subtract(linkCursor->mLink->mLinks[linkIndex]->mUnk_20, &GetKart(kartIndex)->mPos,
-                             &directionToLink);
+                VEC_Subtract(linkCursor->mLink->mLinks[linkIndex]->mPoint, &GetKart(kartIndex)->mPos, &directionToLink);
                 if ((s64) directionToLink.x * directionToLink.x + (s64) directionToLink.y * directionToLink.y +
                         (s64) directionToLink.z * directionToLink.z >=
                     0x10) {
@@ -390,7 +389,7 @@ void AdvanceBattlePointLinkCursor(LinkCursor *linkCursor, Vec3 *position, Vec3 *
                 if (linkCursor->mPreviousLink == ((const LinkCursor *) linkCursor)->mLink->mLinks[linkIndex]) {
                     continue;
                 }
-                VEC_Subtract(linkCursor->mLink->mLinks[linkIndex]->mUnk_20, &GetKart(kartIndex)->mPos,
+                VEC_Subtract(linkCursor->mLink->mLinks[linkIndex]->mPoint, &GetKart(kartIndex)->mPos,
                              &directionToCandidateLink);
                 if ((s64) directionToCandidateLink.x * directionToCandidateLink.x +
                         (s64) directionToCandidateLink.y * directionToCandidateLink.y +
@@ -424,7 +423,7 @@ void AdvanceBattlePointLinkCursor(LinkCursor *linkCursor, Vec3 *position, Vec3 *
         } else {
             for (linkIndex = 0; linkIndex < linkCursor->mLink->mLinkCount; linkIndex++) {
                 if (linkCursor->mPreviousLink != ((const LinkCursor *) linkCursor)->mLink->mLinks[linkIndex] &&
-                    !(linkCursor->mLink->mUnk_2e & (1 << (u8) linkIndex))) {
+                    !(linkCursor->mLink->mRouteLinkMask & (1 << (u8) linkIndex))) {
                     v4[n0] = ((const LinkCursor *) linkCursor)->mLink->mLinks[linkIndex];
                     n0++;
                     n1 = 1;
@@ -434,7 +433,7 @@ void AdvanceBattlePointLinkCursor(LinkCursor *linkCursor, Vec3 *position, Vec3 *
                 chosenIndex = 0;
                 if (n0 > 1) {
                     for (pairIndex = 0; pairIndex < 2; pairIndex++) {
-                        VEC_Subtract(v4[pairIndex]->mUnk_20, linkCursor->mLink->mUnk_20,
+                        VEC_Subtract(v4[pairIndex]->mPoint, linkCursor->mLink->mPoint,
                                      &directionsToCandidates[pairIndex]);
                         if ((s64) directionsToCandidates[pairIndex].x * directionsToCandidates[pairIndex].x +
                                 (s64) directionsToCandidates[pairIndex].y * directionsToCandidates[pairIndex].y +
@@ -454,13 +453,13 @@ void AdvanceBattlePointLinkCursor(LinkCursor *linkCursor, Vec3 *position, Vec3 *
             } else {
                 for (linkIndex = 0; linkIndex < ((const PointLink *) linkCursor->mLink)->mLinkCount; linkIndex++) {
                     if (linkCursor->mPreviousLink != ((const LinkCursor *) linkCursor)->mLink->mLinks[linkIndex] &&
-                        (linkCursor->mLink->mUnk_2e & (1 << (u8) linkIndex))) {
+                        (linkCursor->mLink->mRouteLinkMask & (1 << (u8) linkIndex))) {
                         neighborLinkDirection = data_021557ec;
                         neighborLink = linkCursor->mLink->mLinks[linkIndex];
                         for (neighborLinkIndex = 0; neighborLinkIndex < neighborLink->mLinkCount; neighborLinkIndex++) {
-                            if (!(neighborLink->mUnk_2e & (1 << neighborLinkIndex)) &&
+                            if (!(neighborLink->mRouteLinkMask & (1 << neighborLinkIndex)) &&
                                 ((const LinkCursor *) linkCursor)->mLink != neighborLink->mLinks[neighborLinkIndex]) {
-                                VEC_Subtract(neighborLink->mLinks[neighborLinkIndex]->mUnk_20, neighborLink->mUnk_20,
+                                VEC_Subtract(neighborLink->mLinks[neighborLinkIndex]->mPoint, neighborLink->mPoint,
                                              &neighborLinkDirection);
                                 if ((s64) neighborLinkDirection.x * (s64) neighborLinkDirection.x +
                                         (s64) neighborLinkDirection.y * (s64) neighborLinkDirection.y +
@@ -512,7 +511,7 @@ void AdvanceBattlePointLinkCursor(LinkCursor *linkCursor, Vec3 *position, Vec3 *
     linkCursor->mLink = nextLink;
     linkCursor->mPreviousLink = currentLink;
     linkCursor->mDirection = data_021557ec;
-    VEC_Subtract(linkCursor->mLink->mUnk_20, linkCursor->mPreviousLink->mUnk_20, &linkCursor->mDirection);
+    VEC_Subtract(linkCursor->mLink->mPoint, linkCursor->mPreviousLink->mPoint, &linkCursor->mDirection);
     if ((s64) linkCursor->mDirection.x * linkCursor->mDirection.x +
             (s64) linkCursor->mDirection.y * linkCursor->mDirection.y +
             (s64) linkCursor->mDirection.z * linkCursor->mDirection.z >=
@@ -523,7 +522,7 @@ void AdvanceBattlePointLinkCursor(LinkCursor *linkCursor, Vec3 *position, Vec3 *
 
 s32 GetBattlePointLinkSpeedLimit(LinkCursor *linkCursor) {
     s32 result = 0;
-    s16 unscaledSpeedLimit = *linkCursor->mLink->mUnk_28;
+    s16 unscaledSpeedLimit = *linkCursor->mLink->mValues;
 
     if (unscaledSpeedLimit != 0) {
         result = MUL_FIXED12_NO_ROUND(unscaledSpeedLimit, 0x28f5c);
@@ -535,7 +534,7 @@ void AdvanceBattlePointLinkCursorTo(LinkCursor *linkCursor, PointLink *pointLink
     linkCursor->mPreviousLink = linkCursor->mLink;
     linkCursor->mLink = pointLink;
     linkCursor->mDirection = data_021557ec;
-    VEC_Subtract(linkCursor->mLink->mUnk_20, linkCursor->mPreviousLink->mUnk_20, &linkCursor->mDirection);
+    VEC_Subtract(linkCursor->mLink->mPoint, linkCursor->mPreviousLink->mPoint, &linkCursor->mDirection);
     if ((s64) linkCursor->mDirection.x * linkCursor->mDirection.x +
             (s64) linkCursor->mDirection.y * linkCursor->mDirection.y +
             (s64) linkCursor->mDirection.z * linkCursor->mDirection.z >=

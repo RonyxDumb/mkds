@@ -5,6 +5,33 @@
 #include "Main/Unknown/code_02073eb8.h"
 #include "Main/Unknown/unk_0217b000.h"
 
+// Values of CourseMap.mVersion that change the file layout.
+#define COURSE_MAP_VERSION_KEYED_PLACEMENTS 0x1f
+#define COURSE_MAP_VERSION_ITEM_POINT_SIZE 0x21
+#define COURSE_MAP_VERSION_RACE_END_PLACEMENTS 0x24
+
+// Values of CourseMapShape.mKind.
+#define COURSE_MAP_SHAPE_KIND_1 1
+#define COURSE_MAP_SHAPE_KIND_2 2
+#define COURSE_MAP_SHAPE_KIND_3 3
+#define COURSE_MAP_SHAPE_KIND_4 4
+#define COURSE_MAP_SHAPE_KIND_5 5
+
+// No route in a slot of CourseMapRoute.mNextRoutes and mPreviousRoutes, or of the battle route point lists; the second
+// spelling is the same byte read as an s8.
+#define COURSE_MAP_ROUTE_NONE 0xff
+#define COURSE_MAP_ROUTE_NONE_S8 -1
+
+// CourseMapCheckpoint.mForwardLink, mBackwardLink and mNumber: none.
+#define COURSE_MAP_CHECKPOINT_NO_LINK -1
+#define COURSE_MAP_CHECKPOINT_NO_NUMBER -1
+
+// Bit 0 of CourseMapCheckpoint.mFlags: the progress of a kart in it is lowered by a step per kart slot.
+#define COURSE_MAP_CHECKPOINT_FLAG_STAGGER 0x1
+
+// Unused entry of CourseMap.mRespawnIndexBySlot.
+#define COURSE_MAP_RESPAWN_SLOT_NONE 0xffff
+
 // Two words (the elements at member 0xc of RaceHudSubScreenCells).
 typedef Unk0217b498_0c UnkPair020b502c;
 
@@ -23,19 +50,19 @@ typedef struct CourseMapEntryGroup {
 } CourseMapEntryGroup;
 
 // The one 0x28-byte record behind CourseMap.mSettings: per-course values read by unrelated consumers: fog
-// (mFogEnabled, mFogTableMode, mFogOffset; the fog colour and the shift stay unnamed), four colours (mColors), a
+// (mFogEnabled, mFogTableMode, mFogSlope, mFogOffset), four colours (mColors), a
 // halfword that is the lap count outside mode 2 and the battle time in seconds in mode 2, start and limit values.
 typedef struct CourseMapSettings {
     /* 00 */ u8 mUnk_00[2];
     // Lap count; in battle mode the same halfword is the time limit in seconds (times 60 frames into
     // RaceProgress.mTimeLimitFrameCount when RaceSetup.mUnk_18 is 1).
     /* 02 */ u16 mLapCountOrBattleSeconds;
-    /* 04 */ u8 mUnk_04;
+    /* 04 */ u8 mInvertStartOffset;
     /* 05 */ u8 mFogEnabled;
     // 0, 1 or 2: which of three formulas fills the 32-entry table (8 words) loaded to 0x04000360 (next to
     // reg_G3X_FOG_COLOR and reg_G3X_FOG_OFFSET); other values leave it unfilled.
     /* 06 */ u8 mFogTableMode;
-    /* 07 */ u8 mUnk_07;
+    /* 07 */ u8 mFogSlope;
     /* 08 */ u8 mUnk_08[8];
     // Divided by 512 it is the offset written to reg_G3X_FOG_OFFSET (scaled by the fade factor while fading).
     /* 10 */ s32 mFogOffset;
@@ -62,7 +89,7 @@ typedef struct CourseMapShape {
     /* 24 */ Vec3 mAxisY;
     /* 30 */ Vec3 mAxisZ;
     /* 3c */ u16 mUnk_3c;
-    /* 3e */ s16 mUnk_3e;
+    /* 3e */ s16 mIncreaseCountLimit;
     // For a shape of mKind 4: index of the point link that belongs to it, in CourseMap.mRacePointLinks (races) or
     // CourseMap.mBattlePointLinks (battles).
     /* 40 */ s16 mPointIndex;
@@ -78,8 +105,8 @@ typedef struct CourseMapShape {
 // one).
 typedef struct {
     /* 00 */ Vec3 mPos;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ s16 mUnk_10[4];
+    /* 0c */ s32 mRadius;
+    /* 10 */ s16 mValues[4];
 } CourseMapPoint;
 
 // 0x30-byte entries of the table at CourseMap.mUnk_bc (ResetBattlePointLinkCursorNear searches it).
@@ -89,11 +116,11 @@ typedef struct PointLink {
     /* 10 */ u8 mUnk_10[8];
     /* 18 */ Vec3 *mUnk_18;
     /* 1c */ s32 mUnk_1c;
-    /* 20 */ Vec3 *mUnk_20;
-    /* 24 */ s32 mUnk_24;
-    /* 28 */ s16 *mUnk_28;
+    /* 20 */ Vec3 *mPoint;
+    /* 24 */ s32 mRadius;
+    /* 28 */ s16 *mValues;
     /* 2c */ u16 mLinkCount;
-    /* 2e */ u8 mUnk_2e;
+    /* 2e */ u8 mRouteLinkMask;
     /* 2f */ u8 mUnk_2f;
 } PointLink;
 
@@ -105,8 +132,8 @@ struct CourseMapRow;
 // at one in modes 2 and 4). The name only says where a kart is put.
 typedef struct CourseMapPlacement {
     /* 00 */ Vec3 mPos;
-    /* 0c */ Vec3 mUnk_0c;
-    /* 18 */ s16 mUnk_18;
+    /* 0c */ Vec3 mRotation;
+    /* 18 */ s16 mPointIndex;
     // Key that selects the record: in mStartPlacements the caller of GetCourseMapStartPlacementWithOffsets compares it
     // with its key argument (several start placements), in mKeyedPlacements it is the position of the record in
     // mKeyedPlacementIndexByKey.
@@ -120,7 +147,7 @@ typedef struct CourseMapPlacement {
 // callers.
 typedef struct CourseMapRespawn {
     /* 00 */ Vec3 mPos;
-    /* 0c */ Vec3 mUnk_0c;
+    /* 0c */ Vec3 mRotation;
     // Index of the point link of this respawn spot, in CourseMap.mRacePointLinks (races) or CourseMap.mBattlePointLinks
     // (battles); the respawn getters return it as a pointer.
     /* 18 */ u16 mPointIndex;
@@ -154,13 +181,13 @@ typedef struct CourseMapCheckpoint {
     // it, and a kart whose forward vector has a dot product with it below -1394 gets the 0x4 bit of
     // RaceProgressKart.mFlags (facing against the checkpoint).
     /* 10 */ Unk0217b498_0c mDirection;
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ s16 mUnk_1c;
-    /* 1e */ s16 mUnk_1e;
+    /* 18 */ s32 mSumValue;
+    /* 1c */ s16 mForwardLink;
+    /* 1e */ s16 mBackwardLink;
     // Sequence number of the numbered checkpoints (-1 = none): the kart's counter advances only to the next number.
     /* 20 */ s16 mNumber;
     /* 22 */ u8 mRespawnSlot;
-    /* 23 */ u8 mUnk_23;
+    /* 23 */ u8 mFlags;
 } CourseMapCheckpoint;
 
 // 0x0c-byte run of consecutive entries of a table: first entry, count, up to three forward links at 0x04 and three back
@@ -183,7 +210,7 @@ typedef struct CourseMapRoute {
 // 0x14-byte entries of the table at CourseMap.mItemPoints.
 typedef struct {
     /* 00 */ Vec3 mPos;
-    /* 0c */ s32 mUnk_0c;
+    /* 0c */ s32 mRadius;
     /* 10 */ u8 mUnk_10;
     /* 11 */ u8 mUnk_11[3];
 } CourseMapItemPoint;
@@ -192,7 +219,7 @@ typedef struct {
 typedef struct {
     /* 00 */ u8 mUnk_00[0xc];
     /* 0c */ s32 mUnk_0c;
-} Unk02175620_54_10;
+} CourseMapOldItemPoint;
 
 // 0x14-byte entries of the table at CourseMap.mBattleRoutes.
 typedef struct {
@@ -213,7 +240,7 @@ typedef struct RacePointLink {
     /* 00 */ struct RacePointLink *mNextLinks[3];
     /* 0c */ struct RacePointLink *mPreviousLinks[3];
     /* 18 */ Vec3 *mPoint;
-    /* 1c */ s32 mUnk_1c;
+    /* 1c */ s32 mRadius;
     /* 20 */ s16 *mValues;
     /* 24 */ u16 mNextCount;
     /* 26 */ u16 mPreviousCount;
@@ -226,12 +253,12 @@ typedef struct CourseMapKind3ShapeNode {
 } CourseMapKind3ShapeNode;
 
 // Object behind the word at 0x3c of the object behind gCourseMap: two vectors and the halfword at 0x1a.
-typedef struct Unk02175620_3c {
-    /* 00 */ Vec3 mUnk_00;
-    /* 0c */ Vec3 mUnk_0c;
+typedef struct CourseMapRaceEndPlacement {
+    /* 00 */ Vec3 mPos;
+    /* 0c */ Vec3 mRotation;
     /* 18 */ u8 mUnk_18[2];
-    /* 1a */ s16 mUnk_1a;
-} Unk02175620_3c;
+    /* 1a */ s16 mKeepSpeedFlag;
+} CourseMapRaceEndPlacement;
 
 // Object behind gCourseMap.
 typedef struct CourseMap {
@@ -261,7 +288,7 @@ typedef struct CourseMap {
     // Number of mKeyedPlacements.
     /* 38 */ u16 mKeyedPlacementCount;
     /* 3a */ u8 mUnk_3a[0x2];
-    /* 3c */ Unk02175620_3c *mRaceEndPlacements;
+    /* 3c */ CourseMapRaceEndPlacement *mRaceEndPlacements;
     /* 40 */ u16 mRaceEndPlacementCount;
     /* 42 */ u8 mUnk_42[0x2];
     /* 44 */ CourseMapCheckpoint *mCheckpoints;

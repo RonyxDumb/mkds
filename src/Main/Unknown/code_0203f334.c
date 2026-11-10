@@ -174,19 +174,19 @@ BOOL TryGetKartCheckpointProgress(RaceProgressKart *a, s32 *b, Vec3 *c, u16 d, u
     w = e >> 5;
     m = 1 << (e & 0x1f);
     r = FALSE;
-    t = gCourseMap->mCheckpoints[e].mUnk_1c;
+    t = gCourseMap->mCheckpoints[e].mForwardLink;
     f = a->mCheckpointTestedBits[w];
     if ((f & m) != 0) {
         return FALSE;
     }
-    if (t != -1) {
+    if (t != COURSE_MAP_CHECKPOINT_NO_LINK) {
         p = &gCourseMap->mCheckpointRoutes[d];
         for (j = 0; j < 3; j++) {
             k = (p->mNextRoutes)[j];
-            if (k != -1) {
+            if (k != COURSE_MAP_ROUTE_NONE_S8) {
                 *b = ComputeProgressBetweenCheckpoints(c, e, gCourseMap->mCheckpointRoutes[(u16) k].mFirstEntry);
                 if (*b >= -2 && *b <= 0x1002) {
-                    if ((gCourseMap->mCheckpoints[e].mUnk_23 & 1) != 0) {
+                    if ((gCourseMap->mCheckpoints[e].mFlags & COURSE_MAP_CHECKPOINT_FLAG_STAGGER) != 0) {
                         if (gRaceSetup->mMode == 5) {
                             *b = 0x1000 - (GetOwnParticipantIndex() + 1) * 0x190;
                         } else {
@@ -201,7 +201,7 @@ BOOL TryGetKartCheckpointProgress(RaceProgressKart *a, s32 *b, Vec3 *c, u16 d, u
     } else {
         *b = ComputeProgressBetweenCheckpoints(c, e, e + 1);
         if (*b >= -2 && *b <= 0x1002) {
-            if ((gCourseMap->mCheckpoints[e].mUnk_23 & 1) != 0) {
+            if ((gCourseMap->mCheckpoints[e].mFlags & COURSE_MAP_CHECKPOINT_FLAG_STAGGER) != 0) {
                 *b = 0x1000 - ((u32) (a->mUnk_3c << 28) >> 28) * 0x190;
             }
             if (*b < 0) {
@@ -224,19 +224,19 @@ s16 FindKartCheckpointForward(RaceProgressKart *a, s32 *b, Vec3 *c, u16 d, u16 e
     s16 r;
     CourseMapRoute *p;
 
-    t = gCourseMap->mCheckpoints[e].mUnk_1c;
+    t = gCourseMap->mCheckpoints[e].mForwardLink;
     if (TryGetKartCheckpointProgress(a, b, c, d, e) != 0) {
         return e;
     }
     if (f == 0) {
         return -1;
     }
-    if (t != -1) {
+    if (t != COURSE_MAP_CHECKPOINT_NO_LINK) {
         p = &gCourseMap->mCheckpointRoutes[d];
         r = -1;
         for (j = 0; j < 3; j++) {
             k = (p->mNextRoutes)[j];
-            if (k != -1) {
+            if (k != COURSE_MAP_ROUTE_NONE_S8) {
                 r = FindKartCheckpointForward(a, b, c, k, gCourseMap->mCheckpointRoutes[(u16) k].mFirstEntry, f - 1);
                 if (r != -1) {
                     return r;
@@ -255,19 +255,19 @@ s16 FindKartCheckpointBackward(RaceProgressKart *a, s32 *b, Vec3 *c, u16 d, u16 
     s16 r;
     CourseMapRoute *p;
 
-    t = gCourseMap->mCheckpoints[e].mUnk_1e;
+    t = gCourseMap->mCheckpoints[e].mBackwardLink;
     if (TryGetKartCheckpointProgress(a, b, c, d, e) != 0) {
         return e;
     }
     if (f == 0) {
         return -1;
     }
-    if (t != -1) {
+    if (t != COURSE_MAP_CHECKPOINT_NO_LINK) {
         p = &gCourseMap->mCheckpointRoutes[d];
         r = -1;
         for (j = 0; j < 3; j++) {
             k = p->mPreviousRoutes[j];
-            if (k != -1) {
+            if (k != COURSE_MAP_ROUTE_NONE_S8) {
                 r = FindKartCheckpointBackward(a, b, c, k,
                                                gCourseMap->mCheckpointRoutes[(u16) k].mFirstEntry +
                                                    gCourseMap->mCheckpointRoutes[(u16) k].mEntryCount - 1,
@@ -382,7 +382,7 @@ void StoreRaceProgressKartLapTime(RaceProgressKart *a, s32 b) {
     u16 k;
     s16 t;
 
-    t = gCourseMap->mCheckpoints->mUnk_1c;
+    t = gCourseMap->mCheckpoints->mForwardLink;
     e = a->mLapTimes;
     i = 0;
     if (a->mLap <= 1) {
@@ -395,7 +395,7 @@ void StoreRaceProgressKartLapTime(RaceProgressKart *a, s32 b) {
     w.y = MUL_FIXED12_NO_ROUND(w.y, -240);
     w.z = MUL_FIXED12_NO_ROUND(w.z, -240);
     p = u;
-    if (t == -1) {
+    if (t == COURSE_MAP_CHECKPOINT_NO_LINK) {
         t = 1;
     }
     k = t;

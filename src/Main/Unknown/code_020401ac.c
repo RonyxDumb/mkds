@@ -13,8 +13,8 @@
 #include "Main/Unknown/code_02077bc0.h"
 
 PointLink *GetKeyedPlacementBattlePointLink(u32 key) {
-    return &gCourseMap
-                ->mBattlePointLinks[gCourseMap->mKeyedPlacements[gCourseMap->mKeyedPlacementIndexByKey[key]].mUnk_18];
+    return &gCourseMap->mBattlePointLinks[gCourseMap->mKeyedPlacements[gCourseMap->mKeyedPlacementIndexByKey[key]]
+                                              .mPointIndex];
 }
 
 s32 ComputeDotOfPairsRounded(const UnkPair020b502c *first, const UnkPair020b502c *second) {

@@ -36,7 +36,7 @@ BOOL IsBattleKartAiLinkRequested(KartAi *kartAi) {
 void CopyBattleKartAiLinkPosAndDirection(Vec3 *position, Vec3 *direction, KartAi *kartAi) {
     LinkCursor *cursor = &kartAi->mBattleLinkCursor;
 
-    *position = *cursor->mLink->mUnk_20;
+    *position = *cursor->mLink->mPoint;
     *direction = cursor->mDirection;
 }
 

@@ -414,7 +414,7 @@ void PickKartAiDriftAtLink(KartAi *kartAi) {
             Vec3CrossUnrounded(&kartAi->mUnk_08.mDirection, &unitY, &sideAxis);
             VEC_Subtract(&kartAi->mKart->mPos, &linkPos, &kartOffset);
             sidewaysDistance = Vec3DotUnrounded(&kartOffset, &sideAxis);
-            sideRange = kartAi->mUnk_08.mLink->mUnk_1c;
+            sideRange = kartAi->mUnk_08.mLink->mRadius;
             if (GetAbsoluteValue(sidewaysDistance) < sideRange) {
                 conditionsMet = TRUE;
             }
@@ -460,7 +460,7 @@ void PickKartAiDriftAtLink(KartAi *kartAi) {
     Vec3CrossUnrounded(&kartAi->mUnk_08.mDirection, &upVector, &sideDirection);
     VEC_Subtract(&kartAi->mKart->mPos, &linkPoint, &kartOffsetFromLink);
     kartAi->mSideOffsetRatio =
-        FX_Div(Vec3DotUnrounded(&kartOffsetFromLink, &sideDirection), kartAi->mUnk_08.mLink->mUnk_1c + 0x1000);
+        FX_Div(Vec3DotUnrounded(&kartOffsetFromLink, &sideDirection), kartAi->mUnk_08.mLink->mRadius + 0x1000);
     if (GetAbsoluteValue(kartAi->mSideOffsetRatio) > 0x1000) {
         if (kartAi->mSideOffsetRatio > 0) {
             kartAi->mSideOffsetRatio = 0x1000;
@@ -646,7 +646,7 @@ void AdvanceKartAiSideOffset(KartAi *kartAi) {
         }
         kartAi->mSideOffsetRatio = newSideOffsetRatio;
     }
-    sideDistance = MUL_FIXED12_NO_ROUND(kartAi->mSideOffsetRatio, kartAi->mUnk_08.mLink->mUnk_1c);
+    sideDistance = MUL_FIXED12_NO_ROUND(kartAi->mSideOffsetRatio, kartAi->mUnk_08.mLink->mRadius);
     kartAi->mSideOffset.x = MUL_FIXED12_NO_ROUND(kartAi->mSideOffset.x, sideDistance);
     kartAi->mSideOffset.y = MUL_FIXED12_NO_ROUND(kartAi->mSideOffset.y, sideDistance);
     kartAi->mSideOffset.z = MUL_FIXED12_NO_ROUND(kartAi->mSideOffset.z, sideDistance);
@@ -669,7 +669,7 @@ void SetKartAiSideOffsetFromKart(KartAi *kartAi) {
     Vec3CrossUnrounded(&kartAi->mUnk_08.mDirection, &unitYCopy, &sideAxis);
     VEC_Subtract(&kartAi->mKart->mPos, &linkPosCopy, &kartOffset);
     s = Vec3DotUnrounded(&kartOffset, &sideAxis);
-    kartAi->mSideOffsetRatio = FX_Div(s, kartAi->mUnk_08.mLink->mUnk_1c + 0x1000);
+    kartAi->mSideOffsetRatio = FX_Div(s, kartAi->mUnk_08.mLink->mRadius + 0x1000);
     if (GetAbsoluteValue(kartAi->mSideOffsetRatio) > 0x1000) {
         if (kartAi->mSideOffsetRatio > 0) {
             kartAi->mSideOffsetRatio = 0x1000;
@@ -678,7 +678,7 @@ void SetKartAiSideOffsetFromKart(KartAi *kartAi) {
     }
     g = unitY;
     Vec3CrossUnrounded(&kartAi->mUnk_08.mDirection, &g, &kartAi->mSideOffset);
-    s = MUL_FIXED12_NO_ROUND(kartAi->mSideOffsetRatio, kartAi->mUnk_08.mLink->mUnk_1c);
+    s = MUL_FIXED12_NO_ROUND(kartAi->mSideOffsetRatio, kartAi->mUnk_08.mLink->mRadius);
     kartAi->mSideOffset.x = MUL_FIXED12_NO_ROUND(kartAi->mSideOffset.x, s);
     kartAi->mSideOffset.y = MUL_FIXED12_NO_ROUND(kartAi->mSideOffset.y, s);
     kartAi->mSideOffset.z = MUL_FIXED12_NO_ROUND(kartAi->mSideOffset.z, s);

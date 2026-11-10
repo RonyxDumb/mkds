@@ -33,7 +33,7 @@ void GetCourseMapStartPlacementWithOffsets(Vec3 *outPos, Vec3 *outRotation, s32 
     s32 negatedThirdAxisY;
     s32 negatedThirdAxisZ;
 
-    if (gCourseMap->mSettings->mUnk_04 != 0) {
+    if (gCourseMap->mSettings->mInvertStartOffset != 0) {
         firstAxisOffset = 0x1000 - firstAxisOffset;
     }
     if (gCourseMap->mStartPlacementCount > 1) {
@@ -47,9 +47,9 @@ void GetCourseMapStartPlacementWithOffsets(Vec3 *outPos, Vec3 *outRotation, s32 
     } else {
         placement = gCourseMap->mStartPlacements;
     }
-    angleX = (placement->mUnk_0c.x >> 12) * 0xb6;
-    angleY = (placement->mUnk_0c.y >> 12) * 0xb6;
-    angleZ = (placement->mUnk_0c.z >> 12) * 0xb6;
+    angleX = (placement->mRotation.x >> 12) * 0xb6;
+    angleY = (placement->mRotation.y >> 12) * 0xb6;
+    angleZ = (placement->mRotation.z >> 12) * 0xb6;
     MTX_RotX43_(&rotationMatrixX, gPairsByAngle[(angleX >> 4) * 2], gPairsByAngle[(angleX >> 4) * 2 + 1]);
     MTX_RotY43_(&rotationMatrixY, gPairsByAngle[(angleY >> 4) * 2], gPairsByAngle[(angleY >> 4) * 2 + 1]);
     MTX_RotZ43_(&rotationMatrixZ, gPairsByAngle[(angleZ >> 4) * 2], gPairsByAngle[(angleZ >> 4) * 2 + 1]);
@@ -67,9 +67,9 @@ void GetCourseMapStartPlacementWithOffsets(Vec3 *outPos, Vec3 *outRotation, s32 
                 MUL_FIXED12_ROUNDED(negatedThirdAxisY, thirdAxisOffset);
     outPos->z = placement->mPos.z + MUL_FIXED12_ROUNDED(negatedFirstAxisZ, firstAxisOffset) +
                 MUL_FIXED12_ROUNDED(negatedThirdAxisZ, thirdAxisOffset);
-    outRotation->x = placement->mUnk_0c.x;
-    outRotation->y = placement->mUnk_0c.y;
-    outRotation->z = placement->mUnk_0c.z;
+    outRotation->x = placement->mRotation.x;
+    outRotation->y = placement->mRotation.y;
+    outRotation->z = placement->mRotation.z;
 }
 
 // Position and rotation of the start spot of kart c by mode: a staggered grid by rank in a race, by key
@@ -192,7 +192,7 @@ s32 IsPosInCourseMapKind2Shape(Vec3 *pos, s32 *outFlag) {
 
     for (shapeIndex = 0; shapeIndex < gCourseMap->mShapeCount; shapeIndex++) {
         shape = GetCourseMapShape(shapeIndex);
-        if (shape->mKind == 2) {
+        if (shape->mKind == COURSE_MAP_SHAPE_KIND_2) {
             inside = 0;
             switch (shape->mShapeKind) {
                 case 0:
@@ -240,7 +240,7 @@ void *FindCourseMapKind4ShapeRacePointLink(Vec3 *pos) {
     }
     for (shapeIndex = 0; shapeIndex < gCourseMap->mShapeCount; shapeIndex++) {
         shape = GetCourseMapShape(shapeIndex);
-        if (shape->mKind == 4) {
+        if (shape->mKind == COURSE_MAP_SHAPE_KIND_4) {
             inside = 0;
             switch (shape->mShapeKind) {
                 case 0:
@@ -283,7 +283,7 @@ PointLink *FindCourseMapKind4ShapeBattlePointLink(Vec3 *pos) {
     }
     for (shapeIndex = 0; shapeIndex < gCourseMap->mShapeCount; shapeIndex++) {
         shape = GetCourseMapShape(shapeIndex);
-        if (shape->mKind == 4) {
+        if (shape->mKind == COURSE_MAP_SHAPE_KIND_4) {
             inside = 0;
             switch (shape->mShapeKind) {
                 case 0:
@@ -323,7 +323,7 @@ s32 GetCourseMapCameraIndexAtPos(Vec3 *pos) {
 
     for (shapeIndex = 0; shapeIndex < gCourseMap->mShapeCount; shapeIndex++) {
         shape = GetCourseMapShape(shapeIndex);
-        if (shape->mKind == 1) {
+        if (shape->mKind == COURSE_MAP_SHAPE_KIND_1) {
             inside = 0;
             switch (shape->mShapeKind) {
                 case 0:
@@ -392,9 +392,9 @@ void *GetCourseMapRespawnRacePointLink(u32 slot, Vec3 *outPos, Vec3 *outRotation
         outPos->x = respawn->mPos.x;
         outPos->y = respawn->mPos.y;
         outPos->z = respawn->mPos.z;
-        outRotation->x = respawn->mUnk_0c.x;
-        outRotation->y = respawn->mUnk_0c.y;
-        outRotation->z = respawn->mUnk_0c.z;
+        outRotation->x = respawn->mRotation.x;
+        outRotation->y = respawn->mRotation.y;
+        outRotation->z = respawn->mRotation.z;
         pointIndex = respawn->mPointIndex;
     }
     if (pointIndex == -1) {
@@ -424,9 +424,9 @@ PointLink *GetCourseMapRespawnBattlePointLink(u32 slot, Vec3 *outPos, Vec3 *outR
         outPos->x = respawn->mPos.x;
         outPos->y = respawn->mPos.y;
         outPos->z = respawn->mPos.z;
-        outRotation->x = respawn->mUnk_0c.x;
-        outRotation->y = respawn->mUnk_0c.y;
-        outRotation->z = respawn->mUnk_0c.z;
+        outRotation->x = respawn->mRotation.x;
+        outRotation->y = respawn->mRotation.y;
+        outRotation->z = respawn->mRotation.z;
         pointIndex = respawn->mPointIndex;
     }
     if (pointIndex == -1) {
