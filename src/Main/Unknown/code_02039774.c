@@ -155,7 +155,7 @@ void Vec3CrossUnrounded(const Vec3 *a, const Vec3 *b, Vec3 *axb) {
     axb->z = z >> 12;
 }
 
-void func_02039774(void) {
+void InitUnreadHalfwordGroups(void) {
     data_usa_021755e4.mUnk_08 = 0;
     data_usa_021755e4.mUnk_0a = 0;
     data_usa_021755e4.mUnk_0c = 0;

@@ -24,7 +24,7 @@
 #include "code_02004dc0.h"
 #include "registers.h"
 
-void func_020367c4(void) {
+void VBlankIrqHandler(void) {
     if (gDisplaySettings != NULL) {
         ClearFrameFinishedFlag();
         if (gDisplaySettings->mIrqCallback != NULL) {
@@ -34,8 +34,8 @@ void func_020367c4(void) {
     *OFFSET_PTR(u32, &data_027e0000, 0x3ff8) |= 1;
 }
 
-void func_02036778(void) {
-    OS_SetIrqFunction(1, func_020367c4);
+void EnableVBlankIrq(void) {
+    OS_SetIrqFunction(1, VBlankIrqHandler);
     OS_EnableIrqMask(1);
     reg_OS_IME;
     reg_OS_IME = 1;
@@ -43,7 +43,7 @@ void func_02036778(void) {
     GX_VBlankIntr(1);
 }
 
-void func_020366bc(void) {
+void InitStartupLibraries(void) {
     OS_DisableMainExArena();
     OS_Init();
     data_02174e78.mUnk_00 = 0;
@@ -55,19 +55,19 @@ void func_020366bc(void) {
     ClearLcdcBanksByState();
     GX_DispOff();
     reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT & ~0x10000;
-    OS_SetIrqFunction(1, func_020367c4);
+    OS_SetIrqFunction(1, VBlankIrqHandler);
     OS_EnableIrqMask(1);
     reg_OS_IME;
     reg_OS_IME = 1;
     OS_EnableInterrupts();
     GX_VBlankIntr(1);
     FS_Init(-1);
-    func_02039774();
+    InitUnreadHalfwordGroups();
     data_usa_02174e54 = DWC_Init(data_usa_02174e80);
     ClearLcdcBankAndStartWvrAndWait();
 }
 
-void func_02036678(void) {
+void GetArenaLoHiNop(void) {
     OS_GetArenaLo(0);
     OS_GetArenaHi(0);
     OS_GetArenaLo(3);
@@ -76,18 +76,18 @@ void func_02036678(void) {
     OS_GetArenaHi(4);
 }
 
-void func_020365f0(void) {
+void InitStartup(void) {
     u8 *arenaLo;
-    func_020366bc();
+    InitStartupLibraries();
     InitBrightnessFades();
     data_02174e78.mArm9TextStart = (u32) ARM9_TEXT_START;
     data_02174e78.mArenaLo = OS_GetArenaLo(0);
-    func_02036678();
+    GetArenaLoHiNop();
     arenaLo = OS_GetArenaLo(0);
     data_02174e78.mHeap = CreateExpHeapOverBlock(arenaLo, (u8 *) OS_GetArenaHi(0) - arenaLo);
     InitHeapCall(&gRootHeapCall, 0);
     data_02174e78.mUnk_10 = data_usa_021646ec;
-    func_020394cc();
+    StartupResetKeysInputSlot();
 }
 
 void RunRootHeapCall(u32 func) {

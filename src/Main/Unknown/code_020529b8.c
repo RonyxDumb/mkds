@@ -306,7 +306,7 @@ void func_020533a0(void) {
     if ((gConnectionWork->mUnk_0454 & 0x100) != 0) {
         gConnectionWork->mUnk_000c = 0x26;
         gConnectionWork->mRequestPending = 1;
-        if (func_020510e4() != FALSE && (func_020510c8() == 1 || func_020510ac() != FALSE)) {
+        if (IsWMInitializeStarted() != FALSE && (func_020510c8() == 1 || func_020510ac() != FALSE)) {
             c = TRUE;
         } else {
             c = FALSE;

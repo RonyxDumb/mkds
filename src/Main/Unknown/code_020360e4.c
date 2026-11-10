@@ -37,8 +37,8 @@ void SetupWLMenuCommonMessage(void *heap) {
     charBase = G2S_GetBG1CharPtr();
     text = GetBmgEntry(gWLMenuMessage->mCommonMessages, 0x79);
     NNS_G2dCharCanvasInitForBG(gWLMenuMessage->mCharCanvas, (u8 *) charBase + 0x400, 0x20, 4, 4);
-    func_020362c4(&gWLMenuMessage->mTextCanvas, gWLMenuMessage->mCharCanvas, gWLMenuMessage->mFont, 1, 4);
-    func_0203629c(&gWLMenuMessage->mTextCanvas, 8, 0, 3, 0x209, text);
+    WLMenuInitTextCanvas(&gWLMenuMessage->mTextCanvas, gWLMenuMessage->mCharCanvas, gWLMenuMessage->mFont, 1, 4);
+    WLMenuDrawTextOnCanvas(&gWLMenuMessage->mTextCanvas, 8, 0, 3, 0x209, text);
     for (row = 0x16; row < 0x18; row++) {
         for (column = 0; column < 0x20; column++) {
             entry = (((column + row + 1) & 1) << 12) | 1;
@@ -56,13 +56,13 @@ void SetupWLMenuCommonMessage(void *heap) {
     DC_StoreRange(gWLMenuMessage->mScreenMap, 0x600);
     GXS_LoadBG1Scr(gWLMenuMessage->mScreenMap, 0, 0x600);
     if (func_02035e44() != 0) {
-        func_02036258();
+        StartSeqZeroLoopWrapper();
     }
     FrmHeapShrinkInParent(gWLMenuMessage->mHeap);
 }
 
 #pragma thumb off
 
-u32 func_020360e4(void) {
+u32 WLMenuIsWMInitializeStarted(void) {
     return (gConnectionWork->mUnk_0454 & 0x40) != 0;
 }

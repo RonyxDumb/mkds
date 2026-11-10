@@ -48,9 +48,8 @@ typedef struct Unk021759d0 {
 // once, then mUpdate and the unnamed slot 0x0c every frame, then mRelease once. 0x0c is the second
 // per-frame slot (it runs after mUpdate in the same pass and mostly copies the two 2D lists). 0x10
 // and 0x14 are called from two library callbacks registered in InitSceneRunState; 0x18 and 0x1a are
-// fade lengths passed to StartFadeToClear / StartFadeToFadedPositive; 0x1c is a flag for func_02037658; all stay
-// unnamed. One instance per scene (the 16 entries of gSceneFuncs): seven tables are named, the
-// others are unnamed tables or stack literals.
+// fade lengths passed to StartFadeToClear / StartFadeToFadedPositive; 0x1c is a flag for
+// FinishDisplayFrameUnlessSpanned. One instance per scene (the 16 entries of gSceneFuncs).
 typedef struct SceneCallbacks {
     // Called once before the scene's frames with the scene numbers. Allocates the scene's objects
     // from the scene heap (the heap of RunScenes' frame, destroyed when the scene ends).

@@ -6,7 +6,7 @@
 #include "code_0200fe74.h"
 #include "registers.h"
 
-void func_020394cc(void) {
+void StartupResetKeysInputSlot(void) {
     data_021755dc.mPressedBits = 0;
     data_021755dc.mBits = 0;
     data_021755dc.mClearedBits = 0;
@@ -23,7 +23,7 @@ void func_020394cc(void) {
     data_021755dc.mUnk_24 = 0;
 }
 
-void func_02039478(void) {
+void ResetKeysInputSlot(void) {
     data_021755dc.mPressedBits = 0;
     data_021755dc.mBits = 0;
     data_021755dc.mClearedBits = 0;

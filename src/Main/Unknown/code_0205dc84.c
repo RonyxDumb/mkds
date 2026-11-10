@@ -54,7 +54,7 @@ static inline void func_0205dee0_inline(void *c, void *overlayId) {
             f = data_02154904[languageIndex];
         }
         func_ov003_021c2494(c, f, 0x20);
-        func_02036778();
+        EnableVBlankIrq();
         FS_UnloadOverlay(0, (u32) overlayId);
     }
 }

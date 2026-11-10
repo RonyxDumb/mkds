@@ -38,8 +38,8 @@ void SetupWLMenuMBChildMessage(void *heap) {
     charBase = G2S_GetBG1CharPtr();
     text = GetBmgEntry(gWLMenuMessage->mMBChildMessages, 1);
     NNS_G2dCharCanvasInitForBG(gWLMenuMessage->mCharCanvas, (u8 *) charBase + 0x400, 0x20, 4, 4);
-    func_020362c4(&gWLMenuMessage->mTextCanvas, gWLMenuMessage->mCharCanvas, gWLMenuMessage->mFont, 1, 4);
-    func_0203629c(&gWLMenuMessage->mTextCanvas, 0x80, 0, 3, 0x211, text);
+    WLMenuInitTextCanvas(&gWLMenuMessage->mTextCanvas, gWLMenuMessage->mCharCanvas, gWLMenuMessage->mFont, 1, 4);
+    WLMenuDrawTextOnCanvas(&gWLMenuMessage->mTextCanvas, 0x80, 0, 3, 0x211, text);
     for (row = 7; row < 9; row++) {
         for (column = 0; column < 0x20; column++) {
             entry = (((column + row + 1) & 1) << 12) | 1;
@@ -57,20 +57,20 @@ void SetupWLMenuMBChildMessage(void *heap) {
     }
     DC_StoreRange(gWLMenuMessage->mScreenMap, 0x600);
     GXS_LoadBG1Scr(gWLMenuMessage->mScreenMap, 0, 0x600);
-    func_02036258();
+    StartSeqZeroLoopWrapper();
     FrmHeapShrinkInParent(gWLMenuMessage->mHeap);
 }
 
 #pragma thumb off
 
-void func_020362c4(TextCanvas *textCanvas, void *charCanvas, void *font, s32 charSpacing, s32 lineSpacing) {
+void WLMenuInitTextCanvas(TextCanvas *textCanvas, void *charCanvas, void *font, s32 charSpacing, s32 lineSpacing) {
     textCanvas->mCharCanvas = charCanvas;
     textCanvas->mFont = font;
     textCanvas->mCharSpacing = charSpacing;
     textCanvas->mLineSpacing = lineSpacing;
 }
 
-u32 func_0203629c(TextCanvas *textCanvas, s32 textX, s32 textY, u32 color, u32 flags, void *text) {
+u32 WLMenuDrawTextOnCanvas(TextCanvas *textCanvas, s32 textX, s32 textY, u32 color, u32 flags, void *text) {
     return NNSi_G2dTextCanvasDrawText(textCanvas, textX, textY, color, flags, text);
 }
 

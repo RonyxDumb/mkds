@@ -18,17 +18,17 @@
 #include "Main/Unknown/code_0205e2cc.h"
 #include "00/code_02181f98.h"
 
-void func_02036058(u32 value) {
+void WLMenuSetRaceSetupRequested(u32 value) {
     data_0217b488->mRaceSetupRequested = value;
 }
 
-void func_02036044(u32 value) {
+void WLMenuSetMenuEntryKind(u32 value) {
     data_0217b488->mMenuEntryKind = value;
 }
 
 #pragma thumb on
 
-s32 func_02035f5c(u32 sceneNumbers) {
+s32 AdvanceWLMenuMBChildMessage(u32 sceneNumbers) {
     s32 result;
     WLMenuMessage *wlMenuMessage;
 
@@ -42,7 +42,7 @@ s32 func_02035f5c(u32 sceneNumbers) {
             result = func_02055730(0);
             switch (result) {
                 case 1:
-                    SetMultiSimple(func_020360e4());
+                    SetMultiSimple(WLMenuIsWMInitializeStarted());
                     gWLMenuMessage->mState = 4;
                     break;
                 case 2:
@@ -54,7 +54,7 @@ s32 func_02035f5c(u32 sceneNumbers) {
             switch (result) {
                 case 1:
                     if (func_02035e44() != 0) {
-                        func_02035e38();
+                        StopSeqZeroLoopWrapper();
                     }
                     StartCopyOtherEmblems(1);
                     gWLMenuMessage->mState = 6;
@@ -65,8 +65,8 @@ s32 func_02035f5c(u32 sceneNumbers) {
             break;
         case 6:
             if (IsBackupBusy() == 0) {
-                func_02036058(1);
-                func_02036044(4);
+                WLMenuSetRaceSetupRequested(1);
+                WLMenuSetMenuEntryKind(4);
                 if (sceneNumbers != 0) {
                     SetNextScene(sceneNumbers, 1);
                 }
@@ -79,7 +79,7 @@ s32 func_02035f5c(u32 sceneNumbers) {
     return -1;
 }
 
-s32 func_02035ee0(u32 sceneNumbers) {
+s32 AdvanceWLMenuMessageToRace(u32 sceneNumbers) {
     s32 result;
     WLMenuMessage *wlMenuMessage;
 
@@ -89,7 +89,7 @@ s32 func_02035ee0(u32 sceneNumbers) {
             switch (result) {
                 case 1:
                     if (func_02035e44() != 0) {
-                        func_02035e38();
+                        StopSeqZeroLoopWrapper();
                     }
                     gWLMenuMessage->mState = 10;
                     break;
@@ -109,7 +109,7 @@ s32 func_02035ee0(u32 sceneNumbers) {
     return -1;
 }
 
-s32 func_02035e64(u32 sceneNumbers) {
+s32 AdvanceWLMenuMessageToResult(u32 sceneNumbers) {
     s32 result;
     WLMenuMessage *wlMenuMessage;
 
@@ -119,7 +119,7 @@ s32 func_02035e64(u32 sceneNumbers) {
             switch (result) {
                 case 1:
                     if (func_02035e44() != 0) {
-                        func_02035e38();
+                        StopSeqZeroLoopWrapper();
                     }
                     gWLMenuMessage->mState = 10;
                     break;
@@ -145,7 +145,7 @@ u32 func_02035e44(void) {
     return gConnectionWork->mUnk_0457 != 0;
 }
 
-void func_02035e38(void) {
+void StopSeqZeroLoopWrapper(void) {
     u32 value12;
     StopSeqZeroLoop();
 }
@@ -156,7 +156,7 @@ void SetNextScene(u32 sceneNumbers, u32 nextScene) {
 
 #pragma thumb on
 
-s32 func_02035db4(u32 sceneNumbers) {
+s32 AdvanceWLMenuMessageToMenu(u32 sceneNumbers) {
     s32 result;
     WLMenuMessage *wlMenuMessage;
 
@@ -166,7 +166,7 @@ s32 func_02035db4(u32 sceneNumbers) {
             switch (result) {
                 case 1:
                     if (func_02035e44() != 0) {
-                        func_02035e38();
+                        StopSeqZeroLoopWrapper();
                     }
                     gWLMenuMessage->mState = 10;
                     break;
@@ -207,7 +207,7 @@ void WriteSubBg3Offset(u32 offsetX, int offsetY) {
 
 #pragma thumb on
 
-void func_02035d20(void) {
+void WriteWLMenuMessageRegisters(void) {
     WriteSubDispcntBits(10);
     WriteSubBg3Offset(-gWLMenuMessage->mBg3Offset, 0);
 }
@@ -215,8 +215,8 @@ void func_02035d20(void) {
 #pragma thumb off
 
 #pragma thumb on
-void func_02035d18(void) {
+void WriteWLMenuMessageRegistersWrapper(void) {
     u32 value3;
-    func_02035d20();
+    WriteWLMenuMessageRegisters();
 }
 #pragma thumb off

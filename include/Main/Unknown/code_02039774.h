@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-void func_02039774(void);
+void InitUnreadHalfwordGroups(void);
 // Writes the cross product of a and b to axb (12 fractional bits); each component is shifted right by 12 without the
 // rounding term that VEC_CrossProduct adds. axb may be a or b.
 void Vec3CrossUnrounded(const Vec3 *a, const Vec3 *b, Vec3 *axb);

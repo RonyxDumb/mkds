@@ -18,17 +18,17 @@ typedef struct WLMenuMessage {
     /* 650 */ void *mHeap;
 } WLMenuMessage;
 
-void func_02035d18(void);
-void func_02035d20(void);
+void WriteWLMenuMessageRegistersWrapper(void);
+void WriteWLMenuMessageRegisters(void);
 void WriteSubBg3Offset(u32 offsetX, int offsetY);
 void WriteSubDispcntBits(int bits);
 void ReleaseWLMenuMessage(void);
-s32 func_02035db4(u32 sceneNumbers);
+s32 AdvanceWLMenuMessageToMenu(u32 sceneNumbers);
 void SetNextScene(unsigned int sceneNumbers, unsigned int nextScene);
-void func_02035e38(void);
+void StopSeqZeroLoopWrapper(void);
 u32 func_02035e44(void);
-s32 func_02035e64(u32 sceneNumbers);
-s32 func_02035ee0(u32 sceneNumbers);
-s32 func_02035f5c(u32 sceneNumbers);
-void func_02036044(unsigned int value);
-void func_02036058(unsigned int value);
+s32 AdvanceWLMenuMessageToResult(u32 sceneNumbers);
+s32 AdvanceWLMenuMessageToRace(u32 sceneNumbers);
+s32 AdvanceWLMenuMBChildMessage(u32 sceneNumbers);
+void WLMenuSetMenuEntryKind(unsigned int value);
+void WLMenuSetRaceSetupRequested(unsigned int value);

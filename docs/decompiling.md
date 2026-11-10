@@ -771,7 +771,7 @@ Expression shapes:
   to the field's type: `(int) func_01ff8000` (func_ov000_021a6908).
 - A small value (0, 1, 2, 3, 0x2000000) loaded from a pool word with no relocation is a symbol the compiler can't
   fold: an absolute address defined by the linker. Bytes match with such a symbol in place (func_0205dee0,
-  func_020365f0). The link side isn't built and the names are guesses: leave a placeholder.
+  InitStartup).
 
 ### 1.8 Types, Casts, Enums, Volatile and Const
 

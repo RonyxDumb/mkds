@@ -116,7 +116,7 @@ void SetupRaceDisplay(void *heap) {
         case RACE_KIND_AWARD:
             SetBg2RecordParams(&settings->mMainBgRecords, 1, 0, 0, 0, 7, 0);
             SetBg2RecordMode5(&settings->mSubBgRecords, 0, 0, 1, 0, 0);
-            func_02038c94(settings, 0x20);
+            SetSubObjVRamModeBmp(settings, 0x20);
             SetDispCapMode(1);
             break;
         case 4:

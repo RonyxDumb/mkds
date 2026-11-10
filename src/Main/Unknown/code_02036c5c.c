@@ -177,8 +177,8 @@ void InitDisplayBgRecords(DisplayBgRecords *records, u32 bgMode) {
             records->mBg3.mFields.mBgCntVal8 = 0;
             break;
     }
-    records->mUnk_40 = 0;
-    records->mUnk_42 = 0;
+    records->mObjVRamModeChar = 0;
+    records->mObjVRamModeBmp = 0;
 }
 
 void InitDisplaySettings(DisplaySettings *settings, void *descriptorBase) {
@@ -267,8 +267,8 @@ void SetG3xSwapBits(DisplaySettings *settings, u32 swapBit0, u32 swapBit1) {
     settings->mG3xParams->mSwapBit1 = swapBit1;
 }
 
-void func_02038c94(DisplaySettings *settings, u32 value) {
-    settings->mSubBgRecords.mUnk_42 = value;
+void SetSubObjVRamModeBmp(DisplaySettings *settings, u32 value) {
+    settings->mSubBgRecords.mObjVRamModeBmp = value;
 }
 
 // Enum-typed parameters of the inlines below: their values are read before the register.
@@ -679,12 +679,12 @@ void InitDisplayFromSettings(DisplaySettings *settings) {
         ApplyBg3Cnt(&settings->mSubBgRecords.mBg3, 0);
     }
     if (settings->mMainDisplayMask & 0x10) {
-        func_02037abc_inline3(&reg_GX_DISPCNT, (Unk02037abc_Arg) settings->mMainBgRecords.mUnk_40);
-        func_02037abc_inline4((Unk02037abc_Arg) settings->mMainBgRecords.mUnk_42);
+        func_02037abc_inline3(&reg_GX_DISPCNT, (Unk02037abc_Arg) settings->mMainBgRecords.mObjVRamModeChar);
+        func_02037abc_inline4((Unk02037abc_Arg) settings->mMainBgRecords.mObjVRamModeBmp);
     }
     if (settings->mSubDisplayMask & 0x10) {
-        func_02037abc_inline3(&reg_GXS_DB_DISPCNT, (Unk02037abc_Arg) settings->mSubBgRecords.mUnk_40);
-        func_02037abc_inline5((Unk02037abc_Arg) settings->mSubBgRecords.mUnk_42);
+        func_02037abc_inline3(&reg_GXS_DB_DISPCNT, (Unk02037abc_Arg) settings->mSubBgRecords.mObjVRamModeChar);
+        func_02037abc_inline5((Unk02037abc_Arg) settings->mSubBgRecords.mObjVRamModeBmp);
     }
     reg_GX_POWCNT |= 0x8000;
 }
@@ -708,7 +708,7 @@ void PrepareDisplayFrame(void) {
     }
 }
 
-u32 func_02037a20(void) {
+u32 IsFrameSpanningVBlank(void) {
     return (gDisplaySettings->mFrameFlags & 2) ? 1 : 0;
 }
 
@@ -820,7 +820,7 @@ void FinishDisplayFrame(void) {
     }
 }
 
-void func_02037658(s32 a) {
+void FinishDisplayFrameUnlessSpanned(s32 skipWhenSpanned) {
     u64 tick;
     s16 prevMainBrightness;
     s16 prevSubBrightness;
@@ -841,7 +841,7 @@ void func_02037658(s32 a) {
         gDisplaySettings->mFrameFlags &= ~2;
         gDisplaySettings->mFrameFlags &= ~1;
     }
-    if (a == 0 || (gDisplaySettings->mFrameFlags & 2) == 0) {
+    if (skipWhenSpanned == 0 || (gDisplaySettings->mFrameFlags & 2) == 0) {
         swapAndWait = TRUE;
     } else {
         swapAndWait = FALSE;

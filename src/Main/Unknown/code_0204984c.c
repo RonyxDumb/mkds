@@ -229,7 +229,7 @@ void func_0204a1a8(void *arg) {
         if (gDisplaySettings != NULL) {
             hasDisplaySettings = TRUE;
         }
-        func_02039478();
+        ResetKeysInputSlot();
         ReadKeysIntoInputSlot();
         VBlankIntrWait();
         if (func_0204984c_inline6()) {
@@ -305,7 +305,7 @@ void func_02049f60(void) {
     if (gBootInfo->mUnk_00 == 2) {
         OpenMessageScreen(gSceneRunState->mUnk_118, gSceneRunState->mUnk_11c);
     }
-    func_02039478();
+    ResetKeysInputSlot();
     ReadKeysIntoInputSlot();
     VBlankIntrWait();
     if (func_0204984c_inline6()) {

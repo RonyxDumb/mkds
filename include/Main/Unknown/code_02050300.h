@@ -56,7 +56,7 @@ void End(void);
 void SetStepAndRequestPending(s32 a);
 BOOL func_020510ac(void);
 s32 func_020510c8(void);
-BOOL func_020510e4(void);
+BOOL IsWMInitializeStarted(void);
 void DisconnectCallback(Unk021425e8 *event);
 void Disconnect(void);
 void EndParentCallback(Unk021425e8 *event);

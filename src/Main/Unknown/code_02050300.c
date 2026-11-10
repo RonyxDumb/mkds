@@ -197,7 +197,7 @@ void DisconnectCallback(Unk021425e8 *event) {
     }
 }
 
-BOOL func_020510e4(void) {
+BOOL IsWMInitializeStarted(void) {
     return (gConnectionWork->mUnk_0454 & 0x40) != 0;
 }
 
@@ -209,7 +209,7 @@ s32 func_020510c8(void) {
 }
 
 static inline u32 func_02050ec0_inline(void) {
-    return func_020510e4() != FALSE && (func_020510c8() == 1 || func_020510ac() != FALSE);
+    return IsWMInitializeStarted() != FALSE && (func_020510c8() == 1 || func_020510ac() != FALSE);
 }
 
 BOOL func_020510ac(void) {

@@ -38,8 +38,8 @@ typedef struct DisplayBgRecords {
     /* 10 */ Bg01Cnt mBg1;
     /* 20 */ Bg23Cnt mBg2;
     /* 30 */ Bg23Cnt mBg3;
-    /* 40 */ u16 mUnk_40;
-    /* 42 */ u16 mUnk_42;
+    /* 40 */ u16 mObjVRamModeChar;
+    /* 42 */ u16 mObjVRamModeBmp;
 } DisplayBgRecords;
 
 // The 0x28 bytes InitDisplaySettings copies to the start of an DisplaySettings.
@@ -77,16 +77,16 @@ void StartFadeToClear(s16 frameCount);
 void StartFadeToClearOneScreen(s16 frameCount, s32 isMainScreen);
 void RecordFrameTimes(void);
 void FinishDisplayFrameSwapIf(s32 doSwap);
-void func_02037658(s32 a);
+void FinishDisplayFrameUnlessSpanned(s32 skipWhenSpanned);
 void FinishDisplayFrame(void);
 void ClearFrameFinishedFlag(void);
-u32 func_02037a20(void);
+u32 IsFrameSpanningVBlank(void);
 void PrepareDisplayFrame(void);
 void DisableAllBanksAndNullDisplaySettings(void);
 void InitDisplayFromSettings(DisplaySettings *settings);
 void ApplyBg3Cnt(Bg23Cnt *cnt, s32 isMainScreen);
 void ApplyBg2Cnt(Bg23Cnt *cnt, s32 isMainScreen);
-void func_02038c94(DisplaySettings *settings, unsigned int value);
+void SetSubObjVRamModeBmp(DisplaySettings *settings, unsigned int value);
 void SetG3xSwapBits(DisplaySettings *settings, u32 swapBit0, u32 swapBit1);
 void SetBg2RecordMode5(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8);
 void SetBg3RecordParams(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8,

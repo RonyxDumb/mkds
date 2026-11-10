@@ -151,7 +151,7 @@ void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
         }
     }
     if (c != 0) {
-        if (raceSetup->mMode != 5 || func_02037a20() == 0) {
+        if (raceSetup->mMode != 5 || IsFrameSpanningVBlank() == 0) {
             DrawRace();
         }
     }

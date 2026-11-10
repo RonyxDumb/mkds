@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-u32 func_020360e4(void);
+u32 WLMenuIsWMInitializeStarted(void);
 void SetupWLMenuCommonMessage(void *heap);

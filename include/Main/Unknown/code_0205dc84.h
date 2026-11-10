@@ -3,7 +3,7 @@
 #include "types.h"
 
 // Never returns: loops RunScenes, taking the group from gRunScenesState +4. First scene 9 (6 when the
-// word at 0x027ffc40 is 2). Body of the main thread (func_02039c98).
+// word at 0x027ffc40 is 2). Body of the main thread (InitAndRunScenesForever).
 void RunScenesForever(void);
 // Runs the scenes of one group (gRunScenesState +0, 0 or 1) one after another until the group
 // changes: sets the group up (func_0205e0b0), keeps gSceneNumbers (previous, current, next), runs

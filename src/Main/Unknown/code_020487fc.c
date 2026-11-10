@@ -144,7 +144,7 @@ static inline void func_020487fc_inline9(const SceneCallbacks *b) {
     if (v == 1 || v == 10) {
         FinishDisplayFrameSwapIf(!func_020487fc_inline12() || !func_020487fc_inline6());
     } else {
-        func_02037658(b->mUnk_1c);
+        FinishDisplayFrameUnlessSpanned(b->mUnk_1c);
     }
 }
 
