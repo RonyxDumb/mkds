@@ -129,7 +129,7 @@ void InitMultiSelectNS(void *parentHeap, void *scene, void *oamList) {
     CallQueueAppend(0x1e, 0, multiSelectNS->mNclr->mData, multiSelectNS->mNclr->mDataSize);
     RefreshMultiSelectNS(1);
     SetSelectReturnSoundId(0xe);
-    func_0204f804();
+    SendLedPatternWireless();
     FrmHeapShrinkInParent(gMultiSelectNS->mHeap);
 }
 

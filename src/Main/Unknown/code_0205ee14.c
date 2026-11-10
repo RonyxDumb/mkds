@@ -35,7 +35,7 @@ static inline BOOL func_0205f218_inline(void) {
     ConnectionWork *connectionWork;
 
     connectionWork = gConnectionWork;
-    return (connectionWork == NULL ? 0 : connectionWork->mUnk_0000) != 0 && connectionWork->mState != 13;
+    return (connectionWork == NULL ? 0 : connectionWork->mConnectionMode) != 0 && connectionWork->mState != 13;
 }
 
 BOOL FormatTimeRecordChars(u8 *charsOut, TimeRecord *timeRecord, s32 courseId) {

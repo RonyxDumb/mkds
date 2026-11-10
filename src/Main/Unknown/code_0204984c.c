@@ -40,7 +40,7 @@ static inline u32 func_0204984c_inline(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
-    return gConnectionWork->mUnk_0000;
+    return gConnectionWork->mConnectionMode;
 }
 
 static inline s32 func_0204984c_inline2(void) {
@@ -99,7 +99,7 @@ static inline s32 func_0204984c_inline8(void) {
 
 static inline s32 func_0204984c_inline9(void) {
     BOOL result = FALSE;
-    if (func_0204984c_inline3() && gConnectionWork->mUnk_0008 != 9) {
+    if (func_0204984c_inline3() && gConnectionWork->mErrorCode != 9) {
         result = TRUE;
     }
     return result;
@@ -532,7 +532,7 @@ s32 RunMessageScreenOnDisconnect(SceneNumbers *sceneNumbers, s32 b) {
     } else if (b != 0 && func_0204984c_inline9()) {
         RunMessageScreenOfKind(0);
         result = TRUE;
-        gConnectionWork->mUnk_0008 = 9;
+        gConnectionWork->mErrorCode = 9;
     } else {
         func_02055340();
     }

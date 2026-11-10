@@ -70,7 +70,7 @@ void InitWLMenuScene(void *heap) {
         case 0:
             gWLMenuScene->mRequestedCallbacksIndex = WLMenuMB_IsMultiBootChildWrapper() != 0 ? 4 : 0;
             InitWLMenuResetRaceSetup(heap);
-            func_02053d00();
+            ResetConnection();
             break;
         case 1:
             gWLMenuScene->mRequestedCallbacksIndex = 5;

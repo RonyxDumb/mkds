@@ -17,7 +17,7 @@ void StopBlockTransferStep(void) {
     gConnectionWork->mRequestPending = 0;
 }
 
-void SetScanGhostInfo(u32 entryIndex, Unk0217aa00_24_50 *gameInfo) {
+void SetScanGhostInfo(u32 entryIndex, UserGameInfo *gameInfo) {
     gConnectionWork->mScanGhostInfos[entryIndex].mKartIndex = gameInfo->mUnk_0e.mKartIndex;
     gConnectionWork->mScanGhostInfos[entryIndex].mCharacterIndex = gameInfo->mCharacterIndex;
     gConnectionWork->mScanGhostInfos[entryIndex].mCourseId = GetCupCourseIdAtIndex((u8) gameInfo->mCupCourseIndex);
@@ -30,12 +30,12 @@ static inline u32 func_0204eb08_inline(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
-    return gConnectionWork->mUnk_0000;
+    return gConnectionWork->mConnectionMode;
 }
 
 BOOL TryGetScanGhostInfo(u8 entryIndex, void *destination, u8 *kartIndex, u8 *characterIndex, u8 *courseId, u8 *minute,
                          u8 *second, u16 *millisecond) {
-    if (func_0204ff14(entryIndex, destination) == 0) {
+    if (TryGetScanSlotName(entryIndex, destination) == 0) {
         return FALSE;
     }
     *kartIndex = gConnectionWork->mScanGhostInfos[entryIndex].mKartIndex;
@@ -99,9 +99,9 @@ void SendWordRequestCallback(BlockTransferRecord *record) {
             gConnectionWork->mRequestPending = 0;
             return;
         }
-        func_02050e60(8);
+        SetRequestErrorCode(8);
     } else {
-        func_02050e60(8);
+        SetRequestErrorCode(8);
     }
 }
 

@@ -319,7 +319,7 @@ void InitTimeAttackGhostSend(void *parentHeap, void *mainOam, void *subOam) {
     SetPlayerCharacterCellFileSet(0, &gTimeAttackGhostSend->mUnk_050[2]);
     SetupInterpolation(&gTimeAttackGhostSend->mInterpolation, 3, 10, -0xc0, 0);
     SetSelectReturnSoundId(0xf);
-    func_0204f804();
+    SendLedPatternWireless();
     gTimeAttackGhostSend->mState = 1;
     FrmHeapShrinkInParent(gTimeAttackGhostSend->mHeap);
 }
@@ -458,7 +458,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
             }
             break;
         case 7:
-            i = func_0205465c();
+            i = GetZeroWordResult();
             switch (i) {
                 case 1:
                     NNS_SndArcSetCurrent(&gOnMemorySndArc);
@@ -481,7 +481,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
             break;
         case 9:
             if (func_02054f58() == 1) {
-                func_0204f804();
+                SendLedPatternWireless();
                 data_0217b488->mMenuEntryKind = 5;
                 if (advanceArg != NULL) {
                     advanceArg->mUnk_04 = 1;
@@ -491,14 +491,14 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
             break;
         case 10:
             if (func_02054f58() == 1) {
-                func_0204f804();
+                SendLedPatternWireless();
                 SetupGhostSendSubTextWithName(0xc, 1);
                 gTimeAttackGhostSend->mState = 0xd;
             }
             break;
         case 11:
             if (func_02054f58() == 1) {
-                func_0204f804();
+                SendLedPatternWireless();
                 SetupGhostSendMainText();
                 gTimeAttackGhostSend->mState = 3;
             }
@@ -513,7 +513,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
             }
             break;
     }
-    func_02054aa0();
+    UpdateConnectionSendTimer();
     for (i = 0; i < 2; i++) {
         fileSets = gTimeAttackGhostSend->mUnk_050;
         DrawLayoutTable(fileSets[i].mCellLayout, fileSets[i].mCells, fileSets[i].mLabelLayout,

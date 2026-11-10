@@ -85,7 +85,7 @@ s32 CountMultiSelectChildren(void) {
 
     childCount = 0;
     for (i = 1; i < 8; i++) {
-        if (func_0204fcec(i, NULL) != 0) {
+        if (TryGetPlayerName(i, NULL) != 0) {
             childCount++;
         }
     }
@@ -102,7 +102,7 @@ void PrintMultiSelectMemberNames(void) {
     for (i = 1, labelMessageRow = data_usa_02153d88; i < 8; labelMessageRow++, i++) {
         nameBuffer[0] = 0;
         MIi_CpuClear16(nameBuffer[0], &nameBuffer[1], 0x16);
-        if (func_0204fcec(i, &nameBuffer[1]) != 0) {
+        if (TryGetPlayerName(i, &nameBuffer[1]) != 0) {
             nameBuffer[11] = 0;
             PrintLabelLayoutTextNoFixedAdvance(1, labelMessageRow->mLabelIndex, subFileSet->mLabelLayout,
                                                &nameBuffer[1], subFileSet->mCellLayout, subFileSet->mCellTable);
@@ -553,11 +553,11 @@ void InitMultiSelectMemberNoKeyStart(void *parentHeap, void *mainOam, void *subO
     mainFileSet = &gMultiSelectMember->mCellFileSets[0];
     subFileSet = &gMultiSelectMember->mCellFileSets[1];
     gMultiSelectMember->mSetupState = 2;
-    gMultiSelectMember->mUnk_84 = func_0204fe90(GetWLMenuSceneScanSlotPick()->mSlotIndex);
+    gMultiSelectMember->mUnk_84 = IsScanSlotMultiBoot(GetWLMenuSceneScanSlotPick()->mSlotIndex);
     nameBuffer[0] = 0;
     MIi_CpuClear16(nameBuffer[0], &nameBuffer[1], 0x16);
     if (gMultiSelectMember->mUnk_84 == 0 &&
-        func_0204ff14(GetWLMenuSceneScanSlotPick()->mSlotIndex, &nameBuffer[1]) != 0) {
+        TryGetScanSlotName(GetWLMenuSceneScanSlotPick()->mSlotIndex, &nameBuffer[1]) != 0) {
         nameBuffer[11] = 0;
         PrintLabelLayoutTextNoFixedAdvance(1, data_usa_02153d7c[0].mLabelIndex, subFileSet->mLabelLayout,
                                            &nameBuffer[1], subFileSet->mCellLayout, subFileSet->mCellTable);
@@ -666,7 +666,7 @@ s32 AdvanceMultiSelectMemberKeyStart(Unk02030b18 *sceneNumbers) {
         if (gConnectionWork == NULL) {
             x = 0;
         } else {
-            x = gConnectionWork->mUnk_0000;
+            x = gConnectionWork->mConnectionMode;
         }
         if (x == 1) {
             if ((gConnectionWork->mUnk_0454 & 0x40) != 0) {
@@ -842,7 +842,7 @@ s32 AdvanceMultiSelectMemberNoKeyStart(Unk02030b18 *sceneNumbers) {
     if (gMultiSelectMember->mUnk_84 == 0 && gMultiSelectMember->mNameLabelDone == FALSE) {
         nameBuffer[0] = 0;
         MIi_CpuClear16(nameBuffer[0], &nameBuffer[1], 0x16);
-        if (func_0204ff14(GetWLMenuSceneScanSlotPick()->mSlotIndex, &nameBuffer[1]) != 0) {
+        if (TryGetScanSlotName(GetWLMenuSceneScanSlotPick()->mSlotIndex, &nameBuffer[1]) != 0) {
             nameBuffer[11] = 0;
             PrintLabelLayoutTextNoFixedAdvance(1, data_usa_02153d7c[0].mLabelIndex, subFileSet->mLabelLayout,
                                                &nameBuffer[1], subFileSet->mCellLayout, subFileSet->mCellTable);

@@ -88,7 +88,7 @@ void CopyOtherPlayerEmblemsToBlocks(void) {
     }
     for (playerIndex = 0; playerIndex < 8; playerIndex++) {
         buddyIndexOfPlayer[playerIndex] = -1;
-        if (gConnectionWork->mUnk_0000 == 2) {
+        if (gConnectionWork->mConnectionMode == 2) {
             ownIndex = gConnectionWork->mOwnIndex;
         } else {
             ownIndex = 0;
@@ -222,7 +222,7 @@ static inline s32 func_0205e5c4_inline(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
-    return gConnectionWork->mUnk_0000;
+    return gConnectionWork->mConnectionMode;
 }
 
 void StartCopyOtherEmblems(s32 useConnection) {

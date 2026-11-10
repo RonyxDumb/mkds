@@ -3,9 +3,9 @@
 
 #pragma thumb on
 
-void func_0204f220(u32 *payload, int length) {
+void SetZeroWordReceived(u32 *payload, int length) {
     if ((length == 4) && (*payload == 0)) {
-        gConnectionWork->mUnk_1e38 = 1;
+        gConnectionWork->mZeroWordReceived = 1;
     }
 }
 

@@ -284,13 +284,13 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
             break;
         case 7:
             if (func_02054f58() == 1) {
-                func_0204f804();
+                SendLedPatternWireless();
                 gTimeAttackGhostGetScan->mState = 8;
             }
             break;
         case 12:
             if (func_02054f58() == 1) {
-                func_0204f804();
+                SendLedPatternWireless();
                 data_0217b488->mMenuEntryKind = 5;
                 if (sceneNumbers != NULL) {
                     sceneNumbers->mNextScene = 1;
@@ -395,7 +395,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
             break;
     }
     UpdateScanEntryOffsetX();
-    func_02054aa0();
+    UpdateConnectionSendTimer();
     for (i = 0; i < 2; i++) {
         cellFileSet = &gTimeAttackGhostGetScan->mCellFileSets[i];
         DrawLayoutTable(cellFileSet->mCellLayout, cellFileSet->mCells, cellFileSet->mLabelLayout,

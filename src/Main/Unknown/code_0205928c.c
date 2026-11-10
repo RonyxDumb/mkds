@@ -51,7 +51,7 @@ static inline u32 func_0205955c_inline(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
-    return gConnectionWork->mUnk_0000;
+    return gConnectionWork->mConnectionMode;
 }
 
 static inline s32 func_0205955c_inline2(void) {
@@ -72,7 +72,7 @@ static inline s32 func_0205955c_inline3(void) {
 
 static inline s32 func_0205955c_inline4(void) {
     BOOL r = FALSE;
-    if (func_0205955c_inline3() && gConnectionWork->mUnk_0008 != 9) {
+    if (func_0205955c_inline3() && gConnectionWork->mErrorCode != 9) {
         r = TRUE;
     }
     return r;
@@ -232,7 +232,7 @@ static inline u32 func_020593dc_inline(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
-    return gConnectionWork->mUnk_0000;
+    return gConnectionWork->mConnectionMode;
 }
 
 static inline s32 func_020593dc_inline2(void) {
@@ -253,7 +253,7 @@ static inline s32 func_020593dc_inline3(void) {
 
 static inline s32 func_020593dc_inline4(void) {
     BOOL r = FALSE;
-    if (func_020593dc_inline3() && gConnectionWork->mUnk_0008 != 9) {
+    if (func_020593dc_inline3() && gConnectionWork->mErrorCode != 9) {
         r = TRUE;
     }
     return r;
@@ -305,7 +305,7 @@ void EnterMPState16(void) {
     if (gConnectionWork == NULL) {
         v1 = 0;
     } else {
-        v1 = gConnectionWork->mUnk_0000;
+        v1 = gConnectionWork->mConnectionMode;
     }
     if (v1 == 1) {
         SetMPFrequency(0);
@@ -365,7 +365,7 @@ void EnterMPState20(void) {
     if (gConnectionWork == NULL) {
         v1 = 0;
     } else {
-        v1 = gConnectionWork->mUnk_0000;
+        v1 = gConnectionWork->mConnectionMode;
     }
     if (v1 == 1) {
         SetMPFrequency(1);

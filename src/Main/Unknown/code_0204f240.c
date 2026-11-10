@@ -54,7 +54,7 @@ void StartChildSideBlockTransfer(void) {
     gConnectionWork->mRequestPending = 0;
 }
 
-void func_0204f33c(void *heap) {
+void AllocTransferBuffers(void *heap) {
     s32 i;
     gConnectionWork->mMPSendBufferSize = 0x1c0;
     gConnectionWork->mMPSendBuffer = HeapAllocAligned(heap, gConnectionWork->mMPSendBufferSize, 0x20);
@@ -91,7 +91,7 @@ void InitBlockEntries(void *heap, s32 mode) {
     view->mUnk_66a = -1;
     view->mCompressedBuffer = NULL;
     if (mode == 2) {
-        func_0204f33c(heap);
+        AllocTransferBuffers(heap);
         RemoveGhostDataBlocks();
     } else if (mode == 1) {
         gConnectionWork->mCompressedBuffer = HeapAllocAligned(heap, 0x4b000, 0x20);

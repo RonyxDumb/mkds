@@ -26,7 +26,7 @@ static inline u32 func_02059878_inline(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
-    return gConnectionWork->mUnk_0000;
+    return gConnectionWork->mConnectionMode;
 }
 
 static inline void func_02059878_inline2(u16 v) {
@@ -115,7 +115,7 @@ void ProcessMPChunk(u8 *chunk) {
         } else {
             gConnectionWork->mUnk_162a |= 1 << chunk[0];
             if (gConnectionWork->mUnk_043a == (gConnectionWork->mUnk_043a & gConnectionWork->mUnk_162a)) {
-                ownIndex = gConnectionWork->mUnk_0000 == 2 ? gConnectionWork->mOwnIndex : 0;
+                ownIndex = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
                 if (QueueMPChunk(0xfd, NULL, 0, ownIndex, 1) != FALSE) {
                     func_02059878_inline2(10);
                 }
@@ -152,7 +152,7 @@ void func_02059878(void) {
     p = gConnectionWork;
     v = 0;
     if (p != NULL) {
-        v = p->mUnk_0000;
+        v = p->mConnectionMode;
     }
     if (v == 1) {
         p->mUnk_0044.mUnk_42 = (p->mUnk_0454 & 0x40) != 0 ? p->mUnk_1695 : p->mUnk_0044.mChildMask;

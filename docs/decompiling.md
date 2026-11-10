@@ -750,7 +750,7 @@ Expression shapes:
 - Two failure paths sharing one `flag = 0` block: `goto done` after the success test with a single `flag = 0` below, and
   carry the 0/1 flag in a variable whose first use is elsewhere (NNS_GfdAllocFrmPlttVram).
 - A predicated arm that forms its address in `ip` alone where ours goes through r4: write the multi-statement arm first,
-  with the `!= 0` test (func_02050080).
+  with the `!= 0` test (RefreshParticipantTables).
 - A one-argument call whose other copy of the declaration is unprototyped: pass the missing `0` argument
   (GpiOpenSearchSocket).
 

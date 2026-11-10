@@ -13,6 +13,6 @@ u32 GetParticipantIndex(u32 position) {
 void SetParticipantMask(u8 mask) {
     u32 value0 = mask;
     gConnectionWork->mParticipantMask = value0;
-    func_02050080();
+    RefreshParticipantTables();
     func_02058b10();
 }

@@ -140,7 +140,7 @@ void InitRaceScene(void) {
         StopWvrAndWait();
     } else {
         ClearLcdcBankAndStartWvrAndWait();
-        func_02053e74();
+        InitRaceConnection();
     }
     Init3dEngine();
     SetHeapGroupId(7);
@@ -236,7 +236,7 @@ void ReleaseRaceScene(void) {
     func_02062004();
     ReleaseRaceHud();
     ClearDispCapPointer();
-    func_02053e54();
+    ClearRaceConnectionFlag();
     FreeOverlayExpHeap();
 }
 
@@ -314,7 +314,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                 if (q == NULL) {
                     t = 0;
                 } else {
-                    t = q->mUnk_0000;
+                    t = q->mConnectionMode;
                 }
                 if (t != 0) {
                     if (q->mState != 0xd) {

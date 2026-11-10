@@ -147,7 +147,7 @@ void ReleaseGhostScene(void) {
     ReleaseSceneText();
     ClearLinkLevelIconsPointer();
     ClearKartIconPointer();
-    func_0204f7f4();
+    SendLedPatternNone();
 }
 
 void WriteGhostSceneRegisters(void) {

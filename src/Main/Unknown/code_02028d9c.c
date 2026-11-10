@@ -57,7 +57,7 @@ void SelectKartMI_CpuClearFast(void *destination, u32 size) {
 
 u16 GetOwnIndexOrZero(void) {
     int index;
-    if (gConnectionWork->mUnk_0000 == 2) {
+    if (gConnectionWork->mConnectionMode == 2) {
         index = gConnectionWork->mOwnIndex;
     } else {
         index = 0;

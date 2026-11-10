@@ -50,7 +50,7 @@ static inline u32 func_02058a40_inline(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
-    return gConnectionWork->mUnk_0000;
+    return gConnectionWork->mConnectionMode;
 }
 
 void UpdateMPState5(void) {
@@ -66,7 +66,7 @@ void UpdateMPState5(void) {
         } else {
             waitFrames = gConnectionWork->mUnk_1608.mUnk_14;
             if (waitFrames > 0xe10) {
-                func_02050e60(7);
+                SetRequestErrorCode(7);
                 return;
             }
             gConnectionWork->mUnk_1608.mUnk_14 = waitFrames + 1;
@@ -131,7 +131,7 @@ void UpdateMPState1(void) {
         if (p == NULL) {
             v = 0;
         } else {
-            v = p->mUnk_0000;
+            v = p->mConnectionMode;
         }
         if (v != 1 && gBootInfo->mUnk_00 != 2) {
             a = FALSE;
@@ -142,7 +142,7 @@ void UpdateMPState1(void) {
     }
     if (b != FALSE) {
         if (GetRomArchiveState() == 2) {
-            func_0204f8a0(gConnectionWork->mUnk_0457);
+            SetGroupSendMaskAsParent(gConnectionWork->mUnk_0457);
         } else {
             r = FALSE;
         }
@@ -197,7 +197,7 @@ static inline u32 func_02058820_inline(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
-    return gConnectionWork->mUnk_0000;
+    return gConnectionWork->mConnectionMode;
 }
 
 static inline void func_020587d8_inline(u16 nextState) {
@@ -239,7 +239,7 @@ void UpdateMPState7(void) {
                 func_020587d8_inline(8);
                 break;
             default:
-                func_02050e60(2);
+                SetRequestErrorCode(2);
                 break;
         }
     }
@@ -248,7 +248,7 @@ void UpdateMPState7(void) {
 void EnterMPState8(void) {
     u16 ownIndex;
 
-    ownIndex = gConnectionWork->mUnk_0000 == 2 ? gConnectionWork->mOwnIndex : 0;
+    ownIndex = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
     FillPlayerRecord(&gConnectionWork->mUnk_045c[ownIndex]);
     gConnectionWork->mUnk_1608.mUnk_1a |= 1;
     gConnectionWork->mEntryChunkIndex = 0;
@@ -269,7 +269,7 @@ static inline u32 func_0205821c_inline(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
-    return gConnectionWork->mUnk_0000;
+    return gConnectionWork->mConnectionMode;
 }
 
 static inline void func_0205821c_inline2(u16 nextState) {
@@ -350,10 +350,10 @@ void UpdateMPState8(void) {
     } else {
         if ((gConnectionWork->mUnk_1608.mUnk_1a & 1) != 0) {
             chunkIndex = gConnectionWork->mEntryChunkIndex;
-            v = gConnectionWork->mUnk_0000 == 2 ? gConnectionWork->mOwnIndex : 0;
+            v = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
             if (GetEntryChunk((u8 *) &gConnectionWork->mUnk_045c[v], chunkIndex, 0x20, &chunkData, &chunkSize) !=
                 FALSE) {
-                v = gConnectionWork->mUnk_0000 == 2 ? gConnectionWork->mOwnIndex : 0;
+                v = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
                 QueueMPChunk(chunkIndex, chunkData, chunkSize, v, 1);
                 gConnectionWork->mEntryChunkIndex = chunkIndex + 1;
             } else {
@@ -433,7 +433,7 @@ void UpdateMPState10(void) {
     if (gConnectionWork->mRequestPending == 0) {
         switch (gConnectionWork->mStep) {
             case 0xb:
-                func_02052da4();
+                StartRomArchiveSend();
                 break;
             case 0x25:
                 func_0205821c_inline2(6);
@@ -458,7 +458,7 @@ void UpdateMPState11(void) {
             b = gConnectionWork->mUnk_162a;
             c = b & (1 << a);
             if (c != 0) {
-                if (func_020504a4(a, b) != FALSE) {
+                if (QueueMPDataPlayerName(a, b) != FALSE) {
                     gConnectionWork->mUnk_164e++;
                 }
             } else {
@@ -487,7 +487,7 @@ void EnterMPState12(void) {
     if (gConnectionWork == NULL) {
         v1 = 0;
     } else {
-        v1 = gConnectionWork->mUnk_0000;
+        v1 = gConnectionWork->mConnectionMode;
     }
     if (v1 == 1) {
         SetMPFrequency(1);
@@ -502,7 +502,7 @@ static inline u32 func_020580a4_inline(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
-    return gConnectionWork->mUnk_0000;
+    return gConnectionWork->mConnectionMode;
 }
 
 static inline void func_020580a4_inline2(u16 v) {
@@ -533,7 +533,7 @@ void EnterMPState13(void) {
 
     gConnectionWork->mUnk_164d = 0;
     ownIndex = 0;
-    if (gConnectionWork->mUnk_0000 == 2) {
+    if (gConnectionWork->mConnectionMode == 2) {
         ownIndex = gConnectionWork->mOwnIndex;
     }
     MI_CpuCopy8(data_0217aa08->mFirstBlock->mFlags, gConnectionWork->mUnk_045c[(u16) ownIndex].mBits, 4);
@@ -551,12 +551,12 @@ void UpdateMPState13(void) {
     } else if (gConnectionWork->mUnk_164d != 0) {
         func_020580a4_inline2(0xe);
     } else {
-        if (gConnectionWork->mUnk_0000 == 2) {
+        if (gConnectionWork->mConnectionMode == 2) {
             ownIndex = gConnectionWork->mOwnIndex;
         } else {
             ownIndex = 0;
         }
-        func_020503cc((u8) (u16) ownIndex, 1);
+        QueueMPDataPlayerBits((u8) (u16) ownIndex, 1);
     }
 }
 #pragma thumb off
@@ -573,7 +573,7 @@ static inline u32 func_02057fe8_inline(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
-    return gConnectionWork->mUnk_0000;
+    return gConnectionWork->mConnectionMode;
 }
 
 static inline void func_02057fe8_inline2(u16 nextState) {
@@ -585,7 +585,7 @@ static inline void func_02057fe8_inline2(u16 nextState) {
 void UpdateMPState14(void) {
     if (func_02057fe8_inline() == 1) {
         if ((gConnectionWork->mUnk_162a & (1 << gConnectionWork->mUnk_164e)) != 0) {
-            if (func_020503cc(gConnectionWork->mUnk_164e, gConnectionWork->mUnk_0044.mChildMask) != FALSE) {
+            if (QueueMPDataPlayerBits(gConnectionWork->mUnk_164e, gConnectionWork->mUnk_0044.mChildMask) != FALSE) {
                 gConnectionWork->mUnk_164e += 1;
             }
         } else {

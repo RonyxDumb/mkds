@@ -175,7 +175,7 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
             gSelectGame->mState = 3;
             gSelectGame->mTableCount = 3;
             gSelectGame->mTable = data_02153df4;
-            func_02050080();
+            RefreshParticipantTables();
             break;
     }
     if (gBootInfo->mUnk_00 != 2) {

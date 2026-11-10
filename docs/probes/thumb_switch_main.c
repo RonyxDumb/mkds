@@ -15,7 +15,7 @@ extern int data_02153274[];
 extern int data_02153240[];
 extern Obj0217a9e0 *data_0217a9e0;
 Obj02029930 *func_02029930(void);
-void func_02050e60(int arg);
+void SetRequestErrorCode(int arg);
 
 // PROBE: GetCharacterKartIndexByMode
 int GetCharacterKartIndexByMode(int idx) {
@@ -41,7 +41,7 @@ void RepeatedScanCallback(int arg) {
         case 1:
             break;
         case 2:
-            func_02050e60(5);
+            SetRequestErrorCode(5);
             break;
         case 3:
             data_0217a9e0->mUnk_10 = 0;

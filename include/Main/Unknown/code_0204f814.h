@@ -4,13 +4,13 @@
 
 typedef struct GhostRecordHead GhostRecordHead;
 
-void func_0204f814(void);
-void func_0204f8a0(u8 a);
+void SetParentChannelLowestSum(void);
+void SetGroupSendMaskAsParent(u8 sendMask);
 void FillGhostParentParameter(GhostRecordHead *ghostRecord);
 void FillParentParameter(s32 a);
-BOOL func_0204fcec(u16 entryIndex, void *destination);
-s32 func_0204fe1c(u16 entryIndex);
-BOOL func_0204fe90(u16 entryIndex);
-BOOL func_0204ff14(u16 entryIndex, void *destination);
-BOOL func_0204ffbc(void);
-u16 func_0204ffe8(u32 participantIndex);
+BOOL TryGetPlayerName(u16 entryIndex, void *destination);
+s32 GetScanSlotChildCount(u16 entryIndex);
+BOOL IsScanSlotMultiBoot(u16 entryIndex);
+BOOL TryGetScanSlotName(u16 entryIndex, void *destination);
+BOOL IsDataSharingSyncDone(void);
+u16 GetParticipantPadKeys(u32 participantIndex);

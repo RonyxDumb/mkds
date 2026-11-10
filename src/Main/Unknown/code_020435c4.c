@@ -321,7 +321,7 @@ u32 GetPadKeys(void) {
 
 static inline s32 func_02043648_inline(ConnectionWork *p) {
     BOOL r = FALSE;
-    if ((p == NULL ? 0 : p->mUnk_0000) != 0 && p->mState != 13) {
+    if ((p == NULL ? 0 : p->mConnectionMode) != 0 && p->mState != 13) {
         r = TRUE;
     }
     return r;
@@ -351,7 +351,7 @@ void UpdateInputSlots(void) {
     padOrParticipantTouchPoint = packedTouchPoint;
     micOverThreshold = gTouchMicInput->mMicOverThreshold;
     if (func_02043648_inline(gConnectionWork) != 0) {
-        padOrParticipantKeys = func_0204ffe8(GetParticipantIndex(data_02175624->mUnk_08));
+        padOrParticipantKeys = GetParticipantPadKeys(GetParticipantIndex(data_02175624->mUnk_08));
         padOrParticipantTouchPoint =
             gConnectionWork->mUnk_15bc_view.mUnk_0c[GetParticipantIndex(data_02175624->mUnk_08)].mUnk_00_2;
         GetParticipantIndex(data_02175624->mUnk_08);
@@ -422,7 +422,7 @@ void UpdateInputSlots(void) {
                 case 4:
                     if (f == 0) {
                         if (canReadKeys != 0) {
-                            slotKeys = func_0204ffe8(GetParticipantIndex(slotIndex));
+                            slotKeys = GetParticipantPadKeys(GetParticipantIndex(slotIndex));
                             if (data_02175624->mFlags & 4) {
                                 t = slotKeys & 0xffcf;
                                 if (slotKeys & PAD_KEY_LEFT) {

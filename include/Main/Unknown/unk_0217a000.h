@@ -264,20 +264,20 @@ typedef struct Unk0217aa00_24_50_0e_36 {
     /* 16 */ u8 mUnk_16[0x16];
 } Unk0217aa00_24_50_0e_36;
 
-// 0x62 bytes from 0xe of Unk0217aa00_24_50.
+// 0x62 bytes from 0xe of UserGameInfo.
 typedef struct Unk0217aa00_24_50_0e {
     /* 00 */ u8 mUnk_00[6];
     /* 06 */ union {
         u8 mUnk_06;
         struct {
-            u8 mUnk_06_0 : 4;
-            u8 mUnk_06_4 : 4;
+            u8 mChildCount : 4;
+            u8 mLanguageIndex : 4;
         };
     };
     /* 07 */ union {
         u8 mUnk_07;
         struct {
-            u8 mUnk_07_0 : 1;
+            u8 mHasGhost : 1;
             u8 mKartIndex : 6;
         };
     };
@@ -288,7 +288,7 @@ typedef struct Unk0217aa00_24_50_0e {
 } Unk0217aa00_24_50_0e;
 
 // 0x70 bytes at 0x50 of ScanBlock; the word at 0x38 of ChildList points to one.
-typedef struct Unk0217aa00_24_50 {
+typedef struct UserGameInfo {
     union {
         struct {
             /* 00 */ u8 mUnk_00[7];
@@ -313,7 +313,7 @@ typedef struct Unk0217aa00_24_50 {
             /* 1c */ u8 mUnk_1c[0x54];
         };
     };
-} Unk0217aa00_24_50;
+} UserGameInfo;
 
 // 0xc0-byte record: the first 0x3c bytes are taken from 0x027ffc42 when the halfword at 0x027ffc40 is 2 (or from
 // address 0); the halfwords at 0x4c and 0x4e and the bytes from 0x4a are set by MB_ReadMultiBootParentBssDesc and
@@ -335,7 +335,7 @@ typedef struct ScanBlock {
     /* 4b */ u8 mFlags;
     /* 4c */ u16 mUnk_4c;
     /* 4e */ u16 mUnk_4e;
-    /* 50 */ Unk0217aa00_24_50 mUnk_50;
+    /* 50 */ UserGameInfo mUnk_50;
 } ScanBlock;
 
 // Object behind member 0x15c4 of ConnectionWork.
@@ -363,7 +363,7 @@ typedef struct ChildEntry {
 // 0x44 bytes from 0x44 of ConnectionWork.
 typedef struct ChildList {
     /* 00 */ ChildEntry mEntries[7];
-    /* 38 */ Unk0217aa00_24_50 *mUnk_38;
+    /* 38 */ UserGameInfo *mUnk_38;
     /* 3c */ u16 mUnk_3c;
     /* 3e */ u16 mUnk_3e;
     /* 40 */ u8 mChildCount;
@@ -465,24 +465,24 @@ typedef struct PlayerRecord {
 } PlayerRecord;
 
 // Six bytes, compared and assigned as one object.
-typedef struct Unk0217aa00_42c {
+typedef struct ScanMacAddress {
     /* 00 */ u8 mUnk_00[6];
-} Unk0217aa00_42c;
+} ScanMacAddress;
 
 // 0xe0-byte entries from 0xac of ConnectionWork.
 typedef struct ScanSlot {
     /* 00 */ ScanBlock mUnk_00;
-    /* c0 */ Unk0217aa00_42c mKey;
-    /* c6 */ u8 mUnk_c6[0x14];
-    /* da */ u8 mUnk_da;
+    /* c0 */ ScanMacAddress mKey;
+    /* c6 */ u8 mName[0x14];
+    /* da */ u8 mChildCount;
     /* db */ u8 mAge;
     /* dc */ union {
         u8 mUnk_dc;
         struct {
             u8 mInUse : 1;
             u8 mLanguageIndex : 4;
-            u8 mUnk_dc_5 : 1;
-            u8 mUnk_dc_6 : 1;
+            u8 mMultiBoot : 1;
+            u8 mHasGhost : 1;
         };
     };
     /* dd */ u8 mUnk_dd[3];
@@ -594,16 +594,16 @@ typedef struct Unk0217aa00_1658 {
 } Unk0217aa00_1658;
 
 typedef struct ConnectionWork {
-    /* 0000 */ u32 mUnk_0000;
+    /* 0000 */ u32 mConnectionMode;
     /* 0004 */ s32 mState;
-    /* 0008 */ s32 mUnk_0008;
+    /* 0008 */ s32 mErrorCode;
     /* 000c */ s32 mStep;
     /* 0010 */ s32 mRequestPending;
     /* 0014 */ void *mUnk_0014;
     /* 0018 */ Unk02143c30 *mParentParameter;
     /* 001c */ Unk02143a78 *mUnk_001c;
     /* 0020 */ Unk021438f0 *mUnk_0020;
-    /* 0024 */ ScanBlock *mUnk_0024;
+    /* 0024 */ ScanBlock *mParentBssDesc;
     /* 0028 */ void *mUnk_0028;
     /* 002c */ void *mUnk_002c;
     /* 0030 */ s32 mUnk_0030;
@@ -612,7 +612,7 @@ typedef struct ConnectionWork {
     /* 003c */ void *mUnk_003c;
     /* 0040 */ void *mUnk_0040;
     /* 0044 */ ChildList mUnk_0044;
-    /* 0088 */ s8 mUnk_0088;
+    /* 0088 */ s8 mParentChannel;
     /* 0089 */ union {
         u8 mUnk_0089;
         struct {
@@ -622,12 +622,12 @@ typedef struct ConnectionWork {
     };
     /* 008a */ u8 mRemovedChildMask;
     /* 008b */ u8 mUnk_008b;
-    /* 008c */ s16 mUnk_008c[0xe];
+    /* 008c */ s16 mChannelSums[0xe];
     /* 00a8 */ u8 mUnk_00a8[4];
     /* 00ac */ union {
         struct {
             /* 00ac */ ScanSlot mUnk_00ac[4];
-            /* 042c */ Unk0217aa00_42c mUnk_042c;
+            /* 042c */ ScanMacAddress mUnk_042c;
             /* 0432 */ u16 mOwnIndex;
             /* 0434 */ u16 mUnk_0434;
             /* 0436 */ u16 mUnk_0436;
@@ -737,7 +737,7 @@ typedef struct ConnectionWork {
             /* 1e2c */ s32 mMPReceiveBufferSize;
             /* 1e30 */ u8 *mPacketBuffer;
             /* 1e34 */ s32 mUnk_1e34;
-            /* 1e38 */ s32 mUnk_1e38;
+            /* 1e38 */ s32 mZeroWordReceived;
             /* 1e3c */ s32 mUnk_1e3c;
             /* 1e40 */ u16 mGhostBlockCount;
             /* 1e42 */ u16 mSendTimer;

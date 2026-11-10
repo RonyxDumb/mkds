@@ -287,7 +287,7 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
                     i = 0;
                 }
                 gPlayerEntryList->mPlayerCount = (u8) i;
-                if (gConnectionWork->mUnk_0000 == 2) {
+                if (gConnectionWork->mConnectionMode == 2) {
                     i = gConnectionWork->mOwnIndex;
                 } else {
                     i = 0;

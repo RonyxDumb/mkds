@@ -45,7 +45,7 @@ static inline u32 func_020487fc_inline(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
-    return gConnectionWork->mUnk_0000;
+    return gConnectionWork->mConnectionMode;
 }
 
 static inline s32 func_020487fc_inline2(void) {
@@ -316,7 +316,7 @@ end:
         gSceneRunState->mRunStep = 4;
         data_021759d0->mConnectionKind = 0;
         c = FALSE;
-        func_0204f7f4();
+        SendLedPatternNone();
         do {
             PrepareDisplayFrame();
             UpdateSounds();

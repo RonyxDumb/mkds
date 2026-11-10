@@ -28,7 +28,7 @@ static inline u32 func_02050650_inline(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
-    return gConnectionWork->mUnk_0000;
+    return gConnectionWork->mConnectionMode;
 }
 
 void DisconnectChildren(u32 aidBitmap) {
@@ -71,7 +71,7 @@ void EndDataSharing(void) {
     if (result == 0) {
         return;
     }
-    func_020533a0();
+    StopConnection();
 }
 
 void EndMP(void) {
@@ -80,7 +80,7 @@ void EndMP(void) {
     if (WM_EndMP(EndMPCallback) == 2) {
         return;
     }
-    func_020533a0();
+    StopConnection();
 }
 
 void EndMPCallback(Unk021425e8 *event) {
@@ -89,7 +89,7 @@ void EndMPCallback(Unk021425e8 *event) {
     gConnectionWork->mRequestPending = 0;
     gConnectionWork->mUnk_0454 &= ~1;
     if (event->mResultCode != 0) {
-        func_020533a0();
+        StopConnection();
         return;
     }
     connection = gConnectionWork;
@@ -104,13 +104,13 @@ void EndParent(void) {
     if (WM_EndParent(EndParentCallback) == 2) {
         return;
     }
-    func_020533a0();
+    StopConnection();
 }
 
 void EndParentCallback(Unk021425e8 *event) {
     gConnectionWork->mRequestPending = 0;
     if (event->mResultCode != 0) {
-        func_020533a0();
+        StopConnection();
     } else {
         ResetConnectionData();
     }
@@ -153,7 +153,7 @@ void Disconnect(void) {
             }
             break;
         default:
-            func_020533a0();
+            StopConnection();
             break;
     }
 }
@@ -165,7 +165,7 @@ void DisconnectCallback(Unk021425e8 *event) {
         case 0:
         case 7:
             gConnectionWork->mRequestPending = 0;
-            switch (gConnectionWork->mUnk_0000) {
+            switch (gConnectionWork->mConnectionMode) {
                 case 1:
                     aid = gConnectionWork->mUnk_0044.mEntries[gConnectionWork->mUnk_0044.mDisconnectingIndex].mAid;
                     RemoveChild(aid);
@@ -188,11 +188,11 @@ void DisconnectCallback(Unk021425e8 *event) {
                 ResetConnectionData();
                 gConnectionWork->mRequestPending = 0;
             } else {
-                func_020533a0();
+                StopConnection();
             }
             break;
         default:
-            func_020533a0();
+            StopConnection();
             break;
     }
 }
@@ -201,18 +201,18 @@ BOOL IsWMInitializeStarted(void) {
     return (gConnectionWork->mUnk_0454 & 0x40) != 0;
 }
 
-s32 func_020510c8(void) {
+s32 GetConnectionMode(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
-    return gConnectionWork->mUnk_0000;
+    return gConnectionWork->mConnectionMode;
 }
 
 static inline u32 func_02050ec0_inline(void) {
-    return IsWMInitializeStarted() != FALSE && (func_020510c8() == 1 || func_020510ac() != FALSE);
+    return IsWMInitializeStarted() != FALSE && (GetConnectionMode() == 1 || ConnectionMB_IsMultiBootChild() != FALSE);
 }
 
-BOOL func_020510ac(void) {
+BOOL ConnectionMB_IsMultiBootChild(void) {
     return gBootInfo->mUnk_00 == 2;
 }
 
@@ -275,15 +275,15 @@ void End(void) {
 void EndCallback(Unk021425e8 *event) {
     gConnectionWork->mRequestPending = 0;
     if (event->mResultCode != 0) {
-        gConnectionWork->mUnk_0008 = 8;
+        gConnectionWork->mErrorCode = 8;
         gConnectionWork->mRequestPending = 0;
     } else {
-        gConnectionWork->mUnk_0000 = 0;
+        gConnectionWork->mConnectionMode = 0;
     }
 }
 
-void func_02050e60(s32 a) {
-    gConnectionWork->mUnk_0008 = a;
+void SetRequestErrorCode(s32 errorCode) {
+    gConnectionWork->mErrorCode = errorCode;
     gConnectionWork->mRequestPending = 0;
 }
 
@@ -379,13 +379,13 @@ void RemoveChild(u32 aid) {
     switch (gConnectionWork->mState) {
         case 9:
             if (children->mChildCount < 1) {
-                gConnectionWork->mUnk_0008 = 0;
+                gConnectionWork->mErrorCode = 0;
                 gConnectionWork->mRequestPending = 0;
             }
             break;
         case 7:
         case 8:
-            gConnectionWork->mUnk_0008 = 0;
+            gConnectionWork->mErrorCode = 0;
             gConnectionWork->mRequestPending = 0;
             break;
     }
@@ -408,7 +408,7 @@ void ProcessMPData(u32 aid, MPMessage *message) {
             break;
         case 1:
             gConnectionWork->mParticipantMask = message->mUnk_04;
-            func_02050080();
+            RefreshParticipantTables();
             func_02058b10();
             break;
         case 2:
@@ -521,16 +521,16 @@ BOOL QueueMPDataHalfword(s32 kind, u16 destBitmap) {
     return FALSE;
 }
 
-BOOL func_020504a4(s32 playerIndex, u16 destBitmap) {
-    Unk020504a4 message;
+BOOL QueueMPDataPlayerName(s32 playerIndex, u16 destBitmap) {
+    MPPlayerNameMessage message;
 
-    message.mUnk_00 = 6;
-    MI_CpuCopy8(&gConnectionWork->mUnk_045c[playerIndex], message.mUnk_02, 0x14);
-    message.mUnk_16 = playerIndex;
+    message.mKind = 6;
+    MI_CpuCopy8(&gConnectionWork->mUnk_045c[playerIndex], message.mName, 0x14);
+    message.mPlayerIndex = playerIndex;
     if (func_02050650_inline() == 1) {
-        message.mUnk_17 = gConnectionWork->mUnk_0044.mChildMask | 1;
+        message.mConnectedMask = gConnectionWork->mUnk_0044.mChildMask | 1;
     } else {
-        message.mUnk_17 = 0;
+        message.mConnectedMask = 0;
     }
     if ((gConnectionWork->mUnk_0454 & 1) == 0) {
         return FALSE;
@@ -544,12 +544,12 @@ BOOL func_020504a4(s32 playerIndex, u16 destBitmap) {
     return FALSE;
 }
 
-BOOL func_020503cc(s32 playerIndex, u16 destBitmap) {
-    Unk020503cc message;
+BOOL QueueMPDataPlayerBits(s32 playerIndex, u16 destBitmap) {
+    MPPlayerBitsMessage message;
 
-    message.mUnk_00 = 9;
-    MI_CpuCopy8(gConnectionWork->mUnk_045c[playerIndex].mBits, message.mUnk_02, 4);
-    message.mUnk_0a = playerIndex;
+    message.mKind = 9;
+    MI_CpuCopy8(gConnectionWork->mUnk_045c[playerIndex].mBits, message.mBits, 4);
+    message.mPlayerIndex = playerIndex;
     if ((gConnectionWork->mUnk_0454 & 1) == 0) {
         return FALSE;
     }

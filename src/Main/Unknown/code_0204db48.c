@@ -21,19 +21,19 @@ s32 AdvanceScanConnect(u16 entryIndex) {
 
     switch (connectionWork->mStep) {
         case 29:
-            if (func_020501b0(entryIndex) == 0) {
-                func_02050e60(5);
+            if (TrySelectScanSlot(entryIndex) == 0) {
+                SetRequestErrorCode(5);
             }
-            if (func_0204ff14(entryIndex, NULL) != 0) {
+            if (TryGetScanSlotName(entryIndex, NULL) != 0) {
                 StartRequestEndScan();
             } else {
-                func_02050e60(5);
+                SetRequestErrorCode(5);
             }
             break;
         case 10:
             connectionWork->mUnk_1692 = connectionWork->mUnk_1692 + 1;
             if (gConnectionWork->mUnk_1692 > 0x4b0) {
-                func_02050e60(5);
+                SetRequestErrorCode(5);
                 return 3;
             }
             break;
@@ -44,7 +44,7 @@ s32 AdvanceScanConnect(u16 entryIndex) {
             s32 scanEntryIndex;
             connectionWork->mUnk_1692 = connectionWork->mUnk_1692 + 1;
             if (gConnectionWork->mUnk_1692 > 0x4b0) {
-                func_02050e60(5);
+                SetRequestErrorCode(5);
             } else {
                 scanEntryIndex = FindScanEntryIndex(entryIndex);
                 if (scanEntryIndex != -1) {
@@ -154,7 +154,7 @@ s32 AdvanceChildMaskCovered(void) {
         result = TRUE;
     } else if (connectionWork->mUnk_1692 > 0x708) {
         if (childMask == 0) {
-            func_02050e60(5);
+            SetRequestErrorCode(5);
         } else {
             gConnectionWork->mUnk_1695 = CompactMaskBits(childMask);
             result = TRUE;
@@ -202,7 +202,7 @@ s32 AdvanceMultiBootParent(void) {
             SetParentParameter();
             break;
         case 4:
-            func_0204f814();
+            SetParentChannelLowestSum();
             FillParentParameter(1);
             SetParentParameter();
             break;

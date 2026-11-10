@@ -20,7 +20,7 @@ static inline u32 func_02051658_inline(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
-    return gConnectionWork->mUnk_0000;
+    return gConnectionWork->mConnectionMode;
 }
 
 void StartScan(s32 a, s32 (*b)(), s32 (*c)()) {
@@ -35,19 +35,19 @@ void StartScan(s32 a, s32 (*b)(), s32 (*c)()) {
     s = &connection->mUnk_00ac_view;
     channel = s->mUnk_38d;
     scanParams = connection->mUnk_001c;
-    connection->mUnk_0000 = 2;
+    connection->mConnectionMode = 2;
     gConnectionWork->mStep = 7;
     gConnectionWork->mRequestPending = 1;
     allowedChannels = WM_GetAllowedChannel();
     if (allowedChannels == 0) {
         gConnectionWork->mRequestPending = 0;
-        gConnectionWork->mUnk_0008 = 3;
+        gConnectionWork->mErrorCode = 3;
         gConnectionWork->mRequestPending = 0;
         return;
     }
     if (allowedChannels == 0x8000) {
         gConnectionWork->mRequestPending = 0;
-        gConnectionWork->mUnk_0008 = 8;
+        gConnectionWork->mErrorCode = 8;
         gConnectionWork->mRequestPending = 0;
         return;
     }
@@ -77,7 +77,7 @@ void StartScan(s32 a, s32 (*b)(), s32 (*c)()) {
     scanParams->mUnk_06 = WM_GetDispersionScanPeriod();
     if (WM_StartScan(StartScanCallback, scanParams) != 2) {
         gConnectionWork->mUnk_0436 &= ~1;
-        func_020533a0();
+        StopConnection();
         return;
     }
     gConnectionWork->mUnk_0436 |= 1;
@@ -90,33 +90,33 @@ void StartScan(s32 a, s32 (*b)(), s32 (*c)()) {
     }
 }
 
-void func_020525a8(ScanSlot *slot, ScanBlock *scanBuffer, Unk0217aa00_42c *key, Unk0217aa00_24_50 *d, u8 e) {
-    s32 n0;
-    u8 n1;
-    s32 k;
+void FillScanSlot(ScanSlot *slot, ScanBlock *scanBuffer, ScanMacAddress *key, UserGameInfo *gameInfo, u8 entryIndex) {
+    s32 childCount;
+    u8 languageIndex;
+    s32 isGhost;
 
-    if (e >= 4) {
+    if (entryIndex >= 4) {
         return;
     }
-    k = d->mUnk_0e.mUnk_07_0;
-    if (k != 0) {
+    isGhost = gameInfo->mUnk_0e.mHasGhost;
+    if (isGhost != 0) {
         if (gConnectionWork->mUnk_1d00 != 2) {
             return;
         }
-        n1 = d->mUnk_0e.mUnk_06_4;
-        n0 = d->mUnk_0e.mUnk_06_0;
+        languageIndex = gameInfo->mUnk_0e.mLanguageIndex;
+        childCount = gameInfo->mUnk_0e.mChildCount;
         MI_CpuCopy8(scanBuffer, slot, 0xc0);
         slot->mKey = *key;
         slot->mInUse = 1;
         slot->mAge = 0;
-        if (n0 >= 0) {
-            slot->mUnk_da = n0;
+        if (childCount >= 0) {
+            slot->mChildCount = childCount;
         }
-        slot->mLanguageIndex = n1;
-        slot->mUnk_dc_5 = 0;
-        slot->mUnk_dc_6 = k;
-        MI_CpuCopy8(d, slot->mUnk_c6, 0x14);
-        SetScanGhostInfo(e, d);
+        slot->mLanguageIndex = languageIndex;
+        slot->mMultiBoot = 0;
+        slot->mHasGhost = isGhost;
+        MI_CpuCopy8(gameInfo, slot->mName, 0x14);
+        SetScanGhostInfo(entryIndex, gameInfo);
     } else {
         s32 m0;
         u8 m1;
@@ -124,23 +124,23 @@ void func_020525a8(ScanSlot *slot, ScanBlock *scanBuffer, Unk0217aa00_42c *key, 
         if (gConnectionWork->mUnk_1d00 == 2) {
             return;
         }
-        m1 = d->mUnk_0e.mUnk_06_4;
-        m0 = d->mUnk_0e.mUnk_06_0;
+        m1 = gameInfo->mUnk_0e.mLanguageIndex;
+        m0 = gameInfo->mUnk_0e.mChildCount;
         MI_CpuCopy8(scanBuffer, slot, 0xc0);
         slot->mKey = *key;
         slot->mInUse = 1;
         slot->mAge = 0;
         if (m0 >= 0) {
-            slot->mUnk_da = m0;
+            slot->mChildCount = m0;
         }
         slot->mLanguageIndex = m1;
-        slot->mUnk_dc_5 = 0;
-        slot->mUnk_dc_6 = k;
-        MI_CpuCopy8(d, slot->mUnk_c6, 0x14);
+        slot->mMultiBoot = 0;
+        slot->mHasGhost = isGhost;
+        MI_CpuCopy8(gameInfo, slot->mName, 0x14);
     }
 }
 
-void FindOrAddScanSlot(ScanBlock *scanBuffer, Unk0217aa00_42c *key, Unk0217aa00_24_50 *c) {
+void FindOrAddScanSlot(ScanBlock *scanBuffer, ScanMacAddress *key, UserGameInfo *c) {
     Unk0217aa00_24_50_0e_36 *x;
     s32 i;
     s32 n;
@@ -151,7 +151,7 @@ void FindOrAddScanSlot(ScanBlock *scanBuffer, Unk0217aa00_42c *key, Unk0217aa00_
     BOOL found;
     ScanSlot *slot;
     Unk0217aa00_24_50_0e *u;
-    Unk0217aa00_24_50 *t;
+    UserGameInfo *t;
     s8 v;
 
     connection = gConnectionWork;
@@ -202,16 +202,16 @@ void FindOrAddScanSlot(ScanBlock *scanBuffer, Unk0217aa00_42c *key, Unk0217aa00_
                 chosenSlot->mInUse = 1;
                 chosenSlot->mAge = 0;
                 if (v >= 0) {
-                    chosenSlot->mUnk_da = v;
+                    chosenSlot->mChildCount = v;
                 }
                 chosenSlot->mLanguageIndex = 0;
-                chosenSlot->mUnk_dc_5 = 1;
-                chosenSlot->mUnk_dc_6 = 0;
-                MI_CpuCopy8(x->mUnk_02, chosenSlot->mUnk_c6, 0x14);
+                chosenSlot->mMultiBoot = 1;
+                chosenSlot->mHasGhost = 0;
+                MI_CpuCopy8(x->mUnk_02, chosenSlot->mName, 0x14);
                 gConnectionWork->mUnk_0438 = 0;
             } else if (t->mUnk_07 == 9) {
                 if (chosenSlot->mInUse != 0) {
-                    chosenSlot->mUnk_da = t->mUnk_0a - 1;
+                    chosenSlot->mChildCount = t->mUnk_0a - 1;
                 }
             } else if (chosenSlot->mInUse != 0) {
                 chosenSlot->mAge = 0;
@@ -222,7 +222,7 @@ void FindOrAddScanSlot(ScanBlock *scanBuffer, Unk0217aa00_42c *key, Unk0217aa00_
             }
         }
     } else if (scanBuffer->mUnk_4a == 0x1c) {
-        func_020525a8(chosenSlot, scanBuffer, key, c, i);
+        FillScanSlot(chosenSlot, scanBuffer, key, c, i);
     }
     s = &gConnectionWork->mUnk_00ac_view;
     s->mUnk_388 = 0;
@@ -235,7 +235,7 @@ void FindOrAddScanSlot(ScanBlock *scanBuffer, Unk0217aa00_42c *key, Unk0217aa00_
 
 void StartScanCallback(Unk021425e8 *event) {
     ScanBlock scanBuffer;
-    Unk0217aa00_42c key;
+    ScanMacAddress key;
     s32 i;
     ConnectionWork *connection;
     s32 j;
@@ -290,7 +290,7 @@ void StartScanCallback(Unk021425e8 *event) {
                                 key.mUnk_00[4] = event->mUnk_0a[4];
                                 key.mUnk_00[5] = event->mUnk_0a[5];
                                 FindOrAddScanSlot(&scanBuffer, &key, &scanBuffer.mUnk_50);
-                                *gConnectionWork->mUnk_0024 = scanBuffer;
+                                *gConnectionWork->mParentBssDesc = scanBuffer;
                             }
                         }
                     } else if (gConnectionWork->mUnk_0438 == 0) {
@@ -328,7 +328,7 @@ void StartScanCallback(Unk021425e8 *event) {
         }
         StartScan(1, gConnectionWork->mUnk_0440, gConnectionWork->mUnk_0444);
     } else {
-        func_020533a0();
+        StopConnection();
     }
 }
 
@@ -339,7 +339,7 @@ void EndScan(void) {
     if (WM_EndScan(EndScanCallback) == 2) {
         return;
     }
-    func_020533a0();
+    StopConnection();
 }
 
 void EndScanCallback(Unk021425e8 *event) {
@@ -347,7 +347,7 @@ void EndScanCallback(Unk021425e8 *event) {
     if (event->mResultCode == 0) {
         return;
     }
-    func_020533a0();
+    StopConnection();
 }
 
 void StartConnect(ScanBlock *a, void *b, void (*c)(), void (*d)(), void (*e)()) {
@@ -356,7 +356,7 @@ void StartConnect(ScanBlock *a, void *b, void (*c)(), void (*d)(), void (*e)()) 
     MI_CpuFill8(v1, 0, 0x18);
     MI_CpuCopy8(&data_0217aa08->mFirstBlock->mPlayerName, v1, 0x14);
     if (a != NULL) {
-        *gConnectionWork->mUnk_0024 = *a;
+        *gConnectionWork->mParentBssDesc = *a;
     }
     if (b == NULL) {
         v1[0x14] = 0;
@@ -368,8 +368,8 @@ void StartConnect(ScanBlock *a, void *b, void (*c)(), void (*d)(), void (*e)()) 
     }
     gConnectionWork->mStep = 10;
     gConnectionWork->mRequestPending = 1;
-    if (WM_StartConnectEx(StartConnectCallback, (u16 *) gConnectionWork->mUnk_0024, v1, 1, 0) != 2) {
-        func_020533a0();
+    if (WM_StartConnectEx(StartConnectCallback, (u16 *) gConnectionWork->mParentBssDesc, v1, 1, 0) != 2) {
+        StopConnection();
         return;
     }
     gConnectionWork->mUnk_0448 = c;
@@ -395,7 +395,7 @@ void StartConnectCallback(Unk021425e8 *event) {
                             v = gConnectionWork->mParentParameter->mUnk_0c;
                             break;
                         case 2:
-                            v = gConnectionWork->mUnk_0024->mUnk_48;
+                            v = gConnectionWork->mParentBssDesc->mUnk_48;
                             break;
                     }
                     randomState = &gConnectionWork->mRandomState;
@@ -419,7 +419,7 @@ void StartConnectCallback(Unk021425e8 *event) {
                             case 4:
                             case 5:
                             case 6:
-                                func_020533a0();
+                                StopConnection();
                                 break;
                             case 0xa:
                                 shouldReset = TRUE;
@@ -459,7 +459,7 @@ void StartConnectCallback(Unk021425e8 *event) {
         return;
     }
     ResetConnectionData();
-    gConnectionWork->mUnk_0008 = 0;
+    gConnectionWork->mErrorCode = 0;
     gConnectionWork->mRequestPending = 0;
 }
 
@@ -470,7 +470,7 @@ void StartMP(void) {
                      gConnectionWork->mUnk_0034, gConnectionWork->mUnk_0030, 1, 0, 0, 0, 0, 0) == 2) {
         return;
     }
-    gConnectionWork->mUnk_0008 = 2;
+    gConnectionWork->mErrorCode = 2;
     gConnectionWork->mRequestPending = 0;
 }
 
@@ -494,7 +494,7 @@ void StartMPCallback(Unk021425e8 *event) {
             break;
         default:
             gConnectionWork->mUnk_0454 |= 1;
-            gConnectionWork->mUnk_0008 = 2;
+            gConnectionWork->mErrorCode = 2;
             gConnectionWork->mRequestPending = 0;
             break;
     }
@@ -513,14 +513,14 @@ void SetMPFrequency(u32 mpFreq) {
     if (result == 2) {
         return;
     }
-    gConnectionWork->mUnk_0008 = 2;
+    gConnectionWork->mErrorCode = 2;
     gConnectionWork->mRequestPending = 0;
 }
 
 void SetMPFrequencyCallback(Unk021425e8 *event) {
     gConnectionWork->mRequestPending = 0;
     if (event->mResultCode != 0) {
-        gConnectionWork->mUnk_0008 = 2;
+        gConnectionWork->mErrorCode = 2;
         gConnectionWork->mRequestPending = 0;
     }
 }
@@ -537,7 +537,7 @@ void SetEntry(s32 enabled) {
     if (result == 2) {
         return;
     }
-    func_020533a0();
+    StopConnection();
 }
 
 void SetEntryCallback(Unk021425e8 *event) {
@@ -545,7 +545,7 @@ void SetEntryCallback(Unk021425e8 *event) {
     if (event->mResultCode == 0) {
         return;
     }
-    func_020533a0();
+    StopConnection();
 }
 
 void StartDataSharing(void) {
@@ -556,7 +556,7 @@ void StartDataSharing(void) {
     result = WM_StartDataSharing(gConnectionWork->mUnk_15bc, 0xc, 0xff, 8, 1);
     gConnectionWork->mRequestPending = 0;
     if (result != 0) {
-        gConnectionWork->mUnk_0008 = 2;
+        gConnectionWork->mErrorCode = 2;
         gConnectionWork->mRequestPending = 0;
         return;
     }
@@ -574,7 +574,7 @@ void SetGameInfo(void) {
     gConnectionWork->mStep = 0xf;
     gConnectionWork->mRequestPending = 1;
     children = &gConnectionWork->mUnk_0044;
-    children->mUnk_38->mUnk_0e.mUnk_06_0 = children->mChildCount;
+    children->mUnk_38->mUnk_0e.mChildCount = children->mChildCount;
     r = TRUE;
     if (gConnectionWork->mState != 8 && gConnectionWork->mState != 9) {
         r = FALSE;

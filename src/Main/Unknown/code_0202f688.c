@@ -218,13 +218,13 @@ void UpdateMemberRowsFromScanSlots(void) {
             if (gMultiSelectMemberGroup->mUnk_88 != FALSE) {
                 if (gMultiSelectMemberGroup->mSelectedIndex < 4) {
                     for (i = 0; i < 4; i++) {
-                        if (func_0204ff14(i, &GetWLMenuSceneScanSlotPick()->mSlotTexts[i]) != 0) {
+                        if (TryGetScanSlotName(i, &GetWLMenuSceneScanSlotPick()->mSlotTexts[i]) != 0) {
                             GetWLMenuSceneScanSlotPick()->mSlotTexts[i].mTerminator = 0;
                         } else {
                             func_0202f764_inline(&GetWLMenuSceneScanSlotPick()->mSlotTexts[i], 0x16);
                         }
                     }
-                    if (func_0204ff14(gMultiSelectMemberGroup->mSelectedIndex, NULL) != 0) {
+                    if (TryGetScanSlotName(gMultiSelectMemberGroup->mSelectedIndex, NULL) != 0) {
                         GetWLMenuSceneScanSlotPick()->mSlotIndex = gMultiSelectMemberGroup->mSelectedIndex;
                         gMultiSelectMemberGroup->mNextCallbacksIndex = 3;
                         gMultiSelectMemberGroup->mUpdateState = 0xb;
@@ -245,14 +245,14 @@ void UpdateMemberRowsFromScanSlots(void) {
                 oldWord8 = gMultiSelectMemberGroup->mUnk_58[i].mUnk_08;
                 oldWord4 = gMultiSelectMemberGroup->mUnk_58[i].mUnk_04;
                 func_0202f764_inline(&entry, 0x16);
-                gMultiSelectMemberGroup->mUnk_58[i].mHasText = func_0204ff14(i, &entry);
+                gMultiSelectMemberGroup->mUnk_58[i].mHasText = TryGetScanSlotName(i, &entry);
                 if (gMultiSelectMemberGroup->mUnk_58[i].mHasText != 0) {
                     entry.mTerminator = 0;
                     PrintLabelLayoutTextNoFixedAdvance(1, gMemberRowCellIndices[i].mLabelIndex,
                                                        cellFileSet->mLabelLayout, &entry, cellFileSet->mCellLayout,
                                                        cellFileSet->mCellTable);
-                    gMultiSelectMemberGroup->mUnk_58[i].mUnk_08 = func_0204fe1c(i);
-                    gMultiSelectMemberGroup->mUnk_58[i].mUnk_04 = func_0204fe90(i);
+                    gMultiSelectMemberGroup->mUnk_58[i].mUnk_08 = GetScanSlotChildCount(i);
+                    gMultiSelectMemberGroup->mUnk_58[i].mUnk_04 = IsScanSlotMultiBoot(i);
                 } else {
                     PrintLabelLayoutTextNoFixedAdvance(1, gMemberRowCellIndices[i].mLabelIndex,
                                                        cellFileSet->mLabelLayout,
@@ -414,7 +414,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
                     if (gMultiSelectMemberGroup->mSelectedIndex == 4) {
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x4e);
                     } else {
-                        if ((gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000) == 2) {
+                        if ((gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode) == 2) {
                             gConnectionWork->mUnk_0436 |= 1;
                         }
                         NNS_SndArcSetCurrent(&gOnMemorySndArc);

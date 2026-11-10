@@ -91,7 +91,7 @@ static inline u32 func_02055808_inline(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
-    return gConnectionWork->mUnk_0000;
+    return gConnectionWork->mConnectionMode;
 }
 
 static inline s32 func_02055808_inline2(void) {
@@ -112,7 +112,7 @@ static inline s32 func_02055808_inline3(void) {
 
 static inline s32 func_02055808_inline4(void) {
     BOOL r = FALSE;
-    if (func_02055808_inline3() && gConnectionWork->mUnk_0008 != 9) {
+    if (func_02055808_inline3() && gConnectionWork->mErrorCode != 9) {
         r = TRUE;
     }
     return r;
@@ -267,7 +267,7 @@ static inline s32 func_02055b1c_inline(void) {
         t = 0;
         r = FALSE;
     } else {
-        t = gConnectionWork->mUnk_0000;
+        t = gConnectionWork->mConnectionMode;
     }
     if (t != 0 && gConnectionWork->mState != 13) {
         r = TRUE;
@@ -299,7 +299,7 @@ void StartDispCapFadeToClear(u32 frameCount) {
 
 BOOL func_02055b1c(void) {
     if (func_02055b1c_inline()) {
-        if (func_0204ffbc() != 0) {
+        if (IsDataSharingSyncDone() != 0) {
             return (gConnectionWork->mUnk_15bc_view.mUnk_0c->mUnk_06_0 & 4) != 0;
         }
         return FALSE;
@@ -367,7 +367,7 @@ s32 func_02055808(s32 a) {
             MeasureChannel(0);
             break;
         case 4:
-            func_0204f814();
+            SetParentChannelLowestSum();
             FillParentParameter(1);
             SetParentParameter();
             break;
@@ -384,7 +384,7 @@ s32 func_02055808(s32 a) {
             gConnectionWork->mUnk_008b &= ~8;
             break;
         default:
-            func_020533a0();
+            StopConnection();
             break;
     }
     return result;
@@ -407,7 +407,7 @@ s32 func_02055730(u16 a) {
     if (gConnectionWork->mUnk_0436 & 1) {
         gConnectionWork->mUnk_0436 &= ~1;
     }
-    if (gBootInfo->mUnk_00 == 2 || func_0204fe90(a) != 0) {
+    if (gBootInfo->mUnk_00 == 2 || IsScanSlotMultiBoot(a) != 0) {
         return AdvanceScanConnect(a);
     }
     return func_02055564(a);

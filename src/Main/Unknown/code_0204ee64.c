@@ -10,7 +10,7 @@
 void StartBlockCountRequest(void) {
     s32 savedValue = gConnectionWork->mStep;
     u8 mask;
-    s32 s = gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000;
+    s32 s = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
     if (s == 1) {
         mask = gConnectionWork->mUnk_0044.mChildMask;
     } else {
@@ -30,10 +30,10 @@ void BlockCountRequestCallback(BlockTransferRecord *record) {
             gConnectionWork->mBlockCount = record->mUnk_14.h.mUnk_14;
             gConnectionWork->mRequestPending = 0;
         } else {
-            func_02050e60(8);
+            SetRequestErrorCode(8);
         }
     } else {
-        func_02050e60(8);
+        SetRequestErrorCode(8);
     }
 }
 
@@ -56,7 +56,7 @@ void BlockNodeRequestCallback(BlockTransferRecord *record) {
             StartBlockNodeRequest();
         }
     } else {
-        func_02050e60(8);
+        SetRequestErrorCode(8);
     }
 }
 
@@ -78,18 +78,18 @@ void BlockDataRequestCallback(BlockTransferRecord *record) {
         if (record->mCallbackCode == 5) {
             gConnectionWork->mRequestPending = 0;
         } else {
-            func_02050e60(8);
+            SetRequestErrorCode(8);
         }
     } else {
-        func_02050e60(8);
+        SetRequestErrorCode(8);
     }
 }
 
 void SetOwnIndexFromConnection(void) {
-    s32 v = gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000;
+    s32 v = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
     if (v == 2) {
         if (gConnectionWork->mOwnIndex == 0xffff) {
-            func_02050e60(8);
+            SetRequestErrorCode(8);
             return;
         }
         SetOwnIndex(gConnectionWork->mOwnIndex);
@@ -101,7 +101,7 @@ void StartMPWithBuffers(void) {
     gConnectionWork->mRequestPending = 1;
     if (WM_StartMPEx(StartMPCallback, gConnectionWork->mMPReceiveBuffer, gConnectionWork->mMPReceiveBufferSize,
                      gConnectionWork->mMPSendBuffer, gConnectionWork->mMPSendBufferSize, 1, 0, 0, 0, 0, 0) != 2) {
-        func_02050e60(2);
+        SetRequestErrorCode(2);
     }
 }
 

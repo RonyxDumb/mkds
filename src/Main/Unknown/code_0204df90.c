@@ -94,7 +94,7 @@ void ParentStateCallback(u32 index, u32 code, Unk0204e4d8 *c) {
                         gConnectionWork->mWaitToSendCount--;
                     }
                     if ((gConnectionWork->mUnk_1694 & 1) && gConnectionWork->mWaitToSendMask == 0) {
-                        func_02050e60(7);
+                        SetRequestErrorCode(7);
                     }
                 } else {
                     gConnectionWork->mWaitToSendMask = 0;
@@ -158,17 +158,17 @@ void StartMultiBootParent(void) {
     user.mUnk_00_0 = data_021759d0->mUnk_40;
     user.mUnk_00_4 = 8;
     MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, user.mUnk_02, 0x14);
-    gConnectionWork->mUnk_1690 = func_02052c5c(1);
+    gConnectionWork->mUnk_1690 = ComputeParentTgid(1);
     if (InitWirelessWork(gConnectionWork->mUnk_165c, (Unk02009ff4 *) &user, 0x25, gConnectionWork->mUnk_1690, 2) != 0) {
-        func_02050e60(5);
+        SetRequestErrorCode(5);
     }
     SetMPLimits(0x1fe, 7);
     SetCallback(ParentStateCallback);
-    if (((s32(*)(u32)) MB_StartParentFromIdle)(gConnectionWork->mUnk_0088) != 0) {
-        func_02050e60(5);
+    if (((s32(*)(u32)) MB_StartParentFromIdle)(gConnectionWork->mParentChannel) != 0) {
+        SetRequestErrorCode(5);
     }
     if (RegisterMultiBootSegment() == 0) {
-        func_02050e60(5);
+        SetRequestErrorCode(5);
     }
     gConnectionWork->mUnk_008b &= ~4;
     gConnectionWork->mRequestPending = 0;
@@ -204,7 +204,7 @@ static inline u32 func_0204e1a8_inline(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
-    return gConnectionWork->mUnk_0000;
+    return gConnectionWork->mConnectionMode;
 }
 
 void StartRepeatedScanStep1E(void) {
@@ -243,7 +243,7 @@ void RepeatedScanCallback(u32 code) {
         case 1:
             break;
         case 2:
-            func_02050e60(5);
+            SetRequestErrorCode(5);
             break;
         case 3:
             gConnectionWork->mRequestPending = 0;
@@ -265,7 +265,7 @@ void ScanConnectStateCallback(u32 state) {
             gConnectionWork->mState = 6;
             break;
         case 4:
-            func_02050e60(5);
+            SetRequestErrorCode(5);
             break;
         case 3:
         case 6:
@@ -287,7 +287,7 @@ s32 AdvanceMultiBootParentSetup(void) {
             MeasureChannel(result);
             break;
         case 4:
-            func_0204f814();
+            SetParentChannelLowestSum();
             StartMultiBootParent();
             break;
         case 0x16:
@@ -349,9 +349,9 @@ s32 AdvanceMultiBootSetup(s32 a) {
             break;
         case 0:
             if (a != 0) {
-                gConnectionWork->mUnk_0000 = 1;
+                gConnectionWork->mConnectionMode = 1;
             } else {
-                gConnectionWork->mUnk_0000 = 2;
+                gConnectionWork->mConnectionMode = 2;
             }
             break;
     }
@@ -362,7 +362,7 @@ void StartSendingToAllChildren(void) {
     u8 index;
     u8 count;
     if (gConnectionWork->mWaitToSendMask == 0) {
-        func_02050e60(5);
+        SetRequestErrorCode(5);
         return;
     }
     gConnectionWork->mStep = 0x18;
@@ -418,7 +418,7 @@ void StartConnectToScanEntry(u32 entryIndex) {
     gConnectionWork->mRequestPending = 1;
     gConnectionWork->mUnk_169c = 0;
     if (StartConnectToEntry(entryIndex) == 0) {
-        func_02050e60(5);
+        SetRequestErrorCode(5);
     }
 }
 
@@ -426,19 +426,19 @@ void ReadFakeParentBssDesc(u32 entryIndex) {
     u32 result;
     gConnectionWork->mStep = 0x23;
     gConnectionWork->mRequestPending = 1;
-    result = MB_FakeReadParentBssDesc(entryIndex, gConnectionWork->mUnk_0024, 0x1bc, 0x36, 0, 0);
+    result = MB_FakeReadParentBssDesc(entryIndex, gConnectionWork->mParentBssDesc, 0x1bc, 0x36, 0, 0);
     gConnectionWork->mRequestPending = 0;
-    gConnectionWork->mUnk_0024->mUnk_48 = (gConnectionWork->mUnk_0024->mUnk_48 + 7) & 0x7fff;
+    gConnectionWork->mParentBssDesc->mUnk_48 = (gConnectionWork->mParentBssDesc->mUnk_48 + 7) & 0x7fff;
     if (result == 0) {
-        func_02050e60(5);
+        SetRequestErrorCode(5);
     }
 }
 
 void ReadMultiBootParentBssDesc(void) {
     gConnectionWork->mStep = 0x1a;
     gConnectionWork->mRequestPending = 1;
-    MB_ReadMultiBootParentBssDesc(gConnectionWork->mUnk_0024, 0x1bc, 0x36, 0, 0);
-    gConnectionWork->mUnk_0024->mUnk_48 = (gConnectionWork->mUnk_0024->mUnk_48 + 7) & 0x7fff;
+    MB_ReadMultiBootParentBssDesc(gConnectionWork->mParentBssDesc, 0x1bc, 0x36, 0, 0);
+    gConnectionWork->mParentBssDesc->mUnk_48 = (gConnectionWork->mParentBssDesc->mUnk_48 + 7) & 0x7fff;
     gConnectionWork->mRequestPending = 0;
 }
 

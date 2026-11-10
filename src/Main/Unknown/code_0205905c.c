@@ -12,7 +12,7 @@ static inline u32 func_0205905c_inline(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
-    return gConnectionWork->mUnk_0000;
+    return gConnectionWork->mConnectionMode;
 }
 
 static inline s32 func_0205905c_inline2(void) {
@@ -33,7 +33,7 @@ static inline s32 func_0205905c_inline3(void) {
 
 static inline s32 func_0205905c_inline4(void) {
     BOOL r = FALSE;
-    if (func_0205905c_inline3() && gConnectionWork->mUnk_0008 != 9) {
+    if (func_0205905c_inline3() && gConnectionWork->mErrorCode != 9) {
         r = TRUE;
     }
     return r;
@@ -51,7 +51,7 @@ BOOL func_020591cc(void) {
     AdvanceStateMachine(&gConnectionWork->mUnk_1608.mStateMachine);
     if (!func_0205905c_inline4()) {
         if (func_0205905c_inline() == 1 && gConnectionWork->mUnk_0044.mChildCount == 0) {
-            func_02050e60(7);
+            SetRequestErrorCode(7);
         }
     }
     if (gConnectionWork->mUnk_1608.mStateMachine.mState == 0xf) {

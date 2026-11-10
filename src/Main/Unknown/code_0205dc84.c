@@ -133,7 +133,7 @@ s32 RunScenes(s16 *sceneNumber) {
     }
     switch (gRunScenesState->mUnk_00) {
         case 0:
-            func_02054330();
+            FinishConnectionEnd();
             break;
         case 1:
             DeleteWiFiSessionHeap();

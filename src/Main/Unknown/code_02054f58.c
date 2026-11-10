@@ -16,7 +16,7 @@ static inline u32 func_02055030_inline(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
-    return gConnectionWork->mUnk_0000;
+    return gConnectionWork->mConnectionMode;
 }
 
 static inline s32 func_02055030_inline2(void) {
@@ -37,7 +37,7 @@ static inline s32 func_02055030_inline3(void) {
 
 static inline s32 func_02055030_inline4(void) {
     BOOL r = FALSE;
-    if (func_02055030_inline3() && gConnectionWork->mUnk_0008 != 9) {
+    if (func_02055030_inline3() && gConnectionWork->mErrorCode != 9) {
         r = TRUE;
     }
     return r;
@@ -49,8 +49,8 @@ s32 func_02055564(s32 a) {
     status = 0;
     if (gConnectionWork->mRequestPending != 0) {
         if (gConnectionWork->mStep == 7 && gConnectionWork->mUnk_043b == 1) {
-            if (func_020501b0(a) == 0) {
-                func_02050e60(5);
+            if (TrySelectScanSlot(a) == 0) {
+                SetRequestErrorCode(5);
             }
         }
         return 0;
@@ -69,7 +69,7 @@ s32 func_02055564(s32 a) {
         case 10:
             if (gConnectionWork->mOwnIndex == 0xffff) {
                 if (gBootInfo->mUnk_00 == 2) {
-                    func_02050e60(5);
+                    SetRequestErrorCode(5);
                     return 3;
                 }
                 status = 2;
@@ -139,7 +139,7 @@ void func_02055340(void) {
             }
             participantIndex = gConnectionWork->mUnk_0044.mUnk_3e % 8;
             if (participantMask & (1 << participantIndex)) {
-                if (func_020504a4(participantIndex, childMask) == FALSE) {
+                if (QueueMPDataPlayerName(participantIndex, childMask) == FALSE) {
                     return;
                 }
                 gConnectionWork->mUnk_0044.mUnk_3e++;
@@ -271,7 +271,7 @@ s32 AdvanceConnectionEnd(void) {
             EndMP();
             break;
         default:
-            func_020533a0();
+            StopConnection();
             break;
     }
     return finished;
@@ -309,10 +309,10 @@ s32 func_02054f58(void) {
                 StartCloseScanConnect();
                 break;
             default:
-                func_020533a0();
+                StopConnection();
                 break;
         }
-        gConnectionWork->mUnk_0008 = 9;
+        gConnectionWork->mErrorCode = 9;
     } else {
         status = result;
     }

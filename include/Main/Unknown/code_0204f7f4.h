@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void func_0204f7f4(void);
-u32 func_0204f804(void);
+void SendLedPatternNone(void);
+u32 SendLedPatternWireless(void);

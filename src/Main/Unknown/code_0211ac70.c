@@ -466,7 +466,7 @@ void ChangeSelectRaceRulePlayerTeam(u16 entryIndex, u32 teamIndex) {
         return;
     }
     if (IsPlayerTeamPlayerCountNotOne(entryIndex) == 0) {
-        ownIndex = gConnectionWork->mUnk_0000 == 2 ? gConnectionWork->mOwnIndex : 0;
+        ownIndex = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
         if (entryIndex == gConnectionWork->mUnk_1e52[ownIndex].mEntryIndex) {
             NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x16);
         }
@@ -488,7 +488,7 @@ void ChangeSelectRaceRulePlayerTeam(u16 entryIndex, u32 teamIndex) {
         }
         ChangeSelectRaceRulePlayerTeam(cpuEntry, GetOtherTeamIndex(teamIndex));
     }
-    ownIndex = gConnectionWork->mUnk_0000 == 2 ? gConnectionWork->mOwnIndex : 0;
+    ownIndex = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
     if (entryIndex == gConnectionWork->mUnk_1e52[ownIndex].mEntryIndex) {
         switch (gSelectRaceRule->mPlayerTeamIndices[entryIndex]) {
             case 0:
@@ -1023,7 +1023,7 @@ void AdvanceSelectRaceRuleChangeObjects(void) {
         if (gSelectRaceRule->mRowValues[4] == 2) {
             for (j = 0; j < 2; j++) {
                 if (gSelectRaceRule->mRow == 4 && gSelectRaceRule->mOnButton == 0) {
-                    ownIndex = gConnectionWork->mUnk_0000 == 2 ? gConnectionWork->mOwnIndex : 0;
+                    ownIndex = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
                     if (IsPlayerTeamPlayerCountNotOne(gConnectionWork->mUnk_1e52[ownIndex].mEntryIndex) != 0) {
                         gSelectRaceRule->mTable[gSelectRaceRuleTeamCellsHighlighted[j]].mVisible = 1;
                         gSelectRaceRule->mTable[gSelectRaceRuleTeamCellsPlain[j]].mVisible = 0;
@@ -1057,7 +1057,7 @@ void AdvanceSelectRaceRuleChangeObjects(void) {
         }
         if (gSelectRaceRule->mRowValues[4] == 2) {
             for (j = 0; j < 2; j++) {
-                ownIndex = gConnectionWork->mUnk_0000 == 2 ? gConnectionWork->mOwnIndex : 0;
+                ownIndex = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
                 if (IsPlayerTeamPlayerCountNotOne(gConnectionWork->mUnk_1e52[ownIndex].mEntryIndex) != 0) {
                     gSelectRaceRule->mTable[gSelectRaceRuleTeamCellsHighlighted[j]].mVisible = 1;
                     gSelectRaceRule->mTable[gSelectRaceRuleTeamCellsPlain[j]].mVisible = 0;

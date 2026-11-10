@@ -16,13 +16,13 @@ static inline u32 func_02050080_inline(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
-    return gConnectionWork->mUnk_0000;
+    return gConnectionWork->mConnectionMode;
 }
 
-u32 func_020501b0(u32 entryIndex) {
+u32 TrySelectScanSlot(u32 entryIndex) {
     u32 result = 0;
     ScanSlot *entry;
-    ConnectionWork *q;
+    ConnectionWork *connectionWork;
     u32 entryValid;
 
     if (entryIndex >= 4) {
@@ -47,18 +47,18 @@ u32 func_020501b0(u32 entryIndex) {
         entry = &gConnectionWork->mUnk_00ac[entryIndex];
         gConnectionWork->mUnk_0436 &= ~1;
         if (entry->mInUse != 0) {
-            MI_CpuCopy8(entry, gConnectionWork->mUnk_0024, 0xc0);
-            DC_StoreRange(gConnectionWork->mUnk_0024, 0xc0);
-            q = gConnectionWork;
-            q->mUnk_042c = entry->mKey;
-            q->mUnk_043c = entry->mLanguageIndex;
+            MI_CpuCopy8(entry, gConnectionWork->mParentBssDesc, 0xc0);
+            DC_StoreRange(gConnectionWork->mParentBssDesc, 0xc0);
+            connectionWork = gConnectionWork;
+            connectionWork->mUnk_042c = entry->mKey;
+            connectionWork->mUnk_043c = entry->mLanguageIndex;
             result = 1;
         }
     }
     return result;
 }
 
-void func_02050080(void) {
+void RefreshParticipantTables(void) {
     BOOL proceed;
     u16 index;
     u16 participantCount;

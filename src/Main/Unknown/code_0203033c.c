@@ -178,7 +178,7 @@ s32 AdvanceMultiSelectNS(void) {
 #pragma thumb on
 
 void ReleaseMultiSelectNS(void) {
-    func_0204f7f4();
+    SendLedPatternNone();
     HeapDestroy(gMultiSelectNS->mHeap);
     gMultiSelectNS = NULL;
 }

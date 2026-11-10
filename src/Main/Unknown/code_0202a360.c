@@ -43,7 +43,7 @@ u32 GetResultSceneSeqKind(void) {
             break;
         case 1:
         case 2:
-            if (gConnectionWork->mUnk_0000 == 2) {
+            if (gConnectionWork->mConnectionMode == 2) {
                 ownIndex = gConnectionWork->mOwnIndex;
             } else {
                 ownIndex = 0;

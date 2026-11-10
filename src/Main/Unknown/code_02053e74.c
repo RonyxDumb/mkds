@@ -27,7 +27,7 @@ static inline u32 func_02053e74_inline(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
-    return gConnectionWork->mUnk_0000;
+    return gConnectionWork->mConnectionMode;
 }
 
 static inline s32 func_02053e74_inline2(void) {
@@ -48,7 +48,7 @@ static inline s32 func_02053e74_inline3(void) {
 
 static inline s32 func_02053e74_inline4(void) {
     BOOL r = FALSE;
-    if (func_02053e74_inline3() && gConnectionWork->mUnk_0008 != 9) {
+    if (func_02053e74_inline3() && gConnectionWork->mErrorCode != 9) {
         r = TRUE;
     }
     return r;
@@ -98,7 +98,7 @@ static inline u32 func_0205465c_inline(ConnectionWork *p) {
     if (p == NULL) {
         return 0;
     }
-    return p->mUnk_0000;
+    return p->mConnectionMode;
 }
 
 // Returns 1 once the last step is issued, 2 on failure, 3 when an error has been recorded, 0 otherwise.
@@ -109,7 +109,7 @@ s32 AdvanceConnectionSetup(s32 isParent, void *b) {
     if (gConnectionWork->mUnk_1e3c != 0) {
         u16 ownIndex;
 
-        ownIndex = gConnectionWork->mUnk_0000 == 2 ? gConnectionWork->mOwnIndex : 0;
+        ownIndex = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
         if (ownIndex == 0xffff) {
             return 2;
         }
@@ -146,7 +146,7 @@ s32 AdvanceConnectionSetup(s32 isParent, void *b) {
             MeasureChannel(0);
             break;
         case 4:
-            func_0204f814();
+            SetParentChannelLowestSum();
             FillGhostParentParameter(b);
             SetParentParameter();
             break;
@@ -180,7 +180,7 @@ s32 AdvanceConnectionSetup(s32 isParent, void *b) {
             finished = TRUE;
             break;
         default:
-            func_020533a0();
+            StopConnection();
             break;
     }
     return finished;
@@ -198,7 +198,7 @@ s32 AdvanceBlockCountRequest(void) {
     if (gConnectionWork->mUnk_1e3c != 0) {
         u16 ownIndex;
 
-        ownIndex = gConnectionWork->mUnk_0000 == 2 ? gConnectionWork->mOwnIndex : 0;
+        ownIndex = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
         if (ownIndex == 0xffff) {
             return 2;
         }
@@ -229,15 +229,15 @@ s32 AdvanceBlockCountRequest(void) {
     return finished;
 }
 
-void func_02054aa0(void) {
-    s32 c0;
-    s32 c1;
+void UpdateConnectionSendTimer(void) {
+    s32 receivedChunkCount;
+    s32 chunkCount;
 
     if (gConnectionWork->mState != 11) {
         return;
     }
     if (gConnectionWork->mStep == 0x2c) {
-        TryGetBlockReceiveProgress(gConnectionWork->mBlockInfos[0]->mBlockId, 0, &c0, &c1);
+        TryGetBlockReceiveProgress(gConnectionWork->mBlockInfos[0]->mBlockId, 0, &receivedChunkCount, &chunkCount);
     }
     if (gConnectionWork->mSendTimer != 0) {
         gConnectionWork->mSendTimer = gConnectionWork->mSendTimer - 1;
@@ -261,7 +261,7 @@ s32 AdvanceBlockReceive(void) {
     if (gConnectionWork->mUnk_1e3c != 0) {
         u16 ownIndex;
 
-        ownIndex = gConnectionWork->mUnk_0000 == 2 ? gConnectionWork->mOwnIndex : 0;
+        ownIndex = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
         if (ownIndex == 0xffff) {
             return 2;
         }
@@ -306,7 +306,7 @@ BOOL FinishDataSharingSync(void) {
     if (!(gConnectionWork->mUnk_0454 & 4)) {
         return TRUE;
     }
-    if (func_0204ffbc() != 0) {
+    if (IsDataSharingSyncDone() != 0) {
         return TRUE;
     }
     if (dataSharing->mSharedDataCopied[0] != 0) {
@@ -344,15 +344,15 @@ s32 StartDataSharingSync(void) {
     return 1;
 }
 
-s32 func_0205465c(void) {
+s32 GetZeroWordResult(void) {
     ConnectionWork *connection;
-    s32 r;
+    s32 result;
     s32 count;
 
-    r = 0;
+    result = 0;
     connection = gConnectionWork;
     if (func_0205465c_inline(connection) != 1) {
-        r = 2;
+        result = 2;
     } else {
         if (func_0205465c_inline(connection) == 1) {
             if ((connection->mUnk_0454 & 0x40) != 0) {
@@ -364,21 +364,21 @@ s32 func_0205465c(void) {
             count = 0;
         }
         if (count == 0) {
-            if (connection->mUnk_1e38 != 0) {
-                r = 1;
+            if (connection->mZeroWordReceived != 0) {
+                result = 1;
             } else {
-                r = 2;
+                result = 2;
             }
         }
     }
-    return r;
+    return result;
 }
 
 void InitConnection(void *heap) {
     gConnectionWork = HeapAllocAligned(heap, 0x1f00, 0x20);
-    gConnectionWork->mUnk_0000 = 0;
+    gConnectionWork->mConnectionMode = 0;
     gConnectionWork->mState = 0;
-    gConnectionWork->mUnk_0008 = 9;
+    gConnectionWork->mErrorCode = 9;
     gConnectionWork->mStep = 0;
     gConnectionWork->mRequestPending = 0;
     gConnectionWork->mUnk_0454 = 0;
@@ -389,7 +389,7 @@ void InitConnectionBuffers(void *heap) {
     gConnectionWork->mUnk_0014 = HeapAllocAligned(heap, 0xf00, 0x20);
     gConnectionWork->mParentParameter = HeapAllocAligned(heap, 0x40, 0x20);
     gConnectionWork->mUnk_001c = HeapAllocAligned(heap, 0x20, 0x20);
-    gConnectionWork->mUnk_0024 = HeapAllocAligned(heap, 0xc0, 0x20);
+    gConnectionWork->mParentBssDesc = HeapAllocAligned(heap, 0xc0, 0x20);
     gConnectionWork->mUnk_0028 = HeapAllocAligned(heap, 0xc0, 0x20);
     gConnectionWork->mUnk_0020 = HeapAllocAligned(heap, 0x44, 0x20);
     gConnectionWork->mUnk_002c = HeapAllocAligned(heap, 0x400, 0x20);
@@ -412,10 +412,10 @@ void InitConnectionBuffers(void *heap) {
     gConnectionWork->mMPSendBuffer = 0;
     gConnectionWork->mMPSendBufferSize = 0;
     gConnectionWork->mUnk_0456_0 = 1;
-    func_02053d00();
+    ResetConnection();
 }
 
-void func_02054330(void) {
+void FinishConnectionEnd(void) {
     while (func_02054f58() != 1) {
     }
     gConnectionWork->mUnk_0456_0 = 0;
@@ -472,13 +472,13 @@ void ResetConnectionData(void) {
     gConnectionWork->mUnk_0044.mChildCount = 0;
     gConnectionWork->mUnk_0044.mUnk_3c = 0;
     gConnectionWork->mUnk_0044.mDisconnectingIndex = -1;
-    gConnectionWork->mUnk_0088 = -1;
+    gConnectionWork->mParentChannel = -1;
     gConnectionWork->mRemovedChildMask = 0;
     gConnectionWork->mUnk_008b = 0;
     gConnectionWork->mUnk_0044.mUnk_3e = 0;
     MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, gConnectionWork->mUnk_0044.mUnk_38, 0x14);
-    gConnectionWork->mUnk_0044.mUnk_38->mUnk_0e.mUnk_06_4 = data_021759d0->mLanguageIndex;
-    gConnectionWork->mUnk_0044.mUnk_38->mUnk_0e.mUnk_06_0 = 0;
+    gConnectionWork->mUnk_0044.mUnk_38->mUnk_0e.mLanguageIndex = data_021759d0->mLanguageIndex;
+    gConnectionWork->mUnk_0044.mUnk_38->mUnk_0e.mChildCount = 0;
     for (j = 0; j < 4; j++) {
         gConnectionWork->mUnk_00ac[j].mInUse = 0;
         gConnectionWork->mUnk_00ac[j].mAge = 0;
@@ -508,7 +508,7 @@ void ResetConnectionData(void) {
     ResetDataSharing(&gConnectionWork->mUnk_15bc_view);
 }
 
-void func_02053e74(void) {
+void InitRaceConnection(void) {
     Unk0217aa00_1e4c *q;
     ConnectionWork *connection;
     RandomState *random;
@@ -534,7 +534,7 @@ void func_02053e74(void) {
             a = connection->mParentParameter->mUnk_0c;
             break;
         case 2:
-            a = connection->mUnk_0024->mUnk_48;
+            a = connection->mParentBssDesc->mUnk_48;
             break;
     }
     b = 0;
@@ -543,7 +543,7 @@ void func_02053e74(void) {
             b = connection->mParentParameter->mUnk_0c;
             break;
         case 2:
-            b = connection->mUnk_0024->mUnk_48;
+            b = connection->mParentBssDesc->mUnk_48;
             break;
     }
     connection->mRandom.mStateLow = b + (a << 10);

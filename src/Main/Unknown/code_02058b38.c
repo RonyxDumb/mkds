@@ -17,7 +17,7 @@ static inline u32 func_02058b38_inline(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
-    return gConnectionWork->mUnk_0000;
+    return gConnectionWork->mConnectionMode;
 }
 
 static inline void func_02058b74_inline(u16 nextState) {
@@ -44,7 +44,7 @@ static inline s32 func_02058cac_inline3(void) {
 
 static inline s32 func_02058cac_inline4(void) {
     BOOL r = FALSE;
-    if (func_02058cac_inline3() && gConnectionWork->mUnk_0008 != 9) {
+    if (func_02058cac_inline3() && gConnectionWork->mErrorCode != 9) {
         r = TRUE;
     }
     return r;
@@ -92,7 +92,7 @@ s32 func_02058dc0(void (*callback)(void)) {
         case 3:
             if (gThreadFunctionQueue->mRunRequested == 0) {
                 if (gConnectionWork->mUnk_164f != 0) {
-                    func_02050e60(7);
+                    SetRequestErrorCode(7);
                 } else {
                     gConnectionWork->mUnk_1e34 = 5;
                 }
@@ -120,10 +120,10 @@ s32 func_02058cac(void) {
     if (!func_02058cac_inline2()) {
         return 1;
     }
-    ownIndex = ((const ConnectionWork *) gConnectionWork)->mUnk_0000 == 2 ? gConnectionWork->mOwnIndex : 0;
+    ownIndex = ((const ConnectionWork *) gConnectionWork)->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
     if (ownIndex == 0xffff && func_02058b38_inline() == 2) {
         if (gBootInfo->mUnk_00 == 2) {
-            func_02050e60(0);
+            SetRequestErrorCode(0);
             return 3;
         }
         return 2;
@@ -131,7 +131,7 @@ s32 func_02058cac(void) {
     AdvanceStateMachine(&gConnectionWork->mUnk_1608.mStateMachine);
     if (!func_02058cac_inline4()) {
         if (func_02058b38_inline() == 1 && gConnectionWork->mUnk_0044.mChildCount == 0) {
-            func_02050e60(7);
+            SetRequestErrorCode(7);
         }
     }
     if (gConnectionWork->mUnk_1608.mStateMachine.mState == 0xf) {
@@ -143,7 +143,7 @@ s32 func_02058cac(void) {
 void func_02058c74(void) {
     u16 ownIndex;
 
-    ownIndex = gConnectionWork->mUnk_0000 == 2 ? gConnectionWork->mOwnIndex : 0;
+    ownIndex = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
     FillPlayerRecord(&gConnectionWork->mUnk_045c[ownIndex]);
 }
 

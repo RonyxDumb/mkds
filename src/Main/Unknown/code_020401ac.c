@@ -214,7 +214,7 @@ void InitRaceProgressKart(RaceProgressKart *raceProgressKart, s32 kartIndex) {
 }
 
 static inline u32 func_020401ac_inline(ConnectionWork *p) {
-    return p == NULL ? 0 : p->mUnk_0000;
+    return p == NULL ? 0 : p->mConnectionMode;
 }
 
 static inline void func_020401ac_inline2(RaceProgressHeader *q) {

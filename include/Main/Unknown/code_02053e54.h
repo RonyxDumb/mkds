@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_02053e54(void);
+void ClearRaceConnectionFlag(void);

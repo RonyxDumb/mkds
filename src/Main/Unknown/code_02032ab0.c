@@ -141,7 +141,8 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
         case 2:
             SetSelectChoisesSoundId(1, 0xf);
             gResultsBattle->mOwnEntryIndex =
-                gConnectionWork->mUnk_1e52[(u16) (gConnectionWork->mUnk_0000 == 2 ? gConnectionWork->mOwnIndex : 0)]
+                gConnectionWork
+                    ->mUnk_1e52[(u16) (gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0)]
                     .mEntryIndex;
             gResultsBattle->mKartCount = gRaceSetup->mKartCount;
             gResultsBattle->mState = 0;

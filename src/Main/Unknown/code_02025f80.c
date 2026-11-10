@@ -207,7 +207,8 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
             break;
         case 1:
             selectCharacter->mEntryIndex =
-                gConnectionWork->mUnk_1e52[(u16) (gConnectionWork->mUnk_0000 == 2 ? gConnectionWork->mOwnIndex : 0)]
+                gConnectionWork
+                    ->mUnk_1e52[(u16) (gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0)]
                     .mEntryIndex;
             break;
         case 2:

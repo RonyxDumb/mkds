@@ -42,7 +42,7 @@ void func_ov000_021816b0(void *heap) {
     func_ov000_021816a0();
     SetLinkLevelIconEnabled(1, 1);
     SetSelectReturnSoundId(0xe);
-    func_0204f804();
+    SendLedPatternWireless();
 }
 
 void func_ov000_021816a4(void) {

@@ -34,7 +34,7 @@
 #include "code_0214d018.h"
 #include "Main/Unknown/code_0203c25c.h"
 
-void func_02053d00(void) {
+void ResetConnection(void) {
     Unk02143a78 *scanParams;
     Unk021438f0 *scanExParams;
     Unk0217aa00_16a0_view *blocks;
@@ -44,9 +44,9 @@ void func_02053d00(void) {
     if (gConnectionWork == NULL) {
         return;
     }
-    gConnectionWork->mUnk_0000 = 0;
+    gConnectionWork->mConnectionMode = 0;
     gConnectionWork->mState = 0;
-    gConnectionWork->mUnk_0008 = 9;
+    gConnectionWork->mErrorCode = 9;
     gConnectionWork->mStep = 0;
     gConnectionWork->mRequestPending = 0;
     gConnectionWork->mUnk_0454 = 0;
@@ -98,14 +98,14 @@ void StepDataSharing(void) {
         sendData->mUnk_05 = 0;
     }
     sendData->mUnk_04 =
-        (gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000) == 1 ? gConnectionWork->mUnk_1eac[0] : 0;
+        (gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode) == 1 ? gConnectionWork->mUnk_1eac[0] : 0;
     sendData->mUnk_00 = GetPadKeys();
     sendData->mUnk_06_0 = 0;
     sendData->mUnk_07 = 0;
     role = 0;
     if (gConnectionWork->mState == 9) {
         if (gConnectionWork != NULL) {
-            role = gConnectionWork->mUnk_0000;
+            role = gConnectionWork->mConnectionMode;
         }
         if (role == 1) {
             if (func_02055afc() != FALSE) {
@@ -115,7 +115,7 @@ void StepDataSharing(void) {
             }
         }
     }
-    role = gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000;
+    role = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
     if (role != 1 || (gConnectionWork->mUnk_008b & 1) != 0) {
         if (gConnectionWork->mUnk_15ec == 0) {
             sendData->mUnk_06_0 |= 1;
@@ -152,7 +152,7 @@ BOOL UpdateDataSharing(void) {
     gConnectionWork->mUnk_1606 =
         gConnectionWork->mUnk_15bc->mDs[gConnectionWork->mUnk_15bc->mWriteIndex].mArrivedMembers;
     gConnectionWork->mUnk_0454 &= ~0x10;
-    switch (gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000) {
+    switch (gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode) {
         case 1:
             if (gConnectionWork->mUnk_0044.mChildCount != 0) {
                 StepDataSharing();
@@ -180,7 +180,7 @@ BOOL UpdateDataSharing(void) {
                     return FALSE;
                 }
             } else {
-                if ((gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000) == 1) {
+                if ((gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode) == 1) {
                     for (j = 1; j < 8; j++) {
                         if ((gConnectionWork->mParticipantMask & (1 << j)) != 0) {
                             gConnectionWork->mUnk_15f8[j - 1] = 0;
@@ -204,7 +204,7 @@ BOOL UpdateDataSharing(void) {
                     if (gConnectionWork->mState == 9) {
                         RemoveRaceProgressKart(entryIndex);
                     }
-                    if ((gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000) == 1) {
+                    if ((gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode) == 1) {
                         gConnectionWork->mUnk_1eac[0] &= ~bit;
                     }
                 }
@@ -263,22 +263,22 @@ void InitializeCallback(Unk021425e8 *event) {
     ResetConnectionData();
 }
 
-void func_020533a0(void) {
+void StopConnection(void) {
     u32 role;
     BOOL shouldStop;
-    BOOL c;
+    BOOL allowed;
 
     if ((gConnectionWork->mUnk_0454 & 0x100) != 0) {
         gConnectionWork->mStep = 0x26;
         gConnectionWork->mRequestPending = 1;
         shouldStop = FALSE;
         if ((gConnectionWork->mUnk_0454 & 0x40) != 0) {
-            c = TRUE;
-            role = gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000;
+            allowed = TRUE;
+            role = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
             if (role != 1 && gBootInfo->mUnk_00 != 2) {
-                c = FALSE;
+                allowed = FALSE;
             }
-            if (c != FALSE) {
+            if (allowed != FALSE) {
                 shouldStop = TRUE;
             }
         }
@@ -306,12 +306,13 @@ void func_020533a0(void) {
     if ((gConnectionWork->mUnk_0454 & 0x100) != 0) {
         gConnectionWork->mStep = 0x26;
         gConnectionWork->mRequestPending = 1;
-        if (IsWMInitializeStarted() != FALSE && (func_020510c8() == 1 || func_020510ac() != FALSE)) {
-            c = TRUE;
+        if (IsWMInitializeStarted() != FALSE &&
+            (GetConnectionMode() == 1 || ConnectionMB_IsMultiBootChild() != FALSE)) {
+            allowed = TRUE;
         } else {
-            c = FALSE;
+            allowed = FALSE;
         }
-        if (c != FALSE) {
+        if (allowed != FALSE) {
             StopRomArchive();
             gConnectionWork->mUnk_0454 &= ~0x100;
         }
@@ -350,7 +351,7 @@ void func_020533a0(void) {
 void ResetCallback(Unk021425e8 *event) {
     gConnectionWork->mRequestPending = 0;
     if (event->mResultCode != 0) {
-        gConnectionWork->mUnk_0008 = 1;
+        gConnectionWork->mErrorCode = 1;
         gConnectionWork->mRequestPending = 0;
     } else {
         ResetConnectionData();
@@ -360,15 +361,15 @@ void ResetCallback(Unk021425e8 *event) {
 void SetLifeTime(s32 camLifeTime) {
     gConnectionWork->mStep = 3;
     gConnectionWork->mRequestPending = 1;
-    if (WM_SetLifeTime(func_0205329c, 0xffff, camLifeTime, 0xffff, 0xf) != 2) {
-        func_020533a0();
+    if (WM_SetLifeTime(SetLifeTimeCallback, 0xffff, camLifeTime, 0xffff, 0xf) != 2) {
+        StopConnection();
     }
 }
 
-void func_0205329c(Unk021425e8 *event) {
+void SetLifeTimeCallback(Unk021425e8 *event) {
     gConnectionWork->mRequestPending = 0;
     if (event->mResultCode != 0) {
-        func_020533a0();
+        StopConnection();
     }
 }
 
@@ -384,18 +385,18 @@ void MeasureChannel(u16 measuredChannel) {
     allowedChannels = WM_GetAllowedChannel();
     if (allowedChannels == 0) {
         gConnectionWork->mRequestPending = 0;
-        gConnectionWork->mUnk_0008 = 3;
+        gConnectionWork->mErrorCode = 3;
         gConnectionWork->mRequestPending = 0;
     } else if (allowedChannels == 0x8000) {
         gConnectionWork->mRequestPending = 0;
-        gConnectionWork->mUnk_0008 = 8;
+        gConnectionWork->mErrorCode = 8;
         gConnectionWork->mRequestPending = 0;
     }
     if (channel == 0) {
         gConnectionWork->mUnk_0089_0 = 1;
         gConnectionWork->mUnk_0089_4 = 1;
         for (i = 1; i < 0xe; i++) {
-            gConnectionWork->mUnk_008c[i] = -1;
+            gConnectionWork->mChannelSums[i] = -1;
         }
         channel = 1;
     } else if (gConnectionWork->mUnk_0089_0 >= 7) {
@@ -419,7 +420,7 @@ void MeasureChannel(u16 measuredChannel) {
         gConnectionWork->mUnk_0089_0 += 1;
     }
     if (WM_MeasureChannel(MeasureChannelCallback, 3, 0x11, channel, 0x14) != 2) {
-        func_020533a0();
+        StopConnection();
     }
 }
 
@@ -427,10 +428,10 @@ void MeasureChannelCallback(Unk021425e8 *event) {
     s16 *channelSum;
 
     if (event->mResultCode != 0) {
-        func_020533a0();
+        StopConnection();
         return;
     }
-    channelSum = &gConnectionWork->mUnk_008c[event->mUnk_08_0];
+    channelSum = &gConnectionWork->mChannelSums[event->mUnk_08_0];
     if (*channelSum < 0) {
         *channelSum = 0;
     }
@@ -463,7 +464,7 @@ void StartRomArchiveTransfer(void) {
     shouldStart = FALSE;
     if ((gConnectionWork->mUnk_0454 & 0x40) != 0) {
         c = TRUE;
-        role = gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000;
+        role = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
         if (role != 1 && gBootInfo->mUnk_00 != 2) {
             c = FALSE;
         }
@@ -472,7 +473,7 @@ void StartRomArchiveTransfer(void) {
         }
     }
     if (shouldStart != FALSE) {
-        role = gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000;
+        role = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
         StartRomArchive(role == 1 ? 1 : 0, 4, 0x154, RomArchiveStateCallback, RomArchiveAllocFunc, 0);
     }
     gConnectionWork->mRequestPending = 0;
@@ -490,21 +491,21 @@ void RomArchiveStateCallback(s32 a) {
     }
 }
 
-void func_02052da4(void) {
+void StartRomArchiveSend(void) {
     u32 role;
-    BOOL c;
+    BOOL allowed;
     BOOL shouldStart;
 
     gConnectionWork->mStep = 0x25;
     gConnectionWork->mRequestPending = 1;
     shouldStart = FALSE;
     if ((gConnectionWork->mUnk_0454 & 0x40) != 0) {
-        c = TRUE;
-        role = gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000;
+        allowed = TRUE;
+        role = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
         if (role != 1 && gBootInfo->mUnk_00 != 2) {
-            c = FALSE;
+            allowed = FALSE;
         }
-        if (c != FALSE) {
+        if (allowed != FALSE) {
             shouldStart = TRUE;
         }
     }
@@ -526,7 +527,7 @@ void StopRomArchiveTransfer(void) {
     shouldStop = FALSE;
     if ((gConnectionWork->mUnk_0454 & 0x40) != 0) {
         c = TRUE;
-        role = gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000;
+        role = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
         if (role != 1 && gBootInfo->mUnk_00 != 2) {
             c = FALSE;
         }
@@ -541,39 +542,39 @@ void StopRomArchiveTransfer(void) {
     gConnectionWork->mRequestPending = 0;
 }
 
-u16 func_02052c5c(u32 a) {
+u16 ComputeParentTgid(u32 a) {
     RTCTime time;
-    u32 h;
+    u32 hour;
     u16 seconds;
-    u64 x;
-    u64 y;
+    u64 generatorState;
+    u64 highWord;
 
     GetClockTimeOrZero(&time);
-    h = time.mHour;
-    if (h >= 0x12) {
-        h -= 0x12;
+    hour = time.mHour;
+    if (hour >= 0x12) {
+        hour -= 0x12;
     }
-    seconds = (h * 0x3c + time.mMinute) * 0x3c + time.mSecond;
-    x = OS_GetTickLo() | seconds << 16;
-    x = x * 0x5d588b656c078965ull + 0x269ec3;
-    y = x >> 32;
-    return (u16) (y * 0x10000 >> 32) | 0x8000;
+    seconds = (hour * 0x3c + time.mMinute) * 0x3c + time.mSecond;
+    generatorState = OS_GetTickLo() | seconds << 16;
+    generatorState = generatorState * 0x5d588b656c078965ull + 0x269ec3;
+    highWord = generatorState >> 32;
+    return (u16) (highWord * 0x10000 >> 32) | 0x8000;
 }
 
 // Calls WM_SetParentParameter; also stores 1 in the first session word.
 void SetParentParameter(void) {
-    gConnectionWork->mUnk_0000 = 1;
+    gConnectionWork->mConnectionMode = 1;
     gConnectionWork->mStep = 5;
     gConnectionWork->mRequestPending = 1;
-    if (WM_SetParentParameter(func_02052bb8, gConnectionWork->mParentParameter) != 2) {
-        func_020533a0();
+    if (WM_SetParentParameter(SetParentParameterCallback, gConnectionWork->mParentParameter) != 2) {
+        StopConnection();
     }
 }
 
-void func_02052bb8(Unk021425e8 *event) {
+void SetParentParameterCallback(Unk021425e8 *event) {
     gConnectionWork->mRequestPending = 0;
     if (event->mResultCode != 0) {
-        func_020533a0();
+        StopConnection();
     }
 }
 
@@ -584,7 +585,7 @@ void StartParent(Unk021425e8Func callback) {
     gConnectionWork->mStep = 6;
     gConnectionWork->mRequestPending = 1;
     if (WM_StartParent(callback) != 2) {
-        func_020533a0();
+        StopConnection();
     }
 }
 
@@ -604,13 +605,13 @@ void StartParentCallback(Unk021425e8 *event) {
                 MI_CpuCopy8(&data_0217aa08->mFirstBlock->mPlayerName, &gConnectionWork->mUnk_045c[0], 0x14);
                 MI_CpuCopy8(&data_0217aa08->mFirstBlock->mFlags, &gConnectionWork->mUnk_045c[0].mBits, 4);
                 v = 0;
-                role = gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000;
+                role = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
                 switch (role) {
                     case 1:
                         v = gConnectionWork->mParentParameter->mUnk_0c;
                         break;
                     case 2:
-                        v = gConnectionWork->mUnk_0024->mUnk_48;
+                        v = gConnectionWork->mParentBssDesc->mUnk_48;
                         break;
                 }
                 randomState = &gConnectionWork->mRandomState;
@@ -622,13 +623,13 @@ void StartParentCallback(Unk021425e8 *event) {
             case 9:
                 RemoveChild(event->mUnk_10);
                 aid = event->mUnk_10;
-                role = gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000;
+                role = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
                 if (role == 1 && gConnectionWork->mState == 9) {
                     gConnectionWork->mUnk_1eac[0] |= 1 << aid;
                 }
                 break;
         }
     } else {
-        func_020533a0();
+        StopConnection();
     }
 }

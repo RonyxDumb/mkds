@@ -75,7 +75,7 @@ void InitWiFiTopMenu(void *heap) {
     }
     SetLinkLevelIconEnabled(1, 0);
     SetSelectReturnSoundId(0xf);
-    func_0204f7f4();
+    SendLedPatternNone();
 }
 
 void func_ov000_02181e8c(void) {

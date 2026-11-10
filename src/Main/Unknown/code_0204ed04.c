@@ -32,7 +32,7 @@ void QueuePacketToPort(void) {
         if (gConnectionWork == NULL) {
             connectionMode = 0;
         } else {
-            connectionMode = gConnectionWork->mUnk_0000;
+            connectionMode = gConnectionWork->mConnectionMode;
         }
         switch (connectionMode) {
             case 1:
@@ -70,7 +70,7 @@ void PacketPortCallback(Unk021425e8 *result) {
             if (gConnectionWork == NULL) {
                 v = 0;
             } else {
-                v = gConnectionWork->mUnk_0000;
+                v = gConnectionWork->mConnectionMode;
             }
             switch (v) {
                 case 1:

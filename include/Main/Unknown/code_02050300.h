@@ -20,20 +20,20 @@ typedef struct Unk02050320 {
     /* 04 */ s32 mUnk_04;
 } Unk02050320;
 
-typedef struct Unk020503cc {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u8 mUnk_02[4];
+typedef struct MPPlayerBitsMessage {
+    /* 00 */ u16 mKind;
+    /* 02 */ u8 mBits[4];
     /* 06 */ u8 mUnk_06[4];
-    /* 0a */ u8 mUnk_0a;
+    /* 0a */ u8 mPlayerIndex;
     /* 0b */ u8 mUnk_0b[7];
-} Unk020503cc;
+} MPPlayerBitsMessage;
 
-typedef struct Unk020504a4 {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u8 mUnk_02[0x14];
-    /* 16 */ u8 mUnk_16;
-    /* 17 */ u8 mUnk_17;
-} Unk020504a4;
+typedef struct MPPlayerNameMessage {
+    /* 00 */ u16 mKind;
+    /* 02 */ u8 mName[0x14];
+    /* 16 */ u8 mPlayerIndex;
+    /* 17 */ u8 mConnectedMask;
+} MPPlayerNameMessage;
 
 #include "Main/Unknown/unk_02165000.h" // QueueMPDataToPortParams
 #include "code_02142eac.h" // Unk021425e8
@@ -42,20 +42,20 @@ typedef struct PlayerRecord PlayerRecord;
 
 void QueueMPDataToPortCallback(void);
 BOOL QueueMPDataHalfwordAndWord(s32 kind, u16 destBitmap, s32 word);
-BOOL func_020503cc(s32 playerIndex, u16 destBitmap);
-BOOL func_020504a4(s32 playerIndex, u16 destBitmap);
+BOOL QueueMPDataPlayerBits(s32 playerIndex, u16 destBitmap);
+BOOL QueueMPDataPlayerName(s32 playerIndex, u16 destBitmap);
 BOOL QueueMPDataHalfword(s32 kind, u16 destBitmap);
 BOOL QueueMPDataToPort(void *data, s32 dataSize, u16 destBitmap, void *sendBuffer, QueueMPDataToPortParams *params);
 void MPDataPortCallback(Unk021425e8 *event);
 void ProcessMPData(u32 aid, MPMessage *message);
 void RemoveChild(u32 aid);
 void AddChild(u32 aid, u8 *b, PlayerRecord *playerEntry);
-void func_02050e60(s32 a);
+void SetRequestErrorCode(s32 errorCode);
 void EndCallback(Unk021425e8 *event);
 void End(void);
 void SetStepAndRequestPending(s32 a);
-BOOL func_020510ac(void);
-s32 func_020510c8(void);
+BOOL ConnectionMB_IsMultiBootChild(void);
+s32 GetConnectionMode(void);
 BOOL IsWMInitializeStarted(void);
 void DisconnectCallback(Unk021425e8 *event);
 void Disconnect(void);

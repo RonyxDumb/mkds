@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_0217a000.h" // ScanSlot, ScanBlock, Unk0217aa00_24_50
+#include "Main/Unknown/unk_0217a000.h" // ScanSlot, ScanBlock, UserGameInfo
 #include "code_02142eac.h" // Unk021425e8
 
 void SetGameInfo(void);
@@ -17,6 +17,6 @@ void StartConnect(ScanBlock *a, void *b, void (*c)(), void (*d)(), void (*e)());
 void EndScanCallback(Unk021425e8 *event);
 void EndScan(void);
 void StartScanCallback(Unk021425e8 *event);
-void FindOrAddScanSlot(ScanBlock *scanBuffer, Unk0217aa00_42c *key, Unk0217aa00_24_50 *c);
-void func_020525a8(ScanSlot *slot, ScanBlock *scanBuffer, Unk0217aa00_42c *key, Unk0217aa00_24_50 *d, u8 e);
+void FindOrAddScanSlot(ScanBlock *scanBuffer, ScanMacAddress *key, UserGameInfo *c);
+void FillScanSlot(ScanSlot *slot, ScanBlock *scanBuffer, ScanMacAddress *key, UserGameInfo *gameInfo, u8 entryIndex);
 void StartScan(s32 a, s32 (*b)(), s32 (*c)());

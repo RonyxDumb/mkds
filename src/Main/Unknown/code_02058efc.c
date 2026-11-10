@@ -17,7 +17,7 @@ void func_02059034(void) {
     if (gConnectionWork == NULL) {
         v1 = 0;
     } else {
-        v1 = gConnectionWork->mUnk_0000;
+        v1 = gConnectionWork->mConnectionMode;
     }
     if (v1 == 1) {
         SetMPFrequency(0);
@@ -40,7 +40,7 @@ void func_02058fe0(void) {
     if (gConnectionWork == NULL) {
         v1 = 0;
     } else {
-        v1 = gConnectionWork->mUnk_0000;
+        v1 = gConnectionWork->mConnectionMode;
     }
     if (v1 == 1) {
         SetMPFrequency(0);
