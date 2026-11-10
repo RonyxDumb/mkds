@@ -77,8 +77,8 @@ void InitSelectKart(void *a, s32 b, void *c, void *d) {
     } else {
         v = 0;
     }
-    gSelectKart->mUnk_104 = v;
-    if (gSelectKart->mUnk_104 != FALSE) {
+    gSelectKart->mEntryListUsed = v;
+    if (gSelectKart->mEntryListUsed != FALSE) {
         switch (gSelectKart->mMode) {
             case 0:
                 m = 0;
@@ -105,7 +105,7 @@ void InitSelectKart(void *a, s32 b, void *c, void *d) {
     }
     if (func_020280dc() == 0) {
         gSelectKart->mKartSelectMessages = FindFileInLoadedArchives(gKartSelectBmgName);
-        gSelectKart->mUnk_098 = CreateKartAppear(gSelectKart->mHeap);
+        gSelectKart->mKartAppear = CreateKartAppear(gSelectKart->mHeap);
     }
     g = gSelectKart;
     g->mCharacterIndex = GetRaceSetupCopy()->mEntries[g->mEntryIndex].mCharacterIndex;
@@ -118,11 +118,11 @@ void InitSelectKart(void *a, s32 b, void *c, void *d) {
         gSelectKart->mKartIndex = 0;
     }
     GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartIndex = -1;
-    GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mUnk_14 = 0;
+    GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartStored = 0;
     gSelectKart->mKartTableIndex = FindKartTableIndex(gSelectKart->mKartIndex);
     if (func_020280dc() == 0) {
         g = gSelectKart;
-        if (g->mUnk_104 == FALSE) {
+        if (g->mEntryListUsed == FALSE) {
             p = &g->mSelectCharacterGpMParts;
             LocateCellFileSet(p, gSelectCharacterGpMNcgrName2, gSelectCharacterGpMNcerName2,
                               gSelectCharacterGpMONclrName2, gSelectCharacterGpMBnclName2, NULL, NULL,
@@ -170,8 +170,8 @@ void InitSelectKart(void *a, s32 b, void *c, void *d) {
         SlideInSelectRaceRuleWait();
     }
     RefreshKartMenuParamElements();
-    func_02029330();
-    func_02028f20();
+    SetSelectKartPositionDigits();
+    PrintSelectKartMessage();
     if (func_020280dc() == 0) {
         RequestSelectReturnState1();
     }

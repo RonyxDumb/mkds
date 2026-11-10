@@ -5,12 +5,12 @@
 
 typedef struct RaceSetupCopy RaceSetupCopy;
 
-void func_02029890(unsigned int courseListMode);
-void func_020298a4(unsigned int ruleKind);
-void func_020298b8(unsigned int useTeams);
-void func_020298cc(unsigned int mirrorMode);
-void func_020298e0(unsigned int engineIndex);
-void func_020298f4(unsigned int courseId);
-void func_02029908(unsigned int mode);
-void func_0202991c(unsigned int cpuDifficulty);
+void WiFiSetNextCourseListMode(unsigned int courseListMode);
+void WiFiSetNextRuleKind(unsigned int ruleKind);
+void WiFiSetNextUseTeams(unsigned int useTeams);
+void WiFiSetNextMirrorMode(unsigned int mirrorMode);
+void WiFiSetNextEngineIndex(unsigned int engineIndex);
+void WiFiSetNextCourseId(unsigned int courseId);
+void WiFiSetNextMode(unsigned int mode);
+void WiFiSetNextCpuDifficulty(unsigned int cpuDifficulty);
 RaceSetupCopy *GetRaceSetupCopy(void);

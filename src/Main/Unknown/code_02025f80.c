@@ -301,7 +301,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     gSelectCharacter->mKartIndex = GetCharacterKartIndexByMode(gSelectCharacter->mCharacterIndex);
     GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mCharacterIndex = -1;
     GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mKartIndex = -1;
-    GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mUnk_14 = 0;
+    GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mKartStored = 0;
     if (gBootInfo->mUnk_00 != 2) {
         sParts = &gSelectCharacter->mSParts;
         SetPlayerCharacterCellFileSet(0, &w);
@@ -568,7 +568,7 @@ int AdvanceSelectCharacter(void) {
                             gSelectCharacter->mKartIndex;
                         FillRandomCharacterIndices();
                         if (GetRaceSetupCopy()->mMode == 2) {
-                            GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mUnk_14 = 1;
+                            GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mKartStored = 1;
                             func_02077f48(1);
                             gSelectCharacter->mUnk_06c = 7;
                             ClearNonParticipantKartIndices();

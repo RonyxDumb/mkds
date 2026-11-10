@@ -8,7 +8,7 @@ void SetMissionFileRowIndex(unsigned int missionFileRowIndex);
 void SetMissionTableColumn(unsigned int missionTableColumn);
 void SetMissionTableRow(unsigned int missionTableRow);
 void SetRaceSetupCopyGhostRecordIndex(unsigned int p0);
-void func_020294ac(u16 entryIndex, u32 b);
+void SetKartStored(u16 entryIndex, u32 kartStored);
 void SetListedCpuSlot(u16 entryIndex, u32 b);
 void SetPlayerKind(u16 entryIndex, u32 playerKind);
 void SetKartIndex(u16 entryIndex, u32 kartIndex);

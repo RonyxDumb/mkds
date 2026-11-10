@@ -62,18 +62,18 @@ void AdvanceResultsByMode(SceneNumbers *sceneNumbers) {
     }
 }
 
-void func_0202a5d8(void) {
+void ReleaseResultsByMode(void) {
     if (gResultScene->mMode == 0) {
-        func_02029a98();
+        ReleaseSceneTextWrapper();
     } else {
         func_02032ab0();
     }
     ClearLinkLevelIconsPointer();
 }
 
-void func_0202a5a0(void) {
+void WriteResultsByMode(void) {
     if (gResultScene->mMode == 0) {
-        func_02029a90();
+        WriteSceneTextRegistersWrapper();
     } else {
         func_02032aa8();
     }

@@ -12,12 +12,12 @@
 
 #pragma thumb on
 
-void func_020297bc(void) {
+void SetNextRaceSetupFromKartMask(void) {
     u16 packedIndex;
     u16 nextEntryIndex = 0;
     u8 kartMask;
     u8 index;
-    func_0202991c(0);
+    WiFiSetNextCpuDifficulty(0);
     for (packedIndex = 0; packedIndex < 4; packedIndex++) {
         if (GetKartMaskBitOfPackedIndex(packedIndex) != 0) {
             SetNextRaceEntry(nextEntryIndex, gRaceSetupCopy->mEntries[packedIndex].mCharacterIndex,
@@ -29,13 +29,13 @@ void func_020297bc(void) {
     for (; nextEntryIndex < 8; nextEntryIndex++) {
         SetNextRaceEntry(nextEntryIndex, -1, -1, PLAYER_KIND_NONE, -1, 3);
     }
-    func_02029908(5);
-    func_020298f4(gRaceSetupCopy->mCourseId);
-    func_020298e0(1);
-    func_020298cc(0);
-    func_020298b8(0);
-    func_020298a4(0);
-    func_02029890(0);
+    WiFiSetNextMode(5);
+    WiFiSetNextCourseId(gRaceSetupCopy->mCourseId);
+    WiFiSetNextEngineIndex(1);
+    WiFiSetNextMirrorMode(0);
+    WiFiSetNextUseTeams(0);
+    WiFiSetNextRuleKind(0);
+    WiFiSetNextCourseListMode(0);
     kartMask = 0;
     for (index = 0; index < 4; index++) {
         if (GetKartMaskBit(index) != 0) {
@@ -45,28 +45,28 @@ void func_020297bc(void) {
     SetParticipantKartMapFromMask(kartMask);
 }
 
-void func_02029758(void) {
+void CopyRaceSetupCopyToEntries(void) {
     u8 packedIndex;
     s32 index;
     for (packedIndex = 0; packedIndex < 4; packedIndex++) {
         if (GetKartMaskBitOfPackedIndex(packedIndex) != 0) {
             index = GetIndexOfPackedIndex(packedIndex);
-            data_0217b488->mUnk_20[index].mCharacterIndex = gRaceSetupCopy->mEntries[packedIndex].mCharacterIndex;
-            data_0217b488->mUnk_20[index].mKartIndex = gRaceSetupCopy->mEntries[packedIndex].mKartIndex;
-            data_0217b488->mUnk_20[index].mPlayerKind = gRaceSetupCopy->mEntries[packedIndex].mPlayerKind;
+            data_0217b488->mEntries[index].mCharacterIndex = gRaceSetupCopy->mEntries[packedIndex].mCharacterIndex;
+            data_0217b488->mEntries[index].mKartIndex = gRaceSetupCopy->mEntries[packedIndex].mKartIndex;
+            data_0217b488->mEntries[index].mPlayerKind = gRaceSetupCopy->mEntries[packedIndex].mPlayerKind;
         }
     }
 }
 
-void func_020296f4(void) {
+void CopyEntriesToRaceSetupCopy(void) {
     u8 index;
     s32 packedIndex;
     for (index = 0; index < 4; index++) {
         if (GetKartMaskBit(index) != 0) {
             packedIndex = GetPackedIndex(index);
-            gRaceSetupCopy->mEntries[packedIndex].mCharacterIndex = data_0217b488->mUnk_20[index].mCharacterIndex;
-            gRaceSetupCopy->mEntries[packedIndex].mKartIndex = data_0217b488->mUnk_20[index].mKartIndex;
-            gRaceSetupCopy->mEntries[packedIndex].mPlayerKind = data_0217b488->mUnk_20[index].mPlayerKind;
+            gRaceSetupCopy->mEntries[packedIndex].mCharacterIndex = data_0217b488->mEntries[index].mCharacterIndex;
+            gRaceSetupCopy->mEntries[packedIndex].mKartIndex = data_0217b488->mEntries[index].mKartIndex;
+            gRaceSetupCopy->mEntries[packedIndex].mPlayerKind = data_0217b488->mEntries[index].mPlayerKind;
         }
     }
 }

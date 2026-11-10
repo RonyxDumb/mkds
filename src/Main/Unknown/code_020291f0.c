@@ -17,35 +17,36 @@
 
 #pragma thumb on
 
-void func_0202941c(s32 a) {
-    if (gSelectKart->mUnk_104 != FALSE) {
-        func_0202b7c0(a);
+void StartSelectKartEntryListKindIfUsed(s32 kind) {
+    if (gSelectKart->mEntryListUsed != FALSE) {
+        func_0202b7c0(kind);
     }
 }
 
-void func_02029330(void) {
-    s32 a;
-    s32 b;
-    SelectKart *d;
-    CellFileSet *p;
+void SetSelectKartPositionDigits(void) {
+    s32 kartPosition;
+    s32 kartCount;
+    SelectKart *selectKart;
+    CellFileSet *gpMParts;
     if (func_020280dc() == 0) {
-        d = gSelectKart;
-        a = GetKartPositionWithinAppearLimit(d->mUnk_098, d->mCharacterIndex, d->mKartIndex);
-        b = CountKartsWithinAppearLimit(gSelectKart->mUnk_098, gSelectKart->mCharacterIndex);
-        d = gSelectKart;
-        if (d->mUnk_104 != FALSE) {
-            WriteKartPositionAndCount(a, b);
+        selectKart = gSelectKart;
+        kartPosition = GetKartPositionWithinAppearLimit(selectKart->mKartAppear, selectKart->mCharacterIndex,
+                                                        selectKart->mKartIndex);
+        kartCount = CountKartsWithinAppearLimit(gSelectKart->mKartAppear, gSelectKart->mCharacterIndex);
+        selectKart = gSelectKart;
+        if (selectKart->mEntryListUsed != FALSE) {
+            WriteKartPositionAndCount(kartPosition, kartCount);
         } else {
-            p = &d->mSelectCharacterGpMParts;
-            p->mCellTable[5].mVisible = (a >= 10);
-            CopyCellLayoutEntryCellIndex(5, a / 10 % 10 + 10, p->mCellLayout);
-            CopyCellLayoutEntryCellIndex(6, a % 10 + 10, p->mCellLayout);
-            if (b >= 10) {
-                CopyCellLayoutEntryCellIndex(8, b / 10 % 10 + 20, p->mCellLayout);
-                CopyCellLayoutEntryCellIndex(9, b % 10 + 20, p->mCellLayout);
+            gpMParts = &selectKart->mSelectCharacterGpMParts;
+            gpMParts->mCellTable[5].mVisible = (kartPosition >= 10);
+            CopyCellLayoutEntryCellIndex(5, kartPosition / 10 % 10 + 10, gpMParts->mCellLayout);
+            CopyCellLayoutEntryCellIndex(6, kartPosition % 10 + 10, gpMParts->mCellLayout);
+            if (kartCount >= 10) {
+                CopyCellLayoutEntryCellIndex(8, kartCount / 10 % 10 + 20, gpMParts->mCellLayout);
+                CopyCellLayoutEntryCellIndex(9, kartCount % 10 + 20, gpMParts->mCellLayout);
             } else {
-                p->mCellTable[9].mVisible = 0;
-                CopyCellLayoutEntryCellIndex(8, b % 10 + 20, p->mCellLayout);
+                gpMParts->mCellTable[9].mVisible = 0;
+                CopyCellLayoutEntryCellIndex(8, kartCount % 10 + 20, gpMParts->mCellLayout);
             }
         }
     }
@@ -59,7 +60,7 @@ void MoveSelectKartNext(void) {
         index = 0;
     }
     while (d = gSelectKart, index != d->mKartTableIndex) {
-        if (IsKartAppearWithinLimit(d->mUnk_098, d->mCharacterIndex, GetKartIndexAtTableIndex(index)) != 0) {
+        if (IsKartAppearWithinLimit(d->mKartAppear, d->mCharacterIndex, GetKartIndexAtTableIndex(index)) != 0) {
             gSelectKart->mKartTableIndex = index;
             gSelectKart->mKartIndex = GetKartIndexAtTableIndex(gSelectKart->mKartTableIndex);
         } else {
@@ -69,7 +70,7 @@ void MoveSelectKartNext(void) {
             }
         }
     }
-    func_02029330();
+    SetSelectKartPositionDigits();
 }
 
 void MoveSelectKartPrev(void) {
@@ -80,7 +81,7 @@ void MoveSelectKartPrev(void) {
         index = 0x23;
     }
     while (d = gSelectKart, index != d->mKartTableIndex) {
-        if (IsKartAppearWithinLimit(d->mUnk_098, d->mCharacterIndex, GetKartIndexAtTableIndex(index)) != 0) {
+        if (IsKartAppearWithinLimit(d->mKartAppear, d->mCharacterIndex, GetKartIndexAtTableIndex(index)) != 0) {
             gSelectKart->mKartTableIndex = index;
             gSelectKart->mKartIndex = GetKartIndexAtTableIndex(gSelectKart->mKartTableIndex);
         } else {
@@ -90,12 +91,12 @@ void MoveSelectKartPrev(void) {
             }
         }
     }
-    func_02029330();
+    SetSelectKartPositionDigits();
 }
 
 #pragma thumb off
 
-u32 func_02029210(InputSlotPair *pair) {
+u32 SelectKartHasPairOrLost(InputSlotPair *pair) {
     u32 result;
 
     if (SelectKartIsPairRecentlyLost(pair) != 0 || SelectKartGetPairHasPair(pair) != 0) {
@@ -106,6 +107,6 @@ u32 func_02029210(InputSlotPair *pair) {
     return result;
 }
 
-u32 func_020291f0(u32 slot) {
-    return func_02029210(&gInputSlots[slot].mPair);
+u32 SelectKartSlotHasPairOrLost(u32 slot) {
+    return SelectKartHasPairOrLost(&gInputSlots[slot].mPair);
 }

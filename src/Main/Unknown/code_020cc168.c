@@ -51,7 +51,7 @@ void CopyCurrentToRaceSetupCopy(void) {
             GetRaceSetupCopy()->mEntries[i].mTeamIndex = -1;
         }
         GetRaceSetupCopy()->mEntries[i].mListedCpuSlot = GetCurrentListedCpuSlot(i);
-        GetRaceSetupCopy()->mEntries[i].mUnk_14 = 0;
+        GetRaceSetupCopy()->mEntries[i].mKartStored = 0;
     }
     GetRaceSetupCopy()->mCupIndex = GetCurrentCupIndex();
     GetRaceSetupCopy()->mCpuDifficulty = GetCurrentCpuDifficulty();

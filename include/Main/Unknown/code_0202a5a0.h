@@ -11,7 +11,7 @@ typedef struct ResultScene {
     /* 808 */ s32 mMode;
 } ResultScene;
 
-void func_0202a5a0(void);
-void func_0202a5d8(void);
+void WriteResultsByMode(void);
+void ReleaseResultsByMode(void);
 void AdvanceResultsByMode(SceneNumbers *sceneNumbers);
 void InitResultsByMode(void *heap);

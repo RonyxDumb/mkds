@@ -51,7 +51,7 @@ void ClearNonParticipantCharacterIndices(void) {
     noIndex = ~0;
     for (; n < 8; n++) {
         SetCharacterIndex(n, noIndex);
-        func_020294ac(n, zeroValue);
+        SetKartStored(n, zeroValue);
     }
 }
 
@@ -79,7 +79,7 @@ void ClearNonParticipantKartIndices(void) {
     noIndex = ~0;
     for (; n < 8; n++) {
         SetKartIndex(n, noIndex);
-        func_020294ac(n, zeroValue);
+        SetKartStored(n, zeroValue);
     }
 }
 
@@ -132,7 +132,7 @@ void FillRandomKartIndices(void) {
     for (; n < 8; n++) {
         GetEntryCharacterAndKart(gPicksHolder->mPicks, n, NULL, &pickedIndex);
         SetKartIndex(n, pickedIndex);
-        func_020294ac(n, 1);
+        SetKartStored(n, 1);
     }
 }
 
@@ -141,7 +141,7 @@ void SetKartIndicesFromCharacters(void) {
 
     for (i = 0; i < 8; i++) {
         SetKartIndex(i, gCharacterKartIndices[GetCharacterIndex(i)]);
-        func_020294ac(i, 1);
+        SetKartStored(i, 1);
     }
 }
 

@@ -139,8 +139,8 @@ void SetListedCpuSlot(u16 entryIndex, u32 b) {
     gRaceSetupCopy->mEntries[entryIndex].mListedCpuSlot = b;
 }
 
-void func_020294ac(u16 entryIndex, u32 b) {
-    gRaceSetupCopy->mEntries[entryIndex].mUnk_14 = b;
+void SetKartStored(u16 entryIndex, u32 kartStored) {
+    gRaceSetupCopy->mEntries[entryIndex].mKartStored = kartStored;
 }
 
 #pragma thumb off

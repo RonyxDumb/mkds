@@ -153,7 +153,7 @@ void InitWiFiStates(void *heap, s32 b) {
                     break;
                 case 3:
                     SetupWiFiSession(2);
-                    func_020296f4();
+                    CopyEntriesToRaceSetupCopy();
                     gWiFiStates->mState = 6;
                     RegisterWiFiVSCourseSelectCallbacks();
                     break;

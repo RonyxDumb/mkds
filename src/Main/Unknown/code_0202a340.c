@@ -5,10 +5,10 @@
 
 #pragma thumb on
 
-void func_0202a340(s16 *a, int index) {
+void WriteCourseTimeText(s16 *text, int index) {
     MinuteSecondMillisecondTime *entry;
     entry = &data_0217b488->mCourseTimes[index];
-    WriteMinuteSecondMillisecondText((a), entry->mMinute, entry->mSecond,
+    WriteMinuteSecondMillisecondText((text), entry->mMinute, entry->mSecond,
                                      data_0217b488->mCourseTimes[index].mMillisecond);
 }
 

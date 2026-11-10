@@ -27,7 +27,7 @@ s32 UpdateSelectKartTouchHold(void) {
     s32 pairY;
     s32 rectIndex;
     if (gSelectKart->mTouchHeld != FALSE) {
-        if (func_020291f0(slotIndex) != 0) {
+        if (SelectKartSlotHasPairOrLost(slotIndex) != 0) {
             pairX = SelectKartGetSlotPairX(slotIndex);
             pairY = SelectKartGetSlotPairY(slotIndex);
             rectIndex = FindRectContainingPoint(pairX, pairY, p->mRects);
@@ -70,21 +70,21 @@ u32 IsSelectKartTouchRepeat(s32 rectIndex) {
     return result;
 }
 
-void func_02029008(void) {
-    SelectKart *d = gSelectKart;
-    CellFileSet *p;
-    if (d->mUnk_104 == FALSE) {
-        p = &d->mSelectCharacterGpMParts;
-        p->mCellTable[1].mOffsetX = GetInterpolatedValue(&d->mInterpolations[0]);
-        p->mCellTable[2].mOffsetX = p->mCellTable[1].mOffsetX;
-        p->mCellTable[0].mOffsetY = GetInterpolatedValue(&gSelectKart->mInterpolations[1]);
-        p->mCellTable[3].mOffsetY = GetInterpolatedValue(&gSelectKart->mInterpolations[2]);
-        p->mCellTable[9].mOffsetY = GetInterpolatedValue(&gSelectKart->mInterpolations[3]);
-        p->mCellTable[8].mOffsetY = p->mCellTable[9].mOffsetY;
-        p->mCellTable[7].mOffsetY = p->mCellTable[8].mOffsetY;
-        p->mCellTable[6].mOffsetY = p->mCellTable[7].mOffsetY;
-        p->mCellTable[5].mOffsetY = p->mCellTable[6].mOffsetY;
-        p->mCellTable[4].mOffsetY = p->mCellTable[5].mOffsetY;
+void SetSelectKartGpMPartsOffsets(void) {
+    SelectKart *selectKart = gSelectKart;
+    CellFileSet *gpMParts;
+    if (selectKart->mEntryListUsed == FALSE) {
+        gpMParts = &selectKart->mSelectCharacterGpMParts;
+        gpMParts->mCellTable[1].mOffsetX = GetInterpolatedValue(&selectKart->mInterpolations[0]);
+        gpMParts->mCellTable[2].mOffsetX = gpMParts->mCellTable[1].mOffsetX;
+        gpMParts->mCellTable[0].mOffsetY = GetInterpolatedValue(&gSelectKart->mInterpolations[1]);
+        gpMParts->mCellTable[3].mOffsetY = GetInterpolatedValue(&gSelectKart->mInterpolations[2]);
+        gpMParts->mCellTable[9].mOffsetY = GetInterpolatedValue(&gSelectKart->mInterpolations[3]);
+        gpMParts->mCellTable[8].mOffsetY = gpMParts->mCellTable[9].mOffsetY;
+        gpMParts->mCellTable[7].mOffsetY = gpMParts->mCellTable[8].mOffsetY;
+        gpMParts->mCellTable[6].mOffsetY = gpMParts->mCellTable[7].mOffsetY;
+        gpMParts->mCellTable[5].mOffsetY = gpMParts->mCellTable[6].mOffsetY;
+        gpMParts->mCellTable[4].mOffsetY = gpMParts->mCellTable[5].mOffsetY;
     }
 }
 #pragma thumb off

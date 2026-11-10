@@ -35,7 +35,7 @@ void ResetRaceSetupCopy(void) {
     }
     gRaceSetupCopy->mMissionTableRow = 1;
     gRaceSetupCopy->mMissionTableColumn = 1;
-    if (func_02029a24() == 0) {
+    if (RaceSetupCopyGetConnectionKind() == 0) {
         if (func_020299e4() == 0) {
             gRaceSetupCopy->mMissionFile = FindSceneFile(data_usa_0216212c);
         } else {

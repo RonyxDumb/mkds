@@ -95,11 +95,11 @@ typedef struct WiFiVSMatching {
 } WiFiVSMatching;
 
 // 0xc-byte element of the array at member 0x20 of Unk0217b488.
-typedef struct Unk0217b488_20 {
+typedef struct EntryCharacterKartKind {
     /* 00 */ s32 mCharacterIndex;
     /* 04 */ s32 mKartIndex;
     /* 08 */ s32 mPlayerKind;
-} Unk0217b488_20;
+} EntryCharacterKartKind;
 
 // Object behind data_0217b488, 0x130 bytes (func_020cefa0 allocates it).
 typedef struct Unk0217b488 {
@@ -111,7 +111,7 @@ typedef struct Unk0217b488 {
     /* 014 */ s32 mLVselIndex6Requested;
     /* 018 */ BOOL mUnk_18;
     /* 01c */ s32 mUnk_1c;
-    /* 020 */ Unk0217b488_20 mUnk_20[4];
+    /* 020 */ EntryCharacterKartKind mEntries[4];
     /* 050 */ s32 mUnk_50;
     /* 054 */ u8 mUnk_54;
     /* 055 */ u8 mUnk_55[0x3];

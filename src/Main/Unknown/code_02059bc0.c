@@ -305,12 +305,12 @@ void InitResultScene(void) {
 
 void ReleaseResultScene(void) {
     u32 value12;
-    func_0202a5d8();
+    ReleaseResultsByMode();
 }
 
 void func_02059bcc(void) {
     u32 value12;
-    func_0202a5a0();
+    WriteResultsByMode();
 }
 
 void UpdateResultScene(SceneNumbers *arg0) {

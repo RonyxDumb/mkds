@@ -49,13 +49,13 @@ void AdvanceWiFiVSCourseSelectState(void) {
         }
         b = gWiFiSession->mKartCount;
         GetRaceSetupCopy()->mKartCount = b;
-        func_020297bc();
+        SetNextRaceSetupFromKartMask();
         if ((u32) data_0217b488->mUnk_1c <= 2) {
             func_02045ed0();
             func_020612b0();
             data_0217b488->mUnk_6c = TRUE;
         }
-        func_02029758();
+        CopyRaceSetupCopyToEntries();
         SetWiFiNextScene(2);
         PackWiFiSessionIndicesWrapper();
     }

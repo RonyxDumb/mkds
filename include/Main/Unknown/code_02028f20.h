@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-void func_02028f20(void);
-u32 func_02028f84(void);
-void func_02028fac(void);
+void PrintSelectKartMessage(void);
+u32 IsSelectKartModeAndTimerZero(void);
+void SetSelectKartSPartsOffsetY(void);

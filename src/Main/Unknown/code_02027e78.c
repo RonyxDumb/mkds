@@ -126,7 +126,7 @@ void WriteSelectKartRegisters(void) {
     } else {
         WriteSubWinEnableBits(0);
     }
-    if (gSelectKart->mUnk_104 != FALSE) {
+    if (gSelectKart->mEntryListUsed != FALSE) {
         WritePlayerEntryListRegisters();
     }
 }

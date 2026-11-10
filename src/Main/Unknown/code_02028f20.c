@@ -11,7 +11,7 @@
 
 #pragma optimize_for_size on
 #pragma thumb on
-void func_02028fac(void) {
+void SetSelectKartSPartsOffsetY(void) {
     CellFileSet *parts;
     s32 i;
     s32 count;
@@ -24,15 +24,15 @@ void func_02028fac(void) {
     }
 }
 
-u32 func_02028f84(void) {
-    u32 r = 0;
+u32 IsSelectKartModeAndTimerZero(void) {
+    u32 result = 0;
     if (gSelectKart->mMode != 0 && IsPlayerEntryListTimerZero() != 0) {
-        r = 1;
+        result = 1;
     }
-    return r;
+    return result;
 }
 
-void func_02028f20(void) {
+void PrintSelectKartMessage(void) {
     s32 i;
     CellFileSet *parts;
     void *message;

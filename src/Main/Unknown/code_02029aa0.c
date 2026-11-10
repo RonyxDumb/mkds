@@ -187,7 +187,7 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
         labelTableIndex++;
     }
     for (j = 0; j < 4; j++) {
-        func_0202a340(timeText, j);
+        WriteCourseTimeText(timeText, j);
         PrintLabelLayoutTextFixedDigits(1, data_usa_02153918[labelTableIndex].mUnk_00, subFileSet->mLabelLayout,
                                         timeText, subFileSet->mCellLayout, subFileSet->mCellTable, 7);
         PrintLabelLayoutTextFixedDigits(1, data_usa_02153918[labelTableIndex + 4].mUnk_00, subFileSet->mLabelLayout,

@@ -446,7 +446,7 @@ void AdvancePlayerEntryList(void) {
                     } else {
                         d = 1;
                     }
-                    b = GetRaceSetupCopy()->mEntries[i].mUnk_14;
+                    b = GetRaceSetupCopy()->mEntries[i].mKartStored;
                     if (d != 0) {
                         CopyCellLayoutEntryCellIndex(gEntryCellIndices[i].mCharacterCellIndex, gCharacterCellIndices[a],
                                                      fileSet->mCellLayout);
@@ -471,7 +471,7 @@ void AdvancePlayerEntryList(void) {
                             fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mVisible;
                         GetRaceSetupCopy()->mEntries[i].mCharacterIndex = -1;
                         GetRaceSetupCopy()->mEntries[i].mKartIndex = -1;
-                        GetRaceSetupCopy()->mEntries[i].mUnk_14 = 0;
+                        GetRaceSetupCopy()->mEntries[i].mKartStored = 0;
                         gPlayerEntryList->mUnk_1dc[i] = 0;
                         gPlayerEntryList->mUnk_1bc[i] = gPlayerEntryList->mUnk_1dc[i];
                     } else if ((c & 0x40) != 0) {
@@ -494,12 +494,12 @@ void AdvancePlayerEntryList(void) {
                             e = GetCharacterKartIndexByMode(d);
                             fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mVisible = 1;
                             GetRaceSetupCopy()->mEntries[i].mKartIndex = e;
-                            GetRaceSetupCopy()->mEntries[i].mUnk_14 = 1;
+                            GetRaceSetupCopy()->mEntries[i].mKartStored = 1;
                         }
                     } else if ((c & 0x80) != 0) {
                         fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mVisible = 1;
                         GetRaceSetupCopy()->mEntries[i].mKartIndex = c & 0x3f;
-                        GetRaceSetupCopy()->mEntries[i].mUnk_14 = 1;
+                        GetRaceSetupCopy()->mEntries[i].mKartStored = 1;
                         if (gPlayerEntryList->mEntryIndex != i && gPlayerEntryList->mUnk_1dc[i] == 0) {
                             func_0202cca4(GetRaceSetupCopy()->mEntries[i].mCharacterIndex, 1);
                             gPlayerEntryList->mUnk_1dc[i] = 1;

@@ -32,12 +32,12 @@ typedef struct RaceSetupCopyEntry {
     /* 0c */ s32 mTeamIndex;
     /* 10 */ s32 mListedCpuSlot;
     // 1 where the entry's kart index is stored, 0 where the entry is cleared and on copy-in.
-    /* 14 */ s32 mUnk_14;
+    /* 14 */ s32 mKartStored;
 } RaceSetupCopyEntry;
 
 // Copy of the race setup that the screens edit: filled from the current half of gRaceSetup (or from the Wi-Fi
-// session), written to the next half by SetNextRaceSetupFromCopy or func_020297bc. Object behind gRaceSetupCopy,
-// returned by GetRaceSetupCopy.
+// session), written to the next half by SetNextRaceSetupFromCopy or SetNextRaceSetupFromKartMask. Object behind
+// gRaceSetupCopy, returned by GetRaceSetupCopy.
 typedef struct RaceSetupCopy {
     /* 00 */ RaceSetupCopyEntry mEntries[8];
     /* c0 */ s32 mCpuDifficulty;
@@ -85,7 +85,7 @@ typedef struct SelectKart {
     /* 08c */ void *mHeap;
     /* 090 */ s32 mStateFrames; /* counts only in states 3, 4 and 6 */
     /* 094 */ s32 mState;
-    /* 098 */ KartAppear *mUnk_098;
+    /* 098 */ KartAppear *mKartAppear;
     // Position of the kart in the table gKartIndexTable that the player steps through; mKartIndex is the kart at that
     // position, -1 when the kart is not in the table.
     /* 09c */ s32 mKartTableIndex;
@@ -96,7 +96,7 @@ typedef struct SelectKart {
     /* ac */ Interpolation mInterpolations[5];
     /* 0fc */ s32 mMode;
     /* 100 */ s32 mResult;
-    /* 104 */ BOOL mUnk_104;
+    /* 104 */ BOOL mEntryListUsed;
     /* 108 */ BOOL mTouchHeld;
     /* 10c */ s32 mTouchHeldFrames;
     /* 110 */ s32 mTouchRect;

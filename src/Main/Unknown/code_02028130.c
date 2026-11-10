@@ -79,7 +79,7 @@ int AdvanceSelectKart(void) {
     AdvanceInterpolation(&gSelectKart->mInterpolations[2]);
     AdvanceInterpolation(&gSelectKart->mInterpolations[3]);
     AdvanceInterpolation(&gSelectKart->mInterpolations[4]);
-    func_02029008();
+    SetSelectKartGpMPartsOffsets();
     if (func_020280dc() == 0) {
         AdvancePaletteBlend();
     }
@@ -100,7 +100,7 @@ int AdvanceSelectKart(void) {
                 }
                 gSelectKart->mState = v;
             }
-            func_02028fac();
+            SetSelectKartSPartsOffsetY();
             break;
         case 1:
             SetDataSharingSendByteInState8(d->mKartIndex | 0x80);
@@ -112,7 +112,8 @@ int AdvanceSelectKart(void) {
                 x = IsSelectReturnState2NoState3Or4RequestAndInRect(SelectKartGetSlotPairX(t),
                                                                     SelectKartGetSlotPairY(t));
             }
-            if (SelectKartGetNewBits(t, PAD_KEY_A) != 0 || gSelectKart->mTouchRect == 2 || func_02028f84() != 0) {
+            if (SelectKartGetNewBits(t, PAD_KEY_A) != 0 || gSelectKart->mTouchRect == 2 ||
+                IsSelectKartModeAndTimerZero() != 0) {
                 gSelectKart->mStateFrames = 0;
                 gSelectKart->mResult = 1;
                 gSelectKart->mState = 4;
@@ -124,7 +125,7 @@ int AdvanceSelectKart(void) {
             } else if (SelectKartGetNewBits(t, PAD_KEY_B) != 0 || x != 0) {
                 gSelectKart->mStateFrames = 0;
                 gSelectKart->mResult = 2;
-                func_0202941c(0);
+                StartSelectKartEntryListKindIfUsed(0);
                 SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[1], 2);
                 SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[3], 2);
                 SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[4], 2);
@@ -148,7 +149,7 @@ int AdvanceSelectKart(void) {
             }
             if (e != gSelectKart->mKartIndex) {
                 StartCursorMoveSound();
-                func_02028f20();
+                PrintSelectKartMessage();
                 RefreshKartMenuParamElements();
                 gSelectKart->mState = 3;
                 gSelectKart->mStateFrames = 0;
@@ -179,7 +180,7 @@ int AdvanceSelectKart(void) {
                 switch (d->mMode) {
                     case 0:
                         GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartIndex = d->mKartIndex;
-                        GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mUnk_14 = 1;
+                        GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartStored = 1;
                         FillRandomKartIndices();
                         gSelectKart->mState = 6;
                         break;
@@ -216,9 +217,9 @@ int AdvanceSelectKart(void) {
                 SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[4], 2);
                 if (gSelectKart->mMode == 2) {
                     WriteWiFiSessionToRaceSetupCopy();
-                    func_0202941c(3);
+                    StartSelectKartEntryListKindIfUsed(3);
                 } else {
-                    func_0202941c(2);
+                    StartSelectKartEntryListKindIfUsed(2);
                 }
                 if (func_020280dc() == 0) {
                     StartKartModelMenuBg0Decrease();
@@ -231,10 +232,10 @@ int AdvanceSelectKart(void) {
             break;
         case 7:
             if (d->mInterpolations[4].mState == 3) {
-                GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mUnk_14 = d->mResult == 1;
+                GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartStored = d->mResult == 1;
                 gSelectKart->mState = 8;
             }
-            func_02028fac();
+            SetSelectKartSPartsOffsetY();
             break;
         case 8:
             r = d->mResult;
@@ -247,7 +248,7 @@ int AdvanceSelectKart(void) {
         DrawKartModelMenu();
     }
     d = gSelectKart;
-    if (d->mUnk_104 != FALSE) {
+    if (d->mEntryListUsed != FALSE) {
         AdvancePlayerEntryList();
     } else {
         DrawLayoutTable(q->mCellLayout, q->mCells, NULL, d->mUnk_080, q->mCellTable);
