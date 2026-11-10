@@ -4,5 +4,5 @@
 
 typedef struct Bmg Bmg;
 
-void func_0204ea14(Bmg *bmg);
-u32 func_0204ea3c(void);
+void SetGameRegistryTexts(Bmg *bmg);
+u32 RegisterMultiBootSegment(void);

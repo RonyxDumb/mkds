@@ -47,7 +47,7 @@ void func_02053d00(void) {
     gConnectionWork->mUnk_0000 = 0;
     gConnectionWork->mState = 0;
     gConnectionWork->mUnk_0008 = 9;
-    gConnectionWork->mUnk_000c = 0;
+    gConnectionWork->mStep = 0;
     gConnectionWork->mRequestPending = 0;
     gConnectionWork->mUnk_0454 = 0;
     scanParams = gConnectionWork->mUnk_001c;
@@ -79,7 +79,7 @@ void func_02053d00(void) {
     blocks->mUnk_660 = 0;
     blocks->mUnk_798 = FALSE;
     blocks->mUnk_79c = FALSE;
-    func_0204e65c(&gConnectionWork->mUnk_1658_view);
+    ResetConnectionBuffers(&gConnectionWork->mUnk_1658_view);
     func_02059878();
     FillParentParameter(1);
 }
@@ -239,7 +239,7 @@ BOOL UpdateDataSharing(void) {
 }
 
 void Initialize(void) {
-    gConnectionWork->mUnk_000c = 1;
+    gConnectionWork->mStep = 1;
     gConnectionWork->mRequestPending = 1;
     if (WM_Initialize(gConnectionWork->mUnk_0014, InitializeCallback, 2) != 2) {
         gConnectionWork->mRequestPending = 0;
@@ -269,7 +269,7 @@ void func_020533a0(void) {
     BOOL c;
 
     if ((gConnectionWork->mUnk_0454 & 0x100) != 0) {
-        gConnectionWork->mUnk_000c = 0x26;
+        gConnectionWork->mStep = 0x26;
         gConnectionWork->mRequestPending = 1;
         shouldStop = FALSE;
         if ((gConnectionWork->mUnk_0454 & 0x40) != 0) {
@@ -290,21 +290,21 @@ void func_020533a0(void) {
         return;
     }
     if ((gConnectionWork->mUnk_0454 & 0x200) != 0) {
-        func_0204eca0();
+        StopBlockTransferStep();
         return;
     }
-    gConnectionWork->mUnk_000c = 2;
+    gConnectionWork->mStep = 2;
     gConnectionWork->mRequestPending = 1;
     if (WM_Reset(ResetCallback) == 2) {
         return;
     }
-    gConnectionWork->mUnk_000c = 0x15;
+    gConnectionWork->mStep = 0x15;
     gConnectionWork->mRequestPending = 1;
     if (WM_End(EndCallback) == 2) {
         return;
     }
     if ((gConnectionWork->mUnk_0454 & 0x100) != 0) {
-        gConnectionWork->mUnk_000c = 0x26;
+        gConnectionWork->mStep = 0x26;
         gConnectionWork->mRequestPending = 1;
         if (IsWMInitializeStarted() != FALSE && (func_020510c8() == 1 || func_020510ac() != FALSE)) {
             c = TRUE;
@@ -319,15 +319,15 @@ void func_020533a0(void) {
         return;
     }
     if ((gConnectionWork->mUnk_0454 & 0x200) != 0) {
-        func_0204eca0();
+        StopBlockTransferStep();
         return;
     }
-    gConnectionWork->mUnk_000c = 2;
+    gConnectionWork->mStep = 2;
     gConnectionWork->mRequestPending = 1;
     if (WM_Reset(ResetCallback) == 2) {
         return;
     }
-    gConnectionWork->mUnk_000c = 0x15;
+    gConnectionWork->mStep = 0x15;
     gConnectionWork->mRequestPending = 1;
     if (WM_End(EndCallback) == 2) {
         return;
@@ -337,7 +337,7 @@ void func_020533a0(void) {
         return;
     }
     if ((gConnectionWork->mUnk_0454 & 0x200) != 0) {
-        func_0204eca0();
+        StopBlockTransferStep();
         return;
     }
     SetStepAndRequestPending(2);
@@ -358,7 +358,7 @@ void ResetCallback(Unk021425e8 *event) {
 }
 
 void SetLifeTime(s32 camLifeTime) {
-    gConnectionWork->mUnk_000c = 3;
+    gConnectionWork->mStep = 3;
     gConnectionWork->mRequestPending = 1;
     if (WM_SetLifeTime(func_0205329c, 0xffff, camLifeTime, 0xffff, 0xf) != 2) {
         func_020533a0();
@@ -378,7 +378,7 @@ void MeasureChannel(u16 measuredChannel) {
     u16 channel;
     s32 i;
 
-    gConnectionWork->mUnk_000c = 4;
+    gConnectionWork->mStep = 4;
     gConnectionWork->mRequestPending = 1;
     channel = measuredChannel;
     allowedChannels = WM_GetAllowedChannel();
@@ -458,7 +458,7 @@ void StartRomArchiveTransfer(void) {
     BOOL c;
     BOOL shouldStart;
 
-    gConnectionWork->mUnk_000c = 0x24;
+    gConnectionWork->mStep = 0x24;
     gConnectionWork->mRequestPending = 1;
     shouldStart = FALSE;
     if ((gConnectionWork->mUnk_0454 & 0x40) != 0) {
@@ -480,7 +480,7 @@ void StartRomArchiveTransfer(void) {
 }
 
 void RomArchiveStateCallback(s32 a) {
-    if (gConnectionWork->mUnk_000c == 0x24) {
+    if (gConnectionWork->mStep == 0x24) {
         if (GetRomArchiveState() == 2) {
             gConnectionWork->mRequestPending = 0;
             ResetPendingFiles();
@@ -495,7 +495,7 @@ void func_02052da4(void) {
     BOOL c;
     BOOL shouldStart;
 
-    gConnectionWork->mUnk_000c = 0x25;
+    gConnectionWork->mStep = 0x25;
     gConnectionWork->mRequestPending = 1;
     shouldStart = FALSE;
     if ((gConnectionWork->mUnk_0454 & 0x40) != 0) {
@@ -521,7 +521,7 @@ void StopRomArchiveTransfer(void) {
     BOOL c;
     BOOL shouldStop;
 
-    gConnectionWork->mUnk_000c = 0x26;
+    gConnectionWork->mStep = 0x26;
     gConnectionWork->mRequestPending = 1;
     shouldStop = FALSE;
     if ((gConnectionWork->mUnk_0454 & 0x40) != 0) {
@@ -563,7 +563,7 @@ u16 func_02052c5c(u32 a) {
 // Calls WM_SetParentParameter; also stores 1 in the first session word.
 void SetParentParameter(void) {
     gConnectionWork->mUnk_0000 = 1;
-    gConnectionWork->mUnk_000c = 5;
+    gConnectionWork->mStep = 5;
     gConnectionWork->mRequestPending = 1;
     if (WM_SetParentParameter(func_02052bb8, gConnectionWork->mParentParameter) != 2) {
         func_020533a0();
@@ -581,7 +581,7 @@ void StartParent(Unk021425e8Func callback) {
     if (callback == NULL) {
         callback = StartParentCallback;
     }
-    gConnectionWork->mUnk_000c = 6;
+    gConnectionWork->mStep = 6;
     gConnectionWork->mRequestPending = 1;
     if (WM_StartParent(callback) != 2) {
         func_020533a0();

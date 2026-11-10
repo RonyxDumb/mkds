@@ -9,22 +9,23 @@
 
 #pragma thumb on
 
-u32 func_0204ea3c(void) {
+u32 RegisterMultiBootSegment(void) {
     u32 size;
-    int v2;
+    int succeeded;
     u32 result;
     result = 0;
     size = MB_GetSegmentLength(NULL);
     if ((0x00010000u) <= size) {
-        v2 = MB_ReadSegment(NULL, gConnectionWork->mUnk_1658, gConnectionWork->mUnk_168c);
-        if ((v2 != 0) && (v2 = MB_RegisterFile(data_0215472c, gConnectionWork->mUnk_1658), v2 != 0)) {
+        succeeded = MB_ReadSegment(NULL, gConnectionWork->mUnk_1658, gConnectionWork->mUnk_168c);
+        if ((succeeded != 0) &&
+            (succeeded = MB_RegisterFile(data_0215472c, gConnectionWork->mUnk_1658), succeeded != 0)) {
             result = 1;
         }
     }
     return result;
 }
 
-void func_0204ea14(Bmg *bmg) {
+void SetGameRegistryTexts(Bmg *bmg) {
     void **table;
     void *firstEntry;
     void *secondEntry;

@@ -8,7 +8,7 @@
 #pragma thumb on
 
 void StartBlockCountRequest(void) {
-    s32 savedValue = gConnectionWork->mUnk_000c;
+    s32 savedValue = gConnectionWork->mStep;
     u8 mask;
     s32 s = gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000;
     if (s == 1) {
@@ -16,11 +16,11 @@ void StartBlockCountRequest(void) {
     } else {
         mask = 1;
     }
-    gConnectionWork->mUnk_000c = 0x2a;
+    gConnectionWork->mStep = 0x2a;
     gConnectionWork->mRequestPending = 1;
     if (RequestBlockCount(mask, BlockCountRequestCallback) == 0) {
         gConnectionWork->mRequestPending = 0;
-        gConnectionWork->mUnk_000c = savedValue;
+        gConnectionWork->mStep = savedValue;
     }
 }
 
@@ -38,12 +38,12 @@ void BlockCountRequestCallback(BlockTransferRecord *record) {
 }
 
 void StartBlockNodeRequest(void) {
-    s32 savedValue = gConnectionWork->mUnk_000c;
-    gConnectionWork->mUnk_000c = 0x2b;
+    s32 savedValue = gConnectionWork->mStep;
+    gConnectionWork->mStep = 0x2b;
     gConnectionWork->mRequestPending = 1;
     if (RequestBlockNode(1, gConnectionWork->mBlockIndex, gConnectionWork->mBlockInfos, BlockNodeRequestCallback) ==
         0) {
-        gConnectionWork->mUnk_000c = savedValue;
+        gConnectionWork->mStep = savedValue;
         gConnectionWork->mRequestPending = 0;
     }
 }
@@ -61,14 +61,14 @@ void BlockNodeRequestCallback(BlockTransferRecord *record) {
 }
 
 void StartBlockDataRequest(void) {
-    s32 savedValue = gConnectionWork->mUnk_000c;
-    gConnectionWork->mUnk_000c = 0x2c;
+    s32 savedValue = gConnectionWork->mStep;
+    gConnectionWork->mStep = 0x2c;
     gConnectionWork->mRequestPending = 1;
     gConnectionWork->mUnk_1d60 = gConnectionWork->mBlockEntries[gConnectionWork->mBlockIndex].mBuffer;
     if (RequestBlockData(1, gConnectionWork->mBlockInfos[0]->mBlockId, &gConnectionWork->mUnk_1d60,
                          gConnectionWork->mBlockInfos[0]->mSize, gConnectionWork->mChunkBitmaps,
                          BlockDataRequestCallback) == 0) {
-        gConnectionWork->mUnk_000c = savedValue;
+        gConnectionWork->mStep = savedValue;
         gConnectionWork->mRequestPending = 0;
     }
 }
@@ -96,8 +96,8 @@ void SetOwnIndexFromConnection(void) {
     }
 }
 
-void func_0204ef1c(void) {
-    gConnectionWork->mUnk_000c = 0xb;
+void StartMPWithBuffers(void) {
+    gConnectionWork->mStep = 0xb;
     gConnectionWork->mRequestPending = 1;
     if (WM_StartMPEx(StartMPCallback, gConnectionWork->mMPReceiveBuffer, gConnectionWork->mMPReceiveBufferSize,
                      gConnectionWork->mMPSendBuffer, gConnectionWork->mMPSendBufferSize, 1, 0, 0, 0, 0, 0) != 2) {
@@ -112,7 +112,7 @@ void AddGhostDataBlock(void *data, u32 size) {
     gConnectionWork->mGhostBlockCount++;
 }
 
-void func_0204eeac(void *data, u32 size) {
+void AddGhostDataBlockWrapper(void *data, u32 size) {
     AddGhostDataBlock(data, size);
 }
 

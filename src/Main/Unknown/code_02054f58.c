@@ -48,7 +48,7 @@ s32 func_02055564(s32 a) {
 
     status = 0;
     if (gConnectionWork->mRequestPending != 0) {
-        if (gConnectionWork->mUnk_000c == 7 && gConnectionWork->mUnk_043b == 1) {
+        if (gConnectionWork->mStep == 7 && gConnectionWork->mUnk_043b == 1) {
             if (func_020501b0(a) == 0) {
                 func_02050e60(5);
             }
@@ -58,7 +58,7 @@ s32 func_02055564(s32 a) {
     if (func_02055030_inline4()) {
         return 3;
     }
-    switch (gConnectionWork->mUnk_000c) {
+    switch (gConnectionWork->mStep) {
         case 7:
             EndScan();
             break;
@@ -90,7 +90,7 @@ s32 func_020554e4(void) {
     if (gConnectionWork->mRequestPending != 0) {
         return 0;
     }
-    switch (gConnectionWork->mUnk_000c) {
+    switch (gConnectionWork->mStep) {
         case 11:
             if (gConnectionWork->mUnk_008b & 8) {
                 SetGameInfo();
@@ -98,7 +98,7 @@ s32 func_020554e4(void) {
             break;
         case 15:
             gConnectionWork->mUnk_008b &= ~8;
-            gConnectionWork->mUnk_000c = 11;
+            gConnectionWork->mStep = 11;
             break;
     }
     return 0;
@@ -158,7 +158,7 @@ s32 AdvanceConnectionEnd(void) {
         gConnectionWork->mUnk_0454 &= ~0x80;
         return 1;
     }
-    switch (gConnectionWork->mUnk_000c) {
+    switch (gConnectionWork->mStep) {
         case 0x1d:
         case 0x1e:
             StartRequestEndScan();
@@ -180,7 +180,7 @@ s32 AdvanceConnectionEnd(void) {
             gConnectionWork->mRequestPending = 0;
             break;
     }
-    if (gConnectionWork->mRequestPending != 0 && gConnectionWork->mUnk_000c == 7 && gConnectionWork->mUnk_043b == 1) {
+    if (gConnectionWork->mRequestPending != 0 && gConnectionWork->mStep == 7 && gConnectionWork->mUnk_043b == 1) {
         gConnectionWork->mUnk_043b = 0;
     }
     if (gConnectionWork->mRequestPending != 0) {
@@ -189,12 +189,12 @@ s32 AdvanceConnectionEnd(void) {
     if (func_02055030_inline4()) {
         return 3;
     }
-    switch (gConnectionWork->mUnk_000c) {
+    switch (gConnectionWork->mStep) {
         case 38:
             End();
             break;
         case 21:
-            gConnectionWork->mUnk_000c = 0;
+            gConnectionWork->mStep = 0;
             break;
         case 0:
             ClearParticipantBits();
@@ -248,7 +248,7 @@ s32 AdvanceConnectionEnd(void) {
         case 23:
         case 24:
         case 25:
-            func_0204e090();
+            StartEndToIdle();
             break;
         case 28:
         case 29:
@@ -265,7 +265,7 @@ s32 AdvanceConnectionEnd(void) {
         case 43:
         case 44:
         case 46:
-            func_0204eca0();
+            StopBlockTransferStep();
             break;
         case 45:
             EndMP();
@@ -284,12 +284,12 @@ s32 func_02054f58(void) {
     status = 0;
     result = AdvanceConnectionEnd();
     if (result == 3) {
-        switch (gConnectionWork->mUnk_000c) {
+        switch (gConnectionWork->mStep) {
             case 0x16:
             case 0x17:
             case 0x18:
             case 0x19:
-                func_0204e090();
+                StartEndToIdle();
                 break;
             case 0x27:
             case 0x28:
@@ -298,7 +298,7 @@ s32 func_02054f58(void) {
             case 0x2b:
             case 0x2c:
             case 0x2e:
-                func_0204eca0();
+                StopBlockTransferStep();
                 break;
             case 0x1c:
             case 0x1d:

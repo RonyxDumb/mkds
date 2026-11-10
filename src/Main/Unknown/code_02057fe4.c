@@ -231,9 +231,9 @@ void EnterMPState7(void) {
 
 void UpdateMPState7(void) {
     if (gConnectionWork->mRequestPending == 0) {
-        switch (gConnectionWork->mUnk_000c) {
+        switch (gConnectionWork->mStep) {
             case 0xc:
-                gConnectionWork->mUnk_000c = 0xb;
+                gConnectionWork->mStep = 0xb;
                 break;
             case 0xb:
                 func_020587d8_inline(8);
@@ -431,7 +431,7 @@ void EnterMPState10(void) {
 
 void UpdateMPState10(void) {
     if (gConnectionWork->mRequestPending == 0) {
-        switch (gConnectionWork->mUnk_000c) {
+        switch (gConnectionWork->mStep) {
             case 0xb:
                 func_02052da4();
                 break;
@@ -515,7 +515,7 @@ void UpdateMPState12(void) {
     if (gConnectionWork->mRequestPending != 0) {
         return;
     }
-    switch (gConnectionWork->mUnk_000c) {
+    switch (gConnectionWork->mStep) {
         case 0xc:
         case 0x25:
         case 0x27:

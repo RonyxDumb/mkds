@@ -182,7 +182,7 @@ u32 ReloadRomArchiveFromBlock(u32 *block) {
         block = (u32 *) (tables[i].mUnk_00 + ((tables[i].mUnk_04 + 0x1f) & ~0x1f));
     }
     FS_LoadArchive(archive, NULL, (u32) tables[0].mUnk_00, tables[0].mUnk_04, (u32) tables[1].mUnk_00,
-                   tables[1].mUnk_04, func_0204db48, func_0204db40);
+                   tables[1].mUnk_04, RomArchiveReadCallback, RomArchiveWriteCallback);
     FS_AttachOverlayTable(0, tables[2].mUnk_00, tables[2].mUnk_04);
     FS_AttachOverlayTable(1, tables[3].mUnk_00, tables[3].mUnk_04);
     return positionOffset;

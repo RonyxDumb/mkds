@@ -322,7 +322,7 @@ void UpdateMultiSelectMemberKeySetup(void) {
             }
             break;
         case 3:
-            switch (func_0204db6c()) {
+            switch (AdvanceMultiBootParent()) {
                 case 1:
                     gMultiSelectMember->mSetupState = 4;
                     break;
@@ -670,7 +670,7 @@ s32 AdvanceMultiSelectMemberKeyStart(Unk02030b18 *sceneNumbers) {
         }
         if (x == 1) {
             if ((gConnectionWork->mUnk_0454 & 0x40) != 0) {
-                x = gConnectionWork->mUnk_1699;
+                x = gConnectionWork->mWaitToSendCount;
             } else {
                 x = gConnectionWork->mUnk_0044.mChildCount;
             }

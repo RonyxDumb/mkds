@@ -191,7 +191,7 @@ void InitWLMenuResetRaceSetup(void *heap) {
         kindIsOneOrTwo = 0;
     }
     if (kindIsOneOrTwo != 0) {
-        func_0204e928(heap, connectionKind == 1, bannerFile);
+        AllocConnectionBuffers(heap, connectionKind == 1, bannerFile);
         InitMPChunkBuffers(heap);
     }
     ResetRaceSetup();

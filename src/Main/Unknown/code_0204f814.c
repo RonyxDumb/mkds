@@ -130,7 +130,7 @@ BOOL func_0204fcec(u16 entryIndex, void *destination) {
             result = FALSE;
             if ((gConnectionWork->mUnk_0454 & 0x40) != 0) {
                 p = MB_CommGetChildUser(entryIndex);
-                if ((gConnectionWork->mUnk_1696 & (1 << entryIndex)) != 0 && p != NULL) {
+                if ((gConnectionWork->mWaitToSendMask & (1 << entryIndex)) != 0 && p != NULL) {
                     if (destination != NULL) {
                         MI_CpuCopy8((u8 *) p + 2, destination, 0x14);
                     }

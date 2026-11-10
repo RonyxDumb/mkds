@@ -165,7 +165,7 @@ s32 func_020595e8(s32 a, void *b, void *c) {
                         RequestMenuDLArchives();
                         break;
                 }
-                gConnectionWork->mUnk_000c = 0x27;
+                gConnectionWork->mStep = 0x27;
                 gConnectionWork->mRequestPending = 1;
                 gConnectionWork->mNextLoadIndex = 0;
                 FS_InitFile(&gConnectionWork->mFile);

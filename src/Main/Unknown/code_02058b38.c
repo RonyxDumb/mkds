@@ -155,7 +155,7 @@ void func_02058c10(void) {
         func_02058b74_inline(0x16);
         return;
     }
-    switch (gConnectionWork->mUnk_000c) {
+    switch (gConnectionWork->mStep) {
         case 11:
         case 15:
             SetEntry(0);

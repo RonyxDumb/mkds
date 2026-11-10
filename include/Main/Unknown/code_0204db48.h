@@ -4,8 +4,8 @@
 
 typedef struct FSArchive FSArchive;
 
-s32 func_0204db48(FSArchive *archive, void *dst, u32 src, u32 length);
-s32 func_0204db6c(void);
-s32 func_0204dc8c(void);
+s32 RomArchiveReadCallback(FSArchive *archive, void *dst, u32 src, u32 length);
+s32 AdvanceMultiBootParent(void);
+s32 AdvanceChildMaskCovered(void);
 u8 CompactMaskBits(u8 mask);
-s32 func_0204dd24(u16 a);
+s32 AdvanceScanConnect(u16 entryIndex);

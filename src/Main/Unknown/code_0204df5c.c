@@ -5,7 +5,7 @@
 
 #pragma thumb on
 
-void func_0204df5c(void) {
+void ConnectFailedCallback(void) {
     if ((0x00000708u) < gConnectionWork->mUnk_1692) {
         func_02050e60(5);
         return;

@@ -597,7 +597,7 @@ typedef struct ConnectionWork {
     /* 0000 */ u32 mUnk_0000;
     /* 0004 */ s32 mState;
     /* 0008 */ s32 mUnk_0008;
-    /* 000c */ s32 mUnk_000c;
+    /* 000c */ s32 mStep;
     /* 0010 */ s32 mRequestPending;
     /* 0014 */ void *mUnk_0014;
     /* 0018 */ Unk02143c30 *mParentParameter;
@@ -704,10 +704,10 @@ typedef struct ConnectionWork {
             /* 1692 */ u16 mUnk_1692;
             /* 1694 */ u8 mUnk_1694;
             /* 1695 */ u8 mUnk_1695;
-            /* 1696 */ u8 mUnk_1696;
-            /* 1697 */ u8 mUnk_1697;
+            /* 1696 */ u8 mWaitToSendMask;
+            /* 1697 */ u8 mSendCompleteMask;
             /* 1698 */ u8 mUnk_1698;
-            /* 1699 */ u8 mUnk_1699;
+            /* 1699 */ u8 mWaitToSendCount;
             /* 169a */ s8 mScanEntryIndex;
             /* 169b */ u8 mUnk_169b[0x1];
             /* 169c */ s32 mUnk_169c;
@@ -742,7 +742,7 @@ typedef struct ConnectionWork {
             /* 1e40 */ u16 mGhostBlockCount;
             /* 1e42 */ u16 mSendTimer;
             /* 1e44 */ u8 mUnk_1e44;
-            /* 1e45 */ s8 mUnk_1e45;
+            /* 1e45 */ s8 mSelectedScanEntry;
             /* 1e46 */ u8 mUnk_1e46;
             /* 1e47 */ u8 mUnk_1e47[0x1];
             /* 1e48 */ ScanGhostInfo *mScanGhostInfos;

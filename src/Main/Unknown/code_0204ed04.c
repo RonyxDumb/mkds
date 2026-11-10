@@ -17,24 +17,24 @@ void SetBlockEntryBuffer(u32 entryIndex, void *buffer) {
 #pragma thumb off
 
 #pragma thumb on
-void func_0204ee30(void) {
+void PacketPortSendCallback(void) {
     gConnectionWork->mUnk_1e44 &= ~1;
 }
 #pragma thumb off
 
 #pragma thumb on
 
-void func_0204ed84(void) {
+void QueuePacketToPort(void) {
     u16 packetSize;
     u16 destMask;
     if (!(gConnectionWork->mUnk_1e44 & 1)) {
-        u32 v;
+        u32 connectionMode;
         if (gConnectionWork == NULL) {
-            v = 0;
+            connectionMode = 0;
         } else {
-            v = gConnectionWork->mUnk_0000;
+            connectionMode = gConnectionWork->mUnk_0000;
         }
-        switch (v) {
+        switch (connectionMode) {
             case 1:
                 data_usa_0216522c.mMaxDataSize = 0x192;
                 packetSize = BuildParentPacket(gConnectionWork->mPacketBuffer, 0x192);

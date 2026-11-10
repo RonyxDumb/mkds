@@ -18,7 +18,7 @@
 
 #pragma thumb on
 
-void func_0204e928(void *heap, u32 b, void *bmg) {
+void AllocConnectionBuffers(void *heap, u32 unused, void *bmg) {
     u32 workSize;
     gConnectionWork->mUnk_1664 = heap;
     workSize = GetScanConnectWorkSize();
@@ -33,30 +33,30 @@ void func_0204e928(void *heap, u32 b, void *bmg) {
             gConnectionWork->mUnk_168c = 0x80000;
         }
         gConnectionWork->mUnk_1658 = HeapAllocAligned(heap, gConnectionWork->mUnk_168c, 0x20);
-        func_0204ea14(bmg);
+        SetGameRegistryTexts(bmg);
         gConnectionWork->mUnk_1668 = HeapAllocAligned(heap, 0x4c0, 0x20);
     } else {
         gConnectionWork->mUnk_168c = 0;
         gConnectionWork->mUnk_1658 = 0;
         gConnectionWork->mUnk_1668 = 0;
     }
-    func_0204e65c(&gConnectionWork->mUnk_1658_view);
+    ResetConnectionBuffers(&gConnectionWork->mUnk_1658_view);
 }
 
-void func_0204e6e8(u32 index, u32 code, Unk0204e4d8 *c) {
+void ParentStateCallback(u32 index, u32 code, Unk0204e4d8 *c) {
     gConnectionWork->mUnk_1658_view.mUnk_14[index] = code;
-    if (gConnectionWork->mUnk_000c == 0x1b && code != 0xc) {
+    if (gConnectionWork->mStep == 0x1b && code != 0xc) {
         return;
     }
     switch (code) {
         case 10: {
-            u32 v = 1;
+            u32 accept = 1;
             if (gConnectionWork->mUnk_1694 & 1) {
-                v = 0;
+                accept = 0;
             } else if ((gConnectionWork->mUnk_008b & 4) && c->mUnk_00_4 == 0) {
-                v = 0;
+                accept = 0;
             }
-            if (v != 0) {
+            if (accept != 0) {
                 MB_CommResponseRequest(index, 1);
             } else {
                 MB_CommResponseRequest(index, 0);
@@ -64,8 +64,9 @@ void func_0204e6e8(u32 index, u32 code, Unk0204e4d8 *c) {
             return;
         }
         case 7:
-            gConnectionWork->mUnk_1697 |= 1 << index;
-            if (gConnectionWork->mUnk_1696 == (gConnectionWork->mUnk_1696 & gConnectionWork->mUnk_1697)) {
+            gConnectionWork->mSendCompleteMask |= 1 << index;
+            if (gConnectionWork->mWaitToSendMask ==
+                (gConnectionWork->mWaitToSendMask & gConnectionWork->mSendCompleteMask)) {
                 gConnectionWork->mRequestPending = 0;
             }
             break;
@@ -81,49 +82,51 @@ void func_0204e6e8(u32 index, u32 code, Unk0204e4d8 *c) {
         case 3:
             if (gConnectionWork->mUnk_1695 & (1 << index)) {
                 gConnectionWork->mUnk_1698 |= 1 << index;
-                if (gConnectionWork->mUnk_1696 == (gConnectionWork->mUnk_1696 & gConnectionWork->mUnk_1698)) {
+                if (gConnectionWork->mWaitToSendMask ==
+                    (gConnectionWork->mWaitToSendMask & gConnectionWork->mUnk_1698)) {
                     gConnectionWork->mRequestPending = 0;
                 }
             }
             if (!(gConnectionWork->mUnk_1694 & 2)) {
-                if (gConnectionWork->mUnk_1699 != 0) {
-                    if (gConnectionWork->mUnk_1696 & (1 << index)) {
-                        gConnectionWork->mUnk_1696 &= ~(1 << index);
-                        gConnectionWork->mUnk_1699--;
+                if (gConnectionWork->mWaitToSendCount != 0) {
+                    if (gConnectionWork->mWaitToSendMask & (1 << index)) {
+                        gConnectionWork->mWaitToSendMask &= ~(1 << index);
+                        gConnectionWork->mWaitToSendCount--;
                     }
-                    if ((gConnectionWork->mUnk_1694 & 1) && gConnectionWork->mUnk_1696 == 0) {
+                    if ((gConnectionWork->mUnk_1694 & 1) && gConnectionWork->mWaitToSendMask == 0) {
                         func_02050e60(7);
                     }
                 } else {
-                    gConnectionWork->mUnk_1696 = 0;
+                    gConnectionWork->mWaitToSendMask = 0;
                     gConnectionWork->mUnk_1698 = 0;
                     gConnectionWork->mUnk_1695 = 0;
-                    gConnectionWork->mUnk_1699 = 0;
+                    gConnectionWork->mWaitToSendCount = 0;
                 }
             }
             if ((gConnectionWork->mUnk_1694 & 2) &&
-                gConnectionWork->mUnk_1696 == (gConnectionWork->mUnk_1696 & gConnectionWork->mUnk_1698) &&
-                gConnectionWork->mUnk_000c == 0x19) {
+                gConnectionWork->mWaitToSendMask == (gConnectionWork->mWaitToSendMask & gConnectionWork->mUnk_1698) &&
+                gConnectionWork->mStep == 0x19) {
                 gConnectionWork->mRequestPending = 0;
                 return;
             }
             if ((gConnectionWork->mUnk_1694 & 1) &&
-                gConnectionWork->mUnk_1696 == (gConnectionWork->mUnk_1696 & gConnectionWork->mUnk_1697) &&
-                gConnectionWork->mUnk_000c == 0x18) {
+                gConnectionWork->mWaitToSendMask ==
+                    (gConnectionWork->mWaitToSendMask & gConnectionWork->mSendCompleteMask) &&
+                gConnectionWork->mStep == 0x18) {
                 gConnectionWork->mRequestPending = 0;
                 return;
             }
             break;
         case 14:
-            if (!(gConnectionWork->mUnk_1696 & (1 << index))) {
-                gConnectionWork->mUnk_1696 |= 1 << index;
-                gConnectionWork->mUnk_1699++;
+            if (!(gConnectionWork->mWaitToSendMask & (1 << index))) {
+                gConnectionWork->mWaitToSendMask |= 1 << index;
+                gConnectionWork->mWaitToSendCount++;
             }
             break;
     }
 }
 
-void func_0204e65c(Unk0217aa00_1658 *view) {
+void ResetConnectionBuffers(Unk0217aa00_1658 *view) {
     s32 index;
     if (gConnectionWork->mUnk_165c != 0) {
         MI_CpuFill8(gConnectionWork->mUnk_165c, 0, gConnectionWork->mUnk_1660);
@@ -146,25 +149,25 @@ void func_0204e65c(Unk0217aa00_1658 *view) {
     view->mUnk_44 = 0;
 }
 
-void func_0204e568(void) {
-    Unk0204e4d8 b;
-    gConnectionWork->mUnk_000c = 0x16;
+void StartMultiBootParent(void) {
+    Unk0204e4d8 user;
+    gConnectionWork->mStep = 0x16;
     gConnectionWork->mRequestPending = 1;
-    func_0204e65c(&gConnectionWork->mUnk_1658_view);
-    b.mUnk_01 = 10;
-    b.mUnk_00_0 = data_021759d0->mUnk_40;
-    b.mUnk_00_4 = 8;
-    MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, b.mUnk_02, 0x14);
+    ResetConnectionBuffers(&gConnectionWork->mUnk_1658_view);
+    user.mUnk_01 = 10;
+    user.mUnk_00_0 = data_021759d0->mUnk_40;
+    user.mUnk_00_4 = 8;
+    MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, user.mUnk_02, 0x14);
     gConnectionWork->mUnk_1690 = func_02052c5c(1);
-    if (InitWirelessWork(gConnectionWork->mUnk_165c, (Unk02009ff4 *) &b, 0x25, gConnectionWork->mUnk_1690, 2) != 0) {
+    if (InitWirelessWork(gConnectionWork->mUnk_165c, (Unk02009ff4 *) &user, 0x25, gConnectionWork->mUnk_1690, 2) != 0) {
         func_02050e60(5);
     }
     SetMPLimits(0x1fe, 7);
-    SetCallback(func_0204e6e8);
+    SetCallback(ParentStateCallback);
     if (((s32(*)(u32)) MB_StartParentFromIdle)(gConnectionWork->mUnk_0088) != 0) {
         func_02050e60(5);
     }
-    if (func_0204ea3c() == 0) {
+    if (RegisterMultiBootSegment() == 0) {
         func_02050e60(5);
     }
     gConnectionWork->mUnk_008b &= ~4;
@@ -173,7 +176,7 @@ void func_0204e568(void) {
 
 void SetupScanConnect(void) {
     Unk0204e4d8 b;
-    gConnectionWork->mUnk_000c = 0x1c;
+    gConnectionWork->mStep = 0x1c;
     gConnectionWork->mRequestPending = 1;
     b.mUnk_00_0 = data_021759d0->mUnk_40;
     b.mUnk_01 = 10;
@@ -186,13 +189,13 @@ void SetupScanConnect(void) {
 }
 
 void StartCloseScanConnect(void) {
-    gConnectionWork->mUnk_000c = 0x1f;
+    gConnectionWork->mStep = 0x1f;
     gConnectionWork->mRequestPending = 1;
     CloseScanConnect();
 }
 
-void func_0204e498(void) {
-    gConnectionWork->mUnk_000c = 0x1d;
+void StartRepeatedScanStep1D(void) {
+    gConnectionWork->mStep = 0x1d;
     gConnectionWork->mRequestPending = 1;
     StartRepeatedScan(RepeatedScanCallback, 0x25);
 }
@@ -204,8 +207,8 @@ static inline u32 func_0204e1a8_inline(void) {
     return gConnectionWork->mUnk_0000;
 }
 
-void func_0204e474(void) {
-    gConnectionWork->mUnk_000c = 0x1e;
+void StartRepeatedScanStep1E(void) {
+    gConnectionWork->mStep = 0x1e;
     gConnectionWork->mRequestPending = 1;
     StartRepeatedScan(RepeatedScanCallback, 0x25);
 }
@@ -216,7 +219,7 @@ s32 FindScanEntryIndex(u32 entryIndex) {
     u16 index;
     ScanBlock scanBlock;
     result = -1;
-    if (gConnectionWork->mUnk_000c == 0x1e) {
+    if (gConnectionWork->mStep == 0x1e) {
         for (index = 0; index < 16; index++) {
             if (MB_FakeGetParentBssDesc(index, &scanBlock) != 0) {
                 u8 *tableBytes = gConnectionWork->mUnk_00ac[0].mKey.mUnk_00;
@@ -272,34 +275,34 @@ void ScanConnectStateCallback(u32 state) {
     }
 }
 
-s32 func_0204e29c(void) {
-    BOOL r = FALSE;
-    switch (gConnectionWork->mUnk_000c) {
+s32 AdvanceMultiBootParentSetup(void) {
+    BOOL result = FALSE;
+    switch (gConnectionWork->mStep) {
         case 0:
             gConnectionWork->mUnk_0454 |= 0x40;
             gConnectionWork->mState = 1;
             Initialize();
             break;
         case 1:
-            MeasureChannel(r);
+            MeasureChannel(result);
             break;
         case 4:
             func_0204f814();
-            func_0204e568();
+            StartMultiBootParent();
             break;
         case 0x16:
             func_0200104c();
-            r = TRUE;
+            result = TRUE;
             break;
     }
-    return r;
+    return result;
 }
 
-s32 func_0204e204(void) {
+s32 AdvanceMultiBootScanSetup(void) {
     BOOL stepDone = FALSE;
     BOOL result = FALSE;
     if (gBootInfo->mUnk_00 == 2) {
-        switch (gConnectionWork->mUnk_000c) {
+        switch (gConnectionWork->mStep) {
             case 0:
                 gConnectionWork->mUnk_0454 |= 0x40;
                 gConnectionWork->mState = 1;
@@ -310,7 +313,7 @@ s32 func_0204e204(void) {
                 break;
         }
     } else {
-        switch (gConnectionWork->mUnk_000c) {
+        switch (gConnectionWork->mStep) {
             case 0:
                 gConnectionWork->mUnk_0454 |= 0x40;
                 gConnectionWork->mState = 1;
@@ -320,7 +323,7 @@ s32 func_0204e204(void) {
                 SetupScanConnect();
                 break;
             case 0x1c:
-                func_0204e498();
+                StartRepeatedScanStep1D();
                 stepDone = TRUE;
                 break;
         }
@@ -332,17 +335,17 @@ s32 func_0204e204(void) {
     return result;
 }
 
-s32 func_0204e1a8(s32 a) {
+s32 AdvanceMultiBootSetup(s32 a) {
     s32 result = 0;
     if (gConnectionWork->mRequestPending != 0) {
         return 0;
     }
     switch (func_0204e1a8_inline()) {
         case 1:
-            result = func_0204e29c();
+            result = AdvanceMultiBootParentSetup();
             break;
         case 2:
-            result = func_0204e204();
+            result = AdvanceMultiBootScanSetup();
             break;
         case 0:
             if (a != 0) {
@@ -355,18 +358,18 @@ s32 func_0204e1a8(s32 a) {
     return result;
 }
 
-void func_0204e128(void) {
+void StartSendingToAllChildren(void) {
     u8 index;
     u8 count;
-    if (gConnectionWork->mUnk_1696 == 0) {
+    if (gConnectionWork->mWaitToSendMask == 0) {
         func_02050e60(5);
         return;
     }
-    gConnectionWork->mUnk_000c = 0x18;
+    gConnectionWork->mStep = 0x18;
     index = 1;
     gConnectionWork->mRequestPending = index;
     count = 0;
-    gConnectionWork->mUnk_1697 = count;
+    gConnectionWork->mSendCompleteMask = count;
     gConnectionWork->mUnk_1694 |= index;
     for (; index <= 15; index++) {
         if (MB_CommResponseRequest(index, 2) == 1) {
@@ -378,10 +381,10 @@ void func_0204e128(void) {
     }
 }
 
-void func_0204e0bc(void) {
+void StartBootRequestToAllChildren(void) {
     u8 index;
     u8 count;
-    gConnectionWork->mUnk_000c = 0x19;
+    gConnectionWork->mStep = 0x19;
     index = 1;
     gConnectionWork->mRequestPending = index;
     gConnectionWork->mUnk_1694 |= 2;
@@ -397,21 +400,21 @@ void func_0204e0bc(void) {
     }
 }
 
-void func_0204e090(void) {
-    gConnectionWork->mUnk_000c = 0x1b;
+void StartEndToIdle(void) {
+    gConnectionWork->mStep = 0x1b;
     gConnectionWork->mRequestPending = 1;
     gConnectionWork->mUnk_1694 &= ~2;
     MB_EndToIdle();
 }
 
 void StartRequestEndScan(void) {
-    gConnectionWork->mUnk_000c = 0x21;
+    gConnectionWork->mStep = 0x21;
     gConnectionWork->mRequestPending = 1;
     RequestEndScan();
 }
 
-void func_0204e03c(u32 entryIndex) {
-    gConnectionWork->mUnk_000c = 0x22;
+void StartConnectToScanEntry(u32 entryIndex) {
+    gConnectionWork->mStep = 0x22;
     gConnectionWork->mRequestPending = 1;
     gConnectionWork->mUnk_169c = 0;
     if (StartConnectToEntry(entryIndex) == 0) {
@@ -419,11 +422,11 @@ void func_0204e03c(u32 entryIndex) {
     }
 }
 
-void func_0204dfe0(u32 a) {
+void ReadFakeParentBssDesc(u32 entryIndex) {
     u32 result;
-    gConnectionWork->mUnk_000c = 0x23;
+    gConnectionWork->mStep = 0x23;
     gConnectionWork->mRequestPending = 1;
-    result = MB_FakeReadParentBssDesc(a, gConnectionWork->mUnk_0024, 0x1bc, 0x36, 0, 0);
+    result = MB_FakeReadParentBssDesc(entryIndex, gConnectionWork->mUnk_0024, 0x1bc, 0x36, 0, 0);
     gConnectionWork->mRequestPending = 0;
     gConnectionWork->mUnk_0024->mUnk_48 = (gConnectionWork->mUnk_0024->mUnk_48 + 7) & 0x7fff;
     if (result == 0) {
@@ -431,8 +434,8 @@ void func_0204dfe0(u32 a) {
     }
 }
 
-void func_0204df90(void) {
-    gConnectionWork->mUnk_000c = 0x1a;
+void ReadMultiBootParentBssDesc(void) {
+    gConnectionWork->mStep = 0x1a;
     gConnectionWork->mRequestPending = 1;
     MB_ReadMultiBootParentBssDesc(gConnectionWork->mUnk_0024, 0x1bc, 0x36, 0, 0);
     gConnectionWork->mUnk_0024->mUnk_48 = (gConnectionWork->mUnk_0024->mUnk_48 + 7) & 0x7fff;

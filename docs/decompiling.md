@@ -733,7 +733,7 @@ Expression shapes:
 - `movcc #0` then `movcs #1` where `c = (b < K) ? 0 : 1` gives `movcs` first: write `if (b < K) { c = 0; } else { c = 1;
   }` (UpdateRaceScene).
 - Switch case bodies placed in a different order: write the case bodies in the order of the original's branch targets
-  (func_0204dd24).
+  (AdvanceScanConnect).
 - A compare tree where the original has a jump table, or a table over a different range: add empty case labels. The
   compiler groups sorted case values into a table while (count / value span) is at least 0.4; pick the labels to hit
   that (func_ov003_021c25e0, MPLinkCallback).

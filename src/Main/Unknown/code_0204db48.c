@@ -15,38 +15,38 @@
 
 #pragma thumb on
 
-s32 func_0204dd24(u16 a) {
+s32 AdvanceScanConnect(u16 entryIndex) {
     s32 result = 0;
-    ConnectionWork *g = gConnectionWork;
+    ConnectionWork *connectionWork = gConnectionWork;
 
-    switch (g->mUnk_000c) {
+    switch (connectionWork->mStep) {
         case 29:
-            if (func_020501b0(a) == 0) {
+            if (func_020501b0(entryIndex) == 0) {
                 func_02050e60(5);
             }
-            if (func_0204ff14(a, NULL) != 0) {
+            if (func_0204ff14(entryIndex, NULL) != 0) {
                 StartRequestEndScan();
             } else {
                 func_02050e60(5);
             }
             break;
         case 10:
-            g->mUnk_1692 = g->mUnk_1692 + 1;
+            connectionWork->mUnk_1692 = connectionWork->mUnk_1692 + 1;
             if (gConnectionWork->mUnk_1692 > 0x4b0) {
                 func_02050e60(5);
                 return 3;
             }
             break;
         case 7:
-            g->mRequestPending = 0;
+            connectionWork->mRequestPending = 0;
             break;
         case 30: {
             s32 scanEntryIndex;
-            g->mUnk_1692 = g->mUnk_1692 + 1;
+            connectionWork->mUnk_1692 = connectionWork->mUnk_1692 + 1;
             if (gConnectionWork->mUnk_1692 > 0x4b0) {
                 func_02050e60(5);
             } else {
-                scanEntryIndex = FindScanEntryIndex(a);
+                scanEntryIndex = FindScanEntryIndex(entryIndex);
                 if (scanEntryIndex != -1) {
                     gConnectionWork->mScanEntryIndex = scanEntryIndex;
                     StartRequestEndScan();
@@ -55,38 +55,38 @@ s32 func_0204dd24(u16 a) {
             break;
         }
     }
-    g = gConnectionWork;
-    if (g->mRequestPending != 0) {
+    connectionWork = gConnectionWork;
+    if (connectionWork->mRequestPending != 0) {
         return 0;
     }
-    switch (g->mUnk_000c) {
+    switch (connectionWork->mStep) {
         case 7:
-            g->mUnk_0454 |= 0x40;
+            connectionWork->mUnk_0454 |= 0x40;
             EndScan();
             break;
         case 9:
             SetupScanConnect();
             break;
         case 28:
-            g->mUnk_1692 = 0;
-            func_0204e474();
+            connectionWork->mUnk_1692 = 0;
+            StartRepeatedScanStep1E();
             break;
         case 30:
             StartRequestEndScan();
             break;
         case 33:
-            if (g->mScanEntryIndex == -1) {
-                func_0204e03c(a);
+            if (connectionWork->mScanEntryIndex == -1) {
+                StartConnectToScanEntry(entryIndex);
             } else {
-                func_0204e03c((u16) g->mScanEntryIndex);
+                StartConnectToScanEntry((u16) connectionWork->mScanEntryIndex);
             }
             break;
         case 34:
-            if (g->mUnk_169c != 0) {
-                if (g->mScanEntryIndex == -1) {
-                    func_0204dfe0(a);
+            if (connectionWork->mUnk_169c != 0) {
+                if (connectionWork->mScanEntryIndex == -1) {
+                    ReadFakeParentBssDesc(entryIndex);
                 } else {
-                    func_0204dfe0((u16) g->mScanEntryIndex);
+                    ReadFakeParentBssDesc((u16) connectionWork->mScanEntryIndex);
                 }
             } else {
                 result = 2;
@@ -96,19 +96,19 @@ s32 func_0204dd24(u16 a) {
             StartCloseScanConnect();
             break;
         case 1:
-            g->mUnk_1692 = 0;
+            connectionWork->mUnk_1692 = 0;
         case 2:
             if (gBootInfo->mUnk_00 == 2) {
-                func_0204df90();
+                ReadMultiBootParentBssDesc();
             } else {
-                StartConnect(NULL, NULL, NULL, func_0204df5c, NULL);
+                StartConnect(NULL, NULL, NULL, ConnectFailedCallback, NULL);
             }
             break;
         case 31:
-            if (g->mUnk_1692 < 0x3c) {
-                g->mUnk_1692 = g->mUnk_1692 + 1;
+            if (connectionWork->mUnk_1692 < 0x3c) {
+                connectionWork->mUnk_1692 = connectionWork->mUnk_1692 + 1;
             } else {
-                g->mUnk_000c = 32;
+                connectionWork->mStep = 32;
             }
             break;
         case 26:
@@ -116,13 +116,13 @@ s32 func_0204dd24(u16 a) {
             StartRomArchiveTransfer();
             break;
         case 36:
-            StartConnect(NULL, NULL, NULL, func_0204df5c, NULL);
+            StartConnect(NULL, NULL, NULL, ConnectFailedCallback, NULL);
             break;
         case 10:
             StartMP();
             break;
         case 11:
-            g->mState = 6;
+            connectionWork->mState = 6;
             func_02059878();
             result = 1;
             break;
@@ -144,15 +144,15 @@ u8 CompactMaskBits(u8 mask) {
     return packed;
 }
 
-s32 func_0204dc8c(void) {
+s32 AdvanceChildMaskCovered(void) {
     BOOL result = FALSE;
-    ConnectionWork *g = gConnectionWork;
-    u32 a = g->mUnk_1695;
-    u8 childMask = g->mUnk_0044.mChildMask;
+    ConnectionWork *connectionWork = gConnectionWork;
+    u32 maskCopy = connectionWork->mUnk_1695;
+    u8 childMask = connectionWork->mUnk_0044.mChildMask;
 
-    if (a == (a & childMask)) {
+    if (maskCopy == (maskCopy & childMask)) {
         result = TRUE;
-    } else if (g->mUnk_1692 > 0x708) {
+    } else if (connectionWork->mUnk_1692 > 0x708) {
         if (childMask == 0) {
             func_02050e60(5);
         } else {
@@ -160,12 +160,12 @@ s32 func_0204dc8c(void) {
             result = TRUE;
         }
     } else {
-        g->mUnk_1692 = g->mUnk_1692 + 1;
+        connectionWork->mUnk_1692 = connectionWork->mUnk_1692 + 1;
     }
     return result;
 }
 
-s32 func_0204db6c(void) {
+s32 AdvanceMultiBootParent(void) {
     BOOL result = FALSE;
     switch (gConnectionWork->mState) {
         case 2:
@@ -181,15 +181,15 @@ s32 func_0204db6c(void) {
     if (gConnectionWork->mRequestPending != 0) {
         return 0;
     }
-    switch (gConnectionWork->mUnk_000c) {
+    switch (gConnectionWork->mStep) {
         case 22:
-            func_0204e128();
+            StartSendingToAllChildren();
             break;
         case 24:
-            func_0204e0bc();
+            StartBootRequestToAllChildren();
             break;
         case 25:
-            func_0204e090();
+            StartEndToIdle();
             break;
         case 27:
             StartRomArchiveTransfer();
@@ -216,7 +216,7 @@ s32 func_0204db6c(void) {
             break;
         case 11:
         case 15:
-            if (func_0204dc8c() != 0) {
+            if (AdvanceChildMaskCovered() != 0) {
                 func_02059878();
                 result = TRUE;
             }
@@ -227,7 +227,7 @@ s32 func_0204db6c(void) {
 
 #pragma thumb off
 
-s32 func_0204db48(FSArchive *archive, void *dst, u32 src, u32 length) {
+s32 RomArchiveReadCallback(FSArchive *archive, void *dst, u32 src, u32 length) {
     MI_CpuCopy8((const void *) src, dst, length);
     return 0;
 }

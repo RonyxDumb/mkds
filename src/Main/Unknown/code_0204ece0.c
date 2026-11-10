@@ -4,11 +4,11 @@
 
 #pragma thumb on
 
-void func_0204ece0(u16 entryIndex) {
+void SetSelectedScanEntry(u16 entryIndex) {
     int result;
     result = func_020501b0(entryIndex);
     if (result != 0) {
-        gConnectionWork->mUnk_1e45 = entryIndex;
+        gConnectionWork->mSelectedScanEntry = entryIndex;
     }
 }
 

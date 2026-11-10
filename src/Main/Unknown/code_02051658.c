@@ -36,7 +36,7 @@ void StartScan(s32 a, s32 (*b)(), s32 (*c)()) {
     channel = s->mUnk_38d;
     scanParams = connection->mUnk_001c;
     connection->mUnk_0000 = 2;
-    gConnectionWork->mUnk_000c = 7;
+    gConnectionWork->mStep = 7;
     gConnectionWork->mRequestPending = 1;
     allowedChannels = WM_GetAllowedChannel();
     if (allowedChannels == 0) {
@@ -245,7 +245,7 @@ void StartScanCallback(Unk021425e8 *event) {
     BOOL accepted;
     ScanSlot *e;
 
-    if (gConnectionWork->mUnk_000c != 7) {
+    if (gConnectionWork->mStep != 7) {
         return;
     }
     if (event->mResultCode == 0) {
@@ -334,7 +334,7 @@ void StartScanCallback(Unk021425e8 *event) {
 
 void EndScan(void) {
     gConnectionWork->mUnk_0436 &= ~1;
-    gConnectionWork->mUnk_000c = 9;
+    gConnectionWork->mStep = 9;
     gConnectionWork->mRequestPending = 1;
     if (WM_EndScan(EndScanCallback) == 2) {
         return;
@@ -366,7 +366,7 @@ void StartConnect(ScanBlock *a, void *b, void (*c)(), void (*d)(), void (*e)()) 
     } else {
         MI_CpuCopy8(b, v1, 0x18);
     }
-    gConnectionWork->mUnk_000c = 10;
+    gConnectionWork->mStep = 10;
     gConnectionWork->mRequestPending = 1;
     if (WM_StartConnectEx(StartConnectCallback, (u16 *) gConnectionWork->mUnk_0024, v1, 1, 0) != 2) {
         func_020533a0();
@@ -464,7 +464,7 @@ void StartConnectCallback(Unk021425e8 *event) {
 }
 
 void StartMP(void) {
-    gConnectionWork->mUnk_000c = 0xb;
+    gConnectionWork->mStep = 0xb;
     gConnectionWork->mRequestPending = 1;
     if (WM_StartMPEx(StartMPCallback, gConnectionWork->mUnk_003c, gConnectionWork->mUnk_0038,
                      gConnectionWork->mUnk_0034, gConnectionWork->mUnk_0030, 1, 0, 0, 0, 0, 0) == 2) {
@@ -503,7 +503,7 @@ void StartMPCallback(Unk021425e8 *event) {
 void SetMPFrequency(u32 mpFreq) {
     s32 result;
 
-    gConnectionWork->mUnk_000c = 0xc;
+    gConnectionWork->mStep = 0xc;
     gConnectionWork->mRequestPending = 1;
     result = WM_SetMPFrequency(SetMPFrequencyCallback, mpFreq);
     if (result == 0) {
@@ -531,7 +531,7 @@ void SetEntry(s32 enabled) {
     if ((gConnectionWork->mParentParameter->mUnk_0e != 0) == enabled) {
         return;
     }
-    gConnectionWork->mUnk_000c = 0xd;
+    gConnectionWork->mStep = 0xd;
     gConnectionWork->mRequestPending = 1;
     result = WM_SetEntry(SetEntryCallback, enabled);
     if (result == 2) {
@@ -551,7 +551,7 @@ void SetEntryCallback(Unk021425e8 *event) {
 void StartDataSharing(void) {
     s32 result;
 
-    gConnectionWork->mUnk_000c = 0xe;
+    gConnectionWork->mStep = 0xe;
     gConnectionWork->mRequestPending = 1;
     result = WM_StartDataSharing(gConnectionWork->mUnk_15bc, 0xc, 0xff, 8, 1);
     gConnectionWork->mRequestPending = 0;
@@ -571,7 +571,7 @@ void SetGameInfo(void) {
     if (func_02051658_inline() != 1) {
         return;
     }
-    gConnectionWork->mUnk_000c = 0xf;
+    gConnectionWork->mStep = 0xf;
     gConnectionWork->mRequestPending = 1;
     children = &gConnectionWork->mUnk_0044;
     children->mUnk_38->mUnk_0e.mUnk_06_0 = children->mChildCount;

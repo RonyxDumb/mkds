@@ -32,7 +32,7 @@ static inline u32 func_02050650_inline(void) {
 }
 
 void DisconnectChildren(u32 aidBitmap) {
-    gConnectionWork->mUnk_000c = 0x10;
+    gConnectionWork->mStep = 0x10;
     gConnectionWork->mRequestPending = 1;
     if (WM_DisconnectChildren(DisconnectChildrenCallback, aidBitmap) != 7) {
         return;
@@ -64,7 +64,7 @@ void DisconnectChildrenCallback(Unk021425e8 *event) {
 void EndDataSharing(void) {
     s32 result;
 
-    gConnectionWork->mUnk_000c = 0x11;
+    gConnectionWork->mStep = 0x11;
     gConnectionWork->mRequestPending = 1;
     result = WM_EndDataSharing(gConnectionWork->mUnk_15bc);
     gConnectionWork->mRequestPending = 0;
@@ -75,7 +75,7 @@ void EndDataSharing(void) {
 }
 
 void EndMP(void) {
-    gConnectionWork->mUnk_000c = 0x12;
+    gConnectionWork->mStep = 0x12;
     gConnectionWork->mRequestPending = 1;
     if (WM_EndMP(EndMPCallback) == 2) {
         return;
@@ -99,7 +99,7 @@ void EndMPCallback(Unk021425e8 *event) {
 }
 
 void EndParent(void) {
-    gConnectionWork->mUnk_000c = 0x13;
+    gConnectionWork->mStep = 0x13;
     gConnectionWork->mRequestPending = 1;
     if (WM_EndParent(EndParentCallback) == 2) {
         return;
@@ -129,7 +129,7 @@ void Disconnect(void) {
             for (i = 0, child = children->mEntries; i < children->mChildCount; i++, child++) {
                 if (child->mAid != 0xffff) {
                     gConnectionWork->mUnk_0044.mDisconnectingIndex = i;
-                    gConnectionWork->mUnk_000c = 0x14;
+                    gConnectionWork->mStep = 0x14;
                     gConnectionWork->mRequestPending = 1;
                     result = WM_Disconnect(DisconnectCallback, child->mAid);
                     break;
@@ -137,7 +137,7 @@ void Disconnect(void) {
             }
             break;
         case 2:
-            gConnectionWork->mUnk_000c = 0x14;
+            gConnectionWork->mStep = 0x14;
             gConnectionWork->mRequestPending = 1;
             result = WM_Disconnect(DisconnectCallback, 0);
             break;
@@ -217,7 +217,7 @@ BOOL func_020510ac(void) {
 }
 
 void SetStepAndRequestPending(s32 a) {
-    gConnectionWork->mUnk_000c = a;
+    gConnectionWork->mStep = a;
     gConnectionWork->mRequestPending = 1;
 }
 
@@ -226,7 +226,7 @@ void End(void) {
     ConnectionWork *connection;
     u32 flags;
 
-    gConnectionWork->mUnk_000c = 0x15;
+    gConnectionWork->mStep = 0x15;
     gConnectionWork->mRequestPending = 1;
     if (WM_End(EndCallback) == 2) {
         return;
@@ -234,7 +234,7 @@ void End(void) {
     connection = gConnectionWork;
     flags = connection->mUnk_0454;
     if ((flags & 0x100) != 0) {
-        connection->mUnk_000c = 0x26;
+        connection->mStep = 0x26;
         gConnectionWork->mRequestPending = 1;
         if (func_02050ec0_inline() != 0) {
             StopRomArchive();
@@ -244,15 +244,15 @@ void End(void) {
         return;
     }
     if ((flags & 0x200) != 0) {
-        func_0204eca0();
+        StopBlockTransferStep();
         return;
     }
-    connection->mUnk_000c = 2;
+    connection->mStep = 2;
     gConnectionWork->mRequestPending = 1;
     if (WM_Reset(ResetCallback) == 2) {
         return;
     }
-    gConnectionWork->mUnk_000c = 0x15;
+    gConnectionWork->mStep = 0x15;
     gConnectionWork->mRequestPending = 1;
     if (WM_End(EndCallback) == 2) {
         return;
@@ -262,7 +262,7 @@ void End(void) {
         return;
     }
     if ((gConnectionWork->mUnk_0454 & 0x200) != 0) {
-        func_0204eca0();
+        StopBlockTransferStep();
         return;
     }
     SetStepAndRequestPending(2);

@@ -251,7 +251,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
         case 4:
             if (GetTxtSystemDone() != 0) {
                 if (GetTxtSystemSelectedIndex() == 0) {
-                    func_0204ece0(gTimeAttackGhostGetScan->mSelectedIndex);
+                    SetSelectedScanEntry(gTimeAttackGhostGetScan->mSelectedIndex);
                 } else {
                     RequestSelectReturnState1();
                     gTimeAttackGhostGetScan->mGhostPicked = FALSE;

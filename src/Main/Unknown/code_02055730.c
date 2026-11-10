@@ -343,7 +343,7 @@ s32 func_02055808(s32 a) {
     if (func_02055808_inline4()) {
         return 3;
     }
-    switch (gConnectionWork->mUnk_000c) {
+    switch (gConnectionWork->mStep) {
         case 0:
         case 21:
             gConnectionWork->mUnk_0454 &= ~0x40;
@@ -393,12 +393,12 @@ s32 func_02055808(s32 a) {
 s32 func_0205579c(s32 a, s32 b) {
     if (a != 0) {
         if (b != 0) {
-            return func_0204e1a8(a);
+            return AdvanceMultiBootSetup(a);
         }
         return func_02055808(a);
     }
     if (gBootInfo->mUnk_00 == 2) {
-        return func_0204e1a8(a);
+        return AdvanceMultiBootSetup(a);
     }
     return func_02055808(a);
 }
@@ -408,7 +408,7 @@ s32 func_02055730(u16 a) {
         gConnectionWork->mUnk_0436 &= ~1;
     }
     if (gBootInfo->mUnk_00 == 2 || func_0204fe90(a) != 0) {
-        return func_0204dd24(a);
+        return AdvanceScanConnect(a);
     }
     return func_02055564(a);
 }

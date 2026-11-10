@@ -432,7 +432,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
             switch (i) {
                 case 1:
                     ResetPendingFiles();
-                    func_0204eeac(GetSlotGhostBuffer(), 0x1000);
+                    AddGhostDataBlockWrapper(GetSlotGhostBuffer(), 0x1000);
                     RequestSelectReturnState1();
                     gTimeAttackGhostSend->mState = 6;
                     break;
@@ -447,7 +447,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
                 SetSelectReturnSoundId(0xf);
                 StopTimeAttackGhostSendSeq();
                 gTimeAttackGhostSend->mState = 0xb;
-            } else if (func_0204eb08(gTimeAttackGhostSend->mUnk_0b8) != 0) {
+            } else if (CopySingleChildName(gTimeAttackGhostSend->mUnk_0b8) != 0) {
                 RequestSelectReturnState4();
                 StopTimeAttackGhostSendSeq();
                 NNS_SndArcSetCurrent(&gOnMemorySndArc);

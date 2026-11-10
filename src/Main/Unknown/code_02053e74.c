@@ -120,7 +120,7 @@ s32 AdvanceConnectionSetup(s32 isParent, void *b) {
     if (gConnectionWork->mRequestPending != 0) {
         return 0;
     }
-    switch (gConnectionWork->mUnk_000c) {
+    switch (gConnectionWork->mStep) {
         case 0:
         case 21:
             gConnectionWork->mUnk_0454 &= ~0x40;
@@ -154,10 +154,10 @@ s32 AdvanceConnectionSetup(s32 isParent, void *b) {
             StartParent(NULL);
             break;
         case 6:
-            func_0204ef1c();
+            StartMPWithBuffers();
             break;
         case 7:
-            if (gConnectionWork->mUnk_1e45 == -1) {
+            if (gConnectionWork->mSelectedScanEntry == -1) {
                 StartScan(0, NULL, NULL);
             } else {
                 EndScan();
@@ -168,7 +168,7 @@ s32 AdvanceConnectionSetup(s32 isParent, void *b) {
             break;
         case 10:
             gConnectionWork->mUnk_1e3c = 1;
-            func_0204ef1c();
+            StartMPWithBuffers();
             break;
         case 11:
             if (isParent != 0) {
@@ -209,7 +209,7 @@ s32 AdvanceBlockCountRequest(void) {
     if (func_02053e74_inline() == 1) {
         return 1;
     }
-    switch (gConnectionWork->mUnk_000c) {
+    switch (gConnectionWork->mStep) {
         case 0x28:
         case 0x29:
             StartBlockCountRequest();
@@ -217,10 +217,10 @@ s32 AdvanceBlockCountRequest(void) {
         case 0x2a:
             switch (func_02053e74_inline()) {
                 case 1:
-                    gConnectionWork->mUnk_000c = 0x28;
+                    gConnectionWork->mStep = 0x28;
                     break;
                 case 2:
-                    gConnectionWork->mUnk_000c = 0x29;
+                    gConnectionWork->mStep = 0x29;
                     break;
             }
             finished = TRUE;
@@ -236,7 +236,7 @@ void func_02054aa0(void) {
     if (gConnectionWork->mState != 11) {
         return;
     }
-    if (gConnectionWork->mUnk_000c == 0x2c) {
+    if (gConnectionWork->mStep == 0x2c) {
         TryGetBlockReceiveProgress(gConnectionWork->mBlockInfos[0]->mBlockId, 0, &c0, &c1);
     }
     if (gConnectionWork->mSendTimer != 0) {
@@ -246,7 +246,7 @@ void func_02054aa0(void) {
     if (func_02053e74_inline() == 0) {
         return;
     }
-    func_0204ed84();
+    QueuePacketToPort();
 }
 
 // Child side; returns 1 when done, 2 on failure, 3 when an error has been recorded, 0 otherwise (the parent returns 1
@@ -272,7 +272,7 @@ s32 AdvanceBlockReceive(void) {
     if (func_02053e74_inline() == 1) {
         return 1;
     }
-    switch (gConnectionWork->mUnk_000c) {
+    switch (gConnectionWork->mStep) {
         case 0x28:
         case 0x29:
         case 0x2a:
@@ -283,7 +283,7 @@ s32 AdvanceBlockReceive(void) {
             StartBlockDataRequest();
             break;
         case 0x2c:
-            func_0204ead0(1, 0);
+            StartSendWordRequest(1, 0);
             break;
         case 0x2e:
             gConnectionWork->mUnk_1e3c = 0;
@@ -356,7 +356,7 @@ s32 func_0205465c(void) {
     } else {
         if (func_0205465c_inline(connection) == 1) {
             if ((connection->mUnk_0454 & 0x40) != 0) {
-                count = connection->mUnk_1699;
+                count = connection->mWaitToSendCount;
             } else {
                 count = connection->mUnk_0044.mChildCount;
             }
@@ -379,7 +379,7 @@ void InitConnection(void *heap) {
     gConnectionWork->mUnk_0000 = 0;
     gConnectionWork->mState = 0;
     gConnectionWork->mUnk_0008 = 9;
-    gConnectionWork->mUnk_000c = 0;
+    gConnectionWork->mStep = 0;
     gConnectionWork->mRequestPending = 0;
     gConnectionWork->mUnk_0454 = 0;
     gConnectionWork->mUnk_0456_0 = 0;
@@ -502,7 +502,7 @@ void ResetConnectionData(void) {
     }
     gConnectionWork->mUnk_0457 = 0;
     gConnectionWork->mUnk_0458 = 0;
-    gConnectionWork->mUnk_1699 = 0;
+    gConnectionWork->mWaitToSendCount = 0;
     gConnectionWork->mUnk_0454 &= ~1;
     ClearParticipantBits();
     ResetDataSharing(&gConnectionWork->mUnk_15bc_view);

@@ -9,8 +9,8 @@
 
 #pragma thumb on
 
-void func_0204eca0(void) {
-    gConnectionWork->mUnk_000c = 0x2d;
+void StopBlockTransferStep(void) {
+    gConnectionWork->mStep = 0x2d;
     gConnectionWork->mRequestPending = 1;
     StopBlockTransfer();
     gConnectionWork->mUnk_0454 &= ~0x200;
@@ -47,7 +47,7 @@ BOOL TryGetScanGhostInfo(u8 entryIndex, void *destination, u8 *kartIndex, u8 *ch
     return TRUE;
 }
 
-BOOL func_0204eb08(void *destination) {
+BOOL CopySingleChildName(void *destination) {
     BOOL found;
     u8 index;
     u8 childMask;
@@ -56,7 +56,7 @@ BOOL func_0204eb08(void *destination) {
     found = FALSE;
     if (func_0204eb08_inline() == 1) {
         if ((gConnectionWork->mUnk_0454 & 0x40) != 0) {
-            childCount = gConnectionWork->mUnk_1699;
+            childCount = gConnectionWork->mWaitToSendCount;
         } else {
             childCount = gConnectionWork->mUnk_0044.mChildCount;
         }
@@ -82,18 +82,18 @@ BOOL func_0204eb08(void *destination) {
     return found;
 }
 
-void func_0204ead0(u16 a, s32 b) {
-    s32 v;
+void StartSendWordRequest(u16 indexMask, s32 value) {
+    s32 valueCopy;
 
-    v = b;
-    gConnectionWork->mUnk_000c = 0x2e;
+    valueCopy = value;
+    gConnectionWork->mStep = 0x2e;
     gConnectionWork->mRequestPending = 1;
-    if (RequestSendBytes(a, &v, 4, func_0204ea94) == 0) {
+    if (RequestSendBytes(indexMask, &valueCopy, 4, SendWordRequestCallback) == 0) {
         gConnectionWork->mRequestPending = 0;
     }
 }
 
-void func_0204ea94(BlockTransferRecord *record) {
+void SendWordRequestCallback(BlockTransferRecord *record) {
     if (record->mKind == 10) {
         if (record->mCallbackCode == 11) {
             gConnectionWork->mRequestPending = 0;
