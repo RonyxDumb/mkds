@@ -16,20 +16,20 @@ typedef enum {
 // 24-bit frame count at 0, then record bytes.
 typedef struct WiFiRaceSyncPacketBody {
     /* 00 */ union {
-        u16 mUnk_00;
-        s16 mUnk_00_s;
-        u8 mUnk_00_b[4];
+        u16 mProbeOrigin;
+        s16 mCountdown;
+        u8 mHeaderBytes[4];
         struct {
-            u32 mUnk_00_0 : 24;
+            u32 mSyncFrames : 24;
         };
     };
-    /* 04 */ u64 mUnk_04[4];
+    /* 04 */ u64 mProbeTicks[4];
 } WiFiRaceSyncPacketBody;
 
 // Message of 0x28 bytes from 0x04.
 typedef struct WiFiRaceSyncPacket {
     /* 00 */ union {
-        u8 mUnk_00;
+        u8 mHeaderByte;
         struct {
             u8 mSender : 2;
             u8 mTarget : 2;
@@ -38,13 +38,13 @@ typedef struct WiFiRaceSyncPacket {
     };
     /* 01 */ u8 mSharedState;
     /* 02 */ union {
-        u8 mUnk_02;
+        u8 mDroppedMaskByte;
         struct {
             u8 mDroppedParticipantMask : 4;
         };
     };
     /* 03 */ u8 mUnk_03;
-    /* 04 */ WiFiRaceSyncPacketBody mUnk_04;
+    /* 04 */ WiFiRaceSyncPacketBody mBody;
 } WiFiRaceSyncPacket;
 
 void RemoveDroppedParticipants(void);

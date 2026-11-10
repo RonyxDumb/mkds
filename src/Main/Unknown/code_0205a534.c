@@ -3,5 +3,5 @@
 
 void CopySlotResultToPending(SlotResultSyncState *syncState) {
     syncState->mPendingItemInfoIndex = (u32) (((u32) syncState->mItemInfoIndex));
-    syncState->mState = 0x4u;
+    syncState->mState = SLOT_RESULT_SYNC_STATE_WAIT_FOR_END;
 }

@@ -52,33 +52,33 @@ void ResetItemDataSlots(void) {
     s32 participantIndex;
     ItemDataSlot *slot;
 
-    for (slotIndex = 0; slotIndex < 16; slotIndex++) {
-        for (participantIndex = 0; participantIndex < 4; participantIndex++) {
+    for (slotIndex = 0; slotIndex < ITEM_DATA_SLOT_COUNT; slotIndex++) {
+        for (participantIndex = 0; participantIndex < WIFI_RACE_SYNC_PARTICIPANT_COUNT; participantIndex++) {
             slot = &gWiFiRaceSync->mReceivedItemDataSlots[slotIndex][participantIndex];
-            slot->mState = 0;
+            slot->mState = ITEM_DATA_SLOT_STATE_FREE;
             slot->mSendUntilSyncFrame = 0;
-            slot->mItemKind = 15;
+            slot->mItemKind = ITEM_DATA_KIND_NONE;
             slot->mMessageKind = 0;
             slot->mDataSize = 0;
-            MI_CpuFill8(slot->mData, 0, 20);
+            MI_CpuFill8(slot->mData, 0, ITEM_DATA_SLOT_BUFFER_SIZE);
             gWiFiRaceSync->mItemDataHandled[slotIndex][participantIndex] = 0;
         }
         slot = &gWiFiRaceSync->mItemDataSlots[slotIndex];
-        slot->mState = 0;
+        slot->mState = ITEM_DATA_SLOT_STATE_FREE;
         slot->mSendUntilSyncFrame = 0;
-        slot->mItemKind = 15;
+        slot->mItemKind = ITEM_DATA_KIND_NONE;
         slot->mMessageKind = 0;
         slot->mDataSize = 0;
-        MI_CpuFill8(slot->mData, 0, 20);
+        MI_CpuFill8(slot->mData, 0, ITEM_DATA_SLOT_BUFFER_SIZE);
     }
-    gWiFiRaceSync->mUnusedItemDataBytes = 0x30;
+    gWiFiRaceSync->mUnusedItemDataBytes = ITEM_DATA_BYTES;
 }
 
 BOOL IsAnyItemDataSlotFree(void) {
     u16 slotIndex;
 
-    for (slotIndex = 0; slotIndex < 16; slotIndex++) {
-        if (gWiFiRaceSync->mItemDataSlots[slotIndex].mState == 0) {
+    for (slotIndex = 0; slotIndex < ITEM_DATA_SLOT_COUNT; slotIndex++) {
+        if (gWiFiRaceSync->mItemDataSlots[slotIndex].mState == ITEM_DATA_SLOT_STATE_FREE) {
             return TRUE;
         }
     }
@@ -95,59 +95,62 @@ void WriteItemDataSlotsToSendBuffer(void) {
     u8 headerByte;
 
     usedSize = 0;
-    payload = (void *) &gWiFiRaceSync->mSendBuffer->mUnk_04;
+    payload = (void *) &gWiFiRaceSync->mSendBuffer->mRecord;
     headerCursor = payload->mItemDataHeaders;
-    dataCursor = headerCursor + 16;
-    for (slotIndex = 0; slotIndex < 16; slotIndex++) {
+    dataCursor = headerCursor + ITEM_DATA_SLOT_COUNT;
+    for (slotIndex = 0; slotIndex < ITEM_DATA_SLOT_COUNT; slotIndex++) {
         slot = &gWiFiRaceSync->mItemDataSlots[slotIndex];
-        if (slot->mState == 0 || slot->mState == 2 || slot->mItemKind == 15) {
-            headerByte = 15;
+        if (slot->mState == ITEM_DATA_SLOT_STATE_FREE || slot->mState == ITEM_DATA_SLOT_STATE_SENT ||
+            slot->mItemKind == ITEM_DATA_KIND_NONE) {
+            headerByte = ITEM_DATA_KIND_NONE;
         } else {
-            headerByte = (slot->mItemKind & 0x1f) | ((slot->mMessageKind << 5) & 0xe0);
+            headerByte =
+                (slot->mItemKind & ITEM_DATA_HEADER_KIND_MASK) |
+                ((slot->mMessageKind << ITEM_DATA_HEADER_MESSAGE_KIND_SHIFT) & ITEM_DATA_HEADER_MESSAGE_KIND_MASK);
         }
         *headerCursor++ = headerByte;
         switch (slot->mState) {
-            case 0:
+            case ITEM_DATA_SLOT_STATE_FREE:
                 break;
-            case 1:
-                if (slot->mDataSize != 0 && 0x30 - (usedSize + slot->mDataSize) >= 0) {
+            case ITEM_DATA_SLOT_STATE_SENDING:
+                if (slot->mDataSize != 0 && ITEM_DATA_BYTES - (usedSize + slot->mDataSize) >= 0) {
                     MI_CpuCopy8(slot->mData, dataCursor, slot->mDataSize);
                     usedSize = usedSize + slot->mDataSize;
                     dataCursor += slot->mDataSize;
                 }
                 break;
-            case 2:
+            case ITEM_DATA_SLOT_STATE_SENT:
                 break;
         }
     }
-    gWiFiRaceSync->mUnusedItemDataBytes = 0x30 - usedSize;
+    gWiFiRaceSync->mUnusedItemDataBytes = ITEM_DATA_BYTES - usedSize;
 }
 
 void ExpireItemDataSlots(void) {
     u16 slotIndex;
     ItemDataSlot *slot;
 
-    for (slotIndex = 0; slotIndex < 16; slotIndex++) {
+    for (slotIndex = 0; slotIndex < ITEM_DATA_SLOT_COUNT; slotIndex++) {
         slot = &gWiFiRaceSync->mItemDataSlots[slotIndex];
-        if (slot->mItemKind == 15) {
+        if (slot->mItemKind == ITEM_DATA_KIND_NONE) {
             continue;
         }
         switch (slot->mState) {
-            case 0:
+            case ITEM_DATA_SLOT_STATE_FREE:
                 break;
-            case 2:
-                if (slot->mSendUntilSyncFrame + 30 < (u32) gWiFiRaceSync->mSyncFrames) {
-                    slot->mState = 0;
+            case ITEM_DATA_SLOT_STATE_SENT:
+                if (slot->mSendUntilSyncFrame + ITEM_DATA_SLOT_KEEP_FRAMES < (u32) gWiFiRaceSync->mSyncFrames) {
+                    slot->mState = ITEM_DATA_SLOT_STATE_FREE;
                     slot->mSendUntilSyncFrame = 0;
-                    slot->mItemKind = 15;
+                    slot->mItemKind = ITEM_DATA_KIND_NONE;
                     slot->mMessageKind = 0;
                     slot->mDataSize = 0;
-                    MI_CpuFill8(slot->mData, 0, 20);
+                    MI_CpuFill8(slot->mData, 0, ITEM_DATA_SLOT_BUFFER_SIZE);
                 }
                 break;
-            case 1:
+            case ITEM_DATA_SLOT_STATE_SENDING:
                 if (slot->mSendUntilSyncFrame < (u32) gWiFiRaceSync->mSyncFrames) {
-                    slot->mState = 2;
+                    slot->mState = ITEM_DATA_SLOT_STATE_SENT;
                 }
                 break;
         }
@@ -162,18 +165,19 @@ void StoreReceivedItemDataSlots(void) {
     ItemDataSlot *slot;
     u8 headerByte;
 
-    for (participantIndex = 0; participantIndex < 4; participantIndex++) {
+    for (participantIndex = 0; participantIndex < WIFI_RACE_SYNC_PARTICIPANT_COUNT; participantIndex++) {
         if (participantIndex != GetOwnParticipantIndex() &&
             (gWiFiRaceSync->mParticipantMask & (1 << participantIndex)) != 0 &&
-            gWiFiRaceSync->mEntries[participantIndex].mUnk_86_0 != 0) {
+            gWiFiRaceSync->mEntries[participantIndex].mRecordReceived != 0) {
             headerCursor = (u8 *) &gWiFiRaceSync->mEntries[participantIndex] + 0x28;
-            dataCursor = headerCursor + 16;
-            for (slotIndex = 0; slotIndex < 16; slotIndex++) {
+            dataCursor = headerCursor + ITEM_DATA_SLOT_COUNT;
+            for (slotIndex = 0; slotIndex < ITEM_DATA_SLOT_COUNT; slotIndex++) {
                 headerByte = *headerCursor++;
                 slot = &gWiFiRaceSync->mReceivedItemDataSlots[slotIndex][participantIndex];
-                slot->mItemKind = headerByte & 0x1f;
-                slot->mMessageKind = (headerByte & 0xe0) >> 5;
-                if (slot->mItemKind == 15) {
+                slot->mItemKind = headerByte & ITEM_DATA_HEADER_KIND_MASK;
+                slot->mMessageKind =
+                    (headerByte & ITEM_DATA_HEADER_MESSAGE_KIND_MASK) >> ITEM_DATA_HEADER_MESSAGE_KIND_SHIFT;
+                if (slot->mItemKind == ITEM_DATA_KIND_NONE) {
                     slot->mDataSize = 0;
                 } else {
                     slot->mDataSize = GetItemDataSize(slot->mItemKind, slot->mMessageKind);
@@ -195,15 +199,15 @@ void ProcessOtherParticipantItemData(void) {
     u8 *handledFlag;
     u8 *data;
 
-    for (participantIndex = 0; participantIndex < 4; participantIndex++) {
+    for (participantIndex = 0; participantIndex < WIFI_RACE_SYNC_PARTICIPANT_COUNT; participantIndex++) {
         if (participantIndex != GetOwnParticipantIndex() &&
             (gWiFiRaceSync->mParticipantMask & (1 << participantIndex)) != 0 &&
-            gWiFiRaceSync->mEntries[participantIndex].mUnk_86_0 != 0) {
-            for (slotIndex = 0; slotIndex < 16; slotIndex++) {
+            gWiFiRaceSync->mEntries[participantIndex].mRecordReceived != 0) {
+            for (slotIndex = 0; slotIndex < ITEM_DATA_SLOT_COUNT; slotIndex++) {
                 p = gWiFiRaceSync;
                 slot = &p->mReceivedItemDataSlots[slotIndex][participantIndex];
                 handledFlag = &p->mItemDataHandled[slotIndex][participantIndex];
-                if (slot->mItemKind == 15) {
+                if (slot->mItemKind == ITEM_DATA_KIND_NONE) {
                     *handledFlag = 0;
                 } else if (*handledFlag == 0) {
                     data = NULL;

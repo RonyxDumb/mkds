@@ -472,7 +472,7 @@ void AdvanceParticipantKartRecords(Kart *kart) {
     if (participantSyncFrames > state->mLastSyncCount) {
         entry =
             GetParticipantEntryAtSyncFrames(((u8 *) gParticipantKartMap)[kart->mIndex & 0xff], participantSyncFrames);
-        record = entry != NULL ? &entry->mUnk_08 : 0;
+        record = entry != NULL ? &entry->mKartRecord : 0;
         if (record != NULL) {
             difference = gWiFiRaceSync->mSyncFrames - participantSyncFrames;
             if (difference < 0) {

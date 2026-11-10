@@ -40,10 +40,10 @@ void StartSlotResultSync(SlotResultSyncState *syncState, s32 itemInfoIndex) {
 
     syncState->mSendCount = 0;
     syncFrames = gWiFiRaceSync->mSyncFrames;
-    syncState->mState = 2;
+    syncState->mState = SLOT_RESULT_SYNC_STATE_SENDING;
     syncState->mItemInfoIndex = itemInfoIndex;
-    syncState->mEndSyncFrame = syncFrames + 0x78;
-    syncState->mPendingItemInfoIndex = 0x13;
+    syncState->mEndSyncFrame = syncFrames + SLOT_RESULT_SYNC_SEND_FRAMES;
+    syncState->mPendingItemInfoIndex = SLOT_RESULT_SYNC_NO_ITEM;
 }
 
 // Steps the slot result sync of each participant once per call.
@@ -53,37 +53,39 @@ void UpdateSlotResultSyncs(void) {
     s32 remainingFrames;
     SlotResultSyncHalfword *receivedHalfword;
 
-    for (participantIndex = 0; participantIndex < 4; participantIndex++) {
+    for (participantIndex = 0; participantIndex < WIFI_RACE_SYNC_PARTICIPANT_COUNT; participantIndex++) {
         if (IsInParticipantMask(participantIndex) != 0) {
-            syncState = &gWiFiRaceSync->mEntries[participantIndex].mUnk_68_view;
+            syncState = &gWiFiRaceSync->mEntries[participantIndex].mSlotResultSyncState;
             receivedHalfword = GetEntrySlotResultSyncHalfword(participantIndex, participantIndex);
             switch (syncState->mState) {
-                case 0:
-                    if (receivedHalfword->mState == 2) {
+                case SLOT_RESULT_SYNC_STATE_IDLE:
+                    if (receivedHalfword->mState == SLOT_RESULT_SYNC_STATE_SENDING) {
                         StartParticipantResultPending(participantIndex);
                         StartSlotResultSync(syncState, receivedHalfword->mItemInfoIndex);
                     }
                     break;
-                case 2:
+                case SLOT_RESULT_SYNC_STATE_SENDING:
                     remainingFrames = syncState->mEndSyncFrame - gWiFiRaceSync->mSyncFrames;
-                    if ((s32) syncState->mSendCount < 100) {
-                        SetSendSlotResultSync(participantIndex, remainingFrames, syncState->mItemInfoIndex, 2);
+                    if ((s32) syncState->mSendCount < SLOT_RESULT_SYNC_MAX_SENDS) {
+                        SetSendSlotResultSync(participantIndex, remainingFrames, syncState->mItemInfoIndex,
+                                              SLOT_RESULT_SYNC_STATE_SENDING);
                         syncState->mSendCount = syncState->mSendCount + 1;
-                    } else if (remainingFrames > 20) {
-                        SetSendSlotResultSync(participantIndex, remainingFrames, syncState->mItemInfoIndex, 2);
+                    } else if (remainingFrames > SLOT_RESULT_SYNC_CLEAR_FRAMES) {
+                        SetSendSlotResultSync(participantIndex, remainingFrames, syncState->mItemInfoIndex,
+                                              SLOT_RESULT_SYNC_STATE_SENDING);
                     } else {
                         ClearSendSlotResultSync(participantIndex);
                         if (remainingFrames <= 0) {
-                            syncState->mState = 3;
+                            syncState->mState = SLOT_RESULT_SYNC_STATE_COPY_TO_PENDING;
                         }
                     }
                     break;
-                case 3:
+                case SLOT_RESULT_SYNC_STATE_COPY_TO_PENDING:
                     CopySlotResultToPending(syncState);
                     break;
-                case 4:
-                    if (receivedHalfword->mState != 2) {
-                        syncState->mState = 0;
+                case SLOT_RESULT_SYNC_STATE_WAIT_FOR_END:
+                    if (receivedHalfword->mState != SLOT_RESULT_SYNC_STATE_SENDING) {
+                        syncState->mState = SLOT_RESULT_SYNC_STATE_IDLE;
                     }
                     break;
             }
@@ -107,7 +109,7 @@ s32 GetParticipantSlotResult(s32 participantIndex) {
     s32 itemInfoIndex;
     BOOL isSyncing;
 
-    itemInfoIndex = 0x13;
+    itemInfoIndex = SLOT_RESULT_SYNC_NO_ITEM;
     isSyncing = FALSE;
     if ((u16) (gWiFiRaceSync->mEntries[participantIndex].mState + 0xffff) <= 1) {
         isSyncing = TRUE;

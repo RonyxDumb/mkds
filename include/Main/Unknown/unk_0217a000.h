@@ -734,31 +734,92 @@ typedef struct OverlayLoader {
 } OverlayLoader;
 
 extern OverlayLoader *data_0217aa10;
+
+#define WIFI_RACE_SYNC_PARTICIPANT_COUNT 4
+// Probe replies are collected until a peer has this many samples.
+#define WIFI_RACE_SYNC_SAMPLE_COUNT 12
+// Bytes of the record that is sent, of a probe packet body, and of the send buffer with its 4-byte packet header.
+#define WIFI_RACE_SYNC_RECORD_SIZE 0x68
+#define WIFI_RACE_SYNC_PROBE_SIZE 0x28
+#define WIFI_RACE_SYNC_SEND_BUFFER_SIZE 0x6c
+// Bits of WiFiRaceSync.mFlags.
+#define WIFI_RACE_SYNC_FLAG_SENDING 0x4
+#define WIFI_RACE_SYNC_FLAG_PEERS_SYNCED 0x100
+#define WIFI_RACE_SYNC_FLAG_IDLE_DISCONNECT_SENT 0x200
+// Frames without pad input before the idle disconnect, calls without a packet before a peer counts as dropped (600
+// while it has no sample), and rejected probe replies before a peer is dropped.
+#define WIFI_RACE_SYNC_IDLE_FRAMES 0x708
+#define WIFI_RACE_SYNC_TIMEOUT_FRAMES 300
+#define WIFI_RACE_SYNC_FIRST_TIMEOUT_FRAMES 600
+#define WIFI_RACE_SYNC_MAX_REJECTED_SAMPLES 0x40
+// Kart progress word of a participant: bits 0 to 18 time or start rank, 19 to 21 lap count, 22 still racing, 23 to 26
+// mask of the participants that finished, and the value a dropped participant gets in the high bits.
+#define WIFI_RACE_SYNC_PROGRESS_TIME_MASK 0x7ffff
+#define WIFI_RACE_SYNC_PROGRESS_DID_NOT_FINISH 0x7ffff
+#define WIFI_RACE_SYNC_PROGRESS_SORT_KEY_MASK 0x3fffff
+#define WIFI_RACE_SYNC_PROGRESS_LAPS_MASK 0x380000
+#define WIFI_RACE_SYNC_PROGRESS_LAPS_SHIFT 19
+#define WIFI_RACE_SYNC_PROGRESS_RACING_MASK 0x400000
+#define WIFI_RACE_SYNC_PROGRESS_RACING_SHIFT 22
+#define WIFI_RACE_SYNC_PROGRESS_FINISHED_MASK 0x7800000
+#define WIFI_RACE_SYNC_PROGRESS_FINISHED_SHIFT 23
+#define WIFI_RACE_SYNC_PROGRESS_DROPPED 0x700000
+
+#define ITEM_DATA_SLOT_COUNT 16
+// Bytes of ItemDataSlot.mData, and of all item data in one record.
+#define ITEM_DATA_SLOT_BUFFER_SIZE 20
+#define ITEM_DATA_BYTES 0x30
+// Values of ItemDataSlot.mState: free, its data goes out in every record, no longer sent but not yet free.
+#define ITEM_DATA_SLOT_STATE_FREE 0
+#define ITEM_DATA_SLOT_STATE_SENDING 1
+#define ITEM_DATA_SLOT_STATE_SENT 2
+// Sync frames a slot is sent for, and kept after that.
+#define ITEM_DATA_SLOT_SEND_FRAMES 0x28
+#define ITEM_DATA_SLOT_KEEP_FRAMES 30
+// ItemDataSlot.mItemKind of a slot that holds nothing; also the header byte sent for it.
+#define ITEM_DATA_KIND_NONE 15
+// Header byte of a slot in a record: item kind in bits 0 to 4, message kind in bits 5 to 7.
+#define ITEM_DATA_HEADER_KIND_MASK 0x1f
+#define ITEM_DATA_HEADER_MESSAGE_KIND_MASK 0xe0
+#define ITEM_DATA_HEADER_MESSAGE_KIND_SHIFT 5
+
+// Item info index meaning no item, in SlotResultSyncState.
+#define SLOT_RESULT_SYNC_NO_ITEM 0x13
+// Values of SlotResultSyncState.mState and SlotResultSyncHalfword.mState.
+#define SLOT_RESULT_SYNC_STATE_IDLE 0
+#define SLOT_RESULT_SYNC_STATE_SENDING 2
+#define SLOT_RESULT_SYNC_STATE_COPY_TO_PENDING 3
+#define SLOT_RESULT_SYNC_STATE_WAIT_FOR_END 4
+// Sync frames a result is sent for, the sends counted before only the frame count decides, and the frames left below
+// which the sending stops.
+#define SLOT_RESULT_SYNC_SEND_FRAMES 0x78
+#define SLOT_RESULT_SYNC_MAX_SENDS 100
+#define SLOT_RESULT_SYNC_CLEAR_FRAMES 20
+
 // 0x38-byte entries from 0x14 of WiFiRaceSync.
 typedef struct WiFiRaceSyncPeer {
     /* 00 */ u8 mUnk_00[4];
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ s32 mUnk_1c;
-    /* 20 */ s32 mUnk_20;
+    /* 04 */ s32 mProbeSentTickLow;
+    /* 08 */ s32 mProbeSentTickHigh;
+    /* 0c */ s32 mProbeReceivedTickLow;
+    /* 10 */ s32 mProbeReceivedTickHigh;
+    /* 14 */ s32 mReplySentTickLow;
+    /* 18 */ s32 mReplySentTickHigh;
+    /* 1c */ s32 mReplyReceivedTickLow;
+    /* 20 */ s32 mReplyReceivedTickHigh;
     /* 24 */ s32 mUnk_24;
-    /* 28 */ s32 mUnk_28;
-    /* 2c */ s32 mUnk_2c;
+    /* 28 */ u64 mRoundTripTotal;
     /* 30 */ BOOL mProbePending;
     /* 34 */ u8 mSampleCount;
     /* 35 */ u8 mRejectedSampleCount;
-    /* 36 */ u8 mUnk_36;
+    /* 36 */ u8 mKind5SendPhase;
     /* 37 */ u8 mUnk_37;
 } WiFiRaceSyncPeer;
 
 // Halfword of the tables at 0x20 of WiFiRaceSyncEntry and WiFiRaceSyncRecord: bits 0 to 6, 7 to 11 and 12 to 13.
 typedef struct SlotResultSyncHalfword {
     /* 00 */ union {
-        u16 mUnk_00;
+        u16 mHalfword;
         struct {
             u16 mFramesRemaining : 7;
             u16 mItemInfoIndex : 5;
@@ -782,14 +843,14 @@ typedef struct SlotResultSyncState {
 // 0x88-byte entries from 0x104 of WiFiRaceSync.
 typedef struct WiFiRaceSyncEntry {
     /* 00 */ union {
-        s32 mUnk_00;
+        s32 mHeaderWord;
         struct {
-            u32 mUnk_00_0 : 24;
+            u32 mSyncFrames : 24;
         };
     };
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ ParticipantKartRecord mUnk_08;
-    /* 20 */ SlotResultSyncHalfword mSlotResultSyncs[4];
+    /* 04 */ s32 mProgressWord;
+    /* 08 */ ParticipantKartRecord mKartRecord;
+    /* 20 */ SlotResultSyncHalfword mSlotResultSyncs[WIFI_RACE_SYNC_PARTICIPANT_COUNT];
     /* 28 */ u8 mItemData[0x40];
     /* 68 */ union {
         struct {
@@ -801,20 +862,20 @@ typedef struct WiFiRaceSyncEntry {
             /* 78 */ s32 mUnk_78;
             /* 7c */ u16 mUnk_7c;
             /* 7e */ u8 mUnk_7e[2];
-            /* 80 */ s32 mUnk_80;
+            /* 80 */ s32 mLastProgressWord;
 // Average round trip time to this peer in the unit of mCountdownTimer: mean ticks times 64 / 0x82ea,
 // divided by 33 and rounded; 0 without samples.
             /* 84 */ u16 mRoundTripAverage;
             /* 86 */ union {
-                u8 mUnk_86;
+                u8 mReceivedAndRank;
                 struct {
-                    u8 mUnk_86_0 : 1;
+                    u8 mRecordReceived : 1;
                     u8 mRank : 7;
                 };
             };
             /* 87 */ u8 mUnk_87;
         };
-        SlotResultSyncState mUnk_68_view;
+        SlotResultSyncState mSlotResultSyncState;
     };
 } WiFiRaceSyncEntry;
 
@@ -831,22 +892,25 @@ typedef struct ItemDataSlot {
 // 0x68 bytes from 0x04 of what member 0x754 of WiFiRaceSync points to.
 typedef struct WiFiRaceSyncRecord {
     /* 00 */ union {
-        u32 mUnk_00;
-        u16 mUnk_00_h;
-        u8 mUnk_00_b[4];
+        u32 mHeaderWord;
+        u16 mLeadHalfword;
+        u8 mHeaderBytes[4];
         struct {
-            u32 mUnk_00_0 : 24;
+            u32 mSyncFrames : 24;
         };
     };
     /* 04 */ union {
-        u32 mUnk_04;
-        u8 mUnk_04_b[4];
+        u32 mProgressWord;
+        u8 mCountdownBytes[4];
     };
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c[5];
-    /* 20 */ SlotResultSyncHalfword mSlotResultSyncs[4];
-    /* 28 */ u8 mItemDataHeaders[0x10];
-    /* 38 */ u8 mItemDataBytes[0x30];
+    /* 08 */ union {
+        ParticipantKartRecord mKartRecord;
+        // The ticks of a probe packet, which has no kart record.
+        u32 mProbeWords[6];
+    };
+    /* 20 */ SlotResultSyncHalfword mSlotResultSyncs[WIFI_RACE_SYNC_PARTICIPANT_COUNT];
+    /* 28 */ u8 mItemDataHeaders[ITEM_DATA_SLOT_COUNT];
+    /* 38 */ u8 mItemDataBytes[ITEM_DATA_BYTES];
 } WiFiRaceSyncRecord;
 
 // What member 0x754 of WiFiRaceSync points to.
@@ -855,8 +919,8 @@ typedef struct WiFiRaceSyncSendBuffer {
         // The first 0x28 bytes are the packet that goes out.
         WiFiRaceSyncPacket mPacket;
         struct {
-            /* 00 */ u8 mUnk_00[4];
-            /* 04 */ WiFiRaceSyncRecord mUnk_04;
+            /* 00 */ u8 mPacketHeader[4];
+            /* 04 */ WiFiRaceSyncRecord mRecord;
         };
     };
 } WiFiRaceSyncSendBuffer;
@@ -864,40 +928,40 @@ typedef struct WiFiRaceSyncSendBuffer {
 // Object behind gWiFiRaceSync.
 typedef struct WiFiRaceSync {
     /* 000 */ StateMachine mStateMachine;
-    /* 014 */ WiFiRaceSyncPeer mPeers[4];
-    /* 0f4 */ s32 mUnk_0f4;
+    /* 014 */ WiFiRaceSyncPeer mPeers[WIFI_RACE_SYNC_PARTICIPANT_COUNT];
+    /* 0f4 */ s32 mCountdownDrift;
 // Participant the next probe goes to in state 1; the last participant sent to in states 2 and 3.
     /* 0f8 */ u16 mSendParticipantIndex;
     /* 0fa */ u8 mReadyMask;
-    /* 0fb */ u8 mUnk_0fb;
+    /* 0fb */ u8 mSampledMask;
     /* 0fc */ u8 mStartParticipantMask;
     /* 0fd */ u8 mUnk_0fd;
     /* 0fe */ u8 mUnk_0fe[6];
-    /* 104 */ WiFiRaceSyncEntry mEntries[4];
-    /* 324 */ ItemDataSlot mItemDataSlots[16];
-    /* 3e4 */ ItemDataSlot mReceivedItemDataSlots[16][4];
-    /* 6e4 */ u8 mItemDataHandled[16][4];
+    /* 104 */ WiFiRaceSyncEntry mEntries[WIFI_RACE_SYNC_PARTICIPANT_COUNT];
+    /* 324 */ ItemDataSlot mItemDataSlots[ITEM_DATA_SLOT_COUNT];
+    /* 3e4 */ ItemDataSlot mReceivedItemDataSlots[ITEM_DATA_SLOT_COUNT][WIFI_RACE_SYNC_PARTICIPANT_COUNT];
+    /* 6e4 */ u8 mItemDataHandled[ITEM_DATA_SLOT_COUNT][WIFI_RACE_SYNC_PARTICIPANT_COUNT];
     /* 724 */ u16 mUnusedItemDataBytes;
     /* 726 */ u8 mUnk_726[0x2];
 // Counted by AdvanceWiFiRaceSyncFrames, one per call, only in states 4 and 5.
     /* 728 */ s32 mSyncFrames;
-    /* 72c */ BOOL mUnk_72c;
+    /* 72c */ BOOL mFinishRecorded;
     /* 730 */ u8 mUnk_730[0x4];
-    /* 734 */ u16 mUnk_734;
+    /* 734 */ u16 mCountdownSendIndex;
     /* 736 */ s16 mCountdownTimer;
-    /* 738 */ u16 mUnk_738;
-    /* 73a */ u8 mUnk_73a;
+    /* 738 */ u16 mIdleFrames;
+    /* 73a */ u8 mRecordSendCursor;
     /* 73b */ u8 mUnk_73b;
     /* 73c */ u8 mUnk_73c[0x1];
     /* 73d */ u8 mUnk_73d;
-    /* 73e */ u8 mUnk_73e;
+    /* 73e */ u8 mFinishedMask;
     /* 73f */ u8 mUnk_73f;
 // Per participant: calls of RemoveDroppedParticipants since the last packet from it; zeroed on every packet.
-    /* 740 */ u16 mTimeoutFrames[4];
+    /* 740 */ u16 mTimeoutFrames[WIFI_RACE_SYNC_PARTICIPANT_COUNT];
     /* 748 */ u8 mDroppedParticipantMask;
     /* 749 */ u8 mParticipantMask;
-    /* 74a */ u8 mPeerDroppedMasks[4];
-    /* 74e */ u8 mPeerSharedStates[4];
+    /* 74a */ u8 mPeerDroppedMasks[WIFI_RACE_SYNC_PARTICIPANT_COUNT];
+    /* 74e */ u8 mPeerSharedStates[WIFI_RACE_SYNC_PARTICIPANT_COUNT];
     /* 752 */ u8 mUnk_752[2];
     /* 754 */ WiFiRaceSyncSendBuffer *mSendBuffer;
     /* 758 */ s32 mSharedState;
