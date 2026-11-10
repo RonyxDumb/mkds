@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_0211f380(void);
+void PlaceSelectRaceRuleWait(void);

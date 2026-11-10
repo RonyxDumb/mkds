@@ -135,7 +135,7 @@ u32 GetSceneFadeToFadedFrameCount(void) {
 }
 
 void func_0204a4d8(void) {
-    func_02120150();
+    AdvanceWiFiSessionOnIrq();
 }
 
 s32 func_0204a428(s32 sceneNumber, s32 *b) {
@@ -249,7 +249,7 @@ void func_0204a1a8(void *arg) {
                 case 3:
                 case 4:
                 case 5:
-                    func_0211fd28();
+                    ReleaseWiFiSession();
                     break;
             }
         }
@@ -330,7 +330,7 @@ void func_02049f60(void) {
             case 3:
             case 4:
             case 5:
-                func_0211fd28();
+                ReleaseWiFiSession();
                 break;
         }
     }
@@ -345,7 +345,7 @@ void func_02049f60(void) {
             f = e;
         } else {
             e = TRUE;
-            f = gWiFiSession->mUnk_0008.mState == 0;
+            f = gWiFiSession->mStateMachine.mState == 0;
         }
         if (f != 0 && ((SYSTEM_WORK->mButtonXY & 0x8000) >> 15)) {
             PM_GoSleepMode(12, 0, 0);
@@ -473,7 +473,7 @@ u32 func_02049b6c(void) {
 BOOL ShouldGoSleepMode(void) {
     if (gBootInfo->mUnk_00 == 2 || func_0204984c_inline2() ||
         (GetCurrentSceneNumber() == 12 && func_ov000_02180600() == FALSE) ||
-        (GetCurrentSceneNumber() != 12 && gWiFiSession->mUnk_0008.mState != 0) || GetCurrentSceneNumber() == 13 ||
+        (GetCurrentSceneNumber() != 12 && gWiFiSession->mStateMachine.mState != 0) || GetCurrentSceneNumber() == 13 ||
         GetCurrentSceneNumber() == 6) {
         return FALSE;
     }
@@ -485,7 +485,7 @@ u32 func_0204998c(void) {
 
     if (gBootInfo->mUnk_00 == 2 || func_0204984c_inline2() || GetCurrentSceneNumber() == 6 ||
         GetCurrentSceneNumber() == 13 || (GetCurrentSceneNumber() == 12 && func_ov000_02180608() == FALSE) ||
-        (GetCurrentSceneNumber() != 12 && gWiFiSession->mUnk_0008.mState != 0)) {
+        (GetCurrentSceneNumber() != 12 && gWiFiSession->mStateMachine.mState != 0)) {
         return 1;
     }
     switch (GetCurrentSceneNumber()) {

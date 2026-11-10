@@ -38,7 +38,7 @@ typedef struct Unk020504a4 {
 #include "Main/Unknown/unk_02165000.h" // QueueMPDataToPortParams
 #include "code_02142eac.h" // Unk021425e8
 
-typedef struct Unk0217aa00_45c Unk0217aa00_45c;
+typedef struct PlayerRecord PlayerRecord;
 
 void QueueMPDataToPortCallback(void);
 BOOL QueueMPDataHalfwordAndWord(s32 kind, u16 destBitmap, s32 word);
@@ -49,7 +49,7 @@ BOOL QueueMPDataToPort(void *data, s32 dataSize, u16 destBitmap, void *sendBuffe
 void MPDataPortCallback(Unk021425e8 *event);
 void ProcessMPData(u32 aid, MPMessage *message);
 void RemoveChild(u32 aid);
-void AddChild(u32 aid, u8 *b, Unk0217aa00_45c *playerEntry);
+void AddChild(u32 aid, u8 *b, PlayerRecord *playerEntry);
 void func_02050e60(s32 a);
 void EndCallback(Unk021425e8 *event);
 void End(void);

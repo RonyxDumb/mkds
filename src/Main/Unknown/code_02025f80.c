@@ -257,7 +257,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
         sParts->mCellTable[24].mUnk_34 = sParts->mCellTable[25].mUnk_34;
     } else if (GetRaceSetupCopy()->mMode == 2) {
         InitSelectRaceRuleWait(gSelectCharacter->mHeap, gSelectCharacter->mUnk_058);
-        func_0211f394();
+        SlideInSelectRaceRuleWait();
     }
     gSelectCharacter->mUnk_07c = 8;
     for (i = 0; i < 8; i++) {
@@ -636,7 +636,7 @@ int AdvanceSelectCharacter(void) {
                 if (gBootInfo->mUnk_00 != 2) {
                     StartKartModelMenuBg0Decrease();
                 } else if (GetRaceSetupCopy()->mMode == 2) {
-                    func_0211f378();
+                    SlideOutSelectRaceRuleWait();
                 }
                 gSelectCharacter->mUnk_068 = 0;
                 gSelectCharacter->mUnk_06c = 8;
@@ -716,7 +716,7 @@ int AdvanceSelectCharacter(void) {
 void ReleaseSelectCharacter(void) {
     if (gBootInfo->mUnk_00 == 2) {
         if (GetRaceSetupCopy()->mMode == 2) {
-            func_0211f498();
+            ClearSelectRaceRuleWaitPointer();
         }
     }
     HeapDestroy(gSelectCharacter->mHeap);

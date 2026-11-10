@@ -4,4 +4,4 @@
 
 typedef struct DWCAccFriendData DWCAccFriendData;
 
-DWCAccFriendData *func_021202f0(u32 index);
+DWCAccFriendData *GetPlayerRecordFriendData(u32 index);

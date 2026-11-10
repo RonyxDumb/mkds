@@ -221,7 +221,7 @@ int AdvanceSelectKart(void) {
                 if (func_020280dc() == 0) {
                     StartKartModelMenuBg0Decrease();
                 } else {
-                    func_0211f378();
+                    SlideOutSelectRaceRuleWait();
                 }
                 gSelectKart->mStateFrames = 0;
                 gSelectKart->mState = 7;

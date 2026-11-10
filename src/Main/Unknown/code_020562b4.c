@@ -10,7 +10,7 @@ void CombineParticipantBits(void) {
     u8 j;
     u8 value;
     u8 *bitsByte;
-    Unk0217aa00_45c *entry;
+    PlayerRecord *entry;
 
     ClearParticipantBits();
     for (i = 0; i < 8; i++) {

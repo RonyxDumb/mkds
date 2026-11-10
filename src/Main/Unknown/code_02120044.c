@@ -21,8 +21,8 @@
 #include "00/unk_021b5000.h"
 #include "00/code_021a2ccc.h"
 
-DWCAccFriendData *func_021202f0(u32 index) {
-    return &gWiFiSession->mPlayerRecords[index].mPlayer.mUnk_218;
+DWCAccFriendData *GetPlayerRecordFriendData(u32 index) {
+    return &gWiFiSession->mPlayerRecords[index].mPlayer.mFriendData;
 }
 
 u32 GetPlayerRecordRegion(u32 index) {
@@ -37,8 +37,8 @@ void *GetPlayerRecordEmblem(u32 index) {
     return &gWiFiSession->mPlayerRecords[index].mPlayer.mEmblem;
 }
 
-u8 func_02120278(u32 index) {
-    return gWiFiSession->mPlayerRecords[index].mPlayer.mUnk_214;
+u8 HasPlayerRecordEmblem(u32 index) {
+    return gWiFiSession->mPlayerRecords[index].mPlayer.mHasEmblem;
 }
 
 u32 func_0212025c(u32 index) {
@@ -61,7 +61,7 @@ u8 func_021201e4(int index) {
     return gWiFiSession->mPlayerRecords[index].mPlayer.mUnk_229;
 }
 
-void func_02120150(void) {
+void AdvanceWiFiSessionOnIrq(void) {
     WiFiSession *session;
     BOOL hasHeap = FALSE;
 
@@ -74,11 +74,11 @@ void func_02120150(void) {
     if (hasHeap == FALSE) {
         return;
     }
-    session->mUnk_1f3c++;
-    if (gWiFiSession->mUnk_0008.mState != 5) {
+    session->mIrqCallbackCount++;
+    if (gWiFiSession->mStateMachine.mState != 5) {
         return;
     }
-    if (gWiFiSession->mUnk_1f38 == FALSE) {
+    if (gWiFiSession->mRaceSyncEnabled == FALSE) {
         return;
     }
     AdvanceWiFiRaceSyncFrames();
@@ -94,7 +94,7 @@ void UpdateWiFiSessionState1(void) {
     if (UpdateWiFiSessionLogin() == 0) {
         return;
     }
-    stateMachine = &gWiFiSession->mUnk_0008;
+    stateMachine = &gWiFiSession->mStateMachine;
     stateMachine->mNextState = 2;
     stateMachine->mNextStateRequested = 1;
 }
@@ -109,30 +109,30 @@ void UpdateWiFiSessionState3(void) {
     if (IsKartKeysStartStatus3() == FALSE) {
         return;
     }
-    stateMachine = &gWiFiSession->mUnk_0008;
+    stateMachine = &gWiFiSession->mStateMachine;
     stateMachine->mNextState = 4;
     stateMachine->mNextStateRequested = 1;
 }
 
-void func_021200a4(void) {}
+void EnterWiFiSessionState4Nop(void) {}
 
 void UpdateWiFiSessionState4(void) {
     UpdateWiFiSessionStep();
 }
 
 void EnterWiFiSessionState5(void) {
-    WiFiRaceSync *p;
+    WiFiRaceSync *wiFiRaceSync;
 
     func_ov000_021a3250(FinishWiFiRaceSyncSend);
-    func_ov000_021a323c(func_0211fef4);
-    p = gWiFiRaceSync;
-    p->mStateMachine.mNextState = 1;
-    p->mStateMachine.mNextStateRequested = 1;
+    func_ov000_021a323c(WiFiRaceSyncReceiveCallback);
+    wiFiRaceSync = gWiFiRaceSync;
+    wiFiRaceSync->mStateMachine.mNextState = 1;
+    wiFiRaceSync->mStateMachine.mNextStateRequested = 1;
 }
 
 void UpdateWiFiSessionState5(void) {
-    u32 value12;
+    u32 unused;
     func_0205b0b4();
 }
 
-void func_02120044(void) {}
+void UpdateWiFiSessionState6Nop(void) {}

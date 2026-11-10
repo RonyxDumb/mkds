@@ -26,15 +26,15 @@ void LocateAndQueueSelectRaceRuleWait(void) {
     Nclr *cellPalette[1];
     cellChars = NULL;
     cellPalette[0] = NULL;
-    sceneFile = FindSceneFile(data_0216e128);
+    sceneFile = FindSceneFile(gSelectRaceRuleWaitNcerName);
     LocateNcer(&gSelectRaceRuleWait->mNcer, sceneFile);
-    sceneFile = FindSceneFile(data_0216e134);
+    sceneFile = FindSceneFile(gSelectRaceRuleWaitNcgrName);
     LocateNcgr2(&cellChars, sceneFile);
-    sceneFile = FindSceneFile(data_0216e130);
+    sceneFile = FindSceneFile(gSelectRaceRuleWaitNclrName);
     LocateNclr(cellPalette, sceneFile);
-    sceneFile = FindSceneFile(data_0216e124);
+    sceneFile = FindSceneFile(gSelectRaceRuleWaitBnclName);
     gSelectRaceRuleWait->mBncl = sceneFile;
-    sceneFile = FindSceneFile(data_0216e12c);
+    sceneFile = FindSceneFile(gSelectRaceRuleWaitBnllName);
     gSelectRaceRuleWait->mBnll = sceneFile;
     CallQueueAppend(0x23, 0, cellChars->mData, cellChars->mDataSize);
     CallQueueAppend(0x1e, 0, cellPalette[0]->mData, cellPalette[0]->mDataSize);
@@ -103,7 +103,7 @@ void InitSelectRaceRuleWait(void *heap, void *oamList) {
 
 #pragma thumb on
 
-void func_0211f498(void) {
+void ClearSelectRaceRuleWaitPointer(void) {
     ClearWaitPointer();
     *(u32 *) &gSelectRaceRuleWait = 0;
 }
@@ -157,7 +157,7 @@ void AdvanceSelectRaceRuleWait(void) {
                     gSelectRaceRuleWait->mOamList, gSelectRaceRuleWait->mTable);
 }
 
-void func_0211f394(void) {
+void SlideInSelectRaceRuleWait(void) {
     RequestSelectRaceRuleWaitState0();
 }
 

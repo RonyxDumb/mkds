@@ -309,7 +309,7 @@ void AdvanceWiFiTopMenuState6(void) {
     if (v1 != 0) {
         v1 = GetTxtSystemSelectedIndex();
         if (v1 == 0) {
-            func_0211fd28();
+            ReleaseWiFiSession();
             gWiFiTopMenu->mNextState = 7;
             return;
         }

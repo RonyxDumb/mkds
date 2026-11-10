@@ -9,7 +9,7 @@
 void func_02122ab0(void) {
     StateMachine *stateMachine;
     gWiFiSession->mUnk_19ad = 0;
-    stateMachine = &gWiFiSession->mUnk_0008;
+    stateMachine = &gWiFiSession->mStateMachine;
     stateMachine->mNextState = 2;
     stateMachine->mNextStateRequested = 1;
 }

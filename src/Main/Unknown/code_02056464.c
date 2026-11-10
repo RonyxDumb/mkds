@@ -87,13 +87,13 @@ s32 GetGhostFinishTimeByIndex(s32 ghostRecordIndex, MinuteSecondMillisecondTime 
     return result;
 }
 
-void FillPlayerRecord(Unk0217aa00_45c *a) {
+void FillPlayerRecord(PlayerRecord *a) {
     MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, a->mName, 0x14);
     if (data_0217aa08->mEmblemRecord->mFilled != 0 && data_0217aa08->mFirstBlock->mUnk_31_3 == 0) {
-        a->mUnk_214 = 1;
+        a->mHasEmblem = 1;
         MI_CpuCopy8(data_0217aa08->mEmblemRecord->mEmblemData, a->mEmblem, 0x200);
     } else {
-        a->mUnk_214 = 0;
+        a->mHasEmblem = 0;
         MI_CpuFill8(a->mEmblem, 0, 0x200);
     }
     MI_CpuCopy8(data_0217aa08->mFirstBlock->mFlags, a->mBits, 4);
@@ -102,9 +102,9 @@ void FillPlayerRecord(Unk0217aa00_45c *a) {
     a->mElo = data_0217aa08->mFirstBlock->mElo;
     a->mUnk_229 = func_02056208();
     if (gBootInfo->mUnk_00 == 2) {
-        MI_CpuFill8(&a->mUnk_218, 0, 0xc);
+        MI_CpuFill8(&a->mFriendData, 0, 0xc);
     } else {
-        DWC_CreateExchangeToken(&data_0217aa08->mFirstBlock->mUserData, &a->mUnk_218);
+        DWC_CreateExchangeToken(&data_0217aa08->mFirstBlock->mUserData, &a->mFriendData);
     }
 }
 

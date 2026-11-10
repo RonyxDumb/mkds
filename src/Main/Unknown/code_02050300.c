@@ -287,7 +287,7 @@ void func_02050e60(s32 a) {
     gConnectionWork->mRequestPending = 0;
 }
 
-void AddChild(u32 aid, u8 *b, Unk0217aa00_45c *playerEntry) {
+void AddChild(u32 aid, u8 *b, PlayerRecord *playerEntry) {
     ChildList *children;
 
     children = &gConnectionWork->mUnk_0044;

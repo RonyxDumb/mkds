@@ -6,7 +6,7 @@ u32 FinishWiFiRaceSyncSend(void) {
     u32 flags;
     u32 testedValue;
     u32 zero;
-    value0 = gWiFiSession->mUnk_1f38;
+    value0 = gWiFiSession->mRaceSyncEnabled;
     testedValue = value0;
     zero = 0u;
     if (testedValue == zero) {

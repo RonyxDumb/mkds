@@ -598,7 +598,7 @@ void StartParentCallback(Unk021425e8 *event) {
     if (event->mResultCode == 0) {
         switch (event->mUnk_08_0) {
             case 7:
-                AddChild(event->mUnk_10, &event->mUnk_0a[0], (Unk0217aa00_45c *) event->mUnk_14);
+                AddChild(event->mUnk_10, &event->mUnk_0a[0], (PlayerRecord *) event->mUnk_14);
                 break;
             case 0:
                 MI_CpuCopy8(&data_0217aa08->mFirstBlock->mPlayerName, &gConnectionWork->mUnk_045c[0], 0x14);

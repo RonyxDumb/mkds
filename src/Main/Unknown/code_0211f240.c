@@ -55,20 +55,21 @@ void ClearTrophyIconPointer(void) {
 
 #pragma thumb on
 
-void QueueTrophyIcon(int iconIndex, int paletteIndex, void *cells, void *cellLayout, u32 e, u16 paletteSlot, int g) {
+void QueueTrophyIcon(int iconIndex, int paletteIndex, void *cells, void *cellLayout, u32 destIndex, u16 paletteSlot,
+                     int queueSelector) {
     u32 v1;
     TrophyIcon *trophyIcon;
     v1 = 0xe;
-    if ((g != 0) && (g == 1)) {
+    if ((queueSelector != 0) && (queueSelector == 1)) {
         v1 = 0x1e;
     }
     trophyIcon = gTrophyIcon;
-    QueueCellChars(gTrophyIconBnclIndices[iconIndex], trophyIcon->mNcer, trophyIcon->mNcgr, trophyIcon->mBncl, g, e,
-                   cells, cellLayout);
+    QueueCellChars(gTrophyIconBnclIndices[iconIndex], trophyIcon->mNcer, trophyIcon->mNcgr, trophyIcon->mBncl,
+                   queueSelector, destIndex, cells, cellLayout);
     CallQueueAppend(v1, paletteSlot << 5, (u8 *) gTrophyIcon->mNclr->mData + gTrophyIconNclrStarts[paletteIndex] * 0x20,
                     0x20);
 }
 
-void func_0211f240(void) {}
+void InitMenuNop(void) {}
 
 #pragma thumb off

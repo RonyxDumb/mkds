@@ -165,7 +165,7 @@ static inline s32 func_020487fc_inline11(void) {
 
 static inline BOOL func_020487fc_inline13(void) {
     if (func_020487fc_inline11()) {
-        if (gWiFiSession->mUnk_0008.mState != 0) {
+        if (gWiFiSession->mStateMachine.mState != 0) {
             return FALSE;
         }
         return TRUE;

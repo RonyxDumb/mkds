@@ -140,7 +140,7 @@ void InitWiFiStates(void *heap, s32 b) {
                     RegisterWiFiTopMenuCallbacks();
                     break;
                 case 1:
-                    q = &gWiFiSession->mUnk_0008;
+                    q = &gWiFiSession->mStateMachine;
                     q->mNextState = 2;
                     q->mNextStateRequested = 1;
                     gWiFiStates->mState = 2;
@@ -319,7 +319,7 @@ BOOL func_ov000_02180608(void) {
     if (gWiFiStates != NULL && gWiFiStates->mState == 0) {
         valid = FALSE;
     }
-    if (gWiFiSession->mUnk_0008.mState == 0 && valid != FALSE) {
+    if (gWiFiSession->mStateMachine.mState == 0 && valid != FALSE) {
         return TRUE;
     }
     return FALSE;

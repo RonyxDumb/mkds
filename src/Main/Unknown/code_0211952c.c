@@ -295,7 +295,7 @@ void InitSelectCupCourse(void *parentHeap, void *mainOam, void *subOam, s32 mode
     } else {
         gSelectCupCourse->mGhostMessages = FindSceneFile("ghost.bmg");
         InitSelectRaceRuleWait(gSelectCupCourse->mHeap, gSelectCupCourse->mSubOam);
-        func_0211f380();
+        PlaceSelectRaceRuleWait();
     }
     SetupSelectCupCourseObjects();
     RefreshSelectCupCourseForIndex();
@@ -317,7 +317,7 @@ void ReleaseSelectCupCourse(void) {
         ClearSelectCupNameMPointer();
         ClearCupMarkPointer();
     } else {
-        func_0211f498();
+        ClearSelectRaceRuleWaitPointer();
     }
     HeapDestroy(gSelectCupCourse->mHeap);
     gSelectCupCourse = NULL;

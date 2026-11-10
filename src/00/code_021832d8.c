@@ -372,7 +372,7 @@ void AdvanceWiFiVSMatchingState1(void) {
             dst = gWiFiVSMatching->mOtherEmblems[0];
             dst += i * 0x200;
             CopyBytesIntoTiles(GetPlayerRecordEmblem(gWiFiVSMatching->mOtherIndices[i]), dst, 0x20);
-            gWiFiVSMatching->mUnk_16d8[i] = func_02120278(gWiFiVSMatching->mOtherIndices[i]);
+            gWiFiVSMatching->mUnk_16d8[i] = HasPlayerRecordEmblem(gWiFiVSMatching->mOtherIndices[i]);
         }
         for (i = 0; i < 3; i++) {
             gWiFiVSMatching->mWiFiVSMatchingTable[data_ov000_021b065c[i]].mVisible = 0;

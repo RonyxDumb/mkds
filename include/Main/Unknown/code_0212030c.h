@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/Unknown/code_020467d0.h" // StateCallbacks
 
-typedef struct Unk0217aa00_45c Unk0217aa00_45c;
+typedef struct PlayerRecord PlayerRecord;
 
 // Seven pairs of functions passed to InitStateMachine by InitWiFiSession.
 extern StateCallbacks data_0216e21c[7];
@@ -16,4 +16,4 @@ void func_021204d0(void);
 void UpdateBuddyStatuses(void);
 void UpdateWiFiSession(void);
 s32 SendWiFiPacketToParticipant(u32 a, void *b, s32 c, u32 (*d)(void));
-Unk0217aa00_45c *GetWiFiSessionPlayerRecordData(u32 index);
+PlayerRecord *GetWiFiSessionPlayerRecordData(u32 index);

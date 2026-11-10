@@ -31,9 +31,9 @@ StateCallbacks data_0216e21c[7] = {
     {EnterWiFiSessionState1, UpdateWiFiSessionState1},
     {0, 0},
     {EnterWiFiSessionState3, UpdateWiFiSessionState3},
-    {func_021200a4, UpdateWiFiSessionState4},
+    {EnterWiFiSessionState4Nop, UpdateWiFiSessionState4},
     {EnterWiFiSessionState5, UpdateWiFiSessionState5},
-    {0, func_02120044},
+    {0, UpdateWiFiSessionState6Nop},
 };
 
 u32 func_021205e8(void) {
@@ -45,8 +45,8 @@ void InitWiFiSession(void *heap) {
     StateMachine *stateMachine;
 
     gWiFiSession = HeapAllocAligned(heap, 0x1f58, 0x20);
-    InitStateMachine(&gWiFiSession->mUnk_0008, data_0216e21c, 8, NULL);
-    stateMachine = &gWiFiSession->mUnk_0008;
+    InitStateMachine(&gWiFiSession->mStateMachine, data_0216e21c, 8, NULL);
+    stateMachine = &gWiFiSession->mStateMachine;
     stateMachine->mNextState = 0;
     stateMachine->mNextStateRequested = 1;
 }
@@ -69,7 +69,7 @@ void DeleteWiFiSessionHeap(void) {
         HeapFree(GetHeap(GetCurrentHeapCall()), gWiFiSession->mHeapBuffer);
     }
     gWiFiSession->mHeapCreated = FALSE;
-    stateMachine = &gWiFiSession->mUnk_0008;
+    stateMachine = &gWiFiSession->mStateMachine;
     stateMachine->mNextState = 0;
     stateMachine->mNextStateRequested = 1;
 }
@@ -80,7 +80,7 @@ void func_021204d0(void) {
 
     ResetWiFiSession();
     gWiFiSession->mUnk_1f34 = TRUE;
-    stateMachine = &gWiFiSession->mUnk_0008;
+    stateMachine = &gWiFiSession->mStateMachine;
     stateMachine->mNextState = 0;
     stateMachine->mNextStateRequested = 1;
 }
@@ -126,10 +126,10 @@ void UpdateWiFiSession(void) {
         gWiFiSession->mUnk_1f44 = func_ov000_0219c3cc(&gWiFiSession->mUnk_1f48);
         func_ov000_0219c3b0();
     }
-    if (gWiFiSession->mUnk_0008.mState != 0) {
+    if (gWiFiSession->mStateMachine.mState != 0) {
         UpdateBuddyStatuses();
     }
-    AdvanceStateMachine(&gWiFiSession->mUnk_0008);
+    AdvanceStateMachine(&gWiFiSession->mStateMachine);
 }
 
 s32 SendWiFiPacketToParticipant(u32 a, void *b, s32 c, u32 (*d)(void)) {
@@ -137,7 +137,7 @@ s32 SendWiFiPacketToParticipant(u32 a, void *b, s32 c, u32 (*d)(void)) {
 }
 
 // Returns the name+emblem part of the index's record, or NULL if the index is not in mKartMask.
-Unk0217aa00_45c *GetWiFiSessionPlayerRecordData(u32 index) {
+PlayerRecord *GetWiFiSessionPlayerRecordData(u32 index) {
     WiFiSession *session = gWiFiSession;
 
     if (session->mKartMask & (1 << index)) {

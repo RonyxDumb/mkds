@@ -4,9 +4,9 @@
 #include "Main/Unknown/unk_021759c0.h" // MinuteSecondMillisecondTime
 
 typedef struct GhostRecordHead GhostRecordHead;
-typedef struct Unk0217aa00_45c Unk0217aa00_45c;
+typedef struct PlayerRecord PlayerRecord;
 
-void FillPlayerRecord(Unk0217aa00_45c *a);
+void FillPlayerRecord(PlayerRecord *a);
 s32 GetGhostFinishTimeByIndex(s32 ghostRecordIndex, MinuteSecondMillisecondTime *finishTime);
 s32 GetGhostLapTimeByIndex(s32 ghostRecordIndex, s32 lapNumber, MinuteSecondMillisecondTime *lapTime);
 BOOL GetGhostFinishTime(GhostRecordHead *ghostRecord, MinuteSecondMillisecondTime *finishTime);

@@ -3,7 +3,7 @@
 
 #pragma thumb on
 
-void func_0211f380(void) {
+void PlaceSelectRaceRuleWait(void) {
     RequestSelectRaceRuleWaitState2();
     RequestSelectRaceRuleWaitState1();
 }

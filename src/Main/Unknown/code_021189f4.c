@@ -230,7 +230,7 @@ void AdvanceSelectCupCourseState7(void) {
                             gSelectCupCourse->mResult = 1;
                             RequestSelectCupCourseState8();
                             if (gBootInfo->mUnk_00 == 2) {
-                                func_0211f378();
+                                SlideOutSelectRaceRuleWait();
                             }
                             break;
                         case -1:

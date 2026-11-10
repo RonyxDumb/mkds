@@ -54,9 +54,9 @@ typedef struct WiFiBuddySync {
     // func_ov000_0219d504.
     /* 34 */ void (*mBuddyStatusCallback)(s32, u8, void *, void *);
     /* 38 */ void *mBuddyStatusCallbackArg;
-    // Set by StartBuddySync (seventh parameter; the owner passes func_0211f6e8). Called by func_ov000_0219d288 with
-    // (index of the entry cleared, index of the entry kept, arg) when two entries of the saved list hold the same
-    // profile id.
+    // Set by StartBuddySync (seventh parameter; the owner passes WiFiSessionEntryMergedCallback). Called by
+    // func_ov000_0219d288 with (index of the entry cleared, index of the entry kept, arg) when two entries of the saved
+    // list hold the same profile id.
     /* 3c */ void (*mEntryMergedCallback)(s32, s32, void *);
     /* 40 */ void *mEntryMergedCallbackArg;
     // Set by SetBuddyChangedCallback (declared void *, called as void (*)(s32, void *)). Called by func_ov000_0219d504

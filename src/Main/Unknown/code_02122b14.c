@@ -24,7 +24,7 @@
 void SetupWiFiSession(u32 mode) {
     u8 i;
     u8 ownIndex;
-    func_0211fe44();
+    WriteChangedWiFiBuddies();
     switch (mode) {
         case 0:
             MI_CpuFill8(&gWiFiSession->mStep, 0, 0x60);
@@ -389,7 +389,7 @@ void AdvanceWiFiSessionStep4(void) {
     if (gWiFiSession->mKartCount == 1) {
         func_ov000_021a2ccc();
         func_ov000_0219bbfc();
-        stateMachine = &gWiFiSession->mUnk_0008;
+        stateMachine = &gWiFiSession->mStateMachine;
         stateMachine->mNextState = 2;
         stateMachine->mNextStateRequested = 1;
         return;

@@ -1038,7 +1038,7 @@ void RemoveDroppedParticipants(void) {
     if (CountSetBits(gWiFiRaceSync->mParticipantMask) > 1) {
         return;
     }
-    sessionState = gWiFiSession->mUnk_0008.mState;
+    sessionState = gWiFiSession->mStateMachine.mState;
     firstBlock = data_0217aa08->mFirstBlock;
     firstBlockCount = firstBlock->mUnk_34[5];
     if (sessionState != 0) {

@@ -59,7 +59,7 @@ u32 IsAllMPChunksReceived(u32 slot) {
 
 void ProcessMPChunk(u8 *chunk) {
     u32 playerIndex;
-    Unk0217aa00_45c *entry;
+    PlayerRecord *entry;
     u32 finished;
     u32 byteOffset;
     u16 ownIndex;
@@ -94,7 +94,7 @@ void ProcessMPChunk(u8 *chunk) {
             }
             break;
         case 0xfc:
-            gConnectionWork->mUnk_045c[playerIndex].mUnk_214 = 0;
+            gConnectionWork->mUnk_045c[playerIndex].mHasEmblem = 0;
             finished = 1;
             break;
         default:

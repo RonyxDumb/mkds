@@ -351,7 +351,7 @@ u32 func_021213e8(void) {
 
 BOOL func_021213a0(void) {
     if (func_ov000_021a2c64() != 0) {
-        if (gWiFiSession->mUnk_0008.mState == 3) {
+        if (gWiFiSession->mStateMachine.mState == 3) {
             return TRUE;
         }
     }
@@ -391,7 +391,7 @@ void func_02121190(u32 kartType, s32 b, s32 c) {
         gWiFiSession->mUnk_18e0.mUnk_04 = 0xea60;
     }
     func_ov000_021a299c(0, &gWiFiSession->mUnk_18e0, 0);
-    stateMachine = &gWiFiSession->mUnk_0008;
+    stateMachine = &gWiFiSession->mStateMachine;
     stateMachine->mNextState = 3;
     stateMachine->mNextStateRequested = 1;
 }
@@ -599,8 +599,8 @@ void ResetWiFiSession(void) {
     MI_CpuFill8(gWiFiSession->mIndexMessages, 0, 0x110);
     MI_CpuFill8(&gWiFiSession->mLogin, 0, 0x10);
     gWiFiSession->mUnk_1f34 = FALSE;
-    gWiFiSession->mUnk_1f38 = FALSE;
-    gWiFiSession->mUnk_1f3c = 0;
+    gWiFiSession->mRaceSyncEnabled = FALSE;
+    gWiFiSession->mIrqCallbackCount = 0;
     gWiFiSession->mUnk_1f40 = 0;
     gWiFiSession->mUnk_1f44 = 0;
     gWiFiSession->mUnk_1f48 = 0;
@@ -621,20 +621,20 @@ u32 func_02120644(void) {
     s32 v;
 
     session = gWiFiSession;
-    if (session->mUnk_0008.mState != 0) {
+    if (session->mStateMachine.mState != 0) {
         v = session->mUnk_1f44;
         if (v == 6 || v == 3 || v == 4 || v == 0xb) {
             return 3;
         }
         if (session->mUnk_1f40 == 2) {
             if (func_ov000_0219bb68() <= 1) {
-                stateMachine = &gWiFiSession->mUnk_0008;
+                stateMachine = &gWiFiSession->mStateMachine;
                 stateMachine->mNextState = 2;
                 stateMachine->mNextStateRequested = 1;
                 return 2;
             }
         } else if (session->mUnk_1f40 == 1) {
-            stateMachine = &session->mUnk_0008;
+            stateMachine = &session->mStateMachine;
             stateMachine->mNextState = 2;
             stateMachine->mNextStateRequested = 1;
             return 1;

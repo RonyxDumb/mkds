@@ -72,7 +72,7 @@ void SetupEmblemBlock(EmblemBlock *emblemBlock, u8 buddyIndex) {
 void CopyOtherPlayerEmblemsToBlocks(void) {
     u8 blockIndex;
     u16 playerIndex;
-    Unk0217aa00_45c *playerEntry;
+    PlayerRecord *playerEntry;
     u8 blockHasEmblem[12];
     s8 buddyIndexOfPlayer[8];
     EmblemBlockData *blockData;
@@ -99,7 +99,7 @@ void CopyOtherPlayerEmblemsToBlocks(void) {
                     playerEntry = &gConnectionWork->mUnk_045c[playerIndex];
                     buddyIndex = SetBuddyRecordFromPlayer(playerEntry, 1);
                     if (buddyIndex != -1) {
-                        if (playerEntry->mUnk_214 != 0) {
+                        if (playerEntry->mHasEmblem != 0) {
                             buddyIndexOfPlayer[playerIndex] = buddyIndex;
                             blockHasEmblem[buddyIndex / 5] = 1;
                         }
@@ -153,7 +153,7 @@ void CopyOtherPlayerEmblemsToBlocks(void) {
 void CopyWiFiOtherEmblemsToBlocks(void) {
     u8 blockIndex;
     u16 playerIndex;
-    Unk0217aa00_45c *playerRecordData;
+    PlayerRecord *playerRecordData;
     u8 blockHasEmblem[12];
     s8 buddyIndexOfPlayer[4];
     EmblemBlockData *blockData;
@@ -173,7 +173,7 @@ void CopyWiFiOtherEmblemsToBlocks(void) {
             if (playerRecordData != NULL) {
                 buddyIndex = SetBuddyRecordFromPlayer(playerRecordData, 0);
                 if (buddyIndex != -1) {
-                    if (playerRecordData->mUnk_214 != 0) {
+                    if (playerRecordData->mHasEmblem != 0) {
                         buddyIndexOfPlayer[playerIndex] = buddyIndex;
                         blockHasEmblem[buddyIndex / 5] = 1;
                     }

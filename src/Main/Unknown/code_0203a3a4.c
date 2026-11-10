@@ -175,8 +175,8 @@ void InitRaceScene(void) {
             }
             if (sessionHeapCreated != FALSE) {
                 StateMachine *p;
-                session->mUnk_1f38 = TRUE;
-                p = &gWiFiSession->mUnk_0008;
+                session->mRaceSyncEnabled = TRUE;
+                p = &gWiFiSession->mStateMachine;
                 p->mNextState = 5;
                 p->mNextStateRequested = 1;
             }
@@ -203,8 +203,8 @@ void func_0203aacc(void) {
         }
         if (sessionHeapCreated != FALSE) {
             StateMachine *p;
-            session->mUnk_1f38 = FALSE;
-            p = &gWiFiSession->mUnk_0008;
+            session->mRaceSyncEnabled = FALSE;
+            p = &gWiFiSession->mStateMachine;
             p->mNextState = 4;
             p->mNextStateRequested = 1;
         }

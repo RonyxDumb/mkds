@@ -46,7 +46,7 @@ void ReleaseSelectKart(void) {
     if (result == 0) {
         ClearPaletteBlendPointer();
     } else {
-        func_0211f498();
+        ClearSelectRaceRuleWaitPointer();
     }
     HeapDestroy(gSelectKart->mHeap);
     *&gSelectKart = NULL;

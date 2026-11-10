@@ -281,7 +281,7 @@ void InitSelectCupM(void *a, void *b, void *c) {
         CreateSelectCupNameM(gSelectCupM->mHeap);
     } else {
         InitSelectRaceRuleWait(gSelectCupM->mHeap, gSelectCupM->mUnk_4c);
-        func_0211f380();
+        PlaceSelectRaceRuleWait();
     }
     InitSelectCupMCellsAndRequestCupPicture();
     if (GetPreviousMenuScreenNumber() == 0x19 || GetPreviousMenuScreenNumber() == 0xd) {
@@ -296,7 +296,7 @@ void ReleaseSelectCupM(void) {
     if (gBootInfo->mUnk_00 != 2) {
         ClearSelectCupNameMPointer();
     } else {
-        func_0211f498();
+        ClearSelectRaceRuleWaitPointer();
     }
     HeapDestroy(gSelectCupM->mHeap);
     gSelectCupM = NULL;

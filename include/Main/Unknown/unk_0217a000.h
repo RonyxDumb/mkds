@@ -444,13 +444,13 @@ typedef struct Unk0217aa00_16a0_view {
 } Unk0217aa00_16a0_view;
 
 // 0x22c-byte entries from 0x45c of ConnectionWork; also the tail from 0xc of WiFiPlayerRecord.
-typedef struct Unk0217aa00_45c {
+typedef struct PlayerRecord {
     /* 000 */ u8 mName[0x14];
     /* 014 */ u8 mEmblem[0x200];
-    /* 214 */ u8 mUnk_214;
+    /* 214 */ u8 mHasEmblem;
     /* 215 */ u8 mUnk_215;
     /* 216 */ s16 mElo;
-    /* 218 */ DWCAccFriendData mUnk_218;
+    /* 218 */ DWCAccFriendData mFriendData;
     /* 224 */ u8 mBits[4];
     /* 228 */ union {
         u8 mUnk_228;
@@ -461,7 +461,7 @@ typedef struct Unk0217aa00_45c {
     };
     /* 229 */ u8 mUnk_229;
     /* 22a */ u8 mUnk_22a[2];
-} Unk0217aa00_45c;
+} PlayerRecord;
 
 // Six bytes, compared and assigned as one object.
 typedef struct Unk0217aa00_42c {
@@ -655,7 +655,7 @@ typedef struct ConnectionWork {
         };
         Unk0217aa00_ac mUnk_00ac_view;
     };
-    /* 045c */ Unk0217aa00_45c mUnk_045c[8];
+    /* 045c */ PlayerRecord mUnk_045c[8];
     /* 15bc */ union {
         struct {
             /* 15bc */ WMDataSharingInfo *mUnk_15bc;

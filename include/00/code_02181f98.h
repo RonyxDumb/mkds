@@ -172,7 +172,7 @@ typedef struct WiFiPlayerRecord {
     // The sender's mKartMask; written, not read through this struct.
     /* 00a */ u8 mKartMask;
     /* 00b */ u8 mUnk_00b;
-    /* 00c */ Unk0217aa00_45c mPlayer;
+    /* 00c */ PlayerRecord mPlayer;
     /* 238 */ s32 mUnk_238;
     /* 23c */ s32 mUnk_23c;
     /* 240 */ s32 mSeed;
@@ -195,7 +195,7 @@ typedef struct KartKey {
 } KartKey;
 
 // Online session object behind gWiFiSession: 0x1f58 bytes allocated once at boot (InitWiFiSession; not created when
-// 0x027ffc40 is 2) and never freed. mUnk_0008 is its state machine, 7 states each with an (enter, update) pair in
+// 0x027ffc40 is 2) and never freed. mStateMachine is its state machine, 7 states each with an (enter, update) pair in
 // data_0216e21c: 0 off, 1 login, 2 logged in and idle, 3 partner search with the registered keys, 4 message exchange
 // (mStep 0..12), 5 running match (set by the race), 6 never requested. mState != 0 means a session is running; its own
 // heap exists only while the WiFi scene group runs. Holds the saved buddy list, the per-index records and picks, and
@@ -203,7 +203,7 @@ typedef struct KartKey {
 typedef struct WiFiSession {
     /* 0000 */ void *mHeap;
     /* 0004 */ void *mHeapBuffer;
-    /* 0008 */ StateMachine mUnk_0008;
+    /* 0008 */ StateMachine mStateMachine;
     /* 001c */ u8 mUnk_001c[4][0x80];
     // One 0x244-byte record per index: a 12-byte message header, then the player's name (0x14 bytes) and emblem
     // (0x200), elo, region and seed. The own element is sent (kind 1), the others are received into.
@@ -251,8 +251,8 @@ typedef struct WiFiSession {
     /* 1f20 */ WiFiSessionLogin mLogin;
     /* 1f30 */ BOOL mHeapCreated;
     /* 1f34 */ BOOL mUnk_1f34;
-    /* 1f38 */ BOOL mUnk_1f38;
-    /* 1f3c */ s32 mUnk_1f3c;
+    /* 1f38 */ BOOL mRaceSyncEnabled;
+    /* 1f3c */ s32 mIrqCallbackCount;
     /* 1f40 */ s32 mUnk_1f40;
     /* 1f44 */ s32 mUnk_1f44;
     /* 1f48 */ s32 mUnk_1f48;

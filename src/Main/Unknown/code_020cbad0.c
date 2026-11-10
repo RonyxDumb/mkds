@@ -156,7 +156,7 @@ void InitMenu(void) {
         LoadSelectBattleStageData();
         LoadSelectEngineData();
         LoadSelectCupGridData();
-        func_0211f240();
+        InitMenuNop();
         LoadSelectCupCourseData();
     }
     LoadSelectGameData();

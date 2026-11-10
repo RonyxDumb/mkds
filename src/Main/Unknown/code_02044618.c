@@ -31,7 +31,7 @@ static inline void func_020446e0_inline(s32 f, u32 teamIndex, s32 playerKind, u3
     SetNextRaceEntry(entryIndex, characterIndex, kartIndex, playerKind, teamIndex, f);
 }
 
-static inline Unk0217aa00_45c *func_02045084_inline(ConnectionWork *q, s32 entryIndex) {
+static inline PlayerRecord *func_02045084_inline(ConnectionWork *q, s32 entryIndex) {
     u16 participantIndex;
 
     participantIndex = q->mUnk_1e8c[entryIndex];
@@ -176,12 +176,12 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
             }
             *nameSlot = func_02045084_inline(q, entryIndex);
             *emblemDataSlot = &func_02045084_inline(gConnectionWork, entryIndex)->mEmblem[0];
-            *b2 = func_02045084_inline(gConnectionWork, entryIndex)->mUnk_214;
+            *b2 = func_02045084_inline(gConnectionWork, entryIndex)->mHasEmblem;
             *b3 = func_02045084_inline(gConnectionWork, entryIndex)->mRegion;
             *b5 = func_02045084_inline2() ||
                           (gConnectionWork->mUnk_0457 & (1 << gConnectionWork->mUnk_1e8c[entryIndex])) != 0
                       ? 0
-                      : &func_02045084_inline(gConnectionWork, entryIndex)->mUnk_218;
+                      : &func_02045084_inline(gConnectionWork, entryIndex)->mFriendData;
             *b4 = func_02045084_inline(gConnectionWork, entryIndex)->mUnk_229;
             break;
         case PLAYER_KIND_GHOST:
@@ -217,9 +217,9 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
             v = x;
             *nameSlot = GetPlayerRecordName(v);
             *emblemDataSlot = GetPlayerRecordEmblem(v);
-            *b2 = func_02120278(v);
+            *b2 = HasPlayerRecordEmblem(v);
             *b3 = GetPlayerRecordRegion(v);
-            *b5 = func_021202f0(v);
+            *b5 = GetPlayerRecordFriendData(v);
             *b4 = func_021201e4(v);
             break;
     }

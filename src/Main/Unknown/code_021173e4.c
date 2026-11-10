@@ -527,9 +527,9 @@ void InitSelectCupGrid(void *heap, void *mainOam, void *subOam, s32 mode) {
     } else {
         InitSelectRaceRuleWait(gSelectCupGrid->mHeap, gSelectCupGrid->mSubOam);
         if (GetPreviousMenuScreenNumber() != 0xc) {
-            func_0211f394();
+            SlideInSelectRaceRuleWait();
         } else {
-            func_0211f380();
+            PlaceSelectRaceRuleWait();
         }
     }
     InitSelectCupGridCells();
@@ -550,7 +550,7 @@ void ReleaseSelectCupGrid(void) {
         ClearCupMarkPointer();
         ClearTrophyIconPointer();
     } else {
-        func_0211f498();
+        ClearSelectRaceRuleWaitPointer();
     }
     HeapDestroy(gSelectCupGrid->mHeap);
     gSelectCupGrid = NULL;
@@ -719,7 +719,7 @@ L1:
             if (gSelectCupGrid->mMode != 2) {
                 RequestSelectReturnState3WithSound(1);
                 if (gBootInfo->mUnk_00 == 2) {
-                    func_0211f378();
+                    SlideOutSelectRaceRuleWait();
                 }
             } else {
                 RequestSelectReturnState3WithSound(0);
@@ -920,7 +920,7 @@ void AdvanceSelectCupGridState10(void) {
                 gSelectCupGrid->mResult = 3;
                 RequestSelectCupGridState11();
                 if (gBootInfo->mUnk_00 == 2) {
-                    func_0211f378();
+                    SlideOutSelectRaceRuleWait();
                 }
                 break;
         }
