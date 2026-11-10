@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-unsigned int func_0202cca0(void);
-void func_0202cca4(int characterIndex, int b);
+unsigned int GetOwnEntryPositionCopyCellIndex(void);
+void AddCharacterSeqQueueEntry(int characterIndex, int pairSide);

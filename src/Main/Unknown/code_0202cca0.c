@@ -4,15 +4,15 @@
 
 #pragma thumb on
 
-void func_0202cca4(int characterIndex, int b) {
-    u32 tableValue;
-    if ((characterIndex != 0xc) || (b != 1)) {
-        tableValue = GetCharacterSeqPairNo(characterIndex);
-        AddSeqQueueEntry(tableValue, b);
+void AddCharacterSeqQueueEntry(int characterIndex, int pairSide) {
+    u32 pairNo;
+    if ((characterIndex != 0xc) || (pairSide != 1)) {
+        pairNo = GetCharacterSeqPairNo(characterIndex);
+        AddSeqQueueEntry(pairNo, pairSide);
     }
 }
 
-u32 func_0202cca0(void) {
+u32 GetOwnEntryPositionCopyCellIndex(void) {
     return 0x8u;
 }
 

@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-u32 func_0202ecac(u32 index);
-u32 func_0202ecbc(u32 index, u32 archiveNo);
+u32 ScrollListStartSeqArcWrapper(u32 index);
+u32 ScrollListStartSeqArc(u32 index, u32 archiveNo);

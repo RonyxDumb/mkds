@@ -74,6 +74,6 @@ void AdvanceWiFiVSCourseSelectTimer(void);
 void AdvancePickedCourseRows(void);
 void AdvanceSubCellsOffsetY(void);
 void ShowWiFiSessionCourse(void);
-void func_0202b3f4(void);
+void SetWiFiVSCourseSelectRowsOffsetY(void);
 void RefreshCourseListRows(s32 action, s32 slot, s32 row, s32 selectedSlot);
 void WriteKartPositionAndCount(s32 position, s32 kartCount);

@@ -88,7 +88,7 @@ void RefreshCourseListRows(s32 action, s32 slot, s32 row, s32 selectedSlot) {
     }
 }
 
-void func_0202b3f4(void) {
+void SetWiFiVSCourseSelectRowsOffsetY(void) {
     CellFileSet *fileSet;
     s32 cellCount;
     s32 i;
@@ -427,7 +427,7 @@ s32 AdvanceWiFiVSCourseSelect(void) {
         case 4:
             gWiFiVSCourseSelect->mStateFrames++;
             if (gWiFiVSCourseSelect->mStateFrames <= 0x3c) {
-                func_0202b3f4();
+                SetWiFiVSCourseSelectRowsOffsetY();
             } else {
                 StartFadeToClearOneScreen(10, 1);
                 gWiFiVSCourseSelect->mState = 5;

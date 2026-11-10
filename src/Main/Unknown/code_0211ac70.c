@@ -711,12 +711,12 @@ void MoveSelectRaceRuleValueNext(s32 playSound) {
             if (IsSelectRaceRuleTeamsValid() == 0) {
                 AssignSelectRaceRuleHumanTeams();
             }
-            func_0202b618(0);
+            SetPlayerEntryListShowAllEntries(0);
         } else {
             if (IsSelectRaceRuleTeamsValid() == 0) {
                 AssignSelectRaceRuleNonHumanTeams();
             }
-            func_0202b618(1);
+            SetPlayerEntryListShowAllEntries(1);
         }
     }
     gSelectRaceRule->mRowChangeTimers[gSelectRaceRule->mRow][1] = 6;
@@ -766,12 +766,12 @@ void MoveSelectRaceRuleValuePrevious(s32 playSound) {
             if (IsSelectRaceRuleTeamsValid() == 0) {
                 AssignSelectRaceRuleHumanTeams();
             }
-            func_0202b618(0);
+            SetPlayerEntryListShowAllEntries(0);
         } else {
             if (IsSelectRaceRuleTeamsValid() == 0) {
                 AssignSelectRaceRuleNonHumanTeams();
             }
-            func_0202b618(1);
+            SetPlayerEntryListShowAllEntries(1);
         }
     }
     gSelectRaceRule->mRowChangeTimers[gSelectRaceRule->mRow][0] = 6;
@@ -1801,7 +1801,7 @@ void AdvanceSelectRaceRuleState3(void) {
             RequestSelectRaceRuleState8();
             gSelectRaceRule->mResult = 2;
             RequestSelectReturnState3WithSound(0);
-            func_0202b7c0(1);
+            StartPlayerEntryListKind(1);
             break;
     }
     goto end;
@@ -1889,7 +1889,7 @@ void AdvanceSelectRaceRuleState4(void) {
         }
         RequestSelectRaceRuleState8();
         gSelectRaceRule->mResult = 1;
-        func_0202b7c0(3);
+        StartPlayerEntryListKind(3);
     }
 }
 

@@ -21,7 +21,7 @@
 
 #pragma optimize_for_size on
 
-u32 func_0202efe8(InputSlotPair *pair) {
+u32 ScrollListHasPairOrLost(InputSlotPair *pair) {
     u32 result;
     if (func_0202f028(pair) != 0 || func_0202f020(pair) != 0) {
         result = 1;
@@ -31,8 +31,8 @@ u32 func_0202efe8(InputSlotPair *pair) {
     return result;
 }
 
-u32 func_0202efc8(u32 slotIndex) {
-    return func_0202efe8(&gInputSlots[slotIndex].mPair);
+u32 ScrollListSlotHasPairOrLost(u32 slotIndex) {
+    return ScrollListHasPairOrLost(&gInputSlots[slotIndex].mPair);
 }
 
 #pragma thumb on
@@ -52,7 +52,7 @@ void AdvanceScrollListInput(void) {
         gScrollList->mPressedRectIndex = -1;
     }
     if (gScrollList->mTouchHeld != FALSE) {
-        if (func_0202efc8(slotIndex) != 0) {
+        if (ScrollListSlotHasPairOrLost(slotIndex) != 0) {
             pairX = func_0202f080(slotIndex);
             pairY = func_0202f058(slotIndex);
             rectIndex = FindRectContainingPoint(pairX, pairY, gScrollList->mRects);
@@ -65,22 +65,24 @@ void AdvanceScrollListInput(void) {
             gScrollList->mTouchHeld = FALSE;
         }
     }
-    if (func_0202ec7c(slotIndex, PAD_KEY_UP) != 0 || gScrollList->mTouchRectIndex == gScrollList->mUpRectIndex) {
+    if (ScrollListGetDownBits(slotIndex, PAD_KEY_UP) != 0 ||
+        gScrollList->mTouchRectIndex == gScrollList->mUpRectIndex) {
         gScrollList->mUpHeldFrames = gScrollList->mUpHeldFrames + 1;
     } else {
         gScrollList->mUpHeldFrames = 0;
     }
-    if (func_0202ec7c(slotIndex, PAD_KEY_DOWN) != 0 || gScrollList->mTouchRectIndex == gScrollList->mDownRectIndex) {
+    if (ScrollListGetDownBits(slotIndex, PAD_KEY_DOWN) != 0 ||
+        gScrollList->mTouchRectIndex == gScrollList->mDownRectIndex) {
         gScrollList->mDownHeldFrames = gScrollList->mDownHeldFrames + 1;
     } else {
         gScrollList->mDownHeldFrames = 0;
     }
 }
 
-void func_0202ee88(void) {
-    if (gScrollList->mEntries[gScrollList->mUnk_02e].mVisible != 0) {
-        gScrollList->mEntries[gScrollList->mUnk_02e].mOffsetY =
-            gScrollList->mUnk_030 * (gScrollList->mSelectedRow - gScrollList->mSelectedVisibleRow) /
+void PlaceScrollListScrollEntry(void) {
+    if (gScrollList->mEntries[gScrollList->mScrollEntry].mVisible != 0) {
+        gScrollList->mEntries[gScrollList->mScrollEntry].mOffsetY =
+            gScrollList->mScrollOffsetRange * (gScrollList->mSelectedRow - gScrollList->mSelectedVisibleRow) /
             (gScrollList->mRowCount - 5);
     }
 }

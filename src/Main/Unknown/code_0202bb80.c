@@ -96,7 +96,7 @@ void AdvanceEntrySlots(void) {
     }
 }
 
-void func_0202cb68(s32 entryIndex) {
+void SetEntryTargetInnerSlot(s32 entryIndex) {
     switch (gPlayerEntryList->mEntries[entryIndex].mSlotMove.mTargetSlot) {
         case 0:
             SetEntryTargetSlot(entryIndex, 1);
@@ -107,7 +107,7 @@ void func_0202cb68(s32 entryIndex) {
     }
 }
 
-void func_0202cb2c(s32 entryIndex) {
+void SetEntryTargetOuterSlot(s32 entryIndex) {
     switch (gPlayerEntryList->mEntries[entryIndex].mSlotMove.mTargetSlot) {
         case 1:
             SetEntryTargetSlot(entryIndex, 0);
@@ -164,7 +164,7 @@ void AdvancePlayerEntryListOffsets(void) {
         fileSet->mCellTable[gEntryCellIndices[i].mUnk_00].mOffsetX =
             fileSet->mCellTable[gEntryCellIndices[i].mCharacterCellIndex].mOffsetX;
         if (i == gPlayerEntryList->mEntryIndex) {
-            fileSet->mCellTable[func_0202cca0()].mOffsetX = offsetX;
+            fileSet->mCellTable[GetOwnEntryPositionCopyCellIndex()].mOffsetX = offsetX;
         }
     }
 }
@@ -173,19 +173,19 @@ static inline void func_0202c0d4_inline(const void *source, void *destination, s
     MIi_CpuCopy16(source, destination, byteCount);
 }
 
-void func_0202c8dc(void) {
+void SetExtraEntryNames(void) {
     void *text = GetBmgEntry(FindFileInLoadedArchivesWrapper(data_usa_02162c58), 0x72);
-    u16 u[3];
-    u16 *w = &u[1];
+    u16 digitBuffer[3];
+    u16 *digitText = &digitBuffer[1];
     s32 i;
-    w[0] = 0;
-    w[1] = 0;
+    digitText[0] = 0;
+    digitText[1] = 0;
     for (i = gPlayerEntryList->mPlayerCount; i < 8; i++) {
-        u[0] = 0;
-        MIi_CpuClear16(u[0], gPlayerEntryList->mEntries[i].mName, 0x16);
+        digitBuffer[0] = 0;
+        MIi_CpuClear16(digitBuffer[0], gPlayerEntryList->mEntries[i].mName, 0x16);
         MIi_CpuCopy16(text, gPlayerEntryList->mEntries[i].mName, 0x14);
-        u[1] = i + 0x31 - gPlayerEntryList->mPlayerCount;
-        wcsncat(gPlayerEntryList->mEntries[i].mName, w, 1);
+        digitBuffer[1] = i + 0x31 - gPlayerEntryList->mPlayerCount;
+        wcsncat(gPlayerEntryList->mEntries[i].mName, digitText, 1);
     }
 }
 
@@ -271,10 +271,10 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
             case 0:
                 gPlayerEntryList->mPlayerCount = 1;
                 gPlayerEntryList->mEntryIndex = 0;
-                gPlayerEntryList->mUnk_208 = 1;
+                gPlayerEntryList->mShowAllEntries = 1;
                 MIi_CpuCopy16(data_0217aa08->mFirstBlock->mPlayerName,
                               gPlayerEntryList->mEntries[gPlayerEntryList->mEntryIndex].mName, 0x14);
-                func_0202c8dc();
+                SetExtraEntryNames();
                 break;
             case 1:
                 t = TRUE;
@@ -305,7 +305,7 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
                 for (; n < 8; n++) {
                     SetEntryTargetSlot(n, 0);
                 }
-                func_0202c8dc();
+                SetExtraEntryNames();
                 for (i = 0; i < 8; i++) {
                     gPlayerEntryList->mUnk_1dc[i] = 0;
                     gPlayerEntryList->mUnk_1bc[i] = gPlayerEntryList->mUnk_1dc[i];
@@ -363,13 +363,13 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
     } else if (gPlayerEntryList->mScreenKind == PLAYER_ENTRY_LIST_KART) {
         SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[3], 0);
     }
-    if (gPlayerEntryList->mUnk_20c != FALSE) {
+    if (gPlayerEntryList->mMoveInnerPending != FALSE) {
         for (i = 0; i < 8; i++) {
-            if (i < gPlayerEntryList->mPlayerCount || gPlayerEntryList->mUnk_208 != 0) {
-                func_0202cb68(i);
+            if (i < gPlayerEntryList->mPlayerCount || gPlayerEntryList->mShowAllEntries != 0) {
+                SetEntryTargetInnerSlot(i);
             }
         }
-        gPlayerEntryList->mUnk_20c = FALSE;
+        gPlayerEntryList->mMoveInnerPending = FALSE;
     }
     CallQueueAppend(0x13, 0, gPlayerEntryList->mParts.mChars->mData, gPlayerEntryList->mParts.mChars->mDataSize);
     CallQueueAppend(0xe, 0, fileSet->mPalette->mData, 0x1a0);
@@ -379,8 +379,8 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
                        titleFileSet->mCellLayout, 0, 0x19, fileSet->mCells, fileSet->mCellLayout);
         SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[0], 0);
     }
-    CopyCellLayoutEntryPosition(func_0202cca0(), gEntryCellIndices[gPlayerEntryList->mEntryIndex].mUnk_00,
-                                fileSet->mCellLayout);
+    CopyCellLayoutEntryPosition(GetOwnEntryPositionCopyCellIndex(),
+                                gEntryCellIndices[gPlayerEntryList->mEntryIndex].mUnk_00, fileSet->mCellLayout);
     for (i = 0; i < 8; i++) {
         PrintEntryName(i, gPlayerEntryList->mEntries[i].mName);
     }
@@ -487,7 +487,7 @@ void AdvancePlayerEntryList(void) {
                         fileSet->mCellTable[gEntryCellIndices[i].mCharacterCellIndex].mVisible = 1;
                         GetRaceSetupCopy()->mEntries[i].mCharacterIndex = d;
                         if (gPlayerEntryList->mEntryIndex != i && gPlayerEntryList->mUnk_1bc[i] == 0) {
-                            func_0202cca4(d, 0);
+                            AddCharacterSeqQueueEntry(d, 0);
                             gPlayerEntryList->mUnk_1bc[i] = 1;
                         }
                         if ((c & 0x80) != 0) {
@@ -501,7 +501,7 @@ void AdvancePlayerEntryList(void) {
                         GetRaceSetupCopy()->mEntries[i].mKartIndex = c & 0x3f;
                         GetRaceSetupCopy()->mEntries[i].mKartStored = 1;
                         if (gPlayerEntryList->mEntryIndex != i && gPlayerEntryList->mUnk_1dc[i] == 0) {
-                            func_0202cca4(GetRaceSetupCopy()->mEntries[i].mCharacterIndex, 1);
+                            AddCharacterSeqQueueEntry(GetRaceSetupCopy()->mEntries[i].mCharacterIndex, 1);
                             gPlayerEntryList->mUnk_1dc[i] = 1;
                         }
                     }
@@ -541,12 +541,12 @@ void AdvancePlayerEntryList(void) {
                         fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mVisible = g;
                         if (gPlayerEntryList->mEntryIndex != i) {
                             if (gPlayerEntryList->mUnk_1bc[i] == 0 && d != 0) {
-                                func_0202cca4(e, 0);
+                                AddCharacterSeqQueueEntry(e, 0);
                                 if (g != FALSE) {
                                     gPlayerEntryList->mUnk_1dc[i] = 1;
                                 }
                             } else if (gPlayerEntryList->mUnk_1dc[i] == 0 && g != FALSE) {
-                                func_0202cca4(e, 1);
+                                AddCharacterSeqQueueEntry(e, 1);
                             }
                             gPlayerEntryList->mUnk_1bc[i] = d;
                             gPlayerEntryList->mUnk_1dc[i] = g;

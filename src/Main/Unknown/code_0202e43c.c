@@ -3,7 +3,7 @@
 
 #pragma thumb on
 
-u32 func_0202e43c(s32 cupCourseIndex) {
+u32 GhostSceneGetCupCourseIdAtIndex(s32 cupCourseIndex) {
     return gCupCourseIdTable[cupCourseIndex / 4][cupCourseIndex % 4];
 }
 

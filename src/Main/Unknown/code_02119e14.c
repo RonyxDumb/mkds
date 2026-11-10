@@ -67,7 +67,7 @@ void AdvanceSelectRaceRuleState7(void) {
             case 0:
                 RequestSelectRaceRuleState8();
                 gSelectRaceRule->mResult = 1;
-                func_0202b7c0(3);
+                StartPlayerEntryListKind(3);
                 RequestSelectReturnState4();
                 break;
             case -1:

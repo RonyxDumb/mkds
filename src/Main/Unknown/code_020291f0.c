@@ -19,7 +19,7 @@
 
 void StartSelectKartEntryListKindIfUsed(s32 kind) {
     if (gSelectKart->mEntryListUsed != FALSE) {
-        func_0202b7c0(kind);
+        StartPlayerEntryListKind(kind);
     }
 }
 

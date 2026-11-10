@@ -14,7 +14,7 @@ SlotGhostRecord *GetSlotGhostBuffer(void);
 GhostRecord *GetCourseGhostBuffer(void);
 void PrintGhostRecordInfo(SelectCharacter *fileSets, s16 (*labelRows)[4], void *name, s32 characterIndex, s32 kartIndex,
                           s32 courseId, MinuteSecondMillisecondTime *time);
-void func_0202dec8(void);
+void WriteGhostSceneRegisters(void);
 void ReleaseGhostScene(void);
 void AdvanceGhostScene(s32 sceneNumbers);
 void InitGhostScene(void *heap);

@@ -20,10 +20,10 @@ extern char gSelectMenuEtcMBg00NscrName[];
 extern char gSelectMenuEtcMBg01NscrName[];
 
 void RequestPlayerEntryListSetup(void);
-void func_0202b618(s32 a);
+void SetPlayerEntryListShowAllEntries(s32 showAll);
 void SetEntryTeamIndex(int entryIndex, int teamIndex);
 void SetPlayerEntryListUseTeams(s32 useTeams);
-void func_0202b7c0(s32 kind);
+void StartPlayerEntryListKind(s32 kind);
 u32 IsEveryPlayerKartStored(void);
 u32 IsPlayerEntryListTimerZero(void);
 void LoadPlayerEntryListFiles(void);

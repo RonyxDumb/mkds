@@ -121,7 +121,7 @@ u32 IsEveryPlayerKartStored(void) {
 
 #pragma thumb on
 
-void func_0202b7c0(s32 kind) {
+void StartPlayerEntryListKind(s32 kind) {
     s32 i;
 
     SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[0], 2);
@@ -131,7 +131,7 @@ void func_0202b7c0(s32 kind) {
         case 0:
         case 1:
             for (i = 0; i < 8; i++) {
-                if (i < gPlayerEntryList->mPlayerCount || gPlayerEntryList->mUnk_208 != 0) {
+                if (i < gPlayerEntryList->mPlayerCount || gPlayerEntryList->mShowAllEntries != 0) {
                     SetEntryTargetSlot(i, 1);
                 }
             }
@@ -141,9 +141,9 @@ void func_0202b7c0(s32 kind) {
             break;
         case 3:
             for (i = 0; i < 8; i++) {
-                func_0202cb2c(i);
+                SetEntryTargetOuterSlot(i);
             }
-            gPlayerEntryList->mUnk_20c = TRUE;
+            gPlayerEntryList->mMoveInnerPending = TRUE;
             break;
     }
 }
@@ -155,7 +155,7 @@ void SetPlayerEntryListUseTeams(s32 useTeams) {
     if (gPlayerEntryList->mUseTeams != useTeams) {
         if (useTeams != 0) {
             for (i = 0; i < 8; i++) {
-                if (i < gPlayerEntryList->mPlayerCount || gPlayerEntryList->mUnk_208 != 0) {
+                if (i < gPlayerEntryList->mPlayerCount || gPlayerEntryList->mShowAllEntries != 0) {
                     if (gPlayerEntryList->mEntries[i].mTeamIndex == 0) {
                         slot = 1;
                     } else if (gPlayerEntryList->mEntries[i].mTeamIndex == 1) {
@@ -168,7 +168,7 @@ void SetPlayerEntryListUseTeams(s32 useTeams) {
             SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[0], 2);
         } else {
             for (i = 0; i < 8; i++) {
-                if (i < gPlayerEntryList->mPlayerCount || gPlayerEntryList->mUnk_208 != 0) {
+                if (i < gPlayerEntryList->mPlayerCount || gPlayerEntryList->mShowAllEntries != 0) {
                     SetEntryTargetSlot(i, 1);
                 }
             }
@@ -200,11 +200,11 @@ void SetEntryTeamIndex(int entryIndex, int teamIndex) {
 
 #pragma thumb on
 
-void func_0202b618(s32 a) {
+void SetPlayerEntryListShowAllEntries(s32 showAll) {
     s32 i;
     s32 slot;
-    if (gPlayerEntryList->mUnk_208 != a) {
-        if (a != 0) {
+    if (gPlayerEntryList->mShowAllEntries != showAll) {
+        if (showAll != 0) {
             for (i = gPlayerEntryList->mPlayerCount; i < 8; i++) {
                 if (gPlayerEntryList->mUseTeams != 0) {
                     if (gPlayerEntryList->mEntries[i].mTeamIndex == 1) {
@@ -216,15 +216,15 @@ void func_0202b618(s32 a) {
                     slot = 0;
                 }
                 SetEntrySlot(i, slot);
-                func_0202cb68(i);
+                SetEntryTargetInnerSlot(i);
             }
         } else {
             for (i = gPlayerEntryList->mPlayerCount; i < 8; i++) {
-                func_0202cb2c(i);
+                SetEntryTargetOuterSlot(i);
             }
         }
     }
-    gPlayerEntryList->mUnk_208 = a;
+    gPlayerEntryList->mShowAllEntries = showAll;
 }
 
 #pragma thumb off

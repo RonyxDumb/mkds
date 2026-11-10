@@ -21,7 +21,7 @@ void GetListedGhostTime(u32 index, void *time) {
     GhostRecordHead *courseRecords;
     s32 cupCourseIndex;
     if (IsSlotGhostIndex(index) == 0) {
-        courseId = func_0202e43c(gGhostScene->mCupCourseIndices[index]);
+        courseId = GhostSceneGetCupCourseIdAtIndex(gGhostScene->mCupCourseIndices[index]);
         courseRecords = gGhostScene->mCourseGhostRecords;
         cupCourseIndex = FindCupCourseIndex(courseId);
         GetGhostRecordTime(&courseRecords[cupCourseIndex], time);
@@ -36,7 +36,7 @@ void GetListedGhostName(u32 index, void *name) {
     GhostRecordHead *courseRecords;
     s32 cupCourseIndex;
     if (IsSlotGhostIndex(index) == 0) {
-        courseId = func_0202e43c(gGhostScene->mCupCourseIndices[index]);
+        courseId = GhostSceneGetCupCourseIdAtIndex(gGhostScene->mCupCourseIndices[index]);
         courseRecords = gGhostScene->mCourseGhostRecords;
         cupCourseIndex = FindCupCourseIndex(courseId);
         GetGhostRecordName(&courseRecords[cupCourseIndex], name);
@@ -51,7 +51,7 @@ u32 GetListedGhostCharacterIndex(u32 index) {
     GhostRecordHead *courseRecords;
     s32 cupCourseIndex;
     if (IsSlotGhostIndex(index) == 0) {
-        courseId = func_0202e43c(gGhostScene->mCupCourseIndices[index]);
+        courseId = GhostSceneGetCupCourseIdAtIndex(gGhostScene->mCupCourseIndices[index]);
         courseRecords = gGhostScene->mCourseGhostRecords;
         cupCourseIndex = FindCupCourseIndex(courseId);
         return GetGhostRecordCharacterIndex(&courseRecords[cupCourseIndex]);
@@ -65,7 +65,7 @@ u32 GetListedGhostKartIndex(u32 index) {
     GhostRecordHead *courseRecords;
     s32 cupCourseIndex;
     if (IsSlotGhostIndex(index) == 0) {
-        courseId = func_0202e43c(gGhostScene->mCupCourseIndices[index]);
+        courseId = GhostSceneGetCupCourseIdAtIndex(gGhostScene->mCupCourseIndices[index]);
         courseRecords = gGhostScene->mCourseGhostRecords;
         cupCourseIndex = FindCupCourseIndex(courseId);
         return GetGhostRecordKartIndex(&courseRecords[cupCourseIndex]);
@@ -77,7 +77,7 @@ u32 GetListedGhostKartIndex(u32 index) {
 u32 GetListedGhostCourseId(u32 index) {
     GhostListEntry *slotRecords;
     if (IsSlotGhostIndex(index) == 0) {
-        return func_0202e43c(gGhostScene->mCupCourseIndices[index]);
+        return GhostSceneGetCupCourseIdAtIndex(gGhostScene->mCupCourseIndices[index]);
     }
     index -= gGhostScene->mCourseGhostCount;
     slotRecords = gGhostScene->mSlotGhostRecords;

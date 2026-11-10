@@ -22,12 +22,12 @@
 
 #pragma optimize_for_size on
 
-u16 func_0202ec98(InputSlot *slot, u32 mask) {
+u16 GetSlotDownBits(InputSlot *slot, u32 mask) {
     return slot->mBits & mask;
 }
 
-u16 func_0202ec7c(u32 slotIndex, u32 mask) {
-    return func_0202ec98(&gInputSlots[slotIndex], mask);
+u16 ScrollListGetDownBits(u32 slotIndex, u32 mask) {
+    return GetSlotDownBits(&gInputSlots[slotIndex], mask);
 }
 
 #pragma thumb on
@@ -40,7 +40,7 @@ void AdvanceScrollListState0(void) {
         return;
     }
     gScrollList->mScrollFrameCount = gScrollList->mHeldMoveCount > 2 ? 5 : 0xf;
-    if (func_0202ecd4(slotIndex, PAD_KEY_A) != 0) {
+    if (ScrollListGetNewBits(slotIndex, PAD_KEY_A) != 0) {
         gScrollList->mState = 5;
         gScrollList->mPickedVisibleRow = gScrollList->mSelectedVisibleRow;
         gScrollList->mEntries[gScrollList->mCursorEntry].mVisible = 0;
@@ -70,7 +70,8 @@ void AdvanceScrollListState0(void) {
         CallScrollListCallback(0, -1, -1, rowChanged != FALSE ? GetScrollListSelectedSlot() : -1);
         return;
     }
-    if ((func_0202ecd4(slotIndex, PAD_KEY_UP) != 0 || gScrollList->mPressedRectIndex == gScrollList->mUpRectIndex ||
+    if ((ScrollListGetNewBits(slotIndex, PAD_KEY_UP) != 0 ||
+         gScrollList->mPressedRectIndex == gScrollList->mUpRectIndex ||
          gScrollList->mUpHeldFrames > gScrollList->mScrollFrameCount) &&
         gScrollList->mSelectedRow > 0) {
         if (gScrollList->mSelectedVisibleRow == 0) {
@@ -89,10 +90,11 @@ void AdvanceScrollListState0(void) {
         if (gScrollList->mTouchRectIndex == gScrollList->mUpRectIndex) {
             SetScrollListRightColumnHighBits(1);
         }
-        func_0202ecac(3);
+        ScrollListStartSeqArcWrapper(3);
         return;
     }
-    if ((func_0202ecd4(slotIndex, PAD_KEY_DOWN) != 0 || gScrollList->mPressedRectIndex == gScrollList->mDownRectIndex ||
+    if ((ScrollListGetNewBits(slotIndex, PAD_KEY_DOWN) != 0 ||
+         gScrollList->mPressedRectIndex == gScrollList->mDownRectIndex ||
          gScrollList->mDownHeldFrames > gScrollList->mScrollFrameCount) &&
         gScrollList->mSelectedRow < gScrollList->mRowCount - 1) {
         if (gScrollList->mSelectedVisibleRow == 4) {
@@ -114,10 +116,10 @@ void AdvanceScrollListState0(void) {
         if (gScrollList->mTouchRectIndex == gScrollList->mDownRectIndex) {
             SetScrollListRightColumnHighBits(2);
         }
-        func_0202ecac(3);
+        ScrollListStartSeqArcWrapper(3);
         return;
     }
-    if (func_0202ec7c(slotIndex, PAD_KEY_UP | PAD_KEY_DOWN) == 0 &&
+    if (ScrollListGetDownBits(slotIndex, PAD_KEY_UP | PAD_KEY_DOWN) == 0 &&
         gScrollList->mTouchRectIndex != gScrollList->mUpRectIndex &&
         gScrollList->mTouchRectIndex != gScrollList->mDownRectIndex) {
         gScrollList->mHeldMoveCount = 0;

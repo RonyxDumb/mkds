@@ -405,7 +405,7 @@ void SetSelectCharacterKeyTargets12Rows(void) {
 
 void StartPlayerEntryListKindIfUsed(s32 kind) {
     if (gSelectCharacter->mUsePlayerEntryList != FALSE) {
-        func_0202b7c0(kind);
+        StartPlayerEntryListKind(kind);
     }
 }
 

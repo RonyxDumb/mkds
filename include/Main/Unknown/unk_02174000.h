@@ -170,8 +170,8 @@ typedef struct PlayerEntryList {
     /* 1fc */ BOOL mSetupRequested;
     /* 200 */ s32 mTimerEnabled;
     /* 204 */ s32 mUseTeams;
-    /* 208 */ s32 mUnk_208;
-    /* 20c */ BOOL mUnk_20c;
+    /* 208 */ s32 mShowAllEntries;
+    /* 20c */ BOOL mMoveInnerPending;
     /* 210 */ Interpolation mInterpolations[4];
     /* 250 */ s32 mMode;
     /* 254 */ s32 mScreenKind; // PLAYER_ENTRY_LIST_CHARACTER / _KART / _RACE_RULE
@@ -290,7 +290,7 @@ typedef struct GhostSceneCallbacks {
     /* 00 */ void (*mInit)(void *a, struct GhostScene *b, void *c);
     /* 04 */ s32 (*mAdvance)(u32 a);
     /* 08 */ void (*mRelease)(void);
-    /* 0c */ void (*mUnk_0c)(void);
+    /* 0c */ void (*mWriteRegisters)(void);
 } GhostSceneCallbacks;
 
 // Object behind gGhostScene, 0x8dc bytes.
@@ -332,8 +332,8 @@ typedef struct ScrollList {
     /* 024 */ s32 mPickedVisibleRow;
     /* 028 */ void (*mCallback)(int a, int b, int c, int d);
     /* 02c */ u16 mCursorEntry;
-    /* 02e */ u16 mUnk_02e;
-    /* 030 */ s32 mUnk_030;
+    /* 02e */ u16 mScrollEntry;
+    /* 030 */ s32 mScrollOffsetRange;
     /* 034 */ s32 mRowCount;
     // Counts down: 10 calls for a pick, mScrollFrameCount calls for a scroll.
     /* 038 */ s32 mTimer;

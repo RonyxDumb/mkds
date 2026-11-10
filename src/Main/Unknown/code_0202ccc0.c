@@ -112,7 +112,7 @@ void RefreshGhostListRows(s32 action, s32 slot, s32 row, s32 selectedSlot) {
 
 #pragma thumb on
 
-void func_0202d82c(void) {
+void SetupGhostSendState8Text(void) {
     void *text;
     void *buttonText;
     text = GetBmgEntry(gTimeAttackGhostSend->mGhostMessages, 0xd);
@@ -125,7 +125,7 @@ void func_0202d82c(void) {
 
 #pragma thumb on
 
-void func_0202d720(void) {
+void PrintGhostSendCounts(void) {
     u16 text[6];
     CellFileSet *fileSet;
     s32 count;
@@ -183,7 +183,7 @@ void PrintSelectedGhostSendRecord(void) {
 
 #pragma thumb on
 
-void func_0202d674(void) {
+void SetupGhostSendMainText(void) {
     void *text;
     text = GetBmgEntry(gTimeAttackGhostSend->mGhostMessages, 0);
     SetupTxtSystemMainTextShort(text, 0, 0, 0, 0, 0, 0);
@@ -193,7 +193,7 @@ void func_0202d674(void) {
 
 #pragma thumb on
 
-void func_0202d5f8(s32 messageIndex, s32 withButton) {
+void SetupGhostSendSubTextWithName(s32 messageIndex, s32 withButton) {
     u16 name[11];
     u16 text[0x100];
     void *message;
@@ -208,7 +208,7 @@ void func_0202d5f8(s32 messageIndex, s32 withButton) {
     }
 }
 
-void func_0202d5c0(void) {
+void StartReadSelectedGhost(void) {
     StartReadListedGhost(gTimeAttackGhostSend->mSelectedIndex);
     SetupTxtSystemSubText(GetBmgEntry(gTimeAttackGhostSend->mGhostMessages, 9));
     SetSelectReturnSoundId(0xe);
@@ -285,7 +285,7 @@ void InitTimeAttackGhostSend(void *parentHeap, void *mainOam, void *subOam) {
         objSizeLeft -= SetupLabelCanvas(1, gTimeAttackGhostSend->mHeap, subFileSet,
                                         (s16(*)[4]) gTimeAttackGhostSendSLabelTextRows + i, objSizeLeft);
     }
-    func_0202d720();
+    PrintGhostSendCounts();
     for (i = 0; i < 0xf; i++) {
         SetCellPriority(i, 3, subFileSet->mCells, subFileSet->mCellLayout);
     }
@@ -368,7 +368,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
                     gTimeAttackGhostSend->mState = 0;
                 } else {
                     PrintSelectedGhostSendRecord();
-                    func_0202d674();
+                    SetupGhostSendMainText();
                     RequestSelectReturnState1();
                     SetInterpolationStateIfOpposite(&gTimeAttackGhostSend->mInterpolation, 0);
                     gTimeAttackGhostSend->mState = 2;
@@ -397,7 +397,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
                     NNS_SndArcSetCurrent(&gFileSndArc);
                 }
                 if (IsScrollListPickFinished() != 0) {
-                    func_0202d5c0();
+                    StartReadSelectedGhost();
                     StartTimeAttackGhostSendSeq();
                     gTimeAttackGhostSend->mState = 4;
                 } else {
@@ -453,7 +453,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
                 NNS_SndArcSetCurrent(&gOnMemorySndArc);
                 NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 9);
                 NNS_SndArcSetCurrent(&gFileSndArc);
-                func_0202d5f8(0xb, 0);
+                SetupGhostSendSubTextWithName(0xb, 0);
                 gTimeAttackGhostSend->mState = 7;
             }
             break;
@@ -467,7 +467,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
                     gTimeAttackGhostSend->mState = 0xa;
                     break;
                 case 2:
-                    func_0202d82c();
+                    SetupGhostSendState8Text();
                     break;
             }
             break;
@@ -492,14 +492,14 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
         case 10:
             if (func_02054f58() == 1) {
                 func_0204f804();
-                func_0202d5f8(0xc, 1);
+                SetupGhostSendSubTextWithName(0xc, 1);
                 gTimeAttackGhostSend->mState = 0xd;
             }
             break;
         case 11:
             if (func_02054f58() == 1) {
                 func_0204f804();
-                func_0202d674();
+                SetupGhostSendMainText();
                 gTimeAttackGhostSend->mState = 3;
             }
             break;

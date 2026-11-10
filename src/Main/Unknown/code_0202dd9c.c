@@ -80,7 +80,7 @@ void InitGhostScene(void *heap) {
     StartReadCourseGhostRecords(gGhostScene->mCourseGhostRecords);
     WaitThreadFunctionsDone();
     for (i = 0; i < 0x20; i++) {
-        courseId = func_0202e43c(i);
+        courseId = GhostSceneGetCupCourseIdAtIndex(i);
         courseRecords = gGhostScene->mCourseGhostRecords;
         cupCourseIndex = FindCupCourseIndex(courseId);
         if (IsGhostRecordFilled(&courseRecords[cupCourseIndex]) != FALSE) {
@@ -150,9 +150,9 @@ void ReleaseGhostScene(void) {
     func_0204f7f4();
 }
 
-void func_0202dec8(void) {
+void WriteGhostSceneRegisters(void) {
     WriteSceneTextRegisters();
-    gGhostScene->mCurrentCallbacks->mUnk_0c();
+    gGhostScene->mCurrentCallbacks->mWriteRegisters();
     UploadOamLists(gGhostScene, gGhostScene->mSubOam);
 }
 

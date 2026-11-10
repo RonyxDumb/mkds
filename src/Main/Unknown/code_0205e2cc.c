@@ -288,7 +288,7 @@ void func_0205e528(void) {
 }
 
 void func_0205e520(void) {
-    func_0202dec8();
+    WriteGhostSceneRegisters();
 }
 
 void func_0205e518(u32 sceneNumbers) {
