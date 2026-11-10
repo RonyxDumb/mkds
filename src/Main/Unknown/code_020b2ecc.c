@@ -190,12 +190,15 @@ s8 GetMissionRunTableColumn(void) {
 }
 
 #pragma thumb on
-u32 func_020b2ecc(void) {
+// TRUE when the entry ended with kind 0, the other 53 cells held 5 to 7 at the start, and the current cell now holds 5
+// to 7.
+BOOL IsAllMissionRecords5To7AtEndKind0(void) {
     s32 recordValue;
     s32 isFilled;
 
     isFilled = GetMissionRecordValue(GetMissionRunTableRow(), GetMissionRunTableColumn(), &recordValue);
-    if (GetEntryEndKind() == 0 && gChoisesS->mUnk_020 != FALSE && isFilled != 0 && (u32) (recordValue - 5) <= 2) {
+    if (GetEntryEndKind() == 0 && gChoisesS->mOtherMissionRecordsFilled5To7 != FALSE && isFilled != 0 &&
+        (u32) (recordValue - 5) <= 2) {
         return 1;
     }
     return 0;

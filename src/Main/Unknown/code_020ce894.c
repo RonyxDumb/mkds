@@ -6,9 +6,9 @@ u32 VsSelectCupGetConnectionKind(void) {
 }
 
 void VsSelectCupSetMenuEntryKind(u32 entryKind) {
-    data_0217b488->mMenuEntryKind = entryKind;
+    gMenuShared->mMenuEntryKind = entryKind;
 }
 
 void VsSelectCupSetRaceSetupRequested(u32 requested) {
-    data_0217b488->mRaceSetupRequested = requested;
+    gMenuShared->mRaceSetupRequested = requested;
 }

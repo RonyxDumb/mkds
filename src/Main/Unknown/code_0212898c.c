@@ -183,7 +183,7 @@ void InitKeyboard(void *heap, s32 mode) {
     s32 j;
     gKeyboard = HeapAlloc(heap, 0xc4);
     gKeyboard->mHeap = heap;
-    gKeyboard->mDisplaySettings = func_021250b0(heap);
+    gKeyboard->mDisplaySettings = CreateSceneDisplaySettings(heap);
     InitLinkLevelIcons(heap, GetKeyboardFirstBuffer());
     config.mUseTxtSystem = 1;
     config.mTxtSystemFont = GetFontByIndex(1);

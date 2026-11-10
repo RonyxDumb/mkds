@@ -8,12 +8,12 @@
 // Two words (the elements at member 0xc of RaceHudSubScreenCells).
 typedef Unk0217b498_0c UnkPair020b502c;
 
-// Object returned by func_020b57e4.
+// Object returned by GetCourseMapSubScreenView.
 typedef struct {
-    /* 00 */ Vec3 mUnk_00;
+    /* 00 */ Vec3 mPos;
     /* 0c */ u8 mUnk_0c[4];
-    /* 10 */ s32 mUnk_10;
-} Unk020b57e4;
+    /* 10 */ s32 mAngleDegrees;
+} CourseMapSubScreenView;
 
 // One entry of the table at CourseMap.mEntryGroups.
 typedef struct CourseMapEntryGroup {
@@ -252,7 +252,7 @@ typedef struct CourseMap {
     /* 024 */ CourseMapRespawn *mRespawns;
     /* 028 */ u16 mRespawnCount;
     /* 02a */ u8 mUnk_02a[0x2];
-    /* 2c */ Unk020b57e4 *mUnk_2c;
+    /* 2c */ CourseMapSubScreenView *mSubScreenView;
     /* 30 */ u16 mUnk_30;
     /* 32 */ u8 mUnk_32[0x2];
     // Records (position, rotation angles, battle point index, key) where the kart code puts or flies a kart to, found
@@ -418,7 +418,7 @@ u16 RaceHudSubScreenGetDownBits(s32 slotIndex, s32 mask);
 u16 RaceHudSubScreenGetSlotDownBits(InputSlot *inputSlot, s32 mask);
 void UpdateRaceHudSubScreenBg3CenterByFrames(RaceHudSubScreenBgAffine *out);
 s32 MulFx64c(s32 value, s64 factor);
-Unk020b57e4 *func_020b57e4(void);
+CourseMapSubScreenView *GetCourseMapSubScreenView(void);
 void UpdateRaceHudSubScreenBg3Center(RaceHudSubScreenBgAffine *out);
 void UpdateRaceHudSubScreenCenter(RaceHudSubScreenBgAffine *out);
 BOOL ComputeRaceHudSubScreenPosition(const Vec3 *pos, UnkPair020b502c *out, s32 unk, s32 requireNearCenter,

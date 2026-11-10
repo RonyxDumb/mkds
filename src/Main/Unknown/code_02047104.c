@@ -43,7 +43,7 @@
 void BuildResultArchivePath(char *path) {
     const char *suffix;
 
-    if (data_0217b488->mResultArchiveDl == 1) {
+    if (gMenuShared->mResultArchiveDl == 1) {
         suffix = data_usa_02165108;
     } else {
         suffix = data_usa_0216510c;
@@ -55,7 +55,7 @@ void BuildResultArchivePathWithLanguage(char *path) {
     const char *suffix;
     u32 languageCode;
 
-    if (data_0217b488->mResultArchiveDl == 1) {
+    if (gMenuShared->mResultArchiveDl == 1) {
         suffix = data_usa_021650e0;
     } else {
         suffix = data_usa_021650e4;
@@ -339,7 +339,7 @@ void ReleaseArchiveSlot(int slotIndex) {
 }
 
 void LoadArchiveSlotsForScene(s32 sceneNumber) {
-    if (gBootInfo->mUnk_00 == 2 && sceneNumber == 6 && data_0217b488->mWLMenuKind == 0) {
+    if (gBootInfo->mUnk_00 == 2 && sceneNumber == 6 && gMenuShared->mWLMenuKind == 0) {
     } else {
         LoadArchiveSlotForScene(1, sceneNumber);
     }

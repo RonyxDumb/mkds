@@ -92,7 +92,7 @@ void InitWiFiStates(void *heap, s32 b) {
     gWiFiStates->mHeap = heap;
     gWiFiStates->mUnk_14 = 0;
     CreateRaceSetupCopy(heap);
-    gWiFiStates->mUnk_2c = func_02125028(heap);
+    gWiFiStates->mUnk_2c = CreateWiFiStatesDisplaySettings(heap);
     InitLinkLevelIcons(heap, func_ov000_021804f4());
     c.mUseTxtSystem = TRUE;
     c.mTxtSystemFont = GetFontByIndex(1);
@@ -115,9 +115,9 @@ void InitWiFiStates(void *heap, s32 b) {
     gWiFiStates->mStateHeap = CreateExpHeapFromMaxFree(heap);
     ClearWiFiStateCallbacks();
     gWiFiStates->mNextScene = -1;
-    if (data_0217b488->mUnk_58 != FALSE) {
+    if (gMenuShared->mUnk_58 != FALSE) {
         b = 0;
-        data_0217b488->mUnk_58 = FALSE;
+        gMenuShared->mUnk_58 = FALSE;
     }
     switch (b) {
         case 0:
@@ -125,7 +125,7 @@ void InitWiFiStates(void *heap, s32 b) {
             gWiFiStates->mState = 1;
             RegisterWiFiTopMenuCallbacks();
             ResetWiFiSessionToOff();
-            data_0217b488->mUnk_1c = 0;
+            gMenuShared->mUnk_1c = 0;
             break;
         case 12:
             gWiFiStates->mPrevState = 13;
@@ -134,7 +134,7 @@ void InitWiFiStates(void *heap, s32 b) {
             break;
         case 2:
         case 10:
-            switch (data_0217b488->mUnk_1c) {
+            switch (gMenuShared->mUnk_1c) {
                 case 0:
                     gWiFiStates->mState = 1;
                     RegisterWiFiTopMenuCallbacks();
@@ -165,7 +165,7 @@ void InitWiFiStates(void *heap, s32 b) {
             RegisterWiFiAikotobaCallbacks();
             break;
         case 8:
-            switch (data_0217b488->mUnk_50) {
+            switch (gMenuShared->mUnk_50) {
                 case 0:
                     gWiFiStates->mPrevState = 14;
                     gWiFiStates->mState = 2;
@@ -181,7 +181,7 @@ void InitWiFiStates(void *heap, s32 b) {
     }
     gWiFiStates->mNextState = -1;
     gWiFiStates->mCallbacks.mInit(gWiFiStates->mStateHeap);
-    data_0217b488->mResultArchiveDl = 1;
+    gMenuShared->mResultArchiveDl = 1;
 }
 
 void ReleaseWiFiStates(void) {

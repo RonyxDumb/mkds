@@ -77,17 +77,18 @@ u32 CollideKartWithFlipper(Flipper *flipper, Kart *kart, void *b, u8 *c) {
     return v;
 }
 
-u32 func_02097ed0(Flipper *flipper, Vec3 *sphereCenter, s32 b, Vec3 *pushOut) {
-    s32 r;
+// Also sets mUnk_a0 to 0, 1 or -1 by the box hit and the state; CollideKartWithFlipper reads it.
+BOOL ComputeSphereHitOnFlipper(Flipper *flipper, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *pushOut) {
+    s32 hitResult;
 
     flipper->mUnk_a0 = 0;
     if (ComputeSphereHitOnRotatedBox(
             sphereCenter, &flipper->mUnk_00.mPos, &flipper->mUnk_a8[flipper->mUnk_ec0].mUnk_00[0],
-            &data_usa_0215650c[flipper->mMirror], &data_usa_0215653c[flipper->mMirror], b, NULL) != 0) {
-        r = ComputeSphereHitOnRotatedBox(
+            &data_usa_0215650c[flipper->mMirror], &data_usa_0215653c[flipper->mMirror], sphereRadius, NULL) != 0) {
+        hitResult = ComputeSphereHitOnRotatedBox(
             sphereCenter, &flipper->mUnk_00.mPos, &flipper->mUnk_a8[flipper->mUnk_ec0].mUnk_00[0],
-            &data_usa_02156554[flipper->mMirror], &data_usa_021564dc[flipper->mMirror], b, pushOut);
-        if (r == 4 || flipper->mState == 2) {
+            &data_usa_02156554[flipper->mMirror], &data_usa_021564dc[flipper->mMirror], sphereRadius, pushOut);
+        if (hitResult == 4 || flipper->mState == 2) {
             flipper->mUnk_a0 = 1;
         } else if (flipper->mState == 3) {
             flipper->mUnk_a0 = -1;
@@ -95,22 +96,22 @@ u32 func_02097ed0(Flipper *flipper, Vec3 *sphereCenter, s32 b, Vec3 *pushOut) {
     } else {
         if (ComputeSphereHitOnRotatedBox(
                 sphereCenter, &flipper->mUnk_00.mPos, &flipper->mUnk_a8[flipper->mUnk_ec0].mUnk_00[0],
-                &data_usa_021564c4[flipper->mMirror], &data_usa_02156524[flipper->mMirror], b, NULL) != 0) {
-            r = ComputeSphereHitOnRotatedBox(
+                &data_usa_021564c4[flipper->mMirror], &data_usa_02156524[flipper->mMirror], sphereRadius, NULL) != 0) {
+            hitResult = ComputeSphereHitOnRotatedBox(
                 sphereCenter, &flipper->mUnk_00.mPos, &flipper->mUnk_648[flipper->mUnk_ec0].mUnk_00[0],
-                &data_usa_0215656c[flipper->mMirror], &data_usa_021564f4[flipper->mMirror], b, pushOut);
-            if (r == 4 || flipper->mState == 3) {
+                &data_usa_0215656c[flipper->mMirror], &data_usa_021564f4[flipper->mMirror], sphereRadius, pushOut);
+            if (hitResult == 4 || flipper->mState == 3) {
                 flipper->mUnk_a0 = -1;
             } else if (flipper->mState == 2) {
                 flipper->mUnk_a0 = 1;
             }
         } else {
-            r = ComputeSphereHitOnRotatedCylinder(sphereCenter, &flipper->mUnk_00.mPos,
-                                                  &flipper->mUnk_a8[flipper->mUnk_ec0].mUnk_00[0], 0x32000, 0x3c000, 0,
-                                                  b, pushOut);
+            hitResult = ComputeSphereHitOnRotatedCylinder(sphereCenter, &flipper->mUnk_00.mPos,
+                                                          &flipper->mUnk_a8[flipper->mUnk_ec0].mUnk_00[0], 0x32000,
+                                                          0x3c000, 0, sphereRadius, pushOut);
         }
     }
-    return r != 0;
+    return hitResult != 0;
 }
 
 void CreateFlipper(void *a) {
@@ -222,14 +223,14 @@ void UpdateFlipper(void *a, Flipper *flipper) {
     u32 r;
     s32 w;
 
-    flipper->mUnk_ebc = flipper->mUnk_ebc - (flipper->mUnk_ebc > 0);
+    flipper->mState4Timer = flipper->mState4Timer - (flipper->mState4Timer > 0);
     switch (flipper->mState) {
         case 0:
             flipper->mUnk_ed0 = StartEffect(0x5f, &flipper->mUnk_00.mPos);
             flipper->mState = 1;
             break;
         case 1:
-            if (flipper->mUnk_ebc != 0) {
+            if (flipper->mState4Timer != 0) {
                 flipper->mState = 4;
             } else {
                 flipper->mState1Timer = flipper->mState1Timer - 1;
@@ -268,7 +269,7 @@ void UpdateFlipper(void *a, Flipper *flipper) {
             }
             break;
         case 4:
-            if (flipper->mUnk_ebc <= 0) {
+            if (flipper->mState4Timer <= 0) {
                 flipper->mUnk_ec0 = 0;
                 flipper->mState = 5;
             }
@@ -330,7 +331,7 @@ void UpdateFlipper(void *a, Flipper *flipper) {
 }
 
 void CreateFlipperKindData(void) {
-    CreateMapObjectKindDataWithSound(CollideKartWithFlipper, NULL, func_02097ed0, 0, 1, 0x1d0);
+    CreateMapObjectKindDataWithSound(CollideKartWithFlipper, NULL, ComputeSphereHitOnFlipper, 0, 1, 0x1d0);
 }
 
 void *CreateFlipperDrawList(void) {

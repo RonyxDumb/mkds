@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int func_0209dd40(unsigned int p0);
+unsigned int SunFireballInitReturnArgument(unsigned int value);

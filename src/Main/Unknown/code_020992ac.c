@@ -34,37 +34,58 @@ void *gBankEgg1;
 void *gKinoMount1;
 void *gOf6yoshi1;
 
-MapObjectKindDescriptor data_usa_02166b44 = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateOf6Tree1DrawList};
-MapObjectKindDescriptor gOlaTree1cKindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateOlaTree1cDrawList};
-MapObjectKindDescriptor data_usa_02166f88 = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateDeTree1DrawList};
-MapObjectKindDescriptor gOlgMush1KindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateOlgMush1DrawList};
-MapObjectKindDescriptor gOlgPipe1KindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateOlgPipe1DrawList};
-MapObjectKindDescriptor data_usa_02166eec = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateBeachTree1DrawList};
-MapObjectKindDescriptor gNsCannon1KindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateNsCannon1DrawList};
-MapObjectKindDescriptor gCrossTree1KindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateCrossTree1DrawList};
-MapObjectKindDescriptor gBankTree1KindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateBankTree1DrawList};
-MapObjectKindDescriptor gOf6yoshi1KindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateOf6yoshi1DrawList};
-MapObjectKindDescriptor data_usa_02166d4c = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateGardenTree1DrawList};
-MapObjectKindDescriptor data_usa_02166d80 = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateGardenTree1DrawList};
-MapObjectKindDescriptor data_usa_02166db4 = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateTownTree1DrawList};
-MapObjectKindDescriptor data_usa_02166de8 = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateTownTree1DrawList};
-MapObjectKindDescriptor gMarioTree3KindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateMarioTree3DrawList};
-MapObjectKindDescriptor data_usa_02166e84 = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateSnowTree1DrawList};
-MapObjectKindDescriptor gOpaTree1KindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateOpaTree1DrawList};
-MapObjectKindDescriptor data_usa_02166f20 = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateSnowTree1DrawList};
-MapObjectKindDescriptor data_usa_02166f54 = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateDeTree1DrawList};
-MapObjectKindDescriptor gOsaTree1cKindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateOsaTree1cDrawList};
-MapObjectKindDescriptor gKinoHouse1KindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateKinoHouse1DrawList};
-MapObjectKindDescriptor data_usa_02166bac = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateOf6Tree1DrawList};
-MapObjectKindDescriptor gKinoHouse2KindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateKinoHouse2DrawList};
-MapObjectKindDescriptor gKinoMount1KindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateKinoMount1DrawList};
-MapObjectKindDescriptor gKinoMount2KindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateKinoMount2DrawList};
-MapObjectKindDescriptor gOm6Tree1KindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateOm6Tree1DrawList};
-MapObjectKindDescriptor data_usa_02166b78 = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateBeachTree1DrawList};
-MapObjectKindDescriptor gBankEgg1KindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateBankEgg1DrawList};
-MapObjectKindDescriptor gMiniDokanKindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateMiniDokanDrawList};
+MapObjectKindDescriptor data_usa_02166b44 = {0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateOf6Tree1DrawList};
+MapObjectKindDescriptor gOlaTree1cKindDescriptor = {
+    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateOlaTree1cDrawList};
+MapObjectKindDescriptor data_usa_02166f88 = {0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateDeTree1DrawList};
+MapObjectKindDescriptor gOlgMush1KindDescriptor = {
+    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateOlgMush1DrawList};
+MapObjectKindDescriptor gOlgPipe1KindDescriptor = {
+    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateOlgPipe1DrawList};
+MapObjectKindDescriptor data_usa_02166eec = {
+    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateBeachTree1DrawList};
+MapObjectKindDescriptor gNsCannon1KindDescriptor = {
+    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateNsCannon1DrawList};
+MapObjectKindDescriptor gCrossTree1KindDescriptor = {
+    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateCrossTree1DrawList};
+MapObjectKindDescriptor gBankTree1KindDescriptor = {
+    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateBankTree1DrawList};
+MapObjectKindDescriptor gOf6yoshi1KindDescriptor = {
+    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateOf6yoshi1DrawList};
+MapObjectKindDescriptor data_usa_02166d4c = {
+    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateGardenTree1DrawList};
+MapObjectKindDescriptor data_usa_02166d80 = {
+    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateGardenTree1DrawList};
+MapObjectKindDescriptor data_usa_02166db4 = {0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateTownTree1DrawList};
+MapObjectKindDescriptor data_usa_02166de8 = {0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateTownTree1DrawList};
+MapObjectKindDescriptor gMarioTree3KindDescriptor = {
+    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateMarioTree3DrawList};
+MapObjectKindDescriptor data_usa_02166e84 = {0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateSnowTree1DrawList};
+MapObjectKindDescriptor gOpaTree1KindDescriptor = {
+    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateOpaTree1DrawList};
+MapObjectKindDescriptor data_usa_02166f20 = {0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateSnowTree1DrawList};
+MapObjectKindDescriptor data_usa_02166f54 = {0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateDeTree1DrawList};
+MapObjectKindDescriptor gOsaTree1cKindDescriptor = {
+    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateOsaTree1cDrawList};
+MapObjectKindDescriptor gKinoHouse1KindDescriptor = {
+    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateKinoHouse1DrawList};
+MapObjectKindDescriptor data_usa_02166bac = {0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateOf6Tree1DrawList};
+MapObjectKindDescriptor gKinoHouse2KindDescriptor = {
+    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateKinoHouse2DrawList};
+MapObjectKindDescriptor gKinoMount1KindDescriptor = {
+    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateKinoMount1DrawList};
+MapObjectKindDescriptor gKinoMount2KindDescriptor = {
+    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateKinoMount2DrawList};
+MapObjectKindDescriptor gOm6Tree1KindDescriptor = {
+    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateOm6Tree1DrawList};
+MapObjectKindDescriptor data_usa_02166b78 = {
+    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateBeachTree1DrawList};
+MapObjectKindDescriptor gBankEgg1KindDescriptor = {
+    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateBankEgg1DrawList};
+MapObjectKindDescriptor gMiniDokanKindDescriptor = {
+    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateMiniDokanDrawList};
 
-MapObjectKindData *func_0209a728(void) {
+MapObjectKindData *CreateEmptyKindDataWithSound(void) {
     MapObjectKindData *kindData;
 
     kindData = CreateEmptyMapObjectKindData();

@@ -76,7 +76,7 @@ void InitOptionStates(void *heap, s16 a) {
     SceneTextInitParams arg;
     gOptionStates = HeapAlloc(heap, 0x2c);
     gOptionStates->mHeap = heap;
-    gOptionStates->mUnk_28 = func_021250b0(heap);
+    gOptionStates->mUnk_28 = CreateSceneDisplaySettings(heap);
     func_ov001_021930ac();
     InitLinkLevelIcons(heap, GetOptionFirstBuffer());
     arg.mUseTxtSystem = TRUE;
@@ -108,7 +108,7 @@ void InitOptionStates(void *heap, s16 a) {
             break;
         case 3:
             gOptionStates->mPrevState = 6;
-            if (data_0217b488->mUnk_18 == FALSE) {
+            if (gMenuShared->mUnk_18 == FALSE) {
                 gOptionStates->mState = 2;
                 RegisterOptionHensyuMenuCallbacks();
             } else {

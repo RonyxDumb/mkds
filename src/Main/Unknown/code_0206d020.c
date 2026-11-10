@@ -385,7 +385,7 @@ void ApplyItemObjectHitToKart(Kart *kart) {
             kart->mUnk_48 |= 0x100000;
             kart->mUnk_538.mUnk_00 = 0x5a;
             if (gRaceSetup->mMode == MODE_BATTLE) {
-                func_020a1ddc(kart->mIndex);
+                ClearStandingsHitSeenFromKart(kart->mIndex);
             }
             break;
         case 4:

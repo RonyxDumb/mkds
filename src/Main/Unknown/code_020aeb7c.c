@@ -438,9 +438,9 @@ void UpdateRaceHudSubScreen(void) {
         v = IsKartEliminated(GetFollowedKartOrEntryIndex());
     }
     if (v != 0) {
-        data_0217b488->mUnfilledNotEliminated = 0;
+        gMenuShared->mUnfilledNotEliminated = 0;
     } else {
-        data_0217b488->mUnfilledNotEliminated = gRaceHud->mMissionRunRecordFilled == 0;
+        gMenuShared->mUnfilledNotEliminated = gRaceHud->mMissionRunRecordFilled == 0;
     }
     gRaceHud->mUnk_90c = TRUE;
 }

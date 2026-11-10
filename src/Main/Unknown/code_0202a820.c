@@ -242,7 +242,7 @@ void AdvanceWiFiVSCourseSelectTimer(void) {
 s32 PickRandomCourseIndexNotRaced(void) {
     WiFiVSCourseSelect *courseSelect;
     RandomState64 *random;
-    Unk0217b488 *d;
+    MenuShared *d;
     s32 i;
     s32 courseIndex;
     BOOL notRaced;
@@ -253,7 +253,7 @@ s32 PickRandomCourseIndexNotRaced(void) {
     random = &courseSelect->mRandom;
     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
     courseIndex = (u16) (random->mValue >> 32 >> 20) % 20;
-    d = data_0217b488;
+    d = gMenuShared;
     do {
         notRaced = TRUE;
         courseIndex = (courseIndex + 1) % 20;

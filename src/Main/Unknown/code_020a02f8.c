@@ -147,13 +147,13 @@ s32 CallKartCollisionCallbacks(s32 firstKartIndex, s32 secondKartIndex) {
     secondStanding = &gStandings->mKarts[secondKartIndex];
     firstStanding = &gStandings->mKarts[firstKartIndex];
     f5 = FALSE;
-    if (secondStanding->mUnk_24[firstKartIndex] == 0) {
+    if (secondStanding->mHitSeenFromKart[firstKartIndex] == 0) {
         if ((firstKart->mUnk_48 & 0x100000) != 0) {
             f5 = TRUE;
         }
     }
     f4 = 0;
-    if (firstStanding->mUnk_24[secondKartIndex] == 0) {
+    if (firstStanding->mHitSeenFromKart[secondKartIndex] == 0) {
         if ((secondKart->mUnk_48 & 0x100000) != 0) {
             f4 = 1;
         }
@@ -171,10 +171,10 @@ s32 CallKartCollisionCallbacks(s32 firstKartIndex, s32 secondKartIndex) {
         }
     }
     if (f4 != 0) {
-        firstStanding->mUnk_24[secondKartIndex] = 1;
+        firstStanding->mHitSeenFromKart[secondKartIndex] = 1;
     }
     if (f5 != FALSE) {
-        secondStanding->mUnk_24[firstKartIndex] = 1;
+        secondStanding->mHitSeenFromKart[firstKartIndex] = 1;
     }
     if (f11 == FALSE && t == FALSE && f5 != FALSE && f4 != 0) {
         if (gStandings->mKartsHitEachOtherCallback != NULL) {
@@ -242,13 +242,13 @@ u32 StandingsReturnArgument(u32 value) {
     return value;
 }
 
-void func_020a1ddc(s32 kartIndex) {
+void ClearStandingsHitSeenFromKart(s32 kartIndex) {
     s32 i;
     s32 kartCount;
 
     kartCount = gRaceSetup->mKartCount;
     for (i = 0; i < kartCount; i++) {
-        gStandings->mKarts[i].mUnk_24[kartIndex] = 0;
+        gStandings->mKarts[i].mHitSeenFromKart[kartIndex] = 0;
     }
 }
 
@@ -906,7 +906,7 @@ void UpdateStandings(void) {
     }
 }
 
-void func_020a089c(Unk020a0318 *mapObject) {
+void InitDistanceSound(DistanceSound *mapObject) {
     s32 courseId;
 
     courseId = gRaceSetup->mCourseId;
@@ -920,9 +920,9 @@ void func_020a089c(Unk020a0318 *mapObject) {
     }
 }
 
-void func_020a066c(MapObjectList *mapObjectList) {
+void InitDistanceSoundObjects(MapObjectList *mapObjectList) {
     s32 i;
-    Unk020a0318 *mapObject;
+    DistanceSound *mapObject;
     RandomState64 *randomState;
 
     if (mapObjectList == NULL) {
@@ -958,7 +958,7 @@ void func_020a066c(MapObjectList *mapObjectList) {
     }
 }
 
-void func_020a0318(void *mapObjectList, Unk020a0318 *mapObject) {
+void UpdateDistanceSound(void *mapObjectList, DistanceSound *mapObject) {
     Kart *kart;
     NNSSndSeqPlayer **sndHandleSlot;
     RandomState64 *randomState;
@@ -1053,6 +1053,6 @@ void func_020a0318(void *mapObjectList, Unk020a0318 *mapObject) {
     SetSndHandleTrackVolume(GetSndHandleSlot(9), mapObject->mDistanceVolumeFixed12 >> 12);
 }
 
-void *func_020a02f8(void) {
-    return CreateMapObjectUpdateList(func_020a066c, func_020a0318, NULL);
+void *CreateDistanceSoundUpdateList(void) {
+    return CreateMapObjectUpdateList(InitDistanceSoundObjects, UpdateDistanceSound, NULL);
 }

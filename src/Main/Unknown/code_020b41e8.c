@@ -112,7 +112,7 @@ void CopyPlayerCharacterPaletteAndChars(u16 *paletteDestination, s32 paletteRow,
     chars = GetPlayerCharacterNcgr(1);
     paletteColors = palette->mData;
     if (characterIndex == 12) {
-        paletteCharacterIndex = data_0217b488->mShuffledIndices[(
+        paletteCharacterIndex = gMenuShared->mShuffledIndices[(
             u16) (gRaceSetup->mRaceKind == RACE_KIND_DEMO ? gRaceSetup->mFollowedKartIndex : gRaceSetup->mEntryIndex)];
     } else {
         paletteCharacterIndex = characterIndex;

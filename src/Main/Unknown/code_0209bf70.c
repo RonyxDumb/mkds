@@ -64,8 +64,8 @@ void CreateSunAndSunLOD(void *a) {
     SetMapObjectModelPolygonId(gSun, AllocPolygonId());
 }
 
-u32 func_0209d5e8(u32 p0) {
-    return p0;
+u32 SunSetupDrawReturnArgument(u32 value) {
+    return value;
 }
 
 void DrawSun(void *a, Unk0209d3fc *b) {
@@ -259,7 +259,7 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
 }
 
 void CreateSunDrawList(void) {
-    CreateMapObjectDrawList1(CreateSunAndSunLOD, DrawSun, func_0209d5e8);
+    CreateMapObjectDrawList1(CreateSunAndSunLOD, DrawSun, SunSetupDrawReturnArgument);
 }
 
 void CreateSunUpdateList(void) {
@@ -515,11 +515,11 @@ void InitBoundAndCreamAndBerryObjects(MapObjectList *mapObjectList) {
     }
 }
 
-s16 func_0209c4d8(s32 a) {
-    return gPairsByAngle[(a >> 4) * 2];
+s16 BoundFX_SinIdx(s32 angle) {
+    return gPairsByAngle[(angle >> 4) * 2];
 }
 
-s32 func_0209c4bc(s32 a, s32 b) {
+s32 BoundFX_MulInline(s32 a, s32 b) {
     return MUL_FIXED12_ROUNDED(a, b);
 }
 
@@ -545,7 +545,7 @@ void UpdateBoundAndCreamAndBerry(MapObjectList *mapObjectList, Bound *bound) {
     }
     if (bound->mWobbling == TRUE) {
         bound->mWobbleXAngle += bound->mWobbleXAnglePerFrame;
-        t = func_0209c4bc(bound->mWobbleXAmplitude, func_0209c4d8(bound->mWobbleXAngle));
+        t = BoundFX_MulInline(bound->mWobbleXAmplitude, BoundFX_SinIdx(bound->mWobbleXAngle));
         bound->mUnk_0c0 = bound->mWobbleXMid + t - bound->mWobbleScaleX;
         bound->mWobbleScaleX += bound->mUnk_0c0;
         if (bound->mWobbleXAmplitude > 0) {
@@ -575,7 +575,7 @@ void UpdateBoundAndCreamAndBerry(MapObjectList *mapObjectList, Bound *bound) {
             bound->mWobbleXAnglePerFrame = t;
         }
         bound->mWobbleYAngle += bound->mWobbleYAnglePerFrame;
-        t = func_0209c4bc(bound->mWobbleYAmplitude, func_0209c4d8(bound->mWobbleYAngle));
+        t = BoundFX_MulInline(bound->mWobbleYAmplitude, BoundFX_SinIdx(bound->mWobbleYAngle));
         bound->mUnk_0e0 = bound->mWobbleYMid + t - bound->mWobbleScaleY;
         bound->mWobbleScaleY += bound->mUnk_0e0;
         if (bound->mWobbleYAmplitude > 0) {

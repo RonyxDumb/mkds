@@ -363,7 +363,7 @@ void FormatMessageWithText(u16 *insertText, u16 *message, u16 *formattedText, u3
     formattedText[length] = 0;
 }
 
-DisplaySettings *func_021250b0(void *heap) {
+DisplaySettings *CreateSceneDisplaySettings(void *heap) {
     DisplaySettingsDesc desc = {1, 0x12, 0x18, 1, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 4, 0x100, 0, 0, 8, 0};
     DisplaySettings *displaySettings;
 
@@ -376,7 +376,7 @@ DisplaySettings *func_021250b0(void *heap) {
     return displaySettings;
 }
 
-DisplaySettings *func_02125028(void *heap) {
+DisplaySettings *CreateWiFiStatesDisplaySettings(void *heap) {
     DisplaySettingsDesc desc = {1, 0x13, 0x18, 1, 0, 1, 0, 4, 0x60, 0, 0, 3, 0x10, 0, 0x80, 0x100, 0, 0, 8, 0};
     DisplaySettings *displaySettings;
 

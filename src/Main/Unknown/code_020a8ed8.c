@@ -240,7 +240,7 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
                 if (n != ironBall->mFollower.mToEntry->mUnk_0e) {
                     ironBall->mPathSpeed = 0x1e000;
                 } else {
-                    func_0209753c(t);
+                    SetFlipperState4TimerByIndex(t);
                 }
                 ironBall->mShadowStage = 1;
             }

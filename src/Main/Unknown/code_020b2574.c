@@ -49,7 +49,7 @@ void UpdateChoisesS(void) {
                         gChoisesS->mPickLocked = 1;
                         StartChoisesSSelectedValueSeq();
                     }
-                } else if (ChoisesSGetCurrentMode() == MODE_MISSION_RUN && func_020b2ecc() != 0) {
+                } else if (ChoisesSGetCurrentMode() == MODE_MISSION_RUN && IsAllMissionRecords5To7AtEndKind0() != 0) {
                     if (ChoisesSGetNewBits(GetChoisesSInputSlot(), PAD_KEY_A) != 0 ||
                         ChoisesSIsSlotPairNew(GetChoisesSInputSlot()) != 0) {
                         gChoisesS->mPickedValue = 6;

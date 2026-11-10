@@ -89,7 +89,7 @@ void StartItemInUseObject(ItemInUse *itemInUse, ItemObject *object);
 void InitKartItems(KartItems *kartItems, s32 kartIndex);
 void SetKartItemLinkFromHitValue(KartItems *kartItems, s32 hitValue);
 void CopyKartPlacementToItemObject(KartItems *kartItems, ItemObject *object);
-BOOL func_020efd84(KartItems *kartItems, s32 itemInfoIndex);
+BOOL SetKartItemsHeldItemByInfoIndex(KartItems *kartItems, s32 itemInfoIndex);
 void StartKartItemInUseOneCountdown(KartItems *kartItems);
 void StartKartItemObjectCountdowns(KartItems *kartItems);
 void ReleaseKartItems(KartItems *kartItems);

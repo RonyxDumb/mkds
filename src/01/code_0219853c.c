@@ -31,7 +31,7 @@ void func_ov001_021987d4(void *heap, s16 a) {
 
     data_ov001_021a9be4 = HeapAlloc(heap, 0x18);
     data_ov001_021a9be4->mUnk_08 = heap;
-    data_ov001_021a9be4->mUnk_10 = func_021250b0(heap);
+    data_ov001_021a9be4->mUnk_10 = CreateSceneDisplaySettings(heap);
     arg.mUseTxtSystem = TRUE;
     arg.mTxtSystemFont = GetFontByIndex(1);
     arg.mUseCanvas1 = 0;

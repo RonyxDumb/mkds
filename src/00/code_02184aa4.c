@@ -50,10 +50,10 @@ void AdvanceWiFiVSCourseSelectState(void) {
         b = gWiFiSession->mKartCount;
         GetRaceSetupCopy()->mKartCount = b;
         SetNextRaceSetupFromKartMask();
-        if ((u32) data_0217b488->mUnk_1c <= 2) {
+        if ((u32) gMenuShared->mUnk_1c <= 2) {
             AssignCpuNumbersAndSetupFirstCourse();
             AddOtherKartCountToSecondTotal();
-            data_0217b488->mUnk_6c = TRUE;
+            gMenuShared->mUnk_6c = TRUE;
         }
         CopyRaceSetupCopyToEntries();
         SetWiFiNextScene(2);

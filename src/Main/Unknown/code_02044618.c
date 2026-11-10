@@ -182,7 +182,7 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
                           (gConnectionWork->mUnk_0457 & (1 << gConnectionWork->mUnk_1e8c[entryIndex])) != 0
                       ? 0
                       : &func_02045084_inline(gConnectionWork, entryIndex)->mFriendData;
-            *b4 = func_02045084_inline(gConnectionWork, entryIndex)->mUnk_229;
+            *b4 = func_02045084_inline(gConnectionWork, entryIndex)->mLowestGrandPrixRecordValue;
             break;
         case PLAYER_KIND_GHOST:
             switch (gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mGhostRecordIndex) {
@@ -220,7 +220,7 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
             *b2 = HasPlayerRecordEmblem(v);
             *b3 = GetPlayerRecordRegion(v);
             *b5 = GetPlayerRecordFriendData(v);
-            *b4 = func_021201e4(v);
+            *b4 = GetPlayerRecordLowestGrandPrixValue(v);
             break;
     }
 }

@@ -307,21 +307,21 @@ BOOL CopyEntryResultAndSetupAwardRace(void) {
     s32 rankIndex;
     KartCourseResult *courseResult;
     entryIndex = gRaceSetup->mEntryIndex;
-    data_0217b488->mCupRankIndex = GetKartCupRank((u16) entryIndex) - 1;
-    data_0217b488->mUnk_80 = ComputeGrandPrixRecordValue();
-    data_0217b488->mCharacterIndex = gRaceSetup->mCurrentEntries[(u8) entryIndex].mCharacterIndex;
-    data_0217b488->mCupIndex = gRaceSetup->mCupIndex;
-    data_0217b488->mEngineIndex = gRaceSetup->mEngineIndex;
-    data_0217b488->mMirrorMode = gRaceSetup->mMirrorMode;
+    gMenuShared->mCupRankIndex = GetKartCupRank((u16) entryIndex) - 1;
+    gMenuShared->mUnk_80 = ComputeGrandPrixRecordValue();
+    gMenuShared->mCharacterIndex = gRaceSetup->mCurrentEntries[(u8) entryIndex].mCharacterIndex;
+    gMenuShared->mCupIndex = gRaceSetup->mCupIndex;
+    gMenuShared->mEngineIndex = gRaceSetup->mEngineIndex;
+    gMenuShared->mMirrorMode = gRaceSetup->mMirrorMode;
     lowByte = GetLowByte((u8) entryIndex);
     courseIndexInCup = GetCourseIndexInCup();
     courseResult = &gCupRecords->mKartResults[courseIndexInCup][GetLowByte(lowByte)];
-    data_0217b488->mTotalPoints = courseResult->mTotalPoints;
-    data_0217b488->mKartIndex = gRaceSetup->mCurrentEntries[(u8) entryIndex].mKartIndex;
+    gMenuShared->mTotalPoints = courseResult->mTotalPoints;
+    gMenuShared->mKartIndex = gRaceSetup->mCurrentEntries[(u8) entryIndex].mKartIndex;
     for (i = 0; i < 4; i++) {
         MinuteSecondMillisecondTime finishTime;
         GetKartCourseFinishTime(&finishTime, (u16) gRaceSetup->mEntryIndex, i);
-        data_0217b488->mCourseTimes[i] = finishTime;
+        gMenuShared->mCourseTimes[i] = finishTime;
     }
     if ((u32) GetKartCupRank((u16) gRaceSetup->mEntryIndex) > 3) {
         return FALSE;
@@ -342,8 +342,8 @@ BOOL CopyEntryResultAndSetupAwardRace(void) {
     }
     for (i = 0; i < 8; i++) {
         rankIndex = GetKartCupRank(i) - 1;
-        data_0217b488->mUnk_cc[rankIndex] = gRaceSetup->mCurrentEntries[i].mKartIndex;
-        data_0217b488->mUnk_ac[rankIndex] = gRaceSetup->mCurrentEntries[i].mCharacterIndex;
+        gMenuShared->mUnk_cc[rankIndex] = gRaceSetup->mCurrentEntries[i].mKartIndex;
+        gMenuShared->mUnk_ac[rankIndex] = gRaceSetup->mCurrentEntries[i].mCharacterIndex;
     }
     gRaceSetup->mNextHeader.mFollowedKartIndex = GetKartCupRank((u16) gRaceSetup->mEntryIndex) - 1;
     return TRUE;
@@ -390,8 +390,8 @@ void SetupStaffRollRace(s32 useTrueStaffRoll) {
                 characterIndex = i;
                 kartIndex = i * 3;
             } else {
-                characterIndex = data_0217b488->mUnk_ac[i];
-                kartIndex = data_0217b488->mUnk_cc[i];
+                characterIndex = gMenuShared->mUnk_ac[i];
+                kartIndex = gMenuShared->mUnk_cc[i];
             }
         } else {
             characterIndex = i;
@@ -452,7 +452,7 @@ s32 AdvanceToNextBattleCourse(void) {
 }
 
 BOOL CopyCourseIdAndAdvanceCourseNumber(void) {
-    data_0217b488->mUnk_5c[gRaceSetup->mCourseNumber] = gRaceSetup->mCourseId;
+    gMenuShared->mUnk_5c[gRaceSetup->mCourseNumber] = gRaceSetup->mCourseId;
     gRaceSetup->mNextHeader.mCourseNumber++;
     return gRaceSetup->mNextHeader.mCourseNumber <= 4;
 }

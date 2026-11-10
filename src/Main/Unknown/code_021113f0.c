@@ -785,7 +785,7 @@ void InitRecordSceneObject(void *heap, s16 previousScene) {
     gRecordScene->mHeap = heap;
     gRecordScene->mPageIndex = 0;
     gRecordScene->mIndex = 0;
-    func_021250b0(heap);
+    CreateSceneDisplaySettings(heap);
     InitLinkLevelIcons(heap, GetRecordMainOam());
     sceneTextInitParams.mUseTxtSystem = TRUE;
     sceneTextInitParams.mTxtSystemFont = GetFontByIndex(1);

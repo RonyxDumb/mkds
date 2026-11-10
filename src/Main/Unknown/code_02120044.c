@@ -57,8 +57,8 @@ void SetPlayerRecordElo(int index, s16 elo) {
     gWiFiSession->mPlayerRecords[index].mPlayer.mElo = elo;
 }
 
-u8 func_021201e4(int index) {
-    return gWiFiSession->mPlayerRecords[index].mPlayer.mUnk_229;
+u8 GetPlayerRecordLowestGrandPrixValue(int index) {
+    return gWiFiSession->mPlayerRecords[index].mPlayer.mLowestGrandPrixRecordValue;
 }
 
 void AdvanceWiFiSessionOnIrq(void) {

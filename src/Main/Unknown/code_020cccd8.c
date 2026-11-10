@@ -411,9 +411,9 @@ void UpdateRaceHudSubScreenCoverPooHoleCells(void) {
                 if (ComputeRaceHudSubScreenPosition(
                         position, &gRaceHudSubScreenCoverPooHoleCells->mCells[cellCount].mDrawPos, n, 0, 0) != FALSE) {
                     gRaceHudSubScreenCoverPooHoleCells->mCells[cellCount].mDrawPos.mUnk_04 -=
-                        func_02095f30((CoverPooHole *) object) >> 14;
+                        GetCoverPooHoleHitCoverHeight((CoverPooHole *) object) >> 14;
                     gRaceHudSubScreenCoverPooHoleCells->mCells[cellCount].mCell =
-                        GetRaceSNcerEntry(func_02095f38((CoverPooHole *) object) != FALSE ? 0xab : 0xaa);
+                        GetRaceSNcerEntry(IsCoverPooHoleState1Or4((CoverPooHole *) object) != FALSE ? 0xab : 0xaa);
                     gRaceHudSubScreenCoverPooHoleCells->mCells[cellCount].mUnk_0c =
                         IsPositionOutsideBox(position) != 0 ? 2 : 3;
                     cellCount++;

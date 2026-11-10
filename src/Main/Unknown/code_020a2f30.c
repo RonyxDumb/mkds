@@ -250,7 +250,7 @@ void FollowBalloonTarget(Balloon *balloon) {
     VEC_Add(&balloon->mTargetPos, &balloon->mTargetVelocity, &balloon->mTargetPos);
 }
 
-u32 func_020a369c(Balloon *balloon) {
+u32 GetBalloonFlagBits(Balloon *balloon) {
     return balloon->mUnk_00.mFlags & 0x12;
 }
 
@@ -313,7 +313,7 @@ void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
                 }
                 if (balloon->mDrawCount == 1 && balloon->mDrawList == NULL) {
                     FollowBalloonTarget(balloon);
-                    if (func_020a369c(balloon) != 0) {
+                    if (GetBalloonFlagBits(balloon) != 0) {
                         return;
                     }
                     if (GetBalloonDistanceSquared(balloon) >= 0x9c40) {
@@ -340,7 +340,7 @@ void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
                 }
                 if (balloon->mDrawCount == 1 && balloon->mDrawList == NULL) {
                     FollowBalloonTarget(balloon);
-                    if (func_020a369c(balloon) != 0) {
+                    if (GetBalloonFlagBits(balloon) != 0) {
                         return;
                     }
                     if (GetBalloonDistanceSquared(balloon) >= 0x9c40) {
@@ -358,7 +358,7 @@ void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
                 balloon->mScaleFactor = 0x1000;
                 if (balloon->mDrawCount == 1 && balloon->mDrawList == NULL) {
                     FollowBalloonTarget(balloon);
-                    if (func_020a369c(balloon) != 0) {
+                    if (GetBalloonFlagBits(balloon) != 0) {
                         return;
                     }
                     if (GetBalloonDistanceSquared(balloon) >= 0x9c40) {

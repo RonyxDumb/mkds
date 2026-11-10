@@ -381,7 +381,7 @@ typedef struct PlayerRecord {
             u8 mUnk_228_4 : 4;
         };
     };
-    /* 229 */ u8 mUnk_229;
+    /* 229 */ u8 mLowestGrandPrixRecordValue;
     /* 22a */ u8 mUnk_22a[2];
 } PlayerRecord;
 

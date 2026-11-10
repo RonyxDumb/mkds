@@ -408,13 +408,13 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                         switch (GetSelectChoisesIndex()) {
                             case 0:
                                 if (data_021759d0->mMultiSimple != 0) {
-                                    data_0217b488->mWLMenuKind = 3;
-                                    data_0217b488->mMenuEntryKind = 4;
+                                    gMenuShared->mWLMenuKind = 3;
+                                    gMenuShared->mMenuEntryKind = 4;
                                     if (sceneNumbers != NULL) {
                                         sceneNumbers->mNextScene = 6;
                                     }
                                 } else {
-                                    data_0217b488->mMenuEntryKind = 4;
+                                    gMenuShared->mMenuEntryKind = 4;
                                     if (sceneNumbers != NULL) {
                                         sceneNumbers->mNextScene = 1;
                                     }
@@ -441,7 +441,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                                 break;
                             case 1:
                                 SetWiFiSessionOwnContinueChoice(0);
-                                data_0217b488->mUnk_1c = 1;
+                                gMenuShared->mUnk_1c = 1;
                                 if (sceneNumbers != NULL) {
                                     sceneNumbers->mNextScene = 0xc;
                                 }
@@ -460,10 +460,10 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
             if (GetWiFiSessionContinueResult() != 0) {
                 switch (GetWiFiSessionContinueResult()) {
                     case 1:
-                        data_0217b488->mUnk_1c = 2;
+                        gMenuShared->mUnk_1c = 2;
                         break;
                     case 2:
-                        data_0217b488->mUnk_1c = 1;
+                        gMenuShared->mUnk_1c = 1;
                         break;
                 }
                 if (sceneNumbers != NULL) {
@@ -504,7 +504,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
 }
 
 void ReleaseResultsBattle(void) {
-    data_0217b488->mRaceSetupRequested = 1;
+    gMenuShared->mRaceSetupRequested = 1;
     ReleaseSceneText();
 }
 

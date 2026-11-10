@@ -4,8 +4,8 @@
 #include "code_02146d78.h"
 #include "Main/Unknown/code_020e6fd4.h" // MapObject
 
-// Object with the MapObject base at 0x00 (func_020a0318, func_020a066c, func_020a089c).
-typedef struct Unk020a0318 {
+// Object with the MapObject base at 0x00 (UpdateDistanceSound, InitDistanceSoundObjects, InitDistanceSound).
+typedef struct DistanceSound {
     /* 00 */ MapObject mUnk_00;
     /* a0 */ s32 mSoundVolumeFixed12;
     /* a4 */ s32 mDistanceVolumeFixed12;
@@ -20,7 +20,7 @@ typedef struct Unk020a0318 {
     /* c0 */ s32 mDistanceLevelTimer;
     /* c4 */ s32 mDistanceLevel;
     /* c8 */ s32 mSoundTimer;
-} Unk020a0318;
+} DistanceSound;
 
 #include "Main/Unknown/code_020b1dbc.h"
 #include "Main/Unknown/code_0207b960.h"
@@ -34,10 +34,10 @@ typedef struct Unk020a0318 {
 #include "Main/Unknown/code_0207a880.h"
 #include "Main/Unknown/code_020b502c.h" // CourseMapPoint
 
-void *func_020a02f8(void);
-void func_020a0318(void *mapObjectList, Unk020a0318 *mapObject);
-void func_020a066c(MapObjectList *mapObjectList);
-void func_020a089c(Unk020a0318 *mapObject);
+void *CreateDistanceSoundUpdateList(void);
+void UpdateDistanceSound(void *mapObjectList, DistanceSound *mapObject);
+void InitDistanceSoundObjects(MapObjectList *mapObjectList);
+void InitDistanceSound(DistanceSound *mapObject);
 // Steps Standings once per UpdateRace call in battle and mission run: the end timer and end callback, the hand- over of
 // eliminated karts, the hit tracking, and the copy of each kart's position.
 void UpdateStandings(void);
@@ -53,5 +53,5 @@ void EliminateKart(u16 kartIndex);
 void MoveKartTowardLastRank(u16 kartIndex);
 void MoveKartTowardFirstRank(u16 kartIndex);
 u16 GetBattleItemRank(s32 kartIndex);
-void func_020a1ddc(s32 kartIndex);
+void ClearStandingsHitSeenFromKart(s32 kartIndex);
 unsigned int StandingsReturnArgument(unsigned int value);

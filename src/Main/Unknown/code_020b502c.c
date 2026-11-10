@@ -143,7 +143,7 @@ u16 GetSubScreenAngleAndClearScrollTimer(void) {
             angle = 0;
             break;
         case 3:
-            rawAngle = GetFixed12Whole(func_020b57e4()->mUnk_10);
+            rawAngle = GetFixed12Whole(GetCourseMapSubScreenView()->mAngleDegrees);
             angle = (rawAngle << 16) / 360 + 0x8000;
             break;
         default:
@@ -363,7 +363,7 @@ void UpdateRaceHudSubScreenCenter(RaceHudSubScreenBgAffine *out) {
         GetKartPosFromPosSourceCopy(&pos, GetFollowedKartOrEntryIndex());
     }
     if (GetRaceHudSubScreenState() == 3) {
-        pos = func_020b57e4()->mUnk_00;
+        pos = GetCourseMapSubScreenView()->mPos;
     }
     gRaceHudSubScreenProjection->mCenter.mUnk_00 =
         MulFixed12NoRound(0x200000, MulFx64c(pos.x - courseMin.mUnk_00, gRaceHudSubScreenProjection->mCourseInverseX));
@@ -399,7 +399,7 @@ void UpdateRaceHudSubScreenBg3Center(RaceHudSubScreenBgAffine *out) {
         GetKartPosFromPosSourceCopy(&pos, GetFollowedKartOrEntryIndex());
     }
     if (GetRaceHudSubScreenState() == 3) {
-        pos = func_020b57e4()->mUnk_00;
+        pos = GetCourseMapSubScreenView()->mPos;
     }
     out->mCenterX = GetFixed12Whole(
         MulFixed12NoRound(0x200000, MulFx64c(pos.x - bg3Min.mUnk_00, gRaceHudSubScreenProjection->mBg3InverseX)));
@@ -409,8 +409,8 @@ void UpdateRaceHudSubScreenBg3Center(RaceHudSubScreenBgAffine *out) {
     out->mY1 = out->mCenterY - 0x60;
 }
 
-Unk020b57e4 *func_020b57e4(void) {
-    return gCourseMap->mUnk_2c;
+CourseMapSubScreenView *GetCourseMapSubScreenView(void) {
+    return gCourseMap->mSubScreenView;
 }
 
 s32 MulFx64c(s32 value, s64 factor) {
@@ -433,7 +433,7 @@ void UpdateRaceHudSubScreenBg3CenterByFrames(RaceHudSubScreenBgAffine *out) {
         GetKartPosFromPosSourceCopy(&pos, GetFollowedKartOrEntryIndex());
     }
     if (GetRaceHudSubScreenState() == 3) {
-        pos = func_020b57e4()->mUnk_00;
+        pos = GetCourseMapSubScreenView()->mPos;
     }
     spanX = bg3Max.mUnk_00 - bg3Min.mUnk_00;
     spanZ = bg3Max.mUnk_04 - bg3Min.mUnk_04;

@@ -59,7 +59,7 @@ void InitAfterStartup(void) {
     CreateBackupAccess(backHeap);
     InitThreadFunctionQueue(backHeap);
     InitOverlayTable(backHeap);
-    func_020cefa0(backHeap);
+    CreateMenuShared(backHeap);
     InitCompressedArchiveAndMBChild(backHeap);
     InitMessageScreen(backHeap);
     InitAfterStartupNop();
@@ -69,5 +69,5 @@ void InitAfterStartup(void) {
     ResetRaceSetup();
     InitBackupAccess();
     ResetCurrentOverlay();
-    func_020cef1c();
+    ClearMenuShared();
 }

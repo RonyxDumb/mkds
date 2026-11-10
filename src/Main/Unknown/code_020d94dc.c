@@ -50,7 +50,8 @@ void InitWater(MapObject *mapObject, void *unused, void (*createWater)(void)) {
 
 // One step per UpdateRace call while the course has water: advances the height swing (4 states) and the two circles;
 // when mUnk_170 is set it also sets a value on entry 10 of gSndHandleSlots (GetSndHandleSlot) every call (from
-// func_020a02c8 on course 0x1f, else 0x7f000) and requests sound 0x114 when state 1 ends and 0x113 when state 3 ends.
+// GetDistanceSoundInverseVolume on course 0x1f, else 0x7f000) and requests sound 0x114 when state 1 ends and 0x113 when
+// state 3 ends.
 void UpdateWater(Water *water) {
     s32 volume;
     NNSSndSeqPlayer **soundHandleSlot;
@@ -64,7 +65,7 @@ void UpdateWater(Water *water) {
         if (gRaceSetup->mCourseId != COURSE_ID_BEACH) {
             volume = 0x7f000;
         } else {
-            volume = func_020a02c8();
+            volume = GetDistanceSoundInverseVolume();
         }
         if (volume >= 0) {
             SetSndHandleTrackVolume(soundHandleSlot, volume);

@@ -54,14 +54,14 @@ void FillGrandPrixRecord(TimeRecord *record) {
     record->mMillisecond = 0;
     MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, record->mName, 0x14);
     for (courseIndex = 0; courseIndex < 4; courseIndex++) {
-        SumTimes(record, &data_0217b488->mCourseTimes[courseIndex], record);
+        SumTimes(record, &gMenuShared->mCourseTimes[courseIndex], record);
     }
-    record->mCharacterIndex = data_0217b488->mCharacterIndex;
-    record->mKartIndex = data_0217b488->mKartIndex;
+    record->mCharacterIndex = gMenuShared->mCharacterIndex;
+    record->mKartIndex = gMenuShared->mKartIndex;
     record->mUnk_1b = 0;
-    record->mCupRank = gCupRankTable[data_0217b488->mCupRankIndex];
-    record->mTotalPoints = data_0217b488->mTotalPoints;
-    record->mGrade = data_0217b488->mUnk_80;
+    record->mCupRank = gCupRankTable[gMenuShared->mCupRankIndex];
+    record->mTotalPoints = gMenuShared->mTotalPoints;
+    record->mGrade = gMenuShared->mUnk_80;
     record->mFilled = 1;
 }
 
@@ -102,7 +102,7 @@ BOOL TrySetGrandPrixRecord(void) {
     TimeRecord newRecord;
     BOOL stored = FALSE;
     s32 engineClass;
-    Unk0217b488 *p = data_0217b488;
+    MenuShared *p = gMenuShared;
     switch (p->mEngineIndex) {
         case 0:
             engineClass = stored;
@@ -117,7 +117,7 @@ BOOL TrySetGrandPrixRecord(void) {
     GetGrandPrixRecord(p->mCupIndex, engineClass, &storedRecord);
     FillGrandPrixRecord(&newRecord);
     if (ShouldSetGrandPrixRecord(&storedRecord, &newRecord) != FALSE) {
-        SetGrandPrixRecord(data_0217b488->mCupIndex, engineClass, &newRecord);
+        SetGrandPrixRecord(gMenuShared->mCupIndex, engineClass, &newRecord);
         WriteBackupGrandPrixRecords();
         stored = TRUE;
     }

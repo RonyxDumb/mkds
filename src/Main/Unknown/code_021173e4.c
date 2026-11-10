@@ -707,7 +707,7 @@ L1:
         case 2:
         case 3:
         case 4:
-            if (data_0217b488->mMenuEntryKind == 2 || data_0217b488->mMenuEntryKind == 3) {
+            if (gMenuShared->mMenuEntryKind == 2 || gMenuShared->mMenuEntryKind == 3) {
                 RequestSelectCupGridState8();
                 if (gBootInfo->mUnk_00 == 2) {
                     SetSelectReturnSoundId(-1);

@@ -51,7 +51,7 @@ void *TitleGetCurrentHeap(void) {
 }
 
 u32 GetTitleBlendDone(void) {
-    return (data_0217b488->mTitleBlendDone);
+    return (gMenuShared->mTitleBlendDone);
 }
 
 void TitleSetMainBg1Record(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7,
@@ -98,20 +98,20 @@ u32 TitleWriteSubWinEnableBits(u32 bits) {
     return dispcntValue;
 }
 
-void func_020ad85c(u32 value) {
-    data_0217b488->mRaceSetupRequested = value;
+void TitleSetRaceSetupRequested(u32 value) {
+    gMenuShared->mRaceSetupRequested = value;
 }
 
-void func_020ad848(u32 value) {
-    data_0217b488->mMenuEntryKind = value;
+void TitleSetMenuEntryKind(u32 value) {
+    gMenuShared->mMenuEntryKind = value;
 }
 
 void TitleSetUnfilledNotEliminated(u32 value) {
-    data_0217b488->mUnfilledNotEliminated = value;
+    gMenuShared->mUnfilledNotEliminated = value;
 }
 
 void TitleSetLVselIndex6Requested(u32 value) {
-    data_0217b488->mLVselIndex6Requested = value;
+    gMenuShared->mLVselIndex6Requested = value;
 }
 
 #pragma thumb on
@@ -215,8 +215,8 @@ void CreateTitleScene(void) {
     SetConnectionKind(0);
     SetMultiSimple(0);
     ClearShuffledIndices();
-    func_020ad85c(1);
-    func_020ad848(0);
+    TitleSetRaceSetupRequested(1);
+    TitleSetMenuEntryKind(0);
     TitleSetUnfilledNotEliminated(0);
     TitleSetLVselIndex6Requested(0);
     ResetRaceSetup();
@@ -239,5 +239,5 @@ void TitleWriteMainBlendAlpha(u32 plane1, u32 plane2, u32 ev1, u32 ev2) {
 
 // Set when the title blend has run to its end; CreateTitleScene then starts its blend already finished.
 void SetTitleBlendDone(u32 blendDone) {
-    data_0217b488->mTitleBlendDone = blendDone;
+    gMenuShared->mTitleBlendDone = blendDone;
 }

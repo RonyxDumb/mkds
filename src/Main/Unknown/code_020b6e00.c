@@ -686,7 +686,7 @@ void GetEntryCharacterAndPalette(s32 entryIndex, s32 *outCharacterIndex, s32 *ou
             *outPaletteIndex = 10;
             break;
         case 12:
-            shuffledIndex = data_0217b488->mShuffledIndices[entryIndex];
+            shuffledIndex = gMenuShared->mShuffledIndices[entryIndex];
             *outCharacterIndex = shuffledIndex % 4 + 12;
             if (shuffledIndex < 4) {
                 *outPaletteIndex = 5;

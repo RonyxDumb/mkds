@@ -86,8 +86,8 @@ BOOL ApplyParticipantPendingItem(s32 participantIndex) {
 
     itemInfoIndex = gWiFiRaceSync->mEntries[participantIndex].mPendingItemInfoIndex;
     result = FALSE;
-    if (func_020efd84(&gKartItems[(u8) gParticipantKartMap->mKartOfParticipant[participantIndex]], itemInfoIndex) !=
-        FALSE) {
+    if (SetKartItemsHeldItemByInfoIndex(&gKartItems[(u8) gParticipantKartMap->mKartOfParticipant[participantIndex]],
+                                        itemInfoIndex) != FALSE) {
         gWiFiRaceSync->mEntries[participantIndex].mPendingItemInfoIndex = 0x13;
         result = TRUE;
     }

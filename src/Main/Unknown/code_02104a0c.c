@@ -91,7 +91,7 @@ void ResetKartActiveItemAfterKiller(s32 kartIndex) {
     if (kartIndex == gRaceSetup->mEntryIndex) {
         return;
     }
-    func_020efd84(&gKartItems[kartIndex], 0xe);
+    SetKartItemsHeldItemByInfoIndex(&gKartItems[kartIndex], 0xe);
 }
 
 // Battle only: hands item 17 to a kart with an empty hand when its timer is 0 and counts the running timers down.

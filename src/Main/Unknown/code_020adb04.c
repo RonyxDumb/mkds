@@ -92,7 +92,8 @@ s32 MissionRecordGetMissionRunTableColumn(void) {
 
 #pragma thumb on
 
-BOOL func_020adb34(void) {
+// TRUE only when all 53 other cells hold 5 to 7 and the current Mission Run cell does not.
+BOOL AreOtherMissionRecordsFilled5To7(void) {
     s32 row;
     s32 column;
     s32 isFilled;

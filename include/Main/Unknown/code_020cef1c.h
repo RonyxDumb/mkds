@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_020cef1c(void);
+void ClearMenuShared(void);

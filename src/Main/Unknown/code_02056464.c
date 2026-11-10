@@ -100,7 +100,7 @@ void FillPlayerRecord(PlayerRecord *a) {
     a->mRegion = data_021759d0->mRegion;
     a->mUnk_228_4 = data_021759d0->mLanguageIndex;
     a->mElo = data_0217aa08->mFirstBlock->mElo;
-    a->mUnk_229 = GetLowestGrandPrixRecordValue();
+    a->mLowestGrandPrixRecordValue = GetLowestGrandPrixRecordValue();
     if (gBootInfo->mUnk_00 == 2) {
         MI_CpuFill8(&a->mFriendData, 0, 0xc);
     } else {

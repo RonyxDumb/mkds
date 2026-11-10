@@ -97,7 +97,7 @@ void func_ov001_02185a28(void) {
 
 #pragma thumb off
 void SetGhostSceneInitialCallbacksIndex(s32 callbacksIndex) {
-    data_0217b488->mGhostSceneInitialCallbacksIndex = callbacksIndex;
+    gMenuShared->mGhostSceneInitialCallbacksIndex = callbacksIndex;
 }
 #pragma thumb on
 
@@ -174,11 +174,11 @@ void func_ov001_021858c8(void) {
 
 #pragma thumb off
 void func_ov001_021858b4(s32 value) {
-    data_0217b488->mMenuEntryKind = value;
+    gMenuShared->mMenuEntryKind = value;
 }
 
 void func_ov001_021858a0(s32 value) {
-    data_0217b488->mRaceSetupRequested = value;
+    gMenuShared->mRaceSetupRequested = value;
 }
 #pragma thumb on
 

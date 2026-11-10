@@ -4,18 +4,18 @@
 
 #pragma thumb on
 
-void func_020cef1c(void) {
-    MenuMI_CpuClearFast(data_0217b488, 0x130);
-    data_0217b488->mTitleBlendDone = 0;
-    data_0217b488->mRaceSetupRequested = 0;
-    data_0217b488->mMenuEntryKind = 0;
-    data_0217b488->mGhostSceneInitialCallbacksIndex = 0;
-    data_0217b488->mUnfilledNotEliminated = 0;
-    data_0217b488->mLVselIndex6Requested = 0;
-    data_0217b488->mUnk_1c = 0;
-    data_0217b488->mUnk_54 = 0;
-    data_0217b488->mUnk_58 = FALSE;
-    data_0217b488->mUnk_70 = 0;
+void ClearMenuShared(void) {
+    MenuMI_CpuClearFast(gMenuShared, 0x130);
+    gMenuShared->mTitleBlendDone = 0;
+    gMenuShared->mRaceSetupRequested = 0;
+    gMenuShared->mMenuEntryKind = 0;
+    gMenuShared->mGhostSceneInitialCallbacksIndex = 0;
+    gMenuShared->mUnfilledNotEliminated = 0;
+    gMenuShared->mLVselIndex6Requested = 0;
+    gMenuShared->mUnk_1c = 0;
+    gMenuShared->mUnk_54 = 0;
+    gMenuShared->mUnk_58 = FALSE;
+    gMenuShared->mUnk_70 = 0;
 }
 
 #pragma thumb off

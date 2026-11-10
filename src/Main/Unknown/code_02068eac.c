@@ -214,7 +214,7 @@ void StartKartKinokoBoost(Kart *kart) {
     if (gRaceSetup->mMode != MODE_BATTLE) {
         return;
     }
-    func_020a1ddc(kart->mIndex);
+    ClearStandingsHitSeenFromKart(kart->mIndex);
 }
 
 void StartKartStar(Kart *kart) {

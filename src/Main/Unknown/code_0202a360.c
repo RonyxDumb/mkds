@@ -32,7 +32,7 @@ u32 GetResultSceneSeqKind(void) {
     raceSetup = gRaceSetup;
     kartCount = raceSetup->mKartCount;
     if (raceSetup->mMode == MODE_GRAND_PRIX) {
-        if (data_0217b488->mCupRankIndex < 3) {
+        if (gMenuShared->mCupRankIndex < 3) {
             return 0;
         }
         return 1;

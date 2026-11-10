@@ -6,7 +6,7 @@ u32 RaceHudSubScreenGetCurrentMode(void) {
     return (gRaceSetup->mMode);
 }
 
-u32 func_020b4dc4(int kartIndex) {
+u32 GetKartCourseHitAttributeBitOrGhost(int kartIndex) {
     int currentMode;
     u32 result;
     currentMode = RaceHudSubScreenGetCurrentMode();

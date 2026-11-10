@@ -1802,7 +1802,7 @@ void DrawKartModelMenuUnmirrored(void) {
 void CopyHeyhoPaletteIndices(void) {
     u16 i;
     for (i = 0; i < 8; i++) {
-        gKartModels->mHeyhoPaletteIndices[i] = data_0217b488->mShuffledIndices[i];
+        gKartModels->mHeyhoPaletteIndices[i] = gMenuShared->mShuffledIndices[i];
     }
 }
 

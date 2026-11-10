@@ -5,11 +5,11 @@
 
 #pragma thumb on
 
-void func_020cefa0(void *heap) {
+void CreateMenuShared(void *heap) {
     u32 allocation;
     allocation = ((u32) HeapAlloc(heap, (0x00000130u)));
-    *(u32 *) &data_0217b488 = allocation;
-    func_020cef1c();
+    *(u32 *) &gMenuShared = allocation;
+    ClearMenuShared();
 }
 
 #pragma thumb off

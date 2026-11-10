@@ -758,8 +758,8 @@ s32 AdvanceMultiSelectMemberKeyStart(SceneNumbers *sceneNumbers) {
             if (gMultiSelectMember->mState2Frames >= 5) {
                 SetMultiSelectMemberSubCellVisible(1);
                 if (gMultiSelectMember->mSetupState == 11) {
-                    data_0217b488->mRaceSetupRequested = 1;
-                    data_0217b488->mMenuEntryKind = 4;
+                    gMenuShared->mRaceSetupRequested = 1;
+                    gMenuShared->mMenuEntryKind = 4;
                     if (sceneNumbers != NULL) {
                         sceneNumbers->mNextScene = 1;
                     }
@@ -904,8 +904,8 @@ s32 AdvanceMultiSelectMemberNoKeyStart(SceneNumbers *sceneNumbers) {
                 }
             }
             if (gMultiSelectMember->mSetupState == 11) {
-                data_0217b488->mRaceSetupRequested = 1;
-                data_0217b488->mMenuEntryKind = 4;
+                gMenuShared->mRaceSetupRequested = 1;
+                gMenuShared->mMenuEntryKind = 4;
                 if (sceneNumbers != NULL) {
                     sceneNumbers->mNextScene = 1;
                 }

@@ -30,7 +30,7 @@ extern char gChandelierNsbcaName[];
 extern char gTownMonteNsbmdName[];
 extern char gTownMonteNsbtpName[];
 extern void *gTownMonte;
-extern MapObjectKindData *data_usa_0217b18c[19];
+extern MapObjectKindData *gCourseMapRowKindData[19];
 
 void CreateChandelier(void *a);
 void *CreateTownMonteUpdateList(void);
@@ -40,10 +40,11 @@ void InitTownMonteObjects(Unk0209f800 *a);
 void DrawTownMonte(void *a, TownMonte *townMonte);
 // The parameter is the draw group (typed MapObjectModel here); its +0x14 is the callback that runs after the group's
 // draw.
-void CreateTownMonte(MapObjectList *mapObjectList); /* also stores the hook func_0209fc2c in the list */
-void func_0209fc2c(MapObjectList *mapObjectList);
-void func_0209fc38(void);
-void func_0209fc78(MapObject *mapObject);
+void CreateTownMonte(
+    MapObjectList *mapObjectList); /* also stores the hook ResetViewRotatedMatrixAxis1Wrapper in the list */
+void ResetViewRotatedMatrixAxis1Wrapper(MapObjectList *mapObjectList);
+void CreateCourseMapRowKindData(void);
+void InitCourseMapRowKindData(MapObject *mapObject);
 void *CreateAirshipUpdateList(void);
 void *CreateAirshipDrawList(void);
 void UpdateAirship(void *a, Airship *airship); /* skipped for objects with mFlags & 4 (parked pool objects) */

@@ -296,7 +296,7 @@ void AdvanceWiFiAikotobaState7(void) {
             if (GetWiFiNextScene() == -1) {
                 SetWiFiNextScene(8);
             }
-            data_0217b488->mUnk_50 = 1;
+            gMenuShared->mUnk_50 = 1;
             return;
         }
         gWiFiAikotoba->mNextState = 1;

@@ -266,7 +266,7 @@ void AdvanceSelectBattleStageState2(void) {
             goto next;
         }
     }
-    if (data_0217b488->mMenuEntryKind == 2) {
+    if (gMenuShared->mMenuEntryKind == 2) {
         gSelectBattleStage->mNextState = 4;
         RequestSelectReturnState3WithSound(0);
         gSelectBattleStage->mUnk_2c = FALSE;

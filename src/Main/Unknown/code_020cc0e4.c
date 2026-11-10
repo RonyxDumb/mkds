@@ -25,17 +25,17 @@ u32 MenuWriteSubWinEnableBits(u32 bits) {
 }
 
 u32 GetMenuEntryKind(void) {
-    return (data_0217b488->mMenuEntryKind);
+    return (gMenuShared->mMenuEntryKind);
 }
 
 void SetRaceSetupRequested(u32 requested) {
-    data_0217b488->mRaceSetupRequested = requested;
+    gMenuShared->mRaceSetupRequested = requested;
 }
 
 u32 GetUnfilledNotEliminated(void) {
-    return (data_0217b488->mUnfilledNotEliminated);
+    return (gMenuShared->mUnfilledNotEliminated);
 }
 
 u32 GetLVselIndex6Requested(void) {
-    return (data_0217b488->mLVselIndex6Requested);
+    return (gMenuShared->mLVselIndex6Requested);
 }

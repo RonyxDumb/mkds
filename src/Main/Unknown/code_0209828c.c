@@ -37,31 +37,31 @@
 #include "code_02146cbc.h"
 #include "code_02148538.h"
 
-void *func_02099004(void) {
-    return CreateMapObjectUpdateList(NULL, func_0209905c, NULL);
+void *CreatePakkunSpitUpdateList(void) {
+    return CreateMapObjectUpdateList(NULL, UpdatePakkunSpit, NULL);
 }
 
-void func_02098f18(GroupFollower *groupFollower, s32 b) {
-    Unk0209905c *p;
-    p = UnparkFirstParkedMapObject(FindMapObjectKindUpdateList(0x1ab));
-    if (p == NULL) {
+void StartPakkunSpit(GroupFollower *groupFollower, s32 heightOffset) {
+    PakkunSpit *pakkunSpit;
+    pakkunSpit = UnparkFirstParkedMapObject(FindMapObjectKindUpdateList(0x1ab));
+    if (pakkunSpit == NULL) {
         return;
     }
-    p->mUnk_00.mFlags = p->mUnk_00.mFlags & ~1;
-    p->mUnk_00.mFlags = p->mUnk_00.mFlags & ~8;
-    p->mUnk_00.mFlags = p->mUnk_00.mFlags & ~2;
-    p->mUnk_00.mFlags = p->mUnk_00.mFlags & ~8;
-    p->mUnk_00.mAlpha = 0x1f;
-    p->mFollower.mGroupIndex = groupFollower->mGroupIndex;
-    p->mFollower.mPath = groupFollower->mPath;
-    SetupGroupFollowerAtEntry(&p->mFollower, 0, 1);
-    p->mFollower.mSpeed = 0x7800;
-    p->mFollower.mProgressStep =
-        MUL_FIXED12_NO_ROUND(p->mFollower.mPath->mSegments[p->mFollower.mSegmentIndex].mInverseProgressLength, 0x7800);
-    p->mHeightOffset = b;
-    p->mUnk_c8 = -0x5000;
-    p->mState = 0;
-    p->mEmitter = StartEffect(0x33, &p->mUnk_00.mPos);
+    pakkunSpit->mUnk_00.mFlags = pakkunSpit->mUnk_00.mFlags & ~1;
+    pakkunSpit->mUnk_00.mFlags = pakkunSpit->mUnk_00.mFlags & ~8;
+    pakkunSpit->mUnk_00.mFlags = pakkunSpit->mUnk_00.mFlags & ~2;
+    pakkunSpit->mUnk_00.mFlags = pakkunSpit->mUnk_00.mFlags & ~8;
+    pakkunSpit->mUnk_00.mAlpha = 0x1f;
+    pakkunSpit->mFollower.mGroupIndex = groupFollower->mGroupIndex;
+    pakkunSpit->mFollower.mPath = groupFollower->mPath;
+    SetupGroupFollowerAtEntry(&pakkunSpit->mFollower, 0, 1);
+    pakkunSpit->mFollower.mSpeed = 0x7800;
+    pakkunSpit->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
+        pakkunSpit->mFollower.mPath->mSegments[pakkunSpit->mFollower.mSegmentIndex].mInverseProgressLength, 0x7800);
+    pakkunSpit->mHeightOffset = heightOffset;
+    pakkunSpit->mHeightSpeed = -0x5000;
+    pakkunSpit->mState = 0;
+    pakkunSpit->mEmitter = StartEffect(0x33, &pakkunSpit->mUnk_00.mPos);
 }
 
 void InitPakkun(Pakkun *pakkun) {
@@ -338,7 +338,7 @@ void UpdatePakkun(void *a, Pakkun *pakkun) {
                 pakkun->mUnk_0a4 = pakkun->mUnk_0ac;
             }
             if ((pakkun->mUnk_0a4 >> 12) == 10) {
-                func_02098f18(&pakkun->mFollowers[pakkun->mFollowerIndex], pakkun->mUnk_1fc + 0x46000);
+                StartPakkunSpit(&pakkun->mFollowers[pakkun->mFollowerIndex], pakkun->mUnk_1fc + 0x46000);
                 if ((pakkun->mUnk_000.mDistanceSquaredAndFlags & 4) == 0) {
                     if (pakkun->mUnk_000.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
                         t = 2;

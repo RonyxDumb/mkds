@@ -121,7 +121,7 @@ void SetEntryTargetOuterSlot(s32 entryIndex) {
 #pragma thumb off
 
 static inline s32 func_0202bb80_inline(s32 index) {
-    return data_0217b488->mShuffledIndices[index];
+    return gMenuShared->mShuffledIndices[index];
 }
 
 #pragma thumb on

@@ -17,7 +17,7 @@ typedef struct Flipper {
     /* be8 */ Vec3 mUnk_be8[30];
     /* d50 */ Vec3 mUnk_d50[30];
     /* eb8 */ s32 mState1Timer;
-    /* ebc */ s32 mUnk_ebc;
+    /* ebc */ s32 mState4Timer;
     /* ec0 */ s32 mUnk_ec0;
     /* ec4 */ u16 mNsbtpFrameIndex;
     /* ec6 */ u16 mNsbtaFrameIndex;
@@ -36,6 +36,6 @@ void UpdateFlipper(void *a, Flipper *flipper); /* skipped for objects with mFlag
 void InitFlipperObjects(MapObjectList *mapObjectList);
 void DrawFlipper(void *a, Flipper *flipper);
 void CreateFlipper(void *a);
-u32 func_02097ed0(Flipper *flipper, Vec3 *sphereCenter, s32 b, Vec3 *pushOut);
+BOOL ComputeSphereHitOnFlipper(Flipper *flipper, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *pushOut);
 u32 CollideKartWithFlipper(Flipper *flipper, Kart *kart, void *b, u8 *c);
 void InitFlipper(Flipper *flipper); /* sets flag 0x200 and the ground matrix (RefreshMapObjectMatrixFromHitNormal) */

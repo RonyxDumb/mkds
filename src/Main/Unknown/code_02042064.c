@@ -505,7 +505,7 @@ void ShuffleCourseMapRespawnSlots(RandomState64 *randomState64) {
 
 s32 func_020427ac(void *section, ...) {
     gCourseMap->mUnk_30 = ReadCourseMapSectionCount(&section);
-    gCourseMap->mUnk_2c = section;
+    gCourseMap->mSubScreenView = section;
     return 1;
 }
 

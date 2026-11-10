@@ -297,7 +297,7 @@ void SetPickedValue(u32 pickedValue) {
 // Turns the value picked on the choice screen into the next scene and the settings that go with it.
 void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
     s32 nextScene;
-    data_0217b488->mMenuEntryKind = 0;
+    gMenuShared->mMenuEntryKind = 0;
     nextScene = -1;
     switch (pickedValue) {
         case 10:
@@ -324,12 +324,12 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                 if (f != 0) {
                     if (data_021759d0->mMultiSimple != 0) {
                         nextScene = 6;
-                        data_0217b488->mWLMenuKind = 3;
+                        gMenuShared->mWLMenuKind = 3;
                     } else {
                         nextScene = 1;
                     }
-                    data_0217b488->mMenuEntryKind = 4;
-                    data_0217b488->mRaceSetupRequested = 1;
+                    gMenuShared->mMenuEntryKind = 4;
+                    gMenuShared->mRaceSetupRequested = 1;
                 } else {
                     nextScene = 0;
                 }
@@ -338,7 +338,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                 }
             } else {
                 nextScene = 0xc;
-                data_0217b488->mUnk_1c = 0;
+                gMenuShared->mUnk_1c = 0;
             }
             break;
         case 1:
@@ -362,27 +362,27 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                             nextScene = 2;
                         } else {
                             nextScene = 6;
-                            data_0217b488->mWLMenuKind = 1;
+                            gMenuShared->mWLMenuKind = 1;
                         }
                     } else {
                         if (gRaceSetup->mCourseListMode == 0) {
-                            data_0217b488->mMenuEntryKind = 2;
+                            gMenuShared->mMenuEntryKind = 2;
                         }
                         if (data_021759d0->mMultiSimple == 0) {
                             nextScene = 1;
                         } else {
                             nextScene = 6;
-                            data_0217b488->mWLMenuKind = 3;
+                            gMenuShared->mWLMenuKind = 3;
                         }
                     }
                     break;
                 case 5:
                     if (CopyCourseIdAndAdvanceCourseNumber() != FALSE) {
                         nextScene = 0xc;
-                        data_0217b488->mUnk_1c = 3;
+                        gMenuShared->mUnk_1c = 3;
                     } else {
                         nextScene = 0xa;
-                        data_0217b488->mUnk_1c = 2;
+                        gMenuShared->mUnk_1c = 2;
                     }
                     break;
                 case MODE_BATTLE:
@@ -391,17 +391,17 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                             nextScene = 2;
                         } else {
                             nextScene = 6;
-                            data_0217b488->mWLMenuKind = 1;
+                            gMenuShared->mWLMenuKind = 1;
                         }
                     } else {
                         if (gRaceSetup->mCourseListMode == 0) {
-                            data_0217b488->mMenuEntryKind = 2;
+                            gMenuShared->mMenuEntryKind = 2;
                         }
                         if (data_021759d0->mMultiSimple == 0) {
                             nextScene = 1;
                         } else {
                             nextScene = 6;
-                            data_0217b488->mWLMenuKind = 3;
+                            gMenuShared->mWLMenuKind = 3;
                         }
                     }
                     break;
@@ -423,7 +423,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                 case MODE_VS:
                     if (data_021759d0->mMultiSimple != 0) {
                         nextScene = 6;
-                        data_0217b488->mWLMenuKind = 2;
+                        gMenuShared->mWLMenuKind = 2;
                     } else {
                         nextScene = 0xa;
                     }
@@ -432,14 +432,14 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
             break;
         case 5:
             nextScene = 1;
-            data_0217b488->mMenuEntryKind = nextScene;
+            gMenuShared->mMenuEntryKind = nextScene;
             break;
         case 4:
-            data_0217b488->mMenuEntryKind = 2;
+            gMenuShared->mMenuEntryKind = 2;
             nextScene = 1;
             break;
         case 6:
-            data_0217b488->mMenuEntryKind = 3;
+            gMenuShared->mMenuEntryKind = 3;
             nextScene = 1;
             break;
     }

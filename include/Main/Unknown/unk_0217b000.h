@@ -287,7 +287,7 @@ typedef struct KartStanding {
     /* 18 */ s32 mUnk_18;
     /* 1c */ s32 mUnk_1c;
     /* 20 */ BOOL mUnk_20;
-    /* 24 */ s32 mUnk_24[8];
+    /* 24 */ s32 mHitSeenFromKart[8];
     /* 44 */ u16 mHitByKartIndex;
     // Id of the side the kart plays for: the entry's team index 0 gives 1, 1 gives 3, any other value gives the kart's
     // own index; an unused slot gets the kart count. The winner test compares it between the karts still in play.

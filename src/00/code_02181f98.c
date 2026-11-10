@@ -88,7 +88,7 @@ void InitWiFiVSSetting(void *heap) {
             for (i = 0; i < 3; i++) {
                 k = 0;
                 if (i == 1) {
-                    gWiFiVSSetting->mSettingIndex = data_ov000_021b05f0[data_0217b488->mUnk_54];
+                    gWiFiVSSetting->mSettingIndex = data_ov000_021b05f0[gMenuShared->mUnk_54];
                     if (gWiFiVSSetting->mSettingIndex == 0 && !func_ov000_021832f0()) {
                         gWiFiVSSetting->mSettingIndex = 2;
                     }
@@ -296,7 +296,7 @@ next:
         }
         gWiFiVSSetting->mPendingWiFiState = 3;
         gWiFiVSSetting->mRow = 2;
-        data_0217b488->mUnk_54 = data_ov000_021b05ec[gWiFiVSSetting->mSettingIndex];
+        gMenuShared->mUnk_54 = data_ov000_021b05ec[gWiFiVSSetting->mSettingIndex];
         if ((u16) (gInputSlots[i].mBits & PAD_KEY_R) != 0) {
             func_ov000_02180638(1);
         }
@@ -309,10 +309,10 @@ next:
         }
         gWiFiVSSetting->mPendingWiFiState = 14;
         gWiFiVSSetting->mRow = 0;
-        data_0217b488->mUnk_50 = 0;
+        gMenuShared->mUnk_50 = 0;
         RequestTxtSystemClose();
         StartSoundOncePerFrame(5);
-        data_0217b488->mUnk_54 = data_ov000_021b05ec[gWiFiVSSetting->mSettingIndex];
+        gMenuShared->mUnk_54 = data_ov000_021b05ec[gWiFiVSSetting->mSettingIndex];
         WriteChangedWiFiBuddies();
     } else if (v4 == 1) {
         gWiFiVSSetting->mRow = 1;

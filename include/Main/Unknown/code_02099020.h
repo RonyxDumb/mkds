@@ -13,7 +13,7 @@ typedef struct Unk0209905c_d0_08 {
     /* 26 */ u16 mUnk_26;
 } Unk0209905c_d0_08;
 
-// Object behind the word at 0xd0 of Unk0209905c: a list at 0x08 and a flags word at 0x24.
+// Object behind the word at 0xd0 of PakkunSpit: a list at 0x08 and a flags word at 0x24.
 typedef struct Unk0209905c_d0 {
     /* 00 */ u8 mUnk_00[8];
     /* 08 */ Unk0209905c_d0_08 *mUnk_08;
@@ -22,21 +22,21 @@ typedef struct Unk0209905c_d0 {
 } Unk0209905c_d0;
 
 // Object up to 0xd4 bytes: the shared part, an GroupFollower at 0xa0, then three words and a pointer.
-typedef struct Unk0209905c {
+typedef struct PakkunSpit {
     /* 00 */ MapObject mUnk_00;
     /* a0 */ GroupFollower mFollower;
     /* c4 */ s32 mHeightOffset;
-    /* c8 */ s32 mUnk_c8;
+    /* c8 */ s32 mHeightSpeed;
     /* cc */ s32 mState;
     /* d0 */ Unk0209905c_d0 *mEmitter;
-} Unk0209905c;
+} PakkunSpit;
 
 #include "Main/Unknown/code_0206bcb0.h" // Kart
 
 extern u16 data_usa_02156590;
 extern u32 data_usa_02156594;
 
-void func_02099020(void);
-void func_0209905c(void *a, Unk0209905c *p);
-u32 func_02099208(Unk0209905c *a, Kart *kart, u8 *c, u8 *d);
-void func_02099278(MapObject *mapObject);
+void CreatePakkunSpitKindData(void);
+void UpdatePakkunSpit(void *mapObjectList, PakkunSpit *pakkunSpit);
+u32 CollideKartWithPakkunSpit(PakkunSpit *pakkunSpit, Kart *kart, u8 *c, u8 *d);
+void InitPakkunSpit(MapObject *mapObject);

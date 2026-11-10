@@ -2,5 +2,5 @@
 #include "00/code_02181f98.h"
 
 void SetWLMenuKind(u32 value) {
-    data_0217b488->mWLMenuKind = value;
+    gMenuShared->mWLMenuKind = value;
 }

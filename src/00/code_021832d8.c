@@ -250,10 +250,10 @@ void AdvanceWiFiVSMatchingState0(void) {
             gWiFiVSMatching->mNextState = 1;
             gWiFiVSMatching->mUnk_08 = 0;
             if (func_ov000_02180644() != 0) {
-                RequestWiFiSessionMatching(data_0217b488->mUnk_54, 0, 0);
+                RequestWiFiSessionMatching(gMenuShared->mUnk_54, 0, 0);
                 gWiFiVSMatching->mUnk_3c = FALSE;
             } else {
-                RequestWiFiSessionMatching(data_0217b488->mUnk_54, 1, 0);
+                RequestWiFiSessionMatching(gMenuShared->mUnk_54, 1, 0);
                 gWiFiVSMatching->mUnk_3c = TRUE;
             }
             StartWiFiSessionMatchingSeq();

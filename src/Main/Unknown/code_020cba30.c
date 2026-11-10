@@ -4,11 +4,11 @@
 #include "code_0214a390.h"
 
 void SetMenuEntryKind(u32 entryKind) {
-    data_0217b488->mMenuEntryKind = entryKind;
+    gMenuShared->mMenuEntryKind = entryKind;
 }
 
 void SetUnfilledNotEliminated(u32 value) {
-    data_0217b488->mUnfilledNotEliminated = value;
+    gMenuShared->mUnfilledNotEliminated = value;
 }
 
 void WriteMainBlendAlpha(u32 firstPlane, u32 secondPlane, u32 firstCoefficient, u32 secondCoefficient) {

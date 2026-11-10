@@ -3,7 +3,7 @@
 #include "00/code_02181f98.h"
 
 void ChoisesSSetLVselIndex6Requested(u32 value) {
-    data_0217b488->mLVselIndex6Requested = value;
+    gMenuShared->mLVselIndex6Requested = value;
 }
 
 u32 GetRaceDone(void) {

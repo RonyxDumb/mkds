@@ -58,5 +58,5 @@ void CreatePakkunZHead(void *a);
 void DrawPakkunMouth(void *a, Pakkun *pakkun);
 void CreatePakkunMouth(void *a);
 void InitPakkun(Pakkun *pakkun);
-void func_02098f18(GroupFollower *groupFollower, s32 b);
-void *func_02099004(void);
+void StartPakkunSpit(GroupFollower *groupFollower, s32 heightOffset);
+void *CreatePakkunSpitUpdateList(void);

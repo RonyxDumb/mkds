@@ -50,9 +50,9 @@ void SetNextCourseListMode(u32 courseListMode) {
 }
 
 void SetResultArchiveDl(u32 resultArchiveDl) {
-    data_0217b488->mResultArchiveDl = resultArchiveDl;
+    gMenuShared->mResultArchiveDl = resultArchiveDl;
 }
 
 u32 GetRaceSetupRequested(void) {
-    return (data_0217b488->mRaceSetupRequested);
+    return (gMenuShared->mRaceSetupRequested);
 }

@@ -41,7 +41,7 @@ void func_ov000_0218583c(void) {
         reg_GX_DISPCNT = reg_GX_DISPCNT & 0xffff1fff;
         reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT & 0xffff1fff;
         GX_SetGraphicsMode(1, 0, 1);
-        if (data_0217b488->mUnk_6c != FALSE) {
+        if (gMenuShared->mUnk_6c != FALSE) {
             p = data_0217aa08->mFirstBlock;
             a = p->mTotals[5];
             b = gWiFiSession->mKartCountCopy - 1;
@@ -67,7 +67,7 @@ void func_ov000_02185818(void) {
     v1 = AreBrightnessFadesClear();
     if (v1 != 0) {
         RequestWiFiState(2);
-        data_0217b488->mUnk_1c = 1;
+        gMenuShared->mUnk_1c = 1;
     }
 }
 

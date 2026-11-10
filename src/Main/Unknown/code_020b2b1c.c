@@ -6,7 +6,7 @@
 #include "00/code_02181f98.h"
 
 u32 ChoisesSGetUnfilledNotEliminated(void) {
-    return (data_0217b488->mUnfilledNotEliminated);
+    return (gMenuShared->mUnfilledNotEliminated);
 }
 
 u32 GetChoisesSInputSlot(void) {

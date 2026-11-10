@@ -79,12 +79,12 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     gResultsGp->mOamLists[1] = secondOamList;
     gResultsGp->mCommonMessages = FindFileInLoadedArchives(data_usa_02162138);
     gResultsGp->mSecretMessages = FindSceneFile(gSecretBmgName);
-    gResultsGp->mCupIndex = data_0217b488->mCupIndex;
-    gResultsGp->mCupRankIndex = data_0217b488->mCupRankIndex;
+    gResultsGp->mCupIndex = gMenuShared->mCupIndex;
+    gResultsGp->mCupRankIndex = gMenuShared->mCupRankIndex;
     if (gResultsGp->mCupRankIndex < 0) {
         gResultsGp->mCupRankIndex = 0;
     }
-    gResultsGp->mUnk_44 = data_0217b488->mUnk_80;
+    gResultsGp->mUnk_44 = gMenuShared->mUnk_80;
     Init3dEngine();
     displaySettings = CreateDisplaySettings(heap, data_021547f0);
     SetBg1Record(&displaySettings->mMainBgRecords, 2, 0, 0, 0, 0x10, 6, 0);
@@ -145,7 +145,7 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     mainFileSet->mCellTable[2].mVisible = mainFileSet->mCellTable[3].mVisible;
     mainFileSet->mCellTable[1].mVisible = (mainFileSet->mCellTable[2].mVisible == 0) ? 1 : 0;
     mainFileSet->mCellTable[0].mVisible = mainFileSet->mCellTable[1].mVisible;
-    characterIndex = data_0217b488->mCharacterIndex;
+    characterIndex = gMenuShared->mCharacterIndex;
     mainFileSet = &gResultsGp->mCellFileSets[0];
     SetPlayerCharacterCellFileSet(1, &cellFileSet);
     QueueCellCharsAndFirstPalette(characterIndex, cellFileSet.mCells, cellFileSet.mChars, cellFileSet.mPalette,
@@ -163,13 +163,13 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
         subObjSizeLeft -= SetupLabelCanvas(1, heap, subFileSet, tableEntry, subObjSizeLeft);
         tableEntry++;
     }
-    message = GetBmgEntry(gResultsGp->mCommonMessages, gEngineMessageIndexTable[data_0217b488->mEngineIndex]);
+    message = GetBmgEntry(gResultsGp->mCommonMessages, gEngineMessageIndexTable[gMenuShared->mEngineIndex]);
     for (j = 0; j < 2; j++) {
         PrintLabelLayoutTextNoFixedAdvance(1, data_usa_02153918[labelTableIndex].mUnk_00, subFileSet->mLabelLayout,
                                            message, subFileSet->mCellLayout, subFileSet->mCellTable);
         labelTableIndex++;
     }
-    if (data_0217b488->mMirrorMode != 0) {
+    if (gMenuShared->mMirrorMode != 0) {
         message = GetBmgEntry(gResultsGp->mCommonMessages, 0x71);
         for (j = 0; j < 2; j++) {
             PrintLabelLayoutTextNoFixedAdvance(1, data_usa_02153918[labelTableIndex].mUnk_00, subFileSet->mLabelLayout,

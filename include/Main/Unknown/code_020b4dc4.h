@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-u32 func_020b4dc4(int kartIndex);
+u32 GetKartCourseHitAttributeBitOrGhost(int kartIndex);
 unsigned int RaceHudSubScreenGetCurrentMode(void);

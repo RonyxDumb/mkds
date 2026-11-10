@@ -38,5 +38,5 @@ void SetConnectionKind(u32 value) {
 }
 
 void TitleSetWLMenuKind(u32 value) {
-    data_0217b488->mWLMenuKind = value;
+    gMenuShared->mWLMenuKind = value;
 }

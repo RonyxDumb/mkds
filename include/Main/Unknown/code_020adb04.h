@@ -7,7 +7,7 @@
 typedef struct Unk02022aa8 Unk02022aa8;
 
 void InitTitleStateHandlers(void);
-BOOL func_020adb34(void);
+BOOL AreOtherMissionRecordsFilled5To7(void);
 s32 MissionRecordGetMissionRunTableColumn(void);
 s32 MissionRecordGetMissionRunTableRow(void);
 BOOL IsMissionRunRecordFilled(void);

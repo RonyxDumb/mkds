@@ -45,9 +45,9 @@ void InitChoisesS(void) {
     gChoisesS->mPickStartedOnSelected = FALSE;
     gChoisesS->mAutoPickFrames = 0;
     if (ChoisesSGetCurrentMode() == MODE_MISSION_RUN) {
-        gChoisesS->mUnk_020 = func_020adb34();
+        gChoisesS->mOtherMissionRecordsFilled5To7 = AreOtherMissionRecordsFilled5To7();
     } else {
-        gChoisesS->mUnk_020 = FALSE;
+        gChoisesS->mOtherMissionRecordsFilled5To7 = FALSE;
     }
     gChoisesS->mUnk_02c = 0;
     gChoisesS->mUnk_030 = 0;

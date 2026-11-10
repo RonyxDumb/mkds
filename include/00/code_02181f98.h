@@ -94,15 +94,15 @@ typedef struct WiFiVSMatching {
     /* 1704 */ u8 pad_1704[8];
 } WiFiVSMatching;
 
-// 0xc-byte element of the array at member 0x20 of Unk0217b488.
+// 0xc-byte element of the array at member 0x20 of MenuShared.
 typedef struct EntryCharacterKartKind {
     /* 00 */ s32 mCharacterIndex;
     /* 04 */ s32 mKartIndex;
     /* 08 */ s32 mPlayerKind;
 } EntryCharacterKartKind;
 
-// Object behind data_0217b488, 0x130 bytes (func_020cefa0 allocates it).
-typedef struct Unk0217b488 {
+// Object behind gMenuShared, 0x130 bytes (CreateMenuShared allocates it).
+typedef struct MenuShared {
     /* 000 */ s32 mTitleBlendDone;
     /* 004 */ s32 mRaceSetupRequested;
     /* 008 */ s32 mMenuEntryKind;
@@ -137,7 +137,7 @@ typedef struct Unk0217b488 {
     /* 0fc */ u8 mUnk_fc[0x10];
     /* 10c */ volatile s32 mShuffledIndices[8];
     /* 12c */ s32 mIndicesShuffled;
-} Unk0217b488;
+} MenuShared;
 
 // 0x10-byte object at member 0x1f20 of WiFiSession.
 typedef struct WiFiSessionLogin {
@@ -314,7 +314,7 @@ void AdvanceWiFiVSMatching(void);
 #include "Main/Unknown/code_0212426c.h"
 #include "code_02016468.h"
 
-extern Unk0217b488 *data_0217b488;
+extern MenuShared *gMenuShared;
 extern u8 data_ov000_021b05e8[3];
 extern u8 data_ov000_021b05ec[];
 extern u8 data_ov000_021b05f0[];

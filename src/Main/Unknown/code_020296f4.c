@@ -51,9 +51,9 @@ void CopyRaceSetupCopyToEntries(void) {
     for (packedIndex = 0; packedIndex < 4; packedIndex++) {
         if (GetKartMaskBitOfPackedIndex(packedIndex) != 0) {
             index = GetIndexOfPackedIndex(packedIndex);
-            data_0217b488->mEntries[index].mCharacterIndex = gRaceSetupCopy->mEntries[packedIndex].mCharacterIndex;
-            data_0217b488->mEntries[index].mKartIndex = gRaceSetupCopy->mEntries[packedIndex].mKartIndex;
-            data_0217b488->mEntries[index].mPlayerKind = gRaceSetupCopy->mEntries[packedIndex].mPlayerKind;
+            gMenuShared->mEntries[index].mCharacterIndex = gRaceSetupCopy->mEntries[packedIndex].mCharacterIndex;
+            gMenuShared->mEntries[index].mKartIndex = gRaceSetupCopy->mEntries[packedIndex].mKartIndex;
+            gMenuShared->mEntries[index].mPlayerKind = gRaceSetupCopy->mEntries[packedIndex].mPlayerKind;
         }
     }
 }
@@ -64,9 +64,9 @@ void CopyEntriesToRaceSetupCopy(void) {
     for (index = 0; index < 4; index++) {
         if (GetKartMaskBit(index) != 0) {
             packedIndex = GetPackedIndex(index);
-            gRaceSetupCopy->mEntries[packedIndex].mCharacterIndex = data_0217b488->mEntries[index].mCharacterIndex;
-            gRaceSetupCopy->mEntries[packedIndex].mKartIndex = data_0217b488->mEntries[index].mKartIndex;
-            gRaceSetupCopy->mEntries[packedIndex].mPlayerKind = data_0217b488->mEntries[index].mPlayerKind;
+            gRaceSetupCopy->mEntries[packedIndex].mCharacterIndex = gMenuShared->mEntries[index].mCharacterIndex;
+            gRaceSetupCopy->mEntries[packedIndex].mKartIndex = gMenuShared->mEntries[index].mKartIndex;
+            gRaceSetupCopy->mEntries[packedIndex].mPlayerKind = gMenuShared->mEntries[index].mPlayerKind;
         }
     }
 }

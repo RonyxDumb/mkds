@@ -266,7 +266,7 @@ void UpdateRaceHudSubScreenKarts(void) {
                 if (screenX > -0x10 && screenX < 0x110 && screenY > -0x10 && screenY < 0xd0 &&
                     IsKartRemovedWrapper(i) == 0) {
                     gRaceHudSubScreenKarts->mVisible[i] = 1;
-                    gRaceHudSubScreenKarts->mUnk_040[i] = func_020b4dc4(i);
+                    gRaceHudSubScreenKarts->mUnk_040[i] = GetKartCourseHitAttributeBitOrGhost(i);
                     GetKartScale(&gRaceHudSubScreenKarts->mScale[i], i);
                     if (GetKart(i)->mState != KART_STATE_NORMAL) {
                         gRaceHudSubScreenKarts->mNonNormalStateFrames[i]++;

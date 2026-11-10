@@ -44,8 +44,8 @@ void DrawTextLines(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, 
                    s32 width, s32 height, s32 color, u32 alignFlags, s32 lineAlign, void *text, s32 fixedDigitsOnly,
                    s32 fixedAdvance, s32 colorZeroIsTwo);
 void FormatMessageWithText(u16 *insertText, u16 *message, u16 *formattedText, u32 d);
-DisplaySettings *func_021250b0(void *heap);
-DisplaySettings *func_02125028(void *heap);
+DisplaySettings *CreateSceneDisplaySettings(void *heap);
+DisplaySettings *CreateWiFiStatesDisplaySettings(void *heap);
 s32 CountDecimalDigits(u32 number);
 s32 FormatAsciiNumber(u32 number, u16 *buffer);
 s32 FormatFullWidthNumber(u32 number, u16 *buffer);

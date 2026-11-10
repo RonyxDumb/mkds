@@ -484,7 +484,7 @@ void InitRaceHud(void) {
     ResetRaceStartSequenceFrames();
     ResetRaceEndFrames();
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        data_0217b488->mUnfilledNotEliminated = 0;
+        gMenuShared->mUnfilledNotEliminated = 0;
     }
 }
 

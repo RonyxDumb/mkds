@@ -12,4 +12,4 @@ void SetChoisesSOpen(s32 openFlag);
 u32 IsMissionRunTableRow6Or7Column9(void);
 s8 GetMissionRunTableRow(void);
 s8 GetMissionRunTableColumn(void);
-u32 func_020b2ecc(void);
+BOOL IsAllMissionRecords5To7AtEndKind0(void);

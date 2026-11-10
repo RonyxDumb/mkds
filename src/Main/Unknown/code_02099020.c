@@ -16,7 +16,7 @@
 #include "Main/Unknown/code_020d278c.h"
 #include "Main/Unknown/unk_02156000.h"
 
-void func_02099278(MapObject *mapObject) {
+void InitPakkunSpit(MapObject *mapObject) {
     u32 flags = mapObject->mFlags;
     u32 addedFlags = data_02156598;
     u32 newFlags = ((flags) | (addedFlags));
@@ -25,74 +25,76 @@ void func_02099278(MapObject *mapObject) {
     CreateMapObjectSoundSourceFalloff2(mapObject);
 }
 
-u32 func_02099208(Unk0209905c *a, Kart *kart, u8 *c, u8 *d) {
+u32 CollideKartWithPakkunSpit(PakkunSpit *pakkunSpit, Kart *kart, u8 *c, u8 *d) {
     u32 v1 = *c;
     u8 result = *d;
     if (v1 == 1) {
-        a->mUnk_00.mFlags = a->mUnk_00.mFlags | data_usa_02156590;
-        a->mState = 1;
+        pakkunSpit->mUnk_00.mFlags = pakkunSpit->mUnk_00.mFlags | data_usa_02156590;
+        pakkunSpit->mState = 1;
         if (kart->mItemEffect == 1 || kart->mItemEffect == 3) {
-            a->mUnk_00.mDistanceSquaredAndFlags = a->mUnk_00.mDistanceSquaredAndFlags | data_usa_02156594;
+            pakkunSpit->mUnk_00.mDistanceSquaredAndFlags =
+                pakkunSpit->mUnk_00.mDistanceSquaredAndFlags | data_usa_02156594;
         }
-        StartSoundIfKartStarOrKiller(&a->mUnk_00, kart);
+        StartSoundIfKartStarOrKiller(&pakkunSpit->mUnk_00, kart);
     }
     return result;
 }
 
-void func_0209905c(void *a, Unk0209905c *p) {
+void UpdatePakkunSpit(void *mapObjectList, PakkunSpit *pakkunSpit) {
     s32 falloffIndex;
     SoundStartParams soundRequest;
     Unk0209905c_d0_08 *entry;
-    switch (p->mState) {
+    switch (pakkunSpit->mState) {
         case 0:
-            p->mHeightOffset = p->mHeightOffset + p->mUnk_c8;
-            p->mUnk_c8 = p->mUnk_c8 - 0x1000;
-            if (p->mHeightOffset <= 0) {
-                p->mHeightOffset = 0;
-                p->mUnk_c8 = 0x5800;
-                if ((p->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
-                    if (p->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+            pakkunSpit->mHeightOffset = pakkunSpit->mHeightOffset + pakkunSpit->mHeightSpeed;
+            pakkunSpit->mHeightSpeed = pakkunSpit->mHeightSpeed - 0x1000;
+            if (pakkunSpit->mHeightOffset <= 0) {
+                pakkunSpit->mHeightOffset = 0;
+                pakkunSpit->mHeightSpeed = 0x5800;
+                if ((pakkunSpit->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
+                    if (pakkunSpit->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
                         falloffIndex = 2;
-                    } else if (p->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                    } else if (pakkunSpit->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
                         falloffIndex = 3;
                     } else {
                         falloffIndex = 4;
                     }
                     soundRequest.mSoundId = 0x1af;
-                    soundRequest.mPositionSource = &p->mUnk_00.mPos;
+                    soundRequest.mPositionSource = &pakkunSpit->mUnk_00.mPos;
                     soundRequest.mFalloffIndex = falloffIndex;
-                    soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&p->mUnk_00.mPos);
+                    soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&pakkunSpit->mUnk_00.mPos);
                     StartSoundFromParams(&soundRequest);
                 }
             }
-            if (AdvanceGroupFollower(&p->mFollower) != FALSE && p->mFollower.mForward == 0) {
-                p->mState = 1;
+            if (AdvanceGroupFollower(&pakkunSpit->mFollower) != FALSE && pakkunSpit->mFollower.mForward == 0) {
+                pakkunSpit->mState = 1;
             } else {
-                GetGroupFollowerLinearPosStep(&p->mFollower, &p->mUnk_00.mPos, &p->mUnk_00.mUnk_10);
-                p->mUnk_00.mPos.y = p->mUnk_00.mPos.y + (p->mHeightOffset + 0xf000);
+                GetGroupFollowerLinearPosStep(&pakkunSpit->mFollower, &pakkunSpit->mUnk_00.mPos,
+                                              &pakkunSpit->mUnk_00.mUnk_10);
+                pakkunSpit->mUnk_00.mPos.y = pakkunSpit->mUnk_00.mPos.y + (pakkunSpit->mHeightOffset + 0xf000);
             }
-            if (p->mEmitter == NULL) {
+            if (pakkunSpit->mEmitter == NULL) {
                 return;
             }
-            if ((p->mUnk_00.mFlags & 0x12) != 0) {
-                p->mEmitter->mUnk_24 |= 2;
+            if ((pakkunSpit->mUnk_00.mFlags & 0x12) != 0) {
+                pakkunSpit->mEmitter->mUnk_24 |= 2;
                 return;
             }
-            PlaceEffect(p->mEmitter, &p->mUnk_00.mPos);
-            p->mEmitter->mUnk_24 &= ~2;
+            PlaceEffect(pakkunSpit->mEmitter, &pakkunSpit->mUnk_00.mPos);
+            pakkunSpit->mEmitter->mUnk_24 &= ~2;
             return;
         case 1:
-            if (p->mEmitter != NULL) {
-                for (entry = p->mEmitter->mUnk_08; entry != NULL; entry = entry->mUnk_00) {
+            if (pakkunSpit->mEmitter != NULL) {
+                for (entry = pakkunSpit->mEmitter->mUnk_08; entry != NULL; entry = entry->mUnk_00) {
                     entry->mUnk_26 = entry->mUnk_24;
                 }
-                StopEffectAndClearPointer((void **) &p->mEmitter);
+                StopEffectAndClearPointer((void **) &pakkunSpit->mEmitter);
             }
-            ParkMapObject(&p->mUnk_00);
+            ParkMapObject(&pakkunSpit->mUnk_00);
             return;
     }
 }
 
-void func_02099020(void) {
-    CreateMapObjectKindDataWithSound(&func_02099208, NULL, NULL, 1, 1, (0x0000018du));
+void CreatePakkunSpitKindData(void) {
+    CreateMapObjectKindDataWithSound(&CollideKartWithPakkunSpit, NULL, NULL, 1, 1, (0x0000018du));
 }

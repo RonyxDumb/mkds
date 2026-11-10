@@ -31,10 +31,10 @@
 #include "code_02147cd8.h"
 #include "01/code_0218155c.h"
 
-u32 func_0209753c(u32 a) {
+u32 SetFlipperState4TimerByIndex(u32 flipperIndex) {
     Flipper *flipper;
-    flipper = GetMapObjectFromList(FindMapObjectKindUpdateList(MAP_OBJECT_KIND_FLIPPER), a);
-    flipper->mUnk_ebc = 0xaa;
+    flipper = GetMapObjectFromList(FindMapObjectKindUpdateList(MAP_OBJECT_KIND_FLIPPER), flipperIndex);
+    flipper->mState4Timer = 0xaa;
     return 1;
 }
 
@@ -55,7 +55,7 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *b, u
     if (v2 == 3 || v2 == 4) {
         itemEffect = kart->mItemEffect;
         if (itemEffect != 1) {
-            if (coverPooHole->mState == 4 || (coverPooHole->mState == 5 && coverPooHole->mUnk_a0 > 0x7800)) {
+            if (coverPooHole->mState == 4 || (coverPooHole->mState == 5 && coverPooHole->mCoverHeight > 0x7800)) {
                 coverPooHole->mUnk_00.mUnk_10.x = 0;
                 coverPooHole->mUnk_00.mUnk_10.y = 0x3800;
                 coverPooHole->mUnk_00.mUnk_10.z = 0;
@@ -86,12 +86,12 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *b, u
                     coverPooHole->mUnk_00.mDistanceSquaredAndFlags | data_021564bc;
                 return 0;
             }
-            if (itemEffect == 1 && (state == 4 || (state == 5 && coverPooHole->mUnk_a0 > 0x7800) || state == 1)) {
+            if (itemEffect == 1 && (state == 4 || (state == 5 && coverPooHole->mCoverHeight > 0x7800) || state == 1)) {
                 coverPooHole->mUnk_108 = coverPooHole->mUnk_108 | kartMask;
                 if ((coverPooHole->mUnk_00.mFlags & 0x800) == 0 || kart->mIndex == gRaceSetup->mEntryIndex) {
                     coverPooHole->mUnk_104 = 1;
-                    coverPooHole->mUnk_b4 = coverPooHole->mUnk_a0;
-                    coverPooHole->mUnk_b8 = coverPooHole->mUnk_a4;
+                    coverPooHole->mHitCoverHeight = coverPooHole->mCoverHeight;
+                    coverPooHole->mHitPooHeight = coverPooHole->mPooHeight;
                     coverPooHole->mUnk_bc = 0x4000;
                     coverPooHole->mUnk_c0 = 0x1333;
                     coverPooHole->mUnk_c4 = 0;
@@ -134,8 +134,8 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *b, u
                 coverPooHole->mUnk_108 = coverPooHole->mUnk_108 | kartMask;
                 if ((coverPooHole->mUnk_00.mFlags & 0x800) == 0 || kart->mIndex == gRaceSetup->mEntryIndex) {
                     coverPooHole->mUnk_104 = 1;
-                    coverPooHole->mUnk_b4 = coverPooHole->mUnk_a0;
-                    coverPooHole->mUnk_b8 = coverPooHole->mUnk_a4;
+                    coverPooHole->mHitCoverHeight = coverPooHole->mCoverHeight;
+                    coverPooHole->mHitPooHeight = coverPooHole->mPooHeight;
                     coverPooHole->mUnk_bc = 0;
                     coverPooHole->mUnk_c0 = 0;
                     coverPooHole->mUnk_c4 = 0;
@@ -193,8 +193,8 @@ u32 CollideItemObjectWithCoverPooHole(CoverPooHole *coverPooHole, ItemObject *a,
     }
     if (v1 == 2) {
         coverPooHole->mUnk_104 = 1;
-        coverPooHole->mUnk_b4 = coverPooHole->mUnk_a0;
-        coverPooHole->mUnk_b8 = coverPooHole->mUnk_a4;
+        coverPooHole->mHitCoverHeight = coverPooHole->mCoverHeight;
+        coverPooHole->mHitPooHeight = coverPooHole->mPooHeight;
         coverPooHole->mUnk_bc = 0x4000;
         coverPooHole->mUnk_c0 = 0x1333;
         coverPooHole->mUnk_00.mUnk_10.x = 0;
@@ -225,7 +225,7 @@ BOOL TryGetCoverPooHolePushOut(CoverPooHole *coverPooHole, const Vec3 *position,
     Vec3 offset;
     s32 d;
     VEC_Subtract(position, &coverPooHole->mUnk_00.mPos, &offset);
-    if (offset.y >= coverPooHole->mUnk_a0 + radius) {
+    if (offset.y >= coverPooHole->mCoverHeight + radius) {
         return FALSE;
     }
     d = VEC_Mag(&offset);
@@ -238,7 +238,7 @@ BOOL TryGetCoverPooHolePushOut(CoverPooHole *coverPooHole, const Vec3 *position,
         pushOut->z = 0;
         return TRUE;
     }
-    if (coverPooHole->mState == 4 || (coverPooHole->mState == 5 && coverPooHole->mUnk_a0 > 0x7800)) {
+    if (coverPooHole->mState == 4 || (coverPooHole->mState == 5 && coverPooHole->mCoverHeight > 0x7800)) {
         if (LENGTH_SQUARED(offset) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&offset, &offset);
         }
@@ -305,13 +305,13 @@ void DrawCoverPooHole(void *a, CoverPooHole *coverPooHole) {
     if (coverPooHole->mState != 0) {
         NNS_G3dGeBufferOP_N(0x11, NULL, 0);
         if (coverPooHole->mUnk_104 != 0) {
-            t = coverPooHole->mUnk_b8 >> 4;
+            t = coverPooHole->mHitPooHeight >> 4;
             f1[0] = 0;
             f1[1] = t;
             f1[2] = 0;
             NNS_G3dGeBufferOP_N(0x1c, f1, 3);
         } else {
-            t = coverPooHole->mUnk_a4 >> 4;
+            t = coverPooHole->mPooHeight >> 4;
             f2[0] = 0;
             f2[1] = t;
             f2[2] = 0;
@@ -335,7 +335,7 @@ void DrawCoverPooHole(void *a, CoverPooHole *coverPooHole) {
         if (r <= 0) {
             r = -r;
         }
-        t = coverPooHole->mUnk_b4 + r;
+        t = coverPooHole->mHitCoverHeight + r;
         NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&coverPooHole->mUnk_00.mPos), 12);
         f3[1] = t >> 4;
         f3[0] = 0;
@@ -347,7 +347,7 @@ void DrawCoverPooHole(void *a, CoverPooHole *coverPooHole) {
         MTX_RotZ33_(&m, v1, gPairsByAngle[k + 1]);
         NNS_G3dGeBufferOP_N(0x1a, &m, 9);
     } else {
-        t = coverPooHole->mUnk_a0 >> 4;
+        t = coverPooHole->mCoverHeight >> 4;
         f4[0] = 0;
         f4[1] = t;
         f4[2] = 0;
@@ -374,21 +374,21 @@ void InitCoverPooHoleObjects(MapObjectList *mapObjectList) {
                                       (u16) (((u64) (u32) (mapObjectRandom->mValue >> 32) * 60) >> 32) - 30);
         if (gRaceSetup->mMode == MODE_MISSION_RUN) {
             coverPooHole->mState = 3;
-            coverPooHole->mUnk_a0 = 0x2000;
-            coverPooHole->mUnk_a4 = -0xd000;
+            coverPooHole->mCoverHeight = 0x2000;
+            coverPooHole->mPooHeight = -0xd000;
         } else {
             coverPooHole->mState = 0;
-            coverPooHole->mUnk_a0 = 0x2000;
-            coverPooHole->mUnk_a4 = -0xd000;
+            coverPooHole->mCoverHeight = 0x2000;
+            coverPooHole->mPooHeight = -0xd000;
         }
     }
 }
 
-s32 func_020968dc(s32 a) {
-    return gPairsByAngle[(a >> 4) * 2];
+s32 CoverPooHoleFX_SinIdx(s32 angle) {
+    return gPairsByAngle[(angle >> 4) * 2];
 }
 
-s32 func_020968c0(s32 a, s32 b) {
+s32 CoverPooHoleFX_MulInline(s32 a, s32 b) {
     return MUL_FIXED12_ROUNDED(a, b);
 }
 
@@ -429,26 +429,27 @@ void UpdateCoverPooHole(void *a, CoverPooHole *coverPooHole) {
         case 0:
             break;
         case 1:
-            coverPooHole->mUnk_b8 += coverPooHole->mUnk_c0;
+            coverPooHole->mHitPooHeight += coverPooHole->mUnk_c0;
             coverPooHole->mUnk_c0 -= 0x800;
-            if (coverPooHole->mUnk_b4 >= 0x2000) {
-                coverPooHole->mUnk_b4 += coverPooHole->mUnk_bc;
+            if (coverPooHole->mHitCoverHeight >= 0x2000) {
+                coverPooHole->mHitCoverHeight += coverPooHole->mUnk_bc;
                 coverPooHole->mUnk_bc -= 0x19a;
             } else {
-                coverPooHole->mUnk_b4 = 0x2000;
+                coverPooHole->mHitCoverHeight = 0x2000;
                 coverPooHole->mUnk_104 = 2;
                 func_02095fec_inline_2(coverPooHole, 0x16c);
             }
             break;
         case 2:
-            if (coverPooHole->mUnk_b8 >= 0x2000) {
-                coverPooHole->mUnk_b8 += coverPooHole->mUnk_c0;
+            if (coverPooHole->mHitPooHeight >= 0x2000) {
+                coverPooHole->mHitPooHeight += coverPooHole->mUnk_c0;
                 coverPooHole->mUnk_c0 -= 0x800;
             }
             coverPooHole->mUnk_c4 += coverPooHole->mUnk_dc;
-            coverPooHole->mUnk_cc = coverPooHole->mUnk_d0 +
-                                    func_020968c0(coverPooHole->mUnk_d4, func_020968dc(coverPooHole->mUnk_c4)) -
-                                    coverPooHole->mUnk_c8;
+            coverPooHole->mUnk_cc =
+                coverPooHole->mUnk_d0 +
+                CoverPooHoleFX_MulInline(coverPooHole->mUnk_d4, CoverPooHoleFX_SinIdx(coverPooHole->mUnk_c4)) -
+                coverPooHole->mUnk_c8;
             coverPooHole->mUnk_c8 += coverPooHole->mUnk_cc;
             if (coverPooHole->mUnk_d4 > 0) {
                 v = coverPooHole->mUnk_d4 + coverPooHole->mUnk_d8;
@@ -477,9 +478,10 @@ void UpdateCoverPooHole(void *a, CoverPooHole *coverPooHole) {
                 coverPooHole->mUnk_dc = v;
             }
             coverPooHole->mUnk_e4 += coverPooHole->mUnk_fc;
-            coverPooHole->mUnk_ec = coverPooHole->mUnk_f0 +
-                                    func_020968c0(coverPooHole->mUnk_f4, func_020968dc(coverPooHole->mUnk_e4)) -
-                                    coverPooHole->mUnk_e8;
+            coverPooHole->mUnk_ec =
+                coverPooHole->mUnk_f0 +
+                CoverPooHoleFX_MulInline(coverPooHole->mUnk_f4, CoverPooHoleFX_SinIdx(coverPooHole->mUnk_e4)) -
+                coverPooHole->mUnk_e8;
             coverPooHole->mUnk_e8 += coverPooHole->mUnk_ec;
             if (coverPooHole->mUnk_f4 > 0) {
                 v = coverPooHole->mUnk_f4 + coverPooHole->mUnk_f8;
@@ -515,12 +517,12 @@ void UpdateCoverPooHole(void *a, CoverPooHole *coverPooHole) {
     if ((coverPooHole->mState == 6 || coverPooHole->mState == 7) && coverPooHole->mUnk_104 == 0) {
         if (gRaceSetup->mMode == MODE_MISSION_RUN) {
             coverPooHole->mState = 3;
-            coverPooHole->mUnk_a0 = 0x2000;
-            coverPooHole->mUnk_a4 = -0xd000;
+            coverPooHole->mCoverHeight = 0x2000;
+            coverPooHole->mPooHeight = -0xd000;
         } else {
             coverPooHole->mState = 0;
-            coverPooHole->mUnk_a0 = 0x2000;
-            coverPooHole->mUnk_a4 = -0xd000;
+            coverPooHole->mCoverHeight = 0x2000;
+            coverPooHole->mPooHeight = -0xd000;
         }
     }
     switch (coverPooHole->mState) {
@@ -535,28 +537,28 @@ void UpdateCoverPooHole(void *a, CoverPooHole *coverPooHole) {
             func_02095fec_inline_2(coverPooHole, 0x1d3);
             break;
         case 1:
-            if (coverPooHole->mUnk_a0 < 0x7800) {
-                coverPooHole->mUnk_a0 += 0x400;
-                coverPooHole->mUnk_a4 = coverPooHole->mUnk_a0 - 0xf000;
+            if (coverPooHole->mCoverHeight < 0x7800) {
+                coverPooHole->mCoverHeight += 0x400;
+                coverPooHole->mPooHeight = coverPooHole->mCoverHeight - 0xf000;
                 return;
             }
             if (coverPooHole->mTimer-- > 0) {
-                coverPooHole->mUnk_a0 = 0x7800;
-                coverPooHole->mUnk_a4 = -0x7800;
+                coverPooHole->mCoverHeight = 0x7800;
+                coverPooHole->mPooHeight = -0x7800;
                 return;
             }
-            coverPooHole->mUnk_a0 = 0x7800;
-            coverPooHole->mUnk_a4 = -0x7800;
+            coverPooHole->mCoverHeight = 0x7800;
+            coverPooHole->mPooHeight = -0x7800;
             coverPooHole->mState = 2;
             break;
         case 2:
-            if (coverPooHole->mUnk_a0 > 0x2000) {
-                coverPooHole->mUnk_a0 -= 0x400;
-                coverPooHole->mUnk_a4 = coverPooHole->mUnk_a0 - 0xf000;
+            if (coverPooHole->mCoverHeight > 0x2000) {
+                coverPooHole->mCoverHeight -= 0x400;
+                coverPooHole->mPooHeight = coverPooHole->mCoverHeight - 0xf000;
                 return;
             }
-            coverPooHole->mUnk_a0 = 0x2000;
-            coverPooHole->mUnk_a4 = -0xd000;
+            coverPooHole->mCoverHeight = 0x2000;
+            coverPooHole->mPooHeight = -0xd000;
             coverPooHole->mTimer = (u16) (func_02095fec_inline(15) + 15);
             coverPooHole->mState = 3;
             coverPooHole->mUnk_108 = 0;
@@ -566,8 +568,8 @@ void UpdateCoverPooHole(void *a, CoverPooHole *coverPooHole) {
             if (coverPooHole->mTimer-- > 0) {
                 return;
             }
-            coverPooHole->mUnk_a0 = 0x2000;
-            coverPooHole->mUnk_a4 = -0xd000;
+            coverPooHole->mCoverHeight = 0x2000;
+            coverPooHole->mPooHeight = -0xd000;
             coverPooHole->mTimer = (u16) (func_02095fec_inline(90) + 90);
             coverPooHole->mState = 4;
             coverPooHole->mUnk_104 = 0;
@@ -575,35 +577,35 @@ void UpdateCoverPooHole(void *a, CoverPooHole *coverPooHole) {
             func_02095fec_inline_2(coverPooHole, 0x1d3);
             break;
         case 4:
-            if (coverPooHole->mUnk_a0 < 0x124cd) {
-                coverPooHole->mUnk_a0 += 0xc00;
-                coverPooHole->mUnk_a4 = coverPooHole->mUnk_a0 - 0xf000;
+            if (coverPooHole->mCoverHeight < 0x124cd) {
+                coverPooHole->mCoverHeight += 0xc00;
+                coverPooHole->mPooHeight = coverPooHole->mCoverHeight - 0xf000;
                 return;
             }
             if (coverPooHole->mTimer-- > 0) {
-                coverPooHole->mUnk_a0 = 0x124cd;
-                coverPooHole->mUnk_a4 = 0x34cd;
+                coverPooHole->mCoverHeight = 0x124cd;
+                coverPooHole->mPooHeight = 0x34cd;
                 return;
             }
-            coverPooHole->mUnk_a0 = 0x124cd;
-            coverPooHole->mUnk_a4 = 0x34cd;
+            coverPooHole->mCoverHeight = 0x124cd;
+            coverPooHole->mPooHeight = 0x34cd;
             coverPooHole->mState = 5;
             break;
         case 5:
-            if (coverPooHole->mUnk_a0 > 0x2000) {
-                coverPooHole->mUnk_a0 -= 0xc00;
-                coverPooHole->mUnk_a4 = coverPooHole->mUnk_a0 - 0xf000;
+            if (coverPooHole->mCoverHeight > 0x2000) {
+                coverPooHole->mCoverHeight -= 0xc00;
+                coverPooHole->mPooHeight = coverPooHole->mCoverHeight - 0xf000;
                 return;
             }
             coverPooHole->mTimer = (u16) (coverPooHole->mUnk_00.mCourseMapRow->mUnk_28 + func_02095fec_inline(60) - 30);
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 coverPooHole->mState = 3;
-                coverPooHole->mUnk_a0 = 0x2000;
-                coverPooHole->mUnk_a4 = -0xd000;
+                coverPooHole->mCoverHeight = 0x2000;
+                coverPooHole->mPooHeight = -0xd000;
             } else {
                 coverPooHole->mState = 0;
-                coverPooHole->mUnk_a0 = 0x2000;
-                coverPooHole->mUnk_a4 = -0xd000;
+                coverPooHole->mCoverHeight = 0x2000;
+                coverPooHole->mPooHeight = -0xd000;
             }
             coverPooHole->mUnk_108 = 0;
             func_02095fec_inline_2(coverPooHole, 0x1d4);
@@ -626,8 +628,8 @@ void *CreateCoverPooHoleUpdateList(void) {
     return CreateMapObjectUpdateList(InitCoverPooHoleObjects, UpdateCoverPooHole, NULL);
 }
 
-BOOL func_02095f38(CoverPooHole *a) {
-    if (a->mState == 1 || a->mState == 4) {
+BOOL IsCoverPooHoleState1Or4(CoverPooHole *coverPooHole) {
+    if (coverPooHole->mState == 1 || coverPooHole->mState == 4) {
         return TRUE;
     }
     return FALSE;

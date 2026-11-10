@@ -740,7 +740,7 @@ void StartKartItemInUseOneCountdown(KartItems *kartItems) {
     StartItemInUseObjectCountdown(&kartItems->mItemInUse);
 }
 
-BOOL func_020efd84(KartItems *kartItems, s32 itemInfoIndex) {
+BOOL SetKartItemsHeldItemByInfoIndex(KartItems *kartItems, s32 itemInfoIndex) {
     HeldItem *heldItem;
     ItemPool *pool;
     enum { K0 } objectKind;

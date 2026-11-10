@@ -19,11 +19,11 @@
 #include "00/code_02181f98.h"
 
 void WLMenuSetRaceSetupRequested(u32 value) {
-    data_0217b488->mRaceSetupRequested = value;
+    gMenuShared->mRaceSetupRequested = value;
 }
 
 void WLMenuSetMenuEntryKind(u32 value) {
-    data_0217b488->mMenuEntryKind = value;
+    gMenuShared->mMenuEntryKind = value;
 }
 
 #pragma thumb on

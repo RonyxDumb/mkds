@@ -9,13 +9,13 @@ typedef struct ItemObject ItemObject;
 // Object up to 0x109 bytes.
 typedef struct CoverPooHole {
     /* 00 */ MapObject mUnk_00;
-    /* a0 */ s32 mUnk_a0;
-    /* a4 */ s32 mUnk_a4;
+    /* a0 */ s32 mCoverHeight;
+    /* a4 */ s32 mPooHeight;
     /* a8 */ s32 mUnk_a8;
     /* ac */ s32 mTimer;
     /* b0 */ s32 mState;
-    /* b4 */ s32 mUnk_b4;
-    /* b8 */ s32 mUnk_b8;
+    /* b4 */ s32 mHitCoverHeight;
+    /* b8 */ s32 mHitPooHeight;
     /* bc */ s32 mUnk_bc;
     /* c0 */ s32 mUnk_c0;
     /* c4 */ u16 mUnk_c4;
@@ -42,14 +42,14 @@ typedef struct CoverPooHole {
 
 #include "Main/Unknown/code_0206bcb0.h" // Kart
 
-BOOL func_02095f38(CoverPooHole *a);
+BOOL IsCoverPooHoleState1Or4(CoverPooHole *coverPooHole);
 void *CreateCoverPooHoleUpdateList(void);
 void *CreateCoverPooHoleDrawList(void);
 void CreateCoverPooHoleKindData(void);
 void UpdateCoverPooHole(void *a,
                         CoverPooHole *coverPooHole); /* skipped for objects with mFlags & 4 (parked pool objects) */
-s32 func_020968c0(s32 a, s32 b);
-s32 func_020968dc(s32 a);
+s32 CoverPooHoleFX_MulInline(s32 a, s32 b);
+s32 CoverPooHoleFX_SinIdx(s32 angle);
 void InitCoverPooHoleObjects(MapObjectList *mapObjectList);
 void DrawCoverPooHole(void *a, CoverPooHole *coverPooHole);
 void CreateCoverPooHole(void *a);
@@ -57,4 +57,4 @@ BOOL TryGetCoverPooHolePushOut(CoverPooHole *coverPooHole, const Vec3 *position,
 u32 CollideItemObjectWithCoverPooHole(CoverPooHole *coverPooHole, ItemObject *a, u8 *b, u8 *c);
 u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *b, u8 *c);
 void InitCoverPooHole(MapObject *mapObject);
-u32 func_0209753c(u32 a);
+u32 SetFlipperState4TimerByIndex(u32 flipperIndex);

@@ -292,7 +292,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
         case 12:
             if (AdvanceConnectionEndStopOnError() == 1) {
                 SendLedPatternWireless();
-                data_0217b488->mMenuEntryKind = 5;
+                gMenuShared->mMenuEntryKind = 5;
                 if (sceneNumbers != NULL) {
                     sceneNumbers->mNextScene = 1;
                 }
@@ -380,7 +380,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
             break;
         case 14:
             if (GetTxtSystemDone() != 0) {
-                data_0217b488->mMenuEntryKind = 5;
+                gMenuShared->mMenuEntryKind = 5;
                 if (sceneNumbers != NULL) {
                     sceneNumbers->mNextScene = 1;
                 }

@@ -26,7 +26,7 @@ typedef struct ChoisesS {
     /* 018 */ s32 mCloseFrames;
     // Calls counted in mode 5 near the end of the race; past 0x384 mPickedValue is set with no input.
     /* 01c */ s32 mAutoPickFrames;
-    /* 020 */ BOOL mUnk_020;
+    /* 020 */ BOOL mOtherMissionRecordsFilled5To7;
     // The value handed to the race scene, 0 = none; usually copied from mSelectedValue when a pick completes.
     /* 024 */ s32 mPickedValue;
     /* 028 */ s32 mSelectedValue;

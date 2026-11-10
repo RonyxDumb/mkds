@@ -294,9 +294,9 @@ void InitMissionRunLVsel(void *a, void *b, void *c) {
     for (i = 0; i < 7; i++) {
         gMissionRunLVsel->mUnk_28[i] = 0;
     }
-    if (data_0217b488->mLVselIndex6Requested != 0) {
+    if (gMenuShared->mLVselIndex6Requested != 0) {
         gMissionRunLVsel->mIndex = 6;
-        data_0217b488->mLVselIndex6Requested = 0;
+        gMenuShared->mLVselIndex6Requested = 0;
         StartMissionRunLVselSeq(2);
     } else {
         gMissionRunLVsel->mIndex = GetMissionTableRow() - 1;

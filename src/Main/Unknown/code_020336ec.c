@@ -145,7 +145,7 @@ void QueueResultsBattleCharacterIcon(s32 cellFileSetIndex, s32 entryIndex, s32 c
             palette = gResultsBattle->mCellFileSet3ShyguyPalette;
         }
         cellPaletteIndex = GetCellPaletteIndex(cellIndex, cellFileSet->mCells, cellFileSet->mCellLayout);
-        shuffledIndex = data_0217b488->mShuffledIndices[entryIndex];
+        shuffledIndex = gMenuShared->mShuffledIndices[entryIndex];
         paletteBlock = shuffledIndex * 0x20 + (u8 *) palette->mData;
         if (cellFileSetIndex == 0) {
             NNS_GfdRegisterNewVramTransferTask(0xe, cellPaletteIndex << 5, paletteBlock, 0x20);

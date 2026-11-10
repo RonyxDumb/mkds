@@ -38,11 +38,11 @@ void *CreateCrabUpdateList(void);
 void *CreateCrabDrawList(void);
 void CreateCrabKindData(void);
 void UpdateCrab(void *a, Crab *crab); /* skipped for objects with mFlags & 4 (parked pool objects) */
-s32 func_0209af64(s32 a, s32 b);
-s16 func_0209af80(s32 a);
+s32 CrabFX_MulInline(s32 a, s32 b);
+s16 CrabFX_SinIdx(s32 angle);
 void InitCrabObjects(Unk0209af98 *mapObjectList);
 void DrawCrab(void *a, Crab *crab);
-unsigned int func_0209b1f8(unsigned int p0);
+unsigned int CrabSetupDrawReturnArgument(unsigned int value);
 u8 CollideItemObjectWithCrab(Crab *crab, ItemObject *itemObject, u8 *c, u8 *d);
 u8 CollideKartWithCrab(Crab *crab, Kart *kart, u8 *c, u8 *d);
 void StartCrabLaunch(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Vec3 *sourceVelocity);

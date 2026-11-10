@@ -18,7 +18,7 @@ void CreateEndingScene(void *heap) {
 
     gEndingScene = HeapAlloc(heap, 0x470);
     gEndingScene->mHeap = heap;
-    gEndingScene->mUnk_01c = func_021250b0(heap);
+    gEndingScene->mUnk_01c = CreateSceneDisplaySettings(heap);
     gEndingScene->mNextScene = -1;
     gEndingScene->mState = 0;
     gEndingScene->mNextState = gEndingScene->mState;
@@ -150,7 +150,7 @@ void LoadAndQueueEndingSceneData(void) {
             gEndingScene->mEndingThanksBnll = FindSceneFile("ending_thanks_01.bnll");
             break;
     }
-    if (data_0217b488->mUnk_70 != 0) {
+    if (gMenuShared->mUnk_70 != 0) {
         func_ov001_0219e5a0();
     } else {
         QueueEndingSceneNcgrNscrNclr(0);
@@ -161,9 +161,9 @@ void LoadAndQueueEndingSceneData(void) {
 
 void AdvanceEndingSceneState0(void) {
     if (AreBrightnessFadesClear() != 0) {
-        if (data_0217b488->mUnk_70 != 0) {
+        if (gMenuShared->mUnk_70 != 0) {
             gEndingScene->mNextState = 5;
-            data_0217b488->mUnk_70 = 0;
+            gMenuShared->mUnk_70 = 0;
             return;
         }
         gEndingScene->mNextState = 1;
@@ -298,11 +298,11 @@ void func_ov001_0219e0d4(void) {
 }
 
 void func_ov001_0219e0c4(void) {
-    data_0217b488->mUnk_70 = 1;
+    gMenuShared->mUnk_70 = 1;
 }
 
 s32 func_ov001_0219e0b8(void) {
-    return data_0217b488->mUnk_70;
+    return gMenuShared->mUnk_70;
 }
 
 int GetEndingSceneNextScene(void) {

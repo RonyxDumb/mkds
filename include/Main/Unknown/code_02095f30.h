@@ -4,4 +4,4 @@
 
 typedef struct CoverPooHole CoverPooHole;
 
-s32 func_02095f30(CoverPooHole *object);
+s32 GetCoverPooHoleHitCoverHeight(CoverPooHole *object);

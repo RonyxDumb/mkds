@@ -141,46 +141,46 @@ void *CreateAirshipUpdateList(void) {
     return CreateMapObjectUpdateList(InitAirshipObjects, UpdateAirship, NULL);
 }
 
-void func_0209fc78(MapObject *mapObject) {
-    s32 i;
+void InitCourseMapRowKindData(MapObject *mapObject) {
+    s32 kindDataIndex;
 
-    i = mapObject->mCourseMapRow->mUnk_28;
-    if (data_usa_0217b18c[i] == NULL) {
-        data_usa_0217b18c[i] = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-        *data_usa_0217b18c[i] = *data_usa_0217b18c[0];
+    kindDataIndex = mapObject->mCourseMapRow->mUnk_28;
+    if (gCourseMapRowKindData[kindDataIndex] == NULL) {
+        gCourseMapRowKindData[kindDataIndex] = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+        *gCourseMapRowKindData[kindDataIndex] = *gCourseMapRowKindData[0];
     }
-    switch (i) {
+    switch (kindDataIndex) {
         case 0x10:
-            data_usa_0217b18c[i]->mSoundId = 0x127;
+            gCourseMapRowKindData[kindDataIndex]->mSoundId = 0x127;
             break;
         case 0x11:
-            data_usa_0217b18c[i]->mSoundId = 0x100;
+            gCourseMapRowKindData[kindDataIndex]->mSoundId = 0x100;
             break;
         case 0x12:
-            data_usa_0217b18c[i]->mSoundId = 0x1da;
+            gCourseMapRowKindData[kindDataIndex]->mSoundId = 0x1da;
             break;
         default:
-            data_usa_0217b18c[i]->mSoundId = GetSurfaceSoundIdShortRows(0, 8, i);
+            gCourseMapRowKindData[kindDataIndex]->mSoundId = GetSurfaceSoundIdShortRows(0, 8, kindDataIndex);
             break;
     }
-    mapObject->mKindData = data_usa_0217b18c[i];
+    mapObject->mKindData = gCourseMapRowKindData[kindDataIndex];
 }
 
-void func_0209fc38(void) {
+void CreateCourseMapRowKindData(void) {
     s32 i;
 
     for (i = 0; i < 19; i++) {
-        data_usa_0217b18c[i] = NULL;
+        gCourseMapRowKindData[i] = NULL;
     }
-    data_usa_0217b18c[0] = CreateEmptyMapObjectKindData();
+    gCourseMapRowKindData[0] = CreateEmptyMapObjectKindData();
 }
 
-void func_0209fc2c(MapObjectList *mapObjectList) {
+void ResetViewRotatedMatrixAxis1Wrapper(MapObjectList *mapObjectList) {
     ResetViewRotatedMatrixAxis1();
 }
 
 void CreateTownMonte(MapObjectList *mapObjectList) {
-    mapObjectList->mAfterObjects = func_0209fc2c;
+    mapObjectList->mAfterObjects = ResetViewRotatedMatrixAxis1Wrapper;
     SetMapObjectModelPolygonId(
         gTownMonte = CreateMapObjectModelNsbmdNsbtp(mapObjectList, gTownMonteNsbmdName, gTownMonteNsbtpName), 0x3f);
 }

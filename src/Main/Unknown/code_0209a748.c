@@ -134,8 +134,8 @@ void CreateCrabAndCrabHand(void *a) {
     SetMapObjectModelPolygonId(gCrabHand, 0x3f);
 }
 
-u32 func_0209b1f8(u32 p0) {
-    return p0;
+u32 CrabSetupDrawReturnArgument(u32 value) {
+    return value;
 }
 
 void DrawCrab(void *a, Crab *crab) {
@@ -186,11 +186,11 @@ void InitCrabObjects(Unk0209af98 *mapObjectList) {
     }
 }
 
-s16 func_0209af80(s32 a) {
-    return gPairsByAngle[(a >> 4) * 2];
+s16 CrabFX_SinIdx(s32 angle) {
+    return gPairsByAngle[(angle >> 4) * 2];
 }
 
-s32 func_0209af64(s32 a, s32 b) {
+s32 CrabFX_MulInline(s32 a, s32 b) {
     return MUL_FIXED12_ROUNDED(a, b);
 }
 
@@ -198,7 +198,8 @@ static inline void func_0209a7dc_inline(TeresaWobble *wobble) {
     s32 t;
 
     wobble->mAngle += wobble->mAnglePerFrame;
-    wobble->mUnk_08 = wobble->mMid + func_0209af64(wobble->mAmplitude, func_0209af80(wobble->mAngle)) - wobble->mValue;
+    wobble->mUnk_08 =
+        wobble->mMid + CrabFX_MulInline(wobble->mAmplitude, CrabFX_SinIdx(wobble->mAngle)) - wobble->mValue;
     wobble->mValue += wobble->mUnk_08;
     if (wobble->mAmplitude > 0) {
         t = wobble->mAmplitude + wobble->mAmplitudePerFrame;
@@ -351,7 +352,7 @@ void CreateCrabKindData(void) {
 }
 
 void *CreateCrabDrawList(void) {
-    return CreateMapObjectDrawList2(CreateCrabAndCrabHand, DrawCrab, func_0209b1f8);
+    return CreateMapObjectDrawList2(CreateCrabAndCrabHand, DrawCrab, CrabSetupDrawReturnArgument);
 }
 
 void *CreateCrabUpdateList(void) {

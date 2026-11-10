@@ -373,7 +373,7 @@ s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers) {
             break;
         case 4:
             if (GetTxtSystemDone() != 0) {
-                data_0217b488->mMenuEntryKind = 5;
+                gMenuShared->mMenuEntryKind = 5;
                 if (sceneNumbers != NULL) {
                     sceneNumbers[2] = 1;
                 }

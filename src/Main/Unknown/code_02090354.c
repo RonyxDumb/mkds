@@ -445,14 +445,14 @@ u32 SetSecretMessageFlagsFromCups3And7(void) {
 
 // Returns 0 none, 1 the staff roll, 2 the true staff roll (all records top rank); both need cup 3 or 7 finished.
 s32 GetStaffRollKindAfterGp(void) {
-    Unk0217b488 *p;
+    MenuShared *p;
     s32 result;
     s32 n;
     s32 engineClass;
     BOOL c;
     BOOL f;
     result = 0;
-    p = data_0217b488;
+    p = gMenuShared;
     engineClass = p->mEngineIndex;
     n = p->mCupIndex;
     if (p->mMirrorMode != 0) {
@@ -462,7 +462,7 @@ s32 GetStaffRollKindAfterGp(void) {
     f = func_02090940_inline();
     if (f != FALSE) {
         if (n == 3 || n == 7) {
-            if (data_0217b488->mCupRankIndex == 0) {
+            if (gMenuShared->mCupRankIndex == 0) {
                 c = TRUE;
             }
         }
@@ -483,7 +483,7 @@ s32 GetStaffRollKindAfterGp(void) {
                 f = FALSE;
             }
             if (f != FALSE) {
-                if (data_0217b488->mCupRankIndex <= 2) {
+                if (gMenuShared->mCupRankIndex <= 2) {
                     c = TRUE;
                 }
             }

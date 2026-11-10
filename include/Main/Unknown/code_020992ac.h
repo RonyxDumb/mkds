@@ -150,4 +150,4 @@ MapObjectList *CreateBeachTree1DrawList(void);
 void DrawBeachTree1(u32 a, MapObject *mapObject);
 void SetupDrawBeachTree1(void *a);
 void CreateBeachTree1(void *a);
-MapObjectKindData *func_0209a728(void);
+MapObjectKindData *CreateEmptyKindDataWithSound(void);

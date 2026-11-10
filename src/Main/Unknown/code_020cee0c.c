@@ -19,7 +19,7 @@ void FillShuffledIndices(void) {
     RandomState64 *random;
 
     remainingCount = 8;
-    if (data_0217b488->mIndicesShuffled == 0) {
+    if (gMenuShared->mIndicesShuffled == 0) {
         if (ShuffledIndicesGetConnectionKind() == 1 || ShuffledIndicesGetConnectionKind() == 2) {
             random = ShuffledIndicesGetConnectionWorkRandomState();
             for (i = 0; i < 8; i++) {
@@ -27,13 +27,13 @@ void FillShuffledIndices(void) {
             }
             for (i = 0; i < 8; i++) {
                 pickIndex = (NextRandomU16(random) >> 8) % remainingCount;
-                data_0217b488->mShuffledIndices[i] = remaining[pickIndex];
+                gMenuShared->mShuffledIndices[i] = remaining[pickIndex];
                 remainingCount--;
                 for (k = pickIndex; k < remainingCount; k++) {
                     remaining[k] = remaining[k + 1];
                 }
             }
-            data_0217b488->mIndicesShuffled = 1;
+            gMenuShared->mIndicesShuffled = 1;
         }
     }
 }
@@ -44,9 +44,9 @@ void ClearShuffledIndices(void) {
 
     clearValue = FALSE;
     for (i = 0; i < 8; i++) {
-        data_0217b488->mShuffledIndices[i] = clearValue;
+        gMenuShared->mShuffledIndices[i] = clearValue;
     }
-    data_0217b488->mIndicesShuffled = clearValue;
+    gMenuShared->mIndicesShuffled = clearValue;
 }
 #pragma thumb off
 
