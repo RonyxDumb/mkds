@@ -59,7 +59,7 @@ void func_02046e84(void) {
         return;
     }
     if (touchMicInput->mUnk_30_2 == 0) {
-        func_0210f07c(touchMicInput->mMicBuffer);
+        PreSleepMicBuffer(touchMicInput->mMicBuffer);
     }
     gTouchMicInput->mUnk_30_2 = 1;
 }
@@ -72,7 +72,7 @@ void func_02046e24(void) {
         return;
     }
     if (touchMicInput->mUnk_30_2) {
-        func_0210f068(touchMicInput->mMicBuffer);
+        PostSleepMicBuffer(touchMicInput->mMicBuffer);
     }
     gTouchMicInput->mUnk_30_2 = 0;
 }
@@ -86,7 +86,7 @@ void UpdateTouchMicInput(void) {
     touchMicInput->mCalibratedPoint = touchMicInput->mAutoSamples[latestIndex];
     TP_GetCalibratedPoint(&touchMicInput->mCalibratedPoint, &touchMicInput->mCalibratedPoint);
     if (gTouchMicInput->mMicAutoSampling) {
-        gTouchMicInput->mMicOverThreshold = func_0210f090(gTouchMicInput->mMicBuffer) > 0x14;
+        gTouchMicInput->mMicOverThreshold = UpdateMicBufferInput(gTouchMicInput->mMicBuffer) > 0x14;
     }
 }
 
@@ -121,7 +121,7 @@ void func_02046ca8(InputSlotPair *pair, s32 b, s32 c) {
 }
 
 void func_02046c74(void) {
-    func_0210f114(gTouchMicInput->mMicBuffer);
+    TouchMicInputStopMicAutoSampling(gTouchMicInput->mMicBuffer);
     gTouchMicInput = NULL;
 }
 

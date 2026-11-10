@@ -15,7 +15,7 @@
 
 #pragma opt_loop_invariants off
 
-void func_0210cc3c(SoundSource *source) {
+void ExpireWhileRequestedSounds(SoundSource *source) {
     PlayingSound *sound;
     PlayingSound *removedSound;
     u32 v;
@@ -112,7 +112,7 @@ void func_0210cc3c(SoundSource *source) {
     }
 }
 
-static inline s32 func_0210ca4c_inline(u32 volumeForPriority, u8 seqArcNo, u16 soundId) {
+static inline s32 ComputeSoundPriority(u32 volumeForPriority, u8 seqArcNo, u16 soundId) {
     s32 priority = volumeForPriority + (NNS_SndArcGetSeqArcParam(seqArcNo, soundId)->mPlayerPrio - 0x40);
     if (priority > 0) {
         if (priority >= 0x7f) {
@@ -125,25 +125,25 @@ static inline s32 func_0210ca4c_inline(u32 volumeForPriority, u8 seqArcNo, u16 s
 
 u32 SetPlayingSoundsParams(SoundSource *source) {
     SoundParams params;
-    s32 n;
+    s32 priority;
     Vec3 *position;
     PlayingSound *sound;
 
     position = source->mOwnerPosSource;
     params.mSource = source;
     params.mPositionSource = position;
-    params.mUnk_20 = NULL;
+    params.mStartParams = NULL;
     params.mVolume = 0;
-    params.mUnk_1c = 0;
+    params.mVolumeForPriority = 0;
     params.mPan = 0;
     if (params.mPositionSource == 0) {
         params.mDistance = 0;
         params.mVolume = 0x7f;
-        params.mUnk_1c = 0x7f;
+        params.mVolumeForPriority = 0x7f;
         params.mPan = 0;
     } else {
         params.mDistance = data_0217d018(&params);
-        params.mUnk_1c = params.mVolume = data_0217d014(&params);
+        params.mVolumeForPriority = params.mVolume = data_0217d014(&params);
         params.mPan = data_0217d01c(&params);
     }
     if (params.mVolume <= 0) {
@@ -152,18 +152,18 @@ u32 SetPlayingSoundsParams(SoundSource *source) {
     }
     for (sound = source->mPlayingSounds.mHead; sound != NULL;
          sound = NNS_FndGetNextListObject(&source->mPlayingSounds, sound)) {
-        n = -1;
+        priority = -1;
         if (sound->mFlags & 2) {
-            n = func_0210ca4c_inline(params.mUnk_1c, sound->mSeqArcNo, sound->mSoundId);
-            source->mStartSeqFunction(source, sound, n);
+            priority = ComputeSoundPriority(params.mVolumeForPriority, sound->mSeqArcNo, sound->mSoundId);
+            source->mStartSeqFunction(source, sound, priority);
             sound->mFlags &= ~2;
         }
         if (sound->mSeqPlayer != NULL) {
-            if (n == -1) {
-                n = func_0210ca4c_inline(params.mUnk_1c, sound->mSeqArcNo, sound->mSoundId);
+            if (priority == -1) {
+                priority = ComputeSoundPriority(params.mVolumeForPriority, sound->mSeqArcNo, sound->mSoundId);
             }
             NNS_SndPlayerSetVolume(&sound->mSeqPlayer, params.mVolume);
-            NNS_SndPlayerSetPlayerPriority(&sound->mSeqPlayer, n);
+            NNS_SndPlayerSetPlayerPriority(&sound->mSeqPlayer, priority);
             NNS_SndPlayerSetTrackPan(&sound->mSeqPlayer, data_0216cb20, params.mPan);
             source->mTrackParamsFunction(source, sound, &params);
         }
@@ -311,7 +311,7 @@ PlayingSound *StartSoundWhileRequestedEx(SoundSource *source, u32 seqArcNo, u32 
     return sound;
 }
 
-static inline u32 func_0210c558_inline(PlayingSound *sound, u32 seqArcNo, u32 soundId) {
+static inline u32 IsSameSound(PlayingSound *sound, u32 seqArcNo, u32 soundId) {
     return sound->mSoundId == soundId && sound->mSeqArcNo == seqArcNo;
 }
 
@@ -324,7 +324,7 @@ void StopSoundEx(SoundSource *source, u32 seqArcNo, u32 soundId, u32 fadeSteps) 
     }
     sound = source->mPlayingSounds.mHead;
     while (sound != NULL) {
-        matches = (sound->mSeqPlayer != NULL) && func_0210c558_inline(sound, seqArcNo, soundId);
+        matches = (sound->mSeqPlayer != NULL) && IsSameSound(sound, seqArcNo, soundId);
         if (matches) {
             StopPlayingSound(source, sound, fadeSteps);
             return;
@@ -335,7 +335,7 @@ void StopSoundEx(SoundSource *source, u32 seqArcNo, u32 soundId, u32 fadeSteps) 
 
 void StopPlayingSound(SoundSource *source, PlayingSound *sound, u32 fadeSteps) {
     PlayingSound *entry;
-    void *n;
+    void *unused;
     u32 updateListIndex;
     u32 soundFlags;
 
@@ -446,5 +446,5 @@ void ReleaseSoundSource(SoundSource *source) {
         source->mUpdateListIndex = 3;
     }
     RemoveListObject(&data_0217d028, source);
-    source->mUnk_38 = 0;
+    source->mRegistered = 0;
 }

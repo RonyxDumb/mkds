@@ -4,5 +4,5 @@
 
 typedef struct MicBuffer MicBuffer;
 
-void func_0210f068(MicBuffer *micBuffer);
-void func_0210f07c(MicBuffer *micBuffer);
+void PostSleepMicBuffer(MicBuffer *micBuffer);
+void PreSleepMicBuffer(MicBuffer *micBuffer);

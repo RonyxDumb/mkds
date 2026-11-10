@@ -6,8 +6,8 @@
 // Three words, at 0, 4 and 8: LoadSoundSet, IsSoundSetLoaded and ReleaseSoundSet take one by value.
 typedef struct SoundSet {
     /* 00 */ u32 mSeqId;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
+    /* 04 */ u32 mFirstBankId;
+    /* 08 */ u32 mSecondBankId;
 } SoundSet;
 
 // Object data_0217c7b4, which GetLoadedSoundSet returns: a SoundSet at 0 and a word at 0xc that
@@ -17,8 +17,8 @@ typedef struct LoadedSoundSet {
     /* 0c */ u32 mHeapState;
 } LoadedSoundSet;
 
-// Object gSndDataFileIdList: 16 words from 0x00 and a signed number at 0x40; LoadSndDataFromFile and func_0210ed20 add
-// a word to it, ClearSndFileAddresses walks it and ClearSndFileIdList resets it.
+// Object gSndDataFileIdList: 16 words from 0x00 and a signed number at 0x40; LoadSndDataFromFile and
+// LoadSndGroupWithWaveArcs add a word to it, ClearSndFileAddresses walks it and ClearSndFileIdList resets it.
 typedef struct SndFileIdList {
     /* 00 */ u32 mFileIds[16];
     /* 40 */ s32 mCount;
@@ -28,13 +28,13 @@ typedef struct SndFileIdList {
 extern SndFileIdList gSoundSetFileIdList;
 extern SndFileIdList gSndDataFileIdList;
 
-extern const SoundSet data_0215c380;
-extern const SoundSet data_0215c38c;
-extern const SoundSet data_0215c398;
+extern const SoundSet gEmptySoundSet;
+extern const SoundSet gReleaseEmptySoundSet;
+extern const SoundSet gResetEmptySoundSet;
 extern LoadedSoundSet data_0217c7b4;
 
 void ReleaseLoadedSoundSet(void);
-u32 func_0210ed20(u32 groupId, u32 moveWaveArcs);
+u32 LoadSndGroupWithWaveArcs(u32 groupId, u32 moveWaveArcs);
 u32 LoadSoundSetIfChanged(SoundSet soundSet, u32 loadExtras);
 void LoadInitialSndArcs(void);
 void LoadInitialSndGroup(u32 moveWaveArcs);

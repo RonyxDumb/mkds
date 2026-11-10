@@ -2,14 +2,14 @@
 
 #include "code_0201ec30.h"
 
-u32 func_0210f090(MicBuffer *micBuffer) {
-    if (micBuffer->mUnk_41c == 0) {
+u32 UpdateMicBufferInput(MicBuffer *micBuffer) {
+    if (micBuffer->mSkipCount == 0) {
         return func_0201ec30();
     }
-    if (micBuffer->mUnk_41c < 0x1e) {
-        micBuffer->mUnk_41c = micBuffer->mUnk_41c + 1;
+    if (micBuffer->mSkipCount < 0x1e) {
+        micBuffer->mSkipCount = micBuffer->mSkipCount + 1;
     } else {
-        micBuffer->mUnk_41c = 0;
+        micBuffer->mSkipCount = 0;
     }
     return 0;
 }

@@ -63,7 +63,7 @@ void UpdateSoundSources(void) {
     }
     if (data_0217d020 != 0) {
         for (source = data_0217d028.mHead; source != NULL; source = NNS_FndGetNextListObject(&data_0217d028, source)) {
-            func_0210cc3c(source);
+            ExpireWhileRequestedSounds(source);
         }
         data_0217d020 = 0;
     }
@@ -227,7 +227,7 @@ void InitAndRegisterSoundSource(SoundSource *source, Vec3 *positionSource) {
     void *trackParamsFunction;
     NNS_FndInitList(&source->mPlayingSounds, 8);
     startFunction = (void *) StartPlayingSoundSeqArc;
-    source->mUnk_38 = 1;
+    source->mRegistered = 1;
     trackParamsFunction = (void *) SetPlayingSoundTrackParams;
     source->mStartSeqFunction = startFunction;
     source->mTrackParamsFunction = trackParamsFunction;

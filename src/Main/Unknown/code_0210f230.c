@@ -69,10 +69,10 @@ void SelectCourseSoundTable(u32 courseId) {
     gCourseSoundSlots[0].mVolumeHandle = volumeHandle;
 }
 
-void func_0210f458(s32 a) {
+void ApplyCourseSoundTableEntry(s32 a) {
     u16 tableValue;
     u16 lowBits;
-    u16 entryIndex;
+    u16 slotIndex;
     NNSSndSeqPlayer **handle;
 
     tableValue = gCourseSoundTable[gCourseSoundTableIndex].mEntries[a];
@@ -114,10 +114,10 @@ void func_0210f458(s32 a) {
     if (lowBits >= 4) {
         return;
     }
-    entryIndex = ((tableValue & 0xf000) >> 12) - 1;
-    a = a - data_0217d1c8[entryIndex].mFirstTableIndex;
-    data_0217d1c4[entryIndex].mPreviousVolumeHandle = gCourseSoundSlots[entryIndex].mVolumeHandle;
-    gCourseSoundSlots[entryIndex].mVolumeHandle = a;
+    slotIndex = ((tableValue & 0xf000) >> 12) - 1;
+    a = a - data_0217d1c8[slotIndex].mFirstTableIndex;
+    data_0217d1c4[slotIndex].mPreviousVolumeHandle = gCourseSoundSlots[slotIndex].mVolumeHandle;
+    gCourseSoundSlots[slotIndex].mVolumeHandle = a;
 }
 
 BOOL StartCourseSoundAtVolume(s32 slotIndex, u32 soundId) {

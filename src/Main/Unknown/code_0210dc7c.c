@@ -137,7 +137,7 @@ void ResetSoundRequestQueue(SoundRequestQueue *queue) {
 
 // The standalone copy expands itself twice before it calls itself.
 #pragma inline_depth(2)
-static inline void func_0210deac(SoundRequestQueue *queue, SoundRequest *request, s32 index) {
+static inline void InsertSoundRequest(SoundRequestQueue *queue, SoundRequest *request, s32 index) {
     SoundRequest displacedRequest;
 
     for (; index < queue->mCapacity; index++) {
@@ -145,7 +145,7 @@ static inline void func_0210deac(SoundRequestQueue *queue, SoundRequest *request
             displacedRequest = queue->mRequests[index];
             queue->mRequests[index] = *request;
             if (index + 1 < queue->mCapacity) {
-                func_0210deac(queue, &displacedRequest, index + 1);
+                InsertSoundRequest(queue, &displacedRequest, index + 1);
             }
             return;
         }
@@ -160,7 +160,7 @@ void AddSoundRequest(SoundRequestQueue *queue, int sortKey, void (*function)(voi
     request.mFirstArgument = firstArgument;
     request.mSecondArgument = secondArgument;
     request.mFunction = function;
-    func_0210deac(queue, &request, 0);
+    InsertSoundRequest(queue, &request, 0);
 }
 
 void RunSoundRequests(SoundRequestQueue *queue) {
@@ -185,8 +185,8 @@ u32 InitSoundSetPlayer(SoundSetPlayer *player, u32 seqId, u32 firstBankId, u32 s
     SoundSet soundSet;
 
     soundSet.mSeqId = seqId;
-    soundSet.mUnk_04 = firstBankId;
-    soundSet.mUnk_08 = secondBankId;
+    soundSet.mFirstBankId = firstBankId;
+    soundSet.mSecondBankId = secondBankId;
     player->mSoundSet = soundSet;
     if (IsSoundSetLoaded(loadedSet, player->mSoundSet) == 0) {
         ReleaseSoundSet(loadedSet);

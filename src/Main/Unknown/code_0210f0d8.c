@@ -3,7 +3,7 @@
 #include "code_0201ec30.h"
 #include "mic.h"
 
-void func_0210f114(MicBuffer *micBuffer) {
+void TouchMicInputStopMicAutoSampling(MicBuffer *micBuffer) {
     func_020203e4();
     MIC_StopAutoSampling();
 }

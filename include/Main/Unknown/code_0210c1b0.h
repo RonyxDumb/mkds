@@ -4,7 +4,7 @@
 #include "code_0212d214.h"
 #include "Main/Unknown/code_0210bcf4.h" // SoundSource, PlayingSound
 
-void func_0210cc3c(SoundSource *source);
+void ExpireWhileRequestedSounds(SoundSource *source);
 u32 SetPlayingSoundsParams(SoundSource *source);
 // StartSound for any kind: starts sound c of kind b at volume d on the source a and returns its PlayingSound; e is
 // stored in the mUnk_14 member of the entry. Returns NULL when the mUnk_10 member of data_0217d084 is 0 or the source

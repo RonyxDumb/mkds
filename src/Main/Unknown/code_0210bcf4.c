@@ -20,7 +20,7 @@ void ItemObjectInitAndRegisterSoundSource(SoundSource *source, Vec3 *positionSou
     void *trackParamsFunction;
     NNS_FndInitList(&source->mPlayingSounds, 8);
     startFunction = (void *) StartPlayingSoundSeqArc;
-    source->mUnk_38 = 1;
+    source->mRegistered = 1;
     trackParamsFunction = (void *) SetPlayingSoundTrackParams;
     source->mStartSeqFunction = startFunction;
     source->mTrackParamsFunction = trackParamsFunction;
@@ -139,18 +139,18 @@ u32 StartOrUpdateSndHandleSound(u32 seqArcNo, u32 soundId, Vec3 *positionSource,
     }
     params.mSource = NULL;
     params.mPositionSource = positionSource;
-    params.mUnk_20 = request;
+    params.mStartParams = request;
     params.mVolume = 0;
-    params.mUnk_1c = 0;
+    params.mVolumeForPriority = 0;
     params.mPan = 0;
     if (positionSource == 0) {
         params.mDistance = 0;
         params.mVolume = 0x7f;
-        params.mUnk_1c = 0x7f;
+        params.mVolumeForPriority = 0x7f;
         params.mPan = 0;
     } else {
         params.mDistance = data_0217d018(&params);
-        params.mUnk_1c = params.mVolume = data_0217d014(&params);
+        params.mVolumeForPriority = params.mVolume = data_0217d014(&params);
         params.mPan = data_0217d01c(&params);
     }
     if (params.mVolume <= 0) {
@@ -159,7 +159,7 @@ u32 StartOrUpdateSndHandleSound(u32 seqArcNo, u32 soundId, Vec3 *positionSource,
         }
         return NNS_SndPlayerStopSeq(handle, 0);
     }
-    volumeForPriority = params.mUnk_1c;
+    volumeForPriority = params.mVolumeForPriority;
     priority = volumeForPriority + (NNS_SndArcGetSeqArcParam(seqArcNo, soundId)->mPlayerPrio - 0x40);
     if (priority > 0) {
         if (priority >= 0x7f) {

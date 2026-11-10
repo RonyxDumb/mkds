@@ -2,14 +2,15 @@
 
 #include "types.h"
 
-// Object gCourseSoundTable: five 16-byte rows of eight halfwords; func_0210f458 reads one halfword of a row and
-// SelectCourseSoundTable walks a row.
+// Object gCourseSoundTable: five 16-byte rows of eight halfwords; ApplyCourseSoundTableEntry reads one halfword of a
+// row and SelectCourseSoundTable walks a row.
 typedef struct CourseSoundTableRow {
     /* 00 */ u16 mEntries[8];
 } CourseSoundTableRow;
 
 // Object gCourseSoundSlots: a word at 0, a word at 4 and eight bytes at 8; UpdateCourseSound, StartCourseSoundAtVolume,
-// func_0210f458 and SelectCourseSoundTable read the word at 0, and SelectCourseSoundTable writes the two words.
+// ApplyCourseSoundTableEntry and SelectCourseSoundTable read the word at 0, and SelectCourseSoundTable writes the two
+// words.
 typedef struct CourseSoundSlot {
     /* 00 */ u32 mVolumeHandle;
     /* 04 */ u32 mPreviousVolumeHandle;
@@ -20,14 +21,14 @@ typedef struct CourseSoundSlot {
     /* 0f */ u8 mUnk_0f;
 } CourseSoundSlot;
 
-// Object data_0217d1c4: a word at 0 and twelve bytes at 4; func_0210f458 writes the word at 0 and UpdateCourseSound
-// reads it.
+// Object data_0217d1c4: a word at 0 and twelve bytes at 4; ApplyCourseSoundTableEntry writes the word at 0 and
+// UpdateCourseSound reads it.
 typedef struct Unk0217d1c4 {
     /* 00 */ u32 mPreviousVolumeHandle;
     /* 04 */ u8 mUnk_04[0xc];
 } Unk0217d1c4;
 
-// Object data_0217d1c8: a word at 0 and twelve bytes at 4; func_0210f458 reads the word at 0.
+// Object data_0217d1c8: a word at 0 and twelve bytes at 4; ApplyCourseSoundTableEntry reads the word at 0.
 typedef struct Unk0217d1c8 {
     /* 00 */ u32 mFirstTableIndex;
     /* 04 */ u8 mUnk_04[0xc];
@@ -48,6 +49,6 @@ extern u32 gCourseSoundTableIndex;
 extern CourseSoundTableRow gCourseSoundTable[5];
 
 void SelectCourseSoundTable(u32 courseId);
-void func_0210f458(s32 a);
+void ApplyCourseSoundTableEntry(s32 a);
 BOOL StartCourseSoundAtVolume(s32 slotIndex, u32 soundId);
 BOOL UpdateCourseSound(u32 slotIndex, u32 soundId);

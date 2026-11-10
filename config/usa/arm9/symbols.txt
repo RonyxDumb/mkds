@@ -6064,7 +6064,7 @@ StopSoundEx kind:function(arm,size=0xb8) addr:0x0210c558
 StartSoundWhileRequestedEx kind:function(arm,size=0x25c) addr:0x0210c610
 StartSoundEx kind:function(arm,size=0x1e0) addr:0x0210c86c
 SetPlayingSoundsParams kind:function(arm,size=0x1f0) addr:0x0210ca4c
-func_0210cc3c kind:function(arm,size=0x2e4) addr:0x0210cc3c
+ExpireWhileRequestedSounds kind:function(arm,size=0x2e4) addr:0x0210cc3c
 InitAndRegisterSoundSource kind:function(arm,size=0x7c) addr:0x0210cf20
 SetSoundSourceEnabled kind:function(arm,size=0x20) addr:0x0210cf9c
 SetSoundSourceFlagBit kind:function(arm,size=0x2c) addr:0x0210cfbc
@@ -6111,7 +6111,7 @@ StartSoundSetSeq kind:function(arm,size=0x14) addr:0x0210dcb8
 InitSoundSetPlayer kind:function(arm,size=0x78) addr:0x0210dccc
 RunSoundRequests kind:function(arm,size=0xb0) addr:0x0210dd44
 AddSoundRequest kind:function(arm,size=0xb8) addr:0x0210ddf4
-func_0210deac kind:function(arm,size=0x190) addr:0x0210deac local
+InsertSoundRequest kind:function(arm,size=0x190) addr:0x0210deac local
 ResetSoundRequestQueue kind:function(arm,size=0x58) addr:0x0210e03c
 InitSoundRequestQueue kind:function(arm,size=0x94) addr:0x0210e094
 TakeSoundHandleEntry kind:function(arm,size=0x158) addr:0x0210e128
@@ -6131,25 +6131,25 @@ LoadSceneSoundSet kind:function(arm,size=0x70) addr:0x0210e888
 LoadInitialSndGroup kind:function(arm,size=0x28) addr:0x0210e8f8
 LoadInitialSndArcs kind:function(arm,size=0x6c) addr:0x0210e920
 LoadSoundSetIfChanged kind:function(arm,size=0x394) addr:0x0210e98c
-func_0210ed20 kind:function(arm,size=0x214) addr:0x0210ed20
+LoadSndGroupWithWaveArcs kind:function(arm,size=0x214) addr:0x0210ed20
 ReleaseLoadedSoundSet kind:function(arm,size=0x1c) addr:0x0210ef34
 GetSndDataFileIdList kind:function(arm,size=0xc) addr:0x0210ef50
 GetSoundSetFileIdList kind:function(arm,size=0xc) addr:0x0210ef5c
 ClearSndFileAddresses kind:function(arm,size=0x44) addr:0x0210ef68
 ClearSndFileIdList kind:function(arm,size=0x20) addr:0x0210efac
 SetupSndArcFromFile kind:function(arm,size=0x9c) addr:0x0210efcc
-func_0210f068 kind:function(arm,size=0x14) addr:0x0210f068
-func_0210f07c kind:function(arm,size=0x14) addr:0x0210f07c
-func_0210f090 kind:function(arm,size=0x48) addr:0x0210f090
+PostSleepMicBuffer kind:function(arm,size=0x14) addr:0x0210f068
+PreSleepMicBuffer kind:function(arm,size=0x14) addr:0x0210f07c
+UpdateMicBufferInput kind:function(arm,size=0x48) addr:0x0210f090
 StopMicAutoSampling kind:function(arm,size=0x1c) addr:0x0210f0d8
 StartMicAutoSampling kind:function(arm,size=0x20) addr:0x0210f0f4
-func_0210f114 kind:function(arm,size=0x1c) addr:0x0210f114
+TouchMicInputStopMicAutoSampling kind:function(arm,size=0x1c) addr:0x0210f114
 SetupMicAutoSampling kind:function(arm,size=0xa4) addr:0x0210f130
 InitMicAndAmp kind:function(arm,size=0x34) addr:0x0210f1d4
 InitCourseSoundSlot kind:function(arm,size=0x28) addr:0x0210f208
 UpdateCourseSound kind:function(arm,size=0x12c) addr:0x0210f230
 StartCourseSoundAtVolume kind:function(arm,size=0xfc) addr:0x0210f35c
-func_0210f458 kind:function(arm,size=0x17c) addr:0x0210f458
+ApplyCourseSoundTableEntry kind:function(arm,size=0x17c) addr:0x0210f458
 SelectCourseSoundTable kind:function(arm,size=0x140) addr:0x0210f5d4
 func_0210f714 kind:function(arm,size=0x8) addr:0x0210f714
 func_0210f71c kind:function(arm,size=0x10) addr:0x0210f71c
@@ -8675,9 +8675,9 @@ data_0215a6ec kind:data(any) addr:0x0215a6ec
 data_0215a6f4 kind:data(any) addr:0x0215a6f4
 data_0215a6fc kind:data(any) addr:0x0215a6fc
 gOnMemorySdat kind:data(any) addr:0x0215a880
-data_0215c380 kind:data(any) addr:0x0215c380
-data_0215c38c kind:data(any) addr:0x0215c38c
-data_0215c398 kind:data(any) addr:0x0215c398
+gEmptySoundSet kind:data(any) addr:0x0215c380
+gReleaseEmptySoundSet kind:data(any) addr:0x0215c38c
+gResetEmptySoundSet kind:data(any) addr:0x0215c398
 data_0215c3a4 kind:data(any) addr:0x0215c3a4
 data_0215c3ac kind:data(any) addr:0x0215c3ac
 data_0215c3b0 kind:data(any) addr:0x0215c3b0

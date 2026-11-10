@@ -26,7 +26,7 @@ typedef struct SoundSource {
     /* 30 */ void (*mTrackParamsFunction)(void *a, void *b, void *c);
     /* 34 */ u16 mSourceFlags;
     /* 36 */ u8 mUnk_36[2];
-    /* 38 */ u32 mUnk_38;
+    /* 38 */ u32 mRegistered;
     // Number of the volume curve (element of gSoundFalloffs) of this source.
     /* 3c */ u8 mFalloffIndex;
     /* 3d */ u8 mUnk_3d[3];
@@ -73,8 +73,8 @@ typedef struct SoundParams {
     /* 10 */ s32 mDistance;
     /* 14 */ s32 mVolume;
     /* 18 */ u32 mPan;
-    /* 1c */ u32 mUnk_1c;
-    /* 20 */ SoundStartParams *mUnk_20;
+    /* 1c */ u32 mVolumeForPriority;
+    /* 20 */ SoundStartParams *mStartParams;
 } SoundParams;
 
 u32 StartOrUpdateSndHandleSound(u32 seqArcNo, u32 soundId, Vec3 *positionSource, NNSSndSeqPlayer **handle,

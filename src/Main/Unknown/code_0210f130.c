@@ -25,7 +25,7 @@ void SetupMicAutoSampling(MicBuffer *micBuffer) {
         PM_SetAmp(1);
         gMicInitialized = 1;
     }
-    micBuffer->mUnk_41c = 0;
+    micBuffer->mSkipCount = 0;
     for (i = 0; i < 0x400; i++) {
         micBuffer->mSamples[i] = 0;
     }
