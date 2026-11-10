@@ -33,7 +33,7 @@ void GetCourseMapStartPlacementWithOffsets(Vec3 *outPos, Vec3 *outRotation, s32 
     s32 negatedThirdAxisY;
     s32 negatedThirdAxisZ;
 
-    if (gCourseMap->mSettings->mInvertStartOffset != 0) {
+    if (gCourseMap->mSettings->mUnk_04 != 0) {
         firstAxisOffset = 0x1000 - firstAxisOffset;
     }
     if (gCourseMap->mStartPlacementCount > 1) {
@@ -240,7 +240,7 @@ void *FindCourseMapKind4ShapeRacePointLink(Vec3 *pos) {
     }
     for (shapeIndex = 0; shapeIndex < gCourseMap->mShapeCount; shapeIndex++) {
         shape = GetCourseMapShape(shapeIndex);
-        if (shape->mKind == COURSE_MAP_SHAPE_KIND_4) {
+        if (shape->mKind == COURSE_MAP_SHAPE_KIND_POINT_LINK) {
             inside = 0;
             switch (shape->mShapeKind) {
                 case 0:
@@ -283,7 +283,7 @@ PointLink *FindCourseMapKind4ShapeBattlePointLink(Vec3 *pos) {
     }
     for (shapeIndex = 0; shapeIndex < gCourseMap->mShapeCount; shapeIndex++) {
         shape = GetCourseMapShape(shapeIndex);
-        if (shape->mKind == COURSE_MAP_SHAPE_KIND_4) {
+        if (shape->mKind == COURSE_MAP_SHAPE_KIND_POINT_LINK) {
             inside = 0;
             switch (shape->mShapeKind) {
                 case 0:
@@ -323,7 +323,7 @@ s32 GetCourseMapCameraIndexAtPos(Vec3 *pos) {
 
     for (shapeIndex = 0; shapeIndex < gCourseMap->mShapeCount; shapeIndex++) {
         shape = GetCourseMapShape(shapeIndex);
-        if (shape->mKind == COURSE_MAP_SHAPE_KIND_1) {
+        if (shape->mKind == COURSE_MAP_SHAPE_KIND_CAMERA) {
             inside = 0;
             switch (shape->mShapeKind) {
                 case 0:

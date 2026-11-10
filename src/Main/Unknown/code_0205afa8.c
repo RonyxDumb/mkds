@@ -19,14 +19,15 @@ s32 PackOwnKartProgress(void) {
     kartIndex = gParticipantKartMap->mKartOfParticipant[GetOwnParticipantIndex()];
     kartStartRank = GetKartStartRank(kartIndex);
     c = GetKartFinishTimeMs(kartIndex) & WIFI_RACE_SYNC_PROGRESS_TIME_MASK;
-    if (IsKartEnded(kartIndex) != 0 && gRaceProgress->mKarts[kartIndex].mStatus != 1 &&
+    if (IsKartEnded(kartIndex) != 0 &&
+        gRaceProgress->mKarts[kartIndex].mStatus != RACE_PROGRESS_KART_STATUS_GOAL_REACHED &&
         gWiFiRaceSync->mFinishRecorded == FALSE) {
         c = WIFI_RACE_SYNC_PROGRESS_DID_NOT_FINISH;
     }
     if (c == 0) {
         c = kartStartRank - 1;
     }
-    if (gRaceProgress->mKarts[kartIndex].mStatus == 1) {
+    if (gRaceProgress->mKarts[kartIndex].mStatus == RACE_PROGRESS_KART_STATUS_GOAL_REACHED) {
         d = 0;
     } else {
         d = 6 - GetKartHighestLap(kartIndex);

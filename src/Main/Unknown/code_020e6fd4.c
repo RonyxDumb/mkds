@@ -126,7 +126,7 @@ void InitJg(void) {
     data_0217b8f0 = flag;
     data_0217b8bc = flag;
     data_0217b894 = 0;
-    if (gCourseMap->mSettings->mInvertStartOffset != 0) {
+    if (gCourseMap->mSettings->mUnk_04 != 0) {
         flag = FALSE;
     }
     data_0217b8f8 = flag;

@@ -107,10 +107,26 @@ typedef struct ItemObject {
     /* 129 */ u8 mUnk_129[3];
 } ItemObject;
 
+// Values of RaceProgressKart.mStatus. Racing, goal reached (battle: still alive at the end), battle loser, ended
+// without the goal (time up, or the race is over), removed.
+#define RACE_PROGRESS_KART_STATUS_RACING 0
+#define RACE_PROGRESS_KART_STATUS_GOAL_REACHED 1
+#define RACE_PROGRESS_KART_STATUS_BATTLE_LOSER 2
+#define RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL 3
+#define RACE_PROGRESS_KART_STATUS_REMOVED 4
+
+// Bits of RaceProgressKart.mFlags.
+#define RACE_PROGRESS_KART_FLAG_LOCAL_ENTRY 0x1
+#define RACE_PROGRESS_KART_FLAG_MODE_2_END 0x2
+#define RACE_PROGRESS_KART_FLAG_AGAINST_CHECKPOINT 0x4
+#define RACE_PROGRESS_KART_FLAG_FINISH_JUST_HAPPENED 0x8
+#define RACE_PROGRESS_KART_FLAG_GOAL_WAIT 0x10
+#define RACE_PROGRESS_KART_FLAG_FAILURE_WAIT 0x20
+#define RACE_PROGRESS_KART_FLAG_FINISH_PENDING 0x40
+
 // One 0x8c entry per kart (mKarts[kart index]).
 typedef struct RaceProgressKart {
-    // 0 racing, 1 goal reached (battle: still alive at the end), 2 battle loser, 3 ended without the goal (time up, or
-    // the race is over), 4 removed.
+    // See RACE_PROGRESS_KART_STATUS_*.
     /* 00 */ s32 mStatus;
     // Frames of the current lap, counted while the clock gate is on (about 0x57e40 at most); read and reset at each lap
     // pass.
@@ -171,7 +187,7 @@ typedef struct RaceProgressHeader {
             /* 0a */ u8 mClockMinute;
             /* 0b */ u8 mClockSecond;
         };
-        MinuteSecondMillisecondTime mUnk_08_view;
+        MinuteSecondMillisecondTime mClockTime;
     };
     // Frames from the file, 0 = course absent. Compared with mElapsedFrames.
     /* 0c */ u16 mRankTime;
@@ -232,7 +248,7 @@ typedef struct RankPointRow {
 // ranktimeGP.rtt), three random generators (mRandom synced, mLocalRandom per console, a third with a fixed seed used in
 // mode 5) and race-done / time-limit flags. 17 files use only the generators.
 typedef struct RaceProgress {
-    /* 000 */ RaceProgressHeader mUnk_00_header;
+    /* 000 */ RaceProgressHeader mHeader;
     /* 014 */ RaceProgressKart mKarts[8];
     /* 474 */ s8 mKartAtRank[8];
     // Synced random generator; also stepped at each clock update while the clock gate is on, for the jitter that

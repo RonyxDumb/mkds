@@ -44,9 +44,9 @@ void RemoveRaceProgressKart(u16 a) {
     RaceProgressKart *p = &gRaceProgress->mKarts[a];
     BOOL f = FALSE;
     switch (p->mStatus) {
-        case 1:
-        case 2:
-        case 3:
+        case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
+        case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
+        case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
             f = TRUE;
             break;
     }
@@ -54,8 +54,8 @@ void RemoveRaceProgressKart(u16 a) {
         u32 v;
         s32 i;
         o = p->mRank;
-        v = (u16) (gRaceSetup->mKartCount - gRaceProgress->mUnk_00_header.mRemovedCount);
-        p->mRank = gRaceSetup->mKartCount - gRaceProgress->mUnk_00_header.mRemovedCount;
+        v = (u16) (gRaceSetup->mKartCount - gRaceProgress->mHeader.mRemovedCount);
+        p->mRank = gRaceSetup->mKartCount - gRaceProgress->mHeader.mRemovedCount;
         for (i = 0; i < gRaceSetup->mKartCount; i++) {
             RaceProgressKart *q = &gRaceProgress->mKarts[i];
             if (i != a) {
@@ -65,12 +65,12 @@ void RemoveRaceProgressKart(u16 a) {
                 }
             }
         }
-        gRaceProgress->mUnk_00_header.mRemovedCount++;
+        gRaceProgress->mHeader.mRemovedCount++;
     }
     if (gRaceSetup->mMode == MODE_BATTLE) {
         EliminateKartAndCheckWinner(a);
     }
-    p->mStatus = 4;
+    p->mStatus = RACE_PROGRESS_KART_STATUS_REMOVED;
     StartKartRemovalFromProgress(GetKart(a));
     SetRaceHudKartRemoved(a, 1);
     if (IsRaceEndConditionMet() != 0) {
@@ -97,9 +97,9 @@ BOOL IsKartOnLastLap(u16 a) {
     BOOL f = FALSE;
     BOOL r;
     switch (gRaceProgress->mKarts[a].mStatus) {
-        case 1:
-        case 2:
-        case 3:
+        case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
+        case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
+        case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
             f = TRUE;
             break;
     }

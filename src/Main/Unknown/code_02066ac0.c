@@ -308,7 +308,7 @@ void StartKartRaceEnd(Kart *kart) {
                 c = kart->mUnk_7c;
                 if ((c & 6) == 0 && (c & 8) == 0) {
                     data_02175664[kart->mEntryIndex].mSourceKind = 3;
-                    if (gRaceProgress->mKarts[kart->mIndex].mStatus == 1) {
+                    if (gRaceProgress->mKarts[kart->mIndex].mStatus == RACE_PROGRESS_KART_STATUS_GOAL_REACHED) {
                         CallKartAiSetup(kart->mAi, kart->mIndex);
                         kart->mUnk_7c = kart->mUnk_7c | 2;
                         if ((kart->mUnk_7c & 2) != 0) {
@@ -325,7 +325,8 @@ void StartKartRaceEnd(Kart *kart) {
                         kart->mUnk_7c = kart->mUnk_7c | 8;
                     }
                 }
-            } else if (raceSetup->mRuleKind == 1 && gRaceProgress->mKarts[kart->mIndex].mStatus != 1) {
+            } else if (raceSetup->mRuleKind == 1 &&
+                       gRaceProgress->mKarts[kart->mIndex].mStatus != RACE_PROGRESS_KART_STATUS_GOAL_REACHED) {
                 kart->mUnk_7c = kart->mUnk_7c | 0x200000;
             } else if (raceSetup->mMode == MODE_MISSION_RUN) {
                 kart->mUnk_7c = kart->mUnk_7c | 0x200000;
@@ -363,7 +364,8 @@ void StartKartRaceEnd(Kart *kart) {
         SetRaceUpdateFramesAtEntryEnd();
         raceSetup = gRaceSetup;
         if (raceSetup->mMode != MODE_GRAND_PRIX && raceSetup->mMode != MODE_TIME_ATTACK &&
-            ((raceSetup->mRuleKind == 1 && gRaceProgress->mKarts[kart->mIndex].mStatus != 1) ||
+            ((raceSetup->mRuleKind == 1 &&
+              gRaceProgress->mKarts[kart->mIndex].mStatus != RACE_PROGRESS_KART_STATUS_GOAL_REACHED) ||
              ((i = raceSetup->mKartCount) > 1 && (c = GetKartRank(kart->mIndex), c == i)))) {
             DisableEntryCameraUpdate();
         } else {
@@ -371,7 +373,7 @@ void StartKartRaceEnd(Kart *kart) {
             SwitchCourseCameraEffectsToCurrentCamera();
         }
     } else if (gRaceSetup->mMode == MODE_VS || gRaceSetup->mMode == 5) {
-        if (gRaceProgress->mKarts[kart->mIndex].mStatus == 1) {
+        if (gRaceProgress->mKarts[kart->mIndex].mStatus == RACE_PROGRESS_KART_STATUS_GOAL_REACHED) {
             framesSinceEntryEnd = 0;
             if (TryGetRaceUpdateFramesSinceEntryEnd((u32 *) &framesSinceEntryEnd) != 0 &&
                 (u32) framesSinceEntryEnd > 0xb4) {

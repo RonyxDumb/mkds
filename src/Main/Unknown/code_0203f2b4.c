@@ -16,5 +16,5 @@ BOOL IsKartNonCpu(u32 a) {
 }
 
 BOOL IsRaceProgressKartRemoved(u32 a) {
-    return gRaceProgress->mKarts[a].mStatus == 4;
+    return gRaceProgress->mKarts[a].mStatus == RACE_PROGRESS_KART_STATUS_REMOVED;
 }

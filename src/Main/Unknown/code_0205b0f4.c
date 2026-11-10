@@ -612,7 +612,7 @@ void UpdateWiFiRaceSyncRanks(void) {
                         o = gParticipantKartMap->mKartOfParticipant[p];
                         o = (u16) o;
                         v = gRaceProgress->mKarts[o].mRank;
-                        if (gRaceProgress->mKarts[o].mStatus != 4 && e != 0 && v > c) {
+                        if (gRaceProgress->mKarts[o].mStatus != RACE_PROGRESS_KART_STATUS_REMOVED && e != 0 && v > c) {
                             rank = rank + 1;
                         }
                     }

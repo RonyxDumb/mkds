@@ -107,7 +107,7 @@ void StartItemInUse(ItemInUse *itemInUse, HeldItem *heldItem) {
     itemInUse->mItemInfoIndex = itemInfoIndex;
     itemInUse->mIsActiveItem = FALSE;
     itemInUse->mObjectHeight =
-        gItemInfos[itemInfoIndex].mObjectKind == 8 ? ITEM_IN_USE_OBJECT_HEIGHT_TALL : ITEM_IN_USE_OBJECT_HEIGHT;
+        gItemInfos[itemInfoIndex].mObjectKind == 8 ? ITEM_IN_USE_OBJECT_HEIGHT_KIND_8 : ITEM_IN_USE_OBJECT_HEIGHT;
     poolIndex = *(vs32 *) &itemInUse->mObjectKind;
     TakeItemPoolObjects(&gItemPools[poolIndex], itemInUse->mObjectCount, itemInUse->mObjects, itemInUse->mKart->mIndex,
                         &itemInUse->mKartDrawMatrixPos);

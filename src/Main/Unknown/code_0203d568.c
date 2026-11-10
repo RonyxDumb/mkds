@@ -136,9 +136,9 @@ void CompleteRaceProgressKartLap(RaceProgressKart *kart) {
     kart->mInOrderCheckpointNumber = -1;
     f = FALSE;
     switch (kart->mStatus) {
-        case 1:
-        case 2:
-        case 3:
+        case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
+        case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
+        case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
             f = TRUE;
             break;
     }
@@ -148,12 +148,12 @@ void CompleteRaceProgressKartLap(RaceProgressKart *kart) {
     if (kart->mLap <= kart->mHighestLap) {
         return;
     }
-    if ((kart->mFlags & 1) != 0) {
+    if ((kart->mFlags & RACE_PROGRESS_KART_FLAG_LOCAL_ENTRY) != 0) {
         AdvanceSceneSoundLap();
     }
     StoreRaceProgressKartLapTime(kart, kart->mLap > GetLapCount());
     kart->mHighestLap = kart->mLap;
-    if ((kart->mFlags & 1) != 0) {
+    if ((kart->mFlags & RACE_PROGRESS_KART_FLAG_LOCAL_ENTRY) != 0) {
         StartRaceHudLapTimeDisplay();
     }
     f = FALSE;
@@ -197,10 +197,10 @@ void CompleteRaceProgressKartLap(RaceProgressKart *kart) {
             FinishRaceProgressKartWithEndKind(kart->mIndex, 4);
         }
     } else {
-        if ((kart->mFlags & 1) == 0 && gRaceSetup->mMode == 5) {
+        if ((kart->mFlags & RACE_PROGRESS_KART_FLAG_LOCAL_ENTRY) == 0 && gRaceSetup->mMode == 5) {
             return;
         }
-        kart->mFlags |= 0x40;
+        kart->mFlags |= RACE_PROGRESS_KART_FLAG_FINISH_PENDING;
     }
 }
 
@@ -211,7 +211,7 @@ void SetRaceProgressKartFinishRequest(u32 kartIndex, u32 b) {
     kart = &gRaceProgress->mKarts[kartIndex];
     finishRequest = b != 0 ? 1 : 2;
     kart->mUnk_3c = (kart->mUnk_3c & ~0x300) | ((finishRequest & 3) << 8);
-    if (gRaceProgress->mUnk_00_header.mFinishedCount + gRaceProgress->mUnk_00_header.mRemovedCount >=
+    if (gRaceProgress->mHeader.mFinishedCount + gRaceProgress->mHeader.mRemovedCount >=
         gRaceSetup->mKartCount) {
         FinishRaceProgress();
     }
@@ -325,7 +325,7 @@ void UpdateRaceProgressKarts(void) {
 
     for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
         kart = &gRaceProgress->mKarts[i];
-        if (kart->mStatus != 4 && gRaceSetup->mRaceKind != RACE_KIND_STAFF_ROLL) {
+        if (kart->mStatus != RACE_PROGRESS_KART_STATUS_REMOVED && gRaceSetup->mRaceKind != RACE_KIND_STAFF_ROLL) {
             for (k = 0; k < 16; k++) {
                 kart->mCheckpointTestedBits[k] = 0;
             }
@@ -342,17 +342,17 @@ void UpdateRaceProgressKarts(void) {
                 }
             }
             if (f != FALSE) {
-                kart->mFlags |= 4;
+                kart->mFlags |= RACE_PROGRESS_KART_FLAG_AGAINST_CHECKPOINT;
             } else {
-                kart->mFlags &= ~4;
+                kart->mFlags &= ~RACE_PROGRESS_KART_FLAG_AGAINST_CHECKPOINT;
             }
             progressByKart[i] = kart->mRaceProgress;
         }
     }
     if (gRaceSetup->mKartCount > 1) {
         raceProgress = gRaceProgress;
-        notRemovedCount = gRaceSetup->mKartCount - raceProgress->mUnk_00_header.mRemovedCount;
-        finishedCount = raceProgress->mUnk_00_header.mFinishedCount;
+        notRemovedCount = gRaceSetup->mKartCount - raceProgress->mHeader.mRemovedCount;
+        finishedCount = raceProgress->mHeader.mFinishedCount;
         for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
             rankIndex = raceProgress->mKarts[i].mRank - 1;
             progressByRank[rankIndex] = progressByKart[i];
@@ -412,13 +412,13 @@ void UpdateRaceProgressKarts(void) {
         s = &gRaceProgress->mKarts[i];
         f = FALSE;
         switch (s->mStatus) {
-            case 1:
-            case 2:
-            case 3:
+            case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
+            case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
+            case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
                 f = TRUE;
                 break;
         }
-        if (f == FALSE && (s->mFlags & 0x40) != 0) {
+        if (f == FALSE && (s->mFlags & RACE_PROGRESS_KART_FLAG_FINISH_PENDING) != 0) {
             FinishRaceProgressKart(s, 1);
             if (IsRaceEndConditionMet() != 0) {
                 switch (gRaceSetup->mMode) {
@@ -438,13 +438,13 @@ void UpdateRaceProgressKarts(void) {
                         break;
                 }
             }
-            s->mFlags &= ~0x40;
+            s->mFlags &= ~RACE_PROGRESS_KART_FLAG_FINISH_PENDING;
         }
-        if ((s->mFlags & 8) != 0) {
-            s->mFlags &= ~8;
+        if ((s->mFlags & RACE_PROGRESS_KART_FLAG_FINISH_JUST_HAPPENED) != 0) {
+            s->mFlags &= ~RACE_PROGRESS_KART_FLAG_FINISH_JUST_HAPPENED;
             if (gRaceSetup->mMode != MODE_MISSION_RUN) {
                 StartKartRaceEndWrapper(s->mIndex);
-                if ((s->mFlags & 1) != 0) {
+                if ((s->mFlags & RACE_PROGRESS_KART_FLAG_LOCAL_ENTRY) != 0) {
                     StartRaceEndSeq(0);
                 }
             }
@@ -456,19 +456,19 @@ void SetRankTimeFromRankTimeGp(RankTimeGp *rankTimeGp) {
     s32 entryIndex;
     RankTimeGpEntry *entry;
 
-    gRaceProgress->mUnk_00_header.mRankTime = 0;
+    gRaceProgress->mHeader.mRankTime = 0;
     for (entryIndex = 0; entryIndex < rankTimeGp->mEntryCount; entryIndex++) {
         entry = &rankTimeGp->mEntries[entryIndex];
         if (entry->mCourseId == gRaceSetup->mCourseId) {
             switch (gRaceSetup->mEngineIndex) {
                 case 0:
-                    gRaceProgress->mUnk_00_header.mRankTime = entry->mRankTimeEngine0;
+                    gRaceProgress->mHeader.mRankTime = entry->mRankTimeEngine0;
                     return;
                 case 1:
-                    gRaceProgress->mUnk_00_header.mRankTime = entry->mRankTimeEngine1;
+                    gRaceProgress->mHeader.mRankTime = entry->mRankTimeEngine1;
                     return;
                 case 2:
-                    gRaceProgress->mUnk_00_header.mRankTime = entry->mRankTimeEngine2;
+                    gRaceProgress->mHeader.mRankTime = entry->mRankTimeEngine2;
                     break;
             }
             return;

@@ -20,8 +20,6 @@ typedef struct KartOffsetData {
     /* 44 */ Vec3 mCharacterOffsets[13];
 } KartOffsetData;
 
-// The object behind the word at 0x590 of a Kart from its first byte:
-// the halfword at 0x40.
 // The object behind the word at 0x54 of a KartModelsEntry.
 typedef struct KartTireTranslations {
     union {
@@ -110,8 +108,6 @@ typedef struct KartModelsEntry {
     /* 0b0 */ s32 mRegion;
 } KartModelsEntry;
 
-// The item a kart is using: its objects and how they are carried. (replaces the two-line comment above the struct)
-
 // Slots of each row of ItemInUse.mHopHeightHistory (a ring; the mask picks the slot) and how many slots back the
 // second row reads.
 #define ITEM_IN_USE_HOP_HISTORY_SIZE 0x10
@@ -121,7 +117,7 @@ typedef struct KartModelsEntry {
 #define ITEM_IN_USE_MOVEMENT_WEIGHT_START 0xee1
 #define ITEM_IN_USE_MOVEMENT_WEIGHT_DECREASE 0x3d
 // The two values of ItemInUse.mObjectHeight (the first for object kind 8).
-#define ITEM_IN_USE_OBJECT_HEIGHT_TALL 0xb400
+#define ITEM_IN_USE_OBJECT_HEIGHT_KIND_8 0xb400
 #define ITEM_IN_USE_OBJECT_HEIGHT 0x4333
 
 // Object at 0x58 of a KartItems (that KartItems at 0x0c), passed first to the function pointers in the
@@ -129,14 +125,14 @@ typedef struct KartModelsEntry {
 typedef struct ItemInUse {
     /* 000 */ s32 mObjectKind;
     /* 004 */ s32 mItemInfoIndex;
-    // ItemUseKind; 5 when nothing is in use. (above mUseKind)
+    // ItemUseKind; 5 when nothing is in use.
     /* 008 */ s32 mUseKind;
     /* 00c */ struct KartItems *mKartItems;
     /* 010 */ Kart *mKart;
     /* 014 */ ItemObject *mObjects[3];
-    // Counts down as objects leave the record. (above mObjectCount)
+    // Counts down as objects leave the record.
     /* 020 */ s32 mObjectCount;
-    // Set to 10 to start the objects one by one at 8, 4 and 0. (above mObjectStartFramesLeft)
+    // Set to 10 to start the objects one by one at 8, 4 and 0.
     /* 024 */ s32 mObjectStartFramesLeft;
     /* 028 */ u16 mKartIndex;
     /* 02a */ u8 mUnk_02a[2];
@@ -166,7 +162,7 @@ typedef struct ItemInUse {
     /* 178 */ s32 mCircleRadius;
     /* 17c */ s32 mCircleHopHeight;
     /* 180 */ Vec3 mCircleCenter;
-    // Which of three places around the circle each object takes. (above mCircleSlots)
+    // Which of three places around the circle each object takes.
     /* 18c */ u16 mCircleSlots[3];
 } ItemInUse;
 

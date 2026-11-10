@@ -1181,7 +1181,7 @@ void AdvanceItemInUseTrail(ItemInUse *itemInUse) {
                 inUseAlias->mKartMovementWeights[i] -= ITEM_IN_USE_MOVEMENT_WEIGHT_DECREASE;
             }
         }
-        VEC_MultAdd(d + MUL_FIXED12_NO_ROUND(itemInUse->mKartScaleFactorTimesBase.z, 0x4333),
+        VEC_MultAdd(d + MUL_FIXED12_NO_ROUND(itemInUse->mKartScaleFactorTimesBase.z, ITEM_IN_USE_OBJECT_HEIGHT),
                     &itemInUse->mKartOrientation.mUnk_00[1], trailPos, &object->mPos);
         previousPos = trailPos;
         if (GrowItemObjectScale(object, scaleLimit, 0x19a + i * 0xcd) != 0) {
@@ -1276,7 +1276,7 @@ void StartItemInUseCircle(ItemInUse *itemInUse) {
     for (i = 0; i < 3; i++) {
         itemInUse->mCircleSlots[i] = i;
     }
-    VEC_MultAdd(MUL_FIXED12_NO_ROUND(itemInUse->mKartScaleFactorTimesBase.z, 0x4333),
+    VEC_MultAdd(MUL_FIXED12_NO_ROUND(itemInUse->mKartScaleFactorTimesBase.z, ITEM_IN_USE_OBJECT_HEIGHT),
                 &itemInUse->mKartOrientation.mUnk_00[1], &itemInUse->mKartDrawMatrixPos, &itemInUse->mCircleCenter);
     PlaceItemInUseCircleObjects(itemInUse);
     if (itemInUse->mKartIndex == gRaceSetup->mEntryIndex) {
@@ -1312,7 +1312,7 @@ void AdvanceItemInUseCircle(ItemInUse *itemInUse) {
     itemInUse->mCircleHopHeight =
         itemInUse->mCircleHopHeight - MUL_FIXED12_NO_ROUND(itemInUse->mCircleHopHeight, 0x333);
     VEC_MultAdd((itemInUse->mCircleHopHeight - itemInUse->mKartHopHeight) +
-                    MUL_FIXED12_NO_ROUND(itemInUse->mKartScaleFactorTimesBase.z, 0x4333),
+                    MUL_FIXED12_NO_ROUND(itemInUse->mKartScaleFactorTimesBase.z, ITEM_IN_USE_OBJECT_HEIGHT),
                 &itemInUse->mKartOrientation.mUnk_00[1], &itemInUse->mKartDrawMatrixPos, &itemInUse->mCircleCenter);
     itemInUse->mCircleRadius =
         itemInUse->mCircleRadius +

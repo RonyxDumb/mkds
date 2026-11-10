@@ -62,7 +62,7 @@ u32 ShouldEndReplayRace(void) {
     if (entryIndex == -1) {
         return 0;
     }
-    if (gRaceProgress->mUnk_00_header.mClockMinute >= 7) {
+    if (gRaceProgress->mHeader.mClockMinute >= 7) {
         return 1;
     }
     if (IsKeyRecordingPlaybackNearBufferEnd(&gInputSlots[entryIndex].mUnk_28) != FALSE) {

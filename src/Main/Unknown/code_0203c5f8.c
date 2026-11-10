@@ -16,9 +16,9 @@
 s32 IsKartEnded(u32 kartIndex) {
     BOOL ended = FALSE;
     switch (gRaceProgress->mKarts[kartIndex].mStatus) {
-        case 1:
-        case 2:
-        case 3:
+        case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
+        case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
+        case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
             ended = TRUE;
             break;
     }
@@ -36,9 +36,9 @@ void GetKartFinishTime(s32 kartIndex, u8 *outMinute, u8 *outSecond, u16 *outMill
     if (g != FALSE) {
         BOOL ended = FALSE;
         switch (kart->mStatus) {
-            case 1:
-            case 2:
-            case 3:
+            case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
+            case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
+            case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
                 ended = TRUE;
                 break;
         }

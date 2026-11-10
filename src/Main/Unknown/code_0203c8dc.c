@@ -23,7 +23,7 @@ void StartRaceInput(void) {
 void GetRaceClockTime(u8 *outMinute, u8 *outSecond, u16 *outMillisecond) {
     MinuteSecondMillisecondTime *clockTime;
 
-    clockTime = &gRaceProgress->mUnk_00_header.mUnk_08_view;
+    clockTime = &gRaceProgress->mHeader.mClockTime;
     *outMinute = clockTime->mMinute;
     *outSecond = clockTime->mSecond;
     *outMillisecond = clockTime->mMillisecond;

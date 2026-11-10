@@ -111,7 +111,8 @@ void UpdateRaceGoalM(void) {
 
     frame = gRaceGoalM->mUpdateFrames;
     followedKartIndex = GetFollowedKartOrEntryIndex();
-    if (gRaceProgress->mKarts[followedKartIndex].mStatus == 1 || gRaceProgress->mRaceDone != 0) {
+    if (gRaceProgress->mKarts[followedKartIndex].mStatus == RACE_PROGRESS_KART_STATUS_GOAL_REACHED ||
+        gRaceProgress->mRaceDone != 0) {
         gRaceGoalM->mReady = 0;
     }
     if (IsRaceHudGoalMEnabled() == 0) {

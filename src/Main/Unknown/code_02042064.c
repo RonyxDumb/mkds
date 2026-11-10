@@ -711,7 +711,7 @@ void CountCourseMapKind4Shapes(void) {
     u16 i;
     count = 0;
     for (i = 0; i < gCourseMap->mShapeCount; i++) {
-        if (GetCourseMapShape(i)->mKind == COURSE_MAP_SHAPE_KIND_4) {
+        if (GetCourseMapShape(i)->mKind == COURSE_MAP_SHAPE_KIND_POINT_LINK) {
             count++;
         }
     }

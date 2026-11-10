@@ -31,11 +31,11 @@ void UpdateRaceClock(void) {
     t = 0;
     p = gRaceProgress;
     q = p;
-    if (p->mUnk_00_header.mClockEnabled != 0) {
+    if (p->mHeader.mClockEnabled != 0) {
         h = p->mTimeLimitFrameCount;
         l = 0x57e40;
         f = FALSE;
-        e = p->mUnk_00_header.mElapsedFrames;
+        e = p->mHeader.mElapsedFrames;
         if (h != 0) {
             l = h;
             f = TRUE;
@@ -45,9 +45,9 @@ void UpdateRaceClock(void) {
             if (k >= 0) {
                 g = FALSE;
                 switch (gRaceProgress->mKarts[(u8) k].mStatus) {
-                    case 1:
-                    case 2:
-                    case 3:
+                    case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
+                    case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
+                    case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
                         g = TRUE;
                         break;
                 }
@@ -80,7 +80,7 @@ void UpdateRaceClock(void) {
         } else if (f != FALSE) {
             t = 1;
         }
-        p->mUnk_00_header.mElapsedFrames = e;
+        p->mHeader.mElapsedFrames = e;
         for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
             v = gRaceProgress->mKarts[i].mLapFrames;
             if (v <= 0x57e40) {
@@ -100,7 +100,7 @@ void UpdateRaceClock(void) {
                 case MODE_BATTLE:
                     if (gRaceSetup->mBattleKind == BATTLE_KIND_SHINE) {
                         gRaceProgress->mTimeLimitFrameCount = AdvanceShineBattleTimeLimit() * 0x3c;
-                        p->mUnk_00_header.mElapsedFrames = 0;
+                        p->mHeader.mElapsedFrames = 0;
                     }
                     break;
             }
@@ -110,8 +110,8 @@ void UpdateRaceClock(void) {
         r->mValue = r->mMultiplier * r->mValue + r->mIncrement;
         t = -(s16) (u16) (r->mValue >> 32 >> 20);
     }
-    c = &q->mUnk_00_header.mClockMillisecond;
-    ComputeRaceTime((u8 *) c + 2, (u8 *) c + 3, c, t, p->mUnk_00_header.mElapsedFrames);
+    c = &q->mHeader.mClockMillisecond;
+    ComputeRaceTime((u8 *) c + 2, (u8 *) c + 3, c, t, p->mHeader.mElapsedFrames);
 }
 
 BOOL IsPointBetweenCheckpointLines(const Vec3 *a, const CourseMapCheckpoint *b, const CourseMapCheckpoint *c) {

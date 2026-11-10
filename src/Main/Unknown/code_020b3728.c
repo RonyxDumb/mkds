@@ -186,7 +186,8 @@ void UpdateRaceEnd(void) {
         gRaceEnd->mResultsSet = TRUE;
     }
     followedKartIndex = GetFollowedKartOrEntryIndex();
-    if (gRaceProgress->mKarts[followedKartIndex].mStatus != 1 && gRaceProgress->mRaceDone == 0) {
+    if (gRaceProgress->mKarts[followedKartIndex].mStatus != RACE_PROGRESS_KART_STATUS_GOAL_REACHED &&
+        gRaceProgress->mRaceDone == 0) {
         return;
     }
     a = gRaceEnd->mEndFrames;
@@ -202,7 +203,8 @@ void UpdateRaceEnd(void) {
                 case MODE_VS:
                 case 5:
                     if (raceSetup->mRuleKind != 1) {
-                        if (gRaceProgress->mKarts[GetFollowedKartOrEntryIndex()].mStatus == 1) {
+                        if (gRaceProgress->mKarts[GetFollowedKartOrEntryIndex()].mStatus ==
+                            RACE_PROGRESS_KART_STATUS_GOAL_REACHED) {
                             SetStemSet(3);
                         }
                     }
@@ -233,7 +235,7 @@ void UpdateRaceEnd(void) {
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x44);
                     } else {
                         followedKartStatus = gRaceProgress->mKarts[GetFollowedKartOrEntryIndex()].mStatus;
-                        if (followedKartStatus == 3) {
+                        if (followedKartStatus == RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL) {
                             NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x43);
                         } else {
                             NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x42);

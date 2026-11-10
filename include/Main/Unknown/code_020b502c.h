@@ -11,10 +11,10 @@
 #define COURSE_MAP_VERSION_RACE_END_PLACEMENTS 0x24
 
 // Values of CourseMapShape.mKind.
-#define COURSE_MAP_SHAPE_KIND_1 1
+#define COURSE_MAP_SHAPE_KIND_CAMERA 1
 #define COURSE_MAP_SHAPE_KIND_2 2
 #define COURSE_MAP_SHAPE_KIND_3 3
-#define COURSE_MAP_SHAPE_KIND_4 4
+#define COURSE_MAP_SHAPE_KIND_POINT_LINK 4
 #define COURSE_MAP_SHAPE_KIND_5 5
 
 // No route in a slot of CourseMapRoute.mNextRoutes and mPreviousRoutes, or of the battle route point lists; the second
@@ -22,8 +22,10 @@
 #define COURSE_MAP_ROUTE_NONE 0xff
 #define COURSE_MAP_ROUTE_NONE_S8 -1
 
-// CourseMapCheckpoint.mForwardLink, mBackwardLink and mNumber: none.
+// CourseMapCheckpoint.mForwardLink and mBackwardLink: none.
 #define COURSE_MAP_CHECKPOINT_NO_LINK -1
+
+// CourseMapCheckpoint.mNumber: none.
 #define COURSE_MAP_CHECKPOINT_NO_NUMBER -1
 
 // Bit 0 of CourseMapCheckpoint.mFlags: the progress of a kart in it is lowered by a step per kart slot.
@@ -57,7 +59,7 @@ typedef struct CourseMapSettings {
     // Lap count; in battle mode the same halfword is the time limit in seconds (times 60 frames into
     // RaceProgress.mTimeLimitFrameCount when RaceSetup.mUnk_18 is 1).
     /* 02 */ u16 mLapCountOrBattleSeconds;
-    /* 04 */ u8 mInvertStartOffset;
+    /* 04 */ u8 mUnk_04;
     /* 05 */ u8 mFogEnabled;
     // 0, 1 or 2: which of three formulas fills the 32-entry table (8 words) loaded to 0x04000360 (next to
     // reg_G3X_FOG_COLOR and reg_G3X_FOG_OFFSET); other values leave it unfilled.

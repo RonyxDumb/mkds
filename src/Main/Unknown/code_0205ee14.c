@@ -243,7 +243,7 @@ void AddVSBuddyRecordResults(void) {
     if (gRaceSetup->mEntryIndex == -1) {
         return;
     }
-    if (gRaceProgress->mKarts[(u16) gRaceSetup->mEntryIndex].mStatus == 4) {
+    if (gRaceProgress->mKarts[(u16) gRaceSetup->mEntryIndex].mStatus == RACE_PROGRESS_KART_STATUS_REMOVED) {
         return;
     }
     if (gRaceProgress->mRaceDone == 0) {
@@ -276,7 +276,7 @@ void AddVSBuddyRecordResults(void) {
                     case 1:
                         if (teamIndex == GetCupWinningTeam()) {
                             outcome = 0;
-                        } else if (gRaceProgress->mKarts[entryIndex].mStatus == 4) {
+                        } else if (gRaceProgress->mKarts[entryIndex].mStatus == RACE_PROGRESS_KART_STATUS_REMOVED) {
                             outcome = 2;
                         } else {
                             outcome = 1;
@@ -328,7 +328,7 @@ void AddBattleBuddyRecordResults(void) {
     if (gRaceSetup->mEntryIndex == -1) {
         return;
     }
-    if (gRaceProgress->mKarts[(u16) gRaceSetup->mEntryIndex].mStatus == 4) {
+    if (gRaceProgress->mKarts[(u16) gRaceSetup->mEntryIndex].mStatus == RACE_PROGRESS_KART_STATUS_REMOVED) {
         return;
     }
     if (IsWinnerDecidedAndEndReached() == 0) {
@@ -351,7 +351,7 @@ void AddBattleBuddyRecordResults(void) {
                 outcome = 0;
             }
         } else if (IsKartOnWinningTeamAtEnd(entryIndex) != 0) {
-            if (gRaceProgress->mKarts[entryIndex].mStatus != 4) {
+            if (gRaceProgress->mKarts[entryIndex].mStatus != RACE_PROGRESS_KART_STATUS_REMOVED) {
                 outcome = 1;
             }
         }
@@ -396,7 +396,7 @@ void AddShineBattleBuddyRecordResults(void) {
     if (gRaceSetup->mEntryIndex == -1) {
         return;
     }
-    if (gRaceProgress->mKarts[(u16) gRaceSetup->mEntryIndex].mStatus == 4) {
+    if (gRaceProgress->mKarts[(u16) gRaceSetup->mEntryIndex].mStatus == RACE_PROGRESS_KART_STATUS_REMOVED) {
         return;
     }
     if (IsWinnerDecidedAndEndReached() == 0) {
@@ -420,7 +420,7 @@ void AddShineBattleBuddyRecordResults(void) {
                 outcome = 0;
             }
         } else if (IsKartOnWinningTeamAtEnd(entryIndex) != 0) {
-            if (gRaceProgress->mKarts[entryIndex].mStatus != 4) {
+            if (gRaceProgress->mKarts[entryIndex].mStatus != RACE_PROGRESS_KART_STATUS_REMOVED) {
                 outcome = 1;
             }
         }
@@ -483,7 +483,7 @@ void AddWiFiRaceBuddyRecordResults(void) {
     if (gRaceProgress->mRaceDone == 0) {
         return;
     }
-    if (gRaceProgress->mKarts[(u16) gRaceSetup->mEntryIndex].mStatus == 4) {
+    if (gRaceProgress->mKarts[(u16) gRaceSetup->mEntryIndex].mStatus == RACE_PROGRESS_KART_STATUS_REMOVED) {
         return;
     }
     GetClockDateOrDefault(date);
