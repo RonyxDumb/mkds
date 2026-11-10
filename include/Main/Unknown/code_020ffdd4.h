@@ -3,33 +3,33 @@
 #include "types.h"
 #include "Main/Unknown/code_020ffc4c.h"
 
-// The 0x40-byte object func_02100004 allocates and zeroes.
+// The 0x40-byte object CreateDramKindData allocates and zeroes.
 typedef struct Unk02100004 {
     /* 00 */ s32 mUnk_00[16];
 } Unk02100004;
 
-extern Unk02100004 data_0215a068;
+extern Unk02100004 gMissionRunBoxKindData;
 
-// The 0x2c-byte object func_020fff4c allocates (behind data_0217c62c, written from data_0215a100).
+// The 0x2c-byte object CreateDramDrawList allocates (behind gDramDrawList, written from data_0215a100).
 typedef struct Unk020fff4c {
     /* 00 */ s32 mUnk_00[11];
 } Unk020fff4c;
 
-extern Unk020fff4c *data_0217c62c;
+extern Unk020fff4c *gDramDrawList;
 
 extern Unk020fff4c data_0215a100;
 
-// The 0x28-byte object func_020fffa8 allocates (behind data_0217c624, written from data_0215a12c).
+// The 0x28-byte object CreateDramUpdateList allocates (behind gDramUpdateList, written from data_0215a12c).
 typedef struct Unk020fffa8 {
     /* 00 */ s32 mUnk_00[10];
 } Unk020fffa8;
 
-extern Unk020fffa8 *data_0217c624;
+extern Unk020fffa8 *gDramUpdateList;
 
 extern Unk020fffa8 data_0215a12c;
 
-Unk02100004 *func_02100004(void);
-Unk020fff4c *func_020fff4c(void);
-Unk020fffa8 *func_020fffa8(void);
-void DrawDram(void *a, Dram *dram, void *c, s32 maxAlpha);
-void func_020ffdd4(MapObjectList *list);
+Unk02100004 *CreateDramKindData(void);
+Unk020fff4c *CreateDramDrawList(void);
+Unk020fffa8 *CreateDramUpdateList(void);
+void DrawDram(void *unusedFirst, Dram *dram, void *unusedThird, s32 maxAlpha);
+void PickDramAngleChoices(MapObjectList *list);

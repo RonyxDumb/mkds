@@ -4,4 +4,4 @@
 
 typedef struct MapObjectList MapObjectList;
 
-s32 func_02100094(MapObjectList *list);
+s32 CountMapObjectsBeforePooledTail(MapObjectList *list);

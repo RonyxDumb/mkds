@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int func_020ffd3c(unsigned int value);
+unsigned int DramState3ReturnArgument(unsigned int value);

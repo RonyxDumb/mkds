@@ -22,7 +22,7 @@
 #include "Main/Unknown/code_02109000.h"
 #include "Main/Unknown/unk_0216c000.h"
 #include "Main/Unknown/code_0205a000.h"
-#include "01/code_02187d14.h" // data_0217c600
+#include "01/code_02187d14.h" // gItemFBoxRotation
 
 #pragma thumb off
 
@@ -67,8 +67,8 @@ void SetupItemFBoxPooledMapObjects(void) {
     if (gItemInfos[3].mEnabled == FALSE) {
         return;
     }
-    axis = data_0216c734;
-    MTX_RotAxis33(&data_0217c600.mUnk_00_m, &axis, 0xb50, 0xb50);
+    axis = gItemFBoxRotationAxis;
+    MTX_RotAxis33(&gItemFBoxRotation.mUnk_00_m, &axis, 0xb50, 0xb50);
     pool = &gItemPools[7];
     objectCursor = pool->mObjects;
     objectCount = pool->mObjectCount;

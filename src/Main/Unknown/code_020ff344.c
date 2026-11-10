@@ -23,7 +23,7 @@
 #include "Main/Unknown/code_020f73fc.h"
 #include "Main/Unknown/code_021053e4.h"
 #include "Main/Unknown/code_020ee684.h"
-#include "01/code_02187d14.h" // data_0217c600
+#include "01/code_02187d14.h" // gItemFBoxRotation
 
 #pragma thumb on
 
@@ -33,7 +33,7 @@ void CreateDram(void) {
 }
 
 void InitDram(Dram *dram, struct CourseMapRow *courseRow) {
-    InitStateMachine(&dram->mMapObject.mStateMachine, data_0216c740, 6, dram);
+    InitStateMachine(&dram->mMapObject.mStateMachine, gDramStateTable, 6, dram);
     dram->mAnglePerFrameChoices[0] = courseRow->mUnk_28 * 0x80 / 100;
     dram->mAnglePerFrameChoices[2] = courseRow->mUnk_30 * 0x80 / 100;
     dram->mAnglePerFrameChoices[1] = (dram->mAnglePerFrameChoices[0] + dram->mAnglePerFrameChoices[2]) / 2;
@@ -53,22 +53,22 @@ void InitDram(Dram *dram, struct CourseMapRow *courseRow) {
 
 #pragma thumb off
 
-Unk02100004 *func_020ffacc(void) {
+Unk02100004 *CreateMissionRunBoxKindData(void) {
     Unk02100004 *p;
 
     p = GetHeap(GetCurrentHeapCall());
     p = HeapAlloc(p, 0x40);
-    *p = data_0215a068;
+    *p = gMissionRunBoxKindData;
     return p;
 }
 
-BOOL func_020ffabc(u32 kind) {
+BOOL IsMissionRunBoxKind(u32 kind) {
     return kind == 0xb;
 }
 
 #pragma thumb on
 
-void func_020ff97c(Unk020ff97c *object) {
+void InitMissionRunBoxMapObject(Unk020ff97c *object) {
     object->mUnk_000.mCollisionData.mPrevMatrix = object->mUnk_000.mMapObject.mMatrix.mUnk_00_m;
     object->mUnk_000.mCollisionData.mAngleChangeVector.x = 0;
     object->mUnk_000.mCollisionData.mAngleChangeVector.y = 0;
@@ -108,24 +108,24 @@ void SetItemFBoxDrawMatrix(ItemFBox *fbox, MtxFx43 *out) {
     fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[3].y = position->y >> 4;
     fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[3].z = position->z >> 4;
     *out = fbox->mUnk_000.mItemObject.mUnk_94;
-    MTX_Concat33(&data_0217c600.mUnk_00_m, &out->mUnk_00_m, &out->mUnk_00_m);
+    MTX_Concat33(&gItemFBoxRotation.mUnk_00_m, &out->mUnk_00_m, &out->mUnk_00_m);
 }
 
-void func_020ff6d8(ItemFBox *fbox, MtxFx43 *out) {
+void SetItemFBoxPushedDrawMatrix(ItemFBox *fbox, MtxFx43 *out) {
     s32 scaledX, scaledZ;
     Vec3 *position;
 
     if ((fbox->mUnk_000.mItemObject.mFlags & 0x80000) && GetChoisesSOpenDuringRace() == 0) {
         s32 row0Dot, row2Dot;
 
-        row0Dot = ((s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].x * fbox->mUnk_130.x +
-                   (s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].z * fbox->mUnk_130.z) >>
+        row0Dot = ((s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].x * fbox->mPushDirection.x +
+                   (s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].z * fbox->mPushDirection.z) >>
                   12;
-        scaledX = MUL_FIXED12_NO_ROUND(fbox->mUnk_130.x, 0xa4);
-        row2Dot = ((s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2].x * fbox->mUnk_130.x +
-                   (s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2].z * fbox->mUnk_130.z) >>
+        scaledX = MUL_FIXED12_NO_ROUND(fbox->mPushDirection.x, 0xa4);
+        row2Dot = ((s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2].x * fbox->mPushDirection.x +
+                   (s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2].z * fbox->mPushDirection.z) >>
                   12;
-        scaledZ = MUL_FIXED12_NO_ROUND(fbox->mUnk_130.z, 0xa4);
+        scaledZ = MUL_FIXED12_NO_ROUND(fbox->mPushDirection.z, 0xa4);
         fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1].x =
             (s32) (fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1].x + scaledX);
         fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1].z += scaledZ;
@@ -187,7 +187,7 @@ void func_020ff6d8(ItemFBox *fbox, MtxFx43 *out) {
 }
 
 void ResetItemFBox(ItemFBox *fbox) {
-    fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00_m = data_0217c600.mUnk_00_m;
+    fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00_m = gItemFBoxRotation.mUnk_00_m;
     ResetPooledMapObject(fbox->mPooledMapObject);
     fbox->mPooledMapObject->mShadowMode = 2;
     SetPooledMapObjectCallback(fbox->mPooledMapObject, SetItemFBoxDrawMatrix, fbox);
@@ -195,7 +195,7 @@ void ResetItemFBox(ItemFBox *fbox) {
 
 void StartItemFBox(ItemFBox *fbox) {
     fbox->mPooledMapObject->mShadowMode = 1;
-    SetPooledMapObjectCallback(fbox->mPooledMapObject, func_020ff6d8, fbox);
+    SetPooledMapObjectCallback(fbox->mPooledMapObject, SetItemFBoxPushedDrawMatrix, fbox);
 }
 
 void AdvanceItemFBoxInUse(ItemInUse *inUse, ItemFBox *fbox) {
@@ -205,12 +205,12 @@ void AdvanceItemFBoxInUse(ItemInUse *inUse, ItemFBox *fbox) {
 
 u32 InitItemFBox(ItemInUse *inUse, ItemFBox *fbox) {
     StartItemObjectSoundSource(&fbox->mUnk_000.mItemObject);
-    fbox->mUnk_000.mItemObject.mOwnerKartIndexAndFlags |= data_0215a02c;
-    MTX_Concat33(&data_0217c600.mUnk_00_m, &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00_m,
+    fbox->mUnk_000.mItemObject.mOwnerKartIndexAndFlags |= gItemObjectExcludedUntilCourseHitBit;
+    MTX_Concat33(&gItemFBoxRotation.mUnk_00_m, &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00_m,
                  &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00_m);
-    fbox->mUnk_130.x = 0;
-    fbox->mUnk_130.y = 0;
-    fbox->mUnk_130.z = 0;
+    fbox->mPushDirection.x = 0;
+    fbox->mPushDirection.y = 0;
+    fbox->mPushDirection.z = 0;
     if ((inUse->mKartItems->mFlags & KART_ITEMS_THROW_FORWARD) != 0) {
         ThrowBouncingItem(&fbox->mUnk_000, inUse, 0, 1, 0x4000, 0x3000, 0x59a);
         StartSound(&fbox->mUnk_000.mItemObject.mSoundSource, 0xda, 0x7f, 0);
@@ -253,12 +253,12 @@ void AdvanceItemFBox(ItemFBox *fbox) {
                                &fbox->mUnk_000.mItemObject.mScale);
 }
 
-s32 func_020ff3c4(ItemFBox *fbox) {
+s32 ItemFBoxFadeOutCallback(ItemFBox *fbox) {
     Vec3 *vector;
 
     vector = gItemPushVector;
     if (LENGTH_SQUARED(*vector) >= 0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(vector, &fbox->mUnk_130);
+        Vec3NormalizeAndGetLengthUnchecked(vector, &fbox->mPushDirection);
     }
     fbox->mPooledMapObject->mShadowMode = 2;
     if ((fbox->mUnk_000.mItemObject.mFlags & 0x180000) == 0) {
@@ -267,7 +267,7 @@ s32 func_020ff3c4(ItemFBox *fbox) {
     return 2;
 }
 
-void func_020ff344(ItemFBox *fbox) {
+void SetupItemFBoxAfterLaunch(ItemFBox *fbox) {
     if ((s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].x * fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].x +
             (s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].y * fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].y +
             (s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].z * fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].z >=
@@ -277,7 +277,7 @@ void func_020ff344(ItemFBox *fbox) {
     }
     Vec3CrossUnrounded(&fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0], &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1],
                        &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2]);
-    MTX_Concat33(&data_0217c600.mUnk_00_m, &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00_m,
+    MTX_Concat33(&gItemFBoxRotation.mUnk_00_m, &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00_m,
                  &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00_m);
     if ((fbox->mUnk_000.mItemObject.mFlags & 0x180000) == 0) {
         fbox->mUnk_000.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemFBox;

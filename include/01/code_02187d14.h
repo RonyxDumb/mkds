@@ -6,7 +6,7 @@
 #include "01/code_02188950.h"
 #include "01/code_0218d520.h"
 
-extern MtxFx43 data_0217c600;
+extern MtxFx43 gItemFBoxRotation;
 
 extern MtxFx43 gJgPreviousInverseMatrix;
 

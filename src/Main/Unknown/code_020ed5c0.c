@@ -291,8 +291,8 @@ void AdvanceItemInUse(ItemInUse *itemInUse) {
     StartItemInUseObject(itemInUse, object);
     LaunchItemObjectFromPos(object, objectIndex + 1, &kart->mDrawMatrixPos, &kart->mVelocity, &kart->mGroundNormal);
     kind = object->mKind;
-    if (gItemKinds[kind].mUnk_38 != NULL) {
-        gItemKinds[kind].mUnk_38(object);
+    if (gItemKinds[kind].mAfterLaunchCallback != NULL) {
+        gItemKinds[kind].mAfterLaunchCallback(object);
     }
     if (itemInUse->mObjectCount != 0) {
         return;

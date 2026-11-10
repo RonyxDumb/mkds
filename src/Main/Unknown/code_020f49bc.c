@@ -1096,7 +1096,7 @@ void StartNextHeldItemObject(HeldItem *heldItem) {
     item->mPos = *kartDrawPos;
     LaunchItemObjectFromPos(item, 0, kartDrawPos, kartVelocity, &kart->mGroundNormal);
     kind = item->mKind;
-    kindCallback = gItemKinds[kind].mUnk_38;
+    kindCallback = gItemKinds[kind].mAfterLaunchCallback;
     if (kindCallback != NULL) {
         kindCallback(item);
     }

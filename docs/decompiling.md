@@ -525,7 +525,7 @@ Expression shapes:
 - A bit-field update that reads the value before the word: put the value in a local first; reuse one local for the
   stores that follow so only the last definition is folded (func_02056750).
 - A member address for a call argument formed before a branch instead of in the call's own block: write that update as
-  `m = (s32) (m + v);`, not `m += v;`, and keep the cast (func_020ff6d8).
+  `m = (s32) (m + v);`, not `m += v;`, and keep the cast (SetItemFBoxPushedDrawMatrix).
 - A row address added before the element offset (`&t[y]` first, then the element): a pointer local, `p = &t[y][f(x)]; v
   = p->m;` (func_0202a360). A reused index, casts and row or element helpers did not help.
 - A final add that loads the local first: `p->m = d[0] + (s32) p->m;` with the same-type cast on the member; `+=` and
@@ -1057,7 +1057,7 @@ Link order and linking:
 - `smull` with the sum as the second operand, where `(s64) t * (a + b)` gives `t` second: put the sum in a local and
   cast both, `s = a + b; (s64) s * (s64) t`; keep `(s64) t` explicit if it is shared with another product
   (func_02082750).
-- A 64-bit sum of products whose right term comes first in the original: write that term on the left (func_020ff6d8).
+- A 64-bit sum of products whose right term comes first in the target: write that term on the left (SetItemFBoxPushedDrawMatrix).
   For `smull`/`smlal` operands in a sum of products, write the products in the original's order: `(s64) w[0] * d[0] +
   (s64) w[2] * d[2]` (func_02101964).
 - A random draw computed after the call that follows it, with the 64-bit shift halves in the other order: `(u64) (u32)

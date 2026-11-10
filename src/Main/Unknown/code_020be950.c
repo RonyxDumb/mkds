@@ -92,7 +92,7 @@ BOOL CreateRaceHudSubScreenCells(RaceHudSubScreenCells **outCells, s32 kind) {
         if (drawList == NULL) {
             return FALSE;
         }
-        objectCount = func_02100094(drawList);
+        objectCount = CountMapObjectsBeforePooledTail(drawList);
         if (objectCount == 0) {
             return FALSE;
         }

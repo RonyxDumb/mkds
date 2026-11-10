@@ -25,7 +25,7 @@
 #include "Main/Unknown/unk_0215a000.h"
 #include "code_02146cbc.h"
 
-Unk02100004 *func_02100004(void) {
+Unk02100004 *CreateDramKindData(void) {
     Unk02100004 *block;
 
     block = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
@@ -37,27 +37,27 @@ Unk02100004 *func_02100004(void) {
     return block;
 }
 
-Unk020fffa8 *func_020fffa8(void) {
+Unk020fffa8 *CreateDramUpdateList(void) {
     Unk020fffa8 *block;
 
     block = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
-    data_0217c624 = block;
+    gDramUpdateList = block;
     *block = data_0215a12c;
-    SetUpdateListSlot(&data_0217c624);
-    return data_0217c624;
+    SetUpdateListSlot(&gDramUpdateList);
+    return gDramUpdateList;
 }
 
-Unk020fff4c *func_020fff4c(void) {
+Unk020fff4c *CreateDramDrawList(void) {
     Unk020fff4c *block;
 
     block = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    data_0217c62c = block;
+    gDramDrawList = block;
     *block = data_0215a100;
-    SetDrawListSlot(&data_0217c62c);
-    return data_0217c62c;
+    SetDrawListSlot(&gDramDrawList);
+    return gDramDrawList;
 }
 
-void DrawDram(void *a, Dram *dram, void *c, s32 maxAlpha) {
+void DrawDram(void *unusedFirst, Dram *dram, void *unusedThird, s32 maxAlpha) {
     MtxFx43 *matrix;
     s32 angleIndex;
 
@@ -70,7 +70,7 @@ void DrawDram(void *a, Dram *dram, void *c, s32 maxAlpha) {
     DrawNsbmdWithMatrixAndMaxAlpha(gDram, matrix, &dram->mMapObject.mScale, maxAlpha);
 }
 
-void func_020ffdd4(MapObjectList *list) {
+void PickDramAngleChoices(MapObjectList *list) {
     RandomState64 *random;
     void **dramObjects;
     Dram *dram;
@@ -91,18 +91,18 @@ void func_020ffdd4(MapObjectList *list) {
     rowIndex = ((u64) (u32) (random->mValue >> 32) * 6) >> 32;
     for (index = 0; index < count; index++) {
         dram = dramObjects[index];
-        row = data_0215a0a8[rowIndex];
+        row = gDramAngleChoiceRows[rowIndex];
         dram->mAnglePerFrame = dram->mAnglePerFrameChoices[row[index]];
         dram->mMapObject.mStateMachine.mNextState = 0;
         dram->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
-void UpdateDram(u32 arg0, Dram *dram) {
+void UpdateDram(u32 unused, Dram *dram) {
     AdvanceStateMachine(&dram->mMapObject.mStateMachine);
 }
 
-u32 func_020ffdc0(u32 value) {
+u32 DramState0ReturnArgument(u32 value) {
     return value;
 }
 
@@ -126,7 +126,7 @@ void UpdateDramState2(Dram *dram) {
     }
 }
 
-u32 func_020ffd3c(u32 value) {
+u32 DramState3ReturnArgument(u32 value) {
     return value;
 }
 

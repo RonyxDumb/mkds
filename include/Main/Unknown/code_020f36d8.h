@@ -310,7 +310,7 @@ typedef struct ItemKind {
     /* 34 */ UnkWordFunc *mFadeOutCallback;
     // Called with the object after StartItemObject and LaunchItemObjectFromPos have set it up from a kart; the entries
     // that exist set the object's mUnk_120 to the kind's mAdvance unless flags 0x180000 are set.
-    /* 38 */ void (*mUnk_38)(void *);
+    /* 38 */ void (*mAfterLaunchCallback)(void *);
     // Called with the object at the end of ReleaseItemObject.
     /* 3c */ void (*mRelease)(void *);
     /* 40 */ s32 mKeepsAdvanceAtEnd;

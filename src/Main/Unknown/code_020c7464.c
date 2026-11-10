@@ -132,7 +132,7 @@ void UpdateRaceHudSubScreenItemCells(void) {
                         if (object->mAlpha > 0) {
                             v = ((ItemTeresa *) object)->mOffsetY;
                             gRaceHudSubScreenItemCells->mCells[cellCount].mDrawPos.mUnk_04 -=
-                                0x88 * v / func_021001a0();
+                                0x88 * v / GetTeresaOffsetYDivisor();
                             if (gRaceHudSubScreenItemCells->mCells[cellCount].mDrawPos.mUnk_04 > 0) {
                                 gRaceHudSubScreenItemCells->mCells[cellCount].mCell = cell;
                                 gRaceHudSubScreenItemCells->mCells[cellCount].mUnk_0c =
@@ -536,7 +536,7 @@ BOOL CreateRaceHudSubScreenSecondHand(void) {
     if (kindEntry == NULL) {
         return FALSE;
     }
-    objectCount = func_02100094(kindEntry);
+    objectCount = CountMapObjectsBeforePooledTail(kindEntry);
     if (objectCount == 0) {
         return FALSE;
     }
