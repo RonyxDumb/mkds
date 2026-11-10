@@ -16,7 +16,7 @@
 #include "00/code_021a91b4.h"
 #include "Main/Unknown/unk_0216f000.h"
 #include "00/unk_021b4000.h"
-#include "Main/Unknown/code_02000b44.h"
+#include "code_02000b44.h"
 #include "code_02133048.h"
 #include "code_0200fc8c.h"
 #include "00/code_021a6fa8.h"

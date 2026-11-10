@@ -75,6 +75,8 @@ typedef void (*EntryCallbackFunc)(u32 a, void *b, u32 c);
 
 extern MbBeaconRecvStatus *mbrsp;
 extern Unk0216fc1c *gReceivedGameInfo;
+extern void (*gClearBssidCallback)(void);
+extern void (*gSetBssidCallback)(const u8 *);
 
 MBGameInfoRecvList *MB_GetGameInfoRecvList();
 void MB_DeleteRecvGameInfoWithoutBssdesc(u32 entryIndex);

@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "code_02142eac.h"
+#include "code_0200aea8.h"
 
 // 0x180-byte entries from 0x600 of MBiParam.
 typedef struct ScanEntry {
@@ -57,25 +58,6 @@ typedef struct MBiParam {
     /* 600 */ ScanEntry mScanEntries[16];
 } MBiParam;
 
-// 0x10-byte entries from 0x30 of MBiCacheList.
-typedef struct MBiCacheInfo {
-    /* 00 */ u32 mSrc;
-    /* 04 */ u32 mLen;
-    /* 08 */ u8 *mPtr;
-    /* 0c */ u32 mState;
-} MBiCacheInfo;
-
-typedef struct MBiCacheList {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u8 mUnk_04[0xc];
-    /* 10 */ u8 mArcName[4];
-    /* 14 */ s32 mArcNameLen;
-    /* 18 */ u8 mUnk_18[0x18];
-    /* 30 */ MBiCacheInfo mList[4];
-} MBiCacheList;
-
 void MBi_OnInitializeDone(void);
 u32 MBi_IsSendEnabled(void);
 u32 AdvanceScanChannel(Unk02143a78 *scanParams);
-u32 MBi_ReadFromCache(MBiCacheList *table, u32 offset, void *destination, u32 byteCount);
-void MBi_AttachCacheBuffer(MBiCacheList *table, u32 offset, u32 size, u8 *data, u32 value);

@@ -1,5 +1,4 @@
-#include "Main/Unknown/code_02000a5c.h"
-#include "Main/Unknown/unk_027e0000.h"
+#include "code_02000a5c.h"
 #include "code_0200c914.h"
 
 // clang-format off

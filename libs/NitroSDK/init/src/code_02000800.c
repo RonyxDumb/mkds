@@ -1,4 +1,4 @@
-#include "Main/Unknown/code_02000800.h"
+#include "code_02000800.h"
 #include "ITCM/code_01ff8000.h"
 
 // clang-format off

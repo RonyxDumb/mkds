@@ -2,13 +2,13 @@
 
 #include "types.h"
 #include "Main/Unknown/code_02007ec4.h"
-#include "Main/Unknown/code_02008880.h"
+#include "code_02008880.h"
 #include "Main/Unknown/code_0214d000.h"
 #include "code_0214cfe4.h"
 #include "wm_etc.h"
 #include "code_02003be0.h"
 #include "fs_file.h"
-#include "Main/Unknown/code_02008e10.h"
+#include "code_02008e10.h"
 
 // Entry of the list that mbss walks (the lists are chained through mUnk_4bc). MB_GetGameInfoRecvList returns one;
 // the 0xc0 bytes at 0x4c0 are moved out by MB_FakeGetParentBssDesc.

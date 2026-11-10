@@ -1,4 +1,4 @@
-#include "Main/Unknown/code_02008880.h"
+#include "code_02008880.h"
 #include "code_0200fc8c.h"
 #include "code_02003024.h"
 #include "code_02003be0.h"

@@ -12,7 +12,7 @@
 #include "fs_file.h"
 #include "Main/Unknown/code_02007ea0.h"
 #include "Main/Unknown/code_02008000.h"
-#include "Main/Unknown/code_02008880.h"
+#include "code_02008880.h"
 #include "Main/Unknown/code_02007148.h"
 #include "Main/Unknown/code_0200a000.h"
 #include "Main/Unknown/code_0200c0d8.h"
@@ -22,7 +22,7 @@
 #include "Main/Unknown/code_02007ec4.h"
 #include "code_02003be0.h"
 #include "03/code_021cfa68.h"
-#include "Main/Unknown/code_02008570.h"
+#include "code_02008570.h"
 
 void func_ov003_021cfa30(u8 *a) {
     data_ov003_021da288 = (Unk021cf260 *) a;

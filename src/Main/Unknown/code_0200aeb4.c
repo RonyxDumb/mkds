@@ -5,7 +5,7 @@
 #include "Main/Unknown/unk_0216f000.h"
 #include "code_0214d018.h"
 #include "Main/Unknown/code_02007ec4.h"
-#include "Main/Unknown/code_0200b1b0.h"
+#include "code_0200b1b0.h"
 
 #pragma thumb on
 

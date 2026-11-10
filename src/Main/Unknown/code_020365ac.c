@@ -9,7 +9,7 @@
 #include "Main/Unknown/code_02036c4c.h"
 #include "Main/Unknown/code_02036588.h"
 #include "Main/Unknown/code_02039230.h"
-#include "Main/Unknown/unk_02000000.h"
+#include "unk_02000000.h"
 #include "Main/Unknown/unk_02164000.h"
 #include "Main/Unknown/unk_02174000.h"
 #include "Main/Unknown/code_02001000.h"

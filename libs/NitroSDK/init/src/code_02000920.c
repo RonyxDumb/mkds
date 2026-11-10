@@ -1,6 +1,6 @@
-#include "Main/Unknown/code_02000920.h"
-#include "Main/Unknown/unk_02000000.h"
-#include "Main/Unknown/code_02000a58.h"
+#include "code_02000920.h"
+#include "code_02000a58.h"
+#include "unk_02000000.h"
 
 // clang-format off
 // Fills c bytes at b with the word a.
