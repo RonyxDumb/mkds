@@ -10,6 +10,7 @@
 #include "Main/Unknown/code_0207b000.h"
 #include "code_02012b30.h"
 #include "Main/Unknown/code_020f9c6c.h"
+#include "Main/Unknown/code_020fd83c.h"
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/code_0208aea8.h"
 #include "Main/Unknown/code_0208b484.h"
@@ -397,7 +398,7 @@ void func_0206d18c(Kart *kart) {
             }
             break;
         case 9:
-            if (((ItemKouraW *) itemObject)->mUnk_000.mTargetLink.mNextLinksUsed != 0) {
+            if (((ItemBomb *) itemObject)->mHitSpinsKart != 0) {
                 r = TrySpinKart(kart, 2, r);
             } else {
                 r = TryStartKartState6(kart);

@@ -35,6 +35,6 @@ void SetItemFBoxPushedDrawMatrix(ItemFBox *fbox, MtxFx43 *out);
 void SetItemFBoxDrawMatrix(ItemFBox *fbox, MtxFx43 *out);
 void InitMissionRunBoxMapObject(Unk020ff97c *object);
 BOOL IsMissionRunBoxKind(u32 kind);
-Unk02100004 *CreateMissionRunBoxKindData(void);
+MapObjectKindData *CreateMissionRunBoxKindData(void);
 void InitDram(Dram *dram, struct CourseMapRow *courseRow);
 void CreateDram(void);

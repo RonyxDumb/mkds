@@ -53,8 +53,8 @@ void InitDram(Dram *dram, struct CourseMapRow *courseRow) {
 
 #pragma thumb off
 
-Unk02100004 *CreateMissionRunBoxKindData(void) {
-    Unk02100004 *p;
+MapObjectKindData *CreateMissionRunBoxKindData(void) {
+    MapObjectKindData *p;
 
     p = GetHeap(GetCurrentHeapCall());
     p = HeapAlloc(p, 0x40);

@@ -25,20 +25,20 @@
 #include "Main/Unknown/unk_0215a000.h"
 #include "code_02146cbc.h"
 
-Unk02100004 *CreateDramKindData(void) {
-    Unk02100004 *block;
+MapObjectKindData *CreateDramKindData(void) {
+    MapObjectKindData *block;
 
     block = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
     {
-        Unk02100004 zeroBlock = {0};
+        MapObjectKindData zeroBlock = {0};
 
         *block = zeroBlock;
     }
     return block;
 }
 
-Unk020fffa8 *CreateDramUpdateList(void) {
-    Unk020fffa8 *block;
+MapObjectList *CreateDramUpdateList(void) {
+    MapObjectList *block;
 
     block = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
     gDramUpdateList = block;
@@ -47,8 +47,8 @@ Unk020fffa8 *CreateDramUpdateList(void) {
     return gDramUpdateList;
 }
 
-Unk020fff4c *CreateDramDrawList(void) {
-    Unk020fff4c *block;
+MapObjectDrawList *CreateDramDrawList(void) {
+    MapObjectDrawList *block;
 
     block = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     gDramDrawList = block;
