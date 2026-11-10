@@ -2,6 +2,6 @@
 #include "Main/Unknown/unk_02175000.h"
 #include "frameheap.h"
 
-void func_0204ad24(void) {
+void ResetFrmHeap(void) {
     NNS_FndFreeToFrmHeap(data_021759d0->mHeap, 3);
 }

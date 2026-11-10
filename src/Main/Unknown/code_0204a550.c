@@ -99,7 +99,7 @@ BOOL IsKeyRecordingFull(KeyRecording *keyRecording) {
     return keyRecording->mStatus == 3;
 }
 
-BOOL func_0204a620(KeyRecording *keyRecording) {
+BOOL IsKeyRecordingPlaybackNearBufferEnd(KeyRecording *keyRecording) {
     if (keyRecording->mStatus != 2) {
         return FALSE;
     }
@@ -113,11 +113,11 @@ void InitEmblemScene(void) {
     func_ov001_021a23f4();
 }
 
-u32 func_0204a5f4(u32 value) {
+u32 EmblemSceneReturnArgument(u32 value) {
     return value;
 }
 
-void func_0204a5e8(void) {
+void WriteEmblemSceneRegistersCallback(void) {
     func_ov001_021a23c0();
 }
 

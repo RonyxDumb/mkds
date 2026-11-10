@@ -9,7 +9,7 @@ typedef struct Unk02179ec0 {
     /* 000 */ u8 mUnk_000[0xb04];
     /* b04 */ struct RomArchiveFileNode *mUnk_b04;
     /* b08 */ u8 mUnk_b08[8];
-    /* b10 */ u32 mUnk_b10;
+    /* b10 */ u32 mGroupSendMask;
 } Unk02179ec0;
 
 extern Unk02179ec0 data_02179ec0;

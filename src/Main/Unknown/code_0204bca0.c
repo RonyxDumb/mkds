@@ -224,7 +224,7 @@ void SendRomArchiveMessage(void) {
         return;
     }
     view->mUnk_46cc = view->mUnk_46cc & view->mUnk_46d8;
-    view->mUnk_46d0 = view->mUnk_46d0 & view->mUnk_46d8;
+    view->mGroupSendMask = view->mGroupSendMask & view->mUnk_46d8;
     view->mUnk_46dc = view->mUnk_46dc & view->mUnk_46d8;
     view->mUnk_46e8 = view->mUnk_46e8 & view->mUnk_46d8;
     if (view->mUnk_46e0 != FALSE && view->mUnk_46e4 == 0) {
@@ -253,7 +253,7 @@ void SendRomArchiveMessage(void) {
     if (sendMask == 0) {
         return;
     }
-    v5 = view->mUnk_46d0;
+    v5 = view->mGroupSendMask;
     firstEntry = NULL;
     if (v5 != 0 && v5 == (v5 & sendMask)) {
         v6 = TRUE;
@@ -281,7 +281,7 @@ void SendRomArchiveMessage(void) {
     }
     if (v6 != FALSE) {
         if (sendMask != v5) {
-            view->mUnk_46d0 = 0;
+            view->mGroupSendMask = 0;
         }
     }
     if (firstEntry == NULL) {
@@ -309,7 +309,7 @@ void SendRomArchiveMessage(void) {
     view->mUnk_46cc = view->mUnk_46cc & ~sendMask;
 }
 
-void func_0204d18c(RomArchiveParentView *view, RomArchiveFileNode *node, s32 c) {
+void ActivateRomArchiveNode(RomArchiveParentView *view, RomArchiveFileNode *node, s32 unused) {
     u32 savedInterrupts;
     s32 pendingMask;
     s32 blockId;
@@ -327,7 +327,7 @@ void func_0204d18c(RomArchiveParentView *view, RomArchiveFileNode *node, s32 c) 
             blockId = node->mBlockId;
             AddBlock(&node->mBlockNode, blockId, data_usa_0215470c, length <= 0x400u ? node->mBuffers[0] : 0, length,
                      0);
-            func_0204d110(&view->mPendingHead, &view->mActiveHead, node);
+            MoveRomArchiveNodeToList(&view->mPendingHead, &view->mActiveHead, node);
             node->mState = 2;
         }
         entry = view->mUnk_0000;
@@ -346,7 +346,7 @@ void func_0204d18c(RomArchiveParentView *view, RomArchiveFileNode *node, s32 c) 
 }
 
 // Moves node c to the head of list b when it is in list a; does nothing otherwise.
-void func_0204d110(RomArchiveFileNode **fromHead, RomArchiveFileNode **toHead, RomArchiveFileNode *node) {
+void MoveRomArchiveNodeToList(RomArchiveFileNode **fromHead, RomArchiveFileNode **toHead, RomArchiveFileNode *node) {
     u32 savedInterrupts;
     RomArchiveFileNode *current;
     RomArchiveFileNode *next;
@@ -373,7 +373,7 @@ void func_0204d110(RomArchiveFileNode **fromHead, RomArchiveFileNode **toHead, R
 }
 
 void FreeRomArchiveNode(RomArchiveParentView *view, RomArchiveFileNode *node) {
-    func_0204d110(&view->mPendingHead, &view->mFreeHead, node);
+    MoveRomArchiveNodeToList(&view->mPendingHead, &view->mFreeHead, node);
     node->mState = 0;
     view->mUnk_46e4 = view->mUnk_46e4 - 1;
 }
@@ -592,7 +592,7 @@ void RomArchiveParentCallback(BlockTransferRecord *record) {
                         }
                         if (queuedNode == NULL) {
                             queuedNode = view->mFreeHead;
-                            func_0204d110(&view->mFreeHead, &view->mPendingHead, queuedNode);
+                            MoveRomArchiveNodeToList(&view->mFreeHead, &view->mPendingHead, queuedNode);
                             queuedNode->mState = 1;
                             view->mUnk_46e4 = view->mUnk_46e4 + 1;
                             queuedNode->mChildCount = 0;
@@ -618,7 +618,7 @@ void RomArchiveParentCallback(BlockTransferRecord *record) {
                         if (activeNode->mChildCount <= 0) {
                             activeNode->mPendingChildMask = 0;
                             RemoveBlock(payload->mUnk_m.mUnk_04);
-                            func_0204d110(&view->mActiveHead, &view->mPendingHead, activeNode);
+                            MoveRomArchiveNodeToList(&view->mActiveHead, &view->mPendingHead, activeNode);
                             activeNode->mState = 3;
                             WakeRomArchiveThread();
                         }
@@ -895,7 +895,7 @@ void StartRomArchiveParent(u32 port, void (*stateCallback)(s32 port),
         } while (node + 1 < (RomArchiveFileNode *) &view->mFreeHead);
     }
     node->mNext = NULL;
-    view->mUnk_46d0 = 0;
+    view->mGroupSendMask = 0;
     view->mUnk_46cc = 0;
     view->mMessageSendPending = FALSE;
     view->mActiveHead = NULL;
@@ -974,7 +974,7 @@ static inline void func_0204bcec_inline(RomArchiveTransfer *a, void *p) {
     }
 }
 
-void func_0204be0c(void) {
+void StartRomArchivePacketSend(void) {
     Unk021762e0 *childView;
     RomArchiveTransfer *transfer;
     u8 *buffer;
@@ -1054,16 +1054,16 @@ u32 GetRomArchiveState(void) {
     return state;
 }
 
-u32 func_0204bcb4(u32 value) {
+u32 SetRomArchiveGroupSendMask(u32 value) {
     u32 value0 = value;
-    Unk02179ec0 *value1;
+    Unk02179ec0 *unused;
     u32 valueWithoutBit0;
     u32 savedValue;
     savedValue = value0;
     value0 = OS_DisableInterrupts();
-    value1 = &data_02179ec0;
+    unused = &data_02179ec0;
     valueWithoutBit0 = (savedValue) & ~(1u);
-    data_02179ec0.mUnk_b10 = valueWithoutBit0;
+    data_02179ec0.mGroupSendMask = valueWithoutBit0;
     value0 = OS_RestoreInterrupts(value0);
     return value0;
 }

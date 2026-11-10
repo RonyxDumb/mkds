@@ -67,10 +67,10 @@ typedef struct OverlayTableEntry {
 } OverlayTableEntry;
 
 void WakeRomArchiveThread(void);
-u32 func_0204bcb4(u32 value);
+u32 SetRomArchiveGroupSendMask(u32 value);
 u32 GetRomArchiveState(void);
 void StopRomArchive(void);
-void func_0204be0c(void);
+void StartRomArchivePacketSend(void);
 void StartRomArchive(int isParent, u32 port, u32 parentPacketSize, void (*stateCallback)(s32 isParent),
                      void *(*allocFunc)(s32 isParent, u32 port, void *parentPacketSize), u32 allocFuncArg);
 void StartRomArchiveChild(u32 port, void (*stateCallback)(s32 port),
@@ -86,8 +86,8 @@ void RomArchivePortCallback(RomArchivePortMessage *message);
 void SendRomArchivePacket(void);
 void RequestRomArchiveBytes(FSFile *file);
 void FreeRomArchiveNode(RomArchiveParentView *view, RomArchiveFileNode *node);
-void func_0204d110(RomArchiveFileNode **fromHead, RomArchiveFileNode **toHead, RomArchiveFileNode *node);
-void func_0204d18c(RomArchiveParentView *view, RomArchiveFileNode *node, s32 c);
+void MoveRomArchiveNodeToList(RomArchiveFileNode **fromHead, RomArchiveFileNode **toHead, RomArchiveFileNode *node);
+void ActivateRomArchiveNode(RomArchiveParentView *view, RomArchiveFileNode *node, s32 unused);
 void SendRomArchiveMessage(void);
 void RomArchiveSendCallback(BlockTransferRecord *record);
 u32 ReloadRomArchiveFromBlock(u32 *block);

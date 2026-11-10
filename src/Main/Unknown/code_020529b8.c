@@ -509,7 +509,7 @@ void func_02052da4(void) {
         }
     }
     if (shouldStart != FALSE) {
-        func_0204be0c();
+        StartRomArchivePacketSend();
         gConnectionWork->mUnk_1e34 = 0;
         gConnectionWork->mUnk_0454 |= 0x100;
     }

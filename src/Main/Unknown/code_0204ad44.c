@@ -21,7 +21,7 @@ void ReleaseWLMenuSceneCallback(void) {
     ReleaseWLMenuScene();
 }
 
-void func_0204b024(void) {
+void WriteWLMenuSceneRegistersCallback(void) {
     u32 unused;
     WriteWLMenuSceneRegisters();
 }

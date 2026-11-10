@@ -65,7 +65,7 @@ u32 ShouldEndReplayRace(void) {
     if (gRaceProgress->mUnk_00_header.mUnk_0a >= 7) {
         return 1;
     }
-    if (func_0204a620(&gInputSlots[entryIndex].mUnk_28) != FALSE) {
+    if (IsKeyRecordingPlaybackNearBufferEnd(&gInputSlots[entryIndex].mUnk_28) != FALSE) {
         return 1;
     }
     if (TryGetRaceUpdateFramesSinceEntryEnd(&framesSinceEntryEnd) != 0) {

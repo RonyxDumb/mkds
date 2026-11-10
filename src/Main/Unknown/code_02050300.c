@@ -337,7 +337,7 @@ static inline void func_0205081c_inline(u8 v) {
     if (func_02050650_inline() != 1) {
         return;
     }
-    func_0204bcb4(v);
+    SetRomArchiveGroupSendMask(v);
 }
 
 static inline void func_02050b88_inline(u16 v1) {

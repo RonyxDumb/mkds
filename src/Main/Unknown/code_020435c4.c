@@ -241,7 +241,7 @@ void InitInputSlotsAndTouchMic(void *heap) {
         InitKeyRecordingBuffer(&gInputSlots[i].mUnk_28, heap);
     }
     for (; i < 10; i++) {
-        func_0204a9f8(&gInputSlots[i].mUnk_28);
+        ClearKeyRecordingBufferPointer(&gInputSlots[i].mUnk_28);
     }
     data_02175624 = HeapAlloc(heap, 0x10);
     func_02043c14_inline();

@@ -259,7 +259,7 @@ void func_0204f8a0(u8 a) {
     if (func_0204f814_inline() != 1) {
         return;
     }
-    func_0204bcb4(a);
+    SetRomArchiveGroupSendMask(a);
 }
 
 void func_0204f814(void) {

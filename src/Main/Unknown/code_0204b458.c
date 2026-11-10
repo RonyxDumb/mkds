@@ -7,7 +7,7 @@
 
 #pragma thumb on
 
-void func_0204b5dc(void (*callback)(u32 *, u32)) {
+void FinishBackupWrite(void (*callback)(u32 *, u32)) {
     u32 *buffer;
     u32 byteCount;
     s32 result;
@@ -69,42 +69,43 @@ void func_0204b5dc(void (*callback)(u32 *, u32)) {
             if (callback != NULL) {
                 callback(buffer, byteCount);
             }
-            func_0204ba7c();
+            ClearBackupAccessStatus();
             return;
         }
         if (result == 2) {
             gBackupAccess->mBackupEnabled = 0;
         }
-        func_0204b344(result);
+        EndBackupAccessWithError(result);
     }
 }
 
-void func_0204b574(void) {
+void FinishBackupOneByteRead(void) {
     BOOL failed;
     failed = FALSE;
     if (CARD_GetResultCode() != 0) {
         failed = TRUE;
     }
     if (failed == FALSE) {
-        func_0204ba7c();
+        ClearBackupAccessStatus();
         CARDi_RequestStreamCommand((u32) gBackupAccess->mWriteSource, gBackupAccess->mWriteAddress,
-                                   gBackupAccess->mWriteSize, func_0204b5dc, gBackupAccess->mWriteCallback,
-                                   1, 7, 10, 2);
+                                   gBackupAccess->mWriteSize, FinishBackupWrite, gBackupAccess->mWriteCallback, 1, 7,
+                                   10, 2);
     } else {
         UnlockBackup();
         gBackupAccess->mCommandRunning = 0;
-        func_0204b344(failed);
+        EndBackupAccessWithError(failed);
     }
 }
 
-u32 func_0204b518(void) {
+u32 StartBackupOneByteRead(void) {
     if (gBackupAccess->mBackupEnabled == 0 || CARD_TryWaitBackupAsync() == 0) {
         return 0;
     }
     if (TryLockBackup() == 0) {
         return 0;
     }
-    CARDi_RequestStreamCommand(0, (u32) gBackupAccess->mUnk_64, 1, func_0204b574, NULL, 1, 6, 1, 0);
+    CARDi_RequestStreamCommand(0, (u32) gBackupAccess->mOneByteReadBuffer, 1, FinishBackupOneByteRead, NULL, 1, 6, 1,
+                               0);
     return 1;
 }
 
@@ -117,7 +118,7 @@ u32 StartBackupWrite(u32 address, u32 *source, u32 byteCount, void (*callback)(u
     }
     gBackupAccess->mErrorCode = 0;
     gBackupAccess->mCommandRunning = 1;
-    gBackupAccess->mUnk_00 = 1;
+    gBackupAccess->mStatus = 1;
     gBackupAccess->mWriteAddress = address;
     gBackupAccess->mWriteSource = source;
     gBackupAccess->mWriteSize = byteCount;
@@ -135,9 +136,9 @@ u32 StartBackupWrite(u32 address, u32 *source, u32 byteCount, void (*callback)(u
         WriteBlockTail((u8 *) source, byteCount, 0);
         XorBackupWordsAtTickIndex(xorStart, xorByteCount);
         DC_StoreRange(source, byteCount);
-        return func_0204b518();
+        return StartBackupOneByteRead();
     }
-    CARDi_RequestStreamCommand((u32) source, address, byteCount, func_0204b5dc, callback, 1, 7, 10, 2);
+    CARDi_RequestStreamCommand((u32) source, address, byteCount, FinishBackupWrite, callback, 1, 7, 10, 2);
     return 1;
 }
 

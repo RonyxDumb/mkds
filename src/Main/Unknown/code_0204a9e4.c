@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_0204a9e4.h"
 
-void func_0204a9f8(KeyRecording *record) {
+void ClearKeyRecordingBufferPointer(KeyRecording *record) {
     record->mBuffer = NULL;
 }
 

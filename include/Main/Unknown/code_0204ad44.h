@@ -10,5 +10,5 @@ void func_0204af70(void *heap);
 // RunScene. Returns 0.
 s32 RunWLMenuScene(SceneNumbers *sceneNumbers);
 void UpdateWLMenuSceneCallback(void *sceneNumbers);
-void func_0204b024(void);
+void WriteWLMenuSceneRegistersCallback(void);
 void ReleaseWLMenuSceneCallback(void);

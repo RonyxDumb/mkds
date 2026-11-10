@@ -97,7 +97,7 @@ static inline void func_020487fc_inline7(void) {
         if (SceneRunPAD_DetectFold() == 1) {
             PM_ForceToPowerOff();
         }
-        func_02049e38(3);
+        RunMessageScreenOfKind(3);
     }
     UpdatePadKeysAndTouchMic();
     if (!func_02049b6c()) {
@@ -209,7 +209,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
     SetHeapGroupId(9);
     GetHeap(GetCurrentHeapCall());
     CallQueueInit(HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x800), 0x80);
-    if (func_0204a428(a->mScene, &n)) {
+    if (TryGetSceneSoundSetSeqId(a->mScene, &n)) {
         InitSceneSoundSetPlayer(n);
     }
     InitSceneSounds(0);
@@ -219,13 +219,13 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
     }
     LoadFontAndPlayerCharacterData();
     StartInputSlots();
-    CARD_SetPulledOutCallback(func_0204a540);
+    CARD_SetPulledOutCallback(ReturnNoTerminateForPulledOut);
     data_021759d0->mUnk_78 = 0;
     if (b->mInit != NULL) {
         b->mInit(a);
     }
     ClearArchiveBuffersBit31();
-    gDisplaySettings->mIrqCallback = func_0204a4d8;
+    gDisplaySettings->mIrqCallback = AdvanceWiFiSessionOnIrqWrapper;
     StartSceneSoundSetSeq();
     StartSceneSounds();
     WaitIrqAndTurnOnDisplays();
@@ -236,7 +236,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
         UpdateSounds();
         func_020487fc_inline8();
         func_020487fc_inline9(b);
-        r = func_0204984c(a, gSceneRunState->mRunStep != 4);
+        r = RunMessageScreenOnDisconnect(a, gSceneRunState->mRunStep != 4);
         CallQueueDrain();
         if (r) {
             a->mNextScene = gSceneRunState->mNextScene;
@@ -258,7 +258,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
         UpdateSounds();
         v = func_020487fc_inline8();
         func_020487fc_inline9(b);
-        r = func_0204984c(a, gSceneRunState->mRunStep != 4);
+        r = RunMessageScreenOnDisconnect(a, gSceneRunState->mRunStep != 4);
         CallQueueDrain();
         if (r) {
             a->mNextScene = gSceneRunState->mNextScene;
@@ -277,12 +277,12 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
     gSceneRunState->mRunStep = 3;
     StopSceneSounds();
     if (data_021759d0->mSoundSetSeqPlaying) {
-        if (a == NULL || func_0204a340(a->mScene, a->mNextScene)) {
+        if (a == NULL || ShouldEndSceneSoundSet(a->mScene, a->mNextScene)) {
             StopSceneSoundSetSeq();
         }
     }
     if ((v != 0 || GetNextSceneNumber() == 0) && gBootInfo->mUnk_00 == 2) {
-        func_02049e38(0);
+        RunMessageScreenOfKind(0);
     }
     if (data_021759d0->mConnectionKind == 4) {
         StartFadeToFadedPositive(b->mFadeToFadedFrameCount);
@@ -298,7 +298,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
         UpdateSounds();
         func_020487fc_inline8();
         func_020487fc_inline9(b);
-        func_0204984c(a, gSceneRunState->mRunStep != 4);
+        RunMessageScreenOnDisconnect(a, gSceneRunState->mRunStep != 4);
         CallQueueDrain();
         if (b->mUnk_0c != NULL) {
             b->mUnk_0c(0, gSceneRunState->mSceneFrames);
@@ -327,7 +327,7 @@ end:
                     c = TRUE;
                 }
             }
-            func_0204984c(a, gSceneRunState->mRunStep != 4);
+            RunMessageScreenOnDisconnect(a, gSceneRunState->mRunStep != 4);
             CallQueueDrain();
             UpdateWiFiSession();
             RecordFrameTimes();
@@ -343,7 +343,7 @@ end:
     if (b->mRelease != NULL) {
         b->mRelease(a);
     }
-    CARD_SetPulledOutCallback(func_0204a548);
+    CARD_SetPulledOutCallback(SceneReturnTerminateForPulledOut);
     if (gDisplaySettings != NULL) {
         DisableAllBanksAndNullDisplaySettings();
     }
@@ -351,7 +351,7 @@ end:
     ClearFontAndPlayerCharacterTables();
     ClearLcdcBankAndStartWvrAndWait();
     StopSceneSoundsAtOnce();
-    if (data_021759d0->mSoundSetPlayerInitialized && func_0204a340(a->mScene, a->mNextScene)) {
+    if (data_021759d0->mSoundSetPlayerInitialized && ShouldEndSceneSoundSet(a->mScene, a->mNextScene)) {
         ReleaseSceneSoundSetPlayer();
     }
     ReleaseArchiveSlots();
@@ -372,7 +372,7 @@ end:
             }
         }
     }
-    func_0204ad24();
+    ResetFrmHeap();
     gSceneRunState->mSceneFrames = 0;
     gSceneRunState->mRunStep = 6;
 }

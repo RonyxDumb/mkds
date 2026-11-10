@@ -312,7 +312,7 @@ typedef struct RomArchiveParentView {
     /* 46c4 */ struct RomArchiveFileNode *mActiveHead;
     /* 46c8 */ struct RomArchiveFileNode *mPendingHead;
     /* 46cc */ s32 mUnk_46cc;
-    /* 46d0 */ s32 mUnk_46d0;
+    /* 46d0 */ s32 mGroupSendMask;
     /* 46d4 */ BOOL mMessageSendPending;
     /* 46d8 */ s32 mUnk_46d8;
     /* 46dc */ s32 mUnk_46dc;

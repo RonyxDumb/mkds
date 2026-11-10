@@ -32,25 +32,25 @@ BOOL TryLockBackup(void) {
     return 1;
 }
 
-void func_0204b344(s32 errorCode) {
-    BOOL f;
-    f = TRUE;
-    switch (gBackupAccess->mUnk_00) {
+void EndBackupAccessWithError(s32 errorCode) {
+    BOOL notWriteStatus;
+    notWriteStatus = TRUE;
+    switch (gBackupAccess->mStatus) {
         case 1:
         case 2:
-            f = FALSE;
+            notWriteStatus = FALSE;
     }
-    gBackupAccess->mUnk_00 = 4;
+    gBackupAccess->mStatus = 4;
     gBackupAccess->mErrorCode = errorCode;
     switch (gBackupAccess->mErrorCode) {
         case 0:
             break;
         case 1:
         case 2:
-            if (f != FALSE) {
-                func_02049980(1);
+            if (notWriteStatus != FALSE) {
+                RunMessageScreenOfKindWrapper(1);
             } else {
-                func_02049980(2);
+                RunMessageScreenOfKindWrapper(2);
             }
             break;
         case 3:

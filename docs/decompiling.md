@@ -433,7 +433,7 @@ Pointer locals and addresses:
   statements that share global addresses in the ROM have no branch between them: set the flag first (`b = 0;
   if (a == 0) { b = 1; }`, then both statements; SetCupWinningTeam).
 - An extra copy `ldr r0, [..]; adds r5, r0, #0; adds r5, #8` means the plain loaded value is used a second time
-  (func_0204b7b8 passed the base to the call instead of the adjusted pointer).
+  (FinishBackupRead passed the base to the call instead of the adjusted pointer).
 - A kept `add rX, rY, #0` between two summed terms, with the first term never stored: accumulate from zero in a local,
   `v = 0; v += a; v += b; p->m = v;` (func_020e4ad0, like func_020cf310).
 - `n = 2` folded where the original adds 2 to a zero slot: `n = 0; x[n++] = ..; x[n++] = ..;`

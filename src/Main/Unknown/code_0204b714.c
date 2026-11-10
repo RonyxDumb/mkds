@@ -57,7 +57,7 @@ void RunFileReadThread(void *a) {
             r->mUnk_0a0 = 1;
             r->mUnk_09c = 2;
             updateIrqState = OS_DisableInterrupts();
-            func_0204d18c(&data_usa_021762e0, r, 1);
+            ActivateRomArchiveNode(&data_usa_021762e0, r, 1);
             OS_RestoreInterrupts(updateIrqState);
         } else {
             FS_CloseFile(&r->mFile);
@@ -92,15 +92,15 @@ void StopFileReadThread(void) {
 
 #pragma thumb on
 
-void func_0204ba7c(void) {
-    gBackupAccess->mUnk_00 = 0;
+void ClearBackupAccessStatus(void) {
+    gBackupAccess->mStatus = 0;
 }
 
 void CreateBackupAccess(void *heap) {
     gBackupAccess = HeapAlloc(heap, 0x70);
     if (gBootInfo->mUnk_00 != 2) {
         gBackupAccess->mBuffer = HeapAllocAligned(heap, 0x2c00, 0x20);
-        gBackupAccess->mUnk_64 = HeapAllocAligned(heap, 1, 0x20);
+        gBackupAccess->mOneByteReadBuffer = HeapAllocAligned(heap, 1, 0x20);
     }
     gBackupAccess->mBackupEnabled = 0;
 }
@@ -114,7 +114,7 @@ void InitBackupAccess(void) {
     TryLockBackup();
     CARD_IdentifyBackup(0x1202);
     UnlockBackup();
-    gBackupAccess->mUnk_00 = 0;
+    gBackupAccess->mStatus = 0;
     gBackupAccess->mErrorCode = 0;
     gBackupAccess->mLockId = -3;
     gBackupAccess->mCommandRunning = 0;
@@ -142,7 +142,7 @@ BOOL CheckBackupBlockPrefix(u8 *cursor) {
     return allMatch;
 }
 
-void func_0204b7b8(void (*callback)(u32 *, u32)) {
+void FinishBackupRead(void (*callback)(u32 *, u32)) {
     u32 *p;
     u32 xorByteCount;
     s32 result;
@@ -242,13 +242,13 @@ void func_0204b7b8(void (*callback)(u32 *, u32)) {
             if (callback != NULL) {
                 callback(p, gBackupAccess->mReadSize);
             }
-            func_0204ba7c();
+            ClearBackupAccessStatus();
             return;
         }
         if (result == 2) {
             gBackupAccess->mBackupEnabled = 0;
         }
-        func_0204b344(result);
+        EndBackupAccessWithError(result);
     }
 }
 
@@ -262,7 +262,7 @@ u32 StartBackupRead(u32 address, u32 *destination, u32 byteCount, void (*callbac
     }
     gBackupAccess->mErrorCode = 0;
     gBackupAccess->mCommandRunning = 1;
-    gBackupAccess->mUnk_00 = 3;
+    gBackupAccess->mStatus = 3;
     gBackupAccess->mReadAddress = address;
     gBackupAccess->mReadDestination = destination;
     gBackupAccess->mReadSize = byteCount;
@@ -270,6 +270,6 @@ u32 StartBackupRead(u32 address, u32 *destination, u32 byteCount, void (*callbac
     gBackupAccess->mReadHasPrefix = hasPrefix;
     gBackupAccess->mCopyPass = copyPass;
     DC_InvalidateRange(destination, byteCount);
-    CARDi_RequestStreamCommand(address, (u32) destination, byteCount, func_0204b7b8, callback, 1, 6, 1, 0);
+    CARDi_RequestStreamCommand(address, (u32) destination, byteCount, FinishBackupRead, callback, 1, 6, 1, 0);
     return 1;
 }
