@@ -42,19 +42,20 @@ void StartReadGhostFileRecords(void *records) {
     gThreadFunctionQueue->mRunRequested = 1;
 }
 
-void func_020612b0(void) {
+// Counts the other karts of a Wi-Fi race on the second total before the race, as the race end takes them off again.
+void AddOtherKartCountToSecondTotal(void) {
     BackupFirstBlock *firstBlock;
     u32 total;
     u32 limit;
 
     gWiFiSession->mKartCountCopy = gWiFiSession->mKartCount;
     firstBlock = data_0217aa08->mFirstBlock;
-    total = firstBlock->mUnk_34[5] + (u8) (gWiFiSession->mKartCountCopy - 1);
+    total = firstBlock->mTotals[5] + (u8) (gWiFiSession->mKartCountCopy - 1);
     limit = data_021653e4 + 3;
     if (total > limit) {
         total = limit;
     }
-    data_0217aa08->mFirstBlock->mUnk_34[5] = total;
+    data_0217aa08->mFirstBlock->mTotals[5] = total;
     WriteBackupFirstBlock(data_0217aa08->mFirstBlock);
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
@@ -65,7 +66,7 @@ s32 CheckUserDataValidConsole(void) {
     return DWC_CheckValidConsole(&data_0217aa08->mFirstBlock->mUserData);
 }
 
-s32 func_02061250(void) {
+BOOL IsUserDataFriendKeyNonZero(void) {
     u64 friendKey;
     s32 result;
 

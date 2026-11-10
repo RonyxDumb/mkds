@@ -43,7 +43,7 @@ void func_ov000_0218583c(void) {
         GX_SetGraphicsMode(1, 0, 1);
         if (data_0217b488->mUnk_6c != FALSE) {
             p = data_0217aa08->mFirstBlock;
-            a = p->mUnk_34[5];
+            a = p->mTotals[5];
             b = gWiFiSession->mKartCountCopy - 1;
             if (b > 0) {
                 if (a < b) {
@@ -52,7 +52,7 @@ void func_ov000_0218583c(void) {
                     a -= b;
                 }
             }
-            p->mUnk_34[5] = a;
+            p->mTotals[5] = a;
             WriteBackupFirstBlockWrapper();
             WaitThreadFunctionsDone();
             if (gBackupAccess->mBackupEnabled != 0) {

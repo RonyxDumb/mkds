@@ -46,7 +46,7 @@ u8 GetLowestGrandPrixRecordValue(void) {
     lowestValue = 7;
     for (cupIndex = 0; cupIndex < 8; cupIndex++) {
         for (engineClass = 0; engineClass < 4; engineClass++) {
-            recordValue = func_02060364(cupIndex, engineClass);
+            recordValue = GetGrandPrixRecordGrade(cupIndex, engineClass);
             if (recordValue == 9 || recordValue < lowestValue) {
                 lowestValue = recordValue;
             }

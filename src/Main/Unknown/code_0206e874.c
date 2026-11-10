@@ -86,7 +86,7 @@ void func_0206edac(Kart *kart, Vec3 *groundNormal) {
             bits7c = kart->mUnk_7c;
             if ((bits7c & 0x10) && kart->mKartModelsEntry->mUnk_058 == 0) {
                 if ((bits7c & 1) || !(bits7c & 0x402000)) {
-                    StartEffectWithCallback(0x4e, &kart->mPos, kart, func_0206c2b4);
+                    StartEffectWithCallback(0x4e, &kart->mPos, kart, SetEffectFlatVelocityFromKart);
                 }
             }
         }
@@ -156,8 +156,8 @@ void CollideKartWithMapObjects(Kart *kart) {
                         d = func_0206e874_inline(foundMapObjectVector, &v);
                         if (d != 0) {
                             if (v2 != 2) {
-                                ((void (*)(Kart *, Vec3 *, MapObject *)) data_0217ac54[handlerIndex])(kart, &v,
-                                                                                                      mapObject);
+                                ((void (*)(Kart *, Vec3 *, MapObject *)) gKartMapObjectSecondResponses[handlerIndex])(
+                                    kart, &v, mapObject);
                             }
                             if (handlerResult & 8) {
                                 func_0206f04c(kart, &v, (kart->mUnk_44 & 0x40) ? 1 : 0, 0x1000, -1, -1, v2);

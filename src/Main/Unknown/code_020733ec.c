@@ -43,7 +43,7 @@ void InitKartMapObjectResponses(void) {
     raceSetup = gRaceSetup;
     i = 0;
     responseSlot = gCollideKartWithMapObjectResponses;
-    secondResponseSlot = data_0217ac54;
+    secondResponseSlot = gKartMapObjectSecondResponses;
     if (raceSetup->mCourseId == COURSE_ID_RAINBOW || raceSetup->mCourseId == COURSE_ID_OLD_SKY_AGB) {
         data_0217ac14 = func_01ffa380;
     }
@@ -61,63 +61,63 @@ void InitKartMapObjectResponses(void) {
         switch (i) {
             case 0:
                 *responseSlot = CollideKartWithMapObjectResponse0;
-                *secondResponseSlot = func_020681e0;
+                *secondResponseSlot = MapObjectResponseReturnArgument;
                 break;
             case 2:
                 *responseSlot = CollideKartWithMapObjectResponse2;
-                *secondResponseSlot = func_020681e0;
+                *secondResponseSlot = MapObjectResponseReturnArgument;
                 break;
             case 3:
                 *responseSlot = CollideKartWithMapObjectResponse3;
-                *secondResponseSlot = func_020681e0;
+                *secondResponseSlot = MapObjectResponseReturnArgument;
                 break;
             case 4:
                 *responseSlot = CollideKartWithMapObjectResponse4;
-                *secondResponseSlot = func_020681e0;
+                *secondResponseSlot = MapObjectResponseReturnArgument;
                 break;
             case 5:
                 *responseSlot = CollideKartWithMapObjectResponse5;
-                *secondResponseSlot = func_020681e0;
+                *secondResponseSlot = MapObjectResponseReturnArgument;
                 break;
             case 6:
                 *responseSlot = CollideKartWithMapObjectResponse6;
-                *secondResponseSlot = func_020681e0;
+                *secondResponseSlot = MapObjectResponseReturnArgument;
                 break;
             case 7:
                 *responseSlot = CollideKartWithMapObjectResponse7;
-                *secondResponseSlot = func_020681e0;
+                *secondResponseSlot = MapObjectResponseReturnArgument;
                 break;
             case 9:
                 *responseSlot = CollideKartWithMapObjectResponse9;
-                *secondResponseSlot = func_02068094;
+                *secondResponseSlot = StartKartPushFlipOnHitByMapObject;
                 break;
             case 8:
                 *responseSlot = CollideKartWithMapObjectResponse8;
-                *secondResponseSlot = func_020680e0;
+                *secondResponseSlot = StartKartPushFlipOnHit;
                 break;
             case 10:
                 *responseSlot = CollideKartWithMapObjectResponse10;
-                *secondResponseSlot = func_02067f94;
+                *secondResponseSlot = StartKartPushDoubleFlipOnHit;
                 break;
             case 11:
                 *responseSlot = CollideKartWithMapObjectResponse11;
-                *secondResponseSlot = func_020681e0;
+                *secondResponseSlot = MapObjectResponseReturnArgument;
                 break;
             case 12:
                 *responseSlot = CollideKartWithMapObjectResponse12;
-                *secondResponseSlot = func_020681e0;
+                *secondResponseSlot = MapObjectResponseReturnArgument;
                 break;
             case 13:
                 *responseSlot = CollideKartWithMapObjectResponse13;
-                *secondResponseSlot = func_020681e0;
+                *secondResponseSlot = MapObjectResponseReturnArgument;
                 break;
             case 14:
                 *responseSlot = CollideKartWithMapObjectResponse14;
-                *secondResponseSlot = func_020681e0;
+                *secondResponseSlot = MapObjectResponseReturnArgument;
                 break;
             default:
                 *responseSlot = CollideKartWithMapObjectNoResponse;
-                *secondResponseSlot = func_020681e0;
+                *secondResponseSlot = MapObjectResponseReturnArgument;
                 break;
         }
     }

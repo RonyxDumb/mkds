@@ -61,7 +61,7 @@ void FillGrandPrixRecord(TimeRecord *record) {
     record->mUnk_1b = 0;
     record->mCupRank = gCupRankTable[data_0217b488->mCupRankIndex];
     record->mTotalPoints = data_0217b488->mTotalPoints;
-    record->mUnk_1e = data_0217b488->mUnk_80;
+    record->mGrade = data_0217b488->mUnk_80;
     record->mFilled = 1;
 }
 
@@ -80,10 +80,10 @@ BOOL ShouldSetGrandPrixRecord(TimeRecord *storedRecord, TimeRecord *newRecord) {
     if (storedRecord->mCupRank < newRecord->mCupRank) {
         return FALSE;
     }
-    if (storedRecord->mUnk_1e < newRecord->mUnk_1e) {
+    if (storedRecord->mGrade < newRecord->mGrade) {
         return TRUE;
     }
-    if (storedRecord->mUnk_1e > newRecord->mUnk_1e) {
+    if (storedRecord->mGrade > newRecord->mGrade) {
         return FALSE;
     }
     if (storedRecord->mTotalPoints < newRecord->mTotalPoints) {

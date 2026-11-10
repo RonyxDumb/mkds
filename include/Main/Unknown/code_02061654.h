@@ -50,15 +50,15 @@ unsigned int GetRaceUpdateFrames(void);
 void StartRace(void);
 // Returns Race.mStarted (1 once the race has started); changes nothing.
 unsigned int IsRaceStarted(void);
-void func_02062000(void);
-void func_02062004(void);
+void RaceSceneAdvanceNop(void);
+void ReleaseRace(void);
 void DrawRaceWorld(void);
 // Sets the direction of light 0 that DrawRaceWorld gives to the 3D engine (Race.mLightVectorX, Y and Z) from a.
 void SetRaceLightVector(const Vec3 *lightVector);
 void DrawRace(void);
 void UpdateRace(void);
 void Init3dEngine(void);
-void func_020629a4(void);
+void InitFrmVramManagers(void);
 void InitRaceFields(void);
 void InitRace(void);
 unsigned int IsRaceAwardOrStaffRoll(void);

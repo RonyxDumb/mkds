@@ -5,7 +5,7 @@
 typedef struct DWCAccFriendData DWCAccFriendData;
 
 void ClearCourseTimeRecords(s32 courseId);
-BOOL func_02060268(s32 courseId);
+BOOL IsCourseGhostRecordMissing(s32 courseId);
 BOOL GetBuddyFriendKeyText(u8 recordIndex, void *textOut);
 s32 RemoveBuddyRecord(u8 recordIndex);
 BOOL SetBuddyRecordFlag(u8 recordIndex, s32 flag);
@@ -19,7 +19,7 @@ s32 GetBuddyRecordMatchKind0SecondCount(u8 recordIndex);
 s32 GetBuddyRecordMatchKind0FirstCount(u8 recordIndex);
 s32 IsBuddyRecordFlagged(u8 recordIndex);
 BOOL IsBuddyRecordFilled(u8 recordIndex);
-s32 func_02060364(s32 cup, s32 engineClass);
+s32 GetGrandPrixRecordGrade(s32 cup, s32 engineClass);
 s32 IsGrandPrixRecordFilled(s32 cup, s32 engineClass);
 s32 GetGrandPrixRecordCupRank(s32 cup, s32 engineClass);
 s32 GetGrandPrixRecordCharacterIndex(s32 cup, s32 engineClass);
@@ -31,7 +31,7 @@ s32 GetTimeRecordCharacterIndex(s32 courseId, s32 recordIndex);
 s32 GetTimeRecordKartIndex(s32 courseId, s32 recordIndex);
 BOOL GetTimeRecordTime(s32 courseId, s32 recordIndex, void *timeRecord);
 BOOL GetTimeRecordName(s32 courseId, s32 recordIndex, void *timeRecord);
-s32 func_020600b4(s32 courseId);
+s32 IsCourseCupMessageFlagSet(s32 courseId);
 void MergeBuddyRecords(u8 keptIndex, u8 mergedIndex);
 void RefreshNotYetBuddyFlags(void);
 void CopyWiFiBuddiesToRecordBlock(DWCAccFriendData *buddies);

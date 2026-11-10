@@ -11,8 +11,8 @@ s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccF
 s32 FindBuddyIndexByFriendData(const void *friendData);
 s32 CheckFriendKeyString(const void *keyString);
 void FormatUserDataFriendKey(u32 buffer);
-s32 func_02061250(void);
+BOOL IsUserDataFriendKeyNonZero(void);
 s32 CheckUserDataValidConsole(void);
-void func_020612b0(void);
+void AddOtherKartCountToSecondTotal(void);
 void StartReadGhostFileRecords(void *records);
 void ReadGhostFileRecords(void);

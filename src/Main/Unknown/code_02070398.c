@@ -248,11 +248,11 @@ void ResetKartAndSetPos(Kart *kart, const Vec3 *position, const Vec3 *forward, P
     kart->mPos = *position;
     if (kart->mUnk_7c & 0x400) {
         recordState = kart->mUnk_514;
-        recordState->mUnk_00 = kart->mPos;
-        recordState->mUnk_10 = recordState->mUnk_00;
-        recordState->mUnk_4c = kart->mUnk_110_q;
-        recordState->mUnk_a8 = data_02154f94;
-        recordState->mUnk_b4 = 0;
+        recordState->mSmoothedPos = kart->mPos;
+        recordState->mSmoothedDrawPos = recordState->mSmoothedPos;
+        recordState->mSmoothedRotation = kart->mUnk_110_q;
+        recordState->mPosOffset = data_02154f94;
+        recordState->mPosOffsetIndex = 0;
     }
     if (forward != NULL) {
         kart->mHeadingAngle = MUL_FIXED12_NO_ROUND(FX_Atan2(forward->x, forward->z), 0x28be60dLL) >> 12;
@@ -421,7 +421,7 @@ void ResetKartMotionVectorsAndFactors(Kart *kart) {
     Vec3 zeroVector;
 
     kart->mUnk_d4 = 0x1000;
-    kart->mUnk_d8 = 0x1000;
+    kart->mAheadSpeedLimitFactor = 0x1000;
     kart->mSpeedLimitFactor = 0x1000;
     kart->mSpeedLimitHitFactor = 0x1000;
     zeroVector = data_02154f94;
@@ -469,7 +469,7 @@ void ResetKart(Kart *kart) {
     kart->mSpeedLimitGoal = 0;
     kart->mSpeedLimit = 0xd000;
     kart->mUnk_d4 = 0x1000;
-    kart->mUnk_d8 = 0x1000;
+    kart->mAheadSpeedLimitFactor = 0x1000;
     kart->mState = KART_STATE_NORMAL;
     ClearKartItemEffectState(&kart->mUnk_538);
     MTX_Identity43_(&kart->mUnk_120_m);
@@ -582,7 +582,7 @@ void ResetKart(Kart *kart) {
     kart->mUnk_40c = 0;
     kart->mUnk_410 = 0;
     kart->mUnk_4bc = 0;
-    kart->mUnk_4c0 = 0;
+    kart->mCourseHitAttributeBit = 0;
     kart->mUnk_4c4 = 0;
     kart->mRadiusFactor = 0x1000;
     kart->mUnk_4d0 = 0;
@@ -600,8 +600,8 @@ void ResetKart(Kart *kart) {
     kart->mUnk_4f0.z = 0;
     kart->mUnk_4fc = 0;
     kart->mWaterDepth = 0;
-    kart->mUnk_506 = 0;
-    kart->mUnk_504 = kart->mUnk_506;
+    kart->mBlinkCycleFrames = 0;
+    kart->mBlinkFrames = kart->mBlinkCycleFrames;
     kart->mWobbleEasedAmplitude = 0;
     kart->mWobbleAmplitude = kart->mWobbleEasedAmplitude;
     kart->mWobbleAngle = 0;
@@ -620,27 +620,27 @@ void InitParticipantKartRecordState(Kart *kart, void *heap) {
     if (recordState == NULL) {
         return;
     }
-    recordState->mUnk_00 = kart->mPos;
-    recordState->mUnk_10 = recordState->mUnk_00;
-    recordState->mUnk_0e = kart->mHeadingAngle;
-    recordState->mUnk_0c = recordState->mUnk_0e;
+    recordState->mSmoothedPos = kart->mPos;
+    recordState->mSmoothedDrawPos = recordState->mSmoothedPos;
+    recordState->mSmoothedHeadingAngle = kart->mHeadingAngle;
+    recordState->mUnk_0c = recordState->mSmoothedHeadingAngle;
     recordState->mUnk_1c = 0;
-    recordState->mUnk_20 = 0;
-    recordState->mUnk_24 = 0;
+    recordState->mLastSyncCount = 0;
+    recordState->mPosBlendFactor = 0;
     recordState->mUnk_28 = 0;
     recordState->mAppliedFlags = 0;
-    recordState->mUnk_2c = recordState->mAppliedFlags;
+    recordState->mEventToggleFlags = recordState->mAppliedFlags;
     zeroVector = data_02154f94;
     recordState->mUnk_34 = zeroVector;
     recordState->mUnk_44 = 0;
     recordState->mUnk_48 = 0;
     recordState->mTargetTurnAngle = 0;
     recordState->mEasedTurnAngle = 0;
-    recordState->mUnk_60 = 0;
-    recordState->mUnk_64 = 0;
+    recordState->mHopHeight = 0;
+    recordState->mHopSpeed = 0;
     recordState->mPushDirection = zeroVector;
-    recordState->mUnk_a8 = zeroVector;
-    recordState->mUnk_b4 = 0;
+    recordState->mPosOffset = zeroVector;
+    recordState->mPosOffsetIndex = 0;
     NNS_FndInitList(&recordState->mPendingRecords, 0);
     NNS_FndInitList(&recordState->mFreeRecords, 0);
     entries = HeapAlloc(heap, 0x438);
@@ -656,11 +656,11 @@ void ResetParticipantKartRecordPos(Kart *kart) {
         return;
     }
     recordState = kart->mUnk_514;
-    recordState->mUnk_00 = kart->mPos;
-    recordState->mUnk_10 = recordState->mUnk_00;
-    recordState->mUnk_4c = kart->mUnk_110_q;
-    recordState->mUnk_a8 = data_02154f94;
-    recordState->mUnk_b4 = 0;
+    recordState->mSmoothedPos = kart->mPos;
+    recordState->mSmoothedDrawPos = recordState->mSmoothedPos;
+    recordState->mSmoothedRotation = kart->mUnk_110_q;
+    recordState->mPosOffset = data_02154f94;
+    recordState->mPosOffsetIndex = 0;
 }
 
 void InitKartFlags(Kart *kart) {
@@ -694,10 +694,10 @@ void ClearKartItemEffectState(KartItemEffectState *itemEffectState) {
     itemEffectState->mUnk_02 = 0;
     itemEffectState->mUnk_04 = 0;
     itemEffectState->mUnk_06 = 0;
-    itemEffectState->mUnk_08 = 0;
-    itemEffectState->mUnk_0a = 0;
-    itemEffectState->mUnk_0c = 0;
-    itemEffectState->mUnk_0e = 0;
+    itemEffectState->mAheadCount = 0;
+    itemEffectState->mAheadBoostFrames = 0;
+    itemEffectState->mScaleTableIndex = 0;
+    itemEffectState->mScaleEffectTimer = 0;
     itemEffectState->mUnk_12 = 0;
     itemEffectState->mUnk_14 = 0;
     itemEffectState->mUnk_16 = 0;
@@ -1087,7 +1087,7 @@ void ResetKartMotionState(Kart *kart, s32 b) {
     }
     if (kart->mUnk_4c & 0x2000) {
         kart->mUnk_4c &= ~0x2000;
-        kart->mUnk_d8 = 0x1000;
+        kart->mAheadSpeedLimitFactor = 0x1000;
         if (!(kart->mUnk_4c & 0x8000000)) {
             ResetKartModelsCourseColors(kart);
         }
@@ -1262,10 +1262,10 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
             AddSoundRequest(gSoundRequestQueues, GetKartCameraDistanceSquared(kart->mIndex), RequestKartSound, kart,
                             0xa3);
         }
-        itemEffectState->mUnk_0a++;
-        if (itemEffectState->mUnk_0a > KART_KILLER_RANK_END_FRAMES && (kart->mUnk_4c & 0x2000)) {
+        itemEffectState->mAheadBoostFrames++;
+        if (itemEffectState->mAheadBoostFrames > KART_KILLER_RANK_END_FRAMES && (kart->mUnk_4c & 0x2000)) {
             kart->mUnk_4c &= ~0x2000;
-            kart->mUnk_d8 = 0x1000;
+            kart->mAheadSpeedLimitFactor = 0x1000;
             if (!(kart->mUnk_4c & 0x8000000)) {
                 ResetKartModelsCourseColors(kart);
             }

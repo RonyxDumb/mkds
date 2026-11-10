@@ -93,7 +93,7 @@ void InitMenu(void) {
     SetHeapGroupId(9);
     Init3dEngine();
     SetHeapGroupId(5);
-    func_020629a4();
+    InitFrmVramManagers();
     SetHeapGroupId(9);
     if (MenuMB_IsMultiBootChildWrapper() == 0) {
         InitKartModelMenuWithParamFiles(MenuGetCurrentHeap());

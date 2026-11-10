@@ -23,7 +23,7 @@ typedef struct KartSurfaceSoundIds {
 } KartSurfaceSoundIds;
 
 extern const u32 gKartSurfaceKind6Effects[];
-extern const u32 data_usa_02154a84[];
+extern const u32 gKartSurfaceStopEffects[];
 extern const u32 gKartSurfaceKind17Effects[];
 extern const u32 gKartSurfaceKind20Effects[];
 extern const u32 gKartSurfaceKind1Effects[];
@@ -40,10 +40,10 @@ extern const s32 data_0216559c[];
 extern const s32 gKartSurfaceKind12VerticalSpeeds[];
 extern Unk02175664 data_02175664[];
 
-void func_02066ac0(Kart *kart);
+void AdvanceParticipantKartRecords(Kart *kart);
 void AdvanceKartWobble(Kart *kart);
 void StartKartRaceEnd(Kart *kart);
-void func_02067488(Kart *kart);
+void AdvanceKartAi(Kart *kart);
 // 1 when the turn start group, the level 3 group or the level 4 group (not while mLevel4StopRequested is TRUE) exists,
 // else 0; the level 2 group is not counted.
 u32 IsKartTurnEffectsActive(Kart *kart);
@@ -94,11 +94,11 @@ s32 ApplyKartSurfaceKind1(Kart *kart);
 // mSurfaceVariant to ApplyKartSurfaceEffect and returns surface group 0, for which RefreshKartSurface uses the factor
 // 0x1000 instead of an entry of mSurfaceSpeedLimitFactors.
 s32 ApplyKartSurfaceKind20(Kart *kart);
-s32 func_02067ad4(Kart *kart);
+s32 ApplyKartSurfaceStopEffects(Kart *kart);
 // Collision response 11 of gCollideKartWithMapObjectResponses (indexed by the value CollideKartWithMapObject returns
-// for the kart and the map object): when func_0206a24c holds for the kart, mUnk_44c of the kart is not the object and
-// the kart is the selected kart, increments the counter of the record GetEntryKartCounters returns. Stores 0 through
-// the second parameter and returns 0.
+// for the kart and the map object): when TryStartKartScaleTableEffect holds for the kart, mUnk_44c of the kart is not
+// the object and the kart is the selected kart, increments the counter of the record GetEntryKartCounters returns.
+// Stores 0 through the second parameter and returns 0.
 s32 CollideKartWithMapObjectResponse11(Kart *kart, s32 *output, s32 mapObject);
 // Collision response 14 of gCollideKartWithMapObjectResponses (indexed by the value CollideKartWithMapObject returns
 // for the kart and the map object): stores 0xc through the second parameter, clears bits of mUnk_48 with the mask

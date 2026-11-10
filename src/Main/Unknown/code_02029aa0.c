@@ -199,7 +199,7 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
                     FindSceneFile);
     QueueCellChars(data_usa_02153868[gResultsGp->mCupIndex], cupNameFileSet.mCells, cupNameFileSet.mChars,
                    cupNameFileSet.mCellLayout, 1, 0, subFileSet->mCells, subFileSet->mCellLayout);
-    func_020629a4();
+    InitFrmVramManagers();
     InitTrophy(gResultsGp->mCupIndex, (u16) gResultsGp->mCupRankIndex);
     i = -1;
     switch (gResultsGp->mUnk_44) {

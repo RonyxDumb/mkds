@@ -52,7 +52,7 @@ void func_ov000_021816a4(void) {
 void func_ov000_021816a0(void) {}
 
 BOOL func_ov000_02181684(void) {
-    if (func_02061250() == 0) {
+    if (IsUserDataFriendKeyNonZero() == 0) {
         return TRUE;
     }
     return FALSE;

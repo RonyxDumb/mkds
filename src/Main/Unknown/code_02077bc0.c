@@ -315,7 +315,7 @@ EntryKartCounters *GetEntryKartCounters(void) {
 }
 
 u32 func_0207a68c(int kartIndex) {
-    return func_0206c0a8(&gKarts[kartIndex]);
+    return GetKartCourseHitAttributeBit(&gKarts[kartIndex]);
 }
 
 void SetKartModelsFogEnable(s32 fogEnableFlag) {

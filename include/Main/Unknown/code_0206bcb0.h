@@ -97,10 +97,10 @@ typedef struct KartItemEffectState {
     /* 02 */ s16 mUnk_02;
     /* 04 */ s16 mUnk_04;
     /* 06 */ s16 mUnk_06;
-    /* 08 */ s16 mUnk_08;
-    /* 0a */ s16 mUnk_0a;
-    /* 0c */ s16 mUnk_0c;
-    /* 0e */ s16 mUnk_0e;
+    /* 08 */ s16 mAheadCount;
+    /* 0a */ s16 mAheadBoostFrames;
+    /* 0c */ s16 mScaleTableIndex;
+    /* 0e */ s16 mScaleEffectTimer;
     /* 10 */ s16 mTeresaFrames;
     /* 12 */ s16 mUnk_12;
     /* 14 */ s16 mUnk_14;
@@ -119,33 +119,33 @@ typedef struct KartItemEffectState {
 } KartItemEffectState;
 
 typedef struct ParticipantKartRecordState {
-    /* 00 */ Vec3 mUnk_00;
+    /* 00 */ Vec3 mSmoothedPos;
     /* 0c */ u16 mUnk_0c;
-    /* 0e */ u16 mUnk_0e;
-    /* 10 */ Vec3 mUnk_10;
+    /* 0e */ u16 mSmoothedHeadingAngle;
+    /* 10 */ Vec3 mSmoothedDrawPos;
     /* 1c */ s32 mUnk_1c;
-    /* 20 */ s32 mUnk_20;
-    /* 24 */ s32 mUnk_24;
+    /* 20 */ s32 mLastSyncCount;
+    /* 24 */ s32 mPosBlendFactor;
     /* 28 */ s32 mUnk_28;
-    /* 2c */ u32 mUnk_2c;
+    /* 2c */ u32 mEventToggleFlags;
     /* 30 */ u32 mAppliedFlags;
     /* 34 */ Vec3 mUnk_34;
     /* 40 */ s16 mTargetTurnAngle;
     /* 42 */ u8 mUnk_42[2];
     /* 44 */ u32 mUnk_44;
     /* 48 */ u32 mUnk_48;
-    /* 4c */ Vec4 mUnk_4c;
+    /* 4c */ Vec4 mSmoothedRotation;
     /* 5c */ s16 mEasedTurnAngle;
     /* 5e */ u8 mUnk_5e[2];
-    /* 60 */ s32 mUnk_60;
-    /* 64 */ s32 mUnk_64;
+    /* 60 */ s32 mHopHeight;
+    /* 64 */ s32 mHopSpeed;
     /* 68 */ u8 mUnk_68[0x18];
     /* 80 */ NNSFndList mPendingRecords;
     /* 8c */ NNSFndList mFreeRecords;
     /* 98 */ Vec3 mPushDirection;
     /* a4 */ s32 mUnk_a4;
-    /* a8 */ Vec3 mUnk_a8;
-    /* b4 */ u16 mUnk_b4;
+    /* a8 */ Vec3 mPosOffset;
+    /* b4 */ u16 mPosOffsetIndex;
 } ParticipantKartRecordState;
 
 // Bits of Kart.mUnk_7c.
@@ -252,7 +252,7 @@ typedef struct Kart {
     /* b0 */ Vec3 mVelocityDirection;
     // Size scale of the kart (x, y, z; 0x1000 = 1.0): mScaleBase times mScaleFactor per axis, y also times
     // mScaleYFactor. Zero at the start placement (ResetKartToStartPlacement) and where the kart is moved to a far
-    // corner (AdvanceKartRemovalShrink, func_02068640).
+    // corner (AdvanceKartRemovalShrink, FinishKartAtBattleEnd).
     /* bc */ Vec3 mScale;
     // Negative step added by ApplyKartGravity to mVerticalSpeed, by AdvanceKartHop to mHopSpeed while hopping and to a
     // speed of the mode-5 record; -0x2b9 at reset, 0 after the water-height branch of func_0206ff50.
@@ -263,7 +263,7 @@ typedef struct Kart {
     /* cc */ s32 mSpeedLimitGoal;
     /* d0 */ s32 mSpeedLimit;
     /* d4 */ u32 mUnk_d4;
-    /* d8 */ s32 mUnk_d8;
+    /* d8 */ s32 mAheadSpeedLimitFactor;
     /* dc */ s32 mSpeedLimitFactor;
     /* e0 */ union {
         struct {
@@ -439,8 +439,8 @@ typedef struct Kart {
     /* 398 */ s32 mUnk_398;
     /* 39c */ s32 mMapObjectVectorLength;
     /* 3a0 */ s32 mMapObjectVectorForwardDot;
-    // Angle of the tire object about the x axis (0x10000 per turn), advanced each step in func_020641f0 from the speed
-    // ratio and used by DrawKart; 0 at reset.
+    // Angle of the tire object about the x axis (0x10000 per turn), advanced each step in AdvanceKartDrawState from the
+    // speed ratio and used by DrawKart; 0 at reset.
     /* 3a4 */ u16 mTireSpinAngle;
     /* 3a6 */ u8 mUnk_3a6[2];
     /* 3a8 */ s32 mQuaternionBlendFactor;
@@ -505,7 +505,7 @@ typedef struct Kart {
     /* 44c */ struct MapObject *mUnk_44c;
     /* 450 */ KartSound mUnk_450;
     /* 4bc */ s32 mUnk_4bc;
-    /* 4c0 */ s32 mUnk_4c0;
+    /* 4c0 */ s32 mCourseHitAttributeBit;
     /* 4c4 */ s32 mUnk_4c4;
     /* 4c8 */ s32 mRadiusFactor;
     /* 4cc */ s32 mUnk_4cc;
@@ -529,8 +529,8 @@ typedef struct Kart {
     /* 4fc */ u16 mUnk_4fc;
     /* 4fe */ u8 mUnk_4fe[2];
     /* 500 */ u32 mWaterDepth;
-    /* 504 */ u16 mUnk_504;
-    /* 506 */ u16 mUnk_506;
+    /* 504 */ u16 mBlinkFrames;
+    /* 506 */ u16 mBlinkCycleFrames;
     // Points to mPos, or for a kind-3 entry in mode 5 to a Vec3 of the received record (mUnk_514); set in InitKart.
     // Draw, culling, effect placement and the position getter read the position through it.
     /* 508 */ Vec3 *mPosSource;
@@ -557,22 +557,22 @@ extern Kart *gJgKart;
 extern int data_02154f10[];
 
 void StartKartState(Kart *kart, KartState mode);
-BOOL func_0206c094(Kart *kart);
-int func_0206c0a8(Kart *kart);
+BOOL IsKartOutOfView(Kart *kart);
+int GetKartCourseHitAttributeBit(Kart *kart);
 BOOL IsKartRemovedOrRespawning(Kart *kart);
 BOOL IsKartNotNormal(Kart *kart);
 void SetupKartAiItemInUseEntry(Kart *kart);
 void SetupKartAiHeldItemEntry(Kart *kart);
-void func_0206c17c(Kart *kart);
-void func_0206c1ac(Unk0201ca6c *emitter, Kart *kart);
-void func_0206c2b4(Unk0201ca6c *emitter, Kart *kart);
+void StartKartBlink(Kart *kart);
+void PlaceEffectBehindKart(Unk0201ca6c *emitter, Kart *kart);
+void SetEffectFlatVelocityFromKart(Unk0201ca6c *emitter, Kart *kart);
 BOOL TryStartKartCollisionEffects(Kart *kart, const Vec3 *overlapDirection, int flag);
-void func_0206c450(Unk0201ca6c *emitter, Kart *kart);
-void func_0206c488(Unk0201ca6c *emitter, Kart *kart);
+void SetEffectVelocityFromKart(Unk0201ca6c *emitter, Kart *kart);
+void SetEffectScaleFromKart(Unk0201ca6c *emitter, Kart *kart);
 
 void StartEffectWithCallback(u32 idx, const Vec3 *pos, void *splManager, void (*cb)());
 int TryTurnKartAtLowSpeed(Kart *kart);
-void func_0206cc60(Kart *kart, int fromLowSpeedTurn);
+void AdvanceKartDriftTurnAngle(Kart *kart, int fromLowSpeedTurn);
 #include "Main/Unknown/code_0210ab48.h"
 void EndKartDrift(Kart *kart);
 void AdvanceKartBoost(s32 *acceleration, Kart *kart);

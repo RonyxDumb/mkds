@@ -233,7 +233,7 @@ void ReleaseRaceScene(void) {
     }
     StopMicInput();
     ClearChoisesSPointer();
-    func_02062004();
+    ReleaseRace();
     ReleaseRaceHud();
     ClearDispCapPointer();
     ClearRaceConnectionFlag();
@@ -242,7 +242,7 @@ void ReleaseRaceScene(void) {
 
 void AdvanceDispCapAndUploadRaceHud(void) {
     AdvanceDispCap(GetChoisesSPrevOpenDuringRace());
-    func_02062000();
+    RaceSceneAdvanceNop();
     UploadRaceHud();
 }
 

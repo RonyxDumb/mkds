@@ -38,15 +38,15 @@ static inline void func_0206331c_inline(u32 animationKind, ModelAnimation *anima
     }
 }
 
-void func_02063880(Kart *kart) {
+void AdvanceLocalKartCollisionSlot(Kart *kart) {
     AdvanceKartCollision(kart);
     if ((gWiFiRaceSync->mFlags & 2) != 0) {
-        func_020636f8(kart);
+        WriteKartToParticipantRecord(kart);
     }
-    func_020641f0(kart);
+    AdvanceKartDrawState(kart);
 }
 
-void func_02063830(Kart *kart) {
+void AdvanceLocalKartMotionSlot(Kart *kart) {
     if (IsMissionRunWithKind2Shapes() != 0) {
         FinishKartInCourseMapKind2Shape(&kart->mPos, kart->mIndex);
     }
@@ -57,7 +57,7 @@ void func_02063830(Kart *kart) {
     AdvanceKartMotion(kart);
 }
 
-void func_020637e0(Kart *kart) {
+void AdvancePeerKartMotionSlot(Kart *kart) {
     if (IsMissionRunWithKind2Shapes() != 0) {
         FinishKartInCourseMapKind2Shape(&kart->mPos, kart->mIndex);
     }
@@ -65,33 +65,33 @@ void func_020637e0(Kart *kart) {
         func_0206d138(kart);
     }
     kart->mUnk_4c = kart->mUnk_4c & ~0x1000;
-    func_020651fc(kart);
+    AdvancePeerKartMotion(kart);
 }
 
-void func_020637c4(Kart *kart) {
-    func_02064f50(kart);
-    func_020641f0(kart);
+void AdvancePeerKartCollisionSlot(Kart *kart) {
+    AdvancePeerKartCollision(kart);
+    AdvanceKartDrawState(kart);
 }
 
-void func_020636f8(Kart *kart) {
-    ParticipantKartRecordState *b;
+void WriteKartToParticipantRecord(Kart *kart) {
+    ParticipantKartRecordState *recordState;
     WiFiRaceSyncRecord *recordBase;
     ParticipantKartRecord *record;
 
     recordBase = &gWiFiRaceSync->mSendBuffer->mUnk_04;
     record = OFFSET_PTR(ParticipantKartRecord, recordBase, 8);
-    b = kart->mUnk_514;
+    recordState = kart->mUnk_514;
     record->mPosX = kart->mPos.x >> 10;
     record->mPosY = (kart->mPos.y - kart->mHopHeight) >> 10;
     record->mPosZ = kart->mPos.z >> 10;
     record->mForwardSpeed = kart->mForwardSpeed >> 2;
     record->mHeadingAngle = kart->mHeadingAngle;
     record->mUnk_10 = kart->mUnk_44;
-    record->mUnk_10 =
-        record->mUnk_10 | (((b->mPushDirection.x >> 6) & 0xff) << 24 | ((b->mPushDirection.y >> 6) & 0xff) << 16 |
-                           ((b->mPushDirection.z >> 6) & 0xff) << 8);
+    record->mUnk_10 = record->mUnk_10 | (((recordState->mPushDirection.x >> 6) & 0xff) << 24 |
+                                         ((recordState->mPushDirection.y >> 6) & 0xff) << 16 |
+                                         ((recordState->mPushDirection.z >> 6) & 0xff) << 8);
     record->mUnk_14 = kart->mUnk_48;
-    record->mFlags = b->mUnk_2c;
+    record->mFlags = recordState->mEventToggleFlags;
     record->mTurnAngle = kart->mTurnAngle;
 }
 

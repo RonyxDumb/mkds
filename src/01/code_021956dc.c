@@ -255,7 +255,7 @@ void func_ov001_021972b4(void) {
     if (gRecordTAtt->mIndex >= 0x20) {
         gRecordTAtt->mIndex = 0;
     }
-    if (func_020600b4(data_ov001_021a6900[gRecordTAtt->mIndex]) == 0) {
+    if (IsCourseCupMessageFlagSet(data_ov001_021a6900[gRecordTAtt->mIndex]) == 0) {
         func_ov001_021972b4();
     }
 }
@@ -265,7 +265,7 @@ void func_ov001_02197274(void) {
     if (gRecordTAtt->mIndex < 0) {
         gRecordTAtt->mIndex = 0x1f;
     }
-    if (func_020600b4(data_ov001_021a6900[gRecordTAtt->mIndex]) == 0) {
+    if (IsCourseCupMessageFlagSet(data_ov001_021a6900[gRecordTAtt->mIndex]) == 0) {
         func_ov001_02197274();
     }
 }
@@ -951,7 +951,7 @@ void AdvanceRecordTAttState9(void) {
 void AdvanceRecordTAttState10(void) {
     if (GetTxtSystemDone() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
-            if (func_02060268(data_ov001_021a6900[gRecordTAtt->mIndex]) == 0) {
+            if (IsCourseGhostRecordMissing(data_ov001_021a6900[gRecordTAtt->mIndex]) == 0) {
                 ClearCourseTimeRecords(data_ov001_021a6900[gRecordTAtt->mIndex]);
                 WaitThreadFunctionsDone();
                 if (gBackupAccess->mBackupEnabled != 0) {

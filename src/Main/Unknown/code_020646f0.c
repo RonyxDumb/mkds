@@ -19,21 +19,21 @@
 #include "Main/Unknown/code_020ed5c0.h"
 #include "code_02147cd8.h"
 
-void func_020646f0(Kart *kart, s32 b) {
+void PlaceKartAtStartPlacement(Kart *kart, s32 useCourseMapRecord) {
     MtxFx43 *rotationMatrix;
     CourseMap *courseMap;
     Vec3 startRotation;
-    Vec3 e;
-    Vec3 f;
-    Vec3 g;
-    Vec3 h;
+    Vec3 pushOut;
+    Vec3 hitNormal;
+    Vec3 raisedPos;
+    Vec3 normalOffset;
     ModelAnimation *characterAnimation;
-    s16 j;
-    s16 k;
-    s16 l;
-    Vec3 *n;
+    s16 snappedX;
+    s16 snappedY;
+    s16 snappedZ;
+    Vec3 *kartPos;
 
-    if (b == 0) {
+    if (useCourseMapRecord == 0) {
         GetCourseMapKartStartPlacement(&kart->mPos, &startRotation, kart->mIndex);
         if (gRaceSetup->mRaceKind == RACE_KIND_AWARD) {
             kart->mPos = data_0216549c[kart->mIndex];
@@ -41,31 +41,31 @@ void func_020646f0(Kart *kart, s32 b) {
     } else {
         courseMap = gCourseMap;
         if (courseMap->mUnk_3c != NULL) {
-            n = &kart->mPos;
-            if (n != NULL) {
-                *n = courseMap->mUnk_3c->mUnk_00;
+            kartPos = &kart->mPos;
+            if (kartPos != NULL) {
+                *kartPos = courseMap->mUnk_3c->mUnk_00;
             }
             startRotation = courseMap->mUnk_3c->mUnk_0c;
         }
     }
     if ((kart->mUnk_7c & 0x600) != 0) {
-        j = kart->mPos.x >> 10;
-        k = kart->mPos.y >> 10;
-        l = kart->mPos.z >> 10;
-        kart->mPos.x = j << 10;
-        kart->mPos.y = k << 10;
-        kart->mPos.z = l << 10;
+        snappedX = kart->mPos.x >> 10;
+        snappedY = kart->mPos.y >> 10;
+        snappedZ = kart->mPos.z >> 10;
+        kart->mPos.x = snappedX << 10;
+        kart->mPos.y = snappedY << 10;
+        kart->mPos.z = snappedZ << 10;
     }
-    g = kart->mPos;
-    g.y = g.y + 0x1000;
+    raisedPos = kart->mPos;
+    raisedPos.y = raisedPos.y + 0x1000;
     kart->mPos.y = kart->mPos.y - 0x1400;
-    if (CollideSphereWithCourse(&kart->mPos, &g, &kart->mTurnedForward, 0x5000, 1, -2, &e, &f, NULL, NULL, NULL, NULL,
-                                NULL, NULL) != 0) {
-        h.x = MUL_FIXED12_NO_ROUND(f.x, 0x5000);
-        h.y = MUL_FIXED12_NO_ROUND(f.y, 0x5000);
-        h.z = MUL_FIXED12_NO_ROUND(f.z, 0x5000);
-        VEC_Subtract(&e, &h, &e);
-        VEC_Add(&kart->mPos, &e, &kart->mPos);
+    if (CollideSphereWithCourse(&kart->mPos, &raisedPos, &kart->mTurnedForward, 0x5000, 1, -2, &pushOut, &hitNormal,
+                                NULL, NULL, NULL, NULL, NULL, NULL) != 0) {
+        normalOffset.x = MUL_FIXED12_NO_ROUND(hitNormal.x, 0x5000);
+        normalOffset.y = MUL_FIXED12_NO_ROUND(hitNormal.y, 0x5000);
+        normalOffset.z = MUL_FIXED12_NO_ROUND(hitNormal.z, 0x5000);
+        VEC_Subtract(&pushOut, &normalOffset, &pushOut);
+        VEC_Add(&kart->mPos, &pushOut, &kart->mPos);
     }
     kart->mPos.y = kart->mPos.y - 0x1000;
     kart->mHeadingAngle = (u32) (startRotation.y * 0xb6) >> 12;

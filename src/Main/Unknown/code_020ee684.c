@@ -783,7 +783,7 @@ void CopyKartPlacementToItemObject(KartItems *kartItems, ItemObject *object) {
         axis = &gKartItemsVec3UnitY;
     }
     SetItemObjectPlacement(object, &kart->mDrawMatrixPos, axis, &kart->mKartModelsEntry->mCourseColorBlend,
-                           func_0206c0a8(kart));
+                           GetKartCourseHitAttributeBit(kart));
     if ((kart->mUnk_48 & KART_48_ON_BOOST_SURFACE) != 0) {
         object->mFlags |= 0x40000000;
     }

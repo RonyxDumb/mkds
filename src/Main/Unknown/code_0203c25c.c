@@ -71,7 +71,7 @@ void RemoveRaceProgressKart(u16 a) {
         EliminateKartAndCheckWinner(a);
     }
     p->mStatus = 4;
-    func_02069044(GetKart(a));
+    StartKartRemovalFromProgress(GetKart(a));
     SetRaceHudKartRemoved(a, 1);
     if (IsRaceEndConditionMet() != 0) {
         switch (gRaceSetup->mMode) {

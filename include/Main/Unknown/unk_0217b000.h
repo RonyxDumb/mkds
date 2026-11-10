@@ -332,8 +332,8 @@ typedef struct Standings {
     /* 390 */ void (*mEndCallback)(void);
     /* 394 */ u8 mUnk_394[8];
     // Called in Battle with the kart index and the address of a Vec3 when a kart is placed or pushed: the position
-    // change of a kart set to a checkpoint position, the position change in func_02068494, and the push vector of a map
-    // object that a kart pushed; set by the balloon object, which adds that Vec3 to the positions of the kart's
+    // change of a kart set to a checkpoint position, the position change in ResetKartAtRaceEnd, and the push vector of
+    // a map object that a kart pushed; set by the balloon object, which adds that Vec3 to the positions of the kart's
     // balloons.
     /* 39c */ void (*mKartOffsetCallback)(u16, Vec3 *);
     // Number of Shine16 objects placed and not yet finished: AddShineCount changes it (+1 placed, -1 finished); the

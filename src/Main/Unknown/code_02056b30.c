@@ -48,7 +48,7 @@ void PackGrandPrixRecord(PackedGrandPrixRecord *packedGrandPrixRecord, TimeRecor
         packedGrandPrixRecord->mMinute = timeRecord->mMinute;
         packedGrandPrixRecord->mSecond = timeRecord->mSecond;
         packedGrandPrixRecord->mMillisecond = timeRecord->mMillisecond;
-        packedGrandPrixRecord->mUnk_00_b[3] = timeRecord->mUnk_1e;
+        packedGrandPrixRecord->mUnk_00_b[3] = timeRecord->mGrade;
         packedGrandPrixRecord->mUnk_00_b[2] = timeRecord->mTotalPoints;
         packedGrandPrixRecord->mUnk_04_b[0] = timeRecord->mCupRank;
     }

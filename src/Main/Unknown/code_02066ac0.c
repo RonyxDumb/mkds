@@ -84,7 +84,7 @@ s32 CollideKartWithMapObjectResponse14(Kart *kart, s32 *output) {
 }
 
 s32 CollideKartWithMapObjectResponse11(Kart *kart, s32 *output, s32 mapObject) {
-    if (func_0206a24c(kart) != FALSE && kart->mUnk_44c != (struct MapObject *) mapObject &&
+    if (TryStartKartScaleTableEffect(kart) != FALSE && kart->mUnk_44c != (struct MapObject *) mapObject &&
         (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
         GetEntryKartCounters()->mMapObjectHitCount++;
     }
@@ -92,8 +92,8 @@ s32 CollideKartWithMapObjectResponse11(Kart *kart, s32 *output, s32 mapObject) {
     return 0;
 }
 
-s32 func_02067ad4(Kart *kart) {
-    ApplyKartSurfaceEffect((u16) data_usa_02154a84[kart->mSurfaceVariant], kart);
+s32 ApplyKartSurfaceStopEffects(Kart *kart) {
+    ApplyKartSurfaceEffect((u16) gKartSurfaceStopEffects[kart->mSurfaceVariant], kart);
     return 0;
 }
 
@@ -242,7 +242,7 @@ u32 IsKartTurnEffectsActive(Kart *kart) {
     return (turnEffects->mLevel3Present | (turnEffects->mTurnStartPresent | level4Present)) != 0 ? 1 : 0;
 }
 
-void func_02067488(Kart *kart) {
+void AdvanceKartAi(Kart *kart) {
     Vec3 offset;
     Kart *entryKart;
     u32 kartBits;
@@ -332,7 +332,7 @@ void StartKartRaceEnd(Kart *kart) {
                 kart->mUnk_48 = kart->mUnk_48 | 0x2000;
             }
             if ((kart->mUnk_7c & KART_7C_ENTRY_IS_GHOST) != 0) {
-                func_02068ec0(kart, 0);
+                StartKartRemoval(kart, 0);
             }
         }
     }
@@ -356,7 +356,7 @@ void StartKartRaceEnd(Kart *kart) {
     if ((kart->mUnk_4c & 0x10000000) != 0 && effectState->mKillerEnding == FALSE) {
         effectState->mKillerEnding = TRUE;
         if ((kart->mUnk_7c & 0x200) != 0) {
-            kart->mUnk_514->mUnk_2c ^= 0x200000;
+            kart->mUnk_514->mEventToggleFlags ^= 0x200000;
         }
     }
     if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
@@ -451,7 +451,8 @@ void AdvanceKartWobble(Kart *kart) {
     kart->mWobbleDirection = 0;
 }
 
-void func_02066ac0(Kart *kart) {
+// Applies the newest record of a peer kart, or queues it for its frame, and turns its bits into key requests.
+void AdvanceParticipantKartRecords(Kart *kart) {
     ParticipantKartRecordState *state;
     ParticipantKartRecordNode *node;
     ParticipantKartRecordState *stateAgain;
@@ -460,19 +461,20 @@ void func_02066ac0(Kart *kart) {
     s32 difference;
     s32 appliedNow;
     s16 negatedDifference;
-    u32 h;
+    u32 participantSyncFrames;
     ParticipantKartRecordNode *pendingNode;
     ParticipantKartRecordNode *nextNode;
 
     state = kart->mUnk_514;
     appliedNow = 0;
-    h = GetParticipantSyncFrames(((u8 *) gParticipantKartMap)[kart->mIndex & 0xff]);
-    state->mUnk_24 = IsRaceStarted() == 1 ? 0x333 : appliedNow;
-    if (h > state->mUnk_20) {
-        entry = GetParticipantEntryAtSyncFrames(((u8 *) gParticipantKartMap)[kart->mIndex & 0xff], h);
+    participantSyncFrames = GetParticipantSyncFrames(((u8 *) gParticipantKartMap)[kart->mIndex & 0xff]);
+    state->mPosBlendFactor = IsRaceStarted() == 1 ? 0x333 : appliedNow;
+    if (participantSyncFrames > state->mLastSyncCount) {
+        entry =
+            GetParticipantEntryAtSyncFrames(((u8 *) gParticipantKartMap)[kart->mIndex & 0xff], participantSyncFrames);
         record = entry != NULL ? &entry->mUnk_08 : 0;
         if (record != NULL) {
-            difference = gWiFiRaceSync->mSyncFrames - h;
+            difference = gWiFiRaceSync->mSyncFrames - participantSyncFrames;
             if (difference < 0) {
                 negatedDifference = -difference;
                 node = NNS_FndGetNthListObject(&state->mFreeRecords, 0);
@@ -491,11 +493,11 @@ void func_02066ac0(Kart *kart) {
                 if (difference > 0x19) {
                     difference = 0x19;
                 }
-                func_020653d0(kart, record, difference);
+                ApplyParticipantKartRecord(kart, record, difference);
                 appliedNow = 1;
             }
         }
-        state->mUnk_20 = h;
+        state->mLastSyncCount = participantSyncFrames;
     } else {
         stateAgain = kart->mUnk_514;
         stateAgain->mEasedTurnAngle =
@@ -510,7 +512,7 @@ void func_02066ac0(Kart *kart) {
         pendingNode->mApplyTimer = pendingNode->mApplyTimer - 1;
         if (pendingNode->mApplyTimer <= 0) {
             if (appliedNow == 0) {
-                func_020653d0(kart, &pendingNode->mRecord, 0);
+                ApplyParticipantKartRecord(kart, &pendingNode->mRecord, 0);
             }
             NNS_FndRemoveListObject(&stateAgain->mPendingRecords, pendingNode);
             NNS_FndAppendListObject(&stateAgain->mFreeRecords, pendingNode);

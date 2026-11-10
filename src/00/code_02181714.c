@@ -101,7 +101,7 @@ void LocateAndQueueWiFiTopMenu(void) {
 }
 
 s32 func_ov000_02181df0(void) {
-    return func_02061250();
+    return IsUserDataFriendKeyNonZero();
 }
 
 void AdvanceWiFiTopMenuState0(void) {

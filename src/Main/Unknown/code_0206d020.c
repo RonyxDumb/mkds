@@ -76,7 +76,7 @@ BOOL TryStartKartPushFlip(Kart *starKart, Kart *hitKart, const Vec3 *v) {
         StartKartState4(hitKart, v, 1);
         StartSound(&hitKart->mSoundSource, 0xe8, 0x7f, 0);
         if (hitKart->mUnk_7c & 0x200) {
-            hitKart->mUnk_514->mUnk_2c ^= 0x80;
+            hitKart->mUnk_514->mEventToggleFlags ^= 0x80;
         }
         r = TRUE;
         w = starKart->mUnk_7c & 0x200;
@@ -84,22 +84,22 @@ BOOL TryStartKartPushFlip(Kart *starKart, Kart *hitKart, const Vec3 *v) {
             switch (hitKart->mIndex) {
                 case 0:
                     if (w) {
-                        starKart->mUnk_514->mUnk_2c ^= 0x200;
+                        starKart->mUnk_514->mEventToggleFlags ^= 0x200;
                     }
                     break;
                 case 1:
                     if (w) {
-                        starKart->mUnk_514->mUnk_2c ^= 0x400;
+                        starKart->mUnk_514->mEventToggleFlags ^= 0x400;
                     }
                     break;
                 case 2:
                     if (w) {
-                        starKart->mUnk_514->mUnk_2c ^= 0x800;
+                        starKart->mUnk_514->mEventToggleFlags ^= 0x800;
                     }
                     break;
                 case 3:
                     if (w) {
-                        starKart->mUnk_514->mUnk_2c ^= 0x1000;
+                        starKart->mUnk_514->mEventToggleFlags ^= 0x1000;
                     }
                     break;
             }
@@ -130,7 +130,7 @@ BOOL TryStartKartPushDoubleFlip(Kart *killerKart, Kart *hitKart) {
         StartKartState5(hitKart, &a, 1);
         StartSound(&hitKart->mSoundSource, 0xe8, 0x7f, 0);
         if (hitKart->mUnk_7c & 0x200) {
-            hitKart->mUnk_514->mUnk_2c ^= 0x80;
+            hitKart->mUnk_514->mEventToggleFlags ^= 0x80;
         }
         r = TRUE;
         w = killerKart->mUnk_7c & 0x200;
@@ -138,22 +138,22 @@ BOOL TryStartKartPushDoubleFlip(Kart *killerKart, Kart *hitKart) {
             switch (hitKart->mIndex) {
                 case 0:
                     if (w) {
-                        killerKart->mUnk_514->mUnk_2c ^= 0x400000;
+                        killerKart->mUnk_514->mEventToggleFlags ^= 0x400000;
                     }
                     break;
                 case 1:
                     if (w) {
-                        killerKart->mUnk_514->mUnk_2c ^= 0x800000;
+                        killerKart->mUnk_514->mEventToggleFlags ^= 0x800000;
                     }
                     break;
                 case 2:
                     if (w) {
-                        killerKart->mUnk_514->mUnk_2c ^= 0x1000000;
+                        killerKart->mUnk_514->mEventToggleFlags ^= 0x1000000;
                     }
                     break;
                 case 3:
                     if (w) {
-                        killerKart->mUnk_514->mUnk_2c ^= 0x2000000;
+                        killerKart->mUnk_514->mEventToggleFlags ^= 0x2000000;
                     }
                     break;
             }
@@ -311,7 +311,7 @@ void func_0206d578(Kart *kart) {
                     distance = VEC_Mag(&offset);
                     if (Vec3DotUnrounded(&otherKart->mTurnedForward, &offset) > MUL_FIXED12_NO_ROUND(distance, 0xe7f)) {
                         v1 = TRUE;
-                        kart->mUnk_538.mUnk_08++;
+                        kart->mUnk_538.mAheadCount++;
                         break;
                     }
                 }
@@ -321,23 +321,23 @@ void func_0206d578(Kart *kart) {
             if (v1 != FALSE) {
                 kart->mUnk_4c |= 0x4000;
                 StartKartAheadEffectIfSelectedEntry(kart);
-                if (kart->mUnk_538.mUnk_08 > 0xf && distance < 0x3c000) {
-                    func_02069068(kart);
+                if (kart->mUnk_538.mAheadCount > 0xf && distance < 0x3c000) {
+                    StartKartAheadBoost(kart);
                 }
             } else {
-                kart->mUnk_538.mUnk_08 = 0;
+                kart->mUnk_538.mAheadCount = 0;
                 kart->mUnk_4c &= ~0x4000;
                 if (!(kart->mUnk_4c & 0x2000)) {
-                    kart->mUnk_d8 = 0x1000;
+                    kart->mAheadSpeedLimitFactor = 0x1000;
                 }
                 StopKartAheadEffect(kart);
             }
         }
     }
     if (kart->mUnk_4c & 0x4000) {
-        kart->mUnk_d8 += 7;
-        if (kart->mUnk_d8 > 0x1333) {
-            kart->mUnk_d8 = 0x1333;
+        kart->mAheadSpeedLimitFactor += 7;
+        if (kart->mAheadSpeedLimitFactor > 0x1333) {
+            kart->mAheadSpeedLimitFactor = 0x1333;
         }
     }
 }
@@ -411,7 +411,7 @@ void func_0206d18c(Kart *kart) {
             t = kart->mUnk_7c & 0x200;
             if (t) {
                 if (t) {
-                    kart->mUnk_514->mUnk_2c ^= 0x4000;
+                    kart->mUnk_514->mEventToggleFlags ^= 0x4000;
                 }
             } else {
                 while (i < gRaceSetup->mKartCount) {
@@ -463,8 +463,8 @@ void func_0206d18c(Kart *kart) {
         }
     }
     if (kart->mUnk_7c & 0x200) {
-        kart->mUnk_514->mUnk_2c &= ~0x60000000;
-        kart->mUnk_514->mUnk_2c |= (i & 3) << 0x1d;
+        kart->mUnk_514->mEventToggleFlags &= ~0x60000000;
+        kart->mUnk_514->mEventToggleFlags |= (i & 3) << 0x1d;
     }
 }
 

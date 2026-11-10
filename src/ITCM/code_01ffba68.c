@@ -144,7 +144,7 @@ void AdvanceKartMotion(Kart *p) {
     }
     func_01ffca50(p);
     UpdateKartSpeedLimitGoal(p);
-    func_02067488(p);
+    AdvanceKartAi(p);
     UpdateKartSpeedLimit(p);
     func_01ffbd9c(p);
     func_01ffc6c0(p);
@@ -534,14 +534,15 @@ void SetKartPrevCollisionCenter(Kart *p) {
     VEC_MultAdd(p->mRadius + 0x400, &p->mUnk_15c, &p->mDrawMatrixPos, &p->mPrevCollisionCenter);
 }
 
-// Called once per step of the driving states (AdvanceKartMotion, func_020651fc); also writes mUnk_dc in five branches.
+// Called once per step of the driving states (AdvanceKartMotion, AdvancePeerKartMotion); also writes mUnk_dc in five
+// branches.
 void UpdateKartSpeedLimitGoal(Kart *p) {
     s32 *q;
     u32 f;
 
     p->mSpeedLimitGoal =
         MUL_FIXED12_NO_ROUND(MUL_FIXED12_NO_ROUND(p->mPhysicalParam->mBaseSpeedLimit, p->mSpeedLimitFactor),
-                             MUL_FIXED12_NO_ROUND((s32) p->mUnk_d4, p->mUnk_d8));
+                             MUL_FIXED12_NO_ROUND((s32) p->mUnk_d4, p->mAheadSpeedLimitFactor));
     q = &p->mSpeedLimitGoal;
     if (p->mUnk_7c & 0x402000) {
         *q = p->mPhysicalParam->mBaseSpeedLimit;

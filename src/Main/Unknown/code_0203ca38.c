@@ -111,7 +111,7 @@ void FinishRaceProgress(void) {
                         gRaceProgress->mKarts[kartIndex].mStatus = 2;
                     }
                 }
-                func_02068640(GetKart(kartIndex), e);
+                FinishKartAtBattleEnd(GetKart(kartIndex), e);
             }
             StartRaceEndSeq(0);
             break;
@@ -230,7 +230,7 @@ void AdvanceMissionRunEnd(void) {
             if (gRaceProgress->mFramesSinceFinish <= gRaceSetup->mFinishWaitFrameCount) {
                 return;
             }
-            func_020688a0(GetKart((u16) entryIndex));
+            FinishKartAtMissionRunEnd(GetKart((u16) entryIndex));
             StartKartRaceEndWrapper(func_0203cd14_inline(entryIndex));
             RequestRaceEndStemSet();
             StartRaceEndSeq(0);
@@ -246,7 +246,7 @@ void AdvanceMissionRunEnd(void) {
             if (gRaceProgress->mFramesSinceFailure <= 0x3c) {
                 return;
             }
-            func_020688a0(GetKart(entryIndex));
+            FinishKartAtMissionRunEnd(GetKart(entryIndex));
             StartKartRaceEndWrapper((u16) entryIndex);
             StartRaceEndSeq(0);
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {

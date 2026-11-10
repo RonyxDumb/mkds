@@ -231,7 +231,7 @@ void InitRaceFields(void) {
     gRace->mStarted = gRace->mIsAwardOrStaffRoll != 0 ? 1 : 0;
 }
 
-void func_020629a4(void) {
+void InitFrmVramManagers(void) {
     u16 texBankMask;
 
     texBankMask = GX_GetBankForTex();
@@ -461,7 +461,7 @@ void DrawRaceWorld(void) {
     NNS_G3dGeFlushBuffer();
 }
 
-void func_02062004(void) {
+void ReleaseRace(void) {
     WiFiSession *wiFiSession;
     BOOL heapCreated;
 
@@ -480,7 +480,7 @@ void func_02062004(void) {
     gWiFiRaceSync = NULL;
 }
 
-void func_02062000(void) {}
+void RaceSceneAdvanceNop(void) {}
 
 u32 IsRaceStarted(void) {
     return (gRace->mStarted);

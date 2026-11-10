@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int func_020681e0(unsigned int value);
+unsigned int MapObjectResponseReturnArgument(unsigned int value);

@@ -46,14 +46,14 @@
 #include "Main/Unknown/code_02063b70.h"
 #include "Main/Unknown/code_02062ed8.h"
 
-void func_020651fc(Kart *kart) {
-    ParticipantKartRecordState *b;
+void AdvancePeerKartMotion(Kart *kart) {
+    ParticipantKartRecordState *recordState;
     s32 tableIndex;
-    u32 f;
+    u32 kartBits;
 
-    f = kart->mUnk_7c;
-    if ((f & 0xa0) != 0) {
-        if ((f & KART_7C_REMOVED) != 0) {
+    kartBits = kart->mUnk_7c;
+    if ((kartBits & 0xa0) != 0) {
+        if ((kartBits & KART_7C_REMOVED) != 0) {
             AdvanceKartRemovalShrink(kart);
             return;
         }
@@ -72,11 +72,11 @@ void func_020651fc(Kart *kart) {
         kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleYFactor, kart->mScale.y);
         return;
     }
-    b = kart->mUnk_514;
+    recordState = kart->mUnk_514;
     Matrix4x3FromQuaternion(&kart->mUnk_120_m, &kart->mUnk_110_q);
-    func_02066ac0(kart);
+    AdvanceParticipantKartRecords(kart);
     if (kart->mForwardSpeed > 0x3000) {
-        b->mUnk_a8 = data_02154f94;
+        recordState->mPosOffset = data_02154f94;
     }
     func_01ffca50(kart);
     UpdateKartSpeedLimitGoal(kart);
@@ -84,12 +84,12 @@ void func_020651fc(Kart *kart) {
     func_01ffbd9c(kart);
     func_01ffc6c0(kart);
     func_01ff9d18(kart);
-    b = kart->mUnk_514;
-    b->mUnk_64 = b->mUnk_64 + kart->mGravity;
-    b->mUnk_60 = b->mUnk_60 + b->mUnk_64;
-    if (b->mUnk_60 < 0) {
-        b->mUnk_60 = 0;
-        b->mUnk_64 = 0;
+    recordState = kart->mUnk_514;
+    recordState->mHopSpeed = recordState->mHopSpeed + kart->mGravity;
+    recordState->mHopHeight = recordState->mHopHeight + recordState->mHopSpeed;
+    if (recordState->mHopHeight < 0) {
+        recordState->mHopHeight = 0;
+        recordState->mHopSpeed = 0;
     }
     if (IsRaceStarted() == 1) {
         kart->mUnk_230 = func_01ffb0cc;
@@ -100,19 +100,20 @@ void func_020651fc(Kart *kart) {
     func_01ffb130(kart);
 }
 
-void func_02064f50(Kart *kart) {
-    ParticipantKartRecordState *b;
-    s32 c;
+// The peer version of AdvanceKartCollision; it also moves the shown position and rotation toward the simulated kart.
+void AdvancePeerKartCollision(Kart *kart) {
+    ParticipantKartRecordState *recordState;
+    s32 blendFactor;
     Vec3 groundNormal;
-    Vec3 e;
-    Vec3 i;
-    Vec3 h;
-    Vec3 g;
-    Vec3 f;
-    u32 j;
-    Vec3 *k;
+    Vec3 groundedPos;
+    Vec3 pushOut;
+    Vec3 downOffset;
+    Vec3 probePos;
+    Vec3 posStep;
+    u32 hitAttributes;
+    Vec3 *upAxis;
 
-    b = kart->mUnk_514;
+    recordState = kart->mUnk_514;
     if ((kart->mUnk_7c & KART_7C_REMOVED) != 0) {
         return;
     }
@@ -123,7 +124,7 @@ void func_02064f50(Kart *kart) {
     }
     ComputeKartPointAlongUp(&kart->mCollisionCenter, &kart->mPos, 0x400, kart);
     func_01ffa4b4(kart, &groundNormal);
-    func_02064d60(kart, &groundNormal);
+    AdvancePeerKartOrientation(kart, &groundNormal);
     kart->mGroundNormal = groundNormal;
     kart->mUnk_4d0 = kart->mUnk_4d0 + 1;
     func_01ffc920(kart);
@@ -135,39 +136,39 @@ void func_02064f50(Kart *kart) {
         AdvanceKartModelScaleAnimation(kart);
     }
     kart->mUnk_230(kart);
-    e = kart->mPos;
-    e.y = e.y - b->mUnk_60;
-    c = b->mUnk_24;
-    VEC_Subtract(&e, &b->mUnk_00, &f);
-    f.x = MUL_FIXED12_NO_ROUND(f.x, c);
-    f.y = MUL_FIXED12_NO_ROUND(f.y, c);
-    f.z = MUL_FIXED12_NO_ROUND(f.z, c);
-    VEC_Add(&b->mUnk_00, &f, &b->mUnk_00);
+    groundedPos = kart->mPos;
+    groundedPos.y = groundedPos.y - recordState->mHopHeight;
+    blendFactor = recordState->mPosBlendFactor;
+    VEC_Subtract(&groundedPos, &recordState->mSmoothedPos, &posStep);
+    posStep.x = MUL_FIXED12_NO_ROUND(posStep.x, blendFactor);
+    posStep.y = MUL_FIXED12_NO_ROUND(posStep.y, blendFactor);
+    posStep.z = MUL_FIXED12_NO_ROUND(posStep.z, blendFactor);
+    VEC_Add(&recordState->mSmoothedPos, &posStep, &recordState->mSmoothedPos);
     if ((kart->mUnk_514->mUnk_44 & 1) != 0) {
-        ComputeKartPointAlongUp(&g, &b->mUnk_00, 0x400, kart);
-        k = &kart->mUnk_12c;
-        h.x = MUL_FIXED12_NO_ROUND(k->x, -0x7000);
-        h.y = MUL_FIXED12_NO_ROUND(k->y, -0x7000);
-        h.z = MUL_FIXED12_NO_ROUND(k->z, -0x7000);
-        VEC_Add(&g, &h, &g);
-        if (CollideSphereWithCourse(&g, NULL, 0, kart->mRadius, 1, kart->mCollisionSlot, &i, NULL, NULL, &j, NULL, NULL,
-                                    NULL, NULL) != 0) {
-            VEC_Add(&i, &h, &i);
-            VEC_Add(&b->mUnk_00, &i, &b->mUnk_00);
+        ComputeKartPointAlongUp(&probePos, &recordState->mSmoothedPos, 0x400, kart);
+        upAxis = &kart->mUnk_12c;
+        downOffset.x = MUL_FIXED12_NO_ROUND(upAxis->x, -0x7000);
+        downOffset.y = MUL_FIXED12_NO_ROUND(upAxis->y, -0x7000);
+        downOffset.z = MUL_FIXED12_NO_ROUND(upAxis->z, -0x7000);
+        VEC_Add(&probePos, &downOffset, &probePos);
+        if (CollideSphereWithCourse(&probePos, NULL, 0, kart->mRadius, 1, kart->mCollisionSlot, &pushOut, NULL, NULL,
+                                    &hitAttributes, NULL, NULL, NULL, NULL) != 0) {
+            VEC_Add(&pushOut, &downOffset, &pushOut);
+            VEC_Add(&recordState->mSmoothedPos, &pushOut, &recordState->mSmoothedPos);
         }
     }
-    b->mUnk_10 = b->mUnk_00;
-    b->mUnk_10.y = b->mUnk_10.y + b->mUnk_60;
-    QuaternionBlend(&b->mUnk_4c, &kart->mUnk_110_q, &b->mUnk_4c, 0x333);
+    recordState->mSmoothedDrawPos = recordState->mSmoothedPos;
+    recordState->mSmoothedDrawPos.y = recordState->mSmoothedDrawPos.y + recordState->mHopHeight;
+    QuaternionBlend(&recordState->mSmoothedRotation, &kart->mUnk_110_q, &recordState->mSmoothedRotation, 0x333);
 }
 
-void func_02064d60(Kart *kart, Vec3 *groundNormal) {
-    ParticipantKartRecordState *c;
+void AdvancePeerKartOrientation(Kart *kart, Vec3 *groundNormal) {
+    ParticipantKartRecordState *recordState;
     Vec4 hopTiltQuaternion;
     s32 headingDifference;
-    s32 f;
+    s32 hopHeightTilt;
 
-    c = kart->mUnk_514;
+    recordState = kart->mUnk_514;
     kart->mUnk_3f8 = 0x1000;
     if (kart->mAirborneFrames > 5 && (kart->mUnk_514->mUnk_44 & 1) == 0) {
         kart->mQuaternionBlendFactor = 0xf6;
@@ -176,7 +177,7 @@ void func_02064d60(Kart *kart, Vec3 *groundNormal) {
         AdvanceKartQuaternionFromVector(kart, groundNormal);
     }
     QuaternionBlend(&kart->mUnk_f0_q, &kart->mUnk_100_q, &kart->mUnk_f0_q, kart->mQuaternionBlendFactor);
-    headingDifference = kart->mHeadingAngle - c->mUnk_0e;
+    headingDifference = kart->mHeadingAngle - recordState->mSmoothedHeadingAngle;
     if ((headingDifference > 0 ? headingDifference : -headingDifference) > 0x7fff) {
         if (headingDifference > 0) {
             headingDifference = -(0xffff - headingDifference);
@@ -184,13 +185,14 @@ void func_02064d60(Kart *kart, Vec3 *groundNormal) {
             headingDifference = headingDifference + 0xffff;
         }
     }
-    c->mUnk_0e = c->mUnk_0e + MUL_FIXED12_NO_ROUND(headingDifference, 0x19a);
+    recordState->mSmoothedHeadingAngle =
+        recordState->mSmoothedHeadingAngle + MUL_FIXED12_NO_ROUND(headingDifference, 0x19a);
     QuaternionFromAxisAngle(&data_02154f7c, (u16) (kart->mHeadingAngle + kart->mHeadingAngleOffset), &kart->mUnk_e0_m);
     QuaternionMultiply(&kart->mUnk_f0_q, &kart->mUnk_e0_m, &kart->mUnk_110_q);
     if ((kart->mUnk_44 & 2) != 0) {
         if (kart->mHopSpeed > 0) {
-            f = (u16) MUL_FIXED12_NO_ROUND(kart->mHopHeight, 0x1f4);
-            kart->mHopTiltAngle = 0x9c4 - f;
+            hopHeightTilt = (u16) MUL_FIXED12_NO_ROUND(kart->mHopHeight, 0x1f4);
+            kart->mHopTiltAngle = 0x9c4 - hopHeightTilt;
             if (kart->mHopTiltAngle > 0x6a4) {
                 kart->mHopTiltAngle = 0x352;
             }
@@ -221,9 +223,9 @@ void InitKart(Kart *kart, void (**slotFunctions)(Kart *)) {
     if (gRaceSetup->mMode == 5) {
         for (i = 0; i < 9; i++) {
             if (i == 3) {
-                kart->mSlotFunctions[i] = isPeer != 0 ? func_020637e0 : func_02063830;
+                kart->mSlotFunctions[i] = isPeer != 0 ? AdvancePeerKartMotionSlot : AdvanceLocalKartMotionSlot;
             } else if (i == 4) {
-                kart->mSlotFunctions[i] = isPeer != 0 ? func_020637c4 : func_02063880;
+                kart->mSlotFunctions[i] = isPeer != 0 ? AdvancePeerKartCollisionSlot : AdvanceLocalKartCollisionSlot;
             } else if (i == 5) {
                 kart->mSlotFunctions[i] =
                     isPeer != 0 ? SetKartPrevCollisionCenterFromPrevPos : SetKartPrevCollisionCenter;
@@ -235,9 +237,9 @@ void InitKart(Kart *kart, void (**slotFunctions)(Kart *)) {
     } else {
         for (i = 0; i < 9; i++) {
             if (i == 3) {
-                kart->mSlotFunctions[i] = func_020646c0;
+                kart->mSlotFunctions[i] = AdvanceKartMotionSlot;
             } else if (i == 4) {
-                kart->mSlotFunctions[i] = func_020641d4;
+                kart->mSlotFunctions[i] = AdvanceKartCollisionSlot;
             } else if (i == 5) {
                 kart->mSlotFunctions[i] = SetKartPrevCollisionCenter;
             } else {
@@ -263,9 +265,9 @@ void InitKart(Kart *kart, void (**slotFunctions)(Kart *)) {
     }
     if (gRaceSetup->mMode == 5) {
         if (isPeer != 0) {
-            kart->mPosSource = &kart->mUnk_514->mUnk_10;
-            kart->mUnk_50c = &kart->mUnk_514->mUnk_4c;
-            kart->mUnk_510 = &kart->mUnk_514->mUnk_00;
+            kart->mPosSource = &kart->mUnk_514->mSmoothedDrawPos;
+            kart->mUnk_50c = &kart->mUnk_514->mSmoothedRotation;
+            kart->mUnk_510 = &kart->mUnk_514->mSmoothedPos;
         } else {
             kart->mPosSource = &kart->mPos;
             kart->mUnk_50c = &kart->mUnk_110_q;
@@ -277,10 +279,10 @@ void InitKart(Kart *kart, void (**slotFunctions)(Kart *)) {
         kart->mUnk_510 = &kart->mPos;
     }
     kart->mPosSourceCopy = kart->mPosSource;
-    func_020646f0(kart, 0);
+    PlaceKartAtStartPlacement(kart, 0);
     if (GetRaceUseChainCameras() != 0 && gRaceSetup->mRaceKind != RACE_KIND_AWARD) {
-        kart->mSlotFunctions[3] = func_020649e8;
-        kart->mSlotFunctions[4] = func_020649e8;
+        kart->mSlotFunctions[3] = KartChainCameraNop;
+        kart->mSlotFunctions[4] = KartChainCameraNop;
         kart->mDrawMatrixPos = kart->mUnk_174;
         kart->mUnk_174.x = kart->mUnk_174.x >> 4;
         kart->mUnk_174.y = kart->mUnk_174.y >> 4;

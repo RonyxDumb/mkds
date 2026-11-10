@@ -1040,7 +1040,7 @@ void RemoveDroppedParticipants(void) {
     }
     sessionState = gWiFiSession->mStateMachine.mState;
     firstBlock = data_0217aa08->mFirstBlock;
-    firstBlockCount = firstBlock->mUnk_34[5];
+    firstBlockCount = firstBlock->mTotals[5];
     if (sessionState != 0) {
         s8 otherKartCount = gWiFiSession->mKartCountCopy - 1;
         if (otherKartCount > 0) {
@@ -1050,7 +1050,7 @@ void RemoveDroppedParticipants(void) {
                 firstBlockCount = firstBlockCount - otherKartCount;
             }
         }
-        firstBlock->mUnk_34[5] = firstBlockCount;
+        firstBlock->mTotals[5] = firstBlockCount;
         WriteBackupFirstBlockWrapper();
         WaitThreadFunctionsDone();
         if (gBackupAccess->mBackupEnabled != 0) {

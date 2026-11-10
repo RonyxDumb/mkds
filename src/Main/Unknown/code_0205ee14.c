@@ -254,8 +254,8 @@ void AddVSBuddyRecordResults(void) {
     if (gRaceSetup->mUseTeams != 0) {
         teamIndex = gRaceSetup->mCurrentEntries[(u16) gRaceSetup->mEntryIndex].mPlayer.mTeamIndex;
     }
-    firstTotal = data_0217aa08->mFirstBlock->mUnk_34[0];
-    secondTotal = data_0217aa08->mFirstBlock->mUnk_34[1];
+    firstTotal = data_0217aa08->mFirstBlock->mTotals[0];
+    secondTotal = data_0217aa08->mFirstBlock->mTotals[1];
     for (entryIndex = 0; entryIndex < (u32) gRaceSetup->mKartCount; entryIndex++) {
         if (entryIndex == gRaceSetup->mEntryIndex) {
             continue;
@@ -304,8 +304,8 @@ void AddVSBuddyRecordResults(void) {
         }
     }
     if (countsChanged != FALSE) {
-        data_0217aa08->mFirstBlock->mUnk_34[0] = firstTotal;
-        data_0217aa08->mFirstBlock->mUnk_34[1] = secondTotal;
+        data_0217aa08->mFirstBlock->mTotals[0] = firstTotal;
+        data_0217aa08->mFirstBlock->mTotals[1] = secondTotal;
         WriteBuddyRecordsAndFirstBlock();
     } else {
         WriteBackupBuddyRecords();
@@ -335,8 +335,8 @@ void AddBattleBuddyRecordResults(void) {
         return;
     }
     GetClockDateOrDefault(date);
-    firstTotal = data_0217aa08->mFirstBlock->mUnk_34[2];
-    secondTotal = data_0217aa08->mFirstBlock->mUnk_34[3];
+    firstTotal = data_0217aa08->mFirstBlock->mTotals[2];
+    secondTotal = data_0217aa08->mFirstBlock->mTotals[3];
     for (entryIndex = 0; entryIndex < (u32) gRaceSetup->mKartCount; entryIndex++) {
         if (entryIndex == gRaceSetup->mEntryIndex) {
             continue;
@@ -372,8 +372,8 @@ void AddBattleBuddyRecordResults(void) {
         }
     }
     if (countsChanged != FALSE) {
-        data_0217aa08->mFirstBlock->mUnk_34[2] = firstTotal;
-        data_0217aa08->mFirstBlock->mUnk_34[3] = secondTotal;
+        data_0217aa08->mFirstBlock->mTotals[2] = firstTotal;
+        data_0217aa08->mFirstBlock->mTotals[3] = secondTotal;
         WriteBuddyRecordsAndFirstBlock();
     } else {
         WriteBackupBuddyRecords();
@@ -404,8 +404,8 @@ void AddShineBattleBuddyRecordResults(void) {
     }
     GetClockDateOrDefault(date);
     GetKartRank((u16) gRaceSetup->mEntryIndex);
-    firstTotal = data_0217aa08->mFirstBlock->mUnk_34[2];
-    secondTotal = data_0217aa08->mFirstBlock->mUnk_34[3];
+    firstTotal = data_0217aa08->mFirstBlock->mTotals[2];
+    secondTotal = data_0217aa08->mFirstBlock->mTotals[3];
     for (entryIndex = 0; entryIndex < (u32) gRaceSetup->mKartCount; entryIndex++) {
         if (entryIndex == gRaceSetup->mEntryIndex) {
             continue;
@@ -441,8 +441,8 @@ void AddShineBattleBuddyRecordResults(void) {
         }
     }
     if (countsChanged != FALSE) {
-        data_0217aa08->mFirstBlock->mUnk_34[2] = firstTotal;
-        data_0217aa08->mFirstBlock->mUnk_34[3] = secondTotal;
+        data_0217aa08->mFirstBlock->mTotals[2] = firstTotal;
+        data_0217aa08->mFirstBlock->mTotals[3] = secondTotal;
         WriteBuddyRecordsAndFirstBlock();
     } else {
         WriteBackupBuddyRecords();
@@ -474,8 +474,8 @@ void AddWiFiRaceBuddyRecordResults(void) {
     s8 otherKartCount;
     s32 date[3];
 
-    firstTotal = data_0217aa08->mFirstBlock->mUnk_34[4];
-    secondTotal = data_0217aa08->mFirstBlock->mUnk_34[5];
+    firstTotal = data_0217aa08->mFirstBlock->mTotals[4];
+    secondTotal = data_0217aa08->mFirstBlock->mTotals[5];
     UpdateParticipantElos();
     if (gRaceSetup->mCourseNumber <= 3) {
         return;
@@ -528,8 +528,8 @@ void AddWiFiRaceBuddyRecordResults(void) {
         }
     }
     data_0217aa08->mFirstBlock->mElo = GetPlayerRecordElo(GetOwnParticipantIndex());
-    data_0217aa08->mFirstBlock->mUnk_34[4] = firstTotal;
-    data_0217aa08->mFirstBlock->mUnk_34[5] = secondTotal;
+    data_0217aa08->mFirstBlock->mTotals[4] = firstTotal;
+    data_0217aa08->mFirstBlock->mTotals[5] = secondTotal;
     WriteBuddyRecordsAndFirstBlock();
 }
 

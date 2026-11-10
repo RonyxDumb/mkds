@@ -313,8 +313,8 @@ void func_01ff9cb0(Kart *p) {
 void func_01ff9c9c(Kart *p, u32 a) {
     u32 b = a & 0x1000000;
 
-    if (b != p->mUnk_4c0) {
-        p->mUnk_4c0 = b;
+    if (b != p->mCourseHitAttributeBit) {
+        p->mCourseHitAttributeBit = b;
     }
 }
 

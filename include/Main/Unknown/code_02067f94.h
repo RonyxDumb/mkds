@@ -5,6 +5,6 @@
 
 typedef struct Kart Kart;
 
-void func_02067f94(Kart *kart, const Vec3 *direction);
-void func_02068094(Kart *kart, s32 b, Unk0206b020 *mapObject);
-void func_020680e0(Kart *kart, const Vec3 *direction);
+void StartKartPushDoubleFlipOnHit(Kart *kart, const Vec3 *direction);
+void StartKartPushFlipOnHitByMapObject(Kart *kart, s32 direction, Unk0206b020 *mapObject);
+void StartKartPushFlipOnHit(Kart *kart, const Vec3 *direction);

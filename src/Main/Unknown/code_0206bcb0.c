@@ -87,7 +87,7 @@ void EndKartDrift(Kart *kart) {
     StopKartTurnEffects(GetKartTurnEffects(kart->mIndex));
 }
 
-void func_0206cc60(Kart *kart, int fromLowSpeedTurn) {
+void AdvanceKartDriftTurnAngle(Kart *kart, int fromLowSpeedTurn) {
     if (kart->mTurnDirection > 0) {
         if (kart->mTurnAngle > 11000) {
             kart->mTurnAngle = kart->mTurnAngle - 200;
@@ -232,7 +232,7 @@ recheck:
             kart->mTurnCountTimer = 0;
             StopKartTurnEffects(GetKartTurnEffects(kart->mIndex));
         } else if (bits44 & KART_44_ON_GROUND) {
-            func_0206cc60(kart, 0);
+            AdvanceKartDriftTurnAngle(kart, 0);
         }
     }
     if (hasB && (kart->mUnk_44 & KART_44_ON_GROUND)) {
@@ -303,7 +303,7 @@ recheck:
         kart->mUnk_208->mObject = NULL;
     }
     if (kart->mUnk_7c & 0x200) {
-        kart->mUnk_514->mUnk_2c ^= 0x1;
+        kart->mUnk_514->mEventToggleFlags ^= 0x1;
     }
 }
 
@@ -344,7 +344,7 @@ int TryTurnKartAtLowSpeed(Kart *kart) {
             if (kart->mTurnDirection != 0) {
                 kart->mUnk_44 |= 0x8000000;
                 kart->mHeadingAngle += delta;
-                func_0206cc60(kart, 1);
+                AdvanceKartDriftTurnAngle(kart, 1);
             }
         }
         StartKartLowSpeedTurnSound(kart, dir, kart->mSurfaceKind, kart->mSurfaceVariant);
@@ -355,11 +355,11 @@ int TryTurnKartAtLowSpeed(Kart *kart) {
     return result;
 }
 
-void func_0206c488(Unk0201ca6c *emitter, Kart *kart) {
+void SetEffectScaleFromKart(Unk0201ca6c *emitter, Kart *kart) {
     func_02080e88(emitter, kart);
 }
 
-void func_0206c450(Unk0201ca6c *emitter, Kart *kart) {
+void SetEffectVelocityFromKart(Unk0201ca6c *emitter, Kart *kart) {
     emitter->mUnk_40 = kart->mEffectVelocity;
     func_02080e88(emitter, kart);
 }
@@ -380,14 +380,14 @@ BOOL TryStartKartCollisionEffects(Kart *kart, const Vec3 *overlapDirection, int 
         VEC_MultAdd(-kart->mRadius, overlapDirection, &kart->mPos, &contactPoint);
         VEC_MultAdd(MUL_FIXED12_ROUNDED(kart->mScale.y, 0x8000), &kart->mUnk_12c, &contactPoint, &contactPoint);
         for (; i < effectCount; i++) {
-            StartEffectWithCallback(effectIds[i], &contactPoint, kart, func_0206c450);
+            StartEffectWithCallback(effectIds[i], &contactPoint, kart, SetEffectVelocityFromKart);
         }
         return TRUE;
     }
     return FALSE;
 }
 
-void func_0206c2b4(Unk0201ca6c *emitter, Kart *kart) {
+void SetEffectFlatVelocityFromKart(Unk0201ca6c *emitter, Kart *kart) {
     Vec3 velocity = kart->mEffectVelocity;
 
     velocity.y = 0;
@@ -397,10 +397,10 @@ void func_0206c2b4(Unk0201ca6c *emitter, Kart *kart) {
     emitter->mUnk_40 = velocity;
 }
 
-void func_0206c1ac(Unk0201ca6c *emitter, Kart *kart) {
+void PlaceEffectBehindKart(Unk0201ca6c *emitter, Kart *kart) {
     Vec3 position = kart->mPos;
     Vec3s16 rot;
-    Vec3 *q;
+    Vec3 *forward;
 
     VEC_MultAdd(MUL_FIXED12_ROUNDED(kart->mRadius, -0x1333), &kart->mUnk_138, &position, &position);
     position.x >>= 4;
@@ -409,20 +409,20 @@ void func_0206c1ac(Unk0201ca6c *emitter, Kart *kart) {
     emitter->mUnk_28.x = emitter->mUnk_20->mUnk_00->mUnk_04.x + position.x;
     emitter->mUnk_28.y = position.y + emitter->mUnk_20->mUnk_00->mUnk_04.y;
     emitter->mUnk_28.z = position.z + emitter->mUnk_20->mUnk_00->mUnk_04.z;
-    q = &kart->mUnk_138;
-    rot.x = q->x;
-    rot.y = q->y;
-    rot.z = q->z;
+    forward = &kart->mUnk_138;
+    rot.x = forward->x;
+    rot.y = forward->y;
+    rot.z = forward->z;
     emitter->mUnk_50 = rot;
 }
 
-void func_0206c17c(Kart *kart) {
+void StartKartBlink(Kart *kart) {
     if (kart->mUnk_7c & 0x40000) {
         return;
     }
     kart->mUnk_4c |= 0x400000;
-    kart->mUnk_506 = 0;
-    kart->mUnk_504 = kart->mUnk_506;
+    kart->mBlinkCycleFrames = 0;
+    kart->mBlinkFrames = kart->mBlinkCycleFrames;
 }
 
 void SetupKartAiHeldItemEntry(Kart *kart) {
@@ -453,11 +453,11 @@ BOOL IsKartRemovedOrRespawning(Kart *kart) {
     return FALSE;
 }
 
-int func_0206c0a8(Kart *kart) {
-    return kart->mUnk_4c0;
+int GetKartCourseHitAttributeBit(Kart *kart) {
+    return kart->mCourseHitAttributeBit;
 }
 
-BOOL func_0206c094(Kart *kart) {
+BOOL IsKartOutOfView(Kart *kart) {
     return (kart->mUnk_4c & KART_4C_OUT_OF_VIEW) != 0;
 }
 
@@ -483,7 +483,7 @@ void StartKartState(Kart *kart, KartState mode) {
     StopKartTurnEffects(GetKartTurnEffects(kart->mIndex));
     if (kart->mUnk_4c & 0x2000) {
         kart->mUnk_4c &= ~0x2000;
-        kart->mUnk_d8 = 0x1000;
+        kart->mAheadSpeedLimitFactor = 0x1000;
         if (!(kart->mUnk_4c & 0x8000000)) {
             ResetKartModelsCourseColors(kart);
         }
@@ -595,11 +595,11 @@ BOOL TrySpinKart(Kart *kart, int rotationCount, int b) {
         if (b == 0) {
             if (rotationCount == 1) {
                 if (kart->mUnk_7c & 0x200) {
-                    kart->mUnk_514->mUnk_2c ^= 0x4;
+                    kart->mUnk_514->mEventToggleFlags ^= 0x4;
                 }
             } else if (rotationCount == 2) {
                 if (kart->mUnk_7c & 0x200) {
-                    kart->mUnk_514->mUnk_2c ^= 0x8;
+                    kart->mUnk_514->mEventToggleFlags ^= 0x8;
                 }
             }
         }

@@ -83,7 +83,7 @@ BOOL TryStartKartState6(Kart *p) {
     }
     StartKartState6(p);
     if (p->mUnk_7c & 0x200) {
-        p->mUnk_514->mUnk_2c ^= 0x20000;
+        p->mUnk_514->mEventToggleFlags ^= 0x20000;
     }
     return TRUE;
 }
@@ -103,7 +103,7 @@ void StartKartState6(Kart *p) {
     }
     if (p->mUnk_4c & 0x2000) {
         p->mUnk_4c &= ~0x2000;
-        p->mUnk_d8 = 0x1000;
+        p->mAheadSpeedLimitFactor = 0x1000;
         if (!(p->mUnk_4c & 0x8000000)) {
             ResetKartModelsCourseColors(p);
         }
@@ -252,7 +252,7 @@ BOOL TryStartKartState3(Kart *p) {
     }
     StartKartState3(p);
     if (p->mUnk_7c & 0x200) {
-        p->mUnk_514->mUnk_2c ^= 0x10;
+        p->mUnk_514->mEventToggleFlags ^= 0x10;
     }
     return TRUE;
 }
@@ -431,7 +431,7 @@ void StartKartState4(Kart *p, const Vec3 *a, s32 b) {
         return;
     }
     if (p->mUnk_7c & 0x200) {
-        p->mUnk_514->mUnk_2c ^= 0x20;
+        p->mUnk_514->mEventToggleFlags ^= 0x20;
     }
     if (p->mUnk_7c & 0x200) {
         p->mUnk_514->mPushDirection = *a;
@@ -539,7 +539,7 @@ s32 StartKartState5(Kart *p, const Vec3 *a, s32 b) {
     p->mUnk_4c |= 0x1;
     if (b != 0) {
         if (p->mUnk_7c & 0x200) {
-            p->mUnk_514->mUnk_2c ^= 0x40;
+            p->mUnk_514->mEventToggleFlags ^= 0x40;
         }
         if (p->mUnk_7c & 0x200) {
             p->mUnk_514->mPushDirection = *a;
@@ -627,7 +627,7 @@ void StartKartThunderShrink(Kart *p) {
         SetThunderShrinkSoundFlag(1);
     }
     if (p->mUnk_7c & 0x200) {
-        p->mUnk_514->mUnk_2c ^= 0x8000;
+        p->mUnk_514->mEventToggleFlags ^= 0x8000;
     }
 }
 

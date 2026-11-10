@@ -47,7 +47,7 @@ static inline void func_020653d0_inline(Kart *entryKart, Kart *sourceKart, Vec3 
     }
 }
 
-void func_020653d0(Kart *kart, ParticipantKartRecord *record, s32 stepCount) {
+void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 stepCount) {
     Vec3 newPos;
     Vec3 moveStep;
     Vec3 headingAxis;
@@ -56,7 +56,7 @@ void func_020653d0(Kart *kart, ParticipantKartRecord *record, s32 stepCount) {
     Vec3 prevPos;
     MtxFx33 turnMatrix;
     MtxFx33 fixedAngleMatrix;
-    u32 w;
+    u32 hitAttributes;
     u32 recordFlags;
     ParticipantKartRecordState *state;
     s32 wasOnGround;
@@ -114,18 +114,18 @@ void func_020653d0(Kart *kart, ParticipantKartRecord *record, s32 stepCount) {
         kart->mUnk_110_q = kart->mUnk_e0_m;
         if (kart->mUnk_7c & 0x400) {
             stateAgain = kart->mUnk_514;
-            stateAgain->mUnk_00 = kart->mPos;
-            stateAgain->mUnk_10 = stateAgain->mUnk_00;
-            stateAgain->mUnk_4c = kart->mUnk_110_q;
-            stateAgain->mUnk_a8 = data_02154f94;
-            stateAgain->mUnk_b4 = 0;
+            stateAgain->mSmoothedPos = kart->mPos;
+            stateAgain->mSmoothedDrawPos = stateAgain->mSmoothedPos;
+            stateAgain->mSmoothedRotation = kart->mUnk_110_q;
+            stateAgain->mPosOffset = data_02154f94;
+            stateAgain->mPosOffsetIndex = 0;
         }
     }
     if ((s64) (kart->mPos.x - newPos.x) * (kart->mPos.x - newPos.x) +
             (s64) (kart->mPos.y - newPos.y) * (kart->mPos.y - newPos.y) +
             (s64) (kart->mPos.z - newPos.z) * (kart->mPos.z - newPos.z) >=
         0x15f90000000LL) {
-        switch (state->mUnk_b4) {
+        switch (state->mPosOffsetIndex) {
             case 0:
                 axis = &kart->mUnk_138;
                 axisOffset.x = MUL_FIXED12_NO_ROUND(axis->x, -0x7000);
@@ -152,23 +152,23 @@ void func_020653d0(Kart *kart, ParticipantKartRecord *record, s32 stepCount) {
                 axisOffset.z = MUL_FIXED12_NO_ROUND(axis->z, -0x7000);
                 break;
         }
-        state->mUnk_a8 = axisOffset;
+        state->mPosOffset = axisOffset;
         newPos.y += 0x14000;
         VEC_Add(&newPos, &axisOffset, &newPos);
         kart->mPos = newPos;
         kart->mPrevPos = kart->mPos;
         kart->mDrawMatrixPos = kart->mPrevPos;
-        state->mUnk_00 = kart->mDrawMatrixPos;
+        state->mSmoothedPos = kart->mDrawMatrixPos;
         kart->mUnk_25c = data_02154f94;
         ComputeKartPointAlongUp(&kart->mCollisionCenter, &newPos, 0x400, kart);
         SetKartPrevCollisionCenter(kart);
-        state->mUnk_b4++;
-        if (state->mUnk_b4 > 3) {
-            state->mUnk_b4 = 0;
+        state->mPosOffsetIndex++;
+        if (state->mPosOffsetIndex > 3) {
+            state->mPosOffsetIndex = 0;
         }
     } else if (!(kart->mUnk_48 & 0x20000)) {
         prevPos = kart->mPrevPos;
-        VEC_Add(&newPos, &state->mUnk_a8, &newPos);
+        VEC_Add(&newPos, &state->mPosOffset, &newPos);
         FindCollisionSlotsAroundPos(&newPos, stepCount * 0xd000 + kart->mRadius, 0x8000);
         for (i = 0; i < stepCount; i++) {
             if (kart->mUnk_48 & 0x40) {
@@ -217,7 +217,7 @@ void func_020653d0(Kart *kart, ParticipantKartRecord *record, s32 stepCount) {
                 }
             }
             if (CollideSphereWithCourse(&newPos, &prevPos, 0, kart->mRadius, 1, kart->mCollisionSlot, &collisionOffset,
-                                        0, 0, &w, 0, 0, 0, 0)) {
+                                        0, 0, &hitAttributes, 0, 0, 0, 0)) {
                 VEC_Add(&newPos, &collisionOffset, &newPos);
             }
             prevPos = newPos;
@@ -231,8 +231,8 @@ void func_020653d0(Kart *kart, ParticipantKartRecord *record, s32 stepCount) {
     startedState = 0;
     if (((kart->mUnk_514->mAppliedFlags & 1) != 0) != ((recordFlags & 1) != 0) && (kart->mUnk_44 & KART_44_ON_GROUND)) {
         stateAgain = ((volatile Kart *) kart)->mUnk_514;
-        stateAgain->mUnk_64 = 0x1405;
-        stateAgain->mUnk_60 = 0;
+        stateAgain->mHopSpeed = 0x1405;
+        stateAgain->mHopHeight = 0;
         kart->mVerticalSpeed += 0x21a2;
     }
     if (((kart->mUnk_514->mAppliedFlags & 0x20000) != 0) != ((recordFlags & 0x20000) != 0)) {
@@ -261,7 +261,7 @@ void func_020653d0(Kart *kart, ParticipantKartRecord *record, s32 stepCount) {
         e = kart->mUnk_7c & 0x200;
         if (e) {
             if (e) {
-                kart->mUnk_514->mUnk_2c ^= 0x4000;
+                kart->mUnk_514->mEventToggleFlags ^= 0x4000;
             }
         } else {
             for (; i < (u32) gRaceSetup->mKartCount; i++) {
@@ -312,7 +312,7 @@ void func_020653d0(Kart *kart, ParticipantKartRecord *record, s32 stepCount) {
         }
     }
     if (((kart->mUnk_514->mAppliedFlags & 0x40000) != 0) != ((recordFlags & 0x40000) != 0)) {
-        func_02069068(kart);
+        StartKartAheadBoost(kart);
     }
     if (((kart->mUnk_514->mAppliedFlags & 0x80000) != 0) != ((recordFlags & 0x80000) != 0)) {
         kart->mUnk_538.mUnk_1c = 0;

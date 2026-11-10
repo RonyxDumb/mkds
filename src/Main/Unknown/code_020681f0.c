@@ -141,12 +141,12 @@ void AdvanceKartRemovalShrink(Kart *kart) {
     }
 }
 
-void func_02068b5c(Kart *kart) {
+void StartBattleKartRemoval(Kart *kart) {
     if ((kart->mUnk_7c & 0x40000) != 0) {
         return;
     }
     kart->mUnk_7c = kart->mUnk_7c | 0x40000;
-    func_02068ec0(kart, 0);
+    StartKartRemoval(kart, 0);
 }
 
 void SetKartCharacterAnimation(Kart *kart, s32 b, s32 c) {
@@ -214,14 +214,14 @@ void StartKartHitReaction(Kart *kart) {
     StartKartSeqArcSound(kart, kart->mSoundIndex, 0);
 }
 
-void func_02068a00(Kart *kart) {
+void QueueKartOwnSoundIndex(Kart *kart) {
     QueueKartSound(kart, kart->mSoundIndex);
 }
 
-void func_020688a0(Kart *kart) {
+void FinishKartAtMissionRunEnd(Kart *kart) {
     s32 endKind;
     u32 kartBits;
-    u32 d;
+    u32 finishResult;
 
     if ((kart->mUnk_7c & 0x10000000) != 0) {
         return;
@@ -237,7 +237,7 @@ void func_020688a0(Kart *kart) {
         switch (endKind) {
             case 0:
                 StartEntryCameraKind8Entry();
-                func_02068494(kart, 1, 1);
+                ResetKartAtRaceEnd(kart, 1, 1);
                 break;
             case 1:
             case 2:
@@ -264,31 +264,31 @@ void func_020688a0(Kart *kart) {
         return;
     }
     if (gRaceSetup->mMode == MODE_BATTLE || gRaceSetup->mMode == MODE_MISSION_RUN) {
-        d = 1;
+        finishResult = 1;
         if ((kartBits & 0x10000) != 0) {
-            d = 0;
+            finishResult = 0;
         } else if ((kartBits & 0x20000) != 0) {
-            d = 2;
+            finishResult = 2;
         }
-        SetEntryKartFinishResult(d);
+        SetEntryKartFinishResult(finishResult);
     }
 }
 
-void func_02068640(Kart *kart, s32 b) {
+void FinishKartAtBattleEnd(Kart *kart, s32 isWinner) {
     Vec3 startPos;
     Vec3 forward;
     Vec3 startAngles;
     Vec3 *collisionCenter;
     s32 radius;
     u32 kartBits;
-    u32 i;
+    u32 finishResult;
     vu32 *bitsPointer;
 
     if ((kart->mUnk_7c & 0x100000) != 0) {
         return;
     }
     ReleaseItemsAtFinish();
-    if (b != 0) {
+    if (isWinner != 0) {
         kart->mUnk_7c = kart->mUnk_7c | 0x2000000;
     }
     kart->mUnk_7c = kart->mUnk_7c | 0x100100;
@@ -322,41 +322,41 @@ void func_02068640(Kart *kart, s32 b) {
     } else {
         StartEntryCameraKind6Entry();
     }
-    func_02068494(kart, 0, b);
+    ResetKartAtRaceEnd(kart, 0, isWinner);
     kartBits = kart->mUnk_7c;
     if ((kartBits & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
         if (gRaceSetup->mMode == MODE_BATTLE || gRaceSetup->mMode == MODE_MISSION_RUN) {
-            i = 1;
+            finishResult = 1;
             if ((kartBits & 0x10000) != 0) {
-                i = 0;
+                finishResult = 0;
             } else if ((kartBits & 0x20000) != 0) {
-                i = 2;
+                finishResult = 2;
             }
-            SetEntryKartFinishResult(i);
+            SetEntryKartFinishResult(finishResult);
         }
     }
     if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) == 0) {
         return;
     }
-    StartBattleWinOrLoseSound(kart->mSoundIndex, b);
+    StartBattleWinOrLoseSound(kart->mSoundIndex, isWinner);
 }
 
-void func_02068494(Kart *kart, s32 b, s32 c) {
-    Unk02068494 d;
+void ResetKartAtRaceEnd(Kart *kart, s32 useCourseMapRecord, s32 isWinner) {
+    KartRaceEndPlacement placement;
     s32 savedForwardSpeed;
     BOOL hasCourseData;
     CourseMap *courseMap;
 
     savedForwardSpeed = kart->mForwardSpeed;
-    d.mUnk_04 = kart->mPos;
-    if (b != 0) {
+    placement.mOldPos = kart->mPos;
+    if (useCourseMapRecord != 0) {
         courseMap = gCourseMap;
         if (courseMap->mUnk_3c == NULL) {
             hasCourseData = FALSE;
         } else {
-            d.mUnk_10 = courseMap->mUnk_3c->mUnk_00;
-            d.mUnk_1c = courseMap->mUnk_3c->mUnk_0c;
-            d.mUnk_00 = courseMap->mUnk_3c->mUnk_1a;
+            placement.mRecordPos = courseMap->mUnk_3c->mUnk_00;
+            placement.mRecordRotation = courseMap->mUnk_3c->mUnk_0c;
+            placement.mKeepSpeedFlag = courseMap->mUnk_3c->mUnk_1a;
             hasCourseData = TRUE;
         }
         if (hasCourseData == FALSE) {
@@ -368,17 +368,17 @@ void func_02068494(Kart *kart, s32 b, s32 c) {
     kart->mSlotFunctions[1](kart);
     kart->mUnk_7c = kart->mUnk_7c & ~0xe000;
     StopOrthoQuads(kart->mIndex);
-    func_020646f0(kart, b);
+    PlaceKartAtStartPlacement(kart, useCourseMapRecord);
     kart->mPos.y = kart->mPos.y - 0x1000;
-    if (b != 0) {
-        if (d.mUnk_00 != 0) {
+    if (useCourseMapRecord != 0) {
+        if (placement.mKeepSpeedFlag != 0) {
             kart->mForwardSpeed = savedForwardSpeed;
             kart->mUnk_48 = kart->mUnk_48 | 0x2000;
         }
     }
     kart->mUnk_44 = kart->mUnk_44 | KART_44_ON_GROUND;
     if ((kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) != 0) {
-        if (c != 0) {
+        if (isWinner != 0) {
             kart->mUnk_7c = kart->mUnk_7c | 0x10000;
             SetKartCharacterAnimation(kart, 2, 1);
         } else {
@@ -387,8 +387,8 @@ void func_02068494(Kart *kart, s32 b, s32 c) {
         }
     }
     if (gRaceSetup->mMode == MODE_BATTLE) {
-        VEC_Subtract(&kart->mPos, &d.mUnk_04, &d.mUnk_28);
-        CallStandingsKartOffsetCallback(kart->mIndex, &d.mUnk_28);
+        VEC_Subtract(&kart->mPos, &placement.mOldPos, &placement.mPosChange);
+        CallStandingsKartOffsetCallback(kart->mIndex, &placement.mPosChange);
     }
     if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) == 0) {
         return;

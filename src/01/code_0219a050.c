@@ -213,7 +213,7 @@ void func_ov001_0219ac98(void) {
     for (i = 0; i < 8; i++) {
         for (j = 0; j < 4; j++) {
             if (IsGrandPrixRecordFilled(i, j)) {
-                s32 v = func_02060364(i, j);
+                s32 v = GetGrandPrixRecordGrade(i, j);
                 if (best > v) {
                     best = v;
                 }
@@ -298,12 +298,12 @@ void InitRecordTopMenu(void *heap) {
             gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMTable);
     }
     pp = &data_0217aa08->mFirstBlock;
-    scores[1][0] = (*pp)->mUnk_34[0];
-    scores[2][0] = (*pp)->mUnk_34[1];
-    scores[1][1] = (*pp)->mUnk_34[2];
-    scores[2][1] = (*pp)->mUnk_34[3];
-    scores[1][2] = (*pp)->mUnk_34[4];
-    scores[2][2] = (*pp)->mUnk_34[5];
+    scores[1][0] = (*pp)->mTotals[0];
+    scores[2][0] = (*pp)->mTotals[1];
+    scores[1][1] = (*pp)->mTotals[2];
+    scores[2][1] = (*pp)->mTotals[3];
+    scores[1][2] = (*pp)->mTotals[4];
+    scores[2][2] = (*pp)->mTotals[5];
     for (i = 1; i < 3; i++) {
         for (j = 0; j < 3; j++) {
             if (scores[i][j] > 9999) {

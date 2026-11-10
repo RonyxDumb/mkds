@@ -46,7 +46,7 @@ typedef struct BackupFirstBlock {
         };
     };
     /* 32 */ u8 mUnk_32[0x2];
-    /* 34 */ u32 mUnk_34[6];
+    /* 34 */ u32 mTotals[6];
     /* 4c */ DWCAccUserData mUserData;
 } BackupFirstBlock;
 
@@ -1250,7 +1250,7 @@ extern MtxFx43 *gCurrentViewMatrix;
 extern u32 data_0217ac10;
 extern void *data_0217ac14;
 extern void *gCollideKartWithMapObjectResponses[15];
-extern void *data_0217ac54[15];
+extern void *gKartMapObjectSecondResponses[15];
 extern struct Camera *gChaseCamera;
 // Set to 1 at race set-up and when a camera entry is started or advanced; cleared once per UpdateRace call by
 // ClearCameraEntryFlags. UpdateRace calls RequestViewTestRefresh when it is set.

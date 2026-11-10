@@ -61,7 +61,7 @@
 #include "Main/Unknown/code_0203c8dc.h"
 #include "Main/Unknown/code_020681f0.h"
 
-BOOL func_0206a24c(Kart *kart) {
+BOOL TryStartKartScaleTableEffect(Kart *kart) {
     KartItemEffectState *effectState;
     s32 mode;
 
@@ -69,8 +69,8 @@ BOOL func_0206a24c(Kart *kart) {
     if ((kart->mUnk_4c & 0x10000040) || (kart->mUnk_48 & 0x10000)) {
         return FALSE;
     }
-    effectState->mUnk_0c = 0;
-    effectState->mUnk_0e = 0x258;
+    effectState->mScaleTableIndex = 0;
+    effectState->mScaleEffectTimer = 0x258;
     kart->mScaleFactor.x = 0x1000;
     kart->mScaleFactor.y = 0x1000;
     kart->mScaleFactor.z = 0x1000;
@@ -98,12 +98,12 @@ void AdvanceKartScaleTableEffect(Kart *kart) {
     KartItemEffectState *effectState;
 
     effectState = &kart->mUnk_538;
-    if (effectState->mUnk_0e <= 0) {
-        if (effectState->mUnk_0c == 0) {
+    if (effectState->mScaleEffectTimer <= 0) {
+        if (effectState->mScaleTableIndex == 0) {
             StartSound(&kart->mSoundSource, 0xed, 0x7f, 0);
         }
-        effectState->mUnk_0c++;
-        if (effectState->mUnk_0c >= 0x19) {
+        effectState->mScaleTableIndex++;
+        if (effectState->mScaleTableIndex >= 0x19) {
             kart->mUnk_398 = 0x1000;
             kart->mScaleYFactor = 0x1000;
             kart->mScaleFactor.x = 0x1000;
@@ -113,7 +113,7 @@ void AdvanceKartScaleTableEffect(Kart *kart) {
             kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleBase.y, kart->mScaleFactor.y);
             kart->mScale.z = MUL_FIXED12_NO_ROUND(kart->mScaleBase.z, kart->mScaleFactor.z);
             kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleYFactor, kart->mScale.y);
-            if (effectState->mUnk_0c > 0x19) {
+            if (effectState->mScaleTableIndex > 0x19) {
                 kart->mUnk_4c &= ~0x10000;
                 if (!(kart->mUnk_4c & 0x10080)) {
                     kart->mUnk_394 = 0x1000;
@@ -125,9 +125,9 @@ void AdvanceKartScaleTableEffect(Kart *kart) {
         }
         kart->mUnk_398 = 0x1000;
         kart->mUnk_4c |= 0x100;
-        kart->mScaleFactor.x = gKartScaleFactorXTable[effectState->mUnk_0c];
-        kart->mScaleFactor.y = gKartScaleFactorYTable[effectState->mUnk_0c];
-        kart->mScaleFactor.z = gKartScaleFactorZTable[effectState->mUnk_0c];
+        kart->mScaleFactor.x = gKartScaleFactorXTable[effectState->mScaleTableIndex];
+        kart->mScaleFactor.y = gKartScaleFactorYTable[effectState->mScaleTableIndex];
+        kart->mScaleFactor.z = gKartScaleFactorZTable[effectState->mScaleTableIndex];
         kart->mScaleYFactor = 0x1000;
         kart->mScale.x = MUL_FIXED12_NO_ROUND(kart->mScaleBase.x, kart->mScaleFactor.x);
         kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleBase.y, kart->mScaleFactor.y);
@@ -135,8 +135,8 @@ void AdvanceKartScaleTableEffect(Kart *kart) {
         kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleYFactor, kart->mScale.y);
         return;
     }
-    effectState->mUnk_0e--;
-    if (effectState->mUnk_0e == 0x1c2) {
+    effectState->mScaleEffectTimer--;
+    if (effectState->mScaleEffectTimer == 0x1c2) {
         kart->mUnk_48 &= ~0x4000000;
         if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
             ResetCameraHalfFovAngleGoal();
@@ -157,7 +157,7 @@ void AdvanceKartScaleTableEffect(Kart *kart) {
     kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleYFactor, kart->mScale.y);
 }
 
-void func_02069ea8(Kart *kart) {
+void ResetKartScaleEffects(Kart *kart) {
     kart->mUnk_398 = 0x1000;
     kart->mScaleYFactor = 0x1000;
     kart->mScale.y = 0x1000;
@@ -196,7 +196,7 @@ void StartKartThunder(Kart *kart) {
     bit200 = kart->mUnk_7c & 0x200;
     if (bit200 != 0) {
         if (bit200 != 0) {
-            kart->mUnk_514->mUnk_2c ^= 0x4000;
+            kart->mUnk_514->mEventToggleFlags ^= 0x4000;
         }
         return;
     }
@@ -255,7 +255,7 @@ void StartKartStar(Kart *kart) {
         StandingsReturnArgument(kart->mIndex);
     }
     if (kart->mUnk_7c & 0x200) {
-        kart->mUnk_514->mUnk_2c ^= 0x2000;
+        kart->mUnk_514->mEventToggleFlags ^= 0x2000;
     }
     SetKartCharacterAnimation(kart, 2, 1);
 }
@@ -305,7 +305,7 @@ void StartKartTeresa(Kart *kart) {
         effectState->mUnk_1a = 1;
     }
     if (kart->mUnk_7c & 0x200) {
-        kart->mUnk_514->mUnk_2c ^= 0x4000000;
+        kart->mUnk_514->mEventToggleFlags ^= 0x4000000;
     }
 }
 
@@ -426,7 +426,7 @@ void StartKartKiller(Kart *kart) {
     kart->mItemEffect = 3;
     if (kart->mUnk_4c & 0x2000) {
         kart->mUnk_4c &= ~0x2000;
-        kart->mUnk_d8 = 0x1000;
+        kart->mAheadSpeedLimitFactor = 0x1000;
         if (!(kart->mUnk_4c & 0x8000000)) {
             ResetKartModelsCourseColors(kart);
         }
@@ -439,9 +439,9 @@ void StartKartKiller(Kart *kart) {
         }
     }
     StartKartKillerEffect(kart->mIndex);
-    func_02069ea8(kart);
+    ResetKartScaleEffects(kart);
     if (kart->mUnk_7c & 0x200) {
-        kart->mUnk_514->mUnk_2c ^= 0x100000;
+        kart->mUnk_514->mEventToggleFlags ^= 0x100000;
     }
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         SetCameraHalfFovAngleGoal(0x1d4c);
@@ -464,7 +464,7 @@ void AdvanceKartKiller(Kart *kart) {
             if ((kart->mUnk_4c & 0x10000000) && effectStateAgain->mKillerEnding == FALSE) {
                 effectStateAgain->mKillerEnding = TRUE;
                 if (kart->mUnk_7c & 0x200) {
-                    kart->mUnk_514->mUnk_2c ^= 0x200000;
+                    kart->mUnk_514->mEventToggleFlags ^= 0x200000;
                 }
             }
         }
@@ -518,7 +518,7 @@ void AdvanceKartKiller(Kart *kart) {
     }
     effectState->mKillerEnding = TRUE;
     if (kart->mUnk_7c & 0x200) {
-        kart->mUnk_514->mUnk_2c ^= 0x200000;
+        kart->mUnk_514->mEventToggleFlags ^= 0x200000;
     }
 }
 
@@ -557,7 +557,7 @@ void StartKartGesso(Kart *kart, u32 orthoQuadCount) {
     }
     StartOrthoQuadsGesoSumi(kart->mIndex, orthoQuadCount);
     if (kart->mUnk_7c & 0x200) {
-        kart->mUnk_514->mUnk_2c ^= 0x80000;
+        kart->mUnk_514->mEventToggleFlags ^= 0x80000;
     }
 }
 
@@ -591,13 +591,13 @@ void AdvanceKartGesso(Kart *kart) {
     SetKartModelsEntryCourseColors(kart->mKartModelsEntry);
 }
 
-void func_02069068(Kart *kart) {
+void StartKartAheadBoost(Kart *kart) {
     KartItemEffectState *effectState;
 
     effectState = &kart->mUnk_538;
-    effectState->mUnk_0a = 0;
-    effectState->mUnk_08 = 0;
-    kart->mUnk_d8 = data_usa_021654dc;
+    effectState->mAheadBoostFrames = 0;
+    effectState->mAheadCount = 0;
+    kart->mAheadSpeedLimitFactor = data_usa_021654dc;
     kart->mUnk_4c &= ~0x4000;
     if (!(kart->mUnk_4c & 0x2000)) {
         kart->mUnk_4c |= 0x2000;
@@ -614,22 +614,23 @@ void func_02069068(Kart *kart) {
         StartSound(&kart->mSoundSource, 0xa4, 0x7f, 0);
     }
     if (kart->mUnk_7c & 0x200) {
-        kart->mUnk_514->mUnk_2c ^= 0x40000;
+        kart->mUnk_514->mEventToggleFlags ^= 0x40000;
     }
 }
 
-void func_02069044(Kart *kart) {
-    func_02068ec0(kart, 1);
+void StartKartRemovalFromProgress(Kart *kart) {
+    StartKartRemoval(kart, 1);
     kart->mUnk_7c |= 0x800000;
 }
 
-s32 func_02068ec0(Kart *kart, s32 a) {
+// Takes the kart out of play unless it is out already; returns whether it did.
+BOOL StartKartRemoval(Kart *kart, s32 fromRaceProgress) {
     BOOL removed;
     u32 kartBits;
     NNSSndSeqPlayer **seqPlayerHandle;
 
     removed = FALSE;
-    if (a != 0) {
+    if (fromRaceProgress != 0) {
         kartBits = kart->mUnk_7c;
         if (!(kartBits & 0x800000)) {
             removed = TRUE;
@@ -652,7 +653,7 @@ s32 func_02068ec0(Kart *kart, s32 a) {
         if (kart->mUnk_2ca != -1) {
             kart->mUnk_2ca = FreeCollisionSlot(kart->mUnk_2ca);
         }
-        if (gRaceSetup->mMode == MODE_BATTLE && a == 0) {
+        if (gRaceSetup->mMode == MODE_BATTLE && fromRaceProgress == 0) {
             StartSound(&kart->mSoundSource, 0xd3, 0x7f, 0);
             if (gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON && (data_0217c780 & 1)) {
                 seqPlayerHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));

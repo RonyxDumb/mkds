@@ -412,7 +412,7 @@ Constants held in registers:
 - A dead store can matter: `n = 30;` before a switch whose reachable cases all overwrite it keeps 30 in n's
   register for later calls with 30.
 - Compound assignment keeps constants from folding: `angle += 90;` / `fx *= 2.0f;` differ from `angle = angle + 90`.
-  `k *= -1` keeps `mvn; mul`; `k = k * -1` folds to `rsb` (func_020641f0).
+  `k *= -1` keeps `mvn; mul`; `k = k * -1` folds to `rsb` (AdvanceKartDrawState).
 - `x = x + y` and `x = y + x` on a member both compile as `x += y`, old value first. For the old value second, read
   it into a local inside the arm right before the add: `c = a->m; a->m = expr + c;` (func_02087b9c).
 

@@ -4,23 +4,23 @@
 
 typedef struct Kart Kart;
 
-// Stack frame of func_02068494 from its stack offset 0: a halfword and four vectors.
-typedef struct Unk02068494 {
-    /* 00 */ s16 mUnk_00;
+// Stack frame of ResetKartAtRaceEnd from its stack offset 0: a halfword and four vectors.
+typedef struct KartRaceEndPlacement {
+    /* 00 */ s16 mKeepSpeedFlag;
     /* 02 */ u8 mUnk_02[2];
-    /* 04 */ Vec3 mUnk_04;
-    /* 10 */ Vec3 mUnk_10;
-    /* 1c */ Vec3 mUnk_1c;
-    /* 28 */ Vec3 mUnk_28;
-} Unk02068494;
+    /* 04 */ Vec3 mOldPos;
+    /* 10 */ Vec3 mRecordPos;
+    /* 1c */ Vec3 mRecordRotation;
+    /* 28 */ Vec3 mPosChange;
+} KartRaceEndPlacement;
 
 void AdvanceKartDriftCharge(Kart *kart);
 void SetKartDriftCharge(Kart *kart, s32 charge);
-void func_02068494(Kart *kart, s32 b, s32 c);
-void func_02068640(Kart *kart, s32 b);
-void func_020688a0(Kart *kart);
-void func_02068a00(Kart *kart);
+void ResetKartAtRaceEnd(Kart *kart, s32 useCourseMapRecord, s32 isWinner);
+void FinishKartAtBattleEnd(Kart *kart, s32 isWinner);
+void FinishKartAtMissionRunEnd(Kart *kart);
+void QueueKartOwnSoundIndex(Kart *kart);
 void StartKartHitReaction(Kart *kart);
 void SetKartCharacterAnimation(Kart *kart, s32 b, s32 c);
-void func_02068b5c(Kart *kart);
+void StartBattleKartRemoval(Kart *kart);
 void AdvanceKartRemovalShrink(Kart *kart);

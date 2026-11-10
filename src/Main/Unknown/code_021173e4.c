@@ -193,7 +193,7 @@ void SetupSelectCupGridIndex(void) {
         }
         recordSlot = gSelectCupGridRecordEngineClasses[engineOrMirrorSlot];
         if (IsGrandPrixRecordFilled(gSelectCupGridCupIndices[gSelectCupGrid->mIndex], recordSlot) != 0) {
-            c = func_02060364(gSelectCupGridCupIndices[gSelectCupGrid->mIndex], recordSlot);
+            c = GetGrandPrixRecordGrade(gSelectCupGridCupIndices[gSelectCupGrid->mIndex], recordSlot);
             gSelectCupGrid->mSelectCupMTable[gSelectCupGridRecordCells[gSelectCupGridRecordCellSlots[c]]].mVisible = 1;
             switch (c) {
                 case 0:

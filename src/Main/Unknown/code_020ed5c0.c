@@ -192,8 +192,8 @@ void UpdateItemInUseObjects(ItemInUse *itemInUse) {
 
     objects = itemInUse->mObjects;
     objectCount = itemInUse->mObjectCount;
-    a = func_0206c0a8(itemInUse->mKart);
-    b = func_0206c094(itemInUse->mKart);
+    a = GetKartCourseHitAttributeBit(itemInUse->mKart);
+    b = IsKartOutOfView(itemInUse->mKart);
     for (i = 0; i < objectCount; i++) {
         object = objects[i];
         object->mAgeFrames = object->mAgeFrames + 1;

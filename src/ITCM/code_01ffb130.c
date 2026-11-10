@@ -75,10 +75,10 @@ void func_01ffb130(Kart *p) {
         if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
             AddSoundRequest(gSoundRequestQueues, GetKartCameraDistanceSquared(p->mIndex), RequestKartSound, p, 0xa3);
         }
-        q->mUnk_0a++;
-        if (q->mUnk_0a > 0xb4 && (p->mUnk_4c & 0x2000)) {
+        q->mAheadBoostFrames++;
+        if (q->mAheadBoostFrames > 0xb4 && (p->mUnk_4c & 0x2000)) {
             p->mUnk_4c &= ~0x2000;
-            p->mUnk_d8 = 0x1000;
+            p->mAheadSpeedLimitFactor = 0x1000;
             if (!(p->mUnk_4c & 0x8000000)) {
                 ResetKartModelsCourseColors(p);
             }

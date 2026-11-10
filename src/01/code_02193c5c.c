@@ -155,7 +155,7 @@ void SetupRecordGpxValues(s32 a) {
     for (i = 0; i < 3; i++) {
         gRecordGpx->mRecordGpxSTable[data_ov001_021a66b4[a][i]].mVisible = 0;
     }
-    z = func_02060364(data_ov001_021a6740[gRecordGpx->mIndex], data_ov001_021a6694[a]);
+    z = GetGrandPrixRecordGrade(data_ov001_021a6740[gRecordGpx->mIndex], data_ov001_021a6694[a]);
     if (z < 5) {
         gRecordGpx->mRecordGpxSTable[count + data_ov001_021a663c[a]].mVisible = 1;
         PrintLabelLayoutTextNoFixedAdvance(1, data_ov001_021a663c[a], gRecordGpx->mRecordGpxSBnll,

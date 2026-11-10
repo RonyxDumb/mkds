@@ -17,7 +17,7 @@ typedef struct TimeRecord {
     /* 1b */ u8 mUnk_1b;
     /* 1c */ u8 mCupRank;
     /* 1d */ u8 mTotalPoints;
-    /* 1e */ u8 mUnk_1e;
+    /* 1e */ u8 mGrade;
     /* 1f */ u8 mUnk_1f;
 } TimeRecord;
 // Slot of a course's time records that holds the best lap; slots 0 to 4 are the ranked race times.

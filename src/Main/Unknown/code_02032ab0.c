@@ -129,7 +129,7 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
     v.mBackScreenKind = 0;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
     InitSceneText(heap, &v);
-    func_020629a4();
+    InitFrmVramManagers();
     gResultsBattle->mCommonMessages = FindFileInLoadedArchives(data_0216416c);
     switch (gResultsBattle->mMode) {
         case 0:

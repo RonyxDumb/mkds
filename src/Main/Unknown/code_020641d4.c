@@ -21,56 +21,56 @@
 #include "Main/Unknown/code_0203c5f8.h"
 #include "code_021471bc.h"
 
-void func_020641f0(Kart *kart) {
+void AdvanceKartDrawState(Kart *kart) {
     KartModelsEntry *modelsEntry;
     ModelAnimation *characterAnimation;
-    Vec3 m;
-    MtxFx43 d;
-    MtxFx43 e;
+    Vec3 pivotOffset;
+    MtxFx43 offsetMatrix;
+    MtxFx43 negatedOffsetMatrix;
     MtxFx43 rotationMatrix;
-    MtxFx43 g;
-    MtxFx43 h;
+    MtxFx43 extraYRotationMatrix;
+    MtxFx43 yRotationMatrix;
     s32 pairIndex;
     s32 j;
     s32 k;
     u16 l;
-    u32 n;
+    u32 kartBits;
     MtxFx43 *drawMatrix;
     Vec3 *q;
-    CharacterAnimationState *r;
-    enum { K0 } o;
+    CharacterAnimationState *animationState;
+    enum { K0 } entryIndex;
 
     Matrix4x3FromQuaternion(&kart->mUnk_120_m, kart->mUnk_50c);
-    n = kart->mUnk_4c;
-    if ((n & 0x10) != 0) {
+    kartBits = kart->mUnk_4c;
+    if ((kartBits & 0x10) != 0) {
         drawMatrix = &kart->mUnk_150_m;
-        MTX_Identity43_(&d);
-        e = d;
+        MTX_Identity43_(&offsetMatrix);
+        negatedOffsetMatrix = offsetMatrix;
         Matrix4x3FromQuaternion(&rotationMatrix, &kart->mRotationQuaternion);
         q = &kart->mUnk_12c;
-        m.x = MUL_FIXED12_NO_ROUND(q->x, -0x5000);
-        m.y = MUL_FIXED12_NO_ROUND(q->y, -0x5000);
-        m.z = MUL_FIXED12_NO_ROUND(q->z, -0x5000);
-        d.mUnk_00[3] = m;
-        m.x = -m.x;
-        m.y = -m.y;
-        m.z = -m.z;
-        e.mUnk_00[3] = m;
-        MTX_Concat43(&kart->mUnk_120_m, &d, drawMatrix);
+        pivotOffset.x = MUL_FIXED12_NO_ROUND(q->x, -0x5000);
+        pivotOffset.y = MUL_FIXED12_NO_ROUND(q->y, -0x5000);
+        pivotOffset.z = MUL_FIXED12_NO_ROUND(q->z, -0x5000);
+        offsetMatrix.mUnk_00[3] = pivotOffset;
+        pivotOffset.x = -pivotOffset.x;
+        pivotOffset.y = -pivotOffset.y;
+        pivotOffset.z = -pivotOffset.z;
+        negatedOffsetMatrix.mUnk_00[3] = pivotOffset;
+        MTX_Concat43(&kart->mUnk_120_m, &offsetMatrix, drawMatrix);
         MTX_Concat43(drawMatrix, &rotationMatrix, drawMatrix);
-        MTX_Concat43(drawMatrix, &e, drawMatrix);
+        MTX_Concat43(drawMatrix, &negatedOffsetMatrix, drawMatrix);
         if ((kart->mUnk_4c & 0x20) != 0) {
             pairIndex = (kart->mYRotationAngle >> 4) * 2;
-            MTX_RotY43_(&g, gPairsByAngle[pairIndex], gPairsByAngle[pairIndex + 1]);
-            MTX_Concat43(drawMatrix, &g, drawMatrix);
+            MTX_RotY43_(&extraYRotationMatrix, gPairsByAngle[pairIndex], gPairsByAngle[pairIndex + 1]);
+            MTX_Concat43(drawMatrix, &extraYRotationMatrix, drawMatrix);
         }
         drawMatrix->mUnk_00[3].x = drawMatrix->mUnk_00[3].x + kart->mPosSource->x;
         drawMatrix->mUnk_00[3].y = drawMatrix->mUnk_00[3].y + kart->mPosSource->y;
         drawMatrix->mUnk_00[3].z = drawMatrix->mUnk_00[3].z + kart->mPosSource->z;
-    } else if ((n & 0x20) != 0) {
+    } else if ((kartBits & 0x20) != 0) {
         pairIndex = (kart->mYRotationAngle >> 4) * 2;
-        MTX_RotY43_(&h, gPairsByAngle[pairIndex], gPairsByAngle[pairIndex + 1]);
-        MTX_Concat43(&h, &kart->mUnk_120_m, &kart->mUnk_150_m);
+        MTX_RotY43_(&yRotationMatrix, gPairsByAngle[pairIndex], gPairsByAngle[pairIndex + 1]);
+        MTX_Concat43(&yRotationMatrix, &kart->mUnk_120_m, &kart->mUnk_150_m);
         q = kart->mPosSource;
         kart->mUnk_174.x = q->x;
         kart->mUnk_174.y = q->y;
@@ -94,8 +94,8 @@ void func_020641f0(Kart *kart) {
     }
     modelsEntry = kart->mKartModelsEntry;
     if (modelsEntry->mModels[2] != NULL) {
-        r = &modelsEntry->mAnimationState;
-        j = MUL_FIXED12_NO_ROUND(r->mMiddleFrameReciprocal, r->mTurnFrameOffset);
+        animationState = &modelsEntry->mAnimationState;
+        j = MUL_FIXED12_NO_ROUND(animationState->mMiddleFrameReciprocal, animationState->mTurnFrameOffset);
         l = MUL_FIXED12_NO_ROUND(j, 0xce4);
         k = kart->mVelocityLengthRatio;
         if (kart->mUnk_4d4 > k) {
@@ -104,7 +104,7 @@ void func_020641f0(Kart *kart) {
             k = MUL_FIXED12_NO_ROUND(k, 0xfa0);
             if (GetAbsoluteValue(GetKartForwardSpeedRatio()) < 0x29) {
                 k = 0;
-                if ((u16) (gInputSlots[o = kart->mEntryIndex].mBits & (PAD_KEY_A | PAD_KEY_B)) != 0 &&
+                if ((u16) (gInputSlots[entryIndex = kart->mEntryIndex].mBits & (PAD_KEY_A | PAD_KEY_B)) != 0 &&
                     IsRaceStarted() == 1) {
                     k = k + 0x190;
                 }
@@ -128,24 +128,24 @@ void func_020641f0(Kart *kart) {
         characterAnimation->mAnmObjs[characterAnimation->mCurrentIndex]->mFrame = characterAnimation->mHead.mFrameIndex;
     }
     if ((kart->mUnk_4c & 0x400000) != 0) {
-        kart->mUnk_504 = kart->mUnk_504 + 1;
-        kart->mUnk_506 = kart->mUnk_506 + 1;
-        if (kart->mUnk_506 > 8) {
-            kart->mUnk_506 = 0;
+        kart->mBlinkFrames = kart->mBlinkFrames + 1;
+        kart->mBlinkCycleFrames = kart->mBlinkCycleFrames + 1;
+        if (kart->mBlinkCycleFrames > 8) {
+            kart->mBlinkCycleFrames = 0;
         }
-        if (kart->mUnk_506 >= 4) {
+        if (kart->mBlinkCycleFrames >= 4) {
             kart->mUnk_4c = kart->mUnk_4c | 0x1000000;
         } else {
             kart->mUnk_4c = kart->mUnk_4c & ~0x1000000;
         }
-        if (kart->mUnk_504 > 0x5a) {
+        if (kart->mBlinkFrames > 0x5a) {
             kart->mUnk_4c = kart->mUnk_4c & ~0x1400000;
         }
     }
     AdvanceKartEffects(kart);
 }
 
-void func_020641d4(Kart *kart) {
+void AdvanceKartCollisionSlot(Kart *kart) {
     AdvanceKartCollision(kart);
-    func_020641f0(kart);
+    AdvanceKartDrawState(kart);
 }

@@ -188,13 +188,13 @@ s32 CallKartCollisionCallbacks(s32 firstKartIndex, s32 secondKartIndex) {
             if (gStandings->mKartHitByKartCallback != NULL) {
                 f4 = gStandings->mKartHitByKartCallback(firstKartIndex, secondKartIndex);
                 if ((firstKart->mUnk_4c & 0x400000) == 0) {
-                    func_0206c17c(firstKart);
+                    StartKartBlink(firstKart);
                 }
             }
         } else if (gStandings->mKartHitByKartCallback != NULL) {
             f4 = gStandings->mKartHitByKartCallback(firstKartIndex, secondKartIndex);
             if ((firstKart->mUnk_4c & 0x400000) == 0) {
-                func_0206c17c(firstKart);
+                StartKartBlink(firstKart);
             }
         }
         return f4;
@@ -205,13 +205,13 @@ s32 CallKartCollisionCallbacks(s32 firstKartIndex, s32 secondKartIndex) {
             if (gStandings->mKartHitByKartCallback != NULL) {
                 f4 = gStandings->mKartHitByKartCallback(secondKartIndex, firstKartIndex);
                 if ((secondKart->mUnk_4c & 0x400000) == 0) {
-                    func_0206c17c(secondKart);
+                    StartKartBlink(secondKart);
                 }
             }
         } else if (gStandings->mKartHitByKartCallback != NULL) {
             f4 = gStandings->mKartHitByKartCallback(secondKartIndex, firstKartIndex);
             if ((secondKart->mUnk_4c & 0x400000) == 0) {
-                func_0206c17c(secondKart);
+                StartKartBlink(secondKart);
             }
         }
         return f4;
@@ -388,7 +388,7 @@ void EliminateKart(u16 kartIndex) {
     }
     MoveKartTowardLastRank(kartIndex);
     if (gRaceSetup->mMode == MODE_BATTLE) {
-        func_02068b5c(GetKart(kartIndex));
+        StartBattleKartRemoval(GetKart(kartIndex));
     } else if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         kart = GetKart(kartIndex);
         kart->mUnk_48 |= 0x2000;
@@ -808,7 +808,7 @@ void UpdateStandings(void) {
         for (i = 0; i < kartCount; i++) {
             if (gStandings->mKarts[i].mEliminationStatus == 1) {
                 if (i != gRaceSetup->mEntryIndex) {
-                    func_02068a00(GetKart((u16) i));
+                    QueueKartOwnSoundIndex(GetKart((u16) i));
                 }
                 gStandings->mKarts[i].mEliminationStatus = 2;
             }
@@ -818,7 +818,7 @@ void UpdateStandings(void) {
     for (i = kartCount - 1; i >= 0; i--) {
         kartStanding = &gStandings->mKarts[i];
         if (kartStanding->mEliminationStatus == 1) {
-            func_02068a00(GetKart((u16) i));
+            QueueKartOwnSoundIndex(GetKart((u16) i));
             gStandings->mKarts[i].mEliminationStatus = 2;
         } else if (gStandings->mWinnerTeamId < 0 && kartStanding->mBalloonOrShineCount > 0) {
             kart = GetKart((u16) i);
@@ -864,7 +864,7 @@ void UpdateStandings(void) {
                     kartStanding->mUnk_04 = FALSE;
                     kartStanding->mUnk_1c = 0;
                     if ((kart->mUnk_4c & 0x400000) == 0) {
-                        func_0206c17c(kart);
+                        StartKartBlink(kart);
                     }
                 }
                 if (kartStanding->mUnk_1c == 0) {
@@ -887,7 +887,7 @@ void UpdateStandings(void) {
                     if (kartStanding->mUnk_20 == FALSE) {
                         kartStanding->mUnk_18 = 0;
                         if ((kart->mUnk_4c & 0x400000) == 0) {
-                            func_0206c17c(kart);
+                            StartKartBlink(kart);
                         }
                     } else {
                         kartStanding->mUnk_20 = FALSE;

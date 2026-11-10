@@ -296,12 +296,13 @@ s32 GetGrandPrixRecordTotalPoints(s32 cup, s32 engineClass) {
     return -1;
 }
 
-s32 func_02060364(s32 cup, s32 engineClass) {
+// The grade of a Grand Prix record, 0 to 7, or 9 when the record is empty.
+s32 GetGrandPrixRecordGrade(s32 cup, s32 engineClass) {
     TimeRecord timeRecord;
 
     GetGrandPrixRecord(cup, engineClass, &timeRecord);
     if (timeRecord.mFilled != 0) {
-        return timeRecord.mUnk_1e;
+        return timeRecord.mGrade;
     }
     return 9;
 }
@@ -317,7 +318,8 @@ BOOL GetGrandPrixRecordTime(s32 cup, s32 engineClass, void *timeOut) {
     return TRUE;
 }
 
-BOOL func_02060268(s32 courseId) {
+// FALSE when the course has a saved ghost and at least one filled time record, TRUE otherwise.
+BOOL IsCourseGhostRecordMissing(s32 courseId) {
     u8 recordIndex;
     BOOL noRecords;
     s32 cupCourseIndex;
@@ -391,7 +393,7 @@ BOOL GetTimeRecordName(s32 courseId, s32 recordIndex, void *nameOut) {
     return TRUE;
 }
 
-s32 func_020600b4(s32 courseId) {
+s32 IsCourseCupMessageFlagSet(s32 courseId) {
     return IsCupAlwaysOrSecretMessageFlagSet(FindCupIndexOfCourse(courseId));
 }
 
