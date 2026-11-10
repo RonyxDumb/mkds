@@ -68,13 +68,13 @@ extern SoundRow gSoundRowTable[];
 
 // Objects whose layout isn't known yet.
 extern s32 gCourseMessageIndexTable[];
-extern u8 data_02153158[];
+extern u8 gSurfaceSoundVolumeByRatio[];
 
-extern u32 data_021532a8[];
+extern u32 gCharacterSeqPairNoTable[];
 extern u32 gKartMessageIndexTable[];
 extern u32 gKartIndexTable[];
-extern s32 data_usa_02153240[];
-extern s32 data_usa_02153274[];
+extern s32 gCharacterKartIndexTableBattle[];
+extern s32 gCharacterKartIndexTable[];
 
 // 12-byte entries of data_usa_021537f4: a halfword value and a word at 8.
 typedef struct Unk021537f4 {

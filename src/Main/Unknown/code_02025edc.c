@@ -4,7 +4,8 @@
 
 #pragma thumb on
 
-void func_02025f14(Interpolation *interpolation, s32 requestedState) {
+// Takes state 0 only from state 2 or 3 and state 2 only from state 0 or 1; any other state is set at once.
+void SetInterpolationStateIfOpposite(Interpolation *interpolation, s32 requestedState) {
     switch (requestedState) {
         case 0:
             switch (interpolation->mState) {

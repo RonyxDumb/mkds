@@ -151,8 +151,8 @@ typedef struct ParticipantKartRecordState {
 // Bits of Kart.mUnk_7c.
 // Set once at set-up (InitKartFlags) when mIndex == gRaceSetup->mEntryIndex, i.e. the selected entry.
 #define KART_7C_INDEX_IS_SELECTED_ENTRY 0x1
-// Set at set-up when the entry is PLAYER_KIND_GHOST. Bit 0x2 and this bit are also tested together as 6 / 0x402004 (left
-// literal).
+// Set at set-up when the entry is PLAYER_KIND_GHOST. Bit 0x2 and this bit are also tested together as 6 / 0x402004
+// (left literal).
 #define KART_7C_ENTRY_IS_GHOST 0x4
 // Set at set-up when mKartModelsEntry->mUnk_008 != NULL (a snapshot taken then).
 #define KART_7C_MODELS_ENTRY_008_SET 0x10
@@ -577,7 +577,7 @@ void func_0206cc60(Kart *kart, int fromLowSpeedTurn);
 void EndKartDrift(Kart *kart);
 void AdvanceKartBoost(s32 *acceleration, Kart *kart);
 extern SoundRequestQueue gSoundRequestQueues[7];
-extern SoundRequestQueue data_0217d274;
+extern SoundRequestQueue gKartSoundUpdateRequestQueue;
 extern SoundRequestQueue data_0217d284;
 extern SoundRequestQueue gThunderShrinkSoundRequestQueue;
 #include "Main/Unknown/code_0210dc7c.h"

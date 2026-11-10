@@ -3,12 +3,12 @@
 #include "Main/Unknown/code_0205ee14.h"
 
 #pragma thumb on
-s32 func_02025da4(KartAppear *appear, u32 characterIndex, s32 kartIndex) {
+s32 GetKartPositionWithinAppearLimit(KartAppear *appear, u32 characterIndex, s32 kartIndex) {
     s32 position = 1;
     s32 tableIndex;
     s32 startIndex;
     u32 tableKartIndex;
-    startIndex = FindKartTableIndex(func_02025e60(characterIndex));
+    startIndex = FindKartTableIndex(GetCharacterKartIndexByMode(characterIndex));
     tableIndex = startIndex;
     do {
         tableKartIndex = GetKartIndexAtTableIndex(tableIndex);

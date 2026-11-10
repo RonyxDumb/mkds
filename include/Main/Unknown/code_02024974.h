@@ -19,7 +19,7 @@ typedef struct KartSoundRow {
     /* 24 */ s32 mUnk_24;
 } KartSoundRow;
 
-// The bytes from 0x450 of an Kart, which func_02024a88 and func_02024eec read and write.
+// The bytes from 0x450 of an Kart, which UpdateKartSound and AdvanceKartSoundPitch read and write.
 typedef struct KartSound {
     /* 00 */ s32 mSoundId;
     /* 04 */ u8 mVolume;
@@ -46,13 +46,13 @@ typedef struct KartSound {
 typedef struct Kart Kart;
 typedef struct KartSound KartSound;
 
-s32 func_02024974(s32 a, s32 b, u32 c, u32 d);
-void func_020249b8(Kart *kart, s32 b, s32 c);
-void func_02024a28(SoundSource *soundSource, u16 soundId, s32 b, s32 c);
-void func_02024a88(Kart *kart);
-s32 func_02024eec(KartSound *soundRecord, s32 b, s32 aboveSpeedLimit);
-void func_02024fc0(Kart *kart, KartSound *soundRecord);
-void func_02024fe8(Kart *kart, KartSound *soundRecord);
-void func_02025030(Kart *kart, KartSound *soundRecord);
-void func_0202506c(Kart *kart, KartSound *soundRecord);
+s32 GetShine16SoundId(s32 a, s32 isEntryKart, u32 highestBalloonOrShineCount, u32 balloonOrShineCount);
+void StartBalloonScaleSound(Kart *kart, s32 scale, s32 scalePerFrame);
+void StartSoundVolumeFromFractionIfTwo(SoundSource *soundSource, u16 soundId, s32 fraction, s32 c);
+void UpdateKartSound(Kart *kart);
+s32 AdvanceKartSoundPitch(KartSound *soundRecord, s32 b, s32 aboveSpeedLimit);
+void StartKartClampedPitchSound(Kart *kart, KartSound *soundRecord);
+void StartKartSurfaceSoundWithPitch(Kart *kart, KartSound *soundRecord);
+void StartKartLowRatioSound(Kart *kart, KartSound *soundRecord);
+void StartKartSound(Kart *kart, KartSound *soundRecord);
 u32 InitKartSoundPitchFactors(void);

@@ -80,7 +80,7 @@ void func_02035c50(s32 a, s32 b, s32 listIndex, s32 d) {
         listIndex += GetCourseGhostCount();
         PrintLabelLayoutTextNoFixedAdvance(
             1, b, subCellFileSet->mLabelLayout,
-            GetBmgEntry(data_02174e68->mGhostMessages, func_02025d74(GetListedGhostCourseId(listIndex))),
+            GetBmgEntry(data_02174e68->mGhostMessages, GetGhostCourseMessageIndex(GetListedGhostCourseId(listIndex))),
             subCellFileSet->mCellLayout, subCellFileSet->mCellTable);
         GetListedGhostTime(listIndex, &time);
         WriteMinuteSecondMillisecondText(timeText, time.mMinute, time.mSecond, time.mMillisecond);
@@ -220,17 +220,17 @@ void func_020357dc(void *parentHeap, void *b, void *c) {
     remainingObjSize = GX_GetSizeOfOBJ();
     LocateCellFileSet(cellFileSet, data_021644f8, data_02164518, data_02164538, data_02164558, data_02164574, NULL,
                       FindSceneFile);
-    func_02025a50(0, data_02174e68->mHeap, cellFileSet);
+    SetupCellFileSet(0, data_02174e68->mHeap, cellFileSet);
     for (i = 0; i < cellFileSet->mLabelLayout->mUnk_06; i++) {
-        remainingObjSize -= func_02025a00(0, data_02174e68->mHeap, cellFileSet, data_0215404c[i], remainingObjSize);
+        remainingObjSize -= SetupLabelCanvas(0, data_02174e68->mHeap, cellFileSet, data_0215404c[i], remainingObjSize);
     }
-    func_020258d4(1, data_02174e68, data_02164590, data_021645b0, data_021645d0, 3, FindSceneFile);
+    LocateAndQueueScreenMapFileSet(1, data_02174e68, data_02164590, data_021645b0, data_021645d0, 3, FindSceneFile);
     cellFileSet = &data_02174e68->mCellFileSets[1];
     remainingObjSize = GX_GetSizeOfSubOBJ();
     assignedCount = 0;
     LocateCellFileSet(cellFileSet, data_021645ec, data_0216460c, data_0216462c, gTimeAttackGhostGetSBnclName,
                       gTimeAttackGhostGetSBnllName, gTimeAttackGhostGetSBnblName, FindSceneFile);
-    func_02025a50(1, data_02174e68->mHeap, cellFileSet);
+    SetupCellFileSet(1, data_02174e68->mHeap, cellFileSet);
     cellCount = cellFileSet->mCellLayout->mUnk_06;
     j = 0;
     if (j < cellFileSet->mLabelLayout->mUnk_06) {
@@ -239,7 +239,8 @@ void func_020357dc(void *parentHeap, void *b, void *c) {
             if (row[3] < 0) {
                 row[3] = cellCount + assignedCount++;
             }
-            remainingObjSize -= func_02025a00(1, data_02174e68->mHeap, cellFileSet, data_02164470[j], remainingObjSize);
+            remainingObjSize -=
+                SetupLabelCanvas(1, data_02174e68->mHeap, cellFileSet, data_02164470[j], remainingObjSize);
             row += 4;
             j++;
         } while (j < cellFileSet->mLabelLayout->mUnk_06);
@@ -252,18 +253,19 @@ void func_020357dc(void *parentHeap, void *b, void *c) {
         labelIndex = row[0];
         secondLabelIndex = data_02164470[j + 7][0];
         cellTable = cellFileSet->mCellTable;
-        func_02025c1c(cellIndex, &cellTable[cellIndex], cellFileSet->mCellLayout);
-        func_02025bf0(labelIndex, &cellTable[labelIndex] + cellCount, cellFileSet->mLabelLayout);
-        func_02025bf0(secondLabelIndex, &cellTable[secondLabelIndex] + cellCount, cellFileSet->mLabelLayout);
+        SetLayoutEntryPositionFromCell(cellIndex, &cellTable[cellIndex], cellFileSet->mCellLayout);
+        SetLayoutEntryPositionFromLabel(labelIndex, &cellTable[labelIndex] + cellCount, cellFileSet->mLabelLayout);
+        SetLayoutEntryPositionFromLabel(secondLabelIndex, &cellTable[secondLabelIndex] + cellCount,
+                                        cellFileSet->mLabelLayout);
         row += 4;
     }
-    func_02025c1c(7, &cellFileSet->mCellTable[7], cellFileSet->mCellLayout);
+    SetLayoutEntryPositionFromCell(7, &cellFileSet->mCellTable[7], cellFileSet->mCellLayout);
     w[0] = 0;
     w[1] = cellCount;
     w[2] = cellCount + 7;
     InitScrollList(data_02174e68->mHeap, 3, w, 7, 8, 0x7c, cellFileSet->mCellTable, cellFileSet->mRects,
                    data_02174e68->mUnk_20 + 0xc, 0, 1, 2, 10, func_02035c50);
-    func_02025b84(0, &data_02174e68->mUnk_64);
+    SetPlayerCharacterCellFileSet(0, &data_02174e68->mUnk_64);
     PrintSelectedGhostRecord();
     SetupInterpolation(&data_02174e68->mUnk_90, 0, 10, -0xc0, 0);
     RequestSelectReturnState1();

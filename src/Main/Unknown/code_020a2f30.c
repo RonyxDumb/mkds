@@ -307,8 +307,8 @@ void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
                 if (balloon->mKartIndex == gRaceSetup->mEntryIndex) {
                     if (IsRaceStarted() == 1) {
                         kart = GetKart((u16) balloon->mKartIndex);
-                        func_020249b8(kart, balloon->mScaleFactor + balloon->mScaleSwing,
-                                      balloon->mScaleFactorPerFrame);
+                        StartBalloonScaleSound(kart, balloon->mScaleFactor + balloon->mScaleSwing,
+                                               balloon->mScaleFactorPerFrame);
                     }
                 }
                 if (balloon->mDrawCount == 1 && balloon->mDrawList == NULL) {

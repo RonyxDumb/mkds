@@ -218,9 +218,9 @@ void func_02031ba4(void) {
         subFileSet->mCellTable[i].mOffsetY = interpolatedValue;
     }
     if (gMultiSelectMember->mChildCount > 0) {
-        func_02025f14(&gMultiSelectMember->mInterpolations[3], 0);
+        SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[3], 0);
     } else {
-        func_02025f14(&gMultiSelectMember->mInterpolations[3], 2);
+        SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[3], 2);
     }
     AdvanceInterpolation(&gMultiSelectMember->mInterpolations[3]);
     interpolatedValue = GetInterpolatedValue(&gMultiSelectMember->mInterpolations[3]);
@@ -313,7 +313,7 @@ void func_02031960(void) {
                 gMultiSelectMember->mUnk_70 = 3;
                 gMultiSelectMember->mTimer = 0x78;
                 SetupTxtSystemSubTextEx(GetBmgEntry(gMultiSelectMember->mCommonMessages, 0x79), 0, 1, 1, 0, 1);
-                func_02025f14(&gMultiSelectMember->mInterpolations[0], 2);
+                SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[0], 2);
             } else if (gMultiSelectMember->mUnk_7c != FALSE) {
                 gMultiSelectMember->mUnk_7c = FALSE;
                 gMultiSelectMember->mUnk_70 = 7;
@@ -477,12 +477,12 @@ void InitMultiSelectMember(void *parentHeap, void *mainOam, void *subOam) {
     LocateCellFileSet(mainFileSet, gMultiSelectMemberMNcgrName2, gMultiSelectMemberMNcerName2,
                       gMultiSelectMemberMONclrName2, gMultiSelectMemberMBnclName, gMultiSelectMemberMBnllName, NULL,
                       FindSceneFile);
-    func_02025a50(0, gMultiSelectMember->mHeap, mainFileSet);
+    SetupCellFileSet(0, gMultiSelectMember->mHeap, mainFileSet);
     i = 0;
     canvasRow = data_usa_02153d64;
     printRow = canvasRow;
     for (; i < 2; i++) {
-        mainObjSizeLeft -= func_02025a00(0, gMultiSelectMember->mHeap, mainFileSet, canvasRow, mainObjSizeLeft);
+        mainObjSizeLeft -= SetupLabelCanvas(0, gMultiSelectMember->mHeap, mainFileSet, canvasRow, mainObjSizeLeft);
         PrintLabelLayoutTextNoFixedAdvance(0, printRow->mLabelIndex, mainFileSet->mLabelLayout,
                                            GetBmgEntry(gMultiSelectMember->mBannerMessages, printRow->mMessageIndex),
                                            mainFileSet->mCellLayout, mainFileSet->mCellTable);
@@ -490,17 +490,17 @@ void InitMultiSelectMember(void *parentHeap, void *mainOam, void *subOam) {
         printRow++;
     }
     SetMultiSelectChildCountCellsVisible();
-    func_020258d4(1, gMultiSelectMember, gMultiSelectMemberSBNcgrName3, gMultiSelectMemberSBNclrName3,
-                  gMultiSelectMemberSRegisterNscrName2, 3, FindSceneFile);
+    LocateAndQueueScreenMapFileSet(1, gMultiSelectMember, gMultiSelectMemberSBNcgrName3, gMultiSelectMemberSBNclrName3,
+                                   gMultiSelectMemberSRegisterNscrName2, 3, FindSceneFile);
     subObjSizeLeft = GX_GetSizeOfSubOBJ();
     subFileSet = &gMultiSelectMember->mCellFileSets[1];
     LocateCellFileSet(subFileSet, gMultiSelectMemberRegisterSNcgrName2, gMultiSelectMemberRegisterSNcerName2,
                       gMultiSelectMemberRegisterSONclrName2, gMultiSelectMemberSRegisterBnclName,
                       gMultiSelectMemberSRegisterBnllName, gMultiSelectMemberSRegisterBnblName, FindSceneFile);
-    func_02025a50(1, gMultiSelectMember->mHeap, subFileSet);
+    SetupCellFileSet(1, gMultiSelectMember->mHeap, subFileSet);
     for (i = 0; i < 9; i++) {
         subObjSizeLeft -=
-            func_02025a00(1, gMultiSelectMember->mHeap, subFileSet, &data_usa_02153d7c[i], subObjSizeLeft);
+            SetupLabelCanvas(1, gMultiSelectMember->mHeap, subFileSet, &data_usa_02153d7c[i], subObjSizeLeft);
     }
     SetupInterpolation(&gMultiSelectMember->mInterpolations[3], 3, 10, 0x40, 0);
     InitPaletteBlend(gMultiSelectMember->mHeap, subFileSet->mPalette, 3);
@@ -778,9 +778,9 @@ s32 func_02030ea4(Unk02030b18 *sceneNumbers) {
             break;
         case 3:
             if (gMultiSelectMember->mUnk_70 == 11) {
-                func_02025f14(&gMultiSelectMember->mInterpolations[0], 2);
-                func_02025f14(&gMultiSelectMember->mInterpolations[1], 2);
-                func_02025f14(&gMultiSelectMember->mInterpolations[2], 2);
+                SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[0], 2);
+                SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[1], 2);
+                SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[2], 2);
                 gMultiSelectMember->mState = 4;
             }
             break;
@@ -892,7 +892,7 @@ s32 func_02030b18(Unk02030b18 *sceneNumbers) {
                 }
                 if (x != FALSE) {
                     RequestSelectReturnState4();
-                    func_02025f14(&gMultiSelectMember->mInterpolations[0], 2);
+                    SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[0], 2);
                     NNS_SndArcSetCurrent(&gOnMemorySndArc);
                     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 6);
                     NNS_SndArcSetCurrent(&gFileSndArc);
@@ -933,9 +933,9 @@ s32 func_02030b18(Unk02030b18 *sceneNumbers) {
             break;
         case 3:
             if (gMultiSelectMember->mUnk_70 == 11) {
-                func_02025f14(&gMultiSelectMember->mInterpolations[0], 2);
-                func_02025f14(&gMultiSelectMember->mInterpolations[1], 2);
-                func_02025f14(&gMultiSelectMember->mInterpolations[2], 2);
+                SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[0], 2);
+                SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[1], 2);
+                SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[2], 2);
                 gMultiSelectMember->mState = 4;
             }
             break;

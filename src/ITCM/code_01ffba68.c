@@ -248,7 +248,7 @@ s32 AdvanceKartRank(Kart *p) {
 }
 
 void func_01ffc920(Kart *p) {
-    func_02024a88(p);
+    UpdateKartSound(p);
 }
 
 void AdvanceKartCollisionTimer(Kart *p) {

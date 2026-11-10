@@ -6,7 +6,7 @@
 #include "Main/Unknown/code_02124094.h" // LayoutTableEntry
 
 // 0x1c-byte part of SelectCharacter, at 0x00, 0x1c and 0x38; InitSelectCharacter has two on the stack, one filled by
-// func_02025b84. ResultsBattle has four from 0x48. MultiSelectMemberGroup has one at 0x24.
+// SetPlayerCharacterCellFileSet. ResultsBattle has four from 0x48. MultiSelectMemberGroup has one at 0x24.
 typedef struct CellFileSet {
     /* 00 */ Ncgr *mChars;
     /* 04 */ Nclr *mPalette;

@@ -30,9 +30,9 @@ void StartMapObjectKindSound(MapObject *mapObject, SoundSource *soundSource, s32
         return;
     }
     if (mapObject->mSound != NULL) {
-        func_02024a28(&mapObject->mSound->mSoundSource, soundId, e, d);
+        StartSoundVolumeFromFractionIfTwo(&mapObject->mSound->mSoundSource, soundId, e, d);
     } else {
-        func_02024a28(soundSource, soundId, e, d);
+        StartSoundVolumeFromFractionIfTwo(soundSource, soundId, e, d);
     }
 }
 

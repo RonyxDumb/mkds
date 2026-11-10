@@ -312,17 +312,17 @@ void InitMultiSelectMemberGroup(void *parentHeap, void *scene, void *oamList) {
     gMultiSelectMemberGroup->mBannerMessages = FindSceneFile(gBannerBmgName);
     gMultiSelectMemberGroup->mState = 0;
     gMultiSelectMemberGroup->mBg3Offset = -0xc0;
-    func_020258d4(1, gMultiSelectMemberGroup, gMultiSelectMemberSBNcgrName2, gMultiSelectMemberSBNclrName2,
-                  gMultiSelectMemberSGroupNscrName2, 3, FindSceneFile);
+    LocateAndQueueScreenMapFileSet(1, gMultiSelectMemberGroup, gMultiSelectMemberSBNcgrName2,
+                                   gMultiSelectMemberSBNclrName2, gMultiSelectMemberSGroupNscrName2, 3, FindSceneFile);
     subObjSizeLeft = GX_GetSizeOfSubOBJ();
     cellFileSet = &gMultiSelectMemberGroup->mGroupSParts;
     LocateCellFileSet(cellFileSet, gMultiSelectMemberGroupSNcgrName2, gMultiSelectMemberGroupSNcerName2,
                       gMultiSelectMemberGroupSONclrName2, gMultiSelectMemberSGroupBnclName,
                       gMultiSelectMemberSGroupBnllName, gMultiSelectMemberSGroupBnblName, FindSceneFile);
-    func_02025a50(1, gMultiSelectMemberGroup->mHeap, cellFileSet);
+    SetupCellFileSet(1, gMultiSelectMemberGroup->mHeap, cellFileSet);
     for (i = 0, labelMessageRow = gMemberGroupLabelMessageRows; i < 5; labelMessageRow++, i++) {
         subObjSizeLeft -=
-            func_02025a00(1, gMultiSelectMemberGroup->mHeap, cellFileSet, labelMessageRow, subObjSizeLeft);
+            SetupLabelCanvas(1, gMultiSelectMemberGroup->mHeap, cellFileSet, labelMessageRow, subObjSizeLeft);
         if (gMemberGroupLabelMessageRows[i].mMessageIndex < 0) {
             text = data_02163610;
         } else {

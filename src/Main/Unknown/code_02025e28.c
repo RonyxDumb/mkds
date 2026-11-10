@@ -4,20 +4,20 @@
 #include "Main/Unknown/code_02029890.h"
 
 #pragma thumb on
-s32 func_02025e60(s32 a) {
-    s32 r = -1;
+s32 GetCharacterKartIndexByMode(s32 characterIndex) {
+    s32 kartIndex = -1;
     switch (GetRaceSetupCopy()->mMode) {
         case 0:
         case 1:
         case 3:
         case 5:
-            r = data_usa_02153274[a];
+            kartIndex = gCharacterKartIndexTable[characterIndex];
             break;
         case 2:
-            r = data_usa_02153240[a];
+            kartIndex = gCharacterKartIndexTableBattle[characterIndex];
             break;
     }
-    return r;
+    return kartIndex;
 }
 
 s32 FindKartTableIndex(u32 kartIndex) {

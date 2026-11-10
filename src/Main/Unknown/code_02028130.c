@@ -117,16 +117,16 @@ int AdvanceSelectKart(void) {
                 gSelectKart->mState = 4;
                 p->mCellTable[18].mVisible = 0;
                 SetLabelPaletteIndex(data_usa_02153834[4], 0, p->mLabelLayout, p->mCellTable, p->mCellLayout);
-                StartSeqPair(func_02025eb0(gSelectKart->mCharacterIndex), 1);
+                StartSeqPair(GetCharacterSeqPairNo(gSelectKart->mCharacterIndex), 1);
                 func_02077f48(1);
                 StopPaletteBlend();
             } else if (func_020286f4(t, PAD_KEY_B) != 0 || x != 0) {
                 gSelectKart->mStateFrames = 0;
                 gSelectKart->mResult = 2;
                 func_0202941c(0);
-                func_02025f14(&gSelectKart->mInterpolations[1], 2);
-                func_02025f14(&gSelectKart->mInterpolations[3], 2);
-                func_02025f14(&gSelectKart->mInterpolations[4], 2);
+                SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[1], 2);
+                SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[3], 2);
+                SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[4], 2);
                 gSelectKart->mState = 7;
                 if (gSelectKart->mMode != 0) {
                     v = 1;
@@ -208,11 +208,11 @@ int AdvanceSelectKart(void) {
         case 6:
             d->mStateFrames = d->mStateFrames + 1;
             if (gSelectKart->mStateFrames > 0x3c) {
-                func_02025f14(&gSelectKart->mInterpolations[0], 2);
-                func_02025f14(&gSelectKart->mInterpolations[1], 2);
-                func_02025f14(&gSelectKart->mInterpolations[2], 2);
-                func_02025f14(&gSelectKart->mInterpolations[3], 2);
-                func_02025f14(&gSelectKart->mInterpolations[4], 2);
+                SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[0], 2);
+                SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[1], 2);
+                SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[2], 2);
+                SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[3], 2);
+                SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[4], 2);
                 if (gSelectKart->mMode == 2) {
                     WriteWiFiSessionToRaceSetupCopy();
                     func_0202941c(3);

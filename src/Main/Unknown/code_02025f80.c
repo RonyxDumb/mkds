@@ -70,7 +70,7 @@
 
 #pragma thumb on
 
-void func_02027188(void) {
+void RefreshSelectCharacterRowCells(void) {
     func_0202719c();
     func_020271e8();
 }
@@ -79,9 +79,9 @@ void func_02027188(void) {
 
 #pragma thumb on
 
-void func_020270fc(s32 previousTableIndex) {
-    gSelectCharacter->mUnk_064 = previousTableIndex;
-    switch (gSelectCharacter->mUnk_07c) {
+void SetupSelectCharacterRow(s32 previousTableIndex) {
+    gSelectCharacter->mPreviousTableIndex = previousTableIndex;
+    switch (gSelectCharacter->mTableRowCount) {
         case 8:
             func_02027be0();
             break;
@@ -98,20 +98,20 @@ void func_020270fc(s32 previousTableIndex) {
             func_02027448();
             break;
     }
-    func_02027188();
+    RefreshSelectCharacterRowCells();
     func_0202721c();
     SetInterpolationState(&gSelectCharacter->mInterpolations[0], 0);
-    gSelectCharacter->mCharacterIndex = gSelectCharacter->mUnk_090[gSelectCharacter->mUnk_060].mCharacterIndex;
-    gSelectCharacter->mKartIndex = func_02025e60(gSelectCharacter->mCharacterIndex);
+    gSelectCharacter->mCharacterIndex = gSelectCharacter->mUnk_090[gSelectCharacter->mTableIndex].mCharacterIndex;
+    gSelectCharacter->mKartIndex = GetCharacterKartIndexByMode(gSelectCharacter->mCharacterIndex);
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-u32 func_020270d0(void) {
+u32 IsSelectCharacterModeAndTimerZero(void) {
     int result;
-    if ((gSelectCharacter->mUnk_080 != 0) && (result = IsPlayerEntryListTimerZero(), result != 0)) {
+    if ((gSelectCharacter->mMode != 0) && (result = IsPlayerEntryListTimerZero(), result != 0)) {
         return 1;
     }
     return 0;
@@ -121,14 +121,14 @@ u32 func_020270d0(void) {
 
 #pragma thumb on
 
-void func_02027084(void) {
+void SetSelectCharacterAngleAndScale(void) {
     CellFileSet *sParts = &gSelectCharacter->mUnk_01c;
     s32 i;
     s32 elementCount;
     if (gBootInfo->mUnk_00 != 2) {
         elementCount = sParts->mCellLayout->mUnk_06;
         for (i = 0; i < elementCount; i++) {
-            SetLayoutEntryAngleAndScale(&sParts->mCellTable[i], gSelectCharacter->mUnk_074, gSelectCharacter->mUnk_070);
+            SetLayoutEntryAngleAndScale(&sParts->mCellTable[i], gSelectCharacter->mAngle, gSelectCharacter->mScale);
         }
     }
 }
@@ -153,7 +153,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     gSelectCharacter = HeapAlloc(heap, 0x12c);
     MemFillWordsByBlock_inline(gSelectCharacter, 0x12c);
     gSelectCharacter->mHeap = heap;
-    gSelectCharacter->mUnk_080 = mode;
+    gSelectCharacter->mMode = mode;
     switch (GetRaceSetupCopy()->mUnk_108) {
         case 0:
             SetupInterpolation(&gSelectCharacter->mInterpolations[0], 0, 10, -0x80, 0);
@@ -165,7 +165,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
         case 2:
             SetupInterpolation(&gSelectCharacter->mInterpolations[0], 1, 10, -0x80, 0);
             SetupInterpolation(&gSelectCharacter->mInterpolations[2], 1, 10, 0x60, 0);
-            switch (gSelectCharacter->mUnk_080) {
+            switch (gSelectCharacter->mMode) {
                 case 1:
                     if (gConnectionWork->mUnk_0004 == 8) {
                         gConnectionWork->mUnk_15f7 = 0xff;
@@ -180,14 +180,14 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     SetupInterpolation(&gSelectCharacter->mInterpolations[1], 0, 10, -0x40, 0);
     gSelectCharacter->mMainOam = mainOam;
     gSelectCharacter->mUnk_058 = subOam;
-    if (gSelectCharacter->mUnk_080 != 0 || GetRaceSetupCopy()->mMode == 3 || GetRaceSetupCopy()->mMode == 2) {
+    if (gSelectCharacter->mMode != 0 || GetRaceSetupCopy()->mMode == 3 || GetRaceSetupCopy()->mMode == 2) {
         f = TRUE;
     } else {
         f = FALSE;
     }
     gSelectCharacter->mUnk_128 = f;
     if (gSelectCharacter->mUnk_128 != FALSE) {
-        switch (gSelectCharacter->mUnk_080) {
+        switch (gSelectCharacter->mMode) {
             case 0:
                 modeValue = 0;
                 break;
@@ -201,7 +201,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
         SetupPlayerEntryList(modeValue, PLAYER_ENTRY_LIST_CHARACTER);
     }
     selectCharacter = gSelectCharacter;
-    switch (selectCharacter->mUnk_080) {
+    switch (selectCharacter->mMode) {
         case 0:
             selectCharacter->mEntryIndex = 0;
             break;
@@ -219,7 +219,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
         LocateCellFileSet(&selectCharacter->mUnk_000, gSelectCharacterGpMNcgrName, gSelectCharacterGpMNcerName,
                           gSelectCharacterGpMONclrName, gSelectCharacterGpMBnclName, NULL, NULL,
                           FindFileInLoadedArchives);
-        func_02025a50(0, gSelectCharacter->mHeap, &selectCharacter->mUnk_000);
+        SetupCellFileSet(0, gSelectCharacter->mHeap, &selectCharacter->mUnk_000);
         LocateCellFileSet(&titleParts, gSelectCharacterGpTitleMNcgrName, gSelectCharacterGpTitleMNcerName, NULL,
                           gSelectCharacterGpTitleMBnclName, NULL, NULL, FindFileInLoadedArchives);
         QueueCellChars(0, titleParts.mCells, titleParts.mChars, titleParts.mCellLayout, 0, 0,
@@ -237,7 +237,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
         sParts = &gSelectCharacter->mUnk_01c;
         LocateCellFileSet(sParts, gSelectCharacterSNcgrName, gSelectCharacterSNcerName, gSelectCharacterSONclrName,
                           gSelectCharacterSBnclName, NULL, gSelectCharacterSBnblName, FindFileInLoadedArchives);
-        func_02025a50(1, gSelectCharacter->mHeap, sParts);
+        SetupCellFileSet(1, gSelectCharacter->mHeap, sParts);
         sParts->mCellTable[24].mVisible = 0;
         for (i = 0; i < 12; i++) {
             sParts->mCellTable[data_usa_02153554[i].mUnk_04].mUseMatrix = 1;
@@ -259,53 +259,53 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
         InitSelectRaceRuleWait(gSelectCharacter->mHeap, gSelectCharacter->mUnk_058);
         SlideInSelectRaceRuleWait();
     }
-    gSelectCharacter->mUnk_07c = 8;
+    gSelectCharacter->mTableRowCount = 8;
     for (i = 0; i < 8; i++) {
         gSelectCharacter->mUnk_090[i] = data_021535b4[i];
     }
     if (IsBackupFlagSet(0x15) != 0) {
         gSelectCharacter->mUnk_090[i] = data_021535b4[8];
         i++;
-        gSelectCharacter->mUnk_07c++;
+        gSelectCharacter->mTableRowCount++;
     }
     if (IsBackupFlagSet(0x14) != 0) {
         gSelectCharacter->mUnk_090[i] = data_021535b4[9];
         i++;
-        gSelectCharacter->mUnk_07c++;
+        gSelectCharacter->mTableRowCount++;
     }
     if (IsBackupFlagSet(0x16) != 0) {
         gSelectCharacter->mUnk_090[i] = data_021535b4[10];
         i++;
-        gSelectCharacter->mUnk_07c++;
+        gSelectCharacter->mTableRowCount++;
     }
     if (IsBackupFlagSet(0x17) != 0) {
         gSelectCharacter->mUnk_090[i] = data_021535b4[11];
         i++;
-        gSelectCharacter->mUnk_07c++;
+        gSelectCharacter->mTableRowCount++;
     }
     for (; i < 12; i++) {
         gSelectCharacter->mUnk_090[i].mCharacterIndex = -1;
     }
-    for (tableIndex = 0; tableIndex < gSelectCharacter->mUnk_07c; tableIndex++) {
+    for (tableIndex = 0; tableIndex < gSelectCharacter->mTableRowCount; tableIndex++) {
         if (gSelectCharacter->mUnk_090[tableIndex].mCharacterIndex ==
             GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mCharacterIndex) {
-            gSelectCharacter->mUnk_060 = tableIndex;
+            gSelectCharacter->mTableIndex = tableIndex;
         }
     }
-    gSelectCharacter->mUnk_064 = gSelectCharacter->mUnk_060;
+    gSelectCharacter->mPreviousTableIndex = gSelectCharacter->mTableIndex;
     selectCharacter = gSelectCharacter;
     selectCharacter->mCharacterIndex = GetRaceSetupCopy()->mEntries[selectCharacter->mEntryIndex].mCharacterIndex;
     if (gSelectCharacter->mCharacterIndex == -1) {
         gSelectCharacter->mCharacterIndex = 0;
     }
-    gSelectCharacter->mKartIndex = func_02025e60(gSelectCharacter->mCharacterIndex);
+    gSelectCharacter->mKartIndex = GetCharacterKartIndexByMode(gSelectCharacter->mCharacterIndex);
     GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mCharacterIndex = -1;
     GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mKartIndex = -1;
     GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mUnk_14 = 0;
     if (gBootInfo->mUnk_00 != 2) {
         sParts = &gSelectCharacter->mUnk_01c;
-        func_02025b84(0, &w);
-        for (i = 0; i < gSelectCharacter->mUnk_07c; i++) {
+        SetPlayerCharacterCellFileSet(0, &w);
+        for (i = 0; i < gSelectCharacter->mTableRowCount; i++) {
             QueueCellCharsAndCopyPalettes(gSelectCharacter->mUnk_090[i].mCharacterIndex, w.mCells, w.mChars, w.mPalette,
                                           w.mCellLayout, 1, data_usa_02153554[i].mUnk_02, sParts->mCells,
                                           sParts->mCellLayout);
@@ -314,7 +314,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     if (gBootInfo->mUnk_00 != 2) {
         positions = NULL;
         sParts = &gSelectCharacter->mUnk_01c;
-        switch (gSelectCharacter->mUnk_07c) {
+        switch (gSelectCharacter->mTableRowCount) {
             case 8:
                 positions = data_021534bc;
                 func_02027be0();
@@ -336,15 +336,15 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
                 break;
         }
         if (positions != NULL) {
-            for (i = 0; i < gSelectCharacter->mUnk_07c; i++) {
-                func_02025c94(data_usa_02153554[i].mUnk_00, positions[i].mUnk_00, positions[i].mUnk_02,
-                              sParts->mCellLayout);
-                func_02025c94(data_usa_02153554[i].mUnk_02, positions[i].mUnk_00, positions[i].mUnk_02,
-                              sParts->mCellLayout);
+            for (i = 0; i < gSelectCharacter->mTableRowCount; i++) {
+                SetCellLayoutEntryXY(data_usa_02153554[i].mUnk_00, positions[i].mUnk_00, positions[i].mUnk_02,
+                                     sParts->mCellLayout);
+                SetCellLayoutEntryXY(data_usa_02153554[i].mUnk_02, positions[i].mUnk_00, positions[i].mUnk_02,
+                                     sParts->mCellLayout);
                 RectTableSetEntryXY(data_usa_02153554[i].mRectEntryId, positions[i].mUnk_00, positions[i].mUnk_02,
                                     sParts->mRects);
-                func_02025c94(data_usa_02153554[i].mUnk_04, (s16) (positions[i].mUnk_00 + 3),
-                              (s16) (positions[i].mUnk_02 + 3), sParts->mCellLayout);
+                SetCellLayoutEntryXY(data_usa_02153554[i].mUnk_04, (s16) (positions[i].mUnk_00 + 3),
+                                     (s16) (positions[i].mUnk_02 + 3), sParts->mCellLayout);
             }
             for (; i < 12; i++) {
                 sParts->mCellTable[data_usa_02153554[i].mUnk_00].mVisible = 0;
@@ -356,7 +356,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
         func_020271e8();
         func_0202721c();
     }
-    if (gSelectCharacter->mUnk_080 == 0) {
+    if (gSelectCharacter->mMode == 0) {
         ClearNonParticipantCharacterIndices();
         SetSelectReturnSoundId(0xe);
         RequestSelectReturnState1();
@@ -428,9 +428,9 @@ int AdvanceSelectCharacter(void) {
             gSelectCharacter->mUnk_068++;
             selectCharacterReload = gSelectCharacter;
             if (selectCharacterReload->mUnk_068 < 10) {
-                selectCharacterReload->mUnk_070 = (selectCharacterReload->mUnk_068 << 12) / 10;
+                selectCharacterReload->mScale = (selectCharacterReload->mUnk_068 << 12) / 10;
             } else {
-                selectCharacterReload->mUnk_070 = 0x1000;
+                selectCharacterReload->mScale = 0x1000;
                 gSelectCharacter->mUnk_068 = 0;
                 if (gBootInfo->mUnk_00 == 2) {
                     nextState = 2;
@@ -439,7 +439,7 @@ int AdvanceSelectCharacter(void) {
                 }
                 gSelectCharacter->mUnk_06c = nextState;
             }
-            func_02027084();
+            SetSelectCharacterAngleAndScale();
             break;
         case 2:
             selectCharacter->mCharacterIndex = 0xc;
@@ -462,34 +462,34 @@ int AdvanceSelectCharacter(void) {
             }
             break;
         case 3:
-            previousTableIndex = selectCharacter->mUnk_060;
+            previousTableIndex = selectCharacter->mTableIndex;
             if (func_02026120_inline_2(inputSlot) != 0) {
                 pointX = data_02175670[inputSlot].mPressedBits;
                 pointY = data_02175672[inputSlot].mPressedBits;
                 rectEntryId = RectTableFindContaining(sParts->mRects, pointX, pointY);
                 if (rectEntryId >= 0) {
-                    for (tableIndex = 0; tableIndex < gSelectCharacter->mUnk_07c; tableIndex++) {
+                    for (tableIndex = 0; tableIndex < gSelectCharacter->mTableRowCount; tableIndex++) {
                         if (rectEntryId == data_usa_02153554[tableIndex].mRectEntryId) {
-                            gSelectCharacter->mUnk_060 = tableIndex;
+                            gSelectCharacter->mTableIndex = tableIndex;
                             break;
                         }
                     }
-                    func_020270fc(previousTableIndex);
-                    StartSeqPair(func_02025eb0(gSelectCharacter->mCharacterIndex), 0);
+                    SetupSelectCharacterRow(previousTableIndex);
+                    StartSeqPair(GetCharacterSeqPairNo(gSelectCharacter->mCharacterIndex), 0);
                     gSelectCharacter->mUnk_068 = 0;
                     gSelectCharacter->mUnk_06c = 5;
-                } else if (gSelectCharacter->mUnk_080 == 0 &&
+                } else if (gSelectCharacter->mMode == 0 &&
                            IsSelectReturnState2NoState3Or4RequestAndInRect(pointX, pointY) != FALSE) {
                     StartSelectCharacterReturn();
                 }
-            } else if (func_020270d0() != 0) {
+            } else if (IsSelectCharacterModeAndTimerZero() != 0) {
                 gSelectCharacter->mUnk_068 = 0;
                 gSelectCharacter->mUnk_08c = 3;
                 gSelectCharacter->mUnk_06c = 6;
-                StartSeqPair(func_02025eb0(gSelectCharacter->mCharacterIndex), 0);
+                StartSeqPair(GetCharacterSeqPairNo(gSelectCharacter->mCharacterIndex), 0);
                 func_02077f48(1);
                 selectCharacterReload = gSelectCharacter;
-                switch (selectCharacterReload->mUnk_080) {
+                switch (selectCharacterReload->mMode) {
                     case 2:
                         SetWiFiSessionOwnCharacterIndex(selectCharacterReload->mCharacterIndex);
                         SetWiFiSessionOwnKartIndex(gSelectCharacter->mKartIndex);
@@ -506,39 +506,39 @@ int AdvanceSelectCharacter(void) {
                 if ((u16) (keyBits & PAD_KEY_A) != 0) {
                     gSelectCharacter->mUnk_068 = 0;
                     gSelectCharacter->mUnk_06c = 5;
-                    func_02027188();
-                    StartSeqPair(func_02025eb0(gSelectCharacter->mCharacterIndex), 0);
-                } else if (gSelectCharacter->mUnk_080 == 0 && (u16) (keyBits & PAD_KEY_B) != 0) {
+                    RefreshSelectCharacterRowCells();
+                    StartSeqPair(GetCharacterSeqPairNo(gSelectCharacter->mCharacterIndex), 0);
+                } else if (gSelectCharacter->mMode == 0 && (u16) (keyBits & PAD_KEY_B) != 0) {
                     StartSelectCharacterReturn();
                 } else {
                     if (GetNewOrRepeatBits(inputSlot, PAD_KEY_UP) != 0) {
                         selectCharacterReload = gSelectCharacter;
                         targetTableIndex = selectCharacterReload->mTableIndexByKey[0];
                         if (targetTableIndex != -1) {
-                            selectCharacterReload->mUnk_060 = targetTableIndex;
+                            selectCharacterReload->mTableIndex = targetTableIndex;
                         }
                     } else if (GetNewOrRepeatBits(inputSlot, PAD_KEY_DOWN) != 0) {
                         selectCharacterReload = gSelectCharacter;
                         targetTableIndex = selectCharacterReload->mTableIndexByKey[1];
                         if (targetTableIndex != -1) {
-                            selectCharacterReload->mUnk_060 = targetTableIndex;
+                            selectCharacterReload->mTableIndex = targetTableIndex;
                         }
                     } else if (GetNewOrRepeatBits(inputSlot, PAD_KEY_RIGHT) != 0) {
                         selectCharacterReload = gSelectCharacter;
                         targetTableIndex = selectCharacterReload->mTableIndexByKey[2];
                         if (targetTableIndex != -1) {
-                            selectCharacterReload->mUnk_060 = targetTableIndex;
+                            selectCharacterReload->mTableIndex = targetTableIndex;
                         }
                     } else if (GetNewOrRepeatBits(inputSlot, PAD_KEY_LEFT) != 0) {
                         selectCharacterReload = gSelectCharacter;
                         targetTableIndex = selectCharacterReload->mTableIndexByKey[3];
                         if (targetTableIndex != -1) {
-                            selectCharacterReload->mUnk_060 = targetTableIndex;
+                            selectCharacterReload->mTableIndex = targetTableIndex;
                         }
                     }
-                    if (gSelectCharacter->mUnk_060 != previousTableIndex) {
+                    if (gSelectCharacter->mTableIndex != previousTableIndex) {
                         StartCursorMoveSound();
-                        func_020270fc(previousTableIndex);
+                        SetupSelectCharacterRow(previousTableIndex);
                         gSelectCharacter->mUnk_06c = 4;
                     }
                 }
@@ -560,7 +560,7 @@ int AdvanceSelectCharacter(void) {
                 gSelectCharacter->mUnk_08c = 1;
                 func_020272ec();
                 selectCharacterReload = gSelectCharacter;
-                switch (selectCharacterReload->mUnk_080) {
+                switch (selectCharacterReload->mMode) {
                     case 0:
                         GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mCharacterIndex =
                             selectCharacterReload->mCharacterIndex;
@@ -577,7 +577,7 @@ int AdvanceSelectCharacter(void) {
                             func_02027424(1);
                             func_02077f5c();
                             gSelectCharacter->mUnk_06c = 8;
-                            func_02025f14(&gSelectCharacter->mInterpolations[1], 2);
+                            SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], 2);
                         }
                         break;
                     case 1:
@@ -586,7 +586,7 @@ int AdvanceSelectCharacter(void) {
                             if (gConnectionWork->mUnk_0004 == 8) {
                                 gConnectionWork->mUnk_15f7 = flaggedCharacterIndex;
                             }
-                            func_02025f14(&gSelectCharacter->mInterpolations[1], 2);
+                            SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], 2);
                             func_02027424(1);
                             gSelectCharacter->mUnk_06c = 8;
                             func_02077f5c();
@@ -601,7 +601,7 @@ int AdvanceSelectCharacter(void) {
                         break;
                     case 2:
                         SetWiFiSessionOwnCharacterIndex(selectCharacterReload->mCharacterIndex);
-                        func_02025f14(&gSelectCharacter->mInterpolations[1], 2);
+                        SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], 2);
                         func_02027424(1);
                         gSelectCharacter->mUnk_06c = 8;
                         func_02077f5c();
@@ -610,16 +610,16 @@ int AdvanceSelectCharacter(void) {
             }
             break;
         case 6:
-            if ((selectCharacter->mUnk_080 == 1 && IsEveryPlayerKartStored() != 0) ||
-                (gSelectCharacter->mUnk_080 == 2 && IsWiFiSessionStep7Reached() != 0)) {
-                if (gSelectCharacter->mUnk_080 == 2) {
+            if ((selectCharacter->mMode == 1 && IsEveryPlayerKartStored() != 0) ||
+                (gSelectCharacter->mMode == 2 && IsWiFiSessionStep7Reached() != 0)) {
+                if (gSelectCharacter->mMode == 2) {
                     WriteWiFiSessionToRaceSetupCopy();
                 }
-                if (GetRaceSetupCopy()->mMode == 2 || func_020270d0() != 0) {
+                if (GetRaceSetupCopy()->mMode == 2 || IsSelectCharacterModeAndTimerZero() != 0) {
                     gSelectCharacter->mUnk_06c = 7;
                 } else {
                     func_02027424(1);
-                    func_02025f14(&gSelectCharacter->mInterpolations[1], 2);
+                    SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], 2);
                     gSelectCharacter->mUnk_06c = 8;
                 }
             }
@@ -628,12 +628,12 @@ int AdvanceSelectCharacter(void) {
             selectCharacter->mUnk_068++;
             selectCharacterReload = gSelectCharacter;
             if (selectCharacterReload->mUnk_068 > 60) {
-                if (selectCharacterReload->mUnk_080 == 2) {
+                if (selectCharacterReload->mMode == 2) {
                     func_02027424(3);
                 } else {
                     func_02027424(2);
                 }
-                func_02025f14(&gSelectCharacter->mInterpolations[1], 2);
+                SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], 2);
                 if (gBootInfo->mUnk_00 != 2) {
                     StartKartModelMenuBg0Decrease();
                 } else if (GetRaceSetupCopy()->mMode == 2) {
@@ -647,15 +647,15 @@ int AdvanceSelectCharacter(void) {
             selectCharacter->mUnk_068++;
             selectCharacterReload = gSelectCharacter;
             if (selectCharacterReload->mUnk_068 < 10) {
-                selectCharacterReload->mUnk_070 = ((10 - selectCharacterReload->mUnk_068) << 12) / 10;
+                selectCharacterReload->mScale = ((10 - selectCharacterReload->mUnk_068) << 12) / 10;
             } else {
                 GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mCharacterIndex =
                     selectCharacterReload->mCharacterIndex;
                 GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mKartIndex = gSelectCharacter->mKartIndex;
                 gSelectCharacter->mUnk_06c = 9;
             }
-            gSelectCharacter->mUnk_074 += 0x1000;
-            func_02027084();
+            gSelectCharacter->mAngle += 0x1000;
+            SetSelectCharacterAngleAndScale();
             break;
         case 9:
             result = selectCharacter->mUnk_08c;
@@ -740,7 +740,7 @@ void WriteSelectCharacterRegisters(void) {
     }
 }
 
-void func_02025f90(void) {
+void LoadSelectCharacterData(void) {
     Ncgr *chars = NULL;
     Nclr *palette = NULL;
     Unk02021dc8 *cells = NULL;
@@ -761,7 +761,7 @@ void SetupInterpolation(Interpolation *interpolation, s32 state, s32 counterLimi
     interpolation->mCounterLimit = counterLimit;
     interpolation->mStartValue = startValue;
     interpolation->mEndValue = endValue;
-    func_02025f14(interpolation, state);
+    SetInterpolationStateIfOpposite(interpolation, state);
 }
 
 #pragma thumb off

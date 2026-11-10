@@ -53,35 +53,36 @@ void LoadCellFileSet(void *fileSetPointer, const char *charsName, const char *ce
     }
 }
 
-void func_02025a50(u32 a, void *heap, CellFileSet *fileSet) {
-    u32 r;
+void SetupCellFileSet(u32 screen, void *heap, CellFileSet *fileSet) {
+    u32 charsCode;
     InitLayoutTable(heap, fileSet->mCellLayout, fileSet->mLabelLayout, &fileSet->mCellTable);
-    if (a == 0) {
-        r = 0x13;
+    if (screen == 0) {
+        charsCode = 0x13;
         CallQueueAppend(0xe, 0, fileSet->mPalette->mData, 0x1a0);
         CallQueueAppend(0xe, 0x1c0, (u8 *) fileSet->mPalette->mData + 0x1c0, 0x40);
     } else {
-        r = 0x23;
+        charsCode = 0x23;
         CallQueueAppend(0x1e, 0, fileSet->mPalette->mData, fileSet->mPalette->mDataSize);
     }
-    CallQueueAppend(r, 0, fileSet->mChars->mData, fileSet->mChars->mDataSize);
+    CallQueueAppend(charsCode, 0, fileSet->mChars->mData, fileSet->mChars->mDataSize);
 }
 
-s32 func_02025a00(u32 a, void *heap, CellFileSet *fileSet, void *entryPointer, s32 e) {
+s32 SetupLabelCanvas(u32 screen, void *heap, CellFileSet *fileSet, void *entryPointer, s32 objSizeLeft) {
     Unk02153918 *entry = entryPointer;
     s32 result;
     result = InitLabelCanvas(heap, entry->mUnk_00, fileSet->mLabelLayout, entry->mUnk_02, entry->mUnk_04,
-                             entry->mUnk_06, fileSet->mCells, fileSet->mCellLayout, fileSet->mCellTable, e);
-    ClearAndQueueLabelLayoutText(a, entry->mUnk_00, fileSet->mLabelLayout, fileSet->mCellLayout, fileSet->mCellTable);
+                             entry->mUnk_06, fileSet->mCells, fileSet->mCellLayout, fileSet->mCellTable, objSizeLeft);
+    ClearAndQueueLabelLayoutText(screen, entry->mUnk_00, fileSet->mLabelLayout, fileSet->mCellLayout,
+                                 fileSet->mCellTable);
     return result;
 }
 
-void func_02025954(u32 a, void *fileSetPointer, u32 index) {
+void QueueScreenMapFileSet(u32 screen, void *fileSetPointer, u32 index) {
     ScreenMapFileSet *fileSet = fileSetPointer;
     u32 charsCode;
     u32 screenMapCode;
     u32 paletteCode;
-    if (a == 0) {
+    if (screen == 0) {
         paletteCode = 0xf;
         switch (index) {
             case 0:
@@ -141,10 +142,10 @@ void LocateScreenMapFileSet(void *fileSetPointer, const char *charsName, const c
     }
 }
 
-void func_020258d4(u32 a, void *fileSetPointer, const char *charsName, const char *paletteName,
-                   const char *screenMapName, s32 index, void *(*findFile)(const char *) ) {
+void LocateAndQueueScreenMapFileSet(u32 screen, void *fileSetPointer, const char *charsName, const char *paletteName,
+                                    const char *screenMapName, s32 index, void *(*findFile)(const char *) ) {
     LocateScreenMapFileSet(fileSetPointer, charsName, paletteName, screenMapName, index, findFile);
-    func_02025954(a, fileSetPointer, index);
+    QueueScreenMapFileSet(screen, fileSetPointer, index);
 }
 
 void LoadScreenMapFileSet(void *fileSetPointer, const char *charsName, const char *paletteName,
@@ -161,10 +162,10 @@ void LoadScreenMapFileSet(void *fileSetPointer, const char *charsName, const cha
     }
 }
 
-void func_02025854(u32 a, void *fileSetPointer, const char *charsName, const char *paletteName,
-                   const char *screenMapName, s32 index, void *(*findFile)(const char *) ) {
+void LoadAndQueueScreenMapFileSet(u32 screen, void *fileSetPointer, const char *charsName, const char *paletteName,
+                                  const char *screenMapName, s32 index, void *(*findFile)(const char *) ) {
     LoadScreenMapFileSet(fileSetPointer, charsName, paletteName, screenMapName, index, findFile);
-    func_02025954(a, fileSetPointer, index);
+    QueueScreenMapFileSet(screen, fileSetPointer, index);
 }
 
 #pragma thumb off

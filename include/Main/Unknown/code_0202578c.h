@@ -14,17 +14,17 @@ typedef struct Unk02153918 {
 } Unk02153918;
 
 u32 GetKartSoundTableRow(u32 kartIndex);
-void func_02025854(u32 a, void *fileSetPointer, const char *charsName, const char *paletteName,
-                   const char *screenMapName, s32 index, void *(*findFile)(const char *) );
+void LoadAndQueueScreenMapFileSet(u32 screen, void *fileSetPointer, const char *charsName, const char *paletteName,
+                                  const char *screenMapName, s32 index, void *(*findFile)(const char *) );
 void LoadScreenMapFileSet(void *fileSetPointer, const char *charsName, const char *paletteName,
                           const char *screenMapName, s32 index, void *(*findFile)(const char *) );
-void func_020258d4(u32 a, void *fileSetPointer, const char *charsName, const char *paletteName,
-                   const char *screenMapName, s32 index, void *(*findFile)(const char *) );
+void LocateAndQueueScreenMapFileSet(u32 screen, void *fileSetPointer, const char *charsName, const char *paletteName,
+                                    const char *screenMapName, s32 index, void *(*findFile)(const char *) );
 void LocateScreenMapFileSet(void *fileSetPointer, const char *charsName, const char *paletteName,
                             const char *screenMapName, s32 index, void *(*findFile)(const char *) );
-void func_02025954(u32 a, void *fileSetPointer, u32 index);
-s32 func_02025a00(u32 a, void *heap, CellFileSet *fileSet, void *entryPointer, s32 e);
-void func_02025a50(u32 a, void *heap, CellFileSet *fileSet);
+void QueueScreenMapFileSet(u32 screen, void *fileSetPointer, u32 index);
+s32 SetupLabelCanvas(u32 screen, void *heap, CellFileSet *fileSet, void *entryPointer, s32 objSizeLeft);
+void SetupCellFileSet(u32 screen, void *heap, CellFileSet *fileSet);
 void LoadCellFileSet(void *fileSetPointer, const char *charsName, const char *cellsName, const char *paletteName,
                      const char *cellLayoutName, const char *labelLayoutName, const char *rectsName,
                      void *(*findFile)(const char *) );

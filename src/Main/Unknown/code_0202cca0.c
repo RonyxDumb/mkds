@@ -7,7 +7,7 @@
 void func_0202cca4(int characterIndex, int b) {
     u32 tableValue;
     if ((characterIndex != 0xc) || (b != 1)) {
-        tableValue = func_02025eb0(characterIndex);
+        tableValue = GetCharacterSeqPairNo(characterIndex);
         AddSeqQueueEntry(tableValue, b);
     }
 }

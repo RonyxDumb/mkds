@@ -127,7 +127,7 @@ void InitSelectKart(void *a, s32 b, void *c, void *d) {
             LocateCellFileSet(p, gSelectCharacterGpMNcgrName2, gSelectCharacterGpMNcerName2,
                               gSelectCharacterGpMONclrName2, gSelectCharacterGpMBnclName2, NULL, NULL,
                               FindFileInLoadedArchives);
-            func_02025a50(0, gSelectKart->mHeap, p);
+            SetupCellFileSet(0, gSelectKart->mHeap, p);
             LocateCellFileSet(&e, gSelectCharacterGpTitleMNcgrName2, gSelectCharacterGpTitleMNcerName2, NULL,
                               gSelectCharacterGpTitleMBnclName2, NULL, NULL, FindFileInLoadedArchives);
             QueueCellChars(1, e.mCells, e.mChars, e.mCellLayout, 0, 0, p->mCells, p->mCellLayout);
@@ -140,17 +140,17 @@ void InitSelectKart(void *a, s32 b, void *c, void *d) {
         }
     }
     if (func_020280dc() == 0) {
-        func_020258d4(1, &gSelectKart->mSelectKartSBParts, gSelectKartSBNcgrName, gSelectKartSBNclrName,
-                      gSelectKartSNscrName, 3, FindFileInLoadedArchives);
+        LocateAndQueueScreenMapFileSet(1, &gSelectKart->mSelectKartSBParts, gSelectKartSBNcgrName,
+                                       gSelectKartSBNclrName, gSelectKartSNscrName, 3, FindFileInLoadedArchives);
     }
     if (func_020280dc() == 0) {
         n = GX_GetSizeOfSubOBJ();
         p = &gSelectKart->mSelectKartSParts;
         LocateCellFileSet(p, gSelectKartSNcgrName, gSelectKartSNcerName, gSelectKartSONclrName, gSelectKartSBnclName,
                           gSelectKartSBnllName, gSelectKartSBnblName, FindFileInLoadedArchives);
-        func_02025a50(1, gSelectKart->mHeap, p);
+        SetupCellFileSet(1, gSelectKart->mHeap, p);
         for (i = 0; i < 9; i++) {
-            n -= func_02025a00(1, gSelectKart->mHeap, p, &data_usa_021537f4[i], n);
+            n -= SetupLabelCanvas(1, gSelectKart->mHeap, p, &data_usa_021537f4[i], n);
         }
         for (i = 0; i < 6; i++) {
             w = GetBmgEntry(gSelectKart->mKartSelectMessages, data_usa_021537f4[i].mUnk_08);

@@ -16,22 +16,22 @@ u32 GetCourseMessageIndex(u32 courseId) {
 
 #pragma thumb on
 
-int func_02025d74(int a) {
-    int v1;
-    v1 = gCourseMessageIndexTable[a];
-    if (v1 != -1) {
-        v1 = v1 + -0x1a;
+int GetGhostCourseMessageIndex(int courseId) {
+    int messageIndex;
+    messageIndex = gCourseMessageIndexTable[courseId];
+    if (messageIndex != -1) {
+        messageIndex = messageIndex + -0x1a;
     }
-    return v1;
+    return messageIndex;
 }
 
-int func_02025d5c(int a) {
-    int v1;
-    v1 = gCourseMessageIndexTable[a];
-    if (v1 != -1) {
-        v1 = v1 + 4;
+int GetWiFiCourseMessageIndex(int courseId) {
+    int messageIndex;
+    messageIndex = gCourseMessageIndexTable[courseId];
+    if (messageIndex != -1) {
+        messageIndex = messageIndex + 4;
     }
-    return v1;
+    return messageIndex;
 }
 
 #pragma thumb off

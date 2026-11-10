@@ -74,7 +74,7 @@ extern RaceSetupCopy *gRaceSetupCopy;
 // 0x118-byte object that gSelectKart points to.
 typedef struct SelectKart {
     /* 000 */ u8 mUnk_000[0x24];
-    // The 0x24-byte record of func_020258d4 starts here and runs into mUnk_040.
+    // The 0x24-byte record of LocateAndQueueScreenMapFileSet starts here and runs into mUnk_040.
     /* 024 */ CellFileSet mSelectKartSBParts;
     /* 040 */ u8 mUnk_040[8];
     /* 048 */ CellFileSet mSelectCharacterGpMParts;
@@ -132,16 +132,16 @@ typedef struct SelectCharacter {
     /* 054 */ void *mMainOam;
     /* 058 */ void *mUnk_058;
     /* 05c */ void *mHeap;
-    /* 060 */ s32 mUnk_060;
-    /* 064 */ s32 mUnk_064;
+    /* 060 */ s32 mTableIndex;
+    /* 064 */ s32 mPreviousTableIndex;
     /* 068 */ s32 mUnk_068;
     /* 06c */ s32 mUnk_06c;
-    /* 070 */ s32 mUnk_070;
-    /* 074 */ u16 mUnk_074;
+    /* 070 */ s32 mScale;
+    /* 074 */ u16 mAngle;
     /* 076 */ u8 mUnk_076[2];
     /* 078 */ s32 mEntryIndex;
-    /* 07c */ s32 mUnk_07c;
-    /* 080 */ s32 mUnk_080;
+    /* 07c */ s32 mTableRowCount;
+    /* 080 */ s32 mMode;
     // Row to move to on up, down, right and left; 0xffff means stay on the row.
     /* 84 */ s16 mTableIndexByKey[4];
     /* 08c */ s32 mUnk_08c;

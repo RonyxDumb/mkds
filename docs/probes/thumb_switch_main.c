@@ -17,8 +17,8 @@ extern Obj0217a9e0 *data_0217a9e0;
 Obj02029930 *func_02029930(void);
 void func_02050e60(int arg);
 
-// PROBE: func_02025e60 main 0x02025e60
-int func_02025e60(int idx) {
+// PROBE: GetCharacterKartIndexByMode
+int GetCharacterKartIndexByMode(int idx) {
     int result = -1;
     switch (func_02029930()->mUnk_c8) {
         case 0:

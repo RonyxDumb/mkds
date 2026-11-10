@@ -179,15 +179,15 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
             break;
     }
     if (gBootInfo->mUnk_00 != 2) {
-        func_020258d4(0, screenMapFileSet, gSelectGameMBNcgrName2, gSelectGameMBNclrName2,
-                      data_02153e10[gSelectGame->mMode].mUnk_00, 1, FindSceneFile);
+        LocateAndQueueScreenMapFileSet(0, screenMapFileSet, gSelectGameMBNcgrName2, gSelectGameMBNclrName2,
+                                       data_02153e10[gSelectGame->mMode].mUnk_00, 1, FindSceneFile);
     }
     if (gBootInfo->mUnk_00 != 2) {
         mainObjSizeLeft = GX_GetSizeOfOBJ();
         selectGame = gSelectGame;
         LocateCellFileSet(selectGame, gSelectGameMNceNcgrName2, gSelectGameMNceNcerName2, gSelectGameMONclrName2,
                           gSelectGameMBnclName, gSelectGameMBnllName, NULL, FindSceneFile);
-        func_02025a50(0, gSelectGame->mHeap, selectGame->mCellFileSets);
+        SetupCellFileSet(0, gSelectGame->mHeap, selectGame->mCellFileSets);
         mainCellCount = selectGame->mCellFileSets[0].mCellLayout->mUnk_06;
         mainLabelCount = selectGame->mCellFileSets[0].mLabelLayout->mUnk_06;
         i = 0;
@@ -196,7 +196,7 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
             printRow = canvasRow;
             do {
                 mainObjSizeLeft -=
-                    func_02025a00(0, gSelectGame->mHeap, selectGame->mCellFileSets, canvasRow, mainObjSizeLeft);
+                    SetupLabelCanvas(0, gSelectGame->mHeap, selectGame->mCellFileSets, canvasRow, mainObjSizeLeft);
                 PrintLabelLayoutTextNoFixedAdvance(0, printRow->mLabelIndex, selectGame->mCellFileSets[0].mLabelLayout,
                                                    GetBmgEntry(gSelectGame->mMenuMessages, printRow->mMessageIndex),
                                                    selectGame->mCellFileSets[0].mCellLayout,
@@ -221,7 +221,7 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     LocateCellFileSet(subFileSet, gSelectGameSNceNcgrName2, gSelectGameSNceNcerName2, gSelectGameSONclrName2,
                       data_02153e08[gSelectGame->mMode].mUnk_00, NULL, data_02153e0c[gSelectGame->mMode].mUnk_00,
                       FindSceneFile);
-    func_02025a50(1, gSelectGame->mHeap, subFileSet);
+    SetupCellFileSet(1, gSelectGame->mHeap, subFileSet);
     SetSelectGameSubCellsVisible(0);
     if (gBootInfo->mUnk_00 == 2) {
         SetSelectReturnSoundId(-1);

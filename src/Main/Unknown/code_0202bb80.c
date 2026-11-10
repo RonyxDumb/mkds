@@ -231,7 +231,7 @@ void InitPlayerEntryList(void *parentHeap, void *mainOam) {
     }
     InitLayoutTable(gPlayerEntryList->mHeap, fileSet->mCellLayout, fileSet->mLabelLayout, &fileSet->mCellTable);
     for (i = 0; i < 8; i++) {
-        objSizeLeft -= func_02025a00(0, gPlayerEntryList->mHeap, fileSet, &gEntryLabelTextRows[i], objSizeLeft);
+        objSizeLeft -= SetupLabelCanvas(0, gPlayerEntryList->mHeap, fileSet, &gEntryLabelTextRows[i], objSizeLeft);
     }
     for (i = 0; i < 8; i++) {
         fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mVisible = 0;
@@ -342,25 +342,26 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
         if (gPlayerEntryList->mMode == 1) {
             for (i = gPlayerEntryList->mPlayerCount; i < 8; i++) {
                 j = GetRaceSetupCopy()->mEntries[i].mCharacterIndex;
-                func_02025c48(gEntryCellIndices[i].mCharacterCellIndex, gCharacterCellIndices[j], fileSet->mCellLayout);
+                CopyCellLayoutEntryCellIndex(gEntryCellIndices[i].mCharacterCellIndex, gCharacterCellIndices[j],
+                                             fileSet->mCellLayout);
                 fileSet->mCellTable[gEntryCellIndices[i].mCharacterCellIndex].mVisible = 1;
             }
         }
         reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0xd08;
         reg_G2_BG1CNT = (reg_G2_BG1CNT & 0x43) | 0xc00;
         if (gBootInfo->mUnk_00 == 2) {
-            func_020258d4(0, screenMapFileSet, data_usa_02162904, data_usa_0216292c, data_usa_02162954, 0,
-                          FindSceneFile);
-            func_020258d4(0, screenMapFileSet, data_usa_02162980, data_usa_021629a8, data_usa_021629d0, 1,
-                          FindSceneFile);
+            LocateAndQueueScreenMapFileSet(0, screenMapFileSet, data_usa_02162904, data_usa_0216292c, data_usa_02162954,
+                                           0, FindSceneFile);
+            LocateAndQueueScreenMapFileSet(0, screenMapFileSet, data_usa_02162980, data_usa_021629a8, data_usa_021629d0,
+                                           1, FindSceneFile);
         } else {
-            func_020258d4(0, screenMapFileSet, data_usa_021629fc, data_usa_02162a18, data_usa_02162a34, 0,
-                          FindFileInLoadedArchives);
-            func_020258d4(0, screenMapFileSet, data_usa_02162a54, data_usa_02162a70, data_usa_02162a8c, 1,
-                          FindFileInLoadedArchives);
+            LocateAndQueueScreenMapFileSet(0, screenMapFileSet, data_usa_021629fc, data_usa_02162a18, data_usa_02162a34,
+                                           0, FindFileInLoadedArchives);
+            LocateAndQueueScreenMapFileSet(0, screenMapFileSet, data_usa_02162a54, data_usa_02162a70, data_usa_02162a8c,
+                                           1, FindFileInLoadedArchives);
         }
     } else if (gPlayerEntryList->mScreenKind == PLAYER_ENTRY_LIST_KART) {
-        func_02025f14(&gPlayerEntryList->mInterpolations[3], 0);
+        SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[3], 0);
     }
     if (gPlayerEntryList->mUnk_20c != FALSE) {
         for (i = 0; i < 8; i++) {
@@ -376,9 +377,10 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
     if (gBootInfo->mUnk_00 != 2) {
         QueueCellChars(gTitleCellIndices[gPlayerEntryList->mScreenKind], titleFileSet->mCells, titleFileSet->mChars,
                        titleFileSet->mCellLayout, 0, 0x19, fileSet->mCells, fileSet->mCellLayout);
-        func_02025f14(&gPlayerEntryList->mInterpolations[0], 0);
+        SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[0], 0);
     }
-    func_02025c6c(func_0202cca0(), gEntryCellIndices[gPlayerEntryList->mEntryIndex].mUnk_00, fileSet->mCellLayout);
+    CopyCellLayoutEntryPosition(func_0202cca0(), gEntryCellIndices[gPlayerEntryList->mEntryIndex].mUnk_00,
+                                fileSet->mCellLayout);
     for (i = 0; i < 8; i++) {
         PrintEntryName(i, gPlayerEntryList->mEntries[i].mName);
     }
@@ -426,9 +428,9 @@ void AdvancePlayerEntryList(void) {
         d = GetTimerTensCellIndex();
         fileSet->mCellTable[d].mVisible = c >= 10 ? 1 : 0;
         d = GetTimerTensCellIndex();
-        func_02025c48(d, gTimerDigitCellIndices[c / 10 % 10], fileSet->mCellLayout);
+        CopyCellLayoutEntryCellIndex(d, gTimerDigitCellIndices[c / 10 % 10], fileSet->mCellLayout);
         d = GetTimerOnesCellIndex();
-        func_02025c48(d, gTimerDigitCellIndices[c % 10], fileSet->mCellLayout);
+        CopyCellLayoutEntryCellIndex(d, gTimerDigitCellIndices[c % 10], fileSet->mCellLayout);
     }
     entryList = gPlayerEntryList;
     if (entryList->mScreenKind != PLAYER_ENTRY_LIST_RACE_RULE) {
@@ -446,8 +448,8 @@ void AdvancePlayerEntryList(void) {
                     }
                     b = GetRaceSetupCopy()->mEntries[i].mUnk_14;
                     if (d != 0) {
-                        func_02025c48(gEntryCellIndices[i].mCharacterCellIndex, gCharacterCellIndices[a],
-                                      fileSet->mCellLayout);
+                        CopyCellLayoutEntryCellIndex(gEntryCellIndices[i].mCharacterCellIndex, gCharacterCellIndices[a],
+                                                     fileSet->mCellLayout);
                     }
                     fileSet->mCellTable[gEntryCellIndices[i].mCharacterCellIndex].mVisible = d;
                     fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mVisible = b;
@@ -475,11 +477,12 @@ void AdvancePlayerEntryList(void) {
                     } else if ((c & 0x40) != 0) {
                         d = c & 0x3f;
                         if (d == 0xc) {
-                            func_02025c48(gEntryCellIndices[i].mCharacterCellIndex,
-                                          gCharacterCellIndices[d] + func_0202bb80_inline(i), fileSet->mCellLayout);
+                            CopyCellLayoutEntryCellIndex(gEntryCellIndices[i].mCharacterCellIndex,
+                                                         gCharacterCellIndices[d] + func_0202bb80_inline(i),
+                                                         fileSet->mCellLayout);
                         } else {
-                            func_02025c48(gEntryCellIndices[i].mCharacterCellIndex, gCharacterCellIndices[d],
-                                          fileSet->mCellLayout);
+                            CopyCellLayoutEntryCellIndex(gEntryCellIndices[i].mCharacterCellIndex,
+                                                         gCharacterCellIndices[d], fileSet->mCellLayout);
                         }
                         fileSet->mCellTable[gEntryCellIndices[i].mCharacterCellIndex].mVisible = 1;
                         GetRaceSetupCopy()->mEntries[i].mCharacterIndex = d;
@@ -488,7 +491,7 @@ void AdvancePlayerEntryList(void) {
                             gPlayerEntryList->mUnk_1bc[i] = 1;
                         }
                         if ((c & 0x80) != 0) {
-                            e = func_02025e60(d);
+                            e = GetCharacterKartIndexByMode(d);
                             fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mVisible = 1;
                             GetRaceSetupCopy()->mEntries[i].mKartIndex = e;
                             GetRaceSetupCopy()->mEntries[i].mUnk_14 = 1;
@@ -509,7 +512,8 @@ void AdvancePlayerEntryList(void) {
 
                 for (i = 0; i < gPlayerEntryList->mPlayerCount; i++) {
                     if (GetKartMaskBitOfPackedIndex(i) == 0) {
-                        func_02025c48(gEntryCellIndices[i].mCharacterCellIndex, 0x2e, fileSet->mCellLayout);
+                        CopyCellLayoutEntryCellIndex(gEntryCellIndices[i].mCharacterCellIndex, 0x2e,
+                                                     fileSet->mCellLayout);
                         fileSet->mCellTable[gEntryCellIndices[i].mCharacterCellIndex].mVisible = 1;
                         fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mVisible = 0;
                         if (gPlayerEntryList->mUnk_1ac[i] == 0) {
@@ -530,8 +534,8 @@ void AdvancePlayerEntryList(void) {
                             g = TRUE;
                         }
                         if (d != 0) {
-                            func_02025c48(gEntryCellIndices[i].mCharacterCellIndex, gCharacterCellIndices[e],
-                                          fileSet->mCellLayout);
+                            CopyCellLayoutEntryCellIndex(gEntryCellIndices[i].mCharacterCellIndex,
+                                                         gCharacterCellIndices[e], fileSet->mCellLayout);
                         }
                         fileSet->mCellTable[gEntryCellIndices[i].mCharacterCellIndex].mVisible = d;
                         fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mVisible = g;

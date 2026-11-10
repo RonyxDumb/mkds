@@ -48,15 +48,15 @@ void WriteKartPositionAndCount(s32 position, s32 kartCount) {
     ones = kartCount % 10;
     fileSet = &gPlayerEntryList->mParts;
     fileSet->mCellTable[0x3c].mVisible = position >= 10 ? 1 : 0;
-    func_02025c48(0x3c, position / 10 % 10 + 0x41, fileSet->mCellLayout);
-    func_02025c48(0x3d, position % 10 + 0x41, fileSet->mCellLayout);
+    CopyCellLayoutEntryCellIndex(0x3c, position / 10 % 10 + 0x41, fileSet->mCellLayout);
+    CopyCellLayoutEntryCellIndex(0x3d, position % 10 + 0x41, fileSet->mCellLayout);
     if (kartCount >= 10) {
         tens += 0x4b;
-        func_02025c48(0x3f, tens, fileSet->mCellLayout);
-        func_02025c48(0x40, ones + 0x4b, fileSet->mCellLayout);
+        CopyCellLayoutEntryCellIndex(0x3f, tens, fileSet->mCellLayout);
+        CopyCellLayoutEntryCellIndex(0x40, ones + 0x4b, fileSet->mCellLayout);
     } else {
         fileSet->mCellTable[0x40].mVisible = 0;
-        func_02025c48(0x3f, ones + 0x4b, fileSet->mCellLayout);
+        CopyCellLayoutEntryCellIndex(0x3f, ones + 0x4b, fileSet->mCellLayout);
     }
 }
 
@@ -72,7 +72,7 @@ void RefreshCourseListRows(s32 action, s32 slot, s32 row, s32 selectedSlot) {
         if (row == 0) {
             text = GetBmgEntry(gWiFiVSCourseSelect->mWiFiMessages, 0x1a);
         } else {
-            text = GetBmgEntry(gWiFiVSCourseSelect->mWiFiMessages, func_02025d5c(gCourseIdTable[row - 1]));
+            text = GetBmgEntry(gWiFiVSCourseSelect->mWiFiMessages, GetWiFiCourseMessageIndex(gCourseIdTable[row - 1]));
         }
         PrintLabelLayoutTextNoFixedAdvance(1, slot, fileSet->mLabelLayout, text, fileSet->mCellLayout,
                                            fileSet->mCellTable);
@@ -129,7 +129,7 @@ void ShowWiFiSessionCourse(void) {
         fileSet->mCellTable[gWiFiVSCourseSelectMLabelTextRows[i].mCellIndex].mOffsetX = 0;
         fileSet->mCellTable[cellCount + gWiFiVSCourseSelectMLabelTextRows[i].mLabelIndex].mOffsetX =
             fileSet->mCellTable[gWiFiVSCourseSelectMLabelTextRows[i].mCellIndex].mOffsetX;
-        func_02025f14(&gWiFiVSCourseSelect->mRowInterpolations[i], 1);
+        SetInterpolationStateIfOpposite(&gWiFiVSCourseSelect->mRowInterpolations[i], 1);
     }
     fileSet->mCellTable[4].mVisible = 1;
     fileSet->mCellTable[gWiFiVSCourseSelectMLabelTextRows[0].mLabelIndex + cellCount].mVisible =
@@ -185,7 +185,7 @@ void AdvancePickedCourseRows(void) {
                                                        fileSet->mLabelLayout, text, fileSet->mCellLayout,
                                                        fileSet->mCellTable);
                     gWiFiVSCourseSelect->mShownCourseIds[i] = pickedCourseId;
-                    func_02025f14(&gWiFiVSCourseSelect->mRowInterpolations[i], 0);
+                    SetInterpolationStateIfOpposite(&gWiFiVSCourseSelect->mRowInterpolations[i], 0);
                     if (gWiFiVSCourseSelect->mEntryIndex != i) {
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x208);
                     }
@@ -311,21 +311,21 @@ void InitWiFiVSCourseSelect(void *parentHeap, void *mainOam, void *subOam) {
     SetupInterpolation(&gWiFiVSCourseSelect->mInterpolations[0], 0, 10, -0xc0, 0);
     SetupInterpolation(&gWiFiVSCourseSelect->mInterpolations[2], 0, 10, 0x40, 0);
     reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0xc00;
-    func_020258d4(0, gWiFiVSCourseSelect, gWiFiVSCourseSelectMBNcgrName, gWiFiVSCourseSelectMBNclrName,
-                  gWiFiVSCourseSelectMNscrName, 0, FindSceneFile);
+    LocateAndQueueScreenMapFileSet(0, gWiFiVSCourseSelect, gWiFiVSCourseSelectMBNcgrName, gWiFiVSCourseSelectMBNclrName,
+                                   gWiFiVSCourseSelectMNscrName, 0, FindSceneFile);
     mainFileSet = &gWiFiVSCourseSelect->mWiFiVSCourseSelectMParts;
     objSizeLeft = GX_GetSizeOfOBJ();
     LocateCellFileSet(mainFileSet, gWiFiVSCourseSelectMNcgrName, gWiFiVSCourseSelectMNcerName,
                       gWiFiVSCourseSelectMONclrName, gWiFiVSCourseSelectMBnclName, gWiFiVSCourseSelectMBnllName, NULL,
                       FindSceneFile);
-    func_02025a50(0, gWiFiVSCourseSelect->mHeap, mainFileSet);
+    SetupCellFileSet(0, gWiFiVSCourseSelect->mHeap, mainFileSet);
     n = mainFileSet->mCellLayout->mUnk_06;
     for (i = 0; i < n; i++) {
         SetCellPriority(i, 1, mainFileSet->mCells, mainFileSet->mCellLayout);
     }
     for (i = 0; i < mainFileSet->mLabelLayout->mUnk_06; i++) {
-        objSizeLeft -= func_02025a00(0, gWiFiVSCourseSelect->mHeap, mainFileSet, &gWiFiVSCourseSelectMLabelTextRows[i],
-                                     objSizeLeft);
+        objSizeLeft -= SetupLabelCanvas(0, gWiFiVSCourseSelect->mHeap, mainFileSet,
+                                        &gWiFiVSCourseSelectMLabelTextRows[i], objSizeLeft);
     }
     for (i = gWiFiVSCourseSelect->mPlayerCount; i < 4; i++) {
         mainFileSet->mCellTable[gCourseRowCellIndices[i]].mVisible = 0;
@@ -336,21 +336,22 @@ void InitWiFiVSCourseSelect(void *parentHeap, void *mainOam, void *subOam) {
     }
     mainFileSet->mCellTable[4].mOffsetY = 0x60 - (((s16 *) func_0201ea30(mainFileSet->mCellLayout, 4))[1] << 20 >> 20);
     mainFileSet->mCellTable[4].mVisible = 0;
-    func_020258d4(1, &gWiFiVSCourseSelect->mWiFiVSCourseSelectMBAndSBParts[1], gWiFiVSCourseSelectSBNcgrName,
-                  gWiFiVSCourseSelectSBNclrName, gWiFiVSCourseSelectSNscrName, 3, FindSceneFile);
+    LocateAndQueueScreenMapFileSet(1, &gWiFiVSCourseSelect->mWiFiVSCourseSelectMBAndSBParts[1],
+                                   gWiFiVSCourseSelectSBNcgrName, gWiFiVSCourseSelectSBNclrName,
+                                   gWiFiVSCourseSelectSNscrName, 3, FindSceneFile);
     subFileSet = &gWiFiVSCourseSelect->mWiFiVSCourseSelectSParts;
     objSizeLeft = GX_GetSizeOfSubOBJ();
     LocateCellFileSet(subFileSet, gWiFiVSCourseSelectSNcgrName, gWiFiVSCourseSelectSNcerName,
                       gWiFiVSCourseSelectSONclrName, gWiFiVSCourseSelectSBnclName, gWiFiVSCourseSelectSBnllName,
                       gWiFiVSCourseSelectSBnblName, FindSceneFile);
-    func_02025a50(1, gWiFiVSCourseSelect->mHeap, subFileSet);
+    SetupCellFileSet(1, gWiFiVSCourseSelect->mHeap, subFileSet);
     subCellCount = subFileSet->mCellLayout->mUnk_06;
     for (j = 0; j < subCellCount; j++) {
         SetCellPriority(j, 1, subFileSet->mCells, subFileSet->mCellLayout);
     }
     for (j = 0; j < subFileSet->mLabelLayout->mUnk_06; j++) {
-        objSizeLeft -= func_02025a00(1, gWiFiVSCourseSelect->mHeap, subFileSet, &gWiFiVSCourseSelectSLabelTextRows[j],
-                                     objSizeLeft);
+        objSizeLeft -= SetupLabelCanvas(1, gWiFiVSCourseSelect->mHeap, subFileSet,
+                                        &gWiFiVSCourseSelectSLabelTextRows[j], objSizeLeft);
     }
     for (j = 0; j < subCellCount; j++) {
         SetCellPriority(j, 2, subFileSet->mCells, subFileSet->mCellLayout);
@@ -359,10 +360,10 @@ void InitWiFiVSCourseSelect(void *parentHeap, void *mainOam, void *subOam) {
         n = gWiFiVSCourseSelectSLabelTextRows[i].mCellIndex;
         labelIndex = gWiFiVSCourseSelectSLabelTextRows[i].mLabelIndex;
         cellTable = subFileSet->mCellTable;
-        func_02025c1c(n, cellTable + n, subFileSet->mCellLayout);
-        func_02025bf0(labelIndex, cellTable + labelIndex + subCellCount, subFileSet->mLabelLayout);
+        SetLayoutEntryPositionFromCell(n, cellTable + n, subFileSet->mCellLayout);
+        SetLayoutEntryPositionFromLabel(labelIndex, cellTable + labelIndex + subCellCount, subFileSet->mLabelLayout);
     }
-    func_02025c1c(7, subFileSet->mCellTable + 7, subFileSet->mCellLayout);
+    SetLayoutEntryPositionFromCell(7, subFileSet->mCellTable + 7, subFileSet->mCellLayout);
     w[0] = 0;
     w[1] = subCellCount;
     InitScrollList(gWiFiVSCourseSelect->mHeap, 2, w, 7, 8, 0x7c, subFileSet->mCellTable, subFileSet->mRects,
@@ -411,7 +412,7 @@ s32 AdvanceWiFiVSCourseSelect(void) {
         case 2:
             if (IsWiFiSessionStep10Reached() != 0) {
                 gWiFiVSCourseSelect->mState = 3;
-                func_02025f14(&gWiFiVSCourseSelect->mInterpolations[2], 2);
+                SetInterpolationStateIfOpposite(&gWiFiVSCourseSelect->mInterpolations[2], 2);
             }
             break;
         case 3:

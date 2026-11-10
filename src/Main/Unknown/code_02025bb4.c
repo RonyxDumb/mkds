@@ -5,13 +5,13 @@
 
 #pragma thumb on
 
-void func_02025c94(int id, int x, int y, Unk0201ea30 *graphics) {
-    short *entry = (func_0201ea30(graphics, id));
+void SetCellLayoutEntryXY(int entryId, int x, int y, Unk0201ea30 *cellLayout) {
+    short *entry = (func_0201ea30(cellLayout, entryId));
     entry[0] = (entry[0] & 0xfffff000U) | (x & 0xfff);
     entry[1] = (entry[1] & 0xfffff000U) | (y & 0xfff);
 }
 
-void func_02025c6c(u32 destinationId, u32 sourceId, Unk0201ea30 *cellLayout) {
+void CopyCellLayoutEntryPosition(u32 destinationId, u32 sourceId, Unk0201ea30 *cellLayout) {
     u16 *destinationEntry;
     u16 *sourceEntry;
     destinationEntry = func_0201ea30(cellLayout, destinationId);
@@ -20,7 +20,7 @@ void func_02025c6c(u32 destinationId, u32 sourceId, Unk0201ea30 *cellLayout) {
     destinationEntry[1] = sourceEntry[1];
 }
 
-void func_02025c48(u32 destinationId, u32 sourceId, Unk0201ea30 *cellLayout) {
+void CopyCellLayoutEntryCellIndex(u32 destinationId, u32 sourceId, Unk0201ea30 *cellLayout) {
     u32 *destinationEntry;
     u32 *sourceEntry;
     destinationEntry = func_0201ea30(cellLayout, destinationId);
@@ -28,7 +28,7 @@ void func_02025c48(u32 destinationId, u32 sourceId, Unk0201ea30 *cellLayout) {
     destinationEntry[1] = sourceEntry[1];
 }
 
-void func_02025c1c(u32 entryId, LayoutTableEntry *output, Unk0201ea30 *cellLayout) {
+void SetLayoutEntryPositionFromCell(u32 entryId, LayoutTableEntry *output, Unk0201ea30 *cellLayout) {
     short *layoutEntry;
     layoutEntry = func_0201ea30(cellLayout, entryId);
     output->mUsePosition = 1;
@@ -36,7 +36,7 @@ void func_02025c1c(u32 entryId, LayoutTableEntry *output, Unk0201ea30 *cellLayou
     output->mPositionY = ((layoutEntry[1] << 0x14) >> 0x14);
 }
 
-void func_02025bf0(u32 entryId, LayoutTableEntry *output, Unk0201ea30 *labelLayout) {
+void SetLayoutEntryPositionFromLabel(u32 entryId, LayoutTableEntry *output, Unk0201ea30 *labelLayout) {
     short *layoutEntry;
     layoutEntry = func_0201ea58(labelLayout, entryId);
     output->mUsePosition = 1;

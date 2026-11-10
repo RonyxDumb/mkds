@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_02025eb0(u32 characterIndex);
+u32 GetCharacterSeqPairNo(u32 characterIndex);

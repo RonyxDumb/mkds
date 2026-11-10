@@ -103,8 +103,8 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     config.mBackScreenKind = 0;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
     InitSceneText(heap, &config);
-    func_02025854(0, &mainScreenMapFileSet, gResultsGpMBNcgrName, gResultsGpMBNclrName, gResultsGpM1NscrName, 1,
-                  FindSceneFile);
+    LoadAndQueueScreenMapFileSet(0, &mainScreenMapFileSet, gResultsGpMBNcgrName, gResultsGpMBNclrName,
+                                 gResultsGpM1NscrName, 1, FindSceneFile);
     LoadNscrData(&mainScreenMapFileSet.mScreenMaps[3], FindSceneFile(gResultsGpM2NscrName));
     CallQueueAppend(0xb, 0, &mainScreenMapFileSet.mScreenMaps[3]->mData,
                     mainScreenMapFileSet.mScreenMaps[3]->mDataSize);
@@ -112,7 +112,7 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     mainFileSet = &gResultsGp->mCellFileSets[0];
     LoadCellFileSet(mainFileSet, gResultsGpMNcgrName, gResultsGpMNcerName, gResultsGpMONclrName, gResultsGpMBnclName,
                     gResultsGpMBnllName, NULL, FindSceneFile);
-    func_02025a50(0, heap, mainFileSet);
+    SetupCellFileSet(0, heap, mainFileSet);
     MIi_CpuCopy16(&data_0217aa08->mFirstBlock->mPlayerName, playerName, 0x14);
     playerName[10] = 0;
     InitLabelCanvas(heap, 0, mainFileSet->mLabelLayout, 0x82, 0xd, 0x14, mainFileSet->mCells, mainFileSet->mCellLayout,
@@ -147,20 +147,20 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     mainFileSet->mCellTable[0].mVisible = mainFileSet->mCellTable[1].mVisible;
     characterIndex = data_0217b488->mCharacterIndex;
     mainFileSet = &gResultsGp->mCellFileSets[0];
-    func_02025b84(1, &cellFileSet);
+    SetPlayerCharacterCellFileSet(1, &cellFileSet);
     QueueCellCharsAndFirstPalette(characterIndex, cellFileSet.mCells, cellFileSet.mChars, cellFileSet.mPalette,
                                   cellFileSet.mCellLayout, 0, 0x14, mainFileSet->mCells, mainFileSet->mCellLayout);
-    func_02025854(1, &subScreenMapFileSet, gResultsGpSBNcgrName, gResultsGpSBNclrName, gResultsGpSNscrName, 3,
-                  FindSceneFile);
+    LoadAndQueueScreenMapFileSet(1, &subScreenMapFileSet, gResultsGpSBNcgrName, gResultsGpSBNclrName,
+                                 gResultsGpSNscrName, 3, FindSceneFile);
     subObjSizeLeft = GX_GetSizeOfSubOBJ();
     subFileSet = &gResultsGp->mCellFileSets[1];
     LoadCellFileSet(subFileSet, gResultsGpSNcgrName, gResultsGpSNcerName, gResultsGpSONclrName, gResultsGpSBnclName,
                     gResultsGpSBnllName, NULL, FindSceneFile);
-    func_02025a50(1, heap, subFileSet);
+    SetupCellFileSet(1, heap, subFileSet);
     j = 0;
     tableEntry = data_usa_02153918;
     for (; j < 16; j++) {
-        subObjSizeLeft -= func_02025a00(1, heap, subFileSet, tableEntry, subObjSizeLeft);
+        subObjSizeLeft -= SetupLabelCanvas(1, heap, subFileSet, tableEntry, subObjSizeLeft);
         tableEntry++;
     }
     message = GetBmgEntry(gResultsGp->mCommonMessages, gEngineMessageIndexTable[data_0217b488->mEngineIndex]);

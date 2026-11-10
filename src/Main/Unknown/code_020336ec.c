@@ -116,7 +116,7 @@ void func_02033b80(s32 entryIndex) {
                                     subCellFileSet->mCellTable, 6);
     r += 0x38;
     subCellFileSet->mCellTable[r].mVisible = 1;
-    func_02025c48(r, gResultsBattle->mEntries[entryIndex].mRank + 0x40, subCellFileSet->mCellLayout);
+    CopyCellLayoutEntryCellIndex(r, gResultsBattle->mEntries[entryIndex].mRank + 0x40, subCellFileSet->mCellLayout);
 }
 
 void func_02033ab8(s32 cellFileSetIndex, s32 entryIndex, s32 cellIndex, s32 d) {
@@ -170,7 +170,7 @@ void func_02033a0c(void *heap) {
     if ((s32) mainCellFileSet->mLabelLayout->mUnk_06 > 0) {
         labelEntry = data_usa_02153e98;
         do {
-            remainingObjSize -= func_02025a00(0, heap, mainCellFileSet, labelEntry, remainingObjSize);
+            remainingObjSize -= SetupLabelCanvas(0, heap, mainCellFileSet, labelEntry, remainingObjSize);
             labelEntry += 8;
             index++;
         } while (index < mainCellFileSet->mLabelLayout->mUnk_06);
@@ -205,7 +205,7 @@ void func_020338f8(void *heap) {
     if (labelCount > 0) {
         labelEntry = data_usa_02153ec0;
         do {
-            remainingObjSize -= func_02025a00(n, heap, mainCellFileSet, labelEntry, remainingObjSize);
+            remainingObjSize -= SetupLabelCanvas(n, heap, mainCellFileSet, labelEntry, remainingObjSize);
             labelEntry += 8;
             j++;
         } while (j < mainCellFileSet->mLabelLayout->mUnk_06);
@@ -310,7 +310,7 @@ void func_020336ec(void *heap) {
     if (gResultsBattle->mFileSetKind == 3) {
         for (k = data_usa_02153eb0[gResultsBattle->mUnk_0d4 - 1];
              k < gResultsBattle->mUnk_0d4 + data_usa_02153eb0[gResultsBattle->mUnk_0d4 - 1]; k++) {
-            func_02025c48(k, f, mainCellFileSet->mCellLayout);
+            CopyCellLayoutEntryCellIndex(k, f, mainCellFileSet->mCellLayout);
         }
     }
     for (entryIndex = 0; entryIndex < gResultsBattle->mKartCount; entryIndex++) {

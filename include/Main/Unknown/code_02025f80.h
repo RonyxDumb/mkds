@@ -19,10 +19,10 @@ extern char data_usa_02161c38[];
 extern char data_usa_02161c60[];
 
 void SetupInterpolation(Interpolation *interpolation, s32 state, s32 counterLimit, s16 startValue, s32 endValue);
-void func_02025f90(void);
+void LoadSelectCharacterData(void);
 void WriteSelectCharacterRegisters(void);
 void ReleaseSelectCharacter(void);
-void func_02027084(void);
-u32 func_020270d0(void);
-void func_020270fc(s32 previousTableIndex);
-void func_02027188(void);
+void SetSelectCharacterAngleAndScale(void);
+u32 IsSelectCharacterModeAndTimerZero(void);
+void SetupSelectCharacterRow(s32 previousTableIndex);
+void RefreshSelectCharacterRowCells(void);

@@ -3,7 +3,7 @@
 
 #pragma thumb on
 
-int func_02025df4(KartAppear *appear, u32 characterIndex) {
+int CountKartsWithinAppearLimit(KartAppear *appear, u32 characterIndex) {
     int count;
     int tableIndex;
     int testResult;

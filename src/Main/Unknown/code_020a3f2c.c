@@ -121,7 +121,7 @@ u32 CollideKartWithShine16(Shine16 *shine16, Kart *kart, u8 *a, u8 *b) {
         highestBalloonOrShineCount = GetHighestBalloonOrShineCount();
         balloonOrShineCount = GetBalloonOrShineCount(kart->mIndex);
         QueueShine16Sound(shine16->mUnk_00.mSound,
-                          func_02024974(0, isEntryKart, highestBalloonOrShineCount, balloonOrShineCount));
+                          GetShine16SoundId(0, isEntryKart, highestBalloonOrShineCount, balloonOrShineCount));
         shine16->mEffect = StartEffect(0x7d, &shine16->mUnk_00.mPos);
         shine16->mEffectTimer = 0xe;
     }
@@ -665,7 +665,7 @@ void StartShine16FromKart(Kart *hitKart, Kart *hitByKart) {
     highestBalloonOrShineCount = GetHighestBalloonOrShineCount();
     balloonOrShineCount = GetBalloonOrShineCount(hitKart->mIndex);
     QueueShine16Sound(shine16->mUnk_00.mSound,
-                      func_02024974(1, isEntryKart, highestBalloonOrShineCount, balloonOrShineCount));
+                      GetShine16SoundId(1, isEntryKart, highestBalloonOrShineCount, balloonOrShineCount));
 }
 
 BOOL BalloonKartHitByKartCallback(u16 hitKartIndex, u16 hitByKartIndex) {

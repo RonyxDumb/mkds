@@ -37,9 +37,9 @@ extern Vec3s16 data_02161ad0;
 
 extern u8 data_02161ad8;
 
-extern u8 data_02161adc[];
-extern u8 data_02161ae0[];
-extern u8 data_02161ae4[];
+extern u8 gPitchRiseAboveLimitDivisor[];
+extern u8 gPitchFallDivisor[];
+extern u8 gPitchRiseDivisor[];
 
 // Seven word tables, entries 0x1c bytes apart, indexed by the result of GetKartSoundTableRow.
 extern u8 data_02161ae8[];

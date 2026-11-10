@@ -77,7 +77,7 @@ void RefreshGhostListRows(s32 action, s32 slot, s32 row, s32 selectedSlot) {
     if (action == 1) {
         PrintLabelLayoutTextNoFixedAdvance(
             1, slot, fileSet->mLabelLayout,
-            GetBmgEntry(gTimeAttackGhostSend->mGhostMessages, func_02025d74(GetListedGhostCourseId(row))),
+            GetBmgEntry(gTimeAttackGhostSend->mGhostMessages, GetGhostCourseMessageIndex(GetListedGhostCourseId(row))),
             fileSet->mCellLayout, fileSet->mCellTable);
         GetListedGhostTime(row, &recordTime);
         WriteMinuteSecondMillisecondText(text, recordTime.mMinute, recordTime.mSecond, recordTime.mMillisecond);
@@ -256,34 +256,34 @@ void InitTimeAttackGhostSend(void *parentHeap, void *mainOam, void *subOam) {
     gTimeAttackGhostSend->mCommonMessages = FindFileInLoadedArchives(data_usa_02162d04);
     gTimeAttackGhostSend->mGhostMessages = FindSceneFile(gGhostBmgName);
     InitBlockEntries(gTimeAttackGhostSend->mHeap, 2);
-    func_020258d4(0, gTimeAttackGhostSend, gTimeAttackGhostSendMBNcgrName, gTimeAttackGhostSendMBNclrName,
-                  gTimeAttackGhostSendMNscrName, 0, FindSceneFile);
+    LocateAndQueueScreenMapFileSet(0, gTimeAttackGhostSend, gTimeAttackGhostSendMBNcgrName,
+                                   gTimeAttackGhostSendMBNclrName, gTimeAttackGhostSendMNscrName, 0, FindSceneFile);
     mainFileSet = &gTimeAttackGhostSend->mUnk_050[0];
     objSizeLeft = GX_GetSizeOfOBJ();
     LocateCellFileSet(mainFileSet, gTimeAttackGhostSendMNcgrName, gTimeAttackGhostSendMNcerName,
                       gTimeAttackGhostSendMONclrName, gTimeAttackGhostSendMBnclName, gTimeAttackGhostSendMBnllName,
                       NULL, FindSceneFile);
-    func_02025a50(0, gTimeAttackGhostSend->mHeap, mainFileSet);
+    SetupCellFileSet(0, gTimeAttackGhostSend->mHeap, mainFileSet);
     for (i = 0; i < mainFileSet->mLabelLayout->mUnk_06; i++) {
-        objSizeLeft -= func_02025a00(0, gTimeAttackGhostSend->mHeap, mainFileSet, gTimeAttackGhostSendMLabelTextRows[i],
-                                     objSizeLeft);
+        objSizeLeft -= SetupLabelCanvas(0, gTimeAttackGhostSend->mHeap, mainFileSet,
+                                        gTimeAttackGhostSendMLabelTextRows[i], objSizeLeft);
     }
-    func_020258d4(1, &gTimeAttackGhostSend->mUnk_024, gTimeAttackGhostSendSBNcgrName, gTimeAttackGhostSendSBNclrName,
-                  gTimeAttackGhostSendSNscrName, 3, FindSceneFile);
+    LocateAndQueueScreenMapFileSet(1, &gTimeAttackGhostSend->mUnk_024, gTimeAttackGhostSendSBNcgrName,
+                                   gTimeAttackGhostSendSBNclrName, gTimeAttackGhostSendSNscrName, 3, FindSceneFile);
     subFileSet = &gTimeAttackGhostSend->mUnk_050[1];
     objSizeLeft = GX_GetSizeOfSubOBJ();
     assignedCount = 0;
     LocateCellFileSet(subFileSet, gTimeAttackGhostSendSNcgrName, gTimeAttackGhostSendSNcerName,
                       gTimeAttackGhostSendSONclrName, gTimeAttackGhostSendSBnclName, gTimeAttackGhostSendSBnllName,
                       gTimeAttackGhostSendSBnblName, FindSceneFile);
-    func_02025a50(1, gTimeAttackGhostSend->mHeap, subFileSet);
+    SetupCellFileSet(1, gTimeAttackGhostSend->mHeap, subFileSet);
     subCellCount = subFileSet->mCellLayout->mUnk_06;
     for (i = 0; i < subFileSet->mLabelLayout->mUnk_06; i++) {
         if (gTimeAttackGhostSendSLabelTextRows[i][3] < 0) {
             gTimeAttackGhostSendSLabelTextRows[i][3] = subCellCount + assignedCount++;
         }
-        objSizeLeft -= func_02025a00(1, gTimeAttackGhostSend->mHeap, subFileSet,
-                                     (s16(*)[4]) gTimeAttackGhostSendSLabelTextRows + i, objSizeLeft);
+        objSizeLeft -= SetupLabelCanvas(1, gTimeAttackGhostSend->mHeap, subFileSet,
+                                        (s16(*)[4]) gTimeAttackGhostSendSLabelTextRows + i, objSizeLeft);
     }
     func_0202d720();
     for (i = 0; i < 0xf; i++) {
@@ -296,10 +296,10 @@ void InitTimeAttackGhostSend(void *parentHeap, void *mainOam, void *subOam) {
         cellIndex = gTimeAttackGhostSendSLabelTextRows[i][3];
         labelIndex = gTimeAttackGhostSendSLabelTextRows[i][0];
         cellTable = subFileSet->mCellTable;
-        func_02025c1c(cellIndex, &cellTable[cellIndex], subFileSet->mCellLayout);
-        func_02025bf0(labelIndex, cellTable + subCellCount + labelIndex, subFileSet->mLabelLayout);
+        SetLayoutEntryPositionFromCell(cellIndex, &cellTable[cellIndex], subFileSet->mCellLayout);
+        SetLayoutEntryPositionFromLabel(labelIndex, cellTable + subCellCount + labelIndex, subFileSet->mLabelLayout);
     }
-    func_02025c1c(0xe, &subFileSet->mCellTable[0xe], subFileSet->mCellLayout);
+    SetLayoutEntryPositionFromCell(0xe, &subFileSet->mCellTable[0xe], subFileSet->mCellLayout);
     if (GetGhostCount() != 0) {
         Unk02174e40_24 *screenMapFileSet = &gTimeAttackGhostSend->mUnk_024;
         r[0] = 0;
@@ -316,7 +316,7 @@ void InitTimeAttackGhostSend(void *parentHeap, void *mainOam, void *subOam) {
             subFileSet->mCellTable[subCellCount + i].mVisible = 0;
         }
     }
-    func_02025b84(0, &gTimeAttackGhostSend->mUnk_050[2]);
+    SetPlayerCharacterCellFileSet(0, &gTimeAttackGhostSend->mUnk_050[2]);
     SetupInterpolation(&gTimeAttackGhostSend->mInterpolation, 3, 10, -0xc0, 0);
     SetSelectReturnSoundId(0xf);
     func_0204f804();
@@ -370,7 +370,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
                     PrintSelectedGhostSendRecord();
                     func_0202d674();
                     RequestSelectReturnState1();
-                    func_02025f14(&gTimeAttackGhostSend->mInterpolation, 0);
+                    SetInterpolationStateIfOpposite(&gTimeAttackGhostSend->mInterpolation, 0);
                     gTimeAttackGhostSend->mState = 2;
                 }
             }

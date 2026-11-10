@@ -124,9 +124,9 @@ u32 IsEveryPlayerKartStored(void) {
 void func_0202b7c0(s32 kind) {
     s32 i;
 
-    func_02025f14(&gPlayerEntryList->mInterpolations[0], 2);
-    func_02025f14(&gPlayerEntryList->mInterpolations[3], 2);
-    func_02025f14(&gPlayerEntryList->mInterpolations[2], 2);
+    SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[0], 2);
+    SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[3], 2);
+    SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[2], 2);
     switch (kind) {
         case 0:
         case 1:
@@ -137,7 +137,7 @@ void func_0202b7c0(s32 kind) {
             }
             break;
         case 2:
-            func_02025f14(&gPlayerEntryList->mInterpolations[1], 2);
+            SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[1], 2);
             break;
         case 3:
             for (i = 0; i < 8; i++) {
@@ -164,16 +164,16 @@ void SetPlayerEntryListUseTeams(s32 useTeams) {
                     SetEntryTargetSlot(i, slot);
                 }
             }
-            func_02025f14(&gPlayerEntryList->mInterpolations[2], 0);
-            func_02025f14(&gPlayerEntryList->mInterpolations[0], 2);
+            SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[2], 0);
+            SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[0], 2);
         } else {
             for (i = 0; i < 8; i++) {
                 if (i < gPlayerEntryList->mPlayerCount || gPlayerEntryList->mUnk_208 != 0) {
                     SetEntryTargetSlot(i, 1);
                 }
             }
-            func_02025f14(&gPlayerEntryList->mInterpolations[2], 2);
-            func_02025f14(&gPlayerEntryList->mInterpolations[0], 0);
+            SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[2], 2);
+            SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[0], 0);
         }
     }
     gPlayerEntryList->mUseTeams = useTeams;

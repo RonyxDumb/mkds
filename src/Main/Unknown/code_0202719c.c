@@ -18,7 +18,7 @@ void func_02027be0(void) {
     SelectCharacter *selectCharacter;
 
     selectCharacter = gSelectCharacter;
-    switch (selectCharacter->mUnk_060) {
+    switch (selectCharacter->mTableIndex) {
         case 0:
             selectCharacter->mTableIndexByKey[0] = data_usa_0215377c[0];
             selectCharacter->mTableIndexByKey[1] = data_usa_0215377c[1];
@@ -26,7 +26,7 @@ void func_02027be0(void) {
             selectCharacter->mTableIndexByKey[3] = data_usa_0215377c[3];
             break;
         case 1:
-            if (selectCharacter->mUnk_064 == 4) {
+            if (selectCharacter->mPreviousTableIndex == 4) {
                 selectCharacter->mTableIndexByKey[0] = data_usa_02153784[0];
                 selectCharacter->mTableIndexByKey[1] = data_usa_02153784[1];
                 selectCharacter->mTableIndexByKey[2] = data_usa_02153784[2];
@@ -45,7 +45,7 @@ void func_02027be0(void) {
             selectCharacter->mTableIndexByKey[3] = data_usa_02153794[3];
             break;
         case 3:
-            if (selectCharacter->mUnk_064 == 1 || selectCharacter->mUnk_064 == 6) {
+            if (selectCharacter->mPreviousTableIndex == 1 || selectCharacter->mPreviousTableIndex == 6) {
                 selectCharacter->mTableIndexByKey[0] = data_usa_0215379c[0];
                 selectCharacter->mTableIndexByKey[1] = data_usa_0215379c[1];
                 selectCharacter->mTableIndexByKey[2] = data_usa_0215379c[2];
@@ -58,7 +58,7 @@ void func_02027be0(void) {
             }
             break;
         case 4:
-            if (selectCharacter->mUnk_064 == 2 || selectCharacter->mUnk_064 == 7) {
+            if (selectCharacter->mPreviousTableIndex == 2 || selectCharacter->mPreviousTableIndex == 7) {
                 selectCharacter->mTableIndexByKey[0] = data_usa_021537ac[0];
                 selectCharacter->mTableIndexByKey[1] = data_usa_021537ac[1];
                 selectCharacter->mTableIndexByKey[2] = data_usa_021537ac[2];
@@ -77,7 +77,7 @@ void func_02027be0(void) {
             selectCharacter->mTableIndexByKey[3] = data_usa_021537bc[3];
             break;
         case 6:
-            if (selectCharacter->mUnk_064 == 4) {
+            if (selectCharacter->mPreviousTableIndex == 4) {
                 selectCharacter->mTableIndexByKey[0] = data_usa_021537c4[0];
                 selectCharacter->mTableIndexByKey[1] = data_usa_021537c4[1];
                 selectCharacter->mTableIndexByKey[2] = data_usa_021537c4[2];
@@ -102,7 +102,7 @@ void func_02027a58(void) {
     SelectCharacter *selectCharacter;
 
     selectCharacter = gSelectCharacter;
-    switch (selectCharacter->mUnk_060) {
+    switch (selectCharacter->mTableIndex) {
         case 0:
             selectCharacter->mTableIndexByKey[0] = data_usa_02153734[0];
             selectCharacter->mTableIndexByKey[1] = data_usa_02153734[1];
@@ -164,7 +164,7 @@ void func_02027850(void) {
     SelectCharacter *selectCharacter;
 
     selectCharacter = gSelectCharacter;
-    switch (selectCharacter->mUnk_060) {
+    switch (selectCharacter->mTableIndex) {
         case 0:
             selectCharacter->mTableIndexByKey[0] = data_usa_021536d4[0];
             selectCharacter->mTableIndexByKey[1] = data_usa_021536d4[1];
@@ -172,7 +172,7 @@ void func_02027850(void) {
             selectCharacter->mTableIndexByKey[3] = data_usa_021536d4[3];
             break;
         case 1:
-            if (selectCharacter->mUnk_064 == 5) {
+            if (selectCharacter->mPreviousTableIndex == 5) {
                 selectCharacter->mTableIndexByKey[0] = data_usa_021536dc[0];
                 selectCharacter->mTableIndexByKey[1] = data_usa_021536dc[1];
                 selectCharacter->mTableIndexByKey[2] = data_usa_021536dc[2];
@@ -221,7 +221,7 @@ void func_02027850(void) {
             selectCharacter->mTableIndexByKey[3] = data_usa_02153714[3];
             break;
         case 8:
-            if (selectCharacter->mUnk_064 == 5) {
+            if (selectCharacter->mPreviousTableIndex == 5) {
                 selectCharacter->mTableIndexByKey[0] = data_usa_0215371c[0];
                 selectCharacter->mTableIndexByKey[1] = data_usa_0215371c[1];
                 selectCharacter->mTableIndexByKey[2] = data_usa_0215371c[2];
@@ -246,7 +246,7 @@ void func_02027648(void) {
     SelectCharacter *selectCharacter;
 
     selectCharacter = gSelectCharacter;
-    switch (selectCharacter->mUnk_060) {
+    switch (selectCharacter->mTableIndex) {
         case 0:
             selectCharacter->mTableIndexByKey[0] = data_usa_02153674[0];
             selectCharacter->mTableIndexByKey[1] = data_usa_02153674[1];
@@ -278,7 +278,7 @@ void func_02027648(void) {
             selectCharacter->mTableIndexByKey[3] = data_usa_02153694[3];
             break;
         case 5:
-            if (selectCharacter->mUnk_064 == 2 || selectCharacter->mUnk_064 == 9) {
+            if (selectCharacter->mPreviousTableIndex == 2 || selectCharacter->mPreviousTableIndex == 9) {
                 selectCharacter->mTableIndexByKey[0] = data_usa_0215369c[0];
                 selectCharacter->mTableIndexByKey[1] = data_usa_0215369c[1];
                 selectCharacter->mTableIndexByKey[2] = data_usa_0215369c[2];
@@ -327,7 +327,7 @@ void func_02027448(void) {
     SelectCharacter *selectCharacter;
 
     selectCharacter = gSelectCharacter;
-    switch (selectCharacter->mUnk_060) {
+    switch (selectCharacter->mTableIndex) {
         case 0:
             selectCharacter->mTableIndexByKey[0] = data_usa_02153614[0];
             selectCharacter->mTableIndexByKey[1] = data_usa_02153614[1];
@@ -415,9 +415,9 @@ void StartSelectCharacterReturn(void) {
     gSelectCharacter->mUnk_06c = 8;
     RequestSelectReturnState3WithSound(0);
     func_02027424(3);
-    func_02025f14(&gSelectCharacter->mInterpolations[0], 2);
-    func_02025f14(&gSelectCharacter->mInterpolations[1], 2);
-    func_02025f14(&gSelectCharacter->mInterpolations[2], 2);
+    SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[0], 2);
+    SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], 2);
+    SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[2], 2);
     StartKartModelMenuBg0Decrease();
 }
 
@@ -429,7 +429,7 @@ void func_0202734c(s32 value) {
     selectCharacter = gSelectCharacter;
     sParts = &selectCharacter->mUnk_01c;
     if (gBootInfo->mUnk_00 != 2) {
-        for (i = 0; i < gSelectCharacter->mUnk_07c; i++) {
+        for (i = 0; i < gSelectCharacter->mTableRowCount; i++) {
             sParts->mCellTable[data_usa_02153554[i].mUnk_04].mVisible = value;
             sParts->mCellTable[data_usa_02153554[i].mUnk_02].mVisible =
                 sParts->mCellTable[data_usa_02153554[i].mUnk_04].mVisible;
@@ -489,10 +489,10 @@ void func_0202721c(void) {
     selectCharacter = gSelectCharacter;
     if (selectCharacter->mUnk_128 == FALSE) {
         nameParts = &selectCharacter->mUnk_038;
-        QueueCellChars(*(s16 *) &selectCharacter->mUnk_090[selectCharacter->mUnk_060].mUnk_04, nameParts->mCells,
+        QueueCellChars(*(s16 *) &selectCharacter->mUnk_090[selectCharacter->mTableIndex].mUnk_04, nameParts->mCells,
                        selectCharacter->mUnk_038.mChars, nameParts->mCellLayout, 0, 2, selectCharacter->mUnk_000.mCells,
                        selectCharacter->mUnk_000.mCellLayout);
-        QueueCellChars(*(s16 *) &gSelectCharacter->mUnk_090[gSelectCharacter->mUnk_060].mUnk_04, nameParts->mCells,
+        QueueCellChars(*(s16 *) &gSelectCharacter->mUnk_090[gSelectCharacter->mTableIndex].mUnk_04, nameParts->mCells,
                        selectCharacter->mUnk_038.mChars, nameParts->mCellLayout, 0, 1, selectCharacter->mUnk_000.mCells,
                        selectCharacter->mUnk_000.mCellLayout);
     }
@@ -505,9 +505,9 @@ void func_020271e8(void) {
 
     selectCharacter = gSelectCharacter;
     sParts = &selectCharacter->mUnk_01c;
-    tableIndex = selectCharacter->mUnk_060;
-    func_02025c6c(0x18, data_usa_02153554[tableIndex].mUnk_00, sParts->mCellLayout);
-    func_02025c6c(0x19, data_usa_02153554[tableIndex].mUnk_00, sParts->mCellLayout);
+    tableIndex = selectCharacter->mTableIndex;
+    CopyCellLayoutEntryPosition(0x18, data_usa_02153554[tableIndex].mUnk_00, sParts->mCellLayout);
+    CopyCellLayoutEntryPosition(0x19, data_usa_02153554[tableIndex].mUnk_00, sParts->mCellLayout);
 }
 
 void func_0202719c(void) {
@@ -517,7 +517,7 @@ void func_0202719c(void) {
 
     selectCharacter = gSelectCharacter;
     sParts = &selectCharacter->mUnk_01c;
-    tableRow = &data_usa_02153554[selectCharacter->mUnk_060];
+    tableRow = &data_usa_02153554[selectCharacter->mTableIndex];
     sParts->mCellTable[24].mVisible = 1;
     sParts->mCellTable[25].mVisible = 0;
     sParts->mCellTable[tableRow->mUnk_02].mOffsetX = 1;

@@ -2,24 +2,24 @@
 #include "Main/Unknown/code_020b4000.h"
 
 #pragma thumb on
-u32 func_02025b84(u32 arg0, void *arg1) {
-    u32 value0 = arg0;
-    u32 value1 = (u32) arg1;
-    u32 value4;
-    u32 value5;
-    value5 = (value0) + (0u);
-    value4 = (value1) + (0u);
+u32 SetPlayerCharacterCellFileSet(u32 characterIndex, void *cellFileSet) {
+    u32 value0 = characterIndex;
+    u32 cellFileSetAddress = (u32) cellFileSet;
+    u32 cellFileSetCopy;
+    u32 characterIndexCopy;
+    characterIndexCopy = (value0) + (0u);
+    cellFileSetCopy = (cellFileSetAddress) + (0u);
     value0 = (u32) GetPlayerCharacterNcgr(value0);
-    *(u32 *) ((value4) + 0u) = value0;
-    value0 = (value5) + (0u);
+    *(u32 *) ((cellFileSetCopy) + 0u) = value0;
+    value0 = (characterIndexCopy) + (0u);
     value0 = (u32) GetPlayerCharacterNcer(value0);
-    *(u32 *) ((value4) + 8u) = value0;
-    value0 = (value5) + (0u);
+    *(u32 *) ((cellFileSetCopy) + 8u) = value0;
+    value0 = (characterIndexCopy) + (0u);
     value0 = (u32) GetPlayerCharacterNclr(value0);
-    *(u32 *) ((value4) + 4u) = value0;
-    value0 = (value5) + (0u);
+    *(u32 *) ((cellFileSetCopy) + 4u) = value0;
+    value0 = (characterIndexCopy) + (0u);
     value0 = (u32) GetPlayerCharacterBncl(value0);
-    *(u32 *) ((value4) + 12u) = value0;
+    *(u32 *) ((cellFileSetCopy) + 12u) = value0;
     return value0;
 }
 #pragma thumb off

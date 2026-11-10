@@ -186,8 +186,8 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
     } else {
         gResultsBattle->mFileSetKind = 1;
     }
-    func_02025b84(1, &gResultsBattle->mCellFileSets[2]);
-    func_02025b84(0, &gResultsBattle->mCellFileSets[3]);
+    SetPlayerCharacterCellFileSet(1, &gResultsBattle->mCellFileSets[2]);
+    SetPlayerCharacterCellFileSet(0, &gResultsBattle->mCellFileSets[3]);
     gResultsBattle->mUnk_0c0 = GetPlayerCharacterShyguyNclr(1);
     gResultsBattle->mUnk_0c4 = GetPlayerCharacterShyguyNclr(0);
     screenMapFileSet = &gResultsBattle->mScreenMapFileSets[0];
@@ -204,7 +204,7 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
                     data_02153f94[gResultsBattle->mFileSetKind][0], data_02153f98[gResultsBattle->mFileSetKind][0],
                     data_02153f9c[gResultsBattle->mFileSetKind][0], data_02153fa0[gResultsBattle->mFileSetKind][0],
                     NULL, FindSceneFile);
-    func_02025a50(0, heap, mainCellFileSet);
+    SetupCellFileSet(0, heap, mainCellFileSet);
     switch (gResultsBattle->mFileSetKind) {
         case 0:
             func_02033a0c(heap);
@@ -239,7 +239,7 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
     GXS_LoadOBJ(results->mCellFileSets[1].mChars->mData, 0, results->mCellFileSets[1].mChars->mDataSize);
     GXS_LoadOBJPltt(subCellFileSet->mPalette->mData, 0, subCellFileSet->mPalette->mDataSize);
     for (i = 0; i < subCellFileSet->mLabelLayout->mUnk_06; i++) {
-        remainingObjSize -= func_02025a00(1, heap, subCellFileSet, data_02153f00[i], remainingObjSize);
+        remainingObjSize -= SetupLabelCanvas(1, heap, subCellFileSet, data_02153f00[i], remainingObjSize);
     }
     for (i = 0; i < subCellFileSet->mCellLayout->mUnk_06; i++) {
         SetCellPriority(i, 2, subCellFileSet->mCells, subCellFileSet->mCellLayout);

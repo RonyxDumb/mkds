@@ -40,7 +40,7 @@ void func_02035114(void) {
             if (object->mGhostInfoEntries[i].mFilled != FALSE) {
                 object->mSelectedIndex = i;
                 subCellFileSet->mCellTable[4].mVisible = 1;
-                func_02025c6c(4, data_02164254[i][3], subCellFileSet->mCellLayout);
+                CopyCellLayoutEntryPosition(4, data_02164254[i][3], subCellFileSet->mCellLayout);
                 return;
             }
         }
@@ -150,7 +150,7 @@ void func_02034ef0(void) {
                              subCellFileSet->mCellLayout);
     }
     if (data_02174e64->mSelectedIndex >= 0) {
-        func_02025c6c(4, data_02164254[data_02174e64->mSelectedIndex][3], subCellFileSet->mCellLayout);
+        CopyCellLayoutEntryPosition(4, data_02164254[data_02174e64->mSelectedIndex][3], subCellFileSet->mCellLayout);
     }
 }
 
@@ -201,18 +201,18 @@ void func_02034bf4(void *parentHeap, void *b, void *c) {
     for (i = 0; i < 4; i++) {
         SetupInterpolation(&data_02174e64->mGhostInfoEntries[i].mInterpolation, 3, 10, 0x100, 0);
     }
-    func_020258d4(0, data_02174e64, data_021642ac, data_021642cc, data_021642ec, 0, FindSceneFile);
+    LocateAndQueueScreenMapFileSet(0, data_02174e64, data_021642ac, data_021642cc, data_021642ec, 0, FindSceneFile);
     cellFileSet = &data_02174e64->mCellFileSets[0];
     remainingObjSize = GX_GetSizeOfOBJ();
     LocateCellFileSet(cellFileSet, data_02164308, data_02164328, data_02164348, gTimeAttackGhostGetMBnclName,
                       gTimeAttackGhostGetMBnllName, NULL, FindSceneFile);
     z = FALSE;
-    func_02025a50(0, data_02174e64->mHeap, cellFileSet);
+    SetupCellFileSet(0, data_02174e64->mHeap, cellFileSet);
     i = 0;
     if (i < cellFileSet->mLabelLayout->mUnk_06) {
         row = (s16 *) data_02154034;
         do {
-            remainingObjSize -= func_02025a00(z, data_02174e64->mHeap, cellFileSet, row, remainingObjSize);
+            remainingObjSize -= SetupLabelCanvas(z, data_02174e64->mHeap, cellFileSet, row, remainingObjSize);
             row += 4;
             i++;
         } while (i < cellFileSet->mLabelLayout->mUnk_06);
@@ -226,7 +226,7 @@ void func_02034bf4(void *parentHeap, void *b, void *c) {
     assignedCount = 0;
     LocateCellFileSet(cellFileSet, data_021643a0, data_021643c0, data_021643e0, gTimeAttackGhostGetSSelBnclName,
                       gTimeAttackGhostGetSSelBnllName, gTimeAttackGhostGetSSelBnblName, FindSceneFile);
-    func_02025a50(1, data_02174e64->mHeap, cellFileSet);
+    SetupCellFileSet(1, data_02174e64->mHeap, cellFileSet);
     cellCount = cellFileSet->mCellLayout->mUnk_06;
     i = 0;
     if (i < cellFileSet->mLabelLayout->mUnk_06) {
@@ -235,7 +235,8 @@ void func_02034bf4(void *parentHeap, void *b, void *c) {
             if (row[3] < 0) {
                 row[3] = cellCount + assignedCount++;
             }
-            remainingObjSize -= func_02025a00(1, data_02174e64->mHeap, cellFileSet, data_02164254[i], remainingObjSize);
+            remainingObjSize -=
+                SetupLabelCanvas(1, data_02174e64->mHeap, cellFileSet, data_02164254[i], remainingObjSize);
             row += 4;
             i++;
         } while (i < cellFileSet->mLabelLayout->mUnk_06);
@@ -244,7 +245,7 @@ void func_02034bf4(void *parentHeap, void *b, void *c) {
         SetCellPriority(j, 3, cellFileSet->mCells, cellFileSet->mCellLayout);
     }
     cellFileSet->mCellTable[4].mVisible = 0;
-    func_02025b84(0, &data_02174e64->mUnk_064);
+    SetPlayerCharacterCellFileSet(0, &data_02174e64->mUnk_064);
     SetupInterpolation(&data_02174e64->mUnk_194, 3, 10, -0xc0, 0);
     SetSelectReturnSoundId(0xf);
     FrmHeapShrinkInParent(data_02174e64->mHeap);
