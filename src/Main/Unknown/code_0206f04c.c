@@ -488,7 +488,7 @@ s32 func_0206f04c(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseSpee
             }
             if (kart->mUnk_4da <= 0) {
                 if (d >= 0) {
-                    func_0210b234(kart, 0, d, e, 0);
+                    StartKartSurfaceSound(kart, 0, d, e, 0);
                 }
                 if (f == 2 && e != 5 && kart->mKartModelsEntry->mUnk_058 == 0) {
                     k = kart->mUnk_7c;

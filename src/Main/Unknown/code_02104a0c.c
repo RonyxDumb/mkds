@@ -35,7 +35,7 @@
 #include "code_0212df7c.h"
 #include "ITCM/code_01ffcf7c.h"
 
-const u16 data_0215a584 = 0x2000;
+const u16 gBouncingItemBoxUntilCourseHitBit = 0x2000;
 
 const ItemInfo gItemInfoKiller = {1, 1, 0xd, 1, 0, 0, StartItemKiller};
 
@@ -66,8 +66,8 @@ void CreatePooledMapObjects(void) {
     gPooledMapObjects = HeapAlloc(GetHeap(GetCurrentHeapCall()), gPooledMapObjectCount * 4);
     buf = data_0215a6cc;
     gPooledMapObjectRow.mUnk_00 = buf;
-    data_0217c73c = buf;
-    data_0217c748 = data_0215a6c0;
+    gPooledMapObjectRowDegrees = buf;
+    gPooledMapObjectRowScale = gVec3Ones;
     gPooledMapObjectRow.mKind = 0x6f;
     gPooledMapObjectRow.mUnk_2e = 1;
     for (i = 0; i < gPooledMapObjectCount; i++) {
@@ -101,8 +101,8 @@ void UpdateBouncingItemBoxTimers(void) {
     KartItems *kartItems;
     HeldItem *heldItem;
     NNSSndSeqPlayer **sndHandle;
-    u32 a = 0;
-    u32 b = 0;
+    u32 fadeFrame = 0;
+    u32 seqArcNo = 0;
     if (gRaceSetup->mMode != MODE_BATTLE) {
         return;
     }
@@ -126,9 +126,9 @@ void UpdateBouncingItemBoxTimers(void) {
                         NNS_SndPlayerStopSeq(sndHandle, 0);
                     }
                     if (sndHandle[0] != NULL) {
-                        NNS_SndPlayerStopSeq(sndHandle, a);
+                        NNS_SndPlayerStopSeq(sndHandle, fadeFrame);
                     }
-                    NNS_SndArcPlayerStartSeqArc(sndHandle, b, 0x3f);
+                    NNS_SndArcPlayerStartSeqArc(sndHandle, seqArcNo, 0x3f);
                 }
             }
         } else if (gBouncingItemBoxTimerRunning[i] != 0 && timer > 0) {
@@ -165,9 +165,9 @@ void ReleaseBouncingItemBox(BouncingItemBox *box) {
     ParkPooledMapObject(box->mPooledMapObject);
 }
 
-void CollideKartWithBouncingItemBox(BouncingItemBox *box, void *a) {
-    StartItemSlotAndEffects(&box->mUnk_000.mItemObject.mPos, a, 0, (box->mUnk_000.mItemObject.mFlags & 0x10000) ? 1 : 0,
-                            0);
+void CollideKartWithBouncingItemBox(BouncingItemBox *box, void *kart) {
+    StartItemSlotAndEffects(&box->mUnk_000.mItemObject.mPos, kart, 0,
+                            (box->mUnk_000.mItemObject.mFlags & 0x10000) ? 1 : 0, 0);
 }
 
 void ResetBouncingItemBox(BouncingItemBox *box) {
@@ -201,7 +201,7 @@ void AdvanceBouncingItemBoxInUse(ItemInUse *itemInUse, BouncingItemBox *box) {
 
 s32 InitBouncingItemBox(ItemInUse *itemInUse, BouncingItemBox *box) {
     StartItemObjectSoundSource(&box->mUnk_000.mItemObject);
-    box->mUnk_000.mItemObject.mOwnerKartIndexAndFlags |= data_0215a584;
+    box->mUnk_000.mItemObject.mOwnerKartIndexAndFlags |= gBouncingItemBoxUntilCourseHitBit;
     if (box->mKartIsEntry != 0) {
         (box->mPooledMapObject)->mShadowMode = 1;
     }
@@ -227,7 +227,7 @@ void AdvanceBouncingItemBox(BouncingItemBox *box) {
     Vec3 offset;
     Vec3 scale;
     u16 kartIndex;
-    s32 v;
+    s32 framesLeft;
     s32 scaleRatio;
     s32 kartIsEntry;
     ItemBox *mapObject;
@@ -240,13 +240,13 @@ void AdvanceBouncingItemBox(BouncingItemBox *box) {
     } else if ((box->mUnk_000.mItemObject.mFlags & 0x8000) != 0) {
         if (gRaceSetup->mMode == MODE_BATTLE) {
             kartIndex = box->mUnk_000.mItemObject.mOwnerKartIndexAndFlags & ~0xff00;
-            v = gBouncingItemBoxTimers[kartIndex] - 0x3c;
-            if (v < box->mUnk_000.mItemObject.mAlpha) {
-                box->mUnk_000.mItemObject.mAlpha = v;
+            framesLeft = gBouncingItemBoxTimers[kartIndex] - 0x3c;
+            if (framesLeft < box->mUnk_000.mItemObject.mAlpha) {
+                box->mUnk_000.mItemObject.mAlpha = framesLeft;
             }
-            if (v < 0xa) {
+            if (framesLeft < 0xa) {
                 FreeItemObjectCollisionSlot(&box->mUnk_000.mItemObject);
-                if (v == 0) {
+                if (framesLeft == 0) {
                     ReleaseItemPoolObject(&gItemPools[box->mUnk_000.mItemObject.mKind], &box->mUnk_000.mItemObject);
                     return;
                 }

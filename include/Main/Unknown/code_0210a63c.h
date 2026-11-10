@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct PlayingSound PlayingSound;
+typedef struct SoundDistanceSquaredChange SoundDistanceSquaredChange;
 
-u32 func_0210a63c(PlayingSound *playingSound);
+u32 GetSoundDistanceChange(SoundDistanceSquaredChange *change);

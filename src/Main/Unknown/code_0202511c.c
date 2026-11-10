@@ -229,7 +229,7 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
                             rowIndex = 1;
                             break;
                     }
-                    if (func_021054d0() != 0) {
+                    if (IsMissionRunBossColumn() != 0) {
                         rowIndex = 6;
                     } else {
                         *output = gSoundRowTable[rowIndex];

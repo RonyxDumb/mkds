@@ -20,13 +20,13 @@ typedef struct BouncingItemBox {
     /* 148 */ s32 mScaleRatio;
 } BouncingItemBox;
 
-extern Vec3 data_0217c748;
+extern Vec3 gPooledMapObjectRowScale;
 
-extern Vec3 data_0217c73c;
+extern Vec3 gPooledMapObjectRowDegrees;
 
 extern struct CourseMapRow gPooledMapObjectRow;
 
-extern const u16 data_0215a584;
+extern const u16 gBouncingItemBoxUntilCourseHitBit;
 extern const ItemInfo gItemInfoKiller;
 // Default record: its only function pointer is the shared ComputeViewTest hook.
 extern const ItemKind gItemKindKiller;
@@ -38,7 +38,7 @@ void UpdateBouncingItemBoxTimers(void);
 void func_02104f84(s32 kartIndex);
 void StartBouncingItemBox(BouncingItemBox *box);
 void ReleaseBouncingItemBox(BouncingItemBox *box);
-void CollideKartWithBouncingItemBox(BouncingItemBox *box, void *a);
+void CollideKartWithBouncingItemBox(BouncingItemBox *box, void *kart);
 void ResetBouncingItemBox(BouncingItemBox *box);
 void AdvanceBouncingItemBoxInUse(ItemInUse *itemInUse, BouncingItemBox *box);
 s32 InitBouncingItemBox(ItemInUse *itemInUse, BouncingItemBox *box);

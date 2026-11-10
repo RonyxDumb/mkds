@@ -403,7 +403,7 @@ void func_02066fe0(Kart *kart) {
                 d = 0xb;
                 break;
         }
-        func_0210b198(kart->mSoundIndex, d, 0x6e, 7, -1);
+        StartKartSeqArcSoundWithVolume(kart->mSoundIndex, d, 0x6e, 7, -1);
         return;
     }
     d = func_02110fb8(GetKartRank(kart->mIndex));

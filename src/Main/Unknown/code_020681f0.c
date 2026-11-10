@@ -109,7 +109,7 @@ void AdvanceKartRemovalShrink(Kart *kart) {
                 if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
                     StartKartRemovalSeqEffect();
                 }
-                func_0210ab30(kart);
+                SetKartStartSeqNop(kart);
                 return;
             }
             if ((currentBits & 1) != 0) {

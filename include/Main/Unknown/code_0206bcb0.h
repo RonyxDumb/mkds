@@ -531,7 +531,7 @@ typedef struct Kart {
     /* 50c */ Vec4 *mUnk_50c;
     /* 510 */ Vec3 *mUnk_510;
     /* 514 */ ParticipantKartRecordState *mUnk_514;
-    /* 518 */ SoundDistanceSquaredChange mUnk_518;
+    /* 518 */ SoundDistanceSquaredChange mSoundDistanceSquaredChange;
     /* 528 */ u8 mUnk_528[0xc];
     /* 534 */ Vec3 *mPosSourceCopy;
     /* 538 */ KartItemEffectState mUnk_538;

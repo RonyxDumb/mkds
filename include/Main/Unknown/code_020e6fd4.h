@@ -14,7 +14,7 @@ struct CourseMapRow;
 typedef struct MapObjectSound {
     // Sound source of the map object (the sounds started on it).
     /* 00 */ SoundSource mSoundSource;
-    /* 44 */ SoundDistanceSquaredChange mUnk_44;
+    /* 44 */ SoundDistanceSquaredChange mSoundDistanceSquaredChange;
     /* 54 */ u8 mUnk_54[0xc];
 } MapObjectSound;
 

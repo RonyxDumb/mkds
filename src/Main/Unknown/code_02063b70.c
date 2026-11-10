@@ -21,7 +21,7 @@
 
 void SetKartSoundDistanceSquaredAndChange(Kart *kart) {
     kart->mSoundSource.mDistanceSquared = GetKartCameraDistanceSquared(kart->mIndex);
-    AdvanceSoundDistanceSquaredChange(&kart->mUnk_518, GetKartCameraDistanceSquared(kart->mIndex));
+    AdvanceSoundDistanceSquaredChange(&kart->mSoundDistanceSquaredChange, GetKartCameraDistanceSquared(kart->mIndex));
 }
 
 static inline void func_02063cc4_inline(u32 command, s32 value) {

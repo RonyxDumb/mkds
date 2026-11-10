@@ -191,7 +191,7 @@ void ResetKartToRespawnPoint(Kart *kart) {
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         GetEntryKartCounters()->mRespawnCount++;
     } else {
-        ResetSoundDistanceSquaredChange(&kart->mUnk_518);
+        ResetSoundDistanceSquaredChange(&kart->mSoundDistanceSquaredChange);
     }
     kart->mUnk_4c |= 0xc00;
     kart->mUnk_48 |= 0x2000000;
@@ -760,13 +760,13 @@ void InitKartSound(Kart *kart) {
             SetSoundSourceFlagBit(&kart->mSoundSource, 2, 1);
         }
         if (gRaceSetup->mRaceKind == 2) {
-            ResetSoundDistanceSquaredChange(&kart->mUnk_518);
+            ResetSoundDistanceSquaredChange(&kart->mSoundDistanceSquaredChange);
         }
     } else {
         if (kart->mSoundSource.mSourceFlags & 1) {
             SetSoundSourceFlagBit(&kart->mSoundSource, 2, 1);
         }
-        ResetSoundDistanceSquaredChange(&kart->mUnk_518);
+        ResetSoundDistanceSquaredChange(&kart->mSoundDistanceSquaredChange);
     }
 }
 
@@ -851,7 +851,7 @@ void InitKartSoundParams(Kart *kart) {
     midRatioSoundId = *(s32 *) (data_02161af8 + rowOffset);
     lowRatioSoundId = *(s32 *) (data_02161afc + rowOffset);
     g = *(s32 *) (data_02161b00 + rowOffset);
-    soundRow.mUnk_00 = soundRowIndex;
+    soundRow.mSoundRowIndex = soundRowIndex;
     soundRow.mUnk_04 = a;
     soundRow.mUnk_08 = b;
     soundRow.mUnk_0c = c;

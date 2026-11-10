@@ -119,7 +119,7 @@ SoundDistanceSquaredChange *CreateVehicleSoundSource(MapObject *mapObject) {
     if (mapObject->mSound->mSoundSource.mSourceFlags & 1) {
         SetSoundSourceFlagBit(&mapObject->mSound->mSoundSource, 2, 1);
     }
-    return &mapObject->mSound->mUnk_44;
+    return &mapObject->mSound->mSoundDistanceSquaredChange;
 }
 
 void CreateMapObjectSoundSourceFalloff3(MapObject *mapObject) {

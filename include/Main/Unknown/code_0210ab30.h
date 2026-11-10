@@ -5,6 +5,6 @@
 typedef struct Kart Kart;
 typedef struct PlayingSound PlayingSound;
 
-void func_0210ab30(Kart *kart);
-void func_0210ab40(Kart *kart, PlayingSound *playingSound, s32 unused);
-void func_0210ab44(Kart *kart, PlayingSound *playingSound, s32 unused);
+void SetKartStartSeqNop(Kart *kart);
+void RemovedKartStartSeqNop(Kart *kart, PlayingSound *playingSound, s32 unused);
+void EntryKind2KartStartSeqNop(Kart *kart, PlayingSound *playingSound, s32 unused);

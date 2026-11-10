@@ -90,7 +90,7 @@
 #include "Main/Unknown/code_02024974.h"
 #include "Main/Unknown/code_0211d4a8.h"
 
-const Vec3 data_0215a6c0 = {0x1000, 0x1000, 0x1000};
+const Vec3 gVec3Ones = {0x1000, 0x1000, 0x1000};
 const Vec3 data_0215a6cc = {0, 0, 0};
 
 // Keeps seq 0 looping on the in-memory archive until StopSeqZeroLoop; UpdateSounds restarts it.

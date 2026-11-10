@@ -12,13 +12,18 @@
 #include "Main/Unknown/code_020de000.h"
 #include "Main/Unknown/unk_021759c0.h"
 
-const Unk0215a64c data_usa_0215a64c = {
-    0,  0x108, func_02105464, func_02105480, CreateItemBoxShadowDrawList, CreateQuestionDrawList, CreateBoxDrawList,
-    {0}};
+const Unk0215a64c gPooledItemBoxKindDescriptor = {0,
+                                                  0x108,
+                                                  InitPooledItemBox,
+                                                  CreatePooledItemBoxKindData,
+                                                  CreateItemBoxShadowDrawList,
+                                                  CreateQuestionDrawList,
+                                                  CreateBoxDrawList,
+                                                  {0}};
 
-const Unk0215a680 data_0215a680 = {{0, 0, 0, 0xf000, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0}};
+const Unk0215a680 gPooledItemBoxKindData = {{0, 0, 0, 0xf000, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0}};
 
-u32 func_02105504(void) {
+BOOL IsRaceSceneNormalOrKind2(void) {
     u32 result = 0;
     u32 isNormalOrKind2;
     if (GetCurrentSceneNumber() == 2) {
@@ -34,7 +39,7 @@ u32 func_02105504(void) {
     return result;
 }
 
-u32 func_021054d0(void) {
+BOOL IsMissionRunBossColumn(void) {
     u32 result = 0;
     s32 a = gRaceSetup->mMode;
     if (a != MODE_MISSION_RUN) {
@@ -47,14 +52,14 @@ u32 func_021054d0(void) {
     return result;
 }
 
-Unk0215a680 *func_02105480(void) {
-    Unk0215a680 *data = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *data = data_0215a680;
-    return data;
+Unk0215a680 *CreatePooledItemBoxKindData(void) {
+    Unk0215a680 *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    *kindData = gPooledItemBoxKindData;
+    return kindData;
 }
 
-void func_02105464(void *mapObject, void *q) {
-    InitItemBox(mapObject, q);
+void InitPooledItemBox(void *mapObject, void *row) {
+    InitItemBox(mapObject, row);
     ParkMapObject(mapObject);
 }
 

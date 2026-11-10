@@ -348,7 +348,7 @@ BOOL InitItemKouraG(ItemInUse *itemInUse, ItemKouraG *koura) {
     StartItemObjectSoundSource(&koura->mDirectedItemObject.mUnk_000);
     ResetSoundDistanceSquaredChange(&koura->mSoundDistanceSquaredChange);
     koura->mDirectedItemObject.mUnk_000.mSoundSource.mTrackParamsFunction =
-        (void (*)(void *, void *, void *)) func_0210a77c;
+        (void (*)(void *, void *, void *)) SetItemKouraSoundTrackParams;
     if (itemInUse->mKartItems->mFlags & 0x20) {
         InitItemObjectThrow(koura, itemInUse, isBattle != FALSE ? 2 : 4, 0, 0, 0x5000);
         return FALSE;
@@ -392,7 +392,7 @@ void InitItemKouraGFromData(ItemKouraG *koura) {
     SetupItemObjectFromData(&koura->mDirectedItemObject.mUnk_000);
     ResetSoundDistanceSquaredChange(&koura->mSoundDistanceSquaredChange);
     koura->mDirectedItemObject.mUnk_000.mSoundSource.mTrackParamsFunction =
-        (void (*)(void *, void *, void *)) func_0210a77c;
+        (void (*)(void *, void *, void *)) SetItemKouraSoundTrackParams;
     InitItemObjectMotion(koura, 9, koura->mReverse, 0);
 }
 
@@ -424,7 +424,7 @@ s32 InitItemKouraR(ItemInUse *itemInUse, ItemKouraR *kouraR) {
     StartItemObjectSoundSource(&kouraR->mUnk_000.mUnk_000.mUnk_000);
     ResetSoundDistanceSquaredChange(&kouraR->mSoundDistanceSquaredChange);
     kouraR->mUnk_000.mUnk_000.mUnk_000.mSoundSource.mTrackParamsFunction =
-        (void (*)(void *, void *, void *)) func_0210a77c;
+        (void (*)(void *, void *, void *)) SetItemKouraSoundTrackParams;
     InitStateMachine(&kouraR->mStateMachine, gItemKouraRStateTable, 7, kouraR);
     if (itemInUse->mKartItems->mFlags & 0x20) {
         kouraR->mThrowForward = 0;
@@ -691,7 +691,7 @@ void UpdateItemKouraRState6(ItemKouraR *kouraR) {
                     StartItemKouraRSound, kouraR, 0);
 }
 
-// Runs func_0210a598 with the 0x3bc word of the 0x1fc object when the 0x78 high bits of the
+// Runs StartKartSeqArcSoundOffset8 with the 0x3bc word of the 0x1fc object when the 0x78 high bits of the
 // third parameter match that object's 0x74 halfword and the 0x74/0x78/0xdc tests pass.
 void StartTargetKartSoundOnOwnItemHit(void *kouraParam, s32 hitType, ItemObject *otherParam) {
     ItemKouraR *kouraR;
@@ -727,7 +727,7 @@ void StartTargetKartSoundOnOwnItemHit(void *kouraParam, s32 hitType, ItemObject 
             return;
         }
     }
-    func_0210a598(kart, kart->mSoundIndex);
+    StartKartSeqArcSoundOffset8(kart, kart->mSoundIndex);
 }
 
 // Hands the 0x44 word and the 0x5c/0x130/0x250/0x254/0x60/0x54 addresses of b to
@@ -753,7 +753,7 @@ void *CopyItemKouraRData(void *buffer, ItemKouraR *kouraR, void *toBuffer) {
     return result;
 }
 
-// Stores func_0210a77c in the 0x30 word, moves the seven words of gItemKouraRStateTable to 0x23c,
+// Stores SetItemKouraSoundTrackParams in the 0x30 word, moves the seven words of gItemKouraRStateTable to 0x23c,
 // then picks one of three calls from the 0x254/0x21c words.
 void InitItemKouraRFromData(ItemKouraR *kouraR) {
     u16 ownerKartIndex;
@@ -764,7 +764,7 @@ void InitItemKouraRFromData(ItemKouraR *kouraR) {
     SetupItemObjectFromData(&kouraR->mUnk_000.mUnk_000.mUnk_000);
     ResetSoundDistanceSquaredChange(&kouraR->mSoundDistanceSquaredChange);
     kouraR->mUnk_000.mUnk_000.mUnk_000.mSoundSource.mTrackParamsFunction =
-        (void (*)(void *, void *, void *)) func_0210a77c;
+        (void (*)(void *, void *, void *)) SetItemKouraSoundTrackParams;
     InitStateMachine(&kouraR->mStateMachine, gItemKouraRStateTable, 7, kouraR);
     if (kouraR->mThrowForward != 0) {
         if (kouraR->mUnk_000.mPreviousLink.mLink != NULL) {

@@ -8,20 +8,20 @@
 #include "Main/Unknown/code_0210aa14.h"
 #include "Main/Unknown/unk_021759c0.h"
 
-void InitKartSoundCallbacks(Kart *kart, KartSound *b) {
+void InitKartSoundCallbacks(Kart *kart, KartSound *kartSound) {
     if (kart->mUnk_7c & KART_7C_ENTRY_KIND_2) {
-        kart->mSoundSource.mStartSeqFunction = (void (*)(void *, void *, u32)) func_0210ab44;
+        kart->mSoundSource.mStartSeqFunction = (void (*)(void *, void *, u32)) EntryKind2KartStartSeqNop;
     } else {
         kart->mSoundSource.mStartSeqFunction = (void (*)(void *, void *, u32)) StartKartPlayingSoundSeq;
     }
     kart->mSoundSource.mTrackParamsFunction = (void (*)(void *, void *, void *)) UpdateKartPlayingSound;
     if (GetCurrentSceneNumber() == 2 || kart->mIndex != gRaceSetup->mEntryIndex) {
-        b->mUnk_3c = func_0210a63c;
+        kartSound->mDistanceChangeFunction = GetSoundDistanceChange;
     } else {
-        b->mUnk_3c = func_0210aa0c;
+        kartSound->mDistanceChangeFunction = GetZeroSoundDistanceChange;
     }
 }
 
-void func_0210a598(Kart *kart, s32 soundIndex) {
+void StartKartSeqArcSoundOffset8(Kart *kart, s32 soundIndex) {
     StartKartSeqArcSound(kart, soundIndex, 8);
 }

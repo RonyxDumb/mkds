@@ -270,7 +270,7 @@ void LoadSceneSoundSet(SoundRow soundRow, u32 loadExtras) {
     soundSet.mUnk_04 = soundRow.mUnk_00[2];
     soundSet.mUnk_08 = soundRow.mUnk_00[3];
     LoadSoundSetIfChanged(soundSet, loadExtras);
-    if (func_02105504() == 0) {
+    if (IsRaceSceneNormalOrKind2() == 0) {
         return;
     }
     LoadSeqRowIfChanged(gRaceSetup->mMode);
