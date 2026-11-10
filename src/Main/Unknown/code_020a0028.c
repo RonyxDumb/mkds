@@ -74,10 +74,10 @@ void InitAirshipObjects(AirshipObjectList *list) {
     }
 }
 
-s32 AirshipGetAnglePairSecond(s32 angle) {
+s32 AirshipFX_CosIdx(s32 angle) {
     return gPairsByAngle[((angle >> 4) << 1) + 1];
 }
 
-s32 AirshipMulFixed12Rounded(s32 multiplicand, s32 multiplier) {
+s32 AirshipFX_MulInline(s32 multiplicand, s32 multiplier) {
     return MUL_FIXED12_ROUNDED(multiplicand, multiplier);
 }

@@ -542,11 +542,11 @@ void UpdateRaceHudSubScreenScroll(void) {
     }
 }
 
-s32 GetAnglePairSecond(s32 angle) {
+s32 RaceHudSubScreenFX_CosIdx(s32 angle) {
     return gPairsByAngle[(angle >> 4) * 2 + 1];
 }
 
-s32 GetAnglePairFirst(s32 angle) {
+s32 RaceHudSubScreenFX_SinIdx(s32 angle) {
     return gPairsByAngle[(angle >> 4) * 2];
 }
 
@@ -563,8 +563,8 @@ void UpdateRaceHudSubScreenProjectionAndBgAffine(RaceHudSubScreenBgAffine *bgAff
     s32 secondByInverseScale;
     s32 firstByInverseScale;
 
-    gRaceHudSubScreenProjection->mAnglePairSecond = GetAnglePairSecond(angle);
-    gRaceHudSubScreenProjection->mAnglePairFirst = GetAnglePairFirst(angle);
+    gRaceHudSubScreenProjection->mAnglePairSecond = RaceHudSubScreenFX_CosIdx(angle);
+    gRaceHudSubScreenProjection->mAnglePairFirst = RaceHudSubScreenFX_SinIdx(angle);
     gRaceHudSubScreenProjection->mAnglePairSecondScaled =
         MulFixed12NoRound(gRaceHudSubScreenProjection->mAnglePairSecond, scale);
     gRaceHudSubScreenProjection->mAnglePairFirstScaled =

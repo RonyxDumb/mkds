@@ -108,7 +108,7 @@ u32 NextRandomBelow(RandomState64 *randomState64, u32 limit) {
     return ((randomState64->mValue >> 32) * limit) >> 32;
 }
 
-s16 Kanoke64GetAnglePairFirst(s32 angle) {
+s16 Kanoke64FX_SinIdx(s32 angle) {
     return gPairsByAngle[(angle >> 4) * 2];
 }
 
@@ -164,7 +164,7 @@ static inline void func_020919e8_inline_6(Vec3 *outPos, s32 baseX, s32 baseY, s3
     outPos->z = baseZ - 0x28000 + func_020919e8_inline(0x50000);
 }
 
-s16 Kanoke64GetAnglePairSecond(s32 angle) {
+s16 Kanoke64FX_CosIdx(s32 angle) {
     return gPairsByAngle[(angle >> 4) * 2 + 1];
 }
 
@@ -206,9 +206,9 @@ void UpdateKanoke64(void *mapObjectList, Kanoke64 *kanoke64) {
             angle = kanoke64->mMapObject.mAngle;
             horizontalSpeed = NextRandomBelow(GetMapObjectRandom(), 0x1000) + 0x800;
             angle = angle - 0x3e8 + NextRandomBelowU16(GetMapObjectRandom(), 0x7d0);
-            basabasaVelocity.x = Kanoke64MulFixed12NoRound(horizontalSpeed, Kanoke64GetAnglePairFirst(angle));
+            basabasaVelocity.x = Kanoke64MulFixed12NoRound(horizontalSpeed, Kanoke64FX_SinIdx(angle));
             basabasaVelocity.y = NextRandomBelow(GetMapObjectRandom(), 0x400) + 0x2200;
-            basabasaVelocity.z = Kanoke64MulFixed12NoRound(horizontalSpeed, Kanoke64GetAnglePairSecond(angle));
+            basabasaVelocity.z = Kanoke64MulFixed12NoRound(horizontalSpeed, Kanoke64FX_CosIdx(angle));
             if (i == 0 && kanoke64->mBurstCount == 0) {
                 StartBasabasa(0x50, &basabasaPos, &basabasaVelocity, 0x28, 1, i == 0 ? 3 : 0);
             } else {

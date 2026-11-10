@@ -171,11 +171,11 @@ void InitTrophy(s32 modelIndex, u32 rankIndex) {
     SetupTrophy();
 }
 
-s16 TrophyGetAnglePairFirst(s32 angle) {
+s16 TrophyFX_SinIdx(s32 angle) {
     return gPairsByAngle[(angle >> 4) * 2];
 }
 
-s32 TrophyMulFixed12Rounded(s32 a, s32 b) {
+s32 TrophyFX_MulInline(s32 a, s32 b) {
     return MUL_FIXED12_ROUNDED(a, b);
 }
 
@@ -192,10 +192,9 @@ void AdvanceTrophy(void) {
     trophy = gTrophy;
     wobble = &trophy->mRotateZWobble;
     trophy->mRotateZWobble.mAngle += wobble->mAnglePerFrame;
-    wobble->mUnk_08 =
-        wobble->mMid +
-        TrophyMulFixed12Rounded(wobble->mAmplitude, TrophyGetAnglePairFirst(trophy->mRotateZWobble.mAngle)) -
-        wobble->mValue;
+    wobble->mUnk_08 = wobble->mMid +
+                      TrophyFX_MulInline(wobble->mAmplitude, TrophyFX_SinIdx(trophy->mRotateZWobble.mAngle)) -
+                      wobble->mValue;
     wobble->mValue += wobble->mUnk_08;
     if (wobble->mAmplitude > 0) {
         v = wobble->mAmplitude + wobble->mAmplitudePerFrame;

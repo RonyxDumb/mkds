@@ -50,6 +50,6 @@ s16 GetSelectedPressOffset(s32 frame);
 s16 InterpolateS16(s32 mode, s16 start, s16 end, s32 elapsedFrames, s32 durationFrames);
 s32 InterpolateGetFixed12Whole(s32 value);
 s32 InterpolateMulFixed12NoRound(s32 value, s32 factor);
-s16 InterpolateGetAnglePairSecond(s32 angle);
+s16 InterpolateFX_CosIdx(s32 angle);
 s32 LookupRowOffset(s32 index);
 u16 AllocOamMatrixIndex(void *oamList);

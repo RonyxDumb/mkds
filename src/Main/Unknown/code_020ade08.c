@@ -70,7 +70,7 @@ s32 LookupRowOffset(s32 index) {
 
 #pragma thumb off
 
-s16 InterpolateGetAnglePairSecond(s32 angle) {
+s16 InterpolateFX_CosIdx(s32 angle) {
     return gPairsByAngle[(angle >> 4) * 2 + 1];
 }
 
@@ -101,7 +101,7 @@ s16 InterpolateS16(s32 mode, s16 start, s16 end, s32 elapsedFrames, s32 duration
         case 0:
             return start + elapsedFrames * (end - start) / durationFrames;
         case 1:
-            easeValue = InterpolateGetAnglePairSecond((elapsedFrames << 15) / durationFrames);
+            easeValue = InterpolateFX_CosIdx((elapsedFrames << 15) / durationFrames);
             difference = end - start;
             if (difference > 0) {
                 scaledDifference = 0.5f + (difference << 12);

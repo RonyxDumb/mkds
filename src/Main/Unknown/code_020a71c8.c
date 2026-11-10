@@ -229,11 +229,11 @@ void InitSanboObjects(MapObjectList *mapObjectList) {
     }
 }
 
-s32 SanboGetAnglePairFirst(s32 a) {
+s32 SanboFX_SinIdx(s32 a) {
     return gPairsByAngle[(a >> 4) * 2];
 }
 
-s32 SanboMulFixed12Rounded(s32 a, s32 b) {
+s32 SanboFX_MulInline(s32 a, s32 b) {
     return MUL_FIXED12_ROUNDED(a, b);
 }
 
@@ -285,11 +285,10 @@ void UpdateSanbo(void *a, Sanbo *sanbo) {
                     sanbo->mPieces[i].mWobbleDelayTimer = 0;
                     sanbo->mPieces[i].mWobbleAngle =
                         sanbo->mPieces[i].mWobbleAngle + sanbo->mPieces[i].mWobbleAnglePerFrame;
-                    sanbo->mPieces[i].mUnk_24 =
-                        sanbo->mPieces[i].mWobbleMid +
-                        SanboMulFixed12Rounded(sanbo->mPieces[i].mWobbleAmplitude,
-                                               SanboGetAnglePairFirst(sanbo->mPieces[i].mWobbleAngle)) -
-                        sanbo->mPieces[i].mWobbleValue;
+                    sanbo->mPieces[i].mUnk_24 = sanbo->mPieces[i].mWobbleMid +
+                                                SanboFX_MulInline(sanbo->mPieces[i].mWobbleAmplitude,
+                                                                  SanboFX_SinIdx(sanbo->mPieces[i].mWobbleAngle)) -
+                                                sanbo->mPieces[i].mWobbleValue;
                     sanbo->mPieces[i].mWobbleValue = sanbo->mPieces[i].mWobbleValue + sanbo->mPieces[i].mUnk_24;
                     t = sanbo->mPieces[i].mWobbleAmplitude;
                     if (t > 0) {
