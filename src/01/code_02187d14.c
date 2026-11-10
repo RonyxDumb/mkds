@@ -78,7 +78,7 @@ void func_ov001_02187d14(NNSG3dRS *renderState) {
             VEC_MultAdd(mapObject->mUnk_2f4.x, &currentMatrix.mUnk_00[0], &bombPosition, &bombPosition);
             VEC_MultAdd(mapObject->mUnk_2f4.y, &currentMatrix.mUnk_00[1], &bombPosition, &bombPosition);
             VEC_MultAdd(mapObject->mUnk_2f4.z, &currentMatrix.mUnk_00[2], &bombPosition, &bombPosition);
-            func_020fd684(mapObject->mItemBomb, &currentMatrix.mUnk_00[0], &bombPosition);
+            PlaceItemBomb(mapObject->mItemBomb, &currentMatrix.mUnk_00[0], &bombPosition);
         }
     }
 }

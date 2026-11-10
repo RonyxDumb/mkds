@@ -29,9 +29,9 @@ s32 StartItemObjectFadeOut(ItemObject *item, s32 variant, s32 skipPending) {
             return 2;
         }
         if (variant == 0) {
-            item->mOwnerKartIndexAndFlags |= data_02159b6c;
+            item->mOwnerKartIndexAndFlags |= gItemObjectFadeOutPendingBit;
         } else {
-            item->mOwnerKartIndexAndFlags |= data_02159b68;
+            item->mOwnerKartIndexAndFlags |= gItemObjectNoCallbackFadeOutPendingBit;
             FreeItemObjectCollisionSlot(item);
         }
         item->mAdvance = NULL;
@@ -40,8 +40,8 @@ s32 StartItemObjectFadeOut(ItemObject *item, s32 variant, s32 skipPending) {
     if (variant == 0) {
         kind = item->mKind;
         kindInfo = &gItemKinds[kind];
-        if (kindInfo->mUnk_34 != NULL) {
-            r = kindInfo->mUnk_34(item);
+        if (kindInfo->mFadeOutCallback != NULL) {
+            r = kindInfo->mFadeOutCallback(item);
             if (r == 0) {
                 return 2;
             }
@@ -86,7 +86,7 @@ s32 StartItemObjectFadeOut(ItemObject *item, s32 variant, s32 skipPending) {
     return 0;
 }
 
-void func_020f7104(ItemObject *item, s32 sendEvent) {
+void FadeOutEndedItemObject(ItemObject *item, s32 sendEvent) {
     s32 result;
 
     if (!(item->mFlags & 0x8000000)) {
@@ -103,11 +103,11 @@ void func_020f7104(ItemObject *item, s32 sendEvent) {
     AddItemDataItemIdAndParts(item->mKind, 0, 8, item->mId);
 }
 
-void func_020f70f0(ItemObject *item) {
+void ReplayPendingFadeOut(ItemObject *item) {
     StartItemObjectFadeOut(item, 0, 1);
 }
 
-void func_020f7070(ItemObject *item, s32 sendEvent) {
+void FadeOutItemObjectNoCallback(ItemObject *item, s32 sendEvent) {
     s32 result;
 
     if (!(item->mFlags & 0x8000000)) {
@@ -124,18 +124,18 @@ void func_020f7070(ItemObject *item, s32 sendEvent) {
     AddItemDataItemIdAndParts(item->mKind, 1, 8, item->mId);
 }
 
-void func_020f705c(ItemObject *item) {
+void ReplayPendingNoCallbackFadeOut(ItemObject *item) {
     StartItemObjectFadeOut(item, 1, 1);
 }
 
-void func_020f6fc4(ItemObject *item, s32 sendEvent) {
+void FadeOutUsedUpItemObject(ItemObject *item, s32 sendEvent) {
     s32 result;
     enum { K0 } kind;
 
     result = StartItemObjectFadeOut(item, 0, 0);
     if (result <= 1) {
         kind = item->mKind;
-        StartItemObjectSoundIfNear(item, gItemKinds[kind].mUnk_94);
+        StartItemObjectSoundIfNear(item, gItemKinds[kind].mUsedUpSoundId);
     }
     if (result != 0) {
         return;
@@ -152,14 +152,14 @@ void func_020f6fc4(ItemObject *item, s32 sendEvent) {
     AddItemDataItemIdAndParts(item->mKind, 2, 8, item->mId);
 }
 
-void func_020f6f10(ItemObject *item, s32 sendEvent, s32 highPart) {
+void FadeOutItemObjectHitByKart(ItemObject *item, s32 sendEvent, s32 highPart) {
     s32 result;
     enum { K0 } kind;
 
     result = StartItemObjectFadeOut(item, 0, 0);
     if (result <= 1) {
         kind = item->mKind;
-        StartItemObjectSoundIfNear(item, gItemKinds[kind].mUnk_98);
+        StartItemObjectSoundIfNear(item, gItemKinds[kind].mKartHitSoundId);
     }
     if (result != 0) {
         return;

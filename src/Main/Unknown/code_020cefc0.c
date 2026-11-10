@@ -53,7 +53,7 @@ void UpdateRaceHudSubScreenBombKouraWCells(void) {
     for (i = 0; i < activeCount; i++) {
         bomb = objects[i];
         if (IsItemBombState2(bomb) != FALSE) {
-            bombPosition = func_020fd308((ItemBomb *) bomb, &bombStateFrames, &y);
+            bombPosition = GetItemBombState2Info((ItemBomb *) bomb, &bombStateFrames, &y);
             if (ComputeRaceHudSubScreenPosition(
                     bombPosition, &gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mDrawPos, v, 1, 1) != FALSE) {
                 gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x63);

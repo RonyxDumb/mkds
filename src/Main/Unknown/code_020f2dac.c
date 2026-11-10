@@ -827,7 +827,7 @@ void AdvanceBouncingItem(BouncingItemObject *item, s32 gravity, s32 velocityFact
             item->mItemObject.mOwnerKartIndexAndFlags &= ~0x4000;
         }
         if (item->mItemObject.mCollisionBits & 0x8000) {
-            func_020f7070(&item->mItemObject, 1);
+            FadeOutItemObjectNoCallback(&item->mItemObject, 1);
             return;
         }
     }

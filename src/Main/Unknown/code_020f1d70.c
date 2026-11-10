@@ -269,11 +269,11 @@ void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
             velocity->x = MUL_FIXED12_NO_ROUND(velocity->x, 0x23d);
             velocity->y = MUL_FIXED12_NO_ROUND(velocity->y, 0x23d);
             velocity->z = MUL_FIXED12_NO_ROUND(velocity->z, 0x23d);
-            func_020f6fc4(&object->mUnk_000, 1);
+            FadeOutUsedUpItemObject(&object->mUnk_000, 1);
             return;
         }
         if ((object->mUnk_000.mCollisionBits & 0x8000) && object->mUnk_000.mKind != 5) {
-            func_020f7070(&object->mUnk_000, 1);
+            FadeOutItemObjectNoCallback(&object->mUnk_000, 1);
             return;
         }
     }

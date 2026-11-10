@@ -104,7 +104,7 @@ void func_ov001_0218a828(Unk02188950 *mapObject) {
     if (bomb != NULL) {
         kart = GetEntryKartInRange(mapObject, mapObject->mPrm->mUnk_0c0, mapObject->mPrm->mUnk_0c4);
         if (kart != NULL) {
-            func_020fd754(bomb);
+            ParkItemBomb(bomb);
             ReleaseAndSetItemBomb(mapObject, bomb);
             func_ov001_02187218(mapObject, 3, NULL);
             StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_0ec, mapObject->mPrm->mUnk_0f0);
@@ -115,7 +115,7 @@ void func_ov001_0218a828(Unk02188950 *mapObject) {
                                     &StartItemBombThrow);
             func_ov001_0218b278(mapObject);
         } else {
-            func_020fd754(bomb);
+            ParkItemBomb(bomb);
             ReleaseAndSetItemBomb(mapObject, bomb);
             StartItemBombThrow(mapObject);
         }

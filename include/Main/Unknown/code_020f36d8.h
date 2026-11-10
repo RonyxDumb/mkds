@@ -307,7 +307,7 @@ typedef struct ItemKind {
     /* 30 */ s32 (*mViewTest)(Vec3 *, s32, s32, s32, u16);
     // Called with the object by StartItemObjectFadeOut when its second argument is 0; returns 0 to end the call with 2,
     // 1 to end it with 0, anything else lets it continue.
-    /* 34 */ UnkWordFunc *mUnk_34;
+    /* 34 */ UnkWordFunc *mFadeOutCallback;
     // Called with the object after StartItemObject and LaunchItemObjectFromPos have set it up from a kart; the entries
     // that exist set the object's mUnk_120 to the kind's mAdvance unless flags 0x180000 are set.
     /* 38 */ void (*mUnk_38)(void *);
@@ -341,8 +341,8 @@ typedef struct ItemKind {
     /* 88 */ s32 mUnk_88;
     /* 8c */ u8 mUnk_8c[4];
     /* 90 */ s32 mObjectCapCost;
-    /* 94 */ s32 mUnk_94;
-    /* 98 */ s32 mUnk_98;
+    /* 94 */ s32 mUsedUpSoundId;
+    /* 98 */ s32 mKartHitSoundId;
     /* 9c */ s32 mUnk_9c;
     /* a0 */ s32 mFalloffIndex;
     /* a4 */ s32 mUnk_a4;

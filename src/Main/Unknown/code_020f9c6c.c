@@ -612,7 +612,7 @@ void UpdateItemKouraWState6(ItemKouraW *item) {
     item->mLift -= 0x7000;
     SteerItemKouraWToKartForward(item, 0xb33, item->mLift);
     if (item->mLift < -0x32000) {
-        func_020f7104(&item->mUnk_000.mUnk_000.mUnk_000, 0);
+        FadeOutEndedItemObject(&item->mUnk_000.mUnk_000.mUnk_000, 0);
         if (item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x8000000) {
             AddItemDataItemIdAndKart(5, item->mKartItems->mKartIndex, item->mUnk_000.mUnk_000.mUnk_000.mId);
         }
@@ -625,7 +625,7 @@ void UpdateItemKouraWState6(ItemKouraW *item) {
                                     item->mUnk_000.mUnk_000.mUnk_000.mCollisionSlotIndex, &hitOffset, NULL, NULL,
                                     &item->mUnk_000.mUnk_000.mUnk_000.mCollisionBits, NULL, NULL, NULL, NULL) != 0) {
             VEC_Add(&hitOffset, position, position);
-            func_020f7104(&item->mUnk_000.mUnk_000.mUnk_000, 0);
+            FadeOutEndedItemObject(&item->mUnk_000.mUnk_000.mUnk_000, 0);
             if (item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x8000000) {
                 AddItemDataItemIdAndKart(5, item->mKartItems->mKartIndex, item->mUnk_000.mUnk_000.mUnk_000.mId);
             }
@@ -1092,7 +1092,7 @@ s32 CollideKartWithItemObjects(Kart *kart) {
         if (gItemKinds[kind].mUnk_88 != 0) {
             if (func_020f9880(item) != 0) {
                 ApplyItemObjectPush(item, &kart->mCollisionCenter, &kart->mVelocity, &kart->mSignedTurnedForward);
-                func_020f6f10(item, 1, (u16) kart->mIndex);
+                FadeOutItemObjectHitByKart(item, 1, (u16) kart->mIndex);
             } else {
                 StartItemObjectReleaseSynced(item, 1);
             }

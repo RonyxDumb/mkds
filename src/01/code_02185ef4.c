@@ -77,15 +77,15 @@ void ThrowItemBombFromPosition(void *bomb, Vec3 *position, Vec3 *velocity, s32 t
     if (bomb != NULL && position != NULL) {
         upNormal = data_ov001_021a7a64;
         normalPointer = &upNormal;
-        func_020fd684(bomb, normalPointer, position);
+        PlaceItemBomb(bomb, normalPointer, position);
         if (velocity != NULL) {
-            func_020fd540(&bomb, velocity, timer);
+            ThrowItemBombFromSlot(&bomb, velocity, timer);
         } else {
             zeroWords = (s32 *) &zeroVelocity;
             zeroWords[0] = 0;
             zeroWords[1] = 0;
             zeroWords[2] = 0;
-            func_020fd540(&bomb, &zeroVelocity, timer);
+            ThrowItemBombFromSlot(&bomb, &zeroVelocity, timer);
         }
     }
 }

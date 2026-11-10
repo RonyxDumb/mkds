@@ -29,7 +29,7 @@ ItemBomb *FindItemBombInRange(Unk02188950 *mapObject, u32 radius, u32 halfAngle)
     index = 0;
     if (0 < bombCount) {
         do {
-            bomb = func_020fd7a4(index);
+            bomb = GetRestingItemBomb(index);
             if ((bomb != NULL) &&
                 (inRange = IsPointInRange(mapObject, &bomb->mUnk_000.mItemObject.mPos, radius, halfAngle),
                  inRange != 0)) {

@@ -195,10 +195,10 @@ void RoundTripItemObjectData(ItemObject *object) {
         CopyItemObjectDataAndAdd(data, object, 0);
         SetupItemObjectFromDataWrapper(object);
         if (object->mOwnerKartIndexAndFlags & 0x800) {
-            func_020f70f0(object);
+            ReplayPendingFadeOut(object);
         }
         if (object->mOwnerKartIndexAndFlags & 0x400) {
-            func_020f705c(object);
+            ReplayPendingNoCallbackFadeOut(object);
         }
         if (object->mOwnerKartIndexAndFlags & 0x200) {
             StartItemObjectReleaseTimer(object);
@@ -269,10 +269,10 @@ found:
     object->mFlags |= 0x20000000;
     if (c != 0) {
         if (object->mOwnerKartIndexAndFlags & 0x800) {
-            func_020f70f0(object);
+            ReplayPendingFadeOut(object);
         }
         if (object->mOwnerKartIndexAndFlags & 0x400) {
-            func_020f705c(object);
+            ReplayPendingNoCallbackFadeOut(object);
         }
         if (object->mOwnerKartIndexAndFlags & 0x200) {
             StartItemObjectReleaseTimer(object);
@@ -334,13 +334,13 @@ BOOL ApplyItemObjectEventById(ItemPool *pool, s32 eventByte, s32 objectId) {
         }
         switch (k) {
             case 0:
-                func_020f7104(object, z0);
+                FadeOutEndedItemObject(object, z0);
                 break;
             case 1:
-                func_020f7070(object, z1);
+                FadeOutItemObjectNoCallback(object, z1);
                 break;
             case 2:
-                func_020f6fc4(object, z2);
+                FadeOutUsedUpItemObject(object, z2);
                 break;
             case 3:
                 if (pool->mKind == 1) {
@@ -348,7 +348,7 @@ BOOL ApplyItemObjectEventById(ItemPool *pool, s32 eventByte, s32 objectId) {
                         break;
                     }
                 }
-                func_020f6f10(object, z3, eventValue);
+                FadeOutItemObjectHitByKart(object, z3, eventValue);
                 break;
             case 4:
                 StartItemObjectReleaseTimerSynced(object, z4);

@@ -60,7 +60,7 @@ void SteerItemKouraWToKartForward(ItemKouraW *item, s32 gain, s32 lift) {
 BOOL TrySetItemKouraWKartItems(ItemKouraW *item, s32 kartIndex) {
     Kart *kart;
     KartItems *kartItems;
-    Vec3 v;
+    Vec3 kartOffset;
     Vec3 *kartPos;
     s32 shortRange;
     s32 normalDistance;
@@ -75,13 +75,13 @@ BOOL TrySetItemKouraWKartItems(ItemKouraW *item, s32 kartIndex) {
     kartPos = &kart->mDrawMatrixPos;
     if (kartItems->mItemLink.mLink != item->mUnk_000.mTargetLink.mLink) {
         shortRange = ((item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x40000000) || (kart->mUnk_48 & 1)) ? 1 : 0;
-        VEC_Subtract(kartPos, &item->mUnk_000.mUnk_000.mUnk_000.mPos, &v);
-        offsetX = v.x >> 12;
-        offsetZ = v.z >> 12;
+        VEC_Subtract(kartPos, &item->mUnk_000.mUnk_000.mUnk_000.mPos, &kartOffset);
+        offsetX = kartOffset.x >> 12;
+        offsetZ = kartOffset.z >> 12;
         if (offsetX * offsetX + offsetZ * offsetZ > (shortRange ? 0x9c40 : 0x27100)) {
             return FALSE;
         }
-        normalDistance = Vec3DotUnrounded(&item->mUnk_000.mUnk_000.mUnk_000.mNormal, &v) >> 12;
+        normalDistance = Vec3DotUnrounded(&item->mUnk_000.mUnk_000.mUnk_000.mNormal, &kartOffset) >> 12;
         if (normalDistance * normalDistance > 0x9c4) {
             return FALSE;
         }

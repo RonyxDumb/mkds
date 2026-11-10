@@ -14,7 +14,7 @@ void SteerItemKouraWToAnglePoint(ItemKouraW *item, s32 maxStep, s32 angle, s32 r
     Vec3 *pos;
     Vec3 *velocity;
     Kart *kart;
-    s32 s;
+    s32 scaledRadius;
 
     kart = item->mKartItems->mKart;
     item->mKartForward = kart->mSignedTurnedForward;
@@ -27,12 +27,12 @@ void SteerItemKouraWToAnglePoint(ItemKouraW *item, s32 maxStep, s32 angle, s32 r
         item->mKartForward.z = -item->mKartForward.z;
     }
     Vec3CrossUnrounded(&item->mKartForward, &kart->mGroundNormal, &t);
-    s = MUL_FIXED12_NO_ROUND(radius, gPairsByAngle[(angle >> 4) * 2 + 1]);
-    item->mAnglePointOffset.x = MUL_FIXED12_NO_ROUND(t.x, s);
-    item->mAnglePointOffset.y = MUL_FIXED12_NO_ROUND(t.y, s);
-    item->mAnglePointOffset.z = MUL_FIXED12_NO_ROUND(t.z, s);
-    s = MUL_FIXED12_NO_ROUND(radius, gPairsByAngle[(angle >> 4) * 2]);
-    VEC_MultAdd(s, &item->mKartForward, &item->mAnglePointOffset, &item->mAnglePointOffset);
+    scaledRadius = MUL_FIXED12_NO_ROUND(radius, gPairsByAngle[(angle >> 4) * 2 + 1]);
+    item->mAnglePointOffset.x = MUL_FIXED12_NO_ROUND(t.x, scaledRadius);
+    item->mAnglePointOffset.y = MUL_FIXED12_NO_ROUND(t.y, scaledRadius);
+    item->mAnglePointOffset.z = MUL_FIXED12_NO_ROUND(t.z, scaledRadius);
+    scaledRadius = MUL_FIXED12_NO_ROUND(radius, gPairsByAngle[(angle >> 4) * 2]);
+    VEC_MultAdd(scaledRadius, &item->mKartForward, &item->mAnglePointOffset, &item->mAnglePointOffset);
     VEC_MultAdd(0x1e000, &item->mKartForward, &item->mAnglePointOffset, &t);
     if (func_0206c0b0(kart) == FALSE) {
         item->mKartDrawPos = kart->mDrawMatrixPos;

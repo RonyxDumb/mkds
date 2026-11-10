@@ -64,12 +64,12 @@ void ResetItemBomb(ItemBomb *bomb) {
     InitStateMachine(&bomb->mStateMachine, gItemBombStateTable, 4, bomb);
     SetStateMachineState(&bomb->mStateMachine, 0);
     bomb->mTimer = 300;
-    bomb->mUnk_174 = 0;
+    bomb->mModelFrameTimer = 0;
     initialDistanceSquared = 0x05f592e1u;
     bomb->mNearestKartIndex = 8;
     bomb->mNearestKartDistanceSquared = initialDistanceSquared;
-    bomb->mUnk_180 = 0;
-    bomb->mUnk_16c = FALSE;
+    bomb->mTimerEndBlockTimer = 0;
+    bomb->mHitSpinsKart = FALSE;
     bomb->mVisible = TRUE;
     bomb->mPooledMapObject = NULL;
 }
@@ -77,9 +77,9 @@ void ResetItemBomb(ItemBomb *bomb) {
 s32 InitItemBomb(ItemInUse *inUse, ItemBomb *bomb) {
     StartItemObjectSoundSource(&bomb->mUnk_000.mItemObject);
     bomb->mUnk_000.mItemObject.mOwnerKartIndexAndFlags |= data_02159f3c;
-    bomb->mUnk_134 = MUL_FIXED12_NO_ROUND(inUse->mKartVelocityLength, 0x1ec) + 0x333;
-    if (bomb->mUnk_134 > 0xccd) {
-        bomb->mUnk_134 = 0xccd;
+    bomb->mReflectFactor = MUL_FIXED12_NO_ROUND(inUse->mKartVelocityLength, 0x1ec) + 0x333;
+    if (bomb->mReflectFactor > 0xccd) {
+        bomb->mReflectFactor = 0xccd;
     }
     if (inUse->mKartItems->mFlags & 0x20) {
         ThrowBouncingItem(&bomb->mUnk_000, inUse, 2, 0, 0x7800, 0x5000, 0x219a);
@@ -97,7 +97,7 @@ s32 InitItemBomb(ItemInUse *inUse, ItemBomb *bomb) {
     return bomb->mUnk_130;
 }
 
-u32 func_020fe264(u32 value) {
+u32 ItemBombState0ReturnArgument(u32 value) {
     return value;
 }
 
@@ -107,9 +107,9 @@ void UpdateItemBombState0(ItemBomb *bomb) {
     if (bomb->mUnk_130 != 0) {
         AdvanceBouncingItem(&bomb->mUnk_000, 0x385, 0xff8, 0x733, &v);
     } else {
-        AdvanceBouncingItem(&bomb->mUnk_000, 0x47b, 0xf91, bomb->mUnk_134, &v);
+        AdvanceBouncingItem(&bomb->mUnk_000, 0x47b, 0xf91, bomb->mReflectFactor, &v);
     }
-    if (bomb->mUnk_000.mItemObject.mFlags & KART_ITEMS_THROW_FORWARD) {
+    if (bomb->mUnk_000.mItemObject.mFlags & 0x10) {
         StartItemObjectSoundIfNear(&bomb->mUnk_000.mItemObject, 0xe5);
     }
     if ((bomb->mUnk_000.mItemObject.mFlags & 0x8) == 0) {
@@ -130,7 +130,7 @@ void UpdateItemBombState0(ItemBomb *bomb) {
     bomb->mStateMachine.mNextStateRequested = 1;
 }
 
-u32 func_020fe168(u32 value) {
+u32 ItemBombState1ReturnArgument(u32 value) {
     return value;
 }
 
@@ -145,7 +145,7 @@ void UpdateItemBombState1(ItemBomb *bomb) {
     if (flags & 0x4000) {
         AdvanceFallingItemObject(&bomb->mUnk_000.mItemObject);
         bomb->mTimer = 0x5a;
-        bomb->mUnk_174 = 0;
+        bomb->mModelFrameTimer = 0;
     }
 }
 
@@ -155,17 +155,17 @@ void EnterItemBombState2(ItemBomb *bomb) {
 
     bomb->mUnk_000.mItemObject.mFlags |= 0x800000;
     bomb->mUnk_000.mItemObject.mUnk_100 = 0;
-    bomb->mUnk_000.mItemObject.mScale = data_02159f30;
+    bomb->mUnk_000.mItemObject.mScale = gItemBombState2StartScale;
     bomb->mModelEffect = StartModelEffect(0, &bomb->mUnk_000.mItemObject.mPos,
                                           IsItemObjectTooFarForEffects(&bomb->mUnk_000.mItemObject) == 0 ? 1 : 0);
     modelEffect = bomb->mModelEffect;
     if (modelEffect != NULL) {
-        s32 *t;
+        s32 *effectScale;
 
-        t = modelEffect->mScale;
-        t[0] = 0xccd;
-        t[1] = 0xccd;
-        t[2] = 0xccd;
+        effectScale = modelEffect->mScale;
+        effectScale[0] = 0xccd;
+        effectScale[1] = 0xccd;
+        effectScale[2] = 0xccd;
     }
     StartItemObjectSoundIfNear(&bomb->mUnk_000.mItemObject, 0xe4);
     if (data_0217c780 & 1) {
@@ -187,14 +187,14 @@ void UpdateItemBombState2(ItemBomb *bomb) {
     s32 stateFrames;
 
     stateFrames = bomb->mStateMachine.mStateFrames;
-    if (GrowItemObjectScale(&bomb->mUnk_000.mItemObject, data_0217bd50, data_0217bd54) != 0) {
+    if (GrowItemObjectScale(&bomb->mUnk_000.mItemObject, gItemBombState2ScaleLimit, gItemBombState2ScaleStep) != 0) {
         RefreshItemObjectScaleExact(&bomb->mUnk_000.mItemObject);
     }
     if (stateFrames < 0x16) {
         return;
     }
     if (stateFrames == 0x16) {
-        bomb->mUnk_16c = TRUE;
+        bomb->mHitSpinsKart = TRUE;
     } else if (stateFrames == 0x2a) {
         FreeItemObjectCollisionSlot(&bomb->mUnk_000.mItemObject);
     }
@@ -248,37 +248,37 @@ void AdvanceItemBombNearestKart(ItemBomb *bomb) {
 }
 
 void ClampItemBombTimerByDistance(ItemBomb *bomb) {
-    if (bomb->mNearestKartDistanceSquared > (data_0217bd58 << 6)) {
+    if (bomb->mNearestKartDistanceSquared > (gItemBombState2MaxRadiusSquared << 6)) {
         return;
     }
-    if (bomb->mNearestKartDistanceSquared > (data_0217bd58 << 4)) {
-        if (bomb->mTimer > data_0217bd4c) {
-            bomb->mTimer = data_0217bd4c;
+    if (bomb->mNearestKartDistanceSquared > (gItemBombState2MaxRadiusSquared << 4)) {
+        if (bomb->mTimer > gItemBombTimerLimit) {
+            bomb->mTimer = gItemBombTimerLimit;
         }
         return;
     }
-    if (bomb->mNearestKartDistanceSquared > (data_0217bd58 << 2)) {
-        if (bomb->mTimer > (data_0217bd4c >> 1)) {
-            bomb->mTimer = data_0217bd4c >> 1;
+    if (bomb->mNearestKartDistanceSquared > (gItemBombState2MaxRadiusSquared << 2)) {
+        if (bomb->mTimer > (gItemBombTimerLimit >> 1)) {
+            bomb->mTimer = gItemBombTimerLimit >> 1;
         }
         return;
     }
-    if (bomb->mNearestKartDistanceSquared > data_0217bd58) {
-        if (bomb->mTimer > (data_0217bd4c >> 2)) {
-            bomb->mTimer = data_0217bd4c >> 2;
+    if (bomb->mNearestKartDistanceSquared > gItemBombState2MaxRadiusSquared) {
+        if (bomb->mTimer > (gItemBombTimerLimit >> 2)) {
+            bomb->mTimer = gItemBombTimerLimit >> 2;
         }
         return;
     }
     if (bomb->mTimer > 4) {
         bomb->mTimer = 4;
-        bomb->mUnk_174 = 3;
+        bomb->mModelFrameTimer = 3;
     }
 }
 
 void AdvanceItemBombWithMapObject(ItemBomb *bomb, ItemBomb *bombAlias, ItemBox *pooledMapObject) {
     ItemBox *mapObjectToPark;
 
-    bombAlias->mUnk_000.mItemObject.mDistanceSquaredAndFlags |= data_02159f2c;
+    bombAlias->mUnk_000.mItemObject.mDistanceSquaredAndFlags |= gItemObjectDistanceSquaredMask;
     AdvanceStateMachine(&bomb->mStateMachine);
     if (pooledMapObject->mUnk_000.mFlags & 0x100) {
         bomb->mPooledMapObject = NULL;
@@ -320,11 +320,11 @@ void AdvanceItemBomb(ItemBomb *bomb) {
     }
     AdvanceStateMachine(&bomb->mStateMachine);
     if ((bomb->mUnk_000.mItemObject.mFlags & 0x80000) || bomb->mTimer < 0) {
-        func_020f7104(&bomb->mUnk_000.mItemObject, 1);
+        FadeOutEndedItemObject(&bomb->mUnk_000.mItemObject, 1);
     }
     bomb->mTimer--;
-    if (bomb->mUnk_180 > 0) {
-        bomb->mUnk_180--;
+    if (bomb->mTimerEndBlockTimer > 0) {
+        bomb->mTimerEndBlockTimer--;
         if (bomb->mTimer == 0) {
             bomb->mTimer = 0x10;
         }
@@ -337,31 +337,31 @@ void AdvanceItemBomb(ItemBomb *bomb) {
     }
     if ((bomb->mUnk_000.mItemObject.mOwnerKartIndexAndFlags & 0x8000) == 0) {
         AdvanceItemBombNearestKart(bomb);
-        if (bomb->mUnk_180 == 0) {
+        if (bomb->mTimerEndBlockTimer == 0) {
             ClampItemBombTimerByDistance(bomb);
         }
     }
     if (bomb->mTimer >= 0xd2) {
         return;
     }
-    bomb->mUnk_174--;
-    if (bomb->mUnk_174 > 0) {
+    bomb->mModelFrameTimer--;
+    if (bomb->mModelFrameTimer > 0) {
         return;
     }
-    bomb->mUnk_174 = bomb->mTimer >> 2;
-    if (bomb->mUnk_174 < 8) {
-        bomb->mUnk_174 = 8;
+    bomb->mModelFrameTimer = bomb->mTimer >> 2;
+    if (bomb->mModelFrameTimer < 8) {
+        bomb->mModelFrameTimer = 8;
     }
 }
 
-void *func_020fda50(void *cursor, ItemBomb *bomb, void *toData) {
+void *CopyItemBombData(void *cursor, ItemBomb *bomb, void *toData) {
     void *nextCursor;
 
     if (bomb != NULL && toData != NULL) {
         StoreItemDataFlagBit(bomb->mUnk_130, &bomb->mUnk_000.mItemObject.mVelocity.y);
     }
     nextCursor = CopyItemObjectData(cursor, bomb, toData);
-    nextCursor = CopyItemShiftedByte(nextCursor, bomb != NULL ? &bomb->mUnk_134 : 0, toData);
+    nextCursor = CopyItemShiftedByte(nextCursor, bomb != NULL ? &bomb->mReflectFactor : 0, toData);
     if (bomb != NULL && toData == NULL) {
         LoadItemDataFlagBit(bomb->mUnk_000.mItemObject.mVelocity.y, &bomb->mUnk_130);
     }
@@ -384,17 +384,17 @@ void InitItemBombFromData(ItemBomb *bomb) {
     StartSound(&bomb->mUnk_000.mItemObject.mSoundSource, 0xda, 0x7f, 0);
 }
 
-void DrawItemBomb(ItemBomb *bomb, Vec3 *a, NsbmdModel *model) {
+void DrawItemBomb(ItemBomb *bomb, Vec3 *viewAxis, NsbmdModel *model) {
     if (bomb->mVisible == FALSE) {
         return;
     }
     if (bomb->mStateMachine.mState != 2) {
-        if (bomb->mUnk_174 != 0 && bomb->mUnk_174 < 6) {
+        if (bomb->mModelFrameTimer != 0 && bomb->mModelFrameTimer < 6) {
             model->mFrameIndex = 1;
         } else {
             model->mFrameIndex = 0;
         }
-        DrawItemObjectModel(&bomb->mUnk_000.mItemObject, model, a);
+        DrawItemObjectModel(&bomb->mUnk_000.mItemObject, model, viewAxis);
         return;
     }
     if (bomb->mModelEffect == NULL) {
@@ -418,7 +418,7 @@ int RequestItemBombState2(ItemBomb *bomb) {
     return 1;
 }
 
-void func_020fd83c(ItemBomb *bomb) {
+void RequestItemBombState1(ItemBomb *bomb) {
     if (bomb->mUnk_000.mItemObject.mFlags & 0x80000) {
         return;
     }
@@ -428,7 +428,7 @@ void func_020fd83c(ItemBomb *bomb) {
     }
     bomb->mStateMachine.mNextState = 1;
     bomb->mStateMachine.mNextStateRequested = 1;
-    bomb->mUnk_180 = 0x10e;
+    bomb->mTimerEndBlockTimer = 0x10e;
     bomb->mUnk_130 = 0;
     bomb->mUnk_000.mBouncesRemaining = 0;
 }
@@ -449,7 +449,7 @@ u32 GetItemBombActiveCount(void) {
 
 #pragma thumb off
 
-ItemBomb *func_020fd7a4(int index) {
+ItemBomb *GetRestingItemBomb(int index) {
     ItemBomb *bomb;
     u32 flags;
 
@@ -462,7 +462,7 @@ ItemBomb *func_020fd7a4(int index) {
     return NULL;
 }
 
-void func_020fd754(void *object) {
+void ParkItemBomb(void *object) {
     ItemBomb *bomb;
 
     bomb = object;
@@ -473,36 +473,36 @@ void func_020fd754(void *object) {
     FreeItemObjectCollisionSlot(&bomb->mUnk_000.mItemObject);
     bomb->mVisible = FALSE;
     SetStateMachineState(&bomb->mStateMachine, 3);
-    bomb->mUnk_174 = 0;
+    bomb->mModelFrameTimer = 0;
 }
 
-void func_020fd684(void *object, Vec3 *d, Vec3 *f) {
+void PlaceItemBomb(void *object, Vec3 *normal, Vec3 *position) {
     ItemBomb *bomb;
-    Vec3 *a;
-    Vec3 *b;
+    Vec3 *normalAlias;
+    Vec3 *positionAlias;
     ItemBox *pooledMapObject;
 
     bomb = object;
-    a = d;
-    b = f;
+    normalAlias = normal;
+    positionAlias = position;
     if (bomb->mPooledMapObject == NULL) {
         bomb->mVisible = TRUE;
         SetCourseColorBlendColor(&bomb->mUnk_000.mItemObject.mColorBlend, 1);
     }
-    if (a != NULL) {
-        bomb->mUnk_000.mItemObject.mNormal = *a;
+    if (normalAlias != NULL) {
+        bomb->mUnk_000.mItemObject.mNormal = *normalAlias;
         bomb->mUnk_000.mItemObject.mFlags |= 0x80;
     }
-    if (b == NULL) {
+    if (positionAlias == NULL) {
         return;
     }
-    bomb->mUnk_000.mItemObject.mPos = *b;
+    bomb->mUnk_000.mItemObject.mPos = *positionAlias;
     VEC_Subtract(&bomb->mUnk_000.mItemObject.mPos, &bomb->mUnk_000.mItemObject.mPrevPos,
                  &bomb->mUnk_000.mItemObject.mVelocity);
     if (bomb->mPooledMapObject == NULL) {
         return;
     }
-    bomb->mPooledMapObject->mUnk_000.mPos = *b;
+    bomb->mPooledMapObject->mUnk_000.mPos = *positionAlias;
     bomb->mPooledMapObject->mUnk_000.mPos.y += bomb->mMapObjectOffsetY;
     pooledMapObject = bomb->mPooledMapObject;
     pooledMapObject->mUnk_000.mFlags &= ~2;
@@ -510,13 +510,13 @@ void func_020fd684(void *object, Vec3 *d, Vec3 *f) {
     pooledMapObject->mUnk_000.mAlpha = 0x1f;
 }
 
-void func_020fd540(void **bombSlot, Vec3 *v, s32 timerStart) {
+void ThrowItemBombFromSlot(void **bombSlot, Vec3 *velocity, s32 timerStart) {
     ItemBomb *bomb;
     ItemBox *pooledMapObject;
 
     bomb = *bombSlot;
     pooledMapObject = bomb->mPooledMapObject;
-    bomb->mUnk_000.mItemObject.mOwnerKartIndexAndFlags |= data_02159f28;
+    bomb->mUnk_000.mItemObject.mOwnerKartIndexAndFlags |= gItemBombNoOwnerBit;
     if (pooledMapObject == NULL) {
         CreateItemObjectCollisionSlot(&bomb->mUnk_000.mItemObject);
         bomb->mVisible = TRUE;
@@ -525,15 +525,15 @@ void func_020fd540(void **bombSlot, Vec3 *v, s32 timerStart) {
     InitStateMachine(&bomb->mStateMachine, gItemBombStateTable, 4, bomb);
     SetStateMachineState(&bomb->mStateMachine, 0);
     bomb->mTimer = 0x12c;
-    bomb->mUnk_174 = 0;
+    bomb->mModelFrameTimer = 0;
     bomb->mNearestKartIndex = 8;
     bomb->mNearestKartDistanceSquared = 0x5f592e1;
-    bomb->mUnk_180 = 0;
-    bomb->mUnk_16c = FALSE;
-    bomb->mUnk_134 = 0xccd;
+    bomb->mTimerEndBlockTimer = 0;
+    bomb->mHitSpinsKart = FALSE;
+    bomb->mReflectFactor = 0xccd;
     bomb->mTimer = timerStart;
     bomb->mUnk_130 = 1;
-    InitBouncingItem(&bomb->mUnk_000, 3, v);
+    InitBouncingItem(&bomb->mUnk_000, 3, velocity);
     if ((bomb->mUnk_000.mItemObject.mFlags & 0x180000) == 0) {
         bomb->mUnk_000.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemBomb;
     }
@@ -577,7 +577,7 @@ void ReleaseItemBomb(void **bombSlot) {
 void *StartItemBomb(void) {
     ItemBomb *bomb;
 
-    bomb = StartItemObjectOrZero(9, 8, data_02159f40, data_02159f40);
+    bomb = StartItemObjectOrZero(9, 8, gItemBombVec3UnitY, gItemBombVec3UnitY);
     if (bomb == NULL) {
         return NULL;
     }
@@ -587,7 +587,7 @@ void *StartItemBomb(void) {
     FreeItemObjectCollisionSlot(&bomb->mUnk_000.mItemObject);
     bomb->mVisible = FALSE;
     SetStateMachineState(&bomb->mStateMachine, 3);
-    bomb->mUnk_174 = 0;
+    bomb->mModelFrameTimer = 0;
     return bomb;
 }
 
@@ -596,7 +596,7 @@ void *StartItemBombWithMapObject(void *mapObject, s32 offsetY) {
     ItemBox *pooledMapObject;
 
     pooledMapObject = mapObject;
-    bomb = StartItemObjectOrZero(9, 8, data_02159f40, data_02159f40);
+    bomb = StartItemObjectOrZero(9, 8, gItemBombVec3UnitY, gItemBombVec3UnitY);
     if (bomb == NULL) {
         bomb = NULL;
     } else {
@@ -606,7 +606,7 @@ void *StartItemBombWithMapObject(void *mapObject, s32 offsetY) {
         FreeItemObjectCollisionSlot(&bomb->mUnk_000.mItemObject);
         bomb->mVisible = FALSE;
         SetStateMachineState(&bomb->mStateMachine, 3);
-        bomb->mUnk_174 = 0;
+        bomb->mModelFrameTimer = 0;
     }
     if (bomb == NULL) {
         return NULL;
@@ -621,33 +621,33 @@ void *StartItemBombWithMapObject(void *mapObject, s32 offsetY) {
     return bomb;
 }
 
-Vec3 *func_020fd308(ItemBomb *bomb, s32 *stateFrames, s32 *scaledScaleZ) {
+Vec3 *GetItemBombState2Info(ItemBomb *bomb, s32 *stateFrames, s32 *scaledScaleZ) {
     *stateFrames = bomb->mStateMachine.mStateFrames;
-    *scaledScaleZ = MUL_FIXED12_NO_ROUND(bomb->mUnk_000.mItemObject.mScale.z, data_0217bd48);
+    *scaledScaleZ = MUL_FIXED12_NO_ROUND(bomb->mUnk_000.mItemObject.mScale.z, gItemBombState2InverseLimit);
     return &bomb->mUnk_000.mItemObject.mPos;
 }
 
 #pragma thumb on
 
-void func_020fd264(void) {
+void SetupItemBombKind(void) {
     s32 engineIndex;
 
-    data_0217bd50 = 0x18006;
-    data_0217bd48 = FX_Div(0x1000, 0x18006);
-    data_0217bd54 = 0x2148;
-    data_0217bd58 = MUL_FIXED12_NO_ROUND(data_0217bd50, gItemKinds[9].mRadius);
-    data_0217bd58 >>= 12;
-    data_0217bd58 *= data_0217bd58;
+    gItemBombState2ScaleLimit = 0x18006;
+    gItemBombState2InverseLimit = FX_Div(0x1000, 0x18006);
+    gItemBombState2ScaleStep = 0x2148;
+    gItemBombState2MaxRadiusSquared = MUL_FIXED12_NO_ROUND(gItemBombState2ScaleLimit, gItemKinds[9].mRadius);
+    gItemBombState2MaxRadiusSquared >>= 12;
+    gItemBombState2MaxRadiusSquared *= gItemBombState2MaxRadiusSquared;
     engineIndex = gRaceSetup->mEngineIndex;
     switch (engineIndex) {
         case 0:
-            data_0217bd4c = 0xb4;
+            gItemBombTimerLimit = 0xb4;
             break;
         case 1:
-            data_0217bd4c = 0x96;
+            gItemBombTimerLimit = 0x96;
             break;
         default:
-            data_0217bd4c = 0x78;
+            gItemBombTimerLimit = 0x78;
             break;
     }
 }

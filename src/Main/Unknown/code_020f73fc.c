@@ -108,10 +108,10 @@ void ApplyItemObjectHitType(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, 
                 ApplyItemObjectPush(item, otherPos, &push, &direction);
             }
             if (soundId == -1 || (item->mFlags & 0x8000000)) {
-                func_020f6fc4(item, 1);
+                FadeOutUsedUpItemObject(item, 1);
             } else {
                 n = item->mKind;
-                func_020f7104(item, 1);
+                FadeOutEndedItemObject(item, 1);
                 if (n == 5 || n == 9) {
                     soundId = -1;
                 }

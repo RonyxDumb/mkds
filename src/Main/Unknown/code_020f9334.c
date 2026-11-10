@@ -52,7 +52,7 @@ void StartItemObjectReleaseOnTimeout(ItemObject *item) {
     item->mVelocity.x = MUL_FIXED12_NO_ROUND(item->mVelocity.x, 0x99a);
     item->mVelocity.y = MUL_FIXED12_NO_ROUND(item->mVelocity.y, 0x99a);
     item->mVelocity.z = MUL_FIXED12_NO_ROUND(item->mVelocity.z, 0x99a);
-    func_020f6fc4(item, 1);
+    FadeOutUsedUpItemObject(item, 1);
 }
 
 void ResetItemObject(ItemObject *item, s32 kind) {

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int func_020fe168(unsigned int value);
+unsigned int ItemBombState1ReturnArgument(unsigned int value);

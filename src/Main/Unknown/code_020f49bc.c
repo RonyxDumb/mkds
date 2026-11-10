@@ -139,12 +139,12 @@ void AdvanceRestingItemObject(ItemObject *item) {
                 item->mVelocity.x = 0;
                 item->mVelocity.y = 0;
                 item->mVelocity.z = 0;
-                func_020f6fc4(item, 1);
+                FadeOutUsedUpItemObject(item, 1);
             }
             if (!(item->mCollisionBits & 0x8000)) {
                 return;
             }
-            func_020f7070(item, 1);
+            FadeOutItemObjectNoCallback(item, 1);
         } else {
             VEC_Subtract(&item->mPos, &item->mPrevPos, &item->mVelocity);
         }
@@ -217,7 +217,7 @@ void LaunchItemObjectFromPos(ItemObject *itemParam, s32 pushStrength, Vec3 *from
         item->mFlags &= ~0x7000000;
     } else {
         item->mFlags &= ~0x4000;
-        func_020f7070(item, 1);
+        FadeOutItemObjectNoCallback(item, 1);
     }
 }
 
@@ -264,7 +264,7 @@ void AdvanceFallingItemObject(ItemObject *item) {
             }
         }
         if (item->mCollisionBits & 0x8000) {
-            func_020f7070(item, 1);
+            FadeOutItemObjectNoCallback(item, 1);
             return;
         }
     }
@@ -662,7 +662,7 @@ void UpdateItemKouraRState5(ItemKouraR *kouraR) {
     kartItems = kouraR->mKartItems;
     kart = kartItems->mKart;
     if (func_0206c0e0(kart) != FALSE) {
-        func_020f6f10(&kouraR->mUnk_000.mUnk_000.mUnk_000, 0, 8);
+        FadeOutItemObjectHitByKart(&kouraR->mUnk_000.mUnk_000.mUnk_000, 0, 8);
     } else {
         SteerItemKouraRToKart(kouraR, 0x10000, 0x333, 0);
     }
@@ -678,7 +678,7 @@ void UpdateItemKouraRState5(ItemKouraR *kouraR) {
             return;
         }
     }
-    func_020f6f10(&kouraR->mUnk_000.mUnk_000.mUnk_000, 0, 8);
+    FadeOutItemObjectHitByKart(&kouraR->mUnk_000.mUnk_000.mUnk_000, 0, 8);
 }
 
 // Runs AdvanceItemObjectMotion and hands StartItemKouraRSound to AddSoundRequest when the 0x74 bit 0 is clear.

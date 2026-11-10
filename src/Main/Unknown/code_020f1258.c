@@ -67,7 +67,7 @@ BOOL SteerItemKouraRToKart(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
                 if (n < MUL_FIXED12_ROUNDED(kart->mPhysicalParam->mRadius, kart->mScale.z)) {
                     item->mNearKartFrames = item->mNearKartFrames + 1;
                     if (item->mNearKartFrames > 0x5a) {
-                        func_020f7070(&item->mUnk_000.mUnk_000.mUnk_000, 1);
+                        FadeOutItemObjectNoCallback(&item->mUnk_000.mUnk_000.mUnk_000, 1);
                         return FALSE;
                     }
                     t.x = 0;
@@ -125,12 +125,12 @@ BOOL SteerItemKouraRToKart(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
                 velocity->x = MUL_FIXED12_NO_ROUND(velocity->x, 0x23d);
                 velocity->y = MUL_FIXED12_NO_ROUND(velocity->y, 0x23d);
                 velocity->z = MUL_FIXED12_NO_ROUND(velocity->z, 0x23d);
-                func_020f6fc4(&item->mUnk_000.mUnk_000.mUnk_000, 1);
+                FadeOutUsedUpItemObject(&item->mUnk_000.mUnk_000.mUnk_000, 1);
                 return FALSE;
             }
         }
         if (item->mUnk_000.mUnk_000.mUnk_000.mCollisionBits & 0x8000) {
-            func_020f7070(&item->mUnk_000.mUnk_000.mUnk_000, 1);
+            FadeOutItemObjectNoCallback(&item->mUnk_000.mUnk_000.mUnk_000, 1);
             return FALSE;
         }
     }

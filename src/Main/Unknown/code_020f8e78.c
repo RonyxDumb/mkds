@@ -25,7 +25,7 @@
 
 BOOL TryFadeOutDeflectedItemObject(ItemObject *item, Vec3 *normal) {
     if ((item->mFlags & 0x2000000) != 0 && Vec3DotUnrounded(normal, &item->mUnk_108) < 0 && (item->mFlags & 8) == 0) {
-        func_020f6fc4(item, 1);
+        FadeOutUsedUpItemObject(item, 1);
         return TRUE;
     }
     return FALSE;
