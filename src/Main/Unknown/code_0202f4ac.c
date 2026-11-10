@@ -15,10 +15,12 @@ void func_0202f51c(void *dest, u32 size) {
     func_0202f530(dest, 0, size);
 }
 
-void func_0202f4e0(DisplaySettings *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h) {
-    SetBg1Record(&displaySettings->mMainBgRecords, b, c, d, e, f, g, h);
+void WLMenuSetMainBg1Record(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7,
+                            u32 cntVal8, u32 cntVal2, u32 cntVal13) {
+    SetBg1Record(&displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, cntVal7, cntVal8, cntVal2, cntVal13);
 }
 
-void func_0202f4ac(DisplaySettings *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g) {
-    SetBg3RecordParams(&displaySettings->mSubBgRecords, b, c, d, e, f, g);
+void WLMenuSetSubBg3RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e,
+                                 u32 cntVal8, u32 cntVal2) {
+    SetBg3RecordParams(&displaySettings->mSubBgRecords, cntLow2, cntBit6, cntVal14, e, cntVal8, cntVal2);
 }

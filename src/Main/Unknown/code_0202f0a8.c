@@ -20,21 +20,21 @@ void CallScrollListCallback(s32 action, s32 slot, s32 row, s32 selectedSlot) {
 
 #pragma thumb off
 
-u32 func_0202f0fc(InputSlotPair *pair) {
+u32 ScrollListIsPairNew(InputSlotPair *pair) {
     if (pair->mPrevHasPair == 0 && pair->mHasPair != 0) {
         return 1;
     }
     return 0;
 }
 
-u32 func_0202f0c8(InputSlotPair *pair) {
+u32 ScrollListIsPairNewUnlessLost(InputSlotPair *pair) {
     u32 result = 0;
-    if (func_0202f028(pair) == 0 && func_0202f0fc(pair) != 0) {
+    if (ScrollListIsPairRecentlyLost(pair) == 0 && ScrollListIsPairNew(pair) != 0) {
         result = 1;
     }
     return result;
 }
 
-u32 func_0202f0a8(u32 slotIndex) {
-    return func_0202f0c8(&gInputSlots[slotIndex].mPair);
+u32 ScrollListIsSlotPairNew(u32 slotIndex) {
+    return ScrollListIsPairNewUnlessLost(&gInputSlots[slotIndex].mPair);
 }

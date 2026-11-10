@@ -4,4 +4,4 @@
 
 typedef struct InputSlotPair InputSlotPair;
 
-u32 func_0202f028(InputSlotPair *pair);
+u32 ScrollListIsPairRecentlyLost(InputSlotPair *pair);

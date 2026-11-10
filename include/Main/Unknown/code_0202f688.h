@@ -19,7 +19,7 @@ typedef struct CellFileSet {
 
 // 12-byte entries at 0x58 of MultiSelectMemberGroup.
 typedef struct Unk02174e50_58 {
-    /* 00 */ s32 mUnk_00;
+    /* 00 */ s32 mHasText;
     /* 04 */ s32 mUnk_04;
     /* 08 */ s32 mUnk_08;
 } Unk02174e50_58;
@@ -32,7 +32,7 @@ typedef struct MultiSelectMemberGroup {
     /* 44 */ void *mOamList;
     /* 48 */ s32 mSelectedIndex;
     /* 4c */ s32 mState;
-    /* 50 */ s32 mUnk_50;
+    /* 50 */ s32 mUpdateState;
     /* 54 */ s32 mNextCallbacksIndex;
     /* 58 */ Unk02174e50_58 mUnk_58[4];
     /* 88 */ BOOL mUnk_88;
@@ -73,8 +73,8 @@ void WriteMultiSelectMemberGroupRegisters(void);
 void ReleaseMultiSelectMemberGroup(void);
 s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers);
 void InitMultiSelectMemberGroup(void *parentHeap, void *scene, void *oamList);
-void func_0202fd2c(void);
+void UpdateMemberRowsFromScanSlots(void);
 void RefreshMultiSelectMemberGroup(s32 showSelected);
 void SetMemberGroupCellTableOffsetY(void);
-s32 func_0203023c(void);
+s32 IsSelectedMemberRowSelectable(void);
 s32 IsRectInMemberRow(s32 rectIndex, s32 memberRow);

@@ -6,23 +6,23 @@ struct WLMenuScene;
 
 // Table of four functions that member 0x80c of WLMenuScene points to.
 typedef struct WLMenuCallbacks {
-    /* 00 */ void (*mUnk_00)(void *a, struct WLMenuScene *b, void *c);
-    /* 04 */ s32 (*mUnk_04)(void *a);
-    /* 08 */ void (*mUnk_08)(void);
-    /* 0c */ void (*mUnk_0c)(void);
+    /* 00 */ void (*mInit)(void *a, struct WLMenuScene *b, void *c);
+    /* 04 */ s32 (*mAdvance)(void *a);
+    /* 08 */ void (*mRelease)(void);
+    /* 0c */ void (*mWriteRegisters)(void);
 } WLMenuCallbacks;
 
-// 0x16-byte entries from 4 of Unk02174e4c_818.
-typedef struct Unk02174e4c_818_04 {
-    /* 00 */ u16 mUnk_00[0xa];
-    /* 14 */ u16 mUnk_14;
-} Unk02174e4c_818_04;
+// 0x16-byte entries from 4 of WLMenuScanSlotPick.
+typedef struct ScanSlotText {
+    /* 00 */ u16 mText[0xa];
+    /* 14 */ u16 mTerminator;
+} ScanSlotText;
 
 // The 0x5c bytes at 0x818 of WLMenuScene.
-typedef struct Unk02174e4c_818 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ Unk02174e4c_818_04 mUnk_04[4];
-} Unk02174e4c_818;
+typedef struct WLMenuScanSlotPick {
+    /* 00 */ s32 mSlotIndex;
+    /* 04 */ ScanSlotText mSlotTexts[4];
+} WLMenuScanSlotPick;
 
 // 0x874-byte object that gWLMenuScene points to.
 typedef struct WLMenuScene {
@@ -32,11 +32,11 @@ typedef struct WLMenuScene {
     /* 80c */ WLMenuCallbacks *mCurrentCallbacks;
     /* 810 */ s32 mRequestedCallbacksIndex;
     /* 814 */ s32 mCurrentCallbacksIndex;
-    /* 818 */ Unk02174e4c_818 mUnk_818;
+    /* 818 */ WLMenuScanSlotPick mScanSlotPick;
 } WLMenuScene;
 
-Unk02174e4c_818 *func_0202f14c(void);
-void func_0202f160(void);
+WLMenuScanSlotPick *GetWLMenuSceneScanSlotPick(void);
+void WriteWLMenuSceneRegisters(void);
 u32 func_0202f19c(void);
 u32 func_0202f1a8(void);
 u16 *func_0202f1d0(void);

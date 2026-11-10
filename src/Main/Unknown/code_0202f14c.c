@@ -48,8 +48,8 @@ void InitWLMenuScene(void *heap) {
     gWLMenuScene = HeapAllocAligned(heap, 0x874, 0x20);
     func_0202f51c(gWLMenuScene, 0x874);
     displaySettings = CreateDisplaySettings(heap, data_02154818);
-    func_0202f4e0(displaySettings, 0, 0, 0, 0, 0xc, 0, 0);
-    func_0202f4ac(displaySettings, 2, 0, 0, 0, 0xf, 6);
+    WLMenuSetMainBg1Record(displaySettings, 0, 0, 0, 0, 0xc, 0, 0);
+    WLMenuSetSubBg3RecordParams(displaySettings, 2, 0, 0, 0, 0xf, 6);
     InitDisplayFromSettings(displaySettings);
     if (func_0202f19c() == 0) {
         v1.mUseTxtSystem = 1;
@@ -94,7 +94,7 @@ void InitWLMenuScene(void *heap) {
     ResetOamLists(gWLMenuScene, gWLMenuScene->mSubOam);
     func_0202f478(0x10);
     func_0202f454(0x10);
-    gWLMenuScene->mCurrentCallbacks->mUnk_00(gWLMenuScene->mHeap, gWLMenuScene, gWLMenuScene->mSubOam);
+    gWLMenuScene->mCurrentCallbacks->mInit(gWLMenuScene->mHeap, gWLMenuScene, gWLMenuScene->mSubOam);
 }
 
 void AdvanceWLMenuScene(void *a) {
@@ -105,11 +105,11 @@ void AdvanceWLMenuScene(void *a) {
         previousCallbacks = gWLMenuScene->mCurrentCallbacks;
         gWLMenuScene->mCurrentCallbacks = gWLMenuCallbacks[callbacksIndex];
         gWLMenuScene->mCurrentCallbacksIndex = gWLMenuScene->mRequestedCallbacksIndex;
-        previousCallbacks->mUnk_08();
-        gWLMenuScene->mCurrentCallbacks->mUnk_00(gWLMenuScene->mHeap, gWLMenuScene, gWLMenuScene->mSubOam);
+        previousCallbacks->mRelease();
+        gWLMenuScene->mCurrentCallbacks->mInit(gWLMenuScene->mHeap, gWLMenuScene, gWLMenuScene->mSubOam);
     } else {
         ClearOamListCounts(gWLMenuScene, gWLMenuScene->mSubOam);
-        callbacksIndex = gWLMenuScene->mCurrentCallbacks->mUnk_04(a);
+        callbacksIndex = gWLMenuScene->mCurrentCallbacks->mAdvance(a);
         if (callbacksIndex != -1) {
             gWLMenuScene->mRequestedCallbacksIndex = callbacksIndex;
         }
@@ -127,7 +127,7 @@ void AdvanceWLMenuScene(void *a) {
 
 void ReleaseWLMenuScene(void) {
     int v1;
-    gWLMenuScene->mCurrentCallbacks->mUnk_08();
+    gWLMenuScene->mCurrentCallbacks->mRelease();
     v1 = func_0202f19c();
     if (v1 == 0) {
         ReleaseSceneText();
@@ -151,18 +151,18 @@ u32 func_0202f19c(void) {
 
 #pragma thumb on
 
-void func_0202f160(void) {
+void WriteWLMenuSceneRegisters(void) {
     int v1;
     v1 = func_0202f19c();
     if (v1 == 0) {
         WriteSceneTextRegisters();
     }
-    gWLMenuScene->mCurrentCallbacks->mUnk_0c();
+    gWLMenuScene->mCurrentCallbacks->mWriteRegisters();
     UploadOamLists(gWLMenuScene, gWLMenuScene->mSubOam);
 }
 
-Unk02174e4c_818 *func_0202f14c(void) {
-    return &gWLMenuScene->mUnk_818;
+WLMenuScanSlotPick *GetWLMenuSceneScanSlotPick(void) {
+    return &gWLMenuScene->mScanSlotPick;
 }
 
 #pragma thumb off

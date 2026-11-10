@@ -34,46 +34,46 @@
 #include "Main/Unknown/unk_02174000.h"
 #include "registers.h"
 
-u32 func_02030700(InputSlotPair *pair) {
+u32 MultiSelectNSGetPairX(InputSlotPair *pair) {
     return pair->mPairX;
 }
 
-u32 func_020306e0(u32 slotIndex) {
-    return func_02030700(&gInputSlots[slotIndex].mPair);
+u32 MultiSelectNSGetSlotPairX(u32 slotIndex) {
+    return MultiSelectNSGetPairX(&gInputSlots[slotIndex].mPair);
 }
 
-u32 func_020306d8(InputSlotPair *pair) {
+u32 MultiSelectNSGetPairY(InputSlotPair *pair) {
     return pair->mPairY;
 }
 
-u32 func_020306b8(u32 slotIndex) {
-    return func_020306d8(&gInputSlots[slotIndex].mPair);
+u32 MultiSelectNSGetSlotPairY(u32 slotIndex) {
+    return MultiSelectNSGetPairY(&gInputSlots[slotIndex].mPair);
 }
 
-u16 func_020306a4(InputSlot *slot, u32 mask) {
+u16 MultiSelectNSGetInputSlotNewBits(InputSlot *slot, u32 mask) {
     return slot->mPressedBits & mask;
 }
 
-u32 func_02030688(u32 slotIndex, u32 mask) {
-    return func_020306a4(&gInputSlots[slotIndex], mask);
+u32 MultiSelectNSGetNewBits(u32 slotIndex, u32 mask) {
+    return MultiSelectNSGetInputSlotNewBits(&gInputSlots[slotIndex], mask);
 }
 
-void func_02030654(u32 index) {
+void MultiSelectNSStartOnMemorySeqArc(u32 index) {
     NNS_SndArcSetCurrent(&gOnMemorySndArc);
-    func_0203063c(index, 0);
+    MultiSelectNSStartSeqArc(index, 0);
     NNS_SndArcSetCurrent(&gFileSndArc);
 }
 
-void func_0203063c(u32 index, u32 seqArcNo) {
+void MultiSelectNSStartSeqArc(u32 index, u32 seqArcNo) {
     NNS_SndArcPlayerStartSeqArc(&data_0217d068, seqArcNo, index);
 }
 
-void func_0203062c(u32 index) {
-    u32 value0 = index;
-    u32 value1;
+void MultiSelectNSStartSeqArcWrapper(u32 index) {
+    u32 indexCopy = index;
+    u32 seqArcNo;
     u32 value12;
-    value1 = 0u;
-    func_0203063c(value0, value1);
+    seqArcNo = 0u;
+    MultiSelectNSStartSeqArc(indexCopy, seqArcNo);
 }
 
 #pragma thumb on
@@ -105,40 +105,40 @@ s32 AdvanceMultiSelectNS(void) {
             touchInReturnRect = 0;
             b = -1;
             if (func_02030708(slotIndex) != 0) {
-                b = func_020306e0(slotIndex);
-                pairY = func_020306b8(slotIndex);
+                b = MultiSelectNSGetSlotPairX(slotIndex);
+                pairY = MultiSelectNSGetSlotPairY(slotIndex);
                 touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(b, pairY);
                 b = FindRectContainingPoint(b, pairY, multiSelectNS->mBnbl);
             }
-            if (func_02030688(slotIndex, PAD_KEY_A) != 0) {
+            if (MultiSelectNSGetNewBits(slotIndex, PAD_KEY_A) != 0) {
                 SetMultiSimple(gMultiSelectNS->mIndex == 1 ? 1 : 0);
                 gMultiSelectNS->mNextCallbacksIndex = 2;
                 gMultiSelectNS->mState = 2;
                 RefreshMultiSelectNS(0);
-                func_02030654(4);
-            } else if (func_02030688(slotIndex, PAD_KEY_B) != 0 || touchInReturnRect != 0) {
+                MultiSelectNSStartOnMemorySeqArc(4);
+            } else if (MultiSelectNSGetNewBits(slotIndex, PAD_KEY_B) != 0 || touchInReturnRect != 0) {
                 gMultiSelectNS->mNextCallbacksIndex = 0;
                 gMultiSelectNS->mState = 3;
                 RequestSelectReturnState3WithSound(0);
-            } else if (func_02030688(slotIndex, PAD_KEY_UP) != 0 && gMultiSelectNS->mIndex > 0) {
+            } else if (MultiSelectNSGetNewBits(slotIndex, PAD_KEY_UP) != 0 && gMultiSelectNS->mIndex > 0) {
                 gMultiSelectNS->mIndex--;
                 RefreshMultiSelectNS(1);
-                func_0203062c(0);
-            } else if (func_02030688(slotIndex, PAD_KEY_DOWN) != 0 && gMultiSelectNS->mIndex < 1) {
+                MultiSelectNSStartSeqArcWrapper(0);
+            } else if (MultiSelectNSGetNewBits(slotIndex, PAD_KEY_DOWN) != 0 && gMultiSelectNS->mIndex < 1) {
                 gMultiSelectNS->mIndex++;
                 RefreshMultiSelectNS(1);
-                func_0203062c(0);
+                MultiSelectNSStartSeqArcWrapper(0);
             } else if (b == 0) {
                 gMultiSelectNS->mState = 2;
                 RefreshMultiSelectNS(gMultiSelectNS->mIndex != 0 ? 1 : 0);
-                func_02030654(4);
+                MultiSelectNSStartOnMemorySeqArc(4);
                 gMultiSelectNS->mIndex = 0;
                 SetMultiSimple(0);
                 gMultiSelectNS->mNextCallbacksIndex = 2;
             } else if (b == 1) {
                 gMultiSelectNS->mState = 2;
                 RefreshMultiSelectNS(gMultiSelectNS->mIndex != 1 ? 1 : 0);
-                func_02030654(4);
+                MultiSelectNSStartOnMemorySeqArc(4);
                 gMultiSelectNS->mIndex = 1;
                 SetMultiSimple(1);
                 gMultiSelectNS->mNextCallbacksIndex = 2;

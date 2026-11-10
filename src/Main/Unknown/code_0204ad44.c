@@ -23,7 +23,7 @@ void ReleaseWLMenuSceneCallback(void) {
 
 void func_0204b024(void) {
     u32 unused;
-    func_0202f160();
+    WriteWLMenuSceneRegisters();
 }
 
 void UpdateWLMenuSceneCallback(void *sceneNumbers) {

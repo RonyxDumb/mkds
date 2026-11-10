@@ -71,7 +71,7 @@ s32 IsRectInMemberRow(s32 rectIndex, s32 memberRow) {
     return found;
 }
 
-s32 func_0203023c(void) {
+s32 IsSelectedMemberRowSelectable(void) {
     BOOL result;
     s32 selectedIndex;
     BOOL memberChecksPass;
@@ -80,7 +80,7 @@ s32 func_0203023c(void) {
     selectedIndex = gMultiSelectMemberGroup->mSelectedIndex;
     if (selectedIndex != 4) {
         memberChecksPass = FALSE;
-        if (gMultiSelectMemberGroup->mUnk_58[selectedIndex].mUnk_00 != 0 &&
+        if (gMultiSelectMemberGroup->mUnk_58[selectedIndex].mHasText != 0 &&
             gMultiSelectMemberGroup->mUnk_58[selectedIndex].mUnk_08 < 7) {
             memberChecksPass = TRUE;
         }
@@ -195,59 +195,59 @@ static inline void func_0202f764_inline(void *p, s32 v1) {
     MIi_CpuClear16(zero, p, v1);
 }
 
-void func_0202fd2c(void) {
+void UpdateMemberRowsFromScanSlots(void) {
     s32 changed;
     CellFileSet *cellFileSet;
-    s32 oldWord0;
+    s32 oldHasText;
     s32 oldWord8;
     s32 oldWord4;
     BOOL isNewEntry;
     s32 i;
     s32 j;
-    Unk02174e4c_818_04 entry;
+    ScanSlotText entry;
 
     cellFileSet = &gMultiSelectMemberGroup->mGroupSParts;
     changed = 0;
-    switch (gMultiSelectMemberGroup->mUnk_50) {
+    switch (gMultiSelectMemberGroup->mUpdateState) {
         case 0:
             if (func_0205579c(0, 0) == 1) {
-                gMultiSelectMemberGroup->mUnk_50 = 1;
+                gMultiSelectMemberGroup->mUpdateState = 1;
             }
             return;
         case 1:
             if (gMultiSelectMemberGroup->mUnk_88 != FALSE) {
                 if (gMultiSelectMemberGroup->mSelectedIndex < 4) {
                     for (i = 0; i < 4; i++) {
-                        if (func_0204ff14(i, &func_0202f14c()->mUnk_04[i]) != 0) {
-                            func_0202f14c()->mUnk_04[i].mUnk_14 = 0;
+                        if (func_0204ff14(i, &GetWLMenuSceneScanSlotPick()->mSlotTexts[i]) != 0) {
+                            GetWLMenuSceneScanSlotPick()->mSlotTexts[i].mTerminator = 0;
                         } else {
-                            func_0202f764_inline(&func_0202f14c()->mUnk_04[i], 0x16);
+                            func_0202f764_inline(&GetWLMenuSceneScanSlotPick()->mSlotTexts[i], 0x16);
                         }
                     }
                     if (func_0204ff14(gMultiSelectMemberGroup->mSelectedIndex, NULL) != 0) {
-                        func_0202f14c()->mUnk_00 = gMultiSelectMemberGroup->mSelectedIndex;
+                        GetWLMenuSceneScanSlotPick()->mSlotIndex = gMultiSelectMemberGroup->mSelectedIndex;
                         gMultiSelectMemberGroup->mNextCallbacksIndex = 3;
-                        gMultiSelectMemberGroup->mUnk_50 = 0xb;
+                        gMultiSelectMemberGroup->mUpdateState = 0xb;
                         return;
                     }
-                    gMultiSelectMemberGroup->mUnk_58[gMultiSelectMemberGroup->mSelectedIndex].mUnk_00 = 0;
+                    gMultiSelectMemberGroup->mUnk_58[gMultiSelectMemberGroup->mSelectedIndex].mHasText = 0;
                     return;
                 }
                 gMultiSelectMemberGroup->mNextCallbacksIndex = 1;
-                gMultiSelectMemberGroup->mUnk_50 = 5;
+                gMultiSelectMemberGroup->mUpdateState = 5;
                 return;
             }
             if (gMultiSelectMemberGroup->mState != 1) {
                 return;
             }
             for (i = 0; i < 4; i++) {
-                oldWord0 = gMultiSelectMemberGroup->mUnk_58[i].mUnk_00;
+                oldHasText = gMultiSelectMemberGroup->mUnk_58[i].mHasText;
                 oldWord8 = gMultiSelectMemberGroup->mUnk_58[i].mUnk_08;
                 oldWord4 = gMultiSelectMemberGroup->mUnk_58[i].mUnk_04;
                 func_0202f764_inline(&entry, 0x16);
-                gMultiSelectMemberGroup->mUnk_58[i].mUnk_00 = func_0204ff14(i, &entry);
-                if (gMultiSelectMemberGroup->mUnk_58[i].mUnk_00 != 0) {
-                    entry.mUnk_14 = 0;
+                gMultiSelectMemberGroup->mUnk_58[i].mHasText = func_0204ff14(i, &entry);
+                if (gMultiSelectMemberGroup->mUnk_58[i].mHasText != 0) {
+                    entry.mTerminator = 0;
                     PrintLabelLayoutTextNoFixedAdvance(1, gMemberRowCellIndices[i].mLabelIndex,
                                                        cellFileSet->mLabelLayout, &entry, cellFileSet->mCellLayout,
                                                        cellFileSet->mCellTable);
@@ -261,10 +261,10 @@ void func_0202fd2c(void) {
                     gMultiSelectMemberGroup->mUnk_58[i].mUnk_08 = 0;
                     gMultiSelectMemberGroup->mUnk_58[i].mUnk_04 = 0;
                 }
-                if (oldWord0 == 0 && gMultiSelectMemberGroup->mUnk_58[i].mUnk_00 != 0) {
+                if (oldHasText == 0 && gMultiSelectMemberGroup->mUnk_58[i].mHasText != 0) {
                     isNewEntry = TRUE;
                     for (j = 0; j < 4; j++) {
-                        if (wcsncmp(entry.mUnk_00, func_0202f14c()->mUnk_04[j].mUnk_00, 0xb) == 0) {
+                        if (wcsncmp(entry.mText, GetWLMenuSceneScanSlotPick()->mSlotTexts[j].mText, 0xb) == 0) {
                             isNewEntry = FALSE;
                         }
                     }
@@ -273,12 +273,12 @@ void func_0202fd2c(void) {
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 4);
                         NNS_SndArcSetCurrent(&gFileSndArc);
                     }
-                } else if (oldWord0 != 0 && gMultiSelectMemberGroup->mUnk_58[i].mUnk_00 == 0) {
+                } else if (oldHasText != 0 && gMultiSelectMemberGroup->mUnk_58[i].mHasText == 0) {
                     NNS_SndArcSetCurrent(&gOnMemorySndArc);
                     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
                     NNS_SndArcSetCurrent(&gFileSndArc);
                 }
-                changed |= oldWord0 != gMultiSelectMemberGroup->mUnk_58[i].mUnk_00 ? 1 : 0;
+                changed |= oldHasText != gMultiSelectMemberGroup->mUnk_58[i].mHasText ? 1 : 0;
                 changed |= oldWord8 != gMultiSelectMemberGroup->mUnk_58[i].mUnk_08 ? 1 : 0;
                 changed |= oldWord4 != gMultiSelectMemberGroup->mUnk_58[i].mUnk_04 ? 1 : 0;
             }
@@ -289,7 +289,7 @@ void func_0202fd2c(void) {
         case 5:
         case 8:
             if (func_02054f58() == 1) {
-                gMultiSelectMemberGroup->mUnk_50 = 0xb;
+                gMultiSelectMemberGroup->mUpdateState = 0xb;
             }
             return;
     }
@@ -358,13 +358,13 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
         gMultiSelectMemberGroup->mEntriesClearFrames++;
         if (gMultiSelectMemberGroup->mEntriesClearFrames > 0x78) {
             for (i = 0; i < 4; i++) {
-                func_0202f764_inline(&func_0202f14c()->mUnk_04[i], 0x16);
+                func_0202f764_inline(&GetWLMenuSceneScanSlotPick()->mSlotTexts[i], 0x16);
             }
             gMultiSelectMemberGroup->mEntriesCleared = TRUE;
         }
     }
     if (gMultiSelectMemberGroup->mState != -1) {
-        func_0202fd2c();
+        UpdateMemberRowsFromScanSlots();
     }
     switch (gMultiSelectMemberGroup->mState) {
         case 0:
@@ -406,7 +406,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
             }
             v = gInputSlots[slotIndex].mPressedBits;
             if ((u16) (v & PAD_KEY_A) != 0) {
-                if (func_0203023c() != 0) {
+                if (IsSelectedMemberRowSelectable() != 0) {
                     gMultiSelectMemberGroup->mUnk_88 = TRUE;
                     gMultiSelectMemberGroup->mState = 2;
                     gMultiSelectMemberGroup->mState2Frames = 0;
@@ -455,7 +455,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
                 for (i = 0; i < 4; i++) {
                     if (IsRectInMemberRow(rectIndex, i) != 0) {
                         selectionChanged = gMultiSelectMemberGroup->mSelectedIndex != i ? 1 : 0;
-                        if (gMultiSelectMemberGroup->mUnk_58[i].mUnk_00 != 0 &&
+                        if (gMultiSelectMemberGroup->mUnk_58[i].mHasText != 0 &&
                             gMultiSelectMemberGroup->mUnk_58[i].mUnk_08 < 7) {
                             NNS_SndArcSetCurrent(&gOnMemorySndArc);
                             NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 2);
@@ -478,7 +478,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
                 gMultiSelectMemberGroup->mState2Frames = 0;
                 RefreshMultiSelectMemberGroup(1);
                 if (gMultiSelectMemberGroup->mSelectedIndex < 4 &&
-                    gMultiSelectMemberGroup->mUnk_58[gMultiSelectMemberGroup->mSelectedIndex].mUnk_00 == 0) {
+                    gMultiSelectMemberGroup->mUnk_58[gMultiSelectMemberGroup->mSelectedIndex].mHasText == 0) {
                     gMultiSelectMemberGroup->mState = 1;
                 } else {
                     gMultiSelectMemberGroup->mState = 3;
@@ -499,7 +499,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
             SetMemberGroupCellTableOffsetY();
             break;
         case 4:
-            if (gMultiSelectMemberGroup->mUnk_50 == 0xb) {
+            if (gMultiSelectMemberGroup->mUpdateState == 0xb) {
                 result = gMultiSelectMemberGroup->mNextCallbacksIndex;
             }
             break;

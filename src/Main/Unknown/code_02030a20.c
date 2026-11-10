@@ -385,7 +385,7 @@ void func_020317a0(void) {
                 gMultiSelectMember->mUnk_70 = 7;
                 return;
             }
-            switch (func_02055730(func_0202f14c()->mUnk_00)) {
+            switch (func_02055730(GetWLMenuSceneScanSlotPick()->mSlotIndex)) {
                 case 1:
                     if (data_021759d0->mConnectionKind == 2) {
                         SetMultiSimple((gConnectionWork->mUnk_0454 & 0x40) != 0 ? 1 : 0);
@@ -553,10 +553,11 @@ void func_02031280(void *parentHeap, void *mainOam, void *subOam) {
     mainFileSet = &gMultiSelectMember->mCellFileSets[0];
     subFileSet = &gMultiSelectMember->mCellFileSets[1];
     gMultiSelectMember->mUnk_70 = 2;
-    gMultiSelectMember->mUnk_84 = func_0204fe90(func_0202f14c()->mUnk_00);
+    gMultiSelectMember->mUnk_84 = func_0204fe90(GetWLMenuSceneScanSlotPick()->mSlotIndex);
     nameBuffer[0] = 0;
     MIi_CpuClear16(nameBuffer[0], &nameBuffer[1], 0x16);
-    if (gMultiSelectMember->mUnk_84 == 0 && func_0204ff14(func_0202f14c()->mUnk_00, &nameBuffer[1]) != 0) {
+    if (gMultiSelectMember->mUnk_84 == 0 &&
+        func_0204ff14(GetWLMenuSceneScanSlotPick()->mSlotIndex, &nameBuffer[1]) != 0) {
         nameBuffer[11] = 0;
         PrintLabelLayoutTextNoFixedAdvance(1, data_usa_02153d7c[0].mLabelIndex, subFileSet->mLabelLayout,
                                            &nameBuffer[1], subFileSet->mCellLayout, subFileSet->mCellTable);
@@ -841,7 +842,7 @@ s32 func_02030b18(Unk02030b18 *sceneNumbers) {
     if (gMultiSelectMember->mUnk_84 == 0 && gMultiSelectMember->mUnk_80 == FALSE) {
         nameBuffer[0] = 0;
         MIi_CpuClear16(nameBuffer[0], &nameBuffer[1], 0x16);
-        if (func_0204ff14(func_0202f14c()->mUnk_00, &nameBuffer[1]) != 0) {
+        if (func_0204ff14(GetWLMenuSceneScanSlotPick()->mSlotIndex, &nameBuffer[1]) != 0) {
             nameBuffer[11] = 0;
             PrintLabelLayoutTextNoFixedAdvance(1, data_usa_02153d7c[0].mLabelIndex, subFileSet->mLabelLayout,
                                                &nameBuffer[1], subFileSet->mCellLayout, subFileSet->mCellTable);

@@ -23,7 +23,7 @@
 
 u32 ScrollListHasPairOrLost(InputSlotPair *pair) {
     u32 result;
-    if (func_0202f028(pair) != 0 || func_0202f020(pair) != 0) {
+    if (ScrollListIsPairRecentlyLost(pair) != 0 || ScrollListGetPairHasPair(pair) != 0) {
         result = 1;
     } else {
         result = 0;
@@ -42,9 +42,9 @@ void AdvanceScrollListInput(void) {
     u32 pairX;
     u32 pairY;
     s32 rectIndex;
-    if (func_0202f0a8(slotIndex) != 0) {
-        pairX = func_0202f080(slotIndex);
-        pairY = func_0202f058(slotIndex);
+    if (ScrollListIsSlotPairNew(slotIndex) != 0) {
+        pairX = ScrollListGetSlotPairX(slotIndex);
+        pairY = ScrollListGetSlotPairY(slotIndex);
         gScrollList->mTouchRectIndex = FindRectContainingPoint(pairX, pairY, gScrollList->mRects);
         gScrollList->mPressedRectIndex = gScrollList->mTouchRectIndex;
         gScrollList->mTouchHeld = TRUE;
@@ -53,8 +53,8 @@ void AdvanceScrollListInput(void) {
     }
     if (gScrollList->mTouchHeld != FALSE) {
         if (ScrollListSlotHasPairOrLost(slotIndex) != 0) {
-            pairX = func_0202f080(slotIndex);
-            pairY = func_0202f058(slotIndex);
+            pairX = ScrollListGetSlotPairX(slotIndex);
+            pairY = ScrollListGetSlotPairY(slotIndex);
             rectIndex = FindRectContainingPoint(pairX, pairY, gScrollList->mRects);
             if (rectIndex != gScrollList->mTouchRectIndex) {
                 gScrollList->mTouchRectIndex = -1;

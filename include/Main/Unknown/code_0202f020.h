@@ -4,4 +4,4 @@
 
 typedef struct InputSlotPair InputSlotPair;
 
-unsigned int func_0202f020(InputSlotPair *pair);
+unsigned int ScrollListGetPairHasPair(InputSlotPair *pair);

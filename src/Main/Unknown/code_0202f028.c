@@ -4,9 +4,9 @@
 
 #pragma optimize_for_size on
 
-u32 func_0202f028(InputSlotPair *pair) {
+u32 ScrollListIsPairRecentlyLost(InputSlotPair *pair) {
     u32 result = 0;
-    if (func_0202f020(pair) == 0 && pair->mNoPairCount < 5) {
+    if (ScrollListGetPairHasPair(pair) == 0 && pair->mNoPairCount < 5) {
         result = 1;
     }
     return result;
