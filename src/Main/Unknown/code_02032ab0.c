@@ -359,7 +359,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
             }
             break;
         case 2:
-            frameLimit = func_0210f714();
+            frameLimit = GetResultsBattleFrameLimit();
             gResultsBattle->mState0To2Frames = gResultsBattle->mState0To2Frames + 1;
             if (gResultsBattle->mState0To2Frames > frameLimit) {
                 gResultsBattle->mState0To2Frames = 0;

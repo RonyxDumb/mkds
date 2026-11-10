@@ -1770,7 +1770,7 @@ void AdvanceKartModelMenuInput(void) {
         }
     }
     view->mUnk_1a = view->mUnk_18;
-    func_02110aac(v, a);
+    SetKartModelMenuInputSeqs(v, a);
     QueueKartModelMenuLoad();
     ClearKartModelMenuRequests();
 }

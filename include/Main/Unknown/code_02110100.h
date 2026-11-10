@@ -6,7 +6,7 @@
 #include "code_0212bcac.h"
 
 void InitVolumeFade(void);
-void func_02110350(MapObjectSound *mapSound);
-u32 func_02110324(void);
+void StartKingTeresaAlphaSound(MapObjectSound *mapSound);
+BOOL IsKingTeresaState0Or2Or5(void);
 void UpdateKingTeresaSeqVolume(NNSSndSeqPlayer **handle);
 u32 IsSndHandleSet(NNSSndSeqPlayer **handle);

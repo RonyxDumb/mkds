@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-unsigned int func_0210f72c(void);
+unsigned int GetDemoRaceFrameLimit(void);
 unsigned int GetTitleNoInputFrameLimit(void);

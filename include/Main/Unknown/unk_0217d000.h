@@ -158,13 +158,13 @@ typedef struct SoundModeHolder {
     /* 18 */ NNSSndSeqPlayer **mUnk_18;
 } SoundModeHolder;
 
-// Object at data_0217d32c (0x10 bytes); mUnk_08 points to a row of six words.
-typedef struct Unk0217d32c {
+// Object at gSeqRowState (0x10 bytes); mUnk_08 points to a row of six words.
+typedef struct SeqRowState {
     /* 00 */ s32 mLoadedIndex;
     /* 04 */ NNSSndHeap *mSeqHeap;
     /* 08 */ u32 *mSeqRow;
-    /* 0c */ u32 mUnk_0c;
-} Unk0217d32c;
+    /* 0c */ u32 mFinishResult;
+} SeqRowState;
 
 // Object behind gRecordVS.
 typedef struct RecordVS {
@@ -758,8 +758,8 @@ extern MessageScreen *gMessageScreen;
 extern u32 gThunderShrinkSoundCounter;
 extern s32 gLapProgressSoundGaps[];
 extern s32 gRaceEndSeqCallCount;
-extern s32 data_0217d324;
-extern s32 data_0217d328;
+extern s32 gRaceEndSeqStarted;
+extern s32 gRaceEndNextSeqPending;
 extern StaffRollText *gStaffRollText;
 extern u32 data_0217dda8;
 extern CaptureParam data_0217ddd0;
@@ -772,20 +772,20 @@ extern OSMessageQueue data_0217ddb0;
 extern EffectInfo data_0217de24[8];
 extern struct NNSSndArc *data_0217dec4;
 extern s32 gKingTeresaStateFrames;
-extern s32 data_0217d1ec;
+extern s32 gUseKingTeresaSeqVolume;
 extern s32 gKingTeresaStateLastFrame;
-extern s32 data_0217d200;
-extern s32 data_0217d208;
+extern s32 gKartNearSeqVolumeFactor;
+extern s32 gKartNearPlayerVolumeFactor;
 extern u8 gEmblemSoundPlayCount;
 extern u8 gEmblemSoundPitchCounter;
-extern s32 data_0217d1fc;
+extern s32 gInitialVolumePerFrame;
 extern u32 gEmblemSoundCallsSincePlay;
-extern s32 data_0217d210;
-extern s32 data_0217d214;
-extern volatile s32 data_0217d218;
-extern s32 data_0217d224[2];
+extern s32 gKingTeresaSeqVolumeFactor;
+extern s32 gKingTeresaSoundVolumeFactor;
+extern volatile s32 gReachedSeqVolume;
+extern s32 gKingTeresaVolumePerFrame[2];
 extern SeqQueue gSeqQueue;
-extern s32 data_0217d2dc[];
+extern s32 gSeqQueuePairSides[];
 extern void *gRecordMainOam;
 extern void *gRecordSubOam;
 extern LinkLevelIcons *gLinkLevelIcons;
@@ -798,7 +798,7 @@ extern ScenePlayers data_0217d070;
 extern NNSSndSeqPlayer *data_0217d07c;
 extern SoundModeHolder data_0217d084;
 extern struct NNSSndArc gFileSndArc;
-extern Unk0217d32c data_0217d32c;
+extern SeqRowState gSeqRowState;
 extern RecordVS *gRecordVS;
 extern RecordList *gRecordList;
 // Pointer to the cup chooser object: set by InitSelectCupGrid, cleared by ReleaseSelectCupGrid.

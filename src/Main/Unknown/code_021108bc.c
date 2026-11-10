@@ -21,41 +21,41 @@ void UpdateRaceEndSeq(void) {
     s32 callCount;
     s32 callLimit;
     u32 seqId;
-    u32 *row;
-    if (data_0217d324 == 0) {
+    u32 *seqRow;
+    if (gRaceEndSeqStarted == 0) {
         return;
     }
     if (data_0217d070.mSeqPlayer != NULL) {
         return;
     }
-    resultKind = func_02110e58();
+    resultKind = GetRaceEndResultKind();
     callLimit = (resultKind == 2) ? 0x91 : 0x82;
     callCount = gRaceEndSeqCallCount + 1;
     gRaceEndSeqCallCount = callCount;
     if (callCount <= callLimit) {
         return;
     }
-    if (data_0217d328 == 0) {
+    if (gRaceEndNextSeqPending == 0) {
         return;
     }
-    row = data_0217d32c.mSeqRow;
+    seqRow = gSeqRowState.mSeqRow;
     seqId = 0xff;
     switch (resultKind) {
         case 0:
         case 1:
-            seqId = row[3];
+            seqId = seqRow[3];
             break;
         case 2:
-            seqId = row[4];
+            seqId = seqRow[4];
             break;
     }
     StartScenePlayersSeqNo(&data_0217d070, seqId, NULL);
-    data_0217d328 = 0;
-    data_0217d324 = 0;
+    gRaceEndNextSeqPending = 0;
+    gRaceEndSeqStarted = 0;
     gRaceEndSeqCallCount = 0;
 }
 
-s32 func_02110fb8(s32 kartRank) {
+s32 GetKartSeqArcSoundOffsetByRank(s32 kartRank) {
     s32 result;
     result = 0xb;
     if (kartRank == 1) {
@@ -80,7 +80,8 @@ s32 func_02110fb8(s32 kartRank) {
     return result;
 }
 
-s32 func_02110e58(void) {
+// Result kind 0, 1 or 2 (-1 for none) from the mode, the entry kart's rank and its finish result.
+s32 GetRaceEndResultKind(void) {
     s32 resultKind;
     s32 candidateKind;
     RaceSetup *raceSetup;
@@ -89,7 +90,7 @@ s32 func_02110e58(void) {
     switch (raceSetup->mMode) {
         case MODE_GRAND_PRIX:
         case 5:
-            switch (data_0217d32c.mUnk_0c) {
+            switch (gSeqRowState.mFinishResult) {
                 case 0:
                     if (GetKartRank((u16) raceSetup->mEntryIndex) - 1 == 0) {
                         candidateKind = 0;
@@ -106,9 +107,9 @@ s32 func_02110e58(void) {
             break;
         case MODE_VS:
             if (raceSetup->mRuleKind == 1) {
-                resultKind = (data_0217d32c.mUnk_0c == 0) ? 0 : 2;
+                resultKind = (gSeqRowState.mFinishResult == 0) ? 0 : 2;
             } else {
-                switch (data_0217d32c.mUnk_0c) {
+                switch (gSeqRowState.mFinishResult) {
                     case 0:
                         if (GetKartRank((u16) raceSetup->mEntryIndex) - 1 == 0) {
                             candidateKind = 0;
@@ -125,13 +126,13 @@ s32 func_02110e58(void) {
             }
             break;
         case MODE_MISSION_RUN:
-            resultKind = (data_0217d32c.mUnk_0c == 0) ? 0 : 2;
+            resultKind = (gSeqRowState.mFinishResult == 0) ? 0 : 2;
             break;
         case MODE_BATTLE:
-            resultKind = (data_0217d32c.mUnk_0c == 0) ? 0 : 2;
+            resultKind = (gSeqRowState.mFinishResult == 0) ? 0 : 2;
             break;
         case MODE_TIME_ATTACK:
-            resultKind = (data_0217d32c.mUnk_0c == 0) ? 1 : 2;
+            resultKind = (gSeqRowState.mFinishResult == 0) ? 1 : 2;
             if (resultKind == IsRaceNewRecordTaFinishRecordFirst()) {
                 resultKind = 0;
             }
@@ -140,11 +141,13 @@ s32 func_02110e58(void) {
     return resultKind;
 }
 
-void func_02110cc8(s32 unused) {
+// When the race kind is 0 or 2 and the sound mode is 2, starts the race end seq for the result kind and arms
+// UpdateRaceEndSeq to start the follow-up seq.
+void StartRaceEndSeq(s32 unused) {
     s32 seqId;
     s32 resultKind;
     u32 c;
-    u32 *row;
+    u32 *seqRow;
     seqId = -1;
     c = gRaceSetup->mRaceKind;
     if (c != 2 && c != RACE_KIND_NORMAL) {
@@ -154,23 +157,23 @@ void func_02110cc8(s32 unused) {
         return;
     }
     EndRaceSounds();
-    resultKind = func_02110e58();
-    row = data_0217d32c.mSeqRow;
+    resultKind = GetRaceEndResultKind();
+    seqRow = gSeqRowState.mSeqRow;
     c = 0xff;
     switch (resultKind) {
         case 0:
-            c = row[0];
+            c = seqRow[0];
             break;
         case 1:
-            c = row[1];
+            c = seqRow[1];
             break;
         case 2:
-            c = row[2];
+            c = seqRow[2];
             break;
     }
     StartScenePlayersSeqNo(&data_0217d070, c, NULL);
-    data_0217d324 = 1;
-    data_0217d328 = 1;
+    gRaceEndSeqStarted = 1;
+    gRaceEndNextSeqPending = 1;
     switch (gRaceSetup->mCourseId) {
         case COURSE_ID_STADIUM:
             switch (resultKind) {
@@ -213,10 +216,10 @@ void func_02110cc8(s32 unused) {
     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, (u16) seqId);
 }
 
-s32 func_02110c40(void) {
+s32 GetLastLapCourseSoundId(void) {
     s32 seqId;
     s32 resultKind;
-    resultKind = func_02110e58();
+    resultKind = GetRaceEndResultKind();
     seqId = -1;
     switch (gRaceSetup->mCourseId) {
         case COURSE_ID_CROSS:
@@ -245,8 +248,8 @@ s32 func_02110c40(void) {
     return seqId;
 }
 
-// Releases the object when it holds nothing other than the given value, otherwise sets it up with that value.
-static inline void func_02110aac_inline(NNSSndSeqPlayer **handleSlot, u32 seqId) {
+// Stops the slot for 0xffff, otherwise restarts it with seqId unless that seq already plays on it.
+static inline void SetHandleSlotSeq(NNSSndSeqPlayer **handleSlot, u32 seqId) {
     NNSSndSeqPlayer *currentPlayer;
     u32 sameSeq;
     if (seqId != 0xffff) {
@@ -268,7 +271,7 @@ static inline void func_02110aac_inline(NNSSndSeqPlayer **handleSlot, u32 seqId)
     }
 }
 
-void func_02110aac(s32 firstSeqChoice, s32 secondSeqEnabled) {
+void SetKartModelMenuInputSeqs(s32 firstSeqChoice, s32 secondSeqEnabled) {
     NNSSndSeqPlayer **handleSlot;
     u32 firstSeqId;
     u32 secondSeqId;
@@ -280,13 +283,13 @@ void func_02110aac(s32 firstSeqChoice, s32 secondSeqEnabled) {
     } else {
         firstSeqId = 0xffff;
     }
-    func_02110aac_inline(handleSlot, firstSeqId);
+    SetHandleSlotSeq(handleSlot, firstSeqId);
     handleSlot = GetSndHandleSlot(2);
     secondSeqId = (secondSeqEnabled != 0) ? 0x201 : 0xffff;
     if (firstSeqId != 0xffff) {
         secondSeqId = 0xffff;
     }
-    func_02110aac_inline(handleSlot, secondSeqId);
+    SetHandleSlotSeq(handleSlot, secondSeqId);
 }
 
 void ResetEmblemSoundCounters(void) {

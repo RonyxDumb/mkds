@@ -23,7 +23,7 @@ void StartSceneSoundSetSeq(void) {
         return;
     }
     data_021759d0->mSoundSetSeqPlaying = 1;
-    StartSoundSetSeq(&data_021759d0->mSoundSetPlayer, data_0216cb28);
+    StartSoundSetSeq(&data_021759d0->mSoundSetPlayer, gSceneSeqVolume);
 }
 
 void StopSceneSoundSetSeq(void) {

@@ -113,7 +113,7 @@ void FinishRaceProgress(void) {
                 }
                 func_02068640(GetKart(kartIndex), e);
             }
-            func_02110cc8(0);
+            StartRaceEndSeq(0);
             break;
         }
     }
@@ -233,7 +233,7 @@ void AdvanceMissionRunEnd(void) {
             func_020688a0(GetKart((u16) entryIndex));
             func_0207a828(func_0203cd14_inline(entryIndex));
             RequestRaceEndStemSet();
-            func_02110cc8(0);
+            StartRaceEndSeq(0);
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 FinishStandings();
             }
@@ -248,7 +248,7 @@ void AdvanceMissionRunEnd(void) {
             }
             func_020688a0(GetKart(entryIndex));
             func_0207a828((u16) entryIndex);
-            func_02110cc8(0);
+            StartRaceEndSeq(0);
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 FinishStandings();
             }

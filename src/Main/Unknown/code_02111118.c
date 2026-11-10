@@ -13,7 +13,7 @@
 void func_021112fc(u32 arg0) {
     u32 copy = arg0;
     u32 unused;
-    data_0217d32c.mUnk_0c = copy;
+    gSeqRowState.mFinishResult = copy;
 }
 
 u32 func_0211127c(void) {
@@ -50,18 +50,18 @@ u32 func_0211127c(void) {
 }
 
 void CreateSeqRowHeap(void *heapMemory, u32 heapSize) {
-    data_0217d32c.mSeqHeap = NNS_SndHeapCreate(heapMemory, heapSize);
-    data_0217d32c.mSeqRow = NULL;
+    gSeqRowState.mSeqHeap = NNS_SndHeapCreate(heapMemory, heapSize);
+    gSeqRowState.mSeqRow = NULL;
 }
 
 // Loads the sequences of the row for index a unless that row is already loaded; returns 0 if a load fails.
 u32 LoadSeqRowIfChanged(s32 index) {
-    Unk0217d32c *state;
+    SeqRowState *state;
     u32 *row;
     NNSSndHeap *savedHeap;
     s32 i;
     savedHeap = data_0217d130;
-    state = &data_0217d32c;
+    state = &gSeqRowState;
     if (index == 4 && (gRaceSetup->mMode == MODE_MISSION_RUN ? gRaceSetup->mMissionTableColumn : -1) == 9) {
         row = data_0216cbc0;
     } else {
@@ -70,7 +70,7 @@ u32 LoadSeqRowIfChanged(s32 index) {
     if (state->mSeqRow == row) {
         return 1;
     }
-    data_0217d130 = data_0217d32c.mSeqHeap;
+    data_0217d130 = gSeqRowState.mSeqHeap;
     NNS_SndHeapClear(state->mSeqHeap);
     for (i = 0; i < 6; i++) {
         if (row[i] != 0xff) {
@@ -87,12 +87,12 @@ u32 LoadSeqRowIfChanged(s32 index) {
 }
 
 u32 GetSeqRowSceneSeq(void) {
-    return data_0217d32c.mSeqRow[5];
+    return gSeqRowState.mSeqRow[5];
 }
 
 s32 *ResetRaceEndSeqState(void) {
-    data_0217d328 = 0;
-    data_0217d324 = 0;
+    gRaceEndNextSeqPending = 0;
+    gRaceEndSeqStarted = 0;
     gRaceEndSeqCallCount = 0;
     return &gRaceEndSeqCallCount;
 }

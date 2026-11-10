@@ -100,7 +100,7 @@ void UpdateSeqQueue(void) {
                 SetSndHandleTrackVolume(&data_0217d068, 0x3c);
             }
             gSeqQueue.mPairNo[queue->mReadIndex] = 13;
-            data_0217d2dc[queue->mReadIndex] = 2;
+            gSeqQueuePairSides[queue->mReadIndex] = 2;
             queue->mNextStartTimer = 0x19;
             queue->mReadIndex = queue->mReadIndex + 1;
             readIndex = queue->mReadIndex;
@@ -178,7 +178,7 @@ s32 StepValueTowardTarget(PlayerVolumeFade *volumeFade, s32 target) {
 void InitSoundRequestQueues(void) {
     s32 i;
     SoundRequestQueue *queue;
-    for (i = 0, queue = data_0217d26c; i < 7; i++, queue++) {
+    for (i = 0, queue = gSoundRequestQueues; i < 7; i++, queue++) {
         s32 capacities[7] = {1, 3, 2, 1, 3, 2, 3};
         InitSoundRequestQueue(queue, capacities[i], data_0217d130);
     }
@@ -187,7 +187,7 @@ void InitSoundRequestQueues(void) {
 void ResetSoundRequestQueues(void) {
     s32 i;
     SoundRequestQueue *queue;
-    for (i = 0, queue = data_0217d26c; i < 7; i++, queue++) {
+    for (i = 0, queue = gSoundRequestQueues; i < 7; i++, queue++) {
         ResetSoundRequestQueue(queue);
     }
 }
@@ -197,18 +197,18 @@ s32 GetLapProgressSoundGap(u32 index) {
 }
 
 u16 GetLapProgressSoundId(int index) {
-    return data_0216cba0[index];
+    return gLapProgressSoundIds[index];
 }
 
 void SetLapProgressSoundGaps(u32 divisor) {
     s32 i;
     for (i = 0; i < 2; i++) {
-        gLapProgressSoundGaps[i] = FX_Div(data_0215c3a4[i], divisor);
+        gLapProgressSoundGaps[i] = FX_Div(gLapProgressSoundGapDividends[i], divisor);
     }
 }
 
 void InitKingTeresaSoundState(u32 kingTeresaFlag) {
-    data_0217d1ec = kingTeresaFlag;
+    gUseKingTeresaSeqVolume = kingTeresaFlag;
     gKingTeresaState = 3;
     gKingTeresaStateLastFrame = 3;
     gPreviousKingTeresaState = 3;
@@ -217,26 +217,26 @@ void InitKingTeresaSoundState(u32 kingTeresaFlag) {
 
 u32 InitKartNearSoundFactors(void) {
     s32 value;
-    data_0217d200 = FX_Div((data_0216cb28 - 0x14) << 12, 0x8340000);
+    gKartNearSeqVolumeFactor = FX_Div((gSceneSeqVolume - 0x14) << 12, 0x8340000);
     value = FX_Div(0x61000, 0x8340000);
-    data_0217d208 = value;
+    gKartNearPlayerVolumeFactor = value;
     return value;
 }
 
 void InitVolumeFade(void) {
-    data_0217d1fc = FX_Div(0x7f000, 0x1e000);
-    data_0217d224[0] = FX_Div(0x7f000, 0x1e000);
-    data_0217d224[1] = FX_Div(0x7f000, 0x5a000);
-    data_0217d210 = FX_Div(data_0216cb28 << 12, 0x23000);
-    data_0217d214 = FX_Div(0x7f000, 0x19000);
-    gVolumeFade.mVolumePerFrame = data_0217d1fc;
+    gInitialVolumePerFrame = FX_Div(0x7f000, 0x1e000);
+    gKingTeresaVolumePerFrame[0] = FX_Div(0x7f000, 0x1e000);
+    gKingTeresaVolumePerFrame[1] = FX_Div(0x7f000, 0x5a000);
+    gKingTeresaSeqVolumeFactor = FX_Div(gSceneSeqVolume << 12, 0x23000);
+    gKingTeresaSoundVolumeFactor = FX_Div(0x7f000, 0x19000);
+    gVolumeFade.mVolumePerFrame = gInitialVolumePerFrame;
     gVolumeFade.mVolume = 0x7f000;
-    data_0217d218 = data_0216cb28;
+    gReachedSeqVolume = gSceneSeqVolume;
 }
 
-void func_02110350(MapObjectSound *mapSound) {
+void StartKingTeresaAlphaSound(MapObjectSound *mapSound) {
     s32 attenuation;
-    attenuation = MUL_FIXED12_ROUNDED(data_0217d214, 0x1f000 - func_ov001_02181528()) >> 12;
+    attenuation = MUL_FIXED12_ROUNDED(gKingTeresaSoundVolumeFactor, 0x1f000 - func_ov001_02181528()) >> 12;
     if (attenuation < 0) {
         attenuation = 0;
     } else if (attenuation > 0x7f) {
@@ -245,7 +245,7 @@ void func_02110350(MapObjectSound *mapSound) {
     StartSoundWhileRequested(&mapSound->mSoundSource, 0x231, (0x7f - attenuation) & 0xff, 0);
 }
 
-u32 func_02110324(void) {
+BOOL IsKingTeresaState0Or2Or5(void) {
     u32 result;
     u32 state;
     result = 0;
@@ -258,19 +258,20 @@ u32 func_02110324(void) {
     return result;
 }
 
-// Moves the object at gVolumeFade towards t.
-static inline void StepKingTeresaVolumeFade(NNSSndSeqPlayer **handle, s32 v, s32 pitch, s32 targetVolume) {
+// Sets the volume of player 1 and the seq pitch, steps gVolumeFade towards targetVolume and sets the seq volume when it
+// changed.
+static inline void StepKingTeresaVolumeFade(NNSSndSeqPlayer **handle, s32 playerVolume, s32 pitch, s32 targetVolume) {
     s32 m;
-    s32 c;
+    s32 volume;
     s32 steppedVolume;
     s32 nextVolume;
-    SetPlayerVolumeTarget(1, v);
+    SetPlayerVolumeTarget(1, playerVolume);
     NNS_SndPlayerSetTrackPitch(handle, 0xffff, pitch);
-    c = gVolumeFade.mVolume >> 12;
-    if (targetVolume == c) {
+    volume = gVolumeFade.mVolume >> 12;
+    if (targetVolume == volume) {
         steppedVolume = -1;
     } else {
-        if (c <= targetVolume) {
+        if (volume <= targetVolume) {
             nextVolume = gVolumeFade.mVolume + gVolumeFade.mVolumePerFrame;
             if ((nextVolume >> 12) > targetVolume) {
                 nextVolume = targetVolume << 12;
@@ -281,19 +282,19 @@ static inline void StepKingTeresaVolumeFade(NNSSndSeqPlayer **handle, s32 v, s32
                 nextVolume = targetVolume << 12;
             }
         }
-        c = nextVolume >> 12;
-        steppedVolume = c;
+        volume = nextVolume >> 12;
+        steppedVolume = volume;
         gVolumeFade.mVolume = nextVolume;
     }
-    data_0217d218 = c;
-    m = data_0216cb28;
-    if (c <= m) {
-        if (c < 0) {
-            c = 0;
+    gReachedSeqVolume = volume;
+    m = gSceneSeqVolume;
+    if (volume <= m) {
+        if (volume < 0) {
+            volume = 0;
         }
-        m = c;
+        m = volume;
     }
-    data_0217d218 = m;
+    gReachedSeqVolume = m;
     if (steppedVolume != -1) {
         NNS_SndPlayerSetVolume(handle, steppedVolume);
     }
@@ -303,13 +304,13 @@ void UpdateKingTeresaSeqVolume(NNSSndSeqPlayer **handle) {
     s32 targetVolume;
     s32 c;
     c = gKingTeresaState;
-    targetVolume = data_0216cb28;
+    targetVolume = gSceneSeqVolume;
     switch (c) {
         case 0:
-            c = MUL_FIXED12_ROUNDED(data_0217d210, 0x29000 - func_ov001_02181528()) >> 12;
+            c = MUL_FIXED12_ROUNDED(gKingTeresaSeqVolumeFactor, 0x29000 - func_ov001_02181528()) >> 12;
             targetVolume = 0;
             if (c >= 0) {
-                targetVolume = data_0216cb28;
+                targetVolume = gSceneSeqVolume;
                 if (c <= targetVolume) {
                     targetVolume = c;
                 }
@@ -336,10 +337,10 @@ void UpdateKingTeresaSeqVolume(NNSSndSeqPlayer **handle) {
     } else {
         gKingTeresaStateFrames++;
     }
-    if (targetVolume != data_0216cb28) {
-        gVolumeFade.mVolumePerFrame = data_0217d224[0];
+    if (targetVolume != gSceneSeqVolume) {
+        gVolumeFade.mVolumePerFrame = gKingTeresaVolumePerFrame[0];
     } else {
-        gVolumeFade.mVolumePerFrame = data_0217d224[1];
+        gVolumeFade.mVolumePerFrame = gKingTeresaVolumePerFrame[1];
     }
     StepKingTeresaVolumeFade(handle, 0x7f, 0, targetVolume);
 }
@@ -383,19 +384,20 @@ void StartSeqOnHandleIfEnabled(u32 soundId, NNSSndSeqPlayer **handle) {
     NNS_SndArcPlayerStartSeqArc(handle, 0, soundId);
 }
 
-// Fades the object at gVolumeFade towards t, then writes the value that was reached.
-static inline void StepSeqPlayerVolumeFade(NNSSndSeqPlayer **handle, s32 v, s32 pitch, s32 targetVolume) {
+// Sets the volume of player 1 and the seq pitch, steps gVolumeFade towards targetVolume and sets the seq volume when it
+// changed.
+static inline void StepSeqPlayerVolumeFade(NNSSndSeqPlayer **handle, s32 playerVolume, s32 pitch, s32 targetVolume) {
     s32 m;
-    s32 c;
+    s32 volume;
     s32 steppedVolume;
     s32 nextVolume;
-    SetPlayerVolumeTarget(1, v);
+    SetPlayerVolumeTarget(1, playerVolume);
     NNS_SndPlayerSetTrackPitch(handle, 0xffff, pitch);
-    c = gVolumeFade.mVolume >> 12;
-    if (targetVolume == c) {
+    volume = gVolumeFade.mVolume >> 12;
+    if (targetVolume == volume) {
         steppedVolume = -1;
     } else {
-        if (c <= targetVolume) {
+        if (volume <= targetVolume) {
             nextVolume = gVolumeFade.mVolume + gVolumeFade.mVolumePerFrame;
             if ((nextVolume >> 12) > targetVolume) {
                 nextVolume = targetVolume << 12;
@@ -406,19 +408,19 @@ static inline void StepSeqPlayerVolumeFade(NNSSndSeqPlayer **handle, s32 v, s32 
                 nextVolume = targetVolume << 12;
             }
         }
-        c = nextVolume >> 12;
-        steppedVolume = c;
+        volume = nextVolume >> 12;
+        steppedVolume = volume;
         gVolumeFade.mVolume = nextVolume;
     }
-    data_0217d218 = c;
-    m = data_0216cb28;
-    if (c <= m) {
-        if (c < 0) {
-            c = 0;
+    gReachedSeqVolume = volume;
+    m = gSceneSeqVolume;
+    if (volume <= m) {
+        if (volume < 0) {
+            volume = 0;
         }
-        m = c;
+        m = volume;
     }
-    data_0217d218 = m;
+    gReachedSeqVolume = m;
     if (steppedVolume != -1) {
         NNS_SndPlayerSetVolume(handle, steppedVolume);
     }
@@ -432,7 +434,7 @@ void UpdateSeqPlayerControl(SeqPlayerControl *control, NNSSndSeqPlayer **handle)
     s32 slotSeqIndex;
     s32 minKartDistanceSquared;
     s32 scaledDistance;
-    s64 w;
+    s64 scaledDistanceWide;
     s32 z;
     NNSSndSeqPlayer **slotHandle;
     pitch = 0;
@@ -450,7 +452,7 @@ void UpdateSeqPlayerControl(SeqPlayerControl *control, NNSSndSeqPlayer **handle)
         StepSeqPlayerVolumeFade(handle, 0x7f, 0, l);
         return;
     }
-    if (data_0217d1ec != 0) {
+    if (gUseKingTeresaSeqVolume != 0) {
         UpdateKingTeresaSeqVolume(handle);
         return;
     }
@@ -463,8 +465,8 @@ void UpdateSeqPlayerControl(SeqPlayerControl *control, NNSSndSeqPlayer **handle)
         slotVolume = 0x7f;
     } else if (control->mKartNear != 0) {
         scaledDistance = (minKartDistanceSquared - 2500) << 12;
-        w = scaledDistance;
-        z = MUL_FIXED12_ROUNDED(data_0217d208, scaledDistance) >> 12;
+        scaledDistanceWide = scaledDistance;
+        z = MUL_FIXED12_ROUNDED(gKartNearPlayerVolumeFactor, scaledDistance) >> 12;
         z += 0x1e;
         if (z < 0) {
             z = 0;
@@ -472,7 +474,7 @@ void UpdateSeqPlayerControl(SeqPlayerControl *control, NNSSndSeqPlayer **handle)
             z = 0x7f;
         }
         l = z & 0xff;
-        z = (s32) ((data_0217d200 * w + 0x800) >> 12) >> 12;
+        z = (s32) ((gKartNearSeqVolumeFactor * scaledDistanceWide + 0x800) >> 12) >> 12;
         slotVolume = (0x9d - l) & 0xff;
         targetVolume = z + 0x14;
         slotSeqIndex = 0xfe;
@@ -482,7 +484,7 @@ void UpdateSeqPlayerControl(SeqPlayerControl *control, NNSSndSeqPlayer **handle)
             targetVolume = 0x7f;
         }
     } else {
-        targetVolume = data_0216cb28;
+        targetVolume = gSceneSeqVolume;
     }
     if (gSceneSoundState.mRaceState != 1) {
         pitch = 0;
@@ -496,8 +498,8 @@ void UpdateSeqPlayerControl(SeqPlayerControl *control, NNSSndSeqPlayer **handle)
         }
     } else if ((control->mFlags >> 3) & 1) {
         pitch = 0x40;
-        if (targetVolume == data_0216cb28) {
-            targetVolume = data_0216cb28 - 10;
+        if (targetVolume == gSceneSeqVolume) {
+            targetVolume = gSceneSeqVolume - 10;
         }
     }
     StepSeqPlayerVolumeFade(handle, l, pitch, targetVolume);
@@ -571,7 +573,9 @@ u32 IsKartNear(void) {
     return kartNear;
 }
 
-SeqPlayerControl *func_0210faac(void) {
+// Sets the flag that makes UpdateSeqPlayerControl give the scene seq pitch 0x40 and a volume target of 10 less while
+// mRaceState is 1.
+SeqPlayerControl *SetRestartedSeqPitchFlag(void) {
     SeqPlayerControl *control;
     u32 flags;
     control = &gSeqPlayerControl;
@@ -610,7 +614,7 @@ u32 *ResetThunderShrinkSoundCounter(void) {
     return &gThunderShrinkSoundCounter;
 }
 
-void StartThunderShrinkSound(void *kartAddress, int b) {
+void StartThunderShrinkSound(void *kartAddress, int secondArgument) {
     Kart *kart = kartAddress;
     u32 counter = gThunderShrinkSoundCounter;
     gThunderShrinkSoundCounter = counter + 1;
@@ -618,7 +622,8 @@ void StartThunderShrinkSound(void *kartAddress, int b) {
 }
 
 void RequestThunderShrinkSound(Kart *kart) {
-    AddSoundRequest(&data_0217d28c, GetKartCameraDistanceSquared(kart->mIndex), StartThunderShrinkSound, kart, 0);
+    AddSoundRequest(&gThunderShrinkSoundRequestQueue, GetKartCameraDistanceSquared(kart->mIndex),
+                    StartThunderShrinkSound, kart, 0);
 }
 
 void InitSoundSetPlayerWithVariables(SoundSetPlayer *player, s32 seqId, s32 firstBankId) {

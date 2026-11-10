@@ -391,7 +391,7 @@ void func_02066fe0(Kart *kart) {
         return;
     }
     if (kart->mIndex == raceSetup->mEntryIndex) {
-        c = func_02110e58();
+        c = GetRaceEndResultKind();
         switch (c) {
             case 0:
                 d = 9;
@@ -406,7 +406,7 @@ void func_02066fe0(Kart *kart) {
         StartKartSeqArcSoundWithVolume(kart->mSoundIndex, d, 0x6e, 7, -1);
         return;
     }
-    d = func_02110fb8(GetKartRank(kart->mIndex));
+    d = GetKartSeqArcSoundOffsetByRank(GetKartRank(kart->mIndex));
     if ((kart->mUnk_48 & 0x840) != 0) {
         return;
     }

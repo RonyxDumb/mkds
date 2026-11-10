@@ -445,7 +445,7 @@ void UpdateRaceProgressKarts(void) {
             if (gRaceSetup->mMode != MODE_MISSION_RUN) {
                 func_0207a828(s->mIndex);
                 if ((s->mFlags & 1) != 0) {
-                    func_02110cc8(0);
+                    StartRaceEndSeq(0);
                 }
             }
         }

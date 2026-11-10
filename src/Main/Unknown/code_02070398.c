@@ -1259,7 +1259,8 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
     if (kart->mUnk_4c & 0x2000) {
         itemEffectState = &kart->mUnk_538;
         if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-            AddSoundRequest(data_0217d26c, GetKartCameraDistanceSquared(kart->mIndex), RequestKartSound, kart, 0xa3);
+            AddSoundRequest(gSoundRequestQueues, GetKartCameraDistanceSquared(kart->mIndex), RequestKartSound, kart,
+                            0xa3);
         }
         itemEffectState->mUnk_0a++;
         if (itemEffectState->mUnk_0a > KART_KILLER_RANK_END_FRAMES && (kart->mUnk_4c & 0x2000)) {

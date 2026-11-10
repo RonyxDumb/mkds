@@ -59,7 +59,7 @@ void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
                 switch (GetCurrentRaceKind()) {
                     case RACE_KIND_DEMO:
                         c = 0;
-                        if (sceneFrames > func_0210f72c()) {
+                        if (sceneFrames > GetDemoRaceFrameLimit()) {
                             if (IsSeqVariableChanged(1) != 0) {
                                 c = 1;
                                 func_0203a4d4(0);

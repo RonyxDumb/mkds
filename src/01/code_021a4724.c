@@ -183,7 +183,7 @@ void func_ov001_021a4844(void) {
     gEmblem->mUnk_1090 = 7;
     gEmblem->mUnk_1098 = 10;
     gEmblem->mUnk_109c = 0;
-    func_02110aac(2, 0);
+    SetKartModelMenuInputSeqs(2, 0);
 }
 
 void func_ov001_021a4804(void) {

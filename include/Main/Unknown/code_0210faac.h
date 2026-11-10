@@ -4,5 +4,5 @@
 
 typedef struct SeqPlayerControl SeqPlayerControl;
 
-SeqPlayerControl *func_0210faac(void);
+SeqPlayerControl *SetRestartedSeqPitchFlag(void);
 u32 IsKartNear(void);

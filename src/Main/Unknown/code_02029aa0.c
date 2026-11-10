@@ -245,7 +245,7 @@ void AdvanceResultsGp(SceneNumbers *sceneNumbers) {
         case 0: {
             s32 frameLimit;
             s32 frames;
-            frameLimit = func_0210f71c(gResultsGp->mCupRankIndex);
+            frameLimit = GetResultsGpFrameLimit(gResultsGp->mCupRankIndex);
             frames = gResultsGp->mState0Frames;
             gResultsGp->mState0Frames = frames + 1;
             if (frames >= frameLimit) {

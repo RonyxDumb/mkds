@@ -11,7 +11,7 @@ static inline void func_0210d614_inline(ScenePlayers *scenePlayers, u32 seqNo, N
     if (scenePlayers->mSeqId == 0xff) {
         return;
     }
-    StartSeqAtVolume(seqNo, data_0216cb28, handle);
+    StartSeqAtVolume(seqNo, gSceneSeqVolume, handle);
 }
 
 void StartScenePlayersForScene(ScenePlayers *scenePlayers) {

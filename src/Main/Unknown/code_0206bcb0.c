@@ -37,7 +37,7 @@ void AdvanceKartBoost(s32 *acceleration, Kart *kart) {
     *acceleration = 0x1000;
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         secondArgument = (kart->mUnk_48 & 0x8000) ? 0xa0 : 0x9e;
-        AddSoundRequest(data_0217d26c, GetKartCameraDistanceSquared(kart->mIndex), RequestKartSound, kart,
+        AddSoundRequest(gSoundRequestQueues, GetKartCameraDistanceSquared(kart->mIndex), RequestKartSound, kart,
                         secondArgument);
     }
     if (!(kart->mUnk_48 & 0x20000000)) {

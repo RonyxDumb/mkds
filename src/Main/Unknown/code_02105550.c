@@ -400,7 +400,7 @@ void InitSound(void *buffer, u32 bufferSize, u32 useFileArchive) {
         data_0217c77c = NNS_SndHeapCreate((buffer + bufferSize), 0x25a5c);
         CreateSeqRowHeap((buffer + bufferSize + 0x25a5c), 0x35a0);
     }
-    data_0216cb28 = 0x69;
+    gSceneSeqVolume = 0x69;
     StartSoundOutputEffect(1);
     InitKartSoundPitchFactors();
     ClearSndFileIdList(GetSndDataFileIdList());
@@ -438,7 +438,7 @@ void UpdateSounds(void) {
     ResetThunderShrinkSoundCounter();
     ResetMapObjectSoundCounter();
     for (i = 0; i < 7; i++) {
-        RunSoundRequests(OFFSET_PTR(SoundRequestQueue, data_0217d26c, i * sizeof(SoundRequestQueue)));
+        RunSoundRequests(OFFSET_PTR(SoundRequestQueue, gSoundRequestQueues, i * sizeof(SoundRequestQueue)));
     }
     IncrementSoundHandleAges(&data_0217c7c4);
     UpdateSoundSources();
@@ -505,7 +505,7 @@ void InitSceneSounds(s32 e) {
     if (v > 0x7f) {
         v = 0x7f;
     }
-    data_0216cb28 = v;
+    gSceneSeqVolume = v;
     sceneSoundRowIndex = GetSceneSoundRowIndex(currentSceneNumber, &buf);
     if (data_0217d060 == NULL) {
         ResetSeqVariableReadings();
@@ -956,7 +956,7 @@ void StopKartStarSeq(void) {
             StartScenePlayersSeq(&data_0217d070);
             NNS_SndPlayerSetVolume(&data_0217d07c, gVolumeFade.mVolume >> 12);
             NNS_SndPlayerSetTempoRatio(&data_0217d07c, 0x12c);
-            func_0210faac();
+            SetRestartedSeqPitchFlag();
         }
         data_0217c78c = 0;
     }
@@ -978,7 +978,7 @@ void EndRaceSounds(void) {
             StartScenePlayersSeq(&data_0217d070);
             NNS_SndPlayerSetVolume(&data_0217d07c, gVolumeFade.mVolume >> 12);
             NNS_SndPlayerSetTempoRatio(&data_0217d07c, 0x12c);
-            func_0210faac();
+            SetRestartedSeqPitchFlag();
         }
         data_0217c78c = 0;
     }
@@ -1211,7 +1211,7 @@ void UpdateRaceSounds(void) {
                 StartScenePlayersSeq(&data_0217d070);
                 NNS_SndPlayerSetVolume(&data_0217d07c, gVolumeFade.mVolume >> 12);
                 NNS_SndPlayerSetTempoRatio(&data_0217d07c, 0x12c);
-                func_0210faac();
+                SetRestartedSeqPitchFlag();
             }
         }
     } else {

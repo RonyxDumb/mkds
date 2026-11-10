@@ -66,7 +66,7 @@ void UpdateCourseSoundObject(void *a, CourseSoundObject *courseSoundObject) {
             if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL && IsKartOnLastLap(gRaceSetup->mEntryIndex) != FALSE &&
                 courseSoundObject->mFirstPart.mInRangeUpdateCount == 0 &&
                 courseSoundObject->mFirstPart.mUnk_20 != FALSE) {
-                soundId = func_02110c40();
+                soundId = GetLastLapCourseSoundId();
                 NNS_SndPlayerStopSeq(courseSoundObject->mFirstPart.mSndHandleSlot, 0);
                 courseSoundObject->mFirstPart.mStartParams.mSoundId = soundId;
                 courseSoundObject->mState = 3;

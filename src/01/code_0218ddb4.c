@@ -725,8 +725,8 @@ void UpdateKingTeresa(u32 a, Unk02188950 *b) {
             }
         }
         if (gKingTeresaState == 0) {
-            func_02110350(b->mUnk_000.mSound);
-        } else if (func_02110324() != 0) {
+            StartKingTeresaAlphaSound(b->mUnk_000.mSound);
+        } else if (IsKingTeresaState0Or2Or5() != 0) {
             StartMapObjectSoundWhileRequested(&b->mUnk_000, 0x22a);
         } else if (gKingTeresaState == 4) {
             StartMapObjectSoundWhileRequested(&b->mUnk_000, 0x22b);

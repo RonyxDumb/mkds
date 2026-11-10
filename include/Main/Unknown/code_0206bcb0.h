@@ -576,10 +576,10 @@ void func_0206cc60(Kart *kart, int fromLowSpeedTurn);
 #include "Main/Unknown/code_0210ab48.h"
 void EndKartDrift(Kart *kart);
 void AdvanceKartBoost(s32 *acceleration, Kart *kart);
-extern SoundRequestQueue data_0217d26c[7];
+extern SoundRequestQueue gSoundRequestQueues[7];
 extern SoundRequestQueue data_0217d274;
 extern SoundRequestQueue data_0217d284;
-extern SoundRequestQueue data_0217d28c;
+extern SoundRequestQueue gThunderShrinkSoundRequestQueue;
 #include "Main/Unknown/code_0210dc7c.h"
 void RequestKartSound(void *kart, int arg);
 void KartStartSoundFullVolume(void *soundSource, int arg);
