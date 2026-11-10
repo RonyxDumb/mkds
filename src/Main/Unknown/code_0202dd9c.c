@@ -160,27 +160,29 @@ void WriteGhostSceneRegisters(void) {
 
 #pragma thumb on
 
-void PrintGhostRecordInfo(SelectCharacter *fileSets, s16 (*labelRows)[4], void *name, s32 characterIndex, s32 kartIndex,
-                          s32 courseId, MinuteSecondMillisecondTime *time) {
+void PrintGhostRecordInfo(GhostInfoFileSets *fileSets, s16 (*labelRows)[4], void *name, s32 characterIndex,
+                          s32 kartIndex, s32 courseId, MinuteSecondMillisecondTime *time) {
     u16 timeText[10];
     u16 terminatedName[11];
     CellFileSet *cellFileSet;
-    cellFileSet = &fileSets->mUnk_038;
-    PrintLabelLayoutTextNoFixedAdvance(0, labelRows[0][0], fileSets->mUnk_000.mLabelLayout,
-                                       GetBmgEntry(fileSets->mUnk_058, GetCourseMessageIndex(courseId)),
-                                       fileSets->mUnk_000.mCellLayout, fileSets->mUnk_000.mCellTable);
+    cellFileSet = &fileSets->mCellFileSets[2];
+    PrintLabelLayoutTextNoFixedAdvance(0, labelRows[0][0], fileSets->mCellFileSets[0].mLabelLayout,
+                                       GetBmgEntry(fileSets->mCommonMessages, GetCourseMessageIndex(courseId)),
+                                       fileSets->mCellFileSets[0].mCellLayout, fileSets->mCellFileSets[0].mCellTable);
     WriteMinuteSecondMillisecondText((s16 *) timeText, time->mMinute, time->mSecond, time->mMillisecond);
-    PrintLabelLayoutTextFixedDigits(0, labelRows[1][0], fileSets->mUnk_000.mLabelLayout, timeText,
-                                    fileSets->mUnk_000.mCellLayout, fileSets->mUnk_000.mCellTable, 7);
+    PrintLabelLayoutTextFixedDigits(0, labelRows[1][0], fileSets->mCellFileSets[0].mLabelLayout, timeText,
+                                    fileSets->mCellFileSets[0].mCellLayout, fileSets->mCellFileSets[0].mCellTable, 7);
     MIi_CpuCopy16(name, terminatedName, 0x14);
     terminatedName[10] = 0;
-    PrintLabelLayoutTextNoFixedAdvance(0, labelRows[2][0], fileSets->mUnk_000.mLabelLayout, terminatedName,
-                                       fileSets->mUnk_000.mCellLayout, fileSets->mUnk_000.mCellTable);
-    QueueCellCharsAndFirstPalette(characterIndex, cellFileSet->mCells, fileSets->mUnk_038.mChars, cellFileSet->mPalette,
-                                  cellFileSet->mCellLayout, 0, labelRows[0][3], fileSets->mUnk_000.mCells,
-                                  fileSets->mUnk_000.mCellLayout);
-    QueueKartIcon(kartIndex, fileSets->mUnk_000.mCells, fileSets->mUnk_000.mCellLayout, labelRows[1][3],
-                  GetCellPaletteIndex(labelRows[1][3], fileSets->mUnk_000.mCells, fileSets->mUnk_000.mCellLayout), 0);
+    PrintLabelLayoutTextNoFixedAdvance(0, labelRows[2][0], fileSets->mCellFileSets[0].mLabelLayout, terminatedName,
+                                       fileSets->mCellFileSets[0].mCellLayout, fileSets->mCellFileSets[0].mCellTable);
+    QueueCellCharsAndFirstPalette(characterIndex, cellFileSet->mCells, fileSets->mCellFileSets[2].mChars,
+                                  cellFileSet->mPalette, cellFileSet->mCellLayout, 0, labelRows[0][3],
+                                  fileSets->mCellFileSets[0].mCells, fileSets->mCellFileSets[0].mCellLayout);
+    QueueKartIcon(
+        kartIndex, fileSets->mCellFileSets[0].mCells, fileSets->mCellFileSets[0].mCellLayout, labelRows[1][3],
+        GetCellPaletteIndex(labelRows[1][3], fileSets->mCellFileSets[0].mCells, fileSets->mCellFileSets[0].mCellLayout),
+        0);
 }
 
 #pragma thumb off

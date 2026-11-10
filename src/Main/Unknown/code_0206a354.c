@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_0206a354.h"
+#include "Main/Unknown/code_020e6fd4.h"
 #include "01/code_0218155c.h"
 #include "ITCM/code_01ffba68.h"
 #include "ITCM/code_01ffc000.h"
@@ -336,7 +337,7 @@ void AdvanceKartState3(Kart *p) {
     }
 }
 
-BOOL TryStartKartState4(Kart *p, Unk0206b020 *a) {
+BOOL TryStartKartState4(Kart *p, MapObject *a) {
     Vec3 t;
     Vec3 u;
     Vec3 w;
@@ -371,10 +372,10 @@ BOOL TryStartKartState4(Kart *p, Unk0206b020 *a) {
     if (!v1) {
         return FALSE;
     }
-    t = a->mUnk_28;
-    VEC_Subtract(&p->mPos, &a->mUnk_04, &u);
-    VEC_CrossProduct(&a->mUnk_40, &u, &w);
-    if (VEC_DotProduct(&w, &a->mUnk_34) < 0) {
+    t = a->mMatrix.mUnk_00[0];
+    VEC_Subtract(&p->mPos, &a->mPos, &u);
+    VEC_CrossProduct(&a->mMatrix.mUnk_00[2], &u, &w);
+    if (VEC_DotProduct(&w, &a->mMatrix.mUnk_00[1]) < 0) {
         t.x = -t.x;
         t.y = -t.y;
         t.z = -t.z;

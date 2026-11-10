@@ -4,15 +4,7 @@
 
 typedef struct Kart Kart;
 
-// Object read by TryStartKartState4: vectors at 0x04, 0x28, 0x34 and 0x40.
-typedef struct Unk0206b020 {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ Vec3 mUnk_04;
-    /* 10 */ u8 mUnk_10[0x18];
-    /* 28 */ Vec3 mUnk_28;
-    /* 34 */ Vec3 mUnk_34;
-    /* 40 */ Vec3 mUnk_40;
-} Unk0206b020;
+typedef struct MapObject MapObject;
 
 extern const s16 data_usa_02154a54[];
 extern const s16 data_usa_021654c4;
@@ -32,7 +24,7 @@ void AdvanceKartState5(Kart *p);
 s32 StartKartState5(Kart *p, const Vec3 *a, s32 b);
 void AdvanceKartState4(Kart *p);
 void StartKartState4(Kart *p, const Vec3 *a, s32 b);
-BOOL TryStartKartState4(Kart *p, Unk0206b020 *a);
+BOOL TryStartKartState4(Kart *p, MapObject *a);
 void AdvanceKartState3(Kart *p);
 void StartKartState3(Kart *p);
 BOOL TryStartKartState3(Kart *p);

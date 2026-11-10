@@ -464,8 +464,8 @@ void SetSelectCharacterCellOffsetsY(s16 firstOffsetY, s16 secondOffsetY) {
     if (gBootInfo->mUnk_00 != 2) {
         selectCharacter = gSelectCharacter;
         if (selectCharacter->mUsePlayerEntryList == FALSE) {
-            selectCharacter->mUnk_000.mCellTable[0].mOffsetY = firstOffsetY;
-            selectCharacter->mUnk_000.mCellTable[3].mOffsetY = secondOffsetY;
+            selectCharacter->mGpMParts.mCellTable[0].mOffsetY = firstOffsetY;
+            selectCharacter->mGpMParts.mCellTable[3].mOffsetY = secondOffsetY;
         }
     }
 }
@@ -476,8 +476,8 @@ void SetSelectCharacterNameOffsetX(s16 offsetX) {
     if (gBootInfo->mUnk_00 != 2) {
         selectCharacter = gSelectCharacter;
         if (selectCharacter->mUsePlayerEntryList == FALSE) {
-            selectCharacter->mUnk_000.mCellTable[1].mOffsetX = offsetX;
-            selectCharacter->mUnk_000.mCellTable[2].mOffsetX = selectCharacter->mUnk_000.mCellTable[1].mOffsetX;
+            selectCharacter->mGpMParts.mCellTable[1].mOffsetX = offsetX;
+            selectCharacter->mGpMParts.mCellTable[2].mOffsetX = selectCharacter->mGpMParts.mCellTable[1].mOffsetX;
         }
     }
 }
@@ -488,13 +488,13 @@ void QueueSelectCharacterNameChars(void) {
 
     selectCharacter = gSelectCharacter;
     if (selectCharacter->mUsePlayerEntryList == FALSE) {
-        nameParts = &selectCharacter->mUnk_038;
+        nameParts = &selectCharacter->mGpNameMParts;
         QueueCellChars(*(s16 *) &selectCharacter->mRows[selectCharacter->mTableIndex].mNameLayoutEntryIndex,
-                       nameParts->mCells, selectCharacter->mUnk_038.mChars, nameParts->mCellLayout, 0, 2,
-                       selectCharacter->mUnk_000.mCells, selectCharacter->mUnk_000.mCellLayout);
+                       nameParts->mCells, selectCharacter->mGpNameMParts.mChars, nameParts->mCellLayout, 0, 2,
+                       selectCharacter->mGpMParts.mCells, selectCharacter->mGpMParts.mCellLayout);
         QueueCellChars(*(s16 *) &gSelectCharacter->mRows[gSelectCharacter->mTableIndex].mNameLayoutEntryIndex,
-                       nameParts->mCells, selectCharacter->mUnk_038.mChars, nameParts->mCellLayout, 0, 1,
-                       selectCharacter->mUnk_000.mCells, selectCharacter->mUnk_000.mCellLayout);
+                       nameParts->mCells, selectCharacter->mGpNameMParts.mChars, nameParts->mCellLayout, 0, 1,
+                       selectCharacter->mGpMParts.mCells, selectCharacter->mGpMParts.mCellLayout);
     }
 }
 

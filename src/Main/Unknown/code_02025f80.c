@@ -217,22 +217,23 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     }
     selectCharacter = gSelectCharacter;
     if (selectCharacter->mUsePlayerEntryList == FALSE) {
-        LocateCellFileSet(&selectCharacter->mUnk_000, gSelectCharacterGpMNcgrName, gSelectCharacterGpMNcerName,
+        LocateCellFileSet(&selectCharacter->mGpMParts, gSelectCharacterGpMNcgrName, gSelectCharacterGpMNcerName,
                           gSelectCharacterGpMONclrName, gSelectCharacterGpMBnclName, NULL, NULL,
                           FindFileInLoadedArchives);
-        SetupCellFileSet(0, gSelectCharacter->mHeap, &selectCharacter->mUnk_000);
+        SetupCellFileSet(0, gSelectCharacter->mHeap, &selectCharacter->mGpMParts);
         LocateCellFileSet(&titleParts, gSelectCharacterGpTitleMNcgrName, gSelectCharacterGpTitleMNcerName, NULL,
                           gSelectCharacterGpTitleMBnclName, NULL, NULL, FindFileInLoadedArchives);
         QueueCellChars(0, titleParts.mCells, titleParts.mChars, titleParts.mCellLayout, 0, 0,
-                       selectCharacter->mUnk_000.mCells, selectCharacter->mUnk_000.mCellLayout);
-        LocateCellFileSet(&gSelectCharacter->mUnk_038, gSelectCharacterGpNameMNcgrName, gSelectCharacterGpNameMNcerName,
-                          NULL, gSelectCharacterGpNameMBnclName, NULL, NULL, FindFileInLoadedArchives);
-        selectCharacter->mUnk_000.mCellTable[9].mVisible = 0;
-        selectCharacter->mUnk_000.mCellTable[8].mVisible = selectCharacter->mUnk_000.mCellTable[9].mVisible;
-        selectCharacter->mUnk_000.mCellTable[7].mVisible = selectCharacter->mUnk_000.mCellTable[8].mVisible;
-        selectCharacter->mUnk_000.mCellTable[6].mVisible = selectCharacter->mUnk_000.mCellTable[7].mVisible;
-        selectCharacter->mUnk_000.mCellTable[5].mVisible = selectCharacter->mUnk_000.mCellTable[6].mVisible;
-        selectCharacter->mUnk_000.mCellTable[4].mVisible = selectCharacter->mUnk_000.mCellTable[5].mVisible;
+                       selectCharacter->mGpMParts.mCells, selectCharacter->mGpMParts.mCellLayout);
+        LocateCellFileSet(&gSelectCharacter->mGpNameMParts, gSelectCharacterGpNameMNcgrName,
+                          gSelectCharacterGpNameMNcerName, NULL, gSelectCharacterGpNameMBnclName, NULL, NULL,
+                          FindFileInLoadedArchives);
+        selectCharacter->mGpMParts.mCellTable[9].mVisible = 0;
+        selectCharacter->mGpMParts.mCellTable[8].mVisible = selectCharacter->mGpMParts.mCellTable[9].mVisible;
+        selectCharacter->mGpMParts.mCellTable[7].mVisible = selectCharacter->mGpMParts.mCellTable[8].mVisible;
+        selectCharacter->mGpMParts.mCellTable[6].mVisible = selectCharacter->mGpMParts.mCellTable[7].mVisible;
+        selectCharacter->mGpMParts.mCellTable[5].mVisible = selectCharacter->mGpMParts.mCellTable[6].mVisible;
+        selectCharacter->mGpMParts.mCellTable[4].mVisible = selectCharacter->mGpMParts.mCellTable[5].mVisible;
     }
     if (gBootInfo->mUnk_00 != 2) {
         sParts = &gSelectCharacter->mSParts;
@@ -680,8 +681,8 @@ int AdvanceSelectCharacter(void) {
     if (gSelectCharacter->mUsePlayerEntryList != FALSE) {
         AdvancePlayerEntryList();
     } else {
-        DrawLayoutTable(selectCharacter->mUnk_000.mCellLayout, selectCharacter->mUnk_000.mCells, NULL,
-                        gSelectCharacter->mMainOam, selectCharacter->mUnk_000.mCellTable);
+        DrawLayoutTable(selectCharacter->mGpMParts.mCellLayout, selectCharacter->mGpMParts.mCells, NULL,
+                        gSelectCharacter->mMainOam, selectCharacter->mGpMParts.mCellTable);
     }
     if (gBootInfo->mUnk_00 != 2) {
         DrawLayoutTableKeepMatrixCount(sParts->mCellLayout, sParts->mCells, NULL, gSelectCharacter->mUnk_058,

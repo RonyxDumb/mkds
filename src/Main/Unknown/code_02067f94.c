@@ -3,6 +3,7 @@
 #include "Main/Unknown/code_0206a354.h"
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/code_0207a6b0.h"
+#include "Main/Unknown/code_020e6fd4.h"
 #include "Main/Unknown/code_02077bc0.h"
 
 void StartKartPushFlipOnHit(Kart *kart, const Vec3 *direction) {
@@ -51,7 +52,7 @@ void StartKartPushFlipOnHit(Kart *kart, const Vec3 *direction) {
     kart->mUnk_48 |= 0x20000;
 }
 
-void StartKartPushFlipOnHitByMapObject(Kart *kart, s32 direction, Unk0206b020 *mapObject) {
+void StartKartPushFlipOnHitByMapObject(Kart *kart, s32 direction, MapObject *mapObject) {
     if (TryStartKartState4(kart, mapObject) == FALSE) {
         return;
     }

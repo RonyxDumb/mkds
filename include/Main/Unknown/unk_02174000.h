@@ -126,9 +126,9 @@ extern HeapCall gRootHeapCall;
 // Object behind gPlayerEntryList.
 // Object behind gSelectCharacter.
 typedef struct SelectCharacter {
-    /* 000 */ CellFileSet mUnk_000;
+    /* 000 */ CellFileSet mGpMParts;
     /* 01c */ CellFileSet mSParts;
-    /* 038 */ CellFileSet mUnk_038;
+    /* 038 */ CellFileSet mGpNameMParts;
     /* 054 */ void *mMainOam;
     /* 058 */ void *mUnk_058;
     /* 05c */ void *mHeap;
@@ -233,14 +233,19 @@ typedef struct GhostInfoEntry {
     /* 2c */ Interpolation mInterpolation;
 } GhostInfoEntry;
 
+// What PrintGhostRecordInfo reads from the three ghost list parts: the two screen file sets, the character file set
+// and the common messages.
+typedef struct GhostInfoFileSets {
+    /* 00 */ CellFileSet mCellFileSets[3];
+    /* 54 */ s32 mSelectedIndex;
+    /* 58 */ Bmg *mCommonMessages;
+} GhostInfoFileSets;
+
 // Ghost scene part that scans for ghosts, lists them and receives the picked one.
 typedef struct TimeAttackGhostGetScan {
     /* 000 */ u8 mUnk_000[0x24];
     /* 024 */ void *mOamLists[2];
-    /* 02c */ CellFileSet mCellFileSets[2];
-    /* 064 */ u8 mCharacterCellFileSet[0x1c];
-    /* 080 */ s32 mSelectedIndex;
-    /* 084 */ Bmg *mCommonMessages;
+    /* 02c */ GhostInfoFileSets mInfoFileSets;
     /* 088 */ Bmg *mGhostMessages;
     /* 08c */ s32 mGhostSlot;
     /* 090 */ s32 mStateFrames;
@@ -269,9 +274,7 @@ typedef struct TimeAttackGhostSend {
     /* 000 */ u8 mUnk_000[0x24];
     /* 024 */ Unk02174e40_24 mUnk_024;
     /* 048 */ void *mOamLists[2];
-    /* 050 */ CellFileSet mUnk_050[3];
-    /* 0a4 */ s32 mSelectedIndex;
-    /* 0a8 */ Bmg *mCommonMessages;
+    /* 050 */ GhostInfoFileSets mInfoFileSets;
     /* 0ac */ Bmg *mGhostMessages;
     /* 0b0 */ s32 mState;
     /* 0b4 */ s32 mUnk_0b4;
@@ -369,10 +372,7 @@ typedef struct TimeAttackGhostGetSlot {
     /* 00 */ u8 mUnk_00[0x20];
     /* 20 */ u8 *mUnk_20;
     /* 24 */ void *mOamLists[2];
-    /* 2c */ CellFileSet mCellFileSets[2];
-    /* 64 */ u8 mCharacterCellFileSet[0x1c];
-    /* 80 */ s32 mSelectedIndex;
-    /* 84 */ Bmg *mCommonMessages;
+    /* 2c */ GhostInfoFileSets mInfoFileSets;
     /* 88 */ Bmg *mGhostMessages;
     /* 8c */ s32 mState;
     /* 90 */ Interpolation mInterpolation;

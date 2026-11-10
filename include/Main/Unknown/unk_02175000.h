@@ -71,6 +71,15 @@ typedef struct SceneCallbacks {
     /* 1c */ int mUnk_1c;
 } SceneCallbacks;
 
+// Values of SceneRunState.mRunStep.
+#define SCENE_RUN_STEP_LOADING 0
+#define SCENE_RUN_STEP_SYNC_WAIT 1 // waiting for data sharing to sync
+#define SCENE_RUN_STEP_RUNNING 2
+#define SCENE_RUN_STEP_FADE_OUT 3
+#define SCENE_RUN_STEP_CARD_PULLED_OUT 4 // loop while the card is pulled out
+#define SCENE_RUN_STEP_RELEASE 5
+#define SCENE_RUN_STEP_IDLE 6
+
 // Object behind gSceneRunState.
 typedef struct SceneRunState {
     /* 000 */ void *mThreadStack;

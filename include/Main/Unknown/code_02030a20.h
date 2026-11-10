@@ -45,18 +45,14 @@ typedef struct MultiSelectMember {
     /* 150 */ void *mHeap;
 } MultiSelectMember;
 
-// Object whose u16 at 4 AdvanceMultiSelectMemberNoKeyStart and AdvanceMultiSelectMemberKeyStart set.
-typedef struct Unk02030b18 {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ u16 mUnk_04;
-} Unk02030b18;
+typedef struct SceneNumbers SceneNumbers;
 
 #include "Main/Unknown/unk_02174000.h"
 
 void WriteMultiSelectMemberRegisters(void);
 void ReleaseMultiSelectMember(void);
-s32 AdvanceMultiSelectMemberNoKeyStart(Unk02030b18 *sceneNumbers);
-s32 AdvanceMultiSelectMemberKeyStart(Unk02030b18 *sceneNumbers);
+s32 AdvanceMultiSelectMemberNoKeyStart(SceneNumbers *sceneNumbers);
+s32 AdvanceMultiSelectMemberKeyStart(SceneNumbers *sceneNumbers);
 void DrawMultiSelectMember(void);
 BOOL MultiSelectMemberIsSubSlideOutDone(void);
 BOOL MultiSelectMemberIsSubSlideInDone(void);

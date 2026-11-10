@@ -73,7 +73,7 @@ void RefreshGhostListRows(s32 action, s32 slot, s32 row, s32 selectedSlot) {
     s32 i;
     s32 j;
     s32 k;
-    fileSet = &gTimeAttackGhostSend->mUnk_050[1];
+    fileSet = &gTimeAttackGhostSend->mInfoFileSets.mCellFileSets[1];
     if (action == 1) {
         PrintLabelLayoutTextNoFixedAdvance(
             1, slot, fileSet->mLabelLayout,
@@ -116,7 +116,7 @@ void SetupGhostSendState8Text(void) {
     void *text;
     void *buttonText;
     text = GetBmgEntry(gTimeAttackGhostSend->mGhostMessages, 0xd);
-    buttonText = GetBmgEntry(gTimeAttackGhostSend->mCommonMessages, 4);
+    buttonText = GetBmgEntry(gTimeAttackGhostSend->mInfoFileSets.mCommonMessages, 4);
     gTimeAttackGhostSend->mState = 8;
     SetupTxtSystemSubTextButton(text, buttonText);
 }
@@ -129,7 +129,7 @@ void PrintGhostSendCounts(void) {
     u16 text[6];
     CellFileSet *fileSet;
     s32 count;
-    fileSet = &gTimeAttackGhostSend->mUnk_050[1];
+    fileSet = &gTimeAttackGhostSend->mInfoFileSets.mCellFileSets[1];
     PrintLabelLayoutTextNoFixedAdvance(1, 0xe, fileSet->mLabelLayout,
                                        GetBmgEntry(gTimeAttackGhostSend->mGhostMessages, 0x56), fileSet->mCellLayout,
                                        fileSet->mCellTable);
@@ -168,15 +168,15 @@ void PrintSelectedGhostSendRecord(void) {
     u16 terminatedName[11];
     s32 characterIndex;
     s32 kartIndex;
-    GetListedGhostTime(gTimeAttackGhostSend->mSelectedIndex, &recordTime);
-    GetListedGhostName(gTimeAttackGhostSend->mSelectedIndex, name);
+    GetListedGhostTime(gTimeAttackGhostSend->mInfoFileSets.mSelectedIndex, &recordTime);
+    GetListedGhostName(gTimeAttackGhostSend->mInfoFileSets.mSelectedIndex, name);
     MIi_CpuCopy16(name, terminatedName, 0x14);
     terminatedName[10] = 0;
-    characterIndex = GetListedGhostCharacterIndex(gTimeAttackGhostSend->mSelectedIndex);
-    kartIndex = GetListedGhostKartIndex(gTimeAttackGhostSend->mSelectedIndex);
-    PrintGhostRecordInfo((SelectCharacter *) gTimeAttackGhostSend->mUnk_050, gTimeAttackGhostSendMLabelTextRows,
-                         terminatedName, characterIndex, kartIndex,
-                         GetListedGhostCourseId(gTimeAttackGhostSend->mSelectedIndex), &recordTime);
+    characterIndex = GetListedGhostCharacterIndex(gTimeAttackGhostSend->mInfoFileSets.mSelectedIndex);
+    kartIndex = GetListedGhostKartIndex(gTimeAttackGhostSend->mInfoFileSets.mSelectedIndex);
+    PrintGhostRecordInfo(&gTimeAttackGhostSend->mInfoFileSets, gTimeAttackGhostSendMLabelTextRows, terminatedName,
+                         characterIndex, kartIndex,
+                         GetListedGhostCourseId(gTimeAttackGhostSend->mInfoFileSets.mSelectedIndex), &recordTime);
 }
 
 #pragma thumb off
@@ -202,14 +202,14 @@ void SetupGhostSendSubTextWithName(s32 messageIndex, s32 withButton) {
     name[10] = 0;
     FormatMessageWithText(name, message, text, 0x100);
     if (withButton != 0) {
-        SetupTxtSystemSubTextButton(text, GetBmgEntry(gTimeAttackGhostSend->mCommonMessages, 4));
+        SetupTxtSystemSubTextButton(text, GetBmgEntry(gTimeAttackGhostSend->mInfoFileSets.mCommonMessages, 4));
     } else {
         SetupTxtSystemSubText(text);
     }
 }
 
 void StartReadSelectedGhost(void) {
-    StartReadListedGhost(gTimeAttackGhostSend->mSelectedIndex);
+    StartReadListedGhost(gTimeAttackGhostSend->mInfoFileSets.mSelectedIndex);
     SetupTxtSystemSubText(GetBmgEntry(gTimeAttackGhostSend->mGhostMessages, 9));
     SetSelectReturnSoundId(0xe);
     RequestSelectReturnState4();
@@ -222,8 +222,8 @@ void SetGhostSendCellsOffsetY(void) {
     s32 subEntryCount;
     s32 i;
     s16 subOffsetY;
-    mainFileSet = &gTimeAttackGhostSend->mUnk_050[0];
-    subFileSet = &gTimeAttackGhostSend->mUnk_050[1];
+    mainFileSet = &gTimeAttackGhostSend->mInfoFileSets.mCellFileSets[0];
+    subFileSet = &gTimeAttackGhostSend->mInfoFileSets.mCellFileSets[1];
     mainEntryCount = mainFileSet->mCellLayout->mCount + mainFileSet->mLabelLayout->mCount;
     subEntryCount = subFileSet->mCellLayout->mCount + subFileSet->mLabelLayout->mCount;
     subOffsetY = GetInterpolatedValue(&gTimeAttackGhostSend->mInterpolation);
@@ -253,12 +253,12 @@ void InitTimeAttackGhostSend(void *parentHeap, void *mainOam, void *subOam) {
     gTimeAttackGhostSend->mHeap = heap;
     gTimeAttackGhostSend->mOamLists[0] = mainOam;
     gTimeAttackGhostSend->mOamLists[1] = subOam;
-    gTimeAttackGhostSend->mCommonMessages = FindFileInLoadedArchives(data_usa_02162d04);
+    gTimeAttackGhostSend->mInfoFileSets.mCommonMessages = FindFileInLoadedArchives(data_usa_02162d04);
     gTimeAttackGhostSend->mGhostMessages = FindSceneFile(gGhostBmgName);
     InitBlockEntries(gTimeAttackGhostSend->mHeap, 2);
     LocateAndQueueScreenMapFileSet(0, gTimeAttackGhostSend, gTimeAttackGhostSendMBNcgrName,
                                    gTimeAttackGhostSendMBNclrName, gTimeAttackGhostSendMNscrName, 0, FindSceneFile);
-    mainFileSet = &gTimeAttackGhostSend->mUnk_050[0];
+    mainFileSet = &gTimeAttackGhostSend->mInfoFileSets.mCellFileSets[0];
     objSizeLeft = GX_GetSizeOfOBJ();
     LocateCellFileSet(mainFileSet, gTimeAttackGhostSendMNcgrName, gTimeAttackGhostSendMNcerName,
                       gTimeAttackGhostSendMONclrName, gTimeAttackGhostSendMBnclName, gTimeAttackGhostSendMBnllName,
@@ -270,7 +270,7 @@ void InitTimeAttackGhostSend(void *parentHeap, void *mainOam, void *subOam) {
     }
     LocateAndQueueScreenMapFileSet(1, &gTimeAttackGhostSend->mUnk_024, gTimeAttackGhostSendSBNcgrName,
                                    gTimeAttackGhostSendSBNclrName, gTimeAttackGhostSendSNscrName, 3, FindSceneFile);
-    subFileSet = &gTimeAttackGhostSend->mUnk_050[1];
+    subFileSet = &gTimeAttackGhostSend->mInfoFileSets.mCellFileSets[1];
     objSizeLeft = GX_GetSizeOfSubOBJ();
     assignedCount = 0;
     LocateCellFileSet(subFileSet, gTimeAttackGhostSendSNcgrName, gTimeAttackGhostSendSNcerName,
@@ -316,7 +316,7 @@ void InitTimeAttackGhostSend(void *parentHeap, void *mainOam, void *subOam) {
             subFileSet->mCellTable[subCellCount + i].mVisible = 0;
         }
     }
-    SetPlayerCharacterCellFileSet(0, &gTimeAttackGhostSend->mUnk_050[2]);
+    SetPlayerCharacterCellFileSet(0, &gTimeAttackGhostSend->mInfoFileSets.mCellFileSets[2]);
     SetupInterpolation(&gTimeAttackGhostSend->mInterpolation, 3, 10, -0xc0, 0);
     SetSelectReturnSoundId(0xf);
     SendLedPatternWireless();
@@ -364,7 +364,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
             if (AreBrightnessFadesClear() == 0) {
                 if (GetGhostCount() == 0) {
                     SetupTxtSystemSubTextButton(GetBmgEntry(gTimeAttackGhostSend->mGhostMessages, 0x53),
-                                                GetBmgEntry(gTimeAttackGhostSend->mCommonMessages, 4));
+                                                GetBmgEntry(gTimeAttackGhostSend->mInfoFileSets.mCommonMessages, 4));
                     gTimeAttackGhostSend->mState = 0;
                 } else {
                     PrintSelectedGhostSendRecord();
@@ -387,8 +387,8 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
             if (IsTxtSystemState2NoCloseRequest() != 0) {
                 AdvanceScrollList();
                 i = GetScrollListSelectedRow();
-                if (gTimeAttackGhostSend->mSelectedIndex != i) {
-                    gTimeAttackGhostSend->mSelectedIndex = i;
+                if (gTimeAttackGhostSend->mInfoFileSets.mSelectedIndex != i) {
+                    gTimeAttackGhostSend->mInfoFileSets.mSelectedIndex = i;
                     PrintSelectedGhostSendRecord();
                 }
                 if (IsScrollListPickStarted() != 0) {
@@ -421,7 +421,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
                 i = 0;
             }
             if (i == 0 && d->mErrorCode == 0) {
-                if (IsSlotGhostIndex(gTimeAttackGhostSend->mSelectedIndex) == 0) {
+                if (IsSlotGhostIndex(gTimeAttackGhostSend->mInfoFileSets.mSelectedIndex) == 0) {
                     CopyCourseGhostToSlotGhost(GetCourseGhostBuffer(), GetSlotGhostBuffer());
                 }
                 gTimeAttackGhostSend->mState = 5;
@@ -515,7 +515,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
     }
     UpdateConnectionSendTimer();
     for (i = 0; i < 2; i++) {
-        fileSets = gTimeAttackGhostSend->mUnk_050;
+        fileSets = gTimeAttackGhostSend->mInfoFileSets.mCellFileSets;
         DrawLayoutTable(fileSets[i].mCellLayout, fileSets[i].mCells, fileSets[i].mLabelLayout,
                         gTimeAttackGhostSend->mOamLists[i], fileSets[i].mCellTable);
     }

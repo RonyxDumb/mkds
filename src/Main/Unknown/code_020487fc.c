@@ -192,7 +192,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
     gSceneRunState->mSceneFrames = v;
     gSceneRunState->mPassCount = v;
     gSceneRunState->mSceneCallbacks = *b;
-    gSceneRunState->mRunStep = 6;
+    gSceneRunState->mRunStep = SCENE_RUN_STEP_IDLE;
     gSceneRunState->mNextScene = 0;
     gSceneRunState->mUnk_118 = -1;
     gSceneRunState->mUnk_11c = 0;
@@ -203,7 +203,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
         gSceneRunState->mLcdOff = TRUE;
     }
     OS_RestoreInterrupts(t);
-    gSceneRunState->mRunStep = 0;
+    gSceneRunState->mRunStep = SCENE_RUN_STEP_LOADING;
     SetHeapGroupId(0);
     LoadArchiveSlotsForScene(a->mScene);
     SetHeapGroupId(9);
@@ -229,14 +229,14 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
     StartSceneSoundSetSeq();
     StartSceneSounds();
     WaitIrqAndTurnOnDisplays();
-    gSceneRunState->mRunStep = 1;
+    gSceneRunState->mRunStep = SCENE_RUN_STEP_SYNC_WAIT;
     do {
         PrepareDisplayFrame();
         func_020487fc_inline7();
         UpdateSounds();
         func_020487fc_inline8();
         func_020487fc_inline9(b);
-        r = RunMessageScreenOnDisconnect(a, gSceneRunState->mRunStep != 4);
+        r = RunMessageScreenOnDisconnect(a, gSceneRunState->mRunStep != SCENE_RUN_STEP_CARD_PULLED_OUT);
         NNS_GfdDoVramTransfer();
         if (r) {
             a->mNextScene = gSceneRunState->mNextScene;
@@ -248,7 +248,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
     } while (FinishDataSharingSync() != 1);
     ClearInputSlots();
     StartFadeToClear(b->mFadeToClearFrameCount);
-    gSceneRunState->mRunStep = 2;
+    gSceneRunState->mRunStep = SCENE_RUN_STEP_RUNNING;
     do {
         PrepareDisplayFrame();
         func_020487fc_inline7();
@@ -258,7 +258,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
         UpdateSounds();
         v = func_020487fc_inline8();
         func_020487fc_inline9(b);
-        r = RunMessageScreenOnDisconnect(a, gSceneRunState->mRunStep != 4);
+        r = RunMessageScreenOnDisconnect(a, gSceneRunState->mRunStep != SCENE_RUN_STEP_CARD_PULLED_OUT);
         NNS_GfdDoVramTransfer();
         if (r) {
             a->mNextScene = gSceneRunState->mNextScene;
@@ -274,7 +274,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
         gSceneRunState->mPassCount++;
         RecordFrameTimes();
     } while (a->mNextScene == -1 && v == 0);
-    gSceneRunState->mRunStep = 3;
+    gSceneRunState->mRunStep = SCENE_RUN_STEP_FADE_OUT;
     StopSceneSounds();
     if (data_021759d0->mSoundSetSeqPlaying) {
         if (a == NULL || ShouldEndSceneSoundSet(a->mScene, a->mNextScene)) {
@@ -298,7 +298,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
         UpdateSounds();
         func_020487fc_inline8();
         func_020487fc_inline9(b);
-        RunMessageScreenOnDisconnect(a, gSceneRunState->mRunStep != 4);
+        RunMessageScreenOnDisconnect(a, gSceneRunState->mRunStep != SCENE_RUN_STEP_CARD_PULLED_OUT);
         NNS_GfdDoVramTransfer();
         if (b->mUnk_0c != NULL) {
             b->mUnk_0c(0, gSceneRunState->mSceneFrames);
@@ -313,7 +313,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
 end:
     SetNoKeysAndUpdateInputSlots();
     if (func_020487fc_inline13() && (v != 0 || GetNextSceneNumber() == 0)) {
-        gSceneRunState->mRunStep = 4;
+        gSceneRunState->mRunStep = SCENE_RUN_STEP_CARD_PULLED_OUT;
         data_021759d0->mConnectionKind = 0;
         c = FALSE;
         SendLedPatternNone();
@@ -327,13 +327,13 @@ end:
                     c = TRUE;
                 }
             }
-            RunMessageScreenOnDisconnect(a, gSceneRunState->mRunStep != 4);
+            RunMessageScreenOnDisconnect(a, gSceneRunState->mRunStep != SCENE_RUN_STEP_CARD_PULLED_OUT);
             NNS_GfdDoVramTransfer();
             UpdateWiFiSession();
             RecordFrameTimes();
         } while (!c);
     }
-    gSceneRunState->mRunStep = 5;
+    gSceneRunState->mRunStep = SCENE_RUN_STEP_RELEASE;
     gDisplaySettings->mIrqCallback = NULL;
     if (func_020487fc_inline2()) {
         gConnectionWork->mUnk_0454 &= ~4;
@@ -374,5 +374,5 @@ end:
     }
     ResetFrmHeap();
     gSceneRunState->mSceneFrames = 0;
-    gSceneRunState->mRunStep = 6;
+    gSceneRunState->mRunStep = SCENE_RUN_STEP_IDLE;
 }

@@ -3,6 +3,7 @@
 #include "Main/Unknown/code_02036000.h"
 #include "Main/Unknown/code_02036820.h"
 #include "Main/Unknown/code_0204f814.h"
+#include "Main/Unknown/code_020487fc.h"
 #include "Main/Unknown/code_02125000.h"
 #include "Main/Unknown/code_02125ee8.h"
 #include "Main/Unknown/code_0212b000.h"
@@ -640,7 +641,7 @@ void DrawMultiSelectMember(void) {
 
 #pragma thumb on
 
-s32 AdvanceMultiSelectMemberKeyStart(Unk02030b18 *sceneNumbers) {
+s32 AdvanceMultiSelectMemberKeyStart(SceneNumbers *sceneNumbers) {
     CellFileSet *subFileSet;
     s32 result;
     s32 previousChildCount;
@@ -760,7 +761,7 @@ s32 AdvanceMultiSelectMemberKeyStart(Unk02030b18 *sceneNumbers) {
                     data_0217b488->mRaceSetupRequested = 1;
                     data_0217b488->mMenuEntryKind = 4;
                     if (sceneNumbers != NULL) {
-                        sceneNumbers->mUnk_04 = 1;
+                        sceneNumbers->mNextScene = 1;
                     }
                     gMultiSelectMember->mState2Frames = 0;
                     gMultiSelectMember->mState = 7;
@@ -798,7 +799,7 @@ s32 AdvanceMultiSelectMemberKeyStart(Unk02030b18 *sceneNumbers) {
     return result;
 }
 
-s32 AdvanceMultiSelectMemberNoKeyStart(Unk02030b18 *sceneNumbers) {
+s32 AdvanceMultiSelectMemberNoKeyStart(SceneNumbers *sceneNumbers) {
     CellFileSet *subFileSet;
     s32 result;
     s32 touchInReturnRect;
@@ -906,7 +907,7 @@ s32 AdvanceMultiSelectMemberNoKeyStart(Unk02030b18 *sceneNumbers) {
                 data_0217b488->mRaceSetupRequested = 1;
                 data_0217b488->mMenuEntryKind = 4;
                 if (sceneNumbers != NULL) {
-                    sceneNumbers->mUnk_04 = 1;
+                    sceneNumbers->mNextScene = 1;
                 }
                 gMultiSelectMember->mState = 7;
             } else if (started == 0) {
