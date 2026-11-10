@@ -118,8 +118,8 @@ BOOL IsPointBetweenCheckpointLines(const Vec3 *a, const CourseMapCheckpoint *b, 
     volatile UnkPair020b502c p;
     s32 d;
 
-    p.mUnk_00 = a->x;
-    p.mUnk_04 = a->z;
+    p.mFirst = a->x;
+    p.mSecond = a->z;
     if (MUL_FIXED12_ROUNDED((b->mPointAZ - c->mPointAZ) >> 4, (a->x - c->mPointAX) >> 4) -
             MUL_FIXED12_ROUNDED((b->mPointAX - c->mPointAX) >> 4, (a->z - c->mPointAZ) >> 4) <
         0) {
@@ -146,12 +146,12 @@ s32 ComputeProgressBetweenCheckpoints(const Vec3 *a, u16 b, u16 c) {
     if (IsPointBetweenCheckpointLines(a, q, r) == FALSE) {
         return -0x1000;
     }
-    l[0].mUnk_00 = a->x - q->mPointBX;
-    l[0].mUnk_04 = a->z - q->mPointBZ;
-    l[1].mUnk_00 = a->x - r->mPointAX;
-    l[1].mUnk_04 = a->z - r->mPointAZ;
-    l[2].mUnk_00 = -r->mDirection.mUnk_00;
-    l[2].mUnk_04 = -r->mDirection.mUnk_04;
+    l[0].mFirst = a->x - q->mPointBX;
+    l[0].mSecond = a->z - q->mPointBZ;
+    l[1].mFirst = a->x - r->mPointAX;
+    l[1].mSecond = a->z - r->mPointAZ;
+    l[2].mFirst = -r->mDirection.mFirst;
+    l[2].mSecond = -r->mDirection.mSecond;
     x = ComputeDotOfPairsRoundedS64(&l[0], &q->mDirection);
     y = x + ComputeDotOfPairsRoundedS64(&l[1], &l[2]);
     if (x > 0x7fffffff || y > 0x7fffffff || x < -0x80000000LL || y < -0x80000000LL) {

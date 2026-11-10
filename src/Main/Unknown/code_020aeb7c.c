@@ -413,7 +413,7 @@ void UpdateRaceHudSubScreen(void) {
                 break;
         }
     }
-    if (gRaceHud->mUnk_90c != FALSE) {
+    if (gRaceHud->mUnfilledNotEliminatedSet != FALSE) {
         return;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
@@ -442,5 +442,5 @@ void UpdateRaceHudSubScreen(void) {
     } else {
         gMenuShared->mUnfilledNotEliminated = gRaceHud->mMissionRunRecordFilled == 0;
     }
-    gRaceHud->mUnk_90c = TRUE;
+    gRaceHud->mUnfilledNotEliminatedSet = TRUE;
 }

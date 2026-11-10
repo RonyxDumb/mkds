@@ -51,12 +51,12 @@ void UpdateRaceHudSubScreenFireball2Cells(void) {
 
     cellCount = 0;
     a = GetRaceHudSubScreenScale();
-    gRaceHudSubScreenFireball2Cells->mUnk_0c->mUnk_04++;
-    if (gRaceHudSubScreenFireball2Cells->mUnk_0c->mUnk_04 < 0 ||
-        gRaceHudSubScreenFireball2Cells->mUnk_0c->mUnk_04 >= 0x14) {
-        gRaceHudSubScreenFireball2Cells->mUnk_0c->mUnk_04 = 0;
+    gRaceHudSubScreenFireball2Cells->mUnk_0c->mSecond++;
+    if (gRaceHudSubScreenFireball2Cells->mUnk_0c->mSecond < 0 ||
+        gRaceHudSubScreenFireball2Cells->mUnk_0c->mSecond >= 0x14) {
+        gRaceHudSubScreenFireball2Cells->mUnk_0c->mSecond = 0;
     }
-    inFirstHalf = gRaceHudSubScreenFireball2Cells->mUnk_0c->mUnk_04 < 10;
+    inFirstHalf = gRaceHudSubScreenFireball2Cells->mUnk_0c->mSecond < 10;
     for (i = 0; i < gRaceHudSubScreenFireball2Cells->mObjectCount; i++) {
         object = gRaceHudSubScreenFireball2Cells->mObjects[i];
         position = &object->mPos;
@@ -66,9 +66,9 @@ void UpdateRaceHudSubScreenFireball2Cells(void) {
         }
         gRaceHudSubScreenFireball2Cells->mCells[cellCount].mCell =
             GetRaceSNcerEntry(inFirstHalf != FALSE ? 0xa5 : 0xa6);
-        gRaceHudSubScreenFireball2Cells->mCells[cellCount].mUnk_0c = 1;
+        gRaceHudSubScreenFireball2Cells->mCells[cellCount].mPriority = 1;
         gRaceHudSubScreenFireball2Cells->mCells[cellCount].mUnk_0e = 0;
-        gRaceHudSubScreenFireball2Cells->mCells[cellCount].mUnk_10 = object->mAngle;
+        gRaceHudSubScreenFireball2Cells->mCells[cellCount].mAngle = object->mAngle;
         cellCount++;
     }
     gRaceHudSubScreenFireball2Cells->mCellCount = cellCount;
@@ -293,9 +293,10 @@ void UpdateRaceHudSubScreenBerryCells(void) {
             continue;
         }
         gRaceHudSubScreenBerryCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xb8);
-        gRaceHudSubScreenBerryCells->mCells[cellCount].mUnk_0c = IsPositionOutsideBox(position) != 0 ? 2 : 3;
-        gRaceHudSubScreenBerryCells->mCells[cellCount].mUnk_10 = object->mAngle;
-        gRaceHudSubScreenBerryCells->mUnk_0c[cellCount].mUnk_00 = object->mScale.x / 6;
+        gRaceHudSubScreenBerryCells->mCells[cellCount].mPriority =
+            IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_OUTSIDE_BOX : RACE_HUD_PRIORITY_INSIDE_BOX;
+        gRaceHudSubScreenBerryCells->mCells[cellCount].mAngle = object->mAngle;
+        gRaceHudSubScreenBerryCells->mUnk_0c[cellCount].mFirst = object->mScale.x / 6;
         cellCount++;
     }
     gRaceHudSubScreenBerryCells->mCellCount = cellCount;
@@ -328,9 +329,10 @@ void UpdateRaceHudSubScreenCreamCells(void) {
         if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenCreamCells->mCells[cellCount].mDrawPos, v, 1,
                                             1) != FALSE) {
             gRaceHudSubScreenCreamCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xb7);
-            gRaceHudSubScreenCreamCells->mCells[cellCount].mUnk_0c = IsPositionOutsideBox(position) != 0 ? 2 : 3;
-            gRaceHudSubScreenCreamCells->mCells[cellCount].mUnk_10 = object->mAngle;
-            gRaceHudSubScreenCreamCells->mUnk_0c[cellCount].mUnk_00 = object->mScale.x / 6;
+            gRaceHudSubScreenCreamCells->mCells[cellCount].mPriority =
+                IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_OUTSIDE_BOX : RACE_HUD_PRIORITY_INSIDE_BOX;
+            gRaceHudSubScreenCreamCells->mCells[cellCount].mAngle = object->mAngle;
+            gRaceHudSubScreenCreamCells->mUnk_0c[cellCount].mFirst = object->mScale.x / 6;
             cellCount++;
         }
     }

@@ -50,17 +50,21 @@ typedef struct QuestionRotation {
 } QuestionRotation;
 
 // UnkPair020b502c of code_020b502c.h is this type.
-typedef struct Unk0217b498_0c {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-} Unk0217b498_0c;
+typedef struct IntPair {
+    /* 00 */ s32 mFirst;
+    /* 04 */ s32 mSecond;
+} IntPair;
 
+// Priority stored for a sub-screen cell whose position is inside the box.
+#define RACE_HUD_PRIORITY_INSIDE_BOX 3
+// Priority stored for a sub-screen cell whose position is outside the box.
+#define RACE_HUD_PRIORITY_OUTSIDE_BOX 2
 typedef struct RaceHudSubScreenCell {
-    /* 00 */ Unk0217b498_0c mDrawPos;
+    /* 00 */ IntPair mDrawPos;
     /* 08 */ struct Unk020224e0_c *mCell;
-    /* 0c */ u16 mUnk_0c;
+    /* 0c */ u16 mPriority;
     /* 0e */ u16 mUnk_0e;
-    /* 10 */ u16 mUnk_10;
+    /* 10 */ u16 mAngle;
     /* 12 */ u8 mUnk_12[2];
 } RaceHudSubScreenCell;
 
@@ -69,41 +73,41 @@ typedef struct RaceHudSubScreenCells {
     /* 00 */ MapObject **mObjects;
     /* 04 */ s32 mCellCount;
     /* 08 */ s32 mObjectCount;
-    /* 0c */ Unk0217b498_0c *mUnk_0c;
+    /* 0c */ IntPair *mUnk_0c;
     /* 10 */ RaceHudSubScreenCell *mCells;
 } RaceHudSubScreenCells;
 
-// Halfwords from 0x02 of RaceHudSubScreenBgColors read by UpdateRaceHudSubScreenBgPalette when gRaceSetup->mUnk_00 is
-// 0x20: six, two rows of three and two.
-typedef struct Unk0217b490_02_03 {
-    /* 00 */ u16 mUnk_00[6];
-    /* 0c */ u16 mUnk_0c[2][3];
-    /* 18 */ u16 mUnk_18[2];
-} Unk0217b490_02_03;
+// Halfwords from 0x02 of RaceHudSubScreenBgColors read by UpdateRaceHudSubScreenBgPalette when gRaceSetup.mCourseId is
+// COURSE_ID_KOOPA: six, two rows of three and two.
+typedef struct RaceHudSubScreenKoopaBgColors {
+    /* 00 */ u16 mSecondObjectColors[6];
+    /* 0c */ u16 mFirstObjectColors[2][3];
+    /* 18 */ u16 mKoopaBlockColors[2];
+} RaceHudSubScreenKoopaBgColors;
 
 // The halfwords from 0x02 of RaceHudSubScreenBgColors as UpdateRaceHudSubScreenBgPalette and
-// CopyRaceHudSubScreenBgColors index them for the values of gRaceSetup->mUnk_00: a run of 0x15 (0x1c, 0x1f, 0x2e), nine
-// rows of three (0xf), five rows of four (0x11) and Unk0217b490_02_03 (0x20).
-typedef union Unk0217b490_02 {
+// CopyRaceHudSubScreenBgColors index them for gRaceSetup.mCourseId: a run of 0x15 (TOWN, BEACH, MINI_STAGE3), nine
+// rows of three (OLD_NOKO_SFC), five rows of four (CLOCK) and the KOOPA colours.
+typedef union RaceHudSubScreenBgColorSets {
     u16 mUnk_00[0x15];
-    u16 mUnk_01[9][3];
-    u16 mUnk_02[5][4];
-    Unk0217b490_02_03 mUnk_03;
-} Unk0217b490_02;
+    u16 mFrameColors[9][3];
+    u16 mGearColors[5][4];
+    RaceHudSubScreenKoopaBgColors mKoopaColors;
+} RaceHudSubScreenBgColorSets;
 
 // Object behind gRaceHudSubScreenBgColors, 0x38 bytes (allocated by InitRaceHudSubScreenBgColors).
 typedef struct RaceHudSubScreenBgColors {
     /* 00 */ u16 mUnk_00;
-    /* 02 */ Unk0217b490_02 mColors;
+    /* 02 */ RaceHudSubScreenBgColorSets mColors;
 } RaceHudSubScreenBgColors;
 
 // Pair of numbers "course number, course count" drawn on the main screen before start-sequence frame 0xb4, only in mode
-// 5 and in mode 3 with gRaceSetup->mUnk_1c == 2 (DrawRaceMNumberPair), one record behind gRaceMNumberPair (0x28
+// 5 and in mode 3 with gRaceSetup.mUnk_1c == 2 (DrawRaceMNumberPair), one record behind gRaceMNumberPair (0x28
 // bytes, InitRaceMNumberPair); mUnk_08 .. mUnk_20 are the slide-in animation state. mUnk_18 points into mUnk_08.
 typedef struct RaceMNumberPair {
-    // Copy of gRaceSetup->mCourseNumber taken in InitRaceMNumberPair.
+    // Copy of gRaceSetup.mCourseNumber taken in InitRaceMNumberPair.
     /* 00 */ s32 mCourseNumber;
-    // Number of courses of the run: 4 in mode 5, gRaceSetup->mUnk_3d8 in mode 3 with mUnk_1c == 2, else 0 (not
+    // Number of courses of the run: 4 in mode 5, gRaceSetup.mUnk_3d8 in mode 3 with mUnk_1c == 2, else 0 (not
     // drawn). mUnk_3d8 has another meaning (score threshold) in mode 2 and for mUnk_1c == 1; this member never copies
     // that one.
     /* 04 */ s32 mCourseCount;
@@ -562,7 +566,7 @@ typedef struct RaceHudSubScreenBgAffine {
 // element draws append to (mUnk_004 for the main screen, mSubOam for the sub screen, copied to 0x07000000 /
 // 0x07000400), the loaded graphics, the sub-screen page (mSubScreenState) and the goal-background delay; the elements
 // themselves (time digits, number pair, goal page, new-record page) are separate objects. It does not exist in kinds 3,
-// 5 and 6 of gRaceSetup->mUnk_00c (the scene slots run RaceStartGp / EndingStaffRoll there).
+// 5 and 6 of gRaceSetup.mUnk_00c (the scene slots run RaceStartGp / EndingStaffRoll there).
 // Words from 0x828 to 0x910 are read and written by UpdateRaceHudSubScreen. The pointers at 0x80c to 0x824 are written
 // through LoadNclrData, LoadNcgrData and LoadNscrData.
 typedef struct RaceHud {
@@ -606,7 +610,7 @@ typedef struct RaceHud {
     // computation) and the draw of the time difference.
     /* 8e4 */ s32 mUseTimeDifference;
     // ComputeTimeDifference's return: non-zero when the entry's summed lap times (GetKartLapTime) are >= the summed
-    // reference times (gRaceSetup->mGhostLapTimes); the draw picks one of two sprites by it. Which sprite is plus or
+    // reference times (gRaceSetup.mGhostLapTimes); the draw picks one of two sprites by it. Which sprite is plus or
     // minus is not named.
     /* 8e8 */ s32 mTimeDifferenceSign;
     // The difference as seven digits (SplitTimeDigits), written by StartRaceHudLapTimeDisplay, read through
@@ -614,7 +618,7 @@ typedef struct RaceHud {
     /* 8ec */ TimeDigits mTimeDifferenceDigits;
     // 1 once the per-frame step has run.
     /* 908 */ s32 mStepHasRun;
-    /* 90c */ BOOL mUnk_90c;
+    /* 90c */ BOOL mUnfilledNotEliminatedSet;
     /* 910 */ s32 mMissionRunRecordFilled;
 } RaceHud;
 
@@ -826,16 +830,16 @@ typedef struct RaceTaPositionSample {
     /* 0c */ u16 mAngle;
     /* 0e */ u8 mUnk_0e[2];
     /* 10 */ s32 mKind;
-    /* 14 */ s32 mUnk_14;
+    /* 14 */ s32 mPriority;
 } RaceTaPositionSample;
 
 // 0x40-byte elements of the table at member 0x790 of RaceTaPositions.
-typedef struct Unk0217b3e4_790 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ Vec3 mUnk_04[3];
-    /* 28 */ s32 mUnk_28[3];
-    /* 34 */ s32 mUnk_34[3];
-} Unk0217b3e4_790;
+typedef struct RaceTaKinokoBoostPoints {
+    /* 00 */ s32 mPointCount;
+    /* 04 */ Vec3 mPositions[3];
+    /* 28 */ s32 mPriorities[3];
+    /* 34 */ s32 mAgeSamples[3];
+} RaceTaKinokoBoostPoints;
 
 // Object behind gRaceTaPositions, 0x910 bytes, allocated by InitRaceTaPositions.
 typedef struct RaceTaPositions {
@@ -843,7 +847,7 @@ typedef struct RaceTaPositions {
     /* 004 */ s32 mKartVisible[2];
     /* 00c */ s32 mSampleFrames;
     /* 010 */ RaceTaPositionSample mSamples[2][0x28];
-    /* 790 */ Unk0217b3e4_790 mUnk_790[2];
+    /* 790 */ RaceTaKinokoBoostPoints mKinokoBoostPoints[2];
     /* 810 */ MtxFx22 mRotations[16];
 } RaceTaPositions;
 
@@ -867,8 +871,8 @@ typedef struct RaceHudSubScreenSecondHand {
     /* 08 */ s32 mObjectCount;
     /* 0c */ u16 mAngles[3];
     /* 12 */ u8 mUnk_12[2];
-    /* 14 */ Unk0217b498_0c mDrawPositions[3];
-    /* 2c */ Unk0217b498_0c mUnk_2c[3];
+    /* 14 */ IntPair mDrawPositions[3];
+    /* 2c */ IntPair mEndPositions[3];
 } RaceHudSubScreenSecondHand;
 
 // Object behind gRaceHudSubScreenKarts, 0x194 bytes allocated by CreateRaceHudSubScreenKarts: arrays of eight entries
@@ -876,14 +880,14 @@ typedef struct RaceHudSubScreenSecondHand {
 typedef struct RaceHudSubScreenKarts {
     /* 000 */ s32 mVisible[8];
     /* 020 */ s32 mSpriteHidden[8];
-    /* 040 */ s32 mUnk_040[8];
-    /* 060 */ Unk0217b498_0c mScreenPos[8];
+    /* 040 */ s32 mXlu[8];
+    /* 060 */ IntPair mScreenPos[8];
     /* 0a0 */ Vec3 mScale[8];
     /* 100 */ u16 mAngle[8];
     /* 110 */ s32 mNonNormalStateFrames[8];
     /* 130 */ s32 mDrawOrder[8];
-    /* 150 */ s32 mUnk_150[8];
-    /* 170 */ s32 mUnk_170[8];
+    /* 150 */ s32 mPriority[8];
+    /* 170 */ s32 mStarFrames[8];
     /* 190 */ RaceHudSubScreenCells *mCells;
 } RaceHudSubScreenKarts;
 

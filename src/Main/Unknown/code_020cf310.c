@@ -27,16 +27,17 @@ void CopyRaceHudSubScreenBgColors(void) {
         case COURSE_ID_OLD_NOKO_SFC:
             for (i = 0; i < 9; i++) {
                 for (j = 0; j < 3; j++) {
-                    gRaceHudSubScreenBgColors->mColors.mUnk_01[i][j] = ((u16 *) 0x05000400)[i * 16 + j + 0x40];
+                    gRaceHudSubScreenBgColors->mColors.mFrameColors[i][j] = ((u16 *) 0x05000400)[i * 16 + j + 0x40];
                 }
             }
             break;
-        case 0x11: {
+        case COURSE_ID_CLOCK: {
             s32 rowOffsets[5] = {0, 5, 10, 16, 21};
 
             for (i = 0; i < 5; i++) {
                 for (j = 0; j < 4; j++) {
-                    gRaceHudSubScreenBgColors->mColors.mUnk_02[i][j] = ((u16 *) 0x05000400)[rowOffsets[i] + j + 0x80];
+                    gRaceHudSubScreenBgColors->mColors.mGearColors[i][j] =
+                        ((u16 *) 0x05000400)[rowOffsets[i] + j + 0x80];
                 }
             }
             break;
@@ -54,15 +55,16 @@ void CopyRaceHudSubScreenBgColors(void) {
             break;
         case COURSE_ID_KOOPA:
             for (i = 0; i < 6; i++) {
-                gRaceHudSubScreenBgColors->mColors.mUnk_03.mUnk_00[i] = ((u16 *) 0x05000400)[0x54 + i];
+                gRaceHudSubScreenBgColors->mColors.mKoopaColors.mSecondObjectColors[i] = ((u16 *) 0x05000400)[0x54 + i];
             }
             for (i = 0; i < 2; i++) {
                 for (j = 0; j < 3; j++) {
-                    gRaceHudSubScreenBgColors->mColors.mUnk_03.mUnk_0c[i][j] = ((u16 *) 0x05000400)[i * 3 + j + 0x5a];
+                    gRaceHudSubScreenBgColors->mColors.mKoopaColors.mFirstObjectColors[i][j] =
+                        ((u16 *) 0x05000400)[i * 3 + j + 0x5a];
                 }
             }
             for (i = 0; i < 2; i++) {
-                gRaceHudSubScreenBgColors->mColors.mUnk_03.mUnk_18[i] = ((u16 *) 0x05000400)[i];
+                gRaceHudSubScreenBgColors->mColors.mKoopaColors.mKoopaBlockColors[i] = ((u16 *) 0x05000400)[i];
             }
             break;
         case COURSE_ID_MINI_STAGE3:
@@ -88,7 +90,7 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
         case COURSE_ID_OLD_NOKO_SFC:
             v = GetCourseModelNsbtpFrame();
             for (i = 0; i < 3; i++) {
-                palette[i + 0x40] = gRaceHudSubScreenBgColors->mColors.mUnk_01[v / 10][i];
+                palette[i + 0x40] = gRaceHudSubScreenBgColors->mColors.mFrameColors[v / 10][i];
             }
             DC_FlushRange(&palette[0x40], 6);
             GXS_BeginLoadBGExtPltt();
@@ -98,7 +100,7 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
             }
             GXS_EndLoadBGExtPltt();
             break;
-        case 0x11: {
+        case COURSE_ID_CLOCK: {
             s32 rowOffsets[5] = {0, 5, 10, 16, 21};
             MapObject **objects;
             void *kindDrawList;
@@ -116,7 +118,7 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
                     }
                     for (j = 0; j < 4; j++) {
                         palette[rowOffsets[i] + j + 0x80] =
-                            gRaceHudSubScreenBgColors->mColors.mUnk_02[i][(j + shift) % 4];
+                            gRaceHudSubScreenBgColors->mColors.mGearColors[i][(j + shift) % 4];
                     }
                 }
             }
@@ -129,7 +131,7 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
             GXS_EndLoadBGExtPltt();
             break;
         }
-        case 0x1c: {
+        case COURSE_ID_TOWN: {
             u8 colorIndexRows[6][20] = {{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19},
                                         {20, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19},
                                         {20, 20, 1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19},
@@ -194,7 +196,7 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
             }
             GXS_EndLoadBGExtPltt();
             break;
-        case 0x20: {
+        case COURSE_ID_KOOPA: {
             void *kindDrawList;
             MapObject **objects;
             KoopaBlock **blocks;
@@ -204,13 +206,14 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
                 objects = RaceHudSubScreenGetMapObjects(kindDrawList);
                 v = (objects[1]->mAngle * 0x48) >> 16;
                 for (i = 0; i < 6; i++) {
-                    palette[i + 0x54] = gRaceHudSubScreenBgColors->mColors.mUnk_03.mUnk_00[(i + 0x48 - v) % 6];
+                    palette[i + 0x54] =
+                        gRaceHudSubScreenBgColors->mColors.mKoopaColors.mSecondObjectColors[(i + 0x48 - v) % 6];
                 }
                 k = (objects[0]->mAngle << 5) >> 16;
                 for (i = 0; i < 2; i++) {
                     for (j = 0; j < 3; j++) {
                         palette[j + i * 3 + 0x5a] =
-                            gRaceHudSubScreenBgColors->mColors.mUnk_03.mUnk_0c[i][(j + 0x20 - k) % 3];
+                            gRaceHudSubScreenBgColors->mColors.mKoopaColors.mFirstObjectColors[i][(j + 0x20 - k) % 3];
                     }
                 }
             }
@@ -225,13 +228,16 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
                         n = 8 - ((v << 3) >> 12);
                     }
                     for (j = 0; j < n; j++) {
-                        palette[i * 16 + j + 0x60] = gRaceHudSubScreenBgColors->mColors.mUnk_03.mUnk_18[0];
+                        palette[i * 16 + j + 0x60] =
+                            gRaceHudSubScreenBgColors->mColors.mKoopaColors.mKoopaBlockColors[0];
                     }
                     for (j = n; j < n + 8; j++) {
-                        palette[i * 16 + j + 0x60] = gRaceHudSubScreenBgColors->mColors.mUnk_03.mUnk_18[1];
+                        palette[i * 16 + j + 0x60] =
+                            gRaceHudSubScreenBgColors->mColors.mKoopaColors.mKoopaBlockColors[1];
                     }
                     for (j = n + 8; j < 16; j++) {
-                        palette[i * 16 + j + 0x60] = gRaceHudSubScreenBgColors->mColors.mUnk_03.mUnk_18[0];
+                        palette[i * 16 + j + 0x60] =
+                            gRaceHudSubScreenBgColors->mColors.mKoopaColors.mKoopaBlockColors[0];
                     }
                 }
             }

@@ -67,7 +67,8 @@ void UpdateRaceHudSubScreenCoinCells(void) {
             if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenCoinCells->mCells[cellCount].mDrawPos, v, 1,
                                                 1)) {
                 gRaceHudSubScreenCoinCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x58);
-                gRaceHudSubScreenCoinCells->mCells[cellCount].mUnk_0c = IsPositionOutsideBox(position) != 0 ? 2 : 3;
+                gRaceHudSubScreenCoinCells->mCells[cellCount].mPriority =
+                    IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_OUTSIDE_BOX : RACE_HUD_PRIORITY_INSIDE_BOX;
                 cellCount++;
             }
         }

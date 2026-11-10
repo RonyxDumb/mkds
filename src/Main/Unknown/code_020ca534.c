@@ -32,7 +32,7 @@ void UpdateRaceHudSubScreenShine16Cells(void) {
             if (ComputeRaceHudSubScreenPosition(&p->mPos, &gRaceHudSubScreenShine16Cells->mCells[n].mDrawPos, v, 1,
                                                 1)) {
                 gRaceHudSubScreenShine16Cells->mCells[n].mCell = GetRaceSNcerEntry(0xb6);
-                gRaceHudSubScreenShine16Cells->mCells[n].mUnk_0c = (p->mFlags & 0x20) ? 2 : 1;
+                gRaceHudSubScreenShine16Cells->mCells[n].mPriority = (p->mFlags & 0x20) ? 2 : 1;
                 gRaceHudSubScreenShine16Cells->mCells[n].mUnk_0e = p->mFlags & 0x20;
                 n++;
             }

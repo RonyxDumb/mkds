@@ -35,7 +35,7 @@
 #define COURSE_MAP_RESPAWN_SLOT_NONE 0xffff
 
 // Two words (the elements at member 0xc of RaceHudSubScreenCells).
-typedef Unk0217b498_0c UnkPair020b502c;
+typedef IntPair UnkPair020b502c;
 
 // Object returned by GetCourseMapSubScreenView.
 typedef struct {
@@ -182,7 +182,7 @@ typedef struct CourseMapCheckpoint {
     // X and z of the direction the course runs through this checkpoint (scale 0x1000): the lap progress measures along
     // it, and a kart whose forward vector has a dot product with it below -1394 gets the 0x4 bit of
     // RaceProgressKart.mFlags (facing against the checkpoint).
-    /* 10 */ Unk0217b498_0c mDirection;
+    /* 10 */ IntPair mDirection;
     /* 18 */ s32 mSumValue;
     /* 1c */ s16 mForwardLink;
     /* 1e */ s16 mBackwardLink;

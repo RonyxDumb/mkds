@@ -153,15 +153,15 @@ void DrawRaceHudSubScreenCells(RaceHudOamBuffer *oamBuffer, RaceHudSubScreenCell
         angle = GetSubScreenAngleAndClearScrollTimer();
     }
     for (i = 0; i < cells->mCellCount; i++) {
-        p = cells->mCells[i].mUnk_0c;
+        p = cells->mCells[i].mPriority;
         if (l <= p) {
             q = cells->mCells[i].mUnk_0e;
             matrixIndex = 0;
             if (useRotation != 0) {
                 if (gRaceSetup->mMirrorMode != 0) {
-                    Matrix2x2Rotation(&rotationMatrix, (u16) (cells->mCells[i].mUnk_10 + 0x8000 - angle));
+                    Matrix2x2Rotation(&rotationMatrix, (u16) (cells->mCells[i].mAngle + 0x8000 - angle));
                 } else {
-                    Matrix2x2Rotation(&rotationMatrix, (u16) (angle + (0x8000 - cells->mCells[i].mUnk_10)));
+                    Matrix2x2Rotation(&rotationMatrix, (u16) (angle + (0x8000 - cells->mCells[i].mAngle)));
                 }
                 matrixIndex = AllocOamMatrixIndex(oamBuffer);
                 oamBuffer->mMatrices[matrixIndex].mPA = rotationMatrix.mUnk_00[0] >> 4;
@@ -170,9 +170,9 @@ void DrawRaceHudSubScreenCells(RaceHudOamBuffer *oamBuffer, RaceHudSubScreenCell
                 oamBuffer->mMatrices[matrixIndex].mPD = rotationMatrix.mUnk_00[3] >> 4;
             }
             cell = &cells->mCells[i];
-            screenX = cell->mDrawPos.mUnk_00;
+            screenX = cell->mDrawPos.mFirst;
             cellData = cell->mCell;
-            screenY = cell->mDrawPos.mUnk_04;
+            screenY = cell->mDrawPos.mSecond;
             oamIndex = oamBuffer->mOamCount;
             drawPosition[0] = screenX << 12;
             drawPosition[1] = screenY << 12;
@@ -213,19 +213,19 @@ void DrawRaceHudSubScreenCellsScaled(RaceHudOamBuffer *oamBuffer, RaceHudSubScre
         angle = GetSubScreenAngleAndClearScrollTimer();
     }
     for (i = 0; i < cells->mCellCount; i++) {
-        p = cells->mCells[i].mUnk_0c;
+        p = cells->mCells[i].mPriority;
         if (l <= p) {
             q = cells->mCells[i].mUnk_0e;
             if (useRotation != 0) {
                 if (gRaceSetup->mMirrorMode != 0) {
-                    Matrix2x2RotationReciprocalScale(&matrix, cells->mUnk_0c[i].mUnk_00,
-                                                     (u16) (cells->mCells[i].mUnk_10 - angle));
+                    Matrix2x2RotationReciprocalScale(&matrix, cells->mUnk_0c[i].mFirst,
+                                                     (u16) (cells->mCells[i].mAngle - angle));
                 } else {
-                    Matrix2x2RotationReciprocalScale(&matrix, cells->mUnk_0c[i].mUnk_00,
-                                                     (u16) (angle - cells->mCells[i].mUnk_10));
+                    Matrix2x2RotationReciprocalScale(&matrix, cells->mUnk_0c[i].mFirst,
+                                                     (u16) (angle - cells->mCells[i].mAngle));
                 }
             } else {
-                Matrix2x2ReciprocalScale(&matrix, cells->mUnk_0c[i].mUnk_00);
+                Matrix2x2ReciprocalScale(&matrix, cells->mUnk_0c[i].mFirst);
             }
             matrixIndex = AllocOamMatrixIndex(oamBuffer);
             oamBuffer->mMatrices[matrixIndex].mPA = matrix.mUnk_00[0] >> 4;
@@ -233,9 +233,9 @@ void DrawRaceHudSubScreenCellsScaled(RaceHudOamBuffer *oamBuffer, RaceHudSubScre
             oamBuffer->mMatrices[matrixIndex].mPC = matrix.mUnk_00[2] >> 4;
             oamBuffer->mMatrices[matrixIndex].mPD = matrix.mUnk_00[3] >> 4;
             cell = &cells->mCells[i];
-            screenX = cell->mDrawPos.mUnk_00;
+            screenX = cell->mDrawPos.mFirst;
             cellData = cell->mCell;
-            screenY = cell->mDrawPos.mUnk_04;
+            screenY = cell->mDrawPos.mSecond;
             oamIndex = oamBuffer->mOamCount;
             drawPosition[0] = screenX << 12;
             drawPosition[1] = screenY << 12;

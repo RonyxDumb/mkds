@@ -556,8 +556,8 @@ void ResetRaceTaKartPositions(s32 kartIndex) {
     for (i = 0; i < 0x28; i++) {
         gRaceTaPositions->mSamples[kartIndex][i].mKind = 0;
     }
-    for (j = 0; j < gRaceTaPositions->mUnk_790[kartIndex].mUnk_00; j++) {
-        gRaceTaPositions->mUnk_790[kartIndex].mUnk_34[j] = 0x28;
+    for (j = 0; j < gRaceTaPositions->mKinokoBoostPoints[kartIndex].mPointCount; j++) {
+        gRaceTaPositions->mKinokoBoostPoints[kartIndex].mAgeSamples[j] = 0x28;
     }
     gRaceTaPositions->mKartVisible[kartIndex] = 1;
 }
@@ -583,18 +583,18 @@ void InitRaceTaPositions(void) {
             gRaceTaPositions->mSamples[a][j].mPos = position;
             gRaceTaPositions->mSamples[a][j].mAngle = angle;
             gRaceTaPositions->mSamples[a][j].mKind = 0;
-            gRaceTaPositions->mSamples[a][j].mUnk_14 = 3;
+            gRaceTaPositions->mSamples[a][j].mPriority = 3;
         }
     }
     a = 0;
     if (a < gRaceSetup->mKartCount) {
         Vec3 zeroVector = gVec3Zero;
         do {
-            gRaceTaPositions->mUnk_790[a].mUnk_00 = 0;
+            gRaceTaPositions->mKinokoBoostPoints[a].mPointCount = 0;
             for (j = 0; j < 3; j++) {
-                gRaceTaPositions->mUnk_790[a].mUnk_04[j] = zeroVector;
-                gRaceTaPositions->mUnk_790[a].mUnk_34[j] = -1;
-                gRaceTaPositions->mUnk_790[a].mUnk_28[j] = 3;
+                gRaceTaPositions->mKinokoBoostPoints[a].mPositions[j] = zeroVector;
+                gRaceTaPositions->mKinokoBoostPoints[a].mAgeSamples[j] = -1;
+                gRaceTaPositions->mKinokoBoostPoints[a].mPriorities[j] = 3;
             }
             a++;
         } while (a < gRaceSetup->mKartCount);
@@ -631,20 +631,23 @@ void UpdateRaceTaPositions(void) {
     }
     for (i = 0; i < gRaceSetup->mKartCount; i = (u16) (i + 1)) {
         if ((gKartItems)[i].mKinokoBoostStarted != FALSE) {
-            count = gRaceTaPositions->mUnk_790[i].mUnk_00;
-            gRaceTaPositions->mUnk_790[i].mUnk_00 = count + 1;
-            ((void (*)(Vec3 *, s32)) GetKartPosFromPosSourceCopy)(&gRaceTaPositions->mUnk_790[i].mUnk_04[count], i);
-            gRaceTaPositions->mUnk_790[i].mUnk_28[count] =
-                IsPositionOutsideBox(&gRaceTaPositions->mUnk_790[i].mUnk_04[count]) != 0 ? 2 : 3;
+            count = gRaceTaPositions->mKinokoBoostPoints[i].mPointCount;
+            gRaceTaPositions->mKinokoBoostPoints[i].mPointCount = count + 1;
+            ((void (*)(Vec3 *, s32)) GetKartPosFromPosSourceCopy)(
+                &gRaceTaPositions->mKinokoBoostPoints[i].mPositions[count], i);
+            gRaceTaPositions->mKinokoBoostPoints[i].mPriorities[count] =
+                IsPositionOutsideBox(&gRaceTaPositions->mKinokoBoostPoints[i].mPositions[count]) != 0
+                    ? RACE_HUD_PRIORITY_OUTSIDE_BOX
+                    : RACE_HUD_PRIORITY_INSIDE_BOX;
         }
     }
     gRaceTaPositions->mSampleFrames++;
     if (gRaceTaPositions->mSampleFrames > 0xf) {
         gRaceTaPositions->mSampleFrames = 0;
         for (i = 0; i < gRaceSetup->mKartCount; i = (u16) (i + 1)) {
-            for (j = 0; j < gRaceTaPositions->mUnk_790[i].mUnk_00; j = j + 1) {
-                if (gRaceTaPositions->mUnk_790[i].mUnk_34[j] < 0x28) {
-                    gRaceTaPositions->mUnk_790[i].mUnk_34[j]++;
+            for (j = 0; j < gRaceTaPositions->mKinokoBoostPoints[i].mPointCount; j = j + 1) {
+                if (gRaceTaPositions->mKinokoBoostPoints[i].mAgeSamples[j] < 0x28) {
+                    gRaceTaPositions->mKinokoBoostPoints[i].mAgeSamples[j]++;
                 }
             }
         }
@@ -657,8 +660,9 @@ void UpdateRaceTaPositions(void) {
                 positions->mSamples[i][j] = positions->mSamples[i][j - 1];
             }
             GetKartPosFromPosSourceCopy(&gRaceTaPositions->mSamples[i][0].mPos, i);
-            gRaceTaPositions->mSamples[i][0].mUnk_14 =
-                IsPositionOutsideBox(&gRaceTaPositions->mSamples[i][0].mPos) != 0 ? 2 : 3;
+            gRaceTaPositions->mSamples[i][0].mPriority =
+                IsPositionOutsideBox(&gRaceTaPositions->mSamples[i][0].mPos) != 0 ? RACE_HUD_PRIORITY_OUTSIDE_BOX
+                                                                                  : RACE_HUD_PRIORITY_INSIDE_BOX;
             gRaceTaPositions->mSamples[i][0].mAngle = GetRaceHudSubScreenKartAngle(i);
             if ((kart->mUnk_44 & 0xa) != 0) {
                 gRaceTaPositions->mSamples[i][0].mKind = 2;
@@ -715,15 +719,15 @@ void DrawRaceTaPositions(RaceHudOamBuffer *oamBuffer) {
     for (i = 0; i < gRaceSetup->mKartCount; i++) {
         if (gRaceTaPositions->mKartVisible[i] != 0) {
             if (gRaceProgress->mRaceDone == 0) {
-                for (j = 0; j < gRaceTaPositions->mUnk_790[i].mUnk_00; j++) {
-                    if (gRaceTaPositions->mUnk_790[i].mUnk_34[j] < 0x28) {
-                        if (ComputeRaceHudSubScreenPosition(&gRaceTaPositions->mUnk_790[i].mUnk_04[j], &trailPosition,
-                                                            scale, 1, 1) != FALSE) {
-                            m = gRaceTaPositions->mUnk_790[i].mUnk_28[j];
+                for (j = 0; j < gRaceTaPositions->mKinokoBoostPoints[i].mPointCount; j++) {
+                    if (gRaceTaPositions->mKinokoBoostPoints[i].mAgeSamples[j] < 0x28) {
+                        if (ComputeRaceHudSubScreenPosition(&gRaceTaPositions->mKinokoBoostPoints[i].mPositions[j],
+                                                            &trailPosition, scale, 1, 1) != FALSE) {
+                            m = gRaceTaPositions->mKinokoBoostPoints[i].mPriorities[j];
                             trailCell = GetRaceSNcerEntry(0x4f);
                             trailOamIndex = oamBuffer->mOamCount;
-                            trailCellPosition[0] = trailPosition.mUnk_00 << 12;
-                            trailCellPosition[1] = trailPosition.mUnk_04 << 12;
+                            trailCellPosition[0] = trailPosition.mFirst << 12;
+                            trailCellPosition[1] = trailPosition.mSecond << 12;
                             trailOam = &oamBuffer->mOamBits[trailOamIndex];
                             oamBuffer->mOamCount +=
                                 NNS_G2dMakeCellToOams(&oamBuffer->mOams[trailOamIndex], 0x80 - trailOamIndex, trailCell,
@@ -758,10 +762,10 @@ void DrawRaceTaPositions(RaceHudOamBuffer *oamBuffer) {
                             break;
                     }
                     if (sampleCell != NULL) {
-                        h = gRaceTaPositions->mSamples[i][j].mUnk_14;
+                        h = gRaceTaPositions->mSamples[i][j].mPriority;
                         sampleOamIndex = oamBuffer->mOamCount;
-                        sampleCellPosition[0] = samplePosition.mUnk_00 << 12;
-                        sampleCellPosition[1] = samplePosition.mUnk_04 << 12;
+                        sampleCellPosition[0] = samplePosition.mFirst << 12;
+                        sampleCellPosition[1] = samplePosition.mSecond << 12;
                         sampleOam = &oamBuffer->mOamBits[sampleOamIndex];
                         oamBuffer->mOamCount +=
                             NNS_G2dMakeCellToOams(&oamBuffer->mOams[sampleOamIndex], 0x80 - sampleOamIndex, sampleCell,

@@ -299,7 +299,7 @@ void UpdateRaceProgressKart(Vec3 *position, RaceProgressKart *kart) {
 }
 
 void UpdateRaceProgressKarts(void) {
-    Unk0217b498_0c t;
+    IntPair t;
     s32 progressByKart[8];
     s32 progressByRank[8];
     s32 lapByRank[8];
@@ -311,7 +311,7 @@ void UpdateRaceProgressKarts(void) {
     RaceProgressKart *kart;
     BOOL f;
     RaceProgress *raceProgress;
-    Unk0217b498_0c *checkpointDirection;
+    IntPair *checkpointDirection;
     u16 m;
     s32 finishedCount;
     s32 notRemovedCount;
@@ -335,8 +335,8 @@ void UpdateRaceProgressKarts(void) {
             f = FALSE;
             if (IsKartOnBoostSurface(kart->mIndex) == 0) {
                 checkpointDirection = &gCourseMap->mCheckpoints[kart->mCheckpoint].mDirection;
-                t.mUnk_00 = forward.x;
-                t.mUnk_04 = forward.z;
+                t.mFirst = forward.x;
+                t.mSecond = forward.z;
                 if (ComputeDotOfPairsRounded(&t, checkpointDirection) < -1394) {
                     f = TRUE;
                 }

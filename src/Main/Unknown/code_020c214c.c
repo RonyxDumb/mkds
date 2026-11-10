@@ -52,30 +52,30 @@ void WriteRaceGoalSRowTiles(s32 row, s32 style) {
     m = m != 0 ? 2 : 1;
     switch (style) {
         case 0:
-            spanStart = spans[row].mUnk_00;
-            spanLength = spans[row].mUnk_04 - spanStart + 1;
-            fullStart = fullSpan.mUnk_00;
-            fullLength = fullSpan.mUnk_04 - fullStart + 1;
+            spanStart = spans[row].mFirst;
+            spanLength = spans[row].mSecond - spanStart + 1;
+            fullStart = fullSpan.mFirst;
+            fullLength = fullSpan.mSecond - fullStart + 1;
             CopyScreenMapBlock(gRaceGoalS->mRaceGoalSSpaceNscrCopies[copyIndex], fullStart, spanStart, fullLength,
                                spanLength, gRaceGoalS->mRaceGoalSNscrs[m]->mData, fullStart, spanStart);
             SetScreenMapBlockTopBits(gRaceGoalS->mRaceGoalSNscrs[m]->mData, fullStart, spanStart, fullLength,
                                      spanLength, 9);
             break;
         case 1:
-            spanStart = spans[row].mUnk_00;
-            spanLength = spans[row].mUnk_04 - spanStart + 1;
-            fullStart = fullSpan.mUnk_00;
-            fullLength = fullSpan.mUnk_04 - fullStart + 1;
+            spanStart = spans[row].mFirst;
+            spanLength = spans[row].mSecond - spanStart + 1;
+            fullStart = fullSpan.mFirst;
+            fullLength = fullSpan.mSecond - fullStart + 1;
             CopyScreenMapBlock(gRaceGoalS->mRaceGoalSSpaceNscrCopies[copyIndex], fullStart, spanStart, fullLength,
                                spanLength, gRaceGoalS->mRaceGoalSNscrs[m]->mData, fullStart, spanStart);
             SetScreenMapBlockTopBits(gRaceGoalS->mRaceGoalSNscrs[m]->mData, fullStart, spanStart, fullLength,
                                      spanLength, 8);
             break;
         case 2:
-            spanStart = spans[row].mUnk_00;
-            spanLength = spans[row].mUnk_04 - spanStart + 1;
-            fullLength = fullSpan.mUnk_04 - fullSpan.mUnk_00 + 1;
-            SetScreenMapBlockLowBits(gRaceGoalS->mRaceGoalSNscrs[m]->mData, fullSpan.mUnk_00, spanStart, fullLength,
+            spanStart = spans[row].mFirst;
+            spanLength = spans[row].mSecond - spanStart + 1;
+            fullLength = fullSpan.mSecond - fullSpan.mFirst + 1;
+            SetScreenMapBlockLowBits(gRaceGoalS->mRaceGoalSNscrs[m]->mData, fullSpan.mFirst, spanStart, fullLength,
                                      spanLength, 0);
             break;
     }

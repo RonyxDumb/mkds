@@ -57,14 +57,16 @@ void UpdateRaceHudSubScreenBombKouraWCells(void) {
             if (ComputeRaceHudSubScreenPosition(
                     bombPosition, &gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mDrawPos, v, 1, 1) != FALSE) {
                 gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x63);
-                gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mUnk_0c =
-                    IsPositionOutsideBox(bombPosition) != 0 ? 2 : 3;
-                gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mUnk_10 = bombStateFrames;
+                gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mPriority = IsPositionOutsideBox(bombPosition) != 0
+                                                                                    ? RACE_HUD_PRIORITY_OUTSIDE_BOX
+                                                                                    : RACE_HUD_PRIORITY_INSIDE_BOX;
+// Frame count, not an angle: this list is drawn without rotation.
+                gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mAngle = bombStateFrames;
                 gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mUnk_0e = bombStateFrames >= 0x16 ? 1 : 0;
                 if (bombStateFrames >= 0x16) {
                     y = InterpolateS16(1, 0x1000, 10, bombStateFrames - 0x16, 0x22);
                 }
-                gRaceHudSubScreenBombKouraWCells->mUnk_0c[cellCount].mUnk_00 = y;
+                gRaceHudSubScreenBombKouraWCells->mUnk_0c[cellCount].mFirst = y;
                 cellCount++;
             }
         }
@@ -79,14 +81,16 @@ void UpdateRaceHudSubScreenBombKouraWCells(void) {
             if (ComputeRaceHudSubScreenPosition(
                     kouraPosition, &gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mDrawPos, v, 1, 1) != FALSE) {
                 gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x64);
-                gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mUnk_0c =
-                    IsPositionOutsideBox(kouraPosition) != 0 ? 2 : 3;
-                gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mUnk_10 = kouraStateFrames;
+                gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mPriority = IsPositionOutsideBox(kouraPosition) != 0
+                                                                                    ? RACE_HUD_PRIORITY_OUTSIDE_BOX
+                                                                                    : RACE_HUD_PRIORITY_INSIDE_BOX;
+// Frame count, not an angle: this list is drawn without rotation.
+                gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mAngle = kouraStateFrames;
                 gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mUnk_0e = kouraStateFrames >= 0x16 ? 1 : 0;
                 if (kouraStateFrames >= 0x16) {
                     y2 = InterpolateS16(1, 0x1000, 10, kouraStateFrames - 0x16, 0x22);
                 }
-                gRaceHudSubScreenBombKouraWCells->mUnk_0c[cellCount].mUnk_00 = y2;
+                gRaceHudSubScreenBombKouraWCells->mUnk_0c[cellCount].mFirst = y2;
                 cellCount++;
             }
         }

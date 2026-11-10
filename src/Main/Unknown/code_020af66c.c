@@ -439,7 +439,7 @@ void InitRaceHud(void) {
         gRaceHud->mUseTimeDifference = 0;
     }
     gRaceHud->mStepHasRun = 0;
-    gRaceHud->mUnk_90c = FALSE;
+    gRaceHud->mUnfilledNotEliminatedSet = FALSE;
     gRaceHud->mMissionRunRecordFilled = gRaceSetup->mMode == MODE_MISSION_RUN ? IsMissionRunRecordFilled() : 0;
     MI_DmaFill32(3, &gRaceHud->mMainOam, 0xc0, 0x400);
     MI_DmaFill32(3, &gRaceHud->mSubOam, 0xc0, 0x400);
