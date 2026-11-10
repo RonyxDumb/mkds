@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_0204df90.h"
 #include "Main/Unknown/code_02001000.h"
 #include "Main/Unknown/code_02009cc8.h"
-#include "Main/Unknown/code_0200aeb4.h"
+#include "code_0200aeb4.h"
 #include "code_0200b1b0.h"
 #include "Main/Unknown/code_0200b200.h"
 #include "Main/Unknown/unk_0216f000.h"

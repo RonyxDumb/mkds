@@ -60,4 +60,4 @@ typedef struct MBiParam {
 
 void MBi_OnInitializeDone(void);
 u32 MBi_IsSendEnabled(void);
-u32 AdvanceScanChannel(Unk02143a78 *scanParams);
+u32 changeScanChannel(Unk02143a78 *scanParams);

@@ -133,27 +133,27 @@ src/Main/Unknown/code_020070f0.c:
     .text       start:0x020070f0 end:0x02007148
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02007148.c:
+libs/NitroSDK/mb/src/code_02007148.c:
     complete
     .text       start:0x02007148 end:0x020071b4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020071b4.c:
+libs/NitroSDK/mb/src/code_020071b4.c:
     complete
     .text       start:0x020071b4 end:0x02007478
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02007478.c:
+libs/NitroSDK/mb/src/code_02007478.c:
     complete
     .text       start:0x02007478 end:0x020075f8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020075f8.c:
+libs/NitroSDK/mb/src/code_020075f8.c:
     complete
     .text       start:0x020075f8 end:0x02007624
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02007624.c:
+libs/NitroSDK/mb/src/code_02007624.c:
     complete
     .text       start:0x02007624 end:0x02007ea0
 
@@ -183,7 +183,7 @@ libs/NitroSDK/mb/src/code_02008880.c:
     .text       start:0x02008880 end:0x02008908
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02008908.c:
+libs/NitroSDK/mb/src/code_02008908.c:
     complete
     .text       start:0x02008908 end:0x02008934
 
@@ -238,7 +238,7 @@ src/Main/Unknown/code_0200b6e8.c:
     .text       start:0x0200b6e8 end:0x0200c0d8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0200c0d8.c:
+libs/NitroSDK/mb/src/code_0200c0d8.c:
     complete
     .text       start:0x0200c0d8 end:0x0200c46c
 
@@ -5721,7 +5721,7 @@ libs/NitroDWC/bm/src/code_02151fc4.c:
     .text       start:0x02151fc4 end:0x0215228c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0215228c.c:
+libs/NitroDWC/bm/src/code_0215228c.c:
     complete
     .text       start:0x0215228c end:0x021522a0
 

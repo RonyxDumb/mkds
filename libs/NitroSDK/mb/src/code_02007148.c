@@ -1,5 +1,5 @@
-#include "Main/Unknown/code_02007148.h"
-#include "Main/Unknown/unk_0216f000.h"
+#include "code_02007148.h"
+#include "mb_data.h"
 
 #pragma thumb on
 

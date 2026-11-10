@@ -123,7 +123,7 @@ void MPLinkCallback(s32 a, Unk021425e8 *b) {
 
 void ReceivePortMessage(Unk021425e8 *a) {
     ParentMessage v1;
-    ReadParentMessage(&v1, a->mUnk_0c);
+    MBi_SetRecvBufferFromParent(&v1, a->mUnk_0c);
     switch (v1.mKind) {
         case 1:
             if (gScanConnectWork->mState == 2) {
@@ -176,31 +176,31 @@ void QueueStateMessage(void) {
             v1.mKind = 7;
             p = &v1.mKind;
             p += 3;
-            *(u8 *) &v1.mUnk_02 = CopyNextPiece(p, &v2);
-            if (WriteChildMessage(&v1, gScanConnectWork->mMessageBuffer) != NULL) {
+            *(u8 *) &v1.mUnk_02 = MBi_SendRequestDataPiece(p, &v2);
+            if (MBi_MakeChildSendBuffer(&v1, gScanConnectWork->mMessageBuffer) != NULL) {
                 QueueMPDataIfReady(8, 0xffff, gScanConnectWork->mMessageBuffer);
             }
             break;
         case 7:
             v1.mKind = 8;
-            WriteChildMessage(&v1, gScanConnectWork->mMessageBuffer);
+            MBi_MakeChildSendBuffer(&v1, gScanConnectWork->mMessageBuffer);
             QueueMPDataIfReady(8, 0xffff, gScanConnectWork->mMessageBuffer);
             break;
         case 8:
             break;
         case 9:
             v1.mKind = 10;
-            WriteChildMessage(&v1, gScanConnectWork->mMessageBuffer);
+            MBi_MakeChildSendBuffer(&v1, gScanConnectWork->mMessageBuffer);
             QueueMPDataIfReady(8, 0xffff, gScanConnectWork->mMessageBuffer);
             break;
         case 10:
             v1.mKind = 11;
-            WriteChildMessage(&v1, gScanConnectWork->mMessageBuffer);
+            MBi_MakeChildSendBuffer(&v1, gScanConnectWork->mMessageBuffer);
             QueueMPDataIfReady(8, 0xffff, gScanConnectWork->mMessageBuffer);
             break;
         default:
             v1.mKind = 0;
-            WriteChildMessage(&v1, gScanConnectWork->mMessageBuffer);
+            MBi_MakeChildSendBuffer(&v1, gScanConnectWork->mMessageBuffer);
             QueueMPDataIfReady(8, 0xffff, gScanConnectWork->mMessageBuffer);
             break;
     }

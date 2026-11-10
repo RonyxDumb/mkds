@@ -11,7 +11,7 @@
 #include "03/code_021cef90.h"
 #include "03/code_021cfa68.h"
 #include "code_0214d018.h"
-#include "Main/Unknown/code_02007624.h"
+#include "code_02007624.h"
 #include "Main/Unknown/code_02007e38.h"
 #include "03/code_021d0dd8.h"
 #include "03/code_021d0df8.h"

@@ -1,23 +1,23 @@
-#include "Main/Unknown/code_02009928.h"
+#include "code_02009928.h"
 
 #include "Main/Unknown/unk_0216f000.h"
 #include "code_02142eac.h"
-#include "Main/Unknown/code_0200ad00.h"
-#include "Main/Unknown/code_020099d8.h"
+#include "code_0200ad00.h"
+#include "code_020099d8.h"
 #include "Main/Unknown/code_02009cc8.h"
 #include "Main/Unknown/code_02009adc.h"
 #include "Main/Unknown/code_02009c34.h"
-#include "Main/Unknown/code_02007148.h"
+#include "code_02007148.h"
 #include "Main/Unknown/code_0200a000.h"
-#include "Main/Unknown/code_0200c0d8.h"
+#include "code_0200c0d8.h"
 #include "Main/Unknown/code_0214d000.h"
 #include "03/code_021b94b8.h"
 #include "Main/Unknown/code_02009000.h"
 #include "Main/Unknown/code_0200f000.h"
 #include "code_0200fc8c.h"
 #include "Main/Unknown/code_02009c90.h"
-#include "Main/Unknown/code_0200aeb4.h"
-#include "Main/Unknown/code_020091fc.h"
+#include "code_0200aeb4.h"
+#include "code_020091fc.h"
 #include "code_0200eddc.h"
 #include "code_0214d5b8.h"
 #include "code_0214d018.h"
@@ -69,7 +69,7 @@ u32 MBi_ReadFromCache(MBiCacheList *table, u32 offset, void *destination, u32 by
 }
 
 // Moves the scan to the next allowed channel; returns 0 when no channel is allowed.
-u32 AdvanceScanChannel(Unk02143a78 *scanParams) {
+u32 changeScanChannel(Unk02143a78 *scanParams) {
     u16 candidate;
     u16 i;
     u16 currentChannel;
@@ -313,7 +313,7 @@ void MBi_ParentCallback(Unk021425e8 *result) {
     }
 }
 
-void ChildPortCallback(Unk021425e8 *result) {
+void MBi_ChildPortCallback(Unk021425e8 *result) {
     if (result->mResultCode == 0) {
         if (result->mUnk_04 == 7) {
         } else if (result->mUnk_04 == 9) {
@@ -324,7 +324,7 @@ void ChildPortCallback(Unk021425e8 *result) {
 }
 
 // Child side (scan, connect, MP data); mMode is only ever 1, so this does not run in this build.
-void ChildCallback(Unk021425e8 *result) {
+void MBi_ChildCallback(Unk021425e8 *result) {
     ScanEntry *entry;
     u8 c;
     MBiParam *work;
@@ -340,7 +340,7 @@ void ChildCallback(Unk021425e8 *result) {
             }
             work->mCallback(0x15, result);
             MBi_CheckWmErrcode(
-                0x1d, WM_SetLifeTime(ChildCallback, data_0216179c, data_02161794, data_02161790, data_02161798));
+                0x1d, WM_SetLifeTime(MBi_ChildCallback, data_0216179c, data_02161794, data_02161790, data_02161798));
             return;
         case 0x1d:
             if (result->mResultCode != 0) {
@@ -362,7 +362,7 @@ void ChildCallback(Unk021425e8 *result) {
             gScanParams.mUnk_08[5] = 0xff;
             work->mRepeatScan = 1;
             work->mUnk_5e8 = 1;
-            MBi_CheckWmErrcode(0xa, WM_StartScan(ChildCallback, &gScanParams));
+            MBi_CheckWmErrcode(0xa, WM_StartScan(MBi_ChildCallback, &gScanParams));
             return;
         case 10:
             if (result->mResultCode != 0) {
@@ -410,11 +410,11 @@ void ChildCallback(Unk021425e8 *result) {
                         return;
                     }
                     if (work->mUnk_5e8 != 0) {
-                        if (AdvanceScanChannel(&gScanParams) == 0) {
+                        if (changeScanChannel(&gScanParams) == 0) {
                             MBi_CommEnd();
                         }
                     }
-                    MBi_CheckWmErrcode(0xa, WM_StartScan(ChildCallback, &gScanParams));
+                    MBi_CheckWmErrcode(0xa, WM_StartScan(MBi_ChildCallback, &gScanParams));
                     return;
                 case 4:
                     work->mCallback(5, result);
@@ -422,11 +422,11 @@ void ChildCallback(Unk021425e8 *result) {
                         return;
                     }
                     if (work->mUnk_5e8 != 0) {
-                        if (AdvanceScanChannel(&gScanParams) == 0) {
+                        if (changeScanChannel(&gScanParams) == 0) {
                             MBi_CommEnd();
                         }
                     }
-                    MBi_CheckWmErrcode(0xa, WM_StartScan(ChildCallback, &gScanParams));
+                    MBi_CheckWmErrcode(0xa, WM_StartScan(MBi_ChildCallback, &gScanParams));
                     return;
                 default:
                     work->mCallback(0x100, result);
@@ -437,7 +437,7 @@ void ChildCallback(Unk021425e8 *result) {
                 work->mCallback(0x100, result);
                 return;
             }
-            MBi_CheckWmErrcode(0xc, WM_StartConnectEx(ChildCallback, work->mUnk_520, NULL, 1, 0));
+            MBi_CheckWmErrcode(0xc, WM_StartConnectEx(MBi_ChildCallback, work->mUnk_520, NULL, 1, 0));
             return;
         case 12:
             if (result->mResultCode != 0) {
@@ -454,12 +454,13 @@ void ChildCallback(Unk021425e8 *result) {
                     work->mUnk_5e2 = result->mUnk_08_2;
                     work->mCallback(6, result);
                     work->mConnectedAids = 1;
-                    if (WM_SetPortCallback(1, ChildPortCallback, NULL) != 0) {
+                    if (WM_SetPortCallback(1, MBi_ChildPortCallback, NULL) != 0) {
                         return;
                     }
-                    MBi_CheckWmErrcode(0xe, WM_StartMPEx(ChildCallback, work->mReceiveBuffer, work->mReceiveBufferSize,
-                                                         work->mSendBuffer, work->mSendBufferSize,
-                                                         work->mUnk_52c == 0 ? 1 : 0, 0, 0, 0, 1, 1));
+                    MBi_CheckWmErrcode(0xe,
+                                       WM_StartMPEx(MBi_ChildCallback, work->mReceiveBuffer, work->mReceiveBufferSize,
+                                                    work->mSendBuffer, work->mSendBufferSize,
+                                                    work->mUnk_52c == 0 ? 1 : 0, 0, 0, 0, 1, 1));
                     return;
                 case 9:
                     work->mCallback(10, result);
@@ -505,7 +506,7 @@ void ChildCallback(Unk021425e8 *result) {
             }
             work->mConnectedAids = 0;
             gWirelessWork->mMPStarted = 0;
-            MBi_CheckWmErrcode(2, WM_End(ChildCallback));
+            MBi_CheckWmErrcode(2, WM_End(MBi_ChildCallback));
             return;
         case 2:
             if (result->mResultCode != 0) {
@@ -539,7 +540,7 @@ void ChildCallback(Unk021425e8 *result) {
 }
 
 // A value from 0 to 19 made from the MAC address; the caller adds 200 for the beacon period.
-u32 GetBeaconDispersion(void) {
+u32 MBi_GetBeaconPeriodDispersion(void) {
     u8 macAddress[6];
     u32 byteSum;
     s32 i;
@@ -605,7 +606,7 @@ s32 InitWirelessWork(void *buffer, Unk02009ff4 *b, u32 ggid, u32 tgid, u32 dmaNo
     wirelessWork->mUnk_014 = 0;
     wirelessWork->mGgid = ggid;
     wirelessWork->mTgid = tgid;
-    wirelessWork->mBeaconPeriod = GetBeaconDispersion() + 0xc8;
+    wirelessWork->mBeaconPeriod = MBi_GetBeaconPeriodDispersion() + 0xc8;
     wirelessWork->mMaxChildren = 0xf;
     wirelessWork->mDataQueued = 0;
     wirelessWork->mMbIsStarted = 0;
@@ -615,7 +616,7 @@ s32 InitWirelessWork(void *buffer, Unk02009ff4 *b, u32 ggid, u32 tgid, u32 dmaNo
     return 0;
 }
 
-u32 IsMPSizeValid(u32 sendDataSize, u32 receiveDataSize, u32 maxChildren) {
+u32 MBi_IsCommSizeValid(u32 sendDataSize, u32 receiveDataSize, u32 maxChildren) {
     s32 totalSize;
     if (sendDataSize > 0x1fe || sendDataSize < 0xe4) {
         return 0;
@@ -639,7 +640,7 @@ u32 SetMPLimits(u32 sendDataSize, u32 maxChildren) {
         OS_RestoreInterrupts(savedInterrupts);
         return 0;
     }
-    if (IsMPSizeValid(sendDataSize, 8, maxChildren) == 0) {
+    if (MBi_IsCommSizeValid(sendDataSize, 8, maxChildren) == 0) {
         OS_RestoreInterrupts(savedInterrupts);
         return 0;
     }
@@ -655,7 +656,7 @@ s32 MBi_StartCommon(void) {
     gWirelessWork->mConnectedAids = 0;
     gWirelessWork->mResetting = 0;
     gWirelessWork->mUnk_538[8] = 0;
-    SetMaxChannelTime(10);
+    MBi_SetMaxScanTime(10);
     if (mbc->mIsStartedEx == 0) {
         s32 result;
         do {
@@ -819,7 +820,7 @@ void MB_DisconnectChild(u32 childIndex) {
 #pragma thumb off
 
 #pragma thumb on
-void SetMaxChannelTime(u32 maxChannelTime) {
+void MBi_SetMaxScanTime(u32 maxChannelTime) {
     u32 value0 = maxChannelTime;
     u32 value1;
     gScanParams.mUnk_06 = value0;
@@ -828,14 +829,14 @@ void SetMaxChannelTime(u32 maxChannelTime) {
 
 #pragma thumb on
 
-s32 SetMPDataToPort(Unk021425e8Func callback, void *data, s32 dataSize, u16 d, u16 e) {
+s32 MBi_SetMPData(Unk021425e8Func callback, void *data, s32 dataSize, u16 d, u16 e) {
     s32 result;
     result = WM_SetMPDataToPortEx((UnkFunc *) callback, NULL, data, dataSize, e, 1, 3);
     MBi_CheckWmErrcode(0xf, result);
     return result;
 }
 
-int SendMPData(void *data, u32 size, u32 childMask) {
+int MBi_SendMP(void *data, u32 size, u32 childMask) {
     MBiParam *work;
     u32 v2;
     s32 result;
@@ -854,7 +855,7 @@ int SendMPData(void *data, u32 size, u32 childMask) {
             } else {
                 v2 = 0;
             }
-            result = SetMPDataToPort(work->mCommandCallback, data, sizeHalfword, v2, childMaskHalfword);
+            result = MBi_SetMPData(work->mCommandCallback, data, sizeHalfword, v2, childMaskHalfword);
             if (result == 2) {
                 gWirelessWork->mDataQueued = 1;
             }
@@ -863,7 +864,7 @@ int SendMPData(void *data, u32 size, u32 childMask) {
             }
             return result;
         case 2:
-            result = SetMPDataToPort(ChildCallback, data, sizeHalfword, 0, childMaskHalfword);
+            result = MBi_SetMPData(MBi_ChildCallback, data, sizeHalfword, 0, childMaskHalfword);
             if (result == 2) {
                 gWirelessWork->mDataQueued = 1;
             }
@@ -880,11 +881,11 @@ int SendMPData(void *data, u32 size, u32 childMask) {
 
 #pragma thumb on
 
-u32 GetGgid(void) {
+u32 MBi_GetGgid(void) {
     return gWirelessWork->mGgid;
 }
 
-u16 GetTgid(void) {
+u16 MBi_GetTgid(void) {
     return gWirelessWork->mTgid;
 }
 
@@ -892,7 +893,7 @@ u16 GetTgid(void) {
 
 #pragma thumb on
 
-u8 GetGameInfoAttr(void) {
+u8 MBi_GetAttribute(void) {
     MBiParam *work;
     u32 bit2;
     u32 bit1;

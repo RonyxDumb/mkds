@@ -247,7 +247,7 @@ u32 OS_IsRunOnEmulator(void) {
     return 0;
 }
 
-// On the first call stores ReadCartridgeMarkerBits's result with one bit added in the top bits (0x10000000 when
+// On the first call stores OSi_GetDeviceType's result with one bit added in the top bits (0x10000000 when
 // OS_IsRunOnEmulator is nonzero, else 0x40000000 when OSi_IsRunOnDebugger is nonzero, else 0x20000000 when bit 24 of
 // the result is set, else 0x80000000), or-ed with a halfword read from a fixed address. The stored value is -1 until
 // then.
@@ -255,7 +255,7 @@ u32 OS_GetConsoleType(void) {
     u32 type;
 
     if (gConsoleType == 0xffffffff) {
-        type = ReadCartridgeMarkerBits();
+        type = OSi_GetDeviceType();
         if (OS_IsRunOnEmulator() != 0) {
             type |= 0x10000000;
         } else if (OSi_IsRunOnDebugger() != 0) {
@@ -273,7 +273,7 @@ u32 OS_GetConsoleType(void) {
 // Repeats, each pass between OS_DisableInterrupts and OS_RestoreInterrupts, until OS_UnlockCartridge has been called
 // (it is when OS_TryLockCartridge returns 0). The result has bit 24 set when two words at fixed addresses are
 // 0x544e494e and 0x4f444e45, else bit 25.
-u32 ReadCartridgeMarkerBits(void) {
+u32 OSi_GetDeviceType(void) {
     u32 a;
     s32 d;
     u16 h;

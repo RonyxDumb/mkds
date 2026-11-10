@@ -1,8 +1,8 @@
-#include "Main/Unknown/code_0215228c.h"
+#include "code_0215228c.h"
 
 #pragma thumb on
 
-u32 ComputeSecondsOfDay(const RTCTime *values) {
+u32 TimeToSeconds(const RTCTime *values) {
     return values->mSecond + 0x3cu * (values->mMinute + 0x3cu * values->mHour);
 }
 

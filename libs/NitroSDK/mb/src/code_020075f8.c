@@ -1,7 +1,7 @@
-#include "Main/Unknown/code_020075f8.h"
-#include "Main/Unknown/code_02008908.h"
-#include "Main/Unknown/code_0200c0d8.h"
-#include "Main/Unknown/unk_0216f000.h"
+#include "code_020075f8.h"
+#include "code_02008908.h"
+#include "code_0200c0d8.h"
+#include "mb_data.h"
 
 #pragma thumb on
 

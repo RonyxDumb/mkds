@@ -1,9 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_02007ec4.h"
+#include "code_02007ec4.h"
 #include "code_02008880.h"
-#include "Main/Unknown/code_0214d000.h"
 #include "code_0214cfe4.h"
 #include "wm_etc.h"
 #include "code_02003be0.h"

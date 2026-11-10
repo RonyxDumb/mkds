@@ -5,12 +5,9 @@
 #include "code_0200fc8c.h"
 #include "fs_file.h"
 #include "code_02003be0.h"
-#include "Main/Unknown/code_02007148.h"
-#include "Main/Unknown/code_0200f000.h"
-#include "Main/Unknown/code_0200aeb4.h"
-#include "Main/Unknown/code_0200c000.h"
-#include "Main/Unknown/code_02008908.h"
-#include "Main/Unknown/code_0214d000.h"
+#include "code_02007148.h"
+#include "code_0200aeb4.h"
+#include "code_02008908.h"
 
 // Object MBi_SetTask runs MBi_ReloadCache on: the member at 0x10 is the entry of MBiCacheList that is read.
 typedef struct DataRangeLoadJob {

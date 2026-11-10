@@ -1,5 +1,5 @@
-#include "Main/Unknown/code_02007624.h"
-#include "Main/Unknown/code_020091fc.h"
+#include "code_02007624.h"
+#include "code_020091fc.h"
 #include "code_0214d018.h"
 
 #pragma thumb on
@@ -151,9 +151,9 @@ void MBi_CommParentCallback(s32 eventCode, Unk021425e8 *eventData) {
             {
                 u32 ggid;
                 u16 tgid;
-                ggid = GetGgid();
-                tgid = GetTgid();
-                MB_SendGameInfoBeacon(ggid, tgid, GetGameInfoAttr());
+                ggid = MBi_GetGgid();
+                tgid = MBi_GetTgid();
+                MB_SendGameInfoBeacon(ggid, tgid, MBi_GetAttribute());
             }
             break;
         case 0xff:

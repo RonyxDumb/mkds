@@ -7,7 +7,7 @@
 #include "code_0214d93c.h"
 #include "code_0200fc8c.h"
 #include "code_021522a0.h"
-#include "Main/Unknown/code_0215228c.h"
+#include "code_0215228c.h"
 
 #pragma thumb on
 
@@ -19,7 +19,7 @@ s64 DateTimeToSeconds(const RTCDate *date, const RTCTime *time) {
     if (day == -1) {
         return -1;
     }
-    sec = ComputeSecondsOfDay(time);
+    sec = TimeToSeconds(time);
     return (s64) sec + (s64) day * 0x15180;
 }
 

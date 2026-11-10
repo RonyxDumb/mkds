@@ -64,7 +64,7 @@ void DWC_ReportUserData(const DWCAccUserData *userdata) {
     DWC_ReportFriendData(userdata, &userdata->mAuthentic);
 }
 
-u32 IsMultipleOf4(u32 year) {
+u32 IsLeapYearTwoDigit(u32 year) {
     if ((year & 3) == 0) {
         return 1;
     }
@@ -78,7 +78,7 @@ s32 DateToDayCount(const RTCDate *date) {
         return -1;
     }
     dayNum = date->mDay - 1 + ((const u32 *) &data_0216f26c)[date->mMonth];
-    if (date->mMonth >= 3 && IsMultipleOf4(date->mYear) != 0) {
+    if (date->mMonth >= 3 && IsLeapYearTwoDigit(date->mYear) != 0) {
         dayNum++;
     }
     dayNum = dayNum + date->mYear * 365;
