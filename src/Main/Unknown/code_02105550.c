@@ -216,24 +216,24 @@ BOOL LoadSndBanksAndWaveArcs(s32 bankMask) {
     s32 i;
     NNSSndHeap *savedHeap;
 
-    savedHeap = data_0217d130;
-    data_0217d130 = data_0217c77c;
+    savedHeap = gCurrentSndHeap;
+    gCurrentSndHeap = data_0217c77c;
     if (data_0216c7d4 != 2) {
         NNS_SndArcLoadBank(1, data_0217c77c);
     }
     for (i = 0; i < 0xd; i++) {
         if (((bankMask >> i) & 1) != 0) {
             if (NNS_SndArcLoadBankEx(data_0216c7f8[i], 2, data_0217c77c) == 0) {
-                data_0217d130 = savedHeap;
+                gCurrentSndHeap = savedHeap;
                 return FALSE;
             }
             if (NNS_SndArcLoadWaveArc(data_0216c82c[i], data_0217c77c) == 0) {
-                data_0217d130 = savedHeap;
+                gCurrentSndHeap = savedHeap;
                 return FALSE;
             }
         }
     }
-    data_0217d130 = savedHeap;
+    gCurrentSndHeap = savedHeap;
     return TRUE;
 }
 
@@ -265,8 +265,8 @@ int GetSndInitBufferSize(int heapSizeKind) {
 }
 
 void ReleaseSndHeaps(void) {
-    NNS_SndHeapDestroy(data_0217d130);
-    data_0217d130 = NULL;
+    NNS_SndHeapDestroy(gCurrentSndHeap);
+    gCurrentSndHeap = NULL;
     NNS_SndHeapDestroy(data_0217c77c);
     data_0217c77c = NULL;
     NNS_SndHeapDestroy(data_0217c790);
@@ -303,7 +303,7 @@ void CreateSndHeaps(u32 heapSizeKind, u32 buffer) {
     ResetLoadedSoundSet(&data_0217c7b4);
     data_0217c77c = NNS_SndHeapCreate((void *) buffer, soundHeapSize);
     seqRowHeapSize = 0;
-    data_0217d130 = NULL;
+    gCurrentSndHeap = NULL;
     buffer = buffer + soundHeapSize;
     switch (heapSizeKind) {
         case 0:
@@ -344,7 +344,7 @@ void CreateSndHeaps(u32 heapSizeKind, u32 buffer) {
             break;
     }
     w = w - soundHeapSizeCopy - seqRowHeapSizeCopy;
-    data_0217d130 = NNS_SndHeapCreate((void *) x, w);
+    gCurrentSndHeap = NNS_SndHeapCreate((void *) x, w);
     x = 0;
     if (heapSizeKind == 1) {
         x = 1;
@@ -689,15 +689,15 @@ void InitSceneSounds(s32 e) {
             { break; }
         case 1:
             if (gBootInfo->mUnk_00 != 2) {
-                savedHeap = data_0217d130;
+                savedHeap = gCurrentSndHeap;
                 if (gLoadedSoundBanks.mLoadMarker == 0xff00 || gLoadedSoundBanks.mBankMask != 0xffff) {
                     NNS_SndHeapClear(data_0217c77c);
                     gLoadedSoundBanks.mLoadMarker = 0xff00;
                     gLoadedSoundBanks.mBankMask = 0;
-                    data_0217d130 = data_0217c77c;
+                    gCurrentSndHeap = data_0217c77c;
                     if (NNS_SndArcLoadBank(0x2c, data_0217c77c) != 0) {
-                        if (NNS_SndArcLoadSeqArc(3, data_0217d130) != 0) {
-                            data_0217d130 = savedHeap;
+                        if (NNS_SndArcLoadSeqArc(3, gCurrentSndHeap) != 0) {
+                            gCurrentSndHeap = savedHeap;
                             gLoadedSoundBanks.mBankMask = 0xffff;
                             gLoadedSoundBanks.mLoadMarker = 0xfe00;
                         }
@@ -706,15 +706,15 @@ void InitSceneSounds(s32 e) {
             }
             { break; }
         case 0xc:
-            savedHeap = data_0217d130;
+            savedHeap = gCurrentSndHeap;
             if (gLoadedSoundBanks.mLoadMarker == 0xff00 || gLoadedSoundBanks.mBankMask != 0xffff) {
                 NNS_SndHeapClear(data_0217c77c);
                 gLoadedSoundBanks.mLoadMarker = 0xff00;
                 gLoadedSoundBanks.mBankMask = 0;
-                data_0217d130 = data_0217c77c;
+                gCurrentSndHeap = data_0217c77c;
                 if (NNS_SndArcLoadBank(0x2c, data_0217c77c) != 0) {
-                    if (NNS_SndArcLoadSeqArc(3, data_0217d130) != 0) {
-                        data_0217d130 = savedHeap;
+                    if (NNS_SndArcLoadSeqArc(3, gCurrentSndHeap) != 0) {
+                        gCurrentSndHeap = savedHeap;
                         gLoadedSoundBanks.mBankMask = 0xffff;
                         gLoadedSoundBanks.mLoadMarker = 0xfe00;
                     }
@@ -741,12 +741,12 @@ void InitSceneSounds(s32 e) {
         return;
     }
     if (gBootInfo->mUnk_00 != 2) {
-        NNS_SndArcLoadBank(2, data_0217d130);
+        NNS_SndArcLoadBank(2, gCurrentSndHeap);
     }
     if (gBootInfo->mUnk_00 == 2) {
         return;
     }
-    data_0217c798[0] = NNS_SndHeapSaveState(data_0217d130);
+    data_0217c798[0] = NNS_SndHeapSaveState(gCurrentSndHeap);
     if (GetCurrentSceneNumber() != 1) {
         return;
     }
@@ -1579,9 +1579,9 @@ void StartMissionRunLVselSeq(u32 mode) {
         return;
     }
     seqNo = (mode == 1) ? 0x47 : 0x48;
-    NNS_SndHeapLoadState(data_0217d130, data_0217c798[0]);
-    NNS_SndHeapGetCurrentLevel(data_0217d130);
-    NNS_SndArcLoadSeq(seqNo, data_0217d130);
+    NNS_SndHeapLoadState(gCurrentSndHeap, data_0217c798[0]);
+    NNS_SndHeapGetCurrentLevel(gCurrentSndHeap);
+    NNS_SndArcLoadSeq(seqNo, gCurrentSndHeap);
     NNS_SndPlayerStopSeq(&data_0217d07c, 2);
     StartSeqAtVolume(seqNo, 0x7f, &data_0217c83c);
 }
@@ -1655,11 +1655,11 @@ void LoadMissionRunMSselSoundData(u32 mode, u32 missionRow) {
             bankNo = 0x17;
             break;
     }
-    NNS_SndHeapLoadState(data_0217d130, data_0217c798[0]);
-    NNS_SndHeapGetCurrentLevel(data_0217d130);
-    NNS_SndArcLoadBank(bankNo, data_0217d130);
-    NNS_SndArcLoadBank(0x2a, data_0217d130);
-    NNS_SndArcLoadSeqArc(4, data_0217d130);
+    NNS_SndHeapLoadState(gCurrentSndHeap, data_0217c798[0]);
+    NNS_SndHeapGetCurrentLevel(gCurrentSndHeap);
+    NNS_SndArcLoadBank(bankNo, gCurrentSndHeap);
+    NNS_SndArcLoadBank(0x2a, gCurrentSndHeap);
+    NNS_SndArcLoadSeqArc(4, gCurrentSndHeap);
 }
 
 void UpdateMissionRunMSselSounds(s32 a) {

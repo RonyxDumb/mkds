@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_021112fc(u32 arg0);
+void SetEntryKartFinishResult(u32 finishResult);

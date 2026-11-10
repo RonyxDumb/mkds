@@ -67,7 +67,7 @@ s32 IsBuddyRecordFlagged(u8 recordIndex) {
     return 0;
 }
 
-s32 func_02060ac8(u8 recordIndex) {
+s32 GetBuddyRecordMatchKind0FirstCount(u8 recordIndex) {
     BuddyRecord buddyRecord;
 
     GetBuddyRecord(recordIndex, &buddyRecord);
@@ -77,7 +77,7 @@ s32 func_02060ac8(u8 recordIndex) {
     return -1;
 }
 
-s32 func_02060a94(u8 recordIndex) {
+s32 GetBuddyRecordMatchKind0SecondCount(u8 recordIndex) {
     BuddyRecord buddyRecord;
 
     GetBuddyRecord(recordIndex, &buddyRecord);
@@ -87,7 +87,7 @@ s32 func_02060a94(u8 recordIndex) {
     return -1;
 }
 
-s32 func_02060a60(u8 recordIndex) {
+s32 GetBuddyRecordMatchKind1FirstCount(u8 recordIndex) {
     BuddyRecord buddyRecord;
 
     GetBuddyRecord(recordIndex, &buddyRecord);
@@ -97,7 +97,7 @@ s32 func_02060a60(u8 recordIndex) {
     return -1;
 }
 
-s32 func_02060a2c(u8 recordIndex) {
+s32 GetBuddyRecordMatchKind1SecondCount(u8 recordIndex) {
     BuddyRecord buddyRecord;
 
     GetBuddyRecord(recordIndex, &buddyRecord);
@@ -107,7 +107,7 @@ s32 func_02060a2c(u8 recordIndex) {
     return -1;
 }
 
-s32 func_020609f8(u8 recordIndex) {
+s32 GetBuddyRecordMatchKind2FirstCount(u8 recordIndex) {
     BuddyRecord buddyRecord;
 
     GetBuddyRecord(recordIndex, &buddyRecord);
@@ -117,7 +117,7 @@ s32 func_020609f8(u8 recordIndex) {
     return -1;
 }
 
-s32 func_020609c4(u8 recordIndex) {
+s32 GetBuddyRecordMatchKind2SecondCount(u8 recordIndex) {
     BuddyRecord buddyRecord;
 
     GetBuddyRecord(recordIndex, &buddyRecord);

@@ -318,7 +318,7 @@ Reused variables and own locals:
   first use is a short unrelated one (`h = i + 1`), give the early use its own variable (`k = i + 1`,
   DWC_Http_ParseResult).
 - A flag the original registers after a shared-expression temporary must be its variable's first or only value:
-  write its earlier use with another local (func_02066fe0).
+  write its earlier use with another local (StartKartRaceEnd).
 - A table entry loaded once and kept in a callee-saved register across two calls is a reused dead variable:
   `n = tbl[i].f; f1(n); f2(n);` with `n` from an earlier loop (InitSelectKart).
 - A value the original forms itself is not a named local: `while (*(vu8 *) &d->mUnk_1b80 != 2) {}` instead of
@@ -527,7 +527,7 @@ Expression shapes:
 - A member address for a call argument formed before a branch instead of in the call's own block: write that update as
   `m = (s32) (m + v);`, not `m += v;`, and keep the cast (SetItemFBoxPushedDrawMatrix).
 - A row address added before the element offset (`&t[y]` first, then the element): a pointer local, `p = &t[y][f(x)]; v
-  = p->m;` (func_0202a360). A reused index, casts and row or element helpers did not help.
+  = p->m;` (GetResultSceneSeqKind). A reused index, casts and row or element helpers did not help.
 - A final add that loads the local first: `p->m = d[0] + (s32) p->m;` with the same-type cast on the member; `+=` and
   plain `d[0] + p->m` did not match (the only spelling that matched; PlaceItemTeresaAtKart).
 - Two differences computed before a wait loop and shifted after it: compute them into two locals before the loop
@@ -871,7 +871,7 @@ Expression shapes:
   the call on the right): the compiler puts the call on the right whatever the written order, and a local holding
   the call result keeps the written order. Write `r = f(b, c); if (r != d)` or `c = f(p->x); g(..., c + x, ...)`
   (XorBytesWithKeyStreamAndCheckCrc). Inside an `&&` chain use a comma expression `(c = GetKartRank(a->mUnk_74), c == i)`;
-  `(c = f()) == i` is still swapped (func_02066fe0).
+  `(c = f()) == i` is still swapped (StartKartRaceEnd).
 - The same holds for a heavier left operand: `mUnk_20 == v1` with `mUnk_20` an array element stays `cmp v1,
   mUnk_20`; the element through a pointer local (`q = &d->mUnk_44[v2]; if (q->mUnk_20 == v1)`) stays on the left
   (InitRaceProgress). In a product, `(s64) X * b` becomes `b * X`; give X a local (`c = (s32) ((s64) *a * data >> 12);`,
@@ -950,7 +950,7 @@ Expression shapes:
 - `add rD, inv, mod` where `inv + k % 4` gives the operands swapped: pass the invariant as a parameter of a static
   inline that writes `r + k % 4` (func_020b41e8).
 - `adds r0, r0, #0` / `#4` kept before a byte load after a table-index call: a static inline returning
-  `&tbl[idx()].mUnk_00[j]`, used as `helper(j)->member` (may also fit RefreshRaceGoalSCourseCountReached and HoldRaceGoalSRows).
+  `&tbl[idx()].mUnk_00[j]`, used as `helper(j)->member` (GetResultSceneSeqKind; may also fit RefreshRaceGoalSCourseCountReached and HoldRaceGoalSRows).
 - Inline arguments moved into place in the wrong order (they are passed right to left) while the registers are right:
   the inline assigns its parameters to its own locals in the original's order, `i = size; p = a; q = b;`, declared
   `p, q, t, i` (func_021382a8).

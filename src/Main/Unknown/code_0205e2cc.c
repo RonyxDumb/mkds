@@ -49,8 +49,8 @@ BOOL CopyEmblemFromBlock(EmblemBlock *emblemBlock, u8 buddyIndex, EmblemData *em
     if (buddyRecord.mFilled == 0 || buddyRecord.mUnk_22_2 == 0) {
         return FALSE;
     }
-    emblemData->mUnk_200 = (emblemBlock->mUnk_04.mFilledBits & (1 << slotIndex)) != 0;
-    if (emblemData->mUnk_200 != 0) {
+    emblemData->mHasPixels = (emblemBlock->mUnk_04.mFilledBits & (1 << slotIndex)) != 0;
+    if (emblemData->mHasPixels != 0) {
         MI_CpuCopy8(emblemBlock->mUnk_04.mEmblems[slotIndex], emblemData, 0x200);
     }
     return TRUE;

@@ -36,7 +36,7 @@ void ReleaseRecordScene(void) {
 #pragma thumb off
 
 #pragma thumb on
-void func_02111368(void) {
+void WriteRecordSceneRegistersCallback(void) {
     WriteRecordSceneRegisters();
     UploadOamLists(gRecordMainOam, gRecordSubOam);
 }

@@ -231,7 +231,7 @@ void AdvanceMissionRunEnd(void) {
                 return;
             }
             func_020688a0(GetKart((u16) entryIndex));
-            func_0207a828(func_0203cd14_inline(entryIndex));
+            StartKartRaceEndWrapper(func_0203cd14_inline(entryIndex));
             RequestRaceEndStemSet();
             StartRaceEndSeq(0);
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
@@ -247,7 +247,7 @@ void AdvanceMissionRunEnd(void) {
                 return;
             }
             func_020688a0(GetKart(entryIndex));
-            func_0207a828((u16) entryIndex);
+            StartKartRaceEndWrapper((u16) entryIndex);
             StartRaceEndSeq(0);
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 FinishStandings();

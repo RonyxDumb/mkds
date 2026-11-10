@@ -82,7 +82,7 @@ u16 GetRecordVSEraseFirstRecordIndex(void) {
 
 #pragma thumb on
 
-u32 IsRecordVSEraseRowFilled(int row) {
+BOOL IsRecordVSEraseRowFilled(int row) {
     int firstRecordIndex;
     int recordCount;
     firstRecordIndex = GetRecordVSEraseFirstRecordIndex();
@@ -105,40 +105,42 @@ void UpdateRecordVSEraseRows(void) {
     eraseCellCount = gRecordVSErase->mRecordVSSEraseBncl->mUnk_06;
     firstRecordIndex = GetRecordVSEraseFirstRecordIndex();
     for (i = 0; i < 5; i++) {
-        gRecordVSErase->mRecordVSSEraseTable[data_0215c4e8[i]].mVisible = 0;
-        gRecordVSErase->mRecordVSSEraseTable[data_0215c4f4[i]].mVisible = 0;
-        gRecordVSErase->mRecordVSSEraseTable[data_0215c500[i]].mVisible = 0;
-        gRecordVSErase->mRecordVSSEraseTable[data_0215c50c[i]].mVisible = 0;
-        gRecordVSErase->mRecordVSSEraseTable[data_0215c518[i]].mVisible = 0;
-        gRecordVSErase->mRecordVSSEraseTable[data_0215c524[i]].mVisible = 0;
-        gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + data_0215c4b8[i]].mVisible = 0;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnhighlightedIndices[i]].mVisible = 0;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseHighlightIndices[i]].mVisible = 0;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedRowIndices[i]].mVisible = 0;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedHighlightIndices[i]].mVisible = 0;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnflaggedObjectIndices[i]].mVisible = 0;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedObjectIndices[i]].mVisible = 0;
+        gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + gRecordVSEraseRowLabelIndices[i]].mVisible = 0;
     }
     for (i = 0; i < 5; i++) {
         if (IsRecordVSEraseRowFilled((s16) i)) {
             if (gRecordVSErase->mIndex == i) {
                 if (IsRecordFlagged(firstRecordIndex)) {
-                    gRecordVSErase->mRecordVSSEraseTable[data_0215c50c[i]].mVisible = 1;
-                    SetLabelPaletteIndex(data_0215c4b8[i], 0xe, gRecordVSErase->mRecordVSSEraseBnll,
+                    gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedHighlightIndices[i]].mVisible = 1;
+                    SetLabelPaletteIndex(gRecordVSEraseRowLabelIndices[i], 0xe, gRecordVSErase->mRecordVSSEraseBnll,
                                          gRecordVSErase->mRecordVSSEraseTable, gRecordVSErase->mRecordVSSEraseBncl);
                 } else {
-                    gRecordVSErase->mRecordVSSEraseTable[data_0215c4f4[i]].mVisible = 1;
-                    SetLabelPaletteIndex(data_0215c4b8[i], 0xe, gRecordVSErase->mRecordVSSEraseBnll,
+                    gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseHighlightIndices[i]].mVisible = 1;
+                    SetLabelPaletteIndex(gRecordVSEraseRowLabelIndices[i], 0xe, gRecordVSErase->mRecordVSSEraseBnll,
                                          gRecordVSErase->mRecordVSSEraseTable, gRecordVSErase->mRecordVSSEraseBncl);
                 }
             } else {
                 if (IsRecordFlagged(firstRecordIndex)) {
-                    gRecordVSErase->mRecordVSSEraseTable[data_0215c500[i]].mVisible = 1;
-                    SetLabelPaletteIndex(data_0215c4b8[i], 0xe, gRecordVSErase->mRecordVSSEraseBnll,
+                    gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedRowIndices[i]].mVisible = 1;
+                    SetLabelPaletteIndex(gRecordVSEraseRowLabelIndices[i], 0xe, gRecordVSErase->mRecordVSSEraseBnll,
                                          gRecordVSErase->mRecordVSSEraseTable, gRecordVSErase->mRecordVSSEraseBncl);
                 } else {
-                    gRecordVSErase->mRecordVSSEraseTable[data_0215c4e8[i]].mVisible = 1;
-                    SetLabelPaletteIndex(data_0215c4b8[i], 0xf, gRecordVSErase->mRecordVSSEraseBnll,
+                    gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnhighlightedIndices[i]].mVisible = 1;
+                    SetLabelPaletteIndex(gRecordVSEraseRowLabelIndices[i], 0xf, gRecordVSErase->mRecordVSSEraseBnll,
                                          gRecordVSErase->mRecordVSSEraseTable, gRecordVSErase->mRecordVSSEraseBncl);
                 }
             }
-            gRecordVSErase->mRecordVSSEraseTable[data_0215c518[i]].mVisible = IsRecordFlagged(firstRecordIndex) ? 0 : 1;
-            gRecordVSErase->mRecordVSSEraseTable[data_0215c524[i]].mVisible = IsRecordFlagged(firstRecordIndex);
-            gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + data_0215c4b8[i]].mVisible = 1;
+            gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnflaggedObjectIndices[i]].mVisible =
+                IsRecordFlagged(firstRecordIndex) ? 0 : 1;
+            gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedObjectIndices[i]].mVisible =
+                IsRecordFlagged(firstRecordIndex);
+            gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + gRecordVSEraseRowLabelIndices[i]].mVisible = 1;
         }
         firstRecordIndex++;
     }
@@ -148,7 +150,7 @@ void PrintRecordVSEraseShownRecord(void) {
     s32 firstRecordIndex;
     s32 i;
     s32 j;
-    BOOL z;
+    BOOL queueSelector;
     u16 text[0x10];
     u32 counts[3][3] = {0};
     u8 friendKeyText[0x14];
@@ -167,12 +169,12 @@ void PrintRecordVSEraseShownRecord(void) {
             CopyRecordText(firstRecordIndex + gRecordVSErase->mShownIndex, text, 0x20);
             func_0212426c(0, 0, gRecordVSErase->mRecordVSMBnll, text, gRecordVSErase->mRecordVSMBncl,
                           gRecordVSErase->mRecordVSMTable);
-            counts[1][0] = func_0211437c(firstRecordIndex + gRecordVSErase->mShownIndex);
-            counts[1][1] = func_02114360(firstRecordIndex + gRecordVSErase->mShownIndex);
-            counts[1][2] = func_02114344(firstRecordIndex + gRecordVSErase->mShownIndex);
-            counts[2][0] = func_02114328(firstRecordIndex + gRecordVSErase->mShownIndex);
-            counts[2][1] = func_0211430c(firstRecordIndex + gRecordVSErase->mShownIndex);
-            counts[2][2] = func_021142f0(firstRecordIndex + gRecordVSErase->mShownIndex);
+            counts[1][0] = GetRecordMatchKind0FirstCount(firstRecordIndex + gRecordVSErase->mShownIndex);
+            counts[1][1] = GetRecordMatchKind1FirstCount(firstRecordIndex + gRecordVSErase->mShownIndex);
+            counts[1][2] = GetRecordMatchKind2FirstCount(firstRecordIndex + gRecordVSErase->mShownIndex);
+            counts[2][0] = GetRecordMatchKind0SecondCount(firstRecordIndex + gRecordVSErase->mShownIndex);
+            counts[2][1] = GetRecordMatchKind1SecondCount(firstRecordIndex + gRecordVSErase->mShownIndex);
+            counts[2][2] = GetRecordMatchKind2SecondCount(firstRecordIndex + gRecordVSErase->mShownIndex);
             for (i = 1; i < 3; i++) {
                 for (j = 0; j < 3; j++) {
                     if (counts[i][j] > 0x270f) {
@@ -181,23 +183,23 @@ void PrintRecordVSEraseShownRecord(void) {
                 }
             }
             FormatAsciiNumber(counts[1][0], text);
-            func_02124248(0, data_0215c530[1][0], gRecordVSErase->mRecordVSMBnll, text, gRecordVSErase->mRecordVSMBncl,
-                          gRecordVSErase->mRecordVSMTable, 6);
+            func_02124248(0, gRecordVSEraseGridLabelIndices[1][0], gRecordVSErase->mRecordVSMBnll, text,
+                          gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable, 6);
             FormatAsciiNumber(counts[1][1], text);
-            func_02124248(0, data_0215c530[1][1], gRecordVSErase->mRecordVSMBnll, text, gRecordVSErase->mRecordVSMBncl,
-                          gRecordVSErase->mRecordVSMTable, 6);
+            func_02124248(0, gRecordVSEraseGridLabelIndices[1][1], gRecordVSErase->mRecordVSMBnll, text,
+                          gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable, 6);
             FormatAsciiNumber(counts[1][2], text);
-            func_02124248(0, data_0215c530[1][2], gRecordVSErase->mRecordVSMBnll, text, gRecordVSErase->mRecordVSMBncl,
-                          gRecordVSErase->mRecordVSMTable, 6);
+            func_02124248(0, gRecordVSEraseGridLabelIndices[1][2], gRecordVSErase->mRecordVSMBnll, text,
+                          gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable, 6);
             FormatAsciiNumber(counts[2][0], text);
-            func_02124248(0, data_0215c530[2][0], gRecordVSErase->mRecordVSMBnll, text, gRecordVSErase->mRecordVSMBncl,
-                          gRecordVSErase->mRecordVSMTable, 6);
+            func_02124248(0, gRecordVSEraseGridLabelIndices[2][0], gRecordVSErase->mRecordVSMBnll, text,
+                          gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable, 6);
             FormatAsciiNumber(counts[2][1], text);
-            func_02124248(0, data_0215c530[2][1], gRecordVSErase->mRecordVSMBnll, text, gRecordVSErase->mRecordVSMBncl,
-                          gRecordVSErase->mRecordVSMTable, 6);
+            func_02124248(0, gRecordVSEraseGridLabelIndices[2][1], gRecordVSErase->mRecordVSMBnll, text,
+                          gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable, 6);
             FormatAsciiNumber(counts[2][2], text);
-            func_02124248(0, data_0215c530[2][2], gRecordVSErase->mRecordVSMBnll, text, gRecordVSErase->mRecordVSMBncl,
-                          gRecordVSErase->mRecordVSMTable, 6);
+            func_02124248(0, gRecordVSEraseGridLabelIndices[2][2], gRecordVSErase->mRecordVSMBnll, text,
+                          gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable, 6);
             GetRecordDate(firstRecordIndex + gRecordVSErase->mShownIndex, &date);
             FormatDate(&date, text);
             func_02124224(0, 0xc, gRecordVSErase->mRecordVSMBnll, text, gRecordVSErase->mRecordVSMBncl,
@@ -212,11 +214,12 @@ void PrintRecordVSEraseShownRecord(void) {
             CopyRecordText(firstRecordIndex + gRecordVSErase->mShownIndex, text, 0x20);
             func_0212426c(0, 0, gRecordVSErase->mRecordVSMTransientBnll, text, gRecordVSErase->mRecordVSMTransientBncl,
                           gRecordVSErase->mRecordVSMTransientTable);
-            z = FALSE;
+            queueSelector = FALSE;
             for (i = 0; i < 12; i++) {
                 FormatAsciiNumber(friendKeyText[i] - 0x30, text);
-                func_0212426c(z, data_0215c584[i], gRecordVSErase->mRecordVSMTransientBnll, text,
-                              gRecordVSErase->mRecordVSMTransientBncl, gRecordVSErase->mRecordVSMTransientTable);
+                func_0212426c(queueSelector, gRecordVSEraseFriendKeyLabelIndices[i],
+                              gRecordVSErase->mRecordVSMTransientBnll, text, gRecordVSErase->mRecordVSMTransientBncl,
+                              gRecordVSErase->mRecordVSMTransientTable);
             }
             ReadRecordEmblem(firstRecordIndex + gRecordVSErase->mShownIndex, gRecordVSErase->mEmblem,
                              gRecordVSErase->mEmblemConverted);
@@ -227,7 +230,7 @@ void PrintRecordVSEraseShownRecord(void) {
     }
 }
 
-void func_02116244(void) {
+void RefreshRecordVSErasePage(void) {
     s32 firstRecordIndex;
     s32 i;
     u8 nameText[0x20];
@@ -236,7 +239,7 @@ void func_02116244(void) {
     for (i = 0; i < 5; i++) {
         if (GetRecordCount() > firstRecordIndex + i) {
             CopyRecordText(firstRecordIndex + i, nameText, 0x20);
-            func_0212426c(1, data_0215c4b8[i], gRecordVSErase->mRecordVSSEraseBnll, nameText,
+            func_0212426c(1, gRecordVSEraseRowLabelIndices[i], gRecordVSErase->mRecordVSSEraseBnll, nameText,
                           gRecordVSErase->mRecordVSSEraseBncl, gRecordVSErase->mRecordVSSEraseTable);
         }
     }
@@ -251,17 +254,17 @@ void func_02116244(void) {
 
 #pragma thumb on
 u32 IncrementRecordVSErasePageIndex(void) {
-    s32 v = gRecordVSErase->mPageIndex + 1;
-    gRecordVSErase->mPageIndex = v;
-    return v;
+    s32 pageIndex = gRecordVSErase->mPageIndex + 1;
+    gRecordVSErase->mPageIndex = pageIndex;
+    return pageIndex;
 }
 #pragma thumb off
 
 #pragma thumb on
 u32 DecrementRecordVSErasePageIndex(void) {
-    s32 v = gRecordVSErase->mPageIndex - 1;
-    gRecordVSErase->mPageIndex = v;
-    return v;
+    s32 pageIndex = gRecordVSErase->mPageIndex - 1;
+    gRecordVSErase->mPageIndex = pageIndex;
+    return pageIndex;
 }
 #pragma thumb off
 

@@ -208,7 +208,7 @@ void StartKartWinOrLoseAnimation(Kart *kart) {
         } else {
             normalizedResult = 0;
         }
-        func_021112fc(normalizedResult);
+        SetEntryKartFinishResult(normalizedResult);
     }
 }
 

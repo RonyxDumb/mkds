@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_0202a360(void);
+u32 GetResultSceneSeqKind(void);

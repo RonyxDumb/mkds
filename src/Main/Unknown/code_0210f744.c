@@ -180,7 +180,7 @@ void InitSoundRequestQueues(void) {
     SoundRequestQueue *queue;
     for (i = 0, queue = gSoundRequestQueues; i < 7; i++, queue++) {
         s32 capacities[7] = {1, 3, 2, 1, 3, 2, 3};
-        InitSoundRequestQueue(queue, capacities[i], data_0217d130);
+        InitSoundRequestQueue(queue, capacities[i], gCurrentSndHeap);
     }
 }
 

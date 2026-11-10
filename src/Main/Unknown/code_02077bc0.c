@@ -255,11 +255,11 @@ BOOL IsKartRemovedWrapper(s32 kartIndex) {
     return IsKartRemoved(&gKarts[kartIndex]);
 }
 
-void func_0207a828(s32 kartIndex) {
-    func_02066fe0(&gKarts[kartIndex]);
+void StartKartRaceEndWrapper(s32 kartIndex) {
+    StartKartRaceEnd(&gKarts[kartIndex]);
 }
 
-BOOL func_0207a7fc(s32 kartIndex) {
+BOOL IsKartOnBoostSurface(s32 kartIndex) {
     return (gKarts[kartIndex].mUnk_48 & KART_48_ON_BOOST_SURFACE) != 0;
 }
 

@@ -12,7 +12,7 @@ static inline CourseTeamResult *func_0202a360_inline(s32 teamIndex) {
     return &gCupRecords->mTeamResults[GetCourseIndexInCup()].mTeams[teamIndex];
 }
 
-u32 func_0202a360(void) {
+u32 GetResultSceneSeqKind(void) {
     RaceSetup *raceSetup;
     s32 kartCount;
     s32 ownEntryIndex;

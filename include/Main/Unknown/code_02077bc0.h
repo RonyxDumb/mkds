@@ -110,7 +110,7 @@ void SetKartModelsFogEnable(s32 fogEnableFlag);
 EntryKartCounters *GetEntryKartCounters(void);
 void func_0207a6c0(Kart *kart);
 void func_0207a70c(s32 kartIndex);
-BOOL func_0207a7fc(s32 kartIndex);
+BOOL IsKartOnBoostSurface(s32 kartIndex);
 BOOL IsKartRemovedWrapper(s32 kartIndex);
 // Copies mScale of Kart b to a.
 void GetKartScale(Vec3 *scale, s32 kartIndex);

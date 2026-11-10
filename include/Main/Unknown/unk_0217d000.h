@@ -217,10 +217,10 @@ typedef struct RecordVS {
     /* 78 */ struct EmblemData *mEmblem;
     /* 7c */ void *mEmblemConverted;
     /* 80 */ s32 mOffsetTimers[2];
-    /* 88 */ BOOL mUnk_88;
-    /* 8c */ BOOL mUnk_8c;
+    /* 88 */ BOOL mPageDecrementRepeat;
+    /* 8c */ BOOL mPageIncrementRepeat;
     // Screen to request when the exit ends; 6 sets the next scene instead.
-    /* 90 */ s32 mUnk_90;
+    /* 90 */ s32 mNextScreen;
 } RecordVS;
 
 // Object behind gSelectCupGrid: the screen that picks one of eight cups, laid out as two rows of four (a direction key
@@ -471,11 +471,11 @@ typedef struct RecordListEntry {
 
 // The used slots in display order, with the emblem block and the emblem2.bin picture.
 typedef struct RecordList {
-    /* 00 */ u16 mUnk_00;
+    /* 00 */ u16 mRecordCount;
     /* 02 */ u8 mUnk_02[2];
-    /* 04 */ RecordListEntry *mUnk_04;
+    /* 04 */ RecordListEntry *mEntries;
     /* 08 */ struct EmblemBlock *mEmblemBlock;
-    /* 0c */ void *mUnk_0c;
+    /* 0c */ void *mEmblem2Bin;
 } RecordList;
 
 // Object behind gSceneText: 0x814 bytes allocated by InitSceneText.
@@ -792,7 +792,7 @@ extern LinkLevelIcons *gLinkLevelIcons;
 extern PaletteBlend *gPaletteBlend;
 extern struct NNSSndStrmThread *data_0217df04;
 extern NNSFndList data_0217df08;
-extern NNSSndHeap *data_0217d130;
+extern NNSSndHeap *gCurrentSndHeap;
 extern ScenePlayers data_0217d070;
 // The member at 0x0c of data_0217d070, addressed through a pool word of its own.
 extern NNSSndSeqPlayer *data_0217d07c;

@@ -42,7 +42,7 @@ extern Unk02175664 data_02175664[];
 
 void func_02066ac0(Kart *kart);
 void AdvanceKartWobble(Kart *kart);
-void func_02066fe0(Kart *kart);
+void StartKartRaceEnd(Kart *kart);
 void func_02067488(Kart *kart);
 // 1 when the turn start group, the level 3 group or the level 4 group (not while mLevel4StopRequested is TRUE) exists,
 // else 0; the level 2 group is not counted.

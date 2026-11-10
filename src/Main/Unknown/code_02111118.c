@@ -10,17 +10,17 @@
 #include "Main/Unknown/code_0211127c.h"
 #include "Main/Unknown/code_021112fc.h"
 
-void func_021112fc(u32 arg0) {
-    u32 copy = arg0;
+void SetEntryKartFinishResult(u32 finishResult) {
+    u32 copy = finishResult;
     u32 unused;
     gSeqRowState.mFinishResult = copy;
 }
 
-u32 func_0211127c(void) {
+u32 GetResultSceneSeqId(void) {
     u32 selector;
     u32 result;
     result = 0xffffffff;
-    selector = func_0202a360();
+    selector = GetResultSceneSeqKind();
     switch (selector) {
         case 0:
             result = 0x43;
@@ -60,29 +60,29 @@ u32 LoadSeqRowIfChanged(s32 index) {
     u32 *row;
     NNSSndHeap *savedHeap;
     s32 i;
-    savedHeap = data_0217d130;
+    savedHeap = gCurrentSndHeap;
     state = &gSeqRowState;
     if (index == 4 && (gRaceSetup->mMode == MODE_MISSION_RUN ? gRaceSetup->mMissionTableColumn : -1) == 9) {
-        row = data_0216cbc0;
+        row = gMissionRunBossSeqRow;
     } else {
-        row = data_0216cbd8[index];
+        row = gSeqRowTable[index];
     }
     if (state->mSeqRow == row) {
         return 1;
     }
-    data_0217d130 = gSeqRowState.mSeqHeap;
+    gCurrentSndHeap = gSeqRowState.mSeqHeap;
     NNS_SndHeapClear(state->mSeqHeap);
     for (i = 0; i < 6; i++) {
         if (row[i] != 0xff) {
-            if (NNS_SndArcLoadSeq(row[i], data_0217d130) == 0) {
-                data_0217d130 = savedHeap;
+            if (NNS_SndArcLoadSeq(row[i], gCurrentSndHeap) == 0) {
+                gCurrentSndHeap = savedHeap;
                 return 0;
             }
         }
     }
     state->mLoadedIndex = index;
     state->mSeqRow = row;
-    data_0217d130 = savedHeap;
+    gCurrentSndHeap = savedHeap;
     return 1;
 }
 

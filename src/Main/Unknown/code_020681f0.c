@@ -270,7 +270,7 @@ void func_020688a0(Kart *kart) {
         } else if ((kartBits & 0x20000) != 0) {
             d = 2;
         }
-        func_021112fc(d);
+        SetEntryKartFinishResult(d);
     }
 }
 
@@ -332,7 +332,7 @@ void func_02068640(Kart *kart, s32 b) {
             } else if ((kartBits & 0x20000) != 0) {
                 i = 2;
             }
-            func_021112fc(i);
+            SetEntryKartFinishResult(i);
         }
     }
     if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) == 0) {

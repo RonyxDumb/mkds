@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 IsRecordVSIndexChangeRunning(void);
+BOOL IsRecordVSIndexChangeRunning(void);

@@ -32,12 +32,12 @@ u32 GetSoundFadeSteps(void) {
 
 void InitSoundSystem(void *heapMemory, u32 heapSize, const u8 *filePath) {
     NNS_SndInit();
-    data_0217d130 = NNS_SndHeapCreate(heapMemory, heapSize);
-    data_0217d06c = NNS_SndHeapAlloc(data_0217d130, 0x1020, SoundHeapAllocNop, NULL, 0);
+    gCurrentSndHeap = NNS_SndHeapCreate(heapMemory, heapSize);
+    data_0217d06c = NNS_SndHeapAlloc(gCurrentSndHeap, 0x1020, SoundHeapAllocNop, NULL, 0);
     if (filePath != NULL) {
-        NNS_SndArcInit(&gFileSndArc, filePath, data_0217d130, 0);
+        NNS_SndArcInit(&gFileSndArc, filePath, gCurrentSndHeap, 0);
         gFileSndArcOpen = 1;
-        NNS_SndArcPlayerSetup(data_0217d130);
+        NNS_SndArcPlayerSetup(gCurrentSndHeap);
     }
     NNS_SndHandleInit(&data_0217d068);
     SetupSoundMode(&data_0217d084, &data_0217d070, 0);

@@ -333,7 +333,7 @@ void UpdateRaceProgressKarts(void) {
             GetKartForward(GetKart(i), &forward);
             UpdateRaceProgressKart(&position, kart);
             f = FALSE;
-            if (func_0207a7fc(kart->mIndex) == 0) {
+            if (IsKartOnBoostSurface(kart->mIndex) == 0) {
                 checkpointDirection = &gCourseMap->mCheckpoints[kart->mCheckpoint].mDirection;
                 t.mUnk_00 = forward.x;
                 t.mUnk_04 = forward.z;
@@ -443,7 +443,7 @@ void UpdateRaceProgressKarts(void) {
         if ((s->mFlags & 8) != 0) {
             s->mFlags &= ~8;
             if (gRaceSetup->mMode != MODE_MISSION_RUN) {
-                func_0207a828(s->mIndex);
+                StartKartRaceEndWrapper(s->mIndex);
                 if ((s->mFlags & 1) != 0) {
                     StartRaceEndSeq(0);
                 }

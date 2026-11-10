@@ -279,7 +279,7 @@ void func_02067488(Kart *kart) {
     }
 }
 
-void func_02066fe0(Kart *kart) {
+void StartKartRaceEnd(Kart *kart) {
     RaceSetup *raceSetup;
     CourseMap *courseMap;
     KartEntryPlayer *player;

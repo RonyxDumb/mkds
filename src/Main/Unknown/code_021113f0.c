@@ -155,8 +155,8 @@ void AdvanceRecordVSState3(void) {
 #pragma thumb on
 
 void AdvanceRecordVSState4(void) {
-    s32 a;
-    s32 b;
+    s32 downRectIndex;
+    s32 pressedRectIndex;
     InputSlotIndex inputSlotIndex;
     BOOL g;
     BOOL f;
@@ -164,8 +164,8 @@ void AdvanceRecordVSState4(void) {
     InputSlot *touchSlot;
     InputSlot *keySlot;
     s16 rowIndex;
-    a = -1;
-    b = -1;
+    downRectIndex = -1;
+    pressedRectIndex = -1;
     inputSlotIndex = UNK_02175628_INDEX_8;
     AdvanceRecordVSOffsetTimers();
     AdvanceRecordVSIndexChange();
@@ -180,8 +180,8 @@ void AdvanceRecordVSState4(void) {
         g = FALSE;
     }
     if (g != FALSE) {
-        a = RectTableFindContaining(gRecordVS->mRecordVSSBnbl, data_02175670[inputSlotIndex].mPressedBits,
-                                    data_02175672[inputSlotIndex].mPressedBits);
+        downRectIndex = RectTableFindContaining(gRecordVS->mRecordVSSBnbl, data_02175670[inputSlotIndex].mPressedBits,
+                                                data_02175672[inputSlotIndex].mPressedBits);
     }
     g = FALSE;
     f = FALSE;
@@ -193,14 +193,15 @@ void AdvanceRecordVSState4(void) {
         g = TRUE;
     }
     if (g != FALSE) {
-        b = RectTableFindContaining(gRecordVS->mRecordVSSBnbl, data_02175670[inputSlotIndex].mPressedBits,
+        pressedRectIndex =
+            RectTableFindContaining(gRecordVS->mRecordVSSBnbl, data_02175670[inputSlotIndex].mPressedBits,
                                     data_02175672[inputSlotIndex].mPressedBits);
     }
-    if (a != 10) {
-        gRecordVS->mUnk_88 = FALSE;
+    if (downRectIndex != 10) {
+        gRecordVS->mPageDecrementRepeat = FALSE;
     }
-    if (a != 11) {
-        gRecordVS->mUnk_8c = FALSE;
+    if (downRectIndex != 11) {
+        gRecordVS->mPageIncrementRepeat = FALSE;
     }
     keySlot = &gInputSlots[inputSlotIndex];
     if ((u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_B) == 0) {
@@ -224,15 +225,16 @@ void AdvanceRecordVSState4(void) {
     }
     RequestRecordVSState7();
     if (GetRecordPrevScene() == 12) {
-        gRecordVS->mUnk_90 = 6;
+        gRecordVS->mNextScreen = 6;
         RequestSelectReturnState3WithSound(1);
         return;
     }
-    gRecordVS->mUnk_90 = 0;
+    gRecordVS->mNextScreen = 0;
     RequestSelectReturnState3WithSound(0);
     return;
 l1:
-    if ((a == 10 && gRecordVS->mUnk_88 != FALSE) || (b == 10 && gRecordVS->mUnk_88 == FALSE) ||
+    if ((downRectIndex == 10 && gRecordVS->mPageDecrementRepeat != FALSE) ||
+        (pressedRectIndex == 10 && gRecordVS->mPageDecrementRepeat == FALSE) ||
         (u16) (gInputSlots[inputSlotIndex].mBits & PAD_KEY_LEFT) != 0) {
         if (IsRecordVSIndexChangeRunning() != 0) {
             return;
@@ -242,12 +244,13 @@ l1:
         }
         gRecordVS->mPageDecrement = 1;
         gRecordVS->mOffsetTimers[0] = 6;
-        gRecordVS->mUnk_88 = TRUE;
+        gRecordVS->mPageDecrementRepeat = TRUE;
         RequestRecordVSState5();
         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 2);
         return;
     }
-    if ((a == 11 && gRecordVS->mUnk_8c != FALSE) || (b == 11 && gRecordVS->mUnk_8c == FALSE) ||
+    if ((downRectIndex == 11 && gRecordVS->mPageIncrementRepeat != FALSE) ||
+        (pressedRectIndex == 11 && gRecordVS->mPageIncrementRepeat == FALSE) ||
         (u16) (gInputSlots[inputSlotIndex].mBits & PAD_KEY_RIGHT) != 0) {
         if (IsRecordVSIndexChangeRunning() != 0) {
             return;
@@ -257,13 +260,13 @@ l1:
         }
         gRecordVS->mPageDecrement = 0;
         gRecordVS->mOffsetTimers[1] = 6;
-        gRecordVS->mUnk_8c = TRUE;
+        gRecordVS->mPageIncrementRepeat = TRUE;
         RequestRecordVSState5();
         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 2);
         return;
     }
-    if ((u32) (b - 5) <= 4) {
-        rowIndex = data_0215c44c[b];
+    if ((u32) (pressedRectIndex - 5) <= 4) {
+        rowIndex = gRecordVSRectRowIndices[pressedRectIndex];
         if (IsRecordVSRowFilled(rowIndex) == 0) {
             return;
         }
@@ -271,8 +274,8 @@ l1:
         ToggleRecordVSRowFlag(rowIndex);
         return;
     }
-    if ((u32) b <= 4) {
-        rowIndex = data_0215c44c[b];
+    if ((u32) pressedRectIndex <= 4) {
+        rowIndex = gRecordVSRectRowIndices[pressedRectIndex];
         if (rowIndex == gRecordVS->mIndex) {
             ToggleRecordVSRowFlag(rowIndex);
             return;
@@ -284,9 +287,9 @@ l1:
         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0);
         return;
     }
-    if (b == 12 || (u16) (keySlot->mPressedBits & PAD_KEY_X) != 0) {
+    if (pressedRectIndex == 12 || (u16) (keySlot->mPressedBits & PAD_KEY_X) != 0) {
         RequestRecordVSState9();
-        gRecordVS->mUnk_90 = 4;
+        gRecordVS->mNextScreen = 4;
         return;
     }
     if ((u16) (keySlot->mPressedBits & PAD_KEY_A) != 0) {
@@ -451,7 +454,7 @@ void AdvanceRecordVSState8(void) {
     s32 i;
     s32 j;
     s16 offset;
-    if (GetRecordNextScene() == -1 && gRecordVS->mUnk_90 == 6) {
+    if (GetRecordNextScene() == -1 && gRecordVS->mNextScreen == 6) {
         SetRecordNextScene(12);
     }
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
@@ -481,8 +484,8 @@ void AdvanceRecordVSState8(void) {
     for (j = 0; j < 12; j++) {
         gRecordVS->mRecordVSMTransientTable[transientBase + gRecordVSFriendKeyLabelIndices[j]].mOffsetY = offset;
     }
-    if (gRecordVS->mStateFrames >= 10 && gRecordVS->mUnk_90 != 6) {
-        RequestRecordScreen(gRecordVS->mUnk_90);
+    if (gRecordVS->mStateFrames >= 10 && gRecordVS->mNextScreen != 6) {
+        RequestRecordScreen(gRecordVS->mNextScreen);
     }
 }
 
@@ -522,7 +525,7 @@ void AdvanceRecordVSState10(void) {
         gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[i]].mOffsetX = offset;
     }
     if (gRecordVS->mStateFrames >= 10) {
-        RequestRecordScreen(gRecordVS->mUnk_90);
+        RequestRecordScreen(gRecordVS->mNextScreen);
     }
     if (gRecordVS->mStateFrames == 6) {
         gRecordVS->mRecordVSSTable[24].mVisible = 0;
@@ -648,8 +651,10 @@ void RegisterRecordVSCallbacks(void) {
                                        WriteRecordVSRegisters};
     SetRecordScreenCallbacks(&callbacks);
 }
+// Clears four of the five screen callbacks; the register writer is left (a new set is registered next, or the scene is
+// freed).
 
-void func_02111a98(void) {
+void ClearRecordScreenCallbacksKeepRegisters(void) {
     gRecordScene->mScreenCallbacks.mInit = NULL;
     gRecordScene->mScreenCallbacks.mRelease = NULL;
     gRecordScene->mScreenCallbacks.mAdvance = NULL;
@@ -775,29 +780,29 @@ void LoadRecordSceneData(void) {
 #pragma thumb on
 
 void InitRecordSceneObject(void *heap, s16 previousScene) {
-    SceneTextInitParams v;
+    SceneTextInitParams sceneTextInitParams;
     gRecordScene = HeapAlloc(heap, 0x34);
     gRecordScene->mHeap = heap;
     gRecordScene->mPageIndex = 0;
     gRecordScene->mIndex = 0;
     func_021250b0(heap);
     InitLinkLevelIcons(heap, GetRecordMainOam());
-    v.mUseTxtSystem = TRUE;
-    v.mTxtSystemFont = GetFontByIndex(1);
-    v.mUseCanvas1 = 0;
-    v.mUseCanvas2 = 1;
-    v.mUseCanvas3 = 0;
-    v.mUseSelectChoises = FALSE;
-    v.mUseSelectReturn = TRUE;
-    v.mUseBackScreen = TRUE;
-    v.mBackScreenKind = 0;
+    sceneTextInitParams.mUseTxtSystem = TRUE;
+    sceneTextInitParams.mTxtSystemFont = GetFontByIndex(1);
+    sceneTextInitParams.mUseCanvas1 = 0;
+    sceneTextInitParams.mUseCanvas2 = 1;
+    sceneTextInitParams.mUseCanvas3 = 0;
+    sceneTextInitParams.mUseSelectChoises = FALSE;
+    sceneTextInitParams.mUseSelectReturn = TRUE;
+    sceneTextInitParams.mUseBackScreen = TRUE;
+    sceneTextInitParams.mBackScreenKind = 0;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-    InitSceneText(heap, &v);
+    InitSceneText(heap, &sceneTextInitParams);
     CreateRecordList(gRecordScene->mHeap);
     BuildRecordList();
     gRecordScene->mStateHeap = CreateExpHeapFromMaxFree(gRecordScene->mHeap);
     LoadRecordSceneData();
-    func_02111a98();
+    ClearRecordScreenCallbacksKeepRegisters();
     gRecordScene->mPrevScene = previousScene;
     gRecordScene->mNextScene = -1;
     gRecordScene->mNextScreen = -1;
@@ -821,7 +826,7 @@ void InitRecordSceneObject(void *heap, s16 previousScene) {
 void ReleaseRecordSceneObject(void) {
     ClearRecordListPointer();
     gRecordScene->mScreenCallbacks.mRelease();
-    func_02111a98();
+    ClearRecordScreenCallbacksKeepRegisters();
     ClearLinkLevelIconsPointer();
     ReleaseSceneText();
     *&gRecordScene = NULL;
@@ -835,7 +840,7 @@ void ReleaseRecordSceneObject(void) {
 void AdvanceRecordScene(void) {
     if (gRecordScene->mNextScreen != -1) {
         gRecordScene->mScreenCallbacks.mRelease();
-        func_02111a98();
+        ClearRecordScreenCallbacksKeepRegisters();
         HeapDestroy(gRecordScene->mStateHeap);
         gRecordScene->mStateHeap = CreateExpHeapFromMaxFree(gRecordScene->mHeap);
         switch (gRecordScene->mNextScreen) {

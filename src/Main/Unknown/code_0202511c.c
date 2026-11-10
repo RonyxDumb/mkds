@@ -269,7 +269,7 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
             rowIndex = 0x29;
             *output = gSoundRowTable[rowIndex];
             rowWritten = TRUE;
-            output->mUnk_00[1] = func_0211127c();
+            output->mUnk_00[1] = GetResultSceneSeqId();
             break;
         case 8:
             rowIndex = 0x2f;

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_0211127c(void);
+u32 GetResultSceneSeqId(void);

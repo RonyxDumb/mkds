@@ -42,7 +42,7 @@ u32 LoadSndGroupWithWaveArcs(u32 groupId, u32 moveWaveArcs) {
     s32 i;
 
     if (moveWaveArcs != 0) {
-        if (NNS_SndArcLoadWaveArc(0x61, data_0217d130) == 0) {
+        if (NNS_SndArcLoadWaveArc(0x61, gCurrentSndHeap) == 0) {
             loaded = 0;
         } else {
             NNSSndArcWaveArcInfo *waveArcInfo;
@@ -64,7 +64,7 @@ u32 LoadSndGroupWithWaveArcs(u32 groupId, u32 moveWaveArcs) {
         if (loaded == 0) {
             return 0;
         }
-        if (NNS_SndArcLoadWaveArc(0x62, data_0217d130) == 0) {
+        if (NNS_SndArcLoadWaveArc(0x62, gCurrentSndHeap) == 0) {
             loaded = 0;
         } else {
             NNSSndArcWaveArcInfo *waveArcInfo;
@@ -87,10 +87,10 @@ u32 LoadSndGroupWithWaveArcs(u32 groupId, u32 moveWaveArcs) {
             return 0;
         }
     } else {
-        if (NNS_SndArcLoadWaveArc(0, data_0217d130) == 0) {
+        if (NNS_SndArcLoadWaveArc(0, gCurrentSndHeap) == 0) {
             return 0;
         }
-        if (NNS_SndArcLoadWaveArc(0x50, data_0217d130) == 0) {
+        if (NNS_SndArcLoadWaveArc(0x50, gCurrentSndHeap) == 0) {
             return 0;
         }
     }
@@ -148,7 +148,7 @@ u32 LoadSoundSetIfChanged(SoundSet soundSet, u32 loadExtras) {
     if (loadExtras != 0) {
         switch (soundSet.mSeqId) {
             case 0x4a:
-                if (NNS_SndArcLoadWaveArc(0x63, data_0217d130) == 0) {
+                if (NNS_SndArcLoadWaveArc(0x63, gCurrentSndHeap) == 0) {
                     loaded = 0;
                 } else {
                     NNSSndArcWaveArcInfo *sourceWaveArc;
@@ -172,7 +172,7 @@ u32 LoadSoundSetIfChanged(SoundSet soundSet, u32 loadExtras) {
                 }
                 break;
             case 0x2b:
-                if (NNS_SndArcLoadWaveArc(0x64, data_0217d130) == 0) {
+                if (NNS_SndArcLoadWaveArc(0x64, gCurrentSndHeap) == 0) {
                     loaded = 0;
                 } else {
                     NNSSndArcWaveArcInfo *sourceWaveArc;
@@ -196,7 +196,7 @@ u32 LoadSoundSetIfChanged(SoundSet soundSet, u32 loadExtras) {
                 }
                 break;
             case 0xf:
-                if (NNS_SndArcLoadWaveArc(0x34, data_0217d130) == 0) {
+                if (NNS_SndArcLoadWaveArc(0x34, gCurrentSndHeap) == 0) {
                     loaded = 0;
                 } else {
                     NNSSndArcWaveArcInfo *sourceWaveArc;
@@ -221,7 +221,7 @@ u32 LoadSoundSetIfChanged(SoundSet soundSet, u32 loadExtras) {
                 break;
         }
         if (soundSet.mFirstBankId == 0x10) {
-            if (NNS_SndArcLoadWaveArc(0x13, data_0217d130) == 0) {
+            if (NNS_SndArcLoadWaveArc(0x13, gCurrentSndHeap) == 0) {
                 loaded = 0;
             } else {
                 NNSSndArcWaveArcInfo *sourceWaveArc;
@@ -249,13 +249,13 @@ u32 LoadSoundSetIfChanged(SoundSet soundSet, u32 loadExtras) {
 }
 
 void LoadInitialSndArcs(void) {
-    if (NNS_SndArcLoadWaveArc(1, data_0217d130) == 0) {
+    if (NNS_SndArcLoadWaveArc(1, gCurrentSndHeap) == 0) {
         return;
     }
-    if (NNS_SndArcLoadBankEx(0, 2, data_0217d130) == 0) {
+    if (NNS_SndArcLoadBankEx(0, 2, gCurrentSndHeap) == 0) {
         return;
     }
-    NNS_SndArcLoadSeqArc(0, data_0217d130);
+    NNS_SndArcLoadSeqArc(0, gCurrentSndHeap);
 }
 
 void LoadInitialSndGroup(u32 moveWaveArcs) {
@@ -288,12 +288,12 @@ u32 LoadSndDataFromFile(void) {
     u32 listCount;
 
     NNS_SndArcSetCurrent(&gOnMemorySndArc);
-    loadResult = SetupSndArcFromFile(&gFileSndArc, data_0216cb30, data_0217d130, 0);
+    loadResult = SetupSndArcFromFile(&gFileSndArc, data_0216cb30, gCurrentSndHeap, 0);
     SetFileSndArcOpen(1);
     if (loadResult == 0) {
         return 0;
     }
-    if (NNS_SndArcLoadSeqArc(1, data_0217d130) == 0) {
+    if (NNS_SndArcLoadSeqArc(1, gCurrentSndHeap) == 0) {
         return 0;
     }
     sourceSeqArc = NNS_SndArcGetSeqArcInfo(1);
@@ -305,7 +305,7 @@ u32 LoadSndDataFromFile(void) {
     listCount = gSndDataFileIdList.mCount;
     gSndDataFileIdList.mCount = listCount + 1;
     gSndDataFileIdList.mFileIds[listCount] = destFileId;
-    if (NNS_SndArcLoadWaveArc(0x3e, data_0217d130) != 0) {
+    if (NNS_SndArcLoadWaveArc(0x3e, gCurrentSndHeap) != 0) {
         sourceWaveArc = NNS_SndArcGetWaveArcInfo(0x3e);
         destWaveArc = NNS_SndArcGetWaveArcInfo(0x3d);
         destFileId = destWaveArc->mFileId;
@@ -322,11 +322,11 @@ u32 LoadSndDataFromFile(void) {
     if (loaded == 0) {
         return 0;
     }
-    if (NNS_SndArcLoadWaveArc(1, data_0217d130) == 0) {
+    if (NNS_SndArcLoadWaveArc(1, gCurrentSndHeap) == 0) {
         loaded = 0;
-    } else if (NNS_SndArcLoadBankEx(0, 2, data_0217d130) == 0) {
+    } else if (NNS_SndArcLoadBankEx(0, 2, gCurrentSndHeap) == 0) {
         loaded = 0;
-    } else if (NNS_SndArcLoadSeqArc(0, data_0217d130) == 0) {
+    } else if (NNS_SndArcLoadSeqArc(0, gCurrentSndHeap) == 0) {
         loaded = 0;
     } else {
         loaded = 1;
@@ -364,7 +364,7 @@ u32 func_0210e524(void) {
     SoundSet soundSet;
 
     row = GetSoundRow(0x29);
-    row.mUnk_00[1] = func_0211127c();
+    row.mUnk_00[1] = GetResultSceneSeqId();
     rowCopy = row;
     soundSet.mSeqId = rowCopy.mUnk_00[1];
     soundSet.mFirstBankId = rowCopy.mUnk_00[2];
@@ -374,7 +374,7 @@ u32 func_0210e524(void) {
 }
 
 u32 LoadSndGroup(s32 groupId) {
-    return NNS_SndArcLoadGroup(groupId, data_0217d130);
+    return NNS_SndArcLoadGroup(groupId, gCurrentSndHeap);
 }
 
 void ResetLoadedSoundSet(LoadedSoundSet *loadedSet) {
@@ -383,7 +383,7 @@ void ResetLoadedSoundSet(LoadedSoundSet *loadedSet) {
 }
 
 void SaveSndHeapState(LoadedSoundSet *loadedSet) {
-    loadedSet->mHeapState = NNS_SndHeapSaveState(data_0217d130);
+    loadedSet->mHeapState = NNS_SndHeapSaveState(gCurrentSndHeap);
 }
 
 // Restores the heap to the state saved before the set was loaded.
@@ -394,8 +394,8 @@ void ReleaseSoundSet(LoadedSoundSet *loadedSet) {
         emptySet.mSecondBankId == loadedSet->mSoundSet.mSecondBankId) {
         return;
     }
-    NNS_SndHeapLoadState(data_0217d130, loadedSet->mHeapState);
-    NNS_SndHeapGetCurrentLevel(data_0217d130);
+    NNS_SndHeapLoadState(gCurrentSndHeap, loadedSet->mHeapState);
+    NNS_SndHeapGetCurrentLevel(gCurrentSndHeap);
     loadedSet->mSoundSet = gReleaseEmptySoundSet;
 }
 
@@ -408,13 +408,13 @@ u32 IsSoundSetLoaded(LoadedSoundSet *loadedSet, SoundSet soundSet) {
 }
 
 u32 LoadSoundSet(LoadedSoundSet *loadedSet, SoundSet soundSet) {
-    if (soundSet.mSeqId != 0xff && NNS_SndArcLoadSeq(soundSet.mSeqId, data_0217d130) == 0) {
+    if (soundSet.mSeqId != 0xff && NNS_SndArcLoadSeq(soundSet.mSeqId, gCurrentSndHeap) == 0) {
         return 0;
     }
-    if (soundSet.mFirstBankId != 0xff && NNS_SndArcLoadBank(soundSet.mFirstBankId, data_0217d130) == 0) {
+    if (soundSet.mFirstBankId != 0xff && NNS_SndArcLoadBank(soundSet.mFirstBankId, gCurrentSndHeap) == 0) {
         return 0;
     }
-    if (soundSet.mSecondBankId != 0xff && NNS_SndArcLoadBank(soundSet.mSecondBankId, data_0217d130) == 0) {
+    if (soundSet.mSecondBankId != 0xff && NNS_SndArcLoadBank(soundSet.mSecondBankId, gCurrentSndHeap) == 0) {
         return 0;
     }
     loadedSet->mSoundSet = soundSet;
