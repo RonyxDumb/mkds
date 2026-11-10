@@ -164,7 +164,7 @@ LD_FLAGS = [
     "-interworking",
     "-map closure,unused",
     "-msgstyle gcc",
-    "-m Entry",
+    "-m _start",
 ]
 # The assembler, for regions written as .s files.
 MWASM_VERSION = "2.0/sp2p3"

@@ -7,7 +7,7 @@
 // address, then calls _fp_init, NitroStartUp and __call_static_initializers and jumps to main with lr = 0xffff0000.
 // Not compiled code: it switches processor modes and sets sp directly (msr), writes coprocessor 15 (mcr) and ends in a
 // jump with a set return address instead of a call; C has no way to do any of these.
-asm void Entry(void) {
+asm void _start(void) {
     mov ip, #0x4000000
     str ip, [ip, #0x208]
     bl init_cp15

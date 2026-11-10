@@ -13,4 +13,4 @@
 void _fp_init(void);
 void __call_static_initializers(void);
 
-void Entry(void);
+void _start(void);
