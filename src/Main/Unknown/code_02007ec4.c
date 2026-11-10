@@ -13,7 +13,7 @@ u32 MB_RegisterFile(void *rangeTable, SegmentBuffer *source) {
     u32 entryIndex;
     u32 savedInterrupts;
     u32 entryOffset;
-    Unk0216fdac *work;
+    MB_CommPWork *work;
     MBDownloadFileInfo *record;
     u8 i;
     entryIndex = 0xff;
@@ -28,11 +28,11 @@ u32 MB_RegisterFile(void *rangeTable, SegmentBuffer *source) {
         return 0;
     }
     for (i = 0; i < 0x10; i++) {
-        if ((OFFSET_PTR(Unk0216fdac, work, i * 0x5d4))->mGameReg == rangeTable) {
+        if ((OFFSET_PTR(MB_CommPWork, work, i * 0x5d4))->mGameReg == rangeTable) {
             OS_RestoreInterrupts(savedInterrupts);
             return 0;
         }
-        if ((OFFSET_PTR(Unk0216fdac, work, i * 0x5d4))->mEntryUsed == 0) {
+        if ((OFFSET_PTR(MB_CommPWork, work, i * 0x5d4))->mEntryUsed == 0) {
             entryIndex = i;
             break;
         }
@@ -42,29 +42,29 @@ u32 MB_RegisterFile(void *rangeTable, SegmentBuffer *source) {
         return 0;
     }
     entryOffset = entryIndex * 0x5d4;
-    (OFFSET_PTR(Unk0216fdac, mbc, entryOffset))->mGameReg = rangeTable;
+    (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mGameReg = rangeTable;
     record = (MBDownloadFileInfo *) (mbc->mUnk_1788 + entryOffset);
     MBi_MakeDownloadFileInfo(record, source);
     MI_CpuCopy8((u8 *) rangeTable + 0x1c, record->mReserved, 0x20);
-    if (MBi_MakeBlockInfoTable((ChunkTable *) (mbc->mUnk_1d2c + entryOffset), record) == 0) {
+    if (MBi_MakeBlockInfoTable((MB_BlockInfoTable *) (mbc->mUnk_1d2c + entryOffset), record) == 0) {
         OS_RestoreInterrupts(savedInterrupts);
         return 0;
     }
     MBi_MakeGameInfo((GameInfoEntry *) (mbc->mUnk_1788 + 0xe4 + entryOffset), rangeTable, (const u8 *) &mbc->mUser);
-    (OFFSET_PTR(Unk0216fdac, mbc, entryOffset))->mUnk_1d21 = entryIndex;
-    AppendGameInfoEntry((GameInfoEntry *) (mbc->mUnk_1788 + 0xe4 + entryOffset));
-    (OFFSET_PTR(Unk0216fdac, mbc, entryOffset))->mUnk_1d1f = data_0216fc30++;
-    (OFFSET_PTR(Unk0216fdac, mbc, entryOffset))->mGameinfoChildBmp = 1;
-    (OFFSET_PTR(Unk0216fdac, mbc, entryOffset))->mSrcAdr = source;
-    (OFFSET_PTR(Unk0216fdac, mbc, entryOffset))->mCacheList = &source->mUnk_1e8;
-    (OFFSET_PTR(Unk0216fdac, mbc, entryOffset))->mCardMapping = source->mUnk_258;
-    if ((OFFSET_PTR(Unk0216fdac, mbc, entryOffset))->mCacheList->mRanges[3].mUnk_0c != 0) {
-        if (IsWorkerActive() == 0) {
+    (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mUnk_1d21 = entryIndex;
+    MB_AddGameInfo((GameInfoEntry *) (mbc->mUnk_1788 + 0xe4 + entryOffset));
+    (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mUnk_1d1f = data_0216fc30++;
+    (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mGameinfoChildBmp = 1;
+    (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mSrcAdr = source;
+    (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mCacheList = &source->mUnk_1e8;
+    (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mCardMapping = source->mUnk_258;
+    if ((OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mCacheList->mList[3].mState != 0) {
+        if (MBi_IsTaskAvailable() == 0) {
             MBi_InitTaskInfo(mbc->mCurTask);
-            StartWorkerThread(&mbc->mUnk_74e0, 0x800);
+            MBi_InitTaskThread(&mbc->mUnk_74e0, 0x800);
         }
     }
-    (OFFSET_PTR(Unk0216fdac, mbc, entryOffset))->mEntryUsed = 1;
+    (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mEntryUsed = 1;
     mbc->mEntryCount++;
     OS_RestoreInterrupts(savedInterrupts);
     return 1;
@@ -152,11 +152,11 @@ void MBi_SetSegmentInfo(SegmentBuffer *source, u32 *kindWord, MbSegmentInfo *ran
     }
 }
 
-static inline struct Unk0216fdac *func_0200806c_inline(void) {
+static inline struct MB_CommPWork *func_0200806c_inline(void) {
     return mbc;
 }
 
-u32 MBi_MakeBlockInfoTable(ChunkTable *chunkTable, MBDownloadFileInfo *record) {
+u32 MBi_MakeBlockInfoTable(MB_BlockInfoTable *chunkTable, MBDownloadFileInfo *record) {
     u32 offset;
     u16 nextChunk;
     u8 i;
@@ -187,11 +187,11 @@ u32 MBi_MakeBlockInfoTable(ChunkTable *chunkTable, MBDownloadFileInfo *record) {
     return 1;
 }
 
-BOOL func_0200806c(Unk020072c0_buf *result, void *b, u16 chunk, void *d) {
+BOOL MBi_get_blockinfo(MB_BlockInfo *result, void *b, u16 chunk, void *d) {
     u32 offset;
     MBDownloadFileInfo *record;
     MbSegmentInfo *range;
-    ChunkTable *chunkTable;
+    MB_BlockInfoTable *chunkTable;
     s8 i;
     chunkTable = b;
     record = d;

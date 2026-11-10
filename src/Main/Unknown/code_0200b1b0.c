@@ -7,12 +7,12 @@
 
 u32 MB_FakeGetParentBssDesc(u32 index, struct ScanBlock *destination) {
     u32 savedInterrupts;
-    EntryRecord *entry;
+    MBGameInfoRecvList *entry;
     if (16 <= index) {
         return 0;
     }
     savedInterrupts = ((s64) OS_DisableInterrupts());
-    entry = GetEntryOrNull(index);
+    entry = MB_GetGameInfoRecvList(index);
     if (entry == NULL) {
         OS_RestoreInterrupts(savedInterrupts);
         return 0;

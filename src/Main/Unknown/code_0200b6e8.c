@@ -49,7 +49,7 @@ void ScanConnectStartConnect(ScanBlock *scanBuffer) {
     gMPLink->mUnk_14 = scanBuffer->mUnk_4c;
     gMPLink->mUnk_16 = scanBuffer->mUnk_4e;
     gMPLink->mUnk_18 = gMPLink->mUnk_14 - 6;
-    SetupPieceSizes(gMPLink->mUnk_16);
+    MBi_SetChildMPMaxSize(gMPLink->mUnk_16);
     r = WM_StartConnectEx(ScanConnectStartConnectCallback, (u16 *) scanBuffer, NULL, 1, 0);
     if (r != 2) {
         if (gMPLink->mCallback != NULL) {
@@ -306,9 +306,9 @@ void InitScanConnectWork(ScanConnectWork *a, void *b) {
         gScanConnectWork = a;
         a->mState = 0;
         MI_CpuCopy8(b, gScanConnectWork->mUnk_05c4, 0x16);
-        SetEntryTable(gScanConnectWork->mUnk_05e8);
-        ClearEntryTable();
-        SetScanBssidCallbacks(SetScanBssid, ClearUseScanBssid);
+        MBi_SetBeaconRecvStatusBuffer(gScanConnectWork->mUnk_05e8);
+        MB_InitRecvGameInfoStatus();
+        MBi_SetScanLockFunc(SetScanBssid, ClearUseScanBssid);
     }
 }
 
@@ -452,11 +452,11 @@ void ScanConnectStartScanCallback(Unk021425e8 *a) {
         case 5:
             if (a->mUnk_38.mUnk_00[1] == gScanConnectWork->mUnk_05e4) {
                 DC_InvalidateRange(&gScanConnectWork->mScanBuffer, 0xc0);
-                AddScanResult(EntryCallback, a->mUnk_12, &gScanConnectWork->mScanBuffer);
-                UpdateEntryTimers(EntryCallback, 1);
+                MB_RecvGameInfoBeacon(EntryCallback, a->mUnk_12, &gScanConnectWork->mScanBuffer);
+                MB_CountGameInfoLifetime(EntryCallback, 1);
             }
         case 4:
-            UpdateEntryTimers(EntryCallback, 0);
+            MB_CountGameInfoLifetime(EntryCallback, 0);
             if (gScanConnectWork->mRepeatScan != 0) {
                 ScanConnectStartScan();
             } else {
@@ -469,7 +469,7 @@ void ScanConnectStartScanCallback(Unk021425e8 *a) {
     }
 }
 
-void CallScanCallbackWithEntry(u32 a, EntryRecord *entry, u32 entryIndex) {
+void CallScanCallbackWithEntry(u32 a, MBGameInfoRecvList *entry, u32 entryIndex) {
     ScanEntryArgs v;
     ScanConnectWork *d;
     d = gScanConnectWork;

@@ -6,4 +6,4 @@ void ResetRequestId(void);
 void AdvanceRequestId(void);
 unsigned int GetRequestId(void);
 void MBi_CommCallParentError(u32 aid, u16 errcode);
-u32 IsChildIndexInRange(u32 a);
+u32 IsChildAidValid(u32 a);

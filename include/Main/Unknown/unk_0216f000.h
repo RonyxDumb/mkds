@@ -4,18 +4,19 @@
 #include "os_thread.h"
 #include "code_02142eac.h" // Unk02143a78
 
-// Three words that SetupPieceSizes sets up.
+// Three words that MBi_SetChildMPMaxSize sets up.
 typedef struct PieceSizes {
     /* 00 */ s32 mPieceSize;
     /* 04 */ s32 mPieceCount;
     /* 08 */ s32 mUnk_08;
 } PieceSizes;
 
-// Object behind gPieceBuffer: the words from 0x1e0 on are indexed like the 0x20-byte entries before them.
-typedef struct PieceBuffer {
-    /* 000 */ u8 mSlots[0x1e0];
-    /* 1e0 */ u32 mReceivedPieceMasks[15];
-} PieceBuffer;
+// Object behind gPieceBuffer (also the member of MB_CommPWork at 0x1538): the words from 0x1e0 on are indexed like the
+// 0x20-byte entries before them.
+typedef struct MbRequestPieceBuf {
+    /* 000 */ u8 mDataBuf[0x1e0];
+    /* 1e0 */ u32 mDataBmp[15];
+} MbRequestPieceBuf;
 
 // Objects whose layout isn't known yet.
 extern u32 data_0216f06c;
@@ -32,10 +33,10 @@ struct BlockTransfer;
 extern struct BlockTransfer gBlockTransfer;
 struct BlockTransferRecord;
 extern struct BlockTransferRecord gNextRequest;
-struct WirelessWork;
-extern struct WirelessWork *gWirelessWork;
-struct Unk0216fdac;
-extern struct Unk0216fdac *mbc;
+struct MBiParam;
+extern struct MBiParam *gWirelessWork;
+struct MB_CommPWork;
+extern struct MB_CommPWork *mbc;
 struct WorkerQueue;
 extern struct WorkerQueue *gWorkerQueue;
 extern u16 gScanConnectInitialized;
@@ -43,8 +44,8 @@ struct ScanConnectWork;
 extern struct ScanConnectWork *gScanConnectWork;
 struct MPLink;
 extern struct MPLink *gMPLink;
-struct PieceBuffer;
-extern struct PieceBuffer *gPieceBuffer;
+struct MbRequestPieceBuf;
+extern struct MbRequestPieceBuf *gPieceBuffer;
 extern u8 gLastPieceIndex;
 extern PieceSizes gPieceSizes;
 extern u8 data_0216f2dc[];

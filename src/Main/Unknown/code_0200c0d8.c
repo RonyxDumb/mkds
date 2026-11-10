@@ -6,7 +6,7 @@
 
 #pragma thumb on
 
-void SetupPieceSizes(s32 packetSize) {
+void MBi_SetChildMPMaxSize(s32 packetSize) {
     gPieceSizes.mPieceSize = packetSize - 2;
     gPieceSizes.mPieceCount = 0x1e / gPieceSizes.mPieceSize;
     gPieceSizes.mUnk_08 = 0x1e;
@@ -15,21 +15,21 @@ void SetupPieceSizes(s32 packetSize) {
 #pragma thumb off
 
 #pragma thumb on
-void SetupPieceBuffer(PieceBuffer *buffer) {
+void MBi_SetParentPieceBuffer(MbRequestPieceBuf *buffer) {
     gPieceBuffer = buffer;
-    MI_CpuFill8(buffer, 0, sizeof(PieceBuffer));
+    MI_CpuFill8(buffer, 0, sizeof(MbRequestPieceBuf));
 }
 #pragma thumb off
 
 #pragma thumb on
 
-void ClearChildPieces(s32 child) {
+void MBi_ClearParentPieceBuffer(s32 child) {
     s32 i;
 
     if (gPieceBuffer != NULL) {
         i = child - 1;
-        MI_CpuFill8(&gPieceBuffer->mSlots[i * 0x20], 0, 0x1e);
-        gPieceBuffer->mReceivedPieceMasks[i] = 0;
+        MI_CpuFill8(&gPieceBuffer->mDataBuf[i * 0x20], 0, 0x1e);
+        gPieceBuffer->mDataBmp[i] = 0;
     }
 }
 
@@ -37,7 +37,7 @@ void ClearChildPieces(s32 child) {
 
 #pragma thumb on
 
-u8 *WriteParentMessage(u8 *input, u8 *output) {
+u8 *MBi_MakeParentSendBuffer(u8 *input, u8 *output) {
     ParentMessage *message;
     u8 *cursor;
     message = (ParentMessage *) input;
@@ -62,13 +62,13 @@ u8 *WriteParentMessage(u8 *input, u8 *output) {
     return cursor;
 }
 
-u8 *ReadChildMessage(u8 *bytes, ChildMessage *message, u32 child) {
+u8 *MBi_SetRecvBufferFromChild(u8 *bytes, ChildMessage *message, u32 child) {
     u8 *v1;
     message->mKind = bytes[0];
     switch (message->mKind) {
         case 7:
             if (AreAllPiecesReceived(child) != 0) {
-                return &gPieceBuffer->mSlots[(child - 1) * 0x20];
+                return &gPieceBuffer->mDataBuf[(child - 1) * 0x20];
             }
             *(u8 *) &message->mUnk_02 = bytes[1];
             if (*(u8 *) &message->mUnk_02 > gPieceSizes.mPieceCount) {
@@ -96,7 +96,7 @@ u8 *ReadChildMessage(u8 *bytes, ChildMessage *message, u32 child) {
 }
 
 u8 *StorePiece(ChildMessage *message, u32 child) {
-    PieceBuffer *pieceBuffer;
+    MbRequestPieceBuf *pieceBuffer;
     u8 pieceIndex;
     u32 slotOffset;
     u32 slotIndex;
@@ -112,9 +112,9 @@ u8 *StorePiece(ChildMessage *message, u32 child) {
     slotOffset = slotIndex << 5;
     MI_CpuCopy8((u8 *) message + 3, (u8 *) pieceBuffer + slotOffset + pieceIndex * gPieceSizes.mPieceSize,
                 gPieceSizes.mPieceSize);
-    gPieceBuffer->mReceivedPieceMasks[slotIndex] |= 1 << pieceIndex;
+    gPieceBuffer->mDataBmp[slotIndex] |= 1 << pieceIndex;
     if (AreAllPiecesReceived(child) != 0) {
-        return &gPieceBuffer->mSlots[slotOffset];
+        return &gPieceBuffer->mDataBuf[slotOffset];
     }
     return NULL;
 }
@@ -126,7 +126,7 @@ u32 AreAllPiecesReceived(u32 child) {
     i = 0;
     pieceCount = gPieceSizes.mPieceCount;
     if (pieceCount > 0) {
-        receivedMask = gPieceBuffer->mReceivedPieceMasks[child - 1];
+        receivedMask = gPieceBuffer->mDataBmp[child - 1];
         do {
             if (((1 << i) & receivedMask) == 0) {
                 return 0;

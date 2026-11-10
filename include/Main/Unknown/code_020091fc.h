@@ -10,7 +10,7 @@
 #include "fs_file.h"
 #include "Main/Unknown/code_02008e10.h"
 
-// Entry of the list that gGameInfoList walks (the lists are chained through mUnk_4bc). GetEntryOrNull returns one;
+// Entry of the list that mbss walks (the lists are chained through mUnk_4bc). MB_GetGameInfoRecvList returns one;
 // the 0xc0 bytes at 0x4c0 are moved out by MB_FakeGetParentBssDesc.
 typedef struct GameInfoEntry {
     /* 000 */ u8 mUnk_000[0x220];
@@ -37,7 +37,7 @@ typedef struct GameInfoEntry {
 } GameInfoEntry;
 
 // State of the walk over the GameInfoEntry list: the first entry, the current entry, the position in the current
-// entry, and five bytes that ResetGameInfoWalk clears.
+// entry, and five bytes that MBi_ClearSendStatus clears.
 typedef struct GameInfoList {
     /* 00 */ GameInfoEntry *mFirst;
     /* 04 */ GameInfoEntry *mCurrent;
@@ -89,26 +89,26 @@ typedef struct MBGameRegistry {
 } MBGameRegistry;
 
 extern u8 data_0216fc30;
-extern u32 data_0216fc44;
-extern void (*data_0216fc48)(u32 a);
-extern GameInfoList gGameInfoList;
+extern u32 sSendVolatCallbackTimming;
+extern void (*sSendVolatCallback)(u32 a);
+extern GameInfoList mbss;
 extern GameInfoBlock gGameInfoBlock;
 extern ScanBlock data_0216fce0;
 extern Unk0216fc1c data_0216fd30[1];
 
 u32 MBi_CheckMBParent(ScanBlock *scanBlock);
-u32 AddScanResult(EntryCallbackFunc callback, u32 b, ScanBlock *scanBlock);
+u32 MB_RecvGameInfoBeacon(EntryCallbackFunc callback, u32 b, ScanBlock *scanBlock);
 void MBi_SendVolatBeacon(u32 ggid, u16 tgid, u32 attr);
 void MBi_InitSendVolatBeacon(void);
 void MBi_SendFixedBeacon(u32 ggid, u16 tgid, u32 attr);
 void MBi_InitSendFixedBeacon(void);
-u32 AdvanceGameInfoEntry(void);
-void SetNextGameInfo(u32 ggid, u16 tgid, u32 attr);
-void ResetGameInfoWalk(void);
-void InitGameInfoList(void);
-void AppendGameInfoEntry(GameInfoEntry *newEntry);
-u32 GetU16StringLength(const u16 *string);
+u32 MBi_ReadyBeaconSendStatus(void);
+void MB_SendGameInfoBeacon(u32 ggid, u16 tgid, u32 attr);
+void MBi_ClearSendStatus(void);
+void MB_InitSendGameInfoStatus(void);
+void MB_AddGameInfo(GameInfoEntry *newEntry);
+u32 mystrlen(const u16 *string);
 void MB_UpdateGameInfoMember(GameInfoEntry *entry, const void *records, u32 recordMask, u32 d);
-u32 LoadFileIfSizeMatches(const u8 *path, u8 *buffer, u32 isLarge);
+u32 MBi_ReadIconInfo(const u8 *path, u8 *buffer, u32 isLarge);
 void MBi_MakeGameInfo(GameInfoEntry *entry, MBGameRegistry *params, const u8 *record);
 

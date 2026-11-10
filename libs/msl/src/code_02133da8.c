@@ -8,7 +8,7 @@
 // returns.
 // Not compiled code: it saves lr alone with `stmdb sp!, {lr}`, a 4-byte frame with no padding word; the 1.2 compiler
 // pads every frame to 8 bytes (frame layout in the compiler; C of the same function gives `sub sp, sp, #4`).
-asm void FloatInit(void) {
+asm void _fp_init(void) {
     stmdb sp!, {lr}
     bl GetFloatStatus
     mov r1, #0

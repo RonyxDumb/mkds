@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-int SendParentMessage(u8 a, u32 b);
+int MBi_CommParentSendMsg(u8 a, u32 b);

@@ -6,7 +6,7 @@
 
 #pragma thumb on
 
-u16 ComputeU16Checksum(const u16 *data, s32 byteCount) {
+u16 MBi_calc_cksum(const u16 *data, s32 byteCount) {
     u32 sum;
     u32 folded;
     s32 halfwordCount;

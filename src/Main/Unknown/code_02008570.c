@@ -31,7 +31,7 @@ int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
     BOOL openedHere;
     u32 remaining;
     u32 basePosition;
-    DataRangeTable *rangeTable;
+    MBiCacheList *rangeTable;
     u32 *v6;
     s32 v8;
     u32 seekOffset;
@@ -74,18 +74,18 @@ int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
             remaining = 0;
         }
         if (remaining >= 0x70) {
-            rangeTable = (DataRangeTable *) v3;
-            ClearDataRangeTable((u32) v3);
+            rangeTable = (MBiCacheList *) v3;
+            MBi_InitCache((u32) v3);
             v3 += 0x70;
             remaining -= 0x70;
-            AddDataRange(rangeTable, 0, 0x160, (u8 *) header, 3);
+            MBi_AttachCacheBuffer(rangeTable, 0, 0x160, (u8 *) header, 3);
             arcBytes = (s8 *) activeFile->mArc;
             v10 = 0;
             while (v10 < 3 && arcBytes[v10] != 0) {
                 v10++;
             }
-            MI_CpuCopy8(arcBytes, rangeTable->mArchiveName, v10);
-            rangeTable->mUnk_14 = v10;
+            MI_CpuCopy8(arcBytes, rangeTable->mArcName, v10);
+            rangeTable->mArcNameLen = v10;
         } else {
             remaining = 0;
         }
@@ -104,24 +104,24 @@ int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
             v10 = activeFile->mProp.w.mUnk_04;
             FS_SeekFile(activeFile, v6[1] - v10, 0);
             FS_ReadFile(activeFile, v3, header->mHead.mUnk_2c);
-            AddDataRange(rangeTable, v6[1], header->mHead.mUnk_2c, v3, 3);
+            MBi_AttachCacheBuffer(rangeTable, v6[1], header->mHead.mUnk_2c, v3, 3);
             v3 += header->mHead.mUnk_2c;
             FS_SeekFile(activeFile, v6[2] - v10, 0);
             FS_ReadFile(activeFile, v3, header->mHead.mUnk_3c);
-            AddDataRange(rangeTable, v6[2], header->mHead.mUnk_3c, v3, 3);
+            MBi_AttachCacheBuffer(rangeTable, v6[2], header->mHead.mUnk_3c, v3, 3);
             result = TRUE;
         } else if (remaining >= 0xcc00) {
             v10 = activeFile->mProp.w.mUnk_04;
             v8 = v6[1];
             FS_SeekFile(activeFile, v8 - v10, 0);
             FS_ReadFile(activeFile, v3, 0x4400);
-            AddDataRange(rangeTable, v8, 0x4400, v3, 3);
+            MBi_AttachCacheBuffer(rangeTable, v8, 0x4400, v3, 3);
             FS_SeekFile(activeFile, v8 + 0x4400 - v10, 0);
             FS_ReadFile(activeFile, v3 + 0x4400, 0x4400);
-            AddDataRange(rangeTable, v8 + 0x4400, 0x4400, (v3 + 0x4400), 2);
+            MBi_AttachCacheBuffer(rangeTable, v8 + 0x4400, 0x4400, (v3 + 0x4400), 2);
             FS_SeekFile(activeFile, v8 + 0x8800 - v10, 0);
             FS_ReadFile(activeFile, v3 + 0x8800, 0x4400);
-            AddDataRange(rangeTable, v8 + 0x8800, 0x4400, (v3 + 0x8800), 2);
+            MBi_AttachCacheBuffer(rangeTable, v8 + 0x8800, 0x4400, (v3 + 0x8800), 2);
             result = TRUE;
         }
         FS_SeekFile(activeFile, basePosition, 0);
@@ -131,14 +131,14 @@ int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
                 v6 = mbi_seg_header;
                 v14[0] = header->mHead.mUnk_20;
                 v14[1] = header->mHead.mUnk_28 - header->mHead.mUnk_20;
-                v14[2] = (u32) rangeTable->mRanges[1].mData - header->mHead.mUnk_20;
+                v14[2] = (u32) rangeTable->mList[1].mPtr - header->mHead.mUnk_20;
                 v14[3] = bufferSize;
-                CopyOrClearRange(v14, 0x4000, 0x8000, 1);
+                MBi_ReadSegmentHeader(v14, 0x4000, 0x8000, 1);
                 while (((s32 *) v6)[1] != 0) {
-                    CopyOrClearRange(v14, v6[0], v6[0] + v6[1], 0);
+                    MBi_ReadSegmentHeader(v14, v6[0], v6[0] + v6[1], 0);
                     v6 += 2;
                 }
-                v3 = rangeTable->mRanges[1].mData;
+                v3 = rangeTable->mList[1].mPtr;
                 v3 += (u32) AutoloadCallback - header->mHead.mUnk_28;
                 *(u32 *) v3 = 0xe12fff1e;
             }

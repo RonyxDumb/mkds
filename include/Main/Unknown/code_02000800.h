@@ -10,7 +10,7 @@
 #include "Main/Unknown/code_02003000.h"
 #include "Main/Unknown/code_02000b44.h"
 
-void FloatInit(void);
-void CallCtorTable(void);
+void _fp_init(void);
+void __call_static_initializers(void);
 
 void Entry(void);

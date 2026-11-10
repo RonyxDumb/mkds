@@ -4,11 +4,11 @@
 
 #pragma thumb on
 
-void ReplaceEntryIfChanged(u8 *newBlock, int entryIndex) {
-    if (*OFFSET_PTR(u16, newBlock, 0x48) != gEntryTable->mEntries[entryIndex].mUnk_508) {
+void MBi_CheckTGID(u8 *newBlock, int entryIndex) {
+    if (*OFFSET_PTR(u16, newBlock, 0x48) != mbrsp->mEntries[entryIndex].mUnk_508) {
         MB_DeleteRecvGameInfoWithoutBssdesc(entryIndex);
-        MIi_CpuCopy16(newBlock, gEntryTable->mEntries[entryIndex].mScanBuffer, 0xc0);
-        SetScanBssidFromEntry(entryIndex);
+        MIi_CpuCopy16(newBlock, mbrsp->mEntries[entryIndex].mScanBuffer, 0xc0);
+        MBi_LockScanTarget(entryIndex);
     }
 }
 

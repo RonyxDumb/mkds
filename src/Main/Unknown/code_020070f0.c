@@ -5,7 +5,7 @@
 
 #pragma thumb on
 
-u32 IsChildIndexInRange(u32 a) {
+u32 IsChildAidValid(u32 a) {
     if ((a >= 1) && (a <= 15)) {
         return 1;
     }

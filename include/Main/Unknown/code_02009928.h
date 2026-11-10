@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-void ReportCommandError(u16 command, s32 resultCode);
+void MBi_CheckWmErrcode(u16 command, s32 resultCode);
 u32 MBi_IsStarted(void);
 u8 GetGameInfoAttr(void);
 u16 GetTgid(void);

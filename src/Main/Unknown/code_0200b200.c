@@ -20,8 +20,8 @@ void ScanConnectEndScanCallback(Unk021425e8 *a) {
 }
 
 u32 StartConnectToEntry(u32 entryIndex) {
-    EntryRecord *v1;
-    v1 = GetEntryOrNull(entryIndex);
+    MBGameInfoRecvList *v1;
+    v1 = MB_GetGameInfoRecvList(entryIndex);
     if (v1 == NULL) {
         return 0;
     }

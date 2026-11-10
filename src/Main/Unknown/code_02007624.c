@@ -7,7 +7,7 @@
 void *MB_CommGetChildUser(u32 child) {
     u32 savedInterrupts;
     savedInterrupts = OS_DisableInterrupts();
-    if (mbc != NULL && IsChildIndexInRange(child) != 0) {
+    if (mbc != NULL && IsChildAidValid(child) != 0) {
         MI_CpuCopy8(&mbc->mChildUser[child - 1], mbc->mChildUserBuf, 0x16);
         OS_RestoreInterrupts(savedInterrupts);
         return mbc->mChildUserBuf;
@@ -17,7 +17,7 @@ void *MB_CommGetChildUser(u32 child) {
 }
 
 u32 MB_CommIsBootable(u32 child) {
-    if (mbc != NULL && IsChildIndexInRange(child) != 0 && mbc->mPCommState[child - 1] == 7) {
+    if (mbc != NULL && IsChildAidValid(child) != 0 && mbc->mPCommState[child - 1] == 7) {
         return 1;
     }
     return 0;
@@ -49,7 +49,7 @@ u32 MB_CommResponseRequest(u32 child, u32 pairIndex) {
             OS_RestoreInterrupts(savedInterrupts);
             return 0;
     }
-    if (mbc != NULL && IsChildIndexInRange(child) != 0 && expectedValue == mbc->mPCommState[child - 1]) {
+    if (mbc != NULL && IsChildAidValid(child) != 0 && expectedValue == mbc->mPCommState[child - 1]) {
         mbc->mReq2child[child - 1] = newValue;
         OS_RestoreInterrupts(savedInterrupts);
         return 1;
@@ -59,14 +59,14 @@ u32 MB_CommResponseRequest(u32 child, u32 pairIndex) {
 }
 
 void MBi_CommChangeParentState(u32 child, u32 value, void *data) {
-    if (IsChildIndexInRange(child) != 0) {
+    if (IsChildAidValid(child) != 0) {
         mbc->mPCommState[child - 1] = value;
     }
     MBi_CommChangeParentStateCallbackOnly(child, value, data);
 }
 
 void MBi_CommChangeParentStateCallbackOnly(u32 child, u32 value, void *data) {
-    Unk0216fdac *work;
+    MB_CommPWork *work;
     work = mbc;
     if (work->mCallback != NULL) {
         work->mCallback(child, value, data);
@@ -76,7 +76,7 @@ void MBi_CommChangeParentStateCallbackOnly(u32 child, u32 value, void *data) {
 void MBi_CommParentCallback(s32 eventCode, Unk021425e8 *eventData) {
     u32 v1;
     u8 i;
-    Unk0216fdac *work;
+    MB_CommPWork *work;
     u32 v2;
     u16 child;
     u8 entryIndex;
@@ -99,7 +99,7 @@ void MBi_CommParentCallback(s32 eventCode, Unk021425e8 *eventData) {
                 mbc->mChildversion[eventData->mUnk_10 - 1] = 0;
                 MI_CpuFill8(mbc->mChildggid + (eventData->mUnk_10 - 1), 0, 4);
                 MI_CpuFill8(&mbc->mChildUser[eventData->mUnk_10 - 1], 0, 0x16);
-                ClearChildPieces(eventData->mUnk_10);
+                MBi_ClearParentPieceBuffer(eventData->mUnk_10);
                 v2 = 0;
                 mbc->mReq2child[eventData->mUnk_10 - 1] = v2;
                 child = eventData->mUnk_10;
@@ -108,10 +108,10 @@ void MBi_CommParentCallback(s32 eventCode, Unk021425e8 *eventData) {
                 if (childEntryIndex != v2) {
                     v1 = 1 << child;
                     entryIndex = childEntryIndex;
-                    (OFFSET_PTR(Unk0216fdac, mbc, entryIndex * 0x5d4))->mGameinfoChildBmp &= ~v1;
-                    (OFFSET_PTR(Unk0216fdac, mbc, entryIndex * 0x5d4))->mGameinfoChangedBmp |= v1;
+                    (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mGameinfoChildBmp &= ~v1;
+                    (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mGameinfoChangedBmp |= v1;
                     mbc->mChildEntryIndex[child - 1] = v2;
-                    (OFFSET_PTR(Unk0216fdac, mbc, entryIndex * 0x5d4))->mPollbmp &= ~v1;
+                    (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mPollbmp &= ~v1;
                 }
                 if ((mbc->mChildEntryBmp & (1 << eventData->mUnk_10)) != 0) {
                     mbc->mChildNum--;
@@ -139,12 +139,12 @@ void MBi_CommParentCallback(s32 eventCode, Unk021425e8 *eventData) {
             do {
                 work = mbc;
                 v2 = i * 0x5d4;
-                if ((OFFSET_PTR(Unk0216fdac, work, v2))->mEntryUsed != 0 &&
-                    (OFFSET_PTR(Unk0216fdac, work, v2))->mGameinfoChangedBmp != 0) {
+                if ((OFFSET_PTR(MB_CommPWork, work, v2))->mEntryUsed != 0 &&
+                    (OFFSET_PTR(MB_CommPWork, work, v2))->mGameinfoChangedBmp != 0) {
                     MB_UpdateGameInfoMember((GameInfoEntry *) (work->mUnk_1788 + 0xe4 + v2), work->mChildUser,
-                                            (OFFSET_PTR(Unk0216fdac, work, v2))->mGameinfoChildBmp,
-                                            (OFFSET_PTR(Unk0216fdac, work, v2))->mGameinfoChangedBmp);
-                    (OFFSET_PTR(Unk0216fdac, mbc, v2))->mGameinfoChangedBmp = v1;
+                                            (OFFSET_PTR(MB_CommPWork, work, v2))->mGameinfoChildBmp,
+                                            (OFFSET_PTR(MB_CommPWork, work, v2))->mGameinfoChangedBmp);
+                    (OFFSET_PTR(MB_CommPWork, mbc, v2))->mGameinfoChangedBmp = v1;
                 }
                 i++;
             } while (i < 16);
@@ -153,7 +153,7 @@ void MBi_CommParentCallback(s32 eventCode, Unk021425e8 *eventData) {
                 u16 tgid;
                 ggid = GetGgid();
                 tgid = GetTgid();
-                SetNextGameInfo(ggid, tgid, GetGameInfoAttr());
+                MB_SendGameInfoBeacon(ggid, tgid, GetGameInfoAttr());
             }
             break;
         case 0xff:
@@ -217,7 +217,7 @@ void MBi_CommParentRecvDataPerChild(Unk021432ac *childData, u32 child) {
     if (child == 0 || child > 15) {
         return;
     }
-    payload = ReadChildMessage(childData->mUnk_0a, &message, child);
+    payload = MBi_SetRecvBufferFromChild(childData->mUnk_0a, &message, child);
     arrayIndex = child - 1;
     childValue = mbc->mPCommState[arrayIndex];
     switch (message.mKind) {
@@ -238,20 +238,20 @@ void MBi_CommParentRecvDataPerChild(Unk021432ac *childData, u32 child) {
             if (childValue == 10) {
                 bitCount = 0;
                 entryIndex = ((Unk0200c12c *) payload)->mUnk_1c;
-                if (entryIndex >= 16 || (OFFSET_PTR(Unk0216fdac, mbc, entryIndex * 0x5d4))->mEntryUsed == 0 ||
+                if (entryIndex >= 16 || (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mEntryUsed == 0 ||
                     mbc->mChildggid[arrayIndex] !=
-                        (OFFSET_PTR(Unk0216fdac, mbc, entryIndex * 0x5d4))->mGameReg->mUnk_14) {
+                        (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mGameReg->mGgid) {
                     mbc->mReq2child[arrayIndex] = 4;
                 } else {
                     bitIndex = 0;
                     do {
-                        if (((1 << bitIndex) & (OFFSET_PTR(Unk0216fdac, mbc, entryIndex * 0x5d4))->mGameinfoChildBmp) !=
-                            0) {
+                        if (((1 << bitIndex) &
+                             (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mGameinfoChildBmp) != 0) {
                             bitCount++;
                         }
                         bitIndex++;
                     } while (bitIndex < 16);
-                    if (bitCount >= (OFFSET_PTR(Unk0216fdac, mbc, entryIndex * 0x5d4))->mGameReg->mUnk_18[0]) {
+                    if (bitCount >= (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mGameReg->mMaxPlayerNum) {
                         mbc->mReq2child[arrayIndex] = 0;
                         MBi_CommChangeParentState(child, 0xb, NULL);
                         return;
@@ -265,13 +265,13 @@ void MBi_CommParentRecvDataPerChild(Unk021432ac *childData, u32 child) {
                         mbc->mChildNum++;
                         mbc->mChildEntryBmp |= 1 << child;
                         mbc->mChildEntryIndex[child - 1] = entryIndex;
-                        (OFFSET_PTR(Unk0216fdac, mbc, entryIndex * 0x5d4))->mGameinfoChildBmp |= 1 << child;
-                        (OFFSET_PTR(Unk0216fdac, mbc, entryIndex * 0x5d4))->mGameinfoChangedBmp |= 1 << child;
+                        (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mGameinfoChildBmp |= 1 << child;
+                        (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mGameinfoChangedBmp |= 1 << child;
                         mbc->mReq2child[arrayIndex] = 0;
                         MBi_CommChangeParentState(child, 5, NULL);
                         break;
                     case 4:
-                        (OFFSET_PTR(Unk0216fdac, mbc, arrayIndex * 2))->mReq2child[0] = 0;
+                        (OFFSET_PTR(MB_CommPWork, mbc, arrayIndex * 2))->mReq2child[0] = 0;
                         MBi_CommChangeParentState(child, 4, NULL);
                         break;
                 }
@@ -283,8 +283,8 @@ void MBi_CommParentRecvDataPerChild(Unk021432ac *childData, u32 child) {
             } else if (childValue == 0xe) {
                 if (mbc->mReq2child[arrayIndex] == 2) {
                     entryIndex = mbc->mChildEntryIndex[arrayIndex];
-                    (OFFSET_PTR(Unk0216fdac, mbc, entryIndex * 0x5d4))->mPollbmp |= 1 << child;
-                    (OFFSET_PTR(Unk0216fdac, mbc, entryIndex * 0x5d4))->mCurrentb = 0;
+                    (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mPollbmp |= 1 << child;
+                    (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mCurrentb = 0;
                     mbc->mReq2child[arrayIndex] = 0;
                     MBi_CommChangeParentState(child, 6, NULL);
                 }
@@ -294,8 +294,8 @@ void MBi_CommParentRecvDataPerChild(Unk021432ac *childData, u32 child) {
             if (childValue == 6) {
                 entryIndex = mbc->mChildEntryIndex[arrayIndex];
                 if (entryIndex != 0xff) {
-                    (OFFSET_PTR(Unk0216fdac, mbc, entryIndex * 0x5d4))->mNextb =
-                        GetLargerValue((OFFSET_PTR(Unk0216fdac, mbc, entryIndex * 0x5d4))->mNextb, message.mUnk_02);
+                    (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mNextb = MBi_calc_nextsendblock(
+                        (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mNextb, message.mUnk_02);
                 }
             }
             break;
@@ -303,12 +303,12 @@ void MBi_CommParentRecvDataPerChild(Unk021432ac *childData, u32 child) {
             if (childValue == 6) {
                 entryIndex = mbc->mChildEntryIndex[arrayIndex];
                 if (entryIndex != 0xff) {
-                    (OFFSET_PTR(Unk0216fdac, mbc, entryIndex * 0x5d4))->mPollbmp &= ~(1 << child);
+                    (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mPollbmp &= ~(1 << child);
                     MBi_CommChangeParentState(child, 7, NULL);
                 }
             } else if (childValue == 7) {
                 if (mbc->mReq2child[arrayIndex] == 5) {
-                    (OFFSET_PTR(Unk0216fdac, mbc, arrayIndex * 2))->mReq2child[0] = 0;
+                    (OFFSET_PTR(MB_CommPWork, mbc, arrayIndex * 2))->mReq2child[0] = 0;
                     MBi_CommChangeParentState(child, 8, NULL);
                 }
             }
@@ -323,8 +323,8 @@ void MBi_CommParentRecvData(Unk021432ac *header) {
     u16 firstHalfword;
     void *childData;
     for (i = 0; i < 16; i++) {
-        if ((OFFSET_PTR(Unk0216fdac, mbc, i * 0x5d4))->mEntryUsed != 0) {
-            (OFFSET_PTR(Unk0216fdac, mbc, i * 0x5d4))->mNextb = 0;
+        if ((OFFSET_PTR(MB_CommPWork, mbc, i * 0x5d4))->mEntryUsed != 0) {
+            (OFFSET_PTR(MB_CommPWork, mbc, i * 0x5d4))->mNextb = 0;
         }
     }
     for (i = 1; i <= 15; i++) {

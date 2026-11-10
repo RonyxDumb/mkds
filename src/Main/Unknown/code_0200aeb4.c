@@ -33,7 +33,7 @@ u32 MB_FakeReadParentBssDesc(u32 entryIndex, ScanBlock *scanBlock, u16 parentMax
     return 1;
 }
 
-void RunWorkerTasks(void *argument) {
+void MBi_TaskThread(void *argument) {
     WorkerQueue *workerQueue;
     WorkerTask *task;
     u32 v2;
@@ -82,7 +82,7 @@ void RunWorkerTasks(void *argument) {
     OS_ExitThread();
 }
 
-void StartWorkerThread(WorkerQueue *workerQueue, u32 totalSize) {
+void MBi_InitTaskThread(WorkerQueue *workerQueue, u32 totalSize) {
     u32 savedInterrupts;
     u32 stackSize;
     savedInterrupts = OS_DisableInterrupts();
@@ -91,7 +91,7 @@ void StartWorkerThread(WorkerQueue *workerQueue, u32 totalSize) {
         MBi_InitTaskInfo(&workerQueue->mStopTask);
         workerQueue->mFirstTask = NULL;
         stackSize = (totalSize - 0xe4) & ~3;
-        OS_CreateThread(&workerQueue->mThread, RunWorkerTasks, workerQueue, (u8 *) workerQueue + 0xe4 + stackSize,
+        OS_CreateThread(&workerQueue->mThread, MBi_TaskThread, workerQueue, (u8 *) workerQueue + 0xe4 + stackSize,
                         stackSize, 0);
         OS_WakeupThreadDirect(&workerQueue->mThread);
     }
@@ -102,7 +102,7 @@ void StartWorkerThread(WorkerQueue *workerQueue, u32 totalSize) {
 
 #pragma thumb on
 
-u32 IsWorkerActive(void) {
+u32 MBi_IsTaskAvailable(void) {
     if (gWorkerQueue != NULL) {
         return 1;
     }
@@ -125,21 +125,21 @@ void MBi_InitTaskInfo(void *taskInfo) {
 
 #pragma thumb on
 
-u32 IsWorkerTaskInUse(WorkerTask *task) {
+u32 MBi_IsTaskBusy(WorkerTask *task) {
     if (task->mInUse != 0) {
         return 1;
     }
     return 0;
 }
 
-void QueueWorkerTask(WorkerTask *task, void *run, void *done, u32 priority) {
+void MBi_SetTask(WorkerTask *task, void *run, void *done, u32 priority) {
     WorkerQueue *workerQueue;
     u32 threadPriority;
     u32 savedInterrupts;
     WorkerTask *previous;
     WorkerTask *next;
     workerQueue = gWorkerQueue;
-    if (IsWorkerActive() == 0) {
+    if (MBi_IsTaskAvailable() == 0) {
         OS_Terminate();
     }
     if (task->mInUse != 0) {
@@ -204,13 +204,13 @@ void QueueWorkerTask(WorkerTask *task, void *run, void *done, u32 priority) {
 
 #pragma thumb on
 
-void RequestWorkerStop(void *done) {
+void MBi_EndTaskThread(void *done) {
     u32 savedInterrupts;
     int workerActive;
     savedInterrupts = ((s64) OS_DisableInterrupts());
-    workerActive = IsWorkerActive();
+    workerActive = MBi_IsTaskAvailable();
     if (workerActive != 0) {
-        QueueWorkerTask(&gWorkerQueue->mStopTask, NULL, done, 0);
+        MBi_SetTask(&gWorkerQueue->mStopTask, NULL, done, 0);
     }
     OS_RestoreInterrupts(savedInterrupts);
 }

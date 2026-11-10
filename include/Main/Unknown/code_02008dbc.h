@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void ReplaceEntryIfChanged(u8 *newBlock, int entryIndex);
+void MBi_CheckTGID(u8 *newBlock, int entryIndex);

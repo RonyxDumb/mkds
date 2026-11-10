@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 RequestWirelessReset(void);
+u32 MBi_CommEnd(void);

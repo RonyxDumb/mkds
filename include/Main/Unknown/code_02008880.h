@@ -5,4 +5,4 @@
 typedef struct FSFile FSFile;
 
 u32 MB_GetSegmentLength(FSFile *file);
-u16 ComputeU16Checksum(const u16 *data, s32 byteCount);
+u16 MBi_calc_cksum(const u16 *data, s32 byteCount);

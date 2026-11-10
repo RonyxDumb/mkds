@@ -7,7 +7,7 @@
 // Block the callback behind mScanCallback receives from CallScanCallbackWithEntry.
 typedef struct ScanEntryArgs {
     /* 00 */ u16 mEntryIndex;
-    /* 04 */ EntryRecord *mEntry;
+    /* 04 */ MBGameInfoRecvList *mEntry;
     /* 08 */ u8 *mScanBuffer;
     /* 0c */ u32 mUnk_0c;
 } ScanEntryArgs;
@@ -76,7 +76,7 @@ void EntryCallback(u32 a, void *entry, u32 entryIndex);
 void ClearUseScanBssid(void);
 void SetScanBssid(const u8 *a);
 void ReportScanError(u16 a, u16 b);
-void CallScanCallbackWithEntry(u32 a, EntryRecord *entry, u32 entryIndex);
+void CallScanCallbackWithEntry(u32 a, MBGameInfoRecvList *entry, u32 entryIndex);
 void ScanConnectStartScanCallback(Unk021425e8 *a);
 void ScanConnectStartScan(void);
 void StartRepeatedScan(UnkFunc *callback, u32 b);

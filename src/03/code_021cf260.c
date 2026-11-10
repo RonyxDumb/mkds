@@ -117,7 +117,7 @@ void func_ov003_021cf844(u32 a) {
         data_ov003_021da288->mUnk_0a &= m;
         data_ov003_021da288->mUnk_0c &= m;
         OS_RestoreInterrupts(t);
-        DisconnectChild(a);
+        MB_DisconnectChild(a);
     }
 }
 
@@ -136,7 +136,7 @@ void func_ov003_021cf7b8(u32 a) {
         data_ov003_021da288->mUnk_0a &= m;
         data_ov003_021da288->mUnk_0c &= m;
         OS_RestoreInterrupts(t);
-        DisconnectChild(a);
+        MB_DisconnectChild(a);
     } else {
         t = OS_DisableInterrupts();
         v1 = 1 << a;
@@ -161,7 +161,7 @@ void func_ov003_021cf72c(u32 a) {
         data_ov003_021da288->mUnk_0a &= m;
         data_ov003_021da288->mUnk_0c &= m;
         OS_RestoreInterrupts(t);
-        DisconnectChild(a);
+        MB_DisconnectChild(a);
     } else {
         t = OS_DisableInterrupts();
         v1 = 1 << a;
@@ -192,7 +192,7 @@ void func_ov003_021cf69c(void) {
                     data_ov003_021da288->mUnk_0a &= m;
                     data_ov003_021da288->mUnk_0c &= m;
                     OS_RestoreInterrupts(t);
-                    DisconnectChild(i);
+                    MB_DisconnectChild(i);
                 } else {
                     func_ov003_021cf72c(i);
                 }
@@ -239,7 +239,7 @@ void func_ov003_021cf5ac(void) {
                 data_ov003_021da288->mUnk_0a &= m;
                 data_ov003_021da288->mUnk_0c &= m;
                 OS_RestoreInterrupts(t);
-                DisconnectChild(i);
+                MB_DisconnectChild(i);
             } else {
                 r |= v1;
             }

@@ -3,7 +3,7 @@
 #include "types.h"
 #include "code_02142eac.h"
 
-// 0x180-byte entries from 0x600 of WirelessWork.
+// 0x180-byte entries from 0x600 of MBiParam.
 typedef struct ScanEntry {
     /* 000 */ u8 mUnk_000[0xc0];
     /* 0c0 */ Unk021425e8 mMessage;
@@ -11,7 +11,7 @@ typedef struct ScanEntry {
 } ScanEntry;
 
 // Object behind gWirelessWork (0x1e00 bytes).
-typedef struct WirelessWork {
+typedef struct MBiParam {
     /* 000 */ u8 mUnk_000[8];
     /* 008 */ u32 mGgid;
     /* 00c */ u16 mTgid;
@@ -55,27 +55,27 @@ typedef struct WirelessWork {
     /* 5ec */ u32 mLastScanEntry;
     /* 5f0 */ u8 mUnk_5f0[0x10];
     /* 600 */ ScanEntry mScanEntries[16];
-} WirelessWork;
+} MBiParam;
 
-// 0x10-byte entries from 0x30 of DataRangeTable.
-typedef struct DataRange {
-    /* 00 */ u32 mOffset;
-    /* 04 */ u32 mSize;
-    /* 08 */ u8 *mData;
-    /* 0c */ u32 mUnk_0c;
-} DataRange;
+// 0x10-byte entries from 0x30 of MBiCacheList.
+typedef struct MBiCacheInfo {
+    /* 00 */ u32 mSrc;
+    /* 04 */ u32 mLen;
+    /* 08 */ u8 *mPtr;
+    /* 0c */ u32 mState;
+} MBiCacheInfo;
 
-typedef struct DataRangeTable {
+typedef struct MBiCacheList {
     /* 00 */ u32 mUnk_00;
     /* 04 */ u8 mUnk_04[0xc];
-    /* 10 */ u8 mArchiveName[4];
-    /* 14 */ s32 mUnk_14;
+    /* 10 */ u8 mArcName[4];
+    /* 14 */ s32 mArcNameLen;
     /* 18 */ u8 mUnk_18[0x18];
-    /* 30 */ DataRange mRanges[4];
-} DataRangeTable;
+    /* 30 */ MBiCacheInfo mList[4];
+} MBiCacheList;
 
 void MBi_OnInitializeDone(void);
-u32 IsMPReadyToSendData(void);
+u32 MBi_IsSendEnabled(void);
 u32 AdvanceScanChannel(Unk02143a78 *scanParams);
-u32 CopyFromDataRanges(DataRangeTable *table, u32 offset, void *destination, u32 byteCount);
-void AddDataRange(DataRangeTable *table, u32 offset, u32 size, u8 *data, u32 value);
+u32 MBi_ReadFromCache(MBiCacheList *table, u32 offset, void *destination, u32 byteCount);
+void MBi_AttachCacheBuffer(MBiCacheList *table, u32 offset, u32 size, u8 *data, u32 value);

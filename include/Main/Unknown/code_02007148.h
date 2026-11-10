@@ -10,7 +10,7 @@
 
 struct SegmentBuffer;
 
-// The 0x16 bytes at 0x1300 of Unk0216fdac: a count at mUnk_01 and that many halfwords from mUnk_02.
+// The 0x16 bytes at 0x1300 of MB_CommPWork: a count at mUnk_01 and that many halfwords from mUnk_02.
 typedef struct Unk02009ff4 {
     /* 00 */ u8 mUnk_00;
     /* 01 */ u8 mUnk_01;
@@ -19,7 +19,7 @@ typedef struct Unk02009ff4 {
 
 // Object behind mbc. The members from 0x1788 on are reached from a pointer advanced in steps of 0x5d4
 // bytes, so their offsets here include the 0x1788.
-typedef struct Unk0216fdac {
+typedef struct MB_CommPWork {
     /* 0000 */ u8 mUnk_0000[0x1300];
     /* 1300 */ Unk02009ff4 mUser;
     /* 1316 */ u16 mIsMbInitialized;
@@ -37,7 +37,7 @@ typedef struct Unk0216fdac {
     /* 1526 */ s8 mChildEntryIndex[15];
     /* 1535 */ u8 mChildNum;
     /* 1536 */ u16 mChildEntryBmp;
-    /* 1538 */ PieceBuffer mUnk_1538;
+    /* 1538 */ MbRequestPieceBuf mReqDataBuf;
     /* 1754 */ u16 mReq2child[15];
     /* 1772 */ u8 mChildUserBuf[0x16];
     /* 1788 */ u8 mUnk_1788[0x1d1f - 0x1788];
@@ -46,7 +46,7 @@ typedef struct Unk0216fdac {
     /* 1d21 */ u8 mUnk_1d21;
     /* 1d22 */ u8 mUnk_1d22[0x1d2c - 0x1d22];
     /* 1d2c */ u8 mUnk_1d2c[0x14];
-    /* 1d40 */ DataRangeTable *mGameReg;
+    /* 1d40 */ struct MBGameRegistry *mGameReg;
     /* 1d44 */ struct SegmentBuffer *mSrcAdr;
     /* 1d48 */ u16 mCurrentb;
     /* 1d4a */ u16 mNextb;
@@ -55,15 +55,15 @@ typedef struct Unk0216fdac {
     /* 1d50 */ u16 mGameinfoChangedBmp;
     /* 1d52 */ u8 mEntryUsed;
     /* 1d53 */ u8 mUnk_1d53;
-    /* 1d54 */ DataRangeTable *mCacheList;
+    /* 1d54 */ MBiCacheList *mCacheList;
     /* 1d58 */ u32 *mCardMapping;
     /* 1d5c */ u8 mUnk_1d5c[0x74c8 - 0x1d5c];
     /* 74c8 */ s32 mUseWvrFlag;
     /* 74cc */ u8 mUnk_74cc[0x74e0 - 0x74cc];
     /* 74e0 */ WorkerQueue mUnk_74e0;
     /* ---- */ u8 mUnk_74e0_end[0x800 - sizeof(WorkerQueue)];
-    /* 7ce0 */ u8 mCurTask[0x18];
-} Unk0216fdac;
+    /* 7ce0 */ u8 mCurTask[0x20];
+} MB_CommPWork;
 
-u32 GetLargerValue(u32 first, u32 second);
-void func_02007154(u32 entryIndex);
+u32 MBi_calc_nextsendblock(u32 first, u32 second);
+void MBi_calc_sendblock(u32 entryIndex);

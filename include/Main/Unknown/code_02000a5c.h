@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_02000a5c(void);
+void init_cp15(void);

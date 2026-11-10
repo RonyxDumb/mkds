@@ -5,20 +5,20 @@
 #pragma thumb on
 
 void MBi_CheckSeqNoFixed(u32 entryIndex) {
-    if (gReceivedGameInfo->mUnk_05 != gEntryTable->mEntries[entryIndex].mUnk_4b3) {
+    if (gReceivedGameInfo->mUnk_05 != mbrsp->mEntries[entryIndex].mUnk_4b3) {
         MB_DeleteRecvGameInfoWithoutBssdesc(entryIndex);
-        SetScanBssidFromEntry(entryIndex);
-        gEntryTable->mEntries[entryIndex].mUnk_4b3 = gReceivedGameInfo->mUnk_05;
+        MBi_LockScanTarget(entryIndex);
+        mbrsp->mEntries[entryIndex].mUnk_4b3 = gReceivedGameInfo->mUnk_05;
     }
 }
 
 void MBi_CheckSeqNoVolat(u32 entryIndex) {
-    if (gReceivedGameInfo->mUnk_06 != gEntryTable->mEntries[entryIndex].mUnk_4b4) {
-        SetScanBssidFromEntry(entryIndex);
+    if (gReceivedGameInfo->mUnk_06 != mbrsp->mEntries[entryIndex].mUnk_4b4) {
+        MBi_LockScanTarget(entryIndex);
     }
 }
 
-void ExpireEntriesWithBssid(const u8 *bssid) {
+void MBi_InvalidateGameInfoBssID(const u8 *bssid) {
     s32 i;
     u32 entryOffset;
     u32 zero;
@@ -26,25 +26,25 @@ void ExpireEntriesWithBssid(const u8 *bssid) {
     entryOffset = 0;
     zero = 0;
     for (; i < 0x10; i++) {
-        if (gEntryTable->mUsedMask & (1 << i)) {
-            u8 *firstBssid = gEntryTable->mEntries[0].mBssid;
+        if (mbrsp->mUsedMask & (1 << i)) {
+            u8 *firstBssid = mbrsp->mEntries[0].mBssid;
             u8 *entryBssid = firstBssid + entryOffset;
             if (bssid[0] == firstBssid[entryOffset] && bssid[1] == entryBssid[1] && bssid[2] == entryBssid[2] &&
                 bssid[3] == entryBssid[3] && bssid[4] == entryBssid[4] && bssid[5] == entryBssid[5]) {
-                *(s16 *) ((u8 *) gEntryTable + entryOffset + 0x59a) = zero;
+                *(s16 *) ((u8 *) mbrsp + entryOffset + 0x59a) = zero;
             }
         }
-        entryOffset += sizeof(EntryRecord);
+        entryOffset += sizeof(MBGameInfoRecvList);
     }
 }
 
 void MBi_RecvFixedBeacon(u32 entryIndex) {
-    EntryRecord *entry;
+    MBGameInfoRecvList *entry;
     u8 *dataEnd;
     u8 *destination;
     Unk0216fc1c *gameInfo;
     u32 byteCount;
-    entry = &gEntryTable->mEntries[entryIndex];
+    entry = &mbrsp->mEntries[entryIndex];
     dataEnd = &entry->mUnk_358;
     if (entry->mUnk_4b3 == gReceivedGameInfo->mUnk_05 && (entry->mUnk_580 & (1 << gReceivedGameInfo->mUnk_0a)) != 0) {
         return;
@@ -67,13 +67,13 @@ void MBi_RecvFixedBeacon(u32 entryIndex) {
 }
 
 void MBi_RecvVolatBeacon(u32 entryIndex) {
-    EntryRecord *entry;
+    MBGameInfoRecvList *entry;
     s32 i;
     u32 j;
     u8 *record;
     vu16 clearValue;
     u16 zero;
-    entry = &gEntryTable->mEntries[entryIndex];
+    entry = &mbrsp->mEntries[entryIndex];
     if (entry->mUnk_4b4 != gReceivedGameInfo->mUnk_06) {
         if ((u8) (entry->mUnk_4b4 + 1) == gReceivedGameInfo->mUnk_06) {
             i = 0;
@@ -87,12 +87,12 @@ void MBi_RecvVolatBeacon(u32 entryIndex) {
                 record += 0x16;
             }
             *(u16 *) &entry->mUnk_588 &= ~gReceivedGameInfo->mUnk_0e;
-            gEntryTable->mValidGameInfoFlag &= ~(1 << entryIndex);
+            mbrsp->mValidGameInfoFlag &= ~(1 << entryIndex);
         } else {
             vu16 zeroValue = 0;
             MIi_CpuClear16(zeroValue, entry->mUnk_35e, 0x14a);
             entry->mUnk_588 = 0;
-            gEntryTable->mValidGameInfoFlag &= ~(1 << entryIndex);
+            mbrsp->mValidGameInfoFlag &= ~(1 << entryIndex);
         }
         entry->mUnk_4b4 = gReceivedGameInfo->mUnk_06;
     } else if (entry->mUnk_588 == gReceivedGameInfo->mUnk_0c) {
@@ -114,55 +114,55 @@ void MBi_RecvVolatBeacon(u32 entryIndex) {
     }
 }
 
-void SetScanBssidFromEntry(u32 entryIndex) {
-    if (gEntryTable->mNowScanTargetFlag == 0) {
+void MBi_LockScanTarget(u32 entryIndex) {
+    if (mbrsp->mNowScanTargetFlag == 0) {
         if (gSetBssidCallback != NULL) {
-            gSetBssidCallback(gEntryTable->mEntries[entryIndex].mBssid);
+            gSetBssidCallback(mbrsp->mEntries[entryIndex].mBssid);
         }
-        gEntryTable->mScanCountUnit = 0x16;
-        gEntryTable->mNowScanTargetFlag = 1 << entryIndex;
-        gEntryTable->mNowLockTimeCount = 0x321;
+        mbrsp->mScanCountUnit = 0x16;
+        mbrsp->mNowScanTargetFlag = 1 << entryIndex;
+        mbrsp->mNowLockTimeCount = 0x321;
     }
 }
 
-void ClearScanBssid(void) {
-    if (gEntryTable->mNowScanTargetFlag != 0) {
+void MBi_UnlockScanTarget(void) {
+    if (mbrsp->mNowScanTargetFlag != 0) {
         if (*gClearBssidCallback != 0) {
             (*gClearBssidCallback)();
         }
-        gEntryTable->mScanCountUnit = 1;
-        gEntryTable->mNowScanTargetFlag = 0;
-        gEntryTable->mNotFoundLockTargetCount = 0;
+        mbrsp->mScanCountUnit = 1;
+        mbrsp->mNowScanTargetFlag = 0;
+        mbrsp->mNotFoundLockTargetCount = 0;
     }
 }
 
-void ClearEntry(u32 entryIndex) {
+void MB_DeleteRecvGameInfo(u32 entryIndex) {
     u32 entryBit = 1 << entryIndex;
     vu16 clearValue;
-    gEntryTable->mUsefulGameInfoFlag &= ~entryBit;
-    gEntryTable->mValidGameInfoFlag &= ~entryBit;
+    mbrsp->mUsefulGameInfoFlag &= ~entryBit;
+    mbrsp->mValidGameInfoFlag &= ~entryBit;
     clearValue = 0;
-    MIi_CpuClear16(clearValue, &gEntryTable->mEntries[entryIndex], sizeof(EntryRecord));
+    MIi_CpuClear16(clearValue, &mbrsp->mEntries[entryIndex], sizeof(MBGameInfoRecvList));
 }
 
 void MB_DeleteRecvGameInfoWithoutBssdesc(u32 entryIndex) {
     u32 entryBit = 1 << entryIndex;
     vu16 clearValue;
-    gEntryTable->mUsefulGameInfoFlag &= ~entryBit;
-    gEntryTable->mValidGameInfoFlag &= ~entryBit;
-    gEntryTable->mEntries[entryIndex].mUnk_580 = 0;
-    gEntryTable->mEntries[entryIndex].mUnk_584 = 0;
-    gEntryTable->mEntries[entryIndex].mUnk_588 = 0;
-    gEntryTable->mEntries[entryIndex].mUnk_58c = 0;
+    mbrsp->mUsefulGameInfoFlag &= ~entryBit;
+    mbrsp->mValidGameInfoFlag &= ~entryBit;
+    mbrsp->mEntries[entryIndex].mUnk_580 = 0;
+    mbrsp->mEntries[entryIndex].mUnk_584 = 0;
+    mbrsp->mEntries[entryIndex].mUnk_588 = 0;
+    mbrsp->mEntries[entryIndex].mUnk_58c = 0;
     clearValue = 0;
-    MIi_CpuClear16(clearValue, &gEntryTable->mEntries[entryIndex], 0x4c0);
+    MIi_CpuClear16(clearValue, &mbrsp->mEntries[entryIndex], 0x4c0);
 }
 
-EntryRecord *GetEntryOrNull(u32 entryIndex) {
-    if ((gEntryTable->mUsefulGameInfoFlag & (1 << entryIndex)) == 0) {
+MBGameInfoRecvList *MB_GetGameInfoRecvList(u32 entryIndex) {
+    if ((mbrsp->mUsefulGameInfoFlag & (1 << entryIndex)) == 0) {
         return NULL;
     }
-    return &gEntryTable->mEntries[entryIndex];
+    return &mbrsp->mEntries[entryIndex];
 }
 
 #pragma thumb off

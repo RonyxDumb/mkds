@@ -3,13 +3,13 @@
 
 #pragma thumb on
 
-s32 FindOrAddEntry(const u8 *scanBlock, EntryCallbackFunc callback) {
+s32 MBi_GetStoreElement(const u8 *scanBlock, EntryCallbackFunc callback) {
     s32 i;
-    EntryTable *entryTable;
-    EntryRecord *entry;
+    MbBeaconRecvStatus *entryTable;
+    MBGameInfoRecvList *entry;
     u16 usedMask;
     i = 0;
-    entryTable = gEntryTable;
+    entryTable = mbrsp;
     entry = entryTable->mEntries;
     for (; i < 0x10; i++) {
         u32 entryBit = 1 << i;
@@ -19,7 +19,7 @@ s32 FindOrAddEntry(const u8 *scanBlock, EntryCallbackFunc callback) {
             entry->mBssid[3] == scanBlock[7] && entry->mBssid[4] == scanBlock[8] && entry->mBssid[5] == scanBlock[9] &&
             gReceivedGameInfo->mUnk_04_2 == entryTable->mEntries[i].mUnk_4b5) {
             if ((entryTable->mValidGameInfoFlag & entryBit) == 0) {
-                SetScanBssidFromEntry(i);
+                MBi_LockScanTarget(i);
             }
             return i;
         }
@@ -31,9 +31,9 @@ s32 FindOrAddEntry(const u8 *scanBlock, EntryCallbackFunc callback) {
         u32 entryBit = 1 << i;
         if ((usedMask & entryBit) == 0) {
             MIi_CpuCopy16(scanBlock, entryTable->mEntries[i].mScanBuffer, 0xc0);
-            gEntryTable->mEntries[i].mUnk_4b3 = gReceivedGameInfo->mUnk_05;
-            gEntryTable->mUsedMask |= (u16) entryBit;
-            SetScanBssidFromEntry(i);
+            mbrsp->mEntries[i].mUnk_4b3 = gReceivedGameInfo->mUnk_05;
+            mbrsp->mUsedMask |= (u16) entryBit;
+            MBi_LockScanTarget(i);
             return i;
         }
     }
@@ -44,24 +44,24 @@ s32 FindOrAddEntry(const u8 *scanBlock, EntryCallbackFunc callback) {
 }
 
 void MBi_CheckCompleteGameInfoFlagments(u32 entryIndex, EntryCallbackFunc callback) {
-    EntryRecord *entry;
+    MBGameInfoRecvList *entry;
     u32 entryBit;
-    entry = &gEntryTable->mEntries[entryIndex];
+    entry = &mbrsp->mEntries[entryIndex];
     if (entry->mUnk_580 == entry->mUnk_584 && entry->mUnk_580 != 0 && entry->mUnk_35a != 0 &&
         entry->mUnk_588 == entry->mUnk_35a) {
         entryBit = 1 << entryIndex;
-        if ((gEntryTable->mValidGameInfoFlag & entryBit) == 0) {
-            gEntryTable->mValidGameInfoFlag |= entryBit;
-            gEntryTable->mUsefulGameInfoFlag |= entryBit;
-            ClearScanBssid();
+        if ((mbrsp->mValidGameInfoFlag & entryBit) == 0) {
+            mbrsp->mValidGameInfoFlag |= entryBit;
+            mbrsp->mUsefulGameInfoFlag |= entryBit;
+            MBi_UnlockScanTarget();
             if (callback != NULL) {
                 callback(1, entry, entryIndex);
             }
         }
     } else {
         entryBit = 1 << entryIndex;
-        if ((gEntryTable->mValidGameInfoFlag & entryBit) != 0) {
-            gEntryTable->mValidGameInfoFlag ^= entryBit;
+        if ((mbrsp->mValidGameInfoFlag & entryBit) != 0) {
+            mbrsp->mValidGameInfoFlag ^= entryBit;
             if (callback != NULL) {
                 callback(2, entry, entryIndex);
             }
@@ -69,7 +69,7 @@ void MBi_CheckCompleteGameInfoFlagments(u32 entryIndex, EntryCallbackFunc callba
     }
 }
 
-void UpdateEntryTimers(EntryCallbackFunc callback, u32 b) {
+void MB_CountGameInfoLifetime(EntryCallbackFunc callback, u32 b) {
     u32 stopFollowing;
     s32 i;
     u32 entryOffset;
@@ -77,54 +77,54 @@ void UpdateEntryTimers(EntryCallbackFunc callback, u32 b) {
     i = 0;
     entryOffset = 0;
     for (; i < 0x10; i++) {
-        EntryRecord *entry = OFFSET_PTR(EntryRecord, gEntryTable->mEntries, entryOffset);
+        MBGameInfoRecvList *entry = OFFSET_PTR(MBGameInfoRecvList, mbrsp->mEntries, entryOffset);
         u16 entryBit = 1 << i;
-        if (gEntryTable->mUsedMask & entryBit) {
-            entry->mTimer -= gEntryTable->mScanCountUnit;
+        if (mbrsp->mUsedMask & entryBit) {
+            entry->mTimer -= mbrsp->mScanCountUnit;
             if (entry->mTimer < 0) {
                 entry->mTimer = 0;
-                if ((gEntryTable->mValidGameInfoFlag & entryBit) != 0 && callback != NULL) {
+                if ((mbrsp->mValidGameInfoFlag & entryBit) != 0 && callback != NULL) {
                     callback(3, NULL, i);
                 }
-                if ((gEntryTable->mNowScanTargetFlag & entryBit) != 0) {
+                if ((mbrsp->mNowScanTargetFlag & entryBit) != 0) {
                     stopFollowing = 1;
                 }
-                gEntryTable->mUsedMask &= ~entryBit;
-                ClearEntry(i);
+                mbrsp->mUsedMask &= ~entryBit;
+                MB_DeleteRecvGameInfo(i);
             }
         }
-        entryOffset += sizeof(EntryRecord);
+        entryOffset += sizeof(MBGameInfoRecvList);
     }
-    if (gEntryTable->mNowScanTargetFlag != 0 && gEntryTable->mNowLockTimeCount > 0) {
-        gEntryTable->mNowLockTimeCount -= gEntryTable->mScanCountUnit;
-        if (gEntryTable->mNowLockTimeCount < 0) {
+    if (mbrsp->mNowScanTargetFlag != 0 && mbrsp->mNowLockTimeCount > 0) {
+        mbrsp->mNowLockTimeCount -= mbrsp->mScanCountUnit;
+        if (mbrsp->mNowLockTimeCount < 0) {
             stopFollowing = 1;
         } else if (b == 0) {
-            gEntryTable->mNotFoundLockTargetCount++;
-            if (gEntryTable->mNotFoundLockTargetCount > 4) {
+            mbrsp->mNotFoundLockTargetCount++;
+            if (mbrsp->mNotFoundLockTargetCount > 4) {
                 stopFollowing = 1;
             }
         } else {
-            gEntryTable->mNotFoundLockTargetCount = 0;
+            mbrsp->mNotFoundLockTargetCount = 0;
         }
     }
     if (stopFollowing != 0) {
-        gEntryTable->mNowLockTimeCount = 0;
-        ClearScanBssid();
+        mbrsp->mNowLockTimeCount = 0;
+        MBi_UnlockScanTarget();
     }
 }
 
-void UpdateEntryFromScan(u8 *scanBlock, u32 entryIndex, u32 c) {
-    EntryRecord *entry;
-    ReplaceEntryIfChanged(scanBlock, entryIndex);
+void MBi_AnalyzeBeacon(u8 *scanBlock, u32 entryIndex, u32 c) {
+    MBGameInfoRecvList *entry;
+    MBi_CheckTGID(scanBlock, entryIndex);
     MBi_CheckSeqNoFixed(entryIndex);
     MBi_CheckSeqNoVolat(entryIndex);
-    entry = &gEntryTable->mEntries[entryIndex];
+    entry = &mbrsp->mEntries[entryIndex];
     if (entry->mLastSequence == gReceivedGameInfo->mSequence) {
         entry->mSequenceRepeats++;
         if (entry->mSequenceRepeats > 3) {
             entry->mTimer = 0;
-            ExpireEntriesWithBssid(entry->mBssid);
+            MBi_InvalidateGameInfoBssID(entry->mBssid);
             return;
         }
     } else {

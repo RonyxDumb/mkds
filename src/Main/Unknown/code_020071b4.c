@@ -10,20 +10,20 @@
 
 u32 MBi_CommParentSendBlock(void) {
     ParentMessage message;
-    Unk020072c0_buf blockInfo;
+    MB_BlockInfo blockInfo;
     u8 v11;
     u8 segmentNum;
-    Unk0216fdac *work;
-    Unk0216fdac *childEntry;
-    DataRangeTable *rangeTable;
-    DataRange *lowestRange;
+    MB_CommPWork *work;
+    MB_CommPWork *childEntry;
+    MBiCacheList *rangeTable;
+    MBiCacheInfo *lowestRange;
     s32 i;
-    DataRange *range;
+    MBiCacheInfo *range;
     u8 *sendBlock;
     u32 readOffset;
     DataRangeLoadJob *loadJob;
-    Unk0216fdac *v12;
-    Unk0216fdac *v13;
+    MB_CommPWork *v12;
+    MB_CommPWork *v13;
     v12 = mbc;
     if (v12->mEntryCount == 0) {
         return 21;
@@ -32,8 +32,8 @@ u32 MBi_CommParentSendBlock(void) {
     do {
         work = mbc;
         work->mCurFileid = (work->mCurFileid + 1) % 16;
-        v13 = (Unk0216fdac *) *(u32 *) &mbc;
-        childEntry = OFFSET_PTR(Unk0216fdac, v13, v13->mCurFileid * 0x5d4);
+        v13 = (MB_CommPWork *) *(u32 *) &mbc;
+        childEntry = OFFSET_PTR(MB_CommPWork, v13, v13->mCurFileid * 0x5d4);
         if (childEntry->mEntryUsed != 0 && childEntry->mPollbmp != 0) {
             break;
         }
@@ -42,34 +42,34 @@ u32 MBi_CommParentSendBlock(void) {
     if (v11 == 16) {
         return 21;
     }
-    func_02007154(v13->mCurFileid);
+    MBi_calc_sendblock(v13->mCurFileid);
     work = mbc;
-    childEntry = OFFSET_PTR(Unk0216fdac, work, work->mCurFileid * 0x5d4);
-    if (func_0200806c(&blockInfo, work->mUnk_1d2c + work->mCurFileid * 0x5d4, childEntry->mCurrentb,
-                      work->mUnk_1788 + work->mCurFileid * 0x5d4) == FALSE) {
+    childEntry = OFFSET_PTR(MB_CommPWork, work, work->mCurFileid * 0x5d4);
+    if (MBi_get_blockinfo(&blockInfo, work->mUnk_1d2c + work->mCurFileid * 0x5d4, childEntry->mCurrentb,
+                          work->mUnk_1788 + work->mCurFileid * 0x5d4) == FALSE) {
         return 21;
     }
     message.mKind = 4;
     work = mbc;
     message.mUnk_02 = work->mCurFileid;
-    message.mUnk_04 = (OFFSET_PTR(Unk0216fdac, work, work->mCurFileid * 0x5d4))->mCurrentb;
-    sendBlock = WriteParentMessage((u8 *) &message, (u8 *) work);
+    message.mUnk_04 = (OFFSET_PTR(MB_CommPWork, work, work->mCurFileid * 0x5d4))->mCurrentb;
+    sendBlock = MBi_MakeParentSendBuffer((u8 *) &message, (u8 *) work);
     segmentNum = blockInfo.mSegmentNo;
     work = mbc;
     readOffset = blockInfo.mOffset -
-               ((u32 *) (OFFSET_PTR(Unk0216fdac, work, work->mCurFileid * 0x5d4))->mUnk_1d2c)[segmentNum] +
-               (OFFSET_PTR(Unk0216fdac, work, work->mCurFileid * 0x5d4))->mCardMapping[segmentNum];
-    childEntry = OFFSET_PTR(Unk0216fdac, work, work->mCurFileid * 0x5d4);
+               ((u32 *) (OFFSET_PTR(MB_CommPWork, work, work->mCurFileid * 0x5d4))->mUnk_1d2c)[segmentNum] +
+               (OFFSET_PTR(MB_CommPWork, work, work->mCurFileid * 0x5d4))->mCardMapping[segmentNum];
+    childEntry = OFFSET_PTR(MB_CommPWork, work, work->mCurFileid * 0x5d4);
     rangeTable = childEntry->mCacheList;
-    if (CopyFromDataRanges(rangeTable, readOffset, sendBlock, blockInfo.mSize) == 0) {
+    if (MBi_ReadFromCache(rangeTable, readOffset, sendBlock, blockInfo.mSize) == 0) {
         loadJob = (DataRangeLoadJob *) mbc->mCurTask;
-        if (IsWorkerTaskInUse(&loadJob->mUnk_00) == 0) {
+        if (MBi_IsTaskBusy(&loadJob->mUnk_00) == 0) {
             if (rangeTable->mUnk_00 != 0) {
-                range = rangeTable->mRanges;
+                range = rangeTable->mList;
                 lowestRange = NULL;
                 for (i = 0; i < 4; range++, i++) {
-                    if (range->mUnk_0c == 2) {
-                        if (lowestRange == NULL || lowestRange->mOffset > range->mOffset) {
+                    if (range->mState == 2) {
+                        if (lowestRange == NULL || lowestRange->mSrc > range->mSrc) {
                             lowestRange = range;
                         }
                     }
@@ -78,17 +78,17 @@ u32 MBi_CommParentSendBlock(void) {
                     OS_Terminate();
                 }
                 rangeTable->mUnk_00 = 0;
-                lowestRange->mUnk_0c = 1;
-                lowestRange->mOffset = readOffset & ~0x1f;
+                lowestRange->mState = 1;
+                lowestRange->mSrc = readOffset & ~0x1f;
                 loadJob->mDataRange = lowestRange;
                 loadJob->mDataRangeTable = rangeTable;
-                QueueWorkerTask(&loadJob->mUnk_00, (void *) LoadDataRange, NULL, 4);
+                MBi_SetTask(&loadJob->mUnk_00, (void *) MBi_ReloadCache, NULL, 4);
             }
         }
         return 21;
     }
     work = mbc;
-    return FlushAndSendMPData(blockInfo.mSize + 6, (OFFSET_PTR(Unk0216fdac, work, work->mCurFileid * 0x5d4))->mPollbmp,
+    return MBi_BlockHeaderEnd(blockInfo.mSize + 6, (OFFSET_PTR(MB_CommPWork, work, work->mCurFileid * 0x5d4))->mPollbmp,
                               (u32) work);
 }
 
@@ -96,7 +96,7 @@ int MBi_CommParentSendData(void) {
     u16 childMasks[6];
     u16 i;
     int result;
-    Unk0216fdac *work;
+    MB_CommPWork *work;
     childMasks[0] = 0;
     MIi_CpuClear16(childMasks[0], &childMasks[1], 10);
     i = 1;
@@ -121,20 +121,20 @@ int MBi_CommParentSendData(void) {
         }
     }
     if (childMasks[4] != 0) {
-        result = SendParentMessage(5, childMasks[4]);
+        result = MBi_CommParentSendMsg(5, childMasks[4]);
     } else if (childMasks[1] != 0) {
-        result = SendParentMessage(1, childMasks[1]);
+        result = MBi_CommParentSendMsg(1, childMasks[1]);
     } else if (childMasks[5] != 0) {
-        result = SendParentMessage(6, childMasks[5]);
+        result = MBi_CommParentSendMsg(6, childMasks[5]);
     } else if (childMasks[3] != 0) {
-        result = SendParentMessage(2, childMasks[3]);
+        result = MBi_CommParentSendMsg(2, childMasks[3]);
     } else if (childMasks[2] != 0) {
         result = MBi_CommParentSendDLFileInfo();
     } else {
         result = MBi_CommParentSendBlock();
     }
     if (result == 21) {
-        result = SendParentMessage(0, 0xffff);
+        result = MBi_CommParentSendMsg(0, 0xffff);
     }
     return result;
 }

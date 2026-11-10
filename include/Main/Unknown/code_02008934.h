@@ -2,8 +2,8 @@
 
 #include "types.h"
 
-// One 0x590-byte entry of the table in EntryTable.
-typedef struct EntryRecord {
+// One 0x590-byte entry of the table in MbBeaconRecvStatus.
+typedef struct MBGameInfoRecvList {
     /* 000 */ u8 mUnk_000[0x220];
     /* 220 */ u8 mUnk_220[0x138];
     /* 358 */ u8 mUnk_358;
@@ -32,10 +32,10 @@ typedef struct EntryRecord {
     /* 58c */ u16 mUnk_58c;
     /* 58e */ u8 mLastSequence;
     /* 58f */ u8 mSequenceRepeats;
-} EntryRecord;
+} MBGameInfoRecvList;
 
-// Object behind gEntryTable: sixteen entries from 0x10 on.
-typedef struct EntryTable {
+// Object behind mbrsp: sixteen entries from 0x10 on.
+typedef struct MbBeaconRecvStatus {
     /* 00 */ u16 mUsedMask;
     /* 02 */ u16 mUsefulGameInfoFlag;
     /* 04 */ u16 mValidGameInfoFlag;
@@ -44,8 +44,8 @@ typedef struct EntryTable {
     /* 0a */ s16 mNotFoundLockTargetCount;
     /* 0c */ u16 mScanCountUnit;
     /* 0e */ u16 mUnk_0e;
-    /* 10 */ EntryRecord mEntries[16];
-} EntryTable;
+    /* 10 */ MBGameInfoRecvList mEntries[16];
+} MbBeaconRecvStatus;
 
 // Element of the array at 0x10 in Unk0216fc1c.
 typedef struct Unk0216fc1c_10 {
@@ -73,16 +73,16 @@ typedef struct Unk0216fc1c {
 
 typedef void (*EntryCallbackFunc)(u32 a, void *b, u32 c);
 
-extern EntryTable *gEntryTable;
+extern MbBeaconRecvStatus *mbrsp;
 extern Unk0216fc1c *gReceivedGameInfo;
 
-EntryRecord *GetEntryOrNull();
+MBGameInfoRecvList *MB_GetGameInfoRecvList();
 void MB_DeleteRecvGameInfoWithoutBssdesc(u32 entryIndex);
-void ClearEntry(u32 entryIndex);
-void ClearScanBssid(void);
-void SetScanBssidFromEntry(u32 entryIndex);
+void MB_DeleteRecvGameInfo(u32 entryIndex);
+void MBi_UnlockScanTarget(void);
+void MBi_LockScanTarget(u32 entryIndex);
 void MBi_RecvVolatBeacon(u32 entryIndex);
 void MBi_RecvFixedBeacon(u32 entryIndex);
-void ExpireEntriesWithBssid(const u8 *bssid);
+void MBi_InvalidateGameInfoBssID(const u8 *bssid);
 void MBi_CheckSeqNoVolat(u32 entryIndex);
 void MBi_CheckSeqNoFixed(u32 entryIndex);

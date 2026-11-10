@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void SetScanBssidCallbacks(void (*setCallback)(const u8 *), void (*clearCallback)(void));
-void SetEntryTable(void *entryTable);
+void MBi_SetScanLockFunc(void (*setCallback)(const u8 *), void (*clearCallback)(void));
+void MBi_SetBeaconRecvStatusBuffer(void *entryTable);

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void ClearDataRangeTable(u32 table);
+void MBi_InitCache(u32 table);

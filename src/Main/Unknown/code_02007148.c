@@ -3,13 +3,13 @@
 
 #pragma thumb on
 
-void func_02007154(u32 entryIndex) {
-    Unk0216fdac *entry;
+void MBi_calc_sendblock(u32 entryIndex) {
+    MB_CommPWork *entry;
     u16 current;
     u16 rangeStart;
     enum { K0 } k;
     k = entryIndex * 0x5d4;
-    entry = OFFSET_PTR(Unk0216fdac, mbc, k);
+    entry = OFFSET_PTR(MB_CommPWork, mbc, k);
     if (entry->mEntryUsed == 0) {
         return;
     }
@@ -25,7 +25,7 @@ void func_02007154(u32 entryIndex) {
     entry->mCurrentb = rangeStart;
 }
 
-u32 GetLargerValue(u32 first, u32 second) {
+u32 MBi_calc_nextsendblock(u32 first, u32 second) {
     if (second <= first) {
         second = first;
     }

@@ -16,7 +16,7 @@ u32 *GetFloatStatus(void) {
     return &gFloatStatus;
 }
 
-void CallCtorTable(void) {
+void __call_static_initializers(void) {
     void (**p)(void);
 
     for (p = data_usa_02161748; p != 0 && *p != 0; p++) {

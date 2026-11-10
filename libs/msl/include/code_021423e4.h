@@ -14,7 +14,7 @@ s32 func_0214241c(void);
 s32 SwiWriteBytes(s32 a, const u8 *b, const u32 *c);
 s32 SwiReadBytes(s32 a, u8 *b, u32 *c);
 void RunListNodeCallbacks(void);
-void CallCtorTable(void);
+void __call_static_initializers(void);
 u32 *GetFloatStatus(void);
 FloatTrapTable *GetFloatTrapTable(void);
 void func_02142590(void);

@@ -12,7 +12,7 @@ u32 MBi_CommParentSendDLFileInfo(void) {
     u32 candidateFile;
     u16 childMask;
     u8 fid;
-    Unk0216fdac *work;
+    MB_CommPWork *work;
     u8 v8;
     u8 *sendBlock;
     childMask = 0;
@@ -29,7 +29,7 @@ u32 MBi_CommParentSendDLFileInfo(void) {
     v8 = 0;
     do {
         fid = (fid + 1) % 16;
-        if ((OFFSET_PTR(Unk0216fdac, work, fid * 0x5d4))->mEntryUsed != 0 && requestCounts[fid] != 0) {
+        if ((OFFSET_PTR(MB_CommPWork, work, fid * 0x5d4))->mEntryUsed != 0 && requestCounts[fid] != 0) {
             candidateFile = (s8) fid;
             break;
         }
@@ -46,30 +46,30 @@ u32 MBi_CommParentSendDLFileInfo(void) {
     }
     message.mKind = 3;
     message.mUnk_02 = candidateFile;
-    sendBlock = WriteParentMessage((u8 *) &message, (u8 *) work);
+    sendBlock = MBi_MakeParentSendBuffer((u8 *) &message, (u8 *) work);
     if (sendBlock != NULL) {
         MI_CpuCopy8(mbc->mUnk_1788 + candidateFile * 0x5d4, sendBlock, 0xe4);
     }
-    return FlushAndSendMPData(0xea, childMask, *(u32 *) &mbc);
+    return MBi_BlockHeaderEnd(0xea, childMask, *(u32 *) &mbc);
 }
 
-void LoadDataRange(DataRangeLoadJob *job) {
-    DataRange *range;
-    DataRangeTable *table;
+void MBi_ReloadCache(DataRangeLoadJob *job) {
+    MBiCacheInfo *range;
+    MBiCacheList *table;
     FSFile file;
     u32 offset;
     range = job->mDataRange;
     table = job->mDataRangeTable;
     FS_InitFile(&file);
-    offset = range->mOffset;
-    if (FS_OpenFileDirect(&file, FS_FindArchive(table->mArchiveName, table->mUnk_14), offset, offset + range->mSize,
+    offset = range->mSrc;
+    if (FS_OpenFileDirect(&file, FS_FindArchive(table->mArcName, table->mArcNameLen), offset, offset + range->mLen,
                           -1) != 0) {
-        if (range->mSize == FS_ReadFile(&file, range->mData, range->mSize)) {
-            range->mUnk_0c = 2;
+        if (range->mLen == FS_ReadFile(&file, range->mPtr, range->mLen)) {
+            range->mState = 2;
         }
         FS_CloseFile(&file);
     }
-    if (range->mUnk_0c != 2) {
+    if (range->mState != 2) {
         OS_Terminate();
     }
 }

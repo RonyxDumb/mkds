@@ -2,7 +2,7 @@
 #include "code_0214d018.h"
 
 #pragma thumb on
-void ClearDataRangeTable(u32 table) {
+void MBi_InitCache(u32 table) {
     u32 address = table;
     u32 fillValue;
     u32 byteCount;

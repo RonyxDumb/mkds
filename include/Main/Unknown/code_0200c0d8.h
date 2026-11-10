@@ -2,9 +2,9 @@
 
 #include "types.h"
 
-typedef struct PieceBuffer PieceBuffer;
+typedef struct MbRequestPieceBuf MbRequestPieceBuf;
 
-// Six bytes that ReadParentMessage fills and WriteParentMessage writes out.
+// Six bytes that ReadParentMessage fills and MBi_MakeParentSendBuffer writes out.
 typedef struct ParentMessage {
     /* 0 */ u8 mKind;
     /* 1 */ u8 mUnk_01;
@@ -12,8 +12,8 @@ typedef struct ParentMessage {
     /* 4 */ u16 mUnk_04;
 } ParentMessage;
 
-// 0x14 bytes that WriteChildMessage writes out and ReadChildMessage fills; the bytes from 3 or 4 on are moved from or
-// to the entry in the word at gPieceSizes.
+// 0x14 bytes that WriteChildMessage writes out and MBi_SetRecvBufferFromChild fills; the bytes from 3 or 4 on are moved
+// from or to the entry in the word at gPieceSizes.
 typedef struct ChildMessage {
     /* 00 */ u8 mKind;
     /* 01 */ u8 mUnk_01;
@@ -35,8 +35,8 @@ u8 CopyNextPiece(void *output, void *pieces);
 u8 *WriteChildMessage(ChildMessage *message, u8 *buffer);
 u32 AreAllPiecesReceived(u32 child);
 u8 *StorePiece(ChildMessage *message, u32 child);
-u8 *ReadChildMessage(u8 *bytes, ChildMessage *message, u32 child);
-u8 *WriteParentMessage(u8 *input, u8 *output);
-void ClearChildPieces(s32 child);
-void SetupPieceBuffer(PieceBuffer *buffer);
-void SetupPieceSizes(s32 packetSize);
+u8 *MBi_SetRecvBufferFromChild(u8 *bytes, ChildMessage *message, u32 child);
+u8 *MBi_MakeParentSendBuffer(u8 *input, u8 *output);
+void MBi_ClearParentPieceBuffer(s32 child);
+void MBi_SetParentPieceBuffer(MbRequestPieceBuf *buffer);
+void MBi_SetChildMPMaxSize(s32 packetSize);

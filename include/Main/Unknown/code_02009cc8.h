@@ -26,12 +26,12 @@ extern u16 *data_usa_021617a0;
 extern u32 data_usa_021617a4;
 
 s32 MB_StartParentFromIdle(u16 channel);
-s32 StartParentOnChannel(u16 channel);
-s32 StartWirelessInitialize(void);
+s32 MBi_StartParentCore(u16 channel);
+s32 MBi_StartCommon(void);
 u32 SetMPLimits(u32 sendDataSize, u32 maxChildren);
 u32 IsMPSizeValid(u32 sendDataSize, u32 receiveDataSize, u32 maxChildren);
 s32 InitWirelessWork(void *buffer, Unk02009ff4 *b, u32 ggid, u32 tgid, u32 dmaNo);
 u32 GetBeaconDispersion(void);
 void ChildCallback(Unk021425e8 *result);
 void ChildPortCallback(Unk021425e8 *result);
-void ParentCallback(Unk021425e8 *result);
+void MBi_ParentCallback(Unk021425e8 *result);

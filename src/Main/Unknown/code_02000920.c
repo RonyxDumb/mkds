@@ -75,7 +75,7 @@ done:
 // Walks the block list in BuildInfo (start, end, source): for each block copies its words from the source, clears
 // the words after them and cleans and invalidates the cache lines; then continues in AutoloadCallback.
 // Hand-written asm: it writes coprocessor 15 (mcr), tests a `cmp` with mi, and ends in a branch to another function.
-asm void func_020009e0(void) {
+asm void do_autoload(void) {
     ldr r0, =BuildInfo
     ldr r1, [r0, #0x0]
     ldr r2, [r0, #0x4]
