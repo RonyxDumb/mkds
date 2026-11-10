@@ -261,7 +261,7 @@ typedef struct TouchMicInput {
         struct {
             s32 mTouchAutoSampling : 1;
             s32 mMicAutoSampling : 1;
-            s32 mUnk_30_2 : 1;
+            s32 mMicPreSleepDone : 1;
             s32 mMicOverThreshold : 1;
         };
     };

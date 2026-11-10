@@ -836,7 +836,7 @@ void UpdateStandings(void) {
             } else if (IsRaceStarted() == 1) {
                 if ((u16) (gInputSlots[(u32) kart->mEntryIndex].mBits & 4) != 0) {
                     gStandings->mKarts[i].mSelectKeyInflate = 1;
-                } else if (gInputSlots[kart->mEntryIndex].mPair.mUnk_12[0] != 0) {
+                } else if (gInputSlots[kart->mEntryIndex].mPair.mMicOverThreshold[0] != 0) {
                     gStandings->mKarts[i].mMicInflateTimer = 10;
                 }
             }

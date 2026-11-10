@@ -334,7 +334,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                     nextScene = 0;
                 }
                 if (gRaceSetup->mMode == MODE_TIME_ATTACK) {
-                    func_0204673c();
+                    TimeAttackNextSceneNop();
                 }
             } else {
                 nextScene = 0xc;

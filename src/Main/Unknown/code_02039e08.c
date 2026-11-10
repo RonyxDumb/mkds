@@ -164,7 +164,7 @@ void PreSleepRaceScene(void) {
     if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
         SetChoisesSOpenDuringRace(1);
     }
-    func_02046e84();
+    PreSleepMicInput();
     while ((u32) data_0217c7ac != 0) {
         PrepareDisplayFrame();
         UpdateChoisesS();
@@ -176,7 +176,7 @@ void PreSleepRaceScene(void) {
 }
 
 void PostSleepRaceScene(void) {
-    func_02046e24();
+    PostSleepMicInput();
 }
 
 u32 RunRaceScene(SceneNumbers *sceneNumbers) {

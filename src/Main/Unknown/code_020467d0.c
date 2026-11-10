@@ -41,7 +41,7 @@ void AdvanceStateMachine(StateMachine *stateMachine) {
     stateMachine->mStateFrames++;
 }
 
-void func_02046ae4(void) {
+void InitSecondMenuScene(void) {
     DisplaySettings *displaySettings;
 
     displaySettings = CreateDisplaySettings(GetHeap(GetCurrentHeapCall()), data_usa_02154868);
@@ -53,22 +53,22 @@ void SetNextRaceByModeWrapper(void) {
     SetNextRaceByMode();
 }
 
-u32 func_02046ad4(u32 value) {
+u32 SecondMenuAfterUpdateReturnArgument(u32 value) {
     return value;
 }
 
-u32 func_02046ad0(u32 value) {
+u32 SecondMenuUpdateReturnArgument(u32 value) {
     return value;
 }
 
-s32 func_02046a88(void *a) {
-    SceneCallbacks callbacks = data_02164838;
+s32 RunSecondMenuScene(void *sceneNumbers) {
+    SceneCallbacks callbacks = gSecondMenuSceneCallbacks;
 
-    RunScene(a, &callbacks);
+    RunScene(sceneNumbers, &callbacks);
     return 0;
 }
 
-void func_02046a3c(void *heap) {
+void CreateRaceSetupObjects(void *heap) {
     gRaceSetup = HeapAlloc(heap, 0x400);
     gRaceSetup->mCourseList = HeapAlloc(heap, 0x21);
     CreateParticipantKartMap(heap);

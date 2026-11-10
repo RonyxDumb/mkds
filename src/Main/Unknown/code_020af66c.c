@@ -532,7 +532,7 @@ void InitMap2D(void) {
         nscrs[i] = NULL;
     }
 
-    if (func_02047250()) {
+    if (ShouldLoadMap2DData()) {
         if (hasGlobalFiles) {
             LoadNclrData(&nclrs[0], FindCourseFileWrapper("Map2D/global.NCLR"));
             LoadNclrData(&nclrs[1], FindCourseFileWrapper("Map2D/global2.NCLR"));
@@ -546,7 +546,7 @@ void InitMap2D(void) {
         LocateNclr(&nclrs[2], FindCourseFileWrapper("Map2D/local.NCLR"));
     }
 
-    if (func_02047250()) {
+    if (ShouldLoadMap2DData()) {
         if (hasGlobalFiles) {
             LoadNcgrData(&ncgrs[0], FindCourseFileWrapper("Map2D/global.NCGR"));
             LoadNcgrData(&ncgrs[1], FindCourseFileWrapper("Map2D/global2.NCGR"));
@@ -560,7 +560,7 @@ void InitMap2D(void) {
         LocateNcgr(&ncgrs[2], FindCourseFileWrapper("Map2D/local.NCGR"));
     }
 
-    if (func_02047250()) {
+    if (ShouldLoadMap2DData()) {
         if (hasGlobalFiles) {
             LoadNscrData(&nscrs[0], FindCourseFileWrapper("Map2D/global1.NSCR"));
             LoadNscrData(&nscrs[1], FindCourseFileWrapper("Map2D/global2.NSCR"));

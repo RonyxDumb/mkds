@@ -460,7 +460,7 @@ void *FindFileInLoadedArchives(const char *path) {
     if (file == NULL && data_021759c8->mUnk_688 != 0) {
         file = FindArchiveFile(gArchiveNames[14], path);
     }
-    if (file == NULL && data_021759c8->mUnk_8b8 != 0) {
+    if (file == NULL && data_021759c8->mCompressedArchiveLoaded != 0) {
         file = FindArchiveFile(gArchiveNames[19], path);
     }
     if (file == NULL && data_021759c8->mUnk_148 != 0) {
@@ -596,7 +596,7 @@ void ReplaceKm1ArchiveWithKm2(void) {
     SetHeapGroupId((u16) 9);
 }
 
-void func_02047728(void) {
+void ReleaseKartModelSlotsLoadCourse(void) {
     int currentSceneNumber;
     ReleaseArchiveSlot(7);
     ReleaseArchiveSlot(8);
@@ -608,7 +608,7 @@ void func_02047728(void) {
     SetHeapGroupId((u16) 9);
 }
 
-void func_020476ec(void) {
+void ReleaseCourseLoadSlotsInRace(void) {
     int currentSceneNumber;
     ReleaseArchiveSlot(0xd);
     SetHeapGroupId((u16) 0);
@@ -621,7 +621,7 @@ void func_020476ec(void) {
     SetHeapGroupId((u16) 9);
 }
 
-void func_020476ac(void) {
+void ReleaseKartModelLoadSlotsForScene(void) {
     u32 currentSceneNumber;
     currentSceneNumber = GetCurrentSceneNumber();
     ReleaseArchiveSlot(10);
@@ -670,7 +670,7 @@ void InitArchiveBuffers(NNSiFndHeapHead *a, NNSiFndHeapHead *courseBufferHeap, N
     data_021759c8->mUnk_a80 = c;
 }
 
-void func_020474e4(void) {
+void InitArchiveBuffersOnOverlayHeap(void) {
     InitArchiveBuffer(data_0217aa10->mFrmHeap, 0xb, 0xaa, 0, 0);
     InitArchiveBuffer(data_0217aa10->mFrmHeap, 0xc, 0x6e, 0, 0);
     InitArchiveBuffer(data_0217aa10->mFrmHeap, 9, 0x1e, 0, 0);
@@ -699,7 +699,7 @@ void RequestArchiveLoadWithLanguage(const void *prefix, u32 bufferIndex) {
     RequestArchiveLoad(path, bufferIndex);
 }
 
-void func_020473e4(void) {
+void RequestMainAndMenuDLArchives(void) {
     ResetPendingFiles();
     NNS_FndFreeToFrmHeap(data_021759c8->mUnk_a80, 3);
     RequestArchiveLoad(gKartModelMainAArchivePath, 0xb);
@@ -760,7 +760,7 @@ void RequestResultDLArchives(void) {
 
 #pragma thumb on
 
-void func_02047274(void) {
+void ClearArchiveBuffersBit31(void) {
     s32 i;
 
     for (i = 0; i < 16; i++) {
@@ -768,7 +768,7 @@ void func_02047274(void) {
     }
 }
 
-s32 func_02047250(void) {
+s32 ShouldLoadMap2DData(void) {
     if (gBootInfo->mUnk_00 == 2) {
         return data_021759c8->mBuffers[7].mUnk_08 >> 31;
     }
@@ -783,17 +783,17 @@ void ResizeMainEffectArchiveBlock(u8 *a, u32 b) {
     NNS_FndResizeForMBlockExpHeap(GetHeap(GetCurrentHeapCall()), block, b + (a - block));
 }
 
-void func_020471b0(void *heap) {
+void InitCompressedArchiveAndMBChild(void *heap) {
     u32 uncompressedSize;
     void *data;
 
     uncompressedSize = *GetCompressedArchive() >> 8;
-    data_021759c8->mUnk_8b8 = 0;
+    data_021759c8->mCompressedArchiveLoaded = 0;
     data = HeapAllocAligned(heap, uncompressedSize, 0x20);
-    func_020487e0(GetCompressedArchive(), data, uncompressedSize);
-    ArchiveLoadFromMemory(&data_021759c8->mUnk_850, (const u8 *) gArchiveNames[19], data);
-    data_021759c8->mUnk_8bc = data;
-    data_021759c8->mUnk_8b8 = 1;
+    UncompressLZ8AndStoreRange(GetCompressedArchive(), data, uncompressedSize);
+    ArchiveLoadFromMemory(&data_021759c8->mCompressedArchive, (const u8 *) gArchiveNames[19], data);
+    data_021759c8->mCompressedArchiveData = data;
+    data_021759c8->mCompressedArchiveLoaded = 1;
     CreateSearchIconMBChildAndMultiDownload(heap);
 }
 
@@ -813,7 +813,7 @@ void InitTouchMicInput(void *heap) {
     gTouchMicInput = HeapAlloc(heap, 0x40);
     gTouchMicInput->mTouchAutoSampling = 0;
     gTouchMicInput->mMicAutoSampling = 0;
-    gTouchMicInput->mUnk_30_2 = 0;
+    gTouchMicInput->mMicPreSleepDone = 0;
     gTouchMicInput->mMicOverThreshold = 0;
     gTouchMicInput->mMicBuffer = NULL;
     InitMicAndAmp();

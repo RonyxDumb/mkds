@@ -40,7 +40,7 @@ extern const Vec3 data_02165524;
 extern const Vec3 data_0216553c;
 extern const Vec3 data_02165548;
 extern const SceneCallbacks gRecordSceneCallbacks;
-extern const SceneCallbacks data_02164838;
+extern const SceneCallbacks gSecondMenuSceneCallbacks;
 extern const SceneCallbacks gEmblemSceneCallbacks;
 extern const SceneCallbacks gLogoSceneCallbacks;
 extern QueueMPDataToPortParams data_021652a0;

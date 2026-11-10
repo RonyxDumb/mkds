@@ -8,7 +8,7 @@ typedef struct NNSiFndHeapHead NNSiFndHeapHead;
 u32 CreateFrmHeapsAndAllocSoundBuffer(NNSiFndHeapHead *heap, void **outBackHeap, void **outSoundBuffer,
                                       void **outFirstFrontHeap, void **outSecondFrontHeap, void **outThirdFrontHeap);
 // Scene function of gSceneFuncs[1] (scene 'Menu' in gSceneNames): copies the callbacks and calls
-// RunScene. Returns 0. Scene 4 (func_02046a88) also carries the name 'Menu'.
+// RunScene. Returns 0. Scene 4 (RunSecondMenuScene) also carries the name 'Menu'.
 u32 RunMenuScene(SceneNumbers *sceneNumbers);
 void UpdateMenuScene(void);
 void WriteMenuSceneRegistersCallback(void);

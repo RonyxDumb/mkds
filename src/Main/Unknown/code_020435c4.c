@@ -456,7 +456,7 @@ void UpdateInputSlots(void) {
         if (skipUpdate == FALSE) {
             UpdateInputSlot(t, inputSlot);
         }
-        func_02046ca8(&inputSlot->mPair, touchPoint, micValue);
+        UpdateInputSlotPair(&inputSlot->mPair, touchPoint, micValue);
     }
 }
 

@@ -88,7 +88,7 @@ typedef struct SceneRunState {
     // Copy of the running scene's SceneCallbacks, written once by RunScene; slots 0x10 / 0x14 and
     // the fade lengths are read from it (code_0204984c.c:125, :132, :431-438).
     /* 0ec */ SceneCallbacks mSceneCallbacks;
-    /* 10c */ s32 mUnk_10c;
+    /* 10c */ s32 mRunStep;
     /* 110 */ BOOL mLcdOff;
     /* 114 */ u8 mUnk_114[4];
     /* 118 */ s32 mUnk_118;
@@ -222,9 +222,9 @@ typedef struct Unk021759c8 {
             /* 7d8 */ s32 mUnk_7d8;
             /* 7dc */ u8 mUnk_7dc[0x70];
             /* 84c */ void *mUnk_84c;
-            /* 850 */ Unk020182c0 mUnk_850;
-            /* 8b8 */ s32 mUnk_8b8;
-            /* 8bc */ void *mUnk_8bc;
+            /* 850 */ Unk020182c0 mCompressedArchive;
+            /* 8b8 */ s32 mCompressedArchiveLoaded;
+            /* 8bc */ void *mCompressedArchiveData;
         };
     };
     /* 8c0 */ u32 mFileTableSize;

@@ -48,7 +48,7 @@ void InitAfterStartup(void) {
     if (gBootInfo->mUnk_00 != 2) {
         InitWiFiSession(backHeap);
     }
-    func_02046a3c(backHeap);
+    CreateRaceSetupObjects(backHeap);
     InitBackupBuffers(backHeap);
     InitSound(soundBuffer, soundBufferSize, gBootInfo->mUnk_00 != 2);
     SetSoundOutputEffect(1);
@@ -60,7 +60,7 @@ void InitAfterStartup(void) {
     func_02057ed8(backHeap);
     InitOverlayTable(backHeap);
     func_020cefa0(backHeap);
-    func_020471b0(backHeap);
+    InitCompressedArchiveAndMBChild(backHeap);
     InitMessageScreen(backHeap);
     func_02057ed4();
     if (gBootInfo->mUnk_00 == 2) {

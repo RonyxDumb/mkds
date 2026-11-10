@@ -121,14 +121,14 @@ static inline void func_02049e38_inline(SceneNumbers *sceneNumbers) {
 }
 
 s16 GetSceneFadeToClearFrameCount(void) {
-    if (gSceneRunState->mUnk_10c == 6) {
+    if (gSceneRunState->mRunStep == 6) {
         return -1;
     }
     return gSceneRunState->mSceneCallbacks.mFadeToClearFrameCount;
 }
 
 u32 GetSceneFadeToFadedFrameCount(void) {
-    if (gSceneRunState->mUnk_10c == 6) {
+    if (gSceneRunState->mRunStep == 6) {
         return -1;
     }
     return gSceneRunState->mSceneCallbacks.mFadeToFadedFrameCount;
@@ -444,7 +444,7 @@ void ScenePostSleepCallback(void) {
 void InitSceneRunState(void *heap) {
     gSceneRunState = HeapAlloc(heap, 0x124);
     gSceneRunState->mThreadStack = HeapAllocAligned(heap, 0x400, 0x20);
-    gSceneRunState->mUnk_10c = 6;
+    gSceneRunState->mRunStep = 6;
     gSceneRunState->mLcdOff = FALSE;
     gSceneRunState->mUnk_118 = -1;
     gSceneRunState->mUnk_11c = 0;

@@ -4,11 +4,11 @@
 #include "gx.h"
 #include "registers.h"
 
-u32 func_02049838(void) {
-    return (gSceneRunState->mUnk_10c);
+u32 GetSceneRunStep(void) {
+    return (gSceneRunState->mRunStep);
 }
 
-u32 func_02049820(void) {
+u32 SceneRunPAD_DetectFold(void) {
     u32 value0;
     value0 = 0x27fffa8u;
     value0 = *(const u16 *) ((value0) + (0));

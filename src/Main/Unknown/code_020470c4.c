@@ -2,7 +2,7 @@
 
 void ResetInputSlotPair(InputSlotPair *pair) {
     pair->mNoPairCount = 0xffffu;
-    pair->mUnk_12[0] = 0x0u;
+    pair->mMicOverThreshold[0] = 0x0u;
     pair->mPairX = 0xffu;
     pair->mPairY = 0xffu;
     pair->mHasPair = 0x0u;

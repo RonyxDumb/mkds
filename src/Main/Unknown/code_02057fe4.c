@@ -162,7 +162,7 @@ void UpdateMPState2(void) {
     if (TryFinishOverlayLoad() != 0) {
         if (gBootInfo->mUnk_00 == 2) {
             CreateOverlayFrmHeap();
-            func_020474e4();
+            InitArchiveBuffersOnOverlayHeap();
         }
         func_02058910_inline(3);
     }

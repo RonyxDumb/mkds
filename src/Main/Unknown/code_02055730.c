@@ -282,7 +282,7 @@ void StopDispCapBlend(void) {
 }
 
 void StartDispCapFadeToFaded(u32 frameCount) {
-    if (func_02049838() != 2) {
+    if (GetSceneRunStep() != 2) {
         return;
     }
     gDispCap->mFlags |= 4;
@@ -290,7 +290,7 @@ void StartDispCapFadeToFaded(u32 frameCount) {
 }
 
 void StartDispCapFadeToClear(u32 frameCount) {
-    if (func_02049838() != 2) {
+    if (GetSceneRunStep() != 2) {
         return;
     }
     gDispCap->mFlags |= 4;

@@ -130,12 +130,12 @@ void InitRace(void) {
     InitKartModels(heap, gRaceSetup->mKartCount);
     SetupHeyhoPalettes();
     UploadKartNameTagTextures();
-    func_02047728();
+    ReleaseKartModelSlotsLoadCourse();
     InitMap2D();
     SetHeapGroupId(2);
     CreateCourseMap(heap);
     InitCourseModels(heap);
-    func_020476ec();
+    ReleaseCourseLoadSlotsInRace();
     SetHeapGroupId(7);
     CreateRaceProgress(heap);
     InitWiFiRaceSync(heap);

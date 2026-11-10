@@ -111,7 +111,7 @@ void InitWiFiStates(void *heap, s32 b) {
     InitKartModelMenuWithParamFiles(GetHeap(GetCurrentHeapCall()));
     RequestKartModelMenuCharacter(-1);
     RequestKartModelMenuKart(-1);
-    func_020476ac();
+    ReleaseKartModelLoadSlotsForScene();
     gWiFiStates->mStateHeap = CreateExpHeapFromMaxFree(heap);
     ClearWiFiStateCallbacks();
     gWiFiStates->mNextScene = -1;

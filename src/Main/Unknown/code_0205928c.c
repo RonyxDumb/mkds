@@ -153,7 +153,7 @@ s32 func_020595e8(s32 a, void *b, void *c) {
             if (gBootInfo->mUnk_00 == 2) {
                 switch (a) {
                     case 0:
-                        func_020473e4();
+                        RequestMainAndMenuDLArchives();
                         break;
                     case 1:
                         RequestRaceArchives(b, c);

@@ -94,7 +94,7 @@ static inline s32 func_020487fc_inline6(void) {
 static inline void func_020487fc_inline7(void) {
     u32 t;
     if (CARD_IsPulledOut()) {
-        if (func_02049820() == 1) {
+        if (SceneRunPAD_DetectFold() == 1) {
             PM_ForceToPowerOff();
         }
         func_02049e38(3);
@@ -103,7 +103,7 @@ static inline void func_020487fc_inline7(void) {
     if (!func_02049b6c()) {
         UpdateInputSlots();
     }
-    if (func_02049820() == 1) {
+    if (SceneRunPAD_DetectFold() == 1) {
         if (!ShouldGoSleepMode()) {
             if (PM_GetLCDPower() == 1) {
                 t = OS_DisableInterrupts();
@@ -192,7 +192,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
     gSceneRunState->mSceneFrames = v;
     gSceneRunState->mPassCount = v;
     gSceneRunState->mSceneCallbacks = *b;
-    gSceneRunState->mUnk_10c = 6;
+    gSceneRunState->mRunStep = 6;
     gSceneRunState->mNextScene = 0;
     gSceneRunState->mUnk_118 = -1;
     gSceneRunState->mUnk_11c = 0;
@@ -203,7 +203,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
         gSceneRunState->mLcdOff = TRUE;
     }
     OS_RestoreInterrupts(t);
-    gSceneRunState->mUnk_10c = 0;
+    gSceneRunState->mRunStep = 0;
     SetHeapGroupId(0);
     LoadArchiveSlotsForScene(a->mScene);
     SetHeapGroupId(9);
@@ -224,19 +224,19 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
     if (b->mInit != NULL) {
         b->mInit(a);
     }
-    func_02047274();
+    ClearArchiveBuffersBit31();
     gDisplaySettings->mIrqCallback = func_0204a4d8;
     StartSceneSoundSetSeq();
     StartSceneSounds();
     WaitIrqAndTurnOnDisplays();
-    gSceneRunState->mUnk_10c = 1;
+    gSceneRunState->mRunStep = 1;
     do {
         PrepareDisplayFrame();
         func_020487fc_inline7();
         UpdateSounds();
         func_020487fc_inline8();
         func_020487fc_inline9(b);
-        r = func_0204984c(a, gSceneRunState->mUnk_10c != 4);
+        r = func_0204984c(a, gSceneRunState->mRunStep != 4);
         CallQueueDrain();
         if (r) {
             a->mNextScene = gSceneRunState->mNextScene;
@@ -248,7 +248,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
     } while (FinishDataSharingSync() != 1);
     ClearInputSlots();
     StartFadeToClear(b->mFadeToClearFrameCount);
-    gSceneRunState->mUnk_10c = 2;
+    gSceneRunState->mRunStep = 2;
     do {
         PrepareDisplayFrame();
         func_020487fc_inline7();
@@ -258,7 +258,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
         UpdateSounds();
         v = func_020487fc_inline8();
         func_020487fc_inline9(b);
-        r = func_0204984c(a, gSceneRunState->mUnk_10c != 4);
+        r = func_0204984c(a, gSceneRunState->mRunStep != 4);
         CallQueueDrain();
         if (r) {
             a->mNextScene = gSceneRunState->mNextScene;
@@ -274,7 +274,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
         gSceneRunState->mPassCount++;
         RecordFrameTimes();
     } while (a->mNextScene == -1 && v == 0);
-    gSceneRunState->mUnk_10c = 3;
+    gSceneRunState->mRunStep = 3;
     StopSceneSounds();
     if (data_021759d0->mSoundSetSeqPlaying) {
         if (a == NULL || func_0204a340(a->mScene, a->mNextScene)) {
@@ -298,7 +298,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
         UpdateSounds();
         func_020487fc_inline8();
         func_020487fc_inline9(b);
-        func_0204984c(a, gSceneRunState->mUnk_10c != 4);
+        func_0204984c(a, gSceneRunState->mRunStep != 4);
         CallQueueDrain();
         if (b->mUnk_0c != NULL) {
             b->mUnk_0c(0, gSceneRunState->mSceneFrames);
@@ -313,7 +313,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
 end:
     SetNoKeysAndUpdateInputSlots();
     if (func_020487fc_inline13() && (v != 0 || GetNextSceneNumber() == 0)) {
-        gSceneRunState->mUnk_10c = 4;
+        gSceneRunState->mRunStep = 4;
         data_021759d0->mConnectionKind = 0;
         c = FALSE;
         func_0204f7f4();
@@ -327,13 +327,13 @@ end:
                     c = TRUE;
                 }
             }
-            func_0204984c(a, gSceneRunState->mUnk_10c != 4);
+            func_0204984c(a, gSceneRunState->mRunStep != 4);
             CallQueueDrain();
             UpdateWiFiSession();
             RecordFrameTimes();
         } while (!c);
     }
-    gSceneRunState->mUnk_10c = 5;
+    gSceneRunState->mRunStep = 5;
     gDisplaySettings->mIrqCallback = NULL;
     if (func_020487fc_inline2()) {
         gConnectionWork->mUnk_0454 &= ~4;
@@ -374,5 +374,5 @@ end:
     }
     func_0204ad24();
     gSceneRunState->mSceneFrames = 0;
-    gSceneRunState->mUnk_10c = 6;
+    gSceneRunState->mRunStep = 6;
 }

@@ -27,7 +27,7 @@ void StartMicInput(void *heap) {
     SetupMicAutoSampling(gTouchMicInput->mMicBuffer);
     StartMicAutoSampling(gTouchMicInput->mMicBuffer);
     gTouchMicInput->mMicAutoSampling = 1;
-    gTouchMicInput->mUnk_30_2 = 0;
+    gTouchMicInput->mMicPreSleepDone = 0;
     gTouchMicInput->mMicOverThreshold = 0;
 }
 
@@ -48,33 +48,33 @@ void StopMicInput(void) {
     StopMicAutoSampling(gTouchMicInput->mMicBuffer);
     gTouchMicInput->mMicBuffer = NULL;
     gTouchMicInput->mMicAutoSampling = 0;
-    gTouchMicInput->mUnk_30_2 = 0;
+    gTouchMicInput->mMicPreSleepDone = 0;
 }
 
-void func_02046e84(void) {
+void PreSleepMicInput(void) {
     TouchMicInput *touchMicInput;
 
     touchMicInput = gTouchMicInput;
     if (touchMicInput->mMicAutoSampling == 0) {
         return;
     }
-    if (touchMicInput->mUnk_30_2 == 0) {
+    if (touchMicInput->mMicPreSleepDone == 0) {
         PreSleepMicBuffer(touchMicInput->mMicBuffer);
     }
-    gTouchMicInput->mUnk_30_2 = 1;
+    gTouchMicInput->mMicPreSleepDone = 1;
 }
 
-void func_02046e24(void) {
+void PostSleepMicInput(void) {
     TouchMicInput *touchMicInput;
 
     touchMicInput = gTouchMicInput;
     if (touchMicInput->mMicAutoSampling == 0) {
         return;
     }
-    if (touchMicInput->mUnk_30_2) {
+    if (touchMicInput->mMicPreSleepDone) {
         PostSleepMicBuffer(touchMicInput->mMicBuffer);
     }
-    gTouchMicInput->mUnk_30_2 = 0;
+    gTouchMicInput->mMicPreSleepDone = 0;
 }
 
 void UpdateTouchMicInput(void) {
@@ -90,14 +90,14 @@ void UpdateTouchMicInput(void) {
     }
 }
 
-void func_02046ca8(InputSlotPair *pair, s32 b, s32 c) {
+void UpdateInputSlotPair(InputSlotPair *pair, s32 packedTouchPoint, s32 micOverThreshold) {
     TPData point;
     u32 pointY;
     s32 pointX;
 
     if (gTouchMicInput->mTouchAutoSampling) {
-        pointX = (b >> 8) & 0xff;
-        pointY = b & 0xff;
+        pointX = (packedTouchPoint >> 8) & 0xff;
+        pointY = packedTouchPoint & 0xff;
         if (pointY > 0xbf) {
             point.mY = 0;
             point.mX = 0;
@@ -116,7 +116,7 @@ void func_02046ca8(InputSlotPair *pair, s32 b, s32 c) {
         }
     }
     if (gTouchMicInput->mMicAutoSampling) {
-        pair->mUnk_12[0] = c;
+        pair->mMicOverThreshold[0] = micOverThreshold;
     }
 }
 

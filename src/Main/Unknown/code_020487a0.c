@@ -5,7 +5,7 @@
 
 #pragma thumb on
 
-void func_020487e0(const void *source, void *destination, u32 size) {
+void UncompressLZ8AndStoreRange(const void *source, void *destination, u32 size) {
     MI_UncompressLZ8(source, destination);
     DC_StoreRange(destination, size);
 }

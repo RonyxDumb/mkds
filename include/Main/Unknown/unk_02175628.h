@@ -45,7 +45,7 @@ typedef struct InputSlotPair {
     /* 0c */ u16 mPrevHasPair;
     /* 0e */ u16 mPrevValidity;
     /* 10 */ u16 mNoPairCount;
-    /* 12 */ u8 mUnk_12[0x2];
+    /* 12 */ u8 mMicOverThreshold[0x2];
 } InputSlotPair;
 
 // One 0x5c-byte element of the array at gInputSlots.
