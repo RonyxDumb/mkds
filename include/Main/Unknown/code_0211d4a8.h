@@ -9,7 +9,5 @@ typedef struct SelectRaceRuleRowEntries {
 
 extern SelectRaceRuleRowEntries gSelectRaceRuleRowEntries[];
 
-#define gBootInfo (&SYSTEM_WORK->mWmBootBuf)
-
 void MoveSelectRaceRuleRowPrevious(void);
 void MoveSelectRaceRuleRowNext(void);

@@ -1,11 +1,8 @@
 #include "code_020091e0.h"
-#include "Main/Unknown/unk_0217a000.h"
-
 #include "code_020091fc.h"
 #include "code_02003024.h"
 #include "code_0214d018.h"
 #include "code_02009908.h"
-#include "Main/Unknown/unk_0216f000.h"
 #include "code_02008934.h"
 
 #pragma thumb on
@@ -308,7 +305,7 @@ void MB_InitRecvGameInfoStatus(void) {
     mbrsp->mScanCountUnit = 1;
 }
 
-u32 MB_RecvGameInfoBeacon(EntryCallbackFunc callback, u32 b, ScanBlock *scanBlock) {
+u32 MB_RecvGameInfoBeacon(EntryCallbackFunc callback, u32 b, WMBssDesc *scanBlock) {
     s32 entryIndex;
     if (MBi_CheckMBParent(scanBlock) == 0) {
         return 0;
@@ -328,8 +325,8 @@ u32 MB_RecvGameInfoBeacon(EntryCallbackFunc callback, u32 b, ScanBlock *scanBloc
     return 1;
 }
 
-u32 MBi_CheckMBParent(ScanBlock *scanBlock) {
-    if ((scanBlock->mFlags & 2) == 0 || scanBlock->mUnk_40 != 1) {
+u32 MBi_CheckMBParent(WMBssDesc *scanBlock) {
+    if ((scanBlock->mGameInfo.mAttribute & 2) == 0 || scanBlock->mGameInfo.mMagicNumber != 1) {
         return 0;
     }
     return 1;

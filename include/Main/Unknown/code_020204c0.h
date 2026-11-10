@@ -1,6 +1,6 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_0217a000.h" // ScanBlock
+#include "Main/Unknown/unk_0217a000.h"
 
-s32 IsScanBlockGameInfoMatch(ScanBlock *a);
+s32 IsScanBlockGameInfoMatch(WMBssDesc *a);

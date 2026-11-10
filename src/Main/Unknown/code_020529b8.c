@@ -611,7 +611,7 @@ void StartParentCallback(Unk021425e8 *event) {
                         v = gConnectionWork->mParentParameter->mUnk_0c;
                         break;
                     case 2:
-                        v = gConnectionWork->mParentBssDesc->mUnk_48;
+                        v = gConnectionWork->mParentBssDesc->mGameInfo.mTgid;
                         break;
                 }
                 randomState = &gConnectionWork->mRandomState;

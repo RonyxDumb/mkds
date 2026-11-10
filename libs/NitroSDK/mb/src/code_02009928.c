@@ -1,21 +1,14 @@
 #include "code_02009928.h"
 
-#include "Main/Unknown/unk_0216f000.h"
 #include "code_02142eac.h"
 #include "code_0200ad00.h"
 #include "code_020099d8.h"
-#include "Main/Unknown/code_02009cc8.h"
-#include "Main/Unknown/code_02009adc.h"
-#include "Main/Unknown/code_02009c34.h"
 #include "code_02007148.h"
-#include "Main/Unknown/code_0200a000.h"
+#include "code_02007624.h"
+#include "code_02007ea0.h"
+#include "code_0214c778.h"
 #include "code_0200c0d8.h"
-#include "Main/Unknown/code_0214d000.h"
-#include "03/code_021b94b8.h"
-#include "Main/Unknown/code_02009000.h"
-#include "Main/Unknown/code_0200f000.h"
 #include "code_0200fc8c.h"
-#include "Main/Unknown/code_02009c90.h"
 #include "code_0200aeb4.h"
 #include "code_020091fc.h"
 #include "code_0200eddc.h"
@@ -127,7 +120,7 @@ void MBi_OnInitializeDone(void) {
     u32 result;
     result = WM_SetIndCallback(MBi_ParentCallback);
     MBi_CheckWmErrcode(0x80, result);
-    result = WM_SetLifeTime(MBi_ParentCallback, data_0216179c, data_02161794, data_02161790, data_02161798);
+    result = WM_SetLifeTime(MBi_ParentCallback, mbi_life_table_no, mbi_life_cam, mbi_life_frame, mbi_life_mp);
     MBi_CheckWmErrcode(0x1d, result);
 }
 
@@ -340,7 +333,7 @@ void MBi_ChildCallback(Unk021425e8 *result) {
             }
             work->mCallback(0x15, result);
             MBi_CheckWmErrcode(
-                0x1d, WM_SetLifeTime(MBi_ChildCallback, data_0216179c, data_02161794, data_02161790, data_02161798));
+                0x1d, WM_SetLifeTime(MBi_ChildCallback, mbi_life_table_no, mbi_life_cam, mbi_life_frame, mbi_life_mp));
             return;
         case 0x1d:
             if (result->mResultCode != 0) {
@@ -553,7 +546,7 @@ u32 MBi_GetBeaconPeriodDispersion(void) {
     return (byteSum + SYSTEM_WORK->mVblankCount) * 7 % 0x14;
 }
 
-s32 InitWirelessWork(void *buffer, Unk02009ff4 *b, u32 ggid, u32 tgid, u32 dmaNo) {
+s32 MB_Init(void *buffer, Unk02009ff4 *b, u32 ggid, u32 tgid, u32 dmaNo) {
     MBiParam *wirelessWork;
     MB_CommPWork *parentWork;
     u32 savedInterrupts;
@@ -633,7 +626,7 @@ u32 MBi_IsCommSizeValid(u32 sendDataSize, u32 receiveDataSize, u32 maxChildren) 
 
 // Sets the send size and child limit before the parent starts; returns 0 when the start-up already ran or they do not
 // fit.
-u32 SetMPLimits(u32 sendDataSize, u32 maxChildren) {
+u32 MB_SetParentCommParam(u32 sendDataSize, u32 maxChildren) {
     u32 savedInterrupts;
     savedInterrupts = OS_DisableInterrupts();
     if (gWirelessWork->mMbIsStarted != 0) {
@@ -690,7 +683,7 @@ s32 MBi_StartParentCore(u16 channel) {
     v4 = (s32) parentWork->mCallback;
     clearValues[0] = 0;
     MIi_CpuClear16(clearValues[0], parentWork->mChildUser, 0x69c0);
-    SetCallback((UnkFunc *) v4);
+    MB_CommSetParentStateCallback((UnkFunc *) v4);
     mbc->mBlockSizeMax = gWirelessWork->mSendDataSize - 6;
     MBi_SetChildMPMaxSize(gWirelessWork->mReceiveDataSize);
     MBi_SetParentPieceBuffer(&mbc->mReqDataBuf);

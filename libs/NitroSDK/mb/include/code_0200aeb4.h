@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "os_thread.h"
+#include "code_02142eac.h"
 
 // 0x10-byte object MBi_SetTask links by the bits above bit 0 of its member 4, in increasing order.
 typedef struct WorkerTask {
@@ -25,7 +26,6 @@ typedef struct WorkerQueue {
     /* c4 */ WorkerTask mStopTask;
 } WorkerQueue;
 
-typedef struct ScanBlock ScanBlock;
 typedef struct WorkerQueue WorkerQueue;
 
 void MBi_EndTaskThread(void *done);
@@ -35,5 +35,5 @@ void MBi_InitTaskInfo(void *taskInfo);
 u32 MBi_IsTaskAvailable(void);
 void MBi_InitTaskThread(WorkerQueue *workerQueue, u32 totalSize);
 void MBi_TaskThread(void *argument);
-u32 MB_FakeReadParentBssDesc(u32 entryIndex, ScanBlock *scanBlock, u16 parentMaxSize, u16 childMaxSize, u32 ksFlag,
+u32 MB_FakeReadParentBssDesc(u32 entryIndex, WMBssDesc *scanBlock, u16 parentMaxSize, u16 childMaxSize, u32 ksFlag,
                              u32 flagTwo);

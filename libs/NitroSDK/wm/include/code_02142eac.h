@@ -7,6 +7,103 @@ typedef struct WMDataSharingInfo WMDataSharingInfo;
 typedef struct Unk021425e8 Unk021425e8;
 typedef void (*Unk021425e8Func)(Unk021425e8 *);
 
+// 0x2c bytes from 0x36 of Unk0217aa00_24_50_0e.
+typedef struct Unk0217aa00_24_50_0e_36 {
+    /* 00 */ u8 mUnk_00[2];
+    /* 02 */ u8 mUnk_02[0x14];
+    /* 16 */ u8 mUnk_16[0x16];
+} Unk0217aa00_24_50_0e_36;
+
+// 0x62 bytes from 0xe of UserGameInfo.
+typedef struct Unk0217aa00_24_50_0e {
+    /* 00 */ u8 mUnk_00[6];
+    /* 06 */ union {
+        u8 mUnk_06;
+        struct {
+            u8 mChildCount : 4;
+            u8 mLanguageIndex : 4;
+        };
+    };
+    /* 07 */ union {
+        u8 mUnk_07;
+        struct {
+            u8 mHasGhost : 1;
+            u8 mKartIndex : 6;
+        };
+    };
+    /* 08 */ u8 mUnk_08[2];
+    /* 0a */ u8 mUnk_0a[4];
+    /* 0e */ u8 mUnk_0e[0x28];
+    /* 36 */ Unk0217aa00_24_50_0e_36 mUnk_36;
+} Unk0217aa00_24_50_0e;
+
+// 0x70 bytes at 0x50 of WMBssDesc; the word at 0x38 of ChildList points to one.
+typedef struct UserGameInfo {
+    union {
+        struct {
+            /* 00 */ u8 mUnk_00[7];
+            /* 07 */ u8 mUnk_07;
+            /* 08 */ u8 mUnk_08[2];
+            /* 0a */ u8 mUnk_0a;
+            /* 0b */ u8 mUnk_0b[3];
+            /* 0e */ Unk0217aa00_24_50_0e mUnk_0e;
+        };
+        struct {
+            /* 00 */ u8 mUnk_00_pad[0x18];
+            /* 18 */ union {
+                u32 mUnk_18;
+                struct {
+                    u32 mCharacterIndex : 4;
+                    u32 mCupCourseIndex : 5;
+                    u32 mMinute : 7;
+                    u32 mSecond : 6;
+                    u32 mMillisecond : 10;
+                };
+            };
+            /* 1c */ u8 mUnk_1c[0x54];
+        };
+    };
+} UserGameInfo;
+
+typedef struct WMGameInfo {
+    /* 00 */ u16 mMagicNumber;
+    /* 02 */ u8 mVer;
+    /* 03 */ u8 mPlatform;
+    /* 04 */ u32 mGgid;
+    /* 08 */ u16 mTgid;
+    /* 0a */ u8 mUserGameInfoLength;
+    /* 0b */ u8 mAttribute;
+    /* 0c */ u16 mParentMaxSize;
+    /* 0e */ u16 mChildMaxSize;
+    /* 10 */ UserGameInfo mUserGameInfo;
+} WMGameInfo;
+
+// 0xc0 bytes. MB_ReadMultiBootParentBssDesc and MB_FakeReadParentBssDesc fill it. Also the buffer behind member 0x24
+// of ConnectionWork and the first 0xc0 bytes of each ScanSlot.
+typedef struct WMBssDesc {
+    /* 00 */ u16 mLength;
+    /* 02 */ u16 mRssi;
+    /* 04 */ u8 mBssid[6];
+    /* 0a */ u16 mSsidLength;
+    /* 0c */ union {
+        u8 mSsid[32];
+        u16 mSsidHalfwords[16];
+    };
+    /* 2c */ u16 mCapaInfo;
+    /* 2e */ struct {
+        u16 mBasic;
+        u16 mSupport;
+    } mRateSet;
+    /* 32 */ u16 mBeaconPeriod;
+    /* 34 */ u16 mDtimPeriod;
+    /* 36 */ u16 mChannel;
+    /* 38 */ u16 mCfpPeriod;
+    /* 3a */ u16 mCfpMaxDuration;
+    /* 3c */ u16 mGameInfoLength;
+    /* 3e */ u16 mOtherElementCount;
+    /* 40 */ WMGameInfo mGameInfo;
+} WMBssDesc;
+
 // System work area set up by WmInitCore. The callback tables are indexed by the command number of the message that
 // WmReceiveFifo takes.
 typedef struct Unk02142aa8 {

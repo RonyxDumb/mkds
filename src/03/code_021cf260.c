@@ -4,13 +4,13 @@
 #include "Main/Unknown/code_0200f000.h"
 #include "code_0200fc8c.h"
 #include "Main/Unknown/unk_0216f000.h"
-#include "Main/Unknown/code_02009adc.h"
+#include "code_02009928.h"
 
 #include "03/unk_021da000.h"
 #include "code_0214d018.h"
 #include "code_02007624.h"
 #include "fs_file.h"
-#include "Main/Unknown/code_02007ea0.h"
+#include "code_02007ea0.h"
 #include "Main/Unknown/code_02008000.h"
 #include "code_02008880.h"
 #include "code_02007148.h"
@@ -53,11 +53,11 @@ void func_ov003_021cf978(u32 a, u32 b) {
     }
     *(Unk021cf5ac *) data_ov003_021da288 = z;
     data_ov003_021da288->mUnk_1b140 = data_ov003_021da288->mUnk_10040;
-    if (InitWirelessWork(data_ov003_021da288->mUnk_1b140, &x, a, b, 2) != 0) {
+    if (MB_Init(data_ov003_021da288->mUnk_1b140, &x, a, b, 2) != 0) {
         OS_Terminate();
     }
-    SetMPLimits(0x100, 1);
-    SetCallback(func_ov003_021cf378);
+    MB_SetParentCommParam(0x100, 1);
+    MB_CommSetParentStateCallback(func_ov003_021cf378);
     func_ov003_021cf36c(1);
 }
 

@@ -1,11 +1,10 @@
-#include "Main/Unknown/code_02007ea0.h"
-#include "Main/Unknown/unk_0216f000.h"
+#include "code_02007ea0.h"
 #include "code_0200fc8c.h"
 #include "code_02007148.h"
 
 #pragma thumb on
 
-void SetCallback(UnkFunc *p0) {
+void MB_CommSetParentStateCallback(UnkFunc *p0) {
     u32 enabled = (OS_DisableInterrupts());
     u32 v7;
     mbc->mCallback = p0;

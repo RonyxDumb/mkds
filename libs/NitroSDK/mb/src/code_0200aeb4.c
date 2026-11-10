@@ -1,25 +1,22 @@
 #include "code_0200aeb4.h"
-#include "Main/Unknown/unk_0217a000.h"
-
 #include "code_0200fc8c.h"
-#include "Main/Unknown/unk_0216f000.h"
 #include "code_0214d018.h"
 #include "code_02007ec4.h"
 #include "code_0200b1b0.h"
 
 #pragma thumb on
 
-u32 MB_FakeReadParentBssDesc(u32 entryIndex, ScanBlock *scanBlock, u16 parentMaxSize, u16 childMaxSize, u32 ksFlag,
+u32 MB_FakeReadParentBssDesc(u32 entryIndex, WMBssDesc *scanBlock, u16 parentMaxSize, u16 childMaxSize, u32 ksFlag,
                              u32 flagTwo) {
     u32 csAttribute;
     u32 ksAttribute;
     if (MB_FakeGetParentBssDesc(entryIndex, scanBlock) == 0) {
         return 0;
     }
-    scanBlock->mUnk_3c = 0x10;
-    scanBlock->mUnk_4a = 0;
-    scanBlock->mUnk_4c = parentMaxSize;
-    scanBlock->mUnk_4e = childMaxSize;
+    scanBlock->mGameInfoLength = 0x10;
+    scanBlock->mGameInfo.mUserGameInfoLength = 0;
+    scanBlock->mGameInfo.mParentMaxSize = parentMaxSize;
+    scanBlock->mGameInfo.mChildMaxSize = childMaxSize;
     csAttribute = 0;
     if (flagTwo != 0) {
         csAttribute = 8;
@@ -29,7 +26,7 @@ u32 MB_FakeReadParentBssDesc(u32 entryIndex, ScanBlock *scanBlock, u16 parentMax
     } else {
         ksAttribute = 0;
     }
-    scanBlock->mFlags = ksAttribute | csAttribute | 1;
+    scanBlock->mGameInfo.mAttribute = ksAttribute | csAttribute | 1;
     return 1;
 }
 

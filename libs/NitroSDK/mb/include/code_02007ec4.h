@@ -5,8 +5,9 @@
 #include "code_0200ad00.h"
 #include "mb_data.h"
 #include "code_0200fc8c.h"
+#include "code_02142eac.h"
 
-typedef struct ScanBlock ScanBlock;
+extern u32 MBi_defaultLoadSegList[];
 
 // Filled by MBi_get_blockinfo.
 typedef struct MB_BlockInfo {
@@ -56,7 +57,7 @@ typedef struct SegmentBuffer {
     /* 258 */ u32 mUnk_258[1];
 } SegmentBuffer;
 
-void MB_ReadMultiBootParentBssDesc(ScanBlock *bssDesc, u16 parentMaxSize, u16 childMaxSize, u32 ksFlag, u32 flagTwo);
+void MB_ReadMultiBootParentBssDesc(WMBssDesc *bssDesc, u16 parentMaxSize, u16 childMaxSize, u32 ksFlag, u32 flagTwo);
 u32 IsAbleToLoad(u32 rangeIndex, u32 address, u32 size);
 u32 MBi_IsAbleToRecv(u32 rangeIndex, u32 address, u32 size);
 BOOL MBi_get_blockinfo(MB_BlockInfo *result, void *b, u16 chunk, void *d);

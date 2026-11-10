@@ -159,11 +159,11 @@ void StartMultiBootParent(void) {
     user.mUnk_00_4 = 8;
     MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, user.mUnk_02, 0x14);
     gConnectionWork->mUnk_1690 = ComputeParentTgid(1);
-    if (InitWirelessWork(gConnectionWork->mUnk_165c, (Unk02009ff4 *) &user, 0x25, gConnectionWork->mUnk_1690, 2) != 0) {
+    if (MB_Init(gConnectionWork->mUnk_165c, (Unk02009ff4 *) &user, 0x25, gConnectionWork->mUnk_1690, 2) != 0) {
         SetRequestErrorCode(5);
     }
-    SetMPLimits(0x1fe, 7);
-    SetCallback(ParentStateCallback);
+    MB_SetParentCommParam(0x1fe, 7);
+    MB_CommSetParentStateCallback(ParentStateCallback);
     if (((s32(*)(u32)) MB_StartParentFromIdle)(gConnectionWork->mParentChannel) != 0) {
         SetRequestErrorCode(5);
     }
@@ -217,16 +217,16 @@ void StartRepeatedScanStep1E(void) {
 s32 FindScanEntryIndex(u32 entryIndex) {
     s32 result;
     u16 index;
-    ScanBlock scanBlock;
+    WMBssDesc scanBlock;
     result = -1;
     if (gConnectionWork->mStep == 0x1e) {
         for (index = 0; index < 16; index++) {
             if (MB_FakeGetParentBssDesc(index, &scanBlock) != 0) {
                 u8 *tableBytes = gConnectionWork->mUnk_00ac[0].mKey.mUnk_00;
                 u8 *entryBytes = tableBytes + entryIndex * 0xe0;
-                if (scanBlock.mUnk_00[4] == tableBytes[entryIndex * 0xe0] && scanBlock.mUnk_00[5] == entryBytes[1] &&
-                    scanBlock.mUnk_00[6] == entryBytes[2] && scanBlock.mUnk_00[7] == entryBytes[3] &&
-                    scanBlock.mUnk_00[8] == entryBytes[4] && scanBlock.mUnk_00[9] == entryBytes[5]) {
+                if (scanBlock.mBssid[0] == tableBytes[entryIndex * 0xe0] && scanBlock.mBssid[1] == entryBytes[1] &&
+                    scanBlock.mBssid[2] == entryBytes[2] && scanBlock.mBssid[3] == entryBytes[3] &&
+                    scanBlock.mBssid[4] == entryBytes[4] && scanBlock.mBssid[5] == entryBytes[5]) {
                     result = (s8) index;
                     break;
                 }
@@ -428,7 +428,7 @@ void ReadFakeParentBssDesc(u32 entryIndex) {
     gConnectionWork->mRequestPending = 1;
     result = MB_FakeReadParentBssDesc(entryIndex, gConnectionWork->mParentBssDesc, 0x1bc, 0x36, 0, 0);
     gConnectionWork->mRequestPending = 0;
-    gConnectionWork->mParentBssDesc->mUnk_48 = (gConnectionWork->mParentBssDesc->mUnk_48 + 7) & 0x7fff;
+    gConnectionWork->mParentBssDesc->mGameInfo.mTgid = (gConnectionWork->mParentBssDesc->mGameInfo.mTgid + 7) & 0x7fff;
     if (result == 0) {
         SetRequestErrorCode(5);
     }
@@ -438,7 +438,7 @@ void ReadMultiBootParentBssDesc(void) {
     gConnectionWork->mStep = 0x1a;
     gConnectionWork->mRequestPending = 1;
     MB_ReadMultiBootParentBssDesc(gConnectionWork->mParentBssDesc, 0x1bc, 0x36, 0, 0);
-    gConnectionWork->mParentBssDesc->mUnk_48 = (gConnectionWork->mParentBssDesc->mUnk_48 + 7) & 0x7fff;
+    gConnectionWork->mParentBssDesc->mGameInfo.mTgid = (gConnectionWork->mParentBssDesc->mGameInfo.mTgid + 7) & 0x7fff;
     gConnectionWork->mRequestPending = 0;
 }
 

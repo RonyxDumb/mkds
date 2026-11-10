@@ -158,12 +158,12 @@ libs/NitroSDK/mb/src/code_02007624.c:
     .text       start:0x02007624 end:0x02007ea0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02007ea0.c:
+libs/NitroSDK/mb/src/code_02007ea0.c:
     complete
     .text       start:0x02007ea0 end:0x02007ec4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02007ec4.c:
+libs/NitroSDK/mb/src/code_02007ec4.c:
     complete
     .text       start:0x02007ec4 end:0x0200850c
 
@@ -203,12 +203,12 @@ libs/NitroSDK/mb/src/code_02008e10.c:
     .text       start:0x02008e10 end:0x020091e0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020091e0.c:
+libs/NitroSDK/mb/src/code_020091e0.c:
     complete
     .text       start:0x020091e0 end:0x02009928
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02009928.c:
+libs/NitroSDK/mb/src/code_02009928.c:
     complete
     .text       start:0x02009928 end:0x0200aea8
 
@@ -218,7 +218,7 @@ libs/NitroSDK/mb/src/code_0200aea8.c:
     .text       start:0x0200aea8 end:0x0200aeb4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0200aeb4.c:
+libs/NitroSDK/mb/src/code_0200aeb4.c:
     complete
     .text       start:0x0200aeb4 end:0x0200b1b0
 

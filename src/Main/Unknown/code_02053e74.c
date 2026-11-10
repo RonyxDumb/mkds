@@ -534,7 +534,7 @@ void InitRaceConnection(void) {
             a = connection->mParentParameter->mUnk_0c;
             break;
         case 2:
-            a = connection->mParentBssDesc->mUnk_48;
+            a = connection->mParentBssDesc->mGameInfo.mTgid;
             break;
     }
     b = 0;
@@ -543,7 +543,7 @@ void InitRaceConnection(void) {
             b = connection->mParentParameter->mUnk_0c;
             break;
         case 2:
-            b = connection->mParentBssDesc->mUnk_48;
+            b = connection->mParentBssDesc->mGameInfo.mTgid;
             break;
     }
     connection->mRandom.mStateLow = b + (a << 10);

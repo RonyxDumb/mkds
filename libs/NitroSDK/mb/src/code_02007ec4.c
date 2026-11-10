@@ -1,13 +1,9 @@
 #include "code_02007ec4.h"
-#include "Main/Unknown/unk_0217a000.h"
-#include "Main/Unknown/unk_02152000.h"
 #include "code_0200aeb4.h"
-#include "Main/Unknown/unk_0216f000.h"
 #include "code_02009928.h"
 #include "code_020091fc.h"
 #include "code_0200fc8c.h"
 #include "code_0214d018.h"
-#include "Main/Unknown/code_0211d4a8.h"
 
 #pragma thumb on
 
@@ -279,17 +275,17 @@ u32 IsAbleToLoad(u32 rangeIndex, u32 address, u32 size) {
     return 0;
 }
 
-void MB_ReadMultiBootParentBssDesc(ScanBlock *bssDesc, u16 parentMaxSize, u16 childMaxSize, u32 ksFlag, u32 flagTwo) {
+void MB_ReadMultiBootParentBssDesc(WMBssDesc *bssDesc, u16 parentMaxSize, u16 childMaxSize, u32 ksFlag, u32 flagTwo) {
     u32 csAttribute;
     u32 ksAttribute;
     Unk027ffc40 *bootInfo = gBootInfo;
     MI_CpuCopy8(bootInfo->mUnk_00 == 2 ? bootInfo->mUnk_02 : NULL, bssDesc, 0x3c);
-    bssDesc->mUnk_3c = 0x10;
-    bssDesc->mUnk_44 = bssDesc->mUnk_0c | (bssDesc->mUnk_0e << 16);
-    bssDesc->mUnk_48 = bssDesc->mUnk_10;
-    bssDesc->mUnk_4a = 0;
-    bssDesc->mUnk_4c = parentMaxSize;
-    bssDesc->mUnk_4e = childMaxSize;
+    bssDesc->mGameInfoLength = 0x10;
+    bssDesc->mGameInfo.mGgid = bssDesc->mSsidHalfwords[0] | (bssDesc->mSsidHalfwords[1] << 16);
+    bssDesc->mGameInfo.mTgid = bssDesc->mSsidHalfwords[2];
+    bssDesc->mGameInfo.mUserGameInfoLength = 0;
+    bssDesc->mGameInfo.mParentMaxSize = parentMaxSize;
+    bssDesc->mGameInfo.mChildMaxSize = childMaxSize;
     csAttribute = 0;
     if (flagTwo != 0) {
         csAttribute = 8;
@@ -299,7 +295,7 @@ void MB_ReadMultiBootParentBssDesc(ScanBlock *bssDesc, u16 parentMaxSize, u16 ch
     } else {
         ksAttribute = 0;
     }
-    bssDesc->mFlags = ksAttribute | csAttribute | 1;
+    bssDesc->mGameInfo.mAttribute = ksAttribute | csAttribute | 1;
 }
 
 #pragma thumb off

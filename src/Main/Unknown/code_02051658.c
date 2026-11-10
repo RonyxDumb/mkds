@@ -90,7 +90,7 @@ void StartScan(s32 a, s32 (*b)(), s32 (*c)()) {
     }
 }
 
-void FillScanSlot(ScanSlot *slot, ScanBlock *scanBuffer, ScanMacAddress *key, UserGameInfo *gameInfo, u8 entryIndex) {
+void FillScanSlot(ScanSlot *slot, WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo *gameInfo, u8 entryIndex) {
     s32 childCount;
     u8 languageIndex;
     s32 isGhost;
@@ -140,7 +140,7 @@ void FillScanSlot(ScanSlot *slot, ScanBlock *scanBuffer, ScanMacAddress *key, Us
     }
 }
 
-void FindOrAddScanSlot(ScanBlock *scanBuffer, ScanMacAddress *key, UserGameInfo *c) {
+void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo *c) {
     Unk0217aa00_24_50_0e_36 *x;
     s32 i;
     s32 n;
@@ -190,9 +190,9 @@ void FindOrAddScanSlot(ScanBlock *scanBuffer, ScanMacAddress *key, UserGameInfo 
     if (chosenSlot == NULL) {
         return;
     }
-    if ((scanBuffer->mFlags & 2) != 0) {
+    if ((scanBuffer->mGameInfo.mAttribute & 2) != 0) {
         if (connection->mUnk_1d00 != 2) {
-            t = &scanBuffer->mUnk_50;
+            t = &scanBuffer->mGameInfo.mUserGameInfo;
             if (t->mUnk_07 == 5) {
                 u = (void *) &t->mUnk_0e;
                 x = &u->mUnk_36;
@@ -221,7 +221,7 @@ void FindOrAddScanSlot(ScanBlock *scanBuffer, ScanMacAddress *key, UserGameInfo 
                 connection->mUnk_0438 = 0xf;
             }
         }
-    } else if (scanBuffer->mUnk_4a == 0x1c) {
+    } else if (scanBuffer->mGameInfo.mUserGameInfoLength == 0x1c) {
         FillScanSlot(chosenSlot, scanBuffer, key, c, i);
     }
     s = &gConnectionWork->mUnk_00ac_view;
@@ -234,7 +234,7 @@ void FindOrAddScanSlot(ScanBlock *scanBuffer, ScanMacAddress *key, UserGameInfo 
 }
 
 void StartScanCallback(Unk021425e8 *event) {
-    ScanBlock scanBuffer;
+    WMBssDesc scanBuffer;
     ScanMacAddress key;
     s32 i;
     ConnectionWork *connection;
@@ -260,8 +260,9 @@ void StartScanCallback(Unk021425e8 *event) {
                         gConnectionWork->mUnk_1ed0 = 1;
                         gConnectionWork->mUnk_1ed4 = v;
                         gConnectionWork->mUnk_1ed6 = 0;
-                    } else if (scanBuffer.mUnk_3c >= 8 && scanBuffer.mUnk_44 == 0x25 && (scanBuffer.mFlags & 1) != 0) {
-                        if ((scanBuffer.mFlags & 2) != 0) {
+                    } else if (scanBuffer.mGameInfoLength >= 8 && scanBuffer.mGameInfo.mGgid == 0x25 &&
+                               (scanBuffer.mGameInfo.mAttribute & 1) != 0) {
+                        if ((scanBuffer.mGameInfo.mAttribute & 2) != 0) {
                             gConnectionWork->mUnk_1ed8 = 2;
                         } else {
                             gConnectionWork->mUnk_1ed8 = 3;
@@ -271,7 +272,8 @@ void StartScanCallback(Unk021425e8 *event) {
                     }
                 } else {
                     accepted = TRUE;
-                    if (scanBuffer.mUnk_3c < 8 || scanBuffer.mUnk_44 != 0x25 || (scanBuffer.mFlags & 1) == 0) {
+                    if (scanBuffer.mGameInfoLength < 8 || scanBuffer.mGameInfo.mGgid != 0x25 ||
+                        (scanBuffer.mGameInfo.mAttribute & 1) == 0) {
                         accepted = FALSE;
                     } else if (gConnectionWork->mUnk_0444 != 0) {
                         if (gConnectionWork->mUnk_0444(&scanBuffer) == 0) {
@@ -282,14 +284,14 @@ void StartScanCallback(Unk021425e8 *event) {
                         if (gConnectionWork->mUnk_0440 != 0) {
                             gConnectionWork->mUnk_0440(event, &scanBuffer);
                         } else if ((gConnectionWork->mUnk_0436 & 1) != 0) {
-                            if ((scanBuffer.mUnk_48 & 0x8000) != 0) {
+                            if ((scanBuffer.mGameInfo.mTgid & 0x8000) != 0) {
                                 key.mUnk_00[0] = event->mUnk_0a[0];
                                 key.mUnk_00[1] = event->mUnk_0a[1];
                                 key.mUnk_00[2] = event->mUnk_0a[2];
                                 key.mUnk_00[3] = event->mUnk_0a[3];
                                 key.mUnk_00[4] = event->mUnk_0a[4];
                                 key.mUnk_00[5] = event->mUnk_0a[5];
-                                FindOrAddScanSlot(&scanBuffer, &key, &scanBuffer.mUnk_50);
+                                FindOrAddScanSlot(&scanBuffer, &key, &scanBuffer.mGameInfo.mUserGameInfo);
                                 *gConnectionWork->mParentBssDesc = scanBuffer;
                             }
                         }
@@ -350,7 +352,7 @@ void EndScanCallback(Unk021425e8 *event) {
     StopConnection();
 }
 
-void StartConnect(ScanBlock *a, void *b, void (*c)(), void (*d)(), void (*e)()) {
+void StartConnect(WMBssDesc *a, void *b, void (*c)(), void (*d)(), void (*e)()) {
     u8 v1[0x18];
 
     MI_CpuFill8(v1, 0, 0x18);
@@ -395,7 +397,7 @@ void StartConnectCallback(Unk021425e8 *event) {
                             v = gConnectionWork->mParentParameter->mUnk_0c;
                             break;
                         case 2:
-                            v = gConnectionWork->mParentBssDesc->mUnk_48;
+                            v = gConnectionWork->mParentBssDesc->mGameInfo.mTgid;
                             break;
                     }
                     randomState = &gConnectionWork->mRandomState;

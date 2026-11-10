@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-struct ScanBlock;
+#include "code_02142eac.h"
 
-u32 MB_FakeGetParentBssDesc(u32 index, struct ScanBlock *destination);
+u32 MB_FakeGetParentBssDesc(u32 index, WMBssDesc *destination);

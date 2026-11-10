@@ -81,6 +81,7 @@ typedef struct OSSystemWork {
 
 #define HW_MAIN_MEM_SYSTEM 0x027ffc00
 #define SYSTEM_WORK ((OSSystemWork *) HW_MAIN_MEM_SYSTEM)
+#define gBootInfo (&SYSTEM_WORK->mWmBootBuf)
 
 // Clears the IRQ disable bit and returns the previous bit.
 OSIntrMode OS_EnableInterrupts(void);

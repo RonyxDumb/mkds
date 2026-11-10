@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "code_02008934.h"
-#include "Main/Unknown/unk_0217a000.h" // ScanBlock
+#include "Main/Unknown/unk_0217a000.h"
 
 // Block the callback behind mScanCallback receives from CallScanCallbackWithEntry.
 typedef struct ScanEntryArgs {
@@ -40,7 +40,7 @@ typedef struct ScanConnectWork {
     /* 0000 */ u8 mUnk_0000[0x20];
     /* 0020 */ u8 mReceiveBuffer[0x480];
     /* 04a0 */ u8 mMessageBuffer[0x20];
-    /* 04c0 */ ScanBlock mScanBuffer;
+    /* 04c0 */ WMBssDesc mScanBuffer;
     /* 0580 */ Unk02143a78 mScanParams;
     /* 0590 */ u8 mUnk_0590[0x10];
     /* 05a0 */ MPLink mMPLink;
@@ -98,6 +98,6 @@ void StartResetWithFlag(void);
 void ScanConnectStartMPCallback(Unk021425e8 *a);
 void SetPortCallbackAndStartMP(void *sendBuffer, u8 *receiveBuffer);
 void ScanConnectStartConnectCallback(Unk021425e8 *a);
-void ScanConnectStartConnect(ScanBlock *scanBuffer);
+void ScanConnectStartConnect(WMBssDesc *scanBuffer);
 void SetMPLinkCallback(UnkFunc *callback);
 void SetupMPLink(MPLink *link);

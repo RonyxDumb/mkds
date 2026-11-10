@@ -40,14 +40,14 @@ void SetMPLinkCallback(UnkFunc *callback) {
 
 #pragma thumb on
 
-void ScanConnectStartConnect(ScanBlock *scanBuffer) {
+void ScanConnectStartConnect(WMBssDesc *scanBuffer) {
     s32 r;
     gMPLink->mMPStarted = 0;
     gMPLink->mResetting = 0;
-    gMPLink->mSendBufferSize = (scanBuffer->mUnk_4e + 0x21) & ~0x1f;
-    gMPLink->mReceiveBufferSize = ((scanBuffer->mUnk_4c + 0x55) & ~0x1f) * 2;
-    gMPLink->mUnk_14 = scanBuffer->mUnk_4c;
-    gMPLink->mUnk_16 = scanBuffer->mUnk_4e;
+    gMPLink->mSendBufferSize = (scanBuffer->mGameInfo.mChildMaxSize + 0x21) & ~0x1f;
+    gMPLink->mReceiveBufferSize = ((scanBuffer->mGameInfo.mParentMaxSize + 0x55) & ~0x1f) * 2;
+    gMPLink->mUnk_14 = scanBuffer->mGameInfo.mParentMaxSize;
+    gMPLink->mUnk_16 = scanBuffer->mGameInfo.mChildMaxSize;
     gMPLink->mUnk_18 = gMPLink->mUnk_14 - 6;
     MBi_SetChildMPMaxSize(gMPLink->mUnk_16);
     r = WM_StartConnectEx(ScanConnectStartConnectCallback, (u16 *) scanBuffer, NULL, 1, 0);

@@ -214,7 +214,7 @@ MBi_CommChangeParentState kind:function(thumb,size=0x38) addr:0x02007d18
 MB_CommResponseRequest kind:function(thumb,size=0xa8) addr:0x02007d50
 MB_CommIsBootable kind:function(thumb,size=0x40) addr:0x02007df8
 MB_CommGetChildUser kind:function(thumb,size=0x68) addr:0x02007e38
-SetCallback kind:function(thumb,size=0x24) addr:0x02007ea0
+MB_CommSetParentStateCallback kind:function(thumb,size=0x24) addr:0x02007ea0
 MB_ReadMultiBootParentBssDesc kind:function(thumb,size=0x74) addr:0x02007ec4
 IsAbleToLoad kind:function(thumb,size=0xb8) addr:0x02007f38
 MBi_IsAbleToRecv kind:function(thumb,size=0x7c) addr:0x02007ff0
@@ -278,9 +278,9 @@ MBi_CallReset kind:function(thumb,size=0x30) addr:0x02009c98
 MB_StartParentFromIdle kind:function(thumb,size=0x1c) addr:0x02009cc8
 MBi_StartParentCore kind:function(thumb,size=0x18c) addr:0x02009ce4
 MBi_StartCommon kind:function(thumb,size=0xc8) addr:0x02009e70
-SetMPLimits kind:function(thumb,size=0x74) addr:0x02009f38
+MB_SetParentCommParam kind:function(thumb,size=0x74) addr:0x02009f38
 MBi_IsCommSizeValid kind:function(thumb,size=0x48) addr:0x02009fac
-InitWirelessWork kind:function(thumb,size=0x190) addr:0x02009ff4
+MB_Init kind:function(thumb,size=0x190) addr:0x02009ff4
 MBi_GetBeaconPeriodDispersion kind:function(thumb,size=0x38) addr:0x0200a184
 MBi_ChildCallback kind:function(thumb,size=0x5c0) addr:0x0200a1bc
 MBi_ChildPortCallback kind:function(thumb,size=0x34) addr:0x0200a77c
@@ -8875,10 +8875,10 @@ gOwnIndex kind:data(any) addr:0x02161780
 data_usa_02161784 kind:data(any) addr:0x02161784
 mbi_seg_header kind:data(any) addr:0x02161788
 data_usa_0216178c kind:data(any) addr:0x0216178c
-data_02161790 kind:data(any) addr:0x02161790
-data_02161794 kind:data(any) addr:0x02161794
-data_02161798 kind:data(any) addr:0x02161798
-data_0216179c kind:data(any) addr:0x0216179c
+mbi_life_frame kind:data(any) addr:0x02161790
+mbi_life_cam kind:data(any) addr:0x02161794
+mbi_life_mp kind:data(any) addr:0x02161798
+mbi_life_table_no kind:data(any) addr:0x0216179c
 data_usa_021617a0 kind:data(any) addr:0x021617a0
 data_usa_021617a4 kind:data(any) addr:0x021617a4
 data_usa_021617a8 kind:data(any) addr:0x021617a8

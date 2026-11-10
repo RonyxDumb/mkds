@@ -5,7 +5,7 @@
 
 #pragma thumb on
 
-u32 MB_FakeGetParentBssDesc(u32 index, struct ScanBlock *destination) {
+u32 MB_FakeGetParentBssDesc(u32 index, WMBssDesc *destination) {
     u32 savedInterrupts;
     MBGameInfoRecvList *entry;
     if (16 <= index) {

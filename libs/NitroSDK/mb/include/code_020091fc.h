@@ -92,11 +92,11 @@ extern u32 sSendVolatCallbackTimming;
 extern void (*sSendVolatCallback)(u32 a);
 extern GameInfoList mbss;
 extern GameInfoBlock gGameInfoBlock;
-extern ScanBlock data_0216fce0;
+extern WMBssDesc data_0216fce0;
 extern Unk0216fc1c data_0216fd30[1];
 
-u32 MBi_CheckMBParent(ScanBlock *scanBlock);
-u32 MB_RecvGameInfoBeacon(EntryCallbackFunc callback, u32 b, ScanBlock *scanBlock);
+u32 MBi_CheckMBParent(WMBssDesc *scanBlock);
+u32 MB_RecvGameInfoBeacon(EntryCallbackFunc callback, u32 b, WMBssDesc *scanBlock);
 void MBi_SendVolatBeacon(u32 ggid, u16 tgid, u32 attr);
 void MBi_InitSendVolatBeacon(void);
 void MBi_SendFixedBeacon(u32 ggid, u16 tgid, u32 attr);
