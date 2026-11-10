@@ -43,7 +43,7 @@ void AdvanceWiFiVSCourseSelectState(void) {
 
     a = AdvanceWiFiVSCourseSelect();
     if (GetWiFiNextScene() == -1 && (a == 1 || a == 2)) {
-        if (func_02122ae4() != 0) {
+        if (IsWiFiConnectionLost() != 0) {
             RequestWiFiState(7);
             return;
         }
@@ -57,7 +57,7 @@ void AdvanceWiFiVSCourseSelectState(void) {
         }
         func_02029758();
         SetWiFiNextScene(2);
-        func_02122728();
+        PackWiFiSessionIndicesWrapper();
     }
 }
 

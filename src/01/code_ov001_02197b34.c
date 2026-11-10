@@ -147,8 +147,8 @@ void InitTimeAttackTopMenu(void *a, void *b, s32 c) {
     }
     LocateAndQueueTimeAttackTopMenu();
     for (i = 0; i < 3; i++) {
-        func_02124a98(data_ov001_021a6a10[i], 1, gTimeAttackTopMenu->mTimeAttackTopMenuSNcer,
-                      gTimeAttackTopMenu->mTimeAttackTopMenuSBncl);
+        SetCellOamModeXlu(data_ov001_021a6a10[i], 1, gTimeAttackTopMenu->mTimeAttackTopMenuSNcer,
+                          gTimeAttackTopMenu->mTimeAttackTopMenuSBncl);
     }
     ResetOamLists(gTimeAttackTopMenu->mUnk_2c, (void *) gTimeAttackTopMenu->mUnk_30);
     InitLayoutTable(gTimeAttackTopMenu->mHeap, gTimeAttackTopMenu->mTimeAttackTopMenuSBncl, NULL,

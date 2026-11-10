@@ -15,7 +15,7 @@
 
 #pragma opt_arithtransformation off
 
-void func_02122728(void) {
+void PackWiFiSessionIndicesWrapper(void) {
     PackWiFiSessionIndices();
 }
 
@@ -58,7 +58,7 @@ BOOL UpdateWiFiSessionStepTimeout(u32 limit) {
             if (step == 9 || step == 10) {
                 return TRUE;
             }
-            gWiFiSession->mUnk_19ad = 1;
+            gWiFiSession->mConnectionLost = 1;
             func_ov000_021a2ccc();
             func_ov000_0219bbfc();
             gWiFiSession->mStep = 11;

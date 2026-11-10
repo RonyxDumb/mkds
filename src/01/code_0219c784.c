@@ -55,8 +55,8 @@ void InitSelectBattleStage(void *c, s32 d, void *e, void *f) {
     LocateAndQueueSelectBattleStage();
     CopyAndQueueSelectBattleStageNscrRect();
     for (i = 0; i < 6; i++) {
-        func_02124a98(gSelectBattleStageSTableIndices[i][0], 1, gSelectBattleStage->mSelectBattleStageSNcer,
-                      gSelectBattleStage->mSelectBattleStageBncls[1]);
+        SetCellOamModeXlu(gSelectBattleStageSTableIndices[i][0], 1, gSelectBattleStage->mSelectBattleStageSNcer,
+                          gSelectBattleStage->mSelectBattleStageBncls[1]);
     }
     gSelectBattleStage->mUnk_1078 = e;
     gSelectBattleStage->mUnk_107c = f;
@@ -88,9 +88,9 @@ void InitSelectBattleStage(void *c, s32 d, void *e, void *f) {
                                    0xa8, 13, b[i], gSelectBattleStage->mSelectBattleStageMNcer,
                                    gSelectBattleStage->mSelectBattleStageBncls[0],
                                    gSelectBattleStage->mSelectBattleStageTables[0], rem);
-            func_0212426c(0, a[i], gSelectBattleStage->mSelectBattleStageBnlls[0], p,
-                          gSelectBattleStage->mSelectBattleStageBncls[0],
-                          gSelectBattleStage->mSelectBattleStageTables[0]);
+            PrintLabelLayoutTextNoFixedAdvance(0, a[i], gSelectBattleStage->mSelectBattleStageBnlls[0], p,
+                                               gSelectBattleStage->mSelectBattleStageBncls[0],
+                                               gSelectBattleStage->mSelectBattleStageTables[0]);
         }
         if (d == 1) {
             gSelectBattleStage->mSelectBattleStageTables[0][5].mVisible = 0;

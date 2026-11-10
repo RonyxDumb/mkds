@@ -245,16 +245,16 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
                 sParts->mCellTable[data_usa_02153554[i].mUnk_04].mUseMatrix;
             sParts->mCellTable[data_usa_02153554[i].mUnk_00].mUseMatrix =
                 sParts->mCellTable[data_usa_02153554[i].mUnk_02].mUseMatrix;
-            sParts->mCellTable[data_usa_02153554[i].mUnk_04].mUnk_34 = 0;
-            sParts->mCellTable[data_usa_02153554[i].mUnk_02].mUnk_34 =
-                sParts->mCellTable[data_usa_02153554[i].mUnk_04].mUnk_34;
-            sParts->mCellTable[data_usa_02153554[i].mUnk_00].mUnk_34 =
-                sParts->mCellTable[data_usa_02153554[i].mUnk_02].mUnk_34;
+            sParts->mCellTable[data_usa_02153554[i].mUnk_04].mDoubleAffine = 0;
+            sParts->mCellTable[data_usa_02153554[i].mUnk_02].mDoubleAffine =
+                sParts->mCellTable[data_usa_02153554[i].mUnk_04].mDoubleAffine;
+            sParts->mCellTable[data_usa_02153554[i].mUnk_00].mDoubleAffine =
+                sParts->mCellTable[data_usa_02153554[i].mUnk_02].mDoubleAffine;
         }
         sParts->mCellTable[25].mUseMatrix = 1;
         sParts->mCellTable[24].mUseMatrix = sParts->mCellTable[25].mUseMatrix;
-        sParts->mCellTable[25].mUnk_34 = 0;
-        sParts->mCellTable[24].mUnk_34 = sParts->mCellTable[25].mUnk_34;
+        sParts->mCellTable[25].mDoubleAffine = 0;
+        sParts->mCellTable[24].mDoubleAffine = sParts->mCellTable[25].mDoubleAffine;
     } else if (GetRaceSetupCopy()->mMode == 2) {
         InitSelectRaceRuleWait(gSelectCharacter->mHeap, gSelectCharacter->mUnk_058);
         SlideInSelectRaceRuleWait();
@@ -306,8 +306,9 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
         sParts = &gSelectCharacter->mUnk_01c;
         func_02025b84(0, &w);
         for (i = 0; i < gSelectCharacter->mUnk_07c; i++) {
-            func_0212481c(gSelectCharacter->mUnk_090[i].mCharacterIndex, w.mCells, w.mChars, w.mPalette, w.mCellLayout,
-                          1, data_usa_02153554[i].mUnk_02, sParts->mCells, sParts->mCellLayout);
+            QueueCellCharsAndCopyPalettes(gSelectCharacter->mUnk_090[i].mCharacterIndex, w.mCells, w.mChars, w.mPalette,
+                                          w.mCellLayout, 1, data_usa_02153554[i].mUnk_02, sParts->mCells,
+                                          sParts->mCellLayout);
         }
     }
     if (gBootInfo->mUnk_00 != 2) {
@@ -682,7 +683,8 @@ int AdvanceSelectCharacter(void) {
                         gSelectCharacter->mMainOam, selectCharacter->mUnk_000.mCellTable);
     }
     if (gBootInfo->mUnk_00 != 2) {
-        func_02124bf0(sParts->mCellLayout, sParts->mCells, NULL, gSelectCharacter->mUnk_058, sParts->mCellTable);
+        DrawLayoutTableKeepMatrixCount(sParts->mCellLayout, sParts->mCells, NULL, gSelectCharacter->mUnk_058,
+                                       sParts->mCellTable);
         IncrementOamMatrixCount(gSelectCharacter->mUnk_058);
     } else if (GetRaceSetupCopy()->mMode == 2) {
         AdvanceSelectRaceRuleWait();

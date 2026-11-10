@@ -234,7 +234,7 @@ typedef struct WiFiSession {
     // change.
     /* 19ab */ u8 mReceivedMask;
     /* 19ac */ u8 mCallsSincePick;
-    /* 19ad */ u8 mUnk_19ad;
+    /* 19ad */ u8 mConnectionLost;
     /* 19ae */ u8 mUnk_19ae[2];
     /* 19b0 */ DWCAccUserData mUserData;
     // 0x3c saved buddy entries (12 bytes each), loaded from the save at login and written back; their GP status is

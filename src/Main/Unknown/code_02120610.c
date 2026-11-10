@@ -46,7 +46,7 @@ BOOL IsWiFiSessionStep7Reached(void) {
     s32 step = session->mStep;
 
     if (step < 7) {
-        if (session->mUnk_19ad != 1 || step != 0xc) {
+        if (session->mConnectionLost != 1 || step != 0xc) {
             result = FALSE;
         }
     }
@@ -59,7 +59,7 @@ BOOL IsWiFiSessionStep10Reached(void) {
     s32 step = session->mStep;
 
     if (step < 10) {
-        if (session->mUnk_19ad != 1 || step != 0xc) {
+        if (session->mConnectionLost != 1 || step != 0xc) {
             result = FALSE;
         }
     }
@@ -77,7 +77,7 @@ s32 GetWiFiSessionContinueResult(void) {
         }
         return 2;
     }
-    if (gWiFiSession->mUnk_19ad == 1) {
+    if (gWiFiSession->mConnectionLost == 1) {
         if (step == 0xc) {
             return 2;
         }
@@ -294,7 +294,7 @@ BOOL AreAllStepMessagesReceived(void) {
         }
     }
     if (checkedCount == 0) {
-        gWiFiSession->mUnk_19ad = 1;
+        gWiFiSession->mConnectionLost = 1;
         func_ov000_021a2ccc();
         func_ov000_0219bbfc();
         gWiFiSession->mStep = 0xb;
@@ -332,7 +332,7 @@ void EndWiFiSessionOnPicksMismatch(u32 index) {
     if (differs == 0) {
         return;
     }
-    gWiFiSession->mUnk_19ad = 1;
+    gWiFiSession->mConnectionLost = 1;
     func_ov000_021a2ccc();
     func_ov000_0219bbfc();
     gWiFiSession->mStep = 0xb;

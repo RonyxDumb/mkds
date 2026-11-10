@@ -6,9 +6,8 @@
 
 void InitLayoutTable(void *heap, Unk0201ea30 *cellLayout, Unk0201ea30 *labelLayout, LayoutTableEntry **tableOut);
 u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout, Unk0201ea30 *labelLayout,
-                    RaceHudOamBuffer *oamList,
-                    LayoutTableEntry *entry, s32 incrementFlag);
+                    RaceHudOamBuffer *oamList, LayoutTableEntry *entry, s32 incrementFlag);
 void DrawLayoutTable(Unk0201ea30 *cellLayout, Unk02021dc8 *cells, Unk0201ea30 *labelLayout, void *oamList,
                      LayoutTableEntry *table);
-void func_02124bf0(Unk0201ea30 *cellLayout, Unk02021dc8 *cells, Unk0201ea30 *labelLayout, void *oamList,
-                  LayoutTableEntry *table);
+void DrawLayoutTableKeepMatrixCount(Unk0201ea30 *cellLayout, Unk02021dc8 *cells, Unk0201ea30 *labelLayout,
+                                    void *oamList, LayoutTableEntry *table);

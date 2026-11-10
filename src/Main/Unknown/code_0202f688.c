@@ -248,14 +248,16 @@ void func_0202fd2c(void) {
                 gMultiSelectMemberGroup->mUnk_58[i].mUnk_00 = func_0204ff14(i, &entry);
                 if (gMultiSelectMemberGroup->mUnk_58[i].mUnk_00 != 0) {
                     entry.mUnk_14 = 0;
-                    func_0212426c(1, gMemberRowCellIndices[i].mLabelIndex, cellFileSet->mLabelLayout, &entry,
-                                  cellFileSet->mCellLayout, cellFileSet->mCellTable);
+                    PrintLabelLayoutTextNoFixedAdvance(1, gMemberRowCellIndices[i].mLabelIndex,
+                                                       cellFileSet->mLabelLayout, &entry, cellFileSet->mCellLayout,
+                                                       cellFileSet->mCellTable);
                     gMultiSelectMemberGroup->mUnk_58[i].mUnk_08 = func_0204fe1c(i);
                     gMultiSelectMemberGroup->mUnk_58[i].mUnk_04 = func_0204fe90(i);
                 } else {
-                    func_0212426c(1, gMemberRowCellIndices[i].mLabelIndex, cellFileSet->mLabelLayout,
-                                  GetBmgEntry(gMultiSelectMemberGroup->mBannerMessages, 8), cellFileSet->mCellLayout,
-                                  cellFileSet->mCellTable);
+                    PrintLabelLayoutTextNoFixedAdvance(1, gMemberRowCellIndices[i].mLabelIndex,
+                                                       cellFileSet->mLabelLayout,
+                                                       GetBmgEntry(gMultiSelectMemberGroup->mBannerMessages, 8),
+                                                       cellFileSet->mCellLayout, cellFileSet->mCellTable);
                     gMultiSelectMemberGroup->mUnk_58[i].mUnk_08 = 0;
                     gMultiSelectMemberGroup->mUnk_58[i].mUnk_04 = 0;
                 }
@@ -326,8 +328,8 @@ void InitMultiSelectMemberGroup(void *parentHeap, void *scene, void *oamList) {
         } else {
             text = GetBmgEntry(gMultiSelectMemberGroup->mBannerMessages, gMemberGroupLabelMessageRows[i].mMessageIndex);
         }
-        func_0212426c(1, gMemberGroupLabelMessageRows[i].mLabelIndex, cellFileSet->mLabelLayout, text,
-                      cellFileSet->mCellLayout, cellFileSet->mCellTable);
+        PrintLabelLayoutTextNoFixedAdvance(1, gMemberGroupLabelMessageRows[i].mLabelIndex, cellFileSet->mLabelLayout,
+                                           text, cellFileSet->mCellLayout, cellFileSet->mCellTable);
     }
     RefreshMultiSelectMemberGroup(1);
     SetSelectReturnSoundId(0xf);

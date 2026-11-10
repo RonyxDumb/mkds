@@ -197,9 +197,10 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
             do {
                 mainObjSizeLeft -=
                     func_02025a00(0, gSelectGame->mHeap, selectGame->mCellFileSets, canvasRow, mainObjSizeLeft);
-                func_0212426c(0, printRow->mLabelIndex, selectGame->mCellFileSets[0].mLabelLayout,
-                              GetBmgEntry(gSelectGame->mMenuMessages, printRow->mMessageIndex),
-                              selectGame->mCellFileSets[0].mCellLayout, selectGame->mCellFileSets[0].mCellTable);
+                PrintLabelLayoutTextNoFixedAdvance(0, printRow->mLabelIndex, selectGame->mCellFileSets[0].mLabelLayout,
+                                                   GetBmgEntry(gSelectGame->mMenuMessages, printRow->mMessageIndex),
+                                                   selectGame->mCellFileSets[0].mCellLayout,
+                                                   selectGame->mCellFileSets[0].mCellTable);
                 canvasRow++;
                 printRow++;
                 i++;

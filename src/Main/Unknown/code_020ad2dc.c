@@ -164,21 +164,23 @@ void CreateTitleScene(void) {
     InitDisplayFromSettings(displaySettings);
     InitLayoutTable(TitleGetCurrentHeap(), gTitleScene->mTitleSBncl, gTitleScene->mTitleSBnll,
                     &gTitleScene->mTitleTable);
-    func_02124a98(0, 1, gTitleScene->mTitleSNceNcer, gTitleScene->mTitleSBncl);
-    func_02124a98(1, 1, gTitleScene->mTitleSNceNcer, gTitleScene->mTitleSBncl);
-    func_02124a98(2, 1, gTitleScene->mTitleSNceNcer, gTitleScene->mTitleSBncl);
-    func_02124a98(3, 1, gTitleScene->mTitleSNceNcer, gTitleScene->mTitleSBncl);
-    func_02124a98(4, 1, gTitleScene->mTitleSNceNcer, gTitleScene->mTitleSBncl);
+    SetCellOamModeXlu(0, 1, gTitleScene->mTitleSNceNcer, gTitleScene->mTitleSBncl);
+    SetCellOamModeXlu(1, 1, gTitleScene->mTitleSNceNcer, gTitleScene->mTitleSBncl);
+    SetCellOamModeXlu(2, 1, gTitleScene->mTitleSNceNcer, gTitleScene->mTitleSBncl);
+    SetCellOamModeXlu(3, 1, gTitleScene->mTitleSNceNcer, gTitleScene->mTitleSBncl);
+    SetCellOamModeXlu(4, 1, gTitleScene->mTitleSNceNcer, gTitleScene->mTitleSBncl);
     objSizeLeft = GX_GetSizeOfSubOBJ();
     objSizeLeft -=
         InitLabelCanvas(TitleGetCurrentHeap(), 0, gTitleScene->mTitleSBnll, 0x55, 0xd, 0xd, gTitleScene->mTitleSNceNcer,
                         gTitleScene->mTitleSBncl, gTitleScene->mTitleTable, objSizeLeft);
     InitLabelCanvas(TitleGetCurrentHeap(), 1, gTitleScene->mTitleSBnll, 0x55, 0xd, 0xe, gTitleScene->mTitleSNceNcer,
                     gTitleScene->mTitleSBncl, gTitleScene->mTitleTable, objSizeLeft);
-    func_0212426c(1, 0, gTitleScene->mTitleSBnll, GetBmgEntry(FindSceneFileWrapper(gTitleBmgName), 1),
-                  gTitleScene->mTitleSBncl, gTitleScene->mTitleTable);
-    func_0212426c(1, 1, gTitleScene->mTitleSBnll, GetBmgEntry(FindSceneFileWrapper(gTitleBmgName2), 0),
-                  gTitleScene->mTitleSBncl, gTitleScene->mTitleTable);
+    PrintLabelLayoutTextNoFixedAdvance(1, 0, gTitleScene->mTitleSBnll,
+                                       GetBmgEntry(FindSceneFileWrapper(gTitleBmgName), 1), gTitleScene->mTitleSBncl,
+                                       gTitleScene->mTitleTable);
+    PrintLabelLayoutTextNoFixedAdvance(1, 1, gTitleScene->mTitleSBnll,
+                                       GetBmgEntry(FindSceneFileWrapper(gTitleBmgName2), 0), gTitleScene->mTitleSBncl,
+                                       gTitleScene->mTitleTable);
     GX_BeginLoadBGExtPltt();
     GX_LoadBGExtPltt(gTitleScene->mTitleTrueMBOrMBNclr->mData, 0x4000, gTitleScene->mTitleTrueMBOrMBNclr->mDataSize);
     GX_LoadBGExtPltt(gTitleScene->mTitleTrueMBOrMBNclr->mData, 0x6000, gTitleScene->mTitleTrueMBOrMBNclr->mDataSize);

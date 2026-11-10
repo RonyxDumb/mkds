@@ -119,10 +119,10 @@ void func_ov001_021a1cb0(void) {
     gSelectEngine->mSelectEngineMTable[data_ov001_021a6f28[gSelectEngine->mIndex]].mVisible = 1;
     for (i = 0; i < 4; i++) {
         gSelectEngine->mSelectEngineAOrBSTable[data_ov001_021a6fa0[i][0]].mVisible = 1;
-        func_02124a98(data_ov001_021a6fa0[i][0], 1, gSelectEngine->mSelectEngineSNcer,
-                      gSelectEngine->mSelectEngineAOrBSBncl);
+        SetCellOamModeXlu(data_ov001_021a6fa0[i][0], 1, gSelectEngine->mSelectEngineSNcer,
+                          gSelectEngine->mSelectEngineAOrBSBncl);
     }
-    func_02124a98(2, 1, gSelectEngine->mSelectEngineMNcer, gSelectEngine->mSelectEngineMBncl);
+    SetCellOamModeXlu(2, 1, gSelectEngine->mSelectEngineMNcer, gSelectEngine->mSelectEngineMBncl);
 }
 
 void func_ov001_021a1c34(void) {

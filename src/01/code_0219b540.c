@@ -209,8 +209,9 @@ void RefreshSelectGhostForIndex(void) {
 
     q = p->mSelectGhostSBncl;
     n = q->mUnk_06;
-    func_0212426c(1, gSelectGhostSBnllIndices[4], gSelectGhost->mSelectGhostSBnll,
-                  GetBmgEntry(p->mMenuMessages, gSelectGhostMenuMessageIndices[p->mIndex]), q, p->mSelectGhostSTable);
+    PrintLabelLayoutTextNoFixedAdvance(1, gSelectGhostSBnllIndices[4], gSelectGhost->mSelectGhostSBnll,
+                                       GetBmgEntry(p->mMenuMessages, gSelectGhostMenuMessageIndices[p->mIndex]), q,
+                                       p->mSelectGhostSTable);
     if (gSelectGhost->mIndex == 0) {
         gSelectGhost->mSelectGhostSTable[gSelectGhostSTableIndices[2]].mVisible = 0;
         gSelectGhost->mSelectGhostSTable[gSelectGhostSTableIndices[3]].mVisible = 0;
@@ -245,11 +246,11 @@ void RefreshSelectGhostForIndex(void) {
     QueueKartIcon(k, gSelectGhost->mSelectGhostSONcer, gSelectGhost->mSelectGhostSBncl, b, 9, 1);
     GetGhostRecordSetTime(data_ov001_021a6b78[gSelectGhost->mIndex], buf14);
     FormatTimeFullWidth(buf14, buf18);
-    func_02124224(1, y, gSelectGhost->mSelectGhostSBnll, buf18, gSelectGhost->mSelectGhostSBncl,
-                  gSelectGhost->mSelectGhostSTable, 9);
+    PrintLabelLayoutTextFixedDigits(1, y, gSelectGhost->mSelectGhostSBnll, buf18, gSelectGhost->mSelectGhostSBncl,
+                                    gSelectGhost->mSelectGhostSTable, 9);
     GetGhostRecordSetName(data_ov001_021a6b78[gSelectGhost->mIndex], buf18);
-    func_0212426c(1, x, gSelectGhost->mSelectGhostSBnll, buf18, gSelectGhost->mSelectGhostSBncl,
-                  gSelectGhost->mSelectGhostSTable);
+    PrintLabelLayoutTextNoFixedAdvance(1, x, gSelectGhost->mSelectGhostSBnll, buf18, gSelectGhost->mSelectGhostSBncl,
+                                       gSelectGhost->mSelectGhostSTable);
 }
 
 void func_ov001_0219c058(void) {
@@ -311,18 +312,20 @@ void func_ov001_0219be5c(void) {
     QueueCupMark(data_ov001_021a6ba4[GetCupIndex()], gSelectGhost->mSelectCupCourseMNcer,
                  gSelectGhost->mSelectCupCourseTaMBncl, 5,
                  GetCellPaletteIndex(5, gSelectGhost->mSelectCupCourseMNcer, gSelectGhost->mSelectCupCourseTaMBncl), 0);
-    func_0212426c(0, 2, gSelectGhost->mSelectCupCourseTaMBnll, GetBmgEntry(gSelectGhost->mCommonMessages, 0x73),
-                  gSelectGhost->mSelectCupCourseTaMBncl, gSelectGhost->mSelectCupCourseTaMTable);
-    func_0212426c(0, 4, gSelectGhost->mSelectCupCourseTaMBnll, GetBmgEntry(gSelectGhost->mCommonMessages, 0x74),
-                  gSelectGhost->mSelectCupCourseTaMBncl, gSelectGhost->mSelectCupCourseTaMTable);
-    func_02124140(0, 0, gSelectGhost->mSelectCupCourseTaMBnll, gSelectGhost->mSelectCupCourseTaMTable,
-                  gSelectGhost->mSelectCupCourseTaMBncl);
-    func_02124140(1, 0, gSelectGhost->mSelectCupCourseTaMBnll, gSelectGhost->mSelectCupCourseTaMTable,
-                  gSelectGhost->mSelectCupCourseTaMBncl);
-    func_02124140(2, 0, gSelectGhost->mSelectCupCourseTaMBnll, gSelectGhost->mSelectCupCourseTaMTable,
-                  gSelectGhost->mSelectCupCourseTaMBncl);
-    func_02124140(4, 0, gSelectGhost->mSelectCupCourseTaMBnll, gSelectGhost->mSelectCupCourseTaMTable,
-                  gSelectGhost->mSelectCupCourseTaMBncl);
+    PrintLabelLayoutTextNoFixedAdvance(0, 2, gSelectGhost->mSelectCupCourseTaMBnll,
+                                       GetBmgEntry(gSelectGhost->mCommonMessages, 0x73),
+                                       gSelectGhost->mSelectCupCourseTaMBncl, gSelectGhost->mSelectCupCourseTaMTable);
+    PrintLabelLayoutTextNoFixedAdvance(0, 4, gSelectGhost->mSelectCupCourseTaMBnll,
+                                       GetBmgEntry(gSelectGhost->mCommonMessages, 0x74),
+                                       gSelectGhost->mSelectCupCourseTaMBncl, gSelectGhost->mSelectCupCourseTaMTable);
+    SetLabelOamModeXlu(0, 0, gSelectGhost->mSelectCupCourseTaMBnll, gSelectGhost->mSelectCupCourseTaMTable,
+                       gSelectGhost->mSelectCupCourseTaMBncl);
+    SetLabelOamModeXlu(1, 0, gSelectGhost->mSelectCupCourseTaMBnll, gSelectGhost->mSelectCupCourseTaMTable,
+                       gSelectGhost->mSelectCupCourseTaMBncl);
+    SetLabelOamModeXlu(2, 0, gSelectGhost->mSelectCupCourseTaMBnll, gSelectGhost->mSelectCupCourseTaMTable,
+                       gSelectGhost->mSelectCupCourseTaMBncl);
+    SetLabelOamModeXlu(4, 0, gSelectGhost->mSelectCupCourseTaMBnll, gSelectGhost->mSelectCupCourseTaMTable,
+                       gSelectGhost->mSelectCupCourseTaMBncl);
 }
 
 void InitSelectGhost(void *a, u32 b, u32 c) {
@@ -377,17 +380,18 @@ void InitSelectGhost(void *a, u32 b, u32 c) {
     InitLabelCanvas(gSelectGhost->mHeap, 5, gSelectGhost->mSelectGhostSBnll, 0x32, 0xd, 0xb,
                     gSelectGhost->mSelectGhostSONcer, gSelectGhost->mSelectGhostSBncl, gSelectGhost->mSelectGhostSTable,
                     rem);
-    func_0212426c(1, gSelectGhostSBnllIndices[0], gSelectGhost->mSelectGhostSBnll,
-                  GetBmgEntry(gSelectGhost->mMenuMessages, 8), gSelectGhost->mSelectGhostSBncl,
-                  gSelectGhost->mSelectGhostSTable);
-    func_0212426c(1, gSelectGhostSBnllIndices[3], gSelectGhost->mSelectGhostSBnll,
-                  GetBmgEntry(gSelectGhost->mMenuMessages, 9), gSelectGhost->mSelectGhostSBncl,
-                  gSelectGhost->mSelectGhostSTable);
-    func_0212426c(1, gSelectGhostSBnllIndices[4], gSelectGhost->mSelectGhostSBnll,
-                  GetBmgEntry(gSelectGhost->mMenuMessages, gSelectGhostMenuMessageIndices[0]),
-                  gSelectGhost->mSelectGhostSBncl, gSelectGhost->mSelectGhostSTable);
-    func_0212426c(1, 5, gSelectGhost->mSelectGhostSBnll, GetBmgEntry(gSelectGhost->mCommonMessages, 4),
-                  gSelectGhost->mSelectGhostSBncl, gSelectGhost->mSelectGhostSTable);
+    PrintLabelLayoutTextNoFixedAdvance(1, gSelectGhostSBnllIndices[0], gSelectGhost->mSelectGhostSBnll,
+                                       GetBmgEntry(gSelectGhost->mMenuMessages, 8), gSelectGhost->mSelectGhostSBncl,
+                                       gSelectGhost->mSelectGhostSTable);
+    PrintLabelLayoutTextNoFixedAdvance(1, gSelectGhostSBnllIndices[3], gSelectGhost->mSelectGhostSBnll,
+                                       GetBmgEntry(gSelectGhost->mMenuMessages, 9), gSelectGhost->mSelectGhostSBncl,
+                                       gSelectGhost->mSelectGhostSTable);
+    PrintLabelLayoutTextNoFixedAdvance(1, gSelectGhostSBnllIndices[4], gSelectGhost->mSelectGhostSBnll,
+                                       GetBmgEntry(gSelectGhost->mMenuMessages, gSelectGhostMenuMessageIndices[0]),
+                                       gSelectGhost->mSelectGhostSBncl, gSelectGhost->mSelectGhostSTable);
+    PrintLabelLayoutTextNoFixedAdvance(1, 5, gSelectGhost->mSelectGhostSBnll,
+                                       GetBmgEntry(gSelectGhost->mCommonMessages, 4), gSelectGhost->mSelectGhostSBncl,
+                                       gSelectGhost->mSelectGhostSTable);
     CreateSelectCupNameM(gSelectGhost->mHeap);
     CreateCommonCupMark(gSelectGhost->mHeap);
     InitPaletteBlend(gSelectGhost->mHeap, gSelectGhost->mSelectGhostSONclr, 4);

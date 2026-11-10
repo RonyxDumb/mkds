@@ -121,9 +121,9 @@ void func_ov001_0219f4f8(void) {
             if (r <= 4) {
                 gMissionRunLVsel->mMissionRunLVselS7Or6Table[data_ov001_021a6ce0[i][7]].mVisible = 1;
                 gMissionRunLVsel->mMissionRunLVselS7Or6Table[cnt + data_ov001_021a6c60[i]].mVisible = 1;
-                func_0212426c(1, data_ov001_021a6c60[i], gMissionRunLVsel->mMissionRunLVselS7Or6Bnll,
-                              data_ov001_021a90e8[r], gMissionRunLVsel->mMissionRunLVselS7Or6Bncl,
-                              gMissionRunLVsel->mMissionRunLVselS7Or6Table);
+                PrintLabelLayoutTextNoFixedAdvance(
+                    1, data_ov001_021a6c60[i], gMissionRunLVsel->mMissionRunLVselS7Or6Bnll, data_ov001_021a90e8[r],
+                    gMissionRunLVsel->mMissionRunLVselS7Or6Bncl, gMissionRunLVsel->mMissionRunLVselS7Or6Table);
             } else if (r <= 7) {
                 gMissionRunLVsel->mMissionRunLVselS7Or6Table[data_ov001_021a6ce0[i][r + 3]].mVisible = 1;
             }
@@ -132,8 +132,8 @@ void func_ov001_0219f4f8(void) {
             gMissionRunLVsel->mMissionRunLVselS7Or6Table[data_ov001_021a6ce0[i][4]].mVisible = 1;
             gMissionRunLVsel->mMissionRunLVselS7Or6Table[data_ov001_021a6ce0[i][6]].mVisible = 1;
         }
-        func_02124a98(data_ov001_021a6ce0[i][0], 1, gMissionRunLVsel->mMissionRunLVselSNcer,
-                      gMissionRunLVsel->mMissionRunLVselS7Or6Bncl);
+        SetCellOamModeXlu(data_ov001_021a6ce0[i][0], 1, gMissionRunLVsel->mMissionRunLVselSNcer,
+                          gMissionRunLVsel->mMissionRunLVselS7Or6Bncl);
     }
 }
 

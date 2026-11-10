@@ -78,13 +78,14 @@ void func_02035c50(s32 a, s32 b, s32 listIndex, s32 d) {
     subCellFileSet = &data_02174e68->mCellFileSets[1];
     if (a == 1) {
         listIndex += GetCourseGhostCount();
-        func_0212426c(1, b, subCellFileSet->mLabelLayout,
-                      GetBmgEntry(data_02174e68->mGhostMessages, func_02025d74(GetListedGhostCourseId(listIndex))),
-                      subCellFileSet->mCellLayout, subCellFileSet->mCellTable);
+        PrintLabelLayoutTextNoFixedAdvance(
+            1, b, subCellFileSet->mLabelLayout,
+            GetBmgEntry(data_02174e68->mGhostMessages, func_02025d74(GetListedGhostCourseId(listIndex))),
+            subCellFileSet->mCellLayout, subCellFileSet->mCellTable);
         GetListedGhostTime(listIndex, &time);
         WriteMinuteSecondMillisecondText(timeText, time.mMinute, time.mSecond, time.mMillisecond);
-        func_02124224(1, b + 7, subCellFileSet->mLabelLayout, timeText, subCellFileSet->mCellLayout,
-                      subCellFileSet->mCellTable, 7);
+        PrintLabelLayoutTextFixedDigits(1, b + 7, subCellFileSet->mLabelLayout, timeText, subCellFileSet->mCellLayout,
+                                        subCellFileSet->mCellTable, 7);
     } else if (a == 0) {
         for (i = 0; i < 7; i++) {
             e = i + 7;
@@ -244,7 +245,7 @@ void func_020357dc(void *parentHeap, void *b, void *c) {
         } while (j < cellFileSet->mLabelLayout->mUnk_06);
     }
     for (i = 0; i < 8; i++) {
-        func_021249a8(i, 3, cellFileSet->mCells, cellFileSet->mCellLayout);
+        SetCellPriority(i, 3, cellFileSet->mCells, cellFileSet->mCellLayout);
     }
     for (j = 0, row = data_02164470[0]; j < 7; j++) {
         cellIndex = row[3];

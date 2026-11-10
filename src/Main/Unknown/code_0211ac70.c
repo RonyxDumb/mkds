@@ -133,15 +133,17 @@ void SetAndPrintSelectRaceRuleWinCount(s16 count) {
     gSelectRaceRule->mWinCount = count;
     FormatFullWidthNumber(gSelectRaceRule->mWinCount, text);
     if (data_021759d0->mConnectionKind != 2) {
-        func_0212426c(
+        PrintLabelLayoutTextNoFixedAdvance(
             1, 9, gSelectRaceRule->mBnll,
             GetBmgEntry(gSelectRaceRule->mRuleMessages, gSelectRaceRuleValueMessageIndices[3][SELECT_RACE_RULE_WIN]),
             gSelectRaceRule->mBncl, gSelectRaceRule->mTable);
-        func_02124248(1, 8, gSelectRaceRule->mBnll, text, gSelectRaceRule->mBncl, gSelectRaceRule->mTable, 0xb);
+        PrintLabelLayoutTextFixedAdvance(1, 8, gSelectRaceRule->mBnll, text, gSelectRaceRule->mBncl,
+                                         gSelectRaceRule->mTable, 0xb);
     } else {
         FormatFullWidthNumber(gSelectRaceRule->mWinCount, numberText);
         FormatMessageWithText(numberText, GetBmgEntry(gSelectRaceRule->mRuleMessages, 0x16), text, 0x80);
-        func_0212426c(1, 0xa, gSelectRaceRule->mBnll, text, gSelectRaceRule->mBncl, gSelectRaceRule->mTable);
+        PrintLabelLayoutTextNoFixedAdvance(1, 0xa, gSelectRaceRule->mBnll, text, gSelectRaceRule->mBncl,
+                                           gSelectRaceRule->mTable);
     }
 }
 
@@ -159,15 +161,17 @@ void SetAndPrintSelectRaceRuleRaceCount(s16 count) {
     gSelectRaceRule->mRaceCount = count;
     FormatFullWidthNumber(gSelectRaceRule->mRaceCount, text);
     if (data_021759d0->mConnectionKind != 2) {
-        func_0212426c(
+        PrintLabelLayoutTextNoFixedAdvance(
             1, 9, gSelectRaceRule->mBnll,
             GetBmgEntry(gSelectRaceRule->mRuleMessages, gSelectRaceRuleValueMessageIndices[3][SELECT_RACE_RULE_RACE]),
             gSelectRaceRule->mBncl, gSelectRaceRule->mTable);
-        func_02124248(1, 8, gSelectRaceRule->mBnll, text, gSelectRaceRule->mBncl, gSelectRaceRule->mTable, 0xb);
+        PrintLabelLayoutTextFixedAdvance(1, 8, gSelectRaceRule->mBnll, text, gSelectRaceRule->mBncl,
+                                         gSelectRaceRule->mTable, 0xb);
     } else {
         FormatFullWidthNumber(gSelectRaceRule->mRaceCount, numberText);
         FormatMessageWithText(numberText, GetBmgEntry(gSelectRaceRule->mRuleMessages, 0x17), text, 0x80);
-        func_0212426c(1, 0xa, gSelectRaceRule->mBnll, text, gSelectRaceRule->mBncl, gSelectRaceRule->mTable);
+        PrintLabelLayoutTextNoFixedAdvance(1, 0xa, gSelectRaceRule->mBnll, text, gSelectRaceRule->mBncl,
+                                           gSelectRaceRule->mTable);
     }
 }
 
@@ -213,10 +217,11 @@ void AdvanceSelectRaceRuleValueObjects(void) {
                 break;
             case SELECT_RACE_RULE_FREE:
                 gSelectRaceRule->mTable[cellEntryCount + 10].mVisible = 1;
-                func_0212426c(1, 0xa, gSelectRaceRule->mBnll,
-                              GetBmgEntry(gSelectRaceRule->mRuleMessages,
-                                          gSelectRaceRuleValueMessageIndices[3][SELECT_RACE_RULE_FREE]),
-                              gSelectRaceRule->mBncl, gSelectRaceRule->mTable);
+                PrintLabelLayoutTextNoFixedAdvance(
+                    1, 0xa, gSelectRaceRule->mBnll,
+                    GetBmgEntry(gSelectRaceRule->mRuleMessages,
+                                gSelectRaceRuleValueMessageIndices[3][SELECT_RACE_RULE_FREE]),
+                    gSelectRaceRule->mBncl, gSelectRaceRule->mTable);
                 break;
         }
         switch (gSelectRaceRule->mRowValues[4]) {
@@ -677,11 +682,12 @@ void MoveSelectRaceRuleValueNext(s32 playSound) {
     }
     selectRaceRule = gSelectRaceRule;
     if (selectRaceRule->mRow != 3) {
-        func_0212426c(1, data_0215cd4e[selectRaceRule->mRow * 2], selectRaceRule->mBnll,
-                      GetBmgEntry(selectRaceRule->mRuleMessages,
-                                  gSelectRaceRuleValueMessageIndices[selectRaceRule->mRow]
-                                                                    [selectRaceRule->mRowValues[selectRaceRule->mRow]]),
-                      selectRaceRule->mBncl, selectRaceRule->mTable);
+        PrintLabelLayoutTextNoFixedAdvance(
+            1, data_0215cd4e[selectRaceRule->mRow * 2], selectRaceRule->mBnll,
+            GetBmgEntry(selectRaceRule->mRuleMessages,
+                        gSelectRaceRuleValueMessageIndices[selectRaceRule->mRow]
+                                                          [selectRaceRule->mRowValues[selectRaceRule->mRow]]),
+            selectRaceRule->mBncl, selectRaceRule->mTable);
     } else {
         switch (selectRaceRule->mRowValues[3]) {
             case SELECT_RACE_RULE_WIN:
@@ -731,11 +737,12 @@ void MoveSelectRaceRuleValuePrevious(s32 playSound) {
     }
     selectRaceRule = gSelectRaceRule;
     if (selectRaceRule->mRow != 3) {
-        func_0212426c(1, data_0215cd4e[selectRaceRule->mRow * 2], selectRaceRule->mBnll,
-                      GetBmgEntry(selectRaceRule->mRuleMessages,
-                                  gSelectRaceRuleValueMessageIndices[selectRaceRule->mRow]
-                                                                    [selectRaceRule->mRowValues[selectRaceRule->mRow]]),
-                      selectRaceRule->mBncl, selectRaceRule->mTable);
+        PrintLabelLayoutTextNoFixedAdvance(
+            1, data_0215cd4e[selectRaceRule->mRow * 2], selectRaceRule->mBnll,
+            GetBmgEntry(selectRaceRule->mRuleMessages,
+                        gSelectRaceRuleValueMessageIndices[selectRaceRule->mRow]
+                                                          [selectRaceRule->mRowValues[selectRaceRule->mRow]]),
+            selectRaceRule->mBncl, selectRaceRule->mTable);
     } else {
         switch (selectRaceRule->mRowValues[3]) {
             case SELECT_RACE_RULE_WIN:
@@ -1081,11 +1088,13 @@ void func_0211c0cc(void) {
         gSelectRaceRule->mTable[gSelectRaceRule->mBncl->mUnk_06 + 14].mVisible = 1;
         selectRaceRule = gSelectRaceRule;
         if (selectRaceRule->mRowValues[4] == 2) {
-            func_0212426c(1, 0xe, gSelectRaceRule->mBnll, GetBmgEntry(selectRaceRule->mRuleMessages, 0x15),
-                          selectRaceRule->mBncl, selectRaceRule->mTable);
+            PrintLabelLayoutTextNoFixedAdvance(1, 0xe, gSelectRaceRule->mBnll,
+                                               GetBmgEntry(selectRaceRule->mRuleMessages, 0x15), selectRaceRule->mBncl,
+                                               selectRaceRule->mTable);
         } else {
-            func_0212426c(1, 0xe, gSelectRaceRule->mBnll, GetBmgEntry(selectRaceRule->mRuleMessages, 0x14),
-                          selectRaceRule->mBncl, selectRaceRule->mTable);
+            PrintLabelLayoutTextNoFixedAdvance(1, 0xe, gSelectRaceRule->mBnll,
+                                               GetBmgEntry(selectRaceRule->mRuleMessages, 0x14), selectRaceRule->mBncl,
+                                               selectRaceRule->mTable);
         }
     }
 }
@@ -1425,15 +1434,17 @@ void InitSelectRaceRule(void *parentHeap, s32 b, void *oamList, s32 mode) {
             }
         }
         selectRaceRule = gSelectRaceRule;
-        func_0212426c(1, gSelectRaceRuleRowEntries[i].mEntryIndices[0], gSelectRaceRule->mBnll,
-                      GetBmgEntry(selectRaceRule->mRuleMessages, gSelectRaceRuleRowMessageIndices[i]),
-                      selectRaceRule->mBncl, selectRaceRule->mTable);
+        PrintLabelLayoutTextNoFixedAdvance(
+            1, gSelectRaceRuleRowEntries[i].mEntryIndices[0], gSelectRaceRule->mBnll,
+            GetBmgEntry(selectRaceRule->mRuleMessages, gSelectRaceRuleRowMessageIndices[i]), selectRaceRule->mBncl,
+            selectRaceRule->mTable);
         if (i != 3) {
             selectRaceRule = gSelectRaceRule;
-            func_0212426c(1, gSelectRaceRuleRowEntries[i].mEntryIndices[1], gSelectRaceRule->mBnll,
-                          GetBmgEntry(selectRaceRule->mRuleMessages,
-                                      gSelectRaceRuleValueMessageIndices[i][selectRaceRule->mRowValues[i]]),
-                          selectRaceRule->mBncl, selectRaceRule->mTable);
+            PrintLabelLayoutTextNoFixedAdvance(
+                1, gSelectRaceRuleRowEntries[i].mEntryIndices[1], gSelectRaceRule->mBnll,
+                GetBmgEntry(selectRaceRule->mRuleMessages,
+                            gSelectRaceRuleValueMessageIndices[i][selectRaceRule->mRowValues[i]]),
+                selectRaceRule->mBncl, selectRaceRule->mTable);
         }
     }
     if (data_021759d0->mConnectionKind != 2) {
@@ -1446,7 +1457,7 @@ void InitSelectRaceRule(void *parentHeap, s32 b, void *oamList, s32 mode) {
             InitLabelCanvas(selectRaceRule->mHeap, 0xa, selectRaceRule->mBnll, 0xc8, 0xf, cellEntryCount + 9,
                             selectRaceRule->mNcer, selectRaceRule->mBncl, selectRaceRule->mTable, remainingSubObjSize);
         selectRaceRule = gSelectRaceRule;
-        func_0212426c(
+        PrintLabelLayoutTextNoFixedAdvance(
             1, 0xa, gSelectRaceRule->mBnll,
             GetBmgEntry(selectRaceRule->mRuleMessages, gSelectRaceRuleValueMessageIndices[3][SELECT_RACE_RULE_FREE]),
             selectRaceRule->mBncl, selectRaceRule->mTable);
@@ -1456,7 +1467,7 @@ void InitSelectRaceRule(void *parentHeap, s32 b, void *oamList, s32 mode) {
             InitLabelCanvas(selectRaceRule->mHeap, 0xa, selectRaceRule->mBnll, 0xc8, 0xf, cellEntryCount + 3,
                             selectRaceRule->mNcer, selectRaceRule->mBncl, selectRaceRule->mTable, remainingSubObjSize);
         selectRaceRule = gSelectRaceRule;
-        func_0212426c(
+        PrintLabelLayoutTextNoFixedAdvance(
             1, 0xa, gSelectRaceRule->mBnll,
             GetBmgEntry(selectRaceRule->mRuleMessages, gSelectRaceRuleValueMessageIndices[3][SELECT_RACE_RULE_FREE]),
             selectRaceRule->mBncl, selectRaceRule->mTable);
@@ -1466,17 +1477,19 @@ void InitSelectRaceRule(void *parentHeap, s32 b, void *oamList, s32 mode) {
         InitLabelCanvas(selectRaceRule->mHeap, 0xc, selectRaceRule->mBnll, 0x37, 0xf, cellEntryCount + 0xb,
                         selectRaceRule->mNcer, selectRaceRule->mBncl, selectRaceRule->mTable, remainingSubObjSize);
     selectRaceRule = gSelectRaceRule;
-    func_0212426c(1, 0xc, gSelectRaceRule->mBnll,
-                  GetBmgEntry(selectRaceRule->mRuleMessages, gSelectRaceRuleValueMessageIndices[4][2]),
-                  selectRaceRule->mBncl, selectRaceRule->mTable);
+    PrintLabelLayoutTextNoFixedAdvance(
+        1, 0xc, gSelectRaceRule->mBnll,
+        GetBmgEntry(selectRaceRule->mRuleMessages, gSelectRaceRuleValueMessageIndices[4][2]), selectRaceRule->mBncl,
+        selectRaceRule->mTable);
     if (data_021759d0->mConnectionKind != 2) {
         selectRaceRule = gSelectRaceRule;
         remainingSubObjSize -=
             InitLabelCanvas(selectRaceRule->mHeap, 0xd, selectRaceRule->mBnll, 0x32, 0xd, 0x29, selectRaceRule->mNcer,
                             selectRaceRule->mBncl, selectRaceRule->mTable, remainingSubObjSize);
         selectRaceRule = gSelectRaceRule;
-        func_0212426c(1, 0xd, gSelectRaceRule->mBnll, GetBmgEntry(selectRaceRule->mCommonMessages, 4),
-                      selectRaceRule->mBncl, selectRaceRule->mTable);
+        PrintLabelLayoutTextNoFixedAdvance(1, 0xd, gSelectRaceRule->mBnll,
+                                           GetBmgEntry(selectRaceRule->mCommonMessages, 4), selectRaceRule->mBncl,
+                                           selectRaceRule->mTable);
         selectRaceRule = gSelectRaceRule;
         InitLabelCanvas(selectRaceRule->mHeap, 8, selectRaceRule->mBnll, 0x15, 0xf, 0x1f, selectRaceRule->mNcer,
                         selectRaceRule->mBncl, selectRaceRule->mTable, remainingSubObjSize);

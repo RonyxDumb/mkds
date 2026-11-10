@@ -120,9 +120,9 @@ void InitMultiSelectNS(void *parentHeap, void *scene, void *oamList) {
             InitLabelCanvas(gMultiSelectNS->mHeap, labelIndex, multiSelectNS->mBnll, labelMessageRow->mUnk_02,
                             labelMessageRow->mUnk_04, labelMessageRow->mUnk_06, multiSelectNS->mNcer,
                             multiSelectNS->mBncl, multiSelectNS->mCellTable, subObjSizeLeft);
-        func_0212426c(1, labelIndex, multiSelectNS->mBnll,
-                      GetBmgEntry(gMultiSelectNS->mBannerMessages, labelMessageRow->mUnk_08), multiSelectNS->mBncl,
-                      multiSelectNS->mCellTable);
+        PrintLabelLayoutTextNoFixedAdvance(1, labelIndex, multiSelectNS->mBnll,
+                                           GetBmgEntry(gMultiSelectNS->mBannerMessages, labelMessageRow->mUnk_08),
+                                           multiSelectNS->mBncl, multiSelectNS->mCellTable);
     }
     CallQueueAppend(0x23, 0, multiSelectNS->mNcgr->mData, multiSelectNS->mNcgr->mDataSize);
     CallQueueAppend(0x1e, 0, multiSelectNS->mNclr->mData, multiSelectNS->mNclr->mDataSize);

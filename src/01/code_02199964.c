@@ -40,8 +40,8 @@ void InitOptionHensyuMenu(void *heap) {
     gOptionHensyuMenu->mUnk_14 = TRUE;
     LocateAndQueueOptionHensyuMenu();
     for (i = 0; i < 2; i++) {
-        func_02124a98(data_ov001_021a6a84[i], 1, gOptionHensyuMenu->mOptionHensyuMenuSNcer,
-                      gOptionHensyuMenu->mOptionHensyuMenuSBncl);
+        SetCellOamModeXlu(data_ov001_021a6a84[i], 1, gOptionHensyuMenu->mOptionHensyuMenuSNcer,
+                          gOptionHensyuMenu->mOptionHensyuMenuSBncl);
     }
     a = GetOptionFirstBuffer();
     ResetOamLists(a, GetOptionSecondBuffer());

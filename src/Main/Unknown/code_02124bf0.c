@@ -25,8 +25,7 @@ void InitLayoutTable(void *heap, Unk0201ea30 *cellLayout, Unk0201ea30 *labelLayo
 // Draws entry a: first the entry it is chained to, then itself; appends the cell OAMs to the list, and returns without
 // drawing when the entry is disabled or lies off the 256 x 192 screen.
 u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout, Unk0201ea30 *labelLayout,
-                    RaceHudOamBuffer *oamList,
-                    LayoutTableEntry *entry, s32 incrementFlag) {
+                    RaceHudOamBuffer *oamList, LayoutTableEntry *entry, s32 incrementFlag) {
     s32 width;
     s32 height;
     MtxFx22 *matrix;
@@ -66,7 +65,7 @@ u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout, Unk0
         position[0] = ((width >> 1) + func_0201ebe8(axisRecords[2], width)) << 12;
         position[1] = ((height >> 1) + func_0201eba0(cellEntry->mUnk_00_2, height)) << 12;
     }
-    if (entry->mUnk_08 != FALSE) {
+    if (entry->mUsePosition != FALSE) {
         if (index >= cellLayout->mUnk_06) {
             position[0] = entry->mPositionX << 12;
             position[1] = entry->mPositionY << 12;
@@ -85,17 +84,17 @@ u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout, Unk0
     if (entry->mUseMatrix != 0) {
         matrix = &entry->mMatrix;
         group = &oamList->mMatrices[groupIndex];
-        group->mPA = entry->mUnk_14.mUnk_00[0] >> 4;
-        group->mPB = entry->mUnk_14.mUnk_00[1] >> 4;
-        group->mPC = entry->mUnk_14.mUnk_00[2] >> 4;
-        group->mPD = entry->mUnk_14.mUnk_00[3] >> 4;
+        group->mPA = entry->mInverseScaleMatrix.mUnk_00[0] >> 4;
+        group->mPB = entry->mInverseScaleMatrix.mUnk_00[1] >> 4;
+        group->mPC = entry->mInverseScaleMatrix.mUnk_00[2] >> 4;
+        group->mPD = entry->mInverseScaleMatrix.mUnk_00[3] >> 4;
         if (incrementFlag != 0) {
             IncrementOamMatrixCount(oamList);
         }
     }
     oamCount = oamList->mOamCount;
-    oamList->mOamCount += NNS_G2dMakeCellToOams(&oamList->mOams[oamCount], 0x80 - oamCount, cellData,
-                                                matrix, position, groupIndex, entry->mUnk_34);
+    oamList->mOamCount += NNS_G2dMakeCellToOams(&oamList->mOams[oamCount], 0x80 - oamCount, cellData, matrix, position,
+                                                groupIndex, entry->mDoubleAffine);
 }
 
 void DrawLayoutTable(Unk0201ea30 *cellLayout, Unk02021dc8 *cells, Unk0201ea30 *labelLayout, void *oamList,
@@ -106,8 +105,8 @@ void DrawLayoutTable(Unk0201ea30 *cellLayout, Unk02021dc8 *cells, Unk0201ea30 *l
     }
 }
 
-void func_02124bf0(Unk0201ea30 *cellLayout, Unk02021dc8 *cells, Unk0201ea30 *labelLayout, void *oamList,
-                  LayoutTableEntry *table) {
+void DrawLayoutTableKeepMatrixCount(Unk0201ea30 *cellLayout, Unk02021dc8 *cells, Unk0201ea30 *labelLayout,
+                                    void *oamList, LayoutTableEntry *table) {
     s32 i;
     for (i = cellLayout->mUnk_06 - 1; i >= 0; i--) {
         DrawLayoutEntry(i, cells, cellLayout, labelLayout, oamList, table + i, 0);

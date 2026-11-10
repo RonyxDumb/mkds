@@ -126,8 +126,7 @@ void func_02034f60(void) {
     if (data_02174e64->mSelectedIndex >= 0) {
         PrintGhostRecordInfo((SelectCharacter *) &data_02174e64->mCellFileSets[0], data_02154034, selectedEntry,
                              selectedEntry->mInfo.mUnk_18[0], selectedEntry->mInfo.mUnk_18[1],
-                             selectedEntry->mInfo.mUnk_18[2],
-                             &selectedEntry->mInfo.mTime);
+                             selectedEntry->mInfo.mUnk_18[2], &selectedEntry->mInfo.mTime);
     }
 }
 
@@ -242,7 +241,7 @@ void func_02034bf4(void *parentHeap, void *b, void *c) {
         } while (i < cellFileSet->mLabelLayout->mUnk_06);
     }
     for (j = 0; j < cellCount; j++) {
-        func_021249a8(j, 3, cellFileSet->mCells, cellFileSet->mCellLayout);
+        SetCellPriority(j, 3, cellFileSet->mCells, cellFileSet->mCellLayout);
     }
     cellFileSet->mCellTable[4].mVisible = 0;
     func_02025b84(0, &data_02174e64->mUnk_064);

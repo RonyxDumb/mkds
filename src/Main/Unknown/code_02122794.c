@@ -6,9 +6,9 @@
 #include "00/code_021a2000.h"
 #include "00/code_021a2ccc.h"
 
-void func_02122ab0(void) {
+void ResetWiFiConnectionLost(void) {
     StateMachine *stateMachine;
-    gWiFiSession->mUnk_19ad = 0;
+    gWiFiSession->mConnectionLost = 0;
     stateMachine = &gWiFiSession->mStateMachine;
     stateMachine->mNextState = 2;
     stateMachine->mNextStateRequested = 1;
@@ -26,7 +26,7 @@ void RemoveWiFiSessionKarts(void) {
         bit = 1 << i;
         if ((gWiFiSession->mKartMask & bit) != 0 && (gWiFiSession->mKartRemoveMask & bit) != 0) {
             if (i == GetOwnParticipantIndex()) {
-                gWiFiSession->mUnk_19ad = 1;
+                gWiFiSession->mConnectionLost = 1;
                 func_ov000_021a2ccc();
                 func_ov000_0219bbfc();
                 gWiFiSession->mStep = 11;
@@ -38,7 +38,7 @@ void RemoveWiFiSessionKarts(void) {
         }
     }
     if (gWiFiSession->mKartCount <= 1) {
-        gWiFiSession->mUnk_19ad = 1;
+        gWiFiSession->mConnectionLost = 1;
         func_ov000_021a2ccc();
         func_ov000_0219bbfc();
         gWiFiSession->mStep = 11;

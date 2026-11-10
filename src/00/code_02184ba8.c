@@ -53,7 +53,8 @@ void InitWiFiAikotoba(void *a) {
     gWiFiAikotoba->mUnk_14 = TRUE;
     LocateAndUploadWiFiAikotoba();
     for (i = 0; i < 2; i++) {
-        func_02124a98(data_ov000_021b06c0[i], 1, gWiFiAikotoba->mWiFiAikotobaSNcer, gWiFiAikotoba->mWiFiAikotobaBncl);
+        SetCellOamModeXlu(data_ov000_021b06c0[i], 1, gWiFiAikotoba->mWiFiAikotobaSNcer,
+                          gWiFiAikotoba->mWiFiAikotobaBncl);
     }
     c = func_ov000_021804f4();
     ResetOamLists(c, func_ov000_021804e0());

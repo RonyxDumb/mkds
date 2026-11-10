@@ -54,8 +54,9 @@ void func_ov000_021856a8(void) {
         z[0] = 0;
         z[1] = 0;
         z[0] = gWiFiAikotobaCheck->mDigits[i];
-        func_0212426c(0, data_ov000_021b06dc[i], gWiFiAikotobaCheck->mWiFiAikotobaCheckBnll, z,
-                      gWiFiAikotobaCheck->mWiFiAikotobaCheckBncl, gWiFiAikotobaCheck->mWiFiAikotobaCheckTable);
+        PrintLabelLayoutTextNoFixedAdvance(0, data_ov000_021b06dc[i], gWiFiAikotobaCheck->mWiFiAikotobaCheckBnll, z,
+                                           gWiFiAikotobaCheck->mWiFiAikotobaCheckBncl,
+                                           gWiFiAikotobaCheck->mWiFiAikotobaCheckTable);
     }
 }
 

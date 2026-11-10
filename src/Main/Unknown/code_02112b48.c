@@ -393,7 +393,8 @@ void PrintRecordVSShownRecord(void) {
     switch (gRecordVS->mShowsFriendKey) {
         case 0:
             CopyRecordText(firstIndex + gRecordVS->mShownIndex, buf, 0x20);
-            func_0212426c(0, 0, gRecordVS->mRecordVSMBnll, buf, gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable);
+            PrintLabelLayoutTextNoFixedAdvance(0, 0, gRecordVS->mRecordVSMBnll, buf, gRecordVS->mRecordVSMBncl,
+                                               gRecordVS->mRecordVSMTable);
             counts[1][0] = GetRecordMatchKind0FirstCount(firstIndex + gRecordVS->mShownIndex);
             counts[1][1] = GetRecordMatchKind1FirstCount(firstIndex + gRecordVS->mShownIndex);
             counts[1][2] = GetRecordMatchKind2FirstCount(firstIndex + gRecordVS->mShownIndex);
@@ -408,27 +409,27 @@ void PrintRecordVSShownRecord(void) {
                 }
             }
             FormatAsciiNumber(counts[1][0], buf);
-            func_02124248(0, gRecordVSGridLabelIndices[1][0], gRecordVS->mRecordVSMBnll, buf, gRecordVS->mRecordVSMBncl,
-                          gRecordVS->mRecordVSMTable, 6);
+            PrintLabelLayoutTextFixedAdvance(0, gRecordVSGridLabelIndices[1][0], gRecordVS->mRecordVSMBnll, buf,
+                                             gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable, 6);
             FormatAsciiNumber(counts[1][1], buf);
-            func_02124248(0, gRecordVSGridLabelIndices[1][1], gRecordVS->mRecordVSMBnll, buf, gRecordVS->mRecordVSMBncl,
-                          gRecordVS->mRecordVSMTable, 6);
+            PrintLabelLayoutTextFixedAdvance(0, gRecordVSGridLabelIndices[1][1], gRecordVS->mRecordVSMBnll, buf,
+                                             gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable, 6);
             FormatAsciiNumber(counts[1][2], buf);
-            func_02124248(0, gRecordVSGridLabelIndices[1][2], gRecordVS->mRecordVSMBnll, buf, gRecordVS->mRecordVSMBncl,
-                          gRecordVS->mRecordVSMTable, 6);
+            PrintLabelLayoutTextFixedAdvance(0, gRecordVSGridLabelIndices[1][2], gRecordVS->mRecordVSMBnll, buf,
+                                             gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable, 6);
             FormatAsciiNumber(counts[2][0], buf);
-            func_02124248(0, gRecordVSGridLabelIndices[2][0], gRecordVS->mRecordVSMBnll, buf, gRecordVS->mRecordVSMBncl,
-                          gRecordVS->mRecordVSMTable, 6);
+            PrintLabelLayoutTextFixedAdvance(0, gRecordVSGridLabelIndices[2][0], gRecordVS->mRecordVSMBnll, buf,
+                                             gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable, 6);
             FormatAsciiNumber(counts[2][1], buf);
-            func_02124248(0, gRecordVSGridLabelIndices[2][1], gRecordVS->mRecordVSMBnll, buf, gRecordVS->mRecordVSMBncl,
-                          gRecordVS->mRecordVSMTable, 6);
+            PrintLabelLayoutTextFixedAdvance(0, gRecordVSGridLabelIndices[2][1], gRecordVS->mRecordVSMBnll, buf,
+                                             gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable, 6);
             FormatAsciiNumber(counts[2][2], buf);
-            func_02124248(0, gRecordVSGridLabelIndices[2][2], gRecordVS->mRecordVSMBnll, buf, gRecordVS->mRecordVSMBncl,
-                          gRecordVS->mRecordVSMTable, 6);
+            PrintLabelLayoutTextFixedAdvance(0, gRecordVSGridLabelIndices[2][2], gRecordVS->mRecordVSMBnll, buf,
+                                             gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable, 6);
             GetRecordDate(firstIndex + gRecordVS->mShownIndex, &date);
             FormatDate(&date, buf);
-            func_02124224(0, 0xc, gRecordVS->mRecordVSMBnll, buf, gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable,
-                          6);
+            PrintLabelLayoutTextFixedDigits(0, 0xc, gRecordVS->mRecordVSMBnll, buf, gRecordVS->mRecordVSMBncl,
+                                            gRecordVS->mRecordVSMTable, 6);
             ReadRecordEmblem(firstIndex + gRecordVS->mShownIndex, gRecordVS->mEmblem, gRecordVS->mEmblemConverted);
             recordVS = gRecordVS;
             CallQueueAppend(0x13, GetCellCharIndex(3, recordVS->mRecordVSMNcer, recordVS->mRecordVSMBncl) << 5,
@@ -436,12 +437,13 @@ void PrintRecordVSShownRecord(void) {
             break;
         case 1:
             CopyRecordText(firstIndex + gRecordVS->mShownIndex, buf, 0x20);
-            func_0212426c(0, 0, gRecordVS->mRecordVSMTransientBnll, buf, gRecordVS->mRecordVSMTransientBncl,
-                          gRecordVS->mRecordVSMTransientTable);
+            PrintLabelLayoutTextNoFixedAdvance(0, 0, gRecordVS->mRecordVSMTransientBnll, buf,
+                                               gRecordVS->mRecordVSMTransientBncl, gRecordVS->mRecordVSMTransientTable);
             for (i = 0; i < 12; i++) {
                 FormatAsciiNumber(friendKey[i] - 0x30, buf);
-                func_0212426c(0, gRecordVSFriendKeyLabelIndices[i], gRecordVS->mRecordVSMTransientBnll, buf,
-                              gRecordVS->mRecordVSMTransientBncl, gRecordVS->mRecordVSMTransientTable);
+                PrintLabelLayoutTextNoFixedAdvance(
+                    0, gRecordVSFriendKeyLabelIndices[i], gRecordVS->mRecordVSMTransientBnll, buf,
+                    gRecordVS->mRecordVSMTransientBncl, gRecordVS->mRecordVSMTransientTable);
             }
             ReadRecordEmblem(firstIndex + gRecordVS->mShownIndex, gRecordVS->mEmblem, gRecordVS->mEmblemConverted);
             recordVS = gRecordVS;
@@ -462,8 +464,8 @@ void RefreshRecordVSPage(void) {
         listIndex = firstIndex + i;
         if (GetRecordCount() > listIndex) {
             CopyRecordText(listIndex, buf, 0x20);
-            func_0212426c(1, gRecordVSRowLabelIndices[i], gRecordVS->mRecordVSSBnll, buf, gRecordVS->mRecordVSSBncl,
-                          gRecordVS->mRecordVSSTable);
+            PrintLabelLayoutTextNoFixedAdvance(1, gRecordVSRowLabelIndices[i], gRecordVS->mRecordVSSBnll, buf,
+                                               gRecordVS->mRecordVSSBncl, gRecordVS->mRecordVSSTable);
         }
     }
     if (GetRecordCount() <= firstIndex + gRecordVS->mIndex) {
@@ -827,12 +829,12 @@ void InitRecordVS(void *heap) {
                                  gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable, remaining);
     remaining -= InitLabelCanvas(heap, 1, gRecordVS->mRecordVSMBnll, 0xaa, 0xe, 1, gRecordVS->mRecordVSMNcer,
                                  gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable, remaining);
-    func_0212426c(0, 1, gRecordVS->mRecordVSMBnll, GetBmgEntry(gRecordVS->mRecordMessages, 0),
-                  gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable);
+    PrintLabelLayoutTextNoFixedAdvance(0, 1, gRecordVS->mRecordVSMBnll, GetBmgEntry(gRecordVS->mRecordMessages, 0),
+                                       gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable);
     remaining -= InitLabelCanvas(heap, 0xb, gRecordVS->mRecordVSMBnll, 0x96, 0xe, 2, gRecordVS->mRecordVSMNcer,
                                  gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable, remaining);
-    func_0212426c(0, 0xb, gRecordVS->mRecordVSMBnll, GetBmgEntry(gRecordVS->mRecordMessages, 1),
-                  gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable);
+    PrintLabelLayoutTextNoFixedAdvance(0, 0xb, gRecordVS->mRecordVSMBnll, GetBmgEntry(gRecordVS->mRecordMessages, 1),
+                                       gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable);
     remaining -= InitLabelCanvas(heap, 0xc, gRecordVS->mRecordVSMBnll, 0x46, 0x10, 3, gRecordVS->mRecordVSMNcer,
                                  gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable, remaining);
     objectIndex = 4;
@@ -847,21 +849,23 @@ void InitRecordVS(void *heap) {
         }
     }
     for (i = 0; i < 3; i++) {
-        func_0212426c(0, gRecordVSGridLabelIndices[0][i], gRecordVS->mRecordVSMBnll,
-                      GetBmgEntry(gRecordVS->mRecordMessages, gRecordVSGridRow0MessageIndices[i]),
-                      gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable);
+        PrintLabelLayoutTextNoFixedAdvance(0, gRecordVSGridLabelIndices[0][i], gRecordVS->mRecordVSMBnll,
+                                           GetBmgEntry(gRecordVS->mRecordMessages, gRecordVSGridRow0MessageIndices[i]),
+                                           gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable);
     }
     remaining -= InitLabelCanvas(heap, 0, gRecordVS->mRecordVSMTransientBnll, 0x8c, 0x10, 0, gRecordVS->mRecordVSMNcer,
                                  gRecordVS->mRecordVSMTransientBncl, gRecordVS->mRecordVSMTransientTable, remaining);
     remaining -= InitLabelCanvas(heap, 1, gRecordVS->mRecordVSMTransientBnll, 0x70, 0x10, 1, gRecordVS->mRecordVSMNcer,
                                  gRecordVS->mRecordVSMTransientBncl, gRecordVS->mRecordVSMTransientTable, remaining);
-    func_0212426c(0, 1, gRecordVS->mRecordVSMTransientBnll, GetBmgEntry(gRecordVS->mRecordMessages, 0xb),
-                  gRecordVS->mRecordVSMTransientBncl, gRecordVS->mRecordVSMTransientTable);
+    PrintLabelLayoutTextNoFixedAdvance(0, 1, gRecordVS->mRecordVSMTransientBnll,
+                                       GetBmgEntry(gRecordVS->mRecordMessages, 0xb), gRecordVS->mRecordVSMTransientBncl,
+                                       gRecordVS->mRecordVSMTransientTable);
     remaining -=
         InitLabelCanvas(heap, 0xe, gRecordVS->mRecordVSMTransientBnll, 0xe0, 0x38, 2, gRecordVS->mRecordVSMNcer,
                         gRecordVS->mRecordVSMTransientBncl, gRecordVS->mRecordVSMTransientTable, remaining);
-    func_0212426c(0, 0xe, gRecordVS->mRecordVSMTransientBnll, GetBmgEntry(gRecordVS->mRecordMessages, 0xc),
-                  gRecordVS->mRecordVSMTransientBncl, gRecordVS->mRecordVSMTransientTable);
+    PrintLabelLayoutTextNoFixedAdvance(0, 0xe, gRecordVS->mRecordVSMTransientBnll,
+                                       GetBmgEntry(gRecordVS->mRecordMessages, 0xc), gRecordVS->mRecordVSMTransientBncl,
+                                       gRecordVS->mRecordVSMTransientTable);
     for (i = 0; i < 12; i++) {
         remaining -= InitLabelCanvas(heap, gRecordVSFriendKeyLabelIndices[i], gRecordVS->mRecordVSMTransientBnll,
                                      gRecordVSFriendKeyLabelWidths[i], gRecordVSFriendKeyLabelHeights[i], i + 3,
@@ -877,17 +881,18 @@ void InitRecordVS(void *heap) {
     }
     InitLabelCanvas(heap, 5, gRecordVS->mRecordVSSBnll, 0x98, 0x10, 0x19, gRecordVS->mRecordVSSNcer,
                     gRecordVS->mRecordVSSBncl, gRecordVS->mRecordVSSTable, remaining);
-    func_0212426c(1, 5, gRecordVS->mRecordVSSBnll, GetBmgEntry(gRecordVS->mRecordMessages, 3),
-                  gRecordVS->mRecordVSSBncl, gRecordVS->mRecordVSSTable);
+    PrintLabelLayoutTextNoFixedAdvance(1, 5, gRecordVS->mRecordVSSBnll, GetBmgEntry(gRecordVS->mRecordMessages, 3),
+                                       gRecordVS->mRecordVSSBncl, gRecordVS->mRecordVSSTable);
     for (i = 0; i < 5; i++) {
-        func_02124a98(gRecordVSUnhighlightedObjectIndices[i], 0, gRecordVS->mRecordVSSNcer, gRecordVS->mRecordVSSBncl);
-        func_02124a98(gRecordVSHighlightObjectIndices[i], 0, gRecordVS->mRecordVSSNcer, gRecordVS->mRecordVSSBncl);
-        func_02124140(gRecordVSRowLabelIndices[i], 0, gRecordVS->mRecordVSSBnll, gRecordVS->mRecordVSSTable,
-                      gRecordVS->mRecordVSSBncl);
+        SetCellOamModeXlu(gRecordVSUnhighlightedObjectIndices[i], 0, gRecordVS->mRecordVSSNcer,
+                          gRecordVS->mRecordVSSBncl);
+        SetCellOamModeXlu(gRecordVSHighlightObjectIndices[i], 0, gRecordVS->mRecordVSSNcer, gRecordVS->mRecordVSSBncl);
+        SetLabelOamModeXlu(gRecordVSRowLabelIndices[i], 0, gRecordVS->mRecordVSSBnll, gRecordVS->mRecordVSSTable,
+                           gRecordVS->mRecordVSSBncl);
     }
-    func_02124a98(0x18, 0, gRecordVS->mRecordVSSNcer, gRecordVS->mRecordVSSBncl);
-    func_02124a98(0x19, 0, gRecordVS->mRecordVSSNcer, gRecordVS->mRecordVSSBncl);
-    func_02124140(5, 0, gRecordVS->mRecordVSSBnll, gRecordVS->mRecordVSSTable, gRecordVS->mRecordVSSBncl);
+    SetCellOamModeXlu(0x18, 0, gRecordVS->mRecordVSSNcer, gRecordVS->mRecordVSSBncl);
+    SetCellOamModeXlu(0x19, 0, gRecordVS->mRecordVSSNcer, gRecordVS->mRecordVSSBncl);
+    SetLabelOamModeXlu(5, 0, gRecordVS->mRecordVSSBnll, gRecordVS->mRecordVSSTable, gRecordVS->mRecordVSSBncl);
     gRecordVS->mEmblem = HeapAlloc(heap, 0x201);
     gRecordVS->mEmblemConverted = HeapAlloc(heap, 0x200);
     if (GetRecordPrevScreen() == 4) {

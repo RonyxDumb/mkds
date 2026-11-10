@@ -167,8 +167,8 @@ void PrintRecordVSEraseShownRecord(void) {
     switch (gRecordVSErase->mTransientDrawn) {
         case 0:
             CopyRecordText(firstRecordIndex + gRecordVSErase->mShownIndex, text, 0x20);
-            func_0212426c(0, 0, gRecordVSErase->mRecordVSMBnll, text, gRecordVSErase->mRecordVSMBncl,
-                          gRecordVSErase->mRecordVSMTable);
+            PrintLabelLayoutTextNoFixedAdvance(0, 0, gRecordVSErase->mRecordVSMBnll, text,
+                                               gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable);
             counts[1][0] = GetRecordMatchKind0FirstCount(firstRecordIndex + gRecordVSErase->mShownIndex);
             counts[1][1] = GetRecordMatchKind1FirstCount(firstRecordIndex + gRecordVSErase->mShownIndex);
             counts[1][2] = GetRecordMatchKind2FirstCount(firstRecordIndex + gRecordVSErase->mShownIndex);
@@ -183,27 +183,27 @@ void PrintRecordVSEraseShownRecord(void) {
                 }
             }
             FormatAsciiNumber(counts[1][0], text);
-            func_02124248(0, gRecordVSEraseGridLabelIndices[1][0], gRecordVSErase->mRecordVSMBnll, text,
-                          gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable, 6);
+            PrintLabelLayoutTextFixedAdvance(0, gRecordVSEraseGridLabelIndices[1][0], gRecordVSErase->mRecordVSMBnll,
+                                             text, gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable, 6);
             FormatAsciiNumber(counts[1][1], text);
-            func_02124248(0, gRecordVSEraseGridLabelIndices[1][1], gRecordVSErase->mRecordVSMBnll, text,
-                          gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable, 6);
+            PrintLabelLayoutTextFixedAdvance(0, gRecordVSEraseGridLabelIndices[1][1], gRecordVSErase->mRecordVSMBnll,
+                                             text, gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable, 6);
             FormatAsciiNumber(counts[1][2], text);
-            func_02124248(0, gRecordVSEraseGridLabelIndices[1][2], gRecordVSErase->mRecordVSMBnll, text,
-                          gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable, 6);
+            PrintLabelLayoutTextFixedAdvance(0, gRecordVSEraseGridLabelIndices[1][2], gRecordVSErase->mRecordVSMBnll,
+                                             text, gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable, 6);
             FormatAsciiNumber(counts[2][0], text);
-            func_02124248(0, gRecordVSEraseGridLabelIndices[2][0], gRecordVSErase->mRecordVSMBnll, text,
-                          gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable, 6);
+            PrintLabelLayoutTextFixedAdvance(0, gRecordVSEraseGridLabelIndices[2][0], gRecordVSErase->mRecordVSMBnll,
+                                             text, gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable, 6);
             FormatAsciiNumber(counts[2][1], text);
-            func_02124248(0, gRecordVSEraseGridLabelIndices[2][1], gRecordVSErase->mRecordVSMBnll, text,
-                          gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable, 6);
+            PrintLabelLayoutTextFixedAdvance(0, gRecordVSEraseGridLabelIndices[2][1], gRecordVSErase->mRecordVSMBnll,
+                                             text, gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable, 6);
             FormatAsciiNumber(counts[2][2], text);
-            func_02124248(0, gRecordVSEraseGridLabelIndices[2][2], gRecordVSErase->mRecordVSMBnll, text,
-                          gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable, 6);
+            PrintLabelLayoutTextFixedAdvance(0, gRecordVSEraseGridLabelIndices[2][2], gRecordVSErase->mRecordVSMBnll,
+                                             text, gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable, 6);
             GetRecordDate(firstRecordIndex + gRecordVSErase->mShownIndex, &date);
             FormatDate(&date, text);
-            func_02124224(0, 0xc, gRecordVSErase->mRecordVSMBnll, text, gRecordVSErase->mRecordVSMBncl,
-                          gRecordVSErase->mRecordVSMTable, 6);
+            PrintLabelLayoutTextFixedDigits(0, 0xc, gRecordVSErase->mRecordVSMBnll, text,
+                                            gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable, 6);
             ReadRecordEmblem(firstRecordIndex + gRecordVSErase->mShownIndex, gRecordVSErase->mEmblem,
                              gRecordVSErase->mEmblemConverted);
             CallQueueAppend(0x13,
@@ -212,14 +212,15 @@ void PrintRecordVSEraseShownRecord(void) {
             break;
         case 1:
             CopyRecordText(firstRecordIndex + gRecordVSErase->mShownIndex, text, 0x20);
-            func_0212426c(0, 0, gRecordVSErase->mRecordVSMTransientBnll, text, gRecordVSErase->mRecordVSMTransientBncl,
-                          gRecordVSErase->mRecordVSMTransientTable);
+            PrintLabelLayoutTextNoFixedAdvance(0, 0, gRecordVSErase->mRecordVSMTransientBnll, text,
+                                               gRecordVSErase->mRecordVSMTransientBncl,
+                                               gRecordVSErase->mRecordVSMTransientTable);
             queueSelector = FALSE;
             for (i = 0; i < 12; i++) {
                 FormatAsciiNumber(friendKeyText[i] - 0x30, text);
-                func_0212426c(queueSelector, gRecordVSEraseFriendKeyLabelIndices[i],
-                              gRecordVSErase->mRecordVSMTransientBnll, text, gRecordVSErase->mRecordVSMTransientBncl,
-                              gRecordVSErase->mRecordVSMTransientTable);
+                PrintLabelLayoutTextNoFixedAdvance(
+                    queueSelector, gRecordVSEraseFriendKeyLabelIndices[i], gRecordVSErase->mRecordVSMTransientBnll,
+                    text, gRecordVSErase->mRecordVSMTransientBncl, gRecordVSErase->mRecordVSMTransientTable);
             }
             ReadRecordEmblem(firstRecordIndex + gRecordVSErase->mShownIndex, gRecordVSErase->mEmblem,
                              gRecordVSErase->mEmblemConverted);
@@ -239,8 +240,9 @@ void RefreshRecordVSErasePage(void) {
     for (i = 0; i < 5; i++) {
         if (GetRecordCount() > firstRecordIndex + i) {
             CopyRecordText(firstRecordIndex + i, nameText, 0x20);
-            func_0212426c(1, gRecordVSEraseRowLabelIndices[i], gRecordVSErase->mRecordVSSEraseBnll, nameText,
-                          gRecordVSErase->mRecordVSSEraseBncl, gRecordVSErase->mRecordVSSEraseTable);
+            PrintLabelLayoutTextNoFixedAdvance(1, gRecordVSEraseRowLabelIndices[i], gRecordVSErase->mRecordVSSEraseBnll,
+                                               nameText, gRecordVSErase->mRecordVSSEraseBncl,
+                                               gRecordVSErase->mRecordVSSEraseTable);
         }
     }
     if (GetRecordCount() <= firstRecordIndex + gRecordVSErase->mIndex) {

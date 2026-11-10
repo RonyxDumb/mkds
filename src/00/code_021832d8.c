@@ -58,8 +58,8 @@ void func_ov000_02184670(void) {
                                  gWiFiVSMatching->mWiFiVSMatchingTable, n);
             g = gWiFiVSMatching;
             p = GetBmgEntry(g->mWiFiMessages, 9);
-            func_0212426c(1, *t2, gWiFiVSMatching->mWiFiVSMatchingBnll, p, g->mWiFiVSMatchingBncl,
-                          g->mWiFiVSMatchingTable);
+            PrintLabelLayoutTextNoFixedAdvance(1, *t2, gWiFiVSMatching->mWiFiVSMatchingBnll, p, g->mWiFiVSMatchingBncl,
+                                               g->mWiFiVSMatchingTable);
             t1++;
             w += 2;
             t2++;
@@ -72,8 +72,9 @@ void func_ov000_02184670(void) {
         InitLabelCanvas(gWiFiVSMatching->mHeap, 0xc, gWiFiVSMatching->mWiFiVSMatchingBnll, a[0], a[1],
                         gWiFiVSMatching->mWiFiVSMatchingBncl->mUnk_06, gWiFiVSMatching->mWiFiVSMatchingSNcer,
                         gWiFiVSMatching->mWiFiVSMatchingBncl, gWiFiVSMatching->mWiFiVSMatchingTable, n);
-        func_0212426c(1, 0xc, gWiFiVSMatching->mWiFiVSMatchingBnll, GetBmgEntry(gWiFiVSMatching->mWiFiMessages, q),
-                      gWiFiVSMatching->mWiFiVSMatchingBncl, gWiFiVSMatching->mWiFiVSMatchingTable);
+        PrintLabelLayoutTextNoFixedAdvance(1, 0xc, gWiFiVSMatching->mWiFiVSMatchingBnll,
+                                           GetBmgEntry(gWiFiVSMatching->mWiFiMessages, q),
+                                           gWiFiVSMatching->mWiFiVSMatchingBncl, gWiFiVSMatching->mWiFiVSMatchingTable);
     }
 }
 
@@ -229,9 +230,10 @@ void func_ov000_021840c8(void) {
 
     for (i = 0; i < 3; i++) {
         if (gWiFiVSMatching->mUnk_24[i] == 0) {
-            func_0212426c(1, data_ov000_021b0660[i], gWiFiVSMatching->mWiFiVSMatchingBnll,
-                          GetBmgEntry(gWiFiVSMatching->mWiFiMessages, 10), gWiFiVSMatching->mWiFiVSMatchingBncl,
-                          gWiFiVSMatching->mWiFiVSMatchingTable);
+            PrintLabelLayoutTextNoFixedAdvance(1, data_ov000_021b0660[i], gWiFiVSMatching->mWiFiVSMatchingBnll,
+                                               GetBmgEntry(gWiFiVSMatching->mWiFiMessages, 10),
+                                               gWiFiVSMatching->mWiFiVSMatchingBncl,
+                                               gWiFiVSMatching->mWiFiVSMatchingTable);
         }
     }
 }
@@ -357,18 +359,21 @@ void AdvanceWiFiVSMatchingState1(void) {
         for (i = 0; i < gWiFiVSMatching->mOtherCount; i++) {
             MIi_CpuCopy16(GetPlayerRecordName(gWiFiVSMatching->mOtherIndices[i]), name, 0x14);
             name[10] = 0;
-            func_0212426c(1, data_ov000_021b0664[i], gWiFiVSMatching->mWiFiVSMatchingBnll, name,
-                          gWiFiVSMatching->mWiFiVSMatchingBncl, gWiFiVSMatching->mWiFiVSMatchingTable);
+            PrintLabelLayoutTextNoFixedAdvance(1, data_ov000_021b0664[i], gWiFiVSMatching->mWiFiVSMatchingBnll, name,
+                                               gWiFiVSMatching->mWiFiVSMatchingBncl,
+                                               gWiFiVSMatching->mWiFiVSMatchingTable);
             val = func_02120240(gWiFiVSMatching->mOtherIndices[i]);
             if (val > 9999) {
                 val = 9999;
             }
             FormatAsciiNumber(func_0212025c(gWiFiVSMatching->mOtherIndices[i]), buf2);
             FormatAsciiNumber(val, buf3);
-            func_0212426c(1, data_ov000_021b0670[i][0], gWiFiVSMatching->mWiFiVSMatchingBnll, buf2,
-                          gWiFiVSMatching->mWiFiVSMatchingBncl, gWiFiVSMatching->mWiFiVSMatchingTable);
-            func_0212426c(1, data_ov000_021b0670[i][1], gWiFiVSMatching->mWiFiVSMatchingBnll, buf3,
-                          gWiFiVSMatching->mWiFiVSMatchingBncl, gWiFiVSMatching->mWiFiVSMatchingTable);
+            PrintLabelLayoutTextNoFixedAdvance(1, data_ov000_021b0670[i][0], gWiFiVSMatching->mWiFiVSMatchingBnll, buf2,
+                                               gWiFiVSMatching->mWiFiVSMatchingBncl,
+                                               gWiFiVSMatching->mWiFiVSMatchingTable);
+            PrintLabelLayoutTextNoFixedAdvance(1, data_ov000_021b0670[i][1], gWiFiVSMatching->mWiFiVSMatchingBnll, buf3,
+                                               gWiFiVSMatching->mWiFiVSMatchingBncl,
+                                               gWiFiVSMatching->mWiFiVSMatchingTable);
             dst = gWiFiVSMatching->mOtherEmblems[0];
             dst += i * 0x200;
             CopyBytesIntoTiles(GetPlayerRecordEmblem(gWiFiVSMatching->mOtherIndices[i]), dst, 0x20);

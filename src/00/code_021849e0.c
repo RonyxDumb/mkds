@@ -35,7 +35,7 @@ void AdvanceWiFiSelectKartState(void) {
 
     a = AdvanceSelectKart();
     if (a == 1 || a == 2) {
-        if (func_02122ae4() != 0) {
+        if (IsWiFiConnectionLost() != 0) {
             RequestWiFiState(7);
             return;
         }

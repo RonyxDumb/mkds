@@ -135,12 +135,14 @@ void InitSelectCupMCellsAndRequestCupPicture(void) {
     QueueSelectCupNameM(data_0215cf2c[GetCupIndex()], gSelectCupM->mSubNcer, gSelectCupM->mSubBncl, 0x13, 1);
     n = FALSE;
     for (j = 0; j < 4; j++) {
-        func_0212426c(n, data_0215cf0c[j], gSelectCupM->mMainBnll,
-                      GetBmgEntry(gSelectCupM->mCommonMessages, data_0215cf4c[data_0215cf2c[GetCupIndex()]][j]),
-                      gSelectCupM->mMainBncl, gSelectCupM->mMainTable);
-        func_0212426c(1, data_0215cf0c[j], gSelectCupM->mSubBnll,
-                      GetBmgEntry(gSelectCupM->mCommonMessages, data_0215cf4c[data_0215cf2c[GetCupIndex()]][j]),
-                      gSelectCupM->mSubBncl, gSelectCupM->mSubTable);
+        PrintLabelLayoutTextNoFixedAdvance(
+            n, data_0215cf0c[j], gSelectCupM->mMainBnll,
+            GetBmgEntry(gSelectCupM->mCommonMessages, data_0215cf4c[data_0215cf2c[GetCupIndex()]][j]),
+            gSelectCupM->mMainBncl, gSelectCupM->mMainTable);
+        PrintLabelLayoutTextNoFixedAdvance(
+            1, data_0215cf0c[j], gSelectCupM->mSubBnll,
+            GetBmgEntry(gSelectCupM->mCommonMessages, data_0215cf4c[data_0215cf2c[GetCupIndex()]][j]),
+            gSelectCupM->mSubBncl, gSelectCupM->mSubTable);
     }
     a = data_0215cf04[0];
     gSelectCupM->mMainTable[a].mVisible = 1;

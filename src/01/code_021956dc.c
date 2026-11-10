@@ -124,15 +124,15 @@ void func_ov001_021975f4(u16 a) {
         FormatTimeAscii(&time, str);
         pal = data_ov001_021a67d4[0];
         gRecordTAtt->mRecordTAttMTable[cnt + pal].mVisible = 1;
-        func_02124224(0, pal, gRecordTAtt->mRecordTAttMBnll, str, gRecordTAtt->mRecordTAttMBncl,
-                      gRecordTAtt->mRecordTAttMTable, 7);
+        PrintLabelLayoutTextFixedDigits(0, pal, gRecordTAtt->mRecordTAttMBnll, str, gRecordTAtt->mRecordTAttMBncl,
+                                        gRecordTAtt->mRecordTAttMTable, 7);
         GetTimeRecordName(data_ov001_021a6900[gRecordTAtt->mIndex], value, name);
         MI_CpuFill8(str, 0, 0x20);
         MIi_CpuCopy16(name, str, 0x14);
         pal = data_ov001_021a6810[0];
         gRecordTAtt->mRecordTAttMTable[cnt + pal].mVisible = 1;
-        func_0212426c(0, pal, gRecordTAtt->mRecordTAttMBnll, str, gRecordTAtt->mRecordTAttMBncl,
-                      gRecordTAtt->mRecordTAttMTable);
+        PrintLabelLayoutTextNoFixedAdvance(0, pal, gRecordTAtt->mRecordTAttMBnll, str, gRecordTAtt->mRecordTAttMBncl,
+                                           gRecordTAtt->mRecordTAttMTable);
     } else {
         u16 cnt;
 
@@ -156,15 +156,15 @@ void func_ov001_021975f4(u16 a) {
         FormatTimeAscii(&time, str);
         pal = data_ov001_021a67d4[a];
         gRecordTAtt->mRecordTAttSTable[cnt + pal].mVisible = 1;
-        func_02124224(1, pal, gRecordTAtt->mRecordTAttSBnll, str, gRecordTAtt->mRecordTAttSBncl,
-                      gRecordTAtt->mRecordTAttSTable, 7);
+        PrintLabelLayoutTextFixedDigits(1, pal, gRecordTAtt->mRecordTAttSBnll, str, gRecordTAtt->mRecordTAttSBncl,
+                                        gRecordTAtt->mRecordTAttSTable, 7);
         GetTimeRecordName(data_ov001_021a6900[gRecordTAtt->mIndex], value, name);
         MI_CpuFill8(str, 0, 0x20);
         MIi_CpuCopy16(name, str, 0x14);
         pal = data_ov001_021a6810[a];
         gRecordTAtt->mRecordTAttSTable[cnt + pal].mVisible = 1;
-        func_0212426c(1, pal, gRecordTAtt->mRecordTAttSBnll, str, gRecordTAtt->mRecordTAttSBncl,
-                      gRecordTAtt->mRecordTAttSTable);
+        PrintLabelLayoutTextNoFixedAdvance(1, pal, gRecordTAtt->mRecordTAttSBnll, str, gRecordTAtt->mRecordTAttSBncl,
+                                           gRecordTAtt->mRecordTAttSTable);
     }
 }
 
@@ -176,16 +176,16 @@ void func_ov001_0219750c(u16 a) {
         gRecordTAtt->mRecordTAttMTable[data_ov001_021a6850[0][1]].mVisible = 0;
         cnt = gRecordTAtt->mRecordTAttMBncl->mUnk_06;
         gRecordTAtt->mRecordTAttMTable[cnt + data_ov001_021a67d4[0]].mVisible = 1;
-        func_02124224(0, data_ov001_021a67d4[0], gRecordTAtt->mRecordTAttMBnll, L"--:--:---",
-                      gRecordTAtt->mRecordTAttMBncl, gRecordTAtt->mRecordTAttMTable, 7);
+        PrintLabelLayoutTextFixedDigits(0, data_ov001_021a67d4[0], gRecordTAtt->mRecordTAttMBnll, L"--:--:---",
+                                        gRecordTAtt->mRecordTAttMBncl, gRecordTAtt->mRecordTAttMTable, 7);
         gRecordTAtt->mRecordTAttMTable[cnt + data_ov001_021a6810[0]].mVisible = 0;
     } else {
         gRecordTAtt->mRecordTAttSTable[data_ov001_021a6850[a][0]].mVisible = 0;
         gRecordTAtt->mRecordTAttSTable[data_ov001_021a6852[a][0]].mVisible = 0;
         cnt = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
         gRecordTAtt->mRecordTAttSTable[cnt + data_ov001_021a67d4[a]].mVisible = 1;
-        func_02124224(1, data_ov001_021a67d4[a], gRecordTAtt->mRecordTAttSBnll, L"--:--:---",
-                      gRecordTAtt->mRecordTAttSBncl, gRecordTAtt->mRecordTAttSTable, 7);
+        PrintLabelLayoutTextFixedDigits(1, data_ov001_021a67d4[a], gRecordTAtt->mRecordTAttSBnll, L"--:--:---",
+                                        gRecordTAtt->mRecordTAttSBncl, gRecordTAtt->mRecordTAttSTable, 7);
         gRecordTAtt->mRecordTAttSTable[cnt + data_ov001_021a6810[a]].mVisible = 0;
     }
 }
@@ -202,8 +202,9 @@ void func_ov001_021972f4(void) {
     u16 cnt;
 
     p = gRecordTAtt;
-    func_0212426c(0, 0, gRecordTAtt->mRecordTAttMBnll, GetBmgEntry(p->mCommonMessages, data_ov001_021a6880[p->mIndex]),
-                  p->mRecordTAttMBncl, p->mRecordTAttMTable);
+    PrintLabelLayoutTextNoFixedAdvance(0, 0, gRecordTAtt->mRecordTAttMBnll,
+                                       GetBmgEntry(p->mCommonMessages, data_ov001_021a6880[p->mIndex]),
+                                       p->mRecordTAttMBncl, p->mRecordTAttMTable);
     for (i = 0; i < 5; i++) {
         if (IsTimeRecordFilled(data_ov001_021a6900[gRecordTAtt->mIndex], data_ov001_021a6828[i])) {
             func_ov001_021975f4(i);
@@ -227,20 +228,20 @@ void func_ov001_021972f4(void) {
         GetTimeRecordTime(data_ov001_021a6900[gRecordTAtt->mIndex], 5, &time);
         FormatTimeAscii(&time, str);
         gRecordTAtt->mRecordTAttMTable[cnt + 2].mVisible = 1;
-        func_02124224(0, 2, gRecordTAtt->mRecordTAttMBnll, str, gRecordTAtt->mRecordTAttMBncl,
-                      gRecordTAtt->mRecordTAttMTable, 7);
+        PrintLabelLayoutTextFixedDigits(0, 2, gRecordTAtt->mRecordTAttMBnll, str, gRecordTAtt->mRecordTAttMBncl,
+                                        gRecordTAtt->mRecordTAttMTable, 7);
         GetTimeRecordName(data_ov001_021a6900[gRecordTAtt->mIndex], 5, name);
         MI_CpuFill8(str, 0, 0x20);
         MIi_CpuCopy16(name, str, 0x14);
         gRecordTAtt->mRecordTAttMTable[cnt + 4].mVisible = 1;
-        func_0212426c(0, 4, gRecordTAtt->mRecordTAttMBnll, str, gRecordTAtt->mRecordTAttMBncl,
-                      gRecordTAtt->mRecordTAttMTable);
+        PrintLabelLayoutTextNoFixedAdvance(0, 4, gRecordTAtt->mRecordTAttMBnll, str, gRecordTAtt->mRecordTAttMBncl,
+                                           gRecordTAtt->mRecordTAttMTable);
     } else {
         gRecordTAtt->mRecordTAttMTable[5].mVisible = 0;
         gRecordTAtt->mRecordTAttMTable[6].mVisible = 0;
         gRecordTAtt->mRecordTAttMTable[cnt + 2].mVisible = 1;
-        func_02124224(0, 2, gRecordTAtt->mRecordTAttMBnll, L"--:--:---", gRecordTAtt->mRecordTAttMBncl,
-                      gRecordTAtt->mRecordTAttMTable, 7);
+        PrintLabelLayoutTextFixedDigits(0, 2, gRecordTAtt->mRecordTAttMBnll, L"--:--:---",
+                                        gRecordTAtt->mRecordTAttMBncl, gRecordTAtt->mRecordTAttMTable, 7);
         gRecordTAtt->mRecordTAttMTable[cnt + 4].mVisible = 0;
     }
 }
@@ -571,8 +572,8 @@ void InitRecordTAtt(void *heap) {
     InitLabelCanvas(heap, 8, gRecordTAtt->mRecordTAttSBnll, 0x98, 0x10, 0xd, gRecordTAtt->mRecordTAttSNcer,
                     gRecordTAtt->mRecordTAttSBncl, gRecordTAtt->mRecordTAttSTable, rem);
     p = gRecordTAtt;
-    func_0212426c(1, 8, gRecordTAtt->mRecordTAttSBnll, GetBmgEntry(p->mRecordMessages, 3), p->mRecordTAttSBncl,
-                  p->mRecordTAttSTable);
+    PrintLabelLayoutTextNoFixedAdvance(1, 8, gRecordTAtt->mRecordTAttSBnll, GetBmgEntry(p->mRecordMessages, 3),
+                                       p->mRecordTAttSBncl, p->mRecordTAttSTable);
     func_ov001_02197058();
 }
 

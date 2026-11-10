@@ -91,11 +91,13 @@ void PrintKeyboardButtonTexts(void) {
     s32 i;
     for (i = 0; i < 2; i++) {
         Keyboard *keyboard = gKeyboard;
-        func_0212426c(1, data_0215d0e4[i][0], gKeyboard->mBnlls[i], GetBmgEntry(keyboard->mCommonMessages, 4),
-                      keyboard->mBncls[i], keyboard->mTables[i][1]);
+        PrintLabelLayoutTextNoFixedAdvance(1, data_0215d0e4[i][0], gKeyboard->mBnlls[i],
+                                           GetBmgEntry(keyboard->mCommonMessages, 4), keyboard->mBncls[i],
+                                           keyboard->mTables[i][1]);
         keyboard = gKeyboard;
-        func_0212426c(1, data_0215d0e4[i][1], gKeyboard->mBnlls[i], GetBmgEntry(keyboard->mCommonMessages, 5),
-                      keyboard->mBncls[i], keyboard->mTables[i][1]);
+        PrintLabelLayoutTextNoFixedAdvance(1, data_0215d0e4[i][1], gKeyboard->mBnlls[i],
+                                           GetBmgEntry(keyboard->mCommonMessages, 5), keyboard->mBncls[i],
+                                           keyboard->mTables[i][1]);
     }
 }
 
@@ -107,7 +109,7 @@ void InitKeyboardCursorCorners(void) {
         for (j = 0; j < 2; j++) {
             for (k = 0; k < 4; k++) {
                 LayoutTableEntry *entry = &gKeyboard->mTables[i][j][data_0215d0f8[i][k]];
-                entry->mUnk_08 = TRUE;
+                entry->mUsePosition = TRUE;
                 entry->mPositionX = 0;
                 entry->mPositionY = 0;
             }
@@ -940,8 +942,8 @@ void PrintKeyboardTextChars(void) {
                 charString[0] = 0;
                 charString[1] = 0;
                 charString[0] = gKeyboard->mUnk_2c[i].mChars[k];
-                func_0212426c(j, data_0215d134[i][k], gKeyboard->mBnlls[i], charString, gKeyboard->mBncls[i],
-                              gKeyboard->mTables[i][j]);
+                PrintLabelLayoutTextNoFixedAdvance(j, data_0215d134[i][k], gKeyboard->mBnlls[i], charString,
+                                                   gKeyboard->mBncls[i], gKeyboard->mTables[i][j]);
             }
         }
     }

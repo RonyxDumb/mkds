@@ -28,16 +28,16 @@ typedef struct LabelTextCanvas {
     /* 04 */ struct Unk02022aa8 *mFont;
     /* 08 */ s32 mCharSpacing;
     /* 0c */ s32 mLineSpacing;
-    /* 10 */ void *mUnk_10;
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ s32 mUnk_1c;
-    /* 20 */ s32 mUnk_20;
+    /* 10 */ void *mCharBuffer;
+    /* 14 */ s32 mCharBytes;
+    /* 18 */ s32 mCharIndex;
+    /* 1c */ s32 mWidth;
+    /* 20 */ s32 mHeight;
 } LabelTextCanvas;
 
 // Object of 0x48 bytes allocated by InitLabelCanvas.
 typedef struct LabelCanvas {
-    /* 00 */ Unk02023374 mUnk_00;
+    /* 00 */ Unk02023374 mCharCanvas;
     /* 20 */ LabelTextCanvas mTextCanvas;
     /* 44 */ Unk020224e0_c *mCellData;
 } LabelCanvas;
@@ -49,13 +49,13 @@ typedef struct LayoutTableEntry {
     /* 00 */ s32 mVisible;
     /* 04 */ s16 mOffsetX;
     /* 06 */ s16 mOffsetY;
-    /* 08 */ BOOL mUnk_08;
+    /* 08 */ BOOL mUsePosition;
     /* 0c */ s16 mPositionX;
     /* 0e */ s16 mPositionY;
     /* 10 */ s32 mUseMatrix;
-    /* 14 */ MtxFx22 mUnk_14;
+    /* 14 */ MtxFx22 mInverseScaleMatrix;
     /* 24 */ MtxFx22 mMatrix;
-    /* 34 */ s32 mUnk_34;
+    /* 34 */ s32 mDoubleAffine;
     /* 38 */ s32 mLabelIndex;
     /* 3c */ LabelCanvas *mLabelCanvas;
 } LayoutTableEntry;
@@ -85,38 +85,39 @@ typedef struct LabelLayoutEntry {
     /* 08 */ u8 mUnk_08[4];
 } LabelLayoutEntry;
 
-BOOL func_02124ae4(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
+BOOL IsCellOamModeXlu(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
 void SetLayoutEntryAngleAndScale(LayoutTableEntry *entry, s32 angle, s32 scale);
-void func_02124a98(u32 index, s32 value, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
+void SetCellOamModeXlu(u32 index, s32 enableXlu, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
 u8 GetCellPaletteIndex(u32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
 void SetCellPaletteIndex(s32 index, s32 paletteIndex, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
-u8 func_021249f0(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
-void func_021249a8(u32 index, u32 value, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
+u8 GetCellPriority(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
+void SetCellPriority(u32 index, u32 priority, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
 u16 GetCellCharIndex(u32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
-void func_0212481c(u32 index, Unk02021dc8 *cells, Ncgr *chars, Nclr *palette, Unk0201ea30 *cellLayout,
-                   s32 queueSelector, u32 destIndex, Unk02021dc8 *destCells, Unk0201ea30 *destCellLayout);
+void QueueCellCharsAndCopyPalettes(u32 index, Unk02021dc8 *cells, Ncgr *chars, Nclr *palette, Unk0201ea30 *cellLayout,
+                                   s32 queueSelector, u32 destIndex, Unk02021dc8 *destCells,
+                                   Unk0201ea30 *destCellLayout);
 void QueueCellChars(u32 index, Unk02021dc8 *cells, Ncgr *chars, Unk0201ea30 *cellLayout, s32 queueSelector,
                     u32 destIndex, Unk02021dc8 *destCells, Unk0201ea30 *destCellLayout);
-void QueueCellCharsAndFirstPalette(u32 index, Unk02021dc8 *cells, Ncgr *chars, Nclr *palette,
-                                   Unk0201ea30 *cellLayout, s32 queueSelector, u32 destIndex, Unk02021dc8 *destCells,
+void QueueCellCharsAndFirstPalette(u32 index, Unk02021dc8 *cells, Ncgr *chars, Nclr *palette, Unk0201ea30 *cellLayout,
+                                   s32 queueSelector, u32 destIndex, Unk02021dc8 *destCells,
                                    Unk0201ea30 *destCellLayout);
 s32 InitLabelCanvas(void *heap, s32 labelIndex, Unk0201ea30 *labelLayout, s32 width, s32 height, s32 entryIndex,
                     Unk02021dc8 *cells, Unk0201ea30 *cellLayout, LayoutTableEntry *table, s32 j);
 void PrintLabelLayoutText(s32 queueSelector, s32 labelIndex, Unk0201ea30 *labelLayout, void *text,
-                          Unk0201ea30 *cellLayout, LayoutTableEntry *table, s32 g, s8 h);
-void func_0212426c(s32 queueSelector, s32 labelIndex, Unk0201ea30 *labelLayout, void *text, Unk0201ea30 *cellLayout,
-                   LayoutTableEntry *table);
-void func_02124248(s32 queueSelector, s32 labelIndex, Unk0201ea30 *labelLayout, void *text, Unk0201ea30 *cellLayout,
-                   LayoutTableEntry *table, s8 g);
-void func_02124224(s32 queueSelector, u32 labelIndex, Unk0201ea30 *labelLayout, void *text, Unk0201ea30 *cellLayout,
-                   LayoutTableEntry *table, s8 g);
+                          Unk0201ea30 *cellLayout, LayoutTableEntry *table, s32 fixedDigitsOnly, s8 fixedAdvance);
+void PrintLabelLayoutTextNoFixedAdvance(s32 queueSelector, s32 labelIndex, Unk0201ea30 *labelLayout, void *text,
+                                        Unk0201ea30 *cellLayout, LayoutTableEntry *table);
+void PrintLabelLayoutTextFixedAdvance(s32 queueSelector, s32 labelIndex, Unk0201ea30 *labelLayout, void *text,
+                                      Unk0201ea30 *cellLayout, LayoutTableEntry *table, s8 fixedAdvance);
+void PrintLabelLayoutTextFixedDigits(s32 queueSelector, u32 labelIndex, Unk0201ea30 *labelLayout, void *text,
+                                     Unk0201ea30 *cellLayout, LayoutTableEntry *table, s8 fixedAdvance);
 void ClearAndQueueLabelLayoutText(s32 queueSelector, s32 labelIndex, Unk0201ea30 *labelLayout, Unk0201ea30 *cellLayout,
                                   LayoutTableEntry *table);
-BOOL func_0212418c(s32 labelIndex, void *b, LayoutTableEntry *table, Unk0201ea30 *cellLayout);
-void func_02124140(u32 labelIndex, u32 value, Unk0201ea30 *labelLayout, LayoutTableEntry *table,
-                   Unk0201ea30 *cellLayout);
+BOOL IsLabelOamModeXlu(s32 labelIndex, void *labelLayout, LayoutTableEntry *table, Unk0201ea30 *cellLayout);
+void SetLabelOamModeXlu(u32 labelIndex, u32 enableXlu, Unk0201ea30 *labelLayout, LayoutTableEntry *table,
+                        Unk0201ea30 *cellLayout);
 void SetLabelPaletteIndex(s32 labelIndex, u8 paletteIndex, Unk0201ea30 *labelLayout, LayoutTableEntry *table,
                           Unk0201ea30 *cellLayout);
-u8 func_021240d4(s32 labelIndex, void *b, LayoutTableEntry *table, Unk0201ea30 *cellLayout);
-void func_02124094(u32 labelIndex, u32 value, Unk0201ea30 *labelLayout, LayoutTableEntry *table,
-                   Unk0201ea30 *cellLayout);
+u8 GetLabelPriority(s32 labelIndex, void *labelLayout, LayoutTableEntry *table, Unk0201ea30 *cellLayout);
+void SetLabelPriority(u32 labelIndex, u32 priority, Unk0201ea30 *labelLayout, LayoutTableEntry *table,
+                      Unk0201ea30 *cellLayout);

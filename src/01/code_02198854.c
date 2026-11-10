@@ -47,9 +47,10 @@ void InitOptionSelectMenuTexts(void) {
                                   gOptionSelectMenu->mOptionSelectMenuMBnll, a[i][0], a[i][1], i,
                                   gOptionSelectMenu->mOptionSelectMenuMNcer, gOptionSelectMenu->mOptionSelectMenuMBncl,
                                   gOptionSelectMenu->mOptionSelectMenuMTable, v0);
-            func_0212426c(0, data_ov001_021a6a24[i], gOptionSelectMenu->mOptionSelectMenuMBnll,
-                          GetBmgEntry(gOptionSelectMenu->mOptionMessages, c[i]),
-                          gOptionSelectMenu->mOptionSelectMenuMBncl, gOptionSelectMenu->mOptionSelectMenuMTable);
+            PrintLabelLayoutTextNoFixedAdvance(0, data_ov001_021a6a24[i], gOptionSelectMenu->mOptionSelectMenuMBnll,
+                                               GetBmgEntry(gOptionSelectMenu->mOptionMessages, c[i]),
+                                               gOptionSelectMenu->mOptionSelectMenuMBncl,
+                                               gOptionSelectMenu->mOptionSelectMenuMTable);
         }
     }
     {
@@ -67,8 +68,9 @@ void InitOptionSelectMenuTexts(void) {
                                   gOptionSelectMenu->mOptionSelectMenuSBnll, b[i][0], b[i][1], data_ov001_021a6a30[i],
                                   gOptionSelectMenu->mOptionSelectMenuSNcer, gOptionSelectMenu->mOptionSelectMenuSBncl,
                                   gOptionSelectMenu->mOptionSelectMenuSTable, v2);
-            func_0212426c(1, data_ov001_021a6a34[i], gOptionSelectMenu->mOptionSelectMenuSBnll, GetBmgEntry(v1, d[i]),
-                          gOptionSelectMenu->mOptionSelectMenuSBncl, gOptionSelectMenu->mOptionSelectMenuSTable);
+            PrintLabelLayoutTextNoFixedAdvance(1, data_ov001_021a6a34[i], gOptionSelectMenu->mOptionSelectMenuSBnll,
+                                               GetBmgEntry(v1, d[i]), gOptionSelectMenu->mOptionSelectMenuSBncl,
+                                               gOptionSelectMenu->mOptionSelectMenuSTable);
         }
     }
 }
@@ -86,8 +88,8 @@ void InitOptionSelectMenu(void *a) {
     LocateAndQueueOptionSelectMenu();
     InitPaletteBlend(a, gOptionSelectMenu->mOptionSelectMenuSONclr, 3);
     for (i = 0; i < 2; i++) {
-        func_02124a98(data_ov001_021a6a28[i], 1, gOptionSelectMenu->mOptionSelectMenuSNcer,
-                      gOptionSelectMenu->mOptionSelectMenuSBncl);
+        SetCellOamModeXlu(data_ov001_021a6a28[i], 1, gOptionSelectMenu->mOptionSelectMenuSNcer,
+                          gOptionSelectMenu->mOptionSelectMenuSBncl);
     }
     ResetOamLists(GetOptionFirstBuffer(), GetOptionSecondBuffer());
     InitLayoutTable(a, gOptionSelectMenu->mOptionSelectMenuMBncl, gOptionSelectMenu->mOptionSelectMenuMBnll,

@@ -112,8 +112,8 @@ void func_02033b80(s32 entryIndex) {
     }
     scoreText[length++] = 0x30 + score % 10;
     scoreText[length] = 0;
-    func_02124224(1, r + 8, subCellFileSet->mLabelLayout, scoreText, subCellFileSet->mCellLayout,
-                  subCellFileSet->mCellTable, 6);
+    PrintLabelLayoutTextFixedDigits(1, r + 8, subCellFileSet->mLabelLayout, scoreText, subCellFileSet->mCellLayout,
+                                    subCellFileSet->mCellTable, 6);
     r += 0x38;
     subCellFileSet->mCellTable[r].mVisible = 1;
     func_02025c48(r, gResultsBattle->mEntries[entryIndex].mRank + 0x40, subCellFileSet->mCellLayout);
@@ -177,8 +177,8 @@ void func_02033a0c(void *heap) {
     }
     func_020338f8_inline(entryName, 0x16);
     CopyKartEntryName((u16) gResultsBattle->mOwnEntryIndex, entryName, 1);
-    func_0212426c(0, 0, mainCellFileSet->mLabelLayout, entryName, mainCellFileSet->mCellLayout,
-                  mainCellFileSet->mCellTable);
+    PrintLabelLayoutTextNoFixedAdvance(0, 0, mainCellFileSet->mLabelLayout, entryName, mainCellFileSet->mCellLayout,
+                                       mainCellFileSet->mCellTable);
     func_02033ab8(0, gResultsBattle->mOwnEntryIndex, 0, 1);
 }
 
@@ -210,15 +210,16 @@ void func_020338f8(void *heap) {
             j++;
         } while (j < mainCellFileSet->mLabelLayout->mUnk_06);
     }
-    func_0212426c(0, 0, mainCellFileSet->mLabelLayout, GetBmgEntry(gResultsBattle->mCommonMessages, 0x7a),
-                  mainCellFileSet->mCellLayout, mainCellFileSet->mCellTable);
+    PrintLabelLayoutTextNoFixedAdvance(0, 0, mainCellFileSet->mLabelLayout,
+                                       GetBmgEntry(gResultsBattle->mCommonMessages, 0x7a), mainCellFileSet->mCellLayout,
+                                       mainCellFileSet->mCellTable);
     for (entryIndex = 0; entryIndex < gResultsBattle->mKartCount; entryIndex++) {
         if (gResultsBattle->mEntries[entryIndex].mRank == 0) {
             func_020338f8_inline(entryName, 0x16);
             CopyKartEntryName((u16) entryIndex, entryName, 1);
             n++;
-            func_0212426c(0, n, mainCellFileSet->mLabelLayout, entryName, mainCellFileSet->mCellLayout,
-                          mainCellFileSet->mCellTable);
+            PrintLabelLayoutTextNoFixedAdvance(0, n, mainCellFileSet->mLabelLayout, entryName,
+                                               mainCellFileSet->mCellLayout, mainCellFileSet->mCellTable);
         }
     }
     while (n < 7) {

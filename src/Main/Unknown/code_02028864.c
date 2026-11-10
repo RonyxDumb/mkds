@@ -155,12 +155,12 @@ void InitSelectKart(void *a, s32 b, void *c, void *d) {
         for (i = 0; i < 6; i++) {
             w = GetBmgEntry(gSelectKart->mKartSelectMessages, data_usa_021537f4[i].mUnk_08);
             n = data_usa_021537f4[i].mUnk_00;
-            func_0212426c(1, n, p->mLabelLayout, w, p->mCellLayout, p->mCellTable);
-            func_02124094(n, 1, p->mLabelLayout, p->mCellTable, p->mCellLayout);
+            PrintLabelLayoutTextNoFixedAdvance(1, n, p->mLabelLayout, w, p->mCellLayout, p->mCellTable);
+            SetLabelPriority(n, 1, p->mLabelLayout, p->mCellTable, p->mCellLayout);
         }
         w = GetBmgEntry(FindFileInLoadedArchives(gCommonBmgName2), data_usa_021537f4[6].mUnk_08);
         i = data_usa_02153834[4];
-        func_0212426c(1, i, p->mLabelLayout, w, p->mCellLayout, p->mCellTable);
+        PrintLabelLayoutTextNoFixedAdvance(1, i, p->mLabelLayout, w, p->mCellLayout, p->mCellTable);
         SetLabelPaletteIndex(i, 1, p->mLabelLayout, p->mCellTable, p->mCellLayout);
         InitPaletteBlend(gSelectKart->mHeap, p->mPalette, 1);
         p->mCellTable[2].mVisible = 0;

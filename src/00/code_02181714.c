@@ -64,7 +64,7 @@ void InitWiFiTopMenu(void *heap) {
     gWiFiTopMenu->mCommonMessages = FindFileInLoadedArchives("common.bmg");
     LocateAndQueueWiFiTopMenu();
     for (i = 0; i < 3; i++) {
-        func_02124a98(data_ov000_021b05c0[i], 1, gWiFiTopMenu->mWiFiTopMenuSNcer, gWiFiTopMenu->mWiFiTopMenuBncl);
+        SetCellOamModeXlu(data_ov000_021b05c0[i], 1, gWiFiTopMenu->mWiFiTopMenuSNcer, gWiFiTopMenu->mWiFiTopMenuBncl);
     }
     ResetOamLists(func_ov000_021804f4(), func_ov000_021804e0());
     InitLayoutTable(heap, gWiFiTopMenu->mWiFiTopMenuBncl, NULL, &gWiFiTopMenu->mWiFiTopMenuTable);

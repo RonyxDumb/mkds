@@ -21,7 +21,7 @@ void InitWiFiSelectCharacterState(void *a) {
     gWiFiSelectCharacterState->mHeap = a;
     func_ov000_02184934();
     if (GetWiFiPrevState() != 5) {
-        func_02122728();
+        PackWiFiSessionIndicesWrapper();
         SetRaceSetupCopyEntryIndex((u8) GetPackedIndex(GetOwnParticipantIndex()));
         SetSessionKartCount(gWiFiSession->mKartCount);
     }
@@ -47,7 +47,7 @@ void AdvanceWiFiSelectCharacterState(void) {
 
     a = AdvanceSelectCharacter();
     if (a == 1 || a == 3) {
-        if (func_02122ae4() != 0) {
+        if (IsWiFiConnectionLost() != 0) {
             RequestWiFiState(7);
             return;
         }

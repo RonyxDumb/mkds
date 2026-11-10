@@ -117,8 +117,9 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     playerName[10] = 0;
     InitLabelCanvas(heap, 0, mainFileSet->mLabelLayout, 0x82, 0xd, 0x14, mainFileSet->mCells, mainFileSet->mCellLayout,
                     mainFileSet->mCellTable, mainObjSize);
-    func_0212426c(0, 0, mainFileSet->mLabelLayout, playerName, mainFileSet->mCellLayout, mainFileSet->mCellTable);
-    func_02124094(0, 1, mainFileSet->mLabelLayout, mainFileSet->mCellTable, mainFileSet->mCellLayout);
+    PrintLabelLayoutTextNoFixedAdvance(0, 0, mainFileSet->mLabelLayout, playerName, mainFileSet->mCellLayout,
+                                       mainFileSet->mCellTable);
+    SetLabelPriority(0, 1, mainFileSet->mLabelLayout, mainFileSet->mCellTable, mainFileSet->mCellLayout);
     for (i = 0; i < 8; i++) {
         if (i == gResultsGp->mCupRankIndex) {
             cellFlag = 1;
@@ -164,15 +165,15 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     }
     message = GetBmgEntry(gResultsGp->mCommonMessages, gEngineMessageIndexTable[data_0217b488->mEngineIndex]);
     for (j = 0; j < 2; j++) {
-        func_0212426c(1, data_usa_02153918[labelTableIndex].mUnk_00, subFileSet->mLabelLayout, message,
-                      subFileSet->mCellLayout, subFileSet->mCellTable);
+        PrintLabelLayoutTextNoFixedAdvance(1, data_usa_02153918[labelTableIndex].mUnk_00, subFileSet->mLabelLayout,
+                                           message, subFileSet->mCellLayout, subFileSet->mCellTable);
         labelTableIndex++;
     }
     if (data_0217b488->mMirrorMode != 0) {
         message = GetBmgEntry(gResultsGp->mCommonMessages, 0x71);
         for (j = 0; j < 2; j++) {
-            func_0212426c(1, data_usa_02153918[labelTableIndex].mUnk_00, subFileSet->mLabelLayout, message,
-                          subFileSet->mCellLayout, subFileSet->mCellTable);
+            PrintLabelLayoutTextNoFixedAdvance(1, data_usa_02153918[labelTableIndex].mUnk_00, subFileSet->mLabelLayout,
+                                               message, subFileSet->mCellLayout, subFileSet->mCellTable);
             labelTableIndex++;
         }
     } else {
@@ -181,16 +182,16 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     for (courseIndex = 0; courseIndex < 4; courseIndex++) {
         message = GetBmgEntry(gResultsGp->mCommonMessages,
                               GetCourseMessageIndex(data_usa_02153898[gResultsGp->mCupIndex][courseIndex]));
-        func_0212426c(1, data_usa_02153918[labelTableIndex].mUnk_00, subFileSet->mLabelLayout, message,
-                      subFileSet->mCellLayout, subFileSet->mCellTable);
+        PrintLabelLayoutTextNoFixedAdvance(1, data_usa_02153918[labelTableIndex].mUnk_00, subFileSet->mLabelLayout,
+                                           message, subFileSet->mCellLayout, subFileSet->mCellTable);
         labelTableIndex++;
     }
     for (j = 0; j < 4; j++) {
         func_0202a340(timeText, j);
-        func_02124224(1, data_usa_02153918[labelTableIndex].mUnk_00, subFileSet->mLabelLayout, timeText,
-                      subFileSet->mCellLayout, subFileSet->mCellTable, 7);
-        func_02124224(1, data_usa_02153918[labelTableIndex + 4].mUnk_00, subFileSet->mLabelLayout, timeText,
-                      subFileSet->mCellLayout, subFileSet->mCellTable, 7);
+        PrintLabelLayoutTextFixedDigits(1, data_usa_02153918[labelTableIndex].mUnk_00, subFileSet->mLabelLayout,
+                                        timeText, subFileSet->mCellLayout, subFileSet->mCellTable, 7);
+        PrintLabelLayoutTextFixedDigits(1, data_usa_02153918[labelTableIndex + 4].mUnk_00, subFileSet->mLabelLayout,
+                                        timeText, subFileSet->mCellLayout, subFileSet->mCellTable, 7);
         labelTableIndex++;
     }
     subFileSet = &gResultsGp->mCellFileSets[1];

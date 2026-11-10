@@ -123,13 +123,13 @@ void SetupRecordGpxValues(s32 a) {
     GetGrandPrixRecordTime(data_ov001_021a6740[gRecordGpx->mIndex], data_ov001_021a6694[a], &value);
     FormatTimeAscii(&value, buf);
     gRecordGpx->mRecordGpxSTable[count + data_ov001_021a6614[a]].mVisible = 1;
-    func_02124224(1, data_ov001_021a6614[a], gRecordGpx->mRecordGpxSBnll, buf, gRecordGpx->mRecordGpxSBncl,
-                  gRecordGpx->mRecordGpxSTable, 7);
+    PrintLabelLayoutTextFixedDigits(1, data_ov001_021a6614[a], gRecordGpx->mRecordGpxSBnll, buf,
+                                    gRecordGpx->mRecordGpxSBncl, gRecordGpx->mRecordGpxSTable, 7);
     y = (u16) GetGrandPrixRecordTotalPoints(data_ov001_021a6740[gRecordGpx->mIndex], data_ov001_021a6694[a]);
     FormatAsciiNumber(y, buf);
     gRecordGpx->mRecordGpxSTable[count + data_ov001_021a662c[a]].mVisible = 1;
-    func_02124248(1, data_ov001_021a662c[a], gRecordGpx->mRecordGpxSBnll, buf, gRecordGpx->mRecordGpxSBncl,
-                  gRecordGpx->mRecordGpxSTable, 7);
+    PrintLabelLayoutTextFixedAdvance(1, data_ov001_021a662c[a], gRecordGpx->mRecordGpxSBnll, buf,
+                                     gRecordGpx->mRecordGpxSBncl, gRecordGpx->mRecordGpxSTable, 7);
     for (i = 0; i < 3; i++) {
         gRecordGpx->mRecordGpxSTable[data_ov001_021a66cc[a][i]].mVisible = 0;
     }
@@ -151,8 +151,9 @@ void SetupRecordGpxValues(s32 a) {
     z = func_02060364(data_ov001_021a6740[gRecordGpx->mIndex], data_ov001_021a6694[a]);
     if (z < 5) {
         gRecordGpx->mRecordGpxSTable[count + data_ov001_021a663c[a]].mVisible = 1;
-        func_0212426c(1, data_ov001_021a663c[a], gRecordGpx->mRecordGpxSBnll, data_ov001_021a8280[z],
-                      gRecordGpx->mRecordGpxSBncl, gRecordGpx->mRecordGpxSTable);
+        PrintLabelLayoutTextNoFixedAdvance(1, data_ov001_021a663c[a], gRecordGpx->mRecordGpxSBnll,
+                                           data_ov001_021a8280[z], gRecordGpx->mRecordGpxSBncl,
+                                           gRecordGpx->mRecordGpxSTable);
     } else {
         gRecordGpx->mRecordGpxSTable[data_ov001_021a66b4[a][z - 5]].mVisible = 1;
     }
@@ -164,10 +165,10 @@ void SetupRecordGpxDashes(s32 a) {
     gRecordGpx->mRecordGpxSTable[data_ov001_021a666c[a]].mVisible = 0;
     gRecordGpx->mRecordGpxSTable[data_ov001_021a6674[a][0]].mVisible = 0;
     gRecordGpx->mRecordGpxSTable[data_ov001_021a6674[a][1]].mVisible = 0;
-    func_02124224(1, data_ov001_021a6614[a], gRecordGpx->mRecordGpxSBnll, L"--:--:---", gRecordGpx->mRecordGpxSBncl,
-                  gRecordGpx->mRecordGpxSTable, 7);
-    func_02124248(1, data_ov001_021a662c[a], gRecordGpx->mRecordGpxSBnll, L"--", gRecordGpx->mRecordGpxSBncl,
-                  gRecordGpx->mRecordGpxSTable, 7);
+    PrintLabelLayoutTextFixedDigits(1, data_ov001_021a6614[a], gRecordGpx->mRecordGpxSBnll, L"--:--:---",
+                                    gRecordGpx->mRecordGpxSBncl, gRecordGpx->mRecordGpxSTable, 7);
+    PrintLabelLayoutTextFixedAdvance(1, data_ov001_021a662c[a], gRecordGpx->mRecordGpxSBnll, L"--",
+                                     gRecordGpx->mRecordGpxSBncl, gRecordGpx->mRecordGpxSTable, 7);
     for (i = 0; i < 3; i++) {
         gRecordGpx->mRecordGpxSTable[data_ov001_021a66cc[a][i]].mVisible = 0;
     }
@@ -177,8 +178,8 @@ void SetupRecordGpxDashes(s32 a) {
     for (i = 0; i < 3; i++) {
         gRecordGpx->mRecordGpxSTable[data_ov001_021a66b4[a][i]].mVisible = 0;
     }
-    func_0212426c(1, data_ov001_021a663c[a], gRecordGpx->mRecordGpxSBnll, L"-", gRecordGpx->mRecordGpxSBncl,
-                  gRecordGpx->mRecordGpxSTable);
+    PrintLabelLayoutTextNoFixedAdvance(1, data_ov001_021a663c[a], gRecordGpx->mRecordGpxSBnll, L"-",
+                                       gRecordGpx->mRecordGpxSBncl, gRecordGpx->mRecordGpxSTable);
 }
 
 // Stores both offsets and steps both timers; while timer i is above 0 the row data_ov001_021a65fc[i] picks is switched
@@ -235,7 +236,7 @@ void SetupRecordGpx(void) {
     QueueCupMark(d->mIndex, d->mRecordGpxMNcer, d->mRecordGpxMBncl, 1, v, 0);
     d = gRecordGpx;
     p = GetBmgEntry(d->mCommonMessages, data_ov001_021a6720[d->mIndex]);
-    func_0212426c(0, 0, gRecordGpx->mRecordGpxMBnll, p, d->mRecordGpxMBncl, d->mRecordGpxMTable);
+    PrintLabelLayoutTextNoFixedAdvance(0, 0, gRecordGpx->mRecordGpxMBnll, p, d->mRecordGpxMBncl, d->mRecordGpxMTable);
     for (i = 0; i < 4; i++) {
         if (IsGrandPrixRecordFilled(data_ov001_021a6740[gRecordGpx->mIndex], data_ov001_021a6694[i]) != 0) {
             SetupRecordGpxValues(i);

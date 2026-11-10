@@ -264,8 +264,8 @@ void InitRecordTopMenu(void *heap) {
     }
     LocateAndQueueRecordTopMenu();
     for (i = 0; i < 3; i++) {
-        func_02124a98(data_ov001_021a6ac4[i], 1, gRecordTopMenu->mRecordTopMenuSNcer,
-                      gRecordTopMenu->mRecordTopMenuSBncl);
+        SetCellOamModeXlu(data_ov001_021a6ac4[i], 1, gRecordTopMenu->mRecordTopMenuSNcer,
+                          gRecordTopMenu->mRecordTopMenuSBncl);
     }
     ResetOamLists(GetRecordMainOam(), GetRecordSubOam());
     InitLayoutTable(heap, gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMBnll,
@@ -277,8 +277,9 @@ void InitRecordTopMenu(void *heap) {
     rem -=
         InitLabelCanvas(heap, 0, gRecordTopMenu->mRecordTopMenuMBnll, 0xaa, 0xe, 0, gRecordTopMenu->mRecordTopMenuMNcer,
                         gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMTable, rem);
-    func_0212426c(0, 0, gRecordTopMenu->mRecordTopMenuMBnll, GetBmgEntry(gRecordTopMenu->mRecordMessages, 9),
-                  gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMTable);
+    PrintLabelLayoutTextNoFixedAdvance(0, 0, gRecordTopMenu->mRecordTopMenuMBnll,
+                                       GetBmgEntry(gRecordTopMenu->mRecordMessages, 9),
+                                       gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMTable);
     x = 1;
     base = gRecordTopMenu->mRecordTopMenuMBncl->mUnk_06;
     for (i = 0; i < 3; i++) {
@@ -291,9 +292,10 @@ void InitRecordTopMenu(void *heap) {
         }
     }
     for (i = 0; i < 3; i++) {
-        func_0212426c(0, data_ov001_021a6ae4[0][i], gRecordTopMenu->mRecordTopMenuMBnll,
-                      GetBmgEntry(gRecordTopMenu->mRecordMessages, gRecordTopMenuRecordMessageIndices[i]),
-                      gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMTable);
+        PrintLabelLayoutTextNoFixedAdvance(
+            0, data_ov001_021a6ae4[0][i], gRecordTopMenu->mRecordTopMenuMBnll,
+            GetBmgEntry(gRecordTopMenu->mRecordMessages, gRecordTopMenuRecordMessageIndices[i]),
+            gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMTable);
     }
     pp = &data_0217aa08->mFirstBlock;
     scores[1][0] = (*pp)->mUnk_34[0];
@@ -308,8 +310,9 @@ void InitRecordTopMenu(void *heap) {
                 scores[i][j] = 9999;
             }
             FormatAsciiNumber(scores[i][j], buf);
-            func_02124248(0, data_ov001_021a6ae4[i][j], gRecordTopMenu->mRecordTopMenuMBnll, buf,
-                          gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMTable, 6);
+            PrintLabelLayoutTextFixedAdvance(0, data_ov001_021a6ae4[i][j], gRecordTopMenu->mRecordTopMenuMBnll, buf,
+                                             gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMTable,
+                                             6);
         }
     }
     func_ov001_0219ac98();

@@ -174,9 +174,10 @@ void SetupSelectCupGridIndex(void) {
     j = 0;
     for (i = 0; i < 4; i++) {
         grid = gSelectCupGrid;
-        func_0212426c(j, gSelectCupGridCourseLabelIndices[i], gSelectCupGrid->mSelectCupMBnll,
-                      GetBmgEntry(grid->mCommonMessages, gSelectCupGridCupMessageIndices[grid->mIndex][i]),
-                      grid->mSelectCupMBncl, grid->mSelectCupMTable);
+        PrintLabelLayoutTextNoFixedAdvance(
+            j, gSelectCupGridCourseLabelIndices[i], gSelectCupGrid->mSelectCupMBnll,
+            GetBmgEntry(grid->mCommonMessages, gSelectCupGridCupMessageIndices[grid->mIndex][i]), grid->mSelectCupMBncl,
+            grid->mSelectCupMTable);
     }
     for (j = 0, cellIndexCursor = gSelectCupGridRecordCells; j < 8; cellIndexCursor++, j++) {
         gSelectCupGrid->mSelectCupMTable[*cellIndexCursor].mVisible = 0;

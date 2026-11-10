@@ -51,8 +51,8 @@ void InitOptionTopMenu(void *heap) {
     }
     LocateAndQueueOptionTopMenu();
     for (i = 0; i < 3; i++) {
-        func_02124a98(data_ov001_021a65dc[i], 1, gOptionTopMenu->mOptionTopMenuSNcer,
-                      gOptionTopMenu->mOptionTopMenuSBncl);
+        SetCellOamModeXlu(data_ov001_021a65dc[i], 1, gOptionTopMenu->mOptionTopMenuSNcer,
+                          gOptionTopMenu->mOptionTopMenuSBncl);
     }
     ResetOamLists(GetOptionFirstBuffer(), GetOptionSecondBuffer());
     InitLayoutTable(heap, gOptionTopMenu->mOptionTopMenuSBncl, NULL, &gOptionTopMenu->mOptionTopMenuSTable);

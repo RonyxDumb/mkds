@@ -31,7 +31,7 @@ void func_02025c48(u32 destinationId, u32 sourceId, Unk0201ea30 *cellLayout) {
 void func_02025c1c(u32 entryId, LayoutTableEntry *output, Unk0201ea30 *cellLayout) {
     short *layoutEntry;
     layoutEntry = func_0201ea30(cellLayout, entryId);
-    output->mUnk_08 = 1;
+    output->mUsePosition = 1;
     output->mPositionX = ((*layoutEntry << 0x14) >> 0x14);
     output->mPositionY = ((layoutEntry[1] << 0x14) >> 0x14);
 }
@@ -39,7 +39,7 @@ void func_02025c1c(u32 entryId, LayoutTableEntry *output, Unk0201ea30 *cellLayou
 void func_02025bf0(u32 entryId, LayoutTableEntry *output, Unk0201ea30 *labelLayout) {
     short *layoutEntry;
     layoutEntry = func_0201ea58(labelLayout, entryId);
-    output->mUnk_08 = 1;
+    output->mUsePosition = 1;
     output->mPositionX = ((*layoutEntry << 0x14) >> 0x14);
     output->mPositionY = ((layoutEntry[1] << 0x14) >> 0x14);
 }

@@ -28,8 +28,8 @@ void InitOptionEmbremSelect(void *a) {
     gOptionEmbremSelect->mUnk_24 = TRUE;
     LocateAndQueueOptionEmbremSelect();
     for (i = 0; i < 2; i++) {
-        func_02124a98(data_ov001_021a6c38[i][0], 1, gOptionEmbremSelect->mOptionEmbremSelectSNcer,
-                      gOptionEmbremSelect->mOptionEmbremSelectSBncl);
+        SetCellOamModeXlu(data_ov001_021a6c38[i][0], 1, gOptionEmbremSelect->mOptionEmbremSelectSNcer,
+                          gOptionEmbremSelect->mOptionEmbremSelectSBncl);
     }
     ResetOamLists(GetOptionFirstBuffer(), GetOptionSecondBuffer());
     InitLayoutTable(a, gOptionEmbremSelect->mOptionEmbremSelectSBncl, gOptionEmbremSelect->mOptionEmbremSelectSBnll,
@@ -41,8 +41,8 @@ void InitOptionEmbremSelect(void *a) {
                     gOptionEmbremSelect->mOptionEmbremSelectSTable, 0x4000);
     p = gOptionEmbremSelect;
     ptr = GetBmgEntry(p->mOptionMessages, 8);
-    func_0212426c(1, 0, gOptionEmbremSelect->mOptionEmbremSelectSBnll, ptr, p->mOptionEmbremSelectSBncl,
-                  p->mOptionEmbremSelectSTable);
+    PrintLabelLayoutTextNoFixedAdvance(1, 0, gOptionEmbremSelect->mOptionEmbremSelectSBnll, ptr,
+                                       p->mOptionEmbremSelectSBncl, p->mOptionEmbremSelectSTable);
     for (i = 0; i < 2; i++) {
         gOptionEmbremSelect->mUnk_18[i].mUnk_00 = 250;
         gOptionEmbremSelect->mUnk_18[i].mUnk_02 = 0;

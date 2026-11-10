@@ -166,9 +166,9 @@ void func_ov001_021a0b3c(void) {
             if (out <= 4) {
                 gMissionRunMSsel->mMissionRunMSselSTable[data_ov001_021a6e7c[i][5]].mVisible = 1;
                 gMissionRunMSsel->mMissionRunMSselSTable[cnt10 + data_ov001_021a6e10[i][0]].mVisible = 1;
-                func_0212426c(1, data_ov001_021a6e10[i][0], gMissionRunMSsel->mMissionRunMSselSBnll,
-                              data_ov001_021a92c8[out], gMissionRunMSsel->mMissionRunMSselSBncl,
-                              gMissionRunMSsel->mMissionRunMSselSTable);
+                PrintLabelLayoutTextNoFixedAdvance(
+                    1, data_ov001_021a6e10[i][0], gMissionRunMSsel->mMissionRunMSselSBnll, data_ov001_021a92c8[out],
+                    gMissionRunMSsel->mMissionRunMSselSBncl, gMissionRunMSsel->mMissionRunMSselSTable);
             } else if (out <= 7) {
                 gMissionRunMSsel->mMissionRunMSselSTable[data_ov001_021a6e7c[i][out + 1]].mVisible = 1;
             }
@@ -198,10 +198,11 @@ void func_ov001_021a0b3c(void) {
         }
         gMissionRunMSsel->mMissionRunMSselSTable[cnt10 + data_ov001_021a6e10[i][1]].mVisible = 1;
         func_ov001_021a0e08((s16) i, buf);
-        func_0212426c(1, data_ov001_021a6e10[i][1], gMissionRunMSsel->mMissionRunMSselSBnll, buf,
-                      gMissionRunMSsel->mMissionRunMSselSBncl, gMissionRunMSsel->mMissionRunMSselSTable);
-        func_02124a98(data_ov001_021a6e7c[i][0], 1, gMissionRunMSsel->mMissionRunMSselSNcer,
-                      gMissionRunMSsel->mMissionRunMSselSBncl);
+        PrintLabelLayoutTextNoFixedAdvance(1, data_ov001_021a6e10[i][1], gMissionRunMSsel->mMissionRunMSselSBnll, buf,
+                                           gMissionRunMSsel->mMissionRunMSselSBncl,
+                                           gMissionRunMSsel->mMissionRunMSselSTable);
+        SetCellOamModeXlu(data_ov001_021a6e7c[i][0], 1, gMissionRunMSsel->mMissionRunMSselSNcer,
+                          gMissionRunMSsel->mMissionRunMSselSBncl);
     }
     gMissionRunMSsel->mMissionRunMSselSTable[45].mVisible = 1;
 }
@@ -338,7 +339,7 @@ void func_ov001_021a0774(void) {
         gMissionRunMSsel->mMissionRunMSselMTable[data_ov001_021a6d7c[out - 2]].mVisible = 1;
     }
     d = gMissionRunMSsel;
-    func_0212426c(
+    PrintLabelLayoutTextNoFixedAdvance(
         0, 0, gMissionRunMSsel->mMissionRunMSselMBnll,
         GetBmgEntry(
             d->mMissionMessages,

@@ -58,8 +58,8 @@ void InitWiFiVSSetting(void *heap) {
     LocateAndQueueWiFiVSSetting();
     InitPaletteBlend(heap, gWiFiVSSetting->mWiFiVSSettingSONclr, 3);
     for (i = 0; i < 2; i++) {
-        func_02124a98(data_ov000_021b060c[i][0], 1, gWiFiVSSetting->mWiFiVSSettingSNcer,
-                      gWiFiVSSetting->mWiFiVSSettingBncl);
+        SetCellOamModeXlu(data_ov000_021b060c[i][0], 1, gWiFiVSSetting->mWiFiVSSettingSNcer,
+                          gWiFiVSSetting->mWiFiVSSettingBncl);
     }
     ResetOamLists(func_ov000_021804f4(), func_ov000_021804e0());
     InitLayoutTable(heap, gWiFiVSSetting->mWiFiVSSettingBncl, gWiFiVSSetting->mWiFiVSSettingBnll,
@@ -76,8 +76,9 @@ void InitWiFiVSSetting(void *heap) {
             v -= InitLabelCanvas(heap, a[i], gWiFiVSSetting->mWiFiVSSettingBnll, b[i][0], b[i][1],
                                  data_ov000_021b060c[i][11], gWiFiVSSetting->mWiFiVSSettingSNcer,
                                  gWiFiVSSetting->mWiFiVSSettingBncl, gWiFiVSSetting->mWiFiVSSettingTable, v);
-            func_0212426c(1, a[i], gWiFiVSSetting->mWiFiVSSettingBnll, GetBmgEntry(gWiFiVSSetting->mWiFiMessages, c[i]),
-                          gWiFiVSSetting->mWiFiVSSettingBncl, gWiFiVSSetting->mWiFiVSSettingTable);
+            PrintLabelLayoutTextNoFixedAdvance(1, a[i], gWiFiVSSetting->mWiFiVSSettingBnll,
+                                               GetBmgEntry(gWiFiVSSetting->mWiFiMessages, c[i]),
+                                               gWiFiVSSetting->mWiFiVSSettingBncl, gWiFiVSSetting->mWiFiVSSettingTable);
         }
         {
             u8 d[3][2] = {{0x80, 0x10}, {0xa0, 0x10}, {0x32, 0x10}};
@@ -104,8 +105,9 @@ void InitWiFiVSSetting(void *heap) {
                 } else {
                     t = GetBmgEntry(gWiFiVSSetting->mWiFiMessages, data_ov000_021b0628[i][k]);
                 }
-                func_0212426c(1, data_ov000_021b05e8[i], gWiFiVSSetting->mWiFiVSSettingBnll, t,
-                              gWiFiVSSetting->mWiFiVSSettingBncl, gWiFiVSSetting->mWiFiVSSettingTable);
+                PrintLabelLayoutTextNoFixedAdvance(1, data_ov000_021b05e8[i], gWiFiVSSetting->mWiFiVSSettingBnll, t,
+                                                   gWiFiVSSetting->mWiFiVSSettingBncl,
+                                                   gWiFiVSSetting->mWiFiVSSettingTable);
             }
         }
     }
@@ -177,10 +179,10 @@ void AdvanceWiFiVSSettingState0(void) {
         StartFadeToClear(10);
     }
     if (AreBrightnessFadesClear() != 0) {
-        if (func_02122ae4() != 0) {
+        if (IsWiFiConnectionLost() != 0) {
             gWiFiVSSetting->mNextState = 1;
             func_02126638(GetBmgEntry(gWiFiVSSetting->mWiFiMessages, 0x1b), 0, 0, 1, 0, 0, 0);
-            func_02122ab0();
+            ResetWiFiConnectionLost();
             WriteChangedWiFiBuddies();
             return;
         }
@@ -359,9 +361,9 @@ end:
     }
     if (prevSettingIndex != gWiFiVSSetting->mSettingIndex) {
         messageIndex = LookupWiFiVSSettingMessageIndex(gWiFiVSSetting->mSettingIndex);
-        func_0212426c(1, data_ov000_021b05e8[1], gWiFiVSSetting->mWiFiVSSettingBnll,
-                      GetBmgEntry(gWiFiVSSetting->mWiFiMessages, messageIndex), gWiFiVSSetting->mWiFiVSSettingBncl,
-                      gWiFiVSSetting->mWiFiVSSettingTable);
+        PrintLabelLayoutTextNoFixedAdvance(1, data_ov000_021b05e8[1], gWiFiVSSetting->mWiFiVSSettingBnll,
+                                           GetBmgEntry(gWiFiVSSetting->mWiFiMessages, messageIndex),
+                                           gWiFiVSSetting->mWiFiVSSettingBncl, gWiFiVSSetting->mWiFiVSSettingTable);
     }
     if (gWiFiVSSetting->mRow == 2 && v1 != 2) {
         ResetPaletteBlendCycle();

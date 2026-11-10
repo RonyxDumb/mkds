@@ -127,15 +127,15 @@ void InitMenu(void) {
         InitLayoutTable(MenuGetCurrentHeap(), menu->mSinglePlaySelectModeSBncl, NULL,
                         &menu->mSinglePlaySelectModeSLayoutTable);
         menu = gMenuScene;
-        func_02124a98(0, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
+        SetCellOamModeXlu(0, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
         menu = gMenuScene;
-        func_02124a98(1, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
+        SetCellOamModeXlu(1, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
         menu = gMenuScene;
-        func_02124a98(2, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
+        SetCellOamModeXlu(2, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
         menu = gMenuScene;
-        func_02124a98(3, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
+        SetCellOamModeXlu(3, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
         menu = gMenuScene;
-        func_02124a98(4, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
+        SetCellOamModeXlu(4, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
     }
     LoadPlayerEntryListFiles();
     InitPlayerEntryList(MenuGetCurrentHeap(), gMenuScene->mMainOam);

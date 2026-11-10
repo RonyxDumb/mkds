@@ -361,27 +361,32 @@ void SetupSelectCupCourseObjects(void) {
                      0);
         for (i = 0; i < 4; i++) {
             selectCupCourse = gSelectCupCourse;
-            func_0212426c(1, gSelectCupCourseLabelIndices[i], gSelectCupCourse->mSelectCupMBnll,
-                          GetBmgEntry(gSelectCupCourse->mCommonMessages,
-                                      gCupCourseNameMessageIndices[gCupRowsByCupIndex[GetCupIndex()]][i]),
-                          selectCupCourse->mSelectCupMBncl, selectCupCourse->mSelectCupMTable);
+            PrintLabelLayoutTextNoFixedAdvance(
+                1, gSelectCupCourseLabelIndices[i], gSelectCupCourse->mSelectCupMBnll,
+                GetBmgEntry(gSelectCupCourse->mCommonMessages,
+                            gCupCourseNameMessageIndices[gCupRowsByCupIndex[GetCupIndex()]][i]),
+                selectCupCourse->mSelectCupMBncl, selectCupCourse->mSelectCupMTable);
         }
         selectCupCourse = gSelectCupCourse;
-        func_0212426c(0, 2, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll,
-                      GetBmgEntry(selectCupCourse->mCommonMessages, 0x73), selectCupCourse->mSelectCupCourseTaOrVsMBncl,
-                      selectCupCourse->mSelectCupCourseTaOrVsMTable);
+        PrintLabelLayoutTextNoFixedAdvance(
+            0, 2, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll, GetBmgEntry(selectCupCourse->mCommonMessages, 0x73),
+            selectCupCourse->mSelectCupCourseTaOrVsMBncl, selectCupCourse->mSelectCupCourseTaOrVsMTable);
         selectCupCourse = gSelectCupCourse;
-        func_0212426c(0, 4, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll,
-                      GetBmgEntry(selectCupCourse->mCommonMessages, 0x74), selectCupCourse->mSelectCupCourseTaOrVsMBncl,
-                      selectCupCourse->mSelectCupCourseTaOrVsMTable);
-        func_02124140(0, 0, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll,
-                      gSelectCupCourse->mSelectCupCourseTaOrVsMTable, gSelectCupCourse->mSelectCupCourseTaOrVsMBncl);
-        func_02124140(1, 0, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll,
-                      gSelectCupCourse->mSelectCupCourseTaOrVsMTable, gSelectCupCourse->mSelectCupCourseTaOrVsMBncl);
-        func_02124140(2, 0, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll,
-                      gSelectCupCourse->mSelectCupCourseTaOrVsMTable, gSelectCupCourse->mSelectCupCourseTaOrVsMBncl);
-        func_02124140(4, 0, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll,
-                      gSelectCupCourse->mSelectCupCourseTaOrVsMTable, gSelectCupCourse->mSelectCupCourseTaOrVsMBncl);
+        PrintLabelLayoutTextNoFixedAdvance(
+            0, 4, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll, GetBmgEntry(selectCupCourse->mCommonMessages, 0x74),
+            selectCupCourse->mSelectCupCourseTaOrVsMBncl, selectCupCourse->mSelectCupCourseTaOrVsMTable);
+        SetLabelOamModeXlu(0, 0, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll,
+                           gSelectCupCourse->mSelectCupCourseTaOrVsMTable,
+                           gSelectCupCourse->mSelectCupCourseTaOrVsMBncl);
+        SetLabelOamModeXlu(1, 0, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll,
+                           gSelectCupCourse->mSelectCupCourseTaOrVsMTable,
+                           gSelectCupCourse->mSelectCupCourseTaOrVsMBncl);
+        SetLabelOamModeXlu(2, 0, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll,
+                           gSelectCupCourse->mSelectCupCourseTaOrVsMTable,
+                           gSelectCupCourse->mSelectCupCourseTaOrVsMBncl);
+        SetLabelOamModeXlu(4, 0, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll,
+                           gSelectCupCourse->mSelectCupCourseTaOrVsMTable,
+                           gSelectCupCourse->mSelectCupCourseTaOrVsMBncl);
         selectCupCourse = gSelectCupCourse;
         switch (selectCupCourse->mMode) {
             case 1:
@@ -419,13 +424,13 @@ void RefreshSelectCupCourseForIndex(void) {
     u8 timeText[0x24];
     if (gBootInfo->mUnk_00 != 2) {
         selectCupCourse = gSelectCupCourse;
-        func_0212426c(
+        PrintLabelLayoutTextNoFixedAdvance(
             0, 0, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll,
             GetBmgEntry(gSelectCupCourse->mCommonMessages,
                         gCupCourseNameMessageIndices[gCupRowsByCupIndex[GetCupIndex()]][selectCupCourse->mIndex]),
             selectCupCourse->mSelectCupCourseTaOrVsMBncl, selectCupCourse->mSelectCupCourseTaOrVsMTable);
         selectCupCourse = gSelectCupCourse;
-        func_0212426c(
+        PrintLabelLayoutTextNoFixedAdvance(
             0, 1, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll,
             GetBmgEntry(gSelectCupCourse->mCommonMessages,
                         gCupCourseNameMessageIndices[gCupRowsByCupIndex[GetCupIndex()]][selectCupCourse->mIndex]),
@@ -435,28 +440,28 @@ void RefreshSelectCupCourseForIndex(void) {
                               &recordTime);
             FormatTimeFullWidth(&recordTime, timeText);
             selectCupCourse = gSelectCupCourse;
-            func_02124224(0, 3, selectCupCourse->mSelectCupCourseTaOrVsMBnll, timeText,
-                          selectCupCourse->mSelectCupCourseTaOrVsMBncl, selectCupCourse->mSelectCupCourseTaOrVsMTable,
-                          9);
+            PrintLabelLayoutTextFixedDigits(0, 3, selectCupCourse->mSelectCupCourseTaOrVsMBnll, timeText,
+                                            selectCupCourse->mSelectCupCourseTaOrVsMBncl,
+                                            selectCupCourse->mSelectCupCourseTaOrVsMTable, 9);
         } else {
             selectCupCourse = gSelectCupCourse;
-            func_02124224(0, 3, selectCupCourse->mSelectCupCourseTaOrVsMBnll, gNoRecordTimeFullWidth,
-                          selectCupCourse->mSelectCupCourseTaOrVsMBncl, selectCupCourse->mSelectCupCourseTaOrVsMTable,
-                          9);
+            PrintLabelLayoutTextFixedDigits(0, 3, selectCupCourse->mSelectCupCourseTaOrVsMBnll, gNoRecordTimeFullWidth,
+                                            selectCupCourse->mSelectCupCourseTaOrVsMBncl,
+                                            selectCupCourse->mSelectCupCourseTaOrVsMTable, 9);
         }
         if (IsTimeRecordFilled(data_0215cbec[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex], 5)) {
             GetTimeRecordTime(data_0215cbec[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex], 5,
                               &recordTime);
             FormatTimeFullWidth(&recordTime, timeText);
             selectCupCourse = gSelectCupCourse;
-            func_02124224(0, 5, selectCupCourse->mSelectCupCourseTaOrVsMBnll, timeText,
-                          selectCupCourse->mSelectCupCourseTaOrVsMBncl, selectCupCourse->mSelectCupCourseTaOrVsMTable,
-                          9);
+            PrintLabelLayoutTextFixedDigits(0, 5, selectCupCourse->mSelectCupCourseTaOrVsMBnll, timeText,
+                                            selectCupCourse->mSelectCupCourseTaOrVsMBncl,
+                                            selectCupCourse->mSelectCupCourseTaOrVsMTable, 9);
         } else {
             selectCupCourse = gSelectCupCourse;
-            func_02124224(0, 5, selectCupCourse->mSelectCupCourseTaOrVsMBnll, gNoRecordTimeAscii,
-                          selectCupCourse->mSelectCupCourseTaOrVsMBncl, selectCupCourse->mSelectCupCourseTaOrVsMTable,
-                          9);
+            PrintLabelLayoutTextFixedDigits(0, 5, selectCupCourse->mSelectCupCourseTaOrVsMBnll, gNoRecordTimeAscii,
+                                            selectCupCourse->mSelectCupCourseTaOrVsMBncl,
+                                            selectCupCourse->mSelectCupCourseTaOrVsMTable, 9);
         }
         TrySetCupPictureIndexAndQueueLoads(data_0215cbec[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex]);
         gSelectCupCourse->mCupPicturePending = TRUE;

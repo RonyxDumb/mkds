@@ -74,7 +74,8 @@ void RefreshCourseListRows(s32 action, s32 slot, s32 row, s32 selectedSlot) {
         } else {
             text = GetBmgEntry(gWiFiVSCourseSelect->mWiFiMessages, func_02025d5c(gCourseIdTable[row - 1]));
         }
-        func_0212426c(1, slot, fileSet->mLabelLayout, text, fileSet->mCellLayout, fileSet->mCellTable);
+        PrintLabelLayoutTextNoFixedAdvance(1, slot, fileSet->mLabelLayout, text, fileSet->mCellLayout,
+                                           fileSet->mCellTable);
     } else if (action == 0) {
         for (i = 0; i < 7; i++) {
             if (i == selectedSlot) {
@@ -134,8 +135,8 @@ void ShowWiFiSessionCourse(void) {
     fileSet->mCellTable[gWiFiVSCourseSelectMLabelTextRows[0].mLabelIndex + cellCount].mVisible =
         fileSet->mCellTable[4].mVisible;
     fileSet->mCellTable[gWiFiVSCourseSelectMLabelTextRows[0].mLabelIndex + cellCount].mOffsetY += 2;
-    func_0212426c(0, gWiFiVSCourseSelectMLabelTextRows[0].mLabelIndex, fileSet->mLabelLayout, text,
-                  fileSet->mCellLayout, fileSet->mCellTable);
+    PrintLabelLayoutTextNoFixedAdvance(0, gWiFiVSCourseSelectMLabelTextRows[0].mLabelIndex, fileSet->mLabelLayout, text,
+                                       fileSet->mCellLayout, fileSet->mCellTable);
     gWiFiVSCourseSelect->mCourseId = courseId;
     gWiFiVSCourseSelect->mCourseMessageIndex = GetCourseMessageIndex(courseId);
     gWiFiVSCourseSelect->mUnk_14c[0] = text[0];
@@ -180,8 +181,9 @@ void AdvancePickedCourseRows(void) {
             case 2:
                 if (pickedCourseId != 0 && pickedCourseId != gWiFiVSCourseSelect->mShownCourseIds[i]) {
                     text = GetBmgEntry(gWiFiVSCourseSelect->mCommonMessages, GetCourseMessageIndex(pickedCourseId));
-                    func_0212426c(0, gWiFiVSCourseSelectMLabelTextRows[i].mLabelIndex, fileSet->mLabelLayout, text,
-                                  fileSet->mCellLayout, fileSet->mCellTable);
+                    PrintLabelLayoutTextNoFixedAdvance(0, gWiFiVSCourseSelectMLabelTextRows[i].mLabelIndex,
+                                                       fileSet->mLabelLayout, text, fileSet->mCellLayout,
+                                                       fileSet->mCellTable);
                     gWiFiVSCourseSelect->mShownCourseIds[i] = pickedCourseId;
                     func_02025f14(&gWiFiVSCourseSelect->mRowInterpolations[i], 0);
                     if (gWiFiVSCourseSelect->mEntryIndex != i) {
@@ -319,7 +321,7 @@ void InitWiFiVSCourseSelect(void *parentHeap, void *mainOam, void *subOam) {
     func_02025a50(0, gWiFiVSCourseSelect->mHeap, mainFileSet);
     n = mainFileSet->mCellLayout->mUnk_06;
     for (i = 0; i < n; i++) {
-        func_021249a8(i, 1, mainFileSet->mCells, mainFileSet->mCellLayout);
+        SetCellPriority(i, 1, mainFileSet->mCells, mainFileSet->mCellLayout);
     }
     for (i = 0; i < mainFileSet->mLabelLayout->mUnk_06; i++) {
         objSizeLeft -= func_02025a00(0, gWiFiVSCourseSelect->mHeap, mainFileSet, &gWiFiVSCourseSelectMLabelTextRows[i],
@@ -330,7 +332,7 @@ void InitWiFiVSCourseSelect(void *parentHeap, void *mainOam, void *subOam) {
         mainFileSet->mCellTable[n + gWiFiVSCourseSelectMLabelTextRows[i].mLabelIndex].mVisible = 0;
     }
     for (i = 0; i < n; i++) {
-        func_021249a8(i, 2, mainFileSet->mCells, mainFileSet->mCellLayout);
+        SetCellPriority(i, 2, mainFileSet->mCells, mainFileSet->mCellLayout);
     }
     mainFileSet->mCellTable[4].mOffsetY = 0x60 - (((s16 *) func_0201ea30(mainFileSet->mCellLayout, 4))[1] << 20 >> 20);
     mainFileSet->mCellTable[4].mVisible = 0;
@@ -344,14 +346,14 @@ void InitWiFiVSCourseSelect(void *parentHeap, void *mainOam, void *subOam) {
     func_02025a50(1, gWiFiVSCourseSelect->mHeap, subFileSet);
     subCellCount = subFileSet->mCellLayout->mUnk_06;
     for (j = 0; j < subCellCount; j++) {
-        func_021249a8(j, 1, subFileSet->mCells, subFileSet->mCellLayout);
+        SetCellPriority(j, 1, subFileSet->mCells, subFileSet->mCellLayout);
     }
     for (j = 0; j < subFileSet->mLabelLayout->mUnk_06; j++) {
         objSizeLeft -= func_02025a00(1, gWiFiVSCourseSelect->mHeap, subFileSet, &gWiFiVSCourseSelectSLabelTextRows[j],
                                      objSizeLeft);
     }
     for (j = 0; j < subCellCount; j++) {
-        func_021249a8(j, 2, subFileSet->mCells, subFileSet->mCellLayout);
+        SetCellPriority(j, 2, subFileSet->mCells, subFileSet->mCellLayout);
     }
     for (i = 0; i < 7; i++) {
         n = gWiFiVSCourseSelectSLabelTextRows[i].mCellIndex;

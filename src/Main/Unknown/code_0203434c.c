@@ -155,11 +155,13 @@ s32 func_02034370(SceneNumbers *sceneNumbers) {
                                                              &ghostRecordInfo) != FALSE) {
                                 courseMessageIndex = func_02025d74(ghostRecordInfo.mUnk_18[2]);
                                 ghostRecordInfo.mName[10] = 0;
-                                func_0212426c(1, data_02164254[i][0], subCellFileSet->mLabelLayout, &ghostRecordInfo,
-                                              subCellFileSet->mCellLayout, subCellFileSet->mCellTable);
-                                func_0212426c(1, data_02164254[j][0], subCellFileSet->mLabelLayout,
-                                              GetBmgEntry(data_02174e64->mGhostMessages, courseMessageIndex),
-                                              subCellFileSet->mCellLayout, subCellFileSet->mCellTable);
+                                PrintLabelLayoutTextNoFixedAdvance(1, data_02164254[i][0], subCellFileSet->mLabelLayout,
+                                                                   &ghostRecordInfo, subCellFileSet->mCellLayout,
+                                                                   subCellFileSet->mCellTable);
+                                PrintLabelLayoutTextNoFixedAdvance(
+                                    1, data_02164254[j][0], subCellFileSet->mLabelLayout,
+                                    GetBmgEntry(data_02174e64->mGhostMessages, courseMessageIndex),
+                                    subCellFileSet->mCellLayout, subCellFileSet->mCellTable);
                                 MIi_CpuCopyFast(&ghostRecordInfo, &data_02174e64->mGhostInfoEntries[i].mInfo, 0x28);
                                 data_02174e64->mGhostInfoEntries[i].mFilled = TRUE;
                                 func_02025f14(&data_02174e64->mGhostInfoEntries[i].mInterpolation, 0);

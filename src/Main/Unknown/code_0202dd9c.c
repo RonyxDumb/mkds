@@ -166,16 +166,16 @@ void PrintGhostRecordInfo(SelectCharacter *fileSets, s16 (*labelRows)[4], void *
     u16 terminatedName[11];
     CellFileSet *cellFileSet;
     cellFileSet = &fileSets->mUnk_038;
-    func_0212426c(0, labelRows[0][0], fileSets->mUnk_000.mLabelLayout,
-                  GetBmgEntry(fileSets->mUnk_058, GetCourseMessageIndex(courseId)), fileSets->mUnk_000.mCellLayout,
-                  fileSets->mUnk_000.mCellTable);
+    PrintLabelLayoutTextNoFixedAdvance(0, labelRows[0][0], fileSets->mUnk_000.mLabelLayout,
+                                       GetBmgEntry(fileSets->mUnk_058, GetCourseMessageIndex(courseId)),
+                                       fileSets->mUnk_000.mCellLayout, fileSets->mUnk_000.mCellTable);
     WriteMinuteSecondMillisecondText((s16 *) timeText, time->mMinute, time->mSecond, time->mMillisecond);
-    func_02124224(0, labelRows[1][0], fileSets->mUnk_000.mLabelLayout, timeText, fileSets->mUnk_000.mCellLayout,
-                  fileSets->mUnk_000.mCellTable, 7);
+    PrintLabelLayoutTextFixedDigits(0, labelRows[1][0], fileSets->mUnk_000.mLabelLayout, timeText,
+                                    fileSets->mUnk_000.mCellLayout, fileSets->mUnk_000.mCellTable, 7);
     MIi_CpuCopy16(name, terminatedName, 0x14);
     terminatedName[10] = 0;
-    func_0212426c(0, labelRows[2][0], fileSets->mUnk_000.mLabelLayout, terminatedName, fileSets->mUnk_000.mCellLayout,
-                  fileSets->mUnk_000.mCellTable);
+    PrintLabelLayoutTextNoFixedAdvance(0, labelRows[2][0], fileSets->mUnk_000.mLabelLayout, terminatedName,
+                                       fileSets->mUnk_000.mCellLayout, fileSets->mUnk_000.mCellTable);
     QueueCellCharsAndFirstPalette(characterIndex, cellFileSet->mCells, fileSets->mUnk_038.mChars, cellFileSet->mPalette,
                                   cellFileSet->mCellLayout, 0, labelRows[0][3], fileSets->mUnk_000.mCells,
                                   fileSets->mUnk_000.mCellLayout);

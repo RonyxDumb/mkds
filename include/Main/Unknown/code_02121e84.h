@@ -9,4 +9,4 @@ void SetWiFiSessionOwnCharacterIndex(s32 characterIndex);
 void ReceiveWiFiSessionMessage(u32 fromIndex, void *buffer, u32 size);
 BOOL UpdateWiFiSessionStepTimeout(u32 limit);
 void PackWiFiSessionIndices(void);
-void func_02122728(void);
+void PackWiFiSessionIndicesWrapper(void);

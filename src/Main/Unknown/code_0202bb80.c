@@ -196,8 +196,8 @@ void PrintEntryName(s32 entryIndex, u16 *name) {
     MIi_CpuClear16(text[0], &text[1], 0x16);
     name[10] = 0;
     CopyTextWithinWidth(name, &text[1]);
-    func_0212426c(0, gEntryLabelTextRows[entryIndex].mLabelIndex, entryList->mParts.mLabelLayout, &text[1],
-                  entryList->mParts.mCellLayout, entryList->mParts.mCellTable);
+    PrintLabelLayoutTextNoFixedAdvance(0, gEntryLabelTextRows[entryIndex].mLabelIndex, entryList->mParts.mLabelLayout,
+                                       &text[1], entryList->mParts.mCellLayout, entryList->mParts.mCellTable);
 }
 
 void InitPlayerEntryList(void *parentHeap, void *mainOam) {

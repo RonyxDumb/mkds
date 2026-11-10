@@ -75,12 +75,14 @@ void RefreshGhostListRows(s32 action, s32 slot, s32 row, s32 selectedSlot) {
     s32 k;
     fileSet = &gTimeAttackGhostSend->mUnk_050[1];
     if (action == 1) {
-        func_0212426c(1, slot, fileSet->mLabelLayout,
-                      GetBmgEntry(gTimeAttackGhostSend->mGhostMessages, func_02025d74(GetListedGhostCourseId(row))),
-                      fileSet->mCellLayout, fileSet->mCellTable);
+        PrintLabelLayoutTextNoFixedAdvance(
+            1, slot, fileSet->mLabelLayout,
+            GetBmgEntry(gTimeAttackGhostSend->mGhostMessages, func_02025d74(GetListedGhostCourseId(row))),
+            fileSet->mCellLayout, fileSet->mCellTable);
         GetListedGhostTime(row, &recordTime);
         WriteMinuteSecondMillisecondText(text, recordTime.mMinute, recordTime.mSecond, recordTime.mMillisecond);
-        func_02124224(1, slot + 7, fileSet->mLabelLayout, text, fileSet->mCellLayout, fileSet->mCellTable, 7);
+        PrintLabelLayoutTextFixedDigits(1, slot + 7, fileSet->mLabelLayout, text, fileSet->mCellLayout,
+                                        fileSet->mCellTable, 7);
         j = IsSlotGhostIndex(row) == 0;
         fileSet->mCellTable[slot].mVisible = j;
         k = j == 0;
@@ -128,10 +130,12 @@ void func_0202d720(void) {
     CellFileSet *fileSet;
     s32 count;
     fileSet = &gTimeAttackGhostSend->mUnk_050[1];
-    func_0212426c(1, 0xe, fileSet->mLabelLayout, GetBmgEntry(gTimeAttackGhostSend->mGhostMessages, 0x56),
-                  fileSet->mCellLayout, fileSet->mCellTable);
-    func_0212426c(1, 0xf, fileSet->mLabelLayout, GetBmgEntry(gTimeAttackGhostSend->mGhostMessages, 0x57),
-                  fileSet->mCellLayout, fileSet->mCellTable);
+    PrintLabelLayoutTextNoFixedAdvance(1, 0xe, fileSet->mLabelLayout,
+                                       GetBmgEntry(gTimeAttackGhostSend->mGhostMessages, 0x56), fileSet->mCellLayout,
+                                       fileSet->mCellTable);
+    PrintLabelLayoutTextNoFixedAdvance(1, 0xf, fileSet->mLabelLayout,
+                                       GetBmgEntry(gTimeAttackGhostSend->mGhostMessages, 0x57), fileSet->mCellLayout,
+                                       fileSet->mCellTable);
     count = GetCourseGhostCount();
     if (count < 10) {
         text[0] = ' ';
@@ -143,7 +147,7 @@ void func_0202d720(void) {
     text[3] = '3';
     text[4] = '2';
     text[5] = 0;
-    func_02124224(1, 0x10, fileSet->mLabelLayout, text, fileSet->mCellLayout, fileSet->mCellTable, 6);
+    PrintLabelLayoutTextFixedDigits(1, 0x10, fileSet->mLabelLayout, text, fileSet->mCellLayout, fileSet->mCellTable, 6);
     count = GetSlotGhostCount();
     if (count < 10) {
         text[0] = ' ';
@@ -155,7 +159,7 @@ void func_0202d720(void) {
     text[3] = '1';
     text[4] = '0';
     text[5] = 0;
-    func_02124224(1, 0x11, fileSet->mLabelLayout, text, fileSet->mCellLayout, fileSet->mCellTable, 6);
+    PrintLabelLayoutTextFixedDigits(1, 0x11, fileSet->mLabelLayout, text, fileSet->mCellLayout, fileSet->mCellTable, 6);
 }
 
 void PrintSelectedGhostSendRecord(void) {
@@ -283,10 +287,10 @@ void InitTimeAttackGhostSend(void *parentHeap, void *mainOam, void *subOam) {
     }
     func_0202d720();
     for (i = 0; i < 0xf; i++) {
-        func_021249a8(i, 3, subFileSet->mCells, subFileSet->mCellLayout);
+        SetCellPriority(i, 3, subFileSet->mCells, subFileSet->mCellLayout);
     }
     for (i = 0; i < 0xe; i++) {
-        func_02124094(i, 2, subFileSet->mLabelLayout, subFileSet->mCellTable, subFileSet->mCellLayout);
+        SetLabelPriority(i, 2, subFileSet->mLabelLayout, subFileSet->mCellTable, subFileSet->mCellLayout);
     }
     for (i = 0; i < 0xe; i++) {
         cellIndex = gTimeAttackGhostSendSLabelTextRows[i][3];

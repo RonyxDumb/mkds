@@ -104,8 +104,8 @@ void PrintMultiSelectMemberNames(void) {
         MIi_CpuClear16(nameBuffer[0], &nameBuffer[1], 0x16);
         if (func_0204fcec(i, &nameBuffer[1]) != 0) {
             nameBuffer[11] = 0;
-            func_0212426c(1, labelMessageRow->mLabelIndex, subFileSet->mLabelLayout, &nameBuffer[1],
-                          subFileSet->mCellLayout, subFileSet->mCellTable);
+            PrintLabelLayoutTextNoFixedAdvance(1, labelMessageRow->mLabelIndex, subFileSet->mLabelLayout,
+                                               &nameBuffer[1], subFileSet->mCellLayout, subFileSet->mCellTable);
             if (gMultiSelectMember->mRows[i].mState != 2) {
                 gMultiSelectMember->mRows[i].mState = 1;
             }
@@ -132,8 +132,8 @@ void func_02031e80(void) {
         if (&gConnectionWork->mUnk_045c[(u16) i] != NULL) {
             MIi_CpuCopy16(&gConnectionWork->mUnk_045c[(u16) i], &nameBuffer[1], 0x14);
             if (nameBuffer[1] != 0) {
-                func_0212426c(1, labelMessageRow->mLabelIndex, subFileSet->mLabelLayout, &nameBuffer[1],
-                              subFileSet->mCellLayout, subFileSet->mCellTable);
+                PrintLabelLayoutTextNoFixedAdvance(1, labelMessageRow->mLabelIndex, subFileSet->mLabelLayout,
+                                                   &nameBuffer[1], subFileSet->mCellLayout, subFileSet->mCellTable);
                 gMultiSelectMember->mRows[i].mState = 2;
                 childCount++;
             } else {
@@ -483,9 +483,9 @@ void InitMultiSelectMember(void *parentHeap, void *mainOam, void *subOam) {
     printRow = canvasRow;
     for (; i < 2; i++) {
         mainObjSizeLeft -= func_02025a00(0, gMultiSelectMember->mHeap, mainFileSet, canvasRow, mainObjSizeLeft);
-        func_0212426c(0, printRow->mLabelIndex, mainFileSet->mLabelLayout,
-                      GetBmgEntry(gMultiSelectMember->mBannerMessages, printRow->mMessageIndex),
-                      mainFileSet->mCellLayout, mainFileSet->mCellTable);
+        PrintLabelLayoutTextNoFixedAdvance(0, printRow->mLabelIndex, mainFileSet->mLabelLayout,
+                                           GetBmgEntry(gMultiSelectMember->mBannerMessages, printRow->mMessageIndex),
+                                           mainFileSet->mCellLayout, mainFileSet->mCellTable);
         canvasRow++;
         printRow++;
     }
@@ -524,11 +524,12 @@ void func_0203147c(void *parentHeap, void *mainOam, void *subOam) {
     subFileSet = &gMultiSelectMember->mCellFileSets[1];
     MIi_CpuCopy16(data_0217aa08->mFirstBlock->mPlayerName, nameBuffer, 0x14);
     nameBuffer[10] = 0;
-    func_0212426c(1, data_usa_02153d7c[0].mLabelIndex, subFileSet->mLabelLayout, nameBuffer, subFileSet->mCellLayout,
-                  subFileSet->mCellTable);
-    func_0212426c(1, data_usa_02153dbc[16], subFileSet->mLabelLayout,
-                  GetBmgEntry(gMultiSelectMember->mBannerMessages, data_usa_02153d7c[8].mMessageIndex),
-                  subFileSet->mCellLayout, subFileSet->mCellTable);
+    PrintLabelLayoutTextNoFixedAdvance(1, data_usa_02153d7c[0].mLabelIndex, subFileSet->mLabelLayout, nameBuffer,
+                                       subFileSet->mCellLayout, subFileSet->mCellTable);
+    PrintLabelLayoutTextNoFixedAdvance(
+        1, data_usa_02153dbc[16], subFileSet->mLabelLayout,
+        GetBmgEntry(gMultiSelectMember->mBannerMessages, data_usa_02153d7c[8].mMessageIndex), subFileSet->mCellLayout,
+        subFileSet->mCellTable);
     data_021759d0->mConnectionKind = 1;
     func_02126638(GetBmgEntry(gMultiSelectMember->mBannerMessages, 9), 0, 0, 1, 0, 0, 0);
     subFileSet->mCellTable[0x11].mVisible = 0;
@@ -557,8 +558,8 @@ void func_02031280(void *parentHeap, void *mainOam, void *subOam) {
     MIi_CpuClear16(nameBuffer[0], &nameBuffer[1], 0x16);
     if (gMultiSelectMember->mUnk_84 == 0 && func_0204ff14(func_0202f14c()->mUnk_00, &nameBuffer[1]) != 0) {
         nameBuffer[11] = 0;
-        func_0212426c(1, data_usa_02153d7c[0].mLabelIndex, subFileSet->mLabelLayout, &nameBuffer[1],
-                      subFileSet->mCellLayout, subFileSet->mCellTable);
+        PrintLabelLayoutTextNoFixedAdvance(1, data_usa_02153d7c[0].mLabelIndex, subFileSet->mLabelLayout,
+                                           &nameBuffer[1], subFileSet->mCellLayout, subFileSet->mCellTable);
         gMultiSelectMember->mUnk_80 = TRUE;
     }
     subFileSet->mCellTable[0x11].mVisible = 0;
@@ -842,8 +843,8 @@ s32 func_02030b18(Unk02030b18 *sceneNumbers) {
         MIi_CpuClear16(nameBuffer[0], &nameBuffer[1], 0x16);
         if (func_0204ff14(func_0202f14c()->mUnk_00, &nameBuffer[1]) != 0) {
             nameBuffer[11] = 0;
-            func_0212426c(1, data_usa_02153d7c[0].mLabelIndex, subFileSet->mLabelLayout, &nameBuffer[1],
-                          subFileSet->mCellLayout, subFileSet->mCellTable);
+            PrintLabelLayoutTextNoFixedAdvance(1, data_usa_02153d7c[0].mLabelIndex, subFileSet->mLabelLayout,
+                                               &nameBuffer[1], subFileSet->mCellLayout, subFileSet->mCellTable);
             gMultiSelectMember->mUnk_80 = TRUE;
         }
     }

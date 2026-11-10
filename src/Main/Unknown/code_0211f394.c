@@ -85,8 +85,9 @@ void InitSelectRaceRuleWait(void *heap, void *oamList) {
     InitLabelCanvas(heap, 0xe, gSelectRaceRuleWait->mBnll, 0xc8, 0xd, 0, gSelectRaceRuleWait->mNcer,
                     gSelectRaceRuleWait->mBncl, gSelectRaceRuleWait->mTable, subObjSize);
     selectRaceRuleWait = gSelectRaceRuleWait;
-    func_0212426c(1, 0xe, gSelectRaceRuleWait->mBnll, GetBmgEntry(selectRaceRuleWait->mCommonMessages, 0x79),
-                  selectRaceRuleWait->mBncl, selectRaceRuleWait->mTable);
+    PrintLabelLayoutTextNoFixedAdvance(1, 0xe, gSelectRaceRuleWait->mBnll,
+                                       GetBmgEntry(selectRaceRuleWait->mCommonMessages, 0x79),
+                                       selectRaceRuleWait->mBncl, selectRaceRuleWait->mTable);
     i = 0;
     cellEntryCount = gSelectRaceRuleWait->mBncl->mUnk_06;
     for (; i < cellEntryCount; i++) {

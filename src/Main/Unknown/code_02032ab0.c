@@ -242,7 +242,7 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
         remainingObjSize -= func_02025a00(1, heap, subCellFileSet, data_02153f00[i], remainingObjSize);
     }
     for (i = 0; i < subCellFileSet->mCellLayout->mUnk_06; i++) {
-        func_021249a8(i, 2, subCellFileSet->mCells, subCellFileSet->mCellLayout);
+        SetCellPriority(i, 2, subCellFileSet->mCells, subCellFileSet->mCellLayout);
     }
     for (i = 0; i < 8; i++) {
         orderUsed[i] = 0;
@@ -255,8 +255,8 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
             func_02033ab8(1, entryIndex, orderIndex + 0x30, 1);
             func_02032f94_inline(entryName, 0x16);
             CopyKartEntryName(entryIndex, entryName, 0);
-            func_0212426c(1, orderIndex, subCellFileSet->mLabelLayout, entryName, subCellFileSet->mCellLayout,
-                          subCellFileSet->mCellTable);
+            PrintLabelLayoutTextNoFixedAdvance(1, orderIndex, subCellFileSet->mLabelLayout, entryName,
+                                               subCellFileSet->mCellLayout, subCellFileSet->mCellTable);
             func_02033b80(entryIndex);
             func_02033c80(entryIndex);
             orderUsed[orderIndex] = 1;
