@@ -514,8 +514,8 @@ void SetupKartKillerCursor(KartKillerCursor *kartKillerCursor, u32 kartIndex) {
     kartKillerCursor->mKillerKartIndex = kartIndex;
     SetupPointLinkCursor(&kartKillerCursor->mPointLinkCursor, kartIndex,
                          (RacePointLink *) gKartItems[kartIndex].mItemLink.mLink);
-    kartKillerCursor->mUnk_26 = 0;
-    kartKillerCursor->mUnk_28 = 0;
+    kartKillerCursor->mEndCount = 0;
+    kartKillerCursor->mEndCountHoldTimer = 0;
     kart->mTurnAngle = 0;
     EndKartDrift(kart);
 }
@@ -527,9 +527,9 @@ void ResetKartKillerCursorTo(KartKillerCursor *kartKillerCursor, RacePointLink *
     SetupPointLinkCursor(&kartKillerCursor->mPointLinkCursor, kartKillerCursor->mKillerKartIndex, link);
 }
 
-s32 func_0209081c(KartKillerCursor *kartKillerCursor) {
+BOOL AdvanceKartKillerCursor(KartKillerCursor *kartKillerCursor) {
     AdvanceKartKillerAlongPointLinks(kartKillerCursor);
-    return func_020905a8(kartKillerCursor);
+    return AdvanceKartKillerEndCount(kartKillerCursor);
 }
 
 // Holds the kart at a fixed speed, steers it toward the point link ahead, and moves the cursor on once the kart is past
@@ -598,31 +598,31 @@ void TurnKartKillerTowardPointLink(KartKillerCursor *kartKillerCursor) {
     kart->mHeadingAngle = kart->mHeadingAngle + MUL_FIXED12_NO_ROUND(angleDifference, turnFactor);
 }
 
-s32 func_020905a8(KartKillerCursor *kartKillerCursor) {
+BOOL AdvanceKartKillerEndCount(KartKillerCursor *kartKillerCursor) {
     BOOL limitReached;
     BOOL isCounting;
     Kart *kart;
     limitReached = FALSE;
     isCounting = FALSE;
-    kartKillerCursor->mUnk_28 = kartKillerCursor->mUnk_28 - 1;
-    if (kartKillerCursor->mUnk_28 <= 0) {
-        kartKillerCursor->mUnk_28 = 0;
+    kartKillerCursor->mEndCountHoldTimer = kartKillerCursor->mEndCountHoldTimer - 1;
+    if (kartKillerCursor->mEndCountHoldTimer <= 0) {
+        kartKillerCursor->mEndCountHoldTimer = 0;
     } else {
         isCounting = TRUE;
     }
     kart = GetKart(kartKillerCursor->mKillerKartIndex);
     if ((kart->mUnk_44 & 0xc0) != 0) {
         isCounting = TRUE;
-        kartKillerCursor->mUnk_28 = 5;
+        kartKillerCursor->mEndCountHoldTimer = 5;
     }
     if (isCounting != FALSE) {
-        kartKillerCursor->mUnk_26 = kartKillerCursor->mUnk_26 + 1;
-        if (kartKillerCursor->mUnk_26 >= 0x78) {
-            kartKillerCursor->mUnk_26 = 0;
+        kartKillerCursor->mEndCount = kartKillerCursor->mEndCount + 1;
+        if (kartKillerCursor->mEndCount >= 0x78) {
+            kartKillerCursor->mEndCount = 0;
             limitReached = TRUE;
         }
-    } else if (kartKillerCursor->mUnk_28 <= 0) {
-        kartKillerCursor->mUnk_26 = 0;
+    } else if (kartKillerCursor->mEndCountHoldTimer <= 0) {
+        kartKillerCursor->mEndCount = 0;
     }
     return limitReached;
 }

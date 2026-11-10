@@ -193,12 +193,12 @@ void CreateMkdEfBurnerUpdateList(void) {
     CreateMapObjectUpdateList(&InitMkdEfBurnerObjects, &UpdateMkdEfBurner, NULL);
 }
 
-u16 func_020931ac(MkdEfBurner *a) {
-    if (a->mScaleFixed12 >= 0x1000) {
+u16 CountMkdEfBurnerScaleThresholds(MkdEfBurner *burner) {
+    if (burner->mScaleFixed12 >= 0x1000) {
         return 3;
     }
-    if (a->mScaleFixed12 >= 0x99a) {
+    if (burner->mScaleFixed12 >= 0x99a) {
         return 2;
     }
-    return a->mScaleFixed12 >= 0x4cd;
+    return burner->mScaleFixed12 >= 0x4cd;
 }

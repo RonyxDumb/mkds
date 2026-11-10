@@ -2,5 +2,9 @@
 
 #include "types.h"
 
-// Third argument of func_02087cfc.
-typedef enum { UNK_02087CFC_KIND_0, UNK_02087CFC_KIND_1 } Unk02087cfc_Kind;
+// Values of ModelAnimation.mHead.mLoopMode: 0 stops on the last frame, 1 wraps, 2 wraps mLoopCount times then stops.
+typedef enum {
+    MODEL_ANIMATION_LOOP_MODE_CLAMP,
+    MODEL_ANIMATION_LOOP_MODE_WRAP,
+    MODEL_ANIMATION_LOOP_MODE_LOOP_COUNT
+} ModelAnimationLoopMode;

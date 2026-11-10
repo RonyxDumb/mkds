@@ -101,7 +101,7 @@ void ReleaseKartNearRankEffect(Kart *kart) {
     gKartNearRankEffects[kart->mIndex] = NULL;
 }
 
-void func_02080e88(Unk0201ca6c *effect, Kart *kart) {
+void SetEffectScaleFromKartScaleZ(Unk0201ca6c *effect, Kart *kart) {
     effect->mUnk_6c = (s16) kart->mScale.z;
 }
 
@@ -156,8 +156,8 @@ void ResetPointLinkCursor(PointLinkCursor *linkCursor, RacePointLink *pointLink)
     Vec3NormalizeAndGetLengthUnchecked(&linkCursor->mDirection, &linkCursor->mDirection);
 }
 
-s16 func_02080cc0(PointLinkCursor *linkCursor) {
-    return linkCursor->mLink->mUnk_20[0];
+s16 GetPointLinkFirstValue(PointLinkCursor *linkCursor) {
+    return linkCursor->mLink->mValues[0];
 }
 
 BOOL IsWithinPointLinkDistance(PointLinkCursor *pointLinkCursor, Vec3 *position) {

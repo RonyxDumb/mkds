@@ -257,7 +257,7 @@ void BuildCourseMapRaceRouteLinks(RacePointLink *previousLink, CourseMapRoute *r
     }
     link->mPoint = &racePoint->mPos;
     link->mUnk_1c = racePoint->mUnk_0c;
-    link->mUnk_20 = racePoint->mUnk_10;
+    link->mValues = racePoint->mUnk_10;
     if (previousLink != NULL) {
         for (k = 0; k < 3; k++) {
             if (previousLink->mNextLinks[k] == NULL) {
@@ -311,7 +311,7 @@ void BuildCourseMapRacePointLinks(void *heap) {
         link->mNextCount = 0;
         link->mPreviousCount = 0;
         link->mPoint = NULL;
-        link->mUnk_20 = NULL;
+        link->mValues = NULL;
         link->mUnk_1c = 0;
     }
     t = gCourseMap->mRaceRoutes + firstRoute->mPreviousRoutes[0];

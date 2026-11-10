@@ -30,7 +30,7 @@ typedef struct ModelEffect {
     /* b4 */ s32 mVisible;
 } ModelEffect;
 
-void func_0208d978(const Vec3 *position, s32 startModel);
+void StartWaterEfctKind2Effects(const Vec3 *position, s32 startModel);
 void UpdateModelEffectBombcore2(ModelEffect *modelEffect);
 void StartModelEffectBombcore2(ModelEffect *modelEffect, s32 startEffects);
 void UpdateModelEffectBkWave(ModelEffect *modelEffect);

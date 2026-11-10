@@ -9,7 +9,8 @@
 void func_ov001_0219b208(MapObjectModel *a, s32 b, s32 c, s32 d) {
     StartModelAnimationBlend(a->mAnimations[0], b);
     a->mAnimations[0]->mHead.mFrameStep = c;
-    func_02087cfc(a->mAnimations[0], ((u16) b), (d != 0 ? UNK_02087CFC_KIND_0 : UNK_02087CFC_KIND_1));
+    SetModelAnimationEntryLoopMode(a->mAnimations[0], ((u16) b),
+                                   (d != 0 ? MODEL_ANIMATION_LOOP_MODE_CLAMP : MODEL_ANIMATION_LOOP_MODE_WRAP));
 }
 
 void func_ov001_0219b1fc(MapObjectModel *a) {
@@ -19,5 +20,6 @@ void func_ov001_0219b1fc(MapObjectModel *a) {
 void func_ov001_0219b1c4(MapObjectModel *a, s32 b, s32 c, s32 d) {
     StartModelAnimationBlend(a->mAnimations[3], b);
     a->mAnimations[1]->mHead.mFrameStep = c;
-    func_02087cfc(a->mAnimations[3], ((u16) b), (d != 0 ? UNK_02087CFC_KIND_0 : UNK_02087CFC_KIND_1));
+    SetModelAnimationEntryLoopMode(a->mAnimations[3], ((u16) b),
+                                   (d != 0 ? MODEL_ANIMATION_LOOP_MODE_CLAMP : MODEL_ANIMATION_LOOP_MODE_WRAP));
 }

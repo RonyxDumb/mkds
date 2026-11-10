@@ -10,11 +10,11 @@ extern char gRaceEffectSpaName[];
 extern char gRaceEffectFogOffSpaName[];
 extern char gMissionEffectSpaName[];
 
-SPLManager *func_0208b484(s32 *outIndex, s32 effectId);
+SPLManager *GetRaceEffectSPLManager(s32 *outIndex, s32 effectId);
 void *StartEffectWithKartVelocity(u32 effectId, Vec3 *position, u32 kartIndex, s32 velocityScale);
 void PlaceEffect(void *emitter, const Vec3 *position);
-Unk0201ca6c *func_0208b60c(s32 resourceId, Vec3 *position);
-void func_0208b6b0(void **emitterSlot);
+Unk0201ca6c *StartRaceFogOffEffect(s32 resourceId, Vec3 *position);
+void StopEffectAndClearPointer(void **emitterSlot);
 void DeleteEffectAndClearPointer(Unk0201ca6c **emitterSlot);
 void DeleteEffect(Unk0201ca6c *emitter);
 // Starts effect a at the position b and returns the effect object (NULL when none is made).

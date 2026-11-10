@@ -28,7 +28,7 @@ SPLManager *GetSPLManagerForEffectId(s32 *outIndex, s32 effectId) {
         return gMissionRunSPLManager;
     }
     *outIndex = effectId;
-    return data_0217b044;
+    return gRaceEffectSPLManager;
 }
 
 void AdvanceStadiumEmitters(void) {

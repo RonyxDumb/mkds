@@ -91,14 +91,14 @@ extern s32 data_02165950;
 extern u32 gKartStarEffectIds[];
 
 // Three words, three more words and two halfwords; data_02165ff0, data_0216600c and data_02166028 are one each.
-typedef struct Unk02165ff0 {
+typedef struct BattleKartAiParams {
     /* 00 */ s32 mUnk_00[3];
     /* 0c */ s32 mUnk_0c[3];
-    /* 18 */ s16 mUnk_18;
-    /* 1a */ s16 mUnk_1a;
-} Unk02165ff0;
+    /* 18 */ s16 mInflateWaitFrameCount;
+    /* 1a */ s16 mInflateBalloonsLeftLimit;
+} BattleKartAiParams;
 
-extern Unk02165ff0 data_02165ff0;
+extern BattleKartAiParams data_02165ff0;
 
 extern u8 data_021651d4[];
 extern const s32 data_02166048;
@@ -113,10 +113,10 @@ extern s32 data_021659a4;
 extern s32 data_021659a8;
 extern s32 data_021659ac;
 extern s32 data_021659b0;
-extern s32 data_021659b4;
+extern s32 gKartNameTagColorQuadScaleY;
 extern s32 data_021659b8;
 extern s32 data_021659bc;
-extern s32 data_021659c0;
+extern s32 gKartNameTagColorQuadScaleX;
 extern s32 data_021659c4;
 extern s32 data_021659c8;
 extern s32 data_021659cc;

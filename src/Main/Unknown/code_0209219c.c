@@ -223,7 +223,7 @@ void StartBasabasa(u32 state2TimerBase, const Vec3 *startPos, const Vec3 *veloci
     basabasa->mUnk_00.mFlags |= data_usa_02156464;
     basabasa->mUnk_00.mFlags |= data_usa_02156468;
     basabasa->mSoundRequested = soundRequested;
-    basabasa->mUnk_c0 = f;
+    basabasa->mRaceHudSubScreenCellKind = f;
     mapObjectRandom = GetMapObjectRandom();
     mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
     basabasa->mDelayTimer = (u16) (((mapObjectRandom->mValue >> 32) * 30) >> 32);

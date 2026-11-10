@@ -414,7 +414,7 @@ Constants held in registers:
 - Compound assignment keeps constants from folding: `angle += 90;` / `fx *= 2.0f;` differ from `angle = angle + 90`.
   `k *= -1` keeps `mvn; mul`; `k = k * -1` folds to `rsb` (AdvanceKartDrawState).
 - `x = x + y` and `x = y + x` on a member both compile as `x += y`, old value first. For the old value second, read
-  it into a local inside the arm right before the add: `c = a->m; a->m = expr + c;` (func_02087b9c).
+  it into a local inside the arm right before the add: `c = a->m; a->m = expr + c;` (ApplyModelAnimationLoopMode).
 
 Pointer locals and addresses:
 - A pointer local initialised with an explicit cast stays a variable: its add is made where it is assigned and every
@@ -424,7 +424,7 @@ Pointer locals and addresses:
   Thumb: `r = (u8 *) &data_ov000_021b6706;` (func_ov000_021ad264; the plain name and `+ 0` don't).
 - A pointer local with one use is folded into it; with two uses it stays, and the field at offset 0 is read from the
   base register while the others go through the pointer. Read every field through the local in the ROM's order
-  or write the accesses through the existing pointer locals (SteerItemKouraRToKart).
+  (UpdateTeresaSpawner), or write the accesses through the existing pointer locals (SteerItemKouraRToKart).
 - An address computed from a pointer already loaded for a store: write the address statement above the store so the
   base isn't loaded again (FinishRaceProgressKartWithEndKind). An address the ROM computes before a test's branch:
   assign it in the block of that test (func_0206938c).

@@ -4,4 +4,4 @@
 
 typedef struct PointLinkCursor PointLinkCursor;
 
-s16 func_02080cc0(PointLinkCursor *linkCursor);
+s16 GetPointLinkFirstValue(PointLinkCursor *linkCursor);

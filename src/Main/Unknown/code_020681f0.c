@@ -167,7 +167,7 @@ void SetKartCharacterAnimation(Kart *kart, s32 b, s32 c) {
         changeAnimation = TRUE;
         if (f->mNextAnimationPending != 0) {
             if (currentAnimation != 0) {
-                func_02087cfc(modelsEntry->mCharacterAnimation, (u16) currentAnimation, 1);
+                SetModelAnimationEntryLoopMode(modelsEntry->mCharacterAnimation, (u16) currentAnimation, 1);
             }
             f->mNextAnimationPending = 0;
         }

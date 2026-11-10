@@ -510,7 +510,7 @@ void UpdateCoin(void *a, Coin *coin) {
             if (coin->mEffect != NULL) {
                 PlaceEffect(coin->mEffect, &coin->mUnk_000.mPos);
                 if (coin->mEffectTimer-- < 0) {
-                    func_0208b6b0(&coin->mEffect);
+                    StopEffectAndClearPointer(&coin->mEffect);
                 }
             }
             break;

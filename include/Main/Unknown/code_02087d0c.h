@@ -64,8 +64,8 @@ void InitModelAnimationEntry(ModelAnimation *modelAnimation, s32 entryIndex, voi
                              void *heap);
 void InitModelAnimation(u32 kind, ModelAnimation *modelAnimation, Nsbmd *renderObj, u32 anmObjCount, void *heap,
                         void *f);
-unsigned int func_020882fc(Unk020882fc *anmObj);
-unsigned int func_02088308(Unk020882fc *anmObj);
-unsigned int func_02088314(Unk020882fc *anmObj);
-unsigned int func_02088320(Unk020882fc *anmObj);
-unsigned int func_0208832c(Unk020882fc *anmObj);
+unsigned int MatCGetAnmObjFrameCount(Unk020882fc *anmObj);
+unsigned int VisGetAnmObjFrameCount(Unk020882fc *anmObj);
+unsigned int TexPatGetAnmObjFrameCount(Unk020882fc *anmObj);
+unsigned int TexSrtGetAnmObjFrameCount(Unk020882fc *anmObj);
+unsigned int JointGetAnmObjFrameCount(Unk020882fc *anmObj);

@@ -17,8 +17,8 @@
 #include "Main/Unknown/code_02077bc0.h"
 #include "Main/Unknown/code_021000d0.h"
 
-void func_020954e4(Unk02094e8c *mapObject) {
-    CreateParkedMapObjects(MAP_OBJECT_KIND_TERESA, mapObject->mUnk_00.mCourseMapRow->mUnk_2a, mapObject);
+void InitTeresaSpawner(TeresaSpawner *mapObject) {
+    CreateParkedMapObjects(MAP_OBJECT_KIND_TERESA, mapObject->mMapObject.mCourseMapRow->mUnk_2a, mapObject);
 }
 
 static inline u32 func_02095228_inline(RandomState64 *randomState64, u32 n) {
@@ -53,13 +53,14 @@ static inline u16 func_020952dc_inline(u32 n) {
     return t;
 }
 
-void func_020952dc(Unk02094e8c *a, s32 teresaCountLimit, s32 spawnCount, s32 distanceLimit, s32 timerLimit) {
+void StartTeresasAtRandomPositions(TeresaSpawner *spawner, s32 teresaCountLimit, s32 spawnCount, s32 distanceLimit,
+                                   s32 timerLimit) {
     s32 i;
     s32 k;
-    s32 x;
-    s32 y;
-    s32 z;
-    float f;
+    s32 baseX;
+    s32 baseY;
+    s32 baseZ;
+    float maxDistance;
     u32 distance;
     u16 angle;
     Vec3 position;
@@ -68,33 +69,33 @@ void func_020952dc(Unk02094e8c *a, s32 teresaCountLimit, s32 spawnCount, s32 dis
         k = i = 0;
         for (; i < spawnCount; i++) {
             if (distanceLimit > 0) {
-                f = 0.5f + (distanceLimit << 12);
+                maxDistance = 0.5f + (distanceLimit << 12);
             } else {
-                f = (distanceLimit << 12) - 0.5f;
+                maxDistance = (distanceLimit << 12) - 0.5f;
             }
-            z = 0;
-            y = a->mUnk_00.mPos.y;
-            x = 0;
-            distance = NextRandomBelow(GetRaceLocalRandom(), (s32) f);
-            angle = func_020951b4(GetRaceLocalRandom());
-            position.x = x + func_0209518c(distance, func_0209519c(angle));
-            position.y = y + NextRandomBelow(GetRaceLocalRandom(), k);
-            position.z = z + func_0209518c(distance, func_0209516c(angle));
+            baseZ = 0;
+            baseY = spawner->mMapObject.mPos.y;
+            baseX = 0;
+            distance = NextRandomBelow(GetRaceLocalRandom(), (s32) maxDistance);
+            angle = NextRandomU16(GetRaceLocalRandom());
+            position.x = baseX + TeresaSpawnerMulFixed12NoRound(distance, TeresaSpawnerFX_SinIdx(angle));
+            position.y = baseY + NextRandomBelow(GetRaceLocalRandom(), k);
+            position.z = baseZ + TeresaSpawnerMulFixed12NoRound(distance, TeresaSpawnerFX_CosIdx(angle));
             StartTeresa(&position);
         }
-        a->mUnk_a8 = func_020952dc_inline((u16) timerLimit);
+        spawner->mSpawnTimer = func_020952dc_inline((u16) timerLimit);
     }
 }
 
-void func_02095228(MapObjectList *mapObjectList) {
+void InitTeresaSpawnerObjects(MapObjectList *mapObjectList) {
     s32 i;
-    Unk02094e8c *o;
+    TeresaSpawner *spawner;
 
     if (mapObjectList == NULL) {
         return;
     }
-    for (i = 0; i < mapObjectList->mMapObjectCount && (o = mapObjectList->mMapObjects[i]) != NULL; i++) {
-        o->mUnk_a0 = (u16) func_02095228_inline(&gRaceProgress->mLocalRandom, 0xf);
+    for (i = 0; i < mapObjectList->mMapObjectCount && (spawner = mapObjectList->mMapObjects[i]) != NULL; i++) {
+        spawner->mNearCheckTimer = (u16) func_02095228_inline(&gRaceProgress->mLocalRandom, 0xf);
     }
 }
 
@@ -102,108 +103,108 @@ RandomState64 *GetRaceLocalRandom(void) {
     return &gRaceProgress->mLocalRandom;
 }
 
-u16 func_020951b4(RandomState64 *randomState64) {
+u16 NextRandomU16(RandomState64 *randomState64) {
     randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
     return ((randomState64->mValue >> 32) * 0x10000) >> 32;
 }
 
-s16 func_0209519c(s32 a) {
-    return gPairsByAngle[(a >> 4) * 2];
+s16 TeresaSpawnerFX_SinIdx(s32 angle) {
+    return gPairsByAngle[(angle >> 4) * 2];
 }
 
-s32 func_0209518c(s32 a, s32 b) {
-    return MUL_FIXED12_NO_ROUND(a, b);
+s32 TeresaSpawnerMulFixed12NoRound(s32 multiplicand, s32 multiplier) {
+    return MUL_FIXED12_NO_ROUND(multiplicand, multiplier);
 }
 
-s16 func_0209516c(s32 a) {
-    return gPairsByAngle[(a >> 4) * 2 + 1];
+s16 TeresaSpawnerFX_CosIdx(s32 angle) {
+    return gPairsByAngle[(angle >> 4) * 2 + 1];
 }
 
-void func_02094e8c(void *a, Unk02094e8c *o) {
+void UpdateTeresaSpawner(void *mapObjectList, TeresaSpawner *spawner) {
     s32 t;
-    s32 c;
-    s32 e;
+    s32 radius;
+    s32 radiusFixed;
     s32 deltaX;
     s32 deltaZ;
     s32 i;
     BOOL k;
-    s32 x;
-    s32 y;
-    s32 z;
-    float f;
+    s32 baseX;
+    s32 baseY;
+    s32 baseZ;
+    float maxDistance;
     u32 distance;
     u16 angle;
     Kart *kart;
     Vec3 position;
     Vec3 *kartPos;
 
-    t = o->mUnk_a0;
-    o->mUnk_a0 = t - 1;
+    t = spawner->mNearCheckTimer;
+    spawner->mNearCheckTimer = t - 1;
     if (t <= 0) {
-        o->mUnk_a0 = 0xf;
-        c = o->mUnk_00.mCourseMapRow->mUnk_28;
+        spawner->mNearCheckTimer = 0xf;
+        radius = spawner->mMapObject.mCourseMapRow->mUnk_28;
         kart = GetKart((u16) gRaceSetup->mEntryIndex);
-        e = c << 12;
+        radiusFixed = radius << 12;
         kartPos = &kart->mPos;
-        deltaX = kartPos->x - o->mUnk_00.mPos.x;
-        deltaZ = kartPos->z - o->mUnk_00.mPos.z;
-        if ((s64) deltaX * deltaX + (s64) deltaZ * deltaZ < (s64) e * e) {
-            o->mUnk_a4 = TRUE;
+        deltaX = kartPos->x - spawner->mMapObject.mPos.x;
+        deltaZ = kartPos->z - spawner->mMapObject.mPos.z;
+        if ((s64) deltaX * deltaX + (s64) deltaZ * deltaZ < (s64) radiusFixed * radiusFixed) {
+            spawner->mEntryKartNear = TRUE;
         } else {
-            o->mUnk_a4 = FALSE;
+            spawner->mEntryKartNear = FALSE;
         }
     }
-    switch (o->mUnk_ac) {
+    switch (spawner->mState) {
         case 0:
             k = FALSE;
             if (GetCurrentCameraKind() == 2) {
-                for (i = 0; i < o->mUnk_00.mCourseMapRow->mUnk_2a; i++) {
-                    if (o->mUnk_00.mCourseMapRow->mUnk_28 > 0) {
-                        f = 0.5f + (o->mUnk_00.mCourseMapRow->mUnk_28 << 12);
+                for (i = 0; i < spawner->mMapObject.mCourseMapRow->mUnk_2a; i++) {
+                    if (spawner->mMapObject.mCourseMapRow->mUnk_28 > 0) {
+                        maxDistance = 0.5f + (spawner->mMapObject.mCourseMapRow->mUnk_28 << 12);
                     } else {
-                        f = (o->mUnk_00.mCourseMapRow->mUnk_28 << 12) - 0.5f;
+                        maxDistance = (spawner->mMapObject.mCourseMapRow->mUnk_28 << 12) - 0.5f;
                     }
-                    z = o->mUnk_00.mPos.z;
-                    y = o->mUnk_00.mPos.y;
-                    x = o->mUnk_00.mPos.x;
-                    distance = NextRandomBelow(GetRaceLocalRandom(), (s32) f);
-                    angle = func_020951b4(GetRaceLocalRandom());
-                    position.x = x + func_0209518c(distance, func_0209519c(angle));
-                    position.y = y + NextRandomBelow(GetRaceLocalRandom(), k);
-                    position.z = z + func_0209518c(distance, func_0209516c(angle));
+                    baseZ = spawner->mMapObject.mPos.z;
+                    baseY = spawner->mMapObject.mPos.y;
+                    baseX = spawner->mMapObject.mPos.x;
+                    distance = NextRandomBelow(GetRaceLocalRandom(), (s32) maxDistance);
+                    angle = NextRandomU16(GetRaceLocalRandom());
+                    position.x = baseX + TeresaSpawnerMulFixed12NoRound(distance, TeresaSpawnerFX_SinIdx(angle));
+                    position.y = baseY + NextRandomBelow(GetRaceLocalRandom(), k);
+                    position.z = baseZ + TeresaSpawnerMulFixed12NoRound(distance, TeresaSpawnerFX_CosIdx(angle));
                     StartTeresa(&position);
                 }
             }
-            o->mUnk_ac = 1;
+            spawner->mState = 1;
         case 1:
             if (GetCurrentCameraKind() == 2) {
                 break;
             }
-            if (o->mUnk_a4 == FALSE) {
+            if (spawner->mEntryKartNear == FALSE) {
                 break;
             }
             if (GetCurrentCameraKind() != 0) {
-                func_020952dc(o, 0x1e, 0x14, 0x1f4, 4);
+                StartTeresasAtRandomPositions(spawner, 0x1e, 0x14, 0x1f4, 4);
             } else {
-                func_020952dc(o, 6, 4, 0xa, 0x14);
+                StartTeresasAtRandomPositions(spawner, 6, 4, 0xa, 0x14);
             }
-            o->mUnk_ac = 2;
+            spawner->mState = 2;
             break;
         case 2:
-            t = o->mUnk_a8;
-            o->mUnk_a8 = t - 1;
+            t = spawner->mSpawnTimer;
+            spawner->mSpawnTimer = t - 1;
             if (t > 0) {
                 break;
             }
-            if (o->mUnk_a4 != FALSE) {
+            if (spawner->mEntryKartNear != FALSE) {
                 if (GetCurrentCameraKind() != 0) {
-                    func_020952dc(o, 0x1e, 1, 0x1f4, 4);
+                    StartTeresasAtRandomPositions(spawner, 0x1e, 1, 0x1f4, 4);
                 } else {
-                    func_020952dc(o, 6, 1, 0xa, 0x14);
+                    StartTeresasAtRandomPositions(spawner, 6, 1, 0xa, 0x14);
                 }
             } else {
                 ClearTeresaTimers();
-                o->mUnk_ac = 1;
+                spawner->mState = 1;
             }
             break;
     }
@@ -212,7 +213,7 @@ void func_02094e8c(void *a, Unk02094e8c *o) {
     }
 }
 
-MapObjectKindData *func_02094e3c(void) {
+MapObjectKindData *CreateTeresaSpawnerKindData(void) {
     s32 mode;
 
     mode = gRaceSetup->mMode;
@@ -224,6 +225,6 @@ MapObjectKindData *func_02094e3c(void) {
     return CreateEmptyMapObjectKindData();
 }
 
-void func_02094e1c(void) {
-    CreateMapObjectUpdateList(func_02095228, func_02094e8c, NULL);
+void CreateTeresaSpawnerUpdateList(void) {
+    CreateMapObjectUpdateList(InitTeresaSpawnerObjects, UpdateTeresaSpawner, NULL);
 }

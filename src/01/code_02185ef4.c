@@ -117,7 +117,7 @@ void ReleaseEffects(Unk02188950 *mapObject) {
 
     for (effectIndex = 0; effectIndex < 5; effectIndex++) {
         if (mapObject->mEffects[effectIndex].mEffect != NULL) {
-            func_0208b6b0(&mapObject->mEffects[effectIndex].mEffect);
+            StopEffectAndClearPointer(&mapObject->mEffects[effectIndex].mEffect);
         }
     }
     mapObject->mUnk_0b8 = 0;
@@ -222,7 +222,7 @@ void StartEffectInSlot(Unk02188950 *mapObject, s32 effectIndex, s32 offsetX, s32
     ComputeEffectPosition(mapObject, effectIndex, &position);
     if (effectId != 0) {
         if (mapObject->mEffects[effectIndex].mEffect != NULL) {
-            func_0208b6b0(&mapObject->mEffects[effectIndex].mEffect);
+            StopEffectAndClearPointer(&mapObject->mEffects[effectIndex].mEffect);
         }
         mapObject->mEffects[effectIndex].mEffect = StartEffect(effectId, &position);
     }
@@ -285,7 +285,7 @@ void StartModelEffectAtWaterHeight(Unk02188950 *mapObject, u32 modelEffectKind, 
             mapObject->mEffects[effectIndex].mOffset.y = -GetHeightAboveWaterOrEfct(0);
             mapObject->mEffects[effectIndex].mOffset.z = mapObject->mUnk_000.mPos.z;
             if (mapObject->mEffects[effectIndex].mEffect != NULL) {
-                func_0208b6b0(&mapObject->mEffects[effectIndex].mEffect);
+                StopEffectAndClearPointer(&mapObject->mEffects[effectIndex].mEffect);
             }
             StartModelEffect(modelEffectKind, &mapObject->mEffects[effectIndex].mOffset, 1);
             mapObject->mEffects[effectIndex].mKind = 0;
@@ -315,7 +315,7 @@ void func_ov001_021872e0(Unk02188950 *mapObject, int offsetX, int offsetY, int o
             ComputeEffectPosition(mapObject, effectIndex, &position);
             if (effectId != 0) {
                 if (mapObject->mEffects[effectIndex].mEffect != NULL) {
-                    func_0208b6b0(&mapObject->mEffects[effectIndex].mEffect);
+                    StopEffectAndClearPointer(&mapObject->mEffects[effectIndex].mEffect);
                 }
                 emitterParams.x =
                     (MUL_FIXED12_NO_ROUND(emitterParamZ, gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2])) +
@@ -815,7 +815,7 @@ void AdvanceMissionRunMapObject(u32 a, Unk02188950 *mapObject) {
         ComputeEffectPosition(mapObject, effectIndex, &effectPosition);
         if (mapObject->mEffects[effectIndex].mEffect != NULL) {
             if (mapObject->mEffects[effectIndex].mTimer > 0 && --mapObject->mEffects[effectIndex].mTimer == 0) {
-                func_0208b6b0(&mapObject->mEffects[effectIndex].mEffect);
+                StopEffectAndClearPointer(&mapObject->mEffects[effectIndex].mEffect);
             } else {
                 PlaceEffect(mapObject->mEffects[effectIndex].mEffect, &effectPosition);
             }

@@ -11,23 +11,23 @@
 #include "code_02013740.h"
 #include "code_02013bdc.h"
 
-u32 func_0208832c(Unk020882fc *anmObj) {
+u32 JointGetAnmObjFrameCount(Unk020882fc *anmObj) {
     return anmObj->mUnk_08->mFrameCount;
 }
 
-u32 func_02088320(Unk020882fc *anmObj) {
+u32 TexSrtGetAnmObjFrameCount(Unk020882fc *anmObj) {
     return anmObj->mUnk_08->mFrameCount;
 }
 
-u32 func_02088314(Unk020882fc *anmObj) {
+u32 TexPatGetAnmObjFrameCount(Unk020882fc *anmObj) {
     return anmObj->mUnk_08->mFrameCount;
 }
 
-u32 func_02088308(Unk020882fc *anmObj) {
+u32 VisGetAnmObjFrameCount(Unk020882fc *anmObj) {
     return anmObj->mUnk_08->mFrameCount;
 }
 
-u32 func_020882fc(Unk020882fc *anmObj) {
+u32 MatCGetAnmObjFrameCount(Unk020882fc *anmObj) {
     return anmObj->mUnk_08->mFrameCount;
 }
 

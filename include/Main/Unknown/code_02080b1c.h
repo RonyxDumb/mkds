@@ -21,8 +21,8 @@ typedef struct KartKillerCursor {
     /* 00 */ PointLinkCursor mPointLinkCursor;
     /* 20 */ s32 mAngleToLinkDegrees;
     /* 24 */ u16 mKillerKartIndex;
-    /* 26 */ s16 mUnk_26;
-    /* 28 */ s16 mUnk_28;
+    /* 26 */ s16 mEndCount;
+    /* 28 */ s16 mEndCountHoldTimer;
 } KartKillerCursor;
 
 void AdvancePointLinkCursor(PointLinkCursor *pointLinkCursor);

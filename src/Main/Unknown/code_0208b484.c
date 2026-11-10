@@ -40,7 +40,7 @@ void InitEffects(void *defaultHeap) {
     RaceSetup *raceSetup;
     Vec3 *emitterDirection;
 
-    gGetSPLManagerFunction = func_0208b484;
+    gGetSPLManagerFunction = GetRaceEffectSPLManager;
     if (GetCurrentSceneNumber() == 2) {
         raceSetup = gRaceSetup;
         if (raceSetup->mMode == MODE_MISSION_RUN) {
@@ -54,17 +54,18 @@ void InitEffects(void *defaultHeap) {
         }
     }
     gSPLManagerHeap = effectHeap;
-    data_0217b044 = SPLManager_New(HeapAllocForSPLManager, maxEmitters, maxParticles, 3, 0xe, GetSplMaxPolyId());
+    gRaceEffectSPLManager =
+        SPLManager_New(HeapAllocForSPLManager, maxEmitters, maxParticles, 3, 0xe, GetSplMaxPolyId());
     raceEffectFile = FindMainRaceOrMainEffectFile(gRaceEffectSpaName);
-    SPLManager_LoadResources(data_0217b044, raceEffectFile);
-    SPLManager_UploadTextures(data_0217b044);
-    SPLManager_UploadPalettes(data_0217b044);
+    SPLManager_LoadResources(gRaceEffectSPLManager, raceEffectFile);
+    SPLManager_UploadTextures(gRaceEffectSPLManager);
+    SPLManager_UploadPalettes(gRaceEffectSPLManager);
     ResizeMainEffectArchiveBlock(raceEffectFile, *OFFSET_PTR(u32, raceEffectFile, 0x18));
-    data_0217b04c = SPLManager_New(HeapAllocForSPLManager, 0x1e, 0x64, 3, 0xe, 0x1e);
+    gRaceEffectFogOffSPLManager = SPLManager_New(HeapAllocForSPLManager, 0x1e, 0x64, 3, 0xe, 0x1e);
     raceEffectFogOffFile = FindMainRaceOrMainEffectFile(gRaceEffectFogOffSpaName);
-    SPLManager_LoadResources(data_0217b04c, raceEffectFogOffFile);
-    SPLManager_UploadTextures(data_0217b04c);
-    SPLManager_UploadPalettes(data_0217b04c);
+    SPLManager_LoadResources(gRaceEffectFogOffSPLManager, raceEffectFogOffFile);
+    SPLManager_UploadTextures(gRaceEffectFogOffSPLManager);
+    SPLManager_UploadPalettes(gRaceEffectFogOffSPLManager);
     gMissionRunSPLManager = NULL;
     data_0217b054 = NULL;
     data_0217b048 = NULL;
@@ -80,16 +81,16 @@ void InitEffects(void *defaultHeap) {
         SPLManager_UploadPalettes(gMissionRunSPLManager);
         gMissionRunSPLManager->mMiscPolygonAttr = 0x8000;
     }
-    data_0217b044->mPolygonIDDrawOrder = 1;
-    data_0217b04c->mPolygonIDDrawOrder = 1;
+    gRaceEffectSPLManager->mPolygonIDDrawOrder = 1;
+    gRaceEffectFogOffSPLManager->mPolygonIDDrawOrder = 1;
     if (gMissionRunSPLManager != NULL) {
         gMissionRunSPLManager->mPolygonIDDrawOrder = 1;
     }
     InitKartTurnEffects(defaultHeap);
     if (gRaceSetup->mCourseId != COURSE_ID_RAINBOW) {
-        data_0217b044->mMiscPolygonAttr = 0x8000;
+        gRaceEffectSPLManager->mMiscPolygonAttr = 0x8000;
     } else {
-        data_0217b044->mMiscPolygonAttr = 0;
+        gRaceEffectSPLManager->mMiscPolygonAttr = 0;
     }
     InitCourseCameraEffects();
     switch (gRaceSetup->mCourseId) {
@@ -117,16 +118,16 @@ void UpdateEffects(void) {
     if (data_0217b054 != NULL) {
         data_0217b054();
     }
-    SPLManager_Update(data_0217b044);
-    SPLManager_Update(data_0217b04c);
+    SPLManager_Update(gRaceEffectSPLManager);
+    SPLManager_Update(gRaceEffectFogOffSPLManager);
     if (gMissionRunSPLManager != NULL) {
         SPLManager_Update(gMissionRunSPLManager);
     }
 }
 
 void DrawEffects(MtxFx43 *viewMatrix) {
-    SPLManager_Draw(data_0217b044, viewMatrix);
-    SPLManager_Draw(data_0217b04c, viewMatrix);
+    SPLManager_Draw(gRaceEffectSPLManager, viewMatrix);
+    SPLManager_Draw(gRaceEffectFogOffSPLManager, viewMatrix);
     if (gMissionRunSPLManager != NULL) {
         SPLManager_Draw(gMissionRunSPLManager, viewMatrix);
     }
@@ -177,19 +178,19 @@ void DeleteEffectAndClearPointer(Unk0201ca6c **emitterSlot) {
     *emitterSlot = NULL;
 }
 
-void func_0208b6b0(void **emitterSlot) {
+void StopEffectAndClearPointer(void **emitterSlot) {
     Unk0201ca6c *effect = *emitterSlot;
     effect->mUnk_24.mUnk_00_0 = 1;
     *emitterSlot = NULL;
 }
 
-Unk0201ca6c *func_0208b60c(s32 resourceId, Vec3 *position) {
+Unk0201ca6c *StartRaceFogOffEffect(s32 resourceId, Vec3 *position) {
     Vec3 emitterPosition;
     Unk0201ca6c *emitter;
     emitterPosition.x = position->x >> 4;
     emitterPosition.y = position->y >> 4;
     emitterPosition.z = position->z >> 4;
-    emitter = SPLManager_CreateEmitter(data_0217b04c, resourceId, &emitterPosition);
+    emitter = SPLManager_CreateEmitter(gRaceEffectFogOffSPLManager, resourceId, &emitterPosition);
     if (emitter != NULL) {
         if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x80) {
             emitter->mUnk_80_16 = 1;
@@ -237,7 +238,7 @@ void *StartEffectWithKartVelocity(u32 effectId, Vec3 *position, u32 kartIndex, s
     return emitter;
 }
 
-SPLManager *func_0208b484(s32 *outIndex, s32 effectId) {
+SPLManager *GetRaceEffectSPLManager(s32 *outIndex, s32 effectId) {
     *outIndex = effectId;
-    return data_0217b044;
+    return gRaceEffectSPLManager;
 }

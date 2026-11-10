@@ -33,7 +33,7 @@ static inline void func_0206331c_inline(u32 animationKind, ModelAnimation *anima
     } else {
         InitModelAnimation(animationKind, animation, nsbmd, 1, heap, modelFile);
         InitModelAnimationEntries(animation, animationFile, heap);
-        func_02087cfc(animation, 0, 1);
+        SetModelAnimationEntryLoopMode(animation, 0, 1);
         SetModelAnimation(animation, 0);
     }
 }

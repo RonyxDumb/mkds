@@ -717,7 +717,7 @@ void StartEffectsAtOtherKarts(s32 pairSetIndex) {
             if (pair->mFirst < 0) {
                 break;
             }
-            effect = func_0208b60c(effectKind->mEffectId, &data_02155a14);
+            effect = StartRaceFogOffEffect(effectKind->mEffectId, &data_02155a14);
             startedCount++;
             effect->mUnk_90 = effectKind->mAdvance;
             effect->mUnk_98_0 = pair->mFirst;

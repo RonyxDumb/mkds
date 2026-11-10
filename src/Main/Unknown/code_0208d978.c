@@ -500,7 +500,7 @@ void UpdateModelEffectBombcore2(ModelEffect *modelEffect) {
 }
 
 // Starts a kind 2 object at position when startModel is set, then the particle effects of gKind2EffectIds.
-void func_0208d978(const Vec3 *position, s32 startModel) {
+void StartWaterEfctKind2Effects(const Vec3 *position, s32 startModel) {
     ModelEffect *modelEffect;
     u16 effectIndex;
 

@@ -16,7 +16,7 @@ typedef struct Basabasa {
     /* b4 */ s32 mState0Timer;
     /* b8 */ s32 mState2Timer;
     /* bc */ s32 mSoundRequested;
-    /* c0 */ u16 mUnk_c0;
+    /* c0 */ u16 mRaceHudSubScreenCellKind;
     /* c2 */ u8 mUnk_c2[2];
     /* c4 */ s32 mUnk_c4;
     /* c8 */ s32 mUnk_c8;

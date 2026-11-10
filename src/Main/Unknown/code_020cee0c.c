@@ -26,7 +26,7 @@ void FillShuffledIndices(void) {
                 remaining[i] = i;
             }
             for (i = 0; i < 8; i++) {
-                pickIndex = (func_020951b4(random) >> 8) % remainingCount;
+                pickIndex = (NextRandomU16(random) >> 8) % remainingCount;
                 data_0217b488->mShuffledIndices[i] = remaining[pickIndex];
                 remainingCount--;
                 for (k = pickIndex; k < remainingCount; k++) {

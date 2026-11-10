@@ -116,7 +116,7 @@ void PickBattleKartAiRaceStart(KartAi *kartAi, KartAiRaceSpeedLimit *raceSpeedLi
     s32 boostChanceLimit;
     RandomState64 *kartAiRandom;
 
-    raceSpeedLimit->mUnk_28 = 0;
+    raceSpeedLimit->mHeadingSwingAtRaceStart = 0;
     raceSpeedLimit->mBoostsAtRaceStart = 0;
     raceSpeedLimit->mRaceStartBoostChoice = 0;
     v = gRaceSetup->mCurrentEntries[kartAi->mIndex].mPlayer.mKind;
@@ -192,8 +192,8 @@ void ResetBattleKartAi(KartAi *kartAi) {
     kartAi->mTargetDistanceSquared = -0x1000;
     kartAi->mTargetKartPos = zeroVector;
     kartAi->mHeadingPos = &kartAi->mLinkPosWithSideOffset;
-    kartAi->mUnk_c2 = 0;
-    kartAi->mUnk_c4 = FALSE;
+    kartAi->mInflateWaitFrames = 0;
+    kartAi->mInflatePending = FALSE;
     kartAi->mUnk_c8 = 0;
     kartAi->mUnk_ca = 0;
     kartAi->mUnk_cc = 0;
@@ -204,7 +204,7 @@ void ResetBattleKartAi(KartAi *kartAi) {
 }
 
 void SetupBattleKartAi(KartAi *kartAi, Kart *kart) {
-    Unk02165ff0 *t;
+    BattleKartAiParams *t;
     RandomState64 *kartAiRandom;
     s16 j;
     s32 randomValue;
@@ -241,11 +241,11 @@ void ResetBattleKartAiAtPointLink(KartAi *kartAi, PointLink *pointLink) {
 }
 
 void AdvanceBattleKartAi(KartAi *kartAi) {
-    func_02088d34(kartAi);
-    if (kartAi->mUnk_c4 == FALSE) {
+    AdvanceBattleKartAiMicInflate(kartAi);
+    if (kartAi->mInflatePending == FALSE) {
         AdvanceKartAiContactStages(kartAi);
     }
-    func_02089494(kartAi);
+    AdvanceBattleKartAiAlongPointLinks(kartAi);
     if (gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON) {
         AdvanceBattleKartAiTargetKart(kartAi);
         return;
@@ -256,16 +256,16 @@ void AdvanceBattleKartAi(KartAi *kartAi) {
     AdvanceBattleKartAiTargetShine(kartAi);
 }
 
-void func_02089494(KartAi *kartAi) {
+void AdvanceBattleKartAiAlongPointLinks(KartAi *kartAi) {
     LinkCursor *linkCursor;
     Kart *kart;
     PointLink *requestedLink;
-    Vec3 *g;
+    Vec3 *kartForward;
     Vec3 *headingPos;
     Vec3 kartPos;
     Vec3 headingOffset;
     Vec3 headingOffsetFlat;
-    Vec3 z;
+    Vec3 kartForwardFlat;
     Vec3 crossProduct;
     s32 crossLength;
     BOOL hasTargetAhead;
@@ -273,7 +273,7 @@ void func_02089494(KartAi *kartAi) {
 
     kart = kartAi->mKart;
     linkCursor = &kartAi->mBattleLinkCursor;
-    g = &kart->mUnk_138;
+    kartForward = &kart->mUnk_138;
     requestedLink = linkCursor->mRequestedLink;
     GetKartPos(&kartPos, kartAi->mIndex);
     if (kart->mUnk_48 & 0x3840) {
@@ -288,14 +288,15 @@ void func_02089494(KartAi *kartAi) {
     } else {
         if (kartAi->mIndex == GetRaceUpdateFramesMod8()) {
             headingPos = kartAi->mHeadingPos;
-            z = *g;
+            kartForwardFlat = *kartForward;
             VEC_Subtract(headingPos, &kart->mPos, &headingOffsetFlat);
-            z.y = 0;
+            kartForwardFlat.y = 0;
             headingOffsetFlat.y = 0;
-            VEC_CrossProduct(&z, &headingOffsetFlat, &crossProduct);
+            VEC_CrossProduct(&kartForwardFlat, &headingOffsetFlat, &crossProduct);
             crossLength = VEC_Mag(&crossProduct);
             kartAi->mTurnAngleDegrees =
-                ((s64) FX_Atan2(crossLength, VEC_DotProduct(&z, &headingOffsetFlat)) * 0x394bb834c8LL + 0x80000000LL) >>
+                ((s64) FX_Atan2(crossLength, VEC_DotProduct(&kartForwardFlat, &headingOffsetFlat)) * 0x394bb834c8LL +
+                 0x80000000LL) >>
                 32;
         }
         if (IsWithinBattlePointLinkDistance(linkCursor, &kartPos) != 0 ||
@@ -322,12 +323,12 @@ void func_02089494(KartAi *kartAi) {
     if (kart->mState != KART_STATE_NORMAL) {
         return;
     }
-    if (kartAi->mUnk_c4 != FALSE) {
+    if (kartAi->mInflatePending != FALSE) {
         return;
     }
     RequestBits(kartAi->mKart->mEntryIndex, PAD_KEY_A);
     VEC_Subtract(kartAi->mHeadingPos, &kartPos, &headingOffset);
-    AdvanceKartAiHeading(kartAi, &headingOffset, g);
+    AdvanceKartAiHeading(kartAi, &headingOffset, kartForward);
 }
 
 void AdvanceBattleKartAiSideOffset(KartAi *kartAi) {
@@ -500,12 +501,12 @@ clear:
     kartAi->mHeadingPos = &kartAi->mLinkPosWithSideOffset;
 }
 
-void func_02088d34(KartAi *kartAi) {
+void AdvanceBattleKartAiMicInflate(KartAi *kartAi) {
     s32 balloonOrShineCount;
     u16 balloonsLeftToMake;
-    BOOL c;
+    BOOL balloonsLeftTestPassed;
 
-    kartAi->mUnk_c4 = FALSE;
+    kartAi->mInflatePending = FALSE;
     if (gRaceSetup->mBattleKind != BATTLE_KIND_BALLOON) {
         return;
     }
@@ -518,20 +519,21 @@ void func_02088d34(KartAi *kartAi) {
     if (balloonOrShineCount >= kartAi->mBalloonCountGoal) {
         return;
     }
-    c = FALSE;
-    if (balloonsLeftToMake > data_0217b030->mUnk_1a ||
-        (balloonsLeftToMake == data_0217b030->mUnk_1a && IsKartInflatingBalloon(kartAi->mIndex) != 0)) {
-        c = TRUE;
+    balloonsLeftTestPassed = FALSE;
+    if (balloonsLeftToMake > data_0217b030->mInflateBalloonsLeftLimit ||
+        (balloonsLeftToMake == data_0217b030->mInflateBalloonsLeftLimit &&
+         IsKartInflatingBalloon(kartAi->mIndex) != 0)) {
+        balloonsLeftTestPassed = TRUE;
     }
-    if (c == FALSE) {
+    if (balloonsLeftTestPassed == FALSE) {
         return;
     }
-    kartAi->mUnk_c2++;
-    if (kartAi->mUnk_c2 > data_0217b030->mUnk_18) {
+    kartAi->mInflateWaitFrames++;
+    if (kartAi->mInflateWaitFrames > data_0217b030->mInflateWaitFrameCount) {
         StartKartMicInflate(kartAi->mIndex);
-        kartAi->mUnk_c2 = 0;
+        kartAi->mInflateWaitFrames = 0;
     }
-    kartAi->mUnk_c4 = TRUE;
+    kartAi->mInflatePending = TRUE;
 }
 
 void PickKartAiBalloonCountGoal(KartAi *kartAi) {

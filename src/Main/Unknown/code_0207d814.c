@@ -215,7 +215,7 @@ void PickKartAiRaceStart(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct Kar
             return;
         }
     }
-    raceSpeedLimit->mUnk_28 = 1;
+    raceSpeedLimit->mHeadingSwingAtRaceStart = 1;
 }
 
 // Every eighth frame, on this kart's turn, recomputes the CPU speed limit; every call sets the kart's limit from it.

@@ -4,8 +4,8 @@
 #include "Main/Unknown/code_020888b4.h"
 
 void SetupKartAiForStaffRoll(KartAi *kartAi, s32 kartIndex);
-void func_0208bdc0(KartAi *kartAi);
-void func_0208bde0(KartAi *kartAi, RacePointLink *pointLink);
+void AdvanceKartAiForAwardMissionRun(KartAi *kartAi);
+void ResetKartAiForAwardMissionRun(KartAi *kartAi, RacePointLink *pointLink);
 void SetupKartAiForAwardMissionRun(KartAi *kartAi, s32 kartIndex);
 void SetupBattleKartAiItemInUseEntry(KartAi *kartAi);
 void SetupBattleKartAiHeldItemEntry(KartAi *kartAi);

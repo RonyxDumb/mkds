@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_02165000.h" // Unk02165ff0
+#include "Main/Unknown/unk_02165000.h" // BattleKartAiParams
 #include "Main/Unknown/code_020846c0.h" // ResFileEntry
 #include "Main/Unknown/code_0210b000.h" // SoundStartParams
 
@@ -60,8 +60,8 @@ extern s32 gAwardStripKartYOffsets[];
 extern const char gAwardTrackNsbtxName[];
 // Hanegame: the texture the race position strips are drawn with (the award scene uses award_track instead).
 extern const char gHanegameNsbtxName[];
-extern Unk02165ff0 data_0216600c;
-extern Unk02165ff0 data_02166028;
+extern BattleKartAiParams data_0216600c;
+extern BattleKartAiParams data_02166028;
 
 extern const char gBasabasaNsbmdName[];
 extern const char gBasabasaNsbtpName[];

@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "code_02012b30.h" // MtxFx22, NNSG3dResMatData
-#include "Main/Unknown/unk_02165000.h" // Unk02165ff0
+#include "Main/Unknown/unk_02165000.h" // BattleKartAiParams
 #include "Main/Unknown/code_020846c0.h" // ResFileEntry
 #include "code_0212d214.h"
 #include "Main/Unknown/code_020ae770.h"
@@ -172,7 +172,7 @@ extern MapObjectModel *gCover;
 extern MapObjectModel *gPoo;
 extern u16 gSearchStartIndex;
 extern s32 gEntryYDifferenceLimit;
-extern Unk02165ff0 *data_0217b030;
+extern BattleKartAiParams *data_0217b030;
 
 // Objects whose layout isn't known yet.
 struct SPLManager;
@@ -193,8 +193,8 @@ extern KartPhysicalParamTable *gKartPhysicalParamTable;
 
 extern struct SPLManager *gMissionRunSPLManager;
 
-extern struct SPLManager *data_0217b044;
-extern struct SPLManager *data_0217b04c;
+extern struct SPLManager *gRaceEffectSPLManager;
+extern struct SPLManager *gRaceEffectFogOffSPLManager;
 extern void (*data_0217b054)(void);
 
 // Function pointers set by RegisterKartAiCallbacks (the reset targets take different parameters).
@@ -221,7 +221,7 @@ typedef struct ModelEffects {
 
 extern ModelEffects *gModelEffects;
 extern s32 data_0217b07c;
-// Particle effect ids func_0208d978 starts with a kind 2 object; -1 marks an unused entry.
+// Particle effect ids StartWaterEfctKind2Effects starts with a kind 2 object; -1 marks an unused entry.
 extern s32 gKind2EffectIds[2];
 extern KartAiItemUseEntry *gBattleItemInUseEntries;
 

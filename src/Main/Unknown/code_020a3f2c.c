@@ -356,7 +356,7 @@ void UpdateShine16(void *a, Shine16 *shine16) {
             if (shine16->mEffectTimer >= 0) {
                 return;
             }
-            func_0208b6b0(&shine16->mEffect);
+            StopEffectAndClearPointer(&shine16->mEffect);
             return;
         case 3:
             shine16->mNsbtpFrameStepProgress += 4;

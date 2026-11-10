@@ -5,7 +5,7 @@
 #include "Main/Unknown/code_0207d000.h"
 #include "Main/Unknown/code_0207e000.h"
 
-void func_0208bd20(KartAi *kartAi) {
+void AdvanceKartAiForStaffRoll(KartAi *kartAi) {
     AdvanceStaffRollKartAi(kartAi);
     AdvanceKartAiTurnSpeedLimit(&kartAi->mUnk_e8, kartAi);
 }

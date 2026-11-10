@@ -86,7 +86,7 @@ void func_0209905c(void *a, Unk0209905c *p) {
                 for (entry = p->mEmitter->mUnk_08; entry != NULL; entry = entry->mUnk_00) {
                     entry->mUnk_26 = entry->mUnk_24;
                 }
-                func_0208b6b0((void **) &p->mEmitter);
+                StopEffectAndClearPointer((void **) &p->mEmitter);
             }
             ParkMapObject(&p->mUnk_00);
             return;

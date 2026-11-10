@@ -30,6 +30,7 @@
 #include "g3imm.h"
 #include "code_0214a748.h"
 #include "code_021471bc.h"
+#include "Main/Unknown/code_02087000.h"
 
 void InitStemSets(void *heap) {
     TimedQuad *timedQuad;
@@ -191,12 +192,12 @@ void StartStemSet(s32 setIndex) {
             SetModelAnimation(stemSet->mNsbcaNsbmaNsbtp[2], (u16) animationIndex);
             e = stemSet->mNsbcaNsbmaNsbtp[0];
             if (e != NULL) {
-                e[nsbmdIndex].mHead.mLoopMode = 2;
+                e[nsbmdIndex].mHead.mLoopMode = MODEL_ANIMATION_LOOP_MODE_LOOP_COUNT;
                 e[nsbmdIndex].mHead.mLoopCount = loopCount;
             }
             e = stemSet->mNsbcaNsbmaNsbtp[1];
             if (e != NULL) {
-                e[nsbmdIndex].mHead.mLoopMode = 2;
+                e[nsbmdIndex].mHead.mLoopMode = MODEL_ANIMATION_LOOP_MODE_LOOP_COUNT;
                 e[nsbmdIndex].mHead.mLoopCount = loopCount;
             }
         }

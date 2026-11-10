@@ -28,7 +28,7 @@ void CreateMkdEfBubble(void) {
     gMkdEfBubbleNsbta = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
     InitModelAnimationWithEntries(1, gMkdEfBubble, gMkdEfBubbleNsbta, nsbmd,
                                   FindCourseMapObjFile("mkd_ef_bubble.nsbta"));
-    func_02087cfc(gMkdEfBubbleNsbta, 0, 1);
+    SetModelAnimationEntryLoopMode(gMkdEfBubbleNsbta, 0, 1);
 }
 
 void InitMkdEfBubble(MkdEfBubbleObject *bubble, CourseMapRow *row) {

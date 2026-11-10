@@ -94,7 +94,7 @@ void AdvanceKartCharacterAnimation(Kart *kart) {
         if (characterAnimation->mHead.mDone != 1) {
             return;
         }
-        func_02087cfc(characterAnimation, characterAnimation->mCurrentIndex, 1);
+        SetModelAnimationEntryLoopMode(characterAnimation, characterAnimation->mCurrentIndex, 1);
         StartModelAnimationBlend(modelsEntry->mCharacterAnimation, animationState->mNextAnimationIndex);
         faceAnimation = modelsEntry->mFaceAnimation;
         faceAnimation->mHead.mFrameIndex = gCharacterFaceFrames[0];
@@ -184,7 +184,7 @@ void StartKartWinOrLoseAnimation(Kart *kart) {
     if (finishResult == 0) {
         KartModelsEntry *modelsEntry = kart->mKartModelsEntry;
         animationState = &modelsEntry->mAnimationState;
-        func_02087cfc(modelsEntry->mCharacterAnimation, (u16) finishResult, 1);
+        SetModelAnimationEntryLoopMode(modelsEntry->mCharacterAnimation, (u16) finishResult, 1);
         SetKartCharacterAnimation(kart, 2, 1);
         if (isRuleKindWinner != 0) {
             kart->mUnk_7c |= 0x10000;
@@ -331,12 +331,12 @@ void StartKartCharacterAnimationOnce(Kart *kart, s32 animationIndex, s32 nextAni
 
     characterAnimation = modelsEntry->mCharacterAnimation;
     if (animationState->mNextAnimationPending != FALSE && characterAnimation->mCurrentIndex != 0) {
-        func_02087cfc(characterAnimation, characterAnimation->mCurrentIndex, 1);
+        SetModelAnimationEntryLoopMode(characterAnimation, characterAnimation->mCurrentIndex, 1);
     }
     animationState->mNextAnimationPending = TRUE;
     animationState->mNextAnimationIndex = nextAnimationIndex;
     StartModelAnimationBlend(kart->mKartModelsEntry->mCharacterAnimation, animationIndex);
-    func_02087cfc(characterAnimation, (u16) animationIndex, 0);
+    SetModelAnimationEntryLoopMode(characterAnimation, (u16) animationIndex, 0);
 }
 
 void InitShadowModelFromResMdl(ShadowModel *shadowModel, void *resFile, u32 polygonId) {

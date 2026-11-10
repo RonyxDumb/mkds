@@ -34,10 +34,10 @@ typedef struct SmanList {
 } SmanList;
 
 void SetupBattleItemEntries(void);
-s32 func_020905a8(KartKillerCursor *kartKillerCursor);
+BOOL AdvanceKartKillerEndCount(KartKillerCursor *kartKillerCursor);
 void TurnKartKillerTowardPointLink(KartKillerCursor *kartKillerCursor);
 void AdvanceKartKillerAlongPointLinks(KartKillerCursor *kartKillerCursor);
-s32 func_0209081c(KartKillerCursor *kartKillerCursor);
+BOOL AdvanceKartKillerCursor(KartKillerCursor *kartKillerCursor);
 void ResetKartKillerCursorTo(KartKillerCursor *kartKillerCursor, RacePointLink *link);
 void SetupKartKillerCursor(KartKillerCursor *kartKillerCursor, u32 kartIndex);
 BOOL IsTimeLessThanStaffGhostTime(u32 entryNumber, MinuteSecondMillisecondTime *time);

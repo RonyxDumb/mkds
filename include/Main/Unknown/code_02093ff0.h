@@ -20,7 +20,7 @@ typedef struct TeresaWobble {
 } TeresaWobble;
 
 // Object of kind 0x13b (Teresa), returned by UnparkFirstParkedMapObject for FindMapObjectKindUpdateList(0x13b), filled
-// by StartTeresa. The pool objects are made by another kind's init (func_020954e4).
+// by StartTeresa. The pool objects are made by another kind's init (InitTeresaSpawner).
 typedef struct Teresa {
     /* 000 */ MapObject mUnk_00;
     /* 0a0 */ Vec3 mStartPos;
@@ -48,12 +48,12 @@ void ClearTeresaTimers(void);
 void CreateTeresaUpdateList(void);
 void CreateTeresaDrawList(void);
 void UpdateTeresa(void *a, Teresa *teresa); /* skipped for objects with mFlags & 4 (parked pool objects) */
-s16 func_02094bd0(s32 angle);
-s32 func_02094bf0(s32 a, s32 b);
-s16 func_02094c0c(s32 angle);
+s16 TeresaFX_CosIdx(s32 angle);
+s32 TeresaFX_MulInline(s32 multiplicand, s32 multiplier);
+s16 TeresaFX_SinIdx(s32 angle);
 void InitTeresaObjects(MapObjectList *mapObjectList);
 void DrawTeresa(void *a, Teresa *teresa);
 void SetupDrawTeresa(void *a);
 void CreateTeresa(MapObjectList *a); /* also sets word +0x1c of the group record to 1 */
-void InitTeresa(
-    MapObject *mapObject); /* parks the pooled object (ParkMapObject) and zeroes the live-Teresa count gUnparkedTeresaCount */
+void InitTeresa(MapObject *mapObject); /* parks the pooled object (ParkMapObject) and zeroes the live-Teresa count
+                                          gUnparkedTeresaCount */

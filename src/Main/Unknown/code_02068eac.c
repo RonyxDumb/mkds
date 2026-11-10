@@ -459,7 +459,7 @@ void AdvanceKartKiller(Kart *kart) {
     effectState = &kart->mUnk_538;
     effectState->mKillerFrames++;
     if (!(kart->mUnk_7c & 0x400)) {
-        if (func_0209081c(&effectState->mKillerCursor) != 0) {
+        if (AdvanceKartKillerCursor(&effectState->mKillerCursor) != 0) {
             effectStateAgain = &kart->mUnk_538;
             if ((kart->mUnk_4c & 0x10000000) && effectStateAgain->mKillerEnding == FALSE) {
                 effectStateAgain->mKillerEnding = TRUE;

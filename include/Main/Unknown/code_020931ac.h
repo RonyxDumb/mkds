@@ -21,7 +21,7 @@ typedef struct MkdEfBurner {
     /* d4 */ s32 mKartTimers[8];
 } MkdEfBurner;
 
-u16 func_020931ac(MkdEfBurner *a);
+u16 CountMkdEfBurnerScaleThresholds(MkdEfBurner *burner);
 void CreateMkdEfBurnerUpdateList(void);
 void CreateMkdEfBurnerDrawList(void);
 void CreateMkdEfBurnerKindData(void);

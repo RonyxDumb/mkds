@@ -87,7 +87,7 @@ void UpdateRaceHudSubScreenBasabasaCells(void) {
     for (i = 0; i < gRaceHudSubScreenBasabasaCells->mObjectCount; i++) {
         object = gRaceHudSubScreenBasabasaCells->mObjects[i];
         if ((object->mFlags & 1) == 0) {
-            m = func_02092194((Basabasa *) object);
+            m = GetBasabasaRaceHudSubScreenCellKind((Basabasa *) object);
             if (m != 0) {
                 position = &object->mPos;
                 if (ComputeRaceHudSubScreenPosition(
@@ -216,7 +216,7 @@ void UpdateRaceHudSubScreenMkdEfBurnerCells(void) {
     inFirstHalf = gRaceHudSubScreenMkdEfBurnerCells->mUnk_0c[0].mUnk_04 < 4 ? 1 : 0;
     for (i = 0; i < gRaceHudSubScreenMkdEfBurnerCells->mObjectCount; i++) {
         object = gRaceHudSubScreenMkdEfBurnerCells->mObjects[i];
-        if ((object->mFlags & 1) == 0 && func_020931ac((MkdEfBurner *) object) != 0) {
+        if ((object->mFlags & 1) == 0 && CountMkdEfBurnerScaleThresholds((MkdEfBurner *) object) != 0) {
             position = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(
                     position, &gRaceHudSubScreenMkdEfBurnerCells->mCells[cellCount].mDrawPos, n, 0, 0) != FALSE) {

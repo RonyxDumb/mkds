@@ -76,7 +76,7 @@ extern const StemSetParams gCompleteStems;
 extern const StemSetParams gFailedStems;
 extern Vec3 gChaseDistanceLimitsSquared;
 extern const u32 data_02155a54;
-extern const u16 data_02155a74[12];
+extern const u16 gKartNameTagQuadVertices[12];
 extern const Vec3 data_usa_021557c4;
 extern const Vec3 data_usa_021557d0;
 extern const s32 data_usa_021556e4[];

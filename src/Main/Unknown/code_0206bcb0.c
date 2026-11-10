@@ -356,12 +356,12 @@ int TryTurnKartAtLowSpeed(Kart *kart) {
 }
 
 void SetEffectScaleFromKart(Unk0201ca6c *emitter, Kart *kart) {
-    func_02080e88(emitter, kart);
+    SetEffectScaleFromKartScaleZ(emitter, kart);
 }
 
 void SetEffectVelocityFromKart(Unk0201ca6c *emitter, Kart *kart) {
     emitter->mUnk_40 = kart->mEffectVelocity;
-    func_02080e88(emitter, kart);
+    SetEffectScaleFromKartScaleZ(emitter, kart);
 }
 
 // Starts the effects of a kart-kart hit at the contact point; flag picks the four-effect set.

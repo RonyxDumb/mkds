@@ -77,7 +77,7 @@ void AdvanceAwardPointLinkCursor(PointLinkCursor *pointLinkCursor) {
     }
     pointLinkCursor->mPreviousLink = pointLinkCursor->mLink;
     pointLinkCursor->mLink = pointLinkCursor->mLink->mNextLinks[nextLinkIndex];
-    animation = data_usa_021557dc[pointLinkCursor->mLink->mUnk_20[2]];
+    animation = data_usa_021557dc[pointLinkCursor->mLink->mValues[2]];
     if (animation != kart->mKartModelsEntry->mCharacterAnimation->mCurrentIndex) {
         SetKartCharacterAnimation(kart, animation, 1);
     }
@@ -86,7 +86,7 @@ void AdvanceAwardPointLinkCursor(PointLinkCursor *pointLinkCursor) {
 }
 
 s32 GetPointLinkSpeedRatio(PointLinkCursor *pointLinkCursor) {
-    s32 fixedValue = pointLinkCursor->mLink->mUnk_20[1] << 12;
+    s32 fixedValue = pointLinkCursor->mLink->mValues[1] << 12;
 
     return MUL_FIXED12_ROUNDED(fixedValue, 0x29);
 }
@@ -108,12 +108,12 @@ void AdvanceStaffRollPointLinkCursor(PointLinkCursor *pointLinkCursor) {
     }
     pointLinkCursor->mPreviousLink = pointLinkCursor->mLink;
     pointLinkCursor->mLink = pointLinkCursor->mLink->mNextLinks[nextLinkIndex];
-    animation = data_usa_021557dc[pointLinkCursor->mLink->mUnk_20[2]];
+    animation = data_usa_021557dc[pointLinkCursor->mLink->mValues[2]];
     if (animation != kart->mKartModelsEntry->mCharacterAnimation->mCurrentIndex) {
         SetKartCharacterAnimation(kart, animation, 1);
     }
     if (pointLinkCursor->mKartIndex != 0) {
-        if (pointLinkCursor->mLink->mUnk_20[3] == 0) {
+        if (pointLinkCursor->mLink->mValues[3] == 0) {
             kart->mUnk_7c &= ~KART_7C_HIDDEN;
         } else {
             kart->mUnk_7c |= KART_7C_HIDDEN;
@@ -197,8 +197,8 @@ void ResetKartAi(KartAi *kartAi, s32 a) {
     kartAi->mTargetDistanceSquared = 0;
     kartAi->mTargetForwardDot = -0x1000;
     kartAi->mBalloonCountGoal = 0;
-    kartAi->mUnk_c2 = 0;
-    kartAi->mUnk_c4 = FALSE;
+    kartAi->mInflateWaitFrames = 0;
+    kartAi->mInflatePending = FALSE;
     kartAi->mUnk_90 = 0;
     kartAi->mTurnSide = 0;
     kartAi->mUnk_98 = 0;
@@ -396,7 +396,7 @@ void PickKartAiDriftAtLink(KartAi *kartAi) {
     Vec3 kartOffsetFromLink;
     Vec3 unitY;
     Vec3 upVector;
-    s32 linkValue = func_02080cc0(&kartAi->mUnk_08);
+    s32 linkValue = GetPointLinkFirstValue(&kartAi->mUnk_08);
     BOOL conditionsMet;
     s32 sideRange;
     s32 sidewaysDistance;
@@ -485,7 +485,7 @@ void AdvanceKartAiDrift(KartAi *kartAi) {
     s32 m;
     BOOL chargeRollPassed;
 
-    func_02080cc0(&kartAi->mUnk_08);
+    GetPointLinkFirstValue(&kartAi->mUnk_08);
     kart = kartAi->mKart;
     if (kartAi->mUnk_90 == 1) {
         RequestBits(kart->mEntryIndex, PAD_KEY_R);

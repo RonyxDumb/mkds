@@ -10,22 +10,22 @@
 void RegisterKartAiCallbacks(void) {
     if (gRaceSetup->mRaceKind == RACE_KIND_AWARD || gRaceSetup->mMode == MODE_MISSION_RUN) {
         gKartAiSetupCallback = SetupKartAiForAwardMissionRun;
-        gKartAiResetCallback = func_0208bde0;
-        gKartAiAdvanceCallback = func_0208bdc0;
+        gKartAiResetCallback = ResetKartAiForAwardMissionRun;
+        gKartAiAdvanceCallback = AdvanceKartAiForAwardMissionRun;
         gKartAiRequestLinkCallback = RequestKartAiPointLink;
         gKartAiIsLinkRequestedCallback = IsKartAiLinkRequested;
         gKartAiLinkPosAndDirectionCallback = CopyKartAiLinkPosAndDirection;
-        gKartAiSetupHeldItemEntryCallback = func_0208bfec;
-        gKartAiSetupItemInUseEntryCallback = func_0208bfd8;
+        gKartAiSetupHeldItemEntryCallback = SetupNonBattleKartAiHeldItemEntry;
+        gKartAiSetupItemInUseEntryCallback = SetupNonBattleKartAiItemInUseEntry;
     } else if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
         gKartAiSetupCallback = SetupKartAiForStaffRoll;
-        gKartAiResetCallback = func_0208bd40;
-        gKartAiAdvanceCallback = func_0208bd20;
+        gKartAiResetCallback = ResetKartAiForStaffRollNop;
+        gKartAiAdvanceCallback = AdvanceKartAiForStaffRoll;
         gKartAiRequestLinkCallback = RequestKartAiPointLink;
         gKartAiIsLinkRequestedCallback = IsKartAiLinkRequested;
         gKartAiLinkPosAndDirectionCallback = CopyKartAiLinkPosAndDirection;
-        gKartAiSetupHeldItemEntryCallback = func_0208bfec;
-        gKartAiSetupItemInUseEntryCallback = func_0208bfd8;
+        gKartAiSetupHeldItemEntryCallback = SetupNonBattleKartAiHeldItemEntry;
+        gKartAiSetupItemInUseEntryCallback = SetupNonBattleKartAiItemInUseEntry;
     } else if (gRaceSetup->mMode == MODE_BATTLE) {
         gKartAiSetupCallback = SetupKartAiForBattle;
         gKartAiResetCallback = ResetKartAiForBattle;
@@ -42,8 +42,8 @@ void RegisterKartAiCallbacks(void) {
         gKartAiRequestLinkCallback = RequestKartAiPointLink;
         gKartAiIsLinkRequestedCallback = IsKartAiLinkRequested;
         gKartAiLinkPosAndDirectionCallback = CopyKartAiLinkPosAndDirection;
-        gKartAiSetupHeldItemEntryCallback = func_0208bfec;
-        gKartAiSetupItemInUseEntryCallback = func_0208bfd8;
+        gKartAiSetupHeldItemEntryCallback = SetupNonBattleKartAiHeldItemEntry;
+        gKartAiSetupItemInUseEntryCallback = SetupNonBattleKartAiItemInUseEntry;
     }
 }
 

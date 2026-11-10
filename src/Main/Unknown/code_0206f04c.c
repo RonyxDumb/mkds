@@ -167,7 +167,7 @@ void StartKartRespawnWait(Kart *kart, u32 collisionFlags) {
             b = 0x15d;
         }
         waterSurfacePos.y = kart->mPos.y - GetHeightAboveWaterOrEfct(kart->mPos.y);
-        func_0208d978(&waterSurfacePos, (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0);
+        StartWaterEfctKind2Effects(&waterSurfacePos, (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0);
         kart->mUnk_4c |= 0x4000000;
         StartSound(&kart->mSoundSource, b, 0x7f, 0);
         kart->mGravity = 0;
@@ -195,7 +195,7 @@ void ApplyKartWaterDepth(Kart *kart) {
             GetHeightAboveWaterOrEfct(kart->mPrevPos.y) > -0xa000 && kart->mVelocity.y < -0x2000) {
             waterSurfacePoint = kart->mPos;
             waterSurfacePoint.y = kart->mPos.y - heightAboveWater;
-            func_0208d978(&waterSurfacePoint, (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0);
+            StartWaterEfctKind2Effects(&waterSurfacePoint, (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0);
             b = FALSE;
         }
         if (b != FALSE) {
@@ -246,7 +246,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
     }
     if (GetRaceStartSequenceFrames() - 0xaf == 0) {
         if (kart->mUnk_7c & 2) {
-            if (func_0208c180(kart->mAi) != 0) {
+            if (GetKartAiHeadingSwingAtRaceStart(kart->mAi) != 0) {
                 if (!(kart->mUnk_4c & KART_4C_HEADING_SWING)) {
                     kart->mUnk_4c |= KART_4C_HEADING_SWING;
                     kart->mRaceStartFrameCount = 0x78;

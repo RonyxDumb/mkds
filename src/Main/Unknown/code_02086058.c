@@ -325,14 +325,16 @@ void DrawKartNameTags(MtxFx43 *viewMatrix) {
         }
         if (kartObject->mTexPlttEntries->mEntries[3].mTexData != NULL) {
             DrawKartNameTagTexture(&kartObject->mTexPlttEntries->mEntries[3], kartObject, viewMatrix, data_021659a8,
-                                   data_021659a0, alpha, screenX, screenY, data_021659bc, data_021659b0, func_02087ab0);
+                                   data_021659a0, alpha, screenX, screenY, data_021659bc, data_021659b0,
+                                   DrawKartNameTagQuadVertices);
         }
         DrawKartNameTagTexture(&kartObject->mTexPlttEntries->mEntries[2], kartObject, viewMatrix, data_021659cc, 0x9000,
                                alpha, screenX, screenY, data_021659d0, 0, DrawKartNameTagLineVertices);
         DrawKartNameTagTexture(&kartObject->mTexPlttEntries->mEntries[1], kartObject, viewMatrix, 0x21000, 0xa000,
-                               alpha, screenX, screenY, data_021659a4, 0x199a, func_02087ab0);
+                               alpha, screenX, screenY, data_021659a4, 0x199a, DrawKartNameTagQuadVertices);
         DrawKartNameTagTexture(&kartObject->mTexPlttEntries->mEntries[0], kartObject, viewMatrix, data_021659c8,
-                               data_021659c4, alpha, screenX, screenY, data_021659ac, data_021659b8, func_02087918);
+                               data_021659c4, alpha, screenX, screenY, data_021659ac, data_021659b8,
+                               DrawKartNameTagColoredVertices);
     }
 }
 

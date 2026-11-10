@@ -240,7 +240,7 @@ void CreateJg(void) {
             kindRow->mNsbcaAnimation = HeapAlloc(heap, 0x38);
             InitModelAnimationWithEntries(0, kindRow->mModel, kindRow->mNsbcaAnimation, file,
                                           FindSceneFile(sourceRow->mNsbcaName));
-            func_02087cfc(kindRow->mNsbcaAnimation, 0, 1);
+            SetModelAnimationEntryLoopMode(kindRow->mNsbcaAnimation, 0, 1);
         } else {
             kindRow->mNsbcaAnimation = NULL;
         }
@@ -248,7 +248,7 @@ void CreateJg(void) {
             kindRow->mNsbmaAnimation = HeapAlloc(heap, 0x38);
             InitModelAnimationWithEntries(4, kindRow->mModel, kindRow->mNsbmaAnimation, file,
                                           FindSceneFile(sourceRow->mNsbmaName));
-            func_02087cfc(kindRow->mNsbmaAnimation, 0, 1);
+            SetModelAnimationEntryLoopMode(kindRow->mNsbmaAnimation, 0, 1);
         } else {
             kindRow->mNsbmaAnimation = NULL;
         }

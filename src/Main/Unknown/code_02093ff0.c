@@ -107,15 +107,15 @@ void InitTeresaObjects(MapObjectList *mapObjectList) {
     }
 }
 
-s16 func_02094c0c(s32 angle) {
+s16 TeresaFX_SinIdx(s32 angle) {
     return gPairsByAngle[(angle >> 4) * 2];
 }
 
-s32 func_02094bf0(s32 a, s32 b) {
-    return MUL_FIXED12_ROUNDED(a, b);
+s32 TeresaFX_MulInline(s32 multiplicand, s32 multiplier) {
+    return MUL_FIXED12_ROUNDED(multiplicand, multiplier);
 }
 
-s16 func_02094bd0(s32 angle) {
+s16 TeresaFX_CosIdx(s32 angle) {
     return gPairsByAngle[(angle >> 4) * 2 + 1];
 }
 
@@ -162,15 +162,15 @@ void UpdateTeresa(void *a, Teresa *teresa) {
         return;
     }
     teresa->mAngleWobble.mAngle = teresa->mAngleWobble.mAngle + teresa->mAngleWobble.mAnglePerFrame;
-    x = func_02094bf0(teresa->mAngleWobble.mAmplitude, func_02094c0c(teresa->mAngleWobble.mAngle));
+    x = TeresaFX_MulInline(teresa->mAngleWobble.mAmplitude, TeresaFX_SinIdx(teresa->mAngleWobble.mAngle));
     teresa->mAngleWobble.mUnk_08 = teresa->mAngleWobble.mMid + x - teresa->mAngleWobble.mValue;
     teresa->mAngleWobble.mValue = teresa->mAngleWobble.mValue + teresa->mAngleWobble.mUnk_08;
     func_02094768_inline_2(&teresa->mAngleWobble.mAmplitude, &teresa->mAngleWobble.mAmplitudePerFrame);
     func_02094768_inline_2(&teresa->mAngleWobble.mAnglePerFrame, &teresa->mAngleWobble.mUnk_1c);
     angleWobbleValue = teresa->mAngleWobble.mValue;
     teresa->mYWobble.mAngle = teresa->mYWobble.mAngle + teresa->mYWobble.mAnglePerFrame;
-    anglePairSecond = func_02094bd0(teresa->mYWobble.mAngle);
-    x = func_02094bf0(teresa->mYWobble.mAmplitude / 2, 0x1000 - anglePairSecond);
+    anglePairSecond = TeresaFX_CosIdx(teresa->mYWobble.mAngle);
+    x = TeresaFX_MulInline(teresa->mYWobble.mAmplitude / 2, 0x1000 - anglePairSecond);
     teresa->mYWobble.mUnk_08 = teresa->mYWobble.mMid + x - teresa->mYWobble.mValue;
     teresa->mYWobble.mValue = teresa->mYWobble.mValue + teresa->mYWobble.mUnk_08;
     func_02094768_inline_2(&teresa->mYWobble.mAmplitude, &teresa->mYWobble.mAmplitudePerFrame);
@@ -190,8 +190,7 @@ void UpdateTeresa(void *a, Teresa *teresa) {
             (teresa->mStartPos.x + MUL_FIXED12_NO_ROUND(n, gPairsByAngle[(angleWobbleValue >> 4) * 2 + 1]));
         teresa->mUnk_00.mPos.y = teresa->mStartPos.y + yWobbleValue;
         teresa->mUnk_00.mPos.z =
-            kart->mPos.z +
-            (teresa->mStartPos.z + MUL_FIXED12_NO_ROUND(n, gPairsByAngle[(angleWobbleValue >> 4) * 2]));
+            kart->mPos.z + (teresa->mStartPos.z + MUL_FIXED12_NO_ROUND(n, gPairsByAngle[(angleWobbleValue >> 4) * 2]));
     }
 }
 

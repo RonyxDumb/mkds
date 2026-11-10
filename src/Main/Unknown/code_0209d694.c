@@ -144,10 +144,10 @@ void UpdateSunFireball(void *a, SunFireball *sunFireball) {
             } else {
                 ParkMapObject(&sunFireball->mUnk_00);
                 if (sunFireball->mUnk_bc != NULL) {
-                    func_0208b6b0((void **) &sunFireball->mUnk_bc);
+                    StopEffectAndClearPointer((void **) &sunFireball->mUnk_bc);
                 }
                 if (sunFireball->mUnk_c0 != NULL) {
-                    func_0208b6b0((void **) &sunFireball->mUnk_c0);
+                    StopEffectAndClearPointer((void **) &sunFireball->mUnk_c0);
                 }
             }
             break;
@@ -181,10 +181,10 @@ void UpdateSunFireball(void *a, SunFireball *sunFireball) {
             } else {
                 ParkMapObject(&sunFireball->mUnk_00);
                 if (sunFireball->mUnk_bc != NULL) {
-                    func_0208b6b0((void **) &sunFireball->mUnk_bc);
+                    StopEffectAndClearPointer((void **) &sunFireball->mUnk_bc);
                 }
                 if (sunFireball->mUnk_c0 != NULL) {
-                    func_0208b6b0((void **) &sunFireball->mUnk_c0);
+                    StopEffectAndClearPointer((void **) &sunFireball->mUnk_c0);
                 }
             }
             break;

@@ -56,10 +56,10 @@ void CopyKartAiLinkPosAndDirection(Vec3 *position, Vec3 *direction, KartAi *kart
     *direction = cursor->mDirection;
 }
 
-void func_0208bfec(KartAi *kartAi) {
+void SetupNonBattleKartAiHeldItemEntry(KartAi *kartAi) {
     SetupHeldItemEntry(&kartAi->mItemUse, kartAi);
 }
 
-void func_0208bfd8(KartAi *kartAi) {
+void SetupNonBattleKartAiItemInUseEntry(KartAi *kartAi) {
     SetupItemInUseEntry(&kartAi->mItemUse, kartAi);
 }
