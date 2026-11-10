@@ -29,7 +29,7 @@
 #include "Main/Unknown/code_020ae408.h"
 #include "Main/Unknown/code_0212b1a8.h"
 #include "Main/Unknown/unk_02175628.h"
-#include "code_0201ea58.h"
+#include "Main/Unknown/code_0201ea58.h"
 #include "Main/Unknown/code_02117218.h"
 #include "registers.h"
 #include "Main/Unknown/code_02116000.h"
@@ -195,7 +195,7 @@ void AdvanceSelectGhostOffsetTimers(void) {
 
 void RefreshSelectGhostForIndex(void) {
     SelectGhost *p = gSelectGhost;
-    Unk0201ea30 *q;
+    LayoutEntryTable *q;
     u16 n;
     u16 a;
     u16 b;

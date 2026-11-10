@@ -13,7 +13,7 @@
 #include "01/code_02199000.h"
 #include "01/unk_021a8000.h"
 #include "Main/Unknown/code_02108000.h"
-#include "code_0201ea58.h"
+#include "Main/Unknown/code_0201ea58.h"
 #include "code_0214a390.h"
 
 OptionHensyuMenu *gOptionHensyuMenu;

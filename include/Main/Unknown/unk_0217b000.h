@@ -503,7 +503,7 @@ typedef struct TitleStateHandlers {
 } TitleStateHandlers;
 
 struct LayoutTableEntry;
-struct Unk0201ea30;
+struct LayoutEntryTable;
 
 // 0x8bc bytes.
 typedef struct TitleScene {
@@ -522,9 +522,9 @@ typedef struct TitleScene {
     /* 060 */ s16 mSelectedOffset;
     /* 064 */ s32 mBlendFrames;
     /* 068 */ struct LayoutTableEntry *mTitleTable;
-    /* 06c */ struct Unk0201ea30 *mTitleSBncl;
+    /* 06c */ struct LayoutEntryTable *mTitleSBncl;
     /* 070 */ void *mTitleSBnbl;
-    /* 074 */ struct Unk0201ea30 *mTitleSBnll;
+    /* 074 */ struct LayoutEntryTable *mTitleSBnll;
     /* 078 */ struct Nclr *mTitleTrueMBOrMBNclr;
     /* 07c */ struct Ncgr *mTitleTrueMBOrMBNcgr;
     /* 080 */ struct Nclr *mTitleSBNclr;

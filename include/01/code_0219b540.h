@@ -14,7 +14,7 @@
 #include "Main/Unknown/code_0211df44.h"
 #include "Main/Unknown/code_0212426c.h"
 #include "Main/Unknown/unk_0217d068.h"
-#include "code_0201ea58.h"
+#include "Main/Unknown/code_0201ea58.h"
 #include "code_0212df7c.h"
 
 // Object with a pointer at offset 0xc.
@@ -26,17 +26,17 @@ typedef struct Unk021a9bf4Block {
 // Object behind gSelectGhost.
 typedef struct SelectGhost {
     /* 00 */ struct Unk02021dc8 *mSelectCupCourseMNcer;
-    /* 04 */ Unk0201ea30 *mSelectCupCourseTaMBncl;
-    /* 08 */ struct Unk0201ea30 *mSelectCupCourseTaMBnll;
+    /* 04 */ LayoutEntryTable *mSelectCupCourseTaMBncl;
+    /* 08 */ struct LayoutEntryTable *mSelectCupCourseTaMBnll;
     /* 0c */ struct Unk02021dc8 *mSelectGhostSONcer;
-    /* 10 */ Unk0201ea30 *mSelectGhostSBncl;
+    /* 10 */ LayoutEntryTable *mSelectGhostSBncl;
     /* 14 */ void *mSelectGhostSBnbl;
-    /* 18 */ struct Unk0201ea30 *mSelectGhostSBnll;
+    /* 18 */ struct LayoutEntryTable *mSelectGhostSBnll;
     /* 1c */ Nclr *mSelectGhostSONclr;
     /* 20 */ void *mPlayerCharacterMNcgr;
     /* 24 */ struct Unk02021dc8 *mPlayerCharacterMNcer;
     /* 28 */ Unk021a9bf4Block *mPlayerCharacterMONclr;
-    /* 2c */ struct Unk0201ea30 *mPlayerCharacterMBncl;
+    /* 2c */ struct LayoutEntryTable *mPlayerCharacterMBncl;
     /* 30 */ LayoutTableEntry *mSelectCupCourseTaMTable;
     /* 34 */ LayoutTableEntry *mSelectGhostSTable;
     /* 38 */ struct Bmg *mCommonMessages;

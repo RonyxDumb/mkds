@@ -23,7 +23,7 @@ u32 DGT_SetOverlayTableMode(u32 flag) {
 }
 
 // Starts a SHA-1 computation.
-void DGT_Hash2Reset(Hash20State *ctx) {
+void DGT_Hash2Reset(DGTHash2Context *ctx) {
     ctx->mWords[0] = 0x67452301u;
     ctx->mWords[1] = 0xefcdab89u;
     ctx->mWords[2] = 0x98badcfeu;
@@ -35,7 +35,7 @@ void DGT_Hash2Reset(Hash20State *ctx) {
 }
 
 // Adds length bytes of input to the SHA-1 computation, hashing each full 64-byte block as it fills.
-void DGT_Hash2SetSource(Hash20State *ctx, const u8 *input, u32 length) {
+void DGT_Hash2SetSource(DGTHash2Context *ctx, const u8 *input, u32 length) {
     u8 *buffer;
     u32 newLow;
     u32 num;
@@ -90,7 +90,7 @@ void DGT_Hash2SetSource(Hash20State *ctx, const u8 *input, u32 length) {
 
 // Callers pass ctx and digest only. The prologue pushes r0-r3 (the form 1.2 gives a variadic function), and the call
 // to MIi_CpuClear32 at the end clears the pushed ctx.
-void DGT_Hash2GetDigest(Hash20State *ctx, u8 *digest, ...) {
+void DGT_Hash2GetDigest(DGTHash2Context *ctx, u8 *digest, ...) {
     volatile u32 z;
     u32 *blockWords;
     u8 *blockBytes;
@@ -165,7 +165,7 @@ void DGT_Hash2GetDigest(Hash20State *ctx, u8 *digest, ...) {
 
 // Hashes length bytes of source in 64-byte blocks, clearing the words at offsets 0x18 and 0x38 of each block while it
 // is hashed.
-void DGTi_Hash2ProcessMessageBlock(Hash20State *ctx, u8 *source, int length) {
+void DGTi_Hash2ProcessMessageBlock(DGTHash2Context *ctx, u8 *source, int length) {
     u32 saved18;
     u32 saved38;
     int i;
@@ -189,7 +189,7 @@ void DGT_Hash2CalcHmac(u8 *digest, const u8 *bin, u32 binLen, const u8 *key, s32
     u8 ipad[0x40];
     u8 opad[0x40];
     u8 inner[0x14];
-    Hash20State ctx;
+    DGTHash2Context ctx;
     u8 *innerPtr;
     s32 i;
 

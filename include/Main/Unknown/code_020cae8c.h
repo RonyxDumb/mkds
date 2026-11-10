@@ -38,10 +38,10 @@ typedef struct MenuScene {
     /* 938 */ s16 mSinglePlaySelectModePressOffset;
     /* 93a */ u8 mUnk_93a[2];
     /* 93c */ LayoutTableEntry *mSinglePlaySelectModeMLayoutTable;
-    /* 940 */ struct Unk0201ea30 *mSinglePlaySelectModeMBncl;
+    /* 940 */ struct LayoutEntryTable *mSinglePlaySelectModeMBncl;
     /* 944 */ s32 mUnk_944;
     /* 948 */ LayoutTableEntry *mSinglePlaySelectModeSLayoutTable;
-    /* 94c */ struct Unk0201ea30 *mSinglePlaySelectModeSBncl;
+    /* 94c */ struct LayoutEntryTable *mSinglePlaySelectModeSBncl;
     /* 950 */ void *mSinglePlaySelectModeSBnbl;
     /* 954 */ CharacterKartPicks *mCharacterKartPicks;
     /* 958 */ BOOL mDataSharingSyncStarted;

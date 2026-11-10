@@ -13,7 +13,7 @@
 #include "code_02142eac.h"
 #include "code_02016468.h"
 #include "code_0214cfe4.h"
-#include "code_0201ea30.h"
+#include "Main/Unknown/code_0201ea30.h"
 #include "Main/Unknown/code_0212abd0.h"
 #include "Main/Unknown/code_02036820.h"
 #include "Main/Unknown/unk_02175000.h"
@@ -282,7 +282,7 @@ void SetupLinkLevelIcons(void) {
     Unk02021dc8 *cells;
     Nclr *palette;
     void *searchIconCellLayout;
-    Unk0201ea30 *cellLayout;
+    LayoutEntryTable *cellLayout;
     DownloadScreenFiles *loadedFiles;
     CellLayoutEntry *cellEntry;
     s32 j;
@@ -300,9 +300,9 @@ void SetupLinkLevelIcons(void) {
         }
     }
     for (i = 0; i < 2; i++) {
-        cellEntry = func_0201ea30(cellLayout, gLinkLevelIconSlotCellEntryIndices[i]);
-        gLinkLevelIcons->mIconPositions[i].mX = func_0201ebe8(cellEntry->mUnk_00_0, 0x10);
-        gLinkLevelIcons->mIconPositions[i].mY = func_0201eba0(cellEntry->mUnk_00_2, 0x10);
+        cellEntry = GetCellLayoutEntry(cellLayout, gLinkLevelIconSlotCellEntryIndices[i]);
+        gLinkLevelIcons->mIconPositions[i].mX = GetLayoutAxisStartX(cellEntry->mUnk_00_0, 0x10);
+        gLinkLevelIcons->mIconPositions[i].mY = GetLayoutAxisStartY(cellEntry->mUnk_00_2, 0x10);
     }
     for (i = 0; i < 2; i++) {
         CallQueueAppend(0x13, (0x400 - (i + 1) * 4) << 5, gLinkLevelIcons->mZeroChars, 0x80);

@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/Unknown/code_020b3f7c.h" // Bmg
-#include "code_0201ea58.h" // Unk0201ea30
+#include "Main/Unknown/code_0201ea58.h" // LayoutEntryTable
 #include "Main/Unknown/code_02124094.h" // LayoutTableEntry
 
 // 0x1c-byte part of SelectCharacter, at 0x00, 0x1c and 0x38; InitSelectCharacter has two on the stack, one filled by
@@ -11,9 +11,9 @@ typedef struct CellFileSet {
     /* 00 */ Ncgr *mChars;
     /* 04 */ Nclr *mPalette;
     /* 08 */ struct Unk02021dc8 *mCells;
-    /* 0c */ Unk0201ea30 *mCellLayout;
-    /* 10 */ struct Unk0201ea30 *mRects;
-    /* 14 */ Unk0201ea30 *mLabelLayout;
+    /* 0c */ LayoutEntryTable *mCellLayout;
+    /* 10 */ struct LayoutEntryTable *mRects;
+    /* 14 */ LayoutEntryTable *mLabelLayout;
     /* 18 */ LayoutTableEntry *mCellTable;
 } CellFileSet;
 
@@ -54,9 +54,9 @@ typedef struct MultiSelectNS {
     /* 00 */ Ncgr *mNcgr;
     /* 04 */ Nclr *mNclr;
     /* 08 */ struct Unk02021dc8 *mNcer;
-    /* 0c */ Unk0201ea30 *mBncl;
+    /* 0c */ LayoutEntryTable *mBncl;
     /* 10 */ void *mBnbl;
-    /* 14 */ Unk0201ea30 *mBnll;
+    /* 14 */ LayoutEntryTable *mBnll;
     /* 18 */ LayoutTableEntry *mCellTable;
     /* 1c */ void *mUnk_1c;
     /* 20 */ void *mOamList;

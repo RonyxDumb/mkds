@@ -24,7 +24,7 @@ typedef struct WiFiAikotoba {
     /* 20 */ struct Unk02021dc8 *mWiFiAikotobaSNcer;
     /* 24 */ struct Ncgr *mWiFiAikotobaSNcgr;
     /* 28 */ struct Nclr *mWiFiAikotobaSONclr;
-    /* 2c */ struct Unk0201ea30 *mWiFiAikotobaBncl;
+    /* 2c */ struct LayoutEntryTable *mWiFiAikotobaBncl;
     /* 30 */ void *mWiFiAikotobaBnbl;
     /* 34 */ u8 pad_34[4];
     /* 38 */ struct Bmg *mWiFiMessages;

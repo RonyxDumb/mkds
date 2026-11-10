@@ -4,7 +4,7 @@
 
 extern u8 data_ov000_021b05d8[][5];
 
-#include "code_0201ea58.h"
+#include "Main/Unknown/code_0201ea58.h"
 #include "Main/Unknown/code_02124094.h"
 
 struct Unk02021dc8;
@@ -25,8 +25,8 @@ typedef struct WiFiTopMenu {
     /* 20 */ struct Unk02021dc8 *mWiFiTopMenuSNcer;
     /* 24 */ struct Ncgr *mWiFiTopMenuSNcgr;
     /* 28 */ struct Nclr *mWiFiTopMenuSONclr;
-    /* 2c */ struct Unk0201ea30 *mWiFiTopMenuBncl;
-    /* 30 */ Unk0201ea30 *mWiFiTopMenuBnbl;
+    /* 2c */ struct LayoutEntryTable *mWiFiTopMenuBncl;
+    /* 30 */ LayoutEntryTable *mWiFiTopMenuBnbl;
     /* 34 */ u8 pad_34[4];
     /* 38 */ void *mWiFiMessages;
     /* 3c */ void *mCommonMessages;

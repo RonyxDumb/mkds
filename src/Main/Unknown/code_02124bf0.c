@@ -4,14 +4,15 @@
 #include "Main/Unknown/code_02124efc.h"
 #include "Main/Unknown/code_020ae5d4.h"
 #include "Main/Unknown/code_020ae5e4.h"
-#include "code_0201ea30.h"
-#include "code_0201ea58.h"
+#include "Main/Unknown/code_0201ea30.h"
+#include "Main/Unknown/code_0201ea58.h"
 #include "g2d_NOB_load.h"
 #include "code_020222ec.h"
 
 #pragma thumb on
 
-void InitLayoutTable(void *heap, Unk0201ea30 *cellLayout, Unk0201ea30 *labelLayout, LayoutTableEntry **tableOut) {
+void InitLayoutTable(void *heap, LayoutEntryTable *cellLayout, LayoutEntryTable *labelLayout,
+                     LayoutTableEntry **tableOut) {
     u16 count;
 
     count = cellLayout->mUnk_06;
@@ -24,12 +25,12 @@ void InitLayoutTable(void *heap, Unk0201ea30 *cellLayout, Unk0201ea30 *labelLayo
 
 // Draws entry a: first the entry it is chained to, then itself; appends the cell OAMs to the list, and returns without
 // drawing when the entry is disabled or lies off the 256 x 192 screen.
-u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout, Unk0201ea30 *labelLayout,
+u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, LayoutEntryTable *cellLayout, LayoutEntryTable *labelLayout,
                     RaceHudOamBuffer *oamList, LayoutTableEntry *entry, s32 incrementFlag) {
     s32 width;
     s32 height;
     MtxFx22 *matrix;
-    Unk0201ea84 axisRecords[3];
+    LayoutAxis axisRecords[3];
     s32 position[2];
     Unk020224e0_c *cellData;
     CellLayoutEntry *cellEntry;
@@ -46,7 +47,7 @@ u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout, Unk0
         return (u32) matrix;
     }
     if (index >= cellLayout->mUnk_06) {
-        LabelLayoutEntry *labelEntry = func_0201ea58(labelLayout, index - cellLayout->mUnk_06);
+        LabelLayoutEntry *labelEntry = GetLabelLayoutEntry(labelLayout, index - cellLayout->mUnk_06);
         cellData = entry->mLabelCanvas->mCellData;
         axisRecords[0] = labelEntry->mAxisX;
         axisRecords[1] = labelEntry->mAxisY;
@@ -55,15 +56,15 @@ u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout, Unk0
         position[0] = axisRecords[0].mUnk_00_0 << 12;
         position[1] = axisRecords[1].mUnk_00_0 << 12;
     } else {
-        cellEntry = func_0201ea30(cellLayout, index);
+        cellEntry = GetCellLayoutEntry(cellLayout, index);
         cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
         axisRecords[2] = cellEntry->mUnk_00_0;
         axisRecords[0] = axisRecords[2];
         axisRecords[1] = cellEntry->mUnk_00_2;
         width = cellData->mUnk_08 - cellData->mUnk_0c;
         height = cellData->mUnk_0a - cellData->mUnk_0e;
-        position[0] = ((width >> 1) + func_0201ebe8(axisRecords[2], width)) << 12;
-        position[1] = ((height >> 1) + func_0201eba0(cellEntry->mUnk_00_2, height)) << 12;
+        position[0] = ((width >> 1) + GetLayoutAxisStartX(axisRecords[2], width)) << 12;
+        position[1] = ((height >> 1) + GetLayoutAxisStartY(cellEntry->mUnk_00_2, height)) << 12;
     }
     if (entry->mUsePosition != FALSE) {
         if (index >= cellLayout->mUnk_06) {
@@ -97,7 +98,7 @@ u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout, Unk0
                                                 groupIndex, entry->mDoubleAffine);
 }
 
-void DrawLayoutTable(Unk0201ea30 *cellLayout, Unk02021dc8 *cells, Unk0201ea30 *labelLayout, void *oamList,
+void DrawLayoutTable(LayoutEntryTable *cellLayout, Unk02021dc8 *cells, LayoutEntryTable *labelLayout, void *oamList,
                      LayoutTableEntry *table) {
     s32 i;
     for (i = cellLayout->mUnk_06 - 1; i >= 0; i--) {
@@ -105,7 +106,7 @@ void DrawLayoutTable(Unk0201ea30 *cellLayout, Unk02021dc8 *cells, Unk0201ea30 *l
     }
 }
 
-void DrawLayoutTableKeepMatrixCount(Unk0201ea30 *cellLayout, Unk02021dc8 *cells, Unk0201ea30 *labelLayout,
+void DrawLayoutTableKeepMatrixCount(LayoutEntryTable *cellLayout, Unk02021dc8 *cells, LayoutEntryTable *labelLayout,
                                     void *oamList, LayoutTableEntry *table) {
     s32 i;
     for (i = cellLayout->mUnk_06 - 1; i >= 0; i--) {

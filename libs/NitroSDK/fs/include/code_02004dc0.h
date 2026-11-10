@@ -43,8 +43,8 @@ extern Unk02005704 data_0216f364;
 extern FSArchive data_0216f36c;
 extern u8 fsi_def_digest_key[];
 extern u8 data_02161764[];
-extern void *data_02161768;
-extern u32 data_0216176c;
+extern void *fsi_digest_key_ptr;
+extern u32 fsi_digest_key_len;
 
 void FS_Init(u32 dmaNo);
 u32 FS_TryLoadTable(u32 mem, u32 size);

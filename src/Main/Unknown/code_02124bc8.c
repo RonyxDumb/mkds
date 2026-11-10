@@ -3,7 +3,7 @@
 
 #pragma thumb on
 
-void DrawLayoutTableEntry(s32 index, Unk0201ea30 *cellLayout, Unk02021dc8 *cells, Unk0201ea30 *labelLayout,
+void DrawLayoutTableEntry(s32 index, LayoutEntryTable *cellLayout, Unk02021dc8 *cells, LayoutEntryTable *labelLayout,
                           void *oamList, LayoutTableEntry *table) {
     DrawLayoutEntry(index, cells, cellLayout, labelLayout, oamList, &table[index], 1);
 }

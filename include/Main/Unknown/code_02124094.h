@@ -5,18 +5,18 @@
 #include "g2d_CharCanvas.h" // Unk02023374
 #include "g2d_NAN_load.h" // Unk02021dc8
 #include "code_02022030.h" // Unk020224e0_c, Unk020224e0_s
-#include "code_0201ea58.h" // Unk0201ea30
+#include "Main/Unknown/code_0201ea58.h" // LayoutEntryTable
 
 typedef struct Ncgr Ncgr;
 typedef struct Nclr Nclr;
 
-// 8-byte elements from offset 8 of an Unk0201ea30 (func_0201ea30 indexes them).
+// 8-byte elements from offset 8 of an LayoutEntryTable (GetCellLayoutEntry indexes them).
 typedef struct CellLayoutEntry {
     /* 00 */ union {
         u32 mUnk_00;
         struct {
-            Unk0201ea84 mUnk_00_0;
-            Unk0201ea84 mUnk_00_2;
+            LayoutAxis mUnk_00_0;
+            LayoutAxis mUnk_00_2;
         };
     };
     /* 04 */ u32 mCellIndex;
@@ -73,10 +73,10 @@ typedef struct Unk02022eb0 {
     /* 06 */ u16 mUnk_06;
 } Unk02022eb0;
 
-// 12-byte elements of the array func_0201ea58 indexes.
+// 12-byte elements of the array GetLabelLayoutEntry indexes.
 typedef struct LabelLayoutEntry {
-    /* 00 */ Unk0201ea84 mAxisX;
-    /* 02 */ Unk0201ea84 mAxisY;
+    /* 00 */ LayoutAxis mAxisX;
+    /* 02 */ LayoutAxis mAxisY;
     /* 04 */ s8 mCharSpacing;
     /* 05 */ s8 mLineSpacing;
     /* 06 */ u16 mColor : 8;
@@ -85,39 +85,39 @@ typedef struct LabelLayoutEntry {
     /* 08 */ u8 mUnk_08[4];
 } LabelLayoutEntry;
 
-BOOL IsCellOamModeXlu(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
+BOOL IsCellOamModeXlu(s32 index, Unk02021dc8 *cells, LayoutEntryTable *cellLayout);
 void SetLayoutEntryAngleAndScale(LayoutTableEntry *entry, s32 angle, s32 scale);
-void SetCellOamModeXlu(u32 index, s32 enableXlu, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
-u8 GetCellPaletteIndex(u32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
-void SetCellPaletteIndex(s32 index, s32 paletteIndex, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
-u8 GetCellPriority(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
-void SetCellPriority(u32 index, u32 priority, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
-u16 GetCellCharIndex(u32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
-void QueueCellCharsAndCopyPalettes(u32 index, Unk02021dc8 *cells, Ncgr *chars, Nclr *palette, Unk0201ea30 *cellLayout,
-                                   s32 queueSelector, u32 destIndex, Unk02021dc8 *destCells,
-                                   Unk0201ea30 *destCellLayout);
-void QueueCellChars(u32 index, Unk02021dc8 *cells, Ncgr *chars, Unk0201ea30 *cellLayout, s32 queueSelector,
-                    u32 destIndex, Unk02021dc8 *destCells, Unk0201ea30 *destCellLayout);
-void QueueCellCharsAndFirstPalette(u32 index, Unk02021dc8 *cells, Ncgr *chars, Nclr *palette, Unk0201ea30 *cellLayout,
-                                   s32 queueSelector, u32 destIndex, Unk02021dc8 *destCells,
-                                   Unk0201ea30 *destCellLayout);
-s32 InitLabelCanvas(void *heap, s32 labelIndex, Unk0201ea30 *labelLayout, s32 width, s32 height, s32 entryIndex,
-                    Unk02021dc8 *cells, Unk0201ea30 *cellLayout, LayoutTableEntry *table, s32 j);
-void PrintLabelLayoutText(s32 queueSelector, s32 labelIndex, Unk0201ea30 *labelLayout, void *text,
-                          Unk0201ea30 *cellLayout, LayoutTableEntry *table, s32 fixedDigitsOnly, s8 fixedAdvance);
-void PrintLabelLayoutTextNoFixedAdvance(s32 queueSelector, s32 labelIndex, Unk0201ea30 *labelLayout, void *text,
-                                        Unk0201ea30 *cellLayout, LayoutTableEntry *table);
-void PrintLabelLayoutTextFixedAdvance(s32 queueSelector, s32 labelIndex, Unk0201ea30 *labelLayout, void *text,
-                                      Unk0201ea30 *cellLayout, LayoutTableEntry *table, s8 fixedAdvance);
-void PrintLabelLayoutTextFixedDigits(s32 queueSelector, u32 labelIndex, Unk0201ea30 *labelLayout, void *text,
-                                     Unk0201ea30 *cellLayout, LayoutTableEntry *table, s8 fixedAdvance);
-void ClearAndQueueLabelLayoutText(s32 queueSelector, s32 labelIndex, Unk0201ea30 *labelLayout, Unk0201ea30 *cellLayout,
-                                  LayoutTableEntry *table);
-BOOL IsLabelOamModeXlu(s32 labelIndex, void *labelLayout, LayoutTableEntry *table, Unk0201ea30 *cellLayout);
-void SetLabelOamModeXlu(u32 labelIndex, u32 enableXlu, Unk0201ea30 *labelLayout, LayoutTableEntry *table,
-                        Unk0201ea30 *cellLayout);
-void SetLabelPaletteIndex(s32 labelIndex, u8 paletteIndex, Unk0201ea30 *labelLayout, LayoutTableEntry *table,
-                          Unk0201ea30 *cellLayout);
-u8 GetLabelPriority(s32 labelIndex, void *labelLayout, LayoutTableEntry *table, Unk0201ea30 *cellLayout);
-void SetLabelPriority(u32 labelIndex, u32 priority, Unk0201ea30 *labelLayout, LayoutTableEntry *table,
-                      Unk0201ea30 *cellLayout);
+void SetCellOamModeXlu(u32 index, s32 enableXlu, Unk02021dc8 *cells, LayoutEntryTable *cellLayout);
+u8 GetCellPaletteIndex(u32 index, Unk02021dc8 *cells, LayoutEntryTable *cellLayout);
+void SetCellPaletteIndex(s32 index, s32 paletteIndex, Unk02021dc8 *cells, LayoutEntryTable *cellLayout);
+u8 GetCellPriority(s32 index, Unk02021dc8 *cells, LayoutEntryTable *cellLayout);
+void SetCellPriority(u32 index, u32 priority, Unk02021dc8 *cells, LayoutEntryTable *cellLayout);
+u16 GetCellCharIndex(u32 index, Unk02021dc8 *cells, LayoutEntryTable *cellLayout);
+void QueueCellCharsAndCopyPalettes(u32 index, Unk02021dc8 *cells, Ncgr *chars, Nclr *palette,
+                                   LayoutEntryTable *cellLayout, s32 queueSelector, u32 destIndex,
+                                   Unk02021dc8 *destCells, LayoutEntryTable *destCellLayout);
+void QueueCellChars(u32 index, Unk02021dc8 *cells, Ncgr *chars, LayoutEntryTable *cellLayout, s32 queueSelector,
+                    u32 destIndex, Unk02021dc8 *destCells, LayoutEntryTable *destCellLayout);
+void QueueCellCharsAndFirstPalette(u32 index, Unk02021dc8 *cells, Ncgr *chars, Nclr *palette,
+                                   LayoutEntryTable *cellLayout, s32 queueSelector, u32 destIndex,
+                                   Unk02021dc8 *destCells, LayoutEntryTable *destCellLayout);
+s32 InitLabelCanvas(void *heap, s32 labelIndex, LayoutEntryTable *labelLayout, s32 width, s32 height, s32 entryIndex,
+                    Unk02021dc8 *cells, LayoutEntryTable *cellLayout, LayoutTableEntry *table, s32 j);
+void PrintLabelLayoutText(s32 queueSelector, s32 labelIndex, LayoutEntryTable *labelLayout, void *text,
+                          LayoutEntryTable *cellLayout, LayoutTableEntry *table, s32 fixedDigitsOnly, s8 fixedAdvance);
+void PrintLabelLayoutTextNoFixedAdvance(s32 queueSelector, s32 labelIndex, LayoutEntryTable *labelLayout, void *text,
+                                        LayoutEntryTable *cellLayout, LayoutTableEntry *table);
+void PrintLabelLayoutTextFixedAdvance(s32 queueSelector, s32 labelIndex, LayoutEntryTable *labelLayout, void *text,
+                                      LayoutEntryTable *cellLayout, LayoutTableEntry *table, s8 fixedAdvance);
+void PrintLabelLayoutTextFixedDigits(s32 queueSelector, u32 labelIndex, LayoutEntryTable *labelLayout, void *text,
+                                     LayoutEntryTable *cellLayout, LayoutTableEntry *table, s8 fixedAdvance);
+void ClearAndQueueLabelLayoutText(s32 queueSelector, s32 labelIndex, LayoutEntryTable *labelLayout,
+                                  LayoutEntryTable *cellLayout, LayoutTableEntry *table);
+BOOL IsLabelOamModeXlu(s32 labelIndex, void *labelLayout, LayoutTableEntry *table, LayoutEntryTable *cellLayout);
+void SetLabelOamModeXlu(u32 labelIndex, u32 enableXlu, LayoutEntryTable *labelLayout, LayoutTableEntry *table,
+                        LayoutEntryTable *cellLayout);
+void SetLabelPaletteIndex(s32 labelIndex, u8 paletteIndex, LayoutEntryTable *labelLayout, LayoutTableEntry *table,
+                          LayoutEntryTable *cellLayout);
+u8 GetLabelPriority(s32 labelIndex, void *labelLayout, LayoutTableEntry *table, LayoutEntryTable *cellLayout);
+void SetLabelPriority(u32 labelIndex, u32 priority, LayoutEntryTable *labelLayout, LayoutTableEntry *table,
+                      LayoutEntryTable *cellLayout);

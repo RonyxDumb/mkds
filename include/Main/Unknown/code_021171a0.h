@@ -4,7 +4,7 @@
 
 typedef struct Unk02021dc8 Unk02021dc8;
 
-typedef struct Unk0201ea30 Unk0201ea30;
+typedef struct LayoutEntryTable LayoutEntryTable;
 
-void QueueKartIcon(s32 iconIndex, Unk02021dc8 *destinationNcer, Unk0201ea30 *destinationBncl, u32 destinationBnclIndex,
-                   u16 paletteIndex, s32 f);
+void QueueKartIcon(s32 iconIndex, Unk02021dc8 *destinationNcer, LayoutEntryTable *destinationBncl,
+                   u32 destinationBnclIndex, u16 paletteIndex, s32 f);

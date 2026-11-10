@@ -20,18 +20,18 @@
 typedef struct RecordTAtt {
     /* 00 */ Ncgr *mRecordTAttMNcgr;
     /* 04 */ struct Unk02021dc8 *mRecordTAttMNcer;
-    /* 08 */ Unk0201ea30 *mRecordTAttMBncl;
+    /* 08 */ LayoutEntryTable *mRecordTAttMBncl;
     /* 0c */ u8 mUnk_0c[4];
-    /* 10 */ Unk0201ea30 *mRecordTAttMBnll;
+    /* 10 */ LayoutEntryTable *mRecordTAttMBnll;
     /* 14 */ Ncgr *mRecordTAttSNcgr;
     /* 18 */ struct Unk02021dc8 *mRecordTAttSNcer;
-    /* 1c */ Unk0201ea30 *mRecordTAttSBncl;
-    /* 20 */ struct Unk0201ea30 *mRecordTAttSBnbl;
-    /* 24 */ Unk0201ea30 *mRecordTAttSBnll;
+    /* 1c */ LayoutEntryTable *mRecordTAttSBncl;
+    /* 20 */ struct LayoutEntryTable *mRecordTAttSBnbl;
+    /* 24 */ LayoutEntryTable *mRecordTAttSBnll;
     /* 28 */ void *mUnk_28;
     /* 2c */ struct Unk02021dc8 *mUnk_2c;
     /* 30 */ Nclr *mUnk_30;
-    /* 34 */ struct Unk0201ea30 *mUnk_34;
+    /* 34 */ struct LayoutEntryTable *mUnk_34;
     // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
     /* 38 */ LayoutTableEntry *mRecordTAttMTable;
     // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable

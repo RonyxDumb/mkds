@@ -25,7 +25,7 @@ typedef struct OptionTopMenu {
     /* 24 */ struct Unk02021dc8 *mOptionTopMenuSNcer;
     /* 28 */ Ncgr *mOptionTopMenuSNcgr;
     /* 2c */ Nclr *mOptionTopMenuSONclr;
-    /* 30 */ struct Unk0201ea30 *mOptionTopMenuSBncl;
+    /* 30 */ struct LayoutEntryTable *mOptionTopMenuSBncl;
     /* 34 */ void *mOptionTopMenuSBnbl;
     /* 38 */ struct Bmg *mOptionMessages;
     /* 3c */ struct Bmg *mCommonMessages;
@@ -41,14 +41,14 @@ typedef struct Unk021a9bd8_40 {
 typedef struct RecordGpx {
     /* 00 */ Ncgr *mRecordGpxMNcgr;
     /* 04 */ struct Unk02021dc8 *mRecordGpxMNcer;
-    /* 08 */ Unk0201ea30 *mRecordGpxMBncl;
+    /* 08 */ LayoutEntryTable *mRecordGpxMBncl;
     /* 0c */ u8 mUnk_0c[4];
-    /* 10 */ Unk0201ea30 *mRecordGpxMBnll;
+    /* 10 */ LayoutEntryTable *mRecordGpxMBnll;
     /* 14 */ Ncgr *mRecordGpxSNcgr;
     /* 18 */ struct Unk02021dc8 *mRecordGpxSNcer;
-    /* 1c */ Unk0201ea30 *mRecordGpxSBncl;
-    /* 20 */ struct Unk0201ea30 *mRecordGpxSBnbl;
-    /* 24 */ Unk0201ea30 *mRecordGpxSBnll;
+    /* 1c */ LayoutEntryTable *mRecordGpxSBncl;
+    /* 20 */ struct LayoutEntryTable *mRecordGpxSBnbl;
+    /* 24 */ LayoutEntryTable *mRecordGpxSBnll;
     /* 28 */ Ncgr *mRecordTrophyONcgr;
     /* 2c */ struct Unk02021dc8 *mRecordTrophyONcer;
     /* 30 */ Nclr *mRecordTrophySONclr;
@@ -56,7 +56,7 @@ typedef struct RecordGpx {
     /* 38 */ void *mPlayerCharacterMNcgr;
     /* 3c */ struct Unk02021dc8 *mPlayerCharacterMNcer;
     /* 40 */ Unk021a9bd8_40 *mPlayerCharacterMONclr;
-    /* 44 */ struct Unk0201ea30 *mPlayerCharacterMBncl;
+    /* 44 */ struct LayoutEntryTable *mPlayerCharacterMBncl;
     /* 48 */ Nscr *mRecordGpxSNscr;
     /* 4c */ void *mZeroBuffer;
     /* 50 */ LayoutTableEntry *mRecordGpxMTable;

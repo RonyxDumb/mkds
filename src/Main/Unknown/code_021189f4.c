@@ -41,7 +41,7 @@
 #include "Main/Unknown/unk_0215c000.h"
 #include "Main/Unknown/unk_0217d000.h"
 #include "Main/Unknown/unk_0217d068.h"
-#include "code_0201ea58.h"
+#include "Main/Unknown/code_0201ea58.h"
 #include "code_0212df7c.h"
 #include "registers.h"
 #include "Main/Unknown/code_0211d4a8.h"

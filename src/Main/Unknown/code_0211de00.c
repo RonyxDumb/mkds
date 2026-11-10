@@ -85,7 +85,7 @@ void ClearCupMarkPointer(void) {
 
 #pragma thumb on
 
-void QueueCupMark(u32 cupMarkIndex, Unk02021dc8 *cells, Unk0201ea30 *cellLayout, u32 d, u16 paletteSlot, s32 f) {
+void QueueCupMark(u32 cupMarkIndex, Unk02021dc8 *cells, LayoutEntryTable *cellLayout, u32 d, u16 paletteSlot, s32 f) {
     CupMark *cupMark;
     u8 *dst;
     u32 v0 = 14;
@@ -141,7 +141,7 @@ void ClearSelectCupNameMPointer(void) {
 
 #pragma thumb on
 
-void QueueSelectCupNameM(u32 nameIndex, Unk02021dc8 *cells, Unk0201ea30 *cellLayout, u32 d, u32 e) {
+void QueueSelectCupNameM(u32 nameIndex, Unk02021dc8 *cells, LayoutEntryTable *cellLayout, u32 d, u32 e) {
     QueueCellChars(gSelectCupNameMBnclIndices[nameIndex], gSelectCupNameM->mNcer, gSelectCupNameM->mNcgr,
                    gSelectCupNameM->mBncl, e, d, cells, cellLayout);
 }

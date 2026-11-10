@@ -6,7 +6,7 @@ typedef struct LayoutTableEntry LayoutTableEntry;
 
 typedef struct Unk02021dc8 Unk02021dc8;
 
-typedef struct Unk0201ea30 Unk0201ea30;
+typedef struct LayoutEntryTable LayoutEntryTable;
 
-void DrawLayoutTableEntry(s32 index, Unk0201ea30 *cellLayout, Unk02021dc8 *cells, Unk0201ea30 *labelLayout,
+void DrawLayoutTableEntry(s32 index, LayoutEntryTable *cellLayout, Unk02021dc8 *cells, LayoutEntryTable *labelLayout,
                           void *oamList, LayoutTableEntry *table);

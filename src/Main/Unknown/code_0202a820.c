@@ -29,8 +29,8 @@
 #include "Main/Unknown/unk_0217d068.h"
 #include "00/code_02181f98.h"
 #include "code_0200f5ac.h"
-#include "code_0201ea30.h"
-#include "code_0201ea58.h"
+#include "Main/Unknown/code_0201ea30.h"
+#include "Main/Unknown/code_0201ea58.h"
 #include "code_0212df7c.h"
 #include "code_0214d018.h"
 #include "Main/Unknown/code_02025f80.h"
@@ -98,16 +98,18 @@ void SetWiFiVSCourseSelectRowsOffsetY(void) {
     for (i = 0; i < gWiFiVSCourseSelect->mPlayerCount; i++) {
         fileSet->mCellTable[gWiFiVSCourseSelectMLabelTextRows[i].mCellIndex].mOffsetY = InterpolateS16(
             1, 0,
-            0x60 - (((s16 *) func_0201ea30(fileSet->mCellLayout, gWiFiVSCourseSelectMLabelTextRows[i].mCellIndex))[1]
-                        << 20 >>
-                    20),
+            0x60 -
+                (((s16 *) GetCellLayoutEntry(fileSet->mCellLayout, gWiFiVSCourseSelectMLabelTextRows[i].mCellIndex))[1]
+                     << 20 >>
+                 20),
             (*(struct WiFiVSCourseSelect **) &gWiFiVSCourseSelect)->mStateFrames, 0x3c);
-        fileSet->mCellTable[cellCount + gWiFiVSCourseSelectMLabelTextRows[i].mLabelIndex].mOffsetY = InterpolateS16(
-            1, 0,
-            0x60 - (((s16 *) func_0201ea58(fileSet->mLabelLayout, gWiFiVSCourseSelectMLabelTextRows[i].mLabelIndex))[1]
-                        << 20 >>
-                    20),
-            (*(struct WiFiVSCourseSelect **) &gWiFiVSCourseSelect)->mStateFrames, 0x3c);
+        fileSet->mCellTable[cellCount + gWiFiVSCourseSelectMLabelTextRows[i].mLabelIndex].mOffsetY =
+            InterpolateS16(1, 0,
+                           0x60 - (((s16 *) GetLabelLayoutEntry(fileSet->mLabelLayout,
+                                                                gWiFiVSCourseSelectMLabelTextRows[i].mLabelIndex))[1]
+                                       << 20 >>
+                                   20),
+                           (*(struct WiFiVSCourseSelect **) &gWiFiVSCourseSelect)->mStateFrames, 0x3c);
     }
 }
 
@@ -202,7 +204,7 @@ void AdvancePickedCourseRows(void) {
 void AdvanceWiFiVSCourseSelectTimer(void) {
     s32 seconds;
     CellFileSet *fileSet;
-    Unk0201ea30 *cellLayout;
+    LayoutEntryTable *cellLayout;
     void *cells;
 
     seconds = 0;
@@ -334,7 +336,8 @@ void InitWiFiVSCourseSelect(void *parentHeap, void *mainOam, void *subOam) {
     for (i = 0; i < n; i++) {
         SetCellPriority(i, 2, mainFileSet->mCells, mainFileSet->mCellLayout);
     }
-    mainFileSet->mCellTable[4].mOffsetY = 0x60 - (((s16 *) func_0201ea30(mainFileSet->mCellLayout, 4))[1] << 20 >> 20);
+    mainFileSet->mCellTable[4].mOffsetY =
+        0x60 - (((s16 *) GetCellLayoutEntry(mainFileSet->mCellLayout, 4))[1] << 20 >> 20);
     mainFileSet->mCellTable[4].mVisible = 0;
     LocateAndQueueScreenMapFileSet(1, &gWiFiVSCourseSelect->mWiFiVSCourseSelectMBAndSBParts[1],
                                    gWiFiVSCourseSelectSBNcgrName, gWiFiVSCourseSelectSBNclrName,

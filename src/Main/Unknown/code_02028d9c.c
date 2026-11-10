@@ -7,19 +7,19 @@
 #include "Main/Unknown/code_0201e000.h"
 
 #include "Main/Unknown/code_0214d000.h"
-#include "code_0201ea30.h"
+#include "Main/Unknown/code_0201ea30.h"
 #include "code_0214d018.h"
 #include "Main/Unknown/code_02027e78.h"
 
-void *GetCellLayoutEntrySwapped(s32 index, Unk0201ea30 *cellLayout) {
-    return func_0201ea30(cellLayout, index);
+void *GetCellLayoutEntrySwapped(s32 index, LayoutEntryTable *cellLayout) {
+    return GetCellLayoutEntry(cellLayout, index);
 }
 
 #pragma thumb on
 
 void SetKartMenuParamElementOffset(s32 elementIndex, s32 endCellIndex, s32 paramValue, CellFileSet *parts) {
-    Unk0201ea84 *startCell = GetCellLayoutEntrySwapped(elementIndex, parts->mCellLayout);
-    Unk0201ea84 *endCell = GetCellLayoutEntrySwapped(endCellIndex, parts->mCellLayout);
+    LayoutAxis *startCell = GetCellLayoutEntrySwapped(elementIndex, parts->mCellLayout);
+    LayoutAxis *endCell = GetCellLayoutEntrySwapped(endCellIndex, parts->mCellLayout);
     parts->mCellTable[elementIndex].mOffsetX = (100 - paramValue) * (endCell->mUnk_00_0 - startCell->mUnk_00_0) / 100;
 }
 

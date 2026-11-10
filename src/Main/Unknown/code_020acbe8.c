@@ -145,6 +145,6 @@ u32 TitleState3ReturnArgumentWrapper(u32 value) {
 }
 #pragma thumb off
 
-u32 TitleGetCellLayoutCount(Unk0201ea30 *cellLayout) {
+u32 TitleGetCellLayoutCount(LayoutEntryTable *cellLayout) {
     return (*OFFSET_PTR(const u16, cellLayout, 6));
 }

@@ -1,6 +1,6 @@
-#include "code_0201ea30.h"
+#include "Main/Unknown/code_0201ea30.h"
 
-void *func_0201ea30(Unk0201ea30 *a, s32 b) {
+void *GetCellLayoutEntry(LayoutEntryTable *a, s32 b) {
     u8 *p;
     s32 n;
 

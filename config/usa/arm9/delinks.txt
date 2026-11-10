@@ -591,12 +591,12 @@ libs/NitroSDK/wvr/src/wvr.c:
     .text       start:0x0201e5a8 end:0x0201ea30
 
 // provisional: file name and boundaries
-libs/Unknown/src/code_0201ea30.c:
+src/Main/Unknown/code_0201ea30.c:
     complete
     .text       start:0x0201ea30 end:0x0201ea58
 
 // provisional: file name and boundaries
-libs/Unknown/src/code_0201ea58.c:
+src/Main/Unknown/code_0201ea58.c:
     complete
     .text       start:0x0201ea58 end:0x0201ec30
 

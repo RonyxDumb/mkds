@@ -43,11 +43,11 @@ typedef struct OptionSelectMenu {
     /* 68 */ Ncgr *mOptionSelectMenuSNcgr;
     /* 6c */ Nclr *mOptionSelectMenuMONclr;
     /* 70 */ Nclr *mOptionSelectMenuSONclr;
-    /* 74 */ Unk0201ea30 *mOptionSelectMenuMBncl;
-    /* 78 */ Unk0201ea30 *mOptionSelectMenuSBncl;
+    /* 74 */ LayoutEntryTable *mOptionSelectMenuMBncl;
+    /* 78 */ LayoutEntryTable *mOptionSelectMenuSBncl;
     /* 7c */ void *mOptionSelectMenuSBnbl;
-    /* 80 */ struct Unk0201ea30 *mOptionSelectMenuMBnll;
-    /* 84 */ struct Unk0201ea30 *mOptionSelectMenuSBnll;
+    /* 80 */ struct LayoutEntryTable *mOptionSelectMenuMBnll;
+    /* 84 */ struct LayoutEntryTable *mOptionSelectMenuSBnll;
     /* 88 */ struct Bmg *mOptionMessages;
     /* 8c */ void *mCommonMessages;
 } OptionSelectMenu;

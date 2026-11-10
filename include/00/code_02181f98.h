@@ -45,9 +45,9 @@ typedef struct WiFiVSSetting {
     /* 1040 */ Unk02021dc8 *mWiFiVSSettingSNcer;
     /* 1044 */ Ncgr *mWiFiVSSettingSNcgr;
     /* 1048 */ Nclr *mWiFiVSSettingSONclr;
-    /* 104c */ Unk0201ea30 *mWiFiVSSettingBncl;
-    /* 1050 */ Unk0201ea30 *mWiFiVSSettingBnbl;
-    /* 1054 */ struct Unk0201ea30 *mWiFiVSSettingBnll;
+    /* 104c */ LayoutEntryTable *mWiFiVSSettingBncl;
+    /* 1050 */ LayoutEntryTable *mWiFiVSSettingBnbl;
+    /* 1054 */ struct LayoutEntryTable *mWiFiVSSettingBnll;
     /* 1058 */ struct Bmg *mWiFiMessages;
     /* 105c */ struct Bmg *mCommonMessages;
 } WiFiVSSetting;
@@ -86,9 +86,9 @@ typedef struct WiFiVSMatching {
     /* 16e4 */ struct Unk02021dc8 *mWiFiVSMatchingSNcer;
     /* 16e8 */ Ncgr *mWiFiVSMatchingSNcgr;
     /* 16ec */ Nclr *mWiFiVSMatchingSONclr;
-    /* 16f0 */ Unk0201ea30 *mWiFiVSMatchingBncl;
+    /* 16f0 */ LayoutEntryTable *mWiFiVSMatchingBncl;
     /* 16f4 */ void *mWiFiVSMatchingBnbl;
-    /* 16f8 */ struct Unk0201ea30 *mWiFiVSMatchingBnll;
+    /* 16f8 */ struct LayoutEntryTable *mWiFiVSMatchingBnll;
     /* 16fc */ struct Bmg *mWiFiMessages;
     /* 1700 */ void *mCommonMessages;
     /* 1704 */ u8 pad_1704[8];

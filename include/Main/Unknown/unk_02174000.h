@@ -6,7 +6,7 @@
 #include "Main/Unknown/code_02036588.h" // HeapCall
 #include "Main/Unknown/unk_02153000.h" // SelectCharacterRow
 #include "Main/Unknown/code_020b4000.h" // Ncgr, Nscr, Nclr
-#include "Main/Unknown/code_02124094.h" // LayoutTableEntry, Unk0201ea30
+#include "Main/Unknown/code_02124094.h" // LayoutTableEntry, LayoutEntryTable
 #include "Main/Unknown/code_020b3f7c.h" // Bmg
 #include "Main/Unknown/code_0202f688.h"
 #include "Main/Unknown/unk_021759c0.h" // MinuteSecondMillisecondTime
@@ -323,7 +323,7 @@ typedef struct ScrollList {
     /* 000 */ s32 mGroupCount;
     /* 004 */ u16 *mGroupFirstEntries;
     /* 008 */ LayoutTableEntry *mEntries;
-    /* 00c */ struct Unk0201ea30 *mRects;
+    /* 00c */ struct LayoutEntryTable *mRects;
     /* 010 */ s32 mUpRectIndex;
     /* 014 */ s32 mDownRectIndex;
     /* 018 */ s32 mFirstRowRectIndex;

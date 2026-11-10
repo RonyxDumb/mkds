@@ -6,7 +6,7 @@
 #include "code_0212c7a0.h" // NNSSndPlayer
 #include "stream.h" // NNSSndStrmChannel
 #include "code_0212c9d4.h" // CaptureParam, EffectInfo
-#include "code_0201ea58.h" // Unk0201ea30
+#include "Main/Unknown/code_0201ea58.h" // LayoutEntryTable
 #include "Main/Unknown/code_02124094.h" // LayoutTableEntry
 #include "Main/Unknown/code_02124bf0.h"
 #include "Main/Unknown/code_020c06c4.h" // RaceHudOamBuffer
@@ -68,7 +68,7 @@ typedef struct Wait {
     /* 08 */ struct Nclr *mNclr;
     /* 0c */ void *mBncl;
     /* 10 */ struct Unk02021dc8 *mDestinationNcer;
-    /* 14 */ struct Unk0201ea30 *mDestinationBncl;
+    /* 14 */ struct LayoutEntryTable *mDestinationBncl;
     /* 18 */ u32 mDestinationBnclIndex;
     /* 1c */ u16 mPaletteIndex;
     /* 20 */ s32 mUnk_20;
@@ -79,19 +79,19 @@ typedef struct Wait {
 typedef struct RecordVSErase {
     /* 00 */ struct Ncgr *mRecordVSMNcgr;
     /* 04 */ struct Unk02021dc8 *mRecordVSMNcer;
-    /* 08 */ Unk0201ea30 *mRecordVSMBncl;
-    /* 0c */ struct Unk0201ea30 *mRecordVSMBnll;
+    /* 08 */ LayoutEntryTable *mRecordVSMBncl;
+    /* 0c */ struct LayoutEntryTable *mRecordVSMBnll;
     /* 10 */ struct Nscr *mRecordVSM02Nscr;
     /* 14 */ LayoutTableEntry *mRecordVSMTable;
-    /* 18 */ Unk0201ea30 *mRecordVSMTransientBncl;
-    /* 1c */ struct Unk0201ea30 *mRecordVSMTransientBnll;
+    /* 18 */ LayoutEntryTable *mRecordVSMTransientBncl;
+    /* 1c */ struct LayoutEntryTable *mRecordVSMTransientBnll;
     /* 20 */ struct Nscr *mRecordVSM03Nscr;
     /* 24 */ LayoutTableEntry *mRecordVSMTransientTable;
     /* 28 */ struct Ncgr *mRecordVSSNcgr;
     /* 2c */ struct Unk02021dc8 *mRecordVSSNcer;
-    /* 30 */ Unk0201ea30 *mRecordVSSEraseBncl;
-    /* 34 */ struct Unk0201ea30 *mRecordVSSEraseBnbl;
-    /* 38 */ struct Unk0201ea30 *mRecordVSSEraseBnll;
+    /* 30 */ LayoutEntryTable *mRecordVSSEraseBncl;
+    /* 34 */ struct LayoutEntryTable *mRecordVSSEraseBnbl;
+    /* 38 */ struct LayoutEntryTable *mRecordVSSEraseBnll;
     /* 3c */ LayoutTableEntry *mRecordVSSEraseTable;
     /* 40 */ s32 mTransientDrawn;
     /* 44 */ struct Bmg *mCommonMessages;
@@ -132,7 +132,7 @@ typedef struct CupMark {
     /* 00 */ struct Ncgr *mNcgr;
     /* 04 */ struct Unk02021dc8 *mNcer;
     /* 08 */ struct Nclr *mNclr;
-    /* 0c */ struct Unk0201ea30 *mBncl;
+    /* 0c */ struct LayoutEntryTable *mBncl;
 } CupMark;
 
 // Object at data_0217d070 (0x14 bytes); InitScenePlayers fills it. data_0217d07c names its member 0x0c.
@@ -170,21 +170,21 @@ typedef struct SeqRowState {
 typedef struct RecordVS {
     /* 00 */ struct Ncgr *mRecordVSMNcgr;
     /* 04 */ struct Unk02021dc8 *mRecordVSMNcer;
-    /* 08 */ Unk0201ea30 *mRecordVSMBncl;
-    /* 0c */ struct Unk0201ea30 *mRecordVSMBnll;
+    /* 08 */ LayoutEntryTable *mRecordVSMBncl;
+    /* 0c */ struct LayoutEntryTable *mRecordVSMBnll;
     /* 10 */ struct Nscr *mRecordVSM02Nscr;
     // Object table of the main part of the screen (files mRecordVSMBncl / mRecordVSMBnll).
     /* 14 */ LayoutTableEntry *mRecordVSMTable;
-    /* 18 */ Unk0201ea30 *mRecordVSMTransientBncl;
-    /* 1c */ struct Unk0201ea30 *mRecordVSMTransientBnll;
+    /* 18 */ LayoutEntryTable *mRecordVSMTransientBncl;
+    /* 1c */ struct LayoutEntryTable *mRecordVSMTransientBnll;
     /* 20 */ struct Nscr *mRecordVSM03Nscr;
     // Object table of the transient part of the main screen (files mRecordVSMTransientBncl / mRecordVSMTransientBnll).
     /* 24 */ LayoutTableEntry *mRecordVSMTransientTable;
     /* 28 */ struct Ncgr *mRecordVSSNcgr;
     /* 2c */ struct Unk02021dc8 *mRecordVSSNcer;
-    /* 30 */ Unk0201ea30 *mRecordVSSBncl;
-    /* 34 */ Unk0201ea30 *mRecordVSSBnbl;
-    /* 38 */ struct Unk0201ea30 *mRecordVSSBnll;
+    /* 30 */ LayoutEntryTable *mRecordVSSBncl;
+    /* 34 */ LayoutEntryTable *mRecordVSSBnbl;
+    /* 38 */ struct LayoutEntryTable *mRecordVSSBnll;
     // Object table of the sub screen (files mRecordVSSBncl / mRecordVSSBnll).
     /* 3c */ LayoutTableEntry *mRecordVSSTable;
     /* 40 */ s32 mShowsFriendKey;
@@ -230,11 +230,11 @@ typedef struct RecordVS {
 // that opened it.
 typedef struct SelectCupGrid {
     /* 00 */ struct Unk02021dc8 *mSelectCupMNcer;
-    /* 04 */ Unk0201ea30 *mSelectCupMBncl;
-    /* 08 */ struct Unk0201ea30 *mSelectCupMBnll;
+    /* 04 */ LayoutEntryTable *mSelectCupMBncl;
+    /* 08 */ struct LayoutEntryTable *mSelectCupMBnll;
     /* 0c */ struct Unk02021dc8 *mSelectCupSNcer;
-    /* 10 */ struct Unk0201ea30 *mSelectCupSBncl;
-    /* 14 */ Unk0201ea30 *mSelectCupSBnbl;
+    /* 10 */ struct LayoutEntryTable *mSelectCupSBncl;
+    /* 14 */ LayoutEntryTable *mSelectCupSBnbl;
     /* 18 */ LayoutTableEntry *mSelectCupMTable;
     /* 1c */ LayoutTableEntry *mSelectCupSTable;
     /* 20 */ void *mUnk_20;
@@ -278,12 +278,12 @@ typedef struct SelectCupGrid {
 // Object behind gSelectCupCourse.
 typedef struct SelectCupCourse {
     /* 00 */ struct Unk02021dc8 *mSelectCupCourseMNcer;
-    /* 04 */ Unk0201ea30 *mSelectCupCourseTaOrVsMBncl; /* ta_m file when mMode == 0, vs_m otherwise */
-    /* 08 */ struct Unk0201ea30 *mSelectCupCourseTaOrVsMBnll; /* ta_m file when mMode == 0, vs_m otherwise */
+    /* 04 */ LayoutEntryTable *mSelectCupCourseTaOrVsMBncl; /* ta_m file when mMode == 0, vs_m otherwise */
+    /* 08 */ struct LayoutEntryTable *mSelectCupCourseTaOrVsMBnll; /* ta_m file when mMode == 0, vs_m otherwise */
     /* 0c */ struct Unk02021dc8 *mSelectCupMNcer;
-    /* 10 */ Unk0201ea30 *mSelectCupMBncl;
-    /* 14 */ Unk0201ea30 *mSelectCupMBnbl;
-    /* 18 */ struct Unk0201ea30 *mSelectCupMBnll;
+    /* 10 */ LayoutEntryTable *mSelectCupMBncl;
+    /* 14 */ LayoutEntryTable *mSelectCupMBnbl;
+    /* 18 */ struct LayoutEntryTable *mSelectCupMBnll;
     // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable; assigned only when
     // *(vu16
     // *) 0x027ffc40 != 2
@@ -330,9 +330,9 @@ typedef struct SelectCupCourse {
 // Object behind gSelectRaceRule.
 typedef struct SelectRaceRule {
     /* 00 */ struct Unk02021dc8 *mNcer;
-    /* 04 */ Unk0201ea30 *mBncl;
-    /* 08 */ Unk0201ea30 *mBnbl;
-    /* 0c */ struct Unk0201ea30 *mBnll;
+    /* 04 */ LayoutEntryTable *mBncl;
+    /* 08 */ LayoutEntryTable *mBnbl;
+    /* 0c */ struct LayoutEntryTable *mBnll;
     /* 10 */ struct Nclr *mNclr; /* the _o palette */
     // Object table allocated for the bncl / bnll of this screen.
     /* 14 */ LayoutTableEntry *mTable;
@@ -399,9 +399,9 @@ typedef struct TrophyIcon {
 // Object behind gSelectRaceRuleWait (0x28 bytes), allocated by InitSelectRaceRuleWait.
 typedef struct SelectRaceRuleWait {
     /* 00 */ struct Unk02021dc8 *mNcer;
-    /* 04 */ Unk0201ea30 *mBncl;
+    /* 04 */ LayoutEntryTable *mBncl;
     /* 08 */ u8 mUnk_08[0x4];
-    /* 0c */ struct Unk0201ea30 *mBnll;
+    /* 0c */ struct LayoutEntryTable *mBnll;
     /* 10 */ LayoutTableEntry *mTable;
     /* 14 */ void *mCommonMessages;
     /* 18 */ void *mOamList;
@@ -442,11 +442,11 @@ typedef struct GhostRecordSet {
 
 typedef struct SelectCupM {
     /* 00 */ struct Unk02021dc8 *mMainNcer;
-    /* 04 */ Unk0201ea30 *mMainBncl;
-    /* 08 */ struct Unk0201ea30 *mMainBnll;
+    /* 04 */ LayoutEntryTable *mMainBncl;
+    /* 08 */ struct LayoutEntryTable *mMainBnll;
     /* 0c */ struct Unk02021dc8 *mSubNcer;
-    /* 10 */ Unk0201ea30 *mSubBncl;
-    /* 14 */ struct Unk0201ea30 *mSubBnll;
+    /* 10 */ LayoutEntryTable *mSubBncl;
+    /* 14 */ struct LayoutEntryTable *mSubBnll;
     /* 18 */ LayoutTableEntry *mMainTable;
     /* 1c */ LayoutTableEntry *mSubTable;
     /* 20 */ void *mUnk_20;
@@ -646,8 +646,8 @@ typedef struct Keyboard {
     /* 90 */ struct Unk02021dc8 *mNcer;
     /* 94 */ struct Ncgr *mNcgr;
     /* 98 */ struct Nclr *mNclr;
-    /* 9c */ Unk0201ea30 *mBncls[2];
-    /* a4 */ Unk0201ea30 *mBnbls[2];
+    /* 9c */ LayoutEntryTable *mBncls[2];
+    /* a4 */ LayoutEntryTable *mBnbls[2];
     /* ac */ void *mBnlls[2];
     /* b4 */ struct Nscr *mNscrs[2]; /* [0] flame02, [1] flame01 */
     /* bc */ void *mDisplaySettings;

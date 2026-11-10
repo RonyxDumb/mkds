@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk0201ea30 Unk0201ea30;
+typedef struct LayoutEntryTable LayoutEntryTable;
 
-unsigned int TitleGetCellLayoutCount(Unk0201ea30 *cellLayout);
+unsigned int TitleGetCellLayoutCount(LayoutEntryTable *cellLayout);

@@ -106,8 +106,8 @@ void ClearKartIconPointer(void) {
 
 #pragma thumb on
 
-void QueueKartIcon(s32 iconIndex, Unk02021dc8 *destinationNcer, Unk0201ea30 *destinationBncl, u32 destinationBnclIndex,
-                   u16 paletteIndex, s32 f) {
+void QueueKartIcon(s32 iconIndex, Unk02021dc8 *destinationNcer, LayoutEntryTable *destinationBncl,
+                   u32 destinationBnclIndex, u16 paletteIndex, s32 f) {
     int queueKind;
 
     queueKind = 0x12;

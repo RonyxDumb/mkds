@@ -26,9 +26,9 @@ Unk02005704 data_0216f364;
 Unk02005704 data_0216f35c;
 FSArchive data_0216f36c;
 
-void *data_02161768 = fsi_def_digest_key;
+void *fsi_digest_key_ptr = fsi_def_digest_key;
 u8 data_02161764[4] = "rom";
-u32 data_0216176c = 0x40;
+u32 fsi_digest_key_len = 0x40;
 
 // Returns the size of the overlay image: the compressed size when the compressed flag is set, else the image size.
 s32 FSi_GetOverlayBinarySize(FSOverlayInfo *info) {
@@ -183,8 +183,8 @@ u32 FSi_CompareDigest(const u8 *expected, const u8 *data, u32 size) {
     u32 i;
 
     MI_CpuFill8(digest, 0, 0x14);
-    MI_CpuCopy8(data_02161768, key, data_0216176c);
-    DGT_Hash2CalcHmac(digest, data, size, key, data_0216176c);
+    MI_CpuCopy8(fsi_digest_key_ptr, key, fsi_digest_key_len);
+    DGT_Hash2CalcHmac(digest, data, size, key, fsi_digest_key_len);
     for (i = 0; i < 0x14; i += 4) {
         if (*(u32 *) (digest + i) != *(u32 *) (expected + i)) {
             break;

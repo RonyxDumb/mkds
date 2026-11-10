@@ -63,7 +63,7 @@
 #include "Main/Unknown/unk_02154000.h"
 #include "Main/Unknown/unk_02164000.h"
 #include "01/code_021804e0.h"
-#include "code_0201ea30.h"
+#include "Main/Unknown/code_0201ea30.h"
 #include "code_0214b824.h"
 #include "code_0214cfe4.h"
 #include "code_0214d018.h"
@@ -90,7 +90,7 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
     CellFileSet *subCellFileSet;
     ResultsBattle *results;
     ScreenMapFileSet *screenMapFileSet;
-    Unk0201ea30 *cellLayout;
+    LayoutEntryTable *cellLayout;
     u32 remainingObjSize;
     s32 j;
     s32 k;
@@ -223,7 +223,7 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
     }
     cellLayout = mainCellFileSet->mCellLayout;
     for (i = 0; i < cellLayout->mUnk_06; i++) {
-        func_0201ea30(mainCellFileSet->mCellLayout, i);
+        GetCellLayoutEntry(mainCellFileSet->mCellLayout, i);
     }
     screenMapFileSet = &gResultsBattle->mScreenMapFileSets[1];
     LoadScreenMapFileSet(screenMapFileSet, gResultsBattleSBNcgrName, gResultsBattleSBNclrName,

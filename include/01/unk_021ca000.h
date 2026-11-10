@@ -18,8 +18,8 @@ typedef struct EndingScene {
     /* 024 */ struct Unk02021dc8 *mThanksYouMNcer;
     /* 028 */ u8 mUnk_028[0x4];
     /* 02c */ Nclr *mThanksYouMO00Nclr;
-    /* 030 */ struct Unk0201ea30 *mEndingThanksBncl;
-    /* 034 */ struct Unk0201ea30 *mEndingThanksBnll;
+    /* 030 */ struct LayoutEntryTable *mEndingThanksBncl;
+    /* 034 */ struct LayoutEntryTable *mEndingThanksBnll;
     /* 038 */ Ncgr *mLogoEndMarioKartMBAndThanksYouMBNcgrs[2];
     /* 040 */ Nscr *mLogoEndMarioKartMBgAndThanksYouMBgNscrs[2];
     /* 048 */ Nclr *mLogoEndMarioKartMBAndThanksYouMBNclrs[2];
@@ -35,12 +35,12 @@ typedef struct EndingScene {
 typedef struct MissionRunLVsel {
     /* 00 */ struct Unk02021dc8 *mMissionRunLVselSNcer;
     // mr/Mission_run_LVsel_s_7.bncl when mUnk_4a >= 6, else _s_6; Bnbl and Bnll follow the same test
-    // (mUnk_4a is the highest level number whose conditions hold: set at code_0219eab4.c:165-183)
-    /* 04 */ Unk0201ea30 *mMissionRunLVselS7Or6Bncl;
+    // (mUnk_4a is the highest level number whose conditions hold)
+    /* 04 */ LayoutEntryTable *mMissionRunLVselS7Or6Bncl;
     // same variant as mMissionRunLVselS7Or6Bncl (.bnbl)
     /* 08 */ void *mMissionRunLVselS7Or6Bnbl;
     // same variant as mMissionRunLVselS7Or6Bncl (.bnll)
-    /* 0c */ struct Unk0201ea30 *mMissionRunLVselS7Or6Bnll;
+    /* 0c */ struct LayoutEntryTable *mMissionRunLVselS7Or6Bnll;
     // cell records of mMissionRunLVselS7Or6Bncl and Bnll
     /* 10 */ LayoutTableEntry *mMissionRunLVselS7Or6Table;
     /* 14 */ void *mUnk_14;
@@ -76,12 +76,12 @@ typedef struct Unk021ca414_50 {
 // Object behind gMissionRunMSsel.
 typedef struct MissionRunMSsel {
     /* 00 */ struct Unk02021dc8 *mMissionRunMSselMNcer;
-    /* 04 */ Unk0201ea30 *mMissionRunMSselMBncl;
-    /* 08 */ struct Unk0201ea30 *mMissionRunMSselMBnll;
+    /* 04 */ LayoutEntryTable *mMissionRunMSselMBncl;
+    /* 08 */ struct LayoutEntryTable *mMissionRunMSselMBnll;
     /* 0c */ struct Unk02021dc8 *mMissionRunMSselSNcer;
-    /* 10 */ Unk0201ea30 *mMissionRunMSselSBncl;
+    /* 10 */ LayoutEntryTable *mMissionRunMSselSBncl;
     /* 14 */ void *mMissionRunMSselSBnbl;
-    /* 18 */ struct Unk0201ea30 *mMissionRunMSselSBnll;
+    /* 18 */ struct LayoutEntryTable *mMissionRunMSselSBnll;
     /* 1c */ Unk021ca414_1c *mUnk_1c;
     /* 20 */ u16 mUnk_20[0x10];
     // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
@@ -121,12 +121,12 @@ typedef struct MissionRunMSsel {
 // Object behind gSelectEngine.
 typedef struct SelectEngine {
     /* 00 */ struct Unk02021dc8 *mSelectEngineMNcer;
-    /* 04 */ struct Unk0201ea30 *mSelectEngineMBncl;
+    /* 04 */ struct LayoutEntryTable *mSelectEngineMBncl;
     /* 08 */ struct Unk02021dc8 *mSelectEngineSNcer;
     // gp/select_engine_B_s.bncl when IsBackupFlagSet(0x10) != 0, else gp/select_engine_A_s.bncl; the same flag hides
-    // item 3 (A layout has no fourth item) (code_021a11a4.c:139-143 zeroes the cells of item 3 when
-    // IsBackupFlagSet(0x10) is 0)
-    /* 0c */ struct Unk0201ea30 *mSelectEngineAOrBSBncl;
+    // item 3 (A layout has no fourth item); the cells of item 3 are zeroed when
+    // IsBackupFlagSet(0x10) is 0
+    /* 0c */ struct LayoutEntryTable *mSelectEngineAOrBSBncl;
     // same variant as mSelectEngineAOrBSBncl (.bnbl)
     /* 10 */ void *mSelectEngineAOrBSBnbl;
     // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
