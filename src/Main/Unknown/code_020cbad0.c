@@ -221,7 +221,7 @@ void InitMenu(void) {
             break;
         case 3:
             CopyCurrentToRaceSetupCopy();
-            if (func_020cc0f8() != 0 || func_020cc0e4() != 0) {
+            if (GetUnfilledNotEliminated() != 0 || GetLVselIndex6Requested() != 0) {
                 SwitchMenuScreen(SCREEN_MISSION_RUN_LVSEL, 0x1f);
             } else {
                 SwitchMenuScreen(SCREEN_MISSION_RUN_MSSEL, 0x1f);

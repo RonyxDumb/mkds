@@ -19,7 +19,7 @@ void UpdateTitleState5(SceneNumbers *a) {
                 break;
             case 1:
                 SetConnectionKind(2);
-                func_020acaa4(0);
+                TitleSetWLMenuKind(0);
                 break;
             case 2:
                 SetConnectionKind(3);

@@ -256,7 +256,7 @@ void AdvanceWiFiVSMatchingState0(void) {
                 RequestWiFiSessionMatching(data_0217b488->mUnk_54, 1, 0);
                 gWiFiVSMatching->mUnk_3c = TRUE;
             }
-            func_02108b2c();
+            StartWiFiSessionMatchingSeq();
         }
     }
 }
@@ -330,7 +330,7 @@ void AdvanceWiFiVSMatchingState1(void) {
         }
         RequestTxtSystemClose();
         RequestSelectReturnState1();
-        func_02108990();
+        StartSelectReturnState1Seq();
         return;
     }
     if (IsTxtSystemState2NoCloseRequest() != 0 && CheckWiFiMatchingResult() == 1) {
@@ -345,7 +345,7 @@ void AdvanceWiFiVSMatchingState1(void) {
             }
             RequestTxtSystemClose();
             RequestSelectReturnState1();
-            func_02108990();
+            StartSelectReturnState1Seq();
             return;
         }
         gWiFiVSMatching->mOtherCount = gWiFiSession->mKartCount - 1;
@@ -362,11 +362,11 @@ void AdvanceWiFiVSMatchingState1(void) {
             PrintLabelLayoutTextNoFixedAdvance(1, data_ov000_021b0664[i], gWiFiVSMatching->mWiFiVSMatchingBnll, name,
                                                gWiFiVSMatching->mWiFiVSMatchingBncl,
                                                gWiFiVSMatching->mWiFiVSMatchingTable);
-            val = func_02120240(gWiFiVSMatching->mOtherIndices[i]);
+            val = GetPlayerRecordSecondTotal(gWiFiVSMatching->mOtherIndices[i]);
             if (val > 9999) {
                 val = 9999;
             }
-            FormatAsciiNumber(func_0212025c(gWiFiVSMatching->mOtherIndices[i]), buf2);
+            FormatAsciiNumber(GetPlayerRecordFirstTotal(gWiFiVSMatching->mOtherIndices[i]), buf2);
             FormatAsciiNumber(val, buf3);
             PrintLabelLayoutTextNoFixedAdvance(1, data_ov000_021b0670[i][0], gWiFiVSMatching->mWiFiVSMatchingBnll, buf2,
                                                gWiFiVSMatching->mWiFiVSMatchingBncl,

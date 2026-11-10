@@ -339,7 +339,7 @@ void ReleaseArchiveSlot(int slotIndex) {
 }
 
 void LoadArchiveSlotsForScene(s32 sceneNumber) {
-    if (gBootInfo->mUnk_00 == 2 && sceneNumber == 6 && data_0217b488->mUnk_74 == 0) {
+    if (gBootInfo->mUnk_00 == 2 && sceneNumber == 6 && data_0217b488->mWLMenuKind == 0) {
     } else {
         LoadArchiveSlotForScene(1, sceneNumber);
     }

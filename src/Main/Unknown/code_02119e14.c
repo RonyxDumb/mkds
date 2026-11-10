@@ -206,7 +206,7 @@ s32 AdvanceSelectRaceRule(void) {
     }
     AdvanceSelectRaceRuleHighlight();
     AdvanceSelectRaceRuleValueObjects();
-    func_0211c0cc();
+    PrintSelectRaceRuleRow4Message();
     selectRaceRule = gSelectRaceRule;
     DrawLayoutTable(selectRaceRule->mBncl, selectRaceRule->mNcer, selectRaceRule->mBnll, selectRaceRule->mOamList,
                     selectRaceRule->mTable);

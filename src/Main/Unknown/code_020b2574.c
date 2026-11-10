@@ -38,9 +38,10 @@ void UpdateChoisesS(void) {
         return;
     }
     if (gChoisesS->mPickFrames == 0 && gChoisesS->mCloseFrames == 0 && IsChoisesSPickLocked() == 0) {
-        if (func_020b2bc8() != 0) {
+        if (IsRaceDoneOrReplayPastStartFrames() != 0) {
             if (IsChoisesSOpenAllowedAfterRace() != 0) {
-                if (ChoisesSGetCurrentMode() == MODE_MISSION_RUN && func_020b2b5c() != 0 && func_020b2f58() != 0) {
+                if (ChoisesSGetCurrentMode() == MODE_MISSION_RUN && ChoisesSGetUnfilledNotEliminated() != 0 &&
+                    IsMissionRunTableRow6Or7Column9() != 0) {
                     if (ChoisesSGetNewBits(GetChoisesSInputSlot(), PAD_KEY_A) != 0 ||
                         ChoisesSIsSlotPairNew(GetChoisesSInputSlot()) != 0) {
                         gChoisesS->mPickedValue = 10;
@@ -55,9 +56,9 @@ void UpdateChoisesS(void) {
                         gChoisesS->mSelectedValue = gChoisesS->mPickedValue;
                         gChoisesS->mPickLocked = 1;
                         StartChoisesSSelectedValueSeq();
-                        func_020b2a60(1);
+                        ChoisesSSetLVselIndex6Requested(1);
                     }
-                } else if (ChoisesSGetCurrentMode() == MODE_MISSION_RUN && func_020b2b5c() != 0) {
+                } else if (ChoisesSGetCurrentMode() == MODE_MISSION_RUN && ChoisesSGetUnfilledNotEliminated() != 0) {
                     if (ChoisesSGetNewBits(GetChoisesSInputSlot(), PAD_KEY_A) != 0 ||
                         ChoisesSIsSlotPairNew(GetChoisesSInputSlot()) != 0) {
                         gChoisesS->mPickedValue = 6;
@@ -136,7 +137,7 @@ void UpdateChoisesS(void) {
     if (a != 0) {
         gChoisesS->mPickFrames = a + 1;
         if (gChoisesS->mPickFrames > 0xf) {
-            if (func_020b2bc8() != 0) {
+            if (IsRaceDoneOrReplayPastStartFrames() != 0) {
                 if (IsChoisesSOpen() != 0) {
                     gChoisesS->mPickedValue = gChoisesS->mSelectedValue;
                     SetChoisesSOpen(0);
@@ -155,7 +156,7 @@ void UpdateChoisesS(void) {
     if (a != 0) {
         gChoisesS->mCloseFrames = a + 1;
         if (gChoisesS->mCloseFrames > 4) {
-            if (func_020b2bc8() != 0) {
+            if (IsRaceDoneOrReplayPastStartFrames() != 0) {
                 if (IsChoisesSOpen() != 0) {
                     SetChoisesSOpen(0);
                 } else {
@@ -167,7 +168,7 @@ void UpdateChoisesS(void) {
             gChoisesS->mCloseFrames = 0;
         }
     }
-    if (ChoisesSGetConnectionKind() != 0 && ChoisesSGetCurrentMode() == 5 && func_020b2bc8() != 0) {
+    if (ChoisesSGetConnectionKind() != 0 && ChoisesSGetCurrentMode() == 5 && IsRaceDoneOrReplayPastStartFrames() != 0) {
         gChoisesS->mAutoPickFrames = gChoisesS->mAutoPickFrames + 1;
         if (gChoisesS->mAutoPickFrames > 0x384) {
             gChoisesS->mPickedValue = GetCourseNumber() != 4 ? 2 : 7;

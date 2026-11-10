@@ -32,10 +32,10 @@ void SetRaceSetupRequested(u32 requested) {
     data_0217b488->mRaceSetupRequested = requested;
 }
 
-u32 func_020cc0f8(void) {
-    return (data_0217b488->mUnk_10);
+u32 GetUnfilledNotEliminated(void) {
+    return (data_0217b488->mUnfilledNotEliminated);
 }
 
-u32 func_020cc0e4(void) {
-    return (data_0217b488->mUnk_14);
+u32 GetLVselIndex6Requested(void) {
+    return (data_0217b488->mLVselIndex6Requested);
 }

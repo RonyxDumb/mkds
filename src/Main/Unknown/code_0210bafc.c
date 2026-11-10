@@ -67,7 +67,7 @@ u32 GetSurfaceSoundId(s32 entryIndex, s32 surfaceKind, s32 surfaceVariant) {
     return *(u16 *) (data_0216ca84 + entryIndex * 0x26 + v * 2);
 }
 
-u32 func_0210bafc(s32 entryIndex, s32 rowIndex, s32 columnIndex) {
+u32 GetSurfaceSoundIdShortRows(s32 entryIndex, s32 rowIndex, s32 columnIndex) {
     void *idArray;
     s32 v;
 

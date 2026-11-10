@@ -1775,8 +1775,9 @@ u32 func_ov000_0219fbec(s32 a, s32 b) {
         if (n == -1) {
             continue;
         }
-        if (func_02152698(gWiFiMatching->mBuddies +
-                          gWiFiMatching->mBuddyEntryIndices[gWiFiMatching->mBuddyEntryIndexPos] * 12) == 0) {
+        if (IsFriendDataTypeNonZeroWrapper(
+                gWiFiMatching->mBuddies + gWiFiMatching->mBuddyEntryIndices[gWiFiMatching->mBuddyEntryIndexPos] * 12) ==
+            0) {
             continue;
         }
         for (k = 1; k <= gWiFiMatching->mLastParticipantPos; k++) {

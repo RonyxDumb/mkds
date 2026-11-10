@@ -65,7 +65,7 @@ void SetJgState4(void) {
 }
 
 #pragma thumb off
-void func_020e7a18(void) {
+void SetJgState4Countdown(void) {
     if (gRaceSetup->mRaceKind != RACE_KIND_STAFF_ROLL) {
         data_0217b8b4 = 0x14;
     }

@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void func_02108b78(void);
+void StartWiFiSessionLoginResult1Seq(void);
 void StartWiFiSessionLoginSeq(void);

@@ -106,12 +106,12 @@ void func_020ad848(u32 value) {
     data_0217b488->mMenuEntryKind = value;
 }
 
-void func_020ad834(u32 value) {
-    data_0217b488->mUnk_10 = value;
+void TitleSetUnfilledNotEliminated(u32 value) {
+    data_0217b488->mUnfilledNotEliminated = value;
 }
 
-void func_020ad820(u32 value) {
-    data_0217b488->mUnk_14 = value;
+void TitleSetLVselIndex6Requested(u32 value) {
+    data_0217b488->mLVselIndex6Requested = value;
 }
 
 #pragma thumb on
@@ -217,8 +217,8 @@ void CreateTitleScene(void) {
     ClearShuffledIndices();
     func_020ad85c(1);
     func_020ad848(0);
-    func_020ad834(0);
-    func_020ad820(0);
+    TitleSetUnfilledNotEliminated(0);
+    TitleSetLVselIndex6Requested(0);
     ResetRaceSetup();
 }
 

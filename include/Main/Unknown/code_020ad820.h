@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-void func_020ad820(unsigned int value);
-void func_020ad834(unsigned int value);
+void TitleSetLVselIndex6Requested(unsigned int value);
+void TitleSetUnfilledNotEliminated(unsigned int value);
 void func_020ad848(unsigned int value);
 void func_020ad85c(unsigned int value);

@@ -253,7 +253,7 @@ void UpdateFireball2(void *a, Fireball2 *b) {
             VEC_Subtract(&p->mPos, &b->mMapObject.mPos, &v);
             d = Vec3DotUnrounded(&v, &b->mMapObject.mMatrix.mUnk_00[2]);
             if ((b->mEntryKartAxisDistance < 0 && d > 0) || (b->mEntryKartAxisDistance > 0 && d < 0)) {
-                func_02108e38();
+                StopSndHandleSlots7To11();
                 h = GetSndHandleSlot(7);
                 if ((data_0217c780 & 1) && data_0217d084.mUnk_0c != 0) {
                     if (h[0] != NULL) {

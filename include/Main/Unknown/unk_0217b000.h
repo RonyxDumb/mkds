@@ -656,9 +656,9 @@ typedef struct RaceRankList {
 extern RaceRankList *gRaceRankList;
 // Object behind gRaceHudSubScreenCellGroups, 0x25c bytes, allocated by InitRaceHudSubScreenCellGroups.
 typedef struct RaceHudSubScreenCellGroups {
-    /* 000 */ u16 mUnk_000;
+    /* 000 */ u16 mMinDrawValue;
     /* 004 */ s32 mScale;
-    /* 008 */ s32 mUnk_008;
+    /* 008 */ s32 mInverseScale;
     /* 00c */ s32 mGroupCount;
     /* 010 */ void (*mClearFunctions[49])(void);
     /* 0d4 */ void (*mUpdateFunctions[49])(void);

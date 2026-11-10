@@ -31,7 +31,7 @@ s32 ChoisesSIsBackupBusy(void) {
 }
 
 #pragma thumb on
-u32 func_020b2bc8(void) {
+u32 IsRaceDoneOrReplayPastStartFrames(void) {
     if (GetRaceDone() != 0 ||
         (ChoisesSGetCurrentRaceKind() == RACE_KIND_REPLAY && GetRaceStartSequenceFrames() > 0xf0)) {
         return 1;
@@ -40,7 +40,7 @@ u32 func_020b2bc8(void) {
 }
 
 u32 IsChoisesSOpenAllowedAfterRace(void) {
-    if (IsRaceStartSequenceDone() != 0 && func_020b2bc8() != 0 && IsRaceGoalMReady() != 0 &&
+    if (IsRaceStartSequenceDone() != 0 && IsRaceDoneOrReplayPastStartFrames() != 0 && IsRaceGoalMReady() != 0 &&
         IsRaceGoalSRunning() == 0 && IsRaceNewRecordTaSaving() == 0 && IsRaceNewRecordTaRunning() == 0 &&
         GetShowLapTime() == 0 && (GetChoisesSOpenDuringRace() != 0 || func_02055b1c() == FALSE)) {
         return 1;

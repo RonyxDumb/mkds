@@ -148,7 +148,7 @@ void RunScenesForever(void) {
     gRunScenesState->mUnk_00 = 0;
     if (gBootInfo->mUnk_00 == 2) {
         data_021759d0->mConnectionKind = 2;
-        data_0217b488->mUnk_74 = 0;
+        data_0217b488->mWLMenuKind = 0;
         gRunScenesState->mSceneNumber = 6;
     }
     do {

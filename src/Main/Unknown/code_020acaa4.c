@@ -37,6 +37,6 @@ void SetConnectionKind(u32 value) {
     data_021759d0->mConnectionKind = value;
 }
 
-void func_020acaa4(u32 value) {
-    data_0217b488->mUnk_74 = value;
+void TitleSetWLMenuKind(u32 value) {
+    data_0217b488->mWLMenuKind = value;
 }

@@ -160,7 +160,7 @@ void func_0209fc78(MapObject *mapObject) {
             data_usa_0217b18c[i]->mSoundId = 0x1da;
             break;
         default:
-            data_usa_0217b18c[i]->mSoundId = func_0210bafc(0, 8, i);
+            data_usa_0217b18c[i]->mSoundId = GetSurfaceSoundIdShortRows(0, 8, i);
             break;
     }
     mapObject->mKindData = data_usa_0217b18c[i];

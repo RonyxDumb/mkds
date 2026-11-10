@@ -108,7 +108,7 @@ s32 CheckFriendKeyString(const void *keyString) {
         GetBuddyRecord(i, &buddyRecord);
         if (buddyRecord.mFilled == 1) {
             entry = friendDataList + i;
-            if (func_02152698(entry) != 0 && DWC_IsEqualFriendData(entry, &friendData) != 0) {
+            if (IsFriendDataTypeNonZeroWrapper(entry) != 0 && DWC_IsEqualFriendData(entry, &friendData) != 0) {
                 foundIndex = (s8) i;
                 break;
             }
@@ -134,7 +134,7 @@ s32 FindBuddyIndexByFriendData(const void *friendData) {
         GetBuddyRecord(i, &buddyRecord);
         if (buddyRecord.mFilled == 1) {
             entry = friendDataList + i;
-            if (func_02152698(entry) != 0 && DWC_IsEqualFriendData(entry, friendData) != 0) {
+            if (IsFriendDataTypeNonZeroWrapper(entry) != 0 && DWC_IsEqualFriendData(entry, friendData) != 0) {
                 foundIndex = (s8) i;
                 break;
             }
@@ -168,8 +168,8 @@ s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccF
     entry = friendDataList;
     for (i = 0; i < 60; i = (s8) (i + 1), entry++) {
         GetBuddyRecord((u8) i, &buddyRecord);
-        if (buddyRecord.mFilled == 1 && func_02152698(friendData) != 0 && func_02152698(entry) != 0 &&
-            DWC_IsEqualFriendData(entry, friendData) != 0) {
+        if (buddyRecord.mFilled == 1 && IsFriendDataTypeNonZeroWrapper(friendData) != 0 &&
+            IsFriendDataTypeNonZeroWrapper(entry) != 0 && DWC_IsEqualFriendData(entry, friendData) != 0) {
             slotIndex = i;
             found = TRUE;
             break;

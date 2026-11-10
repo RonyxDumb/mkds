@@ -194,7 +194,7 @@ void StartKartSurfaceSound(Kart *kart, s32 entryIndex, s32 surfaceKind, s32 surf
     if (!(kart->mSoundSource.mSourceFlags & 1)) {
         return;
     }
-    soundId = func_0210bafc(entryIndex, surfaceKind, surfaceVariant);
+    soundId = GetSurfaceSoundIdShortRows(entryIndex, surfaceKind, surfaceVariant);
     if (soundId == 0xffff) {
         return;
     }

@@ -7,8 +7,8 @@ void SetMenuEntryKind(u32 entryKind) {
     data_0217b488->mMenuEntryKind = entryKind;
 }
 
-void func_020cbaa8(u32 value) {
-    data_0217b488->mUnk_10 = value;
+void SetUnfilledNotEliminated(u32 value) {
+    data_0217b488->mUnfilledNotEliminated = value;
 }
 
 void WriteMainBlendAlpha(u32 firstPlane, u32 secondPlane, u32 firstCoefficient, u32 secondCoefficient) {

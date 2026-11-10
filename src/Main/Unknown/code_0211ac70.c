@@ -1082,7 +1082,7 @@ void AdvanceSelectRaceRuleChangeObjects(void) {
     }
 }
 
-void func_0211c0cc(void) {
+void PrintSelectRaceRuleRow4Message(void) {
     SelectRaceRule *selectRaceRule;
     if (data_021759d0->mConnectionKind == 2) {
         gSelectRaceRule->mTable[gSelectRaceRule->mBncl->mUnk_06 + 14].mVisible = 1;

@@ -212,7 +212,7 @@ void StartRaceEndSeq(s32 unused) {
     if (seqId <= -1) {
         return;
     }
-    func_02108e38();
+    StopSndHandleSlots7To11();
     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, (u16) seqId);
 }
 

@@ -41,7 +41,7 @@ void LoadInitialSndGroup(u32 moveWaveArcs);
 void LoadSceneSoundSet(SoundRow soundRow, u32 loadExtras);
 u32 LoadSndDataFromFile(void);
 u32 LoadCourseSoundSet(u32 raceMode, u32 courseId);
-u32 func_0210e524(void);
+u32 LoadResultSceneSoundSet(void);
 u32 LoadSndGroup(s32 groupId);
 void ResetLoadedSoundSet(LoadedSoundSet *loadedSet);
 void SaveSndHeapState(LoadedSoundSet *loadedSet);

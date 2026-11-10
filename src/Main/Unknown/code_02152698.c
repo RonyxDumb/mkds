@@ -2,7 +2,7 @@
 #include "Main/Unknown/code_021526a0.h"
 
 #pragma thumb on
-u32 func_02152698(const void *friendData) {
+u32 IsFriendDataTypeNonZeroWrapper(const void *friendData) {
     return IsFriendDataTypeNonZero(friendData);
 }
 #pragma thumb off

@@ -107,8 +107,8 @@ typedef struct Unk0217b488 {
     /* 004 */ s32 mRaceSetupRequested;
     /* 008 */ s32 mMenuEntryKind;
     /* 00c */ s32 mGhostSceneInitialCallbacksIndex;
-    /* 010 */ s32 mUnk_10;
-    /* 014 */ s32 mUnk_14;
+    /* 010 */ s32 mUnfilledNotEliminated;
+    /* 014 */ s32 mLVselIndex6Requested;
     /* 018 */ BOOL mUnk_18;
     /* 01c */ s32 mUnk_1c;
     /* 020 */ Unk0217b488_20 mUnk_20[4];
@@ -119,7 +119,7 @@ typedef struct Unk0217b488 {
     /* 05c */ s32 mUnk_5c[4];
     /* 06c */ BOOL mUnk_6c;
     /* 070 */ s32 mUnk_70;
-    /* 074 */ s32 mUnk_74;
+    /* 074 */ s32 mWLMenuKind;
     /* 078 */ s32 mResultArchiveDl;
     /* 07c */ s32 mCupRankIndex;
     /* 080 */ s32 mUnk_80;
@@ -173,8 +173,8 @@ typedef struct WiFiPlayerRecord {
     /* 00a */ u8 mKartMask;
     /* 00b */ u8 mUnk_00b;
     /* 00c */ PlayerRecord mPlayer;
-    /* 238 */ s32 mUnk_238;
-    /* 23c */ s32 mUnk_23c;
+    /* 238 */ s32 mFirstTotal;
+    /* 23c */ s32 mSecondTotal;
     /* 240 */ s32 mSeed;
 } WiFiPlayerRecord;
 

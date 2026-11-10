@@ -360,7 +360,7 @@ u32 LoadCourseSoundSet(u32 raceMode, u32 courseId) {
     return loaded;
 }
 
-u32 func_0210e524(void) {
+u32 LoadResultSceneSoundSet(void) {
     SoundRow row, rowCopy;
     SoundSet soundSet;
 

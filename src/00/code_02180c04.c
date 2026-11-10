@@ -341,7 +341,7 @@ void func_ov000_02180e58(void) {
                         RequestTxtSystemClose();
                     }
                 }
-                func_02108b78();
+                StartWiFiSessionLoginResult1Seq();
                 break;
         }
     }

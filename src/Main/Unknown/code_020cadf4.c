@@ -10,7 +10,7 @@ void RequestRaceOrWLMenuScene(SceneNumbers *sceneNumbers) {
     if (sceneNumbers != NULL) {
         if (MenuGetConnectionKind() != 0 && GetMultiSimple() != 0) {
             sceneNumbers->mNextScene = 6;
-            func_020cae24(1);
+            SetWLMenuKind(1);
         } else {
             sceneNumbers->mNextScene = 2;
         }

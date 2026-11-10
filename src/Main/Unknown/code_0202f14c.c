@@ -60,13 +60,13 @@ void InitWLMenuScene(void *heap) {
         v1.mUseSelectChoises = 0;
         v1.mSelectChoisesFont = NULL;
         v1.mUseSelectReturn = 1;
-        v1.mUseBackScreen = func_0202f498() == 0;
+        v1.mUseBackScreen = GetWLMenuKind() == 0;
         v1.mBackScreenKind = 0;
         LoadTxtSystemAndSelectChoisesAndSelectReturnData();
         InitSceneText(heap, &v1);
     }
     InitLinkLevelIcons(heap, gWLMenuScene);
-    switch (func_0202f498()) {
+    switch (GetWLMenuKind()) {
         case 0:
             gWLMenuScene->mRequestedCallbacksIndex = func_0202f19c() != 0 ? 4 : 0;
             func_0203b0f8(heap);

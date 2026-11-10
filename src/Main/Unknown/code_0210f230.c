@@ -91,7 +91,7 @@ void ApplyCourseSoundTableEntry(s32 a) {
             };
             break;
         case 4:
-            func_02108e38();
+            StopSndHandleSlots7To11();
             break;
     }
     if (tableValue < 0xfff) {

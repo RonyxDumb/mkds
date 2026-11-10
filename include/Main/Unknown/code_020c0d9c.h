@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-unsigned int func_020c0d9c(void);
+unsigned int GetRaceHudSubScreenInverseScale(void);
 unsigned int GetRaceHudSubScreenScale(void);
-unsigned int func_020c0dc4(void);
+unsigned int GetRaceHudSubScreenMinDrawValue(void);

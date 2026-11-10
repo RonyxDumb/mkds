@@ -482,7 +482,7 @@ void DrawRaceHudSubScreenKarts(RaceHudOamBuffer *oamBuffer) {
         case 1:
         case 2:
         case 3:
-            a = func_020c0dc4();
+            a = GetRaceHudSubScreenMinDrawValue();
             for (drawOrderIndex = 0; drawOrderIndex < gRaceSetup->mKartCount; drawOrderIndex++) {
                 kartIndex = gRaceHudSubScreenKarts->mDrawOrder[drawOrderIndex];
                 g = gRaceHudSubScreenKarts->mUnk_150[kartIndex];
@@ -623,7 +623,7 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
     s32 middlePosition1[2];
     s32 drawPosition1[2];
 
-    a = func_020c0dc4();
+    a = GetRaceHudSubScreenMinDrawValue();
     if (gRaceHudSubScreenSecondHand->mUnk_04 <= 0) {
         return;
     }

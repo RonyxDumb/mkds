@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void func_02108990(void);
+void StartSelectReturnState1Seq(void);
 void StopBothSeqHandles(void);

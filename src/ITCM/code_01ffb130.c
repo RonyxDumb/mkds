@@ -120,7 +120,7 @@ void func_01ffb130(Kart *p) {
         if (p->mSinkFrames > 0x41) {
             p->mUnk_48 &= ~0x240;
             if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-                func_020e7a18();
+                SetJgState4Countdown();
             }
         } else {
             p->mPos.y -= 0x19a;

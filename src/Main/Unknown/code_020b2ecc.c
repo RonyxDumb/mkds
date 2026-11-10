@@ -162,7 +162,7 @@ void SetChoisesSOpen(s32 openFlag) {
     }
 }
 
-u32 func_020b2f58(void) {
+u32 IsMissionRunTableRow6Or7Column9(void) {
     if ((GetMissionRunTableRow() == 6 && GetMissionRunTableColumn() == 9) ||
         (GetMissionRunTableRow() == 7 && GetMissionRunTableColumn() == 9)) {
         return 1;

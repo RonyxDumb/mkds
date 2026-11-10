@@ -12,7 +12,7 @@
 
 void WriteEmblemChoisesScreenMap(void) {
     WriteEmblemChoisesTiles();
-    func_020caba4(MoveEmblemChoisesIndex(0));
+    WriteEmblemChoisesSelectedTiles(MoveEmblemChoisesIndex(0));
 }
 
 #pragma thumb off

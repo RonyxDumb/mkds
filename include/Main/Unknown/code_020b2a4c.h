@@ -3,4 +3,4 @@
 #include "types.h"
 
 unsigned int GetRaceDone(void);
-void func_020b2a60(unsigned int value);
+void ChoisesSSetLVselIndex6Requested(unsigned int value);

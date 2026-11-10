@@ -166,5 +166,5 @@ MapObjectKindData *CreateAttractorKindData(void);
 void CreateJg(void);
 void InitJg(void);
 void ReleaseJg(void);
-void func_020e7a18(void);
+void SetJgState4Countdown(void);
 void SetJgState4(void);

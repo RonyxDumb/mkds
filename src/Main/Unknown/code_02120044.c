@@ -41,12 +41,12 @@ u8 HasPlayerRecordEmblem(u32 index) {
     return gWiFiSession->mPlayerRecords[index].mPlayer.mHasEmblem;
 }
 
-u32 func_0212025c(u32 index) {
-    return gWiFiSession->mPlayerRecords[index].mUnk_238;
+u32 GetPlayerRecordFirstTotal(u32 index) {
+    return gWiFiSession->mPlayerRecords[index].mFirstTotal;
 }
 
-u32 func_02120240(u32 index) {
-    return gWiFiSession->mPlayerRecords[index].mUnk_23c;
+u32 GetPlayerRecordSecondTotal(u32 index) {
+    return gWiFiSession->mPlayerRecords[index].mSecondTotal;
 }
 
 int GetPlayerRecordElo(int index) {

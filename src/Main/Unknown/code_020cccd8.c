@@ -628,7 +628,7 @@ void DrawRaceHudSubScreenFlipperCells(RaceHudOamBuffer *oamBuffer) {
     struct Unk020224e0_c *ncerEntry;
     s32 drawY;
 
-    c = func_020c0dc4();
+    c = GetRaceHudSubScreenMinDrawValue();
     d = GetSubScreenAngleAndClearScrollTimer();
     for (i = 0; i < gRaceHudSubScreenFlipperCells->mCellCount; i++) {
         h = gRaceHudSubScreenFlipperCells->mCells[i].mUnk_0c;

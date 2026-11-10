@@ -9,7 +9,7 @@ s32 MoveChoisesSSelectedValue(s32 step);
 u32 MoveChoisesSSelectedValueByTouch(void);
 void ResetChoisesSSelection(void);
 void SetChoisesSOpen(s32 openFlag);
-u32 func_020b2f58(void);
+u32 IsMissionRunTableRow6Or7Column9(void);
 s8 GetMissionRunTableRow(void);
 s8 GetMissionRunTableColumn(void);
 u32 func_020b2ecc(void);

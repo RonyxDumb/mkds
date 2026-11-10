@@ -3,4 +3,4 @@
 #include "types.h"
 
 unsigned int GetChoisesSInputSlot(void);
-unsigned int func_020b2b5c(void);
+unsigned int ChoisesSGetUnfilledNotEliminated(void);

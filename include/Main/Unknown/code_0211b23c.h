@@ -16,7 +16,7 @@ void ResetSelectRaceRulePositions(void);
 void SetSelectRaceRuleHumanCount(void);
 void ReadRaceSetupCopyIntoSelectRaceRule(void);
 void AdvanceSelectRaceRuleTeamInput(void);
-void func_0211c0cc(void);
+void PrintSelectRaceRuleRow4Message(void);
 void AdvanceSelectRaceRuleChangeObjects(void);
 void WriteSelectRaceRuleToRaceSetupCopy(void);
 void AssignListedCpuSlots(void);

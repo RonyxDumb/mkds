@@ -407,7 +407,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                         switch (GetSelectChoisesIndex()) {
                             case 0:
                                 if (data_021759d0->mMultiSimple != 0) {
-                                    data_0217b488->mUnk_74 = 3;
+                                    data_0217b488->mWLMenuKind = 3;
                                     data_0217b488->mMenuEntryKind = 4;
                                     if (sceneNumbers != NULL) {
                                         sceneNumbers->mNextScene = 6;

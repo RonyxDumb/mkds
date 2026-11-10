@@ -154,12 +154,12 @@ void StartWiFiSessionLoginSeq(void) {
     NNS_SndArcPlayerStartSeqArc(&data_0217c788, 0, 0x202);
 }
 
-void func_02108b78(void) {
+void StartWiFiSessionLoginResult1Seq(void) {
     NNS_SndPlayerStopSeq(&data_0217c788, 1);
     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x203);
 }
 
-void func_02108b2c(void) {
+void StartWiFiSessionMatchingSeq(void) {
     NNS_SndPlayerStopSeq(&data_0217c788, 1);
     if (data_0217c788 != NULL) {
         NNS_SndPlayerStopSeq(&data_0217c788, 0);
@@ -195,7 +195,7 @@ void StartWiFiLoginErrorSeq(void) {
     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, (0x0000020au));
 }
 
-void func_02108990(void) {
+void StartSelectReturnState1Seq(void) {
     NNS_SndPlayerStopSeq(&data_0217c788, 1);
     NNS_SndPlayerStopSeq(&data_0217c778, 1);
     NNS_SndPlayerStopSeq(&data_0217c788, 1);

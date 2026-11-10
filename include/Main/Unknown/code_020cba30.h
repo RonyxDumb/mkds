@@ -4,5 +4,5 @@
 
 void MenuWriteSubBlendAlpha(u32 firstPlane, u32 secondPlane, u32 firstCoefficient, u32 secondCoefficient);
 void WriteMainBlendAlpha(u32 firstPlane, u32 secondPlane, u32 firstCoefficient, u32 secondCoefficient);
-void func_020cbaa8(unsigned int value);
+void SetUnfilledNotEliminated(unsigned int value);
 void SetMenuEntryKind(unsigned int entryKind);

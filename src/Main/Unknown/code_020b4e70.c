@@ -20,7 +20,7 @@ void ComputePointAlongLine(Vec3 *result, const Vec3 *startPoint, const Vec3 *end
         *result = *startPoint;
         return;
     }
-    factor = MulFixed12NoRound(func_020c0d9c(), 0x3000);
+    factor = MulFixed12NoRound(GetRaceHudSubScreenInverseScale(), 0x3000);
     point.x = startPoint->x + MulFixed12NoRound(factor, endPoint->x - startPoint->x);
     point.y = startPoint->y + MulFixed12NoRound(factor, endPoint->y - startPoint->y);
     point.z = startPoint->z + MulFixed12NoRound(factor, endPoint->z - startPoint->z);

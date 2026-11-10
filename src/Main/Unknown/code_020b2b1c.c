@@ -5,8 +5,8 @@
 #include "Main/Unknown/code_020b2b54.h"
 #include "00/code_02181f98.h"
 
-u32 func_020b2b5c(void) {
-    return (data_0217b488->mUnk_10);
+u32 ChoisesSGetUnfilledNotEliminated(void) {
+    return (data_0217b488->mUnfilledNotEliminated);
 }
 
 u32 GetChoisesSInputSlot(void) {

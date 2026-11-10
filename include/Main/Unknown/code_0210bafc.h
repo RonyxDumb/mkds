@@ -15,7 +15,7 @@ typedef struct ListObjectLink {
     /* 8 */ void *mList;
 } ListObjectLink;
 
-u32 func_0210bafc(s32 entryIndex, s32 rowIndex, s32 columnIndex);
+u32 GetSurfaceSoundIdShortRows(s32 entryIndex, s32 rowIndex, s32 columnIndex);
 u32 GetSurfaceSoundId(s32 entryIndex, s32 surfaceKind, s32 surfaceVariant);
 void ClearSurfaceSoundIds(void);
 void RemoveListObject(NNSFndList *list, void *object);

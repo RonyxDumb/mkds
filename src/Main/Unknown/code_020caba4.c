@@ -102,7 +102,7 @@ void WriteEmblemChoisesTiles(void) {
     }
 }
 
-void func_020caba4(s32 choiceIndex) {
+void WriteEmblemChoisesSelectedTiles(s32 choiceIndex) {
     EmblemChoises *emblemChoises;
     s32 choisesCount;
     u16 *mapData;

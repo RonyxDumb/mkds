@@ -28,7 +28,7 @@ void ReleaseMenu(void) {
     ClearPicksHolderPointer();
     ReleaseAllResFiles();
     SetMenuEntryKind(0);
-    func_020cbaa8(0);
+    SetUnfilledNotEliminated(0);
     WriteMainBlendAlpha(0, 0x3f, 6, 10);
     MenuWriteSubBlendAlpha(0, 0x3f, 6, 10);
     gMenuScene = NULL;

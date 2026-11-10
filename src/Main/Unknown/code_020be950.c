@@ -55,16 +55,16 @@
 #include "01/code_021813f4.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-u32 func_020c0dc4(void) {
-    return (gRaceHudSubScreenCellGroups->mUnk_000);
+u32 GetRaceHudSubScreenMinDrawValue(void) {
+    return (gRaceHudSubScreenCellGroups->mMinDrawValue);
 }
 
 u32 GetRaceHudSubScreenScale(void) {
     return (gRaceHudSubScreenCellGroups->mScale);
 }
 
-u32 func_020c0d9c(void) {
-    return (gRaceHudSubScreenCellGroups->mUnk_008);
+u32 GetRaceHudSubScreenInverseScale(void) {
+    return (gRaceHudSubScreenCellGroups->mInverseScale);
 }
 
 BOOL CreateRaceHudSubScreenCells(RaceHudSubScreenCells **outCells, s32 kind) {
@@ -148,7 +148,7 @@ void DrawRaceHudSubScreenCells(RaceHudOamBuffer *oamBuffer, RaceHudSubScreenCell
     s32 screenY;
     void *cellData;
 
-    l = gRaceHudSubScreenCellGroups->mUnk_000;
+    l = gRaceHudSubScreenCellGroups->mMinDrawValue;
     if (useRotation != 0) {
         angle = GetSubScreenAngleAndClearScrollTimer();
     }
@@ -208,7 +208,7 @@ void DrawRaceHudSubScreenCellsScaled(RaceHudOamBuffer *oamBuffer, RaceHudSubScre
     s32 screenY;
     void *cellData;
 
-    l = gRaceHudSubScreenCellGroups->mUnk_000;
+    l = gRaceHudSubScreenCellGroups->mMinDrawValue;
     if (useRotation != 0) {
         angle = GetSubScreenAngleAndClearScrollTimer();
     }
@@ -256,9 +256,9 @@ void DrawRaceHudSubScreenCellsScaled(RaceHudOamBuffer *oamBuffer, RaceHudSubScre
 
 void InitRaceHudSubScreenCellGroups(void) {
     gRaceHudSubScreenCellGroups = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x25c);
-    gRaceHudSubScreenCellGroups->mUnk_000 = 0;
+    gRaceHudSubScreenCellGroups->mMinDrawValue = 0;
     gRaceHudSubScreenCellGroups->mScale = 0;
-    gRaceHudSubScreenCellGroups->mUnk_008 = 0;
+    gRaceHudSubScreenCellGroups->mInverseScale = 0;
     gRaceHudSubScreenCellGroups->mGroupCount = 0;
     if (CreateRaceHudSubScreenKarts()) {
         s32 groupIndex;
@@ -925,11 +925,11 @@ void UpdateRaceHudSubScreenCellGroups(void) {
             }
             roundedProduct = productWithHalf;
             gRaceHudSubScreenCellGroups->mScale = MUL_FIXED12_NO_ROUND(roundedProduct, 20);
-            gRaceHudSubScreenCellGroups->mUnk_008 = FX_Div(0x2400, gRaceHudSubScreenCellGroups->mScale);
+            gRaceHudSubScreenCellGroups->mInverseScale = FX_Div(0x2400, gRaceHudSubScreenCellGroups->mScale);
             UpdateRaceHudSubScreenProjectionAndBgAffine(GetRaceHudSubScreenBgAffine(),
                                                         gRaceHudSubScreenCellGroups->mScale);
             GetKartPosFromPosSourceCopy(&followedKartPosition, GetFollowedKartOrEntryIndex());
-            gRaceHudSubScreenCellGroups->mUnk_000 = IsPositionOutsideBox(&followedKartPosition) != 0 ? 0 : 3;
+            gRaceHudSubScreenCellGroups->mMinDrawValue = IsPositionOutsideBox(&followedKartPosition) != 0 ? 0 : 3;
             for (i = 0; i < gRaceHudSubScreenCellGroups->mGroupCount; i++) {
                 gRaceHudSubScreenCellGroups->mUpdateFunctions[i]();
             }
