@@ -28,8 +28,8 @@ s32 UpdateSelectKartTouchHold(void) {
     s32 rectIndex;
     if (gSelectKart->mTouchHeld != FALSE) {
         if (func_020291f0(slotIndex) != 0) {
-            pairX = func_0202874c(slotIndex);
-            pairY = func_02028724(slotIndex);
+            pairX = SelectKartGetSlotPairX(slotIndex);
+            pairY = SelectKartGetSlotPairY(slotIndex);
             rectIndex = FindRectContainingPoint(pairX, pairY, p->mRects);
             if (rectIndex != gSelectKart->mTouchRect) {
                 gSelectKart->mTouchHeld = FALSE;
@@ -42,8 +42,9 @@ s32 UpdateSelectKartTouchHold(void) {
             gSelectKart->mTouchHeld = FALSE;
             gSelectKart->mTouchHeldFrames = 0;
         }
-    } else if (func_02028774(slotIndex) != 0) {
-        result = FindRectContainingPoint(func_0202874c(slotIndex), func_02028724(slotIndex), p->mRects);
+    } else if (SelectKartIsSlotPairNew(slotIndex) != 0) {
+        result =
+            FindRectContainingPoint(SelectKartGetSlotPairX(slotIndex), SelectKartGetSlotPairY(slotIndex), p->mRects);
         gSelectKart->mTouchHeld = TRUE;
         gSelectKart->mTouchHeldFrames = 0;
     }

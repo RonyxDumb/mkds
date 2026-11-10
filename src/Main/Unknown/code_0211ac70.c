@@ -640,7 +640,7 @@ BOOL DoesSelectRaceRuleHumanCountMatch(void) {
         case 4:
         case 5:
             usesMask = TRUE;
-            if (gConnectionWork->mUnk_0004 != 8 && gConnectionWork->mUnk_0004 != 9) {
+            if (gConnectionWork->mState != 8 && gConnectionWork->mState != 9) {
                 usesMask = FALSE;
             }
             participantCount = usesMask != FALSE ? CountSetBits(gConnectionWork->mParticipantMask) : 0;
@@ -1259,7 +1259,7 @@ void SetSelectRaceRuleHumanCount(void) {
         case 4:
         case 5:
             usesMask = TRUE;
-            if (gConnectionWork->mUnk_0004 != 8 && gConnectionWork->mUnk_0004 != 9) {
+            if (gConnectionWork->mState != 8 && gConnectionWork->mState != 9) {
                 usesMask = FALSE;
             }
             participantCount = usesMask != FALSE ? CountSetBits(gConnectionWork->mParticipantMask) : 0;

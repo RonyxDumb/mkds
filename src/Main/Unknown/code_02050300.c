@@ -37,7 +37,7 @@ void DisconnectChildren(u32 aidBitmap) {
     if (WM_DisconnectChildren(DisconnectChildrenCallback, aidBitmap) != 7) {
         return;
     }
-    if (gConnectionWork->mUnk_0004 == 9) {
+    if (gConnectionWork->mState == 9) {
         if (func_02050650_inline() == 1) {
             gConnectionWork->mRemovedChildMask = 0;
         }
@@ -51,7 +51,7 @@ void DisconnectChildrenCallback(Unk021425e8 *event) {
         return;
     }
     if (func_02050650_inline() == 1) {
-        switch (gConnectionWork->mUnk_0004) {
+        switch (gConnectionWork->mState) {
             case 8:
             case 9:
                 gConnectionWork->mUnk_1eac[0] = gConnectionWork->mUnk_1eac[0] | gConnectionWork->mRemovedChildMask;
@@ -93,8 +93,8 @@ void EndMPCallback(Unk021425e8 *event) {
         return;
     }
     connection = gConnectionWork;
-    if (connection->mUnk_0004 == 0xb) {
-        connection->mUnk_0004 = 0xc;
+    if (connection->mState == 0xb) {
+        connection->mState = 0xc;
     }
 }
 
@@ -170,7 +170,7 @@ void DisconnectCallback(Unk021425e8 *event) {
                     aid = gConnectionWork->mUnk_0044.mEntries[gConnectionWork->mUnk_0044.mDisconnectingIndex].mAid;
                     RemoveChild(aid);
                     if (func_02050650_inline() == 1) {
-                        if (gConnectionWork->mUnk_0004 == 9) {
+                        if (gConnectionWork->mState == 9) {
                             gConnectionWork->mUnk_1eac[0] |= 1 << aid;
                         }
                     }
@@ -346,7 +346,7 @@ static inline void func_02050b88_inline(u16 v1) {
 
     for (i = 0; i < 8; i++) {
         if ((v1 & (1 << i)) != 0) {
-            f = gConnectionWork->mUnk_0004 == 9 ? 1 : 0;
+            f = gConnectionWork->mState == 9 ? 1 : 0;
             if (func_02050650_inline() == 1) {
                 gConnectionWork->mUnk_0044.mChildMask &= ~(1 << i);
                 if (f != 0) {
@@ -376,7 +376,7 @@ void RemoveChild(u32 aid) {
     children->mChildCount -= 1;
     func_02050b88_inline(1 << aid);
     gConnectionWork->mUnk_008b |= 8;
-    switch (gConnectionWork->mUnk_0004) {
+    switch (gConnectionWork->mState) {
         case 9:
             if (children->mChildCount < 1) {
                 gConnectionWork->mUnk_0008 = 0;
@@ -418,7 +418,7 @@ void ProcessMPData(u32 aid, MPMessage *message) {
             func_0205081c_inline2(1);
             break;
         case 6:
-            switch (gConnectionWork->mUnk_0004) {
+            switch (gConnectionWork->mState) {
                 case 6:
                     func_020559ec(message->mUnk_02, message->mUnk_16, message->mUnk_17);
                     break;

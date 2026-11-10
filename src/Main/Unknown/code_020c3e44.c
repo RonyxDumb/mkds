@@ -370,7 +370,7 @@ void UpdateRaceLinkLevel(void) {
             gRaceLinkLevel->mUnk_10 = 0;
         }
     } else {
-        gRaceLinkLevel->mUnk_00 = gConnectionWork->mUnk_0004 == 0 ? 0 : WM_GetLinkLevel();
+        gRaceLinkLevel->mUnk_00 = gConnectionWork->mState == 0 ? 0 : WM_GetLinkLevel();
     }
 }
 

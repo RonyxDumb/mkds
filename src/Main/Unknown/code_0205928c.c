@@ -56,7 +56,7 @@ static inline u32 func_0205955c_inline(void) {
 
 static inline s32 func_0205955c_inline2(void) {
     BOOL r = FALSE;
-    if (func_0205955c_inline() != 0 && gConnectionWork->mUnk_0004 != 13) {
+    if (func_0205955c_inline() != 0 && gConnectionWork->mState != 13) {
         r = TRUE;
     }
     return r;
@@ -82,7 +82,7 @@ void func_020597d0(const void *data, s32 b, s32 playerIndex, s32 d) {
     s32 v;
     s32 playerBit;
 
-    v = gConnectionWork->mUnk_0004;
+    v = gConnectionWork->mState;
     if (v != 11) {
         func_020559ec(data, playerIndex, d);
         return;
@@ -237,7 +237,7 @@ static inline u32 func_020593dc_inline(void) {
 
 static inline s32 func_020593dc_inline2(void) {
     BOOL r = FALSE;
-    if (func_020593dc_inline() != 0 && gConnectionWork->mUnk_0004 != 13) {
+    if (func_020593dc_inline() != 0 && gConnectionWork->mState != 13) {
         r = TRUE;
     }
     return r;

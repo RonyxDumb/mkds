@@ -17,7 +17,7 @@ static inline u32 func_0205905c_inline(void) {
 
 static inline s32 func_0205905c_inline2(void) {
     BOOL r = FALSE;
-    if (func_0205905c_inline() != 0 && gConnectionWork->mUnk_0004 != 13) {
+    if (func_0205905c_inline() != 0 && gConnectionWork->mState != 13) {
         r = TRUE;
     }
     return r;

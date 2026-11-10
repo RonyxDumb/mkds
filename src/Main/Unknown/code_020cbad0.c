@@ -148,7 +148,7 @@ void InitMenu(void) {
     MenuWriteSubWinEnableBits(0);
     if (IsDownloadBootWrapper() == 0) {
         LoadSelectCharacterData();
-        func_02027df8();
+        LoadSelectKartData();
         LoadTimeAttackTopMenuData();
         LoadSelectGhostAndKartIconData();
         LoadMissionRunLVselData();

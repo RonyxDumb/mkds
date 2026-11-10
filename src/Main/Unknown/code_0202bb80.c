@@ -278,7 +278,7 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
                 break;
             case 1:
                 t = TRUE;
-                if (gConnectionWork->mUnk_0004 != 8 && gConnectionWork->mUnk_0004 != 9) {
+                if (gConnectionWork->mState != 8 && gConnectionWork->mState != 9) {
                     t = FALSE;
                 }
                 if (t != FALSE) {
@@ -459,7 +459,7 @@ void AdvancePlayerEntryList(void) {
                 s32 d;
 
                 for (i = 0; i < gPlayerEntryList->mPlayerCount; i++) {
-                    if (gConnectionWork->mUnk_0004 == 8 &&
+                    if (gConnectionWork->mState == 8 &&
                         (gConnectionWork->mParticipantMask & (1 << gConnectionWork->mUnk_1e8c[(u16) i])) != 0) {
                         c = gConnectionWork->mUnk_15c8[gConnectionWork->mUnk_1e8c[(u16) i]].mUnk_00[5];
                     } else {

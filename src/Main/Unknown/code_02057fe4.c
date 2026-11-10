@@ -364,7 +364,7 @@ void UpdateMPState8(void) {
 }
 
 void EnterMPState9(void) {
-    gConnectionWork->mUnk_0004 = 10;
+    gConnectionWork->mState = 10;
     gConnectionWork->mUnk_1608.mUnk_16 = 0;
     gConnectionWork->mUnk_162a = 0;
     gConnectionWork->mEntryChunkIndex = 0;
@@ -522,7 +522,7 @@ void UpdateMPState12(void) {
             StartDataSharing();
             break;
         case 0xe:
-            gConnectionWork->mUnk_0004 = 7;
+            gConnectionWork->mState = 7;
             func_020580a4_inline2(5);
             break;
     }

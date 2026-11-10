@@ -42,7 +42,7 @@ void ClearNonParticipantCharacterIndices(void) {
         n = 1;
     } else {
         isEightOrNine = TRUE;
-        if (gConnectionWork->mUnk_0004 != 8 && gConnectionWork->mUnk_0004 != 9) {
+        if (gConnectionWork->mState != 8 && gConnectionWork->mState != 9) {
             isEightOrNine = FALSE;
         }
         n = (u8) (isEightOrNine != FALSE ? CountSetBits(gConnectionWork->mParticipantMask) : 0);
@@ -67,7 +67,7 @@ void ClearNonParticipantKartIndices(void) {
         n = 1;
     } else {
         isEightOrNine = TRUE;
-        if (gConnectionWork->mUnk_0004 != 8 && gConnectionWork->mUnk_0004 != 9) {
+        if (gConnectionWork->mState != 8 && gConnectionWork->mState != 9) {
             isEightOrNine = FALSE;
         }
         n = (u8) (isEightOrNine != FALSE ? CountSetBits(gConnectionWork->mParticipantMask) : 0);
@@ -94,7 +94,7 @@ void FillRandomCharacterIndices(void) {
         n = 1;
     } else {
         isEightOrNine = TRUE;
-        if (gConnectionWork->mUnk_0004 != 8 && gConnectionWork->mUnk_0004 != 9) {
+        if (gConnectionWork->mState != 8 && gConnectionWork->mState != 9) {
             isEightOrNine = FALSE;
         }
         n = (u8) (isEightOrNine != FALSE ? CountSetBits(gConnectionWork->mParticipantMask) : 0);
@@ -120,7 +120,7 @@ void FillRandomKartIndices(void) {
         n = 1;
     } else {
         isEightOrNine = TRUE;
-        if (gConnectionWork->mUnk_0004 != 8 && gConnectionWork->mUnk_0004 != 9) {
+        if (gConnectionWork->mState != 8 && gConnectionWork->mState != 9) {
             isEightOrNine = FALSE;
         }
         n = (u8) (isEightOrNine != FALSE ? CountSetBits(gConnectionWork->mParticipantMask) : 0);

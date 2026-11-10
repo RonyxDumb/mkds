@@ -32,7 +32,7 @@ u16 func_0204ffe8(u32 participantIndex) {
     u32 result;
 
     stateMatches = FALSE;
-    switch (gConnectionWork->mUnk_0004) {
+    switch (gConnectionWork->mState) {
         case 8:
         case 9:
             stateMatches = TRUE;
@@ -50,7 +50,7 @@ BOOL func_0204ffbc(void) {
     BOOL result;
 
     result = FALSE;
-    switch (gConnectionWork->mUnk_0004) {
+    switch (gConnectionWork->mState) {
         case 8:
         case 9:
             result = TRUE;

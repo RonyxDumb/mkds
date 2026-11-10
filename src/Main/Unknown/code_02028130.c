@@ -48,12 +48,12 @@
 
 #pragma optimize_for_size on
 
-u16 func_02028710(InputSlot *a, u32 b) {
-    return a->mPressedBits & b;
+u16 SelectKartGetInputSlotNewBits(InputSlot *inputSlot, u32 mask) {
+    return inputSlot->mPressedBits & mask;
 }
 
-u16 func_020286f4(u32 a, u32 b) {
-    return func_02028710(&gInputSlots[a], b);
+u16 SelectKartGetNewBits(u32 slotIndex, u32 mask) {
+    return SelectKartGetInputSlotNewBits(&gInputSlots[slotIndex], mask);
 }
 
 #pragma thumb on
@@ -103,15 +103,16 @@ int AdvanceSelectKart(void) {
             func_02028fac();
             break;
         case 1:
-            func_02028824(d->mKartIndex | 0x80);
+            SetDataSharingSendByteInState8(d->mKartIndex | 0x80);
             gSelectKart->mResult = 1;
             gSelectKart->mState = 5;
             break;
         case 2:
-            if (func_02028774(t) != 0) {
-                x = IsSelectReturnState2NoState3Or4RequestAndInRect(func_0202874c(t), func_02028724(t));
+            if (SelectKartIsSlotPairNew(t) != 0) {
+                x = IsSelectReturnState2NoState3Or4RequestAndInRect(SelectKartGetSlotPairX(t),
+                                                                    SelectKartGetSlotPairY(t));
             }
-            if (func_020286f4(t, PAD_KEY_A) != 0 || gSelectKart->mTouchRect == 2 || func_02028f84() != 0) {
+            if (SelectKartGetNewBits(t, PAD_KEY_A) != 0 || gSelectKart->mTouchRect == 2 || func_02028f84() != 0) {
                 gSelectKart->mStateFrames = 0;
                 gSelectKart->mResult = 1;
                 gSelectKart->mState = 4;
@@ -120,7 +121,7 @@ int AdvanceSelectKart(void) {
                 StartSeqPair(GetCharacterSeqPairNo(gSelectKart->mCharacterIndex), 1);
                 func_02077f48(1);
                 StopPaletteBlend();
-            } else if (func_020286f4(t, PAD_KEY_B) != 0 || x != 0) {
+            } else if (SelectKartGetNewBits(t, PAD_KEY_B) != 0 || x != 0) {
                 gSelectKart->mStateFrames = 0;
                 gSelectKart->mResult = 2;
                 func_0202941c(0);
@@ -184,7 +185,7 @@ int AdvanceSelectKart(void) {
                         break;
                     case 1:
                         RequestSelectReturnState4();
-                        func_02028824(gSelectKart->mKartIndex | 0x80);
+                        SetDataSharingSendByteInState8(gSelectKart->mKartIndex | 0x80);
                         gSelectKart->mState = 5;
                         break;
                     case 2:

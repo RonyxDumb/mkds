@@ -122,7 +122,7 @@ s32 func_0204dd24(u16 a) {
             StartMP();
             break;
         case 11:
-            g->mUnk_0004 = 6;
+            g->mState = 6;
             func_02059878();
             result = 1;
             break;
@@ -167,9 +167,9 @@ s32 func_0204dc8c(void) {
 
 s32 func_0204db6c(void) {
     BOOL result = FALSE;
-    switch (gConnectionWork->mUnk_0004) {
+    switch (gConnectionWork->mState) {
         case 2:
-            gConnectionWork->mUnk_0004 = 5;
+            gConnectionWork->mState = 5;
             break;
         case 5:
             break;

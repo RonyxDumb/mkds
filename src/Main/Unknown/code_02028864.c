@@ -175,7 +175,7 @@ void InitSelectKart(void *a, s32 b, void *c, void *d) {
     if (func_020280dc() == 0) {
         RequestSelectReturnState1();
     }
-    if (func_0202811c() == 2) {
+    if (SelectKartGetConnectionKind() == 2) {
         SetSelectReturnDisplayBitOn();
     }
     if (gSelectKart->mMode == 0) {

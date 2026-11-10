@@ -165,7 +165,7 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
         case PLAYER_KIND_HUMAN:
             q = gConnectionWork;
             t = FALSE;
-            if ((q == NULL ? 0 : q->mUnk_0000) != 0 && q->mUnk_0004 != 13) {
+            if ((q == NULL ? 0 : q->mUnk_0000) != 0 && q->mState != 13) {
                 t = TRUE;
             }
             if (t == FALSE) {
@@ -394,7 +394,7 @@ void SetCurrentRaceFromNext(void) {
             }
             q = gConnectionWork;
             f = FALSE;
-            if ((q == NULL ? 0 : q->mUnk_0000) != 0 && q->mUnk_0004 != 13) {
+            if ((q == NULL ? 0 : q->mUnk_0000) != 0 && q->mState != 13) {
                 f = TRUE;
             }
             if (f != FALSE) {

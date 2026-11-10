@@ -254,7 +254,7 @@ void StartScanCallback(Unk021425e8 *event) {
                 DC_InvalidateRange(gConnectionWork->mUnk_0028, 0xc0);
                 MI_CpuCopy8(gConnectionWork->mUnk_0028, &scanBuffer, 0xc0);
                 DC_StoreRange(&scanBuffer, 0xc0);
-                if (gConnectionWork->mUnk_0004 == 0xd) {
+                if (gConnectionWork->mState == 0xd) {
                     v = event->mUnk_12;
                     if (func_020204c0(&scanBuffer) != 0) {
                         gConnectionWork->mUnk_1ed0 = 1;
@@ -305,7 +305,7 @@ void StartScanCallback(Unk021425e8 *event) {
                 break;
         }
         connection = gConnectionWork;
-        if ((connection->mUnk_0436 & 1) != 0 && connection->mUnk_0004 != 0xd) {
+        if ((connection->mUnk_0436 & 1) != 0 && connection->mState != 0xd) {
             for (i = 0, e = connection->mUnk_00ac; i < 4; i++, e++) {
                 if (e->mInUse != 0) {
                     e->mAge += 1;
@@ -413,7 +413,7 @@ void StartConnectCallback(Unk021425e8 *event) {
                     } else if (gConnectionWork->mUnk_0450 != 0) {
                         gConnectionWork->mUnk_0450();
                     } else {
-                        switch (gConnectionWork->mUnk_0004) {
+                        switch (gConnectionWork->mState) {
                             case 2:
                             case 3:
                             case 4:
@@ -576,7 +576,7 @@ void SetGameInfo(void) {
     children = &gConnectionWork->mUnk_0044;
     children->mUnk_38->mUnk_0e.mUnk_06_0 = children->mChildCount;
     r = TRUE;
-    if (gConnectionWork->mUnk_0004 != 8 && gConnectionWork->mUnk_0004 != 9) {
+    if (gConnectionWork->mState != 8 && gConnectionWork->mState != 9) {
         r = FALSE;
     }
     if (WM_SetGameInfo(ClearRequestPending, children->mUnk_38, 0x1c, 0x25, gConnectionWork->mParentParameter->mUnk_0c,

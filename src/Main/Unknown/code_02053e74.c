@@ -32,7 +32,7 @@ static inline u32 func_02053e74_inline(void) {
 
 static inline s32 func_02053e74_inline2(void) {
     BOOL r = FALSE;
-    if (func_02053e74_inline() != 0 && gConnectionWork->mUnk_0004 != 13) {
+    if (func_02053e74_inline() != 0 && gConnectionWork->mState != 13) {
         r = TRUE;
     }
     return r;
@@ -124,11 +124,11 @@ s32 AdvanceConnectionSetup(s32 isParent, void *b) {
         case 0:
         case 21:
             gConnectionWork->mUnk_0454 &= ~0x40;
-            gConnectionWork->mUnk_0004 = 1;
+            gConnectionWork->mState = 1;
             Initialize();
             break;
         case 1:
-            gConnectionWork->mUnk_0004 = 11;
+            gConnectionWork->mState = 11;
             if (isParent != 0) {
                 SetLifeTime(0x28);
             } else {
@@ -233,7 +233,7 @@ void func_02054aa0(void) {
     s32 c0;
     s32 c1;
 
-    if (gConnectionWork->mUnk_0004 != 11) {
+    if (gConnectionWork->mState != 11) {
         return;
     }
     if (gConnectionWork->mUnk_000c == 0x2c) {
@@ -315,9 +315,9 @@ BOOL FinishDataSharingSync(void) {
         connection = gConnectionWork;
         if (func_02054754_inline(dataSharing->mUnk_0c) != 0) {
             if ((connection->mUnk_0454 & 8) != 0) {
-                connection->mUnk_0004 = 9;
+                connection->mState = 9;
             } else {
-                connection->mUnk_0004 = 8;
+                connection->mState = 8;
             }
             finished = TRUE;
             gConnectionWork->mUnk_15f4 = 0;
@@ -333,7 +333,7 @@ BOOL FinishDataSharingSync(void) {
 // Starts the wait that FinishDataSharingSync completes; always returns 1.
 s32 StartDataSharingSync(void) {
     if (func_02053e74_inline2()) {
-        gConnectionWork->mUnk_0004 = 7;
+        gConnectionWork->mState = 7;
         gConnectionWork->mUnk_008b &= ~1;
         if (gConnectionWork->mUnk_15ec == 0) {
             gConnectionWork->mUnk_15ec = 1;
@@ -377,7 +377,7 @@ s32 func_0205465c(void) {
 void InitConnection(void *heap) {
     gConnectionWork = HeapAllocAligned(heap, 0x1f00, 0x20);
     gConnectionWork->mUnk_0000 = 0;
-    gConnectionWork->mUnk_0004 = 0;
+    gConnectionWork->mState = 0;
     gConnectionWork->mUnk_0008 = 9;
     gConnectionWork->mUnk_000c = 0;
     gConnectionWork->mRequestPending = 0;

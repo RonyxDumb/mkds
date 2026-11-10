@@ -3,7 +3,7 @@
 #include "Main/Unknown/unk_0217a000.h"
 
 void func_0200104c(void) {
-    gConnectionWork->mUnk_0004 = 2;
+    gConnectionWork->mState = 2;
     gConnectionWork->mUnk_0044.mUnk_3e = 0;
     gConnectionWork->mUnk_008b &= ~8;
 }

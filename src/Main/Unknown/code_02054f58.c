@@ -21,7 +21,7 @@ static inline u32 func_02055030_inline(void) {
 
 static inline s32 func_02055030_inline2(void) {
     BOOL r = FALSE;
-    if (func_02055030_inline() != 0 && gConnectionWork->mUnk_0004 != 13) {
+    if (func_02055030_inline() != 0 && gConnectionWork->mState != 13) {
         r = TRUE;
     }
     return r;
@@ -78,7 +78,7 @@ s32 func_02055564(s32 a) {
             }
             break;
         case 11:
-            gConnectionWork->mUnk_0004 = 6;
+            gConnectionWork->mState = 6;
             func_02059878();
             status = 1;
             break;
@@ -112,14 +112,14 @@ void func_02055340(void) {
     if (!func_02055030_inline2()) {
         return;
     }
-    switch (gConnectionWork->mUnk_0004) {
+    switch (gConnectionWork->mState) {
         case 7:
         case 8:
         case 9:
             if (UpdateDataSharing() == FALSE) {
                 gConnectionWork->mUnk_0454 |= 0x10;
             }
-            if (gConnectionWork->mUnk_0004 != 9) {
+            if (gConnectionWork->mState != 9) {
                 return;
             }
             if (func_02055030_inline() != 1) {
@@ -154,7 +154,7 @@ s32 AdvanceConnectionEnd(void) {
     BOOL finished;
 
     finished = FALSE;
-    if (gConnectionWork->mUnk_0004 == 0) {
+    if (gConnectionWork->mState == 0) {
         gConnectionWork->mUnk_0454 &= ~0x80;
         return 1;
     }
@@ -198,7 +198,7 @@ s32 AdvanceConnectionEnd(void) {
             break;
         case 0:
             ClearParticipantBits();
-            gConnectionWork->mUnk_0004 = 0;
+            gConnectionWork->mState = 0;
             finished = TRUE;
             gConnectionWork->mUnk_0454 &= ~0x80;
             break;

@@ -28,7 +28,7 @@ static inline void func_02058b74_inline(u16 nextState) {
 
 static inline s32 func_02058cac_inline2(void) {
     BOOL r = FALSE;
-    if (func_02058b38_inline() != 0 && gConnectionWork->mUnk_0004 != 13) {
+    if (func_02058b38_inline() != 0 && gConnectionWork->mState != 13) {
         r = TRUE;
     }
     return r;

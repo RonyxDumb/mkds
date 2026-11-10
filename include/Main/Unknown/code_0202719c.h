@@ -2,17 +2,17 @@
 
 #include "types.h"
 
-void func_0202719c(void);
-void func_020271e8(void);
-void func_0202721c(void);
-void func_0202728c(s16 value);
-void func_020272c0(s16 firstValue, s16 secondValue);
-void func_020272ec(void);
-void func_0202734c(s32 value);
+void SetSelectCharacterBracketsMoving(void);
+void MoveSelectCharacterBracketsToRow(void);
+void QueueSelectCharacterNameChars(void);
+void SetSelectCharacterNameOffsetX(s16 offsetX);
+void SetSelectCharacterCellOffsetsY(s16 firstOffsetY, s16 secondOffsetY);
+void SetSelectCharacterBracketsResting(void);
+void SetSelectCharacterRowCellsVisible(s32 visible);
 void StartSelectCharacterReturn(void);
-void func_02027424(s32 mode);
-void func_02027448(void);
-void func_02027648(void);
-void func_02027850(void);
-void func_02027a58(void);
-void func_02027be0(void);
+void StartPlayerEntryListKindIfUsed(s32 kind);
+void SetSelectCharacterKeyTargets12Rows(void);
+void SetSelectCharacterKeyTargets11Rows(void);
+void SetSelectCharacterKeyTargets10Rows(void);
+void SetSelectCharacterKeyTargets9Rows(void);
+void SetSelectCharacterKeyTargets8Rows(void);

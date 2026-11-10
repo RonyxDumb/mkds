@@ -45,7 +45,7 @@ static inline u32 func_0204984c_inline(void) {
 
 static inline s32 func_0204984c_inline2(void) {
     BOOL result = FALSE;
-    if (func_0204984c_inline() != 0 && gConnectionWork->mUnk_0004 != 13) {
+    if (func_0204984c_inline() != 0 && gConnectionWork->mState != 13) {
         result = TRUE;
     }
     return result;

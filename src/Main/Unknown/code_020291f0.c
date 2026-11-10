@@ -98,7 +98,7 @@ void MoveSelectKartPrev(void) {
 u32 func_02029210(InputSlotPair *pair) {
     u32 result;
 
-    if (func_020287ec(pair) != 0 || func_0202881c(pair) != 0) {
+    if (SelectKartIsPairRecentlyLost(pair) != 0 || SelectKartGetPairHasPair(pair) != 0) {
         result = 1;
     } else {
         result = 0;

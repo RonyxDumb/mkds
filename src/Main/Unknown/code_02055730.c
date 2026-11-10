@@ -96,7 +96,7 @@ static inline u32 func_02055808_inline(void) {
 
 static inline s32 func_02055808_inline2(void) {
     BOOL r = FALSE;
-    if (func_02055808_inline() != 0 && gConnectionWork->mUnk_0004 != 13) {
+    if (func_02055808_inline() != 0 && gConnectionWork->mState != 13) {
         r = TRUE;
     }
     return r;
@@ -269,7 +269,7 @@ static inline s32 func_02055b1c_inline(void) {
     } else {
         t = gConnectionWork->mUnk_0000;
     }
-    if (t != 0 && gConnectionWork->mUnk_0004 != 13) {
+    if (t != 0 && gConnectionWork->mState != 13) {
         r = TRUE;
     }
     return r;
@@ -347,7 +347,7 @@ s32 func_02055808(s32 a) {
         case 0:
         case 21:
             gConnectionWork->mUnk_0454 &= ~0x40;
-            gConnectionWork->mUnk_0004 = 1;
+            gConnectionWork->mState = 1;
             Initialize();
             break;
         case 1:
@@ -359,7 +359,7 @@ s32 func_02055808(s32 a) {
                 SetLifeTime(0x14);
             } else {
                 result = TRUE;
-                gConnectionWork->mUnk_0004 = 3;
+                gConnectionWork->mState = 3;
                 StartScan(1, NULL, NULL);
             }
             break;
@@ -378,7 +378,7 @@ s32 func_02055808(s32 a) {
             StartMP();
             break;
         case 11:
-            gConnectionWork->mUnk_0004 = 2;
+            gConnectionWork->mState = 2;
             gConnectionWork->mUnk_0044.mUnk_3e = 0;
             result = TRUE;
             gConnectionWork->mUnk_008b &= ~8;

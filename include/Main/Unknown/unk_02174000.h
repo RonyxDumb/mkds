@@ -4,7 +4,7 @@
 #include "Main/Unknown/unk_02029930.h" // MissionFileRow
 #include "Main/Unknown/code_02025ebc.h" // Interpolation
 #include "Main/Unknown/code_02036588.h" // HeapCall
-#include "Main/Unknown/unk_02153000.h" // Unk021535b4
+#include "Main/Unknown/unk_02153000.h" // SelectCharacterRow
 #include "Main/Unknown/code_020b4000.h" // Ncgr, Nscr, Nclr
 #include "Main/Unknown/code_02124094.h" // LayoutTableEntry, Unk0201ea30
 #include "Main/Unknown/code_020b3f7c.h" // Bmg
@@ -127,7 +127,7 @@ extern HeapCall gRootHeapCall;
 // Object behind gSelectCharacter.
 typedef struct SelectCharacter {
     /* 000 */ CellFileSet mUnk_000;
-    /* 01c */ CellFileSet mUnk_01c;
+    /* 01c */ CellFileSet mSParts;
     /* 038 */ CellFileSet mUnk_038;
     /* 054 */ void *mMainOam;
     /* 058 */ void *mUnk_058;
@@ -145,11 +145,11 @@ typedef struct SelectCharacter {
     // Row to move to on up, down, right and left; 0xffff means stay on the row.
     /* 84 */ s16 mTableIndexByKey[4];
     /* 08c */ s32 mUnk_08c;
-    /* 090 */ Unk021535b4 mUnk_090[12];
+    /* 090 */ SelectCharacterRow mRows[12];
     /* 0f0 */ s32 mCharacterIndex;
     /* 0f4 */ s32 mKartIndex;
     /* f8 */ Interpolation mInterpolations[3];
-    /* 128 */ BOOL mUnk_128;
+    /* 128 */ BOOL mUsePlayerEntryList;
 } SelectCharacter;
 
 extern SelectCharacter *gSelectCharacter;

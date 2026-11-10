@@ -16,7 +16,7 @@
 #include "Main/Unknown/code_0202b604.h"
 #include "Main/Unknown/code_0211d4a8.h"
 
-u32 func_0202811c(void) {
+u32 SelectKartGetConnectionKind(void) {
     return (data_021759d0->mConnectionKind);
 }
 
@@ -39,7 +39,7 @@ u32 func_020280dc(void) {
 
 void ReleaseSelectKart(void) {
     int result;
-    if ((gSelectKart->mResult == 1) && (result = func_0202811c(), result == 2)) {
+    if ((gSelectKart->mResult == 1) && (result = SelectKartGetConnectionKind(), result == 2)) {
         ClearSelectReturnDisplayBitOn();
     }
     result = func_020280dc();

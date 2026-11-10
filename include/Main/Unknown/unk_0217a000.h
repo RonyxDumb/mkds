@@ -595,7 +595,7 @@ typedef struct Unk0217aa00_1658 {
 
 typedef struct ConnectionWork {
     /* 0000 */ u32 mUnk_0000;
-    /* 0004 */ s32 mUnk_0004;
+    /* 0004 */ s32 mState;
     /* 0008 */ s32 mUnk_0008;
     /* 000c */ s32 mUnk_000c;
     /* 0010 */ s32 mRequestPending;
@@ -670,7 +670,7 @@ typedef struct ConnectionWork {
             /* 15f0 */ s32 mUnk_15f0;
             /* 15f4 */ u16 mUnk_15f4;
             /* 15f6 */ u8 mParticipantMask;
-            /* 15f7 */ u8 mUnk_15f7;
+            /* 15f7 */ u8 mDataSharingSendByte;
             /* 15f8 */ u16 mUnk_15f8[7];
             /* 1606 */ u8 mUnk_1606;
             /* 1607 */ u8 mUnk_1607[0x1];

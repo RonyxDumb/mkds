@@ -80,7 +80,7 @@ void LoadWiFiMenuSceneData(void) {
     LoadNcerData(&v.mNcer, FindSceneFile("WiFi_aikotoba_check_m.nce.ncer"));
     LoadNclrData(&v.mNclr, FindSceneFile("WiFi_aikotoba_check_m_o.nclr"));
     LoadSelectCharacterData();
-    func_02027df8();
+    LoadSelectKartData();
     LoadWiFiVSCourseSelectFiles();
     LoadPlayerEntryListFiles();
 }

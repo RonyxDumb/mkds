@@ -316,7 +316,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                     t = q->mUnk_0000;
                 }
                 if (t != 0) {
-                    if (q->mUnk_0004 != 0xd) {
+                    if (q->mState != 0xd) {
                         f = 1;
                     }
                 }

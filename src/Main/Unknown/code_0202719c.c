@@ -14,7 +14,7 @@
 
 #pragma thumb on
 
-void func_02027be0(void) {
+void SetSelectCharacterKeyTargets8Rows(void) {
     SelectCharacter *selectCharacter;
 
     selectCharacter = gSelectCharacter;
@@ -98,7 +98,7 @@ void func_02027be0(void) {
     }
 }
 
-void func_02027a58(void) {
+void SetSelectCharacterKeyTargets9Rows(void) {
     SelectCharacter *selectCharacter;
 
     selectCharacter = gSelectCharacter;
@@ -160,7 +160,7 @@ void func_02027a58(void) {
     }
 }
 
-void func_02027850(void) {
+void SetSelectCharacterKeyTargets10Rows(void) {
     SelectCharacter *selectCharacter;
 
     selectCharacter = gSelectCharacter;
@@ -242,7 +242,7 @@ void func_02027850(void) {
     }
 }
 
-void func_02027648(void) {
+void SetSelectCharacterKeyTargets11Rows(void) {
     SelectCharacter *selectCharacter;
 
     selectCharacter = gSelectCharacter;
@@ -323,7 +323,7 @@ void func_02027648(void) {
     }
 }
 
-void func_02027448(void) {
+void SetSelectCharacterKeyTargets12Rows(void) {
     SelectCharacter *selectCharacter;
 
     selectCharacter = gSelectCharacter;
@@ -403,9 +403,9 @@ void func_02027448(void) {
     }
 }
 
-void func_02027424(s32 mode) {
-    if (gSelectCharacter->mUnk_128 != FALSE) {
-        func_0202b7c0(mode);
+void StartPlayerEntryListKindIfUsed(s32 kind) {
+    if (gSelectCharacter->mUsePlayerEntryList != FALSE) {
+        func_0202b7c0(kind);
     }
 }
 
@@ -414,114 +414,114 @@ void StartSelectCharacterReturn(void) {
     gSelectCharacter->mUnk_08c = 2;
     gSelectCharacter->mUnk_06c = 8;
     RequestSelectReturnState3WithSound(0);
-    func_02027424(3);
+    StartPlayerEntryListKindIfUsed(3);
     SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[0], 2);
     SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], 2);
     SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[2], 2);
     StartKartModelMenuBg0Decrease();
 }
 
-void func_0202734c(s32 value) {
+void SetSelectCharacterRowCellsVisible(s32 visible) {
     SelectCharacter *selectCharacter;
     s32 i;
     CellFileSet *sParts;
 
     selectCharacter = gSelectCharacter;
-    sParts = &selectCharacter->mUnk_01c;
+    sParts = &selectCharacter->mSParts;
     if (gBootInfo->mUnk_00 != 2) {
         for (i = 0; i < gSelectCharacter->mTableRowCount; i++) {
-            sParts->mCellTable[data_usa_02153554[i].mUnk_04].mVisible = value;
-            sParts->mCellTable[data_usa_02153554[i].mUnk_02].mVisible =
-                sParts->mCellTable[data_usa_02153554[i].mUnk_04].mVisible;
-            sParts->mCellTable[data_usa_02153554[i].mUnk_00].mVisible =
-                sParts->mCellTable[data_usa_02153554[i].mUnk_02].mVisible;
+            sParts->mCellTable[gSelectCharacterRowCellIndices[i].mUnk_04].mVisible = visible;
+            sParts->mCellTable[gSelectCharacterRowCellIndices[i].mCharacterCellIndex].mVisible =
+                sParts->mCellTable[gSelectCharacterRowCellIndices[i].mUnk_04].mVisible;
+            sParts->mCellTable[gSelectCharacterRowCellIndices[i].mUnk_00].mVisible =
+                sParts->mCellTable[gSelectCharacterRowCellIndices[i].mCharacterCellIndex].mVisible;
         }
-        sParts->mCellTable[25].mVisible = value;
+        sParts->mCellTable[25].mVisible = visible;
     }
 }
 
-void func_020272ec(void) {
+void SetSelectCharacterBracketsResting(void) {
     s32 i;
     CellFileSet *sParts;
-    Unk02153554 *tableRow;
+    SelectCharacterRowCellIndices *tableRow;
 
     if (gBootInfo->mUnk_00 != 2) {
-        sParts = &gSelectCharacter->mUnk_01c;
+        sParts = &gSelectCharacter->mSParts;
         sParts->mCellTable[24].mVisible = 0;
         sParts->mCellTable[25].mVisible = 1;
-        tableRow = data_usa_02153554;
+        tableRow = gSelectCharacterRowCellIndices;
         for (i = 0; i < 12; i++) {
-            sParts->mCellTable[tableRow->mUnk_02].mOffsetX = 0;
-            sParts->mCellTable[tableRow->mUnk_02].mOffsetY = 0;
+            sParts->mCellTable[tableRow->mCharacterCellIndex].mOffsetX = 0;
+            sParts->mCellTable[tableRow->mCharacterCellIndex].mOffsetY = 0;
             tableRow++;
         }
     }
 }
 
-void func_020272c0(s16 firstValue, s16 secondValue) {
+void SetSelectCharacterCellOffsetsY(s16 firstOffsetY, s16 secondOffsetY) {
     SelectCharacter *selectCharacter;
 
     if (gBootInfo->mUnk_00 != 2) {
         selectCharacter = gSelectCharacter;
-        if (selectCharacter->mUnk_128 == FALSE) {
-            selectCharacter->mUnk_000.mCellTable[0].mOffsetY = firstValue;
-            selectCharacter->mUnk_000.mCellTable[3].mOffsetY = secondValue;
+        if (selectCharacter->mUsePlayerEntryList == FALSE) {
+            selectCharacter->mUnk_000.mCellTable[0].mOffsetY = firstOffsetY;
+            selectCharacter->mUnk_000.mCellTable[3].mOffsetY = secondOffsetY;
         }
     }
 }
 
-void func_0202728c(s16 value) {
+void SetSelectCharacterNameOffsetX(s16 offsetX) {
     SelectCharacter *selectCharacter;
 
     if (gBootInfo->mUnk_00 != 2) {
         selectCharacter = gSelectCharacter;
-        if (selectCharacter->mUnk_128 == FALSE) {
-            selectCharacter->mUnk_000.mCellTable[1].mOffsetX = value;
+        if (selectCharacter->mUsePlayerEntryList == FALSE) {
+            selectCharacter->mUnk_000.mCellTable[1].mOffsetX = offsetX;
             selectCharacter->mUnk_000.mCellTable[2].mOffsetX = selectCharacter->mUnk_000.mCellTable[1].mOffsetX;
         }
     }
 }
 
-void func_0202721c(void) {
+void QueueSelectCharacterNameChars(void) {
     SelectCharacter *selectCharacter;
     CellFileSet *nameParts;
 
     selectCharacter = gSelectCharacter;
-    if (selectCharacter->mUnk_128 == FALSE) {
+    if (selectCharacter->mUsePlayerEntryList == FALSE) {
         nameParts = &selectCharacter->mUnk_038;
-        QueueCellChars(*(s16 *) &selectCharacter->mUnk_090[selectCharacter->mTableIndex].mUnk_04, nameParts->mCells,
-                       selectCharacter->mUnk_038.mChars, nameParts->mCellLayout, 0, 2, selectCharacter->mUnk_000.mCells,
-                       selectCharacter->mUnk_000.mCellLayout);
-        QueueCellChars(*(s16 *) &gSelectCharacter->mUnk_090[gSelectCharacter->mTableIndex].mUnk_04, nameParts->mCells,
-                       selectCharacter->mUnk_038.mChars, nameParts->mCellLayout, 0, 1, selectCharacter->mUnk_000.mCells,
-                       selectCharacter->mUnk_000.mCellLayout);
+        QueueCellChars(*(s16 *) &selectCharacter->mRows[selectCharacter->mTableIndex].mNameLayoutEntryIndex,
+                       nameParts->mCells, selectCharacter->mUnk_038.mChars, nameParts->mCellLayout, 0, 2,
+                       selectCharacter->mUnk_000.mCells, selectCharacter->mUnk_000.mCellLayout);
+        QueueCellChars(*(s16 *) &gSelectCharacter->mRows[gSelectCharacter->mTableIndex].mNameLayoutEntryIndex,
+                       nameParts->mCells, selectCharacter->mUnk_038.mChars, nameParts->mCellLayout, 0, 1,
+                       selectCharacter->mUnk_000.mCells, selectCharacter->mUnk_000.mCellLayout);
     }
 }
 
-void func_020271e8(void) {
+void MoveSelectCharacterBracketsToRow(void) {
     SelectCharacter *selectCharacter;
     CellFileSet *sParts;
     s32 tableIndex;
 
     selectCharacter = gSelectCharacter;
-    sParts = &selectCharacter->mUnk_01c;
+    sParts = &selectCharacter->mSParts;
     tableIndex = selectCharacter->mTableIndex;
-    CopyCellLayoutEntryPosition(0x18, data_usa_02153554[tableIndex].mUnk_00, sParts->mCellLayout);
-    CopyCellLayoutEntryPosition(0x19, data_usa_02153554[tableIndex].mUnk_00, sParts->mCellLayout);
+    CopyCellLayoutEntryPosition(0x18, gSelectCharacterRowCellIndices[tableIndex].mUnk_00, sParts->mCellLayout);
+    CopyCellLayoutEntryPosition(0x19, gSelectCharacterRowCellIndices[tableIndex].mUnk_00, sParts->mCellLayout);
 }
 
-void func_0202719c(void) {
+void SetSelectCharacterBracketsMoving(void) {
     SelectCharacter *selectCharacter;
     CellFileSet *sParts;
-    Unk02153554 *tableRow;
+    SelectCharacterRowCellIndices *tableRow;
 
     selectCharacter = gSelectCharacter;
-    sParts = &selectCharacter->mUnk_01c;
-    tableRow = &data_usa_02153554[selectCharacter->mTableIndex];
+    sParts = &selectCharacter->mSParts;
+    tableRow = &gSelectCharacterRowCellIndices[selectCharacter->mTableIndex];
     sParts->mCellTable[24].mVisible = 1;
     sParts->mCellTable[25].mVisible = 0;
-    sParts->mCellTable[tableRow->mUnk_02].mOffsetX = 1;
-    sParts->mCellTable[tableRow->mUnk_02].mOffsetY = 1;
+    sParts->mCellTable[tableRow->mCharacterCellIndex].mOffsetX = 1;
+    sParts->mCellTable[tableRow->mCharacterCellIndex].mOffsetY = 1;
 }
 
 #pragma thumb off

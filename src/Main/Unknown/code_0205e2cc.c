@@ -233,7 +233,7 @@ void StartCopyOtherEmblems(s32 useConnection) {
         connectionReady = FALSE;
         d = func_0205e5c4_inline();
         if (d != 0) {
-            if (gConnectionWork->mUnk_0004 != 13) {
+            if (gConnectionWork->mState != 13) {
                 connectionReady = TRUE;
             }
         }

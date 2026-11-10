@@ -18,19 +18,19 @@ typedef struct MemberRowCellIndices {
     /* 30 */ u16 mLabelIndex;
 } MemberRowCellIndices;
 
-// 8-byte entries of the table at data_usa_02153554.
-typedef struct Unk02153554 {
+// 8-byte entries of the table at gSelectCharacterRowCellIndices.
+typedef struct SelectCharacterRowCellIndices {
     /* 00 */ s16 mUnk_00;
-    /* 02 */ s16 mUnk_02;
+    /* 02 */ s16 mCharacterCellIndex;
     /* 04 */ s16 mUnk_04;
     /* 06 */ s16 mRectEntryId;
-} Unk02153554;
+} SelectCharacterRowCellIndices;
 
 // 8-byte entries at 0x90 of SelectCharacter, filled from data_021535b4.
-typedef struct Unk021535b4 {
+typedef struct SelectCharacterRow {
     /* 00 */ s32 mCharacterIndex;
-    /* 04 */ s32 mUnk_04;
-} Unk021535b4;
+    /* 04 */ s32 mNameLayoutEntryIndex;
+} SelectCharacterRow;
 
 // 4-byte entries of the table at gSoundRowTable.
 typedef struct SoundRow {
@@ -44,12 +44,12 @@ typedef struct Unk021534bc {
 } Unk021534bc;
 
 extern LabelMessageRow gMemberGroupLabelMessageRows[];
-extern Unk02153554 data_usa_02153554[];
+extern SelectCharacterRowCellIndices gSelectCharacterRowCellIndices[];
 extern Unk021534bc data_021534bc[];
 extern Unk021534bc data_021534dc[];
 extern Unk021534bc data_02153500[];
 extern Unk021534bc data_02153528[];
-extern Unk021535b4 data_021535b4[];
+extern SelectCharacterRow data_021535b4[];
 extern MemberRowCellIndices gMemberRowCellIndices[];
 extern u16 gMemberRowRectIndices[][3];
 

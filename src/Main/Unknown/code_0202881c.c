@@ -2,16 +2,16 @@
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/unk_0217a000.h"
 
-u32 func_02028850(void) {
-    return (gConnectionWork->mUnk_0004);
+u32 GetConnectionState(void) {
+    return (gConnectionWork->mState);
 }
 
-void func_02028824(u8 a) {
-    if (func_02028850() == 8) {
-        gConnectionWork->mUnk_15f7 = a;
+void SetDataSharingSendByteInState8(u8 sendByte) {
+    if (GetConnectionState() == 8) {
+        gConnectionWork->mDataSharingSendByte = sendByte;
     }
 }
 
-u32 func_0202881c(InputSlotPair *a) {
-    return a->mHasPair;
+u32 SelectKartGetPairHasPair(InputSlotPair *inputSlotPair) {
+    return inputSlotPair->mHasPair;
 }

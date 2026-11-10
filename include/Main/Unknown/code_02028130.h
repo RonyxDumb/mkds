@@ -5,5 +5,5 @@
 typedef struct InputSlot InputSlot;
 
 int AdvanceSelectKart(void);
-u16 func_020286f4(u32 a, u32 b);
-u16 func_02028710(InputSlot *a, u32 b);
+u16 SelectKartGetNewBits(u32 slotIndex, u32 mask);
+u16 SelectKartGetInputSlotNewBits(InputSlot *inputSlot, u32 mask);

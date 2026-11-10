@@ -259,7 +259,7 @@ void ScanConnectStateCallback(u32 state) {
             break;
         case 7:
             gConnectionWork->mUnk_169c = 1;
-            gConnectionWork->mUnk_0004 = 6;
+            gConnectionWork->mState = 6;
             break;
         case 4:
             func_02050e60(5);
@@ -277,7 +277,7 @@ s32 func_0204e29c(void) {
     switch (gConnectionWork->mUnk_000c) {
         case 0:
             gConnectionWork->mUnk_0454 |= 0x40;
-            gConnectionWork->mUnk_0004 = 1;
+            gConnectionWork->mState = 1;
             Initialize();
             break;
         case 1:
@@ -302,7 +302,7 @@ s32 func_0204e204(void) {
         switch (gConnectionWork->mUnk_000c) {
             case 0:
                 gConnectionWork->mUnk_0454 |= 0x40;
-                gConnectionWork->mUnk_0004 = 1;
+                gConnectionWork->mState = 1;
                 Initialize();
                 break;
             case 1:
@@ -313,7 +313,7 @@ s32 func_0204e204(void) {
         switch (gConnectionWork->mUnk_000c) {
             case 0:
                 gConnectionWork->mUnk_0454 |= 0x40;
-                gConnectionWork->mUnk_0004 = 1;
+                gConnectionWork->mState = 1;
                 Initialize();
                 break;
             case 1:
@@ -326,7 +326,7 @@ s32 func_0204e204(void) {
         }
     }
     if (stepDone != FALSE) {
-        gConnectionWork->mUnk_0004 = 3;
+        gConnectionWork->mState = 3;
         result = TRUE;
     }
     return result;

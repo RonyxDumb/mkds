@@ -64,7 +64,7 @@ void func_02050080(void) {
     u16 participantCount;
 
     proceed = FALSE;
-    if (func_02050080_inline() != 0 && gConnectionWork->mUnk_0004 != 13) {
+    if (func_02050080_inline() != 0 && gConnectionWork->mState != 13) {
         proceed = TRUE;
     }
     if (proceed == FALSE) {

@@ -5,7 +5,7 @@
 
 #pragma thumb on
 
-void func_02027df8(void) {
+void LoadSelectKartData(void) {
     void *fileData;
     Ncgr *chars;
     Nclr *palette;

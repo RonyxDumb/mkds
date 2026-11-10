@@ -45,7 +45,7 @@ void func_02053d00(void) {
         return;
     }
     gConnectionWork->mUnk_0000 = 0;
-    gConnectionWork->mUnk_0004 = 0;
+    gConnectionWork->mState = 0;
     gConnectionWork->mUnk_0008 = 9;
     gConnectionWork->mUnk_000c = 0;
     gConnectionWork->mRequestPending = 0;
@@ -92,8 +92,8 @@ void StepDataSharing(void) {
 
     GetSceneFrames();
     sendData = gConnectionWork->mUnk_15c4;
-    if (gConnectionWork->mUnk_0004 == 8) {
-        sendData->mUnk_05 = gConnectionWork->mUnk_15f7;
+    if (gConnectionWork->mState == 8) {
+        sendData->mUnk_05 = gConnectionWork->mDataSharingSendByte;
     } else {
         sendData->mUnk_05 = 0;
     }
@@ -103,7 +103,7 @@ void StepDataSharing(void) {
     sendData->mUnk_06_0 = 0;
     sendData->mUnk_07 = 0;
     role = 0;
-    if (gConnectionWork->mUnk_0004 == 9) {
+    if (gConnectionWork->mState == 9) {
         if (gConnectionWork != NULL) {
             role = gConnectionWork->mUnk_0000;
         }
@@ -129,8 +129,8 @@ void StepDataSharing(void) {
     sendData->mUnk_02 = GetPackedTouchPoint();
     result = WM_StepDataSharing(gConnectionWork->mUnk_15bc, sendData, gConnectionWork->mUnk_15c0);
     if (result == 0) {
-        if (gConnectionWork->mUnk_0004 == 8) {
-            gConnectionWork->mUnk_15f7 = 0;
+        if (gConnectionWork->mState == 8) {
+            gConnectionWork->mDataSharingSendByte = 0;
         }
     }
     gConnectionWork->mUnk_15f0 = result;
@@ -168,7 +168,7 @@ BOOL UpdateDataSharing(void) {
             }
             break;
     }
-    switch (gConnectionWork->mUnk_0004) {
+    switch (gConnectionWork->mState) {
         case 8:
             if (dataSharing->mUnk_34 != 0 && dataSharing->mUnk_34 == 5) {
                 return FALSE;
@@ -201,7 +201,7 @@ BOOL UpdateDataSharing(void) {
                 entryIndex = gConnectionWork->mUnk_1e52[i].mEntryIndex;
                 if ((participantMask & bit) != 0 && (m & bit) != 0) {
                     gConnectionWork->mParticipantMask = participantMask & ~bit;
-                    if (gConnectionWork->mUnk_0004 == 9) {
+                    if (gConnectionWork->mState == 9) {
                         RemoveRaceProgressKart(entryIndex);
                     }
                     if ((gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000) == 1) {
@@ -623,7 +623,7 @@ void StartParentCallback(Unk021425e8 *event) {
                 RemoveChild(event->mUnk_10);
                 aid = event->mUnk_10;
                 role = gConnectionWork == NULL ? 0 : gConnectionWork->mUnk_0000;
-                if (role == 1 && gConnectionWork->mUnk_0004 == 9) {
+                if (role == 1 && gConnectionWork->mState == 9) {
                     gConnectionWork->mUnk_1eac[0] |= 1 << aid;
                 }
                 break;

@@ -50,7 +50,7 @@ static inline u32 func_020487fc_inline(void) {
 
 static inline s32 func_020487fc_inline2(void) {
     BOOL r = FALSE;
-    if (func_020487fc_inline() != 0 && gConnectionWork->mUnk_0004 != 13) {
+    if (func_020487fc_inline() != 0 && gConnectionWork->mState != 13) {
         r = TRUE;
     }
     return r;
@@ -136,7 +136,7 @@ static inline u32 func_020487fc_inline8(void) {
 }
 
 static inline BOOL func_020487fc_inline12(void) {
-    return func_020487fc_inline() != 0 && gConnectionWork->mUnk_0004 != 13;
+    return func_020487fc_inline() != 0 && gConnectionWork->mState != 13;
 }
 
 static inline void func_020487fc_inline9(const SceneCallbacks *b) {

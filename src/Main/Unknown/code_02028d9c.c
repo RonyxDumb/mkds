@@ -11,15 +11,15 @@
 #include "code_0214d018.h"
 #include "Main/Unknown/code_02027e78.h"
 
-void *func_02028f08(s32 index, Unk0201ea30 *cellLayout) {
+void *GetCellLayoutEntrySwapped(s32 index, Unk0201ea30 *cellLayout) {
     return func_0201ea30(cellLayout, index);
 }
 
 #pragma thumb on
 
 void SetKartMenuParamElementOffset(s32 elementIndex, s32 endCellIndex, s32 paramValue, CellFileSet *parts) {
-    Unk0201ea84 *startCell = func_02028f08(elementIndex, parts->mCellLayout);
-    Unk0201ea84 *endCell = func_02028f08(endCellIndex, parts->mCellLayout);
+    Unk0201ea84 *startCell = GetCellLayoutEntrySwapped(elementIndex, parts->mCellLayout);
+    Unk0201ea84 *endCell = GetCellLayoutEntrySwapped(endCellIndex, parts->mCellLayout);
     parts->mCellTable[elementIndex].mOffsetX = (100 - paramValue) * (endCell->mUnk_00_0 - startCell->mUnk_00_0) / 100;
 }
 
@@ -55,7 +55,7 @@ void func_02028e00(void *destination, u32 size) {
     func_02028e14(destination, 0, size);
 }
 
-u16 func_02028dd4(void) {
+u16 GetOwnIndexOrZero(void) {
     int index;
     if (gConnectionWork->mUnk_0000 == 2) {
         index = gConnectionWork->mOwnIndex;
@@ -71,7 +71,7 @@ u32 GetParticipantEntryIndex(u32 participantIndex) {
 
 u32 GetOwnEntryIndex(void) {
     u32 value0;
-    value0 = func_02028dd4();
+    value0 = GetOwnIndexOrZero();
     value0 = GetParticipantEntryIndex(value0);
     return value0;
 }

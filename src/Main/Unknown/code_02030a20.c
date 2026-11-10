@@ -878,7 +878,7 @@ s32 func_02030b18(Unk02030b18 *sceneNumbers) {
             }
             y = gMultiSelectMember->mUnk_90;
             if (y == 0) {
-                switch (gConnectionWork->mUnk_0004) {
+                switch (gConnectionWork->mState) {
                     case 7:
                     case 8:
                     case 9:

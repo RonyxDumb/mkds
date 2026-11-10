@@ -324,7 +324,7 @@ void InitRaceProgress(void) {
                     p = gConnectionWork;
                     v = 0;
                     if (func_020401ac_inline(p) != 0) {
-                        if (p->mUnk_0004 != 0xd) {
+                        if (p->mState != 0xd) {
                             v = 1;
                         }
                     }
