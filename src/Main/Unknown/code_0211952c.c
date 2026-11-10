@@ -173,7 +173,7 @@ void RequestSelectCupCourseState5(void) {
             if (gBootInfo->mUnk_00 == 2) {
                 FormatMessageWithText(
                     GetBmgEntry(gSelectCupCourse->mGhostMessages,
-                                data_0215cb3c[data_0215cadc[GetCupIndex()]][gSelectCupCourse->mIndex]),
+                                data_0215cb3c[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex]),
                     GetBmgEntry(gSelectCupCourse->mCommonMessages, 0x8b), messageText, 0x200);
                 SetTxtSystemOpenSoundId(0x23);
                 func_021266e4(messageText);
@@ -219,7 +219,7 @@ void RequestSelectCupCourseState8(void) {
     gSelectCupCourse->mStateFrames = 0;
     if (gSelectCupCourse->mMode == 0) {
         if (gSelectCupCourse->mResult == 1) {
-            if (func_0211e130() != FALSE) {
+            if (HasNoSelectableGhost() != FALSE) {
                 RequestSelectReturnState4();
             }
         }
@@ -243,7 +243,7 @@ void InitSelectCupCourse(void *parentHeap, void *mainOam, void *subOam, s32 mode
     gSelectCupCourse->mHeap = heap;
     gSelectCupCourse->mState = 0;
     gSelectCupCourse->mIndex = data_0215cb7c[GetCourseId()];
-    gSelectCupCourse->mUnk_54 = TRUE;
+    gSelectCupCourse->mHighlightShown = TRUE;
     gSelectCupCourse->mIndexChangeTimer = 0;
     gSelectCupCourse->mMode = mode;
     gSelectCupCourse->mShownIndex = gSelectCupCourse->mIndex;
@@ -306,7 +306,7 @@ void InitSelectCupCourse(void *parentHeap, void *mainOam, void *subOam, s32 mode
 void ReleaseSelectCupCourse(void) {
     if (gSelectCupCourse->mResult == 1) {
         if (gSelectCupCourse->mMode == 0) {
-            if (func_0211e130() != FALSE) {
+            if (HasNoSelectableGhost() != FALSE) {
                 reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | 0x1800;
             }
         } else {

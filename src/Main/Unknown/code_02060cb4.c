@@ -12,7 +12,7 @@
 #include "Main/Unknown/code_02152918.h"
 #include "01/code_021956dc.h"
 #include "code_0214d018.h"
-#include "Main/Unknown/unk_0217a000.h" // Unk0206152c
+#include "Main/Unknown/unk_0217a000.h" // GhostListEntry
 #include "code_021522a0.h"
 #include "code_02152500.h"
 #include "code_021526e4.h"
@@ -22,7 +22,7 @@
 
 void ReadGhostFileRecords(void) {
     u8 i;
-    Unk0206152c *records;
+    GhostListEntry *records;
     char path[0x80];
 
     i = 0;

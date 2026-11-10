@@ -21,7 +21,7 @@
 #include "Main/Unknown/code_02060000.h"
 #include "Main/Unknown/code_0214d000.h"
 #include "Main/Unknown/unk_0217d000.h"
-#include "Main/Unknown/unk_0217a000.h" // GhostRecordHead, Unk0206152c
+#include "Main/Unknown/unk_0217a000.h" // GhostRecordHead, GhostListEntry
 #include "code_0214cfe4.h"
 #include "code_0214d018.h"
 
@@ -61,7 +61,7 @@ void SetupGhostRecordSetForCourse(u32 courseId) {
 
 void GetGhostRecordSetTime(u32 kind, void *time) {
     GhostRecordHead *courseRecords;
-    Unk0206152c *records;
+    GhostListEntry *ghostFileRecords;
 
     switch (kind) {
         case 0:
@@ -72,8 +72,8 @@ void GetGhostRecordSetTime(u32 kind, void *time) {
             GetGhostRecordTime(&gGhostRecordSet->mSlotGhostRecords[(u8) gGhostRecordSet->mSlotIndex].mHead, time);
             break;
         case 2:
-            records = gGhostRecordSet->mGhostFileRecords;
-            GetGhostRecordTime(&records[FindCupCourseIndex(gGhostRecordSet->mCourseId)].mHead, time);
+            ghostFileRecords = gGhostRecordSet->mGhostFileRecords;
+            GetGhostRecordTime(&ghostFileRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)].mHead, time);
             break;
         case 4:
             break;
@@ -82,7 +82,7 @@ void GetGhostRecordSetTime(u32 kind, void *time) {
 
 void GetGhostRecordSetName(u32 kind, void *name) {
     GhostRecordHead *courseRecords;
-    Unk0206152c *records;
+    GhostListEntry *ghostFileRecords;
     u8 ghostName[0x14];
 
     switch (kind) {
@@ -94,8 +94,8 @@ void GetGhostRecordSetName(u32 kind, void *name) {
             GetGhostRecordName(&gGhostRecordSet->mSlotGhostRecords[(u8) gGhostRecordSet->mSlotIndex].mHead, ghostName);
             break;
         case 2:
-            records = gGhostRecordSet->mGhostFileRecords;
-            GetGhostRecordName(&records[FindCupCourseIndex(gGhostRecordSet->mCourseId)].mHead, ghostName);
+            ghostFileRecords = gGhostRecordSet->mGhostFileRecords;
+            GetGhostRecordName(&ghostFileRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)].mHead, ghostName);
             break;
         case 4:
             break;
@@ -106,7 +106,7 @@ void GetGhostRecordSetName(u32 kind, void *name) {
 
 s32 GetGhostRecordSetCharacterIndex(u32 kind) {
     GhostRecordHead *courseRecords;
-    Unk0206152c *records;
+    GhostListEntry *ghostFileRecords;
     s32 characterIndex = -1;
 
     switch (kind) {
@@ -123,9 +123,9 @@ s32 GetGhostRecordSetCharacterIndex(u32 kind) {
                 &gGhostRecordSet->mSlotGhostRecords[(u8) gGhostRecordSet->mSlotIndex].mHead);
             break;
         case 2:
-            records = gGhostRecordSet->mGhostFileRecords;
+            ghostFileRecords = gGhostRecordSet->mGhostFileRecords;
             characterIndex =
-                GetGhostRecordCharacterIndex(&records[FindCupCourseIndex(gGhostRecordSet->mCourseId)].mHead);
+                GetGhostRecordCharacterIndex(&ghostFileRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)].mHead);
             break;
     }
     return characterIndex;
@@ -133,7 +133,7 @@ s32 GetGhostRecordSetCharacterIndex(u32 kind) {
 
 s32 GetGhostRecordSetKartIndex(u32 kind) {
     GhostRecordHead *courseRecords;
-    Unk0206152c *records;
+    GhostListEntry *ghostFileRecords;
     s32 kartIndex = -1;
 
     switch (kind) {
@@ -149,14 +149,15 @@ s32 GetGhostRecordSetKartIndex(u32 kind) {
                 GetGhostRecordKartIndex(&gGhostRecordSet->mSlotGhostRecords[(u8) gGhostRecordSet->mSlotIndex].mHead);
             break;
         case 2:
-            records = gGhostRecordSet->mGhostFileRecords;
-            kartIndex = GetGhostRecordKartIndex(&records[FindCupCourseIndex(gGhostRecordSet->mCourseId)].mHead);
+            ghostFileRecords = gGhostRecordSet->mGhostFileRecords;
+            kartIndex =
+                GetGhostRecordKartIndex(&ghostFileRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)].mHead);
             break;
     }
     return kartIndex;
 }
 
-s32 func_0211e160(u32 kind) {
+BOOL IsGhostRecordSetKindSelectable(u32 kind) {
     s32 result = 0;
     GhostRecordHead *courseRecords;
 
@@ -187,19 +188,19 @@ s32 func_0211e160(u32 kind) {
     return result;
 }
 
-BOOL func_0211e130(void) {
+BOOL HasNoSelectableGhost(void) {
     u32 a = 0;
 
-    a |= func_0211e160(a);
-    a |= func_0211e160(1);
-    a |= func_0211e160(2);
+    a |= IsGhostRecordSetKindSelectable(a);
+    a |= IsGhostRecordSetKindSelectable(1);
+    a |= IsGhostRecordSetKindSelectable(2);
     if (a == 0) {
         return TRUE;
     }
     return FALSE;
 }
 
-void func_0211e0c4(u32 kind) {
+void ReadGhostRecordsForKind(u32 kind) {
     switch (kind) {
         case 4:
             func_02043fb0(gGhostRecordSet->mCourseId);

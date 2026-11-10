@@ -3,11 +3,11 @@
 #include "Main/Unknown/code_020574c8.h"
 #include "Main/Unknown/code_02057800.h"
 #include "01/code_021956dc.h"
-#include "Main/Unknown/unk_0217a000.h" // Unk0206152c
+#include "Main/Unknown/unk_0217a000.h" // GhostListEntry
 
 void ReadSlotGhostRecords(void) {
     u8 i;
-    Unk0206152c *records;
+    GhostListEntry *records;
     GhostRecordHead *record;
 
     records = data_0217aa08->mReadDestination;

@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_0202dd9c.h"
 
 #include "Main/Unknown/unk_02174000.h"
-#include "Main/Unknown/unk_0217a000.h" // GhostRecordHead, Unk0206152c
+#include "Main/Unknown/unk_0217a000.h" // GhostRecordHead, GhostListEntry
 #include "Main/Unknown/code_02025000.h"
 #include "Main/Unknown/code_02025d5c.h"
 #include "Main/Unknown/code_021171a0.h"

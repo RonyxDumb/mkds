@@ -2,9 +2,9 @@
 
 #include "types.h"
 
-void func_0211e0c4(u32 kind);
-BOOL func_0211e130(void);
-s32 func_0211e160(u32 kind);
+void ReadGhostRecordsForKind(u32 kind);
+BOOL HasNoSelectableGhost(void);
+BOOL IsGhostRecordSetKindSelectable(u32 kind);
 s32 GetGhostRecordSetKartIndex(u32 kind);
 s32 GetGhostRecordSetCharacterIndex(u32 kind);
 void GetGhostRecordSetName(u32 kind, void *name);

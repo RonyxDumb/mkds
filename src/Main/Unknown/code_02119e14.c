@@ -94,9 +94,9 @@ void AdvanceSelectRaceRuleState8(void) {
     c = gSelectRaceRule->mBncl->mUnk_06;
     for (i = 0; i < 5; i++) {
         for (j = 0; j < 2; j++) {
-            gSelectRaceRule->mTable[data_0215cd88[i][j]].mOffsetY = rowsOffsetY;
-            gSelectRaceRule->mTable[data_0215cdb0[i][j]].mOffsetY = rowsOffsetY;
-            gSelectRaceRule->mTable[data_0215cdc4[i][j]].mOffsetY = rowsOffsetY;
+            gSelectRaceRule->mTable[gSelectRaceRuleStepCellsHighlighted[i][j]].mOffsetY = rowsOffsetY;
+            gSelectRaceRule->mTable[gSelectRaceRuleStepCellsChanging[i][j]].mOffsetY = rowsOffsetY;
+            gSelectRaceRule->mTable[gSelectRaceRuleStepCellsPlain[i][j]].mOffsetY = rowsOffsetY;
         }
         for (j = 0; j < 2; j++) {
             gSelectRaceRule->mTable[c + gSelectRaceRuleRowEntries[i].mEntryIndices[j]].mOffsetY = rowsOffsetY;
@@ -110,7 +110,7 @@ void AdvanceSelectRaceRuleState8(void) {
     gSelectRaceRule->mTable[38].mOffsetY = rowsOffsetY;
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 2; j++) {
-            gSelectRaceRule->mTable[data_0215ccac[i][j]].mOffsetY = rowsOffsetY;
+            gSelectRaceRule->mTable[gSelectRaceRuleCountTeamChangeCells[i][j]].mOffsetY = rowsOffsetY;
         }
     }
     if (data_021759d0->mConnectionKind != 2) {
@@ -128,7 +128,7 @@ void AdvanceSelectRaceRuleState8(void) {
     }
 }
 
-void func_0211a964(s32 labelIndex) {
+void DrawSelectRaceRuleOffsetLabel(s32 labelIndex) {
     s32 tableIndex;
     tableIndex = gSelectRaceRule->mBncl->mUnk_06 + labelIndex;
     gSelectRaceRule->mTable[tableIndex].mOffsetY++;
@@ -139,17 +139,17 @@ void func_0211a964(s32 labelIndex) {
     SetLabelPaletteIndex(labelIndex, 0, gSelectRaceRule->mBnll, gSelectRaceRule->mTable, gSelectRaceRule->mBncl);
 }
 
-void func_0211a908(s32 row) {
+void DrawSelectRaceRuleRowOffsetLabels(s32 row) {
     if (row == 3) {
         if (data_021759d0->mConnectionKind != 2) {
-            func_0211a964(data_0215cd4e[row * 2]);
+            DrawSelectRaceRuleOffsetLabel(data_0215cd4e[row * 2]);
         }
-        func_0211a964(10);
+        DrawSelectRaceRuleOffsetLabel(10);
     } else if (row == 4) {
-        func_0211a964(data_0215cd4e[row * 2]);
-        func_0211a964(12);
+        DrawSelectRaceRuleOffsetLabel(data_0215cd4e[row * 2]);
+        DrawSelectRaceRuleOffsetLabel(12);
     } else {
-        func_0211a964(data_0215cd4e[row * 2]);
+        DrawSelectRaceRuleOffsetLabel(data_0215cd4e[row * 2]);
     }
 }
 
@@ -211,7 +211,7 @@ s32 AdvanceSelectRaceRule(void) {
     DrawLayoutTable(selectRaceRule->mBncl, selectRaceRule->mNcer, selectRaceRule->mBnll, selectRaceRule->mOamList,
                     selectRaceRule->mTable);
     for (i = 0; i < 5; i++) {
-        func_0211a908(i);
+        DrawSelectRaceRuleRowOffsetLabels(i);
     }
     selectRaceRule = gSelectRaceRule;
     if (selectRaceRule->mState == 8) {
@@ -239,15 +239,15 @@ void LoadSelectCupCourseData(void) {
     Nscr *screenMap = NULL;
     Nclr *bgPalette = NULL;
     if (gBootInfo->mUnk_00 != 2) {
-        LoadNcgrData(&bgChars, FindSceneFile(data_0216d894));
-        LoadNclrData(&bgPalette, FindSceneFile(data_0216d88c));
-        LoadNscrData(&screenMap, FindSceneFile(data_0216d8a4));
-        LoadNcgrData(&bgChars, FindSceneFile(data_0216d87c));
-        LoadNclrData(&bgPalette, FindSceneFile(data_0216d86c));
-        LoadNscrData(&screenMap, FindSceneFile(data_0216d884));
-        LoadNcgrData2(&cellChars, FindSceneFile(data_0216d8a0));
+        LoadNcgrData(&bgChars, FindSceneFile(gSelectCupCourseTaMBNcgrName));
+        LoadNclrData(&bgPalette, FindSceneFile(gSelectCupCourseTaMBNclrName));
+        LoadNscrData(&screenMap, FindSceneFile(gSelectCupCourseTaMNscrName));
+        LoadNcgrData(&bgChars, FindSceneFile(gSelectCupCourseVsMBNcgrName));
+        LoadNclrData(&bgPalette, FindSceneFile(gSelectCupCourseVsMBNclrName));
+        LoadNscrData(&screenMap, FindSceneFile(gSelectCupCourseVsMNscrName));
+        LoadNcgrData2(&cellChars, FindSceneFile(gSelectCupCourseMNcgrName));
         LoadNcerData(&cells, FindSceneFile(data_0216d890));
-        LoadNclrData(&cellPalette, FindSceneFile(data_0216d878));
+        LoadNclrData(&cellPalette, FindSceneFile(gSelectCupCourseMONclrName));
     }
 }
 
@@ -264,17 +264,17 @@ void LocateAndQueueSelectCupCourse(void) {
     Nclr *fixedPalette = NULL;
     u16 *courseCellPaletteData;
     if (gBootInfo->mUnk_00 == 2) {
-        gSelectCupCourse->mSelectCupMBnbl = FindSceneFile(data_0216d864);
+        gSelectCupCourse->mSelectCupMBnbl = FindSceneFile(gSelectCupCourseCupMBnblName);
         return;
     }
     if (gSelectCupCourse->mMode == 0) {
-        LocateNcgr(&modeChars, FindSceneFile(data_0216d894));
-        LocateNclr(&modePalette, FindSceneFile(data_0216d88c));
-        LocateNscr(&modeScreenMap, FindSceneFile(data_0216d8a4));
+        LocateNcgr(&modeChars, FindSceneFile(gSelectCupCourseTaMBNcgrName));
+        LocateNclr(&modePalette, FindSceneFile(gSelectCupCourseTaMBNclrName));
+        LocateNscr(&modeScreenMap, FindSceneFile(gSelectCupCourseTaMNscrName));
     } else {
-        LocateNcgr(&modeChars, FindSceneFile(data_0216d87c));
-        LocateNclr(&modePalette, FindSceneFile(data_0216d86c));
-        LocateNscr(&modeScreenMap, FindSceneFile(data_0216d884));
+        LocateNcgr(&modeChars, FindSceneFile(gSelectCupCourseVsMBNcgrName));
+        LocateNclr(&modePalette, FindSceneFile(gSelectCupCourseVsMBNclrName));
+        LocateNscr(&modeScreenMap, FindSceneFile(gSelectCupCourseVsMNscrName));
     }
     LocateNcgr(&fixedChars, FindSceneFile(data_0216d874));
     LocateNclr(&fixedPalette, FindSceneFile(data_0216d854));
@@ -284,14 +284,14 @@ void LocateAndQueueSelectCupCourse(void) {
         gSelectCupCourse->mSelectCupCourseTaOrVsMBncl = FindSceneFile(data_0216d880);
         gSelectCupCourse->mSelectCupCourseTaOrVsMBnll = FindSceneFile(data_0216d89c);
     } else {
-        gSelectCupCourse->mSelectCupCourseTaOrVsMBncl = FindSceneFile(data_0216d868);
-        gSelectCupCourse->mSelectCupCourseTaOrVsMBnll = FindSceneFile(data_0216d870);
+        gSelectCupCourse->mSelectCupCourseTaOrVsMBncl = FindSceneFile(gSelectCupCourseVsMBnclName);
+        gSelectCupCourse->mSelectCupCourseTaOrVsMBnll = FindSceneFile(gSelectCupCourseVsMBnllName);
     }
-    LocateNcgr2(&courseCellChars, FindSceneFile(data_0216d8a0));
+    LocateNcgr2(&courseCellChars, FindSceneFile(gSelectCupCourseMNcgrName));
     LocateNcer(&gSelectCupCourse->mSelectCupCourseMNcer, FindSceneFile(data_0216d890));
-    LocateNclr(&courseCellPalette, FindSceneFile(data_0216d878));
+    LocateNclr(&courseCellPalette, FindSceneFile(gSelectCupCourseMONclrName));
     gSelectCupCourse->mSelectCupMBncl = FindSceneFile(data_0216d888);
-    gSelectCupCourse->mSelectCupMBnbl = FindSceneFile(data_0216d864);
+    gSelectCupCourse->mSelectCupMBnbl = FindSceneFile(gSelectCupCourseCupMBnblName);
     gSelectCupCourse->mSelectCupMBnll = FindSceneFile(data_0216d860);
     LocateNcgr2(&cupCellChars, FindSceneFile(data_0216d898));
     LocateNcer(&gSelectCupCourse->mSelectCupMNcer, FindSceneFile(data_0216d8a8));
@@ -347,24 +347,24 @@ void SetupSelectCupCourseObjects(void) {
         gSelectCupCourse->mSelectCupMTable[0x14].mVisible = 0;
         gSelectCupCourse->mSelectCupMTable[0x13].mVisible = 1;
         selectCupCourse = gSelectCupCourse;
-        QueueSelectCupNameM(data_0215cadc[GetCupIndex()], selectCupCourse->mSelectCupCourseMNcer,
+        QueueSelectCupNameM(gCupRowsByCupIndex[GetCupIndex()], selectCupCourse->mSelectCupCourseMNcer,
                             selectCupCourse->mSelectCupCourseTaOrVsMBncl, 0, 0);
         selectCupCourse = gSelectCupCourse;
-        QueueSelectCupNameM(data_0215cadc[GetCupIndex()], selectCupCourse->mSelectCupMNcer,
+        QueueSelectCupNameM(gCupRowsByCupIndex[GetCupIndex()], selectCupCourse->mSelectCupMNcer,
                             selectCupCourse->mSelectCupMBncl, 0x13, 1);
         selectCupCourse = gSelectCupCourse;
         i = GetCupIndex();
-        QueueCupMark(data_0215cadc[i], selectCupCourse->mSelectCupCourseMNcer,
+        QueueCupMark(gCupRowsByCupIndex[i], selectCupCourse->mSelectCupCourseMNcer,
                      selectCupCourse->mSelectCupCourseTaOrVsMBncl, 5,
                      GetCellPaletteIndex(5, selectCupCourse->mSelectCupCourseMNcer,
                                          selectCupCourse->mSelectCupCourseTaOrVsMBncl),
                      0);
         for (i = 0; i < 4; i++) {
             selectCupCourse = gSelectCupCourse;
-            func_0212426c(
-                1, gSelectCupCourseLabelIndices[i], gSelectCupCourse->mSelectCupMBnll,
-                GetBmgEntry(gSelectCupCourse->mCommonMessages, data_0215cafc[data_0215cadc[GetCupIndex()]][i]),
-                selectCupCourse->mSelectCupMBncl, selectCupCourse->mSelectCupMTable);
+            func_0212426c(1, gSelectCupCourseLabelIndices[i], gSelectCupCourse->mSelectCupMBnll,
+                          GetBmgEntry(gSelectCupCourse->mCommonMessages,
+                                      gCupCourseNameMessageIndices[gCupRowsByCupIndex[GetCupIndex()]][i]),
+                          selectCupCourse->mSelectCupMBncl, selectCupCourse->mSelectCupMTable);
         }
         selectCupCourse = gSelectCupCourse;
         func_0212426c(0, 2, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll,
@@ -400,7 +400,7 @@ void AdvanceSelectCupCourseHighlight(void) {
     s32 i;
     if (gBootInfo->mUnk_00 != 2) {
         for (i = 0; i < 4; i++) {
-            if (gSelectCupCourse->mIndex == i && gSelectCupCourse->mUnk_54 != FALSE) {
+            if (gSelectCupCourse->mIndex == i && gSelectCupCourse->mHighlightShown != FALSE) {
                 gSelectCupCourse->mSelectCupMTable[gSelectCupCourseLabelCells[i]].mVisible = 1;
                 SetLabelPaletteIndex(gSelectCupCourseLabelIndices[i], 0xe, gSelectCupCourse->mSelectCupMBnll,
                                      gSelectCupCourse->mSelectCupMTable, gSelectCupCourse->mSelectCupMBncl);
@@ -419,17 +419,20 @@ void RefreshSelectCupCourseForIndex(void) {
     u8 timeText[0x24];
     if (gBootInfo->mUnk_00 != 2) {
         selectCupCourse = gSelectCupCourse;
-        func_0212426c(0, 0, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll,
-                      GetBmgEntry(gSelectCupCourse->mCommonMessages,
-                                  data_0215cafc[data_0215cadc[GetCupIndex()]][selectCupCourse->mIndex]),
-                      selectCupCourse->mSelectCupCourseTaOrVsMBncl, selectCupCourse->mSelectCupCourseTaOrVsMTable);
+        func_0212426c(
+            0, 0, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll,
+            GetBmgEntry(gSelectCupCourse->mCommonMessages,
+                        gCupCourseNameMessageIndices[gCupRowsByCupIndex[GetCupIndex()]][selectCupCourse->mIndex]),
+            selectCupCourse->mSelectCupCourseTaOrVsMBncl, selectCupCourse->mSelectCupCourseTaOrVsMTable);
         selectCupCourse = gSelectCupCourse;
-        func_0212426c(0, 1, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll,
-                      GetBmgEntry(gSelectCupCourse->mCommonMessages,
-                                  data_0215cafc[data_0215cadc[GetCupIndex()]][selectCupCourse->mIndex]),
-                      selectCupCourse->mSelectCupCourseTaOrVsMBncl, selectCupCourse->mSelectCupCourseTaOrVsMTable);
-        if (IsTimeRecordFilled(data_0215cbec[data_0215cadc[GetCupIndex()]][gSelectCupCourse->mIndex], 0)) {
-            GetTimeRecordTime(data_0215cbec[data_0215cadc[GetCupIndex()]][gSelectCupCourse->mIndex], 0, &recordTime);
+        func_0212426c(
+            0, 1, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll,
+            GetBmgEntry(gSelectCupCourse->mCommonMessages,
+                        gCupCourseNameMessageIndices[gCupRowsByCupIndex[GetCupIndex()]][selectCupCourse->mIndex]),
+            selectCupCourse->mSelectCupCourseTaOrVsMBncl, selectCupCourse->mSelectCupCourseTaOrVsMTable);
+        if (IsTimeRecordFilled(data_0215cbec[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex], 0)) {
+            GetTimeRecordTime(data_0215cbec[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex], 0,
+                              &recordTime);
             FormatTimeFullWidth(&recordTime, timeText);
             selectCupCourse = gSelectCupCourse;
             func_02124224(0, 3, selectCupCourse->mSelectCupCourseTaOrVsMBnll, timeText,
@@ -437,12 +440,13 @@ void RefreshSelectCupCourseForIndex(void) {
                           9);
         } else {
             selectCupCourse = gSelectCupCourse;
-            func_02124224(0, 3, selectCupCourse->mSelectCupCourseTaOrVsMBnll, data_0216dbac,
+            func_02124224(0, 3, selectCupCourse->mSelectCupCourseTaOrVsMBnll, gNoRecordTimeFullWidth,
                           selectCupCourse->mSelectCupCourseTaOrVsMBncl, selectCupCourse->mSelectCupCourseTaOrVsMTable,
                           9);
         }
-        if (IsTimeRecordFilled(data_0215cbec[data_0215cadc[GetCupIndex()]][gSelectCupCourse->mIndex], 5)) {
-            GetTimeRecordTime(data_0215cbec[data_0215cadc[GetCupIndex()]][gSelectCupCourse->mIndex], 5, &recordTime);
+        if (IsTimeRecordFilled(data_0215cbec[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex], 5)) {
+            GetTimeRecordTime(data_0215cbec[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex], 5,
+                              &recordTime);
             FormatTimeFullWidth(&recordTime, timeText);
             selectCupCourse = gSelectCupCourse;
             func_02124224(0, 5, selectCupCourse->mSelectCupCourseTaOrVsMBnll, timeText,
@@ -450,22 +454,22 @@ void RefreshSelectCupCourseForIndex(void) {
                           9);
         } else {
             selectCupCourse = gSelectCupCourse;
-            func_02124224(0, 5, selectCupCourse->mSelectCupCourseTaOrVsMBnll, data_0216dbc0,
+            func_02124224(0, 5, selectCupCourse->mSelectCupCourseTaOrVsMBnll, gNoRecordTimeAscii,
                           selectCupCourse->mSelectCupCourseTaOrVsMBncl, selectCupCourse->mSelectCupCourseTaOrVsMTable,
                           9);
         }
-        TrySetCupPictureIndexAndQueueLoads(data_0215cbec[data_0215cadc[GetCupIndex()]][gSelectCupCourse->mIndex]);
+        TrySetCupPictureIndexAndQueueLoads(data_0215cbec[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex]);
         gSelectCupCourse->mCupPicturePending = TRUE;
     }
 }
 
 void SetCourseIdFromSelectCupCourse(void) {
-    SetCourseId(data_0215cbec[data_0215cadc[GetCupIndex()]][gSelectCupCourse->mIndex]);
+    SetCourseId(data_0215cbec[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex]);
 }
 
-void func_02119e14(void) {
-    SetupGhostRecordSetForCourse(data_0215cbec[data_0215cadc[GetCupIndex()]][gSelectCupCourse->mIndex]);
-    func_0202949c(0);
+void SetupGhostRecordSetForCupCourse(void) {
+    SetupGhostRecordSetForCourse(data_0215cbec[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex]);
+    SetRaceSetupCopyGhostRecordIndex(0);
 }
 
 #pragma thumb off

@@ -5,7 +5,7 @@
 #include "Main/Unknown/code_020578fc.h"
 #include "Main/Unknown/code_02061654.h"
 #include "Main/Unknown/unk_02174000.h"
-#include "Main/Unknown/unk_0217a000.h" // GhostRecordHead, Unk0206152c
+#include "Main/Unknown/unk_0217a000.h" // GhostRecordHead, GhostListEntry
 
 #pragma opt_arithtransformation off
 
@@ -75,7 +75,7 @@ u32 GetListedGhostKartIndex(u32 index) {
 }
 
 u32 GetListedGhostCourseId(u32 index) {
-    Unk0206152c *slotRecords;
+    GhostListEntry *slotRecords;
     if (IsSlotGhostIndex(index) == 0) {
         return func_0202e43c(gGhostScene->mCupCourseIndices[index]);
     }

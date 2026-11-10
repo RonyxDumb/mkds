@@ -16,7 +16,7 @@
 typedef struct GhostRecord GhostRecord;
 typedef struct SlotGhostRecord SlotGhostRecord;
 typedef struct GhostRecordHead GhostRecordHead;
-typedef struct Unk0206152c Unk0206152c;
+typedef struct GhostListEntry GhostListEntry;
 
 // Screen kinds of the player entry list (SetupPlayerEntryList's second argument, PlayerEntryList.mScreenKind).
 #define PLAYER_ENTRY_LIST_CHARACTER 0
@@ -30,7 +30,7 @@ typedef struct RaceSetupCopyEntry {
     /* 04 */ s32 mKartIndex;
     /* 08 */ s32 mPlayerKind;
     /* 0c */ s32 mTeamIndex;
-    /* 10 */ s32 mUnk_10;
+    /* 10 */ s32 mListedCpuSlot;
     // 1 where the entry's kart index is stored, 0 where the entry is cleared and on copy-in.
     /* 14 */ s32 mUnk_14;
 } RaceSetupCopyEntry;
@@ -309,7 +309,7 @@ typedef struct GhostScene {
     // 0x30 bytes per cup position.
     /* 8bc */ GhostRecordHead *mCourseGhostRecords;
     // 0x230 bytes per slot.
-    /* 8c0 */ Unk0206152c *mSlotGhostRecords;
+    /* 8c0 */ GhostListEntry *mSlotGhostRecords;
     /* 8c4 */ GhostSceneCallbacks *mCurrentCallbacks;
     /* 8c8 */ s32 mRequestedCallbacksIndex;
     /* 8cc */ s32 mCurrentCallbacksIndex;

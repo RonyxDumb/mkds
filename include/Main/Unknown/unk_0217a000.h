@@ -164,11 +164,11 @@ typedef struct GhostRecordHead {
     };
 } GhostRecordHead;
 
-// A slot ghost's list entry: its head and the emblem; 0x230 bytes per slot.
-typedef struct Unk0206152c {
+// One entry of the slot ghost list and of the ghost file list: its head and the emblem; 0x230 bytes each.
+typedef struct GhostListEntry {
     /* 000 */ GhostRecordHead mHead;
     /* 030 */ u8 mEmblem[0x200];
-} Unk0206152c;
+} GhostListEntry;
 
 // The 0xe00 bytes behind member 0x14 of Unk0217aa08.
 typedef struct GhostRecord {

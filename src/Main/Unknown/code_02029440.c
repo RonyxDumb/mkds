@@ -135,8 +135,8 @@ void SetPlayerKind(u16 entryIndex, u32 playerKind) {
     gRaceSetupCopy->mEntries[entryIndex].mPlayerKind = playerKind;
 }
 
-void func_020294c0(u16 entryIndex, u32 b) {
-    gRaceSetupCopy->mEntries[entryIndex].mUnk_10 = b;
+void SetListedCpuSlot(u16 entryIndex, u32 b) {
+    gRaceSetupCopy->mEntries[entryIndex].mListedCpuSlot = b;
 }
 
 void func_020294ac(u16 entryIndex, u32 b) {
@@ -147,7 +147,7 @@ void func_020294ac(u16 entryIndex, u32 b) {
 
 #pragma thumb on
 
-void func_0202949c(u32 p0) {
+void SetRaceSetupCopyGhostRecordIndex(u32 p0) {
     gRaceSetupCopy->mGhostRecordIndex = p0;
 }
 

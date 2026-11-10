@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-#include "Main/Unknown/code_0206152c.h" // Unk0206152c
+#include "Main/Unknown/code_0206152c.h" // GhostListEntry
 
-Unk0206152c *CreateGhostFileRecords(void *heap);
+GhostListEntry *CreateGhostFileRecords(void *heap);

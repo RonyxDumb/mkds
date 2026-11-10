@@ -211,7 +211,7 @@ void func_ov001_02185828(void) {
 void UpdateTimeAttackSelectCupCourse(void) {
     switch (AdvanceSelectCupCourse()) {
         case 1:
-            if (func_0211e130()) {
+            if (HasNoSelectableGhost()) {
                 SwitchMenuScreen(0x1d, 0x1f);
             } else {
                 SwitchMenuScreen(SCREEN_SELECT_GHOST, 0x1f);

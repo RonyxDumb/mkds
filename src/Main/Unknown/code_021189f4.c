@@ -96,7 +96,7 @@ void AdvanceSelectCupCourseState3(void) {
     if ((u32) touchedRectIndex <= 3) {
         courseIndex = gSelectCupCourseRectCourseIndices[touchedRectIndex];
         if (gSelectCupCourse->mIndex == courseIndex) {
-            gSelectCupCourse->mUnk_54 = FALSE;
+            gSelectCupCourse->mHighlightShown = FALSE;
         }
         gSelectCupCourse->mIndex = courseIndex;
         RequestSelectCupCourseState4();
@@ -108,7 +108,7 @@ void AdvanceSelectCupCourseState3(void) {
     }
     if ((u16) (gInputSlots[inputIndex].mPressedBits & PAD_KEY_A) != 0) {
         RequestSelectCupCourseState4();
-        gSelectCupCourse->mUnk_54 = FALSE;
+        gSelectCupCourse->mHighlightShown = FALSE;
         return;
     }
     if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
@@ -135,15 +135,15 @@ void AdvanceSelectCupCourseState3(void) {
 void AdvanceSelectCupCourseState4(void) {
     AdvanceSelectCupCourseIndexChange();
     if (gSelectCupCourse->mStateFrames == 5) {
-        gSelectCupCourse->mUnk_54 = TRUE;
+        gSelectCupCourse->mHighlightShown = TRUE;
     }
     gSelectCupCourse->mStateFrames++;
     if (gSelectCupCourse->mStateFrames >= 10) {
         if (IsSelectCupCourseIndexChangeRunning() == 0) {
             if (gSelectCupCourse->mMode == 0) {
-                func_02119e14();
-                if (func_0211e130() != FALSE) {
-                    func_0211e0c4(0);
+                SetupGhostRecordSetForCupCourse();
+                if (HasNoSelectableGhost() != FALSE) {
+                    ReadGhostRecordsForKind(0);
                     RequestSelectCupCourseState5();
                     return;
                 }
@@ -256,7 +256,7 @@ void AdvanceSelectCupCourseState8(void) {
     }
     if (gSelectCupCourse->mMode == 0) {
         if (gSelectCupCourse->mResult == 1) {
-            if (func_0211e130() != FALSE) {
+            if (HasNoSelectableGhost() != FALSE) {
                 movesTaOrVsCells = TRUE;
             } else {
                 movesTaOrVsCells = FALSE;

@@ -31,7 +31,7 @@ void ResetRaceSetupCopy(void) {
         gRaceSetupCopy->mEntries[entryIndex].mKartIndex = -1;
         gRaceSetupCopy->mEntries[entryIndex].mPlayerKind = 4;
         gRaceSetupCopy->mEntries[entryIndex].mTeamIndex = -1;
-        gRaceSetupCopy->mEntries[entryIndex].mUnk_10 = 3;
+        gRaceSetupCopy->mEntries[entryIndex].mListedCpuSlot = 3;
     }
     gRaceSetupCopy->mMissionTableRow = 1;
     gRaceSetupCopy->mMissionTableColumn = 1;

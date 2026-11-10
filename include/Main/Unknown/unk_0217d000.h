@@ -305,7 +305,7 @@ typedef struct SelectCupCourse {
     /* 4c */ u8 mUnk_4c[4];
     /* 50 */ s16 mIndex; /* 0..3 position among the four courses of the cup: the course is data_0215cbec[row][mIndex] */
     /* 52 */ u8 mUnk_52[2];
-    /* 54 */ BOOL mUnk_54;
+    /* 54 */ BOOL mHighlightShown;
     // Counts 7 down to 0 after mIndex changed: AdvanceSelectCupCourseIndexChange sets 7 when mIndex differs from
     // mShownIndex, rebuilds the page through RefreshSelectCupCourseForIndex at 7 and moves the objects while it runs;
     // IsSelectCupCourseIndexChangeRunning tells whether it is non-zero.
@@ -350,9 +350,9 @@ typedef struct SelectRaceRule {
     // Set to 6 when the row's value is stepped ([row][0] down, [row][1] up), counted down each step; moves the row's
     // pair of objects.
     /* 3c */ s16 mRowChangeTimers[5][2];
-    // Same shape for row 3 ([0][0] count down, [0][1] count up) and row 4 ([1][0] and [1][1] by the team a player lands
-    // in).
-    /* 50 */ s16 mUnk_50[2][2];
+    // Same shape for the row 3 count ([0][0] down, [0][1] up) and the row 4 teams ([1][0] and [1][1] by the team a
+    // player lands in).
+    /* 50 */ s16 mCountTeamChangeTimers[2][2];
     // Vertical shift in lines of the whole layout, 0 or -0x1c by mode; added to the positions of the objects and taken
     // off the touch y.
     /* 58 */ s16 mOffsetY;
@@ -369,9 +369,9 @@ typedef struct SelectRaceRule {
     /* 7c */ s32 mOnButton;
     // mOnButton at the start of the step.
     /* 80 */ s32 mPrevOnButton;
-    // Set to 0 when the button is pressed while it is already highlighted, back to 1 five calls into state 4; decides
-    // which of the button's two objects shows.
-    /* 84 */ u32 mUnk_84;
+    // 0 while the pressed button is drawn plain, back to 1 five calls into state 4.
+    // Decides which of the button's two objects shows.
+    /* 84 */ u32 mButtonHighlightShown;
     // Count of the win option of row 3, kept from 1 to 10.
     /* 88 */ s16 mWinCount;
     // Count of the race option of row 3, kept from 1 to 0x20.
@@ -382,7 +382,7 @@ typedef struct SelectRaceRule {
     /* ac */ u16 mTeamHumanCounts[2];
     // Per team: how many of the entries after the first ones are in it; counted into a team's size only while row 1 is
     // not 0.
-    /* b0 */ u16 mUnk_b0[2];
+    /* b0 */ u16 mTeamNonHumanCounts[2];
     /* b4 */ void *mOamList;
     // Result AdvanceSelectRaceRule returns in state 8 once the state has run 10 calls: 1 or 2; 0 until set.
     /* b8 */ vu32 mResult;
@@ -434,8 +434,8 @@ typedef struct SeqQueue {
 // Object behind gGhostRecordSet, allocated by InitGhostRecordSet.
 typedef struct GhostRecordSet {
     /* 00 */ struct GhostRecordHead *mCourseGhostRecords;
-    /* 04 */ struct Unk0206152c *mSlotGhostRecords;
-    /* 08 */ struct Unk0206152c *mGhostFileRecords;
+    /* 04 */ struct GhostListEntry *mSlotGhostRecords;
+    /* 08 */ struct GhostListEntry *mGhostFileRecords;
     /* 0c */ u32 mCourseId;
     /* 10 */ s16 mSlotIndex;
 } GhostRecordSet;

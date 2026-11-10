@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk0206152c Unk0206152c;
+typedef struct GhostListEntry GhostListEntry;
 
-Unk0206152c *CreateSlotGhostRecords(void *heap);
+GhostListEntry *CreateSlotGhostRecords(void *heap);

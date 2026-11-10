@@ -258,7 +258,7 @@ void func_ov001_0219c058(void) {
     if (gSelectGhost->mIndex >= 4) {
         gSelectGhost->mIndex = 0;
     }
-    if (func_0211e160(data_ov001_021a6b78[gSelectGhost->mIndex]) == 0) {
+    if (IsGhostRecordSetKindSelectable(data_ov001_021a6b78[gSelectGhost->mIndex]) == 0) {
         ok = FALSE;
         func_ov001_0219c058();
     }
@@ -275,7 +275,7 @@ void func_ov001_0219bff4(void) {
     if (gSelectGhost->mIndex < 0) {
         gSelectGhost->mIndex = 3;
     }
-    if (func_0211e160(data_ov001_021a6b78[gSelectGhost->mIndex]) == 0) {
+    if (IsGhostRecordSetKindSelectable(data_ov001_021a6b78[gSelectGhost->mIndex]) == 0) {
         ok = FALSE;
         func_ov001_0219bff4();
     }
@@ -287,8 +287,8 @@ void func_ov001_0219bff4(void) {
 }
 
 void func_ov001_0219bfc0(void) {
-    func_0202949c(data_ov001_021a6b78[gSelectGhost->mIndex]);
-    func_0211e0c4(data_ov001_021a6b78[gSelectGhost->mIndex]);
+    SetRaceSetupCopyGhostRecordIndex(data_ov001_021a6b78[gSelectGhost->mIndex]);
+    ReadGhostRecordsForKind(data_ov001_021a6b78[gSelectGhost->mIndex]);
 }
 
 void func_ov001_0219be5c(void) {
@@ -395,7 +395,7 @@ void InitSelectGhost(void *a, u32 b, u32 c) {
     func_ov001_0219be5c();
     ResetSelectGhost();
     for (i = 3; i >= 0; i--) {
-        if (func_0211e160(data_ov001_021a6b78[i]) != 0) {
+        if (IsGhostRecordSetKindSelectable(data_ov001_021a6b78[i]) != 0) {
             gSelectGhost->mIndex = i;
             break;
         }

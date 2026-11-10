@@ -17,7 +17,7 @@ void SetNextRaceEntriesFromRaceSetupCopy(void) {
             teamIndex = GetRaceSetupCopy()->mUseTeams != 0 ? GetRaceSetupCopy()->mEntries[i].mTeamIndex : -1;
             SetNextRaceEntry(i, GetRaceSetupCopy()->mEntries[i].mCharacterIndex,
                              GetRaceSetupCopy()->mEntries[i].mKartIndex, GetRaceSetupCopy()->mEntries[i].mPlayerKind,
-                             teamIndex, GetRaceSetupCopy()->mEntries[i].mUnk_10);
+                             teamIndex, GetRaceSetupCopy()->mEntries[i].mListedCpuSlot);
         }
     }
 }

@@ -50,7 +50,7 @@ void CopyCurrentToRaceSetupCopy(void) {
         } else {
             GetRaceSetupCopy()->mEntries[i].mTeamIndex = -1;
         }
-        GetRaceSetupCopy()->mEntries[i].mUnk_10 = GetCurrentListedCpuSlot(i);
+        GetRaceSetupCopy()->mEntries[i].mListedCpuSlot = GetCurrentListedCpuSlot(i);
         GetRaceSetupCopy()->mEntries[i].mUnk_14 = 0;
     }
     GetRaceSetupCopy()->mCupIndex = GetCurrentCupIndex();
