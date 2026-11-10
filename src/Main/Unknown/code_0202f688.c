@@ -373,7 +373,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
             }
             if (gMultiSelectMemberGroup->mBg3OffsetFrames == 0) {
                 RequestSelectReturnState1();
-                func_02126638(GetBmgEntry(gMultiSelectMemberGroup->mBannerMessages, 7), 0, 0, 1, 0, 0, 0);
+                SetupTxtSystemMainTextEx(GetBmgEntry(gMultiSelectMemberGroup->mBannerMessages, 7), 0, 0, 1, 0, 0, 0);
             }
             gMultiSelectMemberGroup->mBg3OffsetFrames++;
             if (gMultiSelectMemberGroup->mBg3OffsetFrames < 10) {

@@ -167,7 +167,7 @@ void EnterDramState5(Dram *dram) {
     dram->mAngleRemaining = 0x1999 - angle % 0x1999;
 }
 
-// Asks for state 1 once mUnk_bc has run out.
+// Asks for state 1 once mAngleRemaining has run out.
 void UpdateDramState5(Dram *dram) {
     dram->mAngleX += 0x96;
     dram->mAngleRemaining -= 0x96;

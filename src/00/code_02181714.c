@@ -288,7 +288,7 @@ void AdvanceWiFiTopMenuState5(void) {
             if (gWiFiTopMenu->mPendingWiFiState == 8 && func_ov000_02181df0() == 0) {
                 gWiFiTopMenu->mNextState = 8;
                 gWiFiTopMenu->mPendingWiFiState = -1;
-                func_021266e4(GetBmgEntry(gWiFiTopMenu->mWiFiMessages, 0x12));
+                SetupTxtSystemMainText(GetBmgEntry(gWiFiTopMenu->mWiFiMessages, 0x12));
                 gWiFiTopMenu->mStateFrames = 0;
                 SetSelectReturnSoundId(0xe);
                 return;

@@ -43,7 +43,7 @@ void LoadTxtSystemAndSelectChoisesAndSelectReturnData(void) {
     }
 }
 
-void func_02125ba4(void) {
+void InitBackScreenDisplay(void) {
     u32 mainDisplayBits;
     u32 subDisplayBits;
 
@@ -89,7 +89,7 @@ s32 LoadBackScreen(s32 subCharOffset) {
         LoadNscrData(&nscrS, FindSceneFile("common/select_race_rule_download_bg_s.NSCR"));
         nclrS = nclrM;
     } else {
-        if (data_0215d038[indexM] != 0) {
+        if (gBackScreenInLoadedArchives[indexM] != 0) {
             LoadNcgrData(&ncgrM, FindFileInLoadedArchives(gBackScreenMNcgrNames[indexM]));
             LoadNscrData(&nscrM, FindFileInLoadedArchives(gBackScreenMNscrNames[indexM]));
             LoadNclrData(&nclrM, FindFileInLoadedArchives(gBackScreenMNclrNames[indexM]));
@@ -98,7 +98,7 @@ s32 LoadBackScreen(s32 subCharOffset) {
             LoadNscrData(&nscrM, FindSceneFile(gBackScreenMNscrNames[indexM]));
             LoadNclrData(&nclrM, FindSceneFile(gBackScreenMNclrNames[indexM]));
         }
-        if (data_0215d038[indexS] != 0) {
+        if (gBackScreenInLoadedArchives[indexS] != 0) {
             LoadNcgrData(&ncgrS, FindFileInLoadedArchives(gBackScreenSNcgrNames[indexS]));
             LoadNscrData(&nscrS, FindFileInLoadedArchives(gBackScreenSNscrNames[indexS]));
             LoadNclrData(&nclrS, FindFileInLoadedArchives(gBackScreenSNclrNames[indexS]));

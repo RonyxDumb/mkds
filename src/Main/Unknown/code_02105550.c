@@ -1364,7 +1364,7 @@ void UpdateSceneSoundState(void) {
                 UpdateRaceSounds();
                 break;
             case RACE_KIND_START_GP:
-            case 4:
+            case RACE_KIND_START_BATTLE:
                 UpdateCourseSeqAtSceneFrames();
                 break;
         }

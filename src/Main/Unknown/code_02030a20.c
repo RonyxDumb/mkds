@@ -531,7 +531,7 @@ void func_0203147c(void *parentHeap, void *mainOam, void *subOam) {
         GetBmgEntry(gMultiSelectMember->mBannerMessages, data_usa_02153d7c[8].mMessageIndex), subFileSet->mCellLayout,
         subFileSet->mCellTable);
     data_021759d0->mConnectionKind = 1;
-    func_02126638(GetBmgEntry(gMultiSelectMember->mBannerMessages, 9), 0, 0, 1, 0, 0, 0);
+    SetupTxtSystemMainTextEx(GetBmgEntry(gMultiSelectMember->mBannerMessages, 9), 0, 0, 1, 0, 0, 0);
     subFileSet->mCellTable[0x11].mVisible = 0;
     subFileSet->mCellTable[0x10].mVisible = subFileSet->mCellTable[0x11].mVisible;
     SetSelectReturnSoundId(-1);
@@ -568,7 +568,7 @@ void func_02031280(void *parentHeap, void *mainOam, void *subOam) {
     if (gMultiSelectMember->mUnk_84 != 0) {
         SetupTxtSystemSubTextEx(bannerMessage, 0, 0, 1, 0, 1);
     } else {
-        func_02126638(bannerMessage, 0, 0, 1, 0, 0, 0);
+        SetupTxtSystemMainTextEx(bannerMessage, 0, 0, 1, 0, 0, 0);
     }
     if (gMultiSelectMember->mUnk_84 != 0) {
         n0 = mainFileSet->mLabelLayout->mUnk_06;

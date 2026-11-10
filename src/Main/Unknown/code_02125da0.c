@@ -23,7 +23,7 @@ void InitSceneText(void *heap, SceneTextInitParams *config) {
     gSceneText->mSubCharOffset = 0x5800;
     gSceneText->mUseTxtSystem = FALSE;
     gSceneText->mUseSelectChoises = FALSE;
-    gSceneText->mUnk_08 = FALSE;
+    gSceneText->mUseSelectReturn = FALSE;
     if (config->mUseTxtSystem != FALSE) {
         txtConfig.mFont = (u32) config->mTxtSystemFont;
         txtConfig.mUseCanvas1 = config->mUseCanvas1;
@@ -38,12 +38,12 @@ void InitSceneText(void *heap, SceneTextInitParams *config) {
         gSceneText->mSubCharOffset = InitSelectChoises(heap, config->mSelectChoisesFont, gSceneText->mSubCharOffset);
     }
     if (config->mUseSelectReturn != FALSE) {
-        gSceneText->mUnk_08 = TRUE;
+        gSceneText->mUseSelectReturn = TRUE;
         gSceneText->mSubCharOffset = InitSelectReturn(heap, gSceneText->mSubCharOffset);
     }
     if (config->mUseBackScreen != FALSE) {
         gSceneText->mBackScreenKind = config->mBackScreenKind;
-        func_02125ba4();
+        InitBackScreenDisplay();
         gSceneText->mSubCharOffset = LoadBackScreen(gSceneText->mSubCharOffset);
     }
 }
@@ -59,7 +59,7 @@ void ReleaseSceneText(void) {
     if (gSceneText->mUseSelectChoises != FALSE) {
         ClearSelectChoisesPointer();
     }
-    if (gSceneText->mUnk_08 != FALSE) {
+    if (gSceneText->mUseSelectReturn != FALSE) {
         ClearSelectReturnPointer();
     }
     *&gSceneText = NULL;

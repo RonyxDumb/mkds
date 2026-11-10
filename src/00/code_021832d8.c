@@ -167,9 +167,9 @@ void InitWiFiVSMatching(void *a) {
     }
     func_ov000_021845ac();
     if (func_ov000_02180644() != 0) {
-        func_02126638(GetBmgEntry(gWiFiVSMatching->mWiFiMessages, 12), 0, 0, 1, 0, 1, 0);
+        SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiVSMatching->mWiFiMessages, 12), 0, 0, 1, 0, 1, 0);
     } else {
-        func_02126638(GetBmgEntry(gWiFiVSMatching->mWiFiMessages, 8), 0, 0, 1, 0, 1, 0);
+        SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiVSMatching->mWiFiMessages, 8), 0, 0, 1, 0, 1, 0);
     }
     gWiFiVSMatching->mBlendFrames = 0;
 }
@@ -290,7 +290,7 @@ void AdvanceWiFiVSMatchingState1(void) {
     if (gWiFiVSMatching->mUnk_3c != FALSE) {
         if (IsWiFiMatchingBeforeTimeLimit() == FALSE) {
             gWiFiVSMatching->mUnk_3c = FALSE;
-            func_02126638(GetBmgEntry(gWiFiVSMatching->mWiFiMessages, 12), 0, 0, 1, 0, 1, 0);
+            SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiVSMatching->mWiFiMessages, 12), 0, 0, 1, 0, 1, 0);
         }
     }
     if (IsTxtSystemState2NoCloseRequest() != 0 && IsSelectReturnState2NoState3Or4Request() != 0 &&
@@ -459,7 +459,7 @@ void AdvanceWiFiVSMatchingState2(void) {
                     ->mWiFiVSMatchingTable[data_ov000_021b0660[i] + gWiFiVSMatching->mWiFiVSMatchingBncl->mUnk_06]
                     .mVisible = 0;
             }
-            func_02126638(GetBmgEntry(gWiFiVSMatching->mWiFiMessages, 11), 0, 0, 1, 0, 0, 0);
+            SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiVSMatching->mWiFiMessages, 11), 0, 0, 1, 0, 0, 0);
             gWiFiVSMatching->mNextState = 3;
             gWiFiVSMatching->mUnk_08 = 0;
         }
@@ -572,7 +572,7 @@ void AdvanceWiFiVSMatchingState9(void) {
     InputSlotIndex idx = UNK_02175628_INDEX_8;
 
     if (IsTxtSystemState0NoOpenRequest() != 0) {
-        func_02126638(GetBmgEntry(gWiFiVSMatching->mWiFiMessages, 13), 0, 0, 1, 0, 0, 0);
+        SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiVSMatching->mWiFiMessages, 13), 0, 0, 1, 0, 0, 0);
     }
     if (IsTxtSystemState2NoCloseRequest() != 0) {
         if ((u16) (gInputSlots[idx].mPressedBits & PAD_KEY_B) == 0) {

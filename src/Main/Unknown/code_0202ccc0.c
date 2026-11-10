@@ -186,7 +186,7 @@ void PrintSelectedGhostSendRecord(void) {
 void func_0202d674(void) {
     void *text;
     text = GetBmgEntry(gTimeAttackGhostSend->mGhostMessages, 0);
-    func_0212658c(text, 0, 0, 0, 0, 0, 0);
+    SetupTxtSystemMainTextShort(text, 0, 0, 0, 0, 0, 0);
 }
 
 #pragma thumb off

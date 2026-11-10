@@ -171,7 +171,7 @@ void LocateAndQueueWiFiVSSetting(void) {
 void func_ov000_02182de8(void) {
     void *v1;
     v1 = GetBmgEntry(gWiFiVSSetting->mWiFiMessages, 0);
-    func_02126638(v1, 0, 0, 1, 0, 0, 0);
+    SetupTxtSystemMainTextEx(v1, 0, 0, 1, 0, 0, 0);
 }
 
 void AdvanceWiFiVSSettingState0(void) {
@@ -181,7 +181,7 @@ void AdvanceWiFiVSSettingState0(void) {
     if (AreBrightnessFadesClear() != 0) {
         if (IsWiFiConnectionLost() != 0) {
             gWiFiVSSetting->mNextState = 1;
-            func_02126638(GetBmgEntry(gWiFiVSSetting->mWiFiMessages, 0x1b), 0, 0, 1, 0, 0, 0);
+            SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiVSSetting->mWiFiMessages, 0x1b), 0, 0, 1, 0, 0, 0);
             ResetWiFiConnectionLost();
             WriteChangedWiFiBuddies();
             return;
@@ -425,7 +425,7 @@ void AdvanceWiFiVSSettingState6(void) {
         if (gWiFiVSSetting->mPendingWiFiState == 14 && func_ov000_021832f0() == FALSE) {
             gWiFiVSSetting->mNextState = 7;
             gWiFiVSSetting->mPendingWiFiState = -1;
-            func_021266e4(GetBmgEntry(gWiFiVSSetting->mCommonMessages, 0x76));
+            SetupTxtSystemMainText(GetBmgEntry(gWiFiVSSetting->mCommonMessages, 0x76));
             gWiFiVSSetting->mStateFrames = 0;
             return;
         }
@@ -433,7 +433,7 @@ void AdvanceWiFiVSSettingState6(void) {
             func_ov000_021832f0() == FALSE) {
             gWiFiVSSetting->mNextState = 8;
             gWiFiVSSetting->mPendingWiFiState = -1;
-            func_021266e4(GetBmgEntry(gWiFiVSSetting->mWiFiMessages, 14));
+            SetupTxtSystemMainText(GetBmgEntry(gWiFiVSSetting->mWiFiMessages, 14));
             gWiFiVSSetting->mStateFrames = 0;
             return;
         }
@@ -541,7 +541,7 @@ void AdvanceWiFiVSSettingState9(void) {
     if (IsTxtSystemState0NoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
             gWiFiVSSetting->mNextState = 10;
-            func_02126638(GetBmgEntry(gWiFiVSSetting->mWiFiMessages, 0x18), 1, 1, 1, 0, 1, 0);
+            SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiVSSetting->mWiFiMessages, 0x18), 1, 1, 1, 0, 1, 0);
             return;
         }
         gWiFiVSSetting->mNextState = 2;

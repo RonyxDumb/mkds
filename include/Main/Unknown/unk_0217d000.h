@@ -482,13 +482,13 @@ typedef struct RecordList {
 typedef struct SceneText {
     /* 000 */ BOOL mUseTxtSystem;
     /* 004 */ BOOL mUseSelectChoises;
-    /* 008 */ BOOL mUnk_08;
+    /* 008 */ BOOL mUseSelectReturn;
     /* 00c */ s32 mBackScreenKind;
     /* 010 */ u16 mBackScreenSNscrCopy[0x400];
     /* 810 */ s32 mSubCharOffset;
 } SceneText;
 
-// Objects of 0x10 bytes passed first to func_0212583c; member 0x00 points to one Unk02023374.
+// Objects of 0x10 bytes passed first to DrawTextInRectNoFixedAdvance; member 0x00 points to one Unk02023374.
 typedef struct Unk0217d3f0_2178 {
     /* 00 */ Unk02023374 *mUnk_00;
     /* 04 */ u32 mUnk_04;
@@ -534,8 +534,8 @@ typedef struct TxtSystem {
     /* 2204 */ u32 mCanvasInUse[7];
     /* 2220 */ u32 mCanvasFileCharIndex[7];
     /* 223c */ u32 mB01CharIndex[2];
-    /* 2244 */ u16 mUnk_2244;
-    /* 2246 */ u16 mUnk_2246;
+    /* 2244 */ u16 mUnselectedButtonColor;
+    /* 2246 */ u16 mSelectedButtonColor;
     /* 2248 */ u32 mMode;
     /* 224c */ u32 mInputAccepted;
     /* 2250 */ s32 mInputSoundId;

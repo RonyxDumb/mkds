@@ -79,7 +79,7 @@ void InitWiFiAikotobaCheck(void *a) {
     gWiFiAikotobaCheck->mOffset = 0x50;
     func_ov000_021854f8();
     func_ov000_021856a8();
-    func_02126638(GetBmgEntry(gWiFiAikotobaCheck->mWiFiMessages, 0x11), 0, 1, 0, 0, 0, 0);
+    SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiAikotobaCheck->mWiFiMessages, 0x11), 0, 1, 0, 0, 0, 0);
 }
 
 void func_ov000_021855f8(void) {

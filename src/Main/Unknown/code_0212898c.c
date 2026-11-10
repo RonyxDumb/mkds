@@ -415,7 +415,7 @@ void func_02129c18(void) {
 void AdvanceKeyboardState0(void) {
     if (AreBrightnessFadesClear() != 0) {
         gKeyboard->mNextState = 1;
-        func_02126638(GetBmgEntry(gKeyboard->mCommonMessages, 7), 0, 0, 0, 0, 0, 0);
+        SetupTxtSystemMainTextEx(GetBmgEntry(gKeyboard->mCommonMessages, 7), 0, 0, 0, 0, 0, 0);
     }
 }
 
@@ -533,7 +533,7 @@ void AdvanceKeyboardState3(void) {
                     return;
                 default:
                     gKeyboard->mNextState = 6;
-                    func_02126638(GetBmgEntry(gKeyboard->mCommonMessages, 8), 0, 0, 0, 0, 0, 0);
+                    SetupTxtSystemMainTextEx(GetBmgEntry(gKeyboard->mCommonMessages, 8), 0, 0, 0, 0, 0, 0);
                     gKeyboard->mStateFrames = 0;
                     gKeyboard->mKind = 1;
                     if (data_021759d0->mRegion == 0) {
@@ -563,7 +563,7 @@ void AdvanceKeyboardState4(void) {
     keyboard = gKeyboard;
     if (keyboard->mStateFrames >= 0x78) {
         keyboard->mNextState = 1;
-        func_02126638(GetBmgEntry(gKeyboard->mCommonMessages, 7), 0, 0, 0, 0, 0, 0);
+        SetupTxtSystemMainTextEx(GetBmgEntry(gKeyboard->mCommonMessages, 7), 0, 0, 0, 0, 0, 0);
         gKeyboard->mStateFrames = 0;
     }
 }
@@ -571,7 +571,7 @@ void AdvanceKeyboardState4(void) {
 void AdvanceKeyboardState5(void) {
     if (AreBrightnessFadesClear() != 0) {
         gKeyboard->mNextState = 6;
-        func_02126638(GetBmgEntry(gKeyboard->mCommonMessages, 0xf), 0, 0, 0, 0, 0, 0);
+        SetupTxtSystemMainTextEx(GetBmgEntry(gKeyboard->mCommonMessages, 0xf), 0, 0, 0, 0, 0, 0);
         gKeyboard->mUnk_2c[2].mUnk_10 = 1;
     }
 }
@@ -787,7 +787,7 @@ void AdvanceKeyboardState8(void) {
             SetKeyboardTextFromFriendKey();
             gKeyboard->mNextState = 1;
             gKeyboard->mStateFrames = 0;
-            func_02126638(GetBmgEntry(gKeyboard->mCommonMessages, 7), 0, 0, 0, 0, 0, 0);
+            SetupTxtSystemMainTextEx(GetBmgEntry(gKeyboard->mCommonMessages, 7), 0, 0, 0, 0, 0, 0);
         } else {
             keyboard->mUnk_2c[2].mNextScene = 7;
         }
@@ -851,7 +851,7 @@ void AdvanceKeyboardState10(void) {
             gKeyboard->mNextState = 6;
             gKeyboard->mUnk_2c[2].mUnk_10 = 0;
             gKeyboard->mStateFrames = 0;
-            func_02126638(GetBmgEntry(gKeyboard->mCommonMessages, 0xf), 0, 0, 0, 0, 0, 0);
+            SetupTxtSystemMainTextEx(GetBmgEntry(gKeyboard->mCommonMessages, 0xf), 0, 0, 0, 0, 0, 0);
         }
     } else {
         if (GetTxtSystemDone() != 0 || IsTxtSystemState0NoOpenRequest() != 0) {

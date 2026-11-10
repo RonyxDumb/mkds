@@ -768,8 +768,8 @@ void StartSelectChoises(void *firstText, void *secondText, s32 startOnSecond) {
     charCanvas->mUnk_18(charCanvas, 5);
     charCanvas = &gSelectChoises->mCharCanvases[1];
     charCanvas->mUnk_18(charCanvas, 5);
-    func_0212583c(&gSelectChoises->mUnk_874[0], 0x28, 0, 0xd8, 0x10, 0xc, 0x480, 1, firstText);
-    func_0212583c(&gSelectChoises->mUnk_874[1], 0x28, 0, 0xd8, 0x10, 0xc, 0x480, 1, secondText);
+    DrawTextInRectNoFixedAdvance(&gSelectChoises->mUnk_874[0], 0x28, 0, 0xd8, 0x10, 0xc, 0x480, 1, firstText);
+    DrawTextInRectNoFixedAdvance(&gSelectChoises->mUnk_874[1], 0x28, 0, 0xd8, 0x10, 0xc, 0x480, 1, secondText);
     ClearSelectChoisesUseCharBuffers();
     gSelectChoises->mUseCharBuffers = 1;
     RequestSelectChoisesState1();

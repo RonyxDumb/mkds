@@ -176,7 +176,7 @@ void RequestSelectCupCourseState5(void) {
                                 data_0215cb3c[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex]),
                     GetBmgEntry(gSelectCupCourse->mCommonMessages, 0x8b), messageText, 0x200);
                 SetTxtSystemOpenSoundId(0x23);
-                func_021266e4(messageText);
+                SetupTxtSystemMainText(messageText);
             }
             break;
     }

@@ -22,7 +22,7 @@ typedef struct CellLayoutEntry {
     /* 04 */ u32 mCellIndex;
 } CellLayoutEntry;
 
-// 0x24 bytes at member 0x20 of LabelCanvas (func_02125808 takes its address).
+// 0x24 bytes at member 0x20 of LabelCanvas (DrawTextInRectFixedAdvance takes its address).
 typedef struct LabelTextCanvas {
     /* 00 */ Unk02023374 *mCharCanvas;
     /* 04 */ struct Unk02022aa8 *mFont;

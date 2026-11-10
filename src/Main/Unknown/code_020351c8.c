@@ -110,7 +110,7 @@ void func_02035c14(void) {
     void *message;
     message = GetBmgEntry(data_02174e68->mGhostMessages, 3);
     SetTxtSystemBgOffsetRequested(0xfffffff4, 0);
-    func_02126638(message, 0, 0, 0, 0, 0, 0);
+    SetupTxtSystemMainTextEx(message, 0, 0, 0, 0, 0, 0);
 }
 
 #pragma thumb off
@@ -441,7 +441,7 @@ void func_020353a4(void) {
 void func_02035378(void) {
     void *message;
     message = GetBmgEntry(data_02174e64->mGhostMessages, 1);
-    func_0212658c(message, 0, 0, 0, 0, 0, 0);
+    SetupTxtSystemMainTextShort(message, 0, 0, 0, 0, 0, 0);
 }
 
 #pragma thumb off

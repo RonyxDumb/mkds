@@ -29,7 +29,7 @@ extern u16 gTrophyIconBnclIndices[];
 extern u8 data_0215d024[];
 extern u8 gBackScreenSNclrStarts[];
 extern u8 gBackScreenMNclrStarts[];
-extern u8 data_0215d038[];
+extern u8 gBackScreenInLoadedArchives[];
 extern u8 gBackScreenKindMIndices[];
 extern u8 gBackScreenKindSIndices[];
 extern s8 data_0215d0c0[];

@@ -435,8 +435,8 @@ void PrintLabelLayoutText(s32 queueSelector, s32 labelIndex, Unk0201ea30 *labelL
         offsetY = alignedHeight - canvasHeight;
     }
     canvas->mCharCanvas.mUnk_18(&canvas->mCharCanvas, 0);
-    func_02125808(&canvas->mTextCanvas, offsetX, offsetY, canvasWidth, canvasHeight, labelEntry->mColor, flags,
-                  labelEntry->mAxisX.mUnk_00_14, text, fixedDigitsOnly, fixedAdvance);
+    DrawTextInRectFixedAdvance(&canvas->mTextCanvas, offsetX, offsetY, canvasWidth, canvasHeight, labelEntry->mColor,
+                               flags, labelEntry->mAxisX.mUnk_00_14, text, fixedDigitsOnly, fixedAdvance);
     chars = canvas->mTextCanvas.mCharBuffer;
     destOffset = canvas->mTextCanvas.mCharIndex << 5;
     charBytes = canvas->mTextCanvas.mCharBytes;

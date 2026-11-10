@@ -28,8 +28,8 @@ void ReleaseLoadedSoundSet(void) {
     ReleaseSoundSet(GetLoadedSoundSet());
 }
 
-// Loads wave archives 0 and 0x50 (taken from archives 0x61 and 0x62 when b is set), assigns bank 0's wave archives to
-// it, then loads group a.
+// Loads wave archives 0 and 0x50 (taken from archives 0x61 and 0x62 when moveWaveArcs is set), assigns bank 0's wave
+// archives to it, then loads group groupId.
 u32 LoadSndGroupWithWaveArcs(u32 groupId, u32 moveWaveArcs) {
     NNSSndArcBankInfo *bankInfo;
     NNSSndArcWaveArcInfo *waveArcInfo;
@@ -121,7 +121,8 @@ u32 LoadSndGroupWithWaveArcs(u32 groupId, u32 moveWaveArcs) {
     return 1;
 }
 
-// Releases the loaded set and loads v unless it is empty or already loaded; d adds extra wave archives for some sets.
+// Releases the loaded set and loads soundSet unless it is empty or already loaded; loadExtras adds extra wave archives
+// for some sets.
 u32 LoadSoundSetIfChanged(SoundSet soundSet, u32 loadExtras) {
     SndFileIdList *fileIdList;
     u32 loaded;

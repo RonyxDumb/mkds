@@ -13,7 +13,7 @@ void AdvanceSceneText(void) {
     if (gSceneText->mUseSelectChoises != FALSE) {
         AdvanceSelectChoises();
     }
-    if (gSceneText->mUnk_08 != FALSE) {
+    if (gSceneText->mUseSelectReturn != FALSE) {
         AdvanceSelectReturn();
     }
 }
@@ -25,7 +25,7 @@ void WriteSceneTextRegisters(void) {
     if (gSceneText->mUseSelectChoises != FALSE) {
         WriteSelectChoisesRegisters();
     }
-    if (gSceneText->mUnk_08 != FALSE) {
+    if (gSceneText->mUseSelectReturn != FALSE) {
         WriteSelectReturnRegisters();
     }
 }

@@ -19,54 +19,56 @@
 #pragma thumb on
 
 void DrawTextInRect(LabelTextCanvas *textCanvas, s32 left, s32 top, s32 width, s32 height, s32 color, s32 alignFlags,
-                    s32 lineAlign, void *text, s32 fixedDigitsOnly, s8 fixedAdvance, s32 l) {
+                    s32 lineAlign, void *text, s32 fixedDigitsOnly, s8 fixedAdvance, s32 colorZeroIsTwo) {
     s32 maxWidth;
     s32 textHeight;
     s32 lineWidths[20];
     u16 expandedText[500];
 
-    func_021253f8(textCanvas, &maxWidth, lineWidths, &textHeight, text, expandedText, fixedDigitsOnly,
-                  (s32) fixedAdvance);
+    MeasureAndExpandText(textCanvas, &maxWidth, lineWidths, &textHeight, text, expandedText, fixedDigitsOnly,
+                         (s32) fixedAdvance);
     DrawTextLines(textCanvas, maxWidth, lineWidths, textHeight, left, top, width, height, color, alignFlags, lineAlign,
-                  expandedText, fixedDigitsOnly, fixedAdvance, l);
+                  expandedText, fixedDigitsOnly, fixedAdvance, colorZeroIsTwo);
 }
 
-void func_0212583c(void *textCanvas, u32 left, u32 top, u32 width, u32 height, u32 color, u32 alignFlags, u32 lineAlign,
-                   void *text) {
+void DrawTextInRectNoFixedAdvance(void *textCanvas, u32 left, u32 top, u32 width, u32 height, u32 color, u32 alignFlags,
+                                  u32 lineAlign, void *text) {
     DrawTextInRect(textCanvas, left, top, width, height, color, alignFlags, lineAlign, text, 0, -1, 0);
 }
 
-void func_02125808(LabelTextCanvas *textCanvas, s32 left, s32 top, s32 width, s32 height, u32 color, u32 alignFlags,
-                   u32 lineAlign, void *text, s32 fixedDigitsOnly, s8 fixedAdvance) {
+void DrawTextInRectFixedAdvance(LabelTextCanvas *textCanvas, s32 left, s32 top, s32 width, s32 height, u32 color,
+                                u32 alignFlags, u32 lineAlign, void *text, s32 fixedDigitsOnly, s8 fixedAdvance) {
     DrawTextInRect(textCanvas, left, top, width, height, color, alignFlags, lineAlign, text, fixedDigitsOnly,
                    fixedAdvance, 0);
 }
 
-void func_021257d8(void *textCanvas, u32 left, u32 top, u32 width, u32 height, u32 color, u32 alignFlags, u32 lineAlign,
-                   void *text) {
+// Like DrawTextInRectNoFixedAdvance, but colour tag 0 gives colour 2; used for button text.
+void DrawButtonTextInRect(void *textCanvas, u32 left, u32 top, u32 width, u32 height, u32 color, u32 alignFlags,
+                          u32 lineAlign, void *text) {
     DrawTextInRect(textCanvas, left, top, width, height, color, alignFlags, lineAlign, text, 0, -1, 1);
 }
 
-void func_021253f8(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineWidths, s32 *textHeight, void *text,
-                   u16 *expandedText, s32 fixedDigitsOnly, s32 fixedAdvance) {
+// Measures every line and copies the text with each name tag written out as characters.
+void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineWidths, s32 *textHeight, void *text,
+                          u16 *expandedText, s32 fixedDigitsOnly, s32 fixedAdvance) {
     s32 lineHeight;
     s32 charSpacing;
     s32 lineIndex;
     s32 tagSize;
-    s32 n1;
-    s32 n2;
+    s32 playerNameCharCount;
+    s32 ownerTextCharCount;
     s32 fixedAdvanceWithSpacing;
-    s32 i2;
-    s32 i1;
+    s32 ownerTextIndex;
+    s32 playerNameIndex;
     u8 *readPointer;
-    u16 buf1[10];
-    u16 buf2[10];
+    u16 playerNameChars[10];
+    u16 ownerTextChars[10];
     Unk02022aa8 *font;
     u16 charCode;
     s32 variant;
     s32 r7;
     u32 glyphIndex;
-    u16 ch;
+    u16 tagTextChar;
     NNSG2dCharWidths *charWidths;
     s32 *lineWidthPointer;
     u16 *writePointer;
@@ -95,13 +97,14 @@ void func_021253f8(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineWidths, 
                         switch (variant) {
                             case 0:
                                 for (r7 = 0; r7 < 10; r7++) {
-                                    ch = ((u16 *) data_0217aa08->mFirstBlock->mPlayerName)[r7];
-                                    if (ch == 0) {
+                                    tagTextChar = ((u16 *) data_0217aa08->mFirstBlock->mPlayerName)[r7];
+                                    if (tagTextChar == 0) {
                                         r7 = 10;
                                     } else {
-                                        *writePointer++ = ch;
-                                        if (fixedAdvance == -1 || (fixedDigitsOnly != 0 && !func_021253f8_inline(ch))) {
-                                            glyphIndex = NNS_G2dFontFindGlyphIndex(font, ch);
+                                        *writePointer++ = tagTextChar;
+                                        if (fixedAdvance == -1 ||
+                                            (fixedDigitsOnly != 0 && !IsDigitOrDash(tagTextChar))) {
+                                            glyphIndex = NNS_G2dFontFindGlyphIndex(font, tagTextChar);
                                             if (glyphIndex == 0xffff) {
                                                 glyphIndex = font->mUnk_00->mUnk_02;
                                             }
@@ -114,12 +117,13 @@ void func_021253f8(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineWidths, 
                                 }
                                 break;
                             case 1:
-                                n1 = CopyTextWithinWidth((u16 *) data_0217aa08->mFirstBlock->mPlayerName, buf1);
-                                for (i1 = 0; i1 < n1; i1++) {
-                                    *writePointer++ = buf1[i1];
+                                playerNameCharCount = CopyTextWithinWidth(
+                                    (u16 *) data_0217aa08->mFirstBlock->mPlayerName, playerNameChars);
+                                for (playerNameIndex = 0; playerNameIndex < playerNameCharCount; playerNameIndex++) {
+                                    *writePointer++ = playerNameChars[playerNameIndex];
                                     if (fixedAdvance == -1 ||
-                                        (fixedDigitsOnly != 0 && !func_021253f8_inline(buf1[i1]))) {
-                                        glyphIndex = NNS_G2dFontFindGlyphIndex(font, buf1[i1]);
+                                        (fixedDigitsOnly != 0 && !IsDigitOrDash(playerNameChars[playerNameIndex]))) {
+                                        glyphIndex = NNS_G2dFontFindGlyphIndex(font, playerNameChars[playerNameIndex]);
                                         if (glyphIndex == 0xffff) {
                                             glyphIndex = font->mUnk_00->mUnk_02;
                                         }
@@ -131,13 +135,14 @@ void func_021253f8(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineWidths, 
                                 }
                             case 10:
                                 for (r7 = 0; r7 < 10; r7++) {
-                                    ch = ((u16 *) data_021759d0->mOwnerText)[r7];
-                                    if (ch == 0) {
+                                    tagTextChar = ((u16 *) data_021759d0->mOwnerText)[r7];
+                                    if (tagTextChar == 0) {
                                         r7 = 10;
                                     } else {
-                                        *writePointer++ = ch;
-                                        if (fixedAdvance == -1 || (fixedDigitsOnly != 0 && !func_021253f8_inline(ch))) {
-                                            glyphIndex = NNS_G2dFontFindGlyphIndex(font, ch);
+                                        *writePointer++ = tagTextChar;
+                                        if (fixedAdvance == -1 ||
+                                            (fixedDigitsOnly != 0 && !IsDigitOrDash(tagTextChar))) {
+                                            glyphIndex = NNS_G2dFontFindGlyphIndex(font, tagTextChar);
                                             if (glyphIndex == 0xffff) {
                                                 glyphIndex = font->mUnk_00->mUnk_02;
                                             }
@@ -150,12 +155,13 @@ void func_021253f8(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineWidths, 
                                 }
                                 break;
                             case 11:
-                                n2 = CopyTextWithinWidth((u16 *) data_021759d0->mOwnerText, buf2);
-                                for (i2 = 0; i2 < n2; i2++) {
-                                    *writePointer++ = buf2[i2];
+                                ownerTextCharCount =
+                                    CopyTextWithinWidth((u16 *) data_021759d0->mOwnerText, ownerTextChars);
+                                for (ownerTextIndex = 0; ownerTextIndex < ownerTextCharCount; ownerTextIndex++) {
+                                    *writePointer++ = ownerTextChars[ownerTextIndex];
                                     if (fixedAdvance == -1 ||
-                                        (fixedDigitsOnly != 0 && !func_021253f8_inline(buf2[i2]))) {
-                                        glyphIndex = NNS_G2dFontFindGlyphIndex(font, buf2[i2]);
+                                        (fixedDigitsOnly != 0 && !IsDigitOrDash(ownerTextChars[ownerTextIndex]))) {
+                                        glyphIndex = NNS_G2dFontFindGlyphIndex(font, ownerTextChars[ownerTextIndex]);
                                         if (glyphIndex == 0xffff) {
                                             glyphIndex = font->mUnk_00->mUnk_02;
                                         }
@@ -191,7 +197,7 @@ void func_021253f8(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineWidths, 
                     if (*(u16 *) readPointer == 0 || *(u16 *) readPointer == 0xa) {
                         r7 = 0;
                     }
-                    if (fixedAdvance == -1 || (fixedDigitsOnly != 0 && !func_021253f8_inline(charCode))) {
+                    if (fixedAdvance == -1 || (fixedDigitsOnly != 0 && !IsDigitOrDash(charCode))) {
                         glyphIndex = NNS_G2dFontFindGlyphIndex(font, charCode);
                         if (glyphIndex == 0xffff) {
                             glyphIndex = font->mUnk_00->mUnk_02;
@@ -230,7 +236,7 @@ s32 GetTextLineOffset(u32 alignFlags, s32 lineAlign, s32 rectWidth, s32 textWidt
 
 void DrawTextLines(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, s32 textHeight, s32 left, s32 top,
                    s32 width, s32 height, s32 color, u32 alignFlags, s32 lineAlign, void *text, s32 fixedDigitsOnly,
-                   s32 fixedAdvance, s32 o) {
+                   s32 fixedAdvance, s32 colorZeroIsTwo) {
     s32 x;
     s32 y;
     s32 lineAdvance;
@@ -277,8 +283,8 @@ void DrawTextLines(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, 
             variant = ((TextTag *) readPointer)->mVariant;
             kind = ((TextTag *) readPointer)->mKind;
             if (kind == 0xff && variant == 0) {
-                colorValue = ((TextTag *) readPointer)->mUnk_04;
-                if (o != 0) {
+                colorValue = ((TextTag *) readPointer)->mColorValue;
+                if (colorZeroIsTwo != 0) {
                     if (colorValue == 0) {
                         color = 2;
                     } else {
@@ -300,7 +306,7 @@ void DrawTextLines(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, 
                 return;
             }
         } else {
-            if (fixedAdvance == -1 || (fixedDigitsOnly != 0 && !func_021253f8_inline(charCode))) {
+            if (fixedAdvance == -1 || (fixedDigitsOnly != 0 && !IsDigitOrDash(charCode))) {
                 x += NNS_G2dCharCanvasDrawChar(textCanvas->mCharCanvas, textCanvas->mFont, x, y, color, charCode);
             } else {
                 glyphIndex = NNS_G2dFontFindGlyphIndex(font, charCode);
@@ -327,23 +333,24 @@ void FormatMessageWithText(u16 *insertText, u16 *message, u16 *formattedText, u3
     u16 halfword;
 
     length = 0;
-    while (*message != 0x1a || ((Unk0212513c *) message)->mUnk_03 != 1 || ((Unk0212513c *) message)->mUnk_04 != 0xff) {
+    while (*message != 0x1a || ((TextTagWithCharCode *) message)->mKind != 1 ||
+           ((TextTagWithCharCode *) message)->mVariant != 0xff) {
         formattedText[length] = *message;
         length++;
         message++;
     }
-    message += ((Unk0212513c *) message)->mUnk_02 >> 1;
+    message += ((TextTagWithCharCode *) message)->mSize >> 1;
     if (*insertText != 0) {
         writePointer = formattedText + length;
         do {
-            *writePointer++ = ((Unk0212513c *) insertText)->mUnk_00;
+            *writePointer++ = ((TextTagWithCharCode *) insertText)->mCharCode;
             length++;
             insertText++;
         } while (*insertText != 0);
     }
     while ((halfword = *message) != 0) {
         if (halfword == 0x1a) {
-            tagSize = ((Unk0212513c *) message)->mUnk_02;
+            tagSize = ((TextTagWithCharCode *) message)->mSize;
             MIi_CpuCopy16(message, formattedText + length, tagSize);
             message += tagSize >> 1;
             length += tagSize >> 1;
@@ -382,14 +389,14 @@ DisplaySettings *func_02125028(void *heap) {
     return displaySettings;
 }
 
-s32 CountDecimalDigits(u32 a) {
+s32 CountDecimalDigits(u32 number) {
     s32 i;
     s32 digitCount;
 
     digitCount = 1;
     for (i = 0; i < 10; i++) {
-        a = a / 10;
-        if (a == 0) {
+        number = number / 10;
+        if (number == 0) {
             break;
         }
         digitCount++;
@@ -397,25 +404,25 @@ s32 CountDecimalDigits(u32 a) {
     return digitCount;
 }
 
-s32 FormatAsciiNumber(u32 a, u16 *buffer) {
+s32 FormatAsciiNumber(u32 number, u16 *buffer) {
     s32 digitCount;
     s32 i;
-    digitCount = CountDecimalDigits(a);
+    digitCount = CountDecimalDigits(number);
     for (i = 0; i < digitCount; i++) {
-        *(buffer + digitCount - i - 1) = (u16) (a % 10) + 0x30;
-        a = a / 10;
+        *(buffer + digitCount - i - 1) = (u16) (number % 10) + 0x30;
+        number = number / 10;
     }
     buffer[digitCount] = 0;
     return digitCount;
 }
 
-s32 FormatFullWidthNumber(u32 a, u16 *buffer) {
+s32 FormatFullWidthNumber(u32 number, u16 *buffer) {
     s32 digitCount;
     s32 i;
-    digitCount = CountDecimalDigits(a);
+    digitCount = CountDecimalDigits(number);
     for (i = 0; i < digitCount; i++) {
-        *(buffer + digitCount - i - 1) = (u16) (a % 10) + 0xff10;
-        a = a / 10;
+        *(buffer + digitCount - i - 1) = (u16) (number % 10) + 0xff10;
+        number = number / 10;
     }
     buffer[digitCount] = 0;
     return digitCount;

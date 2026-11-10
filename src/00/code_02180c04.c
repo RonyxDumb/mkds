@@ -161,7 +161,7 @@ void func_ov000_0218134c(void) {
         }
         if (GetTxtSystemSelectedIndex() == 0) {
             data_ov000_021b4c68->mNextState = 7;
-            func_02126638(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
+            SetupTxtSystemMainTextEx(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
             RequestWiFiSessionLogin();
             data_ov000_021b4c68->mUnk_14 = TRUE;
             StartWiFiSessionLoginSeq();
@@ -245,7 +245,7 @@ void func_ov000_021810dc(void) {
         }
         if (GetTxtSystemSelectedIndex() == 0) {
             data_ov000_021b4c68->mNextState = 7;
-            func_02126638(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
+            SetupTxtSystemMainTextEx(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
             RequestWiFiSessionLogin();
             data_ov000_021b4c68->mUnk_14 = TRUE;
             StartWiFiSessionLoginSeq();
@@ -293,7 +293,7 @@ void func_ov000_02180f80(void) {
     if (IsTxtSystemState0NoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
             data_ov000_021b4c68->mNextState = 7;
-            func_02126638(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
+            SetupTxtSystemMainTextEx(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
             RequestWiFiSessionLogin();
             data_ov000_021b4c68->mUnk_14 = FALSE;
             StartWiFiSessionLoginSeq();
@@ -370,7 +370,7 @@ void func_ov000_02180d94(void) {
         FormatAsciiNumber(data_ov000_021b4c68->mErrorCode, v3);
         FormatMessageWithText(v3, GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, 0x30), v4, 0x258);
         data_ov000_021b4c68->mNextState = 9;
-        func_021266e4(v4);
+        SetupTxtSystemMainText(v4);
         RequestSelectReturnState1();
     }
 }
