@@ -169,17 +169,17 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
                 break;
         }
         if (j == k) {
-            gResultsBattle->mUnk_0d4 = gResultsBattle->mKartCount;
+            gResultsBattle->mIconKartCount = gResultsBattle->mKartCount;
             gResultsBattle->mFileSetKind = 2;
         } else if (j > k) {
-            gResultsBattle->mUnk_0d4 = gRaceSetup->mTeamKartCounts[0];
+            gResultsBattle->mIconKartCount = gRaceSetup->mTeamKartCounts[0];
             gResultsBattle->mFileSetKind = 3;
         } else if (k > j) {
-            gResultsBattle->mUnk_0d4 = gRaceSetup->mTeamKartCounts[1];
+            gResultsBattle->mIconKartCount = gRaceSetup->mTeamKartCounts[1];
             gResultsBattle->mFileSetKind = 4;
         }
     } else if (AreResultsBattleRanksAllZero() != 0) {
-        gResultsBattle->mUnk_0d4 = gResultsBattle->mKartCount;
+        gResultsBattle->mIconKartCount = gResultsBattle->mKartCount;
         gResultsBattle->mFileSetKind = 2;
     } else if (gResultsBattle->mEntries[gResultsBattle->mOwnEntryIndex].mRank == 0) {
         gResultsBattle->mFileSetKind = 0;
@@ -188,8 +188,8 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
     }
     SetPlayerCharacterCellFileSet(1, &gResultsBattle->mCellFileSets[2]);
     SetPlayerCharacterCellFileSet(0, &gResultsBattle->mCellFileSets[3]);
-    gResultsBattle->mUnk_0c0 = GetPlayerCharacterShyguyNclr(1);
-    gResultsBattle->mUnk_0c4 = GetPlayerCharacterShyguyNclr(0);
+    gResultsBattle->mCellFileSet2ShyguyPalette = GetPlayerCharacterShyguyNclr(1);
+    gResultsBattle->mCellFileSet3ShyguyPalette = GetPlayerCharacterShyguyNclr(0);
     screenMapFileSet = &gResultsBattle->mScreenMapFileSets[0];
     LoadScreenMapFileSet(screenMapFileSet, data_02153f80[gResultsBattle->mFileSetKind][0],
                          data_02153f84[gResultsBattle->mFileSetKind][0], data_02153f8c[gResultsBattle->mFileSetKind][0],
@@ -207,17 +207,17 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
     SetupCellFileSet(0, heap, mainCellFileSet);
     switch (gResultsBattle->mFileSetKind) {
         case 0:
-            func_02033a0c(heap);
+            SetupResultsBattleOwnEntry(heap);
             break;
         case 1:
-            func_020338f8(heap);
+            SetupResultsBattleRankZeroNames(heap);
             break;
         case 2:
-            func_02033840(heap);
+            SetupResultsBattleKartIcons(heap);
             break;
         case 3:
         case 4:
-            func_020336ec(heap);
+            SetupResultsBattleTeamIcons(heap);
             break;
     }
     cellLayout = mainCellFileSet->mCellLayout;
@@ -252,13 +252,13 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
         k = gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind;
         if ((k == PLAYER_KIND_HUMAN || k == PLAYER_KIND_CPU || k == PLAYER_KIND_PEER) &&
             (gResultsBattle->mMode != 3 || gResultsBattle->mEntries[entryIndex].mScore != 0)) {
-            func_02033ab8(1, entryIndex, orderIndex + 0x30, 1);
+            QueueResultsBattleCharacterIcon(1, entryIndex, orderIndex + 0x30, 1);
             func_02032f94_inline(entryName, 0x16);
             CopyKartEntryName(entryIndex, entryName, 0);
             PrintLabelLayoutTextNoFixedAdvance(1, orderIndex, subCellFileSet->mLabelLayout, entryName,
                                                subCellFileSet->mCellLayout, subCellFileSet->mCellTable);
-            func_02033b80(entryIndex);
-            func_02033c80(entryIndex);
+            PrintResultsBattleScoreAndShowRank(entryIndex);
+            SetResultsBattleEntryCellsVisible(entryIndex);
             orderUsed[orderIndex] = 1;
         }
     }
@@ -391,7 +391,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                         SetWiFiSessionOwnContinueChoice(1);
                         gResultsBattle->mState = 5;
                     } else if ((u16) (gInputSlots[func_020435bc()].mPressedBits & PAD_KEY_A) != 0 ||
-                               func_02033dd0() != 0) {
+                               IsResultsBattleTimerBelow300() != 0) {
                         StartResultsBattleChoices();
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
                         gResultsBattle->mState = 4;

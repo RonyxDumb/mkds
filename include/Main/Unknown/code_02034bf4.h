@@ -3,10 +3,10 @@
 #include "types.h"
 #include "Main/Unknown/unk_02174000.h" // GhostRecordInfo
 
-void func_02034bf4(void *parentHeap, void *b, void *c);
+void InitTimeAttackGhostGetScan(void *parentHeap, void *mainOam, void *subOam);
 BOOL AreGhostRecordInfosDifferent(GhostRecordInfo *storedInfo, GhostRecordInfo *newInfo);
-void func_02034ef0(void);
-void func_02034f60(void);
-void func_02034fec(void);
-void func_02035060(void);
-void func_02035114(void);
+void RefreshScanEntryPalettes(void);
+void RefreshScanSelectedGhostInfo(void);
+void UpdateScanSlideOffsets(void);
+void UpdateScanEntryOffsetX(void);
+void UpdateScanSelectedIndex(void);

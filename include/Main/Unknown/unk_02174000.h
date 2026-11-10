@@ -198,13 +198,13 @@ typedef struct ResultsBattle {
     /* 000 */ ScreenMapFileSet mScreenMapFileSets[2];
     /* 048 */ CellFileSet mCellFileSets[4];
     /* 0b8 */ s32 mUnk_0b8[2];
-    /* 0c0 */ Nclr *mUnk_0c0;
-    /* 0c4 */ Nclr *mUnk_0c4;
+    /* 0c0 */ Nclr *mCellFileSet2ShyguyPalette;
+    /* 0c4 */ Nclr *mCellFileSet3ShyguyPalette;
     /* 0c8 */ struct Bmg *mCommonMessages;
     /* 0cc */ u16 mTimerDigitCellBase;
     /* 0ce */ u16 mTimerTensCell;
     /* 0d0 */ s32 mOwnEntryIndex;
-    /* 0d4 */ s32 mUnk_0d4;
+    /* 0d4 */ s32 mIconKartCount;
     /* 0d8 */ s32 mKartCount;
     /* 0dc */ s32 mFileSetKind;
     /* 0e0 */ s32 mMode;
@@ -217,8 +217,8 @@ typedef struct ResultsBattle {
 
 extern ResultsBattle *gResultsBattle;
 
-// 0x28-byte part of the entries from 0x9c of Unk02174e64; func_02034370 fills one on the stack through
-// TryGetScanGhostInfo and AreGhostRecordInfosDifferent compares two.
+// 0x28-byte part of the entries from 0x9c of TimeAttackGhostGetScan; AdvanceTimeAttackGhostGetScan fills one on the
+// stack through TryGetScanGhostInfo and AreGhostRecordInfosDifferent compares two.
 typedef struct GhostRecordInfo {
     /* 00 */ u16 mName[11];
     /* 16 */ u8 mUnk_16[2];
@@ -226,19 +226,19 @@ typedef struct GhostRecordInfo {
     /* 24 */ MinuteSecondMillisecondTime mTime;
 } GhostRecordInfo;
 
-// 0x3c-byte entries from 0x9c of Unk02174e64.
+// 0x3c-byte entries from 0x9c of TimeAttackGhostGetScan.
 typedef struct GhostInfoEntry {
     /* 00 */ GhostRecordInfo mInfo;
     /* 28 */ BOOL mFilled;
     /* 2c */ Interpolation mInterpolation;
 } GhostInfoEntry;
 
-// Object behind data_02174e64.
-typedef struct Unk02174e64 {
+// Ghost scene part that scans for ghosts, lists them and receives the picked one.
+typedef struct TimeAttackGhostGetScan {
     /* 000 */ u8 mUnk_000[0x24];
-    /* 024 */ void *mUnk_024[2];
+    /* 024 */ void *mOamLists[2];
     /* 02c */ CellFileSet mCellFileSets[2];
-    /* 064 */ u8 mUnk_064[0x1c];
+    /* 064 */ u8 mCharacterCellFileSet[0x1c];
     /* 080 */ s32 mSelectedIndex;
     /* 084 */ Bmg *mCommonMessages;
     /* 088 */ Bmg *mGhostMessages;
@@ -247,13 +247,13 @@ typedef struct Unk02174e64 {
     /* 094 */ s32 mState;
     /* 098 */ s32 mNextCallbacksIndex;
     /* 09c */ GhostInfoEntry mGhostInfoEntries[4];
-    /* 18c */ BOOL mUnk_18c;
+    /* 18c */ BOOL mGhostPicked;
     /* 190 */ s32 mFilledCount;
-    /* 194 */ Interpolation mUnk_194;
+    /* 194 */ Interpolation mInterpolation;
     /* 1a4 */ void *mHeap;
-} Unk02174e64;
+} TimeAttackGhostGetScan;
 
-extern Unk02174e64 *data_02174e64;
+extern TimeAttackGhostGetScan *gTimeAttackGhostGetScan;
 
 // Objects whose layout isn't known yet.
 extern struct ResultScene *gResultScene;
@@ -364,23 +364,23 @@ extern struct MultiSelectMemberGroup *gMultiSelectMemberGroup;
 extern struct MultiSelectNS *gMultiSelectNS;
 struct MultiSelectMember;
 extern struct MultiSelectMember *gMultiSelectMember;
-// Object behind data_02174e68, 0xa8 bytes.
-typedef struct Unk02174e68 {
+// Ghost scene part that lists the slot ghosts and saves the received ghost over the picked one.
+typedef struct TimeAttackGhostGetSlot {
     /* 00 */ u8 mUnk_00[0x20];
     /* 20 */ u8 *mUnk_20;
-    /* 24 */ void *mUnk_24[2];
+    /* 24 */ void *mOamLists[2];
     /* 2c */ CellFileSet mCellFileSets[2];
-    /* 64 */ u8 mUnk_64[0x1c];
+    /* 64 */ u8 mCharacterCellFileSet[0x1c];
     /* 80 */ s32 mSelectedIndex;
     /* 84 */ Bmg *mCommonMessages;
     /* 88 */ Bmg *mGhostMessages;
     /* 8c */ s32 mState;
-    /* 90 */ Interpolation mUnk_90;
+    /* 90 */ Interpolation mInterpolation;
     /* a0 */ BOOL mUnk_a0;
     /* a4 */ void *mHeap;
-} Unk02174e68;
+} TimeAttackGhostGetSlot;
 
-extern Unk02174e68 *data_02174e68;
+extern TimeAttackGhostGetSlot *gTimeAttackGhostGetSlot;
 struct WLMenuMessage;
 extern struct WLMenuMessage *gWLMenuMessage;
 extern HeapCall *gCurrentHeapCall;

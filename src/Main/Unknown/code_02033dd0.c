@@ -15,30 +15,30 @@ static inline KartCourseResult *func_02033e6c_inline(u32 entryIndex) {
 
 #pragma thumb on
 
-void func_02034244(void) {
+void WriteGhostGetScanRegisters(void) {
     s16 offset;
-    u32 b;
-    u32 c;
+    u32 subWinOutBits;
+    u32 subWinInBits;
     s32 negatedOffset;
-    s32 e;
+    s32 mainWinInBits;
 
-    offset = GetInterpolatedValue(&data_02174e64->mUnk_194);
+    offset = GetInterpolatedValue(&gTimeAttackGhostGetScan->mInterpolation);
     reg_G2_BG0OFS = (offset << 16) & 0x1ff0000;
     negatedOffset = -offset;
     reg_G2S_DB_BG3OFS = (negatedOffset << 16) & 0x1ff0000;
     switch (offset) {
         default:
             reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffff1fff) | 0x2000;
-            e = (reg_G2_WININ & ~0x3f) | 0x1f;
-            reg_G2_WININ = e | 0x20;
+            mainWinInBits = (reg_G2_WININ & ~0x3f) | 0x1f;
+            reg_G2_WININ = mainWinInBits | 0x20;
             reg_G2_WINOUT = (u32) ((reg_G2_WINOUT & ~0x3f) | 0xe) | 0x20;
             reg_G2_WIN0H = 0xff;
             reg_G2_WIN0V = ((negatedOffset << 8) & 0xff00) | 0xc0;
             reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffff1fff) | 0x2000;
-            c = (reg_G2S_DB_WININ & ~0x3f) | 0x1f;
-            reg_G2S_DB_WININ = c | 0x20;
-            b = (reg_G2S_DB_WINOUT & ~0x3f) | 7;
-            reg_G2S_DB_WINOUT = b | 0x20;
+            subWinInBits = (reg_G2S_DB_WININ & ~0x3f) | 0x1f;
+            reg_G2S_DB_WININ = subWinInBits | 0x20;
+            subWinOutBits = (reg_G2S_DB_WINOUT & ~0x3f) | 7;
+            reg_G2S_DB_WINOUT = subWinOutBits | 0x20;
             reg_G2S_DB_WIN0H = 0xff;
             reg_G2S_DB_WIN0V = (offset + 0xc0) & 0xff;
             break;
@@ -200,7 +200,7 @@ s32 IsResultsBattleTimerRunOut(void) {
     return result;
 }
 
-s32 func_02033dd0(void) {
+s32 IsResultsBattleTimerBelow300(void) {
     BOOL result;
 
     result = FALSE;

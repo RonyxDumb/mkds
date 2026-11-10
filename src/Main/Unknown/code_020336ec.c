@@ -21,13 +21,13 @@ static inline void func_020338f8_inline(void *buffer, s32 byteCount) {
 
 #pragma thumb on
 
-void func_02033c80(s32 entryIndex) {
+void SetResultsBattleEntryCellsVisible(s32 entryIndex) {
     CellFileSet *subCellFileSet;
     s32 orderIndex;
     BOOL isTeamIndex1;
     BOOL c;
     BOOL d;
-    BOOL e;
+    BOOL isOwnNotTeam1;
 
     subCellFileSet = &gResultsBattle->mCellFileSets[1];
     if (gResultsBattle->mOwnEntryIndex == entryIndex) {
@@ -42,16 +42,16 @@ void func_02033c80(s32 entryIndex) {
         } else {
             isTeamIndex1 = FALSE;
         }
-        e = FALSE;
+        isOwnNotTeam1 = FALSE;
         if (isTeamIndex1 == FALSE) {
             c = TRUE;
         } else {
             c = FALSE;
         }
         if (c != FALSE && d != FALSE) {
-            e = TRUE;
+            isOwnNotTeam1 = TRUE;
         }
-        subCellFileSet->mCellTable[orderIndex + 0x10].mVisible = e;
+        subCellFileSet->mCellTable[orderIndex + 0x10].mVisible = isOwnNotTeam1;
         if (c != FALSE && d == FALSE) {
             c = TRUE;
         } else {
@@ -87,7 +87,7 @@ void func_02033c80(s32 entryIndex) {
     }
 }
 
-void func_02033b80(s32 entryIndex) {
+void PrintResultsBattleScoreAndShowRank(s32 entryIndex) {
     CellFileSet *subCellFileSet;
     s32 r;
     s32 score;
@@ -119,17 +119,17 @@ void func_02033b80(s32 entryIndex) {
     CopyCellLayoutEntryCellIndex(r, gResultsBattle->mEntries[entryIndex].mRank + 0x40, subCellFileSet->mCellLayout);
 }
 
-void func_02033ab8(s32 cellFileSetIndex, s32 entryIndex, s32 cellIndex, s32 d) {
+void QueueResultsBattleCharacterIcon(s32 cellFileSetIndex, s32 entryIndex, s32 cellIndex, s32 iconSetSelector) {
     CellFileSet *iconCellFileSet;
     CellFileSet *cellFileSet;
     s32 characterIndex;
     Nclr *palette;
     u8 *paletteBlock;
-    u8 v;
+    u8 cellPaletteIndex;
     u32 shuffledIndex;
 
     cellFileSet = &gResultsBattle->mCellFileSets[cellFileSetIndex];
-    if (d == 1) {
+    if (iconSetSelector == 1) {
         iconCellFileSet = &gResultsBattle->mCellFileSets[2];
     } else {
         iconCellFileSet = &gResultsBattle->mCellFileSets[3];
@@ -139,23 +139,23 @@ void func_02033ab8(s32 cellFileSetIndex, s32 entryIndex, s32 cellIndex, s32 d) {
                                   iconCellFileSet->mPalette, iconCellFileSet->mCellLayout, cellFileSetIndex, cellIndex,
                                   cellFileSet->mCells, cellFileSet->mCellLayout);
     if (characterIndex == 0xc) {
-        if (d == 1) {
-            palette = gResultsBattle->mUnk_0c0;
+        if (iconSetSelector == 1) {
+            palette = gResultsBattle->mCellFileSet2ShyguyPalette;
         } else {
-            palette = gResultsBattle->mUnk_0c4;
+            palette = gResultsBattle->mCellFileSet3ShyguyPalette;
         }
-        v = GetCellPaletteIndex(cellIndex, cellFileSet->mCells, cellFileSet->mCellLayout);
+        cellPaletteIndex = GetCellPaletteIndex(cellIndex, cellFileSet->mCells, cellFileSet->mCellLayout);
         shuffledIndex = data_0217b488->mShuffledIndices[entryIndex];
         paletteBlock = shuffledIndex * 0x20 + (u8 *) palette->mData;
         if (cellFileSetIndex == 0) {
-            CallQueueAppend(0xe, v << 5, paletteBlock, 0x20);
+            CallQueueAppend(0xe, cellPaletteIndex << 5, paletteBlock, 0x20);
         } else {
-            CallQueueAppend(0x1e, v << 5, paletteBlock, 0x20);
+            CallQueueAppend(0x1e, cellPaletteIndex << 5, paletteBlock, 0x20);
         }
     }
 }
 
-void func_02033a0c(void *heap) {
+void SetupResultsBattleOwnEntry(void *heap) {
     s32 index;
     u32 remainingObjSize;
     CellFileSet *mainCellFileSet;
@@ -168,7 +168,7 @@ void func_02033a0c(void *heap) {
     gResultsBattle->mTimerTensCell = 0xb;
     index = 0;
     if ((s32) mainCellFileSet->mLabelLayout->mUnk_06 > 0) {
-        labelEntry = data_usa_02153e98;
+        labelEntry = gResultsBattleOwnEntryLabelTextRows;
         do {
             remainingObjSize -= SetupLabelCanvas(0, heap, mainCellFileSet, labelEntry, remainingObjSize);
             labelEntry += 8;
@@ -179,13 +179,13 @@ void func_02033a0c(void *heap) {
     CopyKartEntryName((u16) gResultsBattle->mOwnEntryIndex, entryName, 1);
     PrintLabelLayoutTextNoFixedAdvance(0, 0, mainCellFileSet->mLabelLayout, entryName, mainCellFileSet->mCellLayout,
                                        mainCellFileSet->mCellTable);
-    func_02033ab8(0, gResultsBattle->mOwnEntryIndex, 0, 1);
+    QueueResultsBattleCharacterIcon(0, gResultsBattle->mOwnEntryIndex, 0, 1);
 }
 
-void func_020338f8(void *heap) {
+void SetupResultsBattleRankZeroNames(void *heap) {
     CellFileSet *mainCellFileSet;
     s32 n;
-    s32 j;
+    s32 labelIndex;
     s32 entryIndex;
     s32 cellCount;
     u32 remainingObjSize;
@@ -200,15 +200,15 @@ void func_020338f8(void *heap) {
     cellCount = mainCellFileSet->mCellLayout->mUnk_06;
     gResultsBattle->mTimerDigitCellBase = 8;
     gResultsBattle->mTimerTensCell = 0x12;
-    j = 0;
+    labelIndex = 0;
     labelCount = mainCellFileSet->mLabelLayout->mUnk_06;
     if (labelCount > 0) {
-        labelEntry = data_usa_02153ec0;
+        labelEntry = gResultsBattleRankZeroLabelTextRows;
         do {
             remainingObjSize -= SetupLabelCanvas(n, heap, mainCellFileSet, labelEntry, remainingObjSize);
             labelEntry += 8;
-            j++;
-        } while (j < mainCellFileSet->mLabelLayout->mUnk_06);
+            labelIndex++;
+        } while (labelIndex < mainCellFileSet->mLabelLayout->mUnk_06);
     }
     PrintLabelLayoutTextNoFixedAdvance(0, 0, mainCellFileSet->mLabelLayout,
                                        GetBmgEntry(gResultsBattle->mCommonMessages, 0x7a), mainCellFileSet->mCellLayout,
@@ -231,45 +231,47 @@ void func_020338f8(void *heap) {
     }
 }
 
-void func_02033840(void *heap) {
+void SetupResultsBattleKartIcons(void *heap) {
     CellFileSet *mainCellFileSet;
     s32 count;
     s32 iconCellBase;
-    BOOL e;
+    BOOL iconSetSelector;
     s32 i;
 
     mainCellFileSet = &gResultsBattle->mCellFileSets[0];
-    count = gResultsBattle->mUnk_0d4;
-    iconCellBase = count + data_usa_02153ea0[count - 2];
+    count = gResultsBattle->mIconKartCount;
+    iconCellBase = count + gResultsBattleKartFirstCellIndices[count - 2];
     if (count > 4) {
-        e = FALSE;
+        iconSetSelector = FALSE;
     } else {
-        e = TRUE;
+        iconSetSelector = TRUE;
     }
     gResultsBattle->mTimerDigitCellBase = 0x46;
     gResultsBattle->mTimerTensCell = 0x50;
     for (i = 0; i < 0x46; i++) {
         mainCellFileSet->mCellTable[i].mVisible = 0;
     }
-    for (i = data_usa_02153ea0[gResultsBattle->mUnk_0d4 - 2];
-         i < data_usa_02153ea0[gResultsBattle->mUnk_0d4 - 2] + gResultsBattle->mUnk_0d4 * 2; i++) {
+    for (i = gResultsBattleKartFirstCellIndices[gResultsBattle->mIconKartCount - 2];
+         i <
+         gResultsBattleKartFirstCellIndices[gResultsBattle->mIconKartCount - 2] + gResultsBattle->mIconKartCount * 2;
+         i++) {
         mainCellFileSet->mCellTable[i].mVisible = 1;
     }
-    for (i = 0; i < gResultsBattle->mUnk_0d4; i++) {
-        func_02033ab8(0, i, iconCellBase + i, e);
+    for (i = 0; i < gResultsBattle->mIconKartCount; i++) {
+        QueueResultsBattleCharacterIcon(0, i, iconCellBase + i, iconSetSelector);
     }
 }
 
-void func_020336ec(void *heap) {
+void SetupResultsBattleTeamIcons(void *heap) {
     ResultsBattle *results;
     CellFileSet *mainCellFileSet;
     s32 teamIndex;
     s32 count;
     s32 iconCellBase;
-    s32 f;
+    s32 sourceCellIndex;
     s32 placedCount;
     s32 i;
-    BOOL e;
+    BOOL iconSetSelector;
     s32 j;
     s32 k;
     s32 entryIndex;
@@ -285,37 +287,41 @@ void func_020336ec(void *heap) {
             break;
     }
     placedCount = 0;
-    count = results->mUnk_0d4;
-    iconCellBase = count + data_usa_02153eb0[count - 1];
+    count = results->mIconKartCount;
+    iconCellBase = count + gResultsBattleTeamFirstCellIndices[count - 1];
     if (count <= 5) {
-        e = TRUE;
-        f = 0x38;
+        iconSetSelector = TRUE;
+        sourceCellIndex = 0x38;
     } else {
-        e = FALSE;
-        f = 0x39;
+        iconSetSelector = FALSE;
+        sourceCellIndex = 0x39;
     }
     results->mTimerDigitCellBase = 0x3a;
     gResultsBattle->mTimerTensCell = 0x44;
     for (i = 0; i < 0x38; i++) {
         mainCellFileSet->mCellTable[i].mVisible = 0;
     }
-    j = data_usa_02153eb0[gResultsBattle->mUnk_0d4 - 1];
+    j = gResultsBattleTeamFirstCellIndices[gResultsBattle->mIconKartCount - 1];
     j = (u32) j;
-    if (j < data_usa_02153eb0[gResultsBattle->mUnk_0d4 - 1] + gResultsBattle->mUnk_0d4 * 2) {
+    if (j <
+        gResultsBattleTeamFirstCellIndices[gResultsBattle->mIconKartCount - 1] + gResultsBattle->mIconKartCount * 2) {
         do {
             mainCellFileSet->mCellTable[j].mVisible = 1;
             j++;
-        } while (j < data_usa_02153eb0[gResultsBattle->mUnk_0d4 - 1] + gResultsBattle->mUnk_0d4 * 2);
+        } while (j < gResultsBattleTeamFirstCellIndices[gResultsBattle->mIconKartCount - 1] +
+                         gResultsBattle->mIconKartCount * 2);
     }
     if (gResultsBattle->mFileSetKind == 3) {
-        for (k = data_usa_02153eb0[gResultsBattle->mUnk_0d4 - 1];
-             k < gResultsBattle->mUnk_0d4 + data_usa_02153eb0[gResultsBattle->mUnk_0d4 - 1]; k++) {
-            CopyCellLayoutEntryCellIndex(k, f, mainCellFileSet->mCellLayout);
+        for (k = gResultsBattleTeamFirstCellIndices[gResultsBattle->mIconKartCount - 1];
+             k <
+             gResultsBattle->mIconKartCount + gResultsBattleTeamFirstCellIndices[gResultsBattle->mIconKartCount - 1];
+             k++) {
+            CopyCellLayoutEntryCellIndex(k, sourceCellIndex, mainCellFileSet->mCellLayout);
         }
     }
     for (entryIndex = 0; entryIndex < gResultsBattle->mKartCount; entryIndex++) {
         if (teamIndex == gRaceSetup->mCurrentEntries[(u16) entryIndex].mPlayer.mTeamIndex) {
-            func_02033ab8(0, entryIndex, iconCellBase + placedCount, e);
+            QueueResultsBattleCharacterIcon(0, entryIndex, iconCellBase + placedCount, iconSetSelector);
             placedCount++;
         }
     }

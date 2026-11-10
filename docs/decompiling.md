@@ -354,7 +354,7 @@ Inline getters and helpers:
 - A product `i * size` that takes a register in place of `i`: keep the byte offset in the index local, `u32 i = f() *
   size;`, and access through `(T *) ((u32) base + i)`; `(u8 *) base + i` sets the product up again (func_020bab54).
 - The loop counter kept in a callee-saved register and the running total spilled, where the original has it the other
-  way round: fold the increment into the use, `t[3] = m + k++;` (func_020357dc).
+  way round: fold the increment into the use, `t[3] = m + k++;` (InitTimeAttackGhostGetSlot).
 - A call result kept in the return-value local where the original only tests it: use a separate local for the result;
   the return local keeps its initial 0 (func_ov000_021a0cac).
 - Scale and component in each other's registers across repeated vector blocks: one pointer local, assigned right before
@@ -636,11 +636,11 @@ Expression shapes:
   the pointer loads of the preheader: assign the counter first, `for (i = 0, x = 0; ...)` or `for (j = n, s = ..., q =
   ...; ...)` (CreateJg).
 - Thumb: one `cmp #0; ble` guard with the pointer load after it and no second guard: `j = 0; if (j < N) { t = ..; do {
-  .. j++; } while (j < N); }` (func_020357dc).
+  .. j++; } while (j < N); }` (InitTimeAttackGhostGetSlot).
 - A pointer stepped only to pass as a call argument, with its own spill slot: pass `arr[j]`, not a second pointer
-  (func_020357dc).
+  (InitTimeAttackGhostGetSlot).
 - Thumb: `ldrsh` with a 0 offset held in a stack slot: write `t[0]`; the 0 is the compiler's hoisted offset, not a
-  variable (func_020357dc).
+  variable (InitTimeAttackGhostGetSlot).
 - An inner table loop with a dead counter and a byte offset stepped by 2: `l = j * 12; for (k = 0, s.x = 0; k < N; k++,
   l++, s.x += STEP) tbl[i][l]` (func_ov003_021c0d2c, like func_ov003_021c1cd8).
 - A pointer to a field incremented in a loop with its address formed early: drop the pointer and write `p->f++`

@@ -78,7 +78,7 @@ static inline s32 func_02034370_inline_2(void) {
     return 1;
 }
 
-s32 func_02034370(SceneNumbers *sceneNumbers) {
+s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
     CellFileSet *subCellFileSet;
     CellFileSet *cellFileSet;
     s32 previousSelectedIndex;
@@ -87,7 +87,7 @@ s32 func_02034370(SceneNumbers *sceneNumbers) {
     s32 touchInReturnRect;
     s32 rectIndex;
     s32 i;
-    s32 j;
+    s32 courseLabelIndex;
     s32 courseMessageIndex;
     BOOL pairIsNew;
     BOOL pairRecentlyGone;
@@ -101,83 +101,87 @@ s32 func_02034370(SceneNumbers *sceneNumbers) {
     GhostRecordInfo ghostRecordInfo;
     u16 formattedText[0x100];
 
-    previousSelectedIndex = data_02174e64->mSelectedIndex;
+    previousSelectedIndex = gTimeAttackGhostGetScan->mSelectedIndex;
     slotIndex = func_020435bc();
     touchInReturnRect = 0;
     result = -1;
     rectIndex = -1;
-    subCellFileSet = &data_02174e64->mCellFileSets[1];
-    AdvanceInterpolation(&data_02174e64->mUnk_194);
-    switch (data_02174e64->mState) {
+    subCellFileSet = &gTimeAttackGhostGetScan->mCellFileSets[1];
+    AdvanceInterpolation(&gTimeAttackGhostGetScan->mInterpolation);
+    switch (gTimeAttackGhostGetScan->mState) {
         case 0:
             if (AreBrightnessFadesClear() == 0) {
                 RequestSelectReturnState1();
-                func_02035378();
-                SetInterpolationStateIfOpposite(&data_02174e64->mUnk_194, 0);
-                data_02174e64->mState = 1;
+                SetupGhostMainTextShort();
+                SetInterpolationStateIfOpposite(&gTimeAttackGhostGetScan->mInterpolation, 0);
+                gTimeAttackGhostGetScan->mState = 1;
             }
             break;
         case 1:
-            if (data_02174e64->mUnk_194.mState == 1) {
-                data_02174e64->mState = 2;
+            if (gTimeAttackGhostGetScan->mInterpolation.mState == 1) {
+                gTimeAttackGhostGetScan->mState = 2;
             } else {
-                func_02034fec();
+                UpdateScanSlideOffsets();
             }
             break;
         case 2:
             switch (AdvanceConnectionSetup(0, NULL)) {
                 case 1:
-                    SetupTxtSystemSubText(GetBmgEntry(data_02174e64->mGhostMessages, 0xf));
+                    SetupTxtSystemSubText(GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, 0xf));
                     NNS_SndArcSetCurrent(&gOnMemorySndArc);
                     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 9);
                     NNS_SndArcSetCurrent(&gFileSndArc);
-                    data_02174e64->mState = 5;
+                    gTimeAttackGhostGetScan->mState = 5;
                     break;
                 case 0:
-                    if (data_02174e64->mUnk_18c != FALSE) {
+                    if (gTimeAttackGhostGetScan->mGhostPicked != FALSE) {
                         break;
                     }
                     if (IsTxtSystemState0NoOpenRequest() != 0) {
-                        func_02035378();
+                        SetupGhostMainTextShort();
                     }
-                    data_02174e64->mFilledCount = 0;
+                    gTimeAttackGhostGetScan->mFilledCount = 0;
                     for (i = 0; i < 4; i++) {
-                        j = i + 4;
+                        courseLabelIndex = i + 4;
                         if (TryGetScanGhostInfo(i, &ghostRecordInfo, &idBytes[0], &idBytes[1], &idBytes[2],
                                                 &ghostRecordInfo.mTime.mMinute, &ghostRecordInfo.mTime.mSecond,
                                                 &ghostRecordInfo.mTime.mMillisecond)) {
                             ghostRecordInfo.mUnk_18[1] = idBytes[0];
                             ghostRecordInfo.mUnk_18[0] = idBytes[1];
                             ghostRecordInfo.mUnk_18[2] = idBytes[2];
-                            data_02174e64->mFilledCount++;
-                            if (data_02174e64->mGhostInfoEntries[i].mFilled == FALSE ||
-                                AreGhostRecordInfosDifferent(&data_02174e64->mGhostInfoEntries[i].mInfo,
+                            gTimeAttackGhostGetScan->mFilledCount++;
+                            if (gTimeAttackGhostGetScan->mGhostInfoEntries[i].mFilled == FALSE ||
+                                AreGhostRecordInfosDifferent(&gTimeAttackGhostGetScan->mGhostInfoEntries[i].mInfo,
                                                              &ghostRecordInfo) != FALSE) {
                                 courseMessageIndex = GetGhostCourseMessageIndex(ghostRecordInfo.mUnk_18[2]);
                                 ghostRecordInfo.mName[10] = 0;
-                                PrintLabelLayoutTextNoFixedAdvance(1, data_02164254[i][0], subCellFileSet->mLabelLayout,
-                                                                   &ghostRecordInfo, subCellFileSet->mCellLayout,
-                                                                   subCellFileSet->mCellTable);
                                 PrintLabelLayoutTextNoFixedAdvance(
-                                    1, data_02164254[j][0], subCellFileSet->mLabelLayout,
-                                    GetBmgEntry(data_02174e64->mGhostMessages, courseMessageIndex),
+                                    1, gTimeAttackGhostGetScanSSelLabelTextRows[i][0], subCellFileSet->mLabelLayout,
+                                    &ghostRecordInfo, subCellFileSet->mCellLayout, subCellFileSet->mCellTable);
+                                PrintLabelLayoutTextNoFixedAdvance(
+                                    1, gTimeAttackGhostGetScanSSelLabelTextRows[courseLabelIndex][0],
+                                    subCellFileSet->mLabelLayout,
+                                    GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, courseMessageIndex),
                                     subCellFileSet->mCellLayout, subCellFileSet->mCellTable);
-                                MIi_CpuCopyFast(&ghostRecordInfo, &data_02174e64->mGhostInfoEntries[i].mInfo, 0x28);
-                                data_02174e64->mGhostInfoEntries[i].mFilled = TRUE;
-                                SetInterpolationStateIfOpposite(&data_02174e64->mGhostInfoEntries[i].mInterpolation, 0);
-                                if (data_02174e64->mSelectedIndex == i) {
-                                    func_02034f60();
+                                MIi_CpuCopyFast(&ghostRecordInfo, &gTimeAttackGhostGetScan->mGhostInfoEntries[i].mInfo,
+                                                0x28);
+                                gTimeAttackGhostGetScan->mGhostInfoEntries[i].mFilled = TRUE;
+                                SetInterpolationStateIfOpposite(
+                                    &gTimeAttackGhostGetScan->mGhostInfoEntries[i].mInterpolation, 0);
+                                if (gTimeAttackGhostGetScan->mSelectedIndex == i) {
+                                    RefreshScanSelectedGhostInfo();
                                 }
                                 NNS_SndArcSetCurrent(&gOnMemorySndArc);
                                 NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 7);
                                 NNS_SndArcSetCurrent(&gFileSndArc);
                             }
                         } else {
-                            SetInterpolationStateIfOpposite(&data_02174e64->mGhostInfoEntries[i].mInterpolation, 2);
-                            data_02174e64->mGhostInfoEntries[i].mFilled = FALSE;
+                            SetInterpolationStateIfOpposite(
+                                &gTimeAttackGhostGetScan->mGhostInfoEntries[i].mInterpolation, 2);
+                            gTimeAttackGhostGetScan->mGhostInfoEntries[i].mFilled = FALSE;
                         }
                     }
-                    func_02035114();
+                    UpdateScanSelectedIndex();
                     pairIsNew = FALSE;
                     pairRecentlyGone = FALSE;
                     hasPair = data_02175674[slotIndex].mPressedBits;
@@ -193,37 +197,37 @@ s32 func_02034370(SceneNumbers *sceneNumbers) {
                         touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(pairX, pairY);
                         rectIndex = RectTableFindContaining(subCellFileSet->mRects, pairX, pairY);
                     }
-                    if (rectIndex >= 0 && data_02174e64->mGhostInfoEntries[rectIndex].mFilled != FALSE) {
+                    if (rectIndex >= 0 && gTimeAttackGhostGetScan->mGhostInfoEntries[rectIndex].mFilled != FALSE) {
                         SetupGhostSubTextTwoButtons();
-                        func_02035228(data_02174e64->mSelectedIndex != rectIndex ? 1 : 0);
-                        data_02174e64->mSelectedIndex = rectIndex;
+                        SetScanSelectedEntryHighlight(gTimeAttackGhostGetScan->mSelectedIndex != rectIndex ? 1 : 0);
+                        gTimeAttackGhostGetScan->mSelectedIndex = rectIndex;
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
                         RequestSelectReturnState4();
-                        data_02174e64->mUnk_18c = TRUE;
-                        data_02174e64->mStateFrames = 0;
-                        data_02174e64->mState = 3;
+                        gTimeAttackGhostGetScan->mGhostPicked = TRUE;
+                        gTimeAttackGhostGetScan->mStateFrames = 0;
+                        gTimeAttackGhostGetScan->mState = 3;
                     } else if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0 &&
-                               data_02174e64->mSelectedIndex >= 0) {
+                               gTimeAttackGhostGetScan->mSelectedIndex >= 0) {
                         SetupGhostSubTextTwoButtons();
-                        func_02035228(0);
+                        SetScanSelectedEntryHighlight(0);
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
                         RequestSelectReturnState4();
-                        data_02174e64->mUnk_18c = TRUE;
-                        data_02174e64->mStateFrames = 0;
-                        data_02174e64->mState = 3;
+                        gTimeAttackGhostGetScan->mGhostPicked = TRUE;
+                        gTimeAttackGhostGetScan->mStateFrames = 0;
+                        gTimeAttackGhostGetScan->mState = 3;
                     } else if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
-                        data_02174e64->mState = 12;
+                        gTimeAttackGhostGetScan->mState = 12;
                         RequestSelectReturnState3WithSound(0);
                     } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_UP)) {
-                        if (data_02174e64->mFilledCount == 2) {
+                        if (gTimeAttackGhostGetScan->mFilledCount == 2) {
                             MoveSelectedGhostUp(0);
-                        } else if (data_02174e64->mFilledCount > 2) {
+                        } else if (gTimeAttackGhostGetScan->mFilledCount > 2) {
                             MoveSelectedGhostUp(1);
                         }
                     } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_DOWN)) {
-                        if (data_02174e64->mFilledCount == 2) {
+                        if (gTimeAttackGhostGetScan->mFilledCount == 2) {
                             MoveSelectedGhostDown(0);
-                        } else if (data_02174e64->mFilledCount > 2) {
+                        } else if (gTimeAttackGhostGetScan->mFilledCount > 2) {
                             MoveSelectedGhostDown(1);
                         }
                     }
@@ -231,29 +235,29 @@ s32 func_02034370(SceneNumbers *sceneNumbers) {
                 case 2:
                     break;
             }
-            if (previousSelectedIndex != data_02174e64->mSelectedIndex) {
-                func_02034f60();
-                func_02034ef0();
+            if (previousSelectedIndex != gTimeAttackGhostGetScan->mSelectedIndex) {
+                RefreshScanSelectedGhostInfo();
+                RefreshScanEntryPalettes();
             }
             break;
         case 3:
-            data_02174e64->mStateFrames++;
-            if (data_02174e64->mStateFrames > 5) {
-                func_02035228(1);
-                data_02174e64->mStateFrames = 0;
-                data_02174e64->mState = 4;
+            gTimeAttackGhostGetScan->mStateFrames++;
+            if (gTimeAttackGhostGetScan->mStateFrames > 5) {
+                SetScanSelectedEntryHighlight(1);
+                gTimeAttackGhostGetScan->mStateFrames = 0;
+                gTimeAttackGhostGetScan->mState = 4;
             }
             break;
         case 4:
             if (GetTxtSystemDone() != 0) {
                 if (GetTxtSystemSelectedIndex() == 0) {
-                    func_0204ece0(data_02174e64->mSelectedIndex);
+                    func_0204ece0(gTimeAttackGhostGetScan->mSelectedIndex);
                 } else {
                     RequestSelectReturnState1();
-                    data_02174e64->mUnk_18c = FALSE;
+                    gTimeAttackGhostGetScan->mGhostPicked = FALSE;
                 }
                 RequestTxtSystemClose();
-                data_02174e64->mState = 2;
+                gTimeAttackGhostGetScan->mState = 2;
             }
             break;
         case 5:
@@ -261,27 +265,27 @@ s32 func_02034370(SceneNumbers *sceneNumbers) {
                 case 1:
                     ResetPendingFiles();
                     SetBlockEntryBuffer(0, GetSlotGhostBuffer());
-                    data_02174e64->mState = 6;
+                    gTimeAttackGhostGetScan->mState = 6;
                     break;
                 case 2:
-                    func_020353a4();
+                    StartTimeAttackGhostGetScanState15();
                     break;
             }
             break;
         case 6:
             switch (AdvanceBlockReceive()) {
                 case 1:
-                    data_02174e64->mState = 7;
+                    gTimeAttackGhostGetScan->mState = 7;
                     break;
                 case 2:
-                    func_020353a4();
+                    StartTimeAttackGhostGetScanState15();
                     break;
             }
             break;
         case 7:
             if (func_02054f58() == 1) {
                 func_0204f804();
-                data_02174e64->mState = 8;
+                gTimeAttackGhostGetScan->mState = 8;
             }
             break;
         case 12:
@@ -291,35 +295,37 @@ s32 func_02034370(SceneNumbers *sceneNumbers) {
                 if (sceneNumbers != NULL) {
                     sceneNumbers->mNextScene = 1;
                 }
-                data_02174e64->mState = 16;
+                gTimeAttackGhostGetScan->mState = 16;
             }
             break;
         case 8:
             if (DoesAnySlotGhostMatchCourse(
-                    data_02174e64->mGhostInfoEntries[data_02174e64->mSelectedIndex].mInfo.mUnk_18[2]) != 0) {
+                    gTimeAttackGhostGetScan->mGhostInfoEntries[gTimeAttackGhostGetScan->mSelectedIndex]
+                        .mInfo.mUnk_18[2]) != 0) {
                 courseMessageIndex = GetGhostCourseMessageIndex(
-                    data_02174e64->mGhostInfoEntries[data_02174e64->mSelectedIndex].mInfo.mUnk_18[2]);
-                message = GetBmgEntry(data_02174e64->mGhostMessages, 0x55);
-                buttonText = GetBmgEntry(data_02174e64->mCommonMessages, 0);
-                secondButtonText = GetBmgEntry(data_02174e64->mCommonMessages, 1);
-                FormatMessageWithText(GetBmgEntry(data_02174e64->mGhostMessages, courseMessageIndex), message,
+                    gTimeAttackGhostGetScan->mGhostInfoEntries[gTimeAttackGhostGetScan->mSelectedIndex]
+                        .mInfo.mUnk_18[2]);
+                message = GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, 0x55);
+                buttonText = GetBmgEntry(gTimeAttackGhostGetScan->mCommonMessages, 0);
+                secondButtonText = GetBmgEntry(gTimeAttackGhostGetScan->mCommonMessages, 1);
+                FormatMessageWithText(GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, courseMessageIndex), message,
                                       formattedText, 0x100);
                 SetTxtSystemSoundId(0, -1);
                 SetupTxtSystemSubTextTwoButtonsEx(formattedText, buttonText, secondButtonText, 1, 0, 1, 1, 0);
-                data_02174e64->mState = 9;
+                gTimeAttackGhostGetScan->mState = 9;
             } else if (GetSlotGhostCount() == 10) {
                 RequestTxtSystemClose();
-                data_02174e64->mNextCallbacksIndex = 2;
-                data_02174e64->mState = 13;
-                SetInterpolationStateIfOpposite(&data_02174e64->mUnk_194, 2);
+                gTimeAttackGhostGetScan->mNextCallbacksIndex = 2;
+                gTimeAttackGhostGetScan->mState = 13;
+                SetInterpolationStateIfOpposite(&gTimeAttackGhostGetScan->mInterpolation, 2);
             } else {
-                data_02174e64->mGhostSlot = FindUnfilledGhostSlot();
+                gTimeAttackGhostGetScan->mGhostSlot = FindUnfilledGhostSlot();
                 GetSlotGhostBuffer()->mHead.mFilled = 1;
-                WriteSlotGhostRecord((u8) data_02174e64->mGhostSlot, GetSlotGhostBuffer());
+                WriteSlotGhostRecord((u8) gTimeAttackGhostGetScan->mGhostSlot, GetSlotGhostBuffer());
                 NNS_SndArcSetCurrent(&gOnMemorySndArc);
                 NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 10);
                 NNS_SndArcSetCurrent(&gFileSndArc);
-                data_02174e64->mState = 11;
+                gTimeAttackGhostGetScan->mState = 11;
             }
             break;
         case 9:
@@ -331,32 +337,33 @@ s32 func_02034370(SceneNumbers *sceneNumbers) {
             if (GetTxtSystemDone() != 0) {
                 RequestTxtSystemClose();
                 if (GetTxtSystemSelectedIndex() == 0) {
-                    data_02174e64->mGhostSlot = FindSlotGhostForCourse(
-                        data_02174e64->mGhostInfoEntries[data_02174e64->mSelectedIndex].mInfo.mUnk_18[2]);
+                    gTimeAttackGhostGetScan->mGhostSlot = FindSlotGhostForCourse(
+                        gTimeAttackGhostGetScan->mGhostInfoEntries[gTimeAttackGhostGetScan->mSelectedIndex]
+                            .mInfo.mUnk_18[2]);
                     GetSlotGhostBuffer()->mHead.mFilled = 1;
-                    WriteSlotGhostRecord((u8) data_02174e64->mGhostSlot, GetSlotGhostBuffer());
-                    data_02174e64->mState = 11;
+                    WriteSlotGhostRecord((u8) gTimeAttackGhostGetScan->mGhostSlot, GetSlotGhostBuffer());
+                    gTimeAttackGhostGetScan->mState = 11;
                 } else {
-                    data_02174e64->mState = 10;
+                    gTimeAttackGhostGetScan->mState = 10;
                 }
             }
             break;
         case 10:
             if (IsTxtSystemState0NoOpenRequest() != 0) {
-                message = GetBmgEntry(data_02174e64->mGhostMessages, 0x54);
-                buttonText = GetBmgEntry(data_02174e64->mCommonMessages, 4);
+                message = GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, 0x54);
+                buttonText = GetBmgEntry(gTimeAttackGhostGetScan->mCommonMessages, 4);
                 SetTxtSystemSoundId(0, 5);
                 SetupTxtSystemSubTextButton(message, buttonText);
-                data_02174e64->mState = 14;
+                gTimeAttackGhostGetScan->mState = 14;
             }
             break;
         case 11:
             if (func_02034370_inline_2() != 0) {
-                message = GetBmgEntry(data_02174e64->mGhostMessages, 0x10);
-                buttonText = GetBmgEntry(data_02174e64->mCommonMessages, 4);
+                message = GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, 0x10);
+                buttonText = GetBmgEntry(gTimeAttackGhostGetScan->mCommonMessages, 4);
                 SetTxtSystemSoundId(0, 5);
                 SetupTxtSystemSubTextButton(message, buttonText);
-                data_02174e64->mState = 14;
+                gTimeAttackGhostGetScan->mState = 14;
             }
             break;
         case 15:
@@ -364,8 +371,8 @@ s32 func_02034370(SceneNumbers *sceneNumbers) {
                 NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x15);
             }
             if (GetTxtSystemDone() != 0) {
-                data_02174e64->mStateFrames = 0;
-                data_02174e64->mState = 12;
+                gTimeAttackGhostGetScan->mStateFrames = 0;
+                gTimeAttackGhostGetScan->mState = 12;
                 RequestTxtSystemClose();
             }
             break;
@@ -375,24 +382,24 @@ s32 func_02034370(SceneNumbers *sceneNumbers) {
                 if (sceneNumbers != NULL) {
                     sceneNumbers->mNextScene = 1;
                 }
-                data_02174e64->mState = 16;
+                gTimeAttackGhostGetScan->mState = 16;
             }
             break;
         case 13:
-            if (data_02174e64->mUnk_194.mState == 3) {
-                result = data_02174e64->mNextCallbacksIndex;
-                data_02174e64->mState = 16;
+            if (gTimeAttackGhostGetScan->mInterpolation.mState == 3) {
+                result = gTimeAttackGhostGetScan->mNextCallbacksIndex;
+                gTimeAttackGhostGetScan->mState = 16;
             } else {
-                func_02034fec();
+                UpdateScanSlideOffsets();
             }
             break;
     }
-    func_02035060();
+    UpdateScanEntryOffsetX();
     func_02054aa0();
     for (i = 0; i < 2; i++) {
-        cellFileSet = &data_02174e64->mCellFileSets[i];
+        cellFileSet = &gTimeAttackGhostGetScan->mCellFileSets[i];
         DrawLayoutTable(cellFileSet->mCellLayout, cellFileSet->mCells, cellFileSet->mLabelLayout,
-                        data_02174e64->mUnk_024[i], cellFileSet->mCellTable);
+                        gTimeAttackGhostGetScan->mOamLists[i], cellFileSet->mCellTable);
     }
     return result;
 }
@@ -401,9 +408,9 @@ s32 func_02034370(SceneNumbers *sceneNumbers) {
 
 #pragma thumb on
 
-void func_0203434c(void) {
-    HeapDestroy((void *) ((u32) data_02174e64->mHeap));
-    *&data_02174e64 = NULL;
+void ReleaseTimeAttackGhostGetScan(void) {
+    HeapDestroy((void *) ((u32) gTimeAttackGhostGetScan->mHeap));
+    *&gTimeAttackGhostGetScan = NULL;
 }
 
 #pragma thumb off

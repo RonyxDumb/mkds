@@ -67,36 +67,36 @@
 
 #pragma thumb on
 
-void func_02035c50(s32 a, s32 b, s32 listIndex, s32 d) {
+void RefreshSlotGhostListRows(s32 action, s32 slot, s32 listIndex, s32 selectedSlot) {
     CellFileSet *subCellFileSet;
     s32 i;
-    s32 v;
-    s32 e;
+    s32 paletteIndex;
+    s32 timeLabelIndex;
     MinuteSecondMillisecondTime time;
     s16 timeText[12];
 
-    subCellFileSet = &data_02174e68->mCellFileSets[1];
-    if (a == 1) {
+    subCellFileSet = &gTimeAttackGhostGetSlot->mCellFileSets[1];
+    if (action == 1) {
         listIndex += GetCourseGhostCount();
-        PrintLabelLayoutTextNoFixedAdvance(
-            1, b, subCellFileSet->mLabelLayout,
-            GetBmgEntry(data_02174e68->mGhostMessages, GetGhostCourseMessageIndex(GetListedGhostCourseId(listIndex))),
-            subCellFileSet->mCellLayout, subCellFileSet->mCellTable);
+        PrintLabelLayoutTextNoFixedAdvance(1, slot, subCellFileSet->mLabelLayout,
+                                           GetBmgEntry(gTimeAttackGhostGetSlot->mGhostMessages,
+                                                       GetGhostCourseMessageIndex(GetListedGhostCourseId(listIndex))),
+                                           subCellFileSet->mCellLayout, subCellFileSet->mCellTable);
         GetListedGhostTime(listIndex, &time);
         WriteMinuteSecondMillisecondText(timeText, time.mMinute, time.mSecond, time.mMillisecond);
-        PrintLabelLayoutTextFixedDigits(1, b + 7, subCellFileSet->mLabelLayout, timeText, subCellFileSet->mCellLayout,
-                                        subCellFileSet->mCellTable, 7);
-    } else if (a == 0) {
+        PrintLabelLayoutTextFixedDigits(1, slot + 7, subCellFileSet->mLabelLayout, timeText,
+                                        subCellFileSet->mCellLayout, subCellFileSet->mCellTable, 7);
+    } else if (action == 0) {
         for (i = 0; i < 7; i++) {
-            e = i + 7;
-            if (i == d) {
-                v = 14;
+            timeLabelIndex = i + 7;
+            if (i == selectedSlot) {
+                paletteIndex = 14;
             } else {
-                v = 15;
+                paletteIndex = 15;
             }
-            SetLabelPaletteIndex(i, v, subCellFileSet->mLabelLayout, subCellFileSet->mCellTable,
+            SetLabelPaletteIndex(i, paletteIndex, subCellFileSet->mLabelLayout, subCellFileSet->mCellTable,
                                  subCellFileSet->mCellLayout);
-            SetLabelPaletteIndex(e, v, subCellFileSet->mLabelLayout, subCellFileSet->mCellTable,
+            SetLabelPaletteIndex(timeLabelIndex, paletteIndex, subCellFileSet->mLabelLayout, subCellFileSet->mCellTable,
                                  subCellFileSet->mCellLayout);
         }
     }
@@ -106,9 +106,9 @@ void func_02035c50(s32 a, s32 b, s32 listIndex, s32 d) {
 
 #pragma thumb on
 
-void func_02035c14(void) {
+void SetupGhostMainTextEx(void) {
     void *message;
-    message = GetBmgEntry(data_02174e68->mGhostMessages, 3);
+    message = GetBmgEntry(gTimeAttackGhostGetSlot->mGhostMessages, 3);
     SetTxtSystemBgOffsetRequested(0xfffffff4, 0);
     SetupTxtSystemMainTextEx(message, 0, 0, 0, 0, 0, 0);
 }
@@ -140,10 +140,10 @@ void SetupGhostNameSubTextTwoButtons(void) {
     u16 nameText[11];
     u16 formattedText[0x100];
 
-    formatText = GetBmgEntry(data_02174e68->mGhostMessages, 0x12);
-    firstButtonText = GetBmgEntry(data_02174e68->mCommonMessages, 0);
-    secondButtonText = GetBmgEntry(data_02174e68->mCommonMessages, 1);
-    GetListedGhostName(data_02174e68->mSelectedIndex + GetCourseGhostCount(), ghostName);
+    formatText = GetBmgEntry(gTimeAttackGhostGetSlot->mGhostMessages, 0x12);
+    firstButtonText = GetBmgEntry(gTimeAttackGhostGetSlot->mCommonMessages, 0);
+    secondButtonText = GetBmgEntry(gTimeAttackGhostGetSlot->mCommonMessages, 1);
+    GetListedGhostName(gTimeAttackGhostGetSlot->mSelectedIndex + GetCourseGhostCount(), ghostName);
     MIi_CpuCopy16(ghostName, nameText, 0x14);
     nameText[10] = 0;
     FormatMessageWithText(nameText, formatText, formattedText, 0x100);
@@ -151,7 +151,7 @@ void SetupGhostNameSubTextTwoButtons(void) {
     SetupTxtSystemSubTextTwoButtonsEx(formattedText, firstButtonText, secondButtonText, 1, 0, 1, 1, 0);
 }
 
-void func_02035b0c(void) {
+void UpdateSlotSlideOffsets(void) {
     CellFileSet *mainCellFileSet;
     CellFileSet *subCellFileSet;
     s32 mainEntryCount;
@@ -159,11 +159,11 @@ void func_02035b0c(void) {
     s32 i;
     s16 offset;
 
-    mainCellFileSet = &data_02174e68->mCellFileSets[0];
-    subCellFileSet = &data_02174e68->mCellFileSets[1];
+    mainCellFileSet = &gTimeAttackGhostGetSlot->mCellFileSets[0];
+    subCellFileSet = &gTimeAttackGhostGetSlot->mCellFileSets[1];
     mainEntryCount = mainCellFileSet->mCellLayout->mUnk_06 + mainCellFileSet->mLabelLayout->mUnk_06;
     subEntryCount = subCellFileSet->mCellLayout->mUnk_06 + subCellFileSet->mLabelLayout->mUnk_06;
-    offset = GetInterpolatedValue(&data_02174e68->mUnk_90);
+    offset = GetInterpolatedValue(&gTimeAttackGhostGetSlot->mInterpolation);
     for (i = 0; i < mainEntryCount; i++) {
         mainCellFileSet->mCellTable[i].mOffsetY = -offset;
     }
@@ -181,7 +181,7 @@ void PrintSelectedGhostRecord(void) {
     u8 ghostName[0x14];
     u16 nameText[11];
 
-    listIndex = GetCourseGhostCount() + data_02174e68->mSelectedIndex;
+    listIndex = GetCourseGhostCount() + gTimeAttackGhostGetSlot->mSelectedIndex;
     GetListedGhostTime(listIndex, &time);
     GetListedGhostName(listIndex, ghostName);
     MIi_CpuCopy16(ghostName, nameText, 0x14);
@@ -189,11 +189,11 @@ void PrintSelectedGhostRecord(void) {
     characterIndex = GetListedGhostCharacterIndex(listIndex);
     kartIndex = GetListedGhostKartIndex(listIndex);
     courseId = GetListedGhostCourseId(listIndex);
-    PrintGhostRecordInfo((SelectCharacter *) &data_02174e68->mCellFileSets[0], data_0215404c, nameText, characterIndex,
-                         kartIndex, courseId, &time);
+    PrintGhostRecordInfo((SelectCharacter *) &gTimeAttackGhostGetSlot->mCellFileSets[0],
+                         gTimeAttackGhostGetSlotMLabelTextRows, nameText, characterIndex, kartIndex, courseId, &time);
 }
 
-void func_020357dc(void *parentHeap, void *b, void *c) {
+void InitTimeAttackGhostGetSlot(void *parentHeap, void *mainOam, void *subOam) {
     void *heap;
     CellFileSet *cellFileSet;
     s32 i;
@@ -206,41 +206,43 @@ void func_020357dc(void *parentHeap, void *b, void *c) {
     s32 secondLabelIndex;
     s16 *row;
     LayoutTableEntry *cellTable;
-    u16 w[3];
+    u16 groupFirstEntries[3];
 
     heap = CreateFrmHeapFromMaxFree(parentHeap);
-    data_02174e68 = HeapAlloc(heap, 0xa8);
-    MemFillWordsByBlock_inline(data_02174e68, 0xa8);
-    data_02174e68->mHeap = heap;
-    data_02174e68->mUnk_24[0] = b;
-    data_02174e68->mUnk_24[1] = c;
-    data_02174e68->mCommonMessages = FindFileInLoadedArchives(data_021644e0);
-    data_02174e68->mGhostMessages = FindSceneFile(data_021644ec);
-    cellFileSet = &data_02174e68->mCellFileSets[0];
+    gTimeAttackGhostGetSlot = HeapAlloc(heap, 0xa8);
+    MemFillWordsByBlock_inline(gTimeAttackGhostGetSlot, 0xa8);
+    gTimeAttackGhostGetSlot->mHeap = heap;
+    gTimeAttackGhostGetSlot->mOamLists[0] = mainOam;
+    gTimeAttackGhostGetSlot->mOamLists[1] = subOam;
+    gTimeAttackGhostGetSlot->mCommonMessages = FindFileInLoadedArchives(data_021644e0);
+    gTimeAttackGhostGetSlot->mGhostMessages = FindSceneFile(data_021644ec);
+    cellFileSet = &gTimeAttackGhostGetSlot->mCellFileSets[0];
     remainingObjSize = GX_GetSizeOfOBJ();
     LocateCellFileSet(cellFileSet, data_021644f8, data_02164518, data_02164538, data_02164558, data_02164574, NULL,
                       FindSceneFile);
-    SetupCellFileSet(0, data_02174e68->mHeap, cellFileSet);
+    SetupCellFileSet(0, gTimeAttackGhostGetSlot->mHeap, cellFileSet);
     for (i = 0; i < cellFileSet->mLabelLayout->mUnk_06; i++) {
-        remainingObjSize -= SetupLabelCanvas(0, data_02174e68->mHeap, cellFileSet, data_0215404c[i], remainingObjSize);
+        remainingObjSize -= SetupLabelCanvas(0, gTimeAttackGhostGetSlot->mHeap, cellFileSet,
+                                             gTimeAttackGhostGetSlotMLabelTextRows[i], remainingObjSize);
     }
-    LocateAndQueueScreenMapFileSet(1, data_02174e68, data_02164590, data_021645b0, data_021645d0, 3, FindSceneFile);
-    cellFileSet = &data_02174e68->mCellFileSets[1];
+    LocateAndQueueScreenMapFileSet(1, gTimeAttackGhostGetSlot, data_02164590, data_021645b0, data_021645d0, 3,
+                                   FindSceneFile);
+    cellFileSet = &gTimeAttackGhostGetSlot->mCellFileSets[1];
     remainingObjSize = GX_GetSizeOfSubOBJ();
     assignedCount = 0;
     LocateCellFileSet(cellFileSet, data_021645ec, data_0216460c, data_0216462c, gTimeAttackGhostGetSBnclName,
                       gTimeAttackGhostGetSBnllName, gTimeAttackGhostGetSBnblName, FindSceneFile);
-    SetupCellFileSet(1, data_02174e68->mHeap, cellFileSet);
+    SetupCellFileSet(1, gTimeAttackGhostGetSlot->mHeap, cellFileSet);
     cellCount = cellFileSet->mCellLayout->mUnk_06;
     j = 0;
     if (j < cellFileSet->mLabelLayout->mUnk_06) {
-        row = data_02164470[0];
+        row = gTimeAttackGhostGetSlotSLabelTextRows[0];
         do {
             if (row[3] < 0) {
                 row[3] = cellCount + assignedCount++;
             }
-            remainingObjSize -=
-                SetupLabelCanvas(1, data_02174e68->mHeap, cellFileSet, data_02164470[j], remainingObjSize);
+            remainingObjSize -= SetupLabelCanvas(1, gTimeAttackGhostGetSlot->mHeap, cellFileSet,
+                                                 gTimeAttackGhostGetSlotSLabelTextRows[j], remainingObjSize);
             row += 4;
             j++;
         } while (j < cellFileSet->mLabelLayout->mUnk_06);
@@ -248,10 +250,10 @@ void func_020357dc(void *parentHeap, void *b, void *c) {
     for (i = 0; i < 8; i++) {
         SetCellPriority(i, 3, cellFileSet->mCells, cellFileSet->mCellLayout);
     }
-    for (j = 0, row = data_02164470[0]; j < 7; j++) {
+    for (j = 0, row = gTimeAttackGhostGetSlotSLabelTextRows[0]; j < 7; j++) {
         cellIndex = row[3];
         labelIndex = row[0];
-        secondLabelIndex = data_02164470[j + 7][0];
+        secondLabelIndex = gTimeAttackGhostGetSlotSLabelTextRows[j + 7][0];
         cellTable = cellFileSet->mCellTable;
         SetLayoutEntryPositionFromCell(cellIndex, &cellTable[cellIndex], cellFileSet->mCellLayout);
         SetLayoutEntryPositionFromLabel(labelIndex, &cellTable[labelIndex] + cellCount, cellFileSet->mLabelLayout);
@@ -260,22 +262,22 @@ void func_020357dc(void *parentHeap, void *b, void *c) {
         row += 4;
     }
     SetLayoutEntryPositionFromCell(7, &cellFileSet->mCellTable[7], cellFileSet->mCellLayout);
-    w[0] = 0;
-    w[1] = cellCount;
-    w[2] = cellCount + 7;
-    InitScrollList(data_02174e68->mHeap, 3, w, 7, 8, 0x7c, cellFileSet->mCellTable, cellFileSet->mRects,
-                   data_02174e68->mUnk_20 + 0xc, 0, 1, 2, 10, func_02035c50);
-    SetPlayerCharacterCellFileSet(0, &data_02174e68->mUnk_64);
+    groupFirstEntries[0] = 0;
+    groupFirstEntries[1] = cellCount;
+    groupFirstEntries[2] = cellCount + 7;
+    InitScrollList(gTimeAttackGhostGetSlot->mHeap, 3, groupFirstEntries, 7, 8, 0x7c, cellFileSet->mCellTable,
+                   cellFileSet->mRects, gTimeAttackGhostGetSlot->mUnk_20 + 0xc, 0, 1, 2, 10, RefreshSlotGhostListRows);
+    SetPlayerCharacterCellFileSet(0, &gTimeAttackGhostGetSlot->mCharacterCellFileSet);
     PrintSelectedGhostRecord();
-    SetupInterpolation(&data_02174e68->mUnk_90, 0, 10, -0xc0, 0);
+    SetupInterpolation(&gTimeAttackGhostGetSlot->mInterpolation, 0, 10, -0xc0, 0);
     RequestSelectReturnState1();
     SetSelectReturnSoundId(0xf);
-    func_02035c14();
-    FrmHeapShrinkInParent(data_02174e68->mHeap);
+    SetupGhostMainTextEx();
+    FrmHeapShrinkInParent(gTimeAttackGhostGetSlot->mHeap);
 }
 
-s32 func_0203551c(u16 *sceneNumbers) {
-    Unk02174e68 *object;
+s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers) {
+    TimeAttackGhostGetSlot *object;
     enum { K0 = -1 } result;
     s32 touchInReturnRect;
     BOOL pairIsNew;
@@ -290,7 +292,7 @@ s32 func_0203551c(u16 *sceneNumbers) {
     result = K0;
     slotIndex = func_020435bc();
     touchInReturnRect = 0;
-    AdvanceInterpolation(&data_02174e68->mUnk_90);
+    AdvanceInterpolation(&gTimeAttackGhostGetSlot->mInterpolation);
     pairIsNew = FALSE;
     pairRecentlyGone = FALSE;
     hasPair = data_02175674[slotIndex].mPressedBits;
@@ -304,23 +306,23 @@ s32 func_0203551c(u16 *sceneNumbers) {
         touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175670[slotIndex].mPressedBits,
                                                                             data_02175672[slotIndex].mPressedBits);
     }
-    object = data_02174e68;
+    object = gTimeAttackGhostGetSlot;
     switch (object->mState) {
         case 0:
-            if (object->mUnk_90.mState == 1) {
+            if (object->mInterpolation.mState == 1) {
                 object->mState = 1;
             } else {
-                func_02035b0c();
+                UpdateSlotSlideOffsets();
             }
             break;
         case 1:
             if (IsTxtSystemState0NoOpenRequest() != 0) {
-                func_02035c14();
+                SetupGhostMainTextEx();
             }
             AdvanceScrollList();
             i = GetScrollListSelectedRow();
-            if (data_02174e68->mSelectedIndex != i) {
-                data_02174e68->mSelectedIndex = i;
+            if (gTimeAttackGhostGetSlot->mSelectedIndex != i) {
+                gTimeAttackGhostGetSlot->mSelectedIndex = i;
                 PrintSelectedGhostRecord();
             }
             if (IsScrollListPickStarted() != 0) {
@@ -329,15 +331,15 @@ s32 func_0203551c(u16 *sceneNumbers) {
             if (IsScrollListPickFinished() != 0) {
                 SetupGhostNameSubTextTwoButtons();
                 RequestSelectReturnState4();
-                data_02174e68->mState = 2;
+                gTimeAttackGhostGetSlot->mState = 2;
             } else if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
-                message = GetBmgEntry(data_02174e68->mGhostMessages, 0x54);
-                buttonText = GetBmgEntry(data_02174e68->mCommonMessages, 4);
+                message = GetBmgEntry(gTimeAttackGhostGetSlot->mGhostMessages, 0x54);
+                buttonText = GetBmgEntry(gTimeAttackGhostGetSlot->mCommonMessages, 4);
                 SetTxtSystemSoundId(0, 5);
                 SetupTxtSystemSubTextButton(message, buttonText);
                 RequestSelectReturnState3WithSound(1);
-                data_02174e68->mUnk_a0 = FALSE;
-                data_02174e68->mState = 4;
+                gTimeAttackGhostGetSlot->mUnk_a0 = FALSE;
+                gTimeAttackGhostGetSlot->mState = 4;
             }
             break;
         case 2:
@@ -349,11 +351,11 @@ s32 func_0203551c(u16 *sceneNumbers) {
             if (GetTxtSystemDone() != 0) {
                 if (GetTxtSystemSelectedIndex() == 0) {
                     GetSlotGhostBuffer()->mHead.mFilled = 1;
-                    WriteSlotGhostRecord((u8) data_02174e68->mSelectedIndex, GetSlotGhostBuffer());
-                    data_02174e68->mState = 3;
+                    WriteSlotGhostRecord((u8) gTimeAttackGhostGetSlot->mSelectedIndex, GetSlotGhostBuffer());
+                    gTimeAttackGhostGetSlot->mState = 3;
                 } else {
                     RequestSelectReturnState1();
-                    data_02174e68->mState = 1;
+                    gTimeAttackGhostGetSlot->mState = 1;
                 }
                 RequestTxtSystemClose();
             }
@@ -361,11 +363,11 @@ s32 func_0203551c(u16 *sceneNumbers) {
         case 3:
             if (func_0203551c_inline_2() != 0) {
                 message = GetBmgEntry(object->mGhostMessages, 0x10);
-                buttonText = GetBmgEntry(data_02174e68->mCommonMessages, 4);
+                buttonText = GetBmgEntry(gTimeAttackGhostGetSlot->mCommonMessages, 4);
                 SetTxtSystemSoundId(0, 5);
                 SetupTxtSystemSubTextButton(message, buttonText);
-                data_02174e68->mUnk_a0 = FALSE;
-                data_02174e68->mState = 4;
+                gTimeAttackGhostGetSlot->mUnk_a0 = FALSE;
+                gTimeAttackGhostGetSlot->mState = 4;
             }
             break;
         case 4:
@@ -374,14 +376,14 @@ s32 func_0203551c(u16 *sceneNumbers) {
                 if (sceneNumbers != NULL) {
                     sceneNumbers[2] = 1;
                 }
-                data_02174e68->mState = 5;
+                gTimeAttackGhostGetSlot->mState = 5;
             }
             break;
     }
     for (i = 0; i < 2; i++) {
-        cellFileSets = data_02174e68->mCellFileSets;
+        cellFileSets = gTimeAttackGhostGetSlot->mCellFileSets;
         DrawLayoutTable(cellFileSets[i].mCellLayout, cellFileSets[i].mCells, cellFileSets[i].mLabelLayout,
-                        data_02174e68->mUnk_24[i], cellFileSets[i].mCellTable);
+                        gTimeAttackGhostGetSlot->mOamLists[i], cellFileSets[i].mCellTable);
     }
     return result;
 }
@@ -390,20 +392,20 @@ s32 func_0203551c(u16 *sceneNumbers) {
 
 #pragma thumb on
 
-void func_020354fc(void) {
-    HeapDestroy(data_02174e68->mHeap);
-    *(int *) &data_02174e68 = 0;
+void ReleaseTimeAttackGhostGetSlot(void) {
+    HeapDestroy(gTimeAttackGhostGetSlot->mHeap);
+    *(int *) &gTimeAttackGhostGetSlot = 0;
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void func_020353f8(void) {
+void WriteGhostGetSlotRegisters(void) {
     s32 offset;
     s32 negatedOffset;
 
-    offset = GetInterpolatedValue(&data_02174e68->mUnk_90);
+    offset = GetInterpolatedValue(&gTimeAttackGhostGetSlot->mInterpolation);
     reg_G2_BG0OFS = (offset << 16) & 0x1ff0000;
     negatedOffset = -offset;
     reg_G2S_DB_BG3OFS = (negatedOffset << 16) & 0x1ff0000;
@@ -424,25 +426,25 @@ void func_020353f8(void) {
     }
 }
 
-void func_020353a4(void) {
+void StartTimeAttackGhostGetScanState15(void) {
     void *message;
     void *buttonText;
 
-    message = GetBmgEntry(data_02174e64->mGhostMessages, 0x11);
-    buttonText = GetBmgEntry(data_02174e64->mCommonMessages, 4);
+    message = GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, 0x11);
+    buttonText = GetBmgEntry(gTimeAttackGhostGetScan->mCommonMessages, 4);
     SetTxtSystemSoundId(0, 5);
     SetupTxtSystemSubTextButton(message, buttonText);
-    data_02174e64->mStateFrames = 0;
-    data_02174e64->mState = 15;
+    gTimeAttackGhostGetScan->mStateFrames = 0;
+    gTimeAttackGhostGetScan->mState = 15;
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void func_02035378(void) {
+void SetupGhostMainTextShort(void) {
     void *message;
-    message = GetBmgEntry(data_02174e64->mGhostMessages, 1);
+    message = GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, 1);
     SetupTxtSystemMainTextShort(message, 0, 0, 0, 0, 0, 0);
 }
 
@@ -456,10 +458,10 @@ void MoveSelectedGhostUp(s32 wrap) {
     BOOL found;
     s32 startIndex;
     s32 index;
-    Unk02174e64 *object;
+    TimeAttackGhostGetScan *object;
 
     found = FALSE;
-    object = data_02174e64;
+    object = gTimeAttackGhostGetScan;
     startIndex = object->mSelectedIndex;
     index = startIndex - 1;
     if (index < 0) {
@@ -496,10 +498,10 @@ void MoveSelectedGhostDown(s32 wrap) {
     BOOL found;
     s32 startIndex;
     s32 index;
-    Unk02174e64 *object;
+    TimeAttackGhostGetScan *object;
 
     found = FALSE;
-    object = data_02174e64;
+    object = gTimeAttackGhostGetScan;
     startIndex = object->mSelectedIndex;
     index = startIndex + 1;
     if (index >= 4) {
@@ -530,23 +532,24 @@ void MoveSelectedGhostDown(s32 wrap) {
     }
 }
 
-void func_02035228(s32 a) {
+void SetScanSelectedEntryHighlight(s32 cursorVisible) {
     CellFileSet *subCellFileSet;
     s32 selectedIndex;
-    s32 w;
-    s32 v;
+    s32 courseLabelIndex;
+    s32 paletteIndex;
 
-    subCellFileSet = &data_02174e64->mCellFileSets[1];
-    selectedIndex = data_02174e64->mSelectedIndex;
-    w = selectedIndex + 4;
-    if (a != 0) {
-        v = 0xe;
+    subCellFileSet = &gTimeAttackGhostGetScan->mCellFileSets[1];
+    selectedIndex = gTimeAttackGhostGetScan->mSelectedIndex;
+    courseLabelIndex = selectedIndex + 4;
+    if (cursorVisible != 0) {
+        paletteIndex = 0xe;
     } else {
-        v = 0xf;
+        paletteIndex = 0xf;
     }
-    subCellFileSet->mCellTable[4].mVisible = a;
-    SetLabelPaletteIndex(w, v, subCellFileSet->mLabelLayout, subCellFileSet->mCellTable, subCellFileSet->mCellLayout);
-    SetLabelPaletteIndex(selectedIndex, v, subCellFileSet->mLabelLayout, subCellFileSet->mCellTable,
+    subCellFileSet->mCellTable[4].mVisible = cursorVisible;
+    SetLabelPaletteIndex(courseLabelIndex, paletteIndex, subCellFileSet->mLabelLayout, subCellFileSet->mCellTable,
+                         subCellFileSet->mCellLayout);
+    SetLabelPaletteIndex(selectedIndex, paletteIndex, subCellFileSet->mLabelLayout, subCellFileSet->mCellTable,
                          subCellFileSet->mCellLayout);
 }
 
@@ -558,9 +561,9 @@ void SetupGhostSubTextTwoButtons(void) {
     void *message;
     void *firstButtonText;
     void *secondButtonText;
-    message = GetBmgEntry(data_02174e64->mGhostMessages, 8);
-    firstButtonText = GetBmgEntry(data_02174e64->mCommonMessages, 0);
-    secondButtonText = GetBmgEntry(data_02174e64->mCommonMessages, 1);
+    message = GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, 8);
+    firstButtonText = GetBmgEntry(gTimeAttackGhostGetScan->mCommonMessages, 0);
+    secondButtonText = GetBmgEntry(gTimeAttackGhostGetScan->mCommonMessages, 1);
     SetTxtSystemSoundId(0, 5);
     SetupTxtSystemSubTextTwoButtonsEx(message, firstButtonText, secondButtonText, 0, 0, 1, 1, 0);
 }

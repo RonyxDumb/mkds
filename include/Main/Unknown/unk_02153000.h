@@ -103,8 +103,8 @@ typedef struct Unk02153d2c {
 } Unk02153d2c;
 
 extern Unk02153d2c gMultiSelectNSLabelMessageRows[];
-extern s16 data_02154034[][4];
-extern s16 data_0215404c[][4];
+extern s16 gTimeAttackGhostGetScanMLabelTextRows[][4];
+extern s16 gTimeAttackGhostGetSlotMLabelTextRows[][4];
 
 // Tables of 12-byte entries (data_usa_02153d7c is the third entry of data_usa_02153d64) and of u16 pairs.
 extern LabelMessageRow data_usa_02153d64[];
