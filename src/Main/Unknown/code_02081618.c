@@ -482,7 +482,7 @@ void AdvanceKartCurrentEffect(ParticleEmitter *effect, s32 phase) {
     Vec3 offsetBehind;
     Kart *kart;
     Vec3 *behindVector;
-    u32 stepCount;
+    u8 stepCount;
     s32 velocityFactor;
     u32 counting;
     u32 stopsEmission;
@@ -507,7 +507,7 @@ void AdvanceKartCurrentEffect(ParticleEmitter *effect, s32 phase) {
     offsetBehind.y = MUL_FIXED12_NO_ROUND(behindVector->y, -0x5000);
     offsetBehind.z = MUL_FIXED12_NO_ROUND(behindVector->z, -0x5000);
     if (counting != 0) {
-        stepCount = (u8) (stepCount + 1);
+        stepCount++;
         if (stepCount == 10) {
             effect->mUnk_24.mEnding = 1;
         }
@@ -529,7 +529,7 @@ void AdvanceKartCurrentEffect(ParticleEmitter *effect, s32 phase) {
 void AdvanceKartSideEffect(ParticleEmitter *effect, s32 phase) {
     s32 sideCoordinate;
     Kart *kart;
-    u32 stepCount;
+    u8 stepCount;
     KartEffects *kartEffects;
     u32 counting;
     u32 sideIndex;
@@ -551,7 +551,7 @@ void AdvanceKartSideEffect(ParticleEmitter *effect, s32 phase) {
     }
     effect->mUnk_24.mEmissionStopped = (stopsEmission != 0);
     if (counting != 0) {
-        stepCount = (u8) (stepCount + 1);
+        stepCount++;
         if (stepCount == 10) {
             effect->mUnk_24.mEnding = 1;
         }
@@ -570,7 +570,7 @@ void AdvanceKartSideEffectWithVelocity(ParticleEmitter *effect, s32 phase) {
     s32 sideCoordinate;
     Vec3 velocity;
     Kart *kart;
-    u32 stepCount;
+    u8 stepCount;
     KartEffects *kartEffects;
     u32 counting;
     u32 sideIndex;
@@ -595,7 +595,7 @@ void AdvanceKartSideEffectWithVelocity(ParticleEmitter *effect, s32 phase) {
     }
     effect->mUnk_24.mEmissionStopped = (stopsEmission != 0);
     if (counting != 0) {
-        stepCount = (u8) (stepCount + 1);
+        stepCount++;
         if (stepCount == 10) {
             effect->mUnk_24.mEnding = 1;
         }
@@ -620,7 +620,7 @@ void AdvanceKartWaterEffect(ParticleEmitter *effect, s32 phase) {
     Vec3 velocity;
     u32 counting;
     Kart *kart;
-    u32 stepCount;
+    u8 stepCount;
     KartEffects *kartEffects;
     u32 isSlowOrTurning;
     u32 sideIndex;
@@ -651,7 +651,7 @@ void AdvanceKartWaterEffect(ParticleEmitter *effect, s32 phase) {
     }
     effect->mUnk_24.mEmissionStopped = (stopsEmission != 0);
     if (counting != 0) {
-        stepCount = (u8) (stepCount + 1);
+        stepCount++;
         if (stepCount == 10) {
             effect->mUnk_24.mEnding = 1;
         }

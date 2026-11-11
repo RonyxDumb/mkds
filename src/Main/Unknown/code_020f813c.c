@@ -330,7 +330,7 @@ void PickItemSlotShownItem(KartItems *slot) {
     RandomState64 *random;
     s32 *items;
     u16 itemCount;
-    u32 index;
+    u16 index;
 
     switch (slot->mSlotState) {
         case 0:
@@ -346,7 +346,7 @@ void PickItemSlotShownItem(KartItems *slot) {
             random = &gRaceProgress->mLocalRandom;
             index = ItemSlotNextRandomBelowU16(random, itemCount);
             if (slot->mSlotShownItem == items[index]) {
-                index = (u16) (index + 1);
+                index++;
                 if (index >= itemCount) {
                     index = 0;
                 }

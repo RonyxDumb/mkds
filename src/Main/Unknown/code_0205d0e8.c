@@ -185,7 +185,7 @@ void SetCupWinningTeam(s32 team) {
 void SetTeamWinCountsAndPoints(s32 winningTeam) {
     s32 team;
     u16 kart, points;
-    u32 winCount;
+    u8 winCount;
     s8 previousCourse;
     CourseTeamResults *courseTeams;
     CourseTeamResult *teamRecord;
@@ -206,7 +206,7 @@ void SetTeamWinCountsAndPoints(s32 winningTeam) {
             winCount = gCupRecords->mTeamResults[previousCourse].mTeams[team].mWinCount;
         }
         if (team == winningTeam) {
-            winCount = (u8) (winCount + 1);
+            winCount++;
         }
         if (winCount > 99) {
             winCount = 99;

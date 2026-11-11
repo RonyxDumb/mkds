@@ -332,7 +332,7 @@ static inline Vec3 *GetItemKouraWNormalOrNull(ItemKouraW *item) {
 }
 
 void UpdateItemKouraWState1(ItemKouraW *item) {
-    u32 rank;
+    u16 rank;
     s32 value;
     s32 entry;
     void *normal;
@@ -387,7 +387,7 @@ void UpdateItemKouraWState1(ItemKouraW *item) {
     if (item->mRankTargetSkipped != 0) {
         u32 kartCount;
         kartCount = (u8) gRaceSetup->mKartCount;
-        for (rank = 1; rank <= kartCount; rank = (u16) (rank + 1)) {
+        for (rank = 1; rank <= kartCount; rank++) {
             item->mRankKartIndex = GetKartAtRank(rank);
             if (IsKartRemoved(GetKart(item->mRankKartIndex)) == 0) {
                 break;

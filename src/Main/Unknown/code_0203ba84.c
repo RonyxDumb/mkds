@@ -103,7 +103,7 @@ void PickRandomCharacters(CharacterKartPicks *picks) {
     u8 character;
     u8 entry;
     u32 availableCount;
-    u32 seen;
+    u8 seen;
     u32 givenCharacter;
     s32 checkId;
     s32 pickedCharacter;
@@ -183,7 +183,7 @@ void PickRandomCharacters(CharacterKartPicks *picks) {
                         availableBits = availableBits & ~(1 << candidate);
                         pickedCharacter = candidate;
                     } else {
-                        seen = (u8) (seen + 1);
+                        seen++;
                     }
                 }
             }

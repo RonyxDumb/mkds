@@ -153,7 +153,7 @@ s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccF
     s32 slotIndex;
     BOOL found;
     s32 oldestIndex;
-    s32 buddyIndex;
+    s8 buddyIndex;
     DWCAccFriendData *entry;
     u8 year;
     u8 month;
@@ -167,7 +167,7 @@ s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccF
     month = today[1];
     day = today[2];
     entry = friendDataList;
-    for (buddyIndex = 0; buddyIndex < 60; buddyIndex = (s8) (buddyIndex + 1), entry++) {
+    for (buddyIndex = 0; buddyIndex < 60; buddyIndex++, entry++) {
         GetBuddyRecord((u8) buddyIndex, &buddyRecord);
         if (buddyRecord.mFilled == 1 && IsFriendDataTypeNonZeroWrapper(friendData) != 0 &&
             IsFriendDataTypeNonZeroWrapper(entry) != 0 && DWC_IsEqualFriendData(entry, friendData) != 0) {
@@ -183,7 +183,7 @@ s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccF
         return -1;
     }
     if (slotIndex == -1) {
-        for (buddyIndex = 0; buddyIndex < 60; buddyIndex = (s8) (buddyIndex + 1)) {
+        for (buddyIndex = 0; buddyIndex < 60; buddyIndex++) {
             GetBuddyRecord((u8) buddyIndex, &buddyRecord);
             if (buddyRecord.mFilled == 0) {
                 slotIndex = buddyIndex;
@@ -196,7 +196,7 @@ s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccF
         oldestDate.mYear = 100;
         oldestDate.mMonth = 12;
         oldestDate.mDay = 31;
-        for (buddyIndex = 0; buddyIndex < 60; buddyIndex = (s8) (buddyIndex + 1)) {
+        for (buddyIndex = 0; buddyIndex < 60; buddyIndex++) {
             GetBuddyRecord((u8) buddyIndex, &buddyRecord);
             recordDate.mYear = buddyRecord.mYear;
             recordDate.mMonth = buddyRecord.mMonth;

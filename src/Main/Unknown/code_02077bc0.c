@@ -1297,7 +1297,7 @@ void QueueKartEmblemTexture(void *emblemData, void *emblemPalette) {
 }
 
 void InitKartModelMenuWithParamFiles(void *heap) {
-    u32 fileIndex;
+    u16 fileIndex;
     SetHeapGroupId(1);
     Init3dEngine();
     NNS_G3dGeUseFastDma(0);
@@ -1310,7 +1310,7 @@ void InitKartModelMenuWithParamFiles(void *heap) {
     LoadKartModelMenuFile(heap, data_usa_02165738, (void **) &gKartModelMenu->mCharMenuParams);
     LoadKartModelMenuFile(heap, data_usa_0216574c, (void **) &gKartModelMenu->mKartMenuParams);
     LoadKartModelMenuSelectModel(heap);
-    for (fileIndex = 0; fileIndex < 2; fileIndex = (u16) (fileIndex + 1)) {
+    for (fileIndex = 0; fileIndex < 2; fileIndex++) {
         InitKartModelMenuFiles(heap, &gKartModelMenu->mFiles[fileIndex]);
     }
     if (gBackupBuffers->mEmblemRecord->mFilled != 0 && gBackupBuffers->mFirstBlock->mEmblemOff == 0) {
@@ -1321,7 +1321,7 @@ void InitKartModelMenuWithParamFiles(void *heap) {
 }
 
 void InitKartModelMenuWithKartList(void *heap) {
-    u32 fileIndex;
+    u16 fileIndex;
     enum { K0 } kartIndex;
     s32 characterIndex;
     SetHeapGroupId(1);
@@ -1344,7 +1344,7 @@ void InitKartModelMenuWithKartList(void *heap) {
         kartIndex++;
     }
     gKartModelMenu->mView.mScale = data_usa_021656e0;
-    for (fileIndex = 0; fileIndex < 2; fileIndex = (u16) (fileIndex + 1)) {
+    for (fileIndex = 0; fileIndex < 2; fileIndex++) {
         InitKartModelMenuFiles(heap, &gKartModelMenu->mFiles[fileIndex]);
     }
     gKartModelMenu->mFiles[gKartModelMenu->mLoadSlotIndex].mLoadRequested = TRUE;
@@ -1360,7 +1360,7 @@ void InitKartModelMenuWithKartList(void *heap) {
 }
 
 void InitKartModelMenu(void *heap) {
-    u32 slotIndex;
+    u16 slotIndex;
     gKartModels = NULL;
     gKartModelMenu = HeapAlloc(heap, 0x26c);
     gKartModelMenu->mShownSlotIndex = -1;
@@ -1380,7 +1380,7 @@ void InitKartModelMenu(void *heap) {
     gKartModelMenu->mEmblemData = gKartModelMenu->mEmblemPalette;
     LoadEmblemSBNclr(heap);
     LoadKartModelMenuFile(heap, data_usa_02165724, (void **) &gKartModelMenu->mKartOffsetTable);
-    for (slotIndex = 0; slotIndex < 2; slotIndex = (u16) (slotIndex + 1)) {
+    for (slotIndex = 0; slotIndex < 2; slotIndex++) {
         InitKartModelMenuSlot(heap, &gKartModelMenu->mSlots[slotIndex]);
     }
     InitKartModelMenuView(&gKartModelMenu->mView, 1);
