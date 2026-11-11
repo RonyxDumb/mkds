@@ -129,13 +129,13 @@ BOOL IsTouchDownInRect(const Rect *rect) {
     if (input->mBits.mDown == 0) {
         return 0;
     }
-    if (rect->mUnk_00 > input->mTouchX) {
+    if (rect->mX > input->mTouchX) {
         return 0;
     }
     if (rect->mUnk_04 < input->mTouchX) {
         return 0;
     }
-    if (rect->mUnk_02 > input->mTouchY) {
+    if (rect->mY > input->mTouchY) {
         return 0;
     }
     if (rect->mUnk_06 >= input->mTouchY) {
@@ -149,13 +149,13 @@ BOOL IsTouchPressedInRect(const Rect *rect) {
     if ((((u32) input->mTouchFlags << 30) >> 31) == 0) {
         return 0;
     }
-    if (rect->mUnk_00 > input->mTouchX) {
+    if (rect->mX > input->mTouchX) {
         return 0;
     }
     if (rect->mUnk_04 < input->mTouchX) {
         return 0;
     }
-    if (rect->mUnk_02 > input->mTouchY) {
+    if (rect->mY > input->mTouchY) {
         return 0;
     }
     if (rect->mUnk_06 >= input->mTouchY) {
@@ -169,13 +169,13 @@ BOOL IsTouchPressedOrRepeatedInRect(const Rect *rect) {
     if ((((u32) input->mTouchFlags << 29) >> 31) == 0) {
         return 0;
     }
-    if (rect->mUnk_00 > input->mTouchX) {
+    if (rect->mX > input->mTouchX) {
         return 0;
     }
     if (rect->mUnk_04 < input->mTouchX) {
         return 0;
     }
-    if (rect->mUnk_02 > input->mTouchY) {
+    if (rect->mY > input->mTouchY) {
         return 0;
     }
     if (rect->mUnk_06 >= input->mTouchY) {
@@ -189,13 +189,13 @@ BOOL IsTouchReleasedInRect(const Rect *rect) {
     if ((((u32) input->mTouchFlags << 28) >> 31) == 0) {
         return 0;
     }
-    if (rect->mUnk_00 > input->mTouchX) {
+    if (rect->mX > input->mTouchX) {
         return 0;
     }
     if (rect->mUnk_04 < input->mTouchX) {
         return 0;
     }
-    if (rect->mUnk_02 > input->mTouchY) {
+    if (rect->mY > input->mTouchY) {
         return 0;
     }
     if (rect->mUnk_06 >= input->mTouchY) {
@@ -206,10 +206,10 @@ BOOL IsTouchReleasedInRect(const Rect *rect) {
 
 BOOL IsTouchPressedInOriginSizeRect(const Rect *input) {
     Rect rect;
-    rect.mUnk_00 = input->mUnk_00;
-    rect.mUnk_02 = input->mUnk_02;
-    rect.mUnk_04 = input->mUnk_00 + input->mUnk_04;
-    rect.mUnk_06 = input->mUnk_02 + input->mUnk_06;
+    rect.mX = input->mX;
+    rect.mY = input->mY;
+    rect.mUnk_04 = input->mX + input->mUnk_04;
+    rect.mUnk_06 = input->mY + input->mUnk_06;
     return IsTouchPressedInRect(&rect);
 }
 

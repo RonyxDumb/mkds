@@ -47,9 +47,9 @@ void SetupWay(void) {
     LoadHlSetScr();
     ShowSubScreenMessage(0x7e, gWayMessageDigitColumns[GetLanguageIndex()], record->mEntryIndex + 1);
     CreateObjectsForMenuPair(1);
-    PlaceSelectionCorners(gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mUnk_00,
+    PlaceSelectionCorners(gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mX,
                           gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mUnk_04,
-                          gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mUnk_02,
+                          gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mY,
                           gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mUnk_06);
     SetUpdateFunction(StartWayFadeIn);
 }
@@ -102,9 +102,9 @@ void UpdateWayInput(void) {
         if (IsTouchPressedInRect(&gWayRects[HasModeFlag(1)][i]) != 0) {
             SetButtonResultIfNone(1);
             gWaySelectedIndex = i;
-            PlaceSelectionCorners(gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mUnk_00,
+            PlaceSelectionCorners(gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mX,
                                   gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mUnk_04,
-                                  gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mUnk_02,
+                                  gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mY,
                                   gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mUnk_06);
             return;
         }

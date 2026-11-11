@@ -713,11 +713,11 @@ void SetupJb3ListCell(int cellKind, int cellState, int row) {
     u16 secondXPosition;
     u32 xBits;
     OamEntry **entryPointer;
-    cellXPositions[0] = gJb3ListCellRect.mUnk_00;
-    secondXPosition = gJb3ListRightButtonRect.mUnk_00;
+    cellXPositions[0] = gJb3ListCellRect.mX;
+    secondXPosition = gJb3ListRightButtonRect.mX;
     cellXPositions[1] = secondXPosition;
     cellXPositions[2] = secondXPosition;
-    secondXPosition = gJb3ListLeftButtonRect.mUnk_00;
+    secondXPosition = gJb3ListLeftButtonRect.mX;
     cellXPositions[3] = secondXPosition;
     cellXPositions[4] = secondXPosition;
     entryPointer = &gJb3List->mUnk_18[row];
@@ -843,7 +843,7 @@ u32 GetJb3ListHitId(void) {
     firstEntryIndex = FX_DivS32(gJb3ListScrollY, 0x1d);
     cellRectPointer = &cellRect;
     cellRect = gJb3ListCellRect;
-    for (rowIndex = 0; rowIndex < 4; rowIndex++, firstEntryIndex++, cellRect.mUnk_02 += 0x1d) {
+    for (rowIndex = 0; rowIndex < 4; rowIndex++, firstEntryIndex++, cellRect.mY += 0x1d) {
         if (firstEntryIndex != 2 && firstEntryIndex != 6) {
             if (IsTouchPressedInOriginSizeRect(cellRectPointer) != 0) {
                 return gJb3ListIdByEntryIndex[firstEntryIndex];
@@ -855,12 +855,12 @@ u32 GetJb3ListHitId(void) {
         if (searchEntryIndex == 2) {
             cellRect = gJb3ListRightButtonRect;
             rowIndex = rowIndex * 0x1d;
-            cellRect.mUnk_02 = cellRect.mUnk_02 + rowIndex;
+            cellRect.mY = cellRect.mY + rowIndex;
             if (IsTouchPressedInOriginSizeRect(&cellRect) != 0) {
                 return 2;
             }
             cellRect = gJb3ListLeftButtonRect;
-            cellRect.mUnk_02 = cellRect.mUnk_02 + rowIndex;
+            cellRect.mY = cellRect.mY + rowIndex;
             if (IsTouchPressedInOriginSizeRect(&cellRect) != 0) {
                 return 3;
             }
@@ -872,12 +872,12 @@ u32 GetJb3ListHitId(void) {
         if (searchEntryIndex == 6) {
             cellRect = gJb3ListRightButtonRect;
             rowIndex = rowIndex * 0x1d;
-            cellRect.mUnk_02 = cellRect.mUnk_02 + rowIndex;
+            cellRect.mY = cellRect.mY + rowIndex;
             if (IsTouchPressedInOriginSizeRect(&cellRect) != 0) {
                 return 7;
             }
             cellRect = gJb3ListLeftButtonRect;
-            cellRect.mUnk_02 = cellRect.mUnk_02 + rowIndex;
+            cellRect.mY = cellRect.mY + rowIndex;
             if (IsTouchPressedInOriginSizeRect(&cellRect) != 0) {
                 return 8;
             }
@@ -982,13 +982,13 @@ void PlaceJb3ListSelectionPair(void) {
     selectionRectIndices = gJb3ListSelectionRectIndices;
     rectIndex = selectionRectIndices.mUnk_00[gJb3ListSelectedId];
     if (rectIndex >= 3) {
-        PlaceSelectionPair(3, gJb3ListSelectionRects[rectIndex].mUnk_00, gJb3ListSelectionRects[rectIndex].mUnk_04,
-                           gJb3ListSelectionRects[rectIndex].mUnk_02);
+        PlaceSelectionPair(3, gJb3ListSelectionRects[rectIndex].mX, gJb3ListSelectionRects[rectIndex].mUnk_04,
+                           gJb3ListSelectionRects[rectIndex].mY);
         return;
     }
     selectionRect = gJb3ListSelectionRects[rectIndex];
-    selectionRect.mUnk_02 = selectionRect.mUnk_02 + gJb3ListSelectedRow * 0x1d;
-    PlaceSelectionPair(1, selectionRect.mUnk_00, selectionRect.mUnk_04, selectionRect.mUnk_02);
+    selectionRect.mY = selectionRect.mY + gJb3ListSelectedRow * 0x1d;
+    PlaceSelectionPair(1, selectionRect.mX, selectionRect.mUnk_04, selectionRect.mY);
 }
 
 void SetJb3ListSelectedIdFromRow(void) {

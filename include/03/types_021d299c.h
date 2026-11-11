@@ -4,8 +4,8 @@
 #include "tp.h"
 
 typedef struct Rect {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
+    /* 00 */ u16 mX;
+    /* 02 */ u16 mY;
     /* 04 */ u16 mUnk_04;
     /* 06 */ u16 mUnk_06;
 } Rect;

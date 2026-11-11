@@ -56,21 +56,21 @@ typedef struct WiFiVSSetting {
 typedef struct WiFiVSMatching {
     /* 0000 */ s32 mState;
     /* 0004 */ s32 mNextState;
-    /* 0008 */ s32 mUnk_08;
-    /* 000c */ s32 mUnk_0c;
+    /* 0008 */ s32 mStateFrames;
+    /* 000c */ s32 mBlinkFrames;
     /* 0010 */ s16 mOffset;
     /* 0012 */ s16 mUnk_12[3];
-    /* 0018 */ s16 mUnk_18[4];
+    /* 0018 */ s16 mNameSlideOffsets[4];
     /* 0020 */ s32 mPendingWiFiState;
-    /* 0024 */ s32 mUnk_24[3];
+    /* 0024 */ s32 mOtherFound[3];
     // mKartCount - 1: participants other than the own index.
     /* 0030 */ s32 mOtherCount;
     // Session indices of those participants (u8[3]); they index mPlayerRecords through the getters.
     /* 0034 */ u8 mOtherIndices[3];
     /* 0037 */ u8 pad_37;
-    /* 0038 */ s32 mUnk_38;
-    /* 003c */ BOOL mUnk_3c;
-    /* 0040 */ BOOL mUnk_40;
+    /* 0038 */ s32 mShownEntryCount;
+    /* 003c */ BOOL mCheckTimeLimit;
+    /* 0040 */ BOOL mNoOpponents;
     /* 0044 */ s32 mCurrentOtherIndex;
     /* 0048 */ s32 mBlendFrames;
     /* 004c */ u16 mBlendedColors[5];
@@ -82,7 +82,7 @@ typedef struct WiFiVSMatching {
     // Table of cells built from the Bncl / Bnll by InitLayoutTable.
     /* 10d4 */ LayoutTableEntry *mWiFiVSMatchingTable;
     /* 10d8 */ u8 mOtherEmblems[3][0x200];
-    /* 16d8 */ s32 mUnk_16d8[3];
+    /* 16d8 */ s32 mOtherHasEmblem[3];
     /* 16e4 */ struct Unk02021dc8 *mWiFiVSMatchingSNcer;
     /* 16e8 */ Ncgr *mWiFiVSMatchingSNcgr;
     /* 16ec */ Nclr *mWiFiVSMatchingSONclr;

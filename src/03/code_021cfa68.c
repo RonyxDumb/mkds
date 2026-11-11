@@ -11,24 +11,24 @@
 
 void InitWhWork(WhWork *work) {
     gWhWork = work;
-    work->mUnk_40 = 0;
+    work->mState = 0;
     gWhWork->mUnk_13a8 = 0;
-    gWhWork->mUnk_13ac = NULL;
+    gWhWork->mWepKeyCallback = NULL;
     gWhWork->mUnk_13b0 = 0;
 }
 
 void SetWhState(u32 newState) {
     if (gWhPrintFunction != NULL) {
-        gWhPrintFunction(0x08000000, gWhStateFromFormat, gWhStateNames[gWhWork->mUnk_40]);
+        gWhPrintFunction(0x08000000, gWhStateFromFormat, gWhStateNames[gWhWork->mState]);
     }
-    gWhWork->mUnk_40 = newState;
+    gWhWork->mState = newState;
     if (gWhPrintFunction != NULL) {
-        gWhPrintFunction(0x08000000, gWhStateToFormat, gWhStateNames[gWhWork->mUnk_40]);
+        gWhPrintFunction(0x08000000, gWhStateToFormat, gWhStateNames[gWhWork->mState]);
     }
 }
 
 void SetWhErrorCode(s32 errorCode) {
-    if ((u32) (gWhWork->mUnk_40 - 9) > 1) {
+    if ((u32) (gWhWork->mState - 9) > 1) {
         gWhWork->mUnk_54 = errorCode;
     }
 }
@@ -52,7 +52,7 @@ void SetWhParentParameterCallback(Unk021425e8 *event) {
         SetWhState(9);
         return;
     }
-    if (gWhWork->mUnk_13ac != NULL) {
+    if (gWhWork->mWepKeyCallback != NULL) {
         if (SetWhWepKey() == FALSE) {
             SetWhState(9);
         }
@@ -66,8 +66,8 @@ BOOL SetWhWepKey(void) {
     s32 result;
 
     SetWhState(3);
-    wepMode = gWhWork->mUnk_13ac(gWhWork->mUnk_13c0, gWhWork);
-    result = WM_SetWEPKey(SetWhWepKeyCallback, wepMode, gWhWork->mUnk_13c0);
+    wepMode = gWhWork->mWepKeyCallback(gWhWork->mWepKey, gWhWork);
+    result = WM_SetWEPKey(SetWhWepKeyCallback, wepMode, gWhWork->mWepKey);
     if (result != 2) {
         SetWhErrorCode(result);
         SetWhState(9);
@@ -90,7 +90,7 @@ void SetWhWepKeyCallback(Unk021425e8 *event) {
 BOOL StartWhParent(void) {
     s32 result;
 
-    if ((u32) (gWhWork->mUnk_40 - 4) <= 2) {
+    if ((u32) (gWhWork->mState - 4) <= 2) {
         return TRUE;
     }
     result = WM_StartParent(StartWhParentCallback);
@@ -99,7 +99,7 @@ BOOL StartWhParent(void) {
         return FALSE;
     }
     gWhWork->mUnk_50 = 0;
-    gWhWork->mUnk_52 = 1;
+    gWhWork->mConnectedMask = 1;
     return TRUE;
 }
 
@@ -118,7 +118,7 @@ void StartWhParentCallback(Unk021425e8 *event) {
             if (gWhPrintFunction != NULL) {
                 gWhPrintFunction(0x08000000, gWhChildConnectedFormat, event->mUnk_10);
             }
-            if (gWhWork->mUnk_4c != NULL && gWhWork->mUnk_4c(event) == 0) {
+            if (gWhWork->mConnectCallback != NULL && gWhWork->mConnectCallback(event) == 0) {
                 result = WM_Disconnect(NULL, event->mUnk_10);
                 if (result == 2) {
                     return;
@@ -127,13 +127,13 @@ void StartWhParentCallback(Unk021425e8 *event) {
                 SetWhState(9);
                 return;
             }
-            gWhWork->mUnk_52 = gWhWork->mUnk_52 | aidBit;
+            gWhWork->mConnectedMask = gWhWork->mConnectedMask | aidBit;
             return;
         case 9:
             if (gWhPrintFunction != NULL) {
                 gWhPrintFunction(0x08000000, gWhChildDisconnectedFormat, event->mUnk_10);
             }
-            gWhWork->mUnk_52 = gWhWork->mUnk_52 & ~aidBit;
+            gWhWork->mConnectedMask = gWhWork->mConnectedMask & ~aidBit;
             return;
         case 0:
             if (StartWhMP() == FALSE) {
@@ -153,12 +153,12 @@ void StartWhParentCallback(Unk021425e8 *event) {
 BOOL StartWhMP(void) {
     s32 result;
 
-    if ((u32) (gWhWork->mUnk_40 - 4) <= 2) {
+    if ((u32) (gWhWork->mState - 4) <= 2) {
         return TRUE;
     }
     SetWhState(4);
-    result = WM_StartMPEx(StartWhMPCallback, gWhWork->mUnk_1060, gWhWork->mUnk_12a4, gWhWork->mUnk_f80,
-                          gWhWork->mUnk_12a0, 1, 0, 0, 0, 0, 0);
+    result = WM_StartMPEx(StartWhMPCallback, gWhWork->mReceiveBuffer, gWhWork->mReceiveBufferSize, gWhWork->mSendBuffer,
+                          gWhWork->mSendBufferSize, 1, 0, 0, 0, 0, 0);
     if (result != 2) {
         SetWhErrorCode(result);
         return FALSE;
@@ -176,8 +176,8 @@ void StartWhMPCallback(Unk021425e8 *event) {
     }
     switch (event->mUnk_04) {
         case 0xa:
-            if (gWhWork->mUnk_44 == 2) {
-                if (gWhWork->mUnk_40 == 4) {
+            if (gWhWork->mConnectMode == 2) {
+                if (gWhWork->mState == 4) {
                     if (StartWhKeySharing() != FALSE) {
                         return;
                     }
@@ -187,11 +187,11 @@ void StartWhMPCallback(Unk021425e8 *event) {
                     SetWhState(9);
                     return;
                 }
-                if (gWhWork->mUnk_40 == 6) {
+                if (gWhWork->mState == 6) {
                     return;
                 }
-            } else if (gWhWork->mUnk_44 == 4) {
-                result = WM_StartDataSharing(&gWhWork->mUnk_13e0, 0xd, 7, 0x44, 1);
+            } else if (gWhWork->mConnectMode == 4) {
+                result = WM_StartDataSharing(&gWhWork->mDataSharingInfo, 0xd, 7, 0x44, 1);
                 if (result != 0) {
                     SetWhErrorCode(result);
                     SetWhState(9);
@@ -218,7 +218,7 @@ BOOL StartWhKeySharing(void) {
     s32 result;
 
     SetWhState(6);
-    result = WM_StartKeySharing(&gWhWork->mUnk_1e00, 0xd);
+    result = WM_StartKeySharing(&gWhWork->mKeySharingBuf, 0xd);
     if (result != 2) {
         SetWhErrorCode(result);
         return FALSE;
@@ -227,7 +227,7 @@ BOOL StartWhKeySharing(void) {
 }
 
 BOOL EndWhKeySharing(void) {
-    s32 result = WM_EndKeySharing(&gWhWork->mUnk_1e00);
+    s32 result = WM_EndKeySharing(&gWhWork->mKeySharingBuf);
     if (result != 2) {
         SetWhErrorCode(result);
         return FALSE;
@@ -278,11 +278,11 @@ void EndWhParentCallback(Unk021425e8 *event) {
 BOOL EndActiveWhKeySharing(void) {
     s32 result;
 
-    if (gWhWork->mUnk_40 != 6) {
+    if (gWhWork->mState != 6) {
         return FALSE;
     }
     SetWhState(3);
-    result = WM_EndKeySharing(&gWhWork->mUnk_1e00);
+    result = WM_EndKeySharing(&gWhWork->mKeySharingBuf);
     if (result != 2) {
         SetWhErrorCode(result);
         return FALSE;
@@ -366,11 +366,11 @@ void SetWhGgid(u32 ggid) {
 }
 
 u16 GetWhConnectedMask(void) {
-    return gWhWork->mUnk_52;
+    return gWhWork->mConnectedMask;
 }
 
 u32 GetWhState(void) {
-    return gWhWork->mUnk_40;
+    return gWhWork->mState;
 }
 
 BOOL StartWhChannelSearch(void) {
@@ -381,10 +381,10 @@ BOOL StartWhChannelSearch(void) {
     OS_GetMacAddress(macAddress);
     seed = *(u32 *) 0x27ffc3c;
     seed = macAddress[0] + seed + macAddress[1] + macAddress[2];
-    gWhWork->mUnk_58 = seed;
-    gWhWork->mUnk_58 = gWhWork->mUnk_58 * 0x10dcd + 0x3039;
-    gWhWork->mUnk_5c = 0;
-    gWhWork->mUnk_5e = 0x65;
+    gWhWork->mRandomSeed = seed;
+    gWhWork->mRandomSeed = gWhWork->mRandomSeed * 0x10dcd + 0x3039;
+    gWhWork->mDecidedChannel = 0;
+    gWhWork->mLowestBusyRatio = 0x65;
     SetWhState(3);
     result = MeasureNextWhChannel(1);
     if (result == 0x18) {
@@ -436,11 +436,11 @@ void StartWhMeasureChannelCallback(Unk021425e8 *event) {
     }
     channel = event->mUnk_08_0;
     busyRatio = event->mUnk_08_2;
-    if (gWhWork->mUnk_5e > busyRatio) {
-        gWhWork->mUnk_5e = busyRatio;
-        gWhWork->mUnk_60 = 1 << (channel - 1);
-    } else if (gWhWork->mUnk_5e == busyRatio) {
-        gWhWork->mUnk_60 = gWhWork->mUnk_60 | (1 << (channel - 1));
+    if (gWhWork->mLowestBusyRatio > busyRatio) {
+        gWhWork->mLowestBusyRatio = busyRatio;
+        gWhWork->mLowestBusyChannelMask = 1 << (channel - 1);
+    } else if (gWhWork->mLowestBusyRatio == busyRatio) {
+        gWhWork->mLowestBusyChannelMask = gWhWork->mLowestBusyChannelMask | (1 << (channel - 1));
     }
     result = MeasureNextWhChannel(channel + 1);
     if (result == 0x18) {
@@ -459,18 +459,18 @@ int StartWhMeasureChannel(Unk021425e8Func callback, u16 channel) {
 u16 DecideWhChannel(void) {
     WhWork **workAddress;
     u16 channel;
-    if (gWhWork->mUnk_40 != 7) {
+    if (gWhWork->mState != 7) {
         OS_Terminate();
     }
     SetWhState(1);
-    channel = PickWhChannel((u32) (gWhWork->mUnk_60));
+    channel = PickWhChannel((u32) (gWhWork->mLowestBusyChannelMask));
     workAddress = &gWhWork;
-    gWhWork->mUnk_5c = channel;
+    gWhWork->mDecidedChannel = channel;
     if ((UnkFunc *) (*(u32 *) &gWhPrintFunction) != NULL) {
         (*(UnkFunc *) (*(u32 *) &gWhPrintFunction))((0x08000000u), (u32) &gWhDecidedChannelFormat,
-                                                    (*workAddress)->mUnk_5c);
+                                                    (*workAddress)->mDecidedChannel);
     }
-    return gWhWork->mUnk_5c;
+    return gWhWork->mDecidedChannel;
 }
 
 int PickWhChannel(u16 channelMask) {
@@ -489,8 +489,8 @@ int PickWhChannel(u16 channelMask) {
         }
     }
     if (bitCount > 1) {
-        gWhWork->mUnk_58 = gWhWork->mUnk_58 * 0x10dcd + 0x3039;
-        skipCount = (bitCount * (gWhWork->mUnk_58 & 0xff)) >> 8;
+        gWhWork->mRandomSeed = gWhWork->mRandomSeed * 0x10dcd + 0x3039;
+        skipCount = (bitCount * (gWhWork->mRandomSeed & 0xff)) >> 8;
         for (channelIndex = 0; channelIndex < 16; channelIndex++) {
             if ((channelMask & 1) != 0) {
                 if (skipCount == 0) {
@@ -506,15 +506,15 @@ int PickWhChannel(u16 channelMask) {
 }
 
 BOOL ClearWhAndInitialize(void) {
-    gWhWork->mUnk_12a4 = 0;
-    gWhWork->mUnk_12a0 = 0;
+    gWhWork->mReceiveBufferSize = 0;
+    gWhWork->mSendBufferSize = 0;
     gWhWork->mUnk_48 = 0;
     gWhWork->mUnk_50 = 0;
-    gWhWork->mUnk_52 = 1;
+    gWhWork->mConnectedMask = 1;
     gWhWork->mUnk_54 = 0;
-    gWhWork->mUnk_00 = NULL;
-    gWhWork->mUnk_04 = 0;
-    gWhWork->mUnk_4c = NULL;
+    gWhWork->mUserGameInfo = NULL;
+    gWhWork->mUserGameInfoLength = 0;
+    gWhWork->mConnectCallback = NULL;
     if (StartWhInitialize() != FALSE) {
         return TRUE;
     }
@@ -531,7 +531,7 @@ void WhIndicationCallback(Unk021425e8 *event) {
 BOOL StartWhInitialize(void) {
     s32 result;
     SetWhState(3);
-    result = WM_Initialize(gWhWork->mUnk_80, StartWhInitializeCallback, 2);
+    result = WM_Initialize(gWhWork->mWmSystemBuffer, StartWhInitializeCallback, 2);
     if (result != 2) {
         SetWhErrorCode(result);
         SetWhState(10);
@@ -556,29 +556,29 @@ void StartWhInitializeCallback(Unk021425e8 *event) {
 }
 
 BOOL StartWhParentConnect(u32 mode, u16 tgid, u16 channel) {
-    if (gWhWork->mUnk_40 != 1) {
+    if (gWhWork->mState != 1) {
         OS_Terminate();
     }
-    gWhWork->mUnk_12a4 = 0x180;
-    gWhWork->mUnk_12a0 = 0xe0;
+    gWhWork->mReceiveBufferSize = 0x180;
+    gWhWork->mSendBufferSize = 0xe0;
     if (gWhPrintFunction != NULL) {
-        gWhPrintFunction(0x08000000, gWhRecvBufferSizeFormat, gWhWork->mUnk_12a4);
+        gWhPrintFunction(0x08000000, gWhRecvBufferSizeFormat, gWhWork->mReceiveBufferSize);
     }
     if (gWhPrintFunction != NULL) {
-        gWhPrintFunction(0x08000000, gWhSendBufferSizeFormat, gWhWork->mUnk_12a0);
+        gWhPrintFunction(0x08000000, gWhSendBufferSizeFormat, gWhWork->mSendBufferSize);
     }
-    gWhWork->mUnk_44 = mode;
+    gWhWork->mConnectMode = mode;
     SetWhState(3);
-    gWhWork->mUnk_0c = tgid;
-    gWhWork->mUnk_32 = channel;
-    gWhWork->mUnk_18 = WM_GetDispersionBeaconPeriod();
-    gWhWork->mUnk_34 = 0xd0;
-    gWhWork->mUnk_36 = 0x44;
-    gWhWork->mUnk_10 = 2;
+    gWhWork->mTgid = tgid;
+    gWhWork->mChannel = channel;
+    gWhWork->mBeaconPeriod = WM_GetDispersionBeaconPeriod();
+    gWhWork->mParentMaxSize = 0xd0;
+    gWhWork->mChildMaxSize = 0x44;
+    gWhWork->mMaxEntry = 2;
     gWhWork->mUnk_16 = 0;
     gWhWork->mUnk_12 = 0;
-    gWhWork->mUnk_0e = 1;
-    gWhWork->mUnk_14 = mode == 2 ? 1 : 0;
+    gWhWork->mEntryFlag = 1;
+    gWhWork->mKsFlag = mode == 2 ? 1 : 0;
     if (mode == 0 || mode == 2 || mode == 4) {
         return SetWhParentParameter();
     }
@@ -589,15 +589,15 @@ BOOL StartWhParentConnect(u32 mode, u16 tgid, u16 channel) {
 }
 
 void SetWhConnectCallback(u32 callback) {
-    gWhWork->mUnk_4c = (s32(*)(Unk021425e8 *)) callback;
+    gWhWork->mConnectCallback = (s32(*)(Unk021425e8 *)) callback;
 }
 
 u8 *GetWhSharedDataAddress(u32 aid) {
-    return WM_GetSharedDataAddress(&gWhWork->mUnk_13e0, &gWhWork->mUnk_1c00, aid);
+    return WM_GetSharedDataAddress(&gWhWork->mDataSharingInfo, &gWhWork->mReceiveData, aid);
 }
 
 BOOL StepWhDataSharing(void *sendData) {
-    s32 result = WM_StepDataSharing(&gWhWork->mUnk_13e0, sendData, &gWhWork->mUnk_1c00);
+    s32 result = WM_StepDataSharing(&gWhWork->mDataSharingInfo, sendData, &gWhWork->mReceiveData);
     if (result == 7) {
         if (gWhPrintFunction != NULL) {
             gWhPrintFunction(0x08000000, gWhNoChildText);
@@ -627,7 +627,7 @@ void StartWhResetOrFail(void) {
 }
 
 void FinalizeWh(void) {
-    s32 state = gWhWork->mUnk_40;
+    s32 state = gWhWork->mState;
     if (state == 1) {
         if (gWhPrintFunction != NULL) {
             gWhPrintFunction(0x08000000, gWhAlreadyIdleText);
@@ -637,13 +637,13 @@ void FinalizeWh(void) {
     if (gWhPrintFunction != NULL) {
         gWhPrintFunction(0x08000000, gWhFinalizeStateFormat, state);
     }
-    if (gWhWork->mUnk_40 != 6 && gWhWork->mUnk_40 != 5 && gWhWork->mUnk_40 != 4) {
+    if (gWhWork->mState != 6 && gWhWork->mState != 5 && gWhWork->mState != 4) {
         SetWhState(3);
         StartWhResetOrFail();
         return;
     }
     SetWhState(3);
-    switch (gWhWork->mUnk_44) {
+    switch (gWhWork->mConnectMode) {
         case 3:
             if (EndActiveWhKeySharing() == FALSE) {
                 StartWhResetOrFail();
@@ -671,7 +671,7 @@ void FinalizeWh(void) {
 
 BOOL EndWh(void) {
     int result;
-    if (gWhWork->mUnk_40 != 1) {
+    if (gWhWork->mState != 1) {
         OS_Terminate();
     }
     SetWhState(3);
