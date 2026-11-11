@@ -282,7 +282,7 @@ BOOL func_ov001_021816b4(void) {
     list = FindMapObjectKindUpdateList(MAP_OBJECT_KIND_BALLOON);
     if (list != NULL) {
         for (i = 0; i < list->mMapObjectCount && (balloon = list->mMapObjects[i]) != NULL; i++) {
-            if ((balloon->mUnk_00.mFlags & 0x100) == 0) {
+            if ((balloon->mMapObject.mFlags & 0x100) == 0) {
                 return TRUE;
             }
         }

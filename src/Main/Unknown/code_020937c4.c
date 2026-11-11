@@ -45,11 +45,11 @@ void DrawNsKiller1(void *a, NsKiller1 *nsKiller1) {
 
     t = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &t, 1);
-    NNS_G3dGeBufferOP_N(0x1b, &nsKiller1->mUnk_00.mScale, 3);
-    nsKiller1->mUnk_00.mMatrix.mUnk_00[3].x = nsKiller1->mUnk_00.mPos.x >> 4;
-    nsKiller1->mUnk_00.mMatrix.mUnk_00[3].y = nsKiller1->mUnk_00.mPos.y >> 4;
-    nsKiller1->mUnk_00.mMatrix.mUnk_00[3].z = nsKiller1->mUnk_00.mPos.z >> 4;
-    NNS_G3dGeBufferOP_N(0x19, &nsKiller1->mUnk_00.mMatrix, 12);
+    NNS_G3dGeBufferOP_N(0x1b, &nsKiller1->mMapObject.mScale, 3);
+    nsKiller1->mMapObject.mMatrix.mUnk_00[3].x = nsKiller1->mMapObject.mPos.x >> 4;
+    nsKiller1->mMapObject.mMatrix.mUnk_00[3].y = nsKiller1->mMapObject.mPos.y >> 4;
+    nsKiller1->mMapObject.mMatrix.mUnk_00[3].z = nsKiller1->mMapObject.mPos.z >> 4;
+    NNS_G3dGeBufferOP_N(0x19, &nsKiller1->mMapObject.mMatrix, 12);
     DrawMapObjectModel(a, gNsKiller1, nsKiller1);
 }
 
@@ -85,15 +85,15 @@ void UpdateNsKiller1(void *a, NsKiller1 *nsKiller1) {
                 nsKiller1->mStateTimer = 0x2d;
                 nsKiller1->mState = 2;
             }
-            GetGroupFollowerLinearXz(&nsKiller1->mFollower, &nsKiller1->mUnk_00.mPos);
+            GetGroupFollowerLinearXz(&nsKiller1->mFollower, &nsKiller1->mMapObject.mPos);
             break;
         case 2:
             if (nsKiller1->mStateTimer == 0x2d) {
-                if ((nsKiller1->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
+                if ((nsKiller1->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
                     NNS_SndPlayerStopSeq(GetSndHandleSlot(8), 0);
                     s = data_0216676c;
-                    s.mPositionSource = &nsKiller1->mUnk_00.mPos;
-                    s.mDistanceSquared = GetHorizontalCameraDistanceSquared(&nsKiller1->mUnk_00.mPos);
+                    s.mPositionSource = &nsKiller1->mMapObject.mPos;
+                    s.mDistanceSquared = GetHorizontalCameraDistanceSquared(&nsKiller1->mMapObject.mPos);
                     StartSndHandleSoundEx(&s, GetSndHandleSlot(8));
                 }
             } else if (nsKiller1->mStateTimer <= 0) {
@@ -103,11 +103,11 @@ void UpdateNsKiller1(void *a, NsKiller1 *nsKiller1) {
             nsKiller1->mStateTimer--;
             break;
         case 3:
-            StartNsKiller2(&nsKiller1->mUnk_00.mPos, &nsKiller1->mUnk_00.mMatrix.mUnk_00[2], nsKiller1->mUnk_00.mAngle);
-            if ((nsKiller1->mUnk_00.mFlags & 0x12) == 0) {
-                StartEffect(0x4b, &nsKiller1->mUnk_00.mPos);
-                StartEffect(0x4c, &nsKiller1->mUnk_00.mPos);
-                StartEffect(0x4d, &nsKiller1->mUnk_00.mPos);
+            StartNsKiller2(&nsKiller1->mMapObject.mPos, &nsKiller1->mMapObject.mMatrix.mUnk_00[2], nsKiller1->mMapObject.mAngle);
+            if ((nsKiller1->mMapObject.mFlags & 0x12) == 0) {
+                StartEffect(0x4b, &nsKiller1->mMapObject.mPos);
+                StartEffect(0x4c, &nsKiller1->mMapObject.mPos);
+                StartEffect(0x4d, &nsKiller1->mMapObject.mPos);
             }
             nsKiller1->mStateTimer = 0x4b;
             nsKiller1->mState = 0;
@@ -124,11 +124,11 @@ void CreateNsKiller1UpdateList(void) {
 }
 
 void InitNsKiller2(NsKiller2 *nsKiller2) {
-    nsKiller2->mUnk_00.mFlags |= data_021564b4;
-    ParkMapObject(&nsKiller2->mUnk_00);
-    nsKiller2->mSoundDistanceSquaredChange = CreateVehicleSoundSource(&nsKiller2->mUnk_00);
+    nsKiller2->mMapObject.mFlags |= data_021564b4;
+    ParkMapObject(&nsKiller2->mMapObject);
+    nsKiller2->mSoundDistanceSquaredChange = CreateVehicleSoundSource(&nsKiller2->mMapObject);
     ResetSoundDistanceSquaredChange(nsKiller2->mSoundDistanceSquaredChange);
-    nsKiller2->mUnk_00.mSound->mSoundSource.mTrackParamsFunction =
+    nsKiller2->mMapObject.mSound->mSoundSource.mTrackParamsFunction =
         (void (*)(void *, void *, void *)) SetNsKiller2SoundTrackParams;
 }
 
@@ -141,15 +141,15 @@ u8 CollideKartWithNsKiller2(NsKiller2 *nsKiller2, Kart *kart, u8 *c, u8 *d) {
     if (x == 1) {
         nsKiller2->mParkTimer = 0x78;
         nsKiller2->mMode = 1;
-        nsKiller2->mUnk_00.mUnk_10.x = ((s64) nsKiller2->mUnk_00.mUnk_10.x << 10) >> 12;
-        nsKiller2->mUnk_00.mUnk_10.y = ((s64) nsKiller2->mUnk_00.mUnk_10.y << 10) >> 12;
-        nsKiller2->mUnk_00.mUnk_10.z = ((s64) nsKiller2->mUnk_00.mUnk_10.z << 10) >> 12;
-        nsKiller2->mUnk_00.mUnk_10.y = 0x4000;
-        nsKiller2->mUnk_00.mFlags |= data_021564ac;
+        nsKiller2->mMapObject.mPosStep.x = ((s64) nsKiller2->mMapObject.mPosStep.x << 10) >> 12;
+        nsKiller2->mMapObject.mPosStep.y = ((s64) nsKiller2->mMapObject.mPosStep.y << 10) >> 12;
+        nsKiller2->mMapObject.mPosStep.z = ((s64) nsKiller2->mMapObject.mPosStep.z << 10) >> 12;
+        nsKiller2->mMapObject.mPosStep.y = 0x4000;
+        nsKiller2->mMapObject.mFlags |= data_021564ac;
         if (kart->mItemEffect == 1 || kart->mItemEffect == 3) {
-            nsKiller2->mUnk_00.mDistanceSquaredAndFlags |= data_021564b0;
+            nsKiller2->mMapObject.mDistanceSquaredAndFlags |= data_021564b0;
         }
-        StartSoundIfKartStarOrKiller(&nsKiller2->mUnk_00, kart);
+        StartSoundIfKartStarOrKiller(&nsKiller2->mMapObject, kart);
     }
     return v;
 }
@@ -170,45 +170,45 @@ void DrawNsKiller2(void *a, NsKiller2 *nsKiller2) {
     }
     t = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &t, 1);
-    NNS_G3dGeBufferOP_N(0x19, SetTranslationMatrixPos(&nsKiller2->mUnk_00.mPos), 12);
-    angleIndex = nsKiller2->mUnk_00.mAngle >> 4;
+    NNS_G3dGeBufferOP_N(0x19, SetTranslationMatrixPos(&nsKiller2->mMapObject.mPos), 12);
+    angleIndex = nsKiller2->mMapObject.mAngle >> 4;
     MTX_RotY33_(&rotationMatrix, gPairsByAngle[angleIndex * 2], gPairsByAngle[angleIndex * 2 + 1]);
     NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
-    NNS_G3dGeBufferOP_N(0x1b, &nsKiller2->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &nsKiller2->mMapObject.mScale, 3);
     DrawMapObjectModel(a, gNsKiller2S, nsKiller2);
     DrawMapObjectModel(a, gNsKiller2, nsKiller2);
 }
 
 void UpdateNsKiller2(void *a, NsKiller2 *nsKiller2) {
-    if ((GetKartKind3ShapeListMask() & nsKiller2->mUnk_00.mDigitMask) != 0) {
-        nsKiller2->mUnk_00.mFlags |= data_021564a8;
+    if ((GetKartKind3ShapeListMask() & nsKiller2->mMapObject.mDigitMask) != 0) {
+        nsKiller2->mMapObject.mFlags |= data_021564a8;
     } else {
-        nsKiller2->mUnk_00.mFlags &= ~2;
+        nsKiller2->mMapObject.mFlags &= ~2;
     }
     switch (nsKiller2->mMode) {
         case 0:
             if (nsKiller2->mParkTimer-- > 0) {
-                if ((nsKiller2->mUnk_00.mFlags & 2) == 0 && (nsKiller2->mUnk_00.mDistanceSquaredAndFlags & 8) != 0) {
+                if ((nsKiller2->mMapObject.mFlags & 2) == 0 && (nsKiller2->mMapObject.mDistanceSquaredAndFlags & 8) != 0) {
                     AdvanceSoundDistanceSquaredChange(nsKiller2->mSoundDistanceSquaredChange,
-                                                      nsKiller2->mUnk_00.mDistanceSquaredAndFlags & ~0xc000001f);
+                                                      nsKiller2->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f);
                 } else {
                     AdvanceSoundDistanceSquaredChange(nsKiller2->mSoundDistanceSquaredChange,
-                                                      GetHorizontalCameraDistanceSquared(&nsKiller2->mUnk_00.mPos));
+                                                      GetHorizontalCameraDistanceSquared(&nsKiller2->mMapObject.mPos));
                 }
-                VEC_Add(&nsKiller2->mUnk_00.mPos, &nsKiller2->mUnk_00.mUnk_10, &nsKiller2->mUnk_00.mPos);
+                VEC_Add(&nsKiller2->mMapObject.mPos, &nsKiller2->mMapObject.mPosStep, &nsKiller2->mMapObject.mPos);
                 if (nsKiller2->mParkTimer < 0x24e) {
-                    StartMapObjectSoundWhileRequested(&nsKiller2->mUnk_00, 0x17d);
+                    StartMapObjectSoundWhileRequested(&nsKiller2->mMapObject, 0x17d);
                 }
             } else {
-                ParkMapObject(&nsKiller2->mUnk_00);
+                ParkMapObject(&nsKiller2->mMapObject);
             }
             break;
         case 1:
             if (nsKiller2->mParkTimer-- > 0) {
-                nsKiller2->mUnk_00.mUnk_10.y -= 0x400;
-                VEC_Add(&nsKiller2->mUnk_00.mPos, &nsKiller2->mUnk_00.mUnk_10, &nsKiller2->mUnk_00.mPos);
+                nsKiller2->mMapObject.mPosStep.y -= 0x400;
+                VEC_Add(&nsKiller2->mMapObject.mPos, &nsKiller2->mMapObject.mPosStep, &nsKiller2->mMapObject.mPos);
             } else {
-                ParkMapObject(&nsKiller2->mUnk_00);
+                ParkMapObject(&nsKiller2->mMapObject);
             }
             break;
     }
@@ -239,15 +239,15 @@ void StartNsKiller2(Vec3 *startPos, Vec3 *b, u16 angle) {
         return;
     }
     nsKiller2->mParkTimer = 600;
-    nsKiller2->mUnk_00.mPos.x = startPos->x;
-    nsKiller2->mUnk_00.mPos.y = startPos->y + 0x2a000;
-    nsKiller2->mUnk_00.mPos.z = startPos->z;
-    nsKiller2->mUnk_00.mMatrix.mUnk_00[2].x = b->x;
-    nsKiller2->mUnk_00.mMatrix.mUnk_00[2].y = 0;
-    nsKiller2->mUnk_00.mMatrix.mUnk_00[2].z = b->z;
-    nsKiller2->mUnk_00.mUnk_10.x = MUL_FIXED12_NO_ROUND(b->x, 0x6000);
-    nsKiller2->mUnk_00.mUnk_10.y = 0;
-    nsKiller2->mUnk_00.mUnk_10.z = MUL_FIXED12_NO_ROUND(b->z, 0x6000);
-    nsKiller2->mUnk_00.mAngle = angle;
+    nsKiller2->mMapObject.mPos.x = startPos->x;
+    nsKiller2->mMapObject.mPos.y = startPos->y + 0x2a000;
+    nsKiller2->mMapObject.mPos.z = startPos->z;
+    nsKiller2->mMapObject.mMatrix.mUnk_00[2].x = b->x;
+    nsKiller2->mMapObject.mMatrix.mUnk_00[2].y = 0;
+    nsKiller2->mMapObject.mMatrix.mUnk_00[2].z = b->z;
+    nsKiller2->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(b->x, 0x6000);
+    nsKiller2->mMapObject.mPosStep.y = 0;
+    nsKiller2->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(b->z, 0x6000);
+    nsKiller2->mMapObject.mAngle = angle;
     nsKiller2->mMode = 0;
 }

@@ -30,7 +30,7 @@ typedef struct SanboPiece {
 // to 0xac, four 0x48-byte entries with their count at 0x1d0, a word at 0x1d4, an GroupFollower at 0x1d8 and a word at
 // 0x1fc.
 typedef struct Sanbo {
-    /* 000 */ MapObject mUnk_000;
+    /* 000 */ MapObject mMapObject;
     /* 0a0 */ s32 mPathWaitTimer;
     // Wobble step is 0xb61 while above 0, else 0x2d8.
     /* 0a4 */ s32 mFastWobbleTimer;

@@ -10,7 +10,7 @@
 // pool list is walked. Object reached through FindMapObjectKindUpdateList(0x6a), set up by StartShine16 and updated by
 // UpdateShine16: the shared MapObject part, then words up to 0xe8. UpdateShine16 switches on the word at 0xe0 (0 to 6).
 typedef struct Shine16 {
-    /* 00 */ MapObject mUnk_00;
+    /* 00 */ MapObject mMapObject;
     // Height of the shine above the followed kart's position: 0 at spawn and pickup, then grows by the shine's vertical
     // speed each frame.
     /* a0 */ s32 mHeightAboveKart;

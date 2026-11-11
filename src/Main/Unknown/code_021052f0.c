@@ -6,18 +6,18 @@
 #include "Main/Unknown/code_021053d8.h"
 
 void ParkPooledMapObject(ItemBox *pooledMapObject) {
-    ParkMapObject(&pooledMapObject->mUnk_000);
+    ParkMapObject(&pooledMapObject->mMapObject);
 }
 
 void SetPooledMapObjectFromItem(ItemBox *object, s32 alpha, Vec3 *scale) {
-    object->mUnk_000.mPos = *object->mPositionSource;
+    object->mMapObject.mPos = *object->mPositionSource;
     if (alpha < 1) {
         alpha = 1;
     }
-    object->mUnk_000.mAlpha = alpha;
-    object->mUnk_000.mScale.x = MUL_FIXED12_NO_ROUND(scale->x, 0x666);
-    object->mUnk_000.mScale.y = MUL_FIXED12_NO_ROUND(scale->y, 0x666);
-    object->mUnk_000.mScale.z = MUL_FIXED12_NO_ROUND(scale->z, 0x666);
+    object->mMapObject.mAlpha = alpha;
+    object->mMapObject.mScale.x = MUL_FIXED12_NO_ROUND(scale->x, 0x666);
+    object->mMapObject.mScale.y = MUL_FIXED12_NO_ROUND(scale->y, 0x666);
+    object->mMapObject.mScale.z = MUL_FIXED12_NO_ROUND(scale->z, 0x666);
 }
 
 void AdvancePooledMapObject(ItemBox *object) {

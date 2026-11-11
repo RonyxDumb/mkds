@@ -23,7 +23,7 @@ typedef struct Unk0209905c_d0 {
 
 // Object up to 0xd4 bytes: the shared part, an GroupFollower at 0xa0, then three words and a pointer.
 typedef struct PakkunSpit {
-    /* 00 */ MapObject mUnk_00;
+    /* 00 */ MapObject mMapObject;
     /* a0 */ GroupFollower mFollower;
     /* c4 */ s32 mHeightOffset;
     /* c8 */ s32 mHeightSpeed;

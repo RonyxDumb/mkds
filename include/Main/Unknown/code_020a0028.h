@@ -8,7 +8,7 @@
 
 // Object of kind 0x158 (Airship) with the GroupFollower base at 0xc8 (DrawAirship, InitAirshipObjects).
 typedef struct Airship {
-    /* 00 */ MapObject mUnk_00;
+    /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mUnk_a0;
     /* a4 */ s32 mUnk_a4;
     /* a8 */ s16 mWobbleAngle;

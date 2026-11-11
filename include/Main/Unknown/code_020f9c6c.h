@@ -42,7 +42,7 @@ typedef struct DirectionQuaternion {
 
 // Object of item kind 5, element of gItemPools[5].
 typedef struct ItemKouraW {
-    /* 000 */ LinkFollowingItemObject mUnk_000;
+    /* 000 */ LinkFollowingItemObject mLinkFollowingItemObject;
     /* 228 */ struct KartItems *mKartItems;
     /* 22c */ Vec3 mKartForward;
     /* 238 */ Vec3 mToTarget;

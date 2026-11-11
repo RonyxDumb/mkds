@@ -37,7 +37,7 @@
 
 void InitBalloon(Balloon *balloon) {
     balloon->mKartIndex = -1;
-    ParkMapObject(&balloon->mUnk_00);
+    ParkMapObject(&balloon->mMapObject);
 }
 
 void CreateBalloon(MapObjectList *mapObjectList) {
@@ -88,26 +88,26 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
     }
     drawCount = balloon->mDrawCount;
     if (drawCount == 1 && balloon->mDrawList == NULL) {
-        distanceSquared = balloon->mUnk_00.mDistanceSquaredAndFlags & ~0xc000001f;
+        distanceSquared = balloon->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f;
         if (distanceSquared < 0x2710) {
-            balloon->mDrawPos.x = data_0217b214.x + (balloon->mUnk_00.mPos.x >> 1);
-            balloon->mDrawPos.y = data_0217b214.y + (balloon->mUnk_00.mPos.y >> 1);
-            balloon->mDrawPos.z = data_0217b214.z + (balloon->mUnk_00.mPos.z >> 1);
+            balloon->mDrawPos.x = data_0217b214.x + (balloon->mMapObject.mPos.x >> 1);
+            balloon->mDrawPos.y = data_0217b214.y + (balloon->mMapObject.mPos.y >> 1);
+            balloon->mDrawPos.z = data_0217b214.z + (balloon->mMapObject.mPos.z >> 1);
             balloon->mDrawScale = 0x800;
         } else if (distanceSquared < 0x9c40) {
-            balloon->mDrawPos.x = data_0217b208.x + balloon->mUnk_00.mPos.x - (balloon->mUnk_00.mPos.x >> 3);
-            balloon->mDrawPos.y = data_0217b208.y + balloon->mUnk_00.mPos.y - (balloon->mUnk_00.mPos.y >> 3);
-            balloon->mDrawPos.z = data_0217b208.z + balloon->mUnk_00.mPos.z - (balloon->mUnk_00.mPos.z >> 3);
+            balloon->mDrawPos.x = data_0217b208.x + balloon->mMapObject.mPos.x - (balloon->mMapObject.mPos.x >> 3);
+            balloon->mDrawPos.y = data_0217b208.y + balloon->mMapObject.mPos.y - (balloon->mMapObject.mPos.y >> 3);
+            balloon->mDrawPos.z = data_0217b208.z + balloon->mMapObject.mPos.z - (balloon->mMapObject.mPos.z >> 3);
             balloon->mDrawScale = 0xe00;
         } else {
-            balloon->mDrawPos = balloon->mUnk_00.mPos;
+            balloon->mDrawPos = balloon->mMapObject.mPos;
             balloon->mDrawScale = 0x1000;
         }
         w0 = 0x1e;
         NNS_G3dGeBufferOP_N(0x14, &w0, 1);
         NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&balloon->mDrawPos), 12);
-        if (balloon->mUnk_00.mAngle != 0) {
-            i = (balloon->mUnk_00.mAngle >> 4) * 2;
+        if (balloon->mMapObject.mAngle != 0) {
+            i = (balloon->mMapObject.mAngle >> 4) * 2;
             MTX_RotZ33_(&rotateZMatrix, gPairsByAngle[i + 1], gPairsByAngle[i]);
             NNS_G3dGeBufferOP_N(0x1a, &rotateZMatrix, 9);
         }
@@ -127,7 +127,7 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
         SetMapObjectModelNsbtpFrameIndex(gBalloon, balloon->mNsbtpFrameIndex);
         DrawMapObjectModel(mapObjectList, gBalloon, balloon);
     } else if (drawCount > 0) {
-        distanceSquared = balloon->mUnk_00.mDistanceSquaredAndFlags & ~0xc000001f;
+        distanceSquared = balloon->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f;
         if (distanceSquared < 0x2710) {
             balloon->mDrawPos.x = data_0217b214.x + (balloon->mTargetPos.x >> 1);
             balloon->mDrawPos.y = data_0217b214.y + (balloon->mTargetPos.y >> 1);
@@ -197,18 +197,18 @@ void FollowBalloonTarget(Balloon *balloon) {
     s32 offsetDistance;
 
     if (balloon->mKartIndex < 0) {
-        balloon->mUnk_00.mUnk_10.y = balloon->mUnk_00.mUnk_10.y + 0x1800;
+        balloon->mMapObject.mPosStep.y = balloon->mMapObject.mPosStep.y + 0x1800;
     } else {
         kart = GetKart((u16) balloon->mKartIndex);
         q = &kart->mUnk_12c;
-        balloon->mUnk_00.mUnk_10.x = balloon->mUnk_00.mUnk_10.x + (q->x + (q->x >> 1));
-        balloon->mUnk_00.mUnk_10.y = balloon->mUnk_00.mUnk_10.y + (q->y + (q->y >> 1));
-        balloon->mUnk_00.mUnk_10.z = balloon->mUnk_00.mUnk_10.z + (q->z + (q->z >> 1));
+        balloon->mMapObject.mPosStep.x = balloon->mMapObject.mPosStep.x + (q->x + (q->x >> 1));
+        balloon->mMapObject.mPosStep.y = balloon->mMapObject.mPosStep.y + (q->y + (q->y >> 1));
+        balloon->mMapObject.mPosStep.z = balloon->mMapObject.mPosStep.z + (q->z + (q->z >> 1));
     }
     offsetX =
-        (balloon->mUnk_00.mPos.x + balloon->mUnk_00.mUnk_10.x) - (balloon->mTargetPos.x + balloon->mTargetVelocity.x);
+        (balloon->mMapObject.mPos.x + balloon->mMapObject.mPosStep.x) - (balloon->mTargetPos.x + balloon->mTargetVelocity.x);
     offsetZ =
-        (balloon->mUnk_00.mPos.z + balloon->mUnk_00.mUnk_10.z) - (balloon->mTargetPos.z + balloon->mTargetVelocity.z);
+        (balloon->mMapObject.mPos.z + balloon->mMapObject.mPosStep.z) - (balloon->mTargetPos.z + balloon->mTargetVelocity.z);
     distanceLimit = MUL_FIXED12_NO_ROUND(0xa000, balloon->mScaleFactor + balloon->mScaleSwing);
     absOffsetZ = offsetZ < 0 ? -offsetZ : offsetZ;
     absOffsetX = offsetX < 0 ? -offsetX : offsetX;
@@ -221,15 +221,15 @@ void FollowBalloonTarget(Balloon *balloon) {
             pullOffset.x = MUL_FIXED12_NO_ROUND(offsetX, pullRatio);
             pullOffset.y = 0;
             pullOffset.z = MUL_FIXED12_NO_ROUND(offsetZ, pullRatio);
-            VEC_Subtract(&balloon->mUnk_00.mPos, &pullOffset, &balloon->mUnk_00.mPos);
+            VEC_Subtract(&balloon->mMapObject.mPos, &pullOffset, &balloon->mMapObject.mPos);
         }
     }
     offsetX =
-        (balloon->mUnk_00.mPos.x + balloon->mUnk_00.mUnk_10.x) - (balloon->mTargetPos.x + balloon->mTargetVelocity.x);
+        (balloon->mMapObject.mPos.x + balloon->mMapObject.mPosStep.x) - (balloon->mTargetPos.x + balloon->mTargetVelocity.x);
     offsetY =
-        (balloon->mUnk_00.mPos.y + balloon->mUnk_00.mUnk_10.y) - (balloon->mTargetPos.y + balloon->mTargetVelocity.y);
+        (balloon->mMapObject.mPos.y + balloon->mMapObject.mPosStep.y) - (balloon->mTargetPos.y + balloon->mTargetVelocity.y);
     offsetZ =
-        (balloon->mUnk_00.mPos.z + balloon->mUnk_00.mUnk_10.z) - (balloon->mTargetPos.z + balloon->mTargetVelocity.z);
+        (balloon->mMapObject.mPos.z + balloon->mMapObject.mPosStep.z) - (balloon->mTargetPos.z + balloon->mTargetVelocity.z);
     distanceLimit = (balloon->mScaleFactor + balloon->mScaleSwing) << 4;
     absOffsetY = offsetY < 0 ? -offsetY : offsetY;
     absOffsetX = offsetX < 0 ? -offsetX : offsetX;
@@ -241,21 +241,21 @@ void FollowBalloonTarget(Balloon *balloon) {
         pullOffset.y = MUL_FIXED12_NO_ROUND(offsetY, pullRatio);
         pullOffset.z = MUL_FIXED12_NO_ROUND(offsetZ, pullRatio);
         if (balloon->mKartIndex >= 0) {
-            VEC_Subtract(&balloon->mUnk_00.mUnk_10, &pullOffset, &balloon->mUnk_00.mUnk_10);
+            VEC_Subtract(&balloon->mMapObject.mPosStep, &pullOffset, &balloon->mMapObject.mPosStep);
         } else {
             VEC_Add(&balloon->mTargetVelocity, &pullOffset, &balloon->mTargetVelocity);
         }
     }
-    VEC_Add(&balloon->mUnk_00.mPos, &balloon->mUnk_00.mUnk_10, &balloon->mUnk_00.mPos);
+    VEC_Add(&balloon->mMapObject.mPos, &balloon->mMapObject.mPosStep, &balloon->mMapObject.mPos);
     VEC_Add(&balloon->mTargetPos, &balloon->mTargetVelocity, &balloon->mTargetPos);
 }
 
 u32 GetBalloonFlagBits(Balloon *balloon) {
-    return balloon->mUnk_00.mFlags & 0x12;
+    return balloon->mMapObject.mFlags & 0x12;
 }
 
 u32 GetBalloonDistanceSquared(Balloon *balloon) {
-    return balloon->mUnk_00.mDistanceSquaredAndFlags & ~0xc000001fu;
+    return balloon->mMapObject.mDistanceSquaredAndFlags & ~0xc000001fu;
 }
 
 void UpdateBalloonAngle(Balloon *balloon) {
@@ -272,7 +272,7 @@ void UpdateBalloonAngle(Balloon *balloon) {
 
     currentCamera = GetCurrentCamera();
     cameraAngle = FX_Atan2Idx(currentCamera->mForward.x, currentCamera->mForward.z) - 0x4000;
-    VEC_Subtract(&balloon->mUnk_00.mPos, &currentCamera->mPos, &cameraOffset);
+    VEC_Subtract(&balloon->mMapObject.mPos, &currentCamera->mPos, &cameraOffset);
     pairIndex = (cameraAngle >> 4) * 2;
     pairFirst = gPairsByAngle[pairIndex];
     pairSecond = gPairsByAngle[pairIndex + 1];
@@ -281,7 +281,7 @@ void UpdateBalloonAngle(Balloon *balloon) {
     u = cameraOffset.y;
     VEC_Subtract(&balloon->mTargetPos, &currentCamera->mPos, &cameraOffset);
     w = MUL_FIXED12_NO_ROUND(cameraOffset.x, pairFirst) + MUL_FIXED12_NO_ROUND(cameraOffset.z, pairSecond);
-    balloon->mUnk_00.mAngle = FX_Atan2Idx(u - cameraOffset.y, -(y + x - w));
+    balloon->mMapObject.mAngle = FX_Atan2Idx(u - cameraOffset.y, -(y + x - w));
 }
 
 void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
@@ -321,9 +321,9 @@ void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
                     }
                     UpdateBalloonAngle(balloon);
                 } else {
-                    balloon->mUnk_00.mPos.x = balloon->mTargetPos.x;
-                    balloon->mUnk_00.mPos.y = balloon->mTargetPos.y + 0xf666;
-                    balloon->mUnk_00.mPos.z = balloon->mTargetPos.z;
+                    balloon->mMapObject.mPos.x = balloon->mTargetPos.x;
+                    balloon->mMapObject.mPos.y = balloon->mTargetPos.y + 0xf666;
+                    balloon->mMapObject.mPos.z = balloon->mTargetPos.z;
                 }
                 break;
             case 1:
@@ -348,9 +348,9 @@ void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
                     }
                     UpdateBalloonAngle(balloon);
                 } else {
-                    balloon->mUnk_00.mPos.x = balloon->mTargetPos.x;
-                    balloon->mUnk_00.mPos.y = balloon->mTargetPos.y + 0xf666;
-                    balloon->mUnk_00.mPos.z = balloon->mTargetPos.z;
+                    balloon->mMapObject.mPos.x = balloon->mTargetPos.x;
+                    balloon->mMapObject.mPos.y = balloon->mTargetPos.y + 0xf666;
+                    balloon->mMapObject.mPos.z = balloon->mTargetPos.z;
                 }
                 break;
             case 2:
@@ -366,9 +366,9 @@ void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
                     }
                     UpdateBalloonAngle(balloon);
                 } else {
-                    balloon->mUnk_00.mPos.x = balloon->mTargetPos.x;
-                    balloon->mUnk_00.mPos.y = balloon->mTargetPos.y + 0xf666;
-                    balloon->mUnk_00.mPos.z = balloon->mTargetPos.z;
+                    balloon->mMapObject.mPos.x = balloon->mTargetPos.x;
+                    balloon->mMapObject.mPos.y = balloon->mTargetPos.y + 0xf666;
+                    balloon->mMapObject.mPos.z = balloon->mTargetPos.z;
                 }
                 break;
             default:
@@ -378,11 +378,11 @@ void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
         balloon->mScaleSwing = 0;
         balloon->mScaleFactor = 0x1000;
         if (balloon->mNoKartTimer-- <= 0) {
-            StartEffectWithCallback(0x5b, &balloon->mUnk_00.mPos, balloon, SetBalloonEffectColor);
-            StartEffectWithCallback(0x5c, &balloon->mUnk_00.mPos, balloon, SetBalloonEffectColor);
-            StartEffectWithCallback(0x5d, &balloon->mUnk_00.mPos, balloon, SetBalloonEffectColor);
-            QueueBalloonSound(&balloon->mUnk_00.mPos, GetHorizontalCameraDistanceSquared(&balloon->mUnk_00.mPos));
-            ParkMapObject(&balloon->mUnk_00);
+            StartEffectWithCallback(0x5b, &balloon->mMapObject.mPos, balloon, SetBalloonEffectColor);
+            StartEffectWithCallback(0x5c, &balloon->mMapObject.mPos, balloon, SetBalloonEffectColor);
+            StartEffectWithCallback(0x5d, &balloon->mMapObject.mPos, balloon, SetBalloonEffectColor);
+            QueueBalloonSound(&balloon->mMapObject.mPos, GetHorizontalCameraDistanceSquared(&balloon->mMapObject.mPos));
+            ParkMapObject(&balloon->mMapObject);
         } else {
             balloon->mSwingAngle = balloon->mSwingAngle + balloon->mSwingAnglePerFrame;
             if (balloon->mSwingAngle >= 0) {
@@ -399,13 +399,13 @@ void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
                 }
             }
         }
-        balloon->mUnk_00.mAngle = balloon->mSwingAngle + 0x4000;
-        balloon->mUnk_00.mUnk_10.y = balloon->mUnk_00.mUnk_10.y + 0x59a;
+        balloon->mMapObject.mAngle = balloon->mSwingAngle + 0x4000;
+        balloon->mMapObject.mPosStep.y = balloon->mMapObject.mPosStep.y + 0x59a;
         balloon->mTargetVelocity.y = balloon->mTargetVelocity.y - 0x2000;
-        balloon->mUnk_00.mUnk_10.x = MUL_FIXED12_NO_ROUND(balloon->mUnk_00.mUnk_10.x, 0xc00);
-        balloon->mUnk_00.mUnk_10.y = MUL_FIXED12_NO_ROUND(balloon->mUnk_00.mUnk_10.y, 0xc00);
-        balloon->mUnk_00.mUnk_10.z = MUL_FIXED12_NO_ROUND(balloon->mUnk_00.mUnk_10.z, 0xc00);
-        VEC_Add(&balloon->mUnk_00.mPos, &balloon->mUnk_00.mUnk_10, &balloon->mUnk_00.mPos);
+        balloon->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(balloon->mMapObject.mPosStep.x, 0xc00);
+        balloon->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(balloon->mMapObject.mPosStep.y, 0xc00);
+        balloon->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(balloon->mMapObject.mPosStep.z, 0xc00);
+        VEC_Add(&balloon->mMapObject.mPos, &balloon->mMapObject.mPosStep, &balloon->mMapObject.mPos);
         VEC_Add(&balloon->mTargetPos, &balloon->mTargetVelocity, &balloon->mTargetPos);
     }
 }
@@ -435,8 +435,8 @@ void ResetBalloons(void) {
             balloon->mScaleSwing = 0;
             balloon->mScaleSwingPerFrame = 0;
             balloon->mState = 2;
-        } else if ((balloon->mUnk_00.mFlags & 0x100) == 0) {
-            ParkMapObject(&balloon->mUnk_00);
+        } else if ((balloon->mMapObject.mFlags & 0x100) == 0) {
+            ParkMapObject(&balloon->mMapObject);
         }
     }
 }
@@ -449,7 +449,7 @@ Balloon *StartBalloon(u16 nsbtpFrameIndex, Vec3 *targetPos) {
         return NULL;
     }
     balloon->mTargetPos = *targetPos;
-    balloon->mUnk_00.mPos = balloon->mTargetPos;
+    balloon->mMapObject.mPos = balloon->mTargetPos;
     balloon->mScaleFactor = 0;
     balloon->mScaleFactorPerFrame = 0;
     balloon->mScaleSwing = 0;
@@ -487,5 +487,5 @@ void UpdateBalloonShrinking(Balloon *balloon, u16 kartIndex, s32 scaleStep) {
     balloon->mKartIndex = -1;
     balloon->mDrawCount = 1;
     balloon->mDrawList = NULL;
-    ParkMapObject(&balloon->mUnk_00);
+    ParkMapObject(&balloon->mMapObject);
 }

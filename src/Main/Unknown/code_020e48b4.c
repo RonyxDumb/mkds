@@ -152,8 +152,8 @@ static inline u32 func_020e4ad0_inline(RandomState64 *random, u32 range) {
 void UpdatePukupukuState0(Pukupuku *pukupuku) {
     s32 y;
 
-    pukupuku->mPushedObject.mMapObject.mUnk_10.y -= 0x385;
-    VEC_Add(&pukupuku->mPushedObject.mMapObject.mPos, &pukupuku->mPushedObject.mMapObject.mUnk_10,
+    pukupuku->mPushedObject.mMapObject.mPosStep.y -= 0x385;
+    VEC_Add(&pukupuku->mPushedObject.mMapObject.mPos, &pukupuku->mPushedObject.mMapObject.mPosStep,
             &pukupuku->mPushedObject.mMapObject.mPos);
     y = 0;
     y += MUL_FIXED12_NO_ROUND(pukupuku->mGroundSlopeX,
@@ -187,40 +187,40 @@ void UpdatePukupukuState0(Pukupuku *pukupuku) {
     if (pukupuku->mJumpsUntilHighJump == 0) {
         RandomState64 *random;
 
-        pukupuku->mPushedObject.mMapObject.mUnk_10.y = 0x3199;
+        pukupuku->mPushedObject.mMapObject.mPosStep.y = 0x3199;
         random = GetMapObjectRandom();
         pukupuku->mJumpsUntilHighJump = (u16) func_020e4ad0_inline(random, 3) + 4;
     } else {
         RandomState64 *random;
 
-        pukupuku->mPushedObject.mMapObject.mUnk_10.y = 0x2000;
+        pukupuku->mPushedObject.mMapObject.mPosStep.y = 0x2000;
         random = GetMapObjectRandom();
-        pukupuku->mPushedObject.mMapObject.mUnk_10.y =
-            pukupuku->mPushedObject.mMapObject.mUnk_10.y + func_020e4ad0_inline(random, 0x800);
+        pukupuku->mPushedObject.mMapObject.mPosStep.y =
+            pukupuku->mPushedObject.mMapObject.mPosStep.y + func_020e4ad0_inline(random, 0x800);
     }
     if (pukupuku->mPushedObject.mMapObject.mPos.x > pukupuku->mInitialPos.x + 0x14000) {
-        pukupuku->mPushedObject.mMapObject.mUnk_10.x = -0xccc;
+        pukupuku->mPushedObject.mMapObject.mPosStep.x = -0xccc;
     } else if (pukupuku->mPushedObject.mMapObject.mPos.x < pukupuku->mInitialPos.x - 0x14000) {
-        pukupuku->mPushedObject.mMapObject.mUnk_10.x = 0xccc;
+        pukupuku->mPushedObject.mMapObject.mPosStep.x = 0xccc;
     } else {
         RandomState64 *random;
 
         random = GetMapObjectRandom();
-        pukupuku->mPushedObject.mMapObject.mUnk_10.x = func_020e4ad0_inline(random, 0x1998) - 0xccc;
+        pukupuku->mPushedObject.mMapObject.mPosStep.x = func_020e4ad0_inline(random, 0x1998) - 0xccc;
     }
     if (pukupuku->mPushedObject.mMapObject.mPos.z > pukupuku->mInitialPos.z + 0x14000) {
-        pukupuku->mPushedObject.mMapObject.mUnk_10.z = -0xccc;
+        pukupuku->mPushedObject.mMapObject.mPosStep.z = -0xccc;
         return;
     }
     if (pukupuku->mPushedObject.mMapObject.mPos.z < pukupuku->mInitialPos.z - 0x14000) {
-        pukupuku->mPushedObject.mMapObject.mUnk_10.z = 0xccc;
+        pukupuku->mPushedObject.mMapObject.mPosStep.z = 0xccc;
         return;
     }
     {
         RandomState64 *random;
 
         random = GetMapObjectRandom();
-        pukupuku->mPushedObject.mMapObject.mUnk_10.z = func_020e4ad0_inline(random, 0x1998) - 0xccc;
+        pukupuku->mPushedObject.mMapObject.mPosStep.z = func_020e4ad0_inline(random, 0x1998) - 0xccc;
     }
 }
 
@@ -255,9 +255,9 @@ void UpdatePukupukuState2(Pukupuku *pukupuku) {
 void EnterPukupukuState3(Pukupuku *pukupuku) {
     pukupuku->mPushedObject.mMapObject.mPos.x = pukupuku->mInitialPos.x;
     pukupuku->mPushedObject.mMapObject.mPos.z = pukupuku->mInitialPos.z;
-    pukupuku->mPushedObject.mMapObject.mUnk_10.x = 0x0u;
-    pukupuku->mPushedObject.mMapObject.mUnk_10.y = 0x3199u;
-    pukupuku->mPushedObject.mMapObject.mUnk_10.z = 0x0u;
+    pukupuku->mPushedObject.mMapObject.mPosStep.x = 0x0u;
+    pukupuku->mPushedObject.mMapObject.mPosStep.y = 0x3199u;
+    pukupuku->mPushedObject.mMapObject.mPosStep.z = 0x0u;
     pukupuku->mPushedObject.mMapObject.mFlags = (((pukupuku->mPushedObject.mMapObject.mFlags)) & ~(0x2u));
     pukupuku->mPushedObject.mMapObject.mFlags = (((pukupuku->mPushedObject.mMapObject.mFlags)) & ~(0x8u));
     pukupuku->mPushedObject.mMapObject.mAlpha = 0x1fu;
@@ -266,7 +266,7 @@ void EnterPukupukuState3(Pukupuku *pukupuku) {
 
 void UpdatePukupukuState3(Pukupuku *pukupuku) {
     pukupuku->mPushedObject.mMapObject.mPos.y =
-        pukupuku->mPushedObject.mMapObject.mPos.y + pukupuku->mPushedObject.mMapObject.mUnk_10.y;
+        pukupuku->mPushedObject.mMapObject.mPos.y + pukupuku->mPushedObject.mMapObject.mPosStep.y;
     if (pukupuku->mPushedObject.mMapObject.mPos.y > pukupuku->mInitialPos.y) {
         pukupuku->mPushedObject.mMapObject.mStateMachine.mNextState = 0;
         pukupuku->mPushedObject.mMapObject.mStateMachine.mNextStateRequested = 1;

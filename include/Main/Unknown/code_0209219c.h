@@ -8,7 +8,7 @@
 // Object of kind 0x19f (Basabasa), 0xd8 bytes: the MapObject it starts with, a vector at 0xa0 and words and halfwords
 // up to 0xd4.
 typedef struct Basabasa {
-    /* 00 */ MapObject mUnk_00;
+    /* 00 */ MapObject mMapObject;
     /* a0 */ Vec3 mVelocity;
     /* ac */ u16 mNsbtpFrameIndex;
     /* ae */ u8 mUnk_ae[2];

@@ -82,7 +82,7 @@ BOOL TryStartShine16AtRandomObject(MapObjectList *mapObjectList) {
             for (i = 0; i < mapObjectList->mMapObjectCount && (e = mapObjectList->mMapObjects[i]) != NULL; i++) {
                 if (e->mHasShine == FALSE && e->mSkipRandomPick == FALSE) {
                     if (k-- == 0) {
-                        StartShine16(&e->mUnk_00.mPos, i, 1);
+                        StartShine16(&e->mMapObject.mPos, i, 1);
                         e->mHasShine = TRUE;
                         return TRUE;
                     }
@@ -122,11 +122,11 @@ void StartShineBattle(MapObjectList *mapObjectList) {
     }
     for (j = 0; j < mapObjectList->mMapObjectCount && (e = mapObjectList->mMapObjects[j]) != NULL; j++) {
         e->mSkipRandomPick = TRUE;
-        if (e->mUnk_00.mCourseMapRow->mUnk_28 != 0) {
+        if (e->mMapObject.mCourseMapRow->mUnk_28 != 0) {
             n = gRaceSetup->mKartCount;
             v = GetShineCount();
             if (v + GetTotalBalloonOrShineCount() < n + 1) {
-                StartShine16(&e->mUnk_00.mPos, j, GetRaceUseChainCameras());
+                StartShine16(&e->mMapObject.mPos, j, GetRaceUseChainCameras());
                 e->mHasShine = TRUE;
             }
         }

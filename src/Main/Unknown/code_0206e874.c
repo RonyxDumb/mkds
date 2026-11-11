@@ -151,7 +151,7 @@ void CollideKartWithMapObjects(Kart *kart) {
                             kart, &v2, mapObject);
                     if (handlerResult != 0) {
                         v = z;
-                        u = &mapObject->mUnk_10;
+                        u = &mapObject->mPosStep;
                         foundMapObjectVector = GetFoundMapObjectVector(i);
                         d = func_0206e874_inline(foundMapObjectVector, &v);
                         if (d != 0) {

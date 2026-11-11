@@ -32,7 +32,7 @@
 
 void InitGroupFollowerWithSpeeds(GroupFollowerWithSpeeds *follower, struct CourseMapRow *courseRow, s32 speed,
                                  s32 speedPercent) {
-    InitGroupFollower(&follower->mUnk_00, courseRow, speed);
+    InitGroupFollower(&follower->mGroupFollower, courseRow, speed);
     follower->mSpeedPerEntryUnit = speed / 100;
     follower->mDefaultSpeed = (speed * speedPercent) / 100;
     SetupGroupFollowerWithSpeeds(follower, 0, 1);
@@ -553,8 +553,8 @@ void DrawRock(void *unused0, RockObject *rock, void *unused1, s32 alpha) {
     if (GetChoisesSOpenDuringRace() == 0) {
         xAxis = rock->mMapObject.mMatrix.mUnk_00[0];
         yAxis = rock->mMapObject.mMatrix.mUnk_00[1];
-        tiltAxis.x = ((s64) rock->mMapObject.mUnk_10.z * (s64) rock->mBottomOffsetReciprocal) >> 12;
-        tiltAxis.z = -(s32) (((s64) rock->mMapObject.mUnk_10.x * (s64) rock->mBottomOffsetReciprocal) >> 12);
+        tiltAxis.x = ((s64) rock->mMapObject.mPosStep.z * (s64) rock->mBottomOffsetReciprocal) >> 12;
+        tiltAxis.z = -(s32) (((s64) rock->mMapObject.mPosStep.x * (s64) rock->mBottomOffsetReciprocal) >> 12);
         tiltAxis.y = 0;
         Vec3CrossUnrounded(&tiltAxis, &xAxis, &crossProduct);
         VEC_Add(&xAxis, &crossProduct, &xAxis);

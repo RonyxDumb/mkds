@@ -27,11 +27,11 @@ void DrawPicture(void *a, Picture *b) {
 
     s = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &s, 1);
-    b->mUnk_00.mMatrix.mUnk_00[3].x = b->mUnk_00.mPos.x >> 4;
-    b->mUnk_00.mMatrix.mUnk_00[3].y = b->mUnk_00.mPos.y >> 4;
-    b->mUnk_00.mMatrix.mUnk_00[3].z = b->mUnk_00.mPos.z >> 4;
-    NNS_G3dGeBufferOP_N(0x19, &b->mUnk_00.mMatrix, 0xc);
-    NNS_G3dGeBufferOP_N(0x1b, &b->mUnk_00.mScale, 3);
+    b->mMapObject.mMatrix.mUnk_00[3].x = b->mMapObject.mPos.x >> 4;
+    b->mMapObject.mMatrix.mUnk_00[3].y = b->mMapObject.mPos.y >> 4;
+    b->mMapObject.mMatrix.mUnk_00[3].z = b->mMapObject.mPos.z >> 4;
+    NNS_G3dGeBufferOP_N(0x19, &b->mMapObject.mMatrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &b->mMapObject.mScale, 3);
     switch (b->mPictureIndex) {
         case 0:
             SetMapObjectModelNsbcaFrameIndex(gPicture1, b->mNsbcaFrameIndex);
@@ -69,49 +69,49 @@ void UpdatePicture(void *a, Picture *b) {
                 b->mNsbcaFrameIndex = nextFrameIndex;
                 if (b->mNsbcaFrameIndex == 0 || b->mNsbcaFrameIndex == 0xf || b->mNsbcaFrameIndex == 0x1f ||
                     b->mNsbcaFrameIndex == 0x37 || b->mNsbcaFrameIndex == 0x51) {
-                    if (IsMapObjectOutOfRange(&b->mUnk_00) == FALSE) {
-                        if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+                    if (IsMapObjectOutOfRange(&b->mMapObject) == FALSE) {
+                        if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
                             t = 2;
-                        } else if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                        } else if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
                             t = 3;
                         } else {
                             t = 4;
                         }
                         s1.mSoundId = 0x116;
-                        s1.mPositionSource = &b->mUnk_00.mPos;
+                        s1.mPositionSource = &b->mMapObject.mPos;
                         s1.mFalloffIndex = t;
-                        s1.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mUnk_00.mPos);
+                        s1.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mMapObject.mPos);
                         StartSoundFromParams(&s1);
                     }
                 } else if (b->mNsbcaFrameIndex == 8 || b->mNsbcaFrameIndex == 0x14 || b->mNsbcaFrameIndex == 0x2c ||
                            b->mNsbcaFrameIndex == 0x44) {
-                    if (IsMapObjectOutOfRange(&b->mUnk_00) == FALSE) {
-                        if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+                    if (IsMapObjectOutOfRange(&b->mMapObject) == FALSE) {
+                        if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
                             t = 2;
-                        } else if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                        } else if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
                             t = 3;
                         } else {
                             t = 4;
                         }
                         s2.mSoundId = 0x117;
-                        s2.mPositionSource = &b->mUnk_00.mPos;
+                        s2.mPositionSource = &b->mMapObject.mPos;
                         s2.mFalloffIndex = t;
-                        s2.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mUnk_00.mPos);
+                        s2.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mMapObject.mPos);
                         StartSoundFromParams(&s2);
                     }
                 } else if (b->mNsbcaFrameIndex == 0x78) {
-                    if (IsMapObjectOutOfRange(&b->mUnk_00) == FALSE) {
-                        if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+                    if (IsMapObjectOutOfRange(&b->mMapObject) == FALSE) {
+                        if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
                             t = 2;
-                        } else if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                        } else if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
                             t = 3;
                         } else {
                             t = 4;
                         }
                         s3.mSoundId = 0x115;
-                        s3.mPositionSource = &b->mUnk_00.mPos;
+                        s3.mPositionSource = &b->mMapObject.mPos;
                         s3.mFalloffIndex = t;
-                        s3.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mUnk_00.mPos);
+                        s3.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mMapObject.mPos);
                         StartSoundFromParams(&s3);
                     }
                 }
@@ -122,18 +122,18 @@ void UpdatePicture(void *a, Picture *b) {
                 }
                 b->mNsbcaFrameIndex = nextFrameIndex;
                 if (b->mNsbcaFrameIndex == 0) {
-                    if (IsMapObjectOutOfRange(&b->mUnk_00) == FALSE) {
-                        if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+                    if (IsMapObjectOutOfRange(&b->mMapObject) == FALSE) {
+                        if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
                             t = 2;
-                        } else if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                        } else if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
                             t = 3;
                         } else {
                             t = 4;
                         }
                         s4.mSoundId = 0x118;
-                        s4.mPositionSource = &b->mUnk_00.mPos;
+                        s4.mPositionSource = &b->mMapObject.mPos;
                         s4.mFalloffIndex = t;
-                        s4.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mUnk_00.mPos);
+                        s4.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mMapObject.mPos);
                         StartSoundFromParams(&s4);
                     }
                 }

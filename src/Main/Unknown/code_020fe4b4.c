@@ -30,28 +30,28 @@ u8 *CopyItemFBoxData(u8 *cursor, ItemFBox *fbox, void *toData) {
     u8 *nextCursor;
 
     if (fbox != NULL && toData != NULL) {
-        StoreItemDataFlagBit(fbox->mThrownForward, &fbox->mUnk_000.mItemObject.mVelocity.y);
+        StoreItemDataFlagBit(fbox->mThrownForward, &fbox->mBouncingItemObject.mItemObject.mVelocity.y);
     }
     nextCursor = CopyItemObjectData(cursor, fbox, toData);
     if (fbox != NULL && toData == NULL) {
-        LoadItemDataFlagBit(fbox->mUnk_000.mItemObject.mVelocity.y, &fbox->mThrownForward);
+        LoadItemDataFlagBit(fbox->mBouncingItemObject.mItemObject.mVelocity.y, &fbox->mThrownForward);
     }
     if (fbox != NULL && toData != NULL) {
-        return AddItemDataSizedByKind(fbox->mUnk_000.mItemObject.mKind);
+        return AddItemDataSizedByKind(fbox->mBouncingItemObject.mItemObject.mKind);
     }
     return nextCursor;
 }
 
 void InitItemFBoxFromData(ItemFBox *fbox) {
-    SetupItemObjectFromData(&fbox->mUnk_000.mItemObject);
-    StartItemObjectBouncing(&fbox->mUnk_000, 0);
-    if ((fbox->mUnk_000.mItemObject.mFlags & 0x10000000) == 0) {
+    SetupItemObjectFromData(&fbox->mBouncingItemObject.mItemObject);
+    StartItemObjectBouncing(&fbox->mBouncingItemObject, 0);
+    if ((fbox->mBouncingItemObject.mItemObject.mFlags & 0x10000000) == 0) {
         return;
     }
     if (fbox->mThrownForward == 0) {
         return;
     }
-    StartSound(&fbox->mUnk_000.mItemObject.mSoundSource, 0xda, 0x7f, 0);
+    StartSound(&fbox->mBouncingItemObject.mItemObject.mSoundSource, 0xda, 0x7f, 0);
 }
 
 #pragma thumb on
@@ -75,7 +75,7 @@ void SetupItemFBoxPooledMapObjects(void) {
     for (index = 0; index < objectCount; index++) {
         fbox = (ItemFBox *) objectCursor[0];
         fbox->mPooledMapObject = (ItemBox *) AllocPooledMapObject();
-        fbox->mPooledMapObject->mPositionSource = &fbox->mUnk_000.mItemObject.mPos;
+        fbox->mPooledMapObject->mPositionSource = &fbox->mBouncingItemObject.mItemObject.mPos;
         objectCursor++;
     }
     pool->mDrawnByMapObjects = 1;

@@ -21,7 +21,7 @@ typedef struct CourseSoundObjectPart {
 // Object of UpdateCourseSoundObject: the shared MapObject part, two CourseSoundObjectPart and a value at 0xf0 (0 to 6)
 // that selects what UpdateCourseSoundObject does.
 typedef struct CourseSoundObject {
-    /* 000 */ MapObject mUnk_000;
+    /* 000 */ MapObject mMapObject;
     /* 0a0 */ CourseSoundObjectPart mFirstPart;
     /* 0c8 */ CourseSoundObjectPart mSecondPart;
     /* 0f0 */ s32 mState;

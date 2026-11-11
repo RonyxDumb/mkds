@@ -59,7 +59,7 @@ void DrawShineBalloon(void *a, ShineBalloonObject *b) {
     }
     s0 = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &s0, 1);
-    NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&b->mUnk_00.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&b->mMapObject.mPos), 0xc);
     v2.y = GetKartBalloonOrShineHeight(b->mUnk_ac) >> 4;
     v2.x = 0;
     v2.z = 0;
@@ -71,8 +71,8 @@ void DrawShineBalloon(void *a, ShineBalloonObject *b) {
         v3.z = t;
         NNS_G3dGeBufferOP_N(0x1b, &v3, 3);
     }
-    NNS_G3dGeBufferOP_N(0x1b, &b->mUnk_00.mScale, 3);
-    VEC_Subtract(&b->mUnk_00.mPos, &GetCurrentCamera()->mPos, &v1);
+    NNS_G3dGeBufferOP_N(0x1b, &b->mMapObject.mScale, 3);
+    VEC_Subtract(&b->mMapObject.mPos, &GetCurrentCamera()->mPos, &v1);
     v5 = VEC_Mag(&v1);
     v4.x = v5;
     v4.y = v5;
@@ -90,9 +90,9 @@ void UpdateShineBalloon(void *a, ShineBalloonObject *b) {
             b->mTimer = 0x1e;
             b->mUnk_a4 = 0x19;
             b->mState = 1;
-            b->mUnk_00.mFlags &= ~2;
-            b->mUnk_00.mFlags &= ~8;
-            b->mUnk_00.mAlpha = 0x1f;
+            b->mMapObject.mFlags &= ~2;
+            b->mMapObject.mFlags &= ~8;
+            b->mMapObject.mAlpha = 0x1f;
             break;
         case 1:
             if (b->mTimer-- > 0) {
@@ -107,7 +107,7 @@ void UpdateShineBalloon(void *a, ShineBalloonObject *b) {
                     b->mState = 2;
                 }
             }
-            b->mUnk_00.mPos = b->mUnk_ac->mPos;
+            b->mMapObject.mPos = b->mUnk_ac->mPos;
             break;
         case 2:
             if (GetBalloonOrShineCount(b->mUnk_ac->mIndex) == 0) {
@@ -115,7 +115,7 @@ void UpdateShineBalloon(void *a, ShineBalloonObject *b) {
                 b->mUnk_a4 = 8;
                 b->mState = 3;
             }
-            b->mUnk_00.mPos = b->mUnk_ac->mPos;
+            b->mMapObject.mPos = b->mUnk_ac->mPos;
             break;
         case 3:
             if (b->mTimer-- <= 0) {
@@ -126,12 +126,12 @@ void UpdateShineBalloon(void *a, ShineBalloonObject *b) {
                     if (b->mUnk_a0 <= 0) {
                         b->mUnk_a0 = 0;
                         b->mState = 0;
-                        b->mUnk_00.mFlags |= data_02156838;
-                        b->mUnk_00.mFlags |= data_0215683c;
+                        b->mMapObject.mFlags |= data_02156838;
+                        b->mMapObject.mFlags |= data_0215683c;
                     }
                 }
             }
-            b->mUnk_00.mPos = b->mUnk_ac->mPos;
+            b->mMapObject.mPos = b->mUnk_ac->mPos;
             break;
     }
 }
@@ -155,12 +155,12 @@ void StartShineBalloon(Kart *a) {
     if (o == NULL) {
         return;
     }
-    o->mUnk_00.mPos.x = 0;
-    o->mUnk_00.mPos.y = 0;
-    o->mUnk_00.mPos.z = 0;
-    o->mUnk_00.mUnk_10.x = 0;
-    o->mUnk_00.mUnk_10.y = 0;
-    o->mUnk_00.mUnk_10.z = 0;
+    o->mMapObject.mPos.x = 0;
+    o->mMapObject.mPos.y = 0;
+    o->mMapObject.mPos.z = 0;
+    o->mMapObject.mPosStep.x = 0;
+    o->mMapObject.mPosStep.y = 0;
+    o->mMapObject.mPosStep.z = 0;
     o->mUnk_ac = a;
     o->mUnk_a0 = 0;
     o->mUnk_a4 = 0;

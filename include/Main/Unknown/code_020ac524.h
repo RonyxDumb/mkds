@@ -8,7 +8,7 @@
 // Object of the list FindMapObjectKindUpdateList(0x70): the shared MapObject part, then the words and the pointer
 // StartShineBalloon sets.
 typedef struct ShineBalloonObject {
-    /* 00 */ MapObject mUnk_00;
+    /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mUnk_a0;
     /* a4 */ s32 mUnk_a4;
     /* a8 */ s32 mTimer;

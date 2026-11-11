@@ -2,5 +2,5 @@
 #include "code_02147cd8.h"
 
 void AddBalloonVelocity(Balloon *balloon, const Vec3 *addend) {
-    VEC_Add(&balloon->mUnk_00.mUnk_10, addend, &balloon->mUnk_00.mUnk_10);
+    VEC_Add(&balloon->mMapObject.mPosStep, addend, &balloon->mMapObject.mPosStep);
 }

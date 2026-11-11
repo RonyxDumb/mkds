@@ -46,7 +46,7 @@ typedef struct MapObject {
     /* 00 */ u16 mKind;
     /* 02 */ u16 mFlags;
     /* 04 */ Vec3 mPos;
-    /* 10 */ Vec3 mUnk_10;
+    /* 10 */ Vec3 mPosStep;
     /* 1c */ Vec3 mScale;
     /* 28 */ MtxFx43 mMatrix;
     // Size of the collision shape along the object's local axes: the kind's size times mScale (a few kinds set a

@@ -7,7 +7,7 @@
 // Object with the MapObject base: two halfwords at 0xa0 and 0xa2, then two words (UpdateChandelier,
 // InitChandelierObjects, DrawChandelier).
 typedef struct Unk0209f338 {
-    /* 00 */ MapObject mUnk_00;
+    /* 00 */ MapObject mMapObject;
     /* a0 */ u16 mFrameIndex;
     /* a2 */ u16 mUnk_a2;
     /* a4 */ s32 mTimer;
@@ -16,7 +16,7 @@ typedef struct Unk0209f338 {
 
 // Object with the MapObject base and the frame index at 0xa0 (UpdateRainStar, DrawRainStar).
 typedef struct Unk0209f1c8 {
-    /* 00 */ MapObject mUnk_00;
+    /* 00 */ MapObject mMapObject;
     /* a0 */ u16 mFrameIndex;
     /* a2 */ u16 mUnk_a2;
     /* a4 */ s32 mTimer;

@@ -238,7 +238,7 @@ void UpdateHanachan(u32 a, Unk02188950 *b) {
             func_ov001_0218d3ec(b);
         }
     }
-    if (CollideSphereWithMapObjects(&b->mPosWithOffset, &b->mUnk_000.mUnk_10, b->mPrm->mUnk_100,
+    if (CollideSphereWithMapObjects(&b->mPosWithOffset, &b->mUnk_000.mPosStep, b->mPrm->mUnk_100,
                                     b->mUnk_000.mCollisionSlotIndex, 9, NULL) == 2) {
         StartMapObjectSound(&b->mUnk_000, 0x253);
     }
@@ -266,7 +266,7 @@ void func_ov001_0218ce30(u32 a, Unk02188950 *b) {
     int v1;
     func_ov001_0218dc20(b);
     func_ov001_0218dba8(b);
-    v1 = CollideSphereWithMapObjects(&b->mPosWithOffset, &b->mUnk_000.mUnk_10, b->mPrm->mUnk_100,
+    v1 = CollideSphereWithMapObjects(&b->mPosWithOffset, &b->mUnk_000.mPosStep, b->mPrm->mUnk_100,
                                      b->mUnk_000.mCollisionSlotIndex, 9, NULL);
     if (v1 == 2) {
         StartMapObjectSound(&b->mUnk_000, 0x253);
@@ -313,16 +313,16 @@ void func_ov001_0218cbdc(Unk02188950 *a, MissionRunPrm *b) {
                 diff -= 0x10000;
             }
             if (diff > 0) {
-                a->mUnk_000.mUnk_10.x =
+                a->mUnk_000.mPosStep.x =
                     MUL_FIXED12_NO_ROUND(a->mPrm->mUnk_0fc, gPairsByAngle[(((u16) r4 + 0x4000) >> 4) * 2]);
-                a->mUnk_000.mUnk_10.y = 0;
-                a->mUnk_000.mUnk_10.z = MUL_FIXED12_NO_ROUND(
+                a->mUnk_000.mPosStep.y = 0;
+                a->mUnk_000.mPosStep.z = MUL_FIXED12_NO_ROUND(
                     a->mPrm->mUnk_0fc, gPairsByAngle[(((u16) a->mMoveAngle + 0x4000) >> 4) * 2 + 1]);
             } else {
-                a->mUnk_000.mUnk_10.x =
+                a->mUnk_000.mPosStep.x =
                     MUL_FIXED12_NO_ROUND(a->mPrm->mUnk_0fc, gPairsByAngle[(((u16) r4 - 0x4000) >> 4) * 2]);
-                a->mUnk_000.mUnk_10.y = 0;
-                a->mUnk_000.mUnk_10.z = MUL_FIXED12_NO_ROUND(
+                a->mUnk_000.mPosStep.y = 0;
+                a->mUnk_000.mPosStep.z = MUL_FIXED12_NO_ROUND(
                     a->mPrm->mUnk_0fc, gPairsByAngle[(((u16) a->mMoveAngle - 0x4000) >> 4) * 2 + 1]);
             }
             a->mUnk_2d8 = 0xc;

@@ -176,7 +176,7 @@ void UpdatePendulum(u32 list, PendulumObject *pendulum) {
     pendulum->mUnk_ec.x = pendulum->mMapObject.mPos.x >> 4;
     pendulum->mUnk_ec.y = pendulum->mMapObject.mPos.y >> 4;
     pendulum->mUnk_ec.z = pendulum->mMapObject.mPos.z >> 4;
-    VEC_Subtract(&pendulum->mMapObject.mPos, &pendulum->mPrevPos, &pendulum->mMapObject.mUnk_10);
+    VEC_Subtract(&pendulum->mMapObject.mPos, &pendulum->mPrevPos, &pendulum->mMapObject.mPosStep);
     pendulum->mPrevPos = pendulum->mMapObject.mPos;
 }
 

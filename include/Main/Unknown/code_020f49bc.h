@@ -6,7 +6,7 @@
 
 // Kinoko: the mushroom. Object of item kind 3, element of gItemPools[3].
 typedef struct ItemKinoko {
-    /* 000 */ BouncingItemObject mUnk_000;
+    /* 000 */ BouncingItemObject mBouncingItemObject;
     /* 130 */ s32 mTimer;
     /* 134 */ BOOL mVisible;
 } ItemKinoko;
@@ -17,7 +17,7 @@ typedef struct ItemKinoko ItemKinoko;
 
 // Koura: a shell. Object of the red shell (item kind 1), element of gItemPools[1].
 typedef struct ItemKouraR {
-    /* 000 */ LinkFollowingItemObject mUnk_000;
+    /* 000 */ LinkFollowingItemObject mLinkFollowingItemObject;
     /* 228 */ struct KartItems *mKartItems;
     /* 22c */ Vec3 mTowardKartVelocity;
     /* 238 */ s32 mNearKartFrames;
@@ -30,7 +30,7 @@ typedef struct ItemKouraR {
 
 // Object of item kind 2, element of gItemPools[2].
 typedef struct ItemBanana {
-    /* 000 */ BouncingItemObject mUnk_000;
+    /* 000 */ BouncingItemObject mBouncingItemObject;
     /* 130 */ s32 mThrowForward;
 } ItemBanana;
 

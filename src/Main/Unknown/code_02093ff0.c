@@ -53,14 +53,14 @@ void DrawTeresa(void *a, Teresa *teresa) {
     SetMapObjectModelMirror(gTeresa, teresa->mMirror, 0);
     w = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &w, 1);
-    NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&teresa->mUnk_00.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&teresa->mMapObject.mPos), 0xc);
     if (GetCurrentCameraKind() == 2) {
         v[0] = 0x2000;
         v[1] = 0x2000;
         v[2] = 0x2000;
         NNS_G3dGeBufferOP_N(0x1b, v, 3);
     }
-    NNS_G3dGeBufferOP_N(0x1b, &teresa->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &teresa->mMapObject.mScale, 3);
     DrawMapObjectModel(a, gTeresa, teresa);
 }
 
@@ -150,7 +150,7 @@ void UpdateTeresa(void *a, Teresa *teresa) {
                     teresa->mModelAlpha = teresa->mAlphaFixed12 >> 12;
                 } else {
                     teresa->mModelAlpha = 0;
-                    ParkMapObject(&teresa->mUnk_00);
+                    ParkMapObject(&teresa->mMapObject);
                     gUnparkedTeresaCount--;
                 }
             } else {
@@ -178,18 +178,18 @@ void UpdateTeresa(void *a, Teresa *teresa) {
     yWobbleValue = teresa->mYWobble.mValue;
     n = teresa->mUnk_10c;
     if (GetCurrentCameraKind() == 2) {
-        teresa->mUnk_00.mPos.x =
+        teresa->mMapObject.mPos.x =
             teresa->mStartPos.x + MUL_FIXED12_NO_ROUND(n, gPairsByAngle[(angleWobbleValue >> 4) * 2 + 1]);
-        teresa->mUnk_00.mPos.y = teresa->mStartPos.y + yWobbleValue;
-        teresa->mUnk_00.mPos.z =
+        teresa->mMapObject.mPos.y = teresa->mStartPos.y + yWobbleValue;
+        teresa->mMapObject.mPos.z =
             teresa->mStartPos.z + MUL_FIXED12_NO_ROUND(n, gPairsByAngle[(angleWobbleValue >> 4) * 2]);
     } else {
         kart = GetKart((u16) gRaceSetup->mEntryIndex);
-        teresa->mUnk_00.mPos.x =
+        teresa->mMapObject.mPos.x =
             kart->mPos.x +
             (teresa->mStartPos.x + MUL_FIXED12_NO_ROUND(n, gPairsByAngle[(angleWobbleValue >> 4) * 2 + 1]));
-        teresa->mUnk_00.mPos.y = teresa->mStartPos.y + yWobbleValue;
-        teresa->mUnk_00.mPos.z =
+        teresa->mMapObject.mPos.y = teresa->mStartPos.y + yWobbleValue;
+        teresa->mMapObject.mPos.z =
             kart->mPos.z + (teresa->mStartPos.z + MUL_FIXED12_NO_ROUND(n, gPairsByAngle[(angleWobbleValue >> 4) * 2]));
     }
 }

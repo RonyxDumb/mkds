@@ -20,8 +20,8 @@ void UpdatePushedObjectState1(PushedObject *object) {
     } else {
         object->mMotion.mAngle = object->mMotion.mAngle - object->mMotion.mAngleStep;
     }
-    object->mMapObject.mUnk_10.y -= object->mMotion.mGravity;
-    VEC_Add(&object->mMapObject.mPos, &object->mMapObject.mUnk_10, &object->mMapObject.mPos);
+    object->mMapObject.mPosStep.y -= object->mMotion.mGravity;
+    VEC_Add(&object->mMapObject.mPos, &object->mMapObject.mPosStep, &object->mMapObject.mPos);
     if (object->mMapObject.mPos.y < object->mMotion.mLowestY) {
         object->mMapObject.mStateMachine.mNextState = 2;
         object->mMapObject.mStateMachine.mNextStateRequested = 1;

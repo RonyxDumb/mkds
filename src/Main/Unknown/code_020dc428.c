@@ -82,8 +82,8 @@ void DrawWanwan(void *unused0, Wanwan *wanwan, void *unused1, u32 maxAlpha) {
 
     if (wanwan->mMapObject.mStateMachine.mState == 4) {
         if (GetChoisesSOpenDuringRace() == 0) {
-            wanwan->mMapObject.mPos.x += wanwan->mMapObject.mUnk_10.x;
-            wanwan->mMapObject.mPos.z += wanwan->mMapObject.mUnk_10.z;
+            wanwan->mMapObject.mPos.x += wanwan->mMapObject.mPosStep.x;
+            wanwan->mMapObject.mPos.z += wanwan->mMapObject.mPosStep.z;
         }
     }
     wanwan->mMapObject.mMatrix.mUnk_00[3].x = wanwan->mMapObject.mPos.x >> 4;
@@ -115,8 +115,8 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
 
     h = wanwan->mUsesCourseCollision;
     AdvanceStateMachine(&wanwan->mMapObject.mStateMachine);
-    wanwan->mMapObject.mUnk_10.y -= 0x400;
-    wanwan->mMapObject.mPos.y += wanwan->mMapObject.mUnk_10.y;
+    wanwan->mMapObject.mPosStep.y -= 0x400;
+    wanwan->mMapObject.mPos.y += wanwan->mMapObject.mPosStep.y;
     touchesGround = FALSE;
     probePos.x = wanwan->mMapObject.mPos.x;
     probePos.y = wanwan->mMapObject.mPos.y + wanwan->mUnk_f4 + 0x5000;
@@ -176,13 +176,13 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
         wanwan->mMapObject.mPos.y += correction.y;
         if (wanwan->mFollowsPath != 0 || touchesGround != FALSE) {
             if (wanwan->mFollowsPath != 0) {
-                x = wanwan->mFollower.mUnk_00.mToEntry->mPos.x;
-                z = wanwan->mFollower.mUnk_00.mToEntry->mPos.z;
+                x = wanwan->mFollower.mGroupFollower.mToEntry->mPos.x;
+                z = wanwan->mFollower.mGroupFollower.mToEntry->mPos.z;
             } else {
                 x = wanwan->mCurvePoints[2]->x - wanwan->mMapObject.mPos.x;
                 z = wanwan->mCurvePoints[2]->z - wanwan->mMapObject.mPos.z;
             }
-            t = ((s64) (s32) (((s64) wanwan->mMapObject.mUnk_10.x * x + (s64) wanwan->mMapObject.mUnk_10.z * z) >> 12)
+            t = ((s64) (s32) (((s64) wanwan->mMapObject.mPosStep.x * x + (s64) wanwan->mMapObject.mPosStep.z * z) >> 12)
                  << 9) >>
                 12;
             if (t > 0x3000) {
@@ -190,20 +190,20 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
             } else if (t < 0x2800) {
                 t = 0x2800;
             }
-            wanwan->mMapObject.mUnk_10.y = t;
+            wanwan->mMapObject.mPosStep.y = t;
         } else if (wanwan->mUnk_e8 == 0xd000) {
-            wanwan->mMapObject.mUnk_10.y = 0x2000;
+            wanwan->mMapObject.mPosStep.y = 0x2000;
             wanwan->mUnk_e8 += 0x1000;
         } else {
-            wanwan->mMapObject.mUnk_10.y = 0;
+            wanwan->mMapObject.mPosStep.y = 0;
         }
         if (h != 0) {
             if (surfaceFlags & 0x1e34ef) {
-                t = ((s64) wanwan->mMapObject.mUnk_10.x * surfaceNormal.x +
-                     (s64) wanwan->mMapObject.mUnk_10.z * surfaceNormal.z) >>
+                t = ((s64) wanwan->mMapObject.mPosStep.x * surfaceNormal.x +
+                     (s64) wanwan->mMapObject.mPosStep.z * surfaceNormal.z) >>
                     12;
                 if (t < 0) {
-                    wanwan->mMapObject.mUnk_10.y += MUL_FIXED12_NO_ROUND(-t, 0x14cd);
+                    wanwan->mMapObject.mPosStep.y += MUL_FIXED12_NO_ROUND(-t, 0x14cd);
                 }
                 QuaternionFromYAxisToVec3(&surfaceNormal, &wanwan->mSurfaceOrientation);
             }
@@ -218,7 +218,7 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
     if (h != 0) {
         QuaternionMultiplyByYawIgnoreY(&wanwan->mSurfaceOrientation, &wanwan->mYawQuaternion, &targetOrientation);
     }
-    wanwan->mUnk_e4 = wanwan->mUnk_e4 + ((-wanwan->mMapObject.mUnk_10.y >> 1) - wanwan->mUnk_e4 >> 4);
+    wanwan->mUnk_e4 = wanwan->mUnk_e4 + ((-wanwan->mMapObject.mPosStep.y >> 1) - wanwan->mUnk_e4 >> 4);
     if (h != 0) {
         QuaternionMultiplyAngleAroundX(&targetOrientation, (u16) (wanwan->mUnk_e8 + wanwan->mUnk_e4),
                                        &targetOrientation);
@@ -238,7 +238,7 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
 
 u8 CollideKartWithWanwan(Wanwan *wanwan, void *kart, u8 *firstResponsePtr, u8 *secondResponsePtr) {
     if (*firstResponsePtr == 1) {
-        if (wanwan->mMapObject.mStateMachine.mState != 2 || wanwan->mMapObject.mUnk_10.y < 0x4000) {
+        if (wanwan->mMapObject.mStateMachine.mState != 2 || wanwan->mMapObject.mPosStep.y < 0x4000) {
             wanwan->mMapObject.mStateMachine.mNextState = 2;
             wanwan->mMapObject.mStateMachine.mNextStateRequested = 1;
             StartSoundIfKartStarOrKiller(&wanwan->mMapObject, kart);
@@ -249,7 +249,7 @@ u8 CollideKartWithWanwan(Wanwan *wanwan, void *kart, u8 *firstResponsePtr, u8 *s
 
 u8 CollideItemObjectWithWanwan(Wanwan *wanwan, void *itemObject, u8 *firstResponsePtr, u8 *secondResponsePtr) {
     if (*firstResponsePtr == 1) {
-        if (wanwan->mMapObject.mStateMachine.mState != 2 || wanwan->mMapObject.mUnk_10.y < 0x4000) {
+        if (wanwan->mMapObject.mStateMachine.mState != 2 || wanwan->mMapObject.mPosStep.y < 0x4000) {
             wanwan->mMapObject.mStateMachine.mNextState = 2;
             wanwan->mMapObject.mStateMachine.mNextStateRequested = 1;
         }
@@ -301,8 +301,8 @@ void UpdateWanwanState0(Wanwan *wanwan) {
     u32 angleIndex;
     u16 kartIndex;
 
-    wanwan->mMapObject.mUnk_10.x = wanwan->mMapObject.mPos.x;
-    wanwan->mMapObject.mUnk_10.z = wanwan->mMapObject.mPos.z;
+    wanwan->mMapObject.mPosStep.x = wanwan->mMapObject.mPos.x;
+    wanwan->mMapObject.mPosStep.z = wanwan->mMapObject.mPos.z;
     if (AdvanceSegmentProgress(&wanwan->mSegmentProgress) != FALSE) {
         lastStepX = wanwan->mCurvePoints[3]->x - wanwan->mCurvePoints[2]->x;
         lastStepZ = wanwan->mCurvePoints[3]->z - wanwan->mCurvePoints[2]->z;
@@ -374,11 +374,11 @@ void UpdateWanwanState0(Wanwan *wanwan) {
             }
         }
     }
-    wanwan->mMapObject.mUnk_10.x = wanwan->mMapObject.mPos.x - wanwan->mMapObject.mUnk_10.x;
-    wanwan->mMapObject.mUnk_10.z = wanwan->mMapObject.mPos.z - wanwan->mMapObject.mUnk_10.z;
-    if (func_020dccc8_inline(&wanwan->mMapObject.mUnk_10) >= 0x10) {
+    wanwan->mMapObject.mPosStep.x = wanwan->mMapObject.mPos.x - wanwan->mMapObject.mPosStep.x;
+    wanwan->mMapObject.mPosStep.z = wanwan->mMapObject.mPos.z - wanwan->mMapObject.mPosStep.z;
+    if (func_020dccc8_inline(&wanwan->mMapObject.mPosStep) >= 0x10) {
         QuaternionFromAngleAroundY(
-            (u16) (((s64) FX_Atan2(wanwan->mMapObject.mUnk_10.x, wanwan->mMapObject.mUnk_10.z) * 0x28be60db9391LL +
+            (u16) (((s64) FX_Atan2(wanwan->mMapObject.mPosStep.x, wanwan->mMapObject.mPosStep.z) * 0x28be60db9391LL +
                     0x80000000000LL) >>
                    44),
             &wanwan->mYawQuaternion);
@@ -447,37 +447,37 @@ void UpdateWanwanState1(Wanwan *wanwan) {
         wanwan->mUnk_1f8 += 0xb4;
     }
     VEC_Subtract(&wanwan->mUnk_1e0, &wanwan->mMapObject.mPos, &a);
-    wanwan->mMapObject.mUnk_10.x += (s32) (((s64) a.x << 5) >> 12);
-    wanwan->mMapObject.mUnk_10.z += (s32) (((s64) a.z << 5) >> 12);
-    if (func_020dccc8_inline(&wanwan->mMapObject.mUnk_10) >= 0x40000000) {
-        wanwan->mMapObject.mUnk_10.x -= MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mUnk_10.x, 0x4cc);
-        wanwan->mMapObject.mUnk_10.z -= MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mUnk_10.z, 0x4cc);
+    wanwan->mMapObject.mPosStep.x += (s32) (((s64) a.x << 5) >> 12);
+    wanwan->mMapObject.mPosStep.z += (s32) (((s64) a.z << 5) >> 12);
+    if (func_020dccc8_inline(&wanwan->mMapObject.mPosStep) >= 0x40000000) {
+        wanwan->mMapObject.mPosStep.x -= MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mPosStep.x, 0x4cc);
+        wanwan->mMapObject.mPosStep.z -= MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mPosStep.z, 0x4cc);
     }
     if (func_020dccc8_inline(&a) < (s64) (wanwan->mUnk_f0 >> 1) * (wanwan->mUnk_f0 >> 1)) {
-        wanwan->mMapObject.mUnk_10.x >>= 1;
-        wanwan->mMapObject.mUnk_10.z >>= 1;
+        wanwan->mMapObject.mPosStep.x >>= 1;
+        wanwan->mMapObject.mPosStep.z >>= 1;
     } else {
         QuaternionFromAngleAroundY((u16) (((s64) FX_Atan2(a.x, a.z) * 0x28be60db9391LL + 0x80000000000LL) >> 44),
                                    &wanwan->mYawQuaternion);
     }
-    t = MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mUnk_10.x, a.z);
-    t -= MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mUnk_10.z, a.x);
+    t = MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mPosStep.x, a.z);
+    t -= MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mPosStep.z, a.x);
     if ((HORIZONTAL_LENGTH_SQUARED(a)) * 10 < (s64) t * t) {
-        wanwan->mMapObject.mUnk_10.x >>= 1;
-        wanwan->mMapObject.mUnk_10.z >>= 1;
+        wanwan->mMapObject.mPosStep.x >>= 1;
+        wanwan->mMapObject.mPosStep.z >>= 1;
     }
-    wanwan->mMapObject.mPos.x += wanwan->mMapObject.mUnk_10.x;
-    wanwan->mMapObject.mPos.z += wanwan->mMapObject.mUnk_10.z;
+    wanwan->mMapObject.mPos.x += wanwan->mMapObject.mPosStep.x;
+    wanwan->mMapObject.mPos.z += wanwan->mMapObject.mPosStep.z;
     VEC_Subtract(&wanwan->mMapObject.mPos, &wanwan->mCenterPos, &a);
     if (HORIZONTAL_LENGTH_SQUARED(a) >= (s64) wanwan->mMaxRadius * wanwan->mMaxRadius) {
         Vec3NormalizeXZAndGetLengthOrZero(&a, &a);
         wanwan->mMapObject.mPos.x = wanwan->mCenterPos.x + MUL_FIXED12_NO_ROUND(a.x, wanwan->mMaxRadius);
         wanwan->mMapObject.mPos.z = wanwan->mCenterPos.z + MUL_FIXED12_NO_ROUND(a.z, wanwan->mMaxRadius);
-        k = MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mUnk_10.x, a.x);
-        m = MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mUnk_10.z, a.z);
+        k = MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mPosStep.x, a.x);
+        m = MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mPosStep.z, a.z);
         if (k + m > 0) {
-            wanwan->mMapObject.mUnk_10.x -= MUL_FIXED12_NO_ROUND(k, a.x);
-            wanwan->mMapObject.mUnk_10.z -= MUL_FIXED12_NO_ROUND(m, a.z);
+            wanwan->mMapObject.mPosStep.x -= MUL_FIXED12_NO_ROUND(k, a.x);
+            wanwan->mMapObject.mPosStep.z -= MUL_FIXED12_NO_ROUND(m, a.z);
         }
     }
     if (wanwan->mMapObject.mStateMachine.mStateFrames >= 0xb4) {
@@ -492,23 +492,23 @@ void EnterWanwanState2(Wanwan *wanwan) {
     if (wanwan->mFollowsPath == 0) {
         wanwan->mChainObject->mChain.mDownwardStep = 0x219;
     }
-    wanwan->mMapObject.mUnk_10.y = 0x8000;
+    wanwan->mMapObject.mPosStep.y = 0x8000;
 }
 
 void UpdateWanwanState2(Wanwan *wanwan) {
     const Vec3 *velocity;
 
     if (wanwan->mFollowsPath != 0) {
-        wanwan->mMapObject.mUnk_10.x = wanwan->mMapObject.mPos.x;
-        wanwan->mMapObject.mUnk_10.z = wanwan->mMapObject.mPos.z;
+        wanwan->mMapObject.mPosStep.x = wanwan->mMapObject.mPos.x;
+        wanwan->mMapObject.mPosStep.z = wanwan->mMapObject.mPos.z;
         AdvanceGroupFollowerWithSpeeds(&wanwan->mFollower);
-        GetGroupFollowerCurveXz(&wanwan->mFollower.mUnk_00, &wanwan->mMapObject.mPos);
-        wanwan->mMapObject.mUnk_10.x = wanwan->mMapObject.mPos.x - wanwan->mMapObject.mUnk_10.x;
-        wanwan->mMapObject.mUnk_10.z = wanwan->mMapObject.mPos.z - wanwan->mMapObject.mUnk_10.z;
-        velocity = &wanwan->mMapObject.mUnk_10;
+        GetGroupFollowerCurveXz(&wanwan->mFollower.mGroupFollower, &wanwan->mMapObject.mPos);
+        wanwan->mMapObject.mPosStep.x = wanwan->mMapObject.mPos.x - wanwan->mMapObject.mPosStep.x;
+        wanwan->mMapObject.mPosStep.z = wanwan->mMapObject.mPos.z - wanwan->mMapObject.mPosStep.z;
+        velocity = &wanwan->mMapObject.mPosStep;
         if (HORIZONTAL_LENGTH_SQUARED(*velocity) >= 0x10) {
             QuaternionFromAngleAroundY(
-                (u16) (((s64) FX_Atan2(wanwan->mMapObject.mUnk_10.x, wanwan->mMapObject.mUnk_10.z) * 0x28be60db9391LL +
+                (u16) (((s64) FX_Atan2(wanwan->mMapObject.mPosStep.x, wanwan->mMapObject.mPosStep.z) * 0x28be60db9391LL +
                         0x80000000000LL) >>
                        44),
                 &wanwan->mYawQuaternion);
@@ -519,7 +519,7 @@ void UpdateWanwanState2(Wanwan *wanwan) {
         if (wanwan->mMapObject.mStateMachine.mStateFrames >= 0x28) {
             wanwan->mUnk_e8 += 0x200;
         } else {
-            wanwan->mMapObject.mUnk_10.y -= 0x266;
+            wanwan->mMapObject.mPosStep.y -= 0x266;
         }
         if (wanwan->mUnk_e8 > 0x10555) {
             wanwan->mMapObject.mStateMachine.mNextState = 5;
@@ -527,7 +527,7 @@ void UpdateWanwanState2(Wanwan *wanwan) {
         }
     } else {
         if (wanwan->mUnk_e8 == 0xd000) {
-            wanwan->mMapObject.mUnk_10.y -= 0x19a;
+            wanwan->mMapObject.mPosStep.y -= 0x19a;
         }
         if (wanwan->mMapObject.mStateMachine.mStateFrames >= 0x78) {
             wanwan->mUnk_e8 += 0x100;
@@ -559,14 +559,14 @@ void UpdateWanwanState3(Wanwan *wanwan) {
                 (wanwan->mMapObject.mPos.z - wanwan->mCenterPos.z) >=
         (s64) radius * radius) {
         VEC_Subtract(&wanwan->mCenterPos, &wanwan->mMapObject.mPos, &toCenter);
-        wanwan->mMapObject.mUnk_10.x += (s32) (((s64) toCenter.x << 2) >> 12);
-        wanwan->mMapObject.mUnk_10.z += (s32) (((s64) toCenter.z << 2) >> 12);
-        if (func_020dc474_inline(&wanwan->mMapObject.mUnk_10) >= 0x1000000) {
-            wanwan->mMapObject.mUnk_10.x -= MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mUnk_10.x, 0x199);
-            wanwan->mMapObject.mUnk_10.z -= MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mUnk_10.z, 0x199);
+        wanwan->mMapObject.mPosStep.x += (s32) (((s64) toCenter.x << 2) >> 12);
+        wanwan->mMapObject.mPosStep.z += (s32) (((s64) toCenter.z << 2) >> 12);
+        if (func_020dc474_inline(&wanwan->mMapObject.mPosStep) >= 0x1000000) {
+            wanwan->mMapObject.mPosStep.x -= MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mPosStep.x, 0x199);
+            wanwan->mMapObject.mPosStep.z -= MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mPosStep.z, 0x199);
         }
-        wanwan->mMapObject.mPos.x += wanwan->mMapObject.mUnk_10.x;
-        wanwan->mMapObject.mPos.z += wanwan->mMapObject.mUnk_10.z;
+        wanwan->mMapObject.mPos.x += wanwan->mMapObject.mPosStep.x;
+        wanwan->mMapObject.mPos.z += wanwan->mMapObject.mPosStep.z;
     }
     if (wanwan->mMapObject.mStateMachine.mStateFrames >= 0xb4) {
         wanwan->mMapObject.mStateMachine.mNextState = 0;

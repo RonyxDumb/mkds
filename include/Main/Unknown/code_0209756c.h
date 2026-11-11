@@ -9,7 +9,7 @@
 
 // Object of kind 0x1a9 (Flipper), up to 0xed4 bytes plus a table of words from 0xed4.
 typedef struct Flipper {
-    /* 000 */ MapObject mUnk_00;
+    /* 000 */ MapObject mMapObject;
     /* 0a0 */ s32 mUnk_a0;
     /* 0a4 */ s32 mMirror;
     /* 0a8 */ MtxFx43 mUnk_a8[30];

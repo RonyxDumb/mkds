@@ -588,9 +588,9 @@ void func_ov001_0218e474(Unk02188950 *a) {
 }
 
 void func_ov001_0218e38c(Unk02188950 *a, Kart *b) {
-    a->mUnk_000.mUnk_10.x = MUL_FIXED12_NO_ROUND(-a->mPrm->mUnk_024, gPairsByAngle[(b->mHeadingAngle >> 4) * 2]);
-    a->mUnk_000.mUnk_10.y = 0;
-    a->mUnk_000.mUnk_10.z = MUL_FIXED12_NO_ROUND(-a->mPrm->mUnk_024, gPairsByAngle[(b->mHeadingAngle >> 4) * 2 + 1]);
+    a->mUnk_000.mPosStep.x = MUL_FIXED12_NO_ROUND(-a->mPrm->mUnk_024, gPairsByAngle[(b->mHeadingAngle >> 4) * 2]);
+    a->mUnk_000.mPosStep.y = 0;
+    a->mUnk_000.mPosStep.z = MUL_FIXED12_NO_ROUND(-a->mPrm->mUnk_024, gPairsByAngle[(b->mHeadingAngle >> 4) * 2 + 1]);
     func_ov001_021829ac(a->mPrm->mUnk_190);
     func_ov001_0218ead0(a);
     a->mUnk_2d8 = 0;
@@ -617,9 +617,9 @@ void func_ov001_0218e344(Unk02188950 *a) {
 
 void func_ov001_0218e298(Unk02188950 *a, Kart *b) {
     func_ov001_02182bbc((u16) a->mPrm->mUnk_110);
-    a->mUnk_000.mUnk_10.x = 0;
-    a->mUnk_000.mUnk_10.y = a->mPrm->mUnk_114;
-    a->mUnk_000.mUnk_10.z = 0;
+    a->mUnk_000.mPosStep.x = 0;
+    a->mUnk_000.mPosStep.y = a->mPrm->mUnk_114;
+    a->mUnk_000.mPosStep.z = 0;
     a->mUnk_2d8 = 0xc;
     a->mUnk_158 = func_ov001_0218f3ec;
     SetKartCollisionCallback(a, func_ov001_0218f9a8);

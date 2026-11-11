@@ -154,13 +154,13 @@ void StartBouncingItemBox(BouncingItemBox *box) {
     if (box->mKartIsEntry != 0) {
         (box->mPooledMapObject)->mShadowMode = 1;
     }
-    if ((box->mUnk_000.mItemObject.mFlags & 0x180000) == 0) {
-        box->mUnk_000.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceBouncingItemBox;
+    if ((box->mBouncingItemObject.mItemObject.mFlags & 0x180000) == 0) {
+        box->mBouncingItemObject.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceBouncingItemBox;
     }
 }
 
 void ReleaseBouncingItemBox(BouncingItemBox *box) {
-    u16 kartIndex = box->mUnk_000.mItemObject.mOwnerKartIndexAndFlags & ~0xff00;
+    u16 kartIndex = box->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags & ~0xff00;
     if ((s32) gBouncingItemBoxTimers[kartIndex] > 0) {
         gBouncingItemBoxTimerRunning[kartIndex] = 1;
     }
@@ -168,18 +168,18 @@ void ReleaseBouncingItemBox(BouncingItemBox *box) {
 }
 
 void CollideKartWithBouncingItemBox(BouncingItemBox *box, void *kart) {
-    StartItemSlotAndEffects(&box->mUnk_000.mItemObject.mPos, kart, 0,
-                            (box->mUnk_000.mItemObject.mFlags & 0x10000) ? 1 : 0, 0);
+    StartItemSlotAndEffects(&box->mBouncingItemObject.mItemObject.mPos, kart, 0,
+                            (box->mBouncingItemObject.mItemObject.mFlags & 0x10000) ? 1 : 0, 0);
 }
 
 void ResetBouncingItemBox(BouncingItemBox *box) {
     box->mScaleRatio = 0x666;
     ResetPooledMapObject(box->mPooledMapObject);
-    box->mKartIsEntry = (u16) (box->mUnk_000.mItemObject.mOwnerKartIndexAndFlags & ~0xff00) == gRaceSetup->mEntryIndex;
+    box->mKartIsEntry = (u16) (box->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags & ~0xff00) == gRaceSetup->mEntryIndex;
     if (box->mKartIsEntry != 0) {
         (box->mPooledMapObject)->mShadowMode = 2;
     }
-    gBouncingItemBoxTimers[(u16) (box->mUnk_000.mItemObject.mOwnerKartIndexAndFlags & ~0xff00)] = 0x258;
+    gBouncingItemBoxTimers[(u16) (box->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags & ~0xff00)] = 0x258;
 }
 
 void AdvanceBouncingItemBoxInUse(ItemInUse *itemInUse, BouncingItemBox *box) {
@@ -188,36 +188,36 @@ void AdvanceBouncingItemBoxInUse(ItemInUse *itemInUse, BouncingItemBox *box) {
     s32 scaleRatio;
     if (box->mKartIsEntry != 0) {
         VEC_MultAdd(MUL_FIXED12_NO_ROUND(itemInUse->mKartScaleFactorTimesBase.z, -28877),
-                    &itemInUse->mKartOrientation.mUnk_00[1], &box->mUnk_000.mItemObject.mPos, &box->mMapObjectPos);
+                    &itemInUse->mKartOrientation.mUnk_00[1], &box->mBouncingItemObject.mItemObject.mPos, &box->mMapObjectPos);
         scaleRatio = box->mScaleRatio;
-        scale.x = MUL_FIXED12_NO_ROUND(box->mUnk_000.mItemObject.mScale.x, scaleRatio);
-        scale.y = MUL_FIXED12_NO_ROUND(box->mUnk_000.mItemObject.mScale.y, scaleRatio);
-        scale.z = MUL_FIXED12_NO_ROUND(box->mUnk_000.mItemObject.mScale.z, scaleRatio);
-        SetPooledMapObjectFromItem(mapObject, box->mUnk_000.mItemObject.mAlpha, &scale);
+        scale.x = MUL_FIXED12_NO_ROUND(box->mBouncingItemObject.mItemObject.mScale.x, scaleRatio);
+        scale.y = MUL_FIXED12_NO_ROUND(box->mBouncingItemObject.mItemObject.mScale.y, scaleRatio);
+        scale.z = MUL_FIXED12_NO_ROUND(box->mBouncingItemObject.mItemObject.mScale.z, scaleRatio);
+        SetPooledMapObjectFromItem(mapObject, box->mBouncingItemObject.mItemObject.mAlpha, &scale);
     } else {
-        box->mMapObjectPos = box->mUnk_000.mItemObject.mPos;
-        SetPooledMapObjectFromItem(mapObject, box->mUnk_000.mItemObject.mAlpha, &box->mUnk_000.mItemObject.mScale);
+        box->mMapObjectPos = box->mBouncingItemObject.mItemObject.mPos;
+        SetPooledMapObjectFromItem(mapObject, box->mBouncingItemObject.mItemObject.mAlpha, &box->mBouncingItemObject.mItemObject.mScale);
     }
     AdvancePooledMapObject(mapObject);
 }
 
 s32 InitBouncingItemBox(ItemInUse *itemInUse, BouncingItemBox *box) {
-    StartItemObjectSoundSource(&box->mUnk_000.mItemObject);
-    box->mUnk_000.mItemObject.mOwnerKartIndexAndFlags |= gBouncingItemBoxUntilCourseHitBit;
+    StartItemObjectSoundSource(&box->mBouncingItemObject.mItemObject);
+    box->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags |= gBouncingItemBoxUntilCourseHitBit;
     if (box->mKartIsEntry != 0) {
         (box->mPooledMapObject)->mShadowMode = 1;
     }
     if ((itemInUse->mKartItems->mFlags & KART_ITEMS_THROW_FORWARD) != 0) {
-        ThrowBouncingItem(&box->mUnk_000, itemInUse, 0, 1, 0x4000, 0x3000, 0x59a);
-        StartSound(&box->mUnk_000.mItemObject.mSoundSource, 0xda, 0x7f, 0);
+        ThrowBouncingItem(&box->mBouncingItemObject, itemInUse, 0, 1, 0x4000, 0x3000, 0x59a);
+        StartSound(&box->mBouncingItemObject.mItemObject.mSoundSource, 0xda, 0x7f, 0);
         box->mThrownForward = 1;
         return box->mThrownForward;
     } else {
-        ThrowBouncingItem(&box->mUnk_000, itemInUse, 0, 0, 0x4000, 0x3000, 0x59a);
+        ThrowBouncingItem(&box->mBouncingItemObject, itemInUse, 0, 0, 0x4000, 0x3000, 0x59a);
         if (itemInUse->mKartVelocityLength < 0x1000) {
-            box->mUnk_000.mItemObject.mVelocity.x = 0;
-            box->mUnk_000.mItemObject.mVelocity.y = 0;
-            box->mUnk_000.mItemObject.mVelocity.z = 0;
+            box->mBouncingItemObject.mItemObject.mVelocity.x = 0;
+            box->mBouncingItemObject.mItemObject.mVelocity.y = 0;
+            box->mBouncingItemObject.mItemObject.mVelocity.z = 0;
         }
         box->mThrownForward = 0;
         return box->mThrownForward;
@@ -233,43 +233,43 @@ void AdvanceBouncingItemBox(BouncingItemBox *box) {
     s32 scaleRatio;
     s32 kartIsEntry;
     ItemBox *mapObject;
-    if ((box->mUnk_000.mItemObject.mFlags & 0x180000) != 0) {
-        if ((box->mUnk_000.mItemObject.mFlags & 0x80000) != 0) {
-            AdvanceItemObjectFadeOut(&box->mUnk_000.mItemObject);
-        } else if ((box->mUnk_000.mItemObject.mFlags & 0x100000) != 0) {
-            AdvanceItemObjectReleaseTimer(&box->mUnk_000.mItemObject);
+    if ((box->mBouncingItemObject.mItemObject.mFlags & 0x180000) != 0) {
+        if ((box->mBouncingItemObject.mItemObject.mFlags & 0x80000) != 0) {
+            AdvanceItemObjectFadeOut(&box->mBouncingItemObject.mItemObject);
+        } else if ((box->mBouncingItemObject.mItemObject.mFlags & 0x100000) != 0) {
+            AdvanceItemObjectReleaseTimer(&box->mBouncingItemObject.mItemObject);
         }
-    } else if ((box->mUnk_000.mItemObject.mFlags & 0x8000) != 0) {
+    } else if ((box->mBouncingItemObject.mItemObject.mFlags & 0x8000) != 0) {
         if (gRaceSetup->mMode == MODE_BATTLE) {
-            kartIndex = box->mUnk_000.mItemObject.mOwnerKartIndexAndFlags & ~0xff00;
+            kartIndex = box->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags & ~0xff00;
             framesLeft = gBouncingItemBoxTimers[kartIndex] - 0x3c;
-            if (framesLeft < box->mUnk_000.mItemObject.mAlpha) {
-                box->mUnk_000.mItemObject.mAlpha = framesLeft;
+            if (framesLeft < box->mBouncingItemObject.mItemObject.mAlpha) {
+                box->mBouncingItemObject.mItemObject.mAlpha = framesLeft;
             }
             if (framesLeft < 0xa) {
-                FreeItemObjectCollisionSlot(&box->mUnk_000.mItemObject);
+                FreeItemObjectCollisionSlot(&box->mBouncingItemObject.mItemObject);
                 if (framesLeft == 0) {
-                    ReleaseItemPoolObject(&gItemPools[box->mUnk_000.mItemObject.mKind], &box->mUnk_000.mItemObject);
+                    ReleaseItemPoolObject(&gItemPools[box->mBouncingItemObject.mItemObject.mKind], &box->mBouncingItemObject.mItemObject);
                     return;
                 }
             }
             gBouncingItemBoxTimers[kartIndex]--;
         }
-        AdvanceRestingItemObject(&box->mUnk_000.mItemObject);
-    } else if ((box->mUnk_000.mItemObject.mFlags & 0x4000) != 0) {
-        AdvanceFallingItemObject(&box->mUnk_000.mItemObject);
+        AdvanceRestingItemObject(&box->mBouncingItemObject.mItemObject);
+    } else if ((box->mBouncingItemObject.mItemObject.mFlags & 0x4000) != 0) {
+        AdvanceFallingItemObject(&box->mBouncingItemObject.mItemObject);
     } else {
         if (box->mThrownForward != 0) {
-            AdvanceBouncingItem(&box->mUnk_000, 0x1ec, 0xfec, 0, &buf);
+            AdvanceBouncingItem(&box->mBouncingItemObject, 0x1ec, 0xfec, 0, &buf);
         } else {
-            AdvanceBouncingItem(&box->mUnk_000, 0x2e1, 0xf85, 0, &buf);
+            AdvanceBouncingItem(&box->mBouncingItemObject, 0x2e1, 0xf85, 0, &buf);
         }
-        if ((box->mUnk_000.mItemObject.mFlags & 8) != 0 && (box->mUnk_000.mItemObject.mFlags & 3) == 0) {
+        if ((box->mBouncingItemObject.mItemObject.mFlags & 8) != 0 && (box->mBouncingItemObject.mItemObject.mFlags & 3) == 0) {
             if (box->mThrownForward != 0) {
-                box->mUnk_000.mItemObject.mVelocity.y <<= 1;
+                box->mBouncingItemObject.mItemObject.mVelocity.y <<= 1;
             }
-            StopSound(&box->mUnk_000.mItemObject.mSoundSource, 0xda);
-            StartRestingItemObject(&box->mUnk_000.mItemObject, &buf);
+            StopSound(&box->mBouncingItemObject.mItemObject.mSoundSource, 0xda);
+            StartRestingItemObject(&box->mBouncingItemObject.mItemObject, &buf);
         }
     }
     kartIsEntry = box->mKartIsEntry;
@@ -277,16 +277,16 @@ void AdvanceBouncingItemBox(BouncingItemBox *box) {
     if (kartIsEntry != 0 && box->mScaleRatio < 0x1000) {
         box->mScaleRatio += 0xcd;
         scaleRatio = box->mScaleRatio;
-        scale.x = MUL_FIXED12_NO_ROUND(box->mUnk_000.mItemObject.mScale.x, scaleRatio);
-        scale.y = MUL_FIXED12_NO_ROUND(box->mUnk_000.mItemObject.mScale.y, scaleRatio);
-        scale.z = MUL_FIXED12_NO_ROUND(box->mUnk_000.mItemObject.mScale.z, scaleRatio);
-        VEC_Subtract(&box->mUnk_000.mItemObject.mPos, &box->mMapObjectPos, &offset);
+        scale.x = MUL_FIXED12_NO_ROUND(box->mBouncingItemObject.mItemObject.mScale.x, scaleRatio);
+        scale.y = MUL_FIXED12_NO_ROUND(box->mBouncingItemObject.mItemObject.mScale.y, scaleRatio);
+        scale.z = MUL_FIXED12_NO_ROUND(box->mBouncingItemObject.mItemObject.mScale.z, scaleRatio);
+        VEC_Subtract(&box->mBouncingItemObject.mItemObject.mPos, &box->mMapObjectPos, &offset);
         VEC_MultAdd(MUL_FIXED12_NO_ROUND(box->mScaleRatio, box->mScaleRatio), &offset, &box->mMapObjectPos,
                     &box->mMapObjectPos);
-        SetPooledMapObjectFromItem(mapObject, box->mUnk_000.mItemObject.mAlpha, &scale);
+        SetPooledMapObjectFromItem(mapObject, box->mBouncingItemObject.mItemObject.mAlpha, &scale);
     } else {
-        box->mMapObjectPos = box->mUnk_000.mItemObject.mPos;
-        SetPooledMapObjectFromItem(mapObject, box->mUnk_000.mItemObject.mAlpha, &box->mUnk_000.mItemObject.mScale);
+        box->mMapObjectPos = box->mBouncingItemObject.mItemObject.mPos;
+        SetPooledMapObjectFromItem(mapObject, box->mBouncingItemObject.mItemObject.mAlpha, &box->mBouncingItemObject.mItemObject.mScale);
     }
     AdvancePooledMapObject(mapObject);
 }

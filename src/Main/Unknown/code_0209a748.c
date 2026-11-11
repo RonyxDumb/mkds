@@ -30,7 +30,7 @@
 #include "Main/Unknown/code_02077bc0.h"
 
 void InitCrab(Crab *crab) {
-    InitGroupFollower(&crab->mFollower, crab->mUnk_000.mCourseMapRow, 0);
+    InitGroupFollower(&crab->mFollower, crab->mMapObject.mCourseMapRow, 0);
 }
 
 static inline u32 func_0209b388_inline(RandomState64 *random, u32 limit) {
@@ -49,7 +49,7 @@ void StartCrabLaunch(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Ve
     s32 z;
 
     if (sourcePosition != NULL && sourceDirection != NULL) {
-        VEC_Subtract(&crab->mUnk_000.mPos, sourcePosition, &v);
+        VEC_Subtract(&crab->mMapObject.mPos, sourcePosition, &v);
         z = sourceDirection->z;
         x = sourceDirection->x;
         if ((s64) v.z * x - (s64) v.x * z < 0) {
@@ -63,16 +63,16 @@ void StartCrabLaunch(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Ve
             v.y = 0;
             crab->mRotateZAnglePerFrame = 0xf8e4;
         }
-        crab->mUnk_000.mUnk_10.x = MUL_FIXED12_NO_ROUND(v.x, 0x1800);
-        crab->mUnk_000.mUnk_10.y = MUL_FIXED12_NO_ROUND(v.y, 0x1800);
-        crab->mUnk_000.mUnk_10.z = MUL_FIXED12_NO_ROUND(v.z, 0x1800);
+        crab->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(v.x, 0x1800);
+        crab->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(v.y, 0x1800);
+        crab->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(v.z, 0x1800);
     } else {
         mapObjectRandom = GetMapObjectRandom();
         z = (u16) func_0209b388_inline(mapObjectRandom, 0x10000);
         x = gPairsByAngle[((u16) z >> 4) * 2 + 1];
         x = MUL_FIXED12_NO_ROUND(x, 0x1800);
-        crab->mUnk_000.mUnk_10.x = x;
-        crab->mUnk_000.mUnk_10.z = x;
+        crab->mMapObject.mPosStep.x = x;
+        crab->mMapObject.mPosStep.z = x;
         mapObjectRandom = GetMapObjectRandom();
         if ((u16) func_0209b388_inline(mapObjectRandom, 2) != 0) {
             crab->mRotateZAnglePerFrame = 0x71c;
@@ -81,13 +81,13 @@ void StartCrabLaunch(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Ve
         }
     }
     if (sourceVelocity != NULL) {
-        crab->mUnk_000.mUnk_10.x += sourceVelocity->x / 2;
-        crab->mUnk_000.mUnk_10.z += sourceVelocity->z / 2;
+        crab->mMapObject.mPosStep.x += sourceVelocity->x / 2;
+        crab->mMapObject.mPosStep.z += sourceVelocity->z / 2;
     }
-    crab->mUnk_000.mUnk_10.y = 0x4000;
+    crab->mMapObject.mPosStep.y = 0x4000;
     crab->mTimer = 0x12c;
     crab->mState = 2;
-    crab->mUnk_000.mFlags |= data_usa_0215659c;
+    crab->mMapObject.mFlags |= data_usa_0215659c;
 }
 
 u8 CollideKartWithCrab(Crab *crab, Kart *kart, u8 *c, u8 *d) {
@@ -96,7 +96,7 @@ u8 CollideKartWithCrab(Crab *crab, Kart *kart, u8 *c, u8 *d) {
     result = *d;
     if (*c == 1) {
         StartCrabLaunch(crab, &kart->mPos, &kart->mEasedTurnedForward, &kart->mVelocity);
-        StartSoundIfKartStarOrKiller(&crab->mUnk_000, kart);
+        StartSoundIfKartStarOrKiller(&crab->mMapObject, kart);
     }
     return result;
 }
@@ -145,14 +145,14 @@ void DrawCrab(void *a, Crab *crab) {
 
     w = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &w, 1);
-    BuildYAxisMatrix(&crab->mUnk_000.mMatrix.mUnk_00[1]);
-    NNS_G3dGeBufferOP_N(0x19, SetYAxisMatrixPos(&crab->mUnk_000.mPos), 0xc);
+    BuildYAxisMatrix(&crab->mMapObject.mMatrix.mUnk_00[1]);
+    NNS_G3dGeBufferOP_N(0x19, SetYAxisMatrixPos(&crab->mMapObject.mPos), 0xc);
     if (crab->mRotateZAngle != 0) {
         MTX_RotZ33_(&crabRotation, gPairsByAngle[(crab->mRotateZAngle >> 4) * 2],
                     gPairsByAngle[(crab->mRotateZAngle >> 4) * 2 + 1]);
         NNS_G3dGeBufferOP_N(0x1a, &crabRotation, 9);
     }
-    NNS_G3dGeBufferOP_N(0x1b, &crab->mUnk_000.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &crab->mMapObject.mScale, 3);
     SetMapObjectModelNsbtpFrameIndex(gCrab, crab->mCrabNsbtpFrameIndexFixed12 >> 12);
     QueueMapObjectModelMaterial(a, gCrab);
     DrawMapObjectModel(a, gCrab, crab);
@@ -274,31 +274,31 @@ void UpdateCrab(void *a, Crab *crab) {
                 crab->mCrabNsbtpFrameIndexFixed12 = 0;
             }
             func_0209a7dc_inline(&crab->mHandWobble);
-            GetGroupFollowerLinearPosition(&crab->mFollower, &crab->mUnk_000.mPos);
+            GetGroupFollowerLinearPosition(&crab->mFollower, &crab->mMapObject.mPos);
             v = *GetGroupFollowerSegmentUp(&crab->mFollower);
-            VEC_Subtract(&v, &crab->mUnk_000.mMatrix.mUnk_00[1], &v);
+            VEC_Subtract(&v, &crab->mMapObject.mMatrix.mUnk_00[1], &v);
             v.x = MUL_FIXED12_NO_ROUND(v.x, 0x800);
             v.y = MUL_FIXED12_NO_ROUND(v.y, 0x800);
             v.z = MUL_FIXED12_NO_ROUND(v.z, 0x800);
-            VEC_Add(&crab->mUnk_000.mMatrix.mUnk_00[1], &v, &crab->mUnk_000.mMatrix.mUnk_00[1]);
-            if ((s64) crab->mUnk_000.mMatrix.mUnk_00[1].x * crab->mUnk_000.mMatrix.mUnk_00[1].x +
-                    (s64) crab->mUnk_000.mMatrix.mUnk_00[1].y * crab->mUnk_000.mMatrix.mUnk_00[1].y +
-                    (s64) crab->mUnk_000.mMatrix.mUnk_00[1].z * crab->mUnk_000.mMatrix.mUnk_00[1].z >=
+            VEC_Add(&crab->mMapObject.mMatrix.mUnk_00[1], &v, &crab->mMapObject.mMatrix.mUnk_00[1]);
+            if ((s64) crab->mMapObject.mMatrix.mUnk_00[1].x * crab->mMapObject.mMatrix.mUnk_00[1].x +
+                    (s64) crab->mMapObject.mMatrix.mUnk_00[1].y * crab->mMapObject.mMatrix.mUnk_00[1].y +
+                    (s64) crab->mMapObject.mMatrix.mUnk_00[1].z * crab->mMapObject.mMatrix.mUnk_00[1].z >=
                 0x10) {
-                Vec3NormalizeAndGetLengthUnchecked(&crab->mUnk_000.mMatrix.mUnk_00[1],
-                                                   &crab->mUnk_000.mMatrix.mUnk_00[1]);
+                Vec3NormalizeAndGetLengthUnchecked(&crab->mMapObject.mMatrix.mUnk_00[1],
+                                                   &crab->mMapObject.mMatrix.mUnk_00[1]);
             }
             break;
         case 2:
             if (crab->mTimer-- > 0) {
-                crab->mUnk_000.mUnk_10.y -= 0x400;
-                VEC_Add(&crab->mUnk_000.mPos, &crab->mUnk_000.mUnk_10, &crab->mUnk_000.mPos);
+                crab->mMapObject.mPosStep.y -= 0x400;
+                VEC_Add(&crab->mMapObject.mPos, &crab->mMapObject.mPosStep, &crab->mMapObject.mPos);
                 crab->mRotateZAngle += crab->mRotateZAnglePerFrame;
                 return;
             }
             SetupGroupFollowerAtEntry(&crab->mFollower, 0, 0);
-            GetGroupFollowerLinearXz(&crab->mFollower, &crab->mUnk_000.mPos);
-            crab->mUnk_000.mPos.y = crab->mUnk_000.mCourseMapRow->mUnk_00.y - 0x5000;
+            GetGroupFollowerLinearXz(&crab->mFollower, &crab->mMapObject.mPos);
+            crab->mMapObject.mPos.y = crab->mMapObject.mCourseMapRow->mUnk_00.y - 0x5000;
             crab->mCrabWobble.mAngle = 0;
             crab->mCrabWobble.mMid = 0;
             crab->mCrabWobble.mAmplitude = 0x2aab;
@@ -319,14 +319,14 @@ void UpdateCrab(void *a, Crab *crab) {
             }
             func_0209a7dc_inline(&crab->mCrabWobble);
             crab->mRotateZAngle = crab->mCrabWobble.mValue;
-            crab->mUnk_000.mPos.y += 0x200;
-            if (crab->mUnk_000.mPos.y < crab->mUnk_000.mCourseMapRow->mUnk_00.y) {
+            crab->mMapObject.mPos.y += 0x200;
+            if (crab->mMapObject.mPos.y < crab->mMapObject.mCourseMapRow->mUnk_00.y) {
                 return;
             }
-            crab->mUnk_000.mPos.y = crab->mUnk_000.mCourseMapRow->mUnk_00.y;
-            crab->mUnk_000.mUnk_10.x = 0;
-            crab->mUnk_000.mUnk_10.y = 0;
-            crab->mUnk_000.mUnk_10.z = 0;
+            crab->mMapObject.mPos.y = crab->mMapObject.mCourseMapRow->mUnk_00.y;
+            crab->mMapObject.mPosStep.x = 0;
+            crab->mMapObject.mPosStep.y = 0;
+            crab->mMapObject.mPosStep.z = 0;
             crab->mRotateZAngle = 0;
             crab->mHandWobble.mAngle = 0;
             crab->mHandWobble.mMid = 0;
@@ -339,7 +339,7 @@ void UpdateCrab(void *a, Crab *crab) {
                 mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
             crab->mTimer = (u16) ((u16) (((u64) (u32) (mapObjectRandom->mValue >> 32) * 60) >> 32) + 30);
             crab->mState = 0;
-            crab->mUnk_000.mFlags &= ~1;
+            crab->mMapObject.mFlags &= ~1;
             break;
     }
 }

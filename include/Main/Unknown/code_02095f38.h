@@ -8,7 +8,7 @@ typedef struct ItemObject ItemObject;
 
 // Object up to 0x109 bytes.
 typedef struct CoverPooHole {
-    /* 00 */ MapObject mUnk_00;
+    /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mCoverHeight;
     /* a4 */ s32 mPooHeight;
     /* a8 */ s32 mUnk_a8;

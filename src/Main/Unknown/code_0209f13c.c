@@ -49,48 +49,48 @@ void UpdateChandelier(void *a, Unk0209f338 *b) {
             return;
     }
     if (b->mFrameIndex == 0 || b->mFrameIndex == 0x7d) {
-        if ((b->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
-            if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+        if ((b->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
+            if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
                 t = 2;
-            } else if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+            } else if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
                 t = 3;
             } else {
                 t = 4;
             }
             s1.mSoundId = 0x11a;
-            s1.mPositionSource = &b->mUnk_00.mPos;
+            s1.mPositionSource = &b->mMapObject.mPos;
             s1.mFalloffIndex = t;
-            s1.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mUnk_00.mPos);
+            s1.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mMapObject.mPos);
             StartSoundFromParams(&s1);
         }
     } else if (b->mFrameIndex == 0x46 || b->mFrameIndex == 0xaf) {
-        if ((b->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
-            if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+        if ((b->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
+            if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
                 t = 2;
-            } else if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+            } else if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
                 t = 3;
             } else {
                 t = 4;
             }
             s2.mSoundId = 0x11b;
-            s2.mPositionSource = &b->mUnk_00.mPos;
+            s2.mPositionSource = &b->mMapObject.mPos;
             s2.mFalloffIndex = t;
-            s2.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mUnk_00.mPos);
+            s2.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mMapObject.mPos);
             StartSoundFromParams(&s2);
         }
     } else if (b->mFrameIndex == 0xfa) {
-        if ((b->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
-            if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+        if ((b->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
+            if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
                 t = 2;
-            } else if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+            } else if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
                 t = 3;
             } else {
                 t = 4;
             }
             s3.mSoundId = 0x119;
-            s3.mPositionSource = &b->mUnk_00.mPos;
+            s3.mPositionSource = &b->mMapObject.mPos;
             s3.mFalloffIndex = t;
-            s3.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mUnk_00.mPos);
+            s3.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mMapObject.mPos);
             StartSoundFromParams(&s3);
         }
     }
@@ -125,16 +125,16 @@ void DrawRainStar(void *a, Unk0209f1c8 *b) {
 
     l = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &l, 1);
-    b->mUnk_00.mMatrix.mUnk_00[3].x = b->mUnk_00.mPos.x >> 4;
-    b->mUnk_00.mMatrix.mUnk_00[3].y = b->mUnk_00.mPos.y >> 4;
-    b->mUnk_00.mMatrix.mUnk_00[3].z = b->mUnk_00.mPos.z >> 4;
-    NNS_G3dGeBufferOP_N(0x19, &b->mUnk_00.mMatrix, 0xc);
-    if (b->mUnk_00.mAngle != 0) {
-        i = b->mUnk_00.mAngle >> 4;
+    b->mMapObject.mMatrix.mUnk_00[3].x = b->mMapObject.mPos.x >> 4;
+    b->mMapObject.mMatrix.mUnk_00[3].y = b->mMapObject.mPos.y >> 4;
+    b->mMapObject.mMatrix.mUnk_00[3].z = b->mMapObject.mPos.z >> 4;
+    NNS_G3dGeBufferOP_N(0x19, &b->mMapObject.mMatrix, 0xc);
+    if (b->mMapObject.mAngle != 0) {
+        i = b->mMapObject.mAngle >> 4;
         MTX_RotY33_(&m, gPairsByAngle[i * 2], gPairsByAngle[i * 2 + 1]);
         NNS_G3dGeBufferOP_N(0x1a, &m, 9);
     }
-    NNS_G3dGeBufferOP_N(0x1b, &b->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &b->mMapObject.mScale, 3);
     SetMapObjectModelNsbtaFrameIndex(gRainStar, b->mFrameIndex);
     DrawMapObjectModel(a, gRainStar, b);
 }
@@ -147,7 +147,7 @@ void UpdateRainStar(void *a, Unk0209f1c8 *b) {
     if (b->mFrameIndex >= n) {
         b->mFrameIndex = 0;
     }
-    b->mUnk_00.mAngle += 0x111;
+    b->mMapObject.mAngle += 0x111;
 }
 
 void *CreateRainStarDrawList(void) {

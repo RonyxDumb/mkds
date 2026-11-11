@@ -257,26 +257,26 @@ void UpdateBridge(s32 unused, Bridge *bridge) {
     if (angleDelta < -0x8000) {
         angleDelta += 0x10000;
     }
-    bridge->mUnk_000.mCollisionData.mAngleChangeVector.x =
-        MUL_FIXED12_NO_ROUND(bridge->mUnk_000.mMapObject.mMatrix.mUnk_00[0].x, angleDelta);
-    bridge->mUnk_000.mCollisionData.mAngleChangeVector.y =
-        MUL_FIXED12_NO_ROUND(bridge->mUnk_000.mMapObject.mMatrix.mUnk_00[0].y, angleDelta);
-    bridge->mUnk_000.mCollisionData.mAngleChangeVector.z =
-        MUL_FIXED12_NO_ROUND(bridge->mUnk_000.mMapObject.mMatrix.mUnk_00[0].z, angleDelta);
+    bridge->mCollisionMapObject.mCollisionData.mAngleChangeVector.x =
+        MUL_FIXED12_NO_ROUND(bridge->mCollisionMapObject.mMapObject.mMatrix.mUnk_00[0].x, angleDelta);
+    bridge->mCollisionMapObject.mCollisionData.mAngleChangeVector.y =
+        MUL_FIXED12_NO_ROUND(bridge->mCollisionMapObject.mMapObject.mMatrix.mUnk_00[0].y, angleDelta);
+    bridge->mCollisionMapObject.mCollisionData.mAngleChangeVector.z =
+        MUL_FIXED12_NO_ROUND(bridge->mCollisionMapObject.mMapObject.mMatrix.mUnk_00[0].z, angleDelta);
     bridge->mAngleX = y;
-    bridge->mUnk_000.mCollisionData.mPrevMatrix = bridge->mUnk_000.mMapObject.mMatrix.mUnk_00_m;
-    MTX_RotX33_(&bridge->mUnk_000.mMapObject.mMatrix.mUnk_00_m, gPairsByAngle[(y >> 4) * 2],
+    bridge->mCollisionMapObject.mCollisionData.mPrevMatrix = bridge->mCollisionMapObject.mMapObject.mMatrix.mUnk_00_m;
+    MTX_RotX33_(&bridge->mCollisionMapObject.mMapObject.mMatrix.mUnk_00_m, gPairsByAngle[(y >> 4) * 2],
                 gPairsByAngle[(y >> 4) * 2 + 1]);
-    MTX_Concat33(&bridge->mUnk_000.mMapObject.mMatrix.mUnk_00_m, &bridge->mUnk_000.mCollisionData.mInitialMatrix,
-                 &bridge->mUnk_000.mMapObject.mMatrix.mUnk_00_m);
-    VEC_MultAdd(-bridge->mUnk_000.mCollisionData.mHalfSizeY, &bridge->mUnk_000.mMapObject.mMatrix.mUnk_00[1],
-                &bridge->mUnk_000.mMapObject.mPos, &bridge->mUnk_000.mCollisionData.mCenterPos);
+    MTX_Concat33(&bridge->mCollisionMapObject.mMapObject.mMatrix.mUnk_00_m, &bridge->mCollisionMapObject.mCollisionData.mInitialMatrix,
+                 &bridge->mCollisionMapObject.mMapObject.mMatrix.mUnk_00_m);
+    VEC_MultAdd(-bridge->mCollisionMapObject.mCollisionData.mHalfSizeY, &bridge->mCollisionMapObject.mMapObject.mMatrix.mUnk_00[1],
+                &bridge->mCollisionMapObject.mMapObject.mPos, &bridge->mCollisionMapObject.mCollisionData.mCenterPos);
     if (bridge->mPauseTimer != 0) {
         bridge->mPauseTimer--;
         return;
     }
-    if (bridge->mUnk_000.mMapObject.mSound != NULL) {
-        StartMapObjectSoundWhileRequested(&bridge->mUnk_000.mMapObject, 0x189);
+    if (bridge->mCollisionMapObject.mMapObject.mSound != NULL) {
+        StartMapObjectSoundWhileRequested(&bridge->mCollisionMapObject.mMapObject, 0x189);
     }
     bridge->mSwingAngle += bridge->mSwingAnglePerFrame;
     if (bridge->mSwingAngle >= 0x4000 && bridge->mSwingAngle < bridge->mSwingAnglePerFrame + 0x4000) {

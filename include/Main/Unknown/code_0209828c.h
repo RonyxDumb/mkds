@@ -10,7 +10,7 @@
 // Object up to 0x200 bytes: the shared part, a counter at 0xa4 that cycles between 0xac and 0xb0, a state at 0xb4,
 // seven GroupFollower from 0xb8, then a count and an index at 0x1b8 and 0x1ba and seven values at 0x1bc.
 typedef struct Pakkun {
-    /* 000 */ MapObject mUnk_000;
+    /* 000 */ MapObject mMapObject;
     /* 0a0 */ u16 mPolygonId;
     /* 0a2 */ u8 mUnk_0a2[2];
     /* 0a4 */ s32 mUnk_0a4;

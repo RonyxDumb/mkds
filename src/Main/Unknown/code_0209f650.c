@@ -126,11 +126,11 @@ void UpdateAirship(void *a, Airship *airship) {
             break;
         case 2:
             AdvanceGroupFollower(&airship->mUnk_c8);
-            GetGroupFollowerCurvePosStep(&airship->mUnk_c8, &airship->mUnk_00.mPos, &airship->mUnk_00.mUnk_10);
+            GetGroupFollowerCurvePosStep(&airship->mUnk_c8, &airship->mMapObject.mPos, &airship->mMapObject.mPosStep);
             func_0209fdb4_inline(airship);
             break;
     }
-    airship->mUnk_00.mAngle = FX_Atan2Idx(airship->mUnk_00.mUnk_10.x, airship->mUnk_00.mUnk_10.z);
+    airship->mMapObject.mAngle = FX_Atan2Idx(airship->mMapObject.mPosStep.x, airship->mMapObject.mPosStep.z);
 }
 
 void *CreateAirshipDrawList(void) {
@@ -194,13 +194,13 @@ void DrawTownMonte(void *a, TownMonte *townMonte) {
     v = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &v, 1);
     if (townMonte->mMirror != 0) {
-        h = TiltViewRotatedMatrix(&townMonte->mUnk_00.mPos, -d, d);
+        h = TiltViewRotatedMatrix(&townMonte->mMapObject.mPos, -d, d);
         NNS_G3dGeBufferOP_N(0x19, h, 0xc);
     } else {
-        h = TiltViewRotatedMatrix(&townMonte->mUnk_00.mPos, d, d);
+        h = TiltViewRotatedMatrix(&townMonte->mMapObject.mPos, d, d);
         NNS_G3dGeBufferOP_N(0x19, h, 0xc);
     }
-    NNS_G3dGeBufferOP_N(0x1b, &townMonte->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &townMonte->mMapObject.mScale, 3);
     SetMapObjectModelNsbtpFrameIndex(gTownMonte, townMonte->mNsbtpFrameIndex);
     QueueMapObjectModelMaterial(a, gTownMonte);
     DrawMapObjectModel(a, gTownMonte, townMonte);
@@ -228,7 +228,7 @@ void InitTownMonteObjects(Unk0209f800 *a) {
         for (j = 0; j < m; j++) {
             func_0209f6d8_inline(townMonte);
         }
-        if (townMonte->mUnk_00.mCourseMapRow->mUnk_28 != 0) {
+        if (townMonte->mMapObject.mCourseMapRow->mUnk_28 != 0) {
             if (townMonte->mNsbtpFrameIndex == 0) {
                 townMonte->mSoundId = 0x1a7;
             } else if (townMonte->mNsbtpFrameIndex == 1) {
@@ -252,24 +252,24 @@ void UpdateTownMonte(void *a, TownMonte *townMonte) {
     if (townMonte->mSoundId == 0) {
         return;
     }
-    if (townMonte->mUnk_00.mCourseMapRow->mUnk_28 != GetSeqVariableSinceChangeFrames(0)) {
+    if (townMonte->mMapObject.mCourseMapRow->mUnk_28 != GetSeqVariableSinceChangeFrames(0)) {
         return;
     }
     w = townMonte->mSoundId;
-    if (townMonte->mUnk_00.mDistanceSquaredAndFlags & 4) {
+    if (townMonte->mMapObject.mDistanceSquaredAndFlags & 4) {
         return;
     }
-    if (townMonte->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+    if (townMonte->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
         t = 2;
-    } else if (townMonte->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+    } else if (townMonte->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
         t = 3;
     } else {
         t = 4;
     }
     s.mSoundId = w;
-    s.mPositionSource = &townMonte->mUnk_00.mPos;
+    s.mPositionSource = &townMonte->mMapObject.mPos;
     s.mFalloffIndex = t;
-    s.mDistanceSquared = GetHorizontalCameraDistanceSquared(&townMonte->mUnk_00.mPos);
+    s.mDistanceSquared = GetHorizontalCameraDistanceSquared(&townMonte->mMapObject.mPos);
     StartSoundFromParams(&s);
 }
 

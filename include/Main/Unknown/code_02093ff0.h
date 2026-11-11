@@ -22,7 +22,7 @@ typedef struct TeresaWobble {
 // Object of kind 0x13b (Teresa), returned by UnparkFirstParkedMapObject for FindMapObjectKindUpdateList(0x13b), filled
 // by StartTeresa. The pool objects are made by another kind's init (InitTeresaSpawner).
 typedef struct Teresa {
-    /* 000 */ MapObject mUnk_00;
+    /* 000 */ MapObject mMapObject;
     /* 0a0 */ Vec3 mStartPos;
     /* 0ac */ u16 mModelAlpha;
     /* 0ae */ u16 mNsbtpFrameIndex;

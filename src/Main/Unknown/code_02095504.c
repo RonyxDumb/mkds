@@ -50,18 +50,18 @@ void DrawMoveTree(void *a, MoveTree *moveTree, u32 c, u32 d) {
 
     t = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &t, 1);
-    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&moveTree->mUnk_00.mPos), 12);
-    NNS_G3dGeBufferOP_N(0x1b, &moveTree->mUnk_00.mScale, 3);
-    if ((s32) (moveTree->mUnk_00.mDistanceSquaredAndFlags & ~0xc000001f) < 0xc5c10) {
+    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&moveTree->mMapObject.mPos), 12);
+    NNS_G3dGeBufferOP_N(0x1b, &moveTree->mMapObject.mScale, 3);
+    if ((s32) (moveTree->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f) < 0xc5c10) {
         SetMapObjectModelNsbcaFrameIndex(gMoveTree, moveTree->mNsbcaFrameIndex);
         DrawMapObjectModel(a, gMoveTree, moveTree);
     } else {
         DrawMapObjectModel1Mat1Shp(a, gMoveTree, moveTree);
     }
-    if ((s32) (moveTree->mUnk_00.mDistanceSquaredAndFlags & ~0xc000001f) >= 0x27100) {
+    if ((s32) (moveTree->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f) >= 0x27100) {
         return;
     }
-    SetShadowPositionXZ(&moveTree->mUnk_dc, &moveTree->mUnk_00.mPos);
+    SetShadowPositionXZ(&moveTree->mUnk_dc, &moveTree->mMapObject.mPos);
     DrawObjShadow(&moveTree->mUnk_dc, NULL, c, d);
 }
 
@@ -73,8 +73,8 @@ void InitMoveTreeObjects(MapObjectList *mapObjectList) {
         return;
     }
     for (i = 0; i < mapObjectList->mMapObjectCount && (moveTree = mapObjectList->mMapObjects[i]) != NULL; i++) {
-        moveTree->mUnk_a8 = (moveTree->mUnk_00.mCourseMapRow->mUnk_28 << 12) / 100;
-        RefreshShadowMatrix(&moveTree->mUnk_dc, &moveTree->mUnk_00.mPos, 0x54666, 14);
+        moveTree->mUnk_a8 = (moveTree->mMapObject.mCourseMapRow->mUnk_28 << 12) / 100;
+        RefreshShadowMatrix(&moveTree->mUnk_dc, &moveTree->mMapObject.mPos, 0x54666, 14);
     }
 }
 
@@ -91,7 +91,7 @@ void UpdateMoveTree(void *a, MoveTree *moveTree) {
             if (moveTree->mState0Timer-- <= 0) {
                 moveTree->mState = 1;
             }
-            if ((s32) (moveTree->mUnk_00.mDistanceSquaredAndFlags & ~0xc000001f) >= 0xc5c10) {
+            if ((s32) (moveTree->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f) >= 0xc5c10) {
                 return;
             }
             if (moveTree->mUnk_a4-- > 0) {
@@ -112,20 +112,20 @@ void UpdateMoveTree(void *a, MoveTree *moveTree) {
             if (moveTree->mNsbcaFrameIndex != 0 && moveTree->mNsbcaFrameIndex != 0x1e) {
                 return;
             }
-            if ((moveTree->mUnk_00.mDistanceSquaredAndFlags & 4) != 0) {
+            if ((moveTree->mMapObject.mDistanceSquaredAndFlags & 4) != 0) {
                 return;
             }
-            if (moveTree->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+            if (moveTree->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
                 k = 2;
-            } else if (moveTree->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+            } else if (moveTree->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
                 k = 3;
             } else {
                 k = 4;
             }
             s1.mSoundId = 0x11f;
-            s1.mPositionSource = &moveTree->mUnk_00.mPos;
+            s1.mPositionSource = &moveTree->mMapObject.mPos;
             s1.mFalloffIndex = k;
-            s1.mDistanceSquared = GetHorizontalCameraDistanceSquared(&moveTree->mUnk_00.mPos);
+            s1.mDistanceSquared = GetHorizontalCameraDistanceSquared(&moveTree->mMapObject.mPos);
             StartSoundFromParams(&s1);
             break;
         case 1:
@@ -137,8 +137,8 @@ void UpdateMoveTree(void *a, MoveTree *moveTree) {
                 moveTree->mState0Timer = (u16) moveTree->mFollower.mFromEntry->mUnk_0e;
                 moveTree->mState = 0;
             }
-            GetGroupFollowerLinearXz(&moveTree->mFollower, &moveTree->mUnk_00.mPos);
-            if ((s32) (moveTree->mUnk_00.mDistanceSquaredAndFlags & ~0xc000001f) >= 0xc5c10) {
+            GetGroupFollowerLinearXz(&moveTree->mFollower, &moveTree->mMapObject.mPos);
+            if ((s32) (moveTree->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f) >= 0xc5c10) {
                 return;
             }
             if (moveTree->mUnk_a4-- > 0) {
@@ -153,20 +153,20 @@ void UpdateMoveTree(void *a, MoveTree *moveTree) {
             if (moveTree->mNsbcaFrameIndex != 0 && moveTree->mNsbcaFrameIndex != 0x1e) {
                 return;
             }
-            if ((moveTree->mUnk_00.mDistanceSquaredAndFlags & 4) != 0) {
+            if ((moveTree->mMapObject.mDistanceSquaredAndFlags & 4) != 0) {
                 return;
             }
-            if (moveTree->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+            if (moveTree->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
                 k = 2;
-            } else if (moveTree->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+            } else if (moveTree->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
                 k = 3;
             } else {
                 k = 4;
             }
             s2.mSoundId = 0x11f;
-            s2.mPositionSource = &moveTree->mUnk_00.mPos;
+            s2.mPositionSource = &moveTree->mMapObject.mPos;
             s2.mFalloffIndex = k;
-            s2.mDistanceSquared = GetHorizontalCameraDistanceSquared(&moveTree->mUnk_00.mPos);
+            s2.mDistanceSquared = GetHorizontalCameraDistanceSquared(&moveTree->mMapObject.mPos);
             StartSoundFromParams(&s2);
     }
 }
@@ -200,13 +200,13 @@ void DrawBakubaku(void *a, Bakubaku *bakubaku) {
     }
     t = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &t, 1);
-    bakubaku->mUnk_00.mMatrix.mUnk_00[3].x = bakubaku->mUnk_00.mPos.x >> 4;
-    bakubaku->mUnk_00.mMatrix.mUnk_00[3].y = bakubaku->mUnk_00.mPos.y >> 4;
-    bakubaku->mUnk_00.mMatrix.mUnk_00[3].z = bakubaku->mUnk_00.mPos.z >> 4;
-    NNS_G3dGeBufferOP_N(0x19, &bakubaku->mUnk_00.mMatrix, 12);
-    NNS_G3dGeBufferOP_N(0x1b, &bakubaku->mUnk_00.mScale, 3);
+    bakubaku->mMapObject.mMatrix.mUnk_00[3].x = bakubaku->mMapObject.mPos.x >> 4;
+    bakubaku->mMapObject.mMatrix.mUnk_00[3].y = bakubaku->mMapObject.mPos.y >> 4;
+    bakubaku->mMapObject.mMatrix.mUnk_00[3].z = bakubaku->mMapObject.mPos.z >> 4;
+    NNS_G3dGeBufferOP_N(0x19, &bakubaku->mMapObject.mMatrix, 12);
+    NNS_G3dGeBufferOP_N(0x1b, &bakubaku->mMapObject.mScale, 3);
     DrawMapObjectModel(a, gBakuShadow, bakubaku);
-    i = (u16) (u32) FX_Atan2Idx(-bakubaku->mUnk_00.mUnk_10.y, 0xc000) >> 4;
+    i = (u16) (u32) FX_Atan2Idx(-bakubaku->mMapObject.mPosStep.y, 0xc000) >> 4;
     MTX_RotX33_(&m, gPairsByAngle[i * 2], gPairsByAngle[i * 2 + 1]);
     NNS_G3dGeBufferOP_N(0x1a, &m, 9);
     DrawMapObjectModel(a, gBakubaku, bakubaku);
@@ -220,7 +220,7 @@ void InitBakubakuObjects(MapObjectList *mapObjectList) {
         return;
     }
     for (i = 0; i < mapObjectList->mMapObjectCount && (bakubaku = mapObjectList->mMapObjects[i]) != NULL; i++) {
-        VEC_MultAdd(0x320000, &bakubaku->mUnk_00.mMatrix.mUnk_00[2], &bakubaku->mUnk_00.mCourseMapRow->mUnk_00,
+        VEC_MultAdd(0x320000, &bakubaku->mMapObject.mMatrix.mUnk_00[2], &bakubaku->mMapObject.mCourseMapRow->mUnk_00,
                     &bakubaku->mUnk_a4);
     }
 }
@@ -246,46 +246,46 @@ void UpdateBakubaku(void *a, Bakubaku *bakubaku) {
                     return;
                 }
             }
-            bakubaku->mUnk_00.mPos.x = bakubaku->mUnk_00.mCourseMapRow->mUnk_00.x;
-            bakubaku->mUnk_00.mPos.y = bakubaku->mUnk_00.mCourseMapRow->mUnk_00.y - 0x32000;
-            bakubaku->mUnk_00.mPos.z = bakubaku->mUnk_00.mCourseMapRow->mUnk_00.z;
-            bakubaku->mUnk_00.mUnk_10.x = MUL_FIXED12_NO_ROUND(bakubaku->mUnk_00.mMatrix.mUnk_00[2].x, 0xc000);
-            bakubaku->mUnk_00.mUnk_10.y = 0xc000;
-            bakubaku->mUnk_00.mUnk_10.z = MUL_FIXED12_NO_ROUND(bakubaku->mUnk_00.mMatrix.mUnk_00[2].z, 0xc000);
+            bakubaku->mMapObject.mPos.x = bakubaku->mMapObject.mCourseMapRow->mUnk_00.x;
+            bakubaku->mMapObject.mPos.y = bakubaku->mMapObject.mCourseMapRow->mUnk_00.y - 0x32000;
+            bakubaku->mMapObject.mPos.z = bakubaku->mMapObject.mCourseMapRow->mUnk_00.z;
+            bakubaku->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(bakubaku->mMapObject.mMatrix.mUnk_00[2].x, 0xc000);
+            bakubaku->mMapObject.mPosStep.y = 0xc000;
+            bakubaku->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(bakubaku->mMapObject.mMatrix.mUnk_00[2].z, 0xc000);
             bakubaku->mState = 1;
             break;
         case 1:
-            bakubaku->mUnk_00.mUnk_10.y -= 0x400;
-            VEC_Add(&bakubaku->mUnk_00.mPos, &bakubaku->mUnk_00.mUnk_10, &bakubaku->mUnk_00.mPos);
-            if (bakubaku->mUnk_00.mPos.y < bakubaku->mUnk_00.mCourseMapRow->mUnk_00.y) {
+            bakubaku->mMapObject.mPosStep.y -= 0x400;
+            VEC_Add(&bakubaku->mMapObject.mPos, &bakubaku->mMapObject.mPosStep, &bakubaku->mMapObject.mPos);
+            if (bakubaku->mMapObject.mPos.y < bakubaku->mMapObject.mCourseMapRow->mUnk_00.y) {
                 return;
             }
-            StartModelEffect(3, &bakubaku->mUnk_00.mPos, 1);
+            StartModelEffect(3, &bakubaku->mMapObject.mPos, 1);
             s1.mSoundId = 0x186;
-            s1.mPositionSource = &bakubaku->mUnk_00.mPos;
+            s1.mPositionSource = &bakubaku->mMapObject.mPos;
             s1.mFalloffIndex = 4;
-            s1.mDistanceSquared = GetHorizontalCameraDistanceSquared(&bakubaku->mUnk_00.mPos);
+            s1.mDistanceSquared = GetHorizontalCameraDistanceSquared(&bakubaku->mMapObject.mPos);
             StartSoundFromParams(&s1);
             bakubaku->mState = 2;
             break;
         case 2:
-            bakubaku->mUnk_00.mUnk_10.y -= 0x400;
-            VEC_Add(&bakubaku->mUnk_00.mPos, &bakubaku->mUnk_00.mUnk_10, &bakubaku->mUnk_00.mPos);
-            if (bakubaku->mUnk_00.mPos.y > bakubaku->mUnk_00.mCourseMapRow->mUnk_00.y) {
+            bakubaku->mMapObject.mPosStep.y -= 0x400;
+            VEC_Add(&bakubaku->mMapObject.mPos, &bakubaku->mMapObject.mPosStep, &bakubaku->mMapObject.mPos);
+            if (bakubaku->mMapObject.mPos.y > bakubaku->mMapObject.mCourseMapRow->mUnk_00.y) {
                 return;
             }
-            StartModelEffect(3, &bakubaku->mUnk_00.mPos, 1);
+            StartModelEffect(3, &bakubaku->mMapObject.mPos, 1);
             s2.mSoundId = 0x187;
-            s2.mPositionSource = &bakubaku->mUnk_00.mPos;
+            s2.mPositionSource = &bakubaku->mMapObject.mPos;
             s2.mFalloffIndex = 2;
-            s2.mDistanceSquared = GetHorizontalCameraDistanceSquared(&bakubaku->mUnk_00.mPos);
+            s2.mDistanceSquared = GetHorizontalCameraDistanceSquared(&bakubaku->mMapObject.mPos);
             StartSoundFromParams(&s2);
             bakubaku->mState = 3;
             break;
         case 3:
-            bakubaku->mUnk_00.mUnk_10.y -= 0x400;
-            VEC_Add(&bakubaku->mUnk_00.mPos, &bakubaku->mUnk_00.mUnk_10, &bakubaku->mUnk_00.mPos);
-            if (bakubaku->mUnk_00.mPos.y <= bakubaku->mUnk_00.mCourseMapRow->mUnk_00.y - 0x32000) {
+            bakubaku->mMapObject.mPosStep.y -= 0x400;
+            VEC_Add(&bakubaku->mMapObject.mPos, &bakubaku->mMapObject.mPosStep, &bakubaku->mMapObject.mPos);
+            if (bakubaku->mMapObject.mPos.y <= bakubaku->mMapObject.mCourseMapRow->mUnk_00.y - 0x32000) {
                 bakubaku->mState4Timer = 0x708;
                 bakubaku->mState = 4;
             }

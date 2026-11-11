@@ -9,7 +9,7 @@
 // object. After the shared part, a counter at 0xa0, a halfword at 0xa4, a value at 0xa8, a
 // state at 0xac, a GroupFollower at 0xb0 and a table of countdowns at 0xd4.
 typedef struct MkdEfBurner {
-    /* 00 */ MapObject mUnk_00;
+    /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mStateFrames;
     /* a4 */ u16 mNsbtaFrameIndex;
     /* a6 */ u8 mUnk_a6[2];

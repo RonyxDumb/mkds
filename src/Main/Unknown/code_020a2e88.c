@@ -9,9 +9,9 @@ void StartBalloonWithoutKart(Balloon *balloon, Vec3 *position) {
     if (position == NULL) {
         return;
     }
-    balloon->mUnk_00.mPos.x = position->x;
-    balloon->mUnk_00.mPos.y = position->y + 0xf666;
-    balloon->mUnk_00.mPos.z = position->z;
+    balloon->mMapObject.mPos.x = position->x;
+    balloon->mMapObject.mPos.y = position->y + 0xf666;
+    balloon->mMapObject.mPos.z = position->z;
 }
 
 // Copies the two vectors into mTargetPos and mTargetVelocity.

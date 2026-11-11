@@ -7,7 +7,7 @@
 
 // First argument of StartWoodbox1ItemObject.
 typedef struct Woodbox1 {
-    /* 000 */ MapObject mUnk_000;
+    /* 000 */ MapObject mMapObject;
 // mGroundUp plus mTiltOffset, normalized: the up direction of the tilted box.
     /* 0a0 */ Vec3 mTiltedUp;
     /* 0ac */ u16 mMatrixHeadingAngle;

@@ -106,13 +106,13 @@ void UpdateRock(void *a, RockObject *rock) {
     oldBaseX = rock->mBasePos.x;
     oldBaseZ = rock->mBasePos.z;
     AdvanceGroupFollowerWithSpeeds(&rock->mUnk_0a4);
-    GetGroupFollowerCurveXzLinearY(&rock->mUnk_0a4.mUnk_00, &rock->mBasePos);
-    rock->mMapObject.mUnk_10.x = rock->mBasePos.x - oldBaseX;
-    rock->mMapObject.mUnk_10.z = rock->mBasePos.z - oldBaseZ;
+    GetGroupFollowerCurveXzLinearY(&rock->mUnk_0a4.mGroupFollower, &rock->mBasePos);
+    rock->mMapObject.mPosStep.x = rock->mBasePos.x - oldBaseX;
+    rock->mMapObject.mPosStep.z = rock->mBasePos.z - oldBaseZ;
     rock->mOffsetX += rock->mOffsetVelocityX;
     rock->mOffsetZ += rock->mOffsetVelocityZ;
-    rock->mMapObject.mUnk_10.x += rock->mOffsetVelocityX;
-    rock->mMapObject.mUnk_10.z += rock->mOffsetVelocityZ;
+    rock->mMapObject.mPosStep.x += rock->mOffsetVelocityX;
+    rock->mMapObject.mPosStep.z += rock->mOffsetVelocityZ;
     rock->mMapObject.mPos.x = rock->mBasePos.x + rock->mOffsetX;
     rock->mMapObject.mPos.z = rock->mBasePos.z + rock->mOffsetZ;
     rock->mOffsetX = (rock->mOffsetX * 0x3f) >> 6;
@@ -120,16 +120,16 @@ void UpdateRock(void *a, RockObject *rock) {
     depthBelowBase = rock->mBasePos.y - (rock->mMapObject.mPos.y - rock->mBottomOffset);
     if (depthBelowBase > 0) {
         rock->mMapObject.mPos.y = rock->mMapObject.mPos.y + depthBelowBase;
-        verticalSpeed = rock->mMapObject.mUnk_10.y;
+        verticalSpeed = rock->mMapObject.mPosStep.y;
         if (verticalSpeed < 0) {
             if (verticalSpeed >= -0x2000) {
-                rock->mMapObject.mUnk_10.y = 0;
+                rock->mMapObject.mPosStep.y = 0;
             } else {
-                rock->mMapObject.mUnk_10.y = -MUL_FIXED12_NO_ROUND(verticalSpeed, rock->mBounceRatio);
+                rock->mMapObject.mPosStep.y = -MUL_FIXED12_NO_ROUND(verticalSpeed, rock->mBounceRatio);
                 rock->mBounceSide = (rock->mBounceSide == FALSE);
-                if (rock->mMapObject.mUnk_10.y > 0x4000) {
-                    sideIndex = (u16) rock->mUnk_0a4.mUnk_00.mSegmentIndex;
-                    rock->mMapObject.mUnk_10.y = 0x4000;
+                if (rock->mMapObject.mPosStep.y > 0x4000) {
+                    sideIndex = (u16) rock->mUnk_0a4.mGroupFollower.mSegmentIndex;
+                    rock->mMapObject.mPosStep.y = 0x4000;
                     if (rock->mBounceSide != FALSE) {
                         rock->mOffsetVelocityX = rock->mSideVectors[sideIndex].x << 1;
                         rock->mOffsetVelocityZ = rock->mSideVectors[sideIndex].z >> 1;
@@ -150,8 +150,8 @@ void UpdateRock(void *a, RockObject *rock) {
     if (rock->mSinceGroundFrames < 10) {
         StartMapObjectSoundWhileRequested(&rock->mMapObject, 0x179);
     }
-    rock->mMapObject.mUnk_10.y = rock->mMapObject.mUnk_10.y - 0x400;
-    rock->mMapObject.mPos.y = rock->mMapObject.mPos.y + rock->mMapObject.mUnk_10.y;
+    rock->mMapObject.mPosStep.y = rock->mMapObject.mPosStep.y - 0x400;
+    rock->mMapObject.mPos.y = rock->mMapObject.mPos.y + rock->mMapObject.mPosStep.y;
     if (rock->mScalePerFrame != 0 && rock->mMapObject.mScale.y < rock->mScaleLimit) {
         newScale = rock->mMapObject.mScale.y + rock->mScalePerFrame;
         newBottomOffset = (newScale * 0x1e000) >> 12;
@@ -168,7 +168,7 @@ void UpdateRock(void *a, RockObject *rock) {
         rock->mMapObject.mViewRadius = MUL_FIXED12_NO_ROUND(rock->mMapObject.mKindData->mUnk_2c, newScale);
         rock->mBottomOffsetReciprocal = FX_GetDivResult();
     }
-    if (rock->mUnk_0a4.mUnk_00.mForward == 0) {
+    if (rock->mUnk_0a4.mGroupFollower.mForward == 0) {
         ResetRockWithEffects(rock, 0);
     } else if (rock->mMapObject.mPos.y < 0) {
         ResetRockWithEffects(rock, 0);
@@ -199,7 +199,7 @@ void ResetRock(RockObject *rock) {
     Vec3 *scale;
 
     SetupGroupFollowerWithSpeeds(&rock->mUnk_0a4, 0, 1);
-    GetGroupFollowerCurvePosStepXz(&rock->mUnk_0a4.mUnk_00, &rock->mMapObject.mPos, &rock->mMapObject.mUnk_10);
+    GetGroupFollowerCurvePosStepXz(&rock->mUnk_0a4.mGroupFollower, &rock->mMapObject.mPos, &rock->mMapObject.mPosStep);
     rock->mUnk_0e0 = rock->mUnk_0dc;
     if (rock->mUnk_0e0 != 0) {
         rock->mMapObject.mFlags |= data_0215691c;
@@ -213,7 +213,7 @@ void ResetRock(RockObject *rock) {
     rock->mOffsetX = zero;
     rock->mOffsetZ = zero;
     rock->mMapObject.mPos.y = rock->mStartY;
-    rock->mMapObject.mUnk_10.y = 0x8000;
+    rock->mMapObject.mPosStep.y = 0x8000;
     rock->mMapObject.mMatrix.mUnk_00[0] = data_021569d8;
     rock->mMapObject.mMatrix.mUnk_00[1] = data_021569e4;
     rock->mMapObject.mMatrix.mUnk_00[2] = data_021569f0;

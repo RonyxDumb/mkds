@@ -129,14 +129,14 @@ BOOL TryInitLinkFollowingSegments(LinkFollowingItemObject *follower) {
     s32 alignment;
     s32 alongDirection;
 
-    pos = &follower->mUnk_000.mUnk_000.mPos;
-    direction = &follower->mUnk_000.mDirection;
+    pos = &follower->mDirectedItemObject.mItemObject.mPos;
+    direction = &follower->mDirectedItemObject.mDirection;
     VEC_Subtract(follower->mTargetLink.mLink->mPointPos, pos, &vectors[0]);
     if (LENGTH_SQUARED(vectors[0]) >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&vectors[0], &vectors[1]);
     }
     alignment = Vec3DotUnrounded(direction, &vectors[1]);
-    if (alignment > 0xddb || follower->mUnk_000.mUnk_158 != 0) {
+    if (alignment > 0xddb || follower->mDirectedItemObject.mUnk_158 != 0) {
         vectors[0].x >>= 2;
         vectors[0].y >>= 2;
         vectors[0].z >>= 2;
@@ -149,7 +149,7 @@ BOOL TryInitLinkFollowingSegments(LinkFollowingItemObject *follower) {
         vectors[3] = *pos;
         VEC_Add(pos, &vectors[0], &vectors[4]);
         vectors[5] = *follower->mTargetLink.mLink->mPointPos;
-        InitSegmentPoints(&follower->mSegmentPoints, &vectors[2], follower->mUnk_000.mSpeed);
+        InitSegmentPoints(&follower->mSegmentPoints, &vectors[2], follower->mDirectedItemObject.mSpeed);
         return TRUE;
     }
     return FALSE;
@@ -163,44 +163,44 @@ void SteerLinkFollowingItemToLink(LinkFollowingItemObject *follower, s32 targetS
     s32 n;
     s32 s;
 
-    AdvanceItemObjectMotion(&follower->mUnk_000, targetSpeed);
-    if (follower->mUnk_000.mUnk_158 != 0 && (follower->mUnk_000.mUnk_000.mFlags & 0x20000) != 0) {
-        n = GetKart((u16) (follower->mUnk_000.mUnk_000.mOwnerKartIndexAndFlags & ~0xff00))->mDrawMatrixPos.y + 0x1e000;
-        if (follower->mUnk_000.mUnk_000.mPos.y < n) {
-            follower->mUnk_000.mUnk_000.mPos.y = n;
+    AdvanceItemObjectMotion(&follower->mDirectedItemObject, targetSpeed);
+    if (follower->mDirectedItemObject.mUnk_158 != 0 && (follower->mDirectedItemObject.mItemObject.mFlags & 0x20000) != 0) {
+        n = GetKart((u16) (follower->mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags & ~0xff00))->mDrawMatrixPos.y + 0x1e000;
+        if (follower->mDirectedItemObject.mItemObject.mPos.y < n) {
+            follower->mDirectedItemObject.mItemObject.mPos.y = n;
         }
     }
-    if (follower->mUnk_000.mUnk_000.mFlags & 1) {
+    if (follower->mDirectedItemObject.mItemObject.mFlags & 1) {
         return;
     }
-    if (follower->mUnk_000.mUnk_158 == 0) {
-        if (follower->mUnk_000.mUnk_000.mFlags & 0x20000) {
+    if (follower->mDirectedItemObject.mUnk_158 == 0) {
+        if (follower->mDirectedItemObject.mItemObject.mFlags & 0x20000) {
             return;
         }
     }
-    direction = &follower->mUnk_000.mDirection;
-    surfaceDirection = &follower->mUnk_000.mSurfaceDirection;
+    direction = &follower->mDirectedItemObject.mDirection;
+    surfaceDirection = &follower->mDirectedItemObject.mSurfaceDirection;
     if (CopyCloserItemPointLinkRef(&follower->mPreviousLink, &follower->mTargetLink, &follower->mPreviousLink,
-                                   &follower->mUnk_000.mUnk_000.mPos) != FALSE) {
+                                   &follower->mDirectedItemObject.mItemObject.mPos) != FALSE) {
         PickNextItemPointLink(&follower->mPreviousLink, &follower->mTargetLink, targetKartIndex, flag);
     }
-    VEC_Subtract(follower->mTargetLink.mLink->mPointPos, &follower->mUnk_000.mUnk_000.mPos, &toLink);
-    if (follower->mUnk_000.mUnk_000.mFlags & 0x40000000) {
+    VEC_Subtract(follower->mTargetLink.mLink->mPointPos, &follower->mDirectedItemObject.mItemObject.mPos, &toLink);
+    if (follower->mDirectedItemObject.mItemObject.mFlags & 0x40000000) {
         s = VEC_DotProduct(surfaceDirection, &toLink);
         toLink.x -= (s32) (((u64) ((s64) surfaceDirection->x * s)) >> 12);
         toLink.y -= (s32) (((u64) ((s64) surfaceDirection->y * s)) >> 12);
         toLink.z -= (s32) (((u64) ((s64) surfaceDirection->z * s)) >> 12);
-        s = VEC_DotProduct(&follower->mUnk_000.mUnk_000.mNormal, &toLink);
-        toLink.x -= (s32) (((u64) ((s64) follower->mUnk_000.mUnk_000.mNormal.x * s)) >> 12);
-        toLink.y -= (s32) (((u64) ((s64) follower->mUnk_000.mUnk_000.mNormal.y * s)) >> 12);
-        toLink.z -= (s32) (((u64) ((s64) follower->mUnk_000.mUnk_000.mNormal.z * s)) >> 12);
-        VEC_MultAdd(0x29, &toLink, &follower->mUnk_000.mUnk_000.mPos, &follower->mUnk_000.mUnk_000.mPos);
+        s = VEC_DotProduct(&follower->mDirectedItemObject.mItemObject.mNormal, &toLink);
+        toLink.x -= (s32) (((u64) ((s64) follower->mDirectedItemObject.mItemObject.mNormal.x * s)) >> 12);
+        toLink.y -= (s32) (((u64) ((s64) follower->mDirectedItemObject.mItemObject.mNormal.y * s)) >> 12);
+        toLink.z -= (s32) (((u64) ((s64) follower->mDirectedItemObject.mItemObject.mNormal.z * s)) >> 12);
+        VEC_MultAdd(0x29, &toLink, &follower->mDirectedItemObject.mItemObject.mPos, &follower->mDirectedItemObject.mItemObject.mPos);
         VEC_MultAdd(0x3, &toLink, surfaceDirection, surfaceDirection);
         return;
     }
     if (Vec3DotUnrounded(surfaceDirection, &toLink) < 0) {
-        sideDirection = &follower->mUnk_000.mSideDirection;
-        Vec3CrossUnrounded(surfaceDirection, &follower->mUnk_000.mUnk_000.mNormal, sideDirection);
+        sideDirection = &follower->mDirectedItemObject.mSideDirection;
+        Vec3CrossUnrounded(surfaceDirection, &follower->mDirectedItemObject.mItemObject.mNormal, sideDirection);
         if (Vec3DotUnrounded(sideDirection, &toLink) > 0) {
             toLink = *sideDirection;
         } else {
@@ -233,12 +233,12 @@ void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 tar
     s32 alongNormal;
 
     segmentPoints = &follower->mSegmentPoints;
-    pos = &follower->mUnk_000.mUnk_000.mPos;
-    velocity = &follower->mUnk_000.mUnk_000.mVelocity;
-    hasFlag40000000 = (follower->mUnk_000.mUnk_000.mFlags & 0x40000000) != 0;
-    targetSpeed -= follower->mUnk_000.mSpeed;
-    follower->mUnk_000.mSpeed = follower->mUnk_000.mSpeed + (s32) (((u64) ((s64) targetSpeed * speedEase)) >> 12);
-    SetSegmentProgressRate(&segmentPoints->mSegmentProgress, follower->mUnk_000.mSpeed);
+    pos = &follower->mDirectedItemObject.mItemObject.mPos;
+    velocity = &follower->mDirectedItemObject.mItemObject.mVelocity;
+    hasFlag40000000 = (follower->mDirectedItemObject.mItemObject.mFlags & 0x40000000) != 0;
+    targetSpeed -= follower->mDirectedItemObject.mSpeed;
+    follower->mDirectedItemObject.mSpeed = follower->mDirectedItemObject.mSpeed + (s32) (((u64) ((s64) targetSpeed * speedEase)) >> 12);
+    SetSegmentProgressRate(&segmentPoints->mSegmentProgress, follower->mDirectedItemObject.mSpeed);
     if (AdvanceSegmentProgress(&segmentPoints->mSegmentProgress) != FALSE) {
         do {
             follower->mPreviousLink = follower->mTargetLink;
@@ -249,15 +249,15 @@ void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 tar
         v4c = *pos;
         GetSegmentProgressPoint(segmentPoints, pos);
         velocity->y = 0;
-        if (follower->mUnk_000.mUnk_158 == 0) {
+        if (follower->mDirectedItemObject.mUnk_158 == 0) {
             VEC_Subtract(pos, &v4c, &v4c);
-            alongNormal = Vec3DotUnrounded(&v4c, &follower->mUnk_000.mUnk_000.mNormal);
+            alongNormal = Vec3DotUnrounded(&v4c, &follower->mDirectedItemObject.mItemObject.mNormal);
             if (alongNormal > 0) {
-                VEC_MultAdd(-alongNormal, &follower->mUnk_000.mUnk_000.mNormal, pos, pos);
+                VEC_MultAdd(-alongNormal, &follower->mDirectedItemObject.mItemObject.mNormal, pos, pos);
             }
         }
     } else {
-        if (follower->mUnk_000.mUnk_158 != 0 && (follower->mUnk_000.mUnk_000.mFlags & 0x20000) != 0) {
+        if (follower->mDirectedItemObject.mUnk_158 != 0 && (follower->mDirectedItemObject.mItemObject.mFlags & 0x20000) != 0) {
             v28.y = pos->y;
             GetSegmentProgressPointXzLinearY(&segmentPoints->mSegmentProgress, pos);
             if (pos->y < v28.y) {
@@ -268,33 +268,33 @@ void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 tar
         }
         pos->y = pos->y + velocity->y;
     }
-    if (CollideSphereWithCourse(pos, &follower->mUnk_000.mUnk_000.mPrevPos, 0,
-                                follower->mUnk_000.mUnk_000.mCourseRadius, 4,
-                                follower->mUnk_000.mUnk_000.mCollisionSlotIndex, &v28, &hitNormal, &wallNormal,
-                                &follower->mUnk_000.mUnk_000.mCollisionBits, NULL, NULL, NULL, NULL) != 0) {
-        if (follower->mUnk_000.mUnk_158 != 0) {
+    if (CollideSphereWithCourse(pos, &follower->mDirectedItemObject.mItemObject.mPrevPos, 0,
+                                follower->mDirectedItemObject.mItemObject.mCourseRadius, 4,
+                                follower->mDirectedItemObject.mItemObject.mCollisionSlotIndex, &v28, &hitNormal, &wallNormal,
+                                &follower->mDirectedItemObject.mItemObject.mCollisionBits, NULL, NULL, NULL, NULL) != 0) {
+        if (follower->mDirectedItemObject.mUnk_158 != 0) {
             if (v28.y > 0) {
                 pos->y = pos->y + v28.y;
             }
         } else {
             VEC_Add(&v28, pos, pos);
         }
-        if (follower->mUnk_000.mUnk_000.mCollisionBits & 0x1e34ef) {
+        if (follower->mDirectedItemObject.mItemObject.mCollisionBits & 0x1e34ef) {
             s = VEC_DotProduct(&hitNormal, velocity);
             velocity->x -= (s32) (((u64) ((s64) hitNormal.x * s)) >> 12);
             velocity->y -= (s32) (((u64) ((s64) hitNormal.y * s)) >> 12);
             velocity->z -= (s32) (((u64) ((s64) hitNormal.z * s)) >> 12);
-            s = (hitNormal.x == follower->mUnk_000.mUnk_000.mNormal.x &&
-                 hitNormal.y == follower->mUnk_000.mUnk_000.mNormal.y &&
-                 hitNormal.z == follower->mUnk_000.mUnk_000.mNormal.z)
+            s = (hitNormal.x == follower->mDirectedItemObject.mItemObject.mNormal.x &&
+                 hitNormal.y == follower->mDirectedItemObject.mItemObject.mNormal.y &&
+                 hitNormal.z == follower->mDirectedItemObject.mItemObject.mNormal.z)
                     ? 1
                     : 0;
             if (s == 0) {
-                follower->mUnk_000.mUnk_000.mNormal = hitNormal;
-                follower->mUnk_000.mUnk_000.mFlags |= 0x100;
+                follower->mDirectedItemObject.mItemObject.mNormal = hitNormal;
+                follower->mDirectedItemObject.mItemObject.mFlags |= 0x100;
             }
         }
-        if ((follower->mUnk_000.mUnk_000.mCollisionBits & 0x214300) != 0 && follower->mUnk_000.mHasHitLimit != FALSE) {
+        if ((follower->mDirectedItemObject.mItemObject.mCollisionBits & 0x214300) != 0 && follower->mDirectedItemObject.mHasHitLimit != FALSE) {
             s = VEC_DotProduct(&wallNormal, velocity);
             v28.x = ((u64) ((s64) wallNormal.x * s)) >> 12;
             v28.y = ((u64) ((s64) wallNormal.y * s)) >> 12;
@@ -306,19 +306,19 @@ void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 tar
             velocity->x = ((u64) ((s64) velocity->x * 0x23d)) >> 12;
             velocity->y = ((u64) ((s64) velocity->y * 0x23d)) >> 12;
             velocity->z = ((u64) ((s64) velocity->z * 0x23d)) >> 12;
-            FadeOutUsedUpItemObject(&follower->mUnk_000.mUnk_000, 1);
+            FadeOutUsedUpItemObject(&follower->mDirectedItemObject.mItemObject, 1);
             return;
         }
-        if (follower->mUnk_000.mUnk_000.mCollisionBits & 0x8000) {
-            if (follower->mUnk_000.mUnk_000.mKind != 5) {
-                FadeOutItemObjectNoCallback(&follower->mUnk_000.mUnk_000, 1);
+        if (follower->mDirectedItemObject.mItemObject.mCollisionBits & 0x8000) {
+            if (follower->mDirectedItemObject.mItemObject.mKind != 5) {
+                FadeOutItemObjectNoCallback(&follower->mDirectedItemObject.mItemObject, 1);
                 return;
             }
         }
     }
     ApplyItemObjectGravity(follower);
-    velocity->x = pos->x - follower->mUnk_000.mUnk_000.mPrevPos.x;
-    velocity->z = pos->z - follower->mUnk_000.mUnk_000.mPrevPos.z;
+    velocity->x = pos->x - follower->mDirectedItemObject.mItemObject.mPrevPos.x;
+    velocity->z = pos->z - follower->mDirectedItemObject.mItemObject.mPrevPos.z;
 }
 
 void AdvanceLinkFollowingItem(LinkFollowingItemObject *follower, s32 targetSpeed, s32 speedEase, s32 targetKartIndex,
@@ -331,8 +331,8 @@ void AdvanceLinkFollowingItem(LinkFollowingItemObject *follower, s32 targetSpeed
             }
             return;
         }
-        if (follower->mUnk_000.mUnk_000.mFlags & 0x40020000) {
-            if (follower->mUnk_000.mUnk_158 == 0) {
+        if (follower->mDirectedItemObject.mItemObject.mFlags & 0x40020000) {
+            if (follower->mDirectedItemObject.mUnk_158 == 0) {
                 return;
             }
         }

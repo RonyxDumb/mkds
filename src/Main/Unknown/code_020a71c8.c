@@ -38,7 +38,7 @@
 #include "Main/Unknown/code_02077bc0.h"
 
 void InitSanbo(Sanbo *sanbo) {
-    InitGroupFollower(&sanbo->mFollower, sanbo->mUnk_000.mCourseMapRow, 0);
+    InitGroupFollower(&sanbo->mFollower, sanbo->mMapObject.mCourseMapRow, 0);
 }
 
 u8 CollideKartWithSanbo(Sanbo *sanbo, Kart *kart, u8 *b, u8 *c) {
@@ -48,15 +48,15 @@ u8 CollideKartWithSanbo(Sanbo *sanbo, Kart *kart, u8 *b, u8 *c) {
     d = *c;
     if (*b == 1) {
         StartSanboLaunch(sanbo);
-        sanbo->mUnk_000.mFlags = sanbo->mUnk_000.mFlags | data_021567e4;
-        sanbo->mUnk_000.mFlags = sanbo->mUnk_000.mFlags | data_021567e8;
-        StartSoundIfKartStarOrKiller(&sanbo->mUnk_000, kart);
+        sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags | data_021567e4;
+        sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags | data_021567e8;
+        StartSoundIfKartStarOrKiller(&sanbo->mMapObject, kart);
     } else {
         if (sanbo->mFastWobbleTimer == 0) {
             soundStartParams.mSoundId = 0x193;
-            soundStartParams.mPositionSource = &sanbo->mUnk_000.mPos;
+            soundStartParams.mPositionSource = &sanbo->mMapObject.mPos;
             soundStartParams.mFalloffIndex = 2;
-            soundStartParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&sanbo->mUnk_000.mPos);
+            soundStartParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&sanbo->mMapObject.mPos);
             StartSoundFromParams(&soundStartParams);
             sanbo->mSoundTimer = 0x14;
         }
@@ -72,14 +72,14 @@ u8 CollideItemObjectWithSanbo(Sanbo *sanbo, ItemObject *itemObject, u8 *b, u8 *c
     d = *c;
     if (*b == 1) {
         StartSanboLaunch(sanbo);
-        sanbo->mUnk_000.mFlags = sanbo->mUnk_000.mFlags | data_021567e4;
-        sanbo->mUnk_000.mFlags = sanbo->mUnk_000.mFlags | data_021567e8;
+        sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags | data_021567e4;
+        sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags | data_021567e8;
     } else {
         if (sanbo->mFastWobbleTimer == 0) {
             soundStartParams.mSoundId = 0x193;
-            soundStartParams.mPositionSource = &sanbo->mUnk_000.mPos;
+            soundStartParams.mPositionSource = &sanbo->mMapObject.mPos;
             soundStartParams.mFalloffIndex = 2;
-            soundStartParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&sanbo->mUnk_000.mPos);
+            soundStartParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&sanbo->mMapObject.mPos);
             StartSoundFromParams(&soundStartParams);
             sanbo->mSoundTimer = 0x14;
         }
@@ -120,7 +120,7 @@ void DrawSanbo(void *a, Sanbo *sanbo) {
     switch (sanbo->mState) {
         case 0:
         case 1:
-            NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&sanbo->mUnk_000.mPos), 12);
+            NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&sanbo->mMapObject.mPos), 12);
             startTranslation[0] = 0;
             startTranslation[1] = 0xa00;
             startTranslation[2] = 0;
@@ -155,7 +155,7 @@ void DrawSanbo(void *a, Sanbo *sanbo) {
                 pieceTranslation[2] = 0;
                 NNS_G3dGeBufferOP_N(0x1c, pieceTranslation, 3);
                 NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&sanbo->mPieces[i].mPos), 12);
-                if ((sanbo->mUnk_000.mFlags & 0x12) == 0 && sanbo->mPieces[i].mRotateZAngle != 0) {
+                if ((sanbo->mMapObject.mFlags & 0x12) == 0 && sanbo->mPieces[i].mRotateZAngle != 0) {
                     pairIndex = ((u16) sanbo->mPieces[i].mRotateZAngle >> 4) * 2;
                     MTX_RotZ33_(&pieceRotateZMatrix, gPairsByAngle[pairIndex], gPairsByAngle[pairIndex + 1]);
                     NNS_G3dGeBufferOP_N(0x1a, &pieceRotateZMatrix, 9);
@@ -180,7 +180,7 @@ void DrawSanbo(void *a, Sanbo *sanbo) {
             for (i = 0; i < sanbo->mPieceCount; i++) {
                 w2 = 0x1e;
                 NNS_G3dGeBufferOP_N(0x14, &w2, 1);
-                NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&sanbo->mUnk_000.mPos), 12);
+                NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&sanbo->mMapObject.mPos), 12);
                 stackedTranslation[2] = 0x80;
                 stackedTranslation[0] = 0;
                 stackedTranslation[1] = (i * 0x14000 + 0xa000) >> 4;
@@ -213,7 +213,7 @@ void InitSanboObjects(MapObjectList *mapObjectList) {
         return;
     }
     for (i = 0; i < mapObjectList->mMapObjectCount && (sanbo = mapObjectList->mMapObjects[i]) != NULL; i++) {
-        sanbo->mPathSpeed = (sanbo->mUnk_000.mCourseMapRow->mUnk_28 << 12) / 100;
+        sanbo->mPathSpeed = (sanbo->mMapObject.mCourseMapRow->mUnk_28 << 12) / 100;
         sanbo->mPieceCount = 4;
         for (pieceIndex = 0; pieceIndex < sanbo->mPieceCount; pieceIndex++) {
             sanbo->mPieces[pieceIndex].mWobbleAngle = 0;
@@ -257,20 +257,20 @@ void UpdateSanbo(void *a, Sanbo *sanbo) {
             sanbo->mPathWaitTimer = 0;
         }
         if (sanbo->mFollower.mPath->mWraps != 0) {
-            GetGroupFollowerCurvePosStep(&sanbo->mFollower, &sanbo->mUnk_000.mPos, &sanbo->mUnk_000.mUnk_10);
+            GetGroupFollowerCurvePosStep(&sanbo->mFollower, &sanbo->mMapObject.mPos, &sanbo->mMapObject.mPosStep);
         } else {
-            GetGroupFollowerLinearPosStep(&sanbo->mFollower, &sanbo->mUnk_000.mPos, &sanbo->mUnk_000.mUnk_10);
+            GetGroupFollowerLinearPosStep(&sanbo->mFollower, &sanbo->mMapObject.mPos, &sanbo->mMapObject.mPosStep);
         }
     } else {
         sanbo->mFollower.mSpeed = 0;
         sanbo->mFollower.mProgressStep = 0;
-        sanbo->mUnk_000.mUnk_10.x = 0;
-        sanbo->mUnk_000.mUnk_10.y = 0;
-        sanbo->mUnk_000.mUnk_10.z = 0;
+        sanbo->mMapObject.mPosStep.x = 0;
+        sanbo->mMapObject.mPosStep.y = 0;
+        sanbo->mMapObject.mPosStep.z = 0;
     }
     switch (sanbo->mState) {
         case 0:
-            if ((sanbo->mUnk_000.mFlags & 0x12) != 0) {
+            if ((sanbo->mMapObject.mFlags & 0x12) != 0) {
                 return;
             }
             for (i = 0; i < sanbo->mPieceCount; i++) {
@@ -336,9 +336,9 @@ void UpdateSanbo(void *a, Sanbo *sanbo) {
                 return;
             }
             soundStartParams.mSoundId = 0x194;
-            soundStartParams.mPositionSource = &sanbo->mUnk_000.mPos;
+            soundStartParams.mPositionSource = &sanbo->mMapObject.mPos;
             soundStartParams.mFalloffIndex = 2;
-            soundStartParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&sanbo->mUnk_000.mPos);
+            soundStartParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&sanbo->mMapObject.mPos);
             StartSoundFromParams(&soundStartParams);
             sanbo->mSoundTimer = 0x14;
             break;
@@ -351,13 +351,13 @@ void UpdateSanbo(void *a, Sanbo *sanbo) {
                     sanbo->mPieces[j].mVelocity.y = sanbo->mPieces[j].mVelocity.y - 0x400;
                 }
             }
-            if ((sanbo->mUnk_000.mFlags & 0x12) == 0) {
+            if ((sanbo->mMapObject.mFlags & 0x12) == 0) {
                 for (m = 0; m < sanbo->mPieceCount; m++) {
                     sanbo->mPieces[m].mRotateZAngle =
                         sanbo->mPieces[m].mRotateZAngle + sanbo->mPieces[m].mRotateZAnglePerFrame;
                 }
             }
-            if (sanbo->mUnk_000.mCourseMapRow->mUnk_2a != 0) {
+            if (sanbo->mMapObject.mCourseMapRow->mUnk_2a != 0) {
                 return;
             }
             if (sanbo->mState2Timer-- > 0) {
@@ -371,8 +371,8 @@ void UpdateSanbo(void *a, Sanbo *sanbo) {
             }
             sanbo->mPieceCount = 1;
             sanbo->mState = 3;
-            sanbo->mUnk_000.mFlags = sanbo->mUnk_000.mFlags & ~1;
-            sanbo->mUnk_000.mFlags = sanbo->mUnk_000.mFlags & ~8;
+            sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags & ~1;
+            sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags & ~8;
             break;
         case 3:
             sanbo->mPieces[sanbo->mPieceCount - 1].mDrawScale =

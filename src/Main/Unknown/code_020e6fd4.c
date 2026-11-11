@@ -396,7 +396,7 @@ void UpdateMapObjectList(MapObjectList *list) {
             if ((object->mFlags & 4) == 0) {
                 previousPos = object->mPos;
                 callback(list, object);
-                VEC_Subtract(&object->mPos, &previousPos, &object->mUnk_10);
+                VEC_Subtract(&object->mPos, &previousPos, &object->mPosStep);
                 if (object->mSound != NULL) {
                     UpdateMapObjectSoundSource(object);
                 }

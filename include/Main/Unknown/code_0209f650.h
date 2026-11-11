@@ -9,7 +9,7 @@
 // Object of kind 0x157 (TownMonte) with the MapObject base: two halfwords at 0xa0 and 0xa2, then three words
 // (UpdateTownMonte, InitTownMonteObjects, DrawTownMonte).
 typedef struct TownMonte {
-    /* 00 */ MapObject mUnk_00;
+    /* 00 */ MapObject mMapObject;
 // Frame of the .nsbtp animation chosen at random by InitTownMonteObjects; frames 0 and 1 also set mUnk_a2 to 0x1a7
 // and 0x1a8.
     /* a0 */ u16 mNsbtpFrameIndex;

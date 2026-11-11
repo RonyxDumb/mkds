@@ -9,7 +9,7 @@
 
 // Object of kind 0x13c (Bakubaku): after the shared part, a counter at 0xa0, a vector at 0xa4 and a state at 0xb0.
 typedef struct Bakubaku {
-    /* 00 */ MapObject mUnk_00;
+    /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mState4Timer;
     /* a4 */ Vec3 mUnk_a4;
     /* State number of this kind's own per-frame switch in UpdateBakubaku; this object does not use
@@ -20,7 +20,7 @@ typedef struct Bakubaku {
 // Object of kind 0x1a3 (MoveTree): after the shared part, three counters from 0xa0, a halfword at 0xac, a value at
 // 0xb0, an GroupFollower at 0xb4, a state at 0xd8 and an ShadowMatrix at 0xdc.
 typedef struct MoveTree {
-    /* 00 */ MapObject mUnk_00;
+    /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mState0Timer;
     /* a4 */ s32 mUnk_a4;
     /* a8 */ s32 mUnk_a8;

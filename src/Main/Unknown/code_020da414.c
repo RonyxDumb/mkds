@@ -49,7 +49,7 @@ void InitKuribo(Kuribo *kuribo, CourseMapRow *row) {
         SetupGroupFollowerAtEntry(&kuribo->mFollower, kuribo->mMapObject.mCourseMapRow->mUnk_2e, 1);
         GetGroupFollowerCurveXz(&kuribo->mFollower, &kuribo->mMapObject.mPos);
         kuribo->mMapObject.mPos.y = kuribo->mStartY;
-        zeroedVector = &kuribo->mMapObject.mUnk_10;
+        zeroedVector = &kuribo->mMapObject.mPosStep;
         zeroedVector->x = 0;
         zeroedVector->y = 0;
         zeroedVector->z = 0;
@@ -81,9 +81,9 @@ void InitKuribo(Kuribo *kuribo, CourseMapRow *row) {
             kuribo->mTargetOrientation = identityB;
         }
         SetStateMachineState(&kuribo->mMapObject.mStateMachine, 1);
-        kuribo->mMapObject.mUnk_10.x = 0;
-        kuribo->mMapObject.mUnk_10.y = 0;
-        kuribo->mMapObject.mUnk_10.z = 0;
+        kuribo->mMapObject.mPosStep.x = 0;
+        kuribo->mMapObject.mPosStep.y = 0;
+        kuribo->mMapObject.mPosStep.z = 0;
     }
 }
 

@@ -40,16 +40,16 @@ BOOL SteerItemKouraRToKart(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
     BOOL result;
 
     result = FALSE;
-    pos = &item->mUnk_000.mUnk_000.mUnk_000.mPos;
-    velocity = &item->mUnk_000.mUnk_000.mUnk_000.mVelocity;
-    if ((item->mUnk_000.mUnk_000.mUnk_000.mCreationNumber & 1) == GetRaceUpdateFramesMod2()) {
+    pos = &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos;
+    velocity = &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity;
+    if ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCreationNumber & 1) == GetRaceUpdateFramesMod2()) {
         kart = item->mKartItems->mKart;
-        if (!(item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x20000)) {
+        if (!(item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x20000)) {
             if (IsKartNotNormal(kart) != FALSE) {
                 speed >>= 1;
             }
             VEC_Subtract(&kart->mDrawMatrixPos, pos, &t);
-            t.y = Vec3DotUnrounded(&item->mUnk_000.mUnk_000.mUnk_000.mNormal, &t) >> 12;
+            t.y = Vec3DotUnrounded(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mNormal, &t) >> 12;
             if (t.y * t.y > 0xbd1) {
                 if (HORIZONTAL_LENGTH_SQUARED(t) < (s64) 0xe1000000u) {
                     result = TRUE;
@@ -63,11 +63,11 @@ BOOL SteerItemKouraRToKart(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
             t.x = MUL_FIXED12_NO_ROUND(t.x, speed);
             t.y = MUL_FIXED12_NO_ROUND(t.y, speed);
             t.z = MUL_FIXED12_NO_ROUND(t.z, speed);
-            if (item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x8000000) {
+            if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x8000000) {
                 if (n < MUL_FIXED12_ROUNDED(kart->mPhysicalParam->mRadius, kart->mScale.z)) {
                     item->mNearKartFrames = item->mNearKartFrames + 1;
                     if (item->mNearKartFrames > 0x5a) {
-                        FadeOutItemObjectNoCallback(&item->mUnk_000.mUnk_000.mUnk_000, 1);
+                        FadeOutItemObjectNoCallback(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject, 1);
                         return FALSE;
                     }
                     t.x = 0;
@@ -94,26 +94,26 @@ BOOL SteerItemKouraRToKart(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
     item->mKartItems->mTargetedByKouraR = TRUE;
     VEC_Add(&item->mTowardKartVelocity, pos, pos);
     VEC_Add(velocity, pos, pos);
-    if (CollideSphereWithCourse(pos, &item->mUnk_000.mUnk_000.mUnk_000.mPrevPos, 0,
-                                item->mUnk_000.mUnk_000.mUnk_000.mCourseRadius, 4,
-                                item->mUnk_000.mUnk_000.mUnk_000.mCollisionSlotIndex, &t, &firstNormal, &secondNormal,
-                                &item->mUnk_000.mUnk_000.mUnk_000.mCollisionBits, NULL, NULL, NULL, NULL) != 0) {
+    if (CollideSphereWithCourse(pos, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPrevPos, 0,
+                                item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCourseRadius, 4,
+                                item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionSlotIndex, &t, &firstNormal, &secondNormal,
+                                &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionBits, NULL, NULL, NULL, NULL) != 0) {
         VEC_Add(&t, pos, pos);
-        if (item->mUnk_000.mUnk_000.mUnk_000.mCollisionBits & 0x1e34ef) {
+        if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionBits & 0x1e34ef) {
             n = VEC_DotProduct(&firstNormal, velocity);
             velocity->x = velocity->x - MUL_FIXED12_NO_ROUND(firstNormal.x, n);
             velocity->y = velocity->y - MUL_FIXED12_NO_ROUND(firstNormal.y, n);
             velocity->z = velocity->z - MUL_FIXED12_NO_ROUND(firstNormal.z, n);
-            sameNormal = (firstNormal.x == item->mUnk_000.mUnk_000.mUnk_000.mNormal.x &&
-                          firstNormal.y == item->mUnk_000.mUnk_000.mUnk_000.mNormal.y &&
-                          firstNormal.z == item->mUnk_000.mUnk_000.mUnk_000.mNormal.z);
+            sameNormal = (firstNormal.x == item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mNormal.x &&
+                          firstNormal.y == item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mNormal.y &&
+                          firstNormal.z == item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mNormal.z);
             if (sameNormal == FALSE) {
-                item->mUnk_000.mUnk_000.mUnk_000.mNormal = firstNormal;
-                item->mUnk_000.mUnk_000.mUnk_000.mFlags |= 0x100;
+                item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mNormal = firstNormal;
+                item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags |= 0x100;
             }
         }
-        if (item->mUnk_000.mUnk_000.mUnk_000.mCollisionBits & 0x214300) {
-            if (item->mUnk_000.mUnk_000.mUnk_158 == 0 && d != 0) {
+        if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionBits & 0x214300) {
+            if (item->mLinkFollowingItemObject.mDirectedItemObject.mUnk_158 == 0 && d != 0) {
                 n = VEC_DotProduct(&secondNormal, velocity);
                 t.x = MUL_FIXED12_NO_ROUND(secondNormal.x, n);
                 t.y = MUL_FIXED12_NO_ROUND(secondNormal.y, n);
@@ -125,16 +125,16 @@ BOOL SteerItemKouraRToKart(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
                 velocity->x = MUL_FIXED12_NO_ROUND(velocity->x, 0x23d);
                 velocity->y = MUL_FIXED12_NO_ROUND(velocity->y, 0x23d);
                 velocity->z = MUL_FIXED12_NO_ROUND(velocity->z, 0x23d);
-                FadeOutUsedUpItemObject(&item->mUnk_000.mUnk_000.mUnk_000, 1);
+                FadeOutUsedUpItemObject(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject, 1);
                 return FALSE;
             }
         }
-        if (item->mUnk_000.mUnk_000.mUnk_000.mCollisionBits & 0x8000) {
-            FadeOutItemObjectNoCallback(&item->mUnk_000.mUnk_000.mUnk_000, 1);
+        if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionBits & 0x8000) {
+            FadeOutItemObjectNoCallback(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject, 1);
             return FALSE;
         }
     }
-    ApplyItemObjectGravityWithGroundPull(&item->mUnk_000.mUnk_000.mUnk_000);
+    ApplyItemObjectGravityWithGroundPull(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject);
     return result;
 }
 
@@ -152,8 +152,8 @@ int TrySetItemKouraRKartItems(ItemKouraR *item, int kartIndex, s32 maxDistanceSq
     s64 lengthProduct;
 
     kart = GetKart(kartIndex);
-    ownerIndex = !(item->mUnk_000.mUnk_000.mUnk_000.mOwnerKartIndexAndFlags & 0x8000)
-                     ? (u16) (item->mUnk_000.mUnk_000.mUnk_000.mOwnerKartIndexAndFlags & ~0xff00)
+    ownerIndex = !(item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags & 0x8000)
+                     ? (u16) (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags & ~0xff00)
                      : 8;
     kartRank = GetKartRank(kartIndex);
     if (ownerIndex < 8 && checkRank != 0) {
@@ -172,29 +172,29 @@ int TrySetItemKouraRKartItems(ItemKouraR *item, int kartIndex, s32 maxDistanceSq
         return 0;
     }
     GetKartPos(&offset, kartIndex);
-    VEC_Subtract(&offset, &item->mUnk_000.mUnk_000.mUnk_000.mPos, &offset);
+    VEC_Subtract(&offset, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos, &offset);
     distanceSquared = (offset.x >> 12) * (offset.x >> 12);
     distanceSquared += (offset.z >> 12) * (offset.z >> 12);
     if (distanceSquared > 0x27100 || (maxDistanceSquared != 0 && distanceSquared > maxDistanceSquared)) {
         return 0;
     }
-    dot = Vec3DotUnrounded(&item->mUnk_000.mUnk_000.mUnk_000.mVelocity, &offset);
+    dot = Vec3DotUnrounded(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity, &offset);
     if (dot < 0) {
         return 0;
     }
     offsetSquared = Vec3DotUnrounded(&offset, &offset) >> 12;
     velocitySquared =
-        Vec3DotUnrounded(&item->mUnk_000.mUnk_000.mUnk_000.mVelocity, &item->mUnk_000.mUnk_000.mUnk_000.mVelocity);
+        Vec3DotUnrounded(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity);
     lengthProduct = (s64) velocitySquared * offsetSquared;
     dotSquared = (s64) dot * (dot >> 12);
     if ((s32) (dotSquared >> 12) < MUL_FIXED12_NO_ROUND((s32) (lengthProduct >> 12), 0x400)) {
         return 0;
     }
-    dot = Vec3DotUnrounded(&item->mUnk_000.mUnk_000.mUnk_000.mNormal, &offset);
+    dot = Vec3DotUnrounded(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mNormal, &offset);
     if ((dot >> 12) * (dot >> 12) > 0x9c4) {
         return 0;
     }
-    if (item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x10000000) {
+    if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x10000000) {
         return 0;
     }
     item->mKartItems = &gKartItems[kartIndex];

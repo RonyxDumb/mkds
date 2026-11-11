@@ -84,9 +84,9 @@ void func_ov001_021927c0(Unk02188950 *a) {
         SetKartCollisionCallback(a, func_ov001_021927c0);
         return;
     }
-    a->mUnk_000.mUnk_10.x = MUL_FIXED12_NO_ROUND(a->mPrm->mUnk_144, gPairsByAngle[(u16) a->mMoveAngle >> 4 << 1]);
-    a->mUnk_000.mUnk_10.y = 0;
-    a->mUnk_000.mUnk_10.z = MUL_FIXED12_NO_ROUND(a->mPrm->mUnk_144, gPairsByAngle[((u16) a->mMoveAngle >> 4 << 1) + 1]);
+    a->mUnk_000.mPosStep.x = MUL_FIXED12_NO_ROUND(a->mPrm->mUnk_144, gPairsByAngle[(u16) a->mMoveAngle >> 4 << 1]);
+    a->mUnk_000.mPosStep.y = 0;
+    a->mUnk_000.mPosStep.z = MUL_FIXED12_NO_ROUND(a->mPrm->mUnk_144, gPairsByAngle[((u16) a->mMoveAngle >> 4 << 1) + 1]);
     a->mUnk_2d8 = 0xd;
     SetKartCollisionCallback(a, func_ov001_021927c0);
     StartCameraWobbleAtDistance(a->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);

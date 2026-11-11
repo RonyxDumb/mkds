@@ -45,24 +45,24 @@ u8 CollideKartWithBasabasa(Basabasa *basabasa, Kart *kart, void *c, u8 *d) {
     kartBit = 1 << kart->mIndex;
     r = *d;
     if ((basabasa->mHitKartMask & kartBit) == 0) {
-        VEC_Subtract(&kart->mPos, &basabasa->mUnk_00.mPos, &offsetToKart);
-        k = ((s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].x * offsetToKart.x +
-             (s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].z * offsetToKart.z) >>
+        VEC_Subtract(&kart->mPos, &basabasa->mMapObject.mPos, &offsetToKart);
+        k = ((s64) basabasa->mMapObject.mMatrix.mUnk_00[2].x * offsetToKart.x +
+             (s64) basabasa->mMapObject.mMatrix.mUnk_00[2].z * offsetToKart.z) >>
             12;
-        x = offsetToKart.x - MUL_FIXED12_NO_ROUND(basabasa->mUnk_00.mMatrix.mUnk_00[2].x, k);
-        z = offsetToKart.z - MUL_FIXED12_NO_ROUND(basabasa->mUnk_00.mMatrix.mUnk_00[2].z, k);
+        x = offsetToKart.x - MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mUnk_00[2].x, k);
+        z = offsetToKart.z - MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mUnk_00[2].z, k);
         lengthSquared = (s64) x * x + (s64) u.y * u.y + (s64) z * z;
         u.x = x;
         u.z = z;
         if (lengthSquared < 0x10) {
-            basabasa->mUnk_00.mUnk_10.x = MUL_FIXED12_NO_ROUND(basabasa->mUnk_00.mMatrix.mUnk_00[2].x, 0x1333);
-            basabasa->mUnk_00.mUnk_10.y = MUL_FIXED12_NO_ROUND(basabasa->mUnk_00.mMatrix.mUnk_00[2].y, 0x1333);
-            basabasa->mUnk_00.mUnk_10.z = MUL_FIXED12_NO_ROUND(basabasa->mUnk_00.mMatrix.mUnk_00[2].z, 0x1333);
+            basabasa->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mUnk_00[2].x, 0x1333);
+            basabasa->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mUnk_00[2].y, 0x1333);
+            basabasa->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mUnk_00[2].z, 0x1333);
         } else {
             Vec3NormalizeAndGetLengthUnchecked(&u, &u);
-            basabasa->mUnk_00.mUnk_10.x = MUL_FIXED12_NO_ROUND(u.x, 0x1333);
-            basabasa->mUnk_00.mUnk_10.y = MUL_FIXED12_NO_ROUND(u.y, 0x1333);
-            basabasa->mUnk_00.mUnk_10.z = MUL_FIXED12_NO_ROUND(u.z, 0x1333);
+            basabasa->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(u.x, 0x1333);
+            basabasa->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(u.y, 0x1333);
+            basabasa->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(u.z, 0x1333);
         }
         basabasa->mHitKartMask |= kartBit;
     }
@@ -86,7 +86,7 @@ void DrawBasabasa(void *a, Basabasa *basabasa) {
     drawAngle = 0x1fe0 - basabasa->mUnk_c4;
     s = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &s, 1);
-    NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&basabasa->mUnk_00.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&basabasa->mMapObject.mPos), 0xc);
     if (basabasa->mRotateZNegated != 0) {
         MTX_RotZ33_(&rotationMatrix, gPairsByAngle[((u16) -drawAngle >> 4) * 2],
                     gPairsByAngle[((u16) -drawAngle >> 4) * 2 + 1]);
@@ -95,7 +95,7 @@ void DrawBasabasa(void *a, Basabasa *basabasa) {
                     gPairsByAngle[((u16) drawAngle >> 4) * 2 + 1]);
     }
     NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
-    NNS_G3dGeBufferOP_N(0x1b, &basabasa->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &basabasa->mMapObject.mScale, 3);
     SetMapObjectModelNsbtpFrameIndex(gBasabasa, basabasa->mNsbtpFrameIndex);
     DrawMapObjectModel(a, gBasabasa, basabasa);
 }
@@ -117,41 +117,41 @@ void UpdateBasabasa(void *a, Basabasa *basabasa) {
             if (basabasa->mDelayTimer-- > 0) {
                 break;
             }
-            basabasa->mUnk_00.mFlags &= ~1;
-            basabasa->mUnk_00.mFlags &= ~2;
-            basabasa->mUnk_00.mFlags &= ~8;
-            basabasa->mUnk_00.mAlpha = 0x1f;
-            basabasa->mVelocity.x += MUL_FIXED12_NO_ROUND(basabasa->mUnk_00.mMatrix.mUnk_00[2].x, 0x19a);
+            basabasa->mMapObject.mFlags &= ~1;
+            basabasa->mMapObject.mFlags &= ~2;
+            basabasa->mMapObject.mFlags &= ~8;
+            basabasa->mMapObject.mAlpha = 0x1f;
+            basabasa->mVelocity.x += MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mUnk_00[2].x, 0x19a);
             basabasa->mVelocity.y += -0x19a;
-            basabasa->mVelocity.z += MUL_FIXED12_NO_ROUND(basabasa->mUnk_00.mMatrix.mUnk_00[2].z, 0x19a);
-            VEC_Add(&basabasa->mUnk_00.mPos, &basabasa->mVelocity, &basabasa->mUnk_00.mPos);
+            basabasa->mVelocity.z += MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mUnk_00[2].z, 0x19a);
+            VEC_Add(&basabasa->mMapObject.mPos, &basabasa->mVelocity, &basabasa->mMapObject.mPos);
             if (basabasa->mState0Timer-- <= 0) {
                 basabasa->mState = 1;
             }
             break;
         case 1:
-            basabasa->mVelocity.x += MUL_FIXED12_NO_ROUND(basabasa->mUnk_00.mMatrix.mUnk_00[2].x, 0x19a);
+            basabasa->mVelocity.x += MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mUnk_00[2].x, 0x19a);
             basabasa->mVelocity.y += 0x19a;
-            basabasa->mVelocity.z += MUL_FIXED12_NO_ROUND(basabasa->mUnk_00.mMatrix.mUnk_00[2].z, 0x19a);
-            VEC_Add(&basabasa->mUnk_00.mPos, &basabasa->mVelocity, &basabasa->mUnk_00.mPos);
+            basabasa->mVelocity.z += MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mUnk_00[2].z, 0x19a);
+            VEC_Add(&basabasa->mMapObject.mPos, &basabasa->mVelocity, &basabasa->mMapObject.mPos);
             if (basabasa->mVelocity.y > 0) {
                 basabasa->mVelocity.y = 0;
                 basabasa->mState = 2;
             }
             break;
         case 2:
-            VEC_Add(&basabasa->mUnk_00.mPos, &basabasa->mVelocity, &basabasa->mUnk_00.mPos);
+            VEC_Add(&basabasa->mMapObject.mPos, &basabasa->mVelocity, &basabasa->mMapObject.mPos);
             if (basabasa->mState2Timer-- <= 0) {
                 basabasa->mState = 3;
             }
             break;
         case 3:
-            basabasa->mVelocity.x -= MUL_FIXED12_NO_ROUND(basabasa->mUnk_00.mMatrix.mUnk_00[2].x, 0xcd);
+            basabasa->mVelocity.x -= MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mUnk_00[2].x, 0xcd);
             basabasa->mVelocity.y += 0x1000;
-            basabasa->mVelocity.z -= MUL_FIXED12_NO_ROUND(basabasa->mUnk_00.mMatrix.mUnk_00[2].z, 0xcd);
-            VEC_Add(&basabasa->mUnk_00.mPos, &basabasa->mVelocity, &basabasa->mUnk_00.mPos);
-            if (basabasa->mUnk_00.mPos.y >= 0x1b8000) {
-                ParkMapObject(&basabasa->mUnk_00);
+            basabasa->mVelocity.z -= MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mUnk_00[2].z, 0xcd);
+            VEC_Add(&basabasa->mMapObject.mPos, &basabasa->mVelocity, &basabasa->mMapObject.mPos);
+            if (basabasa->mMapObject.mPos.y >= 0x1b8000) {
+                ParkMapObject(&basabasa->mMapObject);
             }
             break;
     }
@@ -166,7 +166,7 @@ void UpdateBasabasa(void *a, Basabasa *basabasa) {
     if (basabasa->mSoundRequested == 0) {
         return;
     }
-    StartMapObjectSoundWhileRequested(&basabasa->mUnk_00, 0x165);
+    StartMapObjectSoundWhileRequested(&basabasa->mMapObject, 0x165);
 }
 
 void CreateBasabasaKindData(void) {
@@ -219,9 +219,9 @@ void StartBasabasa(u32 state2TimerBase, const Vec3 *startPos, const Vec3 *veloci
     if (basabasa == NULL) {
         return;
     }
-    basabasa->mUnk_00.mFlags |= data_usa_02156460;
-    basabasa->mUnk_00.mFlags |= data_usa_02156464;
-    basabasa->mUnk_00.mFlags |= data_usa_02156468;
+    basabasa->mMapObject.mFlags |= data_usa_02156460;
+    basabasa->mMapObject.mFlags |= data_usa_02156464;
+    basabasa->mMapObject.mFlags |= data_usa_02156468;
     basabasa->mSoundRequested = soundRequested;
     basabasa->mRaceHudSubScreenCellKind = f;
     mapObjectRandom = GetMapObjectRandom();
@@ -233,7 +233,7 @@ void StartBasabasa(u32 state2TimerBase, const Vec3 *startPos, const Vec3 *veloci
     n = (state2TimerBase << 12) >> 16;
     w = func_0209219c_inline(n);
     basabasa->mState2Timer = state2TimerBase + w;
-    basabasa->mUnk_00.mPos = *startPos;
+    basabasa->mMapObject.mPos = *startPos;
     basabasa->mVelocity = *velocity;
     basabasa->mState = 0;
     basabasa->mHitKartMask = 0;

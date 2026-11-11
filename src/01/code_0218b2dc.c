@@ -147,10 +147,10 @@ void func_ov001_0218b6f8(Unk02188950 *mapObject, void *kart) {
 }
 
 void func_ov001_0218b640(Unk02188950 *mapObject, void *kart) {
-    mapObject->mUnk_000.mUnk_10.x =
+    mapObject->mUnk_000.mPosStep.x =
         (s64) mapObject->mPrm->mUnk_130 * gPairsByAngle[((u16) mapObject->mMoveAngle >> 4) * 2] >> 12;
-    mapObject->mUnk_000.mUnk_10.y = 0;
-    mapObject->mUnk_000.mUnk_10.z =
+    mapObject->mUnk_000.mPosStep.y = 0;
+    mapObject->mUnk_000.mPosStep.z =
         (s64) mapObject->mPrm->mUnk_130 * gPairsByAngle[((u16) mapObject->mMoveAngle >> 4) * 2 + 1] >> 12;
     mapObject->mUnk_2d8 = 0xd;
     StartCameraWobbleAtDistance(mapObject->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);

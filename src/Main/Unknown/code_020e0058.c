@@ -125,9 +125,9 @@ void UpdateKoopaBlock(void *unused, KoopaBlock *koopaBlock) {
         s32 falloffIndex;
 
         koopaBlock->mPauseTimer--;
-        koopaBlock->mCollisionMapObject.mMapObject.mUnk_10.x = 0;
-        koopaBlock->mCollisionMapObject.mMapObject.mUnk_10.y = 0;
-        koopaBlock->mCollisionMapObject.mMapObject.mUnk_10.z = 0;
+        koopaBlock->mCollisionMapObject.mMapObject.mPosStep.x = 0;
+        koopaBlock->mCollisionMapObject.mMapObject.mPosStep.y = 0;
+        koopaBlock->mCollisionMapObject.mMapObject.mPosStep.z = 0;
         if (koopaBlock->mPauseTimer != 0) {
             return;
         }
@@ -158,7 +158,7 @@ void UpdateKoopaBlock(void *unused, KoopaBlock *koopaBlock) {
     AdvanceStateMachine(&koopaBlock->mCollisionMapObject.mMapObject.mStateMachine);
     VEC_Subtract(&koopaBlock->mCollisionMapObject.mMapObject.mPos,
                  &koopaBlock->mCollisionMapObject.mCollisionData.mUnk_e8,
-                 &koopaBlock->mCollisionMapObject.mMapObject.mUnk_10);
+                 &koopaBlock->mCollisionMapObject.mMapObject.mPosStep);
     VEC_MultAdd(-koopaBlock->mCollisionMapObject.mCollisionData.mHalfSizeY,
                 &koopaBlock->mCollisionMapObject.mMapObject.mMatrix.mUnk_00[1],
                 &koopaBlock->mCollisionMapObject.mMapObject.mPos,

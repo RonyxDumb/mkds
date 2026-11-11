@@ -29,13 +29,13 @@ u32 CollideKartWithPakkunSpit(PakkunSpit *pakkunSpit, Kart *kart, u8 *c, u8 *d) 
     u32 v1 = *c;
     u8 result = *d;
     if (v1 == 1) {
-        pakkunSpit->mUnk_00.mFlags = pakkunSpit->mUnk_00.mFlags | data_usa_02156590;
+        pakkunSpit->mMapObject.mFlags = pakkunSpit->mMapObject.mFlags | data_usa_02156590;
         pakkunSpit->mState = 1;
         if (kart->mItemEffect == 1 || kart->mItemEffect == 3) {
-            pakkunSpit->mUnk_00.mDistanceSquaredAndFlags =
-                pakkunSpit->mUnk_00.mDistanceSquaredAndFlags | data_usa_02156594;
+            pakkunSpit->mMapObject.mDistanceSquaredAndFlags =
+                pakkunSpit->mMapObject.mDistanceSquaredAndFlags | data_usa_02156594;
         }
-        StartSoundIfKartStarOrKiller(&pakkunSpit->mUnk_00, kart);
+        StartSoundIfKartStarOrKiller(&pakkunSpit->mMapObject, kart);
     }
     return result;
 }
@@ -51,36 +51,36 @@ void UpdatePakkunSpit(void *mapObjectList, PakkunSpit *pakkunSpit) {
             if (pakkunSpit->mHeightOffset <= 0) {
                 pakkunSpit->mHeightOffset = 0;
                 pakkunSpit->mHeightSpeed = 0x5800;
-                if ((pakkunSpit->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
-                    if (pakkunSpit->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+                if ((pakkunSpit->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
+                    if (pakkunSpit->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
                         falloffIndex = 2;
-                    } else if (pakkunSpit->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                    } else if (pakkunSpit->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
                         falloffIndex = 3;
                     } else {
                         falloffIndex = 4;
                     }
                     soundRequest.mSoundId = 0x1af;
-                    soundRequest.mPositionSource = &pakkunSpit->mUnk_00.mPos;
+                    soundRequest.mPositionSource = &pakkunSpit->mMapObject.mPos;
                     soundRequest.mFalloffIndex = falloffIndex;
-                    soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&pakkunSpit->mUnk_00.mPos);
+                    soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&pakkunSpit->mMapObject.mPos);
                     StartSoundFromParams(&soundRequest);
                 }
             }
             if (AdvanceGroupFollower(&pakkunSpit->mFollower) != FALSE && pakkunSpit->mFollower.mForward == 0) {
                 pakkunSpit->mState = 1;
             } else {
-                GetGroupFollowerLinearPosStep(&pakkunSpit->mFollower, &pakkunSpit->mUnk_00.mPos,
-                                              &pakkunSpit->mUnk_00.mUnk_10);
-                pakkunSpit->mUnk_00.mPos.y = pakkunSpit->mUnk_00.mPos.y + (pakkunSpit->mHeightOffset + 0xf000);
+                GetGroupFollowerLinearPosStep(&pakkunSpit->mFollower, &pakkunSpit->mMapObject.mPos,
+                                              &pakkunSpit->mMapObject.mPosStep);
+                pakkunSpit->mMapObject.mPos.y = pakkunSpit->mMapObject.mPos.y + (pakkunSpit->mHeightOffset + 0xf000);
             }
             if (pakkunSpit->mEmitter == NULL) {
                 return;
             }
-            if ((pakkunSpit->mUnk_00.mFlags & 0x12) != 0) {
+            if ((pakkunSpit->mMapObject.mFlags & 0x12) != 0) {
                 pakkunSpit->mEmitter->mUnk_24 |= 2;
                 return;
             }
-            PlaceEffect(pakkunSpit->mEmitter, &pakkunSpit->mUnk_00.mPos);
+            PlaceEffect(pakkunSpit->mEmitter, &pakkunSpit->mMapObject.mPos);
             pakkunSpit->mEmitter->mUnk_24 &= ~2;
             return;
         case 1:
@@ -90,7 +90,7 @@ void UpdatePakkunSpit(void *mapObjectList, PakkunSpit *pakkunSpit) {
                 }
                 StopEffectAndClearPointer((void **) &pakkunSpit->mEmitter);
             }
-            ParkMapObject(&pakkunSpit->mUnk_00);
+            ParkMapObject(&pakkunSpit->mMapObject);
             return;
     }
 }

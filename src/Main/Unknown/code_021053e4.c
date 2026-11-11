@@ -71,14 +71,14 @@ MapObject *AllocPooledMapObject(void) {
 }
 
 void ResetPooledMapObject(ItemBox *pooledObject) {
-    UnparkMapObject(&pooledObject->mUnk_000);
-    pooledObject->mUnk_000.mAlpha = 0x1f;
-    pooledObject->mUnk_000.mFlags &= ~2;
-    pooledObject->mUnk_000.mFlags &= ~8;
-    pooledObject->mUnk_000.mAlpha = 0x1f;
-    pooledObject->mUnk_000.mScale.x = 0;
-    pooledObject->mUnk_000.mScale.y = 0;
-    pooledObject->mUnk_000.mScale.z = 0;
+    UnparkMapObject(&pooledObject->mMapObject);
+    pooledObject->mMapObject.mAlpha = 0x1f;
+    pooledObject->mMapObject.mFlags &= ~2;
+    pooledObject->mMapObject.mFlags &= ~8;
+    pooledObject->mMapObject.mAlpha = 0x1f;
+    pooledObject->mMapObject.mScale.x = 0;
+    pooledObject->mMapObject.mScale.y = 0;
+    pooledObject->mMapObject.mScale.z = 0;
     pooledObject->mBoxRotationIndex = 0;
     pooledObject->mQuestionRotationIndex = 0;
     pooledObject->mFramesSinceHit = 0x80;

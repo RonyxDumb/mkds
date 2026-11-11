@@ -31,7 +31,7 @@ ItemBomb *FindItemBombInRange(Unk02188950 *mapObject, u32 radius, u32 halfAngle)
         do {
             bomb = GetRestingItemBomb(index);
             if ((bomb != NULL) &&
-                (inRange = IsPointInRange(mapObject, &bomb->mUnk_000.mItemObject.mPos, radius, halfAngle),
+                (inRange = IsPointInRange(mapObject, &bomb->mBouncingItemObject.mItemObject.mPos, radius, halfAngle),
                  inRange != 0)) {
                 return bomb;
             }

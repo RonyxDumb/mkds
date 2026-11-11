@@ -102,15 +102,15 @@ u32 CollideKartWithShine16(Shine16 *shine16, Kart *kart, u8 *a, u8 *b) {
         if (shine16->mPickupTimer > 0) {
             return v2;
         }
-        shine16->mUnk_00.mFlags |= data_021567a0;
+        shine16->mMapObject.mFlags |= data_021567a0;
         shine16->mPickupTimer = 0x19;
-        shine16->mUnk_00.mPos.x = kart->mPos.x;
-        shine16->mUnk_00.mPos.y = kart->mPos.y + GetKartBalloonOrShineHeight(kart) + 0x7800;
-        shine16->mUnk_00.mPos.z = kart->mPos.z;
+        shine16->mMapObject.mPos.x = kart->mPos.x;
+        shine16->mMapObject.mPos.y = kart->mPos.y + GetKartBalloonOrShineHeight(kart) + 0x7800;
+        shine16->mMapObject.mPos.z = kart->mPos.z;
         shine16->mHeightAboveKart = 0;
-        shine16->mUnk_00.mUnk_10.x = 0;
-        shine16->mUnk_00.mUnk_10.y = 0x3000;
-        shine16->mUnk_00.mUnk_10.z = 0;
+        shine16->mMapObject.mPosStep.x = 0;
+        shine16->mMapObject.mPosStep.y = 0x3000;
+        shine16->mMapObject.mPosStep.z = 0;
         shine16->mDrawScale = 0;
         shine16->mState = 2;
         shine16->mKartIndex = kart->mIndex;
@@ -120,9 +120,9 @@ u32 CollideKartWithShine16(Shine16 *shine16, Kart *kart, u8 *a, u8 *b) {
         isEntryKart = kart->mIndex == gRaceSetup->mEntryIndex ? 1 : 0;
         highestBalloonOrShineCount = GetHighestBalloonOrShineCount();
         balloonOrShineCount = GetBalloonOrShineCount(kart->mIndex);
-        QueueShine16Sound(shine16->mUnk_00.mSound,
+        QueueShine16Sound(shine16->mMapObject.mSound,
                           GetShine16SoundId(0, isEntryKart, highestBalloonOrShineCount, balloonOrShineCount));
-        shine16->mEffect = StartEffect(0x7d, &shine16->mUnk_00.mPos);
+        shine16->mEffect = StartEffect(0x7d, &shine16->mMapObject.mPos);
         shine16->mEffectTimer = 0xe;
     }
     return v2;
@@ -147,7 +147,7 @@ void DrawShine16(void *a, Shine16 *shine16) {
     }
     t = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &t, 1);
-    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&shine16->mUnk_00.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&shine16->mMapObject.mPos), 0xc);
     drawScale = shine16->mDrawScale;
     if (drawScale != 0x1000) {
         scaleVector.x = drawScale;
@@ -155,7 +155,7 @@ void DrawShine16(void *a, Shine16 *shine16) {
         scaleVector.z = drawScale;
         NNS_G3dGeBufferOP_N(0x1b, &scaleVector, 3);
     }
-    NNS_G3dGeBufferOP_N(0x1b, &shine16->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &shine16->mMapObject.mScale, 3);
     SetMapObjectModelMirror(gShine16, shine16->mMirror, 0);
     SetMapObjectModelNsbtpFrameIndex(gShine16, shine16->mNsbtpFrameIndex);
     DrawMapObjectModel(a, gShine16, shine16);
@@ -195,7 +195,7 @@ void DrawShine16Shadow(void *a, Shine16 *shine16, void *b, s32 c) {
     }
     t = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &t, 1);
-    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&shine16->mUnk_00.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&shine16->mMapObject.mPos), 0xc);
     drawScale = shine16->mDrawScale;
     if (drawScale < 0x1000) {
         drawScaleVector.x = drawScale;
@@ -203,7 +203,7 @@ void DrawShine16Shadow(void *a, Shine16 *shine16, void *b, s32 c) {
         drawScaleVector.z = drawScale;
         NNS_G3dGeBufferOP_N(0x1b, &drawScaleVector, 3);
     }
-    NNS_G3dGeBufferOP_N(0x1b, &shine16->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &shine16->mMapObject.mScale, 3);
     pairIndex = gShine16ShadowAngles[gShine16ShadowAngleIndex] >> 4;
     MTX_RotY33_(&rotateYMatrix, gPairsByAngle[pairIndex * 2 + 1], gPairsByAngle[pairIndex * 2]);
     NNS_G3dGeBufferOP_N(0x1a, &rotateYMatrix, 9);
@@ -250,18 +250,18 @@ void UpdateShine16(void *a, Shine16 *shine16) {
             if (shine16->mDrawScale >= 0x1000) {
                 shine16->mDrawScale = 0x1000;
             }
-            shine16->mUnk_00.mUnk_10.y -= 0x19a;
-            VEC_Add(&shine16->mUnk_00.mPos, &shine16->mUnk_00.mUnk_10, &shine16->mUnk_00.mPos);
-            if (shine16->mUnk_00.mPos.y > shine16->mFloorY) {
+            shine16->mMapObject.mPosStep.y -= 0x19a;
+            VEC_Add(&shine16->mMapObject.mPos, &shine16->mMapObject.mPosStep, &shine16->mMapObject.mPos);
+            if (shine16->mMapObject.mPos.y > shine16->mFloorY) {
                 return;
             }
-            shine16->mUnk_00.mPos.y = shine16->mFloorY;
-            shine16->mUnk_00.mUnk_10.y = MUL_FIXED12_NO_ROUND(shine16->mUnk_00.mUnk_10.y, -0x333);
-            if (shine16->mUnk_00.mUnk_10.y < 0x1000) {
-                shine16->mUnk_00.mUnk_10.y = 0;
+            shine16->mMapObject.mPos.y = shine16->mFloorY;
+            shine16->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(shine16->mMapObject.mPosStep.y, -0x333);
+            if (shine16->mMapObject.mPosStep.y < 0x1000) {
+                shine16->mMapObject.mPosStep.y = 0;
                 shine16->mState = 1;
             }
-            QueueShine16Sound(shine16->mUnk_00.mSound, 0x139);
+            QueueShine16Sound(shine16->mMapObject.mSound, 0x139);
             return;
         case 1:
             shine16->mNsbtpFrameStepProgress += 1;
@@ -281,7 +281,7 @@ void UpdateShine16(void *a, Shine16 *shine16) {
             if (shine16->mDrawScale >= 0x1000) {
                 shine16->mDrawScale = 0x1000;
             }
-            QueueShine16SoundWhileRequested(shine16->mUnk_00.mSound, 0x14e);
+            QueueShine16SoundWhileRequested(shine16->mMapObject.mSound, 0x14e);
             return;
         case 6:
             shine16->mNsbtpFrameStepProgress += 4;
@@ -302,7 +302,7 @@ void UpdateShine16(void *a, Shine16 *shine16) {
                 return;
             }
             shine16->mDrawScale = 0;
-            ParkMapObject(&shine16->mUnk_00);
+            ParkMapObject(&shine16->mMapObject);
             AddShineCount(-1);
             if (shine16->mSpawnObjectIndex < 0) {
                 return;
@@ -324,16 +324,16 @@ void UpdateShine16(void *a, Shine16 *shine16) {
                 }
             }
             kart = GetKart(shine16->mKartIndex);
-            shine16->mHeightAboveKart += shine16->mUnk_00.mUnk_10.y;
-            shine16->mUnk_00.mPos = *GetKartStandingPos(shine16->mKartIndex);
-            shine16->mUnk_00.mPos.y += shine16->mHeightAboveKart + (GetKartBalloonOrShineHeight(kart) + 0x7800);
-            shine16->mUnk_00.mUnk_10.y -= 0x333;
+            shine16->mHeightAboveKart += shine16->mMapObject.mPosStep.y;
+            shine16->mMapObject.mPos = *GetKartStandingPos(shine16->mKartIndex);
+            shine16->mMapObject.mPos.y += shine16->mHeightAboveKart + (GetKartBalloonOrShineHeight(kart) + 0x7800);
+            shine16->mMapObject.mPosStep.y -= 0x333;
             if (shine16->mPickupTimer-- <= 0) {
                 shine16->mPickupTimer = 0;
                 shine16->mDrawScale -= 0x19a;
                 if (shine16->mDrawScale <= 0) {
                     shine16->mDrawScale = 0;
-                    ParkMapObject(&shine16->mUnk_00);
+                    ParkMapObject(&shine16->mMapObject);
                     AddShineCount(-1);
                     if (shine16->mSpawnObjectIndex >= 0) {
                         ClearShineBattleObjectShine(shine16->mSpawnObjectIndex);
@@ -351,7 +351,7 @@ void UpdateShine16(void *a, Shine16 *shine16) {
             if (shine16->mEffect == NULL) {
                 return;
             }
-            PlaceEffect(shine16->mEffect, &shine16->mUnk_00.mPos);
+            PlaceEffect(shine16->mEffect, &shine16->mMapObject.mPos);
             shine16->mEffectTimer--;
             if (shine16->mEffectTimer >= 0) {
                 return;
@@ -401,16 +401,16 @@ void UpdateShine16(void *a, Shine16 *shine16) {
                     }
                 }
             }
-            shine16->mHeightAboveKart += shine16->mUnk_00.mUnk_10.y;
-            shine16->mUnk_00.mPos = *GetKartStandingPos(shine16->mKartIndex);
-            shine16->mUnk_00.mPos.y +=
+            shine16->mHeightAboveKart += shine16->mMapObject.mPosStep.y;
+            shine16->mMapObject.mPos = *GetKartStandingPos(shine16->mKartIndex);
+            shine16->mMapObject.mPos.y +=
                 shine16->mHeightAboveKart + (GetKartBalloonOrShineHeight(GetKart(shine16->mKartIndex)) + 0x7800);
-            shine16->mUnk_00.mUnk_10.y -= 0x52;
+            shine16->mMapObject.mPosStep.y -= 0x52;
             shine16->mDrawScale += 0x19a;
             if (shine16->mDrawScale >= 0x1000) {
                 shine16->mDrawScale = 0x1000;
             }
-            if (shine16->mUnk_00.mUnk_10.y > 0) {
+            if (shine16->mMapObject.mPosStep.y > 0) {
                 return;
             }
             if (shine16->mTargetPickCount > 0) {
@@ -421,23 +421,23 @@ void UpdateShine16(void *a, Shine16 *shine16) {
                 randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
                 s = ((u64) (u32) (randomState->mValue >> 32) * 0x14000) >> 32;
                 x = shine16->mTargetPos.x + MUL_FIXED12_NO_ROUND(s, gPairsByAngle[(r >> 4) * 2]) -
-                    shine16->mUnk_00.mPos.x;
+                    shine16->mMapObject.mPos.x;
                 z = shine16->mTargetPos.z + MUL_FIXED12_NO_ROUND(s, gPairsByAngle[(r >> 4) * 2 + 1]) -
-                    shine16->mUnk_00.mPos.z;
+                    shine16->mMapObject.mPos.z;
                 shine16->mState = 4;
-                shine16->mUnk_00.mUnk_10.x = MUL_FIXED12_NO_ROUND(x, 0x25);
-                shine16->mUnk_00.mUnk_10.y = 0x5000;
-                shine16->mUnk_00.mUnk_10.z = MUL_FIXED12_NO_ROUND(z, 0x25);
+                shine16->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(x, 0x25);
+                shine16->mMapObject.mPosStep.y = 0x5000;
+                shine16->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(z, 0x25);
                 shine16->mDrawScale = 0x1000;
-                shine16->mUnk_00.mFlags &= ~1;
+                shine16->mMapObject.mFlags &= ~1;
                 return;
             }
             shine16->mState = 5;
-            shine16->mUnk_00.mUnk_10.x = 0;
-            shine16->mUnk_00.mUnk_10.y = 0x5000;
-            shine16->mUnk_00.mUnk_10.z = 0;
+            shine16->mMapObject.mPosStep.x = 0;
+            shine16->mMapObject.mPosStep.y = 0x5000;
+            shine16->mMapObject.mPosStep.z = 0;
             shine16->mDrawScale = 0x1000;
-            shine16->mUnk_00.mFlags &= ~1;
+            shine16->mMapObject.mFlags &= ~1;
             return;
         case 5:
             shine16->mNsbtpFrameStepProgress += 1;
@@ -457,13 +457,13 @@ void UpdateShine16(void *a, Shine16 *shine16) {
             if (shine16->mDrawScale >= 0x1000) {
                 shine16->mDrawScale = 0x1000;
             }
-            shine16->mUnk_00.mUnk_10.y -= 0x19a;
-            VEC_Add(&shine16->mUnk_00.mPos, &shine16->mUnk_00.mUnk_10, &shine16->mUnk_00.mPos);
-            if (shine16->mUnk_00.mUnk_10.y >= 0) {
+            shine16->mMapObject.mPosStep.y -= 0x19a;
+            VEC_Add(&shine16->mMapObject.mPos, &shine16->mMapObject.mPosStep, &shine16->mMapObject.mPos);
+            if (shine16->mMapObject.mPosStep.y >= 0) {
                 return;
             }
             shine16->mState = 6;
-            shine16->mUnk_00.mFlags |= data_021567a0;
+            shine16->mMapObject.mFlags |= data_021567a0;
             return;
         case 4:
             shine16->mNsbtpFrameStepProgress += 1;
@@ -483,71 +483,71 @@ void UpdateShine16(void *a, Shine16 *shine16) {
             if (shine16->mDrawScale >= 0x1000) {
                 shine16->mDrawScale = 0x1000;
             }
-            shine16->mUnk_00.mUnk_10.y -= 0x19a;
-            VEC_Add(&shine16->mUnk_00.mPos, &shine16->mUnk_00.mUnk_10, &shine16->mUnk_00.mPos);
-            if (shine16->mUnk_00.mUnk_10.y < 0 &&
-                shine16->mUnk_00.mPos.y <= shine16->mTargetPos.y + shine16->mUnk_00.mExtent.x) {
-                if (GetMapObjectHitResponse(&shine16->mUnk_00, 0, &b)) {
-                    t = shine16->mUnk_00.mUnk_10.y;
-                    VEC_Add(&shine16->mUnk_00.mPos, &b, &shine16->mUnk_00.mPos);
-                    BounceVelocityOffUnnormalizedSurface(&shine16->mUnk_00.mUnk_10, &b, 0x1000, 0x1000, 0x800,
-                                                         &shine16->mUnk_00.mUnk_10);
-                    shine16->mUnk_00.mUnk_10.y = 0;
-                    if ((s64) shine16->mUnk_00.mUnk_10.x * shine16->mUnk_00.mUnk_10.x +
-                            (s64) shine16->mUnk_00.mUnk_10.y * shine16->mUnk_00.mUnk_10.y +
-                            (s64) shine16->mUnk_00.mUnk_10.z * shine16->mUnk_00.mUnk_10.z >=
+            shine16->mMapObject.mPosStep.y -= 0x19a;
+            VEC_Add(&shine16->mMapObject.mPos, &shine16->mMapObject.mPosStep, &shine16->mMapObject.mPos);
+            if (shine16->mMapObject.mPosStep.y < 0 &&
+                shine16->mMapObject.mPos.y <= shine16->mTargetPos.y + shine16->mMapObject.mExtent.x) {
+                if (GetMapObjectHitResponse(&shine16->mMapObject, 0, &b)) {
+                    t = shine16->mMapObject.mPosStep.y;
+                    VEC_Add(&shine16->mMapObject.mPos, &b, &shine16->mMapObject.mPos);
+                    BounceVelocityOffUnnormalizedSurface(&shine16->mMapObject.mPosStep, &b, 0x1000, 0x1000, 0x800,
+                                                         &shine16->mMapObject.mPosStep);
+                    shine16->mMapObject.mPosStep.y = 0;
+                    if ((s64) shine16->mMapObject.mPosStep.x * shine16->mMapObject.mPosStep.x +
+                            (s64) shine16->mMapObject.mPosStep.y * shine16->mMapObject.mPosStep.y +
+                            (s64) shine16->mMapObject.mPosStep.z * shine16->mMapObject.mPosStep.z >=
                         0x10) {
-                        Vec3NormalizeAndGetLengthUnchecked(&shine16->mUnk_00.mUnk_10, &shine16->mUnk_00.mUnk_10);
+                        Vec3NormalizeAndGetLengthUnchecked(&shine16->mMapObject.mPosStep, &shine16->mMapObject.mPosStep);
                     }
-                    shine16->mUnk_00.mUnk_10.x = MUL_FIXED12_NO_ROUND(shine16->mUnk_00.mUnk_10.x, 0x1000);
-                    shine16->mUnk_00.mUnk_10.y = MUL_FIXED12_NO_ROUND(shine16->mUnk_00.mUnk_10.y, 0x1000);
-                    shine16->mUnk_00.mUnk_10.z = MUL_FIXED12_NO_ROUND(shine16->mUnk_00.mUnk_10.z, 0x1000);
-                    shine16->mUnk_00.mUnk_10.y = t;
+                    shine16->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(shine16->mMapObject.mPosStep.x, 0x1000);
+                    shine16->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(shine16->mMapObject.mPosStep.y, 0x1000);
+                    shine16->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(shine16->mMapObject.mPosStep.z, 0x1000);
+                    shine16->mMapObject.mPosStep.y = t;
                 }
-                c.x = shine16->mUnk_00.mPos.x;
-                c.y = shine16->mUnk_00.mExtent.x + (shine16->mUnk_00.mPos.y - 0x14000);
-                c.z = shine16->mUnk_00.mPos.z;
-                if (CollideSphereWithCourse(&c, NULL, 0, shine16->mUnk_00.mExtent.x, 8, -2, &b, &d, &e, &f, NULL, NULL,
+                c.x = shine16->mMapObject.mPos.x;
+                c.y = shine16->mMapObject.mExtent.x + (shine16->mMapObject.mPos.y - 0x14000);
+                c.z = shine16->mMapObject.mPos.z;
+                if (CollideSphereWithCourse(&c, NULL, 0, shine16->mMapObject.mExtent.x, 8, -2, &b, &d, &e, &f, NULL, NULL,
                                             NULL, NULL)) {
-                    VEC_Add(&shine16->mUnk_00.mPos, &b, &shine16->mUnk_00.mPos);
+                    VEC_Add(&shine16->mMapObject.mPos, &b, &shine16->mMapObject.mPos);
                     if (f & 0x214300) {
-                        t = shine16->mUnk_00.mUnk_10.y;
-                        BounceVelocityOffSurface(&shine16->mUnk_00.mUnk_10, &e, 0x1000, 0x1000, 0x800,
-                                                 &shine16->mUnk_00.mUnk_10);
-                        shine16->mUnk_00.mUnk_10.y = 0;
-                        if ((s64) shine16->mUnk_00.mUnk_10.x * shine16->mUnk_00.mUnk_10.x +
-                                (s64) shine16->mUnk_00.mUnk_10.y * shine16->mUnk_00.mUnk_10.y +
-                                (s64) shine16->mUnk_00.mUnk_10.z * shine16->mUnk_00.mUnk_10.z >=
+                        t = shine16->mMapObject.mPosStep.y;
+                        BounceVelocityOffSurface(&shine16->mMapObject.mPosStep, &e, 0x1000, 0x1000, 0x800,
+                                                 &shine16->mMapObject.mPosStep);
+                        shine16->mMapObject.mPosStep.y = 0;
+                        if ((s64) shine16->mMapObject.mPosStep.x * shine16->mMapObject.mPosStep.x +
+                                (s64) shine16->mMapObject.mPosStep.y * shine16->mMapObject.mPosStep.y +
+                                (s64) shine16->mMapObject.mPosStep.z * shine16->mMapObject.mPosStep.z >=
                             0x10) {
-                            Vec3NormalizeAndGetLengthUnchecked(&shine16->mUnk_00.mUnk_10, &shine16->mUnk_00.mUnk_10);
+                            Vec3NormalizeAndGetLengthUnchecked(&shine16->mMapObject.mPosStep, &shine16->mMapObject.mPosStep);
                         }
-                        shine16->mUnk_00.mUnk_10.x = MUL_FIXED12_NO_ROUND(shine16->mUnk_00.mUnk_10.x, 0x1000);
-                        shine16->mUnk_00.mUnk_10.y = MUL_FIXED12_NO_ROUND(shine16->mUnk_00.mUnk_10.y, 0x1000);
-                        shine16->mUnk_00.mUnk_10.z = MUL_FIXED12_NO_ROUND(shine16->mUnk_00.mUnk_10.z, 0x1000);
-                        shine16->mUnk_00.mUnk_10.y = t;
+                        shine16->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(shine16->mMapObject.mPosStep.x, 0x1000);
+                        shine16->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(shine16->mMapObject.mPosStep.y, 0x1000);
+                        shine16->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(shine16->mMapObject.mPosStep.z, 0x1000);
+                        shine16->mMapObject.mPosStep.y = t;
                     }
                     if (f & 0x1e34ef) {
-                        shine16->mUnk_00.mUnk_10.x = MUL_FIXED12_NO_ROUND(shine16->mUnk_00.mUnk_10.x, 0x19a);
-                        shine16->mUnk_00.mUnk_10.y = MUL_FIXED12_NO_ROUND(shine16->mUnk_00.mUnk_10.y, -0x333);
-                        shine16->mUnk_00.mUnk_10.z = MUL_FIXED12_NO_ROUND(shine16->mUnk_00.mUnk_10.z, 0x19a);
-                        if (shine16->mUnk_00.mUnk_10.y < 0x1000) {
-                            shine16->mUnk_00.mUnk_10.y = 0;
+                        shine16->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(shine16->mMapObject.mPosStep.x, 0x19a);
+                        shine16->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(shine16->mMapObject.mPosStep.y, -0x333);
+                        shine16->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(shine16->mMapObject.mPosStep.z, 0x19a);
+                        if (shine16->mMapObject.mPosStep.y < 0x1000) {
+                            shine16->mMapObject.mPosStep.y = 0;
                             shine16->mState = 1;
                         }
-                        QueueShine16Sound(shine16->mUnk_00.mSound, 0x139);
+                        QueueShine16Sound(shine16->mMapObject.mSound, 0x139);
                     }
                     if (f & 0x1000000) {
-                        shine16->mUnk_00.mFlags |= data_021567ac;
+                        shine16->mMapObject.mFlags |= data_021567ac;
                     } else {
-                        shine16->mUnk_00.mFlags &= ~0x20;
+                        shine16->mMapObject.mFlags &= ~0x20;
                     }
                 }
             }
-            if (shine16->mUnk_00.mPos.y >= 0) {
+            if (shine16->mMapObject.mPos.y >= 0) {
                 return;
             }
             shine16->mState = 6;
-            shine16->mUnk_00.mFlags |= data_021567a0;
+            shine16->mMapObject.mFlags |= data_021567a0;
             return;
     }
 }
@@ -598,22 +598,22 @@ void StartShine16(Vec3 *position, s32 spawnObjectIndex, s32 dropFromAbove) {
         return;
     }
     if (dropFromAbove != 0) {
-        shine16->mUnk_00.mPos.x = position->x;
-        shine16->mUnk_00.mPos.y = position->y + 0x32000;
-        shine16->mUnk_00.mPos.z = position->z;
-        shine16->mUnk_00.mUnk_10.x = 0;
-        shine16->mUnk_00.mUnk_10.y = 0x2800;
-        shine16->mUnk_00.mUnk_10.z = 0;
+        shine16->mMapObject.mPos.x = position->x;
+        shine16->mMapObject.mPos.y = position->y + 0x32000;
+        shine16->mMapObject.mPos.z = position->z;
+        shine16->mMapObject.mPosStep.x = 0;
+        shine16->mMapObject.mPosStep.y = 0x2800;
+        shine16->mMapObject.mPosStep.z = 0;
         shine16->mHeightAboveKart = 0;
         shine16->mFloorY = position->y + 0x14000;
         shine16->mState = 0;
     } else {
-        shine16->mUnk_00.mPos.x = position->x;
-        shine16->mUnk_00.mPos.y = position->y + 0x14000;
-        shine16->mUnk_00.mPos.z = position->z;
-        shine16->mUnk_00.mUnk_10.x = 0;
-        shine16->mUnk_00.mUnk_10.y = 0;
-        shine16->mUnk_00.mUnk_10.z = 0;
+        shine16->mMapObject.mPos.x = position->x;
+        shine16->mMapObject.mPos.y = position->y + 0x14000;
+        shine16->mMapObject.mPos.z = position->z;
+        shine16->mMapObject.mPosStep.x = 0;
+        shine16->mMapObject.mPosStep.y = 0;
+        shine16->mMapObject.mPosStep.z = 0;
         shine16->mHeightAboveKart = 0;
         shine16->mFloorY = 0;
         shine16->mState = 1;
@@ -621,10 +621,10 @@ void StartShine16(Vec3 *position, s32 spawnObjectIndex, s32 dropFromAbove) {
     shine16->mDrawScale = 0;
     shine16->mPickupTimer = 0;
     shine16->mSpawnObjectIndex = spawnObjectIndex;
-    shine16->mUnk_00.mFlags &= ~1;
-    shine16->mUnk_00.mFlags &= ~0x20;
+    shine16->mMapObject.mFlags &= ~1;
+    shine16->mMapObject.mFlags &= ~0x20;
     AddShineCount(1);
-    QueueShine16Sound(shine16->mUnk_00.mSound, 0x138);
+    QueueShine16Sound(shine16->mMapObject.mSound, 0x138);
 }
 
 void StartShine16FromKart(Kart *hitKart, Kart *hitByKart) {
@@ -637,14 +637,14 @@ void StartShine16FromKart(Kart *hitKart, Kart *hitByKart) {
     if (shine16 == NULL) {
         return;
     }
-    shine16->mUnk_00.mFlags = shine16->mUnk_00.mFlags | data_021567a0;
-    shine16->mUnk_00.mFlags &= ~0x20;
-    shine16->mUnk_00.mPos.x = hitKart->mPos.x;
-    shine16->mUnk_00.mPos.y = hitKart->mPos.y;
-    shine16->mUnk_00.mPos.z = hitKart->mPos.z;
-    shine16->mUnk_00.mUnk_10.x = 0;
-    shine16->mUnk_00.mUnk_10.y = 0x1000;
-    shine16->mUnk_00.mUnk_10.z = 0;
+    shine16->mMapObject.mFlags = shine16->mMapObject.mFlags | data_021567a0;
+    shine16->mMapObject.mFlags &= ~0x20;
+    shine16->mMapObject.mPos.x = hitKart->mPos.x;
+    shine16->mMapObject.mPos.y = hitKart->mPos.y;
+    shine16->mMapObject.mPos.z = hitKart->mPos.z;
+    shine16->mMapObject.mPosStep.x = 0;
+    shine16->mMapObject.mPosStep.y = 0x1000;
+    shine16->mMapObject.mPosStep.z = 0;
     shine16->mKartIndex = hitKart->mIndex;
     shine16->mHitByKartIndex = hitByKart->mIndex;
     shine16->mHeightAboveKart = 0;
@@ -664,7 +664,7 @@ void StartShine16FromKart(Kart *hitKart, Kart *hitByKart) {
     isEntryKart = hitKart->mIndex == gRaceSetup->mEntryIndex ? 1 : 0;
     highestBalloonOrShineCount = GetHighestBalloonOrShineCount();
     balloonOrShineCount = GetBalloonOrShineCount(hitKart->mIndex);
-    QueueShine16Sound(shine16->mUnk_00.mSound,
+    QueueShine16Sound(shine16->mMapObject.mSound,
                       GetShine16SoundId(1, isEntryKart, highestBalloonOrShineCount, balloonOrShineCount));
 }
 
@@ -702,10 +702,10 @@ BOOL BalloonKartHitByKartCallback(u16 hitKartIndex, u16 hitByKartIndex) {
                 balloonPos.x = kart->mPos.x;
                 balloonPos.y = kart->mPos.y + GetKartBalloonOrShineHeight(kart) - 0xf666;
                 balloonPos.z = kart->mPos.z;
-                lastBalloon->mUnk_00.mFlags &= ~4;
-                lastBalloon->mUnk_00.mFlags &= ~2;
-                lastBalloon->mUnk_00.mFlags &= ~8;
-                lastBalloon->mUnk_00.mAlpha = 0x1f;
+                lastBalloon->mMapObject.mFlags &= ~4;
+                lastBalloon->mMapObject.mFlags &= ~2;
+                lastBalloon->mMapObject.mFlags &= ~8;
+                lastBalloon->mMapObject.mAlpha = 0x1f;
                 StartBalloonWithoutKart(lastBalloon, &balloonPos);
             }
             StartSoundFullVolumeWrapper(kart, 0x153);
@@ -867,10 +867,10 @@ BOOL BalloonKartHitCallback(u16 kartIndex, u16 hitByKartIndex) {
             balloonPos.x = kart->mPos.x;
             balloonPos.y = kart->mPos.y + GetKartBalloonOrShineHeight(kart) - 0xf666;
             balloonPos.z = kart->mPos.z;
-            lastBalloon->mUnk_00.mFlags &= ~4;
-            lastBalloon->mUnk_00.mFlags &= ~2;
-            lastBalloon->mUnk_00.mFlags &= ~8;
-            lastBalloon->mUnk_00.mAlpha = 0x1f;
+            lastBalloon->mMapObject.mFlags &= ~4;
+            lastBalloon->mMapObject.mFlags &= ~2;
+            lastBalloon->mMapObject.mFlags &= ~8;
+            lastBalloon->mMapObject.mAlpha = 0x1f;
             StartBalloonWithoutKart(lastBalloon, &balloonPos);
         }
         StartSoundFullVolumeWrapper(kart, 0x153);
@@ -939,9 +939,9 @@ void BalloonKartOffsetCallback(u16 kartIndex, Vec3 *offset) {
     }
     do {
         balloon = kartBalloons->mBalloons[i];
-        balloon->mUnk_00.mPos.x += offset->x;
-        balloon->mUnk_00.mPos.y += offset->y;
-        balloon->mUnk_00.mPos.z += offset->z;
+        balloon->mMapObject.mPos.x += offset->x;
+        balloon->mMapObject.mPos.y += offset->y;
+        balloon->mMapObject.mPos.z += offset->z;
         i++;
     } while (i < balloonCount);
 }
@@ -968,8 +968,8 @@ void InitKartBalloons(KartBalloonsObject *kartBalloonsObject) {
         }
         for (i = 0; i < kartCount; i++) {
             kartBalloons = &kartBalloonsObject->mKartBalloons[i];
-            if (kartBalloonsObject->mUnk_000.mCourseMapRow->mUnk_2c != 0) {
-                kartBalloons->mBalloonNsbtpFrameIndex = kartBalloonsObject->mUnk_000.mCourseMapRow->mUnk_2c;
+            if (kartBalloonsObject->mMapObject.mCourseMapRow->mUnk_2c != 0) {
+                kartBalloons->mBalloonNsbtpFrameIndex = kartBalloonsObject->mMapObject.mCourseMapRow->mUnk_2c;
             } else {
                 switch (gRaceSetup->mCurrentEntries[(u16) i].mPlayer.mTeamIndex) {
                     case 0:
@@ -1002,7 +1002,7 @@ void InitKartBalloons(KartBalloonsObject *kartBalloonsObject) {
         SetStandingsEndCallback(BalloonEndCallback);
         SetStandingsKartOffsetCallback(BalloonKartOffsetCallback);
     } else {
-        ParkMapObject(&kartBalloonsObject->mUnk_000);
+        ParkMapObject(&kartBalloonsObject->mMapObject);
     }
 }
 
@@ -1033,11 +1033,11 @@ void UpdateKartBalloons(void *mapObjectList, KartBalloonsObject *kartBalloonsObj
             KartBalloons *kartBalloons = &kartBalloonsObject->mKartBalloons[i];
             GetKart((u16) i);
             kartBalloons->mState = 1;
-            if (kartBalloonsObject->mUnk_000.mCourseMapRow->mUnk_28 != 0 ||
-                kartBalloonsObject->mUnk_000.mCourseMapRow->mUnk_2a != 0) {
-                kartBalloons->mRemainingSpawnCount = kartBalloonsObject->mUnk_000.mCourseMapRow->mUnk_28;
-                AddBalloonsLeftToMake(i, kartBalloonsObject->mUnk_000.mCourseMapRow->mUnk_28 +
-                                             kartBalloonsObject->mUnk_000.mCourseMapRow->mUnk_2a);
+            if (kartBalloonsObject->mMapObject.mCourseMapRow->mUnk_28 != 0 ||
+                kartBalloonsObject->mMapObject.mCourseMapRow->mUnk_2a != 0) {
+                kartBalloons->mRemainingSpawnCount = kartBalloonsObject->mMapObject.mCourseMapRow->mUnk_28;
+                AddBalloonsLeftToMake(i, kartBalloonsObject->mMapObject.mCourseMapRow->mUnk_28 +
+                                             kartBalloonsObject->mMapObject.mCourseMapRow->mUnk_2a);
             } else {
                 kartBalloons->mRemainingSpawnCount = 1;
                 AddBalloonsLeftToMake(i, 5);
@@ -1197,10 +1197,10 @@ void UpdateKartBalloons(void *mapObjectList, KartBalloonsObject *kartBalloonsObj
                 SetBalloonTargetPosAndVelocity(balloon, &balloonPos, &kart->mVelocity);
                 SetBalloonKartIndex(balloon, i);
                 SetBalloonDrawCountAndList(balloon, 1, NULL);
-                balloon->mUnk_00.mFlags &= ~4;
-                balloon->mUnk_00.mFlags &= ~2;
-                balloon->mUnk_00.mFlags &= ~8;
-                balloon->mUnk_00.mAlpha = 0x1f;
+                balloon->mMapObject.mFlags &= ~4;
+                balloon->mMapObject.mFlags &= ~2;
+                balloon->mMapObject.mFlags &= ~8;
+                balloon->mMapObject.mAlpha = 0x1f;
             }
         } else {
             balloonCount = GetBalloonOrShineCount(i) + (IsKartInflatingBalloon(i) != 0 ? 1 : 0);
@@ -1210,15 +1210,15 @@ void UpdateKartBalloons(void *mapObjectList, KartBalloonsObject *kartBalloonsObj
                 SetBalloonKartIndex(balloon, i);
                 if (j == 0) {
                     SetBalloonDrawCountAndList(balloon, balloonCount, kartBalloons->mBalloons);
-                    balloon->mUnk_00.mFlags &= ~4;
-                    balloon->mUnk_00.mFlags &= ~2;
-                    balloon->mUnk_00.mFlags &= ~8;
-                    balloon->mUnk_00.mAlpha = 0x1f;
+                    balloon->mMapObject.mFlags &= ~4;
+                    balloon->mMapObject.mFlags &= ~2;
+                    balloon->mMapObject.mFlags &= ~8;
+                    balloon->mMapObject.mAlpha = 0x1f;
                 } else {
                     SetBalloonDrawCountAndList(balloon, 0, NULL);
-                    balloon->mUnk_00.mFlags |= data_02156794;
-                    balloon->mUnk_00.mFlags |= data_02156798;
-                    balloon->mUnk_00.mFlags |= data_0215679c;
+                    balloon->mMapObject.mFlags |= data_02156794;
+                    balloon->mMapObject.mFlags |= data_02156798;
+                    balloon->mMapObject.mFlags |= data_0215679c;
                 }
             }
         }

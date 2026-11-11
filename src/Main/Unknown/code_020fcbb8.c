@@ -25,8 +25,8 @@ void SteerItemKouraWToKartForward(ItemKouraW *item, s32 gain, s32 lift) {
     kart = item->mKartItems->mKart;
     onBoostSurface = (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE) ? 1 : 0;
     item->mKartForward = kart->mSignedTurnedForward;
-    pos = &item->mUnk_000.mUnk_000.mUnk_000.mPos;
-    velocity = &item->mUnk_000.mUnk_000.mUnk_000.mVelocity;
+    pos = &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos;
+    velocity = &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity;
     if (kart->mUnk_44 & KART_44_REVERSING) {
         item->mKartForward.x = -item->mKartForward.x;
         item->mKartForward.y = -item->mKartForward.y;
@@ -50,8 +50,8 @@ void SteerItemKouraWToKartForward(ItemKouraW *item, s32 gain, s32 lift) {
         return;
     }
     if (CollideSphereWithCourse(
-            pos, &item->mUnk_000.mUnk_000.mUnk_000.mPrevPos, 0, item->mUnk_000.mUnk_000.mUnk_000.mCourseRadius, 4,
-            item->mUnk_000.mUnk_000.mUnk_000.mCollisionSlotIndex, &v, NULL, NULL, NULL, NULL, NULL, NULL, NULL) == 0) {
+            pos, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPrevPos, 0, item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCourseRadius, 4,
+            item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionSlotIndex, &v, NULL, NULL, NULL, NULL, NULL, NULL, NULL) == 0) {
         return;
     }
     VEC_Add(pos, &v, pos);
@@ -73,22 +73,22 @@ BOOL TrySetItemKouraWKartItems(ItemKouraW *item, s32 kartIndex) {
     }
     kartItems = &(gKartItems)[kartIndex];
     kartPos = &kart->mDrawMatrixPos;
-    if (kartItems->mItemLink.mLink != item->mUnk_000.mTargetLink.mLink) {
+    if (kartItems->mItemLink.mLink != item->mLinkFollowingItemObject.mTargetLink.mLink) {
         shortRange =
-            ((item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x40000000) || (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE)) ? 1
+            ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) || (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE)) ? 1
                                                                                                                    : 0;
-        VEC_Subtract(kartPos, &item->mUnk_000.mUnk_000.mUnk_000.mPos, &kartOffset);
+        VEC_Subtract(kartPos, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos, &kartOffset);
         offsetX = kartOffset.x >> 12;
         offsetZ = kartOffset.z >> 12;
         if (offsetX * offsetX + offsetZ * offsetZ > (shortRange ? 0x9c40 : 0x27100)) {
             return FALSE;
         }
-        normalDistance = Vec3DotUnrounded(&item->mUnk_000.mUnk_000.mUnk_000.mNormal, &kartOffset) >> 12;
+        normalDistance = Vec3DotUnrounded(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mNormal, &kartOffset) >> 12;
         if (normalDistance * normalDistance > 0x9c4) {
             return FALSE;
         }
     }
-    if (item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x10000000) {
+    if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x10000000) {
         return FALSE;
     }
     item->mKartItems = kartItems;

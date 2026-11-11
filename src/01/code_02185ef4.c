@@ -983,9 +983,9 @@ s32 CollideKartWithMissionRunMapObject(Unk02188950 *mapObject, Kart *kart, u8 *c
 
     mode = *c;
     mapObject->mUnk_2d8 = *d;
-    mapObject->mUnk_000.mUnk_10.x = 0;
-    mapObject->mUnk_000.mUnk_10.y = 0;
-    mapObject->mUnk_000.mUnk_10.z = 0;
+    mapObject->mUnk_000.mPosStep.x = 0;
+    mapObject->mUnk_000.mPosStep.y = 0;
+    mapObject->mUnk_000.mPosStep.z = 0;
     if (mode == 1) {
         awayDirection.x = mapObject->mUnk_000.mPos.x - kart->mPos.x;
         awayDirection.y = 0;
@@ -995,9 +995,9 @@ s32 CollideKartWithMissionRunMapObject(Unk02188950 *mapObject, Kart *kart, u8 *c
             16) {
             Vec3NormalizeAndGetLengthUnchecked(&awayDirection, &awayDirection);
             pushStrength = -mapObject->mPrm->mUnk_024;
-            mapObject->mUnk_000.mUnk_10.x = MUL_FIXED12_NO_ROUND(awayDirection.x, pushStrength);
-            mapObject->mUnk_000.mUnk_10.y = MUL_FIXED12_NO_ROUND(awayDirection.y, pushStrength);
-            mapObject->mUnk_000.mUnk_10.z = MUL_FIXED12_NO_ROUND(awayDirection.z, pushStrength);
+            mapObject->mUnk_000.mPosStep.x = MUL_FIXED12_NO_ROUND(awayDirection.x, pushStrength);
+            mapObject->mUnk_000.mPosStep.y = MUL_FIXED12_NO_ROUND(awayDirection.y, pushStrength);
+            mapObject->mUnk_000.mPosStep.z = MUL_FIXED12_NO_ROUND(awayDirection.z, pushStrength);
             VEC_MultAdd(mapObject->mPrm->mUnk_028, &awayDirection, &mapObject->mVelocity, &mapObject->mVelocity);
         }
         collisionCallback = mapObject->mKartCollisionCallback;

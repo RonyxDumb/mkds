@@ -18,8 +18,8 @@ void SteerItemKouraWToAnglePoint(ItemKouraW *item, s32 maxStep, s32 angle, s32 r
 
     kart = item->mKartItems->mKart;
     item->mKartForward = kart->mSignedTurnedForward;
-    pos = &item->mUnk_000.mUnk_000.mUnk_000.mPos;
-    velocity = &item->mUnk_000.mUnk_000.mUnk_000.mVelocity;
+    pos = &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos;
+    velocity = &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity;
     toTarget = &item->mToTarget;
     if (kart->mUnk_44 & KART_44_REVERSING) {
         item->mKartForward.x = -item->mKartForward.x;
@@ -55,8 +55,8 @@ void SteerItemKouraWToAnglePoint(ItemKouraW *item, s32 maxStep, s32 angle, s32 r
     velocity->z = (velocity->z * oldWeight + t.z) >> shift;
     VEC_Add(velocity, pos, pos);
     if (CollideSphereWithCourse(
-            pos, &item->mUnk_000.mUnk_000.mUnk_000.mPrevPos, 0, item->mUnk_000.mUnk_000.mUnk_000.mCourseRadius, 4,
-            item->mUnk_000.mUnk_000.mUnk_000.mCollisionSlotIndex, &t, NULL, NULL, NULL, NULL, NULL, NULL, NULL) == 0) {
+            pos, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPrevPos, 0, item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCourseRadius, 4,
+            item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionSlotIndex, &t, NULL, NULL, NULL, NULL, NULL, NULL, NULL) == 0) {
         return;
     }
     if ((kart->mUnk_48 & KART_48_ON_BOOST_SURFACE) == 0) {

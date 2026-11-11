@@ -36,9 +36,9 @@ void InitMkdEfBubble(MkdEfBubbleObject *bubble, CourseMapRow *row) {
     bubble->mDelayFrameCount = row->mUnk_28;
     bubble->mInitialY = bubble->mMapObject.mPos.y;
     bubble->mBottomY = bubble->mMapObject.mPos.y - 0x10000;
-    bubble->mMapObject.mUnk_10.x = 0;
-    bubble->mMapObject.mUnk_10.y = 0;
-    bubble->mMapObject.mUnk_10.z = 0;
+    bubble->mMapObject.mPosStep.x = 0;
+    bubble->mMapObject.mPosStep.y = 0;
+    bubble->mMapObject.mPosStep.z = 0;
     bubble->mAngleZ = 0;
     bubble->mMapObject.mStateMachine.mNextState = 0;
     bubble->mMapObject.mStateMachine.mNextStateRequested = 1;
@@ -76,23 +76,23 @@ void UpdateGroupItemBoxHeightOffset(void) {
 }
 
 void UpdateGroupItemBox(void *unused, ItemBox *itemBox) {
-    if (itemBox->mFollower.mUnk_00.mGroupIndex != 0xffff) {
+    if (itemBox->mFollower.mGroupFollower.mGroupIndex != 0xffff) {
         if (AdvanceGroupFollowerWithSpeeds(&itemBox->mFollower) != 0) {
-            if (itemBox->mFollower.mUnk_00.mFromEntry->mUnk_10 != 0) {
+            if (itemBox->mFollower.mGroupFollower.mFromEntry->mUnk_10 != 0) {
                 SetupGroupFollowerWithSpeeds(&itemBox->mFollower, 0, 1);
             }
         }
-        GetGroupFollowerCurvePosition(&itemBox->mFollower.mUnk_00, &itemBox->mUnk_000.mPos);
-        if (itemBox->mFollower.mUnk_00.mFromEntry->mUnk_0d != 0 && itemBox->mFollower.mUnk_00.mToEntry->mUnk_0d != 0) {
-            itemBox->mUnk_000.mFlags |= data_021586d4;
+        GetGroupFollowerCurvePosition(&itemBox->mFollower.mGroupFollower, &itemBox->mMapObject.mPos);
+        if (itemBox->mFollower.mGroupFollower.mFromEntry->mUnk_0d != 0 && itemBox->mFollower.mGroupFollower.mToEntry->mUnk_0d != 0) {
+            itemBox->mMapObject.mFlags |= data_021586d4;
         } else {
-            itemBox->mUnk_000.mFlags &= ~0x20;
+            itemBox->mMapObject.mFlags &= ~0x20;
         }
-        itemBox->mUnk_000.mPos.y += gGroupItemBoxHeightOffset;
-        itemBox->mUnk_000.mPos.y += 0x10000;
+        itemBox->mMapObject.mPos.y += gGroupItemBoxHeightOffset;
+        itemBox->mMapObject.mPos.y += 0x10000;
     }
     if (itemBox->mShadowMode == 0) {
-        SetShadowPositionXZ(&itemBox->mUnk_0b4, &itemBox->mUnk_000.mPos);
+        SetShadowPositionXZ(&itemBox->mUnk_0b4, &itemBox->mMapObject.mPos);
     }
     UpdateItemBox(unused, itemBox);
 }

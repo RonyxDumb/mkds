@@ -18,7 +18,7 @@ typedef struct Unk0209d694_bc {
 // Object of StartSunFireball: after the shared part, a halfword at 0xa0, a counter at 0xa4, a position at 0xa8, a
 // halfword at 0xb4, a state at 0xb8 and two objects at 0xbc and 0xc0.
 typedef struct SunFireball {
-    /* 00 */ MapObject mUnk_00;
+    /* 00 */ MapObject mMapObject;
     /* a0 */ u16 mTimer;
     /* a2 */ u8 mUnk_a2[2];
     /* a4 */ s32 mState0Timer;

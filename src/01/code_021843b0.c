@@ -164,14 +164,14 @@ void func_ov001_021843b0(Unk02188950 *donketu, Kart *kart) {
                 StartEffectAtRowHeight(donketu, -0x11ec, 0, 0x1800, 0x445, 0);
                 StartEffectAtRowHeight(donketu, 0x11ec, 0, 0x1800, 0x445, 0);
             }
-            donketu->mUnk_000.mUnk_10.x =
+            donketu->mUnk_000.mPosStep.x =
                 MUL_FIXED12_NO_ROUND(donketu->mPrm->mUnk_1b8, gPairsByAngle[((u16) donketu->mMoveAngle >> 4) * 2]);
-            donketu->mUnk_000.mUnk_10.y = 0;
-            donketu->mUnk_000.mUnk_10.z =
+            donketu->mUnk_000.mPosStep.y = 0;
+            donketu->mUnk_000.mPosStep.z =
                 MUL_FIXED12_NO_ROUND(donketu->mPrm->mUnk_1b8, gPairsByAngle[((u16) donketu->mMoveAngle >> 4) * 2 + 1]);
-            donketu->mUnk_000.mPos.x -= donketu->mUnk_000.mUnk_10.x;
-            donketu->mUnk_000.mPos.y -= donketu->mUnk_000.mUnk_10.y;
-            donketu->mUnk_000.mPos.z -= donketu->mUnk_000.mUnk_10.z;
+            donketu->mUnk_000.mPos.x -= donketu->mUnk_000.mPosStep.x;
+            donketu->mUnk_000.mPos.y -= donketu->mUnk_000.mPosStep.y;
+            donketu->mUnk_000.mPos.z -= donketu->mUnk_000.mPosStep.z;
         }
     } else if (func_ov001_021871f8(donketu, 7)) {
         if (donketu->mPrm->mUnk_18c > 0 || donketu->mPrm->mUnk_190 > 0) {
@@ -187,14 +187,14 @@ void func_ov001_021843b0(Unk02188950 *donketu, Kart *kart) {
             SetStoppedCallback(donketu, func_ov001_02184cc8);
             SetSpeedAndClearTarget(donketu, 0);
         }
-        donketu->mUnk_000.mUnk_10.x =
+        donketu->mUnk_000.mPosStep.x =
             MUL_FIXED12_NO_ROUND(donketu->mPrm->mUnk_19c, gPairsByAngle[((u16) donketu->mMoveAngle >> 4) * 2]);
-        donketu->mUnk_000.mUnk_10.y = 0;
-        donketu->mUnk_000.mUnk_10.z =
+        donketu->mUnk_000.mPosStep.y = 0;
+        donketu->mUnk_000.mPosStep.z =
             MUL_FIXED12_NO_ROUND(donketu->mPrm->mUnk_19c, gPairsByAngle[((u16) donketu->mMoveAngle >> 4) * 2 + 1]);
-        donketu->mUnk_000.mPos.x -= donketu->mUnk_000.mUnk_10.x;
-        donketu->mUnk_000.mPos.y -= donketu->mUnk_000.mUnk_10.y;
-        donketu->mUnk_000.mPos.z -= donketu->mUnk_000.mUnk_10.z;
+        donketu->mUnk_000.mPos.x -= donketu->mUnk_000.mPosStep.x;
+        donketu->mUnk_000.mPos.y -= donketu->mUnk_000.mPosStep.y;
+        donketu->mUnk_000.mPos.z -= donketu->mUnk_000.mPosStep.z;
         donketu->mUnk_000.mDistanceSquaredAndFlags |= data_ov001_021a657c;
         StartMapObjectSound(&donketu->mUnk_000, 0x213);
     }

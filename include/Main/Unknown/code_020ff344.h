@@ -13,12 +13,12 @@
 
 // Object of InitMissionRunBoxMapObject: 0x144 bytes.
 typedef struct Unk020ff97c {
-    /* 000 */ CollisionMapObject mUnk_000;
+    /* 000 */ CollisionMapObject mCollisionMapObject;
 } Unk020ff97c;
 
 // Object of item kind 7, element of gItemPools[7].
 typedef struct ItemFBox {
-    /* 000 */ BouncingItemObject mUnk_000;
+    /* 000 */ BouncingItemObject mBouncingItemObject;
     /* 130 */ Vec3 mPushDirection;
     /* 13c */ s32 mThrownForward;
     /* 140 */ ItemBox *mPooledMapObject;

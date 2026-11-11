@@ -931,21 +931,21 @@ void InitDistanceSoundObjects(MapObjectList *mapObjectList) {
     for (i = 0; i < mapObjectList->mMapObjectCount && (mapObject = mapObjectList->mMapObjects[i]) != NULL; i++) {
         if (gRaceSetup->mCourseId == COURSE_ID_MANSION) {
             mapObject->mRadius = 0xa28;
-            mapObject->mCenterX = mapObject->mUnk_00.mPos.x + 0x73a000;
-            mapObject->mCenterY = mapObject->mUnk_00.mPos.y;
-            mapObject->mCenterZ = mapObject->mUnk_00.mPos.z - 0x1400000;
+            mapObject->mCenterX = mapObject->mMapObject.mPos.x + 0x73a000;
+            mapObject->mCenterY = mapObject->mMapObject.mPos.y;
+            mapObject->mCenterZ = mapObject->mMapObject.mPos.z - 0x1400000;
             mapObject->mDistanceLevelInverted = TRUE;
         } else if (gRaceSetup->mCourseId == COURSE_ID_BEACH) {
             mapObject->mRadius = 0x546;
-            mapObject->mCenterX = mapObject->mUnk_00.mPos.x + 0x28a000;
-            mapObject->mCenterY = mapObject->mUnk_00.mPos.y;
-            mapObject->mCenterZ = mapObject->mUnk_00.mPos.z - 0x32000;
+            mapObject->mCenterX = mapObject->mMapObject.mPos.x + 0x28a000;
+            mapObject->mCenterY = mapObject->mMapObject.mPos.y;
+            mapObject->mCenterZ = mapObject->mMapObject.mPos.z - 0x32000;
             mapObject->mDistanceLevelInverted = FALSE;
         } else {
             mapObject->mRadius = 0xa28;
-            mapObject->mCenterX = mapObject->mUnk_00.mPos.x;
-            mapObject->mCenterY = mapObject->mUnk_00.mPos.y;
-            mapObject->mCenterZ = mapObject->mUnk_00.mPos.z;
+            mapObject->mCenterX = mapObject->mMapObject.mPos.x;
+            mapObject->mCenterY = mapObject->mMapObject.mPos.y;
+            mapObject->mCenterZ = mapObject->mMapObject.mPos.z;
             mapObject->mDistanceLevelInverted = FALSE;
         }
         randomState = &gRaceProgress->mLocalRandom;

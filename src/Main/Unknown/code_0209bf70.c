@@ -50,11 +50,11 @@
 #include "Main/Unknown/code_02077bc0.h"
 
 void InitSun(Sun *sun) {
-    InitGroupFollower(&sun->mUnk_0b8, sun->mUnk_000.mCourseMapRow, 0);
+    InitGroupFollower(&sun->mUnk_0b8, sun->mMapObject.mCourseMapRow, 0);
     CreateParkedMapObjects(MAP_OBJECT_KIND_SUN_FIREBALL, 0x1e, sun);
-    sun->mUnk_000.mUnk_10.x = 0;
-    sun->mUnk_000.mUnk_10.y = 0;
-    sun->mUnk_000.mUnk_10.z = 0;
+    sun->mMapObject.mPosStep.x = 0;
+    sun->mMapObject.mPosStep.y = 0;
+    sun->mMapObject.mPosStep.z = 0;
 }
 
 void CreateSunAndSunLOD(void *a) {
@@ -76,7 +76,7 @@ void DrawSun(void *a, Unk0209d3fc *b) {
 
     s = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &s, 1);
-    NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&b->mUnk_00.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&b->mMapObject.mPos), 0xc);
     if (b->mState == 3 || b->mState == 4) {
         t = MUL_FIXED12_NO_ROUND(gPairsByAngle[((u16) b->mUnk_ac >> 4) * 2 + 1], -0x14000) + 0x14000;
         k = (b->mUnk_b0 >> 4) * 2;
@@ -85,12 +85,12 @@ void DrawSun(void *a, Unk0209d3fc *b) {
         v.z = 0;
         NNS_G3dGeBufferOP_N(0x1c, &v, 3);
     }
-    NNS_G3dGeBufferOP_N(0x1b, &b->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &b->mMapObject.mScale, 3);
     if (GetCurrentCameraKind() == 2) {
         QueueMapObjectModelMaterial(a, gSun);
         SetMapObjectModelNsbcaFrameIndex(gSun, b->mNsbcaFrameIndex);
         DrawMapObjectModel(a, gSun, b);
-    } else if ((s32) (b->mUnk_00.mDistanceSquaredAndFlags & 0x3fffffe0) < 0x3d0900) {
+    } else if ((s32) (b->mMapObject.mDistanceSquaredAndFlags & 0x3fffffe0) < 0x3d0900) {
         QueueMapObjectModelMaterial(a, gSun);
         SetMapObjectModelNsbcaFrameIndex(gSun, b->mNsbcaFrameIndex);
         DrawMapObjectModel(a, gSun, b);
@@ -114,9 +114,9 @@ void InitSunObjects(MapObjectList *mapObjectList) {
     }
     for (i = 0; i < mapObjectList->mMapObjectCount && (sun = mapObjectList->mMapObjects[i]) != NULL; i++) {
         if (gRaceSetup->mMode == MODE_TIME_ATTACK) {
-            sun->mTimer = (u16) sun->mUnk_000.mCourseMapRow->mUnk_28;
+            sun->mTimer = (u16) sun->mMapObject.mCourseMapRow->mUnk_28;
         } else if (gRaceSetup->mMode == 5) {
-            sun->mTimer = (u16) sun->mUnk_000.mCourseMapRow->mUnk_2a;
+            sun->mTimer = (u16) sun->mMapObject.mCourseMapRow->mUnk_2a;
         }
     }
 }
@@ -142,8 +142,8 @@ static inline BOOL UpdateSun_inline_b(Sun *sun) {
     for (i = 0; i < gRaceSetup->mKartCount; i++) {
         kart = GetKart((u16) i);
         q = &kart->mPos;
-        x = q->x - sun->mUnk_000.mPos.x;
-        z = q->z - sun->mUnk_000.mPos.z;
+        x = q->x - sun->mMapObject.mPos.x;
+        z = q->z - sun->mMapObject.mPos.z;
         if ((s64) x * x + (s64) z * z < 0x15f900000000LL) {
             return TRUE;
         }
@@ -159,7 +159,7 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
 
     switch (sun->mState) {
         case 0:
-            if (sun->mUnk_000.mFlags & 0x800) {
+            if (sun->mMapObject.mFlags & 0x800) {
                 if (sun->mTimer-- <= 0) {
                     sun->mState = 1;
                 }
@@ -172,7 +172,7 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
             sun->mUnk_0b8.mProgressStep = MUL_FIXED12_NO_ROUND(
                 sun->mUnk_0b8.mPath->mSegments[sun->mUnk_0b8.mSegmentIndex].mInverseProgressLength, 0x3c000);
             if (AdvanceGroupFollower(&sun->mUnk_0b8) != FALSE && (t = sun->mUnk_0b8.mFromEntry->mUnk_0e) != 0) {
-                if (sun->mUnk_000.mFlags & 0x800) {
+                if (sun->mMapObject.mFlags & 0x800) {
                     k = gRaceSetup->mMode;
                     if (k == MODE_TIME_ATTACK) {
                         sun->mTimer = t;
@@ -182,10 +182,10 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
                 }
                 sun->mState = 2;
             }
-            GetGroupFollowerLinearPosition(&sun->mUnk_0b8, &sun->mUnk_000.mPos);
+            GetGroupFollowerLinearPosition(&sun->mUnk_0b8, &sun->mMapObject.mPos);
             break;
         case 2:
-            if (sun->mUnk_000.mFlags & 0x800) {
+            if (sun->mMapObject.mFlags & 0x800) {
                 if (sun->mTimer-- <= 0) {
                     sun->mUnk_0b0 = 0;
                     sun->mUnk_0ac = sun->mUnk_0b0;
@@ -212,9 +212,9 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
             } else {
                 sun->mUnk_0a4 += 0x8000;
             }
-            position.x = sun->mUnk_000.mPos.x;
-            position.y = sun->mUnk_000.mPos.y - 0x1e000;
-            position.z = sun->mUnk_000.mPos.z;
+            position.x = sun->mMapObject.mPos.x;
+            position.y = sun->mMapObject.mPos.y - 0x1e000;
+            position.z = sun->mMapObject.mPos.z;
             direction.x = gPairsByAngle[(sun->mUnk_0a4 >> 4) * 2];
             direction.y = 0;
             direction.z = gPairsByAngle[(sun->mUnk_0a4 >> 4) * 2 + 1];
@@ -236,7 +236,7 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
             }
             break;
     }
-    if ((s32) (sun->mUnk_000.mDistanceSquaredAndFlags & ~0xc000001f) >= 0x3d0900) {
+    if ((s32) (sun->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f) >= 0x3d0900) {
         return;
     }
     if (sun->mState == 3) {
@@ -267,9 +267,9 @@ void CreateSunUpdateList(void) {
 }
 
 void InitBound(Bound *bound) {
-    bound->mUnk_000.mFlags |= data_usa_021565d4;
-    RefreshMapObjectMatrixFromHitNormal(&bound->mUnk_000);
-    bound->mInitialScaleX = bound->mUnk_000.mScale.x;
+    bound->mMapObject.mFlags |= data_usa_021565d4;
+    RefreshMapObjectMatrixFromHitNormal(&bound->mMapObject);
+    bound->mInitialScaleX = bound->mMapObject.mScale.x;
 }
 
 // Shared by Bound, Cream and Berry: sets the object's motion from the Kart, starts the wobble and plays a sound.
@@ -287,7 +287,7 @@ s32 CollideKartWithBound(Bound *bound, Kart *kart, u8 *b, u8 *c) {
     d = *c;
     if (e == 3 || e == 4) {
         if (bound->mKartTimers[kart->mIndex] == 0) {
-            VEC_Subtract(&kart->mPos, &bound->mUnk_000.mPos, &v2);
+            VEC_Subtract(&kart->mPos, &bound->mMapObject.mPos, &v2);
             t = VEC_DotProduct(&kart->mVelocityDirection, &v2);
             v0.x = MUL_FIXED12_NO_ROUND(kart->mVelocityDirection.x, t);
             v0.y = MUL_FIXED12_NO_ROUND(kart->mVelocityDirection.y, t);
@@ -295,34 +295,34 @@ s32 CollideKartWithBound(Bound *bound, Kart *kart, u8 *b, u8 *c) {
             v1.x = v2.x - v0.x;
             v1.y = v2.y - v0.y;
             v1.z = v2.z - v0.z;
-            t = VEC_DotProduct(&bound->mUnk_000.mMatrix.mUnk_00[1], &v1);
-            v0.x = MUL_FIXED12_NO_ROUND(bound->mUnk_000.mMatrix.mUnk_00[1].x, t);
-            v0.y = MUL_FIXED12_NO_ROUND(bound->mUnk_000.mMatrix.mUnk_00[1].y, t);
-            v0.z = MUL_FIXED12_NO_ROUND(bound->mUnk_000.mMatrix.mUnk_00[1].z, t);
+            t = VEC_DotProduct(&bound->mMapObject.mMatrix.mUnk_00[1], &v1);
+            v0.x = MUL_FIXED12_NO_ROUND(bound->mMapObject.mMatrix.mUnk_00[1].x, t);
+            v0.y = MUL_FIXED12_NO_ROUND(bound->mMapObject.mMatrix.mUnk_00[1].y, t);
+            v0.z = MUL_FIXED12_NO_ROUND(bound->mMapObject.mMatrix.mUnk_00[1].z, t);
             v1.x -= v0.x;
             v1.y -= v0.y;
             v1.z -= v0.z;
             if (LENGTH_SQUARED(v1) < 0x10) {
                 q = &kart->mUnk_120;
-                bound->mUnk_000.mUnk_10.x = MUL_FIXED12_NO_ROUND(kart->mUnk_120.x, 0xc000);
-                bound->mUnk_000.mUnk_10.y = MUL_FIXED12_NO_ROUND(q->y, 0xc000);
-                bound->mUnk_000.mUnk_10.z = MUL_FIXED12_NO_ROUND(q->z, 0xc000);
+                bound->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(kart->mUnk_120.x, 0xc000);
+                bound->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(q->y, 0xc000);
+                bound->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(q->z, 0xc000);
             } else {
                 Vec3NormalizeAndGetLengthUnchecked(&v1, &v1);
-                bound->mUnk_000.mUnk_10.x = MUL_FIXED12_NO_ROUND(v1.x, 0xc000);
-                bound->mUnk_000.mUnk_10.y = MUL_FIXED12_NO_ROUND(v1.y, 0xc000);
-                bound->mUnk_000.mUnk_10.z = MUL_FIXED12_NO_ROUND(v1.z, 0xc000);
+                bound->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(v1.x, 0xc000);
+                bound->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(v1.y, 0xc000);
+                bound->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(v1.z, 0xc000);
             }
-            VEC_Subtract(&v0, &bound->mUnk_000.mMatrix.mUnk_00[1], &v0);
-            VEC_MultAdd(0x19a, &v0, &bound->mUnk_000.mUnk_10, &bound->mUnk_000.mUnk_10);
+            VEC_Subtract(&v0, &bound->mMapObject.mMatrix.mUnk_00[1], &v0);
+            VEC_MultAdd(0x19a, &v0, &bound->mMapObject.mPosStep, &bound->mMapObject.mPosStep);
             bound->mKartTimers[kart->mIndex] = 0x1f;
             if (gRaceSetup->mMode == MODE_BATTLE) {
-                CallStandingsKartOffsetCallback(kart->mIndex, &bound->mUnk_000.mUnk_10);
+                CallStandingsKartOffsetCallback(kart->mIndex, &bound->mMapObject.mPosStep);
             }
         } else {
-            bound->mUnk_000.mUnk_10.x = 0;
-            bound->mUnk_000.mUnk_10.y = 0;
-            bound->mUnk_000.mUnk_10.z = 0;
+            bound->mMapObject.mPosStep.x = 0;
+            bound->mMapObject.mPosStep.y = 0;
+            bound->mMapObject.mPosStep.z = 0;
         }
         if (gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind != PLAYER_KIND_GHOST && bound->mWobbling == FALSE) {
             bound->mWobbleXAngle = 0x8000;
@@ -338,7 +338,7 @@ s32 CollideKartWithBound(Bound *bound, Kart *kart, u8 *b, u8 *c) {
             bound->mWobbleYAnglePerFrame = 0x1000;
             bound->mUnk_0f4 = 0;
             bound->mWobbling = TRUE;
-            switch (bound->mUnk_000.mKind) {
+            switch (bound->mMapObject.mKind) {
                 case MAP_OBJECT_KIND_CREAM:
                     StartSoundFullVolumeWrapper(kart, 0x156);
                     break;
@@ -349,11 +349,11 @@ s32 CollideKartWithBound(Bound *bound, Kart *kart, u8 *b, u8 *c) {
                     StartSoundFullVolumeWrapper(kart, 0x1cf);
                     break;
             }
-            if ((u16) (bound->mUnk_000.mKind + 0xfe4c) <= 1) {
+            if ((u16) (bound->mMapObject.mKind + 0xfe4c) <= 1) {
                 StartOrthoQuadsCreamEffect(
                     kart->mIndex,
                     (u16) (((u64) CollideKartWithBound_inline(&gRaceProgress->mLocalRandom) * 3) >> 32) + 1);
-                VEC_Subtract(&bound->mUnk_000.mPos, &kart->mCollisionCenter, &v3);
+                VEC_Subtract(&bound->mMapObject.mPos, &kart->mCollisionCenter, &v3);
                 if (!(LENGTH_SQUARED(v3) < 0x10)) {
                     Vec3NormalizeAndGetLengthUnchecked(&v3, &v3);
                 }
@@ -367,9 +367,9 @@ s32 CollideKartWithBound(Bound *bound, Kart *kart, u8 *b, u8 *c) {
         }
         return d;
     }
-    bound->mUnk_000.mUnk_10.x = 0;
-    bound->mUnk_000.mUnk_10.y = 0;
-    bound->mUnk_000.mUnk_10.z = 0;
+    bound->mMapObject.mPosStep.x = 0;
+    bound->mMapObject.mPosStep.y = 0;
+    bound->mMapObject.mPosStep.z = 0;
     return 2;
 }
 
@@ -392,21 +392,21 @@ u8 CollideItemObjectWithBound(Bound *bound, void *a, u8 *b, u8 *c) {
         bound->mWobbleYAnglePerFrame = 0x1000;
         bound->mUnk_0f4 = 0;
         bound->mWobbling = TRUE;
-        bound->mUnk_000.mDistanceSquaredAndFlags |= data_usa_021565d0;
+        bound->mMapObject.mDistanceSquaredAndFlags |= data_usa_021565d0;
     }
     return d;
 }
 
 BOOL ComputeSphereHitOnBound(Bound *bound, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *pushOut) {
-    if ((bound->mUnk_000.mFlags & 0x800) == 0 && bound->mWobbling == TRUE) {
+    if ((bound->mMapObject.mFlags & 0x800) == 0 && bound->mWobbling == TRUE) {
         bound->mSphereHit =
-            ComputeSphereHitOnRotatedCylinder(sphereCenter, &bound->mUnk_000.mPos, &bound->mUnk_000.mMatrix.mUnk_00[0],
-                                              MUL_FIXED12_NO_ROUND(bound->mUnk_000.mExtent.x, bound->mWobbleScaleX),
-                                              bound->mUnk_000.mExtent.y, 0, sphereRadius, pushOut);
+            ComputeSphereHitOnRotatedCylinder(sphereCenter, &bound->mMapObject.mPos, &bound->mMapObject.mMatrix.mUnk_00[0],
+                                              MUL_FIXED12_NO_ROUND(bound->mMapObject.mExtent.x, bound->mWobbleScaleX),
+                                              bound->mMapObject.mExtent.y, 0, sphereRadius, pushOut);
     } else {
         bound->mSphereHit = ComputeSphereHitOnRotatedCylinder(
-            sphereCenter, &bound->mUnk_000.mPos, &bound->mUnk_000.mMatrix.mUnk_00[0], bound->mUnk_000.mExtent.x,
-            bound->mUnk_000.mExtent.y, 0, sphereRadius, pushOut);
+            sphereCenter, &bound->mMapObject.mPos, &bound->mMapObject.mMatrix.mUnk_00[0], bound->mMapObject.mExtent.x,
+            bound->mMapObject.mExtent.y, 0, sphereRadius, pushOut);
     }
     return bound->mSphereHit != 0;
 }
@@ -423,10 +423,10 @@ void DrawBound(MapObjectList *mapObjectList, Bound *bound) {
 
     v[0] = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &v[0], 1);
-    bound->mUnk_000.mMatrix.mUnk_00[3].x = bound->mUnk_000.mPos.x >> 4;
-    bound->mUnk_000.mMatrix.mUnk_00[3].y = bound->mUnk_000.mPos.y >> 4;
-    bound->mUnk_000.mMatrix.mUnk_00[3].z = bound->mUnk_000.mPos.z >> 4;
-    NNS_G3dGeBufferOP_N(0x19, &bound->mUnk_000.mMatrix, 0xc);
+    bound->mMapObject.mMatrix.mUnk_00[3].x = bound->mMapObject.mPos.x >> 4;
+    bound->mMapObject.mMatrix.mUnk_00[3].y = bound->mMapObject.mPos.y >> 4;
+    bound->mMapObject.mMatrix.mUnk_00[3].z = bound->mMapObject.mPos.z >> 4;
+    NNS_G3dGeBufferOP_N(0x19, &bound->mMapObject.mMatrix, 0xc);
     if (bound->mWobbling == TRUE) {
         x = bound->mWobbleScaleX;
         y = bound->mWobbleScaleY;
@@ -435,7 +435,7 @@ void DrawBound(MapObjectList *mapObjectList, Bound *bound) {
         v[3] = x;
         NNS_G3dGeBufferOP_N(0x1b, &v[1], 3);
     }
-    NNS_G3dGeBufferOP_N(0x1b, &bound->mUnk_000.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &bound->mMapObject.mScale, 3);
     SetMapObjectModelNsbtpFrameIndex(gBound, bound->mNsbtpFrameIndex);
     DrawMapObjectModel(mapObjectList, gBound, bound);
 }
@@ -457,10 +457,10 @@ void DrawCream(MapObjectList *mapObjectList, Bound *bound) {
 
     v[0] = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &v[0], 1);
-    bound->mUnk_000.mMatrix.mUnk_00[3].x = bound->mUnk_000.mPos.x >> 4;
-    bound->mUnk_000.mMatrix.mUnk_00[3].y = bound->mUnk_000.mPos.y >> 4;
-    bound->mUnk_000.mMatrix.mUnk_00[3].z = bound->mUnk_000.mPos.z >> 4;
-    NNS_G3dGeBufferOP_N(0x19, &bound->mUnk_000.mMatrix, 0xc);
+    bound->mMapObject.mMatrix.mUnk_00[3].x = bound->mMapObject.mPos.x >> 4;
+    bound->mMapObject.mMatrix.mUnk_00[3].y = bound->mMapObject.mPos.y >> 4;
+    bound->mMapObject.mMatrix.mUnk_00[3].z = bound->mMapObject.mPos.z >> 4;
+    NNS_G3dGeBufferOP_N(0x19, &bound->mMapObject.mMatrix, 0xc);
     if (bound->mWobbling == TRUE) {
         x = bound->mWobbleScaleX;
         y = bound->mWobbleScaleY;
@@ -469,7 +469,7 @@ void DrawCream(MapObjectList *mapObjectList, Bound *bound) {
         v[3] = x;
         NNS_G3dGeBufferOP_N(0x1b, &v[1], 3);
     }
-    NNS_G3dGeBufferOP_N(0x1b, &bound->mUnk_000.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &bound->mMapObject.mScale, 3);
     DrawMapObjectModel(mapObjectList, gCream, bound);
 }
 
@@ -480,10 +480,10 @@ void DrawBerry(MapObjectList *mapObjectList, Bound *bound) {
 
     v[0] = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &v[0], 1);
-    bound->mUnk_000.mMatrix.mUnk_00[3].x = bound->mUnk_000.mPos.x >> 4;
-    bound->mUnk_000.mMatrix.mUnk_00[3].y = bound->mUnk_000.mPos.y >> 4;
-    bound->mUnk_000.mMatrix.mUnk_00[3].z = bound->mUnk_000.mPos.z >> 4;
-    NNS_G3dGeBufferOP_N(0x19, &bound->mUnk_000.mMatrix, 0xc);
+    bound->mMapObject.mMatrix.mUnk_00[3].x = bound->mMapObject.mPos.x >> 4;
+    bound->mMapObject.mMatrix.mUnk_00[3].y = bound->mMapObject.mPos.y >> 4;
+    bound->mMapObject.mMatrix.mUnk_00[3].z = bound->mMapObject.mPos.z >> 4;
+    NNS_G3dGeBufferOP_N(0x19, &bound->mMapObject.mMatrix, 0xc);
     if (bound->mWobbling == TRUE) {
         x = bound->mWobbleScaleX;
         y = bound->mWobbleScaleY;
@@ -492,7 +492,7 @@ void DrawBerry(MapObjectList *mapObjectList, Bound *bound) {
         v[3] = x;
         NNS_G3dGeBufferOP_N(0x1b, &v[1], 3);
     }
-    NNS_G3dGeBufferOP_N(0x1b, &bound->mUnk_000.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &bound->mMapObject.mScale, 3);
     DrawMapObjectModel(mapObjectList, gBerry, bound);
 }
 
@@ -504,8 +504,8 @@ void InitBoundAndCreamAndBerryObjects(MapObjectList *mapObjectList) {
         return;
     }
     for (i = 0; i < mapObjectList->mMapObjectCount && (bound = mapObjectList->mMapObjects[i]) != NULL; i++) {
-        if (bound->mUnk_000.mCourseMapRow->mUnk_26 >= 0) {
-            InitGroupFollower(&bound->mUnk_0f8, bound->mUnk_000.mCourseMapRow, 0);
+        if (bound->mMapObject.mCourseMapRow->mUnk_26 >= 0) {
+            InitGroupFollower(&bound->mUnk_0f8, bound->mMapObject.mCourseMapRow, 0);
             bound->mUnk_0f8.mSpeed = 0x3000;
             bound->mUnk_0f8.mProgressStep = MUL_FIXED12_NO_ROUND(
                 bound->mUnk_0f8.mPath->mSegments[bound->mUnk_0f8.mSegmentIndex].mInverseProgressLength, 0x3000);
@@ -531,16 +531,16 @@ void UpdateBoundAndCreamAndBerry(MapObjectList *mapObjectList, Bound *bound) {
 
     if (bound->mUnk_0f8.mGroupIndex != 0xffff) {
         AdvanceGroupFollower(&bound->mUnk_0f8);
-        GetGroupFollowerCurvePosStep(&bound->mUnk_0f8, &bound->mUnk_000.mPos, &bound->mUnk_000.mUnk_10);
+        GetGroupFollowerCurvePosStep(&bound->mUnk_0f8, &bound->mMapObject.mPos, &bound->mMapObject.mPosStep);
         nsbtpFrameCount = GetMapObjectModelNsbtpFrameCount(gBound);
         bound->mNsbtpFrameIndex += 1;
         if (bound->mNsbtpFrameIndex >= nsbtpFrameCount) {
             bound->mNsbtpFrameIndex = 1;
         }
     } else {
-        bound->mUnk_000.mUnk_10.x = 0;
-        bound->mUnk_000.mUnk_10.y = 0;
-        bound->mUnk_000.mUnk_10.z = 0;
+        bound->mMapObject.mPosStep.x = 0;
+        bound->mMapObject.mPosStep.y = 0;
+        bound->mMapObject.mPosStep.z = 0;
         bound->mNsbtpFrameIndex = 0;
     }
     if (bound->mWobbling == TRUE) {
@@ -606,12 +606,12 @@ void UpdateBoundAndCreamAndBerry(MapObjectList *mapObjectList, Bound *bound) {
         }
         if (bound->mWobbleXAmplitude == 0 && bound->mWobbleYAmplitude == 0) {
             bound->mWobbling = FALSE;
-            bound->mUnk_000.mScale.x = bound->mInitialScaleX;
+            bound->mMapObject.mScale.x = bound->mInitialScaleX;
         } else {
-            bound->mUnk_000.mScale.x = MUL_FIXED12_NO_ROUND(bound->mInitialScaleX, bound->mWobbleScaleX);
+            bound->mMapObject.mScale.x = MUL_FIXED12_NO_ROUND(bound->mInitialScaleX, bound->mWobbleScaleX);
         }
     } else {
-        bound->mUnk_000.mScale.x = bound->mInitialScaleX;
+        bound->mMapObject.mScale.x = bound->mInitialScaleX;
     }
     kartCount = gRaceSetup->mKartCount;
     for (i = 0; i < kartCount; i++) {
@@ -679,18 +679,18 @@ BOOL StartBoundWobble(s32 a) {
         bound->mWobbleYAnglePerFrame = 0x1000;
         bound->mUnk_0f4 = 0;
         bound->mWobbling = TRUE;
-        if ((bound->mUnk_000.mDistanceSquaredAndFlags & 4) == 0) {
-            if (bound->mUnk_000.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+        if ((bound->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
+            if (bound->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
                 k = 2;
-            } else if (bound->mUnk_000.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+            } else if (bound->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
                 k = 3;
             } else {
                 k = 4;
             }
             s.mSoundId = 0x1cf;
-            s.mPositionSource = &bound->mUnk_000.mPos;
+            s.mPositionSource = &bound->mMapObject.mPos;
             s.mFalloffIndex = k;
-            s.mDistanceSquared = GetHorizontalCameraDistanceSquared(&bound->mUnk_000.mPos);
+            s.mDistanceSquared = GetHorizontalCameraDistanceSquared(&bound->mMapObject.mPos);
             StartSoundFromParams(&s);
         }
         return TRUE;

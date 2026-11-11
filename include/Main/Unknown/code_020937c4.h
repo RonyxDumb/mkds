@@ -10,7 +10,7 @@
 // Object of kind 0x1a2 (NsKiller2), pool objects: after the shared part, a counter at 0xa0, mMode at 0xa4 and an
 // object at 0xa8.
 typedef struct NsKiller2 {
-    /* 00 */ MapObject mUnk_00;
+    /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mParkTimer;
     /* a4 */ s32 mMode;
     /* a8 */ SoundDistanceSquaredChange *mSoundDistanceSquaredChange;
@@ -19,7 +19,7 @@ typedef struct NsKiller2 {
 // Object of kind 0x1a1 (NsKiller1), creates 20 NsKiller2 in its Init: after the shared part, a counter at 0xa0, a state
 // at 0xa8 and an GroupFollower at 0xac.
 typedef struct NsKiller1 {
-    /* 00 */ MapObject mUnk_00;
+    /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mStateTimer;
     /* a4 */ u8 mUnk_a4[4];
     /* State number of this kind's own per-frame switch in UpdateNsKiller1; this object does not use

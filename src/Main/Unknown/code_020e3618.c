@@ -45,13 +45,13 @@ void CreateBridge(void) {
 }
 
 void InitBridge(Bridge *bridge, struct CourseMapRow *courseRow) {
-    bridge->mUnk_000.mCollisionData.mUnk_e8 = bridge->mUnk_000.mMapObject.mPos;
-    bridge->mUnk_000.mCollisionData.mPrevMatrix = bridge->mUnk_000.mMapObject.mMatrix.mUnk_00_m;
-    bridge->mUnk_000.mCollisionData.mInitialMatrix = bridge->mUnk_000.mMapObject.mMatrix.mUnk_00_m;
-    bridge->mUnk_000.mCollisionData.mAngleChangeVector.x = 0;
-    bridge->mUnk_000.mCollisionData.mAngleChangeVector.y = 0;
-    bridge->mUnk_000.mCollisionData.mAngleChangeVector.z = 0;
-    bridge->mUnk_000.mCollisionData.mUnk_130 = 1;
+    bridge->mCollisionMapObject.mCollisionData.mUnk_e8 = bridge->mCollisionMapObject.mMapObject.mPos;
+    bridge->mCollisionMapObject.mCollisionData.mPrevMatrix = bridge->mCollisionMapObject.mMapObject.mMatrix.mUnk_00_m;
+    bridge->mCollisionMapObject.mCollisionData.mInitialMatrix = bridge->mCollisionMapObject.mMapObject.mMatrix.mUnk_00_m;
+    bridge->mCollisionMapObject.mCollisionData.mAngleChangeVector.x = 0;
+    bridge->mCollisionMapObject.mCollisionData.mAngleChangeVector.y = 0;
+    bridge->mCollisionMapObject.mCollisionData.mAngleChangeVector.z = 0;
+    bridge->mCollisionMapObject.mCollisionData.mUnk_130 = 1;
     bridge->mSwingAmplitude = ((courseRow->mUnk_28 * 0x10000) / 0x168) >> 1;
     bridge->mSwingAnglePerFrame = (0x10000 / courseRow->mUnk_2a) >> 1;
     bridge->mPeakPauseFrameCount = courseRow->mUnk_2c;
@@ -62,26 +62,26 @@ void InitBridge(Bridge *bridge, struct CourseMapRow *courseRow) {
         bridge->mSwingAnglePerFrame = 0;
         bridge->mSwingAngle = ((courseRow->mUnk_30 * 0x10000) / 0x168) >> 1;
     }
-    bridge->mUnk_000.mCollisionData.mUnk_100 = MUL_FIXED12_NO_ROUND(bridge->mUnk_000.mMapObject.mScale.x, 0x5a000);
-    bridge->mUnk_000.mCollisionData.mHalfSizeY =
-        MUL_FIXED12_NO_ROUND(bridge->mUnk_000.mMapObject.mScale.y, 0x1e000) >> 1;
-    bridge->mUnk_000.mCollisionData.mPositiveHalfSizeZ =
-        MUL_FIXED12_NO_ROUND(bridge->mUnk_000.mMapObject.mScale.z, 0x15e000);
-    bridge->mUnk_000.mCollisionData.mNegativeHalfSizeZ =
-        MUL_FIXED12_NO_ROUND(bridge->mUnk_000.mMapObject.mScale.z, 0x32000);
-    bridge->mUnk_000.mCollisionData.mUnk_110 = 0;
-    bridge->mUnk_000.mCollisionData.mUnk_114.x = 1;
-    bridge->mUnk_000.mCollisionData.mUnk_114.y = 0;
-    bridge->mUnk_000.mCollisionData.mUnk_114.z = 1;
-    bridge->mUnk_000.mCollisionData.mUnk_120 = 0x800;
-    bridge->mUnk_000.mCollisionData.mUnk_134 = COLLISION_SHAPE_BOX;
-    bridge->mUnk_000.mCollisionData.mUnk_138 = 0;
-    bridge->mUnk_000.mMapObject.mFlags |= data_02158c88;
-    bridge->mUnk_000.mMapObject.mFlags &= ~2;
-    bridge->mUnk_000.mMapObject.mFlags &= ~8;
-    bridge->mUnk_000.mMapObject.mAlpha = 0x1f;
+    bridge->mCollisionMapObject.mCollisionData.mUnk_100 = MUL_FIXED12_NO_ROUND(bridge->mCollisionMapObject.mMapObject.mScale.x, 0x5a000);
+    bridge->mCollisionMapObject.mCollisionData.mHalfSizeY =
+        MUL_FIXED12_NO_ROUND(bridge->mCollisionMapObject.mMapObject.mScale.y, 0x1e000) >> 1;
+    bridge->mCollisionMapObject.mCollisionData.mPositiveHalfSizeZ =
+        MUL_FIXED12_NO_ROUND(bridge->mCollisionMapObject.mMapObject.mScale.z, 0x15e000);
+    bridge->mCollisionMapObject.mCollisionData.mNegativeHalfSizeZ =
+        MUL_FIXED12_NO_ROUND(bridge->mCollisionMapObject.mMapObject.mScale.z, 0x32000);
+    bridge->mCollisionMapObject.mCollisionData.mUnk_110 = 0;
+    bridge->mCollisionMapObject.mCollisionData.mUnk_114.x = 1;
+    bridge->mCollisionMapObject.mCollisionData.mUnk_114.y = 0;
+    bridge->mCollisionMapObject.mCollisionData.mUnk_114.z = 1;
+    bridge->mCollisionMapObject.mCollisionData.mUnk_120 = 0x800;
+    bridge->mCollisionMapObject.mCollisionData.mUnk_134 = COLLISION_SHAPE_BOX;
+    bridge->mCollisionMapObject.mCollisionData.mUnk_138 = 0;
+    bridge->mCollisionMapObject.mMapObject.mFlags |= data_02158c88;
+    bridge->mCollisionMapObject.mMapObject.mFlags &= ~2;
+    bridge->mCollisionMapObject.mMapObject.mFlags &= ~8;
+    bridge->mCollisionMapObject.mMapObject.mAlpha = 0x1f;
     if (courseRow->mUnk_0c.y < 0) {
-        CreateMapObjectSoundSourceFalloff4(&bridge->mUnk_000.mMapObject);
+        CreateMapObjectSoundSourceFalloff4(&bridge->mCollisionMapObject.mMapObject);
     }
 }
 

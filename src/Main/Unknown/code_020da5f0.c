@@ -77,14 +77,14 @@ void UpdateKuriboState1(Kuribo *kuribo) {
             }
         }
     }
-    kuribo->mMapObject.mUnk_10.y -= 0x400;
-    kuribo->mMapObject.mPos.y += kuribo->mMapObject.mUnk_10.y;
+    kuribo->mMapObject.mPosStep.y -= 0x400;
+    kuribo->mMapObject.mPos.y += kuribo->mMapObject.mPosStep.y;
     probePos = kuribo->mMapObject.mPos;
     probePos.y += 0xa000;
     if (CollideSphereWithCourse(&probePos, NULL, 0, 0xa000, 8, -2, &correction, &surfaceNormal, NULL, &surfaceFlags,
                                 NULL, NULL, NULL, NULL) != 0) {
         VEC_Add(&kuribo->mMapObject.mPos, &correction, &kuribo->mMapObject.mPos);
-        kuribo->mMapObject.mUnk_10.y = 0;
+        kuribo->mMapObject.mPosStep.y = 0;
         if ((surfaceFlags & 0x1e34ef) != 0) {
             QuaternionFromYAxisToVec3(&surfaceNormal, &kuribo->mTargetOrientation);
             kuribo->mMapObject.mFlags &= ~1;
@@ -267,9 +267,9 @@ void ResetKuriboForItemBomb(Kuribo *kuribo) {
     kuribo->mOrientation = data_02158140;
     kuribo->mTargetOrientation = data_02158150;
     SetStateMachineState(&kuribo->mMapObject.mStateMachine, 1);
-    kuribo->mMapObject.mUnk_10.x = 0;
-    kuribo->mMapObject.mUnk_10.y = 0;
-    kuribo->mMapObject.mUnk_10.z = 0;
+    kuribo->mMapObject.mPosStep.x = 0;
+    kuribo->mMapObject.mPosStep.y = 0;
+    kuribo->mMapObject.mPosStep.z = 0;
 }
 
 #pragma thumb on

@@ -7,7 +7,7 @@
 
 // Object of kinds 0x1a8, 0x1b4 and 0x1b5 (Bound, Cream, Berry); mWobbling is set while its scale wobbles.
 typedef struct Bound {
-    /* 000 */ MapObject mUnk_000;
+    /* 000 */ MapObject mMapObject;
     /* 0a0 */ u16 mNsbtpFrameIndex;
     /* 0a2 */ u8 mUnk_0a2[2];
     /* 0a4 */ s32 mSphereHit;
@@ -42,7 +42,7 @@ typedef struct Bound {
 // Sun, kind 0x1ad: UpdateSun steps mState 0 to 4 and back; state 3 unparks a MAP_OBJECT_KIND_SUN_FIREBALL object twice
 // per cycle.
 typedef struct Sun {
-    /* 000 */ MapObject mUnk_000;
+    /* 000 */ MapObject mMapObject;
     /* 0a0 */ u32 mUnk_0a0;
     /* 0a4 */ u16 mUnk_0a4;
     /* 0a6 */ u8 mUnk_0a6[2];
@@ -71,7 +71,7 @@ void CreateBound(void *a);
 
 // The Sun object as DrawSun takes it: mState at 0xdc and mNsbcaFrameIndex at 0xb2.
 typedef struct Unk0209d3fc {
-    /* 00 */ MapObject mUnk_00;
+    /* 00 */ MapObject mMapObject;
     /* a0 */ u8 mUnk_a0[0xc];
     /* ac */ u32 mUnk_ac;
     /* b0 */ u16 mUnk_b0;

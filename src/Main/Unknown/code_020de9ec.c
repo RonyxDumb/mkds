@@ -35,12 +35,12 @@
 void InitGroupItemBox(ItemBox *itemBox, CourseMapRow *row) {
     InitItemBox(itemBox, row);
     if (itemBox->mNoCourseRow != 0) {
-        itemBox->mFollower.mUnk_00.mGroupIndex = (0x0000ffffu);
+        itemBox->mFollower.mGroupFollower.mGroupIndex = (0x0000ffffu);
         return;
     }
     InitGroupFollowerWithSpeeds(&itemBox->mFollower, row, *&data_02158908, row->mUnk_28);
     SetupGroupFollowerWithSpeeds(&itemBox->mFollower, row->mUnk_30, 1);
-    GetGroupFollowerCurvePosition(&itemBox->mFollower.mUnk_00, &itemBox->mUnk_000.mPos);
+    GetGroupFollowerCurvePosition(&itemBox->mFollower.mGroupFollower, &itemBox->mMapObject.mPos);
 }
 
 #pragma thumb off
@@ -145,10 +145,10 @@ void DrawBox(void *unused0, ItemBox *itemBox, void *unused1, u16 maxAlpha) {
     model->mPolygonAttributes = model->mPolygonAttributes & 0xffe0ffff;
     model->mPolygonAttributes = model->mPolygonAttributes | alpha << 16;
     if (itemBox->mPositionSource != NULL) {
-        if (itemBox->mUnk_000.mScale.z < 0x29) {
+        if (itemBox->mMapObject.mScale.z < 0x29) {
             return;
         }
-        DrawNsbmdModelWithMatrixAndMaxAlpha(gBox, &matrix, &itemBox->mUnk_000.mScale, 0, maxAlpha);
+        DrawNsbmdModelWithMatrixAndMaxAlpha(gBox, &matrix, &itemBox->mMapObject.mScale, 0, maxAlpha);
     } else {
         DrawNsbmdModelWithMatrixAndMaxAlpha(gBox, &matrix, NULL, 0, maxAlpha);
     }
@@ -173,7 +173,7 @@ void DrawQuestion(void *unused0, ItemBox *itemBox, void *unused1, u16 maxAlpha) 
     if (itemBox->mDrawMatrixCallback != NULL) {
         return;
     }
-    if ((s32) (itemBox->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0) > 0x27100) {
+    if ((s32) (itemBox->mMapObject.mDistanceSquaredAndFlags & 0x3fffffe0) > 0x27100) {
         if (GetEntryRaceEnded() == 0) {
             return;
         }
@@ -206,7 +206,7 @@ void DrawQuestion(void *unused0, ItemBox *itemBox, void *unused1, u16 maxAlpha) 
     polygonIdModel->mPolygonAttributes &= 0xc0ffffff;
     polygonIdModel->mPolygonAttributes |= polygonId << 24;
     DrawNsbmdModelWithMatrixAndMaxAlpha(gQuestion, &matrix,
-                                        itemBox->mPositionSource != NULL ? &itemBox->mUnk_000.mScale : 0, 0, maxAlpha);
+                                        itemBox->mPositionSource != NULL ? &itemBox->mMapObject.mScale : 0, 0, maxAlpha);
 }
 
 void SetupDrawItemBoxShadow(void) {
@@ -250,7 +250,7 @@ void DrawItemBoxShadow(void *unused, ItemBox *itemBox, u32 unusedArg, u32 maxAlp
         itemBox->mBoxAlpha = boxAlpha;
         itemBox->mQuestionAlpha = questionAlpha;
     }
-    if ((s32) (itemBox->mUnk_000.mDistanceSquaredAndFlags & ~0xc000001f) > 0x27100) {
+    if ((s32) (itemBox->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f) > 0x27100) {
         if (GetEntryRaceEnded() == 0) {
             return;
         }
@@ -276,9 +276,9 @@ void DrawItemBoxShadow(void *unused, ItemBox *itemBox, u32 unusedArg, u32 maxAlp
         DrawJgShadowWithMatrix(&gGroupItemBoxShadowScale, &gItemBoxShadowMatrix, (u16) n, maxAlpha);
         return;
     }
-    shadowScale.x = MUL_FIXED12_NO_ROUND(itemBox->mUnk_000.mScale.x, 0x1666);
-    shadowScale.y = MUL_FIXED12_NO_ROUND(itemBox->mUnk_000.mScale.y, 0x1666);
-    shadowScale.z = MUL_FIXED12_NO_ROUND(itemBox->mUnk_000.mScale.z, 0x1666);
+    shadowScale.x = MUL_FIXED12_NO_ROUND(itemBox->mMapObject.mScale.x, 0x1666);
+    shadowScale.y = MUL_FIXED12_NO_ROUND(itemBox->mMapObject.mScale.y, 0x1666);
+    shadowScale.z = MUL_FIXED12_NO_ROUND(itemBox->mMapObject.mScale.z, 0x1666);
     if (itemBox->mDrawMatrixCallback != NULL) {
         matrix = SetTranslationMatrixPos(itemBox->mPositionSource);
     } else {
@@ -308,7 +308,7 @@ void UpdateItemBox(void *unused, ItemBox *itemBox) {
     }
     itemBox->mFramesSinceHit = framesSinceHit + 1;
     if (framesSinceHit > 0x60) {
-        itemBox->mUnk_000.mFlags = itemBox->mUnk_000.mFlags & ~1;
+        itemBox->mMapObject.mFlags = itemBox->mMapObject.mFlags & ~1;
     }
 }
 
@@ -346,20 +346,20 @@ u8 CollideKartWithItemBox(ItemBox *itemBox, Kart *kart, void *firstResponsePtr, 
     }
     kindInMask = FALSE;
     itemBox->mFramesSinceHit = 0;
-    itemBox->mUnk_000.mFlags |= data_021585a4;
-    distanceBits = itemBox->mUnk_000.mDistanceSquaredAndFlags & 3;
+    itemBox->mMapObject.mFlags |= data_021585a4;
+    distanceBits = itemBox->mMapObject.mDistanceSquaredAndFlags & 3;
     playerKind = gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind;
     if ((u32) playerKind <= 3) {
         if (((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
             kindInMask = TRUE;
         }
     }
-    StartItemSlotAndEffects(&itemBox->mUnk_000.mPos, kart,
+    StartItemSlotAndEffects(&itemBox->mMapObject.mPos, kart,
                             kindInMask != FALSE ? itemBox->mForcedRowHumanGhostPeer : itemBox->mForcedRowCpu,
                             distanceBits, itemBox->mShortSpin);
-    if (itemBox->mNoCourseRow != 0 || itemBox->mUnk_000.mCourseMapRow->mUnk_32 != 0) {
+    if (itemBox->mNoCourseRow != 0 || itemBox->mMapObject.mCourseMapRow->mUnk_32 != 0) {
         itemBox->mFramesSinceHit = 0x80;
-        ParkMapObject(&itemBox->mUnk_000);
+        ParkMapObject(&itemBox->mMapObject);
     }
     return *secondResponsePtr;
 }
@@ -371,7 +371,7 @@ u32 GetItemBoxMaxGroupDistance(ItemBox *itemBox) {
     if (itemBox->mUsesGroupShadow == 0) {
         return 0;
     }
-    return GetMaxXzDistanceToGroup(&itemBox->mFollower.mUnk_00, &itemBox->mUnk_000.mPos);
+    return GetMaxXzDistanceToGroup(&itemBox->mFollower.mGroupFollower, &itemBox->mMapObject.mPos);
 }
 
 void SetItemBoxFramesSinceHitMax(ItemBox *itemBox) {

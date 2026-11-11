@@ -9,7 +9,7 @@ typedef struct ItemObject ItemObject;
 
 // Object of kind 0x1ac (Crab), one state per value of mState; draws crab and crab_hand.
 typedef struct Crab {
-    /* 000 */ MapObject mUnk_000;
+    /* 000 */ MapObject mMapObject;
     /* 0a0 */ u16 mRotateZAnglePerFrame;
     /* 0a2 */ u16 mRotateZAngle;
     /* 0a4 */ s32 mTimer;

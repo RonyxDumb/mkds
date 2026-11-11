@@ -13,7 +13,7 @@ struct ItemFBox;
 
 // Object of 0x108 or more bytes handled by InitItemBox.
 typedef struct ItemBox {
-    /* 000 */ MapObject mUnk_000;
+    /* 000 */ MapObject mMapObject;
     /* 0a0 */ u16 mBoxRotationIndex;
     /* 0a2 */ u16 mQuestionRotationIndex;
     /* 0a4 */ u16 mFramesSinceHit;

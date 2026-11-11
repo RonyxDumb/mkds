@@ -18,7 +18,7 @@ void SetItemKouraRKartItems(ItemKouraR *item, int kartIndex) {
 }
 
 void AddItemKouraRTowardKartToVelocity(ItemKouraR *item) {
-    VEC_Add(&item->mTowardKartVelocity, &item->mUnk_000.mUnk_000.mUnk_000.mVelocity,
-            &item->mUnk_000.mUnk_000.mUnk_000.mVelocity);
+    VEC_Add(&item->mTowardKartVelocity, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity,
+            &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity);
     SetItemObjectDirectionFromVelocity(item);
 }

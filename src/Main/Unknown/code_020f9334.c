@@ -231,7 +231,7 @@ void ApplyMapObjectHitToItemObject(ItemObject *itemParam, MapObject *mapObjectPa
                 mapObject->mDistanceSquaredAndFlags &= ~0x80000000;
                 reportedMapObject = NULL;
             }
-            ApplyItemObjectHitType(item, 1, &a, &mapObject->mUnk_10, reportedMapObject);
+            ApplyItemObjectHitType(item, 1, &a, &mapObject->mPosStep, reportedMapObject);
             item->mOwnerKartIndexAndFlags &= ~0x4000;
             return;
         case 2:
@@ -242,7 +242,7 @@ void ApplyMapObjectHitToItemObject(ItemObject *itemParam, MapObject *mapObjectPa
                 mapObject->mDistanceSquaredAndFlags &= ~0x80000000;
                 reportedMapObject = NULL;
             }
-            ApplyItemObjectHitType(item, 2, &mapObject->mPos, &mapObject->mUnk_10, reportedMapObject);
+            ApplyItemObjectHitType(item, 2, &mapObject->mPos, &mapObject->mPosStep, reportedMapObject);
             return;
     }
 }

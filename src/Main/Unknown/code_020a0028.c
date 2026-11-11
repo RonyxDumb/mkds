@@ -27,16 +27,16 @@ void DrawAirship(void *a, Airship *airship) {
     translation.x = 0;
     translation.z = 0;
     NNS_G3dGeBufferOP_N(0x1c, &translation, 3);
-    airship->mUnk_00.mMatrix.mUnk_00[3].x = airship->mUnk_00.mPos.x >> 4;
-    airship->mUnk_00.mMatrix.mUnk_00[3].y = airship->mUnk_00.mPos.y >> 4;
-    airship->mUnk_00.mMatrix.mUnk_00[3].z = airship->mUnk_00.mPos.z >> 4;
-    NNS_G3dGeBufferOP_N(0x19, &airship->mUnk_00.mMatrix, 0xc);
-    if (airship->mUnk_00.mAngle != 0) {
-        MTX_RotY33_(&rotationMatrix, gPairsByAngle[((airship->mUnk_00.mAngle >> 4) << 1)],
-                    gPairsByAngle[((airship->mUnk_00.mAngle >> 4) << 1) + 1]);
+    airship->mMapObject.mMatrix.mUnk_00[3].x = airship->mMapObject.mPos.x >> 4;
+    airship->mMapObject.mMatrix.mUnk_00[3].y = airship->mMapObject.mPos.y >> 4;
+    airship->mMapObject.mMatrix.mUnk_00[3].z = airship->mMapObject.mPos.z >> 4;
+    NNS_G3dGeBufferOP_N(0x19, &airship->mMapObject.mMatrix, 0xc);
+    if (airship->mMapObject.mAngle != 0) {
+        MTX_RotY33_(&rotationMatrix, gPairsByAngle[((airship->mMapObject.mAngle >> 4) << 1)],
+                    gPairsByAngle[((airship->mMapObject.mAngle >> 4) << 1) + 1]);
         NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
     }
-    NNS_G3dGeBufferOP_N(0x1b, &airship->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &airship->mMapObject.mScale, 3);
     DrawMapObjectModel(a, gAirship, airship);
 }
 
@@ -51,22 +51,22 @@ void InitAirshipObjects(AirshipObjectList *list) {
     }
     z = FALSE;
     for (i = 0; i < list->mUnk_04 && (airship = list->mUnk_00[i]) != NULL; i++) {
-        InitGroupFollower(&airship->mUnk_c8, airship->mUnk_00.mCourseMapRow, z);
-        airship->mUnk_a4 = (airship->mUnk_00.mCourseMapRow->mUnk_28 * 0x5000L) / 100;
+        InitGroupFollower(&airship->mUnk_c8, airship->mMapObject.mCourseMapRow, z);
+        airship->mUnk_a4 = (airship->mMapObject.mCourseMapRow->mUnk_28 * 0x5000L) / 100;
         speed = airship->mUnk_a4;
         airship->mUnk_c8.mSpeed = speed;
         airship->mUnk_c8.mProgressStep = MUL_FIXED12_NO_ROUND(
             speed, airship->mUnk_c8.mPath->mSegments[airship->mUnk_c8.mSegmentIndex].mInverseProgressLength);
-        airship->mUnk_a0 = airship->mUnk_00.mPos.y;
-        GetGroupFollowerCurvePosStep(&airship->mUnk_c8, &airship->mUnk_00.mPos, &airship->mUnk_00.mUnk_10);
-        airship->mUnk_a0 = airship->mUnk_a0 - airship->mUnk_00.mPos.y;
+        airship->mUnk_a0 = airship->mMapObject.mPos.y;
+        GetGroupFollowerCurvePosStep(&airship->mUnk_c8, &airship->mMapObject.mPos, &airship->mMapObject.mPosStep);
+        airship->mUnk_a0 = airship->mUnk_a0 - airship->mMapObject.mPos.y;
         airship->mWobbleAngle = 0;
         airship->mWobbleMid = 0;
         airship->mWobbleAmplitude = 0x50000;
         airship->mWobbleAmplitudePerFrame = 0;
         airship->mWobbleAnglePerFrame = 0xb6;
         airship->mUnk_c4 = 0;
-        if (airship->mUnk_00.mCourseMapRow->mUnk_2a != 0) {
+        if (airship->mMapObject.mCourseMapRow->mUnk_2a != 0) {
             airship->mState = 0;
         } else {
             airship->mState = 2;

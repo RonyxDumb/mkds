@@ -7,7 +7,7 @@
 // Object of 0x38 bytes whose first 0x24 bytes are an GroupFollower (AdvanceGroupFollowerWithSpeeds,
 // SetupGroupFollowerWithSpeeds, ReverseGroupFollower).
 typedef struct GroupFollowerWithSpeeds {
-    /* 00 */ GroupFollower mUnk_00;
+    /* 00 */ GroupFollower mGroupFollower;
     /* 24 */ s32 mSpeedPerEntryUnit;
     /* 28 */ s32 mDefaultSpeed;
     /* 2c */ s32 mFromSpeed;

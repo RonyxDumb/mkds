@@ -41,7 +41,7 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
             switch (gRaceSetup->mCourseId) {
                 case COURSE_ID_CROSS:
                     courseSoundObject->mState = 4;
-                    courseMapRow = courseSoundObject->mUnk_000.mCourseMapRow;
+                    courseMapRow = courseSoundObject->mMapObject.mCourseMapRow;
                     crossFirstZ = courseMapRow->mUnk_00.z + (-0x4a6000);
                     crossFirstY = courseMapRow->mUnk_00.y;
                     crossFirstX = courseMapRow->mUnk_00.x + (-0x2c6000);
@@ -53,7 +53,7 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                     courseSoundObject->mFirstPart.mSourcePos.x = crossFirstX;
                     courseSoundObject->mFirstPart.mSourcePos.y = crossFirstY;
                     courseSoundObject->mFirstPart.mSourcePos.z = crossFirstZ;
-                    courseMapRow = courseSoundObject->mUnk_000.mCourseMapRow;
+                    courseMapRow = courseSoundObject->mMapObject.mCourseMapRow;
                     crossSecondZ = courseMapRow->mUnk_00.z + 0x726000;
                     crossSecondY = courseMapRow->mUnk_00.y;
                     crossSecondX = courseMapRow->mUnk_00.x + (-0x7ee000);
@@ -68,7 +68,7 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                     break;
                 case COURSE_ID_BANK:
                     courseSoundObject->mState = 5;
-                    courseMapRow = courseSoundObject->mUnk_000.mCourseMapRow;
+                    courseMapRow = courseSoundObject->mMapObject.mCourseMapRow;
                     bankChainZ = courseMapRow->mUnk_00.z;
                     bankChainY = courseMapRow->mUnk_00.y;
                     bankChainX = courseMapRow->mUnk_00.x;
@@ -87,13 +87,13 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                     courseSoundObject->mFirstPart.mSourcePos.x = bankChainX;
                     courseSoundObject->mFirstPart.mSourcePos.y = bankChainY;
                     courseSoundObject->mFirstPart.mSourcePos.z = bankChainZ;
-                    VEC_MultAdd(MUL_FIXED12_NO_ROUND(courseSoundObject->mUnk_000.mScale.z, 0x5000),
-                                &courseSoundObject->mUnk_000.mMatrix.mUnk_00[2],
+                    VEC_MultAdd(MUL_FIXED12_NO_ROUND(courseSoundObject->mMapObject.mScale.z, 0x5000),
+                                &courseSoundObject->mMapObject.mMatrix.mUnk_00[2],
                                 &courseSoundObject->mFirstPart.mSourcePos, &courseSoundObject->mFirstPart.mSourcePos);
                     break;
                 default:
-                    if ((courseSoundObject->mUnk_000.mFlags & 0x100) == 0) {
-                        ParkMapObject(&courseSoundObject->mUnk_000);
+                    if ((courseSoundObject->mMapObject.mFlags & 0x100) == 0) {
+                        ParkMapObject(&courseSoundObject->mMapObject);
                     }
                     break;
             }
@@ -117,7 +117,7 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                     courseSoundObject->mSecondPart.mSourcePos.x = 0;
                     courseSoundObject->mSecondPart.mSourcePos.y = 0;
                     courseSoundObject->mSecondPart.mSourcePos.z = 0;
-                    PlaceCourseSoundObjectPartSource(&courseSoundObject->mFirstPart, &courseSoundObject->mUnk_000.mPos);
+                    PlaceCourseSoundObjectPartSource(&courseSoundObject->mFirstPart, &courseSoundObject->mMapObject.mPos);
                     break;
                 case COURSE_ID_MARIO:
                     courseSoundObject->mState = 1;
@@ -137,11 +137,11 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                     courseSoundObject->mSecondPart.mSourcePos.x = 0;
                     courseSoundObject->mSecondPart.mSourcePos.y = 0;
                     courseSoundObject->mSecondPart.mSourcePos.z = 0;
-                    PlaceCourseSoundObjectPartSource(&courseSoundObject->mFirstPart, &courseSoundObject->mUnk_000.mPos);
+                    PlaceCourseSoundObjectPartSource(&courseSoundObject->mFirstPart, &courseSoundObject->mMapObject.mPos);
                     break;
                 case COURSE_ID_BANK:
                     courseSoundObject->mState = 6;
-                    courseMapRow = courseSoundObject->mUnk_000.mCourseMapRow;
+                    courseMapRow = courseSoundObject->mMapObject.mCourseMapRow;
                     bankFirstZ = courseMapRow->mUnk_00.z;
                     bankFirstY = courseMapRow->mUnk_00.y;
                     bankFirstX = courseMapRow->mUnk_00.x;
@@ -153,10 +153,10 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                     courseSoundObject->mFirstPart.mSourcePos.x = bankFirstX;
                     courseSoundObject->mFirstPart.mSourcePos.y = bankFirstY;
                     courseSoundObject->mFirstPart.mSourcePos.z = bankFirstZ;
-                    VEC_MultAdd(MUL_FIXED12_NO_ROUND(courseSoundObject->mUnk_000.mScale.z, 0x5000),
-                                &courseSoundObject->mUnk_000.mMatrix.mUnk_00[2],
+                    VEC_MultAdd(MUL_FIXED12_NO_ROUND(courseSoundObject->mMapObject.mScale.z, 0x5000),
+                                &courseSoundObject->mMapObject.mMatrix.mUnk_00[2],
                                 &courseSoundObject->mFirstPart.mSourcePos, &courseSoundObject->mFirstPart.mSourcePos);
-                    courseMapRow = courseSoundObject->mUnk_000.mCourseMapRow;
+                    courseMapRow = courseSoundObject->mMapObject.mCourseMapRow;
                     bankSecondZ = courseMapRow->mUnk_00.z;
                     bankSecondY = courseMapRow->mUnk_00.y;
                     bankSecondX = courseMapRow->mUnk_00.x;
@@ -168,13 +168,13 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                     courseSoundObject->mSecondPart.mSourcePos.x = bankSecondX;
                     courseSoundObject->mSecondPart.mSourcePos.y = bankSecondY;
                     courseSoundObject->mSecondPart.mSourcePos.z = bankSecondZ;
-                    VEC_MultAdd(MUL_FIXED12_NO_ROUND(courseSoundObject->mUnk_000.mScale.z, -0x5000),
-                                &courseSoundObject->mUnk_000.mMatrix.mUnk_00[2],
+                    VEC_MultAdd(MUL_FIXED12_NO_ROUND(courseSoundObject->mMapObject.mScale.z, -0x5000),
+                                &courseSoundObject->mMapObject.mMatrix.mUnk_00[2],
                                 &courseSoundObject->mSecondPart.mSourcePos, &courseSoundObject->mSecondPart.mSourcePos);
                     break;
                 default:
-                    if ((courseSoundObject->mUnk_000.mFlags & 0x100) == 0) {
-                        ParkMapObject(&courseSoundObject->mUnk_000);
+                    if ((courseSoundObject->mMapObject.mFlags & 0x100) == 0) {
+                        ParkMapObject(&courseSoundObject->mMapObject);
                     }
                     break;
             }

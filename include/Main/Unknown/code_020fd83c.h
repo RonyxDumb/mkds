@@ -11,7 +11,7 @@ struct ModelEffect;
 
 // Object of item kind 9, element of gItemPools[9].
 typedef struct ItemBomb {
-    /* 000 */ BouncingItemObject mUnk_000;
+    /* 000 */ BouncingItemObject mBouncingItemObject;
 // 1 for a thrown bomb, 0 for one dropped behind it or by a hit kart.
     /* 130 */ s32 mIsThrown;
     /* 134 */ s32 mReflectFactor;

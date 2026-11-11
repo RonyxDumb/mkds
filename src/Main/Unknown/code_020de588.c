@@ -61,8 +61,8 @@ void InitItemBox(ItemBox *itemBox, CourseMapRow *row) {
     Vec3 shadowPos;
     BOOL usesGroupShadow;
 
-    itemBox->mUnk_000.mPos.y += 0xc000;
-    itemBox->mPositionSource = &itemBox->mUnk_000.mPos;
+    itemBox->mMapObject.mPos.y += 0xc000;
+    itemBox->mPositionSource = &itemBox->mMapObject.mPos;
     random = GetMapObjectRandom();
     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
     itemBox->mBoxRotationIndex = ((u64) (u32) (random->mValue >> 32) * 0x12c) >> 32;
@@ -71,7 +71,7 @@ void InitItemBox(ItemBox *itemBox, CourseMapRow *row) {
     itemBox->mQuestionRotationIndex = ((u64) (u32) (random->mValue >> 32) * 0x82) >> 32;
     itemBox->mFramesSinceHit = 0x80;
     if (row != NULL) {
-        if (itemBox->mUnk_000.mKind == 0xc9 && row->mUnk_26 >= 0) {
+        if (itemBox->mMapObject.mKind == 0xc9 && row->mUnk_26 >= 0) {
             usesGroupShadow = TRUE;
         } else {
             usesGroupShadow = FALSE;
@@ -83,7 +83,7 @@ void InitItemBox(ItemBox *itemBox, CourseMapRow *row) {
         itemBox->mUsesGroupShadow = 1;
         itemBox->mShortSpin = 0;
         itemBox->mNoCourseRow = 1;
-        SetMapObjectScale(&itemBox->mUnk_000, &data_02158694);
+        SetMapObjectScale(&itemBox->mMapObject, &data_02158694);
     }
     if (itemBox->mNoCourseRow != 0) {
         itemBox->mForcedRowHumanGhostPeer = 0;
@@ -108,10 +108,10 @@ void InitItemBox(ItemBox *itemBox, CourseMapRow *row) {
     }
     if (row != NULL) {
         if (HasCourseTriangleFlag2At(&row->mUnk_00) != 0) {
-            itemBox->mUnk_000.mFlags |= data_02158568;
+            itemBox->mMapObject.mFlags |= data_02158568;
         }
     }
-    itemBox->mUnk_000.mDistanceSquaredAndFlags |= data_0215856c;
+    itemBox->mMapObject.mDistanceSquaredAndFlags |= data_0215856c;
 }
 #pragma thumb off
 

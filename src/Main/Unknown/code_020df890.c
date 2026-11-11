@@ -122,7 +122,7 @@ void InitKoopaBlock(KoopaBlock *koopaBlock, CourseMapRow *courseRow) {
     koopaBlock->mCollisionMapObject.mCollisionData.mUnk_120 = 0x800;
     SetupGroupFollowerAtEntry(&koopaBlock->mFollower, 0, 1);
     GetGroupFollowerLinearPosStep(&koopaBlock->mFollower, &koopaBlock->mCollisionMapObject.mMapObject.mPos,
-                                  &koopaBlock->mCollisionMapObject.mMapObject.mUnk_10);
+                                  &koopaBlock->mCollisionMapObject.mMapObject.mPosStep);
     koopaBlock->mCollisionMapObject.mCollisionData.mUnk_e8 = koopaBlock->mCollisionMapObject.mMapObject.mPos;
     koopaBlock->mCollisionMapObject.mCollisionData.mUnk_134 = COLLISION_SHAPE_BOX;
     koopaBlock->mCollisionMapObject.mCollisionData.mUnk_138 = 0;
@@ -223,7 +223,7 @@ void EnterMkdEfBubbleState0(MkdEfBubbleObject *bubble) {
 
     bubble->mAngleZ = 0;
     bubble->mMapObject.mPos.y = bubble->mBottomY;
-    bubble->mMapObject.mUnk_10.y = 0x4b33;
+    bubble->mMapObject.mPosStep.y = 0x4b33;
     bubble->mMapObject.mFlags &= ~2;
     bubble->mMapObject.mFlags &= ~8;
     bubble->mMapObject.mAlpha = 0x1f;
@@ -257,19 +257,19 @@ void EnterMkdEfBubbleState0(MkdEfBubbleObject *bubble) {
 }
 
 void UpdateMkdEfBubbleState0(MkdEfBubbleObject *bubble) {
-    if (bubble->mMapObject.mUnk_10.y < 0x1333) {
-        if (bubble->mMapObject.mUnk_10.y <= -0x1333) {
+    if (bubble->mMapObject.mPosStep.y < 0x1333) {
+        if (bubble->mMapObject.mPosStep.y <= -0x1333) {
             bubble->mAngleZ = 0x8000;
         } else {
             bubble->mAngleZ =
-                MUL_FIXED12_NO_ROUND(0x1333 - bubble->mMapObject.mUnk_10.y, gMkdEfBubbleUpdateList->mAngleScale) >> 12;
+                MUL_FIXED12_NO_ROUND(0x1333 - bubble->mMapObject.mPosStep.y, gMkdEfBubbleUpdateList->mAngleScale) >> 12;
         }
     }
-    bubble->mMapObject.mUnk_10.y -= 0x199;
-    if (bubble->mMapObject.mUnk_10.y < -0x3000) {
-        bubble->mMapObject.mUnk_10.y = -0x3000;
+    bubble->mMapObject.mPosStep.y -= 0x199;
+    if (bubble->mMapObject.mPosStep.y < -0x3000) {
+        bubble->mMapObject.mPosStep.y = -0x3000;
     }
-    bubble->mMapObject.mPos.y += bubble->mMapObject.mUnk_10.y;
+    bubble->mMapObject.mPos.y += bubble->mMapObject.mPosStep.y;
     if (bubble->mMapObject.mPos.y < bubble->mBottomY) {
         bubble->mMapObject.mStateMachine.mNextState = 1;
         bubble->mMapObject.mStateMachine.mNextStateRequested = 1;

@@ -62,7 +62,7 @@ void UpdateCourseSoundObject(void *a, CourseSoundObject *courseSoundObject) {
             func_020a826c_inline(&courseSoundObject->mFirstPart);
             break;
         case 2:
-            PlaceCourseSoundObjectPartSource(&courseSoundObject->mFirstPart, &courseSoundObject->mUnk_000.mPos);
+            PlaceCourseSoundObjectPartSource(&courseSoundObject->mFirstPart, &courseSoundObject->mMapObject.mPos);
             if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL && IsKartOnLastLap(gRaceSetup->mEntryIndex) != FALSE &&
                 courseSoundObject->mFirstPart.mInRangeUpdateCount == 0 &&
                 courseSoundObject->mFirstPart.mUnk_20 != FALSE) {
@@ -74,9 +74,9 @@ void UpdateCourseSoundObject(void *a, CourseSoundObject *courseSoundObject) {
             func_020a826c_inline(&courseSoundObject->mFirstPart);
             break;
         case 3:
-            PlaceCourseSoundObjectPartSource(&courseSoundObject->mFirstPart, &courseSoundObject->mUnk_000.mPos);
+            PlaceCourseSoundObjectPartSource(&courseSoundObject->mFirstPart, &courseSoundObject->mMapObject.mPos);
             if (IsKartEnded((u16) gRaceSetup->mEntryIndex) != 0) {
-                ParkMapObject(&courseSoundObject->mUnk_000);
+                ParkMapObject(&courseSoundObject->mMapObject);
             } else if (courseSoundObject->mFirstPart.mUnk_20 == FALSE) {
                 soundId = courseSoundObject->mSecondPart.mStartParams.mSoundId;
                 NNS_SndPlayerStopSeq(courseSoundObject->mFirstPart.mSndHandleSlot, 0);

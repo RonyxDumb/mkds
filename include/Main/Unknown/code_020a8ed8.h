@@ -9,7 +9,7 @@
 // Object of kinds 0x1b0 and 0x1b3 (IronBall; kind 0x1b3 has only Init and Draw, no update or collision group), 0x134
 // bytes: the shared MapObject part, a GroupFollower at 0xc4 and a ShadowMatrix at 0xe8.
 typedef struct IronBall {
-    /* 000 */ MapObject mUnk_000;
+    /* 000 */ MapObject mMapObject;
     /* 0a0 */ s32 mRotateZAngle;
     /* 0a4 */ s32 mState1Timer;
     /* 0a8 */ s32 mTimer;

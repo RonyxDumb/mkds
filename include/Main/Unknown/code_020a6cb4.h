@@ -6,7 +6,7 @@
 
 // Object of the list FindMapObjectKindUpdateList(0x6b): the shared MapObject part, then three words.
 typedef struct ShineBattle {
-    /* 00 */ MapObject mUnk_00;
+    /* 00 */ MapObject mMapObject;
     /* a0 */ BOOL mHasShine;
     /* a4 */ BOOL mSkipRandomPick;
     /* a8 */ s32 mShineStartFrames;

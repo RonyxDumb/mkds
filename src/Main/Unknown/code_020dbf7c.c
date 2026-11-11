@@ -64,15 +64,15 @@ static inline s64 func_020dc354_inline(const Vec3 *vector) {
 }
 
 void UpdateWanwanState5(Wanwan *wanwan) {
-    wanwan->mMapObject.mUnk_10.x = wanwan->mMapObject.mPos.x;
-    wanwan->mMapObject.mUnk_10.z = wanwan->mMapObject.mPos.z;
+    wanwan->mMapObject.mPosStep.x = wanwan->mMapObject.mPos.x;
+    wanwan->mMapObject.mPosStep.z = wanwan->mMapObject.mPos.z;
     AdvanceGroupFollowerWithSpeeds(&wanwan->mFollower);
-    GetGroupFollowerCurveXz(&wanwan->mFollower.mUnk_00, &wanwan->mMapObject.mPos);
-    wanwan->mMapObject.mUnk_10.x = wanwan->mMapObject.mPos.x - wanwan->mMapObject.mUnk_10.x;
-    wanwan->mMapObject.mUnk_10.z = wanwan->mMapObject.mPos.z - wanwan->mMapObject.mUnk_10.z;
-    if (func_020dc354_inline(&wanwan->mMapObject.mUnk_10) >= 0x10) {
+    GetGroupFollowerCurveXz(&wanwan->mFollower.mGroupFollower, &wanwan->mMapObject.mPos);
+    wanwan->mMapObject.mPosStep.x = wanwan->mMapObject.mPos.x - wanwan->mMapObject.mPosStep.x;
+    wanwan->mMapObject.mPosStep.z = wanwan->mMapObject.mPos.z - wanwan->mMapObject.mPosStep.z;
+    if (func_020dc354_inline(&wanwan->mMapObject.mPosStep) >= 0x10) {
         QuaternionFromAngleAroundY(
-            (u16) ((((s64) FX_Atan2(wanwan->mMapObject.mUnk_10.x, wanwan->mMapObject.mUnk_10.z) * 0x28be60db9391LL) +
+            (u16) ((((s64) FX_Atan2(wanwan->mMapObject.mPosStep.x, wanwan->mMapObject.mPosStep.z) * 0x28be60db9391LL) +
                     0x80000000000LL) >>
                    44),
             &wanwan->mYawQuaternion);
@@ -132,12 +132,12 @@ void InitWanwanOnPath(Wanwan *wanwan, CourseMapRow *row) {
 #pragma thumb on
 void ResetWanwan(Wanwan *wanwan) {
     wanwan->mMapObject.mPos = wanwan->mCenterPos;
-    wanwan->mMapObject.mUnk_10.x = 0;
-    wanwan->mMapObject.mUnk_10.y = 0;
-    wanwan->mMapObject.mUnk_10.z = 0;
+    wanwan->mMapObject.mPosStep.x = 0;
+    wanwan->mMapObject.mPosStep.y = 0;
+    wanwan->mMapObject.mPosStep.z = 0;
     wanwan->mSurfaceOrientation = data_0216beec;
     QuaternionFromAngleAroundY(
-        (u16) ((((s64) FX_Atan2(wanwan->mMapObject.mUnk_10.x, wanwan->mMapObject.mUnk_10.z) * 0x28be60db9391LL) +
+        (u16) ((((s64) FX_Atan2(wanwan->mMapObject.mPosStep.x, wanwan->mMapObject.mPosStep.z) * 0x28be60db9391LL) +
                 0x80000000000LL) >>
                44),
         &wanwan->mYawQuaternion);
@@ -154,11 +154,11 @@ void ResetWanwan(Wanwan *wanwan) {
         wanwan->mCurvePoints[3] = &wanwan->mCurvePointValues[3];
         if (gRaceSetup->mRaceKind == RACE_KIND_START_GP) {
             VEC_MultAdd(0xf000, &wanwan->mUnk_200, &wanwan->mMapObject.mPos, &wanwan->mMapObject.mPos);
-            wanwan->mMapObject.mUnk_10.x = MUL_FIXED12_NO_ROUND(wanwan->mUnk_200.x, 0x400);
-            wanwan->mMapObject.mUnk_10.y = MUL_FIXED12_NO_ROUND(wanwan->mUnk_200.y, 0x400);
-            wanwan->mMapObject.mUnk_10.z = MUL_FIXED12_NO_ROUND(wanwan->mUnk_200.z, 0x400);
+            wanwan->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(wanwan->mUnk_200.x, 0x400);
+            wanwan->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(wanwan->mUnk_200.y, 0x400);
+            wanwan->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(wanwan->mUnk_200.z, 0x400);
             QuaternionFromAngleAroundY(
-                (u16) ((((s64) FX_Atan2(wanwan->mMapObject.mUnk_10.x, wanwan->mMapObject.mUnk_10.z) *
+                (u16) ((((s64) FX_Atan2(wanwan->mMapObject.mPosStep.x, wanwan->mMapObject.mPosStep.z) *
                          0x28be60db9391LL) +
                         0x80000000000LL) >>
                        44),

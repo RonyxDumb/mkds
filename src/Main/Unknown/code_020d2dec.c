@@ -203,13 +203,13 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
                 object->mPos.z = source->mPos.z;
             }
             if (kindData->mUnk_20 == 0 || kindData->mUnk_20 == 2) {
-                object->mUnk_10.x = 0;
-                object->mUnk_10.y = 0;
-                object->mUnk_10.z = 0;
+                object->mPosStep.x = 0;
+                object->mPosStep.y = 0;
+                object->mPosStep.z = 0;
             } else {
-                object->mUnk_10.x = 0x270f000;
-                object->mUnk_10.y = 0x270f000;
-                object->mUnk_10.z = 0x270f000;
+                object->mPosStep.x = 0x270f000;
+                object->mPosStep.y = 0x270f000;
+                object->mPosStep.z = 0x270f000;
             }
             if (courseRow != NULL) {
                 object->mAngle = ((s64) courseRow->mUnk_0c.y * 0xb60b60b60bLL + 0x80000000000LL) >> 44;

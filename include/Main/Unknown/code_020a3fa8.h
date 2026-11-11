@@ -28,9 +28,9 @@ typedef struct KartBalloons {
 // Object of map object kind 0x69: steps the balloons of every kart. A MapObject first, then mStartTimer, eight
 // KartBalloons and the balloon offsets; 0x364 bytes, the size in its kind descriptor.
 typedef struct KartBalloonsObject {
-    /* 000 */ MapObject mUnk_000;
+    /* 000 */ MapObject mMapObject;
     // Frames left before the first balloons are made: the update does nothing until it reaches 0, then puts every entry
-    // in state 1. Starts at 0x3c, or 0xffff when gRace->mUseChainCameras is non-zero.
+    // in state 1. Starts at 0x3c, or 0xffff when gRace.mUseChainCameras is non-zero.
     /* 0a0 */ s32 mStartTimer;
     // One KartBalloons entry per kart index (the first mKartCount are used).
     /* 0a4 */ KartBalloons mKartBalloons[8];

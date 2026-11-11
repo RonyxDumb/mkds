@@ -52,11 +52,11 @@ s32 GetKeyboardChosenKeyValue(void) {
 void InitIronBall(IronBall *ironBall) {
     Vec3 scale = data_02167974;
 
-    SetMapObjectScale(&ironBall->mUnk_000, &scale);
-    ironBall->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
-    InitSoundSource(&ironBall->mUnk_000.mSound->mSoundSource, 10, &ironBall->mUnk_000.mPos);
-    ironBall->mUnk_000.mFarDistanceSquared = gSoundFalloffs[10].mUnk_20;
-    ironBall->mSoundOffKind3ShapeListMask = DecimalNonZeroDigitsToBitMask(ironBall->mUnk_000.mCourseMapRow->mUnk_34);
+    SetMapObjectScale(&ironBall->mMapObject, &scale);
+    ironBall->mMapObject.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
+    InitSoundSource(&ironBall->mMapObject.mSound->mSoundSource, 10, &ironBall->mMapObject.mPos);
+    ironBall->mMapObject.mFarDistanceSquared = gSoundFalloffs[10].mUnk_20;
+    ironBall->mSoundOffKind3ShapeListMask = DecimalNonZeroDigitsToBitMask(ironBall->mMapObject.mCourseMapRow->mUnk_34);
 }
 
 u32 CollideKartWithIronBall(IronBall *ironBall, void *kart, u8 *b, u8 *c) {
@@ -86,12 +86,12 @@ void DrawIronBall(void *a, IronBall *ironBall) {
 
     v = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &v, 1);
-    NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&ironBall->mUnk_000.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&ironBall->mMapObject.mPos), 0xc);
     if (ironBall->mRotateZAngle != 0) {
         pairIndex = (u16) ironBall->mRotateZAngle >> 4;
         MTX_RotZ33_(&rotationMatrix, gPairsByAngle[pairIndex * 2], gPairsByAngle[pairIndex * 2 + 1]);
         NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
     }
-    NNS_G3dGeBufferOP_N(0x1b, &ironBall->mUnk_000.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &ironBall->mMapObject.mScale, 3);
     DrawMapObjectModel(a, gIronBall, ironBall);
 }

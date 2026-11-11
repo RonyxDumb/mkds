@@ -812,7 +812,7 @@ void RunMapObjectListCallbacks(void) {
 }
 
 s32 GetMapObjectHitResponse(MapObject *mapObject, s32 itemKind, Vec3 *hitOffset) {
-    return CollideSphereWithMapObjects(&mapObject->mPos, &mapObject->mUnk_10, mapObject->mExtent.x,
+    return CollideSphereWithMapObjects(&mapObject->mPos, &mapObject->mPosStep, mapObject->mExtent.x,
                                        mapObject->mCollisionSlotIndex, itemKind, hitOffset);
 }
 

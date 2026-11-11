@@ -234,15 +234,15 @@ void UpdateVehicle(u32 a, Vehicle *vehicle) {
     AdvanceGroupFollower(&vehicle->mFollower);
     if (!isInHitReaction) {
         GetGroupFollowerCurveXzLinearY(&vehicle->mFollower, &vehicle->mMapObject.mPos);
-        VEC_Subtract(&vehicle->mMapObject.mPos, &previousPosition, &vehicle->mMapObject.mUnk_10);
+        VEC_Subtract(&vehicle->mMapObject.mPos, &previousPosition, &vehicle->mMapObject.mPosStep);
     } else {
         GetGroupFollowerCurveXzLinearY(&vehicle->mFollower, &vehicle->mFollowerPosition);
         vehicle->mMapObject.mPos.x = vehicle->mFollowerPosition.x;
-        vehicle->mMapObject.mUnk_10.y -= VEHICLE_GRAVITY_PER_FRAME;
-        vehicle->mMapObject.mPos.y = vehicle->mMapObject.mPos.y + vehicle->mMapObject.mUnk_10.y;
+        vehicle->mMapObject.mPosStep.y -= VEHICLE_GRAVITY_PER_FRAME;
+        vehicle->mMapObject.mPos.y = vehicle->mMapObject.mPos.y + vehicle->mMapObject.mPosStep.y;
         vehicle->mMapObject.mPos.z = vehicle->mFollowerPosition.z;
-        vehicle->mMapObject.mUnk_10.x = vehicle->mMapObject.mPos.x - previousPosition.x;
-        vehicle->mMapObject.mUnk_10.z = vehicle->mMapObject.mPos.z - previousPosition.z;
+        vehicle->mMapObject.mPosStep.x = vehicle->mMapObject.mPos.x - previousPosition.x;
+        vehicle->mMapObject.mPosStep.z = vehicle->mMapObject.mPos.z - previousPosition.z;
     }
     if (isInHitReaction || (vehicle->mUpdateIndex & 7) == GetRaceUpdateFramesMod8()) {
         testPosition.x = vehicle->mMapObject.mPos.x;
@@ -254,11 +254,11 @@ void UpdateVehicle(u32 a, Vehicle *vehicle) {
             if (hitFlags & 0x1e34ef) {
                 QuaternionFromYAxisToVec3(&u, &vehicle->mGroundRotation);
                 AdvanceCourseColorBlend(&vehicle->mCourseColorBlend, (hitFlags & 0x3c000000) >> 26, 0x5000);
-                if (vehicle->mHitReactionTimer != 0 && vehicle->mMapObject.mUnk_10.y < 0) {
+                if (vehicle->mHitReactionTimer != 0 && vehicle->mMapObject.mPosStep.y < 0) {
                     if (vehicle->mMapObject.mFlags & 1) {
                         vehicle->mMapObject.mFlags &= ~1;
-                        vehicle->mMapObject.mUnk_10.y = -MUL_FIXED12_NO_ROUND(
-                            vehicle->mMapObject.mUnk_10.y, 0x733 + ((vehicle->mExtentPositive.y - 0x14000) >> 9));
+                        vehicle->mMapObject.mPosStep.y = -MUL_FIXED12_NO_ROUND(
+                            vehicle->mMapObject.mPosStep.y, 0x733 + ((vehicle->mExtentPositive.y - 0x14000) >> 9));
                         vehicle->mHitRotation.mComponents[0] = -vehicle->mHitRotation.mComponents[0];
                         vehicle->mHitRotation.mComponents[1] = -vehicle->mHitRotation.mComponents[1];
                         vehicle->mHitRotation.mComponents[2] = -vehicle->mHitRotation.mComponents[2];
@@ -268,21 +268,21 @@ void UpdateVehicle(u32 a, Vehicle *vehicle) {
                         StartMapObjectSound(&vehicle->mMapObject, vehicle->mBounceSoundId);
                     } else if (isInHitReaction && vehicle != NULL) {
                         vehicle->mHitReactionTimer = VEHICLE_HIT_TIMER_AIRBORNE;
-                        vehicle->mMapObject.mUnk_10.y = 0;
+                        vehicle->mMapObject.mPosStep.y = 0;
                         vehicle->mRotationBlendRate = VEHICLE_BLEND_RATE_LANDING;
                     }
                 }
             }
             if ((hitFlags & 0x214300) && isInHitReaction) {
                 vehicle->mMapObject.mPos.y = vehicle->mMapObject.mPos.y + probeOffset.y;
-                vehicle->mMapObject.mUnk_10.y = 0;
+                vehicle->mMapObject.mPosStep.y = 0;
             }
         }
     }
     switch (isInHitReaction) {
         default:
-            if (vehicle->mMapObject.mUnk_10.y < 0) {
-                vehicle->mRotationBlendRate = MUL_FIXED12_NO_ROUND(-vehicle->mMapObject.mUnk_10.y, 0xc);
+            if (vehicle->mMapObject.mPosStep.y < 0) {
+                vehicle->mRotationBlendRate = MUL_FIXED12_NO_ROUND(-vehicle->mMapObject.mPosStep.y, 0xc);
                 baseRotation = &vehicle->mGroundRotation;
             } else {
                 baseRotation = &vehicle->mHitRotation;
@@ -301,11 +301,11 @@ void UpdateVehicle(u32 a, Vehicle *vehicle) {
             break;
     }
 
-    if (func_020e2630_inline(&vehicle->mMapObject.mUnk_10) < 0x10) {
+    if (func_020e2630_inline(&vehicle->mMapObject.mPosStep) < 0x10) {
         targetRotation = vehicle->mGroundRotation;
     } else {
         vehicle->mMapObject.mAngle =
-            (s16) (((s64) FX_Atan2(vehicle->mMapObject.mUnk_10.x, vehicle->mMapObject.mUnk_10.z) * 0x28BE60DB9391 +
+            (s16) (((s64) FX_Atan2(vehicle->mMapObject.mPosStep.x, vehicle->mMapObject.mPosStep.z) * 0x28BE60DB9391 +
                     0x80000000000) >>
                    44);
         if (vehicle->mHitReactionTimer == 0) {
@@ -349,12 +349,12 @@ void StartVehicleHitReaction(Vehicle *vehicle, Vec3 *hitterPosition) {
     }
     QuaternionFromYAxisToVec3(&direction, &vehicle->mHitRotation);
     vehicle->mRotationBlendRate = VEHICLE_BLEND_RATE_HIT;
-    if (vehicle->mHitReactionTimer > VEHICLE_HIT_TIMER_AIRBORNE || vehicle->mMapObject.mUnk_10.y <= 0) {
+    if (vehicle->mHitReactionTimer > VEHICLE_HIT_TIMER_AIRBORNE || vehicle->mMapObject.mPosStep.y <= 0) {
         upwardSpeed = 0;
     } else {
-        upwardSpeed = vehicle->mMapObject.mUnk_10.y;
+        upwardSpeed = vehicle->mMapObject.mPosStep.y;
     }
-    vehicle->mMapObject.mUnk_10.y = upwardSpeed + VEHICLE_HIT_UPWARD_SPEED;
+    vehicle->mMapObject.mPosStep.y = upwardSpeed + VEHICLE_HIT_UPWARD_SPEED;
     vehicle->mMapObject.mFlags |= data_02158a50;
     vehicle->mHitReactionTimer = VEHICLE_HIT_TIMER_START;
 }
@@ -537,13 +537,13 @@ void InitVehicle(Vehicle *vehicle, struct CourseMapRow *courseRow, VehicleKindIn
 
 void ResetVehicleToStartEntry(Vehicle *vehicle) {
     SetupGroupFollowerAtEntry(&vehicle->mFollower, vehicle->mStartEntryIndex, 1);
-    GetGroupFollowerCurvePosStepXz(&vehicle->mFollower, &vehicle->mMapObject.mPos, &vehicle->mMapObject.mUnk_10);
+    GetGroupFollowerCurvePosStepXz(&vehicle->mFollower, &vehicle->mMapObject.mPos, &vehicle->mMapObject.mPosStep);
     vehicle->mMapObject.mPos.y = vehicle->mStartEntryY;
-    vehicle->mMapObject.mUnk_10.y = 0;
+    vehicle->mMapObject.mPosStep.y = 0;
     vehicle->mGroundRotation = gIdentityQuaternion;
     QuaternionMultiplyAngleAroundYIgnoreY(
         &vehicle->mGroundRotation,
-        (u16) (((s64) FX_Atan2(vehicle->mMapObject.mUnk_10.x, vehicle->mMapObject.mUnk_10.z) * 0x28be60db9391 +
+        (u16) (((s64) FX_Atan2(vehicle->mMapObject.mPosStep.x, vehicle->mMapObject.mPosStep.z) * 0x28be60db9391 +
                 0x80000000000) >>
                44),
         &vehicle->mRotation);
@@ -1288,9 +1288,9 @@ void ComputeCollisionPointMotion(CollisionMapObject *object, Vec3 *position, Vec
     Vec3 offset;
 
     if (pointMotion != NULL) {
-        pointMotion->x = -object->mMapObject.mUnk_10.x;
-        pointMotion->y = -object->mMapObject.mUnk_10.y;
-        pointMotion->z = -object->mMapObject.mUnk_10.z;
+        pointMotion->x = -object->mMapObject.mPosStep.x;
+        pointMotion->y = -object->mMapObject.mPosStep.y;
+        pointMotion->z = -object->mMapObject.mPosStep.z;
         VEC_Subtract(position, &object->mMapObject.mPos, &offset);
         VEC_MultAdd(Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mUnk_00[0]),
                     &object->mCollisionData.mPrevMatrix.mUnk_00[0], pointMotion, pointMotion);

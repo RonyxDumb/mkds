@@ -133,39 +133,39 @@ void DrawWoodbox1(void *a, Woodbox1 *woodbox, void *c, u32 maxAlpha) {
     s32 t;
     Vec3 shadowPos;
 
-    state = woodbox->mUnk_000.mStateMachine.mState;
-    woodbox->mUnk_000.mMatrix.mUnk_00[3].x = woodbox->mUnk_000.mPos.x >> 4;
-    woodbox->mUnk_000.mMatrix.mUnk_00[3].y = woodbox->mUnk_000.mPos.y >> 4;
-    woodbox->mUnk_000.mMatrix.mUnk_00[3].z = woodbox->mUnk_000.mPos.z >> 4;
-    DrawNsbmdWithMatrixAndMaxAlpha(gWoodbox1, &woodbox->mUnk_000.mMatrix, &woodbox->mUnk_000.mScale, maxAlpha);
+    state = woodbox->mMapObject.mStateMachine.mState;
+    woodbox->mMapObject.mMatrix.mUnk_00[3].x = woodbox->mMapObject.mPos.x >> 4;
+    woodbox->mMapObject.mMatrix.mUnk_00[3].y = woodbox->mMapObject.mPos.y >> 4;
+    woodbox->mMapObject.mMatrix.mUnk_00[3].z = woodbox->mMapObject.mPos.z >> 4;
+    DrawNsbmdWithMatrixAndMaxAlpha(gWoodbox1, &woodbox->mMapObject.mMatrix, &woodbox->mMapObject.mScale, maxAlpha);
     if (state == 0) {
         return;
     }
     t = MUL_FIXED12_NO_ROUND(0x5a000 - woodbox->mPosOffset.y, 0x2e);
-    shadowPos.x = woodbox->mUnk_000.mPos.x;
-    shadowPos.z = woodbox->mUnk_000.mPos.z;
+    shadowPos.x = woodbox->mMapObject.mPos.x;
+    shadowPos.z = woodbox->mMapObject.mPos.z;
     shadowPos.y = woodbox->mBasePos.y - MUL_FIXED12_NO_ROUND(woodbox->mGroundUp.x, woodbox->mPosOffset.x) -
                   MUL_FIXED12_NO_ROUND(woodbox->mGroundUp.z, woodbox->mPosOffset.z);
-    VEC_MultAdd(-woodbox->mUnk_000.mExtent.x, &woodbox->mGroundUp, &shadowPos, &shadowPos);
+    VEC_MultAdd(-woodbox->mMapObject.mExtent.x, &woodbox->mGroundUp, &shadowPos, &shadowPos);
     SetShadowPositionRaised(&woodbox->mUnk_114, &shadowPos);
     DrawObjShadow(&woodbox->mUnk_114, &t, 0, maxAlpha);
 }
 
 void AdvanceWoodbox1(u32 unused, Woodbox1 *woodbox) {
-    AdvanceStateMachine(&woodbox->mUnk_000.mStateMachine);
+    AdvanceStateMachine(&woodbox->mMapObject.mStateMachine);
 }
 
 void EnterWoodbox1State0(Woodbox1 *woodbox) {
     Quaternion rotation;
     Vec3 *velocity;
 
-    velocity = &woodbox->mUnk_000.mUnk_10;
+    velocity = &woodbox->mMapObject.mPosStep;
     velocity->x = 0;
     velocity->y = 0;
     velocity->z = 0;
-    woodbox->mUnk_000.mPos = woodbox->mBasePos;
+    woodbox->mMapObject.mPos = woodbox->mBasePos;
     QuaternionFromVec3AndAngleAroundY(&woodbox->mGroundUp, woodbox->mHeadingAngle, &rotation);
-    Matrix3x3FromQuaternion(&woodbox->mUnk_000.mMatrix.mUnk_00_m, &rotation);
+    Matrix3x3FromQuaternion(&woodbox->mMapObject.mMatrix.mUnk_00_m, &rotation);
 }
 
 // With a chance given by the box, starts one item object that moves off with the given velocity.
@@ -178,9 +178,9 @@ void StartWoodbox1ItemObject(Woodbox1 *woodbox, Vec3 *velocity) {
     s32 itemIndex;
 
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        func_ov001_0218175c(woodbox->mUnk_000.mKind);
+        func_ov001_0218175c(woodbox->mMapObject.mKind);
     }
-    woodbox->mUnk_000.mFlags |= data_021594d8;
+    woodbox->mMapObject.mFlags |= data_021594d8;
     if (gRaceSetup->mMode == 5) {
         return;
     }
@@ -194,7 +194,7 @@ void StartWoodbox1ItemObject(Woodbox1 *woodbox, Vec3 *velocity) {
     }
     itemIndex = PickItem(0, woodbox->mItemRowHandle, 1, 1, 0, 0x12);
     itemObject =
-        StartItemObjectOrZero(gItemInfos[itemIndex].mObjectKind, 8, &woodbox->mUnk_000.mPos, &woodbox->mGroundUp);
+        StartItemObjectOrZero(gItemInfos[itemIndex].mObjectKind, 8, &woodbox->mMapObject.mPos, &woodbox->mGroundUp);
     if (itemObject == NULL) {
         return;
     }
@@ -209,33 +209,33 @@ void StartWoodbox1ItemObject(Woodbox1 *woodbox, Vec3 *velocity) {
     raceRandom = GetRaceRandom();
     raceRandom->mValue = raceRandom->mMultiplier * raceRandom->mValue + raceRandom->mIncrement;
     itemObject->mVelocity = *velocity;
-    VEC_MultAdd(spawnDistance, &direction, &woodbox->mUnk_000.mPos, &itemObject->mPos);
+    VEC_MultAdd(spawnDistance, &direction, &woodbox->mMapObject.mPos, &itemObject->mPos);
     VEC_MultAdd(0, &sideDirection, &itemObject->mPos, &itemObject->mPos);
     itemObject->mScale.x = 0xcd;
     itemObject->mScale.y = 0xcd;
     itemObject->mScale.z = 0xcd;
-    LaunchItemObjectFromPos(itemObject, 2, &woodbox->mUnk_000.mPos, velocity, &woodbox->mGroundUp);
+    LaunchItemObjectFromPos(itemObject, 2, &woodbox->mMapObject.mPos, velocity, &woodbox->mGroundUp);
 }
 
 void EnterWoodbox1State1(Woodbox1 *woodbox) {
-    woodbox->mUnk_000.mFlags |= data_021594d8;
-    woodbox->mUnk_000.mFlags |= data_021594dc;
-    woodbox->mUnk_000.mFlags |= data_021594e0;
+    woodbox->mMapObject.mFlags |= data_021594d8;
+    woodbox->mMapObject.mFlags |= data_021594dc;
+    woodbox->mMapObject.mFlags |= data_021594e0;
 }
 
 #pragma thumb off
 
 void UpdateWoodbox1State1(Woodbox1 *woodbox) {
-    if (woodbox->mUnk_000.mStateMachine.mStateFrames < 900) {
+    if (woodbox->mMapObject.mStateMachine.mStateFrames < 900) {
         return;
     }
-    if (woodbox->mUnk_000.mCourseMapRow->mUnk_2c != 0) {
+    if (woodbox->mMapObject.mCourseMapRow->mUnk_2c != 0) {
         return;
     }
     if (data_0217bbf0 == NULL) {
         data_0217bbf0 = woodbox;
-        woodbox->mUnk_000.mStateMachine.mNextState = 2;
-        woodbox->mUnk_000.mStateMachine.mNextStateRequested = 1;
+        woodbox->mMapObject.mStateMachine.mNextState = 2;
+        woodbox->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
@@ -245,25 +245,25 @@ BOOL BounceWoodbox1OffGround(Woodbox1 *woodbox) {
     s32 dot;
     s32 extent;
 
-    cornerPos = woodbox->mUnk_000.mPos;
-    axis = &woodbox->mUnk_000.mMatrix.mUnk_00[0];
-    extent = woodbox->mUnk_000.mExtent.x;
+    cornerPos = woodbox->mMapObject.mPos;
+    axis = &woodbox->mMapObject.mMatrix.mUnk_00[0];
+    extent = woodbox->mMapObject.mExtent.x;
     dot = Vec3DotUnrounded(&woodbox->mGroundUp, axis);
     if (dot > 0) {
         VEC_MultAdd(-extent, axis, &cornerPos, &cornerPos);
     } else {
         VEC_MultAdd(extent, axis, &cornerPos, &cornerPos);
     }
-    axis = &woodbox->mUnk_000.mMatrix.mUnk_00[1];
-    extent = woodbox->mUnk_000.mExtent.x;
+    axis = &woodbox->mMapObject.mMatrix.mUnk_00[1];
+    extent = woodbox->mMapObject.mExtent.x;
     dot = Vec3DotUnrounded(&woodbox->mGroundUp, axis);
     if (dot > 0) {
         VEC_MultAdd(-extent, axis, &cornerPos, &cornerPos);
     } else {
         VEC_MultAdd(extent, axis, &cornerPos, &cornerPos);
     }
-    axis = &woodbox->mUnk_000.mMatrix.mUnk_00[2];
-    extent = woodbox->mUnk_000.mExtent.x;
+    axis = &woodbox->mMapObject.mMatrix.mUnk_00[2];
+    extent = woodbox->mMapObject.mExtent.x;
     dot = Vec3DotUnrounded(&woodbox->mGroundUp, axis);
     if (dot > 0) {
         VEC_MultAdd(-extent, axis, &cornerPos, &cornerPos);
@@ -271,16 +271,16 @@ BOOL BounceWoodbox1OffGround(Woodbox1 *woodbox) {
         VEC_MultAdd(extent, axis, &cornerPos, &cornerPos);
     }
     VEC_Subtract(&cornerPos, &woodbox->mBasePos, &cornerPos);
-    cornerPos.y = cornerPos.y + woodbox->mUnk_000.mExtent.x;
+    cornerPos.y = cornerPos.y + woodbox->mMapObject.mExtent.x;
     dot = -Vec3DotUnrounded(&cornerPos, &woodbox->mGroundUp);
-    if (dot > 0 && woodbox->mUnk_000.mUnk_10.y < 0) {
+    if (dot > 0 && woodbox->mMapObject.mPosStep.y < 0) {
         woodbox->mPosOffset.y = woodbox->mPosOffset.y + dot;
-        woodbox->mUnk_000.mUnk_10.y = MUL_FIXED12_NO_ROUND(-woodbox->mUnk_000.mUnk_10.y, 0x400);
+        woodbox->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(-woodbox->mMapObject.mPosStep.y, 0x400);
         woodbox->mTiltOffsetPerFrame.x = MUL_FIXED12_NO_ROUND(woodbox->mTiltOffset.x, -0x266);
         woodbox->mTiltOffsetPerFrame.y = MUL_FIXED12_NO_ROUND(woodbox->mTiltOffset.y, -0x266);
         woodbox->mTiltOffsetPerFrame.z = MUL_FIXED12_NO_ROUND(woodbox->mTiltOffset.z, -0x266);
-        woodbox->mUnk_000.mUnk_10.x = MUL_FIXED12_NO_ROUND(woodbox->mTiltOffsetPerFrame.x, 0x9000);
-        woodbox->mUnk_000.mUnk_10.z = MUL_FIXED12_NO_ROUND(woodbox->mTiltOffsetPerFrame.z, 0x9000);
+        woodbox->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(woodbox->mTiltOffsetPerFrame.x, 0x9000);
+        woodbox->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(woodbox->mTiltOffsetPerFrame.z, 0x9000);
         return TRUE;
     }
     return FALSE;
@@ -292,10 +292,10 @@ void EnterWoodbox1State2(Woodbox1 *woodbox) {
     u16 headingOffset;
 
     frameCount = GetRaceUpdateFrames();
-    woodbox->mUnk_000.mFlags &= ~1;
-    woodbox->mUnk_000.mFlags &= ~2;
-    woodbox->mUnk_000.mFlags &= ~8;
-    woodbox->mUnk_000.mAlpha = 1;
+    woodbox->mMapObject.mFlags &= ~1;
+    woodbox->mMapObject.mFlags &= ~2;
+    woodbox->mMapObject.mFlags &= ~8;
+    woodbox->mMapObject.mAlpha = 1;
     woodbox->mTiltOffset = *((frameCount & 1) ? &woodbox->mUnk_0f4 : &woodbox->mUnk_100);
     if (frameCount & 2) {
         headingOffset = woodbox->mUnk_10c;
@@ -309,23 +309,23 @@ void EnterWoodbox1State2(Woodbox1 *woodbox) {
     woodbox->mPosOffset.x = MUL_FIXED12_NO_ROUND(woodbox->mTiltOffset.x, 0x14000);
     woodbox->mPosOffset.y = 0x3c000;
     woodbox->mPosOffset.z = MUL_FIXED12_NO_ROUND(woodbox->mTiltOffset.z, 0x14000);
-    woodbox->mUnk_000.mUnk_10.x = 0;
-    woodbox->mUnk_000.mUnk_10.y = 0;
-    woodbox->mUnk_000.mUnk_10.z = 0;
+    woodbox->mMapObject.mPosStep.x = 0;
+    woodbox->mMapObject.mPosStep.y = 0;
+    woodbox->mMapObject.mPosStep.z = 0;
     VEC_Add(&woodbox->mGroundUp, &woodbox->mTiltOffset, &woodbox->mTiltedUp);
     woodbox->mMatrixHeadingAngle = woodbox->mHeadingAngle + woodbox->mHeadingAngleOffset;
     QuaternionFromVec3AndAngleAroundY(&woodbox->mTiltedUp, woodbox->mMatrixHeadingAngle, &rotation);
-    Matrix3x3FromQuaternion(&woodbox->mUnk_000.mMatrix.mUnk_00_m, &rotation);
+    Matrix3x3FromQuaternion(&woodbox->mMapObject.mMatrix.mUnk_00_m, &rotation);
 }
 
 void UpdateWoodbox1State2(Woodbox1 *woodbox) {
     if (BounceWoodbox1OffGround(woodbox) != FALSE) {
-        woodbox->mUnk_000.mStateMachine.mNextState = 3;
-        woodbox->mUnk_000.mStateMachine.mNextStateRequested = 1;
+        woodbox->mMapObject.mStateMachine.mNextState = 3;
+        woodbox->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
-    woodbox->mUnk_000.mUnk_10.y -= 0x1ec;
-    woodbox->mPosOffset.y = woodbox->mPosOffset.y + woodbox->mUnk_000.mUnk_10.y;
-    VEC_Add(&woodbox->mBasePos, &woodbox->mPosOffset, &woodbox->mUnk_000.mPos);
+    woodbox->mMapObject.mPosStep.y -= 0x1ec;
+    woodbox->mPosOffset.y = woodbox->mPosOffset.y + woodbox->mMapObject.mPosStep.y;
+    VEC_Add(&woodbox->mBasePos, &woodbox->mPosOffset, &woodbox->mMapObject.mPos);
 }
 
 void UpdateWoodbox1State3(Woodbox1 *woodbox) {
@@ -342,9 +342,9 @@ void UpdateWoodbox1State3(Woodbox1 *woodbox) {
     } else {
         woodbox->mHeadingAngleOffset = headingOffset + MUL_FIXED12_NO_ROUND(0x10000 - headingOffset, 246);
     }
-    woodbox->mUnk_000.mUnk_10.y -= 655;
-    VEC_Add(&woodbox->mPosOffset, &woodbox->mUnk_000.mUnk_10, &woodbox->mPosOffset);
-    VEC_Add(&woodbox->mBasePos, &woodbox->mPosOffset, &woodbox->mUnk_000.mPos);
+    woodbox->mMapObject.mPosStep.y -= 655;
+    VEC_Add(&woodbox->mPosOffset, &woodbox->mMapObject.mPosStep, &woodbox->mPosOffset);
+    VEC_Add(&woodbox->mBasePos, &woodbox->mPosOffset, &woodbox->mMapObject.mPos);
     VEC_Add(&woodbox->mGroundUp, &woodbox->mTiltOffset, &woodbox->mTiltedUp);
     if ((s64) woodbox->mTiltedUp.x * woodbox->mTiltedUp.x + (s64) woodbox->mTiltedUp.y * woodbox->mTiltedUp.y +
             (s64) woodbox->mTiltedUp.z * woodbox->mTiltedUp.z >=
@@ -353,11 +353,11 @@ void UpdateWoodbox1State3(Woodbox1 *woodbox) {
     }
     woodbox->mMatrixHeadingAngle = woodbox->mHeadingAngle + woodbox->mHeadingAngleOffset;
     QuaternionFromVec3AndAngleAroundY(&woodbox->mTiltedUp, woodbox->mMatrixHeadingAngle, &rotation);
-    Matrix3x3FromQuaternion(&woodbox->mUnk_000.mMatrix.mUnk_00_m, &rotation);
-    if (woodbox->mUnk_000.mStateMachine.mStateFrames >= 90) {
+    Matrix3x3FromQuaternion(&woodbox->mMapObject.mMatrix.mUnk_00_m, &rotation);
+    if (woodbox->mMapObject.mStateMachine.mStateFrames >= 90) {
         data_0217bbf0 = NULL;
-        woodbox->mUnk_000.mStateMachine.mNextState = 0;
-        woodbox->mUnk_000.mStateMachine.mNextStateRequested = 1;
+        woodbox->mMapObject.mStateMachine.mNextState = 0;
+        woodbox->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
@@ -369,18 +369,18 @@ u32 CollideKartWithWoodbox1(Woodbox1 *woodbox, Kart *kart, u8 *firstResponse, u8
                 if (data_0217bbf0 == woodbox) {
                     data_0217bbf0 = NULL;
                 }
-                woodbox->mUnk_000.mStateMachine.mNextState = 1;
-                woodbox->mUnk_000.mStateMachine.mNextStateRequested = 1;
+                woodbox->mMapObject.mStateMachine.mNextState = 1;
+                woodbox->mMapObject.mStateMachine.mNextStateRequested = 1;
                 StartSoundFullVolumeWrapper(kart, 0x167);
-                woodbox->mUnk_000.mDistanceSquaredAndFlags |= *(u32 *) data_021594d4;
-                StartSoundIfKartStarOrKiller(&woodbox->mUnk_000, kart);
-                if ((woodbox->mUnk_000.mDistanceSquaredAndFlags & 3) == 0) {
+                woodbox->mMapObject.mDistanceSquaredAndFlags |= *(u32 *) data_021594d4;
+                StartSoundIfKartStarOrKiller(&woodbox->mMapObject, kart);
+                if ((woodbox->mMapObject.mDistanceSquaredAndFlags & 3) == 0) {
                     if (*response == 0) {
-                        StartEffectWithKartVelocity(0x31, &woodbox->mUnk_000.mPos, kart->mIndex, 0x1000);
-                        StartEffectWithKartVelocity(0x32, &woodbox->mUnk_000.mPos, kart->mIndex, 0x1000);
+                        StartEffectWithKartVelocity(0x31, &woodbox->mMapObject.mPos, kart->mIndex, 0x1000);
+                        StartEffectWithKartVelocity(0x32, &woodbox->mMapObject.mPos, kart->mIndex, 0x1000);
                     } else {
-                        StartEffect(0x31, &woodbox->mUnk_000.mPos);
-                        StartEffect(0x32, &woodbox->mUnk_000.mPos);
+                        StartEffect(0x31, &woodbox->mMapObject.mPos);
+                        StartEffect(0x32, &woodbox->mMapObject.mPos);
                     }
                 }
             }
@@ -398,11 +398,11 @@ u32 CollideItemObjectWithWoodbox1(Woodbox1 *woodbox, ItemObject *itemObject, u8 
         if (data_0217bbf0 == woodbox) {
             data_0217bbf0 = NULL;
         }
-        woodbox->mUnk_000.mStateMachine.mNextState = 1;
-        woodbox->mUnk_000.mStateMachine.mNextStateRequested = 1;
-        if ((woodbox->mUnk_000.mDistanceSquaredAndFlags & 3) == 0) {
-            StartEffect(0x31, &woodbox->mUnk_000.mPos);
-            StartEffect(0x32, &woodbox->mUnk_000.mPos);
+        woodbox->mMapObject.mStateMachine.mNextState = 1;
+        woodbox->mMapObject.mStateMachine.mNextStateRequested = 1;
+        if ((woodbox->mMapObject.mDistanceSquaredAndFlags & 3) == 0) {
+            StartEffect(0x31, &woodbox->mMapObject.mPos);
+            StartEffect(0x32, &woodbox->mMapObject.mPos);
         }
     }
     return *response;
@@ -423,18 +423,18 @@ void InitWoodbox1(Woodbox1 *woodbox, CourseMapRow *courseRow) {
     Quaternion rotation;
     s32 length;
 
-    if (CollideSphereWithCourse(&woodbox->mUnk_000.mPos, NULL, 0, 0xa000, 8, -2, NULL, &woodbox->mGroundUp, NULL, NULL,
+    if (CollideSphereWithCourse(&woodbox->mMapObject.mPos, NULL, 0, 0xa000, 8, -2, NULL, &woodbox->mGroundUp, NULL, NULL,
                                 NULL, NULL, NULL, NULL) == 0) {
         woodbox->mGroundUp = data_0216c3d8;
     }
-    woodbox->mUnk_000.mPos.y = woodbox->mUnk_000.mPos.y + woodbox->mUnk_000.mExtent.x;
-    woodbox->mBasePos = woodbox->mUnk_000.mPos;
-    woodbox->mUnk_000.mUnk_10.x = 0;
-    woodbox->mUnk_000.mUnk_10.y = 0;
-    woodbox->mUnk_000.mUnk_10.z = 0;
+    woodbox->mMapObject.mPos.y = woodbox->mMapObject.mPos.y + woodbox->mMapObject.mExtent.x;
+    woodbox->mBasePos = woodbox->mMapObject.mPos;
+    woodbox->mMapObject.mPosStep.x = 0;
+    woodbox->mMapObject.mPosStep.y = 0;
+    woodbox->mMapObject.mPosStep.z = 0;
     woodbox->mHeadingAngle = (((s64) courseRow->mUnk_0c.y * 0xB60B60B60BLL) + 0x80000000000LL) >> 44;
     QuaternionFromVec3AndAngleAroundY(&woodbox->mGroundUp, woodbox->mHeadingAngle, &rotation);
-    Matrix3x3FromQuaternion(&woodbox->mUnk_000.mMatrix.mUnk_00_m, &rotation);
+    Matrix3x3FromQuaternion(&woodbox->mMapObject.mMatrix.mUnk_00_m, &rotation);
     woodbox->mUnk_0f4.x = -woodbox->mGroundUp.x;
     woodbox->mUnk_0f4.y = 0;
     woodbox->mUnk_0f4.z = -woodbox->mGroundUp.z;
@@ -446,8 +446,8 @@ void InitWoodbox1(Woodbox1 *woodbox, CourseMapRow *courseRow) {
         length = Vec3NormalizeAndGetLengthUnchecked(&woodbox->mUnk_0f4, &woodbox->mUnk_0f4);
     }
     if (length == 0) {
-        woodbox->mUnk_0f4.x = -woodbox->mUnk_000.mMatrix.mUnk_00[2].x;
-        woodbox->mUnk_0f4.z = -woodbox->mUnk_000.mMatrix.mUnk_00[2].z;
+        woodbox->mUnk_0f4.x = -woodbox->mMapObject.mMatrix.mUnk_00[2].x;
+        woodbox->mUnk_0f4.z = -woodbox->mMapObject.mMatrix.mUnk_00[2].z;
     }
     Vec3RotateAroundY(&woodbox->mUnk_0f4, 0x0aab, &woodbox->mUnk_100);
     Vec3RotateAroundY(&woodbox->mUnk_0f4, 0xf555, &woodbox->mUnk_0f4);
@@ -460,11 +460,11 @@ void InitWoodbox1(Woodbox1 *woodbox, CourseMapRow *courseRow) {
     woodbox->mUnk_10c = 0x1555;
     woodbox->mItemRowHandle = courseRow->mUnk_28;
     woodbox->mItemChancePercent = courseRow->mUnk_2a;
-    InitStateMachine(&woodbox->mUnk_000.mStateMachine, gWoodbox1StateTable, 4, woodbox);
-    woodbox->mUnk_000.mStateMachine.mNextState = 0;
-    woodbox->mUnk_000.mStateMachine.mNextStateRequested = 1;
+    InitStateMachine(&woodbox->mMapObject.mStateMachine, gWoodbox1StateTable, 4, woodbox);
+    woodbox->mMapObject.mStateMachine.mNextState = 0;
+    woodbox->mMapObject.mStateMachine.mNextStateRequested = 1;
     RefreshShadowMatrix(&woodbox->mUnk_114, &courseRow->mUnk_00,
-                        MUL_FIXED12_NO_ROUND(woodbox->mUnk_000.mScale.x, 0x19000), 13);
+                        MUL_FIXED12_NO_ROUND(woodbox->mMapObject.mScale.x, 0x19000), 13);
 }
 
 #pragma thumb off

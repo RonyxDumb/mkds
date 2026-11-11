@@ -6,7 +6,7 @@
 
 // Object with the MapObject base at 0x00 (UpdateDistanceSound, InitDistanceSoundObjects, InitDistanceSound).
 typedef struct DistanceSound {
-    /* 00 */ MapObject mUnk_00;
+    /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mSoundVolumeFixed12;
     /* a4 */ s32 mDistanceVolumeFixed12;
     // Radius in whole units; the inner half-radius test uses w / 2 without the << 12.
