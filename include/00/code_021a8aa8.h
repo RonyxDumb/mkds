@@ -3,9 +3,9 @@
 #include "types.h"
 #include "00/code_021a6fa8.h"
 
-// One entry of the array func_ov000_021a8b20 takes: an object, the bits asked for and the bits found.
+// One entry of the array SOC_Poll takes: an object, the bits asked for and the bits found.
 typedef struct Unk021a8b20 {
-    /* 00 */ Unk021a6fa8 *mUnk_00;
+    /* 00 */ SOCLSocket *mUnk_00;
     /* 04 */ s16 mUnk_04;
     /* 06 */ u16 mUnk_06;
 } Unk021a8b20;
@@ -21,7 +21,7 @@ typedef struct Unk021a8c94 {
     /* 30 */ s32 mUnk_30;
 } Unk021a8c94;
 
-extern void *(*data_ov000_021b6014)(u32 a, u32 b);
+extern void *(*AllocFunc_SOC)(u32 a, u32 b);
 
 typedef struct Unk021a8e18 {
     /* 0 */ u8 mUnk_00;
@@ -35,41 +35,41 @@ typedef struct Unk021a8e18 {
 #include "00/unk_021b4000.h"
 
 extern SOCLSocketParam SOCLSocketParamUDP;
-extern const char data_ov000_021b49e8[];
-extern u32 data_ov000_021b600c;
-extern u32 *data_ov000_021b6018[2];
-extern SOCHostEnt data_ov000_021b6020;
-extern char data_ov000_021b6030[16];
-extern Unk021b5f94 data_ov000_021b6040;
-extern s8 data_ov000_021b6078[0x104];
+extern const char gInetNtoPFormat[];
+extern u32 hostip;
+extern u32 *hostAddrList[2];
+extern SOCHostEnt hostent;
+extern char sInetNtoABuffer[16];
+extern SOCLConfig soclConfig;
+extern s8 entName[0x104];
 
-void func_ov000_021a8aa8(Unk021a6fa8 *arg0);
-Unk021a8ab8 **func_ov000_021a8ab8(Unk021a8ab8 **head, Unk021a8ab8 *node);
-void func_ov000_021a8ad0(Unk021a8ab8 **head, Unk021a8ab8 *node);
-void func_ov000_021a8ae8(Unk021a6fa8 *arg0);
-void func_ov000_021a8af8(Unk021a6fa8 *arg0);
-void func_ov000_021a8b08(u32 arg0, u32 arg1);
-void func_ov000_021a8b10(void *arg0);
-s32 func_ov000_021a8b20(void *a, s32 b, s64 c);
-void func_ov000_021a8bb0(u32 a, u8 *b);
-char *func_ov000_021a8bc0(s32 a, const void *b, char *c, u32 d);
-u32 func_ov000_021a8c1c(u32 b, u32 *c);
-char *func_ov000_021a8c6c(Unk021b5dfc a);
-s32 func_ov000_021a8c8c(void);
-s32 func_ov000_021a8c94(void *b);
-void func_ov000_021a8d98(int a);
-void *func_ov000_021a8db8(u32 a);
-s32 func_ov000_021a8dd8(Unk021a6fa8 *a, s32 b, u32 c);
-s32 func_ov000_021a8e18(Unk021a6fa8 *a, Unk021a8e18 *b, s32 f);
-s32 func_ov000_021a8e70(s32 descriptor);
-void func_ov000_021a8e78(unsigned int *p0, unsigned int *p1);
-unsigned int func_ov000_021a8ed4(void);
-unsigned int func_ov000_021a8f0c(unsigned int f, void *g);
-s32 func_ov000_021a9008(s32 descriptor);
-s32 func_ov000_021a9010(s32 descriptor);
-s32 func_ov000_021a9018(s32 id, void *buffer, s32 length, s32 flags, void *addr);
-s32 func_ov000_021a9088(s32 p0, void *p1, s32 p2, s32 p3);
-s32 func_ov000_021a90a0(s32 id, void *buffer, s32 length, s32 flags, void *addr);
-s32 func_ov000_021a9104(s32 p0, void *p1, s32 p2, s32 p3);
-s32 func_ov000_021a911c(Unk021a6fa8 *a, Unk021a8e18 *b);
-s32 func_ov000_021a918c(s32 domain, s32 type, s32 protocol);
+void SOCLi_SocketUnregisterTrash(SOCLSocket *socket);
+Unk021a8ab8 **SOCLi_SocketGetNextPtr(Unk021a8ab8 **head, Unk021a8ab8 *node);
+void SOCLi_SocketUnregisterList(Unk021a8ab8 **head, Unk021a8ab8 *node);
+void SOCLi_SocketUnregister(SOCLSocket *socket);
+void SOCLi_SocketRegisterTrash(SOCLSocket *socket);
+void SOCLi_SocketRegisterList(u32 listAddress, u32 socketAddress);
+void SOCLi_SocketRegister(void *socket);
+s32 SOC_Poll(void *entries, s32 entryCount, s64 ticksLeft);
+void SOC_U32to4U8(u32 word, u8 *bytes);
+char *SOC_InetNtoP(s32 family, const void *source, char *destination, u32 length);
+BOOL SOC_InetAtoN(u32 addressString, u32 *addressOut);
+char *SOC_InetNtoA(Unk021b5dfc address);
+s32 SOC_Cleanup(void);
+s32 SOC_Startup(void *configPointer);
+void FreeFunc_SOCL(int memory);
+void *AllocFunc_SOCL(u32 size);
+s32 SOC_Fcntl(SOCLSocket *socket, s32 command, u32 mode);
+s32 SOC_Accept(SOCLSocket *socket, Unk021a8e18 *sockAddr, s32 f);
+s32 SOC_Listen(s32 descriptor);
+void SOC_SetResolver(unsigned int *firstDns, unsigned int *secondDns);
+unsigned int SOC_GetHostID(void);
+s32 SOC_GetSockName(unsigned int socketHandle, void *sockAddr);
+s32 SOC_Close(s32 descriptor);
+s32 SOC_Shutdown(s32 descriptor);
+s32 SOC_SendTo(s32 id, void *buffer, s32 length, s32 flags, void *addr);
+s32 SOC_Send(s32 sockObj, void *buffer, s32 length, s32 flags);
+s32 SOC_RecvFrom(s32 id, void *buffer, s32 length, s32 flags, void *addr);
+s32 SOC_Recv(s32 sockObj, void *buffer, s32 length, s32 flags);
+s32 SOC_Connect(SOCLSocket *socket, Unk021a8e18 *sockAddr);
+s32 SOC_Socket(s32 domain, s32 type, s32 protocol);

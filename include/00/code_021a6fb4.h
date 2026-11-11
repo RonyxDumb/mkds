@@ -5,14 +5,14 @@
 
 typedef struct SOCLSocketParam SOCLSocketParam;
 
-struct Unk021a7064;
+struct SOCLiCommandPacket;
 
-typedef s32 (*Unk021a7064Func)(struct Unk021a7064 *param_1);
+typedef s32 (*Unk021a7064Func)(struct SOCLiCommandPacket *param_1);
 
-// Entry of the queue behind data_ov000_021b5fdc.
-typedef struct Unk021a7064 {
+// Entry of the queue behind SOCLiCommandPacketQueue.
+typedef struct SOCLiCommandPacket {
     /* 00 */ Unk021a7064Func mUnk_00;
-    /* 04 */ Unk021a6fa8 *mUnk_04;
+    /* 04 */ SOCLSocket *mUnk_04;
     /* 08 */ OSMessageQueue *mUnk_08;
     /* 0c */ s8 mUnk_0c;
     /* 0d */ s8 mUnk_0d;
@@ -23,17 +23,17 @@ typedef struct Unk021a7064 {
     /* 18 */ u32 *mUnk_18;
     /* 1c */ u32 mUnk_1c;
     /* 20 */ u8 mUnk_20[0xc];
-} Unk021a7064;
+} SOCLiCommandPacket;
 
-s32 func_ov000_021a6fb4(Unk021a6fa8 *a, Unk021a7064 *b);
-s32 func_ov000_021a6fc0(Unk021a7154 *d, Unk021a7064 *e);
-s32 func_ov000_021a7008(Unk021a7154 *b, Unk021a7064 *c);
-void func_ov000_021a7048(Unk021a7064 *a);
-Unk021a7064 *func_ov000_021a7064(Unk021a7064Func b, Unk021a6fa8 *c, s32 d);
-Unk021a7064 *func_ov000_021a7088(s32 a);
-s32 func_ov000_021a70b0(void);
-s32 func_ov000_021a70ec(s32 e);
-u8 *func_ov000_021a7154(u8 *b, Unk021a7154 *c, Unk021a72a4 *d);
-u8 *func_ov000_021a71a4(u8 *a, SizedBuffer *b, s32 c);
-u8 *func_ov000_021a71c0(Unk021a6fa8 *d, SOCLSocketParam *e);
-int func_ov000_021a72a4(Unk021a72a4 *a);
+s32 SOCLi_ExecCommandPacketInRecvPipe(SOCLSocket *socket, SOCLiCommandPacket *packet);
+s32 SOCLi_ExecCommandPacket(SOCLiSocketCommandPipe *pipe, SOCLiCommandPacket *packet);
+s32 SOCLi_SendCommandPacket(SOCLiSocketCommandPipe *pipe, SOCLiCommandPacket *packet);
+void SOCLi_FreeCommandPacket(SOCLiCommandPacket *packet);
+SOCLiCommandPacket *SOCLi_CreateCommandPacket(Unk021a7064Func handler, SOCLSocket *socket, s32 flag);
+SOCLiCommandPacket *SOCLi_AllocCommandPacket(s32 flag);
+s32 SOCLi_CleanupCommandPacketQueue(void);
+s32 SOCLi_StartupCommandPacketQueue(s32 count);
+u8 *SOCLi_InitCommandPipe(u8 *messages, SOCLiSocketCommandPipe *pipe, SOCLSocketCommandPipeParam *param);
+u8 *SOCLi_InitSocketBuffer(u8 *cursor, SizedBuffer *buffer, s32 size);
+u8 *SOCLi_InitSocket(SOCLSocket *socket, SOCLSocketParam *param);
+int SOCLi_GetSizeCommandPipe(SOCLSocketCommandPipeParam *param);

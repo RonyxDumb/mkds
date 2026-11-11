@@ -96,7 +96,7 @@ u32 GpiOpenSockets(GpConnection *connection, Unk021919ac_node *operation) {
         GpiQueueErrorCallback(connection, 3, 1);
         return 3;
     }
-    resolvedHost = func_ov000_021a8f84(gConnectionManagerName);
+    resolvedHost = SOC_GetHostByName(gConnectionManagerName);
     if (resolvedHost == NULL) {
         GpiSetError(connection, 5, gResolveManagerHostErrorString);
         GpiQueueErrorCallback(connection, 3, 1);

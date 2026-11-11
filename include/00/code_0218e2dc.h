@@ -9,7 +9,7 @@ typedef struct SOCSockAddr {
     /* 02 */ u8 mUnk_02[6];
 } SOCSockAddr;
 
-// Object func_ov000_021a8f84 returns; mUnk_0c points at a table of pointers to a word.
+// Object SOC_GetHostByName returns; mUnk_0c points at a table of pointers to a word.
 typedef struct SOCHostEnt {
     /* 00 */ u8 *mUnk_00;
     /* 04 */ u8 *mUnk_04;

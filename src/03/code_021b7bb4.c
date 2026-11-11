@@ -1045,17 +1045,17 @@ s32 StartSocketsWithAddress(u32 address, u32 mask, u32 router) {
     gEssidSocketConfig.mUnk_10[0] = SwapBytes32(address);
     gEssidSocketConfig.mUnk_10[1] = SwapBytes32(mask);
     gEssidSocketConfig.mUnk_10[2] = SwapBytes32(router);
-    if (func_ov000_021a8c94(&gEssidSocketConfig) < 0) {
+    if (SOC_Startup(&gEssidSocketConfig) < 0) {
         return -1;
     }
-    while (data_ov000_021b63b4 == 0) {
+    while (CPSMyIp == 0) {
         OS_Sleep(100);
     }
     return 0;
 }
 
 s32 StopSocketsAndDisconnectEssid(void) {
-    if (func_ov000_021a8c8c() < 0) {
+    if (SOC_Cleanup() < 0) {
         return -1;
     }
     return -(DisconnectEssidAndWait() != 0);
@@ -1086,7 +1086,7 @@ void FillBytes(void *destination, s32 fillValue, u32 size) {
 
 s32 RecvFromSocket(s32 descriptor, void *buffer, s32 length, s32 flags, SocketAddress *address, s32 *addressLength) {
     address->mLength = *addressLength;
-    return func_ov000_021a90a0(descriptor, buffer, length, flags, address);
+    return SOC_RecvFrom(descriptor, buffer, length, flags, address);
 }
 
 s32 PollSocketWithTimeout(s32 v1, PollEntry *set, void *v3, void *v4, WaitTimeout *timeout) {
@@ -1096,12 +1096,12 @@ s32 PollSocketWithTimeout(s32 v1, PollEntry *set, void *v3, void *v4, WaitTimeou
     setCopy = *set;
     ticks += timeout->mSeconds * 0x1ff6210 / 0x40;
     ticks += timeout->mUnk_04 * 0x1ff6210 / 0x40;
-    return func_ov000_021a8b20(&setCopy, 1, ticks);
+    return SOC_Poll(&setCopy, 1, ticks);
 }
 
 s32 SendToSocket(s32 descriptor, void *buffer, s32 length, s32 flags, SocketAddress *address, u32 addressLength) {
     address->mLength = addressLength;
-    return func_ov000_021a9018(descriptor, buffer, length, flags, address);
+    return SOC_SendTo(descriptor, buffer, length, flags, address);
 }
 
 s32 SocketReturnArgument(s32 id, s32 arg1, s32 arg2, void *value, s32 length) {
@@ -1109,16 +1109,16 @@ s32 SocketReturnArgument(s32 id, s32 arg1, s32 arg2, void *value, s32 length) {
 }
 
 s32 OpenSocket(s32 domain, s32 type, s32 protocol) {
-    return func_ov000_021a918c(domain, type, protocol);
+    return SOC_Socket(domain, type, protocol);
 }
 
 s32 BindSocket(s32 descriptor, SocketAddress *address, u32 addressLength) {
     address->mLength = addressLength;
-    return func_ov000_021a916c(descriptor, address);
+    return SOC_Bind(descriptor, address);
 }
 
 s32 CloseSocket(s32 descriptor) {
-    return func_ov000_021a9008(descriptor);
+    return SOC_Close(descriptor);
 }
 
 u32 SwapBytes32(u32 input) {

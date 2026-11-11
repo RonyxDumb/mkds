@@ -71,7 +71,7 @@ s32 func_ov000_021ad3b8(u32 a, s32 b) {
     e = (b + 1) * 15;
     c = OS_GetTick() >> 16;
     d = 0;
-    m = data_ov000_021b63d8;
+    m = CPSDnsIp;
     while (data_ov000_021b6388() != 0 && d == 0 && (s32) ((u32) (OS_GetTick() >> 16) - c) < e) {
         if (func_ov000_021adbac() == 0) {
             func_ov000_021b04d4();
@@ -94,10 +94,10 @@ s32 func_ov000_021ad3b8(u32 a, s32 b) {
                         }
                         switch (k) {
                             case 1:
-                                data_ov000_021b6380 = (u16) (g[1] << 8 | g[2]) << 16 | (u16) (g[3] << 8 | g[4]);
+                                CPSNetMask = (u16) (g[1] << 8 | g[2]) << 16 | (u16) (g[3] << 8 | g[4]);
                                 break;
                             case 3:
-                                data_ov000_021b639c = (u16) (g[1] << 8 | g[2]) << 16 | (u16) (g[3] << 8 | g[4]);
+                                CPSGatewayIp = (u16) (g[1] << 8 | g[2]) << 16 | (u16) (g[3] << 8 | g[4]);
                                 break;
                             case 6:
                                 if (g[0] < 8) {
@@ -117,7 +117,7 @@ s32 func_ov000_021ad3b8(u32 a, s32 b) {
                                         d = 1;
                                         break;
                                     case 5:
-                                        data_ov000_021b63b4 = i;
+                                        CPSMyIp = i;
                                         d = 2;
                                         break;
                                 }

@@ -360,7 +360,7 @@ s32 ServerListConnect(SbServerList *serverList) {
     masterAddress.mUnk_02 = 0xee70;
     masterAddress.mUnk_04 = inet_addr((u32) masterHost);
     if (masterAddress.mUnk_04 == -1) {
-        hostEntry = func_ov000_021a8f84(masterHost);
+        hostEntry = SOC_GetHostByName(masterHost);
         if (hostEntry == NULL) {
             return 2;
         }

@@ -23,7 +23,7 @@ u32 func_ov000_021acef8(const char *a) {
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 2; j++) {
             if (f[j] != 0) {
-                r = func_ov000_021acfd8(a, data_ov000_021b63d8[j], s[j]);
+                r = func_ov000_021acfd8(a, CPSDnsIp[j], s[j]);
                 if (r != 0 && r != 0xffffffff) {
                     goto done;
                 }

@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-extern u32 data_ov000_021b63d8[2];
+extern u32 CPSDnsIp[2];
 
-u32 func_ov000_021a8878(u32 first, u32 second);
+s32 SOCL_SetResolver(u32 firstDns, u32 secondDns);

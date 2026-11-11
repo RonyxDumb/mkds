@@ -39,7 +39,7 @@ s32 DisConnectAP(void) {
 BOOL CloseAutoConnectSocket(void) {
     s32 result;
 
-    result = func_ov000_021a8c8c();
+    result = SOC_Cleanup();
     if (result == 0 || result == -0x27) {
         return 1;
     }

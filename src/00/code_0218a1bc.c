@@ -5,7 +5,7 @@
 #include "code_0200f5ac.h"
 
 u32 GetIPAddress(ACWORK *work) {
-    if (func_ov000_021a8ed4() != 0) {
+    if (SOC_GetHostID() != 0) {
         CheckSetDNS(work);
         if (work->mUnk_d0c_4 == 1) {
             return 0xf;

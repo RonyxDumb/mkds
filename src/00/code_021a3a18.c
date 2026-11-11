@@ -270,7 +270,7 @@ BOOL ResolveQueryHostAddress(const char *host, u32 port, Unk021a4654 *saddr, SOC
     }
     if (saddr->mUnk_04 == -1) {
         if (strcmp(host, gBroadcastAddress) != 0) {
-            hent = func_ov000_021a8f84(host);
+            hent = SOC_GetHostByName(host);
             if (hent == NULL) {
                 return FALSE;
             }
@@ -817,7 +817,7 @@ void send_heartbeat(Unk021a3a18 *qrec, s32 statechanged) {
     for (index = 0; index < gNumLocalIps; index++) {
         sprintf(keyText, gLocalIpKeyFormat, index);
         qr2_buffer_addA((QueryBuffer *) &buf, keyText);
-        qr2_buffer_addA((QueryBuffer *) &buf, func_ov000_021a8c6c(((Unk021b5dfc *) gLocalIpList)[index]));
+        qr2_buffer_addA((QueryBuffer *) &buf, SOC_InetNtoA(((Unk021b5dfc *) gLocalIpList)[index]));
     }
     qr2_buffer_addA((QueryBuffer *) &buf, gLocalportKey);
     qr2_buffer_add_int((QueryBuffer *) &buf, qrec->mUnk_c0);

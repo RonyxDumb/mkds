@@ -29,7 +29,7 @@ typedef struct WCMCpsifWork {
     /* 28 */ Unk021b5f54Func mRecvCallback;
 } WCMCpsifWork;
 
-typedef struct Unk021b5f94 {
+typedef struct SOCLConfig {
     /* 00 */ s32 mUnk_00;
     /* 04 */ u32 mUnk_04;
     /* 08 */ u32 mUnk_08;
@@ -44,9 +44,9 @@ typedef struct Unk021b5f94 {
     /* 2c */ s32 mUnk_2c;
     /* 30 */ s32 mUnk_30;
     /* 34 */ s32 mUnk_34;
-} Unk021b5f94;
+} SOCLConfig;
 
-typedef struct Unk021b5fa8 {
+typedef struct CPSConfig {
     /* 00 */ s32 mUnk_00;
     /* 04 */ void *(*mUnk_04)(u32 param_1);
     /* 08 */ void (*mUnk_08)(void *param_1);
@@ -59,13 +59,13 @@ typedef struct Unk021b5fa8 {
     /* 24 */ s32 mUnk_24;
     /* 28 */ u32 mUnk_28;
     /* 2c */ u32 mUnk_2c;
-} Unk021b5fa8;
+} CPSConfig;
 
 // Objects whose layout isn't known yet.
 extern u8 gFreeFunc[];
 extern u8 gAllocFunc[];
 extern WCMWork *gWcmWork;
-extern u8 data_ov000_021b5f98[];
+extern u8 SOCLiYieldWait[];
 
 extern u8 gMatchingMaskedParticipantIndices[0x20];
 
@@ -95,12 +95,12 @@ extern void *gMatchingFilterText;
 extern WCMCpsifWork gWcmCpsifWork;
 extern u8 gWcmRssiIndex;
 extern u8 gWcmRssi[16];
-extern Unk021b5f94 *data_ov000_021b5f94;
-extern u32 data_ov000_021b5f9c;
-extern Unk021a6fa8 *data_ov000_021b5fa4;
-extern Unk021b5fa8 data_ov000_021b5fa8;
-extern void *data_ov000_021b5fd8;
-extern OSMessageQueue data_ov000_021b5fdc;
+extern SOCLConfig *SOCLiConfigPtr;
+extern u32 SOCLiRequestedIP;
+extern SOCLSocket *SOCLiUDPSendSocket;
+extern CPSConfig SOCLiCPSConfig;
+extern void *SOCLiCommandPackets;
+extern OSMessageQueue SOCLiCommandPacketQueue;
 
 extern s32 nIndex;
 extern char strAddressArray[2][0x16];

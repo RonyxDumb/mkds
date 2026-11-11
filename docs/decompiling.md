@@ -711,7 +711,7 @@ Expression shapes:
 - A 0/1 flag the ROM sets to 0 before the tests and copies the 1 into as the last instruction (ours has a
   `movs rN, #0` block after the tests): `if (A && B) b = 1;`, nested ifs and `b = A && B;` all give the
   shared-false-block form, so write the last term as a comparison assigned inside the if: `b = 0; if (p != 0) { b =
-  (p->mUnk_70 & 1) != 0; }` (Thumb: func_ov000_021a7824). Many functions have the plain `b = 0; if (A && B) b = 1;`
+  (p->mUnk_70 & 1) != 0; }` (Thumb: SOCL_Bind). Many functions have the plain `b = 0; if (A && B) b = 1;`
   shape and need this: look at the diff first.
 - An early test branching to the same `mov rX, #K` block that a later test falls into (ours predicates the early
   arm): `if (x == -1 || helper(x) == 0) { r = 1; }` with `helper` the `f = 0; if (...) f = 1; return f;` flag

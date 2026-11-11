@@ -204,7 +204,7 @@ u32 NameToIp(const char *name) {
 
     address = inet_addr((u32) name);
     if (address == -1) {
-        host = func_ov000_021a8f84(name);
+        host = SOC_GetHostByName(name);
         if (host == NULL) {
             return 0;
         }
@@ -496,9 +496,9 @@ u32 Gt2FormatAddress(u32 ipAddress, u32 port, char *buffer) {
     if (ipAddress != 0) {
         inAddress.mUnk_00 = ipAddress;
         if (port != 0) {
-            sprintf(addressString, data_ov000_021b3ffc, func_ov000_021a8c6c(inAddress), port);
+            sprintf(addressString, data_ov000_021b3ffc, SOC_InetNtoA(inAddress), port);
         } else {
-            sprintf(addressString, data_ov000_021b4004, func_ov000_021a8c6c(inAddress));
+            sprintf(addressString, data_ov000_021b4004, SOC_InetNtoA(inAddress));
         }
     } else if (port != 0) {
         sprintf(addressString, data_ov000_021b4008, port);
@@ -563,7 +563,7 @@ BOOL Gt2ParseAddress(const char *string, u32 *ipOut, u16 *portOut) {
         if (string != NULL) {
             sourceIp = inet_addr((u32) string);
             if (sourceIp == -1) {
-                hostEntry = func_ov000_021a8f84(string);
+                hostEntry = SOC_GetHostByName(string);
                 if (hostEntry == NULL) {
                     return FALSE;
                 }

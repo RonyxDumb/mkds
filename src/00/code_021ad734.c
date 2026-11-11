@@ -29,17 +29,17 @@ void func_ov000_021b04f8(u32 a) {
     s32 i;
     Unk021b69dc *e;
 
-    if (data_ov000_021b63b4 != 0) {
+    if (CPSMyIp != 0) {
         b = 1;
     } else {
         b = 0;
     }
     data_ov000_021b637c = a;
-    data_ov000_021b63b4 = 0;
-    data_ov000_021b6380 = 0;
-    data_ov000_021b639c = 0;
-    data_ov000_021b63d8[0] = 0;
-    data_ov000_021b63d8[1] = 0;
+    CPSMyIp = 0;
+    CPSNetMask = 0;
+    CPSGatewayIp = 0;
+    CPSDnsIp[0] = 0;
+    CPSDnsIp[1] = 0;
     data_ov000_021b638c = 0;
     if (b != 0) {
         MI_CpuFill8(data_ov000_021b6434, 0, 0x60);
@@ -86,7 +86,7 @@ s32 func_ov000_021b04cc(void) {
     return 1;
 }
 
-void func_ov000_021b02fc(Unk021b5fa8 *a) {
+void func_ov000_021b02fc(CPSConfig *a) {
     OSi_ReferSymbol(0x2000bfc);
     if (*(u64 *) &a->mUnk_14 != 0) {
         data_ov000_021b63e0[0] = *(u64 *) &a->mUnk_14;
@@ -230,13 +230,12 @@ BOOL func_ov000_021b0138(const void *buffer, u32 length, const Unk021b0138 *head
 }
 
 BOOL func_ov000_021b00fc(u32 address) {
-    return address == 0xffffffff || address == 0x7f000001 ||
-           (address & data_ov000_021b6380) == (data_ov000_021b63b4 & data_ov000_021b6380);
+    return address == 0xffffffff || address == 0x7f000001 || (address & CPSNetMask) == (CPSMyIp & CPSNetMask);
 }
 
 u32 func_ov000_021b00e0(u32 address) {
     if (func_ov000_021b00fc(address) == FALSE) {
-        address = data_ov000_021b639c;
+        address = CPSGatewayIp;
     }
     return address;
 }
@@ -244,7 +243,7 @@ u32 func_ov000_021b00e0(u32 address) {
 s32 func_ov000_021b00b0(u32 address) {
     BOOL result = FALSE;
 
-    if (func_ov000_021b00fc(address) != FALSE && (address & ~data_ov000_021b6380) == ~data_ov000_021b6380) {
+    if (func_ov000_021b00fc(address) != FALSE && (address & ~CPSNetMask) == ~CPSNetMask) {
         result = TRUE;
     }
     return result;
@@ -258,8 +257,8 @@ BOOL func_ov000_021b0094(u32 address) {
 }
 
 BOOL func_ov000_021b003c(u32 address) {
-    return data_ov000_021b63b4 == 0 || address == data_ov000_021b63b4 || address == 0x7f000001 ||
-           func_ov000_021b00b0(address) != 0 || func_ov000_021b0094(address) != FALSE;
+    return CPSMyIp == 0 || address == CPSMyIp || address == 0x7f000001 || func_ov000_021b00b0(address) != 0 ||
+           func_ov000_021b0094(address) != FALSE;
 }
 
 BOOL func_ov000_021b0014(const u16 *first, const u16 *second) {
@@ -410,7 +409,7 @@ u8 *func_ov000_021afd00(u32 a) {
 
     b = OS_DisableInterrupts();
     c = NULL;
-    if (a == 0x7f000001 || a == data_ov000_021b63b4) {
+    if (a == 0x7f000001 || a == CPSMyIp) {
         c = (u8 *) data_ov000_021b63d0;
     } else if (func_ov000_021b00b0(a) != 0 || func_ov000_021b0094(a) != FALSE) {
         c = data_ov000_021b4c2c;
@@ -440,8 +439,8 @@ void func_ov000_021afc5c(u32 a) {
     b.mUnk_12 = 0x406;
     b.mUnk_15 = 1;
     MI_CpuCopy8(data_ov000_021b63d0, b.mUnk_16, 6);
-    b.mUnk_1c = ((u16) (*(u32 *) &data_ov000_021b63b4 >> 16) >> 8) | ((u16) (*(u32 *) &data_ov000_021b63b4 >> 16) << 8);
-    b.mUnk_1e = ((u16) data_ov000_021b63b4 >> 8) | ((u16) data_ov000_021b63b4 << 8);
+    b.mUnk_1c = ((u16) (*(u32 *) &CPSMyIp >> 16) >> 8) | ((u16) (*(u32 *) &CPSMyIp >> 16) << 8);
+    b.mUnk_1e = ((u16) CPSMyIp >> 8) | ((u16) CPSMyIp << 8);
     b.mUnk_26 = ((u16) (a >> 16) >> 8) | ((u16) (a >> 16) << 8);
     b.mUnk_28 = ((u16) a >> 8) | ((u16) a << 8);
     func_ov000_021affcc((u8 *) &b, 0x2a, NULL, 0);
@@ -472,8 +471,7 @@ void func_ov000_021afb58(u8 *a, u32 b, u32 c) {
     u32 g;
     Unk021b6434 *p;
 
-    if (b == 0x7f000001 || b == data_ov000_021b63b4 || func_ov000_021b00fc(b) == FALSE ||
-        func_ov000_021b0094(b) != FALSE) {
+    if (b == 0x7f000001 || b == CPSMyIp || func_ov000_021b00fc(b) == FALSE || func_ov000_021b0094(b) != FALSE) {
         return;
     }
     d = OS_GetTick() >> 16;
@@ -544,10 +542,10 @@ void func_ov000_021af9d0(u8 *a, u32 b, void *c, u32 d, u32 e, u32 f) {
     *(u16 *) (a - 0xa) = 0;
     g = func_ov000_021b0188(a - 0x14, 0x14);
     *(u16 *) (a - 0xa) = (g >> 8) | (g << 8);
-    if (e != 0x7f000001 && e != data_ov000_021b63b4) {
+    if (e != 0x7f000001 && e != CPSMyIp) {
         func_ov000_021afaac(a - 0x14, b + 0x14, c, d, e, 0x800);
     }
-    if (e == 0x7f000001 || e == data_ov000_021b63b4 || func_ov000_021b0094(e) != FALSE) {
+    if (e == 0x7f000001 || e == CPSMyIp || func_ov000_021b0094(e) != FALSE) {
         MI_CpuCopy8(data_ov000_021b4c40, a - 0x1c, 8);
         h = OS_DisableInterrupts();
         func_ov000_021afe84(data_ov000_021b63d0, data_ov000_021b63d0, a - 0x1c, b + 0x1c, c, d);
@@ -567,8 +565,8 @@ void func_ov000_021af858(u8 *a, u32 b, u8 *c, u32 d, u32 e, u8 f) {
     *(u16 *) (a - 0x10) = (data_ov000_021b6378 >> 8) | (data_ov000_021b6378 << 8);
     a[-0xc] = 0x80;
     a[-0xb] = f;
-    *(u16 *) (a - 8) = ((u16) (data_ov000_021b63b4 >> 16) >> 8) | ((u16) (data_ov000_021b63b4 >> 16) << 8);
-    *(u16 *) (a - 6) = ((u16) data_ov000_021b63b4 >> 8) | ((u16) data_ov000_021b63b4 << 8);
+    *(u16 *) (a - 8) = ((u16) (CPSMyIp >> 16) >> 8) | ((u16) (CPSMyIp >> 16) << 8);
+    *(u16 *) (a - 6) = ((u16) CPSMyIp >> 8) | ((u16) CPSMyIp << 8);
     *(u16 *) (a - 4) = ((u16) (e >> 16) >> 8) | ((u16) (e >> 16) << 8);
     *(u16 *) (a - 2) = ((u16) e >> 8) | ((u16) e << 8);
     if (b > 0x5c8) {
@@ -635,8 +633,8 @@ void func_ov000_021af70c(u8 *a, u32 b, Unk021a998c *c) {
 
     g = c->mSendBuffer;
     d = g + 0x22;
-    *(u16 *) (d - 0xc) = ((u16) (data_ov000_021b63b4 >> 16) >> 8) | ((u16) (data_ov000_021b63b4 >> 16) << 8);
-    *(u16 *) (d - 0xa) = ((u16) data_ov000_021b63b4 >> 8) | ((u16) data_ov000_021b63b4 << 8);
+    *(u16 *) (d - 0xc) = ((u16) (CPSMyIp >> 16) >> 8) | ((u16) (CPSMyIp >> 16) << 8);
+    *(u16 *) (d - 0xa) = ((u16) CPSMyIp >> 8) | ((u16) CPSMyIp << 8);
     *(u16 *) (d - 8) = ((u16) (c->mUnk_1c >> 16) >> 8) | ((u16) (c->mUnk_1c >> 16) << 8);
     *(u16 *) (d - 6) = ((u16) c->mUnk_1c >> 8) | ((u16) c->mUnk_1c << 8);
     *(u16 *) (d - 4) = 0x1100;
@@ -672,8 +670,8 @@ void func_ov000_021af550(u8 *a, u32 b, Unk021a998c *c, u32 d, u16 e) {
     } else {
         g = 0x14;
     }
-    *(u16 *) (f - 0xc) = ((u16) (data_ov000_021b63b4 >> 16) >> 8) | ((u16) (data_ov000_021b63b4 >> 16) << 8);
-    *(u16 *) (f - 0xa) = ((u16) data_ov000_021b63b4 >> 8) | ((u16) data_ov000_021b63b4 << 8);
+    *(u16 *) (f - 0xc) = ((u16) (CPSMyIp >> 16) >> 8) | ((u16) (CPSMyIp >> 16) << 8);
+    *(u16 *) (f - 0xa) = ((u16) CPSMyIp >> 8) | ((u16) CPSMyIp << 8);
     *(u16 *) (f - 8) = ((u16) (c->mUnk_1c >> 16) >> 8) | ((u16) (c->mUnk_1c >> 16) << 8);
     *(u16 *) (f - 6) = ((u16) c->mUnk_1c >> 8) | ((u16) c->mUnk_1c << 8);
     *(u16 *) (f - 4) = 0x600;
@@ -712,8 +710,8 @@ void func_ov000_021af4d4(Unk021af3e8 *a) {
     a->mUnk_06 = 0x200;
     MI_CpuCopy8(a->mUnk_08, a->mUnk_12, 10);
     MI_CpuCopy8(data_ov000_021b63d0, a->mUnk_08, 6);
-    a->mUnk_0e = ((u16) (data_ov000_021b63b4 >> 16) >> 8) | ((u16) (data_ov000_021b63b4 >> 16) << 8);
-    a->mUnk_10 = ((u16) data_ov000_021b63b4 >> 8) | ((u16) data_ov000_021b63b4 << 8);
+    a->mUnk_0e = ((u16) (CPSMyIp >> 16) >> 8) | ((u16) (CPSMyIp >> 16) << 8);
+    a->mUnk_10 = ((u16) CPSMyIp >> 8) | ((u16) CPSMyIp << 8);
     MI_CpuCopy8(a->mUnk_12, (u8 *) a - 0xe, 6);
     MI_CpuCopy8(data_ov000_021b63d0, (u8 *) a - 8, 6);
     func_ov000_021affcc((u8 *) a - 0xe, 0x2a, NULL, 0);
@@ -732,7 +730,7 @@ void func_ov000_021af3e8(Unk021af3e8 *f, u32 g) {
     if (func_ov000_021b0014(f->mUnk_08, data_ov000_021b63d0) == FALSE) {
         return;
     }
-    if (data_ov000_021b63b4 == 0) {
+    if (CPSMyIp == 0) {
         return;
     }
     if (f->mUnk_00 != 0x100) {
@@ -749,7 +747,7 @@ void func_ov000_021af3e8(Unk021af3e8 *f, u32 g) {
         return;
     }
     e = ((u16) ((f->mUnk_0e >> 8) | (f->mUnk_0e << 8)) << 16) | (u16) ((f->mUnk_10 >> 8) | (f->mUnk_10 << 8));
-    d = data_ov000_021b63b4;
+    d = CPSMyIp;
     if (e == d) {
         b = 1;
     } else {
@@ -1441,8 +1439,8 @@ void func_ov000_021ae3f0(Unk021ae3f0 *a, u32 f) {
         if (func_ov000_021b0188(a, (a->mUnk_00 & 0xf) << 2) != 0xffff) {
             return;
         }
-        if (data_ov000_021b63b4 == (u32) (((u16) ((a->mUnk_10 >> 8) | (a->mUnk_10 << 8)) << 16) |
-                                          (u16) ((a->mUnk_12 >> 8) | (a->mUnk_12 << 8)))) {
+        if (CPSMyIp == (u32) (((u16) ((a->mUnk_10 >> 8) | (a->mUnk_10 << 8)) << 16) |
+                              (u16) ((a->mUnk_12 >> 8) | (a->mUnk_12 << 8)))) {
             func_ov000_021afb58((u8 *) a - 8,
                                 ((u16) ((a->mUnk_0c >> 8) | (a->mUnk_0c << 8)) << 16) |
                                     (u16) ((a->mUnk_0e >> 8) | (a->mUnk_0e << 8)),
@@ -1458,7 +1456,7 @@ void func_ov000_021ae3f0(Unk021ae3f0 *a, u32 f) {
 
         if (e == 0x11) {
             func_ov000_021ae724(a, p, d);
-        } else if (data_ov000_021b63b4 != 0) {
+        } else if (CPSMyIp != 0) {
             if (e == 1) {
                 func_ov000_021af1e4(a, p, d);
             } else if (e == 6) {
@@ -1546,7 +1544,7 @@ void func_ov000_021ae290(int a, u16 b, int c) {
     v2 = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if (v2 != NULL) {
         if (c == 0x7f000001) {
-            c = *(s32 *) &data_ov000_021b63b4;
+            c = *(s32 *) &CPSMyIp;
         }
         v2->mUnk_1a = b;
         v2->mUnk_18 = v2->mUnk_1a;
@@ -1627,7 +1625,7 @@ u32 func_ov000_021ae16c(Unk021a998c *b) {
         b->mStateStartTime = OS_GetTick() >> 16;
         func_ov000_021aefc0(b, 2, 24);
         s = OS_DisableInterrupts();
-        if (data_ov000_021b63b4 != 0) {
+        if (CPSMyIp != 0) {
             b->mUnk_04 = 1;
             OS_SleepThread(NULL);
         }
@@ -1635,7 +1633,7 @@ u32 func_ov000_021ae16c(Unk021a998c *b) {
         if (b->mState == 4) {
             return 0;
         }
-        if (data_ov000_021b63b4 == 0) {
+        if (CPSMyIp == 0) {
             break;
         }
     }
@@ -1989,10 +1987,10 @@ void func_ov000_021adb00(void) {
     s32 a;
 
     data_ov000_021b6384();
-    if (data_ov000_021b63b4 != 0) {
-        func_ov000_021afc5c(data_ov000_021b63b4);
+    if (CPSMyIp != 0) {
+        func_ov000_021afc5c(CPSMyIp);
         OS_Sleep(100);
-        func_ov000_021afc5c(data_ov000_021b63b4);
+        func_ov000_021afc5c(CPSMyIp);
         a = OS_GetTick() >> 16;
         while (data_ov000_021b6388() != 0 && (s32) (OS_GetTick() >> 16) - a < 0x17) {
             if (data_ov000_021b6368 != 0) {
@@ -2138,8 +2136,8 @@ u8 *func_ov000_021ad754(u8 *a, u8 b, u32 *c) {
     }
     *OFFSET_PTR(u16, a, 4) = (u16) (d >> 16) >> 8 | (u16) (d >> 16) << 8;
     *OFFSET_PTR(u16, a, 6) = (u16) d >> 8 | (u16) d << 8;
-    *OFFSET_PTR(u16, a, 0xc) = (u16) (data_ov000_021b63b4 >> 16) >> 8 | (u16) (data_ov000_021b63b4 >> 16) << 8;
-    *OFFSET_PTR(u16, a, 0xe) = (u16) data_ov000_021b63b4 >> 8 | (u16) data_ov000_021b63b4 << 8;
+    *OFFSET_PTR(u16, a, 0xc) = (u16) (CPSMyIp >> 16) >> 8 | (u16) (CPSMyIp >> 16) << 8;
+    *OFFSET_PTR(u16, a, 0xe) = (u16) CPSMyIp >> 8 | (u16) CPSMyIp << 8;
     MI_CpuCopy8(data_ov000_021b63d0, a + 0x1c, 6);
     *(u16 *) (a + 0xec) = 0x8263;
     *(u16 *) (a + 0xee) = 0x6353;

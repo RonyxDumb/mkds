@@ -1092,7 +1092,7 @@ u32 DWCi_NNStartupAsync(s32 isQR2, s32 cookie, u32 server) {
                 canStart = TRUE;
             }
         } else {
-            hostIdLow = func_ov000_021a8ed4();
+            hostIdLow = SOC_GetHostID();
             if ((hostIdLow & 0xffff) == 0xa8c0 ||
                 ((hostIdLow & 0xff) == 0xac && (hostIdLow & 0xff00u) >= 0x1000 && (hostIdLow & 0xff00u) <= 0x1f00) ||
                 (hostIdLow & 0xff) == 0x10) {
@@ -1107,7 +1107,7 @@ u32 DWCi_NNStartupAsync(s32 isQR2, s32 cookie, u32 server) {
             gWiFiMatching->mUnk_176 = DWCi_GetMathRand32(0x10000);
             gWiFiMatching->mUnk_194 = cookie;
         } else {
-            words[0] = func_ov000_021a8ed4();
+            words[0] = SOC_GetHostID();
             words[1] = GetSocketPort(*gWiFiMatching->mConnectionSocket);
             result = SendMatchingCommand(6, gWiFiMatching->mParticipantProfileIds[index],
                                          SBServerGetPublicInetAddress((u32 *) server),

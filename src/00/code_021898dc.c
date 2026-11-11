@@ -36,7 +36,7 @@ void CheckSetDNS(ACWORK *work) {
         if (info->mUnk_c0[0] == 0 && dnsSum != 0) {
             dns1 = ConvAddress(info->mUnk_c8);
             dns2 = ConvAddress(info->mUnk_cc);
-            func_ov000_021a8e78(&dns1, &dns2);
+            SOC_SetResolver(&dns1, &dns2);
         }
     }
 }

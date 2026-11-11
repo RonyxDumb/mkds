@@ -2,7 +2,7 @@
 #include "00/code_021a8aa8.h"
 
 s32 ConnectTestRetry(void) {
-    s32 result = func_ov000_021a8c8c();
+    s32 result = SOC_Cleanup();
     if (result == 0 || result == -39) {
         return 9;
     }

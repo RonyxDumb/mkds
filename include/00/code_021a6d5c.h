@@ -3,9 +3,9 @@
 #include "types.h"
 #include "00/code_0218e2dc.h" // SOCHostEnt
 
-extern u32 data_ov000_021b5fa0;
+extern u32 SOCLiDhcpState;
 
-void func_ov000_021a6d5c(void);
-void func_ov000_021a8424(void);
-SOCHostEnt *func_ov000_021a8f84(const char *a);
-s32 func_ov000_021a916c(s32 descriptor, const void *address);
+void SOCLi_DhcpTimeout(void);
+void SOCLi_TrashSocket(void);
+SOCHostEnt *SOC_GetHostByName(const char *hostname);
+s32 SOC_Bind(s32 descriptor, const void *address);

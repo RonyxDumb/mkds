@@ -115,7 +115,7 @@ extern void (*data_ov000_021b6384)(void);
 #include "os_thread.h"
 
 typedef struct Unk021b69dc Unk021b69dc;
-typedef struct Unk021b5fa8 Unk021b5fa8;
+typedef struct CPSConfig CPSConfig;
 
 // Object linked from OSThread.mUnk_a4.
 typedef struct Unk021b04f8 {
@@ -135,11 +135,11 @@ extern u16 data_ov000_021b636c;
 extern u16 data_ov000_021b6370;
 extern u16 data_ov000_021b6374;
 extern u16 data_ov000_021b6378;
-extern u32 data_ov000_021b6380;
+extern u32 CPSNetMask;
 extern u32 data_ov000_021b6390;
 extern u32 data_ov000_021b6394;
-extern u32 data_ov000_021b639c;
-extern u32 data_ov000_021b63b4;
+extern u32 CPSGatewayIp;
+extern u32 CPSMyIp;
 extern OSThread *data_ov000_021b63c0;
 // Objects whose layout isn't known yet.
 extern u8 *data_ov000_021b63c4;
@@ -242,7 +242,7 @@ void func_ov000_021b0240(s32 a);
 void func_ov000_021b026c(void);
 void func_ov000_021b02b0(UnkFunc *arg0);
 s32 func_ov000_021b02bc(void);
-void func_ov000_021b02fc(Unk021b5fa8 *a);
+void func_ov000_021b02fc(CPSConfig *a);
 s32 func_ov000_021b04cc(void);
 void func_ov000_021b04d0(void);
 void func_ov000_021b04d4(void);

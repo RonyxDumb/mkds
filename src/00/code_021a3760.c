@@ -145,7 +145,7 @@ BOOL DWC_CleanupInetAsync(void) {
     } else if (inetCntl->mState != 5) {
         return TRUE;
     }
-    if (func_ov000_021a86e8() != 0) {
+    if (SOCL_CalmDown() != 0) {
         return FALSE;
     }
     if (DWC_AC_Destroy() != 0) {

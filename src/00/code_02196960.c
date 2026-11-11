@@ -181,7 +181,7 @@ BOOL ResolveStatsHostAddress(const s8 *host, u32 port, u8 *saddr, SOCHostEnt **s
         *OFFSET_PTR(u32, saddr, 4) = inet_addr((u32) host);
     }
     if (*OFFSET_PTR(u32, saddr, 4) == -1) {
-        hent = func_ov000_021a8f84((const char *) host);
+        hent = SOC_GetHostByName((const char *) host);
         if (hent == NULL) {
             return FALSE;
         }

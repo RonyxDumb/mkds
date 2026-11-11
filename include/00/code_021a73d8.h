@@ -4,4 +4,4 @@
 
 typedef struct SOCLSocketParam SOCLSocketParam;
 
-s32 func_ov000_021a73d8(SOCLSocketParam *a);
+s32 SOCL_CreateSocket(SOCLSocketParam *param);

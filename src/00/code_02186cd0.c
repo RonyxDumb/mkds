@@ -635,7 +635,7 @@ void DWCi_Http_Thread(void *argument) {
     s = http->mSendBuffer.mStart;
     http->mSendBuffer.mEnd = s + strlen(s);
     while (http->mSendBuffer.mCursor < http->mSendBuffer.mEnd) {
-        if (data_ov000_021b63b4 == 0) {
+        if (CPSMyIp == 0) {
             http->mResult = 5;
             goto fail;
         }
@@ -685,7 +685,7 @@ void DWCi_Http_Thread(void *argument) {
     receiveBuffer->mEnd = receiveBuffer->mStart + receiveBuffer->mSize;
     OS_UnlockMutex(&http->mUnk_948);
     while (1) {
-        if (data_ov000_021b63b4 == 0) {
+        if (CPSMyIp == 0) {
             http->mResult = 5;
             goto fail;
         }

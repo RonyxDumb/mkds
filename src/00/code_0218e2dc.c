@@ -86,13 +86,13 @@ s8 *_strlwr(s8 *string) {
 
 BOOL SetSockBlocking(s32 sock, s32 isblocking) {
     s32 flags;
-    flags = func_ov000_021a8dd8((Unk021a6fa8 *) sock, 3, 0);
+    flags = SOC_Fcntl((SOCLSocket *) sock, 3, 0);
     if (isblocking != 0) {
         flags = flags & ~4;
     } else {
         flags = flags | 4;
     }
-    return func_ov000_021a8dd8((Unk021a6fa8 *) sock, 4, flags) == 0;
+    return SOC_Fcntl((SOCLSocket *) sock, 4, flags) == 0;
 }
 
 s32 SetReceiveBufferSize(s32 sock, u32 size) {
@@ -129,7 +129,7 @@ s32 GSISocketSelect(s32 theSocket, u32 *theReadFlag, u32 *theWriteFlag, u32 *the
         pollEntry.mUnk_04 |= 8;
     }
     pollEntry.mUnk_06 = 0;
-    pollResult = func_ov000_021a8b20(&pollEntry, 1, 0);
+    pollResult = SOC_Poll(&pollEntry, 1, 0);
     if (pollResult < 0) {
         return -1;
     }
@@ -186,7 +186,7 @@ SOCHostEnt *getlocalhost(void) {
     gLocalhost.mUnk_0a = 0;
     gLocalhost.mUnk_0c = gIpPtrs;
     gIps = 0;
-    func_ov000_021a8bb0(func_ov000_021a8830(), (u8 *) &gIps);
+    SOC_U32to4U8(SOCL_GetHostID(), (u8 *) &gIps);
     if (gIps == 0) {
         return NULL;
     }
@@ -223,15 +223,15 @@ s32 CheckRcode(s32 result, s32 fallback) {
 }
 
 s32 OpenNetSocket(s32 domain, s32 type, s32 protocol) {
-    return CheckRcode(func_ov000_021a918c(domain, type, protocol), -1);
+    return CheckRcode(SOC_Socket(domain, type, protocol), -1);
 }
 
 s32 closesocket(s32 descriptor) {
-    return CheckRcode(func_ov000_021a9008(descriptor), -1);
+    return CheckRcode(SOC_Close(descriptor), -1);
 }
 
 s32 shutdown(s32 descriptor, s32 how) {
-    return CheckRcode(func_ov000_021a9010(descriptor), -1);
+    return CheckRcode(SOC_Shutdown(descriptor), -1);
 }
 
 s32 bind(s32 sock, void *addr, s32 len) {
@@ -242,17 +242,17 @@ s32 bind(s32 sock, void *addr, s32 len) {
     }
     boundAddr = *addrRecord;
     boundAddr.mUnk_00 = len;
-    return CheckRcode(func_ov000_021a916c(sock, &boundAddr), -1);
+    return CheckRcode(SOC_Bind(sock, &boundAddr), -1);
 }
 
 s32 connect(s32 sock, void *addr, s32 len) {
     SOCSockAddr target = *(SOCSockAddr *) addr;
     target.mUnk_00 = len;
-    return CheckRcode(func_ov000_021a911c((Unk021a6fa8 *) sock, (Unk021a8e18 *) &target), -1);
+    return CheckRcode(SOC_Connect((SOCLSocket *) sock, (Unk021a8e18 *) &target), -1);
 }
 
 s32 listen(s32 descriptor) {
-    return CheckRcode(func_ov000_021a8e70(descriptor), -1);
+    return CheckRcode(SOC_Listen(descriptor), -1);
 }
 
 s32 AcceptConnection(s32 sock, void *addr, s32 *len) {
@@ -261,13 +261,13 @@ s32 AcceptConnection(s32 sock, void *addr, s32 *len) {
     s32 inputLen = *lenPointer;
     s32 rcode;
     *addrBytes = inputLen;
-    rcode = func_ov000_021a8e18((Unk021a6fa8 *) sock, (Unk021a8e18 *) addrBytes, inputLen);
+    rcode = SOC_Accept((SOCLSocket *) sock, (Unk021a8e18 *) addrBytes, inputLen);
     *lenPointer = *addrBytes;
     return CheckRcode(rcode, -1);
 }
 
 s32 recv(s32 sock, void *buf, s32 len, s32 flags) {
-    return CheckRcode(func_ov000_021a9104(sock, buf, len, flags), -1);
+    return CheckRcode(SOC_Recv(sock, buf, len, flags), -1);
 }
 
 s32 recvfrom(s32 sock, void *buf, s32 len, s32 flags, void *addr, s32 *fromlen) {
@@ -275,20 +275,20 @@ s32 recvfrom(s32 sock, void *buf, s32 len, s32 flags, void *addr, s32 *fromlen) 
     s32 *fromlenPointer = fromlen;
     s32 recvResult;
     *addrBytes = *fromlenPointer;
-    recvResult = func_ov000_021a90a0(sock, buf, len, flags, addrBytes);
+    recvResult = SOC_RecvFrom(sock, buf, len, flags, addrBytes);
     *fromlenPointer = *addrBytes;
     return CheckRcode(recvResult, -1);
 }
 
 s32 send(s32 sock, void *buf, s32 len, s32 flags) {
-    return CheckRcode(func_ov000_021a9088(sock, buf, len, flags), -1);
+    return CheckRcode(SOC_Send(sock, buf, len, flags), -1);
 }
 
 s32 sendto(s32 sock, void *buf, s32 len, s32 flags, void *addr, s32 tolen) {
     SOCSockAddr destAddr;
     __memcpy(&destAddr, addr, sizeof(destAddr));
     destAddr.mUnk_00 = tolen;
-    return CheckRcode(func_ov000_021a9018(sock, buf, len, flags, &destAddr), -1);
+    return CheckRcode(SOC_SendTo(sock, buf, len, flags, &destAddr), -1);
 }
 
 s32 getsockopt(s32 sock, s32 level, s32 optname, void *optval, s32 *optlen) {
@@ -316,7 +316,7 @@ s32 getsockname(u32 sock, void *addr, u32 *len) {
     u32 errCode;
     u32 result;
     *(u8 *) ((addrBase) + (0)) = lenValue;
-    nameResult = func_ov000_021a8f0c(sock, addr);
+    nameResult = SOC_GetSockName(sock, addr);
     addrLen = (*(u8 *) ((addrBase) + (0)));
     *(u32 *) ((lenBase) + (0)) = addrLen;
     errCode = ~(0x0u);
@@ -327,7 +327,7 @@ s32 getsockname(u32 sock, void *addr, u32 *len) {
 u32 inet_addr(u32 name) {
     int parseResult;
     u32 addr[1];
-    parseResult = func_ov000_021a8c1c(name, addr);
+    parseResult = SOC_InetAtoN(name, addr);
     if (parseResult == 0) {
         return 0xffffffff;
     }

@@ -13,7 +13,7 @@
 #include "types.h"
 #include "00/code_021a6fa8.h"
 
-// Settings func_ov000_021a72c4 reads and func_ov000_021a71c0 applies.
+// Settings SOCLi_GetSizeSocket reads and SOCLi_InitSocket applies.
 typedef struct SOCLSocketParam {
     /* 00 */ s8 mUnk_00;
     /* 01 */ s8 mUnk_01;
@@ -24,14 +24,14 @@ typedef struct SOCLSocketParam {
     /* 0a */ u16 mUnk_0a;
     /* 0c */ u16 mUnk_0c;
     /* 0e */ u16 mUnk_0e;
-    /* 10 */ Unk021a72a4 mUnk_10;
-    /* 14 */ Unk021a72a4 mUnk_14;
+    /* 10 */ SOCLSocketCommandPipeParam mUnk_10;
+    /* 14 */ SOCLSocketCommandPipeParam mUnk_14;
 } SOCLSocketParam;
 
 // Objects whose layout isn't known yet.
-extern u32 data_ov000_021b49b4;
-extern SOCLSocketParam data_ov000_021b49b8;
-extern SOCLSocketParam data_ov000_021b49d0;
+extern u32 SOCLiResultCodeInConnecting;
+extern SOCLSocketParam SOCLSocketParamTCP;
+extern SOCLSocketParam SOCLSocketParamUDPSend;
 extern char gBuddyAuthorizedMessage[];
 extern char gDwcGpSstrKeyMatchScMax[];
 extern char gDwcGpSstrKeyMatchScNum[];

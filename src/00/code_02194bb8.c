@@ -74,7 +74,7 @@ s32 GpiOpenSearchSocket(GpConnection *connection, GpiOperation *operation) {
         GpiQueueErrorCallback(connection, 3, 1);
         return 3;
     }
-    resolvedHost = func_ov000_021a8f84(data_ov000_021b35b8);
+    resolvedHost = SOC_GetHostByName(data_ov000_021b35b8);
     if (resolvedHost == NULL) {
         GpiSetError(connection, 5, data_ov000_021b391c);
         GpiQueueErrorCallback(connection, 3, 1);

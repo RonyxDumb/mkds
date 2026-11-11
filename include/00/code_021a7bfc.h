@@ -3,13 +3,13 @@
 #include "types.h"
 #include "00/code_021a6fb4.h"
 
-typedef struct Unk021a7154 Unk021a7154;
-typedef struct Unk021a6fa8 Unk021a6fa8;
+typedef struct SOCLiSocketCommandPipe SOCLiSocketCommandPipe;
+typedef struct SOCLSocket SOCLSocket;
 
-// An Unk021a7064 entry as func_ov000_021a7eec and the functions after it see it.
-typedef struct Unk021a7eec {
+// An SOCLiCommandPacket entry as SOCLi_MemCpy and the functions after it see it.
+typedef struct SOCLiCommandWrite {
     /* 00 */ Unk021a7064Func mUnk_00;
-    /* 04 */ Unk021a6fa8 *mUnk_04;
+    /* 04 */ SOCLSocket *mUnk_04;
     /* 08 */ OSMessageQueue *mUnk_08;
     /* 0c */ s8 mUnk_0c;
     /* 0d */ s8 mUnk_0d;
@@ -23,23 +23,26 @@ typedef struct Unk021a7eec {
     /* 24 */ u16 mUnk_24;
     /* 26 */ u16 mUnk_26;
     /* 28 */ u16 *mUnk_28;
-} Unk021a7eec;
+} SOCLiCommandWrite;
 
-u8 *func_ov000_021a7bfc(Unk021a6fa8 *a, s32 *b, u16 *c, u16 *d, u32 *e);
-s32 func_ov000_021a7c4c(Unk021a6fa8 *a, void *b, s32 c, u16 *d, u32 *e);
-s32 func_ov000_021a7d14(Unk021a6fa8 *a, void *b, s32 c, u16 *d, u32 *e, s32 f);
-s32 func_ov000_021a7d68(Unk021a6fa8 *a, void *b, s32 c, u16 *d, u32 *e, s32 f, s32 g);
-unsigned int func_ov000_021a7de0(unsigned int a, void *b, unsigned int c, unsigned int d, u32 *e, unsigned int f);
-s32 func_ov000_021a7eec(const void *a, s32 b, Unk021a7eec *c);
-s32 func_ov000_021a7f48(Unk021a7064 *a);
-s32 func_ov000_021a8014(Unk021a6fa8 *a, u8 *b, s32 c, s32 d, u16 e, u16 *f, s32 g);
-s32 func_ov000_021a8118(Unk021a6fa8 *a);
-s32 func_ov000_021a813c(Unk021a6fa8 *a, s32 b, s32 c, u32 *d, s32 e);
-s32 func_ov000_021a81a8(Unk021a6fa8 *a, u8 *b, s32 c, u16 d, u16 *e, s32 f);
-u32 func_ov000_021a8268(u32 a, void *b, u32 c, u16 d, u32 e, u32 f);
-s32 func_ov000_021a8344(Unk021a7064 *a);
-s32 func_ov000_021a836c(s32 a);
-void func_ov000_021a8454(Unk021a7154 *a);
-void func_ov000_021a84c4(Unk021a6fa8 *a);
-s32 func_ov000_021a8580(Unk021a7064 *a);
-s32 func_ov000_021a8604(s32 a);
+u8 *SOCLi_ReadCPSBuffer(SOCLSocket *socket, s32 *lengthOut, u16 *localPortOut, u16 *remotePortOut, u32 *remoteIpOut);
+s32 SOCLi_CopyCPSBuffer(SOCLSocket *socket, void *buffer, s32 length, u16 *remotePort, u32 *peerAddr);
+s32 SOCLi_ReadBuffer(SOCLSocket *socket, void *buffer, s32 length, u16 *remotePort, u32 *peerAddr, s32 isBlocking);
+s32 SOCLi_ReadAndConsumeBuffer(SOCLSocket *socket, void *buffer, s32 length, u16 *remotePort, u32 *peerAddr,
+                               s32 isBlocking, s32 flags);
+s32 SOCL_ReadFrom(unsigned int socketHandle, void *buffer, unsigned int length, unsigned int remotePort, u32 *peerAddr,
+                  unsigned int flags);
+s32 SOCLi_MemCpy(const void *destination, s32 capacity, SOCLiCommandWrite *command);
+s32 SOCLi_WriteCallBack(SOCLiCommandPacket *command);
+s32 SOCLi_ExecWriteCommand(SOCLSocket *socket, u8 *buffer, s32 length, s32 ringIn, u16 remotePort, u16 *peerAddr,
+                           s32 isBlocking);
+s32 SOCLi_GetWriteBufferFreeSize(SOCLSocket *socket);
+s32 SOCLi_AllocWriteBuffer(SOCLSocket *socket, s32 maxSize, s32 lowestSize, u32 *ringInPtr, s32 isBlocking);
+s32 SOCLi_WriteBuffer(SOCLSocket *socket, u8 *buffer, s32 length, u16 remotePort, u16 *peerAddr, s32 isBlocking);
+s32 SOCL_WriteTo(u32 socketHandle, void *buffer, u32 length, u16 remotePort, u32 peerAddr, u32 flags);
+s32 SOCLi_ShutdownCallBack(SOCLiCommandPacket *command);
+s32 SOCL_Shutdown(s32 sockObj);
+void SOCLi_FreeCommandPipe(SOCLiSocketCommandPipe *pipe);
+void SOCLi_CleanupSocket(SOCLSocket *socket);
+s32 SOCLi_CloseCallBack(SOCLiCommandPacket *command);
+s32 SOCL_Close(s32 sockObj);

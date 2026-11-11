@@ -11,8 +11,8 @@ u32 ConnectTestStart(ACWORK *work) {
     hold = DWCi_AC_GetMemPtr(1);
     config = DWCi_AC_GetMemPtr(4);
     MakeSOCConfig((const u32 *) hold, work, (SOCConfig *) config);
-    *(u32 *) &data_ov000_021b5f98 = 4;
-    result = func_ov000_021a8c94((void *) config);
+    *(u32 *) &SOCLiYieldWait = 4;
+    result = SOC_Startup((void *) config);
     if (result != 0) {
         DWCi_AC_SetError(2);
         return 0x11;

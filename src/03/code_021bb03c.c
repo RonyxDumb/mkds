@@ -233,7 +233,7 @@ s32 ConnectExchangeAndStartSockets(void) {
     }
     if (result > 0) {
         gExchangeConnected = 1;
-        if (func_ov000_021a8c94(gExchangeSocketConfig) < 0) {
+        if (SOC_Startup(gExchangeSocketConfig) < 0) {
             result = -2;
         } else {
             gSocketsStarted = 1;
@@ -269,7 +269,7 @@ void DisconnectExchangeAndStopSockets(void) {
     }
     if (gSocketsStarted != 0) {
         gSocketsStarted = 0;
-        func_ov000_021a8c8c();
+        SOC_Cleanup();
     }
 }
 
@@ -529,7 +529,7 @@ end:
 
 s32 SendBytesToAddress(s32 descriptor, const SocketAddress *address, const u8 *unused, const void *data, u32 size) {
     s32 result;
-    result = func_ov000_021a9018(descriptor, data, size, 0, address);
+    result = SOC_SendTo(descriptor, data, size, 0, address);
     if (result < 0) {
         result = -4;
     }
@@ -543,7 +543,7 @@ s32 SendBytesToAllOnesAddress(s32 descriptor, const void *data, u32 size) {
     address.mUnk_01 = 2;
     address.mAddress = -1;
     address.mPort = 0x1e6;
-    func_ov000_021a8bb0(func_ov000_021a8830(), unused);
+    SOC_U32to4U8(SOCL_GetHostID(), unused);
     return SendBytesToAddress(descriptor, &address, unused, data, size);
 }
 
@@ -1039,7 +1039,7 @@ s32 RunExchange(void) {
                 }
                 break;
             case 3:
-                descriptor = func_ov000_021a918c(2, 2, 0);
+                descriptor = SOC_Socket(2, 2, 0);
                 if (descriptor < 0) {
                     result = -2;
                     done = TRUE;
@@ -1050,7 +1050,7 @@ s32 RunExchange(void) {
                 bindAddress.mUnk_01 = 2;
                 bindAddress.mPort = 0x1e6;
                 bindAddress.mAddress = 0;
-                result = func_ov000_021a916c(descriptor, &bindAddress);
+                result = SOC_Bind(descriptor, &bindAddress);
                 if (result < 0) {
                     result = -2;
                     done = TRUE;
@@ -1060,14 +1060,14 @@ s32 RunExchange(void) {
                 break;
             case 4:
                 if (GetTickMilliseconds() >= gTimeoutAtMs) {
-                    func_ov000_021a9008(descriptor);
+                    SOC_Close(descriptor);
                     result = -3;
                     done = TRUE;
                     break;
                 }
                 peerAddress.mLength = 8;
                 StoreMacAddressAndBuildKey(gFirstKey, &peerAddress);
-                if (func_ov000_021a90a0(descriptor, gPacketBuffer, 0x800, 4, &peerAddress) > 0) {
+                if (SOC_RecvFrom(descriptor, gPacketBuffer, 0x800, 4, &peerAddress) > 0) {
                     if (ParseAndCheckExchangePacketKind1(gPacketBuffer, (s32 *) &gKind1Item5Flag) != FALSE) {
                         gTimeoutAtMs = GetTickMilliseconds() + 30000;
                         gExchangeState = 5;
@@ -1084,12 +1084,12 @@ s32 RunExchange(void) {
                 break;
             case 6:
                 if (GetTickMilliseconds() >= gTimeoutAtMs) {
-                    func_ov000_021a9008(descriptor);
+                    SOC_Close(descriptor);
                     result = -4;
                     done = TRUE;
                     break;
                 }
-                if (func_ov000_021a90a0(descriptor, gPacketBuffer, 0x800, 4, &peerAddress) > 0 &&
+                if (SOC_RecvFrom(descriptor, gPacketBuffer, 0x800, 4, &peerAddress) > 0 &&
                     ReadExchangePacketPayloadOfKind(gPacketBuffer, 3, gBodyBuffer, gFirstKey) != 0) {
                     value = ReadFirstItem(gBodyBuffer, &itemType, &itemLength);
                     if (itemType == 0x101) {
@@ -1115,7 +1115,7 @@ s32 RunExchange(void) {
                 gExchangeState = 8;
                 break;
             case 8:
-                if (func_ov000_021a90a0(descriptor, gPacketBuffer, 0x800, 4, &peerAddress) > 0) {
+                if (SOC_RecvFrom(descriptor, gPacketBuffer, 0x800, 4, &peerAddress) > 0) {
                     gBodyLength =
                         ReadExchangePacketPayloadOfKind(gPacketBuffer, 5, gBodyBuffer, &gSecondKeyReceivedPart);
                     if (gBodyLength != 0 && ParseExchangePacketKind5Items(gBodyBuffer) != 0) {
@@ -1132,7 +1132,7 @@ s32 RunExchange(void) {
                 if (GetTickMilliseconds() >= stamp + 1000) {
                     retryCount++;
                     if (retryCount >= 10) {
-                        func_ov000_021a9008(descriptor);
+                        SOC_Close(descriptor);
                         result = -2;
                         done = TRUE;
                     } else {
@@ -1168,7 +1168,7 @@ s32 RunExchange(void) {
         }
     }
     if (descriptor != 0) {
-        func_ov000_021a9008(descriptor);
+        SOC_Close(descriptor);
     }
     if (gStopRequested != 0) {
         result = -8;
