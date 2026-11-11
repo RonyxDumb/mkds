@@ -68,10 +68,10 @@ void func_ov000_021a3910(void) {
         if (DWC_AC_Create(&t) != 0) {
             return;
         }
-        func_ov000_0219c384(0xb, -6);
+        DWCi_SetError(0xb, -6);
         return;
     }
-    func_ov000_0219c384(0xb, -4);
+    DWCi_SetError(0xb, -4);
 }
 
 u32 func_ov000_021a38d8(void) {
@@ -110,11 +110,11 @@ u32 func_ov000_021a3810(void) {
         }
         if (r < 0) {
             if (r >= -10) {
-                func_ov000_0219c384(0xb, r - 0x2bc);
+                DWCi_SetError(0xb, r - 0x2bc);
                 data_ov000_021b5df4->mUnk_04 = 8;
                 return 8;
             }
-            func_ov000_0219c384(5, r);
+            DWCi_SetError(5, r);
             data_ov000_021b5df4->mUnk_04 = 7;
             return 7;
         }

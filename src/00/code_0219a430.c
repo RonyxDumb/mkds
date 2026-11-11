@@ -28,86 +28,87 @@ typedef struct Unk0219a430Addr {
     /* 4 */ u32 mUnk_04;
 } Unk0219a430Addr;
 
-void func_ov000_0219a5dc(Gt2Connection **a) {
-    gti2ConnectionCleanup(*a);
+void gti2ConnectionFree(Gt2Connection **element) {
+    gti2ConnectionCleanup(*element);
 }
 
-Gt2Connection *FindConnection(Gt2Socket *a, u32 b, u32 c) {
-    Gt2Connection d;
-    Gt2Connection *e;
-    void *f;
-    d.mAddress = b;
-    d.mPort = c;
-    e = &d;
-    f = HashtableFind(a->mConnections, &e);
-    if (f != NULL) {
-        return *(Gt2Connection **) f;
+Gt2Connection *FindConnection(Gt2Socket *socket, u32 address, u32 port) {
+    Gt2Connection key;
+    Gt2Connection *keyPointer;
+    void *found;
+    key.mAddress = address;
+    key.mPort = port;
+    keyPointer = &key;
+    found = HashtableFind(socket->mConnections, &keyPointer);
+    if (found != NULL) {
+        return *(Gt2Connection **) found;
     }
     return NULL;
 }
 
-u32 CreateSocket(Gt2Socket **a, const char *b, u32 c, u32 d, u32 e) {
-    Gt2Socket *f;
-    u16 i;
-    Unk0219a430Addr g;
-    u32 h;
-    s32 j;
-    u32 *p;
+u32 CreateSocket(Gt2Socket **socketOut, const char *localAddress, u32 outgoingBufferSize, u32 incomingBufferSize,
+                 u32 errorCallback) {
+    Gt2Socket *newSocket;
+    u16 netPort;
+    Unk0219a430Addr socketAddress;
+    u32 address;
+    s32 addressLength;
+    u32 *bindWords;
     SocketStartUp();
-    if (d == 0) {
-        d = 0x10000;
+    if (incomingBufferSize == 0) {
+        incomingBufferSize = 0x10000;
     }
-    if (c == 0) {
-        c = 0x10000;
+    if (outgoingBufferSize == 0) {
+        outgoingBufferSize = 0x10000;
     }
-    if (Gt2ParseAddress(b, &h, &i) == FALSE) {
+    if (Gt2ParseAddress(localAddress, &address, &netPort) == FALSE) {
         return 4;
     }
-    f = func_ov000_021a3690(0x44);
-    if (f == NULL) {
+    newSocket = func_ov000_021a3690(0x44);
+    if (newSocket == NULL) {
         return 1;
     }
-    memset(f, 0, 0x44);
-    f->mDescriptor = -1;
-    f->mIncomingBufferSize = d;
-    f->mSendBufferSize = c;
-    f->mSocketErrorCallback = (void (*)(Gt2Socket *)) e;
-    f->mConnections = HashtableCreate(4, 0x20, 2, (s32(*)(void *, s32)) & func_ov000_0219a604,
-                                      (s32(*)(void *, void *)) & func_ov000_0219a5e8, NULL);
-    if (f->mConnections == NULL) {
-        func_ov000_021a3668(f);
+    memset(newSocket, 0, 0x44);
+    newSocket->mDescriptor = -1;
+    newSocket->mIncomingBufferSize = incomingBufferSize;
+    newSocket->mSendBufferSize = outgoingBufferSize;
+    newSocket->mSocketErrorCallback = (void (*)(Gt2Socket *)) errorCallback;
+    newSocket->mConnections = HashtableCreate(4, 0x20, 2, (s32(*)(void *, s32)) & gti2ConnectionHash,
+                                              (s32(*)(void *, void *)) & gti2ConnectionCompare, NULL);
+    if (newSocket->mConnections == NULL) {
+        func_ov000_021a3668(newSocket);
         return 1;
     }
-    f->mConnectionsToFree = DarrayCreate(4, 4, (void (*)(void *)) & func_ov000_0219a5dc);
-    if (f->mConnectionsToFree == NULL) {
-        HashtableDelete(f->mConnections);
-        func_ov000_021a3668(f);
+    newSocket->mConnectionsToFree = DarrayCreate(4, 4, (void (*)(void *)) & gti2ConnectionFree);
+    if (newSocket->mConnectionsToFree == NULL) {
+        HashtableDelete(newSocket->mConnections);
+        func_ov000_021a3668(newSocket);
         return 1;
     }
-    f->mDescriptor = OpenNetSocket(2, 2, 0);
-    if (f->mDescriptor == -1) {
-        HashtableDelete(f->mConnections);
-        DarrayDelete(f->mConnectionsToFree);
-        func_ov000_021a3668(f);
+    newSocket->mDescriptor = OpenNetSocket(2, 2, 0);
+    if (newSocket->mDescriptor == -1) {
+        HashtableDelete(newSocket->mConnections);
+        DarrayDelete(newSocket->mConnectionsToFree);
+        func_ov000_021a3668(newSocket);
         return 3;
     }
-    p = (u32 *) &g;
-    p[0] = 0;
-    p[1] = 0;
-    g.mUnk_01 = 2;
-    g.mUnk_04 = h;
-    g.mUnk_02 = ((i >> 8) & 0xff) | ((i << 8) & 0xff00);
-    if (bind(f->mDescriptor, &g, 8) == -1) {
-        closesocket(f->mDescriptor);
-        HashtableDelete(f->mConnections);
-        DarrayDelete(f->mConnectionsToFree);
-        func_ov000_021a3668(f);
+    bindWords = (u32 *) &socketAddress;
+    bindWords[0] = 0;
+    bindWords[1] = 0;
+    socketAddress.mUnk_01 = 2;
+    socketAddress.mUnk_04 = address;
+    socketAddress.mUnk_02 = ((netPort >> 8) & 0xff) | ((netPort << 8) & 0xff00);
+    if (bind(newSocket->mDescriptor, &socketAddress, 8) == -1) {
+        closesocket(newSocket->mDescriptor);
+        HashtableDelete(newSocket->mConnections);
+        DarrayDelete(newSocket->mConnectionsToFree);
+        func_ov000_021a3668(newSocket);
         return 3;
     }
-    j = 8;
-    getsockname(f->mDescriptor, &g, (u32 *) &j);
-    f->mAddress = g.mUnk_04;
-    f->mPort = ((g.mUnk_02 >> 8) & 0xff) | ((g.mUnk_02 << 8) & 0xff00);
-    *a = f;
+    addressLength = 8;
+    getsockname(newSocket->mDescriptor, &socketAddress, (u32 *) &addressLength);
+    newSocket->mAddress = socketAddress.mUnk_04;
+    newSocket->mPort = ((socketAddress.mUnk_02 >> 8) & 0xff) | ((socketAddress.mUnk_02 << 8) & 0xff00);
+    *socketOut = newSocket;
     return 0;
 }

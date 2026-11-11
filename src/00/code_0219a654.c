@@ -17,557 +17,565 @@
 #include "code_0213a460.h"
 #include "00/code_021a6d5c.h"
 
-Unk0219b1d4 *func_ov000_0219b178(void) {
-    Unk0219b1d4 a = {0};
+NatTraversalEntry *AddNegotiator(void) {
+    NatTraversalEntry negotiator = {0};
 
-    if (data_ov000_021b52c4 == NULL) {
-        data_ov000_021b52c4 = DarrayCreate(0x40, 4, (void (*)(void *)) func_ov000_0219b1d4);
+    if (negotiateList == NULL) {
+        negotiateList = DarrayCreate(0x40, 4, (void (*)(void *)) NegotiatorFree);
     }
-    DarrayAppend(data_ov000_021b52c4, &a);
-    return DarrayGetElement(data_ov000_021b52c4, DarrayGetCount(data_ov000_021b52c4) - 1);
+    DarrayAppend(negotiateList, &negotiator);
+    return DarrayGetElement(negotiateList, DarrayGetCount(negotiateList) - 1);
 }
 
-void func_ov000_0219b130(Unk0219b1d4 *a) {
-    s32 b;
+void RemoveNegotiator(NatTraversalEntry *negotiator) {
+    s32 index;
 
-    for (b = 0; b < DarrayGetCount(data_ov000_021b52c4); b++) {
-        if (a == DarrayGetElement(data_ov000_021b52c4, b)) {
-            DarrayRemoveWithoutCallback(data_ov000_021b52c4, b);
+    for (index = 0; index < DarrayGetCount(negotiateList); index++) {
+        if (negotiator == DarrayGetElement(negotiateList, index)) {
+            DarrayRemoveWithoutCallback(negotiateList, index);
             return;
         }
     }
 }
 
-void func_ov000_0219b110(void) {
-    if (data_ov000_021b52c4 != NULL) {
-        DarrayDelete(data_ov000_021b52c4);
-        data_ov000_021b52c4 = NULL;
+void NNFreeNegotiateList(void) {
+    if (negotiateList != NULL) {
+        DarrayDelete(negotiateList);
+        negotiateList = NULL;
     }
 }
 
-BOOL func_ov000_0219b0ec(const u8 *a) {
-    if (memcmp(a, data_ov000_021b400c, 6) == 0) {
+BOOL CheckMagic(const u8 *data) {
+    if (memcmp(data, NNMagicData, 6) == 0) {
         return TRUE;
     }
     return FALSE;
 }
 
-void func_ov000_0219b0b0(u32 a, u32 b, u16 c, void *d, s32 e) {
-    Unk021a4654 f;
+void SendNegotiatorPacket(u32 sock, u32 toaddr, u16 toport, void *data, s32 length) {
+    Unk021a4654 sockaddr;
 
-    f.mUnk_01 = 2;
-    f.mUnk_02 = c >> 8 & 0xff | c << 8 & 0xff00;
-    f.mUnk_04 = b;
-    sendto(a, d, e, 0, &f, 8);
+    sockaddr.mUnk_01 = 2;
+    sockaddr.mUnk_02 = toport >> 8 & 0xff | toport << 8 & 0xff00;
+    sockaddr.mUnk_04 = toaddr;
+    sendto(sock, data, length, 0, &sockaddr, 8);
 }
 
-u32 func_ov000_0219b05c(void) {
-    s32 a;
-    u32 *c;
-    SOCHostEnt *d;
-    s32 e;
+u32 GetLocalIP(void) {
+    s32 ownAddr;
+    u32 *addressPointer;
+    SOCHostEnt *host;
+    s32 offset;
 
-    a = 0;
-    d = getlocalhost();
-    if (d == NULL) {
-        return a;
+    ownAddr = 0;
+    host = getlocalhost();
+    if (host == NULL) {
+        return ownAddr;
     }
-    e = 0;
+    offset = 0;
     while (1) {
-        c = *OFFSET_PTR(u32 *, d->mUnk_0c, e);
-        if (c == NULL) {
+        addressPointer = *OFFSET_PTR(u32 *, host->mUnk_0c, offset);
+        if (addressPointer == NULL) {
             break;
         }
-        if (*c != 0x0100007f) {
-            a = *c;
-            if (IsPrivateIP(c) != FALSE) {
-                return a;
+        if (*addressPointer != 0x0100007f) {
+            ownAddr = *addressPointer;
+            if (IsPrivateIP(addressPointer) != FALSE) {
+                return ownAddr;
             }
         }
-        e += 4;
+        offset += 4;
     }
-    return a;
+    return ownAddr;
 }
 
-static inline void func_ov000_0219aa64_inline(void *a, const void *b) {
-    u8 *p = a;
-    const u8 *q = b;
-    p[0] = q[0];
-    p[1] = q[1];
-    p[2] = q[2];
-    p[3] = q[3];
-    p[4] = q[4];
-    p[5] = q[5];
+static inline void CopyNNMagic(void *destination, const void *source) {
+    u8 *destinationBytes = destination;
+    const u8 *sourceBytes = source;
+    destinationBytes[0] = sourceBytes[0];
+    destinationBytes[1] = sourceBytes[1];
+    destinationBytes[2] = sourceBytes[2];
+    destinationBytes[3] = sourceBytes[3];
+    destinationBytes[4] = sourceBytes[4];
+    destinationBytes[5] = sourceBytes[5];
 }
 
-u16 func_ov000_0219b038(u32 a) {
-    Unk021a4654 b;
-    u32 c;
-    s32 d;
-    u16 e;
+u16 GetLocalPort(u32 sock) {
+    Unk021a4654 sockaddr;
+    u32 sockaddrLength;
+    s32 result;
+    u16 port;
 
-    c = 8;
-    d = getsockname(a, &b, &c);
-    e = 0;
-    if (d != -1) {
-        e = b.mUnk_02;
+    sockaddrLength = 8;
+    result = getsockname(sock, &sockaddr, &sockaddrLength);
+    port = 0;
+    if (result != -1) {
+        port = sockaddr.mUnk_02;
     }
-    return e;
+    return port;
 }
 
-void func_ov000_0219aeb0(Unk0219b1d4 *a) {
-    Unk0219aeb0 b;
+void SendInitPackets(NatTraversalEntry *negotiator) {
+    InitPacketWithGamename packet;
     u32 c;
-    u32 d;
-    u32 e;
-    u16 f;
-    Unk0219aeb0 *g;
+    u32 packetLength;
+    u32 portSocket;
+    u16 ownPort;
+    InitPacketWithGamename *packetView;
 
-    g = (Unk0219aeb0 *) &b;
-    g->mUnk_00 = *(Unk021b400c *) data_ov000_021b400c;
-    g->mUnk_06 = 2;
-    g->mUnk_07 = 0;
-    g->mUnk_0d = a->mUnk_0c;
-    c = a->mUnk_08;
-    *(u32 *) g->mUnk_08 = (c << 24 & 0xff000000) | ((c << 8 & 0xff0000) | ((c >> 24 & 0xff) | (c >> 8 & 0xff00)));
+    packetView = (InitPacketWithGamename *) &packet;
+    packetView->mUnk_00 = *(NNMagic *) NNMagicData;
+    packetView->mUnk_06 = 2;
+    packetView->mUnk_07 = 0;
+    packetView->mUnk_0d = negotiator->mClientIndex;
+    c = negotiator->mCookie;
+    *(u32 *) packetView->mUnk_08 =
+        (c << 24 & 0xff000000) | ((c << 8 & 0xff0000) | ((c >> 24 & 0xff) | (c >> 8 & 0xff00)));
     c = 0;
-    if (a->mUnk_04 != -1) {
+    if (negotiator->mGameSock != -1) {
         c = 1;
     }
-    g->mUnk_0e = c;
-    c = (func_ov000_0219b05c() << 24 & 0xff000000) |
-        ((func_ov000_0219b05c() << 8 & 0xff0000) |
-         ((func_ov000_0219b05c() >> 24 & 0xff) | (func_ov000_0219b05c() >> 8 & 0xff00)));
-    b.mUnk_0f = c >> 24;
-    b.mUnk_10 = c >> 16;
-    b.mUnk_11 = c >> 8;
-    b.mUnk_12 = c;
-    b.mUnk_13 = 0;
-    b.mUnk_14 = 0;
-    strcpy(b.mUnk_15, gGsiAcGamename);
-    d = strlen(gGsiAcGamename) + 0x16;
-    if (g->mUnk_0e != 0 && a->mUnk_14[0] == 0) {
-        g->mUnk_0c = 0;
-        func_ov000_0219b0b0(a->mUnk_04, data_ov000_021b52c0, 0x6cfd, g, d);
+    packetView->mUnk_0e = c;
+    c = (GetLocalIP() << 24 & 0xff000000) |
+        ((GetLocalIP() << 8 & 0xff0000) | ((GetLocalIP() >> 24 & 0xff) | (GetLocalIP() >> 8 & 0xff00)));
+    packet.mUnk_0f = c >> 24;
+    packet.mUnk_10 = c >> 16;
+    packet.mUnk_11 = c >> 8;
+    packet.mUnk_12 = c;
+    packet.mUnk_13 = 0;
+    packet.mUnk_14 = 0;
+    strcpy(packet.mUnk_15, gGsiAcGamename);
+    packetLength = strlen(gGsiAcGamename) + 0x16;
+    if (packetView->mUnk_0e != 0 && negotiator->mInitAckRecv[0] == 0) {
+        packetView->mUnk_0c = 0;
+        SendNegotiatorPacket(negotiator->mGameSock, matchup1ip, 0x6cfd, packetView, packetLength);
     }
-    if (a->mUnk_14[1] == 0) {
-        g->mUnk_0c = 1;
-        func_ov000_0219b0b0(a->mDescriptor, data_ov000_021b52c0, 0x6cfd, g, d);
+    if (negotiator->mInitAckRecv[1] == 0) {
+        packetView->mUnk_0c = 1;
+        SendNegotiatorPacket(negotiator->mDescriptor, matchup1ip, 0x6cfd, packetView, packetLength);
     }
-    if (g->mUnk_0e != 0) {
-        e = a->mUnk_04;
+    if (packetView->mUnk_0e != 0) {
+        portSocket = negotiator->mGameSock;
     } else {
-        e = a->mDescriptor;
+        portSocket = negotiator->mDescriptor;
     }
-    f = (func_ov000_0219b038(g->mUnk_0e != 0 ? a->mUnk_04 : a->mDescriptor) >> 8 & 0xff) |
-        (func_ov000_0219b038(e) << 8 & 0xff00);
-    b.mUnk_13 = f >> 8;
-    b.mUnk_14 = f;
-    if (a->mUnk_14[2] == 0) {
-        g->mUnk_0c = 2;
-        func_ov000_0219b0b0(a->mDescriptor, data_ov000_021b52bc, 0x6cfd, g, d);
+    ownPort = (GetLocalPort(packetView->mUnk_0e != 0 ? negotiator->mGameSock : negotiator->mDescriptor) >> 8 & 0xff) |
+                (GetLocalPort(portSocket) << 8 & 0xff00);
+    packet.mUnk_13 = ownPort >> 8;
+    packet.mUnk_14 = ownPort;
+    if (negotiator->mInitAckRecv[2] == 0) {
+        packetView->mUnk_0c = 2;
+        SendNegotiatorPacket(negotiator->mDescriptor, matchup2ip, 0x6cfd, packetView, packetLength);
     }
-    a->mUnk_28 = GetElapsedMilliseconds() + 500;
-    a->mUnk_24 = 30;
+    negotiator->mRetryTime = GetElapsedMilliseconds() + 500;
+    negotiator->mMaxRetryCount = 30;
 }
 
-void func_ov000_0219ade4(Unk0219b1d4 *a) {
-    Unk0219ade4 b;
-    u32 c;
-    s32 d;
+void SendPingPacket(NatTraversalEntry *negotiator) {
+    ConnectPacket packet;
+    u32 cookie;
+    s32 sock;
 
-    func_ov000_0219aa64_inline(&b.mUnk_00, data_ov000_021b400c);
-    b.mUnk_06 = 2;
-    b.mUnk_07 = 7;
-    c = a->mUnk_08;
-    *(u32 *) b.mUnk_08 = (c << 24 & 0xff000000) | ((c << 8 & 0xff0000) | ((c >> 24 & 0xff) | (c >> 8 & 0xff00)));
-    *(u32 *) b.mUnk_0c = a->mUnk_2c;
-    *(u16 *) b.mUnk_10 = a->mUnk_30 >> 8 & 0xff | a->mUnk_30 << 8 & 0xff00;
-    b.mUnk_12 = a->mUnk_32;
-    b.mUnk_13 = a->mUnk_10 != 2;
-    d = a->mUnk_04;
-    if (d == -1) {
-        d = a->mDescriptor;
+    CopyNNMagic(&packet.mUnk_00, NNMagicData);
+    packet.mUnk_06 = 2;
+    packet.mUnk_07 = 7;
+    cookie = negotiator->mCookie;
+    *(u32 *) packet.mUnk_08 =
+        (cookie << 24 & 0xff000000) | ((cookie << 8 & 0xff0000) | ((cookie >> 24 & 0xff) | (cookie >> 8 & 0xff00)));
+    *(u32 *) packet.mUnk_0c = negotiator->mGuessedIP;
+    *(u16 *) packet.mUnk_10 = negotiator->mGuessedPort >> 8 & 0xff | negotiator->mGuessedPort << 8 & 0xff00;
+    packet.mUnk_12 = negotiator->mGotRemoteData;
+    packet.mUnk_13 = negotiator->mState != 2;
+    sock = negotiator->mGameSock;
+    if (sock == -1) {
+        sock = negotiator->mDescriptor;
     }
-    func_ov000_0219b0b0(d, a->mUnk_2c, a->mUnk_30, &b, 0x14);
-    a->mUnk_28 = GetElapsedMilliseconds() + 700;
-    a->mUnk_24 = 12;
-    if (a->mUnk_32 != 0) {
-        a->mUnk_33 = 1;
+    SendNegotiatorPacket(sock, negotiator->mGuessedIP, negotiator->mGuessedPort, &packet, 0x14);
+    negotiator->mRetryTime = GetElapsedMilliseconds() + 700;
+    negotiator->mMaxRetryCount = 12;
+    if (negotiator->mGotRemoteData != 0) {
+        negotiator->mSendGotRemoteData = 1;
     }
 }
 
-u32 func_ov000_0219adb4(const char *a) {
-    u32 b;
-    SOCHostEnt *c;
+u32 NameToIp(const char *name) {
+    u32 address;
+    SOCHostEnt *host;
 
-    b = inet_addr((u32) a);
-    if (b == -1) {
-        c = func_ov000_021a8f84(a);
-        if (c == NULL) {
+    address = inet_addr((u32) name);
+    if (address == -1) {
+        host = func_ov000_021a8f84(name);
+        if (host == NULL) {
             return 0;
         }
-        b = **c->mUnk_0c;
+        address = **host->mUnk_0c;
     }
-    return b;
+    return address;
 }
 
-u32 func_ov000_0219ad88(char *a, const char *b) {
-    char c[0x80];
+u32 ResolveServer(char *overrideHostname, const char *defaultHostname) {
+    char fullHostname[0x80];
 
-    if (a == NULL) {
-        snprintf(c, 0x80, data_ov000_021b404c, gGsiAcGamename, b);
-        a = c;
+    if (overrideHostname == NULL) {
+        snprintf(fullHostname, 0x80, data_ov000_021b404c, gGsiAcGamename, defaultHostname);
+        overrideHostname = fullHostname;
     }
-    return func_ov000_0219adb4(a);
+    return NameToIp(overrideHostname);
 }
 
-BOOL func_ov000_0219ad20(void) {
-    if (data_ov000_021b52c0 == 0) {
-        data_ov000_021b52c0 = func_ov000_0219ad88(data_ov000_021b52b8, data_ov000_021b4014);
+BOOL ResolveServers(void) {
+    if (matchup1ip == 0) {
+        matchup1ip = ResolveServer(Matchup1Hostname, gMatchup1HostnameDefault);
     }
-    if (data_ov000_021b52bc == 0) {
-        data_ov000_021b52bc = func_ov000_0219ad88(data_ov000_021b52b4, data_ov000_021b4030);
+    if (matchup2ip == 0) {
+        matchup2ip = ResolveServer(Matchup2Hostname, gMatchup2HostnameDefault);
     }
-    if (data_ov000_021b52c0 == 0 || data_ov000_021b52bc == 0) {
+    if (matchup1ip == 0 || matchup2ip == 0) {
         return FALSE;
     }
     return TRUE;
 }
 
-s32 func_ov000_0219ac7c(u32 a, u32 b, u32 c, void (*d)(s32 a, void *b), void (*e)(s32 a, s32 b, void *c, void *d),
-                        void *f) {
-    Unk0219b1d4 *g;
+s32 NNBeginNegotiationWithSocket(
+    u32 gamesocket, u32 cookie, u32 clientNumber, void (*progressCallback)(s32 gamesocket, void *cookie),
+    void (*completedCallback)(s32 gamesocket, s32 cookie, void *clientNumber, void *progressCallback), void *userdata) {
+    NatTraversalEntry *negotiator;
 
     if (gGsiAcResult != 1) {
         return 2;
     }
-    if (func_ov000_0219ad20() == FALSE) {
+    if (ResolveServers() == FALSE) {
         return 3;
     }
-    g = func_ov000_0219b178();
-    if (g == NULL) {
+    negotiator = AddNegotiator();
+    if (negotiator == NULL) {
         return 1;
     }
-    g->mUnk_04 = a;
-    g->mUnk_0c = c;
-    g->mUnk_08 = b;
-    g->mUnk_34 = d;
-    g->mUnk_38 = e;
-    g->mUnk_3c = f;
-    g->mDescriptor = OpenNetSocket(2, 2, 0);
-    g->mUnk_20 = 0;
-    g->mUnk_32 = 0;
-    g->mUnk_33 = 0;
-    g->mUnk_2c = 0;
-    g->mUnk_30 = 0;
-    g->mUnk_24 = 0;
-    if (g->mDescriptor == -1) {
-        func_ov000_0219b130(g);
+    negotiator->mGameSock = gamesocket;
+    negotiator->mClientIndex = clientNumber;
+    negotiator->mCookie = cookie;
+    negotiator->mProgressCallback = progressCallback;
+    negotiator->mCompletedCallback = completedCallback;
+    negotiator->mUserdata = userdata;
+    negotiator->mDescriptor = OpenNetSocket(2, 2, 0);
+    negotiator->mRetryCount = 0;
+    negotiator->mGotRemoteData = 0;
+    negotiator->mSendGotRemoteData = 0;
+    negotiator->mGuessedIP = 0;
+    negotiator->mGuessedPort = 0;
+    negotiator->mMaxRetryCount = 0;
+    if (negotiator->mDescriptor == -1) {
+        RemoveNegotiator(negotiator);
         return 2;
     }
-    func_ov000_0219aeb0(g);
+    SendInitPackets(negotiator);
     return 0;
 }
 
-void func_ov000_0219ac50(u32 a) {
-    Unk0219b1d4 *b;
+void NNCancel(u32 cookie) {
+    NatTraversalEntry *negotiator;
 
-    b = func_ov000_0219b1f8(a);
-    if (b != NULL) {
-        if (b->mDescriptor != -1) {
-            closesocket(b->mDescriptor);
+    negotiator = FindNegotiatorForCookie(cookie);
+    if (negotiator != NULL) {
+        if (negotiator->mDescriptor != -1) {
+            closesocket(negotiator->mDescriptor);
         }
-        b->mDescriptor = -1;
-        b->mUnk_10 = 4;
+        negotiator->mDescriptor = -1;
+        negotiator->mState = 4;
     }
 }
 
-void func_ov000_0219ab24(Unk0219b1d4 *a) {
-    Unk021a4654 c;
-    s32 d;
-    s32 f;
-    Unk021a4654 h;
+void NegotiateThink(NatTraversalEntry *negotiator) {
+    Unk021a4654 senderAddress;
+    s32 senderAddressLength;
+    s32 receivedLength;
+    Unk021a4654 resultAddress;
 
-    d = 8;
-    if (a->mUnk_10 == 4) {
-        func_ov000_0219b130(a);
+    senderAddressLength = 8;
+    if (negotiator->mState == 4) {
+        RemoveNegotiator(negotiator);
         return;
     }
-    if (a->mDescriptor != -1) {
+    if (negotiator->mDescriptor != -1) {
         do {
-            if (CanReceiveOnSocket(a->mDescriptor) == 0) {
+            if (CanReceiveOnSocket(negotiator->mDescriptor) == 0) {
                 break;
             }
-            f = recvfrom(a->mDescriptor, data_ov000_021b52c8, 0x200, 0, (u8 *) &c, &d);
-            if (f == -1) {
+            receivedLength = recvfrom(negotiator->mDescriptor, gNatNegReceiveBuffer, 0x200, 0, (u8 *) &senderAddress,
+                                      &senderAddressLength);
+            if (receivedLength == -1) {
                 break;
             }
-            func_ov000_0219a7e4(data_ov000_021b52c8, f, &c);
-            if (a->mUnk_10 == 4) {
+            NNProcessData(gNatNegReceiveBuffer, receivedLength, &senderAddress);
+            if (negotiator->mState == 4) {
                 break;
             }
-        } while (a->mDescriptor != -1);
+        } while (negotiator->mDescriptor != -1);
     }
-    if (a->mUnk_10 == 0 || a->mUnk_10 == 2) {
-        if (GetElapsedMilliseconds() > a->mUnk_28) {
-            if (a->mUnk_20 > a->mUnk_24) {
-                a->mUnk_38(2, -1, NULL, a->mUnk_3c);
-                func_ov000_0219ac50(a->mUnk_08);
+    if (negotiator->mState == 0 || negotiator->mState == 2) {
+        if (GetElapsedMilliseconds() > negotiator->mRetryTime) {
+            if (negotiator->mRetryCount > negotiator->mMaxRetryCount) {
+                negotiator->mCompletedCallback(2, -1, NULL, negotiator->mUserdata);
+                NNCancel(negotiator->mCookie);
             } else {
-                a->mUnk_20 = a->mUnk_20 + 1;
-                if (a->mUnk_10 == 0) {
-                    func_ov000_0219aeb0(a);
+                negotiator->mRetryCount = negotiator->mRetryCount + 1;
+                if (negotiator->mState == 0) {
+                    SendInitPackets(negotiator);
                 } else {
-                    func_ov000_0219ade4(a);
+                    SendPingPacket(negotiator);
                 }
             }
         }
     }
-    if (a->mUnk_10 == 3) {
-        if (GetElapsedMilliseconds() > a->mUnk_28) {
-            if (a->mUnk_04 == -1) {
-                h.mUnk_01 = 2;
-                h.mUnk_02 = a->mUnk_30 >> 8 & 0xff | a->mUnk_30 << 8 & 0xff00;
-                h.mUnk_04 = a->mUnk_2c;
-                a->mUnk_38(0, a->mDescriptor, &h, a->mUnk_3c);
-                a->mDescriptor = -1;
+    if (negotiator->mState == 3) {
+        if (GetElapsedMilliseconds() > negotiator->mRetryTime) {
+            if (negotiator->mGameSock == -1) {
+                resultAddress.mUnk_01 = 2;
+                resultAddress.mUnk_02 = negotiator->mGuessedPort >> 8 & 0xff | negotiator->mGuessedPort << 8 & 0xff00;
+                resultAddress.mUnk_04 = negotiator->mGuessedIP;
+                negotiator->mCompletedCallback(0, negotiator->mDescriptor, &resultAddress, negotiator->mUserdata);
+                negotiator->mDescriptor = -1;
             }
-            func_ov000_0219ac50(a->mUnk_08);
+            NNCancel(negotiator->mCookie);
         }
     }
-    if (a->mUnk_10 == 1) {
-        if (GetElapsedMilliseconds() > a->mUnk_28) {
-            a->mUnk_38(1, -1, NULL, a->mUnk_3c);
-            func_ov000_0219ac50(a->mUnk_08);
-        }
-    }
-}
-
-void func_ov000_0219aaec(void) {
-    s32 a;
-
-    if (data_ov000_021b52c4 != NULL) {
-        for (a = DarrayGetCount(data_ov000_021b52c4) - 1; a >= 0; a--) {
-            func_ov000_0219ab24(DarrayGetElement(data_ov000_021b52c4, a));
+    if (negotiator->mState == 1) {
+        if (GetElapsedMilliseconds() > negotiator->mRetryTime) {
+            negotiator->mCompletedCallback(1, -1, NULL, negotiator->mUserdata);
+            NNCancel(negotiator->mCookie);
         }
     }
 }
 
-void func_ov000_0219aa64(Unk0219b1d4 *a, Unk021a4654 *b) {
-    Unk0219aa64 c;
-    u32 d;
+void NNThink(void) {
+    s32 index;
 
-    func_ov000_0219aa64_inline(&c.mUnk_00, data_ov000_021b400c);
-    c.mUnk_06 = 2;
-    c.mUnk_07 = 6;
-    c.mUnk_0d = a->mUnk_0c;
-    d = a->mUnk_08;
-    *(u32 *) c.mUnk_08 = (d << 24 & 0xff000000) | ((d << 8 & 0xff0000) | ((d >> 24 & 0xff) | (d >> 8 & 0xff00)));
-    func_ov000_0219b0b0(a->mDescriptor, b->mUnk_04, b->mUnk_02 >> 8 & 0xff | b->mUnk_02 << 8 & 0xff00, &c, 0x15);
+    if (negotiateList != NULL) {
+        for (index = DarrayGetCount(negotiateList) - 1; index >= 0; index--) {
+            NegotiateThink(DarrayGetElement(negotiateList, index));
+        }
+    }
 }
 
-void func_ov000_0219a9e4(Unk0219b1d4 *a, Unk0219ade4 *b, Unk021a4654 *c) {
-    s32 d;
+void SendConnectAck(NatTraversalEntry *negotiator, Unk021a4654 *toaddr) {
+    InitPacket packet;
+    u32 cookie;
 
-    if (b->mUnk_13 == 0) {
-        func_ov000_0219aa64(a, c);
+    CopyNNMagic(&packet.mUnk_00, NNMagicData);
+    packet.mUnk_06 = 2;
+    packet.mUnk_07 = 6;
+    packet.mUnk_0d = negotiator->mClientIndex;
+    cookie = negotiator->mCookie;
+    *(u32 *) packet.mUnk_08 =
+        (cookie << 24 & 0xff000000) | ((cookie << 8 & 0xff0000) | ((cookie >> 24 & 0xff) | (cookie >> 8 & 0xff00)));
+    SendNegotiatorPacket(negotiator->mDescriptor, toaddr->mUnk_04,
+                     toaddr->mUnk_02 >> 8 & 0xff | toaddr->mUnk_02 << 8 & 0xff00, &packet, 0x15);
+}
+
+void ProcessConnectPacket(NatTraversalEntry *negotiator, ConnectPacket *packet, Unk021a4654 *fromAddress) {
+    s32 result;
+
+    if (packet->mUnk_13 == 0) {
+        SendConnectAck(negotiator, fromAddress);
     }
-    if (a->mUnk_10 < 2) {
-        if (b->mUnk_13 != 0) {
-            d = 3;
-            if (b->mUnk_13 == 1) {
-                d = 1;
-            } else if (b->mUnk_13 == 2) {
-                d = 2;
+    if (negotiator->mState < 2) {
+        if (packet->mUnk_13 != 0) {
+            result = 3;
+            if (packet->mUnk_13 == 1) {
+                result = 1;
+            } else if (packet->mUnk_13 == 2) {
+                result = 2;
             }
-            a->mUnk_38(d, -1, NULL, a->mUnk_3c);
-            func_ov000_0219ac50(a->mUnk_08);
+            negotiator->mCompletedCallback(result, -1, NULL, negotiator->mUserdata);
+            NNCancel(negotiator->mCookie);
         } else {
-            a->mUnk_2c = *(u32 *) b->mUnk_0c;
-            a->mUnk_30 = *(u16 *) b->mUnk_10 >> 8 & 0xff | *(u16 *) b->mUnk_10 << 8 & 0xff00;
-            a->mUnk_20 = 0;
-            a->mUnk_10 = 2;
-            a->mUnk_34(a->mUnk_10, a->mUnk_3c);
-            func_ov000_0219ade4(a);
+            negotiator->mGuessedIP = *(u32 *) packet->mUnk_0c;
+            negotiator->mGuessedPort = *(u16 *) packet->mUnk_10 >> 8 & 0xff | *(u16 *) packet->mUnk_10 << 8 & 0xff00;
+            negotiator->mRetryCount = 0;
+            negotiator->mState = 2;
+            negotiator->mProgressCallback(negotiator->mState, negotiator->mUserdata);
+            SendPingPacket(negotiator);
         }
     }
 }
 
-void func_ov000_0219a958(Unk0219b1d4 *a, Unk0219ade4 *b, Unk021a4654 *c) {
-    if (a->mUnk_10 >= 2) {
-        a->mUnk_2c = c->mUnk_04;
-        a->mUnk_30 = c->mUnk_02 >> 8 & 0xff | c->mUnk_02 << 8 & 0xff00;
-        a->mUnk_32 = 1;
-        if (b->mUnk_12 == 0) {
-            func_ov000_0219ade4(a);
+void ProcessPingPacket(NatTraversalEntry *negotiator, ConnectPacket *packet, Unk021a4654 *fromAddress) {
+    if (negotiator->mState >= 2) {
+        negotiator->mGuessedIP = fromAddress->mUnk_04;
+        negotiator->mGuessedPort = fromAddress->mUnk_02 >> 8 & 0xff | fromAddress->mUnk_02 << 8 & 0xff00;
+        negotiator->mGotRemoteData = 1;
+        if (packet->mUnk_12 == 0) {
+            SendPingPacket(negotiator);
             return;
         }
-        if (a->mUnk_10 == 2) {
-            if (a->mUnk_33 == 0) {
-                func_ov000_0219ade4(a);
+        if (negotiator->mState == 2) {
+            if (negotiator->mSendGotRemoteData == 0) {
+                SendPingPacket(negotiator);
             }
-            a->mUnk_10 = 3;
-            a->mUnk_28 = GetElapsedMilliseconds() + 5000;
-            if (a->mUnk_04 != -1) {
-                a->mUnk_38(0, a->mUnk_04, c, a->mUnk_3c);
+            negotiator->mState = 3;
+            negotiator->mRetryTime = GetElapsedMilliseconds() + 5000;
+            if (negotiator->mGameSock != -1) {
+                negotiator->mCompletedCallback(0, negotiator->mGameSock, fromAddress, negotiator->mUserdata);
             }
-        } else if (b->mUnk_13 == 0) {
-            func_ov000_0219ade4(a);
+        } else if (packet->mUnk_13 == 0) {
+            SendPingPacket(negotiator);
         }
     }
 }
 
-void func_ov000_0219a8bc(Unk0219b1d4 *a, Unk0219aa64 *b, Unk021a4654 *c) {
-    u32 d;
+void ProcessInitPacket(NatTraversalEntry *negotiator, InitPacket *packet, Unk021a4654 *fromAddress) {
+    u32 portKind;
 
-    switch (b->mUnk_07) {
+    switch (packet->mUnk_07) {
         case 1:
-            d = b->mUnk_0c;
-            if (d <= 2) {
-                a->mUnk_14[d] = 1;
-                if (a->mUnk_10 == 0 && a->mUnk_14[1] != 0 && a->mUnk_14[2] != 0 &&
-                    (a->mUnk_04 == -1 || a->mUnk_14[0] != 0)) {
-                    a->mUnk_10 = 1;
-                    a->mUnk_28 = GetElapsedMilliseconds() + 10000;
-                    a->mUnk_34(a->mUnk_10, a->mUnk_3c);
+            portKind = packet->mUnk_0c;
+            if (portKind <= 2) {
+                negotiator->mInitAckRecv[portKind] = 1;
+                if (negotiator->mState == 0 && negotiator->mInitAckRecv[1] != 0 && negotiator->mInitAckRecv[2] != 0 &&
+                    (negotiator->mGameSock == -1 || negotiator->mInitAckRecv[0] != 0)) {
+                    negotiator->mState = 1;
+                    negotiator->mRetryTime = GetElapsedMilliseconds() + 10000;
+                    negotiator->mProgressCallback(negotiator->mState, negotiator->mUserdata);
                 }
             }
             break;
         case 2:
-            b->mUnk_07 = 3;
-            func_ov000_0219b0b0(a->mDescriptor, c->mUnk_04, c->mUnk_02 >> 8 & 0xff | c->mUnk_02 << 8 & 0xff00, b, 0x15);
+            packet->mUnk_07 = 3;
+            SendNegotiatorPacket(negotiator->mDescriptor, fromAddress->mUnk_04,
+                             fromAddress->mUnk_02 >> 8 & 0xff | fromAddress->mUnk_02 << 8 & 0xff00, packet, 0x15);
             break;
     }
 }
 
-void func_ov000_0219a7e4(u8 *a, s32 b, void *c) {
-    Unk0219ade4 d;
-    Unk0219aa64 e;
-    u32 f;
-    u32 g;
-    Unk0219b1d4 *h;
+void NNProcessData(u8 *data, s32 length, void *fromAddress) {
+    ConnectPacket connectPacket;
+    InitPacket initPacket;
+    u32 typeCode;
+    u32 cookie;
+    NatTraversalEntry *negotiator;
 
-    if (func_ov000_0219b0ec(a) != FALSE) {
-        f = a[7];
-        if (f == 5 || f == 7) {
-            if (b >= 0x14) {
-                d = *(Unk0219ade4 *) a;
-                g = *(u32 *) d.mUnk_08;
-                h = func_ov000_0219b1f8((g << 24 & 0xff000000) |
-                                        ((g << 8 & 0xff0000) | ((g >> 24 & 0xff) | (g >> 8 & 0xff00))));
-                if (h != NULL) {
-                    if (f == 5) {
-                        func_ov000_0219a9e4(h, &d, c);
+    if (CheckMagic(data) != FALSE) {
+        typeCode = data[7];
+        if (typeCode == 5 || typeCode == 7) {
+            if (length >= 0x14) {
+                connectPacket = *(ConnectPacket *) data;
+                cookie = *(u32 *) connectPacket.mUnk_08;
+                negotiator = FindNegotiatorForCookie(
+                    (cookie << 24 & 0xff000000) |
+                    ((cookie << 8 & 0xff0000) | ((cookie >> 24 & 0xff) | (cookie >> 8 & 0xff00))));
+                if (negotiator != NULL) {
+                    if (typeCode == 5) {
+                        ProcessConnectPacket(negotiator, &connectPacket, fromAddress);
                     } else {
-                        func_ov000_0219a958(h, &d, c);
+                        ProcessPingPacket(negotiator, &connectPacket, fromAddress);
                     }
                 }
             }
-        } else if (b >= 0x15) {
-            e = *(Unk0219aa64 *) a;
-            g = *(u32 *) e.mUnk_08;
-            h = func_ov000_0219b1f8((g << 24 & 0xff000000) |
-                                    ((g << 8 & 0xff0000) | ((g >> 24 & 0xff) | (g >> 8 & 0xff00))));
-            if (h != NULL) {
-                func_ov000_0219a8bc(h, &e, c);
+        } else if (length >= 0x15) {
+            initPacket = *(InitPacket *) data;
+            cookie = *(u32 *) initPacket.mUnk_08;
+            negotiator =
+                FindNegotiatorForCookie((cookie << 24 & 0xff000000) |
+                                        ((cookie << 8 & 0xff0000) | ((cookie >> 24 & 0xff) | (cookie >> 8 & 0xff00))));
+            if (negotiator != NULL) {
+                ProcessInitPacket(negotiator, &initPacket, fromAddress);
             }
         }
     }
 }
 
-u32 Gt2FormatAddress(u32 a, u32 b, char *c) {
-    Unk021b5dfc d;
-    char *e;
+u32 Gt2FormatAddress(u32 ipAddress, u32 port, char *buffer) {
+    Unk021b5dfc inAddress;
+    char *addressString;
 
-    e = c;
-    if (e == NULL) {
-        data_ov000_021b5284 ^= 1;
-        e = data_ov000_021b5288[data_ov000_021b5284];
+    addressString = buffer;
+    if (addressString == NULL) {
+        nIndex ^= 1;
+        addressString = strAddressArray[nIndex];
     }
-    if (a != 0) {
-        d.mUnk_00 = a;
-        if (b != 0) {
-            sprintf(e, data_ov000_021b3ffc, func_ov000_021a8c6c(d), b);
+    if (ipAddress != 0) {
+        inAddress.mUnk_00 = ipAddress;
+        if (port != 0) {
+            sprintf(addressString, data_ov000_021b3ffc, func_ov000_021a8c6c(inAddress), port);
         } else {
-            sprintf(e, data_ov000_021b4004, func_ov000_021a8c6c(d));
+            sprintf(addressString, data_ov000_021b4004, func_ov000_021a8c6c(inAddress));
         }
-    } else if (b != 0) {
-        sprintf(e, data_ov000_021b4008, b);
+    } else if (port != 0) {
+        sprintf(addressString, data_ov000_021b4008, port);
     } else {
-        e[0] = 0;
+        addressString[0] = 0;
     }
-    return (u32) e;
+    return (u32) addressString;
 }
 
-BOOL Gt2ParseAddress(const char *a, u32 *b, u16 *c) {
-    char d[0x100];
-    const char *e;
-    const char *f;
+BOOL Gt2ParseAddress(const char *string, u32 *ipOut, u16 *portOut) {
+    char addrHostBuf[0x100];
+    const char *portDelim;
+    const char *scanPtr;
     s32 g;
-    s32 h;
-    u32 i;
-    u32 j;
-    SOCHostEnt *k;
+    s32 character;
+    u32 sourceIp;
+    u32 sourcePort;
+    SOCHostEnt *hostEntry;
 
-    if (a == NULL || *(s8 *) a == 0) {
-        i = 0;
-        j = 0;
+    if (string == NULL || *(s8 *) string == 0) {
+        sourceIp = 0;
+        sourcePort = 0;
     } else {
-        e = strchr(a, 0x3a);
-        if (e == NULL) {
-            j = 0;
+        portDelim = strchr(string, 0x3a);
+        if (portDelim == NULL) {
+            sourcePort = 0;
         } else {
-            if (e == a) {
-                a = NULL;
-                i = 0;
+            if (portDelim == string) {
+                string = NULL;
+                sourceIp = 0;
             } else {
-                g = e - a;
+                g = portDelim - string;
                 if (g >= 0x100) {
                     AssertionFailed(data_ov000_021b3fcc, data_ov000_021b3fec, NULL, 0x81);
                 }
-                memcpy(d, a, g);
-                d[g] = 0;
-                a = d;
+                memcpy(addrHostBuf, string, g);
+                addrHostBuf[g] = 0;
+                string = addrHostBuf;
             }
-            f = e + 1;
-            h = *(s8 *) (e + 1);
-            if (h != 0) {
+            scanPtr = portDelim + 1;
+            character = *(s8 *) (portDelim + 1);
+            if (character != 0) {
                 do {
-                    if (h < 0 || h >= 0x80) {
+                    if (character < 0 || character >= 0x80) {
                         g = 0;
                     } else {
-                        g = gCharClassFlags[h] & 8;
+                        g = gCharClassFlags[character] & 8;
                     }
                     if (g == 0) {
                         return FALSE;
                     }
-                    f++;
-                    h = *(s8 *) f;
-                } while (h != 0);
+                    scanPtr++;
+                    character = *(s8 *) scanPtr;
+                } while (character != 0);
             }
-            g = StrtolBase10(e + 1);
+            g = StrtolBase10(portDelim + 1);
             if (g < 0 || g > 0xffff) {
                 return FALSE;
             }
-            j = (u16) g;
+            sourcePort = (u16) g;
         }
-        if (a != NULL) {
-            i = inet_addr((u32) a);
-            if (i == -1) {
-                k = func_ov000_021a8f84(a);
-                if (k == NULL) {
+        if (string != NULL) {
+            sourceIp = inet_addr((u32) string);
+            if (sourceIp == -1) {
+                hostEntry = func_ov000_021a8f84(string);
+                if (hostEntry == NULL) {
                     return FALSE;
                 }
-                i = **k->mUnk_0c;
+                sourceIp = **hostEntry->mUnk_0c;
             }
         }
     }
-    if (b != NULL) {
-        *b = i;
+    if (ipOut != NULL) {
+        *ipOut = sourceIp;
     }
-    if (c != NULL) {
-        *c = j;
+    if (portOut != NULL) {
+        *portOut = sourcePort;
     }
     return TRUE;
 }

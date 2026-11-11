@@ -5,7 +5,7 @@
 u32 SendConnectionBytes(Gt2Connection *a, u8 *b, u32 c) {
     int v1;
     u32 v2;
-    v1 = func_ov000_0219a110((u32 *) a->mSocket, a->mAddress, a->mPort, (u32) b, c);
+    v1 = gti2SocketSend((u32 *) a->mSocket, a->mAddress, a->mPort, (u32) b, c);
     if (v1 == 0) {
         return 0;
     }

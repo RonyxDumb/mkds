@@ -2,30 +2,30 @@
 
 #include "00/unk_021b5000.h"
 
-s32 func_ov000_0219c3cc(s32 *value) {
-    if (value != NULL) {
-        *value = data_ov000_021b5654;
+s32 DWC_GetLastError(s32 *errorCode) {
+    if (errorCode != NULL) {
+        *errorCode = stDwcErrorCode;
     }
-    return data_ov000_021b5650;
+    return stDwcLastError;
 }
 
-void func_ov000_0219c3b0(void) {
-    if (data_ov000_021b5650 != 11) {
-        data_ov000_021b5650 = 0;
-        data_ov000_021b5654 = 0;
+void DWC_ClearError(void) {
+    if (stDwcLastError != 11) {
+        stDwcLastError = 0;
+        stDwcErrorCode = 0;
     }
 }
 
-u32 func_ov000_0219c39c(void) {
-    if ((*(s32 *) &data_ov000_021b5650) != 0) {
+u32 DWCi_IsError(void) {
+    if ((*(s32 *) &stDwcLastError) != 0) {
         return 1;
     }
     return 0;
 }
 
-void func_ov000_0219c384(s32 state, s32 value) {
-    if (data_ov000_021b5650 != 11) {
-        data_ov000_021b5650 = state;
-        data_ov000_021b5654 = value;
+void DWCi_SetError(s32 error, s32 errorCode) {
+    if (stDwcLastError != 11) {
+        stDwcLastError = error;
+        stDwcErrorCode = errorCode;
     }
 }

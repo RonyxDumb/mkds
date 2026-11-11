@@ -32,31 +32,32 @@
 
 // Stores the callback and its argument in mBuddyChangedCallback / mBuddyChangedCallbackArg of gWiFiBuddySync when the
 // object exists.
-void SetBuddyChangedCallback(void *first, void *second) {
+void SetBuddyChangedCallback(void *callback, void *param) {
     if (gWiFiBuddySync != NULL) {
-        gWiFiBuddySync->mBuddyChangedCallback = first;
-        gWiFiBuddySync->mBuddyChangedCallbackArg = second;
+        gWiFiBuddySync->mBuddyChangedCallback = callback;
+        gWiFiBuddySync->mBuddyChangedCallbackArg = param;
     }
 }
 
 // Runs from InitWiFiConnection, per login.
-void InitBuddySync(WiFiBuddySync *a, struct GpConnection *b, char *c, DWCAccFriendData *d, s32 e) {
+void InitBuddySync(WiFiBuddySync *buddySync, struct GpConnection *gpConnection, char *playerName,
+                   DWCAccFriendData *friendList, s32 friendListLength) {
     WiFiBuddySync *q;
-    gWiFiBuddySync = a;
-    a->mState = 0;
-    gWiFiBuddySync->mGpConnection = b;
+    gWiFiBuddySync = buddySync;
+    buddySync->mState = 0;
+    gWiFiBuddySync->mGpConnection = gpConnection;
     gWiFiBuddySync->mPollCount = 0;
     q = gWiFiBuddySync;
     q->mLastPollTime = 0;
-    q->mBuddyEntryCount = e;
-    gWiFiBuddySync->mBuddies = d;
+    q->mBuddyEntryCount = friendListLength;
+    gWiFiBuddySync->mBuddies = friendList;
     gWiFiBuddySync->mSyncIndex = 0;
     gWiFiBuddySync->mBuddiesChanged = 0;
     gWiFiBuddySync->mUnk_1e = 0;
     gWiFiBuddySync->mCompletedParts = 0;
     gWiFiBuddySync->mPendingStatsRequestCount = 0;
     gWiFiBuddySync->mUnk_24 = 0;
-    gWiFiBuddySync->mUnk_28 = c;
+    gWiFiBuddySync->mUnk_28 = playerName;
     gWiFiBuddySync->mResultCallback = NULL;
     gWiFiBuddySync->mResultCallbackArg = NULL;
     gWiFiBuddySync->mBuddyStatusCallback = NULL;
@@ -69,7 +70,7 @@ void InitBuddySync(WiFiBuddySync *a, struct GpConnection *b, char *c, DWCAccFrie
     gWiFiBuddySync->mUnk_50 = 0;
 }
 
-// Also the only pump of the GP connection: every call in states 3 to 6 reaches func_ov000_0219d49c, which calls
+// Also the only pump of the GP connection: every call in states 3 to 6 reaches DWCi_GPProcess, which calls
 // GpUpdate every 300 ms, whether or not a sync was started; the list part runs after more than 7 polls.
 void UpdateBuddySync(void) {
     if (gWiFiBuddySync == NULL) {
@@ -78,7 +79,7 @@ void UpdateBuddySync(void) {
     if (gWiFiBuddySync->mBuddies == NULL) {
         return;
     }
-    if (func_ov000_0219c39c() != 0) {
+    if (DWCi_IsError() != 0) {
         return;
     }
     if (GetPendingStatsRequestCount() != 0 && PersistThink() == FALSE) {
@@ -86,12 +87,12 @@ void UpdateBuddySync(void) {
         return;
     }
     if (gWiFiBuddySync->mGpConnection != NULL && gWiFiBuddySync->mGpConnection->mGpiConnection != NULL) {
-        if (ReportBuddySyncGpResult(func_ov000_0219d49c()) != 0) {
+        if (ReportBuddySyncGpResult(DWCi_GPProcess()) != 0) {
             return;
         }
         if (gWiFiBuddySync->mBuddies != NULL && gWiFiBuddySync->mUnk_1e != 3 && gWiFiBuddySync->mPollCount > 7) {
             if (gWiFiBuddySync->mUnk_1e <= 1) {
-                func_ov000_0219d2e8(gWiFiBuddySync->mBuddies, gWiFiBuddySync->mBuddyEntryCount);
+                DWCi_UpdateFriendReq(gWiFiBuddySync->mBuddies, gWiFiBuddySync->mBuddyEntryCount);
             }
             if (gWiFiBuddySync->mSyncIndex >= gWiFiBuddySync->mBuddyEntryCount) {
                 gWiFiBuddySync->mUnk_1e = 3;
@@ -105,91 +106,93 @@ void UpdateBuddySync(void) {
     }
 }
 
-void StartBuddySync(s32 a, const char *b, void (*c)(s32, u8, void *), void *d, void (*e)(s32, u8, void *, void *),
-                    void *f, void (*g)(s32, s32, void *), void *h) {
-    s32 i;
+void StartBuddySync(s32 authToken, const char *partnerChallenge, void (*updateCallback)(s32, u8, void *),
+                    void *updateParam, void (*statusCallback)(s32, u8, void *, void *), void *statusParam,
+                    void (*deleteCallback)(s32, s32, void *), void *deleteParam) {
+    s32 attemptIndex;
     s32 j;
-    s32 k;
-    s8 l[0x28];
-    gWiFiBuddySync->mResultCallback = c;
-    gWiFiBuddySync->mResultCallbackArg = d;
-    gWiFiBuddySync->mBuddyStatusCallback = e;
-    gWiFiBuddySync->mBuddyStatusCallbackArg = f;
-    gWiFiBuddySync->mEntryMergedCallback = g;
-    gWiFiBuddySync->mEntryMergedCallbackArg = h;
-    i = 0;
+    s32 statsResult;
+    s8 statsRequestText[0x28];
+    gWiFiBuddySync->mResultCallback = updateCallback;
+    gWiFiBuddySync->mResultCallbackArg = updateParam;
+    gWiFiBuddySync->mBuddyStatusCallback = statusCallback;
+    gWiFiBuddySync->mBuddyStatusCallbackArg = statusParam;
+    gWiFiBuddySync->mEntryMergedCallback = deleteCallback;
+    gWiFiBuddySync->mEntryMergedCallbackArg = deleteParam;
+    attemptIndex = 0;
     gWiFiBuddySync->mBuddiesChanged = 0;
     gWiFiBuddySync->mUnk_1e = 0;
     gWiFiBuddySync->mCompletedParts = 0;
     gWiFiBuddySync->mState = 1;
-    if (((s8 *) gWiFiBuddySync->mUnk_28)[i] != 0) {
-        j = i;
-        for (; i < 5; i++) {
-            k = GstatsConnect(j);
-            if (k == 0) {
+    if (((s8 *) gWiFiBuddySync->mUnk_28)[attemptIndex] != 0) {
+        j = attemptIndex;
+        for (; attemptIndex < 5; attemptIndex++) {
+            statsResult = GstatsConnect(j);
+            if (statsResult == 0) {
                 break;
             }
-            if (k != 2 || i == 4) {
-                ReportBuddySyncStatsResult(k);
+            if (statsResult != 2 || attemptIndex == 4) {
+                ReportBuddySyncStatsResult(statsResult);
                 return;
             }
         }
-        GenerateAuthA((const char *) GetChallenge(NULL), b, l);
-        PreAuthenticatePlayerPartner(0, a, (s32) l, func_ov000_0219cc30, 0);
+        GenerateAuthA((const char *) GetChallenge(NULL), partnerChallenge, statsRequestText);
+        PreAuthenticatePlayerPartner(0, authToken, (s32) statsRequestText, BuddySyncStatsAuthCallback, 0);
         AddPendingStatsRequest();
     } else {
         gWiFiBuddySync->mCompletedParts++;
     }
 }
 
-// Records the (error kind, code) pair in the error store of the layer (func_ov000_0219c384), calls the result callback
+// Records the (error kind, code) pair in the error store of the layer (DWCi_SetError), calls the result callback
 // with the code only while the sync runs (mState is 1) and closes the stats link. Not only the sync calls it: also the
 // connection's GP error mapper, the stats code and the matching code.
-void ReportBuddySyncError(s32 a, s32 b) {
-    if (gWiFiBuddySync != NULL && a != 0) {
-        func_ov000_0219c384(a, b);
+void ReportBuddySyncError(s32 error, s32 errorCode) {
+    if (gWiFiBuddySync != NULL && error != 0) {
+        DWCi_SetError(error, errorCode);
         if (gWiFiBuddySync->mState != 0 && gWiFiBuddySync->mState != 2) {
-            gWiFiBuddySync->mResultCallback(a, gWiFiBuddySync->mBuddiesChanged, gWiFiBuddySync->mResultCallbackArg);
+            gWiFiBuddySync->mResultCallback(error, gWiFiBuddySync->mBuddiesChanged, gWiFiBuddySync->mResultCallbackArg);
         }
-        func_ov000_0219d478();
+        CloseStatsAndResetBuddySync();
     }
 }
 
-// GP callback slot 1 (request): an incoming add-buddy request. The reply handler func_ov000_0219cd74 authorizes it
-// and adds the sender back (AddBuddy) when the list holds an entry with that name or id; otherwise the request is
-// dropped locally (no message is sent).
-void WiFiGpBuddyRequestCallback(GpConnection *a, u32 *b) {
+// GP callback slot 1 (request): an incoming add-buddy request. The reply handler
+// DWCi_GPGetInfoCallback_RecvBuddyRequest authorizes it and adds the sender back (AddBuddy) when the list holds an
+// entry with that name or id; otherwise the request is dropped locally (no message is sent).
+void WiFiGpBuddyRequestCallback(GpConnection *connection, u32 *arg) {
     if (gWiFiBuddySync->mBuddies != NULL) {
-        GpGetInfo(a, *b, 0, 0, (Unk0218eff8Cb) func_ov000_0219cd74, 0);
+        GpGetInfo(connection, *arg, 0, 0, (Unk0218eff8Cb) DWCi_GPGetInfoCallback_RecvBuddyRequest, 0);
     }
 }
 
-u32 func_ov000_0219d6c4(GpConnection *a, u32 *b, u32 c) {
-    int v1;
-    v1 = strcmp((const char *) (b[2]), data_ov000_021b4078);
-    if (v1 == 0) {
-        GpGetInfo(a, *b, 0, 0, (Unk0218eff8Cb) func_ov000_0219cc94, 0);
+u32 DWCi_GPRecvBuddyAuthCallback(GpConnection *connection, u32 *arg, u32 param) {
+    int compareResult;
+    compareResult = strcmp((const char *) (arg[2]), gBuddyAuthorizedMessage);
+    if (compareResult == 0) {
+        GpGetInfo(connection, *arg, 0, 0, (Unk0218eff8Cb) DWCi_GPGetInfoCallback_RecvAuthMessage, 0);
         return 1;
     }
     return 0;
 }
 
 // GP callback slot 2 (status): looks up the list entry and calls mBuddyStatusCallback.
-void WiFiGpBuddyStatusCallback(struct GpConnection *a, s32 *b) {
-    GpBuddyStatus c;
-    u32 d;
-    WiFiBuddySync *e;
+void WiFiGpBuddyStatusCallback(struct GpConnection *connection, s32 *arg) {
+    GpBuddyStatus status;
+    u32 friendSlot;
+    WiFiBuddySync *wiFiBuddySync;
     if (gWiFiBuddySync->mBuddyStatusCallback != NULL) {
-        d = FindBuddyEntryIndex(b[0]);
-        if (d != -1) {
-            GpGetBuddyStatus(a, b[2], &c);
-            e = gWiFiBuddySync;
-            e->mBuddyStatusCallback(d, c.mUnk_004, c.mUnk_108, e->mBuddyStatusCallbackArg);
+        friendSlot = FindBuddyEntryIndex(arg[0]);
+        if (friendSlot != -1) {
+            GpGetBuddyStatus(connection, arg[2], &status);
+            wiFiBuddySync = gWiFiBuddySync;
+            wiFiBuddySync->mBuddyStatusCallback(friendSlot, status.mUnk_004, status.mUnk_108,
+                                                wiFiBuddySync->mBuddyStatusCallbackArg);
         }
     }
 }
 
-s32 func_ov000_0219d660(void) {
+s32 DWCi_GetFriendListLen(void) {
     if (gWiFiBuddySync != NULL) {
         return gWiFiBuddySync->mBuddyEntryCount;
     }
@@ -197,131 +200,133 @@ s32 func_ov000_0219d660(void) {
 }
 
 // 0 when the entry holds no id.
-int GetBuddyEntryProfileId(int a) {
-    DWCAccUserData *v1;
-    u32 v2;
-    v1 = func_ov000_0219c9c4();
-    v2 = DWC_GetGsProfileId(v1, &gWiFiBuddySync->mBuddies[a]);
-    if ((v2 == 0) || (v2 == -1)) {
-        v2 = 0;
+int GetBuddyEntryProfileId(int index) {
+    DWCAccUserData *userData;
+    u32 profileId;
+    userData = DWCi_GetUserData();
+    profileId = DWC_GetGsProfileId(userData, &gWiFiBuddySync->mBuddies[index]);
+    if ((profileId == 0) || (profileId == -1)) {
+        profileId = 0;
     }
-    return v2;
+    return profileId;
 }
 
 // Index of the entry with this GP profile id, or -1.
-u32 FindBuddyEntryIndex(u32 a) {
-    s32 i;
-    if (gWiFiBuddySync == NULL || a == 0) {
+u32 FindBuddyEntryIndex(u32 profileId) {
+    s32 index;
+    if (gWiFiBuddySync == NULL || profileId == 0) {
         return -1;
     }
-    for (i = 0; i < gWiFiBuddySync->mBuddyEntryCount; i++) {
-        if (a == GetBuddyEntryProfileId(i)) {
-            return i;
+    for (index = 0; index < gWiFiBuddySync->mBuddyEntryCount; index++) {
+        if (profileId == GetBuddyEntryProfileId(index)) {
+            return index;
         }
     }
     return -1;
 }
 
-void func_ov000_0219d5bc(void) {
+void DWCi_InitGPProcessCount(void) {
     if (gWiFiBuddySync != NULL) {
         gWiFiBuddySync->mPollCount = 0;
         gWiFiBuddySync->mLastPollTime = OS_GetTick();
     }
 }
 
-u32 func_ov000_0219d558(s32 a, void *b, void *c) {
+u32 DWCi_SetGPStatus(s32 status, void *statusString, void *locationString) {
     if (gWiFiBuddySync == NULL || gWiFiBuddySync->mGpConnection == NULL) {
         return 0;
     }
-    if (a == -1) {
-        a = gWiFiBuddySync->mGpConnection->mGpiConnection->mStatus;
+    if (status == -1) {
+        status = gWiFiBuddySync->mGpConnection->mGpiConnection->mStatus;
     }
-    if (b == NULL) {
-        b = gWiFiBuddySync->mGpConnection->mGpiConnection->mStatusString;
+    if (statusString == NULL) {
+        statusString = gWiFiBuddySync->mGpConnection->mGpiConnection->mStatusString;
     }
-    if (c == NULL) {
-        c = gWiFiBuddySync->mGpConnection->mGpiConnection->mLocationString;
+    if (locationString == NULL) {
+        locationString = gWiFiBuddySync->mGpConnection->mGpiConnection->mLocationString;
     }
-    return GpSetStatus(gWiFiBuddySync->mGpConnection, a, b, c);
+    return GpSetStatus(gWiFiBuddySync->mGpConnection, status, statusString, locationString);
 }
 
-void func_ov000_0219d504(s32 a) {
-    GpBuddyStatus b;
+void DWCi_CallBuddyFriendCallback(s32 index) {
+    GpBuddyStatus buddyStatus;
     if (gWiFiBuddySync->mBuddyChangedCallback != NULL && gWiFiBuddySync->mState != 1) {
-        ((void (*)(s32, void *)) gWiFiBuddySync->mBuddyChangedCallback)(a, gWiFiBuddySync->mBuddyChangedCallbackArg);
+        ((void (*)(s32, void *)) gWiFiBuddySync->mBuddyChangedCallback)(index,
+                                                                        gWiFiBuddySync->mBuddyChangedCallbackArg);
     }
     if (gWiFiBuddySync->mBuddyStatusCallback != NULL) {
-        WiFiBuddySync *c;
-        u8 d = func_ov000_0219daa8(&gWiFiBuddySync->mBuddies[a], b.mUnk_108);
-        c = gWiFiBuddySync;
-        c->mBuddyStatusCallback(a, d, b.mUnk_108, c->mBuddyStatusCallbackArg);
+        WiFiBuddySync *wiFiBuddySync;
+        u8 friendStatus = DWC_GetFriendStatus(&gWiFiBuddySync->mBuddies[index], buddyStatus.mUnk_108);
+        wiFiBuddySync = gWiFiBuddySync;
+        wiFiBuddySync->mBuddyStatusCallback(index, friendStatus, buddyStatus.mUnk_108,
+                                            wiFiBuddySync->mBuddyStatusCallbackArg);
     }
 }
 
-void func_ov000_0219d4f8(void) {
+void DWCi_ShutdownFriend(void) {
     *(u32 *) &gWiFiBuddySync = 0;
 }
 
-int func_ov000_0219d49c(void) {
-    WiFiBuddySync *a = gWiFiBuddySync;
-    if ((OS_GetTick() - a->mLastPollTime) * 64 / 0x82ea >= 300) {
-        a->mPollCount = a->mPollCount + 1;
+int DWCi_GPProcess(void) {
+    WiFiBuddySync *buddySync = gWiFiBuddySync;
+    if ((OS_GetTick() - buddySync->mLastPollTime) * 64 / 0x82ea >= 300) {
+        buddySync->mPollCount = buddySync->mPollCount + 1;
         GpUpdate(gWiFiBuddySync->mGpConnection);
         gWiFiBuddySync->mLastPollTime = OS_GetTick();
     }
     return 0;
 }
 
-void func_ov000_0219d478(void) {
+void CloseStatsAndResetBuddySync(void) {
     if (gWiFiBuddySync != NULL) {
         GstatsClose();
         gWiFiBuddySync->mState = 0;
     }
 }
 
-void func_ov000_0219d2e8(DWCAccFriendData *a, s32 b) {
-    s32 c;
-    s32 d;
-    s32 i;
-    char e[0x18];
-    GpBuddyStatus f;
-    s32 g;
+void DWCi_UpdateFriendReq(DWCAccFriendData *friendList, s32 friendListLength) {
+    s32 buddyCount;
+    s32 buddyIndex;
+    s32 friendIndex;
+    char searchName[0x18];
+    GpBuddyStatus buddyInfo;
+    s32 profileId;
     if (gWiFiBuddySync->mUnk_1e == 0) {
-        ReportBuddySyncGpResult(GpGetBuddyCount(gWiFiBuddySync->mGpConnection, &c));
-        for (d = 0; d < c; d++) {
-            ReportBuddySyncGpResult(GpGetBuddyStatus(gWiFiBuddySync->mGpConnection, d, &f));
-            for (i = 0; i < b; i++) {
-                if (f.mUnk_000 == GetBuddyEntryProfileId(i)) {
-                    if (DWC_IsBuddyFriendData((DWCAccFriendData *) a + i) == 0) {
-                        InitFriendDataFromGsProfileId(&a[i], f.mUnk_000);
-                        DWCi_SetBuddyFriendData(&a[i]);
+        ReportBuddySyncGpResult(GpGetBuddyCount(gWiFiBuddySync->mGpConnection, &buddyCount));
+        for (buddyIndex = 0; buddyIndex < buddyCount; buddyIndex++) {
+            ReportBuddySyncGpResult(GpGetBuddyStatus(gWiFiBuddySync->mGpConnection, buddyIndex, &buddyInfo));
+            for (friendIndex = 0; friendIndex < friendListLength; friendIndex++) {
+                if (buddyInfo.mUnk_000 == GetBuddyEntryProfileId(friendIndex)) {
+                    if (DWC_IsBuddyFriendData((DWCAccFriendData *) friendList + friendIndex) == 0) {
+                        InitFriendDataFromGsProfileId(&friendList[friendIndex], buddyInfo.mUnk_000);
+                        DWCi_SetBuddyFriendData(&friendList[friendIndex]);
                         gWiFiBuddySync->mBuddiesChanged = 1;
                     }
                     break;
                 }
             }
-            if (i == b) {
-                ReportBuddySyncGpResult(GpDeleteBuddy(gWiFiBuddySync->mGpConnection, f.mUnk_000));
-                c--;
-                d--;
+            if (friendIndex == friendListLength) {
+                ReportBuddySyncGpResult(GpDeleteBuddy(gWiFiBuddySync->mGpConnection, buddyInfo.mUnk_000));
+                buddyCount--;
+                buddyIndex--;
             }
         }
         gWiFiBuddySync->mUnk_1e = 1;
     }
-    for (; gWiFiBuddySync->mSyncIndex < b; gWiFiBuddySync->mSyncIndex++) {
-        g = GetBuddyEntryProfileId(gWiFiBuddySync->mSyncIndex);
-        if (g != 0) {
-            if (func_ov000_0219d210(a, gWiFiBuddySync->mSyncIndex, g) == FALSE &&
-                DWC_IsBuddyFriendData(&a[gWiFiBuddySync->mSyncIndex]) == 0) {
-                ReportBuddySyncGpResult(GpGetBuddyIndex(gWiFiBuddySync->mGpConnection, g, &d));
-                if (d == -1) {
-                    AddBuddy(g);
+    for (; gWiFiBuddySync->mSyncIndex < friendListLength; gWiFiBuddySync->mSyncIndex++) {
+        profileId = GetBuddyEntryProfileId(gWiFiBuddySync->mSyncIndex);
+        if (profileId != 0) {
+            if (DWCi_RefreshFriendListForth(friendList, gWiFiBuddySync->mSyncIndex, profileId) == FALSE &&
+                DWC_IsBuddyFriendData(&friendList[gWiFiBuddySync->mSyncIndex]) == 0) {
+                ReportBuddySyncGpResult(GpGetBuddyIndex(gWiFiBuddySync->mGpConnection, profileId, &buddyIndex));
+                if (buddyIndex == -1) {
+                    AddBuddy(profileId);
                 }
             }
-        } else if (DWC_GetGsProfileId(func_ov000_0219c9c4(), &a[gWiFiBuddySync->mSyncIndex]) == -1) {
-            DWC_LoginIdToUserName(func_ov000_0219c9c4(), &a[gWiFiBuddySync->mSyncIndex], e);
-            GpProfileSearchA(gWiFiBuddySync->mGpConnection, NULL, NULL, NULL, NULL, (s8 *) e, 0, 0,
-                             (Unk0218f0a8Cb) func_ov000_0219ce48, gWiFiBuddySync->mSyncIndex);
+        } else if (DWC_GetGsProfileId(DWCi_GetUserData(), &friendList[gWiFiBuddySync->mSyncIndex]) == -1) {
+            DWC_LoginIdToUserName(DWCi_GetUserData(), &friendList[gWiFiBuddySync->mSyncIndex], searchName);
+            GpProfileSearchA(gWiFiBuddySync->mGpConnection, NULL, NULL, NULL, NULL, (s8 *) searchName, 0, 0,
+                             (Unk0218f0a8Cb) DWCi_GPProfileSearchCallback, gWiFiBuddySync->mSyncIndex);
             gWiFiBuddySync->mUnk_1e = 2;
             return;
         }
@@ -335,25 +340,25 @@ void FinishBuddySync(void) {
     gWiFiBuddySync->mState = 2;
 }
 
-void func_ov000_0219d288(DWCAccFriendData *a, s32 b, s32 c) {
+void DWCi_DeleteFriendFromList(DWCAccFriendData *friendData, s32 deleteIndex, s32 otherIndex) {
     if (gWiFiBuddySync != NULL) {
-        MI_CpuFill8(&a[b], 0, 12);
+        MI_CpuFill8(&friendData[deleteIndex], 0, 12);
         if (gWiFiBuddySync->mEntryMergedCallback != NULL) {
-            gWiFiBuddySync->mEntryMergedCallback(b, c, gWiFiBuddySync->mEntryMergedCallbackArg);
+            gWiFiBuddySync->mEntryMergedCallback(deleteIndex, otherIndex, gWiFiBuddySync->mEntryMergedCallbackArg);
         }
     }
 }
 
-BOOL func_ov000_0219d210(DWCAccFriendData *a, s32 b, s32 c) {
-    s32 i;
-    s32 j;
-    for (i = 0; i < b; i++) {
-        j = GetBuddyEntryProfileId(i);
-        if (j != 0 && j == c) {
-            if (DWC_IsBuddyFriendData(&a[b]) != 0 && DWC_IsBuddyFriendData(&a[i]) == 0) {
-                func_ov000_0219d288(a, i, b);
+BOOL DWCi_RefreshFriendListForth(DWCAccFriendData *friendList, s32 index, s32 profileId) {
+    s32 otherIndex;
+    s32 otherProfileId;
+    for (otherIndex = 0; otherIndex < index; otherIndex++) {
+        otherProfileId = GetBuddyEntryProfileId(otherIndex);
+        if (otherProfileId != 0 && otherProfileId == profileId) {
+            if (DWC_IsBuddyFriendData(&friendList[index]) != 0 && DWC_IsBuddyFriendData(&friendList[otherIndex]) == 0) {
+                DWCi_DeleteFriendFromList(friendList, otherIndex, index);
             } else {
-                func_ov000_0219d288(a, b, i);
+                DWCi_DeleteFriendFromList(friendList, index, otherIndex);
             }
             gWiFiBuddySync->mBuddiesChanged = 1;
             return TRUE;
@@ -362,57 +367,57 @@ BOOL func_ov000_0219d210(DWCAccFriendData *a, s32 b, s32 c) {
     return FALSE;
 }
 
-s32 func_ov000_0219d14c(DWCAccFriendData *a, s32 b, s32 c) {
-    s32 l;
-    s32 i;
-    s32 j;
-    s32 k;
-    DWCAccFriendData *p;
-    DWCAccFriendData *q;
-    DWCAccFriendData *r;
-    i = 0;
-    l = -1;
-    if (b - 1 > 0) {
-        p = a;
-        q = a;
+s32 DWCi_RefreshFriendListAll(DWCAccFriendData *friendList, s32 friendListLength, s32 profileId) {
+    s32 foundIndex;
+    s32 index;
+    s32 laterIndex;
+    s32 currentProfileId;
+    DWCAccFriendData *typeCheckEntry;
+    DWCAccFriendData *updatedEntry;
+    DWCAccFriendData *laterEntry;
+    index = 0;
+    foundIndex = -1;
+    if (friendListLength - 1 > 0) {
+        typeCheckEntry = friendList;
+        updatedEntry = friendList;
         do {
-            k = GetBuddyEntryProfileId(i);
-            if (k != 0) {
-                if (k == c) {
-                    l = i;
+            currentProfileId = GetBuddyEntryProfileId(index);
+            if (currentProfileId != 0) {
+                if (currentProfileId == profileId) {
+                    foundIndex = index;
                 }
-                j = i + 1;
-                if (j < b) {
-                    r = &a[j];
+                laterIndex = index + 1;
+                if (laterIndex < friendListLength) {
+                    laterEntry = &friendList[laterIndex];
                     do {
-                        if (k == GetBuddyEntryProfileId(j)) {
-                            if (GetFriendDataType(p) == 2 && GetFriendDataType(r) == 3) {
-                                InitFriendDataFromGsProfileId(q, k);
+                        if (currentProfileId == GetBuddyEntryProfileId(laterIndex)) {
+                            if (GetFriendDataType(typeCheckEntry) == 2 && GetFriendDataType(laterEntry) == 3) {
+                                InitFriendDataFromGsProfileId(updatedEntry, currentProfileId);
                             }
-                            if (DWC_IsBuddyFriendData(r) != 0) {
-                                DWCi_SetBuddyFriendData(q);
+                            if (DWC_IsBuddyFriendData(laterEntry) != 0) {
+                                DWCi_SetBuddyFriendData(updatedEntry);
                             }
-                            func_ov000_0219d288(a, j, i);
+                            DWCi_DeleteFriendFromList(friendList, laterIndex, index);
                             gWiFiBuddySync->mBuddiesChanged = 1;
                         }
-                        r++;
-                        j++;
-                    } while (j < b);
+                        laterEntry++;
+                        laterIndex++;
+                    } while (laterIndex < friendListLength);
                 }
             }
-            p++;
-            q++;
-            i++;
-        } while (i < b - 1);
+            typeCheckEntry++;
+            updatedEntry++;
+            index++;
+        } while (index < friendListLength - 1);
     }
-    return l;
+    return foundIndex;
 }
 
 // Sends the GP add-buddy request for a profile id (GpWriteAddbuddy with mUnk_28 as the reason text) and runs the
 // error check; the buddy exists only once the other side authorizes.
-u32 AddBuddy(u32 a) {
-    u32 v1;
-    v1 = GpWriteAddbuddy(gWiFiBuddySync->mGpConnection, a, gWiFiBuddySync->mUnk_28);
-    ReportBuddySyncGpResult(v1);
-    return v1;
+u32 AddBuddy(u32 profileId) {
+    u32 gpReturn;
+    gpReturn = GpWriteAddbuddy(gWiFiBuddySync->mGpConnection, profileId, gWiFiBuddySync->mUnk_28);
+    ReportBuddySyncGpResult(gpReturn);
+    return gpReturn;
 }

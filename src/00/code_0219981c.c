@@ -32,7 +32,7 @@ u32 gti2BufferIncomingMessage(Gt2Connection *connection, s32 type, u32 serialNum
             *overflow = 0;
             return 1;
         }
-        if (func_ov000_0219a014(heldMessage->mSerialNumber, serialNumber) > 0) {
+        if (gti2SNDiff(heldMessage->mSerialNumber, serialNumber) > 0) {
             break;
         }
     }
@@ -58,7 +58,7 @@ u32 gti2BufferIncomingMessage(Gt2Connection *connection, s32 type, u32 serialNum
         heldMessage = DarrayGetElement(connection->mIncomingBufferMessages, num);
         if (heldMessage->mSerialNumber == serialNumber) {
             heldMessage = DarrayGetElement(connection->mIncomingBufferMessages, num - 1);
-            if ((u16) func_ov000_0219a014(serialNumber, heldMessage->mSerialNumber) > 1) {
+            if ((u16) gti2SNDiff(serialNumber, heldMessage->mSerialNumber) > 1) {
                 if (gti2SendNack(connection, heldMessage->mSerialNumber + 1, serialNumber - 1) == FALSE) {
                     return 0;
                 }

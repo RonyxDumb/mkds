@@ -85,7 +85,7 @@ void func_ov000_021a317c(Unk0219887c *a, void *b, s32 c, u32 d) {
 
 void func_ov000_021a314c(Unk0219887c *a, u32 b) {
     if (gWiFiMessageLayer->mUnk_60c != NULL) {
-        gWiFiMessageLayer->mUnk_60c(b, func_ov000_0219b9c4(a));
+        gWiFiMessageLayer->mUnk_60c(b, DWCi_GetConnectionAID(a));
     }
 }
 
@@ -102,7 +102,7 @@ void UpdateWiFiMessageLayer(void) {
     s32 k;
     u64 t;
     if (gWiFiMessageLayer != NULL) {
-        n = func_ov000_0219bb04(&l);
+        n = DWC_GetAIDList(&l);
         for (i = 0; i < n; i++) {
             d = l[i];
             if (d != GetOwnParticipantIndex() && func_ov000_021a2fc8(d) == 1) {
@@ -127,7 +127,7 @@ void UpdateWiFiMessageLayer(void) {
                     e->mSendSize = 0;
                 }
             }
-            if (func_ov000_0219bac8(d) != 0) {
+            if (DWC_IsValidAID(d) != 0) {
                 e = func_ov000_021a2fdc(d);
                 if (gWiFiMessageLayer->mUnk_608 != NULL && e->mUnk_2c != 0) {
                     t = OS_GetTick();
@@ -170,12 +170,12 @@ u8 func_ov000_021a2fb4(int a) {
 
 void func_ov000_021a2f98(u32 a, void *b, u32 c, u32 d) {
     void *v1;
-    v1 = func_ov000_0219b9d4(a);
+    v1 = DWCi_GetGT2Connection(a);
     gt2Send(v1, b, c, d);
 }
 
 void func_ov000_021a2eec(Unk0219887c *a, void *b, s32 c) {
-    u8 v1 = func_ov000_0219b9c4(a);
+    u8 v1 = DWCi_GetConnectionAID(a);
     switch (func_ov000_021a2fb4(v1)) {
         case 0: {
             u16 n = func_ov000_021a31e8(b);
@@ -208,7 +208,7 @@ void func_ov000_021a2e7c(Unk0219887c *a, const void *b, int c) {
     int v1;
     WiFiPeerMessage *v2;
     u64 v3;
-    v1 = func_ov000_0219b9c4(a);
+    v1 = DWCi_GetConnectionAID(a);
     v2 = &gWiFiMessageLayer->mPeers[v1];
     if ((v2->mReceiveBuffer != NULL) && (v2->mReceiveBufferSize >= c)) {
         MI_CpuCopy8(b, v2->mReceiveBuffer, c);
@@ -288,7 +288,7 @@ void func_ov000_021a2d38(u32 a, void *b, s32 c) {
 }
 
 s32 func_ov000_021a2d18(u32 a) {
-    s32 n = gt2GetOutgoingBufferFreeSpace(func_ov000_0219b9d4(a)) - 0x207;
+    s32 n = gt2GetOutgoingBufferFreeSpace(DWCi_GetGT2Connection(a)) - 0x207;
     if (n <= 0) {
         n = 0;
     }
@@ -296,7 +296,7 @@ s32 func_ov000_021a2d18(u32 a) {
 }
 
 BOOL func_ov000_021a2ccc(void) {
-    if (gWiFiMatching == NULL || gWiFiMatching->mOwnProfileId == 0 || func_ov000_0219c39c() != 0) {
+    if (gWiFiMatching == NULL || gWiFiMatching->mOwnProfileId == 0 || DWCi_IsError() != 0) {
         return FALSE;
     }
     if (func_ov000_021a2768(gWiFiMatching->mOwnProfileId) == 0) {

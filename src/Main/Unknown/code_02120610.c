@@ -298,7 +298,7 @@ BOOL AreAllStepMessagesReceived(void) {
     if (checkedCount == 0) {
         gWiFiSession->mConnectionLost = 1;
         func_ov000_021a2ccc();
-        func_ov000_0219bbfc();
+        DWC_CloseAllConnectionsHard();
         gWiFiSession->mStep = 0xb;
         return FALSE;
     }
@@ -338,7 +338,7 @@ void EndWiFiSessionOnPicksMismatch(u32 index) {
     }
     gWiFiSession->mConnectionLost = 1;
     func_ov000_021a2ccc();
-    func_ov000_0219bbfc();
+    DWC_CloseAllConnectionsHard();
     gWiFiSession->mStep = 0xb;
 }
 
@@ -347,7 +347,7 @@ BOOL IsWiFiMatchingBeforeTimeLimit(void) {
 }
 
 u8 GetWiFiMatchingParticipantCount(void) {
-    return func_ov000_0219bb68();
+    return DWC_GetNumConnectionHost();
 }
 
 BOOL HasWiFiBuddyStatus4(void) {
@@ -374,7 +374,7 @@ BOOL IsKartKeysStartStatus2(void) {
 void RequestWiFiSessionMatching(u32 kartType, s32 useTimeLimit, s32 unused) {
     StateMachine *stateMachine;
 
-    func_ov000_0219bbfc();
+    DWC_CloseAllConnectionsHard();
     MI_CpuFill8(&gWiFiSession->mKeys[0], 0, 0x18);
     MI_CpuFill8(&gWiFiSession->mKeys[1], 0, 0x18);
     MI_CpuFill8(&gWiFiSession->mKeys[2], 0, 0x18);
@@ -406,7 +406,7 @@ void RequestWiFiSessionMatching(u32 kartType, s32 useTimeLimit, s32 unused) {
 }
 
 s32 CheckWiFiMatchingResult(void) {
-    if ((gWiFiSession->mEarlyStepTimedOut != 0 && func_ov000_0219bb68() <= 1) || gWiFiSession->mErrorKind == 7) {
+    if ((gWiFiSession->mEarlyStepTimedOut != 0 && DWC_GetNumConnectionHost() <= 1) || gWiFiSession->mErrorKind == 7) {
         return -1;
     }
     return IsWiFiStep5ReachedNoDisconnect() != FALSE;
@@ -571,7 +571,7 @@ void KartKeysStartCallback(u32 result, s32 flag) {
             return;
         }
         gWiFiSession->mKartMask = 0;
-        gWiFiSession->mKartCount = func_ov000_0219bb68();
+        gWiFiSession->mKartCount = DWC_GetNumConnectionHost();
         gWiFiSession->mStartKartCount = gWiFiSession->mKartCount;
         session = gWiFiSession;
         participantIndex = 0;
@@ -595,7 +595,7 @@ void SetWiFiDisconnectKind(s32 kind) {
         return;
     }
     func_ov000_021a2ccc();
-    func_ov000_0219bbfc();
+    DWC_CloseAllConnectionsHard();
 }
 
 void ResetWiFiSession(void) {
@@ -637,7 +637,7 @@ u32 CheckWiFiSessionDisconnect(void) {
             return 3;
         }
         if (session->mDisconnectKind == 2) {
-            if (func_ov000_0219bb68() <= 1) {
+            if (DWC_GetNumConnectionHost() <= 1) {
                 stateMachine = &gWiFiSession->mStateMachine;
                 stateMachine->mNextState = 2;
                 stateMachine->mNextStateRequested = 1;

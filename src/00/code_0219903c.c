@@ -78,7 +78,7 @@ u32 gti2HandleClosed(Gt2Connection *connection) {
     if (connection->mState == 7) {
         return 1;
     }
-    if (func_ov000_02199fb0(connection, 2, connection->mState == 6 ? K0 : K1) == 0) {
+    if (gti2ConnectionError(connection, 2, connection->mState == 6 ? K0 : K1) == 0) {
         return 0;
     }
     return 1;
@@ -170,14 +170,14 @@ u32 gti2HandleMessage(Gt2Socket *socket, u8 *message, s32 len, u32 address, u32 
         hasMagic = FALSE;
     }
     if (hasMagic == FALSE) {
-        if (func_ov000_02199e50(k, message, len) != 0) {
+        if (gti2HandleAppUnreliable(k, message, len) != 0) {
             return 1;
         }
         return 0;
     }
     i = message[2];
     if (i < 0) {
-        if (func_ov000_02199fa4(k) != 0) {
+        if (gti2ConnectionCommunicationError(k) != 0) {
             return 1;
         }
         return 0;
@@ -212,12 +212,12 @@ u32 gti2HandleConnectionReset(Gt2Socket *socket, u32 address, u32 port) {
             (v2 = GetElapsedMilliseconds(), (v2 - connection->mCreateTime) < connection->mTimeSinceCreateLimit)) {
             return 1;
         }
-        v2 = func_ov000_02199fb0(connection, 6, 1);
+        v2 = gti2ConnectionError(connection, 6, 1);
         if (v2 == 0) {
             return 0;
         }
     } else {
-        v2 = func_ov000_02199fb0(connection, 2, 1);
+        v2 = gti2ConnectionError(connection, 2, 1);
         if (v2 == 0) {
             return 0;
         }
@@ -250,7 +250,7 @@ u32 gti2ReceiveMessages(Gt2Socket *socket) {
                     return 0;
                 }
             } else if (error != -35) {
-                func_ov000_0219a044(socket);
+                gti2SocketError(socket);
                 return 0;
             }
         } else {
@@ -280,14 +280,14 @@ u32 gti2StoreOutgoingReliableMessageInfo(Gt2Connection *connection, u16 serialNu
 
 BOOL gti2BeginReliableMessage(Gt2Connection *connection, u32 type, int len, int *overflow) {
     if (GetBufferUnusedSize(&connection->mSendBuffer) < len) {
-        if (func_ov000_02199f80(connection) == 0) {
+        if (gti2ConnectionMemoryError(connection) == 0) {
             return FALSE;
         }
         *overflow = 1;
         return TRUE;
     }
     if (gti2StoreOutgoingReliableMessageInfo(connection, connection->mSerialNumber, len) == 0) {
-        if (func_ov000_02199f80(connection) == 0) {
+        if (gti2ConnectionMemoryError(connection) == 0) {
             return FALSE;
         }
         *overflow = 1;

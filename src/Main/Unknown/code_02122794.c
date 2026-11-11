@@ -28,7 +28,7 @@ void RemoveWiFiSessionKarts(void) {
             if (participantIndex == GetOwnParticipantIndex()) {
                 gWiFiSession->mConnectionLost = 1;
                 func_ov000_021a2ccc();
-                func_ov000_0219bbfc();
+                DWC_CloseAllConnectionsHard();
                 gWiFiSession->mStep = 11;
                 return;
             }
@@ -40,7 +40,7 @@ void RemoveWiFiSessionKarts(void) {
     if (gWiFiSession->mKartCount <= 1) {
         gWiFiSession->mConnectionLost = 1;
         func_ov000_021a2ccc();
-        func_ov000_0219bbfc();
+        DWC_CloseAllConnectionsHard();
         gWiFiSession->mStep = 11;
     }
 }

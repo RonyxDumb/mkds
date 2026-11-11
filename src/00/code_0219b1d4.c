@@ -1,10 +1,10 @@
 #include "00/code_0219b1d4.h"
 #include "00/code_0218e2dc.h"
 
-void func_ov000_0219b1d4(Unk0219b1d4 *object) {
-    if (object->mDescriptor != -1) {
-        closesocket(object->mDescriptor);
+void NegotiatorFree(NatTraversalEntry *negotiator) {
+    if (negotiator->mDescriptor != -1) {
+        closesocket(negotiator->mDescriptor);
     }
-    object->mDescriptor = -1;
-    object->mUnk_10 = 4;
+    negotiator->mDescriptor = -1;
+    negotiator->mState = 4;
 }

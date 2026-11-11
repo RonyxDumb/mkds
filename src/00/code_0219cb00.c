@@ -4,30 +4,31 @@
 
 #pragma opt_propagation off
 
-void func_ov000_0219cb64(u32 a, u32 b, s32 c, u32 d, s32 e, u32 f, u32 g) {
-    u32 t;
-    t = g;
+void BuddySyncStatsSaveCallback(u32 localId, u32 profileId, s32 type, u32 index, s32 success, u32 modified,
+                                u32 instance) {
+    u32 flag;
+    flag = instance;
     RemovePendingStatsRequest();
-    if (t == 0x80000001) {
-        if (e != 0) {
+    if (flag == 0x80000001) {
+        if (success != 0) {
             if (gWiFiBuddySync->mState == 1) {
                 gWiFiBuddySync->mCompletedParts++;
             } else {
-                t = 0;
+                flag = 0;
             }
         } else {
             ReportBuddySyncError(6, -72220);
         }
     }
-    if ((t & 0x80000000) == 0) {
-        if (e != 0) {
+    if ((flag & 0x80000000) == 0) {
+        if (success != 0) {
             if (gWiFiBuddySync->mUnk_4c != NULL) {
-                gWiFiBuddySync->mUnk_4c(1, (u32) (c - 2) <= 1 ? 1 : 0, g);
+                gWiFiBuddySync->mUnk_4c(1, (u32) (type - 2) <= 1 ? 1 : 0, instance);
             }
         } else {
             ReportBuddySyncError(6, -72220);
             if (gWiFiBuddySync->mUnk_4c != NULL) {
-                gWiFiBuddySync->mUnk_4c(0, 0, g);
+                gWiFiBuddySync->mUnk_4c(0, 0, instance);
             }
         }
     }
@@ -36,21 +37,21 @@ void func_ov000_0219cb64(u32 a, u32 b, s32 c, u32 d, s32 e, u32 f, u32 g) {
 // Counts one more stats request in flight (mPendingStatsRequestCount++); reports error (0xb, -70009) instead when the
 // count would wrap. Called for each request sent (code_0219cc00.c:155, code_0219d128.c:139).
 void AddPendingStatsRequest(void) {
-    WiFiBuddySync *p = gWiFiBuddySync;
-    if (p->mPendingStatsRequestCount == -1) {
+    WiFiBuddySync *wiFiBuddySync = gWiFiBuddySync;
+    if (wiFiBuddySync->mPendingStatsRequestCount == -1) {
         ReportBuddySyncError(0xb, -70009);
         return;
     }
-    p->mPendingStatsRequestCount++;
+    wiFiBuddySync->mPendingStatsRequestCount++;
 }
 
 // Counts one stats request less (mPendingStatsRequestCount--); reports error (0xb, -70009) instead when it is already
 // 0. Called first in each stats reply handler (code_0219cb00.c:10, code_0219cc00.c:144).
 void RemovePendingStatsRequest(void) {
-    WiFiBuddySync *p = gWiFiBuddySync;
-    if (p->mPendingStatsRequestCount == 0) {
+    WiFiBuddySync *wiFiBuddySync = gWiFiBuddySync;
+    if (wiFiBuddySync->mPendingStatsRequestCount == 0) {
         ReportBuddySyncError(0xb, -70009);
         return;
     }
-    p->mPendingStatsRequestCount--;
+    wiFiBuddySync->mPendingStatsRequestCount--;
 }

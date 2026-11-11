@@ -7,4 +7,4 @@ typedef struct Unk0219a5e8 {
     /* 04 */ u16 mUnk_04;
 } Unk0219a5e8;
 
-s32 func_ov000_0219a5e8(const Unk0219a5e8 *const *left, const Unk0219a5e8 *const *right);
+s32 gti2ConnectionCompare(const Unk0219a5e8 *const *left, const Unk0219a5e8 *const *right);

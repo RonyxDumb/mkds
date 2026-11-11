@@ -13,11 +13,11 @@
 // idle, 1 GP set-up, 2 login, 3 logged in, 4 buddy sync, 5 partner search, 6 matched. Owns the Gt2 socket (mSocket)
 // and the GP connection (mGpConnection) and holds the login object (mLogin), the buddy object (mBuddySync), the
 // matching object (mUnk_33c) and the net layer (mUnk_7a0). The table of peer connections is not a member
-// (data_ov000_021b54d0). Not a Gt2Connection (one peer link).
+// (stGt2ConnectionList). Not a Gt2Connection (one peer link).
 typedef struct WiFiConnection {
-    // Gt2Socket * (declared void *): created by func_ov000_0219ba20 when the login succeeds (called from
-    // code_0219c3e4.c), closed by ReleaseWiFiConnection or by the socket's own callback func_ov000_0219b240, which
-    // sets it NULL.
+    // Gt2Socket * (declared void *): created by DWCi_GT2Startup when the login succeeds (called from
+    // code_0219c3e4.c), closed by ReleaseWiFiConnection or by the socket's own callback DWCi_GT2SocketErrorCallback,
+    // which sets it NULL.
     /* 00 */ void *mSocket;
     // Slot 0 of a Gt2ConnectionCallbacks record made of mResultCallback, mDataCallback, mUnk_0c, mElapsedTimeCallback
     // (its address is handed to the matching object and from there to the Gt2 connect call): result of a Gt2 connect,
@@ -29,7 +29,7 @@ typedef struct WiFiConnection {
     /* 0c */ s32 (*mUnk_0c)();
     // Slot 3 of the record at mResultCallback: forwards (connection, elapsed time) to the net layer's mUnk_60c
     // callback (func_ov000_021a314c). Slot 2 (mUnk_0c, the library's unnamed mUnk_08) is the connection-closed
-    // handler func_ov000_0219b27c and stays address-based until the library names its slot.
+    // handler DWCi_GT2ClosedCallback.
     /* 10 */ void (*mElapsedTimeCallback)();
     // Passed to CreateSocket as the send buffer size (0 selects 0x2000).
     /* 14 */ u32 mSendBufferSize;
@@ -50,9 +50,9 @@ typedef struct WiFiConnection {
     // This player's index among the participants: 0 after Init, then taken from the participant table when a
     // participant id equals mProfileId; read through GetOwnParticipantIndex.
     /* 2c */ u8 mOwnIndex;
-    // 1 only while func_ov000_0219bbfc closes every peer connection of the socket (state 5 or 6, other participants
-    // present); read by func_ov000_0219b27c (code_0219b1f8.c:113, :128, :151) to tell this close from a peer leaving.
-    // The matching object's own close-all does not set it.
+    // 1 only while DWC_CloseAllConnectionsHard closes every peer connection of the socket (state 5 or 6, other
+    // participants present); read by DWCi_GT2ClosedCallback to tell this close from a
+    // peer leaving. The matching object's own close-all does not set it.
     /* 2d */ u8 mUnk_2d;
     /* 2e */ u16 mUnk_2e;
     // The GP profile id of the logged-in player; set by WiFiLoginCallback and compared with the participant ids of the
@@ -98,54 +98,59 @@ typedef struct WiFiConnection {
 
 typedef struct Unk0219887c Unk0219887c;
 
-typedef struct Unk021b5550 {
-    /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 mUnk_01;
+typedef struct DWCConnectionInfo {
+    /* 00 */ u8 mIndex;
+    /* 01 */ u8 mAid;
     /* 02 */ u16 mUnk_02;
-    /* 04 */ u32 mUnk_04;
-} Unk021b5550;
+    /* 04 */ u32 mParam;
+} DWCConnectionInfo;
 
-BOOL StartWiFiBuddySync(const s8 *a, void (*b)(s32, s32), void *c, void (*d)(u32, u8), void *e, void (*f)(u32, u32),
-                        void *g);
+BOOL StartWiFiBuddySync(const s8 *playerName, void (*updateCallback)(s32, s32), void *updateParam,
+                        void (*statusCallback)(u32, u8), void *statusParam, void (*deleteCallback)(u32, u32),
+                        void *deleteParam);
 
 // Pointer to the connection embedded in gWiFiSession: set by InitWiFiConnection at each login, NULL after
 // ReleaseWiFiConnection.
 extern WiFiConnection *gWiFiConnection;
-extern void *data_ov000_021b54d0[32];
-extern Unk021b5550 data_ov000_021b5550[32];
+extern void *stGt2ConnectionList[32];
+extern DWCConnectionInfo stConnectionInfoList[32];
 
-void WiFiGpErrorCallback(u32 a, int b);
-void WiFiMatchingCallback(u32 a, u32 b, u32 c, u32 d, u32 e);
-void WiFiBuddySyncCallback(u32 a, u32 b);
-void WiFiLoginCallback(int a, u32 b);
-u32 ReportWiFiSocketResult(u32 a);
-int ReportWiFiGpResult(int c);
-u32 func_ov000_0219b844(const u8 *values, s32 count);
-u32 func_ov000_0219b868(u32 a);
+void WiFiGpErrorCallback(u32 connection, int arg);
+void WiFiMatchingCallback(u32 error, u32 cancel, u32 self, u32 isServer, u32 index);
+void WiFiBuddySyncCallback(u32 error, u32 isChanged);
+void WiFiLoginCallback(int error, u32 profileId);
+u32 ReportWiFiSocketResult(u32 result);
+int ReportWiFiGpResult(int result);
+u32 DWCi_GetAIDBitmapFromList(const u8 *values, s32 count);
+u32 DWCi_DeleteAID(u32 aid);
 void SetWiFiConnectionState(s32 value);
-BOOL func_ov000_0219b8bc(u32 a);
-Unk021b5550 *func_ov000_0219b8f0(s32 index);
-void **func_ov000_0219b8fc(u32 a, s32 b);
-void **func_ov000_0219b958(s32 index);
-void func_ov000_0219b964(void);
-s32 func_ov000_0219b998(void);
-u32 func_ov000_0219b9b4(Unk0219887c *object);
-u8 func_ov000_0219b9c4(Unk0219887c *object);
-void *func_ov000_0219b9d4(u32 a);
-s32 func_ov000_0219ba20(void);
+BOOL DWCi_IsValidAID(u32 aid);
+DWCConnectionInfo *DWCi_GetConnectionInfoByIdx(s32 index);
+void **DWCi_GetGT2ConnectionByProfileID(u32 profileId, s32 numHost);
+void **DWCi_GetGT2ConnectionByIdx(s32 index);
+void DWCi_ClearGT2ConnectionList(void);
+s32 DWCi_GT2GetConnectionListIdx(void);
+u32 DWCi_GetConnectionIndex(Unk0219887c *connection);
+u8 DWCi_GetConnectionAID(Unk0219887c *connection);
+void *DWCi_GetGT2Connection(u32 aid);
+s32 DWCi_GT2Startup(void);
 u32 GetWiFiConnectionState(void);
-BOOL func_ov000_0219bac8(u32 a);
-s32 func_ov000_0219bb04(u8 **a);
+BOOL DWC_IsValidAID(u32 aid);
+s32 DWC_GetAIDList(u8 **aidList);
 u8 GetOwnParticipantIndex(void);
-s32 func_ov000_0219bb68(void);
-s32 func_ov000_0219bbac(s32 a);
-s32 func_ov000_0219bbfc(void);
-void StartWiFiMatchingWithBuddies(void *a, u32 b, u32 c, u32 d, void *e, void *f, u32 g, u32 h);
-void StartWiFiMatchingWithFilter(u32 a, void *b, void *c, void *d, void *e, u32 f);
-void StartWiFiLogin(u32 a, u32 b, void (*c)(s32 a), u32 d);
+s32 DWC_GetNumConnectionHost(void);
+s32 DWC_CloseConnectionHard(s32 aid);
+s32 DWC_CloseAllConnectionsHard(void);
+void StartWiFiMatchingWithBuddies(void *friendIdxList, u32 friendIdxListLength, u32 numEntry, u32 distantFriend,
+                                  void *matchedCallback, void *matchedParam, u32 evalCallback, u32 evalParam);
+void StartWiFiMatchingWithFilter(u32 numEntry, void *addFilter, void *matchedCallback, void *matchedParam,
+                                 void *evalCallback, u32 evalParam);
+void StartWiFiLogin(u32 playerName, u32 reserved, void (*callback)(s32 playerName), u32 callbackArg);
 void UpdateWiFiConnection(void);
-void func_ov000_0219c0c4(void);
-u32 func_ov000_0219c0c8(void);
+void DWCs_ForceShutdown(void);
+u32 UpdateInetConnection(void);
 void ReleaseWiFiConnection(void);
-void InitWiFiConnection(void *a, void *b, s32 c, const char *d, const char *e, s32 f, s32 g, void *h, s32 i);
+void InitWiFiConnection(void *connectionObject, void *userData, s32 productId, const char *gameName,
+                        const char *secretKey, s32 sendBufferSize, s32 receiveBufferSize, void *friendList,
+                        s32 friendListLength);
 // Declared here until the code that defines it is decompiled.

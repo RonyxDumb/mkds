@@ -8,12 +8,12 @@
 // Login machine, embedded in WiFiConnection at 0x84 (0x264 bytes = the MI_CpuFill8 of InitWiFiLogin), reached through
 // gWiFiLogin and stepped by UpdateWiFiLogin in connection state 2. mState 1 waits for the HTTP reply that holds the
 // auth token and a second string; 2 to 4 run the GP connect with them (state 2: check the saved record's profile id,
-// make the socket, done; state 3 then 4: profile name check in func_ov000_0219c400, which can send the machine back to
-// state 1); 5 is done. It is not strictly two logins in turn.
+// make the socket, done; state 3 then 4: profile name check in DWCi_GPGetInfoCallback, which can send the machine back
+// to state 1); 5 is done. It is not strictly two logins in turn.
 typedef struct WiFiLogin {
     /* 00 */ GpConnection *mGpConnection;
     // 0 idle, 1 waiting for the HTTP reply, 2 GP connect for a known profile (success: id check, socket, done), 3 GP
-    // connect then 4 profile name check (func_ov000_0219c400), 5 done. Written only by the machine; 0 is
+    // connect then 4 profile name check (DWCi_GPGetInfoCallback), 5 done. Written only by the machine; 0 is
     // ResetWiFiLogin.
     /* 04 */ s32 mState;
     // Game id 0x4d6 (InitWiFiConnection's fourth parameter): given to GpInitialize, which stores it as

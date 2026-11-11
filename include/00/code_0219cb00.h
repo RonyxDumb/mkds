@@ -4,4 +4,5 @@
 
 void RemovePendingStatsRequest(void);
 void AddPendingStatsRequest(void);
-void func_ov000_0219cb64(u32 a, u32 b, s32 c, u32 d, s32 e, u32 f, u32 g);
+void BuddySyncStatsSaveCallback(u32 localId, u32 profileId, s32 type, u32 index, s32 success, u32 modified,
+                                u32 instance);

@@ -24,29 +24,30 @@
 #include "00/code_021a3a18.h"
 #include "code_0213a460.h"
 
-// GP callback slot 3 (message). The first branch hands the text to func_ov000_0219d6c4 (the "I have authorized ..."
-// sentence); the second takes GPCM-prefixed text with a MAT tag and forwards it to the matching code only in state 5
-// or matching mode 2 and 3.
-void WiFiGpMessageCallback(GpConnection *a, Unk0219b4b4 *b, u32 g) {
-    char *d;
-    char c[12] = {0};
-    u32 e;
-    WiFiConnection *f;
+// GP callback slot 3 (message). The first branch hands the text to DWCi_GPRecvBuddyAuthCallback (the "I have authorized
+// ..." sentence); the second takes GPCM-prefixed text with a MAT tag and forwards it to the matching code only in state
+// 5 or matching mode 2 and 3.
+void WiFiGpMessageCallback(GpConnection *connection, Unk0219b4b4 *arg, u32 param) {
+    char *message;
+    char versionText[12] = {0};
+    u32 versionLength;
+    WiFiConnection *wiFiConnection;
 
-    d = b->mUnk_08;
-    if (func_ov000_0219d6c4(a, (u32 *) b, g) == 0) {
-        if (memcmp(d, data_ov000_021b4058, strlen(data_ov000_021b4058)) == 0) {
-            d += strlen(data_ov000_021b4058);
-            e = strchr(d, 0x76) - d;
-            strncpy(c, d, e);
-            if (e <= 10) {
-                if (strtoul(c, NULL, 10) == 3) {
-                    d += e + 1;
-                    if (memcmp(d, data_ov000_021b4060, strlen(data_ov000_021b4060)) == 0) {
-                        f = gWiFiConnection;
-                        if (f->mState == 5 || f->mMatching.mMode == 2 || f->mMatching.mMode == 3) {
-                            d += strlen(data_ov000_021b4060);
-                            ParseMatchingGpMessage(a, b->mUnk_00, d);
+    message = arg->mUnk_08;
+    if (DWCi_GPRecvBuddyAuthCallback(connection, (u32 *) arg, param) == 0) {
+        if (memcmp(message, gDwcGpCommandString, strlen(gDwcGpCommandString)) == 0) {
+            message += strlen(gDwcGpCommandString);
+            versionLength = strchr(message, 0x76) - message;
+            strncpy(versionText, message, versionLength);
+            if (versionLength <= 10) {
+                if (strtoul(versionText, NULL, 10) == 3) {
+                    message += versionLength + 1;
+                    if (memcmp(message, gDwcGpCommandMatchString, strlen(gDwcGpCommandMatchString)) == 0) {
+                        wiFiConnection = gWiFiConnection;
+                        if (wiFiConnection->mState == 5 || wiFiConnection->mMatching.mMode == 2 ||
+                            wiFiConnection->mMatching.mMode == 3) {
+                            message += strlen(gDwcGpCommandMatchString);
+                            ParseMatchingGpMessage(connection, arg->mUnk_00, message);
                         }
                     }
                 }
@@ -57,100 +58,101 @@ void WiFiGpMessageCallback(GpConnection *a, Unk0219b4b4 *b, u32 g) {
 
 // Slot 1 of the Gt2ConnectionCallbacks record (the library's Gt2CallDataCallback, code_02197e58.c:152): the body
 // only forwards (connection, data, size, flag) to func_ov000_021a317c, the receive side of the message layer.
-void WiFiGt2DataCallback(Unk0219887c *a, void *b, s32 c, u32 d) {
-    func_ov000_021a317c(a, b, c, d);
+void WiFiGt2DataCallback(Unk0219887c *connection, void *message, s32 length, u32 reliable) {
+    func_ov000_021a317c(connection, message, length, reliable);
 }
 
-void func_ov000_0219b27c(Unk0219887c *a, u32 b) {
-    u32 e;
-    s32 d;
-    BOOL f;
-    u8 *g;
-    u32 h;
-    s32 c;
-    u32 i;
-    WiFiConnection *j;
-    u32 k;
-    void **m;
+void DWCi_GT2ClosedCallback(Unk0219887c *connection, u32 reason) {
+    u32 profileId;
+    s32 detail;
+    BOOL hostSide;
+    u8 *connectionInfo;
+    u32 aid;
+    s32 kind;
+    u32 inMask;
+    WiFiConnection *wiFiConnection;
+    u32 friendListIndex;
+    void **closedCallbackArg;
 
-    e = 0;
-    f = FALSE;
+    profileId = 0;
+    hostSide = FALSE;
     if (IsMatchingPointerNull() != 0) {
         return;
     }
-    switch (b) {
+    switch (reason) {
         case 0:
         case 1:
-            c = 0;
+            kind = 0;
             break;
         case 2:
         case 3:
-            c = 6;
-            d = -0x1db0;
+            kind = 6;
+            detail = -0x1db0;
             break;
         case 4:
-            c = 0xb;
-            d = -0x1db1;
+            kind = 0xb;
+            detail = -0x1db1;
             break;
     }
-    if (c == 0) {
-        g = gt2GetConnectionData(a);
-        if (g == NULL) {
+    if (kind == 0) {
+        connectionInfo = gt2GetConnectionData(connection);
+        if (connectionInfo == NULL) {
             return;
         }
-        h = g[1];
-        i = (gWiFiConnection->mMatching.mParticipantMask & (1 << h)) != 0;
-        func_ov000_021a2ff8(h);
-        j = gWiFiConnection;
-        if ((j->mMatching.mMode == 2 && b == 0) || (j->mMatching.mMode == 3 && h == 0)) {
-            f = TRUE;
+        aid = connectionInfo[1];
+        inMask = (gWiFiConnection->mMatching.mParticipantMask & (1 << aid)) != 0;
+        func_ov000_021a2ff8(aid);
+        wiFiConnection = gWiFiConnection;
+        if ((wiFiConnection->mMatching.mMode == 2 && reason == 0) ||
+            (wiFiConnection->mMatching.mMode == 3 && aid == 0)) {
+            hostSide = TRUE;
         }
-        e = func_ov000_0219b868(h);
-        data_ov000_021b54d0[g[0]] = NULL;
+        profileId = DWCi_DeleteAID(aid);
+        stGt2ConnectionList[connectionInfo[0]] = NULL;
         gWiFiConnection->mMatching.mLastParticipantPos--;
         gWiFiConnection->mMatching.mUnk_14--;
     }
-    if (gWiFiConnection->mUnk_2d == 0 && gWiFiConnection->mState == 6 && i == 0) {
-        if (gWiFiConnection->mMatching.mMode == 2 && c == 0) {
+    if (gWiFiConnection->mUnk_2d == 0 && gWiFiConnection->mState == 6 && inMask == 0) {
+        if (gWiFiConnection->mMatching.mMode == 2 && kind == 0) {
             func_ov000_021a1488();
-            func_ov000_021a1798(e);
+            func_ov000_021a1798(profileId);
         }
         return;
     }
-    if (func_ov000_021a17bc(c, d, e) != 0) {
+    if (func_ov000_021a17bc(kind, detail, profileId) != 0) {
         return;
     }
-    if (c != 0) {
-        func_ov000_0219c384(c, d);
+    if (kind != 0) {
+        DWCi_SetError(kind, detail);
         return;
     }
     if (gWiFiConnection->mMatching.mMode == 2) {
         if (gWiFiConnection->mUnk_2d == 0) {
             func_ov000_021a1488();
         } else if (gWiFiConnection->mMatching.mLastParticipantPos == 0) {
-            func_ov000_0219d558(1, data_ov000_021b4054, NULL);
+            DWCi_SetGPStatus(1, data_ov000_021b4054, NULL);
         }
     } else if (gWiFiConnection->mMatching.mLastParticipantPos == 0) {
-        func_ov000_0219d558(1, data_ov000_021b4054, NULL);
+        DWCi_SetGPStatus(1, data_ov000_021b4054, NULL);
     }
     if (gWiFiConnection->mMatching.mMode == 0 || gWiFiConnection->mMatching.mMode == 1) {
         gWiFiConnection->mMatching.mUnk_16 = gWiFiConnection->mMatching.mUnk_14;
         func_ov000_021a4818(gWiFiConnection->mMatching.mUnk_10);
     }
-    j = gWiFiConnection;
-    if (j->mUnk_7c != NULL && i != 0) {
-        if (b == 0) {
-            b = 1;
+    wiFiConnection = gWiFiConnection;
+    if (wiFiConnection->mUnk_7c != NULL && inMask != 0) {
+        if (reason == 0) {
+            reason = 1;
         } else {
-            b = 0;
+            reason = 0;
         }
-        k = FindBuddyEntryIndex(e);
-        m = &j->mUnk_80;
-        gWiFiConnection->mUnk_7c(c, b, f, h, k, *m);
+        friendListIndex = FindBuddyEntryIndex(profileId);
+        closedCallbackArg = &wiFiConnection->mUnk_80;
+        gWiFiConnection->mUnk_7c(kind, reason, hostSide, aid, friendListIndex, *closedCallbackArg);
     }
     if (gWiFiConnection->mUnk_2d != 0 || gWiFiConnection->mMatching.mMode != 2) {
         if (gWiFiConnection->mMatching.mLastParticipantPos == 0) {
-            func_ov000_0219b110();
+            NNFreeNegotiateList();
             func_ov000_021a1a10();
             SetWiFiConnectionState(3);
         }
@@ -159,27 +161,27 @@ void func_ov000_0219b27c(Unk0219887c *a, u32 b) {
 
 // Slot 3 of the record (Gt2CallElapsedTimeCallback, code_02197e58.c:196): the body only forwards (connection,
 // elapsed time) to func_ov000_021a314c, which calls the layer's mUnk_60c with the time and the peer index.
-void WiFiGt2ElapsedTimeCallback(Unk0219887c *a, u32 b) {
-    func_ov000_021a314c(a, b);
+void WiFiGt2ElapsedTimeCallback(Unk0219887c *connection, u32 latency) {
+    func_ov000_021a314c(connection, latency);
 }
 
-void func_ov000_0219b240(u32 *a) {
-    data_ov000_021b54cc = GOAGetLastError(GetSocketDescriptor(a));
-    func_ov000_0219c384(0xb, -0x17aeb);
+void DWCi_GT2SocketErrorCallback(u32 *socket) {
+    stLastSocketError = GOAGetLastError(GetSocketDescriptor(socket));
+    DWCi_SetError(0xb, -0x17aeb);
     gWiFiConnection->mSocket = NULL;
 }
 
-Unk0219b1d4 *func_ov000_0219b1f8(u32 a) {
-    s32 b;
-    Unk0219b1d4 *c;
+NatTraversalEntry *FindNegotiatorForCookie(u32 cookie) {
+    s32 index;
+    NatTraversalEntry *negotiator;
 
-    if (data_ov000_021b52c4 == NULL) {
+    if (negotiateList == NULL) {
         return NULL;
     }
-    for (b = 0; b < DarrayGetCount((u32 *) data_ov000_021b52c4); b++) {
-        c = DarrayGetElement(data_ov000_021b52c4, b);
-        if (c->mUnk_08 == a) {
-            return c;
+    for (index = 0; index < DarrayGetCount((u32 *) negotiateList); index++) {
+        negotiator = DarrayGetElement(negotiateList, index);
+        if (negotiator->mCookie == cookie) {
+            return negotiator;
         }
     }
     return NULL;

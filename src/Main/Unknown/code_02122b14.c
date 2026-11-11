@@ -223,7 +223,7 @@ s32 UpdateWiFiSessionStep(void) {
             break;
         case 11:
             UpdateWiFiSessionStepTimeout(0x1c20);
-            if (func_ov000_0219bb68() <= 1) {
+            if (DWC_GetNumConnectionHost() <= 1) {
                 gWiFiSession->mStepFrames = 0;
                 gWiFiSession->mStep = 12;
             }
@@ -339,7 +339,7 @@ void AdvanceWiFiSessionStep3(void) {
     ownIndex = GetOwnParticipantIndex();
     if (gWiFiSession->mIndexMessages[ownIndex].mContinueChoice == 2) {
         func_ov000_021a2ccc();
-        func_ov000_0219bbfc();
+        DWC_CloseAllConnectionsHard();
         gWiFiSession->mStep = 11;
         return;
     }
@@ -392,7 +392,7 @@ void AdvanceWiFiSessionStep4(void) {
     }
     if (gWiFiSession->mKartCount == 1) {
         func_ov000_021a2ccc();
-        func_ov000_0219bbfc();
+        DWC_CloseAllConnectionsHard();
         stateMachine = &gWiFiSession->mStateMachine;
         stateMachine->mNextState = 2;
         stateMachine->mNextStateRequested = 1;

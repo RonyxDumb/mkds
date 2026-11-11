@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-int func_ov000_0219a014(int a, int b);
+int gti2SNDiff(int serialNumber1, int serialNumber2);

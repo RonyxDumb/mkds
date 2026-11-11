@@ -20,7 +20,7 @@
 #include "00/code_0219dd4c.h"
 
 u32 func_ov000_021a2c64(void) {
-    if (func_ov000_0219c39c() != 0) {
+    if (DWCi_IsError() != 0) {
         return 0;
     }
     if (gWiFiMatching == NULL || GetWiFiConnectionState() != 5 || gWiFiMatching->mStopPending != 0) {
@@ -97,7 +97,7 @@ u32 func_ov000_021a2ad0(u32 a, char *b, void *c) {
 
 s32 func_ov000_021a2a88(u32 a, void *b, s32 c) {
     u32 r;
-    if (gWiFiMatching == NULL || func_ov000_0219c39c() != 0) {
+    if (gWiFiMatching == NULL || DWCi_IsError() != 0) {
         return c;
     }
     r = ServerBrowserGetServer(gWiFiMatching->mServerList, a);

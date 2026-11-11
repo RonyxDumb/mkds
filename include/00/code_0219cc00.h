@@ -5,8 +5,8 @@
 
 #include "00/code_0219c3e4.h"
 
-void func_ov000_0219cc00(u32 a, u32 b, u32 c, u32 d);
-void func_ov000_0219cc30(u32 a, u32 b, u32 c);
-void func_ov000_0219cc94(GpConnection *a, Unk0219c400 *b, u32 c);
-void func_ov000_0219cd74(GpConnection *a, Unk0219c400 *b, u32 c);
-void func_ov000_0219ce48(GpConnection *a, Unk0219c400 *b, u32 c);
+void DWCi_SetPersistDataValuesAsync(u32 profileId, u32 type, u32 valueString, u32 param);
+void BuddySyncStatsAuthCallback(u32 localId, u32 profileId, u32 authenticated);
+void DWCi_GPGetInfoCallback_RecvAuthMessage(GpConnection *connection, Unk0219c400 *arg, u32 param);
+void DWCi_GPGetInfoCallback_RecvBuddyRequest(GpConnection *connection, Unk0219c400 *arg, u32 param);
+void DWCi_GPProfileSearchCallback(GpConnection *connection, Unk0219c400 *arg, u32 friendIdx);

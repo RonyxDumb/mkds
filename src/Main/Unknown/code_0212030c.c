@@ -97,7 +97,7 @@ void UpdateBuddyStatuses(void) {
     }
     session = gWiFiSession;
     session->mBuddyStatuses[session->mBuddyPollIndex] =
-        func_ov000_0219daa8(&session->mBuddies[session->mBuddyPollIndex], NULL);
+        DWC_GetFriendStatus(&session->mBuddies[session->mBuddyPollIndex], NULL);
     gWiFiSession->mBuddyPollIndex++;
     countSession = gWiFiSession;
     buddyIndex = 0;
@@ -122,9 +122,9 @@ void UpdateWiFiSession(void) {
         return;
     }
     UpdateWiFiConnection();
-    if (func_ov000_0219c3cc(NULL) != 0) {
-        gWiFiSession->mErrorKind = func_ov000_0219c3cc(&gWiFiSession->mErrorCode);
-        func_ov000_0219c3b0();
+    if (DWC_GetLastError(NULL) != 0) {
+        gWiFiSession->mErrorKind = DWC_GetLastError(&gWiFiSession->mErrorCode);
+        DWC_ClearError();
     }
     if (gWiFiSession->mStateMachine.mState != 0) {
         UpdateBuddyStatuses();

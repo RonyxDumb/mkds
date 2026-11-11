@@ -11,19 +11,19 @@
 #include "00/code_0219a0d0.h"
 #include "00/code_0219a3f4.h"
 
-void func_ov000_0219a06c(Gt2Socket *a) {
-    s32 b;
-    for (b = DarrayGetCount(a->mConnectionsToFree) - 1; b >= 0; b--) {
-        func_ov000_0219a220(*(Gt2Connection **) DarrayGetElement(a->mConnectionsToFree, b));
+void gti2FreeClosedConnections(Gt2Socket *socket) {
+    s32 index;
+    for (index = DarrayGetCount(socket->mConnectionsToFree) - 1; index >= 0; index--) {
+        gti2FreeSocketConnection(*(Gt2Connection **) DarrayGetElement(socket->mConnectionsToFree, index));
     }
 }
 
-void func_ov000_0219a044(Gt2Socket *a) {
-    if (a->mError == FALSE) {
-        a->mError = TRUE;
-        gt2CloseAllConnectionsHard(a);
-        if (gti2SocketErrorCallback(a) != FALSE) {
-            DeleteSocket(a);
+void gti2SocketError(Gt2Socket *socket) {
+    if (socket->mError == FALSE) {
+        socket->mError = TRUE;
+        gt2CloseAllConnectionsHard(socket);
+        if (gti2SocketErrorCallback(socket) != FALSE) {
+            DeleteSocket(socket);
         }
     }
 }

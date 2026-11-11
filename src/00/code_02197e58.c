@@ -19,7 +19,7 @@ void gti2CloseConnection(Gt2Connection *connection, int hard) {
             gti2ConnectionClosed(connection);
             gti2SendClosed(connection);
             gti2ClosedCallback(connection, NULL);
-            func_ov000_0219a220(connection);
+            gti2FreeSocketConnection(connection);
         }
     } else {
         connection->mState = 6;

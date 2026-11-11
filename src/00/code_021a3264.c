@@ -88,7 +88,7 @@ u32 func_ov000_021a3448(u32 a) {
 }
 
 BOOL func_ov000_021a33e4(u32 a, s32 b) {
-    if ((b == 1 && func_ov000_0219bac8(a) == 0) || func_ov000_0219b8bc(a) == FALSE) {
+    if ((b == 1 && DWC_IsValidAID(a) == 0) || DWCi_IsValidAID(a) == FALSE) {
         return FALSE;
     }
     if (func_ov000_021a2fc8(a) == 1) {
@@ -109,7 +109,7 @@ BOOL StartPeerMessageSend(u16 a, u32 b, u8 *c, s32 d) {
     WiFiPeerMessage *e = func_ov000_021a2fdc(b);
     Unk021a31e8 t;
     s32 n;
-    if (func_ov000_0219c39c() != 0) {
+    if (DWCi_IsError() != 0) {
         return FALSE;
     }
     if (func_ov000_021a33e4(b, a) == FALSE) {
@@ -143,10 +143,10 @@ BOOL StartPeerMessageSend(u16 a, u32 b, u8 *c, s32 d) {
 }
 
 BOOL func_ov000_021a32a0(u32 a, void *b, s32 c) {
-    if (func_ov000_0219c39c() != 0) {
+    if (DWCi_IsError() != 0) {
         return FALSE;
     }
-    if (func_ov000_0219bac8(a) == 0) {
+    if (DWC_IsValidAID(a) == 0) {
         return FALSE;
     }
     if (c > gWiFiMessageLayer->mSendChunkSize) {

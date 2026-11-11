@@ -2,10 +2,10 @@
 
 #include "types.h"
 
-extern s32 data_ov000_021b5650;
-extern s32 data_ov000_021b5654;
+extern s32 stDwcLastError;
+extern s32 stDwcErrorCode;
 
-void func_ov000_0219c384(s32 state, s32 value);
-u32 func_ov000_0219c39c(void);
-void func_ov000_0219c3b0(void);
-s32 func_ov000_0219c3cc(s32 *value);
+void DWCi_SetError(s32 error, s32 errorCode);
+u32 DWCi_IsError(void);
+void DWC_ClearError(void);
+s32 DWC_GetLastError(s32 *errorCode);

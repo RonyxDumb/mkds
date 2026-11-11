@@ -2,13 +2,13 @@
 #include "00/code_02198a8c.h"
 #include "00/code_02199fb0.h"
 
-u32 func_ov000_02199f80(Gt2Connection *a) {
-    int v1;
-    u32 v2;
-    v1 = gti2SendClosed(a);
-    if (v1 != 0) {
-        v2 = func_ov000_02199fb0(a, 1, 4);
-        return v2;
+u32 gti2ConnectionMemoryError(Gt2Connection *connection) {
+    int sentClosed;
+    u32 result;
+    sentClosed = gti2SendClosed(connection);
+    if (sentClosed != 0) {
+        result = gti2ConnectionError(connection, 1, 4);
+        return result;
     }
     return 0;
 }

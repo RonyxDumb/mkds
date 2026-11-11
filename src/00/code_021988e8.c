@@ -47,7 +47,7 @@ int gt2Connect(void *socket, Gt2Connection **connection, u32 remoteAddress, void
     pendingConn->mTimeSinceCreateLimit = timeout;
     startResult = gti2StartConnectionAttempt(pendingConn, message, len, callbacks);
     if (startResult != 0) {
-        func_ov000_0219a220(pendingConn);
+        gti2FreeSocketConnection(pendingConn);
         return startResult;
     }
     if (blocking == 0) {
@@ -73,7 +73,7 @@ int gt2Connect(void *socket, Gt2Connection **connection, u32 remoteAddress, void
 
 void gt2Send(Gt2Connection *connection, u8 *message, int len, int reliable) {
     if (connection->mState == 5) {
-        func_ov000_0219a61c((const char **) &message, &len);
+        gti2MessageCheck((const char **) &message, &len);
         if (DarrayGetCount((u32 *) connection->mSendFilters) != 0) {
             gti2SendFilterCallback(connection, 0, (s32) message, (void *) len, reliable);
             return;

@@ -53,7 +53,7 @@ BOOL gti2SendAck(Gt2Connection *connection) {
     u8 buffer[3];
     func_ov000_02198ba8_inline(buffer, gGti2MagicString);
     buffer[2] = 0x64;
-    func_ov000_0219a01c(buffer, 3, connection->mExpectedSerialNumber);
+    gti2UShortToBuffer(buffer, 3, connection->mExpectedSerialNumber);
     if (SendConnectionBytes(connection, buffer, 5) == 0) {
         return FALSE;
     }
@@ -67,10 +67,10 @@ BOOL gti2SendNack(Gt2Connection *connection, u16 firstNumber, u16 lastNumber) {
     pos = 0;
     func_ov000_02198ba8_inline(buffer, gGti2MagicString);
     buffer[2] = 0x65;
-    func_ov000_0219a01c(buffer, 3, firstNumber);
+    gti2UShortToBuffer(buffer, 3, firstNumber);
     pos += 5;
     if (firstNumber != lastNumber) {
-        func_ov000_0219a01c(buffer, pos, lastNumber);
+        gti2UShortToBuffer(buffer, pos, lastNumber);
         pos += 2;
     }
     if (SendConnectionBytes(connection, buffer, pos) == 0) {
@@ -100,14 +100,14 @@ BOOL gti2SendClosedOnSocket(Gt2Socket *socket, u32 address, int port) {
 
     __memcpy(buffer, gGti2MagicString, 2);
     buffer[2] = 0x68;
-    if (func_ov000_0219a110((u32 *) socket, address, port, (u32) buffer, 3) != 0) {
+    if (gti2SocketSend((u32 *) socket, address, port, (u32) buffer, 3) != 0) {
         return TRUE;
     }
     return FALSE;
 }
 
 BOOL gti2ResendMessage(Gt2Connection *connection, Unk02198af4 *message) {
-    func_ov000_0219a01c(connection->mSendBuffer.mData, message->mUnk_00 + 5, connection->mExpectedSerialNumber);
+    gti2UShortToBuffer(connection->mSendBuffer.mData, message->mUnk_00 + 5, connection->mExpectedSerialNumber);
     if (SendConnectionBytes(connection, connection->mSendBuffer.mData + message->mUnk_00, message->mUnk_04) == 0) {
         return FALSE;
     }
@@ -137,8 +137,8 @@ void gt2CloseSocket(Gt2Socket *socket) {
 
 void gt2Think(Gt2Socket *socket) {
     if (gti2ReceiveMessages(socket) != 0) {
-        if (func_ov000_0219a09c(socket) != 0) {
-            func_ov000_0219a06c(socket);
+        if (gti2SocketConnectionsThink(socket) != 0) {
+            gti2FreeClosedConnections(socket);
         }
     }
 }

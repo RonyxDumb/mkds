@@ -594,7 +594,7 @@ Expression shapes:
 - An address used twice that is shared as `(base + i * 2) + off`: write one of the two accesses through `(u8 *) base + i
   * 2` (MBi_CommParentRecvDataPerChild).
 - Only `i * 12` kept across a call and `a + r7` formed twice: a same-type cast on the base at the first use only, `f((T
-  *) a + i)`, and `&a[i]` later (func_ov000_0219d2e8).
+  *) a + i)`, and `&a[i]` later (DWCi_UpdateFriendReq).
 - A global's loads hoisted out of a loop with calls and kept in stack slots, ours reloading each pass: declare the
   extern `const`; a const cast at the use does not do it (func_ov003_021c1cd8).
 - Pool address plus constant kept in callee-saved registers across a loop, ours reloading: the loop needs a preheader. A

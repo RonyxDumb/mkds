@@ -24,14 +24,14 @@ u32 gti2HandleReliableMessage(Gt2Connection *connection, u32 type, const u8 *mes
     s32 bufferFull;
     u32 expectedSerialNumber;
     if (len < 7) {
-        if (func_ov000_02199fa4(connection) != 0) {
+        if (gti2ConnectionCommunicationError(connection) != 0) {
             return 1;
         }
         return 0;
     }
-    serialNumber = func_ov000_0219a028(message, 3);
-    expectedSerialNumber = func_ov000_0219a028(message, 5);
-    if (func_ov000_02199ec8(connection, expectedSerialNumber) == 0) {
+    serialNumber = gti2UShortFromBuffer(message, 3);
+    expectedSerialNumber = gti2UShortFromBuffer(message, 5);
+    if (gti2HandleESN(connection, expectedSerialNumber) == 0) {
         return 0;
     }
     if (serialNumber == connection->mExpectedSerialNumber) {
@@ -44,14 +44,14 @@ u32 gti2HandleReliableMessage(Gt2Connection *connection, u32 type, const u8 *mes
         }
         return 0;
     }
-    if (func_ov000_0219a014(serialNumber, connection->mExpectedSerialNumber) < 0) {
+    if (gti2SNDiff(serialNumber, connection->mExpectedSerialNumber) < 0) {
         gti2SetPendingAck(connection);
         return 1;
     }
     if (gti2BufferIncomingMessage(connection, type, serialNumber, message + 7, len - 7, &bufferFull) == 0) {
         return 0;
     }
-    if (bufferFull != 0 && func_ov000_02199f80(connection) == 0) {
+    if (bufferFull != 0 && gti2ConnectionMemoryError(connection) == 0) {
         return 0;
     }
     return 1;
@@ -59,12 +59,12 @@ u32 gti2HandleReliableMessage(Gt2Connection *connection, u32 type, const u8 *mes
 
 u32 gti2HandleAck(Gt2Connection *connection, const u8 *message, s32 len) {
     if (len != 2) {
-        if (func_ov000_02199fa4(connection) != 0) {
+        if (gti2ConnectionCommunicationError(connection) != 0) {
             return 1;
         }
         return 0;
     }
-    if (func_ov000_02199ec8(connection, func_ov000_0219a028(message, 0)) != 0) {
+    if (gti2HandleESN(connection, gti2UShortFromBuffer(message, 0)) != 0) {
         return 1;
     }
     return 0;
@@ -76,13 +76,13 @@ u32 gti2HandleNack(Gt2Connection *connection, const u8 *message, s32 len) {
     s32 num;
     s32 index;
     GTI2OutgoingBufferMessage *sentEntry;
-    firstNumber = func_ov000_0219a028(message, 0);
+    firstNumber = gti2UShortFromBuffer(message, 0);
     if (len == 2) {
         lastNumber = firstNumber;
     } else if (len == 4) {
-        lastNumber = func_ov000_0219a028(message, 2);
+        lastNumber = gti2UShortFromBuffer(message, 2);
     } else {
-        if (func_ov000_02199fa4(connection) != 0) {
+        if (gti2ConnectionCommunicationError(connection) != 0) {
             return 1;
         }
         return 0;
@@ -90,8 +90,7 @@ u32 gti2HandleNack(Gt2Connection *connection, const u8 *message, s32 len) {
     num = DarrayGetCount(connection->mOutgoingBufferMessages);
     for (index = 0; index < num; index++) {
         sentEntry = DarrayGetElement(connection->mOutgoingBufferMessages, index);
-        if (func_ov000_0219a014(sentEntry->mSerialNumber, firstNumber) >= 0 &&
-            func_ov000_0219a014(sentEntry->mSerialNumber, lastNumber) <= 0) {
+        if (gti2SNDiff(sentEntry->mSerialNumber, firstNumber) >= 0 && gti2SNDiff(sentEntry->mSerialNumber, lastNumber) <= 0) {
             if (gti2ResendMessage(connection, (Unk02198af4 *) sentEntry) == FALSE) {
                 return 0;
             }

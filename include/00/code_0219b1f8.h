@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "00/code_0219887c.h" // Unk0219887c
-#include "00/code_0219b1d4.h" // Unk0219b1d4
+#include "00/code_0219b1d4.h" // NatTraversalEntry
 
 typedef struct GpConnection GpConnection;
 
@@ -13,9 +13,9 @@ typedef struct Unk0219b4b4 {
     /* 08 */ char *mUnk_08;
 } Unk0219b4b4;
 
-Unk0219b1d4 *func_ov000_0219b1f8(u32 a);
-void func_ov000_0219b240(u32 *a);
-void WiFiGt2ElapsedTimeCallback(Unk0219887c *a, u32 b);
-void func_ov000_0219b27c(Unk0219887c *a, u32 b);
-void WiFiGt2DataCallback(Unk0219887c *a, void *b, s32 c, u32 d);
-void WiFiGpMessageCallback(GpConnection *a, Unk0219b4b4 *b, u32 g);
+NatTraversalEntry *FindNegotiatorForCookie(u32 cookie);
+void DWCi_GT2SocketErrorCallback(u32 *socket);
+void WiFiGt2ElapsedTimeCallback(Unk0219887c *connection, u32 latency);
+void DWCi_GT2ClosedCallback(Unk0219887c *connection, u32 reason);
+void WiFiGt2DataCallback(Unk0219887c *connection, void *message, s32 length, u32 reliable);
+void WiFiGpMessageCallback(GpConnection *connection, Unk0219b4b4 *arg, u32 param);

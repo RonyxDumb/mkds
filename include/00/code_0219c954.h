@@ -4,7 +4,7 @@
 #include "00/code_0219c93c.h"
 
 void ReleaseWiFiLogin(void);
-void ReportWiFiLoginError(s32 a, s32 b);
-DWCAccUserData *func_ov000_0219c9c4(void);
+void ReportWiFiLoginError(s32 error, s32 errorCode);
+DWCAccUserData *DWCi_GetUserData(void);
 void UpdateWiFiLogin(void);
-void func_ov000_0219ca84(void);
+void DWCi_LoginAsync(void);

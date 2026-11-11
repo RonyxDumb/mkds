@@ -4,4 +4,4 @@
 
 typedef struct Gt2Connection Gt2Connection;
 
-u32 func_ov000_02199fb0(Gt2Connection *a, u32 d, u32 e);
+u32 gti2ConnectionError(Gt2Connection *connection, u32 result, u32 reason);

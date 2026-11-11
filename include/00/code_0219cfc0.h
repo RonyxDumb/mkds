@@ -4,6 +4,6 @@
 
 typedef struct GpBuddyStatus GpBuddyStatus;
 
-int ReportBuddySyncStatsResult(int a);
-int ReportBuddySyncGpResult(int a);
-u32 func_ov000_0219d094(void *a, GpBuddyStatus *b);
+int ReportBuddySyncStatsResult(int error);
+int ReportBuddySyncGpResult(int result);
+u32 DWCi_GetFriendBuddyStatus(void *friendData, GpBuddyStatus *status);

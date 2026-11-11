@@ -6,27 +6,29 @@
 typedef struct DWCAccFriendData DWCAccFriendData;
 typedef struct WiFiBuddySync WiFiBuddySync;
 
-void StartBuddySync(s32 a, const char *b, void (*c)(s32, u8, void *), void *d, void (*e)(s32, u8, void *, void *),
-                    void *f, void (*g)(s32, s32, void *), void *h);
+void StartBuddySync(s32 authToken, const char *partnerChallenge, void (*updateCallback)(s32, u8, void *),
+                    void *updateParam, void (*statusCallback)(s32, u8, void *, void *), void *statusParam,
+                    void (*deleteCallback)(s32, s32, void *), void *deleteParam);
 
-u32 AddBuddy(u32 a);
-s32 func_ov000_0219d14c(DWCAccFriendData *a, s32 b, s32 c);
-BOOL func_ov000_0219d210(DWCAccFriendData *a, s32 b, s32 c);
-void func_ov000_0219d288(DWCAccFriendData *a, s32 b, s32 c);
+u32 AddBuddy(u32 profileId);
+s32 DWCi_RefreshFriendListAll(DWCAccFriendData *friendList, s32 friendListLength, s32 profileId);
+BOOL DWCi_RefreshFriendListForth(DWCAccFriendData *friendList, s32 index, s32 profileId);
+void DWCi_DeleteFriendFromList(DWCAccFriendData *friendData, s32 deleteIndex, s32 otherIndex);
 void FinishBuddySync(void);
-void func_ov000_0219d2e8(DWCAccFriendData *a, s32 b);
-void func_ov000_0219d478(void);
-int func_ov000_0219d49c(void);
-void func_ov000_0219d4f8(void);
-void func_ov000_0219d504(s32 a);
-u32 func_ov000_0219d558(s32 a, void *b, void *c);
-void func_ov000_0219d5bc(void);
-u32 FindBuddyEntryIndex(u32 a);
-int GetBuddyEntryProfileId(int a);
-s32 func_ov000_0219d660(void);
-void WiFiGpBuddyStatusCallback(struct GpConnection *a, s32 *b);
-u32 func_ov000_0219d6c4(GpConnection *a, u32 *b, u32 c);
-void WiFiGpBuddyRequestCallback(GpConnection *a, u32 *b);
-void ReportBuddySyncError(s32 a, s32 b);
+void DWCi_UpdateFriendReq(DWCAccFriendData *friendList, s32 friendListLength);
+void CloseStatsAndResetBuddySync(void);
+int DWCi_GPProcess(void);
+void DWCi_ShutdownFriend(void);
+void DWCi_CallBuddyFriendCallback(s32 index);
+u32 DWCi_SetGPStatus(s32 status, void *statusString, void *locationString);
+void DWCi_InitGPProcessCount(void);
+u32 FindBuddyEntryIndex(u32 profileId);
+int GetBuddyEntryProfileId(int index);
+s32 DWCi_GetFriendListLen(void);
+void WiFiGpBuddyStatusCallback(struct GpConnection *connection, s32 *arg);
+u32 DWCi_GPRecvBuddyAuthCallback(GpConnection *connection, u32 *arg, u32 param);
+void WiFiGpBuddyRequestCallback(GpConnection *connection, u32 *arg);
+void ReportBuddySyncError(s32 error, s32 errorCode);
 void UpdateBuddySync(void);
-void InitBuddySync(WiFiBuddySync *a, struct GpConnection *b, char *c, DWCAccFriendData *d, s32 e);
+void InitBuddySync(WiFiBuddySync *buddySync, struct GpConnection *gpConnection, char *playerName,
+                   DWCAccFriendData *friendList, s32 friendListLength);

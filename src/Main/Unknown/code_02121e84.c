@@ -52,7 +52,7 @@ BOOL UpdateWiFiSessionStepTimeout(u32 limit) {
         if (step == 0 || step == 1 || step == 2) {
             gWiFiSession->mEarlyStepTimedOut = 1;
             func_ov000_021a2ccc();
-            func_ov000_0219bbfc();
+            DWC_CloseAllConnectionsHard();
             gWiFiSession->mStep = 11;
         } else {
             if (step == 9 || step == 10) {
@@ -60,7 +60,7 @@ BOOL UpdateWiFiSessionStepTimeout(u32 limit) {
             }
             gWiFiSession->mConnectionLost = 1;
             func_ov000_021a2ccc();
-            func_ov000_0219bbfc();
+            DWC_CloseAllConnectionsHard();
             gWiFiSession->mStep = 11;
         }
         return TRUE;

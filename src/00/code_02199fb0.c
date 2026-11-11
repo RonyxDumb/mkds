@@ -4,23 +4,23 @@
 #include "00/code_02198a8c.h"
 #include "00/code_02197e58.h"
 
-u32 func_ov000_02199fb0(Gt2Connection *a, u32 d, u32 e) {
-    s32 b = a->mState;
-    if (b < 5) {
-        if (a->mInitiated != FALSE) {
-            gti2ConnectionClosed(a);
-            if (Gt2SetResultAndCallResultCallback(a, d, NULL, 0) == FALSE) {
+u32 gti2ConnectionError(Gt2Connection *connection, u32 result, u32 reason) {
+    s32 state = connection->mState;
+    if (state < 5) {
+        if (connection->mInitiated != FALSE) {
+            gti2ConnectionClosed(connection);
+            if (Gt2SetResultAndCallResultCallback(connection, result, NULL, 0) == FALSE) {
                 return 0;
             }
         } else {
-            if (b == 4) {
-                a->mFreeAtAcceptReject = TRUE;
+            if (state == 4) {
+                connection->mFreeAtAcceptReject = TRUE;
             }
-            gti2ConnectionClosed(a);
+            gti2ConnectionClosed(connection);
         }
-    } else if (b != 7) {
-        gti2ConnectionClosed(a);
-        if (gti2ClosedCallback(a, (void *) e) == FALSE) {
+    } else if (state != 7) {
+        gti2ConnectionClosed(connection);
+        if (gti2ClosedCallback(connection, (void *) reason) == FALSE) {
             return 0;
         }
     }

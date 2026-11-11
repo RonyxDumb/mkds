@@ -14,74 +14,74 @@
 #include "code_0214d018.h"
 #include "Main/Unknown/code_02152698.h"
 
-u8 func_ov000_0219d9ec(void *a, u8 *b, u8 *c, char *d) {
-    char e[4];
-    GpBuddyStatus f;
-    if (func_ov000_0219d094(a, &f) != 0) {
-        if (f.mUnk_004 == 6) {
-            if (b != NULL) {
-                if (func_ov000_021a3530(data_ov000_021b40b0, e, f.mUnk_008, 0x2f) > 0) {
-                    *b = strtoul(e, NULL, 10);
+u8 DWC_GetFriendStatusSC(void *friendData, u8 *maxEntry, u8 *numEntry, char *statusString) {
+    char valueText[4];
+    GpBuddyStatus status;
+    if (DWCi_GetFriendBuddyStatus(friendData, &status) != 0) {
+        if (status.mUnk_004 == 6) {
+            if (maxEntry != NULL) {
+                if (func_ov000_021a3530(gDwcGpSstrKeyMatchScMax, valueText, status.mUnk_008, 0x2f) > 0) {
+                    *maxEntry = strtoul(valueText, NULL, 10);
                 } else {
-                    *b = 0;
+                    *maxEntry = 0;
                 }
             }
-            if (c != NULL) {
-                if (func_ov000_021a3530(data_ov000_021b40b4, e, f.mUnk_008, 0x2f) > 0) {
-                    *c = strtoul(e, NULL, 10);
+            if (numEntry != NULL) {
+                if (func_ov000_021a3530(gDwcGpSstrKeyMatchScNum, valueText, status.mUnk_008, 0x2f) > 0) {
+                    *numEntry = strtoul(valueText, NULL, 10);
                 } else {
-                    *c = 0;
+                    *numEntry = 0;
                 }
             }
         } else {
-            if (b != NULL) {
-                *b = 0;
+            if (maxEntry != NULL) {
+                *maxEntry = 0;
             }
-            if (c != NULL) {
-                *c = 0;
+            if (numEntry != NULL) {
+                *numEntry = 0;
             }
         }
-        if (d != NULL) {
-            strcpy(d, f.mUnk_108);
+        if (statusString != NULL) {
+            strcpy(statusString, status.mUnk_108);
         }
-        return f.mUnk_004;
+        return status.mUnk_004;
     }
-    if (b != NULL) {
-        *b = 0;
+    if (maxEntry != NULL) {
+        *maxEntry = 0;
     }
-    if (c != NULL) {
-        *c = 0;
+    if (numEntry != NULL) {
+        *numEntry = 0;
     }
     return 0;
 }
 
-s32 func_ov000_0219d9b0(void *a, s32 b) {
-    s32 c;
-    s32 i;
-    DWCAccFriendData *d;
-    c = 0;
-    d = a;
-    if (a == NULL) {
+s32 DWC_GetNumFriend(void *friendList, s32 friendListLength) {
+    s32 count;
+    s32 index;
+    DWCAccFriendData *entry;
+    count = 0;
+    entry = friendList;
+    if (friendList == NULL) {
         return 0;
     }
-    for (i = 0; i < b; i++) {
-        if (IsFriendDataTypeNonZeroWrapper(d) != 0) {
-            c++;
+    for (index = 0; index < friendListLength; index++) {
+        if (IsFriendDataTypeNonZeroWrapper(entry) != 0) {
+            count++;
         }
-        d++;
+        entry++;
     }
-    return c;
+    return count;
 }
 
 // Deletes the GP buddy of the entry (if GP lists it) and zeroes the 12-byte entry; the argument is the save data's
 // entry, not the sync's list.
-void RemoveBuddyEntry(void *a) {
-    s32 b;
-    if (gWiFiBuddySync != NULL && IsWiFiLoginDone() != 0 && func_ov000_0219c9c4() != NULL) {
-        b = DWC_GetGsProfileId(func_ov000_0219c9c4(), a);
-        if (b != 0 && b != -1 && GpIsBuddy(gWiFiBuddySync->mGpConnection, b) != 0) {
-            GpDeleteBuddy(gWiFiBuddySync->mGpConnection, b);
+void RemoveBuddyEntry(void *friendData) {
+    s32 profileId;
+    if (gWiFiBuddySync != NULL && IsWiFiLoginDone() != 0 && DWCi_GetUserData() != NULL) {
+        profileId = DWC_GetGsProfileId(DWCi_GetUserData(), friendData);
+        if (profileId != 0 && profileId != -1 && GpIsBuddy(gWiFiBuddySync->mGpConnection, profileId) != 0) {
+            GpDeleteBuddy(gWiFiBuddySync->mGpConnection, profileId);
         }
     }
-    MI_CpuFill8(a, 0, 12);
+    MI_CpuFill8(friendData, 0, 12);
 }

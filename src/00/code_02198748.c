@@ -29,7 +29,7 @@ int gti2NewIncomingConnection(void *socket, Gt2Connection **connection, int addr
 
 BOOL gti2StartConnectionAttempt(Gt2Connection *connection, void *message, int len, Gt2ConnectionCallbacks *callbacks) {
     s8 challengeBytes[0x24];
-    func_ov000_0219a61c((const char **) &message, &len);
+    gti2MessageCheck((const char **) &message, &len);
     if (len > 0) {
         connection->mUnk_38.mData = func_ov000_021a3690(len);
         if (connection->mUnk_38.mData == NULL) {
@@ -68,7 +68,7 @@ BOOL gti2AcceptConnection(Gt2Connection *connection, Gt2ConnectionCallbacks *cal
 void gti2RejectConnection(Gt2Connection *connection, void *message, u32 len, ...) {
     connection->mFreeAtAcceptReject = FALSE;
     if (connection->mState == 4) {
-        func_ov000_0219a61c((const char **) &message, (s32 *) &len);
+        gti2MessageCheck((const char **) &message, (s32 *) &len);
         gti2SendReject(connection, message, len);
         connection->mState = 6;
     }
