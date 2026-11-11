@@ -127,7 +127,7 @@ void StartKartSurfaceSoundWhileRequested(Kart *kart, s32 entryIndex, s32 surface
     if (!(kart->mSoundSource.mSourceFlags & 1)) {
         return;
     }
-    if (kart->mUnk_4c & 0x10000000) {
+    if (kart->mEffectFlags & KART_EFFECT_KILLER) {
         return;
     }
     soundState = &kart->mSound;
@@ -253,10 +253,10 @@ void StartKartSeqArcSound(Kart *kart, s32 soundIndex, s32 soundOffset) {
         return;
     }
     soundState = &kart->mSound;
-    if (kart->mUnk_4c & 0x10000000) {
+    if (kart->mEffectFlags & KART_EFFECT_KILLER) {
         return;
     }
-    if (kart->mUnk_7c & KART_7C_ENTRY_IS_GHOST) {
+    if (kart->mEntryFlags & KART_ENTRY_GHOST) {
         return;
     }
     if (gSceneSoundState.mRaceState != 1) {
@@ -537,7 +537,7 @@ void SetItemKouraSoundTrackParams(Kart *kartArg, PlayingSound *playingSound) {
 
     pitchOffset = 0;
     volume = playingSound->mVolume;
-    if (kartArg->mUnk_44 == 0) {
+    if (kartArg->mMotionFlags == 0) {
         vector = (Vec3 *) &kartArg->mUnk_168.y;
     } else {
         vector = (Vec3 *) &kartArg->mCourseContactNormal.z;

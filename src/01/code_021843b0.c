@@ -35,7 +35,7 @@
 void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
     s32 scale;
 
-    if ((GetKart(kart->mIndex)->mUnk_48 & KART_48_BOOST) && kart->mBoostTimer > 0) {
+    if ((GetKart(kart->mIndex)->mDriveFlags & KART_DRIVE_BOOST) && kart->mBoostTimer > 0) {
         if (IsStateNumberBelow(donketu, 8)) {
             if (donketu->mPrm->mUnk_1dc > 0 || donketu->mPrm->mUnk_1e0 > 0) {
                 Vec3 velocityWhenBoosted = {0, 0, 0};
@@ -123,7 +123,7 @@ void DonketuChaseKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart)
     Vec3 effectPosition;
     Vec3 velocityWhenNotBoosted;
 
-    if ((GetKart(kart->mIndex)->mUnk_48 & KART_48_BOOST) && kart->mBoostTimer > 0) {
+    if ((GetKart(kart->mIndex)->mDriveFlags & KART_DRIVE_BOOST) && kart->mBoostTimer > 0) {
         if (IsStateNumberBelow(donketu, 8)) {
             if (donketu->mPrm->mUnk_1a8 > 0 || donketu->mPrm->mUnk_1ac > 0) {
                 velocityWhenBoosted.x =

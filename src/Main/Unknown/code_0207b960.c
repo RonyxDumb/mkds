@@ -63,7 +63,7 @@ void AdvanceKartAiTurnSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, st
     if (kartAi->mKart->mState != KART_STATE_NORMAL) {
         return;
     }
-    if ((kartAi->mKart->mUnk_48 & 0x10000020) != 0) {
+    if ((kartAi->mKart->mDriveFlags & (KART_DRIVE_BOOST | KART_DRIVE_JUMP_PAD)) != 0) {
         return;
     }
     ratio = GetPointLinkSpeedRatio(&kartAi->mPointLinkCursor);

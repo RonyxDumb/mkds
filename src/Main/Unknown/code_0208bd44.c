@@ -82,6 +82,6 @@ void SetupKartAiForStaffRoll(KartAi *kartAi, s32 kartIndex) {
     kartAi->mRaceSpeedLimit.mBoostsAtRaceStart = 0;
     kartAi->mRaceSpeedLimit.mRaceStartBoostChoice = 0;
     if (kart->mIndex != gRaceSetup->mEntryIndex) {
-        kart->mUnk_7c |= KART_7C_HIDDEN;
+        kart->mEntryFlags |= KART_ENTRY_HIDDEN;
     }
 }

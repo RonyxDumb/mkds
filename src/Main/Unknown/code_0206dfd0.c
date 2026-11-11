@@ -83,10 +83,10 @@ void CollideKartWithKarts(Kart *kart) {
             kart->mKartCollisionDelayTimer = 0;
         }
     }
-    if (kart->mUnk_7c & 0x402000) {
+    if (kart->mEntryFlags & KART_ENTRY_TERESA_OR_PARKED) {
         return;
     }
-    if (kart->mUnk_48 & KART_48_SINKING) {
+    if (kart->mDriveFlags & KART_DRIVE_SINKING) {
         return;
     }
     for (slotIndex = 0; slotIndex < gFoundCollisionSlotCount; slotIndex++) {
@@ -97,10 +97,10 @@ void CollideKartWithKarts(Kart *kart) {
         if (kart->mTestedKartMask & (1 << otherKart->mIndex)) {
             continue;
         }
-        if (otherKart->mUnk_7c & 0x402020) {
+        if (otherKart->mEntryFlags & KART_ENTRY_REMOVED_PARKED_OR_TERESA) {
             continue;
         }
-        if (otherKart->mUnk_48 & KART_48_SINKING) {
+        if (otherKart->mDriveFlags & KART_DRIVE_SINKING) {
             continue;
         }
         radiusSum = kart->mRadius + otherKart->mRadius;
@@ -120,13 +120,13 @@ void CollideKartWithKarts(Kart *kart) {
             otherShift.z = -kartShift.z;
             callbackValue = 0;
             pushHandled = FALSE;
-            if (kart->mUnk_44 & KART_44_ON_GROUND) {
+            if (kart->mMotionFlags & KART_MOTION_ON_GROUND) {
                 dot = VEC_DotProduct(&kart->mGroundNormal, &kartShift);
                 kartShift.x -= MUL_FIXED12_NO_ROUND(kart->mGroundNormal.x, dot);
                 kartShift.y -= MUL_FIXED12_NO_ROUND(kart->mGroundNormal.y, dot);
                 kartShift.z -= MUL_FIXED12_NO_ROUND(kart->mGroundNormal.z, dot);
             }
-            if (kart->mUnk_44 & 0x80) {
+            if (kart->mMotionFlags & KART_MOTION_COURSE_CONTACT) {
                 if (VEC_DotProduct(&kart->mGroundNormal, &kartShift) < 0) {
                     dot = VEC_DotProduct(&kart->mCourseContactNormal, &kartShift);
                     kartShift.x -= MUL_FIXED12_NO_ROUND(kart->mCourseContactNormal.x, dot);
@@ -134,13 +134,13 @@ void CollideKartWithKarts(Kart *kart) {
                     kartShift.z -= MUL_FIXED12_NO_ROUND(kart->mCourseContactNormal.z, dot);
                 }
             }
-            if (otherKart->mUnk_44 & KART_44_ON_GROUND) {
+            if (otherKart->mMotionFlags & KART_MOTION_ON_GROUND) {
                 dot = VEC_DotProduct(&otherKart->mGroundNormal, &otherShift);
                 otherShift.x -= MUL_FIXED12_NO_ROUND(otherKart->mGroundNormal.x, dot);
                 otherShift.y -= MUL_FIXED12_NO_ROUND(otherKart->mGroundNormal.y, dot);
                 otherShift.z -= MUL_FIXED12_NO_ROUND(otherKart->mGroundNormal.z, dot);
             }
-            if (otherKart->mUnk_44 & 0x80) {
+            if (otherKart->mMotionFlags & KART_MOTION_COURSE_CONTACT) {
                 if (VEC_DotProduct(&otherKart->mGroundNormal, &otherShift) < 0) {
                     dot = VEC_DotProduct(&otherKart->mCourseContactNormal, &otherShift);
                     otherShift.x -= MUL_FIXED12_NO_ROUND(otherKart->mCourseContactNormal.x, dot);
@@ -150,7 +150,7 @@ void CollideKartWithKarts(Kart *kart) {
             }
             VEC_Add(kart->mCollisionPosSource, &kartShift, kart->mCollisionPosSource);
             VEC_Add(otherKart->mCollisionPosSource, &otherShift, otherKart->mCollisionPosSource);
-            if (otherKart->mUnk_44 & 0xc0) {
+            if (otherKart->mMotionFlags & (KART_MOTION_OBJECT_CONTACT | KART_MOTION_COURSE_CONTACT)) {
                 VEC_Subtract(&otherKart->mVelocity, &kart->mVelocity, &relativeVelocity);
                 dot = VEC_DotProduct(&normal, &relativeVelocity);
                 relativeVelocity.x = MUL_FIXED12_NO_ROUND(normal.x, dot);
@@ -158,7 +158,7 @@ void CollideKartWithKarts(Kart *kart) {
                 relativeVelocity.z = MUL_FIXED12_NO_ROUND(normal.z, dot);
                 kart->mForwardSpeed += VEC_DotProduct(&kart->mTurnedForward, &relativeVelocity);
             }
-            if (kart->mUnk_44 & 0xc0) {
+            if (kart->mMotionFlags & (KART_MOTION_OBJECT_CONTACT | KART_MOTION_COURSE_CONTACT)) {
                 VEC_Subtract(&kart->mVelocity, &otherKart->mVelocity, &otherRelativeVelocity);
                 dot = VEC_DotProduct(&normal, &otherRelativeVelocity);
                 otherRelativeVelocity.x = MUL_FIXED12_NO_ROUND(normal.x, dot);
@@ -169,27 +169,27 @@ void CollideKartWithKarts(Kart *kart) {
             if (gRaceSetup->mMode == MODE_BATTLE) {
                 callbackValue = CallKartCollisionCallbacks(kart->mIndex, otherKart->mIndex);
             }
-            kartFlags = kart->mUnk_4c;
-            if (kartFlags & 0x10000000) {
-                if (!(otherKart->mUnk_4c & 0x10000040)) {
+            kartFlags = kart->mEffectFlags;
+            if (kartFlags & KART_EFFECT_KILLER) {
+                if (!(otherKart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER)) {
                     pushHandled = TRUE;
                     TryStartKartPushDoubleFlip(kart, otherKart);
                 }
-            } else if ((otherKartFlags = otherKart->mUnk_4c) & 0x10000000) {
-                if (!(kartFlags & 0x10000040)) {
+            } else if ((otherKartFlags = otherKart->mEffectFlags) & KART_EFFECT_KILLER) {
+                if (!(kartFlags & KART_EFFECT_STAR_OR_KILLER)) {
                     pushHandled = TRUE;
                     TryStartKartPushDoubleFlip(otherKart, kart);
                 }
-            } else if (kartFlags & 0x40) {
-                if (!(otherKartFlags & 0x10000040)) {
+            } else if (kartFlags & KART_EFFECT_STAR) {
+                if (!(otherKartFlags & KART_EFFECT_STAR_OR_KILLER)) {
                     negatedNormal.x = -normal.x;
                     negatedNormal.y = -normal.y;
                     negatedNormal.z = -normal.z;
                     pushHandled = TRUE;
                     TryStartKartPushFlip(kart, otherKart, &negatedNormal);
                 }
-            } else if (otherKartFlags & 0x40) {
-                if (!(kartFlags & 0x10000040)) {
+            } else if (otherKartFlags & KART_EFFECT_STAR) {
+                if (!(kartFlags & KART_EFFECT_STAR_OR_KILLER)) {
                     pushHandled = TRUE;
                     TryStartKartPushFlip(otherKart, kart, &normal);
                 }
@@ -219,8 +219,8 @@ void CollideKartWithKarts(Kart *kart) {
                 }
             }
             if (overlapLength > data_021654f4) {
-                kart->mUnk_4c |= 0x100000;
-                otherKart->mUnk_4c |= 0x100000;
+                kart->mEffectFlags |= KART_EFFECT_KART_OVERLAP;
+                otherKart->mEffectFlags |= KART_EFFECT_KART_OVERLAP;
             }
             if (pushHandled == FALSE) {
                 zeroVector = gKartVec3Zero;
@@ -231,8 +231,8 @@ void CollideKartWithKarts(Kart *kart) {
                 ApplyKartPush(kart, otherKart, &normal, 0, &zeroVector);
             }
         }
-        kart->mUnk_44 |= KART_44_NEAR_KART;
-        otherKart->mUnk_44 |= KART_44_NEAR_KART;
+        kart->mMotionFlags |= KART_MOTION_NEAR_KART;
+        otherKart->mMotionFlags |= KART_MOTION_NEAR_KART;
         kart->mNearKartMask |= 1 << otherKart->mIndex;
         otherKart->mNearKartMask |= 1 << kart->mIndex;
     }

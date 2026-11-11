@@ -356,7 +356,8 @@ void UpdateRaceHudSubScreenKarts(void) {
         } else {
             gRaceHudSubScreenKarts->mStarFrames[kartIndex] = 0;
         }
-        if (kartIndex != GetFollowedKartOrEntryIndex() && (GetKart(kartIndex)->mUnk_7c & 0x402000) != 0) {
+        if (kartIndex != GetFollowedKartOrEntryIndex() &&
+            (GetKart(kartIndex)->mEntryFlags & KART_ENTRY_TERESA_OR_PARKED) != 0) {
             gRaceHudSubScreenKarts->mSpriteHidden[kartIndex] = 1;
         } else {
             gRaceHudSubScreenKarts->mSpriteHidden[kartIndex] = 0;

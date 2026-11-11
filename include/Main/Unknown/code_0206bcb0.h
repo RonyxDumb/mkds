@@ -31,7 +31,7 @@ typedef struct ParticleEmitter ParticleEmitter;
 typedef struct KartPhysicalParam {
     // Base radius (0x8000 = 8.0 in 12-bit fixed).
     /* 0 */ s32 mRadius;
-    /* 4 */ s32 mUnk_04;
+    /* 4 */ s32 mPointAlongUpExtra;
     /* 8 */ s32 mBehindDistance;
     // s16, read only by the kart-kart push (the ratio of the two karts' values); the file column grows with the kart
     // size.
@@ -47,8 +47,8 @@ typedef struct KartPhysicalParam {
     /* 24 */ s32 mDriftEndAcceleration;
     /* 28 */ s32 mDriftEndRatio;
     /* 2c */ s32 mForwardSpeedFactor;
-    /* 30 */ s16 mUnk_30;
-    /* 32 */ s16 mUnk_32;
+    /* 30 */ s16 mTurnRate;
+    /* 32 */ s16 mDriftTurnRate;
     /* 34 */ s32 mTurnAngleStep;
     /* 38 */ s32 mSurfaceTurnedForwardEaseFactors[12];
     // 12 factors out of 0x1000, indexed by the surface group; entry 4 is also the floor of the below-the-level path.
@@ -147,80 +147,274 @@ typedef struct ParticipantKartRecordState {
     /* b4 */ u16 mPosOffsetIndex;
 } ParticipantKartRecordState;
 
-// Bits of Kart.mUnk_7c.
-// Set once at set-up (InitKartFlags) when mIndex == gRaceSetup.mEntryIndex, i.e. the selected entry.
-#define KART_7C_INDEX_IS_SELECTED_ENTRY 0x1
-// Set at set-up when the entry is PLAYER_KIND_GHOST. Bit 0x2 and this bit are also tested together as 6 / 0x402004
-// (left literal).
-#define KART_7C_ENTRY_IS_GHOST 0x4
-// Set at set-up when mKartModelsEntry.mUnk_008 != NULL (a snapshot taken then).
-#define KART_7C_MODELS_ENTRY_008_SET 0x10
-// Kart is hidden: AdvanceKartRemovalShrink sets it once the removal shrink has finished (25 steps after
-// KART_7C_REMOVED). The staff roll sets it on every Kart but the entry Kart and clears it as each one comes into view.
-#define KART_7C_HIDDEN 0x40
-// Set by the removal step (battle elimination, a removed race entry, a finished entry-kind-2 Kart).
-// Cleared when the Kart is put back at its start.
-#define KART_7C_REMOVED 0x20
-// Set while the Kart is a Teresa (the Boo item, mItemEffect 2); item objects with mHurtsKart pass through it.
-#define KART_7C_TERESA 0x2000
-
-// Bits of Kart.mUnk_44.
+// Bits of Kart.mMotionFlags.
+// Set while R is held in the air with a turn direction latched; lets the landing start a drift.
+#define KART_MOTION_DRIFT_ARMED 0x1
+// Set in the drift hop and gone at the landing; tilts the Kart while mHopSpeed > 0 and counts as hop for
+// a drift start.
+#define KART_MOTION_HOPPING 0x2
+// Set while the hop runs; AdvanceKartHop clears it when mHopHeight falls below 0.
+#define KART_MOTION_HOP_ACTIVE 0x4
 // Set from the start of a drift until it ends.
-#define KART_44_DRIFTING 0x8
+#define KART_MOTION_DRIFTING 0x8
 // Set while the Kart is on the ground; the hop clears it and the landing sets it again.
-#define KART_44_ON_GROUND 0x10
-// Set on both Karts of a pair when the near test passed; cleared at the start of the next step (inside the literal
-// 0x57ffffdf).
-#define KART_44_NEAR_KART 0x20
+#define KART_MOTION_ON_GROUND 0x10
+// Set on both Karts of a pair when the near test passed; cleared at the start of the next step.
+#define KART_MOTION_NEAR_KART 0x20
+// Set while a map object pushes the Kart (CollideKartWithMapObjects).
+#define KART_MOTION_OBJECT_CONTACT 0x40
+// Set at the frame the Kart touches a wall and kept while touching; cleared when the contact ends.
+#define KART_MOTION_COURSE_CONTACT 0x80
 // Set in the step when mForwardSpeed is negative (the Kart is reversing).
+#define KART_MOTION_REVERSING 0x100
+// Set while mCollisionPushVelocity pushes the Kart away from the course.
+#define KART_MOTION_COURSE_PUSH 0x200
+// Set while no gas is held on the ground; no drive input changed mForwardSpeed; ScaleKartForwardSpeed then decays it.
+#define KART_MOTION_COASTING 0x400
+// Set at the start of a hop; with HOPPING the heading turns by mTurnDirection until the drift ends.
+#define KART_MOTION_HOP_STEER 0x800
+// Set while TryHoldKartStill holds the Kart in place on a standing surface.
+#define KART_MOTION_STILL_HOLD 0x1000
+// Set while mHitVelocity is still large; the AI then refreshes its side offset.
+#define KART_MOTION_HIT_VELOCITY 0x2000
+// Set while mAirborneFrames is above 5.
+#define KART_MOTION_AIRBORNE_LONG 0x4000
+// Set when a drift ends in the air; cleared at the next landing.
+#define KART_MOTION_DRIFT_ENDED_IN_AIR 0x8000
 // Set by ApplyKartLanding at each landing; cleared by ResetKart.
-#define KART_44_LANDED 0x10000
-#define KART_44_REVERSING 0x100
+#define KART_MOTION_LANDED 0x10000
+// Set while a map object or moving ground carries the Kart.
+#define KART_MOTION_MOVED_BY_OBJECT 0x40000
+// Copy of NEAR_KART made by AdvanceKartCollision; the forward speed limit test skips Karts that have it.
+#define KART_MOTION_NEAR_KART_HELD 0x80000
+// Set while the attractor surface pulls the Kart (ApplyKartAttractorPull).
+#define KART_MOTION_ATTRACTOR_PULL 0x100000
+// Never set in the code; AdvanceKartDrift ends a drift while it is set, like a contact bit.
+#define KART_MOTION_DRIFT_BREAK 0x200000
+// Set with START_DONE when the race-start boost is given.
+#define KART_MOTION_RACE_START_BOOSTED 0x800000
+// Set once the race-start rev phase is over (also set at set-up in the award and staff roll).
+#define KART_MOTION_START_DONE 0x1000000
+// Set on a course contact with hit bit 0x10000; triples the push strength.
+#define KART_MOTION_COURSE_PUSH_STRONG 0x4000000
+// Set while the Kart turns on the spot at low speed; ApplyKartTurn then keeps the turn goal.
+#define KART_MOTION_LOW_SPEED_TURN 0x8000000
+// Set when the AI starts a drift turn; AdvanceKartDrift treats it like the R press.
+#define KART_MOTION_AI_DRIFT_REQUEST 0x20000000
+// Set when a course contact normal is mostly vertical; ApplyKartLanding skips the landing while set.
+#define KART_MOTION_VERTICAL_CONTACT 0x40000000
+// Set for one step when a special state ends or the motion state is reset; the surface boosts then restart.
+#define KART_MOTION_STATE_RESET 0x80000000
 
-// Bits of Kart.mUnk_4c.
-// Set while mHeadingAngleOffset swings (AdvanceKartRaceStartBoost sets it, AdvanceKartHeadingSwing clears it).
-#define KART_4C_HEADING_SWING 0x20000000
-// Set each frame on the kart one rank behind the player.
-#define KART_4C_ONE_RANK_BEHIND_PLAYER 0x40000
-// Set each frame on the player kart and the kart one rank ahead (karts 0 to 2 in an award race); effects and side
-// points run only while set.
-#define KART_4C_NEAR_PLAYER_RANK 0x8000
-// Set while the kart is behind the camera, outside the view planes or beyond the far distance.
-#define KART_4C_OUT_OF_VIEW 0x800000
+// Bits of Kart.mDriveFlags.
+// Set by ApplyKartSurfaceKind19 (the boost surface) and read as "the Kart is on a boost surface".
+#define KART_DRIVE_ON_BOOST_SURFACE 0x1
+// Set while the accelerate button (A) is held.
+#define KART_DRIVE_ACCEL_HELD 0x2
+// Set while the brake button (B) is held.
+#define KART_DRIVE_BRAKE_HELD 0x4
+// The Kart steers left in this step (from the input bits or the CPU); ResetKartTurnAndRadius clears both turn bits.
+#define KART_DRIVE_TURN_LEFT 0x8
+// The Kart steers right in this step.
+#define KART_DRIVE_TURN_RIGHT 0x10
+// Set while a boost runs (StartKartBoost sets it; mBoostTimer counts it down).
+#define KART_DRIVE_BOOST 0x20
+// Set while the kart sinks after being placed (ResetKartAndSetPos).
+#define KART_DRIVE_SINKING 0x40
+// Set when A and B are held together on the ground; the Kart slows and can turn on the spot at low speed.
+#define KART_DRIVE_BRAKING 0x80
+// Set on the ground while the Kart turns on the spot at low speed.
+#define KART_DRIVE_LOW_SPEED_TURN 0x100
+// Set while the kart is placed after a fall; mission gates, coins and entry-kart object checks skip it.
+#define KART_DRIVE_OBJECTS_SKIP 0x200
+// Set when a contact effect was placed for the Kart; the effect fades with COURSE_CONTACT.
+#define KART_DRIVE_CONTACT_EFFECT 0x400
+// Respawn wait: the kart has fallen off the course and waits to be put back (IsKartInRespawnWait).
+#define KART_DRIVE_RESPAWN_WAIT 0x800
+// Set when the Kart fell out of the course; no boost, state or push flip can start while set.
+#define KART_DRIVE_RESPAWN_FALL 0x1000
+// Set at the end of a race or an elimination; ScaleKartForwardSpeed then shrinks mForwardSpeed every step.
+#define KART_DRIVE_SLOWING_STOP 0x2000
+// Set when a special state hands back to normal driving; AdvanceKartInputAndTurn counts mStateEndTimer down.
+#define KART_DRIVE_STATE_END_TIMER 0x4000
+// Set when the race-start boost starts (picks the boost sound); cleared by the next boost or when it ends.
+#define KART_DRIVE_RACE_START_BOOST 0x8000
+// Set while the Kart is moved to a keyed placement point (AdvanceKartToKeyedPlacement).
+#define KART_DRIVE_KEYED_PLACEMENT 0x10000
+// Set when a hit puts the Kart into a hit state; cleared when the state ends.
+#define KART_DRIVE_HIT_STATE 0x20000
+// Set by ResetKartMotionState(kart, 0); narrows the input mask IsKartNotNormalOrFlagged tests.
+#define KART_DRIVE_INPUT_LOCKED 0x40000
+// Set from the release of a fully charged drift until mMiniTurboTimer has counted down.
+#define KART_DRIVE_MINI_TURBO 0x80000
+// Set while the mushroom boost runs (mKinokoBoostTimer counts it down).
+#define KART_DRIVE_KINOKO_BOOST 0x100000
+// Set after the course sound table entry of a 0x10 course hit was played once.
+#define KART_DRIVE_COURSE_SOUND_PLAYED 0x200000
+// Set by ApplyKartSurfaceKind18; a boost then keeps the speed limit goal at 0x8800 or more.
+#define KART_DRIVE_BOOST_SPEED_FLOOR 0x400000
+// Set with the fall sound 0xce, and by a course hit 0x400 with value 4.
+#define KART_DRIVE_FALL_SOUND_A 0x800000
+// Set with the fall sound 0x15d.
+#define KART_DRIVE_FALL_SOUND_B 0x1000000
+// Set by ResetKartToRespawnPoint until the Kart lands; limits the input mask meanwhile.
+#define KART_DRIVE_RESPAWN_LANDING 0x2000000
+// Set while the scale-table effect holds the Kart still (TryStartKartScaleTableEffect).
+#define KART_DRIVE_SCALE_TABLE_EFFECT 0x4000000
+// Set in a grand prix while the Kart is far from the entry Kart.
+#define KART_DRIVE_FAR_FROM_ENTRY 0x8000000
+// Set by the jump-pad surface until the Kart touches the course again; the speed limit goal comes from the surface.
+#define KART_DRIVE_JUMP_PAD 0x10000000
+// Set by a boost that is not a mini turbo or a respawn boost; cleared with the mushroom boost.
+#define KART_DRIVE_ITEM_BOOST 0x20000000
+// Set by ApplyKartSurfaceKind19; cleared once the Kart is on the ground off that surface; the camera and AI use the
+// Kart's own up vector while set.
+#define KART_DRIVE_BOOST_SURFACE_HELD 0x40000000
+// Set while AdvanceKartQuaternionFromVector had to flip the sign of the target quaternion.
+#define KART_DRIVE_QUATERNION_FLIPPED 0x80000000
+// Respawn wait or fall.
+#define KART_DRIVE_RESPAWNING (KART_DRIVE_RESPAWN_WAIT | KART_DRIVE_RESPAWN_FALL)
+// Any drive state in which the Kart is not driving normally (scale table, respawn landing, input lock, slowing stop,
+// respawn wait, sinking).
+#define KART_DRIVE_NOT_NORMAL                                                                                          \
+    (KART_DRIVE_SINKING | KART_DRIVE_RESPAWN_WAIT | KART_DRIVE_SLOWING_STOP | KART_DRIVE_KEYED_PLACEMENT |             \
+     KART_DRIVE_INPUT_LOCKED | KART_DRIVE_RESPAWN_LANDING | KART_DRIVE_SCALE_TABLE_EFFECT)
+
+// Bits of Kart.mEffectFlags.
+// Set in the push flip and push double flip states.
+#define KART_EFFECT_PUSH_FLIP_STATE 0x1
+// Set in a step when the Kart ran on the ground; StopKartStillHold then skips the surface sound request.
+#define KART_EFFECT_GROUND_SOUND_STEP 0x2
+// Set while the model scale animation runs (StartKartModelScaleAnimation).
+#define KART_EFFECT_MODEL_SCALE_ANIM 0x8
+// Set in the flip and spin states; the draw matrix then comes from mRotationQuaternion.
+#define KART_EFFECT_TUMBLING 0x10
+// Set in the spin state; the draw matrix gets the extra y rotation.
+#define KART_EFFECT_Y_SPIN 0x20
+// Set while the Kart is a star (StartKartStar).
+#define KART_EFFECT_STAR 0x40
 // Set while the Kart is small from the Thunder item (StartKartThunderShrink sets it, AdvanceKartThunderShrink clears
 // it).
-#define KART_4C_THUNDER_SHRINK 0x80
+#define KART_EFFECT_THUNDER_SHRINK 0x80
+// Set in a step while a shrink animation scales the Kart; TryHoldKartStill refuses then.
+#define KART_EFFECT_SHRINK_ANIMATING 0x100
+// Set with RESPAWN_DROP; AdvanceKartBoosts times the A press against the landing for a respawn boost.
+#define KART_EFFECT_RESPAWN_BOOST_WINDOW 0x400
 // Set by ResetKartToRespawnPoint (with 0x400) while the Kart drops onto the track; the landing clears it.
-#define KART_4C_RESPAWN_DROP 0x800
+#define KART_EFFECT_RESPAWN_DROP 0x800
+// Set on the Kart that started a state for another Kart; the motion slot then plays its sound and character animation.
+#define KART_EFFECT_START_SOUND_PENDING 0x1000
 // Set while the timed ahead boost runs (StartKartAheadBoost sets it).
-#define KART_4C_AHEAD_BOOST 0x2000
+#define KART_EFFECT_AHEAD_BOOST 0x2000
 // Set while a kart is ahead and the ahead speed limit factor builds up.
-#define KART_4C_AHEAD_BUILD_UP 0x4000
+#define KART_EFFECT_AHEAD_BUILD_UP 0x4000
+// Set each frame on the player kart and the kart one rank ahead (karts 0 to 2 in an award race); effects and side
+// points run only while set.
+#define KART_EFFECT_NEAR_PLAYER_RANK 0x8000
+// Set while the scale-table effect runs (TryStartKartScaleTableEffect).
+#define KART_EFFECT_SCALE_TABLE 0x10000
+// Set while the model colour blend toward the course colours runs (gesso ink, Teresa).
+#define KART_EFFECT_COURSE_COLORED 0x20000
+// Set each frame on the kart one rank behind the player.
+#define KART_EFFECT_ONE_RANK_BEHIND_PLAYER 0x40000
+// Set in a step on both Karts of a pair that overlap deeply.
+#define KART_EFFECT_KART_OVERLAP 0x100000
+// Set when a respawn wait is started by a course hit 0x800.
+#define KART_EFFECT_RESPAWN_WAIT_SET 0x200000
 // Set from StartKartBlink for the 90 steps of the blink; the push flips refuse while set.
-#define KART_4C_BLINK_GUARD 0x400000
+#define KART_EFFECT_BLINK_GUARD 0x400000
+// Set while the kart is behind the camera, outside the view planes or beyond the far distance.
+#define KART_EFFECT_OUT_OF_VIEW 0x800000
 // Set for the part of the blink cycle where the kart is not drawn.
-#define KART_4C_BLINK_HIDDEN 0x1000000
-// Bits of Kart.mUnk_48.
-// The Kart steers left in this step (from the input bits or the CPU); ResetKartTurnAndRadius clears both turn bits.
-#define KART_48_TURN_LEFT 8
-// The Kart steers right in this step.
-#define KART_48_TURN_RIGHT 0x10
-// Set while a boost runs (StartKartBoost sets it; mBoostTimer counts it down).
-#define KART_48_BOOST 0x20
-// Set from the release of a fully charged drift until mUnk_23c has counted down.
-#define KART_48_MINI_TURBO 0x80000
-// Set by ApplyKartSurfaceKind19 (the boost surface) and read as "the Kart is on a boost surface".
-// Respawn wait: the kart has fallen off the course and waits to be put back (IsKartInRespawnWait).
-#define KART_48_RESPAWN_WAIT 0x800
-// Set by ResetKartMotionState(kart, 0); narrows the input mask IsKartNotNormalOrFlagged tests.
-#define KART_48_INPUT_LOCKED 0x40000
-// Set when a special state hands back to normal driving; AdvanceKartInputAndTurn counts mStateEndTimer down.
-#define KART_48_STATE_END_TIMER 0x4000
-// Set while the kart sinks after being placed (ResetKartAndSetPos).
-#define KART_48_SINKING 0x40
-// Set while the kart is placed after a fall; mission gates, coins and entry-kart object checks skip it.
-#define KART_48_OBJECTS_SKIP 0x200
-#define KART_48_ON_BOOST_SURFACE 1
+#define KART_EFFECT_BLINK_HIDDEN 0x1000000
+// Set while the Kart wobbles after a push (AdvanceKartWobble draws mWobbleMatrix).
+#define KART_EFFECT_WOBBLE 0x2000000
+// Set when the Kart fell into water; the water depth effects skip it.
+#define KART_EFFECT_WATER_FALL 0x4000000
+// Set while the Kart is covered in gesso ink (StartKartGesso).
+#define KART_EFFECT_GESSO 0x8000000
+// Set while the Kart is a bullet bill (StartKartKiller).
+#define KART_EFFECT_KILLER 0x10000000
+// Set while mHeadingAngleOffset swings (AdvanceKartRaceStartBoost sets it, AdvanceKartHeadingSwing clears it).
+#define KART_EFFECT_HEADING_SWING 0x20000000
+// Set while the Kart is on an attractor surface (course hit bit 0x20000); the attractor pull runs.
+#define KART_EFFECT_ATTRACTOR 0x40000000
+// Set in the launch double flip state once the Kart has landed; the state ends 30 steps later.
+#define KART_EFFECT_LAUNCH_ENDING 0x80000000
+// Either invincible item runs (star or bullet bill).
+#define KART_EFFECT_STAR_OR_KILLER (KART_EFFECT_STAR | KART_EFFECT_KILLER)
+
+// Bits of Kart.mEntryFlags.
+// Set once at set-up (InitKartFlags) when mIndex == gRaceSetup.mEntryIndex, i.e. the selected entry.
+#define KART_ENTRY_SELECTED 0x1
+// Set at set-up when the entry is PLAYER_KIND_CPU (the Kart AI drives it); also set at a race end that hands the Kart
+// to the AI.
+#define KART_ENTRY_CPU 0x2
+// Set at set-up when the entry is PLAYER_KIND_GHOST.
+#define KART_ENTRY_GHOST 0x4
+// Set when the Kart's race or battle is over (finish, elimination, mission end).
+#define KART_ENTRY_ENDED 0x8
+// Set at set-up when mKartModelsEntry->mCharacterAnimation != NULL.
+#define KART_ENTRY_HAS_CHARACTER_ANIMATION 0x10
+// Set by the removal step (battle elimination, a removed race entry, a finished entry-kind-2 Kart). Cleared when the
+// Kart is put back at its start.
+#define KART_ENTRY_REMOVED 0x20
+// Kart is hidden: AdvanceKartRemovalShrink sets it once the removal shrink has finished (25 steps after REMOVED). The
+// staff roll sets it on every Kart but the entry Kart and clears it as each one comes into view.
+#define KART_ENTRY_HIDDEN 0x40
+// Set while the Kart grows back after being put at its start; AdvanceKartMotion then only advances the scale.
+#define KART_ENTRY_SCALING_IN 0x80
+// Set with BATTLE_END_DONE; never tested alone.
+#define KART_ENTRY_BATTLE_END_MARK 0x100
+// Set in a wifi race on the selected entry until its race ended; its state changes are sent to the other players.
+#define KART_ENTRY_WIFI_LOCAL 0x200
+// Set in a wifi race on every Kart that another player (or the ended entry) drives; it follows
+// ParticipantKartRecordState.
+#define KART_ENTRY_WIFI_PEER 0x400
+// Set when StartKartRaceEnd has run for the Kart.
+#define KART_ENTRY_RACE_END_STARTED 0x1000
+// Set while the Kart is a Teresa (the Boo item, mItemEffect 2); item objects with mHurtsKart pass through it.
+#define KART_ENTRY_TERESA 0x2000
+// The Kart is drawn translucent (set on the selected entry when its Teresa starts, and when a removal ends).
+#define KART_ENTRY_TRANSLUCENT 0x4000
+// The Kart is not drawn (the Teresa blink phase of the other Karts, and when a removal ends).
+#define KART_ENTRY_NOT_DRAWN 0x8000
+// Set when the Kart's result animation is the win one.
+#define KART_ENTRY_RESULT_WON 0x10000
+// Set when the Kart's result animation is the lose one.
+#define KART_ENTRY_RESULT_LOST 0x20000
+// Set by StartBattleKartRemoval; the removal shrink only brings the Kart back to its start while it is set.
+#define KART_ENTRY_BATTLE_REMOVAL 0x40000
+// Set when the removal shrink has brought the Kart back to its start (after 0xb9 steps).
+#define KART_ENTRY_BATTLE_RESPAWNED 0x80000
+// Set when FinishKartAtBattleEnd has run for the Kart.
+#define KART_ENTRY_BATTLE_END_DONE 0x100000
+// Set at the race end for a Kart that did not reach the goal in a rule kind 1 race, or in a mission run.
+#define KART_ENTRY_DID_NOT_FINISH 0x200000
+// Set when the removal has finished and the Kart waits at its start place out of play; item boxes ignore it.
+#define KART_ENTRY_PARKED 0x400000
+// Set when the race progress removed the Kart (StartKartRemovalFromProgress).
+#define KART_ENTRY_REMOVED_BY_PROGRESS 0x800000
+// Set with PARKED on every Kart but the selected entry; the Kart is not drawn.
+#define KART_ENTRY_NOT_DRAWN_PARKED 0x1000000
+// Set when the Kart won (battle winner or rule kind 1 winner); the end screen picks its music from it.
+#define KART_ENTRY_WINNER 0x2000000
+// Set once the removal has taken the Kart out of the AI non-CPU count.
+#define KART_ENTRY_REMOVAL_COUNTED 0x4000000
+// Set in time attack and in the award and staff roll; item object hits and Kart collisions are skipped.
+#define KART_ENTRY_SKIP_KART_HITS 0x8000000
+// Set when FinishKartAtMissionRunEnd has run for the Kart.
+#define KART_ENTRY_MISSION_END_DONE 0x10000000
+// Set when the entry Kart's race ended or its last balloon was lost; counts as not normal.
+#define KART_ENTRY_OUT_OF_ROUND 0x20000000
+// A wifi race Kart, local or peer.
+#define KART_ENTRY_WIFI_ANY (KART_ENTRY_WIFI_LOCAL | KART_ENTRY_WIFI_PEER)
+// Removed or parked.
+#define KART_ENTRY_REMOVED_OR_PARKED (KART_ENTRY_REMOVED | KART_ENTRY_PARKED)
+// Teresa or parked.
+#define KART_ENTRY_TERESA_OR_PARKED (KART_ENTRY_TERESA | KART_ENTRY_PARKED)
+// Removed, parked or Teresa.
+#define KART_ENTRY_REMOVED_PARKED_OR_TERESA (KART_ENTRY_REMOVED | KART_ENTRY_TERESA | KART_ENTRY_PARKED)
 
 // The values of Kart.mState; each indexes gKartStateFunctions.
 typedef enum {
@@ -252,16 +446,16 @@ typedef enum {
 typedef struct Kart {
     // Sound source of the Kart (the sounds started on it).
     /* 00 */ SoundSource mSoundSource;
-    /* 44 */ vu32 mUnk_44;
-    /* 48 */ vu32 mUnk_48;
-    /* 4c */ vu32 mUnk_4c;
+    /* 44 */ vu32 mMotionFlags;
+    /* 48 */ vu32 mDriveFlags;
+    /* 4c */ vu32 mEffectFlags;
     /* 50 */ Vec3 mTurnedForward;
     /* 05c */ Vec3 mSignedTurnedForward;
     /* 68 */ Vec3 mEasedTurnedForward;
     /* 74 */ u16 mIndex;
     /* 76 */ u8 mUnk_76[0x2];
     /* 78 */ s32 mEntryIndex;
-    /* 7c */ vu32 mUnk_7c;
+    /* 7c */ vu32 mEntryFlags;
     /* 80 */ Vec3 mPos;
     /* 8c */ Vec3 mPrevPos;
     // Copy of the kart position made when the draw matrix is built; until then it holds the position of one step
@@ -333,7 +527,7 @@ typedef struct Kart {
     /* 1c4 */ Vec3 mPrevCollisionCenter;
     // Current radius: the record's radius times two scales, set from the record at creation.
     /* 1d0 */ s32 mRadius;
-    /* 1d4 */ s32 mUnk_1d4;
+    /* 1d4 */ s32 mScaledPointAlongUpExtra;
     /* 1d8 */ Vec3 mPointAlongUp;
     /* 1e4 */ Vec3 mPrevPointAlongUp;
     /* 1f0 */ Vec3 mSecondCollisionCenter;
@@ -390,12 +584,12 @@ typedef struct Kart {
     // Height of the hop arc, integrated from mHopSpeed; 0 at the start and when it would go below 0. The camera, its
     // look-at and the replay record subtract it from mPos.y.
     /* 2bc */ s32 mHopHeight;
-    // Angle about the x axis that tilts the kart while mHopSpeed > 0 and bit 2 of mUnk_44 is set (0x9c4 minus
+    // Angle about the x axis that tilts the kart while mHopSpeed > 0 and KART_MOTION_HOPPING is set (0x9c4 minus
     // mHopHeight * 500 / 0x1000, 0x352 when that exceeds 0x6a4); 0 otherwise. 0x10000 per turn.
     /* 2c0 */ u16 mHopTiltAngle;
     /* 2c2 */ u8 mUnk_2c2[2];
-    // Sign 1 / -1 / 0 of a turn, latched when it starts (from mUnk_48 bits 0x10 / 8, or from the entry's input bits
-    // 0x10 / 0x20) and cleared when it ends; read only as a sign.
+    // Sign 1 / -1 / 0 of a turn, latched when it starts (from KART_DRIVE_TURN_RIGHT / KART_DRIVE_TURN_LEFT, or from the
+    // entry's input bits 0x10 / 0x20) and cleared when it ends; read only as a sign.
     /* 2c4 */ s32 mTurnDirection;
     /* 2c8 */ s16 mCollisionSlot;
     /* 2ca */ s16 mSecondCollisionSlot;
@@ -439,7 +633,7 @@ typedef struct Kart {
     /* 370 */ u16 mVerticalSpeedStepCount;
     /* 372 */ u8 mUnk_372[2];
     /* 374 */ Vec3 mCollisionPushVelocity;
-    // Calls of UpdateKartAirborne since KART_44_ON_GROUND was last set; not every step (skipped below
+    // Calls of UpdateKartAirborne since KART_MOTION_ON_GROUND was last set; not every step (skipped below
     // y = 0).
     /* 380 */ u32 mAirborneFrames;
     // Draw gate of the kart: 0xffff while it is drawn, 0 when DrawKart skips it (hidden states, or the off phase of
@@ -478,7 +672,7 @@ typedef struct Kart {
     /* 3c8 */ s16 mFramesSinceRemovalOrReset;
     /* 3ca */ u8 mUnk_3ca[2];
     /* 3cc */ s32 mSoundIndex;
-    /* 3d0 */ s16 mUnk_3d0;
+    /* 3d0 */ s16 mKartIndexModThree;
     // Countdown of 0x14 set on the slower kart of a kart-kart contact in CollideKartWithKarts and counted down by
     // AdvanceKartCollisionTimer, which calls StartKartCollisionSound at 0 (what that call does is unknown).
     /* 3d2 */ s16 mKartCollisionTimer;

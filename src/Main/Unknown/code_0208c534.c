@@ -121,7 +121,7 @@ void AdvanceKartTurnStartEffects(KartTurnEffects *turnEffects, Kart *kart) {
         effect->mUnk_28.x = position.x + effect->mUnk_20->mUnk_00->mUnk_04.x;
         effect->mUnk_28.y = position.y + effect->mUnk_20->mUnk_00->mUnk_04.y;
         effect->mUnk_28.z = position.z + effect->mUnk_20->mUnk_00->mUnk_04.z;
-        if ((kart->mUnk_44 & KART_44_ON_GROUND) == 0) {
+        if ((kart->mMotionFlags & KART_MOTION_ON_GROUND) == 0) {
             turnEffects->mTurnStartEffects[sideIndex]->mUnk_24.mEmissionStopped = 1;
         } else {
             turnEffects->mTurnStartEffects[sideIndex]->mUnk_24.mEmissionStopped = 0;
@@ -386,7 +386,7 @@ void AdvanceKartLevel4Effects(KartTurnEffects *turnEffects, Kart *kart) {
             turnEffects->mLevel4RestartRequested = 0;
         }
     }
-    if ((kart->mUnk_44 & KART_44_DRIFTING) && turnEffects->mLevel4RestartRequested != 0) {
+    if ((kart->mMotionFlags & KART_MOTION_DRIFTING) && turnEffects->mLevel4RestartRequested != 0) {
         turnEffects->mLevel4RestartFrames++;
         if (turnEffects->mLevel4RestartFrames > 10) {
             if (turnEffects->mLevel4Present != 0) {
@@ -408,7 +408,7 @@ void AdvanceKartLevel4Effects(KartTurnEffects *turnEffects, Kart *kart) {
     }
     kartEffects = GetKartEffects(kart->mIndex);
     turnEffects->mPlaceLevel4Effects(turnEffects, kartEffects->mSideDirections, kartEffects->mSidePositions);
-    if ((kart->mUnk_44 & KART_44_ON_GROUND) == 0) {
+    if ((kart->mMotionFlags & KART_MOTION_ON_GROUND) == 0) {
         turnEffects->mStopLevel4Emission(turnEffects);
         return;
     }

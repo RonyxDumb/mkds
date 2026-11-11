@@ -36,8 +36,9 @@ void InitParticipantKartRecordState(Kart *kart, void *heap);
 void ResetKart(Kart *kart);
 void ResetKartMotionVectorsAndFactors(Kart *kart);
 void InitKartPhysicalParams(Kart *kart);
-// Slot 7 of Kart.mSlotFunctions, never called: when bit 0x20 of mUnk_7c is set, resets the Kart at its course start
-// placement, creates its collision objects if it has none and sets bit 0x80 of mUnk_7c while clearing 0x60.
+// Slot 7 of Kart.mSlotFunctions, never called: when KART_ENTRY_REMOVED is set, resets the Kart at its course start
+// placement, creates its collision objects if it has none and sets KART_ENTRY_SCALING_IN in mEntryFlags while clearing
+// KART_ENTRY_REMOVED and KART_ENTRY_HIDDEN.
 void ResetKartToStartPlacement(Kart *kart);
 void StopKartItemsAndEffects(Kart *kart);
 void ResetKartAndSetPos(Kart *kart, const Vec3 *position, const Vec3 *forward, PointLink *link);

@@ -127,14 +127,14 @@ void UpdateChaseCamera(Camera *camera, Kart *kart) {
     if (camera->mCollisionActive == FALSE) {
         camera->mPrevPos = camera->mPos;
     }
-    if (kart->mUnk_4c & KART_4C_HEADING_SWING) {
+    if (kart->mEffectFlags & KART_EFFECT_HEADING_SWING) {
         forward = camera->mSavedKartForward;
         MulVec3Fixed12NoRoundInPlace(&forward, camera->mFollowDirectionSign);
     } else {
         GetKartForward(kart, &forward);
         MulVec3Fixed12NoRoundInPlace(&forward, camera->mFollowDirectionSign);
     }
-    if (kart->mUnk_7c & KART_7C_REMOVED) {
+    if (kart->mEntryFlags & KART_ENTRY_REMOVED) {
         if (IsWaterPresent() == FALSE) {
             return;
         }
@@ -155,7 +155,7 @@ void UpdateChaseCamera(Camera *camera, Kart *kart) {
     camera->mHalfFovAngle = camera->mHalfFovAngle + MUL_FIXED12_ROUNDED(value, fovEaseRate);
     camera->mHalfFovPairFirst = FX_SinIdx((u16) camera->mHalfFovAngle);
     camera->mHalfFovPairSecond = FX_CosIdx((u16) camera->mHalfFovAngle);
-    if (kart->mUnk_48 & 0x10000) {
+    if (kart->mDriveFlags & KART_DRIVE_KEYED_PLACEMENT) {
         camera->mFollowDistanceScale =
             camera->mFollowDistanceScale + MUL_FIXED12_ROUNDED(0x14cd - camera->mFollowDistanceScale, 0xcd);
     } else {
@@ -182,7 +182,7 @@ void UpdateChaseCamera(Camera *camera, Kart *kart) {
     UpdateChaseCameraCollision(camera, kart, &forward);
     kartMatrixRow = &kart->mUnk_120;
     value = 0;
-    if (kart->mUnk_44 & KART_44_DRIFTING) {
+    if (kart->mMotionFlags & KART_MOTION_DRIFTING) {
         value = data_usa_021656c4;
         if (kart->mTurnDirection > 0) {
             value *= -1;
@@ -194,7 +194,7 @@ void UpdateChaseCamera(Camera *camera, Kart *kart) {
     camera->mPosGoalKartOffset.x = MUL_FIXED12_NO_ROUND(kartMatrixRow->x, kartOffsetScale);
     camera->mPosGoalKartOffset.y = MUL_FIXED12_NO_ROUND(kartMatrixRow->y, kartOffsetScale);
     camera->mPosGoalKartOffset.z = MUL_FIXED12_NO_ROUND(kartMatrixRow->z, kartOffsetScale);
-    if (kart->mUnk_48 & 0x40000000) {
+    if (kart->mDriveFlags & KART_DRIVE_BOOST_SURFACE_HELD) {
         GetKartUp(kart, &targetUp);
     } else {
         targetUp = data_usa_02154fc4;
@@ -311,23 +311,23 @@ void UpdateChaseCameraPosGoalYOffset(Camera *camera, Kart *kart, Vec3 *forward) 
     s32 offsetDelta;
     s32 goalYOffset = 0;
     s32 easeRate = 0x11f;
-    u32 kartFlags = kart->mUnk_48;
+    u32 kartFlags = kart->mDriveFlags;
     s32 forwardY;
 
-    if (kartFlags & 0x10000) {
+    if (kartFlags & KART_DRIVE_KEYED_PLACEMENT) {
         forwardYScale = -0x3c000;
     }
     if (kart->mAirTiltAngleOffset > 0) {
         easeRate = 0x52;
     }
-    if ((kart->mUnk_44 & KART_44_ON_GROUND) || (kartFlags & 0x10000)) {
+    if ((kart->mMotionFlags & KART_MOTION_ON_GROUND) || (kartFlags & KART_DRIVE_KEYED_PLACEMENT)) {
         if ((forwardY = forward->y) > 0) {
             goalYOffset = MUL_FIXED12_NO_ROUND(forwardY, forwardYScale);
         } else if (forwardY + 0x4cd < 0) {
             goalYOffset = MUL_FIXED12_NO_ROUND(forwardY, -0xf000);
         }
     }
-    if (kartFlags & 0x40000000) {
+    if (kartFlags & KART_DRIVE_BOOST_SURFACE_HELD) {
         camera->mPosGoalYOffset = camera->mPosGoalYOffset + MUL_FIXED12_ROUNDED(-camera->mPosGoalYOffset, easeRate);
         return;
     }
@@ -951,7 +951,7 @@ void UpdateChaseCameraLookAt(Vec3 *lookAt, Vec3 *lookAtOffset, s32 *lookAtLoweri
     targetPos.y = targetPos.y - scaledHopHeight;
     VEC_MultAdd(lookAtHeight, &kart->mUnk_12c, &targetPos, &targetPos);
     lookAtGoal.y = lookAtGoal.y + (lookAtHeight - scaledHopHeight);
-    if (!(kart->mUnk_48 & 0x40000000)) {
+    if (!(kart->mDriveFlags & KART_DRIVE_BOOST_SURFACE_HELD)) {
         offsetGoal = data_usa_02154fdc;
     } else {
         VEC_Subtract(&targetPos, &lookAtGoal, &offsetGoal);
@@ -965,7 +965,7 @@ void UpdateChaseCameraLookAt(Vec3 *lookAt, Vec3 *lookAtOffset, s32 *lookAtLoweri
     VEC_Add(&lookAtGoal, lookAtOffset, &lookAtGoal);
     lookAt->x = lookAtGoal.x;
     lookAt->z = lookAtGoal.z;
-    if (kart->mUnk_48 & 0x10000) {
+    if (kart->mDriveFlags & KART_DRIVE_KEYED_PLACEMENT) {
         *lookAtLowering = *lookAtLowering + 0x1000;
         if (*lookAtLowering > 0xa000) {
             *lookAtLowering = 0xa000;
@@ -1006,8 +1006,8 @@ void UpdateChaseCameraPos(Vec3 *pos, Vec3 *posOffset, Camera *camera, Kart *kart
         followDistance = 500;
     }
     VEC_Subtract(&kart->mPos, &kart->mPrevPos, &kartMovement);
-    if (kart->mUnk_48 & 0x1000) {
-        if (kart->mUnk_4c & 0x4000000) {
+    if (kart->mDriveFlags & KART_DRIVE_RESPAWN_FALL) {
+        if (kart->mEffectFlags & KART_EFFECT_WATER_FALL) {
             return;
         }
         camera->mKartMoveScale = MUL_FIXED12_NO_ROUND(camera->mKartMoveScale, 0xe66);
@@ -1028,7 +1028,7 @@ void UpdateChaseCameraPos(Vec3 *pos, Vec3 *posOffset, Camera *camera, Kart *kart
     VEC_Add(kartPos, &followOffset, &followPos);
     posGoal = followPos;
     posGoal.y = posGoal.y + camera->mPosGoalYOffset;
-    if (!(kart->mUnk_48 & 0x40000000)) {
+    if (!(kart->mDriveFlags & KART_DRIVE_BOOST_SURFACE_HELD)) {
         offsetGoal = data_usa_02154fdc;
     } else {
         VEC_Subtract(&heightenedPos, &posGoal, &offsetGoal);

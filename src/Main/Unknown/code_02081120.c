@@ -12,7 +12,7 @@ void StartKartSpinSideEffects(s32 kartIndex) {
     ParticleEmitter *effect;
     u16 effectIndex;
 
-    if (!(kart->mUnk_4c & KART_4C_NEAR_PLAYER_RANK)) {
+    if (!(kart->mEffectFlags & KART_EFFECT_NEAR_PLAYER_RANK)) {
         return;
     }
     effectIndex = 0;

@@ -53,74 +53,74 @@ void AdvanceKartByVelocity(Kart *kart) {
     u32 kartBits;
 
     velocityScale = kart->mVelocityScaleFactor;
-    if (kart->mUnk_4c & 0x8000000) {
+    if (kart->mEffectFlags & KART_EFFECT_GESSO) {
         AdvanceKartGesso(kart);
     }
-    kartBits = kart->mUnk_4c;
-    if (kartBits & 0x10000000) {
+    kartBits = kart->mEffectFlags;
+    if (kartBits & KART_EFFECT_KILLER) {
         AdvanceKartKiller(kart);
     } else {
-        if (kartBits & KART_4C_THUNDER_SHRINK) {
+        if (kartBits & KART_EFFECT_THUNDER_SHRINK) {
             AdvanceKartThunderShrink(kart);
         }
-        if (kart->mUnk_4c & 0x10000) {
+        if (kart->mEffectFlags & KART_EFFECT_SCALE_TABLE) {
             AdvanceKartScaleTableEffect(kart);
         }
-        if (kart->mUnk_7c & 0x402000) {
+        if (kart->mEntryFlags & KART_ENTRY_TERESA_OR_PARKED) {
             AdvanceKartTeresa(kart);
         }
     }
-    if (kart->mUnk_4c & KART_4C_AHEAD_BOOST) {
+    if (kart->mEffectFlags & KART_EFFECT_AHEAD_BOOST) {
         itemEffectState = &kart->mItemEffectData;
-        if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+        if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
             AddSoundRequest(gSoundRequestQueues, GetKartCameraDistanceSquared(kart->mIndex), RequestKartSound, kart,
                             0xa3);
         }
         itemEffectState->mAheadBoostFrames++;
-        if (itemEffectState->mAheadBoostFrames > 0xb4 && (kart->mUnk_4c & KART_4C_AHEAD_BOOST)) {
-            kart->mUnk_4c &= ~KART_4C_AHEAD_BOOST;
+        if (itemEffectState->mAheadBoostFrames > 0xb4 && (kart->mEffectFlags & KART_EFFECT_AHEAD_BOOST)) {
+            kart->mEffectFlags &= ~KART_EFFECT_AHEAD_BOOST;
             kart->mAheadSpeedLimitFactor = 0x1000;
-            if (!(kart->mUnk_4c & 0x8000000)) {
+            if (!(kart->mEffectFlags & KART_EFFECT_GESSO)) {
                 ResetKartModelsCourseColors(kart);
             }
             StopKartNearRankEffect(kart);
         }
     }
-    if (kart->mUnk_4c & 0x40) {
+    if (kart->mEffectFlags & KART_EFFECT_STAR) {
         itemEffectState = &kart->mItemEffectData;
         AdvanceKartStarEffects(kart->mIndex);
-        if ((kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) &&
+        if ((kart->mEntryFlags & KART_ENTRY_HAS_CHARACTER_ANIMATION) &&
             kart->mKartModelsEntry->mCharacterAnimation->mCurrentIndex == 0) {
             SetKartCharacterAnimation(kart, 2, 1);
         }
         itemEffectState->mStarFrames++;
         if (itemEffectState->mStarFrames > 0x1c2) {
-            kart->mUnk_4c &= ~0x40;
+            kart->mEffectFlags &= ~KART_EFFECT_STAR;
             StopKartStarModels(kart);
             kart->mItemEffect = 0;
             StopKartStarEffects(kart->mIndex);
             SetKartCharacterAnimation(kart, 0, 1);
-            if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
+            if ((kart->mEntryFlags & KART_ENTRY_SELECTED) && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
                 StopKartStarSeq();
             }
-            if (kart->mUnk_4c & KART_4C_AHEAD_BOOST) {
+            if (kart->mEffectFlags & KART_EFFECT_AHEAD_BOOST) {
                 SetKartModelsGrayColors(kart);
             }
         }
     }
-    if ((kart->mUnk_48 & KART_48_RESPAWN_WAIT) && AdvanceKartRespawnWait(kart, &velocityScale) != 0) {
+    if ((kart->mDriveFlags & KART_DRIVE_RESPAWN_WAIT) && AdvanceKartRespawnWait(kart, &velocityScale) != 0) {
         return;
     }
-    if (kart->mUnk_7c & KART_7C_REMOVED) {
+    if (kart->mEntryFlags & KART_ENTRY_REMOVED) {
         return;
     }
     gKartStateFunctions[kart->mState](kart);
     ScaleKartForwardSpeed(kart);
-    if (kart->mUnk_48 & KART_48_SINKING) {
+    if (kart->mDriveFlags & KART_DRIVE_SINKING) {
         kart->mSinkFrames++;
         if (kart->mSinkFrames > 0x41) {
-            kart->mUnk_48 &= ~(KART_48_SINKING | KART_48_OBJECTS_SKIP);
-            if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+            kart->mDriveFlags &= ~(KART_DRIVE_SINKING | KART_DRIVE_OBJECTS_SKIP);
+            if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
                 SetJgState4Countdown();
             }
         } else {
@@ -129,17 +129,17 @@ void AdvanceKartByVelocity(Kart *kart) {
     } else {
         ApplyKartGravity(kart);
     }
-    if (kart->mUnk_44 & KART_44_ON_GROUND) {
+    if (kart->mMotionFlags & KART_MOTION_ON_GROUND) {
         GetKartForward(kart, &forward);
-        if (!(kart->mUnk_48 & 6) && kart->mGroundNormal.y > 0 && (forward.y > 0 ? forward.y : -forward.y) > 0xcd &&
-            kart->mSpeedLimitHitFactor <= 0) {
+        if (!(kart->mDriveFlags & (KART_DRIVE_ACCEL_HELD | KART_DRIVE_BRAKE_HELD)) && kart->mGroundNormal.y > 0 &&
+            (forward.y > 0 ? forward.y : -forward.y) > 0xcd && kart->mSpeedLimitHitFactor <= 0) {
             kart->mForwardSpeed += MUL_FIXED12_NO_ROUND(-forward.y, 0x19a);
         }
     }
-    if ((kart->mUnk_44 & KART_44_ON_GROUND) || (kart->mUnk_4c & 0x10000000)) {
+    if ((kart->mMotionFlags & KART_MOTION_ON_GROUND) || (kart->mEffectFlags & KART_EFFECT_KILLER)) {
         MTX_RotAxis33(&turnMatrix, &kart->mGroundNormal, FX_SinIdx((u16) kart->mTurnAngle),
                       FX_CosIdx((u16) kart->mTurnAngle));
-        if (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE) {
+        if (kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) {
             MTX_RotAxis33(&boostMatrix, &kart->mUnk_120, SIN_OF_ANGLE(0x5d0), COS_OF_ANGLE(0x5d0));
             MTX_Concat33(&boostMatrix, &turnMatrix, &turnMatrix);
         }
@@ -162,7 +162,8 @@ void AdvanceKartByVelocity(Kart *kart) {
     }
     scaledForwardSpeed = LimitKartForwardSpeedAndGetScaled(kart);
     ReduceKartSpeedByTurnRatio(&scaledForwardSpeed, kart);
-    if ((kart->mUnk_44 & 0x90) || (kart->mUnk_4c & 0x10000000)) {
+    if ((kart->mMotionFlags & (KART_MOTION_ON_GROUND | KART_MOTION_COURSE_CONTACT)) ||
+        (kart->mEffectFlags & KART_EFFECT_KILLER)) {
         easeFactor = kart->mTurnedForwardEaseFactor;
         VEC_Subtract(&kart->mTurnedForward, &kart->mEasedTurnedForward, &easeDelta);
         easeDelta.x = MUL_FIXED12_NO_ROUND(easeDelta.x, easeFactor);
@@ -188,44 +189,45 @@ void AdvanceKartByVelocity(Kart *kart) {
     VEC_Add(&kart->mVelocity, &kart->mCollisionPushVelocity, &kart->mVelocity);
     kart->mVelocity.y += kart->mVerticalSpeed;
     VEC_MultAdd(kart->mAttractorPullSpeed, &kart->mAttractorPullDirection, &kart->mVelocity, &kart->mVelocity);
-    if (!(kart->mUnk_44 & KART_44_ON_GROUND) && kart->mAirborneFrames > 5 && kart->mVelocity.y < -0x6000) {
+    if (!(kart->mMotionFlags & KART_MOTION_ON_GROUND) && kart->mAirborneFrames > 5 && kart->mVelocity.y < -0x6000) {
         kart->mVelocity.y = -0x6000;
     }
     VEC_Add(&kart->mVelocity, &kart->mPrevPrevHitVelocity, &kart->mVelocity);
     VEC_Add(&kart->mVelocity, &kart->mPointMotion, &kart->mVelocity);
     AdvanceKartHop(kart);
     ScaleKartVelocityAndSetCappedLengthAndDirection(kart, velocityScale);
-    if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+    if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
         SetKartForwardSpeedRatio(Vec3DotUnrounded(&kart->mVelocity, &kart->mTurnedForward));
-        if ((kart->mUnk_44 & 0x1000000) && kart->mRevLevel != 0) {
+        if ((kart->mMotionFlags & KART_MOTION_START_DONE) && kart->mRevLevel != 0) {
             kart->mRevLevel = MUL_FIXED12_NO_ROUND(kart->mRevLevel, 0xfae);
             if (kart->mRevLevel < 0xcd) {
                 kart->mRevLevel = 0;
             }
         }
     }
-    if (!(kart->mUnk_7c & KART_7C_REMOVED)) {
+    if (!(kart->mEntryFlags & KART_ENTRY_REMOVED)) {
         VEC_Add(&kart->mPos, &kart->mVelocity, &kart->mPos);
         kart->mSpeedLimitHitFactor = 0x1000;
     }
-    hitVelocityDecay = (kart->mUnk_44 & KART_44_ON_GROUND) ? 0xee1 : 0xfae;
+    hitVelocityDecay = (kart->mMotionFlags & KART_MOTION_ON_GROUND) ? 0xee1 : 0xfae;
     kart->mHitVelocity.x = MUL_FIXED12_NO_ROUND(kart->mHitVelocity.x, hitVelocityDecay);
     kart->mHitVelocity.y = MUL_FIXED12_NO_ROUND(kart->mHitVelocity.y, hitVelocityDecay);
     kart->mHitVelocity.z = MUL_FIXED12_NO_ROUND(kart->mHitVelocity.z, hitVelocityDecay);
     if ((s64) kart->mHitVelocity.x * kart->mHitVelocity.x + (s64) kart->mHitVelocity.y * kart->mHitVelocity.y +
             (s64) kart->mHitVelocity.z * kart->mHitVelocity.z >=
         0xa429) {
-        kart->mUnk_44 |= 0x2000;
+        kart->mMotionFlags |= KART_MOTION_HIT_VELOCITY;
     } else {
         kart->mHitVelocity = gKartVec3Zero;
-        kart->mUnk_44 &= ~0x2000;
+        kart->mMotionFlags &= ~KART_MOTION_HIT_VELOCITY;
     }
     FindCollisionSlotsOverlappingSlot(kart->mCollisionSlot, 0xe800);
     CollideKartWithMapObjects(kart);
-    if (kart->mUnk_7c & 0x8000000) {
+    if (kart->mEntryFlags & KART_ENTRY_SKIP_KART_HITS) {
         return;
     }
-    ComputeKartPointAlongUp(&kart->mPointAlongUp, kart->mCollisionPosSource, kart->mPhysicalParam->mUnk_04, kart);
+    ComputeKartPointAlongUp(&kart->mPointAlongUp, kart->mCollisionPosSource, kart->mPhysicalParam->mPointAlongUpExtra,
+                            kart);
     ApplyItemObjectHitToKart(kart);
     CollideKartWithKarts(kart);
     UpdateKartAheadEffect(kart);

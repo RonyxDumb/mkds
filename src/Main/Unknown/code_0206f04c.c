@@ -65,7 +65,7 @@ void StartKartRespawnWait(Kart *kart, u32 collisionFlags) {
     Vec3 waterSurfacePos;
     KartFollowEffectIds kartFollowEffectIds;
 
-    if (kart->mUnk_7c & 0x400) {
+    if (kart->mEntryFlags & KART_ENTRY_WIFI_PEER) {
         return;
     }
     if (collisionFlags & 0x8000) {
@@ -78,12 +78,12 @@ void StartKartRespawnWait(Kart *kart, u32 collisionFlags) {
             PlaceKartAtKeyedPlacement(kart, value);
             return;
         }
-        kart->mUnk_48 |= 0x10000;
+        kart->mDriveFlags |= KART_DRIVE_KEYED_PLACEMENT;
         ResetKartMotionState(kart, 0);
         return;
     }
-    if (!(kart->mUnk_48 & KART_48_RESPAWN_WAIT)) {
-        kart->mUnk_48 |= KART_48_RESPAWN_WAIT;
+    if (!(kart->mDriveFlags & KART_DRIVE_RESPAWN_WAIT)) {
+        kart->mDriveFlags |= KART_DRIVE_RESPAWN_WAIT;
         kartIndex = kart->mIndex;
         if (gRaceSetup->mMode == MODE_BATTLE) {
             respawnSlot = GetCourseMapRespawnSlot(0);
@@ -91,7 +91,7 @@ void StartKartRespawnWait(Kart *kart, u32 collisionFlags) {
             respawnSlot = GetCourseMapRespawnSlot(gRaceProgress->mKarts[kartIndex].mCheckpoint);
         }
         kart->mRespawnSlot = respawnSlot;
-        if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceSetup->mCourseId == COURSE_ID_RAINBOW &&
+        if ((kart->mEntryFlags & KART_ENTRY_SELECTED) && gRaceSetup->mCourseId == COURSE_ID_RAINBOW &&
             (gRaceSoundKind & 1)) {
             soundHandleEntry = TakeSoundHandleEntry(GetSoundHandlePool(0));
             if (gSoundModeHolder.mSeqStartEnabled != 0) {
@@ -108,25 +108,26 @@ void StartKartRespawnWait(Kart *kart, u32 collisionFlags) {
     if (!(collisionFlags & 0xc00)) {
         return;
     }
-    if (kart->mUnk_48 & 0x1000) {
+    if (kart->mDriveFlags & KART_DRIVE_RESPAWN_FALL) {
         return;
     }
     HideRaceTaKartPositions(kart->mIndex);
-    kart->mUnk_48 |= 0x41000;
-    kart->mUnk_48 &= 0xdfe77fdf;
+    kart->mDriveFlags |= KART_DRIVE_RESPAWN_FALL | KART_DRIVE_INPUT_LOCKED;
+    kart->mDriveFlags &= ~(KART_DRIVE_BOOST | KART_DRIVE_RACE_START_BOOST | KART_DRIVE_MINI_TURBO |
+                           KART_DRIVE_KINOKO_BOOST | KART_DRIVE_ITEM_BOOST);
     kart->mBoostTimer = 0;
     kart->mItemEffectData.mKinokoBoostTimer = 0;
     kart->mMiniTurboTimer = 0;
-    if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-        if (!(kart->mUnk_4c & 0x10000000) && !(kart->mUnk_48 & 0x4000000)) {
+    if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
+        if (!(kart->mEffectFlags & KART_EFFECT_KILLER) && !(kart->mDriveFlags & KART_DRIVE_SCALE_TABLE_EFFECT)) {
             ResetCameraHalfFovAngleGoal();
         }
         StopDispCapBlend();
     }
-    if (kart->mUnk_4c & 0x10000000) {
-        kart->mUnk_4c &= ~0x10000000;
+    if (kart->mEffectFlags & KART_EFFECT_KILLER) {
+        kart->mEffectFlags &= ~KART_EFFECT_KILLER;
         ResetKartActiveItemAfterKiller(kart->mIndex);
-        if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+        if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
             ResetCameraHalfFovAngleGoal();
         }
         kart->mRadiusFactor = 0x1000;
@@ -146,30 +147,30 @@ void StartKartRespawnWait(Kart *kart, u32 collisionFlags) {
     StopRunningKartItemSlot(&(gKartItems)[kart->mIndex]);
     if (collisionFlags & 0x400) {
         value = PickCollisionHitValue(0x400);
-        kart->mUnk_48 |= 0x2000;
+        kart->mDriveFlags |= KART_DRIVE_SLOWING_STOP;
         if ((u16) ((value & 0xe0) >> 5) == 4) {
-            kart->mUnk_48 |= 0x800000;
+            kart->mDriveFlags |= KART_DRIVE_FALL_SOUND_A;
         }
         return;
     }
     value = (u16) ((PickCollisionHitValue(0x800) & 0xe0) >> 5);
     kart->mRespawnWaitVelocityScale = kart->mVelocityScaleFactor;
-    kart->mUnk_4c |= 0x200000;
-    if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+    kart->mEffectFlags |= KART_EFFECT_RESPAWN_WAIT_SET;
+    if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
         SetEntryCameraUpdateHold(1);
     }
     if ((u16) (value + 0xffff) <= 1) {
         waterSurfacePos = kart->mPos;
         if (value == 1) {
-            kart->mUnk_48 |= 0x800000;
+            kart->mDriveFlags |= KART_DRIVE_FALL_SOUND_A;
             value = 0xce;
         } else {
-            kart->mUnk_48 |= 0x1000000;
+            kart->mDriveFlags |= KART_DRIVE_FALL_SOUND_B;
             value = 0x15d;
         }
         waterSurfacePos.y = kart->mPos.y - GetHeightAboveWaterOrEfct(kart->mPos.y);
-        StartWaterEfctKind2Effects(&waterSurfacePos, (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0);
-        kart->mUnk_4c |= 0x4000000;
+        StartWaterEfctKind2Effects(&waterSurfacePos, (kart->mEntryFlags & KART_ENTRY_SELECTED) != 0);
+        kart->mEffectFlags |= KART_EFFECT_WATER_FALL;
         StartSound(&kart->mSoundSource, value, 0x7f, 0);
         kart->mGravity = 0;
     }
@@ -183,7 +184,7 @@ void ApplyKartWaterDepth(Kart *kart) {
     Vec3 waterSurfacePoint;
 
     heightAboveWater = GetHeightAboveWaterOrEfct(kart->mPos.y);
-    if (heightAboveWater < 0 && !(kart->mUnk_4c & 0x4000000)) {
+    if (heightAboveWater < 0 && !(kart->mEffectFlags & KART_EFFECT_WATER_FALL)) {
         flag = FALSE;
         scaledFactorPerDepth = MUL_FIXED12_NO_ROUND(kart->mSpeedLimitFactorPerDepth, kart->mScale.z);
         kart->mSpeedLimitFactor = MUL_FIXED12_NO_ROUND(scaledFactorPerDepth, heightAboveWater) + 0x1000;
@@ -196,13 +197,13 @@ void ApplyKartWaterDepth(Kart *kart) {
             GetHeightAboveWaterOrEfct(kart->mPrevPos.y) > -0xa000 && kart->mVelocity.y < -0x2000) {
             waterSurfacePoint = kart->mPos;
             waterSurfacePoint.y = kart->mPos.y - heightAboveWater;
-            StartWaterEfctKind2Effects(&waterSurfacePoint, (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0);
+            StartWaterEfctKind2Effects(&waterSurfacePoint, (kart->mEntryFlags & KART_ENTRY_SELECTED) != 0);
             flag = FALSE;
         }
         if (flag != FALSE) {
             return;
         }
-        if (kart->mUnk_4c & 0x4000000) {
+        if (kart->mEffectFlags & KART_EFFECT_WATER_FALL) {
             return;
         }
         ApplyKartWaterEffects(kart);
@@ -223,7 +224,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
     KartEffectScales firstOffsets;
     KartEffectScales secondOffsets;
 
-    if (kart->mUnk_48 & 2) {
+    if (kart->mDriveFlags & KART_DRIVE_ACCEL_HELD) {
         keyALevel = kart->mRevLevel;
         if (keyALevel < 0) {
             levelStep = 0x52;
@@ -240,29 +241,30 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
     } else {
         kart->mRevLevel = MUL_FIXED12_NO_ROUND(kart->mRevLevel, 0xf5c);
     }
-    if (!(kart->mUnk_4c & KART_4C_HEADING_SWING)) {
+    if (!(kart->mEffectFlags & KART_EFFECT_HEADING_SWING)) {
         if (GetRaceStartSequenceFrames() - 0xaf > 0) {
-            kart->mUnk_44 |= 0x1000000;
+            kart->mMotionFlags |= KART_MOTION_START_DONE;
         }
     }
     if (GetRaceStartSequenceFrames() - 0xaf == 0) {
-        if (kart->mUnk_7c & 2) {
+        if (kart->mEntryFlags & KART_ENTRY_CPU) {
             if (GetKartAiHeadingSwingAtRaceStart(kart->mAi) != 0) {
-                if (!(kart->mUnk_4c & KART_4C_HEADING_SWING)) {
-                    kart->mUnk_4c |= KART_4C_HEADING_SWING;
+                if (!(kart->mEffectFlags & KART_EFFECT_HEADING_SWING)) {
+                    kart->mEffectFlags |= KART_EFFECT_HEADING_SWING;
                     kart->mRaceStartFrameCount = 0x78;
                     SetKartCharacterAnimation(kart, 1, 1);
                     firstOffsets = data_usa_02165608;
-                    bits7c = kart->mUnk_7c;
-                    if ((bits7c & 0x10) && kart->mKartModelsEntry->mKartModelHidden == 0) {
-                        if ((bits7c & 1) || !(bits7c & 0x402000)) {
+                    bits7c = kart->mEntryFlags;
+                    if ((bits7c & KART_ENTRY_HAS_CHARACTER_ANIMATION) &&
+                        kart->mKartModelsEntry->mKartModelHidden == 0) {
+                        if ((bits7c & KART_ENTRY_SELECTED) || !(bits7c & KART_ENTRY_TERESA_OR_PARKED)) {
                             VEC_MultAdd(firstOffsets.mScales[kart->mKartModelsEntry->mKartIndex] << 4, &kart->mUnk_138,
                                         &kart->mPos, &firstEffectPos);
                             StartEffectWithCallback(0x72, &firstEffectPos, kart, PlaceEffectBehindKart);
                             StartEffectWithCallback(0x73, &firstEffectPos, kart, PlaceEffectBehindKart);
                         }
                     }
-                    if (!(kart->mUnk_48 & (KART_48_SINKING | KART_48_RESPAWN_WAIT))) {
+                    if (!(kart->mDriveFlags & (KART_DRIVE_SINKING | KART_DRIVE_RESPAWN_WAIT))) {
                         StartKartSeqArcSound(kart, kart->mSoundIndex, 3);
                     }
                     StartKartModelScaleAnimation(kart, 1);
@@ -271,36 +273,37 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
             } else if (GetKartAiBoostsAtRaceStart(kart->mAi) != 0) {
                 boostIndex = GetKartAiRaceStartBoostChoice(kart->mAi);
                 kart->mRaceStartFrameCount = data_usa_02154a48[boostIndex - 1];
-                kart->mUnk_44 |= 0x1800000;
+                kart->mMotionFlags |= KART_MOTION_RACE_START_BOOSTED | KART_MOTION_START_DONE;
                 StartKartBoost(kart, KART_BOOST_RACE_START, (s16) kart->mRaceStartFrameCount);
-                if (!(kart->mUnk_48 & (KART_48_SINKING | KART_48_RESPAWN_WAIT))) {
+                if (!(kart->mDriveFlags & (KART_DRIVE_SINKING | KART_DRIVE_RESPAWN_WAIT))) {
                     StartKartSeqArcSound(kart, kart->mSoundIndex, 5);
                 }
-                kart->mUnk_48 |= 0x8000;
-                if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+                kart->mDriveFlags |= KART_DRIVE_RACE_START_BOOST;
+                if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
                     GetEntryKartCounters()->mRaceStartBoosted = 1;
                 } else {
                     StartSound(&kart->mSoundSource, 0xa1, 0x7f, 0);
                 }
             }
-        } else if (kart->mUnk_48 & 2) {
+        } else if (kart->mDriveFlags & KART_DRIVE_ACCEL_HELD) {
             revLevel = kart->mRevLevel;
             if (revLevel > 0xf34) {
-                if (!(kart->mUnk_4c & KART_4C_HEADING_SWING)) {
-                    kart->mUnk_4c |= KART_4C_HEADING_SWING;
+                if (!(kart->mEffectFlags & KART_EFFECT_HEADING_SWING)) {
+                    kart->mEffectFlags |= KART_EFFECT_HEADING_SWING;
                     kart->mRaceStartFrameCount = 0x78;
                     SetKartCharacterAnimation(kart, 1, 1);
                     secondOffsets = data_usa_02165608;
-                    bits7c = kart->mUnk_7c;
-                    if ((bits7c & 0x10) && kart->mKartModelsEntry->mKartModelHidden == 0) {
-                        if ((bits7c & 1) || !(bits7c & 0x402000)) {
+                    bits7c = kart->mEntryFlags;
+                    if ((bits7c & KART_ENTRY_HAS_CHARACTER_ANIMATION) &&
+                        kart->mKartModelsEntry->mKartModelHidden == 0) {
+                        if ((bits7c & KART_ENTRY_SELECTED) || !(bits7c & KART_ENTRY_TERESA_OR_PARKED)) {
                             VEC_MultAdd(secondOffsets.mScales[kart->mKartModelsEntry->mKartIndex] << 4, &kart->mUnk_138,
                                         &kart->mPos, &secondEffectPos);
                             StartEffectWithCallback(0x72, &secondEffectPos, kart, PlaceEffectBehindKart);
                             StartEffectWithCallback(0x73, &secondEffectPos, kart, PlaceEffectBehindKart);
                         }
                     }
-                    if (!(kart->mUnk_48 & (KART_48_SINKING | KART_48_RESPAWN_WAIT))) {
+                    if (!(kart->mDriveFlags & (KART_DRIVE_SINKING | KART_DRIVE_RESPAWN_WAIT))) {
                         StartKartSeqArcSound(kart, kart->mSoundIndex, 3);
                     }
                     StartKartModelScaleAnimation(kart, 1);
@@ -318,13 +321,13 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
                     boostIndex = 4;
                 }
                 kart->mRaceStartFrameCount = data_usa_02154a48[boostIndex - 1];
-                kart->mUnk_44 |= 0x1800000;
+                kart->mMotionFlags |= KART_MOTION_RACE_START_BOOSTED | KART_MOTION_START_DONE;
                 StartKartBoost(kart, KART_BOOST_RACE_START, (s16) kart->mRaceStartFrameCount);
-                if (!(kart->mUnk_48 & (KART_48_SINKING | KART_48_RESPAWN_WAIT))) {
+                if (!(kart->mDriveFlags & (KART_DRIVE_SINKING | KART_DRIVE_RESPAWN_WAIT))) {
                     StartKartSeqArcSound(kart, kart->mSoundIndex, 5);
                 }
-                kart->mUnk_48 |= 0x8000;
-                if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+                kart->mDriveFlags |= KART_DRIVE_RACE_START_BOOST;
+                if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
                     GetEntryKartCounters()->mRaceStartBoosted = 1;
                 } else {
                     StartSound(&kart->mSoundSource, 0xa1, 0x7f, 0);
@@ -332,8 +335,8 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
             }
         }
         kart->mAdvanceOffsetCycle = AdvanceKartOffsetCycleIndex;
-        if (!(kart->mUnk_4c & KART_4C_HEADING_SWING)) {
-            kart->mUnk_44 |= 0x1000000;
+        if (!(kart->mEffectFlags & KART_EFFECT_HEADING_SWING)) {
+            kart->mMotionFlags |= KART_MOTION_START_DONE;
         }
     }
     kart->mOffsetCyclePhaseStep = kart->mRevLevel + 0x1000;
@@ -349,7 +352,7 @@ void ApplyKartAttractorPull(Kart *kart, Vec3 *groundNormal, s32 bit100000WasSet)
     attractorPosition = GetAttractorPosition((u16) kart->mAttractorIndex);
     limit = GetAttractorStrength((u16) kart->mAttractorIndex) * 150;
     step = 0x333;
-    if (kart->mUnk_7c & 2) {
+    if (kart->mEntryFlags & KART_ENTRY_CPU) {
         limit >>= 1;
         step >>= 1;
     }
@@ -361,7 +364,7 @@ void ApplyKartAttractorPull(Kart *kart, Vec3 *groundNormal, s32 bit100000WasSet)
             Vec3NormalizeAndGetLengthUnchecked(&offsetToAttractor, &kart->mAttractorPullDirection);
         }
     }
-    kart->mUnk_44 |= 0x100000;
+    kart->mMotionFlags |= KART_MOTION_ATTRACTOR_PULL;
     kart->mAttractorPullSpeed = kart->mAttractorPullSpeed + step;
     if (kart->mAttractorPullSpeed > limit) {
         kart->mAttractorPullSpeed = limit;
@@ -373,7 +376,7 @@ void AdvanceKartPointMotion(Kart *kart, u32 collisionFlags, Vec3 *targetPointMot
     Vec3 decayFactors;
 
     if (collisionFlags & 0x40000000) {
-        kart->mUnk_44 |= 0x40000;
+        kart->mMotionFlags |= KART_MOTION_MOVED_BY_OBJECT;
         kart->mHeadingAngle += headingDelta;
     } else if (collisionFlags & 0x1e34ef) {
         kart->mPointMotion.y = 0;
@@ -411,9 +414,9 @@ void ApplyKartCourseContact(Kart *kart, u32 collisionFlags, Vec3 *contactNormal)
         baseSpeedLimitHitFactor = 0xccd;
     }
     hitValue = PickCollisionHitValue(0x214300);
-    ApplyKartContact(kart, contactNormal, (kart->mUnk_44 & 0x80) != 0, baseSpeedLimitHitFactor,
-                     (s32) (hitValue & 0x1f00) >> 8, ((hitValue & 0xe0) << 11) >> 16, 2);
-    kart->mUnk_44 |= 0x80;
+    ApplyKartContact(kart, contactNormal, (kart->mMotionFlags & KART_MOTION_COURSE_CONTACT) != 0,
+                     baseSpeedLimitHitFactor, (s32) (hitValue & 0x1f00) >> 8, ((hitValue & 0xe0) << 11) >> 16, 2);
+    kart->mMotionFlags |= KART_MOTION_COURSE_CONTACT;
     kart->mCourseContactNormal = *contactNormal;
     if (kart->mState == KART_STATE_LAUNCH_DOUBLE_FLIP && contactNormal->y < -0x800 && kart->mVerticalSpeed > 0) {
         kart->mVerticalSpeed = -kart->mVerticalSpeed;
@@ -423,7 +426,7 @@ void ApplyKartCourseContact(Kart *kart, u32 collisionFlags, Vec3 *contactNormal)
         absNormalY = -absNormalY;
     }
     if (absNormalY > 0x3e8) {
-        kart->mUnk_44 |= 0x40000000;
+        kart->mMotionFlags |= KART_MOTION_VERTICAL_CONTACT;
     }
     if (!(collisionFlags & 0x2000000)) {
         return;
@@ -432,7 +435,7 @@ void ApplyKartCourseContact(Kart *kart, u32 collisionFlags, Vec3 *contactNormal)
         return;
     }
     if (collisionFlags & 0x10000) {
-        kart->mUnk_44 |= 0x4000000;
+        kart->mMotionFlags |= KART_MOTION_COURSE_PUSH_STRONG;
     }
 }
 
@@ -481,7 +484,7 @@ s32 ApplyKartContact(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseS
         kart->mTurnCountTimer = 0;
         kart->mHeadingAnglePerFrame = 0;
         if (kart->mVelocityLength > 0x1800) {
-            if (!(kart->mUnk_48 & KART_48_BOOST) &&
+            if (!(kart->mDriveFlags & KART_DRIVE_BOOST) &&
                 (normalVelocity.x != 0 || normalVelocity.y != 0 || normalVelocity.z != 0) &&
                 baseSpeedLimitHitFactor != 0x1000) {
                 BounceVelocityOffSurface(&normalVelocity, contactNormal, 0, 0x4cd, 0, &normalVelocity);
@@ -494,15 +497,15 @@ s32 ApplyKartContact(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseS
                     StartKartSurfaceSound(kart, 0, surfaceKind, surfaceVariant, 0);
                 }
                 if (value == 2 && surfaceVariant != 5 && kart->mKartModelsEntry->mKartModelHidden == 0) {
-                    factor = kart->mUnk_7c;
+                    factor = kart->mEntryFlags;
                     dotValue = 0;
-                    if (!(factor & 1) && (factor & 0x402000)) {
+                    if (!(factor & KART_ENTRY_SELECTED) && (factor & KART_ENTRY_TERESA_OR_PARKED)) {
                         dotValue = 1;
                     }
                     if (dotValue == 0) {
                         effectPos = kart->mPos;
                         dotValue = 0x800;
-                        if (kart->mUnk_4c & 0x10000) {
+                        if (kart->mEffectFlags & KART_EFFECT_SCALE_TABLE) {
                             dotValue = 0x4cd;
                         }
                         VEC_MultAdd(-kart->mRadius, contactNormal, &kart->mPos, &effectPos);
@@ -517,12 +520,14 @@ s32 ApplyKartContact(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseS
         if (forwardDot > 0) {
             kart->mSpeedLimitHitFactor = 0x4cd;
             if (kart->mSurfaceGroup != 0xb && kart->mSurfaceGroup != 8) {
-                kart->mUnk_48 &= 0xdfe77fdf;
+                kart->mDriveFlags &= ~(KART_DRIVE_BOOST | KART_DRIVE_RACE_START_BOOST | KART_DRIVE_MINI_TURBO |
+                                       KART_DRIVE_KINOKO_BOOST | KART_DRIVE_ITEM_BOOST);
                 kart->mBoostTimer = 0;
                 kart->mItemEffectData.mKinokoBoostTimer = 0;
                 kart->mMiniTurboTimer = 0;
-                if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-                    if (!(kart->mUnk_4c & 0x10000000) && !(kart->mUnk_48 & 0x4000000)) {
+                if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
+                    if (!(kart->mEffectFlags & KART_EFFECT_KILLER) &&
+                        !(kart->mDriveFlags & KART_DRIVE_SCALE_TABLE_EFFECT)) {
                         ResetCameraHalfFovAngleGoal();
                     }
                     StopDispCapBlend();
@@ -546,7 +551,7 @@ s32 ApplyKartContact(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseS
                 kart->mHeadingAnglePerFrame = headingAnglePerFrame;
             }
         }
-        if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && kart->mVelocityLength > 0x3000 && value == 2) {
+        if ((kart->mEntryFlags & KART_ENTRY_SELECTED) && kart->mVelocityLength > 0x3000 && value == 2) {
             GetEntryKartCounters()->mCourseContactCount++;
         }
         kart->mTurnAngle = 0;

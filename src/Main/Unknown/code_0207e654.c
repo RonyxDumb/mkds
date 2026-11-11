@@ -37,7 +37,7 @@
 #include "Main/Unknown/code_02077bc0.h"
 
 static inline BOOL IsKartFlagMaskClear(s32 kartIndex) {
-    return (GetKart(kartIndex)->mUnk_7c & (KART_7C_REMOVED | KART_7C_TERESA | 0x400000)) == 0;
+    return (GetKart(kartIndex)->mEntryFlags & (KART_ENTRY_REMOVED | KART_ENTRY_TERESA | KART_ENTRY_PARKED)) == 0;
 }
 
 static inline s32 KartAiGetCurrentTeamIndex(u32 entryIndex) {
@@ -114,9 +114,9 @@ void AdvanceStaffRollPointLinkCursor(PointLinkCursor *pointLinkCursor) {
     }
     if (pointLinkCursor->mKartIndex != 0) {
         if (pointLinkCursor->mLink->mValues[3] == 0) {
-            kart->mUnk_7c &= ~KART_7C_HIDDEN;
+            kart->mEntryFlags &= ~KART_ENTRY_HIDDEN;
         } else {
-            kart->mUnk_7c |= KART_7C_HIDDEN;
+            kart->mEntryFlags |= KART_ENTRY_HIDDEN;
         }
     }
     VEC_Subtract(pointLinkCursor->mLink->mPoint, pointLinkCursor->mPreviousLink->mPoint, &pointLinkCursor->mDirection);
@@ -259,7 +259,7 @@ void AdvanceKartAiAlongLinks(KartAi *kartAi, PointLinkCursor *linkCursor, Kart *
         return;
     }
     if (GetRaceUpdateFramesMod8() == kartAi->mIndex) {
-        if (kartAi->mKart->mUnk_44 & 0x2000) {
+        if (kartAi->mKart->mMotionFlags & KART_MOTION_HIT_VELOCITY) {
             SetKartAiSideOffsetFromKart(kartAi);
         }
         planeNormal = &kart->mUnk_12c;
@@ -278,7 +278,7 @@ void AdvanceKartAiAlongLinks(KartAi *kartAi, PointLinkCursor *linkCursor, Kart *
         kartAi->mTurnAngleDegrees = GetAbsoluteValue(angleDegrees);
     }
     isLinkReached = IsPastPointLink(linkCursor, kartPos);
-    if (isLinkReached == 0 && (kart->mUnk_48 & 0x40000000) == 0) {
+    if (isLinkReached == 0 && (kart->mDriveFlags & KART_DRIVE_BOOST_SURFACE_HELD) == 0) {
         isLinkReached = IsWithinPointLinkDistance(linkCursor, kartPos);
     }
     if (isLinkReached == 0) {
@@ -293,7 +293,7 @@ void AdvanceKartAiAlongLinks(KartAi *kartAi, PointLinkCursor *linkCursor, Kart *
 
 void SetKartAiLinkPosAndAddSideOffset(KartAi *kartAi, PointLinkCursor *linkCursor, Kart *kart) {
     kartAi->mLinkPosWithSideOffset = *linkCursor->mLink->mPoint;
-    if (kart->mUnk_48 & 0x40000000) {
+    if (kart->mDriveFlags & KART_DRIVE_BOOST_SURFACE_HELD) {
         return;
     }
     if (GetRaceUpdateFrames() > 0xb4) {
@@ -332,7 +332,7 @@ s32 ShouldKartAiTargetKart(u32 kartIndex, u32 targetIndex) {
             }
         }
         if (isHumanGhostOrPeer != FALSE || GetNonCpuKartCountOutsideKartTeam(kartIndex) <= 0) {
-            if ((GetKart(targetIndex)->mUnk_7c & 0x402020) == 0) {
+            if ((GetKart(targetIndex)->mEntryFlags & KART_ENTRY_REMOVED_PARKED_OR_TERESA) == 0) {
                 result = TRUE;
             }
         }
@@ -493,20 +493,20 @@ void AdvanceKartAiDrift(KartAi *kartAi) {
         kartAi->mDriftState = 2;
     }
     if (kartAi->mDriftState == 4) {
-        if (kart->mUnk_44 & 2) {
+        if (kart->mMotionFlags & KART_MOTION_HOPPING) {
             if (kartAi->mTurnSide == 1) {
-                kart->mUnk_48 &= ~KART_48_TURN_RIGHT;
-                kart->mUnk_48 |= KART_48_TURN_LEFT;
+                kart->mDriveFlags &= ~KART_DRIVE_TURN_RIGHT;
+                kart->mDriveFlags |= KART_DRIVE_TURN_LEFT;
             } else if (kartAi->mTurnSide == 2) {
-                kart->mUnk_48 &= ~KART_48_TURN_LEFT;
-                kart->mUnk_48 |= KART_48_TURN_RIGHT;
+                kart->mDriveFlags &= ~KART_DRIVE_TURN_LEFT;
+                kart->mDriveFlags |= KART_DRIVE_TURN_RIGHT;
             }
         } else {
             kartAi->mDriftState = 0;
             kartAi->mTurnSide = 0;
         }
     }
-    if (kartAi->mDriftState == 3 && (kart->mUnk_44 & KART_44_ON_GROUND)) {
+    if (kartAi->mDriftState == 3 && (kart->mMotionFlags & KART_MOTION_ON_GROUND)) {
         planeNormal = &kart->mUnk_12c;
         kartForward = &kart->mUnk_138;
         VEC_Subtract(&kartAi->mLinkPosWithSideOffset, &kart->mPos, &flatOffsetToLink);
@@ -552,19 +552,19 @@ void AdvanceKartAiDrift(KartAi *kartAi) {
         } else {
             kartAi->mTurnSide = 2;
         }
-        kart->mUnk_44 |= 0x20000000;
+        kart->mMotionFlags |= KART_MOTION_AI_DRIFT_REQUEST;
         return;
     }
     if (kartAi->mDriftState != 2) {
         return;
     }
-    if (kart->mUnk_44 & 2) {
+    if (kart->mMotionFlags & KART_MOTION_HOPPING) {
         if (kartAi->mTurnSide == 1) {
-            kart->mUnk_48 &= ~KART_48_TURN_RIGHT;
-            kart->mUnk_48 |= KART_48_TURN_LEFT;
+            kart->mDriveFlags &= ~KART_DRIVE_TURN_RIGHT;
+            kart->mDriveFlags |= KART_DRIVE_TURN_LEFT;
         } else if (kartAi->mTurnSide == 2) {
-            kart->mUnk_48 &= ~KART_48_TURN_LEFT;
-            kart->mUnk_48 |= KART_48_TURN_RIGHT;
+            kart->mDriveFlags &= ~KART_DRIVE_TURN_LEFT;
+            kart->mDriveFlags |= KART_DRIVE_TURN_RIGHT;
         }
     }
     RequestBits(kart->mEntryIndex, PAD_KEY_R);
@@ -582,7 +582,8 @@ void AdvanceKartAiDrift(KartAi *kartAi) {
     }
     kartAi->mSideOffset = data_usa_021557d0;
     kartAi->mSideOffsetRatio = 0;
-    if (!(kart->mUnk_44 & 0xc00c0)) {
+    if (!(kart->mMotionFlags & (KART_MOTION_OBJECT_CONTACT | KART_MOTION_COURSE_CONTACT | KART_MOTION_MOVED_BY_OBJECT |
+                                KART_MOTION_NEAR_KART_HELD))) {
         dotProduct = kart->mVelocityLength;
         if (dotProduct > MUL_FIXED12_NO_ROUND(kart->mPhysicalParam->mBaseSpeedLimit, 0x8cd)) {
             return;
@@ -700,7 +701,8 @@ void AdvanceKartAiContactStages(KartAi *kartAi) {
     kart = kartAi->mKart;
     {
         BOOL isTriggered;
-        if ((kart->mUnk_44 & 0xc0) && kart->mVelocityLength < 0x3000) {
+        if ((kart->mMotionFlags & (KART_MOTION_OBJECT_CONTACT | KART_MOTION_COURSE_CONTACT)) &&
+            kart->mVelocityLength < 0x3000) {
             isTriggered = TRUE;
         } else {
             isTriggered = FALSE;

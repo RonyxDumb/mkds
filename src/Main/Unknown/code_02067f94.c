@@ -14,18 +14,19 @@ void StartKartPushFlipOnHit(Kart *kart, const Vec3 *direction) {
     u32 kartBits;
     s32 state;
 
-    kartBits = kart->mUnk_4c;
-    if ((kartBits & KART_4C_BLINK_GUARD) != 0) {
+    kartBits = kart->mEffectFlags;
+    if ((kartBits & KART_EFFECT_BLINK_GUARD) != 0) {
         canStart = 0;
-    } else if ((kart->mUnk_7c & 0x200) != 0) {
-        if (kart->mState == KART_STATE_NORMAL && (kart->mUnk_48 & 0x1800) == 0 && (kartBits & 0x10000040) == 0) {
+    } else if ((kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) != 0) {
+        if (kart->mState == KART_STATE_NORMAL && (kart->mDriveFlags & KART_DRIVE_RESPAWNING) == 0 &&
+            (kartBits & KART_EFFECT_STAR_OR_KILLER) == 0) {
             canStart = 1;
         } else {
             canStart = 0;
         }
     } else {
         isBlocked = TRUE;
-        if ((kartBits & 0x10000040) == 0 && (kart->mUnk_48 & 0x1800) == 0) {
+        if ((kartBits & KART_EFFECT_STAR_OR_KILLER) == 0 && (kart->mDriveFlags & KART_DRIVE_RESPAWNING) == 0) {
             inOtherState = 0;
             state = kart->mState;
             if (state != KART_STATE_NORMAL && state != KART_STATE_1 && state != KART_STATE_SPIN) {
@@ -46,20 +47,20 @@ void StartKartPushFlipOnHit(Kart *kart, const Vec3 *direction) {
     if (started == FALSE) {
         return;
     }
-    if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
+    if ((kart->mEntryFlags & KART_ENTRY_SELECTED) != 0) {
         GetEntryKartCounters()->mMapObjectHitCount++;
     }
-    kart->mUnk_48 |= 0x20000;
+    kart->mDriveFlags |= KART_DRIVE_HIT_STATE;
 }
 
 void StartKartPushFlipOnHitByMapObject(Kart *kart, s32 direction, MapObject *mapObject) {
     if (TryStartKartState4(kart, mapObject) == FALSE) {
         return;
     }
-    if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
+    if ((kart->mEntryFlags & KART_ENTRY_SELECTED) != 0) {
         GetEntryKartCounters()->mMapObjectHitCount++;
     }
-    kart->mUnk_48 |= 0x20000;
+    kart->mDriveFlags |= KART_DRIVE_HIT_STATE;
 }
 
 void StartKartPushDoubleFlipOnHit(Kart *kart, const Vec3 *direction) {
@@ -70,18 +71,19 @@ void StartKartPushDoubleFlipOnHit(Kart *kart, const Vec3 *direction) {
     u32 kartBits;
     s32 state;
 
-    kartBits = kart->mUnk_4c;
-    if ((kartBits & KART_4C_BLINK_GUARD) != 0) {
+    kartBits = kart->mEffectFlags;
+    if ((kartBits & KART_EFFECT_BLINK_GUARD) != 0) {
         canStart = 0;
-    } else if ((kart->mUnk_7c & 0x200) != 0) {
-        if (kart->mState == KART_STATE_NORMAL && (kart->mUnk_48 & 0x1800) == 0 && (kartBits & 0x10000040) == 0) {
+    } else if ((kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) != 0) {
+        if (kart->mState == KART_STATE_NORMAL && (kart->mDriveFlags & KART_DRIVE_RESPAWNING) == 0 &&
+            (kartBits & KART_EFFECT_STAR_OR_KILLER) == 0) {
             canStart = 1;
         } else {
             canStart = 0;
         }
     } else {
         isBlocked = TRUE;
-        if ((kartBits & 0x10000040) == 0 && (kart->mUnk_48 & 0x1800) == 0) {
+        if ((kartBits & KART_EFFECT_STAR_OR_KILLER) == 0 && (kart->mDriveFlags & KART_DRIVE_RESPAWNING) == 0) {
             inOtherState = 0;
             state = kart->mState;
             if (state != KART_STATE_NORMAL && state != KART_STATE_1 && state != KART_STATE_SPIN) {
@@ -102,8 +104,8 @@ void StartKartPushDoubleFlipOnHit(Kart *kart, const Vec3 *direction) {
     if (started == FALSE) {
         return;
     }
-    if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
+    if ((kart->mEntryFlags & KART_ENTRY_SELECTED) != 0) {
         GetEntryKartCounters()->mMapObjectHitCount++;
     }
-    kart->mUnk_48 |= 0x20000;
+    kart->mDriveFlags |= KART_DRIVE_HIT_STATE;
 }

@@ -55,20 +55,22 @@ void DrawKart(Kart *kart) {
     MtxFx33 rotationMatrix;
     Vec3 translation;
 
-    kartFlags = kart->mUnk_4c;
-    hasKartFlag = (kartFlags & 0x10) != 0;
-    kartStatus = kart->mUnk_7c;
+    kartFlags = kart->mEffectFlags;
+    hasKartFlag = (kartFlags & KART_EFFECT_TUMBLING) != 0;
+    kartStatus = kart->mEntryFlags;
     modelsEntry = kart->mKartModelsEntry;
-    if ((kartStatus & 0x1008040) != 0 || (kartFlags & (0x10000000 | KART_4C_OUT_OF_VIEW | KART_4C_BLINK_HIDDEN)) != 0) {
+    if ((kartStatus & (KART_ENTRY_HIDDEN | KART_ENTRY_NOT_DRAWN | KART_ENTRY_NOT_DRAWN_PARKED)) != 0 ||
+        (kartFlags & (KART_EFFECT_KILLER | KART_EFFECT_OUT_OF_VIEW | KART_EFFECT_BLINK_HIDDEN)) != 0) {
         killerItemShown = 0;
-        if ((kartStatus & 0x1008040) == 0 && (kartFlags & (KART_4C_OUT_OF_VIEW | KART_4C_BLINK_HIDDEN)) == 0) {
+        if ((kartStatus & (KART_ENTRY_HIDDEN | KART_ENTRY_NOT_DRAWN | KART_ENTRY_NOT_DRAWN_PARKED)) == 0 &&
+            (kartFlags & (KART_EFFECT_OUT_OF_VIEW | KART_EFFECT_BLINK_HIDDEN)) == 0) {
             killerItemShown = DrawKartKillerItem(kart);
         }
         SetKartKillerEffectShown(kart->mIndex, killerItemShown);
         kart->mVisible = 0;
         return;
     }
-    if ((kartStatus & 0x404004) != 0) {
+    if ((kartStatus & (KART_ENTRY_GHOST | KART_ENTRY_TRANSLUCENT | KART_ENTRY_PARKED)) != 0) {
         kart->mVisible = ~kart->mVisible;
         if (kart->mVisible == 0) {
             return;

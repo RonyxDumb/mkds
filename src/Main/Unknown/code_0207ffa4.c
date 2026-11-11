@@ -35,7 +35,7 @@
 void StartKartAheadEffectIfSelectedEntry(Kart *kart) {
     ParticleEmitter *effect;
 
-    if (!(kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
+    if (!(kart->mEntryFlags & KART_ENTRY_SELECTED)) {
         return;
     }
     if (gKartAheadEffects[kart->mIndex] != NULL) {
@@ -198,7 +198,7 @@ void AdvancePointLinkCursor(PointLinkCursor *pointLinkCursor) {
     u32 randomValue;
     RandomState64 *kartAiRandom;
 
-    if (!(GetKart(pointLinkCursor->mKartIndex)->mUnk_4c & 0x10000000)) {
+    if (!(GetKart(pointLinkCursor->mKartIndex)->mEffectFlags & KART_EFFECT_KILLER)) {
         nextLinkCount = pointLinkCursor->mLink->mNextCount;
         if (nextLinkCount > 1) {
             kartAiRandom = GetKartAiRandom();
@@ -372,7 +372,7 @@ void AdvanceBattlePointLinkCursor(LinkCursor *linkCursor, Vec3 *position, Vec3 *
             }
         } else if (targetKartIndex != -1) {
             lowestCount = (u16) lowestCount;
-            if (GetKart(targetKartIndex)->mUnk_4c & 0x40) {
+            if (GetKart(targetKartIndex)->mEffectFlags & KART_EFFECT_STAR) {
                 targetFlagged = TRUE;
             } else {
                 targetFlagged = FALSE;

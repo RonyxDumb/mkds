@@ -46,11 +46,11 @@ void UpdateKartItems(KartItems *kartItems) {
     }
     kartItems->mKinokoBoostStarted = FALSE;
     if (kartItems->mUnk_20c != FALSE) {
-        if (IsKartNotNormalOrFlagged(kart) == FALSE && !(kart->mUnk_48 & 0x10000) &&
-            (kart->mUnk_44 & KART_44_ON_GROUND)) {
+        if (IsKartNotNormalOrFlagged(kart) == FALSE && !(kart->mDriveFlags & KART_DRIVE_KEYED_PLACEMENT) &&
+            (kart->mMotionFlags & KART_MOTION_ON_GROUND)) {
             kartItems->mUnk_20c = FALSE;
         }
-    } else if (IsKartNotNormalOrFlagged(kart) != FALSE || (kart->mUnk_48 & 0x10000)) {
+    } else if (IsKartNotNormalOrFlagged(kart) != FALSE || (kart->mDriveFlags & KART_DRIVE_KEYED_PLACEMENT)) {
         kartItems->mUnk_20c = TRUE;
     } else {
         AddKartItemUseFlags(kartItems);

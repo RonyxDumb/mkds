@@ -13,8 +13,9 @@
 #include "Main/Unknown/code_02077bc0.h"
 
 // Copies row 1 of the matrix at 0x120 (mUnk_120_m), the kart's up direction, to the out vector. The camera takes it as
-// its up while bit 0x40000000 of mUnk_48 is set and the world up (0, 0x1000, 0) otherwise; the steering code removes
-// this component from vectors. The kart has two more matrices (0x150 and 0x184), built from this one for drawing.
+// its up while KART_DRIVE_BOOST_SURFACE_HELD is set in mDriveFlags and the world up (0, 0x1000, 0) otherwise; the
+// steering code removes this component from vectors. The kart has two more matrices (0x150 and 0x184), built from this
+// one for drawing.
 void GetKartUp(const Kart *kart, Vec3 *upDirection) {
     const MtxFx43 *matrix;
 
@@ -37,11 +38,11 @@ void GetKartForward(const Kart *kart, Vec3 *forward) {
 }
 
 void CallKartSlot6AndToggleFlag(Kart *kart) {
-    if ((kart->mUnk_7c & 0x400) != 0) {
+    if ((kart->mEntryFlags & KART_ENTRY_WIFI_PEER) != 0) {
         return;
     }
     kart->mSlotFunctions[6](kart);
-    if ((kart->mUnk_7c & 0x200) != 0) {
+    if ((kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) != 0) {
         kart->mParticipantRecordData->mEventToggleFlags ^= 0x10000;
     }
 }
@@ -49,18 +50,18 @@ void CallKartSlot6AndToggleFlag(Kart *kart) {
 void KartAiCallKartSlot6AndToggleFlag(Kart *kart) {
     u32 flagBits;
 
-    flagBits = kart->mUnk_7c & 0x400;
+    flagBits = kart->mEntryFlags & KART_ENTRY_WIFI_PEER;
     if (flagBits != 0) {
         return;
     }
     if (flagBits == 0) {
         kart->mSlotFunctions[6](kart);
-        if ((kart->mUnk_7c & 0x200) != 0) {
+        if ((kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) != 0) {
             kart->mParticipantRecordData->mEventToggleFlags ^= 0x10000;
         }
     }
     if (gRaceSetup->mMode == MODE_BATTLE) {
-        kart->mUnk_48 &= ~KART_48_OBJECTS_SKIP;
+        kart->mDriveFlags &= ~KART_DRIVE_OBJECTS_SKIP;
     }
 }
 

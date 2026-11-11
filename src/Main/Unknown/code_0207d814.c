@@ -253,7 +253,7 @@ void AdvanceRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, st
         if (speedLimit > 0xa000) {
             speedLimit = 0xa000;
         }
-        if (kart->mUnk_4c & 0x8000000) {
+        if (kart->mEffectFlags & KART_EFFECT_GESSO) {
             speedLimit = MUL_FIXED12_ROUNDED(speedLimit, 0xb33);
         }
         if (kartAi->mDriftState == 0) {
@@ -281,10 +281,10 @@ void AdvanceRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, st
     if (kart->mState != KART_STATE_NORMAL) {
         return;
     }
-    if (kart->mUnk_4c & 0x10000000) {
+    if (kart->mEffectFlags & KART_EFFECT_KILLER) {
         return;
     }
-    if ((kart->mUnk_48 & 0x10000020) == 0) {
+    if ((kart->mDriveFlags & (KART_DRIVE_BOOST | KART_DRIVE_JUMP_PAD)) == 0) {
         kart->mSpeedLimitGoal = raceSpeedLimit->mSpeedLimit;
     }
 }
@@ -351,9 +351,9 @@ void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, 
         limitTable = data_usa_0217ae34;
     }
     value = limitTable[rank - 1];
-    tableIndices[2] = MUL_FIXED12_NO_ROUND(value, kartAiParamRow->mUnk_04);
+    tableIndices[2] = MUL_FIXED12_NO_ROUND(value, kartAiParamRow->mGapTableScale);
     if (IsOneKartNotHumanOrPeer() != 0) {
-        rank = kartAiParamRow->mUnk_04;
+        rank = kartAiParamRow->mGapTableScale;
         otherKartIndex = GetKartAtNonCpuRank();
         if (otherKartIndex >= 0) {
             gap = GetKartRaceProgressScaled(kartAi->mIndex);
@@ -398,7 +398,7 @@ void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, 
                     otherKartIndex = GetKind1KartAheadOfRank(rank);
                     if (otherKartIndex >= 0) {
                         Kart *otherKart = GetKart(otherKartIndex);
-                        s32 rowValue = kartAiParamRow->mUnk_08;
+                        s32 rowValue = kartAiParamRow->mSpeedLimitFloor;
 
                         if (otherKart->mAi->mRaceSpeedLimit.mSpeedLimit > MUL_FIXED12_NO_ROUND(rowValue, 0xcd0)) {
                             gap = GetKartRaceProgressScaled((u16) otherKartIndex) - progress;
@@ -419,8 +419,8 @@ void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, 
             raceSpeedLimit->mSpeedLimitBeforeTurn = speedLimitCap;
         }
     } else {
-        if (raceSpeedLimit->mSpeedLimitBeforeTurn < kartAiParamRow->mUnk_08) {
-            raceSpeedLimit->mSpeedLimitBeforeTurn = kartAiParamRow->mUnk_08;
+        if (raceSpeedLimit->mSpeedLimitBeforeTurn < kartAiParamRow->mSpeedLimitFloor) {
+            raceSpeedLimit->mSpeedLimitBeforeTurn = kartAiParamRow->mSpeedLimitFloor;
         }
     }
 }

@@ -223,7 +223,7 @@ void LoadArchiveSlot(s32 slotIndex, const char *path, u32 *sourceData, void *dat
     request->mSlotIndex = slotIndex;
     request->mSourceData = sourceData;
     request->mData = data;
-    request->mUnk_90 = requestValueA;
+    request->mAllocFromHeapEnd = requestValueA;
     request->mUncompressSource = uncompressSource;
     request->mUnk_9c = requestValueB;
     if (gBootInfo->mBootType == 2) {
@@ -268,7 +268,7 @@ void UncompressArchiveFile(void) {
     if (uncompressedSize > 0x200000) {
         return;
     }
-    if (request->mUnk_90 != 0) {
+    if (request->mAllocFromHeapEnd != 0) {
         request->mData = HeapAllocAligned(GetHeap(GetCurrentHeapCall()), uncompressedSize, -0x20);
     } else {
         request->mData = HeapAllocAligned(GetHeap(GetCurrentHeapCall()), uncompressedSize, 0x20);
@@ -290,7 +290,7 @@ void UncompressArchiveMemory(void) {
 
     request = &gArchiveSlots->mLoadRequest;
     uncompressedSize = *request->mSourceData >> 8;
-    if (request->mUnk_90 != 0) {
+    if (request->mAllocFromHeapEnd != 0) {
         request->mData = HeapAllocAligned(GetHeap(GetCurrentHeapCall()), uncompressedSize, -0x20);
     } else {
         request->mData = HeapAllocAligned(GetHeap(GetCurrentHeapCall()), uncompressedSize, 0x20);

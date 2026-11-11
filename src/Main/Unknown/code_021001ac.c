@@ -99,13 +99,13 @@ static inline s32 IsItemTeresaTargetKart_inline(KartItems *kartItems, RaceSetup 
     isTarget = TRUE;
     entry = &kartItems[kartIndex];
     kart = entry->mKart;
-    if (kart->mState < KART_STATE_PUSH_FLIP && (kart->mUnk_7c & 0x400020) == 0) {
+    if (kart->mState < KART_STATE_PUSH_FLIP && (kart->mEntryFlags & KART_ENTRY_REMOVED_OR_PARKED) == 0) {
         isTarget = FALSE;
     }
-    if (isTarget == FALSE && (kart->mUnk_4c & 0x10000800) == 0) {
+    if (isTarget == FALSE && (kart->mEffectFlags & (KART_EFFECT_RESPAWN_DROP | KART_EFFECT_KILLER)) == 0) {
         flag = 0;
     }
-    if (flag | ((kart->mUnk_4c & 0x40) ? 1 : 0)) {
+    if (flag | ((kart->mEffectFlags & KART_EFFECT_STAR) ? 1 : 0)) {
         isTarget = FALSE;
     } else if (teamIndex != -1 && teamIndex == raceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex) {
         isTarget = FALSE;
@@ -249,13 +249,13 @@ void PickItemTeresaKartBattle(ItemTeresa *teresa, s32 teamIndex) {
             entry = &kartItems[kartIndex];
             kart = entry->mKart;
             flag = isTarget = 1;
-            if (kart->mState < KART_STATE_PUSH_FLIP && (kart->mUnk_7c & 0x400020) == 0) {
+            if (kart->mState < KART_STATE_PUSH_FLIP && (kart->mEntryFlags & KART_ENTRY_REMOVED_OR_PARKED) == 0) {
                 flag = 0;
             }
-            if (flag == 0 && (kart->mUnk_4c & 0x10000800) == 0) {
+            if (flag == 0 && (kart->mEffectFlags & (KART_EFFECT_RESPAWN_DROP | KART_EFFECT_KILLER)) == 0) {
                 isTarget = 0;
             }
-            if (isTarget | ((kart->mUnk_4c & 0x40) ? 1 : 0)) {
+            if (isTarget | ((kart->mEffectFlags & KART_EFFECT_STAR) ? 1 : 0)) {
                 isTarget = 0;
             } else if (teamIndex != -1 && teamIndex == raceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex) {
                 isTarget = 0;
@@ -329,10 +329,10 @@ void PlaceItemTeresaAtKart(ItemTeresa *teresa, s32 shiftAlongCameraSide) {
     camera = GetCurrentCamera();
     position = &teresa->mItemObject.mPos;
     flag = isTarget = TRUE;
-    if (kart->mState < KART_STATE_PUSH_FLIP && (kart->mUnk_7c & 0x400020) == 0) {
+    if (kart->mState < KART_STATE_PUSH_FLIP && (kart->mEntryFlags & KART_ENTRY_REMOVED_OR_PARKED) == 0) {
         flag = 0;
     }
-    if (flag == 0 && (kart->mUnk_4c & 0x10000800) == 0) {
+    if (flag == 0 && (kart->mEffectFlags & (KART_EFFECT_RESPAWN_DROP | KART_EFFECT_KILLER)) == 0) {
         isTarget = FALSE;
     }
     if (isTarget != FALSE) {
@@ -400,7 +400,7 @@ void EnterItemTeresaState0(ItemTeresa *teresa) {
         (Vec3){0, MUL_FIXED12_ROUNDED(teresa->mKart->mPhysicalParam->mRadius, teresa->mKart->mScale.z), 0};
     teresa->mOffsetVelocityY = 0;
     teresa->mItemObject.mAlpha = 0x1f;
-    if (teresa->mKart->mUnk_48 & KART_48_ON_BOOST_SURFACE) {
+    if (teresa->mKart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) {
         teresa->mItemObject.mPosPointer = &teresa->mItemObject.mDrawPos;
     }
 }
@@ -607,7 +607,7 @@ void EnterItemTeresaState2(ItemTeresa *teresa) {
         teresa->mKartVelocity = teresa->mKart->mVelocity;
         teresa->mFollowEnded = FALSE;
         StartEntryKartSound(teresa->mKart, 0xf4);
-        if (teresa->mKart->mUnk_48 & KART_48_ON_BOOST_SURFACE) {
+        if (teresa->mKart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) {
             teresa->mItemObject.mPosPointer = &teresa->mItemObject.mDrawPos;
         }
     }
@@ -640,13 +640,13 @@ s32 RemoveItemTeresaPickedKartItem(ItemTeresa *teresa) {
         return 0xf;
     }
     flag = isTarget = 1;
-    if (kart->mState < KART_STATE_PUSH_FLIP && (kart->mUnk_7c & 0x400020) == 0) {
+    if (kart->mState < KART_STATE_PUSH_FLIP && (kart->mEntryFlags & KART_ENTRY_REMOVED_OR_PARKED) == 0) {
         flag = 0;
     }
-    if (flag == 0 && (kart->mUnk_4c & 0x10000800) == 0) {
+    if (flag == 0 && (kart->mEffectFlags & (KART_EFFECT_RESPAWN_DROP | KART_EFFECT_KILLER)) == 0) {
         isTarget = 0;
     }
-    if (isTarget | ((kart->mUnk_4c & 0x40) ? 1 : 0)) {
+    if (isTarget | ((kart->mEffectFlags & KART_EFFECT_STAR) ? 1 : 0)) {
         return 0xf;
     }
     if (teresa->mItemObject.mFlags & 0x8000000) {
@@ -855,8 +855,8 @@ void EnterItemTeresaState5(ItemTeresa *teresa) {
         StartEntryKartSound(teresa->mKart, 0xf7);
     }
     teresa->mStallFrames = 0;
-    positionFunction = (teresa->mKart->mUnk_48 & KART_48_ON_BOOST_SURFACE) ? SetItemTeresaPosPointerToDrawPos
-                                                                           : RestoreItemTeresaPosPointer;
+    positionFunction = (teresa->mKart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) ? SetItemTeresaPosPointerToDrawPos
+                                                                                  : RestoreItemTeresaPosPointer;
     positionFunction(teresa);
 }
 

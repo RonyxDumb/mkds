@@ -391,7 +391,8 @@ void UpdateDonketu(u32 mapObjectList, MissionRunMapObject *donketu) {
                     prm = donketu->mPrm;
                     kart = GetEntryKartFacingObject(donketu, prm->mUnk_140, prm->mUnk_144);
                     if (kart != NULL) {
-                        if ((GetKart(kart->mIndex)->mUnk_48 & 0x100000) != 0 && kart->mBoostTimer > 0) {
+                        if ((GetKart(kart->mIndex)->mDriveFlags & KART_DRIVE_KINOKO_BOOST) != 0 &&
+                            kart->mBoostTimer > 0) {
                             StartDonketuJumpWaitState(donketu);
                         }
                     }

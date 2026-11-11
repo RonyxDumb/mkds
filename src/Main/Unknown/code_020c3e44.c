@@ -668,9 +668,9 @@ void UpdateRaceTaPositions(void) {
                     ? RACE_HUD_PRIORITY_OUTSIDE_BOX
                     : RACE_HUD_PRIORITY_INSIDE_BOX;
             gRaceTaPositions->mSamples[kartIndex][0].mAngle = GetRaceHudSubScreenKartAngle(kartIndex);
-            if ((kart->mUnk_44 & 0xa) != 0) {
+            if ((kart->mMotionFlags & (KART_MOTION_HOPPING | KART_MOTION_DRIFTING)) != 0) {
                 gRaceTaPositions->mSamples[kartIndex][0].mKind = 2;
-            } else if ((kart->mUnk_48 & 0x80020) != 0) {
+            } else if ((kart->mDriveFlags & (KART_DRIVE_BOOST | KART_DRIVE_MINI_TURBO)) != 0) {
                 gRaceTaPositions->mSamples[kartIndex][0].mKind = 3;
             } else {
                 gRaceTaPositions->mSamples[kartIndex][0].mKind = 1;

@@ -375,8 +375,8 @@ void FinishRaceProgressKartWithEndKind(s32 kartIndex, s32 endKind) {
     raceProgressKart->mLapTimes[5] = finishTime;
     if ((raceProgressKart->mFlags & RACE_PROGRESS_KART_FLAG_LOCAL_ENTRY) != 0) {
         gRaceProgress->mEntryEndKind = endKind;
-        kart->mUnk_7c |= 0x20000000;
-        kart->mUnk_48 &= ~0x2000000;
+        kart->mEntryFlags |= KART_ENTRY_OUT_OF_ROUND;
+        kart->mDriveFlags &= ~KART_DRIVE_RESPAWN_LANDING;
         if (endKind == 0) {
             raceProgressKart->mFlags |= RACE_PROGRESS_KART_FLAG_GOAL_WAIT;
             gRaceProgress->mFramesSinceFinish = 0;

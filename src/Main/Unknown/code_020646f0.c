@@ -48,7 +48,7 @@ void PlaceKartAtStartPlacement(Kart *kart, s32 useCourseMapRecord) {
             startRotation = courseMap->mRaceEndPlacements->mRotation;
         }
     }
-    if ((kart->mUnk_7c & 0x600) != 0) {
+    if ((kart->mEntryFlags & KART_ENTRY_WIFI_ANY) != 0) {
         snappedX = kart->mPos.x >> 10;
         snappedY = kart->mPos.y >> 10;
         snappedZ = kart->mPos.z >> 10;

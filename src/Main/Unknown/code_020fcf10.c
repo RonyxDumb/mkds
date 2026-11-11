@@ -21,7 +21,7 @@ void SteerItemKouraWToAnglePoint(ItemKouraW *item, s32 maxStep, s32 angle, s32 r
     pos = &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos;
     velocity = &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity;
     toTarget = &item->mToTarget;
-    if (kart->mUnk_44 & KART_44_REVERSING) {
+    if (kart->mMotionFlags & KART_MOTION_REVERSING) {
         item->mKartForward.x = -item->mKartForward.x;
         item->mKartForward.y = -item->mKartForward.y;
         item->mKartForward.z = -item->mKartForward.z;
@@ -60,7 +60,7 @@ void SteerItemKouraWToAnglePoint(ItemKouraW *item, s32 maxStep, s32 angle, s32 r
                                 &vector, NULL, NULL, NULL, NULL, NULL, NULL, NULL) == 0) {
         return;
     }
-    if ((kart->mUnk_48 & KART_48_ON_BOOST_SURFACE) == 0) {
+    if ((kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) == 0) {
         pos->y += vector.y;
         return;
     }

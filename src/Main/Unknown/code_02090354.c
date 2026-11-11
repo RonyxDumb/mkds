@@ -545,7 +545,7 @@ void AdvanceKartKillerAlongPointLinks(KartKillerCursor *kartKillerCursor) {
     position = kart->mPos;
     kartKillerCursor->mAngleToLinkDegrees = ComputeAngleToPositionDegrees(
         kartKillerCursor->mPointLinkCursor.mLink->mPoint, &position, &kart->mUnk_12c, &kart->mUnk_138);
-    if ((kart->mUnk_48 & 0x40000000) != 0 && kart->mSurfaceVariant == 1) {
+    if ((kart->mDriveFlags & KART_DRIVE_BOOST_SURFACE_HELD) != 0 && kart->mSurfaceVariant == 1) {
         isPastOrNearLink = IsPastPointLink(&kartKillerCursor->mPointLinkCursor, &position);
     } else {
         isPastOrNearLink = IsPastPointLink(&kartKillerCursor->mPointLinkCursor, &position);
@@ -575,7 +575,7 @@ void TurnKartKillerTowardPointLink(KartKillerCursor *kartKillerCursor) {
     s32 entryIndex;
     kart = GetKart(kartKillerCursor->mKillerKartIndex);
     angleToLinkDegrees = kartKillerCursor->mAngleToLinkDegrees;
-    if ((kart->mUnk_44 & KART_44_ON_GROUND) != 0) {
+    if ((kart->mMotionFlags & KART_MOTION_ON_GROUND) != 0) {
         turnFactor = 0x19a;
     } else {
         turnFactor = 0x52;
@@ -614,7 +614,7 @@ BOOL AdvanceKartKillerEndCount(KartKillerCursor *kartKillerCursor) {
         isCounting = TRUE;
     }
     kart = GetKart(kartKillerCursor->mKillerKartIndex);
-    if ((kart->mUnk_44 & 0xc0) != 0) {
+    if ((kart->mMotionFlags & (KART_MOTION_OBJECT_CONTACT | KART_MOTION_COURSE_CONTACT)) != 0) {
         isCounting = TRUE;
         kartKillerCursor->mEndCountHoldTimer = 5;
     }

@@ -85,7 +85,7 @@ void AdvanceBattleKartAiSpeedLimit(KartAiSpeedLimit *kartAiSpeedLimit, KartAi *k
     if (kart->mState != KART_STATE_NORMAL) {
         return;
     }
-    if ((kart->mUnk_48 & 0x10000020) == 0) {
+    if ((kart->mDriveFlags & (KART_DRIVE_BOOST | KART_DRIVE_JUMP_PAD)) == 0) {
         kart->mSpeedLimitGoal = kartAiSpeedLimit->mSpeedLimit;
     }
 }
@@ -276,7 +276,8 @@ void AdvanceBattleKartAiAlongPointLinks(KartAi *kartAi) {
     kartForward = &kart->mUnk_138;
     requestedLink = linkCursor->mRequestedLink;
     GetKartPos(&kartPos, kartAi->mIndex);
-    if (kart->mUnk_48 & 0x3840) {
+    if (kart->mDriveFlags &
+        (KART_DRIVE_SINKING | KART_DRIVE_RESPAWN_WAIT | KART_DRIVE_RESPAWN_FALL | KART_DRIVE_SLOWING_STOP)) {
         return;
     }
     if (requestedLink != NULL && linkCursor->mLink != requestedLink) {
@@ -431,7 +432,7 @@ void AdvanceBattleKartAiTargetKart(KartAi *kartAi) {
     }
     kartItems = &gKartItems[kartIndex];
     if (kartItems->mItemInUse.mObjectKind == 0xf && kartItems->mHeldItem.mItemInfoIndex == 0x13 &&
-        (kartAi->mKart->mUnk_4c & 0x40) == 0) {
+        (kartAi->mKart->mEffectFlags & KART_EFFECT_STAR) == 0) {
         goto clear;
     }
     if (IsKartTargetable(kartAi->mTargetKart->mIndex) == FALSE) {
@@ -468,12 +469,12 @@ void AdvanceBattleKartAiTargetKart(KartAi *kartAi) {
         kartItems = &gKartItems[kartAi->mIndex];
         value = 1;
         if (kartItems->mItemInUse.mObjectKind == 0xf && kartItems->mHeldItem.mItemInfoIndex == 0x13) {
-            if ((GetKart(kartAi->mIndex)->mUnk_4c & 0x40) == 0) {
+            if ((GetKart(kartAi->mIndex)->mEffectFlags & KART_EFFECT_STAR) == 0) {
                 value = 0;
             }
         }
         kartFlag = value != 0 ? 1 : 0;
-        targetFlag = (kartAi->mTargetKart->mUnk_4c & 0x40) != 0 ? 1 : 0;
+        targetFlag = (kartAi->mTargetKart->mEffectFlags & KART_EFFECT_STAR) != 0 ? 1 : 0;
         if (kartFlag != 0 && targetFlag == 0 && kartAi->mTargetForwardDot > 0xb33) {
             targetPos = kartAi->mTargetKart->mPos;
             targetPos.y = kartAi->mLinkPosWithSideOffset.y;

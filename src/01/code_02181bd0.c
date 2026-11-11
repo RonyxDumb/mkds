@@ -324,7 +324,7 @@ u8 CollideKartWithCoin(Coin *coin, Kart *kart, u8 *firstResponsePtr, u8 *secondR
     u8 firstResponse = *firstResponsePtr;
     u8 secondResponse = *secondResponsePtr;
 
-    if (kart->mUnk_48 & KART_48_OBJECTS_SKIP) {
+    if (kart->mDriveFlags & KART_DRIVE_OBJECTS_SKIP) {
         return 0;
     }
     if (firstResponse == 1) {

@@ -38,7 +38,7 @@ void InitItemObjectThrow(void *objectParam, ItemInUse *inUseParam, s32 hitLimit,
     if (throwForward == 0) {
         VEC_Add(&object->mItemObject.mVelocity, &inUse->mKart->mPointMotion, &object->mItemObject.mVelocity);
     }
-    if (inUse->mKart->mUnk_48 & KART_48_ON_BOOST_SURFACE) {
+    if (inUse->mKart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) {
         dot = VEC_DotProduct(&inUse->mKartOrientation.mRows[1], &object->mItemObject.mVelocity);
         {
             s32 alongX, alongY, alongZ;

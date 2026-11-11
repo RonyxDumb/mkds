@@ -56,16 +56,16 @@ void AdvanceKartCharacterAnimation(Kart *kart) {
     animationState = &modelsEntry->mAnimationState;
     characterAnimation = modelsEntry->mCharacterAnimation;
     turnFrameLimit = animationState->mMiddleFrame;
-    turnFrameStep = (kart->mUnk_44 & KART_44_DRIFTING) != 0 ? 0x2000 : 0x1000;
-    bits48 = kart->mUnk_48;
-    if ((bits48 & KART_48_TURN_LEFT) != 0) {
+    turnFrameStep = (kart->mMotionFlags & KART_MOTION_DRIFTING) != 0 ? 0x2000 : 0x1000;
+    bits48 = kart->mDriveFlags;
+    if ((bits48 & KART_DRIVE_TURN_LEFT) != 0) {
         if (gRaceSetup->mRaceKind != RACE_KIND_STAFF_ROLL) {
             animationState->mTurnFrameOffset += turnFrameStep;
             if (animationState->mTurnFrameOffset > turnFrameLimit) {
                 animationState->mTurnFrameOffset = turnFrameLimit;
             }
         }
-    } else if ((bits48 & KART_48_TURN_RIGHT) != 0) {
+    } else if ((bits48 & KART_DRIVE_TURN_RIGHT) != 0) {
         if (gRaceSetup->mRaceKind != RACE_KIND_STAFF_ROLL) {
             turnFrameLimit *= -1;
             animationState->mTurnFrameOffset -= turnFrameStep;
@@ -142,8 +142,8 @@ void StartKartWinOrLoseAnimation(Kart *kart) {
     isRuleKindWinner = 0;
     value = gRaceSetup->mKartCount;
 
-    bits7c = kart->mUnk_7c;
-    if ((bits7c & 0x10) == 0) {
+    bits7c = kart->mEntryFlags;
+    if ((bits7c & KART_ENTRY_HAS_CHARACTER_ANIMATION) == 0) {
         return;
     }
     mode = gRaceSetup->mMode;
@@ -160,18 +160,18 @@ void StartKartWinOrLoseAnimation(Kart *kart) {
                 finishResult = 2;
             } else {
                 finishResult = 0;
-                kart->mUnk_7c |= 0x2000000;
+                kart->mEntryFlags |= KART_ENTRY_WINNER;
                 isRuleKindWinner = flag;
             }
         } else if (kart->mIndex != value) {
             finishResult = 2;
         } else {
             finishResult = 0;
-            kart->mUnk_7c |= 0x2000000;
+            kart->mEntryFlags |= KART_ENTRY_WINNER;
             isRuleKindWinner = flag;
         }
     } else if (mode == MODE_TIME_ATTACK) {
-        if ((bits7c & 4) == 0) {
+        if ((bits7c & KART_ENTRY_GHOST) == 0) {
             if (IsRaceNewRecordTaFinishRecord() != 0 || IsRaceNewRecordTaBestLapRecord() != 0) {
                 finishResult = 0;
             } else {
@@ -187,7 +187,7 @@ void StartKartWinOrLoseAnimation(Kart *kart) {
         SetModelAnimationEntryLoopMode(modelsEntry->mCharacterAnimation, (u16) finishResult, 1);
         SetKartCharacterAnimation(kart, 2, 1);
         if (isRuleKindWinner != 0) {
-            kart->mUnk_7c |= 0x10000;
+            kart->mEntryFlags |= KART_ENTRY_RESULT_WON;
         } else {
             animationState->mAnimationChangeTimerSet = TRUE;
             localRandom = &gRaceProgress->mLocalRandom;
@@ -196,10 +196,10 @@ void StartKartWinOrLoseAnimation(Kart *kart) {
             animationState->mAnimationChangeTimer += 0x96;
         }
     } else if (finishResult == 2) {
-        kart->mUnk_7c |= 0x20000;
+        kart->mEntryFlags |= KART_ENTRY_RESULT_LOST;
         SetKartCharacterAnimation(kart, 3, 1);
     }
-    if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
+    if ((kart->mEntryFlags & KART_ENTRY_SELECTED) != 0) {
         normalizedResult = 1;
         if (finishResult != 0) {
             if (finishResult == 2) {
@@ -225,7 +225,7 @@ void AdvanceKartAnimationChangeTimer(Kart *kart) {
         return;
     }
     modelsEntry = kart->mKartModelsEntry;
-    if ((kart->mUnk_7c & KART_7C_HIDDEN) != 0 || modelsEntry->mCharacterAnimation->mCurrentIndex == 2) {
+    if ((kart->mEntryFlags & KART_ENTRY_HIDDEN) != 0 || modelsEntry->mCharacterAnimation->mCurrentIndex == 2) {
         SetKartCharacterAnimation(kart, 0, 1);
     } else if (modelsEntry->mCharacterAnimation->mCurrentIndex == 0) {
         SetKartCharacterAnimation(kart, 2, 1);

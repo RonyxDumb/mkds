@@ -34,11 +34,11 @@ void AllocConnectionBuffers(void *heap, u32 unused, void *bmg) {
         }
         gConnectionWork->mMultiBootSegment = HeapAllocAligned(heap, gConnectionWork->mMultiBootSegmentSize, 0x20);
         SetGameRegistryTexts(bmg);
-        gConnectionWork->mUnk_1668 = HeapAllocAligned(heap, 0x4c0, 0x20);
+        gConnectionWork->mMultiBootScratchBuffer = HeapAllocAligned(heap, 0x4c0, 0x20);
     } else {
         gConnectionWork->mMultiBootSegmentSize = 0;
         gConnectionWork->mMultiBootSegment = 0;
-        gConnectionWork->mUnk_1668 = 0;
+        gConnectionWork->mMultiBootScratchBuffer = 0;
     }
     ResetConnectionBuffers(&gConnectionWork->mUnk_1658_view);
 }
@@ -132,8 +132,8 @@ void ResetConnectionBuffers(MultiBootStateView *view) {
     if (gConnectionWork->mMultiBootWork != 0) {
         MI_CpuFill8(gConnectionWork->mMultiBootWork, 0, gConnectionWork->mMultiBootWorkSize);
     }
-    if (gConnectionWork->mUnk_1668 != 0) {
-        MI_CpuFill8(gConnectionWork->mUnk_1668, 0, 0x4c0);
+    if (gConnectionWork->mMultiBootScratchBuffer != 0) {
+        MI_CpuFill8(gConnectionWork->mMultiBootScratchBuffer, 0, 0x4c0);
     }
     for (index = 0; index < 8; index++) {
         view->mChildStateCodes[index] = 0;

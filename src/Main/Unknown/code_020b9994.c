@@ -581,7 +581,7 @@ void DrawRaceModeCount(RaceHudOamBuffer *oamBuffer) {
                     RACE_PROGRESS_KART_STATUS_BATTLE_LOSER) {
                     return;
                 }
-                if ((GetKart(GetFollowedKartOrEntryIndex())->mUnk_7c & 0x402000) == 0) {
+                if ((GetKart(GetFollowedKartOrEntryIndex())->mEntryFlags & KART_ENTRY_TERESA_OR_PARKED) == 0) {
                     return;
                 }
                 cell = GetRaceBattleMNcerEntry(0xc);

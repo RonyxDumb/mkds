@@ -50,8 +50,8 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
     BOOL rotationExceeded;
 
     secondNormal = gKartVec3UnitY;
-    bit100000WasSet = (kart->mUnk_44 & 0x100000) ? 1 : 0;
-    bit200000WasSet = (kart->mUnk_48 & 0x200000) ? 1 : 0;
+    bit100000WasSet = (kart->mMotionFlags & KART_MOTION_ATTRACTOR_PULL) ? 1 : 0;
+    bit200000WasSet = (kart->mDriveFlags & KART_DRIVE_COURSE_SOUND_PLAYED) ? 1 : 0;
     *groundNormal = kart->mGroundNormal;
     if (StartKartRespawnWaitIfBelowZero(kart) != FALSE) {
         return;
@@ -79,14 +79,14 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
             }
             kart->mCourseHitTimer = 3;
             if (((s32(*)(Kart *, u32, Vec3 *)) data_0217ac14)(kart, collisionFlags, &lowestOffset) != 0 ||
-                (kart->mUnk_44 & 0x4000000)) {
+                (kart->mMotionFlags & KART_MOTION_COURSE_PUSH_STRONG)) {
                 lowestOffsetLength = 0;
                 if (LENGTH_SQUARED(lowestOffset) >= 0x10) {
                     lowestOffsetLength = Vec3NormalizeAndGetLengthUnchecked(&lowestOffset, &pushVector);
                 }
                 if (lowestOffsetLength != 0) {
                     pushStrength = 0x802;
-                    if (kart->mUnk_44 & 0x4000000) {
+                    if (kart->mMotionFlags & KART_MOTION_COURSE_PUSH_STRONG) {
                         pushStrength *= 3;
                     }
                     pushVector.x = -pushVector.x;
@@ -98,26 +98,27 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
                     kart->mCollisionPushVelocity = pushVector;
                     kart->mCollisionPushVelocity.y = -0x19a;
                 }
-                kart->mUnk_44 |= 0x200;
+                kart->mMotionFlags |= KART_MOTION_COURSE_PUSH;
             } else {
                 kart->mCollisionPushVelocity = gKartVec3Zero;
-                kart->mUnk_44 &= ~0x200;
+                kart->mMotionFlags &= ~KART_MOTION_COURSE_PUSH;
             }
         } else {
-            kart->mUnk_44 &= ~0x80;
+            kart->mMotionFlags &= ~KART_MOTION_COURSE_CONTACT;
             if (kart->mCourseHitTimer > 0) {
                 kart->mCourseHitTimer--;
             }
         }
         if (collisionFlags & 0x8c10) {
-            if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && (collisionFlags & 0x10)) {
+            if ((kart->mEntryFlags & KART_ENTRY_SELECTED) && (collisionFlags & 0x10)) {
                 if (bit200000WasSet == 0) {
                     ApplyCourseSoundTableEntry((u16) ((PickCollisionHitValue(0x10) & 0xe0) >> 5));
                 }
-                kart->mUnk_48 |= 0x200000;
+                kart->mDriveFlags |= KART_DRIVE_COURSE_SOUND_PLAYED;
             }
             if (collisionFlags & 0x8c00) {
-                if (!(collisionFlags & 0x400) || !(kart->mUnk_44 & 0x80) || (collisionFlags & 0x800)) {
+                if (!(collisionFlags & 0x400) || !(kart->mMotionFlags & KART_MOTION_COURSE_CONTACT) ||
+                    (collisionFlags & 0x800)) {
                     StartKartRespawnWait(kart, collisionFlags);
                 }
             }
@@ -125,35 +126,37 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
         if (collisionFlags & 0x400000) {
             SetKartItemLinkFromHitValue(&(gKartItems)[kart->mIndex],
                                         (u16) ((PickCollisionHitValue(0x400000) & 0xe0) >> 5));
-            if (kart->mUnk_4c & 0x10000000) {
+            if (kart->mEffectFlags & KART_EFFECT_KILLER) {
                 ResetKartKillerCursorTo(&kart->mItemEffectData.mKillerCursor,
                                         (RacePointLink *) (gKartItems)[kart->mIndex].mItemLink.mLink);
             }
-            if ((kart->mUnk_7c & 2) && (collisionFlags & 0x400000) && kart->mState != KART_STATE_LAUNCH_DOUBLE_FLIP) {
+            if ((kart->mEntryFlags & KART_ENTRY_CPU) && (collisionFlags & 0x400000) &&
+                kart->mState != KART_STATE_LAUNCH_DOUBLE_FLIP) {
                 CallKartAiRequestLink(kart->mAi);
             }
         }
         if (collisionMask != 0) {
             *groundNormal = normal;
             if (LENGTH_SQUARED(*groundNormal) >= 0x10) {
-                kart->mUnk_48 &= ~0x10000000;
+                kart->mDriveFlags &= ~KART_DRIVE_JUMP_PAD;
                 kart->mAirTiltAngleOffset = 0;
                 RefreshKartSurface(kart);
-                if ((collisionFlags & 0x20000) && !(kart->mUnk_4c & 0x10000040) && !(kart->mUnk_7c & 0x402000)) {
-                    kart->mUnk_4c |= 0x40000000;
+                if ((collisionFlags & 0x20000) && !(kart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) &&
+                    !(kart->mEntryFlags & KART_ENTRY_TERESA_OR_PARKED)) {
+                    kart->mEffectFlags |= KART_EFFECT_ATTRACTOR;
                     kart->mAttractorIndex = (PickCollisionHitValue(0x20000) & 0xe0) >> 5;
                 } else {
-                    kart->mUnk_4c &= ~0x40000000;
+                    kart->mEffectFlags &= ~KART_EFFECT_ATTRACTOR;
                 }
                 AdvanceKartQuaternionBlendFactor(kart, groundNormal);
                 if (kart->mVerticalSpeed < 0) {
-                    kart->mVerticalSpeed = (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE) ? -0x2b9 : -0xd9d;
+                    kart->mVerticalSpeed = (kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) ? -0x2b9 : -0xd9d;
                 }
                 ApplyKartLanding(kart, groundNormal);
                 if (collisionFlags & 0x80000000) {
                     kart->mPointMotion.y = 0;
                 }
-                kart->mUnk_44 |= KART_44_ON_GROUND;
+                kart->mMotionFlags |= KART_MOTION_ON_GROUND;
                 if (kart->mForwardSpeed != 0 || TryHoldKartStill(kart, collisionFlags, &hitObjects) == FALSE) {
                     StopKartStillHold(kart);
                     if (((s32(*)(Kart *, u32, Vec3 *)) data_0217ac14)(kart, collisionFlags, &lowestOffset) != 0) {
@@ -163,7 +166,7 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
                         }
                         if (lowestOffsetLength != 0) {
                             pushStrength = 0x802;
-                            if (kart->mUnk_44 & 0x4000000) {
+                            if (kart->mMotionFlags & KART_MOTION_COURSE_PUSH_STRONG) {
                                 pushStrength *= 3;
                             }
                             landingPushVector.x = -landingPushVector.x;
@@ -175,18 +178,18 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
                             kart->mCollisionPushVelocity = landingPushVector;
                             kart->mCollisionPushVelocity.y = -0x19a;
                         }
-                        kart->mUnk_44 |= 0x200;
+                        kart->mMotionFlags |= KART_MOTION_COURSE_PUSH;
                     } else {
                         kart->mCollisionPushVelocity = gKartVec3Zero;
-                        kart->mUnk_44 &= ~0x200;
+                        kart->mMotionFlags &= ~KART_MOTION_COURSE_PUSH;
                     }
                 }
             }
         } else {
-            ClearKartGroundContact(kart, 0x10);
+            ClearKartGroundContact(kart, KART_MOTION_ON_GROUND);
         }
     } else {
-        ClearKartGroundContact(kart, 0x90);
+        ClearKartGroundContact(kart, KART_MOTION_ON_GROUND | KART_MOTION_COURSE_CONTACT);
     }
     if (kart->mLandingTimer > 0) {
         kart->mLandingTimer--;
@@ -194,7 +197,7 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
     if (IsWaterHeightUsed()) {
         ApplyKartWaterDepth(kart);
     }
-    if ((kart->mUnk_4c & 0x40000000) && kart->mState == KART_STATE_NORMAL) {
+    if ((kart->mEffectFlags & KART_EFFECT_ATTRACTOR) && kart->mState == KART_STATE_NORMAL) {
         ApplyKartAttractorPull(kart, groundNormal, bit100000WasSet);
     }
     kart->mAttractorPullSpeed = MUL_FIXED12_NO_ROUND(kart->mAttractorPullSpeed, 0xf33);
@@ -203,7 +206,7 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
         kart->mAttractorPullSpeed = 0;
     }
     UpdateKartAirborne(kart);
-    if (!(kart->mUnk_4c & 0x20)) {
+    if (!(kart->mEffectFlags & KART_EFFECT_Y_SPIN)) {
         return;
     }
     kart->mYRotationAngleSum += kart->mYRotationAnglePerFrame;
@@ -215,10 +218,10 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
     } else {
         kart->mYRotationAngle += kart->mYRotationAnglePerFrame;
     }
-    kart->mUnk_4c |= 2;
+    kart->mEffectFlags |= KART_EFFECT_GROUND_SOUND_STEP;
     if (rotationExceeded == FALSE) {
         return;
     }
     kart->mYRotationAngle = 0;
-    kart->mUnk_4c &= ~0x20;
+    kart->mEffectFlags &= ~KART_EFFECT_Y_SPIN;
 }

@@ -173,7 +173,7 @@ int TrySetItemKouraRKartItems(ItemKouraR *item, int kartIndex, s32 maxDistanceSq
             }
         }
     }
-    if ((kart->mUnk_7c & 0x402020) || (kart->mUnk_4c & KART_4C_RESPAWN_DROP) ||
+    if ((kart->mEntryFlags & KART_ENTRY_REMOVED_PARKED_OR_TERESA) || (kart->mEffectFlags & KART_EFFECT_RESPAWN_DROP) ||
         (kartRank != 1 && kart->mState != KART_STATE_NORMAL)) {
         return 0;
     }

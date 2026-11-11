@@ -585,7 +585,7 @@ s32 FindMapObjectsTouchingKart(Kart *kart, Vec3 *position, Vec3 *hitOffset) {
     Vec3 *foundVector;
 
     centre = *position;
-    kartFlagSet = (kart->mUnk_48 & 0x8000000) != 0;
+    kartFlagSet = (kart->mDriveFlags & KART_DRIVE_FAR_FROM_ENTRY) != 0;
     radius = kart->mRadius;
     itemEffect = kart->mItemEffect;
     foundVector = gFoundMapObjectVectors;

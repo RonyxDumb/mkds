@@ -133,7 +133,7 @@ void InitKartResources(Kart *kart) {
     kart->mAdvanceOffsetCycle = AdvanceKartOffsetCycle;
     InitKartPhysicalParams(kart);
     InitKartFlags(kart);
-    if (kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) {
+    if (kart->mEntryFlags & KART_ENTRY_HAS_CHARACTER_ANIMATION) {
         SetKartSpeedLimitReciprocal(FX_Div(0x1000, kart->mPhysicalParam->mBaseSpeedLimit));
     }
     InitKartSound(kart);
@@ -141,8 +141,8 @@ void InitKartResources(Kart *kart) {
     kart->mAi = HeapAlloc(heap, 0x158);
     if (gCourseMap->mRaceRouteCount != 0 || gCourseMap->mBattleRouteCount != 0) {
         if (gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind == PLAYER_KIND_CPU) {
-            kart->mUnk_7c |= 2;
-            if (kart->mUnk_7c & 2) {
+            kart->mEntryFlags |= KART_ENTRY_CPU;
+            if (kart->mEntryFlags & KART_ENTRY_CPU) {
                 for (entryIndex = 0; entryIndex < 12; entryIndex++) {
                     if (entryIndex != 0) {
                         kart->mPhysicalParam->mSurfaceTurnedForwardEaseFactors[entryIndex] =
@@ -171,7 +171,7 @@ void InitKartResources(Kart *kart) {
         kart->mSecondCollisionSlot = CreateCollisionSlot(
             &kart->mSecondCollisionCenter, ((s64) kart->mPhysicalParam->mRadius << 15) >> 12, 0x800, kart);
     }
-    kart->mUnk_44 |= KART_44_ON_GROUND;
+    kart->mMotionFlags |= KART_MOTION_ON_GROUND;
     kart->mCollisionStepFrames = 0x64;
     kart->mRadius = kart->mPhysicalParam->mRadius;
     InitKartSoundParams(kart);
@@ -180,6 +180,6 @@ void InitKartResources(Kart *kart) {
         InitParticipantKartRecordState(kart, heap);
     }
     if (IsRaceAwardOrStaffRoll() != 0) {
-        kart->mUnk_44 |= 0x1000000;
+        kart->mMotionFlags |= KART_MOTION_START_DONE;
     }
 }

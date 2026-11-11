@@ -626,7 +626,7 @@ BOOL TryAddKartItemFlags(KartItems *kartItems) {
     if (kart->mState != KART_STATE_NORMAL) {
         return FALSE;
     }
-    if ((kart->mUnk_4c & KART_4C_HEADING_SWING) != 0) {
+    if ((kart->mEffectFlags & KART_EFFECT_HEADING_SWING) != 0) {
         return FALSE;
     }
     if (kartItems->mItemInUse.mObjectKind != 0xf) {
@@ -650,7 +650,7 @@ BOOL TryAddKartItemFlags(KartItems *kartItems) {
 }
 
 void StopRunningKartItemSlot(KartItems *kartItems) {
-    if ((kartItems->mKart->mUnk_7c & 0x400) != 0) {
+    if ((kartItems->mKart->mEntryFlags & KART_ENTRY_WIFI_PEER) != 0) {
         return;
     }
     if (gRaceSetup->mMode == MODE_WIFI) {
@@ -663,7 +663,7 @@ void StopRunningKartItemSlot(KartItems *kartItems) {
 }
 
 void ReleaseKartItems(KartItems *kartItems) {
-    if ((kartItems->mKart->mUnk_7c & 0x400) != 0) {
+    if ((kartItems->mKart->mEntryFlags & KART_ENTRY_WIFI_PEER) != 0) {
         return;
     }
     if (kartItems->mHeldItem.mItemInfoIndex != 0x13) {
@@ -691,7 +691,7 @@ void StartKartItemObjectCountdowns(KartItems *kartItems) {
     BOOL isMode5;
 
     isMode5 = gRaceSetup->mMode == MODE_WIFI;
-    if ((kartItems->mKart->mUnk_7c & 0x400) != 0) {
+    if ((kartItems->mKart->mEntryFlags & KART_ENTRY_WIFI_PEER) != 0) {
         return;
     }
     if ((u32) (kartItems->mKart->mItemEffect - 2) <= 1) {
@@ -778,14 +778,14 @@ void CopyKartPlacementToItemObject(KartItems *kartItems, ItemObject *object) {
     Vec3 *axis;
 
     kart = kartItems->mKart;
-    if ((kart->mUnk_48 & KART_48_ON_BOOST_SURFACE) != 0) {
+    if ((kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) != 0) {
         axis = &kart->mUnk_15c;
     } else {
         axis = &gKartItemsVec3UnitY;
     }
     SetItemObjectPlacement(object, &kart->mDrawMatrixPos, axis, &kart->mKartModelsEntry->mCourseColorBlend,
                            GetKartCourseHitAttributeBit(kart));
-    if ((kart->mUnk_48 & KART_48_ON_BOOST_SURFACE) != 0) {
+    if ((kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) != 0) {
         object->mFlags |= 0x40000000;
     }
 }

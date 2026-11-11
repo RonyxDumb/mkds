@@ -698,7 +698,7 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
     s32 alongZ;
 
     value = Vec3DotUnrounded(&itemInUse->mKartMovement, &itemInUse->mKartOrientation.mRows[2]);
-    kartOnBoostSurface = (itemInUse->mKart->mUnk_48 & KART_48_ON_BOOST_SURFACE) != 0;
+    kartOnBoostSurface = (itemInUse->mKart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) != 0;
     value = MUL_FIXED12_NO_ROUND(value, 0x1ec);
     if (value < 0x666) {
         value = 0x666;

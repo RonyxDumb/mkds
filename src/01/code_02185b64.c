@@ -59,7 +59,7 @@ u32 CollideKartWithMissionGate(MissionGateObject *missionGateObject, Kart *kart,
     u32 firstResponse = *firstResponsePointer;
     u32 response = *responsePointer;
 
-    if ((kart->mUnk_48 & KART_48_OBJECTS_SKIP) != 0 ||
+    if ((kart->mDriveFlags & KART_DRIVE_OBJECTS_SKIP) != 0 ||
         (gRaceSetup->mMode == MODE_MISSION_RUN ? IsKartEliminated(kart->mIndex) : 0) != FALSE) {
         return 0;
     }

@@ -340,7 +340,7 @@ u8 CollideKartWithItemBox(ItemBox *itemBox, Kart *kart, void *firstResponsePtr, 
     BOOL kindInMask;
     u32 distanceBits;
 
-    if ((kart->mUnk_7c & 0x400000) != 0) {
+    if ((kart->mEntryFlags & KART_ENTRY_PARKED) != 0) {
         return 0;
     }
     kindInMask = FALSE;

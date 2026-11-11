@@ -9,7 +9,7 @@
 #include "Main/Unknown/unk_021759c0.h"
 
 void InitKartSoundCallbacks(Kart *kart, KartSound *kartSound) {
-    if (kart->mUnk_7c & KART_7C_ENTRY_IS_GHOST) {
+    if (kart->mEntryFlags & KART_ENTRY_GHOST) {
         kart->mSoundSource.mStartSeqFunction = (void (*)(void *, void *, u32)) GhostKartStartSeqNop;
     } else {
         kart->mSoundSource.mStartSeqFunction = (void (*)(void *, void *, u32)) StartKartPlayingSoundSeq;

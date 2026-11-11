@@ -171,13 +171,13 @@ BOOL UpdateDataSharing(void) {
     }
     switch (gConnectionWork->mState) {
         case 8:
-            if (dataSharing->mUnk_34 != 0 && dataSharing->mUnk_34 == 5) {
+            if (dataSharing->mSharingPhase != 0 && dataSharing->mSharingPhase == 5) {
                 return FALSE;
             }
             break;
         case 9:
-            if (dataSharing->mUnk_34 != 0) {
-                if (dataSharing->mUnk_34 == 5) {
+            if (dataSharing->mSharingPhase != 0) {
+                if (dataSharing->mSharingPhase == 5) {
                     return FALSE;
                 }
             } else {
@@ -259,7 +259,7 @@ void InitializeCallback(Unk021425e8 *event) {
     if (event->mResultCode != 0) {
         return;
     }
-    if (gConnectionWork->mUnk_1d00 != 0) {
+    if (gConnectionWork->mConnectionKind != 0) {
         WM_SetPortCallback(1, PacketPortCallback, NULL);
     }
     ResetConnectionData();

@@ -135,10 +135,10 @@ void UpdateKartSound(Kart *kart) {
     s32 kartFlags;
 
     soundRecord = &kart->mSound;
-    kartFlags = kart->mUnk_48;
-    kartFlag2Set = (kartFlags & 2) != 0 ? 1 : 0;
-    pitch = (kartFlags & 4) != 0 ? 1 : 0;
-    if ((kart->mUnk_4c & 0x10000000) != 0) {
+    kartFlags = kart->mDriveFlags;
+    kartFlag2Set = (kartFlags & KART_DRIVE_ACCEL_HELD) != 0 ? 1 : 0;
+    pitch = (kartFlags & KART_DRIVE_BRAKE_HELD) != 0 ? 1 : 0;
+    if ((kart->mEffectFlags & KART_EFFECT_KILLER) != 0) {
         soundRecord->mPitch = 0x6c0000;
         soundRecord->mTargetPitch = 0x6c0000;
         soundRecord->mPitchPerCall = 0;
@@ -159,7 +159,7 @@ void UpdateKartSound(Kart *kart) {
         value = kart->mRevLevel;
         if (value > 0xcd && gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind != PLAYER_KIND_CPU) {
             if (kartFlag2Set != 0) {
-                if ((kart->mUnk_4c & KART_4C_HEADING_SWING) != 0) {
+                if ((kart->mEffectFlags & KART_EFFECT_HEADING_SWING) != 0) {
                     targetPitch = 0;
                 } else {
                     targetPitch = MUL_FIXED12_ROUNDED(value, 0x580000);
@@ -193,7 +193,7 @@ void UpdateKartSound(Kart *kart) {
     velocityLength = kart->mVelocityLength;
     value = velocityLength - baseSpeedLimit;
     aboveSpeedLimit = value > 0 ? 1 : 0;
-    if (pitch != 0 && kart->mForwardSpeed > 0 && (kart->mUnk_44 & KART_44_ON_GROUND) != 0) {
+    if (pitch != 0 && kart->mForwardSpeed > 0 && (kart->mMotionFlags & KART_MOTION_ON_GROUND) != 0) {
         pitch = MUL_FIXED12_ROUNDED(soundRecord->mPitchPerSpeedKeyB, velocityLength);
         if (pitch > 0x280000) {
             pitch = 0x280000;

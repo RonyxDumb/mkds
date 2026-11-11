@@ -60,8 +60,8 @@ typedef struct KartTurnEffects {
     /* 5c */ s32 mLevel3SecondEffectId;
     // Index of the Kart this record belongs to (the record number); written at init, never read.
     /* 60 */ u16 mIndex;
-    // Calls of AdvanceKartLevel4Effects with Kart.mUnk_44 bit 8 set since the restart was requested; the group is
-    // restarted when it passes 10.
+    // Calls of AdvanceKartLevel4Effects with KART_MOTION_DRIFTING set in Kart.mMotionFlags since the restart was
+    // requested; the group is restarted when it passes 10.
     /* 62 */ u16 mLevel4RestartFrames;
     // 1 after RequestKartLevel4EffectsRestart (made when Kart.mUnk_2fc is 3), 0 after every reset;
     // AdvanceKartLevel4Effects then restarts the group once mLevel4RestartFrames passes 10.
@@ -115,8 +115,9 @@ void AdvanceKartLevel3Effects(KartTurnEffects *turnEffects, Vec3s16 *sideDirecti
 // Starts the level 3 objects, two per side, releasing earlier ones; does nothing when v1 is 0.
 void StartKartLevel3Effects(KartTurnEffects *turnEffects, int enable);
 // Each call: counts mLevel4StopFrames while a stop is requested and resets the group when it passes 10; restarts the
-// group after a restart request once Kart.mUnk_44 bit 8 has been set for more than 10 calls; while the group is
-// present, places the objects from the side arrays and switches their emission with Kart.mUnk_44 bit 0x10.
+// group after a restart request once KART_MOTION_DRIFTING has been set for more than 10 calls; while the group is
+// present, places the objects from the side arrays and switches their emission with KART_MOTION_ON_GROUND in
+// Kart.mMotionFlags.
 void AdvanceKartLevel4Effects(KartTurnEffects *turnEffects, Kart *kart);
 // Releases the level 4 group through mReleaseLevel4Effects when present and clears mLevel4Present, mLevel4StopFrames,
 // mLevel4StopRequested and both restart members.
@@ -147,7 +148,8 @@ void StartKartLevel4EffectsFirstOnly(KartTurnEffects *turnEffects);
 // Starts the first and the second level 4 object on each side.
 void StartKartLevel4EffectsWithSecond(KartTurnEffects *turnEffects);
 // Each call, for each side: sets the object velocity from Kart.mEffectVelocity, its position from mSidePositions minus
-// that velocity, and its emit-stop bit from Kart.mUnk_44 bit 0x10; does nothing when the group is not present.
+// that velocity, and its emit-stop bit from KART_MOTION_ON_GROUND in Kart.mMotionFlags; does nothing when the group is
+// not present.
 void AdvanceKartTurnStartEffects(KartTurnEffects *turnEffects, Kart *kart);
 // Sets the library's remove bit of both turn start objects and forgets them; does nothing when the group is not
 // present.

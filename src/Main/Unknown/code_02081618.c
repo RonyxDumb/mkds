@@ -200,7 +200,7 @@ void StartKartBoostCameraEffect(u32 effectIdIndex, Kart *kart) {
 void ApplyKartSurfaceEffect(s32 functionIndex, Kart *kart) {
     KartEffects *kartEffects;
 
-    if (kart->mUnk_4c & KART_4C_NEAR_PLAYER_RANK) {
+    if (kart->mEffectFlags & KART_EFFECT_NEAR_PLAYER_RANK) {
         gKartSurfaceEffectFunctions[functionIndex](kart);
         return;
     }
@@ -226,7 +226,7 @@ void ApplyKartSurfaceEffect(s32 functionIndex, Kart *kart) {
 void ApplyKartWaterEffects(Kart *kart) {
     KartEffects *kartEffects;
 
-    if (kart->mUnk_4c & KART_4C_NEAR_PLAYER_RANK) {
+    if (kart->mEffectFlags & KART_EFFECT_NEAR_PLAYER_RANK) {
         StartKartWaterEffects(&gKartSurfaceEffectRow3.mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]], 1, kart);
         return;
     }
@@ -459,7 +459,7 @@ void AdvanceKartBoostCameraEffect(ParticleEmitter *effect, s32 phase) {
         gKartBoostCameraEffect = NULL;
         return;
     }
-    if (!(kart->mUnk_48 & KART_48_BOOST)) {
+    if (!(kart->mDriveFlags & KART_DRIVE_BOOST)) {
         effect->mUnk_24.mEmissionStopped = 1;
     }
     viewPos = chaseCamera->mViewPos;
@@ -761,7 +761,7 @@ void PlaceOtherKartEffect(ParticleEmitter *effect, s32 phase) {
     effect->mUnk_28.x = (pointX >> 4) + effect->mUnk_20->mUnk_00->mUnk_04.x;
     effect->mUnk_28.y = (pointY >> 4) + effect->mUnk_20->mUnk_00->mUnk_04.y;
     effect->mUnk_28.z = (pointZ >> 4) + effect->mUnk_20->mUnk_00->mUnk_04.z;
-    if (kart->mUnk_7c & 0x402000) {
+    if (kart->mEntryFlags & KART_ENTRY_TERESA_OR_PARKED) {
         isShown = 0;
     }
     effect->mUnk_24.mHidden = (isShown == 0);
@@ -897,7 +897,7 @@ void AdvanceOldLuigiAgbFirstChaseEffect(ParticleEmitter *effect, s32 phase) {
     if (speedRatio > 0x1000) {
         speedRatio = 0x1000;
     }
-    if (kart->mUnk_44 & KART_44_REVERSING) {
+    if (kart->mMotionFlags & KART_MOTION_REVERSING) {
         speedRatio = speedRatio * 0xffffffff;
         extraDistance = data_02165938;
     }
@@ -1028,7 +1028,7 @@ void AdvanceOldFrappe64FirstChaseEffect(ParticleEmitter *effect, s32 phase) {
     if (speedRatio > 0x1000) {
         speedRatio = 0x1000;
     }
-    if (kart->mUnk_44 & KART_44_REVERSING) {
+    if (kart->mMotionFlags & KART_MOTION_REVERSING) {
         extraDistance = -0x5800;
     }
     if ((s64) forwardFlat.z * forwardFlat.z +
@@ -1200,9 +1200,9 @@ void PlaceKartAheadEffect(ParticleEmitter *effect, Kart *kart, void *target) {
         isShown = 1;
         PlaceEffectAheadAndUpOfKart(effect, kart, 0x99a, 0xe66);
         effect->mSizeScale = (s16) kart->mScale.z;
-        kartFlags = kart->mUnk_7c;
-        if (!(kartFlags & 1)) {
-            if (kartFlags & 0x402000) {
+        kartFlags = kart->mEntryFlags;
+        if (!(kartFlags & KART_ENTRY_SELECTED)) {
+            if (kartFlags & KART_ENTRY_TERESA_OR_PARKED) {
                 isShown = 0;
             }
         }

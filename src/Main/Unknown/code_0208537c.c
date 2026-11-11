@@ -119,7 +119,7 @@ void InitKartAiShared(void) {
                     break;
             }
         }
-        gKartAiParamRow->mUnk_04 = FX_Div(gKartAiParamRow->mUnk_04, 0x3000);
+        gKartAiParamRow->mGapTableScale = FX_Div(gKartAiParamRow->mGapTableScale, 0x3000);
     }
     InitKartAiNonCpuCounts();
     SetupKartAiGlobals();

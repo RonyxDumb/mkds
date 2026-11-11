@@ -51,13 +51,13 @@ void AdvanceItemGesso(ItemGesso *gesso) {
                 continue;
             }
             kartAtIndex = GetKart(kartIndex);
-            if (kartAtIndex->mUnk_7c & 0x402020) {
+            if (kartAtIndex->mEntryFlags & KART_ENTRY_REMOVED_PARKED_OR_TERESA) {
                 continue;
             }
-            if (kartAtIndex->mUnk_4c & 0x10000840) {
+            if (kartAtIndex->mEffectFlags & (KART_EFFECT_STAR | KART_EFFECT_RESPAWN_DROP | KART_EFFECT_KILLER)) {
                 continue;
             }
-            if (kartAtIndex->mUnk_48 & 0x10000) {
+            if (kartAtIndex->mDriveFlags & KART_DRIVE_KEYED_PLACEMENT) {
                 continue;
             }
             StartKartGesso(kartAtIndex, gesso->mOrthoQuadCounts[kartIndex]);
@@ -72,7 +72,9 @@ void AdvanceItemGesso(ItemGesso *gesso) {
         return;
     }
     if (gesso->mStepIndex >= 4 && gesso->mStepIndex < 0xd) {
-        if ((kart->mUnk_7c & 0x402020) || (kart->mUnk_4c & 0x10000840) || (kart->mUnk_48 & 0x10000)) {
+        if ((kart->mEntryFlags & KART_ENTRY_REMOVED_PARKED_OR_TERESA) ||
+            (kart->mEffectFlags & (KART_EFFECT_STAR | KART_EFFECT_RESPAWN_DROP | KART_EFFECT_KILLER)) ||
+            (kart->mDriveFlags & KART_DRIVE_KEYED_PLACEMENT)) {
             gesso->mStepIndex = 0xd;
             SetupNextItemGessoStep(gesso);
             if (gesso->mVisible != FALSE) {
@@ -80,7 +82,7 @@ void AdvanceItemGesso(ItemGesso *gesso) {
             }
         }
     }
-    if (kart->mUnk_4c & KART_4C_RESPAWN_DROP) {
+    if (kart->mEffectFlags & KART_EFFECT_RESPAWN_DROP) {
         gesso->mEnded = TRUE;
         gesso->mVisible = FALSE;
     }

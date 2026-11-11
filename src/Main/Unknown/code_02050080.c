@@ -43,7 +43,7 @@ u32 TrySelectScanSlot(u32 entryIndex) {
         }
     } else {
         gConnectionWork->mKeepScanning = 0;
-        gConnectionWork->mUnk_0438 = 0;
+        gConnectionWork->mRememberedScanKeyHeld = 0;
         entry = &gConnectionWork->mScanSlots[entryIndex];
         gConnectionWork->mOperationFlags &= ~CONNECTION_OPERATION_SCANNING;
         if (entry->mInUse != 0) {

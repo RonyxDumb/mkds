@@ -437,7 +437,7 @@ void ResetDataSharing(DataSharing *dataSharing) {
         dataSharing->mUnk_3c[index] = 0;
     }
     dataSharing->mUnk_4a = 0;
-    dataSharing->mUnk_34 = 5;
+    dataSharing->mSharingPhase = 5;
     dataSharing->mUnk_38 = 0;
     dataSharing->mUnk_30 = 0;
     gConnectionWork->mFlags &= ~CONNECTION_FLAG_SHARING_NOT_UPDATED;
@@ -488,7 +488,7 @@ void ResetConnectionData(void) {
         }
     }
     gConnectionWork->mOwnIndex = 0xffff;
-    gConnectionWork->mUnk_0438 = 0;
+    gConnectionWork->mRememberedScanKeyHeld = 0;
     gConnectionWork->mUnk_0434 = 0;
     gConnectionWork->mUnk_0439 = 1;
     gConnectionWork->mExpectedRecordMask = 0;

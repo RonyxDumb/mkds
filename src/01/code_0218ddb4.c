@@ -120,7 +120,7 @@ void SetKingTeresaVelocityToKartStep(MissionRunMapObject *mapObject) {
 
 s32 AdvanceKingTeresaFollowKart(MissionRunMapObject *mapObject) {
     Kart *kart = GetKart((u16) gRaceSetup->mEntryIndex);
-    if ((kart->mUnk_48 & KART_48_OBJECTS_SKIP) == 0) {
+    if ((kart->mDriveFlags & KART_DRIVE_OBJECTS_SKIP) == 0) {
         SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
         SetPointInRangePoint(mapObject, &kart->mPos);
     }
@@ -130,7 +130,7 @@ s32 AdvanceKingTeresaFollowKart(MissionRunMapObject *mapObject) {
 
 s32 AdvanceKingTeresaFollowKartClearFog(MissionRunMapObject *mapObject) {
     Kart *kart = GetKart((u16) gRaceSetup->mEntryIndex);
-    if ((kart->mUnk_48 & KART_48_OBJECTS_SKIP) == 0) {
+    if ((kart->mDriveFlags & KART_DRIVE_OBJECTS_SKIP) == 0) {
         SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
         SetPointInRangePoint(mapObject, &kart->mPos);
     }
@@ -182,7 +182,7 @@ s32 AdvanceKingTeresaFollowForwardPoint(MissionRunMapObject *mapObject) {
     Vec3 targetPoint;
 
     kart = GetKart((u16) gRaceSetup->mEntryIndex);
-    if ((kart->mUnk_48 & KART_48_OBJECTS_SKIP) == 0) {
+    if ((kart->mDriveFlags & KART_DRIVE_OBJECTS_SKIP) == 0) {
         VEC_MultAdd(mapObject->mPrm->mUnk_21c, &kart->mEasedTurnedForward, &kart->mPos, &targetPoint);
         SetAnglePointAndMoveAnglePoint(mapObject, &targetPoint);
         SetPointInRangePoint(mapObject, &targetPoint);
@@ -196,7 +196,7 @@ s32 AdvanceKingTeresaFaceKart(MissionRunMapObject *mapObject) {
     Kart *kart;
 
     kart = GetKart((u16) gRaceSetup->mEntryIndex);
-    if ((kart->mUnk_48 & KART_48_OBJECTS_SKIP) == 0) {
+    if ((kart->mDriveFlags & KART_DRIVE_OBJECTS_SKIP) == 0) {
         SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
     }
     SetKingTeresaVelocityToKartStep(mapObject);
@@ -229,7 +229,7 @@ s32 AdvanceKingTeresaApproachKart(MissionRunMapObject *mapObject) {
     Vec3 targetPoint;
 
     kart = GetKart((u16) gRaceSetup->mEntryIndex);
-    if ((kart->mUnk_48 & KART_48_OBJECTS_SKIP) == 0) {
+    if ((kart->mDriveFlags & KART_DRIVE_OBJECTS_SKIP) == 0) {
         VEC_MultAdd(-mapObject->mPrm->mUnk_0e8, &kart->mEasedTurnedForward, &kart->mPos, &targetPoint);
         SetAnglePointAndMoveAnglePoint(mapObject, &targetPoint);
         SetPointInRangePoint(mapObject, &targetPoint);
@@ -262,7 +262,7 @@ s32 AdvanceKingTeresaWaitToApproach(MissionRunMapObject *mapObject) {
     float scaledTimerGap;
 
     kart = GetKart((u16) gRaceSetup->mEntryIndex);
-    if ((kart->mUnk_48 & KART_48_OBJECTS_SKIP) == 0) {
+    if ((kart->mDriveFlags & KART_DRIVE_OBJECTS_SKIP) == 0) {
         SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
         SetPointInRangePoint(mapObject, &kart->mPos);
     }
@@ -683,7 +683,7 @@ void UpdateKingTeresa(u32 unused, MissionRunMapObject *mapObject) {
         if (mapObject->mUnk_0a8 != 0) {
             if (IsStateNumberBelow(mapObject, 5) != 0) {
                 kart = GetKart((u16) gRaceSetup->mEntryIndex);
-                if (kart->mState == KART_STATE_NORMAL && (kart->mUnk_48 & KART_48_OBJECTS_SKIP) == 0 &&
+                if (kart->mState == KART_STATE_NORMAL && (kart->mDriveFlags & KART_DRIVE_OBJECTS_SKIP) == 0 &&
                     GetEntryKartInRange(mapObject, 0, mapObject->mPrm->mUnk_184) != NULL &&
                     GetEntryKartFacingObject(mapObject, 0, mapObject->mPrm->mUnk_180) != NULL &&
                     GetEntryKartInRange(mapObject, mapObject->mPrm->mUnk_188, 0) != NULL) {
@@ -702,7 +702,7 @@ void UpdateKingTeresa(u32 unused, MissionRunMapObject *mapObject) {
             }
         } else {
             kart = GetKart((u16) gRaceSetup->mEntryIndex);
-            if (kart->mUnk_48 & KART_48_OBJECTS_SKIP) {
+            if (kart->mDriveFlags & KART_DRIVE_OBJECTS_SKIP) {
                 if (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunCount() : 0) {
                     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                         SetMissionRunTimer((u16) mapObject->mPrm->mUnk_1bc);

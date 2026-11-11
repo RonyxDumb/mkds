@@ -50,10 +50,10 @@ void AdvanceLocalKartMotionSlot(Kart *kart) {
     if (IsMissionRunWithKind2Shapes() != 0) {
         FinishKartInCourseMapKind2Shape(&kart->mPos, kart->mIndex);
     }
-    if ((kart->mUnk_4c & 0x1000) != 0) {
+    if ((kart->mEffectFlags & KART_EFFECT_START_SOUND_PENDING) != 0) {
         StartKartSoundAndCharacterAnimation(kart);
     }
-    kart->mUnk_4c = kart->mUnk_4c & ~0x1000;
+    kart->mEffectFlags = kart->mEffectFlags & ~KART_EFFECT_START_SOUND_PENDING;
     AdvanceKartMotion(kart);
 }
 
@@ -61,10 +61,10 @@ void AdvancePeerKartMotionSlot(Kart *kart) {
     if (IsMissionRunWithKind2Shapes() != 0) {
         FinishKartInCourseMapKind2Shape(&kart->mPos, kart->mIndex);
     }
-    if ((kart->mUnk_4c & 0x1000) != 0) {
+    if ((kart->mEffectFlags & KART_EFFECT_START_SOUND_PENDING) != 0) {
         StartKartSoundAndCharacterAnimation(kart);
     }
-    kart->mUnk_4c = kart->mUnk_4c & ~0x1000;
+    kart->mEffectFlags = kart->mEffectFlags & ~KART_EFFECT_START_SOUND_PENDING;
     AdvancePeerKartMotion(kart);
 }
 
@@ -86,11 +86,11 @@ void WriteKartToParticipantRecord(Kart *kart) {
     record->mPosZ = kart->mPos.z >> 10;
     record->mForwardSpeed = kart->mForwardSpeed >> 2;
     record->mHeadingAngle = kart->mHeadingAngle;
-    record->mUnk_10 = kart->mUnk_44;
+    record->mUnk_10 = kart->mMotionFlags;
     record->mUnk_10 = record->mUnk_10 | (((recordState->mPushDirection.x >> 6) & 0xff) << 24 |
                                          ((recordState->mPushDirection.y >> 6) & 0xff) << 16 |
                                          ((recordState->mPushDirection.z >> 6) & 0xff) << 8);
-    record->mUnk_14 = kart->mUnk_48;
+    record->mUnk_14 = kart->mDriveFlags;
     record->mFlags = recordState->mEventToggleFlags;
     record->mTurnAngle = kart->mTurnAngle;
 }

@@ -195,7 +195,7 @@ typedef struct ArchiveLoadRequest {
     /* 84 */ void *mData;
     /* 88 */ u32 *mReadBuffer;
     /* 8c */ s32 mSlotIndex;
-    /* 90 */ s32 mUnk_90;
+    /* 90 */ s32 mAllocFromHeapEnd;
     /* 94 */ s32 mUncompressSource;
     /* 98 */ s32 mUnk_98;
     /* 9c */ s32 mUnk_9c;
@@ -271,8 +271,8 @@ typedef struct RomArchiveParentViewEntry {
 typedef struct RomArchiveMessage {
     /* 00 */ u32 mKind : 4;
     /* 00 */ u32 mPacketSizeHigh : 4;
-    /* 00 */ u32 mUnk_00_8 : 24;
-    /* 04 */ s32 mUnk_04;
+    /* 00 */ u32 mValue24 : 24;
+    /* 04 */ s32 mWord04;
     /* 08 */ u8 mPacketSizeLow;
 } RomArchiveMessage;
 
@@ -283,7 +283,7 @@ struct FSFile;
 typedef struct RomArchiveParentView {
     /* 0000 */ RomArchiveParentViewEntry mEntries[32];
     /* 0180 */ u8 mUnk_0180[0x97c];
-    /* 0afc */ void *mUnk_0afc;
+    /* 0afc */ void *mChunkBitmapBuffer;
     /* 0b00 */ u32 mUnk_0b00;
     /* 0b04 */ u32 mUnk_0b04;
     /* 0b08 */ s32 mUnk_0b08;
@@ -291,21 +291,21 @@ typedef struct RomArchiveParentView {
     /* 46c0 */ struct RomArchiveFileNode *mFreeHead;
     /* 46c4 */ struct RomArchiveFileNode *mActiveHead;
     /* 46c8 */ struct RomArchiveFileNode *mPendingHead;
-    /* 46cc */ s32 mUnk_46cc;
+    /* 46cc */ s32 mReplySendMask;
     /* 46d0 */ s32 mGroupSendMask;
     /* 46d4 */ BOOL mMessageSendPending;
     /* 46d8 */ s32 mActiveMask;
-    /* 46dc */ s32 mUnk_46dc;
-    /* 46e0 */ BOOL mUnk_46e0;
-    /* 46e4 */ s32 mUnk_46e4;
-    /* 46e8 */ s32 mUnk_46e8;
-    /* 46ec */ s32 mUnk_46ec;
+    /* 46dc */ s32 mRequestMask;
+    /* 46e0 */ BOOL mPacketSizeChangePending;
+    /* 46e4 */ s32 mQueuedNodeCount;
+    /* 46e8 */ s32 mPacketSizeMessageMask;
+    /* 46ec */ s32 mNewParentPacketSize;
 } RomArchiveParentView;
 
 // Object at gRomArchiveTransfer.
 typedef struct RomArchiveTransfer {
     /* 0000 */ u32 mIsParent;
-    /* 0004 */ BOOL mUnk_0004;
+    /* 0004 */ BOOL mSendAllowed;
     /* 0008 */ BOOL mSendPending;
     /* 000c */ s32 mState;
     /* 0010 */ void (*mStateCallback)(s32 a);

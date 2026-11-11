@@ -100,7 +100,7 @@ void FillScanSlot(ScanSlot *slot, WMBssDesc *scanBuffer, ScanMacAddress *key, Us
     }
     isGhost = gameInfo->mUnk_0e.mHasGhost;
     if (isGhost != 0) {
-        if (gConnectionWork->mUnk_1d00 != 2) {
+        if (gConnectionWork->mConnectionKind != 2) {
             return;
         }
         languageIndex = gameInfo->mUnk_0e.mLanguageIndex;
@@ -121,7 +121,7 @@ void FillScanSlot(ScanSlot *slot, WMBssDesc *scanBuffer, ScanMacAddress *key, Us
         s32 gameChildCount;
         u8 gameLanguageIndex;
 
-        if (gConnectionWork->mUnk_1d00 == 2) {
+        if (gConnectionWork->mConnectionKind == 2) {
             return;
         }
         gameLanguageIndex = gameInfo->mUnk_0e.mLanguageIndex;
@@ -191,7 +191,7 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
         return;
     }
     if ((scanBuffer->mGameInfo.mAttribute & 2) != 0) {
-        if (connection->mUnk_1d00 != 2) {
+        if (connection->mConnectionKind != 2) {
             userGameInfo = &scanBuffer->mGameInfo.mUserGameInfo;
             if (userGameInfo->mUnk_07 == 5) {
                 gameInfoPart = (void *) &userGameInfo->mUnk_0e;
@@ -208,7 +208,7 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
                 chosenSlot->mMultiBoot = 1;
                 chosenSlot->mHasGhost = 0;
                 MI_CpuCopy8(nameInfo->mUnk_02, chosenSlot->mName, 0x14);
-                gConnectionWork->mUnk_0438 = 0;
+                gConnectionWork->mRememberedScanKeyHeld = 0;
             } else if (userGameInfo->mUnk_07 == 9) {
                 if (chosenSlot->mInUse != 0) {
                     chosenSlot->mChildCount = userGameInfo->mUnk_0a - 1;
@@ -218,7 +218,7 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
             } else {
                 connection = gConnectionWork;
                 connection->mRememberedScanKey = *key;
-                connection->mUnk_0438 = 0xf;
+                connection->mRememberedScanKeyHeld = 0xf;
             }
         }
     } else if (scanBuffer->mGameInfo.mUserGameInfoLength == 0x1c) {
@@ -295,13 +295,13 @@ void StartScanCallback(Unk021425e8 *event) {
                                 *gConnectionWork->mParentBssDesc = scanBuffer;
                             }
                         }
-                    } else if (gConnectionWork->mUnk_0438 == 0) {
+                    } else if (gConnectionWork->mRememberedScanKeyHeld == 0) {
                         gConnectionWork->mUnk_0439 += 1;
                     }
                 }
                 break;
             case 4:
-                if (gConnectionWork->mUnk_0438 == 0) {
+                if (gConnectionWork->mRememberedScanKeyHeld == 0) {
                     gConnectionWork->mUnk_0439 += 1;
                 }
                 break;

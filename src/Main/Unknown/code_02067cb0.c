@@ -16,7 +16,7 @@ int CollideKartWithMapObjectResponse3(Kart *kart, s32 *result, MapObject *mapObj
                 StartEffect(0xd, &kart->mPos);
                 StartEffect(0xe, &kart->mPos);
             }
-            if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+            if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
                 GetEntryKartCounters()->mMapObjectHitCount++;
             }
         }
@@ -35,7 +35,7 @@ int CollideKartWithMapObjectResponse4(Kart *kart, s32 *result, MapObject *mapObj
                 StartEffect(0xd, &kart->mPos);
                 StartEffect(0xe, &kart->mPos);
             }
-            if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+            if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
                 GetEntryKartCounters()->mMapObjectHitCount++;
             }
         }
@@ -49,7 +49,7 @@ int CollideKartWithMapObjectResponse4(Kart *kart, s32 *result, MapObject *mapObj
 int CollideKartWithMapObjectResponse6(Kart *kart, s32 *result, MapObject *mapObject) {
     if (kart->mVelocityLength > 0x3000 || (mapObject->mFlags & 0x200)) {
         if (TrySpinKart(kart, 2, 0)) {
-            if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+            if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
                 GetEntryKartCounters()->mMapObjectHitCount++;
             }
             StartKartSpinSideEffects(kart->mIndex);
@@ -63,10 +63,10 @@ int CollideKartWithMapObjectResponse6(Kart *kart, s32 *result, MapObject *mapObj
 
 int CollideKartWithMapObjectResponse5(Kart *kart, s32 *result) {
     if (TrySpinKart(kart, 2, 0)) {
-        if (kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) {
+        if (kart->mEntryFlags & KART_ENTRY_HAS_CHARACTER_ANIMATION) {
             SetupKartFollowEffectWithVelocity(StartEffect(0x4f, &kart->mPos), kart->mIndex, 0x46);
         }
-        if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+        if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
             GetEntryKartCounters()->mMapObjectHitCount++;
         }
     }
@@ -76,10 +76,10 @@ int CollideKartWithMapObjectResponse5(Kart *kart, s32 *result) {
 
 int CollideKartWithMapObjectResponse7(Kart *kart, s32 *result) {
     if (TryStartKartState3(kart)) {
-        if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+        if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
             GetEntryKartCounters()->mMapObjectHitCount++;
         }
-        kart->mUnk_48 |= 0x20000;
+        kart->mDriveFlags |= KART_DRIVE_HIT_STATE;
     }
     *result = 7;
     return 2;

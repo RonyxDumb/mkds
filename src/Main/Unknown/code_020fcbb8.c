@@ -23,11 +23,11 @@ void SteerItemKouraWToKartForward(ItemKouraW *item, s32 gain, s32 lift) {
     Kart *kart;
 
     kart = item->mKartItems->mKart;
-    onBoostSurface = (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE) ? 1 : 0;
+    onBoostSurface = (kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) ? 1 : 0;
     item->mKartForward = kart->mSignedTurnedForward;
     pos = &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos;
     velocity = &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity;
-    if (kart->mUnk_44 & KART_44_REVERSING) {
+    if (kart->mMotionFlags & KART_MOTION_REVERSING) {
         item->mKartForward.x = -item->mKartForward.x;
         item->mKartForward.y = -item->mKartForward.y;
         item->mKartForward.z = -item->mKartForward.z;
@@ -76,7 +76,7 @@ BOOL TrySetItemKouraWKartItems(ItemKouraW *item, s32 kartIndex) {
     kartPos = &kart->mDrawMatrixPos;
     if (kartItems->mItemLink.mLink != item->mLinkFollowingItemObject.mTargetLink.mLink) {
         shortRange = ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) ||
-                      (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE))
+                      (kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE))
                          ? 1
                          : 0;
         VEC_Subtract(kartPos, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos, &kartOffset);

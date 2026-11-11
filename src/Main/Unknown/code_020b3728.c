@@ -248,11 +248,11 @@ void UpdateRaceEnd(void) {
             switch (raceSetup->mMode) {
                 case MODE_VS:
                     if (raceSetup->mRuleKind == 1) {
-                        SetStemSet((GetKart(raceSetup->mEntryIndex)->mUnk_7c & 0x2000000) ? 4 : 5);
+                        SetStemSet((GetKart(raceSetup->mEntryIndex)->mEntryFlags & KART_ENTRY_WINNER) ? 4 : 5);
                     }
                     break;
                 case MODE_BATTLE:
-                    SetStemSet((GetKart(raceSetup->mEntryIndex)->mUnk_7c & 0x2000000) ? 4 : 5);
+                    SetStemSet((GetKart(raceSetup->mEntryIndex)->mEntryFlags & KART_ENTRY_WINNER) ? 4 : 5);
                     break;
                 case MODE_MISSION_RUN:
                     if ((IsKartEnded((u16) raceSetup->mEntryIndex) ? gRaceProgress->mEntryEndKind : 6) != 0) {

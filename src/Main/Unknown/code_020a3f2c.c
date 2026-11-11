@@ -92,12 +92,12 @@ u32 CollideKartWithShine16(Shine16 *shine16, Kart *kart, u8 *firstResponse, u8 *
 
     firstResponseValue = *firstResponse;
     responseValue = *response;
-    if (kart->mState != KART_STATE_NORMAL || (kart->mUnk_48 & KART_48_OBJECTS_SKIP) != 0 ||
+    if (kart->mState != KART_STATE_NORMAL || (kart->mDriveFlags & KART_DRIVE_OBJECTS_SKIP) != 0 ||
         IsKartEliminated(kart->mIndex) != FALSE) {
         return 0;
     }
     if (firstResponseValue == 1) {
-        if ((kart->mUnk_4c & KART_4C_BLINK_GUARD) != 0) {
+        if ((kart->mEffectFlags & KART_EFFECT_BLINK_GUARD) != 0) {
             return responseValue;
         }
         if (shine16->mPickupTimer > 0) {

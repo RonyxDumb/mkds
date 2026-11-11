@@ -3,10 +3,10 @@
 #include "Main/Unknown/unk_02165000.h"
 
 void ScaleKartForwardSpeed(Kart *kart) {
-    if ((kart->mUnk_44 & 0x400) || kart->mState != KART_STATE_NORMAL) {
+    if ((kart->mMotionFlags & KART_MOTION_COASTING) || kart->mState != KART_STATE_NORMAL) {
         kart->mForwardSpeed = MUL_FIXED12_NO_ROUND(kart->mForwardSpeed, kart->mPhysicalParam->mForwardSpeedFactor);
     }
-    if (!(kart->mUnk_48 & 0x2000)) {
+    if (!(kart->mDriveFlags & KART_DRIVE_SLOWING_STOP)) {
         return;
     }
     kart->mForwardSpeed = MUL_FIXED12_NO_ROUND(kart->mForwardSpeed, 0xe66);
@@ -24,11 +24,11 @@ void ReduceKartSpeedByTurnRatio(s32 *speed, Kart *kart) {
     if (kart->mState != KART_STATE_NORMAL) {
         return;
     }
-    flags = kart->mUnk_44;
-    if (flags & KART_44_DRIFTING) {
+    flags = kart->mMotionFlags;
+    if (flags & KART_MOTION_DRIFTING) {
         return;
     }
-    if (!(flags & KART_44_ON_GROUND)) {
+    if (!(flags & KART_MOTION_ON_GROUND)) {
         return;
     }
     if (*speed <= 0x3000) {

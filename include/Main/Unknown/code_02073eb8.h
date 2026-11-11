@@ -57,13 +57,15 @@ void ResetCameraBehind(const Vec3 *kartPos, void *quaternion);
 // Moves the chase camera position a toward the position goal behind the Kart: adds the Kart's movement of the last
 // frame, eases to the goal (follow distance behind the direction f, plus the Kart and collision offsets and
 // mPosGoalYOffset), keeps mHeldHeight while mHeightHold is set, then puts a at mFollowDistance times
-// mFollowDistanceScale from e (the Kart position). With bit 0x1000 of the Kart's mUnk_48 set it only adds the Kart's
-// movement times mKartMoveScale, and nothing at all while bit 0x4000000 of its mUnk_4c is also set.
+// mFollowDistanceScale from e (the Kart position). With KART_DRIVE_RESPAWN_FALL set in the Kart's mDriveFlags it only
+// adds the Kart's movement times mKartMoveScale, and nothing at all while KART_EFFECT_WATER_FALL is also set in its
+// mEffectFlags.
 void UpdateChaseCameraPos(Vec3 *pos, Vec3 *posOffset, Camera *camera, Kart *kart, Vec3 *kartPos, const Vec3 *forward,
                           s32 collisionShorten);
 // Moves the chase camera look-at a toward the Kart position: x and z at once, y eased. b is the eased offset (mUnk_0b4
-// of the Camera) and *c the lowering (mLookAtLowering): raised by 0x1000 per call up to 0xa000 while bit 0x10000 of the
-// Kart's mUnk_48 is set, else decayed. Takes the three Camera members by pointer, not the Camera.
+// of the Camera) and *c the lowering (mLookAtLowering): raised by 0x1000 per call up to 0xa000 while
+// KART_DRIVE_KEYED_PLACEMENT is set in the Kart's mDriveFlags, else decayed. Takes the three Camera members by pointer,
+// not the Camera.
 void UpdateChaseCameraLookAt(Vec3 *lookAt, Vec3 *lookAtOffset, s32 *lookAtLowering, Kart *kart, s32 scaledHopHeight,
                              s32 lookAtHeight);
 void SetCameraHeightHold(s32 hold);
@@ -128,18 +130,18 @@ void SetEntryCameraUpdateHold(s32 hold);
 // current entry of gEntryCamera (fresh mFovBlend, field of view pair and mShakeKind), sets up its mPosCurve (and
 // mUnk_1d0 in mode 2), advances the local random once when the entry Kart has ended and sets gCameraEntryChanged.
 void StartEntryCameraKind6Entry(void);
-// Eases mPosGoalYOffset toward 0 or, while bit 0x10 of the Kart's mUnk_44 or bit 0x10000 of its mUnk_48 is set, toward
-// a multiple of the y of c (the Kart's forward vector times mFollowDirectionSign); while bit 0x40000000 of mUnk_48 is
-// set it eases toward 0 at once.
+// Eases mPosGoalYOffset toward 0 or, while KART_MOTION_ON_GROUND is set in the Kart's mMotionFlags or
+// KART_DRIVE_KEYED_PLACEMENT in its mDriveFlags, toward a multiple of the y of c (the Kart's forward vector times
+// mFollowDirectionSign); while KART_DRIVE_BOOST_SURFACE_HELD is set it eases toward 0 at once.
 void UpdateChaseCameraPosGoalYOffset(Camera *camera, Kart *kart, Vec3 *forward);
 // Tests the camera's path from mPrevPos to mPos against the course collision. On a hit it sets mPosGoalCollisionOffset
 // and mCollisionOffsetLengthGoal or moves mPos out directly; it always eases mCollisionOffsetLength toward its goal.
 // Also sets mUnk_254, mUnk_258 and mUnk_25c and clears data_usa_0217ac80.
 void UpdateChaseCameraCollision(Camera *camera, Kart *kart, Vec3 *forward);
 // One frame of the chase camera (gChaseCamera) following Kart b: eases the field of view, the look-at, the position
-// goal and the position toward the Kart, then runs the collision test and the wobble. With bit 0x20 of the Kart's
-// mUnk_7c set it only updates mViewPosYOffset, and only while water is present. UpdateRace does not call it while
-// gRace.mUseChainCameras is non-zero.
+// goal and the position toward the Kart, then runs the collision test and the wobble. With KART_ENTRY_REMOVED set in
+// the Kart's mEntryFlags it only updates mViewPosYOffset, and only while water is present. UpdateRace does not call it
+// while gRace.mUseChainCameras is non-zero.
 void UpdateChaseCamera(Camera *camera, Kart *kart);
 void SetupCameraBehindKart(void);
 void ApplyCameraLookAt(Camera *camera);

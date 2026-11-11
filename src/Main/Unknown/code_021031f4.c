@@ -680,13 +680,13 @@ void SetupItemGessoKarts(ItemGesso *gesso) {
                 continue;
             }
             kart = GetKart(candidateIndex);
-            if (kart->mUnk_7c & 0x402020) {
+            if (kart->mEntryFlags & KART_ENTRY_REMOVED_PARKED_OR_TERESA) {
                 continue;
             }
-            if (kart->mUnk_4c & 0x10000840) {
+            if (kart->mEffectFlags & (KART_EFFECT_STAR | KART_EFFECT_RESPAWN_DROP | KART_EFFECT_KILLER)) {
                 continue;
             }
-            if (kart->mUnk_48 & 0x10000) {
+            if (kart->mDriveFlags & KART_DRIVE_KEYED_PLACEMENT) {
                 continue;
             }
             raceProgress = gRaceProgress;
@@ -700,8 +700,9 @@ void SetupItemGessoKarts(ItemGesso *gesso) {
         do {
             kartIndex = GetKartAtRank(rank);
             kart = GetKart(kartIndex);
-            if ((kart->mUnk_7c & 0x402020) == 0 && (kart->mUnk_4c & 0x10000840) == 0 &&
-                (kart->mUnk_48 & 0x10000) == 0) {
+            if ((kart->mEntryFlags & KART_ENTRY_REMOVED_PARKED_OR_TERESA) == 0 &&
+                (kart->mEffectFlags & (KART_EFFECT_STAR | KART_EFFECT_RESPAWN_DROP | KART_EFFECT_KILLER)) == 0 &&
+                (kart->mDriveFlags & KART_DRIVE_KEYED_PLACEMENT) == 0) {
                 gesso->mOrthoQuadCounts[kartIndex] = 4 - ((rank - 1) >> 1);
             }
             rank++;

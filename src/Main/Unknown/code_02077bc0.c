@@ -260,7 +260,7 @@ void StartKartRaceEndWrapper(s32 kartIndex) {
 }
 
 BOOL IsKartOnBoostSurface(s32 kartIndex) {
-    return (gKarts[kartIndex].mUnk_48 & KART_48_ON_BOOST_SURFACE) != 0;
+    return (gKarts[kartIndex].mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) != 0;
 }
 
 u32 GetKartForwardSpeedRatio(void) {
@@ -302,10 +302,10 @@ void IncrementEntryKartSurfaceCount(Kart *kart) {
     if (kart->mIndex != gRaceSetup->mEntryIndex) {
         return;
     }
-    if (kart->mUnk_4c & 0x40) {
+    if (kart->mEffectFlags & KART_EFFECT_STAR) {
         return;
     }
-    if (!(kart->mUnk_48 & 0x20000000)) {
+    if (!(kart->mDriveFlags & KART_DRIVE_ITEM_BOOST)) {
         gEntryKartCounters->mSurfaceCount++;
     }
 }
@@ -334,23 +334,26 @@ void SetKartModelsFogEnable(s32 fogEnableFlag) {
 }
 
 BOOL IsKartInRespawnWait(s32 kartIndex) {
-    return (gKarts[kartIndex].mUnk_48 & KART_48_RESPAWN_WAIT) != 0 ? 1 : 0;
+    return (gKarts[kartIndex].mDriveFlags & KART_DRIVE_RESPAWN_WAIT) != 0 ? 1 : 0;
 }
 
 BOOL IsEntryKartNotNormalOrScaleTableBit(void) {
     Kart *kart = &gKarts[gRaceSetup->mEntryIndex];
-    if (kart->mState != KART_STATE_NORMAL || (kart->mUnk_48 & 0x4000000) != 0) {
+    if (kart->mState != KART_STATE_NORMAL || (kart->mDriveFlags & KART_DRIVE_SCALE_TABLE_EFFECT) != 0) {
         return TRUE;
     }
     return FALSE;
 }
 
 BOOL IsEntryKartInContact(void) {
-    return (gKarts[gRaceSetup->mEntryIndex].mUnk_44 & 0xc0) != 0 ? 1 : 0;
+    return (gKarts[gRaceSetup->mEntryIndex].mMotionFlags & (KART_MOTION_OBJECT_CONTACT | KART_MOTION_COURSE_CONTACT)) !=
+                   0
+               ? 1
+               : 0;
 }
 
 BOOL IsEntryKartFlag1000Set(void) {
-    return (gKarts[gRaceSetup->mEntryIndex].mUnk_48 & 0x1000) != 0 ? 1 : 0;
+    return (gKarts[gRaceSetup->mEntryIndex].mDriveFlags & KART_DRIVE_RESPAWN_FALL) != 0 ? 1 : 0;
 }
 
 void SetKartNearPlayerRankBits(void) {
@@ -362,7 +365,7 @@ void SetKartNearPlayerRankBits(void) {
     Kart *kart;
     if (gRaceSetup->mRaceKind == RACE_KIND_AWARD) {
         for (awardKartIndex = 0; awardKartIndex < 3; awardKartIndex++) {
-            gKarts[awardKartIndex].mUnk_4c |= KART_4C_NEAR_PLAYER_RANK;
+            gKarts[awardKartIndex].mEffectFlags |= KART_EFFECT_NEAR_PLAYER_RANK;
         }
         return;
     }
@@ -385,7 +388,7 @@ void SetKartNearPlayerRankBits(void) {
             kartIndex = GetKartIndexAtRank((u16) (kartRank + 1));
             if (kartIndex >= 0) {
                 kart = &gKarts[kartIndex];
-                kart->mUnk_4c |= KART_4C_ONE_RANK_BEHIND_PLAYER;
+                kart->mEffectFlags |= KART_EFFECT_ONE_RANK_BEHIND_PLAYER;
             }
         }
     }
@@ -393,8 +396,8 @@ void SetKartNearPlayerRankBits(void) {
         kartIndex = kartIndices[nearSlotIndex];
         if (kartIndex >= 0) {
             kart = &gKarts[kartIndex];
-            if ((kart->mUnk_4c & 0x10000000) == 0) {
-                kart->mUnk_4c |= KART_4C_NEAR_PLAYER_RANK;
+            if ((kart->mEffectFlags & KART_EFFECT_KILLER) == 0) {
+                kart->mEffectFlags |= KART_EFFECT_NEAR_PLAYER_RANK;
             }
         }
     }
@@ -429,8 +432,10 @@ BOOL IsEntryKartNormalOrNotMissionRun(void) {
     s32 mode = gRaceSetup->mMode;
     if (mode == MODE_MISSION_RUN) {
         Kart *kart = &gKarts[gRaceSetup->mEntryIndex];
-        if (kart->mState != KART_STATE_NORMAL || (kart->mUnk_48 & 0x2000840) != 0 ||
-            (kart->mUnk_44 & KART_44_ON_GROUND) == 0 || (mode != MODE_MISSION_RUN ? 0 : IsAnyBalloonUnparked()) != 0) {
+        if (kart->mState != KART_STATE_NORMAL ||
+            (kart->mDriveFlags & (KART_DRIVE_SINKING | KART_DRIVE_RESPAWN_WAIT | KART_DRIVE_RESPAWN_LANDING)) != 0 ||
+            (kart->mMotionFlags & KART_MOTION_ON_GROUND) == 0 ||
+            (mode != MODE_MISSION_RUN ? 0 : IsAnyBalloonUnparked()) != 0) {
             result = FALSE;
         }
     }

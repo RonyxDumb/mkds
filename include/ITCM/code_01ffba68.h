@@ -18,7 +18,7 @@ void SetKartPrevCollisionCenter(Kart *kart);
 void ComputeKartCollisionCenter(Vec3 *result, const Vec3 *drawPos, s32 extra, Kart *kart);
 void ComputeKartPointAlongUp(Vec3 *result, const Vec3 *base, s32 extra, Kart *kart);
 void AdvanceKartTurnHeading(Kart *kart, s32 turnApplied);
-// One step of a turn in direction c (1 or -1) with e the mUnk_48 bit set for it; always returns 1.
+// One step of a turn in direction c (1 or -1) with e the mDriveFlags bit set for it; always returns 1.
 s32 ApplyKartTurn(Kart *kart, s16 baseTurnRate, s16 turnSign, s32 direction, s32 airborne, u32 turnFlag);
 s32 ApplyKartTurnInput(Kart *kart, s32 lowSpeedTurn);
 // Multiplies *a by 0xe6a / 0x1000 and sets it to 0 once its size is below 0x7b.
@@ -31,13 +31,13 @@ void AdvanceKartInputAndTurn(Kart *kart);
 void AdvanceKartCollisionTimer(Kart *kart);
 void UpdateKartSoundWrapper(Kart *kart);
 // Stores the rank in mRank; returns TRUE when the Kart moved up and the Kart now right behind it is not flagged in
-// mUnk_7c.
+// mEntryFlags.
 s32 AdvanceKartRank(Kart *kart);
 void AddKartSurfaceSoundRequest(Kart *kart, s32 entryIndex);
 void ResetKartTurnAndRadius(Kart *kart);
 // First step of UpdateKarts for one Kart: copies the near-Kart mask, the position, mUnk_1d8, mUnk_2e4 and mUnk_2d8 into
-// their previous values, clears mTestedKartMask, mNearKartMask and some bits of mUnk_44 and mUnk_4c, then runs slot 5
-// of Kart.mSlotFunctions.
+// their previous values, clears mTestedKartMask, mNearKartMask and some bits of mMotionFlags and mEffectFlags, then
+// runs slot 5 of Kart.mSlotFunctions.
 void UpdateKartPrevValuesAndClearFlags(Kart *kart);
 // Slot 4 step of one Kart: moves Kart.mCollisionCenter, sweeps it against the course from Kart.mPrevCollisionCenter,
 // counts the step and calls the function in mUnk_230.

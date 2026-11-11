@@ -79,7 +79,7 @@ void UpdateKartViewDistancesAndOutOfView(void) {
             if (distanceAlongView < 0) {
                 modelsEntry->mKartModelHidden = modelsEntry->mCharacterHidden = modelsEntry->mFarFromCamera = TRUE;
                 modelsEntry->mShadowModel->mFlags &= ~1;
-                kart->mUnk_4c |= KART_4C_OUT_OF_VIEW;
+                kart->mEffectFlags |= KART_EFFECT_OUT_OF_VIEW;
             } else {
                 isBeyondPlanes = FALSE;
                 marginWhole = FROM_FIXED12(margin);
@@ -89,13 +89,13 @@ void UpdateKartViewDistancesAndOutOfView(void) {
                     isBeyondPlanes = TRUE;
                 }
                 if (isBeyondPlanes != FALSE) {
-                    kart->mUnk_4c |= KART_4C_OUT_OF_VIEW;
+                    kart->mEffectFlags |= KART_EFFECT_OUT_OF_VIEW;
                 } else {
-                    kart->mUnk_4c &= ~KART_4C_OUT_OF_VIEW;
+                    kart->mEffectFlags &= ~KART_EFFECT_OUT_OF_VIEW;
                     modelsEntry->mKartModelHidden = modelsEntry->mCharacterHidden = modelsEntry->mFarFromCamera = FALSE;
                     modelsEntry->mShadowModel->mFlags |= 1;
                     if (distanceSquared > gKartDistanceLimitsSquared->z) {
-                        kart->mUnk_4c |= KART_4C_OUT_OF_VIEW;
+                        kart->mEffectFlags |= KART_EFFECT_OUT_OF_VIEW;
                         modelsEntry->mKartModelHidden = modelsEntry->mCharacterHidden = modelsEntry->mFarFromCamera =
                             TRUE;
                         modelsEntry->mShadowModel->mFlags &= ~1;
@@ -178,7 +178,7 @@ void UpdateKartNameTags(void) {
             }
         }
         if (gKartNameTags->mNameTagBeyondTwoNearest[kartObject->mKartIndex] != 0 ||
-            (GetKart(kartObject->mKartIndex)->mUnk_7c & 0x402020) != 0 ||
+            (GetKart(kartObject->mKartIndex)->mEntryFlags & KART_ENTRY_REMOVED_PARKED_OR_TERESA) != 0 ||
             (GetAbsoluteValue(posSource->y - GetKart(gRaceSetup->mEntryIndex)->mPos.y) > 0x96000 &&
              GetCurrentCameraKind() != 3)) {
             kartObject->mFadeLevelPerCall = -1;
@@ -300,7 +300,8 @@ void DrawKartNameTags(MtxFx43 *viewMatrix) {
         if (alpha == 0) {
             continue;
         }
-        if ((GetKart(gKartNameTags->mKartIndicesByDistanceAlongView[sortIndex])->mUnk_7c & 0xe0) != 0) {
+        if ((GetKart(gKartNameTags->mKartIndicesByDistanceAlongView[sortIndex])->mEntryFlags &
+             (KART_ENTRY_REMOVED | KART_ENTRY_HIDDEN | KART_ENTRY_SCALING_IN)) != 0) {
             continue;
         }
         MTX_MultVec43(&kartObject->mPos, viewMatrix, &viewPos);

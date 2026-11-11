@@ -46,12 +46,12 @@ void ApplyKartLanding(Kart *kart, Vec3 *groundNormal) {
     s32 sortKeyOffset;
     s32 distanceSquared;
 
-    if (kart->mUnk_44 & 0x40000010) {
+    if (kart->mMotionFlags & (KART_MOTION_ON_GROUND | KART_MOTION_VERTICAL_CONTACT)) {
         return;
     }
-    kart->mUnk_44 |= KART_44_LANDED;
+    kart->mMotionFlags |= KART_MOTION_LANDED;
     if (kart->mLandingTimer <= 0) {
-        soundQueueIndex = (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 3 : 2;
+        soundQueueIndex = (kart->mEntryFlags & KART_ENTRY_SELECTED) ? 3 : 2;
         sortKeyOffset = gKartSurfaceSoundSortOffsets[2];
         distanceSquared = GetKartCameraDistanceSquared(kart->mIndex);
         AddSoundRequest(gSoundRequestQueues + soundQueueIndex, distanceSquared + sortKeyOffset,
@@ -59,14 +59,14 @@ void ApplyKartLanding(Kart *kart, Vec3 *groundNormal) {
         StartKartModelScaleAnimation(kart, 0);
     }
     kart->mLandingTimer = 7;
-    if (kart->mUnk_48 & 0x2000000) {
-        kart->mUnk_4c &= ~KART_4C_RESPAWN_DROP;
-        kart->mUnk_48 &= ~0x2000000;
+    if (kart->mDriveFlags & KART_DRIVE_RESPAWN_LANDING) {
+        kart->mEffectFlags &= ~KART_EFFECT_RESPAWN_DROP;
+        kart->mDriveFlags &= ~KART_DRIVE_RESPAWN_LANDING;
         kart->mRespawnLandRaceFrame = GetRaceUpdateFrames();
         ResetRaceTaKartPositions(kart->mIndex);
         return;
     }
-    if ((!(kart->mUnk_4c & 0x10000000) && kart->mVelocity.y < 0 &&
+    if ((!(kart->mEffectFlags & KART_EFFECT_KILLER) && kart->mVelocity.y < 0 &&
          (kart->mAirborneFrames > 0x19 || kart->mLastGroundY - kart->mPos.y > 0x1e000)) ||
         kart->mState == KART_STATE_LAUNCH_DOUBLE_FLIP) {
         dotProduct = VEC_DotProduct(groundNormal, &kart->mVelocity);
@@ -83,9 +83,9 @@ void ApplyKartLanding(Kart *kart, Vec3 *groundNormal) {
             if (kart->mVerticalSpeed > speedLimit) {
                 kart->mVerticalSpeed = speedLimit;
             }
-            bits7c = kart->mUnk_7c;
-            if ((bits7c & 0x10) && kart->mKartModelsEntry->mKartModelHidden == 0) {
-                if ((bits7c & 1) || !(bits7c & 0x402000)) {
+            bits7c = kart->mEntryFlags;
+            if ((bits7c & KART_ENTRY_HAS_CHARACTER_ANIMATION) && kart->mKartModelsEntry->mKartModelHidden == 0) {
+                if ((bits7c & KART_ENTRY_SELECTED) || !(bits7c & KART_ENTRY_TERESA_OR_PARKED)) {
                     StartEffectWithCallback(0x4e, &kart->mPos, kart, SetEffectFlatVelocityFromKart);
                 }
             }
@@ -136,9 +136,9 @@ void CollideKartWithMapObjects(Kart *kart) {
     kart->mMapObjectVectorForwardDot = kart->mMapObjectVectorLength = 0;
     foundCount = FindMapObjectsTouchingKart(kart, &kart->mCollisionCenter, &positionOffset);
     if (foundCount != 0) {
-        if (!(kart->mUnk_48 & KART_48_SINKING)) {
+        if (!(kart->mDriveFlags & KART_DRIVE_SINKING)) {
             foundIndex = foundCount - 1;
-            kart->mUnk_44 |= 0x40000;
+            kart->mMotionFlags |= KART_MOTION_MOVED_BY_OBJECT;
             if (foundIndex >= 0) {
                 zeroVector = gKartVec3Zero;
                 do {
@@ -160,8 +160,9 @@ void CollideKartWithMapObjects(Kart *kart) {
                                     kart, &contactNormal, mapObject);
                             }
                             if (handlerResult & 8) {
-                                ApplyKartContact(kart, &contactNormal, (kart->mUnk_44 & 0x40) ? 1 : 0, 0x1000, -1, -1,
-                                                 handlerOutput);
+                                ApplyKartContact(kart, &contactNormal,
+                                                 (kart->mMotionFlags & KART_MOTION_OBJECT_CONTACT) ? 1 : 0, 0x1000, -1,
+                                                 -1, handlerOutput);
                             } else if (handlerResult & 2) {
                                 factor = Vec3DotUnrounded(&kart->mTurnedForward, &contactNormal) + 0x1000;
                                 if (factor > 0x1000) {
@@ -247,7 +248,7 @@ void CollideKartWithMapObjects(Kart *kart) {
                 } while (--foundIndex >= 0);
             }
         }
-        if (kart->mUnk_48 & 0x4000000) {
+        if (kart->mDriveFlags & KART_DRIVE_SCALE_TABLE_EFFECT) {
             if (kart->mScaleEffectMapObject == mapObject) {
                 positionOffset.z = 0;
                 positionOffset.x = 0;
@@ -266,8 +267,8 @@ void CollideKartWithMapObjects(Kart *kart) {
         }
     }
     if (contactRequested != FALSE) {
-        kart->mUnk_44 |= 0x40;
+        kart->mMotionFlags |= KART_MOTION_OBJECT_CONTACT;
     } else {
-        kart->mUnk_44 &= ~0x40;
+        kart->mMotionFlags &= ~KART_MOTION_OBJECT_CONTACT;
     }
 }

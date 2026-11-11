@@ -64,7 +64,7 @@ BOOL IsLowestOffsetFarOnHitBitOrKartBit(Kart *kart, u32 collisionBits, Vec3 *low
         }
     }
     if (farEnough == FALSE) {
-        if (!(kart->mUnk_44 & 0x4000000)) {
+        if (!(kart->mMotionFlags & KART_MOTION_COURSE_PUSH_STRONG)) {
             result = FALSE;
         }
     }
@@ -89,7 +89,7 @@ BOOL IsLowestOffsetFarOnHitBitOrYAbove(Kart *kart, u32 collisionBits, Vec3 *lowe
 }
 
 void ClearKartGroundContact(Kart *kart, u32 clearedBits) {
-    kart->mUnk_44 = kart->mUnk_44 & ~clearedBits;
+    kart->mMotionFlags = kart->mMotionFlags & ~clearedBits;
     kart->mCollisionHitLink->mObject = NULL;
     kart->mSurfaceGroup = -1;
     StopKartCurrentEffects(kart);
@@ -103,8 +103,8 @@ BOOL StartKartRespawnWaitIfBelowZero(Kart *kart) {
     u32 respawnSlot;
 
     if (kart->mPos.y < 0) {
-        if (!(kart->mUnk_7c & 0x400) && !(kart->mUnk_48 & KART_48_RESPAWN_WAIT)) {
-            kart->mUnk_48 = kart->mUnk_48 | KART_48_RESPAWN_WAIT;
+        if (!(kart->mEntryFlags & KART_ENTRY_WIFI_PEER) && !(kart->mDriveFlags & KART_DRIVE_RESPAWN_WAIT)) {
+            kart->mDriveFlags = kart->mDriveFlags | KART_DRIVE_RESPAWN_WAIT;
             kartIndex = kart->mIndex;
             if (gRaceSetup->mMode == MODE_BATTLE) {
                 respawnSlot = GetCourseMapRespawnSlot(0);
@@ -112,7 +112,7 @@ BOOL StartKartRespawnWaitIfBelowZero(Kart *kart) {
                 respawnSlot = GetCourseMapRespawnSlot(gRaceProgress->mKarts[kartIndex].mCheckpoint);
             }
             kart->mRespawnSlot = respawnSlot;
-            if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+            if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
                 if (gRaceSetup->mCourseId == COURSE_ID_RAINBOW && (gRaceSoundKind & 1)) {
                     soundHandleEntry = TakeSoundHandleEntry(GetSoundHandlePool(0));
                     if (gSoundModeHolder.mSeqStartEnabled != 0) {
@@ -129,8 +129,11 @@ BOOL StartKartRespawnWaitIfBelowZero(Kart *kart) {
         }
         return TRUE;
     }
-    kart->mUnk_44 = kart->mUnk_44 & 0xbbceffff;
-    kart->mUnk_48 = kart->mUnk_48 & 0xff9ffbfe;
+    kart->mMotionFlags =
+        kart->mMotionFlags & ~(KART_MOTION_LANDED | KART_MOTION_ATTRACTOR_PULL | KART_MOTION_DRIFT_BREAK |
+                               KART_MOTION_COURSE_PUSH_STRONG | KART_MOTION_VERTICAL_CONTACT);
+    kart->mDriveFlags = kart->mDriveFlags & ~(KART_DRIVE_ON_BOOST_SURFACE | KART_DRIVE_CONTACT_EFFECT |
+                                              KART_DRIVE_COURSE_SOUND_PLAYED | KART_DRIVE_BOOST_SPEED_FLOOR);
     return FALSE;
 }
 
@@ -138,7 +141,7 @@ void AdvanceKartQuaternionBlendFactor(Kart *kart, const Vec3 *direction) {
     s32 dot = Vec3DotUnrounded(&kart->mGroundNormal, direction);
     s32 maxFactor;
 
-    if (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE) {
+    if (kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) {
         maxFactor = 0x4cd;
     } else {
         maxFactor = 0x1ec;
@@ -147,7 +150,7 @@ void AdvanceKartQuaternionBlendFactor(Kart *kart, const Vec3 *direction) {
         dot = 0;
     }
     if (dot >= 0xe66) {
-        if (kart->mUnk_44 & 0x1000) {
+        if (kart->mMotionFlags & KART_MOTION_STILL_HOLD) {
             if (kart->mCollisionHitLink->mObject == NULL && kart->mPointMotion.x == 0 && kart->mPointMotion.y == 0 &&
                 kart->mPointMotion.z == 0 && kart->mCollisionStepFrames > 100) {
                 kart->mQuaternionBlendFactor = 0;
@@ -166,19 +169,19 @@ void AdvanceKartQuaternionBlendFactor(Kart *kart, const Vec3 *direction) {
     }
 }
 
-// Counts mAirborneFrames, also clears mUnk_234, sets or clears bit 0x4000 and stores mLastGroundY. Not run while the
-// kart is below y = 0.
+// Counts mAirborneFrames, also clears mUnk_234, sets or clears KART_MOTION_AIRBORNE_LONG and stores mLastGroundY. Not
+// run while the kart is below y = 0.
 void UpdateKartAirborne(Kart *kart) {
-    if (kart->mUnk_44 & KART_44_ON_GROUND) {
+    if (kart->mMotionFlags & KART_MOTION_ON_GROUND) {
         kart->mAirborneFrames = 0;
         kart->mAirTiltAngle = 0;
-        kart->mUnk_44 = kart->mUnk_44 & ~0x4000;
+        kart->mMotionFlags = kart->mMotionFlags & ~KART_MOTION_AIRBORNE_LONG;
         kart->mLastGroundY = kart->mPos.y;
         return;
     }
     kart->mAirborneFrames = kart->mAirborneFrames + 1;
     if (kart->mAirborneFrames > 5) {
-        kart->mUnk_44 = kart->mUnk_44 | 0x4000;
+        kart->mMotionFlags = kart->mMotionFlags | KART_MOTION_AIRBORNE_LONG;
     }
 }
 
@@ -196,7 +199,7 @@ void AdvanceKartOrientation(Kart *kart, Vec3 *direction) {
     QuaternionBlend(&kart->mUnk_f0_q, &kart->mUnk_100_q, &kart->mUnk_f0_q, kart->mQuaternionBlendFactor);
     QuaternionFromAxisAngle(&gKartVec3UnitY, (u16) (kart->mHeadingAngle + kart->mHeadingAngleOffset), &kart->mUnk_e0_m);
     QuaternionMultiply(&kart->mUnk_f0_q, &kart->mUnk_e0_m, &kart->mUnk_110_q);
-    if (kart->mUnk_44 & 2) {
+    if (kart->mMotionFlags & KART_MOTION_HOPPING) {
         if (kart->mHopSpeed > 0) {
             kart->mHopTiltAngle = 0x9c4 - (u16) MUL_FIXED12_NO_ROUND(kart->mHopHeight, 500);
             if (kart->mHopTiltAngle > 0x6a4) {
@@ -234,16 +237,16 @@ void RefreshKartSurface(Kart *kart) {
     } else {
         kart->mSpeedLimitFactor = currentFactor + MUL_FIXED12_ROUNDED(targetFactor - currentFactor, 0x4cd);
     }
-    if (kart->mUnk_4c & 0x10000040) {
+    if (kart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) {
         easeIndex = 0;
     } else {
         easeIndex = surfaceGroup;
     }
     kart->mTurnedForwardEaseFactor = kart->mPhysicalParam->mSurfaceTurnedForwardEaseFactors[easeIndex];
-    if (kart->mUnk_48 & 0x40000000) {
-        if (kart->mUnk_44 & KART_44_ON_GROUND) {
+    if (kart->mDriveFlags & KART_DRIVE_BOOST_SURFACE_HELD) {
+        if (kart->mMotionFlags & KART_MOTION_ON_GROUND) {
             if (surfaceGroup != 0xb) {
-                kart->mUnk_48 = kart->mUnk_48 & ~0x40000000;
+                kart->mDriveFlags = kart->mDriveFlags & ~KART_DRIVE_BOOST_SURFACE_HELD;
             }
         }
     }
@@ -255,24 +258,24 @@ void AdvanceKartBoosts(Kart *kart) {
     s32 frameDifference;
     enum { K0 } entryIndex;
 
-    if (kart->mUnk_48 & KART_48_MINI_TURBO) {
+    if (kart->mDriveFlags & KART_DRIVE_MINI_TURBO) {
         kart->mMiniTurboTimer = kart->mMiniTurboTimer - 1;
         if (kart->mMiniTurboTimer <= 0) {
-            kart->mUnk_48 = kart->mUnk_48 & ~KART_48_MINI_TURBO;
+            kart->mDriveFlags = kart->mDriveFlags & ~KART_DRIVE_MINI_TURBO;
             kart->mMiniTurboTimer = 0;
         }
     }
-    if (kart->mUnk_48 & 0x100000) {
+    if (kart->mDriveFlags & KART_DRIVE_KINOKO_BOOST) {
         kart->mItemEffectData.mKinokoBoostTimer = kart->mItemEffectData.mKinokoBoostTimer - 1;
         if (kart->mItemEffectData.mKinokoBoostTimer <= 0) {
-            kart->mUnk_48 = kart->mUnk_48 & ~0x20100000;
+            kart->mDriveFlags = kart->mDriveFlags & ~(KART_DRIVE_KINOKO_BOOST | KART_DRIVE_ITEM_BOOST);
             kart->mItemEffectData.mKinokoBoostTimer = 0;
         }
     }
-    if (!(kart->mUnk_44 & 0x1000000) && !(kart->mUnk_7c & 0x400)) {
+    if (!(kart->mMotionFlags & KART_MOTION_START_DONE) && !(kart->mEntryFlags & KART_ENTRY_WIFI_PEER)) {
         AdvanceKartRaceStartBoost(kart);
     }
-    if (!(kart->mUnk_4c & 0x400)) {
+    if (!(kart->mEffectFlags & KART_EFFECT_RESPAWN_BOOST_WINDOW)) {
         return;
     }
     raceUpdateFrames = GetRaceUpdateFrames();
@@ -295,18 +298,18 @@ void AdvanceKartBoosts(Kart *kart) {
     if (frameDifference <= 2) {
         StartKartBoost(kart, KART_BOOST_RESPAWN, 10);
     }
-    kart->mUnk_4c = kart->mUnk_4c & ~0x400;
+    kart->mEffectFlags = kart->mEffectFlags & ~KART_EFFECT_RESPAWN_BOOST_WINDOW;
 }
 
 // Ends the hold TryHoldKartStill started: clears the hold bit and, if the hit link holds an object, moves mPos to the
 // link position; also requests surface sound entry 0 while the race runs.
 void StopKartStillHold(Kart *kart) {
-    if (!(kart->mUnk_4c & 2)) {
+    if (!(kart->mEffectFlags & KART_EFFECT_GROUND_SOUND_STEP)) {
         if (IsRaceStarted() == 1) {
             AddKartSurfaceSoundRequest(kart, 0);
         }
     }
-    kart->mUnk_44 = kart->mUnk_44 & ~0x1000;
+    kart->mMotionFlags = kart->mMotionFlags & ~KART_MOTION_STILL_HOLD;
     if (kart->mCollisionHitLink->mObject == NULL) {
         return;
     }
@@ -323,7 +326,7 @@ void SetKartCourseHitAttributeBit(Kart *kart, u32 hitValue) {
 }
 
 void AdvanceKartHop(Kart *kart) {
-    if (!(kart->mUnk_44 & 4)) {
+    if (!(kart->mMotionFlags & KART_MOTION_HOP_ACTIVE)) {
         return;
     }
     kart->mHopSpeed = kart->mHopSpeed + kart->mGravity;
@@ -331,7 +334,7 @@ void AdvanceKartHop(Kart *kart) {
     if (kart->mHopHeight < 0) {
         kart->mHopHeight = 0;
         kart->mHopSpeed = 0;
-        kart->mUnk_44 = kart->mUnk_44 & ~0x804;
+        kart->mMotionFlags = kart->mMotionFlags & ~(KART_MOTION_HOP_ACTIVE | KART_MOTION_HOP_STEER);
     }
 }
 
@@ -340,7 +343,7 @@ void AdvanceKartEffects(Kart *kart) {
     KartEffects *effects;
     u32 kartFlags;
 
-    if (kart->mUnk_4c & KART_4C_NEAR_PLAYER_RANK) {
+    if (kart->mEffectFlags & KART_EFFECT_NEAR_PLAYER_RANK) {
         turnEffects = GetKartTurnEffects(kart->mIndex);
         effects = GetKartEffects(kart->mIndex);
         AdvanceKartLevel4Effects(turnEffects, kart);
@@ -351,9 +354,9 @@ void AdvanceKartEffects(Kart *kart) {
         StopKartTurnEffects(GetKartTurnEffects(kart->mIndex));
     }
     kart->mEffectVelocity = kart->mVelocity;
-    kartFlags = kart->mUnk_44;
-    if (kartFlags & KART_44_ON_GROUND) {
-        if (!(kartFlags & 0x1000)) {
+    kartFlags = kart->mMotionFlags;
+    if (kartFlags & KART_MOTION_ON_GROUND) {
+        if (!(kartFlags & KART_MOTION_STILL_HOLD)) {
             kart->mEffectVelocity.y = kart->mEffectVelocity.y - kart->mVerticalSpeed;
         }
     }

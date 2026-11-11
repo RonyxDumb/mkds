@@ -72,7 +72,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
     Vec3 *axis;
 
     recordFlags = record->mFlags;
-    wasOnGround = (kart->mUnk_44 & KART_44_ON_GROUND) != 0;
+    wasOnGround = (kart->mMotionFlags & KART_MOTION_ON_GROUND) != 0;
     state = kart->mParticipantRecordData;
     newPos.x = record->mPosX << 10;
     newPos.y = record->mPosY << 10;
@@ -91,19 +91,19 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
     state->mTargetTurnAngle = record->mTurnAngle;
     kart->mTurnAngle = record->mTurnAngle;
     if (wasOnGround) {
-        kart->mUnk_44 |= KART_44_ON_GROUND;
+        kart->mMotionFlags |= KART_MOTION_ON_GROUND;
     } else {
-        kart->mUnk_44 &= ~KART_44_ON_GROUND;
+        kart->mMotionFlags &= ~KART_MOTION_ON_GROUND;
     }
     if (kart->mParticipantRecordData->mRecordKartBits & 2) {
-        kart->mUnk_44 |= 2;
+        kart->mMotionFlags |= KART_MOTION_HOPPING;
     } else {
-        kart->mUnk_44 &= ~2;
+        kart->mMotionFlags &= ~KART_MOTION_HOPPING;
     }
     if (kart->mParticipantRecordData->mRecordKartBits & 8) {
-        kart->mUnk_44 |= KART_44_DRIFTING;
+        kart->mMotionFlags |= KART_MOTION_DRIFTING;
     } else {
-        kart->mUnk_44 &= ~KART_44_DRIFTING;
+        kart->mMotionFlags &= ~KART_MOTION_DRIFTING;
     }
     if (((kart->mParticipantRecordData->mAppliedFlags & 0x10000) != 0) != ((recordFlags & 0x10000) != 0)) {
         value = kart->mHeadingAngle;
@@ -112,7 +112,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         headingAxis = data_02165530;
         QuaternionFromAxisAngle(&headingAxis, kart->mHeadingAngle, &kart->mUnk_e0_m);
         kart->mUnk_110_q = kart->mUnk_e0_m;
-        if (kart->mUnk_7c & 0x400) {
+        if (kart->mEntryFlags & KART_ENTRY_WIFI_PEER) {
             stateAgain = kart->mParticipantRecordData;
             stateAgain->mSmoothedPos = kart->mPos;
             stateAgain->mSmoothedDrawPos = stateAgain->mSmoothedPos;
@@ -166,12 +166,12 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         if (state->mPosOffsetIndex > 3) {
             state->mPosOffsetIndex = 0;
         }
-    } else if (!(kart->mUnk_48 & 0x20000)) {
+    } else if (!(kart->mDriveFlags & KART_DRIVE_HIT_STATE)) {
         prevPos = kart->mPrevPos;
         VEC_Add(&newPos, &state->mPosOffset, &newPos);
         FindCollisionSlotsAroundPos(&newPos, stepCount * 0xd000 + kart->mRadius, 0x8000);
         for (index = 0; index < stepCount; index++) {
-            if (kart->mUnk_48 & KART_48_SINKING) {
+            if (kart->mDriveFlags & KART_DRIVE_SINKING) {
                 kart->mPos.y -= 0x19a;
             } else {
                 if (index < 3 && index < stepCount / 2) {
@@ -187,7 +187,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
                 kart->mTurnAngle = stateAgain->mEasedTurnAngle;
                 MTX_RotAxis33(&turnMatrix, &kart->mUnk_12c, FX_SinIdx((u16) kart->mTurnAngle),
                               FX_CosIdx((u16) kart->mTurnAngle));
-                if (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE) {
+                if (kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) {
                     MTX_RotAxis33(&fixedAngleMatrix, &kart->mUnk_120, SIN_OF_ANGLE(0x5d0), COS_OF_ANGLE(0x5d0));
                     MTX_Concat33(&fixedAngleMatrix, &turnMatrix, &turnMatrix);
                 }
@@ -202,7 +202,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
                 if (kart->mParticipantRecordData->mRecordBits & 1) {
                     kart->mVerticalSpeed = 0;
                 }
-                scale = (kart->mUnk_44 & KART_44_ON_GROUND) ? 0xee1 : 0xfae;
+                scale = (kart->mMotionFlags & KART_MOTION_ON_GROUND) ? 0xee1 : 0xfae;
                 kart->mHitVelocity.x = MUL_FIXED12_NO_ROUND(kart->mHitVelocity.x, scale);
                 kart->mHitVelocity.y = MUL_FIXED12_NO_ROUND(kart->mHitVelocity.y, scale);
                 kart->mHitVelocity.z = MUL_FIXED12_NO_ROUND(kart->mHitVelocity.z, scale);
@@ -210,10 +210,10 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
                         (s64) kart->mHitVelocity.y * kart->mHitVelocity.y +
                         (s64) kart->mHitVelocity.z * kart->mHitVelocity.z >=
                     0xa429) {
-                    kart->mUnk_44 |= 0x2000;
+                    kart->mMotionFlags |= KART_MOTION_HIT_VELOCITY;
                 } else {
                     kart->mHitVelocity = gKartVec3Zero;
-                    kart->mUnk_44 &= ~0x2000;
+                    kart->mMotionFlags &= ~KART_MOTION_HIT_VELOCITY;
                 }
             }
             if (CollideSphereWithCourse(&newPos, &prevPos, 0, kart->mRadius, 1, kart->mCollisionSlot, &collisionOffset,
@@ -223,14 +223,14 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
             prevPos = newPos;
         }
     }
-    if (kart->mUnk_48 & KART_48_SINKING) {
+    if (kart->mDriveFlags & KART_DRIVE_SINKING) {
         goto l0;
     }
     kart->mPos.x = newPos.x;
     kart->mPos.z = newPos.z;
     startedState = 0;
     if (((kart->mParticipantRecordData->mAppliedFlags & 1) != 0) != ((recordFlags & 1) != 0) &&
-        (kart->mUnk_44 & KART_44_ON_GROUND)) {
+        (kart->mMotionFlags & KART_MOTION_ON_GROUND)) {
         stateAgain = ((volatile Kart *) kart)->mParticipantRecordData;
         stateAgain->mHopSpeed = 0x1405;
         stateAgain->mHopHeight = 0;
@@ -259,7 +259,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         index = 0;
         StartFadeFog();
         StartEffectsAtOtherKarts(kart->mIndex);
-        flag = kart->mUnk_7c & 0x200;
+        flag = kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL;
         if (flag) {
             if (flag) {
                 kart->mParticipantRecordData->mEventToggleFlags ^= 0x4000;
@@ -285,8 +285,8 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         StartKartTeresa(kart);
     }
     if (((kart->mParticipantRecordData->mAppliedFlags & 0x40) != 0) != ((recordFlags & 0x40) != 0)) {
-        if (kart->mUnk_7c & 0x200) {
-            if ((kart->mUnk_4c & 0x10000040) || kart->mState == KART_STATE_PUSH_FLIP) {
+        if (kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
+            if ((kart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || kart->mState == KART_STATE_PUSH_FLIP) {
                 goto l1;
             }
         } else if (kart->mState == KART_STATE_PUSH_DOUBLE_FLIP) {
@@ -299,8 +299,8 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
             StartSound(&kart->mSoundSource, 0xe8, 0x7f, 0);
         }
     } else if (((kart->mParticipantRecordData->mAppliedFlags & 0x20) != 0) != ((recordFlags & 0x20) != 0)) {
-        if (kart->mUnk_7c & 0x200) {
-            if ((kart->mUnk_4c & 0x10000040) || kart->mState == KART_STATE_PUSH_FLIP) {
+        if (kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
+            if ((kart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || kart->mState == KART_STATE_PUSH_FLIP) {
                 goto l2;
             }
         } else if (kart->mState == KART_STATE_PUSH_FLIP) {
@@ -317,17 +317,17 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
     }
     if (((kart->mParticipantRecordData->mAppliedFlags & 0x80000) != 0) != ((recordFlags & 0x80000) != 0)) {
         kart->mItemEffectData.mGessoFrames = 0;
-        kart->mUnk_4c |= 0x8000000;
-        kart->mUnk_4c &= ~0x20000;
-        if (kart->mUnk_4c & KART_4C_AHEAD_BOOST) {
+        kart->mEffectFlags |= KART_EFFECT_GESSO;
+        kart->mEffectFlags &= ~KART_EFFECT_COURSE_COLORED;
+        if (kart->mEffectFlags & KART_EFFECT_AHEAD_BOOST) {
             ResetKartModelsCourseColors(kart);
         }
         StartKartModelColorBlend(kart->mKartModelsEntry, 0, 0x1084, 0);
-        if (kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) {
+        if (kart->mEntryFlags & KART_ENTRY_HAS_CHARACTER_ANIMATION) {
             StartKartCharacterAnimationOnce(kart, 1, 0);
             SetCharacterFaceFrameIndex(kart->mKartModelsEntry, 1);
         }
-        if (!(kart->mUnk_48 & (KART_48_SINKING | KART_48_RESPAWN_WAIT))) {
+        if (!(kart->mDriveFlags & (KART_DRIVE_SINKING | KART_DRIVE_RESPAWN_WAIT))) {
             StartKartSeqArcSound(kart, kart->mSoundIndex, 0);
         }
         StartOrthoQuadsGesoSumi(kart->mIndex, 0);
@@ -335,7 +335,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
     if (startedState) {
         otherKart = GetKart((u16) ((recordFlags & 0x60000000) >> 29));
         if (otherKart != kart) {
-            otherKart->mUnk_4c |= 0x1000;
+            otherKart->mEffectFlags |= KART_EFFECT_START_SOUND_PENDING;
         }
     }
     otherKart = GetKart(gRaceSetup->mEntryIndex);
@@ -347,8 +347,8 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         value = kart->mIndex;
         direction = data_02154f88;
         sourceKart = GetKart(value);
-        if (otherKart->mUnk_7c & 0x200) {
-            if ((otherKart->mUnk_4c & 0x10000040) || otherKart->mState == KART_STATE_PUSH_FLIP) {
+        if (otherKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
+            if ((otherKart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || otherKart->mState == KART_STATE_PUSH_FLIP) {
                 goto l3;
             }
         } else if (otherKart->mState == KART_STATE_PUSH_FLIP) {
@@ -367,8 +367,8 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         value = kart->mIndex;
         direction = data_02154f88;
         sourceKart = GetKart(value);
-        if (otherKart->mUnk_7c & 0x200) {
-            if ((otherKart->mUnk_4c & 0x10000040) || otherKart->mState == KART_STATE_PUSH_FLIP) {
+        if (otherKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
+            if ((otherKart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || otherKart->mState == KART_STATE_PUSH_FLIP) {
                 goto l4;
             }
         } else if (otherKart->mState == KART_STATE_PUSH_FLIP) {
@@ -387,8 +387,8 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         value = kart->mIndex;
         direction = data_02154f88;
         sourceKart = GetKart(value);
-        if (otherKart->mUnk_7c & 0x200) {
-            if ((otherKart->mUnk_4c & 0x10000040) || otherKart->mState == KART_STATE_PUSH_FLIP) {
+        if (otherKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
+            if ((otherKart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || otherKart->mState == KART_STATE_PUSH_FLIP) {
                 goto l5;
             }
         } else if (otherKart->mState == KART_STATE_PUSH_FLIP) {
@@ -407,8 +407,8 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         value = kart->mIndex;
         direction = data_02154f88;
         sourceKart = GetKart(value);
-        if (otherKart->mUnk_7c & 0x200) {
-            if ((otherKart->mUnk_4c & 0x10000040) || otherKart->mState == KART_STATE_PUSH_FLIP) {
+        if (otherKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
+            if ((otherKart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || otherKart->mState == KART_STATE_PUSH_FLIP) {
                 goto l6;
             }
         } else if (otherKart->mState == KART_STATE_PUSH_FLIP) {
@@ -430,8 +430,8 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         value = kart->mIndex;
         direction = data_02154f88;
         sourceKart = GetKart(value);
-        if (otherKart->mUnk_7c & 0x200) {
-            if ((otherKart->mUnk_4c & 0x10000040) || otherKart->mState == KART_STATE_PUSH_FLIP) {
+        if (otherKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
+            if ((otherKart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || otherKart->mState == KART_STATE_PUSH_FLIP) {
                 goto l7;
             }
         } else if (otherKart->mState == KART_STATE_PUSH_FLIP) {
@@ -452,8 +452,8 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         value = kart->mIndex;
         direction = data_02154f88;
         sourceKart = GetKart(value);
-        if (otherKart->mUnk_7c & 0x200) {
-            if ((otherKart->mUnk_4c & 0x10000040) || otherKart->mState == KART_STATE_PUSH_FLIP) {
+        if (otherKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
+            if ((otherKart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || otherKart->mState == KART_STATE_PUSH_FLIP) {
                 goto l8;
             }
         } else if (otherKart->mState == KART_STATE_PUSH_FLIP) {
@@ -474,8 +474,8 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         value = kart->mIndex;
         direction = data_02154f88;
         sourceKart = GetKart(value);
-        if (otherKart->mUnk_7c & 0x200) {
-            if ((otherKart->mUnk_4c & 0x10000040) || otherKart->mState == KART_STATE_PUSH_FLIP) {
+        if (otherKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
+            if ((otherKart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || otherKart->mState == KART_STATE_PUSH_FLIP) {
                 goto l9;
             }
         } else if (otherKart->mState == KART_STATE_PUSH_FLIP) {
@@ -496,8 +496,8 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         value = kart->mIndex;
         direction = data_02154f88;
         sourceKart = GetKart(value);
-        if (otherKart->mUnk_7c & 0x200) {
-            if ((otherKart->mUnk_4c & 0x10000040) || otherKart->mState == KART_STATE_PUSH_FLIP) {
+        if (otherKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
+            if ((otherKart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || otherKart->mState == KART_STATE_PUSH_FLIP) {
                 goto l10;
             }
         } else if (otherKart->mState == KART_STATE_PUSH_FLIP) {

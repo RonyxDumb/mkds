@@ -16,7 +16,7 @@ void StartEntryKartSound(Kart *kart, u32 soundId) {
     if (kart == NULL) {
         return;
     }
-    if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) == 0) {
+    if ((kart->mEntryFlags & KART_ENTRY_SELECTED) == 0) {
         return;
     }
     StartSoundFullVolume(&kart->mSoundSource, soundId);

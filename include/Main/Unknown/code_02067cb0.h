@@ -7,14 +7,14 @@ typedef struct MapObject MapObject;
 
 // Collision response 7 of gCollideKartWithMapObjectResponses (indexed by the value CollideKartWithMapObject returns for
 // the kart and the map object): runs TryStartKartState3 and, when it starts, for the selected kart increments the
-// counter of the record GetEntryKartCounters returns and sets bit 0x20000 of mUnk_48. Stores 7 through the second
-// parameter and returns 2.
+// counter of the record GetEntryKartCounters returns and sets KART_DRIVE_HIT_STATE in mDriveFlags. Stores 7 through the
+// second parameter and returns 2.
 int CollideKartWithMapObjectResponse7(Kart *kart, s32 *result);
 // Collision response 5 of gCollideKartWithMapObjectResponses (indexed by the value CollideKartWithMapObject returns for
 // the kart and the map object): runs TrySpinKart with 2 and, when that succeeds, passes the result of StartEffect with
-// 0x4f at mPos to SetupKartFollowEffectWithVelocity with the kart index and 0x46 if bit 0x10 of mUnk_7c is set and, for
-// the selected kart, increments the counter of the record GetEntryKartCounters returns. Stores 5 through the second
-// parameter and returns 0.
+// 0x4f at mPos to SetupKartFollowEffectWithVelocity with the kart index and 0x46 if KART_ENTRY_HAS_CHARACTER_ANIMATION
+// is set in mEntryFlags and, for the selected kart, increments the counter of the record GetEntryKartCounters returns.
+// Stores 5 through the second parameter and returns 0.
 int CollideKartWithMapObjectResponse5(Kart *kart, s32 *result);
 // Collision response 6 of gCollideKartWithMapObjectResponses (indexed by the value CollideKartWithMapObject returns for
 // the kart and the map object): when mVelocityLength of the kart is above 0x3000 or flag 0x200 of mFlags of the object

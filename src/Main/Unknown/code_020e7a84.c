@@ -173,7 +173,7 @@ void UpdateJg(void) {
     }
     if (gRaceSetup->mMode != MODE_MISSION_RUN &&
         gRaceProgress->mKarts[gJgKartIndex].mStatus == RACE_PROGRESS_KART_STATUS_GOAL_REACHED &&
-        (gJgKart->mUnk_48 & KART_48_RESPAWN_WAIT) == 0) {
+        (gJgKart->mDriveFlags & KART_DRIVE_RESPAWN_WAIT) == 0) {
         Vec3 targetOffset;
         gJgMain.mFrameIndex = 2;
         gJgKartPos = gJgKart->mPos;
@@ -228,15 +228,15 @@ void UpdateJg(void) {
             return;
         }
     }
-    kartFlags = gJgKart->mUnk_48;
-    if (kartFlags & 1) {
+    kartFlags = gJgKart->mDriveFlags;
+    if (kartFlags & KART_DRIVE_ON_BOOST_SURFACE) {
         return;
     }
     if (gJgLapAndReverseEnabled == 0) {
         return;
     }
     if ((gRaceProgress->mKarts[gJgKartIndex].mFlags & RACE_PROGRESS_KART_FLAG_AGAINST_CHECKPOINT) != 0 &&
-        (kartFlags & 0x800) == 0) {
+        (kartFlags & KART_DRIVE_RESPAWN_WAIT) == 0) {
         data_0217b8c4++;
         if (data_0217b8c4 <= 0x3c) {
             return;
@@ -765,7 +765,7 @@ void UpdateJgState1(void) {
         NNS_SndPlayerStopSeq(seqPlayer, 0);
         StartSndHandleSound(&data_0217b9dc, seqPlayer);
     }
-    if (IsKartEnded(gJgKartIndex) != 0 || (gJgKart->mUnk_48 & KART_48_RESPAWN_WAIT) != 0) {
+    if (IsKartEnded(gJgKartIndex) != 0 || (gJgKart->mDriveFlags & KART_DRIVE_RESPAWN_WAIT) != 0) {
         SetStateMachineState(&gJgStateMachine, 5);
         return;
     }
@@ -777,7 +777,7 @@ void UpdateJgState1(void) {
     } else {
         data_0217b8c4 = 0;
     }
-    if ((gJgKart->mUnk_48 & KART_48_ON_BOOST_SURFACE) == 0) {
+    if ((gJgKart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) == 0) {
         return;
     }
     SetStateMachineState(&gJgStateMachine, 5);
@@ -801,7 +801,7 @@ void UpdateJgState2(void) {
     targetOffset = gJgLapOffset;
     targetOffset.x += gJgShiftX;
     MTX_MultVec43(&targetOffset, &gJgMatrix, &gJgTargetPos);
-    if (++data_0217b8b4 > gJgState2FrameCount || (gJgKart->mUnk_48 & KART_48_RESPAWN_WAIT) != 0) {
+    if (++data_0217b8b4 > gJgState2FrameCount || (gJgKart->mDriveFlags & KART_DRIVE_RESPAWN_WAIT) != 0) {
         SetStateMachineState(&gJgStateMachine, 5);
     }
 }
@@ -818,7 +818,7 @@ void EnterJgState3(void) {
 
 void UpdateJgState3(void) {
     AdvanceJgPointsAndSetTarget(&gJgKind3Offset, &data_021593e0, &data_021593ec);
-    if ((gJgKart->mUnk_48 & KART_48_RESPAWN_WAIT) == 0) {
+    if ((gJgKart->mDriveFlags & KART_DRIVE_RESPAWN_WAIT) == 0) {
         return;
     }
     SetStateMachineState(&gJgStateMachine, 5);
@@ -920,7 +920,7 @@ void EnterJgState5(void) {
     MTX_MultVec43(&gJgTargetPos, &gJgPreviousInverseMatrix, &data_0217b984);
     data_0217b89c = 0;
     initialSpeed = 0;
-    if ((gJgKart->mUnk_48 & KART_48_ON_BOOST_SURFACE) == 0) {
+    if ((gJgKart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) == 0) {
         initialSpeed = 0xffffbccd;
     }
     data_0217b8d8 = initialSpeed;
@@ -930,7 +930,7 @@ void UpdateJgState5(void) {
     s32 acceleration;
 
     MTX_MultVec43(&data_0217b984, &gJgMatrix, &gJgTargetPos);
-    if ((gJgKart->mUnk_48 & KART_48_ON_BOOST_SURFACE) != 0) {
+    if ((gJgKart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) != 0) {
         acceleration = 0x2000;
     } else {
         acceleration = 0x800;

@@ -324,7 +324,7 @@ s32 ComputeItemThrowForward(ItemInUse *itemInUse, s32 baseSpeed, s32 speedFactor
             throwDirection = itemInUse->mKartOrientation.mRows[2];
         }
     }
-    if ((itemInUse->mKart->mUnk_48 & KART_48_ON_BOOST_SURFACE) == 0) {
+    if ((itemInUse->mKart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) == 0) {
         throwDirection.y = 0;
     }
     if ((s64) throwDirection.x * throwDirection.x + (s64) throwDirection.y * throwDirection.y +
@@ -353,7 +353,7 @@ s32 ComputeItemThrowBackward(ItemInUse *itemInUse, s32 speed, s32 speedFactor, s
         throwDirection.y = -itemInUse->mKartOrientation.mRows[2].y;
         throwDirection.z = -itemInUse->mKartOrientation.mRows[2].z;
     }
-    if ((itemInUse->mKart->mUnk_48 & KART_48_ON_BOOST_SURFACE) == 0) {
+    if ((itemInUse->mKart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) == 0) {
         throwDirection.y = 0;
     }
     if ((s64) throwDirection.x * throwDirection.x + (s64) throwDirection.y * throwDirection.y +

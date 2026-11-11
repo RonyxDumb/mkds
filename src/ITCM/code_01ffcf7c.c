@@ -307,10 +307,10 @@ void AdvanceKartAiHeading(struct KartAi *kartAi, Vec3 *directionA, Vec3 *directi
     if (kart->mState != KART_STATE_NORMAL) {
         return;
     }
-    if (kart->mUnk_44 & 2) {
+    if (kart->mMotionFlags & KART_MOTION_HOPPING) {
         return;
     }
-    if (kart->mUnk_4c & 0x10000000) {
+    if (kart->mEffectFlags & KART_EFFECT_KILLER) {
         return;
     }
     steered = FALSE;
@@ -356,9 +356,10 @@ void AdvanceKartAiHeading(struct KartAi *kartAi, Vec3 *directionA, Vec3 *directi
              12);
         steered = TRUE;
     }
-    if ((kart->mUnk_4c & 0x8000000) && kartAi->mTurnAngleDegrees < 0x46000 && (kart->mUnk_44 & KART_44_ON_GROUND) &&
-        !(kart->mUnk_48 & 0x8020) && kart->mVelocityLength > 0x3000 && kartAi->mDriftState != 2 &&
-        kartAi->mContactStage == 0) {
+    if ((kart->mEffectFlags & KART_EFFECT_GESSO) && kartAi->mTurnAngleDegrees < 0x46000 &&
+        (kart->mMotionFlags & KART_MOTION_ON_GROUND) &&
+        !(kart->mDriveFlags & (KART_DRIVE_BOOST | KART_DRIVE_RACE_START_BOOST)) && kart->mVelocityLength > 0x3000 &&
+        kartAi->mDriftState != 2 && kartAi->mContactStage == 0) {
         kartAi->mHeadingSwingPhase += 0x44c;
         kartAi->mHeadingSwingOffset = MUL_FIXED12_ROUNDED(FX_SinIdx(kartAi->mHeadingSwingPhase), 0xfa);
         kart->mHeadingAngle += (s16) kartAi->mHeadingSwingOffset * kartAi->mHeadingSwingSign;
@@ -372,9 +373,9 @@ end:
         return;
     }
     if (turnSign > 0) {
-        kart->mUnk_48 |= KART_48_TURN_LEFT;
+        kart->mDriveFlags |= KART_DRIVE_TURN_LEFT;
     } else {
-        kart->mUnk_48 |= KART_48_TURN_RIGHT;
+        kart->mDriveFlags |= KART_DRIVE_TURN_RIGHT;
     }
 }
 

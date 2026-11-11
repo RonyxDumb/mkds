@@ -633,10 +633,10 @@ void UpdateItemKouraRState4(ItemKouraR *kouraR) {
 
     kartItems = kouraR->mKartItems;
     kart = kartItems->mKart;
-    kartBits = kart->mUnk_7c;
+    kartBits = kart->mEntryFlags;
     kartFlagged = TRUE;
-    if ((kartBits & 0x402020) == 0) {
-        if ((kart->mUnk_4c & KART_4C_RESPAWN_DROP) == 0) {
+    if ((kartBits & KART_ENTRY_REMOVED_PARKED_OR_TERESA) == 0) {
+        if ((kart->mEffectFlags & KART_EFFECT_RESPAWN_DROP) == 0) {
             kartFlagged = FALSE;
         }
     }
@@ -647,7 +647,7 @@ void UpdateItemKouraRState4(ItemKouraR *kouraR) {
     } else {
         value = kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags;
         if (value & 0x10000000) {
-            if (kartBits & 1) {
+            if (kartBits & KART_ENTRY_SELECTED) {
                 value = SteerItemKouraRToKart(kouraR, 0x5333, 0x19a, 1);
             } else {
                 value = SteerItemKouraRToKart(kouraR, 0x4b33, 0x19a, 0);

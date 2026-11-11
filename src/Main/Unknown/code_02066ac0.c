@@ -52,12 +52,14 @@
 
 s32 CollideKartWithMapObjectResponse13(Kart *kart, s32 *output) {
     *output = 0xc;
-    kart->mUnk_48 &= 0xdfe77fdf;
+    kart->mDriveFlags &= ~(KART_DRIVE_BOOST | KART_DRIVE_RACE_START_BOOST | KART_DRIVE_MINI_TURBO |
+                           KART_DRIVE_KINOKO_BOOST | KART_DRIVE_ITEM_BOOST);
     kart->mBoostTimer = 0;
     kart->mItemEffectData.mKinokoBoostTimer = 0;
     kart->mMiniTurboTimer = 0;
-    if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
-        if ((kart->mUnk_4c & 0x10000000) == 0 && (kart->mUnk_48 & 0x4000000) == 0) {
+    if ((kart->mEntryFlags & KART_ENTRY_SELECTED) != 0) {
+        if ((kart->mEffectFlags & KART_EFFECT_KILLER) == 0 &&
+            (kart->mDriveFlags & KART_DRIVE_SCALE_TABLE_EFFECT) == 0) {
             ResetCameraHalfFovAngleGoal();
         }
         StopDispCapBlend();
@@ -68,12 +70,14 @@ s32 CollideKartWithMapObjectResponse13(Kart *kart, s32 *output) {
 
 s32 CollideKartWithMapObjectResponse14(Kart *kart, s32 *output) {
     *output = 0xc;
-    kart->mUnk_48 &= 0xdfe77fdf;
+    kart->mDriveFlags &= ~(KART_DRIVE_BOOST | KART_DRIVE_RACE_START_BOOST | KART_DRIVE_MINI_TURBO |
+                           KART_DRIVE_KINOKO_BOOST | KART_DRIVE_ITEM_BOOST);
     kart->mBoostTimer = 0;
     kart->mItemEffectData.mKinokoBoostTimer = 0;
     kart->mMiniTurboTimer = 0;
-    if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
-        if ((kart->mUnk_4c & 0x10000000) == 0 && (kart->mUnk_48 & 0x4000000) == 0) {
+    if ((kart->mEntryFlags & KART_ENTRY_SELECTED) != 0) {
+        if ((kart->mEffectFlags & KART_EFFECT_KILLER) == 0 &&
+            (kart->mDriveFlags & KART_DRIVE_SCALE_TABLE_EFFECT) == 0) {
             ResetCameraHalfFovAngleGoal();
         }
         StopDispCapBlend();
@@ -86,7 +90,7 @@ s32 CollideKartWithMapObjectResponse14(Kart *kart, s32 *output) {
 
 s32 CollideKartWithMapObjectResponse11(Kart *kart, s32 *output, s32 mapObject) {
     if (TryStartKartScaleTableEffect(kart) != FALSE && kart->mScaleEffectMapObject != (struct MapObject *) mapObject &&
-        (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
+        (kart->mEntryFlags & KART_ENTRY_SELECTED) != 0) {
         GetEntryKartCounters()->mMapObjectHitCount++;
     }
     *output = 0;
@@ -135,10 +139,10 @@ s32 ApplyKartSurfaceKind7(Kart *kart) {
     KartSurfaceSoundIds soundIds;
     PlayingSound *sound;
 
-    if (kart->mSurfaceGroup != 8 || (kart->mUnk_44 & 0x80000000) != 0) {
+    if (kart->mSurfaceGroup != 8 || (kart->mMotionFlags & KART_MOTION_STATE_RESET) != 0) {
         StartKartBoost(kart, KART_BOOST_ITEM_OR_SURFACE, 0x3c);
         soundIds = gKartSurfaceSoundIds;
-        if (kart->mSurfaceVariant > 0 && (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
+        if (kart->mSurfaceVariant > 0 && (kart->mEntryFlags & KART_ENTRY_SELECTED) != 0) {
             sound = StartSound(&kart->mSoundSource, soundIds.mSoundIds[kart->mSurfaceVariant - 1], 0x7f, 0);
             if (sound != NULL) {
                 sound->mFlags = sound->mFlags | 0x10;
@@ -152,12 +156,12 @@ s32 ApplyKartSurfaceKind7(Kart *kart) {
 }
 
 s32 ApplyKartSurfaceKind12(Kart *kart) {
-    if (kart->mSurfaceGroup != 8 || (kart->mUnk_44 & 0x80000000) != 0) {
+    if (kart->mSurfaceGroup != 8 || (kart->mMotionFlags & KART_MOTION_STATE_RESET) != 0) {
         if (gRaceSetup->mCourseId == COURSE_ID_OLD_KOOPA_AGB || gRaceSetup->mCourseId == COURSE_ID_OLD_SKY_AGB) {
             StartSound(&kart->mSoundSource, 0x15e, 0x7f, 0);
         }
     }
-    kart->mUnk_48 = kart->mUnk_48 | 0x10000000;
+    kart->mDriveFlags = kart->mDriveFlags | KART_DRIVE_JUMP_PAD;
     kart->mVerticalSpeed = gKartSurfaceKind12VerticalSpeeds[kart->mSurfaceVariant];
     kart->mSurfaceSpeedLimitGoal = data_0216559c[kart->mSurfaceVariant];
     StopKartCurrentEffects(kart);
@@ -168,10 +172,10 @@ s32 ApplyKartSurfaceKind18(Kart *kart) {
     KartSurfaceSoundIds soundIds;
     PlayingSound *sound;
 
-    if (kart->mSurfaceGroup != 8 || (kart->mUnk_44 & 0x80000000) != 0) {
+    if (kart->mSurfaceGroup != 8 || (kart->mMotionFlags & KART_MOTION_STATE_RESET) != 0) {
         StartKartBoost(kart, KART_BOOST_ITEM_OR_SURFACE, 0x3c);
         soundIds = gKartSurfaceSoundIds;
-        if (kart->mSurfaceVariant > 0 && (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
+        if (kart->mSurfaceVariant > 0 && (kart->mEntryFlags & KART_ENTRY_SELECTED) != 0) {
             sound = StartSound(&kart->mSoundSource, soundIds.mSoundIds[kart->mSurfaceVariant - 1], 0x7f, 0);
             if (sound != NULL) {
                 sound->mFlags = sound->mFlags | 0x10;
@@ -181,7 +185,7 @@ s32 ApplyKartSurfaceKind18(Kart *kart) {
         kart->mBoostTimer = 0x3c;
     }
     StopKartCurrentEffects(kart);
-    kart->mUnk_48 = kart->mUnk_48 | 0x400000;
+    kart->mDriveFlags = kart->mDriveFlags | KART_DRIVE_BOOST_SPEED_FLOOR;
     return 8;
 }
 
@@ -189,12 +193,12 @@ s32 ApplyKartSurfaceKind15(Kart *kart) {
     u16 surfaceVariant;
 
     ApplyKartSurfaceEffect(0, kart);
-    if ((kart->mUnk_48 & 0x10000) == 0) {
+    if ((kart->mDriveFlags & KART_DRIVE_KEYED_PLACEMENT) == 0) {
         surfaceVariant = kart->mSurfaceVariant;
         if (gRaceSetup->mMode == MODE_BATTLE || gRaceSetup->mMode == MODE_MISSION_RUN) {
             PlaceKartAtKeyedPlacement(kart, surfaceVariant);
         } else {
-            kart->mUnk_48 = kart->mUnk_48 | 0x10000;
+            kart->mDriveFlags = kart->mDriveFlags | KART_DRIVE_KEYED_PLACEMENT;
             ResetKartMotionState(kart, 0);
         }
     }
@@ -209,9 +213,9 @@ s32 ApplyKartSurfaceKind17(Kart *kart) {
 s32 ApplyKartSurfaceKind19(Kart *kart) {
     PlayingSound *sound;
 
-    if (kart->mSurfaceGroup != 0xb || (kart->mUnk_44 & 0x80000000) != 0) {
+    if (kart->mSurfaceGroup != 0xb || (kart->mMotionFlags & KART_MOTION_STATE_RESET) != 0) {
         StartKartBoost(kart, KART_BOOST_ITEM_OR_SURFACE, 0x3c);
-        if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
+        if ((kart->mEntryFlags & KART_ENTRY_SELECTED) != 0) {
             sound = StartSound(&kart->mSoundSource, 0x1b9, 0x7f, 0);
             if (sound != NULL) {
                 sound->mFlags = sound->mFlags | 0x10;
@@ -220,7 +224,7 @@ s32 ApplyKartSurfaceKind19(Kart *kart) {
     } else {
         kart->mBoostTimer = 0x3c;
     }
-    kart->mUnk_48 = kart->mUnk_48 | 0x40000001;
+    kart->mDriveFlags = kart->mDriveFlags | (KART_DRIVE_ON_BOOST_SURFACE | KART_DRIVE_BOOST_SURFACE_HELD);
     StopKartCurrentEffects(kart);
     return 0xb;
 }
@@ -248,11 +252,11 @@ void AdvanceKartAi(Kart *kart) {
     Kart *entryKart;
     u32 kartBits;
 
-    kartBits = kart->mUnk_7c;
-    if ((kartBits & 2) == 0) {
+    kartBits = kart->mEntryFlags;
+    if ((kartBits & KART_ENTRY_CPU) == 0) {
         return;
     }
-    if ((kartBits & 0x200000) != 0) {
+    if ((kartBits & KART_ENTRY_DID_NOT_FINISH) != 0) {
         return;
     }
     if (IsRaceStarted() != 1) {
@@ -274,9 +278,9 @@ void AdvanceKartAi(Kart *kart) {
     offset.y = FROM_FIXED12(offset.y);
     offset.z = FROM_FIXED12(offset.z);
     if (offset.x * offset.x + offset.y * offset.y + offset.z * offset.z > 0x271000) {
-        kart->mUnk_48 = kart->mUnk_48 | 0x8000000;
+        kart->mDriveFlags = kart->mDriveFlags | KART_DRIVE_FAR_FROM_ENTRY;
     } else {
-        kart->mUnk_48 = kart->mUnk_48 & ~0x8000000;
+        kart->mDriveFlags = kart->mDriveFlags & ~KART_DRIVE_FAR_FROM_ENTRY;
     }
 }
 
@@ -291,11 +295,11 @@ void StartKartRaceEnd(Kart *kart) {
     KartItemEffectState *effectState;
     u32 flag;
 
-    if ((kart->mUnk_7c & 0x1000) != 0) {
+    if ((kart->mEntryFlags & KART_ENTRY_RACE_END_STARTED) != 0) {
         return;
     }
-    kart->mUnk_7c = kart->mUnk_7c | 0x1000;
-    if ((kart->mUnk_7c & 0x400) == 0) {
+    kart->mEntryFlags = kart->mEntryFlags | KART_ENTRY_RACE_END_STARTED;
+    if ((kart->mEntryFlags & KART_ENTRY_WIFI_PEER) == 0) {
         courseMap = gCourseMap;
         if ((courseMap->mRaceRouteCount != 0 || courseMap->mBattleRouteCount != 0) && IsKartEnded(kart->mIndex) != 0) {
             raceSetup = gRaceSetup;
@@ -306,13 +310,13 @@ void StartKartRaceEnd(Kart *kart) {
                 value = 1;
             }
             if (value != 0) {
-                value = kart->mUnk_7c;
-                if ((value & 6) == 0 && (value & 8) == 0) {
+                value = kart->mEntryFlags;
+                if ((value & (KART_ENTRY_CPU | KART_ENTRY_GHOST)) == 0 && (value & KART_ENTRY_ENDED) == 0) {
                     gInputSlots[kart->mEntryIndex].mSourceKind = 3;
                     if (gRaceProgress->mKarts[kart->mIndex].mStatus == RACE_PROGRESS_KART_STATUS_GOAL_REACHED) {
                         CallKartAiSetup(kart->mAi, kart->mIndex);
-                        kart->mUnk_7c = kart->mUnk_7c | 2;
-                        if ((kart->mUnk_7c & 2) != 0) {
+                        kart->mEntryFlags = kart->mEntryFlags | KART_ENTRY_CPU;
+                        if ((kart->mEntryFlags & KART_ENTRY_CPU) != 0) {
                             for (index = 0; index < 12; index++) {
                                 if (index != 0) {
                                     kart->mPhysicalParam->mSurfaceTurnedForwardEaseFactors[index] =
@@ -326,17 +330,17 @@ void StartKartRaceEnd(Kart *kart) {
                             }
                         }
                     } else {
-                        kart->mUnk_7c = kart->mUnk_7c | 8;
+                        kart->mEntryFlags = kart->mEntryFlags | KART_ENTRY_ENDED;
                     }
                 }
             } else if (raceSetup->mRuleKind == 1 &&
                        gRaceProgress->mKarts[kart->mIndex].mStatus != RACE_PROGRESS_KART_STATUS_GOAL_REACHED) {
-                kart->mUnk_7c = kart->mUnk_7c | 0x200000;
+                kart->mEntryFlags = kart->mEntryFlags | KART_ENTRY_DID_NOT_FINISH;
             } else if (raceSetup->mMode == MODE_MISSION_RUN) {
-                kart->mUnk_7c = kart->mUnk_7c | 0x200000;
-                kart->mUnk_48 = kart->mUnk_48 | 0x2000;
+                kart->mEntryFlags = kart->mEntryFlags | KART_ENTRY_DID_NOT_FINISH;
+                kart->mDriveFlags = kart->mDriveFlags | KART_DRIVE_SLOWING_STOP;
             }
-            if ((kart->mUnk_7c & KART_7C_ENTRY_IS_GHOST) != 0) {
+            if ((kart->mEntryFlags & KART_ENTRY_GHOST) != 0) {
                 StartKartRemoval(kart, 0);
             }
         }
@@ -344,27 +348,27 @@ void StartKartRaceEnd(Kart *kart) {
     StartKartWinOrLoseAnimation(kart);
     StopOrthoQuads(kart->mIndex);
     ReleaseKartStarEffects(kart->mIndex);
-    if ((kart->mUnk_4c & 0x40) != 0) {
-        kart->mUnk_4c = kart->mUnk_4c & ~0x40;
+    if ((kart->mEffectFlags & KART_EFFECT_STAR) != 0) {
+        kart->mEffectFlags = kart->mEffectFlags & ~KART_EFFECT_STAR;
         StopKartStarModels(kart);
         kart->mItemEffect = 0;
         StopKartStarEffects(kart->mIndex);
         SetKartCharacterAnimation(kart, 0, 1);
-        if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0 && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
+        if ((kart->mEntryFlags & KART_ENTRY_SELECTED) != 0 && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
             StopKartStarSeq();
         }
-        if ((kart->mUnk_4c & KART_4C_AHEAD_BOOST) != 0) {
+        if ((kart->mEffectFlags & KART_EFFECT_AHEAD_BOOST) != 0) {
             SetKartModelsGrayColors(kart);
         }
     }
     effectState = &kart->mItemEffectData;
-    if ((kart->mUnk_4c & 0x10000000) != 0 && effectState->mKillerEnding == FALSE) {
+    if ((kart->mEffectFlags & KART_EFFECT_KILLER) != 0 && effectState->mKillerEnding == FALSE) {
         effectState->mKillerEnding = TRUE;
-        if ((kart->mUnk_7c & 0x200) != 0) {
+        if ((kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) != 0) {
             kart->mParticipantRecordData->mEventToggleFlags ^= 0x200000;
         }
     }
-    if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
+    if ((kart->mEntryFlags & KART_ENTRY_SELECTED) != 0) {
         SetRaceUpdateFramesAtEntryEnd();
         raceSetup = gRaceSetup;
         if (raceSetup->mMode != MODE_GRAND_PRIX && raceSetup->mMode != MODE_TIME_ATTACK &&
@@ -413,7 +417,7 @@ void StartKartRaceEnd(Kart *kart) {
         return;
     }
     soundOffset = GetKartSeqArcSoundOffsetByRank(GetKartRank(kart->mIndex));
-    if ((kart->mUnk_48 & (KART_48_SINKING | KART_48_RESPAWN_WAIT)) != 0) {
+    if ((kart->mDriveFlags & (KART_DRIVE_SINKING | KART_DRIVE_RESPAWN_WAIT)) != 0) {
         return;
     }
     StartKartSeqArcSound(kart, kart->mSoundIndex, soundOffset);
@@ -431,7 +435,7 @@ void AdvanceKartWobble(Kart *kart) {
     if (kart->mWobbleAmplitude > 0) {
         kart->mWobbleAmplitude = MUL_FIXED12_ROUNDED(kart->mWobbleAmplitude, gKartWobbleAmplitudeDecay);
         kart->mWobbleAmplitude = kart->mWobbleAmplitude - 0x64;
-        if ((kart->mUnk_44 & KART_44_ON_GROUND) == 0 ||
+        if ((kart->mMotionFlags & KART_MOTION_ON_GROUND) == 0 ||
             (kart->mForwardSpeed > 0 ? kart->mForwardSpeed : -kart->mForwardSpeed) < 0x3000) {
             kart->mWobbleAmplitude = MUL_FIXED12_ROUNDED(kart->mWobbleAmplitude, 0xe66);
         }
@@ -450,7 +454,7 @@ void AdvanceKartWobble(Kart *kart) {
     if ((kart->mWobbleEasedAmplitude > 0 ? kart->mWobbleEasedAmplitude : -kart->mWobbleEasedAmplitude) >= 0x29) {
         return;
     }
-    kart->mUnk_4c = kart->mUnk_4c & ~0x2000000;
+    kart->mEffectFlags = kart->mEffectFlags & ~KART_EFFECT_WOBBLE;
     kart->mWobbleAngle = 0;
     kart->mWobbleSine = 0;
     kart->mWobbleAmplitude = 0;
@@ -542,13 +546,13 @@ void AdvanceParticipantKartRecords(Kart *kart) {
         RequestBits(kart->mEntryIndex, PAD_KEY_RIGHT);
     }
     if ((kart->mParticipantRecordData->mRecordBits & 1) != 0) {
-        kart->mUnk_44 = kart->mUnk_44 | KART_44_ON_GROUND;
+        kart->mMotionFlags = kart->mMotionFlags | KART_MOTION_ON_GROUND;
     }
     if ((kart->mParticipantRecordData->mRecordBits & 0x20) != 0) {
         kart->mBoostTimer = 3;
-        kart->mUnk_48 = kart->mUnk_48 | KART_48_BOOST;
+        kart->mDriveFlags = kart->mDriveFlags | KART_DRIVE_BOOST;
     } else {
         kart->mBoostTimer = 0;
-        kart->mUnk_48 = kart->mUnk_48 & ~KART_48_BOOST;
+        kart->mDriveFlags = kart->mDriveFlags & ~KART_DRIVE_BOOST;
     }
 }

@@ -159,7 +159,7 @@ void SetItemKouraWKartItemsAndStateIfNone(ItemKouraW *item, s32 kartIndex) {
     kart = item->mKartItems->mKart;
     item->mStateMachine.mNextState =
         ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) ||
-         (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE))
+         (kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE))
             ? 2
             : 3;
     item->mStateMachine.mNextStateRequested = 1;
@@ -178,7 +178,7 @@ s32 InitItemKouraW(ItemInUse *itemInUse, ItemKouraW *item) {
         kart = item->mKartItems->mKart;
         item->mStateMachine.mNextState =
             ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) ||
-             (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE))
+             (kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE))
                 ? 2
                 : 3;
         item->mStateMachine.mNextStateRequested = 1;
@@ -322,7 +322,7 @@ void UpdateItemKouraWState0(ItemKouraW *item) {
 
 static inline Vec3 *GetItemKouraWNormalOrNull(ItemKouraW *item) {
     if (item->mStateMachine.mState >= 3) {
-        if (item->mKartItems->mKart->mUnk_48 & KART_48_ON_BOOST_SURFACE) {
+        if (item->mKartItems->mKart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) {
             return &item->mKartItems->mKart->mGroundNormal;
         }
     } else if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) {
@@ -398,7 +398,7 @@ void UpdateItemKouraWState1(ItemKouraW *item) {
     if (TrySetItemKouraWKartItems(item, item->mRankKartIndex) != 0) {
         kart = item->mKartItems->mKart;
         value = ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) ||
-                 (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE))
+                 (kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE))
                     ? 2
                     : 3;
         item->mStateMachine.mNextState = value;
@@ -414,7 +414,7 @@ void UpdateItemKouraWState1(ItemKouraW *item) {
         TrySetItemKouraWKartItems(item, value) != 0) {
         kart = item->mKartItems->mKart;
         entry = ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) ||
-                 (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE))
+                 (kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE))
                     ? 2
                     : 3;
         item->mStateMachine.mNextState = entry;
@@ -438,7 +438,7 @@ void UpdateItemKouraWState1(ItemKouraW *item) {
     SetItemKouraWKartItems(item, (u16) entry);
     kart = item->mKartItems->mKart;
     value = ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) ||
-             (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE))
+             (kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE))
                 ? 2
                 : 3;
     item->mStateMachine.mNextState = value;
@@ -461,7 +461,7 @@ void UpdateItemKouraWState3(ItemKouraW *item) {
     kart = item->mKartItems->mKart;
     gain = 0x800;
     if ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x10000000) &&
-        (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
+        (kart->mEntryFlags & KART_ENTRY_SELECTED)) {
         gain += 0x19a;
     }
     if (item->mSpeed > 0xd000) {
@@ -798,7 +798,7 @@ void InitItemKouraWFromData(ItemKouraW *item) {
             SetItemKouraWKartItems(item, kartIndex);
             kart = item->mKartItems->mKart;
             nextState = ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) ||
-                         (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE))
+                         (kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE))
                             ? 2
                             : 3;
             item->mStateMachine.mNextState = nextState;
@@ -809,7 +809,7 @@ void InitItemKouraWFromData(ItemKouraW *item) {
         SetItemKouraWKartItems(item, kartIndex);
         kart = item->mKartItems->mKart;
         nextState = ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) ||
-                     (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE))
+                     (kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE))
                         ? 2
                         : 3;
         item->mStateMachine.mNextState = nextState;
@@ -1142,7 +1142,7 @@ s32 CollideKartWithItemObjects(Kart *kart) {
     enum { K0 } kind;
 
     hitCount = 0;
-    isFarFromEntryKart = (kart->mUnk_48 & 0x8000000) != 0;
+    isFarFromEntryKart = (kart->mDriveFlags & KART_DRIVE_FAR_FROM_ENTRY) != 0;
     hitCountCap = 0xf;
     for (overlapIndex = 0; overlapIndex < gFoundCollisionSlotCount; overlapIndex++) {
         if (!(gFoundCollisionSlotFlags[overlapIndex] & 0x4000)) {
@@ -1159,7 +1159,7 @@ s32 CollideKartWithItemObjects(Kart *kart) {
         if (isHit == 0) {
             continue;
         }
-        if ((kart->mUnk_7c & KART_7C_TERESA) && DoesItemObjectHurtKart(item) != 0) {
+        if ((kart->mEntryFlags & KART_ENTRY_TERESA) && DoesItemObjectHurtKart(item) != 0) {
             continue;
         }
         gCollidedItemObjects[hitCount++] = item;

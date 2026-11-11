@@ -23,14 +23,14 @@ s32 LimitKartForwardSpeedAndGetScaled(Kart *kart) {
     s32 value;
     s32 limit;
     s32 pullSpeed;
-    u32 flags = kart->mUnk_48;
+    u32 flags = kart->mDriveFlags;
 
     isNegative = speed < 0;
 
     speed = speed > 0 ? speed : -speed;
     pullSpeed = kart->mAttractorPullSpeed;
     value = kart->mSpeedLimit - pullSpeed;
-    if ((flags & 4) && (kart->mUnk_44 & KART_44_REVERSING)) {
+    if ((flags & KART_DRIVE_BRAKE_HELD) && (kart->mMotionFlags & KART_MOTION_REVERSING)) {
         if (value > 0x3000) {
             value = 0x3000;
         }
@@ -41,8 +41,9 @@ s32 LimitKartForwardSpeedAndGetScaled(Kart *kart) {
     if (speed > limit) {
         kart->mForwardSpeed = limit;
     } else {
-        if (speed <= MUL_FIXED12_NO_ROUND(0x19a, kart->mSpeedLimitHitFactor) && !(kart->mUnk_44 & 0x80000) &&
-            !(flags & 6)) {
+        if (speed <= MUL_FIXED12_NO_ROUND(0x19a, kart->mSpeedLimitHitFactor) &&
+            !(kart->mMotionFlags & KART_MOTION_NEAR_KART_HELD) &&
+            !(flags & (KART_DRIVE_ACCEL_HELD | KART_DRIVE_BRAKE_HELD))) {
             kart->mForwardSpeed = 0;
         } else {
             kart->mForwardSpeed = speed;
@@ -122,13 +123,13 @@ void AdvanceKartQuaternionFromVector(Kart *kart, Vec3 *target) {
             kartQuaternion->y = 0;
             kartQuaternion->z = -fromUpQuaternion.z;
             kartQuaternion->w = -fromUpQuaternion.w;
-            kart->mUnk_48 = kart->mUnk_48 | 0x80000000;
+            kart->mDriveFlags = kart->mDriveFlags | KART_DRIVE_QUATERNION_FLIPPED;
         } else {
             kartQuaternion->x = fromUpQuaternion.x;
             kartQuaternion->y = 0;
             kartQuaternion->z = fromUpQuaternion.z;
             kartQuaternion->w = fromUpQuaternion.w;
-            kart->mUnk_48 = kart->mUnk_48 & ~0x80000000;
+            kart->mDriveFlags = kart->mDriveFlags & ~KART_DRIVE_QUATERNION_FLIPPED;
         }
     }
     QuaternionNormalize(kartQuaternion, kartQuaternion);

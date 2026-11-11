@@ -148,24 +148,24 @@ s32 CallKartCollisionCallbacks(s32 firstKartIndex, s32 secondKartIndex) {
     firstStanding = &gStandings->mKarts[firstKartIndex];
     firstHitsSecond = FALSE;
     if (secondStanding->mHitSeenFromKart[firstKartIndex] == 0) {
-        if ((firstKart->mUnk_48 & 0x100000) != 0) {
+        if ((firstKart->mDriveFlags & KART_DRIVE_KINOKO_BOOST) != 0) {
             firstHitsSecond = TRUE;
         }
     }
     result = 0;
     if (firstStanding->mHitSeenFromKart[secondKartIndex] == 0) {
-        if ((secondKart->mUnk_48 & 0x100000) != 0) {
+        if ((secondKart->mDriveFlags & KART_DRIVE_KINOKO_BOOST) != 0) {
             result = 1;
         }
     }
     firstGuarded = TRUE;
-    if ((firstKart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
+    if ((firstKart->mEffectFlags & KART_EFFECT_BLINK_GUARD) == 0) {
         if (GetKartItemEffect(firstKartIndex) != 1) {
             firstGuarded = FALSE;
         }
     }
     secondGuarded = TRUE;
-    if ((secondKart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
+    if ((secondKart->mEffectFlags & KART_EFFECT_BLINK_GUARD) == 0) {
         if (GetKartItemEffect(secondKartIndex) != 1) {
             secondGuarded = FALSE;
         }
@@ -187,13 +187,13 @@ s32 CallKartCollisionCallbacks(s32 firstKartIndex, s32 secondKartIndex) {
             firstStanding->mSkipNotNormalEnd = TRUE;
             if (gStandings->mKartHitByKartCallback != NULL) {
                 result = gStandings->mKartHitByKartCallback(firstKartIndex, secondKartIndex);
-                if ((firstKart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
+                if ((firstKart->mEffectFlags & KART_EFFECT_BLINK_GUARD) == 0) {
                     StartKartBlink(firstKart);
                 }
             }
         } else if (gStandings->mKartHitByKartCallback != NULL) {
             result = gStandings->mKartHitByKartCallback(firstKartIndex, secondKartIndex);
-            if ((firstKart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
+            if ((firstKart->mEffectFlags & KART_EFFECT_BLINK_GUARD) == 0) {
                 StartKartBlink(firstKart);
             }
         }
@@ -204,13 +204,13 @@ s32 CallKartCollisionCallbacks(s32 firstKartIndex, s32 secondKartIndex) {
             secondStanding->mSkipNotNormalEnd = TRUE;
             if (gStandings->mKartHitByKartCallback != NULL) {
                 result = gStandings->mKartHitByKartCallback(secondKartIndex, firstKartIndex);
-                if ((secondKart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
+                if ((secondKart->mEffectFlags & KART_EFFECT_BLINK_GUARD) == 0) {
                     StartKartBlink(secondKart);
                 }
             }
         } else if (gStandings->mKartHitByKartCallback != NULL) {
             result = gStandings->mKartHitByKartCallback(secondKartIndex, firstKartIndex);
-            if ((secondKart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
+            if ((secondKart->mEffectFlags & KART_EFFECT_BLINK_GUARD) == 0) {
                 StartKartBlink(secondKart);
             }
         }
@@ -391,8 +391,8 @@ void EliminateKart(u16 kartIndex) {
         StartBattleKartRemoval(GetKart(kartIndex));
     } else if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         kart = GetKart(kartIndex);
-        kart->mUnk_48 |= 0x2000;
-        kart->mUnk_7c |= 8;
+        kart->mDriveFlags |= KART_DRIVE_SLOWING_STOP;
+        kart->mEntryFlags |= KART_ENTRY_ENDED;
     }
 }
 
@@ -429,8 +429,8 @@ found:
     }
     for (kartIndex = 0; kartIndex < kartCount; kartIndex++) {
         kart = GetKart((u16) kartIndex);
-        kart->mUnk_48 |= 0x2000;
-        kart->mUnk_7c |= 8;
+        kart->mDriveFlags |= KART_DRIVE_SLOWING_STOP;
+        kart->mEntryFlags |= KART_ENTRY_ENDED;
     }
     gStandings->mWinnerTeamId = teamId;
     if (gRaceSetup->mMode == MODE_BATTLE) {
@@ -842,13 +842,13 @@ void UpdateStandings(void) {
             }
             if (gStandings->mKartHitCallback != NULL) {
                 notNormalOrFlagged = TRUE;
-                kartFlags = kart->mUnk_48;
-                objectsSkipSet = (kartFlags & 0x200) != 0;
-                if (kart->mState == KART_STATE_NORMAL && (kartFlags & 0x4000000) == 0) {
+                kartFlags = kart->mDriveFlags;
+                objectsSkipSet = (kartFlags & KART_DRIVE_OBJECTS_SKIP) != 0;
+                if (kart->mState == KART_STATE_NORMAL && (kartFlags & KART_DRIVE_SCALE_TABLE_EFFECT) == 0) {
                     notNormalOrFlagged = FALSE;
                 }
                 if (kartStanding->mObjectsSkipSeen == FALSE && objectsSkipSet != FALSE &&
-                    (kart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
+                    (kart->mEffectFlags & KART_EFFECT_BLINK_GUARD) == 0) {
                     kartStanding->mObjectsSkipSeen = TRUE;
                     kartStanding->mNotNormalOrFlaggedSeen = FALSE;
                     kartStanding->mNotNormalEndPending = KART_STANDING_HIT_END_NONE;
@@ -857,14 +857,14 @@ void UpdateStandings(void) {
                     if (kartStanding->mBalloonOrShineCount <= 1) {
                         if ((gRaceSetup->mMode == MODE_BATTLE && gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON) ||
                             gRaceSetup->mMode == MODE_MISSION_RUN) {
-                            kart->mUnk_7c |= 0x20000000;
-                            kart->mUnk_48 &= ~0x2000000;
+                            kart->mEntryFlags |= KART_ENTRY_OUT_OF_ROUND;
+                            kart->mDriveFlags &= ~KART_DRIVE_RESPAWN_LANDING;
                         }
                     }
-                } else if (kartStanding->mObjectsSkipSeen == TRUE && (kart->mUnk_44 & KART_44_LANDED) != 0) {
+                } else if (kartStanding->mObjectsSkipSeen == TRUE && (kart->mMotionFlags & KART_MOTION_LANDED) != 0) {
                     kartStanding->mObjectsSkipSeen = FALSE;
                     kartStanding->mObjectsSkipEndPending = 0;
-                    if ((kart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
+                    if ((kart->mEffectFlags & KART_EFFECT_BLINK_GUARD) == 0) {
                         StartKartBlink(kart);
                     }
                 }
@@ -876,20 +876,20 @@ void UpdateStandings(void) {
                     kartStanding->mObjectsSkipEndPending = kartStanding->mObjectsSkipEndPending + 1;
                 }
                 if (kartStanding->mNotNormalOrFlaggedSeen == FALSE && notNormalOrFlagged != FALSE &&
-                    (kart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
+                    (kart->mEffectFlags & KART_EFFECT_BLINK_GUARD) == 0) {
                     kartStanding->mNotNormalOrFlaggedSeen = TRUE;
                     if (kartStanding->mBalloonOrShineCount <= 1) {
                         if ((gRaceSetup->mMode == MODE_BATTLE && gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON) ||
                             gRaceSetup->mMode == MODE_MISSION_RUN) {
-                            kart->mUnk_7c |= 0x20000000;
+                            kart->mEntryFlags |= KART_ENTRY_OUT_OF_ROUND;
                         }
                     }
                 } else if (kartStanding->mNotNormalOrFlaggedSeen == TRUE && notNormalOrFlagged == FALSE &&
-                           (kart->mUnk_48 & 0x6052840) == 0) {
+                           (kart->mDriveFlags & KART_DRIVE_NOT_NORMAL) == 0) {
                     kartStanding->mNotNormalOrFlaggedSeen = FALSE;
                     if (kartStanding->mSkipNotNormalEnd == FALSE) {
                         kartStanding->mNotNormalEndPending = 0;
-                        if ((kart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
+                        if ((kart->mEffectFlags & KART_EFFECT_BLINK_GUARD) == 0) {
                             StartKartBlink(kart);
                         }
                     } else {

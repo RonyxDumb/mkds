@@ -458,7 +458,7 @@ typedef struct DataSharing {
     /* 10 */ s32 mSharedDataCopied[8];
     /* 30 */ u8 mUnk_30;
     /* 31 */ u8 mUnk_31[3];
-    /* 34 */ s32 mUnk_34;
+    /* 34 */ s32 mSharingPhase;
     /* 38 */ u16 mUnk_38;
     /* 3a */ u8 mParticipantMask;
     /* 3b */ u8 mUnk_3b;
@@ -581,7 +581,7 @@ typedef struct ConnectionWork {
             /* 0432 */ u16 mOwnIndex;
             /* 0434 */ u16 mUnk_0434;
             /* 0436 */ u16 mOperationFlags;
-            /* 0438 */ u8 mUnk_0438;
+            /* 0438 */ u8 mRememberedScanKeyHeld;
             /* 0439 */ u8 mUnk_0439;
             /* 043a */ u8 mExpectedRecordMask;
             /* 043b */ s8 mKeepScanning;
@@ -646,7 +646,7 @@ typedef struct ConnectionWork {
             /* 165c */ void *mMultiBootWork;
             /* 1660 */ s32 mMultiBootWorkSize;
             /* 1664 */ void *mAllocHeap;
-            /* 1668 */ void *mUnk_1668;
+            /* 1668 */ void *mMultiBootScratchBuffer;
             /* 166c */ s32 mUnk_166c;
             /* 1670 */ u8 mUnk_1670[0x1c];
             /* 168c */ u32 mMultiBootSegmentSize;
@@ -667,7 +667,7 @@ typedef struct ConnectionWork {
     /* 16a0 */ union {
         struct {
             /* 16a0 */ BlockEntry mBlockEntries[12];
-            /* 1d00 */ s32 mUnk_1d00;
+            /* 1d00 */ s32 mConnectionKind;
             /* 1d04 */ void *mHeap;
             /* 1d08 */ u16 mNextLoadIndex;
             /* 1d0a */ u16 mUnk_1d0a;
@@ -1118,8 +1118,8 @@ typedef struct Camera {
     /* 07c */ s32 mFrustumBottom;
     /* 080 */ s32 mFrustumLeft;
     /* 084 */ s32 mFrustumRight;
-    // Fraction of the Kart's last-frame movement (mPos - mPrevPos) added to the camera position while Kart bit 0x1000
-    // of mUnk_48 is set; 0x1000 when the camera is placed, times 0xe66/0x1000 per use.
+    // Fraction of the Kart's last-frame movement (mPos - mPrevPos) added to the camera position while
+    // KART_DRIVE_RESPAWN_FALL is set in Kart.mDriveFlags; 0x1000 when the camera is placed, times 0xe66/0x1000 per use.
     /* 088 */ s32 mKartMoveScale;
     /* 08c */ s32 mSecondFar;
     /* 090 */ Vec3 mViewLookAt;
@@ -1136,8 +1136,8 @@ typedef struct Camera {
     /* 0d8 */ s32 mUnk_0d8;
     /* 0dc */ s32 mFollowDistance;
     /* 0e0 */ s32 mInitialFollowDistance;
-    // Amount the look-at is lowered: +0x1000 per call up to 0xa000 while the Kart has bit 0x10000 of mUnk_48, else
-    // decays; subtracted from the look-at goal y (UpdateChaseCameraLookAt).
+    // Amount the look-at is lowered: +0x1000 per call up to 0xa000 while the Kart has KART_DRIVE_KEYED_PLACEMENT set,
+    // else decays; subtracted from the look-at goal y (UpdateChaseCameraLookAt).
     /* 0e4 */ s32 mLookAtLowering;
     /* 0e8 */ s32 mFollowDistanceScale;
     /* 0ec */ s32 mUnk_0ec;
@@ -1165,10 +1165,11 @@ typedef struct Camera {
     /* 154 */ s32 mWobbleDecay;
     /* 158 */ s32 mWobbleOffset;
     /* 15c */ Vec3 mForward;
-    // Added to the y of the position goal; eased toward a value taken from the Kart's heading y while Kart bit 0x10 of
-    // mUnk_44 or 0x10000 of mUnk_48 is set.
+    // Added to the y of the position goal; eased toward a value taken from the Kart's heading y while
+    // KART_MOTION_ON_GROUND is set in Kart.mMotionFlags or KART_DRIVE_KEYED_PLACEMENT in Kart.mDriveFlags.
     /* 168 */ s32 mPosGoalYOffset;
-    // Eased toward 0, or toward +-0x19000 (sign of Kart.mTurnDirection) while Kart bit 8 of mUnk_44 is set.
+    // Eased toward 0, or toward +-0x19000 (sign of Kart.mTurnDirection) while KART_MOTION_DRIFTING is set in
+    // Kart.mMotionFlags.
     /* 16c */ s32 mPosGoalKartOffsetScale;
     // Length of the push-out vector while the push is in state 1 of mUnk_254, else 0; mCollisionOffsetLength eases
     // toward it.
@@ -1234,7 +1235,7 @@ typedef struct Camera {
     /* 258 */ BOOL mCollisionActive;
     /* 25c */ BOOL mCollisionLatch;
     // GetKartForward (row 2 of the Kart's matrix, taken as its heading) of the selected Kart at creation; used instead
-    // of the live vector for a Kart with bit 0x20000000 of mUnk_4c. SetupCamera zeroes it.
+    // of the live vector for a Kart with KART_EFFECT_HEADING_SWING set. SetupCamera zeroes it.
     /* 260 */ Vec3 mSavedKartForward;
     /* 26c */ s16 mSideDistanceSign;
     /* 26e */ u8 mUnk_26e[0x2];
@@ -1501,8 +1502,8 @@ typedef struct KartAiTableIndexEntry {
 // One row of 'kartAIparam.bin'.
 typedef struct KartAiParamRow {
     /* 00 */ s32 mSpeedLimitAddition;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
+    /* 04 */ s32 mGapTableScale;
+    /* 08 */ s32 mSpeedLimitFloor;
 } KartAiParamRow;
 
 // State the CPU kart code shares: per-kart tables, the random generator pointer and the team counts.

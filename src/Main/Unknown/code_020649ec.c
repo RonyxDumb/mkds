@@ -51,16 +51,16 @@ void AdvancePeerKartMotion(Kart *kart) {
     s32 tableIndex;
     u32 kartBits;
 
-    kartBits = kart->mUnk_7c;
-    if ((kartBits & 0xa0) != 0) {
-        if ((kartBits & KART_7C_REMOVED) != 0) {
+    kartBits = kart->mEntryFlags;
+    if ((kartBits & (KART_ENTRY_REMOVED | KART_ENTRY_SCALING_IN)) != 0) {
+        if ((kartBits & KART_ENTRY_REMOVED) != 0) {
             AdvanceKartRemovalShrink(kart);
             return;
         }
         kart->mFramesSinceRemovalOrReset = kart->mFramesSinceRemovalOrReset + 1;
         tableIndex = kart->mFramesSinceRemovalOrReset;
         if (tableIndex >= 0x19) {
-            kart->mUnk_7c = kart->mUnk_7c & ~0x80;
+            kart->mEntryFlags = kart->mEntryFlags & ~KART_ENTRY_SCALING_IN;
             return;
         }
         kart->mScaleFactor.x = gKartScaleFactorXTable[tableIndex];
@@ -114,13 +114,13 @@ void AdvancePeerKartCollision(Kart *kart) {
     Vec3 *upAxis;
 
     recordState = kart->mParticipantRecordData;
-    if ((kart->mUnk_7c & KART_7C_REMOVED) != 0) {
+    if ((kart->mEntryFlags & KART_ENTRY_REMOVED) != 0) {
         return;
     }
-    if ((kart->mUnk_44 & KART_44_NEAR_KART) != 0) {
-        kart->mUnk_44 = kart->mUnk_44 | 0x80000;
+    if ((kart->mMotionFlags & KART_MOTION_NEAR_KART) != 0) {
+        kart->mMotionFlags = kart->mMotionFlags | KART_MOTION_NEAR_KART_HELD;
     } else {
-        kart->mUnk_44 = kart->mUnk_44 & ~0x80000;
+        kart->mMotionFlags = kart->mMotionFlags & ~KART_MOTION_NEAR_KART_HELD;
     }
     ComputeKartPointAlongUp(&kart->mCollisionCenter, &kart->mPos, 0x400, kart);
     CollideKartWithCourse(kart, &groundNormal);
@@ -129,10 +129,10 @@ void AdvancePeerKartCollision(Kart *kart) {
     kart->mCollisionStepFrames = kart->mCollisionStepFrames + 1;
     UpdateKartSoundWrapper(kart);
     AdvanceKartCollisionTimer(kart);
-    if ((kart->mUnk_4c & KART_4C_NEAR_PLAYER_RANK) != 0) {
+    if ((kart->mEffectFlags & KART_EFFECT_NEAR_PLAYER_RANK) != 0) {
         ComputeKartSidePoints(kart);
     }
-    if ((kart->mUnk_4c & 8) != 0) {
+    if ((kart->mEffectFlags & KART_EFFECT_MODEL_SCALE_ANIM) != 0) {
         AdvanceKartModelScaleAnimation(kart);
     }
     kart->mAdvanceOffsetCycle(kart);
@@ -189,7 +189,7 @@ void AdvancePeerKartOrientation(Kart *kart, Vec3 *groundNormal) {
         recordState->mSmoothedHeadingAngle + MUL_FIXED12_NO_ROUND(headingDifference, 0x19a);
     QuaternionFromAxisAngle(&gKartVec3UnitY, (u16) (kart->mHeadingAngle + kart->mHeadingAngleOffset), &kart->mUnk_e0_m);
     QuaternionMultiply(&kart->mUnk_f0_q, &kart->mUnk_e0_m, &kart->mUnk_110_q);
-    if ((kart->mUnk_44 & 2) != 0) {
+    if ((kart->mMotionFlags & KART_MOTION_HOPPING) != 0) {
         if (kart->mHopSpeed > 0) {
             hopHeightTilt = (u16) MUL_FIXED12_NO_ROUND(kart->mHopHeight, 0x1f4);
             kart->mHopTiltAngle = 0x9c4 - hopHeightTilt;
@@ -259,7 +259,7 @@ void InitKart(Kart *kart, void (**slotFunctions)(Kart *)) {
     if (kart->mSlotFunctions[0] != 0) {
         kart->mSlotFunctions[0](kart);
     }
-    if (gRaceSetup->mRaceKind == RACE_KIND_REPLAY || (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) == 0) {
+    if (gRaceSetup->mRaceKind == RACE_KIND_REPLAY || (kart->mEntryFlags & KART_ENTRY_SELECTED) == 0) {
         kart->mSlotFunctions[2] = SetKartSoundDistanceSquaredAndChange;
     } else {
         kart->mSlotFunctions[2] = SetKartSoundDistanceSquared;
@@ -288,7 +288,7 @@ void InitKart(Kart *kart, void (**slotFunctions)(Kart *)) {
         kart->mUnk_174.x = kart->mUnk_174.x >> 4;
         kart->mUnk_174.y = kart->mUnk_174.y >> 4;
         kart->mUnk_174.z = kart->mUnk_174.z >> 4;
-        if ((kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) != 0) {
+        if ((kart->mEntryFlags & KART_ENTRY_HAS_CHARACTER_ANIMATION) != 0) {
             AdvanceKartCharacterAnimation(kart);
             characterAnimation = kart->mKartModelsEntry->mCharacterAnimation;
             characterAnimation->mAnmObjs[characterAnimation->mCurrentIndex]->mFrame =
@@ -296,7 +296,7 @@ void InitKart(Kart *kart, void (**slotFunctions)(Kart *)) {
         }
     }
     ResetParticipantKartRecordPos(kart);
-    if ((kart->mUnk_7c & 2) != 0) {
+    if ((kart->mEntryFlags & KART_ENTRY_CPU) != 0) {
         CallKartAiSetup(kart->mAi, kart->mIndex);
     }
 }
