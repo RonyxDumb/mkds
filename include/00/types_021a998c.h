@@ -5,7 +5,7 @@
 #include "00/code_021abca0.h"
 
 typedef struct HttpsEntry HttpsEntry;
-typedef struct Unk021aa880 Unk021aa880;
+typedef struct CPSPrivateKey CPSPrivateKey;
 
 // A name and two byte strings: the rows of the table behind mAuthorities, and the copy an item fills (mItemRecord).
 typedef struct AuthorityRecord {
@@ -27,7 +27,7 @@ typedef u32 (*Unk021a998c_Func)(u32 a, struct HttpsState *b, s32 c);
 
 // State of the https layer of one Http thread (0x804 bytes), reached through mHttpsState; Http118 is the same object.
 typedef struct HttpsState {
-    // The entry in use, or NULL; may be data_ov000_021b6198, which is not in the table.
+    // The entry in use, or NULL; may be gUncachedHttpsEntry, which is not in the table.
     /* 000 */ HttpsEntry *mEntry;
     /* 004 */ u8 mReusedEntry;
     /* 005 */ u8 mUnk_005;
@@ -47,8 +47,8 @@ typedef struct HttpsState {
     /* 2b8 */ u8 mReceiveRecordCount[8];
     /* 2c0 */ Hash20Context mMessageHash20;
     /* 31c */ Hash20Context mScratchHash20;
-    /* 378 */ Unk021ab728 mMessageHash16;
-    /* 3d0 */ Unk021ab728 mScratchHash16;
+    /* 378 */ CPSMd5Ctx mMessageHash16;
+    /* 3d0 */ CPSMd5Ctx mScratchHash16;
     // 1 on the side that receives the kind 1 message, 0 on the side that sends it.
     /* 428 */ u8 mReceivesKind1Record;
     // 0 at the start, 8 when the setup is complete, 9 after a failure; the record handlers set the values between.
@@ -84,7 +84,7 @@ typedef struct HttpsState {
     // Pointer to the table of authority records.
     /* 7e8 */ u32 mAuthorities;
     /* 7ec */ u32 mAuthorityCount;
-    /* 7f0 */ Unk021aa880 *mUnk_7f0;
+    /* 7f0 */ CPSPrivateKey *mUnk_7f0;
     /* 7f4 */ ItemList *mItemList;
     /* 7f8 */ u8 *mReceivedBlock;
     /* 7fc */ u32 mReceivedBlockEnd;

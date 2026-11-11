@@ -601,7 +601,7 @@ void DWCi_Http_Thread(void *argument) {
     socketBuffers->mSendBufferSize = 0x5ea;
     socketBuffers->mSendBuffer = http->mLowSendBuffer;
     func_ov000_021ae304(socketBuffers);
-    hostAddress = func_ov000_021acef8(http->mHost);
+    hostAddress = CPS_Resolve(http->mHost);
     if (hostAddress == 0) {
         http->mResult = 2;
         return;
@@ -613,7 +613,7 @@ void DWCi_Http_Thread(void *argument) {
         sslInfo->mUnk_7d4 = http->mHost;
         socketBuffers->mUnk_0c = sslInfo;
         SetAuthorityTable((u32) data_ov000_021b1204, 0xb);
-        func_ov000_021a9200(1);
+        CPS_SetSsl(1);
         port = 0x1bb;
     } else {
         port = 0x50;

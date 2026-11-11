@@ -3,4 +3,4 @@
 #include "types.h"
 #include "00/code_021abca0.h"
 
-void func_ov000_021abd2c(Hash20Context *a);
+void CPSi_sha1_init(Hash20Context *context);

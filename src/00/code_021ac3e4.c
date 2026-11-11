@@ -9,330 +9,335 @@
 #include "code_02134398.h"
 #include "code_0214d018.h"
 
-void func_ov000_021acb98(u16 *a, const u16 *b, u16 c, s32 d) {
-    s32 e;
+void CPSi_big_mult_small(u16 *result, const u16 *value, u16 factor, s32 digitCount) {
+    s32 valueDigits;
     s32 f;
-    u32 g;
-    u32 h;
-    e = func_ov000_021acec8(b, d);
-    g = 0;
-    for (f = 0; f < e; f++) {
-        h = g + c * b[f];
-        a[f] = h;
-        g = h >> 16;
+    u32 carry;
+    u32 product;
+    valueDigits = count_digits(value, digitCount);
+    carry = 0;
+    for (f = 0; f < valueDigits; f++) {
+        product = carry + factor * value[f];
+        result[f] = product;
+        carry = product >> 16;
     }
-    if (f < d) {
-        a[f++] = g;
+    if (f < digitCount) {
+        result[f++] = carry;
     }
-    MI_CpuFill8(a + f, 0, (d - f) * 2);
+    MI_CpuFill8(result + f, 0, (digitCount - f) * 2);
 }
 
-void func_ov000_021acab0(u16 *a, const u16 *b, s32 c) {
-    s32 d;
+void CPSi_big_sqr(u16 *result, const u16 *value, s32 digitCount) {
+    s32 valueDigits;
     s32 e;
     s32 f;
     s32 g;
-    u32 h;
-    u32 i;
-    d = func_ov000_021acec8(b, c);
-    e = d * 2;
-    if (e < c) {
-        MI_CpuFill8(a + e, 0, (c - e) * 2);
+    u32 square;
+    u32 product;
+    valueDigits = count_digits(value, digitCount);
+    e = valueDigits * 2;
+    if (e < digitCount) {
+        MI_CpuFill8(result + e, 0, (digitCount - e) * 2);
     }
-    for (g = 0; g < d; g++) {
+    for (g = 0; g < valueDigits; g++) {
         f = g * 2;
-        if (f >= c) {
+        if (f >= digitCount) {
             break;
         }
-        h = b[g] * b[g];
-        a[f] = h;
-        if (f == c - 1) {
+        square = value[g] * value[g];
+        result[f] = square;
+        if (f == digitCount - 1) {
             break;
         }
-        a[f + 1] = h >> 16;
+        result[f + 1] = square >> 16;
     }
-    for (e = 0; e < d; e++) {
-        for (f = e + 1; f < d && (g = e + f) < c; f++) {
-            i = b[f] * b[e];
-            if (i <= 0x7fff8000) {
-                func_ov000_021acc68(a, i * 2, g, c);
+    for (e = 0; e < valueDigits; e++) {
+        for (f = e + 1; f < valueDigits && (g = e + f) < digitCount; f++) {
+            product = value[f] * value[e];
+            if (product <= 0x7fff8000) {
+                CPSi_big_add_part(result, product * 2, g, digitCount);
             } else {
-                func_ov000_021acc68(a, i, g, c);
-                func_ov000_021acc68(a, i, g, c);
+                CPSi_big_add_part(result, product, g, digitCount);
+                CPSi_big_add_part(result, product, g, digitCount);
             }
         }
     }
 }
 
-void func_ov000_021ac900(u16 *a, u16 *b, u16 *c, u16 *d, s32 e, u16 *f) {
-    u16 *h;
-    s32 i;
-    s32 j;
+void CPSi_big_div(u16 *quotient, u16 *dividend, u16 *divisor, u16 *remainder, s32 digitCount, u16 *work) {
+    u16 *partialRemainder;
+    s32 dividendDigits;
+    s32 divisorDigits;
     s32 k;
-    u64 m;
-    u16 *g;
-    u32 l;
-    u64 n;
-    g = f + e;
-    h = g + e;
-    MI_CpuFill8(g, 0, e * 4);
-    i = func_ov000_021acec8(b, e);
-    j = func_ov000_021acec8(c, e);
-    if (i > 0 && j > 0) {
-        k = e - i + j - 1;
-        if (k >= e) {
-            MI_CpuCopy8(b, h, e * 2);
+    u64 divisorTop;
+    u16 *quotientDigits;
+    u32 quotientGuess;
+    u64 remainderTop;
+    quotientDigits = work + digitCount;
+    partialRemainder = quotientDigits + digitCount;
+    MI_CpuFill8(quotientDigits, 0, digitCount * 4);
+    dividendDigits = count_digits(dividend, digitCount);
+    divisorDigits = count_digits(divisor, digitCount);
+    if (dividendDigits > 0 && divisorDigits > 0) {
+        k = digitCount - dividendDigits + divisorDigits - 1;
+        if (k >= digitCount) {
+            MI_CpuCopy8(dividend, partialRemainder, digitCount * 2);
         } else {
-            MI_CpuCopy8(b, g + k, i * 2);
-            if (j > 2) {
-                m = ((u64) * (c + j - 1) << 32) + ((u64) * (c + j - 2) << 16) + (u64) * (c + j - 3);
-            } else if (j > 1) {
-                m = ((u64) * (c + j - 1) << 32) + ((u64) * (c + j - 2) << 16);
+            MI_CpuCopy8(dividend, quotientDigits + k, dividendDigits * 2);
+            if (divisorDigits > 2) {
+                divisorTop = ((u64) * (divisor + divisorDigits - 1) << 32) +
+                             ((u64) * (divisor + divisorDigits - 2) << 16) + (u64) * (divisor + divisorDigits - 3);
+            } else if (divisorDigits > 1) {
+                divisorTop =
+                    ((u64) * (divisor + divisorDigits - 1) << 32) + ((u64) * (divisor + divisorDigits - 2) << 16);
             } else {
-                m = (u64) * (c + j - 1) << 32;
+                divisorTop = (u64) * (divisor + divisorDigits - 1) << 32;
             }
-            while (k < e) {
-                memmove(g + 1, g, (e * 2 - 1) * 2);
-                n = ((u64) (h + j)[0] << 48) + ((u64) (h + j)[-1] << 32) + ((u64) (h + j)[-2] << 16) +
-                    (u64) (h + j)[-3];
-                l = n / m;
-                if (l > 0xffff) {
-                    l = 0xffff;
+            while (k < digitCount) {
+                memmove(quotientDigits + 1, quotientDigits, (digitCount * 2 - 1) * 2);
+                remainderTop = ((u64) (partialRemainder + divisorDigits)[0] << 48) +
+                               ((u64) (partialRemainder + divisorDigits)[-1] << 32) +
+                               ((u64) (partialRemainder + divisorDigits)[-2] << 16) +
+                               (u64) (partialRemainder + divisorDigits)[-3];
+                quotientGuess = remainderTop / divisorTop;
+                if (quotientGuess > 0xffff) {
+                    quotientGuess = 0xffff;
                 }
                 for (;;) {
-                    func_ov000_021acb98(f, c, l, e);
-                    if (func_ov000_021acc8c(h, f, e) >= 0) {
+                    CPSi_big_mult_small(work, divisor, quotientGuess, digitCount);
+                    if (CPSi_big_compare(partialRemainder, work, digitCount) >= 0) {
                         break;
                     }
-                    l--;
+                    quotientGuess--;
                 }
-                func_ov000_021acd24(h, h, f, e);
-                *g = l;
+                CPSi_big_sub(partialRemainder, partialRemainder, work, digitCount);
+                *quotientDigits = quotientGuess;
                 k++;
             }
         }
     }
-    if (a != NULL) {
-        MI_CpuCopy8(g, a, e * 2);
+    if (quotient != NULL) {
+        MI_CpuCopy8(quotientDigits, quotient, digitCount * 2);
     }
-    if (d != NULL) {
-        MI_CpuCopy8(h, d, e * 2);
+    if (remainder != NULL) {
+        MI_CpuCopy8(partialRemainder, remainder, digitCount * 2);
     }
 }
 
-void func_ov000_021ac7e8(u16 *a, u16 *b, u16 *c, s32 d, u16 *e) {
-    u16 *f;
-    u16 *g;
-    s32 h;
-    s32 i;
-    f = (u16 *) data_ov000_021b63a4(d * 8);
-    if (f != NULL) {
-        g = f + d;
-        MI_CpuFill8(a + 1, 0, (d - 1) * 2);
-        a[0] = 1;
-        h = d - func_ov000_021acec8(c, d);
-        i = h * 16;
-        for (; i < (u32) (d << 4); i++) {
-            if (((0x8000u >> (i & 0xf)) & c[d - (i >> 4) - 1]) != 0) {
-                MI_CpuCopy8(b, a, d * 2);
-                i++;
+void CPSi_big_power(u16 *result, u16 *base, u16 *exponent, s32 digitCount, u16 *modulus) {
+    u16 *scratch;
+    u16 *divisionWork;
+    s32 zeroDigitCount;
+    s32 bitIndex;
+    scratch = (u16 *) CPSiAlloc(digitCount * 8);
+    if (scratch != NULL) {
+        divisionWork = scratch + digitCount;
+        MI_CpuFill8(result + 1, 0, (digitCount - 1) * 2);
+        result[0] = 1;
+        zeroDigitCount = digitCount - count_digits(exponent, digitCount);
+        bitIndex = zeroDigitCount * 16;
+        for (; bitIndex < (u32) (digitCount << 4); bitIndex++) {
+            if (((0x8000u >> (bitIndex & 0xf)) & exponent[digitCount - (bitIndex >> 4) - 1]) != 0) {
+                MI_CpuCopy8(base, result, digitCount * 2);
+                bitIndex++;
                 break;
             }
         }
-        for (; i < (u32) (d << 4); i++) {
-            func_ov000_021acab0(f, a, d);
-            MI_CpuCopy8(f, a, d * 2);
-            if (e != NULL) {
-                func_ov000_021ac900(NULL, a, e, a, d, g);
+        for (; bitIndex < (u32) (digitCount << 4); bitIndex++) {
+            CPSi_big_sqr(scratch, result, digitCount);
+            MI_CpuCopy8(scratch, result, digitCount * 2);
+            if (modulus != NULL) {
+                CPSi_big_div(NULL, result, modulus, result, digitCount, divisionWork);
             }
-            if (((0x8000u >> (i & 0xf)) & c[d - (i >> 4) - 1]) != 0) {
-                func_ov000_021acbf8(f, a, b, d);
-                MI_CpuCopy8(f, a, d * 2);
-                if (e != NULL) {
-                    func_ov000_021ac900(NULL, a, e, a, d, g);
+            if (((0x8000u >> (bitIndex & 0xf)) & exponent[digitCount - (bitIndex >> 4) - 1]) != 0) {
+                CPSi_big_mult(scratch, result, base, digitCount);
+                MI_CpuCopy8(scratch, result, digitCount * 2);
+                if (modulus != NULL) {
+                    CPSi_big_div(NULL, result, modulus, result, digitCount, divisionWork);
                 }
             }
         }
-        data_ov000_021b63ac(f);
+        CPSiFree(scratch);
     }
 }
 
-void func_ov000_021ac718(u16 *a, u16 *b, u16 *c, s32 d, u16 *e) {
+void CPSi_big_modinv(u16 *inverse, u16 *value, u16 *modulus, s32 digitCount, u16 *work) {
     u16 *f;
     u16 *g;
     u16 *h;
     u16 *i;
     u16 *j;
     u16 *k;
-    s32 l;
-    l = d * 2;
-    f = e + d;
-    g = f + d;
-    h = g + d;
-    i = h + d;
-    j = i + d;
-    k = j + d;
-    MI_CpuCopy8(b, e, l);
-    MI_CpuCopy8(c, g, l);
-    g[d] = 1;
-    while (func_ov000_021ace90(e, d) > 0) {
-        func_ov000_021ac900(f, g, e, j, d, k);
-        MI_CpuCopy8(e, g, l);
-        MI_CpuCopy8(j, e, l);
-        func_ov000_021acbf8(j, f, h, d);
-        func_ov000_021acd24(j, i, j, d);
-        MI_CpuCopy8(h, i, l);
-        MI_CpuCopy8(j, h, l);
+    s32 byteCount;
+    byteCount = digitCount * 2;
+    f = work + digitCount;
+    g = f + digitCount;
+    h = g + digitCount;
+    i = h + digitCount;
+    j = i + digitCount;
+    k = j + digitCount;
+    MI_CpuCopy8(value, work, byteCount);
+    MI_CpuCopy8(modulus, g, byteCount);
+    g[digitCount] = 1;
+    while (CPSi_big_sign(work, digitCount) > 0) {
+        CPSi_big_div(f, g, work, j, digitCount, k);
+        MI_CpuCopy8(work, g, byteCount);
+        MI_CpuCopy8(j, work, byteCount);
+        CPSi_big_mult(j, f, h, digitCount);
+        CPSi_big_sub(j, i, j, digitCount);
+        MI_CpuCopy8(h, i, byteCount);
+        MI_CpuCopy8(j, h, byteCount);
     }
-    func_ov000_021ace14(i, i, c, d);
-    func_ov000_021ac900(NULL, i, c, a, d, k);
+    CPSi_big_add(i, i, modulus, digitCount);
+    CPSi_big_div(NULL, i, modulus, inverse, digitCount, k);
 }
 
-void func_ov000_021ac650(u16 *a, u16 *b, u16 *c, s32 d, s32 e, u16 *f, u16 *g, u16 *h, u16 *i) {
-    s32 j;
+void CPSi_big_montmult(u16 *accumulator, u16 *savedCopy, u16 *multiplier, s32 digitCount, s32 modulusDigits,
+                       u16 *modulus, u16 *modulusPrime, u16 *reduceFactor, u16 *reduceProduct) {
+    s32 byteCount;
     s32 k;
     s32 l;
-    s32 m;
-    j = d * 2;
-    MI_CpuCopy8(a, b, j);
-    if (c == (u16 *) 1) {
-        func_ov000_021acab0(a, b, d);
-    } else if (c != NULL) {
-        func_ov000_021acbf8(a, b, c, d);
+    s32 compareResult;
+    byteCount = digitCount * 2;
+    MI_CpuCopy8(accumulator, savedCopy, byteCount);
+    if (multiplier == (u16 *) 1) {
+        CPSi_big_sqr(accumulator, savedCopy, digitCount);
+    } else if (multiplier != NULL) {
+        CPSi_big_mult(accumulator, savedCopy, multiplier, digitCount);
     }
-    func_ov000_021acbf8(h, a, g, e);
-    k = (d - e) * 2;
-    l = e * 2;
-    MI_CpuFill8(h + e, 0, k);
-    func_ov000_021acbf8(i, h, f, d);
-    func_ov000_021ace14(a, a, i, d);
-    memmove(a, a + e, k);
-    MI_CpuFill8(a + d - e, 0, l);
-    m = func_ov000_021acc8c(a, f, d);
-    switch (m) {
+    CPSi_big_mult(reduceFactor, accumulator, modulusPrime, modulusDigits);
+    k = (digitCount - modulusDigits) * 2;
+    l = modulusDigits * 2;
+    MI_CpuFill8(reduceFactor + modulusDigits, 0, k);
+    CPSi_big_mult(reduceProduct, reduceFactor, modulus, digitCount);
+    CPSi_big_add(accumulator, accumulator, reduceProduct, digitCount);
+    memmove(accumulator, accumulator + modulusDigits, k);
+    MI_CpuFill8(accumulator + digitCount - modulusDigits, 0, l);
+    compareResult = CPSi_big_compare(accumulator, modulus, digitCount);
+    switch (compareResult) {
         case 0:
-            MI_CpuFill8(a, 0, j);
+            MI_CpuFill8(accumulator, 0, byteCount);
             break;
         case 1:
-            func_ov000_021acd24(a, a, f, d);
+            CPSi_big_sub(accumulator, accumulator, modulus, digitCount);
             break;
     }
 }
 
-void func_ov000_021ac4f4(u16 *a, u16 *b, u16 *c, s32 d, u16 *e) {
-    u16 *f;
+void CPSi_big_montpower(u16 *result, u16 *base, u16 *exponent, s32 digitCount, u16 *modulus) {
+    u16 *workBlock;
     u16 *g;
     u16 *h;
     u16 *i;
     u16 *j;
-    u16 *k;
-    u16 *l;
-    s32 m;
+    u16 *accumulatorCopy;
+    u16 *divisionWork;
+    s32 modulusDigits;
     s32 n;
-    u32 o;
-    n = d * 0x16;
-    f = (u16 *) data_ov000_021b63a4(n);
-    if (f != NULL) {
-        MI_CpuFill8(f, 0, n);
-        g = f + d;
-        h = g + d;
-        i = h + d;
-        j = i + d;
-        k = j + d;
-        l = k + d;
-        m = func_ov000_021acec8(e, d);
-        f[m] = 1;
-        func_ov000_021ac718(g, f, e, d, h);
-        func_ov000_021acbf8(i, f, g, d);
-        func_ov000_021acccc(g, i, 1, d);
-        func_ov000_021ac900(g, g, e, NULL, d, l);
-        func_ov000_021acbf8(h, b, f, d);
-        func_ov000_021ac900(NULL, h, e, h, d, l);
-        func_ov000_021ac900(NULL, f, e, a, d, l);
+    u32 exponentBitCount;
+    n = digitCount * 0x16;
+    workBlock = (u16 *) CPSiAlloc(n);
+    if (workBlock != NULL) {
+        MI_CpuFill8(workBlock, 0, n);
+        g = workBlock + digitCount;
+        h = g + digitCount;
+        i = h + digitCount;
+        j = i + digitCount;
+        accumulatorCopy = j + digitCount;
+        divisionWork = accumulatorCopy + digitCount;
+        modulusDigits = count_digits(modulus, digitCount);
+        workBlock[modulusDigits] = 1;
+        CPSi_big_modinv(g, workBlock, modulus, digitCount, h);
+        CPSi_big_mult(i, workBlock, g, digitCount);
+        CPSi_big_sub_small(g, i, 1, digitCount);
+        CPSi_big_div(g, g, modulus, NULL, digitCount, divisionWork);
+        CPSi_big_mult(h, base, workBlock, digitCount);
+        CPSi_big_div(NULL, h, modulus, h, digitCount, divisionWork);
+        CPSi_big_div(NULL, workBlock, modulus, result, digitCount, divisionWork);
         n = 0;
-        o = m << 4;
-        for (; n < o; n++) {
-            func_ov000_021ac650(a, k, (u16 *) 1, d, m, e, g, i, j);
-            if (((0x8000u >> (n & 0xf)) & c[m - (n >> 4) - 1]) != 0) {
-                func_ov000_021ac650(a, k, h, d, m, e, g, i, j);
+        exponentBitCount = modulusDigits << 4;
+        for (; n < exponentBitCount; n++) {
+            CPSi_big_montmult(result, accumulatorCopy, (u16 *) 1, digitCount, modulusDigits, modulus, g, i, j);
+            if (((0x8000u >> (n & 0xf)) & exponent[modulusDigits - (n >> 4) - 1]) != 0) {
+                CPSi_big_montmult(result, accumulatorCopy, h, digitCount, modulusDigits, modulus, g, i, j);
             }
         }
-        func_ov000_021ac650(a, k, NULL, d, m, e, g, i, j);
-        data_ov000_021b63ac(f);
+        CPSi_big_montmult(result, accumulatorCopy, NULL, digitCount, modulusDigits, modulus, g, i, j);
+        CPSiFree(workBlock);
     }
 }
 
-void func_ov000_021ac4b8(u16 *a, const u8 *b, s32 c, s32 d) {
-    MI_CpuFill8(a, 0, d * 2);
-    b += c - 1;
-    while (c > 1) {
-        *a = b[0] + (b[-1] << 8);
-        a++;
-        b -= 2;
-        c -= 2;
+void CPSi_big_from_char(u16 *digits, const u8 *bytes, s32 byteCount, s32 digitCount) {
+    MI_CpuFill8(digits, 0, digitCount * 2);
+    bytes += byteCount - 1;
+    while (byteCount > 1) {
+        *digits = bytes[0] + (bytes[-1] << 8);
+        digits++;
+        bytes -= 2;
+        byteCount -= 2;
     }
-    if (c > 0) {
-        *a = *b;
-    }
-}
-
-void func_ov000_021ac488(u8 *a, const u16 *b, s32 c, s32 d) {
-    a += c - 1;
-    while (c > 1) {
-        *a-- = *b;
-        *a-- = *b++ >> 8;
-        c -= 2;
-    }
-    if (c > 0) {
-        *a = *b;
+    if (byteCount > 0) {
+        *digits = *bytes;
     }
 }
 
-void func_ov000_021ac434(u8 *a, const u8 *b, s32 c) {
-    u8 *d;
+void CPSi_char_from_big(u8 *bytes, const u16 *digits, s32 byteCount, s32 digitCount) {
+    bytes += byteCount - 1;
+    while (byteCount > 1) {
+        *bytes-- = *digits;
+        *bytes-- = *digits++ >> 8;
+        byteCount -= 2;
+    }
+    if (byteCount > 0) {
+        *bytes = *digits;
+    }
+}
+
+void CPSi_rc4_init(u8 *context, const u8 *key, s32 keyLength) {
+    u8 *table;
     s32 i;
-    u8 j;
-    u8 k;
-    u8 t;
-    a[0] = 0;
-    a[1] = 0;
-    d = a + 2;
+    u8 swapIndex;
+    u8 keyIndex;
+    u8 entry;
+    context[0] = 0;
+    context[1] = 0;
+    table = context + 2;
     for (i = 0; i < 0x100; i++) {
-        d[i] = i;
+        table[i] = i;
     }
-    k = 0;
-    j = 0;
+    keyIndex = 0;
+    swapIndex = 0;
     for (i = 0; i < 0x100; i++) {
-        t = d[i];
-        j = j + (t + b[k]);
-        d[i] = d[j];
-        d[j] = t;
-        k = k + 1;
-        if (k >= c) {
-            k = 0;
+        entry = table[i];
+        swapIndex = swapIndex + (entry + key[keyIndex]);
+        table[i] = table[swapIndex];
+        table[swapIndex] = entry;
+        keyIndex = keyIndex + 1;
+        if (keyIndex >= keyLength) {
+            keyIndex = 0;
         }
     }
 }
 
-void func_ov000_021ac3e4(u8 *a, u8 *b, s32 c) {
+void CPSi_rc4_crypt(u8 *context, u8 *data, s32 length) {
     s32 i;
-    u8 d;
-    u8 e;
-    u8 *f;
-    u8 g;
-    u8 h;
-    d = a[0];
-    e = a[1];
-    f = a + 2;
-    for (i = 0; i < c; i++) {
-        d = d + 1;
-        g = f[d];
-        e = e + g;
-        h = f[e];
-        f[d] = h;
-        f[e] = g;
-        b[i] ^= f[(u8) (g + h)];
+    u8 firstIndex;
+    u8 secondIndex;
+    u8 *table;
+    u8 firstValue;
+    u8 secondValue;
+    firstIndex = context[0];
+    secondIndex = context[1];
+    table = context + 2;
+    for (i = 0; i < length; i++) {
+        firstIndex = firstIndex + 1;
+        firstValue = table[firstIndex];
+        secondIndex = secondIndex + firstValue;
+        secondValue = table[secondIndex];
+        table[firstIndex] = secondValue;
+        table[secondIndex] = firstValue;
+        data[i] ^= table[(u8) (firstValue + secondValue)];
     }
-    a[0] = d;
-    a[1] = e;
+    context[0] = firstIndex;
+    context[1] = secondIndex;
 }

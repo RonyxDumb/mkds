@@ -2,101 +2,125 @@
 #include "00/code_021abca0.h"
 #include "00/code_021ac3a8.h"
 
-void func_ov000_021ac34c(u32 *a, const u8 *b, u32 c) {
+void long_from_char(u32 *words, const u8 *bytes, u32 byteCount) {
     u32 i;
-    for (i = 0; i < c; i += 4) {
-        *a++ = (b[i] << 24) | (b[i + 1] << 16) | (b[i + 2] << 8) | b[i + 3];
+    for (i = 0; i < byteCount; i += 4) {
+        *words++ = (bytes[i] << 24) | (bytes[i + 1] << 16) | (bytes[i + 2] << 8) | bytes[i + 3];
     }
 }
 
-void func_ov000_021abd68(Hash20Context *a, const u8 *b) {
-    u32 w[16];
-    u32 p;
-    u32 q;
-    u32 r;
-    u32 s;
-    u32 t;
-    u32 i;
-    s32 j;
-    p = a->mUnk_00;
-    q = a->mUnk_04;
-    r = a->mUnk_08;
-    s = a->mUnk_0c;
-    t = a->mUnk_10;
-    func_ov000_021ac34c(w, b, 0x40);
-    i = 0;
-    for (j = 0; j < 3; j++) {
-        t += ((p << 5) | (p >> 27)) + (s ^ (q & (r ^ s))) + w[i] + 0x5a827999;
-        q = (q << 30) | (q >> 2);
-        s += ((t << 5) | (t >> 27)) + (r ^ (p & (q ^ r))) + w[i + 1] + 0x5a827999;
-        p = (p << 30) | (p >> 2);
-        r += ((s << 5) | (s >> 27)) + (q ^ (t & (p ^ q))) + w[i + 2] + 0x5a827999;
-        t = (t << 30) | (t >> 2);
-        q += ((r << 5) | (r >> 27)) + (p ^ (s & (t ^ p))) + w[i + 3] + 0x5a827999;
-        s = (s << 30) | (s >> 2);
-        p += ((q << 5) | (q >> 27)) + (t ^ (r & (s ^ t))) + w[i + 4] + 0x5a827999;
-        r = (r << 30) | (r >> 2);
-        i += 5;
+void CPSi_sha1_block(Hash20Context *context, const u8 *block) {
+    u32 words[16];
+    u32 stateA;
+    u32 stateB;
+    u32 stateC;
+    u32 stateD;
+    u32 stateE;
+    u32 wordIndex;
+    s32 groupIndex;
+    stateA = context->mUnk_00;
+    stateB = context->mUnk_04;
+    stateC = context->mUnk_08;
+    stateD = context->mUnk_0c;
+    stateE = context->mUnk_10;
+    long_from_char(words, block, 0x40);
+    wordIndex = 0;
+    for (groupIndex = 0; groupIndex < 3; groupIndex++) {
+        stateE +=
+            ((stateA << 5) | (stateA >> 27)) + (stateD ^ (stateB & (stateC ^ stateD))) + words[wordIndex] + 0x5a827999;
+        stateB = (stateB << 30) | (stateB >> 2);
+        stateD += ((stateE << 5) | (stateE >> 27)) + (stateC ^ (stateA & (stateB ^ stateC))) + words[wordIndex + 1] +
+                  0x5a827999;
+        stateA = (stateA << 30) | (stateA >> 2);
+        stateC += ((stateD << 5) | (stateD >> 27)) + (stateB ^ (stateE & (stateA ^ stateB))) + words[wordIndex + 2] +
+                  0x5a827999;
+        stateE = (stateE << 30) | (stateE >> 2);
+        stateB += ((stateC << 5) | (stateC >> 27)) + (stateA ^ (stateD & (stateE ^ stateA))) + words[wordIndex + 3] +
+                  0x5a827999;
+        stateD = (stateD << 30) | (stateD >> 2);
+        stateA += ((stateB << 5) | (stateB >> 27)) + (stateE ^ (stateC & (stateD ^ stateE))) + words[wordIndex + 4] +
+                  0x5a827999;
+        stateC = (stateC << 30) | (stateC >> 2);
+        wordIndex += 5;
     }
-    t += ((p << 5) | (p >> 27)) + (s ^ (q & (r ^ s))) + w[15] + 0x5a827999;
-    q = (q << 30) | (q >> 2);
-    s += ((t << 5) | (t >> 27)) + (r ^ (p & (q ^ r))) + func_ov000_021ac3a8(0, w) + 0x5a827999;
-    p = (p << 30) | (p >> 2);
-    r += ((s << 5) | (s >> 27)) + (q ^ (t & (p ^ q))) + func_ov000_021ac3a8(1, w) + 0x5a827999;
-    t = (t << 30) | (t >> 2);
-    q += ((r << 5) | (r >> 27)) + (p ^ (s & (t ^ p))) + func_ov000_021ac3a8(2, w) + 0x5a827999;
-    s = (s << 30) | (s >> 2);
-    p += ((q << 5) | (q >> 27)) + (t ^ (r & (s ^ t))) + func_ov000_021ac3a8(3, w) + 0x5a827999;
-    r = (r << 30) | (r >> 2);
-    i = 4;
-    for (j = 0; j < 4; j++) {
-        t += ((p << 5) | (p >> 27)) + (s ^ (q ^ r)) + func_ov000_021ac3a8(i, w) + 0x6ed9eba1;
-        q = (q << 30) | (q >> 2);
-        s += ((t << 5) | (t >> 27)) + (r ^ (p ^ q)) + func_ov000_021ac3a8(i + 1, w) + 0x6ed9eba1;
-        p = (p << 30) | (p >> 2);
-        i += 2;
-        i &= 0xf;
-        r += ((s << 5) | (s >> 27)) + (q ^ (t ^ p)) + func_ov000_021ac3a8(i, w) + 0x6ed9eba1;
-        t = (t << 30) | (t >> 2);
-        q += ((r << 5) | (r >> 27)) + (p ^ (s ^ t)) + func_ov000_021ac3a8(i + 1, w) + 0x6ed9eba1;
-        s = (s << 30) | (s >> 2);
-        p += ((q << 5) | (q >> 27)) + (t ^ (r ^ s)) + func_ov000_021ac3a8(i + 2, w) + 0x6ed9eba1;
-        r = (r << 30) | (r >> 2);
-        i += 3;
+    stateE += ((stateA << 5) | (stateA >> 27)) + (stateD ^ (stateB & (stateC ^ stateD))) + words[15] + 0x5a827999;
+    stateB = (stateB << 30) | (stateB >> 2);
+    stateD += ((stateE << 5) | (stateE >> 27)) + (stateC ^ (stateA & (stateB ^ stateC))) +
+              ComputeSha1ScheduleWord(0, words) + 0x5a827999;
+    stateA = (stateA << 30) | (stateA >> 2);
+    stateC += ((stateD << 5) | (stateD >> 27)) + (stateB ^ (stateE & (stateA ^ stateB))) +
+              ComputeSha1ScheduleWord(1, words) + 0x5a827999;
+    stateE = (stateE << 30) | (stateE >> 2);
+    stateB += ((stateC << 5) | (stateC >> 27)) + (stateA ^ (stateD & (stateE ^ stateA))) +
+              ComputeSha1ScheduleWord(2, words) + 0x5a827999;
+    stateD = (stateD << 30) | (stateD >> 2);
+    stateA += ((stateB << 5) | (stateB >> 27)) + (stateE ^ (stateC & (stateD ^ stateE))) +
+              ComputeSha1ScheduleWord(3, words) + 0x5a827999;
+    stateC = (stateC << 30) | (stateC >> 2);
+    wordIndex = 4;
+    for (groupIndex = 0; groupIndex < 4; groupIndex++) {
+        stateE += ((stateA << 5) | (stateA >> 27)) + (stateD ^ (stateB ^ stateC)) +
+                  ComputeSha1ScheduleWord(wordIndex, words) + 0x6ed9eba1;
+        stateB = (stateB << 30) | (stateB >> 2);
+        stateD += ((stateE << 5) | (stateE >> 27)) + (stateC ^ (stateA ^ stateB)) +
+                  ComputeSha1ScheduleWord(wordIndex + 1, words) + 0x6ed9eba1;
+        stateA = (stateA << 30) | (stateA >> 2);
+        wordIndex += 2;
+        wordIndex &= 0xf;
+        stateC += ((stateD << 5) | (stateD >> 27)) + (stateB ^ (stateE ^ stateA)) +
+                  ComputeSha1ScheduleWord(wordIndex, words) + 0x6ed9eba1;
+        stateE = (stateE << 30) | (stateE >> 2);
+        stateB += ((stateC << 5) | (stateC >> 27)) + (stateA ^ (stateD ^ stateE)) +
+                  ComputeSha1ScheduleWord(wordIndex + 1, words) + 0x6ed9eba1;
+        stateD = (stateD << 30) | (stateD >> 2);
+        stateA += ((stateB << 5) | (stateB >> 27)) + (stateE ^ (stateC ^ stateD)) +
+                  ComputeSha1ScheduleWord(wordIndex + 2, words) + 0x6ed9eba1;
+        stateC = (stateC << 30) | (stateC >> 2);
+        wordIndex += 3;
     }
-    for (j = 0; j < 4; j++) {
-        t += ((p << 5) | (p >> 27)) + ((q & (r | s)) | (r & s)) + func_ov000_021ac3a8(i, w) + 0x8f1bbcdc;
-        q = (q << 30) | (q >> 2);
-        s += ((t << 5) | (t >> 27)) + ((p & (q | r)) | (q & r)) + func_ov000_021ac3a8(i + 1, w) + 0x8f1bbcdc;
-        p = (p << 30) | (p >> 2);
-        r += ((s << 5) | (s >> 27)) + ((t & (p | q)) | (p & q)) + func_ov000_021ac3a8(i + 2, w) + 0x8f1bbcdc;
-        t = (t << 30) | (t >> 2);
-        i += 3;
-        i &= 0xf;
-        q += ((r << 5) | (r >> 27)) + ((s & (t | p)) | (t & p)) + func_ov000_021ac3a8(i, w) + 0x8f1bbcdc;
-        s = (s << 30) | (s >> 2);
-        p += ((q << 5) | (q >> 27)) + ((r & (s | t)) | (s & t)) + func_ov000_021ac3a8(i + 1, w) + 0x8f1bbcdc;
-        r = (r << 30) | (r >> 2);
-        i += 2;
+    for (groupIndex = 0; groupIndex < 4; groupIndex++) {
+        stateE += ((stateA << 5) | (stateA >> 27)) + ((stateB & (stateC | stateD)) | (stateC & stateD)) +
+                  ComputeSha1ScheduleWord(wordIndex, words) + 0x8f1bbcdc;
+        stateB = (stateB << 30) | (stateB >> 2);
+        stateD += ((stateE << 5) | (stateE >> 27)) + ((stateA & (stateB | stateC)) | (stateB & stateC)) +
+                  ComputeSha1ScheduleWord(wordIndex + 1, words) + 0x8f1bbcdc;
+        stateA = (stateA << 30) | (stateA >> 2);
+        stateC += ((stateD << 5) | (stateD >> 27)) + ((stateE & (stateA | stateB)) | (stateA & stateB)) +
+                  ComputeSha1ScheduleWord(wordIndex + 2, words) + 0x8f1bbcdc;
+        stateE = (stateE << 30) | (stateE >> 2);
+        wordIndex += 3;
+        wordIndex &= 0xf;
+        stateB += ((stateC << 5) | (stateC >> 27)) + ((stateD & (stateE | stateA)) | (stateE & stateA)) +
+                  ComputeSha1ScheduleWord(wordIndex, words) + 0x8f1bbcdc;
+        stateD = (stateD << 30) | (stateD >> 2);
+        stateA += ((stateB << 5) | (stateB >> 27)) + ((stateC & (stateD | stateE)) | (stateD & stateE)) +
+                  ComputeSha1ScheduleWord(wordIndex + 1, words) + 0x8f1bbcdc;
+        stateC = (stateC << 30) | (stateC >> 2);
+        wordIndex += 2;
     }
-    for (j = 0; j < 4; j++) {
-        t += ((p << 5) | (p >> 27)) + (s ^ (q ^ r)) + func_ov000_021ac3a8(i, w) + 0xca62c1d6;
-        q = (q << 30) | (q >> 2);
-        s += ((t << 5) | (t >> 27)) + (r ^ (p ^ q)) + func_ov000_021ac3a8(i + 1, w) + 0xca62c1d6;
-        p = (p << 30) | (p >> 2);
-        r += ((s << 5) | (s >> 27)) + (q ^ (t ^ p)) + func_ov000_021ac3a8(i + 2, w) + 0xca62c1d6;
-        t = (t << 30) | (t >> 2);
-        q += ((r << 5) | (r >> 27)) + (p ^ (s ^ t)) + func_ov000_021ac3a8(i + 3, w) + 0xca62c1d6;
-        s = (s << 30) | (s >> 2);
-        i += 4;
-        i &= 0xf;
-        p += ((q << 5) | (q >> 27)) + (t ^ (r ^ s)) + func_ov000_021ac3a8(i, w) + 0xca62c1d6;
-        r = (r << 30) | (r >> 2);
-        i += 1;
+    for (groupIndex = 0; groupIndex < 4; groupIndex++) {
+        stateE += ((stateA << 5) | (stateA >> 27)) + (stateD ^ (stateB ^ stateC)) +
+                  ComputeSha1ScheduleWord(wordIndex, words) + 0xca62c1d6;
+        stateB = (stateB << 30) | (stateB >> 2);
+        stateD += ((stateE << 5) | (stateE >> 27)) + (stateC ^ (stateA ^ stateB)) +
+                  ComputeSha1ScheduleWord(wordIndex + 1, words) + 0xca62c1d6;
+        stateA = (stateA << 30) | (stateA >> 2);
+        stateC += ((stateD << 5) | (stateD >> 27)) + (stateB ^ (stateE ^ stateA)) +
+                  ComputeSha1ScheduleWord(wordIndex + 2, words) + 0xca62c1d6;
+        stateE = (stateE << 30) | (stateE >> 2);
+        stateB += ((stateC << 5) | (stateC >> 27)) + (stateA ^ (stateD ^ stateE)) +
+                  ComputeSha1ScheduleWord(wordIndex + 3, words) + 0xca62c1d6;
+        stateD = (stateD << 30) | (stateD >> 2);
+        wordIndex += 4;
+        wordIndex &= 0xf;
+        stateA += ((stateB << 5) | (stateB >> 27)) + (stateE ^ (stateC ^ stateD)) +
+                  ComputeSha1ScheduleWord(wordIndex, words) + 0xca62c1d6;
+        stateC = (stateC << 30) | (stateC >> 2);
+        wordIndex += 1;
     }
-    a->mUnk_00 += p;
-    a->mUnk_04 += q;
-    a->mUnk_08 += r;
-    a->mUnk_0c += s;
-    a->mUnk_10 += t;
+    context->mUnk_00 += stateA;
+    context->mUnk_04 += stateB;
+    context->mUnk_08 += stateC;
+    context->mUnk_0c += stateD;
+    context->mUnk_10 += stateE;
 }

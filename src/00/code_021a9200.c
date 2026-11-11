@@ -6,11 +6,11 @@
 
 #pragma opt_unpromotetypes on
 
-void func_ov000_021a9200(u8 param_1) {
-    Unk021a998c *v1;
+void CPS_SetSsl(u8 useHttps) {
+    Unk021a998c *connection;
     OSi_ReferSymbol((u32) ((u8 *) &BuildInfo + 0x98));
-    v1 = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
-    if (v1 != NULL) {
-        v1->mUseHttps = param_1;
+    connection = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    if (connection != NULL) {
+        connection->mUseHttps = useHttps;
     }
 }

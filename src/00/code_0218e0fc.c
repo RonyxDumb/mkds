@@ -100,8 +100,8 @@ void MD5Print(const u8 *digest, char *output) {
 void MD5Digest(const char *input, s32 len, char *output) {
     u8 hashBytes[16];
     DGTHash1Context context;
-    func_ov000_021acef0(&context);
-    func_ov000_021acee8(&context, (const u8 *) input, len);
-    func_ov000_021acee0(hashBytes, &context);
+    MD5Init(&context);
+    MD5Update(&context, (const u8 *) input, len);
+    MD5Final(hashBytes, &context);
     MD5Print(hashBytes, output);
 }

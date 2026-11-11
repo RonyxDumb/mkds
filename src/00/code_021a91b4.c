@@ -3,26 +3,26 @@
 #include "03/code_021b94b8.h"
 #include "code_0214d018.h"
 
-void func_ov000_021a91cc(s32 a) {
+void CPSi_SslPeriodical(s32 now) {
     s32 i;
-    Unk021a91cc *b;
+    Unk021a91cc *session;
     i = 0;
-    b = (Unk021a91cc *) data_ov000_021b61f4;
+    session = (Unk021a91cc *) gHttpsEntries;
     for (; i < 4; i++) {
-        if (b->mUnk_5a != 0 && a - b->mUnk_50 > 0xef) {
-            b->mUnk_5a = 0;
+        if (session->mUnk_5a != 0 && now - session->mUnk_50 > 0xef) {
+            session->mUnk_5a = 0;
         }
-        b++;
+        session++;
     }
 }
 
-void func_ov000_021a91b4(void) {
-    u32 value0;
-    u32 value1;
-    u32 value2;
+void CPSi_SslCleanup(void) {
+    u32 table;
+    u32 fillByte;
+    u32 byteCount;
     u32 value3;
-    value0 = (u32) &data_ov000_021b61f4;
-    value1 = 0u;
-    value2 = 0x170u;
-    MI_CpuFill8((void *) value0, value1, value2);
+    table = (u32) &gHttpsEntries;
+    fillByte = 0u;
+    byteCount = 0x170u;
+    MI_CpuFill8((void *) table, fillByte, byteCount);
 }

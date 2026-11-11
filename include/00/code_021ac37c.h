@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_ov000_021ac37c(u8 *a, u32 *b, u32 c);
+void char_from_long(u8 *bytes, u32 *words, u32 byteCount);

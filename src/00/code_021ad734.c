@@ -40,7 +40,7 @@ void func_ov000_021b04f8(u32 a) {
     CPSGatewayIp = 0;
     CPSDnsIp[0] = 0;
     CPSDnsIp[1] = 0;
-    data_ov000_021b638c = 0;
+    CPSDhcpServerIp = 0;
     if (b != 0) {
         MI_CpuFill8(data_ov000_021b6434, 0, 0x60);
         c = OSi_ThreadInfo.mListHead;
@@ -63,12 +63,12 @@ void func_ov000_021b04f8(u32 a) {
         e = data_ov000_021b69dc;
         for (; i < 8; i++) {
             if (e->mUnk_04 != 0) {
-                data_ov000_021b63ac(e->mUnk_34);
+                CPSiFree(e->mUnk_34);
                 e->mUnk_04 = 0;
             }
             e++;
         }
-        func_ov000_021a91b4();
+        CPSi_SslCleanup();
     }
 }
 
@@ -89,20 +89,20 @@ s32 func_ov000_021b04cc(void) {
 void func_ov000_021b02fc(CPSConfig *a) {
     OSi_ReferSymbol(0x2000bfc);
     if (*(u64 *) &a->mUnk_14 != 0) {
-        data_ov000_021b63e0[0] = *(u64 *) &a->mUnk_14;
-        data_ov000_021b63e0[1] = 0x5d588b656c078965ULL;
-        data_ov000_021b63e0[2] = 0x269ec3;
+        CPSiRand32ctx[0] = *(u64 *) &a->mUnk_14;
+        CPSiRand32ctx[1] = 0x5d588b656c078965ULL;
+        CPSiRand32ctx[2] = 0x269ec3;
     } else {
-        data_ov000_021b63e0[0] = OS_GetTick();
-        data_ov000_021b63e0[1] = 0x5d588b656c078965ULL;
-        data_ov000_021b63e0[2] = 0x269ec3;
+        CPSiRand32ctx[0] = OS_GetTick();
+        CPSiRand32ctx[1] = 0x5d588b656c078965ULL;
+        CPSiRand32ctx[2] = 0x269ec3;
     }
     if (a->mUnk_04 != NULL && a->mUnk_08 != NULL) {
-        data_ov000_021b63a4 = (u8 * (*) (u32)) a->mUnk_04;
-        data_ov000_021b63ac = a->mUnk_08;
+        CPSiAlloc = (u8 * (*) (u32)) a->mUnk_04;
+        CPSiFree = a->mUnk_08;
     } else {
-        data_ov000_021b63a4 = (u8 * (*) (u32)) func_ov000_021b04d0;
-        data_ov000_021b63ac = (void (*)(void *)) func_ov000_021b04d0;
+        CPSiAlloc = (u8 * (*) (u32)) func_ov000_021b04d0;
+        CPSiFree = (void (*)(void *)) func_ov000_021b04d0;
     }
     data_ov000_021b6398 = a->mUnk_00;
     if (a->mUnk_24 != 0) {
@@ -110,7 +110,7 @@ void func_ov000_021b02fc(CPSConfig *a) {
     } else {
         data_ov000_021b6370 = 0x5b4;
     }
-    data_ov000_021b63bc = a->mUnk_28;
+    gOfferedMyIp = a->mUnk_28;
     data_ov000_021b6390 = a->mUnk_2c;
     if (a->mUnk_0c != NULL) {
         data_ov000_021b6384 = a->mUnk_0c;
@@ -118,17 +118,17 @@ void func_ov000_021b02fc(CPSConfig *a) {
         data_ov000_021b6384 = func_ov000_021b04d0;
     }
     if (a->mUnk_10 != NULL) {
-        data_ov000_021b6388 = a->mUnk_10;
+        gLinkIsOn = a->mUnk_10;
     } else {
-        data_ov000_021b6388 = (u32(*)(void)) func_ov000_021b04cc;
+        gLinkIsOn = (u32(*)(void)) func_ov000_021b04cc;
     }
     data_ov000_021b63c4 = a->mUnk_1c;
     data_ov000_021b63c8 = a->mUnk_20;
     data_ov000_021b63cc = 0;
     data_ov000_021b6394 = 0;
-    data_ov000_021b63e0[0] = _ll_mul(data_ov000_021b63e0[1], data_ov000_021b63e0[0]) + data_ov000_021b63e0[2];
-    data_ov000_021b6374 = (_ll_mul(data_ov000_021b63e0[0] >> 32, 0xf88) >> 32) + 0x400;
-    OS_GetMacAddress(data_ov000_021b63d0);
+    CPSiRand32ctx[0] = _ll_mul(CPSiRand32ctx[1], CPSiRand32ctx[0]) + CPSiRand32ctx[2];
+    data_ov000_021b6374 = (_ll_mul(CPSiRand32ctx[0] >> 32, 0xf88) >> 32) + 0x400;
+    OS_GetMacAddress(CPSMyMac);
     data_ov000_021b6368 = 0;
     OS_CreateThread(&data_ov000_021b661c, (void (*)(void *)) func_ov000_021ae3a4, NULL, data_ov002_021b7ba0, 0x800,
                     data_ov000_021b4c28);
@@ -410,7 +410,7 @@ u8 *func_ov000_021afd00(u32 a) {
     b = OS_DisableInterrupts();
     c = NULL;
     if (a == 0x7f000001 || a == CPSMyIp) {
-        c = (u8 *) data_ov000_021b63d0;
+        c = (u8 *) CPSMyMac;
     } else if (func_ov000_021b00b0(a) != 0 || func_ov000_021b0094(a) != FALSE) {
         c = data_ov000_021b4c2c;
     } else {
@@ -432,13 +432,13 @@ void func_ov000_021afc5c(u32 a) {
 
     MI_CpuFill8(&b, 0, 0x2a);
     MI_CpuFill8(&b, 0xff, 6);
-    MI_CpuCopy8(data_ov000_021b63d0, b.mUnk_06, 6);
+    MI_CpuCopy8(CPSMyMac, b.mUnk_06, 6);
     b.mUnk_0c = 0x608;
     b.mUnk_0f = 1;
     b.mUnk_10 = 8;
     b.mUnk_12 = 0x406;
     b.mUnk_15 = 1;
-    MI_CpuCopy8(data_ov000_021b63d0, b.mUnk_16, 6);
+    MI_CpuCopy8(CPSMyMac, b.mUnk_16, 6);
     b.mUnk_1c = ((u16) (*(u32 *) &CPSMyIp >> 16) >> 8) | ((u16) (*(u32 *) &CPSMyIp >> 16) << 8);
     b.mUnk_1e = ((u16) CPSMyIp >> 8) | ((u16) CPSMyIp << 8);
     b.mUnk_26 = ((u16) (a >> 16) >> 8) | ((u16) (a >> 16) << 8);
@@ -527,7 +527,7 @@ void func_ov000_021afaac(u8 *a, u32 b, void *c, u32 d, u32 e, u16 f) {
         a[-0xa] = e >> 8;
         a[-9] = e;
     }
-    MI_CpuCopy8(data_ov000_021b63d0, a - 8, 6);
+    MI_CpuCopy8(CPSMyMac, a - 8, 6);
     func_ov000_021affcc(a - 0xe, b + 0xe, c, d);
 }
 
@@ -548,7 +548,7 @@ void func_ov000_021af9d0(u8 *a, u32 b, void *c, u32 d, u32 e, u32 f) {
     if (e == 0x7f000001 || e == CPSMyIp || func_ov000_021b0094(e) != FALSE) {
         MI_CpuCopy8(data_ov000_021b4c40, a - 0x1c, 8);
         h = OS_DisableInterrupts();
-        func_ov000_021afe84(data_ov000_021b63d0, data_ov000_021b63d0, a - 0x1c, b + 0x1c, c, d);
+        func_ov000_021afe84(CPSMyMac, CPSMyMac, a - 0x1c, b + 0x1c, c, d);
         OS_RestoreInterrupts(h);
     }
 }
@@ -709,11 +709,11 @@ void func_ov000_021af550(u8 *a, u32 b, Unk021a998c *c, u32 d, u16 e) {
 void func_ov000_021af4d4(Unk021af3e8 *a) {
     a->mUnk_06 = 0x200;
     MI_CpuCopy8(a->mUnk_08, a->mUnk_12, 10);
-    MI_CpuCopy8(data_ov000_021b63d0, a->mUnk_08, 6);
+    MI_CpuCopy8(CPSMyMac, a->mUnk_08, 6);
     a->mUnk_0e = ((u16) (CPSMyIp >> 16) >> 8) | ((u16) (CPSMyIp >> 16) << 8);
     a->mUnk_10 = ((u16) CPSMyIp >> 8) | ((u16) CPSMyIp << 8);
     MI_CpuCopy8(a->mUnk_12, (u8 *) a - 0xe, 6);
-    MI_CpuCopy8(data_ov000_021b63d0, (u8 *) a - 8, 6);
+    MI_CpuCopy8(CPSMyMac, (u8 *) a - 8, 6);
     func_ov000_021affcc((u8 *) a - 0xe, 0x2a, NULL, 0);
 }
 
@@ -727,7 +727,7 @@ void func_ov000_021af3e8(Unk021af3e8 *f, u32 g) {
     if (g < 0x1c) {
         return;
     }
-    if (func_ov000_021b0014(f->mUnk_08, data_ov000_021b63d0) == FALSE) {
+    if (func_ov000_021b0014(f->mUnk_08, CPSMyMac) == FALSE) {
         return;
     }
     if (CPSMyIp == 0) {
@@ -1369,7 +1369,7 @@ Unk021ae3f0 *func_ov000_021ae51c(Unk021ae3f0 *r, u32 *s) {
             return NULL;
         }
         k = l;
-        l->mUnk_34 = data_ov000_021b63a4(b + 0x100e);
+        l->mUnk_34 = CPSiAlloc(b + 0x100e);
         if (l->mUnk_34 == NULL) {
             return NULL;
         }
@@ -1382,7 +1382,7 @@ Unk021ae3f0 *func_ov000_021ae51c(Unk021ae3f0 *r, u32 *s) {
     }
     if (k->mUnk_04 == 8 || g > 0x1000) {
         k->mUnk_04 = 0;
-        data_ov000_021b63ac(k->mUnk_34);
+        CPSiFree(k->mUnk_34);
         return NULL;
     }
     h = e + ((d + 7) >> 3);
@@ -1464,7 +1464,7 @@ void func_ov000_021ae3f0(Unk021ae3f0 *a, u32 f) {
             }
         }
         if (b != 0) {
-            data_ov000_021b63ac((u8 *) a - 0xe);
+            CPSiFree((u8 *) a - 0xe);
         }
     }
 }
@@ -1512,8 +1512,8 @@ u16 func_ov000_021ae340(void) {
 }
 
 u32 func_ov000_021ae314(void) {
-    data_ov000_021b63e0[0] = data_ov000_021b63e0[2] + data_ov000_021b63e0[1] * data_ov000_021b63e0[0];
-    return data_ov000_021b63e0[0] >> 32;
+    CPSiRand32ctx[0] = CPSiRand32ctx[2] + CPSiRand32ctx[1] * CPSiRand32ctx[0];
+    return CPSiRand32ctx[0] >> 32;
 }
 
 void func_ov000_021ae304(void *arg0) {
@@ -1646,7 +1646,7 @@ u32 func_ov000_021ae134(void) {
     a = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if (a != NULL) {
         if (a->mUseHttps != 0) {
-            return func_ov000_021a943c(a);
+            return CPSi_SslConnect(a);
         }
         return func_ov000_021ae16c(a);
     }
@@ -1686,7 +1686,7 @@ void func_ov000_021ae094(void) {
     s = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if (s != NULL) {
         if (s->mUseHttps != 0) {
-            func_ov000_021a9228(s);
+            CPSi_SslShutdown(s);
         } else {
             func_ov000_021ae0c4(s);
         }
@@ -1700,7 +1700,7 @@ void func_ov000_021ae048(void) {
     s = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if (s != NULL) {
         t = OS_GetTick() >> 16;
-        while (data_ov000_021b6388() != 0 && s->mState != 0 && (s32) (OS_GetTick() >> 16) - t < 0x27) {
+        while (gLinkIsOn() != 0 && s->mState != 0 && (s32) (OS_GetTick() >> 16) - t < 0x27) {
             func_ov000_021b04d4();
         }
     }
@@ -1853,13 +1853,13 @@ s32 func_ov000_021adcec(const u8 *a, u32 b, const u8 *c, s32 d, void *e) {
     s->mUnk_34 = 0;
     g = FALSE;
     j = OS_GetTick() >> 16;
-    while (data_ov000_021b6388() != 0 && b != 0 && s->mState == 4 && (s32) ((u32) (OS_GetTick() >> 16) - j) < 0x9f) {
+    while (gLinkIsOn() != 0 && b != 0 && s->mState == 4 && (s32) ((u32) (OS_GetTick() >> 16) - j) < 0x9f) {
         h = s->mUnk_28;
         func_ov000_021ade40(a, b, c, d, s, g);
         k = OS_GetTick() >> 16;
         do {
             func_ov000_021b04d4();
-        } while (data_ov000_021b6388() != 0 && s->mState == 4 && s->mUnk_28 != s->mUnk_30 &&
+        } while (gLinkIsOn() != 0 && s->mState == 4 && s->mUnk_28 != s->mUnk_30 &&
                  (s32) ((u32) (OS_GetTick() >> 16) - k) < 0xf && (g == FALSE || s->mUnk_2c == 0));
         i = s->mUnk_30 - h;
         f += i;
@@ -1870,7 +1870,7 @@ s32 func_ov000_021adcec(const u8 *a, u32 b, const u8 *c, s32 d, void *e) {
         if (s->mState == 4 && s->mUnk_2c == 0 && i == 0) {
             if (g == FALSE) {
                 k = OS_GetTick() >> 16;
-                while (data_ov000_021b6388() != 0 && (s32) ((u32) (OS_GetTick() >> 16) - k) < 0xf) {
+                while (gLinkIsOn() != 0 && (s32) ((u32) (OS_GetTick() >> 16) - k) < 0xf) {
                     func_ov000_021b04d4();
                     if (s->mUnk_2c != 0) {
                         break;
@@ -1992,7 +1992,7 @@ void func_ov000_021adb00(void) {
         OS_Sleep(100);
         func_ov000_021afc5c(CPSMyIp);
         a = OS_GetTick() >> 16;
-        while (data_ov000_021b6388() != 0 && (s32) (OS_GetTick() >> 16) - a < 0x17) {
+        while (gLinkIsOn() != 0 && (s32) (OS_GetTick() >> 16) - a < 0x17) {
             if (data_ov000_021b6368 != 0) {
                 func_ov000_021b04f8(4);
                 return;
@@ -2031,7 +2031,7 @@ void func_ov000_021ad898(void) {
             break;
         }
         c = OS_GetTick() >> 16;
-        if (data_ov000_021b6388() != 0) {
+        if (gLinkIsOn() != 0) {
             a--;
             if (a == 0) {
                 if ((data_ov000_021b6398 & 1) != 0) {
@@ -2046,7 +2046,7 @@ void func_ov000_021ad898(void) {
                                 data_ov000_021b637c = 2;
                                 d = FALSE;
                             }
-                            if (func_ov000_021ad36c() == 0 || func_ov000_021ad2b8(&a, 0) == FALSE) {
+                            if (dhcp_discover_server() == 0 || dhcp_request_server(&a, 0) == FALSE) {
                                 func_ov000_021adb00();
                                 b = 3;
                             } else {
@@ -2054,12 +2054,12 @@ void func_ov000_021ad898(void) {
                             }
                             break;
                         case 1:
-                            if (func_ov000_021ad2b8(&a, 1) == FALSE && a < 0x3c) {
+                            if (dhcp_request_server(&a, 1) == FALSE && a < 0x3c) {
                                 b = 2;
                             }
                             break;
                         case 2:
-                            if (func_ov000_021ad2b8(&a, 2) != FALSE) {
+                            if (dhcp_request_server(&a, 2) != FALSE) {
                                 b = 1;
                             } else if (a < 0x3c) {
                                 func_ov000_021b04f8(3);
@@ -2107,18 +2107,18 @@ void func_ov000_021ad898(void) {
         j = data_ov000_021b69dc;
         for (; i < 8; i++) {
             if (j->mUnk_04 != 0 && (s32) (c - j->mUnk_2c) > 0xef) {
-                data_ov000_021b63ac(j->mUnk_34);
+                CPSiFree(j->mUnk_34);
                 j->mUnk_04 = 0;
             }
             j++;
         }
-        func_ov000_021a91cc(c);
+        CPSi_SslPeriodical(c);
         if (data_ov000_021b63a8 != NULL) {
             data_ov000_021b63a8();
         }
     }
     if ((data_ov000_021b6398 & 1) == 0 && b != 3) {
-        func_ov000_021ad264();
+        dhcp_release_server();
     }
     func_ov000_021ae2f4();
 }
@@ -2129,8 +2129,8 @@ u8 *func_ov000_021ad754(u8 *a, u8 b, u32 *c) {
     MI_CpuFill8(a, 0, 0xec);
     *(u16 *) a = 0x101;
     a[2] = 6;
-    data_ov000_021b63e0[0] = (s64) data_ov000_021b63e0[1] * (s64) data_ov000_021b63e0[0] + data_ov000_021b63e0[2];
-    d = data_ov000_021b63e0[0] >> 32;
+    CPSiRand32ctx[0] = (s64) CPSiRand32ctx[1] * (s64) CPSiRand32ctx[0] + CPSiRand32ctx[2];
+    d = CPSiRand32ctx[0] >> 32;
     if (c != NULL) {
         *c = d;
     }
@@ -2138,7 +2138,7 @@ u8 *func_ov000_021ad754(u8 *a, u8 b, u32 *c) {
     *OFFSET_PTR(u16, a, 6) = (u16) d >> 8 | (u16) d << 8;
     *OFFSET_PTR(u16, a, 0xc) = (u16) (CPSMyIp >> 16) >> 8 | (u16) (CPSMyIp >> 16) << 8;
     *OFFSET_PTR(u16, a, 0xe) = (u16) CPSMyIp >> 8 | (u16) CPSMyIp << 8;
-    MI_CpuCopy8(data_ov000_021b63d0, a + 0x1c, 6);
+    MI_CpuCopy8(CPSMyMac, a + 0x1c, 6);
     *(u16 *) (a + 0xec) = 0x8263;
     *(u16 *) (a + 0xee) = 0x6353;
     *(u16 *) (a + 0xf0) = 0x135;
@@ -2146,7 +2146,7 @@ u8 *func_ov000_021ad754(u8 *a, u8 b, u32 *c) {
     a[0xf3] = 0x3d;
     a[0xf4] = 7;
     a[0xf5] = 1;
-    MI_CpuCopy8(data_ov000_021b63d0, a + 0xf6, 6);
+    MI_CpuCopy8(CPSMyMac, a + 0xf6, 6);
     a[0xfc] = 0xc;
     a[0xfd] = 10;
     MI_CpuCopy8(data_ov000_021b4c34, a + 0xfe, 10);

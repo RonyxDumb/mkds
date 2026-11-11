@@ -10,5 +10,5 @@ typedef struct Unk021a91cc {
     /* 5b */ u8 mUnk_5b;
 } Unk021a91cc;
 
-void func_ov000_021a91b4(void);
-void func_ov000_021a91cc(s32 a);
+void CPSi_SslCleanup(void);
+void CPSi_SslPeriodical(s32 now);

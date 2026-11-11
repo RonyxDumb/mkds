@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_ov000_021ac3a8(u32 a, u32 *b);
+u32 ComputeSha1ScheduleWord(u32 index, u32 *words);

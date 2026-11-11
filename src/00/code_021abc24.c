@@ -3,22 +3,22 @@
 #include "00/code_021ac37c.h"
 #include "00/unk_021b4000.h"
 
-void func_ov000_021abc4c(Hash20Context *a, u8 *b) {
-    int v1;
-    int v2;
-    func_ov000_021ac37c(b, &a->mUnk_14, 8);
-    v1 = a->mUnk_18 >> 3 & 0x3f;
-    if (v1 < 0x38) {
-        v2 = 0x38 - v1;
+void CPSi_sha1_result(Hash20Context *context, u8 *digest) {
+    int bufferIndex;
+    int paddingLength;
+    char_from_long(digest, &context->mUnk_14, 8);
+    bufferIndex = context->mUnk_18 >> 3 & 0x3f;
+    if (bufferIndex < 0x38) {
+        paddingLength = 0x38 - bufferIndex;
     } else {
-        v2 = 0x78 - v1;
+        paddingLength = 0x78 - bufferIndex;
     }
-    func_ov000_021abca0(a, data_ov000_021b4be4, v2);
-    func_ov000_021abca0(a, b, 8);
-    func_ov000_021ac37c(b, &a->mUnk_00, 0x14);
+    CPSi_sha1_calc(context, gSha1PaddingBytes, paddingLength);
+    CPSi_sha1_calc(context, digest, 8);
+    char_from_long(digest, &context->mUnk_00, 0x14);
 }
 
-void func_ov000_021abc24(Hash20Context *a, u8 *b) {
-    func_ov000_021abca0(a, data_ov000_021b4be5, 0x2c);
-    func_ov000_021ac37c(b, &a->mUnk_00, 0x14);
+void CPSi_sha1_result_prng(Hash20Context *context, u8 *digest) {
+    CPSi_sha1_calc(context, gSha1ZeroPaddingBytes, 0x2c);
+    char_from_long(digest, &context->mUnk_00, 0x14);
 }

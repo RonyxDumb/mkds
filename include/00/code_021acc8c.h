@@ -2,10 +2,10 @@
 
 #include "types.h"
 
-s32 func_ov000_021acc8c(const u16 *a, const u16 *b, s32 n);
-void func_ov000_021acccc(u16 *a, const u16 *b, u32 c, s32 n);
-void func_ov000_021acd24(u16 *a, const u16 *b, const u16 *c, s32 n);
-void func_ov000_021acda8(u16 *a, s32 n);
-void func_ov000_021acdd0(u16 *a, const u16 *b, u32 c, s32 n);
-void func_ov000_021ace14(u16 *a, const u16 *b, const u16 *c, s32 n);
-s32 func_ov000_021ace90(const u16 *a, s32 n);
+s32 CPSi_big_compare(const u16 *first, const u16 *second, s32 digitCount);
+void CPSi_big_sub_small(u16 *result, const u16 *value, u32 borrow, s32 digitCount);
+void CPSi_big_sub(u16 *difference, const u16 *minuend, const u16 *subtrahend, s32 digitCount);
+void CPSi_big_negate(u16 *digits, s32 digitCount);
+void CPSi_big_add_small(u16 *result, const u16 *value, u32 carry, s32 digitCount);
+void CPSi_big_add(u16 *sum, const u16 *first, const u16 *second, s32 digitCount);
+s32 CPSi_big_sign(const u16 *digits, s32 digitCount);

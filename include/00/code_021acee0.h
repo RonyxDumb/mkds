@@ -4,4 +4,4 @@
 
 typedef struct DGTHash1Context DGTHash1Context;
 
-void func_ov000_021acee0(u8 *out, DGTHash1Context *ctx);
+void MD5Final(u8 *digest, DGTHash1Context *ctx);

@@ -4,81 +4,81 @@
 #include "00/unk_021b6380.h"
 #include "code_0200f5ac.h"
 
-BOOL func_ov000_021ad2b8(u32 *a, s32 b) {
-    s32 c;
-    s32 d;
-    u32 e;
+BOOL dhcp_request_server(u32 *sleep, s32 mode) {
+    s32 result;
+    s32 retry;
+    u32 savedSleep;
 
     func_ov000_021ae270();
     func_ov000_021ae2d8();
-    if (b == 1) {
-        func_ov000_021ae290(0x44, 0x43, data_ov000_021b638c);
+    if (mode == 1) {
+        func_ov000_021ae290(0x44, 0x43, CPSDhcpServerIp);
     } else {
         func_ov000_021ae290(0x44, 0x43, -1);
     }
-    for (d = 0; d < 4; d++) {
-        c = func_ov000_021ad3b8(func_ov000_021ad620(b), d);
-        if (c != 0) {
+    for (retry = 0; retry < 4; retry++) {
+        result = dhcp_analyze_response(dhcp_send_request(mode), retry);
+        if (result != 0) {
             break;
         }
     }
     func_ov000_021ae258();
-    if (c == 2) {
-        *a = data_ov000_021b63b8 >> 1;
-        data_ov000_021b63a0 = data_ov000_021b63b8 * 3 >> 3;
+    if (result == 2) {
+        *sleep = gLeaseTime >> 1;
+        gSleepSave = gLeaseTime * 3 >> 3;
         return TRUE;
     }
-    e = data_ov000_021b63a0 >> 1;
-    data_ov000_021b63a0 = e;
-    *a = e;
-    switch (b) {
+    savedSleep = gSleepSave >> 1;
+    gSleepSave = savedSleep;
+    *sleep = savedSleep;
+    switch (mode) {
         case 1:
-            if (e < 0x3c) {
-                *a = 1;
-                data_ov000_021b63a0 = data_ov000_021b63b8 >> 3;
+            if (savedSleep < 0x3c) {
+                *sleep = 1;
+                gSleepSave = gLeaseTime >> 3;
             }
             break;
         case 2:
-            if (e < 0x3c) {
-                *a = 1;
+            if (savedSleep < 0x3c) {
+                *sleep = 1;
             }
             break;
     }
     return FALSE;
 }
 
-void func_ov000_021ad264(void) {
-    u8 *p;
-    u8 *r;
-    u8 *q;
+void dhcp_release_server(void) {
+    u8 *cursor;
+    u8 *message;
+    u8 *paddedEnd;
 
     func_ov000_021ae270();
     func_ov000_021ae2d8();
-    func_ov000_021ae290(0x44, 0x43, data_ov000_021b638c);
-    r = (u8 *) &data_ov000_021b6706;
-    p = func_ov000_021ad754(r, 7, NULL);
-    *p = 0xff;
-    p++;
-    q = func_ov000_021ad734(0, 0x12c, p, p - r);
-    func_ov000_021adbf4(r, q - r);
+    func_ov000_021ae290(0x44, 0x43, CPSDhcpServerIp);
+    message = (u8 *) &gScavengerSendPayload;
+    cursor = func_ov000_021ad754(message, 7, NULL);
+    *cursor = 0xff;
+    cursor++;
+    paddedEnd = func_ov000_021ad734(0, 0x12c, cursor, cursor - message);
+    func_ov000_021adbf4(message, paddedEnd - message);
     func_ov000_021ae258();
 }
 
-u8 *func_ov000_021ad240(u8 *a) {
-    u32 b;
+u8 *dns_skipname(u8 *name) {
+    u32 labelLength;
 
-    b = *a++;
-    while (b != 0) {
-        if ((b & 0xc0) == 0xc0) {
-            return a + 1;
+    labelLength = *name++;
+    while (labelLength != 0) {
+        if ((labelLength & 0xc0) == 0xc0) {
+            return name + 1;
         }
-        a += b;
-        b = *a++;
+        name += labelLength;
+        labelLength = *name++;
     }
-    return a;
+    return name;
 }
 
-s32 func_ov000_021ad0a4(const char *a, u32 b, s32 c) {
+s32 resolve_common(const char *a, u32 b, s32 c) {
     struct {
         /* 00 */ u32 mUnk_00;
         /* 04 */ u16 mUnk_04;
@@ -141,7 +141,7 @@ s32 func_ov000_021ad0a4(const char *a, u32 b, s32 c) {
     e = 0;
     g = OS_GetTick() >> 16;
     f = -1;
-    while (data_ov000_021b6388() != 0 && e == 0 && (s32) ((u32) (OS_GetTick() >> 16) - g) < 0xf) {
+    while (gLinkIsOn() != 0 && e == 0 && (s32) ((u32) (OS_GetTick() >> 16) - g) < 0xf) {
         if (func_ov000_021adbac() == 0) {
             func_ov000_021b04d4();
             continue;
@@ -157,11 +157,11 @@ s32 func_ov000_021ad0a4(const char *a, u32 b, s32 c) {
                 r += 12;
                 h = i;
                 while (h-- != 0) {
-                    r = func_ov000_021ad240(r);
+                    r = dns_skipname(r);
                     r += 4;
                 }
                 while (r < p) {
-                    r = func_ov000_021ad240(r);
+                    r = dns_skipname(r);
                     j = r[8] << 8 | r[9];
                     if (b == (u16) (r[0] << 8 | r[1])) {
                         e = (u16) (((u8 *) (r + 6) + j)[0] << 8 | ((u8 *) (r + 6) + j)[1]) << 16 |
@@ -177,47 +177,47 @@ s32 func_ov000_021ad0a4(const char *a, u32 b, s32 c) {
     return e;
 }
 
-u32 func_ov000_021ad07c(const char *a, const char **b) {
-    u32 c;
-    u8 d;
+u32 strtol10(const char *text, const char **end) {
+    u32 value;
+    u8 digit;
 
-    *b = a;
-    c = 0;
+    *end = text;
+    value = 0;
     for (;;) {
-        d = *a - '0';
-        if (d > 9) {
+        digit = *text - '0';
+        if (digit > 9) {
             break;
         }
-        c = c * 10 + d;
-        a++;
-        *b = a;
+        value = value * 10 + digit;
+        text++;
+        *end = text;
     }
-    return c;
+    return value;
 }
 
-BOOL func_ov000_021ad018(const char *a, u32 *b) {
-    const char *p;
-    const char *q;
-    u32 c;
-    u32 d;
-    s32 i;
+BOOL rawip(const char *name, u32 *address) {
+    const char *cursor;
+    const char *fieldEnd;
+    u32 result;
+    u32 octet;
+    s32 fieldIndex;
 
-    c = 0;
-    i = 0;
-    p = a;
+    result = 0;
+    fieldIndex = 0;
+    cursor = name;
     do {
-        c <<= 8;
-        d = func_ov000_021ad07c(p, &q);
-        if (p == q) {
+        result <<= 8;
+        octet = strtol10(cursor, &fieldEnd);
+        if (cursor == fieldEnd) {
             return FALSE;
         }
-        p = q;
-        if (d > 0xff || (i != 3 && (p++, *q != '.')) || (i == 3 && *p != 0)) {
+        cursor = fieldEnd;
+        if (octet > 0xff || (fieldIndex != 3 && (cursor++, *fieldEnd != '.')) || (fieldIndex == 3 && *cursor != 0)) {
             return FALSE;
         }
-        c |= d;
-        i++;
-    } while (i < 4);
-    *b = c;
+        result |= octet;
+        fieldIndex++;
+    } while (fieldIndex < 4);
+    *address = result;
     return TRUE;
 }

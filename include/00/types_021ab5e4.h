@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-// Entry of the four-entry table at data_ov000_021b61f4.
+// Entry of the four-entry table at gHttpsEntries.
 typedef struct HttpsEntry {
     /* 00 */ u8 mUnk_00[0x20];
     /* 20 */ u8 mUnk_20[0x30];

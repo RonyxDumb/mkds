@@ -529,7 +529,7 @@ s32 SOCL_Resolve(const char *hostname) {
     soc.mSendBuffer.mStart = memory + 0xb68;
     soc.mSendBuffer.mSize = 0x5ea;
     func_ov000_021ae304(&soc);
-    resolvedAddr = func_ov000_021acef8(hostname);
+    resolvedAddr = CPS_Resolve(hostname);
     func_ov000_021ae2f4();
     SOCLiConfigPtr->mUnk_1c(memory);
     return resolvedAddr;
@@ -542,7 +542,7 @@ s32 SOCL_InetAtoH(u32 hostname) {
     s32 resolvedAddr;
     CPSDnsIp[0] = 0;
     CPSDnsIp[1] = 0;
-    resolvedAddr = func_ov000_021acef8((const char *) hostname);
+    resolvedAddr = CPS_Resolve((const char *) hostname);
     CPSDnsIp[0] = savedFirstDns;
     CPSDnsIp[1] = savedSecondDns;
     OS_RestoreInterrupts(interruptState);

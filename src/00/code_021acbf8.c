@@ -3,25 +3,25 @@
 #include "00/code_021acec8.h"
 #include "code_0214d018.h"
 
-void func_ov000_021acbf8(u16 *a, const u16 *b, const u16 *c, s32 n) {
-    s32 d;
-    s32 e;
+void CPSi_big_mult(u16 *result, const u16 *first, const u16 *second, s32 digitCount) {
+    s32 firstDigits;
+    s32 secondDigits;
     s32 i;
     s32 j;
-    const u16 *p;
-    const u16 *q;
+    const u16 *firstCursor;
+    const u16 *secondCursor;
 
-    MI_CpuFill8(a, 0, n * 2);
-    d = func_ov000_021acec8(b, n);
-    e = func_ov000_021acec8(c, n);
-    q = c;
-    for (i = 0; i < e; i++) {
+    MI_CpuFill8(result, 0, digitCount * 2);
+    firstDigits = count_digits(first, digitCount);
+    secondDigits = count_digits(second, digitCount);
+    secondCursor = second;
+    for (i = 0; i < secondDigits; i++) {
         j = 0;
-        p = b;
-        for (; j < d && j < n - i; j++) {
-            func_ov000_021acc68(a, *p * *q, i + j, n);
-            p++;
+        firstCursor = first;
+        for (; j < firstDigits && j < digitCount - i; j++) {
+            CPSi_big_add_part(result, *firstCursor * *secondCursor, i + j, digitCount);
+            firstCursor++;
         }
-        q++;
+        secondCursor++;
     }
 }

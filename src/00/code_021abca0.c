@@ -3,26 +3,26 @@
 #include "00/code_021abd68.h"
 #include "code_0214d018.h"
 
-void func_ov000_021abca0(void *f, const u8 *b, u32 c) {
-    Hash20Context *a = f;
-    u32 d;
-    u32 e;
-    d = (a->mUnk_18 >> 3) & 0x3f;
-    a->mUnk_18 += c << 3;
-    if (a->mUnk_18 < (c << 3)) {
-        a->mUnk_14++;
+void CPSi_sha1_calc(void *rawContext, const u8 *input, u32 inputLength) {
+    Hash20Context *context = rawContext;
+    u32 bufferIndex;
+    u32 inputOffset;
+    bufferIndex = (context->mUnk_18 >> 3) & 0x3f;
+    context->mUnk_18 += inputLength << 3;
+    if (context->mUnk_18 < (inputLength << 3)) {
+        context->mUnk_14++;
     }
-    a->mUnk_14 += c >> 29;
-    e = 64 - d;
-    if (c >= e) {
-        MI_CpuCopy8(b, &a->mUnk_1c[d], e);
-        d = 0;
-        func_ov000_021abd68(a, a->mUnk_1c);
-        for (; e + 63 < c; e += 64) {
-            func_ov000_021abd68(a, b + e);
+    context->mUnk_14 += inputLength >> 29;
+    inputOffset = 64 - bufferIndex;
+    if (inputLength >= inputOffset) {
+        MI_CpuCopy8(input, &context->mUnk_1c[bufferIndex], inputOffset);
+        bufferIndex = 0;
+        CPSi_sha1_block(context, context->mUnk_1c);
+        for (; inputOffset + 63 < inputLength; inputOffset += 64) {
+            CPSi_sha1_block(context, input + inputOffset);
         }
     } else {
-        e = 0;
+        inputOffset = 0;
     }
-    MI_CpuCopy8(b + e, &a->mUnk_1c[d], c - e);
+    MI_CpuCopy8(input + inputOffset, &context->mUnk_1c[bufferIndex], inputLength - inputOffset);
 }

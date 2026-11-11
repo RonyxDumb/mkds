@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_ov000_021acfd8(const char *a, int b, u32 c);
+u32 resolve_sub(const char *name, int dnsServer, u32 queryId);

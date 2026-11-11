@@ -2,24 +2,24 @@
 #include "00/code_021ad3b8.h"
 #include "00/code_021ad734.h"
 
-u32 func_ov000_021ad36c(void) {
-    u32 v1;
-    int v2;
-    int v3;
+BOOL dhcp_discover_server(void) {
+    u32 queryId;
+    int result;
+    int retry;
     func_ov000_021ae270();
     func_ov000_021ae2d8();
     func_ov000_021ae290(0x44, 0x43, 0xffffffff);
-    v3 = 0;
+    retry = 0;
     do {
-        v1 = func_ov000_021ad6c0();
-        v2 = func_ov000_021ad3b8(v1, v3);
-        if (v2 == 1) {
+        queryId = dhcp_send_discover();
+        result = dhcp_analyze_response(queryId, retry);
+        if (result == 1) {
             break;
         }
-        v3 = v3 + 1;
-    } while (v3 < 4);
+        retry = retry + 1;
+    } while (retry < 4);
     func_ov000_021ae258();
-    if (v2 == 1) {
+    if (result == 1) {
         return 1;
     }
     return 0;

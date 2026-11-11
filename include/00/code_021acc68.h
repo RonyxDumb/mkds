@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_ov000_021acc68(u16 *a, u32 b, int c, int d);
+void CPSi_big_add_part(u16 *digits, u32 addend, int position, int digitCount);

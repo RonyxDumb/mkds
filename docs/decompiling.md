@@ -421,7 +421,7 @@ Pointer locals and addresses:
   access goes through it. A byte copy the original does through one register needs the cast on both pointers; put
   it in a static inline helper with `void *` parameters: `u8 *p = (u8 *) a; const u8 *q = (const u8 *) b;
   p[0] = q[0]; ...` (ServerListConnect). To keep a global's address in a callee-saved register across calls in
-  Thumb: `r = (u8 *) &data_ov000_021b6706;` (func_ov000_021ad264; the plain name and `+ 0` don't).
+  Thumb: `r = (u8 *) &gScavengerSendPayload;` (dhcp_release_server; the plain name and `+ 0` don't).
 - A pointer local with one use is folded into it; with two uses it stays, and the field at offset 0 is read from the
   base register while the others go through the pointer. Read every field through the local in the ROM's order
   (UpdateTeresaSpawner), or write the accesses through the existing pointer locals (SteerItemKouraRToKart).
@@ -1041,7 +1041,7 @@ Link order and linking:
   reuses the last column loaded in a row for the next row's first element (load columns into locals, alternate
   column order row by row).
 - The 64-bit random step: `x * a + c` on unsigned words calls `_ull_mul`; `(s64) x[1] * (s64) x[0] + x[2]` calls
-  `_ll_mul`, the name the delinked original has (func_ov000_021acef8). The ROM has one routine for both;
+  `_ll_mul`, the name the ROM code has (CPS_Resolve). The ROM has one routine for both;
   func_020de6a8 matches only with the unsigned product.
 - Random scaling `((x >> 32) * m) >> 32`: the product's signedness decides which register the zero high word and
   the loaded word get. When they swap, flip it: unsigned in UpdatePakkun, signed in func_ov001_0218c0a4. A `u16 n`

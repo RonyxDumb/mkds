@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-s32 func_ov000_021ad3b8(u32 a, s32 b);
-u32 func_ov000_021ad620(s32 a);
-u32 func_ov000_021ad6c0(void);
+s32 dhcp_analyze_response(u32 queryId, s32 retry);
+u32 dhcp_send_request(s32 mode);
+u32 dhcp_send_discover(void);

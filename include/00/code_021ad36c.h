@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_ov000_021ad36c(void);
+BOOL dhcp_discover_server(void);

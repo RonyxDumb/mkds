@@ -13,4 +13,4 @@ typedef struct Hash20Context {
     /* 1c */ u8 mUnk_1c[0x40];
 } Hash20Context;
 
-void func_ov000_021abca0(void *f, const u8 *b, u32 c);
+void CPSi_sha1_calc(void *rawContext, const u8 *input, u32 inputLength);

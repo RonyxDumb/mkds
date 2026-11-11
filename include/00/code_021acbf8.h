@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_ov000_021acbf8(u16 *a, const u16 *b, const u16 *c, s32 n);
+void CPSi_big_mult(u16 *result, const u16 *first, const u16 *second, s32 digitCount);

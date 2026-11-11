@@ -4,5 +4,5 @@
 
 typedef struct Hash20Context Hash20Context;
 
-void func_ov000_021abd68(Hash20Context *a, const u8 *b);
-void func_ov000_021ac34c(u32 *a, const u8 *b, u32 c);
+void CPSi_sha1_block(Hash20Context *context, const u8 *block);
+void long_from_char(u32 *words, const u8 *bytes, u32 byteCount);

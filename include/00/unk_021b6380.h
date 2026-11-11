@@ -31,17 +31,17 @@ typedef struct Unk021b6494 {
     /* 50 */ u8 mUnk_50[0x14];
 } Unk021b6494;
 
-extern u64 data_ov000_021b63e0[3];
-extern u32 data_ov000_021b638c;
-extern u32 data_ov000_021b63a0;
+extern u64 CPSiRand32ctx[3];
+extern u32 CPSDhcpServerIp;
+extern u32 gSleepSave;
 extern u32 data_ov000_021b63b0;
-extern u32 data_ov000_021b63b8;
-extern u32 data_ov000_021b63bc;
+extern u32 gLeaseTime;
+extern u32 gOfferedMyIp;
 extern u32 data_ov000_021b6398;
-extern u16 data_ov000_021b63d0[3];
+extern u16 CPSMyMac[3];
 extern void (*data_ov000_021b6384)(void);
 extern u8 data_ov000_021b4c34[];
-extern u8 data_ov000_021b6706[];
+extern u8 gScavengerSendPayload[];
 extern u8 data_ov000_021b685c[];
 extern u8 data_ov000_021b66dc[];
 extern Unk021b6434 data_ov000_021b6434[8];

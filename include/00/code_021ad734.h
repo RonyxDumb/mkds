@@ -4,7 +4,7 @@
 
 typedef struct Unk021a998c Unk021a998c;
 
-extern u32 (*data_ov000_021b6388)(void);
+extern u32 (*gLinkIsOn)(void);
 
 typedef struct Unk021a998c Unk021a998c;
 
