@@ -854,7 +854,7 @@ void InitSceneSoundState(u32 sceneSoundRowIndex, ScenePlayersSeqInfo seqInfo, Sc
     sceneSoundState->mVolumesLowered = 0;
     InitScenePlayers(&gScenePlayers, sceneSoundState, sceneSoundRowIndex, seqInfo);
     gSoundModeHolder.mKartStarSeqPlayer = &gSceneSoundState.mKartStarSeq;
-    SetSoundMode(&gSoundModeHolder, 0);
+    SetSoundMode(&gSoundModeHolder, SCENE_SOUND_MODE_STOPPED);
 }
 
 void StartSceneSounds(void) {
@@ -886,7 +886,7 @@ void StartSceneSounds(void) {
         }
     }
     if (flag != 0) {
-        SetSoundMode(&gSoundModeHolder, 2);
+        SetSoundMode(&gSoundModeHolder, SCENE_SOUND_MODE_PLAYING);
         gRaceSoundKind = 1;
         StartScenePlayersSeqNo(&gScenePlayers, GetSeqRowSceneSeq(), NULL);
         data_0217c7b0 = 0;
@@ -943,7 +943,7 @@ void StartSceneSounds(void) {
     } else {
         if (GetCurrentSceneNumber() == 2) {
             if (gRaceSetup->mRaceKind - 3 <= 1) {
-                SetSoundMode(&gSoundModeHolder, 2);
+                SetSoundMode(&gSoundModeHolder, SCENE_SOUND_MODE_PLAYING);
                 gRaceSoundKind = 2;
             } else {
                 if (IsFileSndArcOpen() != 0) {
@@ -961,7 +961,7 @@ void StartSceneSounds(void) {
                     NNS_SndArcSetCurrent(savedArc);
                 }
                 gPlayerVolumeFade.mVolume = 0x7f000;
-                SetSoundMode(&gSoundModeHolder, 3);
+                SetSoundMode(&gSoundModeHolder, SCENE_SOUND_MODE_MAIN_SEQUENCE_ONLY);
                 gRaceSoundKind = 0;
             }
         } else {
@@ -980,7 +980,7 @@ void StartSceneSounds(void) {
                 NNS_SndArcSetCurrent(savedArc);
             }
             gPlayerVolumeFade.mVolume = 0x7f000;
-            SetSoundMode(&gSoundModeHolder, 2);
+            SetSoundMode(&gSoundModeHolder, SCENE_SOUND_MODE_PLAYING);
             gRaceSoundKind = 0;
         }
     }
@@ -1068,7 +1068,7 @@ void EndRaceSounds(void) {
     }
     gSceneSoundState.mKartStarSeqOn = 0;
     if (gSoundModeHolder.mMode == 2) {
-        SetSoundMode(&gSoundModeHolder, 3);
+        SetSoundMode(&gSoundModeHolder, SCENE_SOUND_MODE_MAIN_SEQUENCE_ONLY);
     }
     for (slotIndex = 0; slotIndex < 12; slotIndex++) {
         NNS_SndPlayerStopSeq(gSndHandleSlots + slotIndex, GetEndRaceFadeSteps());
@@ -1483,7 +1483,7 @@ void StopSceneSounds(void) {
     gPlayerVolumeFade.mTargetVolumeBeforeRaceStart = 0;
     gPlayerVolumeFade.mRaceStarted = 0;
     ScenePlayersReturnArgument(&gScenePlayers);
-    SetSoundMode(&gSoundModeHolder, 4);
+    SetSoundMode(&gSoundModeHolder, SCENE_SOUND_MODE_FADED_OUT);
     for (slotIndex = 0; slotIndex < 12; slotIndex++) {
         NNS_SndPlayerStopSeq(gSndHandleSlots + slotIndex, GetSoundFadeSteps());
     }
@@ -1510,7 +1510,7 @@ void StopSceneSoundsAtOnce(void) {
     gPlayerVolumeFade.mTargetVolumeBeforeRaceStart = 0;
     gPlayerVolumeFade.mRaceStarted = 0;
     ReleaseScenePlayers(&gScenePlayers, 1);
-    SetSoundMode(&gSoundModeHolder, 0);
+    SetSoundMode(&gSoundModeHolder, SCENE_SOUND_MODE_STOPPED);
     for (slotIndex = 0; slotIndex < 12; slotIndex++) {
         NNS_SndPlayerStopSeq(gSndHandleSlots + slotIndex, 0);
     }
@@ -1550,7 +1550,7 @@ void LowerSndHandleVolumes(void) {
     if (gSceneSoundState.mRaceState == 2) {
         return;
     }
-    SetSoundMode(&gSoundModeHolder, 5);
+    SetSoundMode(&gSoundModeHolder, SCENE_SOUND_MODE_PAUSED);
     if (gSceneSoundState.mLastLapSeqState == 1) {
         gSceneSoundState.mLastLapSeqState = 3;
     }
@@ -1634,7 +1634,7 @@ void StartChoisesSValueSeq(s32 valueIndex) {
         NNS_SndPlayerStopSeq((NNSSndSeqPlayer **) playerCursor, fadeSteps);
         playerCursor += playerTable->mEntrySize;
     }
-    SetSoundMode(&gSoundModeHolder, 4);
+    SetSoundMode(&gSoundModeHolder, SCENE_SOUND_MODE_FADED_OUT);
 }
 
 void StopAllSeqPlayers(void) {
