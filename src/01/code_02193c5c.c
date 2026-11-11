@@ -389,7 +389,7 @@ void RequestRecordGpxState3(void) {
 void RequestRecordGpxState4AndMoveIndex(void) {
     gRecordGpx->mNextState = 4;
     gRecordGpx->mStateFrames = 0;
-    switch (gRecordGpx->mUnk_7c) {
+    switch (gRecordGpx->mIndexMoveDirection) {
         case 0:
             IncrementRecordGpxIndex();
             break;
@@ -430,9 +430,9 @@ void InitRecordGpx(void *heap) {
     gRecordGpx->mHeap = heap;
     gRecordGpx->mState = 0;
     gRecordGpx->mIndex = 0;
-    gRecordGpx->mUnk_7c = 0;
-    gRecordGpx->mUnk_88 = FALSE;
-    gRecordGpx->mUnk_8c = FALSE;
+    gRecordGpx->mIndexMoveDirection = 0;
+    gRecordGpx->mLeftRepeat = FALSE;
+    gRecordGpx->mRightRepeat = FALSE;
     for (i = 0; i < 2; i++) {
         gRecordGpx->mOffsetTimers[i] = 0;
     }
@@ -569,10 +569,10 @@ void AdvanceRecordGpxState2(void) {
                                                  gInputSlots[slotIndex].mPair.mPairY);
     }
     if (touchedRect != 0) {
-        gRecordGpx->mUnk_88 = FALSE;
+        gRecordGpx->mLeftRepeat = FALSE;
     }
     if (touchedRect != 1) {
-        gRecordGpx->mUnk_8c = FALSE;
+        gRecordGpx->mRightRepeat = FALSE;
     }
     if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
         confirmTouchBegan = FALSE;
@@ -591,24 +591,26 @@ void AdvanceRecordGpxState2(void) {
         }
     }
     RequestRecordGpxState5();
-    gRecordGpx->mUnk_90 = 0;
+    gRecordGpx->mNextScreen = 0;
     RequestSelectReturnState3WithSound(0);
     return;
 next:
-    if ((touchedRect == 0 && gRecordGpx->mUnk_88 != FALSE) || (touchBeganRect == 0 && gRecordGpx->mUnk_88 == FALSE) ||
+    if ((touchedRect == 0 && gRecordGpx->mLeftRepeat != FALSE) ||
+        (touchBeganRect == 0 && gRecordGpx->mLeftRepeat == FALSE) ||
         (u16) (gInputSlots[slotIndex].mBits & PAD_KEY_LEFT) != 0) {
-        gRecordGpx->mUnk_7c = 1;
+        gRecordGpx->mIndexMoveDirection = 1;
         gRecordGpx->mOffsetTimers[0] = 6;
-        gRecordGpx->mUnk_88 = TRUE;
+        gRecordGpx->mLeftRepeat = TRUE;
         RequestRecordGpxState3();
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
         return;
     }
-    if ((touchedRect == 1 && gRecordGpx->mUnk_8c != FALSE) || (touchBeganRect == 1 && gRecordGpx->mUnk_8c == FALSE) ||
+    if ((touchedRect == 1 && gRecordGpx->mRightRepeat != FALSE) ||
+        (touchBeganRect == 1 && gRecordGpx->mRightRepeat == FALSE) ||
         (u16) (gInputSlots[slotIndex].mBits & PAD_KEY_RIGHT) != 0) {
-        gRecordGpx->mUnk_7c = 0;
+        gRecordGpx->mIndexMoveDirection = 0;
         gRecordGpx->mOffsetTimers[1] = 6;
-        gRecordGpx->mUnk_8c = TRUE;
+        gRecordGpx->mRightRepeat = TRUE;
         RequestRecordGpxState3();
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
     }
@@ -623,7 +625,7 @@ void AdvanceRecordGpxState3(void) {
     s16 targetOffsetX = 0;
 
     AdvanceRecordGpxOffsetTimers();
-    switch (gRecordGpx->mUnk_7c) {
+    switch (gRecordGpx->mIndexMoveDirection) {
         case 0:
             targetOffsetX = -256;
             break;
@@ -670,7 +672,7 @@ void AdvanceRecordGpxState4(void) {
     s16 startOffsetX = 0;
 
     AdvanceRecordGpxOffsetTimers();
-    switch (gRecordGpx->mUnk_7c) {
+    switch (gRecordGpx->mIndexMoveDirection) {
         case 0:
             startOffsetX = 0x100;
             break;
@@ -751,7 +753,7 @@ void AdvanceRecordGpxState6(void) {
     gRecordGpx->mStateFrames++;
     gRecordGpx->mBg0Offset = InterpolateS16(1, 0, -192, gRecordGpx->mStateFrames, 10);
     if (gRecordGpx->mStateFrames >= 10) {
-        RequestRecordScreen(gRecordGpx->mUnk_90);
+        RequestRecordScreen(gRecordGpx->mNextScreen);
     }
 }
 

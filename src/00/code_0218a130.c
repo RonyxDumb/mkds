@@ -14,7 +14,7 @@ u32 ConnectTestProcess(ACWORK *work) {
     error = DWC_Netcheck_GetError();
     if (error != 0) {
         if (hold->mUnk_15 == DWCi_ConvConnectAPType(work->mConnectApType)) {
-            hold->mUnk_10 = DWC_Netcheck_GetReturnCode();
+            hold->mErrorTest = DWC_Netcheck_GetReturnCode();
         }
         DWC_Netcheck_Destroy();
         if (error != 0xb) {

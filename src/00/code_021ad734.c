@@ -1024,7 +1024,7 @@ void dt_syn_listen(IpHeader *ipHeader, TcpHeader *tcpHeader, CPSSoc *socket) {
                             (u16) ((tcpHeader->mSeqNoLow >> 8) | (tcpHeader->mSeqNoLow << 8))) +
                      1;
     parse_mss(tcpHeader, socket);
-    tcp_send_handshake(socket, 0x12, (ipHeader->mUnk_05 << 8) + 1);
+    tcp_send_handshake(socket, 0x12, (ipHeader->mIdentifierSecondByte << 8) + 1);
 }
 
 BOOL find_specific_socket(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
@@ -1038,7 +1038,7 @@ BOOL find_specific_socket(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) 
             socket->mSeqNo--;
             dt_syn_listen(ipHeader, tcpHeader, socket);
         } else {
-            tcp_send_rst(ipHeader, tcpHeader, length, (ipHeader->mUnk_05 << 8) + 3);
+            tcp_send_rst(ipHeader, tcpHeader, length, (ipHeader->mIdentifierSecondByte << 8) + 3);
         }
         return 1;
     }
@@ -1072,7 +1072,7 @@ void dt_synack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
 
     socket = find_socket(ipHeader, tcpHeader);
     if (socket == NULL || socket->mState != 2) {
-        tcp_send_rst(ipHeader, tcpHeader, length, (ipHeader->mUnk_05 << 8) + 5);
+        tcp_send_rst(ipHeader, tcpHeader, length, (ipHeader->mIdentifierSecondByte << 8) + 5);
         return;
     }
     OS_YieldThread();
@@ -1083,7 +1083,7 @@ void dt_synack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
                            (u16) ((tcpHeader->mAckNoLow >> 8) | (tcpHeader->mAckNoLow << 8));
     socket->mRemoteWin = (tcpHeader->mWindow >> 8) | (tcpHeader->mWindow << 8);
     parse_mss(tcpHeader, socket);
-    tcp_send_ack(socket, (ipHeader->mUnk_05 << 8) + 6);
+    tcp_send_ack(socket, (ipHeader->mIdentifierSecondByte << 8) + 6);
     socket->mState = 4;
     if (socket->mBlockType == 1) {
         socket->mBlockType = 0;
@@ -1102,7 +1102,7 @@ void dt_ack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
 
     socket = find_socket(ipHeader, tcpHeader);
     if (socket == NULL) {
-        tcp_send_rst(ipHeader, tcpHeader, length, (ipHeader->mUnk_05 << 8) + 9);
+        tcp_send_rst(ipHeader, tcpHeader, length, (ipHeader->mIdentifierSecondByte << 8) + 9);
         return;
     }
     flags = tcpHeader->mFlags;
@@ -1113,14 +1113,14 @@ void dt_ack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
     c = ((u16) ((tcpHeader->mSeqNoHigh >> 8) | (tcpHeader->mSeqNoHigh << 8)) << 16) |
         (u16) ((seqNoLow >> 8) | (seqNoLow << 8));
     if (socket->mState == 4 && socket->mAckNo != c) {
-        tcp_send_ack(socket, (ipHeader->mUnk_05 << 8) + 0xa);
+        tcp_send_ack(socket, (ipHeader->mIdentifierSecondByte << 8) + 0xa);
         return;
     }
     socket->mRemoteWin = (tcpHeader->mWindow >> 8) | (tcpHeader->mWindow << 8);
     switch (socket->mState) {
         case 0:
         case 2:
-            tcp_send_rst(ipHeader, tcpHeader, length, (ipHeader->mUnk_05 << 8) + 0x63);
+            tcp_send_rst(ipHeader, tcpHeader, length, (ipHeader->mIdentifierSecondByte << 8) + 0x63);
             break;
         case 3:
             socket->mState = 4;
@@ -1155,7 +1155,7 @@ void dt_ack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
             if (c != 0 && (flags & 1) != 0) {
                 socket->mState = 6;
                 socket->mAckNo++;
-                tcp_send_finack(socket, (ipHeader->mUnk_05 << 8) + 0xb);
+                tcp_send_finack(socket, (ipHeader->mIdentifierSecondByte << 8) + 0xb);
                 if (length == 0 && socket->mBlockType == 2) {
                     socket->mBlockType = 0;
                     OS_WakeupThreadDirect(socket->mThread);
@@ -1163,14 +1163,14 @@ void dt_ack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
                 break;
             }
             if (length != 0) {
-                tcp_send_ack(socket, (ipHeader->mUnk_05 << 8) + 0xc);
+                tcp_send_ack(socket, (ipHeader->mIdentifierSecondByte << 8) + 0xc);
             }
             break;
         case 7:
         case 8:
             if ((flags & 1) != 0) {
                 socket->mAckNo = socket->mAckNo + (length + 1);
-                tcp_send_ack(socket, (ipHeader->mUnk_05 << 8) + 0xd);
+                tcp_send_ack(socket, (ipHeader->mIdentifierSecondByte << 8) + 0xd);
                 socket->mState = 0;
                 if (socket->mBlockType == 2) {
                     socket->mBlockType = 0;
@@ -1180,7 +1180,7 @@ void dt_ack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
             }
             if (length != 0) {
                 socket->mAckNo += length;
-                tcp_send_ack(socket, (ipHeader->mUnk_05 << 8) + 0xe);
+                tcp_send_ack(socket, (ipHeader->mIdentifierSecondByte << 8) + 0xe);
             }
             socket->mState = 8;
             break;
@@ -1196,7 +1196,7 @@ void dt_ack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
             if ((flags & 1) != 0) {
                 socket->mAckNo++;
             }
-            tcp_send_ack(socket, (ipHeader->mUnk_05 << 8) + 0x12);
+            tcp_send_ack(socket, (ipHeader->mIdentifierSecondByte << 8) + 0x12);
             break;
     }
     OS_YieldThread();
@@ -1212,12 +1212,12 @@ void dt_fin(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
     switch (socket->mState) {
         case 7:
             socket->mAckNo++;
-            tcp_send_ack(socket, (ipHeader->mUnk_05 << 8) + 0x13);
+            tcp_send_ack(socket, (ipHeader->mIdentifierSecondByte << 8) + 0x13);
             socket->mState = 9;
             return;
         case 8:
             socket->mAckNo++;
-            tcp_send_ack(socket, (ipHeader->mUnk_05 << 8) + 0x14);
+            tcp_send_ack(socket, (ipHeader->mIdentifierSecondByte << 8) + 0x14);
             socket->mState = 0;
             if (socket->mBlockType == 2) {
                 socket->mBlockType = 0;
@@ -1227,11 +1227,11 @@ void dt_fin(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
             return;
         case 4:
             socket->mAckNo++;
-            tcp_send_finack(socket, (ipHeader->mUnk_05 << 8) + 0x15);
+            tcp_send_finack(socket, (ipHeader->mIdentifierSecondByte << 8) + 0x15);
             socket->mState = 6;
             return;
         default:
-            tcp_send_rst(ipHeader, tcpHeader, length, (ipHeader->mUnk_05 << 8) + 0x16);
+            tcp_send_rst(ipHeader, tcpHeader, length, (ipHeader->mIdentifierSecondByte << 8) + 0x16);
             return;
     }
 }
@@ -1280,7 +1280,7 @@ void dispatch_tcp(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
                 dt_rst(ipHeader, tcpHeader);
                 return;
             }
-            tcp_send_rst(ipHeader, tcpHeader, length, (ipHeader->mUnk_05 << 8) + 0x17);
+            tcp_send_rst(ipHeader, tcpHeader, length, (ipHeader->mIdentifierSecondByte << 8) + 0x17);
             return;
     }
 }
@@ -1364,7 +1364,7 @@ IpHeader *check_frag(IpHeader *packet, u32 *fragmented) {
         return packet;
     }
     headerLength = (packet->mVersionIhl & 0xf) << 2;
-    identifier = *(u16 *) &packet->mUnk_04;
+    identifier = *(u16 *) &packet->mIdentifierFirstByte;
     sourceAddress = ((u16) ((packet->mSourceAddressHigh >> 8) | (packet->mSourceAddressHigh << 8)) << 16) |
                     (u16) ((packet->mSourceAddressLow >> 8) | (packet->mSourceAddressLow << 8));
     freeSlot = NULL;

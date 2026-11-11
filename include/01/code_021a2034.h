@@ -12,14 +12,14 @@ typedef struct Unk021a2048_9c {
 
 typedef struct EffectMapObject {
     /* 00 */ u8 mUnk_00[2];
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ Vec3 mUnk_04;
+    /* 02 */ u16 mFlags;
+    /* 04 */ Vec3 mPos;
     /* 10 */ u8 mUnk_10[0x56];
-    /* 66 */ u16 mUnk_66;
+    /* 66 */ u16 mAlpha;
     /* 68 */ u8 mUnk_68[0x34];
-    /* 9c */ Unk021a2048_9c *mUnk_9c;
+    /* 9c */ Unk021a2048_9c *mCourseMapRow;
     /* a0 */ s32 mUnk_a0;
-    /* a4 */ void *mUnk_a4;
+    /* a4 */ void *mEffectHandle;
 } EffectMapObject;
 
 // Argument of InitPeriodicEffectObjects: a table of objects and the number of its entries.

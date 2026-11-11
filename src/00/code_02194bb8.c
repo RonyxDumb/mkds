@@ -493,11 +493,11 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             GpiSetErrorMessage(connection, data_ov000_021b35f8);
                             return 1;
                         }
-                        u3->mUnk_00 = 0;
-                        strcpy(u3->mUnk_04, (const char *) data->mEmail);
-                        u3->mUnk_38 = 0;
-                        u3->mUnk_3c = NULL;
-                        u3->mUnk_40 = NULL;
+                        u3->mResult = 0;
+                        strcpy(u3->mEmail, (const char *) data->mEmail);
+                        u3->mNumNicks = 0;
+                        u3->mNicks = NULL;
+                        u3->mUniquenicks = NULL;
                         result = GpiReadKeyValue(connection, data->mInputBuffer, &n, (s8 *) key, (s8 *) value);
                         if (result != 0) {
                             return result;
@@ -514,35 +514,35 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                 return result;
                             }
                             if (strcmp(key, gNickResultKey) == 0) {
-                                q = DWCi_GsRealloc(u3->mUnk_3c, (u3->mUnk_38 + 1) * 4);
+                                q = DWCi_GsRealloc(u3->mNicks, (u3->mNumNicks + 1) * 4);
                                 if (q == NULL) {
                                     GpiSetErrorMessage(connection, data_ov000_021b35f8);
                                     return 1;
                                 }
-                                u3->mUnk_3c = (char **) q;
+                                u3->mNicks = (char **) q;
                                 q = DWCi_GsMalloc(0x1f);
                                 if (q == NULL) {
                                     GpiSetErrorMessage(connection, data_ov000_021b35f8);
                                     return 1;
                                 }
-                                u3->mUnk_3c[u3->mUnk_38] = q;
-                                GpiCopyString(u3->mUnk_3c[u3->mUnk_38], value, 0x1f);
-                                u3->mUnk_38++;
+                                u3->mNicks[u3->mNumNicks] = q;
+                                GpiCopyString(u3->mNicks[u3->mNumNicks], value, 0x1f);
+                                u3->mNumNicks++;
                             } else if (strcmp(key, gUniquenickResultKey) == 0) {
-                                if (u3->mUnk_38 > 0) {
-                                    q = DWCi_GsRealloc(u3->mUnk_40, u3->mUnk_38 * 4);
+                                if (u3->mNumNicks > 0) {
+                                    q = DWCi_GsRealloc(u3->mUniquenicks, u3->mNumNicks * 4);
                                     if (q == NULL) {
                                         GpiSetErrorMessage(connection, data_ov000_021b35f8);
                                         return 1;
                                     }
-                                    u3->mUnk_40 = (char **) q;
+                                    u3->mUniquenicks = (char **) q;
                                     q = DWCi_GsMalloc(0x15);
                                     if (q == NULL) {
                                         GpiSetErrorMessage(connection, data_ov000_021b35f8);
                                         return 1;
                                     }
-                                    u3->mUnk_40[u3->mUnk_38 - 1] = q;
-                                    GpiCopyString(u3->mUnk_40[u3->mUnk_38 - 1], value, 0x15);
+                                    u3->mUniquenicks[u3->mNumNicks - 1] = q;
+                                    GpiCopyString(u3->mUniquenicks[u3->mNumNicks - 1], value, 0x15);
                                 }
                             } else if (strcmp(key, gNdoneKey) == 0) {
                                 d = TRUE;

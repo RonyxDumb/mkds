@@ -29,16 +29,16 @@ BOOL get_sockaddrin(const char *hostname, u32 port, SOCSockAddrIn *address) {
 }
 
 void AvailableSendPacket(void) {
-    sendto(gGsiAvailableCheck.mUnk_00, gGsiAvailableCheckPacket, gGsiAvailableCheck.mUnk_4c, 0,
+    sendto(gGsiAvailableCheck.mSocket, gGsiAvailableCheckPacket, gGsiAvailableCheck.mPacketLength, 0,
            gGsiAvailableCheckAddress, 8);
-    gGsiAvailableCheck.mUnk_50 = GetElapsedMilliseconds();
+    gGsiAvailableCheck.mSendTime = GetElapsedMilliseconds();
 }
 
 void GSIStartAvailableCheckA(const char *gamename) {
     char hostBuffer[0x40];
     s8 customHost;
     strcpy(gGsiAcGamename, gamename);
-    gGsiAvailableCheck.mUnk_00 = -1;
+    gGsiAvailableCheck.mSocket = -1;
     SocketStartUp();
     customHost = gGsiAcHostname[0];
     if (customHost == 0) {
@@ -46,15 +46,15 @@ void GSIStartAvailableCheckA(const char *gamename) {
     }
     if (get_sockaddrin(customHost != 0 ? gGsiAcHostname : hostBuffer, 0x6cfc,
                        (SOCSockAddrIn *) gGsiAvailableCheckAddress) != FALSE) {
-        gGsiAvailableCheck.mUnk_00 = OpenNetSocket(2, 2, 0);
-        if (gGsiAvailableCheck.mUnk_00 != -1) {
+        gGsiAvailableCheck.mSocket = OpenNetSocket(2, 2, 0);
+        if (gGsiAvailableCheck.mSocket != -1) {
             u32 len;
-            gGsiAvailableCheck.mUnk_0c = 9;
+            gGsiAvailableCheck.mPacketType = 9;
             len = strlen(gamename);
             memcpy(gGsiAvailableCheckPacketGamename, gamename, len + 1);
-            gGsiAvailableCheck.mUnk_4c = len + 6;
+            gGsiAvailableCheck.mPacketLength = len + 6;
             AvailableSendPacket();
-            gGsiAvailableCheck.mUnk_54 = 0;
+            gGsiAvailableCheck.mRetryCount = 0;
         }
     }
 }
@@ -67,7 +67,7 @@ BOOL HandlePacket(const s8 *packet, s32 len, u8 *address, u32 *disabledservices)
     if (memcmp(address + 4, gGsiAvailableCheckAddressIp, 4) != 0) {
         return TRUE;
     }
-    if (*OFFSET_PTR(u16, address, 2) != gGsiAvailableCheck.mUnk_06) {
+    if (*OFFSET_PTR(u16, address, 2) != gGsiAvailableCheck.mPort) {
         return TRUE;
     }
     if (memcmp((const u8 *) packet, gAvailablePacketHeader, 3) != 0) {
@@ -87,14 +87,14 @@ s32 GSIAvailableCheckThink(void) {
     u32 disabledMask;
     s8 packet[0x40];
     len = 8;
-    if (gGsiAvailableCheck.mUnk_00 == -1) {
+    if (gGsiAvailableCheck.mSocket == -1) {
         gGsiAcResult = 1;
         return 1;
     }
-    if (CanReceiveOnSocket(gGsiAvailableCheck.mUnk_00) != 0 &&
-        HandlePacket(packet, recvfrom(gGsiAvailableCheck.mUnk_00, packet, 0x40, 0, (u8 *) &address, &len),
+    if (CanReceiveOnSocket(gGsiAvailableCheck.mSocket) != 0 &&
+        HandlePacket(packet, recvfrom(gGsiAvailableCheck.mSocket, packet, 0x40, 0, (u8 *) &address, &len),
                      (u8 *) &address, &disabledMask) == FALSE) {
-        closesocket(gGsiAvailableCheck.mUnk_00);
+        closesocket(gGsiAvailableCheck.mSocket);
         if ((disabledMask & 1) != 0) {
             gGsiAcResult = 2;
         } else if ((disabledMask & 2) != 0) {
@@ -104,14 +104,14 @@ s32 GSIAvailableCheckThink(void) {
         }
         return gGsiAcResult;
     }
-    if (GetElapsedMilliseconds() > gGsiAvailableCheck.mUnk_50 + 0x7d0) {
-        if (gGsiAvailableCheck.mUnk_54 == 1) {
-            closesocket(gGsiAvailableCheck.mUnk_00);
+    if (GetElapsedMilliseconds() > gGsiAvailableCheck.mSendTime + 0x7d0) {
+        if (gGsiAvailableCheck.mRetryCount == 1) {
+            closesocket(gGsiAvailableCheck.mSocket);
             gGsiAcResult = 1;
             return 1;
         }
         AvailableSendPacket();
-        gGsiAvailableCheck.mUnk_54 = gGsiAvailableCheck.mUnk_54 + 1;
+        gGsiAvailableCheck.mRetryCount = gGsiAvailableCheck.mRetryCount + 1;
     }
     return 0;
 }

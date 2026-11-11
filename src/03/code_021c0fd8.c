@@ -27,12 +27,12 @@ void CreateEditAddrKeyboard(void) {
     int i;
     int textIndex;
     int column;
-    textArgs.mUnk_00[0] = gEditAddrKeyboardTextRectStart[0];
-    textArgs.mUnk_00[1] = gEditAddrKeyboardTextRectStart[1];
-    textArgs.mUnk_00[2] = gEditAddrKeyboardTextRectStart[2];
-    textArgs.mUnk_00[3] = gEditAddrKeyboardTextRectStart[3];
-    textArgs.mUnk_00[2] = gEditAddrKeyboardDigitKeySize[0];
-    textArgs.mUnk_00[3] = gEditAddrKeyboardDigitKeySize[1];
+    textArgs.mTextRect[0] = gEditAddrKeyboardTextRectStart[0];
+    textArgs.mTextRect[1] = gEditAddrKeyboardTextRectStart[1];
+    textArgs.mTextRect[2] = gEditAddrKeyboardTextRectStart[2];
+    textArgs.mTextRect[3] = gEditAddrKeyboardTextRectStart[3];
+    textArgs.mTextRect[2] = gEditAddrKeyboardDigitKeySize[0];
+    textArgs.mTextRect[3] = gEditAddrKeyboardDigitKeySize[1];
     keyboard = AllocZeroedExpHeapBlock(0x6c, 4);
     gEditAddrKeyboard = keyboard;
     keyboard->mInput = 0x1f;
@@ -55,17 +55,17 @@ void CreateEditAddrKeyboard(void) {
         SetOamRangeEffect(gEditAddrKeyboard->mRow4Keys[i], -1, 0x200, 0);
         SetOamRangePriority(gEditAddrKeyboard->mRow4Keys[i], -1, 3);
     }
-    textArgs.mUnk_0c[1] = 0;
+    textArgs.mText[1] = 0;
     for (i = 0; i < 4; i++) {
         gEditAddrKeyboard->mRowTexts[i] = CreateObjTextCanvas(
-            0, gEditAddrKeyboardRowTextAreaSize[0], gEditAddrKeyboardRowTextAreaSize[1], 0, &textArgs.mUnk_08, 0);
+            0, gEditAddrKeyboardRowTextAreaSize[0], gEditAddrKeyboardRowTextAreaSize[1], 0, &textArgs.mEntryCount, 0);
         textIndex = i * 3;
-        for (column = 0, textArgs.mUnk_00[0] = 0; column < 3; column++, textIndex++, textArgs.mUnk_00[0] += 0x20) {
-            textArgs.mUnk_0c[0] = gEditAddrKeyboardKeyTexts[textIndex];
-            DrawCanvasTextRect(gEditAddrKeyboard->mRowTexts[i], textArgs.mUnk_00[0], textArgs.mUnk_00[1],
-                               textArgs.mUnk_00[2], textArgs.mUnk_00[3], 2, 0x480, textArgs.mUnk_0c);
+        for (column = 0, textArgs.mTextRect[0] = 0; column < 3; column++, textIndex++, textArgs.mTextRect[0] += 0x20) {
+            textArgs.mText[0] = gEditAddrKeyboardKeyTexts[textIndex];
+            DrawCanvasTextRect(gEditAddrKeyboard->mRowTexts[i], textArgs.mTextRect[0], textArgs.mTextRect[1],
+                               textArgs.mTextRect[2], textArgs.mTextRect[3], 2, 0x480, textArgs.mText);
         }
-        gEditAddrKeyboard->mUnk_48[i] = CreateOamRange(0, textArgs.mUnk_08, 0);
+        gEditAddrKeyboard->mUnk_48[i] = CreateOamRange(0, textArgs.mEntryCount, 0);
     }
     gEditAddrKeyboard->mCursor = CreateOamRangeFromNceImage(0, 0x44, 1);
     SetOamRangeEffect(gEditAddrKeyboard->mCursor, -1, 0x200, 0);

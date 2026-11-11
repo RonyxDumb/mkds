@@ -14,7 +14,7 @@ s32 GetNotFoundInet(Unk02189350 *hold) {
     } else if (hold->mUnk_16 < 13) {
         result = -52000 - hold->mUnk_15;
     } else {
-        result = hold->mUnk_10;
+        result = hold->mErrorTest;
         if (result == 0) {
             result = -50000 - hold->mUnk_15;
         } else if (result == -1) {

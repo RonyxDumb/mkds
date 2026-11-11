@@ -67,13 +67,13 @@ typedef struct RecordGpx {
     /* 70 */ s32 mBg3OffsetX;
     /* 74 */ s32 mBg3OffsetY;
     /* 78 */ s32 mIndex;
-    /* 7c */ s32 mUnk_7c;
+    /* 7c */ s32 mIndexMoveDirection;
     // Set to 6, counted down while above 0; the row member is set to -LookupFrameOffset(6 - timer) for [0] and
     // +LookupFrameOffset(6 - timer) for [1] (stored, not added).
     /* 80 */ s32 mOffsetTimers[2];
-    /* 88 */ BOOL mUnk_88;
-    /* 8c */ BOOL mUnk_8c;
-    /* 90 */ s32 mUnk_90;
+    /* 88 */ BOOL mLeftRepeat;
+    /* 8c */ BOOL mRightRepeat;
+    /* 90 */ s32 mNextScreen;
 } RecordGpx;
 
 extern u8 gOptionTopMenuOffsetTableIndices[][4];

@@ -61,7 +61,7 @@ void CreateEdit(void) {
     CreateObjectsForMenuPair(2);
     gEdit->mBgTextCanvas = InitBgTextCanvas(0, 0);
     gEdit->mOamEntry = CreateOamEntryFromNceImage(0, 0x3e);
-    gEdit->mOamEntry->mUnk_04 = (gEdit->mOamEntry->mUnk_04 & 0xfffff3ff) | 0xc00;
+    gEdit->mOamEntry->mAttr2 = (gEdit->mOamEntry->mAttr2 & 0xfffff3ff) | 0xc00;
     PlaceEditTextCursor();
     PrintEditText();
     SetUpdateFunction(StartEditFadeIn);
@@ -190,7 +190,7 @@ void UpdateEditInput(void) {
                 gEdit->mResult = 2;
                 StartSoundSeq(9);
             }
-            gEdit->mOamEntry->mUnk_00 = (gEdit->mOamEntry->mUnk_00 & 0xc1fffcff) | 0x200;
+            gEdit->mOamEntry->mAttr01 = (gEdit->mOamEntry->mAttr01 & 0xc1fffcff) | 0x200;
             SetUpdateFunction(StartEditClose);
             return;
         case 0:
@@ -321,8 +321,8 @@ void PlaceEditTextCursor(void) {
         column = 0xf;
         line = 1;
     }
-    edit->mOamEntry->mUnk_00 =
-        ((gEditColumnX[column] & 0x1ff) << 16) | ((edit->mOamEntry->mUnk_00 & 0xfe00ff00) | (gEditLineY[line] & 0xff));
+    edit->mOamEntry->mAttr01 =
+        ((gEditColumnX[column] & 0x1ff) << 16) | ((edit->mOamEntry->mAttr01 & 0xfe00ff00) | (gEditLineY[line] & 0xff));
 }
 
 void UpdateEditMessageResult(void) {
@@ -346,7 +346,7 @@ void UpdateEditMessageClose(void) {
     s32 secondaryPairFirst;
     if (IsMessageBoxOpen() == 0) {
         if (gEdit->mResult == 0) {
-            gEdit->mOamEntry->mUnk_00 = gEdit->mOamEntry->mUnk_00 & 0xc1fffcff;
+            gEdit->mOamEntry->mAttr01 = gEdit->mOamEntry->mAttr01 & 0xc1fffcff;
             SetUpdateFunction(UpdateEditFadeIn);
             return;
         }

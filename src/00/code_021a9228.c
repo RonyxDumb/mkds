@@ -30,7 +30,7 @@ HttpsEntry *FindEntryByBytesAndSetLastUseTime(const u8 *wantedBytes) {
     i = 0;
     entry = gHttpsEntries;
     for (; i < 4; i++) {
-        if (entry->mInUse != 0 && memcmp(entry->mUnk_00, wantedBytes, 0x20) == 0) {
+        if (entry->mInUse != 0 && memcmp(entry->mSessionId, wantedBytes, 0x20) == 0) {
             entry->mLastUseTime = OS_GetTick() >> 16;
             return entry;
         }
@@ -45,7 +45,7 @@ HttpsEntry *FindEntryByValuePairAndSetLastUseTime(u32 firstValue, u32 secondValu
     i = 0;
     entry = gHttpsEntries;
     for (; i < 4; i++) {
-        if (entry->mInUse != 0 && entry->mUnk_54 == firstValue && entry->mUnk_58 == secondValue) {
+        if (entry->mInUse != 0 && entry->mRemoteIp == firstValue && entry->mRemotePort == secondValue) {
             entry->mLastUseTime = OS_GetTick() >> 16;
             return entry;
         }
@@ -602,7 +602,7 @@ void ParseKind2Message(HttpsState *httpsState, u8 *message) {
     message = (u8 *) message + 0x23;
     idLength = *idLengthByte;
     entry = httpsState->mEntry;
-    if (entry != NULL && idLength == 0x20 && memcmp(entry->mUnk_00, message, 0x20) == 0) {
+    if (entry != NULL && idLength == 0x20 && memcmp(entry->mSessionId, message, 0x20) == 0) {
         httpsState->mReusedEntry = 1;
     } else {
         if (entry != NULL) {
@@ -760,13 +760,13 @@ void ComputeLabeledDigest16(u8 *digest, const u8 *label, HttpsState *httpsState)
     hash20 = &httpsState->mScratchHash20;
     CPSi_sha1_init(hash20);
     CPSi_sha1_calc(hash20, label, strlen((const char *) label));
-    CPSi_sha1_calc(hash20, httpsState->mEntry->mUnk_20, 0x30);
+    CPSi_sha1_calc(hash20, httpsState->mEntry->mMasterSecret, 0x30);
     CPSi_sha1_calc(hash20, httpsState->mKind1Block, 0x20);
     CPSi_sha1_calc(hash20, httpsState->mKind2Block, 0x20);
     CPSi_sha1_result(hash20, innerDigest);
     hash16 = &httpsState->mScratchHash16;
     CPSi_md5_init(hash16);
-    CPSi_md5_calc(hash16, httpsState->mEntry->mUnk_20, 0x30);
+    CPSi_md5_calc(hash16, httpsState->mEntry->mMasterSecret, 0x30);
     CPSi_md5_calc(hash16, innerDigest, 0x14);
     CPSi_md5_result(hash16, digest);
 }
@@ -778,7 +778,7 @@ void ReplaceEntryBytesWithLabeledDigests(HttpsState *httpsState) {
     ComputeLabeledDigest16(firstDigest, gLabelAText, httpsState);
     ComputeLabeledDigest16(secondDigest, gLabelBBText, httpsState);
     ComputeLabeledDigest16(thirdDigest, gLabelCCCText, httpsState);
-    MI_CpuCopy8(firstDigest, httpsState->mEntry->mUnk_20, 0x30);
+    MI_CpuCopy8(firstDigest, httpsState->mEntry->mMasterSecret, 0x30);
 }
 
 // Fills mDerivedBytes from digests, splits it between the send and receive members and seeds the two key stream states.
@@ -815,13 +815,13 @@ void DeriveBytesAndInitKeyStreamStates(HttpsState *httpsState) {
             for (j = 0; j < blockIndex + 1; j++) {
                 CPSi_sha1_calc(hashContext, labelAndDigest, 1);
             }
-            CPSi_sha1_calc(hashContext, httpsState->mEntry->mUnk_20, 0x30);
+            CPSi_sha1_calc(hashContext, httpsState->mEntry->mMasterSecret, 0x30);
             CPSi_sha1_calc(hashContext, httpsState->mKind2Block, 0x20);
             CPSi_sha1_calc(hashContext, httpsState->mKind1Block, 0x20);
             CPSi_sha1_result(hashContext, labelAndDigest + 1);
             hashContext = &httpsState->mScratchHash16;
             CPSi_md5_init(hashContext);
-            CPSi_md5_calc(hashContext, httpsState->mEntry->mUnk_20, 0x30);
+            CPSi_md5_calc(hashContext, httpsState->mEntry->mMasterSecret, 0x30);
             CPSi_md5_calc(hashContext, labelAndDigest + 1, 0x14);
             CPSi_md5_result(hashContext, httpsState->mDerivedBytes + outputOffset);
             outputOffset += 0x10;
@@ -849,7 +849,7 @@ void DeriveBytesAndInitKeyStreamStates(HttpsState *httpsState) {
 
 // Recovers the entry's 0x30 bytes from b, derives the key bytes and sets mSetupState to 5.
 void rcv_client_key_exchange(HttpsState *httpsState, const u8 *encryptedSecret) {
-    decrypt_premaster_secret(httpsState->mEntry->mUnk_20, encryptedSecret, httpsState->mUnk_7f0);
+    decrypt_premaster_secret(httpsState->mEntry->mMasterSecret, encryptedSecret, httpsState->mUnk_7f0);
     ReplaceEntryBytesWithLabeledDigests(httpsState);
     DeriveBytesAndInitKeyStreamStates(httpsState);
     httpsState->mSetupState = 5;
@@ -864,12 +864,12 @@ void ComputeLabeledMessageDigest16(HttpsState *httpsState, u8 *digest, u32 fromO
     } else {
         CPSi_md5_calc(messageHash, gClntText, 4);
     }
-    CPSi_md5_calc(messageHash, httpsState->mEntry->mUnk_20, 0x30);
+    CPSi_md5_calc(messageHash, httpsState->mEntry->mMasterSecret, 0x30);
     MI_CpuFill8(padBytes, 0x36, 0x30);
     CPSi_md5_calc(messageHash, padBytes, 0x30);
     CPSi_md5_result(messageHash, digest);
     CPSi_md5_init(messageHash);
-    CPSi_md5_calc(messageHash, httpsState->mEntry->mUnk_20, 0x30);
+    CPSi_md5_calc(messageHash, httpsState->mEntry->mMasterSecret, 0x30);
     MI_CpuFill8(padBytes, 0x5c, 0x30);
     CPSi_md5_calc(messageHash, padBytes, 0x30);
     CPSi_md5_calc(messageHash, digest, 0x10);
@@ -885,12 +885,12 @@ void ComputeLabeledMessageDigest20(HttpsState *httpsState, u8 *digest, u32 fromO
     } else {
         CPSi_sha1_calc(messageHash, gClntText, 4);
     }
-    CPSi_sha1_calc(messageHash, httpsState->mEntry->mUnk_20, 0x30);
+    CPSi_sha1_calc(messageHash, httpsState->mEntry->mMasterSecret, 0x30);
     MI_CpuFill8(padBytes, 0x36, 0x28);
     CPSi_sha1_calc(messageHash, padBytes, 0x28);
     CPSi_sha1_result(messageHash, digest);
     CPSi_sha1_init(messageHash);
-    CPSi_sha1_calc(messageHash, httpsState->mEntry->mUnk_20, 0x30);
+    CPSi_sha1_calc(messageHash, httpsState->mEntry->mMasterSecret, 0x30);
     MI_CpuFill8(padBytes, 0x5c, 0x28);
     CPSi_sha1_calc(messageHash, padBytes, 0x28);
     CPSi_sha1_calc(messageHash, digest, 0x14);
@@ -1465,9 +1465,9 @@ void send_client_key_exchange(CPSSoc *connection) {
     s32 digitIndex;
     u8 *p;
     u8 *k;
-    httpsState->mEntry->mUnk_20[0] = 3;
-    httpsState->mEntry->mUnk_20[1] = 0;
-    FillNonzeroRandomBytes(&httpsState->mEntry->mUnk_20[2], 0x2e);
+    httpsState->mEntry->mMasterSecret[0] = 3;
+    httpsState->mEntry->mMasterSecret[1] = 0;
+    FillNonzeroRandomBytes(&httpsState->mEntry->mMasterSecret[2], 0x2e);
     modulusLength = httpsState->mFirstValueLength;
     digitCount = (modulusLength * 2) / 2;
     paddedSecret = CPSiAlloc(modulusLength);
@@ -1479,7 +1479,7 @@ void send_client_key_exchange(CPSSoc *connection) {
     paddedSecret[1] = 2;
     FillNonzeroRandomBytes(paddedSecret + 2, modulusLength - 0x33);
     paddedSecret[modulusLength - 0x31] = 0;
-    MI_CpuCopy8(httpsState->mEntry->mUnk_20, paddedSecret + modulusLength - 0x30, 0x30);
+    MI_CpuCopy8(httpsState->mEntry->mMasterSecret, paddedSecret + modulusLength - 0x30, 0x30);
     result = (u16 *) CPSiAlloc(digitCount * 8);
     if (result == NULL) {
         CPSiFree(paddedSecret);
@@ -1609,8 +1609,8 @@ BOOL RunSetupAfterSendingKind1Record(CPSSoc *connection) {
         }
         SendOneByteRecordAndMessageDigests(connection);
     } else {
-        httpsState->mEntry->mUnk_54 = connection->mRemoteIp;
-        httpsState->mEntry->mUnk_58 = connection->mRemotePort;
+        httpsState->mEntry->mRemoteIp = connection->mRemoteIp;
+        httpsState->mEntry->mRemotePort = connection->mRemotePort;
         send_client_key_exchange(connection);
         ReplaceEntryBytesWithLabeledDigests(httpsState);
         DeriveBytesAndInitKeyStreamStates(httpsState);

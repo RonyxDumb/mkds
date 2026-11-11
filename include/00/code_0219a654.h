@@ -12,14 +12,14 @@ typedef struct NNMagic {
 
 // Message of 0x14 bytes; made of bytes so a copy of it is bytewise.
 typedef struct ConnectPacket {
-    /* 00 */ NNMagic mUnk_00;
-    /* 06 */ u8 mUnk_06;
-    /* 07 */ u8 mUnk_07;
-    /* 08 */ u8 mUnk_08[4];
-    /* 0c */ u8 mUnk_0c[4];
-    /* 10 */ u8 mUnk_10[2];
-    /* 12 */ u8 mUnk_12;
-    /* 13 */ u8 mUnk_13;
+    /* 00 */ NNMagic mMagic;
+    /* 06 */ u8 mVersion;
+    /* 07 */ u8 mPacketType;
+    /* 08 */ u8 mCookie[4];
+    /* 0c */ u8 mRemoteIp[4];
+    /* 10 */ u8 mRemotePort[2];
+    /* 12 */ u8 mGotYourData;
+    /* 13 */ u8 mFinished;
 } ConnectPacket;
 
 // Message of 0x15 bytes.
@@ -41,22 +41,21 @@ typedef struct InitPacket {
 
 // Message of 0x15 bytes followed by a string.
 typedef struct InitPacketWithGamename {
-    /* 00 */ NNMagic mUnk_00;
-    /* 06 */ u8 mUnk_06;
-    /* 07 */ u8 mUnk_07;
-    /* 08 */ u8 mUnk_08[4];
-    /* 0c */ u8 mUnk_0c;
-    /* 0d */ u8 mUnk_0d;
-    /* 0e */ u8 mUnk_0e;
-    /* 0f */ u8 mUnk_0f;
-    /* 10 */ u8 mUnk_10;
-    /* 11 */ u8 mUnk_11;
-    /* 12 */ u8 mUnk_12;
-    /* 13 */ u8 mUnk_13;
-    /* 14 */ u8 mUnk_14;
-    /* 15 */ char mUnk_15[0x40];
+    /* 00 */ NNMagic mMagic;
+    /* 06 */ u8 mVersion;
+    /* 07 */ u8 mPacketType;
+    /* 08 */ u8 mCookie[4];
+    /* 0c */ u8 mPortType;
+    /* 0d */ u8 mClientIndex;
+    /* 0e */ u8 mUseGamePort;
+    /* 0f */ u8 mLocalIpFirstByte;
+    /* 10 */ u8 mLocalIpSecondByte;
+    /* 11 */ u8 mLocalIpThirdByte;
+    /* 12 */ u8 mLocalIpFourthByte;
+    /* 13 */ u8 mLocalPortHighByte;
+    /* 14 */ u8 mLocalPortLowByte;
+    /* 15 */ char mGameName[0x40];
 } InitPacketWithGamename;
-
 
 BOOL gt2StringToAddress(const char *string, u32 *ipOut, u16 *portOut);
 u32 gt2AddressToString(u32 ipAddress, u32 port, char *buffer);

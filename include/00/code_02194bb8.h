@@ -61,11 +61,11 @@ typedef struct EmailCheckReply {
 } EmailCheckReply;
 
 typedef struct UserNicksReply {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ char mUnk_04[0x34];
-    /* 38 */ s32 mUnk_38;
-    /* 3c */ char **mUnk_3c;
-    /* 40 */ char **mUnk_40;
+    /* 00 */ s32 mResult;
+    /* 04 */ char mEmail[0x34];
+    /* 38 */ s32 mNumNicks;
+    /* 3c */ char **mNicks;
+    /* 40 */ char **mUniquenicks;
 } UserNicksReply;
 
 extern char gSearchManagerName[];

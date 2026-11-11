@@ -43,14 +43,14 @@ void InitWiFiAikotoba(void *heap) {
     switch (wiFiPrevState) {
         case 1:
         case 11:
-            gWiFiAikotoba->mUnk_08 = 0;
+            gWiFiAikotoba->mSelectedIndex = 0;
             break;
         case 9:
-            gWiFiAikotoba->mUnk_08 = 1;
+            gWiFiAikotoba->mSelectedIndex = 1;
             break;
     }
     gWiFiAikotoba->mStateFrames = 0;
-    gWiFiAikotoba->mUnk_14 = TRUE;
+    gWiFiAikotoba->mHighlightVisible = TRUE;
     LocateAndUploadWiFiAikotoba();
     for (i = 0; i < 2; i++) {
         SetCellOamModeXlu(gWiFiAikotobaXluCellIndices[i], 1, gWiFiAikotoba->mWiFiAikotobaSNcer,
@@ -184,19 +184,19 @@ next:
     pressedKeys = gInputSlots[slotIndex].mPressedBits & PAD_KEY_A;
     if ((u16) pressedKeys != 0 || hitIndex <= 1) {
         wiFiAikotoba = gWiFiAikotoba;
-        previousIndex = wiFiAikotoba->mUnk_08;
+        previousIndex = wiFiAikotoba->mSelectedIndex;
         if ((u16) pressedKeys == 0) {
             switch (hitIndex) {
                 case 0:
-                    wiFiAikotoba->mUnk_08 = 0;
+                    wiFiAikotoba->mSelectedIndex = 0;
                     break;
                 case 1:
-                    wiFiAikotoba->mUnk_08 = 1;
+                    wiFiAikotoba->mSelectedIndex = 1;
                     break;
             }
         }
         gWiFiAikotoba->mNextState = 4;
-        switch (gWiFiAikotoba->mUnk_08) {
+        switch (gWiFiAikotoba->mSelectedIndex) {
             case 0:
                 gWiFiAikotoba->mPendingWiFiState = 11;
                 break;
@@ -204,19 +204,19 @@ next:
                 gWiFiAikotoba->mPendingWiFiState = 9;
                 break;
         }
-        if (gWiFiAikotoba->mUnk_08 == previousIndex) {
-            gWiFiAikotoba->mUnk_14 = FALSE;
+        if (gWiFiAikotoba->mSelectedIndex == previousIndex) {
+            gWiFiAikotoba->mHighlightVisible = FALSE;
         }
         StartSoundOncePerFrame(5);
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0 && gWiFiAikotoba->mUnk_08 > 0) {
-        gWiFiAikotoba->mUnk_08 = gWiFiAikotoba->mUnk_08 - 1;
+    if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0 && gWiFiAikotoba->mSelectedIndex > 0) {
+        gWiFiAikotoba->mSelectedIndex = gWiFiAikotoba->mSelectedIndex - 1;
         StartSoundOncePerFrame(0);
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0 && gWiFiAikotoba->mUnk_08 < 1) {
-        gWiFiAikotoba->mUnk_08 = gWiFiAikotoba->mUnk_08 + 1;
+    if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0 && gWiFiAikotoba->mSelectedIndex < 1) {
+        gWiFiAikotoba->mSelectedIndex = gWiFiAikotoba->mSelectedIndex + 1;
         StartSoundOncePerFrame(0);
     }
 }
@@ -230,7 +230,7 @@ void AdvanceWiFiAikotobaState4(void) {
         }
         gWiFiAikotoba->mStateFrames = 0;
     } else if (gWiFiAikotoba->mStateFrames >= 5) {
-        gWiFiAikotoba->mUnk_14 = TRUE;
+        gWiFiAikotoba->mHighlightVisible = TRUE;
     }
 }
 
@@ -313,7 +313,7 @@ void UpdateWiFiAikotobaHighlight(void) {
     s32 i;
 
     for (i = 0; i < 2; i++) {
-        if (i == gWiFiAikotoba->mUnk_08 && gWiFiAikotoba->mUnk_14 != FALSE) {
+        if (i == gWiFiAikotoba->mSelectedIndex && gWiFiAikotoba->mHighlightVisible != FALSE) {
             gWiFiAikotoba->mWiFiAikotobaTable[gWiFiAikotobaSTableIndices[i]].mVisible = 1;
             SetCellPaletteIndex(gWiFiAikotobaCellIndices[i], 0xe, gWiFiAikotoba->mWiFiAikotobaSNcer,
                                 gWiFiAikotoba->mWiFiAikotobaBncl);

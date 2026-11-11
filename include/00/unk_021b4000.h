@@ -140,15 +140,15 @@ extern char gGsiAcHostname[];
 
 // Object behind gGsiAvailableCheck.
 typedef struct GsiAvailableCheck {
-    /* 00 */ s32 mUnk_00;
+    /* 00 */ s32 mSocket;
     /* 04 */ u8 mUnk_04[2];
-    /* 06 */ u16 mUnk_06;
+    /* 06 */ u16 mPort;
     /* 08 */ u8 mUnk_08[4];
-    /* 0c */ u8 mUnk_0c;
+    /* 0c */ u8 mPacketType;
     /* 0d */ u8 mUnk_0d[0x3f];
-    /* 4c */ s32 mUnk_4c;
-    /* 50 */ u32 mUnk_50;
-    /* 54 */ s32 mUnk_54;
+    /* 4c */ s32 mPacketLength;
+    /* 50 */ u32 mSendTime;
+    /* 54 */ s32 mRetryCount;
 } GsiAvailableCheck;
 
 extern GsiAvailableCheck gGsiAvailableCheck;

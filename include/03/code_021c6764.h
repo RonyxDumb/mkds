@@ -6,8 +6,8 @@ typedef struct BgTextCanvas BgTextCanvas;
 
 // Object at 0x04 of Edit.
 typedef struct Unk021da1f8_04 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u16 mUnk_04;
+    /* 00 */ u32 mAttr01;
+    /* 04 */ u16 mAttr2;
 } Unk021da1f8_04;
 
 typedef struct Edit {

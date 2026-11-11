@@ -64,7 +64,7 @@ void CreateEditAddr(void) {
     CreateObjectsForMenuPair(2);
     gEditAddr->mBgTextCanvas = InitBgTextCanvas(0, 0);
     gEditAddr->mOamEntry = CreateOamEntryFromNceImage(0, 0x3f);
-    gEditAddr->mOamEntry->mUnk_04 = (gEditAddr->mOamEntry->mUnk_04 & 0xfffff3ff) | 0xc00;
+    gEditAddr->mOamEntry->mAttr2 = (gEditAddr->mOamEntry->mAttr2 & 0xfffff3ff) | 0xc00;
     PlaceEditAddrGroupOam();
     PrintEditAddrText();
     SetUpdateFunction(StartEditAddrFadeIn);
@@ -217,7 +217,7 @@ void UpdateEditAddrInput(void) {
                 StartSoundSeq(9);
             }
             gEditAddr->mGroupIndex = 3;
-            gEditAddr->mOamEntry->mUnk_00 = (gEditAddr->mOamEntry->mUnk_00 & 0xc1fffcff) | 0x200;
+            gEditAddr->mOamEntry->mAttr01 = (gEditAddr->mOamEntry->mAttr01 & 0xc1fffcff) | 0x200;
             PlaceEditAddrGroupOam();
             WriteEditAddrGroupPadding();
             SetUpdateFunction(StartEditAddrClose);
@@ -390,7 +390,7 @@ void PlaceEditAddrGroupOam(void) {
     }
     oamEntry = editAddr->mOamEntry;
     xBits = (gEditAddrCharX[groupIndex * 3 + 2] & 0x1ff) << 16;
-    oamEntry->mUnk_00 = xBits | ((oamEntry->mUnk_00 & 0xfe00ff00) | 0x28);
+    oamEntry->mAttr01 = xBits | ((oamEntry->mAttr01 & 0xfe00ff00) | 0x28);
 }
 
 void UpdateEditAddrMessageResult(void) {
@@ -415,7 +415,7 @@ void UpdateEditAddrMessageClose(void) {
     storeFuncs = gEditAddrStoreFuncs;
     if (IsMessageBoxOpen() == 0) {
         if (gEditAddr->mResult == 0) {
-            gEditAddr->mOamEntry->mUnk_00 = gEditAddr->mOamEntry->mUnk_00 & 0xc1fffcff;
+            gEditAddr->mOamEntry->mAttr01 = gEditAddr->mOamEntry->mAttr01 & 0xc1fffcff;
             SetUpdateFunction(UpdateEditAddrFadeIn);
             return;
         }
@@ -534,7 +534,7 @@ void UpdateEditAddrInvalidMessageClose(void) {
     int messageOpen;
     messageOpen = IsMessageBoxOpen();
     if (messageOpen == 0) {
-        gEditAddr->mOamEntry->mUnk_00 = gEditAddr->mOamEntry->mUnk_00 & (0xc1fffcffu);
+        gEditAddr->mOamEntry->mAttr01 = gEditAddr->mOamEntry->mAttr01 & (0xc1fffcffu);
         SetUpdateFunction(UpdateEditAddrFadeIn);
     }
 }
