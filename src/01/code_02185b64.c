@@ -54,23 +54,24 @@ void InitMissionGate(MissionGateObject *missionGateObject) {
     SetMapObjectExtentY(missionGateObject->mPositiveSideObject, sideExtentY);
 }
 
-u32 CollideKartWithMissionGate(MissionGateObject *missionGateObject, Kart *kart, u8 *e, u8 *f) {
-    u32 a = *e;
-    u32 b = *f;
+u32 CollideKartWithMissionGate(MissionGateObject *missionGateObject, Kart *kart, u8 *firstResponsePointer,
+                               u8 *responsePointer) {
+    u32 firstResponse = *firstResponsePointer;
+    u32 response = *responsePointer;
 
     if ((kart->mUnk_48 & KART_48_OBJECTS_SKIP) != 0 ||
         (gRaceSetup->mMode == MODE_MISSION_RUN ? IsKartEliminated(kart->mIndex) : 0) != FALSE) {
         return 0;
     }
-    if (a == 1) {
+    if (firstResponse == 1) {
         missionGateObject->mMapObject.mFlags |= data_ov001_021a6580;
         missionGateObject->mState = 2;
     }
-    return b;
+    return response;
 }
 
-void LoadMissionGate(void *a) {
-    gMissionGate = LoadMapObjectModelAnimated(a, "MissionGate.nsbmd");
+void LoadMissionGate(void *mapObjectList) {
+    gMissionGate = LoadMapObjectModelAnimated(mapObjectList, "MissionGate.nsbmd");
     LoadMapObjectModelNsbtpAnimation(gMissionGate, "MissionGate.nsbtp");
     LoadMapObjectModelNsbmaAnimation(gMissionGate, "MissionGate.nsbma");
     SetMapObjectModelPolygonId(gMissionGate, 0x3f);
@@ -78,7 +79,7 @@ void LoadMissionGate(void *a) {
     SetNsbmdEmiAll(gMissionGate->mAnimatedModel, 0x294a);
 }
 
-void func_ov001_02185d18(void) {}
+void MissionGateNop(void) {}
 
 void DrawMissionGate(void *mapObjectList, MissionGateObject *missionGateObject) {
     s32 buf;
@@ -114,7 +115,7 @@ void InitMissionGateObjects(MapObjectList *missionGateList) {
     }
 }
 
-void UpdateMissionGate(void *a, MissionGateObject *missionGateObject) {
+void UpdateMissionGate(void *unused, MissionGateObject *missionGateObject) {
     s32 count;
 
     switch (missionGateObject->mState) {
@@ -141,7 +142,7 @@ void CreateMissionGateKindData(void) {
 }
 
 void CreateMissionGateDrawList(void) {
-    CreateMapObjectDrawList1(LoadMissionGate, DrawMissionGate, func_ov001_02185d18);
+    CreateMapObjectDrawList1(LoadMissionGate, DrawMissionGate, MissionGateNop);
 }
 
 void CreateMissionGateUpdateList(void) {

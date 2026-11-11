@@ -4,25 +4,25 @@
 
 typedef struct MissionGateObject MissionGateObject;
 
-u16 func_ov001_02185b50(MissionGateObject *missionGateObject);
-void func_ov001_02185b1c(void);
+u16 IsMissionGateFrameAdvanced(MissionGateObject *missionGateObject);
+void WriteMissionRunLVselScreenRegisters(void);
 void UpdateMissionRunLVsel(void);
 void MissionRunGX_SetVisiblePlane(u32 bits);
 void MissionRunGXS_SetVisiblePlane(u32 bits);
-void func_ov001_02185a88(void);
+void WriteMissionRunMSselScreenRegisters(void);
 void UpdateMissionRunMSsel(void);
-void func_ov001_02185a28(void);
+void WriteTimeAttackTopMenuRegisters(void);
 void SetGhostSceneInitialCallbacksIndex(s32 callbacksIndex);
 void UpdateTimeAttackTopMenu(void);
-void func_ov001_02185980(void);
+void WriteTimeAttackCharacterRegisters(void);
 void UpdateTimeAttackSelectCharacter(void);
-void func_ov001_02185928(void);
+void WriteTimeAttackKartRegisters(void);
 void UpdateTimeAttackSelectKart(void);
-void func_ov001_021858c8(void);
-void func_ov001_021858b4(s32 value);
-void func_ov001_021858a0(s32 value);
+void WriteTimeAttackCupGridRegisters(void);
+void TimeAttackSetMenuEntryKind(s32 value);
+void TimeAttackSetRaceSetupRequested(s32 value);
 void UpdateTimeAttackSelectCupGrid(void);
-void func_ov001_02185828(void);
+void WriteTimeAttackCupCourseRegisters(void);
 void UpdateTimeAttackSelectCupCourse(void);
 void WriteMainBg1Offset(u32 offsetX, u32 offsetY);
-void func_ov001_021857a4(u32 bits);
+void WriteMainBg1CntLowBits(u32 bits);

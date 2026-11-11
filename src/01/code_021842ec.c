@@ -2,9 +2,9 @@
 #include "01/unk_021a6000.h"
 
 void func_ov001_021842ec(Unk02188950 *donketu) {
-    func_ov001_02187218(donketu, 7, NULL);
+    StartMapObjectState(donketu, 7, NULL);
     StartAnimationWithEndCallback(donketu, donketu->mPrm->mUnk_23c, donketu->mPrm->mUnk_240, NULL);
-    func_ov001_02188c90(donketu);
+    StopTurningMoveFollowsAngle(donketu);
     SetSpeedAndClearTarget(donketu, 0);
     StartEffectAtRowHeight(donketu, 0, 0, 0, 0x411, 0);
     StartEffectAtRowHeight(donketu, 0, 0, 0, 0x412, 0);

@@ -12,7 +12,7 @@
 
 #pragma optimize_for_size on
 
-void func_ov001_02185438(void) {
+void UpdateSelectCupGrid(void) {
     switch (AdvanceSelectCupGrid()) {
         case 1:
             SwitchMenuScreen(0x1d, 0x1f);
@@ -22,8 +22,8 @@ void func_ov001_02185438(void) {
             break;
         case 3:
             SwitchMenuScreen(0, 0x1f);
-            func_ov001_02185490(0);
-            func_ov001_0218547c(1);
+            SelectCupGridSetMenuEntryKind(0);
+            SelectCupGridSetRaceSetupRequested(1);
             break;
     }
 }

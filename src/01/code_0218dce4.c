@@ -18,9 +18,9 @@ void func_ov001_0218dd9c(Unk02188950 *a) {
 }
 
 void func_ov001_0218dd50(Unk02188950 *a) {
-    if (func_ov001_02188220(a) >= 2) {
+    if (GetAbsoluteCounter(a) >= 2) {
         StartMapObjectSound(&a->mUnk_000, 0x248);
-    } else if (func_ov001_02188220(a) >= 1) {
+    } else if (GetAbsoluteCounter(a) >= 1) {
         StartMapObjectSound(&a->mUnk_000, 0x249);
     } else {
         StartMapObjectSound(&a->mUnk_000, 0x24a);
@@ -28,9 +28,9 @@ void func_ov001_0218dd50(Unk02188950 *a) {
 }
 
 void func_ov001_0218dd04(Unk02188950 *a) {
-    if (func_ov001_02188220(a) >= 2) {
+    if (GetAbsoluteCounter(a) >= 2) {
         StartMapObjectSound(&a->mUnk_000, 0x248);
-    } else if (func_ov001_02188220(a) >= 1) {
+    } else if (GetAbsoluteCounter(a) >= 1) {
         StartMapObjectSound(&a->mUnk_000, 0x249);
     } else {
         StartMapObjectSound(&a->mUnk_000, 0x24a);
@@ -38,5 +38,5 @@ void func_ov001_0218dd04(Unk02188950 *a) {
 }
 
 void func_ov001_0218dce4(Unk02188950 *a) {
-    func_ov001_02188e48(a, 0xc, func_ov001_0218dd50, 0x20, func_ov001_0218dd04);
+    SetTwoAnimationFrameCallbacks(a, 0xc, func_ov001_0218dd50, 0x20, func_ov001_0218dd04);
 }

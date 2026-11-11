@@ -10,12 +10,12 @@
 void func_ov001_0218bfc8(Unk02188950 *mapObject) {
     CourseMapGroupEntry *currentGroupEntry;
     MissionRunPrm *prm;
-    func_ov001_02187218(mapObject, 2, &func_ov001_0218c584);
+    StartMapObjectState(mapObject, 2, &func_ov001_0218c584);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_15c, mapObject->mPrm->mUnk_160);
     func_ov001_0219b1c4(mapObject->mNsbmd, mapObject->mPrm->mUnk_164, mapObject->mPrm->mUnk_160, 0);
     SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_168, mapObject->mPrm->mUnk_16c);
     prm = mapObject->mPrm;
-    func_ov001_021889ec(mapObject, prm->mUnk_178, prm->mUnk_17c, prm->mUnk_170, prm->mUnk_174);
+    TurnAndMoveToPointOwnRates(mapObject, prm->mUnk_178, prm->mUnk_17c, prm->mUnk_170, prm->mUnk_174);
     currentGroupEntry = GetCurrentGroupEntry(mapObject);
     SetAnglePoint(mapObject, &currentGroupEntry->mPos);
     currentGroupEntry = GetCurrentGroupEntry(mapObject);

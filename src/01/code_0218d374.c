@@ -39,7 +39,7 @@ void func_ov001_0218d3ec(Unk02188950 *a) {
     } else {
         x = func_ov001_02187f38(a);
     }
-    func_ov001_02187218(a, 1, func_ov001_0218d520);
+    StartMapObjectState(a, 1, func_ov001_0218d520);
     SetStoppedCallback(a, NULL);
     StartAnimationNoEndCallback(a, a->mPrm->mUnk_088, a->mPrm->mUnk_08c);
     func_ov001_0218d824(a, x);
@@ -53,14 +53,14 @@ void func_ov001_0218d374(Unk02188950 *a) {
     MapObjectList *list;
     Unk02188950 *p;
 
-    func_ov001_02187218(a, 8, NULL);
+    StartMapObjectState(a, 8, NULL);
     StartAnimationNoEndCallback(a, a->mPrm->mUnk_078, a->mPrm->mUnk_07c);
-    func_ov001_02188c90(a);
+    StopTurningMoveFollowsAngle(a);
     SetSpeedAndClearTarget(a, 0);
     list = FindMapObjectKindUpdateList(0x1fe);
     if (list != NULL) {
         for (i = 0; i < list->mMapObjectCount && (p = list->mMapObjects[i]) != NULL; i++) {
-            func_ov001_02187218(p, 1, NULL);
+            StartMapObjectState(p, 1, NULL);
             StartAnimationNoEndCallback(p, p->mPrm->mUnk_078, p->mPrm->mUnk_07c);
         }
     }

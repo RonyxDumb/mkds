@@ -8,6 +8,6 @@ u32 func_ov001_0218c55c(Unk02188950 *mapObject) {
     currentGroupEntry = GetCurrentGroupEntry(mapObject);
     SetMoveAnglePoint(mapObject, &currentGroupEntry->mPos);
     currentGroupEntry = GetCurrentGroupEntry(mapObject);
-    func_ov001_02188d8c(mapObject, &currentGroupEntry->mPos);
+    SetPointInRangePoint(mapObject, &currentGroupEntry->mPos);
     return 0;
 }

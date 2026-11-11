@@ -13,7 +13,7 @@
 #include "Main/Unknown/code_020fd264.h"
 #include "code_02147cd8.h"
 
-void func_ov001_0218aef4(Unk02188950 *mapObject) {
+void ThrowItemBombsInRingAndCenter(Unk02188950 *mapObject) {
     RandomState64 *rng;
     s32 angle;
     s32 i;
@@ -27,8 +27,7 @@ void func_ov001_0218aef4(Unk02188950 *mapObject) {
         angle += 0x5555;
         pos.x = mapObject->mUnk_000.mPos.x + MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_1e4, SIN_OF_ANGLE((u16) angle));
         pos.y = mapObject->mUnk_000.mPos.y;
-        pos.z =
-            mapObject->mUnk_000.mPos.z + MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_1e4, COS_OF_ANGLE((u16) angle));
+        pos.z = mapObject->mUnk_000.mPos.z + MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_1e4, COS_OF_ANGLE((u16) angle));
         ThrowItemBombFromPosition(StartItemBomb(), &pos, &vel, mapObject->mPrm->mUnk_1e8);
     }
     {
@@ -43,9 +42,9 @@ void func_ov001_0218aef4(Unk02188950 *mapObject) {
 }
 
 void func_ov001_0218ae60(Unk02188950 *mapObject) {
-    func_ov001_02187218(mapObject, 3, NULL);
+    StartMapObjectState(mapObject, 3, NULL);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_200, mapObject->mPrm->mUnk_204, NULL);
-    func_ov001_02188c90(mapObject);
+    StopTurningMoveFollowsAngle(mapObject);
     SetSpeedAndClearTarget(mapObject, 0);
     StartEffectAtRowHeight(mapObject, 0, 0, 0, 0x411, 0);
     StartEffectAtRowHeight(mapObject, 0, 0, 0, 0x412, 0);
@@ -58,10 +57,10 @@ void func_ov001_0218add0(Unk02188950 *mapObject) {
     Vec3 velocity = {0, 0, 0};
 
     velocity.y = mapObject->mPrm->mUnk_1fc;
-    func_ov001_02187218(mapObject, 3, NULL);
+    StartMapObjectState(mapObject, 3, NULL);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_1f4, mapObject->mPrm->mUnk_1f8);
     SetVelocity(mapObject, &velocity);
-    func_ov001_02188c90(mapObject);
+    StopTurningMoveFollowsAngle(mapObject);
     SetSpeedAndClearTarget(mapObject, 0);
     SetCourseCollisionCallback(mapObject, func_ov001_0218ae60);
     mapObject->mGravityEnabled = TRUE;

@@ -1,6 +1,6 @@
 #include "01/code_02188950.h"
 
-void func_ov001_02188c90(Unk02188950 *mapObject) {
+void StopTurningMoveFollowsAngle(Unk02188950 *mapObject) {
     mapObject->mAngleState = 0;
     mapObject->mAnglePerCall = 0;
     mapObject->mAnglePerCallTarget = 0;
@@ -11,7 +11,7 @@ void func_ov001_02188c90(Unk02188950 *mapObject) {
     mapObject->mMoveAnglePerCallIncrement = 0;
 }
 
-void func_ov001_02188c48(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement) {
+void TurnToPointMoveFollowsAngle(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement) {
     mapObject->mAngleState = 2;
     mapObject->mAnglePerCallTarget = anglePerCallTarget;
     mapObject->mAnglePerCallIncrement = anglePerCallIncrement;
@@ -21,7 +21,7 @@ void func_ov001_02188c48(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 ang
     mapObject->mMoveAnglePerCallIncrement = 0;
 }
 
-void func_ov001_02188c0c(Unk02188950 *mapObject, s32 perCallTarget, s32 perCallIncrement) {
+void TurnAndMoveToPointSameRate(Unk02188950 *mapObject, s32 perCallTarget, s32 perCallIncrement) {
     mapObject->mAngleState = 2;
     mapObject->mAnglePerCallTarget = perCallTarget;
     mapObject->mAnglePerCallIncrement = perCallIncrement;
@@ -30,7 +30,7 @@ void func_ov001_02188c0c(Unk02188950 *mapObject, s32 perCallTarget, s32 perCallI
     mapObject->mMoveAnglePerCallIncrement = perCallIncrement;
 }
 
-void func_ov001_02188bc4(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement) {
+void TurnFromPointMoveFollowsAngle(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement) {
     mapObject->mAngleState = 3;
     mapObject->mAnglePerCallTarget = anglePerCallTarget;
     mapObject->mAnglePerCallIncrement = anglePerCallIncrement;
@@ -40,7 +40,7 @@ void func_ov001_02188bc4(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 ang
     mapObject->mMoveAnglePerCallIncrement = 0;
 }
 
-void func_ov001_02188b78(Unk02188950 *mapObject, s32 moveAnglePerCallTarget, s32 moveAnglePerCallIncrement) {
+void StopTurningMoveFromPoint(Unk02188950 *mapObject, s32 moveAnglePerCallTarget, s32 moveAnglePerCallIncrement) {
     mapObject->mAngleState = 0;
     mapObject->mAnglePerCall = 0;
     mapObject->mAnglePerCallTarget = 0;
@@ -51,19 +51,20 @@ void func_ov001_02188b78(Unk02188950 *mapObject, s32 moveAnglePerCallTarget, s32
     mapObject->mMoveAnglePerCallIncrement = moveAnglePerCallIncrement;
 }
 
-void func_ov001_02188b2c(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement, s32 d) {
+void TurnSidewaysMoveFollowsAngle(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement,
+                                  s32 angleOffset) {
     mapObject->mAngleState = 4;
     mapObject->mAnglePerCallTarget = anglePerCallTarget;
     mapObject->mAnglePerCallIncrement = anglePerCallIncrement;
-    mapObject->mUnk_1a0 = d;
+    mapObject->mUnk_1a0 = angleOffset;
     mapObject->mMoveAngleMode = 1;
     mapObject->mMoveAnglePerCall = 0;
     mapObject->mMoveAnglePerCallTarget = 0;
     mapObject->mMoveAnglePerCallIncrement = 0;
 }
 
-void func_ov001_02188adc(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement,
-                         s32 moveAnglePerCallTarget, s32 moveAnglePerCallIncrement, s32 f) {
+void TurnToPointMoveSideways(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement,
+                             s32 moveAnglePerCallTarget, s32 moveAnglePerCallIncrement, s32 moveAngleOffset) {
     mapObject->mAngleState = 2;
     mapObject->mAnglePerCallTarget = anglePerCallTarget;
     mapObject->mAnglePerCallIncrement = anglePerCallIncrement;
@@ -71,10 +72,10 @@ void func_ov001_02188adc(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 ang
     mapObject->mMoveAnglePerCall = 0;
     mapObject->mMoveAnglePerCallTarget = moveAnglePerCallTarget;
     mapObject->mMoveAnglePerCallIncrement = moveAnglePerCallIncrement;
-    mapObject->mUnk_1c4 = f;
+    mapObject->mUnk_1c4 = moveAngleOffset;
 }
 
-void func_ov001_02188a8c(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement) {
+void SpinAngleStopMoveAngle(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement) {
     mapObject->mAngleState = 5;
     mapObject->mAnglePerCallTarget = anglePerCallTarget;
     mapObject->mAnglePerCallIncrement = anglePerCallIncrement;
@@ -85,8 +86,8 @@ void func_ov001_02188a8c(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 ang
     mapObject->mMoveAnglePerCallIncrement = 0;
 }
 
-void func_ov001_02188a30(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement,
-                         s32 moveAnglePerCallTarget, s32 moveAnglePerCallIncrement) {
+void SpinTowardPointMoveToPoint(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement,
+                                s32 moveAnglePerCallTarget, s32 moveAnglePerCallIncrement) {
     s32 angleState;
 
     if (mapObject->mAngleState == 7) {
@@ -105,8 +106,8 @@ void func_ov001_02188a30(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 ang
     mapObject->mMoveAnglePerCallIncrement = moveAnglePerCallIncrement;
 }
 
-void func_ov001_021889ec(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement,
-                         s32 moveAnglePerCallTarget, s32 moveAnglePerCallIncrement) {
+void TurnAndMoveToPointOwnRates(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement,
+                                s32 moveAnglePerCallTarget, s32 moveAnglePerCallIncrement) {
     mapObject->mAngleState = 2;
     mapObject->mAnglePerCallTarget = anglePerCallTarget;
     mapObject->mAnglePerCallIncrement = anglePerCallIncrement;
@@ -116,7 +117,7 @@ void func_ov001_021889ec(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 ang
     mapObject->mMoveAnglePerCallIncrement = moveAnglePerCallIncrement;
 }
 
-void func_ov001_021889c8(Unk02188950 *mapObject) {
+void StopMoveAngleTurning(Unk02188950 *mapObject) {
     mapObject->mMoveAngleMode = 0;
     mapObject->mMoveAnglePerCall = 0;
     mapObject->mMoveAnglePerCallTarget = 0;

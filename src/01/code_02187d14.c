@@ -32,14 +32,14 @@ void IncrementEntryGroupIndex(Unk02188950 *mapObject, s32 groupSpan) {
     mapObject->mEntryIndex = 0;
 }
 
-void *StartItemBombWithParkedItemBox(u16 a) {
+void *StartItemBombWithParkedItemBox(u16 forcedRow) {
     ItemBox *parkedMapObject;
 
     parkedMapObject = FindParkedMapObject(0xc9);
     if (parkedMapObject != NULL) {
         SetItemBoxFramesSinceHitMax(parkedMapObject);
-        parkedMapObject->mForcedRowHumanGhostPeer = a;
-        parkedMapObject->mForcedRowCpu = a;
+        parkedMapObject->mForcedRowHumanGhostPeer = forcedRow;
+        parkedMapObject->mForcedRowCpu = forcedRow;
         parkedMapObject->mShortSpin = 1;
         return StartItemBombWithMapObject(parkedMapObject, 0xa000);
     }
@@ -57,7 +57,7 @@ void *StartItemBombWithParkedKuribo(void) {
     return NULL;
 }
 
-void func_ov001_02187d14(NNSG3dRS *renderState) {
+void StoreNodePositionAndPlaceItemBomb(NNSG3dRS *renderState) {
     MtxFx43 currentMatrix;
     MtxFx43 inverseViewMatrix;
     Vec3 bombPosition;

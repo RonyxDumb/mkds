@@ -26,7 +26,7 @@
 
 #pragma thumb off
 
-void func_ov001_02185778(int enable) {
+void WriteMainBg1CntFlag(int enable) {
     if (enable != 0) {
         reg_G2_BG1CNT |= 0x40;
     } else {
@@ -34,7 +34,7 @@ void func_ov001_02185778(int enable) {
     }
 }
 
-void func_ov001_02185740(u32 a, u32 b, u32 c, u32 d, u32 e) {
+void WriteMainBg1CntFields(u32 a, u32 b, u32 c, u32 d, u32 e) {
     reg_G2_BG1CNT = (reg_G2_BG1CNT & 0x43) | (a << 14) | (b << 7) | (c << 8) | (d << 2) | (e << 13);
 }
 
@@ -45,9 +45,9 @@ void WriteSelectGhostScreenRegisters(void) {
         TimeAttackGX_SetVisiblePlane(0x19);
         GX_SetGraphicsMode(1, 0, 0);
         WriteMainBg1Offset(0, 0);
-        func_ov001_021857a4(0);
-        func_ov001_02185778(0);
-        func_ov001_02185740(0, 0, 0xc, 0, 0);
+        WriteMainBg1CntLowBits(0);
+        WriteMainBg1CntFlag(0);
+        WriteMainBg1CntFields(0, 0, 0xc, 0, 0);
         TimeAttackGXS_SetVisiblePlane(0x1f);
         GXS_SetGraphicsMode(0);
     }
@@ -77,7 +77,7 @@ void TimeAttackGXS_SetVisiblePlane(u32 bits) {
 
 #pragma thumb on
 
-void func_ov001_02185658(void) {
+void WriteSelectCupMScreenRegisters(void) {
     if (GetMenuScreenSwitched() != 0) {
         TimeAttackGX_SetVisiblePlane(0x19);
         GX_SetGraphicsMode(1, 0, 0);
@@ -98,7 +98,7 @@ void UpdateSelectCupM(void) {
     }
 }
 
-void func_ov001_021855f8(void) {
+void WriteSelectEngineScreenRegisters(void) {
     if (GetMenuScreenSwitched() != 0) {
         SelectGX_SetVisiblePlane(0x1b);
         GX_SetGraphicsMode(1, 0, 0);

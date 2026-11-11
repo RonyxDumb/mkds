@@ -14,7 +14,7 @@ void SetPointInRangeCallback(Unk02188950 *mapObject, s32 pointRadius, s32 pointH
     }
     storedCallback = callback;
     if (storedCallback == NULL) {
-        storedCallback = func_ov001_02188e88;
+        storedCallback = StopMapObjectState;
     }
     mapObject->mPointInRangeCallback = storedCallback;
 }

@@ -2,7 +2,7 @@
 # ov001 functions used only through a main-module pointer into the address range ov000, ov001 and ov002
 # share; dsd resolves that pointer to ov000, so -dead would strip them.
 WriteSelectKartScreenRegisters
-func_ov001_02185828
+WriteTimeAttackCupCourseRegisters
 data_0216fe14
 data_0216fe18
 data_0216fe1c

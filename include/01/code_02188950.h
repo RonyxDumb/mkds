@@ -4,7 +4,7 @@
 #include "code_02146d78.h"
 #include "Main/Unknown/code_020e6fd4.h" // MapObject
 
-// Object behind func_ov001_02188c90 and the per-state functions around func_ov001_021900ac.
+// Object behind StopTurningMoveFollowsAngle and the per-state functions around func_ov001_021900ac.
 typedef struct MissionRunPrm {
     /* 000 */ s32 mUnk_000;
     /* 004 */ s32 mScale;
@@ -306,17 +306,18 @@ void SetVelocity(Unk02188950 *mapObject, Vec3 *velocity);
 void SetAnglePoint(Unk02188950 *mapObject, Vec3 *point);
 void SetMoveAnglePoint(Unk02188950 *mapObject, Vec3 *point);
 void SetAnglePointAndMoveAnglePoint(Unk02188950 *mapObject, Vec3 *point);
-void func_ov001_021889c8(Unk02188950 *mapObject);
-void func_ov001_021889ec(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement,
-                         s32 moveAnglePerCallTarget, s32 moveAnglePerCallIncrement);
-void func_ov001_02188a30(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement,
-                         s32 moveAnglePerCallTarget, s32 moveAnglePerCallIncrement);
-void func_ov001_02188a8c(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement);
-void func_ov001_02188adc(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement,
-                         s32 moveAnglePerCallTarget, s32 moveAnglePerCallIncrement, s32 f);
-void func_ov001_02188b2c(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement, s32 d);
-void func_ov001_02188b78(Unk02188950 *mapObject, s32 moveAnglePerCallTarget, s32 moveAnglePerCallIncrement);
-void func_ov001_02188bc4(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement);
-void func_ov001_02188c0c(Unk02188950 *mapObject, s32 perCallTarget, s32 perCallIncrement);
-void func_ov001_02188c48(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement);
-void func_ov001_02188c90(Unk02188950 *mapObject);
+void StopMoveAngleTurning(Unk02188950 *mapObject);
+void TurnAndMoveToPointOwnRates(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement,
+                                s32 moveAnglePerCallTarget, s32 moveAnglePerCallIncrement);
+void SpinTowardPointMoveToPoint(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement,
+                                s32 moveAnglePerCallTarget, s32 moveAnglePerCallIncrement);
+void SpinAngleStopMoveAngle(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement);
+void TurnToPointMoveSideways(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement,
+                             s32 moveAnglePerCallTarget, s32 moveAnglePerCallIncrement, s32 moveAngleOffset);
+void TurnSidewaysMoveFollowsAngle(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement,
+                                  s32 angleOffset);
+void StopTurningMoveFromPoint(Unk02188950 *mapObject, s32 moveAnglePerCallTarget, s32 moveAnglePerCallIncrement);
+void TurnFromPointMoveFollowsAngle(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement);
+void TurnAndMoveToPointSameRate(Unk02188950 *mapObject, s32 perCallTarget, s32 perCallIncrement);
+void TurnToPointMoveFollowsAngle(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement);
+void StopTurningMoveFollowsAngle(Unk02188950 *mapObject);

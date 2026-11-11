@@ -3,11 +3,11 @@
 
 #pragma thumb off
 
-void func_ov001_02185490(u32 value) {
+void SelectCupGridSetMenuEntryKind(u32 value) {
     gMenuShared->mMenuEntryKind = value;
 }
 
-void func_ov001_0218547c(u32 value) {
+void SelectCupGridSetRaceSetupRequested(u32 value) {
     gMenuShared->mRaceSetupRequested = value;
 }
 

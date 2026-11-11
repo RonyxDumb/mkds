@@ -22,7 +22,7 @@ void func_ov001_0218f900(Unk02188950 *a) {
     StartAnimationNoEndCallback(a, a->mPrm->mUnk_198, a->mPrm->mUnk_19c);
     SetAlphaLimitTargetAndPerCall(a, a->mPrm->mUnk_1ac, a->mPrm->mUnk_1b0);
     SetSpeedAndClearTarget(a, 0);
-    func_ov001_02188c90(a);
+    StopTurningMoveFollowsAngle(a);
     StartEffectAtOffset(a, 0, 0, 0, 0x41b, 0);
     StartEffectAtOffset(a, 0, 0, 0, 0x41c, 0);
     StartEffectAtOffset(a, 0, 0, 0, 0x41d, 0);

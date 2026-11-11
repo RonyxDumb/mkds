@@ -38,8 +38,8 @@ typedef struct MissionGateObject {
 
 void InitMissionRunMapObject(void *mapObjectList, Unk02188950 *mapObject, const char *nsbmdName, const char *nsbcaName,
                              const char *prmName);
-void func_ov001_021872e0(Unk02188950 *mapObject, int offsetX, int offsetY, int offsetZ, int emitterParamX,
-                         int emitterParamY, int emitterParamZ, int effectId, u32 timer);
+void StartEffectWithRotatedDirection(Unk02188950 *mapObject, int offsetX, int offsetY, int offsetZ, int emitterParamX,
+                                     int emitterParamY, int emitterParamZ, int effectId, u32 timer);
 
 void StartEffectInSlot(Unk02188950 *mapObject, s32 effectIndex, s32 offsetX, s32 offsetY, s32 offsetZ, u32 effectId,
                        s32 timer);
@@ -49,23 +49,25 @@ void StartEffectInSlot(Unk02188950 *mapObject, s32 effectIndex, s32 offsetX, s32
 #include "01/code_02187000.h"
 
 void *CreateEmptyMapObjectUpdateList(void);
-s32 CollideItemWithMissionRunMapObject(Unk02188950 *mapObject, ItemObject *itemObject, u8 *c, u8 *d);
-s32 CollideKartWithMissionRunMapObject(Unk02188950 *mapObject, Kart *kart, u8 *c, u8 *d);
+s32 CollideItemWithMissionRunMapObject(Unk02188950 *mapObject, ItemObject *itemObject, u8 *firstResponsePointer,
+                                       u8 *responsePointer);
+s32 CollideKartWithMissionRunMapObject(Unk02188950 *mapObject, Kart *kart, u8 *firstResponsePointer,
+                                       u8 *responsePointer);
 s32 ComputeSphereHitOnMissionRunMapObject(Unk02188950 *mapObject, Vec3 *sphereCenter, s32 sphereRadius,
                                           Vec3 *overlapOffset);
 void DrawMissionRunMapObjectShadow(void *mapObjectList, Unk02188950 *mapObject, s32 invertDepth);
 void DrawMissionRunMapObject(void *mapObjectList, Unk02188950 *mapObject);
-void AdvanceMissionRunMapObject(u32 a, Unk02188950 *mapObject);
+void AdvanceMissionRunMapObject(u32 unused, Unk02188950 *mapObject);
 u16 StepAngleSidewaysToPoint(Vec3 *targetPoint, Vec3 *origin, s32 signedMaxStep, s32 angleOffset, s32 angle);
 u16 StepAngleTowardDirection(Vec3 *target, Vec3 *origin, s32 maxStep, s32 angle);
 int StepIntTowardTarget(int target, int step, int current);
 void ToggleShadowScale(void);
 void LoadMissionRunMapObjectShadow(void *mapObjectList, Unk02188950 *mapObject, const char *shadowNsbmdName);
 BOOL func_ov001_021871d0(Unk02188950 *mapObject);
-u32 func_ov001_021871f8(Unk02188950 *mapObject, int b);
+u32 IsStateNumberBelow(Unk02188950 *mapObject, int stateNumberLimit);
 void DisableMissionRunMapObjectGravity(Unk02188950 *mapObject);
-void func_ov001_02187218(Unk02188950 *mapObject, int b, s32 (*nextFunc)(Unk02188950 *));
-void func_ov001_0218742c(Unk0201ca6c *a, const Vec3s16 *b);
+void StartMapObjectState(Unk02188950 *mapObject, int stateNumber, s32 (*nextFunc)(Unk02188950 *));
+void SetEffectDirection(Unk0201ca6c *emitter, const Vec3s16 *direction);
 void StartModelEffectAtWaterHeight(Unk02188950 *mapObject, u32 modelEffectKind, int timer);
 void StartEffectAtWaterHeight(Unk02188950 *mapObject, u32 offsetX, u32 offsetY, u32 offsetZ, u32 effectId, u32 timer);
 void StartEffectAtRowHeight(Unk02188950 *mapObject, u32 offsetX, u32 offsetY, u32 offsetZ, u32 effectId, u32 timer);

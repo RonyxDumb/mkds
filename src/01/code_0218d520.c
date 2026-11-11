@@ -113,13 +113,13 @@ void func_ov001_0218da1c(Unk02188950 *a) {
     StartEffectAtOffset(a, 0, a->mOffset.y >> 4, 0, 0x427, 0xf);
     StartEffectAtOffset(a, 0, a->mOffset.y >> 4, 0, 0x426, 0xf);
     StartMapObjectSound(&a->mUnk_000, 0x24d);
-    func_ov001_02188230(a);
-    if (func_ov001_02188220(a) == 2) {
+    DecrementCounterToNegativeLimit(a);
+    if (GetAbsoluteCounter(a) == 2) {
         StartMapObjectSound(&a->mUnk_000, 0x24c);
-    } else if (func_ov001_02188220(a) >= 3) {
+    } else if (GetAbsoluteCounter(a) >= 3) {
         a->mUnk_0ac = 0;
     }
-    SetMapObjectModelNsbtpFrameIndex(a->mNsbmd, func_ov001_02188220(a));
+    SetMapObjectModelNsbtpFrameIndex(a->mNsbmd, GetAbsoluteCounter(a));
 }
 
 void func_ov001_0218d9cc(Unk02188950 *a) {
@@ -141,7 +141,7 @@ void func_ov001_0218d950(Unk02188950 *a) {
     float f;
     ModelAnimation *s;
 
-    func_ov001_02187218(a, 1, NULL);
+    StartMapObjectState(a, 1, NULL);
     StartAnimationNoEndCallback(a, a->mPrm->mUnk_088, a->mPrm->mUnk_08c);
     prod = a->mPrm->mUnk_0d0 * a->mUnk_0a8;
     if (prod > 0) {
@@ -186,7 +186,7 @@ void func_ov001_0218d824(Unk02188950 *b, int c) {
     a = b->mPrm;
     SetSpeedTargetAndPerCall(b, (a->mUnk_090 * c / 100), a->mUnk_094);
     a = b->mPrm;
-    func_ov001_02188c48(b, a->mUnk_098 * c / 100, a->mUnk_09c);
+    TurnToPointMoveFollowsAngle(b, a->mUnk_098 * c / 100, a->mUnk_09c);
     SetAnglePointAndMoveAnglePoint(b, &GetNextGroupEntry(b)->mPos);
 }
 
@@ -212,11 +212,11 @@ int func_ov001_0218d520(Unk02188950 *a) {
         } else {
             r4 = func_ov001_02187f38(a);
         }
-        if (func_ov001_02187f7c(a) >= 1) {
+        if (GetCurrentGroupEntryValue(a) >= 1) {
             func_ov001_0218d9cc(a);
         }
         if ((gRaceSetup->mMode == MODE_MISSION_RUN ? IsWinnerDecided() : 0) == FALSE && a->mUnk_0a8 == 0 &&
-            func_ov001_021871f8(a, 3) != 0) {
+            IsStateNumberBelow(a, 3) != 0) {
             if (GetEntryKartInAngleRange(a, a->mPrm->mUnk_120, a->mPrm->mUnk_124, a->mPrm->mUnk_128)) {
                 a->mUnk_0a8 = a->mPrm->mUnk_12c;
                 a->mUnk_150 = 3;
@@ -241,8 +241,8 @@ int func_ov001_0218d520(Unk02188950 *a) {
     if (a->mUnk_0a8 > 0) {
         a->mUnk_0a8 = a->mUnk_0a8 - 1;
     }
-    if (func_ov001_021871f8(a, 5)) {
-        if (func_ov001_02188220(a) == 2) {
+    if (IsStateNumberBelow(a, 5)) {
+        if (GetAbsoluteCounter(a) == 2) {
             a->mUnk_140 = a->mUnk_140 + 1 >= 6 ? 0 : a->mUnk_140 + 1;
             if (a->mUnk_140 == 0) {
                 StartEffectAtOffset(a, 0, 0, 0, 0x3f9, 0x1c);
@@ -251,7 +251,7 @@ int func_ov001_0218d520(Unk02188950 *a) {
             if (a->mUnk_144 == 0) {
                 StartMapObjectSound(&a->mUnk_000, 0x24f);
             }
-        } else if (func_ov001_02188220(a) == 1) {
+        } else if (GetAbsoluteCounter(a) == 1) {
             a->mUnk_140 = a->mUnk_140 + 1 >= 0x12 ? 0 : a->mUnk_140 + 1;
             if (a->mUnk_140 == 0) {
                 StartEffectAtOffset(a, 0, 0, 0, 0x3f8, 0x1c);

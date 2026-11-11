@@ -13,7 +13,7 @@
 #include "Main/Unknown/code_020a3000.h"
 #include "Main/Unknown/code_020f9c6c.h"
 
-void func_ov001_021882b8(void) {
+void ResetMissionRunMapObjects(void) {
     u16 i;
     Unk02188950 *obj;
     Unk02188950 *tableObj;
@@ -24,7 +24,7 @@ void func_ov001_021882b8(void) {
              i <= (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunMapObjectLastIndex() : (u16) 0); i++) {
             obj = gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunMapObject(i) : 0;
             table = FindMapObjectKindUpdateList(0x1ff);
-            func_ov001_02188e88(obj);
+            StopMapObjectState(obj);
             obj->mGravityEnabled = FALSE;
             obj->mUnk_2b8 = 3;
             obj->mSpeed = obj->mSpeedTarget = obj->mSpeedPerCall = 0;

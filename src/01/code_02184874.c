@@ -17,7 +17,7 @@ void func_ov001_02184874(Unk02188950 *donketu, Kart *kart) {
     s32 scale;
 
     if ((GetKart(kart->mIndex)->mUnk_48 & KART_48_BOOST) && kart->mBoostTimer > 0) {
-        if (func_ov001_021871f8(donketu, 8)) {
+        if (IsStateNumberBelow(donketu, 8)) {
             if (donketu->mPrm->mUnk_1dc > 0 || donketu->mPrm->mUnk_1e0 > 0) {
                 Vec3 velocityWhenBoosted = {0, 0, 0};
                 velocityWhenBoosted.x = kart->mVelocity.x;
@@ -33,9 +33,9 @@ void func_ov001_02184874(Unk02188950 *donketu, Kart *kart) {
                 velocityWhenBoosted.y = MUL_FIXED12_NO_ROUND(velocityWhenBoosted.y, scale);
                 velocityWhenBoosted.z = MUL_FIXED12_NO_ROUND(velocityWhenBoosted.z, scale);
                 velocityWhenBoosted.y = donketu->mPrm->mUnk_1dc;
-                func_ov001_02187218(donketu, 7, NULL);
+                StartMapObjectState(donketu, 7, NULL);
                 StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_1d4, donketu->mPrm->mUnk_1d8);
-                func_ov001_02188a8c(donketu, donketu->mPrm->mUnk_1e4, 0x270f000);
+                SpinAngleStopMoveAngle(donketu, donketu->mPrm->mUnk_1e4, 0x270f000);
                 SetVelocity(donketu, &velocityWhenBoosted);
                 SetStoppedCallback(donketu, func_ov001_02184d70);
                 SetSpeedAndClearTarget(donketu, 0);
@@ -71,7 +71,7 @@ void func_ov001_02184874(Unk02188950 *donketu, Kart *kart) {
                 }
             }
         }
-    } else if (func_ov001_021871f8(donketu, 7)) {
+    } else if (IsStateNumberBelow(donketu, 7)) {
         if (donketu->mPrm->mUnk_1c4 > 0 || donketu->mPrm->mUnk_1c8 > 0) {
             Vec3 velocityWhenNotBoosted = {0, 0, 0};
             velocityWhenNotBoosted.x = kart->mVelocity.x;
@@ -87,9 +87,9 @@ void func_ov001_02184874(Unk02188950 *donketu, Kart *kart) {
             velocityWhenNotBoosted.y = MUL_FIXED12_NO_ROUND(velocityWhenNotBoosted.y, scale);
             velocityWhenNotBoosted.z = MUL_FIXED12_NO_ROUND(velocityWhenNotBoosted.z, scale);
             velocityWhenNotBoosted.y = donketu->mPrm->mUnk_1c4;
-            func_ov001_02187218(donketu, 7, NULL);
+            StartMapObjectState(donketu, 7, NULL);
             StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_1bc, donketu->mPrm->mUnk_1c0);
-            func_ov001_02188a8c(donketu, donketu->mPrm->mUnk_1cc, 0x270f000);
+            SpinAngleStopMoveAngle(donketu, donketu->mPrm->mUnk_1cc, 0x270f000);
             SetVelocity(donketu, &velocityWhenNotBoosted);
             SetStoppedCallback(donketu, NULL);
             SetSpeedAndClearTarget(donketu, 0);

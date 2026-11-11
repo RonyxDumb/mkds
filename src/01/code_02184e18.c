@@ -26,15 +26,15 @@ void func_ov001_02184e8c(Unk02188950 *mapObject) {
 }
 
 void func_ov001_02184e6c(Unk02188950 *mapObject) {
-    func_ov001_02188e48(mapObject, 0x19, func_ov001_02184f8c, 0x36, func_ov001_02184f7c);
+    SetTwoAnimationFrameCallbacks(mapObject, 0x19, func_ov001_02184f8c, 0x36, func_ov001_02184f7c);
 }
 
 void func_ov001_02184e18(u16 *mapObject) {
     if (*mapObject == (0x000001f5u)) {
-        func_ov001_02188e48((Unk02188950 *) mapObject, 0x19, func_ov001_02184f40, 0x36, func_ov001_02184f04);
+        SetTwoAnimationFrameCallbacks((Unk02188950 *) mapObject, 0x19, func_ov001_02184f40, 0x36, func_ov001_02184f04);
         return;
     }
     if (*mapObject == (0x000001f6u)) {
-        func_ov001_02188e48((Unk02188950 *) mapObject, 9, func_ov001_02184ec8, 0x26, func_ov001_02184e8c);
+        SetTwoAnimationFrameCallbacks((Unk02188950 *) mapObject, 9, func_ov001_02184ec8, 0x26, func_ov001_02184e8c);
     }
 }

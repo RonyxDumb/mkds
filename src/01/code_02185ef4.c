@@ -295,12 +295,12 @@ void StartModelEffectAtWaterHeight(Unk02188950 *mapObject, u32 modelEffectKind, 
     }
 }
 
-void func_ov001_0218742c(Unk0201ca6c *a, const Vec3s16 *b) {
-    a->mUnk_50 = *b;
+void SetEffectDirection(Unk0201ca6c *emitter, const Vec3s16 *direction) {
+    emitter->mUnk_50 = *direction;
 }
 
-void func_ov001_021872e0(Unk02188950 *mapObject, int offsetX, int offsetY, int offsetZ, int emitterParamX,
-                         int emitterParamY, int emitterParamZ, int effectId, u32 timer) {
+void StartEffectWithRotatedDirection(Unk02188950 *mapObject, int offsetX, int offsetY, int offsetZ, int emitterParamX,
+                                     int emitterParamY, int emitterParamZ, int effectId, u32 timer) {
     int effectIndex;
     Vec3 position;
     Vec3s16 emitterParams;
@@ -322,16 +322,16 @@ void func_ov001_021872e0(Unk02188950 *mapObject, int offsetX, int offsetY, int o
                 emitterParams.y = emitterParamY;
                 emitterParams.z = (MUL_FIXED12_NO_ROUND(emitterParamZ, FX_CosIdx((u16) mapObject->mAngle))) -
                                   (MUL_FIXED12_NO_ROUND(emitterParamX, FX_SinIdx((u16) mapObject->mAngle)));
-                StartEffectWithCallback(effectId, &position, &emitterParams, func_ov001_0218742c);
+                StartEffectWithCallback(effectId, &position, &emitterParams, SetEffectDirection);
             }
         }
     }
 }
 
-void func_ov001_02187218(Unk02188950 *mapObject, int b, s32 (*nextFunc)(Unk02188950 *)) {
+void StartMapObjectState(Unk02188950 *mapObject, int stateNumber, s32 (*nextFunc)(Unk02188950 *)) {
     mapObject->mUnk_158 = NULL;
     mapObject->mUnk_15c = nextFunc;
-    mapObject->mUnk_150 = b;
+    mapObject->mUnk_150 = stateNumber;
     mapObject->mStateFrames = 0;
     mapObject->mUnk_0b4 = mapObject->mUnk_0b4 > 0 ? mapObject->mUnk_0b4 - 1 : 0;
     mapObject->mBounceEnabled = FALSE;
@@ -358,8 +358,8 @@ void DisableMissionRunMapObjectGravity(Unk02188950 *mapObject) {
     mapObject->mGravityEnabled = FALSE;
 }
 
-u32 func_ov001_021871f8(Unk02188950 *mapObject, int b) {
-    if (mapObject->mUnk_150 < b) {
+u32 IsStateNumberBelow(Unk02188950 *mapObject, int stateNumberLimit) {
+    if (mapObject->mUnk_150 < stateNumberLimit) {
         return 1;
     }
     return 0;
@@ -484,7 +484,7 @@ u16 StepAngleSidewaysToPoint(Vec3 *targetPoint, Vec3 *origin, s32 signedMaxStep,
     return angle + turn;
 }
 
-void AdvanceMissionRunMapObject(u32 a, Unk02188950 *mapObject) {
+void AdvanceMissionRunMapObject(u32 unused, Unk02188950 *mapObject) {
     Vec3 probePosition;
     Vec3 pushOut;
     Vec3 v50;
@@ -889,12 +889,13 @@ void DrawMissionRunMapObjectShadow(void *mapObjectList, Unk02188950 *mapObject, 
         shadowPosition.z = mapObject->mUnk_2e8.z;
     } else {
         if (depth >= 4) {
-            s32 t = depth - ((mapObject->mUnk_000.mPos.y - mapObject->mUnk_000.mCourseMapRow->mUnk_00.y) >> 15);
+            s32 adjustedDepth =
+                depth - ((mapObject->mUnk_000.mPos.y - mapObject->mUnk_000.mCourseMapRow->mUnk_00.y) >> 15);
 
-            if (t <= 4) {
-                t = 4;
+            if (adjustedDepth <= 4) {
+                adjustedDepth = 4;
             }
-            depth = (u16) t;
+            depth = (u16) adjustedDepth;
         }
         shadowPosition.x = mapObject->mUnk_000.mPos.x;
         shadowPosition.y = mapObject->mUnk_000.mCourseMapRow->mUnk_00.y;
@@ -908,32 +909,30 @@ void DrawMissionRunMapObjectShadow(void *mapObjectList, Unk02188950 *mapObject, 
     }
     if (depth > 0) {
         MtxFx33 rotationMatrix;
-        Vec3 w;
-        Vec3 u;
-        s32 pairIndex;
-        s32 a;
-        s32 b;
-        s32 c;
+        Vec3 shadowOffset;
+        Vec3 shadowScale;
+        s32 offsetX;
+        s32 offsetY;
+        s32 offsetZ;
 
         value = 0x1e;
         NNS_G3dGeBufferOP_N(0x14, &value, 1);
         NNS_G3dGeBufferOP_N(0x19, SetTranslationMatrixPos(&shadowPosition), 0xc);
-        pairIndex = (u16) mapObject->mAngle >> 4;
-        MTX_RotY33_(&rotationMatrix, FX_SinCosTable_[pairIndex * 2], FX_SinCosTable_[pairIndex * 2 + 1]);
+        MTX_RotY33_(&rotationMatrix, SIN_OF_ANGLE((u16) mapObject->mAngle), COS_OF_ANGLE((u16) mapObject->mAngle));
         NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
-        c = mapObject->mShadowOffsetZ >> 4;
-        b = mapObject->mShadowOffsetY >> 4;
-        a = mapObject->mShadowOffsetX >> 4;
-        w.x = a;
-        w.y = b;
-        w.z = c;
-        NNS_G3dGeBufferOP_N(0x1c, &w, 3);
+        offsetZ = mapObject->mShadowOffsetZ >> 4;
+        offsetY = mapObject->mShadowOffsetY >> 4;
+        offsetX = mapObject->mShadowOffsetX >> 4;
+        shadowOffset.x = offsetX;
+        shadowOffset.y = offsetY;
+        shadowOffset.z = offsetZ;
+        NNS_G3dGeBufferOP_N(0x1c, &shadowOffset, 3);
         NNS_G3dGeBufferOP_N(0x1b, &mapObject->mShadowScaleX, 3);
         if (gShadowScaleToggle == 0) {
-            u.x = 0x1333;
-            u.y = 0x1000;
-            u.z = 0x1333;
-            NNS_G3dGeBufferOP_N(0x1b, &u, 3);
+            shadowScale.x = 0x1333;
+            shadowScale.y = 0x1000;
+            shadowScale.z = 0x1333;
+            NNS_G3dGeBufferOP_N(0x1b, &shadowScale, 3);
         }
         SetMapObjectModelPolygonId(mapObject->mShadowNsbmd, 3);
         SetMapObjectModelAlpha(mapObject->mShadowNsbmd, depth);
@@ -972,14 +971,15 @@ s32 ComputeSphereHitOnMissionRunMapObject(Unk02188950 *mapObject, Vec3 *sphereCe
     }
 }
 
-s32 CollideKartWithMissionRunMapObject(Unk02188950 *mapObject, Kart *kart, u8 *c, u8 *d) {
+s32 CollideKartWithMissionRunMapObject(Unk02188950 *mapObject, Kart *kart, u8 *firstResponsePointer,
+                                       u8 *responsePointer) {
     Vec3 awayDirection;
     s64 pushStrength;
     u32 mode;
     UnkFunc *collisionCallback;
 
-    mode = *c;
-    mapObject->mUnk_2d8 = *d;
+    mode = *firstResponsePointer;
+    mapObject->mUnk_2d8 = *responsePointer;
     mapObject->mUnk_000.mPosStep.x = 0;
     mapObject->mUnk_000.mPosStep.y = 0;
     mapObject->mUnk_000.mPosStep.z = 0;
@@ -1009,11 +1009,12 @@ s32 CollideKartWithMissionRunMapObject(Unk02188950 *mapObject, Kart *kart, u8 *c
     return mapObject->mUnk_2d8;
 }
 
-s32 CollideItemWithMissionRunMapObject(Unk02188950 *mapObject, ItemObject *itemObject, u8 *c, u8 *d) {
+s32 CollideItemWithMissionRunMapObject(Unk02188950 *mapObject, ItemObject *itemObject, u8 *firstResponsePointer,
+                                       u8 *responsePointer) {
     Vec3 awayDirection;
     UnkFunc *collisionCallback;
 
-    mapObject->mUnk_2e0 = *d;
+    mapObject->mUnk_2e0 = *responsePointer;
     awayDirection.x = mapObject->mUnk_000.mPos.x - itemObject->mPos.x;
     awayDirection.y = 0;
     awayDirection.z = mapObject->mUnk_000.mPos.z - itemObject->mPos.z;

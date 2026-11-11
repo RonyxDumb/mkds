@@ -12,11 +12,12 @@
 #include "Main/Unknown/code_020fd264.h"
 #include "Main/Unknown/code_02147000.h"
 
-void func_ov001_02187c88(Unk02188950 *mapObject, s32 b, const Vec3 *offset) {
-    mapObject->mUnk_2e4 = b;
+void SetNodePositionSourceAndBombOffset(Unk02188950 *mapObject, s32 matchValue, const Vec3 *offset) {
+    mapObject->mUnk_2e4 = matchValue;
     mapObject->mUnk_2f4 = *offset;
     mapObject->mNsbmd->mAnimatedModel->mRenderObj.mPtrUser = mapObject;
-    NNS_G3dRenderObjSetCallBack(&mapObject->mNsbmd->mAnimatedModel->mRenderObj, func_ov001_02187d14, 0, 6, 3);
+    NNS_G3dRenderObjSetCallBack(&mapObject->mNsbmd->mAnimatedModel->mRenderObj, StoreNodePositionAndPlaceItemBomb, 0, 6,
+                                3);
 }
 
 void ReleaseAndSetItemBomb(Unk02188950 *mapObject, void *itemBomb) {

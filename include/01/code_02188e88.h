@@ -14,7 +14,7 @@
 #include "Main/Unknown/code_0207a880.h"
 #include "Main/Unknown/code_020b502c.h"
 
-void func_ov001_02188e88(Unk02188950 *mapObject);
+void StopMapObjectState(Unk02188950 *mapObject);
 void ClearAndRunCallback(Unk02188950 *mapObject, void (**callbackSlot)());
 BOOL IsDirectionToPointWithinAngle(Unk02188950 *mapObject, s32 angle, Vec3 *point, s32 halfAngle);
 BOOL IsWithinXzDistanceOfPoint(Unk02188950 *mapObject, Vec3 *point, s32 radius);

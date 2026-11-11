@@ -4,22 +4,22 @@
 #include "01/unk_021a9000.h"
 #include "Main/Unknown/code_020a3000.h"
 
-void func_ov001_02188d8c(Unk02188950 *mapObject, Vec3 *point) {
+void SetPointInRangePoint(Unk02188950 *mapObject, Vec3 *point) {
     if (point != NULL) {
         mapObject->mPoint = *point;
     }
 }
 
-void StartAnimationNoEndCallback(Unk02188950 *mapObject, s32 animationEntry, s32 c) {
-    func_ov001_0219b208(mapObject->mNsbmd, (u16) animationEntry, c, 0);
+void StartAnimationNoEndCallback(Unk02188950 *mapObject, s32 animationEntry, s32 frameStep) {
+    func_ov001_0219b208(mapObject->mNsbmd, (u16) animationEntry, frameStep, 0);
     mapObject->mAnimationEndCallback = NULL;
 }
 
-void StartAnimationWithEndCallback(Unk02188950 *mapObject, s32 animationEntry, s32 c,
+void StartAnimationWithEndCallback(Unk02188950 *mapObject, s32 animationEntry, s32 frameStep,
                                    void (*endCallback)(Unk02188950 *)) {
-    func_ov001_0219b208(mapObject->mNsbmd, (u16) animationEntry, c, 1);
+    func_ov001_0219b208(mapObject->mNsbmd, (u16) animationEntry, frameStep, 1);
     if (endCallback == NULL) {
-        endCallback = func_ov001_02188e88;
+        endCallback = StopMapObjectState;
     }
     mapObject->mAnimationEndCallback = endCallback;
 }

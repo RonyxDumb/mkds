@@ -12,18 +12,18 @@
 
 s32 func_ov001_0218c5d4(Unk02188950 *mapObject) {
     SetAnglePoint(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
-    func_ov001_02188d8c(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
+    SetPointInRangePoint(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
     return 0;
 }
 
 s32 func_ov001_0218c5ac(Unk02188950 *mapObject) {
     SetAnglePoint(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
-    func_ov001_02188d8c(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
+    SetPointInRangePoint(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
     return 0;
 }
 
 s32 func_ov001_0218c584(Unk02188950 *mapObject) {
     SetMoveAnglePoint(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
-    func_ov001_02188d8c(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
+    SetPointInRangePoint(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
     return 0;
 }

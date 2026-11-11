@@ -70,7 +70,7 @@ CourseMapGroupEntry *GetCurrentGroupEntry(Unk02188950 *mapObject) {
     return NULL;
 }
 
-s32 func_ov001_02187f7c(Unk02188950 *mapObject) {
+s32 GetCurrentGroupEntryValue(Unk02188950 *mapObject) {
     if (mapObject->mEntryGroupIndex < gCourseMap->mEntryGroupCount) {
         return GetCourseMapGroupEntry(mapObject->mEntryGroupIndex, mapObject->mEntryIndex)->mUnk_0e;
     }
@@ -98,7 +98,7 @@ CourseMapGroupEntry *GetNextGroupEntry(Unk02188950 *mapObject) {
     return NULL;
 }
 
-void func_ov001_02187eb0(Unk02188950 *mapObject) {
+void DecrementEntryIndexSkipZero(Unk02188950 *mapObject) {
     CourseMap *courseMap;
     CourseMapEntryGroup *entryGroup;
     s32 groupIndex;

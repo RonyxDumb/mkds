@@ -38,7 +38,7 @@ void ClearRaceHudSubScreenKingIceDonketuCells(void) {
 void UpdateRaceHudSubScreenKingIceDonketuCells(void) {
     s32 i;
     s32 cellCount = 0;
-    u32 v = GetRaceHudSubScreenScale();
+    u32 raceHudSubScreenScale = GetRaceHudSubScreenScale();
     MapObject *object;
     Vec3 *pos;
 
@@ -47,7 +47,7 @@ void UpdateRaceHudSubScreenKingIceDonketuCells(void) {
         if (!(object->mFlags & 1)) {
             pos = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(pos, &gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mDrawPos,
-                                                v, 1, 1) != FALSE) {
+                                                raceHudSubScreenScale, 1, 1) != FALSE) {
                 gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xc5);
                 gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mPriority =
                     IsPositionOutsideBox(pos) ? RACE_HUD_PRIORITY_OUTSIDE_BOX : RACE_HUD_PRIORITY_INSIDE_BOX;
@@ -75,7 +75,7 @@ void func_ov001_02189114(void) {
 void func_ov001_02188ff8(void) {
     s32 i;
     s32 cellCount = 0;
-    u32 v = GetRaceHudSubScreenScale();
+    u32 raceHudSubScreenScale = GetRaceHudSubScreenScale();
     MapObject *object;
     Vec3 *pos;
 
@@ -83,8 +83,8 @@ void func_ov001_02188ff8(void) {
         object = data_ov001_021a9ba4->mObjects[i];
         if (!(object->mFlags & 1)) {
             pos = &object->mPos;
-            if (ComputeRaceHudSubScreenPosition(pos, &data_ov001_021a9ba4->mCells[cellCount].mDrawPos, v, 1, 1) !=
-                FALSE) {
+            if (ComputeRaceHudSubScreenPosition(pos, &data_ov001_021a9ba4->mCells[cellCount].mDrawPos,
+                                                raceHudSubScreenScale, 1, 1) != FALSE) {
                 data_ov001_021a9ba4->mCells[cellCount].mCell = GetRaceSNcerEntry(0xc5);
                 data_ov001_021a9ba4->mCells[cellCount].mPriority =
                     IsPositionOutsideBox(pos) ? RACE_HUD_PRIORITY_OUTSIDE_BOX : RACE_HUD_PRIORITY_INSIDE_BOX;
@@ -158,6 +158,6 @@ void ClearAndRunCallback(Unk02188950 *mapObject, void (**callbackSlot)()) {
     }
 }
 
-void func_ov001_02188e88(Unk02188950 *mapObject) {
-    func_ov001_02187218(mapObject, 0, (s32(*)(Unk02188950 *))(0));
+void StopMapObjectState(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 0, (s32(*)(Unk02188950 *))(0));
 }

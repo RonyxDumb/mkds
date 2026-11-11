@@ -19,9 +19,9 @@ void func_ov001_0218acb4(Unk02188950 *mapObject) {
     Vec3 velocity = {0, 0, 0};
 
     IncrementEntryIndex(mapObject);
-    func_ov001_02187218(mapObject, 3, NULL);
+    StartMapObjectState(mapObject, 3, NULL);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_1c0, mapObject->mPrm->mUnk_1c4);
-    func_ov001_02188c48(mapObject, mapObject->mPrm->mUnk_1d0, mapObject->mPrm->mUnk_1d4);
+    TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_1d0, mapObject->mPrm->mUnk_1d4);
     SetAnglePointAndMoveAnglePoint(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
     SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_1c8, mapObject->mPrm->mUnk_1cc);
     SetVelocity(mapObject, &velocity);
@@ -33,7 +33,7 @@ void func_ov001_0218ac04(Unk02188950 *mapObject) {
     Vec3 velocity = {0, 0, 0};
 
     velocity.y = mapObject->mPrm->mUnk_1b8;
-    func_ov001_02187218(mapObject, 3, NULL);
+    StartMapObjectState(mapObject, 3, NULL);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_1a8, mapObject->mPrm->mUnk_1ac);
     SetVelocity(mapObject, &velocity);
     SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_1b0, mapObject->mPrm->mUnk_1b4);

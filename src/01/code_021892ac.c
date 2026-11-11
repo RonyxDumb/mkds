@@ -111,7 +111,7 @@ void UpdateRaceHudSubScreenKurikingCells(void) {
             position = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenKurikingCells->mCells[cellCount].mDrawPos,
                                                 var, 1, 1)) {
-                row = func_ov001_0218b2d4((Unk02188950 *) object);
+                row = GetAbsoluteCounterWrapper((Unk02188950 *) object);
                 racePalette = GetRaceNclrNcgr(6)->mNclr->mData;
                 nclr = NULL;
                 LocateNclr((&nclr), (FindSceneFileWrapper("race_transfer_map_mr_s_o.NCLR")));
@@ -286,7 +286,7 @@ void UpdateRaceHudSubScreenMissionGateCells(void) {
         if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenMissionGateCells->mCells[cellCount].mDrawPos,
                                             unk, 1, 1)) {
             gRaceHudSubScreenMissionGateCells->mCells[cellCount].mCell =
-                GetRaceSNcerEntry(func_ov001_02185b50((MissionGateObject *) object) ? 0x5a : 0x59);
+                GetRaceSNcerEntry(IsMissionGateFrameAdvanced((MissionGateObject *) object) ? 0x5a : 0x59);
             gRaceHudSubScreenMissionGateCells->mCells[cellCount].mPriority =
                 IsPositionOutsideBox(position) ? RACE_HUD_PRIORITY_OUTSIDE_BOX : RACE_HUD_PRIORITY_INSIDE_BOX;
             gRaceHudSubScreenMissionGateCells->mCells[cellCount].mUnk_0e = 0;

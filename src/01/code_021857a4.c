@@ -27,11 +27,11 @@
 
 #pragma optimize_for_size on
 
-u16 func_ov001_02185b50(MissionGateObject *missionGateObject) {
+u16 IsMissionGateFrameAdvanced(MissionGateObject *missionGateObject) {
     return missionGateObject->mNsbmaFrameIndex != 0;
 }
 
-void func_ov001_02185b1c(void) {
+void WriteMissionRunLVselScreenRegisters(void) {
     if (GetMenuScreenSwitched()) {
         MissionRunGX_SetVisiblePlane(0x19);
         GX_SetGraphicsMode(1, 0, 0);
@@ -64,7 +64,7 @@ void MissionRunGXS_SetVisiblePlane(u32 bits) {
 }
 #pragma thumb on
 
-void func_ov001_02185a88(void) {
+void WriteMissionRunMSselScreenRegisters(void) {
     if (GetMenuScreenSwitched()) {
         MissionRunGX_SetVisiblePlane(0x1b);
         GX_SetGraphicsMode(1, 0, 0);
@@ -85,7 +85,7 @@ void UpdateMissionRunMSsel(void) {
     }
 }
 
-void func_ov001_02185a28(void) {
+void WriteTimeAttackTopMenuRegisters(void) {
     if (GetMenuScreenSwitched()) {
         TimeAttackGX_SetVisiblePlane(0x19);
         GX_SetGraphicsMode(1, 0, 0);
@@ -120,7 +120,7 @@ void UpdateTimeAttackTopMenu(void) {
     }
 }
 
-void func_ov001_02185980(void) {
+void WriteTimeAttackCharacterRegisters(void) {
     if (GetMenuScreenSwitched()) {
         TimeAttackGX_SetVisiblePlane(0xb);
         GX_SetGraphicsMode(1, 0, 1);
@@ -142,7 +142,7 @@ void UpdateTimeAttackSelectCharacter(void) {
     }
 }
 
-void func_ov001_02185928(void) {
+void WriteTimeAttackKartRegisters(void) {
     if (GetMenuScreenSwitched()) {
         TimeAttackGX_SetVisiblePlane(0xb);
         GX_SetGraphicsMode(1, 0, 1);
@@ -162,7 +162,7 @@ void UpdateTimeAttackSelectKart(void) {
     }
 }
 
-void func_ov001_021858c8(void) {
+void WriteTimeAttackCupGridRegisters(void) {
     if (GetMenuScreenSwitched()) {
         TimeAttackGX_SetVisiblePlane(0x19);
         GX_SetGraphicsMode(1, 0, 0);
@@ -173,11 +173,11 @@ void func_ov001_021858c8(void) {
 }
 
 #pragma thumb off
-void func_ov001_021858b4(s32 value) {
+void TimeAttackSetMenuEntryKind(s32 value) {
     gMenuShared->mMenuEntryKind = value;
 }
 
-void func_ov001_021858a0(s32 value) {
+void TimeAttackSetRaceSetupRequested(s32 value) {
     gMenuShared->mRaceSetupRequested = value;
 }
 #pragma thumb on
@@ -192,13 +192,13 @@ void UpdateTimeAttackSelectCupGrid(void) {
             break;
         case 3:
             SwitchMenuScreen(0, 0x1f);
-            func_ov001_021858b4(0);
-            func_ov001_021858a0(1);
+            TimeAttackSetMenuEntryKind(0);
+            TimeAttackSetRaceSetupRequested(1);
             break;
     }
 }
 
-void func_ov001_02185828(void) {
+void WriteTimeAttackCupCourseRegisters(void) {
     if (GetMenuScreenSwitched()) {
         TimeAttackGX_SetVisiblePlane(0x19);
         GX_SetGraphicsMode(1, 0, 0);
@@ -228,7 +228,7 @@ void WriteMainBg1Offset(u32 offsetX, u32 offsetY) {
     reg_G2_BG1OFS = (offsetX & 0x1ff) | ((offsetY << 16) & 0x1ff0000);
 }
 
-void func_ov001_021857a4(u32 bits) {
+void WriteMainBg1CntLowBits(u32 bits) {
     vu16 *bg1Cnt = &reg_G2_BG1CNT;
     *bg1Cnt = (*bg1Cnt & ~3) | bits;
 }

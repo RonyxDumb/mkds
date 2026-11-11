@@ -11,10 +11,11 @@ void CreateMissionGateUpdateList(void);
 void CreateMissionGateDrawList(void);
 void CreateMissionGateKindData(void);
 void UpdateMissionGate(
-    void *a, MissionGateObject *missionGateObject); /* skipped for objects with mFlags & 4 (parked pool objects) */
+    void *unused, MissionGateObject *missionGateObject); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void InitMissionGateObjects(MapObjectList *missionGateList);
 void DrawMissionGate(void *mapObjectList, MissionGateObject *missionGateObject);
-void func_ov001_02185d18(void);
-void LoadMissionGate(void *a);
-u32 CollideKartWithMissionGate(MissionGateObject *missionGateObject, Kart *kart, u8 *e, u8 *f);
+void MissionGateNop(void);
+void LoadMissionGate(void *mapObjectList);
+u32 CollideKartWithMissionGate(MissionGateObject *missionGateObject, Kart *kart, u8 *firstResponsePointer,
+                               u8 *responsePointer);
 void InitMissionGate(MissionGateObject *missionGateObject);

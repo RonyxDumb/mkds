@@ -70,13 +70,13 @@ void func_ov001_0218d2c4(Unk02188950 *a) {
     Unk02188950 *p;
     SoundStartParams local;
 
-    func_ov001_02187218(a, 8, NULL);
+    StartMapObjectState(a, 8, NULL);
     StartAnimationNoEndCallback(a, a->mPrm->mUnk_070, a->mPrm->mUnk_074);
     SetMapObjectModelNsbtpFrameIndex(a->mNsbmd, 0);
     list = FindMapObjectKindUpdateList(0x1fe);
     if (list != NULL) {
         for (i = 0; i < list->mMapObjectCount && (p = list->mMapObjects[i]) != NULL; i++) {
-            func_ov001_02187218(p, 1, NULL);
+            StartMapObjectState(p, 1, NULL);
             StartAnimationNoEndCallback(p, p->mPrm->mUnk_070, p->mPrm->mUnk_074);
             SetMapObjectModelNsbtpFrameIndex((p->mNsbmd), 0);
         }
@@ -92,7 +92,7 @@ void func_ov001_0218d280(void) {
     Unk02188950 *p;
     int i;
 
-    func_ov001_021882b8();
+    ResetMissionRunMapObjects();
     list = FindMapObjectKindUpdateList(0x1fe);
     if (list != NULL) {
         for (i = 0; i < list->mMapObjectCount && (p = list->mMapObjects[i]) != NULL; i++) {
@@ -112,28 +112,28 @@ s32 func_ov001_0218d264(Unk02188950 *a) {
 }
 
 void func_ov001_0218d23c(Unk02188950 *a) {
-    func_ov001_02187218(a, 8, func_ov001_0218d264);
+    StartMapObjectState(a, 8, func_ov001_0218d264);
     StartAnimationNoEndCallback(a, a->mPrm->mUnk_064, a->mPrm->mUnk_068);
 }
 
 void func_ov001_0218d214(Unk02188950 *a) {
-    func_ov001_02187218(a, 8, (s32(*)(Unk02188950 *))(0));
+    StartMapObjectState(a, 8, (s32(*)(Unk02188950 *))(0));
     StartAnimationWithEndCallback(a, a->mPrm->mUnk_058, a->mPrm->mUnk_05c, &func_ov001_0218d23c);
 }
 
 void func_ov001_0218d1e0(Unk02188950 *a) {
-    func_ov001_02187218(a, 8, (s32(*)(Unk02188950 *))(0));
+    StartMapObjectState(a, 8, (s32(*)(Unk02188950 *))(0));
     StartAnimationNoEndCallback(a, a->mPrm->mUnk_04c, a->mPrm->mUnk_050);
     StartStateFrameCountCallback(a, a->mPrm->mUnk_054, &func_ov001_0218d214);
 }
 
 void func_ov001_0218d1bc(Unk02188950 *a) {
-    func_ov001_02187218(a, 8, (s32(*)(Unk02188950 *))(0));
+    StartMapObjectState(a, 8, (s32(*)(Unk02188950 *))(0));
     StartAnimationNoEndCallback(a, a->mPrm->mUnk_040, a->mPrm->mUnk_044);
 }
 
 void func_ov001_0218d188(Unk02188950 *a) {
-    func_ov001_02187218(a, 8, (s32(*)(Unk02188950 *))(0));
+    StartMapObjectState(a, 8, (s32(*)(Unk02188950 *))(0));
     StartAnimationNoEndCallback(a, a->mPrm->mUnk_034, a->mPrm->mUnk_038);
     StartStateFrameCountCallback(a, a->mPrm->mUnk_03c, &func_ov001_0218d1bc);
 }
@@ -164,34 +164,34 @@ s32 func_ov001_0218d0fc(Unk02188950 *a) {
 }
 
 void func_ov001_0218d0d4(Unk02188950 *a) {
-    func_ov001_02187218(a, 8, func_ov001_0218d16c);
+    StartMapObjectState(a, 8, func_ov001_0218d16c);
     StartAnimationNoEndCallback(a, a->mPrm->mUnk_064, a->mPrm->mUnk_068);
 }
 
 void func_ov001_0218d0a8(Unk02188950 *a) {
-    func_ov001_02187218(a, 8, func_ov001_0218d0fc);
+    StartMapObjectState(a, 8, func_ov001_0218d0fc);
     StartAnimationWithEndCallback(a, a->mPrm->mUnk_058, a->mPrm->mUnk_05c, &func_ov001_0218d0d4);
 }
 
 void func_ov001_0218d074(Unk02188950 *a) {
-    func_ov001_02187218(a, 8, (s32(*)(Unk02188950 *))(0));
+    StartMapObjectState(a, 8, (s32(*)(Unk02188950 *))(0));
     StartAnimationNoEndCallback(a, a->mPrm->mUnk_04c, a->mPrm->mUnk_050);
     StartStateFrameCountCallback(a, a->mPrm->mUnk_054, &func_ov001_0218d0a8);
 }
 
 void func_ov001_0218d050(Unk02188950 *a) {
-    func_ov001_02187218(a, 8, NULL);
+    StartMapObjectState(a, 8, NULL);
     StartAnimationNoEndCallback(a, a->mPrm->mUnk_040, a->mPrm->mUnk_044);
 }
 
 void func_ov001_0218d01c(Unk02188950 *a) {
-    func_ov001_02187218(a, 8, (s32(*)(Unk02188950 *))(0));
+    StartMapObjectState(a, 8, (s32(*)(Unk02188950 *))(0));
     StartAnimationNoEndCallback(a, a->mPrm->mUnk_034, a->mPrm->mUnk_038);
     StartStateFrameCountCallback(a, a->mPrm->mUnk_03c, &func_ov001_0218d050);
 }
 
 void func_ov001_0218cfe8(Unk02188950 *a) {
-    func_ov001_02187218(a, 8, NULL);
+    StartMapObjectState(a, 8, NULL);
     StartAnimationNoEndCallback(a, a->mPrm->mUnk_064, a->mPrm->mUnk_068);
     StartStateFrameCountCallback(a, a->mPrm->mUnk_054, &func_ov001_0218d0a8);
 }
@@ -222,7 +222,7 @@ void UpdateHanachan(u32 a, Unk02188950 *b) {
         r = 0;
     }
     if (r != 0) {
-        if (func_ov001_021871f8(b, 1) != 0) {
+        if (IsStateNumberBelow(b, 1) != 0) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 r = IsKartEliminated((u16) gRaceSetup->mEntryIndex);
             } else {
@@ -235,7 +235,7 @@ void UpdateHanachan(u32 a, Unk02188950 *b) {
             }
         }
     } else {
-        if (func_ov001_021871f8(b, 1) != 0) {
+        if (IsStateNumberBelow(b, 1) != 0) {
             func_ov001_0218d3ec(b);
         }
     }

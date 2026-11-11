@@ -5,13 +5,13 @@
 #include "01/code_0218a568.h"
 
 void func_ov001_0218a52c(Unk02188950 *mapObject) {
-    func_ov001_02187218(mapObject, 7, NULL);
+    StartMapObjectState(mapObject, 7, NULL);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_174, mapObject->mPrm->mUnk_178, NULL);
     SetItemCollisionCallback(mapObject, (UnkFunc *) &BombKingItemHitCallback);
 }
 
 void func_ov001_0218a4d0(Unk02188950 *mapObject) {
-    func_ov001_02187218(mapObject, 7, &func_ov001_0218a568);
+    StartMapObjectState(mapObject, 7, &SwitchToBounceEffectsOnCollision);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_164, mapObject->mPrm->mUnk_168);
     SetStoppedCallback(mapObject, &func_ov001_0218a52c);
     SetSpeedAndClearTarget(mapObject, 0);
@@ -20,13 +20,13 @@ void func_ov001_0218a4d0(Unk02188950 *mapObject) {
 }
 
 void func_ov001_0218a4a0(Unk02188950 *mapObject) {
-    func_ov001_02187218(mapObject, 7, NULL);
+    StartMapObjectState(mapObject, 7, NULL);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_070, mapObject->mPrm->mUnk_074, NULL);
     SetItemCollisionCallback(mapObject, (UnkFunc *) &BombKingItemHitCallback);
 }
 
 void func_ov001_0218a444(Unk02188950 *mapObject) {
-    func_ov001_02187218(mapObject, 7, &func_ov001_0218a568);
+    StartMapObjectState(mapObject, 7, &SwitchToBounceEffectsOnCollision);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_164, mapObject->mPrm->mUnk_168);
     SetStoppedCallback(mapObject, &func_ov001_0218a4a0);
     SetSpeedAndClearTarget(mapObject, 0);

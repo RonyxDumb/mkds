@@ -18,11 +18,11 @@ void ThrowStoredItemBomb(Unk02188950 *mapObject) {
         velocity.x = (MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_134, FX_SinIdx((u16) mapObject->mMoveAngle)));
         velocity.y = mapObject->mPrm->mUnk_138;
         velocity.z = (MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_134, FX_CosIdx((u16) mapObject->mMoveAngle)));
-        func_ov001_02187bfc(mapObject, &velocity, mapObject->mPrm->mUnk_13c);
+        ThrowOrReleaseStoredItemBomb(mapObject, &velocity, mapObject->mPrm->mUnk_13c);
     }
 }
 
-void func_ov001_0218b034(Unk02188950 *mapObject) {
+void ThrowItemBombsInRing(Unk02188950 *mapObject) {
     RandomState64 *rng;
     s32 angle;
     s32 i;
@@ -34,7 +34,7 @@ void func_ov001_0218b034(Unk02188950 *mapObject) {
     for (i = 0; i < 3; i++) {
         Vec3 vel = {0, 0, 0};
         angle += 0x5555;
-        if (func_ov001_02188220(mapObject) == 0) {
+        if (GetAbsoluteCounter(mapObject) == 0) {
             pos.x =
                 mapObject->mUnk_000.mPos.x + MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_14c, SIN_OF_ANGLE((u16) angle));
             pos.y = mapObject->mUnk_000.mPos.y + mapObject->mPrm->mUnk_150;

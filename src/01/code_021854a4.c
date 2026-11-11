@@ -5,7 +5,7 @@
 #include "gx.h"
 #include "code_02148950.h"
 
-void func_ov001_021854a4(void) {
+void WriteSelectCupGridScreenRegisters(void) {
     int screenChanged;
     screenChanged = GetMenuScreenSwitched();
     if (screenChanged != 0) {
