@@ -7,18 +7,18 @@
 #include "00/code_0218aea4.h"
 #include "00/code_0218e2dc.h"
 
-void func_ov000_0218acf0(MatchingServerList *a, u32 b) {
-    a->mUnk_000.mUnk_28 = b;
+void SBQueryEngineSetPublicIP(MatchingServerList *matchingServerList, u32 publicIp) {
+    matchingServerList->mUnk_000.mMyPublicIp = publicIp;
 }
 
-void func_ov000_0218acd8(MatchingServerList *a) {
-    func_ov000_0218ae5c(&a->mUnk_000.mUnk_14);
-    func_ov000_0218ae5c(&a->mUnk_000.mUnk_08);
+void SBEngineHaltUpdates(MatchingServerList *matchingServerList) {
+    FIFOClear(&matchingServerList->mUnk_000.mPendingList);
+    FIFOClear(&matchingServerList->mUnk_000.mQueryList);
 }
 
-void func_ov000_0218acb0(MatchingServerList *p) {
-    func_ov000_0218e53c(p->mUnk_000.mUnk_20);
-    p->mUnk_000.mUnk_20 = 0xffffffff;
-    func_ov000_0218ae5c(&p->mUnk_000.mUnk_14);
-    func_ov000_0218ae5c(&p->mUnk_000.mUnk_08);
+void SBEngineCleanup(MatchingServerList *matchingServerList) {
+    func_ov000_0218e53c(matchingServerList->mUnk_000.mQuerySock);
+    matchingServerList->mUnk_000.mQuerySock = 0xffffffff;
+    FIFOClear(&matchingServerList->mUnk_000.mPendingList);
+    FIFOClear(&matchingServerList->mUnk_000.mQueryList);
 }

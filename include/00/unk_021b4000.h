@@ -134,7 +134,7 @@ typedef struct SbServerList {
 } SbServerList;
 
 extern SbServerList *data_ov000_021b4d24;
-extern s32 data_ov000_021b4d28;
+extern s32 gGsiAcResult;
 extern const char *data_ov000_021b4d20;
 extern char data_ov000_021b4d2c[];
 

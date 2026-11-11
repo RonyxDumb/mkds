@@ -4,16 +4,16 @@
 #include "00/unk_021b6000.h"
 #include "00/code_021a8aa8.h"
 
-u32 func_ov000_0218a24c(ACWORK *a) {
-    u32 v1;
-    u32 v2;
-    int v3;
-    v1 = DWCi_AC_GetMemPtr(1);
-    v2 = DWCi_AC_GetMemPtr(4);
-    func_ov000_0218a064((const u32 *) v1, a, (Unk0218a064 *) v2);
+u32 ConnectTestStart(ACWORK *work) {
+    u32 hold;
+    u32 config;
+    int result;
+    hold = DWCi_AC_GetMemPtr(1);
+    config = DWCi_AC_GetMemPtr(4);
+    MakeSOCConfig((const u32 *) hold, work, (SOCConfig *) config);
     *(u32 *) &data_ov000_021b5f98 = 4;
-    v3 = func_ov000_021a8c94((void *) v2);
-    if (v3 != 0) {
+    result = func_ov000_021a8c94((void *) config);
+    if (result != 0) {
         DWCi_AC_SetError(2);
         return 0x11;
     }

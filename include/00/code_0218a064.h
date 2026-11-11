@@ -5,17 +5,17 @@
 typedef struct ACWORK ACWORK;
 
 // Object behind gNetCheck, 0x58 bytes.
-typedef struct Unk0218a064 {
+typedef struct SOCConfig {
     /* 00 */ u8 pad_00[4];
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
-    /* 18 */ u32 mUnk_18;
-    /* 1c */ u32 mUnk_1c;
-    /* 20 */ u32 mUnk_20;
+    /* 04 */ u32 mAlloc;
+    /* 08 */ u32 mFree;
+    /* 0c */ u32 mFlag;
+    /* 10 */ u32 mAddr;
+    /* 14 */ u32 mNetmask;
+    /* 18 */ u32 mRouter;
+    /* 1c */ u32 mDns1;
+    /* 20 */ u32 mDns2;
     /* 24 */ u8 pad_24[0x34];
-} Unk0218a064;
+} SOCConfig;
 
-void func_ov000_0218a064(const u32 *a, ACWORK *object, Unk0218a064 *out);
+void MakeSOCConfig(const u32 *hold, ACWORK *object, SOCConfig *out);

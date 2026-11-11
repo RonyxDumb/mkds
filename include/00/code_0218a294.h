@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_ov000_0218a294(void);
+u32 DWCi_AC_ConnectTest(void);

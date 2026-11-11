@@ -11,52 +11,52 @@
 #include "00/unk_021b0000.h"
 #include "code_0200f5ac.h"
 
-u32 func_ov000_02189fd0(s32 a) {
+u32 ConvNetMask(s32 a) {
     s32 i;
-    u32 m;
+    u32 mask;
 
     a = 0x20 - a;
     i = 0;
-    m = ~i;
+    mask = ~i;
     for (; i < a; i++) {
-        m <<= 1;
+        mask <<= 1;
     }
-    return ((m << 24) & 0xff000000) | (((m << 8) & 0xff0000) | (((m >> 24) & 0xff) | ((m >> 8) & 0xff00)));
+    return ((mask << 24) & 0xff000000) | (((mask << 8) & 0xff0000) | (((mask >> 24) & 0xff) | ((mask >> 8) & 0xff00)));
 }
 
-void func_ov000_02189f64(ACWORK *v1) {
-    DWCMemPage *e;
-    s32 v2;
-    u32 a;
-    u32 b;
+void CheckSetDNS(ACWORK *work) {
+    DWCMemPage *info;
+    s32 dnsSum;
+    u32 dns1;
+    u32 dns2;
 
-    if (v1->mUnk_d0d < 6) {
-        e = &v1->mUnk_000[DWCi_ConvConnectAPType(v1->mUnk_d0d)];
-        v2 = e->mUnk_c8[3] + (e->mUnk_c8[2] + (e->mUnk_c8[0] + e->mUnk_c8[1]));
-        if (e->mUnk_c0[0] == 0 && v2 != 0) {
-            a = func_ov000_0218a018(e->mUnk_c8);
-            b = func_ov000_0218a018(e->mUnk_cc);
-            func_ov000_021a8e78(&a, &b);
+    if (work->mUnk_d0d < 6) {
+        info = &work->mUnk_000[DWCi_ConvConnectAPType(work->mUnk_d0d)];
+        dnsSum = info->mUnk_c8[3] + (info->mUnk_c8[2] + (info->mUnk_c8[0] + info->mUnk_c8[1]));
+        if (info->mUnk_c0[0] == 0 && dnsSum != 0) {
+            dns1 = ConvAddress(info->mUnk_c8);
+            dns2 = ConvAddress(info->mUnk_cc);
+            func_ov000_021a8e78(&dns1, &dns2);
         }
     }
 }
 
-u8 func_ov000_02189f00(void) {
-    u32 t;
-    ACWORK *v1;
-    Unk02189f00 s;
-    s32 r;
+u8 DWCi_AC_Start(void) {
+    u32 wcmPhase;
+    ACWORK *work;
+    Unk02189f00 config;
+    s32 result;
 
-    t = func_ov000_021a5bfc();
-    v1 = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
-    if (t == 1) {
-        s.mUnk_00 = v1->mUnk_d0a;
-        s.mUnk_04 = 0;
-        s.mUnk_08 = 0;
-        s.mUnk_0c = 0;
-        func_ov000_0218973c(0);
-        r = func_ov000_021a629c((WCMConfig *) &s, (void (*)(Unk021a586c *)) DWCi_AC_CallBackWCM);
-        if (r == 1 || r >= 4) {
+    wcmPhase = func_ov000_021a5bfc();
+    work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
+    if (wcmPhase == 1) {
+        config.mUnk_00 = work->mUnk_d0a;
+        config.mUnk_04 = 0;
+        config.mUnk_08 = 0;
+        config.mUnk_0c = 0;
+        DWCi_AC_MakeSearchList(0);
+        result = func_ov000_021a629c((WCMConfig *) &config, (void (*)(Unk021a586c *)) DWCi_AC_CallBackWCM);
+        if (result == 1 || result >= 4) {
             DWCi_AC_SetError(1);
             return 0x11;
         }
@@ -66,195 +66,195 @@ u8 func_ov000_02189f00(void) {
     return 2;
 }
 
-u32 func_ov000_02189e80(void) {
-    ACWORK *v1;
-    u32 s;
-    u32 t;
+u32 DWCi_AC_SearchAP(void) {
+    ACWORK *work;
+    u32 phase;
+    u32 wcmPhase;
 
-    v1 = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
-    s = DWCi_AC_GetPhase();
-    t = func_ov000_021a5bfc();
-    if (s == 2 && t == 3) {
-        s = func_ov000_02189cdc(v1);
-    } else if (s == 6) {
-        s = func_ov000_021898dc(v1, s);
-    } else if (t == 3 || t == 6) {
-        s = func_ov000_021898dc(v1, s);
-        if (s != 7) {
-            if (s == 3) {
-                s = func_ov000_02189c50(v1);
-            } else if (s == 4) {
-                s = func_ov000_02189b28(v1);
-            } else if (s == 5) {
-                s = func_ov000_02189a28(v1);
+    work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
+    phase = DWCi_AC_GetPhase();
+    wcmPhase = func_ov000_021a5bfc();
+    if (phase == 2 && wcmPhase == 3) {
+        phase = SearchStart(work);
+    } else if (phase == 6) {
+        phase = SearchEndCheck(work, phase);
+    } else if (wcmPhase == 3 || wcmPhase == 6) {
+        phase = SearchEndCheck(work, phase);
+        if (phase != 7) {
+            if (phase == 3) {
+                phase = SearchAround(work);
+            } else if (phase == 4) {
+                phase = SearchDifferChannel(work);
+            } else if (phase == 5) {
+                phase = SearchStealth(work);
             }
         }
     }
-    return s;
+    return phase;
 }
 
-void func_ov000_02189e54(u32 a) {
-    ACWORK *v1;
+void DWCi_AC_SetStealthChannel(u32 channel) {
+    ACWORK *work;
 
-    v1 = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
-    if (a > 0xd) {
-        a = 0xd;
+    work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
+    if (channel > 0xd) {
+        channel = 0xd;
     }
-    v1->mUnk_d16 |= 1 << (a - 1);
+    work->mUnk_d16 |= 1 << (channel - 1);
 }
 
-s8 func_ov000_02189df8(s32 a) {
-    ACWORK *v1;
-    u16 m;
+s8 DWCi_AC_GetStealthChannel(s32 index) {
+    ACWORK *work;
+    u16 mask;
     u8 i;
-    u8 n;
+    u8 found;
 
-    v1 = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
-    m = v1->mUnk_d16;
-    if (m == 0) {
+    work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
+    mask = work->mUnk_d16;
+    if (mask == 0) {
         return -1;
     }
-    n = i = 0;
+    found = i = 0;
     for (; i < 0xd; i++) {
-        if ((m & (1 << i)) != 0) {
-            if (n == a) {
+        if ((mask & (1 << i)) != 0) {
+            if (found == index) {
                 return i;
             }
-            n++;
+            found++;
         }
     }
     return -1;
 }
 
-void func_ov000_02189d2c(u32 a) {
-    ACWORK *v1;
+void DWCi_AC_SearchReStart(u32 phase) {
+    ACWORK *work;
 
-    v1 = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
-    switch (a) {
+    work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
+    switch (phase) {
         case 3:
-            v1->mUnk_cb0 = OS_GetTick();
-            func_ov000_02189868(WCM_Bssid_Any, WCM_Essid_Any, v1->mUnk_d11, 0x200000);
+            work->mUnk_cb0 = OS_GetTick();
+            ScanStart(WCM_Bssid_Any, WCM_Essid_Any, work->mUnk_d11, 0x200000);
             break;
         case 4:
-            v1->mUnk_cb0 = OS_GetTick();
-            func_ov000_02189868(WCM_Bssid_Any, v1->mUnk_300[v1->mUnk_d0f].mUnk_04, v1->mUnk_300[v1->mUnk_d0f].mUnk_02,
-                                0x300000);
+            work->mUnk_cb0 = OS_GetTick();
+            ScanStart(WCM_Bssid_Any, work->mUnk_300[work->mUnk_d0f].mUnk_04, work->mUnk_300[work->mUnk_d0f].mUnk_02,
+                      0x300000);
             break;
         case 5:
-            v1->mUnk_cb0 = OS_GetTick();
-            func_ov000_02189868(WCM_Bssid_Any, v1->mUnk_300[v1->mUnk_d0f].mUnk_04, v1->mUnk_d11, 0x300000);
+            work->mUnk_cb0 = OS_GetTick();
+            ScanStart(WCM_Bssid_Any, work->mUnk_300[work->mUnk_d0f].mUnk_04, work->mUnk_d11, 0x300000);
             break;
     }
 }
 
-u32 func_ov000_02189cdc(ACWORK *v1) {
-    v1->mUnk_cb0 = OS_GetTick();
-    v1->mUnk_d11 = 0;
-    v1->mUnk_cb0 = OS_GetTick();
-    func_ov000_02189868(WCM_Bssid_Any, WCM_Essid_Any, v1->mUnk_d11, 0x200000);
+u32 SearchStart(ACWORK *work) {
+    work->mUnk_cb0 = OS_GetTick();
+    work->mUnk_d11 = 0;
+    work->mUnk_cb0 = OS_GetTick();
+    ScanStart(WCM_Bssid_Any, WCM_Essid_Any, work->mUnk_d11, 0x200000);
     return 3;
 }
 
-u32 func_ov000_02189c50(ACWORK *v1) {
-    if ((OS_GetTick() - v1->mUnk_cb0) * 64 / 0x82ea >= 0x12c) {
-        v1->mUnk_d11 += 2;
-        if (v1->mUnk_d11 >= 0xd) {
-            return func_ov000_02189998(v1, 3);
+u32 SearchAround(ACWORK *work) {
+    if ((OS_GetTick() - work->mUnk_cb0) * 64 / 0x82ea >= 0x12c) {
+        work->mUnk_d11 += 2;
+        if (work->mUnk_d11 >= 0xd) {
+            return NextSearchCheck(work, 3);
         }
-        v1->mUnk_cb0 = OS_GetTick();
-        func_ov000_02189868(WCM_Bssid_Any, WCM_Essid_Any, v1->mUnk_d11, 0x200000);
+        work->mUnk_cb0 = OS_GetTick();
+        ScanStart(WCM_Bssid_Any, WCM_Essid_Any, work->mUnk_d11, 0x200000);
     }
     return 3;
 }
 
-u32 func_ov000_02189c04(ACWORK *v1) {
-    v1->mUnk_d15 = 0;
-    v1->mUnk_d0b_4 = v1->mUnk_d0b_4 + 1;
-    func_ov000_0218973c(0);
-    v1->mUnk_d11 = 1;
+u32 SearchAround2ndLap(ACWORK *work) {
+    work->mUnk_d15 = 0;
+    work->mUnk_d0b_4 = work->mUnk_d0b_4 + 1;
+    DWCi_AC_MakeSearchList(0);
+    work->mUnk_d11 = 1;
     return 3;
 }
 
-u32 func_ov000_02189b28(ACWORK *v1) {
-    if ((OS_GetTick() - v1->mUnk_cb0) * 64 / 0x82ea >= 0x96 || v1->mUnk_300[v1->mUnk_d0f].mUnk_00_lo == 1) {
-        v1->mUnk_300[v1->mUnk_d0f].mUnk_00_lo = 0;
-        v1->mUnk_d0f++;
-        if (v1->mUnk_d10 <= v1->mUnk_d0f) {
-            v1->mUnk_d0f = 0;
-            return func_ov000_02189998(v1, 4);
+u32 SearchDifferChannel(ACWORK *work) {
+    if ((OS_GetTick() - work->mUnk_cb0) * 64 / 0x82ea >= 0x96 || work->mUnk_300[work->mUnk_d0f].mUnk_00_lo == 1) {
+        work->mUnk_300[work->mUnk_d0f].mUnk_00_lo = 0;
+        work->mUnk_d0f++;
+        if (work->mUnk_d10 <= work->mUnk_d0f) {
+            work->mUnk_d0f = 0;
+            return NextSearchCheck(work, 4);
         }
-        v1->mUnk_cb0 = OS_GetTick();
-        func_ov000_02189868(WCM_Bssid_Any, v1->mUnk_300[v1->mUnk_d0f].mUnk_04, v1->mUnk_300[v1->mUnk_d0f].mUnk_02,
-                            0x300000);
+        work->mUnk_cb0 = OS_GetTick();
+        ScanStart(WCM_Bssid_Any, work->mUnk_300[work->mUnk_d0f].mUnk_04, work->mUnk_300[work->mUnk_d0f].mUnk_02,
+                  0x300000);
     }
     return 4;
 }
 
-u32 func_ov000_02189a28(ACWORK *v1) {
-    if ((OS_GetTick() - v1->mUnk_cb0) * 64 / 0x82ea >= 0x96 || v1->mUnk_300[v1->mUnk_d0f].mUnk_00_lo == 1) {
-        v1->mUnk_300[v1->mUnk_d0f].mUnk_00_lo = 0;
-        v1->mUnk_d0f++;
-        if (v1->mUnk_d10 == v1->mUnk_d0f) {
-            v1->mUnk_d15++;
-            v1->mUnk_d0f = 0;
-            v1->mUnk_d11 = func_ov000_02189df8(v1->mUnk_d15);
+u32 SearchStealth(ACWORK *work) {
+    if ((OS_GetTick() - work->mUnk_cb0) * 64 / 0x82ea >= 0x96 || work->mUnk_300[work->mUnk_d0f].mUnk_00_lo == 1) {
+        work->mUnk_300[work->mUnk_d0f].mUnk_00_lo = 0;
+        work->mUnk_d0f++;
+        if (work->mUnk_d10 == work->mUnk_d0f) {
+            work->mUnk_d15++;
+            work->mUnk_d0f = 0;
+            work->mUnk_d11 = DWCi_AC_GetStealthChannel(work->mUnk_d15);
         }
-        if (v1->mUnk_d11 < 0) {
-            v1->mUnk_d15 = 0;
-            return func_ov000_02189998(v1, 5);
+        if (work->mUnk_d11 < 0) {
+            work->mUnk_d15 = 0;
+            return NextSearchCheck(work, 5);
         }
-        v1->mUnk_cb0 = OS_GetTick();
-        func_ov000_02189868(WCM_Bssid_Any, v1->mUnk_300[v1->mUnk_d0f].mUnk_04, v1->mUnk_d11, 0x300000);
+        work->mUnk_cb0 = OS_GetTick();
+        ScanStart(WCM_Bssid_Any, work->mUnk_300[work->mUnk_d0f].mUnk_04, work->mUnk_d11, 0x300000);
     }
     return 5;
 }
 
-u32 func_ov000_02189998(ACWORK *v1, u32 a) {
-    switch (a) {
+u32 NextSearchCheck(ACWORK *work, u32 phase) {
+    switch (phase) {
         case 3:
-            if (v1->mUnk_d12 != 0 || v1->mUnk_d16 != 0) {
-                if (func_ov000_0218973c(1) != 0) {
-                    a = 4;
+            if (work->mUnk_d12 != 0 || work->mUnk_d16 != 0) {
+                if (DWCi_AC_MakeSearchList(1) != 0) {
+                    phase = 4;
                 } else {
-                    a = func_ov000_02189888(v1);
+                    phase = CheckStartStealthSearch(work);
                 }
-            } else if (v1->mUnk_d0b_4 < 1) {
-                a = func_ov000_02189c04(v1);
+            } else if (work->mUnk_d0b_4 < 1) {
+                phase = SearchAround2ndLap(work);
             } else {
-                a = 6;
+                phase = 6;
             }
             break;
         case 4:
-            a = func_ov000_02189888(v1);
+            phase = CheckStartStealthSearch(work);
             break;
         case 5:
-            if (v1->mUnk_d0b_4 < 1) {
-                a = func_ov000_02189c04(v1);
+            if (work->mUnk_d0b_4 < 1) {
+                phase = SearchAround2ndLap(work);
             } else {
-                a = 6;
+                phase = 6;
             }
             break;
     }
-    func_ov000_02189d2c(a);
-    return a;
+    DWCi_AC_SearchReStart(phase);
+    return phase;
 }
 
-u32 func_ov000_021898dc(ACWORK *v1, u32 a) {
+u32 SearchEndCheck(ACWORK *work, u32 phase) {
     u8 i;
-    u8 n;
+    u8 findListNum;
 
-    if (a == 0x11) {
-        return a;
+    if (phase == 0x11) {
+        return phase;
     }
     i = 0;
-    n = v1->mUnk_d12;
-    for (; i < n; i++) {
-        if (v1->mUnk_444[i].mUnk_00 == 0) {
+    findListNum = work->mUnk_d12;
+    for (; i < findListNum; i++) {
+        if (work->mUnk_444[i].mUnk_00 == 0) {
             break;
         }
     }
-    if (a == 6) {
-        if (n == i) {
+    if (phase == 6) {
+        if (findListNum == i) {
             if (i == 0) {
                 DWCi_AC_SetError(5);
             } else {
@@ -263,20 +263,20 @@ u32 func_ov000_021898dc(ACWORK *v1, u32 a) {
             return 0x11;
         }
     } else {
-        if (n == 0) {
-            return a;
+        if (findListNum == 0) {
+            return phase;
         }
-        if (n == i) {
-            return a;
+        if (findListNum == i) {
+            return phase;
         }
-        if (v1->mUnk_444[i].mUnk_02 < 0x14) {
-            return a;
+        if (work->mUnk_444[i].mUnk_02 < 0x14) {
+            return phase;
         }
     }
-    v1->mUnk_d13 = i;
+    work->mUnk_d13 = i;
     if (func_ov000_021a6024() != 1) {
-        v1->mUnk_d0e = a;
-        a = 7;
+        work->mUnk_d0e = phase;
+        phase = 7;
     }
-    return a;
+    return phase;
 }

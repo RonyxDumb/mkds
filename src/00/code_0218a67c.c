@@ -8,40 +8,40 @@
 #include "code_02134398.h"
 #include "code_0214d018.h"
 
-void func_ov000_0218a6f4(u8 *a, u8 *b, int c) {
-    u8 v1;
-    int v2;
-    v2 = 0;
-    if (0 < c) {
+void GOADecrypt(u8 *state, u8 *data, int length) {
+    u8 decrypted;
+    int index;
+    index = 0;
+    if (0 < length) {
         do {
-            v1 = func_ov000_0218a71c((Unk0218a71c *) a, b[v2]);
-            b[v2] = v1;
-            v2 = v2 + 1;
-        } while (v2 < c);
+            decrypted = GOADecryptByte((GOACryptState *) state, data[index]);
+            data[index] = decrypted;
+            index = index + 1;
+        } while (index < length);
     }
 }
 
-u32 func_ov000_0218a6c8(const u8 *a) {
-    int v1;
-    u8 v2[24];
-    func_ov000_0218a5b0(a, v2);
-    v1 = memcmp((const u8 *) ((u32) v2), data_ov000_021b2174, 8);
-    if (v1 == 0) {
+BOOL DWCi_AC_CheckNintendoShopAP(const u8 *ssid) {
+    int compare;
+    u8 decoded[24];
+    DecodeSsid(ssid, decoded);
+    compare = memcmp((const u8 *) ((u32) decoded), gShopSsidPrefix, 8);
+    if (compare == 0) {
         return 1;
     }
     return 0;
 }
 
-void func_ov000_0218a6ac(const u8 *a, u8 *b) {
-    u8 t[24];
-    func_ov000_0218a5b0(a, t);
-    func_ov000_0218a57c(t, b);
+void DWCi_AC_GetNintendoShopWepKey(const u8 *ssid, u8 *wepKey) {
+    u8 decoded[24];
+    DecodeSsid(ssid, decoded);
+    MakeShopWepKey(decoded, wepKey);
 }
 
-void func_ov000_0218a67c(const u8 *a, char *b) {
-    u8 t[24];
-    func_ov000_0218a5b0(a, t);
-    if (memcmp(t, data_ov000_021b2174, 8) == 0) {
-        MI_CpuCopy8(t + 8, b, 10);
+void DWCi_AC_GetPostalCode(const u8 *ssid, char *postalCode) {
+    u8 decoded[24];
+    DecodeSsid(ssid, decoded);
+    if (memcmp(decoded, gShopSsidPrefix, 8) == 0) {
+        MI_CpuCopy8(decoded + 8, postalCode, 10);
     }
 }

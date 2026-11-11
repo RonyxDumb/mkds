@@ -5,28 +5,28 @@
 #include "00/unk_021b0000.h"
 #include "code_0214d018.h"
 
-void func_ov000_0218a064(const u32 *a, ACWORK *v1, Unk0218a064 *v2) {
-    DWCMemPage *e;
+void MakeSOCConfig(const u32 *hold, ACWORK *work, SOCConfig *config) {
+    DWCMemPage *info;
 
-    MI_CpuCopy8(data_ov000_021b0738, v2, 0x58);
-    v2->mUnk_04 = a[0];
-    v2->mUnk_08 = a[1];
-    if (v1->mUnk_d0d < 6) {
-        e = &v1->mUnk_000[DWCi_ConvConnectAPType(v1->mUnk_d0d)];
-        if (e->mUnk_c0[0] != 0) {
-            v2->mUnk_0c = 0;
-            v2->mUnk_10 = func_ov000_0218a018(e->mUnk_c0);
-            v2->mUnk_14 = func_ov000_02189fd0(e->mUnk_d0);
-            v2->mUnk_18 = func_ov000_0218a018(e->mUnk_c4);
-            v2->mUnk_1c = func_ov000_0218a018(e->mUnk_c8);
-            v2->mUnk_20 = func_ov000_0218a018(e->mUnk_cc);
+    MI_CpuCopy8(gAcSocConfig, config, 0x58);
+    config->mAlloc = hold[0];
+    config->mFree = hold[1];
+    if (work->mUnk_d0d < 6) {
+        info = &work->mUnk_000[DWCi_ConvConnectAPType(work->mUnk_d0d)];
+        if (info->mUnk_c0[0] != 0) {
+            config->mFlag = 0;
+            config->mAddr = ConvAddress(info->mUnk_c0);
+            config->mNetmask = ConvNetMask(info->mUnk_d0);
+            config->mRouter = ConvAddress(info->mUnk_c4);
+            config->mDns1 = ConvAddress(info->mUnk_c8);
+            config->mDns2 = ConvAddress(info->mUnk_cc);
         } else {
-            v2->mUnk_0c = 1;
-            v2->mUnk_10 = 0;
-            v2->mUnk_14 = 0;
-            v2->mUnk_18 = 0;
-            v2->mUnk_1c = 0;
-            v2->mUnk_20 = 0;
+            config->mFlag = 1;
+            config->mAddr = 0;
+            config->mNetmask = 0;
+            config->mRouter = 0;
+            config->mDns1 = 0;
+            config->mDns2 = 0;
         }
     }
 }

@@ -1,96 +1,98 @@
 #include "00/code_0218a71c.h"
 #include "code_02133048.h"
 
-u8 func_ov000_0218a898(Unk0218a71c *p, u32 n, const u8 *v1, u32 m, u8 *j, u32 *k) {
-    u32 v2;
-    u32 v;
-    u32 c;
-    if (n == 0) {
+u8 keyrand(GOACryptState *state, u32 limit, const u8 *keyBytes, u32 keyBytesLen, u8 *runningSum, u32 *keyReadPos) {
+    u32 mask;
+    u32 value;
+    u32 tryCount;
+    if (limit == 0) {
         return 0;
     }
-    c = 0;
-    for (v2 = 1; v2 < n; v2 = v2 * 2 + 1) {
+    tryCount = 0;
+    for (mask = 1; mask < limit; mask = mask * 2 + 1) {
     }
     do {
-        u32 q = (*k)++;
-        *j = p->mUnk_000[*j] + v1[q];
-        if (*k >= m) {
-            *k = 0;
-            *j = *j + m;
+        u32 q = (*keyReadPos)++;
+        *runningSum = state->mCards[*runningSum] + keyBytes[q];
+        if (*keyReadPos >= keyBytesLen) {
+            *keyReadPos = 0;
+            *runningSum = *runningSum + keyBytesLen;
         }
-        v = v2 & *j;
-        c++;
-        if (c > 11) {
-            v = v % n;
+        value = mask & *runningSum;
+        tryCount++;
+        if (tryCount > 11) {
+            value = value % limit;
         }
-    } while (v > n);
-    return v;
+    } while (value > limit);
+    return value;
 }
 
-void func_ov000_0218a854(Unk0218a71c *p) {
+void GOAHashInit(GOACryptState *state) {
     s32 i;
-    u32 v;
-    p->mUnk_100[0] = 1;
-    p->mUnk_100[1] = 3;
-    p->mUnk_100[2] = 5;
-    p->mUnk_100[3] = 7;
-    p->mUnk_100[4] = 11;
+    u32 card;
+    state->mUnk_100[0] = 1;
+    state->mUnk_100[1] = 3;
+    state->mUnk_100[2] = 5;
+    state->mUnk_100[3] = 7;
+    state->mUnk_100[4] = 11;
     i = 0;
-    v = 255;
-    for (; i < 256; i++, v--) {
-        p->mUnk_000[i] = v;
+    card = 255;
+    for (; i < 256; i++, card--) {
+        state->mCards[i] = card;
     }
 }
 
-void func_ov000_0218a7bc(Unk0218a71c *p, const u8 *v1, u32 n) {
-    u8 j;
-    u32 k;
+void GOACryptInit(GOACryptState *state, const u8 *key, u32 keyBytesLen) {
+    u8 runningSum;
+    u32 keyReadPos;
     s32 i;
-    u32 l;
-    u8 t;
-    if (n < 1) {
-        func_ov000_0218a854(p);
+    u32 countdown;
+    u8 heldValue;
+    if (keyBytesLen < 1) {
+        GOAHashInit(state);
         return;
     }
     for (i = 0; i < 256; i++) {
-        p->mUnk_000[i] = i;
+        state->mCards[i] = i;
     }
-    k = 0;
-    j = 0;
-    for (l = 255; (s32) l >= 0; l--) {
-        u8 r = func_ov000_0218a898(p, l, v1, n, &j, &k);
-        t = p->mUnk_000[l];
-        p->mUnk_000[l] = p->mUnk_000[r];
-        p->mUnk_000[r] = t;
+    keyReadPos = 0;
+    runningSum = 0;
+    for (countdown = 255; (s32) countdown >= 0; countdown--) {
+        u8 swapPos = keyrand(state, countdown, key, keyBytesLen, &runningSum, &keyReadPos);
+        heldValue = state->mCards[countdown];
+        state->mCards[countdown] = state->mCards[swapPos];
+        state->mCards[swapPos] = heldValue;
     }
-    p->mUnk_100[0] = p->mUnk_000[1];
-    p->mUnk_100[1] = p->mUnk_000[3];
-    p->mUnk_100[2] = p->mUnk_000[5];
-    p->mUnk_100[3] = p->mUnk_000[7];
-    p->mUnk_100[4] = p->mUnk_000[j];
-    j = 0;
-    k = 0;
+    state->mUnk_100[0] = state->mCards[1];
+    state->mUnk_100[1] = state->mCards[3];
+    state->mUnk_100[2] = state->mCards[5];
+    state->mUnk_100[3] = state->mCards[7];
+    state->mUnk_100[4] = state->mCards[runningSum];
+    runningSum = 0;
+    keyReadPos = 0;
 }
 
-u8 func_ov000_0218a71c(Unk0218a71c *p, u8 x) {
-    u8 a;
-    u8 b;
-    u8 c;
-    u32 e;
-    a = p->mUnk_100[0];
-    p->mUnk_100[0] = a + 1;
-    p->mUnk_100[1] = p->mUnk_100[1] + p->mUnk_000[a];
-    c = p->mUnk_100[4];
-    b = p->mUnk_000[c];
-    p->mUnk_000[c] = p->mUnk_000[p->mUnk_100[1]];
-    p->mUnk_000[p->mUnk_100[1]] = p->mUnk_000[p->mUnk_100[3]];
-    p->mUnk_000[p->mUnk_100[3]] = p->mUnk_000[p->mUnk_100[0]];
-    p->mUnk_000[p->mUnk_100[0]] = b;
-    p->mUnk_100[2] = p->mUnk_100[2] + p->mUnk_000[b];
-    e = x ^ p->mUnk_000[(p->mUnk_000[p->mUnk_100[2]] + p->mUnk_000[p->mUnk_100[0]]) & 0xff];
-    p->mUnk_100[3] =
-        e ^ p->mUnk_000[p->mUnk_000[(p->mUnk_000[p->mUnk_100[1]] + (p->mUnk_000[p->mUnk_100[3]] + p->mUnk_000[p->mUnk_100[4]])) &
+u8 GOADecryptByte(GOACryptState *state, u8 byte) {
+    u8 rotor;
+    u8 heldValue;
+    u8 frontByte;
+    u32 partial;
+    rotor = state->mUnk_100[0];
+    state->mUnk_100[0] = rotor + 1;
+    state->mUnk_100[1] = state->mUnk_100[1] + state->mCards[rotor];
+    frontByte = state->mUnk_100[4];
+    heldValue = state->mCards[frontByte];
+    state->mCards[frontByte] = state->mCards[state->mUnk_100[1]];
+    state->mCards[state->mUnk_100[1]] = state->mCards[state->mUnk_100[3]];
+    state->mCards[state->mUnk_100[3]] = state->mCards[state->mUnk_100[0]];
+    state->mCards[state->mUnk_100[0]] = heldValue;
+    state->mUnk_100[2] = state->mUnk_100[2] + state->mCards[heldValue];
+    partial = byte ^ state->mCards[(state->mCards[state->mUnk_100[2]] + state->mCards[state->mUnk_100[0]]) & 0xff];
+    state->mUnk_100[3] =
+        partial ^
+        state->mCards[state->mCards[(state->mCards[state->mUnk_100[1]] +
+                                     (state->mCards[state->mUnk_100[3]] + state->mCards[state->mUnk_100[4]])) &
                                     0xff]];
-    p->mUnk_100[4] = x;
-    return p->mUnk_100[3];
+    state->mUnk_100[4] = byte;
+    return state->mUnk_100[3];
 }

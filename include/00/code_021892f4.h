@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_ov000_021892f4(u8 *a);
+u32 DWCi_AC_CloseNetwork(u8 *phase);

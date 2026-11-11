@@ -4,4 +4,4 @@
 
 typedef struct ACWORK ACWORK;
 
-u32 func_ov000_02189888(ACWORK *a);
+u32 CheckStartStealthSearch(ACWORK *work);

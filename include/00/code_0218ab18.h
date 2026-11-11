@@ -3,10 +3,10 @@
 #include "types.h"
 
 typedef struct SbServer SbServer;
-typedef struct Unk0218a9bc Unk0218a9bc;
+typedef struct SBQueryEngine SBQueryEngine;
 
-extern char data_ov000_021b2180[];
+extern char gGoaFinalMarker[];
 
-void func_ov000_0218ab18(Unk0218a9bc *p, SbServer *e, s8 *buf, s32 n);
-void func_ov000_0218ab90(Unk0218a9bc *p, SbServer *e, s8 *buf, s32 n);
-void func_ov000_0218ac54(Unk0218a9bc *p, SbServer *e, s32 a, s32 b);
+void ParseSingleGOAReply(SBQueryEngine *engine, SbServer *server, s8 *buf, s32 length);
+void ParseSingleQR2Reply(SBQueryEngine *engine, SbServer *server, s8 *buf, s32 length);
+void SBQueryEngineUpdateServer(SBQueryEngine *engine, SbServer *server, s32 atFront, s32 updateKind);

@@ -5,39 +5,39 @@
 #include "00/code_0218e2dc.h"
 #include "00/code_021a3a18.h"
 
-void func_ov000_0218aa14(Unk0218a9bc *p, s32 q) {
-    s32 s;
-    Unk0218aa14 v1;
-    s32 a;
-    s32 n;
-    SbServer *e;
-    s8 v2[0x800];
-    a = 8;
-    if (q != 0) {
-        s = p->mUnk_24;
+void ProcessIncomingReplies(SBQueryEngine *engine, s32 probeSocket) {
+    s32 recvSocket;
+    Unk0218aa14 address;
+    s32 addressLength;
+    s32 length;
+    SbServer *queryEntry;
+    s8 data[0x800];
+    addressLength = 8;
+    if (probeSocket != 0) {
+        recvSocket = engine->mIcmpSock;
     } else {
-        s = p->mUnk_20;
+        recvSocket = engine->mQuerySock;
     }
-    while (func_ov000_0218e668(s) != 0) {
-        n = func_ov000_0218e438(s, v2, 0x7ff, 0, &v1, &a);
-        if (n == -1) {
+    while (func_ov000_0218e668(recvSocket) != 0) {
+        length = func_ov000_0218e438(recvSocket, data, 0x7ff, 0, &address, &addressLength);
+        if (length == -1) {
             break;
         }
-        v2[n] = 0;
-        for (e = p->mUnk_08.mUnk_00; e != NULL; e = e->mUnk_20) {
-            if ((q != 0 && (e->mUnk_15 & 8) != 0 && e->mUnk_10 == v1.mUnk_04) ||
-                (e->mUnk_00 == v1.mUnk_04 && (e->mUnk_04 == v1.mUnk_02 || q != 0)) ||
-                (e->mUnk_00 == p->mUnk_28 && (e->mUnk_15 & 2) != 0 && e->mUnk_08 == v1.mUnk_04 &&
-                 e->mUnk_0c == v1.mUnk_02)) {
-                if (q != 0) {
-                    if (func_ov000_0218ab14(p, e, v2, n) != 0) {
+        data[length] = 0;
+        for (queryEntry = engine->mQueryList.mFirst; queryEntry != NULL; queryEntry = queryEntry->mUnk_20) {
+            if ((probeSocket != 0 && (queryEntry->mUnk_15 & 8) != 0 && queryEntry->mUnk_10 == address.mUnk_04) ||
+                (queryEntry->mUnk_00 == address.mUnk_04 && (queryEntry->mUnk_04 == address.mUnk_02 || probeSocket != 0)) ||
+                (queryEntry->mUnk_00 == engine->mMyPublicIp && (queryEntry->mUnk_15 & 2) != 0 &&
+                 queryEntry->mUnk_08 == address.mUnk_04 && queryEntry->mUnk_0c == address.mUnk_02)) {
+                if (probeSocket != 0) {
+                    if (ParseSingleICMPReply(engine, queryEntry, data, length) != 0) {
                         break;
                     }
                 } else {
-                    if (p->mUnk_00 == 1) {
-                        func_ov000_0218ab90(p, e, v2, n);
+                    if (engine->mQueryVersion == 1) {
+                        ParseSingleQR2Reply(engine, queryEntry, data, length);
                     } else {
-                        func_ov000_0218ab18(p, e, v2, n);
+                        ParseSingleGOAReply(engine, queryEntry, data, length);
                     }
                     break;
                 }
@@ -46,20 +46,20 @@ void func_ov000_0218aa14(Unk0218a9bc *p, s32 q) {
     }
 }
 
-void func_ov000_0218a9bc(Unk0218a9bc *p) {
-    u32 a;
-    SbServer *e;
-    a = func_ov000_0218e8c4();
-    e = p->mUnk_08.mUnk_00;
-    while (e != NULL) {
-        if (a <= e->mPing + 0x9c4) {
+void TimeoutOldQueries(SBQueryEngine *engine) {
+    u32 currentTime;
+    SbServer *server;
+    currentTime = func_ov000_0218e8c4();
+    server = engine->mQueryList.mFirst;
+    while (server != NULL) {
+        if (currentTime <= server->mPing + 0x9c4) {
             break;
         }
-        e->mUnk_15 |= 0x10;
-        p->mUnk_08.mUnk_00->mPing = 0x9c4;
-        p->mUnk_08.mUnk_00->mUnk_15 &= 0xd3;
-        p->mUnk_44(p, 1, p->mUnk_08.mUnk_00, p->mUnk_48);
-        func_ov000_0218aea4(&p->mUnk_08);
-        e = p->mUnk_08.mUnk_00;
+        server->mUnk_15 |= 0x10;
+        engine->mQueryList.mFirst->mPing = 0x9c4;
+        engine->mQueryList.mFirst->mUnk_15 &= 0xd3;
+        engine->mListCallback(engine, 1, engine->mQueryList.mFirst, engine->mInstance);
+        func_ov000_0218aea4(&engine->mQueryList);
+        server = engine->mQueryList.mFirst;
     }
 }

@@ -475,7 +475,7 @@ void func_ov000_021a41dc(Unk021a4a08 *a, Unk021a471c *b, s32 c, s32 d, const u8 
         if (f.mUnk_100 > 0) {
             o = f.mUnk_000;
             do {
-                p = data_ov000_021b45bc[*o];
+                p = gQr2RegisteredKeyList[*o];
                 if (p == NULL) {
                     p = data_ov000_021b43f8;
                 }
@@ -598,7 +598,7 @@ void func_ov000_021a3fc8(Unk021a4a08 *a, Unk021a471c *b, s32 c) {
         l = d.mUnk_000;
         i = h;
         do {
-            k = data_ov000_021b45bc[*l];
+            k = gQr2RegisteredKeyList[*l];
             if (k == NULL) {
                 k = data_ov000_021b43f8;
             }

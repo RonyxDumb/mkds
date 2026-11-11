@@ -4,52 +4,52 @@
 #include "code_0214d018.h"
 #include "code_021507c8.h"
 
-void func_ov000_0218a5b0(const u8 *a, u8 *b) {
-    Unk0218a5b0 t = data_ov000_021b2118;
+void DecodeSsid(const u8 *ssid, u8 *decoded) {
+    SsidOrderTable order = gSsidOrderTable;
     s32 i;
     s32 j;
     s32 k;
     s32 l;
     s32 m;
-    u32 v;
-    u32 w;
-    u8 *p;
-    func_ov000_0218a350(a, b, 32, 24);
+    u32 moving;
+    u32 displaced;
+    u8 *entry;
+    DecodeBase64(ssid, decoded, 32, 24);
     for (j = 0; j < 24; j++) {
-        b[j] ^= data_ov000_021b20f4[j];
+        decoded[j] ^= data_ov000_021b20f4[j];
     }
     for (i = 0; i < 24; i++) {
         k = (u8) i;
         l = k;
-        v = b[i];
-        while (t.mUnk_00[l] != 0xff) {
-            p = &t.mUnk_00[l];
-            l = t.mUnk_00[l];
-            w = b[l];
-            b[t.mUnk_00[k]] = v;
+        moving = decoded[i];
+        while (order.mUnk_00[l] != 0xff) {
+            entry = &order.mUnk_00[l];
+            l = order.mUnk_00[l];
+            displaced = decoded[l];
+            decoded[order.mUnk_00[k]] = moving;
             k = l;
-            *p = 0xff;
-            v = w;
+            *entry = 0xff;
+            moving = displaced;
         }
     }
     for (m = 0; m < 24; m++) {
-        b[m] ^= data_ov000_021b20e8[m];
+        decoded[m] ^= data_ov000_021b20e8[m];
     }
 }
 
-void func_ov000_0218a57c(const u8 *a, u8 *b) {
-    DGTHash1Context c;
-    u8 d[20];
-    DGT_Hash1Reset(&c);
-    DGT_Hash1SetSource(&c, a, 24);
-    DGT_Hash1GetDigest_R(d, &c);
-    MI_CpuCopy8(d + 3, b, 13);
+void MakeShopWepKey(const u8 *decoded, u8 *wepKey) {
+    DGTHash1Context context;
+    u8 digest[20];
+    DGT_Hash1Reset(&context);
+    DGT_Hash1SetSource(&context, decoded, 24);
+    DGT_Hash1GetDigest_R(digest, &context);
+    MI_CpuCopy8(digest + 3, wepKey, 13);
 }
 
-void func_ov000_0218a48c(const u8 *a, u8 *b) {
-    u8 t[13];
-    u8 *p;
-    const u8 *q;
+void MakeUsbWepKey(const u8 *name, u8 *wepKey) {
+    u8 copy[13];
+    u8 *source;
+    const u8 *target;
     s32 i;
     s32 j;
     s32 k;
@@ -58,97 +58,97 @@ void func_ov000_0218a48c(const u8 *a, u8 *b) {
     s32 n;
     s32 o;
     for (i = 0; i < 13; i++) {
-        b[i] = a[i] ^ a[i % 7 + 13];
+        wepKey[i] = name[i] ^ name[i % 7 + 13];
     }
     for (j = 0; j < 7; j++) {
-        b[j + 3] ^= a[j + 13];
+        wepKey[j + 3] ^= name[j + 13];
     }
     for (k = 0; k < 13; k++) {
-        b[k] ^= data_ov000_021b20ec[k];
+        wepKey[k] ^= data_ov000_021b20ec[k];
     }
-    MI_CpuCopy8(b, t, 13);
+    MI_CpuCopy8(wepKey, copy, 13);
     l = 0;
-    p = t;
-    q = data_ov000_021b0790;
+    source = copy;
+    target = gConvByteTable;
     for (; l < 13; l++) {
-        b[*q] = *p;
-        p++;
-        q++;
+        wepKey[*target] = *source;
+        source++;
+        target++;
     }
     for (m = 0; m < 13; m++) {
-        b[m] ^= data_ov000_021b20f0[m];
+        wepKey[m] ^= data_ov000_021b20f0[m];
     }
     for (n = 0; n < 13; n++) {
-        u8 v = b[n];
-        b[n] = (data_ov000_021b07a0[(v >> 4) & 15] << 4) | data_ov000_021b07a0[v & 15];
+        u8 v = wepKey[n];
+        wepKey[n] = (gConv4BitTable[(v >> 4) & 15] << 4) | gConv4BitTable[v & 15];
     }
     for (o = 0; o < 3; o++) {
-        b[o] ^= b[o + 6];
-        b[o + 3] ^= b[o + 9];
-        b[o + 6] ^= b[o + 3];
-        b[o + 9] ^= b[o];
-        b[12] ^= b[o];
+        wepKey[o] ^= wepKey[o + 6];
+        wepKey[o + 3] ^= wepKey[o + 9];
+        wepKey[o + 6] ^= wepKey[o + 3];
+        wepKey[o + 9] ^= wepKey[o];
+        wepKey[12] ^= wepKey[o];
     }
 }
 
-s32 func_ov000_0218a444(u32 c) {
-    s32 d;
-    if (c >= 0x41 && c <= 0x5a) {
-        return c - 0x41;
+s32 CodeToValue(u32 code) {
+    s32 value;
+    if (code >= 0x41 && code <= 0x5a) {
+        return code - 0x41;
     }
-    if (c >= 0x61 && c <= 0x7a) {
-        d = c - 0x61;
-        return d + 0x1a;
+    if (code >= 0x61 && code <= 0x7a) {
+        value = code - 0x61;
+        return value + 0x1a;
     }
-    if (c >= 0x30 && c <= 0x39) {
-        d = c - 0x30;
-        return d + 0x34;
+    if (code >= 0x30 && code <= 0x39) {
+        value = code - 0x30;
+        return value + 0x34;
     }
-    if (c == 0x2b) {
+    if (code == 0x2b) {
         return 0x3e;
     }
-    if (c == 0x2f) {
+    if (code == 0x2f) {
         return 0x3f;
     }
-    return -(c != 0x3d);
+    return -(code != 0x3d);
 }
 
-s32 func_ov000_0218a350(const u8 *a, u8 *b, s32 c, u32 d) {
-    s32 f;
-    s32 g;
+s32 DecodeBase64(const u8 *encoded, u8 *decoded, s32 encodedLength, u32 capacity) {
+    s32 remainder;
+    s32 fullLength;
     s32 h;
-    u32 t;
+    u32 group;
     s32 i;
-    u32 w;
-    u32 x;
+    u32 groupBytes;
+    u32 tailGroup;
     s32 m;
-    if (d >= (u32) (c * 3) >> 2) {
-        f = c & 3;
-        g = c - f;
+    if (capacity >= (u32) (encodedLength * 3) >> 2) {
+        remainder = encodedLength & 3;
+        fullLength = encodedLength - remainder;
     } else {
         return -1;
     }
     h = 0;
-    for (; h < g; h += 4) {
-        t = 0;
+    for (; h < fullLength; h += 4) {
+        group = 0;
         for (i = 0; i < 4; i++) {
-            t |= func_ov000_0218a444(a[h + i]) << ((3 - i) * 6);
+            group |= CodeToValue(encoded[h + i]) << ((3 - i) * 6);
         }
-        w = t;
+        groupBytes = group;
         for (m = 0; m < 3; m++) {
-            b[h / 4 * 3 + m] = ((u8 *) &w)[2 - m];
+            decoded[h / 4 * 3 + m] = ((u8 *) &groupBytes)[2 - m];
         }
     }
-    if (f != 0) {
-        t = 0;
-        x = 0;
-        for (i = 0; i < f; i++) {
-            t |= func_ov000_0218a444(a[g + i]) << ((3 - i) * 6);
-            x |= t;
+    if (remainder != 0) {
+        group = 0;
+        tailGroup = 0;
+        for (i = 0; i < remainder; i++) {
+            group |= CodeToValue(encoded[fullLength + i]) << ((3 - i) * 6);
+            tailGroup |= group;
         }
-        for (i = 0; i < f; i++) {
-            b[g * 3 / 4 + i] = ((u8 *) &x)[2 - i];
+        for (i = 0; i < remainder; i++) {
+            decoded[fullLength * 3 / 4 + i] = ((u8 *) &tailGroup)[2 - i];
         }
     }
-    return (u32) (c * 3) >> 2;
+    return (u32) (encodedLength * 3) >> 2;
 }

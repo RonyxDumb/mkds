@@ -11,4 +11,4 @@ typedef struct Unk02189350 {
     /* 16 */ u8 mUnk_16;
 } Unk02189350;
 
-s32 func_ov000_02189350(Unk02189350 *object);
+s32 GetNotFoundInet(Unk02189350 *object);

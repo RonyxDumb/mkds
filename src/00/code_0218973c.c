@@ -7,27 +7,27 @@
 #include "00/unk_021b0000.h"
 #include "code_0214d018.h"
 
-void func_ov000_02189868(const u8 *a, const u8 *b, s32 c, u32 d) {
-    if (c > 12) {
-        c = 12;
+void ScanStart(const u8 *bssid, const u8 *essid, s32 channel, u32 mode) {
+    if (channel > 12) {
+        channel = 12;
     }
-    func_ov000_021a61c4(a, b, d | data_ov000_021b0704[c]);
+    func_ov000_021a61c4(bssid, essid, mode | gAcSearchChannel[channel]);
 }
 
-u32 func_ov000_021897bc(void) {
-    ACWORK *v1;
-    u32 r;
+u32 DWCi_AC_ConnectRetryAP(void) {
+    ACWORK *work;
+    u32 nextPhase;
 
-    v1 = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
-    r = 9;
+    work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
+    nextPhase = 9;
     switch (func_ov000_021a5bfc()) {
         case 3:
-            r = v1->mUnk_d0e;
-            if (v1->mUnk_d0c_6 == 1) {
-                v1->mUnk_444[v1->mUnk_d13].mUnk_00 = 0;
-                r = 7;
-            } else if (r >= 3 && r <= 5) {
-                func_ov000_02189d2c(r);
+            nextPhase = work->mUnk_d0e;
+            if (work->mUnk_d0c_6 == 1) {
+                work->mUnk_444[work->mUnk_d13].mUnk_00 = 0;
+                nextPhase = 7;
+            } else if (nextPhase >= 3 && nextPhase <= 5) {
+                DWCi_AC_SearchReStart(nextPhase);
             }
             break;
         case 6:
@@ -39,33 +39,33 @@ u32 func_ov000_021897bc(void) {
         case 12:
             func_ov000_021a5c24();
             DWCi_AC_SetError(4);
-            r = 0x11;
+            nextPhase = 0x11;
             break;
         case 11:
             DWCi_AC_SetError(0);
-            r = 0x11;
+            nextPhase = 0x11;
             break;
     }
-    return r;
+    return nextPhase;
 }
 
-u8 func_ov000_0218973c(u32 a) {
-    ACWORK *v1;
-    volatile u32 z;
+u8 DWCi_AC_MakeSearchList(u32 type) {
+    ACWORK *work;
+    volatile u32 clearValue;
 
-    v1 = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
-    z = 0;
-    MIi_CpuClear32(z, v1->mUnk_300, 0x144);
-    switch (a) {
+    work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
+    clearValue = 0;
+    MIi_CpuClear32(clearValue, work->mUnk_300, 0x144);
+    switch (type) {
         case 0:
-            v1->mUnk_d10 = func_ov000_021896c4(v1);
+            work->mUnk_d10 = MakeAroundList(work);
             break;
         case 1:
-            v1->mUnk_d10 = func_ov000_021894e4(v1->mUnk_d12, v1->mUnk_444, v1->mUnk_300, v1->mUnk_470);
+            work->mUnk_d10 = MakeDifferChannelList(work->mUnk_d12, work->mUnk_444, work->mUnk_300, work->mUnk_470);
             break;
         case 2:
-            v1->mUnk_d10 = func_ov000_02189614(v1);
+            work->mUnk_d10 = MakeStealthList(work);
             break;
     }
-    return v1->mUnk_d10;
+    return work->mUnk_d10;
 }

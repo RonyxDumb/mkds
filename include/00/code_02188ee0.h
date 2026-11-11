@@ -4,9 +4,9 @@
 
 typedef struct ACWORK ACWORK;
 
-u8 func_ov000_02188ee0(ACWORK *object);
-u32 func_ov000_02189030(ACWORK *object);
-u32 func_ov000_02189134(ACWORK *object);
-u32 func_ov000_0218922c(void);
-u32 func_ov000_0218925c(void);
-s32 func_ov000_02189280(void);
+u8 GetConnectType(ACWORK *object);
+u32 ConnectAP(ACWORK *object);
+u32 ConnectStart(ACWORK *object);
+u32 DWCi_AC_ConnectAP(void);
+BOOL CloseAutoConnectSocket(void);
+s32 DisConnectAP(void);

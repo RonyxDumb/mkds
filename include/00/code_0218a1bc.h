@@ -4,4 +4,4 @@
 
 typedef struct ACWORK ACWORK;
 
-u32 func_ov000_0218a1bc(ACWORK *object);
+u32 GetIPAddress(ACWORK *object);

@@ -260,7 +260,7 @@ int GpiUpdateConnection(void *a, int b) {
 }
 
 u32 GpInitialize(GpConnection *a, s32 b, s32 c) {
-    if (data_ov000_021b4d28 != 1) {
+    if (gGsiAcResult != 1) {
         return 2;
     }
     if (a == NULL) {

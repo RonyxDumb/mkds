@@ -3,26 +3,26 @@
 #include "00/code_02188008.h"
 #include "00/code_02188ee0.h"
 
-u32 func_ov000_021892f4(u8 *a) {
-    u8 v1;
-    int v2;
-    v1 = *a;
-    if (v1 <= 10) {
-        v2 = func_ov000_02189280();
-        if (v2 == 1) {
-            *a = 0;
+u32 DWCi_AC_CloseNetwork(u8 *phase) {
+    u8 phaseValue;
+    int result;
+    phaseValue = *phase;
+    if (phaseValue <= 10) {
+        result = DisConnectAP();
+        if (result == 1) {
+            *phase = 0;
             return 1;
         }
-        if (v2 == -1) {
-            *a = 0x12;
+        if (result == -1) {
+            *phase = 0x12;
             return 1;
         }
-    } else if (v1 == 0xe) {
+    } else if (phaseValue == 0xe) {
         DWC_Netcheck_Abort();
         DWC_Netcheck_Destroy();
-        *a = 0xc;
-    } else if ((v1 < 0x12) && (v2 = func_ov000_0218925c(), v2 == 1)) {
-        *a = 10;
+        *phase = 0xc;
+    } else if ((phaseValue < 0x12) && (result = CloseAutoConnectSocket(), result == 1)) {
+        *phase = 10;
     }
     return 0;
 }

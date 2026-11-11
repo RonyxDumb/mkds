@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-s32 func_ov000_02189440(u32 a);
+s32 GetProgramaError(u32 error);

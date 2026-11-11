@@ -6,139 +6,139 @@
 #include "code_0214d018.h"
 #include "code_02139f70.h"
 
-u32 func_ov000_02189714(Unk02188ee0 *a) {
-    int v1;
-    v1 = strncmp((const char *) a->mUnk_0c, data_ov000_021b06f0, 8);
-    if (v1 == 0) {
+u32 DWCi_AC_CheckFreespot(Unk02188ee0 *bssDesc) {
+    int compare;
+    compare = strncmp((const char *) bssDesc->mUnk_0c, gFreespotSsid, 8);
+    if (compare == 0) {
         return 8;
     }
     return 0;
 }
 
-u8 func_ov000_021896c4(ACWORK *v1) {
-    u8 n;
-    ACSL *c;
+u8 MakeAroundList(ACWORK *work) {
+    u8 num;
+    ACSL *list;
 
-    c = v1->mUnk_300;
-    n = func_ov000_0218954c(v1);
-    c += n;
-    if (v1->mUnk_d0c == 0 || v1->mUnk_d0c == 6) {
-        MI_CpuCopy8(data_ov000_021b06f0, c->mUnk_04, 8);
-        c->mUnk_03 = 8;
-        c->mUnk_01 = 8;
-        n++;
+    list = work->mUnk_300;
+    num = MakeUserList(work);
+    list += num;
+    if (work->mUnk_d0c == 0 || work->mUnk_d0c == 6) {
+        MI_CpuCopy8(gFreespotSsid, list->mUnk_04, 8);
+        list->mUnk_03 = 8;
+        list->mUnk_01 = 8;
+        num++;
     }
-    return n;
+    return num;
 }
 
-u8 func_ov000_02189614(ACWORK *v1) {
-    u8 n;
-    ACSL *c;
+u8 MakeStealthList(ACWORK *work) {
+    u8 num;
+    ACSL *list;
 
-    c = v1->mUnk_300;
-    n = func_ov000_0218954c(v1);
-    c += n;
-    if (v1->mUnk_d0c == 0 || v1->mUnk_d0c == 4) {
-        MI_CpuCopy8(data_ov000_021b20d0, c->mUnk_04, 8);
-        c->mUnk_03 = 8;
-        c->mUnk_01 = 6;
-        n++;
-        c++;
+    list = work->mUnk_300;
+    num = MakeUserList(work);
+    list += num;
+    if (work->mUnk_d0c == 0 || work->mUnk_d0c == 4) {
+        MI_CpuCopy8(data_ov000_021b20d0, list->mUnk_04, 8);
+        list->mUnk_03 = 8;
+        list->mUnk_01 = 6;
+        num++;
+        list++;
     }
-    if (v1->mUnk_d0c == 0 || v1->mUnk_d0c == 7) {
-        MI_CpuCopy8(data_ov000_021b06e8, c->mUnk_04, 8);
-        c->mUnk_03 = 8;
-        c->mUnk_01 = 9;
-        n++;
-        c++;
+    if (work->mUnk_d0c == 0 || work->mUnk_d0c == 7) {
+        MI_CpuCopy8(gWayportSsid, list->mUnk_04, 8);
+        list->mUnk_03 = 8;
+        list->mUnk_01 = 9;
+        num++;
+        list++;
     }
-    if (v1->mUnk_d0c == 0 || v1->mUnk_d0c == 8) {
-        MI_CpuCopy8(data_ov000_021b06f8, c->mUnk_04, 0xb);
-        c->mUnk_03 = 0xb;
-        c->mUnk_01 = 10;
-        n++;
+    if (work->mUnk_d0c == 0 || work->mUnk_d0c == 8) {
+        MI_CpuCopy8(gNintendoWfcSsid, list->mUnk_04, 0xb);
+        list->mUnk_03 = 0xb;
+        list->mUnk_01 = 10;
+        num++;
     }
-    return n;
+    return num;
 }
 
-u8 func_ov000_0218954c(ACWORK *v1) {
+u8 MakeUserList(ACWORK *work) {
     s32 i;
-    u8 n;
+    u8 num;
     u8 j;
-    BOOL v2;
-    DWCMemPage *e;
-    ACSL *c;
+    BOOL hasName;
+    DWCMemPage *info;
+    ACSL *list;
 
-    n = 0;
-    e = v1->mUnk_000;
-    c = v1->mUnk_300;
-    for (i = 0; i < 3; e++, i++) {
-        if (v1->mUnk_d0c == 0 || v1->mUnk_d0c == i + 1) {
-            if (e->mUnk_e7 != 0xff) {
+    num = 0;
+    info = work->mUnk_000;
+    list = work->mUnk_300;
+    for (i = 0; i < 3; info++, i++) {
+        if (work->mUnk_d0c == 0 || work->mUnk_d0c == i + 1) {
+            if (info->mUnk_e7 != 0xff) {
                 for (j = 0; j < 0x20; j++) {
-                    if (e->mUnk_40[j] == 0) {
+                    if (info->mUnk_40[j] == 0) {
                         break;
                     }
-                    c->mUnk_04[j] = e->mUnk_40[j];
+                    list->mUnk_04[j] = info->mUnk_40[j];
                 }
                 if (j != 0) {
-                    c->mUnk_03 = j;
-                    c->mUnk_01 = i;
-                    v2 = TRUE;
+                    list->mUnk_03 = j;
+                    list->mUnk_01 = i;
+                    hasName = TRUE;
                 } else {
-                    v2 = FALSE;
+                    hasName = FALSE;
                 }
-                if (v2 != FALSE) {
-                    n++;
-                    c++;
+                if (hasName != FALSE) {
+                    num++;
+                    list++;
                 }
-                if (e->mUnk_e7 == 1) {
+                if (info->mUnk_e7 == 1) {
                     for (j = 0; j < 0x20; j++) {
-                        if (e->mUnk_60[j] == 0) {
+                        if (info->mUnk_60[j] == 0) {
                             break;
                         }
-                        c->mUnk_04[j] = e->mUnk_60[j];
+                        list->mUnk_04[j] = info->mUnk_60[j];
                     }
                     if (j != 0) {
-                        c->mUnk_03 = j;
-                        c->mUnk_01 = i + 3;
-                        v2 = TRUE;
+                        list->mUnk_03 = j;
+                        list->mUnk_01 = i + 3;
+                        hasName = TRUE;
                     } else {
-                        v2 = FALSE;
+                        hasName = FALSE;
                     }
-                    if (v2 != FALSE) {
-                        n++;
-                        c++;
+                    if (hasName != FALSE) {
+                        num++;
+                        list++;
                     }
                 }
             }
         }
     }
-    return n;
+    return num;
 }
 
-u8 func_ov000_021894e4(s32 a, ACFL *b, ACSL *c, Unk02188ee0 *d) {
-    u8 n;
+u8 MakeDifferChannelList(s32 findListNum, ACFL *findList, ACSL *searchList, Unk02188ee0 *bssDescs) {
+    u8 num;
     u8 i;
     u8 j;
 
-    n = 0;
-    for (i = 0; i < a; b++, d++, i++) {
+    num = 0;
+    for (i = 0; i < findListNum; findList++, bssDescs++, i++) {
         if (i >= 9) {
             break;
         }
-        if (b->mUnk_00 == 0 && d->mUnk_36 != b->mUnk_03) {
+        if (findList->mUnk_00 == 0 && bssDescs->mUnk_36 != findList->mUnk_03) {
             for (j = 0; j < 0x20; j++) {
-                if (d->mUnk_0c[j] == 0) {
+                if (bssDescs->mUnk_0c[j] == 0) {
                     break;
                 }
-                c->mUnk_04[j] = d->mUnk_0c[j];
+                searchList->mUnk_04[j] = bssDescs->mUnk_0c[j];
             }
-            c->mUnk_03 = j;
-            c->mUnk_02 = d->mUnk_36 - 1;
-            c++;
-            n++;
+            searchList->mUnk_03 = j;
+            searchList->mUnk_02 = bssDescs->mUnk_36 - 1;
+            searchList++;
+            num++;
         }
     }
-    return n;
+    return num;
 }

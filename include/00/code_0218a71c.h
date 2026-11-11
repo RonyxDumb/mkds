@@ -2,12 +2,12 @@
 
 #include "types.h"
 
-typedef struct Unk0218a71c {
-    /* 000 */ u8 mUnk_000[256];
+typedef struct GOACryptState {
+    /* 000 */ u8 mCards[256];
     /* 100 */ u8 mUnk_100[5];
-} Unk0218a71c;
+} GOACryptState;
 
-u8 func_ov000_0218a71c(Unk0218a71c *p, u8 x);
-void func_ov000_0218a7bc(Unk0218a71c *p, const u8 *key, u32 n);
-void func_ov000_0218a854(Unk0218a71c *p);
-u8 func_ov000_0218a898(Unk0218a71c *p, u32 n, const u8 *key, u32 m, u8 *j, u32 *k);
+u8 GOADecryptByte(GOACryptState *state, u8 byte);
+void GOACryptInit(GOACryptState *state, const u8 *key, u32 keyBytesLen);
+void GOAHashInit(GOACryptState *state);
+u8 keyrand(GOACryptState *state, u32 limit, const u8 *key, u32 keyBytesLen, u8 *runningSum, u32 *keyReadPos);

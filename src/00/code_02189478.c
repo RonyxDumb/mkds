@@ -5,29 +5,29 @@
 #include "00/code_02189420.h"
 #include "00/code_02189440.h"
 
-u8 func_ov000_021894c0(void) {
+u8 DWCi_AC_Error(void) {
     int v1;
     v1 = DWCi_AC_GetMemPtr(1);
-    v1 = func_ov000_021892f4((u8 *) (v1 + 10));
+    v1 = DWCi_AC_CloseNetwork((u8 *) (v1 + 10));
     if (v1 == 1) {
         return 0x12;
     }
     return 0x11;
 }
 
-u32 func_ov000_02189478(void) {
-    u32 v1;
-    int v2;
-    v1 = DWCi_AC_GetMemPtr(1);
-    v2 = DWCi_AC_GetError();
-    if (v2 < 4) {
-        return func_ov000_02189440(v2);
+u32 DWCi_AC_GetResult(void) {
+    u32 hold;
+    int error;
+    hold = DWCi_AC_GetMemPtr(1);
+    error = DWCi_AC_GetError();
+    if (error < 4) {
+        return GetProgramaError(error);
     }
-    if (v2 < 5) {
-        return func_ov000_02189438();
+    if (error < 5) {
+        return GetIrregularError();
     }
-    if (v2 == 5) {
-        return func_ov000_02189420(v1);
+    if (error == 5) {
+        return GetNotFoundAP(hold);
     }
-    return func_ov000_02189350((Unk02189350 *) v1);
+    return GetNotFoundInet((Unk02189350 *) hold);
 }

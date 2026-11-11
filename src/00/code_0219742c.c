@@ -33,7 +33,7 @@ s32 GstatsStartConnect(s32 a, s32 b) {
     if (b != 0) {
         data_ov000_021b3b34 = b;
     }
-    if (data_ov000_021b4d28 != 1) {
+    if (gGsiAcResult != 1) {
         return 1;
     }
     if (*(u32 *) &data_ov000_021b4e50 == 0) {

@@ -4,4 +4,4 @@
 
 typedef struct ACWORK ACWORK;
 
-u32 func_ov000_0218a24c(ACWORK *a);
+u32 ConnectTestStart(ACWORK *work);

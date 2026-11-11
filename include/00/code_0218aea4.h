@@ -4,7 +4,7 @@
 
 typedef struct SbServerList SbServerList;
 typedef struct SbServer SbServer;
-typedef struct Unk0218ae68 Unk0218ae68;
+typedef struct SBServerFIFO SBServerFIFO;
 
 typedef struct HashtableNameEntry {
     /* 00 */ const s8 *mName;
@@ -81,10 +81,10 @@ unsigned int func_ov000_0218b570(MatchingServerList *p0, unsigned int p1, unsign
 #include "00/unk_021b4000.h"
 #include "00/code_0218a9bc.h"
 
-// Object of 0x638 bytes func_ov000_0218b668 allocates. func_ov000_0218acb0 passes 0x20 to func_ov000_0218e53c and
-// the addresses of 0x14 and 0x08 to func_ov000_0218ae5c.
+// Object of 0x638 bytes func_ov000_0218b668 allocates. SBEngineCleanup passes 0x20 to func_ov000_0218e53c and
+// the addresses of 0x14 and 0x08 to FIFOClear.
 typedef struct MatchingServerList {
-    /* 000 */ Unk0218a9bc mUnk_000;
+    /* 000 */ SBQueryEngine mUnk_000;
     /* 04c */ SbServerList mUnk_04c;
     /* 620 */ u32 mUnk_620;
     /* 624 */ u32 mUnk_624;
@@ -109,9 +109,9 @@ extern char data_ov000_021b21d8[];
 extern char data_ov000_021b21e4[];
 extern s8 *data_ov000_021b4d14;
 
-SbServer *func_ov000_0218aea4(Unk0218ae68 *a);
-void func_ov000_0218aec4(Unk0218ae68 *a, SbServer *b);
-void func_ov000_0218aedc(Unk0218ae68 *a, SbServer *b);
+SbServer *func_ov000_0218aea4(SBServerFIFO *a);
+void func_ov000_0218aec4(SBServerFIFO *a, SbServer *b);
+void func_ov000_0218aedc(SBServerFIFO *a, SbServer *b);
 u32 func_ov000_0218aefc(SbServer *a);
 u8 func_ov000_0218af10(SbServer *a);
 void func_ov000_0218af14(SbServer *a, u8 b);

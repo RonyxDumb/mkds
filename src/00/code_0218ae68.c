@@ -1,27 +1,27 @@
 #include "00/code_0218ae68.h"
 #include "00/code_0218a9bc.h"
 
-u32 func_ov000_0218ae68(Unk0218ae68 *a, SbServer *b) {
-    SbServer *d;
-    SbServer *c;
-    c = NULL;
-    d = a->mUnk_00;
-    while (d != NULL) {
-        if (d == b) {
-            if (c != NULL) {
-                c->mUnk_20 = d->mUnk_20;
+BOOL FIFORemove(SBServerFIFO *fifo, SbServer *server) {
+    SbServer *current;
+    SbServer *previous;
+    previous = NULL;
+    current = fifo->mFirst;
+    while (current != NULL) {
+        if (current == server) {
+            if (previous != NULL) {
+                previous->mUnk_20 = current->mUnk_20;
             }
-            if (a->mUnk_00 == d) {
-                a->mUnk_00 = d->mUnk_20;
+            if (fifo->mFirst == current) {
+                fifo->mFirst = current->mUnk_20;
             }
-            if (a->mUnk_04 == d) {
-                a->mUnk_04 = c;
+            if (fifo->mLast == current) {
+                fifo->mLast = previous;
             }
-            a->mUnk_08--;
+            fifo->mCount--;
             return 1;
         }
-        c = d;
-        d = d->mUnk_20;
+        previous = current;
+        current = current->mUnk_20;
     }
     return 0;
 }

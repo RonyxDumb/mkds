@@ -4,16 +4,16 @@
 #include "00/code_021a8aa8.h"
 #include "code_0200f5ac.h"
 
-u32 func_ov000_0218a1bc(ACWORK *v1) {
+u32 GetIPAddress(ACWORK *work) {
     if (func_ov000_021a8ed4() != 0) {
-        func_ov000_02189f64(v1);
-        if (v1->mUnk_d0c_4 == 1) {
+        CheckSetDNS(work);
+        if (work->mUnk_d0c_4 == 1) {
             return 0xf;
         }
         return 0xd;
     }
-    if ((OS_GetTick() - v1->mUnk_cb0) * 64 / 0x1ff6210 >= 10) {
-        v1->mUnk_444[v1->mUnk_d13].mUnk_00 = 1;
+    if ((OS_GetTick() - work->mUnk_cb0) * 64 / 0x1ff6210 >= 10) {
+        work->mUnk_444[work->mUnk_d13].mUnk_00 = 1;
         return 0xb;
     }
     return 0xc;

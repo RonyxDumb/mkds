@@ -1,11 +1,11 @@
 #include "00/code_02189420.h"
 
-u32 func_ov000_02189438(void) {
+u32 GetIrregularError(void) {
     return 0xfffffffa;
 }
 
-u32 func_ov000_02189420(int a) {
-    if (*(u8 *) (a + 0xb) == 0) {
+u32 GetNotFoundAP(int hold) {
+    if (*(u8 *) (hold + 0xb) == 0) {
         return (0xffff3c4du);
     }
     return (0xffff3865u);

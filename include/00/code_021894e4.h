@@ -9,8 +9,8 @@ typedef struct ACWORK ACWORK;
 
 typedef struct Unk02188ee0 Unk02188ee0;
 
-u8 func_ov000_021894e4(s32 a, ACFL *b, ACSL *c, Unk02188ee0 *d);
-u8 func_ov000_0218954c(ACWORK *object);
-u8 func_ov000_02189614(ACWORK *object);
-u8 func_ov000_021896c4(ACWORK *object);
-u32 func_ov000_02189714(Unk02188ee0 *a);
+u8 MakeDifferChannelList(s32 findListNum, ACFL *findList, ACSL *searchList, Unk02188ee0 *bssDescs);
+u8 MakeUserList(ACWORK *object);
+u8 MakeStealthList(ACWORK *object);
+u8 MakeAroundList(ACWORK *object);
+u32 DWCi_AC_CheckFreespot(Unk02188ee0 *bssDesc);

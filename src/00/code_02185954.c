@@ -628,7 +628,7 @@ u32 DWCi_Auth_Prepare_FirstPost(Http *http, const char *gsbrcd, const char *inga
     OS_SNPrintf(bssidText, 0xd, data_ov000_021b10f0, postData.mUnk_08[0], postData.mUnk_08[1], postData.mUnk_08[2],
                 postData.mUnk_08[3], postData.mUnk_08[4], postData.mUnk_08[5]);
     OS_SNPrintf(apInfoText, 0xd, data_ov000_021b110c, 0);
-    func_ov000_0218a67c(apInfoBytes, &apInfoText[3]);
+    DWCi_AC_GetPostalCode(apInfoBytes, &apInfoText[3]);
     DWCi_Http_AddResult(&results, gGamecdPairName, postData.mUnk_0e);
     DWCi_Http_AddResult(&results, gMakercdPairName, postData.mUnk_13);
     DWCi_Http_AddResult(&results, gUnitcdPairName, gUnitcdPairValue);

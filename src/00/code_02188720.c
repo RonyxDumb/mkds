@@ -54,9 +54,9 @@ void DWCi_AC_GetBeacon(Unk02188408Entry0xc0 *bssdesc) {
     switch (phase) {
         case 3:
             if (bssdesc->mUnk_0a == 0 || bssdesc->mUnk_0c[0] == 0) {
-                func_ov000_02189e54(bssdesc->mUnk_36);
+                DWCi_AC_SetStealthChannel(bssdesc->mUnk_36);
             } else if (bssdesc->mUnk_0a == 1 || bssdesc->mUnk_0c[0] == 0x20) {
-                func_ov000_02189e54(bssdesc->mUnk_36);
+                DWCi_AC_SetStealthChannel(bssdesc->mUnk_36);
                 type = CompareList(bssdesc, work->mUnk_d10, work->mUnk_300);
             } else {
                 type = CompareList(bssdesc, work->mUnk_d10, work->mUnk_300);
@@ -85,7 +85,7 @@ s32 DWCi_AC_CheckNintendoSSID(Unk02188408Entry0xc0 *bssdesc) {
     if (work->mUnk_d0c_0 == 0 || work->mUnk_d0c_0 == 4) {
         nintendoFlag = bssdesc->mUnk_2c >> 4 & 1;
         if (nintendoFlag == 1) {
-            if (func_ov000_0218a658((const u8 *) bssdesc->mUnk_0c) == 1) {
+            if (DWCi_AC_CheckNintendoUsbAP((const u8 *) bssdesc->mUnk_0c) == 1) {
                 return 6;
             }
         }
@@ -93,7 +93,7 @@ s32 DWCi_AC_CheckNintendoSSID(Unk02188408Entry0xc0 *bssdesc) {
     if (work->mUnk_d0c_0 == 0 || work->mUnk_d0c_0 == 5) {
         nintendoFlag = bssdesc->mUnk_2c >> 4 & 1;
         if (nintendoFlag == 1) {
-            if (func_ov000_0218a6c8((const u8 *) bssdesc->mUnk_0c) == 1) {
+            if (DWCi_AC_CheckNintendoShopAP((const u8 *) bssdesc->mUnk_0c) == 1) {
                 return 7;
             }
         }
@@ -278,20 +278,20 @@ s32 DWC_AC_Process(void) {
 
     phase = DWCi_AC_GetPhase();
     if (phase == 1) {
-        phase = func_ov000_02189f00();
+        phase = DWCi_AC_Start();
     } else if (phase < 7) {
         interruptState = OS_DisableInterrupts();
-        phase = ((u8(*)(void)) func_ov000_02189e80)();
+        phase = ((u8(*)(void)) DWCi_AC_SearchAP)();
         DWCi_AC_SetPhase(phase);
         OS_RestoreInterrupts(interruptState);
     } else if (phase < 9) {
-        phase = ((u8(*)(void)) func_ov000_0218922c)();
+        phase = ((u8(*)(void)) DWCi_AC_ConnectAP)();
     } else if (phase < 10) {
-        phase = ((u8(*)(void)) func_ov000_021897bc)();
+        phase = ((u8(*)(void)) DWCi_AC_ConnectRetryAP)();
     } else if (phase < 16) {
-        phase = ((u8(*)(void)) func_ov000_0218a294)();
+        phase = ((u8(*)(void)) DWCi_AC_ConnectTest)();
     } else if (phase == 17) {
-        phase = func_ov000_021894c0();
+        phase = DWCi_AC_Error();
     }
     DWCi_AC_SetPhase(phase);
     if (phase == 16) {
@@ -334,7 +334,7 @@ u32 DWC_AC_GetStatus(void) {
     if (phase == 17) {
         return 4;
     }
-    return func_ov000_02189478();
+    return DWCi_AC_GetResult();
 }
 
 BOOL DWC_AC_Destroy(void) {
@@ -345,7 +345,7 @@ BOOL DWC_AC_Destroy(void) {
         DWCi_AC_FreeAll();
         return 1;
     }
-    func_ov000_021892f4(&phase);
+    DWCi_AC_CloseNetwork(&phase);
     DWCi_AC_SetPhase(phase);
     return 0;
 }

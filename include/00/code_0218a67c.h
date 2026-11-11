@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-void func_ov000_0218a67c(const u8 *a, char *b);
-void func_ov000_0218a6ac(const u8 *a, u8 *b);
-u32 func_ov000_0218a6c8(const u8 *a);
-void func_ov000_0218a6f4(u8 *a, u8 *b, int c);
+void DWCi_AC_GetPostalCode(const u8 *ssid, char *postalCode);
+void DWCi_AC_GetNintendoShopWepKey(const u8 *ssid, u8 *wepKey);
+BOOL DWCi_AC_CheckNintendoShopAP(const u8 *ssid);
+void GOADecrypt(u8 *state, u8 *data, int length);

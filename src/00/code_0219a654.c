@@ -239,7 +239,7 @@ s32 func_ov000_0219ac7c(u32 a, u32 b, u32 c, void (*d)(s32 a, void *b), void (*e
                         void *f) {
     Unk0219b1d4 *g;
 
-    if (data_ov000_021b4d28 != 1) {
+    if (gGsiAcResult != 1) {
         return 2;
     }
     if (func_ov000_0219ad20() == FALSE) {

@@ -1,7 +1,7 @@
 #include "00/code_02189440.h"
 
-s32 func_ov000_02189440(u32 a) {
-    switch (a) {
+s32 GetProgramaError(u32 error) {
+    switch (error) {
         case 1:
             return -9;
         case 0:

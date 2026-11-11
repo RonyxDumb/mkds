@@ -3,11 +3,11 @@
 #include "types.h"
 
 // Objects whose layout isn't known yet.
-extern u8 data_ov000_021b06e8[];
-extern char data_ov000_021b06f0[];
-extern u8 data_ov000_021b06f8[];
-extern u32 data_ov000_021b0704[];
-extern u8 data_ov000_021b0738[];
+extern u8 gWayportSsid[];
+extern char gFreespotSsid[];
+extern u8 gNintendoWfcSsid[];
+extern u32 gAcSearchChannel[];
+extern u8 gAcSocConfig[];
 extern s8 data_ov000_021b07b0[];
 extern s8 data_ov000_021b07b4[];
 extern s8 data_ov000_021b07b8[];

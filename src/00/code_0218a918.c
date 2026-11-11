@@ -5,40 +5,41 @@
 #include "00/code_0218aea4.h"
 #include "00/code_0218ae68.h"
 
-void func_ov000_0218a98c(Unk0218a9bc *a) {
-    SbServer *v1;
-    while ((a->mUnk_08.mUnk_08 < a->mUnk_04 && (0 < a->mUnk_14.mUnk_08))) {
-        v1 = func_ov000_0218aea4(&a->mUnk_14);
-        func_ov000_0218ad44(a, v1);
+void QueueNextQueries(SBQueryEngine *engine) {
+    SbServer *pendingServer;
+    while ((engine->mQueryList.mCount < engine->mMaxUpdates && (0 < engine->mPendingList.mCount))) {
+        pendingServer = func_ov000_0218aea4(&engine->mPendingList);
+        QEStartQuery(engine, pendingServer);
     }
 }
 
-void func_ov000_0218a950(MatchingServerList *a) {
-    if (a->mUnk_000.mUnk_08.mUnk_08 != 0) {
-        func_ov000_0218aa14(&a->mUnk_000, 0);
-        func_ov000_0218a9bc(&a->mUnk_000);
-        if (0 < a->mUnk_000.mUnk_14.mUnk_08) {
-            func_ov000_0218a98c(&a->mUnk_000);
+void SBQueryEngineThink(MatchingServerList *matchingServerList) {
+    if (matchingServerList->mUnk_000.mQueryList.mCount != 0) {
+        ProcessIncomingReplies(&matchingServerList->mUnk_000, 0);
+        TimeoutOldQueries(&matchingServerList->mUnk_000);
+        if (0 < matchingServerList->mUnk_000.mPendingList.mCount) {
+            QueueNextQueries(&matchingServerList->mUnk_000);
         }
-        if (a->mUnk_000.mUnk_08.mUnk_08 == 0) {
-            a->mUnk_000.mUnk_44(a, 2, 0, a->mUnk_000.mUnk_48);
+        if (matchingServerList->mUnk_000.mQueryList.mCount == 0) {
+            matchingServerList->mUnk_000.mListCallback(matchingServerList, 2, 0,
+                                                       matchingServerList->mUnk_000.mInstance);
         }
     }
 }
 
-void func_ov000_0218a93c(Unk0218a9bc *a, u8 b) {
-    int v1;
-    v1 = a->mUnk_40;
-    if (v1 < 0x14) {
-        a->mUnk_40 = v1 + 1;
-        a->mUnk_2c[v1] = b;
+void SBQueryEngineAddQueryKey(SBQueryEngine *engine, u8 keyId) {
+    int keyCount;
+    keyCount = engine->mNumServerKeys;
+    if (keyCount < 0x14) {
+        engine->mNumServerKeys = keyCount + 1;
+        engine->mServerKeys[keyCount] = keyId;
     }
 }
 
-void func_ov000_0218a918(MatchingServerList *a, SbServer *b) {
-    int v1;
-    v1 = func_ov000_0218ae68(&a->mUnk_000.mUnk_08, b);
-    if (v1 == 0) {
-        func_ov000_0218ae68(&a->mUnk_000.mUnk_14, b);
+void SBQueryEngineRemoveServerFromFIFOs(MatchingServerList *matchingServerList, SbServer *server) {
+    int removed;
+    removed = FIFORemove(&matchingServerList->mUnk_000.mQueryList, server);
+    if (removed == 0) {
+        FIFORemove(&matchingServerList->mUnk_000.mPendingList, server);
     }
 }

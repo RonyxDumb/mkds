@@ -12,48 +12,48 @@
 #include "00/code_0218a1bc.h"
 #include "00/code_0218a24c.h"
 
-u32 func_ov000_0218a294(void) {
-    u32 s;
-    ACWORK *v1;
+u32 DWCi_AC_ConnectTest(void) {
+    u32 phase;
+    ACWORK *work;
 
-    s = DWCi_AC_GetPhase();
-    v1 = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
+    phase = DWCi_AC_GetPhase();
+    work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
     if (func_ov000_021a5bfc() == 9) {
-        switch (s) {
+        switch (phase) {
             case 10:
-                s = func_ov000_0218a24c(v1);
+                phase = ConnectTestStart(work);
                 break;
             case 12:
-                s = func_ov000_0218a1bc(v1);
+                phase = GetIPAddress(work);
                 break;
             case 13:
-                s = func_ov000_0218a194();
+                phase = ConnectTestCreate();
                 break;
             case 14:
-                s = func_ov000_0218a130(v1);
+                phase = ConnectTestProcess(work);
                 break;
             case 15:
-                s = func_ov000_0218a118(v1);
+                phase = ConnectTestEnd(work);
                 break;
             case 11:
-                s = func_ov000_0218a0f4();
+                phase = ConnectTestRetry();
                 break;
         }
     } else {
-        switch (s) {
+        switch (phase) {
             case 15:
-                s = func_ov000_0218a118(v1);
+                phase = ConnectTestEnd(work);
                 break;
             case 11:
-                s = func_ov000_0218a0f4();
+                phase = ConnectTestRetry();
                 break;
             case 14:
                 DWC_Netcheck_Abort();
                 DWC_Netcheck_Destroy();
             default:
-                v1->mUnk_444[v1->mUnk_d13].mUnk_00 = 2;
-                s = 0xb;
+                work->mUnk_444[work->mUnk_d13].mUnk_00 = 2;
+                phase = 0xb;
         }
     }
-    return s;
+    return phase;
 }

@@ -278,7 +278,7 @@ void SbServerListInit(SbServerList *slist, const char *a, const char *b, const c
     if (slist == NULL) {
         AssertionFailed(data_ov000_021b2280, data_ov000_021b2218, NULL, 0x11c);
     }
-    if (e != 0 || data_ov000_021b4d28 == 1) {
+    if (e != 0 || gGsiAcResult == 1) {
         slist->mState = 1;
         func_ov000_0218d180((u32) slist);
         func_ov000_0218b3f4(slist);
@@ -594,7 +594,7 @@ void func_ov000_0218c8e0(SbServerList *a, s8 *b, s32 c) {
         s32 z = i % 8;
         a->mUnk_074[y] = a->mUnk_074[y] ^ (s8) (a->mUnk_074[z] ^ b[i]);
     }
-    func_ov000_0218a7bc((Unk0218a71c *) a->mUnk_4bc, (const u8 *) a->mUnk_074, 8);
+    GOACryptInit((GOACryptState *) a->mUnk_4bc, (const u8 *) a->mUnk_074, 8);
 }
 
 s32 func_ov000_0218c8ac(u32 a) {
@@ -896,7 +896,7 @@ s32 func_ov000_0218c15c(SbServerList *a) {
             a->mUnk_5c8 = 1;
             p += w;
             n -= w;
-            func_ov000_0218a6f4(a->mUnk_4bc, p, n);
+            GOADecrypt(a->mUnk_4bc, p, n);
         case 1:
             if (n < 6) {
                 break;
@@ -1317,7 +1317,7 @@ s32 func_ov000_0218bb44(SbServerList *a) {
     a->mInBufferLength += c;
     d = 0;
     if (a->mState == 2 || a->mUnk_5c8 > 0) {
-        func_ov000_0218a6f4(a->mUnk_4bc, a->mInBuffer + b, a->mInBufferLength - b);
+        GOADecrypt(a->mUnk_4bc, a->mInBuffer + b, a->mInBufferLength - b);
     }
     if (a->mState == 3) {
         d = func_ov000_0218c15c(a);
@@ -1438,7 +1438,7 @@ void func_ov000_0218b780(SbServerList *a, s32 b, SbServer *c, MatchingServerList
             if (((c->mUnk_14 & 3) == 0 || (c->mUnk_14 & 0x40) == 0) && (c->mUnk_14 & 0x2c) == 0 && d->mUnk_624 == 0) {
                 s32 t;
                 if (c->mUnk_15 & 1) {
-                    if (d->mUnk_04c.mState == 0 || d->mUnk_000.mUnk_40 == 0) {
+                    if (d->mUnk_04c.mState == 0 || d->mUnk_000.mNumServerKeys == 0) {
                         t = 1;
                     } else {
                         t = 0;
@@ -1446,7 +1446,7 @@ void func_ov000_0218b780(SbServerList *a, s32 b, SbServer *c, MatchingServerList
                 } else {
                     t = 2;
                 }
-                func_ov000_0218ac54(&d->mUnk_000, c, 0, t);
+                SBQueryEngineUpdateServer(&d->mUnk_000, c, 0, t);
             }
             break;
         case 1:
@@ -1458,7 +1458,7 @@ void func_ov000_0218b780(SbServerList *a, s32 b, SbServer *c, MatchingServerList
             break;
         case 2:
             if ((c->mUnk_14 & 0x2c) != 0) {
-                func_ov000_0218a918(d, c);
+                SBQueryEngineRemoveServerFromFIFOs(d, c);
             }
             d->mUnk_630(d, 3, c, d->mUnk_634);
             break;
@@ -1466,7 +1466,7 @@ void func_ov000_0218b780(SbServerList *a, s32 b, SbServer *c, MatchingServerList
             if (d->mUnk_620 != 0) {
                 func_ov000_0218c980(a);
             }
-            if (DarrayGetCount(a->mUnk_004) == 0 || d->mUnk_000.mUnk_08.mUnk_08 == 0) {
+            if (DarrayGetCount(a->mUnk_004) == 0 || d->mUnk_000.mQueryList.mCount == 0) {
                 d->mUnk_630(d, 4, 0, d->mUnk_634);
             }
             break;
@@ -1474,7 +1474,7 @@ void func_ov000_0218b780(SbServerList *a, s32 b, SbServer *c, MatchingServerList
             d->mUnk_630(d, 5, 0, d->mUnk_634);
             break;
         case 6:
-            func_ov000_0218acf0(d, d->mUnk_04c.mUnk_4a0);
+            SBQueryEngineSetPublicIP(d, d->mUnk_04c.mUnk_4a0);
             break;
     }
     if (c != NULL && c->mUnk_00 == d->mUnk_628 && c->mUnk_04 == d->mUnk_62c) {
@@ -1502,7 +1502,7 @@ void func_ov000_0218b708(void *a, s32 b, SbServer *c, MatchingServerList *d) {
 MatchingServerList *func_ov000_0218b668(const char *a, const char *b, const char *c, u32 d, u32 e, u32 f, s32 g,
                                         UnkFunc *h, u32 l) {
     MatchingServerList *p;
-    if (g == 0 && data_ov000_021b4d28 != 1) {
+    if (g == 0 && gGsiAcResult != 1) {
         return NULL;
     }
     p = func_ov000_021a3690(0x638);
@@ -1513,13 +1513,13 @@ MatchingServerList *func_ov000_0218b668(const char *a, const char *b, const char
     p->mUnk_634 = l;
     p->mUnk_624 = 0;
     SbServerListInit(&p->mUnk_04c, a, b, c, d, g, func_ov000_0218b780, p);
-    func_ov000_0218acf4(&p->mUnk_000, e, f, g, func_ov000_0218b708, p);
+    SBQueryEngineInit(&p->mUnk_000, e, f, g, func_ov000_0218b708, p);
     return p;
 }
 
 void func_ov000_0218b64c(MatchingServerList *p) {
     func_ov000_0218c958(&p->mUnk_04c);
-    func_ov000_0218acb0(p);
+    SBEngineCleanup(p);
     func_ov000_021a3668(p);
 }
 
@@ -1531,19 +1531,19 @@ s32 func_ov000_0218b590(MatchingServerList *a, s32 b, u32 c, u8 *d, s32 e, const
     const char *s;
     n = 0;
     a->mUnk_620 = c;
-    a->mUnk_000.mUnk_40 = 0;
+    a->mUnk_000.mNumServerKeys = 0;
     for (i = 0; i < e; i++) {
-        s = data_ov000_021b45bc[d[i]];
+        s = gQr2RegisteredKeyList[d[i]];
         if (n + (s32) strlen(s) + 1 >= 256) {
             break;
         }
         n += sprintf(v1 + n, data_ov000_021b21e8, s);
-        func_ov000_0218a93c(&a->mUnk_000, d[i]);
+        SBQueryEngineAddQueryKey(&a->mUnk_000, d[i]);
     }
     r = func_ov000_0218ca58(&a->mUnk_04c, v1, f, g, h);
     if (r == 0 && b == 0) {
         n = 10;
-        while (a->mUnk_04c.mState == 3 || (a->mUnk_000.mUnk_08.mUnk_08 > 0 && r == 0)) {
+        while (a->mUnk_04c.mState == 3 || (a->mUnk_000.mQueryList.mCount > 0 && r == 0)) {
             func_ov000_0218e8bc(n);
             r = func_ov000_0218b4bc(a);
         }
@@ -1578,13 +1578,13 @@ void func_ov000_0218b4d4(struct MatchingServerList *p, s32 a) {
 }
 
 s32 func_ov000_0218b4bc(struct MatchingServerList *p) {
-    func_ov000_0218a950(p);
+    SBQueryEngineThink(p);
     return func_ov000_0218b8e4(&p->mUnk_04c);
 }
 
 void func_ov000_0218b4a4(struct MatchingServerList *p) {
     func_ov000_0218c980(&p->mUnk_04c);
-    func_ov000_0218acd8(p);
+    SBEngineHaltUpdates(p);
 }
 
 void func_ov000_0218b48c(struct MatchingServerList *p) {
@@ -1985,36 +1985,36 @@ u32 func_ov000_0218aefc(SbServer *a) {
     return 0;
 }
 
-void func_ov000_0218aedc(Unk0218ae68 *a, SbServer *b) {
-    if (a->mUnk_04 != NULL) {
-        a->mUnk_04->mUnk_20 = b;
+void func_ov000_0218aedc(SBServerFIFO *a, SbServer *b) {
+    if (a->mLast != NULL) {
+        a->mLast->mUnk_20 = b;
     }
-    a->mUnk_04 = b;
+    a->mLast = b;
     b->mUnk_20 = NULL;
-    if (a->mUnk_00 == NULL) {
-        a->mUnk_00 = b;
+    if (a->mFirst == NULL) {
+        a->mFirst = b;
     }
-    a->mUnk_08 = a->mUnk_08 + 1;
+    a->mCount = a->mCount + 1;
 }
 
-void func_ov000_0218aec4(Unk0218ae68 *a, SbServer *b) {
-    b->mUnk_20 = a->mUnk_00;
-    a->mUnk_00 = b;
-    if (a->mUnk_04 == NULL) {
-        a->mUnk_04 = b;
+void func_ov000_0218aec4(SBServerFIFO *a, SbServer *b) {
+    b->mUnk_20 = a->mFirst;
+    a->mFirst = b;
+    if (a->mLast == NULL) {
+        a->mLast = b;
     }
-    a->mUnk_08 = a->mUnk_08 + 1;
+    a->mCount = a->mCount + 1;
 }
 
-SbServer *func_ov000_0218aea4(Unk0218ae68 *a) {
+SbServer *func_ov000_0218aea4(SBServerFIFO *a) {
     SbServer *v1;
-    v1 = a->mUnk_00;
+    v1 = a->mFirst;
     if (v1 != NULL) {
-        a->mUnk_00 = v1->mUnk_20;
-        if (a->mUnk_00 == NULL) {
-            a->mUnk_04 = NULL;
+        a->mFirst = v1->mUnk_20;
+        if (a->mFirst == NULL) {
+            a->mLast = NULL;
         }
-        a->mUnk_08 = a->mUnk_08 + -1;
+        a->mCount = a->mCount + -1;
     }
     return v1;
 }

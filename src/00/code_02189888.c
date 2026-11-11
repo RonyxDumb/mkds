@@ -2,18 +2,18 @@
 #include "00/code_021898dc.h"
 #include "00/code_0218973c.h"
 
-u32 func_ov000_02189888(ACWORK *a) {
-    u8 v1;
-    int v2;
-    u32 v3;
-    if ((a->mUnk_d16 != 0) && (v2 = func_ov000_0218973c(2), v2 != 0)) {
-        v1 = func_ov000_02189df8(0);
-        a->mUnk_d11 = v1;
+u32 CheckStartStealthSearch(ACWORK *work) {
+    u8 channel;
+    int listNum;
+    u32 nextPhase;
+    if ((work->mUnk_d16 != 0) && (listNum = DWCi_AC_MakeSearchList(2), listNum != 0)) {
+        channel = DWCi_AC_GetStealthChannel(0);
+        work->mUnk_d11 = channel;
         return 5;
     }
-    if (a->mUnk_d0b_4 < 1) {
-        v3 = func_ov000_02189c04(a);
-        return v3;
+    if (work->mUnk_d0b_4 < 1) {
+        nextPhase = SearchAround2ndLap(work);
+        return nextPhase;
     }
     return 6;
 }

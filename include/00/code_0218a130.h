@@ -4,4 +4,4 @@
 
 typedef struct ACWORK ACWORK;
 
-u32 func_ov000_0218a130(ACWORK *object);
+u32 ConnectTestProcess(ACWORK *object);

@@ -5,64 +5,65 @@
 #include "00/code_0218e2dc.h"
 #include "00/unk_021b4000.h"
 
-void func_ov000_0218ad44(Unk0218a9bc *p, SbServer *e) {
-    Unk0218aa14 a;
-    u8 b[0x100];
-    s32 c;
+void QEStartQuery(SBQueryEngine *engine, SbServer *server) {
+    Unk0218aa14 address;
+    u8 query[0x100];
+    s32 queryLength;
     s32 i;
-    func_ov000_0218aedc(&p->mUnk_08, e);
-    e->mPing = func_ov000_0218e8c4();
-    a.mUnk_01 = 2;
-    if ((e->mUnk_14 & 0x20) == 0) {
-        if (p->mUnk_00 == 1) {
-            b[0] = 0xfe;
-            b[1] = 0xfd;
-            b[2] = 0;
-            __memcpy(&b[3], &e->mPing, 4);
-            if ((e->mUnk_14 & 4) != 0) {
-                b[7] = p->mUnk_40;
-                for (i = 0; i < p->mUnk_40; i++) {
-                    b[i + 8] = p->mUnk_2c[i];
+    func_ov000_0218aedc(&engine->mQueryList, server);
+    server->mPing = func_ov000_0218e8c4();
+    address.mUnk_01 = 2;
+    if ((server->mUnk_14 & 0x20) == 0) {
+        if (engine->mQueryVersion == 1) {
+            query[0] = 0xfe;
+            query[1] = 0xfd;
+            query[2] = 0;
+            __memcpy(&query[3], &server->mPing, 4);
+            if ((server->mUnk_14 & 4) != 0) {
+                query[7] = engine->mNumServerKeys;
+                for (i = 0; i < engine->mNumServerKeys; i++) {
+                    query[i + 8] = engine->mServerKeys[i];
                 }
-                b[p->mUnk_40 + 8] = 0;
-                b[p->mUnk_40 + 9] = 0;
-                c = p->mUnk_40 + 10;
+                query[engine->mNumServerKeys + 8] = 0;
+                query[engine->mNumServerKeys + 9] = 0;
+                queryLength = engine->mNumServerKeys + 10;
             } else {
-                b[7] = 0xff;
-                b[8] = 0xff;
-                b[9] = 0xff;
-                c = 10;
+                query[7] = 0xff;
+                query[8] = 0xff;
+                query[9] = 0xff;
+                queryLength = 10;
             }
-        } else if ((e->mUnk_14 & 4) != 0) {
-            __memcpy(b, &data_ov000_021b2188, 13);
-            c = 13;
+        } else if ((server->mUnk_14 & 4) != 0) {
+            __memcpy(query, &gBasicGoaQuery, 13);
+            queryLength = 13;
         } else {
-            __memcpy(b, &data_ov000_021b2198, 8);
-            c = 8;
+            __memcpy(query, &gFullGoaQuery, 8);
+            queryLength = 8;
         }
-        if (e->mUnk_00 == p->mUnk_28 && (e->mUnk_15 & 2) != 0) {
-            a.mUnk_04 = e->mUnk_08;
-            a.mUnk_02 = e->mUnk_0c;
+        if (server->mUnk_00 == engine->mMyPublicIp && (server->mUnk_15 & 2) != 0) {
+            address.mUnk_04 = server->mUnk_08;
+            address.mUnk_02 = server->mUnk_0c;
         } else {
-            a.mUnk_04 = e->mUnk_00;
-            a.mUnk_02 = e->mUnk_04;
+            address.mUnk_04 = server->mUnk_00;
+            address.mUnk_02 = server->mUnk_04;
         }
-        func_ov000_0218e3e4(p->mUnk_20, b, c, 0, &a, 8);
+        func_ov000_0218e3e4(engine->mQuerySock, query, queryLength, 0, &address, 8);
     }
 }
 
-void func_ov000_0218acf4(Unk0218a9bc *p, s32 a, u32 b, s32 c, UnkFunc *f, void *g) {
-    if (c == 0 && data_ov000_021b4d28 != 1) {
+void SBQueryEngineInit(SBQueryEngine *engine, s32 updateLimit, u32 queryVersion, s32 lanBrowse, UnkFunc *callback,
+                       void *instance) {
+    if (lanBrowse == 0 && gGsiAcResult != 1) {
         return;
     }
     func_ov000_0218e8b8();
-    p->mUnk_00 = b;
-    p->mUnk_04 = a;
-    p->mUnk_40 = 0;
-    p->mUnk_44 = f;
-    p->mUnk_48 = g;
-    p->mUnk_28 = 0;
-    p->mUnk_20 = func_ov000_0218e554(2, 2, 0);
-    func_ov000_0218ae5c(&p->mUnk_14);
-    func_ov000_0218ae5c(&p->mUnk_08);
+    engine->mQueryVersion = queryVersion;
+    engine->mMaxUpdates = updateLimit;
+    engine->mNumServerKeys = 0;
+    engine->mListCallback = callback;
+    engine->mInstance = instance;
+    engine->mMyPublicIp = 0;
+    engine->mQuerySock = func_ov000_0218e554(2, 2, 0);
+    FIFOClear(&engine->mPendingList);
+    FIFOClear(&engine->mQueryList);
 }
