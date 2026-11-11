@@ -261,7 +261,7 @@ BOOL DWC_AC_Create(DWCACConfig *config) {
     netCheckParam->mFree = config->mUnk_04;
     netCheckParam->mUnk_08 = 0;
     work->mUnk_d0c_0 = config->mUnk_0a;
-    work->mUnk_d0c_4 = config->mUnk_0b;
+    work->mSkipNetCheck = config->mUnk_0b;
     ReadNvramFirstThreeEntries(work);
     result = WCM_Init(gWcmBuffer, 0x2300);
     if (result == 1 || result >= 4) {

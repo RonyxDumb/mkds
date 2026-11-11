@@ -76,13 +76,13 @@ void CreateAnimatedIcon(int index) {
     object->mPaletteIndex = index;
     gAnimatedIcon->mOamEntry = CreateOamEntryFromNceImage(0, 0x47);
     innerObject = gAnimatedIcon->mOamEntry;
-    innerObject->mUnk_04 = (innerObject->mUnk_04 & 0xfffff3ff) | 0x400;
+    innerObject->mAttr2 = (innerObject->mAttr2 & 0xfffff3ff) | 0x400;
     innerObject = gAnimatedIcon->mOamEntry;
-    innerObject->mUnk_00 = innerObject->mUnk_00 & 0xfffff3ff;
-    innerObject->mUnk_04 = (innerObject->mUnk_04 & 0xffff0fff) | (gAnimatedIconPalettes[index] << 12);
+    innerObject->mAttr01 = innerObject->mAttr01 & 0xfffff3ff;
+    innerObject->mAttr2 = (innerObject->mAttr2 & 0xffff0fff) | (gAnimatedIconPalettes[index] << 12);
     innerObject = gAnimatedIcon->mOamEntry;
-    innerObject->mUnk_00 = ((gAnimatedIconPosition[0] & 0x1ff) << 16) |
-                           ((innerObject->mUnk_00 & 0xfe00ff00) | (gAnimatedIconPosition[1] & 0xff));
+    innerObject->mAttr01 = ((gAnimatedIconPosition[0] & 0x1ff) << 16) |
+                           ((innerObject->mAttr01 & 0xfe00ff00) | (gAnimatedIconPosition[1] & 0xff));
     gAnimatedIcon->mTask = AddTask(1, AdvanceAnimatedIcon, NULL, 0x78);
 }
 
@@ -101,15 +101,15 @@ void AdvanceAnimatedIcon(void) {
     c = FX_DivS32(gAnimatedIcon->mStepFrames, 5) + 0x47;
     CopyNceImageToOamEntries(0, c, gAnimatedIcon->mOamEntry);
     innerObject = gAnimatedIcon->mOamEntry;
-    innerObject->mUnk_04 = (innerObject->mUnk_04 & 0xfffff3ff) | 0x400;
+    innerObject->mAttr2 = (innerObject->mAttr2 & 0xfffff3ff) | 0x400;
     object = gAnimatedIcon;
     c = gAnimatedIconPalettes[object->mPaletteIndex];
     innerObject = object->mOamEntry;
-    innerObject->mUnk_00 = innerObject->mUnk_00 & 0xfffff3ff;
-    innerObject->mUnk_04 = (innerObject->mUnk_04 & 0xffff0fff) | (c << 12);
+    innerObject->mAttr01 = innerObject->mAttr01 & 0xfffff3ff;
+    innerObject->mAttr2 = (innerObject->mAttr2 & 0xffff0fff) | (c << 12);
     innerObject = gAnimatedIcon->mOamEntry;
-    innerObject->mUnk_00 = ((gAnimatedIconPosition[0] & 0x1ff) << 16) |
-                           ((innerObject->mUnk_00 & 0xfe00ff00) | (gAnimatedIconPosition[1] & 0xff));
+    innerObject->mAttr01 = ((gAnimatedIconPosition[0] & 0x1ff) << 16) |
+                           ((innerObject->mAttr01 & 0xfe00ff00) | (gAnimatedIconPosition[1] & 0xff));
 }
 
 void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {

@@ -30,8 +30,8 @@ void CheckSetDNS(ACWORK *work) {
     u32 dns1;
     u32 dns2;
 
-    if (work->mUnk_d0d < 6) {
-        info = &work->mUnk_000[DWCi_ConvConnectAPType(work->mUnk_d0d)];
+    if (work->mConnectApType < 6) {
+        info = &work->mUserInfo[DWCi_ConvConnectAPType(work->mConnectApType)];
         dnsSum = info->mUnk_c8[3] + (info->mUnk_c8[2] + (info->mUnk_c8[0] + info->mUnk_c8[1]));
         if (info->mUnk_c0[0] == 0 && dnsSum != 0) {
             dns1 = ConvAddress(info->mUnk_c8);
@@ -50,7 +50,7 @@ u8 DWCi_AC_Start(void) {
     wcmPhase = WCM_GetPhase();
     work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
     if (wcmPhase == 1) {
-        config.mUnk_00 = work->mUnk_d0a;
+        config.mUnk_00 = work->mDmaNo;
         config.mUnk_04 = 0;
         config.mUnk_08 = 0;
         config.mUnk_0c = 0;
@@ -100,7 +100,7 @@ void DWCi_AC_SetStealthChannel(u32 channel) {
     if (channel > 0xd) {
         channel = 0xd;
     }
-    work->mUnk_d16 |= 1 << (channel - 1);
+    work->mStealthChannel |= 1 << (channel - 1);
 }
 
 s8 DWCi_AC_GetStealthChannel(s32 index) {
@@ -110,7 +110,7 @@ s8 DWCi_AC_GetStealthChannel(s32 index) {
     u8 found;
 
     work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
-    mask = work->mUnk_d16;
+    mask = work->mStealthChannel;
     if (mask == 0) {
         return -1;
     }
@@ -132,79 +132,81 @@ void DWCi_AC_SearchReStart(u32 phase) {
     work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
     switch (phase) {
         case 3:
-            work->mUnk_cb0 = OS_GetTick();
-            ScanStart(WCM_Bssid_Any, WCM_Essid_Any, work->mUnk_d11, 0x200000);
+            work->mTimeOut = OS_GetTick();
+            ScanStart(WCM_Bssid_Any, WCM_Essid_Any, work->mSearchChannel, 0x200000);
             break;
         case 4:
-            work->mUnk_cb0 = OS_GetTick();
-            ScanStart(WCM_Bssid_Any, work->mUnk_300[work->mUnk_d0f].mUnk_04, work->mUnk_300[work->mUnk_d0f].mUnk_02,
-                      0x300000);
+            work->mTimeOut = OS_GetTick();
+            ScanStart(WCM_Bssid_Any, work->mSearchList[work->mSearchListNo].mUnk_04,
+                      work->mSearchList[work->mSearchListNo].mUnk_02, 0x300000);
             break;
         case 5:
-            work->mUnk_cb0 = OS_GetTick();
-            ScanStart(WCM_Bssid_Any, work->mUnk_300[work->mUnk_d0f].mUnk_04, work->mUnk_d11, 0x300000);
+            work->mTimeOut = OS_GetTick();
+            ScanStart(WCM_Bssid_Any, work->mSearchList[work->mSearchListNo].mUnk_04, work->mSearchChannel, 0x300000);
             break;
     }
 }
 
 u32 SearchStart(ACWORK *work) {
-    work->mUnk_cb0 = OS_GetTick();
-    work->mUnk_d11 = 0;
-    work->mUnk_cb0 = OS_GetTick();
-    ScanStart(WCM_Bssid_Any, WCM_Essid_Any, work->mUnk_d11, 0x200000);
+    work->mTimeOut = OS_GetTick();
+    work->mSearchChannel = 0;
+    work->mTimeOut = OS_GetTick();
+    ScanStart(WCM_Bssid_Any, WCM_Essid_Any, work->mSearchChannel, 0x200000);
     return 3;
 }
 
 u32 SearchAround(ACWORK *work) {
-    if ((OS_GetTick() - work->mUnk_cb0) * 64 / 0x82ea >= 0x12c) {
-        work->mUnk_d11 += 2;
-        if (work->mUnk_d11 >= 0xd) {
+    if ((OS_GetTick() - work->mTimeOut) * 64 / 0x82ea >= 0x12c) {
+        work->mSearchChannel += 2;
+        if (work->mSearchChannel >= 0xd) {
             return NextSearchCheck(work, 3);
         }
-        work->mUnk_cb0 = OS_GetTick();
-        ScanStart(WCM_Bssid_Any, WCM_Essid_Any, work->mUnk_d11, 0x200000);
+        work->mTimeOut = OS_GetTick();
+        ScanStart(WCM_Bssid_Any, WCM_Essid_Any, work->mSearchChannel, 0x200000);
     }
     return 3;
 }
 
 u32 SearchAround2ndLap(ACWORK *work) {
-    work->mUnk_d15 = 0;
-    work->mUnk_d0b_4 = work->mUnk_d0b_4 + 1;
+    work->mCount = 0;
+    work->mAroundCount = work->mAroundCount + 1;
     DWCi_AC_MakeSearchList(0);
-    work->mUnk_d11 = 1;
+    work->mSearchChannel = 1;
     return 3;
 }
 
 u32 SearchDifferChannel(ACWORK *work) {
-    if ((OS_GetTick() - work->mUnk_cb0) * 64 / 0x82ea >= 0x96 || work->mUnk_300[work->mUnk_d0f].mUnk_00_lo == 1) {
-        work->mUnk_300[work->mUnk_d0f].mUnk_00_lo = 0;
-        work->mUnk_d0f++;
-        if (work->mUnk_d10 <= work->mUnk_d0f) {
-            work->mUnk_d0f = 0;
+    if ((OS_GetTick() - work->mTimeOut) * 64 / 0x82ea >= 0x96 ||
+        work->mSearchList[work->mSearchListNo].mUnk_00_lo == 1) {
+        work->mSearchList[work->mSearchListNo].mUnk_00_lo = 0;
+        work->mSearchListNo++;
+        if (work->mSearchListNum <= work->mSearchListNo) {
+            work->mSearchListNo = 0;
             return NextSearchCheck(work, 4);
         }
-        work->mUnk_cb0 = OS_GetTick();
-        ScanStart(WCM_Bssid_Any, work->mUnk_300[work->mUnk_d0f].mUnk_04, work->mUnk_300[work->mUnk_d0f].mUnk_02,
-                  0x300000);
+        work->mTimeOut = OS_GetTick();
+        ScanStart(WCM_Bssid_Any, work->mSearchList[work->mSearchListNo].mUnk_04,
+                  work->mSearchList[work->mSearchListNo].mUnk_02, 0x300000);
     }
     return 4;
 }
 
 u32 SearchStealth(ACWORK *work) {
-    if ((OS_GetTick() - work->mUnk_cb0) * 64 / 0x82ea >= 0x96 || work->mUnk_300[work->mUnk_d0f].mUnk_00_lo == 1) {
-        work->mUnk_300[work->mUnk_d0f].mUnk_00_lo = 0;
-        work->mUnk_d0f++;
-        if (work->mUnk_d10 == work->mUnk_d0f) {
-            work->mUnk_d15++;
-            work->mUnk_d0f = 0;
-            work->mUnk_d11 = DWCi_AC_GetStealthChannel(work->mUnk_d15);
+    if ((OS_GetTick() - work->mTimeOut) * 64 / 0x82ea >= 0x96 ||
+        work->mSearchList[work->mSearchListNo].mUnk_00_lo == 1) {
+        work->mSearchList[work->mSearchListNo].mUnk_00_lo = 0;
+        work->mSearchListNo++;
+        if (work->mSearchListNum == work->mSearchListNo) {
+            work->mCount++;
+            work->mSearchListNo = 0;
+            work->mSearchChannel = DWCi_AC_GetStealthChannel(work->mCount);
         }
-        if (work->mUnk_d11 < 0) {
-            work->mUnk_d15 = 0;
+        if (work->mSearchChannel < 0) {
+            work->mCount = 0;
             return NextSearchCheck(work, 5);
         }
-        work->mUnk_cb0 = OS_GetTick();
-        ScanStart(WCM_Bssid_Any, work->mUnk_300[work->mUnk_d0f].mUnk_04, work->mUnk_d11, 0x300000);
+        work->mTimeOut = OS_GetTick();
+        ScanStart(WCM_Bssid_Any, work->mSearchList[work->mSearchListNo].mUnk_04, work->mSearchChannel, 0x300000);
     }
     return 5;
 }
@@ -212,13 +214,13 @@ u32 SearchStealth(ACWORK *work) {
 u32 NextSearchCheck(ACWORK *work, u32 phase) {
     switch (phase) {
         case 3:
-            if (work->mUnk_d12 != 0 || work->mUnk_d16 != 0) {
+            if (work->mFindListNum != 0 || work->mStealthChannel != 0) {
                 if (DWCi_AC_MakeSearchList(1) != 0) {
                     phase = 4;
                 } else {
                     phase = CheckStartStealthSearch(work);
                 }
-            } else if (work->mUnk_d0b_4 < 1) {
+            } else if (work->mAroundCount < 1) {
                 phase = SearchAround2ndLap(work);
             } else {
                 phase = 6;
@@ -228,7 +230,7 @@ u32 NextSearchCheck(ACWORK *work, u32 phase) {
             phase = CheckStartStealthSearch(work);
             break;
         case 5:
-            if (work->mUnk_d0b_4 < 1) {
+            if (work->mAroundCount < 1) {
                 phase = SearchAround2ndLap(work);
             } else {
                 phase = 6;
@@ -247,9 +249,9 @@ u32 SearchEndCheck(ACWORK *work, u32 phase) {
         return phase;
     }
     i = 0;
-    findListNum = work->mUnk_d12;
+    findListNum = work->mFindListNum;
     for (; i < findListNum; i++) {
-        if (work->mUnk_444[i].mUnk_00 == 0) {
+        if (work->mFindList[i].mUnk_00 == 0) {
             break;
         }
     }
@@ -269,13 +271,13 @@ u32 SearchEndCheck(ACWORK *work, u32 phase) {
         if (findListNum == i) {
             return phase;
         }
-        if (work->mUnk_444[i].mUnk_02 < 0x14) {
+        if (work->mFindList[i].mUnk_02 < 0x14) {
             return phase;
         }
     }
-    work->mUnk_d13 = i;
+    work->mConnectNo = i;
     if (WCM_EndSearchAsync() != 1) {
-        work->mUnk_d0e = phase;
+        work->mPhaseBak = phase;
         phase = 7;
     }
     return phase;

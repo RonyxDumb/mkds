@@ -19,10 +19,10 @@ u8 MakeAroundList(ACWORK *work) {
     u8 num;
     ACSL *list;
 
-    list = work->mUnk_300;
+    list = work->mSearchList;
     num = MakeUserList(work);
     list += num;
-    if (work->mUnk_d0c == 0 || work->mUnk_d0c == 6) {
+    if (work->mConnectType == 0 || work->mConnectType == 6) {
         MI_CpuCopy8(gFreespotSsid, list->mUnk_04, 8);
         list->mUnk_03 = 8;
         list->mUnk_01 = 8;
@@ -35,24 +35,24 @@ u8 MakeStealthList(ACWORK *work) {
     u8 num;
     ACSL *list;
 
-    list = work->mUnk_300;
+    list = work->mSearchList;
     num = MakeUserList(work);
     list += num;
-    if (work->mUnk_d0c == 0 || work->mUnk_d0c == 4) {
+    if (work->mConnectType == 0 || work->mConnectType == 4) {
         MI_CpuCopy8(data_ov000_021b20d0, list->mUnk_04, 8);
         list->mUnk_03 = 8;
         list->mUnk_01 = 6;
         num++;
         list++;
     }
-    if (work->mUnk_d0c == 0 || work->mUnk_d0c == 7) {
+    if (work->mConnectType == 0 || work->mConnectType == 7) {
         MI_CpuCopy8(gWayportSsid, list->mUnk_04, 8);
         list->mUnk_03 = 8;
         list->mUnk_01 = 9;
         num++;
         list++;
     }
-    if (work->mUnk_d0c == 0 || work->mUnk_d0c == 8) {
+    if (work->mConnectType == 0 || work->mConnectType == 8) {
         MI_CpuCopy8(gNintendoWfcSsid, list->mUnk_04, 0xb);
         list->mUnk_03 = 0xb;
         list->mUnk_01 = 10;
@@ -70,10 +70,10 @@ u8 MakeUserList(ACWORK *work) {
     ACSL *list;
 
     num = 0;
-    info = work->mUnk_000;
-    list = work->mUnk_300;
+    info = work->mUserInfo;
+    list = work->mSearchList;
     for (i = 0; i < 3; info++, i++) {
-        if (work->mUnk_d0c == 0 || work->mUnk_d0c == i + 1) {
+        if (work->mConnectType == 0 || work->mConnectType == i + 1) {
             if (info->mUnk_e7 != 0xff) {
                 for (j = 0; j < 0x20; j++) {
                     if (info->mUnk_40[j] == 0) {

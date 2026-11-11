@@ -7,18 +7,18 @@
 
 // Object updated by UpdateCoin, one state per value of mUnk_0f8.
 typedef struct Coin {
-    /* 000 */ MapObject mUnk_000;
+    /* 000 */ MapObject mMapObject;
     /* 0a0 */ u16 mModelAlpha;
     /* 0a2 */ u8 mUnk_0a2[0x2];
     /* 0a4 */ s32 mNsbtpFrameIndex;
-    /* 0a8 */ s32 mUnk_0a8;
+    /* 0a8 */ s32 mNsbtpFrameCounter;
     /* 0ac */ s32 mTimer;
     /* 0b0 */ s32 mScaleFactor;
     /* 0b4 */ GroupFollower mFollower;
     /* 0d8 */ Vec3 mUnk_0d8;
     /* 0e4 */ s32 mBounceY;
     /* 0e8 */ Vec3 *mTargetPos;
-    /* 0ec */ Vec3 mUnk_0ec;
+    /* 0ec */ Vec3 mTargetOffset;
     /* 0f8 */ s32 mState;
     /* 0fc */ void *mEffect;
     /* 100 */ s32 mEffectTimer;

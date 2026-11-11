@@ -66,28 +66,28 @@ u32 DWCi_AC_ConnectAP(void) {
 u32 ConnectStart(ACWORK *work) {
     Unk02188ee0 *bssDesc;
 
-    bssDesc = &work->mUnk_470[work->mUnk_d13];
-    work->mUnk_d0d = GetConnectType(work);
-    MI_CpuFill8(&work->mUnk_cb8, 0, 0x52);
-    if (FillApWepKey(work, work->mUnk_d0d, &work->mUnk_cb8) != 0) {
-        work->mUnk_d0b_2 = 1;
+    bssDesc = &work->mBssDesc[work->mConnectNo];
+    work->mConnectApType = GetConnectType(work);
+    MI_CpuFill8(&work->mWepKey, 0, 0x52);
+    if (FillApWepKey(work, work->mConnectApType, &work->mWepKey) != 0) {
+        work->mAuthMode = 1;
         if (((bssDesc->mUnk_2c >> 4) & 1) == 0) {
-            work->mUnk_444[work->mUnk_d13].mUnk_00 = 3;
+            work->mFindList[work->mConnectNo].mUnk_00 = 3;
             return 9;
         }
-        if (work->mUnk_d0d == 6 && bssDesc->mUnk_15 == 0) {
-            work->mUnk_444[work->mUnk_d13].mUnk_00 = 3;
+        if (work->mConnectApType == 6 && bssDesc->mUnk_15 == 0) {
+            work->mFindList[work->mConnectNo].mUnk_00 = 3;
             return 9;
         }
     } else {
-        work->mUnk_d0b_2 = 0;
+        work->mAuthMode = 0;
         if (((bssDesc->mUnk_2c >> 4) & 1) == 1) {
-            work->mUnk_444[work->mUnk_d13].mUnk_00 = 3;
+            work->mFindList[work->mConnectNo].mUnk_00 = 3;
             return 9;
         }
     }
-    work->mUnk_d15 = 0;
-    work->mUnk_d14 = 0;
+    work->mCount = 0;
+    work->mConnectResult = 0;
     return 8;
 }
 
@@ -97,32 +97,32 @@ u32 ConnectAP(ACWORK *work) {
     u32 connPhase;
 
     connPhase = WCM_GetPhase();
-    bssDesc = &work->mUnk_470[work->mUnk_d13];
+    bssDesc = &work->mBssDesc[work->mConnectNo];
     if (connPhase == 3) {
         powerMode = GetPowerMode(work);
-        work->mUnk_d15++;
-        if (work->mUnk_d15 > 3) {
-            work->mUnk_d15 = 0;
-            work->mUnk_444[work->mUnk_d13].mUnk_00 = 1;
+        work->mCount++;
+        if (work->mCount > 3) {
+            work->mCount = 0;
+            work->mFindList[work->mConnectNo].mUnk_00 = 1;
             return 9;
         }
-        if (work->mUnk_d15 != 1) {
-            if (work->mUnk_d14 == 1) {
-                work->mUnk_d0b_2 = 0;
-            } else if (work->mUnk_d14 == 2) {
-                work->mUnk_d15 = 0;
-                work->mUnk_444[work->mUnk_d13].mUnk_00 = 3;
+        if (work->mCount != 1) {
+            if (work->mConnectResult == 1) {
+                work->mAuthMode = 0;
+            } else if (work->mConnectResult == 2) {
+                work->mCount = 0;
+                work->mFindList[work->mConnectNo].mUnk_00 = 3;
                 return 9;
-            } else if (work->mUnk_d14 == 3) {
-                work->mUnk_d15 = 0;
-                work->mUnk_444[work->mUnk_d13].mUnk_00 = 4;
+            } else if (work->mConnectResult == 3) {
+                work->mCount = 0;
+                work->mFindList[work->mConnectNo].mUnk_00 = 4;
                 return 9;
             }
         }
-        WCM_ConnectAsync((WMBssDesc *) bssDesc, &work->mUnk_cb8, powerMode | GetAuthMode(work));
+        WCM_ConnectAsync((WMBssDesc *) bssDesc, &work->mWepKey, powerMode | GetAuthMode(work));
     } else if (connPhase == 9) {
-        work->mUnk_d15 = 0;
-        work->mUnk_cb0 = OS_GetTick();
+        work->mCount = 0;
+        work->mTimeOut = OS_GetTick();
         return 10;
     }
     return 8;
@@ -134,9 +134,9 @@ u8 GetConnectType(ACWORK *work) {
     s32 i;
     s32 matchCount;
 
-    bssDesc = &work->mUnk_470[work->mUnk_d13];
+    bssDesc = &work->mBssDesc[work->mConnectNo];
     apType = 0;
-    if (work->mUnk_d0c_6 == 0) {
+    if (work->mDuplicateFlag == 0) {
         matchCount = apType;
         if (bssDesc->mUnk_0a == 0x20) {
             apType = DWCi_AC_CheckNintendoSSID((Unk02188408Entry0xc0 *) bssDesc);
@@ -153,15 +153,15 @@ u8 GetConnectType(ACWORK *work) {
                 apType = 0;
             }
         }
-        for (i = 0; i < work->mUnk_d10; i++) {
-            if (bssDesc->mUnk_0a == work->mUnk_300[i].mUnk_03 &&
-                strncmp((const char *) bssDesc->mUnk_0c, (const char *) work->mUnk_300[i].mUnk_04, bssDesc->mUnk_0a) ==
-                    0) {
+        for (i = 0; i < work->mSearchListNum; i++) {
+            if (bssDesc->mUnk_0a == work->mSearchList[i].mUnk_03 &&
+                strncmp((const char *) bssDesc->mUnk_0c, (const char *) work->mSearchList[i].mUnk_04,
+                        bssDesc->mUnk_0a) == 0) {
                 if (matchCount == 0) {
-                    apType = work->mUnk_300[i].mUnk_01;
+                    apType = work->mSearchList[i].mUnk_01;
                 } else {
-                    work->mUnk_300[i].mUnk_00_hi = 1;
-                    work->mUnk_d0c_6 = 1;
+                    work->mSearchList[i].mUnk_00_hi = 1;
+                    work->mDuplicateFlag = 1;
                 }
                 matchCount++;
             }
@@ -169,17 +169,17 @@ u8 GetConnectType(ACWORK *work) {
     } else {
         i = apType;
         matchCount = apType;
-        for (; i < work->mUnk_d10; i++) {
-            if (work->mUnk_300[i].mUnk_00_hi == 1) {
+        for (; i < work->mSearchListNum; i++) {
+            if (work->mSearchList[i].mUnk_00_hi == 1) {
                 if (matchCount == 0) {
-                    work->mUnk_300[i].mUnk_00_hi = 0;
-                    apType = work->mUnk_300[i].mUnk_01;
+                    work->mSearchList[i].mUnk_00_hi = 0;
+                    apType = work->mSearchList[i].mUnk_01;
                 }
                 matchCount++;
             }
         }
         if (matchCount == 1) {
-            work->mUnk_d0c_6 = 0;
+            work->mDuplicateFlag = 0;
         }
     }
     return apType;

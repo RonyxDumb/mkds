@@ -3,6 +3,6 @@
 #include "00/code_021884d8.h"
 
 s32 ConnectTestEnd(const ACWORK *work) {
-    SetAcHoldApType(work->mUnk_d0d);
+    SetAcHoldApType(work->mConnectApType);
     return 0x10;
 }

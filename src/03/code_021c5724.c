@@ -125,18 +125,18 @@ void CreateApListRowObjects(void) {
     }
     for (imageIndex = 0; imageIndex < 3; imageIndex++) {
         CopyNceImageToOamEntries(0, gApListRowLeftImageIndices[imageIndex], gApList->mUnk_10[0]);
-        gApList->mUnk_42[imageIndex] = gApList->mUnk_10[0]->mUnk_04 & 0x3ff;
+        gApList->mUnk_42[imageIndex] = gApList->mUnk_10[0]->mAttr2 & 0x3ff;
     }
     for (imageIndex = 0; imageIndex < 4; imageIndex++) {
         CopyNceImageToOamEntries(0, gApListRowRightImageIndices[imageIndex], gApList->mUnk_24[0]);
-        gApList->mUnk_48[imageIndex] = gApList->mUnk_24[0]->mUnk_04 & 0x3ff;
+        gApList->mUnk_48[imageIndex] = gApList->mUnk_24[0]->mAttr2 & 0x3ff;
     }
     for (i = 0; i < rowCount; i++) {
         OamEntry *oamEntry;
         oamEntry = gApList->mUnk_10[i];
-        oamEntry->mUnk_04 = (oamEntry->mUnk_04 & 0xfffff3ff) | 0xc00;
+        oamEntry->mAttr2 = (oamEntry->mAttr2 & 0xfffff3ff) | 0xc00;
         oamEntry = gApList->mUnk_24[i];
-        oamEntry->mUnk_04 = (oamEntry->mUnk_04 & 0xfffff3ff) | 0xc00;
+        oamEntry->mAttr2 = (oamEntry->mAttr2 & 0xfffff3ff) | 0xc00;
     }
 }
 
@@ -513,10 +513,10 @@ void SetApListRowTiles(int entryIndex, int rowSlot) {
     if (entryIndex < gApList->mEntryCount) {
         oamEntry = gApList->mUnk_10[rowSlot];
         entryOffset = entryIndex * 0x2a;
-        oamEntry->mUnk_04 = (oamEntry->mUnk_04 & ~0x3ff) | gApList->mUnk_42[*(gApList->mEntries + entryOffset + 0x28)];
+        oamEntry->mAttr2 = (oamEntry->mAttr2 & ~0x3ff) | gApList->mUnk_42[*(gApList->mEntries + entryOffset + 0x28)];
         oamEntry = gApList->mUnk_24[rowSlot];
-        oamEntry->mUnk_04 =
-            (oamEntry->mUnk_04 & ~0x3ff) | gApList->mUnk_48[*(u16 *) (gApList->mEntries + entryOffset + 0x26)];
+        oamEntry->mAttr2 =
+            (oamEntry->mAttr2 & ~0x3ff) | gApList->mUnk_48[*(u16 *) (gApList->mEntries + entryOffset + 0x26)];
     }
 }
 
@@ -532,9 +532,9 @@ void RefreshApListRowPositions(void) {
     for (i = 0; i < rowCount; i++, yPos += 0x1c) {
         OamEntry *oamEntry;
         oamEntry = gApList->mUnk_10[i];
-        oamEntry->mUnk_00 = (oamEntry->mUnk_00 & 0xfe00ff00) | ((yPos - 2) & 0xff) | 0xb30000;
+        oamEntry->mAttr01 = (oamEntry->mAttr01 & 0xfe00ff00) | ((yPos - 2) & 0xff) | 0xb30000;
         oamEntry = gApList->mUnk_24[i];
-        oamEntry->mUnk_00 = (oamEntry->mUnk_00 & 0xfe00ff00) | ((yPos + 1) & 0xff) | 0xd20000;
+        oamEntry->mAttr01 = (oamEntry->mAttr01 & 0xfe00ff00) | ((yPos + 1) & 0xff) | 0xd20000;
     }
     gApList->mBgOffsetPending = 1;
 }

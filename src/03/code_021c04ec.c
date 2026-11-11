@@ -40,13 +40,13 @@ void CreateEditKeyboard(void) {
     gEditKeyboard->mAddCharEnabled = 1;
     for (i = 0; i < 0x2f; i++) {
         gEditKeyboard->mKeys[i] = CreateOamEntryFromNceImage(0, 0x34);
-        gEditKeyboard->mKeys[i]->mUnk_00 = (gEditKeyboard->mKeys[i]->mUnk_00 & 0xc1fffcff) | 0x200;
-        gEditKeyboard->mKeys[i]->mUnk_04 = (gEditKeyboard->mKeys[i]->mUnk_04 & 0xfffff3ff) | 0xc00;
+        gEditKeyboard->mKeys[i]->mAttr01 = (gEditKeyboard->mKeys[i]->mAttr01 & 0xc1fffcff) | 0x200;
+        gEditKeyboard->mKeys[i]->mAttr2 = (gEditKeyboard->mKeys[i]->mAttr2 & 0xfffff3ff) | 0xc00;
     }
     for (i = 0; i < 4; i++) {
         gEditKeyboard->mExtraKeys[i] = CreateOamEntryFromNceImage(0, gEditKeyboardExtraKeyImages[i]);
-        gEditKeyboard->mExtraKeys[i]->mUnk_00 = (gEditKeyboard->mExtraKeys[i]->mUnk_00 & 0xc1fffcff) | 0x200;
-        gEditKeyboard->mExtraKeys[i]->mUnk_04 = (gEditKeyboard->mExtraKeys[i]->mUnk_04 & 0xfffff3ff) | 0xc00;
+        gEditKeyboard->mExtraKeys[i]->mAttr01 = (gEditKeyboard->mExtraKeys[i]->mAttr01 & 0xc1fffcff) | 0x200;
+        gEditKeyboard->mExtraKeys[i]->mAttr2 = (gEditKeyboard->mExtraKeys[i]->mAttr2 & 0xfffff3ff) | 0xc00;
     }
     for (i = 0; i < 2; i++) {
         gEditKeyboard->mRow4Keys[i] = CreateOamRangeFromNceImage(0, gEditKeyboardRow4KeyImages[i], 1);
@@ -101,8 +101,8 @@ BOOL HasEditKeyboard(void) {
 }
 
 static inline void EditKeyboardInG2_GetOBJPosition(OamEntry *object, u32 *x, u32 *y) {
-    *x = (object->mUnk_00 & 0x1ff0000) >> 16;
-    *y = object->mUnk_00 & 0xff;
+    *x = (object->mAttr01 & 0x1ff0000) >> 16;
+    *y = object->mAttr01 & 0xff;
 }
 
 void AdvanceEditKeyboardSlideInRow0(TaskEntry *task) {

@@ -168,42 +168,42 @@ typedef struct ChildWaitSharedEntry {
 // Object behind gChildWaitSessionView.
 typedef struct ChildWaitSessionView {
     /* 000 */ u8 pad_000[0x100];
-    /* 100 */ ChildWaitSharedEntry mUnk_100[2];
+    /* 100 */ ChildWaitSharedEntry mSharedEntries[2];
     /* 188 */ u8 pad_188[0x78];
-    /* 200 */ u16 mUnk_200;
+    /* 200 */ u16 mBlockNumber;
     /* 202 */ u16 mUnk_202;
-    /* 204 */ u32 mUnk_204;
-    /* 208 */ u32 mUnk_208[16];
+    /* 204 */ u32 mStallCount;
+    /* 208 */ u32 mEntryPresent[16];
     /* 248 */ u8 pad_248[0x400];
-    /* 648 */ u16 mUnk_648;
-    /* 64a */ u16 mUnk_64a;
+    /* 648 */ u16 mTgid;
+    /* 64a */ u16 mChannel;
     /* 64c */ u8 mUnk_64c[0x404];
     /* a50 */ u8 mUnk_a50[0x40];
-    /* a90 */ u8 mUnk_a90;
-    /* a91 */ u8 mUnk_a91;
-    /* a92 */ u8 mUnk_a92;
-    /* a93 */ u8 mUnk_a93;
-    /* a94 */ u32 mUnk_a94;
-    /* a98 */ u32 mUnk_a98;
-    /* a9c */ u32 mUnk_a9c;
+    /* a90 */ u8 mState;
+    /* a91 */ u8 mPrevState;
+    /* a92 */ u8 mHandshakeByte;
+    /* a93 */ u8 mHandshakeDone;
+    /* a94 */ u32 mReplyCount;
+    /* a98 */ u32 mMultiBootInitFrames;
+    /* a9c */ u32 mEndWaitFrames;
     /* aa0 */ u8 *mUnk_aa0[2];
     /* aa8 */ u8 mUnk_aa8[4];
-    /* aac */ u8 mUnk_aac;
+    /* aac */ u8 mRequest;
     /* aad */ u8 mUnk_aad[3];
-    /* ab0 */ ChildWaitSharedEntry *mUnk_ab0;
-    /* ab4 */ u32 mUnk_ab4;
-    /* ab8 */ u32 mUnk_ab8;
-    /* abc */ u32 mUnk_abc;
-    /* ac0 */ u32 mUnk_ac0;
-    /* ac4 */ u32 mUnk_ac4;
-    /* ac8 */ u32 mUnk_ac8;
-    /* acc */ u8 mUnk_acc;
+    /* ab0 */ ChildWaitSharedEntry *mSendEntry;
+    /* ab4 */ u32 mRomFilePathp;
+    /* ab8 */ u32 mGameNamep;
+    /* abc */ u32 mGameIntroductionp;
+    /* ac0 */ u32 mIconCharPathp;
+    /* ac4 */ u32 mIconPalettePathp;
+    /* ac8 */ u32 mGgid;
+    /* acc */ u8 mMaxPlayerNum;
     /* acd */ u8 mUnk_acd[0x33];
     /* b00 */ u8 mUnk_b00[4];
 } ChildWaitSessionView;
 
 static inline ChildWaitSharedEntry *GetChildWaitSharedEntry(ChildWaitSessionView *session, u32 entryIndex) {
-    return &session->mUnk_100[entryIndex];
+    return &session->mSharedEntries[entryIndex];
 }
 
 extern ChildWaitSessionView *gChildWaitSessionView;

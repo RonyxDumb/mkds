@@ -6,12 +6,12 @@ u32 CheckStartStealthSearch(ACWORK *work) {
     u8 channel;
     int listNum;
     u32 nextPhase;
-    if ((work->mUnk_d16 != 0) && (listNum = DWCi_AC_MakeSearchList(2), listNum != 0)) {
+    if ((work->mStealthChannel != 0) && (listNum = DWCi_AC_MakeSearchList(2), listNum != 0)) {
         channel = DWCi_AC_GetStealthChannel(0);
-        work->mUnk_d11 = channel;
+        work->mSearchChannel = channel;
         return 5;
     }
-    if (work->mUnk_d0b_4 < 1) {
+    if (work->mAroundCount < 1) {
         nextPhase = SearchAround2ndLap(work);
         return nextPhase;
     }

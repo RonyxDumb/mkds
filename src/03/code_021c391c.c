@@ -48,10 +48,10 @@ void SetupOptMenu(void) {
     ShowSubScreenMessage(0x88, -1, 0);
     gOptMenuOamEntry = CreateOamEntryFromNceImage(0, 0x5b);
     oamEntry = gOptMenuOamEntry;
-    oamEntry->mUnk_00 = ((gOptMenuOamEntryPosition[0] & 0x1ff) << 16) |
-                        ((oamEntry->mUnk_00 & 0xfe00ff00) | (gOptMenuOamEntryPosition[1] & 0xff));
+    oamEntry->mAttr01 = ((gOptMenuOamEntryPosition[0] & 0x1ff) << 16) |
+                        ((oamEntry->mAttr01 & 0xfe00ff00) | (gOptMenuOamEntryPosition[1] & 0xff));
     oamEntry = gOptMenuOamEntry;
-    oamEntry->mUnk_04 = (oamEntry->mUnk_04 & 0xfffff3ff) | 0xc00;
+    oamEntry->mAttr2 = (oamEntry->mAttr2 & 0xfffff3ff) | 0xc00;
     PlaceSelectionCorners(
         gOptMenuSelectionLeft[gOptMenuSelectedIndex * 4], gOptMenuSelectionRight[gOptMenuSelectedIndex * 4],
         gOptMenuSelectionTop[gOptMenuSelectedIndex * 4], gOptMenuSelectionBottom[gOptMenuSelectedIndex * 4]);

@@ -51,7 +51,7 @@ u32 DWCi_AC_ConnectTest(void) {
                 DWC_Netcheck_Abort();
                 DWC_Netcheck_Destroy();
             default:
-                work->mUnk_444[work->mUnk_d13].mUnk_00 = 2;
+                work->mFindList[work->mConnectNo].mUnk_00 = 2;
                 phase = 0xb;
         }
     }

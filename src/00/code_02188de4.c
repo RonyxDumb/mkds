@@ -7,7 +7,7 @@
 u32 FillApWepKey(struct ACWORK *work, u32 type, WCMWepDesc *wepKey) {
     DWCMemPage *userInfo;
 
-    userInfo = work->mUnk_000;
+    userInfo = work->mUserInfo;
     switch (type) {
         case 2:
             userInfo++;
@@ -28,11 +28,11 @@ u32 FillApWepKey(struct ACWORK *work, u32 type, WCMWepDesc *wepKey) {
             break;
         case 6:
             wepKey->mUnk_00 = 2;
-            DWCi_AC_GetNintendoUSBWepKey(work->mUnk_470[work->mUnk_d13].mUnk_0c, wepKey->mUnk_02);
+            DWCi_AC_GetNintendoUSBWepKey(work->mBssDesc[work->mConnectNo].mUnk_0c, wepKey->mUnk_02);
             break;
         case 7:
             wepKey->mUnk_00 = 2;
-            DWCi_AC_GetNintendoShopWepKey(work->mUnk_470[work->mUnk_d13].mUnk_0c, wepKey->mUnk_02);
+            DWCi_AC_GetNintendoShopWepKey(work->mBssDesc[work->mConnectNo].mUnk_0c, wepKey->mUnk_02);
             break;
         case 8:
         case 9:

@@ -50,11 +50,11 @@ typedef struct Unk02188408 {
     /* cb0 */ u8 pad_cb0[0x5a];
     /* d0a */ u8 mUnk_d0a;
     /* d0b */ u8 mUnk_d0b_0 : 2;
-    /*     */ u8 mUnk_d0b_2 : 2;
-    /*     */ u8 mUnk_d0b_4 : 4;
+    /*     */ u8 mAuthMode : 2;
+    /*     */ u8 mAroundCount : 4;
     /* d0c */ u8 mUnk_d0c_0 : 4;
-    /*     */ u8 mUnk_d0c_4 : 2;
-    /*     */ u8 mUnk_d0c_6 : 2;
+    /*     */ u8 mSkipNetCheck : 2;
+    /*     */ u8 mDuplicateFlag : 2;
     /* d0d */ u8 mUnk_d0d;
     /* d0e */ u8 pad_d0e;
     /* d0f */ u8 mUnk_d0f;
@@ -69,7 +69,6 @@ typedef struct Unk02188408 {
 extern const s8 *gBase64Alphabet;
 extern u8 gHttpName[];
 extern u8 gNetcheckName[];
-
 
 void DWCi_Netcheck_StartThread(void);
 void DWC_Netcheck_Destroy(void);

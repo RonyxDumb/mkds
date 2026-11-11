@@ -33,11 +33,11 @@ void DrawCoinShadow(void *mapObjectList, Coin *coin, void *viewMatrix, u32 mapOb
     Vec3 scale;
     Vec3 shadowScale;
 
-    if (coin->mScaleFactor > 0 && coin->mModelAlpha != 0 && (coin->mUnk_000.mFlags & 1) == 0 &&
-        (s32) (coin->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0) < 0x3d090) {
-        shadowPosition.x = coin->mUnk_000.mPos.x;
-        shadowPosition.y = coin->mUnk_000.mPos.y - 0x16000;
-        shadowPosition.z = coin->mUnk_000.mPos.z;
+    if (coin->mScaleFactor > 0 && coin->mModelAlpha != 0 && (coin->mMapObject.mFlags & 1) == 0 &&
+        (s32) (coin->mMapObject.mDistanceSquaredAndFlags & 0x3fffffe0) < 0x3d090) {
+        shadowPosition.x = coin->mMapObject.mPos.x;
+        shadowPosition.y = coin->mMapObject.mPos.y - 0x16000;
+        shadowPosition.z = coin->mMapObject.mPos.z;
         gxArgument = 0x1e;
         NNS_G3dGeBufferOP_N(0x14, &gxArgument, 1);
         NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&shadowPosition), 0xc);
@@ -48,7 +48,7 @@ void DrawCoinShadow(void *mapObjectList, Coin *coin, void *viewMatrix, u32 mapOb
             scale.z = scaleFactor;
             NNS_G3dGeBufferOP_N(0x1b, &scale, 3);
         }
-        NNS_G3dGeBufferOP_N(0x1b, &coin->mUnk_000.mScale, 3);
+        NNS_G3dGeBufferOP_N(0x1b, &coin->mMapObject.mScale, 3);
         MTX_RotY33_(&rotationMatrix, FX_CosIdx(gCoinShadowRotationAngles[gCoinShadowRotationIndex]),
                     FX_SinIdx(gCoinShadowRotationAngles[gCoinShadowRotationIndex]));
         NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);

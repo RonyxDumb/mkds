@@ -7,13 +7,13 @@
 u32 GetIPAddress(ACWORK *work) {
     if (SOC_GetHostID() != 0) {
         CheckSetDNS(work);
-        if (work->mUnk_d0c_4 == 1) {
+        if (work->mSkipNetCheck == 1) {
             return 0xf;
         }
         return 0xd;
     }
-    if ((OS_GetTick() - work->mUnk_cb0) * 64 / 0x1ff6210 >= 10) {
-        work->mUnk_444[work->mUnk_d13].mUnk_00 = 1;
+    if ((OS_GetTick() - work->mTimeOut) * 64 / 0x1ff6210 >= 10) {
+        work->mFindList[work->mConnectNo].mUnk_00 = 1;
         return 0xb;
     }
     return 0xc;

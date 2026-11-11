@@ -11,8 +11,8 @@ void MakeSOCConfig(const u32 *hold, ACWORK *work, SOCConfig *config) {
     MI_CpuCopy8(gAcSocConfig, config, 0x58);
     config->mAlloc = hold[0];
     config->mFree = hold[1];
-    if (work->mUnk_d0d < 6) {
-        info = &work->mUnk_000[DWCi_ConvConnectAPType(work->mUnk_d0d)];
+    if (work->mConnectApType < 6) {
+        info = &work->mUserInfo[DWCi_ConvConnectAPType(work->mConnectApType)];
         if (info->mUnk_c0[0] != 0) {
             config->mFlag = 0;
             config->mAddr = ConvAddress(info->mUnk_c0);

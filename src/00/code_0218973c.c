@@ -22,9 +22,9 @@ u32 DWCi_AC_ConnectRetryAP(void) {
     nextPhase = 9;
     switch (WCM_GetPhase()) {
         case 3:
-            nextPhase = work->mUnk_d0e;
-            if (work->mUnk_d0c_6 == 1) {
-                work->mUnk_444[work->mUnk_d13].mUnk_00 = 0;
+            nextPhase = work->mPhaseBak;
+            if (work->mDuplicateFlag == 1) {
+                work->mFindList[work->mConnectNo].mUnk_00 = 0;
                 nextPhase = 7;
             } else if (nextPhase >= 3 && nextPhase <= 5) {
                 DWCi_AC_SearchReStart(nextPhase);
@@ -55,17 +55,18 @@ u8 DWCi_AC_MakeSearchList(u32 type) {
 
     work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
     clearValue = 0;
-    MIi_CpuClear32(clearValue, work->mUnk_300, 0x144);
+    MIi_CpuClear32(clearValue, work->mSearchList, 0x144);
     switch (type) {
         case 0:
-            work->mUnk_d10 = MakeAroundList(work);
+            work->mSearchListNum = MakeAroundList(work);
             break;
         case 1:
-            work->mUnk_d10 = MakeDifferChannelList(work->mUnk_d12, work->mUnk_444, work->mUnk_300, work->mUnk_470);
+            work->mSearchListNum =
+                MakeDifferChannelList(work->mFindListNum, work->mFindList, work->mSearchList, work->mBssDesc);
             break;
         case 2:
-            work->mUnk_d10 = MakeStealthList(work);
+            work->mSearchListNum = MakeStealthList(work);
             break;
     }
-    return work->mUnk_d10;
+    return work->mSearchListNum;
 }

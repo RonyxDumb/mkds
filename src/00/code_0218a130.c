@@ -13,12 +13,12 @@ u32 ConnectTestProcess(ACWORK *work) {
     hold = (Unk02189350 *) DWCi_AC_GetMemPtr(1);
     error = DWC_Netcheck_GetError();
     if (error != 0) {
-        if (hold->mUnk_15 == DWCi_ConvConnectAPType(work->mUnk_d0d)) {
+        if (hold->mUnk_15 == DWCi_ConvConnectAPType(work->mConnectApType)) {
             hold->mUnk_10 = DWC_Netcheck_GetReturnCode();
         }
         DWC_Netcheck_Destroy();
         if (error != 0xb) {
-            work->mUnk_444[work->mUnk_d13].mUnk_00 = 1;
+            work->mFindList[work->mConnectNo].mUnk_00 = 1;
             return 0xb;
         }
         return 0xf;

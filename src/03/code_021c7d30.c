@@ -86,11 +86,11 @@ void CreateJb3List(void) {
     switch (record->mEntry.mSetType) {
         case 1:
             gJb3List->mUnk_34 = CreateOamEntryFromNceImage(0, 0x50);
-            gJb3List->mUnk_34->mUnk_04 = (gJb3List->mUnk_34->mUnk_04 & ~0xc00) | 0xc00;
+            gJb3List->mUnk_34->mAttr2 = (gJb3List->mUnk_34->mAttr2 & ~0xc00) | 0xc00;
             break;
         case 2:
             gJb3List->mUnk_34 = CreateOamEntryFromNceImage(0, 0x51);
-            gJb3List->mUnk_34->mUnk_04 = (gJb3List->mUnk_34->mUnk_04 & ~0xc00) | 0xc00;
+            gJb3List->mUnk_34->mAttr2 = (gJb3List->mUnk_34->mAttr2 & ~0xc00) | 0xc00;
             break;
     }
     gJb3List->mBgOffsetTask = AddTask(1, WriteJb3ListBgOffset, NULL, 0x6e);
@@ -422,8 +422,8 @@ void UpdateJb3ListFadeOut(void) {
 }
 
 static inline void Jb3ListG2_GetOBJPosition(OamEntry *oamEntry, u32 *x, u32 *y) {
-    *x = (oamEntry->mUnk_00 & 0x1ff0000) >> 16;
-    *y = oamEntry->mUnk_00 & 0xff;
+    *x = (oamEntry->mAttr01 & 0x1ff0000) >> 16;
+    *y = oamEntry->mAttr01 & 0xff;
 }
 
 void UpdateJb3ListRelease(void) {
@@ -731,10 +731,10 @@ void SetupJb3ListCell(int cellKind, int cellState, int row) {
     if (gJb3ListCellImageIds[cellKind][cellState] != 0) {
         CopyNceImageToOamEntries(0, gJb3ListCellImageIds[cellKind][cellState], *entryPointer);
         xBits = (cellXPositions[cellKind] & 0x1ff) << 16;
-        (*entryPointer)->mUnk_00 = xBits | ((*entryPointer)->mUnk_00 & 0xfe00ff00);
-        (*entryPointer)->mUnk_04 = ((*entryPointer)->mUnk_04 & ~0xc00) | 0xc00;
+        (*entryPointer)->mAttr01 = xBits | ((*entryPointer)->mAttr01 & 0xfe00ff00);
+        (*entryPointer)->mAttr2 = ((*entryPointer)->mAttr2 & ~0xc00) | 0xc00;
     } else {
-        (*entryPointer)->mUnk_00 = ((*entryPointer)->mUnk_00 & 0xfe00ff00) | 0x1000000;
+        (*entryPointer)->mAttr01 = ((*entryPointer)->mAttr01 & 0xfe00ff00) | 0x1000000;
     }
 }
 
@@ -803,29 +803,29 @@ void RefreshJb3ListRowPositions(void) {
         } else {
             xPosition = 0x100;
         }
-        gJb3List->mUnk_34->mUnk_00 =
-            ((xPosition & 0x1ff) << 16) | ((gJb3List->mUnk_34->mUnk_00 & 0xfe00ff00) | (firstRowY & 0xff));
+        gJb3List->mUnk_34->mAttr01 =
+            ((xPosition & 0x1ff) << 16) | ((gJb3List->mUnk_34->mAttr01 & 0xfe00ff00) | (firstRowY & 0xff));
     }
     for (i = 0, rowY = firstRowY; i < 5; i++, rowY += 0x1d) {
         Jb3ListG2_GetOBJPosition(gJb3List->mUnk_18[i], (u32 *) &xPosition, &yPosition);
         oamEntry = gJb3List->mUnk_18[i];
-        oamEntry->mUnk_00 = ((xPosition & 0x1ff) << 16) | ((oamEntry->mUnk_00 & 0xfe00ff00) | (rowY & 0xff));
+        oamEntry->mAttr01 = ((xPosition & 0x1ff) << 16) | ((oamEntry->mAttr01 & 0xfe00ff00) | (rowY & 0xff));
     }
     if (firstEntryIndex <= 2) {
         Jb3ListG2_GetOBJPosition(gJb3List->mUnk_18[5], &xPosition, (u32 *) &yPosition);
-        gJb3List->mUnk_18[5]->mUnk_00 =
+        gJb3List->mUnk_18[5]->mAttr01 =
             ((xPosition & 0x1ff) << 16) |
-            ((gJb3List->mUnk_18[5]->mUnk_00 & 0xfe00ff00) | ((firstRowY + (2 - firstEntryIndex) * 0x1d) & 0xff));
+            ((gJb3List->mUnk_18[5]->mAttr01 & 0xfe00ff00) | ((firstRowY + (2 - firstEntryIndex) * 0x1d) & 0xff));
     } else {
-        gJb3List->mUnk_18[5]->mUnk_00 = (gJb3List->mUnk_18[5]->mUnk_00 & 0xfe00ff00) | 0x1000000;
+        gJb3List->mUnk_18[5]->mAttr01 = (gJb3List->mUnk_18[5]->mAttr01 & 0xfe00ff00) | 0x1000000;
     }
     if (firstEntryIndex >= 2 && firstEntryIndex <= 6) {
         Jb3ListG2_GetOBJPosition(gJb3List->mUnk_18[6], &xPosition, (u32 *) &yPosition);
-        gJb3List->mUnk_18[6]->mUnk_00 =
+        gJb3List->mUnk_18[6]->mAttr01 =
             ((xPosition & 0x1ff) << 16) |
-            ((gJb3List->mUnk_18[6]->mUnk_00 & 0xfe00ff00) | ((firstRowY + (6 - firstEntryIndex) * 0x1d) & 0xff));
+            ((gJb3List->mUnk_18[6]->mAttr01 & 0xfe00ff00) | ((firstRowY + (6 - firstEntryIndex) * 0x1d) & 0xff));
     } else {
-        gJb3List->mUnk_18[6]->mUnk_00 = (gJb3List->mUnk_18[6]->mUnk_00 & 0xfe00ff00) | 0x1000000;
+        gJb3List->mUnk_18[6]->mAttr01 = (gJb3List->mUnk_18[6]->mAttr01 & 0xfe00ff00) | 0x1000000;
     }
     gJb3List->mBgOffsetPending = 1;
 }

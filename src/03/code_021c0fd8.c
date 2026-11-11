@@ -42,13 +42,13 @@ void CreateEditAddrKeyboard(void) {
     gEditAddrKeyboard->mNextGroupEnabled = 1;
     for (i = 0; i < 10; i++) {
         gEditAddrKeyboard->mDigitKeys[i] = CreateOamEntryFromNceImage(0, 0x36);
-        gEditAddrKeyboard->mDigitKeys[i]->mUnk_00 = (gEditAddrKeyboard->mDigitKeys[i]->mUnk_00 & 0xc1fffcff) | 0x200;
-        gEditAddrKeyboard->mDigitKeys[i]->mUnk_04 = (gEditAddrKeyboard->mDigitKeys[i]->mUnk_04 & 0xfffff3ff) | 0xc00;
+        gEditAddrKeyboard->mDigitKeys[i]->mAttr01 = (gEditAddrKeyboard->mDigitKeys[i]->mAttr01 & 0xc1fffcff) | 0x200;
+        gEditAddrKeyboard->mDigitKeys[i]->mAttr2 = (gEditAddrKeyboard->mDigitKeys[i]->mAttr2 & 0xfffff3ff) | 0xc00;
     }
     for (i = 0; i < 2; i++) {
         gEditAddrKeyboard->mExtraKeys[i] = CreateOamEntryFromNceImage(0, gEditAddrKeyboardExtraKeyImages[i]);
-        gEditAddrKeyboard->mExtraKeys[i]->mUnk_00 = (gEditAddrKeyboard->mExtraKeys[i]->mUnk_00 & 0xc1fffcff) | 0x200;
-        gEditAddrKeyboard->mExtraKeys[i]->mUnk_04 = (gEditAddrKeyboard->mExtraKeys[i]->mUnk_04 & 0xfffff3ff) | 0xc00;
+        gEditAddrKeyboard->mExtraKeys[i]->mAttr01 = (gEditAddrKeyboard->mExtraKeys[i]->mAttr01 & 0xc1fffcff) | 0x200;
+        gEditAddrKeyboard->mExtraKeys[i]->mAttr2 = (gEditAddrKeyboard->mExtraKeys[i]->mAttr2 & 0xfffff3ff) | 0xc00;
     }
     for (i = 0; i < 2; i++) {
         gEditAddrKeyboard->mRow4Keys[i] = CreateOamRangeFromNceImage(0, gEditAddrKeyboardRow4KeyImages[i], 1);
@@ -103,8 +103,8 @@ BOOL HasEditAddrKeyboard(void) {
 }
 
 static inline void EditAddrInG2_GetOBJPosition(OamEntry *object, u32 *x, u32 *y) {
-    *x = (object->mUnk_00 & 0x1ff0000) >> 16;
-    *y = object->mUnk_00 & 0xff;
+    *x = (object->mAttr01 & 0x1ff0000) >> 16;
+    *y = object->mAttr01 & 0xff;
 }
 
 void AdvanceEditAddrKeyboardSlideInRow0(TaskEntry *task) {
@@ -346,8 +346,8 @@ void ChangeEditAddrKeyboardHighlight(int keyIndex) {
 }
 
 static inline void EditAddrOutG2_GetOBJPosition(OamEntry *object, u32 *x, u32 *y) {
-    *x = (object->mUnk_00 & 0x1ff0000) >> 16;
-    *y = object->mUnk_00 & 0xff;
+    *x = (object->mAttr01 & 0x1ff0000) >> 16;
+    *y = object->mAttr01 & 0xff;
 }
 
 void AdvanceEditAddrKeyboardKeys(void) {
@@ -413,10 +413,10 @@ void SetEditAddrKeyboardRowY(int row, u32 yPos) {
     keyIndex = row * 3;
     for (i = 0; i < digitKeyCounts[(u32) row]; i++, keyIndex++) {
         key = gEditAddrKeyboard->mDigitKeys[keyIndex];
-        key->mUnk_00 = key->mUnk_00 & 0xc1fffcff;
+        key->mAttr01 = key->mAttr01 & 0xc1fffcff;
         key = gEditAddrKeyboard->mDigitKeys[keyIndex];
-        key->mUnk_00 = ((gEditAddrKeyboardDigitKeyPositions[keyIndex][0] & 0x1ff) << 16) |
-                       ((key->mUnk_00 & 0xfe00ff00) | (yPos & 0xff));
+        key->mAttr01 = ((gEditAddrKeyboardDigitKeyPositions[keyIndex][0] & 0x1ff) << 16) |
+                       ((key->mAttr01 & 0xfe00ff00) | (yPos & 0xff));
     }
     if (row < 4) {
         ArrangeObjTextCanvasRange(gEditAddrKeyboard->mRowTexts[row], gEditAddrKeyboardDigitKeyPositions[row * 3][0],
@@ -424,10 +424,10 @@ void SetEditAddrKeyboardRowY(int row, u32 yPos) {
     }
     for (i = 0; i < extraKeyCounts[(u32) row]; i++) {
         key = gEditAddrKeyboard->mExtraKeys[i];
-        key->mUnk_00 = key->mUnk_00 & 0xc1fffcff;
+        key->mAttr01 = key->mAttr01 & 0xc1fffcff;
         key = gEditAddrKeyboard->mExtraKeys[i];
-        key->mUnk_00 =
-            ((gEditAddrKeyboardExtraKeyPositions[i][0] & 0x1ff) << 16) | ((key->mUnk_00 & 0xfe00ff00) | (yPos & 0xff));
+        key->mAttr01 =
+            ((gEditAddrKeyboardExtraKeyPositions[i][0] & 0x1ff) << 16) | ((key->mAttr01 & 0xfe00ff00) | (yPos & 0xff));
     }
     effectAndAffineIndex = FALSE;
     for (i = 0; i < row4KeyCounts[(u32) row]; i++) {
@@ -444,15 +444,15 @@ void SetEditAddrKeyboardKeyHighlight(int keyIndex, int highlight) {
     }
     if (keyIndex < 10) {
         key = gEditAddrKeyboard->mDigitKeys[keyIndex];
-        key->mUnk_00 &= 0xfffff3ff;
-        key->mUnk_04 = (key->mUnk_04 & 0xffff0fff) | (gEditAddrKeyboardKeyPalettes[highlight] << 12);
+        key->mAttr01 &= 0xfffff3ff;
+        key->mAttr2 = (key->mAttr2 & 0xffff0fff) | (gEditAddrKeyboardKeyPalettes[highlight] << 12);
         return;
     }
     extraKeyIndex = keyIndex - 10;
     if (extraKeyIndex < 2) {
         key = gEditAddrKeyboard->mExtraKeys[extraKeyIndex];
-        key->mUnk_00 &= 0xfffff3ff;
-        key->mUnk_04 = (key->mUnk_04 & 0xffff0fff) | (gEditAddrKeyboardKeyPalettes[highlight] << 12);
+        key->mAttr01 &= 0xfffff3ff;
+        key->mAttr2 = (key->mAttr2 & 0xffff0fff) | (gEditAddrKeyboardKeyPalettes[highlight] << 12);
         return;
     }
     SetOamRangeMode(gEditAddrKeyboard->mRow4Keys[keyIndex - 12], -1, 0,

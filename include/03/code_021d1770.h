@@ -5,8 +5,8 @@
 // 8-byte object at index i of OamRange.mUnk_08: GetOamRangeEntryPosition reads bits 16-24 and bits 0-7 of its word
 // at 0x00.
 typedef struct OamEntry {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u16 mUnk_04;
+    /* 00 */ u32 mAttr01;
+    /* 04 */ u16 mAttr2;
     /* 06 */ u16 mUnk_06;
 } OamEntry;
 

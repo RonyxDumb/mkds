@@ -99,7 +99,7 @@ void DeleteOamRange(OamRange *range) {
     s32 i;
 
     for (i = 0; i < range->mEntryCount; i++, entries++) {
-        entries->mUnk_00 = (entries->mUnk_00 & 0xc1fffcff) | 0x200;
+        entries->mAttr01 = (entries->mAttr01 & 0xc1fffcff) | 0x200;
     }
     RemoveNodeFromList((u32) range);
     if (range >= (OamRange *) &gOamRanges[1]) {
