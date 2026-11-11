@@ -21,7 +21,7 @@
 #include "code_02142eac.h"
 #include "Main/Unknown/code_02151718.h"
 
-void InitChildWaitSession(ChildWaitSessionView *session, Unk021d1358 *params) {
+void InitChildWaitSession(ChildWaitSessionView *session, ChildWaitParamsView *params) {
     gChildWaitSessionView = session;
     InitMultiBootParent(session->mUnk_b00);
     gChildWaitSessionView->mUnk_648 = 0;

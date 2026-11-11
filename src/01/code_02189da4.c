@@ -47,7 +47,7 @@
 #include "Main/Unknown/code_0210b708.h"
 #include "Main/Unknown/code_0210b000.h"
 
-void func_ov001_0218a30c(Unk02188950 *mapObject) {
+void StartBombKingNotEliminatedEffects(Unk02188950 *mapObject) {
     SoundStartParams soundRequest;
 
     StartMapObjectState(mapObject, 8, NULL);
@@ -57,19 +57,19 @@ void func_ov001_0218a30c(Unk02188950 *mapObject) {
     StartEffectAtOffset(mapObject, 0, 0x2000, 0, 0x40e, 0);
     StartEffectAtOffset(mapObject, 0, 0x2000, 0, 0x40d, 0);
     StartEffectAtOffset(mapObject, 0, 0x2000, 0, 0x40f, 0);
-    soundRequest = data_ov001_021a7ad0;
+    soundRequest = gBombKingEndSoundParams;
     soundRequest.mPositionSource = &mapObject->mUnk_000.mPos;
     soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&mapObject->mUnk_000.mPos);
     StartSndHandleSoundUnchecked(&soundRequest, GetSecondSndHandleSlot());
-    mapObject->mUnk_000.mFlags |= data_ov001_021a6588;
-    mapObject->mUnk_000.mFlags |= data_ov001_021a658c;
-    mapObject->mUnk_000.mFlags |= data_ov001_021a6590;
+    mapObject->mUnk_000.mFlags |= gBombKingSkipViewTestFlag;
+    mapObject->mUnk_000.mFlags |= gBombKingSkipListCallbackFlag;
+    mapObject->mUnk_000.mFlags |= gBombKingDisabledFlag;
 }
 
-void func_ov001_0218a2dc(Unk02188950 *mapObject) {
+void StartBombKingKartNotEliminatedState(Unk02188950 *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_070, mapObject->mPrm->mUnk_074);
-    StartStateFrameCountCallback(mapObject, 0x3c, &func_ov001_0218a30c);
+    StartStateFrameCountCallback(mapObject, 0x3c, &StartBombKingNotEliminatedEffects);
 }
 
 void BombKingStandingsEndCallback(void) {
@@ -90,30 +90,30 @@ void StartBombKingWaitForRaceStart(Unk02188950 *mapObject) {
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_064, mapObject->mPrm->mUnk_068);
 }
 
-void func_ov001_0218a250(Unk02188950 *mapObject) {
+void StartBombKingStartupSecond(Unk02188950 *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_058, mapObject->mPrm->mUnk_05c,
                                   (UnkFunc *) &StartBombKingWaitForRaceStart);
     SetAnimationFrameCallback(mapObject, ((u32) mapObject->mPrm->mUnk_148), ThrowItemBombsInRing);
 }
 
-void func_ov001_0218a20c(Unk02188950 *mapObject) {
+void StartBombKingStartupFirst(Unk02188950 *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_04c, mapObject->mPrm->mUnk_050);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_054, &func_ov001_0218a250);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_054, &StartBombKingStartupSecond);
     StartMapObjectSound(&mapObject->mUnk_000, 0x00000235u);
 }
 
-void func_ov001_0218a1d0(Unk02188950 *mapObject) {
+void StartBombKingChainStartupSecond(Unk02188950 *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_040, mapObject->mPrm->mUnk_044);
     SetAnimationFrameCallback(mapObject, mapObject->mPrm->mUnk_148, StartBombKingEffectAndSound);
 }
 
-void func_ov001_0218a19c(Unk02188950 *mapObject) {
+void StartBombKingChainStartupFirst(Unk02188950 *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_034, mapObject->mPrm->mUnk_038);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_03c, &func_ov001_0218a1d0);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_03c, &StartBombKingChainStartupSecond);
 }
 
 void InitBombKingObjects(MapObjectList *list) {
@@ -127,9 +127,9 @@ void InitBombKingObjects(MapObjectList *list) {
             offset.y = mapObject->mPrm->mUnk_100;
             SetNodePositionSourceAndBombOffset(mapObject, 5, (&offset));
             if (GetRaceUseChainCameras() != 0) {
-                func_ov001_0218a19c(mapObject);
+                StartBombKingChainStartupFirst(mapObject);
             } else {
-                func_ov001_0218a20c(mapObject);
+                StartBombKingStartupFirst(mapObject);
             }
         }
     }
@@ -152,9 +152,9 @@ void UpdateBombKing(u32 unused, Unk02188950 *mapObject) {
                 active = 0;
             }
             if (active != 0) {
-                func_ov001_0218a3ec(mapObject);
+                StartBombKingKartEliminatedState(mapObject);
             } else {
-                func_ov001_0218a2dc(mapObject);
+                StartBombKingKartNotEliminatedState(mapObject);
             }
         }
     } else {
@@ -184,14 +184,14 @@ void SetBombKingEffectScale(Unk0201ca6c *emitter) {
     emitter->mUnk_6c = 0x2000;
 }
 
-void func_ov001_02189fe0(Unk02188950 *mapObject, ItemObject *itemObject) {
+void BombKingItemBounceCallback(Unk02188950 *mapObject, ItemObject *itemObject) {
     if (itemObject->mKind == 9) {
         if (IsItemBombState2(itemObject) == FALSE) {
             StartEffectWithCallback(0x3a, &itemObject->mPos, NULL, SetBombKingEffectScale);
         }
     }
     mapObject->mUnk_2e0 = 1;
-    SetItemCollisionCallback(mapObject, (UnkFunc *) func_ov001_02189fe0);
+    SetItemCollisionCallback(mapObject, (UnkFunc *) BombKingItemBounceCallback);
 }
 
 void BombKingItemHitCallback(Unk02188950 *mapObject, ItemObject *itemObject) {
@@ -229,8 +229,8 @@ void InitBombKing(MapObjectList *list) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(mapObject);
             }
-            InitMissionRunMapObject(list, mapObject, data_ov001_021a7b14, data_ov001_021a7b24, data_ov001_021a7b34);
-            LoadMissionRunMapObjectShadow(list, mapObject, data_ov001_021a7b44);
+            InitMissionRunMapObject(list, mapObject, gBombKingNsbmdName, gBombKingNsbcaName, gBombKingPrmName);
+            LoadMissionRunMapObjectShadow(list, mapObject, gBombKingShadowNsbmdName);
             prm = mapObject->mPrm;
             SetCollisionOffsetAndExtent(mapObject, prm->mUnk_008, prm->mUnk_00c, prm->mUnk_20c);
             SetShadowOffsetYAndScale(mapObject, 0, 0x23000);

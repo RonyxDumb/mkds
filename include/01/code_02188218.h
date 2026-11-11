@@ -4,5 +4,5 @@
 
 typedef struct Unk02188950 Unk02188950;
 
-void func_ov001_02188218(Unk02188950 *mapObject, s32 value);
+void SetRepeatsRemaining(Unk02188950 *mapObject, s32 repeatsRemaining);
 unsigned short GetAbsoluteCounter(Unk02188950 *mapObject);

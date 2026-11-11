@@ -54,7 +54,7 @@ void InitWiFiVSSetting(void *heap) {
     gWiFiVSSetting->mPendingWiFiState = -1;
     gWiFiVSSetting->mStateFrames = 0;
     gWiFiVSSetting->mUnk_24 = TRUE;
-    func_ov000_02180638(0);
+    SetWiFiVSSettingFlag(0);
     LocateAndQueueWiFiVSSetting();
     InitPaletteBlend(heap, gWiFiVSSetting->mWiFiVSSettingSONclr, 3);
     for (i = 0; i < 2; i++) {
@@ -305,7 +305,7 @@ next:
         gWiFiVSSetting->mRow = 2;
         gMenuShared->mUnk_54 = gWiFiVSSettingKartTypes[gWiFiVSSetting->mSettingIndex];
         if ((u16) (gInputSlots[slotIndex].mBits & PAD_KEY_R) != 0) {
-            func_ov000_02180638(1);
+            SetWiFiVSSettingFlag(1);
         }
         SetWiFiVSSettingIndex(gWiFiVSSetting->mSettingIndex);
         StartSoundOncePerFrame(5);

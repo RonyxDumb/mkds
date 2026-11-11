@@ -28,9 +28,9 @@ typedef struct EditAddrKeyboard {
 } EditAddrKeyboard;
 
 // Five bytes moved as one value.
-typedef struct Unk021c1364_05 {
+typedef struct EditKeyboardRowCounts {
     /* 0 */ u8 mUnk_00[5];
-} Unk021c1364_05;
+} EditKeyboardRowCounts;
 
 void ReleaseEditAddrKeyboard(u32 task);
 void AdvanceEditAddrKeyboardSlideOutRow0(TaskEntry *task);

@@ -28,7 +28,7 @@
 #include "03/unk_021d67d8.h"
 #include "registers.h"
 
-static inline void func_ov003_021bfbd0_inline(OamEntry *object, u32 *x, u32 *y) {
+static inline void EditKeyboardOutG2_GetOBJPosition(OamEntry *object, u32 *x, u32 *y) {
     *x = (object->mUnk_00 & 0x1ff0000) >> 16;
     *y = object->mUnk_00 & 0xff;
 }
@@ -118,9 +118,9 @@ void SetEditKeyboardRowY(u32 page, s32 row, u32 yPos) {
     s32 keyIndex;
     s32 extraKeyIndex;
     OamEntry *key;
-    *(Unk021c1364_05 *) keyCounts = *(Unk021c1364_05 *) gEditKeyboardKeyCounts;
-    *(Unk021c1364_05 *) extraKeyCounts = *(Unk021c1364_05 *) gEditKeyboardExtraKeyCounts;
-    *(Unk021c1364_05 *) row4KeyCounts = *(Unk021c1364_05 *) gEditKeyboardRow4KeyCounts;
+    *(EditKeyboardRowCounts *) keyCounts = *(EditKeyboardRowCounts *) gEditKeyboardKeyCounts;
+    *(EditKeyboardRowCounts *) extraKeyCounts = *(EditKeyboardRowCounts *) gEditKeyboardExtraKeyCounts;
+    *(EditKeyboardRowCounts *) row4KeyCounts = *(EditKeyboardRowCounts *) gEditKeyboardRow4KeyCounts;
     keyIndex = row * 12;
     for (i = 0; i < keyCounts[(u32) row]; i++, keyIndex++) {
         key = gEditKeyboard->mKeys[keyIndex];
@@ -360,7 +360,7 @@ void MoveEditKeyboardCursor(int direction) {
 void AdvanceEditKeyboardSlideOutRow4(TaskEntry *task) {
     s32 xPos;
     s32 yPos;
-    func_ov003_021bfbd0_inline(GetOamRangeEntry(gEditKeyboard->mRow4Keys[0], 0), (u32 *) &xPos, (u32 *) &yPos);
+    EditKeyboardOutG2_GetOBJPosition(GetOamRangeEntry(gEditKeyboard->mRow4Keys[0], 0), (u32 *) &xPos, (u32 *) &yPos);
     yPos += 12;
     SetEditKeyboardRowY(gEditKeyboard->mPage, 4, yPos);
     if (yPos >= 0xc0) {
@@ -371,7 +371,7 @@ void AdvanceEditKeyboardSlideOutRow4(TaskEntry *task) {
 void AdvanceEditKeyboardSlideOutRow3(TaskEntry *task) {
     s32 xPos;
     s32 yPos;
-    func_ov003_021bfbd0_inline(gEditKeyboard->mKeys[36], (u32 *) &xPos, (u32 *) &yPos);
+    EditKeyboardOutG2_GetOBJPosition(gEditKeyboard->mKeys[36], (u32 *) &xPos, (u32 *) &yPos);
     yPos += 12;
     SetEditKeyboardRowY(gEditKeyboard->mPage, 3, yPos);
     if (yPos >= 0xc0) {
@@ -382,7 +382,7 @@ void AdvanceEditKeyboardSlideOutRow3(TaskEntry *task) {
 void AdvanceEditKeyboardSlideOutRow2(TaskEntry *task) {
     s32 xPos;
     s32 yPos;
-    func_ov003_021bfbd0_inline(gEditKeyboard->mKeys[24], (u32 *) &xPos, (u32 *) &yPos);
+    EditKeyboardOutG2_GetOBJPosition(gEditKeyboard->mKeys[24], (u32 *) &xPos, (u32 *) &yPos);
     yPos += 12;
     SetEditKeyboardRowY(gEditKeyboard->mPage, 2, yPos);
     if (yPos >= 0xc0) {
@@ -393,7 +393,7 @@ void AdvanceEditKeyboardSlideOutRow2(TaskEntry *task) {
 void AdvanceEditKeyboardSlideOutRow1(TaskEntry *task) {
     s32 x;
     s32 yPos;
-    func_ov003_021bfbd0_inline(gEditKeyboard->mKeys[12], (u32 *) &x, (u32 *) &yPos);
+    EditKeyboardOutG2_GetOBJPosition(gEditKeyboard->mKeys[12], (u32 *) &x, (u32 *) &yPos);
     yPos += 12;
     SetEditKeyboardRowY(gEditKeyboard->mPage, 1, yPos);
     if (yPos >= 0xc0) {
@@ -404,7 +404,7 @@ void AdvanceEditKeyboardSlideOutRow1(TaskEntry *task) {
 void AdvanceEditKeyboardSlideOutRow0(TaskEntry *task) {
     s32 xPos;
     s32 yPos;
-    func_ov003_021bfbd0_inline(gEditKeyboard->mKeys[0], (u32 *) &xPos, (u32 *) &yPos);
+    EditKeyboardOutG2_GetOBJPosition(gEditKeyboard->mKeys[0], (u32 *) &xPos, (u32 *) &yPos);
     yPos += 12;
     SetEditKeyboardRowY(gEditKeyboard->mPage, 0, yPos);
     if (yPos >= 0xc0) {

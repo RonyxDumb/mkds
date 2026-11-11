@@ -248,7 +248,7 @@ void StartDonketuWalkState(Unk02188950 *donketu) {
 
 void StartDonketuWaterFallState(Unk02188950 *donketu) {
     StartDonketuWaterSinkState(donketu);
-    func_ov001_02188260(donketu);
+    IncrementHitCountAndCheckLimit(donketu);
 }
 
 void StartDonketuKartEliminatedState(Unk02188950 *donketu) {
@@ -359,7 +359,7 @@ void InitDonketuObjects(MapObjectList *list) {
             } else {
                 StartDonketuStartupFirst(donketu);
             }
-            func_ov001_02188da4(donketu, StartDonketuChaseRunAtStart);
+            SetUnusedCallback(donketu, StartDonketuChaseRunAtStart);
         }
     }
     SetStandingsEndCallback((void (*)(void)) DonketuStandingsEndCallback);
@@ -379,7 +379,7 @@ void UpdateDonketu(u32 mapObjectList, Unk02188950 *donketu) {
         }
     } else {
         if (IsStateNumberBelow(donketu, 8) != 0) {
-            if (func_ov001_021871d0(donketu) != FALSE) {
+            if (IsNotRisingWithBelowZeroBit(donketu) != FALSE) {
                 StartDonketuWaterFallState(donketu);
             }
         }

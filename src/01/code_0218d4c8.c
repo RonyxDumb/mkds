@@ -10,9 +10,9 @@ void StartHanachanMoveState(Unk02188950 *mapObject) {
     StartMapObjectState(mapObject, 1, &UpdateHanachanMoveState);
     SetStoppedCallback(mapObject, 0);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_088, mapObject->mPrm->mUnk_08c);
-    entryPercent = func_ov001_02187f38(mapObject);
+    entryPercent = GetCurrentGroupEntryPercent(mapObject);
     SetHanachanSpeedAndTurnToNextEntry(mapObject, entryPercent);
-    entryPercent = func_ov001_02187f38(mapObject);
+    entryPercent = GetCurrentGroupEntryPercent(mapObject);
     SetHanachanFollowersTurnTiming(mapObject, entryPercent);
     SetHanachanSoundCallbacks(mapObject);
 }

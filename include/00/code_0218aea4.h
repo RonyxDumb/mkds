@@ -55,7 +55,7 @@ typedef struct SbServerList SbServerList;
 
 typedef struct SbServerList SbServerList;
 
-// Four bytes copied byte by byte (func_ov000_0218ce14_inline in code_0218cdd8.c); the target may be unaligned.
+// Four bytes copied byte by byte (CopyUnalignedWord in code_0218cdd8.c); the target may be unaligned.
 typedef struct UnalignedWord {
     /* 0 */ u8 mBytes[4];
 } UnalignedWord;

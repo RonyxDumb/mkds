@@ -51,9 +51,9 @@ typedef struct QueryBuffer {
 } QueryBuffer;
 
 // Four-byte entry moved by enum_local_ips.
-typedef struct Unk021a46d4 {
+typedef struct LocalIpAddressBytes {
     /* 0 */ u8 mUnk_00[4];
-} Unk021a46d4;
+} LocalIpAddressBytes;
 
 typedef struct QueryRecord QueryRecord;
 

@@ -2,7 +2,7 @@
 #include "01/code_0218155c.h"
 #include "Main/Unknown/code_020a12b8.h"
 
-u32 func_ov001_02188260(Unk02188950 *mapObject) {
+u32 IncrementHitCountAndCheckLimit(Unk02188950 *mapObject) {
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         AddMissionRunCountForKind7();
     }

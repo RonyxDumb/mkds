@@ -30,12 +30,12 @@ typedef struct WiFiStates {
 extern WiFiStates *gWiFiStates;
 
 BOOL IsWiFiSessionOffOutsideLogin(void);
-void func_ov000_02180638(s32 arg0);
-s32 func_ov000_02180644(void);
+void SetWiFiVSSettingFlag(s32 flag);
+s32 GetWiFiVSSettingFlag(void);
 void SetWiFiVSSettingIndex(unsigned int settingIndex);
 unsigned int GetWiFiVSSettingIndex(void);
 u32 LookupWiFiVSSettingMessageIndex(u32 settingIndex);
-u32 func_ov000_021806a0(void);
+u32 IsWiFiStatesCounterNotNegative(void);
 void SetWiFiNextScene(unsigned int nextScene);
 unsigned int GetWiFiNextScene(void);
 s32 GetWiFiPrevState(void);
@@ -43,6 +43,6 @@ void RequestWiFiState(s32 nextState);
 void SetWiFiStateCallbacks(const WiFiStateCallbacks *callbacks);
 void WriteWiFiStatesRegisters(void);
 void AdvanceWiFiStates(void);
-void InitWiFiStates(void *heap, s32 b);
+void InitWiFiStates(void *heap, s32 sceneNumber);
 void LoadWiFiMenuSceneData(void);
 void ClearWiFiStateCallbacks(void);

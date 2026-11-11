@@ -21,12 +21,12 @@
 #include "Main/Unknown/code_020fd000.h"
 #include "Main/Unknown/code_020fd264.h"
 
-void func_ov001_0218aba0(Unk02188950 *mapObject) {
+void StartBombKingJumpWaitState(Unk02188950 *mapObject) {
     StartMapObjectState(mapObject, 3, NULL);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_198, mapObject->mPrm->mUnk_19c);
     StopTurningMoveFollowsAngle(mapObject);
     SetSpeedAndClearTarget(mapObject, 0);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_1a0, &func_ov001_0218ac04);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_1a0, &StartBombKingJumpState);
     StartMapObjectSound(&mapObject->mUnk_000, 0x238);
 }
 
@@ -37,7 +37,7 @@ void StartBombKingJumpCycle(Unk02188950 *mapObject) {
     TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_18c, mapObject->mPrm->mUnk_190);
     SetAnglePointAndMoveAnglePoint(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
     SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_184, mapObject->mPrm->mUnk_188);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_194, &func_ov001_0218aba0);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_194, &StartBombKingJumpWaitState);
     SetBombKingSoundCallbacks(mapObject);
 }
 
@@ -96,7 +96,7 @@ void StartItemBombThrow(Unk02188950 *mapObject) {
     }
 }
 
-void func_ov001_0218a828(Unk02188950 *mapObject) {
+void StartBombKingStoreFoundItemBombState(Unk02188950 *mapObject) {
     ItemBomb *bomb;
     Kart *kart;
 
@@ -133,7 +133,7 @@ void StartBombKingWalkToBombState(Unk02188950 *mapObject) {
         SetAnglePointAndMoveAnglePoint(mapObject, &bomb->mBouncingItemObject.mItemObject.mPos);
         SetSpeedAndClearTarget(mapObject, mapObject->mPrm->mUnk_10c);
         SetPointInRangeCallback(mapObject, mapObject->mPrm->mUnk_11c, mapObject->mPrm->mUnk_120,
-                                &bomb->mBouncingItemObject.mItemObject.mPos, &func_ov001_0218a828);
+                                &bomb->mBouncingItemObject.mItemObject.mPos, &StartBombKingStoreFoundItemBombState);
         StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_124, 0);
         SetBombKingSoundCallbacks(mapObject);
     }

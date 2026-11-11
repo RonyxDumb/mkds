@@ -69,7 +69,7 @@ extern char gPublicAddressFormat[];
 extern char gBroadcastAddress[];
 extern char gIntFormat[];
 extern u8 gNoChallengeErrorMessage[];
-extern char data_ov000_021b4464[];
+extern char gQr2MasterHostnameFormat[];
 extern char gFinalQueryidText[];
 extern u8 gSrvrText[];
 extern u8 gClntText[];

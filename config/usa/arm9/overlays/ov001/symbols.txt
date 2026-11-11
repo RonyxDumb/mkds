@@ -245,7 +245,7 @@ StepIntTowardTarget kind:function(thumb,size=0x24) addr:0x02187054
 ToggleShadowScale kind:function(thumb,size=0x18) addr:0x02187078
 LoadMissionRunMapObjectShadow kind:function(thumb,size=0x34) addr:0x02187090
 InitMissionRunMapObject kind:function(thumb,size=0xec) addr:0x021870c4
-func_ov001_021871d0 kind:function(thumb,size=0x28) addr:0x021871b0
+IsNotRisingWithBelowZeroBit kind:function(thumb,size=0x28) addr:0x021871b0
 IsStateNumberBelow kind:function(thumb,size=0x14) addr:0x021871d8
 DisableMissionRunMapObjectGravity kind:function(thumb,size=0xc) addr:0x021871ec
 StartMapObjectState kind:function(thumb,size=0xc8) addr:0x021871f8
@@ -273,7 +273,7 @@ IncrementEntryGroupIndex kind:function(thumb,size=0x30) addr:0x02187e28
 IncrementEntryIndex kind:function(thumb,size=0x38) addr:0x02187e58
 DecrementEntryIndexSkipZero kind:function(thumb,size=0x38) addr:0x02187e90
 GetNextGroupEntry kind:function(thumb,size=0x50) addr:0x02187ec8
-func_ov001_02187f38 kind:function(thumb,size=0x44) addr:0x02187f18
+GetCurrentGroupEntryPercent kind:function(thumb,size=0x44) addr:0x02187f18
 GetCurrentGroupEntryValue kind:function(thumb,size=0x44) addr:0x02187f5c
 GetCurrentGroupEntry kind:function(thumb,size=0x40) addr:0x02187fa0
 GetEntryKartFacingObject kind:function(thumb,size=0x84) addr:0x02187fe0
@@ -283,11 +283,11 @@ FindItemBombInRange kind:function(thumb,size=0x4e) addr:0x02188138
 IsPointInRange kind:function(thumb,size=0x4c) addr:0x02188188
 SetItemCollisionCallback kind:function(thumb,size=0xc) addr:0x021881d4
 SetKartCollisionCallback kind:function(thumb,size=0xc) addr:0x021881e0
-func_ov001_0218820c kind:function(thumb,size=0xa) addr:0x021881ec
-func_ov001_02188218 kind:function(thumb,size=0x6) addr:0x021881f8
+GetRepeatsRemaining kind:function(thumb,size=0xa) addr:0x021881ec
+SetRepeatsRemaining kind:function(thumb,size=0x6) addr:0x021881f8
 GetAbsoluteCounter kind:function(thumb,size=0x10) addr:0x02188200
 DecrementCounterToNegativeLimit kind:function(thumb,size=0x2e) addr:0x02188210
-func_ov001_02188260 kind:function(thumb,size=0x58) addr:0x02188240
+IncrementHitCountAndCheckLimit kind:function(thumb,size=0x58) addr:0x02188240
 ResetMissionRunMapObjects kind:function(thumb,size=0x1cc) addr:0x02188298
 SetCollisionBoxOffsetAndExtentTarget kind:function(thumb,size=0x6c) addr:0x02188464
 SetCollisionBoxOffsetAndExtent kind:function(thumb,size=0xe4) addr:0x021884d0
@@ -319,7 +319,7 @@ SetAlphaLimitTargetAndPerCall kind:function(thumb,size=0x14) addr:0x02188cfc
 StartAnimationWithEndCallback kind:function(thumb,size=0x34) addr:0x02188d10
 StartAnimationNoEndCallback kind:function(thumb,size=0x28) addr:0x02188d44
 SetPointInRangePoint kind:function(thumb,size=0x18) addr:0x02188d6c
-func_ov001_02188da4 kind:function(thumb,size=0x14) addr:0x02188d84
+SetUnusedCallback kind:function(thumb,size=0x14) addr:0x02188d84
 SetCourseCollisionCallback kind:function(thumb,size=0x14) addr:0x02188d98
 SetStoppedCallback kind:function(thumb,size=0x14) addr:0x02188dac
 SetPointInRangeCallback kind:function(thumb,size=0x44) addr:0x02188dc0
@@ -330,10 +330,10 @@ StopMapObjectState kind:function(thumb,size=0xc) addr:0x02188e68
 ClearAndRunCallback kind:function(thumb,size=0x16) addr:0x02188e74
 IsDirectionToPointWithinAngle kind:function(thumb,size=0x58) addr:0x02188e8c
 IsWithinXzDistanceOfPoint kind:function(thumb,size=0xd8) addr:0x02188ee4
-func_ov001_02188fdc kind:function(arm,size=0x1c) addr:0x02188fbc
-func_ov001_02188ff8 kind:function(arm,size=0x11c) addr:0x02188fd8
-func_ov001_02189114 kind:function(arm,size=0x14) addr:0x021890f4
-func_ov001_02189128 kind:function(arm,size=0x1c) addr:0x02189108
+DrawRaceHudSubScreenKingTeresaCells kind:function(arm,size=0x1c) addr:0x02188fbc
+UpdateRaceHudSubScreenKingTeresaCells kind:function(arm,size=0x11c) addr:0x02188fd8
+ClearRaceHudSubScreenKingTeresaCells kind:function(arm,size=0x14) addr:0x021890f4
+CreateRaceHudSubScreenKingTeresaCells kind:function(arm,size=0x1c) addr:0x02189108
 DrawRaceHudSubScreenKingIceDonketuCells kind:function(arm,size=0x1c) addr:0x02189124
 UpdateRaceHudSubScreenKingIceDonketuCells kind:function(arm,size=0x11c) addr:0x02189140
 ClearRaceHudSubScreenKingIceDonketuCells kind:function(arm,size=0x14) addr:0x0218925c
@@ -372,43 +372,43 @@ CreateBombKingKindData kind:function(thumb,size=0x34) addr:0x02189db8
 DrawBombKing kind:function(thumb,size=0x1e) addr:0x02189dec
 InitBombKing kind:function(thumb,size=0xac) addr:0x02189e0c
 BombKingItemHitCallback kind:function(thumb,size=0x108) addr:0x02189eb8
-func_ov001_02189fe0 kind:function(thumb,size=0x48) addr:0x02189fc0
+BombKingItemBounceCallback kind:function(thumb,size=0x48) addr:0x02189fc0
 SetBombKingEffectScale kind:function(thumb,size=0xc) addr:0x0218a008
 InitBombKingMapObject kind:function(thumb,size=0x40) addr:0x0218a014
 UpdateBombKing kind:function(thumb,size=0xac) addr:0x0218a054
 InitBombKingObjects kind:function(thumb,size=0x7c) addr:0x0218a100
-func_ov001_0218a19c kind:function(thumb,size=0x34) addr:0x0218a17c
-func_ov001_0218a1d0 kind:function(thumb,size=0x3c) addr:0x0218a1b0
-func_ov001_0218a20c kind:function(thumb,size=0x44) addr:0x0218a1ec
-func_ov001_0218a250 kind:function(thumb,size=0x40) addr:0x0218a230
+StartBombKingChainStartupFirst kind:function(thumb,size=0x34) addr:0x0218a17c
+StartBombKingChainStartupSecond kind:function(thumb,size=0x3c) addr:0x0218a1b0
+StartBombKingStartupFirst kind:function(thumb,size=0x44) addr:0x0218a1ec
+StartBombKingStartupSecond kind:function(thumb,size=0x40) addr:0x0218a230
 StartBombKingWaitForRaceStart kind:function(thumb,size=0x28) addr:0x0218a270
 StopStateWhenRaceStarted kind:function(thumb,size=0x1a) addr:0x0218a298
 BombKingStandingsEndCallback kind:function(thumb,size=0x8) addr:0x0218a2b4
-func_ov001_0218a2dc kind:function(thumb,size=0x30) addr:0x0218a2bc
-func_ov001_0218a30c kind:function(thumb,size=0xe0) addr:0x0218a2ec
-func_ov001_0218a3ec kind:function(thumb,size=0x30) addr:0x0218a3cc
+StartBombKingKartNotEliminatedState kind:function(thumb,size=0x30) addr:0x0218a2bc
+StartBombKingNotEliminatedEffects kind:function(thumb,size=0xe0) addr:0x0218a2ec
+StartBombKingKartEliminatedState kind:function(thumb,size=0x30) addr:0x0218a3cc
 StartBombKingItemHitState kind:function(thumb,size=0x26) addr:0x0218a3fc
-func_ov001_0218a444 kind:function(thumb,size=0x5c) addr:0x0218a424
-func_ov001_0218a4a0 kind:function(thumb,size=0x30) addr:0x0218a480
-func_ov001_0218a4d0 kind:function(thumb,size=0x5c) addr:0x0218a4b0
-func_ov001_0218a52c kind:function(thumb,size=0x3c) addr:0x0218a50c
+StartBombKingBounceStateAfterHits kind:function(thumb,size=0x5c) addr:0x0218a424
+StartBombKingStoppedStateAfterHits kind:function(thumb,size=0x30) addr:0x0218a480
+StartBombKingBounceState kind:function(thumb,size=0x5c) addr:0x0218a4b0
+StartBombKingStoppedState kind:function(thumb,size=0x3c) addr:0x0218a50c
 SwitchToBounceEffectsOnCollision kind:function(thumb,size=0x28) addr:0x0218a548
 StartBombKingBounceEffects kind:function(thumb,size=0x7c) addr:0x0218a570
 StartBombKingWalkState kind:function(thumb,size=0xa4) addr:0x0218a5ec
 StartBombKingRandomState kind:function(thumb,size=0xac) addr:0x0218a690
 StartBombKingWalkToBombState kind:function(thumb,size=0xcc) addr:0x0218a73c
-func_ov001_0218a828 kind:function(thumb,size=0xe8) addr:0x0218a808
+StartBombKingStoreFoundItemBombState kind:function(thumb,size=0xe8) addr:0x0218a808
 StartItemBombThrow kind:function(thumb,size=0x60) addr:0x0218a8f0
 StartBombKingChaseState kind:function(thumb,size=0xc4) addr:0x0218a950
 StoreNewItemBombAndStartThrow kind:function(thumb,size=0x78) addr:0x0218aa14
 StartBombKingThrowBombsState kind:function(thumb,size=0x58) addr:0x0218aa8c
 StartBombKingJumpCycle kind:function(thumb,size=0x9c) addr:0x0218aae4
-func_ov001_0218aba0 kind:function(thumb,size=0x64) addr:0x0218ab80
-func_ov001_0218ac04 kind:function(thumb,size=0xb0) addr:0x0218abe4
-func_ov001_0218acb4 kind:function(thumb,size=0xb4) addr:0x0218ac94
-func_ov001_0218ad68 kind:function(thumb,size=0x68) addr:0x0218ad48
-func_ov001_0218add0 kind:function(thumb,size=0x90) addr:0x0218adb0
-func_ov001_0218ae60 kind:function(thumb,size=0x94) addr:0x0218ae40
+StartBombKingJumpWaitState kind:function(thumb,size=0x64) addr:0x0218ab80
+StartBombKingJumpState kind:function(thumb,size=0xb0) addr:0x0218abe4
+StartBombKingJumpToEntryState kind:function(thumb,size=0xb4) addr:0x0218ac94
+StartBombKingJumpThrowBombsState kind:function(thumb,size=0x68) addr:0x0218ad48
+StartBombKingJumpFallState kind:function(thumb,size=0x90) addr:0x0218adb0
+StartBombKingJumpLandState kind:function(thumb,size=0x94) addr:0x0218ae40
 ThrowItemBombsInRingAndCenter kind:function(thumb,size=0x108) addr:0x0218aed4
 StartBombKingEffectAndSound kind:function(thumb,size=0x38) addr:0x0218afdc
 ThrowItemBombsInRing kind:function(thumb,size=0x1a4) addr:0x0218b014
@@ -416,7 +416,7 @@ ThrowStoredItemBomb kind:function(thumb,size=0xa0) addr:0x0218b1b8
 SetBombKingSoundCallbacks kind:function(thumb,size=0x20) addr:0x0218b258
 BombKingSecondSoundCallback kind:function(thumb,size=0x10) addr:0x0218b278
 BombKingFirstSoundCallback kind:function(thumb,size=0x10) addr:0x0218b288
-func_ov001_0218b2b8 kind:function(thumb,size=0x1c) addr:0x0218b298
+BombKingJumpKartCollisionCallback kind:function(thumb,size=0x1c) addr:0x0218b298
 GetAbsoluteCounterWrapper kind:function(thumb,size=0x8) addr:0x0218b2b4
 CreateKurikingUpdateList kind:function(thumb,size=0x18) addr:0x0218b2bc
 CreateKurikingDrawList kind:function(thumb,size=0x1c) addr:0x0218b2d4
@@ -1160,12 +1160,12 @@ data_ov001_021a6574 kind:data(any) addr:0x021a6554
 data_ov001_021a6578 kind:data(any) addr:0x021a6558
 data_ov001_021a657c kind:data(any) addr:0x021a655c
 data_ov001_021a6580 kind:data(any) addr:0x021a6560
-data_ov001_021a6584 kind:data(any) addr:0x021a6564
-data_ov001_021a6588 kind:data(any) addr:0x021a6568
-data_ov001_021a658c kind:data(any) addr:0x021a656c
-data_ov001_021a6590 kind:data(any) addr:0x021a6570
-data_ov001_021a6594 kind:data(any) addr:0x021a6574
-data_ov001_021a6598 kind:data(any) addr:0x021a6578
+gMapObjectBelowZeroCollisionBit kind:data(any) addr:0x021a6564
+gBombKingSkipViewTestFlag kind:data(any) addr:0x021a6568
+gBombKingSkipListCallbackFlag kind:data(any) addr:0x021a656c
+gBombKingDisabledFlag kind:data(any) addr:0x021a6570
+gBombKingJumpFlag kind:data(any) addr:0x021a6574
+gBombKingSkipKindSoundFlag kind:data(any) addr:0x021a6578
 gKurikingSkipViewTestFlag kind:data(any) addr:0x021a657c
 gKurikingSkipListCallbackFlag kind:data(any) addr:0x021a6580
 gKurikingDisabledFlag kind:data(any) addr:0x021a6584
@@ -1378,16 +1378,16 @@ data_usa_ov001_021a79c4 kind:data(any) addr:0x021a79c4 ambiguous
 @5110 kind:data(any) addr:0x021a79f8 local
 @5111 kind:data(any) addr:0x021a7a0c local
 @5112 kind:data(any) addr:0x021a7a20 local
-data_ov001_021a7a64 kind:data(any) addr:0x021a7a34
-data_ov001_021a7a70 kind:data(any) addr:0x021a7a40
+gItemBombUpNormal kind:data(any) addr:0x021a7a34
+gItemKinokoUpNormal kind:data(any) addr:0x021a7a40
 data_usa_ov001_021a7a4c kind:data(any) addr:0x021a7a4c ambiguous
 @5631 kind:data(any) addr:0x021a7a80 local
-data_ov001_021a7ad0 kind:data(any) addr:0x021a7aa0
+gBombKingEndSoundParams kind:data(any) addr:0x021a7aa0
 data_usa_ov001_021a7ab0 kind:data(any) addr:0x021a7ab0 ambiguous
-data_ov001_021a7b14 kind:data(any) addr:0x021a7ae4
-data_ov001_021a7b24 kind:data(any) addr:0x021a7af4
-data_ov001_021a7b34 kind:data(any) addr:0x021a7b04
-data_ov001_021a7b44 kind:data(any) addr:0x021a7b14
+gBombKingNsbmdName kind:data(any) addr:0x021a7ae4
+gBombKingNsbcaName kind:data(any) addr:0x021a7af4
+gBombKingPrmName kind:data(any) addr:0x021a7b04
+gBombKingShadowNsbmdName kind:data(any) addr:0x021a7b14
 @5689 kind:data(any) addr:0x021a7b24 local
 gKurikingKindDescriptor kind:data(any) addr:0x021a7b34 ambiguous
 @5840 kind:data(any) addr:0x021a7b68 local
@@ -1774,7 +1774,7 @@ data_ov001_021a9b94 kind:bss addr:0x021a9b74
 data_ov001_021a9b98 kind:bss addr:0x021a9b78
 gMissionGate kind:bss addr:0x021a9b7c
 gShadowScaleToggle kind:bss addr:0x021a9b80
-data_ov001_021a9ba4 kind:bss addr:0x021a9b84
+gRaceHudSubScreenKingTeresaCells kind:bss addr:0x021a9b84
 gRaceHudSubScreenKingIceDonketuCells kind:bss addr:0x021a9b88
 gRaceHudSubScreenHanachanCells kind:bss addr:0x021a9b8c
 gRaceHudSubScreenMissionGateCells kind:bss addr:0x021a9b90

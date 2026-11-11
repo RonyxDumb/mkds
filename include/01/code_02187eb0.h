@@ -8,7 +8,7 @@ typedef struct CourseMapGroupEntry CourseMapGroupEntry;
 
 void DecrementEntryIndexSkipZero(Unk02188950 *mapObject);
 CourseMapGroupEntry *GetNextGroupEntry(Unk02188950 *mapObject);
-s32 func_ov001_02187f38(Unk02188950 *mapObject);
+s32 GetCurrentGroupEntryPercent(Unk02188950 *mapObject);
 s32 GetCurrentGroupEntryValue(Unk02188950 *mapObject);
 CourseMapGroupEntry *GetCurrentGroupEntry(Unk02188950 *mapObject);
 Kart *GetEntryKartFacingObject(Unk02188950 *mapObject, s32 radius, s32 halfAngle);

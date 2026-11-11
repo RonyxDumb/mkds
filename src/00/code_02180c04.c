@@ -75,7 +75,7 @@ WiFiLoginMenu *gWiFiLoginMenu;
 WiFiStateCallbacks gWiFiLoginMenuCallbacks = {InitWiFiLoginMenu, ClearWiFiLoginMenuPointer, AdvanceWiFiLoginMenu,
                                               (void (*)(void)) WriteWiFiLoginMenuRegisters};
 
-static inline s32 func_ov000_02180e58_inline(void) {
+static inline s32 WiFiLoginMenuIsBackupBusy(void) {
     if (gBackupBuffers->mBusy == 0) {
         if (gBackupAccess->mBackupEnabled != 0) {
             return gBackupAccess->mCommandRunning;
@@ -285,7 +285,7 @@ void AdvanceWiFiLoginMenuState5(void) {
                 GetBmgEntry(loginMenu->mCommonMessages, 4));
             return;
         }
-        if (func_ov000_02180e58_inline() == 0) {
+        if (WiFiLoginMenuIsBackupBusy() == 0) {
             gWiFiLoginMenu->mPendingWiFiState = 2;
             RequestWiFiState(gWiFiLoginMenu->mPendingWiFiState);
         }
@@ -315,7 +315,7 @@ void AdvanceWiFiLoginMenuState7(void) {
     s32 pageCount;
     s32 messageIndex;
     if (IsTxtSystemState0NoOpenRequest() != 0) {
-        if (func_ov000_02180e58_inline() == 0) {
+        if (WiFiLoginMenuIsBackupBusy() == 0) {
             RequestWiFiState(gWiFiLoginMenu->mPendingWiFiState);
             return;
         }
@@ -337,7 +337,7 @@ void AdvanceWiFiLoginMenuState7(void) {
             case 0:
                 break;
             case 1:
-                if (func_ov000_021806a0() != 0) {
+                if (IsWiFiStatesCounterNotNegative() != 0) {
                     if (gWiFiLoginMenu->mUnk_14 != FALSE) {
                         gWiFiLoginMenu->mNextState = 5;
                         SetupTxtSystemMainTextButton(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x1e),
@@ -452,15 +452,15 @@ void AdvanceWiFiLoginMenu(void) {
 }
 
 u32 WriteWiFiLoginMenuRegisters(void) {
-    u32 value0;
-    u32 value1;
-    u32 value2;
-    value1 = 0x4001000u;
-    value2 = *(const u32 *) ((value1) + 0u);
-    value0 = 0xffff1fffu;
-    value2 = (value2) & (value0);
-    *(u32 *) ((value1) + 0u) = value2;
-    return value0;
+    u32 keepMask;
+    u32 registerAddress;
+    u32 registerValue;
+    registerAddress = 0x4001000u;
+    registerValue = *(const u32 *) ((registerAddress) + 0u);
+    keepMask = 0xffff1fffu;
+    registerValue = (registerValue) & (keepMask);
+    *(u32 *) ((registerAddress) + 0u) = registerValue;
+    return keepMask;
 }
 
 void RegisterWiFiLoginMenuCallbacks(void) {

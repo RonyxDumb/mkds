@@ -15,7 +15,7 @@ void SetCourseCollisionCallback(Unk02188950 *mapObject, void (*callback)(Unk0218
     mapObject->mCourseCollisionCallback = callback;
 }
 
-void func_ov001_02188da4(Unk02188950 *mapObject, UnkFunc *callback) {
+void SetUnusedCallback(Unk02188950 *mapObject, UnkFunc *callback) {
     if (callback == NULL) {
         callback = (UnkFunc *) StopMapObjectState;
     }

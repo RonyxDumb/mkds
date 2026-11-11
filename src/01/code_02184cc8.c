@@ -11,7 +11,7 @@
 #include "Main/Unknown/code_020e6000.h"
 
 void StartDonketuRepeatJumpAfterHitState(Unk02188950 *mapObject) {
-    if (func_ov001_0218820c(mapObject) != 0) {
+    if (GetRepeatsRemaining(mapObject) != 0) {
         Vec3 velocity = {0, 0, 0};
 
         velocity.y = mapObject->mPrm->mUnk_1f4;
@@ -25,13 +25,13 @@ void StartDonketuRepeatJumpAfterHitState(Unk02188950 *mapObject) {
 }
 
 void StartDonketuRepeatJumpsAfterHit(Unk02188950 *mapObject) {
-    func_ov001_02188218(mapObject, (u16) mapObject->mPrm->mUnk_1f8);
+    SetRepeatsRemaining(mapObject, (u16) mapObject->mPrm->mUnk_1f8);
     StopTurningMoveFollowsAngle(mapObject);
     StartDonketuRepeatJumpAfterHitState(mapObject);
 }
 
 void StartDonketuRepeatJumpState(Unk02188950 *mapObject) {
-    if (func_ov001_0218820c(mapObject) != 0) {
+    if (GetRepeatsRemaining(mapObject) != 0) {
         Vec3 velocity = {0, 0, 0};
 
         velocity.y = mapObject->mPrm->mUnk_124;
@@ -45,7 +45,7 @@ void StartDonketuRepeatJumpState(Unk02188950 *mapObject) {
 }
 
 void StartDonketuRepeatJumps(Unk02188950 *mapObject) {
-    func_ov001_02188218(mapObject, (u16) mapObject->mPrm->mUnk_128);
+    SetRepeatsRemaining(mapObject, (u16) mapObject->mPrm->mUnk_128);
     StopTurningMoveFollowsAngle(mapObject);
     StartDonketuRepeatJumpState(mapObject);
 }

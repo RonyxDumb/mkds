@@ -85,7 +85,7 @@ void LoadWiFiMenuSceneData(void) {
     LoadPlayerEntryListFiles();
 }
 
-void InitWiFiStates(void *heap, s32 b) {
+void InitWiFiStates(void *heap, s32 sceneNumber) {
     SceneTextInitParams sceneTextInitParams;
     StateMachine *sessionStateMachine;
     gWiFiStates = HeapAlloc(heap, 0x3c);
@@ -116,10 +116,10 @@ void InitWiFiStates(void *heap, s32 b) {
     ClearWiFiStateCallbacks();
     gWiFiStates->mNextScene = -1;
     if (gMenuShared->mUnk_58 != FALSE) {
-        b = 0;
+        sceneNumber = 0;
         gMenuShared->mUnk_58 = FALSE;
     }
-    switch (b) {
+    switch (sceneNumber) {
         case 0:
             gWiFiStates->mPrevState = 10;
             gWiFiStates->mState = 1;
@@ -281,7 +281,7 @@ void SetWiFiNextScene(u32 nextScene) {
     gWiFiStates->mNextScene = (u16) nextScene;
 }
 
-u32 func_ov000_021806a0(void) {
+u32 IsWiFiStatesCounterNotNegative(void) {
     if (0 <= gWiFiStates->mUnk_14) {
         return TRUE;
     }
@@ -301,17 +301,17 @@ void SetWiFiVSSettingIndex(u32 settingIndex) {
     gWiFiStates->mWiFiVSSettingIndex = settingIndex;
 }
 
-s32 func_ov000_02180644(void) {
-    u32 value0;
-    value0 = gWiFiStates->mUnk_34;
-    return value0;
+s32 GetWiFiVSSettingFlag(void) {
+    u32 vsSettingFlag;
+    vsSettingFlag = gWiFiStates->mUnk_34;
+    return vsSettingFlag;
 }
 
-void func_ov000_02180638(s32 arg0) {
-    u32 value0 = arg0;
-    u32 value1;
-    value1 = (u32) &gWiFiStates;
-    gWiFiStates->mUnk_34 = value0;
+void SetWiFiVSSettingFlag(s32 flag) {
+    u32 flagValue = flag;
+    u32 statesPointerAddress;
+    statesPointerAddress = (u32) &gWiFiStates;
+    gWiFiStates->mUnk_34 = flagValue;
 }
 
 BOOL IsWiFiSessionOffOutsideLogin(void) {

@@ -25,7 +25,7 @@ void CreateChildWaitSession(u32 callback) {
     params.mUnk_04 = GetMessageEntry(gMessages, 0xf);
     params.mUnk_08 = GetMessageEntry(gMessages, 0x10);
     params.mUnk_18 = GetLanguageIndex() + 0x31;
-    InitChildWaitSession((ChildWaitSessionView *) gChildWaitSession, (Unk021d1358 *) &params);
+    InitChildWaitSession((ChildWaitSessionView *) gChildWaitSession, (ChildWaitParamsView *) &params);
     if (StartChildWaitSession() == 0) {
         OS_Terminate();
     }
@@ -68,7 +68,7 @@ u8 *GetChildUserBuffer(void) {
     return gChildWaitSession->mChildUser;
 }
 
-static inline void func_ov003_021c25e0_inline(const void *source, void *destination, s32 size) {
+static inline void MI_CpuCopy16(const void *source, void *destination, s32 size) {
     MIi_CpuCopy16(source, destination, size);
 }
 
@@ -95,7 +95,7 @@ void AdvanceChildWaitSession(u32 task) {
             if (stateInfo[1] == 0) {
                 break;
             }
-            func_ov003_021c25e0_inline(GetChildWaitChildUser(), gChildWaitSession->mChildUser, 0x16);
+            MI_CpuCopy16(GetChildWaitChildUser(), gChildWaitSession->mChildUser, 0x16);
             if (gChildWaitSession->mCallback != NULL) {
                 gChildWaitSession->mCallback(0);
             } else {

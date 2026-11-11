@@ -63,7 +63,7 @@ u16 StepAngleTowardDirection(Vec3 *target, Vec3 *origin, s32 maxStep, s32 angle)
 int StepIntTowardTarget(int target, int step, int current);
 void ToggleShadowScale(void);
 void LoadMissionRunMapObjectShadow(void *mapObjectList, Unk02188950 *mapObject, const char *shadowNsbmdName);
-BOOL func_ov001_021871d0(Unk02188950 *mapObject);
+BOOL IsNotRisingWithBelowZeroBit(Unk02188950 *mapObject);
 u32 IsStateNumberBelow(Unk02188950 *mapObject, int stateNumberLimit);
 void DisableMissionRunMapObjectGravity(Unk02188950 *mapObject);
 void StartMapObjectState(Unk02188950 *mapObject, int stateNumber, s32 (*nextFunc)(Unk02188950 *));

@@ -202,14 +202,14 @@ int UpdateHanachanMoveState(Unk02188950 *mapObject) {
     if (IsPointInRange(mapObject, &GetCurrentGroupEntry(mapObject)->mPos, mapObject->mPrm->mUnk_0a0, 0)) {
         if (GetBalloonOrShineCount(gRaceSetup->mEntryIndex) <= 1) {
             speedPercent = 0x1000 - mapObject->mPrm->mUnk_0ac;
-            entryPercent = func_ov001_02187f38(mapObject);
+            entryPercent = GetCurrentGroupEntryPercent(mapObject);
             speedPercent = MUL_FIXED12_NO_ROUND(entryPercent, speedPercent);
         } else if (GetBalloonOrShineCount(gRaceSetup->mEntryIndex) <= 2) {
             speedPercent = 0x1000 - mapObject->mPrm->mUnk_0a8;
-            entryPercent = func_ov001_02187f38(mapObject);
+            entryPercent = GetCurrentGroupEntryPercent(mapObject);
             speedPercent = MUL_FIXED12_NO_ROUND(entryPercent, speedPercent);
         } else {
-            speedPercent = func_ov001_02187f38(mapObject);
+            speedPercent = GetCurrentGroupEntryPercent(mapObject);
         }
         if (GetCurrentGroupEntryValue(mapObject) >= 1) {
             AdvanceHanachanCounterForAll(mapObject);

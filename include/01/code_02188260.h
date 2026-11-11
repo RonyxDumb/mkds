@@ -4,4 +4,4 @@
 
 typedef struct Unk02188950 Unk02188950;
 
-u32 func_ov001_02188260(Unk02188950 *mapObject);
+u32 IncrementHitCountAndCheckLimit(Unk02188950 *mapObject);

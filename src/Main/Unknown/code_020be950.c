@@ -1119,13 +1119,14 @@ void InitRaceHudSubScreenCellGroups(void) {
                 gRaceHudSubScreenCellGroupFunctions[tableIndex].mDraw;
         }
     }
-    if (func_ov001_02189128()) {
+    if (CreateRaceHudSubScreenKingTeresaCells()) {
         s32 groupIndex;
         s32 tableIndex;
 
         groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
         for (tableIndex = 0;
-             gRaceHudSubScreenCellGroupFunctions[tableIndex].mCreate != func_ov001_02189128 && tableIndex < 49;
+             gRaceHudSubScreenCellGroupFunctions[tableIndex].mCreate != CreateRaceHudSubScreenKingTeresaCells &&
+             tableIndex < 49;
              tableIndex++) {
         }
         if (tableIndex < 49) {

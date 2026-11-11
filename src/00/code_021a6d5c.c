@@ -304,7 +304,7 @@ s32 SOC_Cleanup(void) {
     return SOCL_Cleanup();
 }
 
-char *SOC_InetNtoA(Unk021b5dfc address) {
+char *SOC_InetNtoA(SOCInAddr address) {
     SOC_InetNtoP(2, &address, sInetNtoABuffer, 0x10);
     return sInetNtoABuffer;
 }

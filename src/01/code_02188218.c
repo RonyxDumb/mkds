@@ -10,6 +10,6 @@ u16 GetAbsoluteCounter(Unk02188950 *mapObject) {
     return counter & 0xffff;
 }
 
-void func_ov001_02188218(Unk02188950 *mapObject, s32 value) {
-    mapObject->mUnk_0b4 = value;
+void SetRepeatsRemaining(Unk02188950 *mapObject, s32 repeatsRemaining) {
+    mapObject->mUnk_0b4 = repeatsRemaining;
 }

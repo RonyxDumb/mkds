@@ -15,7 +15,7 @@
 #include "01/unk_021a7000.h"
 #include "Main/Unknown/code_020fd000.h"
 
-void func_ov001_0218acb4(Unk02188950 *mapObject) {
+void StartBombKingJumpToEntryState(Unk02188950 *mapObject) {
     Vec3 velocity = {0, 0, 0};
 
     IncrementEntryIndex(mapObject);
@@ -25,11 +25,11 @@ void func_ov001_0218acb4(Unk02188950 *mapObject) {
     SetAnglePointAndMoveAnglePoint(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
     SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_1c8, mapObject->mPrm->mUnk_1cc);
     SetVelocity(mapObject, &velocity);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_1d8, func_ov001_0218ad68);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_1d8, StartBombKingJumpThrowBombsState);
     mapObject->mGravityEnabled = FALSE;
 }
 
-void func_ov001_0218ac04(Unk02188950 *mapObject) {
+void StartBombKingJumpState(Unk02188950 *mapObject) {
     Vec3 velocity = {0, 0, 0};
 
     velocity.y = mapObject->mPrm->mUnk_1b8;
@@ -37,8 +37,8 @@ void func_ov001_0218ac04(Unk02188950 *mapObject) {
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_1a8, mapObject->mPrm->mUnk_1ac);
     SetVelocity(mapObject, &velocity);
     SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_1b0, mapObject->mPrm->mUnk_1b4);
-    SetCourseCollisionCallback(mapObject, func_ov001_0218ae60);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_1bc, func_ov001_0218acb4);
+    SetCourseCollisionCallback(mapObject, StartBombKingJumpLandState);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_1bc, StartBombKingJumpToEntryState);
     StartMapObjectSound(&mapObject->mUnk_000, 0x239);
-    mapObject->mUnk_000.mFlags |= data_ov001_021a6594;
+    mapObject->mUnk_000.mFlags |= gBombKingJumpFlag;
 }

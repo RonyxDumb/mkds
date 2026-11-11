@@ -4,7 +4,7 @@
 
 typedef struct ChildWaitSessionView ChildWaitSessionView;
 
-typedef struct Unk021d1358 {
+typedef struct ChildWaitParamsView {
     /* 00 */ u32 mUnk_00;
     /* 04 */ u32 mUnk_04;
     /* 08 */ u32 mUnk_08;
@@ -12,7 +12,7 @@ typedef struct Unk021d1358 {
     /* 10 */ u32 mUnk_10;
     /* 14 */ u32 mUnk_14;
     /* 18 */ u8 mUnk_18;
-} Unk021d1358;
+} ChildWaitParamsView;
 
 #include "code_02142eac.h"
 #include "03/unk_021da000.h"
@@ -34,4 +34,4 @@ BOOL StartChildWaitDownload(void);
 BOOL StartChildWaitSession(void);
 void ResetChildWaitSessionState(void);
 BOOL StopChildWaitSession(void);
-void InitChildWaitSession(ChildWaitSessionView *session, Unk021d1358 *params);
+void InitChildWaitSession(ChildWaitSessionView *session, ChildWaitParamsView *params);

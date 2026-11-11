@@ -75,7 +75,7 @@ void ThrowItemBombFromPosition(void *bomb, Vec3 *position, Vec3 *velocity, s32 t
     s32 *zeroWords;
 
     if (bomb != NULL && position != NULL) {
-        upNormal = data_ov001_021a7a64;
+        upNormal = gItemBombUpNormal;
         normalPointer = &upNormal;
         PlaceItemBomb(bomb, normalPointer, position);
         if (velocity != NULL) {
@@ -97,7 +97,7 @@ void ThrowItemKinokoFromPosition(void *kinoko, Vec3 *position, Vec3 *velocity, s
     s32 *zeroWords;
 
     if (kinoko != NULL && position != NULL) {
-        upNormal = data_ov001_021a7a70;
+        upNormal = gItemKinokoUpNormal;
         normalPointer = &upNormal;
         ShowItemKinokoAt(kinoko, normalPointer, position);
         if (velocity != NULL) {
@@ -365,7 +365,7 @@ u32 IsStateNumberBelow(Unk02188950 *mapObject, int stateNumberLimit) {
     return 0;
 }
 
-BOOL func_ov001_021871d0(Unk02188950 *mapObject) {
+BOOL IsNotRisingWithBelowZeroBit(Unk02188950 *mapObject) {
     if ((mapObject->mCollisionBits & 0x800) != 0 && mapObject->mVelocity.y <= 0) {
         return TRUE;
     }
@@ -722,7 +722,7 @@ void AdvanceMissionRunMapObject(u32 unused, Unk02188950 *mapObject) {
     }
     if (mapObject->mUnk_000.mPos.y < 0) {
         mapObject->mUnk_000.mPos.y = 0;
-        mapObject->mCollisionBits |= data_ov001_021a6584;
+        mapObject->mCollisionBits |= gMapObjectBelowZeroCollisionBit;
     }
     if (mapObject->mAlphaLimitPerCall > 0) {
         mapObject->mAlphaLimit =

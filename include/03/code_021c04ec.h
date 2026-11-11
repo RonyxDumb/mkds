@@ -4,11 +4,11 @@
 #include "03/code_021d3488.h"
 
 // Stack object of CreateEditKeyboard.
-typedef struct Unk021c0d2c {
+typedef struct EditAddrKeyboardTextArgs {
     /* 00 */ u16 mUnk_00[4];
     /* 08 */ u32 mUnk_08;
     /* 0c */ u16 mUnk_0c[2];
-} Unk021c0d2c;
+} EditAddrKeyboardTextArgs;
 
 void ChangeEditKeyboardHighlight(int keyIndex);
 void AdvanceEditKeyboardTouchDown(void);

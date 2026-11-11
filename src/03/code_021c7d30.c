@@ -271,12 +271,12 @@ void StartJb3ListIdAction(u32 listId) {
         case 2:
         case 3:
             StartSoundSeq(6);
-            func_ov003_021c9084(((listId - 2) ^ 1) != 0);
+            SetJb3ListIpNone(((listId - 2) ^ 1) != 0);
             return;
         case 7:
         case 8:
             StartSoundSeq(6);
-            func_ov003_021c9058(((listId - 7) ^ 1) != 0);
+            SetJb3ListDnsNone(((listId - 7) ^ 1) != 0);
             return;
     }
     gJb3List->mUnk_40 = listId;
@@ -305,7 +305,7 @@ void StartJb3ListIdAction(u32 listId) {
     SetUpdateFunction(StartJb3ListClose);
 }
 
-void func_ov003_021c9084(u32 newValue) {
+void SetJb3ListIpNone(u32 newValue) {
     ApWorkCopy *record;
     BOOL otherValue;
     record = GetApWorkCopy();
@@ -326,7 +326,7 @@ void func_ov003_021c9084(u32 newValue) {
     }
 }
 
-void func_ov003_021c9058(u32 newValue) {
+void SetJb3ListDnsNone(u32 newValue) {
     ApWorkCopy *record;
     record = GetApWorkCopy();
     if (record->mDnsNone != newValue) {
@@ -421,7 +421,7 @@ void UpdateJb3ListFadeOut(void) {
     }
 }
 
-static inline void func_ov003_021c85a0_inline(OamEntry *oamEntry, u32 *x, u32 *y) {
+static inline void Jb3ListG2_GetOBJPosition(OamEntry *oamEntry, u32 *x, u32 *y) {
     *x = (oamEntry->mUnk_00 & 0x1ff0000) >> 16;
     *y = oamEntry->mUnk_00 & 0xff;
 }
@@ -807,12 +807,12 @@ void RefreshJb3ListRowPositions(void) {
             ((xPosition & 0x1ff) << 16) | ((gJb3List->mUnk_34->mUnk_00 & 0xfe00ff00) | (firstRowY & 0xff));
     }
     for (i = 0, rowY = firstRowY; i < 5; i++, rowY += 0x1d) {
-        func_ov003_021c85a0_inline(gJb3List->mUnk_18[i], (u32 *) &xPosition, &yPosition);
+        Jb3ListG2_GetOBJPosition(gJb3List->mUnk_18[i], (u32 *) &xPosition, &yPosition);
         oamEntry = gJb3List->mUnk_18[i];
         oamEntry->mUnk_00 = ((xPosition & 0x1ff) << 16) | ((oamEntry->mUnk_00 & 0xfe00ff00) | (rowY & 0xff));
     }
     if (firstEntryIndex <= 2) {
-        func_ov003_021c85a0_inline(gJb3List->mUnk_18[5], &xPosition, (u32 *) &yPosition);
+        Jb3ListG2_GetOBJPosition(gJb3List->mUnk_18[5], &xPosition, (u32 *) &yPosition);
         gJb3List->mUnk_18[5]->mUnk_00 =
             ((xPosition & 0x1ff) << 16) |
             ((gJb3List->mUnk_18[5]->mUnk_00 & 0xfe00ff00) | ((firstRowY + (2 - firstEntryIndex) * 0x1d) & 0xff));
@@ -820,7 +820,7 @@ void RefreshJb3ListRowPositions(void) {
         gJb3List->mUnk_18[5]->mUnk_00 = (gJb3List->mUnk_18[5]->mUnk_00 & 0xfe00ff00) | 0x1000000;
     }
     if (firstEntryIndex >= 2 && firstEntryIndex <= 6) {
-        func_ov003_021c85a0_inline(gJb3List->mUnk_18[6], &xPosition, (u32 *) &yPosition);
+        Jb3ListG2_GetOBJPosition(gJb3List->mUnk_18[6], &xPosition, (u32 *) &yPosition);
         gJb3List->mUnk_18[6]->mUnk_00 =
             ((xPosition & 0x1ff) << 16) |
             ((gJb3List->mUnk_18[6]->mUnk_00 & 0xfe00ff00) | ((firstRowY + (6 - firstEntryIndex) * 0x1d) & 0xff));

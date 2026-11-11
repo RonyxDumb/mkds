@@ -77,7 +77,7 @@ s32 qr2_init_socketA(QueryRecord **qrec, s32 socket, s32 boundport, const char *
     if (isPublic != 0) {
         hostOverride = gQr2Hostname[0];
         if (hostOverride == 0) {
-            sprintf(hostText, data_ov000_021b4464, gamename);
+            sprintf(hostText, gQr2MasterHostnameFormat, gamename);
         }
         resolved = ResolveQueryHostAddress(hostOverride != 0 ? gQr2Hostname : hostText, 0x6cfc, &record->mHbAddr, NULL);
     } else {
@@ -211,7 +211,7 @@ void qr2_keybuffer_add(MatchingKeyIds *keybuffer, int keyid) {
     }
 }
 
-static inline u16 func_ov000_021a4654_inline(u16 port) {
+static inline u16 Qr2SwapBytes16(u16 port) {
     return ((port >> 8) & 0xff) | ((port << 8) & 0xff00);
 }
 
@@ -240,15 +240,15 @@ void qr2_buffer_addA(QueryBuffer *outbuf, const char *value) {
 
 void enum_local_ips(void) {
     SOCHostEnt *localHost;
-    Unk021a46d4 *hostAddress;
-    Unk021a46d4 *ownAddressList;
+    LocalIpAddressBytes *hostAddress;
+    LocalIpAddressBytes *ownAddressList;
 
     localHost = getlocalhost();
     if (localHost != NULL) {
         gNumLocalIps = 0;
-        ownAddressList = (Unk021a46d4 *) gLocalIpList;
+        ownAddressList = (LocalIpAddressBytes *) gLocalIpList;
         for (; gNumLocalIps < 5; gNumLocalIps++) {
-            hostAddress = (Unk021a46d4 *) localHost->mUnk_0c[gNumLocalIps];
+            hostAddress = (LocalIpAddressBytes *) localHost->mUnk_0c[gNumLocalIps];
             if (hostAddress == NULL) {
                 break;
             }
@@ -262,7 +262,7 @@ BOOL ResolveQueryHostAddress(const char *host, u32 port, SOCSockAddrIn *saddr, S
 
     hent = NULL;
     saddr->mUnk_01 = 2;
-    saddr->mUnk_02 = func_ov000_021a4654_inline(port);
+    saddr->mUnk_02 = Qr2SwapBytes16(port);
     if (host == NULL) {
         saddr->mUnk_04 = 0;
     } else {
@@ -389,22 +389,22 @@ void gs_encrypt(u8 *key, s32 keyLength, u8 *dataBytes, s32 bufferLength) {
 
 void qr_add_packet_header(u32 buf, u32 ptype, u32 reqkey) {
     u32 body;
-    u32 v2;
-    u32 v4;
-    u32 v6;
-    u32 v8;
+    u32 firstByte;
+    u32 secondByte;
+    u32 thirdByte;
+    u32 fourthByte;
     u32 headerLength;
     u32 lengthOffset;
     *(u8 *) ((buf) + (0)) = ptype;
     body = ((buf) + (0x1u));
-    v2 = (*(u8 *) ((reqkey) + (0)));
-    *(u8 *) ((buf) + (1)) = v2;
-    v4 = (*(u8 *) ((reqkey) + (1)));
-    *(u8 *) ((body) + (1)) = v4;
-    v6 = (*(u8 *) ((reqkey) + (2)));
-    *(u8 *) ((body) + (2)) = v6;
-    v8 = (*(u8 *) ((reqkey) + (3)));
-    *(u8 *) ((body) + (3)) = v8;
+    firstByte = (*(u8 *) ((reqkey) + (0)));
+    *(u8 *) ((buf) + (1)) = firstByte;
+    secondByte = (*(u8 *) ((reqkey) + (1)));
+    *(u8 *) ((body) + (1)) = secondByte;
+    thirdByte = (*(u8 *) ((reqkey) + (2)));
+    *(u8 *) ((body) + (2)) = thirdByte;
+    fourthByte = (*(u8 *) ((reqkey) + (3)));
+    *(u8 *) ((body) + (3)) = fourthByte;
     headerLength = 0x5u;
     lengthOffset = 0x800u;
     *(u32 *) ((buf) + (0 + (lengthOffset))) = headerLength;
@@ -816,7 +816,7 @@ void send_heartbeat(Unk021a3a18 *qrec, s32 statechanged) {
     for (index = 0; index < gNumLocalIps; index++) {
         sprintf(keyText, gLocalIpKeyFormat, index);
         qr2_buffer_addA(&buf, keyText);
-        qr2_buffer_addA(&buf, SOC_InetNtoA(((Unk021b5dfc *) gLocalIpList)[index]));
+        qr2_buffer_addA(&buf, SOC_InetNtoA(((SOCInAddr *) gLocalIpList)[index]));
     }
     qr2_buffer_addA(&buf, gLocalportKey);
     qr2_buffer_add_int(&buf, qrec->mUnk_c0);

@@ -23,7 +23,7 @@
 #include "Main/Unknown/code_021000d0.h"
 
 RaceHudSubScreenCells *gRaceHudSubScreenKingIceDonketuCells;
-RaceHudSubScreenCells *data_ov001_021a9ba4;
+RaceHudSubScreenCells *gRaceHudSubScreenKingTeresaCells;
 
 #pragma thumb off
 
@@ -64,41 +64,41 @@ void DrawRaceHudSubScreenKingIceDonketuCells(void *oamBuffer) {
     DrawRaceHudSubScreenCells(oamBuffer, gRaceHudSubScreenKingIceDonketuCells, 0);
 }
 
-BOOL func_ov001_02189128(void) {
-    return CreateRaceHudSubScreenCells(&data_ov001_021a9ba4, 0x1fd);
+BOOL CreateRaceHudSubScreenKingTeresaCells(void) {
+    return CreateRaceHudSubScreenCells(&gRaceHudSubScreenKingTeresaCells, 0x1fd);
 }
 
-void func_ov001_02189114(void) {
-    ClearRaceHudSubScreenCells(&data_ov001_021a9ba4);
+void ClearRaceHudSubScreenKingTeresaCells(void) {
+    ClearRaceHudSubScreenCells(&gRaceHudSubScreenKingTeresaCells);
 }
 
-void func_ov001_02188ff8(void) {
+void UpdateRaceHudSubScreenKingTeresaCells(void) {
     s32 i;
     s32 cellCount = 0;
     u32 raceHudSubScreenScale = GetRaceHudSubScreenScale();
     MapObject *object;
     Vec3 *pos;
 
-    for (i = 0; i < data_ov001_021a9ba4->mObjectCount; i++) {
-        object = data_ov001_021a9ba4->mObjects[i];
+    for (i = 0; i < gRaceHudSubScreenKingTeresaCells->mObjectCount; i++) {
+        object = gRaceHudSubScreenKingTeresaCells->mObjects[i];
         if (!(object->mFlags & 1)) {
             pos = &object->mPos;
-            if (ComputeRaceHudSubScreenPosition(pos, &data_ov001_021a9ba4->mCells[cellCount].mDrawPos,
+            if (ComputeRaceHudSubScreenPosition(pos, &gRaceHudSubScreenKingTeresaCells->mCells[cellCount].mDrawPos,
                                                 raceHudSubScreenScale, 1, 1) != FALSE) {
-                data_ov001_021a9ba4->mCells[cellCount].mCell = GetRaceSNcerEntry(0xc5);
-                data_ov001_021a9ba4->mCells[cellCount].mPriority =
+                gRaceHudSubScreenKingTeresaCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xc5);
+                gRaceHudSubScreenKingTeresaCells->mCells[cellCount].mPriority =
                     IsPositionOutsideBox(pos) ? RACE_HUD_PRIORITY_OUTSIDE_BOX : RACE_HUD_PRIORITY_INSIDE_BOX;
-                data_ov001_021a9ba4->mCells[cellCount].mUnk_0e = object->mFlags & 0x20;
-                data_ov001_021a9ba4->mCells[cellCount].mAngle = object->mAngle;
+                gRaceHudSubScreenKingTeresaCells->mCells[cellCount].mUnk_0e = object->mFlags & 0x20;
+                gRaceHudSubScreenKingTeresaCells->mCells[cellCount].mAngle = object->mAngle;
                 cellCount++;
             }
         }
     }
-    data_ov001_021a9ba4->mCellCount = cellCount;
+    gRaceHudSubScreenKingTeresaCells->mCellCount = cellCount;
 }
 
-void func_ov001_02188fdc(void *oamBuffer) {
-    DrawRaceHudSubScreenCells(oamBuffer, data_ov001_021a9ba4, 0);
+void DrawRaceHudSubScreenKingTeresaCells(void *oamBuffer) {
+    DrawRaceHudSubScreenCells(oamBuffer, gRaceHudSubScreenKingTeresaCells, 0);
 }
 
 #pragma thumb on

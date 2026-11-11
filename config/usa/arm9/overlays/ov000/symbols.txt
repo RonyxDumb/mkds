@@ -7,12 +7,12 @@ ReleaseWiFiMenuScene kind:function(thumb,size=0x18) addr:0x02180594
 InitWiFiMenuScene kind:function(thumb,size=0x34) addr:0x021805ac
 IsWiFiSessionOffOutsideLoginWrapper kind:function(thumb,size=0x8) addr:0x021805e0
 IsWiFiSessionOffOutsideLogin kind:function(thumb,size=0x30) addr:0x021805e8
-func_ov000_02180638 kind:function(thumb,size=0xc) addr:0x02180618
-func_ov000_02180644 kind:function(thumb,size=0xc) addr:0x02180624
+SetWiFiVSSettingFlag kind:function(thumb,size=0xc) addr:0x02180618
+GetWiFiVSSettingFlag kind:function(thumb,size=0xc) addr:0x02180624
 SetWiFiVSSettingIndex kind:function(thumb,size=0xc) addr:0x02180630
 GetWiFiVSSettingIndex kind:function(thumb,size=0xc) addr:0x0218063c
 LookupWiFiVSSettingMessageIndex kind:function(thumb,size=0x24) addr:0x02180648
-func_ov000_021806a0 kind:function(thumb,size=0x18) addr:0x0218066c
+IsWiFiStatesCounterNotNegative kind:function(thumb,size=0x18) addr:0x0218066c
 SetWiFiNextScene kind:function(thumb,size=0xc) addr:0x02180684
 GetWiFiNextScene kind:function(thumb,size=0x10) addr:0x02180690
 GetWiFiPrevState kind:function(thumb,size=0xc) addr:0x021806a0
@@ -2257,7 +2257,7 @@ gPublicAddressFormat kind:data(any) addr:0x021b43cc
 gBroadcastAddress kind:data(any) addr:0x021b43d8
 gIntFormat kind:data(any) addr:0x021b43e8
 gNoChallengeErrorMessage kind:data(any) addr:0x021b43ec
-data_ov000_021b4464 kind:data(any) addr:0x021b4424
+gQr2MasterHostnameFormat kind:data(any) addr:0x021b4424
 data_usa_ov000_021b4444 kind:data(any) addr:0x021b4444
 data_usa_ov000_021b4448 kind:data(any) addr:0x021b4448
 data_usa_ov000_021b4450 kind:data(any) addr:0x021b4450

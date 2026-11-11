@@ -11,9 +11,9 @@ u16 GetAbsoluteCounterWrapper(Unk02188950 *mapObject) {
     return GetAbsoluteCounter(mapObject);
 }
 
-void func_ov001_0218b2b8(Unk02188950 *mapObject) {
+void BombKingJumpKartCollisionCallback(Unk02188950 *mapObject) {
     mapObject->mUnk_2d8 = 0xb;
-    mapObject->mUnk_000.mDistanceSquaredAndFlags |= data_ov001_021a6598;
+    mapObject->mUnk_000.mDistanceSquaredAndFlags |= gBombKingSkipKindSoundFlag;
 }
 
 void BombKingFirstSoundCallback(Unk02188950 *mapObject) {

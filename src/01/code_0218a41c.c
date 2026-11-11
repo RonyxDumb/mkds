@@ -10,9 +10,9 @@
 
 void StartBombKingItemHitState(Unk02188950 *mapObject) {
     if (GetAbsoluteCounter(mapObject) >= 2) {
-        func_ov001_0218a444(mapObject);
+        StartBombKingBounceStateAfterHits(mapObject);
     } else {
-        func_ov001_0218a4d0(mapObject);
+        StartBombKingBounceState(mapObject);
     }
-    func_ov001_02188260(mapObject);
+    IncrementHitCountAndCheckLimit(mapObject);
 }

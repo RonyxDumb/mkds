@@ -30,14 +30,14 @@ void StartHanachanMoveStateByBalloons(Unk02188950 *mapObject) {
 
     if (GetBalloonOrShineCount(gRaceSetup->mEntryIndex) <= 1) {
         scaleFactor = 0x1000 - mapObject->mPrm->mUnk_0ac;
-        entryPercent = func_ov001_02187f38(mapObject);
+        entryPercent = GetCurrentGroupEntryPercent(mapObject);
         speedPercent = MUL_FIXED12_NO_ROUND(entryPercent, scaleFactor);
     } else if (GetBalloonOrShineCount(gRaceSetup->mEntryIndex) <= 2) {
         scaleFactor = 0x1000 - mapObject->mPrm->mUnk_0a8;
-        entryPercent = func_ov001_02187f38(mapObject);
+        entryPercent = GetCurrentGroupEntryPercent(mapObject);
         speedPercent = MUL_FIXED12_NO_ROUND(entryPercent, scaleFactor);
     } else {
-        speedPercent = func_ov001_02187f38(mapObject);
+        speedPercent = GetCurrentGroupEntryPercent(mapObject);
     }
     StartMapObjectState(mapObject, 1, UpdateHanachanMoveState);
     SetStoppedCallback(mapObject, NULL);

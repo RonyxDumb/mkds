@@ -178,7 +178,7 @@ void InitWiFiVSMatching(void *heap) {
         gWiFiVSMatching->mUnk_18[i] = 0;
     }
     InitWiFiVSMatchingEntryMatrices();
-    if (func_ov000_02180644() != 0) {
+    if (GetWiFiVSSettingFlag() != 0) {
         SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiVSMatching->mWiFiMessages, 12), 0, 0, 1, 0, 1, 0);
     } else {
         SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiVSMatching->mWiFiMessages, 8), 0, 0, 1, 0, 1, 0);
@@ -261,7 +261,7 @@ void AdvanceWiFiVSMatchingState0(void) {
         if (IsTxtSystemState2NoCloseRequest() != 0) {
             gWiFiVSMatching->mNextState = 1;
             gWiFiVSMatching->mUnk_08 = 0;
-            if (func_ov000_02180644() != 0) {
+            if (GetWiFiVSSettingFlag() != 0) {
                 RequestWiFiSessionMatching(gMenuShared->mUnk_54, 0, 0);
                 gWiFiVSMatching->mUnk_3c = FALSE;
             } else {

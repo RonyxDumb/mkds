@@ -485,7 +485,7 @@ void NNProcessData(u8 *data, s32 length, void *fromAddress) {
 }
 
 u32 Gt2FormatAddress(u32 ipAddress, u32 port, char *buffer) {
-    Unk021b5dfc inAddress;
+    SOCInAddr inAddress;
     char *addressString;
 
     addressString = buffer;

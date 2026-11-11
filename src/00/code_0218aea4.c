@@ -70,14 +70,14 @@ s32 StrCaseKeyCompare(u32 *firstEntry, u32 *secondEntry) {
 s32 StrNoCaseKeyCompare(u32 *firstEntry, u32 *secondEntry) {
     char *firstValue;
     char *secondValue;
-    s32 r;
+    s32 result;
     firstValue = SbServerGetValue((SbServer *) *firstEntry, gSortServerList->mSortKey, data_ov000_021b2260);
     secondValue = SbServerGetValue((SbServer *) *secondEntry, gSortServerList->mSortKey, data_ov000_021b2260);
-    r = CompareStringsMapped(firstValue, secondValue);
+    result = CompareStringsMapped(firstValue, secondValue);
     if (gSortServerList->mSortAscending == 0) {
-        r = -r;
+        result = -result;
     }
-    return r;
+    return result;
 }
 
 void SBServerListSort(SbServerList *serverList, s32 ascending, const char *sortField, u32 compareKind) {
@@ -267,7 +267,7 @@ int NTSLengthSB(const void *buffer, int length) {
     return -1;
 }
 
-static inline void func_ov000_0218ce14_inline(UnalignedWord *destination, UnalignedWord *source) {
+static inline void CopyUnalignedWord(UnalignedWord *destination, UnalignedWord *source) {
     u8 *destinationBytes = (u8 *) destination;
     u8 *sourceBytes = (u8 *) source;
     destinationBytes[0] = sourceBytes[0];
@@ -365,7 +365,7 @@ s32 ServerListConnect(SbServerList *serverList) {
         if (hostEntry == NULL) {
             return 2;
         }
-        func_ov000_0218ce14_inline((UnalignedWord *) &masterAddress.mUnk_04, (UnalignedWord *) hostEntry->mUnk_0c[0]);
+        CopyUnalignedWord((UnalignedWord *) &masterAddress.mUnk_04, (UnalignedWord *) hostEntry->mUnk_0c[0]);
     }
     if (serverList->mSocket == -1) {
         serverList->mSocket = OpenNetSocket(2, 1, 0);

@@ -77,7 +77,7 @@ s32 GetCurrentGroupEntryValue(Unk02188950 *mapObject) {
     return 0;
 }
 
-s32 func_ov001_02187f38(Unk02188950 *mapObject) {
+s32 GetCurrentGroupEntryPercent(Unk02188950 *mapObject) {
     if (mapObject->mEntryGroupIndex < gCourseMap->mEntryGroupCount) {
         return GetCourseMapGroupEntry(mapObject->mEntryGroupIndex, mapObject->mEntryIndex)->mUnk_10;
     }

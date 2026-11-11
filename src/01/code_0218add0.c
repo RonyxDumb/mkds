@@ -41,7 +41,7 @@ void ThrowItemBombsInRingAndCenter(Unk02188950 *mapObject) {
     SetSpeedAndClearTarget(mapObject, 0);
 }
 
-void func_ov001_0218ae60(Unk02188950 *mapObject) {
+void StartBombKingJumpLandState(Unk02188950 *mapObject) {
     StartMapObjectState(mapObject, 3, NULL);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_200, mapObject->mPrm->mUnk_204, NULL);
     StopTurningMoveFollowsAngle(mapObject);
@@ -53,7 +53,7 @@ void func_ov001_0218ae60(Unk02188950 *mapObject) {
     SetKartCollisionCallback(mapObject, NULL);
 }
 
-void func_ov001_0218add0(Unk02188950 *mapObject) {
+void StartBombKingJumpFallState(Unk02188950 *mapObject) {
     Vec3 velocity = {0, 0, 0};
 
     velocity.y = mapObject->mPrm->mUnk_1fc;
@@ -62,8 +62,8 @@ void func_ov001_0218add0(Unk02188950 *mapObject) {
     SetVelocity(mapObject, &velocity);
     StopTurningMoveFollowsAngle(mapObject);
     SetSpeedAndClearTarget(mapObject, 0);
-    SetCourseCollisionCallback(mapObject, func_ov001_0218ae60);
+    SetCourseCollisionCallback(mapObject, StartBombKingJumpLandState);
     mapObject->mGravityEnabled = TRUE;
     StartMapObjectSound(&mapObject->mUnk_000, 0x23a);
-    SetKartCollisionCallback(mapObject, func_ov001_0218b2b8);
+    SetKartCollisionCallback(mapObject, BombKingJumpKartCollisionCallback);
 }

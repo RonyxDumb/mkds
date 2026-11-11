@@ -715,7 +715,7 @@ void StartIwanteHandsFallOrMoveToPoints(Unk02188950 *mapObject) {
     Unk02188950 *firstHand;
     Unk02188950 *secondHand;
 
-    if (func_ov001_0218820c(mapObject)) {
+    if (GetRepeatsRemaining(mapObject)) {
         StartMapObjectState(mapObject, 3, AdvanceIwanteHandsRestartWhenIdle);
         StopTurningMoveFollowsAngle(mapObject);
         firstHand = (gRaceSetup->mMode == MODE_MISSION_RUN
@@ -761,7 +761,7 @@ s32 AdvanceIwanteHandsStartFromPrm(Unk02188950 *mapObject) {
     SetAnglePointAndMoveAnglePoint(mapObject, &GetKart((u16) gRaceSetup->mEntryIndex)->mPos);
     SetIwanteHandsPoints();
     if (IsStateNumberBelow(firstHand, 3) && IsStateNumberBelow(secondHand, 3)) {
-        func_ov001_02188218(mapObject, ((u16) mapObject->mPrm->mUnk_1ec));
+        SetRepeatsRemaining(mapObject, ((u16) mapObject->mPrm->mUnk_1ec));
         StartIwanteHandsFallOrMoveToPoints(mapObject);
     }
     return 0;
@@ -812,7 +812,7 @@ void StartIwanteHandsMoveVertical(Unk02188950 *mapObject) {
     Unk02188950 *firstHand;
     Unk02188950 *secondHand;
 
-    if (func_ov001_0218820c(mapObject)) {
+    if (GetRepeatsRemaining(mapObject)) {
         kart = GetKart((u16) gRaceSetup->mEntryIndex);
         StartMapObjectState(mapObject, 3, AdvanceIwanteHandsRepeatVertical);
         TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_2c4, 0x270f000);
@@ -862,7 +862,7 @@ int AdvanceIwanteHandsStartMoveVertical(Unk02188950 *mapObject) {
     SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
     SetIwanteHandsPoints();
     if (IsStateNumberBelow(firstHand, 3) && IsStateNumberBelow(secondHand, 3)) {
-        func_ov001_02188218(mapObject, 4);
+        SetRepeatsRemaining(mapObject, 4);
         StartIwanteHandsMoveVertical(mapObject);
     }
     return 0;
@@ -1118,7 +1118,7 @@ void StartIwanteHandsToggleStateHold(Unk02188950 *mapObject) {
 }
 
 void StartIwanteHandsFromPrm(Unk02188950 *mapObject) {
-    func_ov001_02188218(mapObject, ((u16) mapObject->mPrm->mUnk_1ec));
+    SetRepeatsRemaining(mapObject, ((u16) mapObject->mPrm->mUnk_1ec));
     StartIwanteHandsFallOrMoveToPoints(mapObject);
 }
 
@@ -1205,7 +1205,7 @@ void StartIwanteHandsWaitForRaceStart(Unk02188950 *mapObject) {
 
 void ApplyIwanteHandsHit(Unk02188950 *mapObject) {
     StartIwanteHandsHitReaction(mapObject);
-    func_ov001_02188260(mapObject);
+    IncrementHitCountAndCheckLimit(mapObject);
 }
 
 void StartIwanteCourseHitEffects(Unk02188950 *mapObject) {

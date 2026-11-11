@@ -19,7 +19,7 @@
 #include "string.h"
 #include "code_02134398.h"
 
-static inline void func_ov000_02198ba8_inline(void *destination, const void *source) {
+static inline void CopyUnalignedHalfword(void *destination, const void *source) {
     u8 *destinationBytes = destination;
     const u8 *sourceBytes = source;
     destinationBytes[0] = sourceBytes[0];
@@ -51,7 +51,7 @@ BOOL gti2SendAppUnreliable(Gt2Connection *connection, u8 *message, int len) {
 
 BOOL gti2SendAck(Gt2Connection *connection) {
     u8 buffer[3];
-    func_ov000_02198ba8_inline(buffer, gGti2MagicString);
+    CopyUnalignedHalfword(buffer, gGti2MagicString);
     buffer[2] = 0x64;
     gti2UShortToBuffer(buffer, 3, connection->mExpectedSerialNumber);
     if (SendConnectionBytes(connection, buffer, 5) == 0) {
@@ -65,7 +65,7 @@ BOOL gti2SendNack(Gt2Connection *connection, u16 firstNumber, u16 lastNumber) {
     u8 buffer[7];
     int pos;
     pos = 0;
-    func_ov000_02198ba8_inline(buffer, gGti2MagicString);
+    CopyUnalignedHalfword(buffer, gGti2MagicString);
     buffer[2] = 0x65;
     gti2UShortToBuffer(buffer, 3, firstNumber);
     pos += 5;
@@ -81,13 +81,13 @@ BOOL gti2SendNack(Gt2Connection *connection, u16 firstNumber, u16 lastNumber) {
 
 u32 gti2SendPong(u32 connection, u32 message, u32 len) {
     u32 value0 = connection;
-    u32 value1 = message;
-    u32 value2 = len;
+    u32 messageAddress = message;
+    u32 length = len;
     u32 value3;
     value3 = 103u;
-    *(u8 *) ((value1) + 2u) = value3;
+    *(u8 *) ((messageAddress) + 2u) = value3;
     value3 = (u32) &SendConnectionBytes;
-    value0 = SendConnectionBytes((Gt2Connection *) value0, (u8 *) value1, value2);
+    value0 = SendConnectionBytes((Gt2Connection *) value0, (u8 *) messageAddress, length);
     return value0;
 }
 
