@@ -1061,7 +1061,7 @@ u32 ReadExactReceivedBytes(u8 *dest, s32 count, Unk021a998c *connection) {
     u8 *chunk;
     u32 chunkLength;
     do {
-        chunk = func_ov000_021adfc8(&chunkLength, connection);
+        chunk = CPSi_TcpReadRaw(&chunkLength, connection);
         if (chunkLength == 0) {
             return 0xffffffff;
         }
@@ -1069,7 +1069,7 @@ u32 ReadExactReceivedBytes(u8 *dest, s32 count, Unk021a998c *connection) {
             chunkLength = count;
         }
         MI_CpuCopy8(chunk, dest, chunkLength);
-        func_ov000_021adf30(chunkLength, connection);
+        CPSi_SocConsumeRaw(chunkLength, connection);
         dest = dest + chunkLength;
         count = count - chunkLength;
     } while (0 < count);
@@ -1088,7 +1088,7 @@ u8 ReadHttpsRecordAndSetState(Unk021a998c *connection) {
     u8 messageType;
     s32 messageLength;
     do {
-        header = func_ov000_021adfc8(&length, connection);
+        header = CPSi_TcpReadRaw(&length, connection);
         if (length == 0) {
             httpsState->mSetupState = 9;
             return httpsState->mSetupState;
@@ -1098,7 +1098,7 @@ u8 ReadHttpsRecordAndSetState(Unk021a998c *connection) {
     if (recordType == 0x80) {
         if (httpsState->mReceivesKind1Record != 0 && httpsState->mSetupState == 0) {
             length = header[1];
-            func_ov000_021adf30(2, connection);
+            CPSi_SocConsumeRaw(2, connection);
             record = CPSiAlloc(length);
             if (record == NULL) {
                 httpsState->mSetupState = 9;
@@ -1342,7 +1342,7 @@ u8 SendKind2Record(Unk021a998c *connection) {
     message[4] = length;
     CPSi_sha1_calc(&httpsState->mMessageHash20, message + 5, length);
     CPSi_md5_calc(&httpsState->mMessageHash16, message + 5, length);
-    func_ov000_021adcec(message, length + 5, NULL, 0, connection);
+    CPSi_TcpWrite2Raw(message, length + 5, NULL, 0, connection);
     CPSiFree(message);
     return httpsState->mReusedEntry;
 }
@@ -1380,7 +1380,7 @@ void SendOneByteRecordAndMessageDigests(Unk021a998c *a) {
     MI_CpuCopy8(&httpsState->mScratchHash20, &httpsState->mMessageHash20, 0x5c);
     CPSi_sha1_calc(&httpsState->mMessageHash20, msg + 0xb, 0x28);
     CPSi_md5_calc(&httpsState->mMessageHash16, msg + 0xb, 0x28);
-    func_ov000_021adcec(msg, AppendDigestAndXorSentRecordWithKeyStream(httpsState, msg + 6) + 6, NULL, 0, a);
+    CPSi_TcpWrite2Raw(msg, AppendDigestAndXorSentRecordWithKeyStream(httpsState, msg + 6) + 6, NULL, 0, a);
     CPSiFree(msg);
 }
 
@@ -1408,7 +1408,7 @@ void SendKind1Record(Unk021a998c *connection) {
     httpsState->mKind1Block[3] = seconds;
     FillNonzeroRandomBytes(&httpsState->mKind1Block[4], 0x1c);
     MI_CpuCopy8(httpsState->mKind1Block, cursor + 2, 0x20);
-    httpsState->mEntry = FindEntryByValuePairAndSetLastUseTime(connection->mUnk_1c, connection->mUnk_18);
+    httpsState->mEntry = FindEntryByValuePairAndSetLastUseTime(connection->mRemoteIp, connection->mRemotePort);
     if (httpsState->mEntry != NULL) {
         cursor[0x22] = 0x20;
         MI_CpuCopy8(httpsState->mEntry, cursor + 0x23, 0x20);
@@ -1444,7 +1444,7 @@ void SendKind1Record(Unk021a998c *connection) {
     message[6] = (payloadLength - 4) >> 16;
     message[7] = (payloadLength - 4) >> 8;
     message[8] = payloadLength - 4;
-    func_ov000_021adcec(message, payloadLength + 5, NULL, 0, connection);
+    CPSi_TcpWrite2Raw(message, payloadLength + 5, NULL, 0, connection);
     CPSi_md5_calc(&httpsState->mMessageHash16, message + 5, payloadLength);
     CPSi_sha1_calc(&httpsState->mMessageHash20, message + 5, payloadLength);
     CPSiFree(message);
@@ -1528,7 +1528,7 @@ void send_client_key_exchange(Unk021a998c *connection) {
         p += 2;
         *k = result[digitIndex];
     }
-    func_ov000_021adcec(record, modulusLength + 9, NULL, 0, connection);
+    CPSi_TcpWrite2Raw(record, modulusLength + 9, NULL, 0, connection);
     CPSi_md5_calc(&httpsState->mMessageHash16, record + 5, (u32) modulusLength + 4);
     CPSi_sha1_calc(&httpsState->mMessageHash20, record + 5, modulusLength + 4);
     CPSiFree(record);
@@ -1574,7 +1574,7 @@ BOOL RunSetupAfterReadingKind1Record(Unk021a998c *connection) {
 void RunSetupAfterReadingKind1RecordUntilDone(Unk021a998c *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     while (1) {
-        func_ov000_021ae228(connection);
+        CPSi_TcpListenRaw(connection);
         httpsState->mSetupState = 0;
         httpsState->mReceivesKind1Record = 1;
         CPSi_sha1_init(&httpsState->mMessageHash20);
@@ -1583,9 +1583,9 @@ void RunSetupAfterReadingKind1RecordUntilDone(Unk021a998c *connection) {
             httpsState->mSetupState = 8;
             return;
         }
-        func_ov000_021ae0c4(connection);
-        connection->mUnk_18 = connection->mUnk_1a;
-        connection->mUnk_1c = connection->mUnk_20;
+        CPSi_TcpShutdownRaw(connection);
+        connection->mRemotePort = connection->mRemotePortBound;
+        connection->mRemoteIp = connection->mRemoteIpBound;
     }
 }
 
@@ -1609,8 +1609,8 @@ BOOL RunSetupAfterSendingKind1Record(Unk021a998c *connection) {
         }
         SendOneByteRecordAndMessageDigests(connection);
     } else {
-        httpsState->mEntry->mUnk_54 = connection->mUnk_1c;
-        httpsState->mEntry->mUnk_58 = connection->mUnk_18;
+        httpsState->mEntry->mUnk_54 = connection->mRemoteIp;
+        httpsState->mEntry->mUnk_58 = connection->mRemotePort;
         send_client_key_exchange(connection);
         ReplaceEntryBytesWithLabeledDigests(httpsState);
         DeriveBytesAndInitKeyStreamStates(httpsState);
@@ -1625,7 +1625,7 @@ BOOL RunSetupAfterSendingKind1Record(Unk021a998c *connection) {
 
 BOOL CPSi_SslConnect(Unk021a998c *connection) {
     HttpsState *httpsState = connection->mHttpsState;
-    if (connection->mState != 4 && func_ov000_021ae16c(connection) != 0) {
+    if (connection->mState != 4 && CPSi_TcpConnectRaw(connection) != 0) {
         return TRUE;
     }
     httpsState->mSetupState = 0;
@@ -1708,7 +1708,7 @@ s32 SendHttpsBytesInChunks(u8 *firstBytes, u32 firstLength, u8 *secondBytes, u32
         record[3] = chunkLength >> 8;
         record[4] = chunkLength;
         firstChunkLength = AppendDigestAndXorSentRecordWithKeyStream(httpsState, record);
-        if (func_ov000_021adcec(record, firstChunkLength, (const u8 *) n, n, connection) < firstChunkLength) {
+        if (CPSi_TcpWrite2Raw(record, firstChunkLength, (const u8 *) n, n, connection) < firstChunkLength) {
             chunkLength = p;
         }
         CPSiFree(record);
@@ -1724,7 +1724,7 @@ s32 SendHttpsBytesInChunks(u8 *firstBytes, u32 firstLength, u8 *secondBytes, u32
     return sentCount;
 }
 
-// When mSetupState is 8 sends the 7-byte record that ends with 1, 0, then runs func_ov000_021ae0c4 and clears
+// When mSetupState is 8 sends the 7-byte record that ends with 1, 0, then runs CPSi_TcpShutdownRaw and clears
 // mSetupState.
 void CPSi_SslShutdown(Unk021a998c *connection) {
     HttpsState *httpsState = connection->mHttpsState;
@@ -1737,9 +1737,9 @@ void CPSi_SslShutdown(Unk021a998c *connection) {
         alertRecord[4] = 2;
         alertRecord[5] = 1;
         alertRecord[6] = 0;
-        func_ov000_021adcec(alertRecord, AppendDigestAndXorSentRecordWithKeyStream(httpsState, alertRecord), NULL, 0,
-                            connection);
+        CPSi_TcpWrite2Raw(alertRecord, AppendDigestAndXorSentRecordWithKeyStream(httpsState, alertRecord), NULL, 0,
+                          connection);
     }
-    func_ov000_021ae0c4(connection);
+    CPSi_TcpShutdownRaw(connection);
     httpsState->mSetupState = 0;
 }

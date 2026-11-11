@@ -47,18 +47,18 @@ typedef struct SOCLConfig {
 } SOCLConfig;
 
 typedef struct CPSConfig {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ void *(*mUnk_04)(u32 param_1);
-    /* 08 */ void (*mUnk_08)(void *param_1);
-    /* 0c */ void (*mUnk_0c)(void);
-    /* 10 */ u32 (*mUnk_10)(void);
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ void *mUnk_1c;
-    /* 20 */ s32 mUnk_20;
-    /* 24 */ s32 mUnk_24;
-    /* 28 */ u32 mUnk_28;
-    /* 2c */ u32 mUnk_2c;
+    /* 00 */ s32 mMode;
+    /* 04 */ void *(*mAlloc)(u32 param_1);
+    /* 08 */ void (*mFree)(void *param_1);
+    /* 0c */ void (*mDhcpCallback)(void);
+    /* 10 */ u32 (*mLinkIsOn)(void);
+    /* 14 */ s32 mRandomSeedLow;
+    /* 18 */ s32 mRandomSeedHigh;
+    /* 1c */ void *mLanBuf;
+    /* 20 */ s32 mLanBufLen;
+    /* 24 */ s32 mMyMss;
+    /* 28 */ u32 mRequestedIp;
+    /* 2c */ u32 mYieldWait;
 } CPSConfig;
 
 // Objects whose layout isn't known yet.

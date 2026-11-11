@@ -67,7 +67,7 @@ void InitWiFiTopMenu(void *heap) {
         SetCellOamModeXlu(gWiFiTopMenuXluCellIndices[i], 1, gWiFiTopMenu->mWiFiTopMenuSNcer,
                           gWiFiTopMenu->mWiFiTopMenuBncl);
     }
-    ResetOamLists(func_ov000_021804f4(), func_ov000_021804e0());
+    ResetOamLists(GetWiFiMenuMainOamList(), GetWiFiMenuSubOamList());
     InitLayoutTable(heap, gWiFiTopMenu->mWiFiTopMenuBncl, NULL, &gWiFiTopMenu->mWiFiTopMenuTable);
     for (j = 0; j < 3; j++) {
         for (k = 0; k < gWiFiTopMenuOffsetCellCounts[j]; k++) {
@@ -420,7 +420,7 @@ void AdvanceWiFiTopMenu(void) {
     }
     UpdateWiFiTopMenuHighlight();
     wiFiTopMenu = gWiFiTopMenu;
-    DrawLayoutTable(wiFiTopMenu->mWiFiTopMenuBncl, wiFiTopMenu->mWiFiTopMenuSNcer, NULL, func_ov000_021804e0(),
+    DrawLayoutTable(wiFiTopMenu->mWiFiTopMenuBncl, wiFiTopMenu->mWiFiTopMenuSNcer, NULL, GetWiFiMenuSubOamList(),
                     wiFiTopMenu->mWiFiTopMenuTable);
 }
 

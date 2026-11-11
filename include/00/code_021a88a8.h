@@ -3,7 +3,7 @@
 #include "types.h"
 #include "00/code_021a6fa8.h"
 
-// The 0x64 bytes SOCL_Resolve hands to func_ov000_021ae304: two blocks of a size and a start address.
+// The 0x64 bytes SOCL_Resolve hands to CPS_SocRegister: two blocks of a size and a start address.
 typedef struct CPSSoc {
     /* 00 */ u8 mUnk_00[0x3c];
     /* 3c */ SizedBuffer mReceiveBuffer;

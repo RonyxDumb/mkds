@@ -12,49 +12,49 @@
 #include "Main/Unknown/code_02036820.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-void InitWiFiMenuScene(s16 *a) {
-    void *b;
-    b = GetHeap(GetCurrentHeapCall());
-    data_ov000_021b4c60 = HeapAlloc(b, 0x808);
-    InitWiFiStates(b, *a);
+void InitWiFiMenuScene(s16 *sceneNumbers) {
+    void *heap;
+    heap = GetHeap(GetCurrentHeapCall());
+    gWiFiMenuOamLists = HeapAlloc(heap, 0x808);
+    InitWiFiStates(heap, *sceneNumbers);
 }
 
 void ReleaseWiFiMenuScene(void) {
     ReleaseWiFiStates();
-    data_ov000_021b4c60 = NULL;
+    gWiFiMenuOamLists = NULL;
 }
 
-void func_ov000_0218058c(void) {
+void WriteWiFiMenuSceneRegisters(void) {
     AdvanceKartModelMenuLoad();
     WriteWiFiStatesRegisters();
-    UploadOamLists(data_ov000_021b4c60, data_ov000_021b4c60 + 0x404);
+    UploadOamLists(gWiFiMenuOamLists, gWiFiMenuOamLists + 0x404);
 }
 
-void UpdateWiFiMenuScene(SceneNumbers *a) {
-    ClearOamListCounts(data_ov000_021b4c60, data_ov000_021b4c60 + 0x404);
+void UpdateWiFiMenuScene(SceneNumbers *sceneNumbers) {
+    ClearOamListCounts(gWiFiMenuOamLists, gWiFiMenuOamLists + 0x404);
     AdvanceWiFiStates();
-    HideUnusedOams(data_ov000_021b4c60, data_ov000_021b4c60 + 0x404);
-    if (a != NULL) {
+    HideUnusedOams(gWiFiMenuOamLists, gWiFiMenuOamLists + 0x404);
+    if (sceneNumbers != NULL) {
         if (GetWiFiNextScene() != -1) {
             if (GetWiFiNextScene() == 0) {
                 gStartupWork->mConnectionKind = 0;
             }
-            a->mNextScene = GetWiFiNextScene();
+            sceneNumbers->mNextScene = GetWiFiNextScene();
         }
     }
 }
 
-s32 RunWiFiMenuScene(SceneNumbers *a) {
-    SceneCallbacks b = {
-        InitWiFiMenuScene, UpdateWiFiMenuScene, ReleaseWiFiMenuScene, func_ov000_0218058c, 0, 0, 10, 10, 0};
-    RunScene(a, &b);
+s32 RunWiFiMenuScene(SceneNumbers *sceneNumbers) {
+    SceneCallbacks callbacks = {
+        InitWiFiMenuScene, UpdateWiFiMenuScene, ReleaseWiFiMenuScene, WriteWiFiMenuSceneRegisters, 0, 0, 10, 10, 0};
+    RunScene(sceneNumbers, &callbacks);
     return 0;
 }
 
-void *func_ov000_021804f4(void) {
-    return data_ov000_021b4c60;
+void *GetWiFiMenuMainOamList(void) {
+    return gWiFiMenuOamLists;
 }
 
-void *func_ov000_021804e0(void) {
-    return data_ov000_021b4c60 + 0x404;
+void *GetWiFiMenuSubOamList(void) {
+    return gWiFiMenuOamLists + 0x404;
 }

@@ -24,8 +24,8 @@ void InitWiFiVSCourseSelectState(u32 heap) {
     *(s32 *) &gWiFiVSCourseSelectState = recordAddress;
     *(u32 *) (recordAddress + 4) = heap;
     InitWiFiVSCourseSelectNop();
-    firstOamList = func_ov000_021804f4();
-    secondOamList = func_ov000_021804e0();
+    firstOamList = GetWiFiMenuMainOamList();
+    secondOamList = GetWiFiMenuSubOamList();
     InitWiFiVSCourseSelect((void *) heap, firstOamList, secondOamList);
     SetLinkLevelIconEnabled(1, 1);
 }

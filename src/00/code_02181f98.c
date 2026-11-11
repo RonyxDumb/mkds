@@ -61,7 +61,7 @@ void InitWiFiVSSetting(void *heap) {
         SetCellOamModeXlu(gWiFiVSSettingOffsetTableIndices[i][0], 1, gWiFiVSSetting->mWiFiVSSettingSNcer,
                           gWiFiVSSetting->mWiFiVSSettingBncl);
     }
-    ResetOamLists(func_ov000_021804f4(), func_ov000_021804e0());
+    ResetOamLists(GetWiFiMenuMainOamList(), GetWiFiMenuSubOamList());
     InitLayoutTable(heap, gWiFiVSSetting->mWiFiVSSettingBncl, gWiFiVSSetting->mWiFiVSSettingBnll,
                     &gWiFiVSSetting->mWiFiVSSettingTable);
     gWiFiVSSetting->mWiFiMessages = FindSceneFile("wifi.bmg");
@@ -704,7 +704,7 @@ void AdvanceWiFiVSSetting(void) {
     UpdateWiFiVSSettingHighlight();
     AdvanceWiFiVSSettingIndexTimers();
     DrawLayoutTable(gWiFiVSSetting->mWiFiVSSettingBncl, gWiFiVSSetting->mWiFiVSSettingSNcer,
-                    gWiFiVSSetting->mWiFiVSSettingBnll, func_ov000_021804e0(), gWiFiVSSetting->mWiFiVSSettingTable);
+                    gWiFiVSSetting->mWiFiVSSettingBnll, GetWiFiMenuSubOamList(), gWiFiVSSetting->mWiFiVSSettingTable);
 }
 
 void WriteWiFiVSSettingRegisters(void) {

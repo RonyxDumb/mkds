@@ -10,23 +10,23 @@ typedef s32 (*Unk021a998cFunc)(void *param_1, u32 param_2, struct Unk021a998c *p
 // Record the https functions take; its mHttpsState is the https layer's own state.
 typedef struct Unk021a998c {
     /* 00 */ struct OSThread *mThread;
-    /* 04 */ u32 mUnk_04;
+    /* 04 */ u32 mBlockType;
     /* 08 */ u8 mState;
     /* 09 */ u8 mUseHttps;
-    /* 0a */ u16 mUnk_0a;
+    /* 0a */ u16 mLocalPort;
     /* 0c */ HttpsState *mHttpsState;
     /* 10 */ u32 mStateStartTime;
-    /* 14 */ u32 mUnk_14;
-    /* 18 */ u16 mUnk_18;
-    /* 1a */ u16 mUnk_1a;
-    /* 1c */ u32 mUnk_1c;
-    /* 20 */ u32 mUnk_20;
-    /* 24 */ u32 mUnk_24;
-    /* 28 */ u32 mUnk_28;
-    /* 2c */ u16 mUnk_2c;
-    /* 2e */ u16 mUnk_2e;
-    /* 30 */ u32 mUnk_30;
-    /* 34 */ u32 mUnk_34;
+    /* 14 */ u32 mLocalIpReal;
+    /* 18 */ u16 mRemotePort;
+    /* 1a */ u16 mRemotePortBound;
+    /* 1c */ u32 mRemoteIp;
+    /* 20 */ u32 mRemoteIpBound;
+    /* 24 */ u32 mAckNo;
+    /* 28 */ u32 mSeqNo;
+    /* 2c */ u16 mRemoteWin;
+    /* 2e */ u16 mRemoteMss;
+    /* 30 */ u32 mRemoteAckNo;
+    /* 34 */ u32 mAckRcvd;
     /* 38 */ Unk021a998cFunc mReceiveCallback;
     /* 3c */ u32 mReceiveBufferSize;
     /* 40 */ u8 *mReceiveBuffer;
@@ -34,8 +34,8 @@ typedef struct Unk021a998c {
     /* 48 */ u32 mSendBufferSize;
     /* 4c */ u8 *mSendBuffer;
     /* 50 */ u8 mUnk_50[0xc];
-    /* 5c */ u8 *mUnk_5c;
-    /* 60 */ u32 mUnk_60;
+    /* 5c */ u8 *mOutBuffer;
+    /* 60 */ u32 mOutBufferLength;
 } Unk021a998c;
 
 #include "00/unk_021b4000.h"

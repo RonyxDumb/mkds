@@ -10,7 +10,7 @@ u32 dhcp_send_discover(void) {
     u8 *message;
 
     message = gScavengerSendPayload;
-    cursor = func_ov000_021ad754(message, 1, &queryId);
+    cursor = dhcp_setcommon(message, 1, &queryId);
     if (gOfferedMyIp != 0) {
         cursor[0] = 0x32;
         cursor[1] = 4;
@@ -22,8 +22,8 @@ u32 dhcp_send_discover(void) {
     }
     *cursor = 0xff;
     cursor++;
-    cursor = func_ov000_021ad734(0, 0x12c, cursor, cursor - message);
-    func_ov000_021adbf4(message, cursor - message);
+    cursor = pad_mem(0, 0x12c, cursor, cursor - message);
+    CPS_SocWrite(message, cursor - message);
     return queryId;
 }
 
@@ -33,7 +33,7 @@ u32 dhcp_send_request(s32 mode) {
     u8 *message;
 
     message = gScavengerSendPayload;
-    cursor = func_ov000_021ad754(message, 3, &queryId);
+    cursor = dhcp_setcommon(message, 3, &queryId);
     if (mode == 0) {
         cursor[0] = 0x32;
         cursor[1] = 4;
@@ -51,8 +51,8 @@ u32 dhcp_send_request(s32 mode) {
     }
     *cursor = 0xff;
     cursor++;
-    cursor = func_ov000_021ad734(0, 0x12c, cursor, cursor - message);
-    func_ov000_021adbf4(message, cursor - message);
+    cursor = pad_mem(0, 0x12c, cursor, cursor - message);
+    CPS_SocWrite(message, cursor - message);
     return queryId;
 }
 
@@ -73,15 +73,15 @@ s32 dhcp_analyze_response(u32 queryId, s32 retry) {
     result = 0;
     dnsServers = CPSDnsIp;
     while (gLinkIsOn() != 0 && result == 0 && (s32) ((u32) (OS_GetTick() >> 16) - startTick) < waitTicks) {
-        if (func_ov000_021adbac() == 0) {
-            func_ov000_021b04d4();
+        if (CPS_SocGetLength() == 0) {
+            yield_thread();
             continue;
         }
-        reply = func_ov000_021adf78(&replyLength);
+        reply = CPS_SocRead(&replyLength);
         if (replyLength > 0xf0 && reply[0] == 2 &&
             queryId == ((u16) (*OFFSET_PTR(u16, reply, 4) >> 8 | *OFFSET_PTR(u16, reply, 4) << 8) << 16 |
                         (u16) (*OFFSET_PTR(u16, reply, 6) >> 8 | *OFFSET_PTR(u16, reply, 6) << 8)) &&
-            func_ov000_021b0014((const u16 *) (reply + 0x1c), CPSMyMac) == FALSE) {
+            maccmp((const u16 *) (reply + 0x1c), CPSMyMac) == FALSE) {
             result = 3;
             assignedIp = (u16) (reply[0x10] << 8 | reply[0x11]) << 16 | (u16) (reply[0x12] << 8 | reply[0x13]);
             replyEnd = reply + replyLength;
@@ -137,7 +137,7 @@ s32 dhcp_analyze_response(u32 queryId, s32 retry) {
                 }
             }
         }
-        func_ov000_021adf00(replyLength);
+        CPS_SocConsume(replyLength);
     }
     return result;
 }

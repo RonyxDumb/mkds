@@ -56,8 +56,8 @@ void InitWiFiAikotoba(void *heap) {
         SetCellOamModeXlu(gWiFiAikotobaXluCellIndices[i], 1, gWiFiAikotoba->mWiFiAikotobaSNcer,
                           gWiFiAikotoba->mWiFiAikotobaBncl);
     }
-    oamList = func_ov000_021804f4();
-    ResetOamLists(oamList, func_ov000_021804e0());
+    oamList = GetWiFiMenuMainOamList();
+    ResetOamLists(oamList, GetWiFiMenuSubOamList());
     InitLayoutTable(heap, gWiFiAikotoba->mWiFiAikotobaBncl, NULL, &gWiFiAikotoba->mWiFiAikotobaTable);
     gWiFiAikotoba->mWiFiMessages = FindSceneFile(data_ov000_021b0ee8);
     gWiFiAikotoba->mCommonMessages = FindFileInLoadedArchives(data_ov000_021b0ef4);
@@ -357,7 +357,7 @@ void AdvanceWiFiAikotoba(void) {
     }
     UpdateWiFiAikotobaHighlight();
     wiFiAikotoba = gWiFiAikotoba;
-    DrawLayoutTable(wiFiAikotoba->mWiFiAikotobaBncl, wiFiAikotoba->mWiFiAikotobaSNcer, NULL, func_ov000_021804e0(),
+    DrawLayoutTable(wiFiAikotoba->mWiFiAikotobaBncl, wiFiAikotoba->mWiFiAikotobaSNcer, NULL, GetWiFiMenuSubOamList(),
                     wiFiAikotoba->mWiFiAikotobaTable);
 }
 

@@ -9,12 +9,12 @@ BOOL dhcp_request_server(u32 *sleep, s32 mode) {
     s32 retry;
     u32 savedSleep;
 
-    func_ov000_021ae270();
-    func_ov000_021ae2d8();
+    CPS_SocUse();
+    CPS_SocDatagramMode();
     if (mode == 1) {
-        func_ov000_021ae290(0x44, 0x43, CPSDhcpServerIp);
+        CPS_SocBind(0x44, 0x43, CPSDhcpServerIp);
     } else {
-        func_ov000_021ae290(0x44, 0x43, -1);
+        CPS_SocBind(0x44, 0x43, -1);
     }
     for (retry = 0; retry < 4; retry++) {
         result = dhcp_analyze_response(dhcp_send_request(mode), retry);
@@ -22,7 +22,7 @@ BOOL dhcp_request_server(u32 *sleep, s32 mode) {
             break;
         }
     }
-    func_ov000_021ae258();
+    CPS_SocRelease();
     if (result == 2) {
         *sleep = gLeaseTime >> 1;
         gSleepSave = gLeaseTime * 3 >> 3;
@@ -52,16 +52,16 @@ void dhcp_release_server(void) {
     u8 *message;
     u8 *paddedEnd;
 
-    func_ov000_021ae270();
-    func_ov000_021ae2d8();
-    func_ov000_021ae290(0x44, 0x43, CPSDhcpServerIp);
+    CPS_SocUse();
+    CPS_SocDatagramMode();
+    CPS_SocBind(0x44, 0x43, CPSDhcpServerIp);
     message = (u8 *) &gScavengerSendPayload;
-    cursor = func_ov000_021ad754(message, 7, NULL);
+    cursor = dhcp_setcommon(message, 7, NULL);
     *cursor = 0xff;
     cursor++;
-    paddedEnd = func_ov000_021ad734(0, 0x12c, cursor, cursor - message);
-    func_ov000_021adbf4(message, paddedEnd - message);
-    func_ov000_021ae258();
+    paddedEnd = pad_mem(0, 0x12c, cursor, cursor - message);
+    CPS_SocWrite(message, paddedEnd - message);
+    CPS_SocRelease();
 }
 
 u8 *dns_skipname(u8 *name) {
@@ -137,16 +137,16 @@ s32 resolve_common(const char *a, u32 b, s32 c) {
     q[2] = b;
     q[3] = 0;
     q[4] = 1;
-    func_ov000_021adbf4((u8 *) &v.mUnk_04, q + 5 - (u8 *) &v.mUnk_04);
+    CPS_SocWrite((u8 *) &v.mUnk_04, q + 5 - (u8 *) &v.mUnk_04);
     e = 0;
     g = OS_GetTick() >> 16;
     f = -1;
     while (gLinkIsOn() != 0 && e == 0 && (s32) ((u32) (OS_GetTick() >> 16) - g) < 0xf) {
-        if (func_ov000_021adbac() == 0) {
-            func_ov000_021b04d4();
+        if (CPS_SocGetLength() == 0) {
+            yield_thread();
             continue;
         }
-        r = func_ov000_021adf78(&v.mUnk_00);
+        r = CPS_SocRead(&v.mUnk_00);
         if (v.mUnk_00 > 0xc && c == (u16) ((*(u16 *) r >> 8) | (*(u16 *) r << 8))) {
             k = r[3] & 0xf;
             if (k == 3) {
@@ -172,7 +172,7 @@ s32 resolve_common(const char *a, u32 b, s32 c) {
                 }
             }
         }
-        func_ov000_021adf00(v.mUnk_00);
+        CPS_SocConsume(v.mUnk_00);
     }
     return e;
 }

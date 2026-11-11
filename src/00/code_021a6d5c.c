@@ -526,9 +526,9 @@ s32 SOCL_Resolve(const char *hostname) {
     soc.mReceiveBuffer.mSize = 0xb68;
     soc.mSendBuffer.mStart = memory + 0xb68;
     soc.mSendBuffer.mSize = 0x5ea;
-    func_ov000_021ae304(&soc);
+    CPS_SocRegister(&soc);
     resolvedAddr = CPS_Resolve(hostname);
-    func_ov000_021ae2f4();
+    CPS_SocUnRegister();
     SOCLiConfigPtr->mUnk_1c(memory);
     return resolvedAddr;
 }
@@ -584,10 +584,10 @@ s32 SOCL_Cleanup(void) {
     }
     result = SOCLi_CleanupCommandPacketQueue();
     if (result >= 0) {
-        func_ov000_021b026c();
-        func_ov000_021b02b0(NULL);
+        CPS_Cleanup();
+        CPS_SetScavengerCallback(NULL);
         if (SOCLiConfigPtr->mUnk_28 == NULL) {
-            SOCLiConfigPtr->mUnk_1c(SOCLiCPSConfig.mUnk_1c);
+            SOCLiConfigPtr->mUnk_1c(SOCLiCPSConfig.mLanBuf);
         }
         SOCLiConfigPtr = NULL;
     }
@@ -638,7 +638,7 @@ s32 SOCL_CalmDown(void) {
         }
         SOCLi_TrashSocket();
     } else {
-        if (func_ov000_021b02bc() != 0) {
+        if (CPS_CalmDown() != 0) {
             result = 0;
         } else {
             result = -0x1a;
@@ -707,11 +707,11 @@ s32 SOCLi_CloseCallBack(SOCLiCommandPacket *command) {
     u32 interruptState;
     if (SOCL_SocketIsTCP(sockObj) != 0) {
         OS_JoinThread(&sockObj->mSendBlock->mUnk_00.mUnk_20);
-        func_ov000_021ae094();
-        func_ov000_021ae048();
-        func_ov000_021ae258();
+        CPS_TcpShutdown();
+        CPS_TcpClose();
+        CPS_SocRelease();
     }
-    func_ov000_021ae2f4();
+    CPS_SocUnRegister();
     sockObj->mUnk_70 &= ~6;
     if (sockObj->mUnk_73 == 2) {
         block = sockObj->mSendBlock;
@@ -819,7 +819,7 @@ s32 SOCL_Shutdown(s32 socketHandle) {
 
 s32 SOCLi_ShutdownCallBack(SOCLiCommandPacket *command) {
     if (SOCL_SocketIsTCP(command->mUnk_04) != 0) {
-        func_ov000_021ae094();
+        CPS_TcpShutdown();
     }
     return 0;
 }
@@ -970,7 +970,7 @@ s32 SOCLi_ExecWriteCommand(SOCLSocket *socket, u8 *buffer, s32 length, s32 ringI
     outPipe->mUnk_100 = writePacket->mUnk_20;
     if (socket->mUnk_73 == 1) {
         if (socket->mUnk_74 == 0) {
-            socket->mUnk_74 = func_ov000_021ae340();
+            socket->mUnk_74 = CPS_SocGetEport();
             socket->mUnk_0a = socket->mUnk_74;
         }
         writePacket->mUnk_24 = socket->mUnk_74;
@@ -1001,7 +1001,7 @@ s32 SOCLi_WriteCallBack(SOCLiCommandPacket *packet) {
     s32 chunkLength;
     if (SOCL_SocketIsTCP(sockObj) == 0 || (sockObj->mUnk_70 & 4) != 0) {
         if (command->mUnk_28 != NULL) {
-            func_ov000_021ae290(command->mUnk_24, command->mUnk_26, (s32) command->mUnk_28);
+            CPS_SocBind(command->mUnk_24, command->mUnk_26, (s32) command->mUnk_28);
         }
         if (SOCL_SocketIsTCP(sockObj) != 0) {
             headerSize = 0x36;
@@ -1015,7 +1015,7 @@ s32 SOCLi_WriteCallBack(SOCLiCommandPacket *packet) {
             if (chunkLength <= 0) {
                 break;
             }
-            chunkLength = func_ov000_021adbf4(sendBuffer, chunkLength);
+            chunkLength = CPS_SocWrite(sendBuffer, chunkLength);
             if (chunkLength <= 0) {
                 if (SOCL_SocketIsTCP(sockObj) != 0) {
                     sockObj->mUnk_70 &= ~0xe;
@@ -1233,7 +1233,7 @@ s32 SOCLi_ReadCallBack(SOCLiCommandPacket *packet) {
     s32 cpsLength;
     BOOL isTcp;
     for (;;) {
-        gotData = func_ov000_021adf78((u32 *) &cpsLength);
+        gotData = CPS_SocRead((u32 *) &cpsLength);
         if (gotData == NULL) {
             break;
         }
@@ -1258,7 +1258,7 @@ s32 SOCLi_ReadCallBack(SOCLiCommandPacket *packet) {
             length = cpsLength;
         }
         MI_CpuCopy8(gotData, buffer, length);
-        func_ov000_021adf00(length);
+        CPS_SocConsume(length);
         return length;
     }
     if (gotData != NULL) {
@@ -1306,7 +1306,7 @@ s32 SOCLi_ConsumeCPSBuffer(SOCLSocket *socket) {
     s32 used = inPipe->mUnk_f8;
     if (used != 0) {
         inPipe->mUnk_f8 = 0;
-        func_ov000_021adf00(used);
+        CPS_SocConsume(used);
     }
     OS_RestoreInterrupts(interruptState);
     return used;
@@ -1482,10 +1482,10 @@ s32 SOCLi_BindCallBack(SOCLiCommandPacket *packet) {
     connectResult = 0;
     inPipe = sockObj->mReceiveBlock;
     OS_LockMutex(&inPipe->mUnk_00.mUnk_e0);
-    func_ov000_021ae290(packet->mUnk_10, packet->mUnk_12, (s32) packet->mUnk_14);
+    CPS_SocBind(packet->mUnk_10, packet->mUnk_12, (s32) packet->mUnk_14);
     inPipe->mUnk_f8 = 0;
     if (packet->mUnk_0c == 0 || packet->mUnk_0c == 4) {
-        connectResult = func_ov000_021ae134();
+        connectResult = CPS_TcpConnect();
     }
     OS_UnlockMutex(&inPipe->mUnk_00.mUnk_e0);
     if (connectResult != 0) {
@@ -1618,10 +1618,10 @@ s32 SOCLi_ListenAcceptCallBack(SOCLiCommandPacket *packet) {
     sockObj = packet->mUnk_04;
     inPipe = sockObj->mReceiveBlock;
     OS_LockMutex(&inPipe->mUnk_00.mUnk_e0);
-    func_ov000_021ae290(packet->mUnk_10, 0, 0);
-    func_ov000_021ae1e4();
+    CPS_SocBind(packet->mUnk_10, 0, 0);
+    CPS_TcpListen();
     inPipe->mUnk_f8 = 0;
-    peerAddr = func_ov000_021ae100(&remotePort, &ownAddr);
+    peerAddr = CPS_SocWho(&remotePort, &ownAddr);
     *packet->mUnk_14 = remotePort;
     *packet->mUnk_18 = peerAddr;
     sockObj->mUnk_70 |= 4;
@@ -1646,21 +1646,21 @@ s32 SOCLi_CreateSocketCallBack(SOCLiCommandPacket *command) {
     SOCLiSocketCommandPipe *outPipe;
 
     sockObj = command->mUnk_04;
-    func_ov000_021ae304(sockObj);
+    CPS_SocRegister(sockObj);
     outPipe = &sockObj->mSendBlock->mUnk_00;
     switch (sockObj->mUnk_73) {
         case 0:
         case 4:
-            func_ov000_021ae244(&outPipe->mUnk_20);
-            func_ov000_021ae270();
+            CPS_SocDup(&outPipe->mUnk_20);
+            CPS_SocUse();
             break;
         case 1:
-            func_ov000_021ae270();
-            func_ov000_021ae2d8();
-            func_ov000_021ae214(SOCLi_UdpRecvCallback);
+            CPS_SocUse();
+            CPS_SocDatagramMode();
+            CPS_SetUdpCallback(SOCLi_UdpRecvCallback);
             break;
         case 2:
-            func_ov000_021ae2d8();
+            CPS_SocDatagramMode();
             break;
         case 3:
             break;
@@ -1933,21 +1933,21 @@ void SOCLi_StartupCPS(void) {
     s32 rwin;
 
     MI_CpuFill8(cfgBlock, 0, 0x30);
-    cfgBlock->mUnk_04 = config->mUnk_18;
-    cfgBlock->mUnk_08 = config->mUnk_1c;
-    cfgBlock->mUnk_10 = SOCL_LinkIsOn;
-    cfgBlock->mUnk_14 = 0;
-    cfgBlock->mUnk_18 = 0;
-    cfgBlock->mUnk_2c = *(u32 *) SOCLiYieldWait;
+    cfgBlock->mAlloc = config->mUnk_18;
+    cfgBlock->mFree = config->mUnk_1c;
+    cfgBlock->mLinkIsOn = SOCL_LinkIsOn;
+    cfgBlock->mRandomSeedLow = 0;
+    cfgBlock->mRandomSeedHigh = 0;
+    cfgBlock->mYieldWait = *(u32 *) SOCLiYieldWait;
     if (config->mUnk_24 != 0) {
-        cfgBlock->mUnk_20 = config->mUnk_24;
+        cfgBlock->mLanBufLen = config->mUnk_24;
     } else {
-        cfgBlock->mUnk_20 = 0x4000;
+        cfgBlock->mLanBufLen = 0x4000;
     }
     if (config->mUnk_28 != NULL) {
-        cfgBlock->mUnk_1c = config->mUnk_28;
+        cfgBlock->mLanBuf = config->mUnk_28;
     } else {
-        cfgBlock->mUnk_1c = SOCLiConfigPtr->mUnk_18(cfgBlock->mUnk_20);
+        cfgBlock->mLanBuf = SOCLiConfigPtr->mUnk_18(cfgBlock->mLanBufLen);
     }
     c = config->mUnk_30;
     if (c == 0) {
@@ -1957,28 +1957,28 @@ void SOCLi_StartupCPS(void) {
     if (rwin == 0) {
         rwin = 0x10c0;
     }
-    cfgBlock->mUnk_24 = c - 0x28;
+    cfgBlock->mMyMss = c - 0x28;
     SOCLSocketParamTCP.mUnk_02 = rwin;
     SOCLSocketParamTCP.mUnk_04 = rwin / 2;
     CPSMyIp = 0;
     if (config->mUnk_00 != 0) {
         SOCLiDhcpState = 1;
-        cfgBlock->mUnk_00 = 0;
-        cfgBlock->mUnk_0c = SOCLi_DhcpTimeout;
-        cfgBlock->mUnk_28 = SOCLiRequestedIP;
+        cfgBlock->mMode = 0;
+        cfgBlock->mDhcpCallback = SOCLi_DhcpTimeout;
+        cfgBlock->mRequestedIp = SOCLiRequestedIP;
     } else {
         SOCLiDhcpState = 0;
-        cfgBlock->mUnk_00 = 1;
-        cfgBlock->mUnk_0c = SOCLi_SetMyIP;
+        cfgBlock->mMode = 1;
+        cfgBlock->mDhcpCallback = SOCLi_SetMyIP;
     }
     c = config->mUnk_2c;
     if (c == 0) {
         c = 0xb;
     }
-    func_ov000_021b0240(c);
-    WCM_SetRecvDCFCallback(func_ov000_021afe5c);
-    func_ov000_021b02b0(SOCLi_TrashSocket);
-    func_ov000_021b02fc(cfgBlock);
+    CPS_SetThreadPriority(c);
+    WCM_SetRecvDCFCallback(CPSi_RecvCallbackFunc);
+    CPS_SetScavengerCallback(SOCLi_TrashSocket);
+    CPS_Startup(cfgBlock);
 }
 
 void SOCLi_SetMyIP(void) {

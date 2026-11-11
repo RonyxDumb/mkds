@@ -140,8 +140,8 @@ void InitWiFiVSMatching(void *heap) {
     }
     gWiFiVSMatching->mUnk_40 = FALSE;
     LocateAndQueueWiFiVSMatching();
-    oamList = func_ov000_021804f4();
-    ResetOamLists(oamList, func_ov000_021804e0());
+    oamList = GetWiFiMenuMainOamList();
+    ResetOamLists(oamList, GetWiFiMenuSubOamList());
     InitLayoutTable(heap, gWiFiVSMatching->mWiFiVSMatchingBncl, gWiFiVSMatching->mWiFiVSMatchingBnll,
                     &gWiFiVSMatching->mWiFiVSMatchingTable);
     gWiFiVSMatching->mWiFiMessages = FindSceneFile(gWiFiBmgName2);
@@ -745,7 +745,8 @@ void AdvanceWiFiVSMatching(void) {
     UpdateWiFiVSMatchingOffsets();
     UpdateWiFiVSMatchingPaletteBlend();
     DrawLayoutTable(gWiFiVSMatching->mWiFiVSMatchingBncl, gWiFiVSMatching->mWiFiVSMatchingSNcer,
-                    gWiFiVSMatching->mWiFiVSMatchingBnll, func_ov000_021804e0(), gWiFiVSMatching->mWiFiVSMatchingTable);
+                    gWiFiVSMatching->mWiFiVSMatchingBnll, GetWiFiMenuSubOamList(),
+                    gWiFiVSMatching->mWiFiVSMatchingTable);
 }
 
 void WriteWiFiVSMatchingRegisters(void) {

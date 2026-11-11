@@ -600,13 +600,13 @@ void DWCi_Http_Thread(void *argument) {
     socketBuffers->mReceiveBuffer = http->mLowReceiveBuffer;
     socketBuffers->mSendBufferSize = 0x5ea;
     socketBuffers->mSendBuffer = http->mLowSendBuffer;
-    func_ov000_021ae304(socketBuffers);
+    CPS_SocRegister(socketBuffers);
     hostAddress = CPS_Resolve(http->mHost);
     if (hostAddress == 0) {
         http->mResult = 2;
         return;
     }
-    func_ov000_021ae270();
+    CPS_SocUse();
     if (http->mUseHttps == 1) {
         MI_CpuFill8(sslInfo, 0, 0x804);
         sslInfo->mUnk_7e4 = DWCi_Http_CPSCallback;
@@ -618,17 +618,17 @@ void DWCi_Http_Thread(void *argument) {
     } else {
         port = 0x50;
     }
-    func_ov000_021ae290(0, port, hostAddress);
+    CPS_SocBind(0, port, hostAddress);
     startTick = OS_GetTick();
     if (http->mUseHttps == 1) {
         OS_GetLowEntropyData(&entropyData);
         MixBytesIntoRandomState(&entropyData, 0x20);
         entropyTick = startTick;
     }
-    if (func_ov000_021ae134() != 0) {
+    if (CPS_TcpConnect() != 0) {
         http->mResult = 3;
-        func_ov000_021ae258();
-        func_ov000_021ae2f4();
+        CPS_SocRelease();
+        CPS_SocUnRegister();
         return;
     }
     http->mSendBuffer.mCursor = http->mSendBuffer.mStart;
@@ -643,12 +643,12 @@ void DWCi_Http_Thread(void *argument) {
         if (n > 0x238) {
             n = 0x238;
         }
-        n = func_ov000_021adbf4((const u8 *) http->mSendBuffer.mCursor, n);
+        n = CPS_SocWrite((const u8 *) http->mSendBuffer.mCursor, n);
         if (n <= 0) {
             http->mResult = 5;
             goto fail;
         }
-        func_ov000_021adb80();
+        CPS_SocFlush();
         nowTick = OS_GetTick();
         if ((u64) timeoutMillis < (nowTick - startTick) * 64 / 0x82ea) {
             http->mResult = 4;
@@ -694,9 +694,9 @@ void DWCi_Http_Thread(void *argument) {
             OS_UnlockMutex(&http->mUnk_948);
             break;
         }
-        n = func_ov000_021adbac();
+        n = CPS_SocGetLength();
         if (n > 0) {
-            receivedData = func_ov000_021adf78((u32 *) &n);
+            receivedData = CPS_SocRead((u32 *) &n);
             if (receivedData == NULL) {
                 OS_UnlockMutex(&http->mUnk_948);
                 break;
@@ -726,11 +726,11 @@ void DWCi_Http_Thread(void *argument) {
                 }
             }
             if (n > copyLength) {
-                func_ov000_021adf00(n);
+                CPS_SocConsume(n);
                 OS_UnlockMutex(&http->mUnk_948);
                 break;
             }
-            func_ov000_021adf00(copyLength);
+            CPS_SocConsume(copyLength);
         }
         if (n < 0) {
             OS_UnlockMutex(&http->mUnk_948);
@@ -759,17 +759,17 @@ void DWCi_Http_Thread(void *argument) {
             goto fail;
         }
     }
-    func_ov000_021ae094();
-    func_ov000_021ae048();
-    func_ov000_021ae258();
-    func_ov000_021ae2f4();
+    CPS_TcpShutdown();
+    CPS_TcpClose();
+    CPS_SocRelease();
+    CPS_SocUnRegister();
     http->mResult = 8;
     return;
 fail:
-    func_ov000_021ae094();
-    func_ov000_021ae048();
-    func_ov000_021ae258();
-    func_ov000_021ae2f4();
+    CPS_TcpShutdown();
+    CPS_TcpClose();
+    CPS_SocRelease();
+    CPS_SocUnRegister();
 }
 
 void ReleaseHttp(Http *a) {

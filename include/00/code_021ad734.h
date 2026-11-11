@@ -15,76 +15,76 @@ typedef struct Unk021a998c Unk021a998c;
 typedef struct OSThread OSThread;
 
 // Frame start: two addresses and a type word.
-typedef struct Unk021ae3a4 {
+typedef struct EthernetHeader {
     /* 00 */ u8 mUnk_00[0xc];
-    /* 0c */ u16 mUnk_0c;
-} Unk021ae3a4;
+    /* 0c */ u16 mEtherType;
+} EthernetHeader;
 
-typedef struct Unk021ae3f0 {
-    /* 00 */ u8 mUnk_00;
+typedef struct IpHeader {
+    /* 00 */ u8 mVersionIhl;
     /* 01 */ u8 mUnk_01;
-    /* 02 */ u16 mUnk_02;
+    /* 02 */ u16 mTotalLength;
     /* 04 */ u8 mUnk_04;
     /* 05 */ u8 mUnk_05;
-    /* 06 */ u16 mUnk_06;
+    /* 06 */ u16 mFragOffset;
     /* 08 */ u8 mUnk_08;
-    /* 09 */ u8 mUnk_09;
+    /* 09 */ u8 mProtocol;
     /* 0a */ u16 mUnk_0a;
-    /* 0c */ u16 mUnk_0c;
-    /* 0e */ u16 mUnk_0e;
-    /* 10 */ u16 mUnk_10;
-    /* 12 */ u16 mUnk_12;
-} Unk021ae3f0;
+    /* 0c */ u16 mSourceAddressHigh;
+    /* 0e */ u16 mSourceAddressLow;
+    /* 10 */ u16 mDestAddressHigh;
+    /* 12 */ u16 mDestAddressLow;
+} IpHeader;
 
-typedef struct Unk021ae724 {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
+typedef struct UdpHeader {
+    /* 00 */ u16 mSourcePort;
+    /* 02 */ u16 mDestPort;
     /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-} Unk021ae724;
+    /* 06 */ u16 mChecksum;
+} UdpHeader;
 
-typedef struct Unk021ae87c {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-    /* 08 */ u16 mUnk_08;
-    /* 0a */ u16 mUnk_0a;
-    /* 0c */ u8 mUnk_0c;
-    /* 0d */ u8 mUnk_0d;
-    /* 0e */ u16 mUnk_0e;
+typedef struct TcpHeader {
+    /* 00 */ u16 mSourcePort;
+    /* 02 */ u16 mDestPort;
+    /* 04 */ u16 mSeqNoHigh;
+    /* 06 */ u16 mSeqNoLow;
+    /* 08 */ u16 mAckNoHigh;
+    /* 0a */ u16 mAckNoLow;
+    /* 0c */ u8 mDataOffset;
+    /* 0d */ u8 mFlags;
+    /* 0e */ u16 mWindow;
     /* 10 */ u8 pad_10[4];
-} Unk021ae87c;
+} TcpHeader;
 
-typedef struct Unk021ae3f0 Unk021ae3f0;
-typedef struct Unk021ae87c Unk021ae87c;
+typedef struct IpHeader IpHeader;
+typedef struct TcpHeader TcpHeader;
 
-typedef struct Unk021af1e4 {
-    /* 00 */ u8 mUnk_00;
+typedef struct IcmpHeader {
+    /* 00 */ u8 mType;
     /* 01 */ u8 mUnk_01;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-} Unk021af1e4;
+    /* 02 */ u16 mChecksum;
+    /* 04 */ u16 mIdentifier;
+    /* 06 */ u16 mSequence;
+} IcmpHeader;
 
-typedef struct Unk021af3e8 {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-    /* 08 */ u16 mUnk_08[3];
-    /* 0e */ u16 mUnk_0e;
-    /* 10 */ u16 mUnk_10;
-    /* 12 */ u16 mUnk_12[3];
-    /* 18 */ u16 mUnk_18;
-    /* 1a */ u16 mUnk_1a;
-} Unk021af3e8;
+typedef struct ArpPacket {
+    /* 00 */ u16 mHardwareType;
+    /* 02 */ u16 mProtocolType;
+    /* 04 */ u16 mAddressLengths;
+    /* 06 */ u16 mOperation;
+    /* 08 */ u16 mSenderMac[3];
+    /* 0e */ u16 mSenderAddressHigh;
+    /* 10 */ u16 mSenderAddressLow;
+    /* 12 */ u16 mTargetMac[3];
+    /* 18 */ u16 mTargetAddressHigh;
+    /* 1a */ u16 mTargetAddressLow;
+} ArpPacket;
 
 typedef struct Unk021a998c Unk021a998c;
-typedef struct Unk021b6434 Unk021b6434;
+typedef struct CPSArpCache CPSArpCache;
 
-// Frame built by func_ov000_021afc5c.
-typedef struct Unk021afc5c {
+// Frame built by send_arprequest.
+typedef struct ArpRequestFrame {
     /* 00 */ u8 mUnk_00[6];
     /* 06 */ u8 mUnk_06[6];
     /* 0c */ u16 mUnk_0c;
@@ -101,20 +101,20 @@ typedef struct Unk021afc5c {
     /* 20 */ u8 mUnk_20[6];
     /* 26 */ u16 mUnk_26;
     /* 28 */ u16 mUnk_28;
-} Unk021afc5c;
+} ArpRequestFrame;
 
 typedef struct Unk021b0138 {
     /* 00 */ u8 pad_00[0xc];
     /* 0c */ u8 mUnk_0c[8];
 } Unk021b0138;
 
-extern void (*data_ov000_021b6384)(void);
+extern void (*gDhcpCallback)(void);
 
 // OSThread entry functions (not lifted yet).
 
 #include "os_thread.h"
 
-typedef struct Unk021b69dc Unk021b69dc;
+typedef struct CPSFragTable CPSFragTable;
 typedef struct CPSConfig CPSConfig;
 
 // Object linked from OSThread.mUnk_a4.
@@ -126,124 +126,126 @@ typedef struct Unk021b04f8 {
 
 #include "00/code_021a78a4.h"
 
-extern u32 data_ov000_021b4c24;
-extern u32 data_ov000_021b4c28;
-extern u8 data_ov000_021b4c2c[6];
-extern u8 data_ov000_021b4c40[8];
-extern u8 data_ov000_021b6364;
-extern u16 data_ov000_021b636c;
-extern u16 data_ov000_021b6370;
-extern u16 data_ov000_021b6374;
-extern u16 data_ov000_021b6378;
+extern u32 gIcmpEchoReplyEnabled;
+extern u32 gHelperThreadsPriority;
+extern u8 gMacBroadcast[6];
+extern u8 gIpv4LlcSnapHeader[8];
+extern u8 gSendFailed;
+extern u16 gPingSequence;
+extern u16 gMyMss;
+extern u16 gEport;
+extern u16 gIpId;
 extern u32 CPSNetMask;
-extern u32 data_ov000_021b6390;
-extern u32 data_ov000_021b6394;
+extern u32 gYieldWait;
+extern u32 gWlanPutPnt;
 extern u32 CPSGatewayIp;
 extern u32 CPSMyIp;
-extern OSThread *data_ov000_021b63c0;
+extern OSThread *gReceiverThread;
 // Objects whose layout isn't known yet.
-extern u8 *data_ov000_021b63c4;
-extern u32 data_ov000_021b63c8;
-extern u32 data_ov000_021b63cc;
+extern u8 *gWlanBuf;
+extern u32 gWlanBufLen;
+extern u32 gWlanGetPnt;
 // Objects whose layout isn't known yet.
-extern u8 data_ov000_021b641a[];
-extern Unk021a998c data_ov000_021b64f8;
-extern OSThread data_ov000_021b655c;
-extern OSThread data_ov000_021b661c;
-extern u8 data_ov000_021b73a0[];
+extern u8 gTmpBufTcpHeader[];
+extern Unk021a998c gTmpSoc;
+extern OSThread gScavengerThread;
+extern OSThread gTcpipThread;
+extern u8 gScavengerStackTop[];
 
-u8 *func_ov000_021ad734(u8 a, u32 b, u8 *c, u32 d);
-u8 *func_ov000_021ad754(u8 *a, u8 b, u32 *c);
-void func_ov000_021ad898(void);
-void func_ov000_021adb00(void);
-void func_ov000_021adb80(void);
-s32 func_ov000_021adbac(void);
-s32 func_ov000_021adbf4(const u8 *a, s32 b);
-s32 func_ov000_021adc64(const u8 *a, s32 b, const u8 *c, s32 d);
-s32 func_ov000_021adcec(const u8 *a, u32 b, const u8 *c, s32 d, void *e);
-void func_ov000_021ade40(const u8 *a, s32 b, const u8 *c, s32 d, Unk021a998c *e, s32 f);
-s32 func_ov000_021ade6c(const u8 *a, s32 b, Unk021a998c *c, s32 d);
-void func_ov000_021adf00(u32 a);
-void func_ov000_021adf30(u32 a, Unk021a998c *b);
-u8 *func_ov000_021adf78(u32 *a);
-u8 *func_ov000_021adfc8(u32 *a, Unk021a998c *b);
-u8 *func_ov000_021ae01c(u32 *a, Unk021a998c *b);
-void func_ov000_021ae048(void);
-void func_ov000_021ae094(void);
-void func_ov000_021ae0c4(Unk021a998c *a);
-u32 func_ov000_021ae100(u16 *a, u32 *b);
-u32 func_ov000_021ae134(void);
-u32 func_ov000_021ae16c(Unk021a998c *b);
-void func_ov000_021ae1e4(void);
-void func_ov000_021ae214(Unk021a78a4Func a);
-void func_ov000_021ae228(Unk021a998c *a);
-void func_ov000_021ae244(OSThread *thread);
-void func_ov000_021ae258(void);
-void func_ov000_021ae270(void);
-void func_ov000_021ae290(int a, u16 b, int c);
-void func_ov000_021ae2d8(void);
-void func_ov000_021ae2f4(void);
-void func_ov000_021ae304(void *arg0);
-u32 func_ov000_021ae314(void);
-u16 func_ov000_021ae340(void);
-void func_ov000_021ae3a4(void);
-void func_ov000_021ae3f0(Unk021ae3f0 *a, u32 f);
-Unk021ae3f0 *func_ov000_021ae51c(Unk021ae3f0 *r, u32 *s);
-void func_ov000_021ae724(Unk021ae3f0 *a, Unk021ae724 *b, u32 c);
-void func_ov000_021ae87c(Unk021ae3f0 *a, Unk021ae87c *b, u32 c);
-void func_ov000_021ae958(const Unk021ae3f0 *a, const Unk021ae87c *b);
-void func_ov000_021ae984(Unk021ae3f0 *param_1, Unk021ae87c *param_2, u32 param_3);
-void func_ov000_021aea34(Unk021ae3f0 *param_1, Unk021ae87c *param_2, u32 param_3);
-void func_ov000_021aec84(Unk021ae3f0 *param_1, Unk021ae87c *param_2, u32 param_3);
-void func_ov000_021aed3c(Unk021ae3f0 *param_1, Unk021ae87c *param_2, u32 param_3);
-u32 func_ov000_021aedd8(Unk021ae3f0 *param_1, Unk021ae87c *param_2, u32 param_3);
-void func_ov000_021aee38(Unk021ae3f0 *param_1, Unk021ae87c *param_2, Unk021a998c *param_3);
-void func_ov000_021aeed8(Unk021ae3f0 *param_1, Unk021ae87c *param_2, u32 param_3, u16 param_4);
-void func_ov000_021aefa8(void *object, u16 value);
-void func_ov000_021aefb4(void *object, u16 value);
-void func_ov000_021aefc0(Unk021a998c *a, u32 b, u16 c);
-u32 func_ov000_021af010(u32 b);
-void func_ov000_021af030(const Unk021ae87c *f, Unk021a998c *g);
-Unk021a998c *func_ov000_021af090(const Unk021ae3f0 *c, const Unk021ae87c *d);
-u32 func_ov000_021af0dc(const Unk021ae3f0 *e, const Unk021ae87c *f, const Unk021a998c *g);
-Unk021a998c *func_ov000_021af15c(const Unk021ae3f0 *c, const Unk021ae87c *d);
-void func_ov000_021af1e4(Unk021ae3f0 *a, Unk021af1e4 *b, u32 c);
-u32 func_ov000_021af284(int a, int b);
-void func_ov000_021af2a0(Unk021ae3f0 *c, Unk021af1e4 *d, u32 e);
-void func_ov000_021af348(Unk021ae3f0 *d, Unk021af1e4 *e, u32 f);
-void func_ov000_021af3e8(Unk021af3e8 *f, u32 g);
-void func_ov000_021af4d4(Unk021af3e8 *a);
-void func_ov000_021af550(u8 *a, u32 b, Unk021a998c *c, u32 d, u16 e);
-void func_ov000_021af70c(u8 *a, u32 b, Unk021a998c *c);
-void func_ov000_021af7e4(u8 *a, u32 b, Unk021a998c *c);
-void func_ov000_021af858(u8 *a, u32 b, u8 *c, u32 d, u32 e, u8 f);
-void func_ov000_021af9d0(u8 *a, u32 b, void *c, u32 d, u32 e, u32 f);
-void func_ov000_021afaac(u8 *a, u32 b, void *c, u32 d, u32 e, u16 f);
-void func_ov000_021afb58(u8 *a, u32 b, u32 c);
-u8 *func_ov000_021afc20(u32 a);
-void func_ov000_021afc5c(u32 a);
-u8 *func_ov000_021afd00(u32 a);
-void func_ov000_021afd8c(void);
-u8 *func_ov000_021afdcc(u32 *a);
-void func_ov000_021afe5c(void *a, void *b, void *c, u16 d);
-void func_ov000_021afe84(const void *a, const void *b, u8 *c, u32 d, void *e, u32 f);
-void func_ov000_021affcc(u8 *a, u32 b, const void *c, u32 d);
-BOOL func_ov000_021b0014(const u16 *first, const u16 *second);
-BOOL func_ov000_021b003c(u32 address);
-BOOL func_ov000_021b0094(u32 address);
-s32 func_ov000_021b00b0(u32 address);
-u32 func_ov000_021b00e0(u32 address);
-BOOL func_ov000_021b00fc(u32 address);
-BOOL func_ov000_021b0138(const void *buffer, u32 length, const Unk021b0138 *header, u32 sum);
-u16 func_ov000_021b0188(const void *buffer, u32 length);
-u16 func_ov000_021b01a0(u16 sum);
-u32 func_ov000_021b01b4(const void *buffer, u32 length, u32 sum);
-void func_ov000_021b0240(s32 a);
-void func_ov000_021b026c(void);
-void func_ov000_021b02b0(UnkFunc *arg0);
-s32 func_ov000_021b02bc(void);
-void func_ov000_021b02fc(CPSConfig *a);
-s32 func_ov000_021b04cc(void);
-void func_ov000_021b04d0(void);
-void func_ov000_021b04d4(void);
-void func_ov000_021b04f8(u32 a);
+u8 *pad_mem(u8 pattern, u32 minimum, u8 *position, u32 currentLength);
+u8 *dhcp_setcommon(u8 *buffer, u8 type, u32 *transactionIdOut);
+void scavenger(void);
+void set_fixed_ip(void);
+void CPS_SocFlush(void);
+s32 CPS_SocGetLength(void);
+s32 CPS_SocWrite(const u8 *buffer, s32 length);
+s32 CPSi_SocWrite2(const u8 *buffer, s32 length, const u8 *secondBuffer, s32 secondLength);
+s32 CPSi_TcpWrite2Raw(const u8 *buffer, u32 length, const u8 *secondBuffer, s32 secondLength, void *socketArgument);
+void tcp_write_do2(const u8 *buffer, s32 length, const u8 *secondBuffer, s32 secondLength, Unk021a998c *socket,
+                   s32 probeFlag);
+s32 tcp_write_do(const u8 *buffer, s32 length, Unk021a998c *socket, s32 probeFlag);
+void CPS_SocConsume(u32 length);
+void CPSi_SocConsumeRaw(u32 length, Unk021a998c *socket);
+u8 *CPS_SocRead(u32 *length);
+u8 *CPSi_TcpReadRaw(u32 *length, Unk021a998c *socket);
+u8 *udp_read_raw(u32 *length, Unk021a998c *socket);
+void CPS_TcpClose(void);
+void CPS_TcpShutdown(void);
+void CPSi_TcpShutdownRaw(Unk021a998c *socket);
+u32 CPS_SocWho(u16 *remotePort, u32 *localAddress);
+u32 CPS_TcpConnect(void);
+u32 CPSi_TcpConnectRaw(Unk021a998c *socket);
+void CPS_TcpListen(void);
+void CPS_SetUdpCallback(Unk021a78a4Func callback);
+void CPSi_TcpListenRaw(Unk021a998c *socket);
+void CPS_SocDup(OSThread *thread);
+void CPS_SocRelease(void);
+void CPS_SocUse(void);
+void CPS_SocBind(int ownPort, u16 remotePort, int remoteAddress);
+void CPS_SocDatagramMode(void);
+void CPS_SocUnRegister(void);
+void CPS_SocRegister(void *socket);
+u32 get_seqno(void);
+u16 CPS_SocGetEport(void);
+void tcpip(void);
+void dispatch_ip(IpHeader *packet, u32 length);
+IpHeader *check_frag(IpHeader *packet, u32 *fragmented);
+void dispatch_udp(IpHeader *ipHeader, UdpHeader *udpHeader, u32 length);
+void dispatch_tcp(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length);
+void dt_rst(const IpHeader *ipHeader, const TcpHeader *tcpHeader);
+void dt_fin(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length);
+void dt_ack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length);
+void dt_synack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length);
+void dt_syn(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length);
+BOOL find_specific_socket(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length);
+void dt_syn_listen(IpHeader *ipHeader, TcpHeader *tcpHeader, Unk021a998c *socket);
+void tcp_send_rst(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length, u16 urgent);
+void tcp_send_finack(void *socket, u16 urgent);
+void tcp_send_ack(void *socket, u16 urgent);
+void tcp_send_handshake(Unk021a998c *socket, u32 flag, u16 urgent);
+u32 no_need_inq(u32 address);
+void parse_mss(const TcpHeader *tcpHeader, Unk021a998c *socket);
+Unk021a998c *find_socket(const IpHeader *ipHeader, const TcpHeader *tcpHeader);
+BOOL check_socket(const IpHeader *ipHeader, const TcpHeader *tcpHeader, const Unk021a998c *socket);
+Unk021a998c *check_listener(const IpHeader *ipHeader, const TcpHeader *tcpHeader);
+void dispatch_icmp(IpHeader *ipHeader, IcmpHeader *icmp, u32 length);
+BOOL valid_IP(int sourceAddress, int destAddress);
+void process_icmp_reply(IpHeader *ipHeader, IcmpHeader *icmp, u32 length);
+void reply_icmp(IpHeader *ipHeader, IcmpHeader *icmp, u32 length);
+void dispatch_arp(ArpPacket *packet, u32 length);
+void reply_arp(ArpPacket *packet);
+void send_tcp(u8 *data, u32 length, Unk021a998c *socket, u32 flag, u16 urgent);
+void send_udp(u8 *data, u32 length, Unk021a998c *socket);
+void send_ping(u8 *pattern, u32 length, Unk021a998c *socket);
+void send_ip(u8 *header, u32 headerLength, u8 *body, u32 bodyLength, u32 addressTo, u8 protocol);
+void send_ip_frag(u8 *header, u32 headerLength, void *body, u32 bodyLength, u32 addressTo, u32 offset);
+void send_ether(u8 *header, u32 headerLength, void *body, u32 bodyLength, u32 addressTo, u16 type);
+void reg_arpcache(u8 *mac, u32 address, u32 addedEntry);
+u8 *arprequest(u32 address);
+void send_arprequest(u32 address);
+u8 *inq_arpcache(u32 address);
+void throw_packet(void);
+u8 *receive_packet(u32 *length);
+void CPSi_RecvCallbackFunc(void *sourceAddress, void *destAddress, void *buffer, u16 size);
+void put_in_buffer(const void *sourceAddress, const void *destAddress, u8 *firstBuffer, u32 firstSize,
+                   void *secondBuffer, u32 secondSize);
+void send_packet(u8 *header, u32 headerLength, const void *body, u32 bodyLength);
+BOOL maccmp(const u16 *first, const u16 *second);
+BOOL ip_isme(u32 address);
+BOOL is_multicast(u32 address);
+BOOL is_broadcast(u32 address);
+u32 get_targetip(u32 address);
+BOOL ip_islocal(u32 address);
+BOOL check_tcpudpsum(const void *buffer, u32 length, const Unk021b0138 *header, u32 sum);
+u16 calc_checksum(const void *buffer, u32 length);
+u16 invert_checksum(u16 sum);
+u32 calc_checksum_do(const void *buffer, u32 length, u32 sum);
+void CPS_SetThreadPriority(s32 priority);
+void CPS_Cleanup(void);
+void CPS_SetScavengerCallback(UnkFunc *callback);
+s32 CPS_CalmDown(void);
+void CPS_Startup(CPSConfig *config);
+BOOL default_link_is_on(void);
+void empty_func(void);
+void yield_thread(void);
+void reset_network_vars(u32 reason);

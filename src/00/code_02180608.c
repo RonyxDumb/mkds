@@ -93,7 +93,7 @@ void InitWiFiStates(void *heap, s32 b) {
     gWiFiStates->mUnk_14 = 0;
     CreateRaceSetupCopy(heap);
     gWiFiStates->mUnk_2c = CreateWiFiStatesDisplaySettings(heap);
-    InitLinkLevelIcons(heap, func_ov000_021804f4());
+    InitLinkLevelIcons(heap, GetWiFiMenuMainOamList());
     sceneTextInitParams.mUseTxtSystem = TRUE;
     sceneTextInitParams.mTxtSystemFont = GetFontByIndex(1);
     sceneTextInitParams.mUseCanvas1 = 0;
@@ -107,7 +107,7 @@ void InitWiFiStates(void *heap, s32 b) {
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
     InitSceneText(heap, &sceneTextInitParams);
     LoadWiFiMenuSceneData();
-    InitPlayerEntryList(heap, func_ov000_021804f4());
+    InitPlayerEntryList(heap, GetWiFiMenuMainOamList());
     InitKartModelMenuWithParamFiles(GetHeap(GetCurrentHeapCall()));
     RequestKartModelMenuCharacter(-1);
     RequestKartModelMenuKart(-1);

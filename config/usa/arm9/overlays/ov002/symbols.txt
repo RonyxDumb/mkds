@@ -107,7 +107,7 @@ data_usa_ov002_021b0788 kind:bss addr:0x021b0788 ambiguous
 data_usa_ov002_021b0790 kind:bss addr:0x021b0790 ambiguous
 data_usa_ov002_021b0fdc kind:bss addr:0x021b0fdc ambiguous
 data_usa_ov002_021b6374 kind:bss addr:0x021b6374 ambiguous
-data_ov002_021b7ba0 kind:bss addr:0x021b7b60 ambiguous
+gTcpipStackTop kind:bss addr:0x021b7b60 ambiguous
 data_usa_ov002_021bf024 kind:bss addr:0x021bf024 ambiguous
 data_ov002_021ca440 kind:bss addr:0x021ca420
 data_usa_ov002_021d01fd kind:bss addr:0x021d01fd

@@ -18,8 +18,8 @@ void InitWiFiSelectKartState(void *heap) {
     gWiFiSelectKartState = HeapAlloc(heap, 4);
     gWiFiSelectKartState->mHeap = heap;
     InitWiFiSelectKartNop();
-    firstOamList = func_ov000_021804f4();
-    secondOamList = func_ov000_021804e0();
+    firstOamList = GetWiFiMenuMainOamList();
+    secondOamList = GetWiFiMenuSubOamList();
     InitSelectKart(heap, 2, firstOamList, secondOamList);
 }
 

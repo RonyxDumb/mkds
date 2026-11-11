@@ -25,8 +25,8 @@ void InitWiFiSelectCharacterState(void *heap) {
         SetRaceSetupCopyEntryIndex((u8) GetPackedIndex(GetOwnParticipantIndex()));
         SetSessionKartCount(gWiFiSession->mKartCount);
     }
-    firstOamList = func_ov000_021804f4();
-    secondOamList = func_ov000_021804e0();
+    firstOamList = GetWiFiMenuMainOamList();
+    secondOamList = GetWiFiMenuSubOamList();
     InitSelectCharacter(heap, 2, firstOamList, secondOamList);
     SetLinkLevelIconEnabled(1, 1);
     gMenuShared->mUnk_6c = FALSE;

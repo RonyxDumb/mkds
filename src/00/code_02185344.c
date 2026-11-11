@@ -73,8 +73,8 @@ void InitWiFiAikotobaCheck(void *heap) {
     gWiFiAikotobaCheck->mWiFiMessages = FindSceneFile(data_ov000_021b0fc0);
     gWiFiAikotobaCheck->mCommonMessages = FindFileInLoadedArchives(data_ov000_021b0fcc);
     LocateAndUploadWiFiAikotobaCheck();
-    oamList = func_ov000_021804f4();
-    ResetOamLists(oamList, func_ov000_021804e0());
+    oamList = GetWiFiMenuMainOamList();
+    ResetOamLists(oamList, GetWiFiMenuSubOamList());
     InitLayoutTable(heap, gWiFiAikotobaCheck->mWiFiAikotobaCheckBncl, gWiFiAikotobaCheck->mWiFiAikotobaCheckBnll,
                     &gWiFiAikotobaCheck->mWiFiAikotobaCheckTable);
     gWiFiAikotobaCheck->mOffset = 0x50;
@@ -184,7 +184,7 @@ void AdvanceWiFiAikotobaCheck(void) {
     UpdateWiFiAikotobaCheckOffsets();
     wiFiAikotobaCheck = gWiFiAikotobaCheck;
     DrawLayoutTable(wiFiAikotobaCheck->mWiFiAikotobaCheckBncl, wiFiAikotobaCheck->mWiFiAikotobaCheckMNcer,
-                    wiFiAikotobaCheck->mWiFiAikotobaCheckBnll, func_ov000_021804f4(),
+                    wiFiAikotobaCheck->mWiFiAikotobaCheckBnll, GetWiFiMenuMainOamList(),
                     wiFiAikotobaCheck->mWiFiAikotobaCheckTable);
 }
 

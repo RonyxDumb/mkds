@@ -22,74 +22,74 @@
 #include "02/unk_02180500.h"
 #include "code_02000b44.h"
 
-void func_ov000_021b04f8(u32 a) {
-    u32 b;
-    OSThread *c;
-    Unk021b04f8 *d;
+void reset_network_vars(u32 reason) {
+    u32 addressSeen;
+    OSThread *thread;
+    Unk021b04f8 *socket;
     s32 i;
-    Unk021b69dc *e;
+    CPSFragTable *fragment;
 
     if (CPSMyIp != 0) {
-        b = 1;
+        addressSeen = 1;
     } else {
-        b = 0;
+        addressSeen = 0;
     }
-    data_ov000_021b637c = a;
+    CPSNoIpReason = reason;
     CPSMyIp = 0;
     CPSNetMask = 0;
     CPSGatewayIp = 0;
     CPSDnsIp[0] = 0;
     CPSDnsIp[1] = 0;
     CPSDhcpServerIp = 0;
-    if (b != 0) {
-        MI_CpuFill8(data_ov000_021b6434, 0, 0x60);
-        c = OSi_ThreadInfo.mListHead;
-        if (c != NULL) {
+    if (addressSeen != 0) {
+        MI_CpuFill8(gArpCache, 0, 0x60);
+        thread = OSi_ThreadInfo.mListHead;
+        if (thread != NULL) {
             do {
-                d = c->mUnk_a4[0];
-                if (d != NULL && d->mThread != NULL) {
-                    if (d->mState != 10 && d->mState != 11) {
-                        d->mState = 0;
+                socket = thread->mUnk_a4[0];
+                if (socket != NULL && socket->mThread != NULL) {
+                    if (socket->mState != 10 && socket->mState != 11) {
+                        socket->mState = 0;
                     }
-                    if (d->mUnk_04 != 0) {
-                        d->mUnk_04 = 0;
-                        OS_WakeupThreadDirect(d->mThread);
+                    if (socket->mUnk_04 != 0) {
+                        socket->mUnk_04 = 0;
+                        OS_WakeupThreadDirect(socket->mThread);
                     }
                 }
-                c = c->mNext;
-            } while (c != NULL);
+                thread = thread->mNext;
+            } while (thread != NULL);
         }
         i = 0;
-        e = data_ov000_021b69dc;
+        fragment = gFragTable;
         for (; i < 8; i++) {
-            if (e->mUnk_04 != 0) {
-                CPSiFree(e->mUnk_34);
-                e->mUnk_04 = 0;
+            if (fragment->mFrags != 0) {
+                CPSiFree(fragment->mBuf);
+                fragment->mFrags = 0;
             }
-            e++;
+            fragment++;
         }
         CPSi_SslCleanup();
     }
 }
 
-void func_ov000_021b04d4(void) {
-    if (data_ov000_021b6390 == 0) {
+void yield_thread(void) {
+    if (gYieldWait == 0) {
         OS_YieldThread();
     } else {
-        OS_Sleep(data_ov000_021b6390);
+        OS_Sleep(gYieldWait);
     }
 }
 
-void func_ov000_021b04d0(void) {}
+void empty_func(void) {}
 
-s32 func_ov000_021b04cc(void) {
+BOOL default_link_is_on(void) {
     return 1;
 }
 
-void func_ov000_021b02fc(CPSConfig *a) {
+void CPS_Startup(CPSConfig *config) {
     OSi_ReferSymbol(0x2000bfc);
-    if (*(u64 *) &a->mUnk_14 != 0) {
-        CPSiRand32ctx[0] = *(u64 *) &a->mUnk_14;
+    if (*(u64 *) &config->mRandomSeedLow != 0) {
+        CPSiRand32ctx[0] = *(u64 *) &config->mRandomSeedLow;
         CPSiRand32ctx[1] = 0x5d588b656c078965ULL;
         CPSiRand32ctx[2] = 0x269ec3;
     } else {
@@ -97,85 +97,84 @@ void func_ov000_021b02fc(CPSConfig *a) {
         CPSiRand32ctx[1] = 0x5d588b656c078965ULL;
         CPSiRand32ctx[2] = 0x269ec3;
     }
-    if (a->mUnk_04 != NULL && a->mUnk_08 != NULL) {
-        CPSiAlloc = (u8 * (*) (u32)) a->mUnk_04;
-        CPSiFree = a->mUnk_08;
+    if (config->mAlloc != NULL && config->mFree != NULL) {
+        CPSiAlloc = (u8 * (*) (u32)) config->mAlloc;
+        CPSiFree = config->mFree;
     } else {
-        CPSiAlloc = (u8 * (*) (u32)) func_ov000_021b04d0;
-        CPSiFree = (void (*)(void *)) func_ov000_021b04d0;
+        CPSiAlloc = (u8 * (*) (u32)) empty_func;
+        CPSiFree = (void (*)(void *)) empty_func;
     }
-    data_ov000_021b6398 = a->mUnk_00;
-    if (a->mUnk_24 != 0) {
-        data_ov000_021b6370 = a->mUnk_24;
+    gCPSMode = config->mMode;
+    if (config->mMyMss != 0) {
+        gMyMss = config->mMyMss;
     } else {
-        data_ov000_021b6370 = 0x5b4;
+        gMyMss = 0x5b4;
     }
-    gOfferedMyIp = a->mUnk_28;
-    data_ov000_021b6390 = a->mUnk_2c;
-    if (a->mUnk_0c != NULL) {
-        data_ov000_021b6384 = a->mUnk_0c;
+    gOfferedMyIp = config->mRequestedIp;
+    gYieldWait = config->mYieldWait;
+    if (config->mDhcpCallback != NULL) {
+        gDhcpCallback = config->mDhcpCallback;
     } else {
-        data_ov000_021b6384 = func_ov000_021b04d0;
+        gDhcpCallback = empty_func;
     }
-    if (a->mUnk_10 != NULL) {
-        gLinkIsOn = a->mUnk_10;
+    if (config->mLinkIsOn != NULL) {
+        gLinkIsOn = config->mLinkIsOn;
     } else {
-        gLinkIsOn = (u32(*)(void)) func_ov000_021b04cc;
+        gLinkIsOn = (u32(*)(void)) default_link_is_on;
     }
-    data_ov000_021b63c4 = a->mUnk_1c;
-    data_ov000_021b63c8 = a->mUnk_20;
-    data_ov000_021b63cc = 0;
-    data_ov000_021b6394 = 0;
+    gWlanBuf = config->mLanBuf;
+    gWlanBufLen = config->mLanBufLen;
+    gWlanGetPnt = 0;
+    gWlanPutPnt = 0;
     CPSiRand32ctx[0] = _ll_mul(CPSiRand32ctx[1], CPSiRand32ctx[0]) + CPSiRand32ctx[2];
-    data_ov000_021b6374 = (_ll_mul(CPSiRand32ctx[0] >> 32, 0xf88) >> 32) + 0x400;
+    gEport = (_ll_mul(CPSiRand32ctx[0] >> 32, 0xf88) >> 32) + 0x400;
     OS_GetMacAddress(CPSMyMac);
-    data_ov000_021b6368 = 0;
-    OS_CreateThread(&data_ov000_021b661c, (void (*)(void *)) func_ov000_021ae3a4, NULL, data_ov002_021b7ba0, 0x800,
-                    data_ov000_021b4c28);
-    OS_CreateThread(&data_ov000_021b655c, (void (*)(void *)) func_ov000_021ad898, NULL, data_ov000_021b73a0, 0x800,
-                    data_ov000_021b4c28);
-    OS_WakeupThreadDirect(&data_ov000_021b661c);
-    OS_WakeupThreadDirect(&data_ov000_021b655c);
+    gIpConflict = 0;
+    OS_CreateThread(&gTcpipThread, (void (*)(void *)) tcpip, NULL, gTcpipStackTop, 0x800, gHelperThreadsPriority);
+    OS_CreateThread(&gScavengerThread, (void (*)(void *)) scavenger, NULL, gScavengerStackTop, 0x800,
+                    gHelperThreadsPriority);
+    OS_WakeupThreadDirect(&gTcpipThread);
+    OS_WakeupThreadDirect(&gScavengerThread);
 }
 
-s32 func_ov000_021b02bc(void) {
-    u32 a;
-    s32 b;
+s32 CPS_CalmDown(void) {
+    u32 interruptState;
+    s32 isTerminated;
 
-    a = OS_DisableInterrupts();
-    b = OS_IsThreadTerminated(&data_ov000_021b655c);
-    if (b == 0 && data_ov000_021b63b0 == 0) {
-        data_ov000_021b63b0 = 1;
-        OS_WakeupThreadDirect(&data_ov000_021b655c);
+    interruptState = OS_DisableInterrupts();
+    isTerminated = OS_IsThreadTerminated(&gScavengerThread);
+    if (isTerminated == 0 && gScavengerForceExit == 0) {
+        gScavengerForceExit = 1;
+        OS_WakeupThreadDirect(&gScavengerThread);
     }
-    OS_RestoreInterrupts(a);
-    return b;
+    OS_RestoreInterrupts(interruptState);
+    return isTerminated;
 }
 
-void func_ov000_021b02b0(UnkFunc *arg0) {
-    u32 value0 = (u32) arg0;
-    u32 value1;
-    value1 = (u32) &data_ov000_021b63a8;
-    *(u32 *) ((value1) + 0u) = value0;
+void CPS_SetScavengerCallback(UnkFunc *callback) {
+    u32 callbackAddress = (u32) callback;
+    u32 slotAddress;
+    slotAddress = (u32) &gScavengerCallback;
+    *(u32 *) ((slotAddress) + 0u) = callbackAddress;
 }
 
-void func_ov000_021b026c(void) {
-    func_ov000_021b02bc();
-    OS_JoinThread(&data_ov000_021b655c);
-    OS_DestroyThread(&data_ov000_021b661c);
-    data_ov000_021b63c0 = NULL;
-    func_ov000_021b04f8(0);
-    data_ov000_021b63c4 = NULL;
-    data_ov000_021b63c8 = 0;
+void CPS_Cleanup(void) {
+    CPS_CalmDown();
+    OS_JoinThread(&gScavengerThread);
+    OS_DestroyThread(&gTcpipThread);
+    gReceiverThread = NULL;
+    reset_network_vars(0);
+    gWlanBuf = NULL;
+    gWlanBufLen = 0;
 }
 
-void func_ov000_021b0240(s32 a) {
-    data_ov000_021b4c28 = a;
-    OS_SetThreadPriority(&data_ov000_021b661c, a);
-    OS_SetThreadPriority(&data_ov000_021b655c, a);
+void CPS_SetThreadPriority(s32 priority) {
+    gHelperThreadsPriority = priority;
+    OS_SetThreadPriority(&gTcpipThread, priority);
+    OS_SetThreadPriority(&gScavengerThread, priority);
 }
 
-u32 func_ov000_021b01b4(const void *buffer, u32 length, u32 sum) {
+u32 calc_checksum_do(const void *buffer, u32 length, u32 sum) {
     const u8 *bytes = buffer;
 
     if ((u32) bytes & 1) {
@@ -204,7 +203,7 @@ u32 func_ov000_021b01b4(const void *buffer, u32 length, u32 sum) {
     return (u16) sum;
 }
 
-u16 func_ov000_021b01a0(u16 sum) {
+u16 invert_checksum(u16 sum) {
     sum ^= 0xffff;
     if (sum == 0) {
         sum = 0xffff;
@@ -212,13 +211,13 @@ u16 func_ov000_021b01a0(u16 sum) {
     return sum;
 }
 
-u16 func_ov000_021b0188(const void *buffer, u32 length) {
-    return func_ov000_021b01a0(func_ov000_021b01b4(buffer, length, 0));
+u16 calc_checksum(const void *buffer, u32 length) {
+    return invert_checksum(calc_checksum_do(buffer, length, 0));
 }
 
-BOOL func_ov000_021b0138(const void *buffer, u32 length, const Unk021b0138 *header, u32 sum) {
-    sum = func_ov000_021b01b4(buffer, length, sum);
-    sum = func_ov000_021b01b4(header->mUnk_0c, 8, sum);
+BOOL check_tcpudpsum(const void *buffer, u32 length, const Unk021b0138 *header, u32 sum) {
+    sum = calc_checksum_do(buffer, length, sum);
+    sum = calc_checksum_do(header->mUnk_0c, 8, sum);
     sum += length;
     if (sum & 0x10000) {
         sum = (sum + 1) & 0xffff;
@@ -229,39 +228,39 @@ BOOL func_ov000_021b0138(const void *buffer, u32 length, const Unk021b0138 *head
     return FALSE;
 }
 
-BOOL func_ov000_021b00fc(u32 address) {
+BOOL ip_islocal(u32 address) {
     return address == 0xffffffff || address == 0x7f000001 || (address & CPSNetMask) == (CPSMyIp & CPSNetMask);
 }
 
-u32 func_ov000_021b00e0(u32 address) {
-    if (func_ov000_021b00fc(address) == FALSE) {
+u32 get_targetip(u32 address) {
+    if (ip_islocal(address) == FALSE) {
         address = CPSGatewayIp;
     }
     return address;
 }
 
-s32 func_ov000_021b00b0(u32 address) {
+BOOL is_broadcast(u32 address) {
     BOOL result = FALSE;
 
-    if (func_ov000_021b00fc(address) != FALSE && (address & ~CPSNetMask) == ~CPSNetMask) {
+    if (ip_islocal(address) != FALSE && (address & ~CPSNetMask) == ~CPSNetMask) {
         result = TRUE;
     }
     return result;
 }
 
-BOOL func_ov000_021b0094(u32 address) {
+BOOL is_multicast(u32 address) {
     if ((address & 0xf0000000) == 0xe0000000) {
         return TRUE;
     }
     return FALSE;
 }
 
-BOOL func_ov000_021b003c(u32 address) {
-    return CPSMyIp == 0 || address == CPSMyIp || address == 0x7f000001 || func_ov000_021b00b0(address) != 0 ||
-           func_ov000_021b0094(address) != FALSE;
+BOOL ip_isme(u32 address) {
+    return CPSMyIp == 0 || address == CPSMyIp || address == 0x7f000001 || is_broadcast(address) != 0 ||
+           is_multicast(address) != FALSE;
 }
 
-BOOL func_ov000_021b0014(const u16 *first, const u16 *second) {
+BOOL maccmp(const u16 *first, const u16 *second) {
     s32 i;
 
     for (i = 0; i < 3; i++) {
@@ -272,583 +271,589 @@ BOOL func_ov000_021b0014(const u16 *first, const u16 *second) {
     return FALSE;
 }
 
-void func_ov000_021affcc(u8 *a, u32 b, const void *c, u32 d) {
-    u8 e;
+void send_packet(u8 *header, u32 headerLength, const void *body, u32 bodyLength) {
+    u8 failed;
 
-    if (a + b != c) {
-        MI_CpuCopy8(c, a + b, d);
+    if (header + headerLength != body) {
+        MI_CpuCopy8(body, header + headerLength, bodyLength);
     }
-    MI_CpuCopy8(data_ov000_021b4c40, a + 6, 6);
-    if (WCM_SendDCFData(a, a + 6, b + d - 6) < 0) {
-        e = 1;
+    MI_CpuCopy8(gIpv4LlcSnapHeader, header + 6, 6);
+    if (WCM_SendDCFData(header, header + 6, headerLength + bodyLength - 6) < 0) {
+        failed = 1;
     } else {
-        e = 0;
+        failed = 0;
     }
-    data_ov000_021b6364 = e;
+    gSendFailed = failed;
 }
 
-void func_ov000_021afe84(const void *a, const void *b, u8 *c, u32 d, void *e, u32 f) {
-    u8 *g;
-    u32 h;
+void put_in_buffer(const void *sourceAddress, const void *destAddress, u8 *firstBuffer, u32 firstSize,
+                   void *secondBuffer, u32 secondSize) {
+    u8 *ringBuffer;
+    u32 ringSize;
     u32 i;
-    u16 j;
-    u32 k;
-    u32 l;
-    u32 m;
+    u16 blockLength;
+    u32 putPos;
+    u32 endPos;
+    u32 newPutPos;
 
-    g = data_ov000_021b63c4;
-    if (g == NULL) {
+    ringBuffer = gWlanBuf;
+    if (ringBuffer == NULL) {
         return;
     }
-    h = data_ov000_021b63c8;
-    if (h == 0) {
+    ringSize = gWlanBufLen;
+    if (ringSize == 0) {
         return;
     }
-    i = d + f;
+    i = firstSize + secondSize;
     if (i < 8 || i > 0x5e4) {
         return;
     }
-    if (c[0] != data_ov000_021b4c40[0] || c[1] != data_ov000_021b4c40[1] || c[2] != data_ov000_021b4c40[2]) {
+    if (firstBuffer[0] != gIpv4LlcSnapHeader[0] || firstBuffer[1] != gIpv4LlcSnapHeader[1] ||
+        firstBuffer[2] != gIpv4LlcSnapHeader[2]) {
         return;
     }
-    if (c[6] != 8) {
+    if (firstBuffer[6] != 8) {
         return;
     }
-    if (c[7] != 0 && c[7] != 6) {
+    if (firstBuffer[7] != 0 && firstBuffer[7] != 6) {
         return;
     }
-    j = (i + 9) & ~1;
-    k = data_ov000_021b6394;
-    l = k + j;
-    m = l;
-    i = data_ov000_021b63cc;
-    if (k < i && i <= l) {
+    blockLength = (i + 9) & ~1;
+    putPos = gWlanPutPnt;
+    endPos = putPos + blockLength;
+    newPutPos = endPos;
+    i = gWlanGetPnt;
+    if (putPos < i && i <= endPos) {
         return;
     }
-    if (l == h) {
-        m = 0;
+    if (endPos == ringSize) {
+        newPutPos = 0;
         if (i == 0) {
             return;
         }
-    } else if (l > h) {
-        m = j;
-        if (i <= j) {
+    } else if (endPos > ringSize) {
+        newPutPos = blockLength;
+        if (i <= blockLength) {
             return;
         }
     }
-    if (l > h) {
-        if (h - k >= 2) {
-            g[k] = 0;
-            (data_ov000_021b63c4 + data_ov000_021b6394)[1] = 0;
+    if (endPos > ringSize) {
+        if (ringSize - putPos >= 2) {
+            ringBuffer[putPos] = 0;
+            (gWlanBuf + gWlanPutPnt)[1] = 0;
         }
-        data_ov000_021b6394 = 0;
+        gWlanPutPnt = 0;
     }
-    data_ov000_021b63c4[data_ov000_021b6394] = j;
-    (data_ov000_021b63c4 + data_ov000_021b6394)[1] = j >> 8;
-    MI_CpuCopy8(b, data_ov000_021b63c4 + data_ov000_021b6394 + 2, 6);
-    MI_CpuCopy8(a, data_ov000_021b63c4 + data_ov000_021b6394 + 8, 6);
-    MI_CpuCopy8(c + 6, data_ov000_021b63c4 + data_ov000_021b6394 + 0xe, d - 6);
-    if (e != NULL && f != 0) {
-        MI_CpuCopy8(e, data_ov000_021b63c4 + data_ov000_021b6394 + 8 + d, f);
+    gWlanBuf[gWlanPutPnt] = blockLength;
+    (gWlanBuf + gWlanPutPnt)[1] = blockLength >> 8;
+    MI_CpuCopy8(destAddress, gWlanBuf + gWlanPutPnt + 2, 6);
+    MI_CpuCopy8(sourceAddress, gWlanBuf + gWlanPutPnt + 8, 6);
+    MI_CpuCopy8(firstBuffer + 6, gWlanBuf + gWlanPutPnt + 0xe, firstSize - 6);
+    if (secondBuffer != NULL && secondSize != 0) {
+        MI_CpuCopy8(secondBuffer, gWlanBuf + gWlanPutPnt + 8 + firstSize, secondSize);
     }
-    data_ov000_021b6394 = m;
+    gWlanPutPnt = newPutPos;
 }
 
-void func_ov000_021afe5c(void *a, void *b, void *c, u16 d) {
-    func_ov000_021afe84(a, b, c, d, NULL, 0);
-    if (data_ov000_021b63c0 != NULL) {
-        OS_WakeupThreadDirect(data_ov000_021b63c0);
+void CPSi_RecvCallbackFunc(void *sourceAddress, void *destAddress, void *buffer, u16 size) {
+    put_in_buffer(sourceAddress, destAddress, buffer, size, NULL, 0);
+    if (gReceiverThread != NULL) {
+        OS_WakeupThreadDirect(gReceiverThread);
     }
 }
 
-u8 *func_ov000_021afdcc(u32 *a) {
-    u16 b;
-    u32 c;
-    u8 *d;
+u8 *receive_packet(u32 *length) {
+    u16 blockLength;
+    u32 ringSize;
+    u8 *ringBuffer;
 
-    while (data_ov000_021b63cc == data_ov000_021b6394) {
-        data_ov000_021b63c0 = OSi_ThreadInfo.mCurrentThread;
+    while (gWlanGetPnt == gWlanPutPnt) {
+        gReceiverThread = OSi_ThreadInfo.mCurrentThread;
         OS_SleepThread(NULL);
-        data_ov000_021b63c0 = NULL;
+        gReceiverThread = NULL;
     }
-    c = data_ov000_021b63c8;
-    d = data_ov000_021b63c4;
+    ringSize = gWlanBufLen;
+    ringBuffer = gWlanBuf;
     do {
-        if (c - data_ov000_021b63cc < 2) {
-            data_ov000_021b63cc = 0;
+        if (ringSize - gWlanGetPnt < 2) {
+            gWlanGetPnt = 0;
         }
-        b = d[data_ov000_021b63cc] + ((d + data_ov000_021b63cc)[1] << 8);
-        if (b == 0) {
-            data_ov000_021b63cc = 0;
+        blockLength = ringBuffer[gWlanGetPnt] + ((ringBuffer + gWlanGetPnt)[1] << 8);
+        if (blockLength == 0) {
+            gWlanGetPnt = 0;
         }
-    } while (b == 0);
-    *a = b - 2;
-    return data_ov000_021b63c4 + data_ov000_021b63cc + 2;
+    } while (blockLength == 0);
+    *length = blockLength - 2;
+    return gWlanBuf + gWlanGetPnt + 2;
 }
 
-void func_ov000_021afd8c(void) {
-    u32 a;
-    u32 b;
-    u8 *c;
+void throw_packet(void) {
+    u32 interruptState;
+    u32 getPos;
+    u8 *ringBuffer;
 
-    a = OS_DisableInterrupts();
-    b = data_ov000_021b63cc;
-    c = data_ov000_021b63c4;
-    data_ov000_021b63cc = b + (c[b] + ((c + b)[1] << 8));
-    if (data_ov000_021b63cc >= data_ov000_021b63c8) {
-        data_ov000_021b63cc = 0;
+    interruptState = OS_DisableInterrupts();
+    getPos = gWlanGetPnt;
+    ringBuffer = gWlanBuf;
+    gWlanGetPnt = getPos + (ringBuffer[getPos] + ((ringBuffer + getPos)[1] << 8));
+    if (gWlanGetPnt >= gWlanBufLen) {
+        gWlanGetPnt = 0;
     }
-    OS_RestoreInterrupts(a);
+    OS_RestoreInterrupts(interruptState);
 }
 
-u8 *func_ov000_021afd00(u32 a) {
-    u32 b;
-    u8 *c;
-    u32 d;
-    u16 e;
+u8 *inq_arpcache(u32 address) {
+    u32 interruptState;
+    u8 *mac;
+    u32 index;
+    u16 tick;
 
-    b = OS_DisableInterrupts();
-    c = NULL;
-    if (a == 0x7f000001 || a == CPSMyIp) {
-        c = (u8 *) CPSMyMac;
-    } else if (func_ov000_021b00b0(a) != 0 || func_ov000_021b0094(a) != FALSE) {
-        c = data_ov000_021b4c2c;
+    interruptState = OS_DisableInterrupts();
+    mac = NULL;
+    if (address == 0x7f000001 || address == CPSMyIp) {
+        mac = (u8 *) CPSMyMac;
+    } else if (is_broadcast(address) != 0 || is_multicast(address) != FALSE) {
+        mac = gMacBroadcast;
     } else {
-        for (d = 0; d < 8; d++) {
-            if (a == data_ov000_021b6434[d].mUnk_00) {
-                e = OS_GetTick() >> 16;
-                data_ov000_021b6434[d].mUnk_0a = e;
-                c = data_ov000_021b6434[d].mUnk_04;
+        for (index = 0; index < 8; index++) {
+            if (address == gArpCache[index].mIp) {
+                tick = OS_GetTick() >> 16;
+                gArpCache[index].mWhen = tick;
+                mac = gArpCache[index].mMac;
                 break;
             }
         }
     }
-    OS_RestoreInterrupts(b);
-    return c;
+    OS_RestoreInterrupts(interruptState);
+    return mac;
 }
 
-void func_ov000_021afc5c(u32 a) {
-    Unk021afc5c b;
+void send_arprequest(u32 address) {
+    ArpRequestFrame frame;
 
-    MI_CpuFill8(&b, 0, 0x2a);
-    MI_CpuFill8(&b, 0xff, 6);
-    MI_CpuCopy8(CPSMyMac, b.mUnk_06, 6);
-    b.mUnk_0c = 0x608;
-    b.mUnk_0f = 1;
-    b.mUnk_10 = 8;
-    b.mUnk_12 = 0x406;
-    b.mUnk_15 = 1;
-    MI_CpuCopy8(CPSMyMac, b.mUnk_16, 6);
-    b.mUnk_1c = ((u16) (*(u32 *) &CPSMyIp >> 16) >> 8) | ((u16) (*(u32 *) &CPSMyIp >> 16) << 8);
-    b.mUnk_1e = ((u16) CPSMyIp >> 8) | ((u16) CPSMyIp << 8);
-    b.mUnk_26 = ((u16) (a >> 16) >> 8) | ((u16) (a >> 16) << 8);
-    b.mUnk_28 = ((u16) a >> 8) | ((u16) a << 8);
-    func_ov000_021affcc((u8 *) &b, 0x2a, NULL, 0);
+    MI_CpuFill8(&frame, 0, 0x2a);
+    MI_CpuFill8(&frame, 0xff, 6);
+    MI_CpuCopy8(CPSMyMac, frame.mUnk_06, 6);
+    frame.mUnk_0c = 0x608;
+    frame.mUnk_0f = 1;
+    frame.mUnk_10 = 8;
+    frame.mUnk_12 = 0x406;
+    frame.mUnk_15 = 1;
+    MI_CpuCopy8(CPSMyMac, frame.mUnk_16, 6);
+    frame.mUnk_1c = ((u16) (*(u32 *) &CPSMyIp >> 16) >> 8) | ((u16) (*(u32 *) &CPSMyIp >> 16) << 8);
+    frame.mUnk_1e = ((u16) CPSMyIp >> 8) | ((u16) CPSMyIp << 8);
+    frame.mUnk_26 = ((u16) (address >> 16) >> 8) | ((u16) (address >> 16) << 8);
+    frame.mUnk_28 = ((u16) address >> 8) | ((u16) address << 8);
+    send_packet((u8 *) &frame, 0x2a, NULL, 0);
 }
 
-u8 *func_ov000_021afc20(u32 a) {
-    u32 b;
-    u32 c;
-    u8 *d;
+u8 *arprequest(u32 address) {
+    u32 outerRetry;
+    u32 innerRetry;
+    u8 *mac;
 
-    for (b = 0; b < 8; b++) {
-        func_ov000_021afc5c(a);
-        for (c = 0; c < 0x14; c++) {
+    for (outerRetry = 0; outerRetry < 8; outerRetry++) {
+        send_arprequest(address);
+        for (innerRetry = 0; innerRetry < 0x14; innerRetry++) {
             OS_Sleep(100);
-            d = func_ov000_021afd00(a);
-            if (d != NULL) {
-                return d;
+            mac = inq_arpcache(address);
+            if (mac != NULL) {
+                return mac;
             }
         }
     }
     return NULL;
 }
 
-void func_ov000_021afb58(u8 *a, u32 b, u32 c) {
-    u16 d;
-    u16 e;
-    u32 f;
-    u32 g;
-    Unk021b6434 *p;
+void reg_arpcache(u8 *mac, u32 address, u32 addedEntry) {
+    u16 now;
+    u16 maxAge;
+    u32 candidate;
+    u32 index;
+    CPSArpCache *entry;
 
-    if (b == 0x7f000001 || b == CPSMyIp || func_ov000_021b00fc(b) == FALSE || func_ov000_021b0094(b) != FALSE) {
+    if (address == 0x7f000001 || address == CPSMyIp || ip_islocal(address) == FALSE || is_multicast(address) != FALSE) {
         return;
     }
-    d = OS_GetTick() >> 16;
-    for (g = 0; g < 8; g++) {
-        if (b == data_ov000_021b6434[g].mUnk_00) {
-            data_ov000_021b6434[g].mUnk_0a = d;
-            MI_CpuCopy8(a, data_ov000_021b6434[g].mUnk_04, 6);
+    now = OS_GetTick() >> 16;
+    for (index = 0; index < 8; index++) {
+        if (address == gArpCache[index].mIp) {
+            gArpCache[index].mWhen = now;
+            MI_CpuCopy8(mac, gArpCache[index].mMac, 6);
             return;
         }
     }
-    if (c != 0) {
-        e = 0;
-        f = 0;
-        for (g = 0, p = data_ov000_021b6434; g < 8; g++) {
-            if (p->mUnk_00 == 0) {
-                f = g;
+    if (addedEntry != 0) {
+        maxAge = 0;
+        candidate = 0;
+        for (index = 0, entry = gArpCache; index < 8; index++) {
+            if (entry->mIp == 0) {
+                candidate = index;
                 break;
             }
-            if ((s16) (d - p->mUnk_0a) > e) {
-                e = d - p->mUnk_0a;
-                f = g;
+            if ((s16) (now - entry->mWhen) > maxAge) {
+                maxAge = now - entry->mWhen;
+                candidate = index;
             }
-            p++;
+            entry++;
         }
-        data_ov000_021b6434[f].mUnk_00 = b;
-        MI_CpuCopy8(a, data_ov000_021b6434[f].mUnk_04, 6);
-        data_ov000_021b6434[f].mUnk_0a = d;
+        gArpCache[candidate].mIp = address;
+        MI_CpuCopy8(mac, gArpCache[candidate].mMac, 6);
+        gArpCache[candidate].mWhen = now;
     }
 }
 
-void func_ov000_021afaac(u8 *a, u32 b, void *c, u32 d, u32 e, u16 f) {
-    u8 *g;
+void send_ether(u8 *header, u32 headerLength, void *body, u32 bodyLength, u32 addressTo, u16 type) {
+    u8 *destMac;
 
-    *(u16 *) (a - 2) = (f >> 8) | (f << 8);
-    if (func_ov000_021b0094(e) == FALSE) {
-        e = func_ov000_021b00e0(e);
-        if (e == 0) {
+    *(u16 *) (header - 2) = (type >> 8) | (type << 8);
+    if (is_multicast(addressTo) == FALSE) {
+        addressTo = get_targetip(addressTo);
+        if (addressTo == 0) {
             return;
         }
-        g = func_ov000_021afd00(e);
-        if (g == NULL) {
-            g = func_ov000_021afc20(e);
+        destMac = inq_arpcache(addressTo);
+        if (destMac == NULL) {
+            destMac = arprequest(addressTo);
         }
-        if (g == NULL) {
+        if (destMac == NULL) {
             return;
         }
-        MI_CpuCopy8(g, a - 0xe, 6);
+        MI_CpuCopy8(destMac, header - 0xe, 6);
     } else {
-        a[-0xe] = 1;
-        a[-0xd] = 0;
-        a[-0xc] = 0x5e;
-        a[-0xb] = (e >> 16) & 0x7f;
-        a[-0xa] = e >> 8;
-        a[-9] = e;
+        header[-0xe] = 1;
+        header[-0xd] = 0;
+        header[-0xc] = 0x5e;
+        header[-0xb] = (addressTo >> 16) & 0x7f;
+        header[-0xa] = addressTo >> 8;
+        header[-9] = addressTo;
     }
-    MI_CpuCopy8(CPSMyMac, a - 8, 6);
-    func_ov000_021affcc(a - 0xe, b + 0xe, c, d);
+    MI_CpuCopy8(CPSMyMac, header - 8, 6);
+    send_packet(header - 0xe, headerLength + 0xe, body, bodyLength);
 }
 
-void func_ov000_021af9d0(u8 *a, u32 b, void *c, u32 d, u32 e, u32 f) {
+void send_ip_frag(u8 *header, u32 headerLength, void *body, u32 bodyLength, u32 addressTo, u32 offset) {
     u16 g;
-    u32 h;
+    u32 interruptState;
 
-    g = b + 0x14 + d;
-    *(u16 *) (a - 0x12) = (g >> 8) | (g << 8);
-    g = f;
-    *(u16 *) (a - 0xe) = (g >> 8) | (g << 8);
-    *(u16 *) (a - 0xa) = 0;
-    g = func_ov000_021b0188(a - 0x14, 0x14);
-    *(u16 *) (a - 0xa) = (g >> 8) | (g << 8);
-    if (e != 0x7f000001 && e != CPSMyIp) {
-        func_ov000_021afaac(a - 0x14, b + 0x14, c, d, e, 0x800);
+    g = headerLength + 0x14 + bodyLength;
+    *(u16 *) (header - 0x12) = (g >> 8) | (g << 8);
+    g = offset;
+    *(u16 *) (header - 0xe) = (g >> 8) | (g << 8);
+    *(u16 *) (header - 0xa) = 0;
+    g = calc_checksum(header - 0x14, 0x14);
+    *(u16 *) (header - 0xa) = (g >> 8) | (g << 8);
+    if (addressTo != 0x7f000001 && addressTo != CPSMyIp) {
+        send_ether(header - 0x14, headerLength + 0x14, body, bodyLength, addressTo, 0x800);
     }
-    if (e == 0x7f000001 || e == CPSMyIp || func_ov000_021b0094(e) != FALSE) {
-        MI_CpuCopy8(data_ov000_021b4c40, a - 0x1c, 8);
-        h = OS_DisableInterrupts();
-        func_ov000_021afe84(CPSMyMac, CPSMyMac, a - 0x1c, b + 0x1c, c, d);
-        OS_RestoreInterrupts(h);
+    if (addressTo == 0x7f000001 || addressTo == CPSMyIp || is_multicast(addressTo) != FALSE) {
+        MI_CpuCopy8(gIpv4LlcSnapHeader, header - 0x1c, 8);
+        interruptState = OS_DisableInterrupts();
+        put_in_buffer(CPSMyMac, CPSMyMac, header - 0x1c, headerLength + 0x1c, body, bodyLength);
+        OS_RestoreInterrupts(interruptState);
     }
 }
 
-void func_ov000_021af858(u8 *a, u32 b, u8 *c, u32 d, u32 e, u8 f) {
-    u16 g;
-    u8 *h;
-    u32 i;
+void send_ip(u8 *header, u32 headerLength, u8 *body, u32 bodyLength, u32 addressTo, u8 protocol) {
+    u16 offset;
+    u8 *payloadCursor;
+    u32 chunkLength;
 
-    a[-0x14] = 0x45;
-    g = 0;
-    a[-0x13] = 0;
-    data_ov000_021b6378++;
-    *(u16 *) (a - 0x10) = (data_ov000_021b6378 >> 8) | (data_ov000_021b6378 << 8);
-    a[-0xc] = 0x80;
-    a[-0xb] = f;
-    *(u16 *) (a - 8) = ((u16) (CPSMyIp >> 16) >> 8) | ((u16) (CPSMyIp >> 16) << 8);
-    *(u16 *) (a - 6) = ((u16) CPSMyIp >> 8) | ((u16) CPSMyIp << 8);
-    *(u16 *) (a - 4) = ((u16) (e >> 16) >> 8) | ((u16) (e >> 16) << 8);
-    *(u16 *) (a - 2) = ((u16) e >> 8) | ((u16) e << 8);
-    if (b > 0x5c8) {
-        h = a;
-        while (b > 0x5c8) {
-            func_ov000_021af9d0(a, 0, h, 0x5c8, e, g | 0x2000);
-            h += 0x5c8;
-            b -= 0x5c8;
-            g += 0xb9;
+    header[-0x14] = 0x45;
+    offset = 0;
+    header[-0x13] = 0;
+    gIpId++;
+    *(u16 *) (header - 0x10) = (gIpId >> 8) | (gIpId << 8);
+    header[-0xc] = 0x80;
+    header[-0xb] = protocol;
+    *(u16 *) (header - 8) = ((u16) (CPSMyIp >> 16) >> 8) | ((u16) (CPSMyIp >> 16) << 8);
+    *(u16 *) (header - 6) = ((u16) CPSMyIp >> 8) | ((u16) CPSMyIp << 8);
+    *(u16 *) (header - 4) = ((u16) (addressTo >> 16) >> 8) | ((u16) (addressTo >> 16) << 8);
+    *(u16 *) (header - 2) = ((u16) addressTo >> 8) | ((u16) addressTo << 8);
+    if (headerLength > 0x5c8) {
+        payloadCursor = header;
+        while (headerLength > 0x5c8) {
+            send_ip_frag(header, 0, payloadCursor, 0x5c8, addressTo, offset | 0x2000);
+            payloadCursor += 0x5c8;
+            headerLength -= 0x5c8;
+            offset += 0xb9;
         }
-        if (b != 0) {
-            if (d != 0) {
-                func_ov000_021af9d0(a, 0, h, b, e, g | 0x2000);
+        if (headerLength != 0) {
+            if (bodyLength != 0) {
+                send_ip_frag(header, 0, payloadCursor, headerLength, addressTo, offset | 0x2000);
             } else {
-                func_ov000_021af9d0(a, 0, h, b, e, g);
+                send_ip_frag(header, 0, payloadCursor, headerLength, addressTo, offset);
             }
-            g += b >> 3;
-            b = 0;
+            offset += headerLength >> 3;
+            headerLength = 0;
         }
     }
-    if (b + d > 0x5c8) {
+    if (headerLength + bodyLength > 0x5c8) {
         do {
-            i = 0x5c8 - b;
-            func_ov000_021af9d0(a, b, c, i, e, g | 0x2000);
-            c += i;
-            d -= i;
-            g += 0xb9;
-            b = 0;
-        } while (d > 0x5c8);
+            chunkLength = 0x5c8 - headerLength;
+            send_ip_frag(header, headerLength, body, chunkLength, addressTo, offset | 0x2000);
+            body += chunkLength;
+            bodyLength -= chunkLength;
+            offset += 0xb9;
+            headerLength = 0;
+        } while (bodyLength > 0x5c8);
     }
-    if (b + d != 0) {
-        func_ov000_021af9d0(a, b, c, d, e, g);
+    if (headerLength + bodyLength != 0) {
+        send_ip_frag(header, headerLength, body, bodyLength, addressTo, offset);
     }
 }
 
-void func_ov000_021af7e4(u8 *a, u32 b, Unk021a998c *c) {
-    u32 e;
-    u16 f;
-    u16 h;
-    u8 *g;
-    u8 *d;
+void send_ping(u8 *pattern, u32 length, Unk021a998c *socket) {
+    u32 checksum;
+    u16 invertedChecksum;
+    u16 sequence;
+    u8 *sendBuffer;
+    u8 *icmpHeader;
 
-    g = c->mSendBuffer;
-    d = g + 0x22;
-    *OFFSET_PTR(u16, g, 0x22) = 8;
-    *OFFSET_PTR(u16, d, 4) = (u32) OSi_ThreadInfo.mCurrentThread;
-    *OFFSET_PTR(u16, d, 2) = 0;
-    h = data_ov000_021b636c;
-    c->mUnk_0a = h;
-    data_ov000_021b636c++;
-    *OFFSET_PTR(u16, d, 6) = h;
-    e = func_ov000_021b01b4(d, 8, 0);
-    e = func_ov000_021b01b4(a, b, e);
-    f = func_ov000_021b01a0(e);
-    *OFFSET_PTR(u16, d, 2) = (f >> 8) | (f << 8);
-    func_ov000_021af858(d, 8, a, b, c->mUnk_1c, 1);
+    sendBuffer = socket->mSendBuffer;
+    icmpHeader = sendBuffer + 0x22;
+    *OFFSET_PTR(u16, sendBuffer, 0x22) = 8;
+    *OFFSET_PTR(u16, icmpHeader, 4) = (u32) OSi_ThreadInfo.mCurrentThread;
+    *OFFSET_PTR(u16, icmpHeader, 2) = 0;
+    sequence = gPingSequence;
+    socket->mLocalPort = sequence;
+    gPingSequence++;
+    *OFFSET_PTR(u16, icmpHeader, 6) = sequence;
+    checksum = calc_checksum_do(icmpHeader, 8, 0);
+    checksum = calc_checksum_do(pattern, length, checksum);
+    invertedChecksum = invert_checksum(checksum);
+    *OFFSET_PTR(u16, icmpHeader, 2) = (invertedChecksum >> 8) | (invertedChecksum << 8);
+    send_ip(icmpHeader, 8, pattern, length, socket->mRemoteIp, 1);
 }
 
-void func_ov000_021af70c(u8 *a, u32 b, Unk021a998c *c) {
-    u8 *g;
-    u8 *d;
-    u32 e;
+void send_udp(u8 *data, u32 length, Unk021a998c *socket) {
+    u8 *sendBuffer;
+    u8 *header;
+    u32 checksum;
     u16 f;
 
-    g = c->mSendBuffer;
-    d = g + 0x22;
-    *(u16 *) (d - 0xc) = ((u16) (CPSMyIp >> 16) >> 8) | ((u16) (CPSMyIp >> 16) << 8);
-    *(u16 *) (d - 0xa) = ((u16) CPSMyIp >> 8) | ((u16) CPSMyIp << 8);
-    *(u16 *) (d - 8) = ((u16) (c->mUnk_1c >> 16) >> 8) | ((u16) (c->mUnk_1c >> 16) << 8);
-    *(u16 *) (d - 6) = ((u16) c->mUnk_1c >> 8) | ((u16) c->mUnk_1c << 8);
-    *(u16 *) (d - 4) = 0x1100;
-    f = b + 8;
-    *OFFSET_PTR(u16, d, 4) = (f >> 8) | (f << 8);
-    *(u16 *) (d - 2) = *OFFSET_PTR(u16, d, 4);
-    *OFFSET_PTR(u16, d, 2) = (c->mUnk_18 >> 8) | (c->mUnk_18 << 8);
-    *OFFSET_PTR(u16, g, 0x22) = (c->mUnk_0a >> 8) | (c->mUnk_0a << 8);
-    *OFFSET_PTR(u16, d, 6) = 0;
-    e = func_ov000_021b01b4(d - 0xc, 0x14, 0);
-    e = func_ov000_021b01b4(a, b, e);
-    f = func_ov000_021b01a0(e);
-    *OFFSET_PTR(u16, d, 6) = (f >> 8) | (f << 8);
-    func_ov000_021af858(d, 8, a, b, c->mUnk_1c, 0x11);
+    sendBuffer = socket->mSendBuffer;
+    header = sendBuffer + 0x22;
+    *(u16 *) (header - 0xc) = ((u16) (CPSMyIp >> 16) >> 8) | ((u16) (CPSMyIp >> 16) << 8);
+    *(u16 *) (header - 0xa) = ((u16) CPSMyIp >> 8) | ((u16) CPSMyIp << 8);
+    *(u16 *) (header - 8) = ((u16) (socket->mRemoteIp >> 16) >> 8) | ((u16) (socket->mRemoteIp >> 16) << 8);
+    *(u16 *) (header - 6) = ((u16) socket->mRemoteIp >> 8) | ((u16) socket->mRemoteIp << 8);
+    *(u16 *) (header - 4) = 0x1100;
+    f = length + 8;
+    *OFFSET_PTR(u16, header, 4) = (f >> 8) | (f << 8);
+    *(u16 *) (header - 2) = *OFFSET_PTR(u16, header, 4);
+    *OFFSET_PTR(u16, header, 2) = (socket->mRemotePort >> 8) | (socket->mRemotePort << 8);
+    *OFFSET_PTR(u16, sendBuffer, 0x22) = (socket->mLocalPort >> 8) | (socket->mLocalPort << 8);
+    *OFFSET_PTR(u16, header, 6) = 0;
+    checksum = calc_checksum_do(header - 0xc, 0x14, 0);
+    checksum = calc_checksum_do(data, length, checksum);
+    f = invert_checksum(checksum);
+    *OFFSET_PTR(u16, header, 6) = (f >> 8) | (f << 8);
+    send_ip(header, 8, data, length, socket->mRemoteIp, 0x11);
 }
 
-void func_ov000_021af550(u8 *a, u32 b, Unk021a998c *c, u32 d, u16 e) {
-    u8 *f;
-    u32 g;
-    u32 h;
-    u16 i;
+void send_tcp(u8 *data, u32 length, Unk021a998c *socket, u32 flag, u16 urgent) {
+    u8 *header;
+    u32 tcpSize;
+    u32 checksum;
+    u16 invertedChecksum;
 
-    if (c->mState == 0) {
+    if (socket->mState == 0) {
         return;
     }
-    if (OSi_ThreadInfo.mCurrentThread == &data_ov000_021b661c) {
-        f = data_ov000_021b641a;
+    if (OSi_ThreadInfo.mCurrentThread == &gTcpipThread) {
+        header = gTmpBufTcpHeader;
     } else {
-        f = c->mSendBuffer + 0x22;
+        header = socket->mSendBuffer + 0x22;
     }
-    if (d & 2) {
-        g = 0x18;
+    if (flag & 2) {
+        tcpSize = 0x18;
     } else {
-        g = 0x14;
+        tcpSize = 0x14;
     }
-    *(u16 *) (f - 0xc) = ((u16) (CPSMyIp >> 16) >> 8) | ((u16) (CPSMyIp >> 16) << 8);
-    *(u16 *) (f - 0xa) = ((u16) CPSMyIp >> 8) | ((u16) CPSMyIp << 8);
-    *(u16 *) (f - 8) = ((u16) (c->mUnk_1c >> 16) >> 8) | ((u16) (c->mUnk_1c >> 16) << 8);
-    *(u16 *) (f - 6) = ((u16) c->mUnk_1c >> 8) | ((u16) c->mUnk_1c << 8);
-    *(u16 *) (f - 4) = 0x600;
-    *(u16 *) (f - 2) = ((u16) (g + b) >> 8) | ((u16) (g + b) << 8);
-    *(u16 *) f = (c->mUnk_0a >> 8) | (c->mUnk_0a << 8);
-    *OFFSET_PTR(u16, f, 2) = (c->mUnk_18 >> 8) | (c->mUnk_18 << 8);
-    *OFFSET_PTR(u16, f, 4) = ((u16) (c->mUnk_28 >> 16) >> 8) | ((u16) (c->mUnk_28 >> 16) << 8);
-    *OFFSET_PTR(u16, f, 6) = ((u16) c->mUnk_28 >> 8) | ((u16) c->mUnk_28 << 8);
-    *OFFSET_PTR(u16, f, 8) = ((u16) (c->mUnk_24 >> 16) >> 8) | ((u16) (c->mUnk_24 >> 16) << 8);
-    *OFFSET_PTR(u16, f, 0xa) = ((u16) c->mUnk_24 >> 8) | ((u16) c->mUnk_24 << 8);
-    f[0xc] = (g >> 2) << 4;
-    f[0xd] = d;
-    *OFFSET_PTR(u16, f, 0xe) = ((u16) (c->mReceiveBufferSize - c->mReceiveBufferLength) >> 8) |
-                               ((u16) (c->mReceiveBufferSize - c->mReceiveBufferLength) << 8);
-    *OFFSET_PTR(u16, f, 0x10) = 0;
-    *OFFSET_PTR(u16, f, 0x12) = (e >> 8) | (e << 8);
-    if (d & 2) {
-        *OFFSET_PTR(u16, f, 0x14) = ((u16) ((data_ov000_021b6370 + 0x2040000U) >> 16) >> 8) |
-                                    ((u16) ((data_ov000_021b6370 + 0x2040000U) >> 16) << 8);
-        *OFFSET_PTR(u16, f, 0x16) =
-            ((u16) (data_ov000_021b6370 + 0x2040000U) >> 8) | ((u16) (data_ov000_021b6370 + 0x2040000U) << 8);
+    *(u16 *) (header - 0xc) = ((u16) (CPSMyIp >> 16) >> 8) | ((u16) (CPSMyIp >> 16) << 8);
+    *(u16 *) (header - 0xa) = ((u16) CPSMyIp >> 8) | ((u16) CPSMyIp << 8);
+    *(u16 *) (header - 8) = ((u16) (socket->mRemoteIp >> 16) >> 8) | ((u16) (socket->mRemoteIp >> 16) << 8);
+    *(u16 *) (header - 6) = ((u16) socket->mRemoteIp >> 8) | ((u16) socket->mRemoteIp << 8);
+    *(u16 *) (header - 4) = 0x600;
+    *(u16 *) (header - 2) = ((u16) (tcpSize + length) >> 8) | ((u16) (tcpSize + length) << 8);
+    *(u16 *) header = (socket->mLocalPort >> 8) | (socket->mLocalPort << 8);
+    *OFFSET_PTR(u16, header, 2) = (socket->mRemotePort >> 8) | (socket->mRemotePort << 8);
+    *OFFSET_PTR(u16, header, 4) = ((u16) (socket->mSeqNo >> 16) >> 8) | ((u16) (socket->mSeqNo >> 16) << 8);
+    *OFFSET_PTR(u16, header, 6) = ((u16) socket->mSeqNo >> 8) | ((u16) socket->mSeqNo << 8);
+    *OFFSET_PTR(u16, header, 8) = ((u16) (socket->mAckNo >> 16) >> 8) | ((u16) (socket->mAckNo >> 16) << 8);
+    *OFFSET_PTR(u16, header, 0xa) = ((u16) socket->mAckNo >> 8) | ((u16) socket->mAckNo << 8);
+    header[0xc] = (tcpSize >> 2) << 4;
+    header[0xd] = flag;
+    *OFFSET_PTR(u16, header, 0xe) = ((u16) (socket->mReceiveBufferSize - socket->mReceiveBufferLength) >> 8) |
+                                    ((u16) (socket->mReceiveBufferSize - socket->mReceiveBufferLength) << 8);
+    *OFFSET_PTR(u16, header, 0x10) = 0;
+    *OFFSET_PTR(u16, header, 0x12) = (urgent >> 8) | (urgent << 8);
+    if (flag & 2) {
+        *OFFSET_PTR(u16, header, 0x14) =
+            ((u16) ((gMyMss + 0x2040000U) >> 16) >> 8) | ((u16) ((gMyMss + 0x2040000U) >> 16) << 8);
+        *OFFSET_PTR(u16, header, 0x16) = ((u16) (gMyMss + 0x2040000U) >> 8) | ((u16) (gMyMss + 0x2040000U) << 8);
     }
-    h = func_ov000_021b01b4(f - 0xc, g + 0xc, 0);
-    h = func_ov000_021b01b4(a, b, h);
-    i = func_ov000_021b01a0(h);
-    *OFFSET_PTR(u16, f, 0x10) = (i >> 8) | (i << 8);
-    func_ov000_021af858(f, g, a, b, c->mUnk_1c, 6);
-    c->mUnk_28 += b;
-    d &= 3;
-    if (d != 0) {
-        c->mUnk_28++;
+    checksum = calc_checksum_do(header - 0xc, tcpSize + 0xc, 0);
+    checksum = calc_checksum_do(data, length, checksum);
+    invertedChecksum = invert_checksum(checksum);
+    *OFFSET_PTR(u16, header, 0x10) = (invertedChecksum >> 8) | (invertedChecksum << 8);
+    send_ip(header, tcpSize, data, length, socket->mRemoteIp, 6);
+    socket->mSeqNo += length;
+    flag &= 3;
+    if (flag != 0) {
+        socket->mSeqNo++;
     }
 }
 
-void func_ov000_021af4d4(Unk021af3e8 *a) {
-    a->mUnk_06 = 0x200;
-    MI_CpuCopy8(a->mUnk_08, a->mUnk_12, 10);
-    MI_CpuCopy8(CPSMyMac, a->mUnk_08, 6);
-    a->mUnk_0e = ((u16) (CPSMyIp >> 16) >> 8) | ((u16) (CPSMyIp >> 16) << 8);
-    a->mUnk_10 = ((u16) CPSMyIp >> 8) | ((u16) CPSMyIp << 8);
-    MI_CpuCopy8(a->mUnk_12, (u8 *) a - 0xe, 6);
-    MI_CpuCopy8(CPSMyMac, (u8 *) a - 8, 6);
-    func_ov000_021affcc((u8 *) a - 0xe, 0x2a, NULL, 0);
+void reply_arp(ArpPacket *packet) {
+    packet->mOperation = 0x200;
+    MI_CpuCopy8(packet->mSenderMac, packet->mTargetMac, 10);
+    MI_CpuCopy8(CPSMyMac, packet->mSenderMac, 6);
+    packet->mSenderAddressHigh = ((u16) (CPSMyIp >> 16) >> 8) | ((u16) (CPSMyIp >> 16) << 8);
+    packet->mSenderAddressLow = ((u16) CPSMyIp >> 8) | ((u16) CPSMyIp << 8);
+    MI_CpuCopy8(packet->mTargetMac, (u8 *) packet - 0xe, 6);
+    MI_CpuCopy8(CPSMyMac, (u8 *) packet - 8, 6);
+    send_packet((u8 *) packet - 0xe, 0x2a, NULL, 0);
 }
 
-void func_ov000_021af3e8(Unk021af3e8 *f, u32 g) {
-    u32 a;
-    u32 b;
-    u32 c;
-    u32 d;
-    u32 e;
+void dispatch_arp(ArpPacket *packet, u32 length) {
+    u32 operation;
+    u32 fromUs;
+    u32 toUs;
+    u32 ownAddress;
+    u32 senderAddress;
 
-    if (g < 0x1c) {
+    if (length < 0x1c) {
         return;
     }
-    if (func_ov000_021b0014(f->mUnk_08, CPSMyMac) == FALSE) {
+    if (maccmp(packet->mSenderMac, CPSMyMac) == FALSE) {
         return;
     }
     if (CPSMyIp == 0) {
         return;
     }
-    if (f->mUnk_00 != 0x100) {
+    if (packet->mHardwareType != 0x100) {
         return;
     }
-    if (f->mUnk_02 != 8) {
+    if (packet->mProtocolType != 8) {
         return;
     }
-    if (f->mUnk_04 != 0x406) {
+    if (packet->mAddressLengths != 0x406) {
         return;
     }
-    a = (u16) ((f->mUnk_06 >> 8) | (f->mUnk_06 << 8));
-    if (a != 1 && a != 2) {
+    operation = (u16) ((packet->mOperation >> 8) | (packet->mOperation << 8));
+    if (operation != 1 && operation != 2) {
         return;
     }
-    e = ((u16) ((f->mUnk_0e >> 8) | (f->mUnk_0e << 8)) << 16) | (u16) ((f->mUnk_10 >> 8) | (f->mUnk_10 << 8));
-    d = CPSMyIp;
-    if (e == d) {
-        b = 1;
+    senderAddress = ((u16) ((packet->mSenderAddressHigh >> 8) | (packet->mSenderAddressHigh << 8)) << 16) |
+                    (u16) ((packet->mSenderAddressLow >> 8) | (packet->mSenderAddressLow << 8));
+    ownAddress = CPSMyIp;
+    if (senderAddress == ownAddress) {
+        fromUs = 1;
     } else {
-        b = 0;
+        fromUs = 0;
     }
-    if (d ==
-        (u32) (((u16) ((f->mUnk_18 >> 8) | (f->mUnk_18 << 8)) << 16) | (u16) ((f->mUnk_1a >> 8) | (f->mUnk_1a << 8)))) {
-        c = 1;
+    if (ownAddress == (u32) (((u16) ((packet->mTargetAddressHigh >> 8) | (packet->mTargetAddressHigh << 8)) << 16) |
+                             (u16) ((packet->mTargetAddressLow >> 8) | (packet->mTargetAddressLow << 8)))) {
+        toUs = 1;
     } else {
-        c = 0;
+        toUs = 0;
     }
-    if (b == 0) {
-        func_ov000_021afb58((u8 *) f->mUnk_08, e, c);
+    if (fromUs == 0) {
+        reg_arpcache((u8 *) packet->mSenderMac, senderAddress, toUs);
     }
-    if (a == 1 && c != 0) {
-        func_ov000_021af4d4(f);
+    if (operation == 1 && toUs != 0) {
+        reply_arp(packet);
         return;
     }
-    if (a == 2 && c != 0 && b != 0) {
-        data_ov000_021b6368 = 1;
+    if (operation == 2 && toUs != 0 && fromUs != 0) {
+        gIpConflict = 1;
     }
 }
 
-void func_ov000_021af348(Unk021ae3f0 *d, Unk021af1e4 *e, u32 f) {
-    u32 a;
-    u32 b;
-    u16 c;
+void reply_icmp(IpHeader *ipHeader, IcmpHeader *icmp, u32 length) {
+    u32 senderAddress;
+    u32 targetAddress;
+    u16 checksum;
 
-    a = ((u16) ((d->mUnk_0c >> 8) | (d->mUnk_0c << 8)) << 16) | (u16) ((d->mUnk_0e >> 8) | (d->mUnk_0e << 8));
-    if (func_ov000_021b0094(a) != FALSE) {
+    senderAddress = ((u16) ((ipHeader->mSourceAddressHigh >> 8) | (ipHeader->mSourceAddressHigh << 8)) << 16) |
+                    (u16) ((ipHeader->mSourceAddressLow >> 8) | (ipHeader->mSourceAddressLow << 8));
+    if (is_multicast(senderAddress) != FALSE) {
         return;
     }
-    b = func_ov000_021b00e0(a);
-    if (b == 0) {
+    targetAddress = get_targetip(senderAddress);
+    if (targetAddress == 0) {
         return;
     }
-    if (func_ov000_021afd00(b) == NULL) {
-        func_ov000_021afc5c(b);
+    if (inq_arpcache(targetAddress) == NULL) {
+        send_arprequest(targetAddress);
         return;
     }
-    e->mUnk_00 = 0;
-    e->mUnk_02 = 0;
-    c = func_ov000_021b0188(e, f);
-    e->mUnk_02 = (c >> 8) | (c << 8);
-    func_ov000_021af858(
-        (u8 *) e, f, NULL, 0,
-        ((u16) ((d->mUnk_0c >> 8) | (d->mUnk_0c << 8)) << 16) | (u16) ((d->mUnk_0e >> 8) | (d->mUnk_0e << 8)), 1);
+    icmp->mType = 0;
+    icmp->mChecksum = 0;
+    checksum = calc_checksum(icmp, length);
+    icmp->mChecksum = (checksum >> 8) | (checksum << 8);
+    send_ip((u8 *) icmp, length, NULL, 0,
+            ((u16) ((ipHeader->mSourceAddressHigh >> 8) | (ipHeader->mSourceAddressHigh << 8)) << 16) |
+                (u16) ((ipHeader->mSourceAddressLow >> 8) | (ipHeader->mSourceAddressLow << 8)),
+            1);
 }
 
-void func_ov000_021af2a0(Unk021ae3f0 *c, Unk021af1e4 *d, u32 e) {
-    OSThread *a;
-    Unk021a998c *b;
+void process_icmp_reply(IpHeader *ipHeader, IcmpHeader *icmp, u32 length) {
+    OSThread *thread;
+    Unk021a998c *socket;
 
-    for (a = OSi_ThreadInfo.mListHead; a != NULL; a = a->mNext) {
-        b = a->mUnk_a4[0];
-        if (b == NULL || b->mThread == NULL || b->mState != 0xb || (u16) (u32) b->mThread != d->mUnk_04) {
+    for (thread = OSi_ThreadInfo.mListHead; thread != NULL; thread = thread->mNext) {
+        socket = thread->mUnk_a4[0];
+        if (socket == NULL || socket->mThread == NULL || socket->mState != 0xb ||
+            (u16) (u32) socket->mThread != icmp->mIdentifier) {
             continue;
         }
-        if (b->mUnk_0a != d->mUnk_06 || b->mReceiveBufferLength != 0) {
+        if (socket->mLocalPort != icmp->mSequence || socket->mReceiveBufferLength != 0) {
             continue;
         }
-        if (b->mUnk_1c != (u32) (((u16) ((c->mUnk_0c >> 8) | (c->mUnk_0c << 8)) << 16) |
-                                 (u16) ((c->mUnk_0e >> 8) | (c->mUnk_0e << 8)))) {
+        if (socket->mRemoteIp !=
+            (u32) (((u16) ((ipHeader->mSourceAddressHigh >> 8) | (ipHeader->mSourceAddressHigh << 8)) << 16) |
+                   (u16) ((ipHeader->mSourceAddressLow >> 8) | (ipHeader->mSourceAddressLow << 8)))) {
             continue;
         }
-        e -= 8;
-        if (e > b->mReceiveBufferSize) {
-            b->mReceiveBufferLength = b->mReceiveBufferSize;
+        length -= 8;
+        if (length > socket->mReceiveBufferSize) {
+            socket->mReceiveBufferLength = socket->mReceiveBufferSize;
         } else {
-            b->mReceiveBufferLength = e;
+            socket->mReceiveBufferLength = length;
         }
-        MI_CpuCopy8((u8 *) d + 8, b->mReceiveBuffer, b->mReceiveBufferLength);
-        if (b->mUnk_04 == 3) {
-            b->mUnk_04 = 0;
-            OS_WakeupThreadDirect(b->mThread);
+        MI_CpuCopy8((u8 *) icmp + 8, socket->mReceiveBuffer, socket->mReceiveBufferLength);
+        if (socket->mBlockType == 3) {
+            socket->mBlockType = 0;
+            OS_WakeupThreadDirect(socket->mThread);
             return;
         }
         return;
     }
 }
 
-u32 func_ov000_021af284(int a, int b) {
-    if ((((a != 0) && (a != -1)) && (b != 0)) && (b != -1)) {
+BOOL valid_IP(int sourceAddress, int destAddress) {
+    if ((((sourceAddress != 0) && (sourceAddress != -1)) && (destAddress != 0)) && (destAddress != -1)) {
         return 1;
     }
     return 0;
 }
 
-void func_ov000_021af1e4(Unk021ae3f0 *a, Unk021af1e4 *b, u32 c) {
-    if (func_ov000_021b0188(b, c) == 0xffff) {
-        if (func_ov000_021af284((u32) (((u16) ((a->mUnk_0c >> 8) | (a->mUnk_0c << 8)) << 16) |
-                                       (u16) ((a->mUnk_0e >> 8) | (a->mUnk_0e << 8))),
-                                (u32) (((u16) ((a->mUnk_10 >> 8) | (a->mUnk_10 << 8)) << 16) |
-                                       (u16) ((a->mUnk_12 >> 8) | (a->mUnk_12 << 8)))) != 0) {
-            switch (b->mUnk_00) {
+void dispatch_icmp(IpHeader *ipHeader, IcmpHeader *icmp, u32 length) {
+    if (calc_checksum(icmp, length) == 0xffff) {
+        if (valid_IP((u32) (((u16) ((ipHeader->mSourceAddressHigh >> 8) | (ipHeader->mSourceAddressHigh << 8)) << 16) |
+                            (u16) ((ipHeader->mSourceAddressLow >> 8) | (ipHeader->mSourceAddressLow << 8))),
+                     (u32) (((u16) ((ipHeader->mDestAddressHigh >> 8) | (ipHeader->mDestAddressHigh << 8)) << 16) |
+                            (u16) ((ipHeader->mDestAddressLow >> 8) | (ipHeader->mDestAddressLow << 8)))) != 0) {
+            switch (icmp->mType) {
                 case 0:
-                    func_ov000_021af2a0(a, b, c);
+                    process_icmp_reply(ipHeader, icmp, length);
                     break;
                 case 8:
-                    if (data_ov000_021b4c24 != 0) {
-                        func_ov000_021af348(a, b, c);
+                    if (gIcmpEchoReplyEnabled != 0) {
+                        reply_icmp(ipHeader, icmp, length);
                     }
                     break;
             }
@@ -856,781 +861,795 @@ void func_ov000_021af1e4(Unk021ae3f0 *a, Unk021af1e4 *b, u32 c) {
     }
 }
 
-Unk021a998c *func_ov000_021af15c(const Unk021ae3f0 *c, const Unk021ae87c *d) {
-    Unk021a998c *b;
-    OSThread *a;
+Unk021a998c *check_listener(const IpHeader *ipHeader, const TcpHeader *tcpHeader) {
+    Unk021a998c *socket;
+    OSThread *thread;
 
-    for (a = OSi_ThreadInfo.mListHead; a != NULL; a = a->mNext) {
-        b = a->mUnk_a4[0];
-        if (b == NULL || b->mThread == NULL || b->mState != 1 ||
-            b->mUnk_0a != (u16) ((d->mUnk_02 >> 8) | (d->mUnk_02 << 8))) {
+    for (thread = OSi_ThreadInfo.mListHead; thread != NULL; thread = thread->mNext) {
+        socket = thread->mUnk_a4[0];
+        if (socket == NULL || socket->mThread == NULL || socket->mState != 1 ||
+            socket->mLocalPort != (u16) ((tcpHeader->mDestPort >> 8) | (tcpHeader->mDestPort << 8))) {
             continue;
         }
-        if (b->mUnk_18 != 0 && b->mUnk_18 != (u16) ((d->mUnk_00 >> 8) | (d->mUnk_00 << 8))) {
+        if (socket->mRemotePort != 0 &&
+            socket->mRemotePort != (u16) ((tcpHeader->mSourcePort >> 8) | (tcpHeader->mSourcePort << 8))) {
             continue;
         }
-        if (b->mUnk_1c != 0 && b->mUnk_1c != (u32) (((u16) ((c->mUnk_0c >> 8) | (c->mUnk_0c << 8)) << 16) |
-                                                    (u16) ((c->mUnk_0e >> 8) | (c->mUnk_0e << 8)))) {
+        if (socket->mRemoteIp != 0 &&
+            socket->mRemoteIp !=
+                (u32) (((u16) ((ipHeader->mSourceAddressHigh >> 8) | (ipHeader->mSourceAddressHigh << 8)) << 16) |
+                       (u16) ((ipHeader->mSourceAddressLow >> 8) | (ipHeader->mSourceAddressLow << 8)))) {
             continue;
         }
-        return b;
+        return socket;
     }
     return NULL;
 }
 
-u32 func_ov000_021af0dc(const Unk021ae3f0 *e, const Unk021ae87c *f, const Unk021a998c *g) {
-    u32 a = 0;
-    u32 c = 0;
-    u32 b = 0;
-    u32 d = 0;
+BOOL check_socket(const IpHeader *ipHeader, const TcpHeader *tcpHeader, const Unk021a998c *socket) {
+    u32 matches = 0;
+    u32 remotePortMatches = 0;
+    u32 localPortMatches = 0;
+    u32 isStreamSocket = 0;
 
-    if (g->mState != 0xa && g->mState != 0xb) {
-        d = 1;
+    if (socket->mState != 0xa && socket->mState != 0xb) {
+        isStreamSocket = 1;
     }
-    if (d != 0) {
-        if (g->mUnk_0a == (u16) ((f->mUnk_02 >> 8) | (f->mUnk_02 << 8))) {
-            b = 1;
+    if (isStreamSocket != 0) {
+        if (socket->mLocalPort == (u16) ((tcpHeader->mDestPort >> 8) | (tcpHeader->mDestPort << 8))) {
+            localPortMatches = 1;
         }
     }
-    if (b != 0) {
-        if (g->mUnk_18 == (u16) ((f->mUnk_00 >> 8) | (f->mUnk_00 << 8))) {
-            c = 1;
+    if (localPortMatches != 0) {
+        if (socket->mRemotePort == (u16) ((tcpHeader->mSourcePort >> 8) | (tcpHeader->mSourcePort << 8))) {
+            remotePortMatches = 1;
         }
     }
-    if (c != 0) {
-        if (g->mUnk_1c == (u32) (((u16) ((e->mUnk_0c >> 8) | (e->mUnk_0c << 8)) << 16) |
-                                 (u16) ((e->mUnk_0e >> 8) | (e->mUnk_0e << 8)))) {
-            a = 1;
+    if (remotePortMatches != 0) {
+        if (socket->mRemoteIp ==
+            (u32) (((u16) ((ipHeader->mSourceAddressHigh >> 8) | (ipHeader->mSourceAddressHigh << 8)) << 16) |
+                   (u16) ((ipHeader->mSourceAddressLow >> 8) | (ipHeader->mSourceAddressLow << 8)))) {
+            matches = 1;
         }
     }
-    return a;
+    return matches;
 }
 
-Unk021a998c *func_ov000_021af090(const Unk021ae3f0 *c, const Unk021ae87c *d) {
-    Unk021a998c *b;
-    OSThread *a;
+Unk021a998c *find_socket(const IpHeader *ipHeader, const TcpHeader *tcpHeader) {
+    Unk021a998c *socket;
+    OSThread *thread;
 
-    a = OSi_ThreadInfo.mListHead;
-    while (a != NULL) {
-        b = a->mUnk_a4[0];
-        if (b != NULL && b->mThread != NULL && func_ov000_021af0dc(c, d, b) != 0) {
-            return b;
+    thread = OSi_ThreadInfo.mListHead;
+    while (thread != NULL) {
+        socket = thread->mUnk_a4[0];
+        if (socket != NULL && socket->mThread != NULL && check_socket(ipHeader, tcpHeader, socket) != 0) {
+            return socket;
         }
-        a = a->mNext;
+        thread = thread->mNext;
     }
     return NULL;
 }
 
-void func_ov000_021af030(const Unk021ae87c *f, Unk021a998c *g) {
-    const u8 *a;
-    s32 b;
-    s32 c;
-    s32 e;
-    u8 d;
+void parse_mss(const TcpHeader *tcpHeader, Unk021a998c *socket) {
+    const u8 *options;
+    s32 optionsLength;
+    s32 remaining;
+    s32 skipLength;
+    u8 optionKind;
 
-    g->mUnk_2e = 0x218;
-    b = (f->mUnk_0c & 0xf0) / 4 - 0x14;
-    a = (const u8 *) f + 0x14;
-    c = b - 1;
-    if (b != 0) {
+    socket->mRemoteMss = 0x218;
+    optionsLength = (tcpHeader->mDataOffset & 0xf0) / 4 - 0x14;
+    options = (const u8 *) tcpHeader + 0x14;
+    remaining = optionsLength - 1;
+    if (optionsLength != 0) {
         do {
-            d = *a++;
-            if (d == 0) {
+            optionKind = *options++;
+            if (optionKind == 0) {
                 break;
             }
-            if (d != 1) {
-                if (d == 2) {
-                    g->mUnk_2e = (a[1] << 8) | a[2];
-                    a += 3;
-                    c -= 3;
+            if (optionKind != 1) {
+                if (optionKind == 2) {
+                    socket->mRemoteMss = (options[1] << 8) | options[2];
+                    options += 3;
+                    remaining -= 3;
                 } else {
-                    e = a[0] - 1;
-                    c -= e;
-                    a += e;
+                    skipLength = options[0] - 1;
+                    remaining -= skipLength;
+                    options += skipLength;
                 }
             }
-        } while (c-- != 0);
+        } while (remaining-- != 0);
     }
 }
 
-u32 func_ov000_021af010(u32 b) {
-    u32 a;
+u32 no_need_inq(u32 address) {
+    u32 target;
 
-    a = func_ov000_021b00e0(b);
-    if (a == 0) {
+    target = get_targetip(address);
+    if (target == 0) {
         return 1;
     }
-    return (u32) func_ov000_021afd00(a);
+    return (u32) inq_arpcache(target);
 }
 
-void func_ov000_021aefc0(Unk021a998c *a, u32 b, u16 c) {
-    if (func_ov000_021af010(a->mUnk_1c) != 0 || OSi_ThreadInfo.mCurrentThread != &data_ov000_021b661c) {
-        func_ov000_021af550(NULL, 0, a, b, c);
+void tcp_send_handshake(Unk021a998c *socket, u32 flag, u16 urgent) {
+    if (no_need_inq(socket->mRemoteIp) != 0 || OSi_ThreadInfo.mCurrentThread != &gTcpipThread) {
+        send_tcp(NULL, 0, socket, flag, urgent);
     } else {
-        func_ov000_021afc5c(func_ov000_021b00e0(a->mUnk_1c));
+        send_arprequest(get_targetip(socket->mRemoteIp));
     }
 }
 
-void func_ov000_021aefb4(void *object, u16 value) {
-    func_ov000_021aefc0(object, 16, value);
+void tcp_send_ack(void *socket, u16 urgent) {
+    tcp_send_handshake(socket, 16, urgent);
 }
 
-void func_ov000_021aefa8(void *object, u16 value) {
-    func_ov000_021aefc0(object, 17, value);
+void tcp_send_finack(void *socket, u16 urgent) {
+    tcp_send_handshake(socket, 17, urgent);
 }
 
-void func_ov000_021aeed8(Unk021ae3f0 *param_1, Unk021ae87c *param_2, u32 param_3, u16 param_4) {
-    Unk021a998c *p;
+void tcp_send_rst(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length, u16 urgent) {
+    Unk021a998c *socket;
 
-    p = &data_ov000_021b64f8;
-    MI_CpuFill8(p, 0, 0x64);
-    p->mUnk_0a = (param_2->mUnk_02 >> 8) | (param_2->mUnk_02 << 8);
-    p->mUnk_18 = (param_2->mUnk_00 >> 8) | (param_2->mUnk_00 << 8);
-    p->mUnk_1c = ((u16) ((param_1->mUnk_0c >> 8) | (param_1->mUnk_0c << 8)) << 16) |
-                 (u16) ((param_1->mUnk_0e >> 8) | (param_1->mUnk_0e << 8));
-    if ((param_2->mUnk_0d & 0x10) != 0) {
-        p->mUnk_28 = ((u16) ((param_2->mUnk_08 >> 8) | (param_2->mUnk_08 << 8)) << 16) |
-                     (u16) ((param_2->mUnk_0a >> 8) | (param_2->mUnk_0a << 8));
-        func_ov000_021aefc0(p, 4, param_4);
+    socket = &gTmpSoc;
+    MI_CpuFill8(socket, 0, 0x64);
+    socket->mLocalPort = (tcpHeader->mDestPort >> 8) | (tcpHeader->mDestPort << 8);
+    socket->mRemotePort = (tcpHeader->mSourcePort >> 8) | (tcpHeader->mSourcePort << 8);
+    socket->mRemoteIp = ((u16) ((ipHeader->mSourceAddressHigh >> 8) | (ipHeader->mSourceAddressHigh << 8)) << 16) |
+                        (u16) ((ipHeader->mSourceAddressLow >> 8) | (ipHeader->mSourceAddressLow << 8));
+    if ((tcpHeader->mFlags & 0x10) != 0) {
+        socket->mSeqNo = ((u16) ((tcpHeader->mAckNoHigh >> 8) | (tcpHeader->mAckNoHigh << 8)) << 16) |
+                         (u16) ((tcpHeader->mAckNoLow >> 8) | (tcpHeader->mAckNoLow << 8));
+        tcp_send_handshake(socket, 4, urgent);
         return;
     }
-    p->mUnk_28 = 0;
-    p->mUnk_24 = param_3 + (u32) (((u16) ((param_2->mUnk_04 >> 8) | (param_2->mUnk_04 << 8)) << 16) |
-                                  (u16) ((param_2->mUnk_06 >> 8) | (param_2->mUnk_06 << 8)));
-    if ((param_2->mUnk_0d & 3) != 0) {
-        p->mUnk_24++;
+    socket->mSeqNo = 0;
+    socket->mAckNo = length + (u32) (((u16) ((tcpHeader->mSeqNoHigh >> 8) | (tcpHeader->mSeqNoHigh << 8)) << 16) |
+                                     (u16) ((tcpHeader->mSeqNoLow >> 8) | (tcpHeader->mSeqNoLow << 8)));
+    if ((tcpHeader->mFlags & 3) != 0) {
+        socket->mAckNo++;
     }
-    func_ov000_021aefc0(p, 0x14, param_4);
+    tcp_send_handshake(socket, 0x14, urgent);
 }
 
-void func_ov000_021aee38(Unk021ae3f0 *param_1, Unk021ae87c *param_2, Unk021a998c *param_3) {
-    param_3->mState = 3;
-    param_3->mStateStartTime = OS_GetTick() >> 16;
-    param_3->mUnk_14 = ((u16) ((param_1->mUnk_10 >> 8) | (param_1->mUnk_10 << 8)) << 16) |
-                       (u16) ((param_1->mUnk_12 >> 8) | (param_1->mUnk_12 << 8));
-    param_3->mUnk_18 = (param_2->mUnk_00 >> 8) | (param_2->mUnk_00 << 8);
-    param_3->mUnk_1c = ((u16) ((param_1->mUnk_0c >> 8) | (param_1->mUnk_0c << 8)) << 16) |
-                       (u16) ((param_1->mUnk_0e >> 8) | (param_1->mUnk_0e << 8));
-    param_3->mUnk_24 = (u32) (((u16) ((param_2->mUnk_04 >> 8) | (param_2->mUnk_04 << 8)) << 16) |
-                              (u16) ((param_2->mUnk_06 >> 8) | (param_2->mUnk_06 << 8))) +
-                       1;
-    func_ov000_021af030(param_2, param_3);
-    func_ov000_021aefc0(param_3, 0x12, (param_1->mUnk_05 << 8) + 1);
+void dt_syn_listen(IpHeader *ipHeader, TcpHeader *tcpHeader, Unk021a998c *socket) {
+    socket->mState = 3;
+    socket->mStateStartTime = OS_GetTick() >> 16;
+    socket->mLocalIpReal = ((u16) ((ipHeader->mDestAddressHigh >> 8) | (ipHeader->mDestAddressHigh << 8)) << 16) |
+                           (u16) ((ipHeader->mDestAddressLow >> 8) | (ipHeader->mDestAddressLow << 8));
+    socket->mRemotePort = (tcpHeader->mSourcePort >> 8) | (tcpHeader->mSourcePort << 8);
+    socket->mRemoteIp = ((u16) ((ipHeader->mSourceAddressHigh >> 8) | (ipHeader->mSourceAddressHigh << 8)) << 16) |
+                        (u16) ((ipHeader->mSourceAddressLow >> 8) | (ipHeader->mSourceAddressLow << 8));
+    socket->mAckNo = (u32) (((u16) ((tcpHeader->mSeqNoHigh >> 8) | (tcpHeader->mSeqNoHigh << 8)) << 16) |
+                            (u16) ((tcpHeader->mSeqNoLow >> 8) | (tcpHeader->mSeqNoLow << 8))) +
+                     1;
+    parse_mss(tcpHeader, socket);
+    tcp_send_handshake(socket, 0x12, (ipHeader->mUnk_05 << 8) + 1);
 }
 
-u32 func_ov000_021aedd8(Unk021ae3f0 *param_1, Unk021ae87c *param_2, u32 param_3) {
-    Unk021a998c *a;
+BOOL find_specific_socket(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
+    Unk021a998c *socket;
 
-    a = func_ov000_021af090(param_1, param_2);
-    if (a != NULL) {
-        if (a->mState == 1) {
-            func_ov000_021aee38(param_1, param_2, a);
-        } else if (a->mState == 3 || a->mState == 4) {
-            a->mUnk_28--;
-            func_ov000_021aee38(param_1, param_2, a);
+    socket = find_socket(ipHeader, tcpHeader);
+    if (socket != NULL) {
+        if (socket->mState == 1) {
+            dt_syn_listen(ipHeader, tcpHeader, socket);
+        } else if (socket->mState == 3 || socket->mState == 4) {
+            socket->mSeqNo--;
+            dt_syn_listen(ipHeader, tcpHeader, socket);
         } else {
-            func_ov000_021aeed8(param_1, param_2, param_3, (param_1->mUnk_05 << 8) + 3);
+            tcp_send_rst(ipHeader, tcpHeader, length, (ipHeader->mUnk_05 << 8) + 3);
         }
         return 1;
     }
     return 0;
 }
 
-void func_ov000_021aed3c(Unk021ae3f0 *param_1, Unk021ae87c *param_2, u32 param_3) {
-    Unk021a998c *a;
+void dt_syn(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
+    Unk021a998c *socket;
 
-    if (func_ov000_021af284((u32) (((u16) ((param_1->mUnk_0c >> 8) | (param_1->mUnk_0c << 8)) << 16) |
-                                   (u16) ((param_1->mUnk_0e >> 8) | (param_1->mUnk_0e << 8))),
-                            (u32) (((u16) ((param_1->mUnk_10 >> 8) | (param_1->mUnk_10 << 8)) << 16) |
-                                   (u16) ((param_1->mUnk_12 >> 8) | (param_1->mUnk_12 << 8)))) != 0) {
-        if (func_ov000_021aedd8(param_1, param_2, param_3) == 0) {
-            a = func_ov000_021af15c(param_1, param_2);
-            if (a != NULL) {
-                func_ov000_021aee38(param_1, param_2, a);
+    if (valid_IP((u32) (((u16) ((ipHeader->mSourceAddressHigh >> 8) | (ipHeader->mSourceAddressHigh << 8)) << 16) |
+                        (u16) ((ipHeader->mSourceAddressLow >> 8) | (ipHeader->mSourceAddressLow << 8))),
+                 (u32) (((u16) ((ipHeader->mDestAddressHigh >> 8) | (ipHeader->mDestAddressHigh << 8)) << 16) |
+                        (u16) ((ipHeader->mDestAddressLow >> 8) | (ipHeader->mDestAddressLow << 8)))) != 0) {
+        if (find_specific_socket(ipHeader, tcpHeader, length) == 0) {
+            socket = check_listener(ipHeader, tcpHeader);
+            if (socket != NULL) {
+                dt_syn_listen(ipHeader, tcpHeader, socket);
                 return;
             }
             OS_YieldThread();
-            a = func_ov000_021af15c(param_1, param_2);
-            if (a != NULL) {
-                func_ov000_021aee38(param_1, param_2, a);
+            socket = check_listener(ipHeader, tcpHeader);
+            if (socket != NULL) {
+                dt_syn_listen(ipHeader, tcpHeader, socket);
             }
         }
     }
 }
 
-void func_ov000_021aec84(Unk021ae3f0 *param_1, Unk021ae87c *param_2, u32 param_3) {
-    Unk021a998c *a;
+void dt_synack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
+    Unk021a998c *socket;
 
-    a = func_ov000_021af090(param_1, param_2);
-    if (a == NULL || a->mState != 2) {
-        func_ov000_021aeed8(param_1, param_2, param_3, (param_1->mUnk_05 << 8) + 5);
+    socket = find_socket(ipHeader, tcpHeader);
+    if (socket == NULL || socket->mState != 2) {
+        tcp_send_rst(ipHeader, tcpHeader, length, (ipHeader->mUnk_05 << 8) + 5);
         return;
     }
     OS_YieldThread();
-    a->mUnk_24 = (u32) (((u16) ((param_2->mUnk_04 >> 8) | (param_2->mUnk_04 << 8)) << 16) |
-                        (u16) ((param_2->mUnk_06 >> 8) | (param_2->mUnk_06 << 8))) +
-                 1;
-    a->mUnk_30 = ((u16) ((param_2->mUnk_08 >> 8) | (param_2->mUnk_08 << 8)) << 16) |
-                 (u16) ((param_2->mUnk_0a >> 8) | (param_2->mUnk_0a << 8));
-    a->mUnk_2c = (param_2->mUnk_0e >> 8) | (param_2->mUnk_0e << 8);
-    func_ov000_021af030(param_2, a);
-    func_ov000_021aefb4(a, (param_1->mUnk_05 << 8) + 6);
-    a->mState = 4;
-    if (a->mUnk_04 == 1) {
-        a->mUnk_04 = 0;
-        OS_WakeupThreadDirect(a->mThread);
+    socket->mAckNo = (u32) (((u16) ((tcpHeader->mSeqNoHigh >> 8) | (tcpHeader->mSeqNoHigh << 8)) << 16) |
+                            (u16) ((tcpHeader->mSeqNoLow >> 8) | (tcpHeader->mSeqNoLow << 8))) +
+                     1;
+    socket->mRemoteAckNo = ((u16) ((tcpHeader->mAckNoHigh >> 8) | (tcpHeader->mAckNoHigh << 8)) << 16) |
+                           (u16) ((tcpHeader->mAckNoLow >> 8) | (tcpHeader->mAckNoLow << 8));
+    socket->mRemoteWin = (tcpHeader->mWindow >> 8) | (tcpHeader->mWindow << 8);
+    parse_mss(tcpHeader, socket);
+    tcp_send_ack(socket, (ipHeader->mUnk_05 << 8) + 6);
+    socket->mState = 4;
+    if (socket->mBlockType == 1) {
+        socket->mBlockType = 0;
+        OS_WakeupThreadDirect(socket->mThread);
     }
 }
 
-void func_ov000_021aea34(Unk021ae3f0 *param_1, Unk021ae87c *param_2, u32 param_3) {
-    Unk021a998c *a;
-    u32 b;
+void dt_ack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
+    Unk021a998c *socket;
+    u32 flags;
     u32 c;
-    s32 d;
-    s32 e;
-    u32 f;
-    u32 g;
+    s32 ackNoLow;
+    s32 seqNoLow;
+    u32 freeSpace;
+    u32 interruptState;
 
-    a = func_ov000_021af090(param_1, param_2);
-    if (a == NULL) {
-        func_ov000_021aeed8(param_1, param_2, param_3, (param_1->mUnk_05 << 8) + 9);
+    socket = find_socket(ipHeader, tcpHeader);
+    if (socket == NULL) {
+        tcp_send_rst(ipHeader, tcpHeader, length, (ipHeader->mUnk_05 << 8) + 9);
         return;
     }
-    b = param_2->mUnk_0d;
-    d = param_2->mUnk_0a;
-    a->mUnk_30 = ((u16) ((param_2->mUnk_08 >> 8) | (param_2->mUnk_08 << 8)) << 16) | (u16) ((d >> 8) | (d << 8));
-    e = param_2->mUnk_06;
-    c = ((u16) ((param_2->mUnk_04 >> 8) | (param_2->mUnk_04 << 8)) << 16) | (u16) ((e >> 8) | (e << 8));
-    if (a->mState == 4 && a->mUnk_24 != c) {
-        func_ov000_021aefb4(a, (param_1->mUnk_05 << 8) + 0xa);
+    flags = tcpHeader->mFlags;
+    ackNoLow = tcpHeader->mAckNoLow;
+    socket->mRemoteAckNo = ((u16) ((tcpHeader->mAckNoHigh >> 8) | (tcpHeader->mAckNoHigh << 8)) << 16) |
+                           (u16) ((ackNoLow >> 8) | (ackNoLow << 8));
+    seqNoLow = tcpHeader->mSeqNoLow;
+    c = ((u16) ((tcpHeader->mSeqNoHigh >> 8) | (tcpHeader->mSeqNoHigh << 8)) << 16) |
+        (u16) ((seqNoLow >> 8) | (seqNoLow << 8));
+    if (socket->mState == 4 && socket->mAckNo != c) {
+        tcp_send_ack(socket, (ipHeader->mUnk_05 << 8) + 0xa);
         return;
     }
-    a->mUnk_2c = (param_2->mUnk_0e >> 8) | (param_2->mUnk_0e << 8);
-    switch (a->mState) {
+    socket->mRemoteWin = (tcpHeader->mWindow >> 8) | (tcpHeader->mWindow << 8);
+    switch (socket->mState) {
         case 0:
         case 2:
-            func_ov000_021aeed8(param_1, param_2, param_3, (param_1->mUnk_05 << 8) + 0x63);
+            tcp_send_rst(ipHeader, tcpHeader, length, (ipHeader->mUnk_05 << 8) + 0x63);
             break;
         case 3:
-            a->mState = 4;
-            if (a->mUnk_04 == 1) {
-                a->mUnk_04 = 0;
-                OS_WakeupThreadDirect(a->mThread);
+            socket->mState = 4;
+            if (socket->mBlockType == 1) {
+                socket->mBlockType = 0;
+                OS_WakeupThreadDirect(socket->mThread);
             }
-            if (param_3 == 0) {
+            if (length == 0) {
                 break;
             }
         case 4:
-            a->mUnk_34++;
-            f = a->mReceiveBufferSize - a->mReceiveBufferLength;
-            if (param_3 > f) {
-                param_3 = f;
+            socket->mAckRcvd++;
+            freeSpace = socket->mReceiveBufferSize - socket->mReceiveBufferLength;
+            if (length > freeSpace) {
+                length = freeSpace;
                 c = 0;
             } else {
                 c = 1;
             }
-            if (param_3 != 0) {
-                g = OS_DisableInterrupts();
-                MI_CpuCopy8((u8 *) param_2 + (param_2->mUnk_0c & 0xf0) / 4,
-                            (u8 *) a->mReceiveBuffer + a->mReceiveBufferLength, param_3);
-                a->mReceiveBufferLength += param_3;
-                a->mUnk_24 += param_3;
-                OS_RestoreInterrupts(g);
-                if (a->mUnk_04 == 2) {
-                    a->mUnk_04 = 0;
-                    OS_WakeupThreadDirect(a->mThread);
+            if (length != 0) {
+                interruptState = OS_DisableInterrupts();
+                MI_CpuCopy8((u8 *) tcpHeader + (tcpHeader->mDataOffset & 0xf0) / 4,
+                            (u8 *) socket->mReceiveBuffer + socket->mReceiveBufferLength, length);
+                socket->mReceiveBufferLength += length;
+                socket->mAckNo += length;
+                OS_RestoreInterrupts(interruptState);
+                if (socket->mBlockType == 2) {
+                    socket->mBlockType = 0;
+                    OS_WakeupThreadDirect(socket->mThread);
                 }
             }
-            if (c != 0 && (b & 1) != 0) {
-                a->mState = 6;
-                a->mUnk_24++;
-                func_ov000_021aefa8(a, (param_1->mUnk_05 << 8) + 0xb);
-                if (param_3 == 0 && a->mUnk_04 == 2) {
-                    a->mUnk_04 = 0;
-                    OS_WakeupThreadDirect(a->mThread);
+            if (c != 0 && (flags & 1) != 0) {
+                socket->mState = 6;
+                socket->mAckNo++;
+                tcp_send_finack(socket, (ipHeader->mUnk_05 << 8) + 0xb);
+                if (length == 0 && socket->mBlockType == 2) {
+                    socket->mBlockType = 0;
+                    OS_WakeupThreadDirect(socket->mThread);
                 }
                 break;
             }
-            if (param_3 != 0) {
-                func_ov000_021aefb4(a, (param_1->mUnk_05 << 8) + 0xc);
+            if (length != 0) {
+                tcp_send_ack(socket, (ipHeader->mUnk_05 << 8) + 0xc);
             }
             break;
         case 7:
         case 8:
-            if ((b & 1) != 0) {
-                a->mUnk_24 = a->mUnk_24 + (param_3 + 1);
-                func_ov000_021aefb4(a, (param_1->mUnk_05 << 8) + 0xd);
-                a->mState = 0;
-                if (a->mUnk_04 == 2) {
-                    a->mUnk_04 = 0;
-                    OS_WakeupThreadDirect(a->mThread);
+            if ((flags & 1) != 0) {
+                socket->mAckNo = socket->mAckNo + (length + 1);
+                tcp_send_ack(socket, (ipHeader->mUnk_05 << 8) + 0xd);
+                socket->mState = 0;
+                if (socket->mBlockType == 2) {
+                    socket->mBlockType = 0;
+                    OS_WakeupThreadDirect(socket->mThread);
                 }
                 break;
             }
-            if (param_3 != 0) {
-                a->mUnk_24 += param_3;
-                func_ov000_021aefb4(a, (param_1->mUnk_05 << 8) + 0xe);
+            if (length != 0) {
+                socket->mAckNo += length;
+                tcp_send_ack(socket, (ipHeader->mUnk_05 << 8) + 0xe);
             }
-            a->mState = 8;
+            socket->mState = 8;
             break;
         case 6:
         case 9:
-            a->mState = 0;
-            if (a->mUnk_04 == 2) {
-                a->mUnk_04 = 0;
-                OS_WakeupThreadDirect(a->mThread);
+            socket->mState = 0;
+            if (socket->mBlockType == 2) {
+                socket->mBlockType = 0;
+                OS_WakeupThreadDirect(socket->mThread);
             }
             break;
         default:
-            if ((b & 1) != 0) {
-                a->mUnk_24++;
+            if ((flags & 1) != 0) {
+                socket->mAckNo++;
             }
-            func_ov000_021aefb4(a, (param_1->mUnk_05 << 8) + 0x12);
+            tcp_send_ack(socket, (ipHeader->mUnk_05 << 8) + 0x12);
             break;
     }
     OS_YieldThread();
 }
 
-void func_ov000_021ae984(Unk021ae3f0 *param_1, Unk021ae87c *param_2, u32 param_3) {
-    Unk021a998c *a;
+void dt_fin(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
+    Unk021a998c *socket;
 
-    a = func_ov000_021af090(param_1, param_2);
-    if (a == NULL) {
+    socket = find_socket(ipHeader, tcpHeader);
+    if (socket == NULL) {
         return;
     }
-    switch (a->mState) {
+    switch (socket->mState) {
         case 7:
-            a->mUnk_24++;
-            func_ov000_021aefb4(a, (param_1->mUnk_05 << 8) + 0x13);
-            a->mState = 9;
+            socket->mAckNo++;
+            tcp_send_ack(socket, (ipHeader->mUnk_05 << 8) + 0x13);
+            socket->mState = 9;
             return;
         case 8:
-            a->mUnk_24++;
-            func_ov000_021aefb4(a, (param_1->mUnk_05 << 8) + 0x14);
-            a->mState = 0;
-            if (a->mUnk_04 == 2) {
-                a->mUnk_04 = 0;
-                OS_WakeupThreadDirect(a->mThread);
+            socket->mAckNo++;
+            tcp_send_ack(socket, (ipHeader->mUnk_05 << 8) + 0x14);
+            socket->mState = 0;
+            if (socket->mBlockType == 2) {
+                socket->mBlockType = 0;
+                OS_WakeupThreadDirect(socket->mThread);
                 return;
             }
             return;
         case 4:
-            a->mUnk_24++;
-            func_ov000_021aefa8(a, (param_1->mUnk_05 << 8) + 0x15);
-            a->mState = 6;
+            socket->mAckNo++;
+            tcp_send_finack(socket, (ipHeader->mUnk_05 << 8) + 0x15);
+            socket->mState = 6;
             return;
         default:
-            func_ov000_021aeed8(param_1, param_2, param_3, (param_1->mUnk_05 << 8) + 0x16);
+            tcp_send_rst(ipHeader, tcpHeader, length, (ipHeader->mUnk_05 << 8) + 0x16);
             return;
     }
 }
 
-void func_ov000_021ae958(const Unk021ae3f0 *a, const Unk021ae87c *b) {
-    Unk021a998c *p;
+void dt_rst(const IpHeader *ipHeader, const TcpHeader *tcpHeader) {
+    Unk021a998c *socket;
 
-    p = func_ov000_021af090(a, b);
-    if (p != NULL) {
+    socket = find_socket(ipHeader, tcpHeader);
+    if (socket != NULL) {
         OS_YieldThread();
-        p->mState = 0;
-        if (p->mUnk_04 - 1 <= 1) {
-            p->mUnk_04 = 0;
-            OS_WakeupThreadDirect(p->mThread);
+        socket->mState = 0;
+        if (socket->mBlockType - 1 <= 1) {
+            socket->mBlockType = 0;
+            OS_WakeupThreadDirect(socket->mThread);
         }
     }
 }
 
-void func_ov000_021ae87c(Unk021ae3f0 *a, Unk021ae87c *b, u32 c) {
-    if (func_ov000_021b0138(b, c, (const Unk021b0138 *) a, 6) != FALSE) {
+void dispatch_tcp(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
+    if (check_tcpudpsum(tcpHeader, length, (const Unk021b0138 *) ipHeader, 6) != FALSE) {
         return;
     }
-    c -= (b->mUnk_0c & 0xf0) / 4;
-    switch (b->mUnk_0d & 0x17) {
+    length -= (tcpHeader->mDataOffset & 0xf0) / 4;
+    switch (tcpHeader->mFlags & 0x17) {
         case 2:
-            if (b->mUnk_0d & 0x28) {
+            if (tcpHeader->mFlags & 0x28) {
                 return;
             }
-            func_ov000_021aed3c(a, b, c);
+            dt_syn(ipHeader, tcpHeader, length);
             return;
         case 0x12:
-            if (b->mUnk_0d & 0x28) {
+            if (tcpHeader->mFlags & 0x28) {
                 return;
             }
-            func_ov000_021aec84(a, b, c);
+            dt_synack(ipHeader, tcpHeader, length);
             return;
         case 0x10:
         case 0x11:
-            func_ov000_021aea34(a, b, c);
+            dt_ack(ipHeader, tcpHeader, length);
             return;
         case 1:
-            func_ov000_021ae984(a, b, c);
+            dt_fin(ipHeader, tcpHeader, length);
             return;
         default:
-            if (b->mUnk_0d & 4) {
-                func_ov000_021ae958(a, b);
+            if (tcpHeader->mFlags & 4) {
+                dt_rst(ipHeader, tcpHeader);
                 return;
             }
-            func_ov000_021aeed8(a, b, c, (a->mUnk_05 << 8) + 0x17);
+            tcp_send_rst(ipHeader, tcpHeader, length, (ipHeader->mUnk_05 << 8) + 0x17);
             return;
     }
 }
 
-void func_ov000_021ae724(Unk021ae3f0 *a, Unk021ae724 *b, u32 c) {
-    OSThread *t;
-    Unk021a998c *s;
+void dispatch_udp(IpHeader *ipHeader, UdpHeader *udpHeader, u32 length) {
+    OSThread *thread;
+    Unk021a998c *socket;
 
-    if (b->mUnk_06 != 0 && func_ov000_021b0138(b, c, (const Unk021b0138 *) a, 0x11) != FALSE) {
+    if (udpHeader->mChecksum != 0 &&
+        check_tcpudpsum(udpHeader, length, (const Unk021b0138 *) ipHeader, 0x11) != FALSE) {
         return;
     }
-    for (t = OSi_ThreadInfo.mListHead; t != NULL; t = t->mNext) {
-        s = t->mUnk_a4[0];
-        if (s == NULL || s->mThread == NULL || s->mState != 0xa ||
-            s->mUnk_0a != (u16) ((b->mUnk_02 >> 8) | (b->mUnk_02 << 8))) {
+    for (thread = OSi_ThreadInfo.mListHead; thread != NULL; thread = thread->mNext) {
+        socket = thread->mUnk_a4[0];
+        if (socket == NULL || socket->mThread == NULL || socket->mState != 0xa ||
+            socket->mLocalPort != (u16) ((udpHeader->mDestPort >> 8) | (udpHeader->mDestPort << 8))) {
             continue;
         }
-        if (s->mUnk_18 != 0 && s->mUnk_18 != (u16) ((b->mUnk_00 >> 8) | (b->mUnk_00 << 8))) {
+        if (socket->mRemotePort != 0 &&
+            socket->mRemotePort != (u16) ((udpHeader->mSourcePort >> 8) | (udpHeader->mSourcePort << 8))) {
             continue;
         }
-        if (s->mUnk_1c != 0 && s->mUnk_1c != 0xffffffff &&
-            s->mUnk_1c != (u32) (((u16) ((a->mUnk_0c >> 8) | (a->mUnk_0c << 8)) << 16) |
-                                 (u16) ((a->mUnk_0e >> 8) | (a->mUnk_0e << 8)))) {
+        if (socket->mRemoteIp != 0 && socket->mRemoteIp != 0xffffffff &&
+            socket->mRemoteIp !=
+                (u32) (((u16) ((ipHeader->mSourceAddressHigh >> 8) | (ipHeader->mSourceAddressHigh << 8)) << 16) |
+                       (u16) ((ipHeader->mSourceAddressLow >> 8) | (ipHeader->mSourceAddressLow << 8)))) {
             continue;
         }
-        s->mUnk_14 =
-            ((u16) ((a->mUnk_10 >> 8) | (a->mUnk_10 << 8)) << 16) | (u16) ((a->mUnk_12 >> 8) | (a->mUnk_12 << 8));
-        if (s->mUnk_1c == 0) {
-            s->mUnk_1c =
-                ((u16) ((a->mUnk_0c >> 8) | (a->mUnk_0c << 8)) << 16) | (u16) ((a->mUnk_0e >> 8) | (a->mUnk_0e << 8));
-            s->mUnk_18 = (b->mUnk_00 >> 8) | (b->mUnk_00 << 8);
+        socket->mLocalIpReal = ((u16) ((ipHeader->mDestAddressHigh >> 8) | (ipHeader->mDestAddressHigh << 8)) << 16) |
+                               (u16) ((ipHeader->mDestAddressLow >> 8) | (ipHeader->mDestAddressLow << 8));
+        if (socket->mRemoteIp == 0) {
+            socket->mRemoteIp =
+                ((u16) ((ipHeader->mSourceAddressHigh >> 8) | (ipHeader->mSourceAddressHigh << 8)) << 16) |
+                (u16) ((ipHeader->mSourceAddressLow >> 8) | (ipHeader->mSourceAddressLow << 8));
+            socket->mRemotePort = (udpHeader->mSourcePort >> 8) | (udpHeader->mSourcePort << 8);
         }
-        if (s->mReceiveBufferLength != 0) {
+        if (socket->mReceiveBufferLength != 0) {
             return;
         }
-        c -= 8;
-        if (c > s->mReceiveBufferSize) {
-            s->mReceiveBufferLength = s->mReceiveBufferSize;
+        length -= 8;
+        if (length > socket->mReceiveBufferSize) {
+            socket->mReceiveBufferLength = socket->mReceiveBufferSize;
         } else {
-            s->mReceiveBufferLength = c;
+            socket->mReceiveBufferLength = length;
         }
-        MI_CpuCopy8((u8 *) b + 8, s->mReceiveBuffer, s->mReceiveBufferLength);
-        if (s->mUnk_04 == 3) {
-            s->mUnk_04 = 0;
-            OS_WakeupThreadDirect(s->mThread);
+        MI_CpuCopy8((u8 *) udpHeader + 8, socket->mReceiveBuffer, socket->mReceiveBufferLength);
+        if (socket->mBlockType == 3) {
+            socket->mBlockType = 0;
+            OS_WakeupThreadDirect(socket->mThread);
             return;
         }
-        if (s->mReceiveCallback != NULL && s->mReceiveCallback(s->mReceiveBuffer, s->mReceiveBufferLength, s) != 0) {
-            s->mReceiveBufferLength = 0;
+        if (socket->mReceiveCallback != NULL &&
+            socket->mReceiveCallback(socket->mReceiveBuffer, socket->mReceiveBufferLength, socket) != 0) {
+            socket->mReceiveBufferLength = 0;
         }
         return;
     }
 }
 
-Unk021ae3f0 *func_ov000_021ae51c(Unk021ae3f0 *r, u32 *s) {
+IpHeader *check_frag(IpHeader *packet, u32 *fragmented) {
     u32 a;
-    u32 d;
-    u32 e;
-    u32 b;
-    u32 g;
-    u32 f;
-    u32 c;
-    u32 h;
-    u32 q;
-    u32 j;
-    Unk021b69dc *l;
-    Unk021b69dc *k;
-    u16 m;
-    u32 n;
-    u32 o;
-    u32 i;
+    u32 fragmentBytes;
+    u32 fragOffset;
+    u32 headerLength;
+    u32 size;
+    u32 byteOffset;
+    u32 sourceAddress;
+    u32 fragEnd;
+    u32 fragCount;
+    u32 last;
+    CPSFragTable *freeSlot;
+    CPSFragTable *slot;
+    u16 identifier;
+    u32 slotIndex;
+    u32 rangeIndex;
+    u32 coveredUpTo;
 
-    *s = 0;
-    a = (u16) ((r->mUnk_06 >> 8) | (r->mUnk_06 << 8));
+    *fragmented = 0;
+    a = (u16) ((packet->mFragOffset >> 8) | (packet->mFragOffset << 8));
     if ((a & 0x3fff) == 0) {
-        return r;
+        return packet;
     }
-    b = (r->mUnk_00 & 0xf) << 2;
-    m = *(u16 *) &r->mUnk_04;
-    c = ((u16) ((r->mUnk_0c >> 8) | (r->mUnk_0c << 8)) << 16) | (u16) ((r->mUnk_0e >> 8) | (r->mUnk_0e << 8));
-    l = NULL;
-    k = data_ov000_021b69dc;
-    for (n = 0; n < 8; k++, n++) {
-        if (k->mUnk_04 != 0 && k->mUnk_00 == c && k->mUnk_06 == m) {
+    headerLength = (packet->mVersionIhl & 0xf) << 2;
+    identifier = *(u16 *) &packet->mUnk_04;
+    sourceAddress = ((u16) ((packet->mSourceAddressHigh >> 8) | (packet->mSourceAddressHigh << 8)) << 16) |
+                    (u16) ((packet->mSourceAddressLow >> 8) | (packet->mSourceAddressLow << 8));
+    freeSlot = NULL;
+    slot = gFragTable;
+    for (slotIndex = 0; slotIndex < 8; slot++, slotIndex++) {
+        if (slot->mFrags != 0 && slot->mIpFrom == sourceAddress && slot->mId == identifier) {
             break;
         }
-        if (k->mUnk_04 == 0 && l == NULL) {
-            l = k;
+        if (slot->mFrags == 0 && freeSlot == NULL) {
+            freeSlot = slot;
         }
     }
-    d = (u16) ((r->mUnk_02 >> 8) | (r->mUnk_02 << 8)) - b;
-    e = a & 0x1fff;
-    f = e << 3;
-    g = d + f;
-    if (n == 8) {
-        if (l == NULL || g > 0x1000) {
+    fragmentBytes = (u16) ((packet->mTotalLength >> 8) | (packet->mTotalLength << 8)) - headerLength;
+    fragOffset = a & 0x1fff;
+    byteOffset = fragOffset << 3;
+    size = fragmentBytes + byteOffset;
+    if (slotIndex == 8) {
+        if (freeSlot == NULL || size > 0x1000) {
             return NULL;
         }
-        k = l;
-        l->mUnk_34 = CPSiAlloc(b + 0x100e);
-        if (l->mUnk_34 == NULL) {
+        slot = freeSlot;
+        freeSlot->mBuf = CPSiAlloc(headerLength + 0x100e);
+        if (freeSlot->mBuf == NULL) {
             return NULL;
         }
-        l->mUnk_00 = c;
-        l->mUnk_06 = m;
-        l->mUnk_08 = 0;
-        l->mUnk_2c = OS_GetTick() >> 16;
-        l->mUnk_30 = l->mUnk_34 + 0xe + b;
-        MI_CpuCopy8(r, l->mUnk_34 + 0xe, b);
+        freeSlot->mIpFrom = sourceAddress;
+        freeSlot->mId = identifier;
+        freeSlot->mLast = 0;
+        freeSlot->mWhen = OS_GetTick() >> 16;
+        freeSlot->mOfs0 = freeSlot->mBuf + 0xe + headerLength;
+        MI_CpuCopy8(packet, freeSlot->mBuf + 0xe, headerLength);
     }
-    if (k->mUnk_04 == 8 || g > 0x1000) {
-        k->mUnk_04 = 0;
-        CPSiFree(k->mUnk_34);
+    if (slot->mFrags == 8 || size > 0x1000) {
+        slot->mFrags = 0;
+        CPSiFree(slot->mBuf);
         return NULL;
     }
-    h = e + ((d + 7) >> 3);
+    fragEnd = fragOffset + ((fragmentBytes + 7) >> 3);
     a = a & 0x2000;
     if (a == 0) {
-        k->mUnk_0a = g;
-        k->mUnk_08 = h;
+        slot->mSize = size;
+        slot->mLast = fragEnd;
     }
-    k->mUnk_0c[k->mUnk_04] = e;
-    k->mUnk_1c[k->mUnk_04] = h;
-    k->mUnk_04++;
-    MI_CpuCopy8((u8 *) r + b, k->mUnk_30 + f, d);
-    j = k->mUnk_08;
-    if (j == 0) {
+    slot->mFrom[slot->mFrags] = fragOffset;
+    slot->mTo[slot->mFrags] = fragEnd;
+    slot->mFrags++;
+    MI_CpuCopy8((u8 *) packet + headerLength, slot->mOfs0 + byteOffset, fragmentBytes);
+    last = slot->mLast;
+    if (last == 0) {
         return NULL;
     }
-    i = 0;
-    o = 0;
-    q = k->mUnk_04;
-    while (o < q) {
-        if (k->mUnk_0c[o] <= i && i < k->mUnk_1c[o]) {
-            i = k->mUnk_1c[o];
-            o = 0;
+    coveredUpTo = 0;
+    rangeIndex = 0;
+    fragCount = slot->mFrags;
+    while (rangeIndex < fragCount) {
+        if (slot->mFrom[rangeIndex] <= coveredUpTo && coveredUpTo < slot->mTo[rangeIndex]) {
+            coveredUpTo = slot->mTo[rangeIndex];
+            rangeIndex = 0;
         } else {
-            o++;
+            rangeIndex++;
         }
     }
-    if (i < j) {
+    if (coveredUpTo < last) {
         return NULL;
     }
     {
-        Unk021ae3f0 *p = (Unk021ae3f0 *) (k->mUnk_34 + 0xe);
+        IpHeader *rebuilt = (IpHeader *) (slot->mBuf + 0xe);
 
-        p->mUnk_02 = ((u16) (k->mUnk_0a + ((p->mUnk_00 & 0xf) << 2)) >> 8) |
-                     ((u16) (k->mUnk_0a + ((p->mUnk_00 & 0xf) << 2)) << 8);
-        k->mUnk_04 = 0;
-        *s = 1;
-        return p;
+        rebuilt->mTotalLength = ((u16) (slot->mSize + ((rebuilt->mVersionIhl & 0xf) << 2)) >> 8) |
+                                ((u16) (slot->mSize + ((rebuilt->mVersionIhl & 0xf) << 2)) << 8);
+        slot->mFrags = 0;
+        *fragmented = 1;
+        return rebuilt;
     }
 }
 
-void func_ov000_021ae3f0(Unk021ae3f0 *a, u32 f) {
-    u32 b;
+void dispatch_ip(IpHeader *packet, u32 length) {
+    u32 wasReassembled;
 
-    if ((u32) (((u16) ((a->mUnk_10 >> 8) | (a->mUnk_10 << 8)) << 16) | (u16) ((a->mUnk_12 >> 8) | (a->mUnk_12 << 8))) !=
-        (u32) (((u16) ((a->mUnk_0c >> 8) | (a->mUnk_0c << 8)) << 16) | (u16) ((a->mUnk_0e >> 8) | (a->mUnk_0e << 8)))) {
-        if (func_ov000_021b003c(((u16) ((a->mUnk_10 >> 8) | (a->mUnk_10 << 8)) << 16) |
-                                (u16) ((a->mUnk_12 >> 8) | (a->mUnk_12 << 8))) == FALSE) {
+    if ((u32) (((u16) ((packet->mDestAddressHigh >> 8) | (packet->mDestAddressHigh << 8)) << 16) |
+               (u16) ((packet->mDestAddressLow >> 8) | (packet->mDestAddressLow << 8))) !=
+        (u32) (((u16) ((packet->mSourceAddressHigh >> 8) | (packet->mSourceAddressHigh << 8)) << 16) |
+               (u16) ((packet->mSourceAddressLow >> 8) | (packet->mSourceAddressLow << 8)))) {
+        if (ip_isme(((u16) ((packet->mDestAddressHigh >> 8) | (packet->mDestAddressHigh << 8)) << 16) |
+                    (u16) ((packet->mDestAddressLow >> 8) | (packet->mDestAddressLow << 8))) == FALSE) {
             return;
         }
-        if (f < (u16) ((a->mUnk_02 >> 8) | (a->mUnk_02 << 8))) {
+        if (length < (u16) ((packet->mTotalLength >> 8) | (packet->mTotalLength << 8))) {
             return;
         }
-        if (func_ov000_021b0188(a, (a->mUnk_00 & 0xf) << 2) != 0xffff) {
+        if (calc_checksum(packet, (packet->mVersionIhl & 0xf) << 2) != 0xffff) {
             return;
         }
-        if (CPSMyIp == (u32) (((u16) ((a->mUnk_10 >> 8) | (a->mUnk_10 << 8)) << 16) |
-                              (u16) ((a->mUnk_12 >> 8) | (a->mUnk_12 << 8)))) {
-            func_ov000_021afb58((u8 *) a - 8,
-                                ((u16) ((a->mUnk_0c >> 8) | (a->mUnk_0c << 8)) << 16) |
-                                    (u16) ((a->mUnk_0e >> 8) | (a->mUnk_0e << 8)),
-                                0);
+        if (CPSMyIp == (u32) (((u16) ((packet->mDestAddressHigh >> 8) | (packet->mDestAddressHigh << 8)) << 16) |
+                              (u16) ((packet->mDestAddressLow >> 8) | (packet->mDestAddressLow << 8)))) {
+            reg_arpcache((u8 *) packet - 8,
+                         ((u16) ((packet->mSourceAddressHigh >> 8) | (packet->mSourceAddressHigh << 8)) << 16) |
+                             (u16) ((packet->mSourceAddressLow >> 8) | (packet->mSourceAddressLow << 8)),
+                         0);
         }
     }
-    a = func_ov000_021ae51c(a, &b);
-    if (a != NULL) {
-        u32 c = (a->mUnk_00 & 0xf) << 2;
-        void *p = (u8 *) a + c;
-        u32 d = (u16) ((a->mUnk_02 >> 8) | (a->mUnk_02 << 8)) - c;
-        u32 e = a->mUnk_09;
+    packet = check_frag(packet, &wasReassembled);
+    if (packet != NULL) {
+        u32 headerLength = (packet->mVersionIhl & 0xf) << 2;
+        void *payload = (u8 *) packet + headerLength;
+        u32 payloadLength = (u16) ((packet->mTotalLength >> 8) | (packet->mTotalLength << 8)) - headerLength;
+        u32 protocol = packet->mProtocol;
 
-        if (e == 0x11) {
-            func_ov000_021ae724(a, p, d);
+        if (protocol == 0x11) {
+            dispatch_udp(packet, payload, payloadLength);
         } else if (CPSMyIp != 0) {
-            if (e == 1) {
-                func_ov000_021af1e4(a, p, d);
-            } else if (e == 6) {
-                func_ov000_021ae87c(a, p, d);
+            if (protocol == 1) {
+                dispatch_icmp(packet, payload, payloadLength);
+            } else if (protocol == 6) {
+                dispatch_tcp(packet, payload, payloadLength);
             }
         }
-        if (b != 0) {
-            CPSiFree((u8 *) a - 0xe);
+        if (wasReassembled != 0) {
+            CPSiFree((u8 *) packet - 0xe);
         }
     }
 }
 
-void func_ov000_021ae3a4(void) {
-    u32 v1;
-    Unk021ae3a4 *v2;
+void tcpip(void) {
+    u32 length;
+    EthernetHeader *frame;
 
     for (;;) {
-        v2 = (Unk021ae3a4 *) func_ov000_021afdcc(&v1);
-        if (v1 > 0x22) {
-            switch ((u16) ((v2->mUnk_0c >> 8) | (v2->mUnk_0c << 8))) {
+        frame = (EthernetHeader *) receive_packet(&length);
+        if (length > 0x22) {
+            switch ((u16) ((frame->mEtherType >> 8) | (frame->mEtherType << 8))) {
                 case 0x800:
-                    func_ov000_021ae3f0(OFFSET_PTR(Unk021ae3f0, v2, 0xe), v1 - 0xe);
+                    dispatch_ip(OFFSET_PTR(IpHeader, frame, 0xe), length - 0xe);
                     break;
                 case 0x806:
-                    func_ov000_021af3e8(OFFSET_PTR(Unk021af3e8, v2, 0xe), v1 - 0xe);
+                    dispatch_arp(OFFSET_PTR(ArpPacket, frame, 0xe), length - 0xe);
                     break;
             }
         }
-        func_ov000_021afd8c();
+        throw_packet();
     }
 }
 
-u16 func_ov000_021ae340(void) {
-    u32 v1;
-    OSThread *t;
-    Unk021a998c *s;
+u16 CPS_SocGetEport(void) {
+    u32 inUse;
+    OSThread *thread;
+    Unk021a998c *socket;
 
     do {
-        v1 = 0;
-        data_ov000_021b6374++;
-        if (data_ov000_021b6374 < 0x400 || data_ov000_021b6374 >= 0x1388) {
-            data_ov000_021b6374 = 0x400;
+        inUse = 0;
+        gEport++;
+        if (gEport < 0x400 || gEport >= 0x1388) {
+            gEport = 0x400;
         }
-        for (t = OSi_ThreadInfo.mListHead; t != NULL; t = t->mNext) {
-            s = t->mUnk_a4[0];
-            if (s != NULL && s->mThread != NULL && s->mUnk_0a == data_ov000_021b6374) {
-                v1 = 1;
+        for (thread = OSi_ThreadInfo.mListHead; thread != NULL; thread = thread->mNext) {
+            socket = thread->mUnk_a4[0];
+            if (socket != NULL && socket->mThread != NULL && socket->mLocalPort == gEport) {
+                inUse = 1;
                 break;
             }
         }
-    } while (v1 != 0);
-    return data_ov000_021b6374;
+    } while (inUse != 0);
+    return gEport;
 }
 
-u32 func_ov000_021ae314(void) {
+u32 get_seqno(void) {
     CPSiRand32ctx[0] = CPSiRand32ctx[2] + CPSiRand32ctx[1] * CPSiRand32ctx[0];
     return CPSiRand32ctx[0] >> 32;
 }
 
-void func_ov000_021ae304(void *arg0) {
-    u32 value0 = (u32) arg0;
+void CPS_SocRegister(void *socket) {
+    u32 socketAddress = (u32) socket;
     u32 value1;
     value1 = (u32) &OSi_ThreadInfo;
     value1 = *(const u32 *) ((value1) + 4u);
     value1 = (value1) + 164u;
-    *(u32 *) ((value1) + 0u) = value0;
+    *(u32 *) ((value1) + 0u) = socketAddress;
 }
 
-void func_ov000_021ae2f4(void) {
+void CPS_SocUnRegister(void) {
     OSi_ThreadInfo.mCurrentThread->mUnk_a4[0] = NULL;
 }
 
-void func_ov000_021ae2d8(void) {
-    Unk021a998c *v1;
-    v1 = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
-    if (v1 != NULL) {
-        v1->mState = 10;
-        v1->mReceiveBufferLength = 0;
+void CPS_SocDatagramMode(void) {
+    Unk021a998c *socket;
+    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    if (socket != NULL) {
+        socket->mState = 10;
+        socket->mReceiveBufferLength = 0;
     }
 }
 
-void func_ov000_021ae290(int a, u16 b, int c) {
-    u16 v1;
-    Unk021a998c *v2;
-    v2 = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
-    if (v2 != NULL) {
-        if (c == 0x7f000001) {
-            c = *(s32 *) &CPSMyIp;
+void CPS_SocBind(int ownPort, u16 remotePort, int remoteAddress) {
+    u16 ephemeralPort;
+    Unk021a998c *socket;
+    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    if (socket != NULL) {
+        if (remoteAddress == 0x7f000001) {
+            remoteAddress = *(s32 *) &CPSMyIp;
         }
-        v2->mUnk_1a = b;
-        v2->mUnk_18 = v2->mUnk_1a;
-        v2->mUnk_20 = c;
-        v2->mUnk_1c = v2->mUnk_20;
-        if (a == 0) {
-            v1 = func_ov000_021ae340();
-            v2->mUnk_0a = v1;
+        socket->mRemotePortBound = remotePort;
+        socket->mRemotePort = socket->mRemotePortBound;
+        socket->mRemoteIpBound = remoteAddress;
+        socket->mRemoteIp = socket->mRemoteIpBound;
+        if (ownPort == 0) {
+            ephemeralPort = CPS_SocGetEport();
+            socket->mLocalPort = ephemeralPort;
             return;
         }
-        v2->mUnk_0a = a;
+        socket->mLocalPort = ownPort;
     }
 }
 
-void func_ov000_021ae270(void) {
-    Unk021a998c *v1;
-    v1 = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
-    if (v1 != NULL) {
-        v1->mThread = OSi_ThreadInfo.mCurrentThread;
-        v1->mState = 0;
-        v1->mReceiveBufferLength = 0;
-        v1->mUnk_60 = 0;
-        v1->mReceiveCallback = NULL;
+void CPS_SocUse(void) {
+    Unk021a998c *socket;
+    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    if (socket != NULL) {
+        socket->mThread = OSi_ThreadInfo.mCurrentThread;
+        socket->mState = 0;
+        socket->mReceiveBufferLength = 0;
+        socket->mOutBufferLength = 0;
+        socket->mReceiveCallback = NULL;
     }
 }
 
-void func_ov000_021ae258(void) {
-    Unk021a998c *v1;
-    v1 = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
-    if (v1 != NULL) {
-        v1->mThread = NULL;
+void CPS_SocRelease(void) {
+    Unk021a998c *socket;
+    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    if (socket != NULL) {
+        socket->mThread = NULL;
     }
 }
 
-void func_ov000_021ae244(OSThread *thread) {
+void CPS_SocDup(OSThread *thread) {
     thread->mUnk_a4[0] = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
 }
 
-void func_ov000_021ae228(Unk021a998c *a) {
-    u32 v1;
-    v1 = func_ov000_021ae314();
-    a->mUnk_28 = v1;
-    a->mState = 1;
-    a->mUnk_04 = 1;
+void CPSi_TcpListenRaw(Unk021a998c *socket) {
+    u32 seqNo;
+    seqNo = get_seqno();
+    socket->mSeqNo = seqNo;
+    socket->mState = 1;
+    socket->mBlockType = 1;
     OS_SleepThread(NULL);
 }
 
-void func_ov000_021ae214(Unk021a78a4Func a) {
-    u8 *v1;
-    v1 = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
-    if (v1 != NULL) {
-        *(Unk021a78a4Func *) (v1 + 0x38) = a;
+void CPS_SetUdpCallback(Unk021a78a4Func callback) {
+    u8 *socket;
+    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    if (socket != NULL) {
+        *(Unk021a78a4Func *) (socket + 0x38) = callback;
     }
 }
 
-void func_ov000_021ae1e4(void) {
-    Unk021a998c *a;
+void CPS_TcpListen(void) {
+    Unk021a998c *socket;
 
-    a = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
-    if (a != NULL) {
-        if (a->mUseHttps != 0) {
-            RunSetupAfterReadingKind1RecordUntilDone(a);
+    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    if (socket != NULL) {
+        if (socket->mUseHttps != 0) {
+            RunSetupAfterReadingKind1RecordUntilDone(socket);
         } else {
-            func_ov000_021ae228(a);
+            CPSi_TcpListenRaw(socket);
         }
     }
 }
 
-u32 func_ov000_021ae16c(Unk021a998c *b) {
-    u32 a;
-    u32 i;
-    u32 s;
+u32 CPSi_TcpConnectRaw(Unk021a998c *socket) {
+    u32 seqNo;
+    u32 attempt;
+    u32 interruptState;
 
-    a = func_ov000_021ae314();
-    for (i = 0; i < 3; i++) {
-        b->mUnk_28 = a;
-        b->mState = 2;
-        b->mStateStartTime = OS_GetTick() >> 16;
-        func_ov000_021aefc0(b, 2, 24);
-        s = OS_DisableInterrupts();
+    seqNo = get_seqno();
+    for (attempt = 0; attempt < 3; attempt++) {
+        socket->mSeqNo = seqNo;
+        socket->mState = 2;
+        socket->mStateStartTime = OS_GetTick() >> 16;
+        tcp_send_handshake(socket, 2, 24);
+        interruptState = OS_DisableInterrupts();
         if (CPSMyIp != 0) {
-            b->mUnk_04 = 1;
+            socket->mBlockType = 1;
             OS_SleepThread(NULL);
         }
-        OS_RestoreInterrupts(s);
-        if (b->mState == 4) {
+        OS_RestoreInterrupts(interruptState);
+        if (socket->mState == 4) {
             return 0;
         }
         if (CPSMyIp == 0) {
@@ -1640,361 +1659,364 @@ u32 func_ov000_021ae16c(Unk021a998c *b) {
     return 1;
 }
 
-u32 func_ov000_021ae134(void) {
-    Unk021a998c *a;
+u32 CPS_TcpConnect(void) {
+    Unk021a998c *socket;
 
-    a = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
-    if (a != NULL) {
-        if (a->mUseHttps != 0) {
-            return CPSi_SslConnect(a);
+    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    if (socket != NULL) {
+        if (socket->mUseHttps != 0) {
+            return CPSi_SslConnect(socket);
         }
-        return func_ov000_021ae16c(a);
+        return CPSi_TcpConnectRaw(socket);
     }
     return 1;
 }
 
-u32 func_ov000_021ae100(u16 *a, u32 *b) {
-    Unk021a998c *v1;
-    v1 = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
-    if ((v1 != NULL) && ((v1->mState == 4 || (v1->mState == '\n')))) {
-        if (a != NULL) {
-            *a = v1->mUnk_18;
+u32 CPS_SocWho(u16 *remotePort, u32 *localAddress) {
+    Unk021a998c *socket;
+    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    if ((socket != NULL) && ((socket->mState == 4 || (socket->mState == '\n')))) {
+        if (remotePort != NULL) {
+            *remotePort = socket->mRemotePort;
         }
-        if (b != NULL) {
-            *b = v1->mUnk_14;
+        if (localAddress != NULL) {
+            *localAddress = socket->mLocalIpReal;
         }
-        return v1->mUnk_1c;
+        return socket->mRemoteIp;
     }
     return 0;
 }
 
-void func_ov000_021ae0c4(Unk021a998c *a) {
+void CPSi_TcpShutdownRaw(Unk021a998c *socket) {
     OS_YieldThread();
-    if (a->mState == 3 || a->mState == 4) {
-        func_ov000_021aefa8(a, 25);
-        a->mState = 7;
+    if (socket->mState == 3 || socket->mState == 4) {
+        tcp_send_finack(socket, 25);
+        socket->mState = 7;
         return;
     }
-    if (a->mState != 0) {
-        func_ov000_021aefb4(a, 26);
+    if (socket->mState != 0) {
+        tcp_send_ack(socket, 26);
     }
 }
 
-void func_ov000_021ae094(void) {
-    Unk021a998c *s;
+void CPS_TcpShutdown(void) {
+    Unk021a998c *socket;
 
-    s = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
-    if (s != NULL) {
-        if (s->mUseHttps != 0) {
-            CPSi_SslShutdown(s);
+    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    if (socket != NULL) {
+        if (socket->mUseHttps != 0) {
+            CPSi_SslShutdown(socket);
         } else {
-            func_ov000_021ae0c4(s);
+            CPSi_TcpShutdownRaw(socket);
         }
     }
 }
 
-void func_ov000_021ae048(void) {
-    Unk021a998c *s;
-    s32 t;
+void CPS_TcpClose(void) {
+    Unk021a998c *socket;
+    s32 startTick;
 
-    s = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
-    if (s != NULL) {
-        t = OS_GetTick() >> 16;
-        while (gLinkIsOn() != 0 && s->mState != 0 && (s32) (OS_GetTick() >> 16) - t < 0x27) {
-            func_ov000_021b04d4();
+    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    if (socket != NULL) {
+        startTick = OS_GetTick() >> 16;
+        while (gLinkIsOn() != 0 && socket->mState != 0 && (s32) (OS_GetTick() >> 16) - startTick < 0x27) {
+            yield_thread();
         }
     }
 }
 
-u8 *func_ov000_021ae01c(u32 *a, Unk021a998c *b) {
-    u32 v1;
-    v1 = b->mReceiveBufferLength;
-    while (v1 == 0) {
-        b->mUnk_04 = 3;
+u8 *udp_read_raw(u32 *length, Unk021a998c *socket) {
+    u32 received;
+    received = socket->mReceiveBufferLength;
+    while (received == 0) {
+        socket->mBlockType = 3;
         OS_SleepThread(0);
-        v1 = b->mReceiveBufferLength;
+        received = socket->mReceiveBufferLength;
     }
-    *a = v1;
-    return b->mReceiveBuffer;
+    *length = received;
+    return socket->mReceiveBuffer;
 }
 
-u8 *func_ov000_021adfc8(u32 *a, Unk021a998c *b) {
-    if (b->mReceiveBufferLength == 0 && b->mState == 4) {
-        while (b->mReceiveBufferLength == 0 && b->mState == 4) {
-            b->mUnk_04 = 2;
+u8 *CPSi_TcpReadRaw(u32 *length, Unk021a998c *socket) {
+    if (socket->mReceiveBufferLength == 0 && socket->mState == 4) {
+        while (socket->mReceiveBufferLength == 0 && socket->mState == 4) {
+            socket->mBlockType = 2;
             OS_SleepThread(NULL);
         }
     } else {
         OS_YieldThread();
     }
-    *a = b->mReceiveBufferLength;
-    if (*a != 0) {
-        return b->mReceiveBuffer;
+    *length = socket->mReceiveBufferLength;
+    if (*length != 0) {
+        return socket->mReceiveBuffer;
     }
     return NULL;
 }
 
-u8 *func_ov000_021adf78(u32 *a) {
-    Unk021a998c *s;
+u8 *CPS_SocRead(u32 *length) {
+    Unk021a998c *socket;
 
-    s = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
-    if (s != NULL) {
-        if ((u8) (s->mState + 0xf6) <= 1) {
-            return func_ov000_021ae01c(a, s);
+    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    if (socket != NULL) {
+        if ((u8) (socket->mState + 0xf6) <= 1) {
+            return udp_read_raw(length, socket);
         }
-        if (s->mUseHttps != 0) {
-            return ReadHttpsRecordsUntilBytesReceived((s32 *) a, s);
+        if (socket->mUseHttps != 0) {
+            return ReadHttpsRecordsUntilBytesReceived((s32 *) length, socket);
         }
-        return func_ov000_021adfc8(a, s);
+        return CPSi_TcpReadRaw(length, socket);
     }
-    *a = 0;
+    *length = 0;
     return NULL;
 }
 
-void func_ov000_021adf30(u32 a, Unk021a998c *b) {
-    u32 c;
+void CPSi_SocConsumeRaw(u32 length, Unk021a998c *socket) {
+    u32 interruptState;
     u32 d;
-    u8 *e;
-    u8 *f;
+    u8 *buffer;
+    u8 *source;
 
-    c = OS_DisableInterrupts();
-    d = b->mReceiveBufferLength;
-    if (a >= d) {
-        b->mReceiveBufferLength = 0;
+    interruptState = OS_DisableInterrupts();
+    d = socket->mReceiveBufferLength;
+    if (length >= d) {
+        socket->mReceiveBufferLength = 0;
     } else {
-        e = b->mReceiveBuffer;
-        f = e;
-        f += a;
-        b->mReceiveBufferLength = (d -= a);
-        memmove(e, &(*f), d);
+        buffer = socket->mReceiveBuffer;
+        source = buffer;
+        source += length;
+        socket->mReceiveBufferLength = (d -= length);
+        memmove(buffer, &(*source), d);
     }
-    OS_RestoreInterrupts(c);
-    if (b->mState != 0xa && b->mState != 0xb && b->mReceiveBufferLength == 0) {
-        func_ov000_021aefb4(b, 0x1b);
+    OS_RestoreInterrupts(interruptState);
+    if (socket->mState != 0xa && socket->mState != 0xb && socket->mReceiveBufferLength == 0) {
+        tcp_send_ack(socket, 0x1b);
     }
 }
 
-void func_ov000_021adf00(u32 a) {
-    Unk021a998c *s;
+void CPS_SocConsume(u32 length) {
+    Unk021a998c *socket;
 
-    s = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
-    if (s != NULL) {
-        if (s->mUseHttps != 0) {
-            SkipHttpsReceivedBytes(a, s);
+    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    if (socket != NULL) {
+        if (socket->mUseHttps != 0) {
+            SkipHttpsReceivedBytes(length, socket);
         } else {
-            func_ov000_021adf30(a, s);
+            CPSi_SocConsumeRaw(length, socket);
         }
     }
 }
 
-s32 func_ov000_021ade6c(const u8 *a, s32 b, Unk021a998c *c, s32 d) {
-    u32 e;
-    u32 f;
-    s32 g;
-    s32 h;
-    s32 i;
+s32 tcp_write_do(const u8 *buffer, s32 length, Unk021a998c *socket, s32 probeFlag) {
+    u32 window;
+    u32 segmentLength;
+    s32 ackCountSaved;
+    s32 limit;
+    s32 limitNow;
 
-    if (d != 0) {
-        e = 1;
+    if (probeFlag != 0) {
+        window = 1;
     } else {
-        e = c->mUnk_2c;
+        window = socket->mRemoteWin;
     }
-    g = c->mUnk_34;
-    h = g * 2 + 4;
-    while (b != 0 && c->mState == 4) {
-        f = c->mUnk_2e;
-        if (f >= e) {
-            f = e;
+    ackCountSaved = socket->mAckRcvd;
+    limit = ackCountSaved * 2 + 4;
+    while (length != 0 && socket->mState == 4) {
+        segmentLength = socket->mRemoteMss;
+        if (segmentLength >= window) {
+            segmentLength = window;
         }
-        if (data_ov000_021b6370 < f) {
-            f = data_ov000_021b6370;
+        if (gMyMss < segmentLength) {
+            segmentLength = gMyMss;
         }
-        if (d == 0) {
-            f &= ~1;
+        if (probeFlag == 0) {
+            segmentLength &= ~1;
         }
-        if (b < f) {
-            f = b;
+        if (length < segmentLength) {
+            segmentLength = length;
         }
-        i = h + (c->mUnk_34 - g);
-        g = c->mUnk_34;
-        h = i - 1;
-        if (i == 0) {
-            f = 0;
+        limitNow = limit + (socket->mAckRcvd - ackCountSaved);
+        ackCountSaved = socket->mAckRcvd;
+        limit = limitNow - 1;
+        if (limitNow == 0) {
+            segmentLength = 0;
         }
-        if (f == 0) {
+        if (segmentLength == 0) {
             break;
         }
-        e -= f;
-        func_ov000_021af550((u8 *) a, f, c, 0x18, 0);
+        window -= segmentLength;
+        send_tcp((u8 *) buffer, segmentLength, socket, 0x18, 0);
         OS_YieldThread();
-        a += f;
-        b -= f;
+        buffer += segmentLength;
+        length -= segmentLength;
     }
-    return f;
+    return segmentLength;
 }
 
-void func_ov000_021ade40(const u8 *a, s32 b, const u8 *c, s32 d, Unk021a998c *e, s32 f) {
-    if (func_ov000_021ade6c(a, b, e, f) != 0 && d != 0) {
-        func_ov000_021ade6c(c, d, e, 0);
+void tcp_write_do2(const u8 *buffer, s32 length, const u8 *secondBuffer, s32 secondLength, Unk021a998c *socket,
+                   s32 probeFlag) {
+    if (tcp_write_do(buffer, length, socket, probeFlag) != 0 && secondLength != 0) {
+        tcp_write_do(secondBuffer, secondLength, socket, 0);
     }
 }
 
-s32 func_ov000_021adcec(const u8 *a, u32 b, const u8 *c, s32 d, void *e) {
-    Unk021a998c *s;
-    s32 f;
-    BOOL g;
-    s32 h;
-    u32 j;
-    s32 i;
-    u32 k;
+s32 CPSi_TcpWrite2Raw(const u8 *buffer, u32 length, const u8 *secondBuffer, s32 secondLength, void *socketArgument) {
+    Unk021a998c *socket;
+    s32 bytesWritten;
+    BOOL probeFlag;
+    s32 seqNoBefore;
+    u32 startTime;
+    s32 ackedLength;
+    u32 retryTime;
 
-    s = e;
-    f = 0;
-    s->mUnk_34 = 0;
-    g = FALSE;
-    j = OS_GetTick() >> 16;
-    while (gLinkIsOn() != 0 && b != 0 && s->mState == 4 && (s32) ((u32) (OS_GetTick() >> 16) - j) < 0x9f) {
-        h = s->mUnk_28;
-        func_ov000_021ade40(a, b, c, d, s, g);
-        k = OS_GetTick() >> 16;
+    socket = socketArgument;
+    bytesWritten = 0;
+    socket->mAckRcvd = 0;
+    probeFlag = FALSE;
+    startTime = OS_GetTick() >> 16;
+    while (gLinkIsOn() != 0 && length != 0 && socket->mState == 4 &&
+           (s32) ((u32) (OS_GetTick() >> 16) - startTime) < 0x9f) {
+        seqNoBefore = socket->mSeqNo;
+        tcp_write_do2(buffer, length, secondBuffer, secondLength, socket, probeFlag);
+        retryTime = OS_GetTick() >> 16;
         do {
-            func_ov000_021b04d4();
-        } while (gLinkIsOn() != 0 && s->mState == 4 && s->mUnk_28 != s->mUnk_30 &&
-                 (s32) ((u32) (OS_GetTick() >> 16) - k) < 0xf && (g == FALSE || s->mUnk_2c == 0));
-        i = s->mUnk_30 - h;
-        f += i;
-        if (i != 0) {
-            j = OS_GetTick() >> 16;
+            yield_thread();
+        } while (gLinkIsOn() != 0 && socket->mState == 4 && socket->mSeqNo != socket->mRemoteAckNo &&
+                 (s32) ((u32) (OS_GetTick() >> 16) - retryTime) < 0xf &&
+                 (probeFlag == FALSE || socket->mRemoteWin == 0));
+        ackedLength = socket->mRemoteAckNo - seqNoBefore;
+        bytesWritten += ackedLength;
+        if (ackedLength != 0) {
+            startTime = OS_GetTick() >> 16;
         }
-        s->mUnk_28 = s->mUnk_30;
-        if (s->mState == 4 && s->mUnk_2c == 0 && i == 0) {
-            if (g == FALSE) {
-                k = OS_GetTick() >> 16;
-                while (gLinkIsOn() != 0 && (s32) ((u32) (OS_GetTick() >> 16) - k) < 0xf) {
-                    func_ov000_021b04d4();
-                    if (s->mUnk_2c != 0) {
+        socket->mSeqNo = socket->mRemoteAckNo;
+        if (socket->mState == 4 && socket->mRemoteWin == 0 && ackedLength == 0) {
+            if (probeFlag == FALSE) {
+                retryTime = OS_GetTick() >> 16;
+                while (gLinkIsOn() != 0 && (s32) ((u32) (OS_GetTick() >> 16) - retryTime) < 0xf) {
+                    yield_thread();
+                    if (socket->mRemoteWin != 0) {
                         break;
                     }
                 }
-                if (s->mUnk_2c == 0) {
-                    g = TRUE;
+                if (socket->mRemoteWin == 0) {
+                    probeFlag = TRUE;
                 }
             }
         } else {
-            g = FALSE;
+            probeFlag = FALSE;
         }
-        if (i >= b) {
-            i -= b;
-            a = c + i;
-            b = d - i;
-            c = NULL;
-            d = 0;
+        if (ackedLength >= length) {
+            ackedLength -= length;
+            buffer = secondBuffer + ackedLength;
+            length = secondLength - ackedLength;
+            secondBuffer = NULL;
+            secondLength = 0;
         } else {
-            a += i;
-            b -= i;
+            buffer += ackedLength;
+            length -= ackedLength;
         }
     }
-    return f;
+    return bytesWritten;
 }
 
-s32 func_ov000_021adc64(const u8 *a, s32 b, const u8 *c, s32 d) {
-    Unk021a998c *s;
-    u8 t;
-    s32 r;
+s32 CPSi_SocWrite2(const u8 *buffer, s32 length, const u8 *secondBuffer, s32 secondLength) {
+    Unk021a998c *socket;
+    u8 state;
+    s32 bytesWritten;
 
-    s = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
-    if (s != NULL) {
-        t = s->mState;
-        if (t == 0xa) {
-            if (b != 0) {
-                func_ov000_021af70c((u8 *) a, b, s);
+    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    if (socket != NULL) {
+        state = socket->mState;
+        if (state == 0xa) {
+            if (length != 0) {
+                send_udp((u8 *) buffer, length, socket);
             }
-            if (d != 0) {
-                func_ov000_021af70c((u8 *) c, d, s);
+            if (secondLength != 0) {
+                send_udp((u8 *) secondBuffer, secondLength, socket);
             }
-            r = b + d;
-        } else if (t == 0xb) {
-            if (b != 0) {
-                func_ov000_021af7e4((u8 *) a, b, s);
+            bytesWritten = length + secondLength;
+        } else if (state == 0xb) {
+            if (length != 0) {
+                send_ping((u8 *) buffer, length, socket);
             }
-            if (d != 0) {
-                func_ov000_021af7e4((u8 *) c, d, s);
+            if (secondLength != 0) {
+                send_ping((u8 *) secondBuffer, secondLength, socket);
             }
-            r = b + d;
-        } else if (s->mUseHttps != 0) {
-            r = SendHttpsBytesInChunks((u8 *) a, b, (u8 *) c, d, s);
+            bytesWritten = length + secondLength;
+        } else if (socket->mUseHttps != 0) {
+            bytesWritten = SendHttpsBytesInChunks((u8 *) buffer, length, (u8 *) secondBuffer, secondLength, socket);
         } else {
-            r = func_ov000_021adcec(a, b, c, d, s);
+            bytesWritten = CPSi_TcpWrite2Raw(buffer, length, secondBuffer, secondLength, socket);
         }
-        if (data_ov000_021b6364 == 0) {
-            return r;
+        if (gSendFailed == 0) {
+            return bytesWritten;
         }
     }
     return 0;
 }
 
-s32 func_ov000_021adbf4(const u8 *a, s32 b) {
-    Unk021a998c *s;
-    s32 r;
+s32 CPS_SocWrite(const u8 *buffer, s32 length) {
+    Unk021a998c *socket;
+    s32 bytesWritten;
 
-    s = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
-    if (s != NULL) {
-        if (s->mUnk_60 != 0) {
-            r = func_ov000_021adc64(s->mUnk_5c, s->mUnk_60, a, b);
-            if (r < s->mUnk_60) {
-                memmove(s->mUnk_5c, s->mUnk_5c + r, s->mUnk_60 - r);
-                s->mUnk_60 -= r;
+    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    if (socket != NULL) {
+        if (socket->mOutBufferLength != 0) {
+            bytesWritten = CPSi_SocWrite2(socket->mOutBuffer, socket->mOutBufferLength, buffer, length);
+            if (bytesWritten < socket->mOutBufferLength) {
+                memmove(socket->mOutBuffer, socket->mOutBuffer + bytesWritten, socket->mOutBufferLength - bytesWritten);
+                socket->mOutBufferLength -= bytesWritten;
                 return 0;
             }
-            r -= s->mUnk_60;
-            s->mUnk_60 = 0;
-            return r;
+            bytesWritten -= socket->mOutBufferLength;
+            socket->mOutBufferLength = 0;
+            return bytesWritten;
         }
-        return func_ov000_021adc64(a, b, NULL, 0);
+        return CPSi_SocWrite2(buffer, length, NULL, 0);
     }
     return 0;
 }
 
-s32 func_ov000_021adbac(void) {
-    Unk021a998c *s;
-    s32 r;
+s32 CPS_SocGetLength(void) {
+    Unk021a998c *socket;
+    s32 count;
 
-    s = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
-    if (s != NULL) {
-        if (s->mUseHttps != 0) {
-            r = ReadHttpsRecordIfBufferedAndGetUnreadByteCount(s);
+    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    if (socket != NULL) {
+        if (socket->mUseHttps != 0) {
+            count = ReadHttpsRecordIfBufferedAndGetUnreadByteCount(socket);
         } else {
-            r = s->mReceiveBufferLength;
+            count = socket->mReceiveBufferLength;
         }
-        if (r == 0 && s->mState != 4 && (u8) (s->mState + 0xf6) > 1) {
+        if (count == 0 && socket->mState != 4 && (u8) (socket->mState + 0xf6) > 1) {
             return -1;
         }
-        return r;
+        return count;
     }
     return 0;
 }
 
-void func_ov000_021adb80(void) {
-    Unk021a998c *v1;
-    v1 = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
-    if ((v1 != NULL) && (v1->mUnk_60 != 0)) {
-        func_ov000_021adc64((v1->mUnk_5c), v1->mUnk_60, NULL, 0);
-        v1->mUnk_60 = 0;
+void CPS_SocFlush(void) {
+    Unk021a998c *socket;
+    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    if ((socket != NULL) && (socket->mOutBufferLength != 0)) {
+        CPSi_SocWrite2((socket->mOutBuffer), socket->mOutBufferLength, NULL, 0);
+        socket->mOutBufferLength = 0;
     }
 }
 
-void func_ov000_021adb00(void) {
-    s32 a;
+void set_fixed_ip(void) {
+    s32 startTick;
 
-    data_ov000_021b6384();
+    gDhcpCallback();
     if (CPSMyIp != 0) {
-        func_ov000_021afc5c(CPSMyIp);
+        send_arprequest(CPSMyIp);
         OS_Sleep(100);
-        func_ov000_021afc5c(CPSMyIp);
-        a = OS_GetTick() >> 16;
-        while (gLinkIsOn() != 0 && (s32) (OS_GetTick() >> 16) - a < 0x17) {
-            if (data_ov000_021b6368 != 0) {
-                func_ov000_021b04f8(4);
+        send_arprequest(CPSMyIp);
+        startTick = OS_GetTick() >> 16;
+        while (gLinkIsOn() != 0 && (s32) (OS_GetTick() >> 16) - startTick < 0x17) {
+            if (gIpConflict != 0) {
+                reset_network_vars(4);
                 return;
             }
             OS_Sleep(100);
@@ -2002,69 +2024,69 @@ void func_ov000_021adb00(void) {
     }
 }
 
-void func_ov000_021ad898(void) {
-    u32 a;
-    u32 b;
-    u32 c;
-    BOOL d;
+void scavenger(void) {
+    u32 dhcpDelay;
+    u32 dhcpPhase;
+    u32 now;
+    BOOL first;
     s32 e;
     s32 i;
-    OSThread *f;
-    Unk021a998c *g;
-    Unk021b6434 *h;
-    Unk021b69dc *j;
+    OSThread *thread;
+    Unk021a998c *socket;
+    CPSArpCache *arpEntry;
+    CPSFragTable *fragment;
 
-    data_ov000_021b63b0 = 0;
-    MI_CpuFill8(&data_ov000_021b6494, 0, 0x64);
-    data_ov000_021b6494.mReceiveBufferSize = 0x180;
-    data_ov000_021b6494.mReceiveBuffer = data_ov000_021b685c;
-    data_ov000_021b6494.mSendBufferSize = 0x180;
-    data_ov000_021b6494.mSendBuffer = data_ov000_021b66dc;
-    func_ov000_021ae304(&data_ov000_021b6494);
-    b = 0;
-    d = TRUE;
-    a = 1;
-    data_ov000_021b637c = 1;
+    gScavengerForceExit = 0;
+    MI_CpuFill8(&gScavengerSoc, 0, 0x64);
+    gScavengerSoc.mReceiveBufferSize = 0x180;
+    gScavengerSoc.mReceiveBuffer = gScavengerReceiveBuffer;
+    gScavengerSoc.mSendBufferSize = 0x180;
+    gScavengerSoc.mSendBuffer = gScavengerSendBuffer;
+    CPS_SocRegister(&gScavengerSoc);
+    dhcpPhase = 0;
+    first = TRUE;
+    dhcpDelay = 1;
+    CPSNoIpReason = 1;
     while (1) {
         OS_Sleep(1000);
-        if (data_ov000_021b63b0 != 0) {
+        if (gScavengerForceExit != 0) {
             break;
         }
-        c = OS_GetTick() >> 16;
+        now = OS_GetTick() >> 16;
         if (gLinkIsOn() != 0) {
-            a--;
-            if (a == 0) {
-                if ((data_ov000_021b6398 & 1) != 0) {
-                    if (b == 0) {
-                        func_ov000_021adb00();
-                        b = 1;
+            dhcpDelay--;
+            if (dhcpDelay == 0) {
+                if ((gCPSMode & 1) != 0) {
+                    if (dhcpPhase == 0) {
+                        set_fixed_ip();
+                        dhcpPhase = 1;
                     }
                 } else {
-                    switch (b) {
+                    switch (dhcpPhase) {
                         case 0:
-                            if (d != FALSE) {
-                                data_ov000_021b637c = 2;
-                                d = FALSE;
+                            if (first != FALSE) {
+                                CPSNoIpReason = 2;
+                                first = FALSE;
                             }
-                            if (dhcp_discover_server() == 0 || dhcp_request_server(&a, 0) == FALSE) {
-                                func_ov000_021adb00();
-                                b = 3;
+                            if (dhcp_discover_server() == 0 || dhcp_request_server(&dhcpDelay, 0) == FALSE) {
+                                set_fixed_ip();
+                                dhcpPhase = 3;
                             } else {
-                                b = 1;
+                                dhcpPhase = 1;
                             }
                             break;
                         case 1:
-                            if (dhcp_request_server(&a, 1) == FALSE && a < 0x3c) {
-                                b = 2;
+                            if (dhcp_request_server(&dhcpDelay, 1) == FALSE && dhcpDelay < 0x3c) {
+                                dhcpPhase = 2;
                             }
                             break;
                         case 2:
-                            if (dhcp_request_server(&a, 2) != FALSE) {
-                                b = 1;
-                            } else if (a < 0x3c) {
-                                func_ov000_021b04f8(3);
-                                b = 0;
-                                a = 1;
+                            if (dhcp_request_server(&dhcpDelay, 2) != FALSE) {
+                                dhcpPhase = 1;
+                            } else if (dhcpDelay < 0x3c) {
+                                reset_network_vars(3);
+                                dhcpPhase = 0;
+                                dhcpDelay = 1;
                             }
                             break;
                         case 3:
@@ -2073,95 +2095,96 @@ void func_ov000_021ad898(void) {
                 }
             }
         } else {
-            func_ov000_021b04f8(1);
-            b = 0;
-            a = 1;
+            reset_network_vars(1);
+            dhcpPhase = 0;
+            dhcpDelay = 1;
         }
         i = 0;
-        h = data_ov000_021b6434;
+        arpEntry = gArpCache;
         for (; i < 8; i++) {
-            if (h->mUnk_00 != 0 && (s16) (c - h->mUnk_0a) > 0x3bd) {
-                h->mUnk_00 = 0;
+            if (arpEntry->mIp != 0 && (s16) (now - arpEntry->mWhen) > 0x3bd) {
+                arpEntry->mIp = 0;
             }
-            h++;
+            arpEntry++;
         }
-        f = OSi_ThreadInfo.mListHead;
-        if (f != NULL) {
+        thread = OSi_ThreadInfo.mListHead;
+        if (thread != NULL) {
             do {
-                g = f->mUnk_a4[0];
-                if (g != NULL && g->mThread != NULL) {
-                    if (g->mState == 3 && (s32) (c - g->mStateStartTime) > 0x27) {
-                        g->mState = 1;
-                        g->mUnk_18 = g->mUnk_1a;
-                        g->mUnk_1c = g->mUnk_20;
-                    } else if (g->mState == 2 && (s32) (c - g->mStateStartTime) > 0x27 && g->mUnk_04 == 1) {
-                        g->mState = 0;
-                        g->mUnk_04 = 0;
-                        OS_WakeupThreadDirect(g->mThread);
+                socket = thread->mUnk_a4[0];
+                if (socket != NULL && socket->mThread != NULL) {
+                    if (socket->mState == 3 && (s32) (now - socket->mStateStartTime) > 0x27) {
+                        socket->mState = 1;
+                        socket->mRemotePort = socket->mRemotePortBound;
+                        socket->mRemoteIp = socket->mRemoteIpBound;
+                    } else if (socket->mState == 2 && (s32) (now - socket->mStateStartTime) > 0x27 &&
+                               socket->mBlockType == 1) {
+                        socket->mState = 0;
+                        socket->mBlockType = 0;
+                        OS_WakeupThreadDirect(socket->mThread);
                     }
                 }
-                f = f->mNext;
-            } while (f != NULL);
+                thread = thread->mNext;
+            } while (thread != NULL);
         }
         i = 0;
-        j = data_ov000_021b69dc;
+        fragment = gFragTable;
         for (; i < 8; i++) {
-            if (j->mUnk_04 != 0 && (s32) (c - j->mUnk_2c) > 0xef) {
-                CPSiFree(j->mUnk_34);
-                j->mUnk_04 = 0;
+            if (fragment->mFrags != 0 && (s32) (now - fragment->mWhen) > 0xef) {
+                CPSiFree(fragment->mBuf);
+                fragment->mFrags = 0;
             }
-            j++;
+            fragment++;
         }
-        CPSi_SslPeriodical(c);
-        if (data_ov000_021b63a8 != NULL) {
-            data_ov000_021b63a8();
+        CPSi_SslPeriodical(now);
+        if (gScavengerCallback != NULL) {
+            gScavengerCallback();
         }
     }
-    if ((data_ov000_021b6398 & 1) == 0 && b != 3) {
+    if ((gCPSMode & 1) == 0 && dhcpPhase != 3) {
         dhcp_release_server();
     }
-    func_ov000_021ae2f4();
+    CPS_SocUnRegister();
 }
 
-u8 *func_ov000_021ad754(u8 *a, u8 b, u32 *c) {
-    u32 d;
+u8 *dhcp_setcommon(u8 *buffer, u8 type, u32 *transactionIdOut) {
+    u32 transactionId;
 
-    MI_CpuFill8(a, 0, 0xec);
-    *(u16 *) a = 0x101;
-    a[2] = 6;
+    MI_CpuFill8(buffer, 0, 0xec);
+    *(u16 *) buffer = 0x101;
+    buffer[2] = 6;
     CPSiRand32ctx[0] = (s64) CPSiRand32ctx[1] * (s64) CPSiRand32ctx[0] + CPSiRand32ctx[2];
-    d = CPSiRand32ctx[0] >> 32;
-    if (c != NULL) {
-        *c = d;
+    transactionId = CPSiRand32ctx[0] >> 32;
+    if (transactionIdOut != NULL) {
+        *transactionIdOut = transactionId;
     }
-    *OFFSET_PTR(u16, a, 4) = (u16) (d >> 16) >> 8 | (u16) (d >> 16) << 8;
-    *OFFSET_PTR(u16, a, 6) = (u16) d >> 8 | (u16) d << 8;
-    *OFFSET_PTR(u16, a, 0xc) = (u16) (CPSMyIp >> 16) >> 8 | (u16) (CPSMyIp >> 16) << 8;
-    *OFFSET_PTR(u16, a, 0xe) = (u16) CPSMyIp >> 8 | (u16) CPSMyIp << 8;
-    MI_CpuCopy8(CPSMyMac, a + 0x1c, 6);
-    *(u16 *) (a + 0xec) = 0x8263;
-    *(u16 *) (a + 0xee) = 0x6353;
-    *(u16 *) (a + 0xf0) = 0x135;
-    a[0xf2] = b;
-    a[0xf3] = 0x3d;
-    a[0xf4] = 7;
-    a[0xf5] = 1;
-    MI_CpuCopy8(CPSMyMac, a + 0xf6, 6);
-    a[0xfc] = 0xc;
-    a[0xfd] = 10;
-    MI_CpuCopy8(data_ov000_021b4c34, a + 0xfe, 10);
-    a[0x108] = 0x37;
-    a[0x109] = 3;
-    a[0x10a] = 1;
-    a[0x10b] = 3;
-    a[0x10c] = 6;
-    return a + 0x10d;
+    *OFFSET_PTR(u16, buffer, 4) = (u16) (transactionId >> 16) >> 8 | (u16) (transactionId >> 16) << 8;
+    *OFFSET_PTR(u16, buffer, 6) = (u16) transactionId >> 8 | (u16) transactionId << 8;
+    *OFFSET_PTR(u16, buffer, 0xc) = (u16) (CPSMyIp >> 16) >> 8 | (u16) (CPSMyIp >> 16) << 8;
+    *OFFSET_PTR(u16, buffer, 0xe) = (u16) CPSMyIp >> 8 | (u16) CPSMyIp << 8;
+    MI_CpuCopy8(CPSMyMac, buffer + 0x1c, 6);
+    *(u16 *) (buffer + 0xec) = 0x8263;
+    *(u16 *) (buffer + 0xee) = 0x6353;
+    *(u16 *) (buffer + 0xf0) = 0x135;
+    buffer[0xf2] = type;
+    buffer[0xf3] = 0x3d;
+    buffer[0xf4] = 7;
+    buffer[0xf5] = 1;
+    MI_CpuCopy8(CPSMyMac, buffer + 0xf6, 6);
+    buffer[0xfc] = 0xc;
+    buffer[0xfd] = 10;
+    MI_CpuCopy8(gDhcpHostname, buffer + 0xfe, 10);
+    buffer[0x108] = 0x37;
+    buffer[0x109] = 3;
+    buffer[0x10a] = 1;
+    buffer[0x10b] = 3;
+    buffer[0x10c] = 6;
+    return buffer + 0x10d;
 }
 
-u8 *func_ov000_021ad734(u8 a, u32 b, u8 *c, u32 d) {
-    if (d < b) {
-        MI_CpuFill8(c, a, b - d);
-        c = c + (b - d);
+u8 *pad_mem(u8 pattern, u32 minimum, u8 *position, u32 currentLength) {
+    if (currentLength < minimum) {
+        MI_CpuFill8(position, pattern, minimum - currentLength);
+        position = position + (minimum - currentLength);
     }
-    return c;
+    return position;
 }

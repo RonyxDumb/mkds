@@ -6,9 +6,9 @@ BOOL dhcp_discover_server(void) {
     u32 queryId;
     int result;
     int retry;
-    func_ov000_021ae270();
-    func_ov000_021ae2d8();
-    func_ov000_021ae290(0x44, 0x43, 0xffffffff);
+    CPS_SocUse();
+    CPS_SocDatagramMode();
+    CPS_SocBind(0x44, 0x43, 0xffffffff);
     retry = 0;
     do {
         queryId = dhcp_send_discover();
@@ -18,7 +18,7 @@ BOOL dhcp_discover_server(void) {
         }
         retry = retry + 1;
     } while (retry < 4);
-    func_ov000_021ae258();
+    CPS_SocRelease();
     if (result == 1) {
         return 1;
     }
