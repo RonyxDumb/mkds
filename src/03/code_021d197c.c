@@ -38,8 +38,8 @@ void ReleaseOamRanges(void) {
     s32 i;
 
     for (i = 0; i < 2; i++) {
-        func_ov003_021d2eb8(gOamRanges[i].mUnk_220);
-        func_ov003_021d1d4c(gOamRanges[i].mFreeRanges);
+        DeleteNodeList(gOamRanges[i].mUnk_220);
+        DeletePointerStack(gOamRanges[i].mFreeRanges);
     }
     FreeExpHeapBlockAndClearPointer(&gOamRanges);
 }

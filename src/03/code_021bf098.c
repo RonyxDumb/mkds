@@ -30,13 +30,13 @@ void CreateSlideButtons(u32 kind) {
         imageCursor = gSlideButtonImages + kind * 2;
         do {
             gSlideButtons->mButtons[i] = CreateOamRangeFromNceImage(0, *imageCursor, 1);
-            func_ov003_021d1790(gSlideButtons->mButtons[i], -1, 1);
+            SetOamRangePriority(gSlideButtons->mButtons[i], -1, 1);
             imageCursor++;
             i++;
         } while (i < buttonCount);
     }
     gSlideButtons->mUnk_08 = CreateOamRangeFromNceImage(0, 1, 1);
-    func_ov003_021d1790(gSlideButtons->mUnk_08, -1, 1);
+    SetOamRangePriority(gSlideButtons->mUnk_08, -1, 1);
     SetSlideButtonsY(0xc0);
     gSlideButtons->mStepTask = (TaskEntry *) AddTask(0, AdvanceSlideButtonsIn, NULL, 0x78);
 }
@@ -143,7 +143,7 @@ void AdvanceButtonTouch(void) {
                 positionIndex = (gSlideButtonPositionIndices + gSlideButtons->mKind * 2)[i];
                 SetOamRangePosition(gSlideButtons->mButtons[i], -1, gSlideButtonOrigins[positionIndex * 2],
                                     data_ov003_021d5ed6[positionIndex * 2]);
-                func_ov003_021d1790(gSlideButtons->mButtons[i], -1, 1);
+                SetOamRangePriority(gSlideButtons->mButtons[i], -1, 1);
                 gSlideButtons->mResetTask = AddTask(0, AdvanceButtonReset, NULL, 0x6e);
                 gSlideButtons->mButtonResult = i;
                 return;

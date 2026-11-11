@@ -58,9 +58,9 @@ void CreateMenuPairObjects(u32 row) {
     gMenuPairObjects = AllocZeroedExpHeapBlock(0x1c, 4);
     for (i = 0; i < 5; i++) {
         gMenuPairObjects->mObjects[i] = CreateOamRangeFromNceImage(1, gMenuPairObjectImageIds[row][i], 1);
-        func_ov003_021d1790(gMenuPairObjects->mObjects[i], -1, 0);
+        SetOamRangePriority(gMenuPairObjects->mObjects[i], -1, 0);
         SetOamRangePosition(gMenuPairObjects->mObjects[i], -1, -0x2a, gMenuPairObjectPositions[i].mY);
-        func_ov003_021d1890(gMenuPairObjects->mObjects[i], -1, 0, gMenuPairObjectPaletteIds[row][i]);
+        SetOamRangeMode(gMenuPairObjects->mObjects[i], -1, 0, gMenuPairObjectPaletteIds[row][i]);
     }
     gMenuPairObjects->mTask = AddTask(0, AdvanceMenuPairObjectSlideIn0, NULL, 0x78);
     LoadMenuPairScreenMap(row);

@@ -47,7 +47,7 @@ s32 RunMainLoop(void *memoryBlock, s32 languageIndex, u32 modeAndFlags) {
         gUpdateFunction();
         RunTasksAndRemoveRequested(0);
         UpdateLcdPower();
-        func_ov003_021d3278();
+        SendLedPatternWirelessIfDifferent();
         VBlankIntrWait();
     } while (gQuitFlag[0] == 0);
     ReleaseApplication();
@@ -93,7 +93,7 @@ void InitApplication(void) {
     reg_GXS_DB_DISPCNT &= 0xfffeffff;
     SaveBankSettingsAndClearVram();
     CreateExpHeapOverBuffer(gHeapMemoryBlock);
-    func_ov003_021d2dfc();
+    EnableTaskVBlankIrq();
     InitTasks();
     InitDwcArchive();
     InitKeyTouchInput();
@@ -161,9 +161,9 @@ void InitGraphics(void) {
 void ReleaseApplication(void) {
     GX_DispOff();
     *((u32 *) 0x04001000u) = *((u32 *) 0x04001000u) & (0xfffeffffu);
-    func_ov003_021d326c();
+    SendLedPatternOn();
     ReleaseKeyTouchInput();
-    func_ov003_021d2dcc();
+    RestoreTaskVBlankIrq();
     ReleaseSoundData();
     ReleaseOamRanges();
     ReleaseOamBuffers();

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_ov003_021d2eb8(void *block, ...);
+void DeleteNodeList(void *block, ...);

@@ -25,7 +25,7 @@ void PlaceSelectionPair(u32 pairIndex, u32 leftX, u32 rightX, u32 yPos) {
     objectIds = data_ov003_021d5f4c + pairIndex * 2;
     for (; i < 2; i++) {
         gSelectionObjects[i] = CreateOamRangeFromNceImage(0, *objectIds, 1);
-        func_ov003_021d1790(gSelectionObjects[i], -1, 1);
+        SetOamRangePriority(gSelectionObjects[i], -1, 1);
         objectIds++;
     }
     SetOamRangePosition(gSelectionObjects[0], -1, leftX, yPos);
@@ -44,7 +44,7 @@ void PlaceSelectionCorners(u32 left, u32 right, u32 top, u32 bottom) {
     do {
         object = CreateOamRangeFromNceImage(0, objectId, 1);
         gSelectionObjects[slot] = object;
-        func_ov003_021d1790(gSelectionObjects[slot], 0xffffffff, 1);
+        SetOamRangePriority(gSelectionObjects[slot], 0xffffffff, 1);
         slot = slot + 1;
         count = count + 1;
         objectId = objectId + 1;

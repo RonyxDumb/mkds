@@ -1,9 +1,9 @@
 #include "03/code_021d1790.h"
 #include "03/code_021d1770.h"
 
-static inline void func_ov003_021d17d4_inline(OamEntry *p, u32 *x, u32 *y) {
-    *x = (p->mUnk_00 & 0x1ff0000) >> 16;
-    *y = p->mUnk_00 & 0xff;
+static inline void G2_GetOBJPosition(OamEntry *oam, u32 *x, u32 *y) {
+    *x = (oam->mUnk_00 & 0x1ff0000) >> 16;
+    *y = oam->mUnk_00 & 0xff;
 }
 
 void SetOamRangeEffect(OamRange *range, s32 index, u32 effect, u32 affineIndex) {
@@ -32,21 +32,21 @@ void SetOamRangeEffect(OamRange *range, s32 index, u32 effect, u32 affineIndex) 
     }
 }
 
-void func_ov003_021d1890(OamRange *range, s32 index, u32 param_3, u32 param_4) {
+void SetOamRangeMode(OamRange *range, s32 index, u32 mode, u32 colorParam) {
     s32 i;
     OamEntry *entries = range->mEntries;
 
     if (index >= 0) {
-        u32 t = entries[index].mUnk_00;
-        u32 u;
+        u32 attr01 = entries[index].mUnk_00;
+        u32 attr2;
 
-        entries[index].mUnk_00 = (t & 0xfffff3ff) | (param_3 << 10);
-        u = entries[index].mUnk_04;
-        entries[index].mUnk_04 = (u & 0xffff0fff) | (param_4 << 12);
+        entries[index].mUnk_00 = (attr01 & 0xfffff3ff) | (mode << 10);
+        attr2 = entries[index].mUnk_04;
+        entries[index].mUnk_04 = (attr2 & 0xffff0fff) | (colorParam << 12);
     } else {
         for (i = 0; i < range->mEntryCount; i++) {
-            entries->mUnk_00 = (entries->mUnk_00 & 0xfffff3ff) | (param_3 << 10);
-            entries->mUnk_04 = (entries->mUnk_04 & 0xffff0fff) | (param_4 << 12);
+            entries->mUnk_00 = (entries->mUnk_00 & 0xfffff3ff) | (mode << 10);
+            entries->mUnk_04 = (entries->mUnk_04 & 0xffff0fff) | (colorParam << 12);
             entries++;
         }
     }
@@ -67,29 +67,29 @@ void SetOamRangePosition(OamRange *range, s32 index, u32 xPos, u32 yPos) {
 
         entries[index].mUnk_00 = ((xPos & 0x1ff) << 16) | ((word & 0xfe00ff00) | (yPos & 0xff));
     } else {
-        func_ov003_021d17d4_inline(entries, (u32 *) &firstX, (u32 *) &firstY);
+        G2_GetOBJPosition(entries, (u32 *) &firstX, (u32 *) &firstY);
         entries->mUnk_00 = ((xPos & 0x1ff) << 16) | ((entries->mUnk_00 & 0xfe00ff00) | (yPos & 0xff));
         deltaX = xPos - firstX;
         deltaY = yPos - firstY;
         for (i = 1; i < range->mEntryCount; i++) {
-            func_ov003_021d17d4_inline(&entries[i], (u32 *) &entryX, (u32 *) &entryY);
+            G2_GetOBJPosition(&entries[i], (u32 *) &entryX, (u32 *) &entryY);
             entries[i].mUnk_00 =
                 (((entryX + deltaX) & 0x1ff) << 16) | ((entries[i].mUnk_00 & 0xfe00ff00) | ((entryY + deltaY) & 0xff));
         }
     }
 }
 
-void func_ov003_021d1790(OamRange *range, s32 index, u32 param_3) {
+void SetOamRangePriority(OamRange *range, s32 index, u32 priority) {
     OamEntry *entries = range->mEntries;
     s32 i;
 
     if (index >= 0) {
         u32 word = entries[index].mUnk_04;
 
-        entries[index].mUnk_04 = (word & 0xfffff3ff) | (param_3 << 10);
+        entries[index].mUnk_04 = (word & 0xfffff3ff) | (priority << 10);
     } else {
         for (i = 0; i < range->mEntryCount; i++) {
-            entries->mUnk_04 = (entries->mUnk_04 & 0xfffff3ff) | (param_3 << 10);
+            entries->mUnk_04 = (entries->mUnk_04 & 0xfffff3ff) | (priority << 10);
             entries++;
         }
     }

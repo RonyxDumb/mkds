@@ -21,57 +21,57 @@
 #include "code_02142eac.h"
 #include "Main/Unknown/code_02151718.h"
 
-void func_ov003_021d1358(Unk021da2ac *a, Unk021d1358 *b) {
-    data_ov003_021da2ac = a;
-    func_ov003_021cfa30(a->mUnk_b00);
-    data_ov003_021da2ac->mUnk_648 = 0;
-    data_ov003_021da2ac->mUnk_64a = 0;
-    data_ov003_021da2ac->mUnk_a90 = 1;
-    data_ov003_021da2ac->mUnk_a91 = 1;
-    data_ov003_021da2ac->mUnk_a9c = 0;
-    func_ov003_021d0a18();
-    data_ov003_021da2ac->mUnk_ab4 = b->mUnk_00;
-    data_ov003_021da2ac->mUnk_ab8 = b->mUnk_04;
-    data_ov003_021da2ac->mUnk_abc = b->mUnk_08;
-    data_ov003_021da2ac->mUnk_ac0 = b->mUnk_0c;
-    data_ov003_021da2ac->mUnk_ac4 = b->mUnk_10;
-    data_ov003_021da2ac->mUnk_ac8 = b->mUnk_14;
-    data_ov003_021da2ac->mUnk_a92 = b->mUnk_18;
-    data_ov003_021da2ac->mUnk_acc = 2;
+void InitChildWaitSession(ChildWaitSessionView *session, Unk021d1358 *params) {
+    gChildWaitSessionView = session;
+    InitMultiBootParent(session->mUnk_b00);
+    gChildWaitSessionView->mUnk_648 = 0;
+    gChildWaitSessionView->mUnk_64a = 0;
+    gChildWaitSessionView->mUnk_a90 = 1;
+    gChildWaitSessionView->mUnk_a91 = 1;
+    gChildWaitSessionView->mUnk_a9c = 0;
+    ClearChildWaitSharedEntries();
+    gChildWaitSessionView->mUnk_ab4 = params->mUnk_00;
+    gChildWaitSessionView->mUnk_ab8 = params->mUnk_04;
+    gChildWaitSessionView->mUnk_abc = params->mUnk_08;
+    gChildWaitSessionView->mUnk_ac0 = params->mUnk_0c;
+    gChildWaitSessionView->mUnk_ac4 = params->mUnk_10;
+    gChildWaitSessionView->mUnk_ac8 = params->mUnk_14;
+    gChildWaitSessionView->mUnk_a92 = params->mUnk_18;
+    gChildWaitSessionView->mUnk_acc = 2;
     OS_GetTick();
-    ReadNvramEntries(data_ov003_021da2ac->mUnk_64c);
+    ReadNvramEntries(gChildWaitSessionView->mUnk_64c);
     OS_GetTick();
-    data_ov003_021da2ac->mUnk_aa0[1] = (u8 *) GetApStore();
+    gChildWaitSessionView->mUnk_aa0[1] = (u8 *) GetApStore();
 }
 
-u32 func_ov003_021d1290(void) {
-    Unk021da2ac *a = data_ov003_021da2ac;
-    u8 *p = &a->mUnk_a90;
-    u8 b = *p;
+BOOL StopChildWaitSession(void) {
+    ChildWaitSessionView *session = gChildWaitSessionView;
+    u8 *statePointer = &session->mUnk_a90;
+    u8 state = *statePointer;
 
-    if (b == 1 || b == 0x14 || b == 0x17 || b == 0x1a || b == 0x1d) {
-        a->mUnk_a90 = 0x22;
-        data_ov003_021da2ac->mUnk_aac = 0;
+    if (state == 1 || state == 0x14 || state == 0x17 || state == 0x1a || state == 0x1d) {
+        session->mUnk_a90 = 0x22;
+        gChildWaitSessionView->mUnk_aac = 0;
         return 1;
     }
-    if (b == 4 || b == 5 || b == 6 || b == 0xd) {
-        if (b == 4 && a->mUnk_a98 < 6) {
+    if (state == 4 || state == 5 || state == 6 || state == 0xd) {
+        if (state == 4 && session->mUnk_a98 < 6) {
             return 0;
         }
         MB_EndToIdle();
-        data_ov003_021da2ac->mUnk_a90 = 0x10;
-        data_ov003_021da2ac->mUnk_aac = 2;
+        gChildWaitSessionView->mUnk_a90 = 0x10;
+        gChildWaitSessionView->mUnk_aac = 2;
         return 1;
     }
-    if (b == 9 || b == 10) {
-        *p = 0x20;
+    if (state == 9 || state == 10) {
+        *statePointer = 0x20;
         return 1;
     }
-    if (b == 0xc) {
-        *p = 0x22;
+    if (state == 0xc) {
+        *statePointer = 0x22;
         return 1;
     }
-    switch (b) {
+    switch (state) {
         case 2:
             return 0;
         default:
@@ -79,194 +79,194 @@ u32 func_ov003_021d1290(void) {
     }
 }
 
-void func_ov003_021d1218(void) {
-    func_ov003_021d0128(data_ov003_021da2ac->mUnk_ac8);
-    data_ov003_021da2ac->mUnk_a90 = 1;
-    data_ov003_021da2ac->mUnk_648 = WM_GetNextTgid();
-    MI_CpuCopy8(data_ov003_021da2ac->mUnk_aa0[1], data_ov003_021da2ac->mUnk_a50, 0x40);
-    data_ov003_021da2ac->mUnk_a93 = 0;
-    data_ov003_021da2ac->mUnk_204 = 0;
-    data_ov003_021da2ac->mUnk_648++;
+void ResetChildWaitSessionState(void) {
+    SetWhGgid(gChildWaitSessionView->mUnk_ac8);
+    gChildWaitSessionView->mUnk_a90 = 1;
+    gChildWaitSessionView->mUnk_648 = WM_GetNextTgid();
+    MI_CpuCopy8(gChildWaitSessionView->mUnk_aa0[1], gChildWaitSessionView->mUnk_a50, 0x40);
+    gChildWaitSessionView->mUnk_a93 = 0;
+    gChildWaitSessionView->mUnk_204 = 0;
+    gChildWaitSessionView->mUnk_648++;
 }
 
-u32 func_ov003_021d11d4(void) {
-    if (data_ov003_021da2ac->mUnk_a90 == 1 || data_ov003_021da2ac->mUnk_a90 == 0x1a ||
-        data_ov003_021da2ac->mUnk_a90 == 0x1d) {
-        func_ov003_021d1218();
-        func_ov003_021cfde4();
-        data_ov003_021da2ac->mUnk_a90 = 2;
+BOOL StartChildWaitSession(void) {
+    if (gChildWaitSessionView->mUnk_a90 == 1 || gChildWaitSessionView->mUnk_a90 == 0x1a ||
+        gChildWaitSessionView->mUnk_a90 == 0x1d) {
+        ResetChildWaitSessionState();
+        ClearWhAndInitialize();
+        gChildWaitSessionView->mUnk_a90 = 2;
         return 1;
     }
     return 0;
 }
 
-u32 func_ov003_021d11a0(void) {
-    if (data_ov003_021da2ac->mUnk_a90 == 5) {
-        data_ov003_021da2ac->mUnk_a90 = 6;
-        func_ov003_021cf69c();
+BOOL StartChildWaitDownload(void) {
+    if (gChildWaitSessionView->mUnk_a90 == 5) {
+        gChildWaitSessionView->mUnk_a90 = 6;
+        StartMultiBootDownloads();
         return 1;
     }
     return 0;
 }
 
-void func_ov003_021d0ee0(void) {
-    switch (data_ov003_021da2ac->mUnk_a90) {
+void AdvanceChildWaitState(void) {
+    switch (gChildWaitSessionView->mUnk_a90) {
         case 1:
-            if (data_ov003_021da2ac->mUnk_aac == 1) {
-                data_ov003_021da2ac->mUnk_aac = 0;
-                func_ov003_021d11d4();
+            if (gChildWaitSessionView->mUnk_aac == 1) {
+                gChildWaitSessionView->mUnk_aac = 0;
+                StartChildWaitSession();
                 return;
             }
-            if (data_ov003_021da2ac->mUnk_aac == 2) {
-                data_ov003_021da2ac->mUnk_aac = 0;
-                data_ov003_021da2ac->mUnk_a90 = 0x22;
+            if (gChildWaitSessionView->mUnk_aac == 2) {
+                gChildWaitSessionView->mUnk_aac = 0;
+                gChildWaitSessionView->mUnk_a90 = 0x22;
             }
             return;
         case 2:
-            func_ov003_021d0df8();
+            AdvanceChildWaitWhStart();
             return;
         case 3:
-            func_ov003_021d0dd8();
-            data_ov003_021da2ac->mUnk_a90 = 4;
+            InitChildWaitMultiBoot();
+            gChildWaitSessionView->mUnk_a90 = 4;
             return;
         case 4:
-            data_ov003_021da2ac->mUnk_a98++;
-            func_ov003_021d0c84();
+            gChildWaitSessionView->mUnk_a98++;
+            AdvanceChildWaitMultiBoot();
             return;
         case 5:
         case 6:
-            func_ov003_021d0c84();
+            AdvanceChildWaitMultiBoot();
             return;
         case 7:
-            func_ov003_021d0c58();
+            StartChildWaitDataConnect();
             return;
         case 8:
         case 9:
         case 10:
-            func_ov003_021d0acc();
+            AdvanceChildWaitDataSharing();
             return;
         case 11:
-            func_ov003_021d0ab8();
+            AdvanceChildWaitAfterReply();
             return;
         case 16:
-            data_ov003_021da2ac->mUnk_a9c = 0;
-            data_ov003_021da2ac->mUnk_a90 = 0x11;
+            gChildWaitSessionView->mUnk_a9c = 0;
+            gChildWaitSessionView->mUnk_a90 = 0x11;
             return;
         case 17:
-            if (data_ov003_021da2ac->mUnk_a9c++ > 0x1e) {
-                func_ov003_021d0a88();
+            if (gChildWaitSessionView->mUnk_a9c++ > 0x1e) {
+                EndChildWaitWh();
             }
             return;
         case 18:
             MB_EndToIdle();
-            data_ov003_021da2ac->mUnk_a9c = 0;
-            data_ov003_021da2ac->mUnk_a90 = 0x16;
+            gChildWaitSessionView->mUnk_a9c = 0;
+            gChildWaitSessionView->mUnk_a90 = 0x16;
             return;
         case 19:
-            if (data_ov003_021da2ac->mUnk_a9c++ > 0x1e) {
-                if (func_ov003_021d010c() == 1) {
-                    func_ov003_021cfa68();
-                    data_ov003_021da2ac->mUnk_a90 = 0x14;
+            if (gChildWaitSessionView->mUnk_a9c++ > 0x1e) {
+                if (GetWhState() == 1) {
+                    EndWh();
+                    gChildWaitSessionView->mUnk_a90 = 0x14;
                 }
             }
             return;
         case 21:
-            func_ov003_021cfaa8();
-            data_ov003_021da2ac->mUnk_a9c = 0;
-            data_ov003_021da2ac->mUnk_a90 = 0x16;
+            FinalizeWh();
+            gChildWaitSessionView->mUnk_a9c = 0;
+            gChildWaitSessionView->mUnk_a90 = 0x16;
             return;
         case 22:
-            if (data_ov003_021da2ac->mUnk_a9c++ > 0x1e) {
-                if (func_ov003_021d010c() == 1) {
-                    func_ov003_021cfa68();
-                    data_ov003_021da2ac->mUnk_a90 = 0x17;
+            if (gChildWaitSessionView->mUnk_a9c++ > 0x1e) {
+                if (GetWhState() == 1) {
+                    EndWh();
+                    gChildWaitSessionView->mUnk_a90 = 0x17;
                 }
             }
             return;
         case 24:
-            func_ov003_021cfaa8();
-            data_ov003_021da2ac->mUnk_a9c = 0;
-            data_ov003_021da2ac->mUnk_a90 = 0x19;
+            FinalizeWh();
+            gChildWaitSessionView->mUnk_a9c = 0;
+            gChildWaitSessionView->mUnk_a90 = 0x19;
             return;
         case 25:
-            if (data_ov003_021da2ac->mUnk_a9c++ > 0x1e) {
-                if (func_ov003_021d010c() == 1) {
-                    func_ov003_021cfa68();
-                    data_ov003_021da2ac->mUnk_a90 = 0x1a;
+            if (gChildWaitSessionView->mUnk_a9c++ > 0x1e) {
+                if (GetWhState() == 1) {
+                    EndWh();
+                    gChildWaitSessionView->mUnk_a90 = 0x1a;
                 }
             }
             return;
         case 27:
-            func_ov003_021cfaa8();
-            data_ov003_021da2ac->mUnk_a9c = 0;
-            data_ov003_021da2ac->mUnk_a90 = 0x1c;
+            FinalizeWh();
+            gChildWaitSessionView->mUnk_a9c = 0;
+            gChildWaitSessionView->mUnk_a90 = 0x1c;
             return;
         case 28:
-            if (data_ov003_021da2ac->mUnk_a9c++ > 0x1e) {
-                if (func_ov003_021d010c() == 1) {
-                    func_ov003_021cfa68();
-                    data_ov003_021da2ac->mUnk_a90 = 0x1d;
+            if (gChildWaitSessionView->mUnk_a9c++ > 0x1e) {
+                if (GetWhState() == 1) {
+                    EndWh();
+                    gChildWaitSessionView->mUnk_a90 = 0x1d;
                     return;
                 } else {
-                    u32 a = data_ov003_021da2ac->mUnk_a9c;
+                    u32 stateFrames = gChildWaitSessionView->mUnk_a9c;
 
-                    if (a % 0x1e == 1 && a > 0x37) {
-                        func_ov003_021cfaa8();
+                    if (stateFrames % 0x1e == 1 && stateFrames > 0x37) {
+                        FinalizeWh();
                     }
                 }
             }
             return;
         case 32:
-            func_ov003_021cfaa8();
-            data_ov003_021da2ac->mUnk_a9c = 0;
-            data_ov003_021da2ac->mUnk_a90 = 0x21;
+            FinalizeWh();
+            gChildWaitSessionView->mUnk_a9c = 0;
+            gChildWaitSessionView->mUnk_a90 = 0x21;
             return;
         case 33:
-            if (data_ov003_021da2ac->mUnk_a9c++ > 0x1e) {
-                if (func_ov003_021d010c() == 1) {
-                    func_ov003_021cfa68();
-                    data_ov003_021da2ac->mUnk_a90 = 0x22;
+            if (gChildWaitSessionView->mUnk_a9c++ > 0x1e) {
+                if (GetWhState() == 1) {
+                    EndWh();
+                    gChildWaitSessionView->mUnk_a90 = 0x22;
                 }
             }
             return;
         case 30:
-            func_ov003_021cfaa8();
+            FinalizeWh();
             return;
         case 34:
             return;
     }
 }
 
-void func_ov003_021d0e9c(u8 *a, u8 *b) {
-    *a = data_ov003_021da2ac->mUnk_a90;
-    if (data_ov003_021da2ac->mUnk_a90 != data_ov003_021da2ac->mUnk_a91) {
-        *b = 1;
+void GetChildWaitStateChange(u8 *stateOut, u8 *changedOut) {
+    *stateOut = gChildWaitSessionView->mUnk_a90;
+    if (gChildWaitSessionView->mUnk_a90 != gChildWaitSessionView->mUnk_a91) {
+        *changedOut = 1;
     } else {
-        *b = 0;
+        *changedOut = 0;
     }
-    data_ov003_021da2ac->mUnk_a91 = data_ov003_021da2ac->mUnk_a90;
+    gChildWaitSessionView->mUnk_a91 = gChildWaitSessionView->mUnk_a90;
 }
 
-void *func_ov003_021d0e90(void) {
+void *GetChildWaitChildUser(void) {
     return MB_CommGetChildUser(1);
 }
 
-void func_ov003_021d0df8(void) {
-    switch (func_ov003_021d010c()) {
+void AdvanceChildWaitWhStart(void) {
+    switch (GetWhState()) {
         case 1:
-            func_ov003_021d0078();
+            StartWhChannelSearch();
             return;
         case 7:
-            data_ov003_021da2ac->mUnk_64a = func_ov003_021cfed8();
-            data_ov003_021da2ac->mUnk_a98 = 0;
-            data_ov003_021da2ac->mUnk_a90 = 3;
+            gChildWaitSessionView->mUnk_64a = DecideWhChannel();
+            gChildWaitSessionView->mUnk_a98 = 0;
+            gChildWaitSessionView->mUnk_a90 = 3;
             return;
         case 0:
-            data_ov003_021da2ac->mUnk_a98 = 0;
-            data_ov003_021da2ac->mUnk_a90 = 3;
+            gChildWaitSessionView->mUnk_a98 = 0;
+            gChildWaitSessionView->mUnk_a90 = 3;
             return;
         case 9:
-            func_ov003_021cfb80();
+            StartWhResetOrFail();
             return;
         case 3:
             break;
@@ -276,214 +276,215 @@ void func_ov003_021d0df8(void) {
     }
 }
 
-void func_ov003_021d0dd8(void) {
-    func_ov003_021cf978(data_ov003_021da2ac->mUnk_ac8, data_ov003_021da2ac->mUnk_648);
+void InitChildWaitMultiBoot(void) {
+    InitMultiBootParentComm(gChildWaitSessionView->mUnk_ac8, gChildWaitSessionView->mUnk_648);
 }
 
-void func_ov003_021d0c84(void) {
-    switch (func_ov003_021cf360()) {
+void AdvanceChildWaitMultiBoot(void) {
+    switch (GetMultiBootParentState()) {
         case 1:
-            func_ov003_021cf93c((Unk021cf8ac *) &data_ov003_021da2ac->mUnk_ab4, data_ov003_021da2ac->mUnk_64a);
+            StartMultiBootParentFromIdle((Unk021cf8ac *) &gChildWaitSessionView->mUnk_ab4,
+                                         gChildWaitSessionView->mUnk_64a);
             return;
         case 2:
-            if (func_ov003_021cf32c(2) != 0) {
-                data_ov003_021da2ac->mUnk_a90 = 5;
+            if (GetMultiBootChildMask(2) != 0) {
+                gChildWaitSessionView->mUnk_a90 = 5;
                 return;
             }
-            if (func_ov003_021cf32c(3) != 0 || func_ov003_021cf32c(4) != 0) {
-                data_ov003_021da2ac->mUnk_a90 = 6;
+            if (GetMultiBootChildMask(3) != 0 || GetMultiBootChildMask(4) != 0) {
+                gChildWaitSessionView->mUnk_a90 = 6;
                 return;
             }
-            if (data_ov003_021da2ac->mUnk_a90 == 5) {
-                if (func_ov003_021cf32c(2) == 0) {
-                    data_ov003_021da2ac->mUnk_a90 = 0xd;
+            if (gChildWaitSessionView->mUnk_a90 == 5) {
+                if (GetMultiBootChildMask(2) == 0) {
+                    gChildWaitSessionView->mUnk_a90 = 0xd;
                     return;
                 }
             }
             break;
         case 3:
-            if (func_ov003_021cf64c() != 0) {
-                func_ov003_021cf5ac();
+            if (AreMultiBootChildrenBootable() != 0) {
+                StartMultiBootBootRequests();
                 return;
             }
-            if ((u8) (data_ov003_021da2ac->mUnk_a90 + 250) <= 1) {
-                if (func_ov003_021cf32c(3) == 0) {
-                    data_ov003_021da2ac->mUnk_a90 = 0x12;
+            if ((u8) (gChildWaitSessionView->mUnk_a90 + 250) <= 1) {
+                if (GetMultiBootChildMask(3) == 0) {
+                    gChildWaitSessionView->mUnk_a90 = 0x12;
                     return;
                 }
             }
             break;
         case 5:
-            data_ov003_021da2ac->mUnk_a90 = 7;
+            gChildWaitSessionView->mUnk_a90 = 7;
             return;
         case 7:
-            func_ov003_021cf598();
-            data_ov003_021da2ac->mUnk_a90 = 1;
+            StartMultiBootEndToIdle();
+            gChildWaitSessionView->mUnk_a90 = 1;
             return;
         case 0:
-            switch (func_ov003_021d010c()) {
+            switch (GetWhState()) {
                 case 1:
-                    func_ov003_021cfa68();
+                    EndWh();
                     return;
                 case 0:
-                    data_ov003_021da2ac->mUnk_a90 = 0x1f;
+                    gChildWaitSessionView->mUnk_a90 = 0x1f;
                     return;
                 case 3:
                     break;
                 default:
-                    data_ov003_021da2ac->mUnk_a90 = 0x1f;
+                    gChildWaitSessionView->mUnk_a90 = 0x1f;
                     break;
             }
             break;
     }
 }
 
-void func_ov003_021d0c58(void) {
-    func_ov003_021d0a18();
-    func_ov003_021cfc40((u32) &func_ov003_021d0a50);
-    data_ov003_021da2ac->mUnk_a90 = 8;
+void StartChildWaitDataConnect(void) {
+    ClearChildWaitSharedEntries();
+    SetWhConnectCallback((u32) &AcceptMatchingWhChild);
+    gChildWaitSessionView->mUnk_a90 = 8;
 }
 
-void func_ov003_021d0acc(void) {
-    u16 a;
-    s32 b;
+void AdvanceChildWaitDataSharing(void) {
+    u16 blockNumber;
+    s32 blockIndex;
 
-    switch (func_ov003_021d010c()) {
+    switch (GetWhState()) {
         case 1:
-            func_ov003_021cfc4c(4, data_ov003_021da2ac->mUnk_648 + 1, data_ov003_021da2ac->mUnk_64a);
+            StartWhParentConnect(4, gChildWaitSessionView->mUnk_648 + 1, gChildWaitSessionView->mUnk_64a);
             break;
         case 4:
         case 5:
         case 6:
-            a = data_ov003_021da2ac->mUnk_200;
-            b = a % 16;
-            func_ov003_021d0900(0, a, data_ov003_021da2ac->mUnk_aa0[1] + (b << 6));
-            func_ov003_021d0850();
-            if (data_ov003_021da2ac->mUnk_a90 != 0x1b) {
-                if (data_ov003_021da2ac->mUnk_204 > 0x1e0) {
-                    data_ov003_021da2ac->mUnk_a90 = 0x1b;
+            blockNumber = gChildWaitSessionView->mUnk_200;
+            blockIndex = blockNumber % 16;
+            ExchangeChildWaitSharedEntries(0, blockNumber, gChildWaitSessionView->mUnk_aa0[1] + (blockIndex << 6));
+            ReadChildWaitReply();
+            if (gChildWaitSessionView->mUnk_a90 != 0x1b) {
+                if (gChildWaitSessionView->mUnk_204 > 0x1e0) {
+                    gChildWaitSessionView->mUnk_a90 = 0x1b;
                     return;
                 }
-                if (func_ov003_021d083c() == 0x10 || func_ov003_021d083c() == 0x20) {
-                    func_ov003_021d083c();
-                    data_ov003_021da2ac->mUnk_a90 = 0xa;
-                } else if (func_ov003_021d083c() == 0x40) {
-                    data_ov003_021da2ac->mUnk_a90 = 0xb;
-                } else if (func_ov003_021d083c() == 0xff) {
-                    data_ov003_021da2ac->mUnk_a90 = 0x1b;
-                } else if (func_ov003_021d083c() == 0x50) {
-                    data_ov003_021da2ac->mUnk_a90 = 0x15;
-                } else if (func_ov003_021d083c() == 0x60) {
-                    data_ov003_021da2ac->mUnk_a90 = 0x18;
-                } else if (func_ov003_021d083c() == 0x70) {
-                    data_ov003_021da2ac->mUnk_a90 = 0x1b;
-                } else if (func_ov003_021d083c() == 0) {
-                    data_ov003_021da2ac->mUnk_a90 = 8;
-                } else if (func_ov003_021d083c() == 0xbd) {
-                    data_ov003_021da2ac->mUnk_a90 = 9;
+                if (GetChildWaitReplyCode() == 0x10 || GetChildWaitReplyCode() == 0x20) {
+                    GetChildWaitReplyCode();
+                    gChildWaitSessionView->mUnk_a90 = 0xa;
+                } else if (GetChildWaitReplyCode() == 0x40) {
+                    gChildWaitSessionView->mUnk_a90 = 0xb;
+                } else if (GetChildWaitReplyCode() == 0xff) {
+                    gChildWaitSessionView->mUnk_a90 = 0x1b;
+                } else if (GetChildWaitReplyCode() == 0x50) {
+                    gChildWaitSessionView->mUnk_a90 = 0x15;
+                } else if (GetChildWaitReplyCode() == 0x60) {
+                    gChildWaitSessionView->mUnk_a90 = 0x18;
+                } else if (GetChildWaitReplyCode() == 0x70) {
+                    gChildWaitSessionView->mUnk_a90 = 0x1b;
+                } else if (GetChildWaitReplyCode() == 0) {
+                    gChildWaitSessionView->mUnk_a90 = 8;
+                } else if (GetChildWaitReplyCode() == 0xbd) {
+                    gChildWaitSessionView->mUnk_a90 = 9;
                 } else {
-                    data_ov003_021da2ac->mUnk_a90 = 0x1f;
+                    gChildWaitSessionView->mUnk_a90 = 0x1f;
                 }
             }
             break;
     }
 }
 
-void func_ov003_021d0ab8(void) {
-    data_ov003_021da2ac->mUnk_a90 = 0xc;
+void AdvanceChildWaitAfterReply(void) {
+    gChildWaitSessionView->mUnk_a90 = 0xc;
 }
 
-u32 func_ov003_021d0a88(void) {
-    int v1;
-    v1 = func_ov003_021d010c();
-    if (v1 == 1) {
-        func_ov003_021cfa68();
-        data_ov003_021da2ac->mUnk_a90 = 1;
+BOOL EndChildWaitWh(void) {
+    int whState;
+    whState = GetWhState();
+    if (whState == 1) {
+        EndWh();
+        gChildWaitSessionView->mUnk_a90 = 1;
         return 1;
     }
     return 0;
 }
 
-u32 func_ov003_021d0a50(Unk021425e8 *v1) {
-    u16 r = GetRecordValueByMacAddress(v1->mUnk_0a);
-    if (r == 0) {
+u32 AcceptMatchingWhChild(Unk021425e8 *event) {
+    u16 aid = GetRecordValueByMacAddress(event->mUnk_0a);
+    if (aid == 0) {
         return 0;
     }
-    data_ov003_021da2ac->mUnk_aa0[r - 1] = func_ov003_021cf260(r);
+    gChildWaitSessionView->mUnk_aa0[aid - 1] = GetMultiBootChildRecord(aid);
     return 1;
 }
 
-void func_ov003_021d0a18(void) {
-    MI_CpuFill8(data_ov003_021da2ac->mUnk_100, 0, 0x100);
-    MI_CpuFill8(data_ov003_021da2ac, 0, 0x100);
-    data_ov003_021da2ac->mUnk_ab0 = (Unk021da2ac_100 *) data_ov003_021da2ac;
+void ClearChildWaitSharedEntries(void) {
+    MI_CpuFill8(gChildWaitSessionView->mUnk_100, 0, 0x100);
+    MI_CpuFill8(gChildWaitSessionView, 0, 0x100);
+    gChildWaitSessionView->mUnk_ab0 = (ChildWaitSharedEntry *) gChildWaitSessionView;
 }
 
-void func_ov003_021d0900(u16 param_1, u16 param_2, u8 *param_3) {
-    u16 i;
+void ExchangeChildWaitSharedEntries(u16 code, u16 value, u8 *payload) {
+    u16 aid;
 
-    if (data_ov003_021da2ac->mUnk_a93 == 1) {
-        data_ov003_021da2ac->mUnk_ab0->mUnk_00 = param_1;
-        data_ov003_021da2ac->mUnk_ab0->mUnk_02 = param_2;
-        MI_CpuCopy8(param_3, data_ov003_021da2ac->mUnk_ab0->mUnk_04, 0x40);
+    if (gChildWaitSessionView->mUnk_a93 == 1) {
+        gChildWaitSessionView->mUnk_ab0->mUnk_00 = code;
+        gChildWaitSessionView->mUnk_ab0->mUnk_02 = value;
+        MI_CpuCopy8(payload, gChildWaitSessionView->mUnk_ab0->mUnk_04, 0x40);
     } else {
-        data_ov003_021da2ac->mUnk_204 = data_ov003_021da2ac->mUnk_204 + 1;
-        data_ov003_021da2ac->mUnk_ab0->mUnk_00 = 0xbc;
-        data_ov003_021da2ac->mUnk_ab0->mUnk_04[0] = data_ov003_021da2ac->mUnk_a92;
+        gChildWaitSessionView->mUnk_204 = gChildWaitSessionView->mUnk_204 + 1;
+        gChildWaitSessionView->mUnk_ab0->mUnk_00 = 0xbc;
+        gChildWaitSessionView->mUnk_ab0->mUnk_04[0] = gChildWaitSessionView->mUnk_a92;
     }
-    if (func_ov003_021d010c() == 5) {
-        if (func_ov003_021cfb98(data_ov003_021da2ac) == FALSE) {
-            data_ov003_021da2ac->mUnk_204 = data_ov003_021da2ac->mUnk_204 + 4;
+    if (GetWhState() == 5) {
+        if (StepWhDataSharing(gChildWaitSessionView) == FALSE) {
+            gChildWaitSessionView->mUnk_204 = gChildWaitSessionView->mUnk_204 + 4;
             return;
         }
-        if (data_ov003_021da2ac->mUnk_a93 == 0) {
-            data_ov003_021da2ac->mUnk_204 = data_ov003_021da2ac->mUnk_204 + 1;
+        if (gChildWaitSessionView->mUnk_a93 == 0) {
+            gChildWaitSessionView->mUnk_204 = gChildWaitSessionView->mUnk_204 + 1;
         } else {
-            data_ov003_021da2ac->mUnk_204 = 0;
-            if (func_ov003_021d0118() != 3) {
-                data_ov003_021da2ac->mUnk_a90 = 0x1b;
+            gChildWaitSessionView->mUnk_204 = 0;
+            if (GetWhConnectedMask() != 3) {
+                gChildWaitSessionView->mUnk_a90 = 0x1b;
                 return;
             }
         }
-        for (i = 0; i < 2; i++) {
-            u8 *p = func_ov003_021cfc1c(i);
-            if (p != NULL) {
-                MI_CpuCopy8(p, &data_ov003_021da2ac->mUnk_100[i], 0x44);
-                data_ov003_021da2ac->mUnk_208[i] = 1;
+        for (aid = 0; aid < 2; aid++) {
+            u8 *sharedData = GetWhSharedDataAddress(aid);
+            if (sharedData != NULL) {
+                MI_CpuCopy8(sharedData, &gChildWaitSessionView->mUnk_100[aid], 0x44);
+                gChildWaitSessionView->mUnk_208[aid] = 1;
             } else {
-                data_ov003_021da2ac->mUnk_208[i] = 0;
+                gChildWaitSessionView->mUnk_208[aid] = 0;
             }
         }
     }
 }
 
-void func_ov003_021d0850(void) {
-    s32 i;
-    Unk021da2ac *p;
-    Unk021da2ac_100 *e;
+void ReadChildWaitReply(void) {
+    s32 entryIndex;
+    ChildWaitSessionView *session;
+    ChildWaitSharedEntry *entry;
 
-    for (i = 0; i < 16; i++) {
-        p = data_ov003_021da2ac;
-        if (p->mUnk_208[i] != 0) {
-            e = &p->mUnk_100[(u32) i];
-            if (i == 1) {
-                if (p->mUnk_a93 == 1) {
-                    if (e->mUnk_00 != 0x10) {
+    for (entryIndex = 0; entryIndex < 16; entryIndex++) {
+        session = gChildWaitSessionView;
+        if (session->mUnk_208[entryIndex] != 0) {
+            entry = GetChildWaitSharedEntry(session, entryIndex);
+            if (entryIndex == 1) {
+                if (session->mUnk_a93 == 1) {
+                    if (entry->mUnk_00 != 0x10) {
                         return;
                     }
-                    p->mUnk_a94 = p->mUnk_a94 + 1;
-                    if ((data_ov003_021da2ac->mUnk_a94 & 1) == 0) {
-                        data_ov003_021da2ac->mUnk_200 = data_ov003_021da2ac->mUnk_200 + 1;
-                        if (data_ov003_021da2ac->mUnk_200 >= 0x24) {
-                            data_ov003_021da2ac->mUnk_200 = 0;
+                    session->mUnk_a94 = session->mUnk_a94 + 1;
+                    if ((gChildWaitSessionView->mUnk_a94 & 1) == 0) {
+                        gChildWaitSessionView->mUnk_200 = gChildWaitSessionView->mUnk_200 + 1;
+                        if (gChildWaitSessionView->mUnk_200 >= 0x24) {
+                            gChildWaitSessionView->mUnk_200 = 0;
                         }
                     }
                 } else {
-                    p->mUnk_202 = 0xbc;
-                    if (e->mUnk_00 == 0xbd) {
-                        data_ov003_021da2ac->mUnk_a93 = 1;
-                        data_ov003_021da2ac->mUnk_200 = 0;
-                        data_ov003_021da2ac->mUnk_a94 = 0;
+                    session->mUnk_202 = 0xbc;
+                    if (entry->mUnk_00 == 0xbd) {
+                        gChildWaitSessionView->mUnk_a93 = 1;
+                        gChildWaitSessionView->mUnk_200 = 0;
+                        gChildWaitSessionView->mUnk_a94 = 0;
                     }
                 }
             }
@@ -491,6 +492,6 @@ void func_ov003_021d0850(void) {
     }
 }
 
-u16 func_ov003_021d083c(void) {
-    return data_ov003_021da2ac->mUnk_100[1].mUnk_00;
+u16 GetChildWaitReplyCode(void) {
+    return gChildWaitSessionView->mUnk_100[1].mUnk_00;
 }

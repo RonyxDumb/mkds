@@ -39,7 +39,7 @@ typedef struct Jb3List {
 
 // Objects whose layout isn't known yet.
 typedef struct UsbScan UsbScan;
-typedef struct Unk021cf260 Unk021cf260;
+typedef struct MultiBootParent MultiBootParent;
 extern SlideButtons *gSlideButtons;
 extern u8 gSubScreenMessageShown;
 extern OamRange **gSelectionObjects;
@@ -156,19 +156,19 @@ typedef struct MessageBox {
 } MessageBox;
 
 extern MessageBox *gMessageBox;
-extern Unk021cf260 *data_ov003_021da288;
-extern u16 *data_ov003_021da28c[];
-extern UnkFunc *data_ov003_021da2a4;
-typedef struct Unk021da2ac_100 {
+extern MultiBootParent *gMultiBootParent;
+extern u16 *gMultiBootMaskPointers[];
+extern UnkFunc *gWhPrintFunction;
+typedef struct ChildWaitSharedEntry {
     /* 00 */ u16 mUnk_00;
     /* 02 */ u16 mUnk_02;
     /* 04 */ u8 mUnk_04[0x40];
-} Unk021da2ac_100;
+} ChildWaitSharedEntry;
 
-// Object behind data_ov003_021da2ac.
-typedef struct Unk021da2ac {
+// Object behind gChildWaitSessionView.
+typedef struct ChildWaitSessionView {
     /* 000 */ u8 pad_000[0x100];
-    /* 100 */ Unk021da2ac_100 mUnk_100[2];
+    /* 100 */ ChildWaitSharedEntry mUnk_100[2];
     /* 188 */ u8 pad_188[0x78];
     /* 200 */ u16 mUnk_200;
     /* 202 */ u16 mUnk_202;
@@ -190,7 +190,7 @@ typedef struct Unk021da2ac {
     /* aa8 */ u8 mUnk_aa8[4];
     /* aac */ u8 mUnk_aac;
     /* aad */ u8 mUnk_aad[3];
-    /* ab0 */ Unk021da2ac_100 *mUnk_ab0;
+    /* ab0 */ ChildWaitSharedEntry *mUnk_ab0;
     /* ab4 */ u32 mUnk_ab4;
     /* ab8 */ u32 mUnk_ab8;
     /* abc */ u32 mUnk_abc;
@@ -200,9 +200,13 @@ typedef struct Unk021da2ac {
     /* acc */ u8 mUnk_acc;
     /* acd */ u8 mUnk_acd[0x33];
     /* b00 */ u8 mUnk_b00[4];
-} Unk021da2ac;
+} ChildWaitSessionView;
 
-extern Unk021da2ac *data_ov003_021da2ac;
+static inline ChildWaitSharedEntry *GetChildWaitSharedEntry(ChildWaitSessionView *session, u32 entryIndex) {
+    return &session->mUnk_100[entryIndex];
+}
+
+extern ChildWaitSessionView *gChildWaitSessionView;
 // Object of 0xe8 bytes: a pointer at 0x00, 32 pointers from 0x04, the list of them at 0x84, an FSArchive at 0x88
 // and a halfword at 0xe4.
 typedef struct DwcArchive {

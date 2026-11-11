@@ -9,674 +9,675 @@
 #include "code_0200fc8c.h"
 #include "code_02142eac.h"
 
-void func_ov003_021d0810(Unk021da2a8 *a) {
-    data_ov003_021da2a8 = a;
-    a->mUnk_40 = 0;
-    data_ov003_021da2a8->mUnk_13a8 = 0;
-    data_ov003_021da2a8->mUnk_13ac = NULL;
-    data_ov003_021da2a8->mUnk_13b0 = 0;
+void InitWhWork(WhWork *work) {
+    gWhWork = work;
+    work->mUnk_40 = 0;
+    gWhWork->mUnk_13a8 = 0;
+    gWhWork->mUnk_13ac = NULL;
+    gWhWork->mUnk_13b0 = 0;
 }
 
-void func_ov003_021d07b0(u32 v1) {
-    if (data_ov003_021da2a4 != NULL) {
-        data_ov003_021da2a4(0x08000000, data_ov003_021d7bc8, data_ov003_021d79a8[data_ov003_021da2a8->mUnk_40]);
+void SetWhState(u32 newState) {
+    if (gWhPrintFunction != NULL) {
+        gWhPrintFunction(0x08000000, gWhStateFromFormat, gWhStateNames[gWhWork->mUnk_40]);
     }
-    data_ov003_021da2a8->mUnk_40 = v1;
-    if (data_ov003_021da2a4 != NULL) {
-        data_ov003_021da2a4(0x08000000, data_ov003_021d7bd0, data_ov003_021d79a8[data_ov003_021da2a8->mUnk_40]);
-    }
-}
-
-void func_ov003_021d079c(s32 value) {
-    if ((u32) (data_ov003_021da2a8->mUnk_40 - 9) > 1) {
-        data_ov003_021da2a8->mUnk_54 = value;
+    gWhWork->mUnk_40 = newState;
+    if (gWhPrintFunction != NULL) {
+        gWhPrintFunction(0x08000000, gWhStateToFormat, gWhStateNames[gWhWork->mUnk_40]);
     }
 }
 
-BOOL func_ov003_021d0760(void) {
-    s32 r;
+void SetWhErrorCode(s32 errorCode) {
+    if ((u32) (gWhWork->mUnk_40 - 9) > 1) {
+        gWhWork->mUnk_54 = errorCode;
+    }
+}
 
-    func_ov003_021d07b0(3);
-    r = WM_SetParentParameter(func_ov003_021d0708, (Unk02143c30 *) data_ov003_021da2a8);
-    if (r != 2) {
-        func_ov003_021d079c(r);
-        func_ov003_021d07b0(9);
+BOOL SetWhParentParameter(void) {
+    s32 result;
+
+    SetWhState(3);
+    result = WM_SetParentParameter(SetWhParentParameterCallback, (Unk02143c30 *) gWhWork);
+    if (result != 2) {
+        SetWhErrorCode(result);
+        SetWhState(9);
         return FALSE;
     }
     return TRUE;
 }
 
-void func_ov003_021d0708(Unk021425e8 *v1) {
-    if (v1->mResultCode != 0) {
-        func_ov003_021d079c(v1->mResultCode);
-        func_ov003_021d07b0(9);
+void SetWhParentParameterCallback(Unk021425e8 *event) {
+    if (event->mResultCode != 0) {
+        SetWhErrorCode(event->mResultCode);
+        SetWhState(9);
         return;
     }
-    if (data_ov003_021da2a8->mUnk_13ac != NULL) {
-        if (func_ov003_021d06b0() == FALSE) {
-            func_ov003_021d07b0(9);
+    if (gWhWork->mUnk_13ac != NULL) {
+        if (SetWhWepKey() == FALSE) {
+            SetWhState(9);
         }
-    } else if (func_ov003_021d0630() == FALSE) {
-        func_ov003_021d07b0(9);
+    } else if (StartWhParent() == FALSE) {
+        SetWhState(9);
     }
 }
 
-BOOL func_ov003_021d06b0(void) {
-    u32 a;
-    s32 r;
+BOOL SetWhWepKey(void) {
+    u32 wepMode;
+    s32 result;
 
-    func_ov003_021d07b0(3);
-    a = data_ov003_021da2a8->mUnk_13ac(data_ov003_021da2a8->mUnk_13c0, data_ov003_021da2a8);
-    r = WM_SetWEPKey(func_ov003_021d0680, a, data_ov003_021da2a8->mUnk_13c0);
-    if (r != 2) {
-        func_ov003_021d079c(r);
-        func_ov003_021d07b0(9);
+    SetWhState(3);
+    wepMode = gWhWork->mUnk_13ac(gWhWork->mUnk_13c0, gWhWork);
+    result = WM_SetWEPKey(SetWhWepKeyCallback, wepMode, gWhWork->mUnk_13c0);
+    if (result != 2) {
+        SetWhErrorCode(result);
+        SetWhState(9);
         return FALSE;
     }
     return TRUE;
 }
 
-void func_ov003_021d0680(Unk021425e8 *event) {
+void SetWhWepKeyCallback(Unk021425e8 *event) {
     if (event->mResultCode != 0) {
-        func_ov003_021d079c(event->mResultCode);
-        func_ov003_021d07b0(9);
+        SetWhErrorCode(event->mResultCode);
+        SetWhState(9);
     } else {
-        if (func_ov003_021d0630() == FALSE) {
-            func_ov003_021d07b0(9);
+        if (StartWhParent() == FALSE) {
+            SetWhState(9);
         }
     }
 }
 
-BOOL func_ov003_021d0630(void) {
-    s32 r;
+BOOL StartWhParent(void) {
+    s32 result;
 
-    if ((u32) (data_ov003_021da2a8->mUnk_40 - 4) <= 2) {
+    if ((u32) (gWhWork->mUnk_40 - 4) <= 2) {
         return TRUE;
     }
-    r = WM_StartParent(func_ov003_021d0530);
-    if (r != 2) {
-        func_ov003_021d079c(r);
+    result = WM_StartParent(StartWhParentCallback);
+    if (result != 2) {
+        SetWhErrorCode(result);
         return FALSE;
     }
-    data_ov003_021da2a8->mUnk_50 = 0;
-    data_ov003_021da2a8->mUnk_52 = 1;
+    gWhWork->mUnk_50 = 0;
+    gWhWork->mUnk_52 = 1;
     return TRUE;
 }
 
-void func_ov003_021d0530(Unk021425e8 *v1) {
-    u16 v2;
-    s32 r;
+void StartWhParentCallback(Unk021425e8 *event) {
+    u16 aidBit;
+    s32 result;
 
-    v2 = 1 << v1->mUnk_10;
-    if (v1->mResultCode != 0) {
-        func_ov003_021d079c(v1->mResultCode);
-        func_ov003_021d07b0(9);
+    aidBit = 1 << event->mUnk_10;
+    if (event->mResultCode != 0) {
+        SetWhErrorCode(event->mResultCode);
+        SetWhState(9);
         return;
     }
-    switch (v1->mUnk_08_0) {
+    switch (event->mUnk_08_0) {
         case 7:
-            if (data_ov003_021da2a4 != NULL) {
-                data_ov003_021da2a4(0x08000000, data_ov003_021d7b70, v1->mUnk_10);
+            if (gWhPrintFunction != NULL) {
+                gWhPrintFunction(0x08000000, gWhChildConnectedFormat, event->mUnk_10);
             }
-            if (data_ov003_021da2a8->mUnk_4c != NULL && data_ov003_021da2a8->mUnk_4c(v1) == 0) {
-                r = WM_Disconnect(NULL, v1->mUnk_10);
-                if (r == 2) {
+            if (gWhWork->mUnk_4c != NULL && gWhWork->mUnk_4c(event) == 0) {
+                result = WM_Disconnect(NULL, event->mUnk_10);
+                if (result == 2) {
                     return;
                 }
-                func_ov003_021d079c(r);
-                func_ov003_021d07b0(9);
+                SetWhErrorCode(result);
+                SetWhState(9);
                 return;
             }
-            data_ov003_021da2a8->mUnk_52 = data_ov003_021da2a8->mUnk_52 | v2;
+            gWhWork->mUnk_52 = gWhWork->mUnk_52 | aidBit;
             return;
         case 9:
-            if (data_ov003_021da2a4 != NULL) {
-                data_ov003_021da2a4(0x08000000, data_ov003_021d7b9c, v1->mUnk_10);
+            if (gWhPrintFunction != NULL) {
+                gWhPrintFunction(0x08000000, gWhChildDisconnectedFormat, event->mUnk_10);
             }
-            data_ov003_021da2a8->mUnk_52 = data_ov003_021da2a8->mUnk_52 & ~v2;
+            gWhWork->mUnk_52 = gWhWork->mUnk_52 & ~aidBit;
             return;
         case 0:
-            if (func_ov003_021d04a8() == FALSE) {
-                func_ov003_021d07b0(9);
+            if (StartWhMP() == FALSE) {
+                SetWhState(9);
             }
             return;
         case 2:
             return;
         default:
-            if (data_ov003_021da2a4 != NULL) {
-                data_ov003_021da2a4(0x08000000, data_ov003_021d7af8, v1->mUnk_08_0);
+            if (gWhPrintFunction != NULL) {
+                gWhPrintFunction(0x08000000, gWhIndicateStateFormat, event->mUnk_08_0);
             }
             return;
     }
 }
 
-BOOL func_ov003_021d04a8(void) {
-    s32 r;
+BOOL StartWhMP(void) {
+    s32 result;
 
-    if ((u32) (data_ov003_021da2a8->mUnk_40 - 4) <= 2) {
+    if ((u32) (gWhWork->mUnk_40 - 4) <= 2) {
         return TRUE;
     }
-    func_ov003_021d07b0(4);
-    r = WM_StartMPEx(func_ov003_021d03c0, data_ov003_021da2a8->mUnk_1060, data_ov003_021da2a8->mUnk_12a4,
-                     data_ov003_021da2a8->mUnk_f80, data_ov003_021da2a8->mUnk_12a0, 1, 0, 0, 0, 0, 0);
-    if (r != 2) {
-        func_ov003_021d079c(r);
+    SetWhState(4);
+    result = WM_StartMPEx(StartWhMPCallback, gWhWork->mUnk_1060, gWhWork->mUnk_12a4, gWhWork->mUnk_f80,
+                          gWhWork->mUnk_12a0, 1, 0, 0, 0, 0, 0);
+    if (result != 2) {
+        SetWhErrorCode(result);
         return FALSE;
     }
     return TRUE;
 }
 
-void func_ov003_021d03c0(Unk021425e8 *v1) {
-    s32 r;
+void StartWhMPCallback(Unk021425e8 *event) {
+    s32 result;
 
-    if (v1->mResultCode != 0) {
-        func_ov003_021d079c(v1->mResultCode);
-        func_ov003_021d07b0(9);
+    if (event->mResultCode != 0) {
+        SetWhErrorCode(event->mResultCode);
+        SetWhState(9);
         return;
     }
-    switch (v1->mUnk_04) {
+    switch (event->mUnk_04) {
         case 0xa:
-            if (data_ov003_021da2a8->mUnk_44 == 2) {
-                if (data_ov003_021da2a8->mUnk_40 == 4) {
-                    if (func_ov003_021d0388() != FALSE) {
+            if (gWhWork->mUnk_44 == 2) {
+                if (gWhWork->mUnk_40 == 4) {
+                    if (StartWhKeySharing() != FALSE) {
                         return;
                     }
-                    if (data_ov003_021da2a4 != NULL) {
-                        data_ov003_021da2a4(0x08000000, data_ov003_021d7b40);
+                    if (gWhPrintFunction != NULL) {
+                        gWhPrintFunction(0x08000000, gWhStartKeySharingFailedText);
                     }
-                    func_ov003_021d07b0(9);
+                    SetWhState(9);
                     return;
                 }
-                if (data_ov003_021da2a8->mUnk_40 == 6) {
+                if (gWhWork->mUnk_40 == 6) {
                     return;
                 }
-            } else if (data_ov003_021da2a8->mUnk_44 == 4) {
-                r = WM_StartDataSharing(&data_ov003_021da2a8->mUnk_13e0, 0xd, 7, 0x44, 1);
-                if (r != 0) {
-                    func_ov003_021d079c(r);
-                    func_ov003_021d07b0(9);
+            } else if (gWhWork->mUnk_44 == 4) {
+                result = WM_StartDataSharing(&gWhWork->mUnk_13e0, 0xd, 7, 0x44, 1);
+                if (result != 0) {
+                    SetWhErrorCode(result);
+                    SetWhState(9);
                     return;
                 }
-                func_ov003_021d07b0(5);
+                SetWhState(5);
                 return;
             }
-            func_ov003_021d07b0(4);
+            SetWhState(4);
             return;
         case 0xb:
             break;
         case 0xc:
         case 0xd:
         default:
-            if (data_ov003_021da2a4 != NULL) {
-                data_ov003_021da2a4(0x08000000, data_ov003_021d7af8, v1->mUnk_04);
+            if (gWhPrintFunction != NULL) {
+                gWhPrintFunction(0x08000000, gWhIndicateStateFormat, event->mUnk_04);
             }
             break;
     }
 }
 
-BOOL func_ov003_021d0388(void) {
-    s32 r;
-
-    func_ov003_021d07b0(6);
-    r = WM_StartKeySharing(&data_ov003_021da2a8->mUnk_1e00, 0xd);
-    if (r != 2) {
-        func_ov003_021d079c(r);
-        return FALSE;
-    }
-    return TRUE;
-}
-
-BOOL func_ov003_021d0358(void) {
-    s32 result = WM_EndKeySharing(&data_ov003_021da2a8->mUnk_1e00);
-    if (result != 2) {
-        func_ov003_021d079c(result);
-        return FALSE;
-    }
-    return TRUE;
-}
-
-BOOL func_ov003_021d032c(void) {
+BOOL StartWhKeySharing(void) {
     s32 result;
-    func_ov003_021d07b0(3);
-    result = WM_EndMP(func_ov003_021d02e8);
+
+    SetWhState(6);
+    result = WM_StartKeySharing(&gWhWork->mUnk_1e00, 0xd);
     if (result != 2) {
-        func_ov003_021d079c(result);
+        SetWhErrorCode(result);
         return FALSE;
     }
     return TRUE;
 }
 
-void func_ov003_021d02e8(Unk021425e8 *v1) {
-    if (v1->mResultCode != 0) {
-        func_ov003_021d079c(v1->mResultCode);
-        func_ov003_021cfb80();
-    } else if (func_ov003_021d02c0() == FALSE) {
-        if (data_ov003_021da2a4 != NULL) {
-            data_ov003_021da2a4(0x08000000, data_ov003_021d7b18);
+BOOL EndWhKeySharing(void) {
+    s32 result = WM_EndKeySharing(&gWhWork->mUnk_1e00);
+    if (result != 2) {
+        SetWhErrorCode(result);
+        return FALSE;
+    }
+    return TRUE;
+}
+
+BOOL EndWhMP(void) {
+    s32 result;
+    SetWhState(3);
+    result = WM_EndMP(EndWhMPCallback);
+    if (result != 2) {
+        SetWhErrorCode(result);
+        return FALSE;
+    }
+    return TRUE;
+}
+
+void EndWhMPCallback(Unk021425e8 *event) {
+    if (event->mResultCode != 0) {
+        SetWhErrorCode(event->mResultCode);
+        StartWhResetOrFail();
+    } else if (EndWhParent() == FALSE) {
+        if (gWhPrintFunction != NULL) {
+            gWhPrintFunction(0x08000000, gWhEndParentFailedText);
         }
-        func_ov003_021cfb80();
+        StartWhResetOrFail();
     }
 }
 
-BOOL func_ov003_021d02c0(void) {
-    s32 result = WM_EndParent(func_ov003_021d02a0);
+BOOL EndWhParent(void) {
+    s32 result = WM_EndParent(EndWhParentCallback);
     if (result != 2) {
-        func_ov003_021d079c(result);
+        SetWhErrorCode(result);
         return FALSE;
     }
     return TRUE;
 }
 
-void func_ov003_021d02a0(Unk021425e8 *event) {
+void EndWhParentCallback(Unk021425e8 *event) {
     if (event->mResultCode != 0) {
-        func_ov003_021d079c(event->mResultCode);
+        SetWhErrorCode(event->mResultCode);
     } else {
-        func_ov003_021d07b0(1);
+        SetWhState(1);
     }
 }
 
-BOOL func_ov003_021d0258(void) {
-    s32 r;
-
-    if (data_ov003_021da2a8->mUnk_40 != 6) {
-        return FALSE;
-    }
-    func_ov003_021d07b0(3);
-    r = WM_EndKeySharing(&data_ov003_021da2a8->mUnk_1e00);
-    if (r != 2) {
-        func_ov003_021d079c(r);
-        return FALSE;
-    }
-    return TRUE;
-}
-
-BOOL func_ov003_021d022c(void) {
+BOOL EndActiveWhKeySharing(void) {
     s32 result;
-    func_ov003_021d07b0(3);
-    result = WM_EndMP(func_ov003_021d0200);
+
+    if (gWhWork->mUnk_40 != 6) {
+        return FALSE;
+    }
+    SetWhState(3);
+    result = WM_EndKeySharing(&gWhWork->mUnk_1e00);
     if (result != 2) {
-        func_ov003_021d079c(result);
+        SetWhErrorCode(result);
         return FALSE;
     }
     return TRUE;
 }
 
-void func_ov003_021d0200(Unk021425e8 *event) {
+BOOL EndWhMPBeforeDisconnect(void) {
+    s32 result;
+    SetWhState(3);
+    result = WM_EndMP(EndWhMPBeforeDisconnectCallback);
+    if (result != 2) {
+        SetWhErrorCode(result);
+        return FALSE;
+    }
+    return TRUE;
+}
+
+void EndWhMPBeforeDisconnectCallback(Unk021425e8 *event) {
     if (event->mResultCode != 0) {
-        func_ov003_021d079c(event->mResultCode);
-        func_ov003_021cfaa8();
+        SetWhErrorCode(event->mResultCode);
+        FinalizeWh();
     } else {
-        if (func_ov003_021d01cc() == FALSE) {
-            func_ov003_021d07b0(9);
+        if (DisconnectWh() == FALSE) {
+            SetWhState(9);
         }
     }
 }
 
-BOOL func_ov003_021d01cc(void) {
-    s32 r;
-
-    func_ov003_021d07b0(3);
-    r = WM_Disconnect(func_ov003_021d01ac, 0);
-    if (r != 2) {
-        func_ov003_021d079c(r);
-        func_ov003_021cfb80();
-        return FALSE;
-    }
-    return TRUE;
-}
-
-void func_ov003_021d01ac(Unk021425e8 *event) {
-    if (event->mResultCode != 0) {
-        func_ov003_021d079c(event->mResultCode);
-    } else {
-        func_ov003_021d07b0(1);
-    }
-}
-
-BOOL func_ov003_021d0180(void) {
+BOOL DisconnectWh(void) {
     s32 result;
-    func_ov003_021d07b0(3);
-    result = WM_Reset(func_ov003_021d0158);
+
+    SetWhState(3);
+    result = WM_Disconnect(DisconnectWhCallback, 0);
     if (result != 2) {
-        func_ov003_021d079c(result);
+        SetWhErrorCode(result);
+        StartWhResetOrFail();
         return FALSE;
     }
     return TRUE;
 }
 
-void func_ov003_021d0158(Unk021425e8 *event) {
+void DisconnectWhCallback(Unk021425e8 *event) {
     if (event->mResultCode != 0) {
-        func_ov003_021d07b0(9);
-        func_ov003_021d079c(event->mResultCode);
+        SetWhErrorCode(event->mResultCode);
     } else {
-        func_ov003_021d07b0(1);
+        SetWhState(1);
     }
 }
 
-void func_ov003_021d0134(Unk021425e8 *a) {
-    if (a->mResultCode != 0) {
-        func_ov003_021d07b0(10);
+BOOL StartWhReset(void) {
+    s32 result;
+    SetWhState(3);
+    result = WM_Reset(StartWhResetCallback);
+    if (result != 2) {
+        SetWhErrorCode(result);
+        return FALSE;
+    }
+    return TRUE;
+}
+
+void StartWhResetCallback(Unk021425e8 *event) {
+    if (event->mResultCode != 0) {
+        SetWhState(9);
+        SetWhErrorCode(event->mResultCode);
+    } else {
+        SetWhState(1);
+    }
+}
+
+void EndWhCallback(Unk021425e8 *event) {
+    if (event->mResultCode != 0) {
+        SetWhState(10);
         return;
     }
-    func_ov003_021d07b0(0);
+    SetWhState(0);
 }
 
-void func_ov003_021d0128(u32 a) {
-    data_ov003_021da2a8->mUnk_08 = a;
+void SetWhGgid(u32 ggid) {
+    gWhWork->mUnk_08 = ggid;
 }
 
-u16 func_ov003_021d0118(void) {
-    return data_ov003_021da2a8->mUnk_52;
+u16 GetWhConnectedMask(void) {
+    return gWhWork->mUnk_52;
 }
 
-u32 func_ov003_021d010c(void) {
-    return data_ov003_021da2a8->mUnk_40;
+u32 GetWhState(void) {
+    return gWhWork->mUnk_40;
 }
 
-BOOL func_ov003_021d0078(void) {
-    u16 a[3];
-    u32 r;
-    u32 t;
+BOOL StartWhChannelSearch(void) {
+    u16 macAddress[3];
+    u32 result;
+    u32 seed;
 
-    OS_GetMacAddress(a);
-    t = *(u32 *) 0x27ffc3c;
-    t = a[0] + t + a[1] + a[2];
-    data_ov003_021da2a8->mUnk_58 = t;
-    data_ov003_021da2a8->mUnk_58 = data_ov003_021da2a8->mUnk_58 * 0x10dcd + 0x3039;
-    data_ov003_021da2a8->mUnk_5c = 0;
-    data_ov003_021da2a8->mUnk_5e = 0x65;
-    func_ov003_021d07b0(3);
-    r = func_ov003_021cfff8(1);
-    if (r == 0x18) {
-        func_ov003_021d079c(0x18);
-        func_ov003_021d07b0(9);
+    OS_GetMacAddress(macAddress);
+    seed = *(u32 *) 0x27ffc3c;
+    seed = macAddress[0] + seed + macAddress[1] + macAddress[2];
+    gWhWork->mUnk_58 = seed;
+    gWhWork->mUnk_58 = gWhWork->mUnk_58 * 0x10dcd + 0x3039;
+    gWhWork->mUnk_5c = 0;
+    gWhWork->mUnk_5e = 0x65;
+    SetWhState(3);
+    result = MeasureNextWhChannel(1);
+    if (result == 0x18) {
+        SetWhErrorCode(0x18);
+        SetWhState(9);
         return FALSE;
     }
-    if (r != 2) {
-        func_ov003_021d079c(r);
-        func_ov003_021d07b0(9);
+    if (result != 2) {
+        SetWhErrorCode(result);
+        SetWhState(9);
         return FALSE;
     }
     return TRUE;
 }
 
-u32 func_ov003_021cfff8(u16 param_1) {
-    u16 r = WM_GetAllowedChannel();
-    if (r == 0x8000) {
-        func_ov003_021d079c(3);
-        func_ov003_021d07b0(9);
+u32 MeasureNextWhChannel(u16 channel) {
+    u16 allowedChannels = WM_GetAllowedChannel();
+    if (allowedChannels == 0x8000) {
+        SetWhErrorCode(3);
+        SetWhState(9);
         return 3;
     }
-    if (r == 0) {
-        func_ov003_021d079c(0x16);
-        func_ov003_021d07b0(9);
+    if (allowedChannels == 0) {
+        SetWhErrorCode(0x16);
+        SetWhState(9);
         return 0x18;
     }
-    while (((1 << (param_1 - 1)) & r) == 0) {
-        param_1++;
-        if (param_1 > 0x10) {
+    while (((1 << (channel - 1)) & allowedChannels) == 0) {
+        channel++;
+        if (channel > 0x10) {
             return 0x18;
         }
     }
-    return (u16) func_ov003_021cff38(func_ov003_021cff50, param_1);
+    return (u16) StartWhMeasureChannel(StartWhMeasureChannelCallback, channel);
 }
 
-void func_ov003_021cff50(Unk021425e8 *param_1) {
-    u16 a;
-    u16 b;
-    u32 r;
+void StartWhMeasureChannelCallback(Unk021425e8 *event) {
+    u16 channel;
+    u16 busyRatio;
+    u32 result;
 
-    if (param_1->mResultCode != 0) {
-        func_ov003_021d079c(param_1->mResultCode);
-        func_ov003_021d07b0(9);
+    if (event->mResultCode != 0) {
+        SetWhErrorCode(event->mResultCode);
+        SetWhState(9);
         return;
     }
-    if (data_ov003_021da2a4 != NULL) {
-        data_ov003_021da2a4(0x08000000, data_ov003_021d7ae0, param_1->mUnk_08_0, param_1->mUnk_08_2);
+    if (gWhPrintFunction != NULL) {
+        gWhPrintFunction(0x08000000, gWhChannelBusyRatioFormat, event->mUnk_08_0, event->mUnk_08_2);
     }
-    a = param_1->mUnk_08_0;
-    b = param_1->mUnk_08_2;
-    if (data_ov003_021da2a8->mUnk_5e > b) {
-        data_ov003_021da2a8->mUnk_5e = b;
-        data_ov003_021da2a8->mUnk_60 = 1 << (a - 1);
-    } else if (data_ov003_021da2a8->mUnk_5e == b) {
-        data_ov003_021da2a8->mUnk_60 = data_ov003_021da2a8->mUnk_60 | (1 << (a - 1));
+    channel = event->mUnk_08_0;
+    busyRatio = event->mUnk_08_2;
+    if (gWhWork->mUnk_5e > busyRatio) {
+        gWhWork->mUnk_5e = busyRatio;
+        gWhWork->mUnk_60 = 1 << (channel - 1);
+    } else if (gWhWork->mUnk_5e == busyRatio) {
+        gWhWork->mUnk_60 = gWhWork->mUnk_60 | (1 << (channel - 1));
     }
-    r = func_ov003_021cfff8(a + 1);
-    if (r == 0x18) {
-        func_ov003_021d07b0(7);
+    result = MeasureNextWhChannel(channel + 1);
+    if (result == 0x18) {
+        SetWhState(7);
         return;
     }
-    if (r != 2) {
-        func_ov003_021d07b0(9);
+    if (result != 2) {
+        SetWhState(9);
     }
 }
 
-int func_ov003_021cff38(Unk021425e8Func a, u16 b) {
-    return WM_MeasureChannel(a, 3, 0x11, b, 0x1e);
+int StartWhMeasureChannel(Unk021425e8Func callback, u16 channel) {
+    return WM_MeasureChannel(callback, 3, 0x11, channel, 0x1e);
 }
 
-u16 func_ov003_021cfed8(void) {
-    Unk021da2a8 **v1;
-    u16 v2;
-    if (data_ov003_021da2a8->mUnk_40 != 7) {
+u16 DecideWhChannel(void) {
+    WhWork **workAddress;
+    u16 channel;
+    if (gWhWork->mUnk_40 != 7) {
         OS_Terminate();
     }
-    func_ov003_021d07b0(1);
-    v2 = func_ov003_021cfe40((u32) (data_ov003_021da2a8->mUnk_60));
-    v1 = &data_ov003_021da2a8;
-    data_ov003_021da2a8->mUnk_5c = v2;
-    if ((UnkFunc *) (*(u32 *) &data_ov003_021da2a4) != NULL) {
-        (*(UnkFunc *) (*(u32 *) &data_ov003_021da2a4))((0x08000000u), (u32) &data_ov003_021d7ac8, (*v1)->mUnk_5c);
+    SetWhState(1);
+    channel = PickWhChannel((u32) (gWhWork->mUnk_60));
+    workAddress = &gWhWork;
+    gWhWork->mUnk_5c = channel;
+    if ((UnkFunc *) (*(u32 *) &gWhPrintFunction) != NULL) {
+        (*(UnkFunc *) (*(u32 *) &gWhPrintFunction))((0x08000000u), (u32) &gWhDecidedChannelFormat,
+                                                    (*workAddress)->mUnk_5c);
     }
-    return data_ov003_021da2a8->mUnk_5c;
+    return gWhWork->mUnk_5c;
 }
 
-int func_ov003_021cfe40(u16 c) {
-    s16 a;
-    s16 i;
-    u16 b;
-    u16 n;
-    s16 j;
+int PickWhChannel(u16 channelMask) {
+    s16 lastChannel;
+    s16 bitIndex;
+    u16 bitCount;
+    u16 skipCount;
+    s16 channelIndex;
 
-    a = 0;
-    b = 0;
-    for (i = 0; i < 16; i++) {
-        if ((c & (1 << i)) != 0) {
-            a = i + 1;
-            b++;
+    lastChannel = 0;
+    bitCount = 0;
+    for (bitIndex = 0; bitIndex < 16; bitIndex++) {
+        if ((channelMask & (1 << bitIndex)) != 0) {
+            lastChannel = bitIndex + 1;
+            bitCount++;
         }
     }
-    if (b > 1) {
-        data_ov003_021da2a8->mUnk_58 = data_ov003_021da2a8->mUnk_58 * 0x10dcd + 0x3039;
-        n = (b * (data_ov003_021da2a8->mUnk_58 & 0xff)) >> 8;
-        for (j = 0; j < 16; j++) {
-            if ((c & 1) != 0) {
-                if (n == 0) {
-                    return (s16) (j + 1);
+    if (bitCount > 1) {
+        gWhWork->mUnk_58 = gWhWork->mUnk_58 * 0x10dcd + 0x3039;
+        skipCount = (bitCount * (gWhWork->mUnk_58 & 0xff)) >> 8;
+        for (channelIndex = 0; channelIndex < 16; channelIndex++) {
+            if ((channelMask & 1) != 0) {
+                if (skipCount == 0) {
+                    return (s16) (channelIndex + 1);
                 }
-                n--;
+                skipCount--;
             }
-            c = c >> 1;
+            channelMask = channelMask >> 1;
         }
         return 0;
     }
-    return a;
+    return lastChannel;
 }
 
-BOOL func_ov003_021cfde4(void) {
-    data_ov003_021da2a8->mUnk_12a4 = 0;
-    data_ov003_021da2a8->mUnk_12a0 = 0;
-    data_ov003_021da2a8->mUnk_48 = 0;
-    data_ov003_021da2a8->mUnk_50 = 0;
-    data_ov003_021da2a8->mUnk_52 = 1;
-    data_ov003_021da2a8->mUnk_54 = 0;
-    data_ov003_021da2a8->mUnk_00 = NULL;
-    data_ov003_021da2a8->mUnk_04 = 0;
-    data_ov003_021da2a8->mUnk_4c = NULL;
-    if (func_ov003_021cfd88() != FALSE) {
+BOOL ClearWhAndInitialize(void) {
+    gWhWork->mUnk_12a4 = 0;
+    gWhWork->mUnk_12a0 = 0;
+    gWhWork->mUnk_48 = 0;
+    gWhWork->mUnk_50 = 0;
+    gWhWork->mUnk_52 = 1;
+    gWhWork->mUnk_54 = 0;
+    gWhWork->mUnk_00 = NULL;
+    gWhWork->mUnk_04 = 0;
+    gWhWork->mUnk_4c = NULL;
+    if (StartWhInitialize() != FALSE) {
         return TRUE;
     }
     return FALSE;
 }
 
-void func_ov003_021cfdc8(Unk021425e8 *event) {
+void WhIndicationCallback(Unk021425e8 *event) {
     if (event->mResultCode == 8) {
-        func_ov003_021d07b0(9);
+        SetWhState(9);
         OS_Terminate();
     }
 }
 
-BOOL func_ov003_021cfd88(void) {
-    s32 r;
-    func_ov003_021d07b0(3);
-    r = WM_Initialize(data_ov003_021da2a8->mUnk_80, func_ov003_021cfd44, 2);
-    if (r != 2) {
-        func_ov003_021d079c(r);
-        func_ov003_021d07b0(10);
+BOOL StartWhInitialize(void) {
+    s32 result;
+    SetWhState(3);
+    result = WM_Initialize(gWhWork->mUnk_80, StartWhInitializeCallback, 2);
+    if (result != 2) {
+        SetWhErrorCode(result);
+        SetWhState(10);
         return FALSE;
     }
     return TRUE;
 }
 
-void func_ov003_021cfd44(Unk021425e8 *a) {
-    if (a->mResultCode != 0) {
-        func_ov003_021d079c(a->mResultCode);
-        func_ov003_021d07b0(10);
+void StartWhInitializeCallback(Unk021425e8 *event) {
+    if (event->mResultCode != 0) {
+        SetWhErrorCode(event->mResultCode);
+        SetWhState(10);
     } else {
-        s32 r = WM_SetIndCallback(func_ov003_021cfdc8);
-        if (r != 0) {
-            func_ov003_021d079c(r);
-            func_ov003_021d07b0(10);
+        s32 result = WM_SetIndCallback(WhIndicationCallback);
+        if (result != 0) {
+            SetWhErrorCode(result);
+            SetWhState(10);
         } else {
-            func_ov003_021d07b0(1);
+            SetWhState(1);
         }
     }
 }
 
-BOOL func_ov003_021cfc4c(u32 a, u16 b, u16 c) {
-    if (data_ov003_021da2a8->mUnk_40 != 1) {
+BOOL StartWhParentConnect(u32 mode, u16 tgid, u16 channel) {
+    if (gWhWork->mUnk_40 != 1) {
         OS_Terminate();
     }
-    data_ov003_021da2a8->mUnk_12a4 = 0x180;
-    data_ov003_021da2a8->mUnk_12a0 = 0xe0;
-    if (data_ov003_021da2a4 != NULL) {
-        data_ov003_021da2a4(0x08000000, data_ov003_021d7a7c, data_ov003_021da2a8->mUnk_12a4);
+    gWhWork->mUnk_12a4 = 0x180;
+    gWhWork->mUnk_12a0 = 0xe0;
+    if (gWhPrintFunction != NULL) {
+        gWhPrintFunction(0x08000000, gWhRecvBufferSizeFormat, gWhWork->mUnk_12a4);
     }
-    if (data_ov003_021da2a4 != NULL) {
-        data_ov003_021da2a4(0x08000000, data_ov003_021d7a94, data_ov003_021da2a8->mUnk_12a0);
+    if (gWhPrintFunction != NULL) {
+        gWhPrintFunction(0x08000000, gWhSendBufferSizeFormat, gWhWork->mUnk_12a0);
     }
-    data_ov003_021da2a8->mUnk_44 = a;
-    func_ov003_021d07b0(3);
-    data_ov003_021da2a8->mUnk_0c = b;
-    data_ov003_021da2a8->mUnk_32 = c;
-    data_ov003_021da2a8->mUnk_18 = WM_GetDispersionBeaconPeriod();
-    data_ov003_021da2a8->mUnk_34 = 0xd0;
-    data_ov003_021da2a8->mUnk_36 = 0x44;
-    data_ov003_021da2a8->mUnk_10 = 2;
-    data_ov003_021da2a8->mUnk_16 = 0;
-    data_ov003_021da2a8->mUnk_12 = 0;
-    data_ov003_021da2a8->mUnk_0e = 1;
-    data_ov003_021da2a8->mUnk_14 = a == 2 ? 1 : 0;
-    if (a == 0 || a == 2 || a == 4) {
-        return func_ov003_021d0760();
+    gWhWork->mUnk_44 = mode;
+    SetWhState(3);
+    gWhWork->mUnk_0c = tgid;
+    gWhWork->mUnk_32 = channel;
+    gWhWork->mUnk_18 = WM_GetDispersionBeaconPeriod();
+    gWhWork->mUnk_34 = 0xd0;
+    gWhWork->mUnk_36 = 0x44;
+    gWhWork->mUnk_10 = 2;
+    gWhWork->mUnk_16 = 0;
+    gWhWork->mUnk_12 = 0;
+    gWhWork->mUnk_0e = 1;
+    gWhWork->mUnk_14 = mode == 2 ? 1 : 0;
+    if (mode == 0 || mode == 2 || mode == 4) {
+        return SetWhParentParameter();
     }
-    if (data_ov003_021da2a4 != NULL) {
-        data_ov003_021da2a4(0x08000000, data_ov003_021d7aac, a);
+    if (gWhPrintFunction != NULL) {
+        gWhPrintFunction(0x08000000, gWhConnectModeFormat, mode);
     }
     return FALSE;
 }
 
-void func_ov003_021cfc40(u32 a) {
-    data_ov003_021da2a8->mUnk_4c = (s32(*)(Unk021425e8 *)) a;
+void SetWhConnectCallback(u32 callback) {
+    gWhWork->mUnk_4c = (s32(*)(Unk021425e8 *)) callback;
 }
 
-u8 *func_ov003_021cfc1c(u32 a) {
-    return WM_GetSharedDataAddress(&data_ov003_021da2a8->mUnk_13e0, &data_ov003_021da2a8->mUnk_1c00, a);
+u8 *GetWhSharedDataAddress(u32 aid) {
+    return WM_GetSharedDataAddress(&gWhWork->mUnk_13e0, &gWhWork->mUnk_1c00, aid);
 }
 
-BOOL func_ov003_021cfb98(void *a) {
-    s32 r = WM_StepDataSharing(&data_ov003_021da2a8->mUnk_13e0, a, &data_ov003_021da2a8->mUnk_1c00);
-    if (r == 7) {
-        if (data_ov003_021da2a4 != NULL) {
-            data_ov003_021da2a4(0x08000000, data_ov003_021d7a18);
+BOOL StepWhDataSharing(void *sendData) {
+    s32 result = WM_StepDataSharing(&gWhWork->mUnk_13e0, sendData, &gWhWork->mUnk_1c00);
+    if (result == 7) {
+        if (gWhPrintFunction != NULL) {
+            gWhPrintFunction(0x08000000, gWhNoChildText);
         }
         return FALSE;
     }
-    if (r == 5) {
-        if (data_ov003_021da2a4 != NULL) {
-            data_ov003_021da2a4(0x08000000, data_ov003_021d7a48);
+    if (result == 5) {
+        if (gWhPrintFunction != NULL) {
+            gWhPrintFunction(0x08000000, gWhNoDataSetText);
         }
-        func_ov003_021d079c(r);
+        SetWhErrorCode(result);
         return FALSE;
     }
-    if (r != 0) {
-        func_ov003_021d079c(r);
+    if (result != 0) {
+        SetWhErrorCode(result);
         return FALSE;
     }
     return TRUE;
 }
 
-void func_ov003_021cfb80(void) {
-    int v1;
-    v1 = func_ov003_021d0180();
-    if (v1 == 0) {
-        func_ov003_021d07b0(10);
+void StartWhResetOrFail(void) {
+    int result;
+    result = StartWhReset();
+    if (result == 0) {
+        SetWhState(10);
     }
 }
 
-void func_ov003_021cfaa8(void) {
-    s32 a = data_ov003_021da2a8->mUnk_40;
-    if (a == 1) {
-        if (data_ov003_021da2a4 != NULL) {
-            data_ov003_021da2a4(0x08000000, data_ov003_021d79d0);
+void FinalizeWh(void) {
+    s32 state = gWhWork->mUnk_40;
+    if (state == 1) {
+        if (gWhPrintFunction != NULL) {
+            gWhPrintFunction(0x08000000, gWhAlreadyIdleText);
         }
         return;
     }
-    if (data_ov003_021da2a4 != NULL) {
-        data_ov003_021da2a4(0x08000000, data_ov003_021d79f4, a);
+    if (gWhPrintFunction != NULL) {
+        gWhPrintFunction(0x08000000, gWhFinalizeStateFormat, state);
     }
-    if (data_ov003_021da2a8->mUnk_40 != 6 && data_ov003_021da2a8->mUnk_40 != 5 && data_ov003_021da2a8->mUnk_40 != 4) {
-        func_ov003_021d07b0(3);
-        func_ov003_021cfb80();
+    if (gWhWork->mUnk_40 != 6 && gWhWork->mUnk_40 != 5 && gWhWork->mUnk_40 != 4) {
+        SetWhState(3);
+        StartWhResetOrFail();
         return;
     }
-    func_ov003_021d07b0(3);
-    switch (data_ov003_021da2a8->mUnk_44) {
+    SetWhState(3);
+    switch (gWhWork->mUnk_44) {
         case 3:
-            if (func_ov003_021d0258() == FALSE) {
-                func_ov003_021cfb80();
+            if (EndActiveWhKeySharing() == FALSE) {
+                StartWhResetOrFail();
             }
             break;
         case 1:
         case 5:
-            if (func_ov003_021d022c() == FALSE) {
-                func_ov003_021cfb80();
+            if (EndWhMPBeforeDisconnect() == FALSE) {
+                StartWhResetOrFail();
             }
             break;
         case 2:
-            if (func_ov003_021d0358() == FALSE) {
-                func_ov003_021cfb80();
+            if (EndWhKeySharing() == FALSE) {
+                StartWhResetOrFail();
             }
             break;
         case 0:
         case 4:
-            if (func_ov003_021d032c() == FALSE) {
-                func_ov003_021cfb80();
+            if (EndWhMP() == FALSE) {
+                StartWhResetOrFail();
             }
             break;
     }
 }
 
-u32 func_ov003_021cfa68(void) {
-    int v1;
-    if (data_ov003_021da2a8->mUnk_40 != 1) {
+BOOL EndWh(void) {
+    int result;
+    if (gWhWork->mUnk_40 != 1) {
         OS_Terminate();
     }
-    func_ov003_021d07b0(3);
-    v1 = WM_End(func_ov003_021d0134);
-    if (v1 != 2) {
-        func_ov003_021d07b0(9);
+    SetWhState(3);
+    result = WM_End(EndWhCallback);
+    if (result != 2) {
+        SetWhState(9);
         return 0;
     }
     return 1;

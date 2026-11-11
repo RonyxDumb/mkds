@@ -40,8 +40,8 @@ void ReleaseTasks(void) {
     int listIndex;
     listIndex = 0;
     do {
-        func_ov003_021d2eb8(gTaskLists[listIndex].mList);
-        func_ov003_021d1d4c(gTaskLists[listIndex].mFreeEntries);
+        DeleteNodeList(gTaskLists[listIndex].mList);
+        DeletePointerStack(gTaskLists[listIndex].mFreeEntries);
         listIndex = listIndex + 1;
     } while (2 > listIndex);
     FreeExpHeapBlockAndClearPointer(&gTaskLists);

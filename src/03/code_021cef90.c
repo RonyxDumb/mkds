@@ -28,10 +28,10 @@
 u16 GetRecordValueByMacAddress(u8 *macAddress) {
     u16 i;
     u16 mask;
-    Unk021cf260 *records;
+    MultiBootParent *records;
 
     i = 1;
-    records = data_ov003_021da288;
+    records = gMultiBootParent;
     mask = records->mMask;
     for (; i < 2; i++) {
         if ((mask & (1 << i)) != 0) {
@@ -67,11 +67,11 @@ void CreateMessageBox(u32 messageIndex, s32 kind, s32 adjustBrightness, u32 colu
     G2x_SetBlendBrightness_(&reg_G2_BLDCNT, 0x1f, 0);
     gMessageBox->mBox = CreateOamRangeFromNceImage(0, gMessageBoxImageIds[kind], 0);
     SetOamRangePosition(gMessageBox->mBox, -1, 0x100, 0);
-    func_ov003_021d1790(gMessageBox->mBox, -1, 0);
+    SetOamRangePriority(gMessageBox->mBox, -1, 0);
     for (i = 0; i < gMessageBoxButtonCounts[kind]; i++) {
         gMessageBox->mButtons[i] = CreateOamRangeFromNceImage(0, gMessageBoxButtonImageIds[kind][i], 0);
         SetOamRangePosition(gMessageBox->mButtons[i], -1, 0x100, 0);
-        func_ov003_021d1790(gMessageBox->mButtons[i], -1, 0);
+        SetOamRangePriority(gMessageBox->mButtons[i], -1, 0);
     }
     gMessageBox->mTextCanvas = CreateObjTextCanvas(0, 0x20, 0xc, 1, &entryCount, 0);
     gMessageBox->mText = CreateOamRange(0, entryCount, 0);

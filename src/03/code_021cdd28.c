@@ -28,10 +28,10 @@ void ChangeMenuPairObjectImages(u32 row) {
     for (i = 0; i < 5; i += 2) {
         CopyNceImageToOamEntries(1, gMenuPairObjectImageIds[row][i],
                                  GetOamRangeEntry(gMenuPairObjects->mObjects[i], 0));
-        func_ov003_021d1790(gMenuPairObjects->mObjects[i], -1, 0);
+        SetOamRangePriority(gMenuPairObjects->mObjects[i], -1, 0);
         SetOamRangePosition(gMenuPairObjects->mObjects[i], -1, gMenuPairObjectPositions[i].mX,
                             gMenuPairObjectPositions[i].mY);
-        func_ov003_021d1890(gMenuPairObjects->mObjects[i], -1, 0, gMenuPairObjectPaletteIds[row][i]);
+        SetOamRangeMode(gMenuPairObjects->mObjects[i], -1, 0, gMenuPairObjectPaletteIds[row][i]);
     }
     LoadMenuPairScreenMap(row);
 }

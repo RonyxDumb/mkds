@@ -25,8 +25,8 @@ void CreateChildWaitSession(u32 callback) {
     params.mUnk_04 = GetMessageEntry(gMessages, 0xf);
     params.mUnk_08 = GetMessageEntry(gMessages, 0x10);
     params.mUnk_18 = GetLanguageIndex() + 0x31;
-    func_ov003_021d1358((Unk021da2ac *) gChildWaitSession, (Unk021d1358 *) &params);
-    if (func_ov003_021d11d4() == 0) {
+    InitChildWaitSession((ChildWaitSessionView *) gChildWaitSession, (Unk021d1358 *) &params);
+    if (StartChildWaitSession() == 0) {
         OS_Terminate();
     }
     gChildWaitSession->mStepTask = AddTask(0, AdvanceChildWaitSession, NULL, 0x78);
@@ -38,7 +38,7 @@ void StartChildWaitStop(void) {
 
 void AdvanceChildWaitStop(u32 task) {
     int result;
-    result = func_ov003_021d1290();
+    result = StopChildWaitSession();
     if (result != 0) {
         gChildWaitSession->mStopRequested = 1;
         RequestTaskRemoval(0, task);
@@ -59,8 +59,8 @@ void SetChildWaitCallback(void *callback) {
 u32 ConfirmChildWaitUser(void) {
     u32 result;
     u32 functionAddress;
-    functionAddress = (u32) &func_ov003_021d11a0;
-    result = func_ov003_021d11a0();
+    functionAddress = (u32) &StartChildWaitDownload;
+    result = StartChildWaitDownload();
     return result;
 }
 
@@ -75,7 +75,7 @@ static inline void func_ov003_021c25e0_inline(const void *source, void *destinat
 void AdvanceChildWaitSession(u32 task) {
     u8 stateInfo[2];
     ChildWaitSession *object;
-    func_ov003_021d0ee0();
+    AdvanceChildWaitState();
     object = gChildWaitSession;
     if (object->mUnk_1e2a0 != 0 && object->mStopRequested == 0) {
         if (object->mCallback == NULL) {
@@ -84,7 +84,7 @@ void AdvanceChildWaitSession(u32 task) {
         object->mCallback(0);
         return;
     }
-    func_ov003_021d0e9c(&stateInfo[0], &stateInfo[1]);
+    GetChildWaitStateChange(&stateInfo[0], &stateInfo[1]);
     switch (stateInfo[0]) {
         case 1:
         case 2:
@@ -95,7 +95,7 @@ void AdvanceChildWaitSession(u32 task) {
             if (stateInfo[1] == 0) {
                 break;
             }
-            func_ov003_021c25e0_inline(func_ov003_021d0e90(), gChildWaitSession->mChildUser, 0x16);
+            func_ov003_021c25e0_inline(GetChildWaitChildUser(), gChildWaitSession->mChildUser, 0x16);
             if (gChildWaitSession->mCallback != NULL) {
                 gChildWaitSession->mCallback(0);
             } else {

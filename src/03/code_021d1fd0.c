@@ -46,7 +46,7 @@ void ReleaseTextCanvases(void) {
     for (i = 0; i < 2; i++) {
         DeleteLoadedFile(gTextCanvases->mFontFiles[i]);
     }
-    func_ov003_021d1d4c(gTextCanvases->mFreeObjCanvases);
+    DeletePointerStack(gTextCanvases->mFreeObjCanvases);
     FreeExpHeapBlockAndClearPointer(&gTextCanvases);
 }
 
@@ -207,8 +207,8 @@ void ArrangeObjTextCanvasRange(ObjTextCanvas *canvas, s32 xPos, s32 yPos, OamRan
     OamEntry *entries = GetOamRangeEntry(range, 0);
 
     SetOamRangeEffect(range, -1, 0, 0);
-    func_ov003_021d1890(range, -1, 0, 0xf);
-    func_ov003_021d1790(range, -1, f);
+    SetOamRangeMode(range, -1, 0, 0xf);
+    SetOamRangePriority(range, -1, f);
     NNS_G2dArrangeOBJ1D(entries, canvas->mAreaWidth, canvas->mAreaHeight, xPos, yPos, 0, canvas->mCharName, 2);
 }
 

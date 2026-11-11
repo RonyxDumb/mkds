@@ -192,7 +192,7 @@ void SetEditKeyboardKeyHighlight(int keyIndex, int highlight) {
         key->mUnk_04 = (key->mUnk_04 & 0xffff0fff) | (gEditKeyboardKeyPalettes[highlight] << 12);
         return;
     }
-    func_ov003_021d1890(gEditKeyboard->mRow4Keys[keyIndex - 0x33], -1, 0, gEditKeyboardRow4HighlightValues[highlight]);
+    SetOamRangeMode(gEditKeyboard->mRow4Keys[keyIndex - 0x33], -1, 0, gEditKeyboardRow4HighlightValues[highlight]);
 }
 
 void PlaceEditKeyboardCursor(void) {
@@ -219,7 +219,7 @@ void PlaceEditKeyboardCursor(void) {
             break;
     }
     CopyNceImageToOamEntries(0, imageIndex, GetOamRangeEntry(gEditKeyboard->mCursor, 0));
-    func_ov003_021d1790(gEditKeyboard->mCursor, -1, 2);
+    SetOamRangePriority(gEditKeyboard->mCursor, -1, 2);
     SetOamRangePosition(gEditKeyboard->mCursor, -1, gEditKeyboardCursorXPositions[gEditKeyboard->mCursorKeyIndex][0],
                         gEditKeyboardCursorYPositions[gEditKeyboard->mCursorKeyIndex][0]);
 }

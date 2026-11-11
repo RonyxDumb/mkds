@@ -137,10 +137,10 @@ void CreateApEntryObjects(void) {
         } else {
             gAp->mUnk_10[i] = CreateOamRangeFromNceImage(0, 0x11, 1);
             SetOamRangePosition(gAp->mUnk_10[i], -1, gApObjectPositions[i + 3].mX, gApObjectPositions[i + 3].mY);
-            func_ov003_021d1790(gAp->mUnk_10[i], -1, 3);
+            SetOamRangePriority(gAp->mUnk_10[i], -1, 3);
         }
         gAp->mUnk_04[i] = CreateOamRangeFromNceImage(0, gApEntryImageIndices[entryStatus], 1);
         SetOamRangePosition(gAp->mUnk_04[i], -1, gApObjectPositions[i].mX, gApObjectPositions[i].mY);
-        func_ov003_021d1790(gAp->mUnk_04[i], -1, 3);
+        SetOamRangePriority(gAp->mUnk_04[i], -1, 3);
     }
 }

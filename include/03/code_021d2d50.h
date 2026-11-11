@@ -3,6 +3,6 @@
 #include "types.h"
 
 void InitKeyTouchInput(void);
-void func_ov003_021d2da4(void);
-void func_ov003_021d2dcc(void);
-void func_ov003_021d2dfc(void);
+void TaskVBlankIrqHandler(void);
+void RestoreTaskVBlankIrq(void);
+void EnableTaskVBlankIrq(void);

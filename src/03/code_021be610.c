@@ -53,7 +53,7 @@ void AdvanceButtonReset(u32 task) {
             slideButtons = gSlideButtons;
             imageIndex = (gSlideButtonImages + slideButtons->mKind * 2)[i];
             CopyNceImageToOamEntries(0, imageIndex, GetOamRangeEntry(slideButtons->mButtons[i], 0));
-            func_ov003_021d1790(gSlideButtons->mButtons[i], -1, 1);
+            SetOamRangePriority(gSlideButtons->mButtons[i], -1, 1);
         }
         SetSlideButtonsY(gSlideButtonsPosition[1]);
         gSlideButtons->mStepFrames = 0;

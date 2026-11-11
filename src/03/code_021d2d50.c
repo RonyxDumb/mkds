@@ -8,20 +8,20 @@
 #include "tp.h"
 #include "registers.h"
 
-void func_ov003_021d2dfc(void) {
+void EnableTaskVBlankIrq(void) {
     u16 previousIme;
 
     gSavedIrqMask = reg_OS_IE;
     OS_SetIrqMask(0x40018);
     OS_EnableIrqMask(1);
     gSavedIrqFunction = OS_GetIrqFunction(1);
-    OS_SetIrqFunction(1, func_ov003_021d2da4);
+    OS_SetIrqFunction(1, TaskVBlankIrqHandler);
     previousIme = reg_OS_IME;
     reg_OS_IME = 1;
     OS_EnableInterrupts();
 }
 
-void func_ov003_021d2dcc(void) {
+void RestoreTaskVBlankIrq(void) {
     u16 previousIme;
 
     previousIme = reg_OS_IME;
@@ -30,7 +30,7 @@ void func_ov003_021d2dcc(void) {
     OS_SetIrqFunction(1, gSavedIrqFunction);
 }
 
-void func_ov003_021d2da4(void) {
+void TaskVBlankIrqHandler(void) {
     RunTasksAndRemoveRequested(1);
     *OFFSET_PTR(u32, &data_027e0000, 0x3ff8) |= 1;
 }

@@ -164,7 +164,7 @@ void ShowMessageBoxButtonPressed(s32 buttonIndex) {
         gMessageBox->mButtons[buttonIndex], -1,
         gMessageBoxButtonPositions[gMessageBox->mKind][gMessageBoxButtonSlots[gMessageBox->mKind][buttonIndex]][0],
         gMessageBoxButtonPositions[gMessageBox->mKind][gMessageBoxButtonSlots[gMessageBox->mKind][buttonIndex]][1]);
-    func_ov003_021d1790(gMessageBox->mButtons[buttonIndex], -1, 0);
+    SetOamRangePriority(gMessageBox->mButtons[buttonIndex], -1, 0);
 }
 
 void AdvanceMessageBoxCloseWait(TaskEntry *taskEntry) {

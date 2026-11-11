@@ -51,7 +51,7 @@ void CreateEditKeyboard(void) {
     for (i = 0; i < 2; i++) {
         gEditKeyboard->mRow4Keys[i] = CreateOamRangeFromNceImage(0, data_ov003_021d5f68[i], 1);
         SetOamRangeEffect(gEditKeyboard->mRow4Keys[i], -1, 0x200, 0);
-        func_ov003_021d1790(gEditKeyboard->mRow4Keys[i], -1, 3);
+        SetOamRangePriority(gEditKeyboard->mRow4Keys[i], -1, 3);
     }
     text[1] = 0;
     for (i = 0; i < 3; i++) {
@@ -71,7 +71,7 @@ void CreateEditKeyboard(void) {
     }
     gEditKeyboard->mCursor = CreateOamRangeFromNceImage(0, 0x40, 1);
     SetOamRangeEffect(gEditKeyboard->mCursor, -1, 0x200, 0);
-    func_ov003_021d1790(gEditKeyboard->mCursor, -1, 2);
+    SetOamRangePriority(gEditKeyboard->mCursor, -1, 2);
     gEditKeyboard->mStepTask = (TaskEntry *) AddTask(0, AdvanceEditKeyboardSlideInRow0, NULL, 0x78);
     SetEditKeyboardRowY(gEditKeyboard->mPage, 0, 0xc0);
 }

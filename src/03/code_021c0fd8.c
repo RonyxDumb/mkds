@@ -53,7 +53,7 @@ void CreateEditAddrKeyboard(void) {
     for (i = 0; i < 2; i++) {
         gEditAddrKeyboard->mRow4Keys[i] = CreateOamRangeFromNceImage(0, data_ov003_021d621c[i], 1);
         SetOamRangeEffect(gEditAddrKeyboard->mRow4Keys[i], -1, 0x200, 0);
-        func_ov003_021d1790(gEditAddrKeyboard->mRow4Keys[i], -1, 3);
+        SetOamRangePriority(gEditAddrKeyboard->mRow4Keys[i], -1, 3);
     }
     textArgs.mUnk_0c[1] = 0;
     for (i = 0; i < 4; i++) {
@@ -69,7 +69,7 @@ void CreateEditAddrKeyboard(void) {
     }
     gEditAddrKeyboard->mCursor = CreateOamRangeFromNceImage(0, 0x44, 1);
     SetOamRangeEffect(gEditAddrKeyboard->mCursor, -1, 0x200, 0);
-    func_ov003_021d1790(gEditAddrKeyboard->mCursor, -1, 2);
+    SetOamRangePriority(gEditAddrKeyboard->mCursor, -1, 2);
     gEditAddrKeyboard->mStepTask = (TaskEntry *) AddTask(0, AdvanceEditAddrKeyboardSlideInRow0, NULL, 0x78);
     SetEditAddrKeyboardRowY(0, 0xc0);
 }
@@ -455,7 +455,7 @@ void SetEditAddrKeyboardKeyHighlight(int keyIndex, int highlight) {
         key->mUnk_04 = (key->mUnk_04 & 0xffff0fff) | (data_ov003_021d6220[highlight] << 12);
         return;
     }
-    func_ov003_021d1890(gEditAddrKeyboard->mRow4Keys[keyIndex - 12], -1, 0, data_ov003_021d6214[highlight]);
+    SetOamRangeMode(gEditAddrKeyboard->mRow4Keys[keyIndex - 12], -1, 0, data_ov003_021d6214[highlight]);
 }
 
 void PlaceEditAddrKeyboardCursor(void) {
@@ -466,7 +466,7 @@ void PlaceEditAddrKeyboardCursor(void) {
         imageIndex = 0x45;
     }
     CopyNceImageToOamEntries(0, imageIndex, GetOamRangeEntry(gEditAddrKeyboard->mCursor, 0));
-    func_ov003_021d1790(gEditAddrKeyboard->mCursor, -1, 2);
+    SetOamRangePriority(gEditAddrKeyboard->mCursor, -1, 2);
     SetOamRangePosition(gEditAddrKeyboard->mCursor, -1,
                         gEditAddrKeyboardCursorX[gEditAddrKeyboard->mCursorKeyIndex * 2],
                         gEditAddrKeyboardCursorY[gEditAddrKeyboard->mCursorKeyIndex * 2]);

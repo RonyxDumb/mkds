@@ -24,192 +24,192 @@
 #include "03/code_021cfa68.h"
 #include "code_02008570.h"
 
-void func_ov003_021cfa30(u8 *a) {
-    data_ov003_021da288 = (Unk021cf260 *) a;
-    func_ov003_021d0810((Unk021da2a8 *) (a + 0x1b160));
-    data_ov003_021da288->mUnk_1b140 = NULL;
-    data_ov003_021da288->mUnk_1b144 = NULL;
+void InitMultiBootParent(u8 *object) {
+    gMultiBootParent = (MultiBootParent *) object;
+    InitWhWork((WhWork *) (object + 0x1b160));
+    gMultiBootParent->mUnk_1b140 = NULL;
+    gMultiBootParent->mUnk_1b144 = NULL;
 }
 
-void func_ov003_021cf978(u32 a, u32 b) {
-    Unk0200fddc s;
-    Unk02009ff4 x;
-    Unk021cf5ac z;
+void InitMultiBootParentComm(u32 ggid, u32 tgid) {
+    Unk0200fddc ownerInfo;
+    Unk02009ff4 userInfo;
+    MultiBootParentHeader clearedHeader;
 
-    OS_GetOwnerInfo(&s);
-    x.mUnk_00 = (x.mUnk_00 & ~0xf) | (s.mUnk_01 & 0xf);
-    x.mUnk_01 = s.mUnk_18;
-    MI_CpuCopy8(s.mUnk_04, x.mUnk_02, s.mUnk_18 * 2);
-    x.mUnk_00 &= ~0xf0;
+    OS_GetOwnerInfo(&ownerInfo);
+    userInfo.mUnk_00 = (userInfo.mUnk_00 & ~0xf) | (ownerInfo.mUnk_01 & 0xf);
+    userInfo.mUnk_01 = ownerInfo.mUnk_18;
+    MI_CpuCopy8(ownerInfo.mUnk_04, userInfo.mUnk_02, ownerInfo.mUnk_18 * 2);
+    userInfo.mUnk_00 &= ~0xf0;
     {
-        u16 *p = (u16 *) &z;
-        p[0] = 0;
-        p[1] = 0;
-        p[2] = 0;
-        p[3] = 0;
-        p[4] = 0;
-        p[5] = 0;
-        p[6] = 0;
+        u16 *words = (u16 *) &clearedHeader;
+        words[0] = 0;
+        words[1] = 0;
+        words[2] = 0;
+        words[3] = 0;
+        words[4] = 0;
+        words[5] = 0;
+        words[6] = 0;
     }
-    *(Unk021cf5ac *) data_ov003_021da288 = z;
-    data_ov003_021da288->mUnk_1b140 = data_ov003_021da288->mUnk_10040;
-    if (MB_Init(data_ov003_021da288->mUnk_1b140, &x, a, b, 2) != 0) {
+    *(MultiBootParentHeader *) gMultiBootParent = clearedHeader;
+    gMultiBootParent->mUnk_1b140 = gMultiBootParent->mUnk_10040;
+    if (MB_Init(gMultiBootParent->mUnk_1b140, &userInfo, ggid, tgid, 2) != 0) {
         OS_Terminate();
     }
     MB_SetParentCommParam(0x100, 1);
-    MB_CommSetParentStateCallback(func_ov003_021cf378);
-    func_ov003_021cf36c(1);
+    MB_CommSetParentStateCallback(MultiBootParentStateCallback);
+    SetMultiBootParentState(1);
 }
 
-void func_ov003_021cf93c(Unk021cf8ac *a, u16 b) {
-    func_ov003_021cf36c(2);
-    if (MB_StartParentFromIdle(b) != 0) {
-        func_ov003_021cf36c(7);
+void StartMultiBootParentFromIdle(Unk021cf8ac *gameRegistry, u16 channel) {
+    SetMultiBootParentState(2);
+    if (MB_StartParentFromIdle(channel) != 0) {
+        SetMultiBootParentState(7);
         return;
     }
-    if (func_ov003_021cf8ac(a) == 0) {
+    if (RegisterMultiBootFile(gameRegistry) == 0) {
         OS_Terminate();
     }
 }
 
-u32 func_ov003_021cf8ac(Unk021cf8ac *a) {
-    FSFile *q;
-    FSFile s;
-    u32 r;
+BOOL RegisterMultiBootFile(Unk021cf8ac *gameRegistry) {
+    FSFile *segmentFile;
+    FSFile openedFile;
+    u32 registered;
 
-    r = 0;
-    if (a->mUnk_00 == NULL) {
-        q = NULL;
+    registered = 0;
+    if (gameRegistry->mUnk_00 == NULL) {
+        segmentFile = NULL;
     } else {
-        FS_InitFile(&s);
-        if (FS_OpenFile(&s, a->mUnk_00) == 0) {
-            return r;
+        FS_InitFile(&openedFile);
+        if (FS_OpenFile(&openedFile, gameRegistry->mUnk_00) == 0) {
+            return registered;
         }
-        q = &s;
+        segmentFile = &openedFile;
     }
-    if (MB_GetSegmentLength(q) != 0) {
-        data_ov003_021da288->mUnk_1b144 = (u8 *) data_ov003_021da288 + 0x2c;
-        if (data_ov003_021da288->mUnk_1b144 != NULL) {
-            if (MB_ReadSegment(q, data_ov003_021da288->mUnk_1b144, 0x10000) != 0) {
-                if (MB_RegisterFile(a, data_ov003_021da288->mUnk_1b144) != 0) {
-                    r = 1;
+    if (MB_GetSegmentLength(segmentFile) != 0) {
+        gMultiBootParent->mUnk_1b144 = (u8 *) gMultiBootParent + 0x2c;
+        if (gMultiBootParent->mUnk_1b144 != NULL) {
+            if (MB_ReadSegment(segmentFile, gMultiBootParent->mUnk_1b144, 0x10000) != 0) {
+                if (MB_RegisterFile(gameRegistry, gMultiBootParent->mUnk_1b144) != 0) {
+                    registered = 1;
                 }
             }
         }
     }
-    if (q == &s) {
-        FS_CloseFile(&s);
+    if (segmentFile == &openedFile) {
+        FS_CloseFile(&openedFile);
     }
-    return r;
+    return registered;
 }
 
-void func_ov003_021cf844(u32 a) {
-    u16 m;
-    u32 t;
+void AcceptMultiBootChildRequest(u32 aid) {
+    u16 clearMask;
+    u32 savedInterrupts;
 
-    if (MB_CommResponseRequest(a, 1) == 0) {
-        m = ~(1 << a);
-        t = OS_DisableInterrupts();
-        data_ov003_021da288->mMask &= m;
-        data_ov003_021da288->mUnk_04 &= m;
-        data_ov003_021da288->mUnk_06 &= m;
-        data_ov003_021da288->mUnk_08 &= m;
-        data_ov003_021da288->mUnk_0a &= m;
-        data_ov003_021da288->mUnk_0c &= m;
-        OS_RestoreInterrupts(t);
-        MB_DisconnectChild(a);
+    if (MB_CommResponseRequest(aid, 1) == 0) {
+        clearMask = ~(1 << aid);
+        savedInterrupts = OS_DisableInterrupts();
+        gMultiBootParent->mMask &= clearMask;
+        gMultiBootParent->mUnk_04 &= clearMask;
+        gMultiBootParent->mUnk_06 &= clearMask;
+        gMultiBootParent->mUnk_08 &= clearMask;
+        gMultiBootParent->mUnk_0a &= clearMask;
+        gMultiBootParent->mUnk_0c &= clearMask;
+        OS_RestoreInterrupts(savedInterrupts);
+        MB_DisconnectChild(aid);
     }
 }
 
-void func_ov003_021cf7b8(u32 a) {
-    u16 m;
-    u32 t;
-    s32 v1;
+void KickMultiBootChild(u32 aid) {
+    u16 clearMask;
+    u32 savedInterrupts;
+    s32 aidBit;
 
-    if (MB_CommResponseRequest(a, 0) == 0) {
-        m = ~(1 << a);
-        t = OS_DisableInterrupts();
-        data_ov003_021da288->mMask &= m;
-        data_ov003_021da288->mUnk_04 &= m;
-        data_ov003_021da288->mUnk_06 &= m;
-        data_ov003_021da288->mUnk_08 &= m;
-        data_ov003_021da288->mUnk_0a &= m;
-        data_ov003_021da288->mUnk_0c &= m;
-        OS_RestoreInterrupts(t);
-        MB_DisconnectChild(a);
+    if (MB_CommResponseRequest(aid, 0) == 0) {
+        clearMask = ~(1 << aid);
+        savedInterrupts = OS_DisableInterrupts();
+        gMultiBootParent->mMask &= clearMask;
+        gMultiBootParent->mUnk_04 &= clearMask;
+        gMultiBootParent->mUnk_06 &= clearMask;
+        gMultiBootParent->mUnk_08 &= clearMask;
+        gMultiBootParent->mUnk_0a &= clearMask;
+        gMultiBootParent->mUnk_0c &= clearMask;
+        OS_RestoreInterrupts(savedInterrupts);
+        MB_DisconnectChild(aid);
     } else {
-        t = OS_DisableInterrupts();
-        v1 = 1 << a;
-        data_ov003_021da288->mUnk_04 &= ~v1;
-        data_ov003_021da288->mMask &= ~v1;
-        OS_RestoreInterrupts(t);
+        savedInterrupts = OS_DisableInterrupts();
+        aidBit = 1 << aid;
+        gMultiBootParent->mUnk_04 &= ~aidBit;
+        gMultiBootParent->mMask &= ~aidBit;
+        OS_RestoreInterrupts(savedInterrupts);
     }
 }
 
-void func_ov003_021cf72c(u32 a) {
-    u16 m;
-    u32 t;
-    s32 v1;
+void StartMultiBootChildDownload(u32 aid) {
+    u16 clearMask;
+    u32 savedInterrupts;
+    s32 aidBit;
 
-    if (MB_CommResponseRequest(a, 2) == 0) {
-        m = ~(1 << a);
-        t = OS_DisableInterrupts();
-        data_ov003_021da288->mMask &= m;
-        data_ov003_021da288->mUnk_04 &= m;
-        data_ov003_021da288->mUnk_06 &= m;
-        data_ov003_021da288->mUnk_08 &= m;
-        data_ov003_021da288->mUnk_0a &= m;
-        data_ov003_021da288->mUnk_0c &= m;
-        OS_RestoreInterrupts(t);
-        MB_DisconnectChild(a);
+    if (MB_CommResponseRequest(aid, 2) == 0) {
+        clearMask = ~(1 << aid);
+        savedInterrupts = OS_DisableInterrupts();
+        gMultiBootParent->mMask &= clearMask;
+        gMultiBootParent->mUnk_04 &= clearMask;
+        gMultiBootParent->mUnk_06 &= clearMask;
+        gMultiBootParent->mUnk_08 &= clearMask;
+        gMultiBootParent->mUnk_0a &= clearMask;
+        gMultiBootParent->mUnk_0c &= clearMask;
+        OS_RestoreInterrupts(savedInterrupts);
+        MB_DisconnectChild(aid);
     } else {
-        t = OS_DisableInterrupts();
-        v1 = 1 << a;
-        data_ov003_021da288->mUnk_06 &= ~v1;
-        data_ov003_021da288->mUnk_08 |= v1;
-        OS_RestoreInterrupts(t);
+        savedInterrupts = OS_DisableInterrupts();
+        aidBit = 1 << aid;
+        gMultiBootParent->mUnk_06 &= ~aidBit;
+        gMultiBootParent->mUnk_08 |= aidBit;
+        OS_RestoreInterrupts(savedInterrupts);
     }
 }
 
-void func_ov003_021cf69c(void) {
-    u16 i;
-    s32 v1;
-    u16 m;
-    u32 t;
+void StartMultiBootDownloads(void) {
+    u16 aid;
+    s32 aidBit;
+    u16 clearMask;
+    u32 savedInterrupts;
 
-    func_ov003_021cf36c(3);
-    for (i = 1; i < 16; i++) {
-        v1 = 1 << i;
-        if ((data_ov003_021da288->mMask & v1) != 0) {
-            if ((data_ov003_021da288->mUnk_04 & v1) == 0) {
-                if ((data_ov003_021da288->mUnk_06 & v1) == 0) {
-                    m = ~v1;
-                    t = OS_DisableInterrupts();
-                    data_ov003_021da288->mMask &= m;
-                    data_ov003_021da288->mUnk_04 &= m;
-                    data_ov003_021da288->mUnk_06 &= m;
-                    data_ov003_021da288->mUnk_08 &= m;
-                    data_ov003_021da288->mUnk_0a &= m;
-                    data_ov003_021da288->mUnk_0c &= m;
-                    OS_RestoreInterrupts(t);
-                    MB_DisconnectChild(i);
+    SetMultiBootParentState(3);
+    for (aid = 1; aid < 16; aid++) {
+        aidBit = 1 << aid;
+        if ((gMultiBootParent->mMask & aidBit) != 0) {
+            if ((gMultiBootParent->mUnk_04 & aidBit) == 0) {
+                if ((gMultiBootParent->mUnk_06 & aidBit) == 0) {
+                    clearMask = ~aidBit;
+                    savedInterrupts = OS_DisableInterrupts();
+                    gMultiBootParent->mMask &= clearMask;
+                    gMultiBootParent->mUnk_04 &= clearMask;
+                    gMultiBootParent->mUnk_06 &= clearMask;
+                    gMultiBootParent->mUnk_08 &= clearMask;
+                    gMultiBootParent->mUnk_0a &= clearMask;
+                    gMultiBootParent->mUnk_0c &= clearMask;
+                    OS_RestoreInterrupts(savedInterrupts);
+                    MB_DisconnectChild(aid);
                 } else {
-                    func_ov003_021cf72c(i);
+                    StartMultiBootChildDownload(aid);
                 }
             }
         }
     }
 }
 
-u32 func_ov003_021cf64c(void) {
-    u16 i;
+BOOL AreMultiBootChildrenBootable(void) {
+    u16 aid;
 
-    if (data_ov003_021da288->mMask == 0) {
+    if (gMultiBootParent->mMask == 0) {
         return 0;
     }
-    for (i = 1; i < 16; i++) {
-        if ((data_ov003_021da288->mMask & (1 << i)) != 0) {
-            if (MB_CommIsBootable(i) == 0) {
+    for (aid = 1; aid < 16; aid++) {
+        if ((gMultiBootParent->mMask & (1 << aid)) != 0) {
+            if (MB_CommIsBootable(aid) == 0) {
                 return 0;
             }
         }
@@ -217,131 +217,131 @@ u32 func_ov003_021cf64c(void) {
     return 1;
 }
 
-void func_ov003_021cf5ac(void) {
-    u16 r;
-    u16 i;
-    s32 v1;
-    u16 m;
-    u32 t;
+void StartMultiBootBootRequests(void) {
+    u16 requestedMask;
+    u16 aid;
+    s32 aidBit;
+    u16 clearMask;
+    u32 savedInterrupts;
 
-    r = 0;
-    i = 1;
-    for (; i < 16; i++) {
-        v1 = 1 << i;
-        if ((data_ov003_021da288->mUnk_0a & v1) != 0) {
-            if (MB_CommResponseRequest(i, 3) == 0) {
-                m = ~v1;
-                t = OS_DisableInterrupts();
-                data_ov003_021da288->mMask &= m;
-                data_ov003_021da288->mUnk_04 &= m;
-                data_ov003_021da288->mUnk_06 &= m;
-                data_ov003_021da288->mUnk_08 &= m;
-                data_ov003_021da288->mUnk_0a &= m;
-                data_ov003_021da288->mUnk_0c &= m;
-                OS_RestoreInterrupts(t);
-                MB_DisconnectChild(i);
+    requestedMask = 0;
+    aid = 1;
+    for (; aid < 16; aid++) {
+        aidBit = 1 << aid;
+        if ((gMultiBootParent->mUnk_0a & aidBit) != 0) {
+            if (MB_CommResponseRequest(aid, 3) == 0) {
+                clearMask = ~aidBit;
+                savedInterrupts = OS_DisableInterrupts();
+                gMultiBootParent->mMask &= clearMask;
+                gMultiBootParent->mUnk_04 &= clearMask;
+                gMultiBootParent->mUnk_06 &= clearMask;
+                gMultiBootParent->mUnk_08 &= clearMask;
+                gMultiBootParent->mUnk_0a &= clearMask;
+                gMultiBootParent->mUnk_0c &= clearMask;
+                OS_RestoreInterrupts(savedInterrupts);
+                MB_DisconnectChild(aid);
             } else {
-                r |= v1;
+                requestedMask |= aidBit;
             }
         }
     }
-    if (r == 0) {
-        func_ov003_021cf36c(7);
+    if (requestedMask == 0) {
+        SetMultiBootParentState(7);
     } else {
-        func_ov003_021cf36c(4);
+        SetMultiBootParentState(4);
     }
 }
 
-void func_ov003_021cf598(void) {
-    func_ov003_021cf36c(6);
+void StartMultiBootEndToIdle(void) {
+    SetMultiBootParentState(6);
     MB_EndToIdle();
 }
 
-void func_ov003_021cf378(u32 a, u32 b, Unk021425e8 *c) {
-    Unk021cf260 *s;
+void MultiBootParentStateCallback(u32 aid, u32 code, Unk021425e8 *event) {
+    MultiBootParent *parent;
     u32 t;
-    u16 m;
-    u8 *p;
+    u16 clearMask;
+    u8 *childMac;
 
-    switch (b) {
+    switch (code) {
         case 2:
-            if (func_ov003_021cf360() == 2) {
-                s = data_ov003_021da288;
+            if (GetMultiBootParentState() == 2) {
+                parent = gMultiBootParent;
                 t = OS_DisableInterrupts();
-                s->mMask |= 1 << a;
+                parent->mMask |= 1 << aid;
                 OS_RestoreInterrupts(t);
-                p = data_ov003_021da288->mRecords[a - 1].mUnk_16;
-                p[0] = c->mUnk_0a[0];
-                p[1] = c->mUnk_0a[1];
-                p[2] = c->mUnk_0a[2];
-                p[3] = c->mUnk_0a[3];
-                p[4] = c->mUnk_0a[4];
-                p[5] = c->mUnk_0a[5];
-                data_ov003_021da288->mRecords[a - 1].mUnk_1c = a;
+                childMac = gMultiBootParent->mRecords[aid - 1].mUnk_16;
+                childMac[0] = event->mUnk_0a[0];
+                childMac[1] = event->mUnk_0a[1];
+                childMac[2] = event->mUnk_0a[2];
+                childMac[3] = event->mUnk_0a[3];
+                childMac[4] = event->mUnk_0a[4];
+                childMac[5] = event->mUnk_0a[5];
+                gMultiBootParent->mRecords[aid - 1].mUnk_1c = aid;
             }
             break;
         case 3:
-            if (func_ov003_021cf284(a) != 6) {
-                m = ~(1 << a);
+            if (GetMultiBootChildState(aid) != 6) {
+                clearMask = ~(1 << aid);
                 t = OS_DisableInterrupts();
-                data_ov003_021da288->mMask &= m;
-                data_ov003_021da288->mUnk_04 &= m;
-                data_ov003_021da288->mUnk_06 &= m;
-                data_ov003_021da288->mUnk_08 &= m;
-                data_ov003_021da288->mUnk_0a &= m;
-                data_ov003_021da288->mUnk_0c &= m;
+                gMultiBootParent->mMask &= clearMask;
+                gMultiBootParent->mUnk_04 &= clearMask;
+                gMultiBootParent->mUnk_06 &= clearMask;
+                gMultiBootParent->mUnk_08 &= clearMask;
+                gMultiBootParent->mUnk_0a &= clearMask;
+                gMultiBootParent->mUnk_0c &= clearMask;
                 OS_RestoreInterrupts(t);
             }
             break;
         case 10:
-            if (func_ov003_021cf360() != 2) {
-                func_ov003_021cf7b8(a);
+            if (GetMultiBootParentState() != 2) {
+                KickMultiBootChild(aid);
                 break;
             }
-            data_ov003_021da288->mUnk_04 |= 1 << a;
-            func_ov003_021cf844(a);
-            t = (u32) MB_CommGetChildUser(a);
+            gMultiBootParent->mUnk_04 |= 1 << aid;
+            AcceptMultiBootChildRequest(aid);
+            t = (u32) MB_CommGetChildUser(aid);
             if (t != 0) {
-                MI_CpuCopy8((void *) t, &data_ov003_021da288->mRecords[a - 1], 0x16);
+                MI_CpuCopy8((void *) t, &gMultiBootParent->mRecords[aid - 1], 0x16);
             }
             break;
         case 14:
-            data_ov003_021da288->mUnk_04 &= ~(1 << a);
-            data_ov003_021da288->mUnk_06 |= 1 << a;
-            if (func_ov003_021cf360() == 3) {
-                func_ov003_021cf72c(a);
+            gMultiBootParent->mUnk_04 &= ~(1 << aid);
+            gMultiBootParent->mUnk_06 |= 1 << aid;
+            if (GetMultiBootParentState() == 3) {
+                StartMultiBootChildDownload(aid);
             }
             break;
         case 7:
-            data_ov003_021da288->mUnk_08 &= ~(1 << a);
-            data_ov003_021da288->mUnk_0a |= 1 << a;
+            gMultiBootParent->mUnk_08 &= ~(1 << aid);
+            gMultiBootParent->mUnk_0a |= 1 << aid;
             break;
         case 9:
-            data_ov003_021da288->mUnk_0a &= ~(1 << a);
-            data_ov003_021da288->mUnk_0c |= 1 << a;
-            if (data_ov003_021da288->mMask == data_ov003_021da288->mUnk_0c) {
+            gMultiBootParent->mUnk_0a &= ~(1 << aid);
+            gMultiBootParent->mUnk_0c |= 1 << aid;
+            if (gMultiBootParent->mMask == gMultiBootParent->mUnk_0c) {
                 MB_EndToIdle();
             }
             break;
         case 12:
-            if (func_ov003_021cf360() == 4) {
-                func_ov003_021cf36c(5);
+            if (GetMultiBootParentState() == 4) {
+                SetMultiBootParentState(5);
             } else {
-                func_ov003_021cf36c(0);
+                SetMultiBootParentState(0);
             }
-            if (data_ov003_021da288->mUnk_1b144 != NULL) {
-                data_ov003_021da288->mUnk_1b144 = NULL;
+            if (gMultiBootParent->mUnk_1b144 != NULL) {
+                gMultiBootParent->mUnk_1b144 = NULL;
             }
-            if (data_ov003_021da288->mUnk_1b140 != NULL) {
-                data_ov003_021da288->mUnk_1b140 = NULL;
+            if (gMultiBootParent->mUnk_1b140 != NULL) {
+                gMultiBootParent->mUnk_1b140 = NULL;
             }
             break;
         case 13:
-            switch (c->mCommand) {
+            switch (event->mCommand) {
                 case 1:
                 case 2:
                 case 9:
-                    func_ov003_021cf36c(7);
+                    SetMultiBootParentState(7);
                     break;
                 case 8:
                     break;
@@ -360,60 +360,60 @@ void func_ov003_021cf378(u32 a, u32 b, Unk021425e8 *c) {
     }
 }
 
-void func_ov003_021cf36c(u16 a) {
-    *(u16 *) (*(u32 *) &data_ov003_021da288) = a;
+void SetMultiBootParentState(u16 state) {
+    *(u16 *) (*(u32 *) &gMultiBootParent) = state;
 }
 
-u16 func_ov003_021cf360(void) {
-    return *(u16 *) (u32) data_ov003_021da288;
+u16 GetMultiBootParentState(void) {
+    return *(u16 *) (u32) gMultiBootParent;
 }
 
-u16 func_ov003_021cf32c(u32 a) {
-    Unk021cf260 *s;
+u16 GetMultiBootChildMask(u32 maskIndex) {
+    MultiBootParent *parent;
 
-    s = data_ov003_021da288;
-    data_ov003_021da28c[0] = &s->mMask;
-    data_ov003_021da28c[1] = &s->mUnk_04;
-    data_ov003_021da28c[2] = &s->mUnk_06;
-    data_ov003_021da28c[3] = &s->mUnk_08;
-    data_ov003_021da28c[4] = &s->mUnk_0a;
-    data_ov003_021da28c[5] = &s->mUnk_0c;
-    return *data_ov003_021da28c[a];
+    parent = gMultiBootParent;
+    gMultiBootMaskPointers[0] = &parent->mMask;
+    gMultiBootMaskPointers[1] = &parent->mUnk_04;
+    gMultiBootMaskPointers[2] = &parent->mUnk_06;
+    gMultiBootMaskPointers[3] = &parent->mUnk_08;
+    gMultiBootMaskPointers[4] = &parent->mUnk_0a;
+    gMultiBootMaskPointers[5] = &parent->mUnk_0c;
+    return *gMultiBootMaskPointers[maskIndex];
 }
 
-u32 func_ov003_021cf284(u32 a) {
-    u32 t;
-    u16 b;
-    u16 s[7];
+u32 GetMultiBootChildState(u32 aid) {
+    u32 savedInterrupts;
+    u16 aidBit;
+    u16 headerCopy[7];
 
-    t = OS_DisableInterrupts();
-    b = 1 << a;
-    if ((data_ov003_021da288->mMask & b) == 0) {
-        OS_RestoreInterrupts(t);
+    savedInterrupts = OS_DisableInterrupts();
+    aidBit = 1 << aid;
+    if ((gMultiBootParent->mMask & aidBit) == 0) {
+        OS_RestoreInterrupts(savedInterrupts);
         return 0;
     }
-    MI_CpuCopy8(data_ov003_021da288, s, 0xe);
-    OS_RestoreInterrupts(t);
-    if ((s[2] & b) != 0) {
+    MI_CpuCopy8(gMultiBootParent, headerCopy, 0xe);
+    OS_RestoreInterrupts(savedInterrupts);
+    if ((headerCopy[2] & aidBit) != 0) {
         return 2;
     }
-    if ((s[3] & b) != 0) {
+    if ((headerCopy[3] & aidBit) != 0) {
         return 3;
     }
-    if ((s[4] & b) != 0) {
+    if ((headerCopy[4] & aidBit) != 0) {
         return 4;
     }
-    if ((s[5] & b) != 0) {
+    if ((headerCopy[5] & aidBit) != 0) {
         return 5;
     }
-    if ((s[6] & b) != 0) {
+    if ((headerCopy[6] & aidBit) != 0) {
         return 6;
     }
     return 1;
 }
 
-void *func_ov003_021cf260(u32 index) {
-    Unk021cf260 *state = data_ov003_021da288;
+void *GetMultiBootChildRecord(u32 index) {
+    MultiBootParent *state = gMultiBootParent;
     if ((state->mMask & (1 << index)) != 0) {
         return &state->mRecords[index - 1];
     }

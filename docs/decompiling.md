@@ -538,7 +538,7 @@ Expression shapes:
 - The mask or fraction computed before the table loads, with the index, next index and fraction rotated across r1-r3
   (ARM): assign `f = x & 0xfff` before the indices and declare `f` before them (AdvanceKartOffsetCycle).
 - Six byte stores where the original computes `(a - 1) * size` before loading the base: `p = tbl->rec[a - 1].arr; p[0] =
-  ...; ... p[5] = ...;` with no offset or base locals (Thumb; func_ov003_021cf378).
+  ...; ... p[5] = ...;` with no offset or base locals (Thumb; MultiBootParentStateCallback).
 - An add with the loaded `s16` element first: `x = a[i]; x += p[i].m;` (HeadphoneProc).
 - A call's later argument computed before the call in an earlier argument: pass through a static inline wrapper taking
   all the arguments (AdvanceChildWaitSession).

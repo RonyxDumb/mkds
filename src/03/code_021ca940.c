@@ -348,7 +348,7 @@ void SetApSelectedButtonImage(void) {
     CopyNceImageToOamEntries(0, 0x32, GetOamRangeEntry(gAp->mUnk_10[entryIndex], 0));
     SetOamRangePosition(gAp->mUnk_10[entryIndex], -1, gApObjectPositions[entryIndex + 3].mX,
                         gApObjectPositions[entryIndex + 3].mY);
-    func_ov003_021d1790(gAp->mUnk_10[entryIndex], -1, 3);
+    SetOamRangePriority(gAp->mUnk_10[entryIndex], -1, 3);
 }
 
 void UpdateApMessageResult(void) {
@@ -360,7 +360,7 @@ void UpdateApMessageResult(void) {
             CopyNceImageToOamEntries(0, gApEntryImageIndices[3], GetOamRangeEntry(gAp->mUnk_04[entryIndex], 0));
             SetOamRangePosition(gAp->mUnk_04[entryIndex], -1, gApObjectPositions[entryIndex].mX,
                                 gApObjectPositions[entryIndex].mY);
-            func_ov003_021d1790(gAp->mUnk_04[entryIndex], -1, 3);
+            SetOamRangePriority(gAp->mUnk_04[entryIndex], -1, 3);
             DeleteOamRange(gAp->mUnk_10[entryIndex]);
             gAp->mUnk_10[entryIndex] = NULL;
             break;
@@ -369,7 +369,7 @@ void UpdateApMessageResult(void) {
             CopyNceImageToOamEntries(0, 0x11, GetOamRangeEntry(gAp->mUnk_10[entryIndex], 0));
             SetOamRangePosition(gAp->mUnk_10[entryIndex], -1, gApObjectPositions[entryIndex + 3].mX,
                                 gApObjectPositions[entryIndex + 3].mY);
-            func_ov003_021d1790(gAp->mUnk_10[entryIndex], -1, 3);
+            SetOamRangePriority(gAp->mUnk_10[entryIndex], -1, 3);
             break;
         default:
             return;
@@ -401,7 +401,7 @@ void RequestApSelectionPalette(void) {
             if (statusIndex > 2) {
                 statusIndex = 3;
             }
-            func_ov003_021d1890(gAp->mUnk_04[*(u8 *) &gApSelectedIndex], -1, 0, iconPalettes.mUnk_00[statusIndex]);
+            SetOamRangeMode(gAp->mUnk_04[*(u8 *) &gApSelectedIndex], -1, 0, iconPalettes.mUnk_00[statusIndex]);
         }
     }
 }

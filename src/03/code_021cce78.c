@@ -103,7 +103,7 @@ void CreateScrollBar(u32 sizeIndex, u32 trackLength, u16 positionX, u16 position
     SetPosition(positionX, positionY, &gScrollBar->mX);
     gScrollBar->mResource = CreateOamRangeFromNceImage(0, gScrollBarImageIds[sizeIndex], 1);
     SetOamRangePosition(gScrollBar->mResource, -1, positionX, positionY + offset);
-    func_ov003_021d1790(gScrollBar->mResource, -1, 1);
+    SetOamRangePriority(gScrollBar->mResource, -1, 1);
     gScrollBar->mTask = AddTask(0, AdvanceScrollBar, NULL, 0x80);
 }
 
