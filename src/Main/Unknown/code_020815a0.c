@@ -5,17 +5,17 @@
 // Lets the Killer effect end by itself and forgets it.
 void StopKartKillerEffect(u32 kartIndex) {
     KartEffects *kartEffects = &gKartEffects[kartIndex];
-    Unk0201ca6c *effect = kartEffects->mKillerEffect;
+    ParticleEmitter *effect = kartEffects->mKillerEffect;
     if (effect == NULL) {
         return;
     }
-    effect->mUnk_24.mUnk_00_0 = 1;
+    effect->mUnk_24.mEnding = 1;
     kartEffects->mKillerEffect = NULL;
 }
 
 void ReleaseKartKillerEffect(u32 kartIndex) {
     KartEffects *kartEffects = &gKartEffects[kartIndex];
-    Unk0201ca6c *effect = kartEffects->mKillerEffect;
+    ParticleEmitter *effect = kartEffects->mKillerEffect;
     if (effect == NULL) {
         return;
     }

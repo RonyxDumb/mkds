@@ -14,20 +14,20 @@ typedef struct KartTurnEffects {
     // The two effect objects of the turn start group, one per side, started by StartKartTurnStartEffects and moved by
     // AdvanceKartTurnStartEffects (the level 2 advance also switches their emission); NULL when the group is not
     // present.
-    /* 00 */ Unk0201ca6c *mTurnStartEffects[2];
+    /* 00 */ ParticleEmitter *mTurnStartEffects[2];
     // The two effect objects, one per side, started when Kart.mUnk_2fc becomes 2 (id 0x7e); released when mLevel2Frames
     // passes 8; NULL when the group is not present.
-    /* 08 */ Unk0201ca6c *mLevel2Effects[2];
+    /* 08 */ ParticleEmitter *mLevel2Effects[2];
     // First effect object per side of the level 4 group, started by the restart in AdvanceKartLevel4Effects after the
     // request made when Kart.mUnk_2fc is 3 (so Kart.mUnk_2fc is 4 from then on); NULL when the group is not present.
-    /* 10 */ Unk0201ca6c *mLevel4FirstEffects[2];
+    /* 10 */ ParticleEmitter *mLevel4FirstEffects[2];
     // Second effect object per side of the level 4 group; only started by StartKartLevel4EffectsWithSecond, NULL for
     // the other variant.
-    /* 18 */ Unk0201ca6c *mLevel4SecondEffects[2];
+    /* 18 */ ParticleEmitter *mLevel4SecondEffects[2];
     // First of the two effect objects per side started when Kart.mUnk_2fc is 3; released when mLevel3Frames passes 10.
-    /* 20 */ Unk0201ca6c *mLevel3FirstEffects[2];
+    /* 20 */ ParticleEmitter *mLevel3FirstEffects[2];
     // Second of the two effect objects per side of the level 3 group.
-    /* 28 */ Unk0201ca6c *mLevel3SecondEffects[2];
+    /* 28 */ ParticleEmitter *mLevel3SecondEffects[2];
     // Calls of AdvanceKartLevel4Effects since mLevel4StopRequested became TRUE; the group is reset when it passes 10.
     /* 30 */ s16 mLevel4StopFrames;
     // TRUE from StopKartTurnEffects, when the level 4 group was present, until the next reset; AdvanceKartLevel4Effects

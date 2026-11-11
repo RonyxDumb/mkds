@@ -8,7 +8,7 @@ void ResetPointLinkCursor(PointLinkCursor *linkCursor, RacePointLink *pointLink)
 void InitRacePointLinkCursor(PointLinkCursor *racePointLinkCursor, u16 kartIndex);
 BOOL IsPastBattlePointLink(LinkCursor *linkCursor, Vec3 *position);
 BOOL IsWithinBattlePointLinkDistance(LinkCursor *linkCursor, Vec3 *position);
-void SetEffectScaleFromKartScaleZ(Unk0201ca6c *effect, Kart *kart);
+void SetEffectScaleFromKartScaleZ(ParticleEmitter *effect, Kart *kart);
 void ReleaseKartNearRankEffect(Kart *kart);
 void StopKartNearRankEffect(Kart *kart);
 void StartKartNearRankEffect(Kart *kart);

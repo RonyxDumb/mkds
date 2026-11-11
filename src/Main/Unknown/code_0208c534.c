@@ -76,9 +76,9 @@ void StartKartTurnStartEffects(KartTurnEffects *turnEffects) {
     turnEffects->mTurnStartPresent = 0;
     for (sideIndex = 0; sideIndex < 2; sideIndex++) {
         turnEffects->mTurnStartEffects[sideIndex] = StartEffect(turnEffects->mTurnStartEffectId, &data_02155fcc);
-        turnEffects->mTurnStartEffects[sideIndex]->mUnk_72 = 0x7fff;
-        turnEffects->mTurnStartEffects[sideIndex]->mUnk_80_8 = 0x1c;
-        turnEffects->mTurnStartEffects[sideIndex]->mUnk_6c = 0x1000;
+        turnEffects->mTurnStartEffects[sideIndex]->mColor = 0x7fff;
+        turnEffects->mTurnStartEffects[sideIndex]->mAlpha = 0x1c;
+        turnEffects->mTurnStartEffects[sideIndex]->mSizeScale = 0x1000;
     }
     turnEffects->mTurnStartPresent = 1;
 }
@@ -90,7 +90,7 @@ void StopKartTurnStartEffects(KartTurnEffects *turnEffects) {
         return;
     }
     for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-        turnEffects->mTurnStartEffects[sideIndex]->mUnk_24.mUnk_00_0 = 1;
+        turnEffects->mTurnStartEffects[sideIndex]->mUnk_24.mEnding = 1;
         turnEffects->mTurnStartEffects[sideIndex] = NULL;
     }
     turnEffects->mTurnStartPresent = 0;
@@ -102,7 +102,7 @@ void AdvanceKartTurnStartEffects(KartTurnEffects *turnEffects, Kart *kart) {
     Vec3 velocity;
     Vec3 negVelocity;
     Vec3 position;
-    Unk0201ca6c *effect;
+    ParticleEmitter *effect;
 
     if (turnEffects->mTurnStartPresent == 0) {
         return;
@@ -112,7 +112,7 @@ void AdvanceKartTurnStartEffects(KartTurnEffects *turnEffects, Kart *kart) {
         velocity.x = MUL_FIXED12_NO_ROUND(kart->mEffectVelocity.x, 0xb33);
         velocity.y = MUL_FIXED12_NO_ROUND(kart->mEffectVelocity.y, 0xb33);
         velocity.z = MUL_FIXED12_NO_ROUND(kart->mEffectVelocity.z, 0xb33);
-        turnEffects->mTurnStartEffects[sideIndex]->mUnk_40 = velocity;
+        turnEffects->mTurnStartEffects[sideIndex]->mVelocity = velocity;
         negVelocity.x = -velocity.x;
         negVelocity.y = -velocity.y;
         negVelocity.z = -velocity.z;
@@ -122,9 +122,9 @@ void AdvanceKartTurnStartEffects(KartTurnEffects *turnEffects, Kart *kart) {
         effect->mUnk_28.y = position.y + effect->mUnk_20->mUnk_00->mUnk_04.y;
         effect->mUnk_28.z = position.z + effect->mUnk_20->mUnk_00->mUnk_04.z;
         if ((kart->mUnk_44 & KART_44_ON_GROUND) == 0) {
-            turnEffects->mTurnStartEffects[sideIndex]->mUnk_24.mUnk_00_1 = 1;
+            turnEffects->mTurnStartEffects[sideIndex]->mUnk_24.mEmissionStopped = 1;
         } else {
-            turnEffects->mTurnStartEffects[sideIndex]->mUnk_24.mUnk_00_1 = 0;
+            turnEffects->mTurnStartEffects[sideIndex]->mUnk_24.mEmissionStopped = 0;
         }
     }
 }
@@ -150,8 +150,8 @@ void StopKartLevel4EmissionWithSecond(KartTurnEffects *turnEffects) {
     u16 sideIndex;
 
     for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-        turnEffects->mLevel4FirstEffects[sideIndex]->mUnk_24.mUnk_00_1 = 1;
-        turnEffects->mLevel4SecondEffects[sideIndex]->mUnk_24.mUnk_00_1 = 1;
+        turnEffects->mLevel4FirstEffects[sideIndex]->mUnk_24.mEmissionStopped = 1;
+        turnEffects->mLevel4SecondEffects[sideIndex]->mUnk_24.mEmissionStopped = 1;
     }
 }
 
@@ -159,7 +159,7 @@ void StopKartLevel4EmissionFirstOnly(KartTurnEffects *turnEffects) {
     u16 sideIndex;
 
     for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-        turnEffects->mLevel4FirstEffects[sideIndex]->mUnk_24.mUnk_00_1 = 1;
+        turnEffects->mLevel4FirstEffects[sideIndex]->mUnk_24.mEmissionStopped = 1;
     }
 }
 
@@ -167,8 +167,8 @@ void StartKartLevel4EmissionWithSecond(KartTurnEffects *turnEffects) {
     u16 sideIndex;
 
     for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-        turnEffects->mLevel4FirstEffects[sideIndex]->mUnk_24.mUnk_00_1 = 0;
-        turnEffects->mLevel4SecondEffects[sideIndex]->mUnk_24.mUnk_00_1 = 0;
+        turnEffects->mLevel4FirstEffects[sideIndex]->mUnk_24.mEmissionStopped = 0;
+        turnEffects->mLevel4SecondEffects[sideIndex]->mUnk_24.mEmissionStopped = 0;
     }
 }
 
@@ -176,7 +176,7 @@ void StartKartLevel4EmissionFirstOnly(KartTurnEffects *turnEffects) {
     u16 sideIndex;
 
     for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-        turnEffects->mLevel4FirstEffects[sideIndex]->mUnk_24.mUnk_00_1 = 0;
+        turnEffects->mLevel4FirstEffects[sideIndex]->mUnk_24.mEmissionStopped = 0;
     }
 }
 
@@ -207,8 +207,8 @@ void StopKartLevel4EffectsWithSecond(KartTurnEffects *turnEffects) {
         return;
     }
     for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-        turnEffects->mLevel4FirstEffects[sideIndex]->mUnk_24.mUnk_00_1 = 1;
-        turnEffects->mLevel4SecondEffects[sideIndex]->mUnk_24.mUnk_00_1 = 1;
+        turnEffects->mLevel4FirstEffects[sideIndex]->mUnk_24.mEmissionStopped = 1;
+        turnEffects->mLevel4SecondEffects[sideIndex]->mUnk_24.mEmissionStopped = 1;
     }
 }
 
@@ -228,12 +228,12 @@ void StopKartLevel4EffectsFirstOnly(KartTurnEffects *turnEffects) {
 
 void PlaceKartLevel4EffectsWithSecond(KartTurnEffects *turnEffects, Vec3s16 *sideDirections, Vec3 *sidePositions) {
     u16 sideIndex;
-    Unk0201ca6c *effect;
+    ParticleEmitter *effect;
     s32 coord;
 
     for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-        turnEffects->mLevel4FirstEffects[sideIndex]->mUnk_50 = sideDirections[sideIndex];
-        turnEffects->mLevel4SecondEffects[sideIndex]->mUnk_50 = sideDirections[sideIndex];
+        turnEffects->mLevel4FirstEffects[sideIndex]->mDirection = sideDirections[sideIndex];
+        turnEffects->mLevel4SecondEffects[sideIndex]->mDirection = sideDirections[sideIndex];
         effect = turnEffects->mLevel4FirstEffects[sideIndex];
         coord = sidePositions[sideIndex].x;
         effect->mUnk_28.x = coord + effect->mUnk_20->mUnk_00->mUnk_04.x;
@@ -253,12 +253,12 @@ void PlaceKartLevel4EffectsWithSecond(KartTurnEffects *turnEffects, Vec3s16 *sid
 
 void PlaceKartLevel4EffectsFirstOnly(KartTurnEffects *turnEffects, Vec3s16 *sideDirections, Vec3 *sidePositions) {
     u16 sideIndex;
-    Unk0201ca6c *effect;
+    ParticleEmitter *effect;
     s32 coord;
 
     for (sideIndex = 0; sideIndex < 2; sideIndex++) {
         effect = turnEffects->mLevel4FirstEffects[sideIndex];
-        effect->mUnk_50 = sideDirections[sideIndex];
+        effect->mDirection = sideDirections[sideIndex];
         effect = turnEffects->mLevel4FirstEffects[sideIndex];
         coord = sidePositions[sideIndex].x;
         effect->mUnk_28.x = coord + effect->mUnk_20->mUnk_00->mUnk_04.x;
@@ -274,20 +274,20 @@ void HideKartNonLevel4Effects(KartTurnEffects *turnEffects) {
 
     if (turnEffects->mTurnStartPresent != 0) {
         for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-            turnEffects->mTurnStartEffects[sideIndex]->mUnk_24.mUnk_00_3 = 1;
+            turnEffects->mTurnStartEffects[sideIndex]->mUnk_24.mHidden = 1;
         }
     }
     if (turnEffects->mLevel3Present != 0) {
         for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-            turnEffects->mLevel3FirstEffects[sideIndex]->mUnk_24.mUnk_00_3 = 1;
-            turnEffects->mLevel3SecondEffects[sideIndex]->mUnk_24.mUnk_00_3 = 1;
+            turnEffects->mLevel3FirstEffects[sideIndex]->mUnk_24.mHidden = 1;
+            turnEffects->mLevel3SecondEffects[sideIndex]->mUnk_24.mHidden = 1;
         }
     }
     if (turnEffects->mLevel2Present == FALSE) {
         return;
     }
     for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-        turnEffects->mLevel2Effects[sideIndex]->mUnk_24.mUnk_00_3 = 1;
+        turnEffects->mLevel2Effects[sideIndex]->mUnk_24.mHidden = 1;
     }
 }
 
@@ -296,8 +296,8 @@ void HideKartEffectsWithSecond(KartTurnEffects *turnEffects) {
 
     if (turnEffects->mLevel4Present != 0) {
         for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-            turnEffects->mLevel4FirstEffects[sideIndex]->mUnk_24.mUnk_00_3 = 1;
-            turnEffects->mLevel4SecondEffects[sideIndex]->mUnk_24.mUnk_00_3 = 1;
+            turnEffects->mLevel4FirstEffects[sideIndex]->mUnk_24.mHidden = 1;
+            turnEffects->mLevel4SecondEffects[sideIndex]->mUnk_24.mHidden = 1;
         }
     }
     HideKartNonLevel4Effects(turnEffects);
@@ -308,7 +308,7 @@ void HideKartEffectsFirstOnly(KartTurnEffects *turnEffects) {
 
     if (turnEffects->mLevel4Present != 0) {
         for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-            turnEffects->mLevel4FirstEffects[sideIndex]->mUnk_24.mUnk_00_3 = 1;
+            turnEffects->mLevel4FirstEffects[sideIndex]->mUnk_24.mHidden = 1;
         }
     }
     HideKartNonLevel4Effects(turnEffects);
@@ -319,20 +319,20 @@ void ShowKartNonLevel4Effects(KartTurnEffects *turnEffects) {
 
     if (turnEffects->mTurnStartPresent != 0) {
         for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-            turnEffects->mTurnStartEffects[sideIndex]->mUnk_24.mUnk_00_3 = 0;
+            turnEffects->mTurnStartEffects[sideIndex]->mUnk_24.mHidden = 0;
         }
     }
     if (turnEffects->mLevel3Present != 0) {
         for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-            turnEffects->mLevel3FirstEffects[sideIndex]->mUnk_24.mUnk_00_3 = 0;
-            turnEffects->mLevel3SecondEffects[sideIndex]->mUnk_24.mUnk_00_3 = 0;
+            turnEffects->mLevel3FirstEffects[sideIndex]->mUnk_24.mHidden = 0;
+            turnEffects->mLevel3SecondEffects[sideIndex]->mUnk_24.mHidden = 0;
         }
     }
     if (turnEffects->mLevel2Present == FALSE) {
         return;
     }
     for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-        turnEffects->mLevel2Effects[sideIndex]->mUnk_24.mUnk_00_3 = 0;
+        turnEffects->mLevel2Effects[sideIndex]->mUnk_24.mHidden = 0;
     }
 }
 
@@ -341,8 +341,8 @@ void ShowKartEffectsWithSecond(KartTurnEffects *turnEffects) {
 
     if (turnEffects->mLevel4Present != 0) {
         for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-            turnEffects->mLevel4FirstEffects[sideIndex]->mUnk_24.mUnk_00_3 = 0;
-            turnEffects->mLevel4SecondEffects[sideIndex]->mUnk_24.mUnk_00_3 = 0;
+            turnEffects->mLevel4FirstEffects[sideIndex]->mUnk_24.mHidden = 0;
+            turnEffects->mLevel4SecondEffects[sideIndex]->mUnk_24.mHidden = 0;
         }
     }
     ShowKartNonLevel4Effects(turnEffects);
@@ -353,7 +353,7 @@ void ShowKartEffectsFirstOnly(KartTurnEffects *turnEffects) {
 
     if (turnEffects->mLevel4Present != 0) {
         for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-            turnEffects->mLevel4FirstEffects[sideIndex]->mUnk_24.mUnk_00_3 = 0;
+            turnEffects->mLevel4FirstEffects[sideIndex]->mUnk_24.mHidden = 0;
         }
     }
     ShowKartNonLevel4Effects(turnEffects);
@@ -442,7 +442,7 @@ void StartKartLevel3Effects(KartTurnEffects *turnEffects, int enable) {
 
 void AdvanceKartLevel3Effects(KartTurnEffects *turnEffects, Vec3s16 *sideDirections, Vec3 *sidePositions) {
     u16 sideIndex;
-    Unk0201ca6c *effect;
+    ParticleEmitter *effect;
     s32 coord;
 
     if (turnEffects->mLevel3Present == 0) {
@@ -463,8 +463,8 @@ void AdvanceKartLevel3Effects(KartTurnEffects *turnEffects, Vec3s16 *sideDirecti
         return;
     }
     for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-        turnEffects->mLevel3FirstEffects[sideIndex]->mUnk_50 = sideDirections[sideIndex];
-        turnEffects->mLevel3SecondEffects[sideIndex]->mUnk_50 = sideDirections[sideIndex];
+        turnEffects->mLevel3FirstEffects[sideIndex]->mDirection = sideDirections[sideIndex];
+        turnEffects->mLevel3SecondEffects[sideIndex]->mDirection = sideDirections[sideIndex];
         effect = turnEffects->mLevel3FirstEffects[sideIndex];
         coord = sidePositions[sideIndex].x;
         effect->mUnk_28.x = coord + effect->mUnk_20->mUnk_00->mUnk_04.x;
@@ -504,7 +504,7 @@ void StartKartLevel2Effects(KartTurnEffects *turnEffects, int enable) {
 
 void AdvanceKartLevel2Effects(KartTurnEffects *turnEffects, Vec3s16 *sideDirections, Vec3 *sidePositions) {
     u16 sideIndex;
-    Unk0201ca6c *effect;
+    ParticleEmitter *effect;
     s32 coord;
 
     if (turnEffects->mLevel2Present == FALSE) {
@@ -524,13 +524,13 @@ void AdvanceKartLevel2Effects(KartTurnEffects *turnEffects, Vec3s16 *sideDirecti
             return;
         }
         for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-            turnEffects->mTurnStartEffects[sideIndex]->mUnk_24.mUnk_00_1 = 0;
+            turnEffects->mTurnStartEffects[sideIndex]->mUnk_24.mEmissionStopped = 0;
         }
         return;
     }
     for (sideIndex = 0; sideIndex < 2; sideIndex++) {
         effect = turnEffects->mLevel2Effects[sideIndex];
-        effect->mUnk_50 = sideDirections[sideIndex];
+        effect->mDirection = sideDirections[sideIndex];
         effect = turnEffects->mLevel2Effects[sideIndex];
         coord = sidePositions[sideIndex].x;
         effect->mUnk_28.x = coord + effect->mUnk_20->mUnk_00->mUnk_04.x;
@@ -543,7 +543,7 @@ void AdvanceKartLevel2Effects(KartTurnEffects *turnEffects, Vec3s16 *sideDirecti
         return;
     }
     for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-        turnEffects->mTurnStartEffects[sideIndex]->mUnk_24.mUnk_00_1 = 1;
+        turnEffects->mTurnStartEffects[sideIndex]->mUnk_24.mEmissionStopped = 1;
     }
 }
 
@@ -604,7 +604,7 @@ void StopKartTurnEffects(KartTurnEffects *turnEffects) {
         return;
     }
     for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-        turnEffects->mTurnStartEffects[sideIndex]->mUnk_24.mUnk_00_0 = 1;
+        turnEffects->mTurnStartEffects[sideIndex]->mUnk_24.mEnding = 1;
         turnEffects->mTurnStartEffects[sideIndex] = NULL;
     }
     turnEffects->mTurnStartPresent = 0;

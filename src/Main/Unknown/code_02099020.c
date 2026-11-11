@@ -43,7 +43,7 @@ u32 CollideKartWithPakkunSpit(PakkunSpit *pakkunSpit, Kart *kart, u8 *firstRespo
 void UpdatePakkunSpit(void *mapObjectList, PakkunSpit *pakkunSpit) {
     s32 falloffIndex;
     SoundStartParams soundRequest;
-    Unk0201e3c8 *entry;
+    ParticleInstance *entry;
     switch (pakkunSpit->mState) {
         case 0:
             pakkunSpit->mHeightOffset = pakkunSpit->mHeightOffset + pakkunSpit->mHeightSpeed;
@@ -85,8 +85,8 @@ void UpdatePakkunSpit(void *mapObjectList, PakkunSpit *pakkunSpit) {
             return;
         case 1:
             if (pakkunSpit->mEmitter != NULL) {
-                for (entry = pakkunSpit->mEmitter->mUnk_08; entry != NULL; entry = entry->mUnk_00) {
-                    entry->mUnk_26 = entry->mUnk_24;
+                for (entry = pakkunSpit->mEmitter->mUnk_08; entry != NULL; entry = entry->mNext) {
+                    entry->mAge = entry->mLife;
                 }
                 StopEffectAndClearPointer((void **) &pakkunSpit->mEmitter);
             }

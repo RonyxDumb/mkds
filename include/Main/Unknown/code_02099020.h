@@ -2,14 +2,14 @@
 
 #include "types.h"
 #include "code_02146d78.h"
-#include "code_0201c528.h" // Unk0201e3c8
+#include "code_0201c528.h" // ParticleInstance
 #include "Main/Unknown/code_020e6fd4.h" // MapObject
 #include "Main/Unknown/code_020e005c.h" // GroupFollower
 
 // Object behind the word at 0xd0 of PakkunSpit: a list at 0x08 and a flags word at 0x24.
 typedef struct Unk0209905c_d0 {
     /* 00 */ u8 mUnk_00[8];
-    /* 08 */ Unk0201e3c8 *mUnk_08;
+    /* 08 */ ParticleInstance *mUnk_08;
     /* 0c */ u8 mUnk_0c[0x18];
     /* 24 */ u32 mUnk_24;
 } Unk0209905c_d0;

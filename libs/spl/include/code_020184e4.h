@@ -47,7 +47,7 @@ typedef struct ParticleFileHeader {
 typedef struct SPLManager {
     /* 00 */ void *(*mAlloc)(u32 a);
     /* 04 */ ParticleList mUnk_04[3];
-    /* 28 */ Unk0201ca6c_20 *mResources;
+    /* 28 */ ParticleResource *mResources;
     /* 2c */ ParticleTexture *mTextures;
     /* 30 */ u16 mResCount;
     /* 32 */ u16 mTexCount;
@@ -60,21 +60,21 @@ typedef struct SPLManager {
     /* 38 */ u32 mPolygonIDDrawOrder : 1;
     /* 38 */ u32 mUnk_38_25 : 7;
     /* 3c */ u32 mMiscPolygonAttr;
-    /* 40 */ Unk0201ca6c *mRenderStateEmitter;
+    /* 40 */ ParticleEmitter *mRenderStateEmitter;
     /* 44 */ MtxFx43 *mRenderStateViewMatrix;
     /* 48 */ u16 mCurrentCycle;
 } SPLManager;
 
 // Entries of the two local call tables of SPLEmitter_Update.
 typedef struct ParticleAnimEntry {
-    /* 00 */ void (*mAnimate)(Unk0201e3c8 *p, Unk0201ca6c_20 *q, s32 v);
+    /* 00 */ void (*mAnimate)(ParticleInstance *p, ParticleResource *q, s32 v);
     /* 04 */ u32 mTimeIndex;
 } ParticleAnimEntry;
 
-void SPLManager_DeleteEmitter(SPLManager *mgr, Unk0201ca6c *emtr);
-Unk0201ca6c *SPLManager_CreateEmitterWithCallbackEx(SPLManager *mgr, s32 resourceId, Vec3 *pos, s32 param,
-                                                    void (*initCallback)(Unk0201ca6c *emtr, s32 param));
-Unk0201ca6c *SPLManager_CreateEmitter(SPLManager *mgr, s32 resourceId, Vec3 *pos);
+void SPLManager_DeleteEmitter(SPLManager *mgr, ParticleEmitter *emtr);
+ParticleEmitter *SPLManager_CreateEmitterWithCallbackEx(SPLManager *mgr, s32 resourceId, Vec3 *pos, s32 param,
+                                                   void (*initCallback)(ParticleEmitter *emtr, s32 param));
+ParticleEmitter *SPLManager_CreateEmitter(SPLManager *mgr, s32 resourceId, Vec3 *pos);
 void SPLManager_Draw(SPLManager *mgr, MtxFx43 *viewMatrix);
 void SPLManager_Update(SPLManager *mgr);
 s32 SPLManager_UploadPalettes(SPLManager *mgr);
@@ -86,19 +86,19 @@ SPLManager *SPLManager_New(void *(*alloc)(u32 size), u16 maxEmitters, u16 maxPar
                            u16 maxPolyId);
 u32 SPLUtil_AllocPaletteVRAM(s32 size, s32 is4Pltt);
 u32 SPLUtil_AllocTextureVRAM(s32 size, s32 is4x4);
-void SPLUtil_SetCylinderEmitterDir(Unk0201ca6c *emtr, Vec3 *pointA, Vec3 *pointB);
+void SPLUtil_SetCylinderEmitterDir(ParticleEmitter *emtr, Vec3 *pointA, Vec3 *pointB);
 void SPLManager_DoDraw(SPLManager *mgr);
 void SPLManager_DrawChildParticles(SPLManager *mgr);
 void SPLManager_DrawParticles(SPLManager *mgr);
-void SPLEmitter_Update(SPLManager *mgr, Unk0201ca6c *emtr);
-void SPLEmitter_Init(Unk0201ca6c *emtr, Unk0201ca6c_20 *res, Vec3 *pos);
+void SPLEmitter_Update(SPLManager *mgr, ParticleEmitter *emtr);
+void SPLEmitter_Init(ParticleEmitter *emtr, ParticleResource *res, Vec3 *pos);
 void SPLUtil_SetTexture_Stub(ParticleTexture *tex);
 void SPLUtil_SetTexture(ParticleTexture *tex);
-void SPLDraw_Child_DirectionalPolygon(SPLManager *mgr, Unk0201e3c8 *ptcl);
-void SPLDraw_DirectionalPolygon(SPLManager *mgr, Unk0201e3c8 *ptcl);
-void SPLDraw_Child_Polygon(SPLManager *mgr, Unk0201e3c8 *ptcl);
-void SPLDraw_Polygon(SPLManager *mgr, Unk0201e3c8 *ptcl);
-void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl);
-void SPLDraw_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl);
-void SPLDraw_Child_Billboard(SPLManager *mgr, Unk0201e3c8 *ptcl);
-void SPLDraw_Billboard(SPLManager *mgr, Unk0201e3c8 *ptcl);
+void SPLDraw_Child_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl);
+void SPLDraw_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl);
+void SPLDraw_Child_Polygon(SPLManager *mgr, ParticleInstance *ptcl);
+void SPLDraw_Polygon(SPLManager *mgr, ParticleInstance *ptcl);
+void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, ParticleInstance *ptcl);
+void SPLDraw_DirectionalBillboard(SPLManager *mgr, ParticleInstance *ptcl);
+void SPLDraw_Child_Billboard(SPLManager *mgr, ParticleInstance *ptcl);
+void SPLDraw_Billboard(SPLManager *mgr, ParticleInstance *ptcl);

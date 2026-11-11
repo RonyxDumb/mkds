@@ -6,7 +6,7 @@
 // The Stadium course emitters: six directions, the six emitters now running, and the countdown to the next round.
 typedef struct StadiumEmitters {
     /* 00 */ Vec3 mDirections[6];
-    /* 48 */ Unk0201ca6c *mEmitters[6];
+    /* 48 */ ParticleEmitter *mEmitters[6];
     /* 60 */ s16 mEmitterTimer;
     /* 62 */ u8 mUnk_62[2];
 } StadiumEmitters;

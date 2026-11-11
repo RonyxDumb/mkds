@@ -27,7 +27,7 @@ typedef struct RockDrawList {
 #include "Main/Unknown/code_020d50ec.h" // EmitterParams, RockObject
 #include "code_0201c528.h"
 
-void CopyEmitterParams(Unk0201ca6c *emitter, EmitterParams *params);
+void CopyEmitterParams(ParticleEmitter *emitter, EmitterParams *params);
 void DrawRock(void *unused0, RockObject *rock, void *unused1, s32 alpha);
 void SetupDrawRock(void);
 MapObjectList *CreateRockUpdateList(void);

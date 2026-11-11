@@ -4,7 +4,7 @@
 #include "code_02146d78.h"
 #include "Main/Unknown/code_020e6fd4.h"
 
-typedef struct Unk0201ca6c Unk0201ca6c;
+typedef struct ParticleEmitter ParticleEmitter;
 typedef struct Kart Kart;
 typedef struct ItemObject ItemObject;
 typedef struct Vec3s16 Vec3s16;
@@ -67,7 +67,7 @@ BOOL IsNotRisingWithBelowZeroBit(MissionRunMapObject *mapObject);
 u32 IsStateNumberBelow(MissionRunMapObject *mapObject, int stateNumberLimit);
 void DisableMissionRunMapObjectGravity(MissionRunMapObject *mapObject);
 void StartMapObjectState(MissionRunMapObject *mapObject, int stateNumber, s32 (*nextFunc)(MissionRunMapObject *));
-void SetEffectDirection(Unk0201ca6c *emitter, const Vec3s16 *direction);
+void SetEffectDirection(ParticleEmitter *emitter, const Vec3s16 *direction);
 void StartModelEffectAtWaterHeight(MissionRunMapObject *mapObject, u32 modelEffectKind, int timer);
 void StartEffectAtWaterHeight(MissionRunMapObject *mapObject, u32 offsetX, u32 offsetY, u32 offsetZ, u32 effectId,
                               u32 timer);

@@ -33,7 +33,7 @@
 #include "Main/Unknown/code_02077bc0.h"
 
 void StartKartAheadEffectIfSelectedEntry(Kart *kart) {
-    Unk0201ca6c *effect;
+    ParticleEmitter *effect;
 
     if (!(kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
         return;
@@ -45,18 +45,18 @@ void StartKartAheadEffectIfSelectedEntry(Kart *kart) {
     effect = gKartAheadEffects[kart->mIndex];
     effect->mUnk_98_24 = kart->mIndex;
     effect->mUnk_94 = 0;
-    effect->mUnk_90 = AdvanceKartAheadEffect;
+    effect->mCallback = AdvanceKartAheadEffect;
 }
 
 void StopKartAheadEffect(Kart *kart) {
-    Unk0201ca6c *effect = gKartAheadEffects[kart->mIndex];
+    ParticleEmitter *effect = gKartAheadEffects[kart->mIndex];
 
     if (effect == NULL) {
         return;
     }
     effect->mUnk_98_16 = 0;
     effect->mUnk_98_8 = 3;
-    effect->mUnk_90 = AdvanceKartAheadEffectWithLimit;
+    effect->mCallback = AdvanceKartAheadEffectWithLimit;
     gKartAheadEffects[kart->mIndex] = NULL;
 }
 
@@ -69,7 +69,7 @@ void ReleaseKartAheadEffect(Kart *kart) {
 }
 
 void StartKartNearRankEffect(Kart *kart) {
-    Unk0201ca6c *effect;
+    ParticleEmitter *effect;
 
     if (gKartNearRankEffects[kart->mIndex] != NULL) {
         return;
@@ -78,18 +78,18 @@ void StartKartNearRankEffect(Kart *kart) {
     effect = gKartNearRankEffects[kart->mIndex];
     effect->mUnk_98_24 = kart->mIndex;
     effect->mUnk_94 = (void *) 1;
-    effect->mUnk_90 = AdvanceKartAheadEffect;
+    effect->mCallback = AdvanceKartAheadEffect;
 }
 
 void StopKartNearRankEffect(Kart *kart) {
-    Unk0201ca6c *effect = gKartNearRankEffects[kart->mIndex];
+    ParticleEmitter *effect = gKartNearRankEffects[kart->mIndex];
 
     if (effect == NULL) {
         return;
     }
     effect->mUnk_98_16 = 0;
     effect->mUnk_98_8 = 5;
-    effect->mUnk_90 = AdvanceKartAheadEffectWithLimit;
+    effect->mCallback = AdvanceKartAheadEffectWithLimit;
     gKartNearRankEffects[kart->mIndex] = NULL;
 }
 
@@ -101,8 +101,8 @@ void ReleaseKartNearRankEffect(Kart *kart) {
     gKartNearRankEffects[kart->mIndex] = NULL;
 }
 
-void SetEffectScaleFromKartScaleZ(Unk0201ca6c *effect, Kart *kart) {
-    effect->mUnk_6c = (s16) kart->mScale.z;
+void SetEffectScaleFromKartScaleZ(ParticleEmitter *effect, Kart *kart) {
+    effect->mSizeScale = (s16) kart->mScale.z;
 }
 
 BOOL IsWithinBattlePointLinkDistance(LinkCursor *linkCursor, Vec3 *position) {

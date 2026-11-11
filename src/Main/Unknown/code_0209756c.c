@@ -316,13 +316,13 @@ void UpdateFlipper(void *mapObjectList, Flipper *flipper) {
             frameIndex = 1;
         }
         flipper->mNsbtaFrameIndex = frameIndex;
-        flipper->mUnk_ed0->mUnk_24.mUnk_00_1 = 0;
+        flipper->mUnk_ed0->mUnk_24.mEmissionStopped = 0;
         SPLUtil_SetCylinderEmitterDir(flipper->mUnk_ed0, &flipper->mUnk_be8[flipper->mUnk_ec0],
                                       &flipper->mUnk_d50[flipper->mUnk_ec0]);
     } else {
         flipper->mNsbtpFrameIndex = 0;
         flipper->mNsbtaFrameIndex = 0;
-        flipper->mUnk_ed0->mUnk_24.mUnk_00_1 = 1;
+        flipper->mUnk_ed0->mUnk_24.mEmissionStopped = 1;
     }
     kartCount = gRaceSetup->mKartCount;
     for (kartIndex = 0; kartIndex < kartCount; kartIndex++) {

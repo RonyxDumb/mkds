@@ -23,7 +23,7 @@
 
 struct KartAi;
 
-typedef struct Unk0201ca6c Unk0201ca6c;
+typedef struct ParticleEmitter ParticleEmitter;
 
 // The 0x98-byte record of one kart slot, copied from a row of kartphysicalparam.bin (50 rows: 37 kart rows, then 13
 // character rows used in mode 2). Edited in place per race: mBaseSpeedLimit by the engine class, the surface tables by
@@ -582,11 +582,11 @@ BOOL IsKartNotNormal(Kart *kart);
 void SetupKartAiItemInUseEntry(Kart *kart);
 void SetupKartAiHeldItemEntry(Kart *kart);
 void StartKartBlink(Kart *kart);
-void PlaceEffectBehindKart(Unk0201ca6c *emitter, Kart *kart);
-void SetEffectFlatVelocityFromKart(Unk0201ca6c *emitter, Kart *kart);
+void PlaceEffectBehindKart(ParticleEmitter *emitter, Kart *kart);
+void SetEffectFlatVelocityFromKart(ParticleEmitter *emitter, Kart *kart);
 BOOL TryStartKartCollisionEffects(Kart *kart, const Vec3 *overlapDirection, int flag);
-void SetEffectVelocityFromKart(Unk0201ca6c *emitter, Kart *kart);
-void SetEffectScaleFromKart(Unk0201ca6c *emitter, Kart *kart);
+void SetEffectVelocityFromKart(ParticleEmitter *emitter, Kart *kart);
+void SetEffectScaleFromKart(ParticleEmitter *emitter, Kart *kart);
 
 void StartEffectWithCallback(u32 idx, const Vec3 *pos, void *splManager, void (*cb)());
 int TryTurnKartAtLowSpeed(Kart *kart);

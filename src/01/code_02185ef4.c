@@ -299,8 +299,8 @@ void StartModelEffectAtWaterHeight(MissionRunMapObject *mapObject, u32 modelEffe
     }
 }
 
-void SetEffectDirection(Unk0201ca6c *emitter, const Vec3s16 *direction) {
-    emitter->mUnk_50 = *direction;
+void SetEffectDirection(ParticleEmitter *emitter, const Vec3s16 *direction) {
+    emitter->mDirection = *direction;
 }
 
 void StartEffectWithRotatedDirection(MissionRunMapObject *mapObject, int offsetX, int offsetY, int offsetZ,

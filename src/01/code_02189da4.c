@@ -180,8 +180,8 @@ void InitBombKingMapObject(MissionRunMapObject *mapObject) {
     mapObject->mUnk_000.mFarDistanceSquared = gSoundFalloffs[12].mFarDistanceSquared;
 }
 
-void SetBombKingEffectScale(Unk0201ca6c *emitter) {
-    emitter->mUnk_6c = 0x2000;
+void SetBombKingEffectScale(ParticleEmitter *emitter) {
+    emitter->mSizeScale = 0x2000;
 }
 
 void BombKingItemBounceCallback(MissionRunMapObject *mapObject, ItemObject *itemObject) {

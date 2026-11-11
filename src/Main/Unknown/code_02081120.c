@@ -9,7 +9,7 @@
 
 void StartKartSpinSideEffects(s32 kartIndex) {
     Kart *kart = GetKart(kartIndex);
-    Unk0201ca6c *effect;
+    ParticleEmitter *effect;
     u16 effectIndex;
 
     if (!(kart->mUnk_4c & KART_4C_NEAR_PLAYER_RANK)) {
@@ -21,11 +21,11 @@ void StartKartSpinSideEffects(s32 kartIndex) {
         effect->mUnk_94 = kart;
         effect->mUnk_98_24 = effectIndex;
         effectIndex = effectIndex + 1;
-        effect->mUnk_90 = AdvanceKartSpinSideEffect;
+        effect->mCallback = AdvanceKartSpinSideEffect;
     } while (effectIndex < 2);
 }
 
-void AdvanceKartSpinSideEffect(Unk0201ca6c *effect, s32 phase) {
+void AdvanceKartSpinSideEffect(ParticleEmitter *effect, s32 phase) {
     if (phase != 0) {
         return;
     }
@@ -39,7 +39,7 @@ void AdvanceKartSpinSideEffect(Unk0201ca6c *effect, s32 phase) {
 
 void StartKartSpinFollowEffect(u32 kartIndex) {
     KartEffects *kartEffects = &gKartEffects[kartIndex];
-    Unk0201ca6c *effect;
+    ParticleEmitter *effect;
 
     if (kartEffects->mSpinFollowEffect != NULL) {
         DeleteEffect(kartEffects->mSpinFollowEffect);
@@ -49,10 +49,10 @@ void StartKartSpinFollowEffect(u32 kartIndex) {
     effect->mUnk_98_16 = 0;
     effect->mUnk_98_8 = 0x78;
     effect->mUnk_98_24 = kartIndex;
-    effect->mUnk_90 = AdvanceKartSpinFollowEffect;
+    effect->mCallback = AdvanceKartSpinFollowEffect;
 }
 
-void AdvanceKartSpinFollowEffect(Unk0201ca6c *effect, s32 phase) {
+void AdvanceKartSpinFollowEffect(ParticleEmitter *effect, s32 phase) {
     u32 ended;
     u8 elapsedFrames;
     u8 kartIndex;
@@ -77,7 +77,7 @@ void AdvanceKartSpinFollowEffect(Unk0201ca6c *effect, s32 phase) {
     if (elapsedFrames >= effect->mUnk_98_8) {
         if (elapsedFrames == effect->mUnk_98_8) {
             ended = 1;
-            effect->mUnk_24.mUnk_00_0 = 1;
+            effect->mUnk_24.mEnding = 1;
         }
     } else {
         effect->mUnk_98_16 = elapsedFrames + 1;
@@ -86,5 +86,5 @@ void AdvanceKartSpinFollowEffect(Unk0201ca6c *effect, s32 phase) {
         gKartEffects[kartIndex].mSpinFollowEffect = NULL;
         return;
     }
-    effect->mUnk_6c = (s16) GetKart(kartIndex)->mScale.z;
+    effect->mSizeScale = (s16) GetKart(kartIndex)->mScale.z;
 }

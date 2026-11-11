@@ -136,17 +136,17 @@ void DrawEffects(MtxFx43 *viewMatrix) {
 void *StartEffect(u32 effectId, const Vec3 *position) {
     s32 resourceId;
     Vec3 emitterPosition;
-    Unk0201ca6c *emitter;
+    ParticleEmitter *emitter;
     SPLManager *splManager = gGetSPLManagerFunction(&resourceId, effectId);
     emitterPosition.x = position->x >> 4;
     emitterPosition.y = position->y >> 4;
     emitterPosition.z = position->z >> 4;
     emitter = SPLManager_CreateEmitter(splManager, resourceId, &emitterPosition);
     if (emitter != NULL) {
-        if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x80) {
-            emitter->mUnk_80_16 = 1;
-        } else if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x40) {
-            emitter->mUnk_80_16 = 2;
+        if (emitter->mUnk_20->mUnk_00->mUpdateCycleBits & 0x80) {
+            emitter->mUpdateCycle = 1;
+        } else if (emitter->mUnk_20->mUnk_00->mUpdateCycleBits & 0x40) {
+            emitter->mUpdateCycle = 2;
         }
     }
     return emitter;
@@ -160,17 +160,17 @@ void StartEffectWithCallback(u32 effectId, const Vec3 *position, void *callbackP
     emitterPosition.y = position->y >> 4;
     emitterPosition.z = position->z >> 4;
     SPLManager_CreateEmitterWithCallbackEx(splManager, resourceId, &emitterPosition, (s32) callbackParam,
-                                           (void (*)(Unk0201ca6c *, s32)) initCallback);
+                                           (void (*)(ParticleEmitter *, s32)) initCallback);
 }
 
-void DeleteEffect(Unk0201ca6c *emitter) {
+void DeleteEffect(ParticleEmitter *emitter) {
     SPLManager *splManager;
     s32 indexBuffer[2];
     splManager = gGetSPLManagerFunction(indexBuffer, 0);
     SPLManager_DeleteEmitter(splManager, emitter);
 }
 
-void DeleteEffectAndClearPointer(Unk0201ca6c **emitterSlot) {
+void DeleteEffectAndClearPointer(ParticleEmitter **emitterSlot) {
     SPLManager *splManager;
     s32 indexBuffer[2];
     splManager = gGetSPLManagerFunction(indexBuffer, 0);
@@ -179,30 +179,30 @@ void DeleteEffectAndClearPointer(Unk0201ca6c **emitterSlot) {
 }
 
 void StopEffectAndClearPointer(void **emitterSlot) {
-    Unk0201ca6c *effect = *emitterSlot;
-    effect->mUnk_24.mUnk_00_0 = 1;
+    ParticleEmitter *effect = *emitterSlot;
+    effect->mUnk_24.mEnding = 1;
     *emitterSlot = NULL;
 }
 
-Unk0201ca6c *StartRaceFogOffEffect(s32 resourceId, Vec3 *position) {
+ParticleEmitter *StartRaceFogOffEffect(s32 resourceId, Vec3 *position) {
     Vec3 emitterPosition;
-    Unk0201ca6c *emitter;
+    ParticleEmitter *emitter;
     emitterPosition.x = position->x >> 4;
     emitterPosition.y = position->y >> 4;
     emitterPosition.z = position->z >> 4;
     emitter = SPLManager_CreateEmitter(gRaceEffectFogOffSPLManager, resourceId, &emitterPosition);
     if (emitter != NULL) {
-        if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x80) {
-            emitter->mUnk_80_16 = 1;
-        } else if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x40) {
-            emitter->mUnk_80_16 = 2;
+        if (emitter->mUnk_20->mUnk_00->mUpdateCycleBits & 0x80) {
+            emitter->mUpdateCycle = 1;
+        } else if (emitter->mUnk_20->mUnk_00->mUpdateCycleBits & 0x40) {
+            emitter->mUpdateCycle = 2;
         }
     }
     return emitter;
 }
 
 void PlaceEffect(void *effectHandle, const Vec3 *position) {
-    Unk0201ca6c *emitter = effectHandle;
+    ParticleEmitter *emitter = effectHandle;
     s32 positionX = position->x;
     s32 positionY = position->y;
     s32 positionZ = position->z;
@@ -215,17 +215,17 @@ void *StartEffectWithKartVelocity(u32 effectId, Vec3 *position, u32 kartIndex, s
     s32 resourceId;
     Vec3 velocity;
     Vec3 emitterPosition;
-    Unk0201ca6c *emitter;
+    ParticleEmitter *emitter;
     SPLManager *splManager = gGetSPLManagerFunction(&resourceId, effectId);
     emitterPosition.x = position->x >> 4;
     emitterPosition.y = position->y >> 4;
     emitterPosition.z = position->z >> 4;
     emitter = SPLManager_CreateEmitter(splManager, resourceId, &emitterPosition);
     if (emitter != NULL) {
-        if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x80) {
-            emitter->mUnk_80_16 = 1;
-        } else if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x40) {
-            emitter->mUnk_80_16 = 2;
+        if (emitter->mUnk_20->mUnk_00->mUpdateCycleBits & 0x80) {
+            emitter->mUpdateCycle = 1;
+        } else if (emitter->mUnk_20->mUnk_00->mUpdateCycleBits & 0x40) {
+            emitter->mUpdateCycle = 2;
         }
     }
     if (emitter != NULL) {
@@ -233,7 +233,7 @@ void *StartEffectWithKartVelocity(u32 effectId, Vec3 *position, u32 kartIndex, s
         velocity.x = MUL_FIXED12_NO_ROUND(velocity.x, velocityScale);
         velocity.y = MUL_FIXED12_NO_ROUND(velocity.y, velocityScale);
         velocity.z = MUL_FIXED12_NO_ROUND(velocity.z, velocityScale);
-        emitter->mUnk_40 = velocity;
+        emitter->mVelocity = velocity;
     }
     return emitter;
 }

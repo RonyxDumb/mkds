@@ -19,13 +19,13 @@ extern const Vec3 data_02155ccc;
 extern const u16 data_02155ed0[];
 extern const Vec3 data_021557ec;
 extern s32 data_02155854[];
-struct Unk0201ca6c;
+struct ParticleEmitter;
 struct Kart;
 
 // An effect id and its step function.
 typedef struct OtherKartEffectKind {
     /* 00 */ s32 mEffectId;
-    /* 04 */ void (*mAdvance)(struct Unk0201ca6c *p, s32 a);
+    /* 04 */ void (*mAdvance)(struct ParticleEmitter *p, s32 a);
 } OtherKartEffectKind;
 
 extern OtherKartEffectKind gOtherKartEffectKinds[3];

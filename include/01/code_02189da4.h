@@ -5,7 +5,7 @@
 
 typedef struct MissionRunMapObject MissionRunMapObject;
 typedef struct MapObjectList MapObjectList;
-typedef struct Unk0201ca6c Unk0201ca6c;
+typedef struct ParticleEmitter ParticleEmitter;
 typedef struct ItemObject ItemObject;
 
 void *CreateBombKingUpdateList(void);
@@ -15,7 +15,7 @@ void DrawBombKing(void *mapObjectList, MissionRunMapObject *mapObject);
 void InitBombKing(MapObjectList *list);
 void BombKingItemHitCallback(MissionRunMapObject *mapObject, ItemObject *itemObject);
 void BombKingItemBounceCallback(MissionRunMapObject *mapObject, ItemObject *itemObject);
-void SetBombKingEffectScale(Unk0201ca6c *emitter);
+void SetBombKingEffectScale(ParticleEmitter *emitter);
 void InitBombKingMapObject(MissionRunMapObject *mapObject);
 void UpdateBombKing(u32 unused, MissionRunMapObject *mapObject);
 void InitBombKingObjects(MapObjectList *list);

@@ -9,12 +9,12 @@
 #include "Main/Unknown/code_02077bc0.h"
 
 void SetKartKillerEffectShown(s32 kartIndex, s32 shown) {
-    Unk0201ca6c *effect = gKartEffects[kartIndex].mKillerEffect;
+    ParticleEmitter *effect = gKartEffects[kartIndex].mKillerEffect;
 
     if (effect == NULL) {
         return;
     }
-    effect->mUnk_24.mUnk_00_3 = (shown == 0);
+    effect->mUnk_24.mHidden = (shown == 0);
 }
 
 void StartAndPlaceKartContactEffect(s32 kartIndex, Vec3 *direction) {
@@ -23,13 +23,13 @@ void StartAndPlaceKartContactEffect(s32 kartIndex, Vec3 *direction) {
     Vec3 effectPos;
     Kart *kart = GetKart(kartIndex);
     KartEffects *kartEffects = &gKartEffects[kartIndex];
-    Unk0201ca6c *effect;
+    ParticleEmitter *effect;
 
     if ((kart->mUnk_4c & KART_4C_NEAR_PLAYER_RANK) && kartEffects->mContactEffect == NULL &&
         kart->mVelocityLength > 0x1000) {
         effect = StartEffect(0x53, kart->mPosSource);
         effect->mUnk_94 = kart;
-        effect->mUnk_90 = AdvanceKartContactEffect;
+        effect->mCallback = AdvanceKartContactEffect;
         kartEffects->mContactEffect = effect;
     }
     if (kartEffects->mContactEffect == NULL) {
@@ -38,17 +38,17 @@ void StartAndPlaceKartContactEffect(s32 kartIndex, Vec3 *direction) {
     effectVelocity.x = MUL_FIXED12_NO_ROUND(kart->mEffectVelocity.x, 0xccd);
     effectVelocity.y = MUL_FIXED12_NO_ROUND(kart->mEffectVelocity.y, 0xccd);
     effectVelocity.z = MUL_FIXED12_NO_ROUND(kart->mEffectVelocity.z, 0xccd);
-    kartEffects->mContactEffect->mUnk_40 = effectVelocity;
+    kartEffects->mContactEffect->mVelocity = effectVelocity;
     VEC_MultAdd(-kart->mRadius, direction, kart->mPosSource, &effectPos);
     PlaceEffect(kartEffects->mContactEffect, &effectPos);
     directionHalfwords.x = direction->x;
     directionHalfwords.y = direction->y;
     directionHalfwords.z = direction->z;
-    kartEffects->mContactEffect->mUnk_50 = directionHalfwords;
+    kartEffects->mContactEffect->mDirection = directionHalfwords;
     kart->mUnk_48 |= 0x400;
 }
 
-void AdvanceKartContactEffect(Unk0201ca6c *effect, s32 flag) {
+void AdvanceKartContactEffect(ParticleEmitter *effect, s32 flag) {
     Kart *kart;
     KartEffects *kartEffects;
 
@@ -63,7 +63,7 @@ void AdvanceKartContactEffect(Unk0201ca6c *effect, s32 flag) {
     }
     kartEffects = &gKartEffects[kart->mIndex];
     if (effect == kartEffects->mContactEffect) {
-        effect->mUnk_24.mUnk_00_0 = 1;
+        effect->mUnk_24.mEnding = 1;
         kartEffects->mContactEffect = NULL;
     }
 }

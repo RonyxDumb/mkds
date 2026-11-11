@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "code_02012b30.h" // MtxFx43
-#include "code_0201c528.h" // Unk0201ca6c
+#include "code_0201c528.h" // ParticleEmitter
 #include "Main/Unknown/code_020846c0.h" // Nsbmd
 #include "Main/Unknown/code_02087d0c.h" // ModelAnimation
 #include "Main/Unknown/code_02093ff0.h" // TeresaWobble
@@ -24,9 +24,9 @@ typedef struct Trophy {
     /* 106 */ s16 mLight1Z;
     /* 108 */ Vec3 mEffectOffset;
     /* 114 */ s32 mUnk_114;
-    /* 118 */ Unk0201ca6c *mEffect0;
-    /* 11c */ Unk0201ca6c *mEffect4;
-    /* 120 */ Unk0201ca6c *mEffect5;
+    /* 118 */ ParticleEmitter *mEffect0;
+    /* 11c */ ParticleEmitter *mEffect4;
+    /* 120 */ ParticleEmitter *mEffect5;
 } Trophy;
 
 extern Trophy *gTrophy;

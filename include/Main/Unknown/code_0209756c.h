@@ -4,7 +4,7 @@
 #include "Main/Unknown/code_0206bcb0.h" // Kart
 #include "code_02146d78.h"
 #include "Main/Unknown/code_020e6fd4.h" // MapObject, MapObjectList
-#include "code_0201c528.h" // Unk0201ca6c
+#include "code_0201c528.h" // ParticleEmitter
 #include "code_02012b30.h" // MtxFx43
 
 // Object of kind 0x1a9 (Flipper), up to 0xed4 bytes plus a table of words from 0xed4.
@@ -25,7 +25,7 @@ typedef struct Flipper {
     /* State number of this kind's own per-frame switch in UpdateFlipper; this object does not use
        MapObject.mUnk_80's state machine */
     /* ecc */ s32 mState;
-    /* ed0 */ Unk0201ca6c *mUnk_ed0;
+    /* ed0 */ ParticleEmitter *mUnk_ed0;
     /* ed4 */ s32 mUnk_ed4[1];
 } Flipper;
 

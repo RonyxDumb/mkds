@@ -566,9 +566,9 @@ void DrawRock(void *unused0, RockObject *rock, void *unused1, s32 alpha) {
     DrawShadowWithMaxAlpha(gRockShadow, &gRockDrawList->mShadowMatrix, &rock->mMapObject.mScale, alpha);
 }
 
-void CopyEmitterParams(Unk0201ca6c *emitter, EmitterParams *params) {
-    emitter->mUnk_5c = params->mUnk_00;
-    emitter->mUnk_64 = params->mUnk_04;
-    emitter->mUnk_68 = params->mUnk_06;
-    emitter->mUnk_6c = params->mUnk_08;
+void CopyEmitterParams(ParticleEmitter *emitter, EmitterParams *params) {
+    emitter->mRadius = params->mUnk_00;
+    emitter->mDirectionSpeed = params->mUnk_04;
+    emitter->mAxisSpeed = params->mUnk_06;
+    emitter->mSizeScale = params->mUnk_08;
 }

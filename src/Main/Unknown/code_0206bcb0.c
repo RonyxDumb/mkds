@@ -357,12 +357,12 @@ int TryTurnKartAtLowSpeed(Kart *kart) {
     return result;
 }
 
-void SetEffectScaleFromKart(Unk0201ca6c *emitter, Kart *kart) {
+void SetEffectScaleFromKart(ParticleEmitter *emitter, Kart *kart) {
     SetEffectScaleFromKartScaleZ(emitter, kart);
 }
 
-void SetEffectVelocityFromKart(Unk0201ca6c *emitter, Kart *kart) {
-    emitter->mUnk_40 = kart->mEffectVelocity;
+void SetEffectVelocityFromKart(ParticleEmitter *emitter, Kart *kart) {
+    emitter->mVelocity = kart->mEffectVelocity;
     SetEffectScaleFromKartScaleZ(emitter, kart);
 }
 
@@ -389,17 +389,17 @@ BOOL TryStartKartCollisionEffects(Kart *kart, const Vec3 *overlapDirection, int 
     return FALSE;
 }
 
-void SetEffectFlatVelocityFromKart(Unk0201ca6c *emitter, Kart *kart) {
+void SetEffectFlatVelocityFromKart(ParticleEmitter *emitter, Kart *kart) {
     Vec3 velocity = kart->mEffectVelocity;
 
     velocity.y = 0;
     velocity.x = MUL_FIXED12_NO_ROUND(velocity.x, 0xe66);
     velocity.y = MUL_FIXED12_NO_ROUND(velocity.y, 0xe66);
     velocity.z = MUL_FIXED12_NO_ROUND(velocity.z, 0xe66);
-    emitter->mUnk_40 = velocity;
+    emitter->mVelocity = velocity;
 }
 
-void PlaceEffectBehindKart(Unk0201ca6c *emitter, Kart *kart) {
+void PlaceEffectBehindKart(ParticleEmitter *emitter, Kart *kart) {
     Vec3 position = kart->mPos;
     Vec3s16 rot;
     Vec3 *forward;
@@ -415,7 +415,7 @@ void PlaceEffectBehindKart(Unk0201ca6c *emitter, Kart *kart) {
     rot.x = forward->x;
     rot.y = forward->y;
     rot.z = forward->z;
-    emitter->mUnk_50 = rot;
+    emitter->mDirection = rot;
 }
 
 void StartKartBlink(Kart *kart) {

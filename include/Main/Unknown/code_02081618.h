@@ -2,11 +2,11 @@
 
 #include "types.h"
 
-struct Unk0201ca6c;
+struct ParticleEmitter;
 
 typedef struct KartFollowEffect {
     /* 00 */ u8 mUnk_00[0x90];
-    /* 90 */ void (*mUnk_90)(struct Unk0201ca6c *p, s32 a);
+    /* 90 */ void (*mUnk_90)(struct ParticleEmitter *p, s32 a);
     /* 94 */ u8 mUnk_94[0x5];
     /* 99 */ u8 mCountLimit;
     /* 9a */ u8 mCount;
@@ -62,9 +62,9 @@ extern s32 data_02165964;
 extern s32 data_02165968;
 extern s32 gKartEffectVelocityFactors[];
 extern Vec3 data_02165984;
-extern Unk0201ca6c *gFirstCourseCameraEffect;
-extern Unk0201ca6c *gKartBoostCameraEffect;
-extern Unk0201ca6c *gSecondCourseCameraEffect;
+extern ParticleEmitter *gFirstCourseCameraEffect;
+extern ParticleEmitter *gKartBoostCameraEffect;
+extern ParticleEmitter *gSecondCourseCameraEffect;
 extern s32 gCourseCameraEffectSpeedReciprocal;
 extern OtherKartPairs gOtherKartPairsCopy;
 
@@ -74,31 +74,31 @@ void ReleaseKartStarEffects(s32 kartIndex);
 void StopKartStarEffects(s32 kartIndex);
 void AdvanceKartStarEffects(s32 kartIndex);
 void StartKartStarEffects(s32 kartIndex);
-void AdvanceKartAheadEffectWithLimit(Unk0201ca6c *effect, s32 phase);
-void AdvanceKartAheadEffect(Unk0201ca6c *effect, s32 phase);
-void PlaceEffectAheadAndUpOfKart(Unk0201ca6c *effect, Kart *kart, s32 upDistance, s32 aheadDistance);
-void PlaceKartAheadEffect(Unk0201ca6c *effect, Kart *kart, void *target);
-void AdvanceKartFollowEffectWithVelocity(Unk0201ca6c *effect, s32 phase);
+void AdvanceKartAheadEffectWithLimit(ParticleEmitter *effect, s32 phase);
+void AdvanceKartAheadEffect(ParticleEmitter *effect, s32 phase);
+void PlaceEffectAheadAndUpOfKart(ParticleEmitter *effect, Kart *kart, s32 upDistance, s32 aheadDistance);
+void PlaceKartAheadEffect(ParticleEmitter *effect, Kart *kart, void *target);
+void AdvanceKartFollowEffectWithVelocity(ParticleEmitter *effect, s32 phase);
 void SetupKartFollowEffectWithVelocity(KartFollowEffect *effect, unsigned int kartIndex, unsigned int countLimit);
-void AdvanceKartFollowEffect(Unk0201ca6c *effect, s32 phase);
+void AdvanceKartFollowEffect(ParticleEmitter *effect, s32 phase);
 void SetupKartFollowEffect(KartFollowEffect *effect, unsigned int kartIndex, unsigned int countLimit);
 void SwitchCourseCameraEffectsToCurrentCamera(void);
-void AdvanceOldFrappe64FirstCurrentCameraEffect(Unk0201ca6c *effect, s32 phase);
-void AdvanceOldFrappe64FirstChaseEffect(Unk0201ca6c *effect, s32 phase);
-void AdvanceOldFrappe64SecondChaseEffect(Unk0201ca6c *effect, s32 phase);
-void AdvanceOldLuigiAgbFirstCurrentCameraEffect(Unk0201ca6c *effect, s32 phase);
-void AdvanceOldLuigiAgbSecondCurrentCameraEffect(Unk0201ca6c *effect, s32 phase);
-void AdvanceOldLuigiAgbFirstChaseEffect(Unk0201ca6c *effect, s32 phase);
-void AdvanceOldLuigiAgbSecondChaseEffect(Unk0201ca6c *effect, s32 phase);
+void AdvanceOldFrappe64FirstCurrentCameraEffect(ParticleEmitter *effect, s32 phase);
+void AdvanceOldFrappe64FirstChaseEffect(ParticleEmitter *effect, s32 phase);
+void AdvanceOldFrappe64SecondChaseEffect(ParticleEmitter *effect, s32 phase);
+void AdvanceOldLuigiAgbFirstCurrentCameraEffect(ParticleEmitter *effect, s32 phase);
+void AdvanceOldLuigiAgbSecondCurrentCameraEffect(ParticleEmitter *effect, s32 phase);
+void AdvanceOldLuigiAgbFirstChaseEffect(ParticleEmitter *effect, s32 phase);
+void AdvanceOldLuigiAgbSecondChaseEffect(ParticleEmitter *effect, s32 phase);
 void InitCourseCameraEffects(void);
-void PlaceOtherKartEffect(Unk0201ca6c *effect, s32 phase);
+void PlaceOtherKartEffect(ParticleEmitter *effect, s32 phase);
 void StartEffectsAtOtherKarts(s32 pairSetIndex);
-void AdvanceOtherKartEffect(Unk0201ca6c *effect, s32 phase);
-void AdvanceKartWaterEffect(Unk0201ca6c *effect, s32 phase);
-void AdvanceKartSideEffectWithVelocity(Unk0201ca6c *effect, s32 phase);
-void AdvanceKartSideEffect(Unk0201ca6c *effect, s32 phase);
-void AdvanceKartCurrentEffect(Unk0201ca6c *effect, s32 phase);
-void AdvanceKartBoostCameraEffect(Unk0201ca6c *effect, s32 phase);
+void AdvanceOtherKartEffect(ParticleEmitter *effect, s32 phase);
+void AdvanceKartWaterEffect(ParticleEmitter *effect, s32 phase);
+void AdvanceKartSideEffectWithVelocity(ParticleEmitter *effect, s32 phase);
+void AdvanceKartSideEffect(ParticleEmitter *effect, s32 phase);
+void AdvanceKartCurrentEffect(ParticleEmitter *effect, s32 phase);
+void AdvanceKartBoostCameraEffect(ParticleEmitter *effect, s32 phase);
 void ReleaseKartSurfaceEffects(Kart *kart);
 void StopKartWaterEffects(Kart *kart);
 void StopKartEffectPairs(Kart *kart, s32 deleteAtOnce);

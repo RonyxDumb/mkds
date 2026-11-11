@@ -1414,16 +1414,16 @@ extern s32 gMissionRunKind2ShapesPresent;
 extern u32 gKartKind3ShapeListMask;
 extern s32 gKartSpeedLimitReciprocal;
 extern s32 gKartForwardSpeedRatio;
-struct Unk0201ca6c;
+struct ParticleEmitter;
 
 // Two objects returned by StartEffect.
 typedef struct KartEffectPair {
     union {
         struct {
-            /* 00 */ struct Unk0201ca6c *mEffect0;
-            /* 04 */ struct Unk0201ca6c *mEffect1;
+            /* 00 */ struct ParticleEmitter *mEffect0;
+            /* 04 */ struct ParticleEmitter *mEffect1;
         };
-        struct Unk0201ca6c *mUnk_00_a[2];
+        struct ParticleEmitter *mUnk_00_a[2];
     };
 } KartEffectPair;
 
@@ -1437,20 +1437,20 @@ typedef struct KartEffects {
     // whether to start again.
     /* 04 */ s32 mEffectIds[2];
     // The effect object of this Kart started by StartKartCurrentEffect, whose id is mCurrentEffectId (NULL when none).
-    /* 0c */ struct Unk0201ca6c *mCurrentEffect;
+    /* 0c */ struct ParticleEmitter *mCurrentEffect;
     // The effect objects started for mEffectIds: entry i holds the object of side 0 and the object of side 1 (the byte
     // set in each object is the side number); ids in mEffectIds.
     /* 10 */ KartEffectPair mEffectPairs[2];
     union {
         struct {
-            /* 20 */ struct Unk0201ca6c *mWaterEffect0;
-            /* 24 */ struct Unk0201ca6c *mWaterEffect1;
+            /* 20 */ struct ParticleEmitter *mWaterEffect0;
+            /* 24 */ struct ParticleEmitter *mWaterEffect1;
         };
-        struct Unk0201ca6c *mUnk_20_a[2];
+        struct ParticleEmitter *mUnk_20_a[2];
     };
-    /* 28 */ struct Unk0201ca6c *mContactEffect;
-    /* 2c */ struct Unk0201ca6c *mKillerEffect;
-    /* 30 */ struct Unk0201ca6c *mSpinFollowEffect;
+    /* 28 */ struct ParticleEmitter *mContactEffect;
+    /* 2c */ struct ParticleEmitter *mKillerEffect;
+    /* 30 */ struct ParticleEmitter *mSpinFollowEffect;
     // Position in effect units (position / 16) of each side of the Kart: model point 2 or 3 moved by the x offset
     // 0x1800 or -0x1800 of gKartSideOffsetsX, scaled by the Kart scale and transformed by the Kart matrix; written only
     // by ComputeKartSidePoints.
@@ -1480,16 +1480,16 @@ extern const s32 *data_usa_0217ae34;
 extern u16 gKartEffectColor;
 // Written by InitKartEffects; nothing reads it.
 extern u16 gKartEffectsCount;
-extern struct Unk0201ca6c **gKartNearRankEffects;
+extern struct ParticleEmitter **gKartNearRankEffects;
 // Three objects per entry, 0xc bytes each.
 typedef struct KartStarEffects {
-    /* 00 */ struct Unk0201ca6c *mEffects[3];
+    /* 00 */ struct ParticleEmitter *mEffects[3];
 } KartStarEffects;
 
 extern KartStarEffects *gKartStarEffects;
 extern u16 *gKartEffectIdSetIndex;
 extern s32 gOtherKartOddCount;
-extern struct Unk0201ca6c **gKartAheadEffects;
+extern struct ParticleEmitter **gKartAheadEffects;
 extern s32 gOtherKartFullPairCount;
 
 // Entry of the eight 0xc-byte entries at 0xb0 of KartAiShared: a word, then the links of a list.

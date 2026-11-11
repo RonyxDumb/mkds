@@ -57,7 +57,7 @@ void AdvanceStadiumEmitters(void) {
         StadiumEmitters *stadiumEmitters = data_0217b048;
         if (stadiumEmitters->mEmitters[slotIndex] != NULL) {
             s32 effectIndex;
-            Unk0201ca6c **emitterSlot = &stadiumEmitters->mEmitters[slotIndex];
+            ParticleEmitter **emitterSlot = &stadiumEmitters->mEmitters[slotIndex];
             SPLManager_DeleteEmitter(gGetSPLManagerFunction(&effectIndex, 0), *emitterSlot);
             *emitterSlot = NULL;
         }
@@ -89,7 +89,7 @@ void AdvanceStadiumEmitters(void) {
     for (emitterIndex = 0; emitterIndex < 6; emitterIndex++) {
         s32 effectIndex;
         Vec3 position;
-        Unk0201ca6c *emitter;
+        ParticleEmitter *emitter;
         SPLManager *manager;
         Vec3 *tablePosition = &data_usa_02155f78[emitterDirectionIndices[emitterIndex]];
         getManager = gGetSPLManagerFunction;
@@ -99,10 +99,10 @@ void AdvanceStadiumEmitters(void) {
         position.z = tablePosition->z >> 4;
         emitter = SPLManager_CreateEmitter(manager, effectIndex, &position);
         if (emitter != NULL) {
-            if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x80) {
-                emitter->mUnk_80_16 = 1;
-            } else if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x40) {
-                emitter->mUnk_80_16 = 2;
+            if (emitter->mUnk_20->mUnk_00->mUpdateCycleBits & 0x80) {
+                emitter->mUpdateCycle = 1;
+            } else if (emitter->mUnk_20->mUnk_00->mUpdateCycleBits & 0x40) {
+                emitter->mUpdateCycle = 2;
             }
         }
         data_0217b048->mEmitters[emitterIndex] = emitter;
@@ -125,34 +125,34 @@ void CreateAwardEmitters(void) {
     for (emitterIndex = 0; emitterIndex < 2; emitterIndex++) {
         s32 effectIndex;
         Vec3 position;
-        Unk0201ca6c *emitter;
+        ParticleEmitter *emitter;
         SPLManager *manager = gGetSPLManagerFunction(&effectIndex, firstEffectIds.mEffectIds[emitterIndex]);
         position.x = emitX;
         position.y = emitY;
         position.z = emitZ;
         emitter = SPLManager_CreateEmitter(manager, effectIndex, &position);
         if (emitter != NULL) {
-            if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x80) {
-                emitter->mUnk_80_16 = 1;
-            } else if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x40) {
-                emitter->mUnk_80_16 = 2;
+            if (emitter->mUnk_20->mUnk_00->mUpdateCycleBits & 0x80) {
+                emitter->mUpdateCycle = 1;
+            } else if (emitter->mUnk_20->mUnk_00->mUpdateCycleBits & 0x40) {
+                emitter->mUpdateCycle = 2;
             }
         }
     }
     for (emitterIndex = 0; emitterIndex < 0x18; emitterIndex++) {
         s32 effectIndex;
         Vec3 position;
-        Unk0201ca6c *emitter;
+        ParticleEmitter *emitter;
         SPLManager *manager = gGetSPLManagerFunction(&effectIndex, secondEffectIds.mUnk_00[emitterIndex]);
         position.x = baseX >> 4;
         position.y = emitY;
         position.z = emitZ;
         emitter = SPLManager_CreateEmitter(manager, effectIndex, &position);
         if (emitter != NULL) {
-            if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x80) {
-                emitter->mUnk_80_16 = 1;
-            } else if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x40) {
-                emitter->mUnk_80_16 = 2;
+            if (emitter->mUnk_20->mUnk_00->mUpdateCycleBits & 0x80) {
+                emitter->mUpdateCycle = 1;
+            } else if (emitter->mUnk_20->mUnk_00->mUpdateCycleBits & 0x40) {
+                emitter->mUpdateCycle = 2;
             }
         }
     }

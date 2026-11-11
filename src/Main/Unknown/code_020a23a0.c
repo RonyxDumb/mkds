@@ -86,7 +86,7 @@ void SetupTrophy(void) {
         wobble->mUnk_1c = 0;
         MTX_Identity43_(&gTrophy->mEffectMatrix);
         if (gTrophy->mRankIndex == 0) {
-            gTrophy->mEffect0->mUnk_5c = gTrophy->mUnk_114;
+            gTrophy->mEffect0->mRadius = gTrophy->mUnk_114;
             gTrophy->mEffect0->mUnk_28.x = gTrophy->mEffectOffset.x + gTrophy->mEffect0->mUnk_20->mUnk_00->mUnk_04.x;
             gTrophy->mEffect0->mUnk_28.y = gTrophy->mEffectOffset.y + gTrophy->mEffect0->mUnk_20->mUnk_00->mUnk_04.y;
             gTrophy->mEffect0->mUnk_28.z = gTrophy->mEffectOffset.z + gTrophy->mEffect0->mUnk_20->mUnk_00->mUnk_04.z;
@@ -97,7 +97,7 @@ void SetupTrophy(void) {
             gTrophy->mEffect5->mUnk_28.y = gTrophy->mEffect5->mUnk_20->mUnk_00->mUnk_04.y - 0xcd;
             gTrophy->mEffect5->mUnk_28.z = gTrophy->mEffect5->mUnk_20->mUnk_00->mUnk_04.z - 0x21ec;
         } else if (gTrophy->mRankIndex == 1) {
-            gTrophy->mEffect0->mUnk_5c = gTrophy->mUnk_114;
+            gTrophy->mEffect0->mRadius = gTrophy->mUnk_114;
             gTrophy->mEffect0->mUnk_28.x = gTrophy->mEffectOffset.x + gTrophy->mEffect0->mUnk_20->mUnk_00->mUnk_04.x;
             gTrophy->mEffect0->mUnk_28.y = gTrophy->mEffectOffset.y + gTrophy->mEffect0->mUnk_20->mUnk_00->mUnk_04.y;
             gTrophy->mEffect0->mUnk_28.z = gTrophy->mEffectOffset.z + gTrophy->mEffect0->mUnk_20->mUnk_00->mUnk_04.z;

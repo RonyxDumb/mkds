@@ -2,7 +2,6 @@
 
 #include "types.h"
 
-
 #include "code_020184e4.h"
 
 extern Vec3 data_usa_021660fc;
@@ -13,10 +12,10 @@ extern char gMissionEffectSpaName[];
 SPLManager *GetRaceEffectSPLManager(s32 *outIndex, s32 effectId);
 void *StartEffectWithKartVelocity(u32 effectId, Vec3 *position, u32 kartIndex, s32 velocityScale);
 void PlaceEffect(void *emitter, const Vec3 *position);
-Unk0201ca6c *StartRaceFogOffEffect(s32 resourceId, Vec3 *position);
+ParticleEmitter *StartRaceFogOffEffect(s32 resourceId, Vec3 *position);
 void StopEffectAndClearPointer(void **emitterSlot);
-void DeleteEffectAndClearPointer(Unk0201ca6c **emitterSlot);
-void DeleteEffect(Unk0201ca6c *emitter);
+void DeleteEffectAndClearPointer(ParticleEmitter **emitterSlot);
+void DeleteEffect(ParticleEmitter *emitter);
 // Starts effect a at the position b and returns the effect object (NULL when none is made).
 void *StartEffect(u32 effectId, const Vec3 *position);
 void DrawEffects(MtxFx43 *viewMatrix);

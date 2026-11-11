@@ -177,8 +177,8 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
     }
 }
 
-void SetBalloonEffectColor(Unk0201ca6c *effect, Balloon *balloon) {
-    effect->mUnk_72 = GetKartPaletteColorFromTable(balloon->mNsbtpFrameIndex);
+void SetBalloonEffectColor(ParticleEmitter *effect, Balloon *balloon) {
+    effect->mColor = GetKartPaletteColorFromTable(balloon->mNsbtpFrameIndex);
 }
 
 void FollowBalloonTarget(Balloon *balloon) {
