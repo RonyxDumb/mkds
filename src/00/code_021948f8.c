@@ -27,7 +27,7 @@ void GpiReleaseProfile(GpiProfile *profile) {
         DWCi_GsFree(profile->mBuddyStatus);
         profile->mBuddyStatus = NULL;
     }
-    gpiFreeInfoCache((Unk021919ac_node *) profile);
+    gpiFreeInfoCache(profile);
     DWCi_GsFree(profile->mUnk_10);
     profile->mUnk_10 = NULL;
     DWCi_GsFree(profile->mUnk_18);

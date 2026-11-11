@@ -3,6 +3,7 @@
 #include "types.h"
 #include "Main/Unknown/code_0203b680.h"
 #include "00/code_02181f98.h"
+#include "Main/Unknown/unk_02029930.h" // MissionFileRow
 
 typedef struct EndingScene {
     /* 000 */ s32 mState;
@@ -59,20 +60,6 @@ typedef struct MissionRunLVsel {
     /* 58 */ s32 mResult; /* 1 = level chosen, 2 = Back; also read by ReleaseMissionRunLVsel for the sound */
 } MissionRunLVsel;
 
-// Object behind MissionRunMSsel.mUnk_1c.
-typedef struct Unk021ca414_1c {
-    /* 00 */ u8 mUnk_00[0x8];
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u8 *mUnk_0c;
-} Unk021ca414_1c;
-
-// 0x2c-byte element of the table behind MissionRunMSsel.mUnk_50.
-typedef struct Unk021ca414_50 {
-    /* 00 */ u8 mUnk_00[0xc];
-    /* 0c */ u16 mUnk_0c;
-    /* 0e */ u8 mUnk_0e[0x1e];
-} Unk021ca414_50;
-
 // Object behind gMissionRunMSsel.
 typedef struct MissionRunMSsel {
     /* 00 */ struct Unk02021dc8 *mMissionRunMSselMNcer;
@@ -82,7 +69,7 @@ typedef struct MissionRunMSsel {
     /* 10 */ LayoutEntryTable *mMissionRunMSselSBncl;
     /* 14 */ void *mMissionRunMSselSBnbl;
     /* 18 */ struct LayoutEntryTable *mMissionRunMSselSBnll;
-    /* 1c */ Unk021ca414_1c *mUnk_1c;
+    /* 1c */ Nclr *mUnk_1c;
     /* 20 */ u16 mUnk_20[0x10];
     // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
     /* 40 */ LayoutTableEntry *mMissionRunMSselMTable;
@@ -91,7 +78,7 @@ typedef struct MissionRunMSsel {
     /* 48 */ void *mUnk_48;
     // missionTable.mtbl; GetMissionTableValue(table, row, column) returns the mission number
     /* 4c */ MissionTable *mMissionTableMtbl;
-    /* 50 */ Unk021ca414_50 *mUnk_50;
+    /* 50 */ MissionFileRow *mUnk_50;
     /* 54 */ struct Bmg *mCommonMessages;
     /* 58 */ void *mMissionMessages;
     /* 5c */ void *mHeap;

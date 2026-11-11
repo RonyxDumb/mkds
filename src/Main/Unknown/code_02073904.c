@@ -11,7 +11,7 @@ static inline s32 CameraShakeNormalizeLengthOrZero(Vec3 *vector, Vec3 *normalize
     return Vec3NormalizeAndGetLengthUnchecked(vector, normalized);
 }
 
-void UpdateCameraShake(Unk02073904 *camera) {
+void UpdateCameraShake(Camera *camera) {
     RandomState64 *random;
     Vec3 sideOffset;
     Vec3 upOffset;

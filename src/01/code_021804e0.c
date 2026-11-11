@@ -225,7 +225,7 @@ u32 GetInputSlotNewBitsByIndex(u32 slotIndex, u32 mask) {
 
 #pragma thumb on
 
-void UpdateTestSceneObject(Unk0218052c *sceneNumbers) {
+void UpdateTestSceneObject(SceneNumbers *sceneNumbers) {
     u32 slotIndex;
     TestScene *testScene;
 
@@ -234,7 +234,7 @@ void UpdateTestSceneObject(Unk0218052c *sceneNumbers) {
     if (sceneNumbers != NULL) {
         slotIndex = GetTestSceneInputSlot();
         if (GetInputSlotNewBitsByIndex(slotIndex, PAD_KEY_A) != 0) {
-            sceneNumbers->mUnk_04 = 0;
+            sceneNumbers->mNextScene = 0;
         }
         if (GetInputSlotNewBitsByIndex(slotIndex, PAD_KEY_X) != 0) {
             testScene = gTestScene;
@@ -269,7 +269,7 @@ void DrawTestSceneWrapper(void) {
     DrawTestScene();
 }
 
-void UpdateTestScene(Unk0218052c *sceneNumbers) {
+void UpdateTestScene(SceneNumbers *sceneNumbers) {
     UpdateTestSceneObject(sceneNumbers);
 }
 

@@ -27,7 +27,7 @@
 // GP callback slot 3 (message). The first branch hands the text to DWCi_GPRecvBuddyAuthCallback (the "I have authorized
 // ..." sentence); the second takes GPCM-prefixed text with a MAT tag and forwards it to the matching code only in state
 // 5 or matching mode 2 and 3.
-void WiFiGpMessageCallback(GpConnection *connection, Unk0219b4b4 *arg, u32 param) {
+void WiFiGpMessageCallback(GpConnection *connection, BuddyMessageData *arg, u32 param) {
     char *message;
     char versionText[12] = {0};
     u32 versionLength;

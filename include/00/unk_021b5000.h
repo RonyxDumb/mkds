@@ -16,7 +16,7 @@
 
 // One element of the table at gLocalIpList.
 typedef struct SOCInAddr {
-    /* 0 */ u32 mUnk_00;
+    /* 0 */ u32 addr;
 } SOCInAddr;
 
 typedef void (*Unk021b5f54Func)(void *param_1, void *param_2, void *param_3, u16 param_4);

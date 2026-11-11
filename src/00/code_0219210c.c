@@ -2,7 +2,7 @@
 #include "00/code_021919ac.h"
 #include "00/code_021a3668.h"
 
-void gpiFreeInfoCache(Unk021919ac_node *profile) {
+void gpiFreeInfoCache(GpiProfile *profile) {
     if (profile->mUnk_0c != NULL) {
         DWCi_GsFree(profile->mUnk_0c->mUnk_00[0]);
         profile->mUnk_0c->mUnk_00[0] = NULL;

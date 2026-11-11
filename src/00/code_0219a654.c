@@ -494,7 +494,7 @@ u32 Gt2FormatAddress(u32 ipAddress, u32 port, char *buffer) {
         addressString = strAddressArray[nIndex];
     }
     if (ipAddress != 0) {
-        inAddress.mUnk_00 = ipAddress;
+        inAddress.addr = ipAddress;
         if (port != 0) {
             sprintf(addressString, data_ov000_021b3ffc, SOC_InetNtoA(inAddress), port);
         } else {

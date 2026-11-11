@@ -11,7 +11,8 @@ typedef struct MissionFileRow {
     /* 09 */ u8 mEngineIndex;
     /* 0a */ u8 mCharacterIndex0;
     /* 0b */ u8 mKartIndex0;
-    /* 0c */ u8 mUnk_0c[0x10];
+    /* 0c */ u16 mUnk_0c;
+    /* 0e */ u8 mUnk_0e[0xe];
     /* 1c */ u16 mUnk_1c;
     /* 1e */ u8 mCharacterIndex1;
     /* 1f */ u8 mKartIndex1;

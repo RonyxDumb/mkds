@@ -89,7 +89,7 @@ void LocateAndQueueMissionRunMSsel(void) {
     gMissionRunMSsel->mMissionRunMSselSBnll = FindSceneFile(gMissionRunMSselSBnllName);
     LocateNcgr2(&missionRunMSselSChars, FindSceneFile(gMissionRunMSselSNcgrName));
     LocateNcer(&gMissionRunMSsel->mMissionRunMSselSNcer, FindSceneFile(gMissionRunMSselSNcerName));
-    LocateNclr((Nclr **) &gMissionRunMSsel->mUnk_1c, FindSceneFile(gMissionRunMSselSONclrName));
+    LocateNclr(&gMissionRunMSsel->mUnk_1c, FindSceneFile(gMissionRunMSselSONclrName));
     paletteData = missionRunMSselMOPalette->mData;
     NNS_GfdRegisterNewVramTransferTask(4, 0, missionRunMSselMBChars->mData, missionRunMSselMBChars->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0xf, 0, missionRunMSselMBPalette->mData, 0x40);
@@ -103,7 +103,7 @@ void LocateAndQueueMissionRunMSsel(void) {
     NNS_GfdRegisterNewVramTransferTask(0xe, 0, missionRunMSselMOPalette->mData, 0x1a0);
     NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, paletteData + 0xe0, 0x40);
     NNS_GfdRegisterNewVramTransferTask(0x23, 0, missionRunMSselSChars->mData, missionRunMSselSChars->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gMissionRunMSsel->mUnk_1c->mUnk_0c, gMissionRunMSsel->mUnk_1c->mUnk_08);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gMissionRunMSsel->mUnk_1c->mData, gMissionRunMSsel->mUnk_1c->mDataSize);
 }
 
 void SetMissionRunMSselAllRecorded(void) {
@@ -234,7 +234,7 @@ void AdvanceMissionRunMSselPaletteBlend(void) {
     s32 toPaletteRow;
     s32 blendPaletteRow;
     volatile u16 zero;
-    u8 *palette;
+    u16 *palette;
     s32 fromColor;
     s32 toColor;
     s32 blendFrame;
@@ -261,10 +261,10 @@ void AdvanceMissionRunMSselPaletteBlend(void) {
             }
             zero = 0;
             MIi_CpuClear16(zero, gMissionRunMSsel->mUnk_20, 0x20);
-            palette = gMissionRunMSsel->mUnk_1c->mUnk_0c;
+            palette = gMissionRunMSsel->mUnk_1c->mData;
             for (colorIndex = 0; colorIndex < 16; colorIndex++) {
-                fromColor = ((u16 *) (palette + fromPaletteRow * 32))[colorIndex];
-                toColor = ((u16 *) (palette + toPaletteRow * 32))[colorIndex];
+                fromColor = (palette + fromPaletteRow * 16)[colorIndex];
+                toColor = (palette + toPaletteRow * 16)[colorIndex];
                 fromRed = fromColor & 0x1f;
                 fromGreen = (fromColor & 0x3e0) >> 5;
                 fromBlue = (fromColor & 0x7c00) >> 10;
@@ -566,7 +566,7 @@ void InitMissionRunMSsel(void *parentHeap, void *mainOamList, void *subOamList) 
     gMissionRunMSsel->mCommonMessages = FindFileInLoadedArchives(data_ov001_021a94a4);
     gMissionRunMSsel->mMissionMessages = FindSceneFile(data_ov001_021a94b0);
     gMissionRunMSsel->mMissionTableMtbl = FindFileInLoadedArchives(data_ov001_021a94bc);
-    gMissionRunMSsel->mUnk_50 = (Unk021ca414_50 *) ((u8 *) FindSceneFile(data_ov001_021a94d0) + 8);
+    gMissionRunMSsel->mUnk_50 = (MissionFileRow *) ((u8 *) FindSceneFile(data_ov001_021a94d0) + 8);
     InitLabelCanvas(gMissionRunMSsel->mHeap, 0, gMissionRunMSsel->mMissionRunMSselMBnll, 0xd2, 0x46, 0,
                     gMissionRunMSsel->mMissionRunMSselMNcer, gMissionRunMSsel->mMissionRunMSselMBncl,
                     gMissionRunMSsel->mMissionRunMSselMTable, 0x8000);

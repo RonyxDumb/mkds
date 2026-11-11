@@ -106,13 +106,13 @@ BOOL gti2SendClosedOnSocket(Gt2Socket *socket, u32 address, int port) {
     return FALSE;
 }
 
-BOOL gti2ResendMessage(Gt2Connection *connection, Unk02198af4 *message) {
-    gti2UShortToBuffer(connection->mSendBuffer.mData, message->mUnk_00 + 5, connection->mExpectedSerialNumber);
-    if (SendConnectionBytes(connection, connection->mSendBuffer.mData + message->mUnk_00, message->mUnk_04) == 0) {
+BOOL gti2ResendMessage(Gt2Connection *connection, GTI2OutgoingBufferMessage *message) {
+    gti2UShortToBuffer(connection->mSendBuffer.mData, message->mStart + 5, connection->mExpectedSerialNumber);
+    if (SendConnectionBytes(connection, connection->mSendBuffer.mData + message->mStart, message->mLen) == 0) {
         return FALSE;
     }
-    message->mUnk_0c = connection->mLastSendTime;
-    if (connection->mSendBuffer.mData[message->mUnk_00 + 2] == 2) {
+    message->mLastSend = connection->mLastSendTime;
+    if (connection->mSendBuffer.mData[message->mStart + 2] == 2) {
         connection->mChallengeTime = connection->mLastSendTime;
     }
     return TRUE;

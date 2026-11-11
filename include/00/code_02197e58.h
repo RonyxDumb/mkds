@@ -80,13 +80,6 @@ BOOL Gt2CallElapsedTimeCallback(Gt2Connection *connection, s32 latency);
 typedef struct Gt2Socket Gt2Socket;
 typedef struct Gt2Connection Gt2Connection;
 
-typedef struct Unk02198af4 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u8 mUnk_08[4];
-    /* 0c */ u32 mUnk_0c;
-} Unk02198af4;
-
 BOOL Gt2CallDataCallback(Gt2Connection *connection, void *message, int len, int reliable);
 BOOL Gt2SetResultAndCallResultCallback(Gt2Connection *connection, int result, void *message, int len);
 BOOL CallIncomingConnectionCallback(Gt2Socket *socket, Gt2Connection *connection, int address, int port, int latency,

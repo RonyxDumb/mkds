@@ -41,20 +41,12 @@ typedef struct GPIConnectData {
     /* 304 */ s32 mUnk_304;
 } GPIConnectData;
 
-// Object of 0xf0 bytes that gpiSetInfoCache copies.
-typedef struct Unk021919ac_f0 {
-    /* 00 */ void *mUnk_00[6];
-    /* 18 */ u8 mUnk_18[0xb0];
-    /* c8 */ void *mUnk_c8;
-    /* cc */ u8 mUnk_cc[0x24];
-} Unk021919ac_f0;
-
 // Object that GpiCreateOperation returns through its fourth argument.
 typedef struct Unk021919ac_node {
     /* 00 */ u32 mType;
     /* 04 */ u32 mUnk_04;
     /* 08 */ void *mUnk_08;
-    /* 0c */ Unk021919ac_f0 *mUnk_0c;
+    /* 0c */ GPIInfoCache *mUnk_0c;
     /* 10 */ u32 mUnk_10;
     /* 14 */ s32 mUnk_14;
     /* 18 */ s32 mId;

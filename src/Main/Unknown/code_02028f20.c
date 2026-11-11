@@ -40,8 +40,8 @@ void PrintSelectKartMessage(void) {
         message = GetBmgEntry(gSelectKart->mKartSelectMessages, GetKartMessageIndex(gSelectKart->mKartIndex));
         parts = &gSelectKart->mSelectKartSParts;
         for (labelIndex = 8; labelIndex >= 7; labelIndex--) {
-            PrintLabelLayoutTextNoFixedAdvance(1, data_usa_021537f4[labelIndex].mUnk_00, parts->mLabelLayout, message,
-                                               parts->mCellLayout, parts->mCellTable);
+            PrintLabelLayoutTextNoFixedAdvance(1, data_usa_021537f4[labelIndex].mLabelIndex, parts->mLabelLayout,
+                                               message, parts->mCellLayout, parts->mCellTable);
         }
     }
 }

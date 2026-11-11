@@ -312,7 +312,7 @@ s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, c
             profileRec->mUnk_18 = goastrdup(buffer);
         }
         if (gpState->mUnk_100 != 0) {
-            gpiSetInfoCache(connection, (Unk021919ac_node *) profileRec, (Unk021919ac_f0 *) &infoRecord);
+            gpiSetInfoCache(connection, profileRec, &infoRecord);
         }
         callback = operation->mUnk_0c;
         if (callback.mCallback != NULL) {
@@ -870,7 +870,7 @@ u32 gpiGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blocki
     return 0;
 }
 
-u32 gpiSetInfoCache(GpConnection *connection, Unk021919ac_node *profile, Unk021919ac_f0 *cache) {
+u32 gpiSetInfoCache(GpConnection *connection, GpiProfile *profile, GPIInfoCache *cache) {
     if (connection->mGpiConnection->mUnk_100 == 0) {
         return 1;
     }

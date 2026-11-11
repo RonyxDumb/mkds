@@ -154,13 +154,13 @@ void InitSelectKart(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
             value -= SetupLabelCanvas(1, gSelectKart->mHeap, cellFileSet, &data_usa_021537f4[index], value);
         }
         for (index = 0; index < 6; index++) {
-            text = GetBmgEntry(gSelectKart->mKartSelectMessages, data_usa_021537f4[index].mUnk_08);
-            value = data_usa_021537f4[index].mUnk_00;
+            text = GetBmgEntry(gSelectKart->mKartSelectMessages, data_usa_021537f4[index].mMessageIndex);
+            value = data_usa_021537f4[index].mLabelIndex;
             PrintLabelLayoutTextNoFixedAdvance(1, value, cellFileSet->mLabelLayout, text, cellFileSet->mCellLayout,
                                                cellFileSet->mCellTable);
             SetLabelPriority(value, 1, cellFileSet->mLabelLayout, cellFileSet->mCellTable, cellFileSet->mCellLayout);
         }
-        text = GetBmgEntry(FindFileInLoadedArchives(gCommonBmgName2), data_usa_021537f4[6].mUnk_08);
+        text = GetBmgEntry(FindFileInLoadedArchives(gCommonBmgName2), data_usa_021537f4[6].mMessageIndex);
         index = data_usa_02153834[4];
         PrintLabelLayoutTextNoFixedAdvance(1, index, cellFileSet->mLabelLayout, text, cellFileSet->mCellLayout,
                                            cellFileSet->mCellTable);

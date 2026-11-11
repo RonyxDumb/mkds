@@ -4,21 +4,16 @@
 #include "01/unk_021a9000.h"
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/code_02036c5c.h" // DisplaySettings
-
-// Argument of UpdateTestSceneObject.
-typedef struct Unk0218052c {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ u16 mUnk_04;
-} Unk0218052c;
+#include "Main/Unknown/code_020487fc.h" // SceneNumbers
 
 // Scene function of gSceneFuncs[5] (scene 'Test' in gSceneNames): copies the callbacks and calls
 // RunScene. Returns 0.
 int RunTestScene(void *sceneNumbers);
-void UpdateTestScene(Unk0218052c *sceneNumbers);
+void UpdateTestScene(SceneNumbers *sceneNumbers);
 void DrawTestSceneWrapper(void);
 void ReleaseTestScene(void);
 void InitTestScene(void);
-void UpdateTestSceneObject(Unk0218052c *sceneNumbers);
+void UpdateTestSceneObject(SceneNumbers *sceneNumbers);
 unsigned int GetInputSlotNewBitsByIndex(unsigned int slotIndex, unsigned int mask);
 u16 TestSceneGetInputSlotNewBits(InputSlot *inputSlot, unsigned int mask);
 unsigned int GetTestSceneInputSlot(void);

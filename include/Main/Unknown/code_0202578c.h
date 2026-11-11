@@ -4,13 +4,13 @@
 
 typedef struct CellFileSet CellFileSet;
 
-// 12-byte entries of the table at data_usa_02153918.
+// 12-byte entries of the tables at data_usa_02153918 and data_usa_021537f4.
 typedef struct LabelCanvasEntry {
     /* 00 */ s16 mLabelIndex;
     /* 02 */ u16 mWidth;
     /* 04 */ u16 mHeight;
     /* 06 */ s16 mEntryIndex;
-    /* 08 */ s32 mUnk_08;
+    /* 08 */ s32 mMessageIndex;
 } LabelCanvasEntry;
 
 u32 GetKartSoundTableRow(u32 kartIndex);

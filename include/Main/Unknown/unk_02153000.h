@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "code_02022aa8.h"
+#include "Main/Unknown/code_0202578c.h"
 
 // 12-byte entries of the table at gMemberGroupLabelMessageRows.
 typedef struct LabelMessageRow {
@@ -76,15 +77,8 @@ extern u32 gKartIndexTable[];
 extern s32 gCharacterKartIndexTableBattle[];
 extern s32 gCharacterKartIndexTable[];
 
-// 12-byte entries of data_usa_021537f4: a halfword value and a word at 8.
-typedef struct Unk021537f4 {
-    /* 00 */ s16 mUnk_00;
-    /* 02 */ u8 mUnk_02[6];
-    /* 08 */ s32 mUnk_08;
-} Unk021537f4;
-
 extern u16 data_usa_021537dc[];
-extern Unk021537f4 data_usa_021537f4[];
+extern LabelCanvasEntry data_usa_021537f4[];
 extern s16 data_usa_02153834[];
 extern u16 data_021530b8[4][4];
 extern u16 data_021530d0[4][4];

@@ -86,7 +86,7 @@ typedef struct GpConnection GpConnection;
 typedef struct BuddyMessageData {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s32 mUnk_04;
-    /* 08 */ void *mUnk_08;
+    /* 08 */ char *mUnk_08;
 } BuddyMessageData;
 
 // Object gpiProcessRecvBuddyMessage allocates with 0x40c bytes and passes to GpiQueueCallback.

@@ -308,7 +308,7 @@ void StartKartRaceEnd(Kart *kart) {
             if (value != 0) {
                 value = kart->mUnk_7c;
                 if ((value & 6) == 0 && (value & 8) == 0) {
-                    data_02175664[kart->mEntryIndex].mSourceKind = 3;
+                    gInputSlots[kart->mEntryIndex].mSourceKind = 3;
                     if (gRaceProgress->mKarts[kart->mIndex].mStatus == RACE_PROGRESS_KART_STATUS_GOAL_REACHED) {
                         CallKartAiSetup(kart->mAi, kart->mIndex);
                         kart->mUnk_7c = kart->mUnk_7c | 2;

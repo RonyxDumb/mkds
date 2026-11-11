@@ -5,7 +5,7 @@
 #include "Main/Unknown/code_020e005c.h" // GroupFollower
 #include "Main/Unknown/code_020e6fd4.h" // MapObject, MapObjectList
 
-// Object of kind 0x1a4 (MkdEfBurner); Unk02093708 is a view of the draw group record (word +0x1c), not of this
+// Object of kind 0x1a4 (MkdEfBurner); the draw group record (word +0x1c) is not part of this
 // object. After the shared part, a counter at 0xa0, a halfword at 0xa4, a value at 0xa8, a
 // state at 0xac, a GroupFollower at 0xb0 and a table of countdowns at 0xd4.
 typedef struct MkdEfBurner {

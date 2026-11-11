@@ -30,7 +30,7 @@ char *BuildCharacterNsbcaPath(u16 characterIndex, s32 animationIndex) {
 
 // Returns 0 for the driving animation and 1 for the other three (the ones that loop).
 u32 GetCharacterAnimationLoopFlag(int animationIndex) {
-    return gCharacterAnimationLoopFlags[animationIndex].mUnk_00;
+    return gCharacterNsbcaStems[animationIndex].mLoopFlag;
 }
 
 void ClearCharacterTurnAndNextAnimation(struct KartModelsEntry *kartModelsEntry) {

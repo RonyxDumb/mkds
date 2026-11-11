@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "00/code_0218f960.h"
+#include "00/code_0218e8d4.h"
 
 // Payload at 0x04 of a GpiOperation whose 0x00 is 3.
 typedef struct Unk02193858 {
@@ -26,8 +27,9 @@ typedef struct NewProfileReply {
 
 typedef struct ProfileSearchReply {
     /* 0 */ s32 mUnk_00;
-    /* 4 */ u8 mUnk_04[8];
-    /* c */ u32 mUnk_0c;
+    /* 4 */ s32 mUnk_04;
+    /* 8 */ s32 mUnk_08;
+    /* c */ Unk0219c400Entry *mUnk_0c;
 } ProfileSearchReply;
 
 typedef struct RegisterNickReply {

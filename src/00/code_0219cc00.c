@@ -28,7 +28,7 @@
 #include "Main/Unknown/code_02152468.h"
 #include "Main/Unknown/code_02152a1c.h"
 
-void DWCi_GPProfileSearchCallback(GpConnection *connection, Unk0219c400 *arg, u32 friendIdx) {
+void DWCi_GPProfileSearchCallback(GpConnection *connection, ProfileSearchReply *arg, u32 friendIdx) {
     s32 matchSlot;
     s32 k;
     s32 buddyIndex;
