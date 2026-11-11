@@ -129,9 +129,9 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
             correction.z = 0;
             if (wanwan->mFollowsPath != 0) {
                 if (!(wanwan->mMapObject.mDistanceSquaredAndFlags & 4)) {
-                    if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+                    if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                         falloffIndex = 2;
-                    } else if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                    } else if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
                         falloffIndex = 3;
                     } else {
                         falloffIndex = 4;
@@ -150,9 +150,9 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
             touchesGround = TRUE;
             if (wanwan->mFollowsPath != 0) {
                 if (!(wanwan->mMapObject.mDistanceSquaredAndFlags & 4)) {
-                    if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+                    if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                         falloffIndex = 2;
-                    } else if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                    } else if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
                         falloffIndex = 3;
                     } else {
                         falloffIndex = 4;
@@ -400,9 +400,9 @@ void EnterWanwanState1(Wanwan *wanwan) {
     if (wanwan->mMapObject.mDistanceSquaredAndFlags & 4) {
         return;
     }
-    if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+    if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
         falloffIndex = 2;
-    } else if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+    } else if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
         falloffIndex = 3;
     } else {
         falloffIndex = 4;
@@ -546,7 +546,7 @@ void EnterWanwanState3(Wanwan *wanwan) {
     wanwan->mChainObject->mChain.mDownwardStep = 0x599;
 }
 
-static inline s64 func_020dc474_inline(const Vec3 *vector) {
+static inline s64 XzLengthSquared(const Vec3 *vector) {
     return HORIZONTAL_LENGTH_SQUARED(*vector);
 }
 
@@ -562,7 +562,7 @@ void UpdateWanwanState3(Wanwan *wanwan) {
         VEC_Subtract(&wanwan->mCenterPos, &wanwan->mMapObject.mPos, &toCenter);
         wanwan->mMapObject.mPosStep.x += (s32) (((s64) toCenter.x << 2) >> 12);
         wanwan->mMapObject.mPosStep.z += (s32) (((s64) toCenter.z << 2) >> 12);
-        if (func_020dc474_inline(&wanwan->mMapObject.mPosStep) >= 0x1000000) {
+        if (XzLengthSquared(&wanwan->mMapObject.mPosStep) >= 0x1000000) {
             wanwan->mMapObject.mPosStep.x -= MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mPosStep.x, 0x199);
             wanwan->mMapObject.mPosStep.z -= MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mPosStep.z, 0x199);
         }

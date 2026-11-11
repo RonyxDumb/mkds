@@ -4,11 +4,11 @@
 #include "Main/Unknown/code_020f36d8.h"
 #include "code_02147cd8.h"
 
-static inline s32 func_02073904_inline(Vec3 *v, Vec3 *n) {
-    if (LENGTH_SQUARED(*v) < 0x10) {
+static inline s32 CameraShakeNormalizeLengthOrZero(Vec3 *vector, Vec3 *normalized) {
+    if (LENGTH_SQUARED(*vector) < 0x10) {
         return 0;
     }
-    return Vec3NormalizeAndGetLengthUnchecked(v, n);
+    return Vec3NormalizeAndGetLengthUnchecked(vector, normalized);
 }
 
 void UpdateCameraShake(Unk02073904 *p) {
@@ -28,7 +28,7 @@ void UpdateCameraShake(Unk02073904 *p) {
 
     if (GetRaceUpdateFramesMod2() == 0) {
         VEC_Subtract(&p->mPos, &p->mLookAt, &d);
-        l = func_02073904_inline(&d, &d);
+        l = CameraShakeNormalizeLengthOrZero(&d, &d);
         if (l != 0) {
             k = data_usa_021656a8;
             r = &gRaceProgress->mLocalRandom;

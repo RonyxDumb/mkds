@@ -27,7 +27,7 @@ typedef struct SoundFalloff {
     /* 14 */ s32 mUnk_14;
     /* 18 */ s32 mUnk_18;
     /* 1c */ s32 mUnk_1c;
-    /* 20 */ s32 mUnk_20;
+    /* 20 */ s32 mFarDistanceSquared;
 } SoundFalloff;
 
 // Volume curves by sound source number (SoundSource.mFalloffIndex); filled by InitSoundFalloffs.

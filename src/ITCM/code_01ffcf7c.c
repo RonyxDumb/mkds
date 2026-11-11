@@ -233,8 +233,8 @@ s32 ComputeViewTest(Vec3 *a, s32 b, s32 c, s32 d, u16 e) {
     return r;
 }
 
-static inline s32 func_01ffd648_inline(ViewFrustum *g) {
-    return g->mLeftPlaneNormal.y;
+static inline s32 GetFrustumLeftPlaneNormalY(ViewFrustum *viewFrustum) {
+    return viewFrustum->mLeftPlaneNormal.y;
 }
 
 s32 ComputeTwoPlaneViewTest(Vec3 *a, s32 b, s32 c, s32 d, u16 e) {
@@ -259,7 +259,7 @@ s32 ComputeTwoPlaneViewTest(Vec3 *a, s32 b, s32 c, s32 d, u16 e) {
     }
     v.y = (a->y - gViewFrustum.mCameraPos.y) >> 12;
     h = ((const Vec3 *) &v)->x;
-    if (v.y * func_01ffd648_inline(&gViewFrustum) + v.x * gViewFrustum.mLeftPlaneNormal.x +
+    if (v.y * GetFrustumLeftPlaneNormalY(&gViewFrustum) + v.x * gViewFrustum.mLeftPlaneNormal.x +
             v.z * gViewFrustum.mLeftPlaneNormal.z >
         b) {
         return r | 2;

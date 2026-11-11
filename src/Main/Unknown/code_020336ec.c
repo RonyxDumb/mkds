@@ -14,7 +14,7 @@
 #include "code_0214cfe4.h"
 
 // Fills with 0 using a volatile halfword.
-static inline void func_020338f8_inline(void *buffer, s32 byteCount) {
+static inline void ResultsBattleEntryMI_CpuClear16(void *buffer, s32 byteCount) {
     volatile u16 fillValue = 0;
     MIi_CpuClear16(fillValue, buffer, byteCount);
 }
@@ -103,7 +103,7 @@ void PrintResultsBattleScoreAndShowRank(s32 entryIndex) {
         return;
     }
     length = 0;
-    func_020338f8_inline(scoreText, 8);
+    ResultsBattleEntryMI_CpuClear16(scoreText, 8);
     if (score >= 100) {
         scoreText[length++] = 0x30 + (score / 100) % 10;
     }
@@ -175,7 +175,7 @@ void SetupResultsBattleOwnEntry(void *heap) {
             index++;
         } while (index < mainCellFileSet->mLabelLayout->mCount);
     }
-    func_020338f8_inline(entryName, 0x16);
+    ResultsBattleEntryMI_CpuClear16(entryName, 0x16);
     CopyKartEntryName((u16) gResultsBattle->mOwnEntryIndex, entryName, 1);
     PrintLabelLayoutTextNoFixedAdvance(0, 0, mainCellFileSet->mLabelLayout, entryName, mainCellFileSet->mCellLayout,
                                        mainCellFileSet->mCellTable);
@@ -215,7 +215,7 @@ void SetupResultsBattleRankZeroNames(void *heap) {
                                        mainCellFileSet->mCellTable);
     for (entryIndex = 0; entryIndex < gResultsBattle->mKartCount; entryIndex++) {
         if (gResultsBattle->mEntries[entryIndex].mRank == 0) {
-            func_020338f8_inline(entryName, 0x16);
+            ResultsBattleEntryMI_CpuClear16(entryName, 0x16);
             CopyKartEntryName((u16) entryIndex, entryName, 1);
             n++;
             PrintLabelLayoutTextNoFixedAdvance(0, n, mainCellFileSet->mLabelLayout, entryName,

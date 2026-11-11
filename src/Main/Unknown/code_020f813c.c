@@ -20,7 +20,7 @@
 #include "code_02012b30.h"
 #include "Main/Unknown/code_020f9c6c.h"
 
-static inline u32 func_020f8a04_inline(RandomState64 *random, u32 limit) {
+static inline u32 ItemSlotNextRandomBelow(RandomState64 *random, u32 limit) {
     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
     if (limit == 0) {
         return random->mValue >> 32;
@@ -90,7 +90,7 @@ s32 PickItem(s32 kartVariant, s32 forcedRowHandle, s32 rankOrRow, s32 isHumanGho
     if (acc == 0) {
         x = 0;
     } else {
-        x = func_020f8a04_inline(random, acc);
+        x = ItemSlotNextRandomBelow(random, acc);
     }
     roll = x;
     for (j = 0; j < itemCount; j++) {

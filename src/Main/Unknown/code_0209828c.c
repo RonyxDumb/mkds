@@ -339,9 +339,9 @@ void UpdatePakkun(void *a, Pakkun *pakkun) {
             if ((pakkun->mUnk_0a4 >> 12) == 10) {
                 StartPakkunSpit(&pakkun->mFollowers[pakkun->mFollowerIndex], pakkun->mUnk_1fc + 0x46000);
                 if ((pakkun->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
-                    if (pakkun->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+                    if (pakkun->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                         t = 2;
-                    } else if (pakkun->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                    } else if (pakkun->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
                         t = 3;
                     } else {
                         t = 4;

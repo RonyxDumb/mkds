@@ -49,7 +49,7 @@ static inline u16 func_0209f800_inline(u32 n) {
     return r;
 }
 
-static inline void func_0209f6d8_inline(TownMonte *townMonte) {
+static inline void AdvanceTownMonteBounce(TownMonte *townMonte) {
     townMonte->mUnk_a4 += townMonte->mUnk_a8;
     townMonte->mUnk_a8 += 0x4000;
     if (townMonte->mUnk_a4 == 0) {
@@ -61,40 +61,40 @@ static inline void func_0209f6d8_inline(TownMonte *townMonte) {
     }
 }
 
-static inline void func_0209fdb4_inline(Airship *airship) {
-    s32 t;
+static inline void AdvanceAirshipWobble(Airship *airship) {
+    s32 nextValue;
 
     airship->mWobbleAngle = (u16) airship->mWobbleAngle + airship->mWobbleAnglePerFrame;
-    airship->mUnk_b0 =
+    airship->mWobbleOffsetDelta =
         airship->mWobbleMid +
         AirshipFX_MulInline(airship->mWobbleAmplitude / 2, 0x1000 - AirshipFX_CosIdx((u16) airship->mWobbleAngle)) -
         airship->mWobbleOffset;
-    airship->mWobbleOffset += airship->mUnk_b0;
+    airship->mWobbleOffset += airship->mWobbleOffsetDelta;
     if (airship->mWobbleAmplitude > 0) {
-        t = airship->mWobbleAmplitude + airship->mWobbleAmplitudePerFrame;
-        if (t <= 0) {
-            t = 0;
+        nextValue = airship->mWobbleAmplitude + airship->mWobbleAmplitudePerFrame;
+        if (nextValue <= 0) {
+            nextValue = 0;
         }
-        airship->mWobbleAmplitude = t;
+        airship->mWobbleAmplitude = nextValue;
     } else if (airship->mWobbleAmplitude < 0) {
-        t = airship->mWobbleAmplitude + airship->mWobbleAmplitudePerFrame;
-        if (t >= 0) {
-            t = 0;
+        nextValue = airship->mWobbleAmplitude + airship->mWobbleAmplitudePerFrame;
+        if (nextValue >= 0) {
+            nextValue = 0;
         }
-        airship->mWobbleAmplitude = t;
+        airship->mWobbleAmplitude = nextValue;
     }
     if (airship->mWobbleAnglePerFrame > 0) {
-        t = airship->mWobbleAnglePerFrame + airship->mUnk_c4;
-        if (t <= 0) {
-            t = 0;
+        nextValue = airship->mWobbleAnglePerFrame + airship->mUnk_c4;
+        if (nextValue <= 0) {
+            nextValue = 0;
         }
-        airship->mWobbleAnglePerFrame = t;
+        airship->mWobbleAnglePerFrame = nextValue;
     } else if (airship->mWobbleAnglePerFrame < 0) {
-        t = airship->mWobbleAnglePerFrame + airship->mUnk_c4;
-        if (t >= 0) {
-            t = 0;
+        nextValue = airship->mWobbleAnglePerFrame + airship->mUnk_c4;
+        if (nextValue >= 0) {
+            nextValue = 0;
         }
-        airship->mWobbleAnglePerFrame = t;
+        airship->mWobbleAnglePerFrame = nextValue;
     }
 }
 
@@ -122,12 +122,12 @@ void UpdateAirship(void *a, Airship *airship) {
                 airship->mUnk_a0 = 0;
                 airship->mState = 2;
             }
-            func_0209fdb4_inline(airship);
+            AdvanceAirshipWobble(airship);
             break;
         case 2:
             AdvanceGroupFollower(&airship->mUnk_c8);
             GetGroupFollowerCurvePosStep(&airship->mUnk_c8, &airship->mMapObject.mPos, &airship->mMapObject.mPosStep);
-            func_0209fdb4_inline(airship);
+            AdvanceAirshipWobble(airship);
             break;
     }
     airship->mMapObject.mAngle = FX_Atan2Idx(airship->mMapObject.mPosStep.x, airship->mMapObject.mPosStep.z);
@@ -226,7 +226,7 @@ void InitTownMonteObjects(Unk0209f800 *a) {
         mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
         m = ((mapObjectRandom->mValue >> 32) * 0x1a) >> 32;
         for (j = 0; j < m; j++) {
-            func_0209f6d8_inline(townMonte);
+            AdvanceTownMonteBounce(townMonte);
         }
         if (townMonte->mMapObject.mCourseMapRow->mUnk_28 != 0) {
             if (townMonte->mNsbtpFrameIndex == 0) {
@@ -248,7 +248,7 @@ void UpdateTownMonte(void *a, TownMonte *townMonte) {
     s32 t;
     u16 w;
 
-    func_0209f6d8_inline(townMonte);
+    AdvanceTownMonteBounce(townMonte);
     if (townMonte->mSoundId == 0) {
         return;
     }
@@ -259,9 +259,9 @@ void UpdateTownMonte(void *a, TownMonte *townMonte) {
     if (townMonte->mMapObject.mDistanceSquaredAndFlags & 4) {
         return;
     }
-    if (townMonte->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+    if (townMonte->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
         t = 2;
-    } else if (townMonte->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+    } else if (townMonte->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
         t = 3;
     } else {
         t = 4;

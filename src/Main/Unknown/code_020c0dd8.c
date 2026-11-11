@@ -141,8 +141,8 @@ void AdvanceRaceGoalSToRefreshCourseCountReached(void) {
     gRaceGoalS->mUpdateFrames = 0;
 }
 
-static inline CourseTeamResult *func_020c0dd8_inline(s32 j) {
-    return &gCupRecords->mTeamResults[GetCourseIndexInCup()].mTeams[j];
+static inline CourseTeamResult *RaceGoalSRowsGetCourseTeamResult(s32 teamIndex) {
+    return &gCupRecords->mTeamResults[GetCourseIndexInCup()].mTeams[teamIndex];
 }
 
 void RefreshRaceGoalSCourseCountReached(void) {
@@ -151,8 +151,8 @@ void RefreshRaceGoalSCourseCountReached(void) {
 
     if (gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE) {
         if (gRaceSetup->mUseTeams != 0) {
-            bestValue = func_020c0dd8_inline(0)->mWinCount;
-            teamOneValue = func_020c0dd8_inline(1)->mWinCount;
+            bestValue = RaceGoalSRowsGetCourseTeamResult(0)->mWinCount;
+            teamOneValue = RaceGoalSRowsGetCourseTeamResult(1)->mWinCount;
             if (bestValue <= teamOneValue) {
                 bestValue = teamOneValue;
             }

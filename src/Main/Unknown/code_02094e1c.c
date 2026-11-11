@@ -22,12 +22,12 @@ void InitTeresaSpawner(TeresaSpawner *mapObject) {
     CreateParkedMapObjects(MAP_OBJECT_KIND_TERESA, mapObject->mMapObject.mCourseMapRow->mUnk_2a, mapObject);
 }
 
-static inline u32 func_02095228_inline(RandomState64 *randomState64, u32 n) {
+static inline u32 TeresaSpawnerNextRandomBelow(RandomState64 *randomState64, u32 limit) {
     randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
-    if (n == 0) {
+    if (limit == 0) {
         return randomState64->mValue >> 32;
     }
-    return ((randomState64->mValue >> 32) * n) >> 32;
+    return ((randomState64->mValue >> 32) * limit) >> 32;
 }
 
 static inline u16 func_020952dc_inline(u32 n) {
@@ -96,7 +96,7 @@ void InitTeresaSpawnerObjects(MapObjectList *mapObjectList) {
         return;
     }
     for (i = 0; i < mapObjectList->mMapObjectCount && (spawner = mapObjectList->mMapObjects[i]) != NULL; i++) {
-        spawner->mNearCheckTimer = (u16) func_02095228_inline(&gRaceProgress->mLocalRandom, 0xf);
+        spawner->mNearCheckTimer = (u16) TeresaSpawnerNextRandomBelow(&gRaceProgress->mLocalRandom, 0xf);
     }
 }
 

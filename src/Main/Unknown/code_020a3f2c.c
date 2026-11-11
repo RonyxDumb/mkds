@@ -80,7 +80,7 @@ void InitShine16(MapObject *mapObject) {
     mapObject->mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
     InitSoundSource(&mapObject->mSound->mSoundSource, 0xb, &mapObject->mPos);
     SetShine16TrackParamsReturnArgument(&mapObject->mSound->mSoundSource);
-    mapObject->mFarDistanceSquared = gSoundFalloffs[0xb].mUnk_20;
+    mapObject->mFarDistanceSquared = gSoundFalloffs[0xb].mFarDistanceSquared;
 }
 
 u32 CollideKartWithShine16(Shine16 *shine16, Kart *kart, u8 *a, u8 *b) {

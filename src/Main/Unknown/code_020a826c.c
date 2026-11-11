@@ -17,21 +17,21 @@
 #include "Main/Unknown/code_0203c25c.h"
 #include "Main/Unknown/code_0203c5f8.h"
 
-static inline void func_020a826c_inline(CourseSoundObjectPart *soundPart) {
+static inline void StartCourseSoundPartIfInRange(CourseSoundObjectPart *soundPart) {
     s32 falloffDistanceSquared;
 
     if (soundPart->mStartParams.mFalloffIndex == 2) {
-        falloffDistanceSquared = gSoundFalloffs[2].mUnk_20;
+        falloffDistanceSquared = gSoundFalloffs[2].mFarDistanceSquared;
     } else if (soundPart->mStartParams.mFalloffIndex == 3) {
-        falloffDistanceSquared = gSoundFalloffs[3].mUnk_20;
+        falloffDistanceSquared = gSoundFalloffs[3].mFarDistanceSquared;
     } else if (soundPart->mStartParams.mFalloffIndex == 4) {
-        falloffDistanceSquared = gSoundFalloffs[4].mUnk_20;
+        falloffDistanceSquared = gSoundFalloffs[4].mFarDistanceSquared;
     } else if (soundPart->mStartParams.mFalloffIndex == 5) {
-        falloffDistanceSquared = gSoundFalloffs[5].mUnk_20;
+        falloffDistanceSquared = gSoundFalloffs[5].mFarDistanceSquared;
     } else if (soundPart->mStartParams.mFalloffIndex == 6) {
-        falloffDistanceSquared = gSoundFalloffs[6].mUnk_20;
+        falloffDistanceSquared = gSoundFalloffs[6].mFarDistanceSquared;
     } else if (soundPart->mStartParams.mFalloffIndex == 8) {
-        falloffDistanceSquared = gSoundFalloffs[8].mUnk_20;
+        falloffDistanceSquared = gSoundFalloffs[8].mFarDistanceSquared;
     } else {
         falloffDistanceSquared = 0;
     }
@@ -59,7 +59,7 @@ void UpdateCourseSoundObject(void *a, CourseSoundObject *courseSoundObject) {
                 courseSoundObject->mFirstPart.mStartParams.mSoundId = soundId;
                 courseSoundObject->mState = 2;
             }
-            func_020a826c_inline(&courseSoundObject->mFirstPart);
+            StartCourseSoundPartIfInRange(&courseSoundObject->mFirstPart);
             break;
         case 2:
             PlaceCourseSoundObjectPartSource(&courseSoundObject->mFirstPart, &courseSoundObject->mMapObject.mPos);
@@ -71,7 +71,7 @@ void UpdateCourseSoundObject(void *a, CourseSoundObject *courseSoundObject) {
                 courseSoundObject->mFirstPart.mStartParams.mSoundId = soundId;
                 courseSoundObject->mState = 3;
             }
-            func_020a826c_inline(&courseSoundObject->mFirstPart);
+            StartCourseSoundPartIfInRange(&courseSoundObject->mFirstPart);
             break;
         case 3:
             PlaceCourseSoundObjectPartSource(&courseSoundObject->mFirstPart, &courseSoundObject->mMapObject.mPos);
@@ -83,18 +83,18 @@ void UpdateCourseSoundObject(void *a, CourseSoundObject *courseSoundObject) {
                 courseSoundObject->mFirstPart.mStartParams.mSoundId = soundId;
                 courseSoundObject->mState = 2;
             }
-            func_020a826c_inline(&courseSoundObject->mFirstPart);
+            StartCourseSoundPartIfInRange(&courseSoundObject->mFirstPart);
             break;
         case 4:
-            func_020a826c_inline(&courseSoundObject->mFirstPart);
-            func_020a826c_inline(&courseSoundObject->mSecondPart);
+            StartCourseSoundPartIfInRange(&courseSoundObject->mFirstPart);
+            StartCourseSoundPartIfInRange(&courseSoundObject->mSecondPart);
             break;
         case 5:
-            func_020a826c_inline(&courseSoundObject->mFirstPart);
+            StartCourseSoundPartIfInRange(&courseSoundObject->mFirstPart);
             break;
         case 6:
-            func_020a826c_inline(&courseSoundObject->mFirstPart);
-            func_020a826c_inline(&courseSoundObject->mSecondPart);
+            StartCourseSoundPartIfInRange(&courseSoundObject->mFirstPart);
+            StartCourseSoundPartIfInRange(&courseSoundObject->mSecondPart);
             break;
     }
 }

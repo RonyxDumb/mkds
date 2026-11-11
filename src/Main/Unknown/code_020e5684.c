@@ -65,9 +65,9 @@ void UpdateObPakkunSf(u32 a, ObPakkunSf *obPakkunSf) {
     obPakkunSf->mFramesSinceInit = obPakkunSf->mFramesSinceInit + 1;
     if ((obPakkunSf->mFramesSinceInit & 0x1f) == 0 &&
         (obPakkunSf->mPushedObject.mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
-        if (obPakkunSf->mPushedObject.mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+        if (obPakkunSf->mPushedObject.mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
             falloffIndex = 2;
-        } else if (obPakkunSf->mPushedObject.mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+        } else if (obPakkunSf->mPushedObject.mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
             falloffIndex = 3;
         } else {
             falloffIndex = 4;

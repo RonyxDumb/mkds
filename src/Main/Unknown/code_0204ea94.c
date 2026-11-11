@@ -26,7 +26,7 @@ void SetScanGhostInfo(u32 entryIndex, UserGameInfo *gameInfo) {
     gConnectionWork->mScanGhostInfos[entryIndex].mMillisecond = gameInfo->mMillisecond;
 }
 
-static inline u32 func_0204eb08_inline(void) {
+static inline u32 ChildNameGetConnectionMode(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
@@ -54,7 +54,7 @@ BOOL CopySingleChildName(void *destination) {
     u32 childCount;
 
     found = FALSE;
-    if (func_0204eb08_inline() == 1) {
+    if (ChildNameGetConnectionMode() == 1) {
         if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
             childCount = gConnectionWork->mWaitToSendCount;
         } else {
@@ -66,7 +66,7 @@ BOOL CopySingleChildName(void *destination) {
     if (childCount != 1) {
         return FALSE;
     }
-    if (func_0204eb08_inline() != 1) {
+    if (ChildNameGetConnectionMode() != 1) {
         return FALSE;
     }
     index = 1;

@@ -319,7 +319,7 @@ void UpdateItemKouraWState0(ItemKouraW *item) {
                              item->mSoundId, 0x7f, 0);
 }
 
-static inline Vec3 *func_020fbd98_inline(ItemKouraW *item) {
+static inline Vec3 *GetItemKouraWNormalOrNull(ItemKouraW *item) {
     if (item->mStateMachine.mState >= 3) {
         if (item->mKartItems->mKart->mUnk_48 & KART_48_ON_BOOST_SURFACE) {
             return &item->mKartItems->mKart->mGroundNormal;
@@ -356,7 +356,7 @@ void UpdateItemKouraWState1(ItemKouraW *item) {
         return;
     }
     UpdateItemKouraWDrawPos(item);
-    normal = func_020fbd98_inline(item);
+    normal = GetItemKouraWNormalOrNull(item);
     UpdateItemKouraWOrientation(item, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity, 1,
                                 normal);
     if (item->mRankTargetSkipped == 0) {
@@ -483,7 +483,7 @@ void UpdateItemKouraWState3(ItemKouraW *item) {
         item->mStateMachine.mNextStateRequested = 1;
     }
     UpdateItemKouraWDrawPos(item);
-    normal = func_020fbd98_inline(item);
+    normal = GetItemKouraWNormalOrNull(item);
     UpdateItemKouraWOrientation(item, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity, 1,
                                 normal);
 }
@@ -512,7 +512,7 @@ void UpdateItemKouraWState2(ItemKouraW *item) {
         return;
     }
     UpdateItemKouraWDrawPos(item);
-    normal = func_020fbd98_inline(item);
+    normal = GetItemKouraWNormalOrNull(item);
     UpdateItemKouraWOrientation(item, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity, 1,
                                 normal);
     link = item->mKartItems->mItemLink.mLink;
@@ -567,7 +567,7 @@ void UpdateItemKouraWState4(ItemKouraW *item) {
     }
     UpdateItemKouraWDrawPos(item);
     if ((u32) item->mAngle < 0x11f40) {
-        normal = func_020fbd98_inline(item);
+        normal = GetItemKouraWNormalOrNull(item);
         if (normal != NULL) {
             direction.x = item->mAnglePointOffset.x * 2;
             direction.y = item->mAnglePointOffset.y * 2;
@@ -630,7 +630,7 @@ void UpdateItemKouraWState5(ItemKouraW *item) {
     if (item->mUnk_284 < 0x7b) {
         item->mUnk_284 = 0x7b;
     }
-    normal = func_020fbd98_inline(item);
+    normal = GetItemKouraWNormalOrNull(item);
     if (normal != NULL) {
         VEC_MultAdd(item->mUnk_27c, normal, &item->mKartForward, &v);
     } else {
@@ -960,7 +960,7 @@ BOOL IsItemInfoObjectCountFree(s32 itemInfoIndex) {
     return FALSE;
 }
 
-static inline BOOL func_020fab34_inline(s32 itemInfoIndex) {
+static inline BOOL ItemsIsItemInfoObjectCountFree(s32 itemInfoIndex) {
     if (itemInfoIndex != 0x13) {
         return gItemPools[gItemInfos[itemInfoIndex].mObjectKind].mObjectBudget -
                    gItemPools[gItemInfos[itemInfoIndex].mObjectKind].mReservedCount >=
@@ -985,11 +985,11 @@ BOOL ReplaceUnavailableItem(s32 *itemInfoIndexPointer) {
         itemInfo = &gItemInfos[itemInfoIndex];
         objectCount = itemInfo->mObjectCount;
         dataSize = objectCount * GetItemDataSize(itemInfo->mObjectKind, 0);
-        if (func_020fab34_inline(itemInfoIndex) != FALSE && gWiFiRaceSync->mUnusedItemDataBytes >= dataSize) {
+        if (ItemsIsItemInfoObjectCountFree(itemInfoIndex) != FALSE && gWiFiRaceSync->mUnusedItemDataBytes >= dataSize) {
             return FALSE;
         }
     } else {
-        if (func_020fab34_inline(itemInfoIndex) != FALSE) {
+        if (ItemsIsItemInfoObjectCountFree(itemInfoIndex) != FALSE) {
             return FALSE;
         }
     }
@@ -1095,13 +1095,13 @@ void StartItemSlotForKart(s32 kartIndex, s32 forcedRowHandle, s32 shortSpin) {
     }
 }
 
-static inline s32 func_020fa4c8_inline(ItemObject *item, Kart *kart) {
+static inline s32 IsItemObjectHitKart(ItemObject *item, Kart *kart) {
     Vec3 previousDelta;
     Vec3 delta;
     s32 previousDistanceSquared;
     s32 distanceSquared;
     s32 radius;
-    s32 x;
+    s32 deltaX;
     s64 fullDistanceSquared;
 
     if (!(item->mFlags & 0x8000)) {
@@ -1123,10 +1123,10 @@ static inline s32 func_020fa4c8_inline(ItemObject *item, Kart *kart) {
         }
     }
     radius = item->mRadius;
-    x = item->mPos.x - kart->mPointAlongUp.x;
+    deltaX = item->mPos.x - kart->mPointAlongUp.x;
     fullDistanceSquared =
         (s64) (item->mPos.z - kart->mPointAlongUp.z) * (item->mPos.z - kart->mPointAlongUp.z) +
-        ((s64) x * x + (s64) (item->mPos.y - kart->mPointAlongUp.y) * (item->mPos.y - kart->mPointAlongUp.y));
+        ((s64) deltaX * deltaX + (s64) (item->mPos.y - kart->mPointAlongUp.y) * (item->mPos.y - kart->mPointAlongUp.y));
     return fullDistanceSquared < (s64) radius * radius ? 1 : 0;
 }
 
@@ -1154,7 +1154,7 @@ s32 CollideKartWithItemObjects(Kart *kart) {
         if (!IsItemObjectOverlappingKart(item, kart)) {
             continue;
         }
-        isHit = func_020fa4c8_inline(item, kart);
+        isHit = IsItemObjectHitKart(item, kart);
         if (isHit == 0) {
             continue;
         }
@@ -1212,7 +1212,7 @@ void *StartItemObjectOrZero(s32 kind, u16 kartIndex, void *pos, void *normal) {
 
 #pragma thumb on
 
-static inline ItemObject *func_020fa3d0_inline(s32 kind, u16 kartIndex, void *pos, void *normal) {
+static inline ItemObject *CourseMapStartItemObjectOrZero(s32 kind, u16 kartIndex, void *pos, void *normal) {
     ItemObject *item;
     ItemPool *pool;
 
@@ -1249,7 +1249,7 @@ void StartCourseMapItemObjects(void) {
             if (CollideSphereWithCourse(&row->mUnk_00, 0, 0, 0xa000, 8, -2, 0, &normal, 0, 0, 0, 0, 0, &v) == 0) {
                 normal = gCourseMapItemVec3UnitY;
             }
-            item = func_020fa3d0_inline(kind, 8, row, &normal);
+            item = CourseMapStartItemObjectOrZero(kind, 8, row, &normal);
             if (item != 0) {
                 void (*advance)(ItemObject *);
 

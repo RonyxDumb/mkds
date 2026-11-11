@@ -135,9 +135,12 @@ void UpdateKoopaBlock(void *unused, KoopaBlock *koopaBlock) {
             return;
         }
         falloffIndex =
-            koopaBlock->mCollisionMapObject.mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20
+            koopaBlock->mCollisionMapObject.mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared
                 ? 2
-                : (koopaBlock->mCollisionMapObject.mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20 ? 3 : 4);
+                : (koopaBlock->mCollisionMapObject.mMapObject.mFarDistanceSquared ==
+                           gSoundFalloffs[3].mFarDistanceSquared
+                       ? 3
+                       : 4);
         soundRequest.mSoundId = 0x17e;
         soundRequest.mPositionSource = &koopaBlock->mCollisionMapObject.mMapObject.mPos;
         soundRequest.mFalloffIndex = falloffIndex;

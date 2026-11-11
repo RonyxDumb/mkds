@@ -143,9 +143,9 @@ void EnterKuriboState5(Kuribo *kuribo) {
     SoundStartParams soundRequest;
     s32 falloffIndex;
     if ((kuribo->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
-        if (kuribo->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+        if (kuribo->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
             falloffIndex = 2;
-        } else if (kuribo->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+        } else if (kuribo->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
             falloffIndex = 3;
         } else {
             falloffIndex = 4;

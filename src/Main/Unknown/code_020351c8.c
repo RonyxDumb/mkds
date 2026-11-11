@@ -117,17 +117,17 @@ void SetupGhostMainTextEx(void) {
 
 #pragma thumb on
 
-static inline s32 func_0203551c_inline(void) {
-    BackupAccess *p = gBackupAccess;
-    if (p->mBackupEnabled != 0) {
-        return p->mCommandRunning;
+static inline s32 GhostGetSlotIsBackupCommandRunning(void) {
+    BackupAccess *backupAccess = gBackupAccess;
+    if (backupAccess->mBackupEnabled != 0) {
+        return backupAccess->mCommandRunning;
     }
     return 0;
 }
 
-static inline s32 func_0203551c_inline_2(void) {
+static inline s32 GhostGetSlotIsBackupBusy(void) {
     if (data_0217aa08->mBusy == 0) {
-        return func_0203551c_inline();
+        return GhostGetSlotIsBackupCommandRunning();
     }
     return 1;
 }
@@ -363,7 +363,7 @@ s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers) {
             }
             break;
         case 3:
-            if (func_0203551c_inline_2() != 0) {
+            if (GhostGetSlotIsBackupBusy() != 0) {
                 message = GetBmgEntry(object->mGhostMessages, 0x10);
                 buttonText = GetBmgEntry(gTimeAttackGhostGetSlot->mInfoFileSets.mCommonMessages, 4);
                 SetTxtSystemSoundId(0, 5);

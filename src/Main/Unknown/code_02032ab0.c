@@ -71,16 +71,16 @@
 #pragma thumb on
 
 // Fills with 0 using a volatile halfword.
-static inline void func_02032f94_inline(void *buffer, s32 byteCount) {
+static inline void ResultsBattleMI_CpuClear16(void *buffer, s32 byteCount) {
     volatile u16 fillValue = 0;
     MIi_CpuClear16(fillValue, buffer, byteCount);
 }
 
-static inline CourseTeamResult *func_02032f94_inline_2(s32 index) {
-    return &gCupRecords->mTeamResults[GetCourseIndexInCup()].mTeams[index];
+static inline CourseTeamResult *ResultsBattleGetCourseTeamResult(s32 teamIndex) {
+    return &gCupRecords->mTeamResults[GetCourseIndexInCup()].mTeams[teamIndex];
 }
 
-static inline CourseTeamResults *func_02032f94_inline_3(void) {
+static inline CourseTeamResults *GetCourseTeamResults(void) {
     return &gCupRecords->mTeamResults[GetCourseIndexInCup()];
 }
 
@@ -160,12 +160,12 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
         k = 0;
         switch (gRaceSetup->mRuleKind) {
             case 1:
-                firstTeamScore = func_02032f94_inline_2(0)->mWinCount;
-                k = func_02032f94_inline_2(1)->mWinCount;
+                firstTeamScore = ResultsBattleGetCourseTeamResult(0)->mWinCount;
+                k = ResultsBattleGetCourseTeamResult(1)->mWinCount;
                 break;
             case 2:
-                firstTeamScore = func_02032f94_inline_3()->mTeams[0].mTotalPoints;
-                k = func_02032f94_inline_3()->mTeams[1].mTotalPoints;
+                firstTeamScore = GetCourseTeamResults()->mTeams[0].mTotalPoints;
+                k = GetCourseTeamResults()->mTeams[1].mTotalPoints;
                 break;
         }
         if (firstTeamScore == k) {
@@ -253,7 +253,7 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
         if ((k == PLAYER_KIND_HUMAN || k == PLAYER_KIND_CPU || k == PLAYER_KIND_PEER) &&
             (gResultsBattle->mMode != 3 || gResultsBattle->mEntries[entryIndex].mScore != 0)) {
             QueueResultsBattleCharacterIcon(1, entryIndex, orderIndex + 0x30, 1);
-            func_02032f94_inline(entryName, 0x16);
+            ResultsBattleMI_CpuClear16(entryName, 0x16);
             CopyKartEntryName(entryIndex, entryName, 0);
             PrintLabelLayoutTextNoFixedAdvance(1, orderIndex, subCellFileSet->mLabelLayout, entryName,
                                                subCellFileSet->mCellLayout, subCellFileSet->mCellTable);

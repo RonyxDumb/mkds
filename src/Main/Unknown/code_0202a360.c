@@ -8,7 +8,7 @@
 
 #pragma thumb on
 
-static inline CourseTeamResult *func_0202a360_inline(s32 teamIndex) {
+static inline CourseTeamResult *GetCourseTeamResult(s32 teamIndex) {
     return &gCupRecords->mTeamResults[GetCourseIndexInCup()].mTeams[teamIndex];
 }
 
@@ -58,12 +58,12 @@ u32 GetResultSceneSeqKind(void) {
         ownTeamIndex = gRaceSetup->mCurrentEntries[ownEntryIndex].mPlayer.mTeamIndex;
         switch (gRaceSetup->mRuleKind) {
             case 1:
-                team0Score = func_0202a360_inline(0)->mWinCount;
-                team1Score = func_0202a360_inline(1)->mWinCount;
+                team0Score = GetCourseTeamResult(0)->mWinCount;
+                team1Score = GetCourseTeamResult(1)->mWinCount;
                 break;
             case 2:
-                team0Score = func_0202a360_inline(0)->mTotalPoints;
-                team1Score = func_0202a360_inline(1)->mTotalPoints;
+                team0Score = GetCourseTeamResult(0)->mTotalPoints;
+                team1Score = GetCourseTeamResult(1)->mTotalPoints;
                 break;
         }
         if (team0Score == team1Score) {

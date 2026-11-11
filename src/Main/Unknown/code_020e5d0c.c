@@ -155,9 +155,9 @@ void UpdatePendulum(u32 list, PendulumObject *pendulum) {
     if ((previousAngle < 0x58f0 && pendulum->mSwingAngle >= 0x58f0) ||
         (previousAngle < 0xd8f0 && pendulum->mSwingAngle >= 0xd8f0)) {
         if ((pendulum->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
-            if (pendulum->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+            if (pendulum->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                 falloffIndex = 2;
-            } else if (pendulum->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+            } else if (pendulum->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
                 falloffIndex = 3;
             } else {
                 falloffIndex = 4;

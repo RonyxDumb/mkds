@@ -88,8 +88,8 @@ void InitSoundFalloffs(void) {
     gSoundFalloffs[0].mUnk_14 = FX_Div((c0.mUnk_08 - c0.mMaxVolume) << 12, (c0.mUnk_04 - c0.mInnerDistance) << 12);
     gSoundFalloffs[0].mUnk_18 = FX_Div(c0.mUnk_08 << 12, (c0.mUnk_04 - c0.mOuterDistance) << 12);
     gSoundFalloffs[0].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[0].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[0].mUnk_20 = ((MUL_FIXED12_ROUNDED(c0.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                ((MUL_FIXED12_ROUNDED(c0.mOuterDistance << 12, 0x16a1)) >> 12);
+    gSoundFalloffs[0].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(c0.mOuterDistance << 12, 0x16a1)) >> 12) *
+                                            ((MUL_FIXED12_ROUNDED(c0.mOuterDistance << 12, 0x16a1)) >> 12);
     t1 = s1;
     if (f != FALSE) {
         b1 = t1;
@@ -108,8 +108,8 @@ void InitSoundFalloffs(void) {
     gOtherKartSoundFalloff.mUnk_14 = FX_Div((c1.mUnk_08 - c1.mMaxVolume) << 12, (c1.mUnk_04 - c1.mInnerDistance) << 12);
     gOtherKartSoundFalloff.mUnk_18 = FX_Div(c1.mUnk_08 << 12, (c1.mUnk_04 - c1.mOuterDistance) << 12);
     gOtherKartSoundFalloff.mUnk_1c = FX_Div(0x666, (gOtherKartSoundFalloff.mInnerDistance << 12) + 0x36000);
-    gOtherKartSoundFalloff.mUnk_20 = ((MUL_FIXED12_ROUNDED(c1.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                     ((MUL_FIXED12_ROUNDED(c1.mOuterDistance << 12, 0x16a1)) >> 12);
+    gOtherKartSoundFalloff.mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(c1.mOuterDistance << 12, 0x16a1)) >> 12) *
+                                                 ((MUL_FIXED12_ROUNDED(c1.mOuterDistance << 12, 0x16a1)) >> 12);
     t2 = s2;
     if (f != FALSE) {
         b2 = t2;
@@ -128,8 +128,8 @@ void InitSoundFalloffs(void) {
     gSoundFalloffs[1].mUnk_14 = FX_Div((c2.mUnk_08 - c2.mMaxVolume) << 12, (c2.mUnk_04 - c2.mInnerDistance) << 12);
     gSoundFalloffs[1].mUnk_18 = FX_Div(c2.mUnk_08 << 12, (c2.mUnk_04 - c2.mOuterDistance) << 12);
     gSoundFalloffs[1].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[1].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[1].mUnk_20 = ((MUL_FIXED12_ROUNDED(c2.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                ((MUL_FIXED12_ROUNDED(c2.mOuterDistance << 12, 0x16a1)) >> 12);
+    gSoundFalloffs[1].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(c2.mOuterDistance << 12, 0x16a1)) >> 12) *
+                                            ((MUL_FIXED12_ROUNDED(c2.mOuterDistance << 12, 0x16a1)) >> 12);
     t3 = s3;
     if (f != FALSE) {
         b3 = t3;
@@ -148,8 +148,8 @@ void InitSoundFalloffs(void) {
     gSoundFalloffs[2].mUnk_14 = FX_Div((c3.mUnk_08 - c3.mMaxVolume) << 12, (c3.mUnk_04 - c3.mInnerDistance) << 12);
     gSoundFalloffs[2].mUnk_18 = FX_Div(c3.mUnk_08 << 12, (c3.mUnk_04 - c3.mOuterDistance) << 12);
     gSoundFalloffs[2].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[2].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[2].mUnk_20 = ((MUL_FIXED12_ROUNDED(c3.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                ((MUL_FIXED12_ROUNDED(c3.mOuterDistance << 12, 0x16a1)) >> 12);
+    gSoundFalloffs[2].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(c3.mOuterDistance << 12, 0x16a1)) >> 12) *
+                                            ((MUL_FIXED12_ROUNDED(c3.mOuterDistance << 12, 0x16a1)) >> 12);
     t4 = s4;
     if (f != FALSE) {
         b4 = t4;
@@ -168,8 +168,8 @@ void InitSoundFalloffs(void) {
     gSoundFalloffs[3].mUnk_14 = FX_Div((c4.mUnk_08 - c4.mMaxVolume) << 12, (c4.mUnk_04 - c4.mInnerDistance) << 12);
     gSoundFalloffs[3].mUnk_18 = FX_Div(c4.mUnk_08 << 12, (c4.mUnk_04 - c4.mOuterDistance) << 12);
     gSoundFalloffs[3].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[3].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[3].mUnk_20 = ((MUL_FIXED12_ROUNDED(c4.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                ((MUL_FIXED12_ROUNDED(c4.mOuterDistance << 12, 0x16a1)) >> 12);
+    gSoundFalloffs[3].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(c4.mOuterDistance << 12, 0x16a1)) >> 12) *
+                                            ((MUL_FIXED12_ROUNDED(c4.mOuterDistance << 12, 0x16a1)) >> 12);
     w5 = s5;
     gSoundFalloffs[4].mMaxVolume = w5.mMaxVolume;
     gSoundFalloffs[4].mOuterDistance = w5.mOuterDistance;
@@ -179,8 +179,8 @@ void InitSoundFalloffs(void) {
     gSoundFalloffs[4].mUnk_14 = FX_Div((w5.mUnk_08 - w5.mMaxVolume) << 12, (w5.mUnk_04 - w5.mInnerDistance) << 12);
     gSoundFalloffs[4].mUnk_18 = FX_Div(w5.mUnk_08 << 12, (w5.mUnk_04 - w5.mOuterDistance) << 12);
     gSoundFalloffs[4].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[4].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[4].mUnk_20 = ((MUL_FIXED12_ROUNDED(w5.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                ((MUL_FIXED12_ROUNDED(w5.mOuterDistance << 12, 0x16a1)) >> 12);
+    gSoundFalloffs[4].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(w5.mOuterDistance << 12, 0x16a1)) >> 12) *
+                                            ((MUL_FIXED12_ROUNDED(w5.mOuterDistance << 12, 0x16a1)) >> 12);
     w6 = s6;
     gSoundFalloffs[5].mMaxVolume = w6.mMaxVolume;
     gSoundFalloffs[5].mOuterDistance = w6.mOuterDistance;
@@ -190,8 +190,8 @@ void InitSoundFalloffs(void) {
     gSoundFalloffs[5].mUnk_14 = FX_Div((w6.mUnk_08 - w6.mMaxVolume) << 12, (w6.mUnk_04 - w6.mInnerDistance) << 12);
     gSoundFalloffs[5].mUnk_18 = FX_Div(w6.mUnk_08 << 12, (w6.mUnk_04 - w6.mOuterDistance) << 12);
     gSoundFalloffs[5].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[5].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[5].mUnk_20 = ((MUL_FIXED12_ROUNDED(w6.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                ((MUL_FIXED12_ROUNDED(w6.mOuterDistance << 12, 0x16a1)) >> 12);
+    gSoundFalloffs[5].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(w6.mOuterDistance << 12, 0x16a1)) >> 12) *
+                                            ((MUL_FIXED12_ROUNDED(w6.mOuterDistance << 12, 0x16a1)) >> 12);
     w7 = s7;
     gSoundFalloffs[6].mMaxVolume = w7.mMaxVolume;
     gSoundFalloffs[6].mOuterDistance = w7.mOuterDistance;
@@ -201,8 +201,8 @@ void InitSoundFalloffs(void) {
     gSoundFalloffs[6].mUnk_14 = FX_Div((w7.mUnk_08 - w7.mMaxVolume) << 12, (w7.mUnk_04 - w7.mInnerDistance) << 12);
     gSoundFalloffs[6].mUnk_18 = FX_Div(w7.mUnk_08 << 12, (w7.mUnk_04 - w7.mOuterDistance) << 12);
     gSoundFalloffs[6].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[6].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[6].mUnk_20 = ((MUL_FIXED12_ROUNDED(w7.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                ((MUL_FIXED12_ROUNDED(w7.mOuterDistance << 12, 0x16a1)) >> 12);
+    gSoundFalloffs[6].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(w7.mOuterDistance << 12, 0x16a1)) >> 12) *
+                                            ((MUL_FIXED12_ROUNDED(w7.mOuterDistance << 12, 0x16a1)) >> 12);
     w8 = s8;
     gSoundFalloffs[7].mMaxVolume = w8.mMaxVolume;
     gSoundFalloffs[7].mOuterDistance = w8.mOuterDistance;
@@ -212,8 +212,8 @@ void InitSoundFalloffs(void) {
     gSoundFalloffs[7].mUnk_14 = FX_Div((w8.mUnk_08 - w8.mMaxVolume) << 12, (w8.mUnk_04 - w8.mInnerDistance) << 12);
     gSoundFalloffs[7].mUnk_18 = FX_Div(w8.mUnk_08 << 12, (w8.mUnk_04 - w8.mOuterDistance) << 12);
     gSoundFalloffs[7].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[7].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[7].mUnk_20 = ((MUL_FIXED12_ROUNDED(w8.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                ((MUL_FIXED12_ROUNDED(w8.mOuterDistance << 12, 0x16a1)) >> 12);
+    gSoundFalloffs[7].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(w8.mOuterDistance << 12, 0x16a1)) >> 12) *
+                                            ((MUL_FIXED12_ROUNDED(w8.mOuterDistance << 12, 0x16a1)) >> 12);
     w9 = s9;
     gSoundFalloffs[8].mMaxVolume = w9.mMaxVolume;
     gSoundFalloffs[8].mOuterDistance = w9.mOuterDistance;
@@ -223,8 +223,8 @@ void InitSoundFalloffs(void) {
     gSoundFalloffs[8].mUnk_14 = FX_Div((w9.mUnk_08 - w9.mMaxVolume) << 12, (w9.mUnk_04 - w9.mInnerDistance) << 12);
     gSoundFalloffs[8].mUnk_18 = FX_Div(w9.mUnk_08 << 12, (w9.mUnk_04 - w9.mOuterDistance) << 12);
     gSoundFalloffs[8].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[8].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[8].mUnk_20 = ((MUL_FIXED12_ROUNDED(w9.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                ((MUL_FIXED12_ROUNDED(w9.mOuterDistance << 12, 0x16a1)) >> 12);
+    gSoundFalloffs[8].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(w9.mOuterDistance << 12, 0x16a1)) >> 12) *
+                                            ((MUL_FIXED12_ROUNDED(w9.mOuterDistance << 12, 0x16a1)) >> 12);
     w10 = s10;
     gSoundFalloffs[9].mMaxVolume = w10.mMaxVolume;
     gSoundFalloffs[9].mOuterDistance = w10.mOuterDistance;
@@ -234,8 +234,8 @@ void InitSoundFalloffs(void) {
     gSoundFalloffs[9].mUnk_14 = FX_Div((w10.mUnk_08 - w10.mMaxVolume) << 12, (w10.mUnk_04 - w10.mInnerDistance) << 12);
     gSoundFalloffs[9].mUnk_18 = FX_Div(w10.mUnk_08 << 12, (w10.mUnk_04 - w10.mOuterDistance) << 12);
     gSoundFalloffs[9].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[9].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[9].mUnk_20 = ((MUL_FIXED12_ROUNDED(w10.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                ((MUL_FIXED12_ROUNDED(w10.mOuterDistance << 12, 0x16a1)) >> 12);
+    gSoundFalloffs[9].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(w10.mOuterDistance << 12, 0x16a1)) >> 12) *
+                                            ((MUL_FIXED12_ROUNDED(w10.mOuterDistance << 12, 0x16a1)) >> 12);
     w11 = s11;
     gSoundFalloffs[10].mMaxVolume = w11.mMaxVolume;
     gSoundFalloffs[10].mOuterDistance = w11.mOuterDistance;
@@ -245,8 +245,8 @@ void InitSoundFalloffs(void) {
     gSoundFalloffs[10].mUnk_14 = FX_Div((w11.mUnk_08 - w11.mMaxVolume) << 12, (w11.mUnk_04 - w11.mInnerDistance) << 12);
     gSoundFalloffs[10].mUnk_18 = FX_Div(w11.mUnk_08 << 12, (w11.mUnk_04 - w11.mOuterDistance) << 12);
     gSoundFalloffs[10].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[10].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[10].mUnk_20 = ((MUL_FIXED12_ROUNDED(w11.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                 ((MUL_FIXED12_ROUNDED(w11.mOuterDistance << 12, 0x16a1)) >> 12);
+    gSoundFalloffs[10].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(w11.mOuterDistance << 12, 0x16a1)) >> 12) *
+                                             ((MUL_FIXED12_ROUNDED(w11.mOuterDistance << 12, 0x16a1)) >> 12);
     w12 = s12;
     gSoundFalloffs[11].mMaxVolume = w12.mMaxVolume;
     gSoundFalloffs[11].mOuterDistance = w12.mOuterDistance;
@@ -256,8 +256,8 @@ void InitSoundFalloffs(void) {
     gSoundFalloffs[11].mUnk_14 = FX_Div((w12.mUnk_08 - w12.mMaxVolume) << 12, (w12.mUnk_04 - w12.mInnerDistance) << 12);
     gSoundFalloffs[11].mUnk_18 = FX_Div(w12.mUnk_08 << 12, (w12.mUnk_04 - w12.mOuterDistance) << 12);
     gSoundFalloffs[11].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[11].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[11].mUnk_20 = ((MUL_FIXED12_ROUNDED(w12.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                 ((MUL_FIXED12_ROUNDED(w12.mOuterDistance << 12, 0x16a1)) >> 12);
+    gSoundFalloffs[11].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(w12.mOuterDistance << 12, 0x16a1)) >> 12) *
+                                             ((MUL_FIXED12_ROUNDED(w12.mOuterDistance << 12, 0x16a1)) >> 12);
     w13 = s13;
     gSoundFalloffs[12].mMaxVolume = w13.mMaxVolume;
     gSoundFalloffs[12].mOuterDistance = w13.mOuterDistance;
@@ -267,8 +267,8 @@ void InitSoundFalloffs(void) {
     gSoundFalloffs[12].mUnk_14 = FX_Div((w13.mUnk_08 - w13.mMaxVolume) << 12, (w13.mUnk_04 - w13.mInnerDistance) << 12);
     gSoundFalloffs[12].mUnk_18 = FX_Div(w13.mUnk_08 << 12, (w13.mUnk_04 - w13.mOuterDistance) << 12);
     gSoundFalloffs[12].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[12].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[12].mUnk_20 = ((MUL_FIXED12_ROUNDED(w13.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                 ((MUL_FIXED12_ROUNDED(w13.mOuterDistance << 12, 0x16a1)) >> 12);
+    gSoundFalloffs[12].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(w13.mOuterDistance << 12, 0x16a1)) >> 12) *
+                                             ((MUL_FIXED12_ROUNDED(w13.mOuterDistance << 12, 0x16a1)) >> 12);
     w14 = s14;
     gSoundFalloffs[13].mMaxVolume = w14.mMaxVolume;
     gSoundFalloffs[13].mOuterDistance = w14.mOuterDistance;
@@ -278,8 +278,8 @@ void InitSoundFalloffs(void) {
     gSoundFalloffs[13].mUnk_14 = FX_Div((w14.mUnk_08 - w14.mMaxVolume) << 12, (w14.mUnk_04 - w14.mInnerDistance) << 12);
     gSoundFalloffs[13].mUnk_18 = FX_Div(w14.mUnk_08 << 12, (w14.mUnk_04 - w14.mOuterDistance) << 12);
     gSoundFalloffs[13].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[13].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[13].mUnk_20 = ((MUL_FIXED12_ROUNDED(w14.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                 ((MUL_FIXED12_ROUNDED(w14.mOuterDistance << 12, 0x16a1)) >> 12);
+    gSoundFalloffs[13].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(w14.mOuterDistance << 12, 0x16a1)) >> 12) *
+                                             ((MUL_FIXED12_ROUNDED(w14.mOuterDistance << 12, 0x16a1)) >> 12);
     w15 = s15;
     gSoundFalloffs[14].mMaxVolume = w15.mMaxVolume;
     gSoundFalloffs[14].mOuterDistance = w15.mOuterDistance;
@@ -289,8 +289,8 @@ void InitSoundFalloffs(void) {
     gSoundFalloffs[14].mUnk_14 = FX_Div((w15.mUnk_08 - w15.mMaxVolume) << 12, (w15.mUnk_04 - w15.mInnerDistance) << 12);
     gSoundFalloffs[14].mUnk_18 = FX_Div(w15.mUnk_08 << 12, (w15.mUnk_04 - w15.mOuterDistance) << 12);
     gSoundFalloffs[14].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[14].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[14].mUnk_20 = ((MUL_FIXED12_ROUNDED(w15.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                 ((MUL_FIXED12_ROUNDED(w15.mOuterDistance << 12, 0x16a1)) >> 12);
+    gSoundFalloffs[14].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(w15.mOuterDistance << 12, 0x16a1)) >> 12) *
+                                             ((MUL_FIXED12_ROUNDED(w15.mOuterDistance << 12, 0x16a1)) >> 12);
     w16 = s16;
     gSoundFalloffs[15].mMaxVolume = w16.mMaxVolume;
     gSoundFalloffs[15].mOuterDistance = w16.mOuterDistance;
@@ -300,8 +300,8 @@ void InitSoundFalloffs(void) {
     gSoundFalloffs[15].mUnk_14 = FX_Div((w16.mUnk_08 - w16.mMaxVolume) << 12, (w16.mUnk_04 - w16.mInnerDistance) << 12);
     gSoundFalloffs[15].mUnk_18 = FX_Div(w16.mUnk_08 << 12, (w16.mUnk_04 - w16.mOuterDistance) << 12);
     gSoundFalloffs[15].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[15].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[15].mUnk_20 = ((MUL_FIXED12_ROUNDED(w16.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                 ((MUL_FIXED12_ROUNDED(w16.mOuterDistance << 12, 0x16a1)) >> 12);
+    gSoundFalloffs[15].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(w16.mOuterDistance << 12, 0x16a1)) >> 12) *
+                                             ((MUL_FIXED12_ROUNDED(w16.mOuterDistance << 12, 0x16a1)) >> 12);
 }
 
 s32 ComputeSoundVolume(SoundParams *p) {

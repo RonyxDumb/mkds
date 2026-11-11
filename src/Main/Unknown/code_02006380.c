@@ -7,9 +7,9 @@
 
 #pragma thumb on
 
-static inline u8 *func_0214d1fc_inline(const void *v1, u8 *v2, u32 n) {
-    MI_CpuCopy8(v1, v2, n);
-    return v2 + n;
+static inline u8 *AppendBytes(const void *source, u8 *cursor, u32 byteCount) {
+    MI_CpuCopy8(source, cursor, byteCount);
+    return cursor + byteCount;
 }
 
 u32 WBT_MpChildSendHook(u8 *buffer, s32 bufferSize) {
@@ -34,8 +34,8 @@ s32 WriteEmptyPacket(u8 *buffer, u16 indexMask, u8 requestId) {
     cursor = buffer;
     header.m2 = indexMask;
     header.m0 = 1;
-    cursor = func_0214d1fc_inline(&header, cursor, 1);
-    cursor = func_0214d1fc_inline(&header.m2, cursor, 2);
+    cursor = AppendBytes(&header, cursor, 1);
+    cursor = AppendBytes(&header.m2, cursor, 2);
     MI_CpuCopy8(&requestId, cursor, 1);
     return cursor + 1 - buffer;
 }
@@ -50,10 +50,10 @@ s32 WriteBlockCountRequestPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 se
     cursor = buffer;
     header.m2 = indexMask;
     header.m0 = 2;
-    cursor = func_0214d1fc_inline(&header, cursor, 1);
-    cursor = func_0214d1fc_inline(&header.m2, cursor, 2);
-    cursor = func_0214d1fc_inline(&requestId, cursor, 1);
-    cursor = func_0214d1fc_inline(&sendChunkSize, cursor, 2);
+    cursor = AppendBytes(&header, cursor, 1);
+    cursor = AppendBytes(&header.m2, cursor, 2);
+    cursor = AppendBytes(&requestId, cursor, 1);
+    cursor = AppendBytes(&sendChunkSize, cursor, 2);
     MI_CpuCopy8(&receiveChunkSize, cursor, 2);
     return cursor + 2 - buffer;
 }
@@ -69,11 +69,11 @@ s32 WriteBlockCountReplyPacket(u8 *buffer, u16 indexMask, u8 requestId, s16 bloc
     cursor = buffer;
     header.m2 = indexMask;
     header.m0 = 3;
-    cursor = func_0214d1fc_inline(&header, cursor, 1);
-    cursor = func_0214d1fc_inline(&header.m2, cursor, 2);
-    cursor = func_0214d1fc_inline(&requestId, cursor, 1);
-    cursor = func_0214d1fc_inline(&blockCount, cursor, 2);
-    cursor = func_0214d1fc_inline(&sendChunkSize, cursor, 2);
+    cursor = AppendBytes(&header, cursor, 1);
+    cursor = AppendBytes(&header.m2, cursor, 2);
+    cursor = AppendBytes(&requestId, cursor, 1);
+    cursor = AppendBytes(&blockCount, cursor, 2);
+    cursor = AppendBytes(&sendChunkSize, cursor, 2);
     MI_CpuCopy8(&receiveChunkSize, cursor, 2);
     return cursor + 2 - buffer;
 }
@@ -88,10 +88,10 @@ s32 WriteBlockDataRequestPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 blo
     cursor = buffer;
     header.m2 = indexMask;
     header.m0 = 4;
-    cursor = func_0214d1fc_inline(&header, cursor, 1);
-    cursor = func_0214d1fc_inline(&header.m2, cursor, 2);
-    cursor = func_0214d1fc_inline(&requestId, cursor, 1);
-    cursor = func_0214d1fc_inline(&blockId, cursor, 4);
+    cursor = AppendBytes(&header, cursor, 1);
+    cursor = AppendBytes(&header.m2, cursor, 2);
+    cursor = AppendBytes(&requestId, cursor, 1);
+    cursor = AppendBytes(&blockId, cursor, 4);
     MI_CpuCopy8(&chunkIndex, cursor, 4);
     return cursor + 4 - buffer;
 }
@@ -106,11 +106,11 @@ s32 WriteBlockDataPacket(u8 *buffer, u32 indexMask, u8 requestId, u32 blockId, u
     cursor = buffer;
     header.m2 = indexMask;
     header.m0 = 5;
-    cursor = func_0214d1fc_inline(&header, cursor, 1);
-    cursor = func_0214d1fc_inline(&header.m2, cursor, 2);
-    cursor = func_0214d1fc_inline(&requestId, cursor, 1);
-    cursor = func_0214d1fc_inline(&blockId, cursor, 4);
-    cursor = func_0214d1fc_inline(&chunkIndex, cursor, 4);
+    cursor = AppendBytes(&header, cursor, 1);
+    cursor = AppendBytes(&header.m2, cursor, 2);
+    cursor = AppendBytes(&requestId, cursor, 1);
+    cursor = AppendBytes(&blockId, cursor, 4);
+    cursor = AppendBytes(&chunkIndex, cursor, 4);
     if (data == 0) {
         MI_CpuFill8(cursor, 0, dataSize);
     } else {
@@ -129,10 +129,10 @@ s32 WriteBlockNodeRequestPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 blo
     cursor = buffer;
     header.m2 = indexMask;
     header.m0 = 6;
-    cursor = func_0214d1fc_inline(&header, cursor, 1);
-    cursor = func_0214d1fc_inline(&header.m2, cursor, 2);
-    cursor = func_0214d1fc_inline(&requestId, cursor, 1);
-    cursor = func_0214d1fc_inline(&blockId, cursor, 4);
+    cursor = AppendBytes(&header, cursor, 1);
+    cursor = AppendBytes(&header.m2, cursor, 2);
+    cursor = AppendBytes(&requestId, cursor, 1);
+    cursor = AppendBytes(&blockId, cursor, 4);
     MI_CpuCopy8(&chunkIndex, cursor, 4);
     return cursor + 4 - buffer;
 }
@@ -147,11 +147,11 @@ s32 WriteBlockNodePacket(u8 *buffer, u32 indexMask, u8 requestId, u32 blockId, u
     cursor = buffer;
     header.m2 = indexMask;
     header.m0 = 7;
-    cursor = func_0214d1fc_inline(&header, cursor, 1);
-    cursor = func_0214d1fc_inline(&header.m2, cursor, 2);
-    cursor = func_0214d1fc_inline(&requestId, cursor, 1);
-    cursor = func_0214d1fc_inline(&blockId, cursor, 4);
-    cursor = func_0214d1fc_inline(&chunkIndex, cursor, 4);
+    cursor = AppendBytes(&header, cursor, 1);
+    cursor = AppendBytes(&header.m2, cursor, 2);
+    cursor = AppendBytes(&requestId, cursor, 1);
+    cursor = AppendBytes(&blockId, cursor, 4);
+    cursor = AppendBytes(&chunkIndex, cursor, 4);
     if (data == 0) {
         MI_CpuFill8(cursor, 0, dataSize);
     } else {
@@ -170,9 +170,9 @@ s32 WriteNoMissingChunkPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 block
     cursor = buffer;
     header.m2 = indexMask;
     header.m0 = 8;
-    cursor = func_0214d1fc_inline(&header, cursor, 1);
-    cursor = func_0214d1fc_inline(&header.m2, cursor, 2);
-    cursor = func_0214d1fc_inline(&requestId, cursor, 1);
+    cursor = AppendBytes(&header, cursor, 1);
+    cursor = AppendBytes(&header.m2, cursor, 2);
+    cursor = AppendBytes(&requestId, cursor, 1);
     MI_CpuCopy8(&blockId, cursor, 4);
     return cursor + 4 - buffer;
 }
@@ -187,9 +187,9 @@ s32 WriteNoMissingChunkReplyPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 
     cursor = buffer;
     header.m2 = indexMask;
     header.m0 = 9;
-    cursor = func_0214d1fc_inline(&header, cursor, 1);
-    cursor = func_0214d1fc_inline(&header.m2, cursor, 2);
-    cursor = func_0214d1fc_inline(&requestId, cursor, 1);
+    cursor = AppendBytes(&header, cursor, 1);
+    cursor = AppendBytes(&header.m2, cursor, 2);
+    cursor = AppendBytes(&requestId, cursor, 1);
     MI_CpuCopy8(&blockId, cursor, 4);
     return cursor + 4 - buffer;
 }
@@ -204,10 +204,10 @@ s32 WriteBytesPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 *bytes, u32 by
     cursor = buffer;
     header.m2 = indexMask;
     header.m0 = 0xa;
-    cursor = func_0214d1fc_inline(&header, cursor, 1);
-    cursor = func_0214d1fc_inline(&header.m2, cursor, 2);
-    cursor = func_0214d1fc_inline(&requestId, cursor, 1);
-    cursor = func_0214d1fc_inline(&byteCount, cursor, 1);
+    cursor = AppendBytes(&header, cursor, 1);
+    cursor = AppendBytes(&header.m2, cursor, 2);
+    cursor = AppendBytes(&requestId, cursor, 1);
+    cursor = AppendBytes(&byteCount, cursor, 1);
     MI_CpuCopy8(bytes, cursor, 9);
     return cursor + 9 - buffer;
 }
@@ -222,8 +222,8 @@ s32 WriteBytesReplyPacket(u8 *buffer, u16 indexMask, u8 requestId) {
     cursor = buffer;
     header.m2 = indexMask;
     header.m0 = 0xb;
-    cursor = func_0214d1fc_inline(&header, cursor, 1);
-    cursor = func_0214d1fc_inline(&header.m2, cursor, 2);
+    cursor = AppendBytes(&header, cursor, 1);
+    cursor = AppendBytes(&header.m2, cursor, 2);
     MI_CpuCopy8(&requestId, cursor, 1);
     return cursor + 1 - buffer;
 }

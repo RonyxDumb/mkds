@@ -40,7 +40,7 @@ void CreateItemKinds(void) {
         if (v != 0) {
             v = ((u32(*)(void)) v)();
         } else {
-            v = gSoundFalloffs[1].mUnk_20;
+            v = gSoundFalloffs[1].mFarDistanceSquared;
         }
         gItemKinds[i].mFarDistanceSquared = v;
     }

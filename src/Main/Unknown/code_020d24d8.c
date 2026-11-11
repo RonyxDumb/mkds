@@ -40,7 +40,8 @@ void StartSoundAtPositionIfNear(s32 soundId, Vec3 *position, s32 falloffKind) {
     s32 distanceSquared;
     SoundStartParams request;
     distanceSquared = GetHorizontalCameraDistanceSquared(position);
-    if (distanceSquared >= (falloffKind == 2 ? gSoundFalloffs[2].mUnk_20 : gSoundFalloffs[4].mUnk_20)) {
+    if (distanceSquared >=
+        (falloffKind == 2 ? gSoundFalloffs[2].mFarDistanceSquared : gSoundFalloffs[4].mFarDistanceSquared)) {
         return;
     }
     request.mSoundId = soundId;

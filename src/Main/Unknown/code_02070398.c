@@ -1194,7 +1194,7 @@ void StartFixedPositionEffects(Kart *kart) {
     }
 }
 
-static inline s32 func_020708a4_inline(Vec3 *src, Vec3 *dst) {
+static inline s32 NormalizeLengthOrZero(Vec3 *src, Vec3 *dst) {
     if (LENGTH_SQUARED(*src) < 0x10) {
         return 0;
     }
@@ -1309,7 +1309,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
     VEC_MultAdd(Vec3DotUnrounded(&side, &toKart), &side, &placementPos, &placementPos);
     Vec3DotUnrounded(&side, &toKart);
     VEC_Subtract(&placementPos, &kart->mPos, &toTarget);
-    distance = func_020708a4_inline(&toTarget, &toTarget);
+    distance = NormalizeLengthOrZero(&toTarget, &toTarget);
 
     if (Vec3DotUnrounded(&toTarget, &placementForward) <= 0) {
         StopDispCapBlend();
@@ -1327,7 +1327,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
         flatForward = kart->mTurnedForward;
         flatForward.y = 0;
         kart->mQuaternionBlendFactor = 0x1000;
-        func_020708a4_inline(&flatForward, &flatForward);
+        NormalizeLengthOrZero(&flatForward, &flatForward);
         kart->mHeadingAngle = MUL_FIXED12_NO_ROUND(FX_Atan2(flatForward.x, flatForward.z), 0x28be60d) >> 12;
         axis = data_02165524;
         QuaternionFromAxisAngle(&axis, kart->mHeadingAngle, &kart->mUnk_e0_m);

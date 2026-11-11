@@ -26,8 +26,8 @@
 #include "Main/Unknown/code_02147000.h"
 #include "code_021471bc.h"
 
-static inline void func_0206331c_inline(u32 animationKind, ModelAnimation *animation, Nsbmd *nsbmd, void *heap,
-                                        void *modelFile, const char *animationFile, u16 *animationCount) {
+static inline void InitModelAnimationFromFile(u32 animationKind, ModelAnimation *animation, Nsbmd *nsbmd, void *heap,
+                                              void *modelFile, const char *animationFile, u16 *animationCount) {
     if (animationFile == NULL) {
         *animationCount = 0;
     } else {
@@ -110,11 +110,11 @@ void InitCourseModels(void *heap) {
     gCourseModels.mNsbmd = HeapAlloc(heap, 0x6c);
     resMdl = InitNsbmdWithTextureInfoCopy(heap, gCourseModels.mNsbmd, nsbmdFile, nsbtxFile);
     animationFile = FindCourseFile(data_usa_0216542c);
-    func_0206331c_inline(2, &data_usa_0217ab04, gCourseModels.mNsbmd, heap, nsbmdFile, animationFile,
-                         &gCourseModels.mNsbtpAnmObjCount);
+    InitModelAnimationFromFile(2, &data_usa_0217ab04, gCourseModels.mNsbmd, heap, nsbmdFile, animationFile,
+                               &gCourseModels.mNsbtpAnmObjCount);
     animationFile = FindCourseFile(data_usa_02165440);
-    func_0206331c_inline(1, &data_0217ab5c, gCourseModels.mNsbmd, heap, nsbmdFile, animationFile,
-                         &gCourseModels.mNsbtaAnmObjCount);
+    InitModelAnimationFromFile(1, &data_0217ab5c, gCourseModels.mNsbmd, heap, nsbmdFile, animationFile,
+                               &gCourseModels.mNsbtaAnmObjCount);
     SetNsbmdPolygonIdAll(gCourseModels.mNsbmd, 8);
     NNS_G3dMdlSetMdlXLDepthUpdateAll(resMdl, 1);
     switch (gRaceSetup->mCourseId) {
@@ -144,8 +144,8 @@ void InitCourseModels(void *heap) {
         InitNsbmdWithTextureInfoCopy(heap, gCourseModels.mVNsbmd, nsbmdFile, nsbtxFile);
         SetNsbmdPolygonIdAll(gCourseModels.mVNsbmd, 8);
         animationFile = FindCourseFile(data_usa_02165484);
-        func_0206331c_inline(1, &data_usa_0217ab74, gCourseModels.mVNsbmd, heap, nsbmdFile, animationFile,
-                             &gCourseModels.mVNsbtaAnmObjCount);
+        InitModelAnimationFromFile(1, &data_usa_0217ab74, gCourseModels.mVNsbmd, heap, nsbmdFile, animationFile,
+                                   &gCourseModels.mVNsbtaAnmObjCount);
     }
     shdwOffMaterialIndices[0] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_usa_021549f0);
     shdwOffMaterialIndices[1] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_usa_021549c0);

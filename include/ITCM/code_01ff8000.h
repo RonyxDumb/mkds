@@ -40,7 +40,7 @@ GxCommandBuffer *NNS_G3dGeReleaseBuffer(void);
 void NNS_G3dGeSetBuffer(GxCommandBuffer *a);
 
 // Calls MIi_CpuClear32 with 0, passed through a stack offset of its own.
-static inline void func_01ff8cf0_inline(u32 *p) {
-    volatile u32 v = 0;
-    MIi_CpuClear32(v, p, 8);
+static inline void ClearHintBitmap(u32 *destination) {
+    volatile u32 fillValue = 0;
+    MIi_CpuClear32(fillValue, destination, 8);
 }

@@ -48,11 +48,11 @@ static inline BOOL func_0206dfd0_inline(Kart *p, Kart *q, s32 r) {
     return FALSE;
 }
 
-static inline s32 func_0206dfd0_inline_2(Vec3 *v, Vec3 *n) {
-    if (LENGTH_SQUARED(*v) < 0x10) {
+static inline s32 CollideKartsNormalizeLengthOrZero(Vec3 *vector, Vec3 *normalized) {
+    if (LENGTH_SQUARED(*vector) < 0x10) {
         return 0;
     }
-    return Vec3NormalizeAndGetLengthUnchecked(v, n);
+    return Vec3NormalizeAndGetLengthUnchecked(vector, normalized);
 }
 
 void CollideKartWithKarts(Kart *p) {
@@ -110,7 +110,7 @@ void CollideKartWithKarts(Kart *p) {
             continue;
         }
         ComputeSphereOverlapOffset(&p->mPointAlongUp, &q->mPointAlongUp, r, &v);
-        d = func_0206dfd0_inline_2(&v, &n);
+        d = CollideKartsNormalizeLengthOrZero(&v, &n);
         if (d > 0) {
             a.x = v.x >> 1;
             a.y = v.y >> 1;

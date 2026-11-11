@@ -680,9 +680,9 @@ BOOL StartBoundWobble(s32 a) {
         bound->mUnk_0f4 = 0;
         bound->mWobbling = TRUE;
         if ((bound->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
-            if (bound->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+            if (bound->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                 k = 2;
-            } else if (bound->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+            } else if (bound->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
                 k = 3;
             } else {
                 k = 4;

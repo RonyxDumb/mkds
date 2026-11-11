@@ -30,20 +30,20 @@ void InitBasabasaBurst(u32 mapObject) {
     CreateParkedMapObjects(value0, parkedCount, (void *) sourceMapObject);
 }
 
-static inline u32 func_02092b5c_inline(u32 n) {
+static inline u32 BasabasaBurstMapObjectRandomBelow(u32 limit) {
     RandomState64 *mapObjectRandom;
 
     mapObjectRandom = GetMapObjectRandom();
     mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-    return ((mapObjectRandom->mValue >> 32) * n) >> 32;
+    return ((mapObjectRandom->mValue >> 32) * limit) >> 32;
 }
 
-static inline u16 func_02092b5c_inline_2(u32 n) {
+static inline u16 BasabasaBurstMapObjectRandomBelowU16(u32 limit) {
     RandomState64 *mapObjectRandom;
 
     mapObjectRandom = GetMapObjectRandom();
     mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-    return (u32) (((mapObjectRandom->mValue >> 32) * n) >> 32);
+    return (u32) (((mapObjectRandom->mValue >> 32) * limit) >> 32);
 }
 
 void InitBasabasaBurstObjects(MapObjectList *mapObjectList) {
@@ -55,18 +55,18 @@ void InitBasabasaBurstObjects(MapObjectList *mapObjectList) {
     }
     for (i = 0; i < mapObjectList->mMapObjectCount && (burstObject = mapObjectList->mMapObjects[i]) != NULL; i++) {
         if (burstObject->mMapObject.mFlags & 0x800) {
-            burstObject->mTimer = (u16) (func_02092b5c_inline_2(25) + 200);
+            burstObject->mTimer = (u16) (BasabasaBurstMapObjectRandomBelowU16(25) + 200);
         }
     }
 }
 
-static inline s64 func_02092b5c_inline_4(const Vec3 *a, const Vec3 *b) {
-    s32 v1;
-    s32 v2;
+static inline s64 BasabasaBurstXzDistanceSquared(const Vec3 *firstPos, const Vec3 *secondPos) {
+    s32 deltaX;
+    s32 deltaZ;
 
-    v1 = a->x - b->x;
-    v2 = a->z - b->z;
-    return (s64) v1 * v1 + (s64) v2 * v2;
+    deltaX = firstPos->x - secondPos->x;
+    deltaZ = firstPos->z - secondPos->z;
+    return (s64) deltaX * deltaX + (s64) deltaZ * deltaZ;
 }
 
 static inline BOOL func_02092b5c_inline_3(BasabasaBurst *p, s32 k) {
@@ -85,7 +85,7 @@ static inline BOOL func_02092b5c_inline_3(BasabasaBurst *p, s32 k) {
             continue;
         }
         kart = GetKart((u16) i);
-        if (func_02092b5c_inline_4(&kart->mPos, &p->mMapObject.mPos) >= 0x15f900000000LL) {
+        if (BasabasaBurstXzDistanceSquared(&kart->mPos, &p->mMapObject.mPos) >= 0x15f900000000LL) {
             continue;
         }
         d = FX_Atan2Idx(kart->mPos.x - p->mMapObject.mPos.x, kart->mPos.z - p->mMapObject.mPos.z) - k;
@@ -100,9 +100,9 @@ static inline BOOL func_02092b5c_inline_3(BasabasaBurst *p, s32 k) {
 }
 
 static inline void func_02092b5c_inline_5(Vec3 *v, s32 x, s32 y, s32 z) {
-    v->x = x - 0x5000 + func_02092b5c_inline(0xa000);
-    v->y = y - 0x5000 + func_02092b5c_inline(0xa000);
-    v->z = z - 0x28000 + func_02092b5c_inline(0x50000);
+    v->x = x - 0x5000 + BasabasaBurstMapObjectRandomBelow(0xa000);
+    v->y = y - 0x5000 + BasabasaBurstMapObjectRandomBelow(0xa000);
+    v->z = z - 0x28000 + BasabasaBurstMapObjectRandomBelow(0x50000);
 }
 
 s16 BasabasaBurstFX_SinIdx(s32 angle) {
@@ -183,7 +183,7 @@ void UpdateBasabasaBurst(void *mapObjectList, BasabasaBurst *burstObject) {
     burstObject->mBurstCount = 0;
     burstObject->mState = 0;
     if (burstObject->mMapObject.mFlags & 0x800) {
-        burstObject->mTimer = (u16) (func_02092b5c_inline_2(25) + 200);
+        burstObject->mTimer = (u16) (BasabasaBurstMapObjectRandomBelowU16(25) + 200);
     }
 }
 

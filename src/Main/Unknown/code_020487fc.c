@@ -41,7 +41,7 @@
 
 #pragma opt_rebuildconditionals off
 
-static inline u32 func_020487fc_inline(void) {
+static inline u32 RunSceneGetConnectionMode(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
@@ -50,7 +50,7 @@ static inline u32 func_020487fc_inline(void) {
 
 static inline s32 func_020487fc_inline2(void) {
     BOOL r = FALSE;
-    if (func_020487fc_inline() != 0 && gConnectionWork->mState != 13) {
+    if (RunSceneGetConnectionMode() != 0 && gConnectionWork->mState != 13) {
         r = TRUE;
     }
     return r;
@@ -136,7 +136,7 @@ static inline u32 func_020487fc_inline8(void) {
 }
 
 static inline BOOL func_020487fc_inline12(void) {
-    return func_020487fc_inline() != 0 && gConnectionWork->mState != 13;
+    return RunSceneGetConnectionMode() != 0 && gConnectionWork->mState != 13;
 }
 
 static inline void func_020487fc_inline9(const SceneCallbacks *b) {
@@ -148,7 +148,7 @@ static inline void func_020487fc_inline9(const SceneCallbacks *b) {
     }
 }
 
-static inline s32 func_020487fc_inline10(void) {
+static inline s32 RunSceneIsBackupCommandRunning(void) {
     if (gBackupAccess->mBackupEnabled) {
         return gBackupAccess->mCommandRunning;
     }
@@ -173,9 +173,9 @@ static inline BOOL func_020487fc_inline13(void) {
     return TRUE;
 }
 
-static inline s32 func_020487fc_inline14(void) {
+static inline s32 RunSceneIsBackupBusy(void) {
     if (!data_0217aa08->mBusy) {
-        return func_020487fc_inline10();
+        return RunSceneIsBackupCommandRunning();
     }
     return 1;
 }
@@ -323,7 +323,7 @@ end:
             func_020487fc_inline8();
             func_020487fc_inline9(b);
             if (AdvanceConnectionEndStopOnError() == 1) {
-                if (!func_020487fc_inline14()) {
+                if (!RunSceneIsBackupBusy()) {
                     c = TRUE;
                 }
             }

@@ -219,7 +219,7 @@ void CopyWiFiOtherEmblemsToBlocks(void) {
     ClearBackupBusy();
 }
 
-static inline s32 func_0205e5c4_inline(void) {
+static inline s32 EmblemGetConnectionMode(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
@@ -232,7 +232,7 @@ void StartCopyOtherEmblems(s32 useConnection) {
     s32 d;
     if (useConnection != 0) {
         connectionReady = FALSE;
-        d = func_0205e5c4_inline();
+        d = EmblemGetConnectionMode();
         if (d != 0) {
             if (gConnectionWork->mState != 13) {
                 connectionReady = TRUE;
@@ -305,8 +305,8 @@ s32 RunGhostScene(SceneNumbers *sceneNumbers) {
 
 #pragma thumb off
 
-static inline s32 func_0205e2cc_inline(s32 a, s32 b) {
-    return MUL_FIXED12_ROUNDED(a, b);
+static inline s32 EmblemFX_MulInline(s32 multiplicand, s32 multiplier) {
+    return MUL_FIXED12_ROUNDED(multiplicand, multiplier);
 }
 
 void CreateShapeMapObjectCountList(void *heap) {
@@ -342,15 +342,15 @@ void CreateShapeMapObjectCountList(void *heap) {
             u = 0;
             switch (courseMapShape->mShapeKind) {
                 case 0:
-                    u = func_0205e2cc_inline(GetFixed12Of50(), courseMapShape->mScale.x);
-                    v = func_0205e2cc_inline(GetFixed12Of100(), courseMapShape->mScale.y) >> 1;
-                    y = func_0205e2cc_inline(GetFixed12Of50(), courseMapShape->mScale.z);
-                    w = func_0205e2cc_inline(u, u) + func_0205e2cc_inline(v, v);
-                    y = func_0205e2cc_inline(y, y);
+                    u = EmblemFX_MulInline(GetFixed12Of50(), courseMapShape->mScale.x);
+                    v = EmblemFX_MulInline(GetFixed12Of100(), courseMapShape->mScale.y) >> 1;
+                    y = EmblemFX_MulInline(GetFixed12Of50(), courseMapShape->mScale.z);
+                    w = EmblemFX_MulInline(u, u) + EmblemFX_MulInline(v, v);
+                    y = EmblemFX_MulInline(y, y);
                     u = FX_Sqrt(y + w);
                     break;
                 case 1:
-                    u = func_0205e2cc_inline(ShapeMapObjectCountGetFixed12Of50(), courseMapShape->mScale.x);
+                    u = EmblemFX_MulInline(ShapeMapObjectCountGetFixed12Of50(), courseMapShape->mScale.x);
                     break;
             }
             entry->mRadius = u;

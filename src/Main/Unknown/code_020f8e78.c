@@ -37,7 +37,7 @@ void StartItemObjectSoundIfNear(ItemObject *item, s32 soundId) {
     if (soundId == 1) {
         return;
     }
-    if ((s32) (item->mDistanceSquaredAndFlags & ~0xc000001f) >= gSoundFalloffs[1].mUnk_20) {
+    if ((s32) (item->mDistanceSquaredAndFlags & ~0xc000001f) >= gSoundFalloffs[1].mFarDistanceSquared) {
         return;
     }
     if (soundId == 1) {

@@ -12,7 +12,7 @@
 #include "Main/Unknown/code_0211d4a8.h"
 #include "Main/Unknown/unk_0217a000.h"
 
-static inline u32 func_02055030_inline(void) {
+static inline u32 ConnectGetConnectionMode(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
@@ -21,7 +21,7 @@ static inline u32 func_02055030_inline(void) {
 
 static inline s32 func_02055030_inline2(void) {
     BOOL r = FALSE;
-    if (func_02055030_inline() != 0 && gConnectionWork->mState != 13) {
+    if (ConnectGetConnectionMode() != 0 && gConnectionWork->mState != 13) {
         r = TRUE;
     }
     return r;
@@ -122,7 +122,7 @@ void AdvanceConnection(void) {
             if (gConnectionWork->mState != 9) {
                 return;
             }
-            if (func_02055030_inline() != 1) {
+            if (ConnectGetConnectionMode() != 1) {
                 return;
             }
             DisconnectRemovedChildren();
@@ -230,7 +230,7 @@ s32 AdvanceConnectionEnd(void) {
         case 10:
         case 16:
         case 18:
-            switch (func_02055030_inline()) {
+            switch (ConnectGetConnectionMode()) {
                 case 1:
                     EndParent();
                     break;

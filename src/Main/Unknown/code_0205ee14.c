@@ -217,7 +217,7 @@ void AddBuddyRecordResult(u32 entryIndex, s32 *date, u32 matchKind, u32 resultKi
     SetBuddyRecord(buddyIndex, &buddyRecord);
 }
 
-static inline u32 func_0205f700_inline(u16 kartIndex, u32 ownRank) {
+static inline u32 IsKartRankAtMost(u16 kartIndex, u32 ownRank) {
     if (GetKartRank(kartIndex) > ownRank) {
         return 0;
     }
@@ -271,7 +271,7 @@ void AddVSBuddyRecordResults(void) {
                 switch (gRaceSetup->mRuleKind) {
                     case 0:
                     case 2:
-                        outcome = func_0205f700_inline(entryIndex, ownRank);
+                        outcome = IsKartRankAtMost(entryIndex, ownRank);
                         break;
                     case 1:
                         if (teamIndex == GetCupWinningTeam()) {
@@ -285,7 +285,7 @@ void AddVSBuddyRecordResults(void) {
                 }
             }
         } else {
-            outcome = func_0205f700_inline(entryIndex, ownRank);
+            outcome = IsKartRankAtMost(entryIndex, ownRank);
         }
         if ((gConnectionWork->mGroupSendMask &
              (1 << gConnectionWork->mParticipantIndexByPos[gConnectionWork->mParticipantIndexByPos[entryIndex]])) ==

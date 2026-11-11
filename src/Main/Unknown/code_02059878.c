@@ -22,17 +22,17 @@ s32 RunResultScene(SceneNumbers *sceneNumbers) {
 
 #pragma thumb on
 
-static inline u32 func_02059878_inline(void) {
+static inline u32 MPChunkGetConnectionMode(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
     return gConnectionWork->mConnectionMode;
 }
 
-static inline void func_02059878_inline2(u16 v) {
-    MPStateMachine *p = &gConnectionWork->mMPStateMachine;
-    p->mStateMachine.mNextState = v;
-    p->mStateMachine.mNextStateRequested = 1;
+static inline void MPChunkRequestMPState(u16 nextState) {
+    MPStateMachine *stateMachine = &gConnectionWork->mMPStateMachine;
+    stateMachine->mStateMachine.mNextState = nextState;
+    stateMachine->mStateMachine.mNextStateRequested = 1;
 }
 
 u32 IsAllMPChunksReceived(u32 slot) {
@@ -43,7 +43,7 @@ u32 IsAllMPChunksReceived(u32 slot) {
 
     receivedFlags = gConnectionWork->mChunkReceivedFlags[slot];
     allReceived = 1;
-    if (func_02059878_inline() == 1) {
+    if (MPChunkGetConnectionMode() == 1) {
         chunkCount = 0x12;
     } else {
         chunkCount = 2;
@@ -68,28 +68,28 @@ void ProcessMPChunk(u8 *chunk) {
     playerIndex = chunk[0];
     entry = &gConnectionWork->mPlayerRecords[playerIndex];
     finished = 0;
-    if (func_02059878_inline() == 1) {
+    if (MPChunkGetConnectionMode() == 1) {
         byteOffset = chunk[1] << 5;
     } else {
         byteOffset = chunk[1] * 0x168;
     }
     switch (chunk[1]) {
         case 0xff:
-            if (func_02059878_inline() == 2) {
-                func_02059878_inline2(9);
+            if (MPChunkGetConnectionMode() == 2) {
+                MPChunkRequestMPState(9);
             }
             break;
         case 0xfe:
-            if (func_02059878_inline() == 2) {
+            if (MPChunkGetConnectionMode() == 2) {
                 gConnectionWork->mExpectedRecordMask = *(u16 *) (chunk + 2);
             }
             break;
         case 0xfd:
-            if (func_02059878_inline() == 1) {
+            if (MPChunkGetConnectionMode() == 1) {
                 gConnectionWork->mRecordReceivedMask |= 1 << playerIndex;
                 if (gConnectionWork->mChildren.mChildMask ==
                     (gConnectionWork->mChildren.mChildMask & gConnectionWork->mRecordReceivedMask)) {
-                    func_02059878_inline2(10);
+                    MPChunkRequestMPState(10);
                 }
             }
             break;
@@ -107,7 +107,7 @@ void ProcessMPChunk(u8 *chunk) {
     }
     if (finished != 0) {
         playerBit = 1U << chunk[0];
-        if (func_02059878_inline() == 1) {
+        if (MPChunkGetConnectionMode() == 1) {
             if (QueueMPChunk(0xff, NULL, 0, 0, playerBit) != FALSE) {
                 gConnectionWork->mRecordReceivedMask |= 1 << chunk[0];
                 return;
@@ -118,7 +118,7 @@ void ProcessMPChunk(u8 *chunk) {
                 (gConnectionWork->mExpectedRecordMask & gConnectionWork->mRecordReceivedMask)) {
                 ownIndex = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
                 if (QueueMPChunk(0xfd, NULL, 0, ownIndex, 1) != FALSE) {
-                    func_02059878_inline2(10);
+                    MPChunkRequestMPState(10);
                 }
             }
         }

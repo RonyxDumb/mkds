@@ -170,9 +170,9 @@ void DrawNsbmdRenderObj(Nsbmd *object) {
 
     renderObj = &object->mRenderObj;
     if ((renderObj->mFlag & 0x10) == 0x10) {
-        func_01ff8cf0_inline(renderObj->mHintMatAnmExist);
-        func_01ff8cf0_inline(renderObj->mHintJntAnmExist);
-        func_01ff8cf0_inline(renderObj->mHintVisAnmExist);
+        ClearHintBitmap(renderObj->mHintMatAnmExist);
+        ClearHintBitmap(renderObj->mHintJntAnmExist);
+        ClearHintBitmap(renderObj->mHintVisAnmExist);
         if (renderObj->mAnmMat != 0) {
             SbcUpdateHintVec_(renderObj->mHintMatAnmExist, renderObj->mAnmMat);
         }

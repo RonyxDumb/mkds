@@ -120,7 +120,7 @@ void SetEntryTargetOuterSlot(s32 entryIndex) {
 
 #pragma thumb off
 
-static inline s32 func_0202bb80_inline(s32 index) {
+static inline s32 GetMenuSharedShuffledIndex(s32 index) {
     return gMenuShared->mShuffledIndices[index];
 }
 
@@ -169,7 +169,7 @@ void AdvancePlayerEntryListOffsets(void) {
     }
 }
 
-static inline void func_0202c0d4_inline(const void *source, void *destination, s32 byteCount) {
+static inline void PlayerEntryListMI_CpuCopy16(const void *source, void *destination, s32 byteCount) {
     MIi_CpuCopy16(source, destination, byteCount);
 }
 
@@ -297,10 +297,10 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
                     GetRaceSetupCopy()->mEntries[j].mPlayerKind = PLAYER_KIND_HUMAN;
                     clearValue = 0;
                     MIi_CpuClear16(clearValue, gPlayerEntryList->mEntries[j].mName, 0x16);
-                    func_0202c0d4_inline(GetParticipantIndexByPos(j) == 0xffff
-                                             ? (void *) 0
-                                             : &gConnectionWork->mPlayerRecords[GetParticipantIndexByPos(j)],
-                                         gPlayerEntryList->mEntries[j].mName, 0x14);
+                    PlayerEntryListMI_CpuCopy16(GetParticipantIndexByPos(j) == 0xffff
+                                                    ? (void *) 0
+                                                    : &gConnectionWork->mPlayerRecords[GetParticipantIndexByPos(j)],
+                                                gPlayerEntryList->mEntries[j].mName, 0x14);
                 }
                 for (; n < 8; n++) {
                     SetEntryTargetSlot(n, 0);
@@ -318,8 +318,8 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
                     secondClearValue = 0;
                     MIi_CpuClear16(secondClearValue, gPlayerEntryList->mEntries[i].mName, 0x16);
                     if (GetIndexOfPackedIndex(i) >= 0) {
-                        func_0202c0d4_inline(GetPlayerRecordName((u8) GetIndexOfPackedIndex(i)),
-                                             gPlayerEntryList->mEntries[i].mName, 0x14);
+                        PlayerEntryListMI_CpuCopy16(GetPlayerRecordName((u8) GetIndexOfPackedIndex(i)),
+                                                    gPlayerEntryList->mEntries[i].mName, 0x14);
                     }
                 }
                 for (; n < 8; n++) {
@@ -479,7 +479,7 @@ void AdvancePlayerEntryList(void) {
                         d = c & 0x3f;
                         if (d == 0xc) {
                             CopyCellLayoutEntryCellIndex(gEntryCellIndices[i].mCharacterCellIndex,
-                                                         gCharacterCellIndices[d] + func_0202bb80_inline(i),
+                                                         gCharacterCellIndices[d] + GetMenuSharedShuffledIndex(i),
                                                          fileSet->mCellLayout);
                         } else {
                             CopyCellLayoutEntryCellIndex(gEntryCellIndices[i].mCharacterCellIndex,

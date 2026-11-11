@@ -39,7 +39,7 @@ MtxFx44 *GetProjectionMatrix(void) {
     return &data_0217acc0;
 }
 
-static inline s32 func_020760ec_inline(Vec3 *src, Vec3 *dst) {
+static inline s32 CameraNormalizeLengthOrZero(Vec3 *src, Vec3 *dst) {
     if (LENGTH_SQUARED(*src) < 0x10) {
         return 0;
     }
@@ -243,7 +243,7 @@ void UpdateChaseCameraCollision(Camera *camera, Kart *kart, Vec3 *forward) {
                 turnedForward.x = -turnedForward.x;
                 turnedForward.y = -turnedForward.y;
                 turnedForward.z = -turnedForward.z;
-                k = func_020760ec_inline(&pushOut, &pushOutDirection);
+                k = CameraNormalizeLengthOrZero(&pushOut, &pushOutDirection);
                 if (k != 0) {
                     if (Vec3DotUnrounded(&pushOutDirection, &x) < 0xf5c) {
                         if (Vec3DotUnrounded(&pushOutDirection, forward) > 0xb5c) {
@@ -571,7 +571,7 @@ void StartEntryCameraKind8Entry(void) {
     gCameraEntryChanged = 1;
 }
 
-static inline void func_02075424_inline(Camera *camera) {
+static inline void SetNextCourseMapCamera(Camera *camera) {
     CourseMapCamera *nextCourseMapCamera;
 
     if (camera->mCourseMapCamera->mNextIndex == -1) {
@@ -641,7 +641,7 @@ void UpdateCameraEntry(Camera *camera) {
     if (camera->mCourseMapCameraFrames != camera->mCourseMapCamera->mFrameCount) {
         return;
     }
-    func_02075424_inline(camera);
+    SetNextCourseMapCamera(camera);
     if (camera->mCourseMapCamera == NULL) {
         return;
     }
@@ -651,7 +651,7 @@ void UpdateCameraEntry(Camera *camera) {
     if (camera->mFrustumShift != 1) {
         return;
     }
-    func_02075424_inline(gSecondChainCamera);
+    SetNextCourseMapCamera(gSecondChainCamera);
 }
 
 void UpdateCameraPosCurveLookAtKart(Camera *camera) {

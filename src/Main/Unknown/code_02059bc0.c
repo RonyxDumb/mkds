@@ -20,7 +20,7 @@
 #include "code_020176c0.h"
 #include "frameheap.h"
 
-static inline void func_0205a140_inline(s32 entryIndex, s32 overlayId, u32 startAddress, u32 endAddress) {
+static inline void SetOverlayLoaderEntry(s32 entryIndex, s32 overlayId, u32 startAddress, u32 endAddress) {
     OverlayLoaderEntry *entry;
 
     entry = &data_0217aa10->mEntries[entryIndex];
@@ -125,9 +125,9 @@ void InitOverlayTable(void *heap) {
     data_0217aa10 = HeapAlloc(heap, 0xb0);
     data_0217aa10->mLowestStart = -1;
     data_0217aa10->mHighestEnd = 0;
-    func_0205a140_inline(0, (s32) SDK_OVERLAY_OV000_ID, (u32) OV000_TEXT_START, (u32) OV000_BSS_END);
-    func_0205a140_inline(1, (s32) SDK_OVERLAY_OV001_ID, (u32) OV001_TEXT_START, (u32) OV001_BSS_END);
-    func_0205a140_inline(2, (s32) SDK_OVERLAY_OV002_ID, (u32) OV002_CTOR_START, (u32) OV002_BSS_END);
+    SetOverlayLoaderEntry(0, (s32) SDK_OVERLAY_OV000_ID, (u32) OV000_TEXT_START, (u32) OV000_BSS_END);
+    SetOverlayLoaderEntry(1, (s32) SDK_OVERLAY_OV001_ID, (u32) OV001_TEXT_START, (u32) OV001_BSS_END);
+    SetOverlayLoaderEntry(2, (s32) SDK_OVERLAY_OV002_ID, (u32) OV002_CTOR_START, (u32) OV002_BSS_END);
     data_0217aa10->mFrmHeap = NULL;
     data_0217aa10->mExpHeap = NULL;
 }

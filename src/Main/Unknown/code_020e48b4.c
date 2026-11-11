@@ -140,7 +140,7 @@ void EnterPukupukuState0(Pukupuku *pukupuku) {
     pukupuku->mPushedObject.mMotion.mAngle = 0x0u;
 }
 
-static inline u32 func_020e4ad0_inline(RandomState64 *random, u32 range) {
+static inline u32 PukupukuNextRandomBelow(RandomState64 *random, u32 range) {
     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
     if (range == 0) {
         return random->mValue >> 32;
@@ -169,9 +169,9 @@ void UpdatePukupukuState0(Pukupuku *pukupuku) {
         SoundStartParams soundRequest;
         u32 falloffIndex;
 
-        if (pukupuku->mPushedObject.mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+        if (pukupuku->mPushedObject.mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
             falloffIndex = 2;
-        } else if (pukupuku->mPushedObject.mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+        } else if (pukupuku->mPushedObject.mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
             falloffIndex = 3;
         } else {
             falloffIndex = 4;
@@ -189,14 +189,14 @@ void UpdatePukupukuState0(Pukupuku *pukupuku) {
 
         pukupuku->mPushedObject.mMapObject.mPosStep.y = 0x3199;
         random = GetMapObjectRandom();
-        pukupuku->mJumpsUntilHighJump = (u16) func_020e4ad0_inline(random, 3) + 4;
+        pukupuku->mJumpsUntilHighJump = (u16) PukupukuNextRandomBelow(random, 3) + 4;
     } else {
         RandomState64 *random;
 
         pukupuku->mPushedObject.mMapObject.mPosStep.y = 0x2000;
         random = GetMapObjectRandom();
         pukupuku->mPushedObject.mMapObject.mPosStep.y =
-            pukupuku->mPushedObject.mMapObject.mPosStep.y + func_020e4ad0_inline(random, 0x800);
+            pukupuku->mPushedObject.mMapObject.mPosStep.y + PukupukuNextRandomBelow(random, 0x800);
     }
     if (pukupuku->mPushedObject.mMapObject.mPos.x > pukupuku->mInitialPos.x + 0x14000) {
         pukupuku->mPushedObject.mMapObject.mPosStep.x = -0xccc;
@@ -206,7 +206,7 @@ void UpdatePukupukuState0(Pukupuku *pukupuku) {
         RandomState64 *random;
 
         random = GetMapObjectRandom();
-        pukupuku->mPushedObject.mMapObject.mPosStep.x = func_020e4ad0_inline(random, 0x1998) - 0xccc;
+        pukupuku->mPushedObject.mMapObject.mPosStep.x = PukupukuNextRandomBelow(random, 0x1998) - 0xccc;
     }
     if (pukupuku->mPushedObject.mMapObject.mPos.z > pukupuku->mInitialPos.z + 0x14000) {
         pukupuku->mPushedObject.mMapObject.mPosStep.z = -0xccc;
@@ -220,7 +220,7 @@ void UpdatePukupukuState0(Pukupuku *pukupuku) {
         RandomState64 *random;
 
         random = GetMapObjectRandom();
-        pukupuku->mPushedObject.mMapObject.mPosStep.z = func_020e4ad0_inline(random, 0x1998) - 0xccc;
+        pukupuku->mPushedObject.mMapObject.mPosStep.z = PukupukuNextRandomBelow(random, 0x1998) - 0xccc;
     }
 }
 

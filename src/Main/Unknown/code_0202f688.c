@@ -190,9 +190,9 @@ void RefreshMultiSelectMemberGroup(s32 showSelected) {
 #pragma thumb on
 
 // Fills with 0 using a volatile halfword.
-static inline void func_0202f764_inline(void *p, s32 v1) {
+static inline void MultiSelectMI_CpuClear16(void *destination, s32 byteCount) {
     volatile u16 zero = 0;
-    MIi_CpuClear16(zero, p, v1);
+    MIi_CpuClear16(zero, destination, byteCount);
 }
 
 void UpdateMemberRowsFromScanSlots(void) {
@@ -221,7 +221,7 @@ void UpdateMemberRowsFromScanSlots(void) {
                         if (TryGetScanSlotName(i, &GetWLMenuSceneScanSlotPick()->mSlotTexts[i]) != 0) {
                             GetWLMenuSceneScanSlotPick()->mSlotTexts[i].mTerminator = 0;
                         } else {
-                            func_0202f764_inline(&GetWLMenuSceneScanSlotPick()->mSlotTexts[i], 0x16);
+                            MultiSelectMI_CpuClear16(&GetWLMenuSceneScanSlotPick()->mSlotTexts[i], 0x16);
                         }
                     }
                     if (TryGetScanSlotName(gMultiSelectMemberGroup->mSelectedIndex, NULL) != 0) {
@@ -244,7 +244,7 @@ void UpdateMemberRowsFromScanSlots(void) {
                 oldHasText = gMultiSelectMemberGroup->mUnk_58[i].mHasText;
                 oldWord8 = gMultiSelectMemberGroup->mUnk_58[i].mUnk_08;
                 oldWord4 = gMultiSelectMemberGroup->mUnk_58[i].mUnk_04;
-                func_0202f764_inline(&entry, 0x16);
+                MultiSelectMI_CpuClear16(&entry, 0x16);
                 gMultiSelectMemberGroup->mUnk_58[i].mHasText = TryGetScanSlotName(i, &entry);
                 if (gMultiSelectMemberGroup->mUnk_58[i].mHasText != 0) {
                     entry.mTerminator = 0;
@@ -358,7 +358,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
         gMultiSelectMemberGroup->mEntriesClearFrames++;
         if (gMultiSelectMemberGroup->mEntriesClearFrames > 0x78) {
             for (i = 0; i < 4; i++) {
-                func_0202f764_inline(&GetWLMenuSceneScanSlotPick()->mSlotTexts[i], 0x16);
+                MultiSelectMI_CpuClear16(&GetWLMenuSceneScanSlotPick()->mSlotTexts[i], 0x16);
             }
             gMultiSelectMemberGroup->mEntriesCleared = TRUE;
         }

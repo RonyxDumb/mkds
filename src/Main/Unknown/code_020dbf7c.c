@@ -59,7 +59,7 @@
 
 #pragma thumb off
 
-static inline s64 func_020dc354_inline(const Vec3 *vector) {
+static inline s64 WanwanXzLengthSquared(const Vec3 *vector) {
     return HORIZONTAL_LENGTH_SQUARED(*vector);
 }
 
@@ -70,7 +70,7 @@ void UpdateWanwanState5(Wanwan *wanwan) {
     GetGroupFollowerCurveXz(&wanwan->mFollower.mGroupFollower, &wanwan->mMapObject.mPos);
     wanwan->mMapObject.mPosStep.x = wanwan->mMapObject.mPos.x - wanwan->mMapObject.mPosStep.x;
     wanwan->mMapObject.mPosStep.z = wanwan->mMapObject.mPos.z - wanwan->mMapObject.mPosStep.z;
-    if (func_020dc354_inline(&wanwan->mMapObject.mPosStep) >= 0x10) {
+    if (WanwanXzLengthSquared(&wanwan->mMapObject.mPosStep) >= 0x10) {
         QuaternionFromAngleAroundY(
             (u16) ((((s64) FX_Atan2(wanwan->mMapObject.mPosStep.x, wanwan->mMapObject.mPosStep.z) * 0x28be60db9391LL) +
                     0x80000000000LL) >>
@@ -109,7 +109,7 @@ void InitWanwanOnChain(Wanwan *wanwan, CourseMapRow *row) {
     wanwan->mUnk_200 = wanwan->mMapObject.mMatrix.mRows[2];
     ResetWanwan(wanwan);
     wanwan->mCollisionSlot = CreateCollisionSlot(&wanwan->mMapObject.mPos, wanwan->mMaxRadius, 0x400, wanwan);
-    wanwan->mMapObject.mFarDistanceSquared = gSoundFalloffs[4].mUnk_20;
+    wanwan->mMapObject.mFarDistanceSquared = gSoundFalloffs[4].mFarDistanceSquared;
 }
 #pragma thumb off
 

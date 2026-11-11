@@ -11,7 +11,7 @@ typedef struct TeresaWobble {
     /* 00 */ u16 mAngle;
     /* 02 */ u8 mUnk_02[2];
     /* 04 */ s32 mValue;
-    /* 08 */ s32 mUnk_08;
+    /* 08 */ s32 mValueDelta;
     /* 0c */ s32 mMid;
     /* 10 */ s32 mAmplitude;
     /* 14 */ s32 mAmplitudePerFrame;

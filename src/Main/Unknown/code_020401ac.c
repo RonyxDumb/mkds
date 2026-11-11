@@ -219,7 +219,7 @@ static inline u32 func_020401ac_inline(ConnectionWork *connectionWork) {
     return connectionWork == NULL ? 0 : connectionWork->mConnectionMode;
 }
 
-static inline void func_020401ac_inline2(RaceProgressHeader *raceProgressHeader) {
+static inline void ResetRaceProgressClock(RaceProgressHeader *raceProgressHeader) {
     raceProgressHeader->mElapsedFrames = 0;
     raceProgressHeader->mClockEnabled = 0;
 }
@@ -228,17 +228,17 @@ static inline void func_020401ac_inline3(MinuteSecondMillisecondTime *time, u32 
     ComputeRaceTime(&time->mMinute, &time->mSecond, &time->mMillisecond, 0, frames);
 }
 
-static inline void func_020401ac_inline4(RandomState64 *randomState64, u32 seed) {
+static inline void RaceProgressInitRandomState(RandomState64 *randomState64, u32 seed) {
     randomState64->mValue = seed;
     randomState64->mMultiplier = 0x5d588b656c078965;
     randomState64->mIncrement = 0x269ec3;
 }
 
-static inline s32 func_020401ac_inline5(s32 a, s32 b) {
-    return b == 0 ? 0 : FX_Div(a + 0x1000, b << 12);
+static inline s32 Fixed12AddOneThenDivideByIntOrZero(s32 value, s32 divisor) {
+    return divisor == 0 ? 0 : FX_Div(value + 0x1000, divisor << 12);
 }
 
-static inline u32 func_020401ac_inline6(RandomState64 *randomState64, u32 limit) {
+static inline u32 RaceProgressNextRandomBelow(RandomState64 *randomState64, u32 limit) {
     randomState64->mValue = (s64) randomState64->mMultiplier * (s64) randomState64->mValue + randomState64->mIncrement;
     return ((s64) (randomState64->mValue >> 32) * limit) >> 32;
 }
@@ -259,7 +259,7 @@ void InitRaceProgress(void) {
     CourseMapRoute *route;
     CourseMapCheckpoint *checkpoint;
 
-    func_020401ac_inline2(&gRaceProgress->mHeader);
+    ResetRaceProgressClock(&gRaceProgress->mHeader);
     func_020401ac_inline3(&gRaceProgress->mHeader.mClockTime, gRaceProgress->mHeader.mElapsedFrames);
     entryRaceEnded = FALSE;
     gRaceProgress->mHeader.mFinishedCount = 0;
@@ -340,14 +340,14 @@ void InitRaceProgress(void) {
             }
             break;
     }
-    func_020401ac_inline4(&gRaceProgress->mRandom, seed);
+    RaceProgressInitRandomState(&gRaceProgress->mRandom, seed);
     gRaceProgress->mSeed = seed;
     gRaceSetup->mNextHeader.mSeed = seed;
     a = OS_GetTick();
     c = OS_GetTick();
     d = OS_GetTick();
-    func_020401ac_inline4(&gRaceProgress->mLocalRandom, a + ((c << 24) + (d << 8)));
-    func_020401ac_inline4(&gRaceProgress->mFixedSeedRandom, 0xa094a2f);
+    RaceProgressInitRandomState(&gRaceProgress->mLocalRandom, a + ((c << 24) + (d << 8)));
+    RaceProgressInitRandomState(&gRaceProgress->mFixedSeedRandom, 0xa094a2f);
     if (gRaceSetup->mMode == MODE_BATTLE) {
         ShuffleCourseMapRespawnSlots(&gRaceProgress->mRandom);
     }
@@ -365,7 +365,8 @@ void InitRaceProgress(void) {
                     checkpointIndex = entryInRoute + route->mFirstEntry;
                     checkpoint = &gCourseMap->mCheckpoints[checkpointIndex];
                     if (checkpoint->mNumber == checkpointNumber) {
-                        v = func_020401ac_inline5((checkpointIndex - route->mFirstEntry) << 12, route->mEntryCount);
+                        v = Fixed12AddOneThenDivideByIntOrZero((checkpointIndex - route->mFirstEntry) << 12,
+                                                               route->mEntryCount);
                         v += route->mLapProgressBase << 12;
                         gRaceProgress->mCheckpointLapProgress[i] =
                             MUL_FIXED12_ROUNDED(v, gRaceProgress->mLapProgressScale);
@@ -378,5 +379,5 @@ void InitRaceProgress(void) {
         gRaceProgress->mStartPlacementOffset = 0;
         return;
     }
-    gRaceProgress->mStartPlacementOffset = func_020401ac_inline6(&gRaceProgress->mRandom, 8);
+    gRaceProgress->mStartPlacementOffset = RaceProgressNextRandomBelow(&gRaceProgress->mRandom, 8);
 }

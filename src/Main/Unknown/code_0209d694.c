@@ -84,7 +84,7 @@ u32 SunFireballInitReturnArgument(u32 value) {
     return value;
 }
 
-static inline u32 func_0209d84c_inline(RandomState64 *randomState64) {
+static inline u32 SunFireballNextRandomU32(RandomState64 *randomState64) {
     randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
     return randomState64->mValue >> 32;
 }
@@ -126,7 +126,8 @@ void UpdateSunFireball(void *a, SunFireball *sunFireball) {
                         t = sunFireball->mMapObject.mPos.x - sunFireball->mStartPos.x;
                         k = sunFireball->mMapObject.mPos.z - sunFireball->mStartPos.z;
                         if ((s64) t * t + (s64) k * k < 0x2710000000LL) {
-                            randomValue = (u16) (((u64) func_0209d84c_inline(GetMapObjectRandom()) * 0x10000) >> 32);
+                            randomValue =
+                                (u16) (((u64) SunFireballNextRandomU32(GetMapObjectRandom()) * 0x10000) >> 32);
                             k = (randomValue >> 4) * 2;
                             sunFireball->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(FX_SinCosTable_[k], 0x1800);
                             sunFireball->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(FX_SinCosTable_[k + 1], 0x1800);
@@ -161,7 +162,7 @@ void UpdateSunFireball(void *a, SunFireball *sunFireball) {
             sunFireball->mMapObject.mPosStep.y = t;
             sunFireball->mMapObject.mPos.y = sunFireball->mMapObject.mPos.y + sunFireball->mMapObject.mPosStep.y;
             if (sunFireball->mMapObject.mPosStep.y < 0) {
-                sunFireball->mMoveAngle = ((u64) func_0209d84c_inline(GetMapObjectRandom()) * 0x10000) >> 32;
+                sunFireball->mMoveAngle = ((u64) SunFireballNextRandomU32(GetMapObjectRandom()) * 0x10000) >> 32;
                 sunFireball->mState = 3;
             }
             break;

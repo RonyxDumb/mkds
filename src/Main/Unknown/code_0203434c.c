@@ -63,17 +63,17 @@
 
 #pragma thumb on
 
-static inline s32 func_02034370_inline(void) {
-    BackupAccess *p = gBackupAccess;
-    if (p->mBackupEnabled != 0) {
-        return p->mCommandRunning;
+static inline s32 GhostGetScanIsBackupCommandRunning(void) {
+    BackupAccess *backupAccess = gBackupAccess;
+    if (backupAccess->mBackupEnabled != 0) {
+        return backupAccess->mCommandRunning;
     }
     return 0;
 }
 
-static inline s32 func_02034370_inline_2(void) {
+static inline s32 GhostGetScanIsBackupBusy(void) {
     if (data_0217aa08->mBusy == 0) {
-        return func_02034370_inline();
+        return GhostGetScanIsBackupCommandRunning();
     }
     return 1;
 }
@@ -362,7 +362,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
             }
             break;
         case 11:
-            if (func_02034370_inline_2() != 0) {
+            if (GhostGetScanIsBackupBusy() != 0) {
                 message = GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, 0x10);
                 buttonText = GetBmgEntry(gTimeAttackGhostGetScan->mInfoFileSets.mCommonMessages, 4);
                 SetTxtSystemSoundId(0, 5);

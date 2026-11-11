@@ -252,7 +252,7 @@ void ClearStandingsHitSeenFromKart(s32 kartIndex) {
     }
 }
 
-static inline u16 func_020a1790_inline(Standings *standings, s32 rankIndex) {
+static inline u16 FindStandingsKartIndexByRankIndex(Standings *standings, s32 rankIndex) {
     s32 j;
 
     for (j = 0; j < 8; j++) {
@@ -306,7 +306,7 @@ void MoveKartTowardFirstRank(u16 kartIndex) {
     KartStanding *otherStanding;
 
     for (i = gStandings->mKarts[kartIndex].mRankIndex - 1; i >= 0; i--) {
-        otherStanding = &gStandings->mKarts[func_020a1790_inline(gStandings, i)];
+        otherStanding = &gStandings->mKarts[FindStandingsKartIndexByRankIndex(gStandings, i)];
         otherRankIndex = otherStanding->mRankIndex;
         ownRankIndex = gStandings->mKarts[kartIndex].mRankIndex;
         ownStanding = &gStandings->mKarts[kartIndex];
@@ -343,7 +343,7 @@ void MoveKartTowardLastRank(u16 kartIndex) {
     KartStanding *otherStanding;
 
     for (i = gStandings->mKarts[kartIndex].mRankIndex + 1; i < 8; i++) {
-        otherStanding = &gStandings->mKarts[func_020a1790_inline(gStandings, i)];
+        otherStanding = &gStandings->mKarts[FindStandingsKartIndexByRankIndex(gStandings, i)];
         otherRankIndex = otherStanding->mRankIndex;
         ownRankIndex = gStandings->mKarts[kartIndex].mRankIndex;
         ownStanding = &gStandings->mKarts[kartIndex];
@@ -463,7 +463,7 @@ void ClearStandingEliminationStatus(int kartIndex) {
     gStandings->mKarts[kartIndex].mEliminationStatus = 0;
 }
 
-static inline u16 func_020a12b8_inline(s32 rankIndex) {
+static inline u16 FindKartIndexByRankIndex(s32 rankIndex) {
     s32 j;
 
     for (j = 0; j < 8; j++) {
@@ -510,7 +510,7 @@ u16 AdvanceShineBattleTimeLimit(void) {
         kartCount = gRaceSetup->mKartCount;
         for (m = 0; m <= lowestCount; m++) {
             for (i = kartCount - 1; i >= 0; i--) {
-                kartIndex = func_020a12b8_inline(i);
+                kartIndex = FindKartIndexByRankIndex(i);
                 if (m == gStandings->mKarts[kartIndex].mBalloonOrShineCount) {
                     EliminateKart(kartIndex);
                 }
@@ -575,7 +575,7 @@ void EliminateKartsUntilWinnerDecided(void) {
         } else if (gRaceSetup->mBattleKind == BATTLE_KIND_SHINE) {
             for (i = kartCount - 1; i >= 0; i--) {
                 if (gStandings->mWinnerTeamId < 0) {
-                    kartIndex = func_020a12b8_inline(i);
+                    kartIndex = FindKartIndexByRankIndex(i);
                     if (gStandings->mKarts[kartIndex].mEliminationStatus == 0) {
                         EliminateKartAndCheckWinner(kartIndex);
                         gStandings->mKarts[kartIndex].mEliminationStatus = 2;
@@ -585,7 +585,7 @@ void EliminateKartsUntilWinnerDecided(void) {
         }
     } else if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         for (i = 7; i >= 0; i--) {
-            kartIndex = func_020a12b8_inline(i);
+            kartIndex = FindKartIndexByRankIndex(i);
             if (kartIndex != gRaceSetup->mEntryIndex && gStandings->mWinnerTeamId < 0) {
                 EliminateKartAndCheckWinner(kartIndex);
             }

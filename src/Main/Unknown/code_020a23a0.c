@@ -192,10 +192,10 @@ void AdvanceTrophy(void) {
     trophy = gTrophy;
     wobble = &trophy->mRotateZWobble;
     trophy->mRotateZWobble.mAngle += wobble->mAnglePerFrame;
-    wobble->mUnk_08 = wobble->mMid +
-                      TrophyFX_MulInline(wobble->mAmplitude, TrophyFX_SinIdx(trophy->mRotateZWobble.mAngle)) -
-                      wobble->mValue;
-    wobble->mValue += wobble->mUnk_08;
+    wobble->mValueDelta = wobble->mMid +
+                          TrophyFX_MulInline(wobble->mAmplitude, TrophyFX_SinIdx(trophy->mRotateZWobble.mAngle)) -
+                          wobble->mValue;
+    wobble->mValue += wobble->mValueDelta;
     if (wobble->mAmplitude > 0) {
         v = wobble->mAmplitude + wobble->mAmplitudePerFrame;
         if (v <= 0) {

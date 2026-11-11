@@ -23,7 +23,7 @@
 
 #pragma opt_rebuildconditionals off
 
-static inline u32 func_02053e74_inline(void) {
+static inline u32 ConnectionGetConnectionMode(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
@@ -32,7 +32,7 @@ static inline u32 func_02053e74_inline(void) {
 
 static inline s32 func_02053e74_inline2(void) {
     BOOL r = FALSE;
-    if (func_02053e74_inline() != 0 && gConnectionWork->mState != 13) {
+    if (ConnectionGetConnectionMode() != 0 && gConnectionWork->mState != 13) {
         r = TRUE;
     }
     return r;
@@ -206,7 +206,7 @@ s32 AdvanceBlockCountRequest(void) {
     if (gConnectionWork->mRequestPending != 0) {
         return 0;
     }
-    if (func_02053e74_inline() == 1) {
+    if (ConnectionGetConnectionMode() == 1) {
         return 1;
     }
     switch (gConnectionWork->mStep) {
@@ -215,7 +215,7 @@ s32 AdvanceBlockCountRequest(void) {
             StartBlockCountRequest();
             break;
         case 0x2a:
-            switch (func_02053e74_inline()) {
+            switch (ConnectionGetConnectionMode()) {
                 case 1:
                     gConnectionWork->mStep = 0x28;
                     break;
@@ -243,7 +243,7 @@ void UpdateConnectionSendTimer(void) {
         gConnectionWork->mSendTimer = gConnectionWork->mSendTimer - 1;
         return;
     }
-    if (func_02053e74_inline() == 0) {
+    if (ConnectionGetConnectionMode() == 0) {
         return;
     }
     QueuePacketToPort();
@@ -269,7 +269,7 @@ s32 AdvanceBlockReceive(void) {
     if (gConnectionWork->mRequestPending != 0) {
         return 0;
     }
-    if (func_02053e74_inline() == 1) {
+    if (ConnectionGetConnectionMode() == 1) {
         return 1;
     }
     switch (gConnectionWork->mStep) {
@@ -321,7 +321,7 @@ BOOL FinishDataSharingSync(void) {
             }
             finished = TRUE;
             gConnectionWork->mUnk_15f4 = 0;
-        } else if (func_02053e74_inline() == 1) {
+        } else if (ConnectionGetConnectionMode() == 1) {
             if (func_02054754_inline2(dataSharing, dataSharing->mReceivedRecords) != 0) {
                 connection->mStatusFlags |= CONNECTION_STATUS_SHARING_SYNCED;
             }
@@ -529,7 +529,7 @@ void InitRaceConnection(void) {
     gConnectionWork->mFlags |= CONNECTION_FLAG_RACE;
     connection = gConnectionWork;
     a = 0;
-    switch (func_02053e74_inline()) {
+    switch (ConnectionGetConnectionMode()) {
         case 1:
             a = connection->mParentParameter->mUnk_0c;
             break;
@@ -538,7 +538,7 @@ void InitRaceConnection(void) {
             break;
     }
     b = 0;
-    switch (func_02053e74_inline()) {
+    switch (ConnectionGetConnectionMode()) {
         case 1:
             b = connection->mParentParameter->mUnk_0c;
             break;

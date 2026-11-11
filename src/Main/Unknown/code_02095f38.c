@@ -68,9 +68,10 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *b, u
                 coverPooHole->mUnk_108 = coverPooHole->mUnk_108 | kartMask;
                 if (gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind != PLAYER_KIND_GHOST) {
                     if ((coverPooHole->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
-                        if (coverPooHole->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+                        if (coverPooHole->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                             t = 2;
-                        } else if (coverPooHole->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                        } else if (coverPooHole->mMapObject.mFarDistanceSquared ==
+                                   gSoundFalloffs[3].mFarDistanceSquared) {
                             t = 3;
                         } else {
                             t = 4;
@@ -153,9 +154,10 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *b, u
                     coverPooHole->mMapObject.mDistanceSquaredAndFlags =
                         coverPooHole->mMapObject.mDistanceSquaredAndFlags | data_021564bc;
                     if ((coverPooHole->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
-                        if (coverPooHole->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+                        if (coverPooHole->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                             t = 2;
-                        } else if (coverPooHole->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                        } else if (coverPooHole->mMapObject.mFarDistanceSquared ==
+                                   gSoundFalloffs[3].mFarDistanceSquared) {
                             t = 3;
                         } else {
                             t = 4;
@@ -394,33 +396,33 @@ s32 CoverPooHoleFX_MulInline(s32 a, s32 b) {
     return MUL_FIXED12_ROUNDED(a, b);
 }
 
-static inline u16 func_02095fec_inline(u32 n) {
+static inline u16 CoverPooHoleMapObjectRandomBelowU16(u32 limit) {
     RandomState64 *mapObjectRandom;
 
     mapObjectRandom = GetMapObjectRandom();
     mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-    return (u32) (((mapObjectRandom->mValue >> 32) * n) >> 32);
+    return (u32) (((mapObjectRandom->mValue >> 32) * limit) >> 32);
 }
 
-static inline void func_02095fec_inline_2(CoverPooHole *coverPooHole, s32 soundId) {
-    SoundStartParams s;
-    s32 v;
+static inline void StartCoverPooHoleSound(CoverPooHole *coverPooHole, s32 soundId) {
+    SoundStartParams startParams;
+    s32 falloffIndex;
 
     if (coverPooHole->mMapObject.mDistanceSquaredAndFlags & 4) {
         return;
     }
-    if (coverPooHole->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
-        v = 2;
-    } else if (coverPooHole->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
-        v = 3;
+    if (coverPooHole->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
+        falloffIndex = 2;
+    } else if (coverPooHole->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
+        falloffIndex = 3;
     } else {
-        v = 4;
+        falloffIndex = 4;
     }
-    s.mSoundId = soundId;
-    s.mPositionSource = &coverPooHole->mMapObject.mPos;
-    s.mFalloffIndex = v;
-    s.mDistanceSquared = GetHorizontalCameraDistanceSquared(&coverPooHole->mMapObject.mPos);
-    StartSoundFromParams(&s);
+    startParams.mSoundId = soundId;
+    startParams.mPositionSource = &coverPooHole->mMapObject.mPos;
+    startParams.mFalloffIndex = falloffIndex;
+    startParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&coverPooHole->mMapObject.mPos);
+    StartSoundFromParams(&startParams);
 }
 
 void UpdateCoverPooHole(void *a, CoverPooHole *coverPooHole) {
@@ -439,7 +441,7 @@ void UpdateCoverPooHole(void *a, CoverPooHole *coverPooHole) {
             } else {
                 coverPooHole->mHitCoverHeight = 0x2000;
                 coverPooHole->mUnk_104 = 2;
-                func_02095fec_inline_2(coverPooHole, 0x16c);
+                StartCoverPooHoleSound(coverPooHole, 0x16c);
             }
             break;
         case 2:
@@ -532,11 +534,11 @@ void UpdateCoverPooHole(void *a, CoverPooHole *coverPooHole) {
             if (coverPooHole->mTimer-- > 0) {
                 return;
             }
-            coverPooHole->mTimer = (u16) (func_02095fec_inline(30) + 30);
+            coverPooHole->mTimer = (u16) (CoverPooHoleMapObjectRandomBelowU16(30) + 30);
             coverPooHole->mState = 1;
             coverPooHole->mUnk_104 = 0;
             coverPooHole->mUnk_108 = 0;
-            func_02095fec_inline_2(coverPooHole, 0x1d3);
+            StartCoverPooHoleSound(coverPooHole, 0x1d3);
             break;
         case 1:
             if (coverPooHole->mCoverHeight < 0x7800) {
@@ -561,10 +563,10 @@ void UpdateCoverPooHole(void *a, CoverPooHole *coverPooHole) {
             }
             coverPooHole->mCoverHeight = 0x2000;
             coverPooHole->mPooHeight = -0xd000;
-            coverPooHole->mTimer = (u16) (func_02095fec_inline(15) + 15);
+            coverPooHole->mTimer = (u16) (CoverPooHoleMapObjectRandomBelowU16(15) + 15);
             coverPooHole->mState = 3;
             coverPooHole->mUnk_108 = 0;
-            func_02095fec_inline_2(coverPooHole, 0x1d4);
+            StartCoverPooHoleSound(coverPooHole, 0x1d4);
             break;
         case 3:
             if (coverPooHole->mTimer-- > 0) {
@@ -572,11 +574,11 @@ void UpdateCoverPooHole(void *a, CoverPooHole *coverPooHole) {
             }
             coverPooHole->mCoverHeight = 0x2000;
             coverPooHole->mPooHeight = -0xd000;
-            coverPooHole->mTimer = (u16) (func_02095fec_inline(90) + 90);
+            coverPooHole->mTimer = (u16) (CoverPooHoleMapObjectRandomBelowU16(90) + 90);
             coverPooHole->mState = 4;
             coverPooHole->mUnk_104 = 0;
             coverPooHole->mUnk_108 = 0;
-            func_02095fec_inline_2(coverPooHole, 0x1d3);
+            StartCoverPooHoleSound(coverPooHole, 0x1d3);
             break;
         case 4:
             if (coverPooHole->mCoverHeight < 0x124cd) {
@@ -600,7 +602,7 @@ void UpdateCoverPooHole(void *a, CoverPooHole *coverPooHole) {
                 return;
             }
             coverPooHole->mTimer =
-                (u16) (coverPooHole->mMapObject.mCourseMapRow->mUnk_28 + func_02095fec_inline(60) - 30);
+                (u16) (coverPooHole->mMapObject.mCourseMapRow->mUnk_28 + CoverPooHoleMapObjectRandomBelowU16(60) - 30);
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 coverPooHole->mState = 3;
                 coverPooHole->mCoverHeight = 0x2000;
@@ -611,7 +613,7 @@ void UpdateCoverPooHole(void *a, CoverPooHole *coverPooHole) {
                 coverPooHole->mPooHeight = -0xd000;
             }
             coverPooHole->mUnk_108 = 0;
-            func_02095fec_inline_2(coverPooHole, 0x1d4);
+            StartCoverPooHoleSound(coverPooHole, 0x1d4);
             break;
     }
 }

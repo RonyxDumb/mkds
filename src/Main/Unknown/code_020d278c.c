@@ -104,7 +104,7 @@ void SetMapObjectExtentX(MapObject *mapObject, s32 baseSize) {
 void CreateMapObjectSoundSourceFalloff2(MapObject *mapObject) {
     mapObject->mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
     InitSoundSource(&mapObject->mSound->mSoundSource, 2, &mapObject->mPos);
-    mapObject->mFarDistanceSquared = gSoundFalloffs[2].mUnk_20;
+    mapObject->mFarDistanceSquared = gSoundFalloffs[2].mFarDistanceSquared;
     SetSoundSourceEnabled(&mapObject->mSound->mSoundSource, 0);
     if (mapObject->mSound->mSoundSource.mSourceFlags & 1) {
         SetSoundSourceFlagBit(&mapObject->mSound->mSoundSource, 2, 1);
@@ -114,7 +114,7 @@ void CreateMapObjectSoundSourceFalloff2(MapObject *mapObject) {
 SoundDistanceSquaredChange *CreateVehicleSoundSource(MapObject *mapObject) {
     mapObject->mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x60);
     InitSoundSource(&mapObject->mSound->mSoundSource, 2, &mapObject->mPos);
-    mapObject->mFarDistanceSquared = gSoundFalloffs[2].mUnk_20;
+    mapObject->mFarDistanceSquared = gSoundFalloffs[2].mFarDistanceSquared;
     SetSoundSourceEnabled(&mapObject->mSound->mSoundSource, 0);
     if (mapObject->mSound->mSoundSource.mSourceFlags & 1) {
         SetSoundSourceFlagBit(&mapObject->mSound->mSoundSource, 2, 1);
@@ -125,7 +125,7 @@ SoundDistanceSquaredChange *CreateVehicleSoundSource(MapObject *mapObject) {
 void CreateMapObjectSoundSourceFalloff3(MapObject *mapObject) {
     mapObject->mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
     InitSoundSource(&mapObject->mSound->mSoundSource, 3, &mapObject->mPos);
-    mapObject->mFarDistanceSquared = gSoundFalloffs[3].mUnk_20;
+    mapObject->mFarDistanceSquared = gSoundFalloffs[3].mFarDistanceSquared;
     SetSoundSourceEnabled(&mapObject->mSound->mSoundSource, 0);
     if (mapObject->mSound->mSoundSource.mSourceFlags & 1) {
         SetSoundSourceFlagBit(&mapObject->mSound->mSoundSource, 2, 1);
@@ -135,7 +135,7 @@ void CreateMapObjectSoundSourceFalloff3(MapObject *mapObject) {
 void CreateMapObjectSoundSourceFalloff4(MapObject *mapObject) {
     mapObject->mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
     InitSoundSource(&mapObject->mSound->mSoundSource, 4, &mapObject->mPos);
-    mapObject->mFarDistanceSquared = gSoundFalloffs[4].mUnk_20;
+    mapObject->mFarDistanceSquared = gSoundFalloffs[4].mFarDistanceSquared;
     SetSoundSourceEnabled(&mapObject->mSound->mSoundSource, 0);
     if (mapObject->mSound->mSoundSource.mSourceFlags & 1) {
         SetSoundSourceFlagBit(&mapObject->mSound->mSoundSource, 2, 1);

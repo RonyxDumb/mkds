@@ -115,9 +115,9 @@ void UpdateMoveTree(void *a, MoveTree *moveTree) {
             if ((moveTree->mMapObject.mDistanceSquaredAndFlags & 4) != 0) {
                 return;
             }
-            if (moveTree->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+            if (moveTree->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                 k = 2;
-            } else if (moveTree->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+            } else if (moveTree->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
                 k = 3;
             } else {
                 k = 4;
@@ -156,9 +156,9 @@ void UpdateMoveTree(void *a, MoveTree *moveTree) {
             if ((moveTree->mMapObject.mDistanceSquaredAndFlags & 4) != 0) {
                 return;
             }
-            if (moveTree->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+            if (moveTree->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                 k = 2;
-            } else if (moveTree->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+            } else if (moveTree->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
                 k = 3;
             } else {
                 k = 4;

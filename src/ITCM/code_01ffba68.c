@@ -199,7 +199,7 @@ void UpdateKartPrevValuesAndClearFlags(Kart *p) {
     p->mSlotFunctions[5](p);
 }
 
-static inline const s32 func_01ffc090_inline(void) {
+static inline const s32 GetTurnHeadingEaseFactor(void) {
     return gTurnHeadingEaseFactor;
 }
 
@@ -516,7 +516,7 @@ void AdvanceKartTurnHeading(Kart *kart, s32 turnApplied) {
         kart->mTurnHeadingAnglePerFrame =
             kart->mTurnHeadingAnglePerFrame +
             MUL_FIXED12_ROUNDED(kart->mTurnHeadingAnglePerFrameGoal - kart->mTurnHeadingAnglePerFrame,
-                                func_01ffc090_inline());
+                                GetTurnHeadingEaseFactor());
     }
     kart->mHeadingAngle += (u16) kart->mTurnHeadingAnglePerFrame;
 }

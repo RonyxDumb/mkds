@@ -132,7 +132,7 @@ void InitKoopaBlock(KoopaBlock *koopaBlock, CourseMapRow *courseRow) {
     koopaBlock->mCollisionMapObject.mMapObject.mAlpha = 0x1f;
     koopaBlock->mCollisionMapObject.mMapObject.mStateMachine.mNextState = 0;
     koopaBlock->mCollisionMapObject.mMapObject.mStateMachine.mNextStateRequested = 1;
-    koopaBlock->mCollisionMapObject.mMapObject.mFarDistanceSquared = gSoundFalloffs[3].mUnk_20;
+    koopaBlock->mCollisionMapObject.mMapObject.mFarDistanceSquared = gSoundFalloffs[3].mFarDistanceSquared;
 }
 #pragma thumb off
 
@@ -228,9 +228,9 @@ void EnterMkdEfBubbleState0(MkdEfBubbleObject *bubble) {
     bubble->mMapObject.mFlags &= ~8;
     bubble->mMapObject.mAlpha = 0x1f;
     if ((bubble->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
-        if (bubble->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+        if (bubble->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
             falloffIndex = 2;
-        } else if (bubble->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+        } else if (bubble->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
             falloffIndex = 3;
         } else {
             falloffIndex = 4;

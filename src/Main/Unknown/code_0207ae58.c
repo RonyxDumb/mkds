@@ -121,7 +121,7 @@ void SetCharacterAnimation(struct KartModelsEntry *kartModelsEntry, s32 animatio
     }
 }
 
-static inline s32 func_0207b44c_inline(u32 entryIndex) {
+static inline s32 KartAnimationGetCurrentTeamIndex(u32 entryIndex) {
     return *(vs32 *) &gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mTeamIndex;
 }
 
@@ -156,7 +156,7 @@ void StartKartWinOrLoseAnimation(Kart *kart) {
     if (mode != MODE_BATTLE && gRaceSetup->mRuleKind == 1) {
         b = gRaceProgress->mKartAtRank[0];
         if (gRaceSetup->mUseTeams != 0) {
-            if (func_0207b44c_inline(b) != func_0207b44c_inline(kart->mIndex)) {
+            if (KartAnimationGetCurrentTeamIndex(b) != KartAnimationGetCurrentTeamIndex(kart->mIndex)) {
                 finishResult = 2;
             } else {
                 finishResult = 0;

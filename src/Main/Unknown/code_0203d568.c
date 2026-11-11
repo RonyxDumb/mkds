@@ -117,7 +117,7 @@ static inline s32 func_0203df74_c_inline(CourseMapRoute *route, u16 checkpoint, 
     return MUL_FIXED12_ROUNDED(t, gRaceProgress->mLapProgressScale);
 }
 
-static inline void func_0203e550_inline(s32 kartIndex) {
+static inline void FinishKartIfMissionRun(s32 kartIndex) {
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         FinishRaceProgressKartWithEndKind(kartIndex, 0);
     }
@@ -192,7 +192,7 @@ void CompleteRaceProgressKartLap(RaceProgressKart *kart) {
                 break;
         }
         if (missionTestPassed != FALSE) {
-            func_0203e550_inline(kart->mIndex);
+            FinishKartIfMissionRun(kart->mIndex);
         } else {
             FinishRaceProgressKartWithEndKind(kart->mIndex, 4);
         }

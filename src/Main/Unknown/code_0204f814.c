@@ -13,7 +13,7 @@
 
 #pragma opt_rebuildconditionals off
 
-static inline u32 func_0204f814_inline(void) {
+static inline u32 ParticipantGetConnectionMode(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
@@ -86,7 +86,7 @@ BOOL IsScanSlotMultiBoot(u16 entryIndex) {
 
     result = FALSE;
     entryValid = FALSE;
-    if (func_0204f814_inline() != 2) {
+    if (ParticipantGetConnectionMode() != 2) {
         entryValid = FALSE;
     } else if (gBootInfo->mUnk_00 == 2) {
         entryValid = FALSE;
@@ -107,7 +107,7 @@ s32 GetScanSlotChildCount(u16 entryIndex) {
 
     result = 0;
     entryValid = FALSE;
-    if (func_0204f814_inline() != 2) {
+    if (ParticipantGetConnectionMode() != 2) {
         entryValid = FALSE;
     } else if (gBootInfo->mUnk_00 == 2) {
         entryValid = FALSE;
@@ -125,7 +125,7 @@ BOOL TryGetPlayerName(u16 entryIndex, void *destination) {
     void *childUser;
 
     result = FALSE;
-    switch (func_0204f814_inline()) {
+    switch (ParticipantGetConnectionMode()) {
         case 1:
             result = FALSE;
             if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
@@ -244,7 +244,7 @@ void SetGroupSendMaskAsParent(u8 sendMask) {
     proceed = FALSE;
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
         allowed = TRUE;
-        if (func_0204f814_inline() != 1) {
+        if (ParticipantGetConnectionMode() != 1) {
             if (gBootInfo->mUnk_00 != 2) {
                 allowed = FALSE;
             }
@@ -256,7 +256,7 @@ void SetGroupSendMaskAsParent(u8 sendMask) {
     if (proceed == FALSE) {
         return;
     }
-    if (func_0204f814_inline() != 1) {
+    if (ParticipantGetConnectionMode() != 1) {
         return;
     }
     SetRomArchiveGroupSendMask(sendMask);

@@ -18,7 +18,7 @@
 #include "00/code_021832d8.h"
 #include "00/code_0219d948.h"
 
-static inline s32 func_02060004_inline(s32 courseId, s32 recordIndex, TimeRecord *timeRecord) {
+static inline s32 TryGetFilledTimeRecord(s32 courseId, s32 recordIndex, TimeRecord *timeRecord) {
     BOOL isFilled;
 
     if (GetCourseTimeRecord(courseId, recordIndex, timeRecord) != 0 && timeRecord->mFilled != 0) {
@@ -334,7 +334,7 @@ BOOL IsCourseGhostRecordMissing(s32 courseId) {
         return noRecords;
     }
     for (recordIndex = 0; recordIndex < 6; recordIndex++) {
-        if (func_02060004_inline(courseId, recordIndex, &timeRecord)) {
+        if (TryGetFilledTimeRecord(courseId, recordIndex, &timeRecord)) {
             noRecords = FALSE;
             break;
         }
@@ -354,7 +354,7 @@ BOOL IsTimeRecordFilled(s32 courseId, s32 recordIndex) {
 s32 GetTimeRecordCharacterIndex(s32 courseId, s32 recordIndex) {
     TimeRecord timeRecord;
 
-    if (func_02060004_inline(courseId, recordIndex, &timeRecord)) {
+    if (TryGetFilledTimeRecord(courseId, recordIndex, &timeRecord)) {
         return timeRecord.mCharacterIndex;
     }
     return -1;
@@ -363,7 +363,7 @@ s32 GetTimeRecordCharacterIndex(s32 courseId, s32 recordIndex) {
 s32 GetTimeRecordKartIndex(s32 courseId, s32 recordIndex) {
     TimeRecord timeRecord;
 
-    if (func_02060004_inline(courseId, recordIndex, &timeRecord)) {
+    if (TryGetFilledTimeRecord(courseId, recordIndex, &timeRecord)) {
         return timeRecord.mKartIndex;
     }
     return -1;
@@ -373,7 +373,7 @@ BOOL GetTimeRecordTime(s32 courseId, s32 recordIndex, void *timeOut) {
     TimeRecord timeRecord;
     TimeRecord *outRecord;
 
-    if (!func_02060004_inline(courseId, recordIndex, &timeRecord)) {
+    if (!TryGetFilledTimeRecord(courseId, recordIndex, &timeRecord)) {
         return FALSE;
     }
     outRecord = timeOut;
@@ -386,7 +386,7 @@ BOOL GetTimeRecordTime(s32 courseId, s32 recordIndex, void *timeOut) {
 BOOL GetTimeRecordName(s32 courseId, s32 recordIndex, void *nameOut) {
     TimeRecord timeRecord;
 
-    if (!func_02060004_inline(courseId, recordIndex, &timeRecord)) {
+    if (!TryGetFilledTimeRecord(courseId, recordIndex, &timeRecord)) {
         return FALSE;
     }
     MI_CpuCopy8(timeRecord.mName, nameOut, 0x14);

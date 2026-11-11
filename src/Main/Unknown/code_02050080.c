@@ -12,7 +12,7 @@
 
 #pragma opt_rebuildconditionals off
 
-static inline u32 func_02050080_inline(void) {
+static inline u32 ScanSlotGetConnectionMode(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
@@ -30,7 +30,7 @@ u32 TrySelectScanSlot(u32 entryIndex) {
     }
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
         entryValid = result;
-        if (func_02050080_inline() != 2) {
+        if (ScanSlotGetConnectionMode() != 2) {
             entryValid = 0;
         } else if (gBootInfo->mUnk_00 == 2) {
             entryValid = 0;
@@ -64,7 +64,7 @@ void RefreshParticipantTables(void) {
     u16 participantCount;
 
     proceed = FALSE;
-    if (func_02050080_inline() != 0 && gConnectionWork->mState != 13) {
+    if (ScanSlotGetConnectionMode() != 0 && gConnectionWork->mState != 13) {
         proceed = TRUE;
     }
     if (proceed == FALSE) {

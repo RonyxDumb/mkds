@@ -66,8 +66,8 @@ s32 LoadCourseMapGroupEntriesData(void *section, ...) {
     return 1;
 }
 
-static inline CourseMapCheckpoint *func_02043078_inline(u16 i) {
-    return &gCourseMap->mCheckpoints[i];
+static inline CourseMapCheckpoint *GetCourseMapCheckpoint(u16 checkpointIndex) {
+    return &gCourseMap->mCheckpoints[checkpointIndex];
 }
 
 // Sums mUnk_18 along the route, plus the average of the sums of the routes that follow it.
@@ -85,7 +85,7 @@ s32 ComputeCourseMapRouteCheckpointSum(u16 routeIndex) {
     followingCount = 0;
     total = 0;
     for (entryOffset = 0; entryOffset < route->mEntryCount; entryOffset++) {
-        total += func_02043078_inline(route->mFirstEntry + entryOffset)->mSumValue;
+        total += GetCourseMapCheckpoint(route->mFirstEntry + entryOffset)->mSumValue;
     }
     for (nextSlot = 0; nextSlot < 3; nextSlot++) {
         nextRoute = (route->mNextRoutes)[nextSlot];

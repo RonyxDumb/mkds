@@ -4,7 +4,7 @@
 #include "Main/Unknown/unk_0217d000.h"
 #include "code_0212bcac.h"
 
-static inline void func_0210d614_inline(ScenePlayers *scenePlayers, u32 seqNo, NNSSndSeqPlayer **handle) {
+static inline void StartScenePlayersSeqIfSet(ScenePlayers *scenePlayers, u32 seqNo, NNSSndSeqPlayer **handle) {
     if (handle == NULL) {
         handle = &data_0217d07c;
     }
@@ -19,7 +19,7 @@ void StartScenePlayersForScene(ScenePlayers *scenePlayers) {
     if (scenePlayers->mSeqStartProgress != 2) {
         return;
     }
-    func_0210d614_inline(scenePlayers, data_0217d070.mSeqId, &data_0217d07c);
+    StartScenePlayersSeqIfSet(scenePlayers, data_0217d070.mSeqId, &data_0217d07c);
 }
 
 void StartScenePlayersForRace(ScenePlayers *scenePlayers) {
@@ -27,15 +27,15 @@ void StartScenePlayersForRace(ScenePlayers *scenePlayers) {
     if (scenePlayers->mSeqStartProgress != 3) {
         return;
     }
-    func_0210d614_inline(scenePlayers, data_0217d070.mSeqId, &data_0217d07c);
+    StartScenePlayersSeqIfSet(scenePlayers, data_0217d070.mSeqId, &data_0217d07c);
 }
 
 void StartScenePlayersSeqNo(ScenePlayers *scenePlayers, u32 seqNo, NNSSndSeqPlayer **handle) {
-    func_0210d614_inline(scenePlayers, seqNo, handle);
+    StartScenePlayersSeqIfSet(scenePlayers, seqNo, handle);
 }
 
 void StartScenePlayersSeq(ScenePlayers *scenePlayers) {
-    func_0210d614_inline(scenePlayers, data_0217d070.mSeqId, &data_0217d07c);
+    StartScenePlayersSeqIfSet(scenePlayers, data_0217d070.mSeqId, &data_0217d07c);
 }
 
 void StopScenePlayersSeq(ScenePlayers *scenePlayers, u32 fadeSteps) {

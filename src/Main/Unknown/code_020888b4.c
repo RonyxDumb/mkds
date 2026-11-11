@@ -49,7 +49,7 @@
 #include "code_02148538.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-static inline s32 func_020888b4_inline(const Vec3 *a, const Vec3 *b) {
+static inline s32 BattleKartAiXzIntDistanceSquared(const Vec3 *a, const Vec3 *b) {
     s32 xDifference = (a->x - b->x) >> 12;
     s32 zDifference = (a->z - b->z) >> 12;
 
@@ -402,7 +402,7 @@ void AdvanceBattleKartAiTargetKart(KartAi *kartAi) {
             if (ShouldKartAiTargetKart(kartAi->mIndex, candidateKartIndex) != 0) {
                 targetKart = GetKart(candidateKartIndex);
                 kartPos = &kartAi->mKart->mPos;
-                d = func_020888b4_inline(kartPos, &targetKart->mPos);
+                d = BattleKartAiXzIntDistanceSquared(kartPos, &targetKart->mPos);
                 c = 0;
                 if (d < 0x895440) {
                     if (GetAbsoluteValue(kartAi->mKart->mPos.y - targetKart->mPos.y) < 0x3c000) {
@@ -440,7 +440,7 @@ void AdvanceBattleKartAiTargetKart(KartAi *kartAi) {
     kart = kartAi->mKart;
     targetKart = kartAi->mTargetKart;
     kartPos = &kart->mPos;
-    d = func_020888b4_inline(kartPos, &targetKart->mPos);
+    d = BattleKartAiXzIntDistanceSquared(kartPos, &targetKart->mPos);
     c = 0;
     if (d < 0xf42400) {
         if (GetAbsoluteValue(kartAi->mKart->mPos.y - kartAi->mTargetKart->mPos.y) < 0x3c000) {
@@ -576,7 +576,7 @@ void AdvanceBattleKartAiTargetShine(KartAi *kartAi) {
         if (!(targetShine->mFlags & 1)) {
             mapObjectPos = &targetShine->mPos;
             kartPos = &kartAi->mKart->mPos;
-            d = func_020888b4_inline(kartPos, mapObjectPos);
+            d = BattleKartAiXzIntDistanceSquared(kartPos, mapObjectPos);
             m = gEntryYDifferenceLimit;
             if (d < 0x15f900 && GetAbsoluteValue(kartAi->mKart->mPos.y - targetShine->mPos.y) < m) {
                 isInRange = TRUE;
@@ -658,7 +658,7 @@ BOOL FindKartAiTargetShine(KartAi *kartAi, s32 distanceSquaredLimit, s32 yDiffer
             checkedCount++;
             shinePos = &shine->mPos;
             kartPos = &kartAi->mKart->mPos;
-            distanceSquared = func_020888b4_inline(kartPos, shinePos);
+            distanceSquared = BattleKartAiXzIntDistanceSquared(kartPos, shinePos);
             if (distanceSquared < distanceSquaredLimit &&
                 GetAbsoluteValue(kartAi->mKart->mPos.y - shine->mPos.y) < yDifferenceLimit) {
                 isInRange = TRUE;

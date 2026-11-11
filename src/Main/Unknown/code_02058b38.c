@@ -13,14 +13,14 @@
 
 #pragma opt_rebuildconditionals off
 
-static inline u32 func_02058b38_inline(void) {
+static inline u32 MPStatesGetConnectionMode(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
     return gConnectionWork->mConnectionMode;
 }
 
-static inline void func_02058b74_inline(u16 nextState) {
+static inline void MPStatesRequestMPState(u16 nextState) {
     MPStateMachine *stateMachine = &gConnectionWork->mMPStateMachine;
     stateMachine->mStateMachine.mNextState = nextState;
     stateMachine->mStateMachine.mNextStateRequested = 1;
@@ -28,7 +28,7 @@ static inline void func_02058b74_inline(u16 nextState) {
 
 static inline s32 func_02058cac_inline2(void) {
     BOOL r = FALSE;
-    if (func_02058b38_inline() != 0 && gConnectionWork->mState != 13) {
+    if (MPStatesGetConnectionMode() != 0 && gConnectionWork->mState != 13) {
         r = TRUE;
     }
     return r;
@@ -59,7 +59,7 @@ s32 AdvanceSyncedCallback(void (*callback)(void)) {
     switch (gConnectionWork->mSyncState) {
         case 0:
             if (gConnectionWork->mFlags & CONNECTION_FLAG_SEND_READY) {
-                switch (func_02058b38_inline()) {
+                switch (MPStatesGetConnectionMode()) {
                     case 1:
                         gConnectionWork->mSyncState = 6;
                         break;
@@ -121,7 +121,7 @@ s32 AdvanceMPStateMachineWithOwnIndex(void) {
         return 1;
     }
     ownIndex = ((const ConnectionWork *) gConnectionWork)->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
-    if (ownIndex == 0xffff && func_02058b38_inline() == 2) {
+    if (ownIndex == 0xffff && MPStatesGetConnectionMode() == 2) {
         if (gBootInfo->mUnk_00 == 2) {
             SetRequestErrorCode(0);
             return 3;
@@ -130,7 +130,7 @@ s32 AdvanceMPStateMachineWithOwnIndex(void) {
     }
     AdvanceStateMachine(&gConnectionWork->mMPStateMachine.mStateMachine);
     if (!func_02058cac_inline4()) {
-        if (func_02058b38_inline() == 1 && gConnectionWork->mChildren.mChildCount == 0) {
+        if (MPStatesGetConnectionMode() == 1 && gConnectionWork->mChildren.mChildCount == 0) {
             SetRequestErrorCode(7);
         }
     }
@@ -151,8 +151,8 @@ void UpdateMPState0(void) {
     if (gConnectionWork->mRequestPending != 0) {
         return;
     }
-    if (func_02058b38_inline() != 1) {
-        func_02058b74_inline(0x16);
+    if (MPStatesGetConnectionMode() != 1) {
+        MPStatesRequestMPState(0x16);
         return;
     }
     switch (gConnectionWork->mStep) {
@@ -161,7 +161,7 @@ void UpdateMPState0(void) {
             SetEntry(0);
             return;
         case 13:
-            func_02058b74_inline(7);
+            MPStatesRequestMPState(7);
             break;
     }
 }
@@ -182,12 +182,12 @@ void EnterMPState22(void) {
 void UpdateMPState22(void) {
     gConnectionWork->mMPStateMachine.mDelayTimer = gConnectionWork->mMPStateMachine.mDelayTimer - 1;
     if (gConnectionWork->mMPStateMachine.mDelayTimer < 0) {
-        func_02058b74_inline(7);
+        MPStatesRequestMPState(7);
     }
 }
 
 void EnterMPState5(void) {
-    if (func_02058b38_inline() == 1) {
+    if (MPStatesGetConnectionMode() == 1) {
         gConnectionWork->mParticipantMask = gConnectionWork->mChildren.mChildMask | 1;
     }
     gConnectionWork->mMPStateMachine.mChildDataWaitFrames = 0;

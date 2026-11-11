@@ -64,7 +64,7 @@ void UpdateKartViewDistancesAndOutOfView(void) {
                                             distanceSquared);
         if (kart->mIndex != gRaceSetup->mEntryIndex) {
             isWithinFalloff = TRUE;
-            if (distanceSquared > gSoundFalloffs[0].mUnk_20) {
+            if (distanceSquared > gSoundFalloffs[0].mFarDistanceSquared) {
                 isWithinFalloff = FALSE;
             }
             if (kart->mSoundSource.mSourceFlags & 1) {

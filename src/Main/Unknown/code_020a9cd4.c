@@ -56,7 +56,7 @@ void InitIronBall(IronBall *ironBall) {
     SetMapObjectScale(&ironBall->mMapObject, &scale);
     ironBall->mMapObject.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
     InitSoundSource(&ironBall->mMapObject.mSound->mSoundSource, 10, &ironBall->mMapObject.mPos);
-    ironBall->mMapObject.mFarDistanceSquared = gSoundFalloffs[10].mUnk_20;
+    ironBall->mMapObject.mFarDistanceSquared = gSoundFalloffs[10].mFarDistanceSquared;
     ironBall->mSoundOffKind3ShapeListMask = DecimalNonZeroDigitsToBitMask(ironBall->mMapObject.mCourseMapRow->mUnk_34);
 }
 

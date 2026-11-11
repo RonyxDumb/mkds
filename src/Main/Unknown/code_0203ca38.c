@@ -20,8 +20,8 @@
 #include "Main/Unknown/code_020681f0.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-static inline s32 func_0203ca38_inline(u32 i) {
-    return GetKartStandingRankIndex(i) + 1;
+static inline s32 GetKartStandingRankIndexPlusOne(u32 kartIndex) {
+    return GetKartStandingRankIndex(kartIndex) + 1;
 }
 
 void FinishRaceProgress(void) {
@@ -347,7 +347,7 @@ void UpdateRaceProgress(void) {
     if (gRaceSetup->mMode == MODE_BATTLE) {
         for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
             u16 *q;
-            u8 standingRank = func_0203ca38_inline(kartIndex);
+            u8 standingRank = GetKartStandingRankIndexPlusOne(kartIndex);
             q = &gRaceProgress->mKarts[kartIndex].mUnk_3c;
             *q = (*q & ~0xf) | (standingRank & 0xf);
         }

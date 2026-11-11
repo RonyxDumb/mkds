@@ -206,12 +206,12 @@ void DrawVehicle(VehicleDrawList *drawList, Vehicle *vehicle, u32 c, u32 alpha) 
     DrawNsbmd(gCarTire);
 }
 
-static inline s64 func_020e2630_inline(const Vec3 *v) {
-    return HORIZONTAL_LENGTH_SQUARED(*v);
+static inline s64 VehicleXzLengthSquared(const Vec3 *vector) {
+    return HORIZONTAL_LENGTH_SQUARED(*vector);
 }
 
-static inline s16 func_020e2630_inline2(Vehicle *b) {
-    return b->mHitReactionTimer;
+static inline s16 GetVehicleHitReactionTimer(Vehicle *vehicle) {
+    return vehicle->mHitReactionTimer;
 }
 
 void UpdateVehicle(u32 a, Vehicle *vehicle) {
@@ -290,7 +290,7 @@ void UpdateVehicle(u32 a, Vehicle *vehicle) {
             break;
 
         case 0:
-            if (func_020e2630_inline2(vehicle) != 0) {
+            if (GetVehicleHitReactionTimer(vehicle) != 0) {
                 vehicle->mHitReactionTimer--;
                 if (vehicle->mHitReactionTimer == 0) {
                     vehicle->mRotationBlendRate = vehicle->mDefaultBlendRate;
@@ -301,7 +301,7 @@ void UpdateVehicle(u32 a, Vehicle *vehicle) {
             break;
     }
 
-    if (func_020e2630_inline(&vehicle->mMapObject.mPosStep) < 0x10) {
+    if (VehicleXzLengthSquared(&vehicle->mMapObject.mPosStep) < 0x10) {
         targetRotation = vehicle->mGroundRotation;
     } else {
         vehicle->mMapObject.mAngle =

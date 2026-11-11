@@ -140,8 +140,8 @@ void UpdateSman(void *mapObjectList, Sman *sman) {
                 sman->mState = 2;
                 falloffIndex = 2;
                 if ((sman->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
-                    if (sman->mMapObject.mFarDistanceSquared != gSoundFalloffs[2].mUnk_20) {
-                        if (sman->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                    if (sman->mMapObject.mFarDistanceSquared != gSoundFalloffs[2].mFarDistanceSquared) {
+                        if (sman->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
                             falloffIndex = 3;
                         } else {
                             falloffIndex = 4;
@@ -210,7 +210,7 @@ void CreateSmanKindData(void) {
     CreateMapObjectKindDataWithSound(CollideKartWithSman, CollideItemObjectWithSman, NULL, 0, 1, 0x161);
 }
 
-static inline BOOL func_02090940_inline(void) {
+static inline BOOL AreAllGrandPrixRecordsTopRank(void) {
     BOOL isFilledTopRank;
     enum { K0 } cup;
     enum { L0 } engineClass;
@@ -241,7 +241,7 @@ void *CreateSmanUpdateList(void) {
     return CreateMapObjectUpdateList(InitSmanObjects, UpdateSman, NULL);
 }
 
-static inline BOOL func_02090cf8_inline(s32 cup, s32 engineClass) {
+static inline BOOL IsGrandPrixRecordFilledTopRank(s32 cup, s32 engineClass) {
     if (IsGrandPrixRecordFilled(cup, engineClass) != 0 && GetGrandPrixRecordCupRank(cup, engineClass) == 0) {
         return TRUE;
     }
@@ -337,7 +337,8 @@ u32 SetSecretMessageFlagsPerEngineClass(void) {
     for (engineClass = 0; engineClass < 4; engineClass++) {
         newBit = 0;
         if (IsBackupFlagSet(engineClass) == 0) {
-            if (func_02090cf8_inline(0, engineClass) != FALSE && func_02090cf8_inline(1, engineClass) != FALSE) {
+            if (IsGrandPrixRecordFilledTopRank(0, engineClass) != FALSE &&
+                IsGrandPrixRecordFilledTopRank(1, engineClass) != FALSE) {
                 SetBackupFlag(engineClass);
                 newBit = 1;
             }
@@ -346,7 +347,7 @@ u32 SetSecretMessageFlagsPerEngineClass(void) {
         newBit = 0;
         j4 = engineClass + 4;
         if (IsBackupFlagSet(j4) == 0) {
-            if (func_02090cf8_inline(2, engineClass) != FALSE) {
+            if (IsGrandPrixRecordFilledTopRank(2, engineClass) != FALSE) {
                 SetBackupFlag(j4);
                 newBit = 2;
             }
@@ -355,7 +356,8 @@ u32 SetSecretMessageFlagsPerEngineClass(void) {
         newBit = 0;
         j8 = engineClass + 8;
         if (IsBackupFlagSet(j8) == 0) {
-            if (func_02090cf8_inline(4, engineClass) != FALSE && func_02090cf8_inline(5, engineClass) != FALSE) {
+            if (IsGrandPrixRecordFilledTopRank(4, engineClass) != FALSE &&
+                IsGrandPrixRecordFilledTopRank(5, engineClass) != FALSE) {
                 SetBackupFlag(j8);
                 newBit = 4;
             }
@@ -364,7 +366,7 @@ u32 SetSecretMessageFlagsPerEngineClass(void) {
         newBit = 0;
         j12 = engineClass + 12;
         if (IsBackupFlagSet(j12) == 0) {
-            if (func_02090cf8_inline(6, engineClass) != FALSE) {
+            if (IsGrandPrixRecordFilledTopRank(6, engineClass) != FALSE) {
                 SetBackupFlag(j12);
                 newBit = 8;
             }
@@ -373,7 +375,7 @@ u32 SetSecretMessageFlagsPerEngineClass(void) {
     }
     lastGroupBit = 0;
     if (IsBackupFlagSet(0x10) == 0) {
-        if (func_02090cf8_inline(3, 2) != FALSE && func_02090cf8_inline(7, 2) != FALSE) {
+        if (IsGrandPrixRecordFilledTopRank(3, 2) != FALSE && IsGrandPrixRecordFilledTopRank(7, 2) != FALSE) {
             SetBackupFlag(0x10);
             lastGroupBit = 0x10;
         }
@@ -459,7 +461,7 @@ s32 GetStaffRollKindAfterGp(void) {
         engineClass = 3;
     }
     c = FALSE;
-    f = func_02090940_inline();
+    f = AreAllGrandPrixRecordsTopRank();
     if (f != FALSE) {
         if (n == 3 || n == 7) {
             if (gMenuShared->mCupRankIndex == 0) {
@@ -496,7 +498,7 @@ s32 GetStaffRollKindAfterGp(void) {
 }
 
 BOOL IsAllGrandPrixRecordsTopRank(void) {
-    return func_02090940_inline();
+    return AreAllGrandPrixRecordsTopRank();
 }
 
 void LoadStaffGhostTime(void *heap) {

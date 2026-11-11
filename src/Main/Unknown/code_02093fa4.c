@@ -10,5 +10,5 @@ void InitNsKiller1(NsKiller1 *nsKiller1) {
     InitGroupFollower(&nsKiller1->mFollower, nsKiller1->mMapObject.mCourseMapRow, 0);
     SetStraightSegmentLengths(&nsKiller1->mFollower);
     CreateParkedMapObjects(MAP_OBJECT_KIND_NS_KILLER2, 0x14, nsKiller1);
-    nsKiller1->mMapObject.mFarDistanceSquared = gSoundFalloffs[9].mUnk_20;
+    nsKiller1->mMapObject.mFarDistanceSquared = gSoundFalloffs[9].mFarDistanceSquared;
 }

@@ -9,7 +9,7 @@
 #include "registers.h"
 
 // Reads the table of gCupRecords, a row chosen by one call and a column by another.
-static inline KartCourseResult *func_02033e6c_inline(u32 entryIndex) {
+static inline KartCourseResult *ResultsBattleGetKartCourseResult(u32 entryIndex) {
     return &gCupRecords->mKartResults[GetCourseIndexInCup()][GetLowByte(entryIndex)];
 }
 
@@ -147,9 +147,9 @@ void FillResultsBattleEntries(void) {
 
     for (k = 0; k < gResultsBattle->mKartCount; k++) {
         if (gResultsBattle->mMode == 3 || gRaceSetup->mRuleKind == 2) {
-            gResultsBattle->mEntries[k].mScore = func_02033e6c_inline(GetLowByte(k))->mTotalPoints;
+            gResultsBattle->mEntries[k].mScore = ResultsBattleGetKartCourseResult(GetLowByte(k))->mTotalPoints;
         } else {
-            gResultsBattle->mEntries[k].mScore = func_02033e6c_inline(GetLowByte(k))->mWinCount;
+            gResultsBattle->mEntries[k].mScore = ResultsBattleGetKartCourseResult(GetLowByte(k))->mWinCount;
         }
     }
     for (j = 0; j < gResultsBattle->mKartCount; j++) {

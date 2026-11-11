@@ -29,7 +29,7 @@
 #include "Main/Unknown/unk_02165000.h"
 #include "code_02147cd8.h"
 
-static inline s32 func_0206e874_inline(Vec3 *vector, Vec3 *normalized) {
+static inline s32 KartMapObjectNormalizeLengthOrZero(Vec3 *vector, Vec3 *normalized) {
     if (LENGTH_SQUARED(*vector) < 0x10) {
         return 0;
     }
@@ -153,7 +153,7 @@ void CollideKartWithMapObjects(Kart *kart) {
                         contactNormal = z;
                         u = &mapObject->mPosStep;
                         foundMapObjectVector = GetFoundMapObjectVector(foundIndex);
-                        vectorLength = func_0206e874_inline(foundMapObjectVector, &contactNormal);
+                        vectorLength = KartMapObjectNormalizeLengthOrZero(foundMapObjectVector, &contactNormal);
                         if (vectorLength != 0) {
                             if (handlerOutput != 2) {
                                 ((void (*)(Kart *, Vec3 *, MapObject *)) gKartMapObjectSecondResponses[handlerIndex])(

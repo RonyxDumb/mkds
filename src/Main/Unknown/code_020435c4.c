@@ -77,7 +77,7 @@ static inline void func_02043c14_inline(void) {
     }
 }
 
-static inline RaceSetup *func_02043f28_inline(void) {
+static inline RaceSetup *GetRaceSetup(void) {
     return gRaceSetup;
 }
 
@@ -222,7 +222,7 @@ void LoadSndBanksForCharacters(u32 useCurrentEntries) {
 
     bankMask = 0;
     i = 0;
-    for (; i < (u32) (raceSetup = func_02043f28_inline())->mKartCount; i++) {
+    for (; i < (u32) (raceSetup = GetRaceSetup())->mKartCount; i++) {
         if (useCurrentEntries != 0) {
             bankMask |= data_021540ec[raceSetup->mCurrentEntries[i].mCharacterIndex];
         } else {

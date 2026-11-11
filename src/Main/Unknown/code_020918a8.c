@@ -26,7 +26,7 @@
 #include "Main/Unknown/code_02045874.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-static inline u32 func_020919e8_inline(u32 limit) {
+static inline u32 MapObjectRandomBelow(u32 limit) {
     RandomState64 *mapObjectRandom;
 
     mapObjectRandom = GetMapObjectRandom();
@@ -34,7 +34,7 @@ static inline u32 func_020919e8_inline(u32 limit) {
     return ((mapObjectRandom->mValue >> 32) * limit) >> 32;
 }
 
-static inline u16 func_020919e8_inline_2(u32 limit) {
+static inline u16 MapObjectRandomBelowU16(u32 limit) {
     RandomState64 *mapObjectRandom;
 
     mapObjectRandom = GetMapObjectRandom();
@@ -42,16 +42,16 @@ static inline u16 func_020919e8_inline_2(u32 limit) {
     return (u32) (((mapObjectRandom->mValue >> 32) * limit) >> 32);
 }
 
-static inline void func_020919e8_inline_3(Kanoke64 *kanoke64, s32 soundId) {
+static inline void StartKanoke64Sound(Kanoke64 *kanoke64, s32 soundId) {
     SoundStartParams soundRequest;
     s32 falloffIndex;
 
     if (kanoke64->mMapObject.mDistanceSquaredAndFlags & 4) {
         return;
     }
-    if (kanoke64->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+    if (kanoke64->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
         falloffIndex = 2;
-    } else if (kanoke64->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+    } else if (kanoke64->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
         falloffIndex = 3;
     } else {
         falloffIndex = 4;
@@ -91,7 +91,7 @@ void InitKanoke64Objects(MapObjectList *mapObjectList) {
     }
     for (i = 0; i < mapObjectList->mMapObjectCount && (kanoke64 = mapObjectList->mMapObjects[i]) != NULL; i++) {
         if (kanoke64->mMapObject.mFlags & 0x800) {
-            kanoke64->mTimer = (u16) (func_020919e8_inline_2(25) + 200);
+            kanoke64->mTimer = (u16) (MapObjectRandomBelowU16(25) + 200);
         }
     }
 }
@@ -116,7 +116,7 @@ s32 Kanoke64MulFixed12NoRound(s32 multiplicand, s32 multiplier) {
     return MUL_FIXED12_NO_ROUND(multiplicand, multiplier);
 }
 
-static inline s64 func_020919e8_inline_5(const Vec3 *firstPos, const Vec3 *secondPos) {
+static inline s64 XzDistanceSquared(const Vec3 *firstPos, const Vec3 *secondPos) {
     s32 deltaX;
     s32 deltaZ;
 
@@ -141,7 +141,7 @@ static inline BOOL func_020919e8_inline_4(Kanoke64 *kanoke64, s32 objectAngle) {
             continue;
         }
         kart = GetKart((u16) i);
-        if (func_020919e8_inline_5(&kart->mPos, &kanoke64->mMapObject.mPos) >= 0x225510000000LL) {
+        if (XzDistanceSquared(&kart->mPos, &kanoke64->mMapObject.mPos) >= 0x225510000000LL) {
             continue;
         }
         angleDifference =
@@ -158,10 +158,10 @@ static inline BOOL func_020919e8_inline_4(Kanoke64 *kanoke64, s32 objectAngle) {
 }
 
 static inline void func_020919e8_inline_6(Vec3 *outPos, s32 baseX, s32 baseY, s32 baseZ) {
-    outPos->x = baseX - 0x5000 + func_020919e8_inline(0xa000);
+    outPos->x = baseX - 0x5000 + MapObjectRandomBelow(0xa000);
     GetMapObjectRandom();
     outPos->y = baseY;
-    outPos->z = baseZ - 0x28000 + func_020919e8_inline(0x50000);
+    outPos->z = baseZ - 0x28000 + MapObjectRandomBelow(0x50000);
 }
 
 s16 Kanoke64FX_CosIdx(s32 angle) {
@@ -230,14 +230,14 @@ void UpdateKanoke64(void *mapObjectList, Kanoke64 *kanoke64) {
             kanoke64->mBurstCount = 0;
             kanoke64->mState = 0;
             if (kanoke64->mMapObject.mFlags & 0x800) {
-                kanoke64->mTimer = (u16) (func_020919e8_inline_2(25) + 200);
+                kanoke64->mTimer = (u16) (MapObjectRandomBelowU16(25) + 200);
             }
         }
     }
     if (kanoke64->mNsbcaFrameIndex != 0) {
         return;
     }
-    func_020919e8_inline_3(kanoke64, 0x188);
+    StartKanoke64Sound(kanoke64, 0x188);
 }
 
 void CreateKanoke64DrawList(void) {

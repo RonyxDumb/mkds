@@ -70,9 +70,9 @@ void UpdatePicture(void *a, Picture *b) {
                 if (b->mNsbcaFrameIndex == 0 || b->mNsbcaFrameIndex == 0xf || b->mNsbcaFrameIndex == 0x1f ||
                     b->mNsbcaFrameIndex == 0x37 || b->mNsbcaFrameIndex == 0x51) {
                     if (IsMapObjectOutOfRange(&b->mMapObject) == FALSE) {
-                        if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+                        if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                             t = 2;
-                        } else if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                        } else if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
                             t = 3;
                         } else {
                             t = 4;
@@ -86,9 +86,9 @@ void UpdatePicture(void *a, Picture *b) {
                 } else if (b->mNsbcaFrameIndex == 8 || b->mNsbcaFrameIndex == 0x14 || b->mNsbcaFrameIndex == 0x2c ||
                            b->mNsbcaFrameIndex == 0x44) {
                     if (IsMapObjectOutOfRange(&b->mMapObject) == FALSE) {
-                        if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+                        if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                             t = 2;
-                        } else if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                        } else if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
                             t = 3;
                         } else {
                             t = 4;
@@ -101,9 +101,9 @@ void UpdatePicture(void *a, Picture *b) {
                     }
                 } else if (b->mNsbcaFrameIndex == 0x78) {
                     if (IsMapObjectOutOfRange(&b->mMapObject) == FALSE) {
-                        if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+                        if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                             t = 2;
-                        } else if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                        } else if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
                             t = 3;
                         } else {
                             t = 4;
@@ -123,9 +123,9 @@ void UpdatePicture(void *a, Picture *b) {
                 b->mNsbcaFrameIndex = nextFrameIndex;
                 if (b->mNsbcaFrameIndex == 0) {
                     if (IsMapObjectOutOfRange(&b->mMapObject) == FALSE) {
-                        if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+                        if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                             t = 2;
-                        } else if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                        } else if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
                             t = 3;
                         } else {
                             t = 4;

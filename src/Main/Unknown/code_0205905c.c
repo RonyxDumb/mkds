@@ -8,7 +8,7 @@
 
 #pragma opt_rebuildconditionals off
 
-static inline u32 func_0205905c_inline(void) {
+static inline u32 MPStateMachineGetConnectionMode(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
@@ -17,7 +17,7 @@ static inline u32 func_0205905c_inline(void) {
 
 static inline s32 func_0205905c_inline2(void) {
     BOOL r = FALSE;
-    if (func_0205905c_inline() != 0 && gConnectionWork->mState != 13) {
+    if (MPStateMachineGetConnectionMode() != 0 && gConnectionWork->mState != 13) {
         r = TRUE;
     }
     return r;
@@ -50,7 +50,7 @@ BOOL AdvanceMPStateMachine(void) {
     }
     AdvanceStateMachine(&gConnectionWork->mMPStateMachine.mStateMachine);
     if (!func_0205905c_inline4()) {
-        if (func_0205905c_inline() == 1 && gConnectionWork->mChildren.mChildCount == 0) {
+        if (MPStateMachineGetConnectionMode() == 1 && gConnectionWork->mChildren.mChildCount == 0) {
             SetRequestErrorCode(7);
         }
     }
@@ -75,7 +75,7 @@ u32 AdvanceMenuDLArchives(void) {
     if (!func_0205905c_inline2()) {
         return 1;
     }
-    switch (func_0205905c_inline()) {
+    switch (MPStateMachineGetConnectionMode()) {
         case 1:
             return AdvanceParentSync();
         case 2:
@@ -92,7 +92,7 @@ u32 AdvanceResultDLArchives(void) {
     if (!func_0205905c_inline2()) {
         return 1;
     }
-    switch (func_0205905c_inline()) {
+    switch (MPStateMachineGetConnectionMode()) {
         case 1:
             return AdvanceParentSync();
         case 2:

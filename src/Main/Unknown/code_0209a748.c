@@ -33,7 +33,7 @@ void InitCrab(Crab *crab) {
     InitGroupFollower(&crab->mFollower, crab->mMapObject.mCourseMapRow, 0);
 }
 
-static inline u32 func_0209b388_inline(RandomState64 *random, u32 limit) {
+static inline u32 CrabNextRandomBelow(RandomState64 *random, u32 limit) {
     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
     if (limit == 0) {
         return random->mValue >> 32;
@@ -68,13 +68,13 @@ void StartCrabLaunch(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Ve
         crab->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(v.z, 0x1800);
     } else {
         mapObjectRandom = GetMapObjectRandom();
-        z = (u16) func_0209b388_inline(mapObjectRandom, 0x10000);
+        z = (u16) CrabNextRandomBelow(mapObjectRandom, 0x10000);
         x = FX_CosIdx((u16) z);
         x = MUL_FIXED12_NO_ROUND(x, 0x1800);
         crab->mMapObject.mPosStep.x = x;
         crab->mMapObject.mPosStep.z = x;
         mapObjectRandom = GetMapObjectRandom();
-        if ((u16) func_0209b388_inline(mapObjectRandom, 2) != 0) {
+        if ((u16) CrabNextRandomBelow(mapObjectRandom, 2) != 0) {
             crab->mRotateZAnglePerFrame = 0x71c;
         } else {
             crab->mRotateZAnglePerFrame = 0xf8e4;
@@ -192,38 +192,38 @@ s32 CrabFX_MulInline(s32 a, s32 b) {
     return MUL_FIXED12_ROUNDED(a, b);
 }
 
-static inline void func_0209a7dc_inline(TeresaWobble *wobble) {
-    s32 t;
+static inline void AdvanceCrabWobble(TeresaWobble *wobble) {
+    s32 nextValue;
 
     wobble->mAngle += wobble->mAnglePerFrame;
-    wobble->mUnk_08 =
+    wobble->mValueDelta =
         wobble->mMid + CrabFX_MulInline(wobble->mAmplitude, CrabFX_SinIdx(wobble->mAngle)) - wobble->mValue;
-    wobble->mValue += wobble->mUnk_08;
+    wobble->mValue += wobble->mValueDelta;
     if (wobble->mAmplitude > 0) {
-        t = wobble->mAmplitude + wobble->mAmplitudePerFrame;
-        if (t <= 0) {
-            t = 0;
+        nextValue = wobble->mAmplitude + wobble->mAmplitudePerFrame;
+        if (nextValue <= 0) {
+            nextValue = 0;
         }
-        wobble->mAmplitude = t;
+        wobble->mAmplitude = nextValue;
     } else if (wobble->mAmplitude < 0) {
-        t = wobble->mAmplitude + wobble->mAmplitudePerFrame;
-        if (t >= 0) {
-            t = 0;
+        nextValue = wobble->mAmplitude + wobble->mAmplitudePerFrame;
+        if (nextValue >= 0) {
+            nextValue = 0;
         }
-        wobble->mAmplitude = t;
+        wobble->mAmplitude = nextValue;
     }
     if (wobble->mAnglePerFrame > 0) {
-        t = wobble->mAnglePerFrame + wobble->mUnk_1c;
-        if (t <= 0) {
-            t = 0;
+        nextValue = wobble->mAnglePerFrame + wobble->mUnk_1c;
+        if (nextValue <= 0) {
+            nextValue = 0;
         }
-        wobble->mAnglePerFrame = t;
+        wobble->mAnglePerFrame = nextValue;
     } else if (wobble->mAnglePerFrame < 0) {
-        t = wobble->mAnglePerFrame + wobble->mUnk_1c;
-        if (t >= 0) {
-            t = 0;
+        nextValue = wobble->mAnglePerFrame + wobble->mUnk_1c;
+        if (nextValue >= 0) {
+            nextValue = 0;
         }
-        wobble->mAnglePerFrame = t;
+        wobble->mAnglePerFrame = nextValue;
     }
 }
 
@@ -271,7 +271,7 @@ void UpdateCrab(void *a, Crab *crab) {
                            : (GetMapObjectModelNsbtpFrameCount(gCrab) << 12) - 0.5f)) {
                 crab->mCrabNsbtpFrameIndexFixed12 = 0;
             }
-            func_0209a7dc_inline(&crab->mHandWobble);
+            AdvanceCrabWobble(&crab->mHandWobble);
             GetGroupFollowerLinearPosition(&crab->mFollower, &crab->mMapObject.mPos);
             v = *GetGroupFollowerSegmentUp(&crab->mFollower);
             VEC_Subtract(&v, &crab->mMapObject.mMatrix.mRows[1], &v);
@@ -303,7 +303,7 @@ void UpdateCrab(void *a, Crab *crab) {
             crab->mCrabWobble.mAmplitudePerFrame = -0xb6;
             crab->mCrabWobble.mAnglePerFrame = 0x71c;
             crab->mCrabWobble.mUnk_1c = 0;
-            func_0209a7dc_inline(&crab->mCrabWobble);
+            AdvanceCrabWobble(&crab->mCrabWobble);
             crab->mRotateZAngle = crab->mCrabWobble.mValue;
             crab->mState = 3;
             break;
@@ -315,7 +315,7 @@ void UpdateCrab(void *a, Crab *crab) {
                            : (GetMapObjectModelNsbtpFrameCount(gCrabHand) << 12) - 0.5f)) {
                 crab->mHandNsbtpFrameIndexFixed12 = 0;
             }
-            func_0209a7dc_inline(&crab->mCrabWobble);
+            AdvanceCrabWobble(&crab->mCrabWobble);
             crab->mRotateZAngle = crab->mCrabWobble.mValue;
             crab->mMapObject.mPos.y += 0x200;
             if (crab->mMapObject.mPos.y < crab->mMapObject.mCourseMapRow->mUnk_00.y) {

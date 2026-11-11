@@ -105,11 +105,11 @@ void SetKartCupRanks(void) {
     }
 }
 
-static inline CourseTeamResult *func_020b3b58_inline(s32 teamIndex) {
+static inline CourseTeamResult *RaceEndGetCourseTeamResult(s32 teamIndex) {
     return &gCupRecords->mTeamResults[GetCourseIndexInCup()].mTeams[teamIndex];
 }
 
-static inline CourseTeamResults *func_020b3b58_inline2(void) {
+static inline CourseTeamResults *RaceEndGetCourseTeamResults(void) {
     return &gCupRecords->mTeamResults[GetCourseIndexInCup()];
 }
 
@@ -125,7 +125,7 @@ void SetCupWinningTeamFromRecords(void) {
         return;
     }
     if (raceSetup->mRuleKind == 1 || raceSetup->mMode == MODE_BATTLE) {
-        firstTeamScore = func_020b3b58_inline(0)->mWinCount;
+        firstTeamScore = RaceEndGetCourseTeamResult(0)->mWinCount;
     } else {
         firstTeamRecord = &gCupRecords->mTeamResults[GetCourseIndexInCup()].mTeams[0];
         firstTeamScore = firstTeamRecord->mTotalPoints;
@@ -136,9 +136,9 @@ void SetCupWinningTeamFromRecords(void) {
         isRuleKind1OrBattle = FALSE;
     }
     if (isRuleKind1OrBattle) {
-        secondTeamScore = func_020b3b58_inline(1)->mWinCount;
+        secondTeamScore = RaceEndGetCourseTeamResult(1)->mWinCount;
     } else {
-        secondTeamScore = func_020b3b58_inline2()->mTeams[1].mTotalPoints;
+        secondTeamScore = RaceEndGetCourseTeamResults()->mTeams[1].mTotalPoints;
     }
     if (firstTeamScore > secondTeamScore) {
         SetCupWinningTeam(0);

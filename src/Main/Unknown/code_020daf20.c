@@ -245,9 +245,9 @@ void UpdateDossun(void *unused, Dossun *dossun) {
         if (dossun->mState == 5) {
             fromEntry = follower->mFromEntry;
             if (IsMapObjectOutOfRange(&dossun->mMapObject) == FALSE) {
-                if (dossun->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+                if (dossun->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                     stateValue = 2;
-                } else if (dossun->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                } else if (dossun->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
                     stateValue = 3;
                 } else {
                     stateValue = 4;
@@ -414,7 +414,7 @@ void InitDossun(Dossun *dossun, CourseMapRow *row) {
     if (dossun->mIsSlowVariant != 0) {
         CreateMapObjectSoundSourceFalloff3(&dossun->mMapObject);
     } else {
-        dossun->mMapObject.mFarDistanceSquared = gSoundFalloffs[3].mUnk_20;
+        dossun->mMapObject.mFarDistanceSquared = gSoundFalloffs[3].mFarDistanceSquared;
     }
 }
 #pragma thumb off
@@ -485,9 +485,9 @@ void UpdateKuribo(void *unused, Kuribo *kuribo) {
     kuribo->mFrameIndex++;
     if (kuribo->mFrameIndex == 0x14 || kuribo->mFrameIndex == 0x28) {
         if ((kuribo->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
-            if (kuribo->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+            if (kuribo->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                 falloffIndex = 2;
-            } else if (kuribo->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+            } else if (kuribo->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
                 falloffIndex = 3;
             } else {
                 falloffIndex = 4;

@@ -81,7 +81,7 @@ s32 MoveChoisesSSelectedValue(s32 step) {
     return selectedIndex;
 }
 
-static inline ChoisesS *func_020b302c_inline(void) {
+static inline ChoisesS *GetChoisesS(void) {
     return gChoisesS;
 }
 
@@ -107,7 +107,7 @@ u32 MoveChoisesSSelectedValueByTouch(void) {
         }
         for (valueIndex = 0; valueIndex < valueCount; valueIndex++) {
             if (IsNewPairInRect(GetChoisesSInputSlot(), valueRects[valueIndex]) != 0) {
-                if (gChoisesS->mSelectedValue != func_020b302c_inline()->mLists[listIndex].mValues[valueIndex]) {
+                if (gChoisesS->mSelectedValue != GetChoisesS()->mLists[listIndex].mValues[valueIndex]) {
                     gChoisesS->mSelectedValue = gChoisesS->mLists[listIndex].mValues[valueIndex];
                     MoveChoisesSSelectedValue(0);
                 } else {

@@ -6,7 +6,7 @@
 #include "code_0214d018.h"
 #include "registers.h"
 
-static inline u32 func_020399a8_inline(void) {
+static inline u32 IsWvrStateBusy(void) {
     return data_02175614.mState == BANK_SHARE_CHANGING;
 }
 
@@ -98,7 +98,7 @@ void ClearLcdcBankAndStartWvrAndWait(void) {
             OS_Terminate();
         }
     }
-    while (func_020399a8_inline() != 0) {
+    while (IsWvrStateBusy() != 0) {
     }
 }
 
@@ -109,7 +109,7 @@ void StopWvrAndWait(void) {
             OS_Terminate();
         }
     }
-    while (func_020399a8_inline() != 0) {
+    while (IsWvrStateBusy() != 0) {
     }
 }
 

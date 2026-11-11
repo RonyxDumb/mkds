@@ -36,7 +36,7 @@
 
 #pragma opt_rebuildconditionals off
 
-static inline u32 func_0204984c_inline(void) {
+static inline u32 SceneGetConnectionMode(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
@@ -45,7 +45,7 @@ static inline u32 func_0204984c_inline(void) {
 
 static inline s32 func_0204984c_inline2(void) {
     BOOL result = FALSE;
-    if (func_0204984c_inline() != 0 && gConnectionWork->mState != 13) {
+    if (SceneGetConnectionMode() != 0 && gConnectionWork->mState != 13) {
         result = TRUE;
     }
     return result;
@@ -83,16 +83,16 @@ static inline s32 func_0204984c_inline6(void) {
     return result;
 }
 
-static inline s32 func_0204984c_inline7(void) {
+static inline s32 SceneIsBackupCommandRunning(void) {
     if (gBackupAccess->mBackupEnabled) {
         return gBackupAccess->mCommandRunning;
     }
     return 0;
 }
 
-static inline s32 func_0204984c_inline8(void) {
+static inline s32 SceneIsBackupBusy(void) {
     if (!data_0217aa08->mBusy) {
-        return func_0204984c_inline7();
+        return SceneIsBackupCommandRunning();
     }
     return 1;
 }
@@ -105,11 +105,11 @@ static inline s32 func_0204984c_inline9(void) {
     return result;
 }
 
-static inline void func_02049c3c_inline(OSThreadQueue *threadQueue) {
+static inline void SceneOS_InitThreadQueue(OSThreadQueue *threadQueue) {
     threadQueue->mHead = threadQueue->mTail = NULL;
 }
 
-static inline void func_02049c3c_inline2(PMSleepCallbackInfo *callbackInfo, void (*callback)(void *)) {
+static inline void SceneSetSleepCallbackInfoNullArg(PMSleepCallbackInfo *callbackInfo, void (*callback)(void *)) {
     callbackInfo->mCallback = callback;
     callbackInfo->mArg = NULL;
 }
@@ -422,7 +422,7 @@ void ScenePreSleepCallback(void *arg) {
     do {
         PrepareDisplayFrame();
         b = AdvanceConnectionEndStopOnError() != 1;
-        c = func_0204984c_inline8();
+        c = SceneIsBackupBusy();
         if (b == FALSE && c == 0) {
             done = TRUE;
         } else {
@@ -449,12 +449,12 @@ void InitSceneRunState(void *heap) {
     gSceneRunState->mLcdOff = FALSE;
     gSceneRunState->mMessageKind = -1;
     gSceneRunState->mMessageInputEnabled = 0;
-    func_02049c3c_inline(&gSceneRunState->mThreadQueue);
+    SceneOS_InitThreadQueue(&gSceneRunState->mThreadQueue);
     OS_CreateThread(&gSceneRunState->mThread, RunMessageScreenThread, NULL, (u8 *) gSceneRunState->mThreadStack + 0x400,
                     0x400, 15);
     OS_WakeupThreadDirect(&gSceneRunState->mThread);
-    func_02049c3c_inline2(&gSceneRunState->mPreSleepCallback, ScenePreSleepCallback);
-    func_02049c3c_inline2(&gSceneRunState->mPostSleepCallback, (void (*)(void *)) ScenePostSleepCallback);
+    SceneSetSleepCallbackInfoNullArg(&gSceneRunState->mPreSleepCallback, ScenePreSleepCallback);
+    SceneSetSleepCallbackInfoNullArg(&gSceneRunState->mPostSleepCallback, (void (*)(void *)) ScenePostSleepCallback);
     PM_AppendPreSleepCallback(&gSceneRunState->mPreSleepCallback);
     PM_AppendPostSleepCallback(&gSceneRunState->mPostSleepCallback);
 }

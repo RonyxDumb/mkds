@@ -69,12 +69,12 @@ BOOL TryFormatGhostPath(u32 courseId, void *buffer, u32 size) {
     return TRUE;
 }
 
-static inline u32 func_0203a9ec_inline(void) {
-    u8 i;
-    u8 j;
-    for (i = 0; i < 8; i++) {
-        for (j = 0; j < 4; j++) {
-            if (IsGrandPrixRecordFilled(i, j) != 0) {
+static inline u32 IsAnyGrandPrixRecordFilled(void) {
+    u8 cupIndex;
+    u8 engineClassIndex;
+    for (cupIndex = 0; cupIndex < 8; cupIndex++) {
+        for (engineClassIndex = 0; engineClassIndex < 4; engineClassIndex++) {
+            if (IsGrandPrixRecordFilled(cupIndex, engineClassIndex) != 0) {
                 return 1;
             }
         }
@@ -254,7 +254,7 @@ u32 ShouldEndAwardRace(u32 sceneFrames) {
     if (AreBrightnessFadesClear() == 0) {
         return 0;
     }
-    if (func_0203a9ec_inline() != 0) {
+    if (IsAnyGrandPrixRecordFilled() != 0) {
         InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
         if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0) {
             return 1;

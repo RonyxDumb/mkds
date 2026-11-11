@@ -51,9 +51,9 @@ void UpdateChandelier(void *a, Unk0209f338 *b) {
     }
     if (b->mFrameIndex == 0 || b->mFrameIndex == 0x7d) {
         if ((b->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
-            if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+            if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                 t = 2;
-            } else if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+            } else if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
                 t = 3;
             } else {
                 t = 4;
@@ -66,9 +66,9 @@ void UpdateChandelier(void *a, Unk0209f338 *b) {
         }
     } else if (b->mFrameIndex == 0x46 || b->mFrameIndex == 0xaf) {
         if ((b->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
-            if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+            if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                 t = 2;
-            } else if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+            } else if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
                 t = 3;
             } else {
                 t = 4;
@@ -81,9 +81,9 @@ void UpdateChandelier(void *a, Unk0209f338 *b) {
         }
     } else if (b->mFrameIndex == 0xfa) {
         if ((b->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
-            if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+            if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                 t = 2;
-            } else if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+            } else if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
                 t = 3;
             } else {
                 t = 4;

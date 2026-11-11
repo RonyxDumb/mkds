@@ -40,7 +40,7 @@ static inline BOOL func_0207f600_inline(s32 kartIndex) {
     return (GetKart(kartIndex)->mUnk_7c & 0x402020) == 0;
 }
 
-static inline s32 func_0207f554_inline2(u32 entryIndex) {
+static inline s32 KartAiGetCurrentTeamIndex(u32 entryIndex) {
     return *(vs32 *) &gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mTeamIndex;
 }
 
@@ -50,7 +50,7 @@ static inline s32 func_0207f554_inline(u32 kartIndex, u32 targetIndex) {
     BOOL isHumanGhostOrPeer;
 
     if (gRaceSetup->mUseTeams == 0 ||
-        gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex != func_0207f554_inline2(targetIndex)) {
+        gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex != KartAiGetCurrentTeamIndex(targetIndex)) {
         isHumanGhostOrPeer = FALSE;
         playerKind = gRaceSetup->mCurrentEntries[targetIndex].mPlayer.mKind;
         if ((u32) playerKind <= 3) {
@@ -323,7 +323,7 @@ s32 ShouldKartAiTargetKart(u32 kartIndex, u32 targetIndex) {
     BOOL isHumanGhostOrPeer;
 
     if (gRaceSetup->mUseTeams == 0 ||
-        gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex != func_0207f554_inline2(targetIndex)) {
+        gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex != KartAiGetCurrentTeamIndex(targetIndex)) {
         isHumanGhostOrPeer = FALSE;
         playerKind = gRaceSetup->mCurrentEntries[targetIndex].mPlayer.mKind;
         if ((u32) playerKind <= 3) {

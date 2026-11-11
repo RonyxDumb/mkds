@@ -52,9 +52,9 @@ void UpdatePakkunSpit(void *mapObjectList, PakkunSpit *pakkunSpit) {
                 pakkunSpit->mHeightOffset = 0;
                 pakkunSpit->mHeightSpeed = 0x5800;
                 if ((pakkunSpit->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
-                    if (pakkunSpit->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+                    if (pakkunSpit->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                         falloffIndex = 2;
-                    } else if (pakkunSpit->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                    } else if (pakkunSpit->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
                         falloffIndex = 3;
                     } else {
                         falloffIndex = 4;

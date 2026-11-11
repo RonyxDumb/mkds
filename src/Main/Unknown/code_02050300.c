@@ -24,7 +24,7 @@
 #include "code_0214d018.h"
 #include "Main/Unknown/code_0211d4a8.h"
 
-static inline u32 func_02050650_inline(void) {
+static inline u32 DisconnectGetConnectionMode(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
@@ -38,7 +38,7 @@ void DisconnectChildren(u32 aidBitmap) {
         return;
     }
     if (gConnectionWork->mState == 9) {
-        if (func_02050650_inline() == 1) {
+        if (DisconnectGetConnectionMode() == 1) {
             gConnectionWork->mRemovedChildMask = 0;
         }
     }
@@ -50,7 +50,7 @@ void DisconnectChildrenCallback(Unk021425e8 *event) {
     if (event->mResultCode != 0 && event->mResultCode != 7) {
         return;
     }
-    if (func_02050650_inline() == 1) {
+    if (DisconnectGetConnectionMode() == 1) {
         switch (gConnectionWork->mState) {
             case 8:
             case 9:
@@ -125,7 +125,7 @@ void Disconnect(void) {
 
     result = 7;
     children = &gConnectionWork->mChildren;
-    switch (func_02050650_inline()) {
+    switch (DisconnectGetConnectionMode()) {
         case 1:
             for (i = 0, child = children->mEntries; i < children->mChildCount; i++, child++) {
                 if (child->mAid != 0xffff) {
@@ -149,7 +149,7 @@ void Disconnect(void) {
             gConnectionWork->mRequestPending = 0;
             break;
         case 2:
-            if (func_02050650_inline() == 2) {
+            if (DisconnectGetConnectionMode() == 2) {
                 gConnectionWork->mOperationFlags |= CONNECTION_OPERATION_DISCONNECTING;
             }
             break;
@@ -170,7 +170,7 @@ void DisconnectCallback(Unk021425e8 *event) {
                 case 1:
                     aid = gConnectionWork->mChildren.mEntries[gConnectionWork->mChildren.mDisconnectingIndex].mAid;
                     RemoveChild(aid);
-                    if (func_02050650_inline() == 1) {
+                    if (DisconnectGetConnectionMode() == 1) {
                         if (gConnectionWork->mState == 9) {
                             gConnectionWork->mLeftParticipantMask[0] |= 1 << aid;
                         }
@@ -311,19 +311,19 @@ void AddChild(u32 aid, u8 *b, PlayerRecord *playerEntry) {
     }
 }
 
-static inline void func_0205081c_inline2(u16 v) {
-    MPStateMachine *p = &gConnectionWork->mMPStateMachine;
-    p->mStateMachine.mNextState = v;
-    p->mStateMachine.mNextStateRequested = 1;
+static inline void MPDataRequestMPState(u16 nextState) {
+    MPStateMachine *stateMachine = &gConnectionWork->mMPStateMachine;
+    stateMachine->mStateMachine.mNextState = nextState;
+    stateMachine->mStateMachine.mNextStateRequested = 1;
 }
 
-static inline void func_0205081c_inline(u8 v) {
+static inline void SetGroupSendMaskIfMultiBootMode1(u8 groupSendMask) {
     u32 r = 0;
     u32 b;
 
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
         b = 1;
-        if (func_02050650_inline() != 1) {
+        if (DisconnectGetConnectionMode() != 1) {
             if (gBootInfo->mUnk_00 != 2) {
                 b = 0;
             }
@@ -335,10 +335,10 @@ static inline void func_0205081c_inline(u8 v) {
     if (r == 0) {
         return;
     }
-    if (func_02050650_inline() != 1) {
+    if (DisconnectGetConnectionMode() != 1) {
         return;
     }
-    SetRomArchiveGroupSendMask(v);
+    SetRomArchiveGroupSendMask(groupSendMask);
 }
 
 static inline void func_02050b88_inline(u16 v1) {
@@ -348,7 +348,7 @@ static inline void func_02050b88_inline(u16 v1) {
     for (i = 0; i < 8; i++) {
         if ((v1 & (1 << i)) != 0) {
             f = gConnectionWork->mState == 9 ? 1 : 0;
-            if (func_02050650_inline() == 1) {
+            if (DisconnectGetConnectionMode() == 1) {
                 gConnectionWork->mChildren.mChildMask &= ~(1 << i);
                 if (f != 0) {
                     gConnectionWork->mRemovedChildMask |= 1 << i;
@@ -357,13 +357,13 @@ static inline void func_02050b88_inline(u16 v1) {
             gConnectionWork->mGroupSendMask &= ~(1 << i);
         }
     }
-    if (func_02050650_inline() != 1) {
+    if (DisconnectGetConnectionMode() != 1) {
         return;
     }
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_ROM_ARCHIVE_TRANSFER) == 0) {
         return;
     }
-    func_0205081c_inline(gConnectionWork->mGroupSendMask);
+    SetGroupSendMaskIfMultiBootMode1(gConnectionWork->mGroupSendMask);
 }
 
 void RemoveChild(u32 aid) {
@@ -413,10 +413,10 @@ void ProcessMPData(u32 aid, MPMessage *message) {
             RequestMPState15AfterCombine();
             break;
         case 2:
-            if (func_02050650_inline() == 2) {
+            if (DisconnectGetConnectionMode() == 2) {
                 gConnectionWork->mGroupSendMask = message->mUnk_04;
             }
-            func_0205081c_inline2(1);
+            MPDataRequestMPState(1);
             break;
         case 6:
             switch (gConnectionWork->mState) {
@@ -477,7 +477,7 @@ BOOL QueueMPDataToPort(void *data, s32 dataSize, u16 destBitmap, void *sendBuffe
     u16 sendSize;
 
     sendSize = dataSize;
-    switch (func_02050650_inline()) {
+    switch (DisconnectGetConnectionMode()) {
         case 1:
             if (gConnectionWork->mChildren.mChildMask == 0) {
                 return FALSE;
@@ -528,7 +528,7 @@ BOOL QueueMPDataPlayerName(s32 playerIndex, u16 destBitmap) {
     message.mKind = 6;
     MI_CpuCopy8(&gConnectionWork->mPlayerRecords[playerIndex], message.mName, 0x14);
     message.mPlayerIndex = playerIndex;
-    if (func_02050650_inline() == 1) {
+    if (DisconnectGetConnectionMode() == 1) {
         message.mConnectedMask = gConnectionWork->mChildren.mChildMask | 1;
     } else {
         message.mConnectedMask = 0;

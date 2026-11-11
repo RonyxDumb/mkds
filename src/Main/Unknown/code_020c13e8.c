@@ -317,7 +317,7 @@ void ShowRaceGoalSRows(void) {
     }
 }
 
-static inline CourseTeamResult *func_020c13e8_inline(s32 teamIndex) {
+static inline CourseTeamResult *RaceGoalSGetCourseTeamResult(s32 teamIndex) {
     return &gCupRecords->mTeamResults[GetCourseIndexInCup()].mTeams[teamIndex];
 }
 
@@ -336,8 +336,8 @@ void HoldRaceGoalSRows(void) {
     } else {
         if (gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE) {
             if (gRaceSetup->mUseTeams != 0) {
-                bestValue = func_020c13e8_inline(0)->mWinCount;
-                teamOneValue = func_020c13e8_inline(1)->mWinCount;
+                bestValue = RaceGoalSGetCourseTeamResult(0)->mWinCount;
+                teamOneValue = RaceGoalSGetCourseTeamResult(1)->mWinCount;
                 if (bestValue <= teamOneValue) {
                     bestValue = teamOneValue;
                 }

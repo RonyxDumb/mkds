@@ -16,7 +16,7 @@
 #include "code_0214d018.h"
 #include "Main/Unknown/code_0211d4a8.h"
 
-static inline u32 func_02051658_inline(void) {
+static inline u32 ScanGetConnectionMode(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
@@ -393,7 +393,7 @@ void StartConnectCallback(Unk021425e8 *event) {
                     gConnectionWork->mOwnIndex = event->mUnk_08_2;
                     gConnectionWork->mExpectedRecordMask = shouldReset;
                     v = shouldReset;
-                    switch (func_02051658_inline()) {
+                    switch (ScanGetConnectionMode()) {
                         case 1:
                             v = gConnectionWork->mParentParameter->mUnk_0c;
                             break;
@@ -572,7 +572,7 @@ void SetGameInfo(void) {
     BOOL r;
     u8 f;
 
-    if (func_02051658_inline() != 1) {
+    if (ScanGetConnectionMode() != 1) {
         return;
     }
     gConnectionWork->mStep = 0xf;

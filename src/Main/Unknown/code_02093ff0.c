@@ -65,7 +65,7 @@ void DrawTeresa(void *a, Teresa *teresa) {
     DrawMapObjectModel(a, gTeresa, teresa);
 }
 
-static inline void func_02094768_inline(Teresa *teresa) {
+static inline void AdvanceTeresaAlpha(Teresa *teresa) {
     teresa->mAlphaFixed12 = teresa->mAlphaFixed12 + teresa->mAlphaFixed12PerFrame;
     if (teresa->mAlphaFixed12 >= teresa->mAlphaFixed12Max) {
         teresa->mAlphaFixed12PerFrame = -teresa->mAlphaFixed12PerFrame;
@@ -77,20 +77,20 @@ static inline void func_02094768_inline(Teresa *teresa) {
     teresa->mModelAlpha = teresa->mAlphaFixed12 >> 12;
 }
 
-static inline void func_02094768_inline_2(s32 *p, s32 *q) {
-    s32 k = *p;
-    if (k > 0) {
-        k += *q;
-        if (k <= 0) {
-            k = 0;
+static inline void AdvanceTeresaValueStoppingAtZero(s32 *value, s32 *delta) {
+    s32 current = *value;
+    if (current > 0) {
+        current += *delta;
+        if (current <= 0) {
+            current = 0;
         }
-        *p = k;
-    } else if (k < 0) {
-        k += *q;
-        if (k >= 0) {
-            k = 0;
+        *value = current;
+    } else if (current < 0) {
+        current += *delta;
+        if (current >= 0) {
+            current = 0;
         }
-        *p = k;
+        *value = current;
     }
 }
 
@@ -135,7 +135,7 @@ void UpdateTeresa(void *a, Teresa *teresa) {
             teresa->mState1Timer = t - 1;
             if (t <= 0) {
                 teresa->mState1Timer = 0;
-                func_02094768_inline(teresa);
+                AdvanceTeresaAlpha(teresa);
                 if (teresa->mAlphaFixed12 >= 0x2000) {
                     teresa->mState = 0;
                 }
@@ -155,7 +155,7 @@ void UpdateTeresa(void *a, Teresa *teresa) {
                     gUnparkedTeresaCount--;
                 }
             } else {
-                func_02094768_inline(teresa);
+                AdvanceTeresaAlpha(teresa);
             }
             break;
     }
@@ -164,18 +164,18 @@ void UpdateTeresa(void *a, Teresa *teresa) {
     }
     teresa->mAngleWobble.mAngle = teresa->mAngleWobble.mAngle + teresa->mAngleWobble.mAnglePerFrame;
     x = TeresaFX_MulInline(teresa->mAngleWobble.mAmplitude, TeresaFX_SinIdx(teresa->mAngleWobble.mAngle));
-    teresa->mAngleWobble.mUnk_08 = teresa->mAngleWobble.mMid + x - teresa->mAngleWobble.mValue;
-    teresa->mAngleWobble.mValue = teresa->mAngleWobble.mValue + teresa->mAngleWobble.mUnk_08;
-    func_02094768_inline_2(&teresa->mAngleWobble.mAmplitude, &teresa->mAngleWobble.mAmplitudePerFrame);
-    func_02094768_inline_2(&teresa->mAngleWobble.mAnglePerFrame, &teresa->mAngleWobble.mUnk_1c);
+    teresa->mAngleWobble.mValueDelta = teresa->mAngleWobble.mMid + x - teresa->mAngleWobble.mValue;
+    teresa->mAngleWobble.mValue = teresa->mAngleWobble.mValue + teresa->mAngleWobble.mValueDelta;
+    AdvanceTeresaValueStoppingAtZero(&teresa->mAngleWobble.mAmplitude, &teresa->mAngleWobble.mAmplitudePerFrame);
+    AdvanceTeresaValueStoppingAtZero(&teresa->mAngleWobble.mAnglePerFrame, &teresa->mAngleWobble.mUnk_1c);
     angleWobbleValue = teresa->mAngleWobble.mValue;
     teresa->mYWobble.mAngle = teresa->mYWobble.mAngle + teresa->mYWobble.mAnglePerFrame;
     anglePairSecond = TeresaFX_CosIdx(teresa->mYWobble.mAngle);
     x = TeresaFX_MulInline(teresa->mYWobble.mAmplitude / 2, 0x1000 - anglePairSecond);
-    teresa->mYWobble.mUnk_08 = teresa->mYWobble.mMid + x - teresa->mYWobble.mValue;
-    teresa->mYWobble.mValue = teresa->mYWobble.mValue + teresa->mYWobble.mUnk_08;
-    func_02094768_inline_2(&teresa->mYWobble.mAmplitude, &teresa->mYWobble.mAmplitudePerFrame);
-    func_02094768_inline_2(&teresa->mYWobble.mAnglePerFrame, &teresa->mYWobble.mUnk_1c);
+    teresa->mYWobble.mValueDelta = teresa->mYWobble.mMid + x - teresa->mYWobble.mValue;
+    teresa->mYWobble.mValue = teresa->mYWobble.mValue + teresa->mYWobble.mValueDelta;
+    AdvanceTeresaValueStoppingAtZero(&teresa->mYWobble.mAmplitude, &teresa->mYWobble.mAmplitudePerFrame);
+    AdvanceTeresaValueStoppingAtZero(&teresa->mYWobble.mAnglePerFrame, &teresa->mYWobble.mUnk_1c);
     yWobbleValue = teresa->mYWobble.mValue;
     n = teresa->mUnk_10c;
     if (GetCurrentCameraKind() == 2) {
@@ -215,7 +215,7 @@ void ClearTeresaTimers(void) {
     }
 }
 
-static inline u32 func_02094000_inline(RandomState64 *randomState64, u32 limit) {
+static inline u32 TeresaNextRandomBelow(RandomState64 *randomState64, u32 limit) {
     randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
     if (limit == 0) {
         return randomState64->mValue >> 32;
@@ -223,8 +223,8 @@ static inline u32 func_02094000_inline(RandomState64 *randomState64, u32 limit) 
     return ((randomState64->mValue >> 32) * limit) >> 32;
 }
 
-static inline void func_02094000_inline_2(TeresaWobble *teresaWobble, u16 angle, s32 mid, s32 amplitude,
-                                          s32 amplitudePerFrame, s32 anglePerFrame, s32 f) {
+static inline void SetTeresaWobble(TeresaWobble *teresaWobble, u16 angle, s32 mid, s32 amplitude, s32 amplitudePerFrame,
+                                   s32 anglePerFrame, s32 f) {
     teresaWobble->mAngle = angle;
     teresaWobble->mMid = mid;
     teresaWobble->mAmplitude = amplitude;
@@ -253,27 +253,26 @@ void StartTeresa(Vec3 *startPos) {
     teresa->mStartPos = *startPos;
     if (GetCurrentCameraKind() == 0) {
         chaseCamera = GetChaseCamera();
-        e = func_02094000_inline(&gRaceProgress->mLocalRandom, 0x30);
-        c = (u16) (func_02094000_inline(&gRaceProgress->mLocalRandom, 0) >> 20);
-        b = func_02094000_inline(&gRaceProgress->mLocalRandom, 0x5555);
+        e = TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x30);
+        c = (u16) (TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0) >> 20);
+        b = TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x5555);
         k = FX_Atan2Idx(chaseCamera->mLookAt.z - chaseCamera->mPos.z, chaseCamera->mLookAt.x - chaseCamera->mPos.x) +
             b - 0x2aaa;
-        func_02094000_inline_2(&teresa->mAngleWobble, func_02094000_inline(&gRaceProgress->mLocalRandom, 0x10000), k,
-                               c + 0x1000, 0, e + 0x60, 0);
+        SetTeresaWobble(&teresa->mAngleWobble, TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x10000), k,
+                        c + 0x1000, 0, e + 0x60, 0);
     } else {
-        e = func_02094000_inline(&gRaceProgress->mLocalRandom, 0x30);
-        c = (u16) (func_02094000_inline(&gRaceProgress->mLocalRandom, 0) >> 20);
-        func_02094000_inline_2(&teresa->mAngleWobble, func_02094000_inline(&gRaceProgress->mLocalRandom, 0x10000),
-                               (u16) func_02094000_inline(&gRaceProgress->mLocalRandom, 0x10000), c + 0x1000, 0,
-                               e + 0x60, 0);
+        e = TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x30);
+        c = (u16) (TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0) >> 20);
+        SetTeresaWobble(&teresa->mAngleWobble, TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x10000),
+                        (u16) TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x10000), c + 0x1000, 0, e + 0x60, 0);
     }
-    d = func_02094000_inline(&gRaceProgress->mLocalRandom, 0x80);
-    f = func_02094000_inline(&gRaceProgress->mLocalRandom, 0xa000);
-    func_02094000_inline_2(&teresa->mYWobble, 0, func_02094000_inline(&gRaceProgress->mLocalRandom, 0x19000) + 0x19000,
-                           f + 0xa000, 0, d + 0x100, 0);
-    teresa->mUnk_10c = func_02094000_inline(&gRaceProgress->mLocalRandom, 0x3c000) + 0x3c000;
-    alphaFixed12Max = func_02094000_inline(&gRaceProgress->mLocalRandom, 0xc000) + 0xe000;
-    alphaFixed12PerFrame = func_02094000_inline(&gRaceProgress->mLocalRandom, 0x200) + 0x400;
+    d = TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x80);
+    f = TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0xa000);
+    SetTeresaWobble(&teresa->mYWobble, 0, TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x19000) + 0x19000,
+                    f + 0xa000, 0, d + 0x100, 0);
+    teresa->mUnk_10c = TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x3c000) + 0x3c000;
+    alphaFixed12Max = TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0xc000) + 0xe000;
+    alphaFixed12PerFrame = TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x200) + 0x400;
     teresa->mAlphaFixed12 = 0;
     teresa->mAlphaFixed12PerFrame = alphaFixed12PerFrame;
     teresa->mAlphaFixed12Min = 0x2000;
@@ -283,8 +282,8 @@ void StartTeresa(Vec3 *startPos) {
         teresa->mState0Timer = 0xffff;
         teresa->mState = 0;
     } else {
-        teresa->mState1Timer = (u16) func_02094000_inline(&gRaceProgress->mLocalRandom, 0x4b);
-        teresa->mState0Timer = (u16) func_02094000_inline(&gRaceProgress->mLocalRandom, 0x96) + 0x12c;
+        teresa->mState1Timer = (u16) TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x4b);
+        teresa->mState0Timer = (u16) TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x96) + 0x12c;
         teresa->mState = 1;
     }
     gUnparkedTeresaCount++;

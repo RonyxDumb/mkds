@@ -14,7 +14,7 @@ typedef struct Airship {
     /* a8 */ s16 mWobbleAngle;
     /* aa */ u8 mUnk_aa[2];
     /* ac */ s32 mWobbleOffset;
-    /* b0 */ s32 mUnk_b0;
+    /* b0 */ s32 mWobbleOffsetDelta;
     /* b4 */ s32 mWobbleMid;
     /* b8 */ s32 mWobbleAmplitude;
     /* bc */ u32 mWobbleAmplitudePerFrame;
