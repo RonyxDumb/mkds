@@ -11067,6 +11067,7 @@ data_0216f0a8 kind:data(any) addr:0x0216f088
 data_0216f0ac kind:data(any) addr:0x0216f08c
 data_0216f16c kind:data(any) addr:0x0216f14c
 data_0216f26c kind:data(any) addr:0x0216f24c
+sMonthStartDay kind:data(any) addr:0x0216f250
 data_0216f2a0 kind:data(any) addr:0x0216f280
 data_0216f2b0 kind:data(any) addr:0x0216f290
 data_0216f2d4 kind:data(any) addr:0x0216f2b4

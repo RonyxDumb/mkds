@@ -1,5 +1,4 @@
 #include "code_021522a0.h"
-#include "hash2.h"
 #include "code_02152490.h"
 #include "code_021526e4.h"
 #include "code_02152ab4.h"
@@ -77,7 +76,7 @@ s32 DateToDayCount(const RTCDate *date) {
         (s32) date->mWeek >= 7 || date->mMonth < 1 || date->mMonth > 12) {
         return -1;
     }
-    dayNum = date->mDay - 1 + ((const u32 *) &data_0216f26c)[date->mMonth];
+    dayNum = date->mDay - 1 + (sMonthStartDay - 1)[date->mMonth];
     if (date->mMonth >= 3 && IsLeapYearTwoDigit(date->mYear) != 0) {
         dayNum++;
     }
