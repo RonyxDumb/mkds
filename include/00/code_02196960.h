@@ -53,7 +53,7 @@ typedef struct ConnErrorText {
 } ConnErrorText;
 
 typedef struct KeyspecText {
-    /* 00 */ s8 mUnk_00[0x100];
+    /* 00 */ s8 mText[0x100];
 } KeyspecText;
 
 typedef struct ChallengeRespformatText {

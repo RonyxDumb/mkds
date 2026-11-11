@@ -4,11 +4,11 @@
 #include "00/code_021a6fa8.h"
 
 // One entry of the array SOC_Poll takes: an object, the bits asked for and the bits found.
-typedef struct Unk021a8b20 {
-    /* 00 */ SOCLSocket *mUnk_00;
-    /* 04 */ s16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-} Unk021a8b20;
+typedef struct SocketPollEntry {
+    /* 00 */ SOCLSocket *mFd;
+    /* 04 */ s16 mEvents;
+    /* 06 */ u16 mRevents;
+} SocketPollEntry;
 
 extern void *(*AllocFunc_SOC)(u32 a, u32 b);
 

@@ -5,8 +5,8 @@
 // One 0x1e-byte record of MultiBootParent.
 typedef struct MultiBootChildRecord {
     /* 00 */ u8 mUnk_00[0x16];
-    /* 16 */ u8 mUnk_16[6];
-    /* 1c */ u16 mUnk_1c;
+    /* 16 */ u8 mMacAddress[6];
+    /* 1c */ u16 mAid;
 } MultiBootChildRecord;
 
 struct MultiBootParent {

@@ -395,15 +395,14 @@ void RequestApSelectionPalette(void) {
     paletteRows = gApPaletteRows;
     iconPalettes = gApEntryIconPalettes;
     if (*(u8 *) &gApSelectedIndex <= 3) {
-        RequestBgPaletteRowCopy(gAp->mYbBgStep11Ncl, paletteRows.mUnk_00[*(u8 *) &gApSelectedIndex],
-                                paletteRows.mUnk_00[*(u8 *) &gApSelectedIndex]);
+        RequestBgPaletteRowCopy(gAp->mYbBgStep11Ncl, paletteRows.mBytes[*(u8 *) &gApSelectedIndex],
+                                paletteRows.mBytes[*(u8 *) &gApSelectedIndex]);
         if (*(u8 *) &gApSelectedIndex != 3) {
             statusIndex = GetApEntrySetType(*(u8 *) &gApSelectedIndex);
             if (statusIndex > 2) {
                 statusIndex = 3;
             }
-            SetOamRangeMode(gAp->mEntryIconObjects[*(u8 *) &gApSelectedIndex], -1, 0,
-                            iconPalettes.mUnk_00[statusIndex]);
+            SetOamRangeMode(gAp->mEntryIconObjects[*(u8 *) &gApSelectedIndex], -1, 0, iconPalettes.mBytes[statusIndex]);
         }
     }
 }

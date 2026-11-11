@@ -37,8 +37,8 @@ BOOL InitApScan(void) {
     } while (gApScan->mStatus.mState != 2);
     apScan = gApScan;
     apScan->mScanParam = gApScanParamTemplate;
-    apScan->mScanParam.mUnk_00.mScanBuf = apScan->mScanBuf;
-    gApScan->mScanParam.mUnk_00.mMaxChannelTime = WM_GetDispersionScanPeriod();
+    apScan->mScanParam.mScanExParam.mScanBuf = apScan->mScanBuf;
+    gApScan->mScanParam.mScanExParam.mMaxChannelTime = WM_GetDispersionScanPeriod();
     if (StartApScan() != 0) {
         return 1;
     }
@@ -47,7 +47,7 @@ BOOL InitApScan(void) {
 
 BOOL StartApScan(void) {
     int startResult;
-    startResult = WM_StartScanEx(ApScanCallback, &gApScan->mScanParam.mUnk_00);
+    startResult = WM_StartScanEx(ApScanCallback, &gApScan->mScanParam.mScanExParam);
     if (startResult == 2) {
         return 1;
     }

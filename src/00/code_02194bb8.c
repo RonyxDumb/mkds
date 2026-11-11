@@ -473,12 +473,12 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             GpiSetErrorMessage(connection, data_ov000_021b35f8);
                             return 1;
                         }
-                        u2->mUnk_00 = 0;
-                        GpiCopyString(u2->mUnk_04, (const char *) data->mEmail, 0x33);
+                        u2->mResult = 0;
+                        GpiCopyString(u2->mEmail, (const char *) data->mEmail, 0x33);
                         if ((s8) value[0] == 0x30) {
-                            u2->mUnk_38 = FALSE;
+                            u2->mIsValid = FALSE;
                         } else {
-                            u2->mUnk_38 = TRUE;
+                            u2->mIsValid = TRUE;
                         }
                         result = GpiQueueCallback(connection, c2, u2, operation, 0);
                         if (result != 0) {

@@ -4,9 +4,9 @@
 
 // 8 bytes, moved one byte at a time.
 typedef struct SOCSockAddr {
-    /* 00 */ u8 mUnk_00;
+    /* 00 */ u8 mLen;
     /* 01 */ u8 mUnk_01;
-    /* 02 */ u8 mUnk_02[6];
+    /* 02 */ u8 mData[6];
 } SOCSockAddr;
 
 // Object ServerListConnect builds.

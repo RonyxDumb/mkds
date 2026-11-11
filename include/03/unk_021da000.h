@@ -211,7 +211,7 @@ extern ChildWaitSessionView *gChildWaitSessionView;
 // and a halfword at 0xe4.
 typedef struct DwcArchive {
     /* 00 */ void *mTables;
-    /* 04 */ void *mUnk_04[0x20];
+    /* 04 */ void *mStackStorage[0x20];
     /* 84 */ PointerStack *mUnk_84;
     /* 88 */ FSArchive mArchive;
     /* e4 */ u16 mLockId;
@@ -225,7 +225,7 @@ typedef struct OamRanges {
     /* 000 */ OamRange mRanges[0x20];
     /* 200 */ OamRange mListStart;
     /* 210 */ OamRange mListEnd;
-    /* 220 */ void *mUnk_220;
+    /* 220 */ void *mNodeList;
     /* 224 */ PointerStack *mFreeRanges;
 } OamRanges;
 

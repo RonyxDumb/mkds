@@ -574,9 +574,9 @@ s32 GpiPeerQueueMessage(GpConnection *connection, GpiPeer *peer, u32 type, const
 
 u32 GpiPeerSendXfer(GpConnection *connection, GpiPeer *peer, u32 type, GpiTransferId *transferID) {
     char buffer[0x44];
-    u32 count = transferID->mUnk_04;
-    u32 profileid = transferID->mUnk_00;
-    u32 time = transferID->mUnk_08;
+    u32 count = transferID->mCount;
+    u32 profileid = transferID->mProfileId;
+    u32 time = transferID->mTime;
 
     if (transferID == NULL) {
         AssertionFailed(gTransferIdAssertText, gGpiPeerFileName, NULL, 0x376);

@@ -138,7 +138,7 @@ s32 CheckSingleEssidAossEntry(EssidEntryList *entryList) {
 s32 FillEssidAossAndMelcoRequest(EssidMelcoRequest *request) {
     request->mEssidLength = GetStringLength(gEssidAossString);
     CopyBytes(request->mEssid, gEssidAossString, request->mEssidLength);
-    request->mUnk_24 = TRUE;
+    request->mUseSharedKey = TRUE;
     request->mMelcoLength = GetStringLength(gMelcoString);
     if ((u32) request->mMelcoLength > 0xd) {
         return -1;

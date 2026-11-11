@@ -18,7 +18,7 @@ typedef struct ApObjectPosition {
 
 // Four bytes moved as one value.
 typedef struct Bytes4 {
-    /* 0 */ u8 mUnk_00[4];
+    /* 0 */ u8 mBytes[4];
 } Bytes4;
 
 // 0x44 bytes moved as one value.

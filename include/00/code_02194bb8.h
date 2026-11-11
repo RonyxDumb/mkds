@@ -55,9 +55,9 @@ typedef struct FindPlayersReply {
 } FindPlayersReply;
 
 typedef struct EmailCheckReply {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ char mUnk_04[0x34];
-    /* 38 */ BOOL mUnk_38;
+    /* 00 */ s32 mResult;
+    /* 04 */ char mEmail[0x34];
+    /* 38 */ BOOL mIsValid;
 } EmailCheckReply;
 
 typedef struct UserNicksReply {

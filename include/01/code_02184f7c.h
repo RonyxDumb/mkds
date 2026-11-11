@@ -21,13 +21,13 @@ typedef struct LldData {
 // Group of 0x20 bytes at OamBuffer.mOams.
 typedef struct OamBuffer_000 {
     /* 00 */ u8 mUnk_00[0x6];
-    /* 06 */ s16 mUnk_06;
+    /* 06 */ s16 mPA;
     /* 08 */ u8 mUnk_08[0x6];
-    /* 0e */ s16 mUnk_0e;
+    /* 0e */ s16 mPB;
     /* 10 */ u8 mUnk_10[0x6];
-    /* 16 */ s16 mUnk_16;
+    /* 16 */ s16 mPC;
     /* 18 */ u8 mUnk_18[0x6];
-    /* 1e */ s16 mUnk_1e;
+    /* 1e */ s16 mPD;
 } OamBuffer_000;
 
 void StartDonketuStepSoundSecond(MissionRunMapObject *mapObject);

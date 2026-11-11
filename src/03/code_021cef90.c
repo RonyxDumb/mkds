@@ -40,12 +40,12 @@ u16 GetRecordValueByMacAddress(u8 *macAddress) {
             s32 byteOffset;
 
             byteOffset = (i - 1) * 0x1e;
-            firstRecordMac = records->mRecords[0].mUnk_16;
+            firstRecordMac = records->mRecords[0].mMacAddress;
             recordMac = firstRecordMac + byteOffset;
             if (macAddress[0] == firstRecordMac[byteOffset] && macAddress[1] == recordMac[1] &&
                 macAddress[2] == recordMac[2] && macAddress[3] == recordMac[3] && macAddress[4] == recordMac[4] &&
                 macAddress[5] == recordMac[5]) {
-                return records->mRecords[i - 1].mUnk_1c;
+                return records->mRecords[i - 1].mAid;
             }
         }
     }

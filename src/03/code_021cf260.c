@@ -270,14 +270,14 @@ void MultiBootParentStateCallback(u32 aid, u32 code, Unk021425e8 *event) {
                 t = OS_DisableInterrupts();
                 parent->mMask |= 1 << aid;
                 OS_RestoreInterrupts(t);
-                childMac = gMultiBootParent->mRecords[aid - 1].mUnk_16;
+                childMac = gMultiBootParent->mRecords[aid - 1].mMacAddress;
                 childMac[0] = event->mUnk_0a[0];
                 childMac[1] = event->mUnk_0a[1];
                 childMac[2] = event->mUnk_0a[2];
                 childMac[3] = event->mUnk_0a[3];
                 childMac[4] = event->mUnk_0a[4];
                 childMac[5] = event->mUnk_0a[5];
-                gMultiBootParent->mRecords[aid - 1].mUnk_1c = aid;
+                gMultiBootParent->mRecords[aid - 1].mAid = aid;
             }
             break;
         case 3:

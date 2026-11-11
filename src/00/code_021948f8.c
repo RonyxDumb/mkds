@@ -39,7 +39,7 @@ BOOL GpiInitProfileList(GpConnection *connection) {
 
     gpState = connection->mGpiConnection;
     gpState->mBuddyCount = 0;
-    gpState->mProfileList.mUnk_04 = 0;
+    gpState->mProfileList.mNum = 0;
     gpState->mProfileList.mTable = TableNew(0x1c, 4, GpiHashProfile, GpiCompareProfiles, GpiReleaseProfile);
     if (gpState->mProfileList.mTable != NULL) {
         return TRUE;
@@ -111,7 +111,7 @@ GpiProfile *GpiFindOrAddProfile(GpConnection *connection, s32 id) {
         newProfile.mRequestCount = 0;
         HashtableSet(profileStore->mTable, &newProfile);
     }
-    profileStore->mUnk_04 = profileStore->mUnk_04 + 1;
+    profileStore->mNum = profileStore->mNum + 1;
     if (GpiFindProfile(connection, id, &profileEntry) != 0) {
         return profileEntry;
     }

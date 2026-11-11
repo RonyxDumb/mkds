@@ -19,20 +19,20 @@ void ConvertRecordToEssidEntry(RawEntry *src, EssidEntry *dst) {
     int mode;
     dst->mEssidLength = src->mSsidLength;
     MIi_CpuCopy16(src->mSsid, dst->mEssid, 0x20);
-    dst->mUnk_24 = src->mUnk_36;
+    dst->mUnk_24 = src->mChannel;
     MIi_CpuCopy16(&src->mAddress, dst->mUnk_30, 6);
     count = 0;
     for (i = 0; i < 12; i++) {
-        if (src->mUnk_30 & gMaskCodeTable[i].mMask) {
+        if (src->mSupportRateSet & gMaskCodeTable[i].mMask) {
             dst->mCodes[count] = gMaskCodeTable[i].mCode;
-            if (src->mUnk_2e & gMaskCodeTable[i].mMask) {
+            if (src->mBasicRateSet & gMaskCodeTable[i].mMask) {
                 dst->mCodes[count] |= 0x80;
             }
             count++;
         }
     }
     dst->mCodeCount = count;
-    dst->mUnk_4c = src->mUnk_32;
+    dst->mUnk_4c = src->mBeaconPeriod;
     mode = src->mFlags & 3;
     if (mode == 1) {
         dst->mUnk_50 = 1;
@@ -268,9 +268,9 @@ s32 RunEssidMelcoRequest(EssidMelcoRequest *request, EssidEntryList *out) {
     OSAlarm timer;
     done = FALSE;
     result = -1;
-    if (request->mUnk_24 == FALSE) {
+    if (request->mUseSharedKey == FALSE) {
         flags = 0x80000;
-    } else if (request->mUnk_24 == TRUE) {
+    } else if (request->mUseSharedKey == TRUE) {
         flags = 0xc0000;
     }
     MI_CpuFill8(&gMelcoBlock, 0, 0x60);

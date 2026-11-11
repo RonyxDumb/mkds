@@ -237,17 +237,17 @@ s32 shutdown(s32 descriptor, s32 how) {
 s32 bind(s32 sock, void *addr, s32 len) {
     SOCSockAddr *addrRecord = addr;
     SOCSockAddr boundAddr;
-    if (*(u16 *) addrRecord->mUnk_02 == 0) {
+    if (*(u16 *) addrRecord->mData == 0) {
         return 0;
     }
     boundAddr = *addrRecord;
-    boundAddr.mUnk_00 = len;
+    boundAddr.mLen = len;
     return CheckRcode(SOC_Bind(sock, &boundAddr), -1);
 }
 
 s32 connect(s32 sock, void *addr, s32 len) {
     SOCSockAddr target = *(SOCSockAddr *) addr;
-    target.mUnk_00 = len;
+    target.mLen = len;
     return CheckRcode(SOC_Connect((SOCLSocket *) sock, (SOCSockAddrIn *) &target), -1);
 }
 
@@ -287,7 +287,7 @@ s32 send(s32 sock, void *buf, s32 len, s32 flags) {
 s32 sendto(s32 sock, void *buf, s32 len, s32 flags, void *addr, s32 tolen) {
     SOCSockAddr destAddr;
     __memcpy(&destAddr, addr, sizeof(destAddr));
-    destAddr.mUnk_00 = tolen;
+    destAddr.mLen = tolen;
     return CheckRcode(SOC_SendTo(sock, buf, len, flags, &destAddr), -1);
 }
 

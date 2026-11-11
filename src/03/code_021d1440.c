@@ -52,7 +52,7 @@ void InitDwcArchive(void) {
     tablesSize = FS_LoadArchiveTables(&gDwcArchive->mArchive, 0, 0);
     gDwcArchive->mTables = AllocExpHeapBlock(tablesSize, 4);
     FS_LoadArchiveTables(&gDwcArchive->mArchive, (u32) gDwcArchive->mTables, tablesSize);
-    gDwcArchive->mUnk_84 = CreateFilledPointerStack(0x20, gDwcArchive->mUnk_04, 4);
+    gDwcArchive->mUnk_84 = CreateFilledPointerStack(0x20, gDwcArchive->mStackStorage, 4);
     OS_SPrintf(dirPath, gDwcArchiveRootFormat, gDwcArchiveName);
     FS_ChangeDir((u8 *) dirPath);
 }

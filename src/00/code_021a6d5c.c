@@ -341,7 +341,7 @@ void SOC_U32to4U8(u32 word, u8 *bytes) {
 }
 
 s32 SOC_Poll(void *entries, s32 entryCount, s64 ticksLeft) {
-    Unk021a8b20 *entry;
+    SocketPollEntry *entry;
     s32 readyCount;
     u32 index;
     u32 status;
@@ -351,12 +351,12 @@ s32 SOC_Poll(void *entries, s32 entryCount, s64 ticksLeft) {
         entry = entries;
         readyCount = 0;
         for (index = 0; index < entryCount; index++) {
-            status = entry->mUnk_04 | 0xe0;
-            status &= SOCL_GetStatus(entry->mUnk_00);
+            status = entry->mEvents | 0xe0;
+            status &= SOCL_GetStatus(entry->mFd);
             if (status != 0) {
                 readyCount++;
             }
-            entry->mUnk_06 = status;
+            entry->mRevents = status;
             entry++;
         }
         if (readyCount > 0) {

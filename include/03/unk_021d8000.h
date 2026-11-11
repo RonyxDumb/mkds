@@ -54,11 +54,11 @@ typedef struct RawEntry {
     /* 0a */ u16 mSsidLength;
     /* 0c */ u8 mSsid[0x20];
     /* 2c */ u16 mFlags;
-    /* 2e */ u16 mUnk_2e;
-    /* 30 */ u16 mUnk_30;
-    /* 32 */ u16 mUnk_32;
+    /* 2e */ u16 mBasicRateSet;
+    /* 30 */ u16 mSupportRateSet;
+    /* 32 */ u16 mBeaconPeriod;
     /* 34 */ u16 mUnk_34;
-    /* 36 */ u16 mUnk_36;
+    /* 36 */ u16 mChannel;
     /* 38 */ u8 pad_38[0x88];
 } RawEntry;
 

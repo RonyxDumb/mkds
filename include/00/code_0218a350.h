@@ -3,7 +3,7 @@
 #include "types.h"
 
 typedef struct SsidOrderTable {
-    /* 00 */ u8 mUnk_00[24];
+    /* 00 */ u8 mOrder[24];
 } SsidOrderTable;
 
 extern s8 *gUsbWepFirstXorKey;

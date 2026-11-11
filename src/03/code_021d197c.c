@@ -26,11 +26,11 @@ void InitOamRanges(void) {
     gOamRanges = AllocZeroedExpHeapBlock(0x450, 4);
     for (i = 0; i < 2; i++) {
         gOamRanges[i].mFreeRanges = CreateFilledPointerStack(0x20, &gOamRanges[i], 0x10);
-        gOamRanges[i].mUnk_220 = CreateNodeList();
+        gOamRanges[i].mNodeList = CreateNodeList();
         gOamRanges[i].mListStart.mEntries = GetOamBufferEntry(i, 0x40);
         gOamRanges[i].mListEnd.mEntries = GetOamBufferEntry(i, 0x7f) + 1;
-        AddNodeToListFront(gOamRanges[i].mUnk_220, &gOamRanges[i].mListStart);
-        AddNodeToListBack(gOamRanges[i].mUnk_220, &gOamRanges[i].mListEnd);
+        AddNodeToListFront(gOamRanges[i].mNodeList, &gOamRanges[i].mListStart);
+        AddNodeToListBack(gOamRanges[i].mNodeList, &gOamRanges[i].mListEnd);
     }
 }
 
@@ -38,7 +38,7 @@ void ReleaseOamRanges(void) {
     s32 i;
 
     for (i = 0; i < 2; i++) {
-        DeleteNodeList(gOamRanges[i].mUnk_220);
+        DeleteNodeList(gOamRanges[i].mNodeList);
         DeletePointerStack(gOamRanges[i].mFreeRanges);
     }
     FreeExpHeapBlockAndClearPointer(&gOamRanges);

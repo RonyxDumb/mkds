@@ -63,7 +63,7 @@ typedef struct EssidEntryList {
 typedef struct EssidMelcoRequest {
     /* 00 */ u32 mEssidLength;
     /* 04 */ u8 mEssid[0x20];
-    /* 24 */ BOOL mUnk_24;
+    /* 24 */ BOOL mUseSharedKey;
     /* 28 */ s32 mMelcoLength;
     /* 2c */ u8 mMelcoBytes[0x10];
 } EssidMelcoRequest;

@@ -143,9 +143,9 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
                 GpiSetErrorMessage(connection, data_ov000_021b2814);
                 return 1;
             }
-            GpiCopyString(requestArg->mUnk_008, buffer, 0x401);
-            requestArg->mUnk_000 = profileNumber;
-            requestArg->mUnk_004 = date;
+            GpiCopyString(requestArg->mReason, buffer, 0x401);
+            requestArg->mProfile = profileNumber;
+            requestArg->mDate = date;
             result = GpiQueueCallback(connection, requestCallback, requestArg, NULL, 6);
             if (result != 0) {
                 return result;
@@ -265,9 +265,9 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
                 GpiSetErrorMessage(connection, data_ov000_021b2814);
                 return 1;
             }
-            inviteArg->mUnk_000 = profileNumber;
-            inviteArg->mUnk_004 = productNumber;
-            strcpy(inviteArg->mUnk_008, replyValue);
+            inviteArg->mProfile = profileNumber;
+            inviteArg->mProductId = productNumber;
+            strcpy(inviteArg->mLocation, replyValue);
             result = GpiQueueCallback(connection, inviteCallback, inviteArg, NULL, 0);
             if (result != 0) {
                 return result;

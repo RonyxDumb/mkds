@@ -17,7 +17,7 @@ typedef struct Unk02193858 {
 typedef struct ConnectReply {
     /* 00 */ s32 mResult;
     /* 04 */ u32 mProfile;
-    /* 08 */ u8 mUnk_08[0x18];
+    /* 08 */ u8 mUniquenick[0x18];
 } ConnectReply;
 
 typedef struct NewProfileReply {
@@ -38,9 +38,9 @@ typedef struct RegisterNickReply {
 
 // Three words printed by GpiPeerSendXfer.
 typedef struct GpiTransferId {
-    /* 0 */ u32 mUnk_00;
-    /* 4 */ u32 mUnk_04;
-    /* 8 */ u32 mUnk_08;
+    /* 0 */ u32 mProfileId;
+    /* 4 */ u32 mCount;
+    /* 8 */ u32 mTime;
 } GpiTransferId;
 
 // Output buffer description built by GpiPeerQueueMessage.

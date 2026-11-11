@@ -138,13 +138,13 @@ const s8 *value_for_key(const s8 *text, const char *key) {
     s8 *valuePos;
     s8 *valueSlot;
     gValueIndex ^= 1;
-    strcat((char *) searchPattern.mUnk_00, key);
-    strcat((char *) searchPattern.mUnk_00, gKeyspecDelimiter);
-    pos = (const s8 *) strstr((const char *) text, (const char *) searchPattern.mUnk_00);
+    strcat((char *) searchPattern.mText, key);
+    strcat((char *) searchPattern.mText, gKeyspecDelimiter);
+    pos = (const s8 *) strstr((const char *) text, (const char *) searchPattern.mText);
     if (pos == NULL) {
         return NULL;
     }
-    pos += strlen((const char *) searchPattern.mUnk_00);
+    pos += strlen((const char *) searchPattern.mText);
     valueSlot = gValueForKeyValues + (gValueIndex << 8);
     valuePos = valueSlot;
     while (*pos != 0 && *pos != '\\') {

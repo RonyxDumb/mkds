@@ -11,7 +11,7 @@ struct GpConnection;
 // List at 0x428 of GpiConnection: the object and the number of entries added to it.
 typedef struct GPIProfileList {
     /* 00 */ struct Hashtable *mTable;
-    /* 04 */ s32 mUnk_04;
+    /* 04 */ s32 mNum;
 } GPIProfileList;
 
 // Object behind GpConnection.mGpiConnection: GpiWriteDelbuddyAndRemoveBuddy passes the address of 0x1f4 to
@@ -91,16 +91,16 @@ typedef struct BuddyMessageData {
 
 // Object gpiProcessRecvBuddyMessage allocates with 0x40c bytes and passes to GpiQueueCallback.
 typedef struct BuddyRequestData {
-    /* 000 */ s32 mUnk_000;
-    /* 004 */ s32 mUnk_004;
-    /* 008 */ char mUnk_008[0x404];
+    /* 000 */ s32 mProfile;
+    /* 004 */ s32 mDate;
+    /* 008 */ char mReason[0x404];
 } BuddyRequestData;
 
 // Object gpiProcessRecvBuddyMessage allocates with 0x108 bytes and passes to GpiQueueCallback.
 typedef struct GameInviteData {
-    /* 000 */ s32 mUnk_000;
-    /* 004 */ s32 mUnk_004;
-    /* 008 */ char mUnk_008[0x100];
+    /* 000 */ s32 mProfile;
+    /* 004 */ s32 mProductId;
+    /* 008 */ char mLocation[0x100];
 } GameInviteData;
 
 extern char gUnexpectedDataErrorString[];

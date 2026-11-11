@@ -69,5 +69,5 @@ typedef struct ErrorData {
 typedef struct Unk02191284Node {
     /* 00 */ s32 mUnk_00;
     /* 04 */ u32 mUnk_04;
-    /* 08 */ char mUnk_08[0x18];
+    /* 08 */ char mUniquenick[0x18];
 } Unk02191284Node;

@@ -22,11 +22,11 @@ void DecodeSsid(const u8 *ssid, u8 *decoded) {
         k = (u8) i;
         l = k;
         moving = decoded[i];
-        while (order.mUnk_00[l] != 0xff) {
-            entry = &order.mUnk_00[l];
-            l = order.mUnk_00[l];
+        while (order.mOrder[l] != 0xff) {
+            entry = &order.mOrder[l];
+            l = order.mOrder[l];
             displaced = decoded[l];
-            decoded[order.mUnk_00[k]] = moving;
+            decoded[order.mOrder[k]] = moving;
             k = l;
             *entry = 0xff;
             moving = displaced;

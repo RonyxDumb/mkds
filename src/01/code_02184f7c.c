@@ -100,10 +100,10 @@ void AdvanceLld(Lld *lld, OamBuffer *oamBuffer) {
 
                     mtx.mUnk_00[0] = FX_Div(0x1000, entry->mScale);
                     mtx.mUnk_00[3] = FX_Div(0x1000, entry->mScale);
-                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mUnk_06 = mtx.mUnk_00[0] >> 4;
-                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mUnk_0e = mtx.mUnk_00[1] >> 4;
-                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mUnk_16 = mtx.mUnk_00[2] >> 4;
-                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mUnk_1e = mtx.mUnk_00[3] >> 4;
+                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mPA = mtx.mUnk_00[0] >> 4;
+                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mPB = mtx.mUnk_00[1] >> 4;
+                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mPC = mtx.mUnk_00[2] >> 4;
+                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mPD = mtx.mUnk_00[3] >> 4;
                     mtx.mUnk_00[0] = entry->mScale;
                     mtx.mUnk_00[3] = entry->mScale;
                     cell = (Unk021a5a58_2c_2c *) entry->mCellAnim.mPCurrentCell;
