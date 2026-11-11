@@ -346,7 +346,7 @@ void DrawJg(void) {
         if (gJgKind == 3) {
             commandArg5 = 0;
             NNS_G3dGeBufferOP_N(0x12, &commandArg5, 1);
-            DrawNsbmdRenderObj(kindModel);
+            NNS_G3dDraw(&kindModel->mRenderObj);
         } else {
             NNS_G3dGeBufferOP_N(0x1c, &data_021593c8, 3);
             if (data_0217b8f8 == 0) {
@@ -355,7 +355,7 @@ void DrawJg(void) {
                 mirrorScale1.z = 0x1000;
                 NNS_G3dGeBufferOP_N(0x1b, &mirrorScale1, 3);
             }
-            DrawNsbmdRenderObj(kindModel);
+            NNS_G3dDraw(&kindModel->mRenderObj);
         }
     }
     if (lapModel != NULL) {

@@ -3,6 +3,7 @@
 #include "types.h"
 
 typedef struct Nsbmd Nsbmd;
+typedef struct NNSG3dRenderObj NNSG3dRenderObj;
 
-void DrawNsbmdRenderObjWrapper(void *object);
+void DrawRenderObjWrapper(NNSG3dRenderObj *object);
 void DrawNsbmd1Mat1Shp(Nsbmd *nsbmd);

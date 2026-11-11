@@ -488,14 +488,6 @@ typedef struct SceneText {
     /* 810 */ s32 mSubCharOffset;
 } SceneText;
 
-// Objects of 0x10 bytes passed first to DrawTextInRectNoFixedAdvance; member 0x00 points to one Unk02023374.
-typedef struct Unk0217d3f0_2178 {
-    /* 00 */ Unk02023374 *mCharCanvas;
-    /* 04 */ u32 mFont;
-    /* 08 */ u32 mCharSpacing;
-    /* 0c */ u32 mLineSpacing;
-} Unk0217d3f0_2178;
-
 // Object behind gTxtSystem: 0x2278 bytes allocated by InitTxtSystem.
 typedef struct TxtSystem {
     /* 0000 */ u32 mState;
@@ -529,7 +521,7 @@ typedef struct TxtSystem {
     /* 2088 */ u32 mBlendEv1[2];
     /* 2090 */ u32 mBlendEv2[2];
     /* 2098 */ Unk02023374 mCharCanvases[7];
-    /* 2178 */ Unk0217d3f0_2178 mTextCanvases[7];
+    /* 2178 */ TextCanvas mTextCanvases[7];
     /* 21e8 */ void *mCharBuffers[7];
     /* 2204 */ u32 mCanvasInUse[7];
     /* 2220 */ u32 mCanvasFileCharIndex[7];
@@ -560,7 +552,7 @@ typedef struct SelectChoises {
     /* 82c */ u32 mToggleOnFirstTile;
     /* 830 */ u32 mToggleOffFirstTile;
     /* 834 */ Unk02023374 mCharCanvases[2];
-    /* 874 */ Unk0217d3f0_2178 mTextCanvases[2];
+    /* 874 */ TextCanvas mTextCanvases[2];
     /* 894 */ u8 *mCharBuffers[2];
     /* 89c */ s32 mFirstTileIndex;
     /* 8a0 */ u32 mUseCharBuffers;

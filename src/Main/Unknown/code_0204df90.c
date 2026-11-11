@@ -201,7 +201,7 @@ void StartRepeatedScanStep1D(void) {
     StartRepeatedScan(RepeatedScanCallback, 0x25);
 }
 
-static inline u32 func_0204e1a8_inline(void) {
+static inline u32 MultiBootGetConnectionMode(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
@@ -341,7 +341,7 @@ s32 AdvanceMultiBootSetup(s32 a) {
     if (gConnectionWork->mRequestPending != 0) {
         return 0;
     }
-    switch (func_0204e1a8_inline()) {
+    switch (MultiBootGetConnectionMode()) {
         case 1:
             result = AdvanceMultiBootParentSetup();
             break;

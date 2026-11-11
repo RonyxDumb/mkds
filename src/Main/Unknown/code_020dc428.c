@@ -277,7 +277,7 @@ void EnterWanwanState0(Wanwan *wanwan) {
     wanwan->mCurvePoints[0] = savedPoint;
 }
 
-static inline s64 func_020dccc8_inline(const Vec3 *vector) {
+static inline s64 WanwanGetHorizontalLengthSquared(const Vec3 *vector) {
     return HORIZONTAL_LENGTH_SQUARED(*vector);
 }
 
@@ -376,7 +376,7 @@ void UpdateWanwanState0(Wanwan *wanwan) {
     }
     wanwan->mMapObject.mPosStep.x = wanwan->mMapObject.mPos.x - wanwan->mMapObject.mPosStep.x;
     wanwan->mMapObject.mPosStep.z = wanwan->mMapObject.mPos.z - wanwan->mMapObject.mPosStep.z;
-    if (func_020dccc8_inline(&wanwan->mMapObject.mPosStep) >= 0x10) {
+    if (WanwanGetHorizontalLengthSquared(&wanwan->mMapObject.mPosStep) >= 0x10) {
         QuaternionFromAngleAroundY(
             (u16) (((s64) FX_Atan2(wanwan->mMapObject.mPosStep.x, wanwan->mMapObject.mPosStep.z) * 0x28be60db9391LL +
                     0x80000000000LL) >>
@@ -449,11 +449,11 @@ void UpdateWanwanState1(Wanwan *wanwan) {
     VEC_Subtract(&wanwan->mUnk_1e0, &wanwan->mMapObject.mPos, &a);
     wanwan->mMapObject.mPosStep.x += (s32) (((s64) a.x << 5) >> 12);
     wanwan->mMapObject.mPosStep.z += (s32) (((s64) a.z << 5) >> 12);
-    if (func_020dccc8_inline(&wanwan->mMapObject.mPosStep) >= 0x40000000) {
+    if (WanwanGetHorizontalLengthSquared(&wanwan->mMapObject.mPosStep) >= 0x40000000) {
         wanwan->mMapObject.mPosStep.x -= MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mPosStep.x, 0x4cc);
         wanwan->mMapObject.mPosStep.z -= MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mPosStep.z, 0x4cc);
     }
-    if (func_020dccc8_inline(&a) < (s64) (wanwan->mUnk_f0 >> 1) * (wanwan->mUnk_f0 >> 1)) {
+    if (WanwanGetHorizontalLengthSquared(&a) < (s64) (wanwan->mUnk_f0 >> 1) * (wanwan->mUnk_f0 >> 1)) {
         wanwan->mMapObject.mPosStep.x >>= 1;
         wanwan->mMapObject.mPosStep.z >>= 1;
     } else {

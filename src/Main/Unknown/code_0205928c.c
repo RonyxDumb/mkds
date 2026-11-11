@@ -47,35 +47,35 @@ void InitMPChunkBuffers(void *heap) {
 
 #pragma thumb on
 
-static inline u32 func_0205955c_inline(void) {
+static inline u32 MPStatesGetConnectionMode(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
     return gConnectionWork->mConnectionMode;
 }
 
-static inline s32 func_0205955c_inline2(void) {
-    BOOL r = FALSE;
-    if (func_0205955c_inline() != 0 && gConnectionWork->mState != 13) {
-        r = TRUE;
+static inline s32 MPStatesIsConnectionActive(void) {
+    BOOL result = FALSE;
+    if (MPStatesGetConnectionMode() != 0 && gConnectionWork->mState != 13) {
+        result = TRUE;
     }
-    return r;
+    return result;
 }
 
-static inline s32 func_0205955c_inline3(void) {
-    BOOL r = FALSE;
-    if (func_0205955c_inline2() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
-        r = TRUE;
+static inline s32 MPStatesIsConnectionActiveNotEnding(void) {
+    BOOL result = FALSE;
+    if (MPStatesIsConnectionActive() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
+        result = TRUE;
     }
-    return r;
+    return result;
 }
 
-static inline s32 func_0205955c_inline4(void) {
-    BOOL r = FALSE;
-    if (func_0205955c_inline3() && gConnectionWork->mErrorCode != 9) {
-        r = TRUE;
+static inline s32 MPStatesIsConnectionActiveNotEndingWithError(void) {
+    BOOL result = FALSE;
+    if (MPStatesIsConnectionActiveNotEnding() && gConnectionWork->mErrorCode != 9) {
+        result = TRUE;
     }
-    return r;
+    return result;
 }
 
 void StoreReceivedPlayerNameByState(const void *data, s32 aid, s32 playerIndex, s32 keepMask) {
@@ -195,10 +195,10 @@ s32 AdvanceChildArchiveSync(s32 archiveKind, void *courseId, void *mode) {
 }
 
 u32 AdvanceMainAndMenuDLArchives(void) {
-    if (func_0205955c_inline4()) {
+    if (MPStatesIsConnectionActiveNotEndingWithError()) {
         return 3;
     }
-    switch (func_0205955c_inline()) {
+    switch (MPStatesGetConnectionMode()) {
         case 1:
             return AdvanceParentSync();
         case 2:
@@ -228,37 +228,6 @@ void RequestMPState16(void *courseId, void *mode) {
 
 #pragma thumb on
 
-static inline u32 func_020593dc_inline(void) {
-    if (gConnectionWork == NULL) {
-        return 0;
-    }
-    return gConnectionWork->mConnectionMode;
-}
-
-static inline s32 func_020593dc_inline2(void) {
-    BOOL r = FALSE;
-    if (func_020593dc_inline() != 0 && gConnectionWork->mState != 13) {
-        r = TRUE;
-    }
-    return r;
-}
-
-static inline s32 func_020593dc_inline3(void) {
-    BOOL r = FALSE;
-    if (func_020593dc_inline2() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
-        r = TRUE;
-    }
-    return r;
-}
-
-static inline s32 func_020593dc_inline4(void) {
-    BOOL r = FALSE;
-    if (func_020593dc_inline3() && gConnectionWork->mErrorCode != 9) {
-        r = TRUE;
-    }
-    return r;
-}
-
 void RequestMPState18(void) {
     MPStateMachine *stateMachine;
 
@@ -280,13 +249,13 @@ void RequestMPState21(void) {
 }
 
 u32 AdvanceRaceArchives(void) {
-    if (func_020593dc_inline4()) {
+    if (MPStatesIsConnectionActiveNotEndingWithError()) {
         return 3;
     }
-    if (!func_020593dc_inline2()) {
+    if (!MPStatesIsConnectionActive()) {
         return 1;
     }
-    switch (func_020593dc_inline()) {
+    switch (MPStatesGetConnectionMode()) {
         case 1:
             return AdvanceParentSync();
         case 2:

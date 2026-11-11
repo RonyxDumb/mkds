@@ -37,7 +37,7 @@
 #include "Main/Unknown/code_02077bc0.h"
 
 static inline BOOL IsKartFlagMaskClear(s32 kartIndex) {
-    return (GetKart(kartIndex)->mUnk_7c & 0x402020) == 0;
+    return (GetKart(kartIndex)->mUnk_7c & (KART_7C_REMOVED | KART_7C_TERESA | 0x400000)) == 0;
 }
 
 static inline s32 KartAiGetCurrentTeamIndex(u32 entryIndex) {

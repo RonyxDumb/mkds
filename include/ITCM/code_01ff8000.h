@@ -7,7 +7,6 @@ typedef struct NNSG3dResShpData NNSG3dResShpData;
 typedef struct NNSG3dRenderObj NNSG3dRenderObj;
 typedef struct NNSG3dRS NNSG3dRS;
 typedef struct NNSG3dAnmObj NNSG3dAnmObj;
-typedef struct Nsbmd Nsbmd;
 
 // Command buffer: the number of words stored from mUnk_04, then the words.
 typedef struct GxCommandBuffer {
@@ -27,7 +26,7 @@ void NNSi_G3dFuncSbc_MTX(NNSG3dRS *renderState, u32 option);
 void NNSi_G3dFuncSbc_NODE(NNSG3dRS *renderState, u32 option);
 void NNSi_G3dFuncSbc_RET(NNSG3dRS *renderState, u32 option);
 void NNSi_G3dFuncSbc_NOP(NNSG3dRS *renderState, u32 option);
-void DrawNsbmdRenderObj(Nsbmd *object);
+void NNS_G3dDraw(NNSG3dRenderObj *renderObj);
 void SbcUpdateHintVec_(u32 *hintVector, NNSG3dAnmObj *animObj);
 void G3dDrawInternal_(NNSG3dRS *renderState, NNSG3dRenderObj *renderObj);
 void G3dDrawInternal_Loop_(NNSG3dRS *renderState);

@@ -46,18 +46,24 @@ void RequestMPState15AfterCombine(void) {
 
 #pragma thumb on
 
-static inline u32 func_02058a40_inline(void) {
+static inline u32 MPStatesGetConnectionMode(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
     return gConnectionWork->mConnectionMode;
 }
 
+static inline void MPStatesRequestMPState(u16 nextState) {
+    MPStateMachine *stateMachine = &gConnectionWork->mMPStateMachine;
+    stateMachine->mStateMachine.mNextState = nextState;
+    stateMachine->mStateMachine.mNextStateRequested = 1;
+}
+
 void UpdateMPState5(void) {
     u8 participantMask;
     u16 waitFrames;
 
-    if (func_02058a40_inline() == 1) {
+    if (MPStatesGetConnectionMode() == 1) {
         participantMask = gConnectionWork->mParticipantMask;
         if (IsAllMPChildSharedDataCopied() != 0) {
             if (QueueMPDataHalfwordAndWord(1, participantMask, participantMask) != FALSE) {
@@ -77,7 +83,7 @@ void UpdateMPState5(void) {
 void UpdateMPState6(void) {
     MPStateMachine *stateMachine;
 
-    if (func_02058a40_inline() == 1 && (gConnectionWork->mFlags & CONNECTION_FLAG_SEND_READY)) {
+    if (MPStatesGetConnectionMode() == 1 && (gConnectionWork->mFlags & CONNECTION_FLAG_SEND_READY)) {
         if (QueueMPDataHalfwordAndWord(2, gConnectionWork->mChildren.mChildMask, gConnectionWork->mGroupSendMask) !=
             FALSE) {
             stateMachine = &gConnectionWork->mMPStateMachine;
@@ -111,12 +117,6 @@ void UpdateMPState3(void) {
 
 #pragma thumb on
 
-static inline void func_02058910_inline(u16 nextState) {
-    MPStateMachine *stateMachine = &gConnectionWork->mMPStateMachine;
-    stateMachine->mStateMachine.mNextState = nextState;
-    stateMachine->mStateMachine.mNextStateRequested = 1;
-}
-
 void UpdateMPState1(void) {
     BOOL r;
     BOOL a;
@@ -149,7 +149,7 @@ void UpdateMPState1(void) {
         }
     }
     if (r != FALSE) {
-        func_02058910_inline(2);
+        MPStatesRequestMPState(2);
     }
 }
 
@@ -165,7 +165,7 @@ void UpdateMPState2(void) {
             CreateOverlayFrmHeap();
             InitArchiveBuffersOnOverlayHeap();
         }
-        func_02058910_inline(3);
+        MPStatesRequestMPState(3);
     }
 }
 
@@ -194,19 +194,6 @@ void UpdateMPState4(void) {
 
 #pragma thumb on
 
-static inline u32 func_02058820_inline(void) {
-    if (gConnectionWork == NULL) {
-        return 0;
-    }
-    return gConnectionWork->mConnectionMode;
-}
-
-static inline void func_020587d8_inline(u16 nextState) {
-    MPStateMachine *stateMachine = &gConnectionWork->mMPStateMachine;
-    stateMachine->mStateMachine.mNextState = nextState;
-    stateMachine->mStateMachine.mNextStateRequested = 1;
-}
-
 // Clears the per-slot flags of received chunks: 0x12 per slot for the parent, 2 for a child.
 void EnterMPState7(void) {
     s32 slot;
@@ -214,11 +201,11 @@ void EnterMPState7(void) {
     u32 flagCount;
 
     WM_SetPortCallback(14, MPChunkPortCallback, NULL);
-    if (func_02058820_inline() == 1) {
+    if (MPStatesGetConnectionMode() == 1) {
         SetMPFrequency(0);
     }
     for (slot = 0; slot < 8; slot++) {
-        if (func_02058820_inline() == 1) {
+        if (MPStatesGetConnectionMode() == 1) {
             flagCount = 0x12;
         } else {
             flagCount = 2;
@@ -237,7 +224,7 @@ void UpdateMPState7(void) {
                 gConnectionWork->mStep = 0xb;
                 break;
             case 0xb:
-                func_020587d8_inline(8);
+                MPStatesRequestMPState(8);
                 break;
             default:
                 SetRequestErrorCode(2);
@@ -265,19 +252,6 @@ void QueueMPChunkCallback(void) {
 #pragma thumb off
 
 #pragma thumb on
-
-static inline u32 func_0205821c_inline(void) {
-    if (gConnectionWork == NULL) {
-        return 0;
-    }
-    return gConnectionWork->mConnectionMode;
-}
-
-static inline void func_0205821c_inline2(u16 nextState) {
-    MPStateMachine *stateMachine = &gConnectionWork->mMPStateMachine;
-    stateMachine->mStateMachine.mNextState = nextState;
-    stateMachine->mStateMachine.mNextStateRequested = 1;
-}
 
 BOOL QueueMPChunk(u8 chunkNumber, u8 *data, u16 size, u8 playerIndex, u8 destBitmap) {
     u8 *packet;
@@ -329,13 +303,13 @@ void UpdateMPState8(void) {
     u16 chunkSize;
     u16 v;
 
-    if (func_0205821c_inline() == 1) {
+    if (MPStatesGetConnectionMode() == 1) {
         work = gConnectionWork;
         expectedMask = work->mChildren.mExpectedRecordMask;
         receivedMask = work->mRecordReceivedMask;
         if (expectedMask == (expectedMask & receivedMask)) {
             if (QueueMPChunk(0xfe, NULL, (u8) (receivedMask | 1), 0, receivedMask) != FALSE) {
-                func_0205821c_inline2(9);
+                MPStatesRequestMPState(9);
             }
         } else {
             if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
@@ -381,7 +355,7 @@ void UpdateMPState9(void) {
     u16 chunkSize;
     u16 waitLimit;
 
-    if (func_0205821c_inline() == 1) {
+    if (MPStatesGetConnectionMode() == 1) {
         if ((gConnectionWork->mMPStateMachine.mChunkSendFlags & 1) != 0) {
             slotDone = 1;
             slot = gConnectionWork->mEntryChunkSlot;
@@ -410,7 +384,7 @@ void UpdateMPState9(void) {
         gConnectionWork->mMPStateMachine.mEntryWaitFrames++;
         if (gConnectionWork->mMPStateMachine.mEntryWaitFrames > waitLimit) {
             gConnectionWork->mRecordReceivedMask = gConnectionWork->mChildren.mChildMask;
-            func_0205821c_inline2(10);
+            MPStatesRequestMPState(10);
         }
     }
 }
@@ -437,7 +411,7 @@ void UpdateMPState10(void) {
                 StartRomArchiveSend();
                 break;
             case 0x25:
-                func_0205821c_inline2(6);
+                MPStatesRequestMPState(6);
                 break;
         }
     }
@@ -453,7 +427,7 @@ void UpdateMPState11(void) {
     u8 b;
     u32 c;
 
-    switch (func_0205821c_inline()) {
+    switch (MPStatesGetConnectionMode()) {
         case 1:
             a = gConnectionWork->mPlayerSendIndex;
             b = gConnectionWork->mRecordReceivedMask;
@@ -466,14 +440,14 @@ void UpdateMPState11(void) {
                 gConnectionWork->mPlayerSendIndex++;
             }
             if (gConnectionWork->mPlayerSendIndex >= 8) {
-                func_0205821c_inline2(6);
+                MPStatesRequestMPState(6);
             }
             break;
         case 2:
             a = gConnectionWork->mRecordReceivedMask;
             b = gConnectionWork->mNamesStoredMask;
             if (a == (a & b)) {
-                func_0205821c_inline2(6);
+                MPStatesRequestMPState(6);
             }
             break;
     }
@@ -499,19 +473,6 @@ void EnterMPState12(void) {
 
 #pragma thumb on
 
-static inline u32 func_020580a4_inline(void) {
-    if (gConnectionWork == NULL) {
-        return 0;
-    }
-    return gConnectionWork->mConnectionMode;
-}
-
-static inline void func_020580a4_inline2(u16 v) {
-    MPStateMachine *p = &gConnectionWork->mMPStateMachine;
-    p->mStateMachine.mNextState = v;
-    p->mStateMachine.mNextStateRequested = 1;
-}
-
 void UpdateMPState12(void) {
     if (gConnectionWork->mRequestPending != 0) {
         return;
@@ -524,7 +485,7 @@ void UpdateMPState12(void) {
             break;
         case 0xe:
             gConnectionWork->mState = 7;
-            func_020580a4_inline2(5);
+            MPStatesRequestMPState(5);
             break;
     }
 }
@@ -544,13 +505,13 @@ void EnterMPState13(void) {
 void UpdateMPState13(void) {
     s32 ownIndex;
 
-    if (func_020580a4_inline() == 1) {
+    if (MPStatesGetConnectionMode() == 1) {
         if (gConnectionWork->mChildren.mChildMask ==
             (gConnectionWork->mChildren.mChildMask & gConnectionWork->mBitsReceivedMask)) {
-            func_020580a4_inline2(0xe);
+            MPStatesRequestMPState(0xe);
         }
     } else if (gConnectionWork->mBitsReceivedMask != 0) {
-        func_020580a4_inline2(0xe);
+        MPStatesRequestMPState(0xe);
     } else {
         if (gConnectionWork->mConnectionMode == 2) {
             ownIndex = gConnectionWork->mOwnIndex;
@@ -570,21 +531,8 @@ void EnterMPState14(void) {
 
 #pragma thumb on
 
-static inline u32 func_02057fe8_inline(void) {
-    if (gConnectionWork == NULL) {
-        return 0;
-    }
-    return gConnectionWork->mConnectionMode;
-}
-
-static inline void func_02057fe8_inline2(u16 nextState) {
-    MPStateMachine *stateMachine = &gConnectionWork->mMPStateMachine;
-    stateMachine->mStateMachine.mNextState = nextState;
-    stateMachine->mStateMachine.mNextStateRequested = 1;
-}
-
 void UpdateMPState14(void) {
-    if (func_02057fe8_inline() == 1) {
+    if (MPStatesGetConnectionMode() == 1) {
         if ((gConnectionWork->mRecordReceivedMask & (1 << gConnectionWork->mPlayerSendIndex)) != 0) {
             if (QueueMPDataPlayerBits(gConnectionWork->mPlayerSendIndex, gConnectionWork->mChildren.mChildMask) !=
                 FALSE) {
@@ -594,11 +542,11 @@ void UpdateMPState14(void) {
             gConnectionWork->mPlayerSendIndex += 1;
         }
         if (gConnectionWork->mPlayerSendIndex > 8) {
-            func_02057fe8_inline2(0xb);
+            MPStatesRequestMPState(0xb);
         }
     } else if (gConnectionWork->mRecordReceivedMask ==
                (gConnectionWork->mRecordReceivedMask & gConnectionWork->mBitsReceivedMask)) {
-        func_02057fe8_inline2(0xb);
+        MPStatesRequestMPState(0xb);
     }
 }
 #pragma thumb off

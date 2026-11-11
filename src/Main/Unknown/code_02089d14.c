@@ -266,7 +266,7 @@ void DrawStemSets(void) {
             data_0217029c.mFlag &= ~0xa4;
             NNS_G3dGlbSetBaseTrans(&baseTransform.mRows[3]);
             NNS_G3dGlbFlushP();
-            DrawNsbmdRenderObj(nsbmd);
+            NNS_G3dDraw(&nsbmd->mRenderObj);
         }
     }
     if (gStemSets->mTimedQuad.mEnabled != FALSE) {

@@ -2,7 +2,7 @@
 
 #include "code_021382a8.h"
 
-// Swaps size bytes between a and b.
+// Swaps size bytes between first and second.
 static inline void SwapElements(u8 *first, u8 *second, u32 size) {
     u8 *p;
     u8 *q;

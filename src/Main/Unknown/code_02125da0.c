@@ -25,7 +25,7 @@ void InitSceneText(void *heap, SceneTextInitParams *config) {
     gSceneText->mUseSelectChoises = FALSE;
     gSceneText->mUseSelectReturn = FALSE;
     if (config->mUseTxtSystem != FALSE) {
-        txtConfig.mFont = (u32) config->mTxtSystemFont;
+        txtConfig.mFont = config->mTxtSystemFont;
         txtConfig.mUseCanvas1 = config->mUseCanvas1;
         txtConfig.mUseCanvas2 = config->mUseCanvas2;
         txtConfig.mUseCanvas3 = config->mUseCanvas3;

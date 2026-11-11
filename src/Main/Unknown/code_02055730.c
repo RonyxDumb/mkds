@@ -89,35 +89,35 @@ void ClearDispCapPointer(void) {
     gDispCap = NULL;
 }
 
-static inline u32 func_02055808_inline(void) {
+static inline u32 DispCapGetConnectionMode(void) {
     if (gConnectionWork == NULL) {
         return 0;
     }
     return gConnectionWork->mConnectionMode;
 }
 
-static inline s32 func_02055808_inline2(void) {
-    BOOL r = FALSE;
-    if (func_02055808_inline() != 0 && gConnectionWork->mState != 13) {
-        r = TRUE;
+static inline s32 DispCapIsConnectionActive(void) {
+    BOOL result = FALSE;
+    if (DispCapGetConnectionMode() != 0 && gConnectionWork->mState != 13) {
+        result = TRUE;
     }
-    return r;
+    return result;
 }
 
-static inline s32 func_02055808_inline3(void) {
-    BOOL r = FALSE;
-    if (func_02055808_inline2() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
-        r = TRUE;
+static inline s32 DispCapIsConnectionActiveNotEnding(void) {
+    BOOL result = FALSE;
+    if (DispCapIsConnectionActive() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
+        result = TRUE;
     }
-    return r;
+    return result;
 }
 
-static inline s32 func_02055808_inline4(void) {
-    BOOL r = FALSE;
-    if (func_02055808_inline3() && gConnectionWork->mErrorCode != 9) {
-        r = TRUE;
+static inline s32 DispCapIsConnectionActiveNotEndingWithError(void) {
+    BOOL result = FALSE;
+    if (DispCapIsConnectionActiveNotEnding() && gConnectionWork->mErrorCode != 9) {
+        result = TRUE;
     }
-    return r;
+    return result;
 }
 
 void SetDispCapMode(s32 mode) {
@@ -262,19 +262,19 @@ void StartDispCapBlend(u8 blendMin) {
     gDispCap->mBlendMin = blendMin;
 }
 
-static inline s32 func_02055b1c_inline(void) {
-    BOOL r = FALSE;
-    u32 t;
+static inline s32 DispCapIsConnectionActiveViaLocal(void) {
+    BOOL result = FALSE;
+    u32 connectionMode;
     if (gConnectionWork == NULL) {
-        t = 0;
-        r = FALSE;
+        connectionMode = 0;
+        result = FALSE;
     } else {
-        t = gConnectionWork->mConnectionMode;
+        connectionMode = gConnectionWork->mConnectionMode;
     }
-    if (t != 0 && gConnectionWork->mState != 13) {
-        r = TRUE;
+    if (connectionMode != 0 && gConnectionWork->mState != 13) {
+        result = TRUE;
     }
-    return r;
+    return result;
 }
 
 void StopDispCapBlend(void) {
@@ -300,7 +300,7 @@ void StartDispCapFadeToClear(u32 frameCount) {
 }
 
 BOOL IsSharedDispCapFadeFlagSet(void) {
-    if (func_02055b1c_inline()) {
+    if (DispCapIsConnectionActiveViaLocal()) {
         if (IsDataSharingSyncDone() != 0) {
             return (gConnectionWork->mUnk_15bc_view.mReceivedRecords->mUnk_06_0 & 4) != 0;
         }
@@ -315,7 +315,7 @@ BOOL IsDispCapFadeFlagSet(void) {
 
 // Sets bit 8; it stays set until the brightness fades are clear. A child console in a link leaves it alone.
 void SetDispCapFadeFlag(void) {
-    if (func_02055808_inline2() != 0 && func_02055808_inline() != 1) {
+    if (DispCapIsConnectionActive() != 0 && DispCapGetConnectionMode() != 1) {
         return;
     }
     gDispCap->mFlags |= 8;
@@ -343,7 +343,7 @@ s32 AdvanceNonMultiBootSetup(s32 isParent) {
     if (gConnectionWork->mRequestPending != 0) {
         return result;
     }
-    if (func_02055808_inline4()) {
+    if (DispCapIsConnectionActiveNotEndingWithError()) {
         return 3;
     }
     switch (gConnectionWork->mStep) {

@@ -58,7 +58,7 @@ BOOL CopyEmblemFromBlock(EmblemBlock *emblemBlock, u8 buddyIndex, EmblemData *em
 
 void SetupEmblemBlock(EmblemBlock *emblemBlock, u8 buddyIndex) {
     u8 blockIndex = buddyIndex / 5;
-    if (IsBitArrayBitSet(blockIndex, &data_0217aa08->mFirstBlock->mUnk_2c[2], 2) == 0) {
+    if (IsBitArrayBitSet(blockIndex, data_0217aa08->mFirstBlock->mEmblemBlockBits, 2) == 0) {
         emblemBlock->mBlockIndex = -1;
         return;
     }
@@ -115,14 +115,14 @@ void CopyOtherPlayerEmblemsToBlocks(void) {
     for (blockIndex = 0; blockIndex < 12; blockIndex++) {
         if (blockHasEmblem[blockIndex] != 0) {
             blockData = data_0217aa08->mEmblemBlockData;
-            if (IsBitArrayBitSet(blockIndex, &data_0217aa08->mFirstBlock->mUnk_2c[2], 2) != 0) {
+            if (IsBitArrayBitSet(blockIndex, data_0217aa08->mFirstBlock->mEmblemBlockBits, 2) != 0) {
                 ReadBackupEmblemBlock(blockData, blockIndex);
                 if (gBackupAccess->mBackupEnabled != 0) {
                     CARD_WaitBackupAsync();
                 }
             } else {
                 MI_CpuFill8(blockData, 0, 0xb00);
-                SetBitArrayBit(blockIndex, &data_0217aa08->mFirstBlock->mUnk_2c[2], 2);
+                SetBitArrayBit(blockIndex, data_0217aa08->mFirstBlock->mEmblemBlockBits, 2);
                 blockCreated = TRUE;
             }
             firstBuddyIndex = blockIndex * 5;
@@ -189,14 +189,14 @@ void CopyWiFiOtherEmblemsToBlocks(void) {
     for (blockIndex = 0; blockIndex < 12; blockIndex++) {
         if (blockHasEmblem[blockIndex] != 0) {
             blockData = data_0217aa08->mEmblemBlockData;
-            if (IsBitArrayBitSet(blockIndex, &data_0217aa08->mFirstBlock->mUnk_2c[2], 2) != 0) {
+            if (IsBitArrayBitSet(blockIndex, data_0217aa08->mFirstBlock->mEmblemBlockBits, 2) != 0) {
                 ReadBackupEmblemBlock(blockData, blockIndex);
                 if (gBackupAccess->mBackupEnabled != 0) {
                     CARD_WaitBackupAsync();
                 }
             } else {
                 MI_CpuFill8(blockData, 0, 0xb00);
-                SetBitArrayBit(blockIndex, &data_0217aa08->mFirstBlock->mUnk_2c[2], 2);
+                SetBitArrayBit(blockIndex, data_0217aa08->mFirstBlock->mEmblemBlockBits, 2);
             }
             firstBuddyIndex = blockIndex * 5;
             endBuddyIndex = (blockIndex + 1) * 5;

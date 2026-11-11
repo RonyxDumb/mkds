@@ -1556,7 +1556,7 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
     data_0217029c.mFlag &= ~0xa4;
     NNS_G3dGlbFlushP();
     if (gKartModelMenu->mSelectModel != NULL) {
-        DrawNsbmdRenderObj(gKartModelMenu->mSelectModel);
+        NNS_G3dDraw(&gKartModelMenu->mSelectModel->mRenderObj);
     }
     MI_Copy36B(&rotationMatrix, &data_0217029c.mPrmBaseRot);
     data_0217029c.mFlag &= ~0xa4;
@@ -1578,7 +1578,7 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
             } else {
                 SetNsbmdCullModeUnmirrored(slot->mKartNsbmd);
             }
-            DrawNsbmdRenderObj(slot->mKartNsbmd);
+            NNS_G3dDraw(&slot->mKartNsbmd->mRenderObj);
         }
         if (slot->mTireNsbmd != NULL) {
             for (i = 0; i < 4; i++) {
@@ -1604,7 +1604,7 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
                     } else {
                         SetNsbmdCullModeUnmirrored(slot->mTireNsbmd);
                     }
-                    DrawNsbmdRenderObj(slot->mTireNsbmd);
+                    NNS_G3dDraw(&slot->mTireNsbmd->mRenderObj);
                 }
             }
         }
@@ -1617,7 +1617,7 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
             } else {
                 SetNsbmdCullModeUnmirrored(slot->mCharacterNsbmd);
             }
-            DrawNsbmdRenderObj(slot->mCharacterNsbmd);
+            NNS_G3dDraw(&slot->mCharacterNsbmd->mRenderObj);
         }
     }
 }

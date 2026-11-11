@@ -44,13 +44,13 @@ void PackGrandPrixRecord(PackedGrandPrixRecord *packedGrandPrixRecord, TimeRecor
         MI_CpuCopy8(timeRecord->mName, packedGrandPrixRecord->mName, 0x14);
         packedGrandPrixRecord->mFilled = 1;
         packedGrandPrixRecord->mCharacterIndex = timeRecord->mCharacterIndex;
-        packedGrandPrixRecord->mUnk_00_b[1] = timeRecord->mKartIndex;
+        packedGrandPrixRecord->mKartIndex = timeRecord->mKartIndex;
         packedGrandPrixRecord->mMinute = timeRecord->mMinute;
         packedGrandPrixRecord->mSecond = timeRecord->mSecond;
         packedGrandPrixRecord->mMillisecond = timeRecord->mMillisecond;
-        packedGrandPrixRecord->mUnk_00_b[3] = timeRecord->mGrade;
-        packedGrandPrixRecord->mUnk_00_b[2] = timeRecord->mTotalPoints;
-        packedGrandPrixRecord->mUnk_04_b[0] = timeRecord->mCupRank;
+        packedGrandPrixRecord->mGrade = timeRecord->mGrade;
+        packedGrandPrixRecord->mTotalPoints = timeRecord->mTotalPoints;
+        packedGrandPrixRecord->mCupRank = timeRecord->mCupRank;
     }
 }
 

@@ -7,6 +7,6 @@ void DrawNsbmd1Mat1Shp(Nsbmd *nsbmd) {
     NNS_G3dDraw1Mat1Shp(nsbmd->mResMdl, 0, 0, 1);
 }
 
-void DrawNsbmdRenderObjWrapper(void *object) {
-    DrawNsbmdRenderObj(object);
+void DrawRenderObjWrapper(NNSG3dRenderObj *object) {
+    NNS_G3dDraw(object);
 }

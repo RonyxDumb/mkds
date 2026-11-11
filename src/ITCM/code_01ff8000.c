@@ -5,7 +5,7 @@
 #include "Main/Unknown/unk_02170000.h"
 #include "Main/Unknown/unk_02173000.h"
 #include "Main/Unknown/unk_0216f000.h"
-#include "Main/Unknown/code_020846c0.h" // Nsbmd
+#include "Main/Unknown/code_020846c0.h" // NNSG3dRenderObj
 #include "code_0200c914.h"
 #include "code_02010c84.h"
 #include "code_0214c778.h"
@@ -164,11 +164,9 @@ void SbcUpdateHintVec_(u32 *hintVector, NNSG3dAnmObj *animObj) {
     } while (animObj != 0);
 }
 
-void DrawNsbmdRenderObj(Nsbmd *object) {
-    NNSG3dRenderObj *renderObj;
+void NNS_G3dDraw(NNSG3dRenderObj *renderObj) {
     NNSG3dRS renderState;
 
-    renderObj = &object->mRenderObj;
     if ((renderObj->mFlag & 0x10) == 0x10) {
         ClearHintBitmap(renderObj->mHintMatAnmExist);
         ClearHintBitmap(renderObj->mHintJntAnmExist);

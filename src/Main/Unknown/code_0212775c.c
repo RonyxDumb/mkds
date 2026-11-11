@@ -366,7 +366,7 @@ s32 InitSelectChoises(void *heap, void *font, s32 subCharOffset) {
     s32 i;
     s32 charSpacing;
     Unk02023374 *charCanvas;
-    Unk0217d3f0_2178 *textCanvas;
+    TextCanvas *textCanvas;
     u32 subDisplayBits;
     gSelectChoises = HeapAlloc(heap, 0x8b4);
     if (gBootInfo->mUnk_00 != 2) {
@@ -387,7 +387,7 @@ s32 InitSelectChoises(void *heap, void *font, s32 subCharOffset) {
         charSpacing = IsLanguageJa();
         textCanvas = &gSelectChoises->mTextCanvases[i];
         textCanvas->mCharCanvas = &gSelectChoises->mCharCanvases[i];
-        textCanvas->mFont = (u32) font;
+        textCanvas->mFont = font;
         textCanvas->mCharSpacing = charSpacing;
         textCanvas->mLineSpacing = 0;
     }

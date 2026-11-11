@@ -34,7 +34,9 @@ typedef struct BackupFirstBlock {
     /* 24 */ u16 mElo;
     /* 26 */ u8 mCourseGhostBits[0x4];
     /* 2a */ u8 mSlotGhostBits[0x2];
-    /* 2c */ u8 mUnk_2c[0x5];
+    /* 2c */ u8 mUnk_2c[0x2];
+    /* 2e */ u8 mEmblemBlockBits[0x2];
+    /* 30 */ u8 mUnk_30[0x1];
     /* 31 */ union {
         u8 mUnk_31;
         struct {
@@ -62,7 +64,12 @@ typedef struct EmblemRecord {
 typedef struct PackedGrandPrixRecord {
     /* 00 */ union {
         u32 mUnk_00;
-        u8 mUnk_00_b[4];
+        struct {
+            u8 mUnk_00_b0;
+            u8 mKartIndex;
+            u8 mTotalPoints;
+            u8 mGrade;
+        };
         struct {
             u32 mFilled : 1;
             u32 mCharacterIndex : 7;
@@ -70,7 +77,7 @@ typedef struct PackedGrandPrixRecord {
     };
     /* 04 */ union {
         u32 mUnk_04;
-        u8 mUnk_04_b[4];
+        u8 mCupRank;
         struct {
             u32 mUnk_04_0 : 8;
             u32 mMinute : 7;

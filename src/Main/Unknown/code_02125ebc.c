@@ -67,7 +67,7 @@ void ClearTxtSystemCanvasInUse(void) {
     }
 }
 
-static inline void InitTxtSystemTextCanvas(Unk0217d3f0_2178 *textCanvas, Unk02023374 *charCanvas, u32 font) {
+static inline void InitTxtSystemTextCanvas(TextCanvas *textCanvas, Unk02023374 *charCanvas, void *font) {
     textCanvas->mCharCanvas = charCanvas;
     textCanvas->mFont = font;
     textCanvas->mCharSpacing = 1;
