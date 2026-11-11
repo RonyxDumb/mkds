@@ -16,7 +16,8 @@ extern struct DossunDrawList data_02158260;
 extern MapObjectKindData data_0215828c;
 // Object of 0x2c bytes made by CreateWanwanChainDrawList and the other factories that copy a template from 0x02158xxx.
 typedef struct MapObjectDrawList {
-    /* 00 */ u32 mUnk_00[11];
+    /* 00 */ MapObjectList mList;
+    /* 28 */ u32 mUnk_28;
 } MapObjectDrawList;
 
 // Object of 0x2c bytes made by CreateMkdEfBubbleUpdateList; a word at 0x28.

@@ -4,72 +4,72 @@
 #include "snd_main.h"
 
 // Links entry index of bank into the list of waveArc, first taking it out of the list of the wave archive it was in.
-void SND_AssignWaveArc(Unk02021968 *bank, s32 index, Unk02021968 *waveArc) {
-    Unk02021968 *oldArc;
-    Unk02021be8 *cur;
-    Unk02021be8 *link;
-    Unk02021be8 *top;
-    Unk02021be8 *next;
+void SND_AssignWaveArc(SNDBankData *bank, s32 index, SNDWaveArc *waveArc) {
+    SNDWaveArc *oldArc;
+    SNDWaveArcLink *cur;
+    SNDWaveArcLink *link;
+    SNDWaveArcLink *top;
+    SNDWaveArcLink *next;
 
     SNDi_LockMutex();
-    oldArc = bank->mUnk_18[index].mUnk_00;
+    oldArc = bank->mWaveArcLink[index].mWaveArc;
     if (oldArc != 0) {
         if (waveArc == oldArc) {
             SNDi_UnlockMutex();
             return;
         }
-        cur = oldArc->mUnk_18[0].mUnk_00;
-        link = &bank->mUnk_18[index];
+        cur = oldArc->mTopLink;
+        link = &bank->mWaveArcLink[index];
         if (link == cur) {
-            oldArc->mUnk_18[0].mUnk_00 = bank->mUnk_18[index].mUnk_04;
-            DC_StoreRange(bank->mUnk_18[index].mUnk_00, 0x3c);
+            oldArc->mTopLink = bank->mWaveArcLink[index].mNext;
+            DC_StoreRange(bank->mWaveArcLink[index].mWaveArc, 0x3c);
         } else {
             while (cur != 0) {
-                next = cur->mUnk_04;
+                next = cur->mNext;
                 if (link == next) {
                     break;
                 }
                 cur = next;
             }
-            cur->mUnk_04 = bank->mUnk_18[index].mUnk_04;
+            cur->mNext = bank->mWaveArcLink[index].mNext;
             DC_StoreRange(cur, 8);
         }
     }
-    top = waveArc->mUnk_18[0].mUnk_00;
-    waveArc->mUnk_18[0].mUnk_00 = &bank->mUnk_18[index];
-    bank->mUnk_18[index].mUnk_04 = top;
-    bank->mUnk_18[index].mUnk_00 = waveArc;
+    top = waveArc->mTopLink;
+    waveArc->mTopLink = &bank->mWaveArcLink[index];
+    bank->mWaveArcLink[index].mNext = top;
+    bank->mWaveArcLink[index].mWaveArc = waveArc;
     SNDi_UnlockMutex();
     DC_StoreRange(bank, 0x3c);
     DC_StoreRange(waveArc, 0x3c);
 }
 
 // Takes each of the four entries of bank out of the list of the wave archive it is in.
-void SND_DestroyBank(Unk02021968 *bank) {
+void SND_DestroyBank(SNDBankData *bank) {
     s32 linkIndex;
-    Unk02021968 *waveArchive;
-    Unk02021be8 *cur;
-    Unk02021be8 *link;
-    Unk02021be8 *next;
+    SNDWaveArc *waveArchive;
+    SNDWaveArcLink *cur;
+    SNDWaveArcLink *link;
+    SNDWaveArcLink *next;
 
     SNDi_LockMutex();
-    link = &bank->mUnk_18[0];
+    link = &bank->mWaveArcLink[0];
     for (linkIndex = 0; linkIndex < 4; linkIndex++) {
-        waveArchive = bank->mUnk_18[linkIndex].mUnk_00;
+        waveArchive = bank->mWaveArcLink[linkIndex].mWaveArc;
         if (waveArchive != 0) {
-            cur = waveArchive->mUnk_18[0].mUnk_00;
+            cur = waveArchive->mTopLink;
             if (link == cur) {
-                waveArchive->mUnk_18[0].mUnk_00 = bank->mUnk_18[linkIndex].mUnk_04;
+                waveArchive->mTopLink = bank->mWaveArcLink[linkIndex].mNext;
                 DC_StoreRange(waveArchive, 0x3c);
             } else {
                 while (cur != 0) {
-                    next = cur->mUnk_04;
+                    next = cur->mNext;
                     if (link == next) {
                         break;
                     }
                     cur = next;
                 }
-                cur->mUnk_04 = bank->mUnk_18[linkIndex].mUnk_04;
+                cur->mNext = bank->mWaveArcLink[linkIndex].mNext;
                 DC_StoreRange(cur, 8);
             }
         }
@@ -79,17 +79,17 @@ void SND_DestroyBank(Unk02021968 *bank) {
 }
 
 // Clears every entry in the list of waveArc.
-void SND_DestroyWaveArc(Unk02021968 *waveArc) {
-    Unk02021be8 *cur;
-    Unk02021be8 *next;
+void SND_DestroyWaveArc(SNDWaveArc *waveArc) {
+    SNDWaveArcLink *cur;
+    SNDWaveArcLink *next;
 
     SNDi_LockMutex();
-    cur = waveArc->mUnk_18[0].mUnk_00;
+    cur = waveArc->mTopLink;
     if (cur != 0) {
         do {
-            next = cur->mUnk_04;
-            cur->mUnk_00 = 0;
-            cur->mUnk_04 = 0;
+            next = cur->mNext;
+            cur->mWaveArc = 0;
+            cur->mNext = 0;
             DC_StoreRange(cur, 8);
             cur = next;
         } while (next != 0);
@@ -107,14 +107,14 @@ void SND_GetFirstInstDataPos(SNDInstPos *pos) {
 }
 
 // Copies the instrument entry at pos into inst and moves pos on; returns 0 when there are no more.
-u32 SND_GetNextInstData(Unk02021968 *bank, SNDInstData *inst, SNDInstPos *pos) {
+u32 SND_GetNextInstData(SNDBankData *bank, SNDInstData *inst, SNDInstPos *pos) {
     u32 entry;
     InstSimple *simple;
     InstDrumSet *drumSet;
     InstKeySplit *keySplit;
 
-    while (pos->mPrgNo < bank->mUnk_38) {
-        entry = bank->mUnk_3c[pos->mPrgNo];
+    while (pos->mPrgNo < bank->mInstCount) {
+        entry = bank->mInstOffset[pos->mPrgNo];
         inst->mType = entry;
         switch (inst->mType) {
             case 1:
@@ -155,6 +155,6 @@ u32 SND_GetNextInstData(Unk02021968 *bank, SNDInstData *inst, SNDInstPos *pos) {
 }
 
 // Returns the number of wave data entries of waveArc.
-u32 SND_GetWaveDataCount(Unk02021968 *waveArc) {
-    return waveArc->mUnk_38;
+u32 SND_GetWaveDataCount(SNDWaveArc *waveArc) {
+    return waveArc->mWaveCount;
 }

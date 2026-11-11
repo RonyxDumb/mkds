@@ -46,10 +46,10 @@ u8 CollideKartWithSunFireball(SunFireball *sunFireball, Kart *kart, u8 *hitFlag,
         sunFireball->mMapObject.mPosStep.x = 0;
         sunFireball->mMapObject.mPosStep.y = 0x3000;
         sunFireball->mMapObject.mPosStep.z = 0;
-        sunFireball->mUnk_bc->mUnk_70 = 0x23;
-        sunFireball->mUnk_c0->mUnk_70 = 0x23;
-        sunFireball->mUnk_bc->mUnk_80 = 5;
-        sunFireball->mUnk_c0->mUnk_80 = 5;
+        sunFireball->mUnk_bc->mLife = 0x23;
+        sunFireball->mUnk_c0->mLife = 0x23;
+        sunFireball->mUnk_bc->mEmitInterval = 5;
+        sunFireball->mUnk_c0->mEmitInterval = 5;
         if (kart->mItemEffect == 1 || kart->mItemEffect == 3) {
             sunFireball->mMapObject.mDistanceSquaredAndFlags |= data_usa_021565e0;
         }
@@ -72,10 +72,10 @@ u8 CollideItemObjectWithSunFireball(SunFireball *sunFireball, ItemObject *itemOb
         sunFireball->mMapObject.mPosStep.x = 0;
         sunFireball->mMapObject.mPosStep.y = 0x3000;
         sunFireball->mMapObject.mPosStep.z = 0;
-        sunFireball->mUnk_bc->mUnk_70 = 0x23;
-        sunFireball->mUnk_c0->mUnk_70 = 0x23;
-        sunFireball->mUnk_bc->mUnk_80 = 5;
-        sunFireball->mUnk_c0->mUnk_80 = 5;
+        sunFireball->mUnk_bc->mLife = 0x23;
+        sunFireball->mUnk_c0->mLife = 0x23;
+        sunFireball->mUnk_bc->mEmitInterval = 5;
+        sunFireball->mUnk_c0->mEmitInterval = 5;
     }
     return passedOnValue;
 }
@@ -139,10 +139,10 @@ void UpdateSunFireball(void *mapObjectList, SunFireball *sunFireball) {
                         sunFireball->mMapObject.mPosStep.y = 0x2c00;
                         sunFireball->mState0Timer += 0x3c;
                         sunFireball->mState = 0;
-                        sunFireball->mUnk_bc->mUnk_70 = 0x2a;
-                        sunFireball->mUnk_c0->mUnk_70 = 0x2a;
-                        sunFireball->mUnk_bc->mUnk_80 = 6;
-                        sunFireball->mUnk_c0->mUnk_80 = 6;
+                        sunFireball->mUnk_bc->mLife = 0x2a;
+                        sunFireball->mUnk_c0->mLife = 0x2a;
+                        sunFireball->mUnk_bc->mEmitInterval = 6;
+                        sunFireball->mUnk_c0->mEmitInterval = 6;
                     }
                 }
             } else {
@@ -194,18 +194,18 @@ void UpdateSunFireball(void *mapObjectList, SunFireball *sunFireball) {
     if ((sunFireball->mMapObject.mFlags & 0x12) == 0) {
         if (sunFireball->mUnk_bc != NULL) {
             PlaceEffect(sunFireball->mUnk_bc, &sunFireball->mMapObject.mPos);
-            sunFireball->mUnk_bc->mUnk_24 &= ~2;
+            sunFireball->mUnk_bc->mUnk_24.mEmissionStopped = 0;
         }
         if (sunFireball->mUnk_c0 != NULL) {
             PlaceEffect(sunFireball->mUnk_c0, &sunFireball->mMapObject.mPos);
-            sunFireball->mUnk_c0->mUnk_24 &= ~2;
+            sunFireball->mUnk_c0->mUnk_24.mEmissionStopped = 0;
         }
     } else {
         if (sunFireball->mUnk_bc != NULL) {
-            sunFireball->mUnk_bc->mUnk_24 |= 2;
+            sunFireball->mUnk_bc->mUnk_24.mEmissionStopped = 1;
         }
         if (sunFireball->mUnk_c0 != NULL) {
-            sunFireball->mUnk_c0->mUnk_24 |= 2;
+            sunFireball->mUnk_c0->mUnk_24.mEmissionStopped = 1;
         }
     }
 }
@@ -240,10 +240,10 @@ void StartSunFireball(Vec3 *startPos, Vec3 *direction) {
     sunFireball->mState = 0;
     sunFireball->mUnk_bc = StartEffect(0x35, &sunFireball->mMapObject.mPos);
     sunFireball->mUnk_c0 = StartEffect(0x34, &sunFireball->mMapObject.mPos);
-    sunFireball->mUnk_bc->mUnk_70 = 0x15;
-    sunFireball->mUnk_c0->mUnk_70 = 0x15;
-    sunFireball->mUnk_bc->mUnk_80 = 3;
-    sunFireball->mUnk_c0->mUnk_80 = 3;
+    sunFireball->mUnk_bc->mLife = 0x15;
+    sunFireball->mUnk_c0->mLife = 0x15;
+    sunFireball->mUnk_bc->mEmitInterval = 3;
+    sunFireball->mUnk_c0->mEmitInterval = 3;
     sunFireball->mMapObject.mFlags &= ~1;
     sunFireball->mMapObject.mFlags &= ~8;
     sunFireball->mMapObject.mFlags &= ~2;

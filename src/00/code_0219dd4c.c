@@ -417,7 +417,7 @@ u32 DWCi_GT2UnrecognizedMessageCallback(u32 socket, u32 address, u16 port, u8 *d
     firstByte = data[0];
     if ((firstByte == 0xfe && data[1] == 0xfd) || firstByte == 0x5c) {
         if (gWiFiMatching->mQr2 != NULL) {
-            qr2_parse_queryA((Unk021a3a18 *) gWiFiMatching->mQr2, (s8 *) data, size, &originAddr);
+            qr2_parse_queryA(gWiFiMatching->mQr2, (s8 *) data, size, &originAddr);
         }
     } else if (memcmp(data, NNMagicData, 6) == 0) {
         NNProcessData(data, size, &originAddr);

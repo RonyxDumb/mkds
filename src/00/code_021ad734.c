@@ -603,7 +603,7 @@ void send_ip(u8 *header, u32 headerLength, u8 *body, u32 bodyLength, u32 address
     }
 }
 
-void send_ping(u8 *pattern, u32 length, Unk021a998c *socket) {
+void send_ping(u8 *pattern, u32 length, CPSSoc *socket) {
     u32 checksum;
     u16 invertedChecksum;
     u16 sequence;
@@ -626,7 +626,7 @@ void send_ping(u8 *pattern, u32 length, Unk021a998c *socket) {
     send_ip(icmpHeader, 8, pattern, length, socket->mRemoteIp, 1);
 }
 
-void send_udp(u8 *data, u32 length, Unk021a998c *socket) {
+void send_udp(u8 *data, u32 length, CPSSoc *socket) {
     u8 *sendBuffer;
     u8 *header;
     u32 checksum;
@@ -652,7 +652,7 @@ void send_udp(u8 *data, u32 length, Unk021a998c *socket) {
     send_ip(header, 8, data, length, socket->mRemoteIp, 0x11);
 }
 
-void send_tcp(u8 *data, u32 length, Unk021a998c *socket, u32 flag, u16 urgent) {
+void send_tcp(u8 *data, u32 length, CPSSoc *socket, u32 flag, u16 urgent) {
     u8 *header;
     u32 tcpSize;
     u32 checksum;
@@ -802,7 +802,7 @@ void reply_icmp(IpHeader *ipHeader, IcmpHeader *icmp, u32 length) {
 
 void process_icmp_reply(IpHeader *ipHeader, IcmpHeader *icmp, u32 length) {
     OSThread *thread;
-    Unk021a998c *socket;
+    CPSSoc *socket;
 
     for (thread = OSi_ThreadInfo.mListHead; thread != NULL; thread = thread->mNext) {
         socket = thread->mUnk_a4[0];
@@ -861,8 +861,8 @@ void dispatch_icmp(IpHeader *ipHeader, IcmpHeader *icmp, u32 length) {
     }
 }
 
-Unk021a998c *check_listener(const IpHeader *ipHeader, const TcpHeader *tcpHeader) {
-    Unk021a998c *socket;
+CPSSoc *check_listener(const IpHeader *ipHeader, const TcpHeader *tcpHeader) {
+    CPSSoc *socket;
     OSThread *thread;
 
     for (thread = OSi_ThreadInfo.mListHead; thread != NULL; thread = thread->mNext) {
@@ -886,7 +886,7 @@ Unk021a998c *check_listener(const IpHeader *ipHeader, const TcpHeader *tcpHeader
     return NULL;
 }
 
-BOOL check_socket(const IpHeader *ipHeader, const TcpHeader *tcpHeader, const Unk021a998c *socket) {
+BOOL check_socket(const IpHeader *ipHeader, const TcpHeader *tcpHeader, const CPSSoc *socket) {
     u32 matches = 0;
     u32 remotePortMatches = 0;
     u32 localPortMatches = 0;
@@ -915,8 +915,8 @@ BOOL check_socket(const IpHeader *ipHeader, const TcpHeader *tcpHeader, const Un
     return matches;
 }
 
-Unk021a998c *find_socket(const IpHeader *ipHeader, const TcpHeader *tcpHeader) {
-    Unk021a998c *socket;
+CPSSoc *find_socket(const IpHeader *ipHeader, const TcpHeader *tcpHeader) {
+    CPSSoc *socket;
     OSThread *thread;
 
     thread = OSi_ThreadInfo.mListHead;
@@ -930,7 +930,7 @@ Unk021a998c *find_socket(const IpHeader *ipHeader, const TcpHeader *tcpHeader) {
     return NULL;
 }
 
-void parse_mss(const TcpHeader *tcpHeader, Unk021a998c *socket) {
+void parse_mss(const TcpHeader *tcpHeader, CPSSoc *socket) {
     const u8 *options;
     s32 optionsLength;
     s32 remaining;
@@ -972,7 +972,7 @@ u32 no_need_inq(u32 address) {
     return (u32) inq_arpcache(target);
 }
 
-void tcp_send_handshake(Unk021a998c *socket, u32 flag, u16 urgent) {
+void tcp_send_handshake(CPSSoc *socket, u32 flag, u16 urgent) {
     if (no_need_inq(socket->mRemoteIp) != 0 || OSi_ThreadInfo.mCurrentThread != &gTcpipThread) {
         send_tcp(NULL, 0, socket, flag, urgent);
     } else {
@@ -989,7 +989,7 @@ void tcp_send_finack(void *socket, u16 urgent) {
 }
 
 void tcp_send_rst(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length, u16 urgent) {
-    Unk021a998c *socket;
+    CPSSoc *socket;
 
     socket = &gTmpSoc;
     MI_CpuFill8(socket, 0, 0x64);
@@ -1012,7 +1012,7 @@ void tcp_send_rst(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length, u16 urge
     tcp_send_handshake(socket, 0x14, urgent);
 }
 
-void dt_syn_listen(IpHeader *ipHeader, TcpHeader *tcpHeader, Unk021a998c *socket) {
+void dt_syn_listen(IpHeader *ipHeader, TcpHeader *tcpHeader, CPSSoc *socket) {
     socket->mState = 3;
     socket->mStateStartTime = OS_GetTick() >> 16;
     socket->mLocalIpReal = ((u16) ((ipHeader->mDestAddressHigh >> 8) | (ipHeader->mDestAddressHigh << 8)) << 16) |
@@ -1028,7 +1028,7 @@ void dt_syn_listen(IpHeader *ipHeader, TcpHeader *tcpHeader, Unk021a998c *socket
 }
 
 BOOL find_specific_socket(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
-    Unk021a998c *socket;
+    CPSSoc *socket;
 
     socket = find_socket(ipHeader, tcpHeader);
     if (socket != NULL) {
@@ -1046,7 +1046,7 @@ BOOL find_specific_socket(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) 
 }
 
 void dt_syn(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
-    Unk021a998c *socket;
+    CPSSoc *socket;
 
     if (valid_IP((u32) (((u16) ((ipHeader->mSourceAddressHigh >> 8) | (ipHeader->mSourceAddressHigh << 8)) << 16) |
                         (u16) ((ipHeader->mSourceAddressLow >> 8) | (ipHeader->mSourceAddressLow << 8))),
@@ -1068,7 +1068,7 @@ void dt_syn(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
 }
 
 void dt_synack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
-    Unk021a998c *socket;
+    CPSSoc *socket;
 
     socket = find_socket(ipHeader, tcpHeader);
     if (socket == NULL || socket->mState != 2) {
@@ -1092,7 +1092,7 @@ void dt_synack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
 }
 
 void dt_ack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
-    Unk021a998c *socket;
+    CPSSoc *socket;
     u32 flags;
     u32 c;
     s32 ackNoLow;
@@ -1203,7 +1203,7 @@ void dt_ack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
 }
 
 void dt_fin(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
-    Unk021a998c *socket;
+    CPSSoc *socket;
 
     socket = find_socket(ipHeader, tcpHeader);
     if (socket == NULL) {
@@ -1237,7 +1237,7 @@ void dt_fin(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
 }
 
 void dt_rst(const IpHeader *ipHeader, const TcpHeader *tcpHeader) {
-    Unk021a998c *socket;
+    CPSSoc *socket;
 
     socket = find_socket(ipHeader, tcpHeader);
     if (socket != NULL) {
@@ -1287,7 +1287,7 @@ void dispatch_tcp(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
 
 void dispatch_udp(IpHeader *ipHeader, UdpHeader *udpHeader, u32 length) {
     OSThread *thread;
-    Unk021a998c *socket;
+    CPSSoc *socket;
 
     if (udpHeader->mChecksum != 0 &&
         check_tcpudpsum(udpHeader, length, (const Unk021b0138 *) ipHeader, 0x11) != FALSE) {
@@ -1511,7 +1511,7 @@ void tcpip(void) {
 u16 CPS_SocGetEport(void) {
     u32 inUse;
     OSThread *thread;
-    Unk021a998c *socket;
+    CPSSoc *socket;
 
     do {
         inUse = 0;
@@ -1549,7 +1549,7 @@ void CPS_SocUnRegister(void) {
 }
 
 void CPS_SocDatagramMode(void) {
-    Unk021a998c *socket;
+    CPSSoc *socket;
     socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if (socket != NULL) {
         socket->mState = 10;
@@ -1559,7 +1559,7 @@ void CPS_SocDatagramMode(void) {
 
 void CPS_SocBind(int ownPort, u16 remotePort, int remoteAddress) {
     u16 ephemeralPort;
-    Unk021a998c *socket;
+    CPSSoc *socket;
     socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if (socket != NULL) {
         if (remoteAddress == 0x7f000001) {
@@ -1579,7 +1579,7 @@ void CPS_SocBind(int ownPort, u16 remotePort, int remoteAddress) {
 }
 
 void CPS_SocUse(void) {
-    Unk021a998c *socket;
+    CPSSoc *socket;
     socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if (socket != NULL) {
         socket->mThread = OSi_ThreadInfo.mCurrentThread;
@@ -1591,7 +1591,7 @@ void CPS_SocUse(void) {
 }
 
 void CPS_SocRelease(void) {
-    Unk021a998c *socket;
+    CPSSoc *socket;
     socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if (socket != NULL) {
         socket->mThread = NULL;
@@ -1602,7 +1602,7 @@ void CPS_SocDup(OSThread *thread) {
     thread->mUnk_a4[0] = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
 }
 
-void CPSi_TcpListenRaw(Unk021a998c *socket) {
+void CPSi_TcpListenRaw(CPSSoc *socket) {
     u32 seqNo;
     seqNo = get_seqno();
     socket->mSeqNo = seqNo;
@@ -1620,7 +1620,7 @@ void CPS_SetUdpCallback(Unk021a78a4Func callback) {
 }
 
 void CPS_TcpListen(void) {
-    Unk021a998c *socket;
+    CPSSoc *socket;
 
     socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if (socket != NULL) {
@@ -1632,7 +1632,7 @@ void CPS_TcpListen(void) {
     }
 }
 
-u32 CPSi_TcpConnectRaw(Unk021a998c *socket) {
+u32 CPSi_TcpConnectRaw(CPSSoc *socket) {
     u32 seqNo;
     u32 attempt;
     u32 interruptState;
@@ -1660,7 +1660,7 @@ u32 CPSi_TcpConnectRaw(Unk021a998c *socket) {
 }
 
 u32 CPS_TcpConnect(void) {
-    Unk021a998c *socket;
+    CPSSoc *socket;
 
     socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if (socket != NULL) {
@@ -1673,7 +1673,7 @@ u32 CPS_TcpConnect(void) {
 }
 
 u32 CPS_SocWho(u16 *remotePort, u32 *localAddress) {
-    Unk021a998c *socket;
+    CPSSoc *socket;
     socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if ((socket != NULL) && ((socket->mState == 4 || (socket->mState == '\n')))) {
         if (remotePort != NULL) {
@@ -1687,7 +1687,7 @@ u32 CPS_SocWho(u16 *remotePort, u32 *localAddress) {
     return 0;
 }
 
-void CPSi_TcpShutdownRaw(Unk021a998c *socket) {
+void CPSi_TcpShutdownRaw(CPSSoc *socket) {
     OS_YieldThread();
     if (socket->mState == 3 || socket->mState == 4) {
         tcp_send_finack(socket, 25);
@@ -1700,7 +1700,7 @@ void CPSi_TcpShutdownRaw(Unk021a998c *socket) {
 }
 
 void CPS_TcpShutdown(void) {
-    Unk021a998c *socket;
+    CPSSoc *socket;
 
     socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if (socket != NULL) {
@@ -1713,7 +1713,7 @@ void CPS_TcpShutdown(void) {
 }
 
 void CPS_TcpClose(void) {
-    Unk021a998c *socket;
+    CPSSoc *socket;
     s32 startTick;
 
     socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
@@ -1725,7 +1725,7 @@ void CPS_TcpClose(void) {
     }
 }
 
-u8 *udp_read_raw(u32 *length, Unk021a998c *socket) {
+u8 *udp_read_raw(u32 *length, CPSSoc *socket) {
     u32 received;
     received = socket->mReceiveBufferLength;
     while (received == 0) {
@@ -1737,7 +1737,7 @@ u8 *udp_read_raw(u32 *length, Unk021a998c *socket) {
     return socket->mReceiveBuffer;
 }
 
-u8 *CPSi_TcpReadRaw(u32 *length, Unk021a998c *socket) {
+u8 *CPSi_TcpReadRaw(u32 *length, CPSSoc *socket) {
     if (socket->mReceiveBufferLength == 0 && socket->mState == 4) {
         while (socket->mReceiveBufferLength == 0 && socket->mState == 4) {
             socket->mBlockType = 2;
@@ -1754,7 +1754,7 @@ u8 *CPSi_TcpReadRaw(u32 *length, Unk021a998c *socket) {
 }
 
 u8 *CPS_SocRead(u32 *length) {
-    Unk021a998c *socket;
+    CPSSoc *socket;
 
     socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if (socket != NULL) {
@@ -1770,7 +1770,7 @@ u8 *CPS_SocRead(u32 *length) {
     return NULL;
 }
 
-void CPSi_SocConsumeRaw(u32 length, Unk021a998c *socket) {
+void CPSi_SocConsumeRaw(u32 length, CPSSoc *socket) {
     u32 interruptState;
     u32 d;
     u8 *buffer;
@@ -1794,7 +1794,7 @@ void CPSi_SocConsumeRaw(u32 length, Unk021a998c *socket) {
 }
 
 void CPS_SocConsume(u32 length) {
-    Unk021a998c *socket;
+    CPSSoc *socket;
 
     socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if (socket != NULL) {
@@ -1806,7 +1806,7 @@ void CPS_SocConsume(u32 length) {
     }
 }
 
-s32 tcp_write_do(const u8 *buffer, s32 length, Unk021a998c *socket, s32 probeFlag) {
+s32 tcp_write_do(const u8 *buffer, s32 length, CPSSoc *socket, s32 probeFlag) {
     u32 window;
     u32 segmentLength;
     s32 ackCountSaved;
@@ -1852,7 +1852,7 @@ s32 tcp_write_do(const u8 *buffer, s32 length, Unk021a998c *socket, s32 probeFla
     return segmentLength;
 }
 
-void tcp_write_do2(const u8 *buffer, s32 length, const u8 *secondBuffer, s32 secondLength, Unk021a998c *socket,
+void tcp_write_do2(const u8 *buffer, s32 length, const u8 *secondBuffer, s32 secondLength, CPSSoc *socket,
                    s32 probeFlag) {
     if (tcp_write_do(buffer, length, socket, probeFlag) != 0 && secondLength != 0) {
         tcp_write_do(secondBuffer, secondLength, socket, 0);
@@ -1860,7 +1860,7 @@ void tcp_write_do2(const u8 *buffer, s32 length, const u8 *secondBuffer, s32 sec
 }
 
 s32 CPSi_TcpWrite2Raw(const u8 *buffer, u32 length, const u8 *secondBuffer, s32 secondLength, void *socketArgument) {
-    Unk021a998c *socket;
+    CPSSoc *socket;
     s32 bytesWritten;
     BOOL probeFlag;
     s32 seqNoBefore;
@@ -1920,7 +1920,7 @@ s32 CPSi_TcpWrite2Raw(const u8 *buffer, u32 length, const u8 *secondBuffer, s32 
 }
 
 s32 CPSi_SocWrite2(const u8 *buffer, s32 length, const u8 *secondBuffer, s32 secondLength) {
-    Unk021a998c *socket;
+    CPSSoc *socket;
     u8 state;
     s32 bytesWritten;
 
@@ -1956,7 +1956,7 @@ s32 CPSi_SocWrite2(const u8 *buffer, s32 length, const u8 *secondBuffer, s32 sec
 }
 
 s32 CPS_SocWrite(const u8 *buffer, s32 length) {
-    Unk021a998c *socket;
+    CPSSoc *socket;
     s32 bytesWritten;
 
     socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
@@ -1978,7 +1978,7 @@ s32 CPS_SocWrite(const u8 *buffer, s32 length) {
 }
 
 s32 CPS_SocGetLength(void) {
-    Unk021a998c *socket;
+    CPSSoc *socket;
     s32 count;
 
     socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
@@ -1997,7 +1997,7 @@ s32 CPS_SocGetLength(void) {
 }
 
 void CPS_SocFlush(void) {
-    Unk021a998c *socket;
+    CPSSoc *socket;
     socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if ((socket != NULL) && (socket->mOutBufferLength != 0)) {
         CPSi_SocWrite2((socket->mOutBuffer), socket->mOutBufferLength, NULL, 0);
@@ -2032,7 +2032,7 @@ void scavenger(void) {
     s32 e;
     s32 i;
     OSThread *thread;
-    Unk021a998c *socket;
+    CPSSoc *socket;
     CPSArpCache *arpEntry;
     CPSFragTable *fragment;
 

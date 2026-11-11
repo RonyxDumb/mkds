@@ -36,7 +36,7 @@ s32 qr2_init_socketA(QueryRecord **qrec, s32 socket, s32 boundport, const char *
         record = *qrec;
     }
     srand(GetElapsedMilliseconds());
-    strcpy((char *) record->mGameName, gamename);
+    strcpy(record->mGameName, gamename);
     strcpy((char *) record->mSecretKey, secretKey);
     record->mQport = boundport;
     index = 0;
@@ -133,7 +133,7 @@ void qr2_check_queries(QueryRecord *qrec) {
             bytesReceived = recvfrom(qrec->mHbSock, gQr2Indata, 0xff, zero, senderAddress, &senderAddressLength);
             if (bytesReceived != ~zero) {
                 gQr2Indata[bytesReceived] = zero;
-                qr2_parse_queryA((Unk021a3a18 *) qrec, gQr2Indata, bytesReceived, senderAddress);
+                qr2_parse_queryA(qrec, gQr2Indata, bytesReceived, senderAddress);
             }
         } while (CanReceiveOnSocket(qrec->mHbSock) != 0);
     }
@@ -152,16 +152,16 @@ void qr2_check_send_heartbeat(QueryRecord *qrec) {
                 qrec->mAddErrorCallback(5, gNoChallengeErrorMessage, qrec->mUserData);
                 return;
             }
-            send_heartbeat((Unk021a3a18 *) qrec, 3);
+            send_heartbeat(qrec, 3);
             qrec->mListedState = qrec->mListedState + 1;
         } else if (qrec->mUserStateChangeRequested != FALSE && currentTime - qrec->mLastHeartbeat > 10000) {
-            send_heartbeat((Unk021a3a18 *) qrec, 1);
+            send_heartbeat(qrec, 1);
         } else if (currentTime - qrec->mLastHeartbeat > 60000 || qrec->mLastHeartbeat == 0 ||
                    currentTime < qrec->mLastHeartbeat) {
-            send_heartbeat((Unk021a3a18 *) qrec, 0);
+            send_heartbeat(qrec, 0);
         }
         if (currentTime - qrec->mLastKeepalive > 20000) {
-            send_keepalive((Unk021a3a18 *) qrec);
+            send_keepalive(qrec);
         }
     }
 }
@@ -177,7 +177,7 @@ void qr2_send_statechanged(QueryRecord *qrec) {
             qrec->mUserStateChangeRequested = TRUE;
             return;
         }
-        send_heartbeat((Unk021a3a18 *) qrec, 1);
+        send_heartbeat(qrec, 1);
         qrec->mUserStateChangeRequested = FALSE;
     }
 }
@@ -187,7 +187,7 @@ void qr2_shutdown(QueryRecord *qrec) {
         qrec = gCurrentQr2Rec;
     }
     if (qrec->mIsPublic != 0) {
-        send_heartbeat((Unk021a3a18 *) qrec, 2);
+        send_heartbeat(qrec, 2);
     }
     if (qrec->mHbSock != -1 && qrec->mReadSocket != FALSE) {
         closesocket(qrec->mHbSock);
@@ -654,7 +654,7 @@ void qr_process_old_query(QueryRecord *qrec, QueryBuffer *buf) {
     buf->mLen = buf->mLen + -1;
 }
 
-void qr_process_client_message(Unk021a3a18 *qrec, u8 *buf, s32 len) {
+void qr_process_client_message(QueryRecord *qrec, u8 *buf, s32 len) {
     NatnegMagic magicRef = gNatnegMagicBytes;
     s32 index;
     BOOL natNegPacket = TRUE;
@@ -678,35 +678,36 @@ void qr_process_client_message(Unk021a3a18 *qrec, u8 *buf, s32 len) {
         cookieBytes[1] = cookieSource[1];
         cookieBytes[2] = cookieSource[2];
         cookieBytes[3] = cookieSource[3];
-        if (qrec->mUnk_a0 != NULL) {
-            qrec->mUnk_a0(((echoCookie << 24) & 0xff000000) |
-                              (((echoCookie << 8) & 0xff0000) | (((echoCookie >> 24) & 0xff) | ((echoCookie >> 8) & 0xff00))),
-                          qrec->mUnk_10c);
+        if (qrec->mNatnegCallback != NULL) {
+            qrec->mNatnegCallback(
+                ((echoCookie << 24) & 0xff000000) |
+                    (((echoCookie << 8) & 0xff0000) | (((echoCookie >> 24) & 0xff) | ((echoCookie >> 8) & 0xff00))),
+                qrec->mUserData);
         }
-    } else if (qrec->mUnk_a4 != NULL) {
-        qrec->mUnk_a4((s8 *) buf, len, qrec->mUnk_10c);
+    } else if (qrec->mClientMessageCallback != NULL) {
+        qrec->mClientMessageCallback((s8 *) buf, len, qrec->mUserData);
     }
 }
 
-BOOL qr_got_recent_message(Unk021a3a18 *qrec, int msgkey) {
+BOOL qr_got_recent_message(QueryRecord *qrec, int msgkey) {
     int index;
     int nextIndex;
     int *keyField;
     index = 0;
     do {
-        if (msgkey == qrec->mUnk_d8[index]) {
+        if (msgkey == qrec->mClientMessageKeys[index]) {
             return 1;
         }
         index = index + 1;
     } while (index < 10);
-    nextIndex = (qrec->mUnk_100 + 1) % (10);
-    keyField = &qrec->mUnk_100;
+    nextIndex = (qrec->mCurMessageKey + 1) % (10);
+    keyField = &qrec->mCurMessageKey;
     *keyField = nextIndex;
-    qrec->mUnk_d8[*keyField] = msgkey;
+    qrec->mClientMessageKeys[*keyField] = msgkey;
     return 0;
 }
 
-void qr2_parse_queryA(Unk021a3a18 *qrec, s8 *query, s32 len, void *sender) {
+void qr2_parse_queryA(QueryRecord *qrec, s8 *query, s32 len, void *sender) {
     QueryBuffer buf;
     s32 queryKind;
     s32 index;
@@ -714,22 +715,22 @@ void qr2_parse_queryA(Unk021a3a18 *qrec, s8 *query, s32 len, void *sender) {
     s8 *pos;
     buf.mLen = 0;
     if (qrec == NULL) {
-        qrec = (Unk021a3a18 *) gCurrentQr2Rec;
+        qrec = gCurrentQr2Rec;
     }
     if (query[0] == 0x3b) {
-        if (qrec->mUnk_d4 != NULL) {
-            qrec->mUnk_d4(query, len, sender);
+        if (qrec->mCdkeyProcess != NULL) {
+            qrec->mCdkeyProcess(query, len, sender);
             return;
         }
     } else if (query[0] == 0x5c) {
-        qr_process_old_query((QueryRecord *) qrec, &buf);
-        sendto(qrec->mUnk_00, &buf, buf.mLen, 0, sender, 8);
+        qr_process_old_query(qrec, &buf);
+        sendto(qrec->mHbSock, &buf, buf.mLen, 0, sender, 8);
         return;
     } else if (len >= 7) {
         if ((u8) query[0] == 0xfe) {
             if ((u8) query[1] == 0xfd) {
-                if (qrec->mUnk_b8 > 0) {
-                    qrec->mUnk_b8 = 0;
+                if (qrec->mListedState > 0) {
+                    qrec->mListedState = 0;
                 }
                 queryKind = query[2];
                 requestKey = query + 3;
@@ -738,13 +739,13 @@ void qr2_parse_queryA(Unk021a3a18 *qrec, s8 *query, s32 len, void *sender) {
                 qr_add_packet_header((u32) &buf, queryKind, (u32) requestKey);
                 switch (queryKind) {
                     case 0:
-                        qr_process_query((QueryRecord *) qrec, &buf, (u8 *) pos, len);
+                        qr_process_query(qrec, &buf, (u8 *) pos, len);
                         break;
                     case 1:
-                        if (len >= 13 && qrec->mUnk_a8 != 0) {
-                            handle_public_address((QueryRecord *) qrec, (const char *) (pos + len - 13));
+                        if (len >= 13 && qrec->mPublicAddressCallback != 0) {
+                            handle_public_address(qrec, (const char *) (pos + len - 13));
                         }
-                        compute_challenge_response((QueryRecord *) qrec, &buf, (const char *) pos, len);
+                        compute_challenge_response(qrec, &buf, (const char *) pos, len);
                         break;
                     case 2:
                         if (len > 0x20) {
@@ -755,23 +756,23 @@ void qr2_parse_queryA(Unk021a3a18 *qrec, s8 *query, s32 len, void *sender) {
                         buf.mLen += len;
                         break;
                     case 4:
-                        if (qrec->mUnk_b8 == -1) {
+                        if (qrec->mListedState == -1) {
                             return;
                         }
                         for (index = 0; index < 4; index++) {
-                            if (requestKey[index] != qrec->mUnk_84[index]) {
+                            if (requestKey[index] != qrec->mInstanceKey[index]) {
                                 return;
                             }
                         }
                         if (len < 2) {
                             return;
                         }
-                        qrec->mUnk_b8 = -1;
-                        qrec->mUnk_9c(pos[0], (u8 *) (pos + 1), qrec->mUnk_10c);
+                        qrec->mListedState = -1;
+                        qrec->mAddErrorCallback(pos[0], (u8 *) (pos + 1), qrec->mUserData);
                         return;
                     case 6:
                         for (index = 0; index < 4; index++) {
-                            if (requestKey[index] != qrec->mUnk_84[index]) {
+                            if (requestKey[index] != qrec->mInstanceKey[index]) {
                                 return;
                             }
                         }
@@ -793,56 +794,56 @@ void qr2_parse_queryA(Unk021a3a18 *qrec, s8 *query, s32 len, void *sender) {
                     default:
                         return;
                 }
-                sendto(qrec->mUnk_00, &buf, buf.mLen, 0, sender, 8);
+                sendto(qrec->mHbSock, &buf, buf.mLen, 0, sender, 8);
             }
         }
     }
 }
 
-void send_keepalive(Unk021a3a18 *qrec) {
+void send_keepalive(QueryRecord *qrec) {
     QueryBuffer buf;
     buf.mLen = 0;
-    qr_add_packet_header((u32) &buf, 8, (u32) qrec->mUnk_84);
-    sendto(qrec->mUnk_00, &buf, buf.mLen, 0, qrec->mUnk_cc, 8);
-    qrec->mUnk_b0 = GetElapsedMilliseconds();
+    qr_add_packet_header((u32) &buf, 8, (u32) qrec->mInstanceKey);
+    sendto(qrec->mHbSock, &buf, buf.mLen, 0, &qrec->mHbAddr, 8);
+    qrec->mLastKeepalive = GetElapsedMilliseconds();
 }
 
-void send_heartbeat(Unk021a3a18 *qrec, s32 statechanged) {
+void send_heartbeat(QueryRecord *qrec, s32 statechanged) {
     QueryBuffer buf;
     char keyText[0x14];
     s32 index;
     buf.mLen = 0;
-    qr_add_packet_header((u32) &buf, 3, (u32) qrec->mUnk_84);
+    qr_add_packet_header((u32) &buf, 3, (u32) qrec->mInstanceKey);
     for (index = 0; index < gNumLocalIps; index++) {
         sprintf(keyText, gLocalIpKeyFormat, index);
         qr2_buffer_addA(&buf, keyText);
         qr2_buffer_addA(&buf, SOC_InetNtoA(((SOCInAddr *) gLocalIpList)[index]));
     }
     qr2_buffer_addA(&buf, gLocalportKey);
-    qr2_buffer_add_int(&buf, qrec->mUnk_c0);
+    qr2_buffer_add_int(&buf, qrec->mQport);
     qr2_buffer_addA(&buf, gNatnegKey);
-    qr2_buffer_addA(&buf, qrec->mUnk_c8 != 0 ? gNatnegOnValue : gNatnegOffValue);
+    qr2_buffer_addA(&buf, qrec->mNatNegotiate != 0 ? gNatnegOnValue : gNatnegOffValue);
     if (statechanged != 0) {
         qr2_buffer_addA(&buf, gStatechangedKey);
         qr2_buffer_add_int(&buf, statechanged);
     }
     qr2_buffer_addA(&buf, gGamenamePlainKey);
-    qr2_buffer_addA(&buf, qrec->mUnk_04);
-    if (qrec->mUnk_a8 != 0) {
+    qr2_buffer_addA(&buf, qrec->mGameName);
+    if (qrec->mPublicAddressCallback != 0) {
         qr2_buffer_addA(&buf, gPublicipKey);
-        qr2_buffer_add_int(&buf, qrec->mUnk_104);
+        qr2_buffer_add_int(&buf, qrec->mPublicIp);
         qr2_buffer_addA(&buf, gPublicportKey);
-        qr2_buffer_add_int(&buf, qrec->mUnk_108);
+        qr2_buffer_add_int(&buf, qrec->mPublicPort);
     }
     if (statechanged != 2) {
-        qr_build_query_reply((QueryRecord *) qrec, &buf, 0xff, NULL, 0xff, NULL, 0xff, NULL);
+        qr_build_query_reply(qrec, &buf, 0xff, NULL, 0xff, NULL, 0xff, NULL);
     } else if (0x800 - buf.mLen >= 1) {
         buf.mBuffer[buf.mLen++] = 0;
     }
-    sendto(qrec->mUnk_00, &buf, buf.mLen, 0, qrec->mUnk_cc, 8);
-    qrec->mUnk_ac = GetElapsedMilliseconds();
-    qrec->mUnk_b0 = qrec->mUnk_ac;
+    sendto(qrec->mHbSock, &buf, buf.mLen, 0, &qrec->mHbAddr, 8);
+    qrec->mLastHeartbeat = GetElapsedMilliseconds();
+    qrec->mLastKeepalive = qrec->mLastHeartbeat;
     if (statechanged != 0) {
-        qrec->mUnk_b4 = 0;
+        qrec->mUserStateChangeRequested = 0;
     }
 }

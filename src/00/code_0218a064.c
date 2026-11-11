@@ -5,12 +5,12 @@
 #include "00/unk_021b0000.h"
 #include "code_0214d018.h"
 
-void MakeSOCConfig(const u32 *hold, ACWORK *work, SOCConfig *config) {
+void MakeSOCConfig(const SocketAllocPair *hold, ACWORK *work, SOCConfig *config) {
     DWCMemPage *info;
 
     MI_CpuCopy8(gAcSocConfig, config, 0x58);
-    config->mAlloc = hold[0];
-    config->mFree = hold[1];
+    config->mAlloc = hold->mAlloc;
+    config->mFree = hold->mFree;
     if (work->mConnectApType < 6) {
         info = &work->mUserInfo[DWCi_ConvConnectAPType(work->mConnectApType)];
         if (info->mUnk_c0[0] != 0) {

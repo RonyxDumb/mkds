@@ -6,7 +6,7 @@ static inline u16 SwapBytes16_inline(u16 value) {
     return ((value >> 8) & 0xff) | ((value << 8) & 0xff00);
 }
 
-typedef struct Unk021a8c94 Unk021a8c94;
+typedef struct SOCConfig SOCConfig;
 
 #include "03/code_021b94b8.h"
 
@@ -125,7 +125,7 @@ typedef struct ParsedRecordView {
 
 extern u8 gItemTypesToFind[];
 extern s32 gReportedState;
-extern Unk021a8c94 gEssidSocketConfig;
+extern SOCConfig gEssidSocketConfig;
 extern s8 gMelcoString[];
 extern u8 gEssidAossString[];
 extern s32 gFlagBit4OfKind1010Packet;

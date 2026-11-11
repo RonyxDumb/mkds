@@ -42,7 +42,7 @@ typedef struct NNSSndPlayerHeap {
 
 #include "code_0212c7a0.h" // NNSSndPlayer
 
-typedef struct Unk02021968 Unk02021968;
+typedef struct SNDBankData SNDBankData;
 
 extern NNSFndList data_0217d444;
 extern NNSFndList data_0217d450;
@@ -57,7 +57,7 @@ void InsertPlayerList(NNSSndPlayer *player, NNSSndSeqPlayer *seq);
 void InitPlayer(NNSSndSeqPlayer *seq);
 NNSSndHeap *NNSi_SndPlayerAllocHeap(int index, NNSSndSeqPlayer *seq);
 void NNSi_SndPlayerStopSeq(NNSSndSeqPlayer *seq, int fadeSteps);
-void NNSi_SndPlayerStartSeq(NNSSndSeqPlayer *seq, void *data, u32 offset, Unk02021968 *bank);
+void NNSi_SndPlayerStartSeq(NNSSndSeqPlayer *seq, void *data, u32 offset, SNDBankData *bank);
 void NNSi_SndPlayerFreeSeqPlayer(NNSSndSeqPlayer *seq);
 NNSSndSeqPlayer *NNSi_SndPlayerAllocSeqPlayer(NNSSndSeqPlayer **handle, int index, int priority);
 void NNSi_SndPlayerMain(void);

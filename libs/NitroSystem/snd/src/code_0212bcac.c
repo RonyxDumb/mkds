@@ -331,7 +331,7 @@ void NNSi_SndPlayerFreeSeqPlayer(NNSSndSeqPlayer *seq) {
 
 // Prepares the sequence at offset of data on the sequence player, restricts its tracks to the channels
 // of the player when it has any, and marks it as playing.
-void NNSi_SndPlayerStartSeq(NNSSndSeqPlayer *seq, void *data, u32 offset, Unk02021968 *bank) {
+void NNSi_SndPlayerStartSeq(NNSSndSeqPlayer *seq, void *data, u32 offset, SNDBankData *bank) {
     NNSSndPlayer *player = seq->mPlayer;
 
     SND_PrepareSeq(seq->mPlayerNo, data, offset, bank);

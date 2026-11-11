@@ -1057,7 +1057,7 @@ void DrawItems(void *unused) {
     enum { K0 } poolIndex;
     void *viewAxis;
 
-    viewAxis = &((Unk020e6b38 *) GetViewTransposeMatrix())->mAxis2;
+    viewAxis = &GetViewTransposeMatrix()->mRows[2];
     QueueViewMatrix();
     for (poolIndex = 0; poolIndex < 0xe; poolIndex++) {
         if (gItemPools[poolIndex].mTakenCount > 0 && gItemPools[poolIndex].mDrawnByMapObjects == 0) {

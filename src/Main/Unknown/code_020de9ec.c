@@ -65,25 +65,25 @@ MapObjectKindData *CreateItemBoxKindData(void) {
     return kindData;
 }
 
-MapObjectDrawList *CreateBoxDrawList(void) {
+MapObjectList *CreateBoxDrawList(void) {
     gBoxDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     *gBoxDrawList = data_02158628;
     SetDrawListSlot(&gBoxDrawList);
-    return gBoxDrawList;
+    return &gBoxDrawList->mList;
 }
 
-MapObjectDrawList *CreateQuestionDrawList(void) {
+MapObjectList *CreateQuestionDrawList(void) {
     gQuestionDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     *gQuestionDrawList = data_021585fc;
     SetDrawListSlot(&gQuestionDrawList);
-    return gQuestionDrawList;
+    return &gQuestionDrawList->mList;
 }
 
-MapObjectDrawList *CreateItemBoxShadowDrawList(void) {
+MapObjectList *CreateItemBoxShadowDrawList(void) {
     gItemBoxShadowDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     *gItemBoxShadowDrawList = data_021585d0;
     SetDrawListSlot(&gItemBoxShadowDrawList);
-    return gItemBoxShadowDrawList;
+    return &gItemBoxShadowDrawList->mList;
 }
 
 MapObjectList *CreateItemBoxUpdateList(void) {

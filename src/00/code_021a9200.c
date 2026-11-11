@@ -7,7 +7,7 @@
 #pragma opt_unpromotetypes on
 
 void CPS_SetSsl(u8 useHttps) {
-    Unk021a998c *connection;
+    CPSSoc *connection;
     OSi_ReferSymbol((u32) ((u8 *) &BuildInfo + 0x98));
     connection = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if (connection != NULL) {

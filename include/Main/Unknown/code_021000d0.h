@@ -5,6 +5,7 @@
 typedef struct MapObjectKindData MapObjectKindData;
 typedef struct MapObject MapObject;
 typedef struct MapObjectList MapObjectList;
+typedef struct CourseMapRow CourseMapRow;
 
 struct MapObjectKindDescriptor;
 
@@ -81,7 +82,7 @@ typedef struct MapObjectKindDescriptor {
     /* 00 */ u16 mObjectCount;
     /* 02 */ u8 mUnk_02[2];
     /* 04 */ s32 mObjectSize;
-    /* 08 */ void (*mInitObject)(MapObject *a, struct CourseMapRow *b, void *c);
+    /* 08 */ void (*mInitObject)(void *a, CourseMapRow *b, void *c);
     /* 0c */ MapObjectKindData *(*mCreateKindData)(void);
     /* 10 */ MapObjectList *(*mCreateDrawList0)(void);
     /* 14 */ MapObjectList *(*mCreateDrawList1)(void);

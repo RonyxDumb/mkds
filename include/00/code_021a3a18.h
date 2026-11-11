@@ -5,36 +5,6 @@
 
 typedef struct DWCInetControl DWCInetControl;
 
-typedef struct Unk021a3a18 {
-    /* 000 */ u32 mUnk_00;
-    /* 004 */ char mUnk_04[0x80];
-    /* 084 */ s8 mUnk_84[0x18];
-    /* 09c */ void (*mUnk_9c)(s8 a, u8 *b, u32 c);
-    /* 0a0 */ void (*mUnk_a0)(u32 a, u32 b);
-    /* 0a4 */ void (*mUnk_a4)(s8 *a, s32 b, u32 c);
-    /* 0a8 */ s32 mUnk_a8;
-    /* 0ac */ u32 mUnk_ac;
-    /* 0b0 */ u32 mUnk_b0;
-    /* 0b4 */ u32 mUnk_b4;
-    /* 0b8 */ s32 mUnk_b8;
-    /* 0bc */ s32 mUnk_bc;
-    /* 0c0 */ u32 mUnk_c0;
-    /* 0c4 */ u8 pad_c4[4];
-    /* 0c8 */ s32 mUnk_c8;
-    /* 0cc */ u8 mUnk_cc[8];
-    /* 0d4 */ void (*mUnk_d4)(s8 *a, s32 b, void *c);
-    /* 0d8 */ s32 mUnk_d8[10];
-    /* 100 */ s32 mUnk_100;
-    /* 104 */ u32 mUnk_104;
-    /* 108 */ u16 mUnk_108;
-    /* 10a */ u8 pad_10a[2];
-    /* 10c */ u32 mUnk_10c;
-} Unk021a3a18;
-
-typedef struct Unk021a3a18 Unk021a3a18;
-
-typedef struct Unk021a3a18 Unk021a3a18;
-
 typedef struct NatnegMagic {
     /* 0 */ u8 mUnk_00[6];
 } NatnegMagic;
@@ -73,9 +43,9 @@ typedef void (*Unk021a4a08Funca8)(u32 a, u16 b, void *c);
 // 0x110 bytes; qr2_init_socketA fills it, gCurrentQr2Rec points at the one in use.
 typedef struct QueryRecord {
     /* 000 */ s32 mHbSock;
-    /* 004 */ u8 mGameName[0x40];
+    /* 004 */ char mGameName[0x40];
     /* 044 */ u8 mSecretKey[0x40];
-    /* 084 */ u8 mInstanceKey[4];
+    /* 084 */ s8 mInstanceKey[4];
     /* 088 */ Unk021a4a08Func88 mServerKeyCallback;
     /* 08c */ Unk021a4a08Func8c mPlayerKeyCallback;
     /* 090 */ Unk021a4a08Func8c mTeamKeyCallback;
@@ -94,7 +64,7 @@ typedef struct QueryRecord {
     /* 0c4 */ BOOL mReadSocket;
     /* 0c8 */ s32 mNatNegotiate;
     /* 0cc */ SOCSockAddrIn mHbAddr;
-    /* 0d4 */ s32 mCdkeyProcess;
+    /* 0d4 */ UnkFunc *mCdkeyProcess;
     /* 0d8 */ s32 mClientMessageKeys[10];
     /* 100 */ s32 mCurMessageKey;
     /* 104 */ u32 mPublicIp;
@@ -114,11 +84,11 @@ extern u8 gLocalIpList[5 * 4];
 extern char gQr2Hostname[];
 extern s8 gQr2Indata[];
 
-void send_heartbeat(Unk021a3a18 *qrec, s32 statechanged);
-void send_keepalive(Unk021a3a18 *qrec);
-void qr2_parse_queryA(Unk021a3a18 *qrec, s8 *query, s32 len, void *sender);
-BOOL qr_got_recent_message(Unk021a3a18 *qrec, int msgkey);
-void qr_process_client_message(Unk021a3a18 *qrec, u8 *buf, s32 len);
+void send_heartbeat(QueryRecord *qrec, s32 statechanged);
+void send_keepalive(QueryRecord *qrec);
+void qr2_parse_queryA(QueryRecord *qrec, s8 *query, s32 len, void *sender);
+BOOL qr_got_recent_message(QueryRecord *qrec, int msgkey);
+void qr_process_client_message(QueryRecord *qrec, u8 *buf, s32 len);
 void qr_process_old_query(QueryRecord *qrec, QueryBuffer *buf);
 void qr_build_partial_old_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 keytype);
 void qr_process_query(QueryRecord *qrec, QueryBuffer *buf, const u8 *qdata, s32 len);

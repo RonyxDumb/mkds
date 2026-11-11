@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "00/code_021a88a8.h"
 
 typedef struct CPSArpCache {
     /* 00 */ u32 mIp;
@@ -21,16 +22,6 @@ typedef struct CPSFragTable {
     /* 34 */ u8 *mBuf;
 } CPSFragTable;
 
-typedef struct Unk021b6494 {
-    /* 00 */ u8 mUnk_00[0x3c];
-    /* 3c */ u32 mReceiveBufferSize;
-    /* 40 */ u8 *mReceiveBuffer;
-    /* 44 */ u8 mUnk_44[4];
-    /* 48 */ u32 mSendBufferSize;
-    /* 4c */ u8 *mSendBuffer;
-    /* 50 */ u8 mUnk_50[0x14];
-} Unk021b6494;
-
 extern u64 CPSiRand32ctx[3];
 extern u32 CPSDhcpServerIp;
 extern u32 gSleepSave;
@@ -46,4 +37,4 @@ extern u8 gScavengerReceiveBuffer[];
 extern u8 gScavengerSendBuffer[];
 extern CPSArpCache gArpCache[8];
 extern CPSFragTable gFragTable[8];
-extern Unk021b6494 gScavengerSoc;
+extern CPSSoc gScavengerSoc;

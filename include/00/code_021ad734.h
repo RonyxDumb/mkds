@@ -2,15 +2,9 @@
 
 #include "types.h"
 
-typedef struct Unk021a998c Unk021a998c;
+typedef struct CPSSoc CPSSoc;
 
 extern u32 (*gLinkIsOn)(void);
-
-typedef struct Unk021a998c Unk021a998c;
-
-struct Unk021a998c;
-
-typedef struct Unk021a998c Unk021a998c;
 
 typedef struct OSThread OSThread;
 
@@ -80,7 +74,7 @@ typedef struct ArpPacket {
     /* 1a */ u16 mTargetAddressLow;
 } ArpPacket;
 
-typedef struct Unk021a998c Unk021a998c;
+typedef struct CPSSoc CPSSoc;
 typedef struct CPSArpCache CPSArpCache;
 
 // Frame built by send_arprequest.
@@ -147,7 +141,7 @@ extern u32 gWlanBufLen;
 extern u32 gWlanGetPnt;
 // Objects whose layout isn't known yet.
 extern u8 gTmpBufTcpHeader[];
-extern Unk021a998c gTmpSoc;
+extern CPSSoc gTmpSoc;
 extern OSThread gScavengerThread;
 extern OSThread gTcpipThread;
 extern u8 gScavengerStackTop[];
@@ -161,23 +155,23 @@ s32 CPS_SocGetLength(void);
 s32 CPS_SocWrite(const u8 *buffer, s32 length);
 s32 CPSi_SocWrite2(const u8 *buffer, s32 length, const u8 *secondBuffer, s32 secondLength);
 s32 CPSi_TcpWrite2Raw(const u8 *buffer, u32 length, const u8 *secondBuffer, s32 secondLength, void *socketArgument);
-void tcp_write_do2(const u8 *buffer, s32 length, const u8 *secondBuffer, s32 secondLength, Unk021a998c *socket,
+void tcp_write_do2(const u8 *buffer, s32 length, const u8 *secondBuffer, s32 secondLength, CPSSoc *socket,
                    s32 probeFlag);
-s32 tcp_write_do(const u8 *buffer, s32 length, Unk021a998c *socket, s32 probeFlag);
+s32 tcp_write_do(const u8 *buffer, s32 length, CPSSoc *socket, s32 probeFlag);
 void CPS_SocConsume(u32 length);
-void CPSi_SocConsumeRaw(u32 length, Unk021a998c *socket);
+void CPSi_SocConsumeRaw(u32 length, CPSSoc *socket);
 u8 *CPS_SocRead(u32 *length);
-u8 *CPSi_TcpReadRaw(u32 *length, Unk021a998c *socket);
-u8 *udp_read_raw(u32 *length, Unk021a998c *socket);
+u8 *CPSi_TcpReadRaw(u32 *length, CPSSoc *socket);
+u8 *udp_read_raw(u32 *length, CPSSoc *socket);
 void CPS_TcpClose(void);
 void CPS_TcpShutdown(void);
-void CPSi_TcpShutdownRaw(Unk021a998c *socket);
+void CPSi_TcpShutdownRaw(CPSSoc *socket);
 u32 CPS_SocWho(u16 *remotePort, u32 *localAddress);
 u32 CPS_TcpConnect(void);
-u32 CPSi_TcpConnectRaw(Unk021a998c *socket);
+u32 CPSi_TcpConnectRaw(CPSSoc *socket);
 void CPS_TcpListen(void);
 void CPS_SetUdpCallback(Unk021a78a4Func callback);
-void CPSi_TcpListenRaw(Unk021a998c *socket);
+void CPSi_TcpListenRaw(CPSSoc *socket);
 void CPS_SocDup(OSThread *thread);
 void CPS_SocRelease(void);
 void CPS_SocUse(void);
@@ -198,25 +192,25 @@ void dt_ack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length);
 void dt_synack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length);
 void dt_syn(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length);
 BOOL find_specific_socket(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length);
-void dt_syn_listen(IpHeader *ipHeader, TcpHeader *tcpHeader, Unk021a998c *socket);
+void dt_syn_listen(IpHeader *ipHeader, TcpHeader *tcpHeader, CPSSoc *socket);
 void tcp_send_rst(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length, u16 urgent);
 void tcp_send_finack(void *socket, u16 urgent);
 void tcp_send_ack(void *socket, u16 urgent);
-void tcp_send_handshake(Unk021a998c *socket, u32 flag, u16 urgent);
+void tcp_send_handshake(CPSSoc *socket, u32 flag, u16 urgent);
 u32 no_need_inq(u32 address);
-void parse_mss(const TcpHeader *tcpHeader, Unk021a998c *socket);
-Unk021a998c *find_socket(const IpHeader *ipHeader, const TcpHeader *tcpHeader);
-BOOL check_socket(const IpHeader *ipHeader, const TcpHeader *tcpHeader, const Unk021a998c *socket);
-Unk021a998c *check_listener(const IpHeader *ipHeader, const TcpHeader *tcpHeader);
+void parse_mss(const TcpHeader *tcpHeader, CPSSoc *socket);
+CPSSoc *find_socket(const IpHeader *ipHeader, const TcpHeader *tcpHeader);
+BOOL check_socket(const IpHeader *ipHeader, const TcpHeader *tcpHeader, const CPSSoc *socket);
+CPSSoc *check_listener(const IpHeader *ipHeader, const TcpHeader *tcpHeader);
 void dispatch_icmp(IpHeader *ipHeader, IcmpHeader *icmp, u32 length);
 BOOL valid_IP(int sourceAddress, int destAddress);
 void process_icmp_reply(IpHeader *ipHeader, IcmpHeader *icmp, u32 length);
 void reply_icmp(IpHeader *ipHeader, IcmpHeader *icmp, u32 length);
 void dispatch_arp(ArpPacket *packet, u32 length);
 void reply_arp(ArpPacket *packet);
-void send_tcp(u8 *data, u32 length, Unk021a998c *socket, u32 flag, u16 urgent);
-void send_udp(u8 *data, u32 length, Unk021a998c *socket);
-void send_ping(u8 *pattern, u32 length, Unk021a998c *socket);
+void send_tcp(u8 *data, u32 length, CPSSoc *socket, u32 flag, u16 urgent);
+void send_udp(u8 *data, u32 length, CPSSoc *socket);
+void send_ping(u8 *pattern, u32 length, CPSSoc *socket);
 void send_ip(u8 *header, u32 headerLength, u8 *body, u32 bodyLength, u32 addressTo, u8 protocol);
 void send_ip_frag(u8 *header, u32 headerLength, void *body, u32 bodyLength, u32 addressTo, u32 offset);
 void send_ether(u8 *header, u32 headerLength, void *body, u32 bodyLength, u32 addressTo, u16 type);

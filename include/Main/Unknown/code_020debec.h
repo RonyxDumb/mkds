@@ -6,9 +6,9 @@
 
 void InitGroupItemBoxObjects(void);
 MapObjectKindData *CreateItemBoxKindData(void);
-MapObjectDrawList *CreateBoxDrawList(void);
-MapObjectDrawList *CreateQuestionDrawList(void);
-MapObjectDrawList *CreateItemBoxShadowDrawList(void);
+MapObjectList *CreateBoxDrawList(void);
+MapObjectList *CreateQuestionDrawList(void);
+MapObjectList *CreateItemBoxShadowDrawList(void);
 MapObjectList *CreateItemBoxUpdateList(void);
 void SetupDrawBox(void);
 void DrawBox(void *unused0, ItemBox *itemBox, void *unused1, u16 maxAlpha);

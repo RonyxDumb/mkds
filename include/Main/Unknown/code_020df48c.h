@@ -7,12 +7,7 @@
 #include "Main/Unknown/code_020de588.h"
 #include "Main/Unknown/code_020e516c.h"
 #include "Main/Unknown/code_020f9c6c.h"
-
-// Object at 0xe8 and 0xec of MkdEfBubbleObject: a word at 0x24.
-typedef struct Unk020df6c8_e8 {
-    /* 00 */ u8 mUnk_00[0x24];
-    /* 24 */ u32 mUnk_24;
-} Unk020df6c8_e8;
+#include "code_0201c528.h" // ParticleEmitter
 
 // Object of at least 0xf4 bytes, made by CreateMapObject and filled in by InitMkdEfBubble.
 typedef struct MkdEfBubbleObject {
@@ -25,8 +20,8 @@ typedef struct MkdEfBubbleObject {
     /* b0 */ ShadowMatrix mShadowMatrix;
     /* e4 */ u8 mKartMask;
     /* e5 */ u8 mUnk_e5[3];
-    /* e8 */ Unk020df6c8_e8 *mFirstEffect;
-    /* ec */ Unk020df6c8_e8 *mSecondEffect;
+    /* e8 */ ParticleEmitter *mFirstEffect;
+    /* ec */ ParticleEmitter *mSecondEffect;
     /* f0 */ s32 mEffectMissing;
 } MkdEfBubbleObject;
 

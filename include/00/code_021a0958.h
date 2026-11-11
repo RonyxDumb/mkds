@@ -24,6 +24,7 @@ typedef struct MatchingSendHeader {
 // The twelve bytes at WiFiMatching.mUnk_18c.
 typedef struct DWCNNInfo {
     /* 00 */ u8 mIsQR2;
+    /* 01 */ u8 mUnk_01;
     /* 02 */ u16 mPort;
     /* 04 */ u32 mAddress;
     /* 08 */ u32 mCookie;

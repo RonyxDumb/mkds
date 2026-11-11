@@ -17,22 +17,22 @@ typedef enum NNSSndArcLoadResult {
     NNS_SND_ARC_LOAD_ERROR_FAILED_LOAD_WAVE
 } NNSSndArcLoadResult;
 
-extern Unk02021968 data_0217dec8;
+extern SNDWaveArc data_0217dec8;
 
 void WaveArcTableDisposeCallback(void *mem, u32 size, void *data1, u32 data2);
 void WaveArcDisposeCallback(void *mem, u32 size, void *data1, u32 data2);
 void BankDisposeCallback(void *mem, u32 size, void *data1, u32 data2);
 void SeqDisposeCallback(void *mem, u32 size, void *data1, u32 data2);
 void DisposeCallback(void *mem, NNSSndArc *arc, u32 fileId);
-Unk02021968 *LoadWaveArcTable(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr);
-Unk02021968 *LoadWaveArc(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr);
-Unk02021968 *LoadBank(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr);
+SNDWaveArc *LoadWaveArcTable(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr);
+SNDWaveArc *LoadWaveArc(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr);
+SNDBankData *LoadBank(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr);
 NNSSndSeqArc *LoadSeqArc(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr);
 NNSSndSeqData *LoadSeq(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr);
 void *NNSi_SndArcLoadFile(u32 fileId, NNSSndHeapDisposeCallback callback, void *data1, u32 data2, NNSSndHeap *heap);
 NNSSndArcLoadResult NNSi_SndArcLoadWaveArc(s32 waveArcNo, u32 loadFlag, NNSSndHeap *heap, BOOL bSetAddr,
-                                           Unk02021968 **pData);
-NNSSndArcLoadResult NNSi_SndArcLoadBank(s32 bankNo, u32 loadFlag, NNSSndHeap *heap, BOOL bSetAddr, Unk02021968 **pData);
+                                           SNDWaveArc **pData);
+NNSSndArcLoadResult NNSi_SndArcLoadBank(s32 bankNo, u32 loadFlag, NNSSndHeap *heap, BOOL bSetAddr, SNDBankData **pData);
 NNSSndArcLoadResult NNSi_SndArcLoadSeqArc(s32 seqArcNo, u32 loadFlag, NNSSndHeap *heap, BOOL bSetAddr,
                                           NNSSndSeqArc **pData);
 NNSSndArcLoadResult NNSi_SndArcLoadSeq(s32 seqNo, u32 loadFlag, NNSSndHeap *heap, BOOL bSetAddr, NNSSndSeqData **pData);

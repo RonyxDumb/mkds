@@ -37,9 +37,9 @@ typedef struct InstKeySplit {
     /* 08 */ SNDInstData mInstOffset[8];
 } InstKeySplit;
 
-u32 SND_GetWaveDataCount(Unk02021968 *waveArc);
-u32 SND_GetNextInstData(Unk02021968 *bank, SNDInstData *inst, SNDInstPos *pos);
+u32 SND_GetWaveDataCount(SNDWaveArc *waveArc);
+u32 SND_GetNextInstData(SNDBankData *bank, SNDInstData *inst, SNDInstPos *pos);
 void SND_GetFirstInstDataPos(SNDInstPos *pos);
-void SND_DestroyWaveArc(Unk02021968 *waveArc);
-void SND_DestroyBank(Unk02021968 *bank);
-void SND_AssignWaveArc(Unk02021968 *bank, s32 index, Unk02021968 *waveArc);
+void SND_DestroyWaveArc(SNDWaveArc *waveArc);
+void SND_DestroyBank(SNDBankData *bank);
+void SND_AssignWaveArc(SNDBankData *bank, s32 index, SNDWaveArc *waveArc);

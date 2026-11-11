@@ -19,12 +19,6 @@ typedef struct CourseMapRow {
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/code_0210b000.h" // SoundDistanceSquaredChange
 
-// Object GetViewTransposeMatrix returns: a vector at 0x18.
-typedef struct Unk020e6b38 {
-    /* 00 */ u8 mUnk_00[0x18];
-    /* 18 */ Vec3 mAxis2;
-} Unk020e6b38;
-
 // Stack object of InitItemKouraWFromData: the two vectors Vec3NormalizeAndGetLengthUnchecked and
 // QuaternionFromYAxisToVec3 write.
 typedef struct DirectionQuaternion {

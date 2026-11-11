@@ -157,7 +157,7 @@ MtxFx43 *GetViewRotatedMatrix(void) {
     return gViewRotatedMatrix;
 }
 
-void *GetViewTransposeMatrix(void) {
+MtxFx43 *GetViewTransposeMatrix(void) {
     return gViewTransposeMatrix;
 }
 

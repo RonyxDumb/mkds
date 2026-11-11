@@ -4,12 +4,12 @@
 
 // Returns the entry of waveArc table at index as an address: values below 0x2000000 are offsets from waveArc, others
 // are addresses already; an empty entry gives 0.
-void *SND_GetWaveDataAddress(Unk02021968 *waveArc, u32 index) {
+void *SND_GetWaveDataAddress(SNDWaveArc *waveArc, u32 index) {
     u32 entry;
     u8 *address;
 
     SNDi_LockMutex();
-    entry = waveArc->mUnk_3c[index];
+    entry = waveArc->mWaveOffset[index];
     if (entry != 0) {
         address = (u8 *) entry;
         if (entry < 0x2000000) {

@@ -18,7 +18,7 @@
 void RunFileReadThread(void *unused) {
     FSArchive *archive;
     RomArchiveTransfer *romArchiveTransfer;
-    Unk021762e0 *archiveState;
+    RomArchiveParentView *archiveState;
     s32 chunkIndex;
     RomArchiveFileNode *node;
     u32 waitIrqState;
@@ -29,8 +29,8 @@ void RunFileReadThread(void *unused) {
     romArchiveTransfer = &gRomArchiveTransfer;
     while (1) {
         waitIrqState = OS_DisableInterrupts();
-        archiveState = (Unk021762e0 *) &data_usa_021762e0;
-        node = archiveState->mUnk_46c8;
+        archiveState = (RomArchiveParentView *) &data_usa_021762e0;
+        node = archiveState->mPendingHead;
         if (node == NULL) {
             do {
                 if (romArchiveTransfer->mState == 0) {
@@ -38,7 +38,7 @@ void RunFileReadThread(void *unused) {
                     return;
                 }
                 OS_SleepThread(NULL);
-                node = archiveState->mUnk_46c8;
+                node = archiveState->mPendingHead;
             } while (node == NULL);
         }
         OS_RestoreInterrupts(waitIrqState);

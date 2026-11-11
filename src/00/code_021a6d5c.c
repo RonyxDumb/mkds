@@ -1,4 +1,5 @@
 #include "00/code_021a6d5c.h"
+#include "00/code_0218a064.h"
 
 #include "00/code_021a6d6c.h"
 #include "03/code_021b94b8.h"
@@ -272,27 +273,27 @@ void FreeFunc_SOCL(int memory) {
 }
 
 s32 SOC_Startup(void *configPointer) {
-    Unk021a8c94 *socConfig = configPointer;
-    soclConfig.mUseDhcp = socConfig->mUnk_0c == 1 ? 1 : 0;
-    soclConfig.mMyIp = ((socConfig->mUnk_10[0] << 24) & 0xff000000) |
-                       (((socConfig->mUnk_10[0] << 8) & 0xff0000) |
-                        (((socConfig->mUnk_10[0] >> 24) & 0xff) | ((socConfig->mUnk_10[0] >> 8) & 0xff00)));
-    soclConfig.mNetMask = ((socConfig->mUnk_10[1] << 24) & 0xff000000) |
-                          (((socConfig->mUnk_10[1] << 8) & 0xff0000) |
-                           (((socConfig->mUnk_10[1] >> 24) & 0xff) | ((socConfig->mUnk_10[1] >> 8) & 0xff00)));
-    soclConfig.mGatewayIp = ((socConfig->mUnk_10[2] << 24) & 0xff000000) |
-                            (((socConfig->mUnk_10[2] << 8) & 0xff0000) |
-                             (((socConfig->mUnk_10[2] >> 24) & 0xff) | ((socConfig->mUnk_10[2] >> 8) & 0xff00)));
-    soclConfig.mUnk_10 = ((socConfig->mUnk_10[3] << 24) & 0xff000000) |
-                         (((socConfig->mUnk_10[3] << 8) & 0xff0000) |
-                          (((socConfig->mUnk_10[3] >> 24) & 0xff) | ((socConfig->mUnk_10[3] >> 8) & 0xff00)));
-    soclConfig.mUnk_14 = ((socConfig->mUnk_10[4] << 24) & 0xff000000) |
-                         (((socConfig->mUnk_10[4] << 8) & 0xff0000) |
-                          (((socConfig->mUnk_10[4] >> 24) & 0xff) | ((socConfig->mUnk_10[4] >> 8) & 0xff00)));
+    SOCConfig *socConfig = configPointer;
+    soclConfig.mUseDhcp = socConfig->mFlag == 1 ? 1 : 0;
+    soclConfig.mMyIp = ((socConfig->mAddr << 24) & 0xff000000) |
+                       (((socConfig->mAddr << 8) & 0xff0000) |
+                        (((socConfig->mAddr >> 24) & 0xff) | ((socConfig->mAddr >> 8) & 0xff00)));
+    soclConfig.mNetMask = ((socConfig->mNetmask << 24) & 0xff000000) |
+                          (((socConfig->mNetmask << 8) & 0xff0000) |
+                           (((socConfig->mNetmask >> 24) & 0xff) | ((socConfig->mNetmask >> 8) & 0xff00)));
+    soclConfig.mGatewayIp = ((socConfig->mRouter << 24) & 0xff000000) |
+                            (((socConfig->mRouter << 8) & 0xff0000) |
+                             (((socConfig->mRouter >> 24) & 0xff) | ((socConfig->mRouter >> 8) & 0xff00)));
+    soclConfig.mUnk_10 = ((socConfig->mDns1 << 24) & 0xff000000) |
+                         (((socConfig->mDns1 << 8) & 0xff0000) |
+                          (((socConfig->mDns1 >> 24) & 0xff) | ((socConfig->mDns1 >> 8) & 0xff00)));
+    soclConfig.mUnk_14 = ((socConfig->mDns2 << 24) & 0xff000000) |
+                         (((socConfig->mDns2 << 8) & 0xff0000) |
+                          (((socConfig->mDns2 >> 24) & 0xff) | ((socConfig->mDns2 >> 8) & 0xff00)));
     soclConfig.mAlloc = AllocFunc_SOCL;
     soclConfig.mFree = (void (*)(void *)) FreeFunc_SOCL;
-    AllocFunc_SOC = socConfig->mUnk_04;
-    *(void **) FreeFunc_SOC = socConfig->mUnk_08;
+    AllocFunc_SOC = socConfig->mAlloc;
+    *(void **) FreeFunc_SOC = socConfig->mFree;
     soclConfig.mCmdPacketMax = 0x40;
     soclConfig.mMtu = socConfig->mMtu;
     soclConfig.mRwin = socConfig->mRwin;
@@ -521,10 +522,10 @@ s32 SOCL_Resolve(const char *hostname) {
         return 0;
     }
     MI_CpuFill8(&soc, 0, 0x64);
-    soc.mReceiveBuffer.mStart = memory;
-    soc.mReceiveBuffer.mSize = 0xb68;
-    soc.mSendBuffer.mStart = memory + 0xb68;
-    soc.mSendBuffer.mSize = 0x5ea;
+    soc.mReceiveBuffer = memory;
+    soc.mReceiveBufferSize = 0xb68;
+    soc.mSendBuffer = memory + 0xb68;
+    soc.mSendBufferSize = 0x5ea;
     CPS_SocRegister(&soc);
     resolvedAddr = CPS_Resolve(hostname);
     CPS_SocUnRegister();

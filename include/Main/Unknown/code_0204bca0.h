@@ -20,7 +20,9 @@ typedef struct RomArchiveChildView {
     /* 040 */ u32 mBlockBuffers[16];
     /* 080 */ void *mChunkBitmaps[16];
     /* 0c0 */ RomArchiveNodeBuffer mUnk_0c0[16];
-    /* 340 */ u8 mUnk_340[0x7bc];
+    /* 340 */ u8 mUnk_340[0x184];
+    /* 4c4 */ u16 mUnk_4c4;
+    /* 4c6 */ u8 mUnk_4c6[0x636];
     /* afc */ void *mChunkBitmapBuffer;
     /* b00 */ u32 mPositionOffset;
     /* b04 */ u32 mMaxReadSize;

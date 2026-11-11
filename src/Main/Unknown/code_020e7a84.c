@@ -400,7 +400,7 @@ void ComputeJgMatrixAndInverse(void) {
         gJgMatrix.mRows[2].y = -turnedForward->y;
         gJgMatrix.mRows[2].z = -turnedForward->z;
     } else {
-        gJgMatrix.mRows[2] = ((MtxFx43 *) GetViewTransposeMatrix())->mRows[2];
+        gJgMatrix.mRows[2] = GetViewTransposeMatrix()->mRows[2];
     }
     Vec3CrossUnrounded(&gJgMatrix.mRows[1], &gJgMatrix.mRows[2], &gJgMatrix.mRows[2]);
     lengthSquared = (s64) gJgMatrix.mRows[2].x * gJgMatrix.mRows[2].x +

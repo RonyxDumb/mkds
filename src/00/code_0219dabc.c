@@ -29,10 +29,10 @@ void DWCi_NNCompletedCallback(s32 result, s32 gamesocket, PeerAddress *remoteadd
         return;
     }
     if (result == 0) {
-        ((Unk0219db18 *) userdata)->mUnk_08 = 0;
+        ((DWCNNInfo *) userdata)->mCookie = 0;
         gWiFiMatching->mNNCompletedCount++;
         index = gWiFiMatching->mNNCompletedCount;
-        if (((Unk0219db18 *) userdata)->mUnk_00 != 0) {
+        if (((DWCNNInfo *) userdata)->mIsQR2 != 0) {
             gWiFiMatching->mParticipantConnectAddresses[index] = remoteaddr->mAddress;
             gWiFiMatching->mParticipantConnectPorts[index] =
                 (remoteaddr->mPort >> 8) & 0xff | (remoteaddr->mPort << 8) & 0xff00;
@@ -64,16 +64,16 @@ void DWCi_NNCompletedCallback(s32 result, s32 gamesocket, PeerAddress *remoteadd
         gWiFiMatching->mState = 7;
         return;
     }
-    if (((Unk0219db18 *) userdata)->mUnk_08 == 0) {
+    if (((DWCNNInfo *) userdata)->mCookie == 0) {
         return;
     }
     outcome = DWCi_HandleNNResult(result);
     if (outcome != 2 && outcome != 1) {
         return;
     }
-    if (((Unk0219db18 *) userdata)->mUnk_00 == 0) {
-        if (outcome == 1 || (outcome == 2 && ((Unk0219db18 *) userdata)->mUnk_01 >= 1)) {
-            ((Unk0219db18 *) userdata)->mUnk_08 = 0;
+    if (((DWCNNInfo *) userdata)->mIsQR2 == 0) {
+        if (outcome == 1 || (outcome == 2 && ((DWCNNInfo *) userdata)->mUnk_01 >= 1)) {
+            ((DWCNNInfo *) userdata)->mCookie = 0;
             if (DWCi_ProcessNNFailure() != 0) {
                 if (DWCi_CancelPreConnectedClientProcess(
                         gWiFiMatching->mParticipantProfileIds[gWiFiMatching->mLastParticipantPos]) != 0) {
@@ -82,7 +82,7 @@ void DWCi_NNCompletedCallback(s32 result, s32 gamesocket, PeerAddress *remoteadd
             }
             return;
         }
-        ((Unk0219db18 *) userdata)->mUnk_01++;
+        ((DWCNNInfo *) userdata)->mUnk_01++;
         if (DWCi_HandleNNError(DWCi_DoNatNegotiationAsync(userdata)) != 0) {
             return;
         }
@@ -90,7 +90,7 @@ void DWCi_NNCompletedCallback(s32 result, s32 gamesocket, PeerAddress *remoteadd
     }
     gWiFiMatching->mNNFailedTime = MatchingGetTickMilliseconds();
     if (outcome == 1 || (outcome == 2 && gWiFiMatching->mNatnegCounts[0] >= 1)) {
-        ((Unk0219db18 *) userdata)->mUnk_08 = 0;
+        ((DWCNNInfo *) userdata)->mCookie = 0;
         if (DWCi_ProcessNNFailure() != 0) {
             gWiFiMatching->mNatnegCounts[0] = 0;
             gWiFiMatching->mLastNatnegCookie = 0;

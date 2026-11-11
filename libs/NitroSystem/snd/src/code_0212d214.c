@@ -27,7 +27,7 @@
 #include "Main/Unknown/code_0200f000.h"
 #include "code_020218f4.h"
 
-Unk02021968 data_0217dec8;
+SNDWaveArc data_0217dec8;
 
 // Sets each player's sequence count and channels and creates its heaps.
 BOOL NNS_SndArcPlayerSetup(NNSSndHeap *heap) {
@@ -120,7 +120,7 @@ BOOL NNS_SndArcPlayerStartSeqArcEx(NNSSndSeqPlayer **handle, s32 playerNo, s32 b
 BOOL StartSeq(NNSSndSeqPlayer **handle, s32 playerNo, s32 bankNo, s32 playerPrio, NNSSndArcSeqInfo *info, s32 seqNo) {
     NNSSndSeqPlayer *player;
     NNSSndSeqData *seq;
-    Unk02021968 *bank;
+    SNDBankData *bank;
     NNSSndHeap *heap;
 
     player = NNSi_SndPlayerAllocSeqPlayer(handle, playerNo, playerPrio);
@@ -146,7 +146,7 @@ BOOL StartSeq(NNSSndSeqPlayer **handle, s32 playerNo, s32 bankNo, s32 playerPrio
 BOOL StartSeqArc(NNSSndSeqPlayer **handle, s32 playerNo, s32 bankNo, s32 playerPrio, NNSSndSeqArcSeqInfo *sound,
                  NNSSndSeqArc *seqArc, u32 seqArcNo, u32 index) {
     void *player;
-    Unk02021968 *bank;
+    SNDBankData *bank;
     NNSSndHeap *heap;
 
     player = NNSi_SndPlayerAllocSeqPlayer(handle, playerNo, playerPrio);
@@ -284,11 +284,11 @@ NNSSndArcLoadResult NNSi_SndArcLoadSeqArc(s32 seqArcNo, u32 loadFlag, NNSSndHeap
 
 // Loads the bank and its wave archives, and assigns them to the bank.
 NNSSndArcLoadResult NNSi_SndArcLoadBank(s32 bankNo, u32 loadFlag, NNSSndHeap *heap, BOOL bSetAddr,
-                                        Unk02021968 **pData) {
+                                        SNDBankData **pData) {
     NNSSndArcBankInfo *bankInfo;
     NNSSndArcWaveArcInfo *waveArcInfo;
-    Unk02021968 *waveArc;
-    Unk02021968 *bank;
+    SNDWaveArc *waveArc;
+    SNDBankData *bank;
     s32 waveArcIndex;
     u32 loadWave;
     NNSSndArcLoadResult result;
@@ -333,9 +333,9 @@ NNSSndArcLoadResult NNSi_SndArcLoadBank(s32 bankNo, u32 loadFlag, NNSSndHeap *he
 }
 
 NNSSndArcLoadResult NNSi_SndArcLoadWaveArc(s32 waveArcNo, u32 loadFlag, NNSSndHeap *heap, BOOL bSetAddr,
-                                           Unk02021968 **pData) {
+                                           SNDWaveArc **pData) {
     NNSSndArcWaveArcInfo *waveArcInfo;
-    Unk02021968 *waveArc;
+    SNDWaveArc *waveArc;
 
     waveArcInfo = NNS_SndArcGetWaveArcInfo(waveArcNo);
     if (waveArcInfo == 0) {
@@ -407,7 +407,7 @@ NNSSndSeqArc *LoadSeqArc(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
     return buffer;
 }
 
-Unk02021968 *LoadBank(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
+SNDBankData *LoadBank(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
     void *buffer;
 
     buffer = NNS_SndArcGetFileAddress(fileId);
@@ -420,8 +420,8 @@ Unk02021968 *LoadBank(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
     return buffer;
 }
 
-Unk02021968 *LoadWaveArc(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
-    Unk02021968 *waveArc;
+SNDWaveArc *LoadWaveArc(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
+    SNDWaveArc *waveArc;
 
     waveArc = NNS_SndArcGetFileAddress(fileId);
     if (waveArc == 0) {
@@ -435,8 +435,8 @@ Unk02021968 *LoadWaveArc(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
 }
 
 // Loads the wave archive header and tables; the waves load one by one.
-Unk02021968 *LoadWaveArcTable(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
-    Unk02021968 *waveArc;
+SNDWaveArc *LoadWaveArcTable(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
+    SNDWaveArc *waveArc;
     u32 len;
     u32 tableSize;
     s32 readSize;
@@ -446,7 +446,7 @@ Unk02021968 *LoadWaveArcTable(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
         if (NNS_SndArcReadFile(fileId, &data_0217dec8, 0x3c, 0) != 0x3c) {
             return 0;
         }
-        tableSize = data_0217dec8.mUnk_38 * 4;
+        tableSize = data_0217dec8.mWaveCount * 4;
         len = tableSize * 2 + 0x3c;
         if (heap == 0) {
             return 0;
@@ -460,8 +460,8 @@ Unk02021968 *LoadWaveArcTable(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
         if (readSize != tableSize + 0x3c) {
             return 0;
         }
-        MI_CpuCopy8(waveArc->mUnk_3c, waveArc->mUnk_3c + waveArc->mUnk_38, tableSize);
-        MI_CpuFill8(waveArc->mUnk_3c, 0, tableSize);
+        MI_CpuCopy8(waveArc->mWaveOffset, waveArc->mWaveOffset + waveArc->mWaveCount, tableSize);
+        MI_CpuFill8(waveArc->mWaveOffset, 0, tableSize);
         DC_StoreRange(waveArc, len);
         if (bSetAddr != 0) {
             NNS_SndArcSetFileAddress(fileId, waveArc);
@@ -518,7 +518,7 @@ void SingleWaveDisposeCallback(void *mem, u32 size, void *data1, u32 data2) {
     SND_InvalidateWaveData(wave, wave + size);
 }
 
-BOOL LoadSingleWave(Unk02021968 *waveArc, s32 waveNo, u32 fileId, NNSSndHeap *heap) {
+BOOL LoadSingleWave(SNDWaveArc *waveArc, s32 waveNo, u32 fileId, NNSSndHeap *heap) {
     u32 *entry;
     u32 waveCount;
     u32 end;
@@ -530,7 +530,7 @@ BOOL LoadSingleWave(Unk02021968 *waveArc, s32 waveNo, u32 fileId, NNSSndHeap *he
         return 1;
     }
     waveCount = SND_GetWaveDataCount(waveArc);
-    entry = (u32 *) waveArc + (waveArc->mUnk_38 + waveNo);
+    entry = (u32 *) waveArc + (waveArc->mWaveCount + waveNo);
     begin = entry[15];
     end = waveNo < waveCount - 1 ? entry[16] : waveArc->mUnk_08;
     len = end - begin;
@@ -549,7 +549,7 @@ BOOL LoadSingleWave(Unk02021968 *waveArc, s32 waveNo, u32 fileId, NNSSndHeap *he
     return 1;
 }
 
-BOOL LoadSingleWaves(Unk02021968 *waveArc, Unk02021968 *bank, s32 waveArcNo, u32 fileId, NNSSndHeap *heap) {
+BOOL LoadSingleWaves(SNDWaveArc *waveArc, SNDBankData *bank, s32 waveArcNo, u32 fileId, NNSSndHeap *heap) {
     SNDInstPos pos;
     SNDInstPos firstPos;
     SNDInstData inst;

@@ -308,7 +308,7 @@ void AdvanceItemTeresa(ItemTeresa *teresa) {
     }
     kartDrawMatrixPos = &kart->mDrawMatrixPos;
     VEC_Subtract(&teresa->mItemObject.mPos, kartDrawMatrixPos, &offset);
-    MTX_MultVec33(&offset, GetViewTransposeMatrix(), &offset);
+    MTX_MultVec33(&offset, &GetViewTransposeMatrix()->mAxes, &offset);
     VEC_Add(kartDrawMatrixPos, &offset, &teresa->mItemObject.mDrawPos);
 }
 

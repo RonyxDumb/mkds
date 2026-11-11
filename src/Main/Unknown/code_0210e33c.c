@@ -33,10 +33,10 @@ void ReleaseLoadedSoundSet(void) {
 u32 LoadSndGroupWithWaveArcs(u32 groupId, u32 moveWaveArcs) {
     NNSSndArcBankInfo *bankInfo;
     NNSSndArcWaveArcInfo *waveArcInfo;
-    Unk02021968 *waveArcFile;
+    SNDWaveArc *waveArcFile;
     u32 waveArcNo;
     u32 fileId;
-    Unk02021968 *bankFile;
+    SNDBankData *bankFile;
     u32 loaded;
     u32 listCount;
     s32 waveArcSlot;

@@ -1,47 +1,15 @@
 #pragma once
 
 #include "types.h"
+#include "00/code_021a88a8.h"
 
 typedef struct HttpsState HttpsState;
 
-struct Unk021a998c;
-typedef s32 (*Unk021a998cFunc)(void *param_1, u32 param_2, struct Unk021a998c *param_3);
-
-// Record the https functions take; its mHttpsState is the https layer's own state.
-typedef struct Unk021a998c {
-    /* 00 */ struct OSThread *mThread;
-    /* 04 */ u32 mBlockType;
-    /* 08 */ u8 mState;
-    /* 09 */ u8 mUseHttps;
-    /* 0a */ u16 mLocalPort;
-    /* 0c */ HttpsState *mHttpsState;
-    /* 10 */ u32 mStateStartTime;
-    /* 14 */ u32 mLocalIpReal;
-    /* 18 */ u16 mRemotePort;
-    /* 1a */ u16 mRemotePortBound;
-    /* 1c */ u32 mRemoteIp;
-    /* 20 */ u32 mRemoteIpBound;
-    /* 24 */ u32 mAckNo;
-    /* 28 */ u32 mSeqNo;
-    /* 2c */ u16 mRemoteWin;
-    /* 2e */ u16 mRemoteMss;
-    /* 30 */ u32 mRemoteAckNo;
-    /* 34 */ u32 mAckRcvd;
-    /* 38 */ Unk021a998cFunc mReceiveCallback;
-    /* 3c */ u32 mReceiveBufferSize;
-    /* 40 */ u8 *mReceiveBuffer;
-    /* 44 */ u32 mReceiveBufferLength;
-    /* 48 */ u32 mSendBufferSize;
-    /* 4c */ u8 *mSendBuffer;
-    /* 50 */ u8 mUnk_50[0xc];
-    /* 5c */ u8 *mOutBuffer;
-    /* 60 */ u32 mOutBufferLength;
-} Unk021a998c;
 
 #include "00/unk_021b4000.h"
 #include "Main/Unknown/unk_0216f000.h"
 
-typedef struct Unk021a998c Unk021a998c;
+typedef struct CPSSoc CPSSoc;
 
 typedef struct HttpsState HttpsState;
 
@@ -94,24 +62,24 @@ extern u32 gKind2NewEntryCount;
 extern u8 gRandomByteState[0x14];
 extern u8 gRandomByteStateLast;
 
-void CPSi_SslShutdown(Unk021a998c *connection);
-s32 SendHttpsBytesInChunks(u8 *firstBytes, u32 firstLength, u8 *secondBytes, u32 secondLength, Unk021a998c *connection);
-s32 ReadHttpsRecordIfBufferedAndGetUnreadByteCount(Unk021a998c *connection);
-void SkipHttpsReceivedBytes(u32 count, Unk021a998c *connection);
-u8 *ReadHttpsRecordsUntilBytesReceived(s32 *unreadCount, Unk021a998c *connection);
-BOOL CPSi_SslConnect(Unk021a998c *connection);
-BOOL RunSetupAfterSendingKind1Record(Unk021a998c *connection);
-void RunSetupAfterReadingKind1RecordUntilDone(Unk021a998c *connection);
-BOOL RunSetupAfterReadingKind1Record(Unk021a998c *connection);
-u32 ReadRecordsExpectingStates7And6(Unk021a998c *connection);
-void send_client_key_exchange(Unk021a998c *connection);
-void SendKind1Record(Unk021a998c *connection);
-void SendOneByteRecordAndMessageDigests(Unk021a998c *a);
-u8 SendKind2Record(Unk021a998c *connection);
+void CPSi_SslShutdown(CPSSoc *connection);
+s32 SendHttpsBytesInChunks(u8 *firstBytes, u32 firstLength, u8 *secondBytes, u32 secondLength, CPSSoc *connection);
+s32 ReadHttpsRecordIfBufferedAndGetUnreadByteCount(CPSSoc *connection);
+void SkipHttpsReceivedBytes(u32 count, CPSSoc *connection);
+u8 *ReadHttpsRecordsUntilBytesReceived(s32 *unreadCount, CPSSoc *connection);
+BOOL CPSi_SslConnect(CPSSoc *connection);
+BOOL RunSetupAfterSendingKind1Record(CPSSoc *connection);
+void RunSetupAfterReadingKind1RecordUntilDone(CPSSoc *connection);
+BOOL RunSetupAfterReadingKind1Record(CPSSoc *connection);
+u32 ReadRecordsExpectingStates7And6(CPSSoc *connection);
+void send_client_key_exchange(CPSSoc *connection);
+void SendKind1Record(CPSSoc *connection);
+void SendOneByteRecordAndMessageDigests(CPSSoc *a);
+u8 SendKind2Record(CPSSoc *connection);
 void MixBytesIntoRandomState(void *bytes, u32 n);
 void FillNonzeroRandomBytes(u8 *out, s32 count);
-u8 ReadHttpsRecordAndSetState(Unk021a998c *connection);
-u32 ReadExactReceivedBytes(u8 *dest, s32 count, Unk021a998c *connection);
+u8 ReadHttpsRecordAndSetState(CPSSoc *connection);
+u32 ReadExactReceivedBytes(u8 *dest, s32 count, CPSSoc *connection);
 s32 AppendDigestAndXorSentRecordWithKeyStream(void *rawHttpsState, u8 *recordArg);
 s32 XorReceivedRecordWithKeyStreamAndCheckDigest(HttpsState *httpsState, u8 *record);
 unsigned int XorReceivedBytesWithKeyStream(unsigned int httpsState, u8 *bytes, unsigned int count);

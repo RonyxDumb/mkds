@@ -118,6 +118,7 @@ typedef struct NNSG3dResMdl {
     /* 0c */ u32 mOfsShp;
     /* 10 */ u32 mOfsEvpMtx;
     /* 14 */ NNSG3dResMdlInfo mInfo;
+    /* 40 */ NNSG3dResDict mNodeInfo;
 } NNSG3dResMdl;
 
 // File file of a model or texture resource: signature, then at headerSize the table of data block offsets.

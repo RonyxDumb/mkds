@@ -12,14 +12,14 @@
 #include "Main/Unknown/code_020de000.h"
 #include "Main/Unknown/unk_021759c0.h"
 
-const Unk0215a64c gPooledItemBoxKindDescriptor = {0,
-                                                  0x108,
-                                                  InitPooledItemBox,
-                                                  CreatePooledItemBoxKindData,
-                                                  CreateItemBoxShadowDrawList,
-                                                  CreateQuestionDrawList,
-                                                  CreateBoxDrawList,
-                                                  {0}};
+const MapObjectKindDescriptor gPooledItemBoxKindDescriptor = {0,
+                                                              {0, 0},
+                                                              0x108,
+                                                              InitPooledItemBox,
+                                                              CreatePooledItemBoxKindData,
+                                                              CreateItemBoxShadowDrawList,
+                                                              CreateQuestionDrawList,
+                                                              CreateBoxDrawList};
 
 const MapObjectKindData gPooledItemBoxKindData = {0, 0, 0, 0xf000, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0};
 
@@ -58,7 +58,7 @@ MapObjectKindData *CreatePooledItemBoxKindData(void) {
     return kindData;
 }
 
-void InitPooledItemBox(void *mapObject, void *row) {
+void InitPooledItemBox(void *mapObject, struct CourseMapRow *row, void *unused) {
     InitItemBox(mapObject, row);
     ParkMapObject(mapObject);
 }

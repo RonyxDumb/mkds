@@ -5,6 +5,7 @@
 #include "Main/Unknown/code_02081618.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "code_02012b30.h"
+#include "code_02010c84.h"
 #include "code_02013740.h"
 #include "code_02146d78.h"
 #include "code_02147288.h"
@@ -63,7 +64,7 @@ void KartAiCallKartSlot6AndToggleFlag(Kart *kart) {
     }
 }
 
-void PlaceKartKillerEffectCallback(Unk0206390c *renderState) {
+void PlaceKartKillerEffectCallback(NNSG3dRS *renderState) {
     u32 killerItemKartIndex;
     MtxFx33 rotationMatrix;
     MtxFx43 positionMatrix;
@@ -76,8 +77,8 @@ void PlaceKartKillerEffectCallback(Unk0206390c *renderState) {
     s32 killerItemDictIndex;
 
     killerItemKartIndex = GetKillerItemKartIndex();
-    killerItemDictIndex = NNS_G3dGetResDictIdxByName(renderState->mUnk_04->mUnk_04 + 0x40, data_02154a2c);
-    if (killerItemDictIndex != ((renderState->mUnk_08 & 0x10) != 0 ? renderState->mUnk_ae : -1)) {
+    killerItemDictIndex = NNS_G3dGetResDictIdxByName(&renderState->mRenderObj->mResMdl->mNodeInfo, data_02154a2c);
+    if (killerItemDictIndex != ((renderState->mFlag & 0x10) != 0 ? renderState->mCurrentNodeDesc : -1)) {
         return;
     }
     currentViewMatrix = GetCurrentViewMatrix();
@@ -94,6 +95,6 @@ void PlaceKartKillerEffectCallback(Unk0206390c *renderState) {
     offset.z = MUL_FIXED12_NO_ROUND(offset.z, offsetScale);
     VEC_Add(&effectPosition, &offset, &effectPosition);
     PlaceKartKillerEffect(killerItemKartIndex, &effectPosition);
-    renderState->mUnk_24 = 0;
-    renderState->mUnk_92 = 0;
+    renderState->mCbVecFunc[6] = NULL;
+    renderState->mCbVecTiming[6] = 0;
 }

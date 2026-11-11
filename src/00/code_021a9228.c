@@ -96,7 +96,7 @@ u32 GetRtcSecondsPlusFixedOffset(void) {
 }
 
 void SetAuthorityTable(u32 table, u32 count) {
-    Unk021a998c *connection;
+    CPSSoc *connection;
     HttpsState *httpsState;
     connection = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if ((connection != NULL) && (httpsState = connection->mHttpsState, httpsState != NULL)) {
@@ -1057,7 +1057,7 @@ s32 AppendDigestAndXorSentRecordWithKeyStream(void *rawHttpsState, u8 *recordArg
     return payloadLength + 5;
 }
 
-u32 ReadExactReceivedBytes(u8 *dest, s32 count, Unk021a998c *connection) {
+u32 ReadExactReceivedBytes(u8 *dest, s32 count, CPSSoc *connection) {
     u8 *chunk;
     u32 chunkLength;
     do {
@@ -1078,7 +1078,7 @@ u32 ReadExactReceivedBytes(u8 *dest, s32 count, Unk021a998c *connection) {
 
 // Reads one record, checks and xors it when mSetupState is 7 or 8, runs the handler of its kind and returns
 // mSetupState.
-u8 ReadHttpsRecordAndSetState(Unk021a998c *connection) {
+u8 ReadHttpsRecordAndSetState(CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     u32 length;
     u8 *header;
@@ -1257,7 +1257,7 @@ void MixBytesIntoRandomState(void *bytes, u32 n) {
     gRandomByteStateMixed = 1;
 }
 
-u8 SendKind2Record(Unk021a998c *connection) {
+u8 SendKind2Record(CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     ItemList *itemList = httpsState->mItemList;
     s32 itemListLength;
@@ -1347,7 +1347,7 @@ u8 SendKind2Record(Unk021a998c *connection) {
     return httpsState->mReusedEntry;
 }
 
-void SendOneByteRecordAndMessageDigests(Unk021a998c *a) {
+void SendOneByteRecordAndMessageDigests(CPSSoc *a) {
     u8 *msg;
     HttpsState *httpsState;
     httpsState = a->mHttpsState;
@@ -1384,7 +1384,7 @@ void SendOneByteRecordAndMessageDigests(Unk021a998c *a) {
     CPSiFree(msg);
 }
 
-void SendKind1Record(Unk021a998c *connection) {
+void SendKind1Record(CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     u8 *message;
     u8 *cursor;
@@ -1452,7 +1452,7 @@ void SendKind1Record(Unk021a998c *connection) {
 
 // Fills mEntry's 0x30 bytes (3, 0, then random bytes), pads them with random bytes, transforms them with mFirstValue
 // and mSecondValue and sends the result.
-void send_client_key_exchange(Unk021a998c *connection) {
+void send_client_key_exchange(CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     s32 modulusLength;
     s32 digitCount;
@@ -1536,7 +1536,7 @@ void send_client_key_exchange(Unk021a998c *connection) {
     CPSiFree(paddedSecret);
 }
 
-u32 ReadRecordsExpectingStates7And6(Unk021a998c *connection) {
+u32 ReadRecordsExpectingStates7And6(CPSSoc *connection) {
     int state;
     state = ReadHttpsRecordAndSetState(connection);
     if (state != 7) {
@@ -1549,7 +1549,7 @@ u32 ReadRecordsExpectingStates7And6(Unk021a998c *connection) {
     return 0;
 }
 
-BOOL RunSetupAfterReadingKind1Record(Unk021a998c *connection) {
+BOOL RunSetupAfterReadingKind1Record(CPSSoc *connection) {
     if (ReadHttpsRecordAndSetState(connection) != 1) {
         return TRUE;
     }
@@ -1571,7 +1571,7 @@ BOOL RunSetupAfterReadingKind1Record(Unk021a998c *connection) {
     return FALSE;
 }
 
-void RunSetupAfterReadingKind1RecordUntilDone(Unk021a998c *connection) {
+void RunSetupAfterReadingKind1RecordUntilDone(CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     while (1) {
         CPSi_TcpListenRaw(connection);
@@ -1589,7 +1589,7 @@ void RunSetupAfterReadingKind1RecordUntilDone(Unk021a998c *connection) {
     }
 }
 
-BOOL RunSetupAfterSendingKind1Record(Unk021a998c *connection) {
+BOOL RunSetupAfterSendingKind1Record(CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     u8 state;
     SendKind1Record(connection);
@@ -1623,7 +1623,7 @@ BOOL RunSetupAfterSendingKind1Record(Unk021a998c *connection) {
     return FALSE;
 }
 
-BOOL CPSi_SslConnect(Unk021a998c *connection) {
+BOOL CPSi_SslConnect(CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     if (connection->mState != 4 && CPSi_TcpConnectRaw(connection) != 0) {
         return TRUE;
@@ -1635,7 +1635,7 @@ BOOL CPSi_SslConnect(Unk021a998c *connection) {
     return RunSetupAfterSendingKind1Record(connection);
 }
 
-u8 *ReadHttpsRecordsUntilBytesReceived(s32 *unreadCount, Unk021a998c *connection) {
+u8 *ReadHttpsRecordsUntilBytesReceived(s32 *unreadCount, CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     while (httpsState->mReceivedBlock == NULL) {
         if (ReadHttpsRecordAndSetState(connection) == 9) {
@@ -1647,7 +1647,7 @@ u8 *ReadHttpsRecordsUntilBytesReceived(s32 *unreadCount, Unk021a998c *connection
     return httpsState->mReceivedBlock + httpsState->mReceivedBlockOffset;
 }
 
-void SkipHttpsReceivedBytes(u32 count, Unk021a998c *connection) {
+void SkipHttpsReceivedBytes(u32 count, CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     if (count >= httpsState->mReceivedBlockEnd - httpsState->mReceivedBlockOffset) {
         CPSiFree(httpsState->mReceivedBlock);
@@ -1658,7 +1658,7 @@ void SkipHttpsReceivedBytes(u32 count, Unk021a998c *connection) {
     }
 }
 
-s32 ReadHttpsRecordIfBufferedAndGetUnreadByteCount(Unk021a998c *connection) {
+s32 ReadHttpsRecordIfBufferedAndGetUnreadByteCount(CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     if (httpsState->mReceivedBlock == NULL) {
         if (connection->mReceiveBufferLength == 0) {
@@ -1670,7 +1670,7 @@ s32 ReadHttpsRecordIfBufferedAndGetUnreadByteCount(Unk021a998c *connection) {
 }
 
 s32 SendHttpsBytesInChunks(u8 *firstBytes, u32 firstLength, u8 *secondBytes, u32 secondLength,
-                           Unk021a998c *connection) {
+                           CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     s32 remaining = firstLength + secondLength;
     u8 *record;
@@ -1726,7 +1726,7 @@ s32 SendHttpsBytesInChunks(u8 *firstBytes, u32 firstLength, u8 *secondBytes, u32
 
 // When mSetupState is 8 sends the 7-byte record that ends with 1, 0, then runs CPSi_TcpShutdownRaw and clears
 // mSetupState.
-void CPSi_SslShutdown(Unk021a998c *connection) {
+void CPSi_SslShutdown(CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     u8 alertRecord[0x20];
     if (httpsState->mSetupState == 8) {

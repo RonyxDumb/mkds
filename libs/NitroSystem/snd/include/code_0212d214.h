@@ -175,29 +175,41 @@ typedef struct NNSSndHeapBlock {
     /* 18 */ u8 mPadding[8];
 } NNSSndHeapBlock;
 
-// Position in the entries of an Unk02021968, set by SND_GetFirstInstDataPos and advanced by SND_GetNextInstData.
+// Position in the entries of an SNDBankData, set by SND_GetFirstInstDataPos and advanced by SND_GetNextInstData.
 typedef struct SNDInstPos {
     /* 00 */ u32 mPrgNo;
     /* 04 */ u32 mIndex;
 } SNDInstPos;
 
-// Entry of 8 bytes in the table at 0x18 of an Unk02021968: SND_DestroyWaveArc clears the entries of a chain linked
-// through mUnk_04, SND_DestroyBank and SND_AssignWaveArc move entries between the chains of two objects.
-typedef struct Unk02021be8 {
-    /* 00 */ void *mUnk_00;
-    /* 04 */ struct Unk02021be8 *mUnk_04;
-} Unk02021be8;
+typedef struct SNDWaveArc SNDWaveArc;
 
-// Object with two tables of mUnk_38 words from 0x3c. SND_GetWaveDataAddress and SND_SetWaveDataAddress read and write
-// the first; LoadSingleWave reads the second, whose words b and b + 1 bound a block (the last block ends at mUnk_08).
-typedef struct Unk02021968 {
+// Entry of the table at 0x18 of an SNDBankData: the wave archive and the next entry of that archive's chain.
+// SND_DestroyWaveArc clears the entries of a chain, SND_DestroyBank and SND_AssignWaveArc move entries between chains.
+typedef struct SNDWaveArcLink {
+    /* 00 */ SNDWaveArc *mWaveArc;
+    /* 04 */ struct SNDWaveArcLink *mNext;
+} SNDWaveArcLink;
+
+// Bank file: four wave archive links, then the instrument offsets that SND_GetNextInstData walks.
+typedef struct SNDBankData {
+    /* 00 */ u8 mUnk_00[0x18];
+    /* 18 */ SNDWaveArcLink mWaveArcLink[4];
+    /* 38 */ u32 mInstCount;
+    /* 3c */ u32 mInstOffset[];
+} SNDBankData;
+
+// Wave archive file: the first link of its chain, then the table of wave offsets or addresses. SND_GetWaveDataAddress
+// and SND_SetWaveDataAddress read and write the first mWaveCount words; LoadSingleWave reads the second table, whose
+// words b and b + 1 bound a block (the last block ends at mUnk_08).
+typedef struct SNDWaveArc {
     /* 00 */ u8 mUnk_00[8];
     /* 08 */ u32 mUnk_08;
     /* 0c */ u8 mUnk_0c[0xc];
-    /* 18 */ Unk02021be8 mUnk_18[4];
-    /* 38 */ u32 mUnk_38;
-    /* 3c */ u32 mUnk_3c[];
-} Unk02021968;
+    /* 18 */ SNDWaveArcLink *mTopLink;
+    /* 1c */ u8 mUnk_1c[0x1c];
+    /* 38 */ u32 mWaveCount;
+    /* 3c */ u32 mWaveOffset[];
+} SNDWaveArc;
 
 void NNS_SndHeapLoadState(NNSSndHeap *heap, s32 level);
 s32 NNS_SndHeapSaveState(NNSSndHeap *heap);
@@ -226,6 +238,6 @@ void NNS_SndArcInitOnMemory(NNSSndArc *arc, void *data);
 BOOL NNS_SndArcSetup(NNSSndArc *arc, NNSSndHeap *heap, BOOL symbolLoadFlag);
 void NNS_SndArcInit(NNSSndArc *arc, const u8 *filePath, NNSSndHeap *heap, BOOL symbolLoadFlag);
 void InitHeapSection(NNSSndHeapSection *section);
-BOOL LoadSingleWaves(Unk02021968 *waveArc, Unk02021968 *bank, s32 waveArcNo, u32 fileId, NNSSndHeap *heap);
-BOOL LoadSingleWave(Unk02021968 *waveArc, s32 waveNo, u32 fileId, NNSSndHeap *heap);
+BOOL LoadSingleWaves(SNDWaveArc *waveArc, SNDBankData *bank, s32 waveArcNo, u32 fileId, NNSSndHeap *heap);
+BOOL LoadSingleWave(SNDWaveArc *waveArc, s32 waveNo, u32 fileId, NNSSndHeap *heap);
 void SingleWaveDisposeCallback(void *mem, u32 size, void *data1, u32 data2);

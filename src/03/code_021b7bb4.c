@@ -1,5 +1,6 @@
 #include "03/code_021b7bb4.h"
 #include "03/code_021b7000.h"
+#include "00/code_0218a064.h"
 #include "03/unk_021d8000.h"
 #include "Main/Unknown/code_02133000.h"
 
@@ -1042,9 +1043,9 @@ void FreeSocketMemory(u32 name, u32 pointer) {
 }
 
 s32 StartSocketsWithAddress(u32 address, u32 mask, u32 router) {
-    gEssidSocketConfig.mUnk_10[0] = SwapBytes32(address);
-    gEssidSocketConfig.mUnk_10[1] = SwapBytes32(mask);
-    gEssidSocketConfig.mUnk_10[2] = SwapBytes32(router);
+    gEssidSocketConfig.mAddr = SwapBytes32(address);
+    gEssidSocketConfig.mNetmask = SwapBytes32(mask);
+    gEssidSocketConfig.mRouter = SwapBytes32(router);
     if (SOC_Startup(&gEssidSocketConfig) < 0) {
         return -1;
     }

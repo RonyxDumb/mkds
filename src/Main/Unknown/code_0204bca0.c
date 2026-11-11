@@ -975,7 +975,7 @@ static inline void RomArchiveCallAllocFuncOnBlock(RomArchiveTransfer *transfer, 
 }
 
 void StartRomArchivePacketSend(void) {
-    Unk021762e0 *childView;
+    RomArchiveChildView *childView;
     RomArchiveTransfer *transfer;
     u8 *buffer;
     u16 packetSize;
@@ -983,9 +983,9 @@ void StartRomArchivePacketSend(void) {
     s32 isParent;
     gRomArchiveTransfer.mUnk_0004 = TRUE;
     if (gRomArchiveTransfer.mIsParent == 0) {
-        childView = (Unk021762e0 *) &data_usa_021762e0;
-        WM_ReadStatus(childView->mUnk_0340);
-        WBT_SetOwnAid(childView->mUnk_04c4);
+        childView = (RomArchiveChildView *) &data_usa_021762e0;
+        WM_ReadStatus(childView->mUnk_340);
+        WBT_SetOwnAid(childView->mUnk_4c4);
         WBT_RequestSync(1, RomArchiveChildCallback);
     } else {
         gRomArchiveTransfer.mState = 2;
