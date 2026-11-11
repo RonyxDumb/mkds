@@ -19,7 +19,7 @@ typedef struct OptionSelectMenu {
     /* 08 */ s32 mIndex; /* 0 and 1 are the two setting rows, 2 is the OK entry */
     /* 0c */ s32 mRowValues[2];
     /* 14 */ s32 mSavedRowValues[2];
-    /* 1c */ BOOL mUnk_1c;
+    /* 1c */ BOOL mOkChosen;
     /* counted only in states 0, 1, 3, 4; zeroed when 0, 1, 3 hand over and when 4 hands over to 5 (OK path); on
        the Back path state 4 keeps counting while it requests the next option state */
     /* 20 */ s32 mStateFrames;
@@ -27,8 +27,8 @@ typedef struct OptionSelectMenu {
     /* 26 */ OptionSelectMenuGroupOffset mGroupOffsets[3];
     /* 32 */ u8 mUnk_32[2];
     /* 34 */ s32 mNextOptionState; /* only ever 0 (the top menu state), passed to RequestOptionState */
-    /* 38 */ BOOL mUnk_38;
-    /* 3c */ BOOL mUnk_3c;
+    /* 38 */ BOOL mHighlightVisible;
+    /* 3c */ BOOL mBg1Visible;
     /* 40 */ s32 mOffsetTimers[2][2];
     /* 50 */ void *mHeap;
     // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable; indexed with an offset

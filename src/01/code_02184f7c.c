@@ -46,16 +46,16 @@ Lld *CreateLld(const char *fileName, void *cells, void *cellAnims) {
     for (entryIndex = 0; entryIndex < list->mEntryCount; entryIndex++) {
         entry = &list->mEntries[entryIndex];
         entry->mLld = list;
-        entry->mAnimIndex = rec[entryIndex].mUnk_00;
-        entry->mPosX = rec[entryIndex].mUnk_02 > 0 ? 0.5f + TO_FIXED12(rec[entryIndex].mUnk_02)
-                                                   : TO_FIXED12(rec[entryIndex].mUnk_02) - 0.5f;
-        entry->mPosY = rec[entryIndex].mUnk_04 > 0 ? 0.5f + TO_FIXED12(rec[entryIndex].mUnk_04)
-                                                   : TO_FIXED12(rec[entryIndex].mUnk_04) - 0.5f;
+        entry->mAnimIndex = rec[entryIndex].mAnimIndex;
+        entry->mPosX = rec[entryIndex].mPosX > 0 ? 0.5f + TO_FIXED12(rec[entryIndex].mPosX)
+                                                 : TO_FIXED12(rec[entryIndex].mPosX) - 0.5f;
+        entry->mPosY = rec[entryIndex].mPosY > 0 ? 0.5f + TO_FIXED12(rec[entryIndex].mPosY)
+                                                 : TO_FIXED12(rec[entryIndex].mPosY) - 0.5f;
         entry->mScale = 0x1000;
-        entry->mShown = rec[entryIndex].mUnk_06 != 0;
-        NNS_G2dInitCellAnimation(&entry->mCellAnim, NNS_G2dGetAnimSequenceByIdx(cellAnims, rec[entryIndex].mUnk_00),
+        entry->mShown = rec[entryIndex].mShowMode != 0;
+        NNS_G2dInitCellAnimation(&entry->mCellAnim, NNS_G2dGetAnimSequenceByIdx(cellAnims, rec[entryIndex].mAnimIndex),
                                  cells);
-        if (rec[entryIndex].mUnk_06 > 1) {
+        if (rec[entryIndex].mShowMode > 1) {
             entry->mCellAnim.mActive = TRUE;
         } else {
             entry->mCellAnim.mActive = FALSE;

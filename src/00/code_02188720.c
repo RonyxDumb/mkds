@@ -169,7 +169,7 @@ void SetDataListTail(u8 type, Unk02188408Entry0xc0 *bssdesc, Unk02188408 *work) 
 
     tailFind = &work->mUnk_444[10];
     tailBss = &work->mUnk_470[10];
-    tailFind->mUnk_01 = type;
+    tailFind->mApType = type;
     rssiWord = bssdesc->mUnk_02;
     tailFind->mUnk_02 = (rssiWord & 2) != 0 ? (u8) (rssiWord >> 2) : (u8) ((rssiWord >> 2) + 0x19);
     tailFind->mUnk_03 = work->mUnk_d11 + 1;

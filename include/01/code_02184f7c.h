@@ -7,10 +7,10 @@
 
 // Data that CreateLld gets for the name it is given.
 typedef struct LldRecord {
-    /* 0 */ u16 mUnk_00;
-    /* 2 */ u16 mUnk_02;
-    /* 4 */ u16 mUnk_04;
-    /* 6 */ u16 mUnk_06;
+    /* 0 */ u16 mAnimIndex;
+    /* 2 */ u16 mPosX;
+    /* 4 */ u16 mPosY;
+    /* 6 */ u16 mShowMode;
 } LldRecord;
 
 typedef struct LldData {

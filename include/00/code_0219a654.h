@@ -24,12 +24,12 @@ typedef struct ConnectPacket {
 
 // Message of 0x15 bytes.
 typedef struct InitPacket {
-    /* 00 */ NNMagic mUnk_00;
-    /* 06 */ u8 mUnk_06;
-    /* 07 */ u8 mUnk_07;
-    /* 08 */ u8 mUnk_08[4];
-    /* 0c */ u8 mUnk_0c;
-    /* 0d */ u8 mUnk_0d;
+    /* 00 */ NNMagic mMagic;
+    /* 06 */ u8 mVersion;
+    /* 07 */ u8 mPacketType;
+    /* 08 */ u8 mCookie[4];
+    /* 0c */ u8 mPortType;
+    /* 0d */ u8 mClientIndex;
     /* 0e */ u8 mUnk_0e;
     /* 0f */ u8 mUnk_0f;
     /* 10 */ u8 mUnk_10;

@@ -53,7 +53,7 @@ void InitWiFiVSSetting(void *heap) {
     gWiFiVSSetting->mRow = 1;
     gWiFiVSSetting->mPendingWiFiState = -1;
     gWiFiVSSetting->mStateFrames = 0;
-    gWiFiVSSetting->mUnk_24 = TRUE;
+    gWiFiVSSetting->mHighlightVisible = TRUE;
     SetWiFiVSSettingFlag(0);
     LocateAndQueueWiFiVSSetting();
     InitPaletteBlend(heap, gWiFiVSSetting->mWiFiVSSettingSONclr, 3);
@@ -291,7 +291,7 @@ void AdvanceWiFiVSSettingState4(void) {
     gWiFiVSSetting->mNextState = 6;
     gWiFiVSSetting->mPendingWiFiState = 1;
     RequestSelectReturnState3WithSound(1);
-    gWiFiVSSetting->mUnk_28 = TRUE;
+    gWiFiVSSetting->mSelectReturnPending = TRUE;
     RequestTxtSystemClose();
     goto end;
 next:
@@ -299,7 +299,7 @@ next:
     if (((u16) pressedKeys != 0 && gWiFiVSSetting->mRow == 2) || hitIndex == 2) {
         gWiFiVSSetting->mNextState = 5;
         if (gWiFiVSSetting->mRow == 2) {
-            gWiFiVSSetting->mUnk_24 = FALSE;
+            gWiFiVSSetting->mHighlightVisible = FALSE;
         }
         gWiFiVSSetting->mPendingWiFiState = 3;
         gWiFiVSSetting->mRow = 2;
@@ -312,7 +312,7 @@ next:
     } else if (((u16) pressedKeys != 0 && gWiFiVSSetting->mRow == 0) || hitIndex == 0) {
         gWiFiVSSetting->mNextState = 5;
         if (gWiFiVSSetting->mRow == 0) {
-            gWiFiVSSetting->mUnk_24 = FALSE;
+            gWiFiVSSetting->mHighlightVisible = FALSE;
         }
         gWiFiVSSetting->mPendingWiFiState = 14;
         gWiFiVSSetting->mRow = 0;
@@ -386,12 +386,12 @@ void AdvanceWiFiVSSettingState5(void) {
         if (HasBuddyRecords() != FALSE ||
             (gWiFiVSSetting->mPendingWiFiState == 3 && gWiFiVSSetting->mSettingIndex != 0)) {
             RequestSelectReturnState4();
-            gWiFiVSSetting->mUnk_28 = TRUE;
+            gWiFiVSSetting->mSelectReturnPending = TRUE;
             return;
         }
-        gWiFiVSSetting->mUnk_28 = FALSE;
+        gWiFiVSSetting->mSelectReturnPending = FALSE;
     } else if (gWiFiVSSetting->mStateFrames >= 5) {
-        gWiFiVSSetting->mUnk_24 = TRUE;
+        gWiFiVSSetting->mHighlightVisible = TRUE;
     }
 }
 
@@ -426,7 +426,7 @@ void AdvanceWiFiVSSettingState6(void) {
     }
     if (gWiFiVSSetting->mStateFrames >= 10 && gWiFiVSSetting->mStateFrames >= 13 &&
         IsTxtSystemState0NoOpenRequest() != 0 &&
-        ((gWiFiVSSetting->mUnk_28 != FALSE && IsSelectReturnState0NoState1Request() != 0) ||
+        ((gWiFiVSSetting->mSelectReturnPending != FALSE && IsSelectReturnState0NoState1Request() != 0) ||
          IsSelectReturnState2NoState3Or4Request() != 0) &&
         GetWiFiNextScene() == -1) {
         if (gWiFiVSSetting->mPendingWiFiState == 14 && HasBuddyRecords() == FALSE) {
@@ -625,7 +625,7 @@ void UpdateWiFiVSSettingHighlight(void) {
     BOOL z = FALSE;
 
     for (i = 0; i < 3; i++) {
-        if (i == gWiFiVSSetting->mRow && gWiFiVSSetting->mUnk_24 != FALSE) {
+        if (i == gWiFiVSSetting->mRow && gWiFiVSSetting->mHighlightVisible != FALSE) {
             gWiFiVSSetting->mWiFiVSSettingTable[gWiFiVSSettingOffsetTableIndices[i][1]].mVisible = 1;
             SetLabelPaletteIndex(gWiFiVSSettingLabelIndices[i], 14, gWiFiVSSetting->mWiFiVSSettingBnll,
                                  gWiFiVSSetting->mWiFiVSSettingTable, gWiFiVSSetting->mWiFiVSSettingBncl);

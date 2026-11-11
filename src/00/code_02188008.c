@@ -33,7 +33,7 @@ s32 CheckDuplicate(void) {
     }
     for (index = 0, findListNum = work->mUnk_d12; index < findListNum; index++) {
         if (index != connectNo) {
-            if (work->mUnk_444[index].mUnk_01 < 6) {
+            if (work->mUnk_444[index].mApType < 6) {
                 if (strncmp(chosenSsid, work->mUnk_470[index].mUnk_04, work->mUnk_470[index].mUnk_0a) == 0) {
                     return 2;
                 }

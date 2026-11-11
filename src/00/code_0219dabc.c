@@ -72,7 +72,7 @@ void DWCi_NNCompletedCallback(s32 result, s32 gamesocket, PeerAddress *remoteadd
         return;
     }
     if (((DWCNNInfo *) userdata)->mIsQR2 == 0) {
-        if (outcome == 1 || (outcome == 2 && ((DWCNNInfo *) userdata)->mUnk_01 >= 1)) {
+        if (outcome == 1 || (outcome == 2 && ((DWCNNInfo *) userdata)->mRetryCount >= 1)) {
             ((DWCNNInfo *) userdata)->mCookie = 0;
             if (DWCi_ProcessNNFailure() != 0) {
                 if (DWCi_CancelPreConnectedClientProcess(
@@ -82,7 +82,7 @@ void DWCi_NNCompletedCallback(s32 result, s32 gamesocket, PeerAddress *remoteadd
             }
             return;
         }
-        ((DWCNNInfo *) userdata)->mUnk_01++;
+        ((DWCNNInfo *) userdata)->mRetryCount++;
         if (DWCi_HandleNNError(DWCi_DoNatNegotiationAsync(userdata)) != 0) {
             return;
         }

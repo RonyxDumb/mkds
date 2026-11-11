@@ -303,7 +303,7 @@ void SetWiFiVSSettingIndex(u32 settingIndex) {
 
 s32 GetWiFiVSSettingFlag(void) {
     u32 vsSettingFlag;
-    vsSettingFlag = gWiFiStates->mUnk_34;
+    vsSettingFlag = gWiFiStates->mTimeLimitDisabled;
     return vsSettingFlag;
 }
 
@@ -311,7 +311,7 @@ void SetWiFiVSSettingFlag(s32 flag) {
     u32 flagValue = flag;
     u32 statesPointerAddress;
     statesPointerAddress = (u32) &gWiFiStates;
-    gWiFiStates->mUnk_34 = flagValue;
+    gWiFiStates->mTimeLimitDisabled = flagValue;
 }
 
 BOOL IsWiFiSessionOffOutsideLogin(void) {

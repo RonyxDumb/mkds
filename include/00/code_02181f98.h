@@ -31,8 +31,8 @@ typedef struct WiFiVSSetting {
     /* 0010 */ s32 mStateFrames;
     /* 0014 */ s16 mRowOffsets[3][2];
     /* 0020 */ s32 mPendingWiFiState;
-    /* 0024 */ BOOL mUnk_24;
-    /* 0028 */ BOOL mUnk_28;
+    /* 0024 */ BOOL mHighlightVisible;
+    /* 0028 */ BOOL mSelectReturnPending;
     // Count down from 6 only while mUnk_08 == 1; a press sets them to 6. Nothing fires at 0: the cell flag and offset
     // they drive stop there.
     /* 002c */ s32 mIndexDecrementTimer;

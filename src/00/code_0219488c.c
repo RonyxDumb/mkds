@@ -5,12 +5,12 @@
 s32 gpiFindProfileByUser(GpConnection *connection, const char *nick, const char *email, void **profile) {
     GPIFindProfileByUserData data;
 
-    data.mUnk_00 = nick;
-    data.mUnk_04 = email;
-    data.mUnk_08 = profile;
-    data.mUnk_0c = FALSE;
+    data.mNick = nick;
+    data.mEmail = email;
+    data.mProfile = profile;
+    data.mFound = FALSE;
     GpiForEachProfileWhileNonZero(connection, gpiCheckProfileForUser, &data);
-    if (data.mUnk_0c == FALSE) {
+    if (data.mFound == FALSE) {
         *profile = NULL;
     }
     return 0;

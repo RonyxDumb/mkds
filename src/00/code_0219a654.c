@@ -362,12 +362,12 @@ void SendConnectAck(NatTraversalEntry *negotiator, SOCSockAddrIn *toaddr) {
     InitPacket packet;
     u32 cookie;
 
-    CopyNNMagic(&packet.mUnk_00, NNMagicData);
-    packet.mUnk_06 = 2;
-    packet.mUnk_07 = 6;
-    packet.mUnk_0d = negotiator->mClientIndex;
+    CopyNNMagic(&packet.mMagic, NNMagicData);
+    packet.mVersion = 2;
+    packet.mPacketType = 6;
+    packet.mClientIndex = negotiator->mClientIndex;
     cookie = negotiator->mCookie;
-    *(u32 *) packet.mUnk_08 =
+    *(u32 *) packet.mCookie =
         (cookie << 24 & 0xff000000) | ((cookie << 8 & 0xff0000) | ((cookie >> 24 & 0xff) | (cookie >> 8 & 0xff00)));
     SendNegotiatorPacket(negotiator->mDescriptor, toaddr->mAddr, toaddr->mPort >> 8 & 0xff | toaddr->mPort << 8 & 0xff00,
                      &packet, 0x15);
@@ -428,9 +428,9 @@ void ProcessPingPacket(NatTraversalEntry *negotiator, ConnectPacket *packet, SOC
 void ProcessInitPacket(NatTraversalEntry *negotiator, InitPacket *packet, SOCSockAddrIn *fromAddress) {
     u32 portKind;
 
-    switch (packet->mUnk_07) {
+    switch (packet->mPacketType) {
         case 1:
-            portKind = packet->mUnk_0c;
+            portKind = packet->mPortType;
             if (portKind <= 2) {
                 negotiator->mInitAckRecv[portKind] = 1;
                 if (negotiator->mState == 0 && negotiator->mInitAckRecv[1] != 0 && negotiator->mInitAckRecv[2] != 0 &&
@@ -442,7 +442,7 @@ void ProcessInitPacket(NatTraversalEntry *negotiator, InitPacket *packet, SOCSoc
             }
             break;
         case 2:
-            packet->mUnk_07 = 3;
+            packet->mPacketType = 3;
             SendNegotiatorPacket(negotiator->mDescriptor, fromAddress->mAddr,
                              fromAddress->mPort >> 8 & 0xff | fromAddress->mPort << 8 & 0xff00, packet, 0x15);
             break;
@@ -475,7 +475,7 @@ void NNProcessData(u8 *data, s32 length, void *fromAddress) {
             }
         } else if (length >= 0x15) {
             initPacket = *(InitPacket *) data;
-            cookie = *(u32 *) initPacket.mUnk_08;
+            cookie = *(u32 *) initPacket.mCookie;
             negotiator =
                 FindNegotiatorForCookie((cookie << 24 & 0xff000000) |
                                         ((cookie << 8 & 0xff0000) | ((cookie >> 24 & 0xff) | (cookie >> 8 & 0xff00))));

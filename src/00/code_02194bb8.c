@@ -420,15 +420,15 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                     return result;
                                 }
                                 if (strcmp(key, gNickResultKey) == 0) {
-                                    GpiCopyString(t1->mUnk_04, value, 0x1f);
+                                    GpiCopyString(t1->mNick, value, 0x1f);
                                 } else if (strcmp(key, gUniquenickResultKey) == 0) {
-                                    GpiCopyString(t1->mUnk_23, value, 0x15);
+                                    GpiCopyString(t1->mUniquenick, value, 0x15);
                                 } else if (strcmp(key, gSearchFirstnameKey) == 0) {
-                                    GpiCopyString(t1->mUnk_38, value, 0x1f);
+                                    GpiCopyString(t1->mFirstname, value, 0x1f);
                                 } else if (strcmp(key, gSearchLastnameKey) == 0) {
-                                    GpiCopyString(t1->mUnk_57, value, 0x1f);
+                                    GpiCopyString(t1->mLastname, value, 0x1f);
                                 } else if (strcmp(key, gSearchEmailKey) == 0) {
-                                    GpiCopyString(t1->mUnk_76, value, 0x33);
+                                    GpiCopyString(t1->mEmail, value, 0x33);
                                 } else if (strcmp(key, gBsrKey) == 0 || strcmp(key, gBsrdoneKey) == 0) {
                                     f = TRUE;
                                     n = g;
@@ -565,11 +565,11 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             GpiSetErrorMessage(connection, data_ov000_021b35f8);
                             return 1;
                         }
-                        u4->mUnk_04 = data->mProductId;
+                        u4->mProductId = data->mProductId;
                         d = FALSE;
-                        u4->mUnk_00 = 0;
-                        u4->mUnk_08 = 0;
-                        u4->mUnk_0c = NULL;
+                        u4->mResult = 0;
+                        u4->mNumMatches = 0;
+                        u4->mMatches = NULL;
                         do {
                             result = GpiReadKeyValue(connection, data->mInputBuffer, &n, (s8 *) key, (s8 *) value);
                             if (result != 0) {
@@ -578,14 +578,14 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             if (strcmp(key, gPsrdoneKey) == 0) {
                                 d = TRUE;
                             } else if (strcmp(key, gPsrKey) == 0) {
-                                u4->mUnk_08++;
-                                u4->mUnk_0c = DWCi_GsRealloc(u4->mUnk_0c, u4->mUnk_08 * 0x128);
-                                q4 = u4->mUnk_0c;
+                                u4->mNumMatches++;
+                                u4->mMatches = DWCi_GsRealloc(u4->mMatches, u4->mNumMatches * 0x128);
+                                q4 = u4->mMatches;
                                 if (q4 == NULL) {
                                     GpiSetErrorMessage(connection, data_ov000_021b35f8);
                                     return 1;
                                 }
-                                i = u4->mUnk_08 - 1;
+                                i = u4->mNumMatches - 1;
                                 t4 = &q4[i];
                                 memset(t4, 0, 0x128);
                                 t4->mUnk_024 = 1;
@@ -703,9 +703,9 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             GpiSetErrorMessage(connection, data_ov000_021b35f8);
                             return 1;
                         }
-                        u7->mUnk_00 = 0;
-                        u7->mUnk_04 = 0;
-                        u7->mUnk_08 = NULL;
+                        u7->mResult = 0;
+                        u7->mNumProfiles = 0;
+                        u7->mProfiles = NULL;
                         result = GpiReadKeyValue(connection, data->mInputBuffer, &n, (s8 *) key, (s8 *) value);
                         if (result != 0) {
                             return result;
@@ -724,17 +724,17 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             if (strcmp(key, gOdoneKey) == 0) {
                                 d = TRUE;
                             } else if (strcmp(key, gOKey) == 0) {
-                                q1 = DWCi_GsRealloc(u7->mUnk_08, (u7->mUnk_04 + 1) * 0xac);
+                                q1 = DWCi_GsRealloc(u7->mProfiles, (u7->mNumProfiles + 1) * 0xac);
                                 if (q1 == NULL) {
                                     GpiSetErrorMessage(connection, data_ov000_021b35f8);
                                     return 1;
                                 }
-                                u7->mUnk_08 = q1;
-                                q1 = u7->mUnk_08;
-                                i = u7->mUnk_04;
+                                u7->mProfiles = q1;
+                                q1 = u7->mProfiles;
+                                i = u7->mNumProfiles;
                                 t1 = &q1[i];
                                 memset(t1, 0, 0xac);
-                                u7->mUnk_04++;
+                                u7->mNumProfiles++;
                                 q1[i].mProfile = StrtolBase10(value);
                                 f = FALSE;
                                 do {
@@ -745,15 +745,15 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                         return result;
                                     }
                                     if (strcmp(key, gNickResultKey) == 0) {
-                                        GpiCopyString(t1->mUnk_04, value, 0x1f);
+                                        GpiCopyString(t1->mNick, value, 0x1f);
                                     } else if (strcmp(key, gUniquenickResultKey) == 0) {
-                                        GpiCopyString(t1->mUnk_23, value, 0x15);
+                                        GpiCopyString(t1->mUniquenick, value, 0x15);
                                     } else if (strcmp(key, gOthersFirstKey) == 0) {
-                                        GpiCopyString(t1->mUnk_38, value, 0x1f);
+                                        GpiCopyString(t1->mFirstname, value, 0x1f);
                                     } else if (strcmp(key, gOthersLastKey) == 0) {
-                                        GpiCopyString(t1->mUnk_57, value, 0x1f);
+                                        GpiCopyString(t1->mLastname, value, 0x1f);
                                     } else if (strcmp(key, gSearchEmailKey) == 0) {
-                                        GpiCopyString(t1->mUnk_76, value, 0x33);
+                                        GpiCopyString(t1->mEmail, value, 0x33);
                                     } else if (strcmp(key, gOKey) == 0 || strcmp(key, gOdoneKey) == 0) {
                                         f = TRUE;
                                         n = g;

@@ -23,7 +23,7 @@ typedef struct WiFiStates {
     /* 1c */ WiFiStateCallbacks mCallbacks;
     /* 2c */ void *mUnk_2c;
     /* 30 */ u32 mWiFiVSSettingIndex;
-    /* 34 */ s32 mUnk_34;
+    /* 34 */ s32 mTimeLimitDisabled;
     /* 38 */ u8 pad_38[4];
 } WiFiStates;
 

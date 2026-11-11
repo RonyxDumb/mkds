@@ -6,11 +6,11 @@
 // 0xac-byte array element GpiUpdateSearch fills.
 typedef struct ProfileMatch {
     /* 00 */ s32 mProfile;
-    /* 04 */ char mUnk_04[0x1f];
-    /* 23 */ char mUnk_23[0x15];
-    /* 38 */ char mUnk_38[0x1f];
-    /* 57 */ char mUnk_57[0x1f];
-    /* 76 */ char mUnk_76[0x36];
+    /* 04 */ char mNick[0x1f];
+    /* 23 */ char mUniquenick[0x15];
+    /* 38 */ char mFirstname[0x1f];
+    /* 57 */ char mLastname[0x1f];
+    /* 76 */ char mEmail[0x36];
 } ProfileMatch;
 
 // 0x128-byte array element GpiUpdateSearch fills.
@@ -36,9 +36,9 @@ typedef struct GpCheckNewUserResponseArg {
 } GpCheckNewUserResponseArg;
 
 typedef struct ReverseBuddiesReply {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ ProfileMatch *mUnk_08;
+    /* 00 */ s32 mResult;
+    /* 04 */ s32 mNumProfiles;
+    /* 08 */ ProfileMatch *mProfiles;
 } ReverseBuddiesReply;
 
 typedef struct SuggestNickReply {
@@ -48,10 +48,10 @@ typedef struct SuggestNickReply {
 } SuggestNickReply;
 
 typedef struct FindPlayersReply {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ PlayerMatch *mUnk_0c;
+    /* 00 */ s32 mResult;
+    /* 04 */ s32 mProductId;
+    /* 08 */ s32 mNumMatches;
+    /* 0c */ PlayerMatch *mMatches;
 } FindPlayersReply;
 
 typedef struct EmailCheckReply {

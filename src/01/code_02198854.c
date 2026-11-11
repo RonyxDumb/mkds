@@ -84,7 +84,7 @@ void InitOptionSelectMenu(void *a) {
     gOptionSelectMenu->mNextState = 0;
     gOptionSelectMenu->mIndex = 0;
     gOptionSelectMenu->mStateFrames = 0;
-    gOptionSelectMenu->mUnk_38 = TRUE;
+    gOptionSelectMenu->mHighlightVisible = TRUE;
     LocateAndQueueOptionSelectMenu();
     InitPaletteBlend(a, gOptionSelectMenu->mOptionSelectMenuSONclr, 3);
     for (i = 0; i < 2; i++) {
@@ -127,8 +127,8 @@ void InitOptionSelectMenu(void *a) {
         gOptionSelectMenu->mOffsetTimers[i][0] = 0;
         gOptionSelectMenu->mOffsetTimers[i][1] = 0;
     }
-    gOptionSelectMenu->mUnk_1c = FALSE;
-    gOptionSelectMenu->mUnk_3c = TRUE;
+    gOptionSelectMenu->mOkChosen = FALSE;
+    gOptionSelectMenu->mBg1Visible = TRUE;
     SetSelectReturnSoundId(0xe);
 }
 
@@ -309,12 +309,12 @@ void AdvanceOptionSelectMenuState2(void) {
         }
         WriteBackupFirstBlockWrapper();
         if (gOptionSelectMenu->mIndex == 2) {
-            gOptionSelectMenu->mUnk_38 = FALSE;
+            gOptionSelectMenu->mHighlightVisible = FALSE;
         }
         gOptionSelectMenu->mNextState = 3;
         gOptionSelectMenu->mNextOptionState = 0;
         gOptionSelectMenu->mIndex = 2;
-        gOptionSelectMenu->mUnk_1c = TRUE;
+        gOptionSelectMenu->mOkChosen = TRUE;
         StopPaletteBlend();
         StartSoundOncePerFrame(5);
     } else if (r5 == 0) {
@@ -402,7 +402,7 @@ void AdvanceOptionSelectMenuState3(void) {
         gOptionSelectMenu->mNextState = 4;
         gOptionSelectMenu->mStateFrames = 0;
     } else if (gOptionSelectMenu->mStateFrames >= 5) {
-        gOptionSelectMenu->mUnk_38 = TRUE;
+        gOptionSelectMenu->mHighlightVisible = TRUE;
     }
 }
 
@@ -428,8 +428,8 @@ void AdvanceOptionSelectMenuState4(void) {
     gOptionSelectMenu->mGroupOffsets[2].mOffsetY = -LookupSelectReturnState4Bg2Offset(gOptionSelectMenu->mStateFrames);
     if (gOptionSelectMenu->mStateFrames >= 10) {
         if (gOptionSelectMenu->mStateFrames >= 10 && IsSelectReturnState2NoState3Or4Request() != 0) {
-            gOptionSelectMenu->mUnk_3c = FALSE;
-            if (gOptionSelectMenu->mUnk_1c != FALSE) {
+            gOptionSelectMenu->mBg1Visible = FALSE;
+            if (gOptionSelectMenu->mOkChosen != FALSE) {
                 SetTxtSystemOpenSoundId(0x21);
                 a = GetBmgEntry(gOptionSelectMenu->mOptionMessages, 0x10);
                 b = GetBmgEntry(gOptionSelectMenu->mCommonMessages, 4);
@@ -526,7 +526,7 @@ void SetOptionSelectMenuRowsOnOff(void) {
     s32 k;
 
     for (i = 0; i < 3; i++) {
-        if (i == gOptionSelectMenu->mIndex && gOptionSelectMenu->mUnk_38 != FALSE) {
+        if (i == gOptionSelectMenu->mIndex && gOptionSelectMenu->mHighlightVisible != FALSE) {
             gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuRowSTableIndices[i]].mVisible = 1;
             SetLabelPaletteIndex(gOptionSelectMenuSLabelIndices[i], 14, gOptionSelectMenu->mOptionSelectMenuSBnll,
                                  gOptionSelectMenu->mOptionSelectMenuSTable, gOptionSelectMenu->mOptionSelectMenuSBncl);
@@ -615,7 +615,7 @@ void AdvanceOptionSelectMenu(void) {
 void WriteOptionSelectMenuRegisters(void) {
     u32 plane;
 
-    if (gOptionSelectMenu->mUnk_3c != FALSE) {
+    if (gOptionSelectMenu->mBg1Visible != FALSE) {
         plane = (reg_GX_DISPCNT & 0x1f00) >> 8;
         plane |= 2;
         reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | (plane << 8);

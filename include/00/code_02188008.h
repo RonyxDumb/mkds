@@ -23,7 +23,7 @@ typedef struct Unk02188408Entry24 {
 // Element of the table at 0x444 of an Unk02188408.
 typedef struct Unk02188408Entry4 {
     /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 mUnk_01;
+    /* 01 */ u8 mApType;
     /* 02 */ u8 mUnk_02;
     /* 03 */ u8 mUnk_03;
 } Unk02188408Entry4;
