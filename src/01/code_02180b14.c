@@ -51,7 +51,7 @@ void WriteSubBg1CntBit6(u32 bit6Value) {
     }
 }
 
-void func_ov001_02180b14(u32 cntVal14, u32 cntVal7, u32 cntVal8, u32 cntVal2, u32 cntVal13) {
+void TestSceneSetSubBg1Cnt(u32 cntVal14, u32 cntVal7, u32 cntVal8, u32 cntVal2, u32 cntVal13) {
     vu16 *reg = &reg_G2S_DB_BG1CNT;
     *reg = (*reg & 0x43) | (cntVal14 << 14) | (cntVal7 << 7) | (cntVal8 << 8) | (cntVal2 << 2) | (cntVal13 << 13);
 }

@@ -75,8 +75,8 @@ void AdvanceLld(Lld *lld, OamBuffer *oamBuffer) {
     Unk02022030 *cellAnim;
     s32 screenX;
     s32 screenY;
-    s32 pos_a[2];
-    s32 pos_b[2];
+    s32 scaledPos[2];
+    s32 unscaledPos[2];
     Unk021a5a58_2c_2c *cell;
 
     for (i = 0; i < lld->mEntryCount; i++) {
@@ -104,18 +104,18 @@ void AdvanceLld(Lld *lld, OamBuffer *oamBuffer) {
                     mtx.mUnk_00[0] = entry->mScale;
                     mtx.mUnk_00[3] = entry->mScale;
                     cell = (Unk021a5a58_2c_2c *) entry->mUnk_2c.mUnk_2c;
-                    pos_a[0] = screenX << 12;
-                    pos_a[1] = screenY << 12;
-                    oamBuffer->mOamCount +=
-                        NNS_G2dMakeCellToOams((GXOamAttr *) &oamBuffer->mOams[oamBuffer->mOamCount * 8],
-                                              0x80 - oamBuffer->mOamCount, (Unk020224e0_c *) cell, &mtx, pos_a, idx, 1);
+                    scaledPos[0] = screenX << 12;
+                    scaledPos[1] = screenY << 12;
+                    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(
+                        (GXOamAttr *) &oamBuffer->mOams[oamBuffer->mOamCount * 8], 0x80 - oamBuffer->mOamCount,
+                        (Unk020224e0_c *) cell, &mtx, scaledPos, idx, 1);
                 } else {
                     cell = (Unk021a5a58_2c_2c *) entry->mUnk_2c.mUnk_2c;
-                    pos_b[0] = screenX << 12;
-                    pos_b[1] = screenY << 12;
-                    oamBuffer->mOamCount +=
-                        NNS_G2dMakeCellToOams((GXOamAttr *) &oamBuffer->mOams[oamBuffer->mOamCount * 8],
-                                              0x80 - oamBuffer->mOamCount, (Unk020224e0_c *) cell, NULL, pos_b, 0, 0);
+                    unscaledPos[0] = screenX << 12;
+                    unscaledPos[1] = screenY << 12;
+                    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(
+                        (GXOamAttr *) &oamBuffer->mOams[oamBuffer->mOamCount * 8], 0x80 - oamBuffer->mOamCount,
+                        (Unk020224e0_c *) cell, NULL, unscaledPos, 0, 0);
                 }
             }
         }
@@ -149,13 +149,13 @@ s32 FindLldEntryAtPoint(Lld *lld, s32 startIndex, s32 pointX, s32 pointY) {
     return -1;
 }
 
-void func_ov001_021850a4(LldEntry *entry, s32 (*callback)(LldEntry *)) {
+void SetLldEntryCallback(LldEntry *entry, s32 (*callback)(LldEntry *)) {
     entry->mCallback = callback;
     entry->mUnk_10 = 0;
     entry->mUnk_14 = 0;
 }
 
-void func_ov001_02185018(LldEntry *entry, s32 frameOrCommand) {
+void ApplyLldEntryFrameCommand(LldEntry *entry, s32 frameOrCommand) {
     Unk02022030 *cellAnim = &entry->mUnk_2c;
 
     if (frameOrCommand == -1) {
@@ -212,10 +212,10 @@ void SetLldEntryBounds(LldEntry *entry, s32 left, s32 top, s32 right, s32 bottom
     entry->mBoundsBottom = bottom << 12;
 }
 
-void func_ov001_02184f8c(Unk02188950 *mapObject) {
+void StartDonketuStepSoundFirst(Unk02188950 *mapObject) {
     StartMapObjectSound(&mapObject->mUnk_000, 0x210);
 }
 
-void func_ov001_02184f7c(Unk02188950 *mapObject) {
+void StartDonketuStepSoundSecond(Unk02188950 *mapObject) {
     StartMapObjectSound(&mapObject->mUnk_000, 0x210);
 }

@@ -85,7 +85,7 @@ BOOL TryStartKartScaleTableEffect(Kart *kart) {
     mode = gRaceSetup->mMode;
     if (mode == MODE_MISSION_RUN) {
         if (mode == MODE_MISSION_RUN) {
-            func_ov001_0218173c();
+            AddMissionRunPendingDropOnKartHit();
         }
     }
     if (!(kart->mUnk_48 & (KART_48_SINKING | KART_48_RESPAWN_WAIT))) {

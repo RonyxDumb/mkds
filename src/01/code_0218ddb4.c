@@ -157,7 +157,7 @@ void func_ov001_0218f51c(Unk02188950 *a) {
     StartMapObjectState(a, 5, func_ov001_0218f634);
     StartAnimationWithEndCallback(a, a->mPrm->mUnk_1f4, a->mPrm->mUnk_1f8, func_ov001_0218f57c);
     SetKartCollisionCallback(a, func_ov001_0218f9a8);
-    func_ov001_021828f0();
+    StartCoinsFadeOut();
 }
 
 void func_ov001_0218f454(Unk02188950 *a) {
@@ -310,7 +310,7 @@ void func_ov001_0218ee88(Unk02188950 *a) {
     a->mMoveAngle = (u16) (FX_Atan2Idx(p->mPos.x - a->mUnk_000.mPos.x, p->mPos.z - a->mUnk_000.mPos.z) + 0x4000);
     a->mAngle = a->mMoveAngle;
     func_ov001_0218ef30(a);
-    func_ov001_02182a3c(0);
+    SetBossCoinShownCount(0);
     a->mUnk_000.mFlags &= ~1;
 }
 
@@ -379,7 +379,7 @@ void func_ov001_0218ead0(Unk02188950 *a) {
     StartMapObjectState(a, 5, (s32(*)(Unk02188950 *)) func_ov001_0218edb8);
     func_ov001_0218f850(a);
     StartStateFrameCountCallback(a, a->mPrm->mUnk_1a8, func_ov001_0218eb94);
-    func_ov001_02182a3c(0);
+    SetBossCoinShownCount(0);
     IncrementEntryGroupIndex(a, a->mPrm->mUnk_140);
     v1 = a->mUnk_0a8;
     if (v1 == 1) {
@@ -431,9 +431,9 @@ void func_ov001_0218e92c(Unk02188950 *p) {
     gKingTeresaState = 4;
     SetKartCollisionCallback(p, func_ov001_0218e38c);
     p->mUnk_000.mFlags |= data_ov001_021a65b0;
-    func_ov001_02182a3c(p->mPrm->mUnk_18c < (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunBossCount() : 0)
-                            ? p->mPrm->mUnk_18c
-                            : (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunBossCount() : 0));
+    SetBossCoinShownCount(p->mPrm->mUnk_18c < (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunBossCount() : 0)
+                              ? p->mPrm->mUnk_18c
+                              : (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunBossCount() : 0));
     p->mCollisionExtent.x = p->mCollisionExtentTargetX = p->mCollisionExtent.z = p->mCollisionExtentTargetZ =
         p->mPrm->mUnk_00c / 2;
 }
@@ -443,7 +443,7 @@ void func_ov001_0218e8d8(Unk02188950 *a) {
     StartAnimationWithEndCallback(a, a->mPrm->mUnk_168, a->mPrm->mUnk_16c, func_ov001_0218e92c);
     StopTurningMoveFollowsAngle(a);
     SetSpeedAndClearTarget(a, 0);
-    func_ov001_02182a3c(0);
+    SetBossCoinShownCount(0);
     StartMapObjectSound(&a->mUnk_000, 0x00000230u);
 }
 
@@ -451,7 +451,7 @@ void func_ov001_0218e8b0(Unk02188950 *a) {
     StartMapObjectState(a, 1, NULL);
     SetShadowOffsetYAndScale(a, 0, 0x19000);
     SetFadeFogHoldFramesToLimit();
-    func_ov001_021827f0();
+    StartCoinsFadeIn();
 }
 
 void func_ov001_0218e860(Unk02188950 *a) {
@@ -591,7 +591,7 @@ void func_ov001_0218e38c(Unk02188950 *a, Kart *b) {
     a->mUnk_000.mPosStep.x = MUL_FIXED12_NO_ROUND(-a->mPrm->mUnk_024, FX_SinIdx(b->mHeadingAngle));
     a->mUnk_000.mPosStep.y = 0;
     a->mUnk_000.mPosStep.z = MUL_FIXED12_NO_ROUND(-a->mPrm->mUnk_024, FX_CosIdx(b->mHeadingAngle));
-    func_ov001_021829ac(a->mPrm->mUnk_190);
+    ParkBossCoins(a->mPrm->mUnk_190);
     func_ov001_0218ead0(a);
     a->mUnk_2d8 = 0;
     SetKartCollisionCallback(a, func_ov001_0218f9a8);
@@ -616,7 +616,7 @@ void func_ov001_0218e344(Unk02188950 *a) {
 }
 
 void func_ov001_0218e298(Unk02188950 *a, Kart *b) {
-    func_ov001_02182bbc((u16) a->mPrm->mUnk_110);
+    AddPendingBossTransferInMissionRun((u16) a->mPrm->mUnk_110);
     a->mUnk_000.mPosStep.x = 0;
     a->mUnk_000.mPosStep.y = a->mPrm->mUnk_114;
     a->mUnk_000.mPosStep.z = 0;
@@ -646,7 +646,7 @@ void InitKingTeresaObjects(MapObjectList *a) {
             }
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 a0 = obj->mPrm;
-                func_ov001_02181844(a0->mUnk_1b8, a0->mUnk_1bc, a0->mUnk_1c0, a0->mUnk_1c4);
+                SetMissionRunTimerValues(a0->mUnk_1b8, a0->mUnk_1bc, a0->mUnk_1c0, a0->mUnk_1c4);
             }
         }
     }
@@ -683,7 +683,7 @@ void UpdateKingTeresa(u32 a, Unk02188950 *b) {
                 }
                 SetKartCollisionCallback(b, func_ov001_0218e344);
                 b->mUnk_000.mFlags &= ~0x40;
-                func_ov001_02182a3c(0);
+                SetBossCoinShownCount(0);
                 func_ov001_0218ec40(b);
             }
         } else {

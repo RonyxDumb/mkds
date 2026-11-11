@@ -65,7 +65,7 @@ void func_ov001_021a2408(void) {
             reg_G2S_DB_BG2OFS =
                 ((gEmblem->mUnk_10a8 >> 12) & 0x1ff) | (((-gEmblem->mUnk_10a8 >> 12) << 16) & 0x1ff0000);
             DC_FlushRange(GetEmblemGridCells(), GetEmblemGridCharSize());
-            GXS_LoadBG3Char(GetEmblemGridCells(), func_ov001_02181194(), GetEmblemGridCharSize());
+            GXS_LoadBG3Char(GetEmblemGridCells(), GetEmblemGridCharOffset(), GetEmblemGridCharSize());
             DC_FlushRange(gEmblem->mUnk_0a7c, 0x200);
             GX_LoadBG2Char((gEmblem->mUnk_0a7c), 0, 0x200);
             src = gEmblem->mEmblemSBNclr->mData;
@@ -107,7 +107,7 @@ void func_ov001_021a2408(void) {
             reg_G2S_DB_BG2OFS =
                 ((gEmblem->mUnk_10a8 >> 12) & 0x1ff) | (((-gEmblem->mUnk_10a8 >> 12) << 16) & 0x1ff0000);
             DC_FlushRange(GetEmblemGridCells(), GetEmblemGridCharSize());
-            GXS_LoadBG3Char(GetEmblemGridCells(), func_ov001_02181194(), GetEmblemGridCharSize());
+            GXS_LoadBG3Char(GetEmblemGridCells(), GetEmblemGridCharOffset(), GetEmblemGridCharSize());
             DC_FlushRange(gEmblem->mUnk_0a7c, 0x200);
             GX_LoadBG2Char((gEmblem->mUnk_0a7c), 0, 0x200);
             src = gEmblem->mEmblemSBNclr->mData;

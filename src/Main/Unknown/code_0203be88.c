@@ -41,7 +41,7 @@ void FinishKartInCourseMapKind2Shape(Vec3 *position, u32 kartIndex) {
     }
     if (shapeFlag != 0) {
         if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-            func_ov001_021816fc();
+            AddMissionRunCountForKind0();
         }
         if (gRaceSetup->mMode != MODE_MISSION_RUN) {
             return;

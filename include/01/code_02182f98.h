@@ -4,6 +4,6 @@
 
 typedef struct Coin Coin;
 
-void func_ov001_02182f98(void *f, Coin *coin, void *h, u32 l);
-void func_ov001_02183090(void);
-void func_ov001_021830a8(void);
+void DrawCoinShadow(void *mapObjectList, Coin *coin, void *viewMatrix, u32 mapObjectAlpha);
+void AdvanceCoinShadowRotationIndex(void);
+void ResetCoinShadowRotationIndex(void);

@@ -60,27 +60,27 @@ typedef struct Coin {
 #include "Main/Unknown/code_020b502c.h"
 #include "Main/Unknown/code_020d4000.h"
 
-void *func_ov001_02181bd0(void);
-void *func_ov001_02181bec(void);
-void *func_ov001_02181c08(void);
+void *CreateCoinUpdateList(void);
+void *CreateCoinShadowDrawList(void);
+void *CreateCoinDrawList(void);
 void CreateCoinKindData(void);
-void UpdateCoin(void *a, Coin *coin);
-void func_ov001_0218254c(void);
+void UpdateCoin(void *mapObjectList, Coin *coin);
+void CoinBeforeObjectsNop(void);
 void InitCoinObjects(MapObjectList *coinList);
-void DrawCoin(void *b, Coin *coin);
-void LoadCoin(Unk0219b478 *a);
-u8 CollideKartWithCoin(Coin *coin, Kart *kart, u8 *e, u8 *f);
-void func_ov001_021827a4(void);
-void func_ov001_021827f0(void);
-void func_ov001_021828f0(void);
-void func_ov001_021829ac(s32 a);
-void func_ov001_02182a3c(s32 a);
-void func_ov001_02182bbc(u32 amount);
-void func_ov001_02182bdc(void);
-void func_ov001_02182d30(void);
-void func_ov001_02182e84(void);
-void func_ov001_02182eb8(Coin *coin, s32 b);
-void func_ov001_02182f1c(Coin *coin, Kart *kart);
+void DrawCoin(void *mapObjectList, Coin *coin);
+void LoadCoin(Unk0219b478 *drawList);
+u8 CollideKartWithCoin(Coin *coin, Kart *kart, u8 *firstResponsePtr, u8 *secondResponsePtr);
+void SetMissionRunCoinCallbacks(void);
+void StartCoinsFadeIn(void);
+void StartCoinsFadeOut(void);
+void ParkBossCoins(s32 parkCount);
+void SetBossCoinShownCount(s32 shownCount);
+void AddPendingBossTransferInMissionRun(u32 amount);
+void StartCoinBossTransfer(void);
+void StartCoinDrop(void);
+void StartCoinCountUp(void);
+void AdvanceCoinNsbtpFrame(Coin *coin, s32 counterAdd);
+void StartCoinRiseOverKart(Coin *coin, Kart *kart);
 
 #include "01/code_0219b540.h"
 #include "Main/Unknown/code_02081000.h"

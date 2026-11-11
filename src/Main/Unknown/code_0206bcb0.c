@@ -74,7 +74,7 @@ void EndKartDrift(Kart *kart) {
         if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
             GetEntryKartCounters()->mMiniTurboCount++;
             if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
-                func_ov001_0218171c();
+                AddMissionRunCountForKind4();
             }
         }
     }
@@ -220,7 +220,7 @@ recheck:
                 if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
                     GetEntryKartCounters()->mMiniTurboCount++;
                     if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
-                        func_ov001_0218171c();
+                        AddMissionRunCountForKind4();
                     }
                 }
             }

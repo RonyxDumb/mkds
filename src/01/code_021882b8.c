@@ -20,7 +20,7 @@ void ResetMissionRunMapObjects(void) {
     MapObjectList *table;
 
     if (!(gRaceSetup->mMode == MODE_MISSION_RUN ? IsKartEliminated((u16) gRaceSetup->mEntryIndex) : 0)) {
-        for (i = gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : (u8) 0;
+        for (i = gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : (u8) 0;
              i <= (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunMapObjectLastIndex() : (u16) 0); i++) {
             obj = gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunMapObject(i) : 0;
             table = FindMapObjectKindUpdateList(0x1ff);
@@ -35,10 +35,15 @@ void ResetMissionRunMapObjects(void) {
             obj->mVelocity.x = obj->mVelocity.y = obj->mVelocity.z = 0;
             obj->mAlphaLimit = obj->mAlphaLimitTarget = 0x1f000;
             obj->mAlphaLimitPerCall = 0;
-            if (i - (gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) < table->mMapObjectCount) {
-                tableObj = table->mMapObjects[i - (gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)];
+            if (i - (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) <
+                table->mMapObjectCount) {
+                tableObj =
+                    table->mMapObjects[i -
+                                       (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)];
                 obj->mUnk_000.mPos = tableObj->mUnk_000.mCourseMapRow->mUnk_00;
-                tableObj = table->mMapObjects[i - (gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)];
+                tableObj =
+                    table->mMapObjects[i -
+                                       (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)];
                 obj->mAngle =
                     (u16) (((s64) tableObj->mUnk_000.mCourseMapRow->mUnk_0c.y * 0xb60b60b60bLL + 0x80000000000LL) >>
                            44);

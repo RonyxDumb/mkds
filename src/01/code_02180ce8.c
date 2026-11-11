@@ -88,7 +88,7 @@ u32 GetEmblemGridScr(void) {
     return ((u32) gEmblemGrid->mBuffers[0]);
 }
 
-u32 func_ov001_021811b8(void) {
+u32 GetEmblemGridScrOffset(void) {
     return 0x0u;
 }
 
@@ -98,7 +98,7 @@ int GetEmblemGridScrSize(void) {
     return charsPerSide * charsPerSide;
 }
 
-u32 func_ov001_02181194(void) {
+u32 GetEmblemGridCharOffset(void) {
     return 0x0u;
 }
 

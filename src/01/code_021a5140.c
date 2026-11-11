@@ -94,13 +94,13 @@ void InitEmblem(void) {
     func_ov001_021a6388(0);
     func_ov001_021a6350(GetLldEntryX(GetLldEntry(gEmblem->mEmblemSLld, 0)),
                         GetLldEntryY(GetLldEntry(gEmblem->mEmblemSLld, 0)));
-    func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 14), 1);
-    func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 12), 0);
-    func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 10), 0);
-    func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 23), 2);
-    func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 1), -1);
-    func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 2), -1);
-    func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 3), -1);
+    ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 14), 1);
+    ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 12), 0);
+    ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 10), 0);
+    ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 23), 2);
+    ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 1), -1);
+    ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 2), -1);
+    ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 3), -1);
     SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 14), -12, -12, 12, 12);
     SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 15), -12, -12, 12, 12);
     SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 16), -12, -12, 12, 12);

@@ -30,11 +30,11 @@
 
 RaceHudSubScreenCells *gRaceHudSubScreenCoinCells;
 
-s32 func_ov001_02181528(void) {
+s32 GetMissionRunMapObjectAlphaLimit(void) {
     Unk02188950 *mapObject;
 
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        mapObject = GetMissionRunMapObject(gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0);
+        mapObject = GetMissionRunMapObject(gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0);
     } else {
         mapObject = NULL;
     }
@@ -56,16 +56,16 @@ void UpdateRaceHudSubScreenCoinCells(void) {
     s32 cellCount;
     MapObject *object;
     Vec3 *position;
-    u32 v;
+    u32 raceHudSubScreenScale;
 
     cellCount = 0;
-    v = GetRaceHudSubScreenScale();
+    raceHudSubScreenScale = GetRaceHudSubScreenScale();
     for (i = 0; i < gRaceHudSubScreenCoinCells->mObjectCount; i++) {
         object = gRaceHudSubScreenCoinCells->mObjects[i];
         if ((object->mFlags & 1) == 0) {
             position = &object->mPos;
-            if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenCoinCells->mCells[cellCount].mDrawPos, v, 1,
-                                                1)) {
+            if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenCoinCells->mCells[cellCount].mDrawPos,
+                                                raceHudSubScreenScale, 1, 1)) {
                 gRaceHudSubScreenCoinCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x58);
                 gRaceHudSubScreenCoinCells->mCells[cellCount].mPriority =
                     IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_OUTSIDE_BOX : RACE_HUD_PRIORITY_INSIDE_BOX;

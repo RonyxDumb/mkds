@@ -30,8 +30,8 @@ typedef struct OamBuffer_000 {
     /* 1e */ s16 mUnk_1e;
 } OamBuffer_000;
 
-void func_ov001_02184f7c(Unk02188950 *mapObject);
-void func_ov001_02184f8c(Unk02188950 *mapObject);
+void StartDonketuStepSoundSecond(Unk02188950 *mapObject);
+void StartDonketuStepSoundFirst(Unk02188950 *mapObject);
 void SetLldEntryBounds(LldEntry *entry, s32 left, s32 top, s32 right, s32 bottom);
 s32 GetLldEntryScale(LldEntry *entry);
 void SetLldEntryScale(LldEntry *entry, s32 scale);
@@ -39,8 +39,8 @@ s32 GetLldEntryY(LldEntry *entry);
 s32 GetLldEntryX(LldEntry *entry);
 void SetLldEntryPos(LldEntry *entry, s32 screenX, s32 screenY);
 s32 GetLldEntryFrameIndex(LldEntry *entry);
-void func_ov001_02185018(LldEntry *entry, s32 frameOrCommand);
-void func_ov001_021850a4(LldEntry *entry, s32 (*callback)(LldEntry *));
+void ApplyLldEntryFrameCommand(LldEntry *entry, s32 frameOrCommand);
+void SetLldEntryCallback(LldEntry *entry, s32 (*callback)(LldEntry *));
 s32 FindLldEntryAtPoint(Lld *lld, s32 startIndex, s32 pointX, s32 pointY);
 LldEntry *GetLldEntry(Lld *lld, s32 index);
 void AdvanceLld(Lld *lld, OamBuffer *oamBuffer);

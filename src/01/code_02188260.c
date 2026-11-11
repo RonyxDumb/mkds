@@ -4,7 +4,7 @@
 
 u32 func_ov001_02188260(Unk02188950 *mapObject) {
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        func_ov001_021817e0();
+        AddMissionRunCountForKind7();
     }
     mapObject->mUnk_0ac++;
     if (mapObject->mUnk_0ac >= mapObject->mPrm->mUnk_000) {

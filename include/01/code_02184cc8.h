@@ -4,7 +4,7 @@
 
 typedef struct Unk02188950 Unk02188950;
 
-void func_ov001_02184cc8(Unk02188950 *mapObject);
-void func_ov001_02184cf4(Unk02188950 *mapObject);
-void func_ov001_02184d70(Unk02188950 *mapObject);
-void func_ov001_02184d9c(Unk02188950 *mapObject);
+void StartDonketuRepeatJumps(Unk02188950 *mapObject);
+void StartDonketuRepeatJumpState(Unk02188950 *mapObject);
+void StartDonketuRepeatJumpsAfterHit(Unk02188950 *mapObject);
+void StartDonketuRepeatJumpAfterHitState(Unk02188950 *mapObject);

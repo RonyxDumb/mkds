@@ -63,7 +63,7 @@ Unk02188950 *GetMissionRunMapObject(int entryIndex) {
     return gMissionRunData->mMapObjects[entryIndex - gRaceSetup->mKartCount];
 }
 
-u8 func_ov001_02181b54(void) {
+u8 MissionRunGetCurrentKartCount(void) {
     return gRaceSetup->mKartCount;
 }
 
@@ -71,7 +71,7 @@ u16 GetMissionRunMapObjectLastIndex(void) {
     return gMissionRunData->mMapObjectCount + gRaceSetup->mKartCount - 1;
 }
 
-void func_ov001_02181aa0(void) {
+void AddMissionRunCount(void) {
     MissionRunData *missionRunData;
     u32 countLimit;
 
@@ -183,7 +183,7 @@ void UpdateMissionRunData(void) {
                     gMissionRunData->mTimer = 0;
                 } else if (missionRunData->mPendingCountUp != 0) {
                     missionRunData->mPendingCountUp -= 1;
-                    func_ov001_02181aa0();
+                    AddMissionRunCount();
                     if (gMissionRunData->mCountUpCallback != NULL) {
                         gMissionRunData->mCountUpCallback();
                     }
@@ -203,11 +203,11 @@ void UpdateMissionRunData(void) {
     }
 }
 
-void func_ov001_02181844(u16 a, u16 b, u16 c, u16 d) {
-    gMissionRunData->mUnk_10 = a;
-    gMissionRunData->mUnk_12 = b;
-    gMissionRunData->mUnk_14 = c;
-    gMissionRunData->mUnk_16 = d;
+void SetMissionRunTimerValues(u16 startTimer, u16 maxTimer, u16 countUpTimerAdd, u16 bossTransferTimerAdd) {
+    gMissionRunData->mUnk_10 = startTimer;
+    gMissionRunData->mUnk_12 = maxTimer;
+    gMissionRunData->mUnk_14 = countUpTimerAdd;
+    gMissionRunData->mUnk_16 = bossTransferTimerAdd;
 }
 
 s32 GetMissionRunTimer(void) {
@@ -234,13 +234,13 @@ s32 GetMissionRunBossCount(void) {
     return (gMissionRunData->mBossCount);
 }
 
-void func_ov001_021817e0(void) {
+void AddMissionRunCountForKind7(void) {
     if (gRaceSetup->mMissionKind == '\a') {
-        func_ov001_02181aa0();
+        AddMissionRunCount();
     }
 }
 
-void func_ov001_0218175c(s32 mapObjectKind) {
+void AddMissionRunCountForMapObjectKind(s32 mapObjectKind) {
     RaceSetup *raceSetup = gRaceSetup;
     u32 missionKind = raceSetup->mMissionKind;
     if (missionKind == 3 || missionKind == 7 || missionKind == 0) {
@@ -248,35 +248,35 @@ void func_ov001_0218175c(s32 mapObjectKind) {
         if (missionObjectKind0 == 0 && raceSetup->mMissionMapObjectKind1 == 0 &&
             raceSetup->mMissionMapObjectKind2 == 0 && raceSetup->mMissionMapObjectKind3 == 0 && mapObjectKind > 400 &&
             mapObjectKind < 500) {
-            func_ov001_02181aa0();
+            AddMissionRunCount();
             return;
         }
         if (mapObjectKind == missionObjectKind0 || mapObjectKind == raceSetup->mMissionMapObjectKind1 ||
             mapObjectKind == raceSetup->mMissionMapObjectKind2 || mapObjectKind == raceSetup->mMissionMapObjectKind3) {
-            func_ov001_02181aa0();
+            AddMissionRunCount();
         }
     }
 }
 
-void func_ov001_0218173c(void) {
+void AddMissionRunPendingDropOnKartHit(void) {
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         AddMissionRunPendingDrop(5);
     }
 }
 
-void func_ov001_0218171c(void) {
+void AddMissionRunCountForKind4(void) {
     if (gRaceSetup->mMissionKind == 4) {
-        func_ov001_02181aa0();
+        AddMissionRunCount();
     }
 }
 
-void func_ov001_021816fc(void) {
+void AddMissionRunCountForKind0(void) {
     if (gRaceSetup->mMissionKind == 0) {
-        func_ov001_02181aa0();
+        AddMissionRunCount();
     }
 }
 
-BOOL func_ov001_021816b4(void) {
+BOOL IsAnyBalloonUnparked(void) {
     MapObjectList *list;
     Balloon *balloon;
     s32 i;
@@ -292,7 +292,7 @@ BOOL func_ov001_021816b4(void) {
     return FALSE;
 }
 
-void func_ov001_021816a8(UnkFunc *callback) {
+void SetMissionRunCountUpCallback(UnkFunc *callback) {
     gMissionRunData->mCountUpCallback = callback;
 }
 
@@ -329,7 +329,7 @@ void AddMissionRunBossCount(short amount) {
     }
 }
 
-void func_ov001_021815d0(s32 stepCount) {
+void AddMissionRunPendingCountUp(s32 stepCount) {
     s32 i;
 
     for (i = 0; i < stepCount; i++) {
@@ -348,7 +348,7 @@ void func_ov001_021815d0(s32 stepCount) {
     }
 }
 
-void func_ov001_0218155c(s32 stepCount) {
+void AddMissionRunPendingCountUpFromBoss(s32 stepCount) {
     s32 i;
 
     if ((u32) stepCount >= gMissionRunData->mBossCount) {

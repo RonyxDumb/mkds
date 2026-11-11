@@ -178,7 +178,7 @@ void StartWoodbox1ItemObject(Woodbox1 *woodbox, Vec3 *velocity) {
     s32 itemIndex;
 
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        func_ov001_0218175c(woodbox->mMapObject.mKind);
+        AddMissionRunCountForMapObjectKind(woodbox->mMapObject.mKind);
     }
     woodbox->mMapObject.mFlags |= data_021594d8;
     if (gRaceSetup->mMode == MODE_WIFI) {

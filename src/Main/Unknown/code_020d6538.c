@@ -379,7 +379,7 @@ s32 CollideKartWithMapObject(Kart *kart, MapObject *mapObject) {
             responses[1] = mapObject->mKindData->mCollideKartCallback(mapObject, kart, &responses[0], &responses[1]);
         }
         if (gRaceSetup->mMode == MODE_MISSION_RUN && responses[0] == 1 && gRaceSetup->mMode == MODE_MISSION_RUN) {
-            func_ov001_0218175c(mapObject->mKind);
+            AddMissionRunCountForMapObjectKind(mapObject->mKind);
         }
         return responses[1];
     }
@@ -418,7 +418,7 @@ s32 CollideItemObjectWithMapObject(ItemObject *itemObject, MapObject *mapObject,
                 mapObject->mKindData->mCollideItemObjectCallback(mapObject, itemObject, &responses[0], &responses[1]);
         }
         if (gRaceSetup->mMode == MODE_MISSION_RUN && responses[0] == 1 && gRaceSetup->mMode == MODE_MISSION_RUN) {
-            func_ov001_0218175c(mapObject->mKind);
+            AddMissionRunCountForMapObjectKind(mapObject->mKind);
         }
         if (firstResponseOut != NULL) {
             *firstResponseOut = responses[0];

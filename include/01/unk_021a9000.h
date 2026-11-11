@@ -125,7 +125,7 @@ typedef struct SelectBattleStage {
     /* 1084 */ struct Bmg *mCommonMessages;
 } SelectBattleStage;
 
-// Object that func_ov001_02180610 allocates and gTestScene points to.
+// Object that InitTestSceneObject allocates and gTestScene points to.
 typedef struct TestScene {
     /* 0000 */ s32 mUnk_0000;
     /* 0004 */ s32 mState;

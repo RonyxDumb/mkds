@@ -430,7 +430,7 @@ BOOL IsEntryKartNormalOrNotMissionRun(void) {
     if (mode == MODE_MISSION_RUN) {
         Kart *kart = &gKarts[gRaceSetup->mEntryIndex];
         if (kart->mState != KART_STATE_NORMAL || (kart->mUnk_48 & 0x2000840) != 0 ||
-            (kart->mUnk_44 & KART_44_ON_GROUND) == 0 || (mode != MODE_MISSION_RUN ? 0 : func_ov001_021816b4()) != 0) {
+            (kart->mUnk_44 & KART_44_ON_GROUND) == 0 || (mode != MODE_MISSION_RUN ? 0 : IsAnyBalloonUnparked()) != 0) {
             result = FALSE;
         }
     }

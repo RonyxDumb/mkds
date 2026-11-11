@@ -13,7 +13,7 @@
 #include "code_02147cd8.h"
 #include "Main/Unknown/code_021000d0.h"
 
-void func_ov001_02184874(Unk02188950 *donketu, Kart *kart) {
+void DonketuKartCollisionCallback(Unk02188950 *donketu, Kart *kart) {
     s32 scale;
 
     if ((GetKart(kart->mIndex)->mUnk_48 & KART_48_BOOST) && kart->mBoostTimer > 0) {
@@ -37,7 +37,7 @@ void func_ov001_02184874(Unk02188950 *donketu, Kart *kart) {
                 StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_1d4, donketu->mPrm->mUnk_1d8);
                 SpinAngleStopMoveAngle(donketu, donketu->mPrm->mUnk_1e4, 0x270f000);
                 SetVelocity(donketu, &velocityWhenBoosted);
-                SetStoppedCallback(donketu, func_ov001_02184d70);
+                SetStoppedCallback(donketu, StartDonketuRepeatJumpsAfterHit);
                 SetSpeedAndClearTarget(donketu, 0);
             }
             {
@@ -95,6 +95,6 @@ void func_ov001_02184874(Unk02188950 *donketu, Kart *kart) {
             SetSpeedAndClearTarget(donketu, 0);
         }
     }
-    SetKartCollisionCallback(donketu, func_ov001_02184874);
+    SetKartCollisionCallback(donketu, DonketuKartCollisionCallback);
     donketu->mUnk_2d8 = 13;
 }

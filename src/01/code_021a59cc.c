@@ -283,7 +283,7 @@ BOOL func_ov001_021a5ef4(LldEntry *entry) {
     }
     entry->mUnk_10++;
     if (entry->mUnk_10 <= 5) {
-        func_ov001_02185018(entry, 0);
+        ApplyLldEntryFrameCommand(entry, 0);
         SetLldEntryScale(entry, GetLldEntryScale(entry) - 0x19a);
         if (GetLldEntryScale(entry) <= 0) {
             SetLldEntryScale(entry, 0);
@@ -307,7 +307,7 @@ BOOL func_ov001_021a5e60(LldEntry *entry) {
         return FALSE;
     }
     if (entry->mUnk_10 <= 10) {
-        func_ov001_02185018(entry, 0);
+        ApplyLldEntryFrameCommand(entry, 0);
         SetLldEntryScale(entry, GetLldEntryScale(entry) + 0x19a);
         if (GetLldEntryScale(entry) >= 0x1000) {
             SetLldEntryScale(entry, 0x1000);
@@ -329,8 +329,8 @@ void func_ov001_021a5df0(void *obj, s32 index) {
 
     SetLldEntryPos(b, GetLldEntryX(a), GetLldEntryY(a));
     SetLldEntryPos(c, GetLldEntryX(a), GetLldEntryY(a));
-    func_ov001_021850a4(b, (s32(*)(LldEntry *)) func_ov001_021a5ef4);
-    func_ov001_021850a4(c, (s32(*)(LldEntry *)) func_ov001_021a5e60);
+    SetLldEntryCallback(b, (s32(*)(LldEntry *)) func_ov001_021a5ef4);
+    SetLldEntryCallback(c, (s32(*)(LldEntry *)) func_ov001_021a5e60);
 }
 
 BOOL func_ov001_021a5d18(LldEntry *entry) {
@@ -339,7 +339,7 @@ BOOL func_ov001_021a5d18(LldEntry *entry) {
     }
     entry->mUnk_10++;
     if (entry->mUnk_10 <= 5) {
-        func_ov001_02185018(entry, 1);
+        ApplyLldEntryFrameCommand(entry, 1);
         SetLldEntryScale(entry, GetLldEntryScale(entry) - 0x19a);
         if (GetLldEntryScale(entry) <= 0) {
             SetLldEntryScale(entry, 0);
@@ -347,7 +347,7 @@ BOOL func_ov001_021a5d18(LldEntry *entry) {
         return FALSE;
     }
     if (entry->mUnk_10 <= 10) {
-        func_ov001_02185018(entry, 1);
+        ApplyLldEntryFrameCommand(entry, 1);
         SetLldEntryScale(entry, GetLldEntryScale(entry) + 0x19a);
         if (GetLldEntryScale(entry) >= 0x1000) {
             SetLldEntryScale(entry, 0x1000);
@@ -364,12 +364,12 @@ BOOL func_ov001_021a5d18(LldEntry *entry) {
     if (entry->mUnk_10 <= 20) {
         return FALSE;
     }
-    func_ov001_02185018(entry, 0);
+    ApplyLldEntryFrameCommand(entry, 0);
     return TRUE;
 }
 
 void func_ov001_021a5d00(void *obj, s32 index) {
-    func_ov001_021850a4(GetLldEntry(obj, index), (s32(*)(LldEntry *)) func_ov001_021a5d18);
+    SetLldEntryCallback(GetLldEntry(obj, index), (s32(*)(LldEntry *)) func_ov001_021a5d18);
 }
 
 BOOL func_ov001_021a5c40(LldEntry *entry) {
@@ -378,7 +378,7 @@ BOOL func_ov001_021a5c40(LldEntry *entry) {
     }
     entry->mUnk_10++;
     if (entry->mUnk_10 <= 5) {
-        func_ov001_02185018(entry, 1);
+        ApplyLldEntryFrameCommand(entry, 1);
         SetLldEntryScale(entry, GetLldEntryScale(entry) - 0x19a);
         if (GetLldEntryScale(entry) <= 0) {
             SetLldEntryScale(entry, 0);
@@ -386,7 +386,7 @@ BOOL func_ov001_021a5c40(LldEntry *entry) {
         return FALSE;
     }
     if (entry->mUnk_10 <= 10) {
-        func_ov001_02185018(entry, 1);
+        ApplyLldEntryFrameCommand(entry, 1);
         SetLldEntryScale(entry, GetLldEntryScale(entry) + 0x19a);
         if (GetLldEntryScale(entry) >= 0x1000) {
             SetLldEntryScale(entry, 0x1000);
@@ -397,12 +397,12 @@ BOOL func_ov001_021a5c40(LldEntry *entry) {
         gEmblem->mUnk_108c();
         gEmblem->mUnk_108c = NULL;
     }
-    func_ov001_02185018(entry, 0);
+    ApplyLldEntryFrameCommand(entry, 0);
     return TRUE;
 }
 
 void func_ov001_021a5c28(void *obj, s32 index) {
-    func_ov001_021850a4(GetLldEntry(obj, index), (s32(*)(LldEntry *)) func_ov001_021a5c40);
+    SetLldEntryCallback(GetLldEntry(obj, index), (s32(*)(LldEntry *)) func_ov001_021a5c40);
 }
 
 BOOL func_ov001_021a5b70(LldEntry *entry) {
@@ -411,7 +411,7 @@ BOOL func_ov001_021a5b70(LldEntry *entry) {
     }
     entry->mUnk_10++;
     if (entry->mUnk_10 <= 5) {
-        func_ov001_02185018(entry, 0);
+        ApplyLldEntryFrameCommand(entry, 0);
         SetLldEntryScale(entry, GetLldEntryScale(entry) - 0x19a);
         if (GetLldEntryScale(entry) <= 0) {
             SetLldEntryScale(entry, 0);
@@ -419,7 +419,7 @@ BOOL func_ov001_021a5b70(LldEntry *entry) {
         return FALSE;
     }
     if (entry->mUnk_10 <= 10) {
-        func_ov001_02185018(entry, 1);
+        ApplyLldEntryFrameCommand(entry, 1);
         SetLldEntryScale(entry, GetLldEntryScale(entry) + 0x19a);
         if (GetLldEntryScale(entry) >= 0x1000) {
             SetLldEntryScale(entry, 0x1000);
@@ -436,8 +436,8 @@ BOOL func_ov001_021a5b70(LldEntry *entry) {
 void func_ov001_021a5b4c(void *obj, s32 index) {
     LldEntry *entry = GetLldEntry(obj, index);
 
-    func_ov001_021850a4(entry, NULL);
-    func_ov001_02185018(entry, 0);
+    SetLldEntryCallback(entry, NULL);
+    ApplyLldEntryFrameCommand(entry, 0);
     entry->mScale = 0x1000;
 }
 
@@ -450,7 +450,7 @@ void func_ov001_021a5ab0(void *obj, s32 index) {
     func_ov001_021a5b4c(gEmblem->mEmblemSLld, 19);
     func_ov001_021a5b4c(gEmblem->mEmblemSLld, 20);
     func_ov001_021a5b4c(gEmblem->mEmblemSLld, 21);
-    func_ov001_021850a4(GetLldEntry(obj, index), (s32(*)(LldEntry *)) func_ov001_021a5b70);
+    SetLldEntryCallback(GetLldEntry(obj, index), (s32(*)(LldEntry *)) func_ov001_021a5b70);
 }
 
 BOOL func_ov001_021a5a58(LldEntry *entry) {
@@ -459,7 +459,7 @@ BOOL func_ov001_021a5a58(LldEntry *entry) {
     }
     entry->mUnk_10++;
     if (entry->mUnk_10 <= 10) {
-        func_ov001_02185018(entry, 1);
+        ApplyLldEntryFrameCommand(entry, 1);
         return FALSE;
     }
     if (gEmblem->mUnk_108c != NULL) {
@@ -470,7 +470,7 @@ BOOL func_ov001_021a5a58(LldEntry *entry) {
 }
 
 void func_ov001_021a5a40(void *obj, s32 index) {
-    func_ov001_021850a4(GetLldEntry(obj, index), (s32(*)(LldEntry *)) func_ov001_021a5a58);
+    SetLldEntryCallback(GetLldEntry(obj, index), (s32(*)(LldEntry *)) func_ov001_021a5a58);
 }
 
 void func_ov001_021a59cc(void *obj, s32 index) {
@@ -478,12 +478,12 @@ void func_ov001_021a59cc(void *obj, s32 index) {
     void *b = GetLldEntry(obj, 24);
 
     if (GetLldEntryFrameIndex(b) >= 0) {
-        func_ov001_021850a4(a, (s32(*)(LldEntry *)) func_ov001_021a5d18);
-        func_ov001_02185018(b, -5);
+        SetLldEntryCallback(a, (s32(*)(LldEntry *)) func_ov001_021a5d18);
+        ApplyLldEntryFrameCommand(b, -5);
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 505);
     } else {
-        func_ov001_021850a4(a, (s32(*)(LldEntry *)) func_ov001_021a5d18);
-        func_ov001_02185018(b, 0);
+        SetLldEntryCallback(a, (s32(*)(LldEntry *)) func_ov001_021a5d18);
+        ApplyLldEntryFrameCommand(b, 0);
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 506);
     }
 }

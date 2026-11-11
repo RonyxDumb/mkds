@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-// Four words set up by func_ov001_02180728.
+// Four words set up by TestSceneInitTextCanvas.
 typedef struct TextCanvas {
     /* 00 */ void *mCharCanvas;
     /* 04 */ void *mFont;

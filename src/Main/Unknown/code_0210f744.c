@@ -236,7 +236,7 @@ void InitVolumeFade(void) {
 
 void StartKingTeresaAlphaSound(MapObjectSound *mapSound) {
     s32 attenuation;
-    attenuation = MUL_FIXED12_ROUNDED(gKingTeresaSoundVolumeFactor, 0x1f000 - func_ov001_02181528()) >> 12;
+    attenuation = MUL_FIXED12_ROUNDED(gKingTeresaSoundVolumeFactor, 0x1f000 - GetMissionRunMapObjectAlphaLimit()) >> 12;
     if (attenuation < 0) {
         attenuation = 0;
     } else if (attenuation > 0x7f) {
@@ -307,7 +307,7 @@ void UpdateKingTeresaSeqVolume(NNSSndSeqPlayer **handle) {
     targetVolume = gSceneSeqVolume;
     switch (c) {
         case 0:
-            c = MUL_FIXED12_ROUNDED(gKingTeresaSeqVolumeFactor, 0x29000 - func_ov001_02181528()) >> 12;
+            c = MUL_FIXED12_ROUNDED(gKingTeresaSeqVolumeFactor, 0x29000 - GetMissionRunMapObjectAlphaLimit()) >> 12;
             targetVolume = 0;
             if (c >= 0) {
                 targetVolume = gSceneSeqVolume;

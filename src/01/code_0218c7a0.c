@@ -372,7 +372,7 @@ void func_ov001_0218c87c(MapObjectList *d) {
     b = LoadMissionRunFile(data_ov001_021a7c94);
     c = LoadMissionRunFile(data_ov001_021a7ca8);
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        src = GetMissionRunMapObject(gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0);
+        src = GetMissionRunMapObject(gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0);
     } else {
         src = NULL;
     }

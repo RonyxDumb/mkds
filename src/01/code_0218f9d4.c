@@ -109,7 +109,8 @@ void func_ov001_02192694(void) {
     u16 ang;
 
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        obj = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 2));
+        obj = GetMissionRunMapObject(
+            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2));
     } else {
         obj = NULL;
     }
@@ -137,17 +138,20 @@ void func_ov001_021924cc(void) {
     Unk02188950 *objC;
 
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        objB = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 2));
+        objB = GetMissionRunMapObject(
+            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2));
     } else {
         objB = NULL;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        obj = GetMissionRunMapObject((u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0));
+        obj =
+            GetMissionRunMapObject((u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0));
     } else {
         obj = NULL;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        objC = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
+        objC = GetMissionRunMapObject(
+            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
         objC = NULL;
     }
@@ -480,10 +484,11 @@ void func_ov001_02191488(Unk02188950 *a) {
     SetVelocity(a, &local);
     StopTurningMoveFollowsAngle(a);
     SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_0f8, a->mPrm->mUnk_0fc);
-    if (GetAbsoluteCounter(gRaceSetup->mMode == MODE_MISSION_RUN
-                               ? GetMissionRunMapObject(
-                                     (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 2))
-                               : 0) >= 1) {
+    if (GetAbsoluteCounter(
+            gRaceSetup->mMode == MODE_MISSION_RUN
+                ? GetMissionRunMapObject(
+                      (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2))
+                : 0) >= 1) {
         SetCourseCollisionCallback(a, func_ov001_02191618);
     } else {
         SetCourseCollisionCallback(a, func_ov001_02191550);
@@ -663,10 +668,12 @@ s32 func_ov001_02190d78(Unk02188950 *a) {
     Unk02188950 *v2;
 
     v1 = gRaceSetup->mMode == MODE_MISSION_RUN
-             ? GetMissionRunMapObject((u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0))
+             ? GetMissionRunMapObject(
+                   (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
              : 0;
     v2 = gRaceSetup->mMode == MODE_MISSION_RUN
-             ? GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1))
+             ? GetMissionRunMapObject(
+                   (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
              : 0;
     if (IsStateNumberBelow(v1, 3) != 0 && IsStateNumberBelow(v2, 3) != 0) {
         StopMapObjectState(a);
@@ -679,10 +686,12 @@ s32 func_ov001_02190d00(Unk02188950 *c) {
     Unk02188950 *b;
 
     a = (gRaceSetup->mMode == MODE_MISSION_RUN
-             ? GetMissionRunMapObject((u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0))
+             ? GetMissionRunMapObject(
+                   (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
              : 0);
     b = (gRaceSetup->mMode == MODE_MISSION_RUN
-             ? GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1))
+             ? GetMissionRunMapObject(
+                   (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
              : 0);
     if (IsStateNumberBelow(a, 3) && IsStateNumberBelow(b, 3)) {
         func_ov001_02190c08(c);
@@ -698,11 +707,12 @@ void func_ov001_02190c08(Unk02188950 *c) {
         StartMapObjectState(c, 3, func_ov001_02190d00);
         StopTurningMoveFollowsAngle(c);
         a = (gRaceSetup->mMode == MODE_MISSION_RUN
-                 ? GetMissionRunMapObject((u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0))
+                 ? GetMissionRunMapObject(
+                       (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
                  : 0);
         b = (gRaceSetup->mMode == MODE_MISSION_RUN
                  ? GetMissionRunMapObject(
-                       (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1))
+                       (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
                  : 0);
         func_ov001_021911a8(a);
         func_ov001_021911a8(b);
@@ -710,11 +720,12 @@ void func_ov001_02190c08(Unk02188950 *c) {
         StartMapObjectState(c, 3, func_ov001_02190d78);
         StopTurningMoveFollowsAngle(c);
         a = (gRaceSetup->mMode == MODE_MISSION_RUN
-                 ? GetMissionRunMapObject((u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0))
+                 ? GetMissionRunMapObject(
+                       (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
                  : 0);
         b = (gRaceSetup->mMode == MODE_MISSION_RUN
                  ? GetMissionRunMapObject(
-                       (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1))
+                       (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
                  : 0);
         func_ov001_021918c8(a);
         func_ov001_021918c8(b);
@@ -726,10 +737,12 @@ s32 func_ov001_02190b58(Unk02188950 *c) {
     Unk02188950 *b;
 
     a = (gRaceSetup->mMode == MODE_MISSION_RUN
-             ? GetMissionRunMapObject((u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0))
+             ? GetMissionRunMapObject(
+                   (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
              : 0);
     b = (gRaceSetup->mMode == MODE_MISSION_RUN
-             ? GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1))
+             ? GetMissionRunMapObject(
+                   (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
              : 0);
     SetAnglePointAndMoveAnglePoint(c, &GetKart((u16) gRaceSetup->mEntryIndex)->mPos);
     func_ov001_021924cc();
@@ -748,10 +761,12 @@ void func_ov001_02190acc(Unk02188950 *c) {
     StartMapObjectState(c, 3, func_ov001_02190b58);
     StopTurningMoveFollowsAngle(c);
     a = (gRaceSetup->mMode == MODE_MISSION_RUN
-             ? GetMissionRunMapObject((u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0))
+             ? GetMissionRunMapObject(
+                   (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
              : 0);
     b = (gRaceSetup->mMode == MODE_MISSION_RUN
-             ? GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1))
+             ? GetMissionRunMapObject(
+                   (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
              : 0);
     func_ov001_02191bc0(a);
     func_ov001_02191bc0(b);
@@ -762,10 +777,12 @@ s32 func_ov001_02190a20(Unk02188950 *c) {
     Unk02188950 *b;
 
     a = (gRaceSetup->mMode == MODE_MISSION_RUN
-             ? GetMissionRunMapObject((u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0))
+             ? GetMissionRunMapObject(
+                   (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
              : 0);
     b = (gRaceSetup->mMode == MODE_MISSION_RUN
-             ? GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1))
+             ? GetMissionRunMapObject(
+                   (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
              : 0);
     SetAnglePointAndMoveAnglePoint(c, &GetKart((u16) gRaceSetup->mEntryIndex)->mPos);
     func_ov001_021924cc();
@@ -787,12 +804,14 @@ void func_ov001_02190948(Unk02188950 *c) {
         TurnToPointMoveFollowsAngle(c, c->mPrm->mUnk_2c4, 0x270f000);
         SetAnglePointAndMoveAnglePoint(c, &kart->mPos);
         if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-            a = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
+            a = GetMissionRunMapObject(
+                (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
         } else {
             a = NULL;
         }
         if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-            b = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
+            b = GetMissionRunMapObject(
+                (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
         } else {
             b = NULL;
         }
@@ -814,12 +833,14 @@ int func_ov001_021908a8(Unk02188950 *c) {
     Unk02188950 *b;
 
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
+        a = GetMissionRunMapObject(
+            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
         a = NULL;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
+        b = GetMissionRunMapObject(
+            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
         b = NULL;
     }
@@ -841,12 +862,14 @@ void func_ov001_0219081c(Unk02188950 *c) {
     StartMapObjectState(c, 3, func_ov001_021908a8);
     StopTurningMoveFollowsAngle(c);
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
+        a = GetMissionRunMapObject(
+            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
         a = NULL;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
+        b = GetMissionRunMapObject(
+            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
         b = NULL;
     }
@@ -859,12 +882,14 @@ int func_ov001_0219079c(Unk02188950 *c) {
     Unk02188950 *b;
 
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
+        a = GetMissionRunMapObject(
+            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
         a = NULL;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
+        b = GetMissionRunMapObject(
+            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
         b = NULL;
     }
@@ -883,12 +908,14 @@ int func_ov001_02190688(Unk02188950 *c) {
 
     kart = GetKart((u16) gRaceSetup->mEntryIndex);
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
+        a = GetMissionRunMapObject(
+            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
         a = NULL;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
+        b = GetMissionRunMapObject(
+            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
         b = NULL;
     }
@@ -919,12 +946,14 @@ void func_ov001_021905f8(Unk02188950 *c) {
     StartMapObjectState(c, 3, func_ov001_02190688);
     StopTurningMoveFollowsAngle(c);
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
+        a = GetMissionRunMapObject(
+            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
         a = NULL;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
+        b = GetMissionRunMapObject(
+            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
         b = NULL;
     }
@@ -942,12 +971,14 @@ int func_ov001_0219052c(Unk02188950 *c) {
     Unk02188950 *b;
 
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
+        a = GetMissionRunMapObject(
+            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
         a = NULL;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
+        b = GetMissionRunMapObject(
+            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
         b = NULL;
     }
@@ -971,12 +1002,14 @@ void func_ov001_02190468(Unk02188950 *c) {
     TurnToPointMoveFollowsAngle(c, c->mPrm->mUnk_2c4, 0x270f000);
     SetAnglePointAndMoveAnglePoint(c, &kart->mPos);
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
+        a = GetMissionRunMapObject(
+            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
         a = NULL;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
+        b = GetMissionRunMapObject(
+            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
         b = NULL;
     }
@@ -995,12 +1028,14 @@ int func_ov001_021903e0(Unk02188950 *c) {
 
     GetKart((u16) gRaceSetup->mEntryIndex);
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
+        a = GetMissionRunMapObject(
+            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
         a = NULL;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
+        b = GetMissionRunMapObject(
+            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
         b = NULL;
     }
@@ -1019,12 +1054,14 @@ void func_ov001_02190328(Unk02188950 *c) {
     StopTurningMoveFollowsAngle(c);
     c->mUnk_0a8 = (c->mUnk_0a8 == 5) ? 4 : 5;
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
+        a = GetMissionRunMapObject(
+            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
         a = NULL;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
+        b = GetMissionRunMapObject(
+            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
         b = NULL;
     }
@@ -1046,12 +1083,14 @@ void func_ov001_02190270(Unk02188950 *c) {
     StopTurningMoveFollowsAngle(c);
     c->mUnk_0a8 = (c->mUnk_0a8 == 5) ? 4 : 5;
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
+        a = GetMissionRunMapObject(
+            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
         a = NULL;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
+        b = GetMissionRunMapObject(
+            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
         b = NULL;
     }
@@ -1074,12 +1113,14 @@ int func_ov001_02190168(Unk02188950 *c) {
     Unk02188950 *b;
 
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
+        a = GetMissionRunMapObject(
+            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
         a = NULL;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
+        b = GetMissionRunMapObject(
+            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
         b = NULL;
     }
@@ -1087,13 +1128,14 @@ int func_ov001_02190168(Unk02188950 *c) {
         if (GetAbsoluteCounter(
                 ((gRaceSetup->mMode == MODE_MISSION_RUN
                       ? GetMissionRunMapObject(
-                            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 2))
+                            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2))
                       : 0))) == 1) {
             func_ov001_02190270(c);
         } else if (GetAbsoluteCounter(
                        ((gRaceSetup->mMode == MODE_MISSION_RUN
-                             ? GetMissionRunMapObject(
-                                   (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 2))
+                             ? GetMissionRunMapObject((
+                                   u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) +
+                                         2))
                              : 0))) == 2) {
             func_ov001_02190248(c);
         } else {
@@ -1110,19 +1152,22 @@ void func_ov001_021900ac(Unk02188950 *c) {
     StartMapObjectState(c, 3, func_ov001_02190168);
     StopTurningMoveFollowsAngle(c);
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
+        a = GetMissionRunMapObject(
+            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
         a = NULL;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
+        b = GetMissionRunMapObject(
+            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
         b = NULL;
     }
-    if (GetAbsoluteCounter(((gRaceSetup->mMode == MODE_MISSION_RUN
-                                 ? GetMissionRunMapObject(
-                                       (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 2))
-                                 : 0))) >= 2) {
+    if (GetAbsoluteCounter(
+            ((gRaceSetup->mMode == MODE_MISSION_RUN
+                  ? GetMissionRunMapObject(
+                        (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2))
+                  : 0))) >= 2) {
         func_ov001_02190fc4(a);
         func_ov001_02190fc4(b);
     } else {
@@ -1206,24 +1251,25 @@ void func_ov001_0218fd20(Unk02188950 *a, Unk0218fd20 *b) {
         vec.x = (MUL_FIXED12_NO_ROUND(-a->mPrm->mUnk_224, FX_SinIdx((u16) a->mAngle)));
         vec.y = a->mPrm->mUnk_228;
         vec.z = (MUL_FIXED12_NO_ROUND(-a->mPrm->mUnk_224, FX_CosIdx((u16) a->mAngle)));
-        SetVelocity(
-            (gRaceSetup->mMode == MODE_MISSION_RUN
-                 ? GetMissionRunMapObject((u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0))
-                 : 0),
-            &vec);
         SetVelocity((gRaceSetup->mMode == MODE_MISSION_RUN
                          ? GetMissionRunMapObject(
-                               (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1))
+                               (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
+                         : 0),
+                    &vec);
+        SetVelocity((gRaceSetup->mMode == MODE_MISSION_RUN
+                         ? GetMissionRunMapObject((
+                               u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
                          : 0),
                     &vec);
         StartEffect(0x3eb, &b->mUnk_50);
         StartEffect(0x3ec, &b->mUnk_50);
         StartEffect(0x3ed, &b->mUnk_50);
         a->mUnk_000.mDistanceSquaredAndFlags |= data_ov001_021a65c4;
-        func_ov001_0219006c(gRaceSetup->mMode == MODE_MISSION_RUN
-                                ? GetMissionRunMapObject(
-                                      (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 2))
-                                : 0);
+        func_ov001_0219006c(
+            gRaceSetup->mMode == MODE_MISSION_RUN
+                ? GetMissionRunMapObject(
+                      (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2))
+                : 0);
         SetItemCollisionCallback(a, (UnkFunc *) func_ov001_0218fee0);
         a->mUnk_2e0 = 2;
     } else {
@@ -1254,7 +1300,7 @@ void func_ov001_0218fc4c(u32 a, Unk02188950 *b) {
         if (GetAbsoluteCounter(
                 (gRaceSetup->mMode == MODE_MISSION_RUN
                      ? GetMissionRunMapObject(
-                           (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 2))
+                           (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2))
                      : 0)) < 2) {
             func_ov001_02190468(b);
         } else {

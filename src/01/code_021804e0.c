@@ -34,18 +34,18 @@
 #pragma optimize_for_size on
 #pragma thumb off
 
-u32 func_ov001_02180ad0(TextCanvas *textCanvas, u32 drawX, u32 drawY, u32 color, u32 flags, u16 *text) {
+u32 TestSceneDrawTextOnCanvas(TextCanvas *textCanvas, u32 drawX, u32 drawY, u32 color, u32 flags, u16 *text) {
     return NNSi_G2dTextCanvasDrawText(textCanvas, drawX, drawY, color, flags, text);
 }
 
 #pragma thumb on
 
-void func_ov001_02180800(void) {
-    s32 mtx[4];
+void DrawTestScene(void) {
+    s32 identityMatrix[4];
 
     if (gTestScene->mStateChanged != 0) {
         GetDisplaySettings();
-        func_ov001_02180c88(mtx);
+        TestSceneMTX_Identity22_(identityMatrix);
         switch (gTestScene->mState) {
             case 0:
                 TestSceneGXS_SetVisiblePlane(1);
@@ -65,7 +65,7 @@ void func_ov001_02180800(void) {
                 WriteSubBg1Offset(0, 0);
                 WriteSubBg1CntBits(0);
                 WriteSubBg1CntBit6(0);
-                func_ov001_02180b14(0, 0, 4, 4, 0);
+                TestSceneSetSubBg1Cnt(0, 0, 4, 4, 0);
                 *(u16 *) 0x5000400 = 0;
                 *(u16 *) 0x5000402 = 0x1f;
                 *(u16 *) 0x5000404 = 0x3e0;
@@ -84,11 +84,11 @@ void func_ov001_02180800(void) {
     } else if ((u32) (gTestScene->mState - 1) <= 2) {
         u32 slotIndex;
         BOOL moved;
-        int idx;
+        int canvasIndex;
         int col;
         int row;
         int textIndex;
-        s32 tbl[8] = {0xe000, 0xe060, 0x20, 0x80, 0xa0, 0x100, 0x3040, 0x30a0};
+        s32 charRangeStarts[8] = {0xe000, 0xe060, 0x20, 0x80, 0xa0, 0x100, 0x3040, 0x30a0};
         u16 chars[0x5f] = {0x20ac, 0x201a, 0x201e, 0x2026, 0x2c6,  0x152,  0x2018, 0x2019, 0x201c, 0x201d, 0x2022,
                            0x2dc,  0x2122, 0x203a, 0x153,  0x3000, 0x3001, 0x3002, 0xff0c, 0xff0e, 0x30fb, 0xff1a,
                            0xff1b, 0xff1f, 0xff01, 0x309b, 0x309c, 0xb4,   0xff40, 0xa8,   0xff3e, 0xffe3, 0xffef,
@@ -98,22 +98,22 @@ void func_ov001_02180800(void) {
                            0x221e, 0x2234, 0xb0,   0x2032, 0x2033, 0xff06, 0x2606, 0x2605, 0x25cb, 0x25cf, 0x25ce,
                            0x25c7, 0x25c6, 0x25a1, 0x25a0, 0x25b3, 0x25b2, 0x25bd, 0x25bc, 0x203b, 0x3012, 0x2192,
                            0x2190, 0x2191, 0x2193, 0x266f, 0x266d, 0x266a, 0x0};
-        slotIndex = func_ov001_021805ec();
+        slotIndex = GetTestSceneInputSlot();
         moved = FALSE;
         if (gTestScene->mState == 1) {
-            idx = 0;
+            canvasIndex = 0;
         } else if (gTestScene->mState == 2) {
-            idx = 1;
+            canvasIndex = 1;
         } else if (gTestScene->mState == 3) {
-            idx = 2;
+            canvasIndex = 2;
         }
-        if (func_ov001_021805bc(slotIndex, PAD_KEY_LEFT) != 0) {
+        if (GetInputSlotNewBitsByIndex(slotIndex, PAD_KEY_LEFT) != 0) {
             gTestSceneCharTableIndex = (gTestSceneCharTableIndex + 8) % 9;
-            ClearCharCanvas(gTestScene->mCharCanvases[idx], 0);
+            ClearCharCanvas(gTestScene->mCharCanvases[canvasIndex], 0);
             moved = TRUE;
-        } else if (func_ov001_021805bc(slotIndex, PAD_KEY_RIGHT) != 0) {
+        } else if (GetInputSlotNewBitsByIndex(slotIndex, PAD_KEY_RIGHT) != 0) {
             gTestSceneCharTableIndex = (gTestSceneCharTableIndex + 1) % 9;
-            ClearCharCanvas(gTestScene->mCharCanvases[idx], 0);
+            ClearCharCanvas(gTestScene->mCharCanvases[canvasIndex], 0);
             moved = TRUE;
         }
         if (moved != FALSE) {
@@ -121,15 +121,15 @@ void func_ov001_02180800(void) {
             for (row = 0; row < 6; row++) {
                 for (col = 0; col < 16; col++) {
                     if (gTestSceneCharTableIndex != 8) {
-                        gTestSceneCharText[textIndex++] = row * 16 + col + tbl[gTestSceneCharTableIndex];
+                        gTestSceneCharText[textIndex++] = row * 16 + col + charRangeStarts[gTestSceneCharTableIndex];
                     } else {
                         gTestSceneCharText[textIndex++] = chars[row * 16 + col];
                     }
                 }
                 gTestSceneCharText[textIndex++] = 0xa;
             }
-            func_ov001_02180ad0(&gTestScene->mTextCanvases[idx], 0x80, 0x62, gTestScene->mState == 3 ? 6 : 7, 0x412,
-                                gTestSceneCharText);
+            TestSceneDrawTextOnCanvas(&gTestScene->mTextCanvases[canvasIndex], 0x80, 0x62,
+                                      gTestScene->mState == 3 ? 6 : 7, 0x412, gTestSceneCharText);
         }
         GXS_LoadBG1Char(gTestScene->mChars, 0, 0x6000);
     }
@@ -148,26 +148,26 @@ void func_ov001_02180800(void) {
 
 #pragma thumb off
 
-void *func_ov001_021807e4(void) {
+void *TestSceneGetCurrentHeap(void) {
     return GetHeap(GetCurrentHeapCall());
 }
 
-void func_ov001_021807a8(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7,
-                         u32 cntVal8, u32 cntVal2, u32 cntVal13) {
+void TestSceneSetMainBg1Record(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7,
+                               u32 cntVal8, u32 cntVal2, u32 cntVal13) {
     SetBg1Record(&displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, cntVal7, cntVal8, cntVal2, cntVal13);
 }
 
-void func_ov001_02180774(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 p4, u32 cntVal8,
-                         u32 cntVal2) {
-    SetBg2RecordParams(&displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, p4, cntVal8, cntVal2);
+void TestSceneSetMainBg2RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14,
+                                     u32 cntVal7Or13, u32 cntVal8, u32 cntVal2) {
+    SetBg2RecordParams(&displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, cntVal7Or13, cntVal8, cntVal2);
 }
 
-void func_ov001_02180740(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 p4, u32 cntVal8,
-                         u32 cntVal2) {
-    SetBg2RecordParams(&displaySettings->mSubBgRecords, cntLow2, cntBit6, cntVal14, p4, cntVal8, cntVal2);
+void TestSceneSetSubBg2RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14,
+                                    u32 cntVal7Or13, u32 cntVal8, u32 cntVal2) {
+    SetBg2RecordParams(&displaySettings->mSubBgRecords, cntLow2, cntBit6, cntVal14, cntVal7Or13, cntVal8, cntVal2);
 }
 
-void func_ov001_02180728(TextCanvas *textCanvas, void *charCanvas, void *font, s32 charSpacing, s32 lineSpacing) {
+void TestSceneInitTextCanvas(TextCanvas *textCanvas, void *charCanvas, void *font, s32 charSpacing, s32 lineSpacing) {
     textCanvas->mCharCanvas = charCanvas;
     textCanvas->mFont = font;
     textCanvas->mCharSpacing = charSpacing;
@@ -176,33 +176,34 @@ void func_ov001_02180728(TextCanvas *textCanvas, void *charCanvas, void *font, s
 
 #pragma thumb on
 
-void func_ov001_02180610(void) {
+void InitTestSceneObject(void) {
     DisplaySettingsDesc displaySettingsDesc = {1, 0x16, 4, 1, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 8, 0};
     DisplaySettings *displaySettings;
     int i;
 
-    gTestScene = HeapAlloc(func_ov001_021807e4(), 0x66a8);
+    gTestScene = HeapAlloc(TestSceneGetCurrentHeap(), 0x66a8);
     gTestScene->mUnk_0000 = 0;
     gTestScene->mState = 1;
     gTestScene->mStateChanged = 1;
     ClearChars(gTestScene->mChars);
     FillScreenMapIndices(gTestScene->mScreenMap);
-    displaySettings = CreateDisplaySettings(func_ov001_021807e4(), &displaySettingsDesc);
-    func_ov001_021807a8(displaySettings, 0, 0, 0, 0, 4, 0, 0);
-    func_ov001_02180774(displaySettings, 2, 0, 0, 0, 0xe, 1);
-    func_ov001_02180740(displaySettings, 2, 0, 0, 0, 4, 4);
+    displaySettings = CreateDisplaySettings(TestSceneGetCurrentHeap(), &displaySettingsDesc);
+    TestSceneSetMainBg1Record(displaySettings, 0, 0, 0, 0, 4, 0, 0);
+    TestSceneSetMainBg2RecordParams(displaySettings, 2, 0, 0, 0, 0xe, 1);
+    TestSceneSetSubBg2RecordParams(displaySettings, 2, 0, 0, 0, 4, 4);
     InitDisplayFromSettings(displaySettings);
     gTestScene->mFonts[0] = GetFontByIndex(0);
     gTestScene->mFonts[1] = GetFontByIndex(1);
     gTestScene->mFonts[2] = GetFontByIndex(2);
     for (i = 0; i < 3; i++) {
         NNS_G2dCharCanvasInitForBG(gTestScene->mCharCanvases[i], gTestScene->mChars, 0x20, 0x18, 4);
-        func_ov001_02180728(&gTestScene->mTextCanvases[i], gTestScene->mCharCanvases[i], gTestScene->mFonts[i], 0, 0);
+        TestSceneInitTextCanvas(&gTestScene->mTextCanvases[i], gTestScene->mCharCanvases[i], gTestScene->mFonts[i], 0,
+                                0);
     }
     InitEmblemChoises();
 }
 
-void func_ov001_021805f4(void) {
+void ReleaseTestSceneObject(void) {
     GetCurrentHeapCall();
     ClearEmblemChoisesPointer();
     gTestScene = NULL;
@@ -210,32 +211,32 @@ void func_ov001_021805f4(void) {
 
 #pragma thumb off
 
-u32 func_ov001_021805ec(void) {
+u32 GetTestSceneInputSlot(void) {
     return 0x8u;
 }
 
-u16 func_ov001_021805d8(InputSlot *inputSlot, u32 mask) {
+u16 TestSceneGetInputSlotNewBits(InputSlot *inputSlot, u32 mask) {
     return inputSlot->mPressedBits & mask;
 }
 
-u32 func_ov001_021805bc(u32 slotIndex, u32 mask) {
-    return func_ov001_021805d8(&gInputSlots[slotIndex], mask);
+u32 GetInputSlotNewBitsByIndex(u32 slotIndex, u32 mask) {
+    return TestSceneGetInputSlotNewBits(&gInputSlots[slotIndex], mask);
 }
 
 #pragma thumb on
 
-void func_ov001_0218052c(Unk0218052c *sceneNumbers) {
+void UpdateTestSceneObject(Unk0218052c *sceneNumbers) {
     u32 slotIndex;
     TestScene *testScene;
 
-    func_ov001_021805ec();
+    GetTestSceneInputSlot();
     SetLastTick();
     if (sceneNumbers != NULL) {
-        slotIndex = func_ov001_021805ec();
-        if (func_ov001_021805bc(slotIndex, PAD_KEY_A) != 0) {
+        slotIndex = GetTestSceneInputSlot();
+        if (GetInputSlotNewBitsByIndex(slotIndex, PAD_KEY_A) != 0) {
             sceneNumbers->mUnk_04 = 0;
         }
-        if (func_ov001_021805bc(slotIndex, PAD_KEY_X) != 0) {
+        if (GetInputSlotNewBitsByIndex(slotIndex, PAD_KEY_X) != 0) {
             testScene = gTestScene;
             testScene->mState = (testScene->mState + 1) % 4;
             gTestScene->mStateChanged = 1;
@@ -257,24 +258,24 @@ void func_ov001_0218052c(Unk0218052c *sceneNumbers) {
 }
 
 void InitTestScene(void) {
-    func_ov001_02180610();
+    InitTestSceneObject();
 }
 
 void ReleaseTestScene(void) {
-    func_ov001_021805f4();
+    ReleaseTestSceneObject();
 }
 
-void func_ov001_02180514(void) {
-    func_ov001_02180800();
+void DrawTestSceneWrapper(void) {
+    DrawTestScene();
 }
 
 void UpdateTestScene(Unk0218052c *sceneNumbers) {
-    func_ov001_0218052c(sceneNumbers);
+    UpdateTestSceneObject(sceneNumbers);
 }
 
 int RunTestScene(void *sceneNumbers) {
     SceneCallbacks callbacks = {
-        InitTestScene, UpdateTestScene, ReleaseTestScene, func_ov001_02180514, 0, 0, 0x1e, 0x1e, 0};
+        InitTestScene, UpdateTestScene, ReleaseTestScene, DrawTestSceneWrapper, 0, 0, 0x1e, 0x1e, 0};
 
     RunScene(sceneNumbers, &callbacks);
     return 0;

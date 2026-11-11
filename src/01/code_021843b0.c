@@ -32,7 +32,7 @@
 #include "Main/Unknown/code_020d275c.h"
 #include "Main/Unknown/code_021000d0.h"
 
-void func_ov001_02184874(Unk02188950 *donketu, Kart *kart) {
+void DonketuKartCollisionCallback(Unk02188950 *donketu, Kart *kart) {
     s32 scale;
 
     if ((GetKart(kart->mIndex)->mUnk_48 & KART_48_BOOST) && kart->mBoostTimer > 0) {
@@ -56,7 +56,7 @@ void func_ov001_02184874(Unk02188950 *donketu, Kart *kart) {
                 StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_1d4, donketu->mPrm->mUnk_1d8);
                 SpinAngleStopMoveAngle(donketu, donketu->mPrm->mUnk_1e4, 0x270f000);
                 SetVelocity(donketu, &velocityWhenBoosted);
-                SetStoppedCallback(donketu, func_ov001_02184d70);
+                SetStoppedCallback(donketu, StartDonketuRepeatJumpsAfterHit);
                 SetSpeedAndClearTarget(donketu, 0);
             }
             {
@@ -114,11 +114,11 @@ void func_ov001_02184874(Unk02188950 *donketu, Kart *kart) {
             SetSpeedAndClearTarget(donketu, 0);
         }
     }
-    SetKartCollisionCallback(donketu, func_ov001_02184874);
+    SetKartCollisionCallback(donketu, DonketuKartCollisionCallback);
     donketu->mUnk_2d8 = 13;
 }
 
-void func_ov001_021843b0(Unk02188950 *donketu, Kart *kart) {
+void DonketuChaseKartCollisionCallback(Unk02188950 *donketu, Kart *kart) {
     Vec3 velocityWhenBoosted;
     Vec3 effectPosition;
     Vec3 velocityWhenNotBoosted;
@@ -135,7 +135,7 @@ void func_ov001_021843b0(Unk02188950 *donketu, Kart *kart) {
                 StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_1a0, donketu->mPrm->mUnk_1a4);
                 SpinAngleStopMoveAngle(donketu, donketu->mPrm->mUnk_1b0, 0x270f000);
                 SetVelocity(donketu, &velocityWhenBoosted);
-                SetStoppedCallback(donketu, func_ov001_02184d70);
+                SetStoppedCallback(donketu, StartDonketuRepeatJumpsAfterHit);
                 SetSpeedAndClearTarget(donketu, 0);
             }
             VEC_Subtract(&donketu->mUnk_000.mPos, &kart->mCollisionCenter, &effectPosition);
@@ -184,7 +184,7 @@ void func_ov001_021843b0(Unk02188950 *donketu, Kart *kart) {
             StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_184, donketu->mPrm->mUnk_188);
             SpinAngleStopMoveAngle(donketu, donketu->mPrm->mUnk_194, 0x270f000);
             SetVelocity(donketu, &velocityWhenNotBoosted);
-            SetStoppedCallback(donketu, func_ov001_02184cc8);
+            SetStoppedCallback(donketu, StartDonketuRepeatJumps);
             SetSpeedAndClearTarget(donketu, 0);
         }
         donketu->mUnk_000.mPosStep.x =
@@ -198,7 +198,7 @@ void func_ov001_021843b0(Unk02188950 *donketu, Kart *kart) {
         donketu->mUnk_000.mDistanceSquaredAndFlags |= data_ov001_021a657c;
         StartMapObjectSound(&donketu->mUnk_000, 0x213);
     }
-    SetKartCollisionCallback(donketu, func_ov001_02184874);
+    SetKartCollisionCallback(donketu, DonketuKartCollisionCallback);
     donketu->mUnk_2d8 = 0xd;
     StartCameraWobbleAtDistance(donketu->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
 }

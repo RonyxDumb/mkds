@@ -51,7 +51,7 @@ void StartKartState2(Kart *kart, int a, int b) {
     kart->mUnk_4c |= 0x20;
     StartKartItemInUseOneCountdown(&(gKartItems)[kart->mIndex]);
     if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
-        func_ov001_0218173c();
+        AddMissionRunPendingDropOnKartHit();
     }
     if (b != 0) {
         return;
@@ -127,7 +127,7 @@ void StartKartState6(Kart *kart) {
     kart->mLaunchFrames = 0;
     StartKartItemObjectCountdowns(&(gKartItems)[kart->mIndex]);
     if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
-        func_ov001_0218173c();
+        AddMissionRunPendingDropOnKartHit();
     }
     if (!(kart->mUnk_48 & (KART_48_SINKING | KART_48_RESPAWN_WAIT))) {
         StartKartSeqArcSound(kart, kart->mSoundIndex, 2);
@@ -287,7 +287,7 @@ void StartKartState3(Kart *kart) {
     }
     StartKartItemInUseOneCountdown(&(gKartItems)[kart->mIndex]);
     if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
-        func_ov001_0218173c();
+        AddMissionRunPendingDropOnKartHit();
     }
 }
 
@@ -404,7 +404,7 @@ void StartKartState4(Kart *kart, const Vec3 *a, s32 b) {
     Vec3CrossUnrounded(&v, a, &kart->mRotationAxis);
     StartKartItemObjectCountdowns(&(gKartItems)[kart->mIndex]);
     if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
-        func_ov001_0218173c();
+        AddMissionRunPendingDropOnKartHit();
     }
     if (!(kart->mUnk_7c & 0x400)) {
         x = MUL_FIXED12_NO_ROUND(a->x, 0x1b33);
@@ -529,7 +529,7 @@ s32 StartKartState5(Kart *kart, const Vec3 *a, s32 b) {
     QuaternionFromAxisAngle(&kart->mRotationAxis, kart->mRotationAngle, &kart->mRotationQuaternion);
     StartKartItemObjectCountdowns(&(gKartItems)[kart->mIndex]);
     if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
-        func_ov001_0218173c();
+        AddMissionRunPendingDropOnKartHit();
     }
     if (kart->mKartModelsEntry->mKartModelHidden == 0) {
         StartEffect(0xc, &kart->mPos);
@@ -620,7 +620,7 @@ void StartKartThunderShrink(Kart *kart) {
     RequestThunderShrinkSound(kart);
     StartKartItemObjectCountdowns(&(gKartItems)[kart->mIndex]);
     if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
-        func_ov001_0218173c();
+        AddMissionRunPendingDropOnKartHit();
     }
     kart->mScaleFactor.x = 0x1000;
     kart->mScaleFactor.y = 0x1000;

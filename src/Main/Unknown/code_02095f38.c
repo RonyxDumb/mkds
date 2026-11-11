@@ -115,7 +115,7 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *b, u
                         StartEffect(0x442, &effectPosition);
                         StartEffect(0x443, &effectPosition);
                         if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-                            func_ov001_0218175c(coverPooHole->mMapObject.mKind);
+                            AddMissionRunCountForMapObjectKind(coverPooHole->mMapObject.mKind);
                         }
                     }
                 }

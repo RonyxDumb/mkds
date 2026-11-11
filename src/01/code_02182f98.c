@@ -13,11 +13,11 @@
 #include "code_02146cbc.h"
 #include "code_02147cd8.h"
 
-void func_ov001_021830a8(void) {
+void ResetCoinShadowRotationIndex(void) {
     data_ov001_021a9b94 = 0;
 }
 
-void func_ov001_02183090(void) {
+void AdvanceCoinShadowRotationIndex(void) {
     s32 nextIndex = data_ov001_021a9b94 + 1;
     if (nextIndex >= 3) {
         nextIndex = 0;
@@ -25,22 +25,22 @@ void func_ov001_02183090(void) {
     data_ov001_021a9b94 = nextIndex;
 }
 
-void func_ov001_02182f98(void *f, Coin *coin, void *h, u32 l) {
-    s32 a;
+void DrawCoinShadow(void *mapObjectList, Coin *coin, void *viewMatrix, u32 mapObjectAlpha) {
+    s32 gxArgument;
     s32 scaleFactor;
-    Vec3 b;
-    MtxFx33 m;
+    Vec3 shadowPosition;
+    MtxFx33 rotationMatrix;
     Vec3 scale;
-    Vec3 d;
+    Vec3 shadowScale;
 
     if (coin->mScaleFactor > 0 && coin->mModelAlpha != 0 && (coin->mUnk_000.mFlags & 1) == 0 &&
         (s32) (coin->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0) < 0x3d090) {
-        b.x = coin->mUnk_000.mPos.x;
-        b.y = coin->mUnk_000.mPos.y - 0x16000;
-        b.z = coin->mUnk_000.mPos.z;
-        a = 0x1e;
-        NNS_G3dGeBufferOP_N(0x14, &a, 1);
-        NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&b), 0xc);
+        shadowPosition.x = coin->mUnk_000.mPos.x;
+        shadowPosition.y = coin->mUnk_000.mPos.y - 0x16000;
+        shadowPosition.z = coin->mUnk_000.mPos.z;
+        gxArgument = 0x1e;
+        NNS_G3dGeBufferOP_N(0x14, &gxArgument, 1);
+        NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&shadowPosition), 0xc);
         scaleFactor = coin->mScaleFactor;
         if (scaleFactor < 0x1000) {
             scale.x = scaleFactor;
@@ -49,13 +49,13 @@ void func_ov001_02182f98(void *f, Coin *coin, void *h, u32 l) {
             NNS_G3dGeBufferOP_N(0x1b, &scale, 3);
         }
         NNS_G3dGeBufferOP_N(0x1b, &coin->mUnk_000.mScale, 3);
-        MTX_RotY33_(&m, FX_CosIdx(data_ov001_021a656c[data_ov001_021a9b94]),
+        MTX_RotY33_(&rotationMatrix, FX_CosIdx(data_ov001_021a656c[data_ov001_021a9b94]),
                     FX_SinIdx(data_ov001_021a656c[data_ov001_021a9b94]));
-        NNS_G3dGeBufferOP_N(0x1a, &m, 9);
-        d.x = 0x199a;
-        d.y = 0x2000;
-        d.z = 0x199a;
-        NNS_G3dGeBufferOP_N(0x1b, &d, 3);
-        DrawJgShadow(8, l);
+        NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
+        shadowScale.x = 0x199a;
+        shadowScale.y = 0x2000;
+        shadowScale.z = 0x199a;
+        NNS_G3dGeBufferOP_N(0x1b, &shadowScale, 3);
+        DrawJgShadow(8, mapObjectAlpha);
     }
 }

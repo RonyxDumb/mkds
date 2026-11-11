@@ -16,34 +16,34 @@
 #include "01/code_02188950.h"
 #include "Main/Unknown/code_020a1728.h"
 
-void func_ov001_0218155c(s32 stepCount);
-void func_ov001_021815d0(s32 stepCount);
+void AddMissionRunPendingCountUpFromBoss(s32 stepCount);
+void AddMissionRunPendingCountUp(s32 stepCount);
 void AddMissionRunBossCount(short param_1);
 void AddMissionRunPendingBossTransfer(u16 amount);
 void AddMissionRunPendingDrop(u32 amount);
 void SetMissionRunBossTransferCallback(UnkFunc *callback);
 void SetMissionRunDropCallback(UnkFunc *callback);
-void func_ov001_021816a8(UnkFunc *callback);
-BOOL func_ov001_021816b4(void);
-void func_ov001_021816fc(void);
-void func_ov001_0218171c(void);
-void func_ov001_0218173c(void);
-void func_ov001_0218175c(s32 mapObjectKind);
-void func_ov001_021817e0(void);
+void SetMissionRunCountUpCallback(UnkFunc *callback);
+BOOL IsAnyBalloonUnparked(void);
+void AddMissionRunCountForKind0(void);
+void AddMissionRunCountForKind4(void);
+void AddMissionRunPendingDropOnKartHit(void);
+void AddMissionRunCountForMapObjectKind(s32 mapObjectKind);
+void AddMissionRunCountForKind7(void);
 s32 GetMissionRunBossCount(void);
 u32 GetMissionRunCountLimit(void);
 unsigned int GetMissionRunCount(void);
 void SetMissionRunTimer(unsigned int timer);
 s32 GetMissionRunTimer(void);
-void func_ov001_02181844(u16 a, u16 b, u16 c, u16 d);
+void SetMissionRunTimerValues(u16 startTimer, u16 maxTimer, u16 countUpTimerAdd, u16 bossTransferTimerAdd);
 void UpdateMissionRunData(void);
 void CreateMissionRunData(void);
 u16 GetMissionRunPrevKartHeadingAngle(void);
 u16 GetMissionRunKartHeadingAngle(void);
 Vec3 *GetMissionRunPrevKartPos(void);
 Vec3 *GetMissionRunKartPos(void);
-void func_ov001_02181aa0(void);
+void AddMissionRunCount(void);
 u16 GetMissionRunMapObjectLastIndex(void);
-u8 func_ov001_02181b54(void);
+u8 MissionRunGetCurrentKartCount(void);
 Unk02188950 *GetMissionRunMapObject(int entryIndex);
 void AddMissionRunMapObject(Unk02188950 *mapObject);
