@@ -51,7 +51,7 @@ void UpdateKoopaBlockState2(KoopaBlock *koopaBlock) {
     follower = &koopaBlock->mFollower;
     progress = GetGroupFollowerProgress(follower);
     angle = MUL_FIXED12_NO_ROUND(progress, 0x40000);
-    sine = gPairsByAngle[(angle >> 4) * 2];
+    sine = FX_SinIdx(angle);
     speed = MUL_FIXED12_NO_ROUND(-sine, koopaBlock->mFollowSpeed);
     follower->mSpeed = speed > 0x200 ? speed : 0x200;
     if (speed <= 0x200) {
@@ -173,7 +173,7 @@ void DrawMkdEfBubble(void *unused0, MkdEfBubbleObject *bubble, void *unused1, s3
     NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&bubble->mMapObject.mPos), 0xc);
     if (bubble->mAngleZ != 0) {
         n = bubble->mAngleZ >> 4;
-        MTX_RotZ33_(&rotationMatrix, gPairsByAngle[n * 2], gPairsByAngle[n * 2 + 1]);
+        MTX_RotZ33_(&rotationMatrix, FX_SinCosTable_[n * 2], FX_SinCosTable_[n * 2 + 1]);
         NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
     }
     NNS_G3dGeBufferOP_N(0x1b, &bubble->mMapObject.mScale, 3);

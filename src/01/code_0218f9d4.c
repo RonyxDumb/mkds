@@ -66,6 +66,7 @@
 #include "Main/Unknown/code_02109000.h"
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/code_02061654.h"
+#include "code_02147cd8.h"
 
 void func_ov001_02192890(Unk02188950 *a) {
     a->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
@@ -84,9 +85,10 @@ void func_ov001_021927c0(Unk02188950 *a) {
         SetKartCollisionCallback(a, func_ov001_021927c0);
         return;
     }
-    a->mUnk_000.mPosStep.x = MUL_FIXED12_NO_ROUND(a->mPrm->mUnk_144, gPairsByAngle[(u16) a->mMoveAngle >> 4 << 1]);
+    a->mUnk_000.mPosStep.x = MUL_FIXED12_NO_ROUND(a->mPrm->mUnk_144, FX_SinCosTable_[(u16) a->mMoveAngle >> 4 << 1]);
     a->mUnk_000.mPosStep.y = 0;
-    a->mUnk_000.mPosStep.z = MUL_FIXED12_NO_ROUND(a->mPrm->mUnk_144, gPairsByAngle[((u16) a->mMoveAngle >> 4 << 1) + 1]);
+    a->mUnk_000.mPosStep.z =
+        MUL_FIXED12_NO_ROUND(a->mPrm->mUnk_144, FX_SinCosTable_[((u16) a->mMoveAngle >> 4 << 1) + 1]);
     a->mUnk_2d8 = 0xd;
     SetKartCollisionCallback(a, func_ov001_021927c0);
     StartCameraWobbleAtDistance(a->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
@@ -120,9 +122,9 @@ void func_ov001_02192694(void) {
         ang = a0->mUnk_26c + FX_Atan2Idx(other->mPos.z - obj->mUnk_000.mPos.z, other->mPos.x - obj->mUnk_000.mPos.x);
     }
     idx = (ang >> 4) * 2;
-    pos.x = obj->mUnk_000.mPos.x + MUL_FIXED12_NO_ROUND(a0->mUnk_270, gPairsByAngle[idx + 1]);
+    pos.x = obj->mUnk_000.mPos.x + MUL_FIXED12_NO_ROUND(a0->mUnk_270, FX_SinCosTable_[idx + 1]);
     pos.y = obj->mUnk_000.mPos.y;
-    pos.z = obj->mUnk_000.mPos.z + MUL_FIXED12_NO_ROUND(obj->mPrm->mUnk_270, gPairsByAngle[idx]);
+    pos.z = obj->mUnk_000.mPos.z + MUL_FIXED12_NO_ROUND(obj->mPrm->mUnk_270, FX_SinCosTable_[idx]);
     SetAnglePointAndMoveAnglePoint(obj, &pos);
 }
 
@@ -149,15 +151,15 @@ void func_ov001_021924cc(void) {
     } else {
         objC = NULL;
     }
-    a.x = (MUL_FIXED12_NO_ROUND(objB->mPrm->mUnk_274, gPairsByAngle[((u16) objB->mAngle >> 4) * 2]));
+    a.x = (MUL_FIXED12_NO_ROUND(objB->mPrm->mUnk_274, FX_SinIdx((u16) objB->mAngle)));
     a.y = objB->mUnk_000.mPos.y;
-    a.z = (MUL_FIXED12_NO_ROUND(objB->mPrm->mUnk_274, gPairsByAngle[((u16) objB->mAngle >> 4) * 2 + 1]));
-    b.x = -(s32) (MUL_FIXED12_NO_ROUND(objB->mPrm->mUnk_278, gPairsByAngle[((u16) objB->mAngle >> 4) * 2 + 1]));
+    a.z = (MUL_FIXED12_NO_ROUND(objB->mPrm->mUnk_274, FX_CosIdx((u16) objB->mAngle)));
+    b.x = -(s32) (MUL_FIXED12_NO_ROUND(objB->mPrm->mUnk_278, FX_CosIdx((u16) objB->mAngle)));
     b.y = objB->mUnk_000.mPos.y;
-    b.z = (MUL_FIXED12_NO_ROUND(objB->mPrm->mUnk_278, gPairsByAngle[((u16) objB->mAngle >> 4) * 2]));
-    c.x = (MUL_FIXED12_NO_ROUND(objB->mPrm->mUnk_278, gPairsByAngle[((u16) objB->mAngle >> 4) * 2 + 1]));
+    b.z = (MUL_FIXED12_NO_ROUND(objB->mPrm->mUnk_278, FX_SinIdx((u16) objB->mAngle)));
+    c.x = (MUL_FIXED12_NO_ROUND(objB->mPrm->mUnk_278, FX_CosIdx((u16) objB->mAngle)));
     c.y = objB->mUnk_000.mPos.y;
-    c.z = -(s32) (MUL_FIXED12_NO_ROUND(objB->mPrm->mUnk_278, gPairsByAngle[((u16) objB->mAngle >> 4) * 2]));
+    c.z = -(s32) (MUL_FIXED12_NO_ROUND(objB->mPrm->mUnk_278, FX_SinIdx((u16) objB->mAngle)));
     SetAnglePoint(obj, &a);
     SetAnglePoint(objC, &a);
     SetMoveAnglePoint(obj, &b);
@@ -1201,9 +1203,9 @@ void func_ov001_0218fd20(Unk02188950 *a, Unk0218fd20 *b) {
     }
     limit = a->mPrm->mUnk_088;
     if (diff <= limit && diff >= -limit && func_ov001_021871f8(a, 7)) {
-        vec.x = (MUL_FIXED12_NO_ROUND(-a->mPrm->mUnk_224, gPairsByAngle[((u16) a->mAngle >> 4) * 2]));
+        vec.x = (MUL_FIXED12_NO_ROUND(-a->mPrm->mUnk_224, FX_SinIdx((u16) a->mAngle)));
         vec.y = a->mPrm->mUnk_228;
-        vec.z = (MUL_FIXED12_NO_ROUND(-a->mPrm->mUnk_224, gPairsByAngle[((u16) a->mAngle >> 4) * 2 + 1]));
+        vec.z = (MUL_FIXED12_NO_ROUND(-a->mPrm->mUnk_224, FX_CosIdx((u16) a->mAngle)));
         SetVelocity(
             (gRaceSetup->mMode == MODE_MISSION_RUN
                  ? GetMissionRunMapObject((u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0))

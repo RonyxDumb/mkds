@@ -29,6 +29,7 @@
 #include "Main/Unknown/code_020d2000.h"
 #include "Main/Unknown/code_02100000.h"
 #include "Main/Unknown/code_021000d0.h"
+#include "code_02147cd8.h"
 
 void func_ov001_0218dc20(Unk02188950 *a) {
     Unk0218dabc *r7 = a->mUnk_0a4;
@@ -51,8 +52,8 @@ void func_ov001_0218dc20(Unk02188950 *a) {
             break;
     }
     idx = (ang >> 4) * 2;
-    a->mUnk_000.mPos.x = r7->mUnk_004 + MUL_FIXED12_NO_ROUND(r5, gPairsByAngle[idx]);
-    a->mUnk_000.mPos.z = a->mUnk_0a4->mUnk_00c + MUL_FIXED12_NO_ROUND(r5, gPairsByAngle[idx + 1]);
+    a->mUnk_000.mPos.x = r7->mUnk_004 + MUL_FIXED12_NO_ROUND(r5, FX_SinCosTable_[idx]);
+    a->mUnk_000.mPos.z = a->mUnk_0a4->mUnk_00c + MUL_FIXED12_NO_ROUND(r5, FX_SinCosTable_[idx + 1]);
 }
 
 void func_ov001_0218dba8(Unk02188950 *a) {
@@ -97,9 +98,9 @@ void func_ov001_0218dadc(Unk02188950 *a) {
             break;
     }
     idx = (ang >> 4) * 2;
-    a->mUnk_000.mPos.x = r7->mUnk_004 + MUL_FIXED12_NO_ROUND(r5, gPairsByAngle[idx]);
+    a->mUnk_000.mPos.x = r7->mUnk_004 + MUL_FIXED12_NO_ROUND(r5, FX_SinCosTable_[idx]);
     a->mUnk_000.mPos.y = a->mUnk_0a4->mUnk_008;
-    a->mUnk_000.mPos.z = a->mUnk_0a4->mUnk_00c + MUL_FIXED12_NO_ROUND(r5, gPairsByAngle[idx + 1]);
+    a->mUnk_000.mPos.z = a->mUnk_0a4->mUnk_00c + MUL_FIXED12_NO_ROUND(r5, FX_SinCosTable_[idx + 1]);
 }
 
 void func_ov001_0218dabc(Unk02188950 *a) {

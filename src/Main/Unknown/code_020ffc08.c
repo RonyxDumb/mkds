@@ -24,6 +24,7 @@
 #include "Main/Unknown/unk_0217c000.h"
 #include "Main/Unknown/unk_0215a000.h"
 #include "code_02146cbc.h"
+#include "code_02147cd8.h"
 
 MapObjectKindData *CreateDramKindData(void) {
     MapObjectKindData *block;
@@ -59,12 +60,11 @@ MapObjectDrawList *CreateDramDrawList(void) {
 
 void DrawDram(void *unusedFirst, Dram *dram, void *unusedThird, s32 maxAlpha) {
     MtxFx43 *matrix;
-    s32 angleIndex;
     s32 angle;
 
     matrix = &dram->mMapObject.mMatrix;
-    angleIndex = (u16) (-(s32) dram->mAngleX) >> 4;
-    MTX_RotX33_(&matrix->mAxes, gPairsByAngle[angleIndex * 2], gPairsByAngle[angleIndex * 2 + 1]);
+    angle = (u16) (-(s32) dram->mAngleX);
+    MTX_RotX33_(&matrix->mAxes, SIN_OF_ANGLE(angle), COS_OF_ANGLE(angle));
     matrix->mRows[3].x = dram->mMapObject.mPos.x >> 4;
     matrix->mRows[3].y = dram->mMapObject.mPos.y >> 4;
     matrix->mRows[3].z = dram->mMapObject.mPos.z >> 4;

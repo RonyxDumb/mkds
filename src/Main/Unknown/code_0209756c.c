@@ -63,7 +63,8 @@ u32 CollideKartWithFlipper(Flipper *flipper, Kart *kart, void *b, u8 *c) {
             flipper->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(e->x, f);
             flipper->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(e->y, f);
             flipper->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(e->z, f);
-            flipper->mMapObject.mDistanceSquaredAndFlags = flipper->mMapObject.mDistanceSquaredAndFlags | data_usa_02156588;
+            flipper->mMapObject.mDistanceSquaredAndFlags =
+                flipper->mMapObject.mDistanceSquaredAndFlags | data_usa_02156588;
             StartSoundFullVolumeWrapper(kart, 0x1d1);
         }
         if (flipper->mUnk_ec8 != 0) {
@@ -190,7 +191,7 @@ void InitFlipperObjects(MapObjectList *mapObjectList) {
             }
             e = e - d;
             k = (u16) e >> 4;
-            MTX_RotY33_(&m1, gPairsByAngle[k * 2], gPairsByAngle[k * 2 + 1]);
+            MTX_RotY33_(&m1, FX_SinCosTable_[k * 2], FX_SinCosTable_[k * 2 + 1]);
             q = &flipper->mUnk_a8[j];
             MTX_Concat33(&m1, &flipper->mMapObject.mMatrix.mAxes, &q->mAxes);
             MTX_Concat33(&m2, &q->mAxes, &flipper->mUnk_648[j].mAxes);
@@ -200,17 +201,17 @@ void InitFlipperObjects(MapObjectList *mapObjectList) {
             if (flipper->mMirror == 0) {
                 k = (u16) (-e + FX_Atan2Idx(-2, -10)) >> 4;
                 flipper->mUnk_d50[j].x =
-                    (flipper->mMapObject.mPos.x + MUL_FIXED12_NO_ROUND(v1, gPairsByAngle[k * 2 + 1])) >> 4;
+                    (flipper->mMapObject.mPos.x + MUL_FIXED12_NO_ROUND(v1, FX_SinCosTable_[k * 2 + 1])) >> 4;
                 flipper->mUnk_d50[j].y = flipper->mMapObject.mPos.y >> 4;
                 flipper->mUnk_d50[j].z =
-                    (flipper->mMapObject.mPos.z + MUL_FIXED12_NO_ROUND(v1, gPairsByAngle[k * 2])) >> 4;
+                    (flipper->mMapObject.mPos.z + MUL_FIXED12_NO_ROUND(v1, FX_SinCosTable_[k * 2])) >> 4;
             } else {
                 k = (u16) (-e - FX_Atan2Idx(-2, -10)) >> 4;
                 flipper->mUnk_d50[j].x =
-                    (flipper->mMapObject.mPos.x - MUL_FIXED12_NO_ROUND(v1, gPairsByAngle[k * 2 + 1])) >> 4;
+                    (flipper->mMapObject.mPos.x - MUL_FIXED12_NO_ROUND(v1, FX_SinCosTable_[k * 2 + 1])) >> 4;
                 flipper->mUnk_d50[j].y = flipper->mMapObject.mPos.y >> 4;
                 flipper->mUnk_d50[j].z =
-                    (flipper->mMapObject.mPos.z - MUL_FIXED12_NO_ROUND(v1, gPairsByAngle[k * 2])) >> 4;
+                    (flipper->mMapObject.mPos.z - MUL_FIXED12_NO_ROUND(v1, FX_SinCosTable_[k * 2])) >> 4;
             }
         }
     }

@@ -11,6 +11,7 @@
 #include "Main/Unknown/code_0209bef0.h"
 #include "ITCM/code_01ff8000.h"
 #include "code_02146cbc.h"
+#include "code_02147cd8.h"
 
 void func_ov001_021830a8(void) {
     data_ov001_021a9b94 = 0;
@@ -48,8 +49,8 @@ void func_ov001_02182f98(void *f, Coin *coin, void *h, u32 l) {
             NNS_G3dGeBufferOP_N(0x1b, &scale, 3);
         }
         NNS_G3dGeBufferOP_N(0x1b, &coin->mUnk_000.mScale, 3);
-        MTX_RotY33_(&m, gPairsByAngle[(data_ov001_021a656c[data_ov001_021a9b94] >> 4) * 2 + 1],
-                    gPairsByAngle[(data_ov001_021a656c[data_ov001_021a9b94] >> 4) * 2]);
+        MTX_RotY33_(&m, FX_CosIdx(data_ov001_021a656c[data_ov001_021a9b94]),
+                    FX_SinIdx(data_ov001_021a656c[data_ov001_021a9b94]));
         NNS_G3dGeBufferOP_N(0x1a, &m, 9);
         d.x = 0x199a;
         d.y = 0x2000;

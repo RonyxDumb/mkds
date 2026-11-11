@@ -46,6 +46,7 @@
 #include "Main/Unknown/unk_027e0000.h"
 #include "Main/Unknown/code_0203c8dc.h"
 #include "Main/Unknown/code_02077bc0.h"
+#include "code_02147cd8.h"
 
 // Indices into gItemKinds and gItemPools.
 s32 gRaceHudSubScreenItemPoolIndices[10] = {0, 1, 2, 3, 4, 5, 9, 7, 8, 11};
@@ -419,8 +420,8 @@ static inline void func_020c8dbc_inline3(RaceHudOamBuffer *oamBuffer, s32 kartIn
 
     for (j = 0; j < 3; j++) {
         angleIndex = (u16) (((frame + 12 - j * 4) << 16) / 64) >> 4;
-        offsetX = (s16) gPairsByAngle[angleIndex * 2 + 1] * 11 >> 12;
-        offsetY = (s16) gPairsByAngle[angleIndex * 2] * 11 >> 12;
+        offsetX = (s16) FX_SinCosTable_[angleIndex * 2 + 1] * 11 >> 12;
+        offsetY = (s16) FX_SinCosTable_[angleIndex * 2] * 11 >> 12;
         cell = GetRaceSNcerEntry(frame % 12 < 6 ? 93 + j * 2 : 94 + j * 2);
         func_020c8dbc_inline2(oamBuffer, cell, gRaceHudSubScreenKarts->mScreenPos[kartIndex].mFirst + offsetX,
                               gRaceHudSubScreenKarts->mScreenPos[kartIndex].mSecond + offsetY);

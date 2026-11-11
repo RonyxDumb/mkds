@@ -171,10 +171,10 @@ void AdvanceKartState6(Kart *kart) {
         } else {
             kart->mLaunchAxisSwingAngle += 0x3e8;
             kart->mLaunchAxisSwingAngleSum += 0x3e8;
-            kart->mLaunchAxisSwing = gPairsByAngle[(kart->mLaunchAxisSwingAngle >> 4) * 2];
+            kart->mLaunchAxisSwing = FX_SinIdx(kart->mLaunchAxisSwingAngle);
         }
         i = MUL_FIXED12_NO_ROUND(kart->mLaunchAxisSwing, 0xce4);
-        MTX_RotAxis33(&m, &kart->mLaunchForward, gPairsByAngle[(i >> 4) * 2], gPairsByAngle[(i >> 4) * 2 + 1]);
+        MTX_RotAxis33(&m, &kart->mLaunchForward, FX_SinIdx(i), FX_CosIdx(i));
         MTX_MultVec33(&kart->mRotationAxis, &m, &a);
         QuaternionFromAxisAngle(&a, kart->mRotationAngle, &kart->mRotationQuaternion);
     } else {

@@ -29,9 +29,9 @@ void SetLayoutEntryAngleAndScale(LayoutTableEntry *entry, s32 angle, s32 scale) 
     dividedValues = &entry->mInverseScaleMatrix;
     matrix = &entry->mMatrix;
     inverseScale = FX_Div(0x1000, scale);
-    cosine = gPairsByAngle[pairIndex + 1];
+    cosine = FX_SinCosTable_[pairIndex + 1];
     entry->mInverseScaleMatrix.mUnk_00[0] = MUL_FIXED12_NO_ROUND(cosine, inverseScale);
-    sine = gPairsByAngle[pairIndex];
+    sine = FX_SinCosTable_[pairIndex];
     dividedValues->mUnk_00[1] = MUL_FIXED12_NO_ROUND(sine, inverseScale);
     dividedValues->mUnk_00[2] = -dividedValues->mUnk_00[1];
     dividedValues->mUnk_00[3] = entry->mInverseScaleMatrix.mUnk_00[0];

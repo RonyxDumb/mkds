@@ -127,10 +127,10 @@ void func_ov001_021843b0(Unk02188950 *donketu, Kart *kart) {
         if (func_ov001_021871f8(donketu, 8)) {
             if (donketu->mPrm->mUnk_1a8 > 0 || donketu->mPrm->mUnk_1ac > 0) {
                 velocityWhenBoosted.x =
-                    MUL_FIXED12_NO_ROUND(-donketu->mPrm->mUnk_1ac, gPairsByAngle[((u16) donketu->mMoveAngle >> 4) * 2]);
+                    MUL_FIXED12_NO_ROUND(-donketu->mPrm->mUnk_1ac, FX_SinIdx((u16) donketu->mMoveAngle));
                 velocityWhenBoosted.y = donketu->mPrm->mUnk_1a8;
-                velocityWhenBoosted.z = MUL_FIXED12_NO_ROUND(-donketu->mPrm->mUnk_1ac,
-                                                             gPairsByAngle[((u16) donketu->mMoveAngle >> 4) * 2 + 1]);
+                velocityWhenBoosted.z =
+                    MUL_FIXED12_NO_ROUND(-donketu->mPrm->mUnk_1ac, FX_CosIdx((u16) donketu->mMoveAngle));
                 func_ov001_02187218(donketu, 7, NULL);
                 StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_1a0, donketu->mPrm->mUnk_1a4);
                 func_ov001_02188a8c(donketu, donketu->mPrm->mUnk_1b0, 0x270f000);
@@ -165,10 +165,10 @@ void func_ov001_021843b0(Unk02188950 *donketu, Kart *kart) {
                 StartEffectAtRowHeight(donketu, 0x11ec, 0, 0x1800, 0x445, 0);
             }
             donketu->mUnk_000.mPosStep.x =
-                MUL_FIXED12_NO_ROUND(donketu->mPrm->mUnk_1b8, gPairsByAngle[((u16) donketu->mMoveAngle >> 4) * 2]);
+                MUL_FIXED12_NO_ROUND(donketu->mPrm->mUnk_1b8, FX_SinIdx((u16) donketu->mMoveAngle));
             donketu->mUnk_000.mPosStep.y = 0;
             donketu->mUnk_000.mPosStep.z =
-                MUL_FIXED12_NO_ROUND(donketu->mPrm->mUnk_1b8, gPairsByAngle[((u16) donketu->mMoveAngle >> 4) * 2 + 1]);
+                MUL_FIXED12_NO_ROUND(donketu->mPrm->mUnk_1b8, FX_CosIdx((u16) donketu->mMoveAngle));
             donketu->mUnk_000.mPos.x -= donketu->mUnk_000.mPosStep.x;
             donketu->mUnk_000.mPos.y -= donketu->mUnk_000.mPosStep.y;
             donketu->mUnk_000.mPos.z -= donketu->mUnk_000.mPosStep.z;
@@ -176,10 +176,10 @@ void func_ov001_021843b0(Unk02188950 *donketu, Kart *kart) {
     } else if (func_ov001_021871f8(donketu, 7)) {
         if (donketu->mPrm->mUnk_18c > 0 || donketu->mPrm->mUnk_190 > 0) {
             velocityWhenNotBoosted.x =
-                MUL_FIXED12_NO_ROUND(-donketu->mPrm->mUnk_190, gPairsByAngle[((u16) donketu->mMoveAngle >> 4) * 2]);
+                MUL_FIXED12_NO_ROUND(-donketu->mPrm->mUnk_190, FX_SinIdx((u16) donketu->mMoveAngle));
             velocityWhenNotBoosted.y = donketu->mPrm->mUnk_18c;
             velocityWhenNotBoosted.z =
-                MUL_FIXED12_NO_ROUND(-donketu->mPrm->mUnk_190, gPairsByAngle[((u16) donketu->mMoveAngle >> 4) * 2 + 1]);
+                MUL_FIXED12_NO_ROUND(-donketu->mPrm->mUnk_190, FX_CosIdx((u16) donketu->mMoveAngle));
             func_ov001_02187218(donketu, 7, NULL);
             StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_184, donketu->mPrm->mUnk_188);
             func_ov001_02188a8c(donketu, donketu->mPrm->mUnk_194, 0x270f000);
@@ -188,10 +188,10 @@ void func_ov001_021843b0(Unk02188950 *donketu, Kart *kart) {
             SetSpeedAndClearTarget(donketu, 0);
         }
         donketu->mUnk_000.mPosStep.x =
-            MUL_FIXED12_NO_ROUND(donketu->mPrm->mUnk_19c, gPairsByAngle[((u16) donketu->mMoveAngle >> 4) * 2]);
+            MUL_FIXED12_NO_ROUND(donketu->mPrm->mUnk_19c, FX_SinIdx((u16) donketu->mMoveAngle));
         donketu->mUnk_000.mPosStep.y = 0;
         donketu->mUnk_000.mPosStep.z =
-            MUL_FIXED12_NO_ROUND(donketu->mPrm->mUnk_19c, gPairsByAngle[((u16) donketu->mMoveAngle >> 4) * 2 + 1]);
+            MUL_FIXED12_NO_ROUND(donketu->mPrm->mUnk_19c, FX_CosIdx((u16) donketu->mMoveAngle));
         donketu->mUnk_000.mPos.x -= donketu->mUnk_000.mPosStep.x;
         donketu->mUnk_000.mPos.y -= donketu->mUnk_000.mPosStep.y;
         donketu->mUnk_000.mPos.z -= donketu->mUnk_000.mPosStep.z;

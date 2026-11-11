@@ -902,7 +902,7 @@ void AdvanceOldLuigiAgbFirstChaseEffect(Unk0201ca6c *effect, s32 a) {
         extraDistance = data_02165938;
     }
     angle = MUL_FIXED12_ROUNDED(speedRatio, 0x38e3);
-    MTX_RotAxis33(&rotation, &axis, gPairsByAngle[(angle >> 4) * 2], gPairsByAngle[(angle >> 4) * 2 + 1]);
+    MTX_RotAxis33(&rotation, &axis, FX_SinIdx(angle), FX_CosIdx(angle));
     MTX_MultVec33(&rotatedVector, &rotation, &rotatedVector);
     directionHalfwords.x = rotatedVector.x;
     directionHalfwords.y = rotatedVector.y;

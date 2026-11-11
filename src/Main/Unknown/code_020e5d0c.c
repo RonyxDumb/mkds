@@ -151,7 +151,7 @@ void UpdatePendulum(u32 list, PendulumObject *pendulum) {
 
     previousAngle = pendulum->mSwingAngle;
     pendulum->mSwingAngle = previousAngle + pendulum->mSwingAnglePerFrame;
-    swingAngle = MUL_FIXED12_NO_ROUND((s32) pendulum->mSwingAmplitude, gPairsByAngle[(pendulum->mSwingAngle >> 4) * 2]);
+    swingAngle = MUL_FIXED12_NO_ROUND((s32) pendulum->mSwingAmplitude, FX_SinIdx(pendulum->mSwingAngle));
     if ((previousAngle < 0x58f0 && pendulum->mSwingAngle >= 0x58f0) ||
         (previousAngle < 0xd8f0 && pendulum->mSwingAngle >= 0xd8f0)) {
         if ((pendulum->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {

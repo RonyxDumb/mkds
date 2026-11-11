@@ -260,8 +260,8 @@ void SetupCamera(Camera *camera) {
     camera->mPosGoalYOffset = 0;
     camera->mHalfFovAngleGoal = gDefaultHalfFovAngle;
     camera->mHalfFovAngle = gDefaultHalfFovAngle + 5;
-    camera->mHalfFovPairFirst = gPairsByAngle[((u16) camera->mHalfFovAngle >> 4) * 2];
-    camera->mHalfFovPairSecond = gPairsByAngle[((u16) camera->mHalfFovAngle >> 4) * 2 + 1];
+    camera->mHalfFovPairFirst = FX_SinIdx((u16) camera->mHalfFovAngle);
+    camera->mHalfFovPairSecond = FX_CosIdx((u16) camera->mHalfFovAngle);
     camera->mAspectRatio = 0x1555;
     camera->mNear = 0x400;
     camera->mUnk_08c = 0x640000;

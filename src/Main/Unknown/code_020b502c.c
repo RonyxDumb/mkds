@@ -543,11 +543,11 @@ void UpdateRaceHudSubScreenScroll(void) {
 }
 
 s32 RaceHudSubScreenFX_CosIdx(s32 angle) {
-    return gPairsByAngle[(angle >> 4) * 2 + 1];
+    return FX_CosIdx(angle);
 }
 
 s32 RaceHudSubScreenFX_SinIdx(s32 angle) {
-    return gPairsByAngle[(angle >> 4) * 2];
+    return FX_SinIdx(angle);
 }
 
 s32 GetFixed12Whole(s32 value) {

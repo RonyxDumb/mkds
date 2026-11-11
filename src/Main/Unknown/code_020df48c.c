@@ -17,6 +17,7 @@
 #include "Main/Unknown/unk_0215d000.h"
 #include "Main/Unknown/unk_0216b000.h"
 #include "Main/Unknown/unk_0217b000.h"
+#include "code_02147cd8.h"
 
 #pragma thumb on
 void CreateMkdEfBubble(void) {
@@ -66,7 +67,7 @@ MapObjectList *CreateGroupItemBoxUpdateList(void) {
 void UpdateGroupItemBoxHeightOffset(void) {
     s32 sine;
 
-    sine = gPairsByAngle[(gGroupItemBoxHeightAngle >> 4) * 2];
+    sine = FX_SinIdx(gGroupItemBoxHeightAngle);
     gGroupItemBoxHeightOffset = MUL_FIXED12_NO_ROUND(sine, 0x4000);
     gGroupItemBoxHeightAngle += 0x2d8;
     gGroupItemBoxShadowScaleWord = 0xf00 - (sine >> 4);
@@ -83,7 +84,8 @@ void UpdateGroupItemBox(void *unused, ItemBox *itemBox) {
             }
         }
         GetGroupFollowerCurvePosition(&itemBox->mFollower.mGroupFollower, &itemBox->mMapObject.mPos);
-        if (itemBox->mFollower.mGroupFollower.mFromEntry->mUnk_0d != 0 && itemBox->mFollower.mGroupFollower.mToEntry->mUnk_0d != 0) {
+        if (itemBox->mFollower.mGroupFollower.mFromEntry->mUnk_0d != 0 &&
+            itemBox->mFollower.mGroupFollower.mToEntry->mUnk_0d != 0) {
             itemBox->mMapObject.mFlags |= data_021586d4;
         } else {
             itemBox->mMapObject.mFlags &= ~0x20;

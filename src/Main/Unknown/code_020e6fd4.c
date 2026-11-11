@@ -214,15 +214,17 @@ void CreateJg(void) {
     data_0217b8e0 = HeapAlloc(heap, 0x78);
     data_0217b904 = HeapAlloc(heap, 0x78);
     for (i = 0, angle = 0; i < 0x3c; i++) {
-        data_0217b8a4[i] = (u16) MUL_FIXED12_NO_ROUND(gPairsByAngle[(angle >> 4) * 2], 0x4c);
+        data_0217b8a4[i] = (u16) MUL_FIXED12_NO_ROUND(FX_SinIdx(angle), 0x4c);
         angleIndex =
-            (u16) (((u64) (s64) gPairsByAngle[((u16) (angle + 0xa218) >> 4) * 2] * 0xb60b60b60b + 0x80000000000) >>
+            (u16) (((u64) (s64) FX_SinCosTable_[((u16) (angle + 0xa218) >> 4) * 2] * 0xb60b60b60b + 0x80000000000) >>
                    44) >>
             4;
-        data_0217b8a8[i] = gPairsByAngle[angleIndex * 2];
-        data_0217b8a0[i] = gPairsByAngle[angleIndex * 2 + 1];
-        data_0217b8e0[i] = (u32) MUL_FIXED12_NO_ROUND(gPairsByAngle[((u16) (angle + 0x1554) >> 4) * 2], 0x19a) + 0xe66;
-        data_0217b904[i] = (u32) MUL_FIXED12_NO_ROUND(gPairsByAngle[((u16) (angle + 0xbbb0) >> 4) * 2], 0x19a) + 0x119a;
+        data_0217b8a8[i] = FX_SinCosTable_[angleIndex * 2];
+        data_0217b8a0[i] = FX_SinCosTable_[angleIndex * 2 + 1];
+        data_0217b8e0[i] =
+            (u32) MUL_FIXED12_NO_ROUND(FX_SinCosTable_[((u16) (angle + 0x1554) >> 4) * 2], 0x19a) + 0xe66;
+        data_0217b904[i] =
+            (u32) MUL_FIXED12_NO_ROUND(FX_SinCosTable_[((u16) (angle + 0xbbb0) >> 4) * 2], 0x19a) + 0x119a;
         angle += 0x444;
     }
     gJgTableIndex = 0;

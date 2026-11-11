@@ -135,30 +135,30 @@ void ComputeEffectPosition(Unk02188950 *mapObject, int effectIndex, Vec3 *positi
         case 1:
             position->x = mapObject->mUnk_000.mPos.x +
                           (s32) (MUL_FIXED12_NO_ROUND(mapObject->mEffects[effectIndex].mOffset.z,
-                                                      gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2])) +
+                                                      FX_SinIdx((u16) mapObject->mAngle))) +
                           (s32) (MUL_FIXED12_NO_ROUND(mapObject->mEffects[effectIndex].mOffset.x,
-                                                      gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2 + 1]));
+                                                      FX_CosIdx((u16) mapObject->mAngle)));
             position->y = mapObject->mUnk_000.mPos.y + mapObject->mEffects[effectIndex].mOffset.y;
             position->z = mapObject->mUnk_000.mPos.z +
                           (s32) (MUL_FIXED12_NO_ROUND(mapObject->mEffects[effectIndex].mOffset.z,
-                                                      gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2 + 1])) -
+                                                      FX_CosIdx((u16) mapObject->mAngle))) -
                           (s32) (MUL_FIXED12_NO_ROUND(mapObject->mEffects[effectIndex].mOffset.x,
-                                                      gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2]));
+                                                      FX_SinIdx((u16) mapObject->mAngle)));
             break;
         case 3:
             // As case 1 with mUnk_024 of the object from GetCurrentCamera added, then halved.
             camera = GetCurrentCamera();
             position->x = mapObject->mUnk_000.mPos.x + camera->mPos.x +
                           (s32) (MUL_FIXED12_NO_ROUND(mapObject->mEffects[effectIndex].mOffset.z,
-                                                      gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2])) +
+                                                      FX_SinIdx((u16) mapObject->mAngle))) +
                           (s32) (MUL_FIXED12_NO_ROUND(mapObject->mEffects[effectIndex].mOffset.x,
-                                                      gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2 + 1]));
+                                                      FX_CosIdx((u16) mapObject->mAngle)));
             position->y = mapObject->mUnk_000.mPos.y + camera->mPos.y + mapObject->mEffects[effectIndex].mOffset.y;
             position->z = mapObject->mUnk_000.mPos.z + camera->mPos.z +
                           (s32) (MUL_FIXED12_NO_ROUND(mapObject->mEffects[effectIndex].mOffset.z,
-                                                      gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2 + 1])) -
+                                                      FX_CosIdx((u16) mapObject->mAngle))) -
                           (s32) (MUL_FIXED12_NO_ROUND(mapObject->mEffects[effectIndex].mOffset.x,
-                                                      gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2]));
+                                                      FX_SinIdx((u16) mapObject->mAngle)));
             position->x >>= 1;
             position->y >>= 1;
             position->z >>= 1;
@@ -172,38 +172,38 @@ void ComputeEffectPosition(Unk02188950 *mapObject, int effectIndex, Vec3 *positi
             offsetComponent = mapObject->mEffects[effectIndex].mOffset.z;
             scaledZ = MUL_FIXED12_NO_ROUND(offsetComponent, mapObject->mUnk_000.mScale.z);
             position->x = mapObject->mUnk_000.mPos.x +
-                          (s32) (MUL_FIXED12_NO_ROUND(scaledZ, gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2])) +
-                          (s32) (MUL_FIXED12_NO_ROUND(scaledX, gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2 + 1]));
+                          (s32) (MUL_FIXED12_NO_ROUND(scaledZ, FX_SinIdx((u16) mapObject->mAngle))) +
+                          (s32) (MUL_FIXED12_NO_ROUND(scaledX, FX_CosIdx((u16) mapObject->mAngle)));
             position->y = mapObject->mUnk_000.mPos.y + scaledY;
             position->z = mapObject->mUnk_000.mPos.z +
-                          (s32) (MUL_FIXED12_NO_ROUND(scaledZ, gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2 + 1])) -
-                          (s32) (MUL_FIXED12_NO_ROUND(scaledX, gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2]));
+                          (s32) (MUL_FIXED12_NO_ROUND(scaledZ, FX_CosIdx((u16) mapObject->mAngle))) -
+                          (s32) (MUL_FIXED12_NO_ROUND(scaledX, FX_SinIdx((u16) mapObject->mAngle)));
             break;
         case 4:
             position->x = mapObject->mUnk_000.mPos.x +
                           (s32) (MUL_FIXED12_NO_ROUND(mapObject->mEffects[effectIndex].mOffset.z,
-                                                      gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2])) +
+                                                      FX_SinIdx((u16) mapObject->mAngle))) +
                           (s32) (MUL_FIXED12_NO_ROUND(mapObject->mEffects[effectIndex].mOffset.x,
-                                                      gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2 + 1]));
+                                                      FX_CosIdx((u16) mapObject->mAngle)));
             position->y = mapObject->mUnk_000.mCourseMapRow->mUnk_00.y + mapObject->mEffects[effectIndex].mOffset.y;
             position->z = mapObject->mUnk_000.mPos.z +
                           (s32) (MUL_FIXED12_NO_ROUND(mapObject->mEffects[effectIndex].mOffset.z,
-                                                      gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2 + 1])) -
+                                                      FX_CosIdx((u16) mapObject->mAngle))) -
                           (s32) (MUL_FIXED12_NO_ROUND(mapObject->mEffects[effectIndex].mOffset.x,
-                                                      gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2]));
+                                                      FX_SinIdx((u16) mapObject->mAngle)));
             break;
         case 5:
             position->x = mapObject->mUnk_000.mPos.x +
                           (s32) (MUL_FIXED12_NO_ROUND(mapObject->mEffects[effectIndex].mOffset.z,
-                                                      gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2])) +
+                                                      FX_SinIdx((u16) mapObject->mAngle))) +
                           (s32) (MUL_FIXED12_NO_ROUND(mapObject->mEffects[effectIndex].mOffset.x,
-                                                      gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2 + 1]));
+                                                      FX_CosIdx((u16) mapObject->mAngle)));
             position->y = mapObject->mEffects[effectIndex].mOffset.y - GetHeightAboveWaterOrEfct(0);
             position->z = mapObject->mUnk_000.mPos.z +
                           (s32) (MUL_FIXED12_NO_ROUND(mapObject->mEffects[effectIndex].mOffset.z,
-                                                      gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2 + 1])) -
+                                                      FX_CosIdx((u16) mapObject->mAngle))) -
                           (s32) (MUL_FIXED12_NO_ROUND(mapObject->mEffects[effectIndex].mOffset.x,
-                                                      gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2]));
+                                                      FX_SinIdx((u16) mapObject->mAngle)));
             break;
     }
 }
@@ -317,13 +317,11 @@ void func_ov001_021872e0(Unk02188950 *mapObject, int offsetX, int offsetY, int o
                 if (mapObject->mEffects[effectIndex].mEffect != NULL) {
                     StopEffectAndClearPointer(&mapObject->mEffects[effectIndex].mEffect);
                 }
-                emitterParams.x =
-                    (MUL_FIXED12_NO_ROUND(emitterParamZ, gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2])) +
-                    (MUL_FIXED12_NO_ROUND(emitterParamX, gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2 + 1]));
+                emitterParams.x = (MUL_FIXED12_NO_ROUND(emitterParamZ, FX_SinIdx((u16) mapObject->mAngle))) +
+                                  (MUL_FIXED12_NO_ROUND(emitterParamX, FX_CosIdx((u16) mapObject->mAngle)));
                 emitterParams.y = emitterParamY;
-                emitterParams.z =
-                    (MUL_FIXED12_NO_ROUND(emitterParamZ, gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2 + 1])) -
-                    (MUL_FIXED12_NO_ROUND(emitterParamX, gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2]));
+                emitterParams.z = (MUL_FIXED12_NO_ROUND(emitterParamZ, FX_CosIdx((u16) mapObject->mAngle))) -
+                                  (MUL_FIXED12_NO_ROUND(emitterParamX, FX_SinIdx((u16) mapObject->mAngle)));
                 StartEffectWithCallback(effectId, &position, &emitterParams, func_ov001_0218742c);
             }
         }
@@ -682,8 +680,8 @@ void AdvanceMissionRunMapObject(u32 a, Unk02188950 *mapObject) {
     pairWordIndex = ((u16) mapObject->mMoveAngle >> 4) * 2;
     speed = mapObject->mSpeed;
     dy = mapObject->mVelocity.y;
-    dz = mapObject->mVelocity.z + (s32) ((speed * gPairsByAngle[pairWordIndex + 1]) >> 12);
-    dx = mapObject->mVelocity.x + (s32) ((speed * gPairsByAngle[pairWordIndex]) >> 12);
+    dz = mapObject->mVelocity.z + (s32) ((speed * FX_SinCosTable_[pairWordIndex + 1]) >> 12);
+    dx = mapObject->mVelocity.x + (s32) ((speed * FX_SinCosTable_[pairWordIndex]) >> 12);
     mapObject->mUnk_000.mPos.x += dx;
     mapObject->mUnk_000.mPos.y += dy;
     mapObject->mUnk_000.mPos.z += dz;
@@ -739,8 +737,8 @@ void AdvanceMissionRunMapObject(u32 a, Unk02188950 *mapObject) {
             StepIntTowardTarget(mapObject->mScaleTarget, mapObject->mScalePerCall, mapObject->mUnk_000.mScale.x);
     }
     if (mapObject->mCollisionShape == 1) {
-        MTX_RotY33_(&mapObject->mUnk_000.mMatrix.mAxes, gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2],
-                    gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2 + 1]);
+        MTX_RotY33_(&mapObject->mUnk_000.mMatrix.mAxes, FX_SinIdx((u16) mapObject->mAngle),
+                    FX_CosIdx((u16) mapObject->mAngle));
         MTX_MultVec33(&mapObject->mOffset, &mapObject->mUnk_000.mMatrix.mAxes, &mapObject->mPosWithOffset);
         VEC_Add(&mapObject->mPosWithOffset, &mapObject->mUnk_000.mPos, &mapObject->mPosWithOffset);
     } else {
@@ -834,7 +832,6 @@ void DrawMissionRunMapObject(void *mapObjectList, Unk02188950 *mapObject) {
     s32 value;
     Vec3 shiftedPosition;
     MtxFx33 rotationMatrix;
-    s32 pairIndex;
 
     alphaLimit = mapObject->mAlphaLimit >> 12;
     shiftedPosition.x = mapObject->mUnk_000.mPos.x >> 4;
@@ -865,8 +862,8 @@ void DrawMissionRunMapObject(void *mapObjectList, Unk02188950 *mapObject) {
         NNS_G3dGeBufferOP_N(0x14, &value, 1);
         NNS_G3dGeBufferOP_N(0x19, SetTranslationMatrixPos(&mapObject->mUnk_000.mPos), 0xc);
         if (mapObject->mUnk_000.mAngle != 0) {
-            pairIndex = mapObject->mUnk_000.mAngle >> 4;
-            MTX_RotY33_(&rotationMatrix, gPairsByAngle[pairIndex * 2], gPairsByAngle[pairIndex * 2 + 1]);
+            MTX_RotY33_(&rotationMatrix, SIN_OF_ANGLE(mapObject->mUnk_000.mAngle),
+                        COS_OF_ANGLE(mapObject->mUnk_000.mAngle));
             NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
         }
         NNS_G3dGeBufferOP_N(0x1b, &mapObject->mUnk_000.mScale.x, 3);
@@ -922,7 +919,7 @@ void DrawMissionRunMapObjectShadow(void *mapObjectList, Unk02188950 *mapObject, 
         NNS_G3dGeBufferOP_N(0x14, &value, 1);
         NNS_G3dGeBufferOP_N(0x19, SetTranslationMatrixPos(&shadowPosition), 0xc);
         pairIndex = (u16) mapObject->mAngle >> 4;
-        MTX_RotY33_(&rotationMatrix, gPairsByAngle[pairIndex * 2], gPairsByAngle[pairIndex * 2 + 1]);
+        MTX_RotY33_(&rotationMatrix, FX_SinCosTable_[pairIndex * 2], FX_SinCosTable_[pairIndex * 2 + 1]);
         NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
         c = mapObject->mShadowOffsetZ >> 4;
         b = mapObject->mShadowOffsetY >> 4;

@@ -207,7 +207,7 @@ void DrawBakubaku(void *a, Bakubaku *bakubaku) {
     NNS_G3dGeBufferOP_N(0x1b, &bakubaku->mMapObject.mScale, 3);
     DrawMapObjectModel(a, gBakuShadow, bakubaku);
     i = (u16) (u32) FX_Atan2Idx(-bakubaku->mMapObject.mPosStep.y, 0xc000) >> 4;
-    MTX_RotX33_(&m, gPairsByAngle[i * 2], gPairsByAngle[i * 2 + 1]);
+    MTX_RotX33_(&m, FX_SinCosTable_[i * 2], FX_SinCosTable_[i * 2 + 1]);
     NNS_G3dGeBufferOP_N(0x1a, &m, 9);
     DrawMapObjectModel(a, gBakubaku, bakubaku);
 }

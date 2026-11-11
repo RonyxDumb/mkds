@@ -10,6 +10,7 @@
 #include "Main/Unknown/unk_02167000.h"
 #include "Main/Unknown/unk_0217b000.h"
 #include "code_02146cbc.h"
+#include "code_02147cd8.h"
 
 void CreateAirship(void *a) {
     gAirship = CreateMapObjectModelAnimated(a, gAirshipNsbmdName);
@@ -32,8 +33,8 @@ void DrawAirship(void *a, Airship *airship) {
     airship->mMapObject.mMatrix.mRows[3].z = airship->mMapObject.mPos.z >> 4;
     NNS_G3dGeBufferOP_N(0x19, &airship->mMapObject.mMatrix, 0xc);
     if (airship->mMapObject.mAngle != 0) {
-        MTX_RotY33_(&rotationMatrix, gPairsByAngle[((airship->mMapObject.mAngle >> 4) << 1)],
-                    gPairsByAngle[((airship->mMapObject.mAngle >> 4) << 1) + 1]);
+        MTX_RotY33_(&rotationMatrix, SIN_OF_ANGLE(airship->mMapObject.mAngle),
+                    COS_OF_ANGLE(airship->mMapObject.mAngle));
         NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
     }
     NNS_G3dGeBufferOP_N(0x1b, &airship->mMapObject.mScale, 3);
@@ -75,7 +76,7 @@ void InitAirshipObjects(AirshipObjectList *list) {
 }
 
 s32 AirshipFX_CosIdx(s32 angle) {
-    return gPairsByAngle[((angle >> 4) << 1) + 1];
+    return COS_OF_ANGLE(angle);
 }
 
 s32 AirshipFX_MulInline(s32 multiplicand, s32 multiplier) {

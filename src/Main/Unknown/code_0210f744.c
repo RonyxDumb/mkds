@@ -491,7 +491,7 @@ void UpdateSeqPlayerControl(SeqPlayerControl *control, NNSSndSeqPlayer **handle)
     } else if ((control->mFlags >> 1) & 1) {
         control->mPitchAngle += 0x1111;
         control->mPitchAngle &= 0xffff;
-        pitch = MUL_FIXED12_ROUNDED(gPairsByAngle[(control->mPitchAngle >> 4) * 2], 0x30000) >> 12;
+        pitch = MUL_FIXED12_ROUNDED(FX_SinIdx(control->mPitchAngle), 0x30000) >> 12;
         pitch += 0x80;
         if (targetVolume > 0x3c) {
             targetVolume = 0x3c;

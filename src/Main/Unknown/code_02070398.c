@@ -154,7 +154,7 @@ void ResetKartToRespawnPoint(Kart *kart) {
         respawnLink = GetCourseMapRespawnRacePointLink(i, &respawnPos, &respawnAngles);
     }
     i = ((u16) ((s32) (((s64) respawnAngles.y * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12)) >> 4;
-    MTX_RotY33_(&rotationMatrix, gPairsByAngle[i * 2], gPairsByAngle[i * 2 + 1]);
+    MTX_RotY33_(&rotationMatrix, FX_SinCosTable_[i * 2], FX_SinCosTable_[i * 2 + 1]);
     MTX_MultVec33(&data_02154f70, &rotationMatrix, &respawnForward);
     if (gRaceSetup->mMode != MODE_BATTLE && gCourseMap->mItemRouteCount != 0) {
         (kartItems = &gKartItems[kart->mIndex])->mItemLink.mLink =
@@ -169,13 +169,13 @@ void ResetKartToRespawnPoint(Kart *kart) {
         VEC_MultAdd(MUL_FIXED12_NO_ROUND(data_usa_02165504, forwardOffset), &respawnForward, &respawnPos, &respawnPos);
         if (respawnAngles.x != 0 && forwardOffset != 0) {
             i = ((u16) ((s32) (((s64) respawnAngles.x * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12)) >> 4;
-            l = gPairsByAngle[i * 2];
+            l = FX_SinCosTable_[i * 2];
             i = (l * -forwardOffset + 0x800) >> 12;
             respawnPos.y += MUL_FIXED12_ROUNDED(i, data_usa_02165504);
         }
         if (respawnAngles.z != 0 && x != 0) {
             i = ((u16) ((s32) (((s64) respawnAngles.z * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12)) >> 4;
-            l = gPairsByAngle[i * 2];
+            l = FX_SinCosTable_[i * 2];
             i = (l * x + 0x800) >> 12;
             respawnPos.y += MUL_FIXED12_ROUNDED(i, data_usa_02165504);
         }
@@ -1227,7 +1227,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
     placementAngles.y = gCourseMap->mKeyedPlacements[*gCourseMap->mKeyedPlacementIndexByKey].mRotation.y;
     placementAngles.z = gCourseMap->mKeyedPlacements[*gCourseMap->mKeyedPlacementIndexByKey].mRotation.z;
     angleIndex = (u16) (((s64) placementAngles.y * 0xb60b60b60bLL + 0x80000000LL) >> 44) >> 4;
-    MTX_RotY33_(&rotationMatrix, gPairsByAngle[angleIndex * 2], gPairsByAngle[angleIndex * 2 + 1]);
+    MTX_RotY33_(&rotationMatrix, FX_SinCosTable_[angleIndex * 2], FX_SinCosTable_[angleIndex * 2 + 1]);
     MTX_MultVec33(&data_02154f70, &rotationMatrix, &placementForward);
     SkipOrthoQuadsHoldAndSetVelocities(kart->mIndex);
 
@@ -1336,8 +1336,8 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
                 kart->mAirTiltAngle = -5000;
             }
         }
-        MTX_RotAxis33(&m2.mAxes, &kart->mUnk_120, gPairsByAngle[((u16) kart->mAirTiltAngle >> 4) * 2],
-                      gPairsByAngle[((u16) kart->mAirTiltAngle >> 4) * 2 + 1]);
+        MTX_RotAxis33(&m2.mAxes, &kart->mUnk_120, FX_SinIdx((u16) kart->mAirTiltAngle),
+                      FX_CosIdx((u16) kart->mAirTiltAngle));
         MTX_MultVec33(&groundNormal, &m2.mAxes, &groundNormal);
         kart->mGroundNormal = groundNormal;
         AdvanceKartOrientation(kart, &groundNormal);
@@ -1380,7 +1380,7 @@ void PlaceKartAtKeyedPlacement(Kart *kart, u32 key) {
                          0x80000000LL) >>
                         44) >>
                  4;
-    MTX_RotY33_(&rotationMatrix, gPairsByAngle[angleIndex * 2], gPairsByAngle[angleIndex * 2 + 1]);
+    MTX_RotY33_(&rotationMatrix, FX_SinCosTable_[angleIndex * 2], FX_SinCosTable_[angleIndex * 2 + 1]);
     MTX_MultVec33(&data_02154f70, &rotationMatrix, &placementForward);
     if (gRaceSetup->mMode == MODE_BATTLE) {
         VEC_Subtract(&placementPos, &kart->mPos, &offset);
@@ -1437,10 +1437,9 @@ void ComputeKartAirTiltQuaternion(Kart *kart, Vec4 *quaternion) {
     kart->mAirTiltAngle = kart->mAirTiltAngle + kart->mAirTiltAngleOffset;
     headingAngle = kart->mHeadingAngle;
     airTiltAngle = kart->mAirTiltAngle;
-    MTX_RotY43_(&headingMatrix, gPairsByAngle[(headingAngle >> 4) * 2], gPairsByAngle[(headingAngle >> 4) * 2 + 1]);
+    MTX_RotY43_(&headingMatrix, FX_SinIdx(headingAngle), FX_CosIdx(headingAngle));
     MTX_MultVec43(&data_02154f88, &headingMatrix, &tiltAxis);
-    MTX_RotAxis43(&tiltMatrix, &tiltAxis, gPairsByAngle[(airTiltAngle >> 4) * 2],
-                  gPairsByAngle[(airTiltAngle >> 4) * 2 + 1]);
+    MTX_RotAxis43(&tiltMatrix, &tiltAxis, FX_SinIdx(airTiltAngle), FX_CosIdx(airTiltAngle));
     MTX_MultVec43(&data_02154f7c, &tiltMatrix, &tiltedUp);
     TryQuaternionFromVectors(quaternion, &data_02154f7c, &tiltedUp);
     if (kart->mUnk_48 & 0x80000000) {

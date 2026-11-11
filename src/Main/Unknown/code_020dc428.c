@@ -328,8 +328,8 @@ void UpdateWanwanState0(Wanwan *wanwan) {
                 random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
                 angleIndex = (u16) (((random->mValue >> 32) * 0x10000) >> 32) >> 4;
                 attemptCount++;
-                candidate->x = wanwan->mCenterPos.x + MUL_FIXED12_NO_ROUND(gPairsByAngle[angleIndex * 2], radius);
-                candidate->z = wanwan->mCenterPos.z + MUL_FIXED12_NO_ROUND(gPairsByAngle[angleIndex * 2 + 1], radius);
+                candidate->x = wanwan->mCenterPos.x + MUL_FIXED12_NO_ROUND(FX_SinCosTable_[angleIndex * 2], radius);
+                candidate->z = wanwan->mCenterPos.z + MUL_FIXED12_NO_ROUND(FX_SinCosTable_[angleIndex * 2 + 1], radius);
                 if (attemptCount > 5) {
                     break;
                 }
@@ -508,7 +508,8 @@ void UpdateWanwanState2(Wanwan *wanwan) {
         velocity = &wanwan->mMapObject.mPosStep;
         if (HORIZONTAL_LENGTH_SQUARED(*velocity) >= 0x10) {
             QuaternionFromAngleAroundY(
-                (u16) (((s64) FX_Atan2(wanwan->mMapObject.mPosStep.x, wanwan->mMapObject.mPosStep.z) * 0x28be60db9391LL +
+                (u16) (((s64) FX_Atan2(wanwan->mMapObject.mPosStep.x, wanwan->mMapObject.mPosStep.z) *
+                            0x28be60db9391LL +
                         0x80000000000LL) >>
                        44),
                 &wanwan->mYawQuaternion);

@@ -36,6 +36,7 @@
 #include "Main/Unknown/unk_0217c000.h"
 #include "code_02146cbc.h"
 #include "code_02148538.h"
+#include "code_02147cd8.h"
 
 void *CreatePakkunSpitUpdateList(void) {
     return CreateMapObjectUpdateList(NULL, UpdatePakkunSpit, NULL);
@@ -163,13 +164,11 @@ void DrawPakkunMouth(void *a, Pakkun *pakkun) {
     f[2] = 0;
     NNS_G3dGeBufferOP_N(0x1c, f, 3);
     if (pakkun->mUnk_1dc != 0) {
-        MTX_RotY33_(&m, gPairsByAngle[((u16) pakkun->mUnk_1dc >> 4) * 2],
-                    gPairsByAngle[((u16) pakkun->mUnk_1dc >> 4) * 2 + 1]);
+        MTX_RotY33_(&m, FX_SinIdx((u16) pakkun->mUnk_1dc), FX_CosIdx((u16) pakkun->mUnk_1dc));
         NNS_G3dGeBufferOP_N(0x1a, &m, 9);
     }
     if (pakkun->mUnk_1e0 != 0) {
-        MTX_RotX33_(&n, gPairsByAngle[((u16) pakkun->mUnk_1e0 >> 4) * 2],
-                    gPairsByAngle[((u16) pakkun->mUnk_1e0 >> 4) * 2 + 1]);
+        MTX_RotX33_(&n, FX_SinIdx((u16) pakkun->mUnk_1e0), FX_CosIdx((u16) pakkun->mUnk_1e0));
         NNS_G3dGeBufferOP_N(0x1a, &n, 9);
     }
     t = pakkun->mUnk_1f0;

@@ -199,7 +199,6 @@ void TakeHeldItemObjects(HeldItem *rec) {
         generator = &gRaceProgress->mRandom;
     }
     angle = (u16) TakeHeldItemObjects_inline(generator, 0x10000);
-    angle >>= 4;
     poolIndex = gItemInfos[kind].mObjectKind;
     if (gItemKinds[poolIndex].mStartsFalling != 0) {
         radius = 0x2000;
@@ -207,8 +206,8 @@ void TakeHeldItemObjects(HeldItem *rec) {
         radius = 0x1800;
     }
     count = rec->mObjectCount;
-    radiusTimesAnglePairFirst = MUL_FIXED12_NO_ROUND(radius, gPairsByAngle[angle * 2]);
-    radiusTimesAnglePairSecond = MUL_FIXED12_NO_ROUND(radius, gPairsByAngle[angle * 2 + 1]);
+    radiusTimesAnglePairFirst = MUL_FIXED12_NO_ROUND(radius, SIN_OF_ANGLE(angle));
+    radiusTimesAnglePairSecond = MUL_FIXED12_NO_ROUND(radius, COS_OF_ANGLE(angle));
     TakeItemPoolObjects(&gItemPools[poolIndex], count, rec->mObjects, owner->mIndex, &owner->mDrawMatrixPos);
     i = 0;
     if (i < count) {

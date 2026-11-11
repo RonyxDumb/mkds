@@ -50,9 +50,9 @@ void GetCourseMapStartPlacementWithOffsets(Vec3 *outPos, Vec3 *outRotation, s32 
     angleX = (placement->mRotation.x >> 12) * 0xb6;
     angleY = (placement->mRotation.y >> 12) * 0xb6;
     angleZ = (placement->mRotation.z >> 12) * 0xb6;
-    MTX_RotX43_(&rotationMatrixX, gPairsByAngle[(angleX >> 4) * 2], gPairsByAngle[(angleX >> 4) * 2 + 1]);
-    MTX_RotY43_(&rotationMatrixY, gPairsByAngle[(angleY >> 4) * 2], gPairsByAngle[(angleY >> 4) * 2 + 1]);
-    MTX_RotZ43_(&rotationMatrixZ, gPairsByAngle[(angleZ >> 4) * 2], gPairsByAngle[(angleZ >> 4) * 2 + 1]);
+    MTX_RotX43_(&rotationMatrixX, FX_SinIdx(angleX), FX_CosIdx(angleX));
+    MTX_RotY43_(&rotationMatrixY, FX_SinIdx(angleY), FX_CosIdx(angleY));
+    MTX_RotZ43_(&rotationMatrixZ, FX_SinIdx(angleZ), FX_CosIdx(angleZ));
     MTX_Concat43(&rotationMatrixX, &rotationMatrixZ, &rotationMatrix);
     MTX_Concat43(&rotationMatrixY, &rotationMatrix, &rotationMatrix);
     negatedFirstAxisX = -rotationMatrix.mRows[0].x;

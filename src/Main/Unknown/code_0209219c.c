@@ -88,11 +88,9 @@ void DrawBasabasa(void *a, Basabasa *basabasa) {
     NNS_G3dGeBufferOP_N(0x14, &s, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&basabasa->mMapObject.mPos), 0xc);
     if (basabasa->mRotateZNegated != 0) {
-        MTX_RotZ33_(&rotationMatrix, gPairsByAngle[((u16) -drawAngle >> 4) * 2],
-                    gPairsByAngle[((u16) -drawAngle >> 4) * 2 + 1]);
+        MTX_RotZ33_(&rotationMatrix, FX_SinIdx((u16) -drawAngle), FX_CosIdx((u16) -drawAngle));
     } else {
-        MTX_RotZ33_(&rotationMatrix, gPairsByAngle[((u16) drawAngle >> 4) * 2],
-                    gPairsByAngle[((u16) drawAngle >> 4) * 2 + 1]);
+        MTX_RotZ33_(&rotationMatrix, FX_SinIdx((u16) drawAngle), FX_CosIdx((u16) drawAngle));
     }
     NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
     NNS_G3dGeBufferOP_N(0x1b, &basabasa->mMapObject.mScale, 3);

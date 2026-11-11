@@ -1539,10 +1539,9 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
     scale.x = scaleValue;
     scale.y = scaleValue;
     scale.z = scaleValue;
-    MTX_RotY33_(&rotationMatrix, gPairsByAngle[(view->mYawAngle >> 4) * 2],
-                gPairsByAngle[(view->mYawAngle >> 4) * 2 + 1]);
-    MTX_RotX33_(&tiltMatrix, gPairsByAngle[(((u16) (data_usa_021656dc + view->mUnk_1a)) >> 4) * 2],
-                gPairsByAngle[(((u16) (data_usa_021656dc + view->mUnk_1a)) >> 4) * 2 + 1]);
+    MTX_RotY33_(&rotationMatrix, FX_SinIdx(view->mYawAngle), FX_CosIdx(view->mYawAngle));
+    MTX_RotX33_(&tiltMatrix, FX_SinCosTable_[(((u16) (data_usa_021656dc + view->mUnk_1a)) >> 4) * 2],
+                FX_SinCosTable_[(((u16) (data_usa_021656dc + view->mUnk_1a)) >> 4) * 2 + 1]);
     MTX_Concat33(&rotationMatrix, &tiltMatrix, &rotationMatrix);
     if (slot->mKartOffsetData != NULL) {
         MTX_Copy33To43_(&rotationMatrix, &kartMatrix);

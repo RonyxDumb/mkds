@@ -48,6 +48,7 @@
 #include "Main/Unknown/code_020681f0.h"
 #include "Main/Unknown/code_02077bc0.h"
 #include "code_021471bc.h"
+#include "code_02147cd8.h"
 
 s32 CollideKartWithMapObjectResponse13(Kart *kart, s32 *output) {
     *output = 0xc;
@@ -423,7 +424,7 @@ void AdvanceKartWobble(Kart *kart) {
     s32 amplitudeDelta;
 
     kart->mWobbleAngle = kart->mWobbleAngle + gKartWobbleAnglePerCall;
-    kart->mWobbleSine = gPairsByAngle[(kart->mWobbleAngle >> 4) * 2];
+    kart->mWobbleSine = FX_SinIdx(kart->mWobbleAngle);
     if (kart->mWobbleAmplitude > 0) {
         kart->mWobbleAmplitude = MUL_FIXED12_ROUNDED(kart->mWobbleAmplitude, gKartWobbleAmplitudeDecay);
         kart->mWobbleAmplitude = kart->mWobbleAmplitude - 0x64;
@@ -441,7 +442,7 @@ void AdvanceKartWobble(Kart *kart) {
     angleAmplitude = MUL_FIXED12_ROUNDED(kart->mWobbleEasedAmplitude, gKartWobbleAngleFactor);
     angleValue = MUL_FIXED12_ROUNDED(angleAmplitude, kart->mWobbleSine);
     angle = angleValue;
-    MTX_RotY43_(&rotationMatrix, gPairsByAngle[(angle >> 4) * 2], gPairsByAngle[(angle >> 4) * 2 + 1]);
+    MTX_RotY43_(&rotationMatrix, FX_SinIdx(angle), FX_CosIdx(angle));
     MTX_Concat43(&rotationMatrix, &kart->mUnk_150_m, &kart->mWobbleMatrix);
     if ((kart->mWobbleEasedAmplitude > 0 ? kart->mWobbleEasedAmplitude : -kart->mWobbleEasedAmplitude) >= 0x29) {
         return;

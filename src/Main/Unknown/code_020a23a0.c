@@ -172,7 +172,7 @@ void InitTrophy(s32 modelIndex, u32 rankIndex) {
 }
 
 s16 TrophyFX_SinIdx(s32 angle) {
-    return gPairsByAngle[(angle >> 4) * 2];
+    return FX_SinIdx(angle);
 }
 
 s32 TrophyFX_MulInline(s32 a, s32 b) {
@@ -249,9 +249,8 @@ void DrawTrophy(void) {
     NNS_G3dGeBufferOP_N(0x1c, translation, 3);
     rotateZAngle = gTrophy->mRotateZWobble.mValue;
     MTX_RotX33_(&rotateXMatrix, data_0215d6b4[0x76], data_0215d6b4[0x77]);
-    MTX_RotY33_(&rotateYMatrix, gPairsByAngle[(gTrophy->mRotateYAngle >> 4) * 2],
-                gPairsByAngle[(gTrophy->mRotateYAngle >> 4) * 2 + 1]);
-    MTX_RotZ33_(&rotateZMatrix, gPairsByAngle[(rotateZAngle >> 4) * 2], gPairsByAngle[(rotateZAngle >> 4) * 2 + 1]);
+    MTX_RotY33_(&rotateYMatrix, FX_SinIdx(gTrophy->mRotateYAngle), FX_CosIdx(gTrophy->mRotateYAngle));
+    MTX_RotZ33_(&rotateZMatrix, FX_SinIdx(rotateZAngle), FX_CosIdx(rotateZAngle));
     NNS_G3dGeBufferOP_N(0x1a, &rotateXMatrix, 9);
     NNS_G3dGeBufferOP_N(0x1a, &rotateYMatrix, 9);
     NNS_G3dGeBufferOP_N(0x1a, &rotateZMatrix, 9);

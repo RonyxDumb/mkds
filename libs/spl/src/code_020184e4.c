@@ -125,13 +125,13 @@ void SPLBehavior_ApplySpin(const Unk0201e170 *spin, Unk0201e3c8 *ptcl, Vec3 *acc
 
     switch (spin->mUnk_02) {
         case 0:
-            MTX_RotX33_(&buf, gPairsByAngle[(spin->mUnk_00 >> 4) * 2], gPairsByAngle[(spin->mUnk_00 >> 4) * 2 + 1]);
+            MTX_RotX33_(&buf, FX_SinIdx(spin->mUnk_00), FX_CosIdx(spin->mUnk_00));
             break;
         case 1:
-            MTX_RotY33_(&buf, gPairsByAngle[(spin->mUnk_00 >> 4) * 2], gPairsByAngle[(spin->mUnk_00 >> 4) * 2 + 1]);
+            MTX_RotY33_(&buf, FX_SinIdx(spin->mUnk_00), FX_CosIdx(spin->mUnk_00));
             break;
         case 2:
-            MTX_RotZ33_(&buf, gPairsByAngle[(spin->mUnk_00 >> 4) * 2], gPairsByAngle[(spin->mUnk_00 >> 4) * 2 + 1]);
+            MTX_RotZ33_(&buf, FX_SinIdx(spin->mUnk_00), FX_CosIdx(spin->mUnk_00));
             break;
     }
     MTX_MultVec33(&ptcl->mUnk_08, &buf, &ptcl->mUnk_08);
@@ -364,12 +364,9 @@ void SPLEmitter_ComputeOrthogonalAxes(Unk0201ca6c *emtr) {
     emtr->mUnk_84.x = MUL_FIXED12_ROUNDED(axis.y, up.z) - MUL_FIXED12_ROUNDED(axis.z, up.y);
     emtr->mUnk_84.y = MUL_FIXED12_ROUNDED(axis.z, up.x) - MUL_FIXED12_ROUNDED(axis.x, up.z);
     emtr->mUnk_84.z = MUL_FIXED12_ROUNDED(axis.x, up.y) - MUL_FIXED12_ROUNDED(axis.y, up.x);
-    emtr->mUnk_8a.x =
-        MUL_FIXED12_ROUNDED(axis.y, emtr->mUnk_84.z) - MUL_FIXED12_ROUNDED(axis.z, emtr->mUnk_84.y);
-    emtr->mUnk_8a.y =
-        MUL_FIXED12_ROUNDED(axis.z, emtr->mUnk_84.x) - MUL_FIXED12_ROUNDED(axis.x, emtr->mUnk_84.z);
-    emtr->mUnk_8a.z =
-        MUL_FIXED12_ROUNDED(axis.x, emtr->mUnk_84.y) - MUL_FIXED12_ROUNDED(axis.y, emtr->mUnk_84.x);
+    emtr->mUnk_8a.x = MUL_FIXED12_ROUNDED(axis.y, emtr->mUnk_84.z) - MUL_FIXED12_ROUNDED(axis.z, emtr->mUnk_84.y);
+    emtr->mUnk_8a.y = MUL_FIXED12_ROUNDED(axis.z, emtr->mUnk_84.x) - MUL_FIXED12_ROUNDED(axis.x, emtr->mUnk_84.z);
+    emtr->mUnk_8a.z = MUL_FIXED12_ROUNDED(axis.x, emtr->mUnk_84.y) - MUL_FIXED12_ROUNDED(axis.y, emtr->mUnk_84.x);
     VEC_Fx16Normalize(&emtr->mUnk_84, &emtr->mUnk_84);
     VEC_Fx16Normalize(&emtr->mUnk_8a, &emtr->mUnk_8a);
 }
@@ -379,12 +376,12 @@ void SPLUtil_TiltCoordinates(Vec3 *ptclPos, const Vec3 *pos, Unk0201ca6c *emtr) 
 
     VEC_Fx16CrossProduct(&emtr->mUnk_84, &emtr->mUnk_8a, &cross);
     VEC_Fx16Normalize(&cross, &cross);
-    ptclPos->x = MUL_FIXED12_ROUNDED(pos->z, cross.x) + (MUL_FIXED12_ROUNDED(pos->x, emtr->mUnk_84.x) +
-                                                               MUL_FIXED12_ROUNDED(pos->y, emtr->mUnk_8a.x));
-    ptclPos->y = MUL_FIXED12_ROUNDED(pos->z, cross.y) + (MUL_FIXED12_ROUNDED(pos->x, emtr->mUnk_84.y) +
-                                                               MUL_FIXED12_ROUNDED(pos->y, emtr->mUnk_8a.y));
-    ptclPos->z = MUL_FIXED12_ROUNDED(pos->z, cross.z) + (MUL_FIXED12_ROUNDED(pos->x, emtr->mUnk_84.z) +
-                                                               MUL_FIXED12_ROUNDED(pos->y, emtr->mUnk_8a.z));
+    ptclPos->x = MUL_FIXED12_ROUNDED(pos->z, cross.x) +
+                 (MUL_FIXED12_ROUNDED(pos->x, emtr->mUnk_84.x) + MUL_FIXED12_ROUNDED(pos->y, emtr->mUnk_8a.x));
+    ptclPos->y = MUL_FIXED12_ROUNDED(pos->z, cross.y) +
+                 (MUL_FIXED12_ROUNDED(pos->x, emtr->mUnk_84.y) + MUL_FIXED12_ROUNDED(pos->y, emtr->mUnk_8a.y));
+    ptclPos->z = MUL_FIXED12_ROUNDED(pos->z, cross.z) +
+                 (MUL_FIXED12_ROUNDED(pos->x, emtr->mUnk_84.z) + MUL_FIXED12_ROUNDED(pos->y, emtr->mUnk_8a.z));
 }
 
 void SPLEmitter_EmitParticles(Unk0201ca6c *emtr, Unk0201e494 *list) {
@@ -454,8 +451,8 @@ void SPLEmitter_EmitParticles(Unk0201ca6c *emtr, Unk0201e494 *list) {
                     k = acc / n;
                     acc += 0x10000;
                     k >>= 4;
-                    a = gPairsByAngle[k * 2];
-                    b = gPairsByAngle[k * 2 + 1];
+                    a = FX_SinCosTable_[k * 2];
+                    b = FX_SinCosTable_[k * 2 + 1];
                     v3.x = MUL_FIXED12_ROUNDED(a, emtr->mUnk_5c);
                     v3.y = MUL_FIXED12_ROUNDED(b, emtr->mUnk_5c);
                     v3.z = 0;
@@ -596,12 +593,9 @@ void SPLEmitter_EmitParticles(Unk0201ca6c *emtr, Unk0201e494 *list) {
                 VEC_Normalize(&n0->mUnk_08, &u);
             }
 
-            n0->mUnk_14.x =
-                emtr->mUnk_40.x + (MUL_FIXED12_ROUNDED(u.x, s1) + MUL_FIXED12_ROUNDED(emtr->mUnk_50.x, s2));
-            n0->mUnk_14.y =
-                emtr->mUnk_40.y + (MUL_FIXED12_ROUNDED(u.y, s1) + MUL_FIXED12_ROUNDED(emtr->mUnk_50.y, s2));
-            n0->mUnk_14.z =
-                emtr->mUnk_40.z + (MUL_FIXED12_ROUNDED(u.z, s1) + MUL_FIXED12_ROUNDED(emtr->mUnk_50.z, s2));
+            n0->mUnk_14.x = emtr->mUnk_40.x + (MUL_FIXED12_ROUNDED(u.x, s1) + MUL_FIXED12_ROUNDED(emtr->mUnk_50.x, s2));
+            n0->mUnk_14.y = emtr->mUnk_40.y + (MUL_FIXED12_ROUNDED(u.y, s1) + MUL_FIXED12_ROUNDED(emtr->mUnk_50.y, s2));
+            n0->mUnk_14.z = emtr->mUnk_40.z + (MUL_FIXED12_ROUNDED(u.z, s1) + MUL_FIXED12_ROUNDED(emtr->mUnk_50.z, s2));
             n0->mUnk_38 = emtr->mUnk_28;
 
             n0->mUnk_30 =
@@ -884,8 +878,8 @@ void SPLDraw_Billboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
         t.y = ptcl->mUnk_08.y + ptcl->mUnk_38.y;
         t.z = ptcl->mUnk_08.z + ptcl->mUnk_38.z;
         MTX_MultVec43(&t, q, &t);
-        t0 = gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2];
-        t1 = gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2 + 1];
+        t0 = FX_SinIdx(ptcl->mUnk_20);
+        t1 = FX_CosIdx(ptcl->mUnk_20);
         m.mRows[0].x = MUL_FIXED12_ROUNDED(t1, f0);
         m.mRows[0].y = MUL_FIXED12_ROUNDED(t0, f0);
         m.mRows[0].z = 0;
@@ -905,8 +899,8 @@ void SPLDraw_Billboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
         t.y = ptcl->mUnk_08.y + ptcl->mUnk_38.y - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
         t.z = ptcl->mUnk_08.z + ptcl->mUnk_38.z - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
         MTX_MultVec43(&t, q, &t);
-        t0 = gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2];
-        t1 = gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2 + 1];
+        t0 = FX_SinIdx(ptcl->mUnk_20);
+        t1 = FX_CosIdx(ptcl->mUnk_20);
         m.mRows[0].x = MUL_FIXED12_ROUNDED(t1, f0);
         m.mRows[0].y = MUL_FIXED12_ROUNDED(t0, f0);
         m.mRows[0].z = 0;
@@ -978,8 +972,8 @@ void SPLDraw_Child_Billboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
         t.y = ptcl->mUnk_08.y + ptcl->mUnk_38.y;
         t.z = ptcl->mUnk_08.z + ptcl->mUnk_38.z;
         MTX_MultVec43(&t, q, &t);
-        t0 = gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2];
-        t1 = gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2 + 1];
+        t0 = FX_SinIdx(ptcl->mUnk_20);
+        t1 = FX_CosIdx(ptcl->mUnk_20);
         m.mRows[0].x = MUL_FIXED12_ROUNDED(t1, f0);
         m.mRows[0].y = MUL_FIXED12_ROUNDED(t0, f0);
         m.mRows[0].z = 0;
@@ -999,8 +993,8 @@ void SPLDraw_Child_Billboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
         t.y = ptcl->mUnk_08.y + ptcl->mUnk_38.y - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
         t.z = ptcl->mUnk_08.z + ptcl->mUnk_38.z - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
         MTX_MultVec43(&t, q, &t);
-        t0 = gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2];
-        t1 = gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2 + 1];
+        t0 = FX_SinIdx(ptcl->mUnk_20);
+        t1 = FX_CosIdx(ptcl->mUnk_20);
         m.mRows[0].x = MUL_FIXED12_ROUNDED(t1, f0);
         m.mRows[0].y = MUL_FIXED12_ROUNDED(t0, f0);
         m.mRows[0].z = 0;
@@ -1320,8 +1314,8 @@ void SPLDraw_Polygon(SPLManager *mgr, Unk0201e3c8 *ptcl) {
     if (k == 0) {
         return;
     }
-    data_02161ac8[mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mUnk_00_17](
-        gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2], gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2 + 1], &b);
+    data_02161ac8[mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mUnk_00_17](FX_SinIdx(ptcl->mUnk_20),
+                                                                                  FX_CosIdx(ptcl->mUnk_20), &b);
     f1 = ptcl->mUnk_30;
     f0 = MUL_FIXED12_ROUNDED(f1, mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_30);
     switch (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_48.mUnk_00_28) {
@@ -1386,8 +1380,8 @@ void SPLDraw_Child_Polygon(SPLManager *mgr, Unk0201e3c8 *ptcl) {
     if (k == 0) {
         return;
     }
-    data_02161ac8[mgr->mRenderStateEmitter->mUnk_20->mUnk_14->mUnk_00_9](
-        gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2], gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2 + 1], &b);
+    data_02161ac8[mgr->mRenderStateEmitter->mUnk_20->mUnk_14->mUnk_00_9](FX_SinIdx(ptcl->mUnk_20),
+                                                                         FX_CosIdx(ptcl->mUnk_20), &b);
     f1 = ptcl->mUnk_30;
     f0 = MUL_FIXED12_ROUNDED(f1, mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_30);
     switch (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_48.mUnk_00_28) {
@@ -1457,8 +1451,8 @@ void SPLDraw_DirectionalPolygon(SPLManager *mgr, Unk0201e3c8 *ptcl) {
     if (k == 0) {
         return;
     }
-    data_02161ac8[mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mUnk_00_17](
-        gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2], gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2 + 1], &b);
+    data_02161ac8[mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mUnk_00_17](FX_SinIdx(ptcl->mUnk_20),
+                                                                                  FX_CosIdx(ptcl->mUnk_20), &b);
     MTX_Identity43_(&d);
     if (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_48.mUnk_00_31 == 0) {
         VEC_Normalize(&ptcl->mUnk_14, &v);
@@ -1559,8 +1553,8 @@ void SPLDraw_Child_DirectionalPolygon(SPLManager *mgr, Unk0201e3c8 *ptcl) {
     if (k == 0) {
         return;
     }
-    data_02161ac8[mgr->mRenderStateEmitter->mUnk_20->mUnk_14->mUnk_00_9](
-        gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2], gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2 + 1], &b);
+    data_02161ac8[mgr->mRenderStateEmitter->mUnk_20->mUnk_14->mUnk_00_9](FX_SinIdx(ptcl->mUnk_20),
+                                                                         FX_CosIdx(ptcl->mUnk_20), &b);
     MTX_Identity43_(&d);
     if (mgr->mRenderStateEmitter->mUnk_20->mUnk_14->mUnk_10.mUnk_00_6 == 0) {
         VEC_Normalize(&ptcl->mUnk_14, &v);

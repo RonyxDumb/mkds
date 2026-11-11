@@ -62,6 +62,7 @@
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/code_02061654.h"
 #include "01/code_0218d374.h"
+#include "code_02147cd8.h"
 
 void func_ov001_0218d2c4(Unk02188950 *a) {
     int i;
@@ -314,16 +315,16 @@ void func_ov001_0218cbdc(Unk02188950 *a, MissionRunPrm *b) {
             }
             if (diff > 0) {
                 a->mUnk_000.mPosStep.x =
-                    MUL_FIXED12_NO_ROUND(a->mPrm->mUnk_0fc, gPairsByAngle[(((u16) r4 + 0x4000) >> 4) * 2]);
+                    MUL_FIXED12_NO_ROUND(a->mPrm->mUnk_0fc, FX_SinCosTable_[(((u16) r4 + 0x4000) >> 4) * 2]);
                 a->mUnk_000.mPosStep.y = 0;
                 a->mUnk_000.mPosStep.z = MUL_FIXED12_NO_ROUND(
-                    a->mPrm->mUnk_0fc, gPairsByAngle[(((u16) a->mMoveAngle + 0x4000) >> 4) * 2 + 1]);
+                    a->mPrm->mUnk_0fc, FX_SinCosTable_[(((u16) a->mMoveAngle + 0x4000) >> 4) * 2 + 1]);
             } else {
                 a->mUnk_000.mPosStep.x =
-                    MUL_FIXED12_NO_ROUND(a->mPrm->mUnk_0fc, gPairsByAngle[(((u16) r4 - 0x4000) >> 4) * 2]);
+                    MUL_FIXED12_NO_ROUND(a->mPrm->mUnk_0fc, FX_SinCosTable_[(((u16) r4 - 0x4000) >> 4) * 2]);
                 a->mUnk_000.mPosStep.y = 0;
                 a->mUnk_000.mPosStep.z = MUL_FIXED12_NO_ROUND(
-                    a->mPrm->mUnk_0fc, gPairsByAngle[(((u16) a->mMoveAngle - 0x4000) >> 4) * 2 + 1]);
+                    a->mPrm->mUnk_0fc, FX_SinCosTable_[(((u16) a->mMoveAngle - 0x4000) >> 4) * 2 + 1]);
             }
             a->mUnk_2d8 = 0xc;
             StartCameraWobbleAtDistance(a->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);

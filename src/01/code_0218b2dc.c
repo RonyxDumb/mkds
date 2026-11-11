@@ -45,6 +45,7 @@
 #include "Main/Unknown/code_020b4000.h"
 #include "Main/Unknown/code_020f9c6c.h"
 #include "Main/Unknown/code_021000d0.h"
+#include "code_02147cd8.h"
 
 Unk021a7b64 data_ov001_021a7b64 = {
     0, 0x30c, func_ov001_0218b72c, func_ov001_0218b310, func_ov001_0218b2f4, 0, 0, func_ov001_0218b2dc, {0, 0, 0, 0, 0},
@@ -148,10 +149,10 @@ void func_ov001_0218b6f8(Unk02188950 *mapObject, void *kart) {
 
 void func_ov001_0218b640(Unk02188950 *mapObject, void *kart) {
     mapObject->mUnk_000.mPosStep.x =
-        (s64) mapObject->mPrm->mUnk_130 * gPairsByAngle[((u16) mapObject->mMoveAngle >> 4) * 2] >> 12;
+        MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_130, FX_SinIdx((u16) mapObject->mMoveAngle));
     mapObject->mUnk_000.mPosStep.y = 0;
     mapObject->mUnk_000.mPosStep.z =
-        (s64) mapObject->mPrm->mUnk_130 * gPairsByAngle[((u16) mapObject->mMoveAngle >> 4) * 2 + 1] >> 12;
+        MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_130, FX_CosIdx((u16) mapObject->mMoveAngle));
     mapObject->mUnk_2d8 = 0xd;
     StartCameraWobbleAtDistance(mapObject->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
     SetKartCollisionCallback(mapObject, func_ov001_0218b6f8);

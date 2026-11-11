@@ -332,14 +332,14 @@ void AdvanceKartAiHeading(struct KartAi *p, Vec3 *a, Vec3 *b) {
         q->mHeadingAngle +=
             (g = Vec3DotUnrounded(&v6, &v4) > 0 ? 1 : -1) *
             (MUL_FIXED12_NO_ROUND((s32) (((s64) p->mTurnAngleDegrees * 0xB60B60B60BLL + 0x80000000LL) >> 32),
-                                        MUL_FIXED12_NO_ROUND(e, 0xa4)) >>
+                                  MUL_FIXED12_NO_ROUND(e, 0xa4)) >>
              12);
         r = TRUE;
     }
     if ((q->mUnk_4c & 0x8000000) && p->mTurnAngleDegrees < 0x46000 && (q->mUnk_44 & KART_44_ON_GROUND) &&
         !(q->mUnk_48 & 0x8020) && q->mVelocityLength > 0x3000 && p->mUnk_90 != 2 && p->mUnk_a8 == 0) {
         p->mUnk_c8 += 0x44c;
-        p->mUnk_ca = MUL_FIXED12_ROUNDED(gPairsByAngle[(p->mUnk_c8 >> 4) * 2], 0xfa);
+        p->mUnk_ca = MUL_FIXED12_ROUNDED(FX_SinIdx(p->mUnk_c8), 0xfa);
         q->mHeadingAngle += (s16) p->mUnk_ca * p->mUnk_cc;
         r = TRUE;
     } else {
@@ -359,11 +359,11 @@ end:
 
 void QuaternionFromAxisAngle(const Vec3 *a, s32 b, Vec4 *c) {
     s32 i = (s32) ((u32) (b << 15) >> 16) >> 4;
-    s32 s = gPairsByAngle[i * 2];
+    s32 s = FX_SinCosTable_[i * 2];
     c->x = MUL_FIXED12_ROUNDED(a->x, s);
     c->y = MUL_FIXED12_ROUNDED(a->y, s);
     c->z = MUL_FIXED12_ROUNDED(a->z, s);
-    c->w = gPairsByAngle[i * 2 + 1];
+    c->w = FX_SinCosTable_[i * 2 + 1];
 }
 
 s32 TryQuaternionFromVectors(Vec4 *a, const Vec3 *b, const Vec3 *c) {

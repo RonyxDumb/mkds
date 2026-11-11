@@ -103,7 +103,8 @@ void UpdateNsKiller1(void *a, NsKiller1 *nsKiller1) {
             nsKiller1->mStateTimer--;
             break;
         case 3:
-            StartNsKiller2(&nsKiller1->mMapObject.mPos, &nsKiller1->mMapObject.mMatrix.mRows[2], nsKiller1->mMapObject.mAngle);
+            StartNsKiller2(&nsKiller1->mMapObject.mPos, &nsKiller1->mMapObject.mMatrix.mRows[2],
+                           nsKiller1->mMapObject.mAngle);
             if ((nsKiller1->mMapObject.mFlags & 0x12) == 0) {
                 StartEffect(0x4b, &nsKiller1->mMapObject.mPos);
                 StartEffect(0x4c, &nsKiller1->mMapObject.mPos);
@@ -163,7 +164,6 @@ void CreateNsKiller2AndNsKiller2S(void *a) {
 void DrawNsKiller2(void *a, NsKiller2 *nsKiller2) {
     s32 t;
     MtxFx33 rotationMatrix;
-    s32 angleIndex;
 
     if (nsKiller2->mParkTimer <= 0) {
         return;
@@ -171,8 +171,8 @@ void DrawNsKiller2(void *a, NsKiller2 *nsKiller2) {
     t = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &t, 1);
     NNS_G3dGeBufferOP_N(0x19, SetTranslationMatrixPos(&nsKiller2->mMapObject.mPos), 12);
-    angleIndex = nsKiller2->mMapObject.mAngle >> 4;
-    MTX_RotY33_(&rotationMatrix, gPairsByAngle[angleIndex * 2], gPairsByAngle[angleIndex * 2 + 1]);
+    MTX_RotY33_(&rotationMatrix, SIN_OF_ANGLE(nsKiller2->mMapObject.mAngle),
+                COS_OF_ANGLE(nsKiller2->mMapObject.mAngle));
     NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
     NNS_G3dGeBufferOP_N(0x1b, &nsKiller2->mMapObject.mScale, 3);
     DrawMapObjectModel(a, gNsKiller2S, nsKiller2);
@@ -188,7 +188,8 @@ void UpdateNsKiller2(void *a, NsKiller2 *nsKiller2) {
     switch (nsKiller2->mMode) {
         case 0:
             if (nsKiller2->mParkTimer-- > 0) {
-                if ((nsKiller2->mMapObject.mFlags & 2) == 0 && (nsKiller2->mMapObject.mDistanceSquaredAndFlags & 8) != 0) {
+                if ((nsKiller2->mMapObject.mFlags & 2) == 0 &&
+                    (nsKiller2->mMapObject.mDistanceSquaredAndFlags & 8) != 0) {
                     AdvanceSoundDistanceSquaredChange(nsKiller2->mSoundDistanceSquaredChange,
                                                       nsKiller2->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f);
                 } else {

@@ -35,6 +35,7 @@
 #include "Main/Unknown/code_0203c8dc.h"
 #include "Main/Unknown/code_02077bc0.h"
 #include "registers.h"
+#include "code_02147cd8.h"
 
 #pragma thumb on
 
@@ -361,8 +362,8 @@ void SetupOrthoQuad(s32 index, HalfwordPair startPair, s32 overlap) {
     velocities = quad->mCornerVelocities;
     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
     t = (s32) (u16) (((u64) (u32) (random->mValue >> 32) * 0x10000) >> 32) >> 4;
-    c = gPairsByAngle[2 * t];
-    s = gPairsByAngle[2 * t + 1];
+    c = FX_SinCosTable_[2 * t];
+    s = FX_SinCosTable_[2 * t + 1];
     if (overlap != 0) {
         random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
         t = (s16) (((u64) (u32) (random->mValue >> 32) * 0xcd) >> 32) + 0x800;

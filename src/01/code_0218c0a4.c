@@ -32,6 +32,7 @@
 #include "01/code_0218c000.h"
 #include "Main/Unknown/code_020f4000.h"
 #include "Main/Unknown/unk_0217c000.h"
+#include "code_02147cd8.h"
 
 void func_ov001_0218c490(Unk02188950 *mapObject) {
     Kart *kart = GetKart((u16) gRaceSetup->mEntryIndex);
@@ -138,12 +139,12 @@ void ThrowBombsAndKinoko(Unk02188950 *mapObject) {
         Vec3 pos;
         Vec3 vel = {0, 0, 0};
 
-        pos.x = mapObject->mUnk_000.mPos.x + (MUL_FIXED12_NO_ROUND(radius, gPairsByAngle[((u16) angle >> 4) * 2]));
+        pos.x = mapObject->mUnk_000.mPos.x + (MUL_FIXED12_NO_ROUND(radius, FX_SinIdx((u16) angle)));
         pos.y = mapObject->mUnk_000.mPos.y + mapObject->mPrm->mUnk_194;
-        pos.z = mapObject->mUnk_000.mPos.z + (MUL_FIXED12_NO_ROUND(radius, gPairsByAngle[((u16) angle >> 4) * 2 + 1]));
-        vel.x = MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_1a0, gPairsByAngle[((u16) angle >> 4) * 2]);
+        pos.z = mapObject->mUnk_000.mPos.z + (MUL_FIXED12_NO_ROUND(radius, FX_CosIdx((u16) angle)));
+        vel.x = MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_1a0, FX_SinIdx((u16) angle));
         vel.y = mapObject->mPrm->mUnk_19c;
-        vel.z = MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_1a0, gPairsByAngle[((u16) angle >> 4) * 2 + 1]);
+        vel.z = MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_1a0, FX_CosIdx((u16) angle));
         if (i == sel) {
             ThrowItemKinokoFromPosition(StartItemKinokoOrZero(), &pos, &vel, mapObject->mPrm->mUnk_1ac);
         } else {

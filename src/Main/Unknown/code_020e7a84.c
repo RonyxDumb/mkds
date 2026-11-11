@@ -118,8 +118,8 @@ void AdvanceJgPointsAndSetTarget(Vec3 *offset, const Vec3 *endScale, const Vec3 
     GetSegmentProgressPoint(&data_0217bb88, &pathPoint);
     gJgAngle += 0x64;
     i = gJgAngle >> 4;
-    anglePair0 = gPairsByAngle[i * 2];
-    anglePair1 = gPairsByAngle[i * 2 + 1];
+    anglePair0 = FX_SinCosTable_[i * 2];
+    anglePair1 = FX_SinCosTable_[i * 2 + 1];
     lerpedX = AdvanceJgPointsAndSetTarget_inline(startScale->x, endScale->x, (anglePair1 + 0x1000) >> 2);
     lerpedY = AdvanceJgPointsAndSetTarget_inline(startScale->y, endScale->y, (anglePair0 + 0x1000) >> 2);
     pathPoint.x = MUL_FIXED12_NO_ROUND(pathPoint.x, lerpedX);
@@ -722,7 +722,6 @@ void UpdateJgState1(void) {
     ModelAnimation *animation;
     s32 angle;
     u32 frame;
-    s32 pairIndex;
     s32 anglePair0;
     s32 anglePair1;
     s32 rotatedZ;
@@ -735,9 +734,8 @@ void UpdateJgState1(void) {
     angle = data_0217b8b4;
     frame = ((u32) frameFixed << 4) >> 16;
     if (angle > 0 && angle < 0x10000) {
-        pairIndex = (angle >> 4) << 1;
-        anglePair0 = gPairsByAngle[pairIndex];
-        anglePair1 = gPairsByAngle[pairIndex + 1];
+        anglePair0 = SIN_OF_ANGLE(angle);
+        anglePair1 = COS_OF_ANGLE(angle);
         scaledZ = MUL_FIXED12_NO_ROUND(gJgKind2Offset.z, anglePair1);
         rotatedZ = scaledZ - MUL_FIXED12_NO_ROUND(gJgKind2Offset.x, anglePair0);
         gJgTargetPos.z = rotatedZ;

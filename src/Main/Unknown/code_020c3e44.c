@@ -68,6 +68,7 @@
 #include "Main/Unknown/code_0203c8dc.h"
 #include "Main/Unknown/code_02077bc0.h"
 #include "registers.h"
+#include "code_02147cd8.h"
 
 BOOL IsRaceGoalMReady(void) {
     return (gRaceGoalM->mReady);
@@ -600,8 +601,8 @@ void InitRaceTaPositions(void) {
         } while (a < gRaceSetup->mKartCount);
     }
     for (a = 0; a < 16; a++) {
-        s32 pairFirst = gPairsByAngle[((u16) (a * 0x10000 / 16) >> 4) * 2];
-        s32 pairSecond = gPairsByAngle[((u16) (a * 0x10000 / 16) >> 4) * 2 + 1];
+        s32 pairFirst = FX_SinCosTable_[((u16) (a * 0x10000 / 16) >> 4) * 2];
+        s32 pairSecond = FX_SinCosTable_[((u16) (a * 0x10000 / 16) >> 4) * 2 + 1];
         gRaceTaPositions->mRotations[a].mUnk_00[0] = pairSecond;
         gRaceTaPositions->mRotations[a].mUnk_00[1] = pairFirst;
         gRaceTaPositions->mRotations[a].mUnk_00[2] = -pairFirst;

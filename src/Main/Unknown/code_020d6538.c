@@ -70,14 +70,12 @@ BOOL BuildNextSegmentProgress(SegmentProgress *segmentProgress, s32 useStraightL
 
 void SetViewYawQuaternion(MtxFx43 *viewMatrix) {
     s32 angle;
-    s32 pairIndex;
     angle = FX_Atan2(viewMatrix->mRows[0].z, viewMatrix->mRows[2].z);
     angle = (((s64) angle * 0x28BE60DB9391LL) + 0x80000000000LL) >> 44;
-    pairIndex = (u16) ((u16) angle >> 1) >> 4;
     gViewYawQuaternion.mComponents[0] = 0;
-    gViewYawQuaternion.mComponents[1] = gPairsByAngle[pairIndex * 2];
+    gViewYawQuaternion.mComponents[1] = SIN_OF_ANGLE((u16) ((u16) angle >> 1));
     gViewYawQuaternion.mComponents[2] = 0;
-    gViewYawQuaternion.mComponents[3] = gPairsByAngle[pairIndex * 2 + 1];
+    gViewYawQuaternion.mComponents[3] = COS_OF_ANGLE((u16) ((u16) angle >> 1));
 }
 
 void QuaternionFromYAxisToVec3(Vec3 *direction, Quaternion *quaternion) {
@@ -91,17 +89,15 @@ void QuaternionFromYAxisToVec3(Vec3 *direction, Quaternion *quaternion) {
 }
 
 void QuaternionFromAngleAroundY(s32 angle, Quaternion *quaternion) {
-    s32 pairIndex = (u16) (angle >> 1) >> 4;
     quaternion->mComponents[0] = 0;
-    quaternion->mComponents[1] = gPairsByAngle[pairIndex * 2];
+    quaternion->mComponents[1] = SIN_OF_ANGLE((u16) (angle >> 1));
     quaternion->mComponents[2] = 0;
-    quaternion->mComponents[3] = gPairsByAngle[pairIndex * 2 + 1];
+    quaternion->mComponents[3] = COS_OF_ANGLE((u16) (angle >> 1));
 }
 
 void QuaternionFromVec3AndAngleAroundY(Vec3 *direction, s32 angle, Quaternion *quaternion) {
     s32 root;
     s32 quotient;
-    s32 pairIndex;
     s32 pairFirst;
     s32 pairSecond;
     s64 radicand = (s64) ((direction->y + 0x1000) << 1) << 32;
@@ -109,9 +105,8 @@ void QuaternionFromVec3AndAngleAroundY(Vec3 *direction, s32 angle, Quaternion *q
     reg_CP_SQRT_PARAM = radicand;
     root = FX_GetSqrtResult();
     FX_DivAsync(direction->z, root);
-    pairIndex = (u16) (angle >> 1) >> 4;
-    pairFirst = gPairsByAngle[pairIndex * 2];
-    pairSecond = gPairsByAngle[pairIndex * 2 + 1];
+    pairFirst = SIN_OF_ANGLE((u16) (angle >> 1));
+    pairSecond = COS_OF_ANGLE((u16) (angle >> 1));
     quaternion->mComponents[1] = ((root >> 1) * pairFirst) >> 12;
     quaternion->mComponents[3] = ((root >> 1) * pairSecond) >> 12;
     quotient = FX_GetDivResult();
@@ -124,9 +119,8 @@ void QuaternionFromVec3AndAngleAroundY(Vec3 *direction, s32 angle, Quaternion *q
 }
 
 void QuaternionMultiplyAngleAroundYIgnoreY(Quaternion *quaternion, u32 angle, Quaternion *result) {
-    s32 pairIndex = (u16) (angle >> 1) >> 4;
-    s32 pairFirst = gPairsByAngle[pairIndex * 2];
-    s32 pairSecond = gPairsByAngle[pairIndex * 2 + 1];
+    s32 pairFirst = SIN_OF_ANGLE((u16) (angle >> 1));
+    s32 pairSecond = COS_OF_ANGLE((u16) (angle >> 1));
     result->mComponents[0] = (quaternion->mComponents[0] * pairSecond - quaternion->mComponents[2] * pairFirst) >> 12;
     result->mComponents[1] = (quaternion->mComponents[3] * pairFirst) >> 12;
     result->mComponents[2] = (quaternion->mComponents[2] * pairSecond + quaternion->mComponents[0] * pairFirst) >> 12;
@@ -144,9 +138,8 @@ void QuaternionMultiplyByYawIgnoreY(Quaternion *first, Quaternion *second, Quate
 
 void QuaternionMultiplyAngleAroundX(Quaternion *quaternion, s32 angle, Quaternion *result) {
     Quaternion source = *quaternion;
-    s32 pairIndex = (u16) (angle >> 1) >> 4;
-    s32 pairFirst = gPairsByAngle[pairIndex * 2];
-    s32 pairSecond = gPairsByAngle[pairIndex * 2 + 1];
+    s32 pairFirst = SIN_OF_ANGLE((u16) (angle >> 1));
+    s32 pairSecond = COS_OF_ANGLE((u16) (angle >> 1));
     result->mComponents[0] = (source.mComponents[3] * pairFirst + source.mComponents[0] * pairSecond) >> 12;
     result->mComponents[1] = (source.mComponents[1] * pairSecond + source.mComponents[2] * pairFirst) >> 12;
     result->mComponents[2] = (source.mComponents[2] * pairSecond - source.mComponents[1] * pairFirst) >> 12;
@@ -155,9 +148,8 @@ void QuaternionMultiplyAngleAroundX(Quaternion *quaternion, s32 angle, Quaternio
 
 void QuaternionMultiplyAngleAroundY(Quaternion *quaternion, s32 angle, Quaternion *result) {
     Quaternion source = *quaternion;
-    s32 pairIndex = (u16) (angle >> 1) >> 4;
-    s32 pairFirst = gPairsByAngle[pairIndex * 2];
-    s32 pairSecond = gPairsByAngle[pairIndex * 2 + 1];
+    s32 pairFirst = SIN_OF_ANGLE((u16) (angle >> 1));
+    s32 pairSecond = COS_OF_ANGLE((u16) (angle >> 1));
     result->mComponents[0] = (source.mComponents[0] * pairSecond - source.mComponents[2] * pairFirst) >> 12;
     result->mComponents[1] = (source.mComponents[3] * pairFirst + source.mComponents[1] * pairSecond) >> 12;
     result->mComponents[2] = (source.mComponents[2] * pairSecond + source.mComponents[0] * pairFirst) >> 12;
@@ -166,9 +158,8 @@ void QuaternionMultiplyAngleAroundY(Quaternion *quaternion, s32 angle, Quaternio
 
 void QuaternionMultiplyAngleAroundZ(Quaternion *quaternion, s32 angle, Quaternion *result) {
     Quaternion source = *quaternion;
-    s32 pairIndex = (u16) (angle >> 1) >> 4;
-    s32 pairFirst = gPairsByAngle[pairIndex * 2];
-    s32 pairSecond = gPairsByAngle[pairIndex * 2 + 1];
+    s32 pairFirst = SIN_OF_ANGLE((u16) (angle >> 1));
+    s32 pairSecond = COS_OF_ANGLE((u16) (angle >> 1));
     result->mComponents[0] = (source.mComponents[0] * pairSecond + source.mComponents[1] * pairFirst) >> 12;
     result->mComponents[1] = (source.mComponents[1] * pairSecond - source.mComponents[0] * pairFirst) >> 12;
     result->mComponents[2] = (source.mComponents[3] * pairFirst + source.mComponents[2] * pairSecond) >> 12;
@@ -177,9 +168,8 @@ void QuaternionMultiplyAngleAroundZ(Quaternion *quaternion, s32 angle, Quaternio
 
 void QuaternionMultiplyAngleAroundXIgnoreXZ(Quaternion *quaternion, s32 angle, Quaternion *result) {
     Quaternion source = *quaternion;
-    s32 pairIndex = (u16) (angle >> 1) >> 4;
-    s32 pairFirst = gPairsByAngle[pairIndex * 2];
-    s32 pairSecond = gPairsByAngle[pairIndex * 2 + 1];
+    s32 pairFirst = SIN_OF_ANGLE((u16) (angle >> 1));
+    s32 pairSecond = COS_OF_ANGLE((u16) (angle >> 1));
     result->mComponents[0] = (source.mComponents[3] * pairFirst) >> 12;
     result->mComponents[1] = (source.mComponents[1] * pairSecond) >> 12;
     result->mComponents[2] = (-source.mComponents[1] * pairFirst) >> 12;
@@ -235,30 +225,26 @@ void QuaternionFromVec3Degrees(Vec3 *degrees, Quaternion *result) {
     Quaternion partial;
     Quaternion afterX;
     Quaternion afterXY;
-    s32 pairIndex;
     s32 pairFirst;
     s32 pairSecond;
     s32 angle;
     angle = ((s64) degrees->x * 0xB60B60B60BLL + 0x80000000000LL) >> 44;
-    pairIndex = (u16) ((u16) angle >> 1) >> 4;
-    partial.mComponents[0] = gPairsByAngle[pairIndex * 2];
-    partial.mComponents[3] = gPairsByAngle[pairIndex * 2 + 1];
+    partial.mComponents[0] = SIN_OF_ANGLE((u16) ((u16) angle >> 1));
+    partial.mComponents[3] = COS_OF_ANGLE((u16) ((u16) angle >> 1));
     partial.mComponents[1] = 0;
     partial.mComponents[2] = 0;
     afterX = partial;
     angle = ((s64) degrees->y * 0xB60B60B60BLL + 0x80000000000LL) >> 44;
-    pairIndex = (u16) ((u16) angle >> 1) >> 4;
-    pairFirst = gPairsByAngle[pairIndex * 2];
-    pairSecond = gPairsByAngle[pairIndex * 2 + 1];
+    pairFirst = SIN_OF_ANGLE((u16) ((u16) angle >> 1));
+    pairSecond = COS_OF_ANGLE((u16) ((u16) angle >> 1));
     partial.mComponents[0] = (afterX.mComponents[0] * pairSecond - afterX.mComponents[2] * pairFirst) >> 12;
     partial.mComponents[2] = (afterX.mComponents[2] * pairSecond + afterX.mComponents[0] * pairFirst) >> 12;
     partial.mComponents[1] = (afterX.mComponents[3] * pairFirst + afterX.mComponents[1] * pairSecond) >> 12;
     partial.mComponents[3] = (afterX.mComponents[3] * pairSecond - afterX.mComponents[1] * pairFirst) >> 12;
     afterXY = partial;
     angle = ((s64) degrees->z * 0xB60B60B60BLL + 0x80000000000LL) >> 44;
-    pairIndex = (u16) ((u16) angle >> 1) >> 4;
-    pairFirst = gPairsByAngle[pairIndex * 2];
-    pairSecond = gPairsByAngle[pairIndex * 2 + 1];
+    pairFirst = SIN_OF_ANGLE((u16) ((u16) angle >> 1));
+    pairSecond = COS_OF_ANGLE((u16) ((u16) angle >> 1));
     result->mComponents[0] = (afterXY.mComponents[0] * pairSecond + afterXY.mComponents[1] * pairFirst) >> 12;
     result->mComponents[1] = (afterXY.mComponents[1] * pairSecond - afterXY.mComponents[0] * pairFirst) >> 12;
     result->mComponents[2] = (afterXY.mComponents[3] * pairFirst + afterXY.mComponents[2] * pairSecond) >> 12;
@@ -324,8 +310,7 @@ s32 Vec3NormalizeXZAndGetLengthOrZero(Vec3 *vector, Vec3 *result) {
 
 void Vec3RotateAroundY(Vec3 *vector, s32 angle, Vec3 *result) {
     MtxFx33 matrix;
-    s32 pairIndex = angle >> 4;
-    MTX_RotY33_(&matrix, gPairsByAngle[pairIndex * 2], gPairsByAngle[pairIndex * 2 + 1]);
+    MTX_RotY33_(&matrix, SIN_OF_ANGLE(angle), COS_OF_ANGLE(angle));
     MTX_MultVec33(vector, &matrix, result);
 }
 
@@ -334,13 +319,13 @@ void Matrix3x3FromVec3Degrees(Vec3 *degrees, MtxFx33 *matrix) {
     s32 angleX;
     s32 angleY;
     s32 angleZ;
-    angleX = (u16) ((((s64) degrees->x * 0xB60B60B60BLL) + 0x80000000000LL) >> 44);
-    angleY = (u16) ((((s64) degrees->y * 0xB60B60B60BLL) + 0x80000000000LL) >> 44);
-    angleZ = (u16) ((((s64) degrees->z * 0xB60B60B60BLL) + 0x80000000000LL) >> 44);
-    MTX_RotX33_(matrix, gPairsByAngle[(angleX >> 4) * 2], gPairsByAngle[(angleX >> 4) * 2 + 1]);
-    MTX_RotY33_(&rotation, gPairsByAngle[(angleY >> 4) * 2], gPairsByAngle[(angleY >> 4) * 2 + 1]);
+    angleX = DEG_TO_ANGLE(degrees->x);
+    angleY = DEG_TO_ANGLE(degrees->y);
+    angleZ = DEG_TO_ANGLE(degrees->z);
+    MTX_RotX33_(matrix, FX_SinIdx(angleX), FX_CosIdx(angleX));
+    MTX_RotY33_(&rotation, FX_SinIdx(angleY), FX_CosIdx(angleY));
     MTX_Concat33(matrix, &rotation, matrix);
-    MTX_RotZ33_(&rotation, gPairsByAngle[(angleZ >> 4) * 2], gPairsByAngle[(angleZ >> 4) * 2 + 1]);
+    MTX_RotZ33_(&rotation, FX_SinIdx(angleZ), FX_CosIdx(angleZ));
     MTX_Concat33(matrix, &rotation, matrix);
 }
 
@@ -539,8 +524,8 @@ MapObjectList *CreateRockUpdateList(void) {
 
 void SetupDrawRock(void) {
     s32 pairIndex = (s32) (GetRaceUpdateFrames() << 25 >> 16) >> 4;
-    MTX_RotY33_(&gRockDrawList->mShadowMatrix.mAxes, gPairsByAngle[pairIndex * 2],
-                gPairsByAngle[pairIndex * 2 + 1]);
+    MTX_RotY33_(&gRockDrawList->mShadowMatrix.mAxes, FX_SinCosTable_[pairIndex * 2],
+                FX_SinCosTable_[pairIndex * 2 + 1]);
 }
 
 void DrawRock(void *unused0, RockObject *rock, void *unused1, s32 alpha) {

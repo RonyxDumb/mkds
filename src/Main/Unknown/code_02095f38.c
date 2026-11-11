@@ -178,7 +178,8 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *b, u
             }
         }
     }
-    coverPooHole->mMapObject.mDistanceSquaredAndFlags = coverPooHole->mMapObject.mDistanceSquaredAndFlags | data_021564bc;
+    coverPooHole->mMapObject.mDistanceSquaredAndFlags =
+        coverPooHole->mMapObject.mDistanceSquaredAndFlags | data_021564bc;
     coverPooHole->mMapObject.mPosStep.x = 0;
     coverPooHole->mMapObject.mPosStep.y = 0;
     coverPooHole->mMapObject.mPosStep.z = 0;
@@ -212,7 +213,8 @@ u32 CollideItemObjectWithCoverPooHole(CoverPooHole *coverPooHole, ItemObject *a,
         coverPooHole->mUnk_f8 = -0x30;
         coverPooHole->mUnk_fc = 0x800;
         coverPooHole->mUnk_100 = 0x100;
-        coverPooHole->mMapObject.mDistanceSquaredAndFlags = coverPooHole->mMapObject.mDistanceSquaredAndFlags | data_021564b8;
+        coverPooHole->mMapObject.mDistanceSquaredAndFlags =
+            coverPooHole->mMapObject.mDistanceSquaredAndFlags | data_021564b8;
         if ((coverPooHole->mMapObject.mFlags & 0x800) == 0) {
             coverPooHole->mState = 7;
         }
@@ -330,7 +332,7 @@ void DrawCoverPooHole(void *a, CoverPooHole *coverPooHole) {
     L:
         e = coverPooHole->mUnk_c8;
         k = ((u16) coverPooHole->mUnk_e8 >> 4) * 2;
-        v1 = gPairsByAngle[k];
+        v1 = FX_SinCosTable_[k];
         r = MUL_FIXED12_NO_ROUND(v1, 0x7000);
         if (r <= 0) {
             r = -r;
@@ -342,9 +344,9 @@ void DrawCoverPooHole(void *a, CoverPooHole *coverPooHole) {
         f3[2] = 0;
         NNS_G3dGeBufferOP_N(0x1c, f3, 3);
         j = (e >> 4) * 2;
-        MTX_RotY33_(&m, gPairsByAngle[j], gPairsByAngle[j + 1]);
+        MTX_RotY33_(&m, FX_SinCosTable_[j], FX_SinCosTable_[j + 1]);
         NNS_G3dGeBufferOP_N(0x1a, &m, 9);
-        MTX_RotZ33_(&m, v1, gPairsByAngle[k + 1]);
+        MTX_RotZ33_(&m, v1, FX_SinCosTable_[k + 1]);
         NNS_G3dGeBufferOP_N(0x1a, &m, 9);
     } else {
         t = coverPooHole->mCoverHeight >> 4;
@@ -385,7 +387,7 @@ void InitCoverPooHoleObjects(MapObjectList *mapObjectList) {
 }
 
 s32 CoverPooHoleFX_SinIdx(s32 angle) {
-    return gPairsByAngle[(angle >> 4) * 2];
+    return FX_SinIdx(angle);
 }
 
 s32 CoverPooHoleFX_MulInline(s32 a, s32 b) {
@@ -597,7 +599,8 @@ void UpdateCoverPooHole(void *a, CoverPooHole *coverPooHole) {
                 coverPooHole->mPooHeight = coverPooHole->mCoverHeight - 0xf000;
                 return;
             }
-            coverPooHole->mTimer = (u16) (coverPooHole->mMapObject.mCourseMapRow->mUnk_28 + func_02095fec_inline(60) - 30);
+            coverPooHole->mTimer =
+                (u16) (coverPooHole->mMapObject.mCourseMapRow->mUnk_28 + func_02095fec_inline(60) - 30);
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 coverPooHole->mState = 3;
                 coverPooHole->mCoverHeight = 0x2000;

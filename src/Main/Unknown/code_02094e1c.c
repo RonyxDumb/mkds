@@ -16,6 +16,7 @@
 #include "Main/Unknown/code_0209bf70.h"
 #include "Main/Unknown/code_02077bc0.h"
 #include "Main/Unknown/code_021000d0.h"
+#include "code_02147cd8.h"
 
 void InitTeresaSpawner(TeresaSpawner *mapObject) {
     CreateParkedMapObjects(MAP_OBJECT_KIND_TERESA, mapObject->mMapObject.mCourseMapRow->mUnk_2a, mapObject);
@@ -109,7 +110,7 @@ u16 NextRandomU16(RandomState64 *randomState64) {
 }
 
 s16 TeresaSpawnerFX_SinIdx(s32 angle) {
-    return gPairsByAngle[(angle >> 4) * 2];
+    return FX_SinIdx(angle);
 }
 
 s32 TeresaSpawnerMulFixed12NoRound(s32 multiplicand, s32 multiplier) {
@@ -117,7 +118,7 @@ s32 TeresaSpawnerMulFixed12NoRound(s32 multiplicand, s32 multiplier) {
 }
 
 s16 TeresaSpawnerFX_CosIdx(s32 angle) {
-    return gPairsByAngle[(angle >> 4) * 2 + 1];
+    return FX_CosIdx(angle);
 }
 
 void UpdateTeresaSpawner(void *mapObjectList, TeresaSpawner *spawner) {

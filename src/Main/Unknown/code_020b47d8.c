@@ -45,8 +45,8 @@ void Matrix2x2ReciprocalScale(MtxFx22 *matrix, s32 scale) {
 }
 
 void Matrix2x2Rotation(MtxFx22 *matrix, s32 angle) {
-    s32 anglePairFirst = gPairsByAngle[(angle >> 4) * 2];
-    s32 anglePairSecond = gPairsByAngle[(angle >> 4) * 2 + 1];
+    s32 anglePairFirst = FX_SinIdx(angle);
+    s32 anglePairSecond = FX_CosIdx(angle);
 
     matrix->mUnk_00[0] = anglePairSecond;
     matrix->mUnk_00[1] = anglePairFirst;
@@ -55,20 +55,19 @@ void Matrix2x2Rotation(MtxFx22 *matrix, s32 angle) {
 }
 
 void Matrix2x2ReflectedRotation(MtxFx22 *matrix, s32 angle) {
-    s32 anglePairSecond = gPairsByAngle[(angle >> 4) * 2 + 1];
+    s32 anglePairSecond = FX_CosIdx(angle);
     s32 anglePairFirst;
 
     matrix->mUnk_00[0] = -anglePairSecond;
-    anglePairFirst = gPairsByAngle[(angle >> 4) * 2];
+    anglePairFirst = FX_SinIdx(angle);
     matrix->mUnk_00[1] = anglePairFirst;
     matrix->mUnk_00[2] = anglePairFirst;
     matrix->mUnk_00[3] = anglePairSecond;
 }
 
 void Matrix2x2RotationReciprocalScale(MtxFx22 *matrix, s32 scale, s32 angle) {
-    s32 angleIndex = angle >> 4;
-    s32 anglePairFirst = gPairsByAngle[angleIndex * 2];
-    s32 anglePairSecond = gPairsByAngle[angleIndex * 2 + 1];
+    s32 anglePairFirst = SIN_OF_ANGLE(angle);
+    s32 anglePairSecond = COS_OF_ANGLE(angle);
     s32 reciprocal;
 
     if (scale != 0) {

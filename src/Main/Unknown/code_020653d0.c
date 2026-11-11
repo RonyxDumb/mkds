@@ -185,10 +185,10 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
                     stateAgain->mEasedTurnAngle +
                     MUL_FIXED12_ROUNDED(stateAgain->mTargetTurnAngle - stateAgain->mEasedTurnAngle, 0x333);
                 kart->mTurnAngle = stateAgain->mEasedTurnAngle;
-                MTX_RotAxis33(&turnMatrix, &kart->mUnk_12c, gPairsByAngle[((u16) kart->mTurnAngle >> 4) * 2],
-                              gPairsByAngle[((u16) kart->mTurnAngle >> 4) * 2 + 1]);
+                MTX_RotAxis33(&turnMatrix, &kart->mUnk_12c, FX_SinIdx((u16) kart->mTurnAngle),
+                              FX_CosIdx((u16) kart->mTurnAngle));
                 if (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE) {
-                    MTX_RotAxis33(&fixedAngleMatrix, &kart->mUnk_120, gPairsByAngle[0xba], gPairsByAngle[0xbb]);
+                    MTX_RotAxis33(&fixedAngleMatrix, &kart->mUnk_120, SIN_OF_ANGLE(0x5d0), COS_OF_ANGLE(0x5d0));
                     MTX_Concat33(&fixedAngleMatrix, &turnMatrix, &turnMatrix);
                 }
                 MTX_MultVec33(&kart->mForward, &turnMatrix, &kart->mTurnedForward);

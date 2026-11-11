@@ -18,6 +18,7 @@
 #include "Main/Unknown/code_02039860.h"
 #include "Main/Unknown/code_0206bcb0.h"
 #include "code_021471bc.h"
+#include "code_02147cd8.h"
 
 // Copies the view matrix and builds its transposed rotation and three more matrices from it.
 void SetViewMatrices(MtxFx43 *viewMatrix) {
@@ -276,7 +277,6 @@ void DrawNsbmdModelWithMatrixAndMaxAlpha(NsbmdModel *model, MtxFx43 *matrix, Vec
 
 void DrawNsbmdModelWithMatrixAndAngle(NsbmdModel *model, MtxFx43 *matrix, s32 angle, Vec3 *scale, s32 usePosition,
                                       u16 maxAlpha) {
-    s32 angleIndex;
     u32 commandArg;
     Vec3 scaleCopy;
     s32 scaleX;
@@ -287,8 +287,7 @@ void DrawNsbmdModelWithMatrixAndAngle(NsbmdModel *model, MtxFx43 *matrix, s32 an
     NNS_G3dGeBufferOP_N(0x14, &commandArg, 1);
     NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
     if (angle != 0) {
-        angleIndex = angle >> 4;
-        MTX_RotZ33_(gRotationZMatrix, gPairsByAngle[angleIndex * 2], gPairsByAngle[angleIndex * 2 + 1]);
+        MTX_RotZ33_(gRotationZMatrix, SIN_OF_ANGLE(angle), COS_OF_ANGLE(angle));
         NNS_G3dGeBufferOP_N(0x1a, gRotationZMatrix, 9);
     }
     if (scale != NULL) {

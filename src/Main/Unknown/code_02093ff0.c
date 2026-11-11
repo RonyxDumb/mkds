@@ -22,6 +22,7 @@
 #include "Main/Unknown/unk_02166000.h"
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/code_02077bc0.h"
+#include "code_02147cd8.h"
 
 void InitTeresa(MapObject *mapObject) {
     ParkMapObject(mapObject);
@@ -108,7 +109,7 @@ void InitTeresaObjects(MapObjectList *mapObjectList) {
 }
 
 s16 TeresaFX_SinIdx(s32 angle) {
-    return gPairsByAngle[(angle >> 4) * 2];
+    return FX_SinIdx(angle);
 }
 
 s32 TeresaFX_MulInline(s32 multiplicand, s32 multiplier) {
@@ -116,7 +117,7 @@ s32 TeresaFX_MulInline(s32 multiplicand, s32 multiplier) {
 }
 
 s16 TeresaFX_CosIdx(s32 angle) {
-    return gPairsByAngle[(angle >> 4) * 2 + 1];
+    return FX_CosIdx(angle);
 }
 
 void UpdateTeresa(void *a, Teresa *teresa) {
@@ -178,19 +179,16 @@ void UpdateTeresa(void *a, Teresa *teresa) {
     yWobbleValue = teresa->mYWobble.mValue;
     n = teresa->mUnk_10c;
     if (GetCurrentCameraKind() == 2) {
-        teresa->mMapObject.mPos.x =
-            teresa->mStartPos.x + MUL_FIXED12_NO_ROUND(n, gPairsByAngle[(angleWobbleValue >> 4) * 2 + 1]);
+        teresa->mMapObject.mPos.x = teresa->mStartPos.x + MUL_FIXED12_NO_ROUND(n, FX_CosIdx(angleWobbleValue));
         teresa->mMapObject.mPos.y = teresa->mStartPos.y + yWobbleValue;
-        teresa->mMapObject.mPos.z =
-            teresa->mStartPos.z + MUL_FIXED12_NO_ROUND(n, gPairsByAngle[(angleWobbleValue >> 4) * 2]);
+        teresa->mMapObject.mPos.z = teresa->mStartPos.z + MUL_FIXED12_NO_ROUND(n, FX_SinIdx(angleWobbleValue));
     } else {
         kart = GetKart((u16) gRaceSetup->mEntryIndex);
         teresa->mMapObject.mPos.x =
-            kart->mPos.x +
-            (teresa->mStartPos.x + MUL_FIXED12_NO_ROUND(n, gPairsByAngle[(angleWobbleValue >> 4) * 2 + 1]));
+            kart->mPos.x + (teresa->mStartPos.x + MUL_FIXED12_NO_ROUND(n, FX_CosIdx(angleWobbleValue)));
         teresa->mMapObject.mPos.y = teresa->mStartPos.y + yWobbleValue;
         teresa->mMapObject.mPos.z =
-            kart->mPos.z + (teresa->mStartPos.z + MUL_FIXED12_NO_ROUND(n, gPairsByAngle[(angleWobbleValue >> 4) * 2]));
+            kart->mPos.z + (teresa->mStartPos.z + MUL_FIXED12_NO_ROUND(n, FX_SinIdx(angleWobbleValue)));
     }
 }
 

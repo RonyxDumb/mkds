@@ -120,7 +120,8 @@ void InitItemKouraWCommon(ItemKouraW *item) {
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mSoundSource.mTrackParamsFunction =
         (void (*)(void *, void *, void *)) SetItemKouraWSoundTrackParams;
     item->mLinkFollowingItemObject.mDirectedItemObject.mUnk_160 = 0;
-    item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos = item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos;
+    item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos =
+        item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos;
     FreeItemObjectCollisionSlot(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject);
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags |= 0x200000;
     ClearItemKouraWKartItemsAndAngle(item);
@@ -141,9 +142,10 @@ void InitItemKouraWCommon(ItemKouraW *item) {
     item->mSmoothedDirectionDelta.x = 0;
     item->mSmoothedDirectionDelta.y = 0;
     item->mSmoothedDirectionDelta.z = 0;
-    VEC_Subtract(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity, &item->mSmoothedDirectionDelta,
-                 &item->mPreviousDirection);
-    item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPosPointer = &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos;
+    VEC_Subtract(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity,
+                 &item->mSmoothedDirectionDelta, &item->mPreviousDirection);
+    item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPosPointer =
+        &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos;
     InitCourseColorBlend(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mColorBlend, 1);
 }
 
@@ -156,7 +158,10 @@ void SetItemKouraWKartItemsAndStateIfNone(ItemKouraW *item, s32 kartIndex) {
     SetItemKouraWKartItems(item, kartIndex);
     kart = item->mKartItems->mKart;
     item->mStateMachine.mNextState =
-        ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) || (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE)) ? 2 : 3;
+        ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) ||
+         (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE))
+            ? 2
+            : 3;
     item->mStateMachine.mNextStateRequested = 1;
 }
 
@@ -165,18 +170,21 @@ s32 InitItemKouraW(ItemInUse *itemInUse, ItemKouraW *item) {
 
     StartItemObjectSoundSource(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject);
     if (itemInUse->mKartItems->mItemLink.mLink != NULL) {
-        InitLinkFollowingItemFromInUse(&item->mLinkFollowingItemObject, itemInUse, 0x14, 0xcc, 1, 1, 0, 0x6000, item->mRankKartIndex,
-                                       1);
+        InitLinkFollowingItemFromInUse(&item->mLinkFollowingItemObject, itemInUse, 0x14, 0xcc, 1, 1, 0, 0x6000,
+                                       item->mRankKartIndex, 1);
         SetStateMachineState(&item->mStateMachine, 1);
     } else {
         SetItemKouraWKartItems(item, (u16) gRaceProgress->mKartAtRank[0]);
         kart = item->mKartItems->mKart;
         item->mStateMachine.mNextState =
-            ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) || (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE)) ? 2
-                                                                                                                   : 3;
+            ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) ||
+             (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE))
+                ? 2
+                : 3;
         item->mStateMachine.mNextStateRequested = 1;
         if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x8000000) {
-            AddItemDataItemIdAndKart(5, item->mKartItems->mKartIndex, item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mId);
+            AddItemDataItemIdAndKart(5, item->mKartItems->mKartIndex,
+                                     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mId);
         }
     }
     InitItemKouraWCommon(item);
@@ -197,21 +205,26 @@ void UpdateItemKouraWDrawPos(ItemKouraW *item) {
     a = item->mLift;
     if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) {
         item->mDrawOffsetAngle += 0x5dc;
-        angleFactor = gPairsByAngle[(item->mDrawOffsetAngle >> 4) * 2];
-        VEC_MultAdd(a + MUL_FIXED12_NO_ROUND(item->mUnk_264, angleFactor), &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mNormal,
+        angleFactor = FX_SinIdx(item->mDrawOffsetAngle);
+        VEC_MultAdd(a + MUL_FIXED12_NO_ROUND(item->mUnk_264, angleFactor),
+                    &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mNormal,
                     &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos, &buf);
         VEC_Subtract(&buf, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos, &buf);
         VEC_MultAdd(0x333, &buf, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos,
                     &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos);
     } else {
-        item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos.y += item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity.y >> 1;
+        item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos.y +=
+            item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity.y >> 1;
         item->mDrawOffsetAngle += 0x5dc;
-        angleFactor = gPairsByAngle[(item->mDrawOffsetAngle >> 4) * 2];
+        angleFactor = FX_SinIdx(item->mDrawOffsetAngle);
         a += MUL_FIXED12_NO_ROUND(item->mUnk_264, angleFactor);
-        a = a + item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos.y - item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos.y;
+        a = a + item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos.y -
+            item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos.y;
         item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos.y += MUL_FIXED12_NO_ROUND(a, 0x19a);
-        item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos.x = item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos.x;
-        item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos.z = item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos.z;
+        item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos.x =
+            item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos.x;
+        item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos.z =
+            item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos.z;
     }
 }
 
@@ -224,15 +237,18 @@ void UpdateItemKouraWOrientation(ItemKouraW *item, Vec3 *direction, s32 followDe
 
     if (normal != NULL) {
         if (LENGTH_SQUARED(*direction) >= 0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(direction, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[2]);
+            Vec3NormalizeAndGetLengthUnchecked(
+                direction, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[2]);
         }
         smoothedDelta->x = MUL_FIXED12_NO_ROUND(smoothedDelta->x, 0xccd);
         smoothedDelta->y = MUL_FIXED12_NO_ROUND(smoothedDelta->y, 0xccd);
         smoothedDelta->z = MUL_FIXED12_NO_ROUND(smoothedDelta->z, 0xccd);
         VEC_MultAdd(0x3000, smoothedDelta, normal, &buf);
-        Vec3CrossUnrounded(&buf, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[2], &buf);
+        Vec3CrossUnrounded(&buf, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[2],
+                           &buf);
         if (LENGTH_SQUARED(buf) >= 0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(&buf, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0]);
+            Vec3NormalizeAndGetLengthUnchecked(
+                &buf, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0]);
         }
     } else {
         if (LENGTH_SQUARED(*direction) >= 0x10) {
@@ -262,8 +278,9 @@ void UpdateItemKouraWOrientation(ItemKouraW *item, Vec3 *direction, s32 followDe
                 (s64) item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0].z *
                     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0].z >=
             0x10) {
-            ok = Vec3NormalizeAndGetLengthUnchecked(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0],
-                                                    &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0]);
+            ok = Vec3NormalizeAndGetLengthUnchecked(
+                &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0],
+                &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0]);
         } else {
             ok = 0;
         }
@@ -292,12 +309,14 @@ void UpdateItemKouraWState0(ItemKouraW *item) {
     if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1) {
         return;
     }
-    AdvanceSoundDistanceSquaredChange(&item->mSoundDistanceSquaredChange,
-                                      item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDistanceSquaredAndFlags & ~0xc000001f);
+    AdvanceSoundDistanceSquaredChange(
+        &item->mSoundDistanceSquaredChange,
+        item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDistanceSquaredAndFlags & ~0xc000001f);
     if (item->mSoundId == 1) {
         return;
     }
-    StartSoundWhileRequested(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mSoundSource, item->mSoundId, 0x7f, 0);
+    StartSoundWhileRequested(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mSoundSource,
+                             item->mSoundId, 0x7f, 0);
 }
 
 static inline Vec3 *func_020fbd98_inline(ItemKouraW *item) {
@@ -323,19 +342,23 @@ void UpdateItemKouraWState1(ItemKouraW *item) {
     }
     AdvanceLinkFollowingItem(&item->mLinkFollowingItemObject, item->mUnk_27c, 0x21, item->mRankKartIndex, 1);
     if (!(item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1)) {
-        AdvanceSoundDistanceSquaredChange(&item->mSoundDistanceSquaredChange,
-                                          item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDistanceSquaredAndFlags & ~0xc000001f);
+        AdvanceSoundDistanceSquaredChange(
+            &item->mSoundDistanceSquaredChange,
+            item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDistanceSquaredAndFlags & ~0xc000001f);
         if (item->mSoundId != 1) {
-            StartSoundWhileRequested(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mSoundSource, item->mSoundId, 0x7f, 0);
+            StartSoundWhileRequested(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mSoundSource,
+                                     item->mSoundId, 0x7f, 0);
         }
     }
-    item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity.y -= MUL_FIXED12_NO_ROUND(item->mLinkFollowingItemObject.mDirectedItemObject.mSpeed, 0x66);
+    item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity.y -=
+        MUL_FIXED12_NO_ROUND(item->mLinkFollowingItemObject.mDirectedItemObject.mSpeed, 0x66);
     if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1) {
         return;
     }
     UpdateItemKouraWDrawPos(item);
     normal = func_020fbd98_inline(item);
-    UpdateItemKouraWOrientation(item, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity, 1, normal);
+    UpdateItemKouraWOrientation(item, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity, 1,
+                                normal);
     if (item->mRankTargetSkipped == 0) {
         if (gRaceProgress->mRaceDone != 0) {
             item->mRank = 1;
@@ -348,8 +371,11 @@ void UpdateItemKouraWState1(ItemKouraW *item) {
             }
         }
         if (item->mRankKartIndex ==
-                (u16) (!(item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags & 0x8000)
-                           ? (u16) (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags & ~0xff00)
+                (u16) (!(item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags &
+                         0x8000)
+                           ? (u16) (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject
+                                        .mOwnerKartIndexAndFlags &
+                                    ~0xff00)
                            : 8) ||
             IsKartRemoved(GetKart(item->mRankKartIndex)) != 0) {
             item->mRankTargetSkipped = 1;
@@ -370,12 +396,15 @@ void UpdateItemKouraWState1(ItemKouraW *item) {
     }
     if (TrySetItemKouraWKartItems(item, item->mRankKartIndex) != 0) {
         kart = item->mKartItems->mKart;
-        r = ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) || (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE)) ? 2
-                                                                                                                   : 3;
+        r = ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) ||
+             (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE))
+                ? 2
+                : 3;
         item->mStateMachine.mNextState = r;
         item->mStateMachine.mNextStateRequested = 1;
         if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x8000000) {
-            AddItemDataItemIdAndKart(5, item->mKartItems->mKartIndex, item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mId);
+            AddItemDataItemIdAndKart(5, item->mKartItems->mKartIndex,
+                                     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mId);
         }
         return;
     }
@@ -383,12 +412,15 @@ void UpdateItemKouraWState1(ItemKouraW *item) {
     if ((item->mKartMask & (1 << r)) != 0 && item->mRankKartIndex != r && IsKartEnded(r) != 0 &&
         TrySetItemKouraWKartItems(item, r) != 0) {
         kart = item->mKartItems->mKart;
-        v = ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) || (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE)) ? 2
-                                                                                                                   : 3;
+        v = ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) ||
+             (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE))
+                ? 2
+                : 3;
         item->mStateMachine.mNextState = v;
         item->mStateMachine.mNextStateRequested = 1;
         if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x8000000) {
-            AddItemDataItemIdAndKart(5, item->mKartItems->mKartIndex, item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mId);
+            AddItemDataItemIdAndKart(5, item->mKartItems->mKartIndex,
+                                     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mId);
         }
         return;
     }
@@ -404,7 +436,10 @@ void UpdateItemKouraWState1(ItemKouraW *item) {
     }
     SetItemKouraWKartItems(item, (u16) v);
     kart = item->mKartItems->mKart;
-    r = ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) || (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE)) ? 2 : 3;
+    r = ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) ||
+         (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE))
+            ? 2
+            : 3;
     item->mStateMachine.mNextState = r;
     item->mStateMachine.mNextStateRequested = 1;
 }
@@ -424,7 +459,8 @@ void UpdateItemKouraWState3(ItemKouraW *item) {
 
     kart = item->mKartItems->mKart;
     gain = 0x800;
-    if ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x10000000) && (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
+    if ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x10000000) &&
+        (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
         gain += 0x19a;
     }
     if (item->mUnk_27c > 0xd000) {
@@ -434,10 +470,12 @@ void UpdateItemKouraWState3(ItemKouraW *item) {
     }
     SteerItemKouraWAtAngleZero(item, gain, item->mUnk_27c, item->mUnk_284);
     if (!(item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1)) {
-        AdvanceSoundDistanceSquaredChange(&item->mSoundDistanceSquaredChange,
-                                          item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDistanceSquaredAndFlags & ~0xc000001f);
+        AdvanceSoundDistanceSquaredChange(
+            &item->mSoundDistanceSquaredChange,
+            item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDistanceSquaredAndFlags & ~0xc000001f);
         if (item->mSoundId != 1) {
-            StartSoundWhileRequested(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mSoundSource, item->mSoundId, 0x7f, 0);
+            StartSoundWhileRequested(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mSoundSource,
+                                     item->mSoundId, 0x7f, 0);
         }
     }
     if (HORIZONTAL_LENGTH_SQUARED(item->mToTarget) < 0x1900000000LL) {
@@ -446,7 +484,8 @@ void UpdateItemKouraWState3(ItemKouraW *item) {
     }
     UpdateItemKouraWDrawPos(item);
     normal = func_020fbd98_inline(item);
-    UpdateItemKouraWOrientation(item, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity, 1, normal);
+    UpdateItemKouraWOrientation(item, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity, 1,
+                                normal);
 }
 
 void UpdateItemKouraWState2(ItemKouraW *item) {
@@ -461,10 +500,12 @@ void UpdateItemKouraWState2(ItemKouraW *item) {
     }
     AdvanceLinkFollowingItem(&item->mLinkFollowingItemObject, item->mUnk_27c, 0x21, item->mRankKartIndex, 1);
     if (!(item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1)) {
-        AdvanceSoundDistanceSquaredChange(&item->mSoundDistanceSquaredChange,
-                                          item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDistanceSquaredAndFlags & ~0xc000001f);
+        AdvanceSoundDistanceSquaredChange(
+            &item->mSoundDistanceSquaredChange,
+            item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDistanceSquaredAndFlags & ~0xc000001f);
         if (item->mSoundId != 1) {
-            StartSoundWhileRequested(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mSoundSource, item->mSoundId, 0x7f, 0);
+            StartSoundWhileRequested(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mSoundSource,
+                                     item->mSoundId, 0x7f, 0);
         }
     }
     if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1) {
@@ -472,7 +513,8 @@ void UpdateItemKouraWState2(ItemKouraW *item) {
     }
     UpdateItemKouraWDrawPos(item);
     normal = func_020fbd98_inline(item);
-    UpdateItemKouraWOrientation(item, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity, 1, normal);
+    UpdateItemKouraWOrientation(item, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity, 1,
+                                normal);
     link = item->mKartItems->mItemLink.mLink;
     for (i = 0; i < 4; i++) {
         if (link == item->mLinkFollowingItemObject.mTargetLink.mLink) {
@@ -492,7 +534,8 @@ void EnterItemKouraWState4(ItemKouraW *item) {
         item->mPosStrip = NULL;
     }
     if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x8000000) {
-        AddItemDataItemIdAndKart(5, item->mKartItems->mKartIndex, item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mId);
+        AddItemDataItemIdAndKart(5, item->mKartItems->mKartIndex,
+                                 item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mId);
     }
 }
 
@@ -514,10 +557,12 @@ void UpdateItemKouraWState4(ItemKouraW *item) {
     }
     SteerItemKouraWToNextAnglePoint(item, 0x4cd, item->mUnk_27c, item->mUnk_284, item->mAngleStep);
     if (!(item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1)) {
-        AdvanceSoundDistanceSquaredChange(&item->mSoundDistanceSquaredChange,
-                                          item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDistanceSquaredAndFlags & ~0xc000001f);
+        AdvanceSoundDistanceSquaredChange(
+            &item->mSoundDistanceSquaredChange,
+            item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDistanceSquaredAndFlags & ~0xc000001f);
         if (item->mSoundId != 1) {
-            StartSoundWhileRequested(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mSoundSource, item->mSoundId, 0x7f, 0);
+            StartSoundWhileRequested(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mSoundSource,
+                                     item->mSoundId, 0x7f, 0);
         }
     }
     UpdateItemKouraWDrawPos(item);
@@ -547,9 +592,12 @@ void UpdateItemKouraWState4(ItemKouraW *item) {
 void EnterItemKouraWState5(ItemKouraW *item) {
     enum { K0 } kind;
 
-    if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPosPointer == &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos) {
-        item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos = item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos;
-        item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPosPointer = &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos;
+    if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPosPointer ==
+        &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos) {
+        item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos =
+            item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos;
+        item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPosPointer =
+            &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos;
     }
     item->mLift = 0x28000;
     item->mUnk_264 = 0x333;
@@ -617,26 +665,31 @@ void UpdateItemKouraWState6(ItemKouraW *item) {
     if (item->mLift < -0x32000) {
         FadeOutEndedItemObject(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject, 0);
         if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x8000000) {
-            AddItemDataItemIdAndKart(5, item->mKartItems->mKartIndex, item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mId);
+            AddItemDataItemIdAndKart(5, item->mKartItems->mKartIndex,
+                                     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mId);
         }
     } else {
         Vec3 *position;
 
         position = &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos;
-        if (CollideSphereWithCourse(position, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPrevPos, 0,
-                                    item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCourseRadius, 4,
-                                    item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionSlotIndex, &hitOffset, NULL, NULL,
-                                    &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionBits, NULL, NULL, NULL, NULL) != 0) {
+        if (CollideSphereWithCourse(position, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPrevPos,
+                                    0, item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCourseRadius, 4,
+                                    item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionSlotIndex,
+                                    &hitOffset, NULL, NULL,
+                                    &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionBits,
+                                    NULL, NULL, NULL, NULL) != 0) {
             VEC_Add(&hitOffset, position, position);
             FadeOutEndedItemObject(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject, 0);
             if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x8000000) {
-                AddItemDataItemIdAndKart(5, item->mKartItems->mKartIndex, item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mId);
+                AddItemDataItemIdAndKart(5, item->mKartItems->mKartIndex,
+                                         item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mId);
             }
         }
     }
-    grew = GrowItemObjectScale(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject,
-                               gItemKinds[item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mKind].mTargetScale,
-                               gItemKinds[item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mKind].mScaleStep);
+    grew = GrowItemObjectScale(
+        &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject,
+        gItemKinds[item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mKind].mTargetScale,
+        gItemKinds[item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mKind].mScaleStep);
     if (EaseItemObjectScale(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject) != 0) {
         return;
     }
@@ -653,8 +706,9 @@ void EnterItemKouraWState7(ItemKouraW *item) {
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags |= 0x800000;
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mUnk_100 = 0;
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScale = gKouraWState7StartScale;
-    item->mModelEffect = StartModelEffect(1, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos,
-                                          IsItemObjectTooFarForEffects(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject) == 0 ? 1 : 0);
+    item->mModelEffect = StartModelEffect(
+        1, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos,
+        IsItemObjectTooFarForEffects(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject) == 0 ? 1 : 0);
     effect = item->mModelEffect;
     if (effect != NULL) {
         effectScale = effect->mScale;
@@ -675,14 +729,16 @@ void EnterItemKouraWState7(ItemKouraW *item) {
             NNS_SndArcPlayerStartSeqArc(sndHandle, 0, 0xe0);
         }
     }
-    StartCameraWobbleAtDistance(item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDistanceSquaredAndFlags & ~0xc000001f, 0x1000);
+    StartCameraWobbleAtDistance(
+        item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDistanceSquaredAndFlags & ~0xc000001f, 0x1000);
 }
 
 void UpdateItemKouraWState7(ItemKouraW *item) {
     u32 stateFrames;
 
     stateFrames = item->mStateMachine.mStateFrames;
-    if (GrowItemObjectScale(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject, gKouraWState7ScaleLimit, gKouraWState7ScaleStep)) {
+    if (GrowItemObjectScale(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject, gKouraWState7ScaleLimit,
+                            gKouraWState7ScaleStep)) {
         RefreshItemObjectScaleExact(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject);
     }
     if (stateFrames < 0x16) {
@@ -696,7 +752,8 @@ void UpdateItemKouraWState7(ItemKouraW *item) {
     if (stateFrames <= 0x55) {
         return;
     }
-    ReleaseItemPoolObject(&gItemPools[item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mKind], &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject);
+    ReleaseItemPoolObject(&gItemPools[item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mKind],
+                          &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject);
 }
 
 void *CopyItemKouraWData(void *cursor, ItemKouraW *item, void *toData) {
@@ -704,16 +761,18 @@ void *CopyItemKouraWData(void *cursor, ItemKouraW *item, void *toData) {
     void *cursorAfterObject;
 
     if (item != NULL && toData != NULL) {
-        StoreItemDataFlagBit(
-            Vec3DotUnrounded(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity, &item->mLinkFollowingItemObject.mDirectedItemObject.mDirection) < 0 ? 1
-                                                                                                                   : 0,
-            &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity.y);
+        StoreItemDataFlagBit(Vec3DotUnrounded(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity,
+                                              &item->mLinkFollowingItemObject.mDirectedItemObject.mDirection) < 0
+                                 ? 1
+                                 : 0,
+                             &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity.y);
     }
     cursorAfterObject = CopyItemObjectData(cursor, item, toData);
-    cursorAfterLink =
-        CopyItemPointLinkIndex(cursorAfterObject, item != NULL ? (void *) &item->mLinkFollowingItemObject.mPreviousLink : 0, toData);
+    cursorAfterLink = CopyItemPointLinkIndex(
+        cursorAfterObject, item != NULL ? (void *) &item->mLinkFollowingItemObject.mPreviousLink : 0, toData);
     if (item != NULL && toData == NULL) {
-        LoadItemDataFlagBit(item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity.y, &item->mReverse);
+        LoadItemDataFlagBit(item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity.y,
+                            &item->mReverse);
     }
     if (item != NULL && toData != NULL) {
         return AddItemDataSizedByKind(item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mKind);
@@ -729,17 +788,18 @@ void InitItemKouraWFromData(ItemKouraW *item) {
 
     SetupItemObjectFromData(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject);
     if (item->mLinkFollowingItemObject.mPreviousLink.mLink != NULL) {
-        InitLinkFollowingItem(&item->mLinkFollowingItemObject, 0x14, 0xcc, 1, 0, item->mReverse, gRaceProgress->mKartAtRank[0], 1);
+        InitLinkFollowingItem(&item->mLinkFollowingItemObject, 0x14, 0xcc, 1, 0, item->mReverse,
+                              gRaceProgress->mKartAtRank[0], 1);
         SetStateMachineState(&item->mStateMachine, 1);
     } else if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x8000000) {
         kartIndex = (u16) gRaceProgress->mKartAtRank[0];
         if (item->mKartItems == NULL) {
             SetItemKouraWKartItems(item, kartIndex);
             kart = item->mKartItems->mKart;
-            nextState =
-                ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) || (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE))
-                    ? 2
-                    : 3;
+            nextState = ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) ||
+                         (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE))
+                            ? 2
+                            : 3;
             item->mStateMachine.mNextState = nextState;
             item->mStateMachine.mNextStateRequested = 1;
         }
@@ -747,19 +807,24 @@ void InitItemKouraWFromData(ItemKouraW *item) {
         kartIndex = (u16) gRaceProgress->mKartAtRank[0];
         SetItemKouraWKartItems(item, kartIndex);
         kart = item->mKartItems->mKart;
-        nextState =
-            ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) || (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE)) ? 2
-                                                                                                                   : 3;
+        nextState = ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) ||
+                     (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE))
+                        ? 2
+                        : 3;
         item->mStateMachine.mNextState = nextState;
         item->mStateMachine.mNextStateRequested = 1;
         if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x8000000) {
-            AddItemDataItemIdAndKart(5, item->mKartItems->mKartIndex, item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mId);
+            AddItemDataItemIdAndKart(5, item->mKartItems->mKartIndex,
+                                     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mId);
         }
     }
     InitItemKouraWCommon(item);
-    if ((s64) item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity.x * item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity.x +
-            (s64) item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity.y * item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity.y +
-            (s64) item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity.z * item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity.z >=
+    if ((s64) item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity.x *
+                item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity.x +
+            (s64) item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity.y *
+                item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity.y +
+            (s64) item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity.z *
+                item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity.z >=
         0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity,
                                            &directionQuaternion.mDirection);
@@ -775,7 +840,8 @@ void DrawItemKouraWModel(ItemKouraW *item, Vec3 *viewAxis, s32 model) {
     void *matrix;
 
     if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x2000) {
-        if (IsItemObjectFartherFromCameraThan(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject, 0x6a4) != 0) {
+        if (IsItemObjectFartherFromCameraThan(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject, 0x6a4) !=
+            0) {
             return;
         }
     }
@@ -838,7 +904,8 @@ s32 RequestItemKouraWState7(ItemKouraW *item) {
         item->mStateMachine.mNextState = 7;
         item->mStateMachine.mNextStateRequested = 1;
         if ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x180000) == 0) {
-            item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mAdvance = (void (*)(struct ItemObject *)) AdvanceItemKouraW;
+            item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mAdvance =
+                (void (*)(struct ItemObject *)) AdvanceItemKouraW;
         }
         item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags &= ~0x8000;
         item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags |= 0x80000;
@@ -854,7 +921,8 @@ BOOL IsItemKouraWState7(ItemKouraW *item) {
 
 Vec3 *GetItemKouraWState7Info(ItemKouraW *item, s32 *stateFrames, s32 *scaleRatio) {
     *stateFrames = item->mStateMachine.mStateFrames;
-    *scaleRatio = MUL_FIXED12_NO_ROUND(item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScale.z, gKouraWState7InverseLimit);
+    *scaleRatio = MUL_FIXED12_NO_ROUND(item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScale.z,
+                                       gKouraWState7InverseLimit);
     return &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos;
 }
 

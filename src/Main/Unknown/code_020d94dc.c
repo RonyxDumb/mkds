@@ -27,6 +27,7 @@
 #include "Main/Unknown/code_020d7da8.h"
 #include "Main/Unknown/code_020d8b88.h"
 #include "code_021471bc.h"
+#include "code_02147cd8.h"
 
 // The map object InitWater last received; InitWaterFields reads its x/z and DrawWater its mFlags; one water map object
 // per course is assumed (a second would overwrite it).
@@ -73,7 +74,7 @@ void UpdateWater(Water *water) {
     }
     switch (water->mState) {
         case 0:
-            water->mHeightFactor = gPairsByAngle[(water->mHeightAngle >> 4) * 2];
+            water->mHeightFactor = FX_SinIdx(water->mHeightAngle);
             water->mHeight = water->mMidHeight + MUL_FIXED12_NO_ROUND(water->mHeightAmplitude, water->mHeightFactor);
             water->mModelCY = water->mHeight;
             water->mHeightAngle = water->mHeightAngle + water->mHeightAnglePerFrame;
@@ -104,7 +105,7 @@ void UpdateWater(Water *water) {
             }
             break;
         case 2:
-            water->mHeightFactor = gPairsByAngle[(water->mHeightAngle >> 4) * 2];
+            water->mHeightFactor = FX_SinIdx(water->mHeightAngle);
             water->mHeight = water->mMidHeight + MUL_FIXED12_NO_ROUND(water->mHeightAmplitude, water->mHeightFactor);
             water->mModelCY = water->mHeight;
             water->mHeightAngle = water->mHeightAngle + water->mHeightAnglePerFrame;
@@ -139,12 +140,13 @@ void UpdateWater(Water *water) {
     modelCAngle = water->mCircleAngle - water->mModelCAngleOffset;
     if (water->mModelAFile != NULL) {
         modelAIndex = (water->mCircleAngle >> 4) * 2;
-        water->mModelAX = water->mCenterX + MUL_FIXED12_NO_ROUND(water->mModelARadius, gPairsByAngle[modelAIndex]);
-        water->mModelAZ = water->mCenterZ + MUL_FIXED12_NO_ROUND(water->mModelARadius, gPairsByAngle[modelAIndex + 1]);
+        water->mModelAX = water->mCenterX + MUL_FIXED12_NO_ROUND(water->mModelARadius, FX_SinCosTable_[modelAIndex]);
+        water->mModelAZ =
+            water->mCenterZ + MUL_FIXED12_NO_ROUND(water->mModelARadius, FX_SinCosTable_[modelAIndex + 1]);
     }
     modelCIndex = (modelCAngle >> 4) * 2;
-    water->mModelCX = water->mCenterX + MUL_FIXED12_NO_ROUND(water->mModelCRadius, gPairsByAngle[modelCIndex]);
-    water->mModelCZ = water->mCenterZ + MUL_FIXED12_NO_ROUND(water->mModelCRadius, gPairsByAngle[modelCIndex + 1]);
+    water->mModelCX = water->mCenterX + MUL_FIXED12_NO_ROUND(water->mModelCRadius, FX_SinCosTable_[modelCIndex]);
+    water->mModelCZ = water->mCenterZ + MUL_FIXED12_NO_ROUND(water->mModelCRadius, FX_SinCosTable_[modelCIndex + 1]);
 }
 
 // Draws model A (when it exists) and model C at their circle positions and mHeight, in the order of mDrawModelAFirst;

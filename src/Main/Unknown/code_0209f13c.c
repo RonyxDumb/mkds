@@ -14,6 +14,7 @@
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "code_02146cbc.h"
+#include "code_02147cd8.h"
 
 void InitChandelierObjects(Unk0209f514 *a) {
     s32 i;
@@ -131,7 +132,7 @@ void DrawRainStar(void *a, Unk0209f1c8 *b) {
     NNS_G3dGeBufferOP_N(0x19, &b->mMapObject.mMatrix, 0xc);
     if (b->mMapObject.mAngle != 0) {
         i = b->mMapObject.mAngle >> 4;
-        MTX_RotY33_(&m, gPairsByAngle[i * 2], gPairsByAngle[i * 2 + 1]);
+        MTX_RotY33_(&m, FX_SinCosTable_[i * 2], FX_SinCosTable_[i * 2 + 1]);
         NNS_G3dGeBufferOP_N(0x1a, &m, 9);
     }
     NNS_G3dGeBufferOP_N(0x1b, &b->mMapObject.mScale, 3);

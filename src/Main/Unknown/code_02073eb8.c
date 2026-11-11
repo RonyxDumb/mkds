@@ -153,8 +153,8 @@ void UpdateChaseCamera(Camera *camera, Kart *kart) {
     }
     t = camera->mHalfFovAngleGoal - camera->mHalfFovAngle;
     camera->mHalfFovAngle = camera->mHalfFovAngle + MUL_FIXED12_ROUNDED(t, fovEaseRate);
-    camera->mHalfFovPairFirst = gPairsByAngle[((u16) camera->mHalfFovAngle >> 4) * 2];
-    camera->mHalfFovPairSecond = gPairsByAngle[((u16) camera->mHalfFovAngle >> 4) * 2 + 1];
+    camera->mHalfFovPairFirst = FX_SinIdx((u16) camera->mHalfFovAngle);
+    camera->mHalfFovPairSecond = FX_CosIdx((u16) camera->mHalfFovAngle);
     if (kart->mUnk_48 & 0x10000) {
         camera->mFollowDistanceScale =
             camera->mFollowDistanceScale + MUL_FIXED12_ROUNDED(0x14cd - camera->mFollowDistanceScale, 0xcd);
@@ -704,8 +704,7 @@ void UpdateCameraAngleEntry(Camera *camera) {
     j = (u16) ((s32) (((s64) courseMapCamera->mUnk_18.y * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12);
     k = (u16) ((s32) (((s64) courseMapCamera->mUnk_24.x * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12);
     l = (u16) ((s32) (((s64) courseMapCamera->mUnk_24.y * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12);
-    MTX_RotAxis33(&m0, &kart->mUnk_120, gPairsByAngle[(kart->mHopTiltAngle >> 4) * 2],
-                  gPairsByAngle[(kart->mHopTiltAngle >> 4) * 2 + 1]);
+    MTX_RotAxis33(&m0, &kart->mUnk_120, FX_SinIdx(kart->mHopTiltAngle), FX_CosIdx(kart->mHopTiltAngle));
     MTX_MultVec33(&a, &m0, &a);
     b = a;
     c = b;
@@ -713,8 +712,8 @@ void UpdateCameraAngleEntry(Camera *camera) {
     func_02074b00_inline(&n, &d, -courseMapCamera->mUnk_18.z);
     Vec3CrossUnrounded(&data_usa_02154fc4, &a, &f);
     Vec3CrossUnrounded(&c, &f, &g);
-    MTX_RotAxis33(&m2, &g, gPairsByAngle[(i >> 4) * 2], gPairsByAngle[(i >> 4) * 2 + 1]);
-    MTX_RotAxis33(&m3, &f, gPairsByAngle[(j >> 4) * 2], gPairsByAngle[(j >> 4) * 2 + 1]);
+    MTX_RotAxis33(&m2, &g, FX_SinIdx(i), FX_CosIdx(i));
+    MTX_RotAxis33(&m3, &f, FX_SinIdx(j), FX_CosIdx(j));
     MTX_Concat33(&m3, &m2, &m4);
     MTX_MultVec33(&d, &m4, &d);
     func_02074b00_inline(&t, &d, courseMapCamera->mUnk_18.z);
@@ -725,8 +724,8 @@ void UpdateCameraAngleEntry(Camera *camera) {
     g.x = -g.x;
     g.y = -g.y;
     g.z = -g.z;
-    MTX_RotAxis33(&m5, &g, gPairsByAngle[(k >> 4) * 2], gPairsByAngle[(k >> 4) * 2 + 1]);
-    MTX_RotAxis33(&m6, &f, gPairsByAngle[(l >> 4) * 2], gPairsByAngle[(l >> 4) * 2 + 1]);
+    MTX_RotAxis33(&m5, &g, FX_SinIdx(k), FX_CosIdx(k));
+    MTX_RotAxis33(&m6, &f, FX_SinIdx(l), FX_CosIdx(l));
     MTX_Concat33(&m5, &m2, &m5);
     MTX_Concat33(&m6, &m3, &m6);
     MTX_Concat33(&m6, &m5, &m7);
@@ -790,8 +789,7 @@ void UpdateStaffRollCameraAndLight(Camera *camera) {
         0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&lightDirection, &lightDirection);
     }
-    MTX_RotAxis33(&m, &data_usa_02154fc4, gPairsByAngle[(data_usa_021656a0 >> 4) * 2],
-                  gPairsByAngle[(data_usa_021656a0 >> 4) * 2 + 1]);
+    MTX_RotAxis33(&m, &data_usa_02154fc4, FX_SinIdx(data_usa_021656a0), FX_CosIdx(data_usa_021656a0));
     MTX_MultVec33(&lightDirection, &m, &lightDirection);
     lightDirection.x = MUL_FIXED12_NO_ROUND(lightDirection.x, 0xfae);
     lightDirection.y = MUL_FIXED12_NO_ROUND(lightDirection.y, 0xfae);

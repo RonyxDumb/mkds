@@ -181,7 +181,6 @@ void DrawShine16Shadow(void *a, Shine16 *shine16, void *b, s32 c) {
     MtxFx33 rotateYMatrix;
     Vec3 drawScaleVector;
     Vec3 shadowScaleVector;
-    s32 pairIndex;
     s32 drawScale;
 
     if (shine16->mDrawScale <= 0) {
@@ -204,8 +203,8 @@ void DrawShine16Shadow(void *a, Shine16 *shine16, void *b, s32 c) {
         NNS_G3dGeBufferOP_N(0x1b, &drawScaleVector, 3);
     }
     NNS_G3dGeBufferOP_N(0x1b, &shine16->mMapObject.mScale, 3);
-    pairIndex = gShine16ShadowAngles[gShine16ShadowAngleIndex] >> 4;
-    MTX_RotY33_(&rotateYMatrix, gPairsByAngle[pairIndex * 2 + 1], gPairsByAngle[pairIndex * 2]);
+    MTX_RotY33_(&rotateYMatrix, COS_OF_ANGLE(gShine16ShadowAngles[gShine16ShadowAngleIndex]),
+                SIN_OF_ANGLE(gShine16ShadowAngles[gShine16ShadowAngleIndex]));
     NNS_G3dGeBufferOP_N(0x1a, &rotateYMatrix, 9);
     shadowScaleVector.x = 0x2000;
     shadowScaleVector.y = 0x2000;
@@ -420,10 +419,8 @@ void UpdateShine16(void *a, Shine16 *shine16) {
                 randomState = &gRaceProgress->mRandom;
                 randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
                 s = ((u64) (u32) (randomState->mValue >> 32) * 0x14000) >> 32;
-                x = shine16->mTargetPos.x + MUL_FIXED12_NO_ROUND(s, gPairsByAngle[(r >> 4) * 2]) -
-                    shine16->mMapObject.mPos.x;
-                z = shine16->mTargetPos.z + MUL_FIXED12_NO_ROUND(s, gPairsByAngle[(r >> 4) * 2 + 1]) -
-                    shine16->mMapObject.mPos.z;
+                x = shine16->mTargetPos.x + MUL_FIXED12_NO_ROUND(s, FX_SinIdx(r)) - shine16->mMapObject.mPos.x;
+                z = shine16->mTargetPos.z + MUL_FIXED12_NO_ROUND(s, FX_CosIdx(r)) - shine16->mMapObject.mPos.z;
                 shine16->mState = 4;
                 shine16->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(x, 0x25);
                 shine16->mMapObject.mPosStep.y = 0x5000;
@@ -497,7 +494,8 @@ void UpdateShine16(void *a, Shine16 *shine16) {
                             (s64) shine16->mMapObject.mPosStep.y * shine16->mMapObject.mPosStep.y +
                             (s64) shine16->mMapObject.mPosStep.z * shine16->mMapObject.mPosStep.z >=
                         0x10) {
-                        Vec3NormalizeAndGetLengthUnchecked(&shine16->mMapObject.mPosStep, &shine16->mMapObject.mPosStep);
+                        Vec3NormalizeAndGetLengthUnchecked(&shine16->mMapObject.mPosStep,
+                                                           &shine16->mMapObject.mPosStep);
                     }
                     shine16->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(shine16->mMapObject.mPosStep.x, 0x1000);
                     shine16->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(shine16->mMapObject.mPosStep.y, 0x1000);
@@ -507,8 +505,8 @@ void UpdateShine16(void *a, Shine16 *shine16) {
                 c.x = shine16->mMapObject.mPos.x;
                 c.y = shine16->mMapObject.mExtent.x + (shine16->mMapObject.mPos.y - 0x14000);
                 c.z = shine16->mMapObject.mPos.z;
-                if (CollideSphereWithCourse(&c, NULL, 0, shine16->mMapObject.mExtent.x, 8, -2, &b, &d, &e, &f, NULL, NULL,
-                                            NULL, NULL)) {
+                if (CollideSphereWithCourse(&c, NULL, 0, shine16->mMapObject.mExtent.x, 8, -2, &b, &d, &e, &f, NULL,
+                                            NULL, NULL, NULL)) {
                     VEC_Add(&shine16->mMapObject.mPos, &b, &shine16->mMapObject.mPos);
                     if (f & 0x214300) {
                         t = shine16->mMapObject.mPosStep.y;
@@ -519,7 +517,8 @@ void UpdateShine16(void *a, Shine16 *shine16) {
                                 (s64) shine16->mMapObject.mPosStep.y * shine16->mMapObject.mPosStep.y +
                                 (s64) shine16->mMapObject.mPosStep.z * shine16->mMapObject.mPosStep.z >=
                             0x10) {
-                            Vec3NormalizeAndGetLengthUnchecked(&shine16->mMapObject.mPosStep, &shine16->mMapObject.mPosStep);
+                            Vec3NormalizeAndGetLengthUnchecked(&shine16->mMapObject.mPosStep,
+                                                               &shine16->mMapObject.mPosStep);
                         }
                         shine16->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(shine16->mMapObject.mPosStep.x, 0x1000);
                         shine16->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(shine16->mMapObject.mPosStep.y, 0x1000);

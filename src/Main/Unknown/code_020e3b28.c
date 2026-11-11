@@ -156,8 +156,7 @@ void InitRotary(Rotary *object, struct CourseMapRow *courseRow, RotaryKindInfo *
     InitStateMachine(&object->mCollisionMapObject.mMapObject.mStateMachine, gRotaryStateTable, 4, object);
     object->mCollisionMapObject.mCollisionData.mUnk_e8 = object->mCollisionMapObject.mMapObject.mPos;
     object->mCollisionMapObject.mCollisionData.mPrevMatrix = object->mCollisionMapObject.mMapObject.mMatrix.mAxes;
-    object->mCollisionMapObject.mCollisionData.mInitialMatrix =
-        object->mCollisionMapObject.mMapObject.mMatrix.mAxes;
+    object->mCollisionMapObject.mCollisionData.mInitialMatrix = object->mCollisionMapObject.mMapObject.mMatrix.mAxes;
     object->mCollisionMapObject.mCollisionData.mAngleChangeVector.x = 0;
     object->mCollisionMapObject.mCollisionData.mAngleChangeVector.y = 0;
     object->mCollisionMapObject.mCollisionData.mAngleChangeVector.z = 0;
@@ -247,7 +246,7 @@ void UpdateBridge(s32 unused, Bridge *bridge) {
     u16 swingMagnitude;
     u16 y;
 
-    sine = gPairsByAngle[(bridge->mSwingAngle >> 4) * 2];
+    sine = FX_SinIdx(bridge->mSwingAngle);
     swingMagnitude = bridge->mSwingAmplitude + MUL_FIXED12_NO_ROUND(sine, bridge->mSwingAmplitude);
     y = 0x10000 - swingMagnitude;
     angleDelta = y - bridge->mAngleX;
@@ -265,12 +264,13 @@ void UpdateBridge(s32 unused, Bridge *bridge) {
         MUL_FIXED12_NO_ROUND(bridge->mCollisionMapObject.mMapObject.mMatrix.mRows[0].z, angleDelta);
     bridge->mAngleX = y;
     bridge->mCollisionMapObject.mCollisionData.mPrevMatrix = bridge->mCollisionMapObject.mMapObject.mMatrix.mAxes;
-    MTX_RotX33_(&bridge->mCollisionMapObject.mMapObject.mMatrix.mAxes, gPairsByAngle[(y >> 4) * 2],
-                gPairsByAngle[(y >> 4) * 2 + 1]);
-    MTX_Concat33(&bridge->mCollisionMapObject.mMapObject.mMatrix.mAxes, &bridge->mCollisionMapObject.mCollisionData.mInitialMatrix,
+    MTX_RotX33_(&bridge->mCollisionMapObject.mMapObject.mMatrix.mAxes, FX_SinIdx(y), FX_CosIdx(y));
+    MTX_Concat33(&bridge->mCollisionMapObject.mMapObject.mMatrix.mAxes,
+                 &bridge->mCollisionMapObject.mCollisionData.mInitialMatrix,
                  &bridge->mCollisionMapObject.mMapObject.mMatrix.mAxes);
-    VEC_MultAdd(-bridge->mCollisionMapObject.mCollisionData.mHalfSizeY, &bridge->mCollisionMapObject.mMapObject.mMatrix.mRows[1],
-                &bridge->mCollisionMapObject.mMapObject.mPos, &bridge->mCollisionMapObject.mCollisionData.mCenterPos);
+    VEC_MultAdd(-bridge->mCollisionMapObject.mCollisionData.mHalfSizeY,
+                &bridge->mCollisionMapObject.mMapObject.mMatrix.mRows[1], &bridge->mCollisionMapObject.mMapObject.mPos,
+                &bridge->mCollisionMapObject.mCollisionData.mCenterPos);
     if (bridge->mPauseTimer != 0) {
         bridge->mPauseTimer--;
         return;

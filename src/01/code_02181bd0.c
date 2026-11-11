@@ -97,9 +97,9 @@ void func_ov001_02182d30(void) {
         coin->mUnk_000.mPos.x = kart->mPos.x;
         coin->mUnk_000.mPos.y = kart->mPos.y + 0x1a000;
         coin->mUnk_000.mPos.z = kart->mPos.z;
-        coin->mUnk_000.mPosStep.x = kart->mVelocity.x + MUL_FIXED12_NO_ROUND(speed, gPairsByAngle[(angle >> 4) * 2]);
+        coin->mUnk_000.mPosStep.x = kart->mVelocity.x + MUL_FIXED12_NO_ROUND(speed, FX_SinIdx(angle));
         coin->mUnk_000.mPosStep.y = kart->mVelocity.y + 0x4000;
-        coin->mUnk_000.mPosStep.z = kart->mVelocity.z + MUL_FIXED12_NO_ROUND(speed, gPairsByAngle[(angle >> 4) * 2 + 1]);
+        coin->mUnk_000.mPosStep.z = kart->mVelocity.z + MUL_FIXED12_NO_ROUND(speed, FX_CosIdx(angle));
         coin->mUnk_000.mFlags &= ~1;
         soundArg.mSoundId = 0x1d9;
         soundArg.mPositionSource = NULL;
@@ -144,9 +144,9 @@ void func_ov001_02182bdc(void) {
         coin->mUnk_000.mPos.x = kart->mPos.x;
         coin->mUnk_000.mPos.y = kart->mPos.y + 0x1a000;
         coin->mUnk_000.mPos.z = kart->mPos.z;
-        coin->mUnk_000.mPosStep.x = MUL_FIXED12_NO_ROUND(speed, gPairsByAngle[(angle >> 4) * 2]);
+        coin->mUnk_000.mPosStep.x = MUL_FIXED12_NO_ROUND(speed, FX_SinIdx(angle));
         coin->mUnk_000.mPosStep.y = 0x4000;
-        coin->mUnk_000.mPosStep.z = MUL_FIXED12_NO_ROUND(speed, gPairsByAngle[(angle >> 4) * 2 + 1]);
+        coin->mUnk_000.mPosStep.z = MUL_FIXED12_NO_ROUND(speed, FX_CosIdx(angle));
         soundArg.mSoundId = 0x1d9;
         soundArg.mPositionSource = NULL;
         soundArg.mFalloffIndex = 2;
@@ -168,7 +168,6 @@ void func_ov001_02182a3c(s32 a) {
     Coin *coin;
     RandomState64 *random;
     u16 angle;
-    int tableIndex;
 
     foundCount = 0;
     coinList = FindMapObjectKindUpdateList(0x68);
@@ -196,10 +195,9 @@ void func_ov001_02182a3c(s32 a) {
                         coin->mUnk_000.mPosStep.x = 0;
                         coin->mUnk_000.mPosStep.y = 0x4cd;
                         coin->mUnk_000.mPosStep.z = 0;
-                        tableIndex = (angle >> 4) * 2;
-                        coin->mUnk_0ec.x = MUL_FIXED12_NO_ROUND(gPairsByAngle[tableIndex], 0x14000);
+                        coin->mUnk_0ec.x = MUL_FIXED12_NO_ROUND(SIN_OF_ANGLE(angle), 0x14000);
                         coin->mUnk_0ec.y = -0xa000;
-                        coin->mUnk_0ec.z = MUL_FIXED12_NO_ROUND(gPairsByAngle[tableIndex + 1], 0x14000);
+                        coin->mUnk_0ec.z = MUL_FIXED12_NO_ROUND(COS_OF_ANGLE(angle), 0x14000);
                     }
                 } else {
                     if (coin->mTargetPos != NULL) {

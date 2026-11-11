@@ -8846,7 +8846,7 @@ data_0215d384 kind:data(any) addr:0x0215d384
 data_0215d484 kind:data(any) addr:0x0215d484
 data_0215d494 kind:data(any) addr:0x0215d494
 data_0215d4a4 kind:data(any) addr:0x0215d4a4
-gPairsByAngle kind:data(any) addr:0x0215d4b4
+FX_SinCosTable_ kind:data(any) addr:0x0215d4b4
 data_usa_0215d5b4 kind:data(any) addr:0x0215d5b4
 data_0215d6b4 kind:data(any) addr:0x0215d6b4
 data_usa_0215d8b4 kind:data(any) addr:0x0215d8b4

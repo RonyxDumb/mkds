@@ -99,9 +99,9 @@ void func_ov001_0218f724(Unk02188950 *b) {
     a = (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunKartHeadingAngle() : 0) - a;
     VEC_Subtract(&b->mUnk_000.mPos, gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunKartPos() : 0, &v2);
     for (i = 0; i < 1; i++) {
-        c = gPairsByAngle[((u16) a >> 4) * 2 + 1];
+        c = FX_CosIdx((u16) a);
         x = v2.x;
-        s = gPairsByAngle[((u16) a >> 4) * 2];
+        s = FX_SinIdx((u16) a);
         z = v2.z;
     }
     v1.x += (s32) (z * s >> 12) + (s32) (x * c >> 12) - v2.x;
@@ -588,9 +588,9 @@ void func_ov001_0218e474(Unk02188950 *a) {
 }
 
 void func_ov001_0218e38c(Unk02188950 *a, Kart *b) {
-    a->mUnk_000.mPosStep.x = MUL_FIXED12_NO_ROUND(-a->mPrm->mUnk_024, gPairsByAngle[(b->mHeadingAngle >> 4) * 2]);
+    a->mUnk_000.mPosStep.x = MUL_FIXED12_NO_ROUND(-a->mPrm->mUnk_024, FX_SinIdx(b->mHeadingAngle));
     a->mUnk_000.mPosStep.y = 0;
-    a->mUnk_000.mPosStep.z = MUL_FIXED12_NO_ROUND(-a->mPrm->mUnk_024, gPairsByAngle[(b->mHeadingAngle >> 4) * 2 + 1]);
+    a->mUnk_000.mPosStep.z = MUL_FIXED12_NO_ROUND(-a->mPrm->mUnk_024, FX_CosIdx(b->mHeadingAngle));
     func_ov001_021829ac(a->mPrm->mUnk_190);
     func_ov001_0218ead0(a);
     a->mUnk_2d8 = 0;

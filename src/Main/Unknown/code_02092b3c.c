@@ -106,7 +106,7 @@ static inline void func_02092b5c_inline_5(Vec3 *v, s32 x, s32 y, s32 z) {
 }
 
 s16 BasabasaBurstFX_SinIdx(s32 angle) {
-    return gPairsByAngle[(angle >> 4) * 2];
+    return FX_SinIdx(angle);
 }
 
 s32 BasabasaBurstMulFixed12NoRound(s32 multiplicand, s32 multiplier) {
@@ -114,7 +114,7 @@ s32 BasabasaBurstMulFixed12NoRound(s32 multiplicand, s32 multiplier) {
 }
 
 s16 BasabasaBurstFX_CosIdx(s32 angle) {
-    return gPairsByAngle[(angle >> 4) * 2 + 1];
+    return FX_CosIdx(angle);
 }
 
 void UpdateBasabasaBurst(void *mapObjectList, BasabasaBurst *burstObject) {

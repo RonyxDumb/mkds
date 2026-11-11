@@ -1241,8 +1241,8 @@ void PlaceItemInUseCircleObjects(ItemInUse *itemInUse) {
     i = itemInUse->mCircleAngle >> 4;
     objectCount = itemInUse->mObjectCount;
     radius = itemInUse->mCircleRadius;
-    offsetY = MUL_FIXED12_NO_ROUND(radius, gPairsByAngle[i * 2 + 1]);
-    offsetX = MUL_FIXED12_NO_ROUND(radius, gPairsByAngle[i * 2]);
+    offsetY = MUL_FIXED12_NO_ROUND(radius, FX_SinCosTable_[i * 2 + 1]);
+    offsetX = MUL_FIXED12_NO_ROUND(radius, FX_SinCosTable_[i * 2]);
     negativeHalfOffsetY = -offsetY >> 1;
     negativeHalfOffsetX = -offsetX >> 1;
     objects = itemInUse->mObjects;

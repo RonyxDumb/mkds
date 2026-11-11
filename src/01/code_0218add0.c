@@ -11,12 +11,12 @@
 #include "Main/Unknown/code_020b4000.h"
 #include "Main/Unknown/code_020d275c.h"
 #include "Main/Unknown/code_020fd264.h"
+#include "code_02147cd8.h"
 
 void func_ov001_0218aef4(Unk02188950 *mapObject) {
     RandomState64 *rng;
     s32 angle;
     s32 i;
-    s32 idx;
     Vec3 pos;
 
     rng = GetMapObjectRandom();
@@ -25,11 +25,10 @@ void func_ov001_0218aef4(Unk02188950 *mapObject) {
     for (i = 0; i < 3; i++) {
         Vec3 vel = {0, 0, 0};
         angle += 0x5555;
-        idx = ((u16) angle >> 4) * 2;
-        pos.x = mapObject->mUnk_000.mPos.x + MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_1e4, gPairsByAngle[idx]);
+        pos.x = mapObject->mUnk_000.mPos.x + MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_1e4, SIN_OF_ANGLE((u16) angle));
         pos.y = mapObject->mUnk_000.mPos.y;
         pos.z =
-            mapObject->mUnk_000.mPos.z + MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_1e4, gPairsByAngle[idx + 1]);
+            mapObject->mUnk_000.mPos.z + MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_1e4, COS_OF_ANGLE((u16) angle));
         ThrowItemBombFromPosition(StartItemBomb(), &pos, &vel, mapObject->mPrm->mUnk_1e8);
     }
     {

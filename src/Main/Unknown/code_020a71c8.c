@@ -36,6 +36,7 @@
 #include "Main/Unknown/code_020a8080.h"
 #include "Main/Unknown/code_020d7da8.h"
 #include "Main/Unknown/code_02077bc0.h"
+#include "code_02147cd8.h"
 
 void InitSanbo(Sanbo *sanbo) {
     InitGroupFollower(&sanbo->mFollower, sanbo->mMapObject.mCourseMapRow, 0);
@@ -128,7 +129,7 @@ void DrawSanbo(void *a, Sanbo *sanbo) {
             for (i = 0; i < sanbo->mPieceCount; i++) {
                 if (sanbo->mPieces[i].mRotateZAngle != 0) {
                     pairIndex = ((u16) sanbo->mPieces[i].mRotateZAngle >> 4) * 2;
-                    MTX_RotZ33_(&rotateZMatrix, gPairsByAngle[pairIndex], gPairsByAngle[pairIndex + 1]);
+                    MTX_RotZ33_(&rotateZMatrix, FX_SinCosTable_[pairIndex], FX_SinCosTable_[pairIndex + 1]);
                     NNS_G3dGeBufferOP_N(0x1a, &rotateZMatrix, 9);
                 }
                 if (i != 0) {
@@ -157,7 +158,7 @@ void DrawSanbo(void *a, Sanbo *sanbo) {
                 NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&sanbo->mPieces[i].mPos), 12);
                 if ((sanbo->mMapObject.mFlags & 0x12) == 0 && sanbo->mPieces[i].mRotateZAngle != 0) {
                     pairIndex = ((u16) sanbo->mPieces[i].mRotateZAngle >> 4) * 2;
-                    MTX_RotZ33_(&pieceRotateZMatrix, gPairsByAngle[pairIndex], gPairsByAngle[pairIndex + 1]);
+                    MTX_RotZ33_(&pieceRotateZMatrix, FX_SinCosTable_[pairIndex], FX_SinCosTable_[pairIndex + 1]);
                     NNS_G3dGeBufferOP_N(0x1a, &pieceRotateZMatrix, 9);
                 }
                 drawScale = sanbo->mPieces[i].mDrawScale;
@@ -230,7 +231,7 @@ void InitSanboObjects(MapObjectList *mapObjectList) {
 }
 
 s32 SanboFX_SinIdx(s32 a) {
-    return gPairsByAngle[(a >> 4) * 2];
+    return FX_SinIdx(a);
 }
 
 s32 SanboFX_MulInline(s32 a, s32 b) {

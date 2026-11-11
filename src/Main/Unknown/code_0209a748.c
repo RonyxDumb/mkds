@@ -69,7 +69,7 @@ void StartCrabLaunch(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Ve
     } else {
         mapObjectRandom = GetMapObjectRandom();
         z = (u16) func_0209b388_inline(mapObjectRandom, 0x10000);
-        x = gPairsByAngle[((u16) z >> 4) * 2 + 1];
+        x = FX_CosIdx((u16) z);
         x = MUL_FIXED12_NO_ROUND(x, 0x1800);
         crab->mMapObject.mPosStep.x = x;
         crab->mMapObject.mPosStep.z = x;
@@ -148,16 +148,14 @@ void DrawCrab(void *a, Crab *crab) {
     BuildYAxisMatrix(&crab->mMapObject.mMatrix.mRows[1]);
     NNS_G3dGeBufferOP_N(0x19, SetYAxisMatrixPos(&crab->mMapObject.mPos), 0xc);
     if (crab->mRotateZAngle != 0) {
-        MTX_RotZ33_(&crabRotation, gPairsByAngle[(crab->mRotateZAngle >> 4) * 2],
-                    gPairsByAngle[(crab->mRotateZAngle >> 4) * 2 + 1]);
+        MTX_RotZ33_(&crabRotation, FX_SinIdx(crab->mRotateZAngle), FX_CosIdx(crab->mRotateZAngle));
         NNS_G3dGeBufferOP_N(0x1a, &crabRotation, 9);
     }
     NNS_G3dGeBufferOP_N(0x1b, &crab->mMapObject.mScale, 3);
     SetMapObjectModelNsbtpFrameIndex(gCrab, crab->mCrabNsbtpFrameIndexFixed12 >> 12);
     QueueMapObjectModelMaterial(a, gCrab);
     DrawMapObjectModel(a, gCrab, crab);
-    MTX_RotZ33_(&handRotation, gPairsByAngle[((u16) crab->mHandWobble.mValue >> 4) * 2],
-                gPairsByAngle[((u16) crab->mHandWobble.mValue >> 4) * 2 + 1]);
+    MTX_RotZ33_(&handRotation, FX_SinIdx((u16) crab->mHandWobble.mValue), FX_CosIdx((u16) crab->mHandWobble.mValue));
     NNS_G3dGeBufferOP_N(0x1a, &handRotation, 9);
     SetMapObjectModelNsbtpFrameIndex(gCrabHand, crab->mHandNsbtpFrameIndexFixed12 >> 12);
     QueueMapObjectModelMaterial(a, gCrabHand);
@@ -187,7 +185,7 @@ void InitCrabObjects(Unk0209af98 *mapObjectList) {
 }
 
 s16 CrabFX_SinIdx(s32 angle) {
-    return gPairsByAngle[(angle >> 4) * 2];
+    return FX_SinIdx(angle);
 }
 
 s32 CrabFX_MulInline(s32 a, s32 b) {

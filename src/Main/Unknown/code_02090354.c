@@ -43,6 +43,7 @@
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/unk_027e0000.h"
 #include "Main/Unknown/code_0207e654.h"
+#include "code_02147cd8.h"
 
 void CreateSmanTop(void *mapObjectList) {
     MapObjectModel *mapObjectModelNsbmd;
@@ -67,8 +68,7 @@ void DrawSmanTop(void *mapObjectList, Sman *sman) {
     topOffset[2] = 0;
     NNS_G3dGeBufferOP_N(0x1c, topOffset, 3);
     NNS_G3dGeBufferOP_N(0x1b, &sman->mMapObject.mScale, 3);
-    MTX_RotZ33_(&matrix, gPairsByAngle[((u16) sman->mAngleZ >> 4) * 2],
-                gPairsByAngle[((u16) sman->mAngleZ >> 4) * 2 + 1]);
+    MTX_RotZ33_(&matrix, FX_SinIdx((u16) sman->mAngleZ), FX_CosIdx((u16) sman->mAngleZ));
     NNS_G3dGeBufferOP_N(0x1a, &matrix, 9);
     DrawMapObjectModel(mapObjectList, gSmanTop, sman);
 }

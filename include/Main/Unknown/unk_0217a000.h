@@ -1057,7 +1057,7 @@ typedef struct Camera {
     /* 060 */ s32 mHalfFovAngle;
     // Default gDefaultHalfFovAngle (0x157c, about 30 degrees).
     /* 064 */ s32 mHalfFovAngleGoal;
-    // First and second element of the pair gPairsByAngle holds for mHalfFovAngle; mFrustumTop = mNear * first / second.
+    // First and second element of the pair FX_SinCosTable_ holds for mHalfFovAngle; mFrustumTop = mNear * first / second.
     /* 068 */ s16 mHalfFovPairFirst;
     /* 06a */ s16 mHalfFovPairSecond;
     /* 06c */ s32 mAspectRatio;

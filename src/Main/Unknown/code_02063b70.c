@@ -104,8 +104,7 @@ void DrawKart(Kart *kart) {
             h = kart->mKartModelsEntry->mKartOffsetData->mFirstTiresScale;
             func_02063cc4_inline(0x14, 0x1c);
             NNS_G3dGeBufferOP_N(0x1c, &f->mThirdTireX, 3);
-            pairIndex = (kart->mTireSpinAngle >> 4) * 2;
-            MTX_RotX33_(&spinMatrix, gPairsByAngle[pairIndex], gPairsByAngle[pairIndex + 1]);
+            MTX_RotX33_(&spinMatrix, SIN_OF_ANGLE(kart->mTireSpinAngle), COS_OF_ANGLE(kart->mTireSpinAngle));
             NNS_G3dGeBufferOP_N(0x1a, &spinMatrix, 9);
             DrawNsbmd(modelsEntry->mModels[2]);
             if (f->mThirdTireX != 0) {
@@ -117,7 +116,7 @@ void DrawKart(Kart *kart) {
             func_02063cc4_inline2(0x1b, h, h, h);
             NNS_G3dGeBufferOP_N(0x11, NULL, 0);
             pairIndex = (kart->mUnk_4cc >> 4) * 2;
-            MTX_RotY33_(&k, gPairsByAngle[pairIndex], gPairsByAngle[pairIndex + 1]);
+            MTX_RotY33_(&k, FX_SinCosTable_[pairIndex], FX_SinCosTable_[pairIndex + 1]);
             NNS_G3dGeBufferOP_N(0x1a, &k, 9);
             NNS_G3dGeBufferOP_N(0x1a, &spinMatrix, 9);
             DrawNsbmd(modelsEntry->mModels[2]);

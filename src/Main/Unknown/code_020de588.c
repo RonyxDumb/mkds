@@ -13,6 +13,7 @@
 #include "Main/Unknown/unk_0215d000.h"
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/unk_0217b000.h"
+#include "code_02147cd8.h"
 
 #pragma thumb on
 void CreateBoxAndQuestion(void) {
@@ -36,8 +37,8 @@ void CreateBoxAndQuestion(void) {
     gBoxRotations = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x1770);
     for (boxIndex = 0; boxIndex < 0x12c; boxIndex++) {
         angleIndex = (u16) (((u32) boxIndex << 16) / 0x12c) >> 4;
-        cosine = gPairsByAngle[angleIndex * 2 + 1];
-        sine = gPairsByAngle[angleIndex * 2];
+        cosine = FX_SinCosTable_[angleIndex * 2 + 1];
+        sine = FX_SinCosTable_[angleIndex * 2];
         gBoxRotations[boxIndex].mCosine = cosine;
         gBoxRotations[boxIndex].mSine = sine;
         gBoxRotations[boxIndex].mCosineSquared = MUL_FIXED12_NO_ROUND(cosine, cosine);
@@ -47,8 +48,8 @@ void CreateBoxAndQuestion(void) {
     gQuestionRotations = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x410);
     for (questionIndex = 0; questionIndex < 0x82; questionIndex++) {
         angleIndex = (u16) (((u32) questionIndex << 16) / 0x82) >> 4;
-        gQuestionRotations[questionIndex].mCosine = gPairsByAngle[angleIndex * 2 + 1];
-        gQuestionRotations[questionIndex].mSine = gPairsByAngle[angleIndex * 2];
+        gQuestionRotations[questionIndex].mCosine = FX_SinCosTable_[angleIndex * 2 + 1];
+        gQuestionRotations[questionIndex].mSine = FX_SinCosTable_[angleIndex * 2];
     }
     if (gRaceSetup->mCourseId == COURSE_ID_RAINBOW) {
         gBox->mPolygonAttributes &= 0xffff7fff;

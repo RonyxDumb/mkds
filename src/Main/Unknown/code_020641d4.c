@@ -20,6 +20,7 @@
 #include "Main/Unknown/unk_0215d000.h"
 #include "Main/Unknown/code_0203c5f8.h"
 #include "code_021471bc.h"
+#include "code_02147cd8.h"
 
 void AdvanceKartDrawState(Kart *kart) {
     KartModelsEntry *modelsEntry;
@@ -30,7 +31,6 @@ void AdvanceKartDrawState(Kart *kart) {
     MtxFx43 rotationMatrix;
     MtxFx43 extraYRotationMatrix;
     MtxFx43 yRotationMatrix;
-    s32 pairIndex;
     s32 j;
     s32 k;
     u16 l;
@@ -60,16 +60,15 @@ void AdvanceKartDrawState(Kart *kart) {
         MTX_Concat43(drawMatrix, &rotationMatrix, drawMatrix);
         MTX_Concat43(drawMatrix, &negatedOffsetMatrix, drawMatrix);
         if ((kart->mUnk_4c & 0x20) != 0) {
-            pairIndex = (kart->mYRotationAngle >> 4) * 2;
-            MTX_RotY43_(&extraYRotationMatrix, gPairsByAngle[pairIndex], gPairsByAngle[pairIndex + 1]);
+            MTX_RotY43_(&extraYRotationMatrix, SIN_OF_ANGLE(kart->mYRotationAngle),
+                        COS_OF_ANGLE(kart->mYRotationAngle));
             MTX_Concat43(drawMatrix, &extraYRotationMatrix, drawMatrix);
         }
         drawMatrix->mRows[3].x = drawMatrix->mRows[3].x + kart->mPosSource->x;
         drawMatrix->mRows[3].y = drawMatrix->mRows[3].y + kart->mPosSource->y;
         drawMatrix->mRows[3].z = drawMatrix->mRows[3].z + kart->mPosSource->z;
     } else if ((kartBits & 0x20) != 0) {
-        pairIndex = (kart->mYRotationAngle >> 4) * 2;
-        MTX_RotY43_(&yRotationMatrix, gPairsByAngle[pairIndex], gPairsByAngle[pairIndex + 1]);
+        MTX_RotY43_(&yRotationMatrix, SIN_OF_ANGLE(kart->mYRotationAngle), COS_OF_ANGLE(kart->mYRotationAngle));
         MTX_Concat43(&yRotationMatrix, &kart->mUnk_120_m, &kart->mUnk_150_m);
         q = kart->mPosSource;
         kart->mUnk_174.x = q->x;

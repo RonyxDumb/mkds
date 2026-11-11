@@ -61,7 +61,7 @@ void UpdateSoundPitchSwing(void) {
     angle = gSoundPitchSwingAngle + 0x1999;
     gSoundPitchSwingAngle = angle;
     wrappedAngle = angle & 0xffff;
-    anglePairFirst = gPairsByAngle[(wrappedAngle >> 4) * 2];
+    anglePairFirst = FX_SinIdx(wrappedAngle);
     scaledSwing = (s64) anglePairFirst * 0x90000 + 0x800;
     gSoundPitchSwingAngle = wrappedAngle;
     gSoundPitchSwing = (s32) (scaledSwing >> 12) >> 12;

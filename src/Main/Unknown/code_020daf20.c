@@ -84,8 +84,7 @@ void DrawDossun(void *unused0, Dossun *dossun, void *unused1, s32 maxAlpha) {
     drawMatrix = &dossun->mMapObject.mMatrix;
     if (dossun->mHitState != 0) {
         drawMatrix = &gDossunDrawMatrix;
-        MTX_RotY33_(&gDossunDrawMatrix.mAxes, gPairsByAngle[((u16) dossun->mSpinAngle >> 4) * 2],
-                    gPairsByAngle[((u16) dossun->mSpinAngle >> 4) * 2 + 1]);
+        MTX_RotY33_(&gDossunDrawMatrix.mAxes, FX_SinIdx((u16) dossun->mSpinAngle), FX_CosIdx((u16) dossun->mSpinAngle));
         MTX_Concat33(&gDossunDrawMatrix.mAxes, &dossun->mMapObject.mMatrix.mAxes, &gDossunDrawMatrix.mAxes);
     }
     drawMatrix->mRows[3].x = dossun->mMapObject.mPos.x >> 4;
@@ -190,7 +189,7 @@ void UpdateDossun(void *unused, Dossun *dossun) {
             }
             dossun->mUnk_c2 += 0x1555;
             dossun->mMapObject.mPos.y = dossun->mUnk_ac;
-            sine = gPairsByAngle[(dossun->mUnk_c2 >> 4) * 2];
+            sine = FX_SinIdx(dossun->mUnk_c2);
             dossun->mMapObject.mPos.y += MUL_FIXED12_NO_ROUND(sine, dossun->mUnk_c4);
             return;
         case 3:

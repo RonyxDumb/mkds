@@ -144,8 +144,7 @@ void DrawFireball2(void *a, Fireball2 *b) {
                 NNS_G3dGeBufferOP_N(0x14, &s1, 1);
                 NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&b->mElements[i][j].mUnk_00), 0xc);
                 if (b->mElements[i][j].mUnk_0e != 0) {
-                    MTX_RotZ33_(&m1, gPairsByAngle[(b->mElements[i][j].mUnk_0e >> 4) * 2],
-                                gPairsByAngle[(b->mElements[i][j].mUnk_0e >> 4) * 2 + 1]);
+                    MTX_RotZ33_(&m1, FX_SinIdx(b->mElements[i][j].mUnk_0e), FX_CosIdx(b->mElements[i][j].mUnk_0e));
                     NNS_G3dGeBufferOP_N(0x1a, &m1, 9);
                 }
                 NNS_G3dGeBufferOP_N(0x1b, &b->mMapObject.mScale, 3);
@@ -159,8 +158,7 @@ void DrawFireball2(void *a, Fireball2 *b) {
         NNS_G3dGeBufferOP_N(0x14, &s2, 1);
         NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&b->mCenterPos), 0xc);
         if (b->mCenterRotationAngle != 0) {
-            MTX_RotZ33_(&m2, gPairsByAngle[(b->mCenterRotationAngle >> 4) * 2],
-                        gPairsByAngle[(b->mCenterRotationAngle >> 4) * 2 + 1]);
+            MTX_RotZ33_(&m2, FX_SinIdx(b->mCenterRotationAngle), FX_CosIdx(b->mCenterRotationAngle));
             NNS_G3dGeBufferOP_N(0x1a, &m2, 9);
         }
         NNS_G3dGeBufferOP_N(0x1b, &b->mMapObject.mScale, 3);
@@ -184,8 +182,7 @@ void DrawFireball2(void *a, Fireball2 *b) {
                 NNS_G3dGeBufferOP_N(0x14, &s3, 1);
                 NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&b->mElements[i][j].mUnk_00), 0xc);
                 if (b->mElements[i][j].mUnk_0e != 0) {
-                    MTX_RotZ33_(&m3, gPairsByAngle[(b->mElements[i][j].mUnk_0e >> 4) * 2],
-                                gPairsByAngle[(b->mElements[i][j].mUnk_0e >> 4) * 2 + 1]);
+                    MTX_RotZ33_(&m3, FX_SinIdx(b->mElements[i][j].mUnk_0e), FX_CosIdx(b->mElements[i][j].mUnk_0e));
                     NNS_G3dGeBufferOP_N(0x1a, &m3, 9);
                 }
                 NNS_G3dGeBufferOP_N(0x1b, &b->mMapObject.mScale, 3);
@@ -280,9 +277,9 @@ void UpdateFireball2(void *a, Fireball2 *b) {
         for (j = 0; j < b->mRowCount; j++) {
             w = w + b->mRowAngleSpacing;
             b->mElements[j][i].mUnk_0c = w;
-            VEC_MultAdd(MUL_FIXED12_NO_ROUND(n, gPairsByAngle[(w >> 4) * 2 + 1]), &b->mMapObject.mMatrix.mRows[0],
-                        &b->mMapObject.mPos, &b->mElements[j][i].mUnk_00);
-            VEC_MultAdd(MUL_FIXED12_NO_ROUND(n, gPairsByAngle[(w >> 4) * 2]), &b->mMapObject.mMatrix.mRows[1],
+            VEC_MultAdd(MUL_FIXED12_NO_ROUND(n, FX_CosIdx(w)), &b->mMapObject.mMatrix.mRows[0], &b->mMapObject.mPos,
+                        &b->mElements[j][i].mUnk_00);
+            VEC_MultAdd(MUL_FIXED12_NO_ROUND(n, FX_SinIdx(w)), &b->mMapObject.mMatrix.mRows[1],
                         &b->mElements[j][i].mUnk_00, &b->mElements[j][i].mUnk_00);
             b->mElements[j][i].mUnk_0e = b->mElements[j][i].mUnk_0e + 0x51e;
         }

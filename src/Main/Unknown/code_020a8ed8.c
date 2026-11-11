@@ -366,14 +366,14 @@ void PlaceCourseSoundObjectPartSource(CourseSoundObjectPart *soundPart, Vec3 *po
             v = FX_Atan2Idx(currentCamera->mPos.x - position->x, currentCamera->mPos.z - position->z);
             if (v >= 0 && v <= 0xaaab) {
                 n = ((u16) v >> 4) << 1;
-                soundPart->mSourcePos.x = position->x + MUL_FIXED12_NO_ROUND(gPairsByAngle[n], 0x5dc000);
+                soundPart->mSourcePos.x = position->x + MUL_FIXED12_NO_ROUND(FX_SinCosTable_[n], 0x5dc000);
                 soundPart->mSourcePos.y = position->y;
-                soundPart->mSourcePos.z = position->z + MUL_FIXED12_NO_ROUND(gPairsByAngle[n + 1], 0x5dc000);
+                soundPart->mSourcePos.z = position->z + MUL_FIXED12_NO_ROUND(FX_SinCosTable_[n + 1], 0x5dc000);
                 soundPart->mUnk_20 = FALSE;
             } else if (currentCamera->mPos.z > position->z && currentCamera->mPos.y < position->y - 0x32000) {
-                soundPart->mSourcePos.x = position->x + MUL_FIXED12_NO_ROUND(gPairsByAngle[0], 0x5dc000);
+                soundPart->mSourcePos.x = position->x + MUL_FIXED12_NO_ROUND(SIN_OF_ANGLE(0), 0x5dc000);
                 soundPart->mSourcePos.y = position->y;
-                soundPart->mSourcePos.z = position->z + MUL_FIXED12_NO_ROUND(gPairsByAngle[1], 0x5dc000);
+                soundPart->mSourcePos.z = position->z + MUL_FIXED12_NO_ROUND(COS_OF_ANGLE(0), 0x5dc000);
                 v = soundPart->mSourcePos.x - crossXMargin;
                 n = currentCamera->mPos.x;
                 if (n <= v) {

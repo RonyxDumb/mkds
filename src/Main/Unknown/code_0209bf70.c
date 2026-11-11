@@ -78,10 +78,10 @@ void DrawSun(void *a, Unk0209d3fc *b) {
     NNS_G3dGeBufferOP_N(0x14, &s, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&b->mMapObject.mPos), 0xc);
     if (b->mState == 3 || b->mState == 4) {
-        t = MUL_FIXED12_NO_ROUND(gPairsByAngle[((u16) b->mUnk_ac >> 4) * 2 + 1], -0x14000) + 0x14000;
+        t = MUL_FIXED12_NO_ROUND(FX_CosIdx((u16) b->mUnk_ac), -0x14000) + 0x14000;
         k = (b->mUnk_b0 >> 4) * 2;
-        v.x = MUL_FIXED12_NO_ROUND(t, gPairsByAngle[k + 1]) >> 4;
-        v.y = MUL_FIXED12_NO_ROUND(t, gPairsByAngle[k]) >> 4;
+        v.x = MUL_FIXED12_NO_ROUND(t, FX_SinCosTable_[k + 1]) >> 4;
+        v.y = MUL_FIXED12_NO_ROUND(t, FX_SinCosTable_[k]) >> 4;
         v.z = 0;
         NNS_G3dGeBufferOP_N(0x1c, &v, 3);
     }
@@ -215,9 +215,9 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
             position.x = sun->mMapObject.mPos.x;
             position.y = sun->mMapObject.mPos.y - 0x1e000;
             position.z = sun->mMapObject.mPos.z;
-            direction.x = gPairsByAngle[(sun->mUnk_0a4 >> 4) * 2];
+            direction.x = FX_SinIdx(sun->mUnk_0a4);
             direction.y = 0;
-            direction.z = gPairsByAngle[(sun->mUnk_0a4 >> 4) * 2 + 1];
+            direction.z = FX_CosIdx(sun->mUnk_0a4);
             StartSunFireball(&position, &direction);
             sun->mUnk_0a0 += 1;
             if (sun->mUnk_0a0 >= 2) {
@@ -399,10 +399,10 @@ u8 CollideItemObjectWithBound(Bound *bound, void *a, u8 *b, u8 *c) {
 
 BOOL ComputeSphereHitOnBound(Bound *bound, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *pushOut) {
     if ((bound->mMapObject.mFlags & 0x800) == 0 && bound->mWobbling == TRUE) {
-        bound->mSphereHit =
-            ComputeSphereHitOnRotatedCylinder(sphereCenter, &bound->mMapObject.mPos, &bound->mMapObject.mMatrix.mRows[0],
-                                              MUL_FIXED12_NO_ROUND(bound->mMapObject.mExtent.x, bound->mWobbleScaleX),
-                                              bound->mMapObject.mExtent.y, 0, sphereRadius, pushOut);
+        bound->mSphereHit = ComputeSphereHitOnRotatedCylinder(
+            sphereCenter, &bound->mMapObject.mPos, &bound->mMapObject.mMatrix.mRows[0],
+            MUL_FIXED12_NO_ROUND(bound->mMapObject.mExtent.x, bound->mWobbleScaleX), bound->mMapObject.mExtent.y, 0,
+            sphereRadius, pushOut);
     } else {
         bound->mSphereHit = ComputeSphereHitOnRotatedCylinder(
             sphereCenter, &bound->mMapObject.mPos, &bound->mMapObject.mMatrix.mRows[0], bound->mMapObject.mExtent.x,
@@ -516,7 +516,7 @@ void InitBoundAndCreamAndBerryObjects(MapObjectList *mapObjectList) {
 }
 
 s16 BoundFX_SinIdx(s32 angle) {
-    return gPairsByAngle[(angle >> 4) * 2];
+    return FX_SinIdx(angle);
 }
 
 s32 BoundFX_MulInline(s32 a, s32 b) {

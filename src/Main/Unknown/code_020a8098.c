@@ -4,6 +4,7 @@
 #include "Main/Unknown/code_020a8a6c.h"
 #include "Main/Unknown/code_020d22c0.h"
 #include "Main/Unknown/unk_0215d000.h"
+#include "code_02147cd8.h"
 
 void *CreateCourseSoundObjectUpdateList(void) {
     return CreateMapObjectUpdateList(InitCourseSoundObjects, UpdateCourseSoundObject, NULL);
@@ -23,9 +24,9 @@ void StartSanboLaunch(Sanbo *sanbo) {
         sanbo->mPieces[i].mPos.x = sanbo->mMapObject.mPos.x;
         sanbo->mPieces[i].mPos.y = sanbo->mMapObject.mPos.y + i * 0x14000;
         sanbo->mPieces[i].mPos.z = sanbo->mMapObject.mPos.z;
-        sanbo->mPieces[i].mVelocity.x = MUL_FIXED12_NO_ROUND(gPairsByAngle[(randomAngle >> 4) * 2], 0x2000);
+        sanbo->mPieces[i].mVelocity.x = MUL_FIXED12_NO_ROUND(FX_SinIdx(randomAngle), 0x2000);
         sanbo->mPieces[i].mVelocity.y = 0x4000;
-        sanbo->mPieces[i].mVelocity.z = MUL_FIXED12_NO_ROUND(gPairsByAngle[(randomAngle >> 4) * 2 + 1], 0x2000);
+        sanbo->mPieces[i].mVelocity.z = MUL_FIXED12_NO_ROUND(FX_CosIdx(randomAngle), 0x2000);
         mapObjectRandom = GetMapObjectRandom();
         mapObjectRandom->mValue =
             (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;

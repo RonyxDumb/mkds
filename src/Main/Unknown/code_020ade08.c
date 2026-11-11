@@ -36,6 +36,7 @@
 #include "Main/Unknown/unk_02175000.h"
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/unk_0215d000.h"
+#include "code_02147cd8.h"
 
 #pragma optimize_for_size on
 
@@ -71,7 +72,7 @@ s32 LookupRowOffset(s32 index) {
 #pragma thumb off
 
 s16 InterpolateFX_CosIdx(s32 angle) {
-    return gPairsByAngle[(angle >> 4) * 2 + 1];
+    return FX_CosIdx(angle);
 }
 
 s32 InterpolateMulFixed12NoRound(s32 value, s32 factor) {

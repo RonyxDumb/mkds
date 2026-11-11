@@ -13,6 +13,7 @@
 #include "Main/Unknown/code_02047104.h"
 #include "Main/Unknown/code_020f813c.h"
 #include "Main/Unknown/code_020f6be8.h"
+#include "code_02147cd8.h"
 
 #pragma thumb on
 
@@ -170,8 +171,8 @@ void DeflectItemObjectRandomly(ItemObject *item, Vec3 *otherPos, Vec3 *normal) {
     random = &gRaceProgress->mRandom;
     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
     angleIndex = (u16) ((((u64) (u32) (random->mValue >> 32) * 0x10000) >> 32)) >> 4;
-    item->mUnk_108.z = gPairsByAngle[angleIndex * 2 + 1];
-    item->mUnk_108.x = gPairsByAngle[angleIndex * 2];
+    item->mUnk_108.z = FX_SinCosTable_[angleIndex * 2 + 1];
+    item->mUnk_108.x = FX_SinCosTable_[angleIndex * 2];
     item->mVelocity.z = MUL_FIXED12_NO_ROUND(item->mUnk_108.z, 0x14cd);
     item->mVelocity.x = MUL_FIXED12_NO_ROUND(item->mUnk_108.x, 0x14cd);
     item->mFlags |= 0x2000000;

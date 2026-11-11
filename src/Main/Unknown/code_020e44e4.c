@@ -110,14 +110,14 @@ void UpdateRotary(u32 unused, Rotary *object) {
         MUL_FIXED12_NO_ROUND(object->mCollisionMapObject.mMapObject.mMatrix.mRows[1].z, angleChange);
     object->mCollisionMapObject.mCollisionData.mPrevMatrix = object->mCollisionMapObject.mMapObject.mMatrix.mAxes;
     MTX_RotY33_(&object->mCollisionMapObject.mMapObject.mMatrix.mAxes,
-                gPairsByAngle[(object->mCollisionMapObject.mMapObject.mAngle >> 4) * 2],
-                gPairsByAngle[(object->mCollisionMapObject.mMapObject.mAngle >> 4) * 2 + 1]);
+                FX_SinIdx(object->mCollisionMapObject.mMapObject.mAngle),
+                FX_CosIdx(object->mCollisionMapObject.mMapObject.mAngle));
     MTX_Concat33(&object->mCollisionMapObject.mMapObject.mMatrix.mAxes,
                  &object->mCollisionMapObject.mCollisionData.mInitialMatrix,
                  &object->mCollisionMapObject.mMapObject.mMatrix.mAxes);
     VEC_MultAdd(-object->mCollisionMapObject.mCollisionData.mHalfSizeY,
-                &object->mCollisionMapObject.mMapObject.mMatrix.mRows[1],
-                &object->mCollisionMapObject.mMapObject.mPos, &object->mCollisionMapObject.mCollisionData.mCenterPos);
+                &object->mCollisionMapObject.mMapObject.mMatrix.mRows[1], &object->mCollisionMapObject.mMapObject.mPos,
+                &object->mCollisionMapObject.mCollisionData.mCenterPos);
     if (object->mCollisionMapObject.mMapObject.mStateMachine.mState == ROTARY_STATE_PAUSE) {
         return;
     }

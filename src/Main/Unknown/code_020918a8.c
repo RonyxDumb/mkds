@@ -109,7 +109,7 @@ u32 NextRandomBelow(RandomState64 *randomState64, u32 limit) {
 }
 
 s16 Kanoke64FX_SinIdx(s32 angle) {
-    return gPairsByAngle[(angle >> 4) * 2];
+    return FX_SinIdx(angle);
 }
 
 s32 Kanoke64MulFixed12NoRound(s32 multiplicand, s32 multiplier) {
@@ -165,7 +165,7 @@ static inline void func_020919e8_inline_6(Vec3 *outPos, s32 baseX, s32 baseY, s3
 }
 
 s16 Kanoke64FX_CosIdx(s32 angle) {
-    return gPairsByAngle[(angle >> 4) * 2 + 1];
+    return FX_CosIdx(angle);
 }
 
 void UpdateKanoke64(void *mapObjectList, Kanoke64 *kanoke64) {

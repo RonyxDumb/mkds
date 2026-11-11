@@ -15,6 +15,7 @@
 #include "code_02146cbc.h"
 #include "Main/Unknown/code_020f9c6c.h"
 #include "ITCM/code_01ff8000.h"
+#include "code_02147cd8.h"
 
 MapObjectModel *gStopSign;
 
@@ -22,7 +23,7 @@ void InitStopSign(Unk02188950 *a) {
     MtxFx33 m;
     RefreshMapObjectMatrixFromHitNormal(&a->mUnk_000);
     a->mUnk_000.mAngle = (a->mUnk_000.mCourseMapRow->mUnk_0c.y * 0xb60b60b60bLL + 0x80000000000LL) >> 44;
-    MTX_RotY33_(&m, gPairsByAngle[(a->mUnk_000.mAngle >> 4) * 2], gPairsByAngle[(a->mUnk_000.mAngle >> 4) * 2 + 1]);
+    MTX_RotY33_(&m, FX_SinIdx(a->mUnk_000.mAngle), FX_CosIdx(a->mUnk_000.mAngle));
     MTX_Concat33(&m, &a->mUnk_000.mMatrix.mAxes, &a->mUnk_000.mMatrix.mAxes);
 }
 

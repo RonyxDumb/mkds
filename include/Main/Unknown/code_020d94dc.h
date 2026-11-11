@@ -43,7 +43,7 @@ typedef struct WaterEfct {
 // functions into gWater and published as gCourseWater.
 typedef struct Water {
     // X of model A (the model of mModelAFile, letter A from the file name ..._waterA): mCenterX + mModelARadius * the
-    // first value of the gPairsByAngle pair for mCircleAngle; UpdateWater writes it only while model A exists
+    // first value of the FX_SinCosTable_ pair for mCircleAngle; UpdateWater writes it only while model A exists
     // (InitWaterFields first sets it to mCenterX).
     /* 00 */ s32 mModelAX;
     // y of the water surface: the models are drawn at it and the getters subtract it from a y; it stays 0 for the
@@ -71,13 +71,13 @@ typedef struct Water {
     // (a - b) / 2 of the two heights the creator gives; mHeight is mMidHeight plus this times mHeightFactor (both
     // creators with different heights pass the larger first).
     /* 28 */ s32 mHeightAmplitude;
-    // 0x10000 per turn, index (angle >> 4) * 2 into gPairsByAngle; advances only in states 0 and 2; 0x4000 is the top
+    // 0x10000 per turn, index (angle >> 4) * 2 into FX_SinCosTable_; advances only in states 0 and 2; 0x4000 is the top
     // (pair value +1.0), 0xc000 the bottom; GetWaterHeightAngle returns it.
     /* 2c */ u16 mHeightAngle;
     // 0x10000 / the cycle length (in UpdateWater calls) the creator gives; added to mHeightAngle per call in states 0
     // and 2.
     /* 2e */ u16 mHeightAnglePerFrame;
-    // 1.12 fixed (0x1000 = 1.0), the first value of the gPairsByAngle pair for mHeightAngle (-1.0 .. +1.0), refreshed
+    // 1.12 fixed (0x1000 = 1.0), the first value of the FX_SinCosTable_ pair for mHeightAngle (-1.0 .. +1.0), refreshed
     // in states 0 and 2; mHeight = mMidHeight + mHeightAmplitude * this; the HUD gauge reads it.
     /* 30 */ s32 mHeightFactor;
     // How many UpdateWater calls state 1 holds (mHoldFrames must exceed it; the height and angle stay, the models keep

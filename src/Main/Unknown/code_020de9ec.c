@@ -29,6 +29,7 @@
 #include "Main/Unknown/unk_0217b000.h"
 #include "Main/Unknown/code_020df428.h"
 #include "code_021471bc.h"
+#include "code_02147cd8.h"
 
 #pragma thumb on
 
@@ -205,20 +206,18 @@ void DrawQuestion(void *unused0, ItemBox *itemBox, void *unused1, u16 maxAlpha) 
     polygonIdModel = gQuestion;
     polygonIdModel->mPolygonAttributes &= 0xc0ffffff;
     polygonIdModel->mPolygonAttributes |= polygonId << 24;
-    DrawNsbmdModelWithMatrixAndMaxAlpha(gQuestion, &matrix,
-                                        itemBox->mPositionSource != NULL ? &itemBox->mMapObject.mScale : 0, 0, maxAlpha);
+    DrawNsbmdModelWithMatrixAndMaxAlpha(
+        gQuestion, &matrix, itemBox->mPositionSource != NULL ? &itemBox->mMapObject.mScale : 0, 0, maxAlpha);
 }
 
 void SetupDrawItemBoxShadow(void) {
-    s32 angleIndex;
 
     SendObjShadowMaterial();
     if (GetChoisesSOpenDuringRace() != 0) {
         return;
     }
     gItemBoxShadowAngle += 0xca;
-    angleIndex = gItemBoxShadowAngle >> 4;
-    MTX_RotY43_(&gItemBoxShadowMatrix, gPairsByAngle[angleIndex * 2], gPairsByAngle[angleIndex * 2 + 1]);
+    MTX_RotY43_(&gItemBoxShadowMatrix, SIN_OF_ANGLE(gItemBoxShadowAngle), COS_OF_ANGLE(gItemBoxShadowAngle));
 }
 
 // Also sets the box and question alpha from the frames since the hit; DrawBox and DrawQuestion read them.

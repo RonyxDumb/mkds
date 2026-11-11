@@ -108,7 +108,7 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
         NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&balloon->mDrawPos), 12);
         if (balloon->mMapObject.mAngle != 0) {
             i = (balloon->mMapObject.mAngle >> 4) * 2;
-            MTX_RotZ33_(&rotateZMatrix, gPairsByAngle[i + 1], gPairsByAngle[i]);
+            MTX_RotZ33_(&rotateZMatrix, FX_SinCosTable_[i + 1], FX_SinCosTable_[i]);
             NNS_G3dGeBufferOP_N(0x1a, &rotateZMatrix, 9);
         }
         drawScale = balloon->mDrawScale;
@@ -155,8 +155,7 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
             listBalloon = balloon->mDrawList[i];
             NNS_G3dGeBufferOP_N(0x11, NULL, 0);
             rotateZAngle = data_02156700[drawCount - 1][i];
-            MTX_RotZ33_(&listRotateZMatrix, gPairsByAngle[(rotateZAngle >> 4) * 2 + 1],
-                        gPairsByAngle[(rotateZAngle >> 4) * 2]);
+            MTX_RotZ33_(&listRotateZMatrix, FX_CosIdx(rotateZAngle), FX_SinIdx(rotateZAngle));
             NNS_G3dGeBufferOP_N(0x1a, &listRotateZMatrix, 9);
             scaleFactor = listBalloon->mScaleFactor;
             if (scaleFactor != 0x1000) {
@@ -205,10 +204,10 @@ void FollowBalloonTarget(Balloon *balloon) {
         balloon->mMapObject.mPosStep.y = balloon->mMapObject.mPosStep.y + (q->y + (q->y >> 1));
         balloon->mMapObject.mPosStep.z = balloon->mMapObject.mPosStep.z + (q->z + (q->z >> 1));
     }
-    offsetX =
-        (balloon->mMapObject.mPos.x + balloon->mMapObject.mPosStep.x) - (balloon->mTargetPos.x + balloon->mTargetVelocity.x);
-    offsetZ =
-        (balloon->mMapObject.mPos.z + balloon->mMapObject.mPosStep.z) - (balloon->mTargetPos.z + balloon->mTargetVelocity.z);
+    offsetX = (balloon->mMapObject.mPos.x + balloon->mMapObject.mPosStep.x) -
+              (balloon->mTargetPos.x + balloon->mTargetVelocity.x);
+    offsetZ = (balloon->mMapObject.mPos.z + balloon->mMapObject.mPosStep.z) -
+              (balloon->mTargetPos.z + balloon->mTargetVelocity.z);
     distanceLimit = MUL_FIXED12_NO_ROUND(0xa000, balloon->mScaleFactor + balloon->mScaleSwing);
     absOffsetZ = offsetZ < 0 ? -offsetZ : offsetZ;
     absOffsetX = offsetX < 0 ? -offsetX : offsetX;
@@ -224,12 +223,12 @@ void FollowBalloonTarget(Balloon *balloon) {
             VEC_Subtract(&balloon->mMapObject.mPos, &pullOffset, &balloon->mMapObject.mPos);
         }
     }
-    offsetX =
-        (balloon->mMapObject.mPos.x + balloon->mMapObject.mPosStep.x) - (balloon->mTargetPos.x + balloon->mTargetVelocity.x);
-    offsetY =
-        (balloon->mMapObject.mPos.y + balloon->mMapObject.mPosStep.y) - (balloon->mTargetPos.y + balloon->mTargetVelocity.y);
-    offsetZ =
-        (balloon->mMapObject.mPos.z + balloon->mMapObject.mPosStep.z) - (balloon->mTargetPos.z + balloon->mTargetVelocity.z);
+    offsetX = (balloon->mMapObject.mPos.x + balloon->mMapObject.mPosStep.x) -
+              (balloon->mTargetPos.x + balloon->mTargetVelocity.x);
+    offsetY = (balloon->mMapObject.mPos.y + balloon->mMapObject.mPosStep.y) -
+              (balloon->mTargetPos.y + balloon->mTargetVelocity.y);
+    offsetZ = (balloon->mMapObject.mPos.z + balloon->mMapObject.mPosStep.z) -
+              (balloon->mTargetPos.z + balloon->mTargetVelocity.z);
     distanceLimit = (balloon->mScaleFactor + balloon->mScaleSwing) << 4;
     absOffsetY = offsetY < 0 ? -offsetY : offsetY;
     absOffsetX = offsetX < 0 ? -offsetX : offsetX;
@@ -262,7 +261,6 @@ void UpdateBalloonAngle(Balloon *balloon) {
     Camera *currentCamera;
     Vec3 cameraOffset;
     u16 cameraAngle;
-    s32 pairIndex;
     s32 pairFirst;
     s32 pairSecond;
     s32 x;
@@ -273,9 +271,8 @@ void UpdateBalloonAngle(Balloon *balloon) {
     currentCamera = GetCurrentCamera();
     cameraAngle = FX_Atan2Idx(currentCamera->mForward.x, currentCamera->mForward.z) - 0x4000;
     VEC_Subtract(&balloon->mMapObject.mPos, &currentCamera->mPos, &cameraOffset);
-    pairIndex = (cameraAngle >> 4) * 2;
-    pairFirst = gPairsByAngle[pairIndex];
-    pairSecond = gPairsByAngle[pairIndex + 1];
+    pairFirst = SIN_OF_ANGLE(cameraAngle);
+    pairSecond = COS_OF_ANGLE(cameraAngle);
     x = MUL_FIXED12_NO_ROUND(cameraOffset.z, pairSecond);
     y = MUL_FIXED12_NO_ROUND(cameraOffset.x, pairFirst);
     u = cameraOffset.y;
