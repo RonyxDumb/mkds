@@ -502,7 +502,7 @@ typedef struct ItemPool {
 } ItemPool;
 
 // Value of the first word of HeldItem.
-typedef enum { UNK_020F40DC_KIND_0 } Unk020f40dc_Kind;
+typedef enum { UNK_020F40DC_KIND_0 } ItemInfoIndex;
 
 // The item a kart holds: its item index, how many are left and the objects it holds.
 typedef struct HeldItem {

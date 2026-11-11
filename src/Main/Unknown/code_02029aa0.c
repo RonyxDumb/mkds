@@ -70,7 +70,7 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     void *message;
     s32 courseIndex;
     s32 loopIndex;
-    Unk02153918 *tableEntry;
+    LabelCanvasEntry *tableEntry;
 
     labelTableIndex = 0;
     gResultsGp = HeapAlloc(heap, 0x60);
@@ -165,15 +165,16 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     }
     message = GetBmgEntry(gResultsGp->mCommonMessages, gEngineMessageIndexTable[gMenuShared->mEngineIndex]);
     for (loopIndex = 0; loopIndex < 2; loopIndex++) {
-        PrintLabelLayoutTextNoFixedAdvance(1, data_usa_02153918[labelTableIndex].mUnk_00, subFileSet->mLabelLayout,
+        PrintLabelLayoutTextNoFixedAdvance(1, data_usa_02153918[labelTableIndex].mLabelIndex, subFileSet->mLabelLayout,
                                            message, subFileSet->mCellLayout, subFileSet->mCellTable);
         labelTableIndex++;
     }
     if (gMenuShared->mMirrorMode != 0) {
         message = GetBmgEntry(gResultsGp->mCommonMessages, 0x71);
         for (loopIndex = 0; loopIndex < 2; loopIndex++) {
-            PrintLabelLayoutTextNoFixedAdvance(1, data_usa_02153918[labelTableIndex].mUnk_00, subFileSet->mLabelLayout,
-                                               message, subFileSet->mCellLayout, subFileSet->mCellTable);
+            PrintLabelLayoutTextNoFixedAdvance(1, data_usa_02153918[labelTableIndex].mLabelIndex,
+                                               subFileSet->mLabelLayout, message, subFileSet->mCellLayout,
+                                               subFileSet->mCellTable);
             labelTableIndex++;
         }
     } else {
@@ -182,15 +183,15 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     for (courseIndex = 0; courseIndex < 4; courseIndex++) {
         message = GetBmgEntry(gResultsGp->mCommonMessages,
                               GetCourseMessageIndex(data_usa_02153898[gResultsGp->mCupIndex][courseIndex]));
-        PrintLabelLayoutTextNoFixedAdvance(1, data_usa_02153918[labelTableIndex].mUnk_00, subFileSet->mLabelLayout,
+        PrintLabelLayoutTextNoFixedAdvance(1, data_usa_02153918[labelTableIndex].mLabelIndex, subFileSet->mLabelLayout,
                                            message, subFileSet->mCellLayout, subFileSet->mCellTable);
         labelTableIndex++;
     }
     for (loopIndex = 0; loopIndex < 4; loopIndex++) {
         WriteCourseTimeText(timeText, loopIndex);
-        PrintLabelLayoutTextFixedDigits(1, data_usa_02153918[labelTableIndex].mUnk_00, subFileSet->mLabelLayout,
+        PrintLabelLayoutTextFixedDigits(1, data_usa_02153918[labelTableIndex].mLabelIndex, subFileSet->mLabelLayout,
                                         timeText, subFileSet->mCellLayout, subFileSet->mCellTable, 7);
-        PrintLabelLayoutTextFixedDigits(1, data_usa_02153918[labelTableIndex + 4].mUnk_00, subFileSet->mLabelLayout,
+        PrintLabelLayoutTextFixedDigits(1, data_usa_02153918[labelTableIndex + 4].mLabelIndex, subFileSet->mLabelLayout,
                                         timeText, subFileSet->mCellLayout, subFileSet->mCellTable, 7);
         labelTableIndex++;
     }

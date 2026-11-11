@@ -111,7 +111,7 @@ void TP_Init(void) {
 // Computes the calibration from the values stored in the shared block; zeroes it when there are none or they are
 // refused.
 BOOL TP_GetUserInfo(TPCalibrateParam *calibrate) {
-    Unk0214eadc *info = &SYSTEM_WORK->mNvramUserInfo;
+    NvramUserInfo *info = &SYSTEM_WORK->mNvramUserInfo;
     u16 rawX1;
     u16 rawY1;
     u16 rawX2;

@@ -17,7 +17,7 @@
 
 BOOL InitUsbScan(void (*callback)(u32)) {
     UsbScan *scan;
-    Unk0200fddc ownerInfo;
+    OwnerInfo ownerInfo;
     u64 tick;
 
     gUsbScan = AllocZeroedExpHeapBlock(0x1ba0, 0x20);
@@ -37,7 +37,7 @@ BOOL InitUsbScan(void (*callback)(u32)) {
         OS_GetOwnerInfo(&ownerInfo);
         MI_CpuCopy8(gUsbSsidPrefix, &gUsbScan->mUnk_1374.mSsid[0], 8);
         gUsbScan->mUnk_1374.mSsid[9] = 1;
-        MI_CpuCopy8(ownerInfo.mUnk_04, &gUsbScan->mUnk_1374.mSsid[0xc], ownerInfo.mUnk_18 * 2);
+        MI_CpuCopy8(ownerInfo.mNickName, &gUsbScan->mUnk_1374.mSsid[0xc], ownerInfo.mNickNameLength * 2);
         if (StartUsbScan() != 0) {
             gUsbScan->mUnk_1b7c = AddTask(0, AdvanceUsbScanReport, NULL, 0x78);
             return 1;

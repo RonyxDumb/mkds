@@ -5,7 +5,7 @@
 void OS_InitIrqTable(void) {
     OSThreadQueue *queue;
 
-    queue = &data_027e0000.mUnk_0000;
+    queue = &data_027e0000.mIrqThreadQueue;
     queue->mTail = 0;
     queue->mHead = 0;
 }

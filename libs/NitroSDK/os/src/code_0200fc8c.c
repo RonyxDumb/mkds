@@ -11,22 +11,22 @@ u16 data_0217027c;
 
 // Copies the 6-byte MAC address from the fixed system block into macAddress.
 void OS_GetMacAddress(void *macAddress) {
-    MI_CpuCopy8(SYSTEM_WORK->mNvramUserInfo.mUnk_74, macAddress, 6);
+    MI_CpuCopy8(SYSTEM_WORK->mNvramUserInfo.mMacAddress, macAddress, 6);
 }
 
 // Fills info from the owner data block in the system area.
-void OS_GetOwnerInfo(Unk0200fddc *info) {
-    Unk0214eadc *source;
+void OS_GetOwnerInfo(OwnerInfo *info) {
+    NvramUserInfo *source;
 
     source = &SYSTEM_WORK->mNvramUserInfo;
-    info->mUnk_00 = (u32) (source->mUnk_64 << 29) >> 29;
-    info->mUnk_01 = (u32) (source->mUnk_02 << 28) >> 28;
-    info->mUnk_02 = source->mUnk_03;
-    info->mUnk_03 = source->mUnk_04;
-    info->mUnk_18 = source->mUnk_1a;
-    info->mUnk_4e = source->mUnk_50;
-    MIi_CpuCopy16(source->mUnk_06, info->mUnk_04, 0x14);
-    MIi_CpuCopy16(source->mUnk_1c, info->mUnk_1a, 0x34);
+    info->mLanguage = (u32) (source->mUnk_64 << 29) >> 29;
+    info->mFavoriteColor = (u32) (source->mFavoriteColor << 28) >> 28;
+    info->mBirthdayMonth = source->mBirthdayMonth;
+    info->mBirthdayDay = source->mBirthdayDay;
+    info->mNickNameLength = source->mNickNameLength;
+    info->mCommentLength = source->mCommentLength;
+    MIi_CpuCopy16(source->mNickName, info->mNickName, 0x14);
+    MIi_CpuCopy16(source->mComment, info->mComment, 0x34);
 }
 
 // Opens the reset channel once and installs OSi_CommonCallback on it.

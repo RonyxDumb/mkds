@@ -206,7 +206,7 @@ void MBi_CommParentCallback(s32 eventCode, Unk021425e8 *eventData) {
 
 void MBi_CommParentRecvDataPerChild(WMMpRecvData *childData, u32 child) {
     ChildMessage message;
-    Unk0200c12c payloadCopy;
+    MBCommRequestData payloadCopy;
     u8 *payload;
     u32 arrayIndex;
     u32 childValue;
@@ -228,16 +228,16 @@ void MBi_CommParentRecvDataPerChild(WMMpRecvData *childData, u32 child) {
                 }
                 MI_CpuCopy8(payload, &payloadCopy, 0x1d);
                 index = child - 1;
-                mbc->mChildggid[arrayIndex] = payloadCopy.mUnk_00;
-                mbc->mChildversion[index] = payloadCopy.mUnk_1a;
+                mbc->mChildggid[arrayIndex] = payloadCopy.mGgid;
+                mbc->mChildversion[index] = payloadCopy.mVersion;
                 index *= 0x16;
-                MI_CpuCopy8(payloadCopy.mUnk_04, OFFSET_PTR(MBUserInfo, mbc->mChildUser, index), 0x16);
+                MI_CpuCopy8(payloadCopy.mUserInfo, OFFSET_PTR(MBUserInfo, mbc->mChildUser, index), 0x16);
                 OFFSET_PTR(MBUserInfo, mbc->mChildUser, index)->mPlayerNo = child;
-                MBi_CommChangeParentState(child, 0xa, payloadCopy.mUnk_04);
+                MBi_CommChangeParentState(child, 0xa, payloadCopy.mUserInfo);
             }
             if (childValue == 10) {
                 bitCount = 0;
-                entryIndex = ((Unk0200c12c *) payload)->mUnk_1c;
+                entryIndex = ((MBCommRequestData *) payload)->mFileId;
                 if (entryIndex >= 16 || (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mEntryUsed == 0 ||
                     mbc->mChildggid[arrayIndex] !=
                         (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mGameReg->mGgid) {

@@ -49,7 +49,7 @@ void InitStartupWork(void *heap) {
 }
 
 void FillStartupWork(void) {
-    Unk0200fddc ownerInfo;
+    OwnerInfo ownerInfo;
     u64 firstTick;
     u64 secondTick;
     StartupWork *startupWork;
@@ -57,11 +57,11 @@ void FillStartupWork(void) {
 
     OS_GetOwnerInfo(&ownerInfo);
     MI_CpuFill8(gStartupWork->mOwnerText, 0, 0x14);
-    gStartupWork->mOwnerCharCount = ownerInfo.mUnk_18;
-    MI_CpuCopy8(ownerInfo.mUnk_04, gStartupWork->mOwnerText, gStartupWork->mOwnerCharCount << 1);
-    gStartupWork->mUnk_40 = ownerInfo.mUnk_01;
+    gStartupWork->mOwnerCharCount = ownerInfo.mNickNameLength;
+    MI_CpuCopy8(ownerInfo.mNickName, gStartupWork->mOwnerText, gStartupWork->mOwnerCharCount << 1);
+    gStartupWork->mUnk_40 = ownerInfo.mFavoriteColor;
     gStartupWork->mRegion = 1;
-    switch (ownerInfo.mUnk_00) {
+    switch (ownerInfo.mLanguage) {
         case 1:
             gStartupWork->mLanguageIndex = 1;
             break;

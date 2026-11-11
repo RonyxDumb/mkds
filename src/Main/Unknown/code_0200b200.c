@@ -165,14 +165,14 @@ void ReceivePortMessage(Unk021425e8 *info) {
 
 void QueueStateMessage(void) {
     ChildMessage childMessage;
-    Unk0200c12c requestData;
+    MBCommRequestData requestData;
     u8 *payload;
     switch (gScanConnectWork->mState) {
         case 5:
-            requestData.mUnk_00 = gScanConnectWork->mUnk_5f08;
-            requestData.mUnk_1a = 1;
-            requestData.mUnk_1c = gScanConnectWork->mUnk_5f0c;
-            MI_CpuCopy8(gScanConnectWork->mUnk_05c4, requestData.mUnk_04, 0x16);
+            requestData.mGgid = gScanConnectWork->mUnk_5f08;
+            requestData.mVersion = 1;
+            requestData.mFileId = gScanConnectWork->mUnk_5f0c;
+            MI_CpuCopy8(gScanConnectWork->mUnk_05c4, requestData.mUserInfo, 0x16);
             childMessage.mKind = 7;
             payload = &childMessage.mKind;
             payload += 3;

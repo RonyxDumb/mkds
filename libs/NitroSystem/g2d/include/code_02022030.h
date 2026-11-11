@@ -74,7 +74,7 @@ typedef struct Unk02022030 {
 } Unk02022030;
 
 // Record at the first word of the element: ApplyCurrentAnimResult_ reads these members, except when the low byte of
-// mUnk_04 of the header is 2 (then Unk020229b4).
+// mUnk_04 of the header is 2 (then NNSG2dAnimDataT).
 struct NNSG2dAnimDataSRT {
     /* 00 */ u16 mIndex;
     /* 02 */ u16 mRotZ;
@@ -84,12 +84,12 @@ struct NNSG2dAnimDataSRT {
     /* 0e */ s16 mPy;
 };
 
-typedef struct Unk020229b4 {
+typedef struct NNSG2dAnimDataT {
     /* 00 */ u16 mUnk_00;
     /* 02 */ u16 mUnk_02;
-    /* 04 */ s16 mUnk_04;
-    /* 06 */ s16 mUnk_06;
-} Unk020229b4;
+    /* 04 */ s16 mPx;
+    /* 06 */ s16 mPy;
+} NNSG2dAnimDataT;
 
 void NNS_G2dBindAnimCtrl(Unk02022030 *pAnimCtrl, NNSG2dAnimSequenceData *pAnimSequence);
 void NNS_G2dResetAnimCtrlState(Unk02022030 *pAnimCtrl);

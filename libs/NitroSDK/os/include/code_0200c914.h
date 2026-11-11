@@ -4,19 +4,19 @@
 #include "code_0200e77c.h"
 
 // Fixed-address object in the data TCM; the code reads and writes words at these offsets.
-typedef struct Unk027e0000 {
-    /* 0000 */ OSThreadQueue mUnk_0000;
+typedef struct DtcmData {
+    /* 0000 */ OSThreadQueue mIrqThreadQueue;
     /* 0008 */ u8 mUnk_0008[0x3380 - 0x8];
     /* 3380 */ u32 mUnk_3380;
     /* 3384 */ u8 mUnk_3384[0x3f7c - 0x3384];
     /* 3f7c */ u32 mUnk_3f7c;
     /* 3f80 */ u8 mUnk_3f80[0x3ff8 - 0x3f80];
-    /* 3ff8 */ u32 mUnk_3ff8;
-} Unk027e0000;
+    /* 3ff8 */ u32 mIrqCheckFlags;
+} DtcmData;
 
-extern Unk027e0000 data_027e0000;
+extern DtcmData data_027e0000;
 
-#define HW_DTCM ((Unk027e0000 *) 0x027e0000)
+#define HW_DTCM ((DtcmData *) 0x027e0000)
 
 typedef void (*OSIrqFunction)(void);
 typedef u32 OSIrqMask;

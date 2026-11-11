@@ -5,13 +5,13 @@
 typedef struct CellFileSet CellFileSet;
 
 // 12-byte entries of the table at data_usa_02153918.
-typedef struct Unk02153918 {
-    /* 00 */ s16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ s16 mUnk_06;
+typedef struct LabelCanvasEntry {
+    /* 00 */ s16 mLabelIndex;
+    /* 02 */ u16 mWidth;
+    /* 04 */ u16 mHeight;
+    /* 06 */ s16 mEntryIndex;
     /* 08 */ s32 mUnk_08;
-} Unk02153918;
+} LabelCanvasEntry;
 
 u32 GetKartSoundTableRow(u32 kartIndex);
 void LoadAndQueueScreenMapFileSet(u32 screen, void *fileSetPointer, const char *charsName, const char *paletteName,

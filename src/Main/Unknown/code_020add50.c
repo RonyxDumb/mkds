@@ -4,6 +4,6 @@
 
 u8 *GetFontGlyphImage(Unk02022aa8 *font, int glyphIndex) {
     u32 value0 = GetFontGlyphImageStride(font);
-    u8 *value1 = font->mPRes->mPGlyph->mUnk_08;
+    u8 *value1 = font->mPRes->mPGlyph->mGlyphTable;
     return value1 + glyphIndex * value0;
 }

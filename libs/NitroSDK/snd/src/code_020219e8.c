@@ -107,7 +107,7 @@ void SND_GetFirstInstDataPos(SNDInstPos *pos) {
 }
 
 // Copies the instrument entry at pos into inst and moves pos on; returns 0 when there are no more.
-u32 SND_GetNextInstData(Unk02021968 *bank, Unk020219f0 *inst, SNDInstPos *pos) {
+u32 SND_GetNextInstData(Unk02021968 *bank, SNDInstData *inst, SNDInstPos *pos) {
     u32 entry;
     Unk02021a60 *simple;
     Unk02021aa8 *drumSet;
@@ -115,15 +115,15 @@ u32 SND_GetNextInstData(Unk02021968 *bank, Unk020219f0 *inst, SNDInstPos *pos) {
 
     while (pos->mPrgNo < bank->mUnk_38) {
         entry = bank->mUnk_3c[pos->mPrgNo];
-        inst->mUnk_00 = entry;
-        switch (inst->mUnk_00) {
+        inst->mType = entry;
+        switch (inst->mType) {
             case 1:
             case 2:
             case 3:
             case 4:
             case 5:
                 simple = OFFSET_PTR(Unk02021a60, bank, (entry >> 8));
-                inst->mUnk_02 = simple->mUnk_00;
+                inst->mWave = simple->mUnk_00;
                 inst->mUnk_06 = simple->mUnk_04;
                 inst->mUnk_0a = simple->mUnk_08;
                 pos->mPrgNo++;

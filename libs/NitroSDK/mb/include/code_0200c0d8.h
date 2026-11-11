@@ -22,13 +22,13 @@ typedef struct ChildMessage {
 } ChildMessage;
 
 // 0x20-byte entry that MBi_SendRequestDataPiece copies.
-typedef struct Unk0200c12c {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u8 mUnk_04[0x16];
-    /* 1a */ u16 mUnk_1a;
-    /* 1c */ u8 mUnk_1c;
+typedef struct MBCommRequestData {
+    /* 00 */ u32 mGgid;
+    /* 04 */ u8 mUserInfo[0x16];
+    /* 1a */ u16 mVersion;
+    /* 1c */ u8 mFileId;
     /* 1d */ u8 mUnk_1d[3];
-} Unk0200c12c;
+} MBCommRequestData;
 
 u8 *MBi_SetRecvBufferFromParent(ParentMessage *message, u8 *buffer);
 u8 MBi_SendRequestDataPiece(void *output, void *pieces);

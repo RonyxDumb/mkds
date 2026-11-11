@@ -17,17 +17,17 @@ typedef struct BootInfo {
 
 // The user settings the system leaves in shared memory at 0x027ffc80: the owner data and the touch panel calibration
 // words.
-typedef struct Unk0214eadc {
+typedef struct NvramUserInfo {
     /* 00 */ u8 mUnk_00[2];
-    /* 02 */ u8 mUnk_02;
-    /* 03 */ u8 mUnk_03;
-    /* 04 */ u8 mUnk_04;
+    /* 02 */ u8 mFavoriteColor;
+    /* 03 */ u8 mBirthdayMonth;
+    /* 04 */ u8 mBirthdayDay;
     /* 05 */ u8 mUnk_05;
-    /* 06 */ u8 mUnk_06[0x14];
-    /* 1a */ u8 mUnk_1a;
+    /* 06 */ u8 mNickName[0x14];
+    /* 1a */ u8 mNickNameLength;
     /* 1b */ u8 mUnk_1b;
-    /* 1c */ u8 mUnk_1c[0x34];
-    /* 50 */ u8 mUnk_50;
+    /* 1c */ u8 mComment[0x34];
+    /* 50 */ u8 mCommentLength;
     /* 51 */ u8 mUnk_51[7];
     /* 58 */ u16 mRawX1;
     /* 5a */ u16 mRawY1;
@@ -40,19 +40,19 @@ typedef struct Unk0214eadc {
     /* 64 */ u16 mUnk_64;
     /* 66 */ u8 mUnk_66[0xe];
     // The 6 bytes OS_GetMacAddress copies.
-    /* 74 */ u8 mUnk_74[6];
+    /* 74 */ u8 mMacAddress[6];
     // The halfword WM_GetAllowedChannel returns.
     /* 7a */ u16 mUnk_7a;
     /* 7c */ u8 mUnk_7c[0x84];
-} Unk0214eadc;
+} NvramUserInfo;
 
 // The shared memory block at 0x027ffc00 that both processors read and write.
 typedef struct OSSystemWork {
     /* 000 */ u8 mUnk_000[0x30];
-    /* 030 */ Unk027ffc30 mCartridgeModuleInfo;
+    /* 030 */ CTRDGModuleInfo mCartridgeModuleInfo;
     /* 03c */ vu32 mVblankCount;
     /* 040 */ BootInfo mWmBootBuf;
-    /* 080 */ Unk0214eadc mNvramUserInfo;
+    /* 080 */ NvramUserInfo mNvramUserInfo;
     /* 180 */ u8 mUnk_180[0x20];
     /* 1a0 */ OSArenaInfo mArenaInfo;
     /* 1e8 */ RTCRawData mRealTimeClock;
@@ -94,16 +94,16 @@ u32 OS_GetProcMode(void);
 
 // Filled by OS_GetOwnerInfo from the bytes of a fixed-address block: mUnk_04 holds the 0x14 bytes at offset 0x06 of the
 // block and mUnk_1a the 0x34 bytes at offset 0x1c.
-typedef struct Unk0200fddc {
-    /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 mUnk_01;
-    /* 02 */ u8 mUnk_02;
-    /* 03 */ u8 mUnk_03;
-    /* 04 */ u8 mUnk_04[0x14];
-    /* 18 */ u16 mUnk_18;
-    /* 1a */ u8 mUnk_1a[0x34];
-    /* 4e */ u16 mUnk_4e;
-} Unk0200fddc;
+typedef struct OwnerInfo {
+    /* 00 */ u8 mLanguage;
+    /* 01 */ u8 mFavoriteColor;
+    /* 02 */ u8 mBirthdayMonth;
+    /* 03 */ u8 mBirthdayDay;
+    /* 04 */ u8 mNickName[0x14];
+    /* 18 */ u16 mNickNameLength;
+    /* 1a */ u8 mComment[0x34];
+    /* 4e */ u16 mCommentLength;
+} OwnerInfo;
 
 // Disables interrupts and halts forever.
 void OS_Terminate(void);
@@ -129,6 +129,6 @@ void OS_InitReset(void);
 // Fills the record from the words at 0x027ffc80: bits 0-2 of the halfword at +0x64, the low 4 bits of byte +2, bytes +3
 // and +4, a 20-byte text from +6 with its length from byte +0x1a, a 52-byte text from +0x1c with its length from byte
 // +0x50. The game copies the first text with its length into its own buffers.
-void OS_GetOwnerInfo(Unk0200fddc *info);
+void OS_GetOwnerInfo(OwnerInfo *info);
 // Copies the 6 bytes at 0x027ffcf4 into the buffer (one game site prints them as six hex pairs joined by dashes).
 void OS_GetMacAddress(void *macAddress);

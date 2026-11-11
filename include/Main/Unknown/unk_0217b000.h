@@ -950,11 +950,11 @@ typedef struct KeyboardCanvas {
 } KeyboardCanvas;
 
 extern KeyboardCanvas gKeyboardCanvas;
-struct Unk0217b340;
+struct BmgEntryOffsetSection;
 struct BmgBodySection;
 struct Nclr;
 struct Unk02021dc8;
-extern struct Unk0217b340 *data_0217b360;
+extern struct BmgEntryOffsetSection *data_0217b360;
 extern struct BmgBodySection *data_0217b364;
 extern struct Nclr *gPlayerCharacterNclr[2];
 extern struct Nclr *gPlayerCharacterLNclr;

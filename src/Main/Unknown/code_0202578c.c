@@ -68,11 +68,12 @@ void SetupCellFileSet(u32 screen, void *heap, CellFileSet *fileSet) {
 }
 
 s32 SetupLabelCanvas(u32 screen, void *heap, CellFileSet *fileSet, void *entryPointer, s32 objSizeLeft) {
-    Unk02153918 *entry = entryPointer;
+    LabelCanvasEntry *entry = entryPointer;
     s32 result;
-    result = InitLabelCanvas(heap, entry->mUnk_00, fileSet->mLabelLayout, entry->mUnk_02, entry->mUnk_04,
-                             entry->mUnk_06, fileSet->mCells, fileSet->mCellLayout, fileSet->mCellTable, objSizeLeft);
-    ClearAndQueueLabelLayoutText(screen, entry->mUnk_00, fileSet->mLabelLayout, fileSet->mCellLayout,
+    result =
+        InitLabelCanvas(heap, entry->mLabelIndex, fileSet->mLabelLayout, entry->mWidth, entry->mHeight,
+                        entry->mEntryIndex, fileSet->mCells, fileSet->mCellLayout, fileSet->mCellTable, objSizeLeft);
+    ClearAndQueueLabelLayoutText(screen, entry->mLabelIndex, fileSet->mLabelLayout, fileSet->mCellLayout,
                                  fileSet->mCellTable);
     return result;
 }

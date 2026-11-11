@@ -4,22 +4,22 @@
 #include "code_0201c528.h"
 
 // Word at ParticleTexture 0x0c and ParticleTextureHeader 0x04.
-typedef struct Unk020184e4_2c_0c {
-    /* 00 */ u32 mUnk_00_0 : 4;
-    /* 00 */ u32 mUnk_00_4 : 4;
-    /* 00 */ u32 mUnk_00_8 : 4;
-    /* 00 */ u32 mUnk_00_12 : 2;
-    /* 00 */ u32 mUnk_00_14 : 2;
-    /* 00 */ u32 mUnk_00_16 : 1;
+typedef struct ParticleTextureParam {
+    /* 00 */ u32 mFormat : 4;
+    /* 00 */ u32 mSizeS : 4;
+    /* 00 */ u32 mSizeT : 4;
+    /* 00 */ u32 mWrapS : 2;
+    /* 00 */ u32 mWrapT : 2;
+    /* 00 */ u32 mColor0Transparent : 1;
     /* 00 */ u32 mUnk_00_17 : 1;
     /* 00 */ u32 mUnk_00_18 : 8;
     /* 00 */ u32 mUnk_00_26 : 6;
-} Unk020184e4_2c_0c;
+} ParticleTextureParam;
 
 // Header of an entry of the table at SPLManager 0x2c.
 typedef struct ParticleTextureHeader {
     /* 00 */ u8 mUnk_00[4];
-    /* 04 */ Unk020184e4_2c_0c mImageParam;
+    /* 04 */ ParticleTextureParam mImageParam;
     /* 08 */ s32 mTextureSize;
     /* 0c */ s32 mPaletteOffset;
     /* 10 */ s32 mPaletteSize;
@@ -32,7 +32,7 @@ typedef struct ParticleTexture {
     /* 00 */ ParticleTextureHeader *mHeader;
     /* 04 */ u32 mTextureVramAddr;
     /* 08 */ u32 mPaletteVramAddr;
-    /* 0c */ Unk020184e4_2c_0c mParam;
+    /* 0c */ ParticleTextureParam mParam;
     /* 10 */ u16 mWidth;
     /* 12 */ u16 mHeight;
 } ParticleTexture;

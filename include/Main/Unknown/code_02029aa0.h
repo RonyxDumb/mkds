@@ -55,7 +55,7 @@ extern u16 data_usa_02153868[];
 extern u16 gCupRankCellIndexTable[];
 extern u16 data_usa_02153888[];
 extern u32 data_usa_02153898[][4];
-extern Unk02153918 data_usa_02153918[];
+extern LabelCanvasEntry data_usa_02153918[];
 
 void AdvanceResultsGp(SceneNumbers *sceneNumbers);
 void InitResultsGp(void *heap, void *firstOamList, void *secondOamList);

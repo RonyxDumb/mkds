@@ -243,16 +243,16 @@ u32 NNS_G2dFontFindGlyphIndex(Unk02022aa8 *pFont, u32 code) {
 }
 
 NNSG2dCharWidths *NNS_G2dFontGetCharWidthsFromIndex(Unk02022aa8 *pFont, u32 idx) {
-    Unk02022c80_n *pRange;
+    NNSG2dFontWidth *pRange;
     NNSG2dFontInformation *pRes;
 
     pRes = pFont->mPRes;
     pRange = pRes->mPWidth;
     while (pRange != 0) {
-        if (pRange->mUnk_00 <= idx && idx <= pRange->mUnk_02) {
-            return (NNSG2dCharWidths *) ((u8 *) pRange + 8 + pFont->mUnk_0a * (idx - pRange->mUnk_00));
+        if (pRange->mIndexBegin <= idx && idx <= pRange->mIndexEnd) {
+            return (NNSG2dCharWidths *) ((u8 *) pRange + 8 + pFont->mUnk_0a * (idx - pRange->mIndexBegin));
         }
-        pRange = pRange->mUnk_04;
+        pRange = pRange->mPNext;
     }
     return &pRes->mDefaultWidth;
 }

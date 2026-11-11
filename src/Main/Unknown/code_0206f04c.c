@@ -220,8 +220,8 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
     u32 bits7c;
     Vec3 firstEffectPos;
     Vec3 secondEffectPos;
-    Unk02165608 firstOffsets;
-    Unk02165608 secondOffsets;
+    KartEffectScales firstOffsets;
+    KartEffectScales secondOffsets;
 
     if (kart->mUnk_48 & 2) {
         keyALevel = kart->mRevLevel;
@@ -256,7 +256,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
                     bits7c = kart->mUnk_7c;
                     if ((bits7c & 0x10) && kart->mKartModelsEntry->mKartModelHidden == 0) {
                         if ((bits7c & 1) || !(bits7c & 0x402000)) {
-                            VEC_MultAdd(firstOffsets.mUnk_00[kart->mKartModelsEntry->mKartIndex] << 4, &kart->mUnk_138,
+                            VEC_MultAdd(firstOffsets.mScales[kart->mKartModelsEntry->mKartIndex] << 4, &kart->mUnk_138,
                                         &kart->mPos, &firstEffectPos);
                             StartEffectWithCallback(0x72, &firstEffectPos, kart, PlaceEffectBehindKart);
                             StartEffectWithCallback(0x73, &firstEffectPos, kart, PlaceEffectBehindKart);
@@ -294,7 +294,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
                     bits7c = kart->mUnk_7c;
                     if ((bits7c & 0x10) && kart->mKartModelsEntry->mKartModelHidden == 0) {
                         if ((bits7c & 1) || !(bits7c & 0x402000)) {
-                            VEC_MultAdd(secondOffsets.mUnk_00[kart->mKartModelsEntry->mKartIndex] << 4, &kart->mUnk_138,
+                            VEC_MultAdd(secondOffsets.mScales[kart->mKartModelsEntry->mKartIndex] << 4, &kart->mUnk_138,
                                         &kart->mPos, &secondEffectPos);
                             StartEffectWithCallback(0x72, &secondEffectPos, kart, PlaceEffectBehindKart);
                             StartEffectWithCallback(0x73, &secondEffectPos, kart, PlaceEffectBehindKart);

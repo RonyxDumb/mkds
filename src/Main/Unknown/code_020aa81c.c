@@ -1081,7 +1081,7 @@ KeyboardRect *FindKeyboardRectAt(KeyboardKeys *keyboardKeys, s32 pointX, s32 poi
 void DrawKeyboardGlyphs(KeyboardKeys *keyboardKeys) {
     Unk02022aa8 *font;
     KeyboardRect *rect;
-    Unk02022ce4_08 *glyphInfo;
+    FontGlyph *glyphInfo;
     NNSG2dCharWidths *charWidths;
     NNSG2dGlyph glyph;
     Unk02023374 charCanvas;
@@ -1096,7 +1096,7 @@ void DrawKeyboardGlyphs(KeyboardKeys *keyboardKeys) {
     s32 firstCharRectIndex;
 
     font = gKeyboardCanvas.mFont;
-    glyphHeight = font->mPRes->mPGlyph->mUnk_01;
+    glyphHeight = font->mPRes->mPGlyph->mCellHeight;
     layout = keyboardKeys->mCurrentLayout;
     MIi_CpuCopyFast(layout->mNcgr->mData, gKeyboardCanvas.mBg2Char, layout->mNcgr->mDataSize);
     NNS_G2dCharCanvasInitForBG(&charCanvas, gKeyboardCanvas.mBg2Char, layout->mNcgr->mUnk_02, layout->mNcgr->mUnk_00,
@@ -1117,7 +1117,7 @@ void DrawKeyboardGlyphs(KeyboardKeys *keyboardKeys) {
                 charWidths = NNS_G2dFontGetCharWidthsFromIndex(font, glyphIndex);
                 glyph.mPWidths = charWidths;
                 glyphInfo = font->mPRes->mPGlyph;
-                glyph.mImage = glyphInfo->mUnk_08 + glyphIndex * glyphInfo->mUnk_02;
+                glyph.mImage = glyphInfo->mGlyphTable + glyphIndex * glyphInfo->mCellSize;
                 marginX = (rect->mWidth - charWidths->mGlyphWidth) / 2;
                 charCanvas.mPDrawGlyph(&charCanvas, font, rect->mX + marginX,
                                        rect->mY + (rect->mHeight - glyphHeight) / 2, gKeyboardCanvas.mGlyphColor,

@@ -89,7 +89,7 @@ void LetterChar(LetterCharInfo *pInfo) {
     u32 rowHi;
     u32 row;
     s32 glyphBpp;
-    NNSiG2dBitReader reader;
+    NNSiG2dBitReader bitStream;
     u32 pixel;
     NNSiG2dBitReader reader8;
 
@@ -128,12 +128,12 @@ void LetterChar(LetterCharInfo *pInfo) {
         if (pRow < pRowEnd) {
             do {
                 row = *pRow;
-                reader.mSrc = pGlyphBits + ((u32) bitPos >> 3);
-                reader.mAvailableBits = 0;
-                reader.mBits = 0;
-                NNSi_G2dBitReaderRead(&reader, bitPos % 8);
+                bitStream.mSrc = pGlyphBits + ((u32) bitPos >> 3);
+                bitStream.mAvailableBits = 0;
+                bitStream.mBits = 0;
+                NNSi_G2dBitReaderRead(&bitStream, bitPos % 8);
                 for (bitX = xStart; bitX < xEnd; bitX += 4) {
-                    pixel = NNSi_G2dBitReaderRead(&reader, glyphBpp);
+                    pixel = NNSi_G2dBitReaderRead(&bitStream, glyphBpp);
                     if (pixel != 0) {
                         row = (row & ~(0xf << bitX)) | ((colorBase + pixel) << bitX);
                     }
@@ -173,7 +173,7 @@ void LetterChar(LetterCharInfo *pInfo) {
 
 void DrawGlyphLine(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 drawX, s32 drawY, u32 cl, NNSG2dGlyph *pGlyph) {
     LetterCharInfo info;
-    s32 glyphWidth;
+    s32 inkWidth;
     s32 rowSkip;
     u32 canvasW;
     s32 curX;
@@ -194,15 +194,15 @@ void DrawGlyphLine(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 drawX, s32 draw
     u8 *pBase;
 
     bytesPerChar = (pCanvas->mDstBpp * 0x40) / 8;
-    glyphWidth = pGlyph->mPWidths->mGlyphWidth;
-    glyphHeight = pFont->mPRes->mPGlyph->mUnk_01;
+    inkWidth = pGlyph->mPWidths->mGlyphWidth;
+    glyphHeight = pFont->mPRes->mPGlyph->mCellHeight;
     canvasW = pCanvas->mAreaWidth;
     canvasH = pCanvas->mAreaHeight;
     pBase = pCanvas->mCharBase;
-    if (glyphWidth == 0) {
+    if (inkWidth == 0) {
         return;
     }
-    if (drawX + glyphWidth < 0) {
+    if (drawX + inkWidth < 0) {
         return;
     }
     if (drawY + glyphHeight < 0) {
@@ -213,7 +213,7 @@ void DrawGlyphLine(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 drawX, s32 draw
     } else {
         firstX = (u32) drawX >> 3;
     }
-    endX = (u32) (drawX + glyphWidth + 7) >> 3;
+    endX = (u32) (drawX + inkWidth + 7) >> 3;
     if (drawY <= 0) {
         firstY = 0;
     } else {
@@ -246,13 +246,13 @@ void DrawGlyphLine(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 drawX, s32 draw
     }
     info.mSrc = pGlyph->mImage;
     limitY = drawY - numY * 8;
-    info.mWidth = glyphWidth;
+    info.mWidth = inkWidth;
     info.mCl = cl - 1;
     info.mHeight = glyphHeight;
     limitX = drawX - numX * 8;
     info.mSrcBpp = pFont->mPRes->mPGlyph->mUnk_04[2];
     info.mDstBpp = pCanvas->mDstBpp;
-    info.mDsrc = info.mSrcBpp * pFont->mPRes->mPGlyph->mUnk_00;
+    info.mDsrc = info.mSrcBpp * pFont->mPRes->mPGlyph->mCellWidth;
     for (curY = drawY; curY > limitY; curY -= 8) {
         info.mOfsY = curY;
         for (curX = drawX; curX > limitX; curX -= 8) {
@@ -267,7 +267,7 @@ void DrawGlyphLine(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 drawX, s32 draw
 
 void DrawGlyph1D(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 drawX, s32 drawY, u32 cl, NNSG2dGlyph *pGlyph) {
     LetterCharInfo info;
-    s32 glyphWidth;
+    s32 inkWidth;
     u32 canvasW;
     u32 canvasH;
     u32 firstX;
@@ -293,14 +293,14 @@ void DrawGlyph1D(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 drawX, s32 drawY,
     u32 width;
 
     bytesPerChar = (pCanvas->mDstBpp * 0x40) / 8;
-    glyphWidth = pGlyph->mPWidths->mGlyphWidth;
+    inkWidth = pGlyph->mPWidths->mGlyphWidth;
     canvasW = pCanvas->mAreaWidth;
     canvasH = pCanvas->mAreaHeight;
-    glyphHeight = pFont->mPRes->mPGlyph->mUnk_01;
-    if (glyphWidth == 0) {
+    glyphHeight = pFont->mPRes->mPGlyph->mCellHeight;
+    if (inkWidth == 0) {
         return;
     }
-    if (drawX + glyphWidth < 0) {
+    if (drawX + inkWidth < 0) {
         return;
     }
     if (drawY + glyphHeight < 0) {
@@ -311,7 +311,7 @@ void DrawGlyph1D(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 drawX, s32 drawY,
     } else {
         firstX = (u32) drawX >> 3;
     }
-    endX = drawX + glyphWidth + 7;
+    endX = drawX + inkWidth + 7;
     if (drawY <= 0) {
         firstY = 0;
     } else {
@@ -345,10 +345,10 @@ void DrawGlyph1D(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 drawX, s32 drawY,
     info.mSrc = pGlyph->mImage;
     info.mCl = cl - 1;
     info.mHeight = glyphHeight;
-    info.mWidth = glyphWidth;
+    info.mWidth = inkWidth;
     info.mSrcBpp = pFont->mPRes->mPGlyph->mUnk_04[2];
     info.mDstBpp = pCanvas->mDstBpp;
-    info.mDsrc = info.mSrcBpp * pFont->mPRes->mPGlyph->mUnk_00;
+    info.mDsrc = info.mSrcBpp * pFont->mPRes->mPGlyph->mCellWidth;
     objSizeWord = pCanvas->mParam;
     width = pCanvas->mAreaWidth;
     height = pCanvas->mAreaHeight;
@@ -456,7 +456,7 @@ void ClearAreaLine(Unk02023374 *pCanvas, u32 cl, s32 areaX, s32 areaY, s32 areaW
 void ClearArea1D(Unk02023374 *pCanvas, u32 cl, s32 areaX, s32 areaY, s32 areaWidth, s32 areaHeight) {
     s32 pixelY;
     s32 rows;
-    s32 bottom;
+    s32 rowEnd;
     s32 xEnd;
     s32 yEnd;
     s32 yEndAligned;
@@ -510,11 +510,11 @@ void ClearArea1D(Unk02023374 *pCanvas, u32 cl, s32 areaX, s32 areaY, s32 areaWid
         } else {
             rowOffset = 0;
         }
-        bottom = yEnd - pixelY;
-        if (bottom > 8) {
-            bottom = 8;
+        rowEnd = yEnd - pixelY;
+        if (rowEnd > 8) {
+            rowEnd = 8;
         }
-        rows = bottom - rowOffset;
+        rows = rowEnd - rowOffset;
         for (pixelX = xAligned; pixelX < xEndAligned; pixelX += 8) {
             charIdx = GetCharIndex1D(charX, charY, canvasW, canvasH, objWidth, objHeight);
             if (pixelX < areaX) {
@@ -549,22 +549,22 @@ void InitCharCanvas(Unk02023374 *pCanvas, void *charBase, s32 areaWidth, s32 are
 }
 
 s32 NNS_G2dCharCanvasDrawChar(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 drawX, s32 drawY, u32 cl, u16 ccode) {
-    NNSG2dGlyph glyph;
+    NNSG2dGlyph glyphInfo;
     u32 glyphIdx;
-    Unk02022ce4_08 *pRes;
+    FontGlyph *pRes;
 
     glyphIdx = NNS_G2dFontFindGlyphIndex(pFont, ccode);
     if (glyphIdx == 0xffff) {
         glyphIdx = pFont->mPRes->mAlterCharIndex;
     }
-    glyph.mPWidths = NNS_G2dFontGetCharWidthsFromIndex(pFont, glyphIdx);
+    glyphInfo.mPWidths = NNS_G2dFontGetCharWidthsFromIndex(pFont, glyphIdx);
     pRes = pFont->mPRes->mPGlyph;
-    glyph.mImage = &pRes->mUnk_08[glyphIdx * pRes->mUnk_02];
-    pCanvas->mPDrawGlyph(pCanvas, pFont, drawX + glyph.mPWidths->mLeft, drawY, cl, &glyph);
+    glyphInfo.mImage = &pRes->mGlyphTable[glyphIdx * pRes->mCellSize];
+    pCanvas->mPDrawGlyph(pCanvas, pFont, drawX + glyphInfo.mPWidths->mLeft, drawY, cl, &glyphInfo);
     if (pFont->mUnk_08 != 0) {
-        return glyph.mPWidths->mLeft + glyph.mPWidths->mGlyphWidth;
+        return glyphInfo.mPWidths->mLeft + glyphInfo.mPWidths->mGlyphWidth;
     }
-    return glyph.mPWidths->mCharWidth;
+    return glyphInfo.mPWidths->mCharWidth;
 }
 
 void NNS_G2dCharCanvasInitForBG(void *pCC, void *charBase, u32 areaWidth, u32 areaHeight, u32 colorMode) {

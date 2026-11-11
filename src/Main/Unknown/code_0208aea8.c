@@ -112,7 +112,7 @@ void AdvanceStadiumEmitters(void) {
 }
 
 void CreateAwardEmitters(void) {
-    Unk02166108 secondEffectIds = data_usa_02166108;
+    AwardEmitterEffectIds secondEffectIds = data_usa_02166108;
     Unk021660f8 firstEffectIds = data_usa_021660f8;
     s32 baseX = data_usa_02155fc0.x;
     s32 baseY = data_usa_02155fc0.y;

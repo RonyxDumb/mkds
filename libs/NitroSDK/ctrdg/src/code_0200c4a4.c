@@ -19,10 +19,10 @@
 
 #pragma thumb on
 
-Unk0216fe04 gCartridgeState;
+CTRDGWork gCartridgeState;
 s32 gCartridgeInitStarted;
 s32 gHeaderCopyStarted;
-Unk0216fe20 gCartridgeHeaderCopy;
+CartridgeHeaderCopy gCartridgeHeaderCopy;
 s32 (*gCartridgeRemovalCallback)(void);
 s32 data_0216fe14;
 s32 data_0216fe18;
@@ -52,8 +52,8 @@ void CTRDGi_InitModuleInfo(void) {
     Unk0200c4a4 romCycle;
     s32 priority;
     s32 infoIndex;
-    Unk027ffc30 *idInfo;
-    Unk0216fe20 *chb;
+    CTRDGModuleInfo *idInfo;
+    CartridgeHeaderCopy *chb;
 
     if (gHeaderCopyStarted != 0) {
         return;
@@ -78,9 +78,9 @@ void CTRDGi_InitModuleInfo(void) {
     idInfo = &SYSTEM_WORK->mCartridgeModuleInfo;
     idInfo->mIdHalfword = gCartridgeHeaderCopy.mHeaderTailCopy.mUnk_3e;
     for (infoIndex = 0; infoIndex < 3; infoIndex++) {
-        idInfo->mUnk_02[infoIndex] = chb->mHeaderTailCopy.mUnk_35[infoIndex];
+        idInfo->mExLsiId[infoIndex] = chb->mHeaderTailCopy.mUnk_35[infoIndex];
     }
-    idInfo->mUnk_06 = chb->mHeaderTailCopy.mUnk_30;
+    idInfo->mMakerCode = chb->mHeaderTailCopy.mUnk_30;
     idInfo->mIdWord = chb->mHeaderTailCopy.mUnk_2c;
     MIi_CpuCopy32((void *) 0xffff0020, gCartridgeHeaderCopy.mUnk_04, 0x9c);
     DC_FlushAll();
@@ -135,24 +135,24 @@ s32 CTRDG_IsExisting(void) {
     s32 exists;
     Unk0200c4a4 lockInfo;
     Unk0200c4a4 romCycle;
-    Unk027ffc30 *idInfo;
-    Unk08000000 *romHeader;
+    CTRDGModuleInfo *idInfo;
+    CTRDGHeader *romHeader;
 
     idInfo = &SYSTEM_WORK->mCartridgeModuleInfo;
-    romHeader = (Unk08000000 *) 0x08000000;
+    romHeader = (CTRDGHeader *) 0x08000000;
     exists = 1;
     if (idInfo->mIdHalfword == 0xffff) {
         return 0;
     }
-    if (idInfo->mUnk_05_1 == 1) {
+    if (idInfo->mDetectPullOut == 1) {
         return 0;
     }
     CTRDGi_LockByProcessor(gCartridgeState.mLockId, &lockInfo);
     CTRDGi_ChangeLatestAccessCycle(&romCycle);
     if ((romHeader->mIdSelector == 0x96 && idInfo->mIdHalfword != romHeader->mIdHalfword) ||
         (romHeader->mIdSelector != 0x96 && idInfo->mIdHalfword != *(u16 *) 0x0801fffe) ||
-        (idInfo->mIdWord != romHeader->mIdWord && idInfo->mUnk_05_0)) {
-        idInfo->mUnk_05_1 = 1;
+        (idInfo->mIdWord != romHeader->mIdWord && idInfo->mIsAgbCartridge)) {
+        idInfo->mDetectPullOut = 1;
         exists = 0;
     }
     CTRDGi_RestoreAccessCycle(&romCycle);

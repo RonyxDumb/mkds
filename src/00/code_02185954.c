@@ -552,7 +552,7 @@ u32 DWCi_Auth_Prepare_FirstPost(Http *http, const char *gsbrcd, const char *inga
     u8 apInfoBytes[0x21];
     char apInfoText[14];
     char userIdText[0xe];
-    Unk0200fddc ownerInfo;
+    OwnerInfo ownerInfo;
     u8 *macCursor;
     u32 interruptState;
     u8 *bssidPointer;
@@ -589,13 +589,13 @@ u32 DWCi_Auth_Prepare_FirstPost(Http *http, const char *gsbrcd, const char *inga
         OS_SPrintf(&macAddressText[macIndex * 2], data_ov000_021b1060, *macCursor);
     }
     macAddressText[12] = 0;
-    if (ownerInfo.mUnk_00 > 6) {
-        ownerInfo.mUnk_00 = 1;
+    if (ownerInfo.mLanguage > 6) {
+        ownerInfo.mLanguage = 1;
     }
-    OS_SNPrintf(postData.mUnk_16, 5, data_ov000_021b1068, ownerInfo.mUnk_02, ownerInfo.mUnk_03);
+    OS_SNPrintf(postData.mUnk_16, 5, data_ov000_021b1068, ownerInfo.mBirthdayMonth, ownerInfo.mBirthdayDay);
     OS_SNPrintf(deviceTimeText, 0xd, data_ov000_021b1074, date.mYear, date.mMonth, date.mDay, time.mHour, time.mMinute,
                 time.mSecond);
-    MI_CpuCopy8(ownerInfo.mUnk_04, deviceName, 0x14);
+    MI_CpuCopy8(ownerInfo.mNickName, deviceName, 0x14);
     deviceName[0x14] = 0;
     MI_CpuFill8(&results, 0, 0xc);
     results.mEntries = labelValues;
@@ -633,7 +633,7 @@ u32 DWCi_Auth_Prepare_FirstPost(Http *http, const char *gsbrcd, const char *inga
     DWCi_Http_AddResult(&results, gMakercdPairName, postData.mUnk_13);
     DWCi_Http_AddResult(&results, gUnitcdPairName, gUnitcdPairValue);
     DWCi_Http_AddResult(&results, gMacadrPairName, macAddressText);
-    DWCi_Http_AddResult(&results, gLangPairName, data_ov000_021b1004[ownerInfo.mUnk_00]);
+    DWCi_Http_AddResult(&results, gLangPairName, data_ov000_021b1004[ownerInfo.mLanguage]);
     DWCi_Http_AddResult(&results, gBirthPairName, postData.mUnk_16);
     DWCi_Http_AddResult(&results, gDevtimePairName, deviceTimeText);
     DWCi_Http_AddResult(&results, gBssidPairName, bssidText);

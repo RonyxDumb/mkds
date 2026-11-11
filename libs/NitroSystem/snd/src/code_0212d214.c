@@ -231,7 +231,8 @@ NNSSndArcLoadResult NNSi_SndArcLoadGroup(s32 groupNo, NNSSndHeap *heap) {
     return NNS_SND_ARC_LOAD_SUCESS;
 }
 
-NNSSndArcLoadResult NNSi_SndArcLoadSeq(s32 seqNo, u32 loadFlag, NNSSndHeap *heap, BOOL bSetAddr, NNSSndSeqData **pData) {
+NNSSndArcLoadResult NNSi_SndArcLoadSeq(s32 seqNo, u32 loadFlag, NNSSndHeap *heap, BOOL bSetAddr,
+                                       NNSSndSeqData **pData) {
     NNSSndArcSeqInfo *seqInfo;
     NNSSndSeqData *seqData;
     NNSSndArcLoadResult result;
@@ -551,7 +552,7 @@ BOOL LoadSingleWave(Unk02021968 *waveArc, s32 waveNo, u32 fileId, NNSSndHeap *he
 BOOL LoadSingleWaves(Unk02021968 *waveArc, Unk02021968 *bank, s32 waveArcNo, u32 fileId, NNSSndHeap *heap) {
     SNDInstPos pos;
     SNDInstPos firstPos;
-    Unk020219f0 inst;
+    SNDInstData inst;
 
     SND_GetFirstInstDataPos(&firstPos);
     pos = firstPos;
@@ -560,8 +561,8 @@ BOOL LoadSingleWaves(Unk02021968 *waveArc, Unk02021968 *bank, s32 waveArcNo, u32
     }
     if (SND_GetNextInstData(bank, &inst, &pos) != 0) {
         do {
-            if (inst.mUnk_00 == 1 && waveArcNo == inst.mUnk_02.mUnk_02) {
-                if (LoadSingleWave(waveArc, inst.mUnk_02.mUnk_00, fileId, heap) == 0) {
+            if (inst.mType == 1 && waveArcNo == inst.mWave.mUnk_02) {
+                if (LoadSingleWave(waveArc, inst.mWave.mUnk_00, fileId, heap) == 0) {
                     return 0;
                 }
             }

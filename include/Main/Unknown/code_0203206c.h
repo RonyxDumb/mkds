@@ -32,17 +32,17 @@ typedef struct SelectGame {
 extern SelectGame *gSelectGame;
 
 // 12-byte entries of the tables data_02153e08, data_02153e0c and data_02153e10.
-typedef struct Unk02153e08 {
+typedef struct SelectGameFileNames {
     /* 00 */ const char *mUnk_00;
     /* 04 */ const char *mUnk_04;
     /* 08 */ const char *mUnk_08;
-} Unk02153e08;
+} SelectGameFileNames;
 
 extern SelectGameRow data_02153de8[];
 extern SelectGameRow data_02153df4[];
-extern Unk02153e08 data_02153e08[];
-extern Unk02153e08 data_02153e0c[];
-extern Unk02153e08 data_02153e10[];
+extern SelectGameFileNames data_02153e08[];
+extern SelectGameFileNames data_02153e0c[];
+extern SelectGameFileNames data_02153e10[];
 extern LabelMessageRow gSelectGameLabelMessageRows[];
 
 extern const char gSelectGameMBNcgrName[];

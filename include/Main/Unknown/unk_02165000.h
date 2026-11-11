@@ -140,11 +140,11 @@ extern const KartKillerEndRankOffsets data_usa_0216557c;
 extern s32 data_usa_021654dc;
 extern const Vec3 data_usa_02165554;
 // 37 words.
-typedef struct Unk02165608 {
-    /* 00 */ s32 mUnk_00[37];
-} Unk02165608;
+typedef struct KartEffectScales {
+    /* 00 */ s32 mScales[37];
+} KartEffectScales;
 
-extern const Unk02165608 data_usa_02165608;
+extern const KartEffectScales data_usa_02165608;
 extern s32 data_usa_02165504;
 extern const s32 gTurnHeadingEaseFactor;
 extern const s16 gTurnHeadingReductionAtSpeedLimit;

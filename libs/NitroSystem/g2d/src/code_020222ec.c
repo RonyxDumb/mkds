@@ -29,8 +29,8 @@ void ApplyCurrentAnimResult_(Unk02022030 *pCellAnim) {
     NNSi_G2dSrtcInitControl(&pCellAnim->mSrtCtrl, 1);
     if (animType != 0) {
         if (animType == 2) {
-            NNSi_G2dSrtcSetTrans(&pCellAnim->mSrtCtrl, ((Unk020229b4 *) animResult)->mUnk_04,
-                                 ((Unk020229b4 *) animResult)->mUnk_06);
+            NNSi_G2dSrtcSetTrans(&pCellAnim->mSrtCtrl, ((NNSG2dAnimDataT *) animResult)->mPx,
+                                 ((NNSG2dAnimDataT *) animResult)->mPy);
         } else {
             NNSi_G2dSrtcSetSRTScale(&pCellAnim->mSrtCtrl, animResult->mSx, animResult->mSy);
             NNSi_G2dSrtcSetSRTRotZ(&pCellAnim->mSrtCtrl, animResult->mRotZ);

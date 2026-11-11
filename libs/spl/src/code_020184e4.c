@@ -1668,14 +1668,14 @@ static inline void SetTexImageParam(u32 addr, Unk02019df8_Kind format, Unk02019d
 }
 
 void SPLUtil_SetTexture(ParticleTexture *tex) {
-    Unk020184e4_2c_0c texParam;
+    ParticleTextureParam texParam;
     u32 scaleX;
     u32 scaleY;
 
     texParam = tex->mParam;
-    SetTexImageParam(tex->mTextureVramAddr, texParam.mUnk_00_0, texParam.mUnk_00_4, texParam.mUnk_00_8,
-                     texParam.mUnk_00_12, texParam.mUnk_00_14, texParam.mUnk_00_16);
-    reg_G3_PLTT_BASE = tex->mPaletteVramAddr >> (4 - (texParam.mUnk_00_0 == 2 ? 1 : 0));
+    SetTexImageParam(tex->mTextureVramAddr, texParam.mFormat, texParam.mSizeS, texParam.mSizeT, texParam.mWrapS,
+                     texParam.mWrapT, texParam.mColor0Transparent);
+    reg_G3_PLTT_BASE = tex->mPaletteVramAddr >> (4 - (texParam.mFormat == 2 ? 1 : 0));
     reg_G3_MTX_MODE = 3;
     reg_G3_MTX_IDENTITY = 0;
     scaleX = tex->mWidth << 12;
@@ -2163,8 +2163,8 @@ void SPLManager_LoadResources(SPLManager *mgr, Unk02018a1c *data) {
         texture = mgr->mTextures + index;
         textureHeader = OFFSET_PTR(ParticleTextureHeader, data, off);
         texture->mHeader = textureHeader;
-        texture->mWidth = 1 << (textureHeader->mImageParam.mUnk_00_4 + 3);
-        texture->mHeight = 1 << (textureHeader->mImageParam.mUnk_00_8 + 3);
+        texture->mWidth = 1 << (textureHeader->mImageParam.mSizeS + 3);
+        texture->mHeight = 1 << (textureHeader->mImageParam.mSizeT + 3);
         texture->mParam = textureHeader->mImageParam;
         off += textureHeader->mBlockSize;
     }
@@ -2183,7 +2183,7 @@ s32 SPLManager_UploadTexturesEx(SPLManager *mgr, u32 (*vramAlloc)(s32 size, s32 
         if (textureHeader->mImageParam.mUnk_00_17) {
             texture->mTextureVramAddr = mgr->mTextures[textureHeader->mImageParam.mUnk_00_18].mTextureVramAddr;
         } else {
-            vramAddr = vramAlloc(textureHeader->mTextureSize, textureHeader->mImageParam.mUnk_00_0 == 5 ? 1 : 0);
+            vramAddr = vramAlloc(textureHeader->mTextureSize, textureHeader->mImageParam.mFormat == 5 ? 1 : 0);
             GX_LoadTex((u8 *) texture->mHeader + 0x20, vramAddr, textureHeader->mTextureSize);
             texture->mTextureVramAddr = vramAddr;
         }
@@ -2204,7 +2204,7 @@ s32 SPLManager_UploadPalettesEx(SPLManager *mgr, u32 (*vramAlloc)(s32 size, s32 
         textureHeader = texture->mHeader;
         vramAddr = 0;
         if (textureHeader->mPaletteSize != 0) {
-            vramAddr = vramAlloc(textureHeader->mPaletteSize, textureHeader->mImageParam.mUnk_00_0 == 2 ? 1 : 0);
+            vramAddr = vramAlloc(textureHeader->mPaletteSize, textureHeader->mImageParam.mFormat == 2 ? 1 : 0);
             GX_LoadTexPltt((u8 *) texture->mHeader + textureHeader->mPaletteOffset, vramAddr,
                            textureHeader->mPaletteSize);
         }

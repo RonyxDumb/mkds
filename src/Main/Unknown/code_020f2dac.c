@@ -31,7 +31,7 @@
 void UpdateHeldItem(HeldItem *rec) {
     s32 objectIndex;
     u32 objectKind;
-    Unk020f40dc_Kind kind;
+    ItemInfoIndex kind;
     s32 reservedCount;
 
     StartNextHeldItemObject(rec);
@@ -50,7 +50,7 @@ void UpdateHeldItem(HeldItem *rec) {
     }
     if (gRaceSetup->mMode == MODE_WIFI) {
         if (gRaceSetup->mEntryIndex == rec->mKartItems->mKartIndex) {
-            kind = (Unk020f40dc_Kind) rec->mItemInfoIndex;
+            kind = (ItemInfoIndex) rec->mItemInfoIndex;
             AddItemDataFrameOnly(gItemInfos[kind].mObjectKind);
         }
     }
@@ -130,7 +130,7 @@ void ReleaseHeldItem(HeldItem *rec, s32 keep) {
     s32 objectCount;
     s32 releaseIndex;
     s32 startedObjectCount;
-    Unk020f40dc_Kind kind = (Unk020f40dc_Kind) rec->mItemInfoIndex;
+    ItemInfoIndex kind = (ItemInfoIndex) rec->mItemInfoIndex;
     u32 poolIndex = gItemInfos[kind].mObjectKind;
 
     if (gRaceSetup->mMode == MODE_WIFI) {

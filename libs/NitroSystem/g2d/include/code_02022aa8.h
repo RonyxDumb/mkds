@@ -12,11 +12,11 @@ typedef struct NNSG2dCharWidths {
 
 // Entry of the chain at 0x0c of an NNSG2dFontInformation: a range of mUnk_00..mUnk_02 with 8 bytes of header, then
 // entries of mUnk_0a (of the object) bytes.
-typedef struct Unk02022c80_n {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ struct Unk02022c80_n *mUnk_04;
-} Unk02022c80_n;
+typedef struct NNSG2dFontWidth {
+    /* 00 */ u16 mIndexBegin;
+    /* 02 */ u16 mIndexEnd;
+    /* 04 */ struct NNSG2dFontWidth *mPNext;
+} NNSG2dFontWidth;
 
 // Halfword number, then pairs of halfwords.
 typedef struct Unk02022dd8_s {
@@ -37,13 +37,13 @@ typedef struct FontCodeMap {
 
 // Object behind NNSG2dFontInformation.mUnk_08: a byte at 0x01, a halfword at 0x02 and bytes from 0x08
 // (DrawKeyboardGlyphs).
-typedef struct Unk02022ce4_08 {
-    /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 mUnk_01;
-    /* 02 */ u16 mUnk_02;
+typedef struct FontGlyph {
+    /* 00 */ u8 mCellWidth;
+    /* 01 */ u8 mCellHeight;
+    /* 02 */ u16 mCellSize;
     /* 04 */ u8 mUnk_04[4];
-    /* 08 */ u8 mUnk_08[1];
-} Unk02022ce4_08;
+    /* 08 */ u8 mGlyphTable[1];
+} FontGlyph;
 
 typedef struct NNSG2dFontInformation {
     /* 00 */ u8 mFontType;
@@ -51,8 +51,8 @@ typedef struct NNSG2dFontInformation {
     /* 02 */ u16 mAlterCharIndex;
     /* 04 */ NNSG2dCharWidths mDefaultWidth;
     /* 07 */ u8 mEncoding;
-    /* 08 */ Unk02022ce4_08 *mPGlyph;
-    /* 0c */ Unk02022c80_n *mPWidth;
+    /* 08 */ FontGlyph *mPGlyph;
+    /* 0c */ NNSG2dFontWidth *mPWidth;
     /* 10 */ FontCodeMap *mPMap;
 } NNSG2dFontInformation;
 

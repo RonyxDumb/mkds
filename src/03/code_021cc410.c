@@ -37,7 +37,7 @@
 
 void SetupUsb(void) {
     u16 ownerText[12];
-    Unk0200fddc ownerInfo;
+    OwnerInfo ownerInfo;
     gUsbExitKind = 0;
     LoadUsbFilesAndSetBgCnt();
     LoadHlScr(8);
@@ -45,7 +45,7 @@ void SetupUsb(void) {
     OS_GetOwnerInfo(&ownerInfo);
     ownerText[0] = 0;
     MIi_CpuClear16(ownerText[0], &ownerText[1], 0x16);
-    MIi_CpuCopy16(ownerInfo.mUnk_04, &ownerText[1], ownerInfo.mUnk_18 * 2);
+    MIi_CpuCopy16(ownerInfo.mNickName, &ownerText[1], ownerInfo.mNickNameLength * 2);
     PrintMessageAndText((u32) &ownerText[1], 0x6d);
     CreateAnimatedIcon(0);
     InitUsbScan(UsbEventCallback);

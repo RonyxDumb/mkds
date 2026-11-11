@@ -218,10 +218,10 @@ void UploadRaceHud(void) {
                 reg_G2S_DB_BG0CNT &= ~0x40;
                 reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & 0x43) | 0x10c;
                 InitSubScreenGraphicsMode0();
-                GXS_LoadBGPltt(GetRaceGoalSBPaletteAndChars(0)->mUnk_00->mData, 0,
-                               GetRaceGoalSBPaletteAndChars(0)->mUnk_00->mDataSize);
-                GXS_LoadBG1Char(GetRaceGoalSBPaletteAndChars(0)->mUnk_04->mData, 0,
-                                GetRaceGoalSBPaletteAndChars(0)->mUnk_04->mDataSize);
+                GXS_LoadBGPltt(GetRaceGoalSBPaletteAndChars(0)->mPalette->mData, 0,
+                               GetRaceGoalSBPaletteAndChars(0)->mPalette->mDataSize);
+                GXS_LoadBG1Char(GetRaceGoalSBPaletteAndChars(0)->mChars->mData, 0,
+                                GetRaceGoalSBPaletteAndChars(0)->mChars->mDataSize);
                 GXS_LoadOBJPltt(GetRaceNclrNcgr(7)->mNclr->mData, 0, 0x80);
                 GXS_LoadOBJ(GetRaceNclrNcgr(7)->mNcgr->mData, 0, 0x4000);
                 GXS_LoadBG0Char(GetChoisesSBNcgrWithListChars()->mData, 0, 0x3000);
@@ -462,7 +462,7 @@ void InitRaceHud(void) {
     DC_FlushRange(GetChoisesSBNclr()->mData, 0x200);
     for (index = 0; index < 0x20; index++) {
         paletteColor = GetChoisesSBNclr()->mData[index + 0xe0];
-        GetRaceGoalSBPaletteAndChars(0)->mUnk_00->mData[index + 0xe0] = paletteColor;
+        GetRaceGoalSBPaletteAndChars(0)->mPalette->mData[index + 0xe0] = paletteColor;
     }
     G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 0x3f, 6, 10);
     if (gRaceSetup->mMode == MODE_GRAND_PRIX) {

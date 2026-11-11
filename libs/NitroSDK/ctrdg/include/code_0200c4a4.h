@@ -10,13 +10,13 @@ typedef struct Unk0200c4a4 {
 } Unk0200c4a4;
 
 // Two halfwords at the start of the first object this file defines.
-typedef struct Unk0216fe04 {
+typedef struct CTRDGWork {
     // Set to 1 by CTRDGi_CallbackForInitModuleInfo; CTRDGi_InitModuleInfo waits until it is 1.
     /* 00 */ u16 mReplyReceived;
     // The OS_GetLockID result stored by CTRDGi_InitCommon; the first argument of every lock and unlock call of this
     // file.
     /* 02 */ u16 mLockId;
-} Unk0216fe04;
+} CTRDGWork;
 
 // 0x40 bytes that CTRDGi_InitModuleInfo flushes and fills with a copy, then reads fields from.
 typedef struct Unk0216fea0 {
@@ -29,31 +29,31 @@ typedef struct Unk0216fea0 {
     /* 3e */ u16 mUnk_3e;
 } Unk0216fea0;
 
-typedef struct Unk0216fe20 {
+typedef struct CartridgeHeaderCopy {
     /* 00 */ u32 mUnk_00;
     /* 04 */ u8 mUnk_04[0x7c];
     // The 0x40 bytes copied from 0x08000080; CTRDGi_InitModuleInfo reads the fields at +0x2c, +0x30, +0x35 and
     // +0x3e of it into the record.
     /* 80 */ Unk0216fea0 mHeaderTailCopy;
-} Unk0216fe20;
+} CartridgeHeaderCopy;
 
 // Fixed-address object written by CTRDGi_InitModuleInfo and read by CTRDG_IsExisting.
-typedef struct Unk027ffc30 {
+typedef struct CTRDGModuleInfo {
     // Written by CTRDGi_InitModuleInfo from +0xbe of the copy; CTRDG_IsExisting returns 0 when it is 0xffff and
     // compares it with the window.
     /* 00 */ u16 mIdHalfword;
-    /* 02 */ u8 mUnk_02[3];
-    /* 05 */ u8 mUnk_05_0 : 1;
-    u8 mUnk_05_1 : 1;
+    /* 02 */ u8 mExLsiId[3];
+    /* 05 */ u8 mIsAgbCartridge : 1;
+    u8 mDetectPullOut : 1;
     u8 mUnk_05_2 : 6;
-    /* 06 */ u16 mUnk_06;
+    /* 06 */ u16 mMakerCode;
     // Written by CTRDGi_InitModuleInfo from +0xac of the copy; CTRDG_IsExisting compares it with the word at
     // 0x080000ac.
     /* 08 */ u32 mIdWord;
-} Unk027ffc30;
+} CTRDGModuleInfo;
 
 // Fixed-address object read by CTRDG_IsExisting.
-typedef struct Unk08000000 {
+typedef struct CTRDGHeader {
     /* 00 */ u8 mUnk_00[0xac];
     // The word at 0x080000ac; CTRDG_IsExisting compares it with the word of the record at +8.
     /* ac */ u32 mIdWord;
@@ -65,12 +65,12 @@ typedef struct Unk08000000 {
     // The halfword at 0x080000be; CTRDG_IsExisting compares it with the record's halfword at +0 when mIdSelector is
     // 0x96.
     /* be */ u16 mIdHalfword;
-} Unk08000000;
+} CTRDGHeader;
 
 // In the comments below, "the window" is the memory at 0x08000000, "the record" the object at 0x027ffc30 and "the
 // copy" gCartridgeHeaderCopy.
 // Two halfwords, mReplyReceived and mLockId; CTRDGi_InitCommon clears and fills them.
-extern Unk0216fe04 gCartridgeState;
+extern CTRDGWork gCartridgeState;
 // Tested and set to 1 at the top of CTRDGi_InitModuleInfo, which returns at once when it is not 0.
 extern s32 gHeaderCopyStarted;
 // Tested and set to 1 at the top of CTRDG_Init, which does nothing when it is not 0.
@@ -79,7 +79,7 @@ extern s32 gCartridgeInitStarted;
 extern s32 (*gCartridgeRemovalCallback)(void);
 // 0xc0 bytes: CTRDGi_InitModuleInfo fills +4 with 0x9c bytes from 0xffff0020 and +0x80 with 0x40 bytes from
 // 0x08000080, reads four fields from the second part, and sends the block's address on tag 13.
-extern Unk0216fe20 gCartridgeHeaderCopy;
+extern CartridgeHeaderCopy gCartridgeHeaderCopy;
 
 // Calls OS_UnLockCartridge(lockID) when the first word of info is 0, then OS_RestoreInterrupts with the second word of
 // info.
