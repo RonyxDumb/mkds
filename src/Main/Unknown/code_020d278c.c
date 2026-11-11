@@ -16,7 +16,7 @@ void SetMapObjectScale(MapObject *mapObject, Vec3 *scale) {
     mapObject->mScale.x = scale->x;
     mapObject->mScale.y = scale->y;
     mapObject->mScale.z = scale->z;
-    mapObject->mExtent.x = MUL_FIXED12_NO_ROUND(mapObject->mKindData->mUnk_0c, mapObject->mScale.x);
+    mapObject->mExtent.x = MUL_FIXED12_NO_ROUND(mapObject->mKindData->mExtentX, mapObject->mScale.x);
     if (mapObject->mCollisionSlotIndex >= 0) {
         switch (mapObject->mKindData->mShapeKind) {
             case 3:
@@ -33,7 +33,7 @@ void SetMapObjectScale(MapObject *mapObject, Vec3 *scale) {
         }
         SetCollisionSlotRadius(mapObject->mCollisionSlotIndex, value);
     }
-    mapObject->mExtent.y = MUL_FIXED12_NO_ROUND(mapObject->mKindData->mUnk_10, mapObject->mScale.y);
+    mapObject->mExtent.y = MUL_FIXED12_NO_ROUND(mapObject->mKindData->mExtentY, mapObject->mScale.y);
     if (mapObject->mCollisionSlotIndex >= 0) {
         switch (mapObject->mKindData->mShapeKind) {
             case 3:
@@ -50,7 +50,7 @@ void SetMapObjectScale(MapObject *mapObject, Vec3 *scale) {
         }
         SetCollisionSlotRadius(mapObject->mCollisionSlotIndex, value);
     }
-    mapObject->mExtent.z = MUL_FIXED12_NO_ROUND(mapObject->mKindData->mUnk_14, mapObject->mScale.z);
+    mapObject->mExtent.z = MUL_FIXED12_NO_ROUND(mapObject->mKindData->mExtentZ, mapObject->mScale.z);
     if (mapObject->mCollisionSlotIndex >= 0) {
         switch (mapObject->mKindData->mShapeKind) {
             case 3:
@@ -69,7 +69,7 @@ void SetMapObjectScale(MapObject *mapObject, Vec3 *scale) {
     }
     value = mapObject->mScale.x;
     kindData = mapObject->mKindData;
-    kindViewRadius = kindData->mUnk_2c;
+    kindViewRadius = kindData->mViewRadius;
     if (value < mapObject->mScale.y) {
         value = mapObject->mScale.y;
     }

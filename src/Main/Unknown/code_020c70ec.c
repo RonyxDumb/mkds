@@ -31,7 +31,7 @@ void UpdateRaceHudSubScreenItemBoxCells(void) {
     cellIndex = 0;
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenItemBoxCells->mObjectCount; objectIndex++) {
         if (data_0217b3f8 == 0 ||
-            IsRaceHudSubScreenPairNearCenter(&gRaceHudSubScreenItemBoxCells->mUnk_0c[objectIndex]) != FALSE) {
+            IsRaceHudSubScreenPairNearCenter(&gRaceHudSubScreenItemBoxCells->mObjectPairs[objectIndex]) != FALSE) {
             mapObject = gRaceHudSubScreenItemBoxCells->mObjects[objectIndex];
             if ((mapObject->mFlags & 1) == 0) {
                 position = &mapObject->mPos;
@@ -42,7 +42,7 @@ void UpdateRaceHudSubScreenItemBoxCells(void) {
                     gRaceHudSubScreenItemBoxCells->mCells[cellIndex].mPriority = IsPositionOutsideBox(position) != 0
                                                                                      ? RACE_HUD_PRIORITY_OUTSIDE_BOX
                                                                                      : RACE_HUD_PRIORITY_INSIDE_BOX;
-                    gRaceHudSubScreenItemBoxCells->mCells[cellIndex].mUnk_0e = mapObject->mFlags & 0x20;
+                    gRaceHudSubScreenItemBoxCells->mCells[cellIndex].mXlu = mapObject->mFlags & 0x20;
                     cellCount++;
                     cellIndex++;
                 }

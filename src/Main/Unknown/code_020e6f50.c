@@ -4,7 +4,7 @@
 #pragma thumb on
 
 void SetUpdateListSlot(void *listSlot) {
-    (*(MapObjectList **) listSlot)->mUnk_24 = listSlot;
+    (*(MapObjectList **) listSlot)->mDrawOrder = listSlot;
 }
 
 #pragma thumb off

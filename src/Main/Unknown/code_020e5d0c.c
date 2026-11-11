@@ -245,7 +245,7 @@ void CreatePendulumAndPendulumShadow(void) {
 void InitPendulum(PendulumObject *pendulum, CourseMapRow *courseRow) {
     s32 amplitudeSetting;
 
-    pendulum->mMapObject.mExtent.y = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mKindData->mUnk_10, courseRow->mScale.z);
+    pendulum->mMapObject.mExtent.y = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mKindData->mExtentY, courseRow->mScale.z);
     QuaternionFromVec3Degrees(&courseRow->mRotationDegrees, &pendulum->mRotationQuaternion);
     pendulum->mShadowMatrix = pendulum->mMapObject.mMatrix.mAxes;
     pendulum->mCourseRowDistance = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mScale.y, 0x1f4000);

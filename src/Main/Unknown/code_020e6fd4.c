@@ -385,7 +385,7 @@ void UpdateMapObjectList(MapObjectList *list) {
         };
         return;
     }
-    if (list->mUnk_18 == 2) {
+    if (list->mPassOrPosStepMode == 2) {
         s32 objectIndex;
 
         for (objectIndex = 0; objectIndex < count; objectIndex++) {
@@ -427,7 +427,7 @@ void CallMapObjectListCallback(MapObjectList *list) {
     count = list->mMapObjectCount;
     callback = list->mUnk_1c;
     objects = list->mMapObjects;
-    callbackArgs[0] = list->mUnk_20;
+    callbackArgs[0] = list->mItemFirstResponse;
     callbackArgs[1] = 0;
     if (callback == NULL) {
         return;

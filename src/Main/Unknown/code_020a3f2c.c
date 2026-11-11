@@ -558,8 +558,8 @@ void CreateShine16KindData(void) {
     MapObjectKindData *mapObjectKindData;
 
     mapObjectKindData = CreateMapObjectKindData(CollideKartWithShine16, NULL, NULL, 1, 0);
-    mapObjectKindData->mUnk_38 = 0x190000;
-    mapObjectKindData->mUnk_3c = -0x190000;
+    mapObjectKindData->mHeightRangeMax = 0x190000;
+    mapObjectKindData->mHeightRangeMin = -0x190000;
 }
 
 void *CreateShine16DrawList(void) {

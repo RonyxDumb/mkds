@@ -712,8 +712,8 @@ void *CreateMapObjectKindData(void *collideKartCallback, void *collideItemObject
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
     kindData->mCollideKartCallback = collideKartCallback;
     kindData->mCollideItemObjectCallback = collideItemObjectCallback;
-    kindData->mUnk_20 = wordValue;
-    kindData->mUnk_1c = halfValue;
+    kindData->mPosStepMode = wordValue;
+    kindData->mCollidable = halfValue;
     kindData->mSphereHitTest = sphereHitCallback;
     return kindData;
 }

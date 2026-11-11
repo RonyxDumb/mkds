@@ -63,7 +63,8 @@ typedef struct RaceHudSubScreenCell {
     /* 00 */ IntPair mDrawPos;
     /* 08 */ struct NNSG2dCellDataWithBR *mCell;
     /* 0c */ u16 mPriority;
-    /* 0e */ u16 mUnk_0e;
+    // Non-zero draws the cell translucent; the flipper cells use it as the mirror flag.
+    /* 0e */ u16 mXlu;
     /* 10 */ u16 mAngle;
     /* 12 */ u8 mUnk_12[2];
 } RaceHudSubScreenCell;
@@ -73,7 +74,8 @@ typedef struct RaceHudSubScreenCells {
     /* 00 */ MapObject **mObjects;
     /* 04 */ s32 mCellCount;
     /* 08 */ s32 mObjectCount;
-    /* 0c */ IntPair *mUnk_0c;
+    // One pair per object: its course position, or in the scaled lists a scale and a frame counter.
+    /* 0c */ IntPair *mObjectPairs;
     /* 10 */ RaceHudSubScreenCell *mCells;
 } RaceHudSubScreenCells;
 
@@ -885,7 +887,7 @@ extern RaceLapNumber *gRaceLapNumber;
 // object pointers and two counts (as in RaceHudSubScreenCells), three halfwords and two arrays of three pairs.
 typedef struct RaceHudSubScreenSecondHand {
     /* 00 */ struct Vehicle **mObjects;
-    /* 04 */ s32 mUnk_04;
+    /* 04 */ s32 mCreatedObjectCount;
     /* 08 */ s32 mObjectCount;
     /* 0c */ u16 mAngles[3];
     /* 12 */ u8 mUnk_12[2];

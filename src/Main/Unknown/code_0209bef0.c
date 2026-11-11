@@ -18,7 +18,7 @@ void *CreateMapObjectUpdateList(void *init, void *forEachObject, void *beforeObj
 // The 1 in the name is the value stored at +0x18, not a slot of the kind row.
 void *CreateMapObjectDrawList1(void *init, void *forEachObject, void *beforeObjects) {
     MapObjectList *list = HeapAlloc(GetHeap(GetCurrentHeapCall()), 44);
-    list->mUnk_18 = 1;
+    list->mPassOrPosStepMode = 1;
     list->mInit = init;
     list->mBeforeObjects = beforeObjects;
     list->mForEachObject = forEachObject;
@@ -30,7 +30,7 @@ void *CreateMapObjectDrawList1(void *init, void *forEachObject, void *beforeObje
 #pragma thumb on
 void *CreateMapObjectDrawList2(void *init, void *forEachObject, void *beforeObjects) {
     MapObjectList *list = HeapAlloc(GetHeap(GetCurrentHeapCall()), 44);
-    list->mUnk_18 = 2;
+    list->mPassOrPosStepMode = 2;
     list->mInit = init;
     list->mBeforeObjects = beforeObjects;
     list->mForEachObject = forEachObject;

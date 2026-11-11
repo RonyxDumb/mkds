@@ -142,7 +142,7 @@ void UpdateMkdEfBurner(void *mapObjectList, MkdEfBurner *mkdEfBurner) {
                 mkdEfBurner->mState = 2;
             }
             mkdEfBurner->mMapObject.mExtent.y =
-                MUL_FIXED12_NO_ROUND(mkdEfBurner->mMapObject.mKindData->mUnk_10, mkdEfBurner->mScaleFixed12);
+                MUL_FIXED12_NO_ROUND(mkdEfBurner->mMapObject.mKindData->mExtentY, mkdEfBurner->mScaleFixed12);
             break;
         case 2:
             mkdEfBurner->mStateFrames++;
@@ -160,7 +160,7 @@ void UpdateMkdEfBurner(void *mapObjectList, MkdEfBurner *mkdEfBurner) {
                 mkdEfBurner->mMapObject.mFlags |= data_usa_0215646c;
             }
             mkdEfBurner->mMapObject.mExtent.y =
-                MUL_FIXED12_NO_ROUND(mkdEfBurner->mMapObject.mKindData->mUnk_10, mkdEfBurner->mScaleFixed12);
+                MUL_FIXED12_NO_ROUND(mkdEfBurner->mMapObject.mKindData->mExtentY, mkdEfBurner->mScaleFixed12);
             break;
         case 4:
             StartMapObjectSoundWhileRequested(&mkdEfBurner->mMapObject, 0x170);

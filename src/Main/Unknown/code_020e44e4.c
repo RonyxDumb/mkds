@@ -54,7 +54,7 @@ MapObjectKindData *CreateRotaryGearTestCylinderKindData(void) {
     MapObjectKindData *kindData;
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
     *kindData = data_02158f70;
-    kindData->mUnk_38 = 0x2bc000;
+    kindData->mHeightRangeMax = 0x2bc000;
     return kindData;
 }
 

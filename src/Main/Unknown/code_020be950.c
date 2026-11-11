@@ -105,10 +105,10 @@ BOOL CreateRaceHudSubScreenCells(RaceHudSubScreenCells **outCells, s32 kind) {
     }
     (*outCells)->mCellCount = 0;
     (*outCells)->mObjectCount = objectCount;
-    (*outCells)->mUnk_0c = HeapAlloc(GetHeap(GetCurrentHeapCall()), objectCount * 8);
+    (*outCells)->mObjectPairs = HeapAlloc(GetHeap(GetCurrentHeapCall()), objectCount * 8);
     for (objectIndex = 0; objectIndex < objectCount; objectIndex++) {
         ComputeRaceHudSubScreenCoursePosition(&(*outCells)->mObjects[objectIndex]->mPos,
-                                              &(*outCells)->mUnk_0c[objectIndex]);
+                                              &(*outCells)->mObjectPairs[objectIndex]);
     }
     (*outCells)->mCells = AllocArrayFromCurrentHeap(objectCount * 2, 0x14);
     return TRUE;
@@ -121,14 +121,14 @@ BOOL CreateRaceHudSubScreenCellsWithCount(RaceHudSubScreenCells **outCells, s32 
     *outCells = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x14);
     (*outCells)->mCellCount = 0;
     (*outCells)->mObjectCount = objectCount;
-    (*outCells)->mUnk_0c = HeapAlloc(GetHeap(GetCurrentHeapCall()), objectCount * 8);
+    (*outCells)->mObjectPairs = HeapAlloc(GetHeap(GetCurrentHeapCall()), objectCount * 8);
     (*outCells)->mCells = AllocArrayFromCurrentHeap(objectCount, 0x14);
     return TRUE;
 }
 
 void ClearRaceHudSubScreenCells(RaceHudSubScreenCells **cellsPointerAddress) {
     (*cellsPointerAddress)->mObjects = NULL;
-    (*cellsPointerAddress)->mUnk_0c = NULL;
+    (*cellsPointerAddress)->mObjectPairs = NULL;
     (*cellsPointerAddress)->mCells = NULL;
     *cellsPointerAddress = NULL;
 }
@@ -156,7 +156,7 @@ void DrawRaceHudSubScreenCells(RaceHudOamBuffer *oamBuffer, RaceHudSubScreenCell
     for (cellIndex = 0; cellIndex < cells->mCellCount; cellIndex++) {
         priority = cells->mCells[cellIndex].mPriority;
         if (minDrawValue <= priority) {
-            flag = cells->mCells[cellIndex].mUnk_0e;
+            flag = cells->mCells[cellIndex].mXlu;
             matrixIndex = 0;
             if (useRotation != 0) {
                 if (gRaceSetup->mMirrorMode != 0) {
@@ -216,17 +216,17 @@ void DrawRaceHudSubScreenCellsScaled(RaceHudOamBuffer *oamBuffer, RaceHudSubScre
     for (cellIndex = 0; cellIndex < cells->mCellCount; cellIndex++) {
         priority = cells->mCells[cellIndex].mPriority;
         if (minDrawValue <= priority) {
-            flag = cells->mCells[cellIndex].mUnk_0e;
+            flag = cells->mCells[cellIndex].mXlu;
             if (useRotation != 0) {
                 if (gRaceSetup->mMirrorMode != 0) {
-                    Matrix2x2RotationReciprocalScale(&matrix, cells->mUnk_0c[cellIndex].mFirst,
+                    Matrix2x2RotationReciprocalScale(&matrix, cells->mObjectPairs[cellIndex].mFirst,
                                                      (u16) (cells->mCells[cellIndex].mAngle - angle));
                 } else {
-                    Matrix2x2RotationReciprocalScale(&matrix, cells->mUnk_0c[cellIndex].mFirst,
+                    Matrix2x2RotationReciprocalScale(&matrix, cells->mObjectPairs[cellIndex].mFirst,
                                                      (u16) (angle - cells->mCells[cellIndex].mAngle));
                 }
             } else {
-                Matrix2x2ReciprocalScale(&matrix, cells->mUnk_0c[cellIndex].mFirst);
+                Matrix2x2ReciprocalScale(&matrix, cells->mObjectPairs[cellIndex].mFirst);
             }
             matrixIndex = AllocOamMatrixIndex(oamBuffer);
             oamBuffer->mMatrices[matrixIndex].mPA = matrix.mUnk_00[0] >> 4;

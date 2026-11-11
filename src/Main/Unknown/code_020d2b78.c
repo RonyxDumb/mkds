@@ -37,7 +37,7 @@ void ClearMapObjectListSlots(void) {
     index = 0;
     do {
         if (*updateListSlot != NULL) {
-            listSlot = (*updateListSlot)->mUnk_24;
+            listSlot = (*updateListSlot)->mDrawOrder;
             if (listSlot != NULL) {
                 *listSlot = NULL;
             }

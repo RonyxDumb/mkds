@@ -23,19 +23,19 @@ typedef struct MapObjectKindData {
     /* 00 */ s32 (*mCollideKartCallback)(struct MapObject *e, void *a, s32 *b, s32 *c);
     /* 04 */ s32 (*mCollideItemObjectCallback)(struct MapObject *e, void *a, void *b, void *c);
     /* 08 */ s32 mShapeKind;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ s32 mUnk_14;
+    /* 0c */ s32 mExtentX;
+    /* 10 */ s32 mExtentY;
+    /* 14 */ s32 mExtentZ;
     /* 18 */ s32 (*mSphereHitTest)(struct MapObject *a, Vec3 *b, s32 c, Vec3 *d);
-    /* 1c */ s32 mUnk_1c;
-    /* 20 */ s32 mUnk_20;
+    /* 1c */ s32 mCollidable;
+    /* 20 */ s32 mPosStepMode;
     /* 24 */ s32 mSoundId;
     /* 28 */ s32 mCollideItemObjectSoundId;
-    /* 2c */ s32 mUnk_2c;
-    /* 30 */ s32 mUnk_30;
-    /* 34 */ s32 mUnk_34;
-    /* 38 */ s32 mUnk_38;
-    /* 3c */ s32 mUnk_3c;
+    /* 2c */ s32 mViewRadius;
+    /* 30 */ s32 mDrawDistance;
+    /* 34 */ s32 mUseTwoPlaneViewTest;
+    /* 38 */ s32 mHeightRangeMax;
+    /* 3c */ s32 mHeightRangeMin;
 } MapObjectKindData;
 
 // Element object up to 0xa0, which every kind shares: UpdateMapObjectList and UpdateMapObjectSoundSource read 0x78 and
@@ -117,15 +117,17 @@ typedef struct MapObjectList {
     /* 0c */ void (*mBeforeObjects)(struct MapObjectList *p);
     /* 10 */ UnkFunc *mForEachObject;
     /* 14 */ void (*mAfterObjects)(struct MapObjectList *p);
-    /* 18 */ s32 mUnk_18;
+    // Update lists: the kind's mPosStepMode (3 = not set yet). Draw lists: 1 or 2, the first or second pass.
+    /* 18 */ s32 mPassOrPosStepMode;
     // A callback in the update lists (CallMapObjectListCallback); the draw lists test it for non-zero
     // (InitMapObjectDrawOrder, the draw loop) and the kinds' creators set it to 1.
     /* 1c */ union {
         s32 (*mUnk_1c)(MapObject *e, void *a, void *b, void *c);
         s32 mSortByDistance;
     };
-    /* 20 */ s32 mUnk_20;
-    /* 24 */ void **mUnk_24;
+    /* 20 */ s32 mItemFirstResponse;
+    // Draw lists: the object array the draw loop walks. Update lists keep the address of their global here.
+    /* 24 */ void **mDrawOrder;
 } MapObjectList;
 
 typedef struct NsbmdModel NsbmdModel;

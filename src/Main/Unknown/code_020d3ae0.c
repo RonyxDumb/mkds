@@ -151,8 +151,8 @@ BOOL IsMapObjectOutOfRange(MapObject *mapObject) {
         return TRUE;
     }
     cameraHeightAboveObject = gViewFrustum.mCameraPos.y - mapObject->mPos.y;
-    if (mapObject->mKindData->mUnk_3c < cameraHeightAboveObject &&
-        cameraHeightAboveObject < mapObject->mKindData->mUnk_38) {
+    if (mapObject->mKindData->mHeightRangeMin < cameraHeightAboveObject &&
+        cameraHeightAboveObject < mapObject->mKindData->mHeightRangeMax) {
         return FALSE;
     }
     return TRUE;
@@ -169,7 +169,7 @@ BOOL IsMapObjectOutOfRangeOrMaskedAtDistance(MapObject *mapObject, s32 distanceS
     }
     kindData = mapObject->mKindData;
     heightAboveCamera = FROM_FIXED12(position->y - gViewFrustum.mCameraPos.y);
-    if (heightAboveCamera < kindData->mUnk_3c || kindData->mUnk_38 < heightAboveCamera) {
+    if (heightAboveCamera < kindData->mHeightRangeMin || kindData->mHeightRangeMax < heightAboveCamera) {
         return TRUE;
     }
     return (GetKartKind3ShapeListMask() & mapObject->mDigitMask) != 0;
@@ -191,7 +191,7 @@ void DrawMapObjectList(MapObjectList *list, MtxFx43 *viewMatrix) {
 
     forEachObject = list->mForEachObject;
     objectCount = list->mMapObjectCount;
-    objects = list->mUnk_24;
+    objects = list->mDrawOrder;
     if (forEachObject == NULL) {
         return;
     }
@@ -341,12 +341,12 @@ void InitMapObjectDrawOrder(MapObjectList *list) {
     s32 objectIndex;
 
     if (list->mSortByDistance != 0) {
-        list->mUnk_24 = HeapAlloc(GetHeap(GetCurrentHeapCall()), list->mMapObjectCount * 4);
+        list->mDrawOrder = HeapAlloc(GetHeap(GetCurrentHeapCall()), list->mMapObjectCount * 4);
         for (objectIndex = 0; objectIndex < list->mMapObjectCount; objectIndex++) {
-            list->mUnk_24[objectIndex] = list->mMapObjects[objectIndex];
+            list->mDrawOrder[objectIndex] = list->mMapObjects[objectIndex];
         }
     } else {
-        list->mUnk_24 = list->mMapObjects;
+        list->mDrawOrder = list->mMapObjects;
     }
 }
 #pragma thumb off

@@ -129,38 +129,38 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
                     if (descriptor->mKindData->mCollideItemObjectSoundId == 0) {
                         descriptor->mKindData->mCollideItemObjectSoundId = -1;
                     }
-                    if (descriptor->mKindData->mUnk_38 == 0) {
-                        descriptor->mKindData->mUnk_38 = 0x64000;
+                    if (descriptor->mKindData->mHeightRangeMax == 0) {
+                        descriptor->mKindData->mHeightRangeMax = 0x64000;
                     }
-                    if (descriptor->mKindData->mUnk_3c == 0) {
-                        descriptor->mKindData->mUnk_3c = -0x64000;
+                    if (descriptor->mKindData->mHeightRangeMin == 0) {
+                        descriptor->mKindData->mHeightRangeMin = -0x64000;
                     }
                     if (gRaceSetup->mRaceKind == RACE_KIND_REPLAY) {
-                        if (descriptor->mKindData->mUnk_38 < 0x44c000) {
-                            descriptor->mKindData->mUnk_38 = 0x44c000;
+                        if (descriptor->mKindData->mHeightRangeMax < 0x44c000) {
+                            descriptor->mKindData->mHeightRangeMax = 0x44c000;
                         }
                     }
                 }
                 grpconfRow = FindGrpconfTblRowByKind(row->mKind);
                 if (grpconfRow->mViewTestKind != 0) {
-                    descriptor->mKindData->mUnk_34 = grpconfRow->mViewTestKind >= 2 ? 1 : 0;
+                    descriptor->mKindData->mUseTwoPlaneViewTest = grpconfRow->mViewTestKind >= 2 ? 1 : 0;
                     tableValue = grpconfRow->mViewRadius;
-                    descriptor->mKindData->mUnk_2c =
+                    descriptor->mKindData->mViewRadius =
                         tableValue != 0 ? TO_FIXED12(tableValue) + 0.5f : TO_FIXED12(tableValue) - 0.5f;
                     tableValue = grpconfRow->mDrawDistance;
-                    descriptor->mKindData->mUnk_30 =
+                    descriptor->mKindData->mDrawDistance =
                         tableValue != 0 ? TO_FIXED12(tableValue) + 0.5f : TO_FIXED12(tableValue) - 0.5f;
                 }
                 if (grpconfRow->mShapeKind != 0) {
                     descriptor->mKindData->mShapeKind = grpconfRow->mShapeKind;
                     tableValue = grpconfRow->mExtentX;
-                    descriptor->mKindData->mUnk_0c =
+                    descriptor->mKindData->mExtentX =
                         tableValue != 0 ? TO_FIXED12(tableValue) + 0.5f : TO_FIXED12(tableValue) - 0.5f;
                     tableValue = grpconfRow->mExtentY;
-                    descriptor->mKindData->mUnk_10 =
+                    descriptor->mKindData->mExtentY =
                         tableValue != 0 ? TO_FIXED12(tableValue) + 0.5f : TO_FIXED12(tableValue) - 0.5f;
                     tableValue = grpconfRow->mExtentZ;
-                    descriptor->mKindData->mUnk_14 =
+                    descriptor->mKindData->mExtentZ =
                         tableValue != 0 ? TO_FIXED12(tableValue) + 0.5f : TO_FIXED12(tableValue) - 0.5f;
                 }
                 if (descriptor->mLists[0] == NULL && descriptor->mCreateDrawList0 != NULL) {
@@ -202,7 +202,7 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
                 object->mPos.y = source->mPos.y;
                 object->mPos.z = source->mPos.z;
             }
-            if (kindData->mUnk_20 == 0 || kindData->mUnk_20 == 2) {
+            if (kindData->mPosStepMode == 0 || kindData->mPosStepMode == 2) {
                 object->mPosStep.x = 0;
                 object->mPosStep.y = 0;
                 object->mPosStep.z = 0;
@@ -224,14 +224,14 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
             } else {
                 SetMapObjectScale(object, &source->mScale);
             }
-            SetMapObjectDrawDistance(object, kindData->mUnk_30);
-            object->mUseTwoPlaneViewTest = kindData->mUnk_34;
+            SetMapObjectDrawDistance(object, kindData->mDrawDistance);
+            object->mUseTwoPlaneViewTest = kindData->mUseTwoPlaneViewTest;
             if (kindData->mShapeKind != 0) {
                 object->mFlags &= ~1;
             } else {
                 object->mFlags |= data_021568cc;
             }
-            if (kindData->mUnk_1c != 0) {
+            if (kindData->mCollidable != 0) {
                 object->mFlags &= ~0x40;
             } else {
                 object->mFlags |= data_021568d0;
@@ -271,7 +271,7 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
             }
             if (kindData->mShapeKind != 0) {
                 slotFlags = 0x2000;
-                if (kindData->mUnk_20 == 0) {
+                if (kindData->mPosStepMode == 0) {
                     slotFlags |= data_021568e0;
                 }
                 if (IsKoopaBlockKind(object->mKind) != 0 || IsRotaryKind(object->mKind) != FALSE ||
@@ -466,10 +466,10 @@ void InitMapObjects(void) {
     secondIndex = 0;
     for (drawListIndex = 0; drawListIndex < count; drawListIndex++) {
         list = gMapObjects->mDrawLists[drawListIndex];
-        if (list->mUnk_20 != 0) {
-            if (list->mUnk_18 == 1) {
+        if (list->mItemFirstResponse != 0) {
+            if (list->mPassOrPosStepMode == 1) {
                 firstCount++;
-            } else if (list->mUnk_18 == 2) {
+            } else if (list->mPassOrPosStepMode == 2) {
                 secondCount++;
             }
         }
@@ -477,18 +477,18 @@ void InitMapObjects(void) {
     slotIndex = 0;
     for (index = 0; index < count; index++) {
         list = gMapObjects->mDrawLists[index];
-        if (list->mUnk_18 == 1) {
+        if (list->mPassOrPosStepMode == 1) {
             listArray = gMapObjects->mFirstPassDrawLists;
             gMapObjects->mFirstPassDrawListCount++;
-            if (list->mUnk_20 != 0) {
+            if (list->mItemFirstResponse != 0) {
                 listIndex = firstIndex++;
             } else {
                 listIndex = firstCount++;
             }
-        } else if (list->mUnk_18 == 2) {
+        } else if (list->mPassOrPosStepMode == 2) {
             listArray = gMapObjects->mSecondPassDrawLists;
             gMapObjects->mSecondPassDrawListCount++;
-            if (list->mUnk_20 != 0) {
+            if (list->mItemFirstResponse != 0) {
                 listIndex = secondIndex++;
             } else {
                 listIndex = secondCount++;

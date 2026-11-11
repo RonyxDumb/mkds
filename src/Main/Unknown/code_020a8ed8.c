@@ -331,8 +331,8 @@ void CreateIronBallKindData(void) {
     MapObjectKindData *mapObjectKindData;
 
     mapObjectKindData = CreateMapObjectKindData(CollideKartWithIronBall, NULL, NULL, 1, 1);
-    mapObjectKindData->mUnk_38 = 0x190000;
-    mapObjectKindData->mUnk_3c = -0x1f4000;
+    mapObjectKindData->mHeightRangeMax = 0x190000;
+    mapObjectKindData->mHeightRangeMin = -0x1f4000;
 }
 
 void *CreateIronBallShadowDrawList(void) {

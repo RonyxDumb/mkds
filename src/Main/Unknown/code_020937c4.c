@@ -221,8 +221,8 @@ void CreateNsKiller2KindData(void) {
     MapObjectKindData *mapObjectKindDataWithSound;
 
     mapObjectKindDataWithSound = CreateMapObjectKindDataWithSound(CollideKartWithNsKiller2, NULL, NULL, 1, 1, 0x17b);
-    mapObjectKindDataWithSound->mUnk_38 = 0x32000;
-    mapObjectKindDataWithSound->mUnk_3c = -0x64000;
+    mapObjectKindDataWithSound->mHeightRangeMax = 0x32000;
+    mapObjectKindDataWithSound->mHeightRangeMin = -0x64000;
 }
 
 void CreateNsKiller2DrawList(void) {

@@ -30,8 +30,8 @@ void *CreateMapObjectKindDataWithSoundIds(void *collideKartCallback, void *colli
         CreateMapObjectKindData(collideKartCallback, collideItemObjectCallback, sphereHitCallback, p3, p4);
     kindData->mSoundId = soundId;
     kindData->mCollideItemObjectSoundId = collideItemObjectSoundId;
-    kindData->mUnk_38 = 0x270f000;
-    kindData->mUnk_3c = 0xfd8f1000;
+    kindData->mHeightRangeMax = 0x270f000;
+    kindData->mHeightRangeMin = 0xfd8f1000;
     return kindData;
 }
 
@@ -47,7 +47,7 @@ void *LoadMissionRunFile(const char *fileName) {
 MapObjectModel *LoadMapObjectModelAnimated(MapObjectList *mapObjectList, const char *nsbmdName) {
     MapObjectModel *mapObjectModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     if (mapObjectList != NULL) {
-        mapObjectList->mUnk_18 = 1;
+        mapObjectList->mPassOrPosStepMode = 1;
     }
     mapObjectModel->mNsbmdFile = LoadMissionRunFile((nsbmdName));
     mapObjectModel->mAnimatedModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x6c);
@@ -62,7 +62,7 @@ MapObjectModel *LoadMapObjectModelShadow(MapObjectList *mapObjectList, const cha
     MapObjectModel *mapObjectModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     void *missionRunFile = LoadMissionRunFile((shadowFileName));
     if (mapObjectList != NULL) {
-        mapObjectList->mUnk_18 = 1;
+        mapObjectList->mPassOrPosStepMode = 1;
     }
     mapObjectModel->mShadowModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x74);
     InitShadowModel(mapObjectModel->mShadowModel, missionRunFile, 0x3f);

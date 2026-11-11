@@ -13,16 +13,16 @@ void AddMapObjectToUpdateList(MapObjectList *mapObjectList, MapObject *mapObject
     mapObjectIndex = mapObjectList->mMapObjectCount;
     mapObjectList->mMapObjectCount = mapObjectIndex + 1;
     mapObjectList->mMapObjects[mapObjectIndex] = mapObject;
-    if (mapObjectList->mUnk_18 == 3) {
+    if (mapObjectList->mPassOrPosStepMode == 3) {
         kindData = mapObject->mKindData;
-        mapObjectList->mUnk_18 = kindData->mUnk_20;
+        mapObjectList->mPassOrPosStepMode = kindData->mPosStepMode;
     }
     if (mapObjectList->mUnk_1c == NULL) {
         kindData = mapObject->mKindData;
         mapObjectList->mUnk_1c = kindData->mCollideItemObjectCallback;
     }
-    if (mapObjectList->mUnk_20 == 3) {
-        mapObjectList->mUnk_20 = GetItemObjectFirstResponse(6, mapObject);
+    if (mapObjectList->mItemFirstResponse == 3) {
+        mapObjectList->mItemFirstResponse = GetItemObjectFirstResponse(6, mapObject);
     }
 }
 #pragma thumb off

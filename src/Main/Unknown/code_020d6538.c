@@ -408,7 +408,7 @@ s32 CollideItemObjectWithMapObject(ItemObject *itemObject, MapObject *mapObject,
             response = 0;
         }
         responses[0] = response;
-        kindDataValue = mapObject->mKindData->mUnk_20;
+        kindDataValue = mapObject->mKindData->mPosStepMode;
         response = gItemObjectResponsesByKind[kindHundreds][itemObject->mKind][kindRemainder];
         if (flagBit != 0 && response == 1 && kindDataValue != 0) {
             response = 2;
@@ -429,7 +429,7 @@ s32 CollideItemObjectWithMapObject(ItemObject *itemObject, MapObject *mapObject,
     if (firstResponseOut != NULL) {
         *firstResponseOut = 0;
     }
-    kindDataValue = mapObject->mKindData->mUnk_20;
+    kindDataValue = mapObject->mKindData->mPosStepMode;
     response = gItemObjectResponsesByKind[kindHundreds][itemObject->mKind][kindRemainder];
     if (flagBit != 0 && response == 1 && kindDataValue != 0) {
         response = 2;
@@ -465,7 +465,7 @@ s32 DoesItemObjectRespondToMapObject(s32 itemKind, MapObject *mapObject) {
         kindHundreds++;
     }
     flagBit = mapObject->mFlags & 0x800;
-    kindDataValue = mapObject->mKindData->mUnk_20;
+    kindDataValue = mapObject->mKindData->mPosStepMode;
     response = gItemObjectResponsesByKind[kindHundreds][itemKind][kindRemainder];
     if (flagBit != 0 && response == 1 && kindDataValue != 0) {
         response = 2;
@@ -494,8 +494,8 @@ s32 GetItemObjectFirstResponse(s32 itemKind, MapObject *mapObject) {
 MapObjectKindData *CreateRockKindData(void) {
     MapObjectKindData *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
     *kindData = data_02156adc;
-    kindData->mUnk_38 = 0x3e8000;
-    kindData->mUnk_3c = -0x3e8000;
+    kindData->mHeightRangeMax = 0x3e8000;
+    kindData->mHeightRangeMin = -0x3e8000;
     return kindData;
 }
 

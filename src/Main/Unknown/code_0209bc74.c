@@ -16,7 +16,7 @@ MapObjectModel *CreateMapObjectModelAnimated(MapObjectList *mapObjectList, const
 
     mapObjectModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     if (mapObjectList != NULL) {
-        mapObjectList->mUnk_18 = 1;
+        mapObjectList->mPassOrPosStepMode = 1;
     }
     mapObjectModel->mNsbmdFile = FindCourseMapObjFile(name);
     mapObjectModel->mAnimatedModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x6c);
@@ -69,7 +69,7 @@ MapObjectModel *CreateMapObjectModelShadow(MapObjectList *mapObjectList, const c
     mapObjectModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     courseMapObjFile = FindCourseMapObjFile(name);
     if (mapObjectList != NULL) {
-        mapObjectList->mUnk_18 = 1;
+        mapObjectList->mPassOrPosStepMode = 1;
     }
     mapObjectModel->mShadowModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x74);
     InitShadowModel(mapObjectModel->mShadowModel, courseMapObjFile, 0x3f);
@@ -87,7 +87,7 @@ MapObjectModel *CreateMapObjectModelNsbmd(MapObjectList *mapObjectList, const ch
     mapObjectModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     courseMapObjFile = FindCourseMapObjFile(name);
     if (mapObjectList != NULL) {
-        mapObjectList->mUnk_18 = 2;
+        mapObjectList->mPassOrPosStepMode = 2;
     }
     mapObjectModel->mNsbmdModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     InitNsbmdModel(mapObjectModel->mNsbmdModel, courseMapObjFile, NULL, 0);
@@ -115,7 +115,7 @@ MapObjectModel *CreateMapObjectModelNsbmdNsbtp(MapObjectList *mapObjectList, con
     modelFile = FindCourseMapObjFile(modelName);
     animationFile = FindCourseMapObjFile(animationName);
     if (mapObjectList != NULL) {
-        mapObjectList->mUnk_18 = 2;
+        mapObjectList->mPassOrPosStepMode = 2;
     }
     mapObjectModel->mNsbmdModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     InitNsbmdModel(mapObjectModel->mNsbmdModel, modelFile, animationFile, 0);

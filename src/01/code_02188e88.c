@@ -51,7 +51,7 @@ void UpdateRaceHudSubScreenKingIceDonketuCells(void) {
                 gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xc5);
                 gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mPriority =
                     IsPositionOutsideBox(pos) ? RACE_HUD_PRIORITY_OUTSIDE_BOX : RACE_HUD_PRIORITY_INSIDE_BOX;
-                gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mUnk_0e = object->mFlags & 0x20;
+                gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mXlu = object->mFlags & 0x20;
                 gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mAngle = object->mAngle;
                 cellCount++;
             }
@@ -88,7 +88,7 @@ void UpdateRaceHudSubScreenKingTeresaCells(void) {
                 gRaceHudSubScreenKingTeresaCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xc5);
                 gRaceHudSubScreenKingTeresaCells->mCells[cellCount].mPriority =
                     IsPositionOutsideBox(pos) ? RACE_HUD_PRIORITY_OUTSIDE_BOX : RACE_HUD_PRIORITY_INSIDE_BOX;
-                gRaceHudSubScreenKingTeresaCells->mCells[cellCount].mUnk_0e = object->mFlags & 0x20;
+                gRaceHudSubScreenKingTeresaCells->mCells[cellCount].mXlu = object->mFlags & 0x20;
                 gRaceHudSubScreenKingTeresaCells->mCells[cellCount].mAngle = object->mAngle;
                 cellCount++;
             }

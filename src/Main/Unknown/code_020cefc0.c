@@ -63,11 +63,11 @@ void UpdateRaceHudSubScreenBombKouraWCells(void) {
                                                                                     : RACE_HUD_PRIORITY_INSIDE_BOX;
 // Frame count, not an angle: this list is drawn without rotation.
                 gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mAngle = bombStateFrames;
-                gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mUnk_0e = bombStateFrames >= 0x16 ? 1 : 0;
+                gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mXlu = bombStateFrames >= 0x16 ? 1 : 0;
                 if (bombStateFrames >= 0x16) {
                     bombValue = InterpolateS16(1, 0x1000, 10, bombStateFrames - 0x16, 0x22);
                 }
-                gRaceHudSubScreenBombKouraWCells->mUnk_0c[cellCount].mFirst = bombValue;
+                gRaceHudSubScreenBombKouraWCells->mObjectPairs[cellCount].mFirst = bombValue;
                 cellCount++;
             }
         }
@@ -88,11 +88,11 @@ void UpdateRaceHudSubScreenBombKouraWCells(void) {
                                                                                     : RACE_HUD_PRIORITY_INSIDE_BOX;
 // Frame count, not an angle: this list is drawn without rotation.
                 gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mAngle = kouraStateFrames;
-                gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mUnk_0e = kouraStateFrames >= 0x16 ? 1 : 0;
+                gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mXlu = kouraStateFrames >= 0x16 ? 1 : 0;
                 if (kouraStateFrames >= 0x16) {
                     kouraValue = InterpolateS16(1, 0x1000, 10, kouraStateFrames - 0x16, 0x22);
                 }
-                gRaceHudSubScreenBombKouraWCells->mUnk_0c[cellCount].mFirst = kouraValue;
+                gRaceHudSubScreenBombKouraWCells->mObjectPairs[cellCount].mFirst = kouraValue;
                 cellCount++;
             }
         }

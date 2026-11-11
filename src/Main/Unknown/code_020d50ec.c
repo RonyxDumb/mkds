@@ -165,7 +165,7 @@ void UpdateRock(void *mapObjectList, RockObject *rock) {
         if (rock->mMapObject.mCollisionSlotIndex >= 0) {
             SetCollisionSlotRadius(rock->mMapObject.mCollisionSlotIndex, rock->mMapObject.mExtent.x);
         }
-        rock->mMapObject.mViewRadius = MUL_FIXED12_NO_ROUND(rock->mMapObject.mKindData->mUnk_2c, newScale);
+        rock->mMapObject.mViewRadius = MUL_FIXED12_NO_ROUND(rock->mMapObject.mKindData->mViewRadius, newScale);
         rock->mBottomOffsetReciprocal = FX_GetDivResult();
     }
     if (rock->mUnk_0a4.mGroupFollower.mForward == 0) {
@@ -229,7 +229,7 @@ void ResetRock(RockObject *rock) {
     if (rock->mMapObject.mCollisionSlotIndex >= 0) {
         SetCollisionSlotRadius(rock->mMapObject.mCollisionSlotIndex, rock->mMapObject.mExtent.x);
     }
-    rock->mMapObject.mViewRadius = MUL_FIXED12_NO_ROUND(rock->mMapObject.mKindData->mUnk_2c, startScale);
+    rock->mMapObject.mViewRadius = MUL_FIXED12_NO_ROUND(rock->mMapObject.mKindData->mViewRadius, startScale);
     rock->mBottomOffsetReciprocal = FX_GetDivResult();
 }
 
