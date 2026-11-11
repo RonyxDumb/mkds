@@ -105,7 +105,7 @@ void UpdateValueRecords(void) {
             break;
         case 2:
             StopSoundSeq();
-            func_ov003_021cefc0(0x40, 1, 1, -1, 0);
+            CreateMessageBox(0x40, 1, 1, -1, 0);
             StartSoundSeq(9);
             DisableButtonTouch();
             RemoveTaskEntryWrapper(1, gValueRecordsRequestTask);
@@ -193,17 +193,17 @@ void UpdateValueRecordsDuringRequest(void) {
 
 void UpdateValueRecordsMessageResult(void) {
     int messageAnswer;
-    messageAnswer = func_ov003_021cef80();
+    messageAnswer = GetMessageBoxResult();
     if (messageAnswer == 0) {
         StartSoundSeq(6);
-        func_ov003_021cef90();
+        CloseMessageBox();
         SetUpdateFunction(UpdateValueRecordsMessageClose);
     }
 }
 
 void UpdateValueRecordsMessageClose(void) {
     int messageOpen;
-    messageOpen = func_ov003_021cef6c();
+    messageOpen = IsMessageBoxOpen();
     if (messageOpen == 0) {
         SetUpdateFunction(StartValueRecordsClose);
     }

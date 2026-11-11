@@ -11,226 +11,226 @@
 #include "code_02147cd8.h"
 #include "code_0212bcac.h"
 
-u8 func_ov003_021cce6c(void) {
-    return data_ov003_021da268->mOffset;
+u8 GetScrollBarOffset(void) {
+    return gScrollBar->mOffset;
 }
 
-u8 func_ov003_021cce60(void) {
-    return data_ov003_021da268->mUnk_1d;
+u8 GetScrollBarEvent(void) {
+    return gScrollBar->mEvent;
 }
 
-void func_ov003_021cce58(s32 offset) {
-    func_ov003_021cca74(offset);
+void PlaceScrollBarWrapper(s32 offset) {
+    PlaceScrollBar(offset);
 }
 
-void func_ov003_021cce48(void) {
-    data_ov003_021da268->mUnk_1e = 0;
+void EnableScrollBarInput(void) {
+    gScrollBar->mInputDisabled = 0;
 }
 
-void func_ov003_021cce38(void) {
-    data_ov003_021da268->mUnk_1e = 1;
+void DisableScrollBarInput(void) {
+    gScrollBar->mInputDisabled = 1;
 }
 
-void func_ov003_021ccd18(void) {
-    data_ov003_021da268->mUnk_1d = 0;
-    switch (data_ov003_021da268->mUnk_1c) {
+void AdvanceScrollBar(void) {
+    gScrollBar->mEvent = 0;
+    switch (gScrollBar->mState) {
         case 0:
-            if (data_ov003_021da268->mUnk_1e == 0) {
-                switch (func_ov003_021ccb50()) {
+            if (gScrollBar->mInputDisabled == 0) {
+                switch (GetPressedScrollBarPart()) {
                     case 1:
-                        if (data_ov003_021da268->mUnk_1b != 0) {
+                        if (gScrollBar->mSizeIndex != 0) {
                             StartSoundSeq(0x16);
                             SetSoundSeqVolume(0);
-                            data_ov003_021da268->mUnk_1d = 1;
-                            GetTouchPoint(data_ov003_021da268->mUnk_14);
-                            data_ov003_021da268->mUnk_18 = data_ov003_021da268->mOffset;
-                            data_ov003_021da268->mUnk_1c = 1;
+                            gScrollBar->mEvent = 1;
+                            GetTouchPoint(gScrollBar->mDragStartTouch);
+                            gScrollBar->mDragStartOffset = gScrollBar->mOffset;
+                            gScrollBar->mState = 1;
                         }
                         break;
                     case 2:
-                        func_ov003_021ccc08(2);
+                        StartScrollBarArrowHold(2);
                         break;
                     case 3:
-                        func_ov003_021ccc08(3);
+                        StartScrollBarArrowHold(3);
                         break;
                     case 4:
-                        func_ov003_021ccbbc();
+                        MoveScrollBarToTouch();
                         break;
                 }
             }
             break;
         case 1:
-            func_ov003_021ccc90();
+            AdvanceScrollBarDrag();
             break;
         case 2:
-            if (func_ov003_021ccb1c(2) != 2) {
-                data_ov003_021da268->mUnk_1d = 5;
-                data_ov003_021da268->mUnk_1c = 0;
-            } else if (func_ov003_021ccb50() == 2) {
-                func_ov003_021ccc08(2);
+            if (GetTouchedScrollBarArrow(2) != 2) {
+                gScrollBar->mEvent = 5;
+                gScrollBar->mState = 0;
+            } else if (GetPressedScrollBarPart() == 2) {
+                StartScrollBarArrowHold(2);
             }
             break;
         case 3:
-            if (func_ov003_021ccb1c(3) != 3) {
-                data_ov003_021da268->mUnk_1d = 7;
-                data_ov003_021da268->mUnk_1c = 0;
-            } else if (func_ov003_021ccb50() == 3) {
-                func_ov003_021ccc08(3);
+            if (GetTouchedScrollBarArrow(3) != 3) {
+                gScrollBar->mEvent = 7;
+                gScrollBar->mState = 0;
+            } else if (GetPressedScrollBarPart() == 3) {
+                StartScrollBarArrowHold(3);
             }
             break;
     }
 }
 
-void func_ov003_021ccc90(void) {
-    u16 a[2];
-    s32 b;
-    s32 c;
+void AdvanceScrollBarDrag(void) {
+    u16 touchPoint[2];
+    s32 newOffset;
+    s32 maxOffset;
     if (IsTouchDownInRect(&gTouchScreenRect) != 0) {
-        GetTouchPoint(a);
-        if (a[0] >= data_ov003_021da268->mX - 0x1e) {
-            b = data_ov003_021da268->mUnk_18 + (a[1] - data_ov003_021da268->mUnk_14[1]);
-            if (b < 0) {
-                b = 0;
+        GetTouchPoint(touchPoint);
+        if (touchPoint[0] >= gScrollBar->mX - 0x1e) {
+            newOffset = gScrollBar->mDragStartOffset + (touchPoint[1] - gScrollBar->mDragStartTouch[1]);
+            if (newOffset < 0) {
+                newOffset = 0;
             } else {
-                c = data_ov003_021da268->mUnk_19 - data_ov003_021d6630[data_ov003_021da268->mUnk_1b];
-                if (b >= c) {
-                    b = c;
+                maxOffset = gScrollBar->mTrackLength - gScrollBarLengths[gScrollBar->mSizeIndex];
+                if (newOffset >= maxOffset) {
+                    newOffset = maxOffset;
                 }
             }
-            func_ov003_021ccc24(b);
-            func_ov003_021cca74(b);
-            data_ov003_021da268->mUnk_1d = 2;
+            SetScrollBarDragSound(newOffset);
+            PlaceScrollBar(newOffset);
+            gScrollBar->mEvent = 2;
             return;
         }
     }
     StopSoundSeq();
-    data_ov003_021da268->mUnk_1c = 0;
-    data_ov003_021da268->mUnk_1d = 3;
+    gScrollBar->mState = 0;
+    gScrollBar->mEvent = 3;
 }
 
-void func_ov003_021ccc24(s32 param_1) {
-    s32 a = data_ov003_021da268->mOffset - param_1;
-    u32 b;
-    u32 c;
-    if (a < 0) {
-        a = -a;
+void SetScrollBarDragSound(s32 targetOffset) {
+    s32 distance = gScrollBar->mOffset - targetOffset;
+    u32 volume;
+    u32 pitch;
+    if (distance < 0) {
+        distance = -distance;
     }
-    if (a < 2) {
-        b = 0;
-    } else if (a < 6) {
-        b = FX_DivS32(0x7f, 6 - a);
+    if (distance < 2) {
+        volume = 0;
+    } else if (distance < 6) {
+        volume = FX_DivS32(0x7f, 6 - distance);
     } else {
-        b = 0x7f;
+        volume = 0x7f;
     }
-    SetSoundSeqVolume(b);
-    if (a < 2) {
-        c = -0x100;
-    } else if (a < 6) {
-        c = FX_DivS32(0x200, 6 - a) - 0x100;
+    SetSoundSeqVolume(volume);
+    if (distance < 2) {
+        pitch = -0x100;
+    } else if (distance < 6) {
+        pitch = FX_DivS32(0x200, 6 - distance) - 0x100;
     } else {
-        c = 0x100;
+        pitch = 0x100;
     }
-    SetSoundSeqTrackPitch(0xffff, c);
+    SetSoundSeqTrackPitch(0xffff, pitch);
 }
 
-void func_ov003_021ccc08(int a) {
-    u8 v1;
-    data_ov003_021da268->mUnk_1c = (s8) a;
-    if (a == 2) {
-        v1 = 4;
+void StartScrollBarArrowHold(int arrow) {
+    u8 resultCode;
+    gScrollBar->mState = (s8) arrow;
+    if (arrow == 2) {
+        resultCode = 4;
     } else {
-        v1 = 6;
+        resultCode = 6;
     }
-    data_ov003_021da268->mUnk_1d = v1;
+    gScrollBar->mEvent = resultCode;
 }
 
-void func_ov003_021ccbbc(void) {
-    u16 a[2];
-    u32 b;
-    s32 c;
-    s32 d;
-    GetTouchPoint(a);
-    b = data_ov003_021d6630[data_ov003_021da268->mUnk_1b];
-    c = a[1] - data_ov003_021da268->mY - (b >> 1);
-    if (c < 0) {
-        c = 0;
+void MoveScrollBarToTouch(void) {
+    u16 touchPoint[2];
+    u32 barLength;
+    s32 newOffset;
+    s32 maxOffset;
+    GetTouchPoint(touchPoint);
+    barLength = gScrollBarLengths[gScrollBar->mSizeIndex];
+    newOffset = touchPoint[1] - gScrollBar->mY - (barLength >> 1);
+    if (newOffset < 0) {
+        newOffset = 0;
     } else {
-        d = data_ov003_021da268->mUnk_19 - b;
-        if (c >= d) {
-            c = d;
+        maxOffset = gScrollBar->mTrackLength - barLength;
+        if (newOffset >= maxOffset) {
+            newOffset = maxOffset;
         }
     }
-    func_ov003_021cca74(c);
-    data_ov003_021da268->mUnk_1d = 3;
+    PlaceScrollBar(newOffset);
+    gScrollBar->mEvent = 3;
 }
 
-int func_ov003_021ccb50(void) {
+int GetPressedScrollBarPart(void) {
     int v1;
-    int v2;
-    u8 v3[8];
-    func_ov003_021cca9c(1, (void *) v3);
-    v1 = IsTouchPressedOrRepeatedInRect((const Rect *) (u16 *) (void *) v3);
+    int pressed;
+    u8 partRect[8];
+    GetScrollBarPartRect(1, (void *) partRect);
+    v1 = IsTouchPressedOrRepeatedInRect((const Rect *) (u16 *) (void *) partRect);
     if (v1 != 0) {
         return 1;
     }
     v1 = 2;
     do {
-        func_ov003_021cca9c(v1, (void *) v3);
-        v2 = IsTouchPressedOrRepeatedInRect((const Rect *) (u16 *) (void *) v3);
-        if (v2 != 0) {
+        GetScrollBarPartRect(v1, (void *) partRect);
+        pressed = IsTouchPressedOrRepeatedInRect((const Rect *) (u16 *) (void *) partRect);
+        if (pressed != 0) {
             return v1;
         }
         v1 = v1 + 1;
     } while (v1 <= 3);
-    func_ov003_021cca9c(4, (void *) v3);
-    v1 = IsTouchPressedInRect((const Rect *) (u16 *) ((u16 *) (void *) v3));
+    GetScrollBarPartRect(4, (void *) partRect);
+    v1 = IsTouchPressedInRect((const Rect *) (u16 *) ((u16 *) (void *) partRect));
     if (v1 != 0) {
         return 4;
     }
     return 0;
 }
 
-int func_ov003_021ccb1c(int a) {
-    int v1;
-    int v2;
-    u8 v3[8];
-    v2 = 2;
+int GetTouchedScrollBarArrow(int a) {
+    int touchDown;
+    int part;
+    u8 partRect[8];
+    part = 2;
     do {
-        func_ov003_021cca9c(v2, (void *) v3);
-        v1 = IsTouchDownInRect((const Rect *) (u16 *) (void *) v3);
-        if (v1 != 0) {
-            return v2;
+        GetScrollBarPartRect(part, (void *) partRect);
+        touchDown = IsTouchDownInRect((const Rect *) (u16 *) (void *) partRect);
+        if (touchDown != 0) {
+            return part;
         }
-        v2 = v2 + 1;
-    } while (v2 <= 3);
+        part = part + 1;
+    } while (part <= 3);
     return 0;
 }
 
-void func_ov003_021cca9c(s32 a, u16 *b) {
-    b[0] = data_ov003_021da268->mX;
-    b[2] = b[0] + 0xc;
-    switch (a) {
+void GetScrollBarPartRect(s32 part, u16 *rect) {
+    rect[0] = gScrollBar->mX;
+    rect[2] = rect[0] + 0xc;
+    switch (part) {
         case 1:
-            b[1] = data_ov003_021da268->mY + data_ov003_021da268->mOffset;
-            b[3] = b[1] + data_ov003_021d6630[data_ov003_021da268->mUnk_1b];
+            rect[1] = gScrollBar->mY + gScrollBar->mOffset;
+            rect[3] = rect[1] + gScrollBarLengths[gScrollBar->mSizeIndex];
             break;
         case 2:
-            b[1] = data_ov003_021da268->mY - 0xd;
-            b[3] = data_ov003_021da268->mY;
+            rect[1] = gScrollBar->mY - 0xd;
+            rect[3] = gScrollBar->mY;
             break;
         case 3:
-            b[1] = data_ov003_021da268->mY + data_ov003_021da268->mUnk_19;
-            b[3] = b[1] + 0xd;
+            rect[1] = gScrollBar->mY + gScrollBar->mTrackLength;
+            rect[3] = rect[1] + 0xd;
             break;
         case 4:
-            b[1] = data_ov003_021da268->mY;
-            b[3] = b[1] + data_ov003_021da268->mUnk_19;
+            rect[1] = gScrollBar->mY;
+            rect[3] = rect[1] + gScrollBar->mTrackLength;
             break;
     }
 }
 
-void func_ov003_021cca74(s32 offset) {
-    Unk021cca74 *state = data_ov003_021da268;
+void PlaceScrollBar(s32 offset) {
+    ScrollBar *state = gScrollBar;
     SetOamRangePosition(state->mResource, -1, state->mX, offset + state->mY);
-    data_ov003_021da268->mOffset = offset;
+    gScrollBar->mOffset = offset;
 }

@@ -109,19 +109,19 @@ void LoadConnectFilesAndSetBgCnt(void) {
 void StartConnectRequest(void) {
     s32 secondaryPairSecond;
     Unk02188868 connectParams;
-    Unk021cd5e0_400 *record = func_ov003_021cdb6c();
+    ApWorkCopy *record = GetApWorkCopy();
     MIi_CpuCopy32(gConnectParamsTemplate, &connectParams, 0xc);
     GetSecondaryMenuPair(NULL, &secondaryPairSecond);
     if (secondaryPairSecond == 2) {
         connectParams.mUnk_0a = 4;
     } else {
-        connectParams.mUnk_0a = record->mUnk_f4 + 1;
+        connectParams.mUnk_0a = record->mEntryIndex + 1;
     }
     if (func_ov000_02188868(&connectParams) == 0) {
         OS_Terminate();
     }
     if (secondaryPairSecond == 0) {
-        func_ov000_021886fc(record->mUnk_f4, record);
+        func_ov000_021886fc(record->mEntryIndex, record);
     }
     AddTask(0, AdvanceConnectRequest, NULL, 0x78);
 }
@@ -170,7 +170,7 @@ void UpdateConnectFadeOut(void) {
 }
 
 void UpdateConnectRelease(void) {
-    Unk021cd5e0 *recordStore = func_ov003_021cd4dc();
+    ApStore *recordStore = GetApStore();
     if (func_ov000_02188720() != 0) {
         MI_CpuCopy8(GetPackedWiFiInfo(), recordStore->mUnk_000[0].mUnk_f0, 0xe);
         MI_CpuCopy8(GetPackedWiFiInfo(), recordStore->mUnk_000[1].mUnk_f0, 0xe);

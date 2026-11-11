@@ -215,7 +215,7 @@ void UpdateExchangeSearchOutcome(void) {
             gExchangeSearchShowNext = 0;
             StopSoundSeq();
             StartSoundSeq(9);
-            func_ov003_021cefc0(0x41, 1, 1, -1, 0);
+            CreateMessageBox(0x41, 1, 1, -1, 0);
             DisableButtonTouch();
             SetUpdateFunction(UpdateExchangeSearchMessageResult);
             break;

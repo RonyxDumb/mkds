@@ -5,13 +5,13 @@
 #include "03/unk_021da000.h"
 #include "03/code_021d3488.h"
 
-// Entry of the table at offset 0x1300 of the object at data_ov003_021da280.
+// Entry of the table at offset 0x1300 of the object at gUsbScan.
 typedef struct Unk021ce4d4_1300 {
     /* 00 */ u8 mUnk_00[6];
     /* 06 */ u8 mUnk_06;
 } Unk021ce4d4_1300;
 
-// Object at data_ov003_021da280, as far as func_ov003_021ce4d4 uses it.
+// Object at gUsbScan, as far as AdvanceUsbScanReport uses it.
 typedef struct Unk021ce4d4 {
     /* 0000 */ u8 mUnk_0000[0x1300];
     /* 1300 */ Unk021ce4d4_1300 mUnk_1300[0x10];
@@ -23,15 +23,14 @@ typedef struct Unk021ce4d4 {
     /* 1b82 */ u8 mUnk_1b82;
 } Unk021ce4d4;
 
-extern u8 data_ov003_021d6688[][5];
-extern u8 data_ov003_021d6698[][5];
+extern u8 gMenuPairObjectImageIds[][5];
+extern u8 gMenuPairObjectPaletteIds[][5];
 
-void func_ov003_021ce110(TaskEntry *a);
-void func_ov003_021ce190(TaskEntry *a);
-void func_ov003_021ce230(TaskEntry *a);
-void func_ov003_021ce2d0(TaskEntry *a);
-void func_ov003_021ce370(TaskEntry *a);
-// Declared here until the code that defines it is decompiled.
+void AdvanceMenuPairObjectSlideIn4(TaskEntry *taskEntry);
+void AdvanceMenuPairObjectSlideIn3(TaskEntry *taskEntry);
+void AdvanceMenuPairObjectSlideIn2(TaskEntry *taskEntry);
+void AdvanceMenuPairObjectSlideIn1(TaskEntry *taskEntry);
+void AdvanceMenuPairObjectSlideIn0(TaskEntry *taskEntry);
 
-void func_ov003_021ce408(u32 a);
-void func_ov003_021ce4d4(u32 a);
+void CreateMenuPairObjects(u32 row);
+void AdvanceUsbScanReport(u32 task);

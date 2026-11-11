@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-extern const u8 *data_ov003_021d7850[];
+extern const u8 *gMenuPairScreenMapPaths[];
 
-void func_ov003_021cdcb8(u32 a);
-void func_ov003_021cdcf0(u32 a);
+void AdvanceUploadMenuPairScreenMap(u32 task);
+void LoadMenuPairScreenMap(u32 pathIndex);

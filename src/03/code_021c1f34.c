@@ -40,7 +40,7 @@ void ReleaseValueRecordsRequest(int succeeded) {
     ReleaseEssidWiFi();
     if (((succeeded != 0) && (gValueRecordsRequest->mResultCode == 0)) &&
         ((*(u8 *) &gValueRecordsRequestSucceeded) == 1)) {
-        func_ov003_021cd4e8((s32) &gValueRecordsRequest->mUnk_117);
+        WriteApWorkFromAossResult((s32) &gValueRecordsRequest->mUnk_117);
     }
     FreeExpHeapBlockAndClearPointer(&gValueRecordsRequest);
 }

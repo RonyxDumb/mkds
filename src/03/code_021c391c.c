@@ -44,7 +44,7 @@ void SetupOptMenu(void) {
     gOptMenuEntryChosen[0] = 0;
     LoadOptMenuFilesAndSetBgCnt();
     LoadHlScr(0x10);
-    func_ov003_021cdcf0(3);
+    LoadMenuPairScreenMap(3);
     ShowSubScreenMessage(0x88, -1, 0);
     gOptMenuOamEntry = CreateOamEntryFromNceImage(0, 0x5b);
     oamEntry = gOptMenuOamEntry;

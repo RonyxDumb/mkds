@@ -48,7 +48,7 @@ void CreateEdit(void) {
     gEdit = AllocZeroedExpHeapBlock(0x2c, 4);
     GetSecondaryMenuPair(&secondaryPairFirst, &secondaryPairSecond);
     if (secondaryPairFirst == 0) {
-        func_ov003_021cd948((u8 *) gEdit + 8);
+        CopyApWorkSsid((u8 *) gEdit + 8);
         gEdit->mCharCount = GetStringLengthWithLimit((u8 *) gEdit + 8, 0x20);
     }
     LoadEditFilesAndSetBgCnt();
@@ -239,11 +239,11 @@ void UpdateEditKeyboardOut(void) {
         if (gEdit->mUnk_2a == 0) {
             SetUpdateFunction(UpdateEditRelease);
         } else if (gEdit->mUnk_2a == 2) {
-            func_ov003_021cefc0(0x2f, 3, 1, -1, 0);
+            CreateMessageBox(0x2f, 3, 1, -1, 0);
             SetUpdateFunction(UpdateEditInvalidMessageResult);
         } else {
             GetSecondaryMenuPair(NULL, &secondaryPairSecond);
-            func_ov003_021cefc0(messageIds[secondaryPairSecond], 2, 1, -1, 0);
+            CreateMessageBox(messageIds[secondaryPairSecond], 2, 1, -1, 0);
             SetUpdateFunction(UpdateEditMessageResult);
         }
     }
@@ -326,7 +326,7 @@ void PlaceEditTextCursor(void) {
 }
 
 void UpdateEditMessageResult(void) {
-    gEdit->mUnk_2a = func_ov003_021cef80();
+    gEdit->mUnk_2a = GetMessageBoxResult();
     switch (gEdit->mUnk_2a) {
         case 0:
             StartSoundSeq(7);
@@ -337,14 +337,14 @@ void UpdateEditMessageResult(void) {
         default:
             return;
     }
-    func_ov003_021cef90();
+    CloseMessageBox();
     SetUpdateFunction(UpdateEditMessageClose);
 }
 
 void UpdateEditMessageClose(void) {
-    void (*storeFuncs[2])(const u8 *) = {func_ov003_021cdb14, func_ov003_021cd9dc};
+    void (*storeFuncs[2])(const u8 *) = {StoreApWorkSsid, StoreApWorkWepKey};
     s32 secondaryPairFirst;
-    if (func_ov003_021cef6c() == 0) {
+    if (IsMessageBoxOpen() == 0) {
         if (gEdit->mUnk_2a == 0) {
             gEdit->mUnk_04->mUnk_00 = gEdit->mUnk_04->mUnk_00 & 0xc1fffcff;
             SetUpdateFunction(UpdateEditFadeIn);

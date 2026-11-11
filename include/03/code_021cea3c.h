@@ -6,18 +6,18 @@ typedef struct TaskEntry TaskEntry;
 
 typedef struct OamRange OamRange;
 
-void func_ov003_021cea3c(u32 a);
-void func_ov003_021ceab8(TaskEntry *a);
-void func_ov003_021ceaf8(TaskEntry *a);
-void func_ov003_021ceb54(TaskEntry *a);
-void func_ov003_021ceb80(s32 a);
-void func_ov003_021cec00(OamRange *a, s32 b);
-void func_ov003_021cec50(s32 a);
-void func_ov003_021ced78(u32 a);
-void func_ov003_021cedbc(void);
-void func_ov003_021cee98(u32 a);
-void func_ov003_021cef28(TaskEntry *a);
-u32 func_ov003_021cef6c(void);
-int func_ov003_021cef80(void);
+void AdvanceMessageBoxRelease(u32 task);
+void AdvanceMessageBoxBrightnessUp(TaskEntry *taskEntry);
+void AdvanceMessageBoxSlideOut(TaskEntry *taskEntry);
+void AdvanceMessageBoxCloseWait(TaskEntry *taskEntry);
+void ShowMessageBoxButtonPressed(s32 buttonIndex);
+void ClipOamRangeAboveY(OamRange *range, s32 minY);
+void PlaceMessageBox(s32 yPos);
+void AdvanceMessageBoxTimed(u32 task);
+void AdvanceMessageBoxInput(void);
+void AdvanceMessageBoxSlideIn(u32 task);
+void AdvanceMessageBoxBrightnessDown(TaskEntry *taskEntry);
+BOOL IsMessageBoxOpen(void);
+int GetMessageBoxResult(void);
 // K&R on purpose: a caller passes a u8 array where the definition takes a u16 *.
 void WriteWinRect();

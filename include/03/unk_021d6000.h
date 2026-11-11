@@ -22,9 +22,9 @@ typedef struct Bytes4 {
 } Bytes4;
 
 // 0x44 bytes moved as one value.
-typedef struct Unk021d66d0 {
+typedef struct Bytes68 {
     /* 00 */ u32 mUnk_00[0x11];
-} Unk021d66d0;
+} Bytes68;
 
 // Objects whose layout isn't known yet.
 extern s8 gJb3ListDigitColumns[];
@@ -45,23 +45,23 @@ extern s8 gWayMoveTargets[][4][4];
 extern Rect gWayRects[][4];
 extern Rect gWaySelectionRects[][4];
 extern u8 gConnectParamsTemplate[];
-extern u8 data_ov003_021d6630[];
-extern u8 data_ov003_021d6638[];
-extern u8 data_ov003_021d66bc[];
-extern u8 data_ov003_021d66c4[];
-extern Unk021d66d0 data_ov003_021d66d0;
-extern u8 data_ov003_021d6720[];
-extern u16 data_ov003_021d6714[2];
-extern u8 data_ov003_021d6718[];
-extern u8 data_ov003_021d6728[];
-extern s8 data_ov003_021d673c[][2];
-extern u8 data_ov003_021d6730[][2];
-extern u8 data_ov003_021d6748[][2];
-extern u16 data_ov003_021d6754[][2];
-extern u16 data_ov003_021d6768[][2];
-extern u16 data_ov003_021d6780[][2];
-extern u16 data_ov003_021d6798[][2];
-extern u16 data_ov003_021d67b0[][2][2];
+extern u8 gScrollBarLengths[];
+extern u8 gApScanEmptyBssid[];
+extern u8 gUsbScanEmptyBssid[];
+extern u8 gUsbSsidPrefix[];
+extern Bytes68 gUsbScanParamTemplate;
+extern u8 gMessageBoxButtonCounts[];
+extern u16 gMessageBoxTextOffset[2];
+extern u8 gMessageBoxImageIds[];
+extern u8 gMessageBoxWindowRect[];
+extern s8 gMessageBoxKeyResults[][2];
+extern u8 gMessageBoxButtonSlots[][2];
+extern u8 gMessageBoxButtonImageIds[][2];
+extern u16 gMessageBoxButtonSizes[][2];
+extern u16 gMessageBoxTextSizes[][2];
+extern u16 gMessageBoxPositions[][2];
+extern u16 gMessageBoxSizes[][2];
+extern u16 gMessageBoxButtonPositions[][2][2];
 extern u32 gThreadStackSize;
 extern s32 gTimeoutAtMs;
 extern s32 gStartEntryCount;

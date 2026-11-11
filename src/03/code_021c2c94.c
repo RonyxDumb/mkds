@@ -33,7 +33,7 @@ void SetupJb2Menu(void) {
     LoadJb2MenuFilesAndSetBgCnt();
     LoadHlScr(0);
     ShowSubScreenMessage(0x7a, -1, 0);
-    func_ov003_021cdcf0(4);
+    LoadMenuPairScreenMap(4);
     PlaceSelectionCorners(
         gJb2MenuSelectionLeft[gJb2MenuSelectedIndex * 4], gJb2MenuSelectionRight[gJb2MenuSelectedIndex * 4],
         gJb2MenuSelectionTop[gJb2MenuSelectedIndex * 4], gJb2MenuSelectionBottom[gJb2MenuSelectedIndex * 4]);

@@ -2,45 +2,45 @@
 
 #include "types.h"
 
-// 0xf0 bytes; the object at data_ov003_021da270 holds four of them at a stride of 0x100.
-typedef struct Unk021cd5e0_entry {
+// 0xf0 bytes; the object at gApStore holds four of them at a stride of 0x100.
+typedef struct ApEntry {
     /* 00 */ u8 mUnk_00[0x40];
-    /* 40 */ u8 mUnk_40[0x20];
+    /* 40 */ u8 mSsid[0x20];
     /* 60 */ u8 mUnk_60[0x20];
-    /* 80 */ u8 mUnk_80[4][0x10];
-    /* c0 */ u8 mUnk_c0[4];
-    /* c4 */ u8 mUnk_c4[4];
-    /* c8 */ u8 mUnk_c8[8];
-    /* d0 */ u8 mUnk_d0;
+    /* 80 */ u8 mWepKeys[4][0x10];
+    /* c0 */ u8 mIp[4];
+    /* c4 */ u8 mGateway[4];
+    /* c8 */ u8 mDns[8];
+    /* d0 */ u8 mNetmaskCidr;
     /* d1 */ u8 mUnk_d1[0x15];
-    /* e6 */ u8 mUnk_e6_0 : 2;
-    /* e6 */ u8 mUnk_e6_2 : 6;
-    /* e7 */ u8 mUnk_e7;
+    /* e6 */ u8 mWepMode : 2;
+    /* e6 */ u8 mWepNotation : 6;
+    /* e7 */ u8 mSetType;
     /* e8 */ u8 mUnk_e8[8];
-} Unk021cd5e0_entry;
+} ApEntry;
 
-// Entry at offset 0x400 of the object at data_ov003_021da270, and the bytes after it.
-typedef struct Unk021cd5e0_400 {
-    /* 00 */ Unk021cd5e0_entry mUnk_00;
-    /* f0 */ u8 mUnk_f0[4];
-    /* f4 */ u8 mUnk_f4;
-    /* f5 */ u8 mUnk_f5;
-    /* f6 */ u8 mUnk_f6;
+// Entry at offset 0x400 of the object at gApStore, and the bytes after it.
+typedef struct ApWorkCopy {
+    /* 00 */ ApEntry mEntry;
+    /* f0 */ u8 mNetmask[4];
+    /* f4 */ u8 mEntryIndex;
+    /* f5 */ u8 mIpNone;
+    /* f6 */ u8 mDnsNone;
     /* f7 */ u8 pad_f7;
-    /* f8 */ u16 mUnk_f8;
-} Unk021cd5e0_400;
+    /* f8 */ u16 mCrcTable;
+} ApWorkCopy;
 
-// Object at data_ov003_021da270, as far as func_ov003_021cd5e0 through func_ov003_021cd790 use it.
-typedef struct Unk021cd5e0 {
+// Object at gApStore, as far as WriteApWorkFromExchangeResult through CopyApEntryToWorkCopy use it.
+typedef struct ApStore {
     /* 000 */ struct {
-        Unk021cd5e0_entry mUnk_00;
+        ApEntry mUnk_00;
         u8 mUnk_f0[0xe];
         u16 mUnk_fe;
     } mUnk_000[4];
-    /* 400 */ Unk021cd5e0_400 mUnk_400;
-} Unk021cd5e0;
+    /* 400 */ ApWorkCopy mUnk_400;
+} ApStore;
 
-// Argument of func_ov003_021cd5e0.
+// Argument of WriteApWorkFromExchangeResult.
 typedef struct Unk021cd5e0_arg {
     /* 00 */ u8 mUnk_00[0x20];
     /* 20 */ u32 mUnk_20;
@@ -48,33 +48,33 @@ typedef struct Unk021cd5e0_arg {
     /* 28 */ u8 mUnk_28[4][0x20];
 } Unk021cd5e0_arg;
 
-extern u8 data_ov003_021d6684[];
+extern u8 gSettingNone[];
 
-void func_ov003_021cd2e0(const char *input, u8 *output);
-void func_ov003_021cd338(s32 param_1);
-void func_ov003_021cd42c(void);
-void func_ov003_021cd4ac(int a);
-struct Unk021cd5e0 *func_ov003_021cd4dc(void);
-void func_ov003_021cd4e8(int arg0);
-void func_ov003_021cd5e0(const Unk021cd5e0_arg *a);
-void func_ov003_021cd6d0(void);
-void func_ov003_021cd790(s32 a);
-u8 func_ov003_021cd844(int a);
-void func_ov003_021cd858(char *p0);
-void func_ov003_021cd888(char *p0);
-void func_ov003_021cd8b8(char *p0);
-void func_ov003_021cd8e8(char *p0);
-void func_ov003_021cd918(char *p0);
-void func_ov003_021cd948(void *output);
-void func_ov003_021cd964(const char *input);
-void func_ov003_021cd97c(const char *input);
-void func_ov003_021cd994(const char *input);
-void func_ov003_021cd9ac(const char *input);
-void func_ov003_021cd9c4(const char *input);
-void func_ov003_021cd9dc(const u8 *a);
-void func_ov003_021cdb14(const u8 *a);
-void func_ov003_021cdb44(u32 a);
-void func_ov003_021cdb58(u32 a);
-Unk021cd5e0_400 *func_ov003_021cdb6c(void);
-void func_ov003_021cdb80(void);
-void func_ov003_021cdb90(void);
+void ParseAddressText(const char *input, u8 *output);
+void WriteApEntryToNvram(s32 entryIndex);
+void ResetApEntries(void);
+void ResetApEntry(int entryIndex);
+struct ApStore *GetApStore(void);
+void WriteApWorkFromAossResult(int response);
+void WriteApWorkFromExchangeResult(const Unk021cd5e0_arg *exchangeResult);
+void WriteApWorkCopy(void);
+void CopyApEntryToWorkCopy(s32 entryIndex);
+u8 GetApEntrySetType(int entryIndex);
+void FormatApWorkDnsSecondText(char *output);
+void FormatApWorkDnsFirstText(char *output);
+void FormatApWorkGatewayText(char *output);
+void FormatApWorkNetmaskText(char *output);
+void FormatApWorkIpText(char *output);
+void CopyApWorkSsid(void *output);
+void StoreApWorkDnsSecondText(const char *input);
+void StoreApWorkDnsFirstText(const char *input);
+void StoreApWorkGatewayText(const char *input);
+void StoreApWorkNetmaskText(const char *input);
+void StoreApWorkIpText(const char *input);
+void StoreApWorkWepKey(const u8 *text);
+void StoreApWorkSsid(const u8 *ssid);
+void SetApWorkDnsNone(u32 dnsNone);
+void SetApWorkIpNone(u32 ipNone);
+ApWorkCopy *GetApWorkCopy(void);
+void ReleaseApStore(void);
+void CreateApStore(void);

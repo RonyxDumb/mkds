@@ -200,7 +200,7 @@ void UpdateExchangeKeyOutcome(void) {
             gExchangeKeyShowNext = 0;
             StopSoundSeq();
             StartSoundSeq(9);
-            func_ov003_021cefc0(0x41, 1, 1, -1, 0);
+            CreateMessageBox(0x41, 1, 1, -1, 0);
             DisableButtonTouch();
             SetUpdateFunction(UpdateExchangeKeyMessageResult);
             break;
@@ -208,7 +208,7 @@ void UpdateExchangeKeyOutcome(void) {
             gExchangeKeyShowNext = 0;
             StopSoundSeq();
             StartSoundSeq(0x12);
-            func_ov003_021cefc0(0x42, 1, 1, -1, 0);
+            CreateMessageBox(0x42, 1, 1, -1, 0);
             DisableButtonTouch();
             SetUpdateFunction(UpdateExchangeKeyMessageResult);
             break;

@@ -106,14 +106,14 @@ void UpdateJb5MoveFadeIn(void) {
     int fadeSlotBusy;
     fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0);
     if (fadeSlotBusy == 0) {
-        func_ov003_021cefc0(0x5f, 4, 0, 0xffffffff, 0);
+        CreateMessageBox(0x5f, 4, 0, 0xffffffff, 0);
         SetUpdateFunction(UpdateJb5MoveMessageIn);
     }
 }
 
 void UpdateJb5MoveMessageIn(void) {
     int messageAnswer;
-    messageAnswer = func_ov003_021cef80();
+    messageAnswer = GetMessageBoxResult();
     if (messageAnswer != -2) {
         SetUpdateFunction(UpdateJb5MoveMessage);
     }
@@ -122,7 +122,7 @@ void UpdateJb5MoveMessageIn(void) {
 void UpdateJb5MoveMessage(void) {
     UpdateJb5MoveMessageInputNop();
     UpdateJb5MoveMessageNop();
-    switch (func_ov003_021cef80()) {
+    switch (GetMessageBoxResult()) {
         case 0:
             gJb5MoveShowNext = 0;
             StartSoundSeq(7);
@@ -135,7 +135,7 @@ void UpdateJb5MoveMessage(void) {
             return;
     }
     SetChildWaitCallback(NULL);
-    func_ov003_021cef90();
+    CloseMessageBox();
     SetUpdateFunction(UpdateJb5MoveMessageClose);
 }
 
@@ -145,7 +145,7 @@ void UpdateJb5MoveMessageNop(void) {}
 
 void UpdateJb5MoveMessageClose(void) {
     int messageOpen;
-    messageOpen = func_ov003_021cef6c();
+    messageOpen = IsMessageBoxOpen();
     if (messageOpen == 0) {
         if ((*(u8 *) &gJb5MoveShowNext) == 0) {
             StartBlendBrightnessFade(3, 1, 1, 8);

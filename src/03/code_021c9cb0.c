@@ -7,17 +7,17 @@
 
 void UpdateExchangeKeyMessageResult(void) {
     int messageAnswer;
-    messageAnswer = func_ov003_021cef80();
+    messageAnswer = GetMessageBoxResult();
     if (messageAnswer == 0) {
         StartSoundSeq(6);
-        func_ov003_021cef90();
+        CloseMessageBox();
         SetUpdateFunction(UpdateExchangeKeyMessageClose);
     }
 }
 
 void UpdateExchangeKeyMessageClose(void) {
     int messageOpen;
-    messageOpen = func_ov003_021cef6c();
+    messageOpen = IsMessageBoxOpen();
     if (messageOpen == 0) {
         SetUpdateFunction(StartExchangeKeyClose);
     }

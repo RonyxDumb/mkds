@@ -18,9 +18,9 @@ typedef struct Bytes23 {
 } Bytes23;
 
 // Six bytes moved as one value.
-typedef struct Unk021d7864 {
+typedef struct Bytes6 {
     /* 0 */ u8 mUnk_00[6];
-} Unk021d7864;
+} Bytes6;
 
 // Twenty-two bytes moved as one value.
 typedef struct Unk021d75c8 {
@@ -43,7 +43,7 @@ typedef struct ConnectMessageIds {
 } ConnectMessageIds;
 
 // Objects whose layout isn't known yet.
-extern Unk021d7864 data_ov003_021d7864;
+extern Bytes6 gMessageBoxWindowExtraBitFlags;
 extern Bytes21 gYbBgStep2NclName;
 extern Bytes22 gYbBgStep21NclName;
 extern Bytes23 gJb3ListBackNscName;
@@ -112,7 +112,7 @@ extern u8 gXb3MultiNscName[];
 extern u8 gJbBgStep3NcgName8[];
 extern u8 gYbBgStep3NclName8[];
 extern u8 gJb4UsbNscName[];
-extern const char data_ov003_021d77c4[];
+extern const char gAddressTextFormat[];
 extern u8 *data_ov003_021d79a8[];
 extern u8 data_ov003_021d79d0[];
 extern u8 data_ov003_021d79f4[];

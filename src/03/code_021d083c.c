@@ -41,7 +41,7 @@ void func_ov003_021d1358(Unk021da2ac *a, Unk021d1358 *b) {
     OS_GetTick();
     ReadNvramEntries(data_ov003_021da2ac->mUnk_64c);
     OS_GetTick();
-    data_ov003_021da2ac->mUnk_aa0[1] = (u8 *) func_ov003_021cd4dc();
+    data_ov003_021da2ac->mUnk_aa0[1] = (u8 *) GetApStore();
 }
 
 u32 func_ov003_021d1290(void) {
@@ -405,7 +405,7 @@ u32 func_ov003_021d0a88(void) {
 }
 
 u32 func_ov003_021d0a50(Unk021425e8 *v1) {
-    u16 r = func_ov003_021cf1e8(v1->mUnk_0a);
+    u16 r = GetRecordValueByMacAddress(v1->mUnk_0a);
     if (r == 0) {
         return 0;
     }

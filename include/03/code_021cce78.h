@@ -7,7 +7,7 @@
 #include "03/unk_021da000.h"
 #include "code_02142eac.h"
 
-// Object found through the pointers at 0x10 of an Unk021ccf30.
+// Object found through the pointers at 0x10 of an WMStartScanExCallback.
 typedef struct Unk021ccf30_10 {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ u8 mUnk_04[6];
@@ -18,17 +18,17 @@ typedef struct Unk021ccf30_10 {
     /* 3c */ u16 mUnk_3c;
 } Unk021ccf30_10;
 
-typedef struct Unk021ccf30 {
+typedef struct WMStartScanExCallback {
     /* 00 */ u8 mUnk_00[0xe];
-    /* 0e */ u16 mUnk_0e;
-    /* 10 */ Unk021ccf30_10 *mUnk_10[0x10];
-    /* 50 */ u16 mUnk_50[0x10];
-} Unk021ccf30;
+    /* 0e */ u16 mBssDescCount;
+    /* 10 */ Unk021ccf30_10 *mBssDesc[0x10];
+    /* 50 */ u16 mLinkLevel[0x10];
+} WMStartScanExCallback;
 
-extern u8 data_ov003_021d662c[];
-extern u8 data_ov003_021d6634[];
+extern u8 gScrollBarImageIds[];
+extern u8 gOtherElementPrefix[];
 
-void func_ov003_021cce78(void);
-void func_ov003_021ccea4(u32 a, u32 b, u16 c, u16 d, u32 e);
-void func_ov003_021ccf30(Unk021ccf30 *a);
-void func_ov003_021cd080(Unk021425e8 *a);
+void ReleaseScrollBar(void);
+void CreateScrollBar(u32 sizeIndex, u32 trackLength, u16 positionX, u16 positionY, u32 offset);
+void StoreApScanEntries(WMStartScanExCallback *scanResult);
+void ApScanCallback(Unk021425e8 *message);

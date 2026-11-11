@@ -48,7 +48,7 @@ void SetupUsb(void) {
     MIi_CpuCopy16(ownerInfo.mUnk_04, &ownerText[1], ownerInfo.mUnk_18 * 2);
     PrintMessageAndText((u32) &ownerText[1], 0x6d);
     CreateAnimatedIcon(0);
-    func_ov003_021ce920(UsbEventCallback);
+    InitUsbScan(UsbEventCallback);
     StartSoundSeq(0xb);
     SetUpdateFunction(StartUsbFadeIn);
 }
@@ -179,7 +179,7 @@ void UpdateUsbFadeOut(void) {
 void UpdateUsbRelease(void) {
     if (IsBlendBrightnessFadeSlotBusy(0) == 0 && (gUsbExitKind != 2 || IsBlendBrightnessFadeSlotBusy(1) == 0) &&
         IsSlideButtonsNotSlidingOut() != 0) {
-        func_ov003_021ce848();
+        ReleaseUsbScan();
         ReleaseAnimatedIcon();
         ReleaseBgTextCanvasOfScreen(0);
         if (gUsbExitKind == 2 || gUsbExitKind == 3) {
@@ -207,7 +207,7 @@ void UsbEventCallback(u32 eventCode) {
                 gUsbExitKind = 3;
                 StopSoundSeq();
                 StartSoundSeq(0x12);
-                func_ov003_021cefc0(0x45, 1, 1, -1, 0);
+                CreateMessageBox(0x45, 1, 1, -1, 0);
                 DisableButtonTouch();
                 SetUpdateFunction(UpdateUsbMessageResult);
                 break;
@@ -218,8 +218,8 @@ void UsbEventCallback(u32 eventCode) {
                 break;
             case 2:
                 StopSoundSeq();
-                func_ov003_021ce834(0);
-                func_ov003_021cefc0(0x47, 0, 1, -1, 0);
+                SetUsbScanCallback(0);
+                CreateMessageBox(0x47, 0, 1, -1, 0);
                 DisableButtonTouch();
                 SetUpdateFunction(UpdateUsbChoiceMessageResult);
                 break;
@@ -235,24 +235,24 @@ void UsbEventCallback(u32 eventCode) {
 
 void UpdateUsbMessageResult(void) {
     int messageAnswer;
-    messageAnswer = func_ov003_021cef80();
+    messageAnswer = GetMessageBoxResult();
     if (messageAnswer == 0) {
         StartSoundSeq(6);
-        func_ov003_021cef90();
+        CloseMessageBox();
         SetUpdateFunction(UpdateUsbMessageClose);
     }
 }
 
 void UpdateUsbMessageClose(void) {
     int messageOpen;
-    messageOpen = func_ov003_021cef6c();
+    messageOpen = IsMessageBoxOpen();
     if (messageOpen == 0) {
         SetUpdateFunction(StartUsbClose);
     }
 }
 
 void UpdateUsbChoiceMessageResult(void) {
-    switch (func_ov003_021cef80()) {
+    switch (GetMessageBoxResult()) {
         case 1:
             gUsbExitKind = 3;
             StartSoundSeq(6);
@@ -264,13 +264,13 @@ void UpdateUsbChoiceMessageResult(void) {
         default:
             return;
     }
-    func_ov003_021cef90();
+    CloseMessageBox();
     SetUpdateFunction(UpdateUsbChoiceMessageClose);
 }
 
 void UpdateUsbChoiceMessageClose(void) {
     int messageOpen;
-    messageOpen = func_ov003_021cef6c();
+    messageOpen = IsMessageBoxOpen();
     if (messageOpen == 0) {
         if (gUsbExitKind == 1) {
             SetUpdateFunction(StartUsbClose);
@@ -279,7 +279,7 @@ void UpdateUsbChoiceMessageClose(void) {
         StartSoundSeq(0xb);
         EnableButtonTouch();
         gUsbExitKind = 0;
-        func_ov003_021ce834((u32) &UsbEventCallback);
+        SetUsbScanCallback((u32) &UsbEventCallback);
         SetUpdateFunction(UpdateUsb);
     }
 }

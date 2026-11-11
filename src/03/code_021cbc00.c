@@ -31,10 +31,10 @@ void UpdateConnectMessage(void) {
     int messageAnswer;
     UpdateConnectMessageInputNop();
     UpdateConnectMessageNop();
-    messageAnswer = func_ov003_021cef80();
+    messageAnswer = GetMessageBoxResult();
     if (messageAnswer == 0) {
         StartSoundSeq(6);
-        func_ov003_021cef90();
+        CloseMessageBox();
         StartSoundSeq(6);
         SetUpdateFunction(UpdateConnectMessageClose);
     }
@@ -46,7 +46,7 @@ void UpdateConnectMessageNop(void) {}
 
 void UpdateConnectMessageClose(void) {
     int messageOpen;
-    messageOpen = func_ov003_021cef6c();
+    messageOpen = IsMessageBoxOpen();
     if (messageOpen == 0) {
         StartBlendBrightnessFade(3, 0, 0x14, 8);
         SetUpdateFunction(UpdateConnectMessageFadeOut);
@@ -131,7 +131,7 @@ void StartConnectDoneFadeOut(void) {
     int secondaryPairSecond[1];
     GetSecondaryMenuPair(NULL, secondaryPairSecond);
     if (secondaryPairSecond[0] != 0) {
-        func_ov003_021ce0c4();
+        StartMenuPairObjectsSlideOut();
     }
     StartBlendBrightnessFade(3, 1, 1, 8);
     StartBlendBrightnessFade(3, 0, 0x15, 8);
@@ -142,7 +142,8 @@ void UpdateConnectDoneRelease(void) {
     int v1;
     int secondaryPairSecond[1];
     v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if (((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) && (v1 = func_ov003_021cdd28(), v1 != 0)) {
+    if (((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) &&
+        (v1 = IsMenuPairObjectsNotSlidingOut(), v1 != 0)) {
         ReleaseBgTextCanvasOfScreen(0);
         HideSubScreenMessage();
         ClearDispcntBits(1, 1);

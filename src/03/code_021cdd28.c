@@ -13,134 +13,135 @@
 #include "03/code_021d1970.h"
 #include "03/code_021d3000.h"
 
-void func_ov003_021ce0f0(u32 task) {
+void AdvanceMenuPairObjectsSlideInEnd(u32 task) {
     RequestTaskRemoval(0, task);
-    data_ov003_021da27c->mTask = 0;
+    gMenuPairObjects->mTask = 0;
 }
 
-void func_ov003_021ce0c4(void) {
-    data_ov003_021da27c->mUnk_18 = 1;
-    data_ov003_021da27c->mTask = AddTask(0, func_ov003_021cdf98, NULL, 0x78);
+void StartMenuPairObjectsSlideOut(void) {
+    gMenuPairObjects->mSlidingOut = 1;
+    gMenuPairObjects->mTask = AddTask(0, AdvanceMenuPairObjectSlideOut4, NULL, 0x78);
 }
 
-void func_ov003_021ce024(u32 a) {
+void ChangeMenuPairObjectImages(u32 row) {
     s32 i;
     for (i = 0; i < 5; i += 2) {
-        CopyNceImageToOamEntries(1, data_ov003_021d6688[a][i], GetOamRangeEntry(data_ov003_021da27c->mUnk_00[i], 0));
-        func_ov003_021d1790(data_ov003_021da27c->mUnk_00[i], -1, 0);
-        SetOamRangePosition(data_ov003_021da27c->mUnk_00[i], -1, data_ov003_021d66a8[i].mUnk_00,
-                            data_ov003_021d66a8[i].mUnk_02);
-        func_ov003_021d1890(data_ov003_021da27c->mUnk_00[i], -1, 0, data_ov003_021d6698[a][i]);
+        CopyNceImageToOamEntries(1, gMenuPairObjectImageIds[row][i],
+                                 GetOamRangeEntry(gMenuPairObjects->mObjects[i], 0));
+        func_ov003_021d1790(gMenuPairObjects->mObjects[i], -1, 0);
+        SetOamRangePosition(gMenuPairObjects->mObjects[i], -1, gMenuPairObjectPositions[i].mX,
+                            gMenuPairObjectPositions[i].mY);
+        func_ov003_021d1890(gMenuPairObjects->mObjects[i], -1, 0, gMenuPairObjectPaletteIds[row][i]);
     }
-    func_ov003_021cdcf0(a);
+    LoadMenuPairScreenMap(row);
 }
 
-u32 func_ov003_021ce00c(void) {
-    if (data_ov003_021da27c->mTask != 0) {
+BOOL IsMenuPairObjectsSliding(void) {
+    if (gMenuPairObjects->mTask != 0) {
         return 1;
     }
     return 0;
 }
 
-void func_ov003_021cdf98(TaskEntry *a) {
+void AdvanceMenuPairObjectSlideOut4(TaskEntry *taskEntry) {
     s32 i;
-    s32 w;
-    s32 h;
-    GetOamRangeEntryPosition(data_ov003_021da27c->mUnk_00[4], 0, (u32 *) &w, &h);
-    w -= 8;
-    if (w > data_ov003_021d66a8[3].mUnk_00) {
+    s32 xPos;
+    s32 yPos;
+    GetOamRangeEntryPosition(gMenuPairObjects->mObjects[4], 0, (u32 *) &xPos, &yPos);
+    xPos -= 8;
+    if (xPos > gMenuPairObjectPositions[3].mX) {
         for (i = 4; i < 5; i++) {
-            SetOamRangePosition(data_ov003_021da27c->mUnk_00[i], -1, w, data_ov003_021d66a8[i].mUnk_02);
+            SetOamRangePosition(gMenuPairObjects->mObjects[i], -1, xPos, gMenuPairObjectPositions[i].mY);
         }
         return;
     }
-    w = data_ov003_021d66a8[3].mUnk_00;
+    xPos = gMenuPairObjectPositions[3].mX;
     for (i = 4; i < 5; i++) {
-        SetOamRangePosition(data_ov003_021da27c->mUnk_00[i], -1, w, data_ov003_021d66a8[i].mUnk_02);
+        SetOamRangePosition(gMenuPairObjects->mObjects[i], -1, xPos, gMenuPairObjectPositions[i].mY);
     }
-    SetTaskCallback(a, func_ov003_021cdf00);
+    SetTaskCallback(taskEntry, AdvanceMenuPairObjectSlideOut3);
 }
 
-void func_ov003_021cdf00(TaskEntry *a) {
+void AdvanceMenuPairObjectSlideOut3(TaskEntry *taskEntry) {
     s32 i;
-    s32 w;
-    s32 h;
-    GetOamRangeEntryPosition(data_ov003_021da27c->mUnk_00[3], 0, (u32 *) &w, &h);
-    w -= 8;
-    if (w > data_ov003_021d66a8[2].mUnk_00) {
+    s32 xPos;
+    s32 yPos;
+    GetOamRangeEntryPosition(gMenuPairObjects->mObjects[3], 0, (u32 *) &xPos, &yPos);
+    xPos -= 8;
+    if (xPos > gMenuPairObjectPositions[2].mX) {
         for (i = 3; i < 5; i++) {
-            SetOamRangePosition(data_ov003_021da27c->mUnk_00[i], -1, w, data_ov003_021d66a8[i].mUnk_02);
+            SetOamRangePosition(gMenuPairObjects->mObjects[i], -1, xPos, gMenuPairObjectPositions[i].mY);
         }
         return;
     }
-    w = data_ov003_021d66a8[2].mUnk_00;
+    xPos = gMenuPairObjectPositions[2].mX;
     for (i = 3; i < 5; i++) {
-        SetOamRangePosition(data_ov003_021da27c->mUnk_00[i], -1, w, data_ov003_021d66a8[i].mUnk_02);
+        SetOamRangePosition(gMenuPairObjects->mObjects[i], -1, xPos, gMenuPairObjectPositions[i].mY);
     }
-    SetTaskCallback(a, func_ov003_021cde68);
+    SetTaskCallback(taskEntry, AdvanceMenuPairObjectSlideOut2);
 }
 
-void func_ov003_021cde68(TaskEntry *a) {
+void AdvanceMenuPairObjectSlideOut2(TaskEntry *taskEntry) {
     s32 i;
-    s32 w;
-    s32 h;
-    GetOamRangeEntryPosition(data_ov003_021da27c->mUnk_00[2], 0, (u32 *) &w, &h);
-    w -= 8;
-    if (w > data_ov003_021d66a8[1].mUnk_00) {
+    s32 xPos;
+    s32 yPos;
+    GetOamRangeEntryPosition(gMenuPairObjects->mObjects[2], 0, (u32 *) &xPos, &yPos);
+    xPos -= 8;
+    if (xPos > gMenuPairObjectPositions[1].mX) {
         for (i = 2; i < 5; i++) {
-            SetOamRangePosition(data_ov003_021da27c->mUnk_00[i], -1, w, data_ov003_021d66a8[i].mUnk_02);
+            SetOamRangePosition(gMenuPairObjects->mObjects[i], -1, xPos, gMenuPairObjectPositions[i].mY);
         }
         return;
     }
-    w = data_ov003_021d66a8[1].mUnk_00;
+    xPos = gMenuPairObjectPositions[1].mX;
     for (i = 2; i < 5; i++) {
-        SetOamRangePosition(data_ov003_021da27c->mUnk_00[i], -1, w, data_ov003_021d66a8[i].mUnk_02);
+        SetOamRangePosition(gMenuPairObjects->mObjects[i], -1, xPos, gMenuPairObjectPositions[i].mY);
     }
-    SetTaskCallback(a, func_ov003_021cddd0);
+    SetTaskCallback(taskEntry, AdvanceMenuPairObjectSlideOut1);
 }
 
-void func_ov003_021cddd0(TaskEntry *a) {
+void AdvanceMenuPairObjectSlideOut1(TaskEntry *taskEntry) {
     s32 i;
-    s32 w;
-    s32 h;
-    GetOamRangeEntryPosition(data_ov003_021da27c->mUnk_00[1], 0, (u32 *) &w, &h);
-    w -= 8;
-    if (w > data_ov003_021d66a8[0].mUnk_00) {
+    s32 xPos;
+    s32 yPos;
+    GetOamRangeEntryPosition(gMenuPairObjects->mObjects[1], 0, (u32 *) &xPos, &yPos);
+    xPos -= 8;
+    if (xPos > gMenuPairObjectPositions[0].mX) {
         for (i = 1; i < 5; i++) {
-            SetOamRangePosition(data_ov003_021da27c->mUnk_00[i], -1, w, data_ov003_021d66a8[i].mUnk_02);
+            SetOamRangePosition(gMenuPairObjects->mObjects[i], -1, xPos, gMenuPairObjectPositions[i].mY);
         }
         return;
     }
-    w = data_ov003_021d66a8[0].mUnk_00;
+    xPos = gMenuPairObjectPositions[0].mX;
     for (i = 1; i < 5; i++) {
-        SetOamRangePosition(data_ov003_021da27c->mUnk_00[i], -1, w, data_ov003_021d66a8[i].mUnk_02);
+        SetOamRangePosition(gMenuPairObjects->mObjects[i], -1, xPos, gMenuPairObjectPositions[i].mY);
     }
-    SetTaskCallback(a, func_ov003_021cdd48);
+    SetTaskCallback(taskEntry, AdvanceMenuPairObjectSlideOut0);
 }
 
-void func_ov003_021cdd48(TaskEntry *a) {
+void AdvanceMenuPairObjectSlideOut0(TaskEntry *taskEntry) {
     s32 i;
-    s32 w;
-    s32 h;
-    GetOamRangeEntryPosition(data_ov003_021da27c->mUnk_00[0], 0, (u32 *) &w, &h);
-    w -= 8;
+    s32 xPos;
+    s32 yPos;
+    GetOamRangeEntryPosition(gMenuPairObjects->mObjects[0], 0, (u32 *) &xPos, &yPos);
+    xPos -= 8;
     for (i = 0; i < 5; i++) {
-        SetOamRangePosition(data_ov003_021da27c->mUnk_00[i], -1, w, data_ov003_021d66a8[i].mUnk_02);
+        SetOamRangePosition(gMenuPairObjects->mObjects[i], -1, xPos, gMenuPairObjectPositions[i].mY);
     }
-    if (w <= 0x1d6 && w >= 0x100) {
-        RequestTaskRemoval(0, (u32) a);
+    if (xPos <= 0x1d6 && xPos >= 0x100) {
+        RequestTaskRemoval(0, (u32) taskEntry);
         for (i = 0; i < 5; i++) {
-            DeleteOamRange(data_ov003_021da27c->mUnk_00[i]);
+            DeleteOamRange(gMenuPairObjects->mObjects[i]);
         }
-        FreeExpHeapBlockAndClearPointer(&data_ov003_021da27c);
+        FreeExpHeapBlockAndClearPointer(&gMenuPairObjects);
     }
 }
 
-u32 func_ov003_021cdd28(void) {
-    if (data_ov003_021da27c == NULL) {
+BOOL IsMenuPairObjectsNotSlidingOut(void) {
+    if (gMenuPairObjects == NULL) {
         return 1;
     }
-    if (data_ov003_021da27c->mUnk_18 == 0) {
+    if (gMenuPairObjects->mSlidingOut == 0) {
         return 1;
     }
     return 0;

@@ -2,33 +2,33 @@
 
 #include "types.h"
 
-typedef struct Unk021cca74 {
+typedef struct ScrollBar {
     /* 00 */ struct OamRange *mResource;
     /* 04 */ u8 mUnk_04[8];
-    /* 0c */ u32 mUnk_0c;
+    /* 0c */ u32 mTask;
     /* 10 */ u16 mX;
     /* 12 */ u16 mY;
-    /* 14 */ u16 mUnk_14[2];
-    /* 18 */ u8 mUnk_18;
-    /* 19 */ u8 mUnk_19;
+    /* 14 */ u16 mDragStartTouch[2];
+    /* 18 */ u8 mDragStartOffset;
+    /* 19 */ u8 mTrackLength;
     /* 1a */ u8 mOffset;
-    /* 1b */ u8 mUnk_1b;
-    /* 1c */ u8 mUnk_1c;
-    /* 1d */ u8 mUnk_1d;
-    /* 1e */ u8 mUnk_1e;
-} Unk021cca74;
+    /* 1b */ u8 mSizeIndex;
+    /* 1c */ u8 mState;
+    /* 1d */ u8 mEvent;
+    /* 1e */ u8 mInputDisabled;
+} ScrollBar;
 
-void func_ov003_021cca74(s32 offset);
-void func_ov003_021cca9c(s32 a, u16 *b);
-int func_ov003_021ccb1c(int a);
-int func_ov003_021ccb50(void);
-void func_ov003_021ccbbc(void);
-void func_ov003_021ccc08(int a);
-void func_ov003_021ccc24(s32 param_1);
-void func_ov003_021ccc90(void);
-void func_ov003_021ccd18(void);
-void func_ov003_021cce38(void);
-void func_ov003_021cce48(void);
-void func_ov003_021cce58(s32 offset);
-u8 func_ov003_021cce60(void);
-u8 func_ov003_021cce6c(void);
+void PlaceScrollBar(s32 offset);
+void GetScrollBarPartRect(s32 part, u16 *rect);
+int GetTouchedScrollBarArrow(int a);
+int GetPressedScrollBarPart(void);
+void MoveScrollBarToTouch(void);
+void StartScrollBarArrowHold(int arrow);
+void SetScrollBarDragSound(s32 targetOffset);
+void AdvanceScrollBarDrag(void);
+void AdvanceScrollBar(void);
+void DisableScrollBarInput(void);
+void EnableScrollBarInput(void);
+void PlaceScrollBarWrapper(s32 offset);
+u8 GetScrollBarEvent(void);
+u8 GetScrollBarOffset(void);

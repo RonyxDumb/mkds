@@ -47,7 +47,7 @@ void UpdateLinkMessageRelease(void) {
 
 void LinkMessageResultCallback(int a) {
     if (a == 2) {
-        func_ov003_021cd42c();
+        ResetApEntries();
         *(u8 *) &gLinkMessageResult = 1;
         StopSoundSeq();
         StartSoundSeq(0x10);

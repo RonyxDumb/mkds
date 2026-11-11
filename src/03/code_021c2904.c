@@ -28,7 +28,7 @@ void ReleaseMainAndQuit(void) {
         ReleaseSelectionObjects();
         ReleaseMessages(gMessages);
         FreeMessagesPool();
-        func_ov003_021cdb80();
+        ReleaseApStore();
         SetQuitFlag();
     }
 }
@@ -78,7 +78,7 @@ void StoreExchangeResultForAp(void) {
     if (CopyExchangeResult(&exchangeResult) != 1) {
         OS_Terminate();
     }
-    func_ov003_021cd5e0((const Unk021cd5e0_arg *) &exchangeResult);
+    WriteApWorkFromExchangeResult((const Unk021cd5e0_arg *) &exchangeResult);
 }
 
 void StoreExchangeStatus(const ExchangeStatus *status) {

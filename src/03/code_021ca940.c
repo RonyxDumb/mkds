@@ -61,7 +61,7 @@ void UpdateApFadeIn(void) {
 }
 
 void UpdateApButtonsIn(void) {
-    if (GetButtonResult() != -2 && func_ov003_021ce00c() != 1) {
+    if (GetButtonResult() != -2 && IsMenuPairObjectsSliding() != 1) {
         EnableButtonTouch();
         SetUpdateFunction(UpdateAp);
     }
@@ -145,20 +145,20 @@ void UpdateApResult(void) {
             selectedIndex = gApSelectedIndex[0];
             if (selectedIndex >= 4) {
                 entryIndex = selectedIndex - 4;
-                if (func_ov003_021cd844(entryIndex) == 0xff) {
+                if (GetApEntrySetType(entryIndex) == 0xff) {
                     StartSoundSeq(9);
                     SetButtonResult(-1);
                     return;
                 }
                 StartSoundSeq(6);
-                func_ov003_021cefc0(0x98, 0, 1, gApMessageDigitColumns[GetLanguageIndex()], entryIndex + 1);
+                CreateMessageBox(0x98, 0, 1, gApMessageDigitColumns[GetLanguageIndex()], entryIndex + 1);
                 SetApSelectedButtonImage();
                 DisableButtonTouch();
                 SetUpdateFunction(UpdateApMessageResult);
                 return;
             }
             if (selectedIndex <= 2) {
-                func_ov003_021cd790(selectedIndex);
+                CopyApEntryToWorkCopy(selectedIndex);
             }
             StartSoundSeq(6);
             RequestApSelectionPalette();
@@ -171,7 +171,7 @@ void UpdateApResult(void) {
 
 void StartApClose(void) {
     if (gAp->mUnk_1d == 2) {
-        func_ov003_021ce0c4();
+        StartMenuPairObjectsSlideOut();
     }
     DisableButtonTouch();
     StartBlendBrightnessFadeWait(8);
@@ -181,7 +181,7 @@ void StartApClose(void) {
 void UpdateApFadeOut(void) {
     if (IsBlendBrightnessFadeSlotBusy(1) == 0) {
         if (gAp->mUnk_1d == 1) {
-            if (gApSelectedIndex[0] == 3 || func_ov003_021cdb6c()->mUnk_00.mUnk_e7 != 0xff) {
+            if (gApSelectedIndex[0] == 3 || GetApWorkCopy()->mEntry.mSetType != 0xff) {
                 StartSlideButtonsOut();
             }
         }
@@ -193,8 +193,8 @@ void UpdateApFadeOut(void) {
 
 void UpdateApRelease(void) {
     u32 i;
-    if (IsBlendBrightnessFadeSlotBusy(1) == 0 && IsBlendBrightnessFadeSlotBusy(0) == 0 && func_ov003_021cdd28() != 0 &&
-        IsSlideButtonsNotSlidingOut() != 0) {
+    if (IsBlendBrightnessFadeSlotBusy(1) == 0 && IsBlendBrightnessFadeSlotBusy(0) == 0 &&
+        IsMenuPairObjectsNotSlidingOut() != 0 && IsSlideButtonsNotSlidingOut() != 0) {
         for (i = 0; i < 3; i++) {
             if (gAp->mUnk_04[i] != NULL) {
                 DeleteOamRange(gAp->mUnk_04[i]);
@@ -220,7 +220,7 @@ void UpdateApRelease(void) {
                 case 1:
                 case 2:
                     SetPrimaryMenuPair(2, 0);
-                    if (func_ov003_021cdb6c()->mUnk_00.mUnk_e7 == 0xff) {
+                    if (GetApWorkCopy()->mEntry.mSetType == 0xff) {
                         SetUpdateFunction(SetupWay);
                     } else {
                         SetSecondaryMenuPair(0, 0);
@@ -353,10 +353,10 @@ void SetApSelectedButtonImage(void) {
 
 void UpdateApMessageResult(void) {
     s32 entryIndex = gApSelectedIndex[0] - 4;
-    switch (func_ov003_021cef80()) {
+    switch (GetMessageBoxResult()) {
         case 1:
             StartSoundSeq(0xe);
-            func_ov003_021cd4ac(entryIndex);
+            ResetApEntry(entryIndex);
             CopyNceImageToOamEntries(0, gApEntryImageIndices[3], GetOamRangeEntry(gAp->mUnk_04[entryIndex], 0));
             SetOamRangePosition(gAp->mUnk_04[entryIndex], -1, gApObjectPositions[entryIndex].mX,
                                 gApObjectPositions[entryIndex].mY);
@@ -374,13 +374,13 @@ void UpdateApMessageResult(void) {
         default:
             return;
     }
-    func_ov003_021cef90();
+    CloseMessageBox();
     SetUpdateFunction(UpdateApMessageClose);
 }
 
 void UpdateApMessageClose(void) {
     int messageOpen;
-    messageOpen = func_ov003_021cef6c();
+    messageOpen = IsMessageBoxOpen();
     if (messageOpen == 0) {
         EnableButtonTouch();
         SetUpdateFunction(UpdateAp);
@@ -397,7 +397,7 @@ void RequestApSelectionPalette(void) {
         RequestBgPaletteRowCopy(gAp->mYbBgStep11Ncl, paletteRows.mUnk_00[*(u8 *) &gApSelectedIndex],
                                 paletteRows.mUnk_00[*(u8 *) &gApSelectedIndex]);
         if (*(u8 *) &gApSelectedIndex != 3) {
-            statusIndex = func_ov003_021cd844(*(u8 *) &gApSelectedIndex);
+            statusIndex = GetApEntrySetType(*(u8 *) &gApSelectedIndex);
             if (statusIndex > 2) {
                 statusIndex = 3;
             }

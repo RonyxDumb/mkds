@@ -19,246 +19,246 @@
 #include "03/code_021cd2cc.h"
 #include "03/code_021d3254.h"
 
-void func_ov003_021cdb90(void) {
-    Unk021cd5e0 *v1;
-    v1 = AllocExpHeapBlock(0x6f8, 0x20);
-    data_ov003_021da270 = v1;
-    Crc16InitTable(&v1->mUnk_400.mUnk_f8, 0xa001);
-    ReadNvramEntries(data_ov003_021da270);
+void CreateApStore(void) {
+    ApStore *store;
+    store = AllocExpHeapBlock(0x6f8, 0x20);
+    gApStore = store;
+    Crc16InitTable(&store->mUnk_400.mCrcTable, 0xa001);
+    ReadNvramEntries(gApStore);
 }
 
-void func_ov003_021cdb80(void) {
-    FreeExpHeapBlockAndClearPointer(&data_ov003_021da270);
+void ReleaseApStore(void) {
+    FreeExpHeapBlockAndClearPointer(&gApStore);
 }
 
-Unk021cd5e0_400 *func_ov003_021cdb6c(void) {
-    return &data_ov003_021da270->mUnk_400;
+ApWorkCopy *GetApWorkCopy(void) {
+    return &gApStore->mUnk_400;
 }
 
-void func_ov003_021cdb58(u32 a) {
-    data_ov003_021da270->mUnk_400.mUnk_f5 = a;
+void SetApWorkIpNone(u32 ipNone) {
+    gApStore->mUnk_400.mIpNone = ipNone;
 }
 
-void func_ov003_021cdb44(u32 a) {
-    data_ov003_021da270->mUnk_400.mUnk_f6 = a;
+void SetApWorkDnsNone(u32 dnsNone) {
+    gApStore->mUnk_400.mDnsNone = dnsNone;
 }
 
-void func_ov003_021cdb14(const u8 *a) {
-    MI_CpuCopy8(a, data_ov003_021da270->mUnk_400.mUnk_00.mUnk_40, 0x20);
-    data_ov003_021da270->mUnk_400.mUnk_00.mUnk_e7 = 0;
+void StoreApWorkSsid(const u8 *ssid) {
+    MI_CpuCopy8(ssid, gApStore->mUnk_400.mEntry.mSsid, 0x20);
+    gApStore->mUnk_400.mEntry.mSetType = 0;
 }
 
-void func_ov003_021cd9dc(const u8 *a) {
+void StoreApWorkWepKey(const u8 *text) {
     s32 i;
-    s32 n;
-    u8 *p;
-    MI_CpuFill8(data_ov003_021da270->mUnk_400.mUnk_00.mUnk_80[0], 0, 0x10);
-    n = GetStringLengthWithLimit(a, 0x20);
-    switch (n) {
+    s32 textLength;
+    u8 *keyCursor;
+    MI_CpuFill8(gApStore->mUnk_400.mEntry.mWepKeys[0], 0, 0x10);
+    textLength = GetStringLengthWithLimit(text, 0x20);
+    switch (textLength) {
         case 0:
         case 10:
         case 26:
         case 32:
-            data_ov003_021da270->mUnk_400.mUnk_00.mUnk_e6_2 = 0;
-            p = data_ov003_021da270->mUnk_400.mUnk_00.mUnk_80[0];
+            gApStore->mUnk_400.mEntry.mWepNotation = 0;
+            keyCursor = gApStore->mUnk_400.mEntry.mWepKeys[0];
             i = 0;
-            for (; i < n;) {
-                *p = (func_ov003_021cd2cc(a[i]) << 4) + func_ov003_021cd2cc(a[i + 1]);
+            for (; i < textLength;) {
+                *keyCursor = (ParseHexDigit(text[i]) << 4) + ParseHexDigit(text[i + 1]);
                 i += 2;
-                p++;
+                keyCursor++;
             }
             break;
         default:
-            data_ov003_021da270->mUnk_400.mUnk_00.mUnk_e6_2 = 1;
-            MI_CpuCopy8(a, data_ov003_021da270->mUnk_400.mUnk_00.mUnk_80[0], 0x10);
+            gApStore->mUnk_400.mEntry.mWepNotation = 1;
+            MI_CpuCopy8(text, gApStore->mUnk_400.mEntry.mWepKeys[0], 0x10);
             break;
     }
-    switch (n) {
+    switch (textLength) {
         case 0:
-            data_ov003_021da270->mUnk_400.mUnk_00.mUnk_e6_0 = 0;
+            gApStore->mUnk_400.mEntry.mWepMode = 0;
             break;
         case 5:
         case 10:
-            data_ov003_021da270->mUnk_400.mUnk_00.mUnk_e6_0 = 1;
+            gApStore->mUnk_400.mEntry.mWepMode = 1;
             break;
         case 13:
         case 26:
-            data_ov003_021da270->mUnk_400.mUnk_00.mUnk_e6_0 = 2;
+            gApStore->mUnk_400.mEntry.mWepMode = 2;
             break;
         default:
-            data_ov003_021da270->mUnk_400.mUnk_00.mUnk_e6_0 = 3;
+            gApStore->mUnk_400.mEntry.mWepMode = 3;
             break;
     }
 }
 
-void func_ov003_021cd9c4(const char *input) {
-    func_ov003_021cd2e0(input, data_ov003_021da270->mUnk_400.mUnk_00.mUnk_c0);
+void StoreApWorkIpText(const char *input) {
+    ParseAddressText(input, gApStore->mUnk_400.mEntry.mIp);
 }
 
-void func_ov003_021cd9ac(const char *input) {
-    func_ov003_021cd2e0(input, data_ov003_021da270->mUnk_400.mUnk_f0);
+void StoreApWorkNetmaskText(const char *input) {
+    ParseAddressText(input, gApStore->mUnk_400.mNetmask);
 }
 
-void func_ov003_021cd994(const char *input) {
-    func_ov003_021cd2e0(input, data_ov003_021da270->mUnk_400.mUnk_00.mUnk_c4);
+void StoreApWorkGatewayText(const char *input) {
+    ParseAddressText(input, gApStore->mUnk_400.mEntry.mGateway);
 }
 
-void func_ov003_021cd97c(const char *input) {
-    func_ov003_021cd2e0(input, data_ov003_021da270->mUnk_400.mUnk_00.mUnk_c8);
+void StoreApWorkDnsFirstText(const char *input) {
+    ParseAddressText(input, gApStore->mUnk_400.mEntry.mDns);
 }
 
-void func_ov003_021cd964(const char *input) {
-    func_ov003_021cd2e0(input, &data_ov003_021da270->mUnk_400.mUnk_00.mUnk_c8[4]);
+void StoreApWorkDnsSecondText(const char *input) {
+    ParseAddressText(input, &gApStore->mUnk_400.mEntry.mDns[4]);
 }
 
-void func_ov003_021cd948(void *output) {
-    MI_CpuCopy8(data_ov003_021da270->mUnk_400.mUnk_00.mUnk_40, output, 0x20);
+void CopyApWorkSsid(void *output) {
+    MI_CpuCopy8(gApStore->mUnk_400.mEntry.mSsid, output, 0x20);
 }
 
-void func_ov003_021cd918(char *p0) {
-    u8 *v5 = data_ov003_021da270->mUnk_400.mUnk_00.mUnk_c0;
-    u32 v6 = (v5[2]);
-    u32 v8 = (v5[3]);
-    const char *v10 = data_ov003_021d77c4;
-    u32 v11 = (v5[0]);
-    u32 v12 = (v5[1]);
-    u32 v13 = OS_SPrintf(p0, v10, v11, v12, v6, v8);
+void FormatApWorkIpText(char *output) {
+    u8 *addressBytes = gApStore->mUnk_400.mEntry.mIp;
+    u32 thirdByte = (addressBytes[2]);
+    u32 fourthByte = (addressBytes[3]);
+    const char *format = gAddressTextFormat;
+    u32 firstByte = (addressBytes[0]);
+    u32 secondByte = (addressBytes[1]);
+    u32 length = OS_SPrintf(output, format, firstByte, secondByte, thirdByte, fourthByte);
 }
 
-void func_ov003_021cd8e8(char *p0) {
-    u8 *v5 = data_ov003_021da270->mUnk_400.mUnk_f0;
-    u32 v6 = (v5[2]);
-    u32 v8 = (v5[3]);
-    const char *v10 = data_ov003_021d77c4;
-    u32 v11 = (v5[0]);
-    u32 v12 = (v5[1]);
-    u32 v13 = OS_SPrintf(p0, v10, v11, v12, v6, v8);
+void FormatApWorkNetmaskText(char *output) {
+    u8 *addressBytes = gApStore->mUnk_400.mNetmask;
+    u32 thirdByte = (addressBytes[2]);
+    u32 fourthByte = (addressBytes[3]);
+    const char *format = gAddressTextFormat;
+    u32 firstByte = (addressBytes[0]);
+    u32 secondByte = (addressBytes[1]);
+    u32 length = OS_SPrintf(output, format, firstByte, secondByte, thirdByte, fourthByte);
 }
 
-void func_ov003_021cd8b8(char *p0) {
-    u8 *v5 = data_ov003_021da270->mUnk_400.mUnk_00.mUnk_c4;
-    u32 v6 = (v5[2]);
-    u32 v8 = (v5[3]);
-    const char *v10 = data_ov003_021d77c4;
-    u32 v11 = (v5[0]);
-    u32 v12 = (v5[1]);
-    u32 v13 = OS_SPrintf(p0, v10, v11, v12, v6, v8);
+void FormatApWorkGatewayText(char *output) {
+    u8 *addressBytes = gApStore->mUnk_400.mEntry.mGateway;
+    u32 thirdByte = (addressBytes[2]);
+    u32 fourthByte = (addressBytes[3]);
+    const char *format = gAddressTextFormat;
+    u32 firstByte = (addressBytes[0]);
+    u32 secondByte = (addressBytes[1]);
+    u32 length = OS_SPrintf(output, format, firstByte, secondByte, thirdByte, fourthByte);
 }
 
-void func_ov003_021cd888(char *p0) {
-    u8 *v5 = data_ov003_021da270->mUnk_400.mUnk_00.mUnk_c8;
-    u32 v6 = (v5[2]);
-    u32 v8 = (v5[3]);
-    const char *v10 = data_ov003_021d77c4;
-    u32 v11 = (v5[0]);
-    u32 v12 = (v5[1]);
-    u32 v13 = OS_SPrintf(p0, v10, v11, v12, v6, v8);
+void FormatApWorkDnsFirstText(char *output) {
+    u8 *addressBytes = gApStore->mUnk_400.mEntry.mDns;
+    u32 thirdByte = (addressBytes[2]);
+    u32 fourthByte = (addressBytes[3]);
+    const char *format = gAddressTextFormat;
+    u32 firstByte = (addressBytes[0]);
+    u32 secondByte = (addressBytes[1]);
+    u32 length = OS_SPrintf(output, format, firstByte, secondByte, thirdByte, fourthByte);
 }
 
-void func_ov003_021cd858(char *p0) {
-    u8 *v5 = &data_ov003_021da270->mUnk_400.mUnk_00.mUnk_c8[4];
-    u32 v6 = (v5[2]);
-    u32 v8 = (v5[3]);
-    const char *v10 = data_ov003_021d77c4;
-    u32 v11 = (v5[0]);
-    u32 v12 = (v5[1]);
-    u32 v13 = OS_SPrintf(p0, v10, v11, v12, v6, v8);
+void FormatApWorkDnsSecondText(char *output) {
+    u8 *addressBytes = &gApStore->mUnk_400.mEntry.mDns[4];
+    u32 thirdByte = (addressBytes[2]);
+    u32 fourthByte = (addressBytes[3]);
+    const char *format = gAddressTextFormat;
+    u32 firstByte = (addressBytes[0]);
+    u32 secondByte = (addressBytes[1]);
+    u32 length = OS_SPrintf(output, format, firstByte, secondByte, thirdByte, fourthByte);
 }
 
-u8 func_ov003_021cd844(int a) {
-    return data_ov003_021da270->mUnk_000[a].mUnk_00.mUnk_e7;
+u8 GetApEntrySetType(int entryIndex) {
+    return gApStore->mUnk_000[entryIndex].mUnk_00.mSetType;
 }
 
-void func_ov003_021cd790(s32 a) {
-    Unk021cd5e0 *o = data_ov003_021da270;
-    Unk021cd5e0_entry *q = &o->mUnk_000[a].mUnk_00;
-    o->mUnk_400.mUnk_00 = *q;
-    o->mUnk_400.mUnk_f4 = a;
-    if (memcmp(q->mUnk_c0, data_ov003_021d6684, 4) != 0) {
-        data_ov003_021da270->mUnk_400.mUnk_f5 = 0;
+void CopyApEntryToWorkCopy(s32 entryIndex) {
+    ApStore *store = gApStore;
+    ApEntry *entry = &store->mUnk_000[entryIndex].mUnk_00;
+    store->mUnk_400.mEntry = *entry;
+    store->mUnk_400.mEntryIndex = entryIndex;
+    if (memcmp(entry->mIp, gSettingNone, 4) != 0) {
+        gApStore->mUnk_400.mIpNone = 0;
     } else {
-        data_ov003_021da270->mUnk_400.mUnk_f5 = 1;
+        gApStore->mUnk_400.mIpNone = 1;
     }
-    if (memcmp(q->mUnk_c8, data_ov003_021d6684, 4) != 0 || memcmp(q->mUnk_c8 + 4, data_ov003_021d6684, 4) != 0) {
-        data_ov003_021da270->mUnk_400.mUnk_f6 = 0;
+    if (memcmp(entry->mDns, gSettingNone, 4) != 0 || memcmp(entry->mDns + 4, gSettingNone, 4) != 0) {
+        gApStore->mUnk_400.mDnsNone = 0;
     } else {
-        data_ov003_021da270->mUnk_400.mUnk_f6 = 1;
+        gApStore->mUnk_400.mDnsNone = 1;
     }
-    DWCi_BACKUPlConvMaskAddr(q->mUnk_d0, data_ov003_021da270->mUnk_400.mUnk_f0);
+    DWCi_BACKUPlConvMaskAddr(entry->mNetmaskCidr, gApStore->mUnk_400.mNetmask);
 }
 
-void func_ov003_021cd6d0(void) {
-    Unk021cd5e0_400 *p = &data_ov003_021da270->mUnk_400;
-    Unk021cd5e0_entry *q = &data_ov003_021da270->mUnk_000[p->mUnk_f4].mUnk_00;
-    *q = p->mUnk_00;
-    if (p->mUnk_f5 != 0) {
-        MI_CpuFill8(q->mUnk_c0, 0, 4);
-        MI_CpuFill8(q->mUnk_c4, 0, 4);
-        q->mUnk_d0 = 0;
+void WriteApWorkCopy(void) {
+    ApWorkCopy *workCopy = &gApStore->mUnk_400;
+    ApEntry *entry = &gApStore->mUnk_000[workCopy->mEntryIndex].mUnk_00;
+    *entry = workCopy->mEntry;
+    if (workCopy->mIpNone != 0) {
+        MI_CpuFill8(entry->mIp, 0, 4);
+        MI_CpuFill8(entry->mGateway, 0, 4);
+        entry->mNetmaskCidr = 0;
     } else {
-        MI_CpuCopy8(p->mUnk_00.mUnk_c0, q->mUnk_c0, 4);
-        MI_CpuCopy8(p->mUnk_00.mUnk_c4, q->mUnk_c4, 4);
-        q->mUnk_d0 = DWCi_BACKUPlConvMaskCidr(p->mUnk_f0);
+        MI_CpuCopy8(workCopy->mEntry.mIp, entry->mIp, 4);
+        MI_CpuCopy8(workCopy->mEntry.mGateway, entry->mGateway, 4);
+        entry->mNetmaskCidr = DWCi_BACKUPlConvMaskCidr(workCopy->mNetmask);
     }
-    if (p->mUnk_f6 != 0) {
-        MI_CpuFill8(q->mUnk_c8, 0, 8);
+    if (workCopy->mDnsNone != 0) {
+        MI_CpuFill8(entry->mDns, 0, 8);
     } else {
-        MI_CpuCopy8(p->mUnk_00.mUnk_c8, q->mUnk_c8, 8);
+        MI_CpuCopy8(workCopy->mEntry.mDns, entry->mDns, 8);
     }
-    func_ov003_021cd338(p->mUnk_f4);
+    WriteApEntryToNvram(workCopy->mEntryIndex);
 }
 
-void func_ov003_021cd5e0(const Unk021cd5e0_arg *a) {
-    Unk021cd5e0_400 *p;
-    u32 n;
+void WriteApWorkFromExchangeResult(const Unk021cd5e0_arg *exchangeResult) {
+    ApWorkCopy *workCopy;
+    u32 keyLength;
     s32 i;
-    u8 *v1;
-    u8 *v2;
-    p = &data_ov003_021da270->mUnk_400;
-    MI_CpuFill8(p, 0, 0xef);
-    MI_CpuCopy8(a, p->mUnk_00.mUnk_40, 0x20);
-    switch (a->mUnk_20) {
+    u8 *sourceKey;
+    u8 *destinationKey;
+    workCopy = &gApStore->mUnk_400;
+    MI_CpuFill8(workCopy, 0, 0xef);
+    MI_CpuCopy8(exchangeResult, workCopy->mEntry.mSsid, 0x20);
+    switch (exchangeResult->mUnk_20) {
         case 1:
-            p->mUnk_00.mUnk_e6_0 = 1;
-            n = 5;
+            workCopy->mEntry.mWepMode = 1;
+            keyLength = 5;
             break;
         case 2:
-            p->mUnk_00.mUnk_e6_0 = 2;
-            n = 0xd;
+            workCopy->mEntry.mWepMode = 2;
+            keyLength = 0xd;
             break;
         case 3:
-            p->mUnk_00.mUnk_e6_0 = 3;
-            n = 0x10;
+            workCopy->mEntry.mWepMode = 3;
+            keyLength = 0x10;
             break;
         default:
-            p->mUnk_00.mUnk_e6_0 = 0;
-            n = 0;
+            workCopy->mEntry.mWepMode = 0;
+            keyLength = 0;
             break;
     }
-    p->mUnk_00.mUnk_e6_2 = 0;
+    workCopy->mEntry.mWepNotation = 0;
     i = 0;
-    v2 = p->mUnk_00.mUnk_80[0];
-    v1 = (u8 *) a->mUnk_28;
+    destinationKey = workCopy->mEntry.mWepKeys[0];
+    sourceKey = (u8 *) exchangeResult->mUnk_28;
     for (; i < 4; i++) {
-        MI_CpuCopy8(v1, v2, n);
-        v2 += 0x10;
-        v1 += 0x20;
+        MI_CpuCopy8(sourceKey, destinationKey, keyLength);
+        destinationKey += 0x10;
+        sourceKey += 0x20;
     }
-    p->mUnk_00.mUnk_e7 = 2;
-    MI_CpuFill8(p->mUnk_f0, 0, 4);
-    p->mUnk_f5 = 1;
-    p->mUnk_f6 = 1;
-    func_ov003_021cd6d0();
+    workCopy->mEntry.mSetType = 2;
+    MI_CpuFill8(workCopy->mNetmask, 0, 4);
+    workCopy->mIpNone = 1;
+    workCopy->mDnsNone = 1;
+    WriteApWorkCopy();
 }
 
-void func_ov003_021cd4e8(int arg0) {
-    u32 value0 = arg0;
+void WriteApWorkFromAossResult(int response) {
+    u32 value0 = response;
     u32 value1;
     u32 value2;
     u32 value4;
     u32 value5;
     value5 = (value0) + (0u);
-    value0 = (u32) &data_ov003_021da270;
+    value0 = (u32) &gApStore;
     value1 = *(const u32 *) ((value0) + 0u);
     value0 = 0x400u;
     value4 = (value1) + (value0);
@@ -357,97 +357,95 @@ void func_ov003_021cd4e8(int arg0) {
     *(u8 *) ((value0) + 0u) = value1;
     value4 = (value4) + 246u;
     *(u8 *) ((value4) + 0u) = value1;
-    func_ov003_021cd6d0();
+    WriteApWorkCopy();
 }
 
-struct Unk021cd5e0 *func_ov003_021cd4dc(void) {
-    return data_ov003_021da270;
+struct ApStore *GetApStore(void) {
+    return gApStore;
 }
 
-void func_ov003_021cd4ac(int a) {
-    Unk021cd5e0_entry *v1;
-    v1 = &data_ov003_021da270->mUnk_000[a].mUnk_00;
-    MI_CpuFill8(v1, 0, 0xef);
-    v1->mUnk_e7 = 0xff;
-    func_ov003_021cd338(a);
+void ResetApEntry(int entryIndex) {
+    ApEntry *entry;
+    entry = &gApStore->mUnk_000[entryIndex].mUnk_00;
+    MI_CpuFill8(entry, 0, 0xef);
+    entry->mSetType = 0xff;
+    WriteApEntryToNvram(entryIndex);
 }
 
-void func_ov003_021cd42c(void) {
-    volatile u16 a = 0;
-    DWCWiFiInfo b;
-    u8 *c;
+void ResetApEntries(void) {
+    volatile u16 zeroValue = 0;
+    DWCWiFiInfo wifiInfo;
+    u8 *packedWifiInfo;
     s32 i;
-    MIi_CpuClear16(a, data_ov003_021da270, 0x400);
+    MIi_CpuClear16(zeroValue, gApStore, 0x400);
     for (i = 0; i < 3; i++) {
-        data_ov003_021da270->mUnk_000[i].mUnk_00.mUnk_e7 = 0xff;
+        gApStore->mUnk_000[i].mUnk_00.mSetType = 0xff;
     }
-    DWCi_AUTH_GetNewWiFiInfo(&b);
-    c = DWCi_BACKUPlConvWifiInfo(&b);
+    DWCi_AUTH_GetNewWiFiInfo(&wifiInfo);
+    packedWifiInfo = DWCi_BACKUPlConvWifiInfo(&wifiInfo);
     for (i = 0; i < 2; i++) {
-        MI_CpuCopy8(c, data_ov003_021da270->mUnk_000[i].mUnk_f0, 0xe);
+        MI_CpuCopy8(packedWifiInfo, gApStore->mUnk_000[i].mUnk_f0, 0xe);
     }
     for (i = 0; i < 4; i++) {
-        func_ov003_021cd338(i);
+        WriteApEntryToNvram(i);
     }
 }
 
-void func_ov003_021cd338(s32 param_1) {
-    u32 a = data_ov003_021da270->mUnk_000[param_1].mUnk_00.mUnk_e7;
-    u32 b = 1 << param_1;
-    BOOL c = FALSE;
-    s32 d[4];
-    void *e;
-    Unk021cd5e0 *p;
+void WriteApEntryToNvram(s32 entryIndex) {
+    u32 setType = gApStore->mUnk_000[entryIndex].mUnk_00.mSetType;
+    u32 entryBit = 1 << entryIndex;
+    BOOL stateBitSet = FALSE;
+    s32 entryFlags[4];
+    void *workBuffer;
+    ApStore *store;
     s32 i;
-    MI_CpuFill8(d, 0, 0x10);
-    d[param_1] = 1;
-    if (param_1 <= 2) {
-        p = data_ov003_021da270;
-        if ((p->mUnk_000[0].mUnk_00.mUnk_e8[7] & b) != 0) {
-            c = TRUE;
+    MI_CpuFill8(entryFlags, 0, 0x10);
+    entryFlags[entryIndex] = 1;
+    if (entryIndex <= 2) {
+        store = gApStore;
+        if ((store->mUnk_000[0].mUnk_00.mUnk_e8[7] & entryBit) != 0) {
+            stateBitSet = TRUE;
         }
-        if (a == 0xff && c != FALSE) {
-            p->mUnk_000[0].mUnk_00.mUnk_e8[7] = p->mUnk_000[0].mUnk_00.mUnk_e8[7] & ~b;
-            data_ov003_021da270->mUnk_000[1].mUnk_00.mUnk_e8[7] =
-                data_ov003_021da270->mUnk_000[1].mUnk_00.mUnk_e8[7] & ~b;
-            d[1] = 1;
-            d[0] = 1;
-        } else if (a != 0xff && c == FALSE) {
-            p->mUnk_000[0].mUnk_00.mUnk_e8[7] = p->mUnk_000[0].mUnk_00.mUnk_e8[7] | b;
-            data_ov003_021da270->mUnk_000[1].mUnk_00.mUnk_e8[7] =
-                data_ov003_021da270->mUnk_000[1].mUnk_00.mUnk_e8[7] | b;
-            d[1] = 1;
-            d[0] = 1;
+        if (setType == 0xff && stateBitSet != FALSE) {
+            store->mUnk_000[0].mUnk_00.mUnk_e8[7] = store->mUnk_000[0].mUnk_00.mUnk_e8[7] & ~entryBit;
+            gApStore->mUnk_000[1].mUnk_00.mUnk_e8[7] = gApStore->mUnk_000[1].mUnk_00.mUnk_e8[7] & ~entryBit;
+            entryFlags[1] = 1;
+            entryFlags[0] = 1;
+        } else if (setType != 0xff && stateBitSet == FALSE) {
+            store->mUnk_000[0].mUnk_00.mUnk_e8[7] = store->mUnk_000[0].mUnk_00.mUnk_e8[7] | entryBit;
+            gApStore->mUnk_000[1].mUnk_00.mUnk_e8[7] = gApStore->mUnk_000[1].mUnk_00.mUnk_e8[7] | entryBit;
+            entryFlags[1] = 1;
+            entryFlags[0] = 1;
         }
     }
     for (i = 0; i < 4; i++) {
-        if (d[i] != 0) {
-            data_ov003_021da270->mUnk_000[i].mUnk_fe =
-                Crc16(&data_ov003_021da270->mUnk_400.mUnk_f8, data_ov003_021da270->mUnk_000[i].mUnk_00.mUnk_00, 0xfe);
+        if (entryFlags[i] != 0) {
+            gApStore->mUnk_000[i].mUnk_fe =
+                Crc16(&gApStore->mUnk_400.mCrcTable, gApStore->mUnk_000[i].mUnk_00.mUnk_00, 0xfe);
         }
     }
-    e = AllocExpHeapBlock(0x100, 0x20);
-    WriteFlaggedNvramEntries((s32) data_ov003_021da270, d, e);
-    FreeExpHeapBlockAndClearPointer(&e);
+    workBuffer = AllocExpHeapBlock(0x100, 0x20);
+    WriteFlaggedNvramEntries((s32) gApStore, entryFlags, workBuffer);
+    FreeExpHeapBlockAndClearPointer(&workBuffer);
 }
 
-void func_ov003_021cd2e0(const char *v1, u8 *v2) {
-    u8 a[4];
+void ParseAddressText(const char *input, u8 *output) {
+    u8 group[4];
     s32 i;
     s32 j;
-    u8 *p;
-    MI_CpuFill8(a, 0, 4);
+    u8 *cursor;
+    MI_CpuFill8(group, 0, 4);
     for (i = 0; i < 4; i++) {
-        MI_CpuCopy8(v1 + i * 3, a, 3);
+        MI_CpuCopy8(input + i * 3, group, 3);
         j = 0;
-        p = a;
+        cursor = group;
         for (; j < 3; j++) {
-            if (*p != 0) {
+            if (*cursor != 0) {
                 break;
             }
-            *p = ' ';
-            p++;
+            *cursor = ' ';
+            cursor++;
         }
-        v2[i] = StrtolBase10((const char *) a);
+        output[i] = StrtolBase10((const char *) group);
     }
 }

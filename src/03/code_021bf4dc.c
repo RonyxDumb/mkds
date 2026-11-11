@@ -46,11 +46,11 @@ void CreateObjectsForMenuPair(u32 a) {
     int firstValue[2];
     GetPrimaryMenuPair(firstValue, NULL);
     if (firstValue[0] == 1) {
-        func_ov003_021ce408(a);
+        CreateMenuPairObjects(a);
         return;
     }
     if (firstValue[0] == 2) {
-        func_ov003_021ce024(a);
+        ChangeMenuPairObjectImages(a);
     }
 }
 

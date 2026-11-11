@@ -15,7 +15,7 @@
 
 void SetupConnectMessage(void) {
     s32 secondaryPairSecond;
-    func_ov003_021cd27c();
+    ReleaseApScan();
     GetSecondaryMenuPair(NULL, &secondaryPairSecond);
     LoadConnectMessageFileAndSetBgCnt();
     ShowSubScreenMessage(0x7d, -1, 0);
@@ -23,7 +23,7 @@ void SetupConnectMessage(void) {
         LoadHlSetScr();
     }
     if (secondaryPairSecond == 1) {
-        func_ov003_021cd6d0();
+        WriteApWorkCopy();
     }
     SetUpdateFunction(StartConnectMessageFadeIn);
 }

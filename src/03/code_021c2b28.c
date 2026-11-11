@@ -18,7 +18,7 @@
 #include "registers.h"
 
 void LoadMainFilesAndSetBgCnt(void) {
-    func_ov003_021cdb90();
+    CreateApStore();
     InitMessagesPool();
     InitSelectionObjects();
     InitHlScr();

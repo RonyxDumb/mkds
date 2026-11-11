@@ -66,7 +66,7 @@ void UpdateJb5InfoRelease(void) {
 void SetupYb5MultiNext(void) {
     LoadYb5MultiNextFileAndSetBgCnt();
     PrintMessage(0x57);
-    func_ov003_021cd42c();
+    ResetApEntries();
     SetUpdateFunction(StartYb5MultiNextFadeIn);
 }
 

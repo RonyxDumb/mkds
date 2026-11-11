@@ -322,11 +322,11 @@ void UpdateEditAddrResult(void) {
             return;
         }
         if (result == 2) {
-            func_ov003_021cefc0(0x2f, 3, 1, -1, 0);
+            CreateMessageBox(0x2f, 3, 1, -1, 0);
             SetUpdateFunction(UpdateEditAddrInvalidMessageResult);
             return;
         }
-        func_ov003_021cefc0(0x9b, 2, 1, -1, 0);
+        CreateMessageBox(0x9b, 2, 1, -1, 0);
         SetUpdateFunction(UpdateEditAddrMessageResult);
     }
 }
@@ -394,7 +394,7 @@ void PlaceEditAddrGroupOam(void) {
 }
 
 void UpdateEditAddrMessageResult(void) {
-    gEditAddr->mUnk_15 = func_ov003_021cef80();
+    gEditAddr->mUnk_15 = GetMessageBoxResult();
     switch (gEditAddr->mUnk_15) {
         case 0:
             StartSoundSeq(7);
@@ -405,7 +405,7 @@ void UpdateEditAddrMessageResult(void) {
         default:
             return;
     }
-    func_ov003_021cef90();
+    CloseMessageBox();
     SetUpdateFunction(UpdateEditAddrMessageClose);
 }
 
@@ -413,7 +413,7 @@ void UpdateEditAddrMessageClose(void) {
     Unk021d7324 storeFuncs;
     s32 secondaryPairFirst;
     storeFuncs = gEditAddrStoreFuncs;
-    if (func_ov003_021cef6c() == 0) {
+    if (IsMessageBoxOpen() == 0) {
         if (gEditAddr->mUnk_15 == 0) {
             gEditAddr->mUnk_04->mUnk_00 = gEditAddr->mUnk_04->mUnk_00 & 0xc1fffcff;
             SetUpdateFunction(UpdateEditAddrFadeIn);
@@ -493,7 +493,7 @@ BOOL IsEditAddrTextValid(void) {
         groupCounter++;
     } while (groupCounter < 4);
     text += 8;
-    func_ov003_021cd2e0((char *) text, addressBytes);
+    ParseAddressText((char *) text, addressBytes);
     GetSecondaryMenuPair(&secondaryPair, NULL);
     if (secondaryPair == 1) {
         zeroSeen = FALSE;
@@ -522,17 +522,17 @@ BOOL IsEditAddrTextValid(void) {
 
 void UpdateEditAddrInvalidMessageResult(void) {
     int messageAnswer;
-    messageAnswer = func_ov003_021cef80();
+    messageAnswer = GetMessageBoxResult();
     if (messageAnswer == 0) {
         StartSoundSeq(6);
-        func_ov003_021cef90();
+        CloseMessageBox();
         SetUpdateFunction(UpdateEditAddrInvalidMessageClose);
     }
 }
 
 void UpdateEditAddrInvalidMessageClose(void) {
     int messageOpen;
-    messageOpen = func_ov003_021cef6c();
+    messageOpen = IsMessageBoxOpen();
     if (messageOpen == 0) {
         gEditAddr->mUnk_04->mUnk_00 = gEditAddr->mUnk_04->mUnk_00 & (0xc1fffcffu);
         SetUpdateFunction(UpdateEditAddrFadeIn);

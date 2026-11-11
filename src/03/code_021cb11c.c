@@ -131,7 +131,7 @@ void CreateApEntryObjects(void) {
     s32 i;
     u32 entryStatus;
     for (i = 0; i < 3; i++) {
-        entryStatus = func_ov003_021cd844(i);
+        entryStatus = GetApEntrySetType(i);
         if (entryStatus == 0xff) {
             entryStatus = 3;
         } else {

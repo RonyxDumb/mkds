@@ -20,198 +20,196 @@
 #include "03/code_021d2940.h"
 #include "03/types_021d299c.h"
 
-int func_ov003_021cef80(void) {
+int GetMessageBoxResult(void) {
     u32 value0;
     u32 value1;
-    value0 = (u32) &data_ov003_021da284;
+    value0 = (u32) &gMessageBox;
     value1 = *(const u32 *) ((value0) + 0u);
     value0 = 27u;
     value0 = *(const s8 *) ((value1) + (value0));
     return value0;
 }
 
-u32 func_ov003_021cef6c(void) {
-    if (data_ov003_021da284 != NULL) {
+BOOL IsMessageBoxOpen(void) {
+    if (gMessageBox != NULL) {
         return 1;
     }
     return 0;
 }
 
-void func_ov003_021cef28(TaskEntry *a) {
-    data_ov003_021da284->mUnk_1a--;
-    G2x_ChangeBlendBrightness_(&reg_G2_BLDCNT, data_ov003_021da284->mUnk_1a);
-    if (data_ov003_021da284->mUnk_1a <= -12) {
-        SetTaskCallback(a, func_ov003_021cee98);
+void AdvanceMessageBoxBrightnessDown(TaskEntry *taskEntry) {
+    gMessageBox->mBrightness--;
+    G2x_ChangeBlendBrightness_(&reg_G2_BLDCNT, gMessageBox->mBrightness);
+    if (gMessageBox->mBrightness <= -12) {
+        SetTaskCallback(taskEntry, AdvanceMessageBoxSlideIn);
     }
 }
 
-void func_ov003_021cee98(u32 a) {
-    u32 w;
-    s32 h;
+void AdvanceMessageBoxSlideIn(u32 task) {
+    u32 xPos;
+    s32 yPos;
 
-    GetOamRangeEntryPosition(data_ov003_021da284->mUnk_00, 0, &w, &h);
-    h -= 0xc;
-    if (h > data_ov003_021d6780[data_ov003_021da284->mUnk_1c][1]) {
-        func_ov003_021cec50(h);
+    GetOamRangeEntryPosition(gMessageBox->mBox, 0, &xPos, &yPos);
+    yPos -= 0xc;
+    if (yPos > gMessageBoxPositions[gMessageBox->mKind][1]) {
+        PlaceMessageBox(yPos);
         return;
     }
-    func_ov003_021cec50(data_ov003_021d6780[data_ov003_021da284->mUnk_1c][1]);
-    if (data_ov003_021da284->mUnk_1c == 5) {
-        data_ov003_021da284->mUnk_14 = AddTask(0, func_ov003_021ced78, NULL, 0x78);
+    PlaceMessageBox(gMessageBoxPositions[gMessageBox->mKind][1]);
+    if (gMessageBox->mKind == 5) {
+        gMessageBox->mTask = AddTask(0, AdvanceMessageBoxTimed, NULL, 0x78);
     } else {
-        data_ov003_021da284->mUnk_14 = AddTask(0, func_ov003_021cedbc, NULL, 0x78);
+        gMessageBox->mTask = AddTask(0, AdvanceMessageBoxInput, NULL, 0x78);
     }
-    RequestTaskRemoval(1, a);
+    RequestTaskRemoval(1, task);
 }
 
-void func_ov003_021cedbc(void) {
+void AdvanceMessageBoxInput(void) {
     s32 i;
     s32 j;
-    Rect v1;
+    Rect buttonRect;
 
-    for (i = 0; i < data_ov003_021d6720[data_ov003_021da284->mUnk_1c]; i++) {
+    for (i = 0; i < gMessageBoxButtonCounts[gMessageBox->mKind]; i++) {
         ComputeRectFromOriginAndSize(
-            data_ov003_021d67b0[data_ov003_021da284->mUnk_1c][data_ov003_021d6730[data_ov003_021da284->mUnk_1c][i]],
-            data_ov003_021d6754[data_ov003_021da284->mUnk_1c], &v1);
-        if (IsTouchPressedInRect(&v1) != 0) {
-            data_ov003_021da284->mUnk_1b = i;
+            gMessageBoxButtonPositions[gMessageBox->mKind][gMessageBoxButtonSlots[gMessageBox->mKind][i]],
+            gMessageBoxButtonSizes[gMessageBox->mKind], &buttonRect);
+        if (IsTouchPressedInRect(&buttonRect) != 0) {
+            gMessageBox->mResult = i;
             break;
         }
     }
     if (AreKeysPressed(1) != 0) {
-        data_ov003_021da284->mUnk_1b = data_ov003_021d673c[data_ov003_021da284->mUnk_1c][0];
+        gMessageBox->mResult = gMessageBoxKeyResults[gMessageBox->mKind][0];
     }
     if (AreKeysPressed(2) != 0) {
-        data_ov003_021da284->mUnk_1b = data_ov003_021d673c[data_ov003_021da284->mUnk_1c][1];
+        gMessageBox->mResult = gMessageBoxKeyResults[gMessageBox->mKind][1];
     }
-    for (j = 0; j < data_ov003_021d6720[data_ov003_021da284->mUnk_1c]; j++) {
-        if (j == data_ov003_021da284->mUnk_1b) {
-            func_ov003_021ceb80(j);
+    for (j = 0; j < gMessageBoxButtonCounts[gMessageBox->mKind]; j++) {
+        if (j == gMessageBox->mResult) {
+            ShowMessageBoxButtonPressed(j);
             return;
         }
     }
-    data_ov003_021da284->mUnk_1b = -1;
+    gMessageBox->mResult = -1;
 }
 
-void func_ov003_021ced78(u32 a) {
-    data_ov003_021da284->mUnk_1b = -1;
-    data_ov003_021da284->mUnk_18++;
-    if (data_ov003_021da284->mUnk_18 >= 0x78) {
-        RequestTaskRemoval(0, a);
-        data_ov003_021da284->mUnk_14 = AddTask(1, func_ov003_021ceb54, NULL, 0x78);
+void AdvanceMessageBoxTimed(u32 task) {
+    gMessageBox->mResult = -1;
+    gMessageBox->mTimedFrames++;
+    if (gMessageBox->mTimedFrames >= 0x78) {
+        RequestTaskRemoval(0, task);
+        gMessageBox->mTask = AddTask(1, AdvanceMessageBoxCloseWait, NULL, 0x78);
     }
 }
 
-void func_ov003_021cec50(s32 a) {
+void PlaceMessageBox(s32 yPos) {
     s32 i;
-    u8 m;
-    u16 v1[4];
-    s32 x;
-    s32 y;
+    u8 kind;
+    u16 windowRect[4];
+    s32 bottom;
+    s32 top;
 
-    SetOamRangePosition(data_ov003_021da284->mUnk_00, -1, data_ov003_021d6780[data_ov003_021da284->mUnk_1c][0], a);
-    SetOamRangePosition(data_ov003_021da284->mUnk_04, -1,
-                        data_ov003_021d6714[0] + data_ov003_021d6780[data_ov003_021da284->mUnk_1c][0],
-                        a + data_ov003_021d6714[1]);
-    func_ov003_021cec00(data_ov003_021da284->mUnk_00, a);
-    func_ov003_021cec00(data_ov003_021da284->mUnk_04, a);
-    for (i = 0; i < data_ov003_021d6720[data_ov003_021da284->mUnk_1c]; i++) {
+    SetOamRangePosition(gMessageBox->mBox, -1, gMessageBoxPositions[gMessageBox->mKind][0], yPos);
+    SetOamRangePosition(gMessageBox->mText, -1, gMessageBoxTextOffset[0] + gMessageBoxPositions[gMessageBox->mKind][0],
+                        yPos + gMessageBoxTextOffset[1]);
+    ClipOamRangeAboveY(gMessageBox->mBox, yPos);
+    ClipOamRangeAboveY(gMessageBox->mText, yPos);
+    for (i = 0; i < gMessageBoxButtonCounts[gMessageBox->mKind]; i++) {
         SetOamRangePosition(
-            data_ov003_021da284->mUnk_08[i], -1,
-            data_ov003_021d67b0[data_ov003_021da284->mUnk_1c][data_ov003_021d6730[data_ov003_021da284->mUnk_1c][i]][0],
-            a +
-                data_ov003_021d67b0[data_ov003_021da284->mUnk_1c][data_ov003_021d6730[data_ov003_021da284->mUnk_1c][i]]
-                                   [1] -
-                data_ov003_021d6780[data_ov003_021da284->mUnk_1c][1]);
-        func_ov003_021cec00(data_ov003_021da284->mUnk_08[i], a);
+            gMessageBox->mButtons[i], -1,
+            gMessageBoxButtonPositions[gMessageBox->mKind][gMessageBoxButtonSlots[gMessageBox->mKind][i]][0],
+            yPos + gMessageBoxButtonPositions[gMessageBox->mKind][gMessageBoxButtonSlots[gMessageBox->mKind][i]][1] -
+                gMessageBoxPositions[gMessageBox->mKind][1]);
+        ClipOamRangeAboveY(gMessageBox->mButtons[i], yPos);
     }
-    m = data_ov003_021da284->mUnk_1c;
-    y = a & 0xff;
-    if (y >= 0xc0) {
-        x = 0;
-        y = 0;
+    kind = gMessageBox->mKind;
+    top = yPos & 0xff;
+    if (top >= 0xc0) {
+        bottom = 0;
+        top = 0;
     } else {
-        x = y + data_ov003_021d6798[m][1];
+        bottom = top + gMessageBoxSizes[kind][1];
     }
-    if (x > 0xc0) {
-        x = 0xc0;
+    if (bottom > 0xc0) {
+        bottom = 0xc0;
     }
-    SetRectCorners(data_ov003_021d6780[m][0], y, data_ov003_021d6780[m][0] + data_ov003_021d6798[m][0], x, v1);
-    WriteWinRect(0, 0, v1);
+    SetRectCorners(gMessageBoxPositions[kind][0], top, gMessageBoxPositions[kind][0] + gMessageBoxSizes[kind][0],
+                   bottom, windowRect);
+    WriteWinRect(0, 0, windowRect);
 }
 
-void func_ov003_021cec00(OamRange *a, s32 b) {
-    s32 n;
+void ClipOamRangeAboveY(OamRange *range, s32 minY) {
+    s32 entryCount;
     s32 i;
-    u32 w;
-    s32 h;
-    s32 x;
+    u32 xPos;
+    s32 yPos;
+    s32 effect;
 
-    n = GetOamRangeEntryCount(a);
-    for (i = 0; i < n; i++) {
-        GetOamRangeEntryPosition(a, i, &w, &h);
-        if (h >= b && h < 0xc0) {
-            x = 0;
+    entryCount = GetOamRangeEntryCount(range);
+    for (i = 0; i < entryCount; i++) {
+        GetOamRangeEntryPosition(range, i, &xPos, &yPos);
+        if (yPos >= minY && yPos < 0xc0) {
+            effect = 0;
         } else {
-            x = 0x200;
+            effect = 0x200;
         }
-        SetOamRangeEffect(a, i, x, 0);
+        SetOamRangeEffect(range, i, effect, 0);
     }
 }
 
-void func_ov003_021ceb80(s32 a) {
-    CopyNceImageToOamEntries(0, data_ov003_021d6748[data_ov003_021da284->mUnk_1c][a] + 1,
-                             GetOamRangeEntry(data_ov003_021da284->mUnk_08[a], 0));
+void ShowMessageBoxButtonPressed(s32 buttonIndex) {
+    CopyNceImageToOamEntries(0, gMessageBoxButtonImageIds[gMessageBox->mKind][buttonIndex] + 1,
+                             GetOamRangeEntry(gMessageBox->mButtons[buttonIndex], 0));
     SetOamRangePosition(
-        data_ov003_021da284->mUnk_08[a], -1,
-        data_ov003_021d67b0[data_ov003_021da284->mUnk_1c][data_ov003_021d6730[data_ov003_021da284->mUnk_1c][a]][0],
-        data_ov003_021d67b0[data_ov003_021da284->mUnk_1c][data_ov003_021d6730[data_ov003_021da284->mUnk_1c][a]][1]);
-    func_ov003_021d1790(data_ov003_021da284->mUnk_08[a], -1, 0);
+        gMessageBox->mButtons[buttonIndex], -1,
+        gMessageBoxButtonPositions[gMessageBox->mKind][gMessageBoxButtonSlots[gMessageBox->mKind][buttonIndex]][0],
+        gMessageBoxButtonPositions[gMessageBox->mKind][gMessageBoxButtonSlots[gMessageBox->mKind][buttonIndex]][1]);
+    func_ov003_021d1790(gMessageBox->mButtons[buttonIndex], -1, 0);
 }
 
-void func_ov003_021ceb54(TaskEntry *a) {
-    data_ov003_021da284->mUnk_1d++;
-    if (data_ov003_021da284->mUnk_1d >= 8) {
-        SetTaskCallback(a, func_ov003_021ceaf8);
+void AdvanceMessageBoxCloseWait(TaskEntry *taskEntry) {
+    gMessageBox->mCloseWaitFrames++;
+    if (gMessageBox->mCloseWaitFrames >= 8) {
+        SetTaskCallback(taskEntry, AdvanceMessageBoxSlideOut);
     }
 }
 
-void func_ov003_021ceaf8(TaskEntry *a) {
-    u32 w;
-    s32 h;
+void AdvanceMessageBoxSlideOut(TaskEntry *taskEntry) {
+    u32 xPos;
+    s32 yPos;
 
-    GetOamRangeEntryPosition(data_ov003_021da284->mUnk_00, 0, &w, &h);
-    h += 0xc;
-    func_ov003_021cec50(h);
-    if (h >= 192) {
-        if (data_ov003_021da284->mUnk_1e != 0) {
-            SetTaskCallback(a, func_ov003_021ceab8);
+    GetOamRangeEntryPosition(gMessageBox->mBox, 0, &xPos, &yPos);
+    yPos += 0xc;
+    PlaceMessageBox(yPos);
+    if (yPos >= 192) {
+        if (gMessageBox->mAdjustBrightness != 0) {
+            SetTaskCallback(taskEntry, AdvanceMessageBoxBrightnessUp);
             return;
         }
-        SetTaskCallback(a, func_ov003_021cea3c);
+        SetTaskCallback(taskEntry, AdvanceMessageBoxRelease);
     }
 }
 
-void func_ov003_021ceab8(TaskEntry *a) {
-    data_ov003_021da284->mUnk_1a++;
-    G2x_ChangeBlendBrightness_(&reg_G2_BLDCNT, data_ov003_021da284->mUnk_1a);
-    if (data_ov003_021da284->mUnk_1a >= 0) {
-        SetTaskCallback(a, func_ov003_021cea3c);
+void AdvanceMessageBoxBrightnessUp(TaskEntry *taskEntry) {
+    gMessageBox->mBrightness++;
+    G2x_ChangeBlendBrightness_(&reg_G2_BLDCNT, gMessageBox->mBrightness);
+    if (gMessageBox->mBrightness >= 0) {
+        SetTaskCallback(taskEntry, AdvanceMessageBoxRelease);
     }
 }
 
-void func_ov003_021cea3c(u32 a) {
+void AdvanceMessageBoxRelease(u32 task) {
     s32 i;
 
     reg_GX_DISPCNT = reg_GX_DISPCNT & 0xffff1fff;
-    DeleteOamRange(data_ov003_021da284->mUnk_00);
-    DeleteOamRange(data_ov003_021da284->mUnk_04);
-    for (i = 0; i < data_ov003_021d6720[data_ov003_021da284->mUnk_1c]; i++) {
-        if (data_ov003_021da284->mUnk_08[i] != NULL) {
-            DeleteOamRange(data_ov003_021da284->mUnk_08[i]);
+    DeleteOamRange(gMessageBox->mBox);
+    DeleteOamRange(gMessageBox->mText);
+    for (i = 0; i < gMessageBoxButtonCounts[gMessageBox->mKind]; i++) {
+        if (gMessageBox->mButtons[i] != NULL) {
+            DeleteOamRange(gMessageBox->mButtons[i]);
         }
     }
-    DeleteObjTextCanvas(data_ov003_021da284->mUnk_10);
-    RequestTaskRemoval(1, a);
-    FreeExpHeapBlockAndClearPointer(&data_ov003_021da284);
+    DeleteObjTextCanvas(gMessageBox->mTextCanvas);
+    RequestTaskRemoval(1, task);
+    FreeExpHeapBlockAndClearPointer(&gMessageBox);
 }

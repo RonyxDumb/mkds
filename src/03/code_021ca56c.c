@@ -43,8 +43,8 @@ void SetupApScan(void) {
     CreateObjectsForMenuPair(2);
     PrintMessage(0x7f);
     CreateAnimatedIcon(0);
-    func_ov003_021cd2a4();
-    func_ov003_021cd1c4();
+    CreateApScan();
+    InitApScan();
     StartSoundSeq(0xa);
     SetUpdateFunction(StartApScanFadeIn);
 }
@@ -140,10 +140,10 @@ void UpdateApScanFrames(void) {
     gApScanFrames++;
     if (gApScanFrames >= 0x12c) {
         StopSoundSeq();
-        entryCount = func_ov003_021cd0d0(&entries);
+        entryCount = CountApScanEntries(&entries);
         if (entryCount == 0) {
             *(u8 *) &gApScanKind = 2;
-            func_ov003_021cefc0(0x43, 1, 1, -1, 0);
+            CreateMessageBox(0x43, 1, 1, -1, 0);
             StartSoundSeq(0x12);
             DisableButtonTouch();
             SetUpdateFunction(UpdateApScanMessageResult);
@@ -156,7 +156,7 @@ void UpdateApScanFrames(void) {
         }
         if (i == entryCount) {
             *(u8 *) &gApScanKind = 3;
-            func_ov003_021cefc0(0x42, 1, 1, -1, 0);
+            CreateMessageBox(0x42, 1, 1, -1, 0);
             StartSoundSeq(0x12);
             DisableButtonTouch();
             SetUpdateFunction(UpdateApScanMessageResult);
@@ -212,7 +212,7 @@ void UpdateApScanRelease(void) {
     if (((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) &&
         (v1 = IsSlideButtonsNotSlidingOut(), v1 != 0)) {
         do {
-            v1 = func_ov003_021cd118();
+            v1 = StopApScan();
         } while (v1 == 0);
         ReleaseAnimatedIcon();
         ReleaseBgTextCanvasOfScreen(0);
@@ -220,8 +220,8 @@ void UpdateApScanRelease(void) {
         ClearDispcntBits(1, 1);
         ClearDispcntBits(0, 0x15);
         if ((*(u8 *) &gApScanKind) != 1) {
-            func_ov003_021cd27c();
-            func_ov003_021cd790(func_ov003_021cdb6c()->mUnk_f4);
+            ReleaseApScan();
+            CopyApEntryToWorkCopy(GetApWorkCopy()->mEntryIndex);
             SetPrimaryMenuPair(2, 1);
             SetUpdateFunction(SetupWay);
             return;
@@ -234,17 +234,17 @@ void UpdateApScanRelease(void) {
 
 void UpdateApScanMessageResult(void) {
     int messageAnswer;
-    messageAnswer = func_ov003_021cef80();
+    messageAnswer = GetMessageBoxResult();
     if (messageAnswer == 0) {
         StartSoundSeq(6);
-        func_ov003_021cef90();
+        CloseMessageBox();
         SetUpdateFunction(UpdateApScanMessageClose);
     }
 }
 
 void UpdateApScanMessageClose(void) {
     int messageOpen;
-    messageOpen = func_ov003_021cef6c();
+    messageOpen = IsMessageBoxOpen();
     if (messageOpen == 0) {
         SetUpdateFunction(StartApScanClose);
     }

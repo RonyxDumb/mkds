@@ -16,17 +16,17 @@
 
 void UpdateExchangeEntryMessageResult(void) {
     int messageAnswer;
-    messageAnswer = func_ov003_021cef80();
+    messageAnswer = GetMessageBoxResult();
     if (messageAnswer == 0) {
         StartSoundSeq(6);
-        func_ov003_021cef90();
+        CloseMessageBox();
         SetUpdateFunction(UpdateExchangeEntryMessageClose);
     }
 }
 
 void UpdateExchangeEntryMessageClose(void) {
     int messageOpen;
-    messageOpen = func_ov003_021cef6c();
+    messageOpen = IsMessageBoxOpen();
     if (messageOpen == 0) {
         SetUpdateFunction(StartExchangeEntryClose);
     }
@@ -35,7 +35,7 @@ void UpdateExchangeEntryMessageClose(void) {
 void SetupRecordSaved(void) {
     LoadRecordSavedFilesAndSetBgCnt();
     LoadHlSetScr();
-    func_ov003_021cd6d0();
+    WriteApWorkCopy();
     SetUpdateFunction(StartRecordSavedFadeIn);
 }
 
@@ -95,7 +95,7 @@ void UpdateRecordSavedFadeIn(void) {
     int fadeSlotBusy;
     fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
     if ((fadeSlotBusy == 0) && (fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0), fadeSlotBusy == 0)) {
-        func_ov003_021cefc0(0x96, 5, 1, 0xffffffff, 0);
+        CreateMessageBox(0x96, 5, 1, 0xffffffff, 0);
         SetUpdateFunction(UpdateRecordSaved);
     }
 }
@@ -104,7 +104,7 @@ void UpdateRecordSaved(void) {
     int messageOpen;
     UpdateRecordSavedInputNop();
     UpdateRecordSavedNop();
-    messageOpen = func_ov003_021cef6c();
+    messageOpen = IsMessageBoxOpen();
     if (messageOpen == 0) {
         SetUpdateFunction(StartRecordSavedFadeOut);
     }

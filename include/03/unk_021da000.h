@@ -38,7 +38,7 @@ typedef struct Jb3List {
 } Jb3List;
 
 // Objects whose layout isn't known yet.
-typedef struct Unk021da280 Unk021da280;
+typedef struct UsbScan UsbScan;
 typedef struct Unk021cf260 Unk021cf260;
 extern SlideButtons *gSlideButtons;
 extern u8 gSubScreenMessageShown;
@@ -127,35 +127,35 @@ extern u8 gUsbExitKind;
 struct Bg2ScrBuffer;
 extern struct Bg2ScrBuffer *gBg2ScrBuffer;
 extern u8 gBgPaletteCopyRequest[];
-struct Unk021cca74;
-extern struct Unk021cca74 *data_ov003_021da268;
-struct Unk021da26c;
-extern struct Unk021da26c *data_ov003_021da26c;
-struct Unk021cd5e0;
-extern struct Unk021cd5e0 *data_ov003_021da270;
+struct ScrollBar;
+extern struct ScrollBar *gScrollBar;
+struct ApScan;
+extern struct ApScan *gApScan;
+struct ApStore;
+extern struct ApStore *gApStore;
 struct SoundData;
 extern struct SoundData *gSoundData;
-extern void *data_ov003_021da278;
-struct Unk021ce0f0;
-extern struct Unk021ce0f0 *data_ov003_021da27c;
-extern Unk021da280 *data_ov003_021da280;
-// Object behind data_ov003_021da284: func_ov003_021ceaf8 passes 0x00 to GetOamRangeEntryPosition and reads the byte at
-// 0x1e; func_ov003_021cef80 reads the byte at 0x1b.
-typedef struct Unk021da284 {
-    /* 00 */ OamRange *mUnk_00;
-    /* 04 */ OamRange *mUnk_04;
-    /* 08 */ OamRange *mUnk_08[2];
-    /* 10 */ void *mUnk_10;
-    /* 14 */ u32 mUnk_14;
-    /* 18 */ u16 mUnk_18;
-    /* 1a */ s8 mUnk_1a;
-    /* 1b */ s8 mUnk_1b;
-    /* 1c */ u8 mUnk_1c;
-    /* 1d */ u8 mUnk_1d;
-    /* 1e */ u8 mUnk_1e;
-} Unk021da284;
+extern void *gMenuPairScreenMap;
+struct MenuPairObjects;
+extern struct MenuPairObjects *gMenuPairObjects;
+extern UsbScan *gUsbScan;
+// Object behind gMessageBox: AdvanceMessageBoxSlideOut passes 0x00 to GetOamRangeEntryPosition and reads the byte at
+// 0x1e; GetMessageBoxResult reads the byte at 0x1b.
+typedef struct MessageBox {
+    /* 00 */ OamRange *mBox;
+    /* 04 */ OamRange *mText;
+    /* 08 */ OamRange *mButtons[2];
+    /* 10 */ void *mTextCanvas;
+    /* 14 */ u32 mTask;
+    /* 18 */ u16 mTimedFrames;
+    /* 1a */ s8 mBrightness;
+    /* 1b */ s8 mResult;
+    /* 1c */ u8 mKind;
+    /* 1d */ u8 mCloseWaitFrames;
+    /* 1e */ u8 mAdjustBrightness;
+} MessageBox;
 
-extern Unk021da284 *data_ov003_021da284;
+extern MessageBox *gMessageBox;
 extern Unk021cf260 *data_ov003_021da288;
 extern u16 *data_ov003_021da28c[];
 extern UnkFunc *data_ov003_021da2a4;

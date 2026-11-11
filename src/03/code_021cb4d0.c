@@ -30,7 +30,7 @@
 #include "registers.h"
 
 void SetupWay(void) {
-    Unk021cd5e0_400 *record = func_ov003_021cdb6c();
+    ApWorkCopy *record = GetApWorkCopy();
     gWayChosen[0] = 0;
     if (gWaySavedIndex == 0) {
         gWaySavedIndex = 1;
@@ -45,7 +45,7 @@ void SetupWay(void) {
     }
     LoadWayFilesAndSetBgCnt();
     LoadHlSetScr();
-    ShowSubScreenMessage(0x7e, gWayMessageDigitColumns[GetLanguageIndex()], record->mUnk_f4 + 1);
+    ShowSubScreenMessage(0x7e, gWayMessageDigitColumns[GetLanguageIndex()], record->mEntryIndex + 1);
     CreateObjectsForMenuPair(1);
     PlaceSelectionCorners(gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mUnk_00,
                           gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mUnk_04,

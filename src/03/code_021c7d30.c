@@ -61,29 +61,29 @@
 
 void CreateJb3List(void) {
     int a;
-    Unk021cd5e0_400 *record;
+    ApWorkCopy *record;
     int i;
     Jb3List *jb3List;
-    record = func_ov003_021cdb6c();
+    record = GetApWorkCopy();
     jb3List = AllocZeroedExpHeapBlock(0x48, 4);
     gJb3List = jb3List;
-    jb3List->mUnk_43 = record->mUnk_f6;
+    jb3List->mUnk_43 = record->mDnsNone;
     gJb3List->mReturnId = 0xc;
     ResetJb3ListScrollAndSelection();
     LoadJb3ListFilesAndSetBgCnt();
     if (gJb3ListMode == 0) {
-        ShowSubScreenMessage(0x7c, gJb3ListDigitColumns[GetLanguageIndex()], record->mUnk_f4 + 1);
+        ShowSubScreenMessage(0x7c, gJb3ListDigitColumns[GetLanguageIndex()], record->mEntryIndex + 1);
     } else {
         ShowSubScreenMessage(0x97, -1, 0);
     }
     CreateObjectsForMenuPair(1);
     LoadHlListScr();
-    func_ov003_021ccea4(2, 0x55, 0xf1, 0x41, _s32_div_f(gJb3ListScrollY * 0x37, 0x91));
+    CreateScrollBar(2, 0x55, 0xf1, 0x41, _s32_div_f(gJb3ListScrollY * 0x37, 0x91));
     gJb3List->mUnk_14 = InitBgTextCanvas(0, 1);
     for (i = 0; i < 7; i++) {
         gJb3List->mUnk_18[i] = CreateOamEntryFromNceImage(0, gJb3ListCellImageIds[0][1]);
     }
-    switch (record->mUnk_00.mUnk_e7) {
+    switch (record->mEntry.mSetType) {
         case 1:
             gJb3List->mUnk_34 = CreateOamEntryFromNceImage(0, 0x50);
             gJb3List->mUnk_34->mUnk_04 = (gJb3List->mUnk_34->mUnk_04 & ~0xc00) | 0xc00;
@@ -128,7 +128,7 @@ void LoadJb3ListFilesAndSetBgCnt(void) {
 
 void ResetJb3ListScrollAndSelection(void) {
     int secondaryPairSecond[1];
-    func_ov003_021cdb6c();
+    GetApWorkCopy();
     GetSecondaryMenuPair(NULL, secondaryPairSecond);
     if (secondaryPairSecond[0] == 0) {
         gJb3ListScrollY = 0;
@@ -240,7 +240,7 @@ void UpdateJb3ListInput(void) {
 BOOL UpdateJb3ListHit(void) {
     int hitId;
     int idEnabled;
-    func_ov003_021cdb6c();
+    GetApWorkCopy();
     hitId = GetJb3ListHitId();
     if (hitId == 0xe) {
         return 0;
@@ -284,7 +284,7 @@ void StartJb3ListIdAction(u32 listId) {
         RequestJb3ListPaletteRowCopy();
         if (IsJb3ListRecordValid() == 0) {
             StartSoundSeq(9);
-            func_ov003_021cefc0(0x2f, 1, 1, -1, 0);
+            CreateMessageBox(0x2f, 1, 1, -1, 0);
             SetUpdateFunction(UpdateJb3ListMessageResult);
             return;
         }
@@ -301,15 +301,15 @@ void StartJb3ListIdAction(u32 listId) {
         SetupJb3ListCell(0, 1, GetJb3ListRowOfEntryIndex(gJb3ListEntryIndexById[listId]));
         RefreshJb3ListRowPositions();
     }
-    func_ov003_021cce38();
+    DisableScrollBarInput();
     SetUpdateFunction(StartJb3ListClose);
 }
 
 void func_ov003_021c9084(u32 newValue) {
-    Unk021cd5e0_400 *record;
+    ApWorkCopy *record;
     BOOL otherValue;
-    record = func_ov003_021cdb6c();
-    if (record->mUnk_f5 != newValue) {
+    record = GetApWorkCopy();
+    if (record->mIpNone != newValue) {
         if (newValue != 0) {
             if (gJb3List->mUnk_43 != 0) {
                 otherValue = TRUE;
@@ -317,21 +317,21 @@ void func_ov003_021c9084(u32 newValue) {
                 otherValue = FALSE;
             }
         } else {
-            gJb3List->mUnk_43 = record->mUnk_f6;
+            gJb3List->mUnk_43 = record->mDnsNone;
             otherValue = FALSE;
         }
-        func_ov003_021cdb58(newValue);
-        func_ov003_021cdb44(otherValue);
+        SetApWorkIpNone(newValue);
+        SetApWorkDnsNone(otherValue);
         RefreshJb3List();
     }
 }
 
 void func_ov003_021c9058(u32 newValue) {
-    Unk021cd5e0_400 *record;
-    record = func_ov003_021cdb6c();
-    if (record->mUnk_f6 != newValue) {
+    ApWorkCopy *record;
+    record = GetApWorkCopy();
+    if (record->mDnsNone != newValue) {
         gJb3List->mUnk_43 = (s8) newValue;
-        func_ov003_021cdb44(newValue);
+        SetApWorkDnsNone(newValue);
         RefreshJb3List();
     }
 }
@@ -344,7 +344,7 @@ void UpdateJb3ListScrollInput(void) {
         if (jb3List->mScrollTimer != 0) {
             jb3List->mScrollTimer--;
         }
-        switch (func_ov003_021cce60()) {
+        switch (GetScrollBarEvent()) {
             case 1:
                 gJb3List->mUnk_45 = 1;
                 break;
@@ -353,13 +353,13 @@ void UpdateJb3ListScrollInput(void) {
                     return;
                 }
                 ReleaseSelectionObjectSlots();
-                gJb3ListScrollY = _s32_div_f(func_ov003_021cce6c() * 0x91, 0x37);
+                gJb3ListScrollY = _s32_div_f(GetScrollBarOffset() * 0x91, 0x37);
                 RefreshJb3List();
                 gJb3List->mScrollTimer = 4;
                 break;
             case 3:
                 gJb3List->mUnk_45 = 0;
-                gJb3ListScrollY = _s32_div_f(func_ov003_021cce6c() * 0x91, 0x37);
+                gJb3ListScrollY = _s32_div_f(GetScrollBarOffset() * 0x91, 0x37);
                 StartSoundSeq(0x13);
                 RefreshJb3List();
                 scrollRemainder = FX_ModS32(gJb3ListScrollY, 0x1d);
@@ -406,7 +406,7 @@ void UpdateJb3ListScrollInput(void) {
 }
 
 void StartJb3ListClose(void) {
-    func_ov003_021cce38();
+    DisableScrollBarInput();
     StartBlendBrightnessFadeWait(8);
     SetUpdateFunction(UpdateJb3ListFadeOut);
 }
@@ -429,7 +429,7 @@ static inline void func_ov003_021c85a0_inline(OamEntry *oamEntry, u32 *x, u32 *y
 void UpdateJb3ListRelease(void) {
     int i;
     u32 chosenId;
-    Unk021cd5e0_400 *record;
+    ApWorkCopy *record;
     if (IsBlendBrightnessFadeSlotBusy(1) != 0) {
         return;
     }
@@ -444,7 +444,7 @@ void UpdateJb3ListRelease(void) {
     if (gJb3List->mUnk_34 != NULL) {
         DeleteOamEntry((u32 *) gJb3List->mUnk_34);
     }
-    func_ov003_021cce78();
+    ReleaseScrollBar();
     ReleaseBgTextCanvasOfScreen(0);
     ReleaseSelectionObjectSlots();
     if (gJb3List->mUnk_40 != 0xc) {
@@ -483,16 +483,16 @@ void UpdateJb3ListRelease(void) {
             SetUpdateFunction(CreateEditAddr);
             break;
         case 11:
-            record = func_ov003_021cdb6c();
-            record->mUnk_00.mUnk_d0 = DWCi_BACKUPlConvMaskCidr(record->mUnk_f0);
-            if (record->mUnk_f5 != 0) {
-                MI_CpuFill8(record->mUnk_00.mUnk_c0, 0, 4);
-                MI_CpuFill8(record->mUnk_00.mUnk_c4, 0, 4);
-                MI_CpuFill8(record->mUnk_f0, 0, 4);
-                record->mUnk_00.mUnk_d0 = 0;
+            record = GetApWorkCopy();
+            record->mEntry.mNetmaskCidr = DWCi_BACKUPlConvMaskCidr(record->mNetmask);
+            if (record->mIpNone != 0) {
+                MI_CpuFill8(record->mEntry.mIp, 0, 4);
+                MI_CpuFill8(record->mEntry.mGateway, 0, 4);
+                MI_CpuFill8(record->mNetmask, 0, 4);
+                record->mEntry.mNetmaskCidr = 0;
             }
-            if (record->mUnk_f6 != 0) {
-                MI_CpuFill8(record->mUnk_00.mUnk_c8, 0, 8);
+            if (record->mDnsNone != 0) {
+                MI_CpuFill8(record->mEntry.mDns, 0, 8);
             }
             SetPrimaryMenuPair(2, 0);
             SetSecondaryMenuPair(0, 0);
@@ -507,7 +507,7 @@ void UpdateJb3ListRelease(void) {
                 SetPrimaryMenuPair(2, 1);
                 SetUpdateFunction(CreateAp);
             } else {
-                func_ov003_021cd790((func_ov003_021cdb6c())->mUnk_f4);
+                CopyApEntryToWorkCopy((GetApWorkCopy())->mEntryIndex);
                 SetPrimaryMenuPair(0, 1);
                 SetUpdateFunction(SetupWay);
             }
@@ -535,16 +535,16 @@ void RefreshJb3List(void) {
 }
 
 void PrintJb3ListEntryText(u32 entryIndex, int row) {
-    Unk021cd5e0_400 *record;
+    ApWorkCopy *record;
     int starCount;
     u8 starText[0x21];
-    record = func_ov003_021cdb6c();
+    record = GetApWorkCopy();
     switch (entryIndex) {
         case 0:
-            PrintJb3ListEntryString(record->mUnk_00.mUnk_40, row);
+            PrintJb3ListEntryString(record->mEntry.mSsid, row);
             return;
         case 1:
-            switch (record->mUnk_00.mUnk_e6_0) {
+            switch (record->mEntry.mWepMode) {
                 case 0:
                     return;
                 case 1:
@@ -557,7 +557,7 @@ void PrintJb3ListEntryText(u32 entryIndex, int row) {
                     starCount = 0x20;
                     break;
             }
-            if (record->mUnk_00.mUnk_e6_2 == 1) {
+            if (record->mEntry.mWepNotation == 1) {
                 starCount = _s32_div_f(starCount, 2);
             }
             MI_CpuFill8(starText, 0, 0x21);
@@ -565,40 +565,40 @@ void PrintJb3ListEntryText(u32 entryIndex, int row) {
             PrintJb3ListEntryString(starText, row);
             return;
         case 3:
-            if (record->mUnk_f5 == 0) {
-                PrintJb3ListEntryBytes(record->mUnk_00.mUnk_c0, row);
+            if (record->mIpNone == 0) {
+                PrintJb3ListEntryBytes(record->mEntry.mIp, row);
             }
             break;
         case 4:
-            if (record->mUnk_f5 == 0) {
-                PrintJb3ListEntryBytes(record->mUnk_f0, row);
+            if (record->mIpNone == 0) {
+                PrintJb3ListEntryBytes(record->mNetmask, row);
             }
             break;
         case 5:
-            if (record->mUnk_f5 == 0) {
-                PrintJb3ListEntryBytes(record->mUnk_00.mUnk_c4, row);
+            if (record->mIpNone == 0) {
+                PrintJb3ListEntryBytes(record->mEntry.mGateway, row);
             }
             break;
         case 7:
-            if (record->mUnk_f6 == 0) {
-                PrintJb3ListEntryBytes(record->mUnk_00.mUnk_c8, row);
+            if (record->mDnsNone == 0) {
+                PrintJb3ListEntryBytes(record->mEntry.mDns, row);
             }
             break;
         case 8:
-            if (record->mUnk_f6 == 0) {
-                PrintJb3ListEntryBytes(&record->mUnk_00.mUnk_c8[4], row);
+            if (record->mDnsNone == 0) {
+                PrintJb3ListEntryBytes(&record->mEntry.mDns[4], row);
             }
             break;
     }
 }
 
 void SetupJb3ListEntryCells(u32 entryIndex, int row) {
-    Unk021cd5e0_400 *record;
+    ApWorkCopy *record;
     int cellKind;
     int cellState;
     BOOL secondState;
     int secondKind;
-    record = func_ov003_021cdb6c();
+    record = GetApWorkCopy();
     switch (entryIndex) {
         case 0:
         case 1:
@@ -611,7 +611,7 @@ void SetupJb3ListEntryCells(u32 entryIndex, int row) {
         case 2:
             secondState = FALSE;
             cellState = 0;
-            if (record->mUnk_f5 != 0) {
+            if (record->mIpNone != 0) {
                 cellKind = 1;
                 secondKind = 4;
             } else {
@@ -630,7 +630,7 @@ void SetupJb3ListEntryCells(u32 entryIndex, int row) {
         case 4:
         case 5:
             cellKind = 0;
-            if (record->mUnk_f5 != 0) {
+            if (record->mIpNone != 0) {
                 cellState = 2;
             } else {
                 cellState = cellKind;
@@ -639,11 +639,11 @@ void SetupJb3ListEntryCells(u32 entryIndex, int row) {
         case 6:
             secondState = FALSE;
             cellState = 0;
-            if (record->mUnk_f6 != 0) {
+            if (record->mDnsNone != 0) {
                 cellKind = 1;
                 secondKind = 4;
             } else {
-                if (record->mUnk_f5 == 0) {
+                if (record->mIpNone == 0) {
                     cellState = 2;
                 }
                 cellKind = 2;
@@ -660,7 +660,7 @@ void SetupJb3ListEntryCells(u32 entryIndex, int row) {
         case 7:
         case 8:
             cellKind = 0;
-            if (record->mUnk_f6 != 0) {
+            if (record->mDnsNone != 0) {
                 cellState = 2;
             } else {
                 cellState = cellKind;
@@ -675,32 +675,32 @@ void SetupJb3ListEntryCells(u32 entryIndex, int row) {
 }
 
 BOOL IsJb3ListIdEnabled(u32 listId) {
-    Unk021cd5e0_400 *record;
+    ApWorkCopy *record;
     u32 enabled;
-    record = func_ov003_021cdb6c();
+    record = GetApWorkCopy();
     enabled = 1;
     switch (listId) {
         case 7:
-            if (record->mUnk_f5 == 0) {
+            if (record->mIpNone == 0) {
                 enabled = 0;
             }
             break;
         case 0:
         case 1:
-            if ((u8) (record->mUnk_00.mUnk_e7 + 0xff) <= 1) {
+            if ((u8) (record->mEntry.mSetType + 0xff) <= 1) {
                 enabled = 0;
             }
             break;
         case 4:
         case 5:
         case 6:
-            if (record->mUnk_f5 != 0) {
+            if (record->mIpNone != 0) {
                 enabled = 0;
             }
             break;
         case 9:
         case 10:
-            if (record->mUnk_f6 != 0) {
+            if (record->mDnsNone != 0) {
                 enabled = 0;
             }
             break;
@@ -918,7 +918,7 @@ int GetJb3ListEntryIndexOfRow(int row) {
 
 void AdvanceJb3ListScrollYDecrease(u32 taskEntry) {
     s32 scrollRemainder;
-    func_ov003_021cce38();
+    DisableScrollBarInput();
     ReleaseSelectionObjectSlots();
     if (gJb3ListScrollY > 6) {
         gJb3ListScrollY = gJb3ListScrollY - 6;
@@ -936,8 +936,8 @@ void AdvanceJb3ListScrollYDecrease(u32 taskEntry) {
     }
     RefreshJb3ListRowPositions();
     if (scrollRemainder == 0) {
-        func_ov003_021cce58(_s32_div_f(gJb3ListScrollY * 0x37, 0x91));
-        func_ov003_021cce48();
+        PlaceScrollBarWrapper(_s32_div_f(gJb3ListScrollY * 0x37, 0x91));
+        EnableScrollBarInput();
         SetJb3ListSelectedIdFromRow();
         gJb3List->mScrollTask = 0;
         RequestTaskRemoval(0, taskEntry);
@@ -946,7 +946,7 @@ void AdvanceJb3ListScrollYDecrease(u32 taskEntry) {
 
 void AdvanceJb3ListScrollYIncrease(u32 taskEntry) {
     s32 scrollRemainder;
-    func_ov003_021cce38();
+    DisableScrollBarInput();
     ReleaseSelectionObjectSlots();
     gJb3ListScrollY = gJb3ListScrollY + 6;
     scrollRemainder = FX_ModS32(gJb3ListScrollY, 0x1d);
@@ -956,8 +956,8 @@ void AdvanceJb3ListScrollYIncrease(u32 taskEntry) {
     }
     gJb3ListScrollY = gJb3ListScrollY - scrollRemainder;
     RefreshJb3List();
-    func_ov003_021cce58(_s32_div_f(gJb3ListScrollY * 0x37, 0x91));
-    func_ov003_021cce48();
+    PlaceScrollBarWrapper(_s32_div_f(gJb3ListScrollY * 0x37, 0x91));
+    EnableScrollBarInput();
     SetJb3ListSelectedIdFromRow();
     gJb3List->mScrollTask = 0;
     RequestTaskRemoval(0, taskEntry);
@@ -992,24 +992,24 @@ void PlaceJb3ListSelectionPair(void) {
 }
 
 void SetJb3ListSelectedIdFromRow(void) {
-    Unk021cd5e0_400 *record;
+    ApWorkCopy *record;
     s32 entryIndex;
     if ((u8) (gJb3ListSelectedId + 0xf5) <= 2) {
         PlaceJb3ListSelectionPair();
         return;
     }
-    record = func_ov003_021cdb6c();
+    record = GetApWorkCopy();
     entryIndex = gJb3ListSelectedRow + FX_DivS32(gJb3ListScrollY, 0x1d);
     switch (entryIndex) {
         case 2:
-            if (record->mUnk_f5 != 0) {
+            if (record->mIpNone != 0) {
                 gJb3ListSelectedId = 2;
             } else {
                 gJb3ListSelectedId = 3;
             }
             break;
         case 6:
-            if (record->mUnk_f6 != 0) {
+            if (record->mDnsNone != 0) {
                 gJb3ListSelectedId = 7;
             } else {
                 gJb3ListSelectedId = 8;
@@ -1029,13 +1029,13 @@ void SetJb3ListSelectedId(u32 listId) {
 }
 
 void MoveJb3ListSelection(s32 direction) {
-    Unk021cd5e0_400 *record;
+    ApWorkCopy *record;
     s32 moveResult;
     s32 selectedId;
-    record = func_ov003_021cdb6c();
+    record = GetApWorkCopy();
     moveResult = 0;
     selectedId = gJb3ListSelectedId;
-    if (selectedId == 8 && record->mUnk_f5 == 0) {
+    if (selectedId == 8 && record->mIpNone == 0) {
         if (direction == 0) {
             return;
         }
@@ -1075,7 +1075,7 @@ void MoveJb3ListSelection(s32 direction) {
                 gJb3ListSelectedRow = 0;
                 gJb3ListScrollY = 0;
                 RefreshJb3List();
-                func_ov003_021cce58(0);
+                PlaceScrollBarWrapper(0);
             } else {
                 moveResult = 2;
             }
@@ -1088,7 +1088,7 @@ void MoveJb3ListSelection(s32 direction) {
                 gJb3ListSelectedRow = 3;
                 gJb3ListScrollY = 0x91;
                 RefreshJb3List();
-                func_ov003_021cce58(0x37);
+                PlaceScrollBarWrapper(0x37);
             } else if (direction == 3) {
                 if (gJb3List->mUnk_47 != 0) {
                     return;
@@ -1190,25 +1190,25 @@ void StartJb3ListIdTimer(void) {
 }
 
 BOOL IsJb3ListRecordValid(void) {
-    Unk021cd5e0_400 *record;
-    record = func_ov003_021cdb6c();
-    if (record->mUnk_00.mUnk_40[0] == 0) {
+    ApWorkCopy *record;
+    record = GetApWorkCopy();
+    if (record->mEntry.mSsid[0] == 0) {
         return 0;
     }
-    if (record->mUnk_f6 == 0) {
-        if (DWC_BACKUPlCheckAddress(record->mUnk_00.mUnk_c8) == 0 &&
-            DWC_BACKUPlCheckAddress(&record->mUnk_00.mUnk_c8[4]) == 0) {
+    if (record->mDnsNone == 0) {
+        if (DWC_BACKUPlCheckAddress(record->mEntry.mDns) == 0 &&
+            DWC_BACKUPlCheckAddress(&record->mEntry.mDns[4]) == 0) {
             return 0;
         }
     }
-    if (record->mUnk_f5 == 0) {
-        if (DWC_BACKUPlCheckAddress(record->mUnk_00.mUnk_c0) == 0) {
+    if (record->mIpNone == 0) {
+        if (DWC_BACKUPlCheckAddress(record->mEntry.mIp) == 0) {
             return 0;
         }
-        if (DWC_BACKUPlCheckAddress(record->mUnk_00.mUnk_c4) == 0) {
+        if (DWC_BACKUPlCheckAddress(record->mEntry.mGateway) == 0) {
             return 0;
         }
-        if (DWC_BACKUPlCheckIp(record->mUnk_00.mUnk_c0, record->mUnk_f0) == 0) {
+        if (DWC_BACKUPlCheckIp(record->mEntry.mIp, record->mNetmask) == 0) {
             return 0;
         }
     }
@@ -1217,10 +1217,10 @@ BOOL IsJb3ListRecordValid(void) {
 
 void UpdateJb3ListMessageResult(void) {
     int messageAnswer;
-    messageAnswer = func_ov003_021cef80();
+    messageAnswer = GetMessageBoxResult();
     if (messageAnswer == 0) {
         StartSoundSeq(6);
-        func_ov003_021cef90();
+        CloseMessageBox();
         RequestBgPaletteCopy((u32) gJb3List->mYbBgStep2NclFiles[0]);
         SetUpdateFunction(UpdateJb3ListMessageClose);
     }
@@ -1228,7 +1228,7 @@ void UpdateJb3ListMessageResult(void) {
 
 void UpdateJb3ListMessageClose(void) {
     int messageOpen;
-    messageOpen = func_ov003_021cef6c();
+    messageOpen = IsMessageBoxOpen();
     if (messageOpen == 0) {
         SetUpdateFunction(UpdateJb3List);
     }

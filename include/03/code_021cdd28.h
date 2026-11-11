@@ -4,28 +4,28 @@
 
 typedef struct TaskEntry TaskEntry;
 
-typedef struct Unk021cdd48_66a8 {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-} Unk021cdd48_66a8;
+typedef struct MenuPairObjectPosition {
+    /* 00 */ u16 mX;
+    /* 02 */ u16 mY;
+} MenuPairObjectPosition;
 
 typedef struct OamRange OamRange;
 
-typedef struct Unk021ce0f0 {
-    /* 00 */ OamRange *mUnk_00[5];
+typedef struct MenuPairObjects {
+    /* 00 */ OamRange *mObjects[5];
     /* 14 */ u32 mTask;
-    /* 18 */ u8 mUnk_18;
-} Unk021ce0f0;
+    /* 18 */ u8 mSlidingOut;
+} MenuPairObjects;
 
-extern Unk021cdd48_66a8 data_ov003_021d66a8[];
+extern MenuPairObjectPosition gMenuPairObjectPositions[];
 
-u32 func_ov003_021cdd28(void);
-void func_ov003_021cdd48(TaskEntry *a);
-void func_ov003_021cddd0(TaskEntry *a);
-void func_ov003_021cde68(TaskEntry *a);
-void func_ov003_021cdf00(TaskEntry *a);
-void func_ov003_021cdf98(TaskEntry *a);
-u32 func_ov003_021ce00c(void);
-void func_ov003_021ce024(u32 a);
-void func_ov003_021ce0c4(void);
-void func_ov003_021ce0f0(u32 task);
+BOOL IsMenuPairObjectsNotSlidingOut(void);
+void AdvanceMenuPairObjectSlideOut0(TaskEntry *taskEntry);
+void AdvanceMenuPairObjectSlideOut1(TaskEntry *taskEntry);
+void AdvanceMenuPairObjectSlideOut2(TaskEntry *taskEntry);
+void AdvanceMenuPairObjectSlideOut3(TaskEntry *taskEntry);
+void AdvanceMenuPairObjectSlideOut4(TaskEntry *taskEntry);
+BOOL IsMenuPairObjectsSliding(void);
+void ChangeMenuPairObjectImages(u32 row);
+void StartMenuPairObjectsSlideOut(void);
+void AdvanceMenuPairObjectsSlideInEnd(u32 task);

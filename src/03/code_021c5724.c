@@ -60,7 +60,7 @@ void CreateApList(void) {
         gApListSelectedRow = 0;
         *(u16 *) &gApListScrollY = 0;
     }
-    gApList->mEntryCount = func_ov003_021cd0d0((s32 *) gApList);
+    gApList->mEntryCount = CountApScanEntries((s32 *) gApList);
     LoadApListFilesAndSetBgCnt();
     LoadHlSetScr();
     ShowSubScreenMessage(0x80, -1, 0);
@@ -108,7 +108,7 @@ void SetupApListScroll(void) {
     if (entryCountRange != 0) {
         offset = FX_DivS32(*(u16 *) &gApListScrollY * gApList->mUnk_53, gApList->mScrollYMax);
     }
-    func_ov003_021ccea4(entryCountRange, 0x55, 0xec, 0x3f, offset);
+    CreateScrollBar(entryCountRange, 0x55, 0xec, 0x3f, offset);
 }
 
 void CreateApListRowObjects(void) {
@@ -221,7 +221,7 @@ void UpdateApListInput(void) {
     }
     if (AreKeysPressed(1) != 0) {
         SetButtonResultIfNone(1);
-        func_ov003_021cce38();
+        DisableScrollBarInput();
         return;
     }
     if (AreKeysPressed(2) != 0) {
@@ -271,7 +271,7 @@ void UpdateApListScroll(void) {
     if (apList->mScrollTimer != 0) {
         apList->mScrollTimer--;
     }
-    switch (func_ov003_021cce60()) {
+    switch (GetScrollBarEvent()) {
         case 1:
             gApList->mUnk_57 = 1;
             DisableButtonTouch();
@@ -279,7 +279,7 @@ void UpdateApListScroll(void) {
         case 2:
             if (gApList->mScrollTimer == 0) {
                 ReleaseSelectionObjectSlots();
-                *(u16 *) &gApListScrollY = FX_DivS32(gApList->mScrollYMax * func_ov003_021cce6c(), gApList->mUnk_53);
+                *(u16 *) &gApListScrollY = FX_DivS32(gApList->mScrollYMax * GetScrollBarOffset(), gApList->mUnk_53);
                 RefreshApList();
                 gApList->mScrollTimer = 4;
             }
@@ -287,7 +287,7 @@ void UpdateApListScroll(void) {
         case 3:
             gApList->mUnk_57 = 0;
             EnableButtonTouch();
-            *(u16 *) &gApListScrollY = FX_DivS32(gApList->mScrollYMax * func_ov003_021cce6c(), gApList->mUnk_53);
+            *(u16 *) &gApListScrollY = FX_DivS32(gApList->mScrollYMax * GetScrollBarOffset(), gApList->mUnk_53);
             StartSoundSeq(0x13);
             RefreshApList();
             rowOffset = FX_ModS32(*(u16 *) &gApListScrollY, 0x1c);
@@ -345,9 +345,9 @@ void UpdateApListResult(void) {
                     entryIndex = gApListSelectedRow + FX_DivS32(*(u16 *) &gApListScrollY, 0x1c);
                     if ((gApList->mEntries + entryIndex * 0x2a)[0x28] == 2) {
                         StartSoundSeq(9);
-                        func_ov003_021cce38();
+                        DisableScrollBarInput();
                         DisableButtonTouch();
-                        func_ov003_021cefc0(0x42, 1, 1, -1, 0);
+                        CreateMessageBox(0x42, 1, 1, -1, 0);
                         SetUpdateFunction(UpdateApListMessageResult);
                         return;
                     }
@@ -404,7 +404,7 @@ void UpdateApListRelease(void) {
         }
     }
     ReleaseBgTextCanvas(gApList->mUnk_0c);
-    func_ov003_021cce78();
+    ReleaseScrollBar();
     ReleaseSelectionObjectSlots();
     HideSubScreenMessage();
     ReleaseBg2ScrBuffer();
@@ -416,16 +416,16 @@ void UpdateApListRelease(void) {
     reg_G2_BG2OFS = 0;
     apList = gApList;
     if (apList->mUnk_54 == 0) {
-        func_ov003_021cd27c();
-        func_ov003_021cd790(func_ov003_021cdb6c()->mUnk_f4);
+        ReleaseApScan();
+        CopyApEntryToWorkCopy(GetApWorkCopy()->mEntryIndex);
         SetPrimaryMenuPair(2, 0);
         SetUpdateFunction(SetupWay);
     } else if (gApListSelectedRow == 4) {
-        func_ov003_021cd27c();
+        ReleaseApScan();
         SetPrimaryMenuPair(0, 1);
         SetUpdateFunction(SetupApScan);
     } else {
-        func_ov003_021cdb14(apList->mEntries + apList->mEntryIndex * 0x2a);
+        StoreApWorkSsid(apList->mEntries + apList->mEntryIndex * 0x2a);
         SetPrimaryMenuPair(0, 0);
         if ((gApList->mEntries + gApList->mEntryIndex * 0x2a)[0x28] != 0) {
             SetPrimaryMenuPair(0, 1);
@@ -541,7 +541,7 @@ void RefreshApListRowPositions(void) {
 
 void AdvanceApListScrollYDecrease(u32 task) {
     int rowOffset;
-    func_ov003_021cce38();
+    DisableScrollBarInput();
     ReleaseSelectionObjectSlots();
     if (*(u16 *) &gApListScrollY > 4) {
         *(u16 *) &gApListScrollY = *(u16 *) &gApListScrollY - 4;
@@ -559,8 +559,8 @@ void AdvanceApListScrollYDecrease(u32 task) {
     }
     RefreshApListRowPositions();
     if (rowOffset == 0) {
-        func_ov003_021cce58(FX_DivS32(*(u16 *) &gApListScrollY * gApList->mUnk_53, gApList->mScrollYMax));
-        func_ov003_021cce48();
+        PlaceScrollBarWrapper(FX_DivS32(*(u16 *) &gApListScrollY * gApList->mUnk_53, gApList->mScrollYMax));
+        EnableScrollBarInput();
         PlaceApListSelection();
         gApList->mScrollTask = 0;
         RequestTaskRemoval(0, task);
@@ -569,7 +569,7 @@ void AdvanceApListScrollYDecrease(u32 task) {
 
 void AdvanceApListScrollYIncrease(u32 task) {
     int rowOffset;
-    func_ov003_021cce38();
+    DisableScrollBarInput();
     ReleaseSelectionObjectSlots();
     *(u16 *) &gApListScrollY = *(u16 *) &gApListScrollY + 4;
     rowOffset = FX_ModS32(*(u16 *) &gApListScrollY, 0x1c);
@@ -579,8 +579,8 @@ void AdvanceApListScrollYIncrease(u32 task) {
     }
     *(u16 *) &gApListScrollY = *(u16 *) &gApListScrollY - rowOffset;
     RefreshApList();
-    func_ov003_021cce58(FX_DivS32(*(u16 *) &gApListScrollY * gApList->mUnk_53, gApList->mScrollYMax));
-    func_ov003_021cce48();
+    PlaceScrollBarWrapper(FX_DivS32(*(u16 *) &gApListScrollY * gApList->mUnk_53, gApList->mScrollYMax));
+    EnableScrollBarInput();
     PlaceApListSelection();
     gApList->mScrollTask = 0;
     RequestTaskRemoval(0, task);
@@ -657,7 +657,7 @@ void MoveApListSelectedRow(int direction) {
                 *(u16 *) &gApListScrollY = 0;
                 gApListSelectedRow = 0;
                 RefreshApList();
-                func_ov003_021cce58(0);
+                PlaceScrollBarWrapper(0);
             }
             break;
     }

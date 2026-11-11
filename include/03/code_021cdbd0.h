@@ -18,5 +18,5 @@ void StopSoundSeq(void);
 void SetSoundSeqTrackPitch(u32 tracks, u32 pitch);
 u32 SetSoundSeqVolume(u32 volume);
 void StartSoundSeq(u32 index);
-void func_ov003_021cdc28(void);
+void ReleaseSoundData(void);
 void CreateSoundData(void);

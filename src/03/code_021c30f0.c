@@ -135,7 +135,7 @@ void UpdateYb5MultiResult(void) {
             break;
         case 1:
             StartSoundSeq(6);
-            func_ov003_021cefc0(0x56, 0, 1, -1, 0);
+            CreateMessageBox(0x56, 0, 1, -1, 0);
             DisableButtonTouch();
             SetUpdateFunction(UpdateYb5MultiMessageResult);
             break;
@@ -183,7 +183,7 @@ void UpdateYb5MultiRelease(void) {
 }
 
 void UpdateYb5MultiMessageResult(void) {
-    switch (func_ov003_021cef80()) {
+    switch (GetMessageBoxResult()) {
         case 1:
             StartSoundSeq(0xe);
             gYb5MultiShowNext = 1;
@@ -194,6 +194,6 @@ void UpdateYb5MultiMessageResult(void) {
         default:
             return;
     }
-    func_ov003_021cef90();
+    CloseMessageBox();
     SetUpdateFunction(UpdateYb5MultiMessageClose);
 }

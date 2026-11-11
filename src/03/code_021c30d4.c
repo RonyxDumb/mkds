@@ -5,7 +5,7 @@
 
 void UpdateYb5MultiMessageClose(void) {
     int messageOpen;
-    messageOpen = func_ov003_021cef6c();
+    messageOpen = IsMessageBoxOpen();
     if (messageOpen == 0) {
         SetUpdateFunction(StartYb5MultiClose);
     }

@@ -8,6 +8,6 @@ typedef struct OamRange OamRange;
 // declares it with u16 *.
 void WriteWinInOutBits();
 
-void func_ov003_021cef90(void);
-void func_ov003_021cefc0(u32 a, s32 b, s32 c, u32 d, u32 e);
-u16 func_ov003_021cf1e8(u8 *a);
+void CloseMessageBox(void);
+void CreateMessageBox(u32 messageIndex, s32 kind, s32 adjustBrightness, u32 column, u32 value);
+u16 GetRecordValueByMacAddress(u8 *macAddress);

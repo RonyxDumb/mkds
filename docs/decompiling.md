@@ -322,7 +322,7 @@ Reused variables and own locals:
 - A table entry loaded once and kept in a callee-saved register across two calls is a reused dead variable:
   `n = tbl[i].f; f1(n); f2(n);` with `n` from an earlier loop (InitSelectKart).
 - A value the original forms itself is not a named local: `while (*(vu8 *) &d->mUnk_1b80 != 2) {}` instead of
-  `q = &d->mUnk_1b80; while (*q != 2) {}` (func_ov003_021ce848).
+  `q = &d->mUnk_1b80; while (*q != 2) {}` (ReleaseUsbScan).
 - Where the original gives a local its register only after a shared expression, drop the local and write the
   expression at each use (RaceSceneIsSlotPairNew). It works only where nothing between the uses can write the memory.
 - `sz = x + 32; sz = (sz + 31) & ~31;` and `(x + 32 + 31) & ~31` give different registers, and the one expression
@@ -669,7 +669,7 @@ Expression shapes:
   (ReceiveMatchingPeerMessage).
 - A global pointer kept across the loop header into the body where the original reloads it each pass: no pointer or byte
   local inside the loop; write `global->member` at every use (condition and indices) and assign the local after the loop
-  (Thumb; func_ov003_021cec50, like func_ov003_021cedbc).
+  (Thumb; PlaceMessageBox, like AdvanceMessageBoxInput).
 - A step after the counter's `+1` in the original, with a named for-update variable that gets the order right but adds a
   round of register changes: `for (i = 0, c = b; ...; i++, c += K)` with `c` declared before `i`, and the other `|`
   operand read through a pointer local, `p = base->arr[i]; p->m = X | ((p->m & K) | (c & 0xff));` (RefreshJb3ListRowPositions).
@@ -884,7 +884,7 @@ Expression shapes:
   SendPacketKind2000). Two locals in the 9 to 64 group: declaration order decides (`Vec3 v;` before `Unk0210b7a8
   s;`, func_0209d84c).
 - A local declared inside a loop body gets a higher slot than any function-scope local: declare it at function
-  scope (func_ov003_021ce5b8).
+  scope (CheckUsbScanEntries).
 - `v = K; f(cmd, &v, 1);` eight times with a 4-byte frame slot each, and `Vec3` argument buffers with a slot each:
   static inline helpers `func_X_inline(cmd, val) { f(cmd, &val, 1); }` (DrawKart).
 

@@ -17,15 +17,15 @@
 #include "code_0214d018.h"
 #include "code_0200eddc.h"
 
-void func_ov003_021cd080(Unk021425e8 *a) {
-    if (a->mResultCode == 0 && *((u8 *) data_ov003_021da26c + 0x1e48) == 0 && a->mCommand == 0x26) {
-        switch (a->mUnk_08_0) {
+void ApScanCallback(Unk021425e8 *message) {
+    if (message->mResultCode == 0 && *((u8 *) gApScan + 0x1e48) == 0 && message->mCommand == 0x26) {
+        switch (message->mUnk_08_0) {
             case 5:
-                func_ov003_021ccf30((Unk021ccf30 *) a);
-                func_ov003_021cd190();
+                StoreApScanEntries((WMStartScanExCallback *) message);
+                StartApScan();
                 break;
             case 4:
-                func_ov003_021cd190();
+                StartApScan();
                 break;
             default:
                 OS_Terminate();
@@ -34,59 +34,60 @@ void func_ov003_021cd080(Unk021425e8 *a) {
     }
 }
 
-void func_ov003_021ccf30(Unk021ccf30 *a) {
-    Unk021ccf30_1300 *v1 = data_ov003_021da26c->mUnk_1300;
+void StoreApScanEntries(WMStartScanExCallback *scanResult) {
+    ApScanEntry *entries = gApScan->mUnk_1300;
     s32 i;
     s32 j;
-    DC_InvalidateRange(data_ov003_021da26c->mUnk_0f00, 0x400);
-    for (i = 0; i < a->mUnk_0e; i++) {
-        Unk021ccf30_10 *p = a->mUnk_10[i];
-        if (p->mUnk_0c[0] != 0 && p->mUnk_3c == 0) {
-            Unk021ccf30_1300 *e;
-            Unk021ccf30_1300 *q;
+    DC_InvalidateRange(gApScan->mUnk_0f00, 0x400);
+    for (i = 0; i < scanResult->mBssDescCount; i++) {
+        Unk021ccf30_10 *bssDesc = scanResult->mBssDesc[i];
+        if (bssDesc->mUnk_0c[0] != 0 && bssDesc->mUnk_3c == 0) {
+            ApScanEntry *cursor;
+            ApScanEntry *slot;
             j = 0;
-            e = v1;
+            cursor = entries;
             for (; j < 0x14; j++) {
-                if (memcmp(p->mUnk_04, e->mUnk_20, 6) == 0) {
+                if (memcmp(bssDesc->mUnk_04, cursor->mBssid, 6) == 0) {
                     break;
                 }
-                e++;
+                cursor++;
             }
             if (j == 0x14) {
                 j = 0;
-                e = v1;
+                cursor = entries;
                 for (; j < 0x14; j++) {
-                    if (memcmp(e->mUnk_20, data_ov003_021d6638, 6) == 0) {
+                    if (memcmp(cursor->mBssid, gApScanEmptyBssid, 6) == 0) {
                         break;
                     }
-                    e++;
+                    cursor++;
                 }
                 if (j == 0x14) {
                     return;
                 }
             }
-            q = &v1[j];
-            MI_CpuCopy8(p->mUnk_04, q->mUnk_20, 6);
-            MI_CpuCopy8(p->mUnk_0c, q, 0x20);
-            q->mUnk_26 = a->mUnk_50[i];
-            if ((p->mUnk_2c & 0x10) == 0) {
-                q->mUnk_28 = 0;
+            slot = &entries[j];
+            MI_CpuCopy8(bssDesc->mUnk_04, slot->mBssid, 6);
+            MI_CpuCopy8(bssDesc->mUnk_0c, slot, 0x20);
+            slot->mLinkLevel = scanResult->mLinkLevel[i];
+            if ((bssDesc->mUnk_2c & 0x10) == 0) {
+                slot->mCapaLevel = 0;
             } else {
-                WMOtherElements v2;
-                s32 k;
-                s32 n;
-                q->mUnk_28 = 1;
-                v2 = WM_GetOtherElements((const u16 *) p);
-                k = 0;
-                n = v2.mUnk_00;
-                for (; k < n; k++) {
-                    if (v2.mUnk_04[k].mUnk_00 == 0x30) {
-                        q->mUnk_28 = 2;
+                WMOtherElements otherElements;
+                s32 elementIndex;
+                s32 elementCount;
+                slot->mCapaLevel = 1;
+                otherElements = WM_GetOtherElements((const u16 *) bssDesc);
+                elementIndex = 0;
+                elementCount = otherElements.mUnk_00;
+                for (; elementIndex < elementCount; elementIndex++) {
+                    if (otherElements.mUnk_04[elementIndex].mUnk_00 == 0x30) {
+                        slot->mCapaLevel = 2;
                         break;
                     }
-                    if (v2.mUnk_04[k].mUnk_00 == 0xdd && v2.mUnk_04[k].mUnk_01 >= 4 &&
-                        memcmp(v2.mUnk_04[k].mUnk_04, data_ov003_021d6634, 4) == 0) {
-                        q->mUnk_28 = 2;
+                    if (otherElements.mUnk_04[elementIndex].mUnk_00 == 0xdd &&
+                        otherElements.mUnk_04[elementIndex].mUnk_01 >= 4 &&
+                        memcmp(otherElements.mUnk_04[elementIndex].mUnk_04, gOtherElementPrefix, 4) == 0) {
+                        slot->mCapaLevel = 2;
                         break;
                     }
                 }
@@ -95,19 +96,19 @@ void func_ov003_021ccf30(Unk021ccf30 *a) {
     }
 }
 
-void func_ov003_021ccea4(u32 a, u32 b, u16 c, u16 d, u32 e) {
-    (data_ov003_021da268 = AllocZeroedExpHeapBlock(0x20, 4))->mUnk_1b = a;
-    data_ov003_021da268->mUnk_19 = b;
-    data_ov003_021da268->mOffset = e;
-    SetPosition(c, d, &data_ov003_021da268->mX);
-    data_ov003_021da268->mResource = CreateOamRangeFromNceImage(0, data_ov003_021d662c[a], 1);
-    SetOamRangePosition(data_ov003_021da268->mResource, -1, c, d + e);
-    func_ov003_021d1790(data_ov003_021da268->mResource, -1, 1);
-    data_ov003_021da268->mUnk_0c = AddTask(0, func_ov003_021ccd18, NULL, 0x80);
+void CreateScrollBar(u32 sizeIndex, u32 trackLength, u16 positionX, u16 positionY, u32 offset) {
+    (gScrollBar = AllocZeroedExpHeapBlock(0x20, 4))->mSizeIndex = sizeIndex;
+    gScrollBar->mTrackLength = trackLength;
+    gScrollBar->mOffset = offset;
+    SetPosition(positionX, positionY, &gScrollBar->mX);
+    gScrollBar->mResource = CreateOamRangeFromNceImage(0, gScrollBarImageIds[sizeIndex], 1);
+    SetOamRangePosition(gScrollBar->mResource, -1, positionX, positionY + offset);
+    func_ov003_021d1790(gScrollBar->mResource, -1, 1);
+    gScrollBar->mTask = AddTask(0, AdvanceScrollBar, NULL, 0x80);
 }
 
-void func_ov003_021cce78(void) {
-    RemoveTaskEntryWrapper(0, data_ov003_021da268->mUnk_0c);
-    DeleteOamRange(data_ov003_021da268->mResource);
-    FreeExpHeapBlockAndClearPointer(&data_ov003_021da268);
+void ReleaseScrollBar(void) {
+    RemoveTaskEntryWrapper(0, gScrollBar->mTask);
+    DeleteOamRange(gScrollBar->mResource);
+    FreeExpHeapBlockAndClearPointer(&gScrollBar);
 }

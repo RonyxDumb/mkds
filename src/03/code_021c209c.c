@@ -164,7 +164,7 @@ void ReleaseApplication(void) {
     func_ov003_021d326c();
     ReleaseKeyTouchInput();
     func_ov003_021d2dcc();
-    func_ov003_021cdc28();
+    ReleaseSoundData();
     ReleaseOamRanges();
     ReleaseOamBuffers();
     ReleaseTextCanvases();
