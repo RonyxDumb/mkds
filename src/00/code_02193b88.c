@@ -113,7 +113,7 @@ s32 gpiProcessPeerInitiatingConnection(GpConnection *connection, GpiPeer *peer) 
             if (strncmp(input, gAnackStatement, 7) == 0) {
                 peer->mUnk_14 = peer->mUnk_14 + 1;
                 if (peer->mUnk_14 > 1) {
-                    GpiSetErrorMessage(connection, data_ov000_021b3508);
+                    GpiSetErrorMessage(connection, gPeerAuthorizationErrorString);
                     return 3;
                 }
                 result = gpiPeerGetSig(connection, peer);
@@ -121,7 +121,7 @@ s32 gpiProcessPeerInitiatingConnection(GpConnection *connection, GpiPeer *peer) 
                     return result;
                 }
             } else if (strncmp(input, gAackStatement, 6) != 0) {
-                GpiSetErrorMessage(connection, data_ov000_021b352c);
+                GpiSetErrorMessage(connection, gPeerMessageParseErrorString);
                 return 3;
             }
             peer->mState = 0x69;
@@ -157,7 +157,7 @@ s32 GpiPeerUpdateWaiting(GpConnection *connection, GpiPeer *peer) {
 
     gpState = connection->mGpiConnection;
     if (peer->mState != 0x68) {
-        AssertionFailed(data_ov000_021b34a8, gGpiPeerFileName, NULL, 0xc1);
+        AssertionFailed(gPeerWaitingAssertion, gGpiPeerFileName, NULL, 0xc1);
     }
     result = GpiReceiveBuffer(connection, peer->mSocket, (GpiBuffer *) &peer->mInputBuffer, &len, &socketGone,
                               gPeerBufferName);
@@ -186,7 +186,7 @@ s32 GpiPeerUpdateWaiting(GpConnection *connection, GpiPeer *peer) {
                 peer->mState = 0x6a;
                 return 0;
             }
-            sprintf(buffer, data_ov000_021b34f0, gpState->mPassword, gpState->mProfileId, pid);
+            sprintf(buffer, gSigHashFormat, gpState->mPassword, gpState->mProfileId, pid);
             MD5Digest(buffer, strlen(buffer), sigDigest);
             if (strcmp(sig, sigDigest) != 0) {
                 GpiAppendBufferString(connection, peer->mOutputBuffer, gAnackStatement);
@@ -295,7 +295,7 @@ s32 gpiProcessPeerConnected(GpConnection *connection, GpiPeer *peerConn) {
                     }
                     break;
                 case 0x66:
-                    gpiSendBuddyMessage(connection, peerConn->mProfileId, 0x67, data_ov000_021b34a4);
+                    gpiSendBuddyMessage(connection, peerConn->mProfileId, 0x67, gPongMessageText);
                     break;
                 case 200:
                 case 201:
@@ -322,7 +322,7 @@ s32 GpiPeerUpdate(GpConnection *connection, GpiPeer *peer) {
     s32 result = 0;
 
     if (peer->mState == 0x64) {
-        AssertionFailed(data_ov000_021b3468, gGpiPeerFileName, NULL, 0x1d9);
+        AssertionFailed(gPeerNotConnectedAssertion, gGpiPeerFileName, NULL, 0x1d9);
     }
     if (peer->mState != 0x69) {
         if (peer->mUnk_04 != 0) {
@@ -369,7 +369,7 @@ void GpiPeerRemoveAndWriteQueuedMessages(GpConnection *connection, GpiPeer *peer
         while (current != peer) {
             if (current == NULL) {
                 AssertionFailed(data_ov000_021b3440, gGpiPeerFileName, NULL, 0x225);
-                gpiDebug(connection, data_ov000_021b3444);
+                gpiDebug(connection, gPeerNotInListDebugString);
                 return;
             }
             previous = current;
@@ -531,7 +531,7 @@ s32 GpiPeerQueueMessage(GpConnection *connection, GpiPeer *peer, u32 type, const
         AssertionFailed(gPeerAssertText, gGpiPeerFileName, NULL, 0x340);
     }
     if (message == NULL) {
-        AssertionFailed(data_ov000_021b337c, gGpiPeerFileName, NULL, 0x341);
+        AssertionFailed(gMessageAssertText, gGpiPeerFileName, NULL, 0x341);
     }
     len = strlen(message);
     {
@@ -553,7 +553,7 @@ s32 GpiPeerQueueMessage(GpConnection *connection, GpiPeer *peer, u32 type, const
         if (result != 0) {
             return result;
         }
-        result = GpiAppendBufferString(connection, &queuedMsg, data_ov000_021b3398);
+        result = GpiAppendBufferString(connection, &queuedMsg, gMsgLineKey);
         if (result != 0) {
             return result;
         }
@@ -579,9 +579,9 @@ u32 GpiPeerSendXfer(GpConnection *connection, GpiPeer *peer, u32 type, GpiTransf
     u32 time = transferID->mUnk_08;
 
     if (transferID == NULL) {
-        AssertionFailed(data_ov000_021b335c, gGpiPeerFileName, NULL, 0x376);
+        AssertionFailed(gTransferIdAssertText, gGpiPeerFileName, NULL, 0x376);
     }
-    sprintf(buffer, data_ov000_021b3368, type, profileid, count, time);
+    sprintf(buffer, gTransferMessageFormat, type, profileid, count, time);
     return GpiPeerSendString(connection, (Unk02190988 *) peer, buffer);
 }
 

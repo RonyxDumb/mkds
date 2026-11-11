@@ -74,7 +74,7 @@ s32 GpiOpenSearchSocket(GpConnection *connection, GpiOperation *operation) {
         GpiQueueErrorCallback(connection, 3, 1);
         return 3;
     }
-    resolvedHost = SOC_GetHostByName(data_ov000_021b35b8);
+    resolvedHost = SOC_GetHostByName(gSearchManagerName);
     if (resolvedHost == NULL) {
         GpiSetError(connection, 5, data_ov000_021b391c);
         GpiQueueErrorCallback(connection, 3, 1);
@@ -152,7 +152,7 @@ int gpiProfileSearch(GpConnection *connection, s8 *nick, s8 *uniquenick, s8 *ema
           ((firstname == NULL || (*firstname == 0)))) &&
          ((lastname == NULL || (*lastname == 0)))) &&
         ((icquin == 0 && ((uniquenick == NULL || (*uniquenick == 0)))))) {
-        GpiSetErrorMessage((u32 *) connection, data_ov000_021b38ac);
+        GpiSetErrorMessage((u32 *) connection, gNoSearchCriteriaErrorString);
         return 2;
     }
     result = GpiCreateSearch(connection, &data, 1);
@@ -254,13 +254,13 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                 return result;
             }
             if (state == 4) {
-                GpiSetError(connection, 0xd01, data_ov000_021b3638);
+                GpiSetError(connection, 0xd01, gSearchManagerConnectErrorString);
                 GpiQueueErrorCallback(connection, 4, 0);
                 return 4;
             }
             if (state == 3) {
                 if (data->mKind == 1) {
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3664);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, gSearchKey);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3670);
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mSesskey);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b367c);
@@ -292,15 +292,15 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         GpiAppendBufferNumber(connection, &data->mOutputBuffer, data->mUnk_130);
                     }
                     if (data->mUnk_134 > 0) {
-                        GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b36dc);
+                        GpiAppendBufferString(connection, &data->mOutputBuffer, gSkipKey);
                         GpiAppendBufferNumber(connection, &data->mOutputBuffer, data->mUnk_134);
                     }
                 } else if (data->mKind == 2) {
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b36e4);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, gValidKey);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b36b0);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUnk_05c);
                 } else if (data->mKind == 3) {
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b36ec);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, gNicksKey);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b36b0);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUnk_05c);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, gPassKey);
@@ -308,7 +308,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3688);
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mNamespaceId);
                 } else if (data->mKind == 4) {
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b36fc);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, gPmatchKey);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3670);
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mSesskey);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b367c);
@@ -316,7 +316,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3708);
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, data->mUnk_138);
                 } else if (data->mKind == 5) {
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3714);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, gCheckKey);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3698);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUnk_028);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b36b0);
@@ -331,18 +331,18 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUnk_05c);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, gPassKey);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUnk_0cd);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3728);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, gProductIDKey);
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mProductId);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3688);
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mNamespaceId);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b36a0);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUnk_047);
                     if (data->mUnk_0ec[0] != 0) {
-                        GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3734);
+                        GpiAppendBufferString(connection, &data->mOutputBuffer, gCdkeyKey);
                         GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUnk_0ec);
                     }
                 } else if (data->mKind == 7) {
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b373c);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, gOthersKey);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3670);
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mSesskey);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b367c);
@@ -350,8 +350,8 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3688);
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mNamespaceId);
                 } else if (data->mKind == 8) {
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3748);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3758);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, gUniquesearchKey);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, gPreferrednickKey);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUnk_047);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3688);
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mNamespaceId);
@@ -397,7 +397,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             if (result != 0) {
                                 return result;
                             }
-                            if (strcmp(key, data_ov000_021b37b4) == 0 && strcmp(value, data_ov000_021b3768) != 0) {
+                            if (strcmp(key, gMoreKey) == 0 && strcmp(value, data_ov000_021b3768) != 0) {
                                 e.mUnk_08 = 0x600;
                             }
                             d = TRUE;
@@ -423,9 +423,9 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                     GpiCopyString(t1->mUnk_04, value, 0x1f);
                                 } else if (strcmp(key, gUniquenickResultKey) == 0) {
                                     GpiCopyString(t1->mUnk_23, value, 0x15);
-                                } else if (strcmp(key, data_ov000_021b37d4) == 0) {
+                                } else if (strcmp(key, gSearchFirstnameKey) == 0) {
                                     GpiCopyString(t1->mUnk_38, value, 0x1f);
-                                } else if (strcmp(key, data_ov000_021b37e0) == 0) {
+                                } else if (strcmp(key, gSearchLastnameKey) == 0) {
                                     GpiCopyString(t1->mUnk_57, value, 0x1f);
                                 } else if (strcmp(key, gSearchEmailKey) == 0) {
                                     GpiCopyString(t1->mUnk_76, value, 0x33);
@@ -463,7 +463,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         if (result != 0) {
                             return result;
                         }
-                        if (strcmp(key, data_ov000_021b381c) != 0) {
+                        if (strcmp(key, gVrKey) != 0) {
                             GpiSetError(connection, 1, gSearchServerReadErrorString);
                             GpiQueueErrorCallback(connection, 3, 1);
                             return 3;
@@ -502,7 +502,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         if (result != 0) {
                             return result;
                         }
-                        if (strcmp(key, data_ov000_021b3820) != 0) {
+                        if (strcmp(key, gNrKey) != 0) {
                             GpiSetError(connection, 1, gSearchServerReadErrorString);
                             GpiQueueErrorCallback(connection, 3, 1);
                             return 3;
@@ -544,7 +544,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                     u3->mUnk_40[u3->mUnk_38 - 1] = q;
                                     GpiCopyString(u3->mUnk_40[u3->mUnk_38 - 1], value, 0x15);
                                 }
-                            } else if (strcmp(key, data_ov000_021b3824) == 0) {
+                            } else if (strcmp(key, gNdoneKey) == 0) {
                                 d = TRUE;
                             } else {
                                 GpiSetError(connection, 1, gSearchServerReadErrorString);
@@ -598,12 +598,12 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                     if (result != 0) {
                                         return result;
                                     }
-                                    if (strcmp(key, data_ov000_021b3838) == 0) {
+                                    if (strcmp(key, gStatusResultKey) == 0) {
                                         GpiCopyString(t4->mUnk_028, value, 0x100);
                                     } else if (strcmp(key, gNickResultKey) == 0) {
                                         GpiCopyString(t4->mUnk_004, value, 0x1f);
                                     }
-                                    if (strcmp(key, data_ov000_021b3840) == 0) {
+                                    if (strcmp(key, gStatuscodeKey) == 0) {
                                         t4->mUnk_024 = StrtolBase10(value);
                                     } else if (strcmp(key, gPsrKey) == 0 || strcmp(key, gPsrdoneKey) == 0) {
                                         f = TRUE;
@@ -628,7 +628,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         if (result != 0) {
                             return result;
                         }
-                        if (strcmp(key, data_ov000_021b384c) != 0) {
+                        if (strcmp(key, gCurKey) != 0) {
                             GpiSetError(connection, 1, gSearchServerReadErrorString);
                             GpiQueueErrorCallback(connection, 3, 1);
                             return 3;
@@ -664,7 +664,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         if (result != 0) {
                             return result;
                         }
-                        if (strcmp(key, data_ov000_021b3858) != 0) {
+                        if (strcmp(key, gNurResultKey) != 0) {
                             GpiSetError(connection, 1, gSearchServerReadErrorString);
                             GpiQueueErrorCallback(connection, 3, 1);
                             return 3;
@@ -710,7 +710,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         if (result != 0) {
                             return result;
                         }
-                        if (strcmp(key, data_ov000_021b385c) != 0) {
+                        if (strcmp(key, gOthersResultKey) != 0) {
                             GpiSetError(connection, 1, gSearchServerReadErrorString);
                             GpiQueueErrorCallback(connection, 3, 1);
                             return 3;
@@ -748,9 +748,9 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                         GpiCopyString(t1->mUnk_04, value, 0x1f);
                                     } else if (strcmp(key, gUniquenickResultKey) == 0) {
                                         GpiCopyString(t1->mUnk_23, value, 0x15);
-                                    } else if (strcmp(key, data_ov000_021b3870) == 0) {
+                                    } else if (strcmp(key, gOthersFirstKey) == 0) {
                                         GpiCopyString(t1->mUnk_38, value, 0x1f);
-                                    } else if (strcmp(key, data_ov000_021b3878) == 0) {
+                                    } else if (strcmp(key, gOthersLastKey) == 0) {
                                         GpiCopyString(t1->mUnk_57, value, 0x1f);
                                     } else if (strcmp(key, gSearchEmailKey) == 0) {
                                         GpiCopyString(t1->mUnk_76, value, 0x33);
@@ -786,7 +786,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         if (result != 0) {
                             return result;
                         }
-                        if (strcmp(key, data_ov000_021b3880) != 0) {
+                        if (strcmp(key, gUsKey) != 0) {
                             GpiSetError(connection, 1, gSearchServerReadErrorString);
                             GpiQueueErrorCallback(connection, 3, 1);
                             return 3;
@@ -811,9 +811,9 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                 }
                                 GpiCopyString(u9->mUnk_08[i], value, 0x15);
                                 i++;
-                            } else if (strcmp(key, data_ov000_021b3884) == 0) {
+                            } else if (strcmp(key, gUsdoneKey) == 0) {
                                 if (i != u9->mUnk_04) {
-                                    AssertionFailed(data_ov000_021b388c, gGpiSearchFileName, NULL, 0x515);
+                                    AssertionFailed(gSuggestedNickCountAssertion, gGpiSearchFileName, NULL, 0x515);
                                 }
                                 u9->mUnk_04 = i;
                                 d = TRUE;
@@ -862,7 +862,7 @@ BOOL GpiUpdateSearches(GpConnection *connection) {
         for (pendingOp = gpState->mOperationList; pendingOp != NULL; pendingOp = pendingOp->mNext) {
             if (pendingOp->mType == 3 && pendingOp->mUnk_14 != 5 && pendingOp->mUnk_04->mUnk_13c == 0) {
                 if (count >= gpState->mSearchCount) {
-                    AssertionFailed(data_ov000_021b3608, gGpiSearchFileName, NULL, 0x563);
+                    AssertionFailed(gSearchIndexAssertion, gGpiSearchFileName, NULL, 0x563);
                 }
                 operations[count++] = pendingOp;
                 pendingOp->mUnk_04->mUnk_13c = 1;

@@ -57,7 +57,7 @@ s32 gpiProcessNewProfile(GpConnection *connection, GpiOperation *operation, cons
     if (GpiReadError(connection, input, 1) != FALSE) {
         return 4;
     }
-    if (strncmp(input, data_ov000_021b3564, 5) != 0) {
+    if (strncmp(input, gNprKey, 5) != 0) {
         GpiSetError(connection, 1, data_ov000_021b356c);
         GpiQueueErrorCallback(connection, 3, 1);
         return 3;
@@ -92,7 +92,7 @@ GpiProfile *GpiFindOrAddProfile(GpConnection *connection, s32 id) {
 
     profileStore = &connection->mGpiConnection->mProfileList;
     if (id <= 0) {
-        AssertionFailed(data_ov000_021b354c, data_ov000_021b3554, NULL, 0x2b5);
+        AssertionFailed(gIdPositiveAssertion, gGpiProfileFileName, NULL, 0x2b5);
     }
     if (id <= 0) {
         return NULL;

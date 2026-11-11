@@ -12,9 +12,9 @@
 #include "00/code_0219210c.h"
 #include "00/code_021a3000.h"
 
-extern char data_ov000_021b354c[];
-extern char data_ov000_021b3554[];
-extern char data_ov000_021b3564[];
+extern char gIdPositiveAssertion[];
+extern char gGpiProfileFileName[];
+extern char gNprKey[];
 extern char data_ov000_021b356c[];
 extern char data_ov000_021b359c[];
 extern u8 data_ov000_021b35a8[];

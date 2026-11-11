@@ -89,18 +89,18 @@ typedef struct Unk02194370Entry {
 
 extern s8 gPeerBufferName[];
 extern u8 data_ov000_021b3494[];
-extern char data_ov000_021b34a4[];
-extern char data_ov000_021b34a8[];
+extern char gPongMessageText[];
+extern char gPeerWaitingAssertion[];
 extern char data_ov000_021b34c8[];
 extern char gAuthStatement[];
 extern char data_ov000_021b34d8[];
 extern char data_ov000_021b34e0[];
 extern char data_ov000_021b34e8[];
-extern char data_ov000_021b34f0[];
+extern char gSigHashFormat[];
 extern char gAnackStatement[];
 extern char gAackStatement[];
-extern u8 data_ov000_021b3508[];
-extern u8 data_ov000_021b352c[];
+extern u8 gPeerAuthorizationErrorString[];
+extern u8 gPeerMessageParseErrorString[];
 
 s32 GpiPeerSendLenMsg(GpConnection *connection, GpiPeer *peer, const char *message, s32 len);
 u32 GpiPeerSendXfer(GpConnection *connection, GpiPeer *peer, u32 type, GpiTransferId *transferID);
