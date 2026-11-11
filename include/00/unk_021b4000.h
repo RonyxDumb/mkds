@@ -88,8 +88,8 @@ extern void *gWcmBuffer;
 extern void *gSocConfig;
 extern DWCNetcheckParam *gNetCheck;
 extern ACHOLD *gAcHold;
-extern struct Hashtable *data_ov000_021b4d18;
-extern struct SbServer *data_ov000_021b4d1c;
+extern struct Hashtable *gSBRefStrList;
+extern struct SbServer *gSBNullServer;
 // Objects behind gWiFiSelectCharacterState and gWiFiSelectKartState.
 typedef struct WiFiSelectHeapHolder {
     /* 0 */ void *mHeap;
@@ -98,44 +98,44 @@ typedef struct WiFiSelectHeapHolder {
 extern WiFiSelectHeapHolder *gWiFiSelectCharacterState;
 extern WiFiSelectHeapHolder *gWiFiSelectKartState;
 
-// Object behind data_ov000_021b4d24; the 0x5d8 bytes at offset 0x4c of a MatchingServerList.
+// Object behind gSortServerList; the 0x5d8 bytes at offset 0x4c of a MatchingServerList.
 typedef struct SbServerList {
     /* 000 */ s32 mState;
-    /* 004 */ struct Darray *mUnk_004;
-    /* 008 */ struct Darray *mUnk_008;
-    /* 00c */ char mUnk_00c[0x24];
-    /* 030 */ char mUnk_030[0x24];
-    /* 054 */ char mUnk_054[0x20];
-    /* 074 */ s8 mUnk_074[8];
+    /* 004 */ struct Darray *mServers;
+    /* 008 */ struct Darray *mKeyList;
+    /* 00c */ char mQueryForGameName[0x24];
+    /* 030 */ char mQueryFromGameName[0x24];
+    /* 054 */ char mQueryFromKey[0x20];
+    /* 074 */ s8 mChallenge[8];
     /* 07c */ u8 *mInBuffer;
     /* 080 */ s32 mInBufferLength;
-    /* 084 */ char *mUnk_084[0xff];
-    /* 480 */ s32 mUnk_480;
-    /* 484 */ s32 mUnk_484;
+    /* 084 */ char *mPopularValues[0xff];
+    /* 480 */ s32 mNumPopularValues;
+    /* 484 */ s32 mExpectedElements;
     /* 488 */ UnkFunc *mCallback;
-    /* 48c */ UnkFunc *mUnk_48c;
-    /* 490 */ UnkFunc *mUnk_490;
-    /* 494 */ void *mUnk_494;
-    /* 498 */ const char *mUnk_498;
-    /* 49c */ s32 mUnk_49c;
-    /* 4a0 */ s32 mUnk_4a0;
-    /* 4a4 */ u32 mUnk_4a4;
-    /* 4a8 */ u16 mUnk_4a8;
+    /* 48c */ UnkFunc *mMaploopCallback;
+    /* 490 */ UnkFunc *mPlayerSearchCallback;
+    /* 494 */ void *mInstance;
+    /* 498 */ const char *mSortKey;
+    /* 49c */ s32 mSortAscending;
+    /* 4a0 */ s32 mMyPublicIp;
+    /* 4a4 */ u32 mSrcIp;
+    /* 4a8 */ u16 mDefaultPort;
     /* 4aa */ u8 mUnk_4aa[2];
-    /* 4ac */ char *mUnk_4ac;
-    /* 4b0 */ s32 mUnk_4b0;
-    /* 4b4 */ u32 mUnk_4b4;
-    /* 4b8 */ u32 mUnk_4b8;
-    /* 4bc */ u8 mUnk_4bc[0x108];
-    /* 5c4 */ u32 mUnk_5c4;
-    /* 5c8 */ s32 mUnk_5c8;
-    /* 5cc */ s32 mUnk_5cc;
-    /* 5d0 */ int mUnk_5d0;
+    /* 4ac */ char *mLastError;
+    /* 4b0 */ s32 mSocket;
+    /* 4b4 */ u32 mLanStartTime;
+    /* 4b8 */ u32 mFromGameVersion;
+    /* 4bc */ u8 mCryptKey[0x108];
+    /* 5c4 */ u32 mQueryOptions;
+    /* 5c8 */ s32 mParseState;
+    /* 5cc */ s32 mLanAdapterOverride;
+    /* 5d0 */ int mDeadList;
 } SbServerList;
 
-extern SbServerList *data_ov000_021b4d24;
+extern SbServerList *gSortServerList;
 extern s32 gGsiAcResult;
-extern const char *data_ov000_021b4d20;
+extern const char *gSBOverrideMasterServer;
 extern char data_ov000_021b4d2c[];
 
 // Object behind data_ov000_021b4dac.

@@ -4,18 +4,18 @@
 
 struct SBQueryEngine;
 
-// 0x24 bytes allocated by func_ov000_0218af28.
+// 0x24 bytes allocated by SBAllocServer.
 typedef struct SbServer {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u16 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u16 mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u8 mUnk_14;
-    /* 15 */ u8 mUnk_15;
+    /* 00 */ u32 mPublicIp;
+    /* 04 */ u16 mPublicPort;
+    /* 08 */ u32 mPrivateIp;
+    /* 0c */ u16 mPrivatePort;
+    /* 10 */ u32 mIcmpIp;
+    /* 14 */ u8 mStateFlags;
+    /* 15 */ u8 mFlags;
     /* 18 */ struct Hashtable *mKeyValues;
     /* 1c */ u32 mPing;
-    /* 20 */ struct SbServer *mUnk_20;
+    /* 20 */ struct SbServer *mNext;
 } SbServer;
 
 typedef struct SBServerFIFO {

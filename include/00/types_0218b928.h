@@ -11,7 +11,7 @@ typedef struct Unk0218b8f4 {
 } Unk0218b8f4;
 
 // Entry of the list at SbServerList.mUnk_008.
-typedef struct Unk0218c0bc {
-    /* 0 */ char *mUnk_00;
-    /* 4 */ s32 mUnk_04;
-} Unk0218c0bc;
+typedef struct KeyInfo {
+    /* 0 */ char *mKeyName;
+    /* 4 */ s32 mKeyType;
+} KeyInfo;

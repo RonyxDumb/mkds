@@ -8,17 +8,17 @@
 #include "00/code_0218e2dc.h"
 
 void SBQueryEngineSetPublicIP(MatchingServerList *matchingServerList, u32 publicIp) {
-    matchingServerList->mUnk_000.mMyPublicIp = publicIp;
+    matchingServerList->mEngine.mMyPublicIp = publicIp;
 }
 
 void SBEngineHaltUpdates(MatchingServerList *matchingServerList) {
-    FIFOClear(&matchingServerList->mUnk_000.mPendingList);
-    FIFOClear(&matchingServerList->mUnk_000.mQueryList);
+    FIFOClear(&matchingServerList->mEngine.mPendingList);
+    FIFOClear(&matchingServerList->mEngine.mQueryList);
 }
 
 void SBEngineCleanup(MatchingServerList *matchingServerList) {
-    func_ov000_0218e53c(matchingServerList->mUnk_000.mQuerySock);
-    matchingServerList->mUnk_000.mQuerySock = 0xffffffff;
-    FIFOClear(&matchingServerList->mUnk_000.mPendingList);
-    FIFOClear(&matchingServerList->mUnk_000.mQueryList);
+    func_ov000_0218e53c(matchingServerList->mEngine.mQuerySock);
+    matchingServerList->mEngine.mQuerySock = 0xffffffff;
+    FIFOClear(&matchingServerList->mEngine.mPendingList);
+    FIFOClear(&matchingServerList->mEngine.mQueryList);
 }

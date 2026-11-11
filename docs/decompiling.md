@@ -420,7 +420,7 @@ Pointer locals and addresses:
 - A pointer local initialised with an explicit cast stays a variable: its add is made where it is assigned and every
   access goes through it. A byte copy the original does through one register needs the cast on both pointers; put
   it in a static inline helper with `void *` parameters: `u8 *p = (u8 *) a; const u8 *q = (const u8 *) b;
-  p[0] = q[0]; ...` (func_ov000_0218ce14). To keep a global's address in a callee-saved register across calls in
+  p[0] = q[0]; ...` (ServerListConnect). To keep a global's address in a callee-saved register across calls in
   Thumb: `r = (u8 *) &data_ov000_021b6706;` (func_ov000_021ad264; the plain name and `+ 0` don't).
 - A pointer local with one use is folded into it; with two uses it stays, and the field at offset 0 is read from the
   base register while the others go through the pointer. Read every field through the local in the ROM's order
@@ -661,7 +661,7 @@ Expression shapes:
   bytes earlier, `tbl[j]` with `j = 2..`, not named pointers; `tbl[j - 2]` is not reduced (func_ov003_021c0528).
 - A pointer to a local defined last in the preheader, after the hoisted zeros and addresses: `while (n >= K) { q = &c;
   ...; if (b) break; }` instead of an `if` with a `do-while` and `q` set before; the optimiser pulls `q = &c` out of a
-  `do-while` even when it is written inside (func_ov000_0218bc08).
+  `do-while` even when it is written inside (ProcessAdHocData).
 - A read placed after the stepped pointer's init and read through a copy of it, while the next loop rereads the field:
   read it inside the first loop and spell the second read as a different expression, `*(u16 *) d`, so the two are not
   merged (hand-picked; func_02009098).
@@ -1129,7 +1129,7 @@ Link order and linking:
   field inside the index expression and write the update as `x--` or `x -= 1`, not a local or `x = x - 1`
   (UpdateEditAddrInput).
 - Two byte stores whose address is shared with the halfword read that follows: `__memcpy(t.m, v, 2)`
-  (func_ov000_0218b010).
+  (SBServerParseQR2FullKeysSingle).
 
 ## Placeholders
 

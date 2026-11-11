@@ -100,7 +100,7 @@ s32 func_ov000_021a2a88(u32 a, void *b, s32 c) {
     if (gWiFiMatching == NULL || func_ov000_0219c39c() != 0) {
         return c;
     }
-    r = func_ov000_0218b480(gWiFiMatching->mServerList, a);
+    r = ServerBrowserGetServer(gWiFiMatching->mServerList, a);
     if (r != 0) {
         c = SbServerGetInt((SbServer *) r, b, c);
     }

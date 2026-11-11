@@ -52,1969 +52,2002 @@
 #include "00/code_0218d488.h"
 #include "00/code_021a6d5c.h"
 
-s32 func_ov000_0218d430(u32 *c, u32 *d) {
-    char *a;
-    char *b;
+s32 StrCaseKeyCompare(u32 *firstEntry, u32 *secondEntry) {
+    char *firstValue;
+    char *secondValue;
     s32 result;
-    a = SbServerGetValue((SbServer *) *c, data_ov000_021b4d24->mUnk_498, data_ov000_021b2260);
-    b = SbServerGetValue((SbServer *) *d, data_ov000_021b4d24->mUnk_498, data_ov000_021b2260);
-    result = strcmp(a, b);
-    if (data_ov000_021b4d24->mUnk_49c == 0) {
+    firstValue = SbServerGetValue((SbServer *) *firstEntry, gSortServerList->mSortKey, data_ov000_021b2260);
+    secondValue = SbServerGetValue((SbServer *) *secondEntry, gSortServerList->mSortKey, data_ov000_021b2260);
+    result = strcmp(firstValue, secondValue);
+    if (gSortServerList->mSortAscending == 0) {
         result = -result;
     }
     return result;
 }
 
-s32 func_ov000_0218d3d8(u32 *a, u32 *b) {
-    char *x;
-    char *y;
+s32 StrNoCaseKeyCompare(u32 *firstEntry, u32 *secondEntry) {
+    char *firstValue;
+    char *secondValue;
     s32 r;
-    x = SbServerGetValue((SbServer *) *a, data_ov000_021b4d24->mUnk_498, data_ov000_021b2260);
-    y = SbServerGetValue((SbServer *) *b, data_ov000_021b4d24->mUnk_498, data_ov000_021b2260);
-    r = CompareStringsMapped(x, y);
-    if (data_ov000_021b4d24->mUnk_49c == 0) {
+    firstValue = SbServerGetValue((SbServer *) *firstEntry, gSortServerList->mSortKey, data_ov000_021b2260);
+    secondValue = SbServerGetValue((SbServer *) *secondEntry, gSortServerList->mSortKey, data_ov000_021b2260);
+    r = CompareStringsMapped(firstValue, secondValue);
+    if (gSortServerList->mSortAscending == 0) {
         r = -r;
     }
     return r;
 }
 
-void func_ov000_0218d374(SbServerList *p, s32 a, const char *b, u32 c) {
-    s32 (*f)(u32 *, u32 *);
-    switch (c) {
+void SBServerListSort(SbServerList *serverList, s32 ascending, const char *sortField, u32 compareKind) {
+    s32 (*comparator)(u32 *, u32 *);
+    switch (compareKind) {
         case 0:
-            f = func_ov000_0218d528;
+            comparator = func_ov000_0218d528;
             break;
         case 1:
-            f = func_ov000_0218d488;
+            comparator = func_ov000_0218d488;
             break;
         case 2:
-            f = func_ov000_0218d430;
+            comparator = StrCaseKeyCompare;
             break;
         case 3:
-            f = func_ov000_0218d3d8;
+            comparator = StrNoCaseKeyCompare;
             break;
         default:
-            f = func_ov000_0218d3d8;
+            comparator = StrNoCaseKeyCompare;
             break;
     }
-    p->mUnk_498 = b;
-    p->mUnk_49c = a;
-    data_ov000_021b4d24 = p;
-    DarraySort(p->mUnk_004, (u32) f);
+    serverList->mSortKey = sortField;
+    serverList->mSortAscending = ascending;
+    gSortServerList = serverList;
+    DarraySort(serverList->mServers, (u32) comparator);
 }
 
-void func_ov000_0218d340(SbServerList *p, u32 a) {
-    DarrayAppend(p->mUnk_004, &a);
-    p->mCallback(p, 0, a, p->mUnk_494);
+void SBServerListAppendServer(SbServerList *serverList, u32 server) {
+    DarrayAppend(serverList->mServers, &server);
+    serverList->mCallback(serverList, 0, server, serverList->mInstance);
 }
 
-int func_ov000_0218d300(SbServerList *a, int b) {
-    int v1;
-    int *v2;
-    int v3;
-    v1 = DarrayGetCount(a->mUnk_004);
-    v3 = 0;
-    if (0 < v1) {
+int SBServerListFindServer(SbServerList *serverList, int server) {
+    int count;
+    int *element;
+    int index;
+    count = DarrayGetCount(serverList->mServers);
+    index = 0;
+    if (0 < count) {
         do {
-            v2 = DarrayGetElement(a->mUnk_004, v3);
-            if (b == *v2) {
-                return v3;
+            element = DarrayGetElement(serverList->mServers, index);
+            if (server == *element) {
+                return index;
             }
-            v3 = v3 + 1;
-        } while (v3 < v1);
+            index = index + 1;
+        } while (index < count);
     }
     return -1;
 }
 
-int func_ov000_0218d2a8(SbServerList *a, int b, int c) {
-    u32 v1;
-    int v2;
-    int v3;
-    u32 *v4;
-    int v5;
-    v5 = DarrayGetCount(a->mUnk_004);
-    v2 = 0;
-    if (0 < v5) {
+int SBServerListFindServerByIP(SbServerList *serverList, int publicIp, int publicPort) {
+    u32 candidate;
+    int index;
+    int comparedValue;
+    u32 *entry;
+    int count;
+    count = DarrayGetCount(serverList->mServers);
+    index = 0;
+    if (0 < count) {
         do {
-            v4 = DarrayGetElement(a->mUnk_004, v2);
-            v1 = *v4;
-            v3 = func_ov000_0218b27c(((u32 *) (u32) v1));
-            if ((b == v3) && (v3 = func_ov000_0218b25c(v1), c == v3)) {
-                return v2;
+            entry = DarrayGetElement(serverList->mServers, index);
+            candidate = *entry;
+            comparedValue = SBServerGetPublicInetAddress(((u32 *) (u32) candidate));
+            if ((publicIp == comparedValue) &&
+                (comparedValue = SBServerGetPublicQueryPortNBO(candidate), publicPort == comparedValue)) {
+                return index;
             }
-            v2 = v2 + 1;
-        } while (v2 < v5);
+            index = index + 1;
+        } while (index < count);
     }
     return -1;
 }
 
-void func_ov000_0218d278(SbServerList *p, u32 v1) {
-    if (p->mUnk_5d0 == 0) {
-        func_ov000_0218b224(v1, 0);
+void AddServerToDeadlist(SbServerList *serverList, u32 server) {
+    if (serverList->mDeadList == 0) {
+        SBServerSetNext(server, 0);
     } else {
-        func_ov000_0218b224(v1, p->mUnk_5d0);
+        SBServerSetNext(server, serverList->mDeadList);
     }
-    p->mUnk_5d0 = v1;
+    serverList->mDeadList = server;
 }
 
-void func_ov000_0218d238(SbServerList *p, s32 a) {
-    u32 v = *(u32 *) DarrayGetElement(p->mUnk_004, a);
-    p->mCallback(p, 2, v, p->mUnk_494);
-    DarrayRemove(p->mUnk_004, a);
-    func_ov000_0218d278(p, v);
+void SBServerListRemoveAt(SbServerList *serverList, s32 index) {
+    u32 removedServer = *(u32 *) DarrayGetElement(serverList->mServers, index);
+    serverList->mCallback(serverList, 2, removedServer, serverList->mInstance);
+    DarrayRemove(serverList->mServers, index);
+    AddServerToDeadlist(serverList, removedServer);
 }
 
-u32 func_ov000_0218d22c(SbServerList *a) {
-    u32 value0;
-    u32 value3;
-    value3 = (u32) &DarrayGetCount;
-    value0 = DarrayGetCount(a->mUnk_004);
-    return value0;
+u32 SBServerListCount(SbServerList *serverList) {
+    u32 count;
+    u32 calleeAddress;
+    calleeAddress = (u32) &DarrayGetCount;
+    count = DarrayGetCount(serverList->mServers);
+    return count;
 }
 
-u32 func_ov000_0218d218(SbServerList *a, u32 b) {
-    u32 *v;
-    v = DarrayGetElement(a->mUnk_004, b);
-    return *v;
+u32 SBServerListNth(SbServerList *serverList, u32 index) {
+    u32 *element;
+    element = DarrayGetElement(serverList->mServers, index);
+    return *element;
 }
 
-void func_ov000_0218d1dc(SbServerList *p) {
-    int v1;
-    int v2;
-    if (p->mUnk_5d0 != 0) {
-        v1 = p->mUnk_5d0;
-        while (v1 != 0) {
-            v2 = func_ov000_0218b220(v1);
-            func_ov000_0218b3ac(&v1);
-            v1 = v2;
+void SBFreeDeadList(SbServerList *serverList) {
+    int deadServer;
+    int nextServer;
+    if (serverList->mDeadList != 0) {
+        deadServer = serverList->mDeadList;
+        while (deadServer != 0) {
+            nextServer = SBServerGetNext(deadServer);
+            SBServerFree(&deadServer);
+            deadServer = nextServer;
         }
-        p->mUnk_5d0 = 0;
+        serverList->mDeadList = 0;
     }
 }
 
-void func_ov000_0218d1a0(SbServerList *a) {
-    int v1;
-    u32 *v2;
-    int v3;
-    v1 = DarrayGetCount(a->mUnk_004);
-    v3 = 0;
-    if (0 < v1) {
+void SBServerListClear(SbServerList *serverList) {
+    int count;
+    u32 *element;
+    int index;
+    count = DarrayGetCount(serverList->mServers);
+    index = 0;
+    if (0 < count) {
         do {
-            v2 = DarrayGetElement(a->mUnk_004, v3);
-            func_ov000_0218d278(a, *v2);
-            v3 = v3 + 1;
-        } while (v3 < v1);
+            element = DarrayGetElement(serverList->mServers, index);
+            AddServerToDeadlist(serverList, *element);
+            index = index + 1;
+        } while (index < count);
     }
-    DarrayRemoveAll(a->mUnk_004);
-    func_ov000_0218d1dc(a);
+    DarrayRemoveAll(serverList->mServers);
+    SBFreeDeadList(serverList);
 }
 
-void func_ov000_0218d180(u32 p0) {
-    u32 v1 = ((p0) + (0x0u));
-    u32 v5 = (u32) DarrayCreate(0x4u, 0x64u, 0x0u);
-    u32 v8;
-    *(u32 *) ((v1) + (4)) = v5;
-    v8 = 0x5d0u;
-    *(u32 *) ((v1) + (0 + (v8))) = 0x0u;
+void SBAllocateServerList(u32 serverList) {
+    u32 listAddress = ((serverList) + (0x0u));
+    u32 serversArray = (u32) DarrayCreate(0x4u, 0x64u, 0x0u);
+    u32 deadListOffset;
+    *(u32 *) ((listAddress) + (4)) = serversArray;
+    deadListOffset = 0x5d0u;
+    *(u32 *) ((listAddress) + (0 + (deadListOffset))) = 0x0u;
 }
 
-void *func_ov000_0218d134(SbServerList *p, const char *v1) {
-    s32 k[2];
-    s32 *e;
-    k[0] = (s32) v1;
-    e = HashtableFind(func_ov000_0218b3f4(p), k);
-    if (e != NULL) {
-        e[1] = e[1] + 1;
-        return (void *) e[0];
+void *SBRefStr(SbServerList *serverList, const char *text) {
+    s32 refString[2];
+    s32 *entry;
+    refString[0] = (s32) text;
+    entry = HashtableFind(SBRefStrHash(serverList), refString);
+    if (entry != NULL) {
+        entry[1] = entry[1] + 1;
+        return (void *) entry[0];
     }
-    k[0] = (s32) func_ov000_0218e880(v1);
-    k[1] = 1;
-    HashtableSet(func_ov000_0218b3f4(p), k);
-    return (void *) k[0];
+    refString[0] = (s32) func_ov000_0218e880(text);
+    refString[1] = 1;
+    HashtableSet(SBRefStrHash(serverList), refString);
+    return (void *) refString[0];
 }
 
-void func_ov000_0218d0e4(SbServerList *p, u32 v1) {
-    s32 k[2];
-    s32 *e;
-    k[0] = v1;
-    e = HashtableFind(func_ov000_0218b3f4(p), k);
-    if (e == NULL) {
-        AssertionFailed(data_ov000_021b22a4, data_ov000_021b2218, NULL, 0xf4);
+void SBReleaseStr(SbServerList *serverList, u32 text) {
+    s32 refString[2];
+    s32 *entry;
+    refString[0] = text;
+    entry = HashtableFind(SBRefStrHash(serverList), refString);
+    if (entry == NULL) {
+        AssertionFailed(gValAssertText, gSBServerListFileName, NULL, 0xf4);
     }
-    if (e != NULL) {
-        e[1] = e[1] - 1;
-        if (e[1] == 0) {
-            HashtableRemove(func_ov000_0218b3f4(p), k);
+    if (entry != NULL) {
+        entry[1] = entry[1] - 1;
+        if (entry[1] == 0) {
+            HashtableRemove(SBRefStrHash(serverList), refString);
         }
     }
 }
 
-int func_ov000_0218d0c8(const void *a, int b) {
-    int v1;
-    const s8 *p = a;
-    v1 = 0;
-    if (0 < b) {
+int NTSLengthSB(const void *buffer, int length) {
+    int position;
+    const s8 *bytes = buffer;
+    position = 0;
+    if (0 < length) {
         do {
-            if (p[v1] == 0) {
-                return v1 + 1;
+            if (bytes[position] == 0) {
+                return position + 1;
             }
-            v1 = v1 + 1;
-        } while (v1 < b);
+            position = position + 1;
+        } while (position < length);
     }
     return -1;
 }
 
-static inline void func_ov000_0218ce14_inline(Unk0218cd94 *d, Unk0218cd94 *s) {
-    u8 *p = (u8 *) d;
-    u8 *q = (u8 *) s;
-    p[0] = q[0];
-    p[1] = q[1];
-    p[2] = q[2];
-    p[3] = q[3];
+static inline void func_ov000_0218ce14_inline(UnalignedWord *destination, UnalignedWord *source) {
+    u8 *destinationBytes = (u8 *) destination;
+    u8 *sourceBytes = (u8 *) source;
+    destinationBytes[0] = sourceBytes[0];
+    destinationBytes[1] = sourceBytes[1];
+    destinationBytes[2] = sourceBytes[2];
+    destinationBytes[3] = sourceBytes[3];
 }
 
-void SbServerListInit(SbServerList *slist, const char *a, const char *b, const char *c, u32 d, s32 e, UnkFunc *callback,
-                      void *g) {
+void SbServerListInit(SbServerList *slist, const char *targetName, const char *sourceName,
+                      const char *queryFromKey, u32 queryFromVersion, s32 lanBrowse, UnkFunc *callback,
+                      void *instance) {
     if (slist == NULL) {
-        AssertionFailed(data_ov000_021b2280, data_ov000_021b2218, NULL, 0x11c);
+        AssertionFailed(gSlistAssertText, gSBServerListFileName, NULL, 0x11c);
     }
-    if (e != 0 || gGsiAcResult == 1) {
+    if (lanBrowse != 0 || gGsiAcResult == 1) {
         slist->mState = 1;
-        func_ov000_0218d180((u32) slist);
-        func_ov000_0218b3f4(slist);
-        strcpy(slist->mUnk_00c, a);
-        strcpy(slist->mUnk_030, b);
-        strcpy(slist->mUnk_054, c);
+        SBAllocateServerList((u32) slist);
+        SBRefStrHash(slist);
+        strcpy(slist->mQueryForGameName, targetName);
+        strcpy(slist->mQueryFromGameName, sourceName);
+        strcpy(slist->mQueryFromKey, queryFromKey);
         slist->mCallback = callback;
-        slist->mUnk_48c = NULL;
+        slist->mMaploopCallback = NULL;
         if (callback == NULL) {
-            AssertionFailed(data_ov000_021b2290, data_ov000_021b2218, NULL, 0x132);
+            AssertionFailed(gCallbackAssertText, gSBServerListFileName, NULL, 0x132);
         }
-        slist->mUnk_494 = g;
-        slist->mUnk_498 = data_ov000_021b2260;
-        slist->mUnk_4a0 = 0;
-        slist->mUnk_4b0 = -1;
+        slist->mInstance = instance;
+        slist->mSortKey = data_ov000_021b2260;
+        slist->mMyPublicIp = 0;
+        slist->mSocket = -1;
         slist->mInBuffer = NULL;
         slist->mInBufferLength = 0;
-        slist->mUnk_008 = NULL;
-        slist->mUnk_484 = -1;
-        slist->mUnk_480 = 0;
-        slist->mUnk_4a4 = 0;
-        slist->mUnk_4b8 = d;
-        func_ov000_0218c45c(slist, data_ov000_021b2260);
-        slist->mUnk_5cc = 0;
+        slist->mKeyList = NULL;
+        slist->mExpectedElements = -1;
+        slist->mNumPopularValues = 0;
+        slist->mSrcIp = 0;
+        slist->mFromGameVersion = queryFromVersion;
+        SBSetLastListErrorPtr(slist, data_ov000_021b2260);
+        slist->mLanAdapterOverride = 0;
         srand(func_ov000_0218e8c4());
         func_ov000_0218e8b8();
     }
 }
 
-void func_ov000_0218cf30(SbServerList *p) {
-    s32 n = p->mInBufferLength;
-    const char *s;
-    const char *t;
-    char *q;
-    if (n > 0) {
-        s = data_ov000_021b21ec;
-        if (n > strlen(s)) {
-            q = (char *) p->mInBuffer;
-            t = data_ov000_021b21ec;
-            if (strncmp(q, t, strlen(t)) == 0) {
-                func_ov000_0218c45c(p, q + strlen(s));
-                p->mCallback(p, 5, data_ov000_021b4d1c, p->mUnk_494);
+void ErrorDisconnect(SbServerList *serverList) {
+    s32 length = serverList->mInBufferLength;
+    const char *prefixForLength;
+    const char *prefixForCompare;
+    char *buffer;
+    if (length > 0) {
+        prefixForLength = gQueryErrorPrefix;
+        if (length > strlen(prefixForLength)) {
+            buffer = (char *) serverList->mInBuffer;
+            prefixForCompare = gQueryErrorPrefix;
+            if (strncmp(buffer, prefixForCompare, strlen(prefixForCompare)) == 0) {
+                SBSetLastListErrorPtr(serverList, buffer + strlen(prefixForLength));
+                serverList->mCallback(serverList, 5, gSBNullServer, serverList->mInstance);
             }
         }
     }
-    p->mCallback(p, 4, data_ov000_021b4d1c, p->mUnk_494);
-    func_ov000_0218c980(p);
+    serverList->mCallback(serverList, 4, gSBNullServer, serverList->mInstance);
+    SBServerListDisconnect(serverList);
 }
 
-u32 func_ov000_0218cef4(const s8 *a, u32 b) {
-    s32 c;
-    u32 h = 0;
-    while ((c = *a) != 0) {
-        if (c >= 0 && c < 0x80) {
-            c = gLowerCaseMap[c];
+u32 StringHash(const s8 *text, u32 modulus) {
+    s32 character;
+    u32 hash = 0;
+    while ((character = *text) != 0) {
+        if (character >= 0 && character < 0x80) {
+            character = gLowerCaseMap[character];
         }
-        h *= 0x9ccf9319;
-        h += c;
-        a++;
+        hash *= 0x9ccf9319;
+        hash += character;
+        text++;
     }
-    return h % b;
+    return hash % modulus;
 }
 
-s32 func_ov000_0218ce14(SbServerList *p) {
-    Unk0218ce14 v1;
-    char v2[0x80];
-    u32 h;
-    Unk021a8f84 *e;
-    h = func_ov000_0218cef4((s8 *) p->mUnk_00c, 0x14);
-    if (data_ov000_021b4d20 != NULL) {
-        strcpy(v2, data_ov000_021b4d20);
+s32 ServerListConnect(SbServerList *serverList) {
+    Unk0218ce14 masterAddress;
+    char masterHost[0x80];
+    u32 masterNumber;
+    Unk021a8f84 *hostEntry;
+    masterNumber = StringHash((s8 *) serverList->mQueryForGameName, 0x14);
+    if (gSBOverrideMasterServer != NULL) {
+        strcpy(masterHost, gSBOverrideMasterServer);
     } else {
-        sprintf(v2, data_ov000_021b2264, p->mUnk_00c, h);
+        sprintf(masterHost, gMasterHostFormat, serverList->mQueryForGameName, masterNumber);
     }
-    v1.mUnk_01 = 2;
-    v1.mUnk_02 = 0xee70;
-    v1.mUnk_04 = func_ov000_0218e374((u32) v2);
-    if (v1.mUnk_04 == -1) {
-        e = func_ov000_021a8f84(v2);
-        if (e == NULL) {
+    masterAddress.mUnk_01 = 2;
+    masterAddress.mUnk_02 = 0xee70;
+    masterAddress.mUnk_04 = func_ov000_0218e374((u32) masterHost);
+    if (masterAddress.mUnk_04 == -1) {
+        hostEntry = func_ov000_021a8f84(masterHost);
+        if (hostEntry == NULL) {
             return 2;
         }
-        func_ov000_0218ce14_inline((Unk0218cd94 *) &v1.mUnk_04, (Unk0218cd94 *) e->mUnk_0c[0]);
+        func_ov000_0218ce14_inline((UnalignedWord *) &masterAddress.mUnk_04, (UnalignedWord *) hostEntry->mUnk_0c[0]);
     }
-    if (p->mUnk_4b0 == -1) {
-        p->mUnk_4b0 = func_ov000_0218e554(2, 1, 0);
-        if (p->mUnk_4b0 == -1) {
+    if (serverList->mSocket == -1) {
+        serverList->mSocket = func_ov000_0218e554(2, 1, 0);
+        if (serverList->mSocket == -1) {
             return 1;
         }
     }
-    if (func_ov000_0218e4b4(p->mUnk_4b0, &v1, 8) != 0) {
-        func_ov000_0218e53c(p->mUnk_4b0);
-        p->mUnk_4b0 = -1;
+    if (func_ov000_0218e4b4(serverList->mSocket, &masterAddress, 8) != 0) {
+        func_ov000_0218e53c(serverList->mSocket);
+        serverList->mSocket = -1;
         return 3;
     }
     return 0;
 }
 
-void func_ov000_0218cdd8(u8 **a, const char *b, s32 *c) {
-    u32 n;
-    if (b == NULL) {
-        b = data_ov000_021b2260;
+void BufferAddNTS(u8 **buffer, const char *text, s32 *length) {
+    u32 textLength;
+    if (text == NULL) {
+        text = data_ov000_021b2260;
     }
-    n = strlen(b) + 1;
-    memcpy(*a, b, n);
-    *c = *c + n;
-    *a = *a + n;
+    textLength = strlen(text) + 1;
+    memcpy(*buffer, text, textLength);
+    *length = *length + textLength;
+    *buffer = *buffer + textLength;
 }
 
-void func_ov000_0218cdc4(u8 **a, u8 b, s32 *c) {
-    **a = b;
-    *c = *c + 1;
-    *a = *a + 1;
+void BufferAddByte(u8 **buffer, u8 value, s32 *length) {
+    **buffer = value;
+    *length = *length + 1;
+    *buffer = *buffer + 1;
 }
 
-void func_ov000_0218cd94(u8 **a, u32 b, s32 *c) {
-    u8 *p = *a;
-    u8 *q = (u8 *) &b;
-    p[0] = q[0];
-    p[1] = q[1];
-    p[2] = q[2];
-    p[3] = q[3];
-    *c = *c + 4;
-    *a = *a + 4;
+void BufferAddInt(u8 **buffer, u32 value, s32 *length) {
+    u8 *bufferBytes = *buffer;
+    u8 *valueBytes = (u8 *) &value;
+    bufferBytes[0] = valueBytes[0];
+    bufferBytes[1] = valueBytes[1];
+    bufferBytes[2] = valueBytes[2];
+    bufferBytes[3] = valueBytes[3];
+    *length = *length + 4;
+    *buffer = *buffer + 4;
 }
 
-void func_ov000_0218cd74(u8 **arg0, const void *arg1, s32 arg2, s32 *arg3) {
-    memcpy(*arg0, arg1, arg2);
-    *arg3 = *arg3 + arg2;
-    *arg0 = *arg0 + arg2;
+void BufferAddData(u8 **buffer, const void *data, s32 dataLength, s32 *length) {
+    memcpy(*buffer, data, dataLength);
+    *length = *length + dataLength;
+    *buffer = *buffer + dataLength;
 }
 
-void func_ov000_0218ccbc(SbServerList *p) {
-    s32 v1;
-    s32 v2;
-    s32 v3;
-    s32 v4;
-    BOOL v5;
-    s32 v6;
-    s32 v7;
-    s32 v8;
-    s32 t;
-    s32 s;
-    s32 i;
-    p->mUnk_074[0] = (s32) rand() % 0x5d + 0x21;
-    s = 0;
-    i = 1;
-    v2 = 0;
-    v1 = 1;
-    v4 = 0;
-    v3 = 1;
-    v6 = 1;
-    v5 = TRUE;
-    v7 = 1;
-    v8 = 1;
-    for (; i < 8; i++) {
-        s = ((p->mUnk_074[0] & v6) ^ (s ^ (t = i, t = (s32) (t ^ p->mUnk_074[i - 1]), t &= v5, t))) ^
-            ((p->mUnk_074[0] < 0x4f) ? v3 : v4) ^ ((p->mUnk_074[i - 1] < p->mUnk_074[0]) ? v1 : v2);
-        p->mUnk_074[i] = (s32) rand() % 0x5d + 0x21;
-        if ((s != 0 && (p->mUnk_074[i] & v7) == 0) || (s == 0 && (p->mUnk_074[i] & v8) == 1)) {
-            p->mUnk_074[i] += 1;
+void SetupListChallenge(SbServerList *serverList) {
+    s32 earlierLessTrue;
+    s32 earlierLessFalse;
+    s32 firstBelowLimitTrue;
+    s32 firstBelowLimitFalse;
+    BOOL pairParityMask;
+    s32 firstParityMask;
+    s32 oddModeMask;
+    s32 evenModeMask;
+    s32 parityTerm;
+    s32 altMode;
+    s32 index;
+    serverList->mChallenge[0] = (s32) rand() % 0x5d + 0x21;
+    altMode = 0;
+    index = 1;
+    earlierLessFalse = 0;
+    earlierLessTrue = 1;
+    firstBelowLimitFalse = 0;
+    firstBelowLimitTrue = 1;
+    firstParityMask = 1;
+    pairParityMask = TRUE;
+    oddModeMask = 1;
+    evenModeMask = 1;
+    for (; index < 8; index++) {
+        altMode =
+            ((serverList->mChallenge[0] & firstParityMask) ^
+             (altMode ^ (parityTerm = index, parityTerm = (s32) (parityTerm ^ serverList->mChallenge[index - 1]),
+                         parityTerm &= pairParityMask, parityTerm))) ^
+            ((serverList->mChallenge[0] < 0x4f) ? firstBelowLimitTrue : firstBelowLimitFalse) ^
+            ((serverList->mChallenge[index - 1] < serverList->mChallenge[0]) ? earlierLessTrue : earlierLessFalse);
+        serverList->mChallenge[index] = (s32) rand() % 0x5d + 0x21;
+        if ((altMode != 0 && (serverList->mChallenge[index] & oddModeMask) == 0) ||
+            (altMode == 0 && (serverList->mChallenge[index] & evenModeMask) == 1)) {
+            serverList->mChallenge[index] += 1;
         }
     }
 }
 
-s32 func_ov000_0218cc48(SbServerList *p, void *a, s32 b) {
-    s32 i = 1;
-    s32 n;
-    s32 r;
+s32 SendWithRetry(SbServerList *serverList, void *data, s32 length) {
+    s32 retriesLeft = 1;
+    s32 sentLength;
+    s32 error;
     do {
-        i--;
-        n = func_ov000_0218e420(p->mUnk_4b0, a, b, 0);
-        if (n > 0) {
+        retriesLeft--;
+        sentLength = func_ov000_0218e420(serverList->mSocket, data, length, 0);
+        if (sentLength > 0) {
             break;
         }
-        if (i < 0) {
+        if (retriesLeft < 0) {
             break;
         }
-        func_ov000_0218c980(p);
-        r = func_ov000_0218ca58(p, NULL, NULL, 2, 0);
-        if (r != 0) {
-            func_ov000_0218cf30(p);
-            return r;
+        SBServerListDisconnect(serverList);
+        error = SBServerListConnectAndQuery(serverList, NULL, NULL, 2, 0);
+        if (error != 0) {
+            ErrorDisconnect(serverList);
+            return error;
         }
-    } while (i >= 0);
-    if (n <= 0) {
+    } while (retriesLeft >= 0);
+    if (sentLength <= 0) {
         return 3;
     }
     return 0;
 }
 
-s32 func_ov000_0218ca58(SbServerList *p, const char *a, const char *b, u32 c, u32 d) {
-    u8 v1[0x300];
-    u16 t;
-    s32 v2;
-    u8 *v3;
-    u8 *q;
-    s32 r;
-    if (p->mState != 1) {
-        AssertionFailed(data_ov000_021b2240, data_ov000_021b2218, NULL, 0x20a);
+s32 SBServerListConnectAndQuery(SbServerList *serverList, const char *fieldList, const char *serverFilter, u32 options,
+                                u32 maxServers) {
+    u8 request[0x300];
+    u16 networkLength;
+    s32 requestLength;
+    u8 *requestCursor;
+    u8 *requestStart;
+    s32 error;
+    if (serverList->mState != 1) {
+        AssertionFailed(gDisconnectedAssertText, gSBServerListFileName, NULL, 0x20a);
     }
-    if (a == NULL) {
-        a = data_ov000_021b2260;
+    if (fieldList == NULL) {
+        fieldList = data_ov000_021b2260;
     }
-    if (b == NULL) {
-        b = data_ov000_021b2260;
+    if (serverFilter == NULL) {
+        serverFilter = data_ov000_021b2260;
     }
-    if (strlen(a) > 0x100) {
+    if (strlen(fieldList) > 0x100) {
         return 6;
     }
-    if (strlen(b) > 0x100) {
+    if (strlen(serverFilter) > 0x100) {
         return 6;
     }
-    r = func_ov000_0218ce14(p);
-    if (r != 0) {
-        return r;
+    error = ServerListConnect(serverList);
+    if (error != 0) {
+        return error;
     }
-    p->mUnk_5c4 = c;
-    func_ov000_0218ccbc(p);
-    v2 = 2;
-    q = v1;
-    v3 = q + 2;
-    func_ov000_0218cdc4(&v3, 0, &v2);
-    func_ov000_0218cdc4(&v3, 1, &v2);
-    func_ov000_0218cdc4(&v3, 3, &v2);
-    func_ov000_0218cd94(&v3, p->mUnk_4b8, &v2);
-    func_ov000_0218cdd8(&v3, p->mUnk_00c, &v2);
-    func_ov000_0218cdd8(&v3, p->mUnk_030, &v2);
-    func_ov000_0218cd74(&v3, p->mUnk_074, 8, &v2);
-    func_ov000_0218cdd8(&v3, b, &v2);
-    func_ov000_0218cdd8(&v3, a, &v2);
-    func_ov000_0218cd94(
-        &v3, ((c << 24) & 0xff000000) | (((c << 8) & 0xff0000) | (((c >> 24) & 0xff) | ((c >> 8) & 0xff00))), &v2);
-    if ((p->mUnk_5c4 & 8) != 0) {
-        func_ov000_0218cd94(&v3, p->mUnk_4a4, &v2);
+    serverList->mQueryOptions = options;
+    SetupListChallenge(serverList);
+    requestLength = 2;
+    requestStart = request;
+    requestCursor = requestStart + 2;
+    BufferAddByte(&requestCursor, 0, &requestLength);
+    BufferAddByte(&requestCursor, 1, &requestLength);
+    BufferAddByte(&requestCursor, 3, &requestLength);
+    BufferAddInt(&requestCursor, serverList->mFromGameVersion, &requestLength);
+    BufferAddNTS(&requestCursor, serverList->mQueryForGameName, &requestLength);
+    BufferAddNTS(&requestCursor, serverList->mQueryFromGameName, &requestLength);
+    BufferAddData(&requestCursor, serverList->mChallenge, 8, &requestLength);
+    BufferAddNTS(&requestCursor, serverFilter, &requestLength);
+    BufferAddNTS(&requestCursor, fieldList, &requestLength);
+    BufferAddInt(&requestCursor,
+                 ((options << 24) & 0xff000000) |
+                     (((options << 8) & 0xff0000) | (((options >> 24) & 0xff) | ((options >> 8) & 0xff00))),
+                 &requestLength);
+    if ((serverList->mQueryOptions & 8) != 0) {
+        BufferAddInt(&requestCursor, serverList->mSrcIp, &requestLength);
     }
-    if ((p->mUnk_5c4 & 0x80) != 0) {
-        func_ov000_0218cd94(&v3, d, &v2);
+    if ((serverList->mQueryOptions & 0x80) != 0) {
+        BufferAddInt(&requestCursor, maxServers, &requestLength);
     }
-    t = (((u16) v2 >> 8) & 0xff) | (((u16) v2 << 8) & 0xff00);
-    __memcpy(v1, &t, 2);
-    if (func_ov000_0218e420(p->mUnk_4b0, v1, v2, 0) <= 0) {
-        func_ov000_0218c980(p);
+    networkLength = (((u16) requestLength >> 8) & 0xff) | (((u16) requestLength << 8) & 0xff00);
+    __memcpy(request, &networkLength, 2);
+    if (func_ov000_0218e420(serverList->mSocket, request, requestLength, 0) <= 0) {
+        SBServerListDisconnect(serverList);
         return 3;
     }
-    p->mState = 3;
-    p->mUnk_5c8 = 0;
-    if (p->mInBuffer == NULL) {
-        p->mInBuffer = func_ov000_021a3690(0x1000);
-        if (p->mInBuffer == NULL) {
+    serverList->mState = 3;
+    serverList->mParseState = 0;
+    if (serverList->mInBuffer == NULL) {
+        serverList->mInBuffer = func_ov000_021a3690(0x1000);
+        if (serverList->mInBuffer == NULL) {
             return 5;
         }
-        p->mInBufferLength = 0;
+        serverList->mInBufferLength = 0;
     }
     return 0;
 }
 
-void func_ov000_0218ca1c(SbServerList *p) {
+void FreePopularValues(SbServerList *serverList) {
     int i;
-    for (i = 0; i < p->mUnk_480; i++) {
-        func_ov000_0218d0e4(p, (u32) p->mUnk_084[i]);
+    for (i = 0; i < serverList->mNumPopularValues; i++) {
+        SBReleaseStr(serverList, (u32) serverList->mPopularValues[i]);
     }
-    p->mUnk_480 = 0;
+    serverList->mNumPopularValues = 0;
 }
 
-void func_ov000_0218c9d4(SbServerList *p) {
+void FreeKeyList(SbServerList *serverList) {
     int i;
-    if (p->mUnk_008 != NULL) {
-        for (i = 0; i < DarrayGetCount(p->mUnk_008); i++) {
-            func_ov000_0218d0e4(p, *(u32 *) DarrayGetElement(p->mUnk_008, i));
+    if (serverList->mKeyList != NULL) {
+        for (i = 0; i < DarrayGetCount(serverList->mKeyList); i++) {
+            SBReleaseStr(serverList, *(u32 *) DarrayGetElement(serverList->mKeyList, i));
         }
-        DarrayDelete(p->mUnk_008);
-        p->mUnk_008 = NULL;
+        DarrayDelete(serverList->mKeyList);
+        serverList->mKeyList = NULL;
     }
 }
 
-void func_ov000_0218c980(SbServerList *p) {
-    if (p->mInBuffer != NULL) {
-        func_ov000_021a3668(p->mInBuffer);
+void SBServerListDisconnect(SbServerList *serverList) {
+    if (serverList->mInBuffer != NULL) {
+        func_ov000_021a3668(serverList->mInBuffer);
     }
-    p->mInBuffer = NULL;
-    p->mInBufferLength = 0;
-    if (p->mUnk_4b0 != -1) {
-        func_ov000_0218e53c(p->mUnk_4b0);
+    serverList->mInBuffer = NULL;
+    serverList->mInBufferLength = 0;
+    if (serverList->mSocket != -1) {
+        func_ov000_0218e53c(serverList->mSocket);
     }
-    p->mUnk_4b0 = -1;
-    p->mState = 1;
-    func_ov000_0218c9d4(p);
-    p->mUnk_484 = -1;
-    func_ov000_0218ca1c(p);
+    serverList->mSocket = -1;
+    serverList->mState = 1;
+    FreeKeyList(serverList);
+    serverList->mExpectedElements = -1;
+    FreePopularValues(serverList);
 }
 
-void func_ov000_0218c958(SbServerList *p) {
-    func_ov000_0218c980(p);
-    func_ov000_0218d1a0(p);
-    func_ov000_0218b3c8(p);
-    if (p->mUnk_004 != NULL) {
-        DarrayDelete(p->mUnk_004);
+void SBServerListCleanup(SbServerList *serverList) {
+    SBServerListDisconnect(serverList);
+    SBServerListClear(serverList);
+    SBRefStrHashCleanup(serverList);
+    if (serverList->mServers != NULL) {
+        DarrayDelete(serverList->mServers);
     }
-    p->mUnk_004 = NULL;
+    serverList->mServers = NULL;
 }
 
-void func_ov000_0218c8e0(SbServerList *a, s8 *b, s32 c) {
-    s32 d;
-    s8 *p;
-    s32 i;
-    s8 *q;
-    d = strlen(a->mUnk_054);
-    p = (s8 *) a->mUnk_054;
-    for (i = 0; i < c; i++) {
-        s32 x = p[i % d];
-        s32 y = i * x % 8;
-        s32 z = i % 8;
-        a->mUnk_074[y] = a->mUnk_074[y] ^ (s8) (a->mUnk_074[z] ^ b[i]);
+void InitCryptKey(SbServerList *serverList, s8 *serverBytes, s32 length) {
+    s32 keyLength;
+    s8 *secretKey;
+    s32 index;
+    s8 *unusedPointer;
+    keyLength = strlen(serverList->mQueryFromKey);
+    secretKey = (s8 *) serverList->mQueryFromKey;
+    for (index = 0; index < length; index++) {
+        s32 keyChar = secretKey[index % keyLength];
+        s32 targetIndex = index * keyChar % 8;
+        s32 sourceIndex = index % 8;
+        serverList->mChallenge[targetIndex] =
+            serverList->mChallenge[targetIndex] ^ (s8) (serverList->mChallenge[sourceIndex] ^ serverBytes[index]);
     }
-    GOACryptInit((GOACryptState *) a->mUnk_4bc, (const u8 *) a->mUnk_074, 8);
+    GOACryptInit((GOACryptState *) serverList->mCryptKey, (const u8 *) serverList->mChallenge, 8);
 }
 
-s32 func_ov000_0218c8ac(u32 a) {
-    s32 b;
-    b = 5;
-    if ((a & 2) != 0) {
-        b += 4;
+s32 ServerSizeForFlags(u32 flags) {
+    s32 size;
+    size = 5;
+    if ((flags & 2) != 0) {
+        size += 4;
     }
-    if ((a & 8) != 0) {
-        b += 4;
+    if ((flags & 8) != 0) {
+        size += 4;
     }
-    if ((a & 0x10) != 0) {
-        b += 2;
+    if ((flags & 0x10) != 0) {
+        size += 2;
     }
-    if ((a & 0x20) != 0) {
-        b += 2;
+    if ((flags & 0x20) != 0) {
+        size += 2;
     }
-    return b;
+    return size;
 }
 
-BOOL func_ov000_0218c84c(u8 *a, s32 b) {
-    s32 k;
-    while (b > 0 && *(s8 *) a != 0) {
-        k = func_ov000_0218d0c8(a, b);
-        if (k < 0) {
+BOOL FullRulesPresent(u8 *buffer, s32 length) {
+    s32 stringLength;
+    while (length > 0 && *(s8 *) buffer != 0) {
+        stringLength = NTSLengthSB(buffer, length);
+        if (stringLength < 0) {
             return FALSE;
         }
-        a += k;
-        b -= k;
-        k = func_ov000_0218d0c8(a, b);
-        if (k < 0) {
+        buffer += stringLength;
+        length -= stringLength;
+        stringLength = NTSLengthSB(buffer, length);
+        if (stringLength < 0) {
             return FALSE;
         }
-        a += k;
-        b -= k;
+        buffer += stringLength;
+        length -= stringLength;
     }
-    if (b == 0) {
+    if (length == 0) {
         return FALSE;
     }
-    return *(s8 *) a == 0;
+    return *(s8 *) buffer == 0;
 }
 
-BOOL func_ov000_0218c794(SbServerList *a, u8 *b, s32 c) {
-    s32 d;
-    s32 i;
-    s32 k;
-    s32 t;
-    d = DarrayGetCount(a->mUnk_008);
-    i = 0;
-    if (d > 0) {
+BOOL AllKeysPresent(SbServerList *serverList, u8 *buffer, s32 length) {
+    s32 keyCount;
+    s32 keyIndex;
+    s32 stringLength;
+    s32 stringIndex;
+    keyCount = DarrayGetCount(serverList->mKeyList);
+    keyIndex = 0;
+    if (keyCount > 0) {
         do {
-            switch (((Unk0218c0bc *) DarrayGetElement(a->mUnk_008, i))->mUnk_04) {
+            switch (((KeyInfo *) DarrayGetElement(serverList->mKeyList, keyIndex))->mKeyType) {
                 case 1:
-                    b += 1;
-                    c -= 1;
+                    buffer += 1;
+                    length -= 1;
                     break;
                 case 2:
-                    b += 2;
-                    c -= 2;
+                    buffer += 2;
+                    length -= 2;
                     break;
                 case 0:
-                    if (c < 1) {
+                    if (length < 1) {
                         return FALSE;
                     }
-                    t = b[0];
-                    b += 1;
-                    c -= 1;
-                    if (t == 0xff) {
-                        k = func_ov000_0218d0c8(b, c);
-                        if (k == -1) {
+                    stringIndex = buffer[0];
+                    buffer += 1;
+                    length -= 1;
+                    if (stringIndex == 0xff) {
+                        stringLength = NTSLengthSB(buffer, length);
+                        if (stringLength == -1) {
                             return FALSE;
                         }
-                        b += k;
-                        c -= k;
+                        buffer += stringLength;
+                        length -= stringLength;
                     }
                     break;
                 default:
-                    AssertionFailed(data_ov000_021b223c, data_ov000_021b2218, NULL, 0x317);
+                    AssertionFailed(gFalseAssertText, gSBServerListFileName, NULL, 0x317);
                     return FALSE;
             }
-            if (c < 0) {
+            if (length < 0) {
                 return FALSE;
             }
-            i++;
-        } while (i < d);
+            keyIndex++;
+        } while (keyIndex < keyCount);
     }
     return TRUE;
 }
 
-void func_ov000_0218c744(SbServerList *a, u8 *b, s32 c, u8 *d, u16 *e) {
-    u8 f;
-    u8 *p;
-    u8 *q;
-    if (c >= 5) {
-        f = b[0];
-        p = b + 1;
-        d[0] = p[0];
-        d[1] = p[1];
-        d[2] = p[2];
-        d[3] = p[3];
-        if ((f & 0x10) != 0) {
-            if (c - 5 < 2) {
+void ParseServerIPPort(SbServerList *serverList, u8 *buffer, s32 length, u8 *ipOut, u16 *portOut) {
+    u8 flags;
+    u8 *cursor;
+    u8 *portBytes;
+    if (length >= 5) {
+        flags = buffer[0];
+        cursor = buffer + 1;
+        ipOut[0] = cursor[0];
+        ipOut[1] = cursor[1];
+        ipOut[2] = cursor[2];
+        ipOut[3] = cursor[3];
+        if ((flags & 0x10) != 0) {
+            if (length - 5 < 2) {
                 return;
             }
-            q = (u8 *) e;
-            p = b + 5;
-            q[0] = p[0];
-            q[1] = p[1];
+            portBytes = (u8 *) portOut;
+            cursor = buffer + 5;
+            portBytes[0] = cursor[0];
+            portBytes[1] = cursor[1];
         } else {
-            *e = a->mUnk_4a8;
+            *portOut = serverList->mDefaultPort;
         }
     }
 }
 
-s32 func_ov000_0218c550(SbServerList *a, void *b, u8 *c, s32 d, s32 e) {
-    s32 h;
-    s32 f;
-    s32 g;
-    s32 i;
-    u16 k;
-    u16 l;
-    u32 j;
-    s32 n;
-    u8 *o;
-    u8 *p;
-    u8 *q;
-    Unk0218c0bc *r;
-    f = d;
-    g = c[0];
-    func_ov000_0218af24(b, g);
-    c += 5;
-    d -= 5;
-    if ((g & 0x10) != 0) {
-        c += 2;
-        d -= 2;
+s32 ParseServer(SbServerList *serverList, void *server, u8 *buffer, s32 length, s32 popularOnly) {
+    s32 keyCount;
+    s32 startLength;
+    s32 flags;
+    s32 keyIndex;
+    u16 shortValue;
+    u16 privatePort;
+    u32 ipAddress;
+    s32 stringValue;
+    u8 *ruleKey;
+    u8 *unusedPointer;
+    u8 *valueBytes;
+    KeyInfo *keyInfo;
+    startLength = length;
+    flags = buffer[0];
+    SBServerSetFlags(server, flags);
+    buffer += 5;
+    length -= 5;
+    if ((flags & 0x10) != 0) {
+        buffer += 2;
+        length -= 2;
     }
-    if ((g & 2) != 0) {
-        q = (u8 *) &j;
-        q[0] = c[0];
-        q[1] = c[1];
-        q[2] = c[2];
-        q[3] = c[3];
-        c += 4;
-        d -= 4;
+    if ((flags & 2) != 0) {
+        valueBytes = (u8 *) &ipAddress;
+        valueBytes[0] = buffer[0];
+        valueBytes[1] = buffer[1];
+        valueBytes[2] = buffer[2];
+        valueBytes[3] = buffer[3];
+        buffer += 4;
+        length -= 4;
     } else {
-        j = 0;
+        ipAddress = 0;
     }
-    if ((g & 0x20) != 0) {
-        q = (u8 *) &l;
-        q[0] = c[0];
-        q[1] = c[1];
-        c += 2;
-        d -= 2;
+    if ((flags & 0x20) != 0) {
+        valueBytes = (u8 *) &privatePort;
+        valueBytes[0] = buffer[0];
+        valueBytes[1] = buffer[1];
+        buffer += 2;
+        length -= 2;
     } else {
-        l = a->mUnk_4a8;
+        privatePort = serverList->mDefaultPort;
     }
-    func_ov000_0218af1c(b, j, l);
-    if ((g & 8) != 0) {
-        q = (u8 *) &j;
-        q[0] = c[0];
-        q[1] = c[1];
-        q[2] = c[2];
-        q[3] = c[3];
-        c += 4;
-        d -= 4;
-        func_ov000_0218af18(b, j);
+    SBServerSetPrivateAddr(server, ipAddress, privatePort);
+    if ((flags & 8) != 0) {
+        valueBytes = (u8 *) &ipAddress;
+        valueBytes[0] = buffer[0];
+        valueBytes[1] = buffer[1];
+        valueBytes[2] = buffer[2];
+        valueBytes[3] = buffer[3];
+        buffer += 4;
+        length -= 4;
+        SBServerSetICMPIP(server, ipAddress);
     }
-    if ((g & 0x40) != 0) {
-        h = DarrayGetCount(a->mUnk_008);
-        i = 0;
-        if (h > 0) {
+    if ((flags & 0x40) != 0) {
+        keyCount = DarrayGetCount(serverList->mKeyList);
+        keyIndex = 0;
+        if (keyCount > 0) {
             do {
-                r = DarrayGetElement(a->mUnk_008, i);
-                switch (r->mUnk_04) {
+                keyInfo = DarrayGetElement(serverList->mKeyList, keyIndex);
+                switch (keyInfo->mKeyType) {
                     case 1:
-                        SbServerSetInt(b, r->mUnk_00, c[0]);
-                        c += 1;
-                        d -= 1;
+                        SbServerSetInt(server, keyInfo->mKeyName, buffer[0]);
+                        buffer += 1;
+                        length -= 1;
                         break;
                     case 2:
-                        q = (u8 *) &k;
-                        q[0] = c[0];
-                        q[1] = c[1];
-                        SbServerSetInt(b, r->mUnk_00, (u16) ((k >> 8 & 0xff) | (k << 8 & 0xff00)));
-                        c += 2;
-                        d -= 2;
+                        valueBytes = (u8 *) &shortValue;
+                        valueBytes[0] = buffer[0];
+                        valueBytes[1] = buffer[1];
+                        SbServerSetInt(server, keyInfo->mKeyName,
+                                       (u16) ((shortValue >> 8 & 0xff) | (shortValue << 8 & 0xff00)));
+                        buffer += 2;
+                        length -= 2;
                         break;
                     case 0:
-                        if (e != 0) {
-                            n = c[0];
-                            c += 1;
-                            d -= 1;
+                        if (popularOnly != 0) {
+                            stringValue = buffer[0];
+                            buffer += 1;
+                            length -= 1;
                         } else {
-                            n = 0xff;
+                            stringValue = 0xff;
                         }
-                        if (n == 0xff) {
-                            SbServerSetValue(b, r->mUnk_00, (const char *) c);
-                            n = strlen((const char *) c) + 1;
-                            c += n;
-                            d -= n;
+                        if (stringValue == 0xff) {
+                            SbServerSetValue(server, keyInfo->mKeyName, (const char *) buffer);
+                            stringValue = strlen((const char *) buffer) + 1;
+                            buffer += stringValue;
+                            length -= stringValue;
                         } else {
-                            SbServerSetValue(b, r->mUnk_00, a->mUnk_084[n]);
+                            SbServerSetValue(server, keyInfo->mKeyName,
+                                             serverList->mPopularValues[stringValue]);
                         }
                         break;
                 }
-                i++;
-            } while (i < h);
+                keyIndex++;
+            } while (keyIndex < keyCount);
         }
-        func_ov000_0218af14(b, func_ov000_0218af10(b) | 1);
+        SBServerSetState(server, SBServerGetState(server) | 1);
     }
-    g = g & 0x80;
-    if (g != 0) {
-        while ((s8) c[0] != 0 && d > 0) {
-            o = c;
-            n = strlen((const char *) c) + 1;
-            c += n;
-            d -= n;
-            SbServerSetValue(b, (const char *) o, (const char *) c);
-            n = strlen((const char *) c) + 1;
-            c += n;
-            d -= n;
+    flags = flags & 0x80;
+    if (flags != 0) {
+        while ((s8) buffer[0] != 0 && length > 0) {
+            ruleKey = buffer;
+            stringValue = strlen((const char *) buffer) + 1;
+            buffer += stringValue;
+            length -= stringValue;
+            SbServerSetValue(server, (const char *) ruleKey, (const char *) buffer);
+            stringValue = strlen((const char *) buffer) + 1;
+            buffer += stringValue;
+            length -= stringValue;
         }
-        d -= 1;
-        func_ov000_0218af14(b, func_ov000_0218af10(b) | 2);
+        length -= 1;
+        SBServerSetState(server, SBServerGetState(server) | 2);
     }
-    return f - d;
+    return startLength - length;
 }
 
-s32 func_ov000_0218c468(SbServerList *a, u8 *b, s32 c) {
-    s32 e;
-    s32 d;
-    void *h;
-    u16 f;
-    u32 g;
-    s32 r;
-    if (c < 1) {
+s32 IncomingListParseServer(SbServerList *serverList, u8 *buffer, s32 length) {
+    s32 entrySize;
+    s32 flags;
+    void *parsedServer;
+    u16 netPort;
+    u32 ipAddress;
+    s32 parsedLength;
+    if (length < 1) {
         return 0;
     }
-    d = b[0];
-    e = func_ov000_0218c8ac(d);
-    if (c < e) {
+    flags = buffer[0];
+    entrySize = ServerSizeForFlags(flags);
+    if (length < entrySize) {
         return 0;
     }
-    if ((d & 0x40) != 0) {
-        if (func_ov000_0218c794(a, b + e, c - e) == FALSE) {
+    if ((flags & 0x40) != 0) {
+        if (AllKeysPresent(serverList, buffer + entrySize, length - entrySize) == FALSE) {
             return 0;
         }
     }
-    d = d & 0x80;
-    if (d != 0) {
-        if (func_ov000_0218c84c(b + e, c - e) == FALSE) {
+    flags = flags & 0x80;
+    if (flags != 0) {
+        if (FullRulesPresent(buffer + entrySize, length - entrySize) == FALSE) {
             return 0;
         }
     }
-    if (memcmp(b + 1, data_ov000_021b2234, 4) == 0) {
+    if (memcmp(buffer + 1, gLastServerMarker, 4) == 0) {
         return -1;
     }
-    func_ov000_0218c744(a, b, c, (u8 *) &g, &f);
-    h = func_ov000_0218af28(a, g, f);
-    if (func_ov000_0218aefc(h) != 0) {
+    ParseServerIPPort(serverList, buffer, length, (u8 *) &ipAddress, &netPort);
+    parsedServer = SBAllocServer(serverList, ipAddress, netPort);
+    if (SBIsNullServer(parsedServer) != 0) {
         return -2;
     }
-    r = func_ov000_0218c550(a, h, b, c, 1);
-    func_ov000_0218d340(a, (u32) h);
-    return r;
+    parsedLength = ParseServer(serverList, parsedServer, buffer, length, 1);
+    SBServerListAppendServer(serverList, (u32) parsedServer);
+    return parsedLength;
 }
 
-void func_ov000_0218c45c(SbServerList *a, char *b) {
-    a->mUnk_4ac = b;
+void SBSetLastListErrorPtr(SbServerList *serverList, char *errorText) {
+    serverList->mLastError = errorText;
 }
 
-s32 func_ov000_0218c15c(SbServerList *a) {
-    u8 *p;
-    s32 n;
-    s32 u;
-    s32 v;
-    s32 w;
-    s32 k;
-    Unk0218c0bc e;
-    u8 *q;
-    u8 *r;
-    p = a->mInBuffer;
-    n = a->mInBufferLength;
-    switch (a->mUnk_5c8) {
+s32 ProcessMainListData(SbServerList *serverList) {
+    u8 *data;
+    s32 length;
+    s32 cryptHeaderLength;
+    s32 keyLength;
+    s32 headerEnd;
+    s32 consumed;
+    KeyInfo keyInfo;
+    u8 *fieldBytes;
+    u8 *portBytes;
+    data = serverList->mInBuffer;
+    length = serverList->mInBufferLength;
+    switch (serverList->mParseState) {
         case 0:
-            if (n < 1) {
+            if (length < 1) {
                 break;
             }
-            u = (p[0] ^ 0xec) + 2;
-            if (n < u) {
+            cryptHeaderLength = (data[0] ^ 0xec) + 2;
+            if (length < cryptHeaderLength) {
                 break;
             }
-            v = p[u - 1] ^ 0xea;
-            w = u + v;
-            if (n < w) {
+            keyLength = data[cryptHeaderLength - 1] ^ 0xea;
+            headerEnd = cryptHeaderLength + keyLength;
+            if (length < headerEnd) {
                 break;
             }
-            func_ov000_0218c8e0(a, (s8 *) (p + u), v);
-            a->mUnk_5c8 = 1;
-            p += w;
-            n -= w;
-            GOADecrypt(a->mUnk_4bc, p, n);
+            InitCryptKey(serverList, (s8 *) (data + cryptHeaderLength), keyLength);
+            serverList->mParseState = 1;
+            data += headerEnd;
+            length -= headerEnd;
+            GOADecrypt(serverList->mCryptKey, data, length);
         case 1:
-            if (n < 6) {
+            if (length < 6) {
                 break;
             }
-            q = (u8 *) &a->mUnk_4a0;
-            q[0] = p[0];
-            q[1] = p[1];
-            q[2] = p[2];
-            q[3] = p[3];
-            a->mCallback(a, 6, data_ov000_021b4d1c, a->mUnk_494);
-            q = (u8 *) &a->mUnk_4a8;
-            r = p + 4;
-            q[0] = r[0];
-            q[1] = r[1];
-            if (a->mUnk_4a8 == 0xffff) {
-                if (func_ov000_0218d0c8(p + 6, n - 6) == -1) {
+            fieldBytes = (u8 *) &serverList->mMyPublicIp;
+            fieldBytes[0] = data[0];
+            fieldBytes[1] = data[1];
+            fieldBytes[2] = data[2];
+            fieldBytes[3] = data[3];
+            serverList->mCallback(serverList, 6, gSBNullServer, serverList->mInstance);
+            fieldBytes = (u8 *) &serverList->mDefaultPort;
+            portBytes = data + 4;
+            fieldBytes[0] = portBytes[0];
+            fieldBytes[1] = portBytes[1];
+            if (serverList->mDefaultPort == 0xffff) {
+                if (NTSLengthSB(data + 6, length - 6) == -1) {
                     break;
                 }
-                func_ov000_0218c45c(a, (char *) (p + 6));
-                a->mCallback(a, 5, data_ov000_021b4d1c, a->mUnk_494);
-                if (a->mInBuffer == NULL) {
+                SBSetLastListErrorPtr(serverList, (char *) (data + 6));
+                serverList->mCallback(serverList, 5, gSBNullServer, serverList->mInstance);
+                if (serverList->mInBuffer == NULL) {
                     break;
                 }
             }
-            p += 6;
-            n -= 6;
-            if ((a->mUnk_5c4 & 2) != 0 || a->mUnk_4a8 == 0xffff) {
-                a->mUnk_5c8 = 5;
-                a->mState = 2;
+            data += 6;
+            length -= 6;
+            if ((serverList->mQueryOptions & 2) != 0 || serverList->mDefaultPort == 0xffff) {
+                serverList->mParseState = 5;
+                serverList->mState = 2;
                 break;
             }
-            a->mUnk_5c8 = 2;
-            a->mUnk_484 = -1;
+            serverList->mParseState = 2;
+            serverList->mExpectedElements = -1;
         case 2:
-            if (a->mUnk_484 == -1) {
-                if (n < 1) {
+            if (serverList->mExpectedElements == -1) {
+                if (length < 1) {
                     break;
                 }
-                a->mUnk_484 = p[0];
-                a->mUnk_008 = DarrayCreate(8, a->mUnk_484, NULL);
-                if (a->mUnk_008 == NULL) {
+                serverList->mExpectedElements = data[0];
+                serverList->mKeyList = DarrayCreate(8, serverList->mExpectedElements, NULL);
+                if (serverList->mKeyList == NULL) {
                     return 5;
                 }
-                p += 1;
-                n -= 1;
+                data += 1;
+                length -= 1;
             }
-            while (a->mUnk_484 > DarrayGetCount(a->mUnk_008)) {
-                if (n < 2) {
+            while (serverList->mExpectedElements > DarrayGetCount(serverList->mKeyList)) {
+                if (length < 2) {
                     break;
                 }
-                k = func_ov000_0218d0c8(p + 1, n - 1);
-                if (k == -1) {
+                consumed = NTSLengthSB(data + 1, length - 1);
+                if (consumed == -1) {
                     break;
                 }
-                e.mUnk_04 = p[0];
-                e.mUnk_00 = func_ov000_0218d134(a, (const char *) (p + 1));
-                DarrayAppend(a->mUnk_008, &e);
-                k += 1;
-                p += k;
-                n -= k;
+                keyInfo.mKeyType = data[0];
+                keyInfo.mKeyName = SBRefStr(serverList, (const char *) (data + 1));
+                DarrayAppend(serverList->mKeyList, &keyInfo);
+                consumed += 1;
+                data += consumed;
+                length -= consumed;
             }
-            if (a->mUnk_484 > DarrayGetCount(a->mUnk_008)) {
+            if (serverList->mExpectedElements > DarrayGetCount(serverList->mKeyList)) {
                 break;
             }
-            a->mUnk_5c8 = 3;
-            a->mUnk_484 = -1;
+            serverList->mParseState = 3;
+            serverList->mExpectedElements = -1;
         case 3:
-            if (a->mUnk_484 == -1) {
-                if (n < 1) {
+            if (serverList->mExpectedElements == -1) {
+                if (length < 1) {
                     break;
                 }
-                a->mUnk_484 = p[0];
-                a->mUnk_480 = 0;
-                p += 1;
-                n -= 1;
+                serverList->mExpectedElements = data[0];
+                serverList->mNumPopularValues = 0;
+                data += 1;
+                length -= 1;
             }
-            while (a->mUnk_484 > a->mUnk_480) {
-                k = func_ov000_0218d0c8(p, n);
-                if (k == -1) {
+            while (serverList->mExpectedElements > serverList->mNumPopularValues) {
+                consumed = NTSLengthSB(data, length);
+                if (consumed == -1) {
                     break;
                 }
-                a->mUnk_084[a->mUnk_480++] = func_ov000_0218d134(a, (const char *) p);
-                p += k;
-                n -= k;
+                serverList->mPopularValues[serverList->mNumPopularValues++] = SBRefStr(serverList, (const char *) data);
+                data += consumed;
+                length -= consumed;
             }
-            if (a->mUnk_484 > a->mUnk_480) {
+            if (serverList->mExpectedElements > serverList->mNumPopularValues) {
                 break;
             }
-            a->mUnk_5c8 = 4;
+            serverList->mParseState = 4;
         case 4:
-            if (n < 5) {
+            if (length < 5) {
                 break;
             }
             do {
-                k = func_ov000_0218c468(a, p, n);
-                if (k == -2) {
+                consumed = IncomingListParseServer(serverList, data, length);
+                if (consumed == -2) {
                     return 5;
                 }
-                if (k == -1) {
-                    n -= 5;
-                    p += 5;
-                    a->mUnk_5c8 = 5;
-                    a->mState = 2;
-                    a->mCallback(a, 3, data_ov000_021b4d1c, a->mUnk_494);
+                if (consumed == -1) {
+                    length -= 5;
+                    data += 5;
+                    serverList->mParseState = 5;
+                    serverList->mState = 2;
+                    serverList->mCallback(serverList, 3, gSBNullServer, serverList->mInstance);
                     break;
                 }
-                p += k;
-                n -= k;
-                if (a->mInBuffer == NULL) {
-                    k = 0;
+                data += consumed;
+                length -= consumed;
+                if (serverList->mInBuffer == NULL) {
+                    consumed = 0;
                 }
-            } while (k != 0);
+            } while (consumed != 0);
             break;
     }
-    if (n < 0) {
-        AssertionFailed(data_ov000_021b2228, data_ov000_021b2218, NULL, 0x4af);
+    if (length < 0) {
+        AssertionFailed(gInLengthAssertText, gSBServerListFileName, NULL, 0x4af);
     }
-    if (a->mInBuffer == NULL) {
+    if (serverList->mInBuffer == NULL) {
         return 0;
     }
-    if (n != 0) {
-        memmove(a->mInBuffer, p, n);
+    if (length != 0) {
+        memmove(serverList->mInBuffer, data, length);
     }
-    a->mInBufferLength = n;
+    serverList->mInBufferLength = length;
     return 0;
 }
 
-s32 func_ov000_0218c0bc(SbServerList *a, u8 *b, s32 c) {
-    s32 d;
-    s32 i;
-    s32 k;
-    Unk0218c0bc e;
-    d = b[0];
-    b += 1;
-    c -= 1;
-    if (a->mUnk_008 != NULL) {
-        func_ov000_0218c9d4(a);
+s32 ProcessPushKeyList(SbServerList *serverList, u8 *buffer, s32 length) {
+    s32 keyCount;
+    s32 keyIndex;
+    s32 nameLength;
+    KeyInfo keyInfo;
+    keyCount = buffer[0];
+    buffer += 1;
+    length -= 1;
+    if (serverList->mKeyList != NULL) {
+        FreeKeyList(serverList);
     }
-    a->mUnk_008 = DarrayCreate(8, d, NULL);
-    if (a->mUnk_008 == NULL) {
+    serverList->mKeyList = DarrayCreate(8, keyCount, NULL);
+    if (serverList->mKeyList == NULL) {
         return 5;
     }
-    i = 0;
-    if (d > 0) {
+    keyIndex = 0;
+    if (keyCount > 0) {
         do {
-            if (c < 2) {
+            if (length < 2) {
                 return 4;
             }
-            k = func_ov000_0218d0c8(b + 1, c - 1);
-            if (k == -1) {
+            nameLength = NTSLengthSB(buffer + 1, length - 1);
+            if (nameLength == -1) {
                 return 4;
             }
-            e.mUnk_04 = b[0];
-            e.mUnk_00 = func_ov000_0218d134(a, (const char *) (b + 1));
-            DarrayAppend(a->mUnk_008, &e);
-            k += 1;
-            b += k;
-            c -= k;
-            i++;
-        } while (i < d);
+            keyInfo.mKeyType = buffer[0];
+            keyInfo.mKeyName = SBRefStr(serverList, (const char *) (buffer + 1));
+            DarrayAppend(serverList->mKeyList, &keyInfo);
+            nameLength += 1;
+            buffer += nameLength;
+            length -= nameLength;
+            keyIndex++;
+        } while (keyIndex < keyCount);
     }
     return 0;
 }
 
-s32 func_ov000_0218bf78(SbServerList *a, u8 *b, s32 c) {
-    s32 d;
-    s32 i;
-    s32 e;
-    s32 k;
-    s32 m;
-    u8 *l;
-    u32 f;
-    u16 g;
-    u32 h;
-    u8 *p;
-    u8 *q;
-    if (c < 2) {
+s32 ProcessPlayerSearch(SbServerList *serverList, u8 *buffer, s32 length) {
+    s32 isLastPage;
+    s32 resultIndex;
+    s32 entryCount;
+    s32 nameLength;
+    s32 gameNameLength;
+    u8 *name;
+    u32 ipAddress;
+    u16 netPort;
+    u32 lastSeenTime;
+    u8 *source;
+    u8 *destination;
+    if (length < 2) {
         return 4;
     }
-    d = b[0];
-    e = b[1];
-    b += 2;
-    c -= 2;
-    i = 0;
-    if (e > 0) {
+    isLastPage = buffer[0];
+    entryCount = buffer[1];
+    buffer += 2;
+    length -= 2;
+    resultIndex = 0;
+    if (entryCount > 0) {
         do {
-            l = b;
-            k = func_ov000_0218d0c8(b, c);
-            if (k == -1) {
+            name = buffer;
+            nameLength = NTSLengthSB(buffer, length);
+            if (nameLength == -1) {
                 return 4;
             }
-            b += k;
-            c -= k;
-            if (c < 11) {
+            buffer += nameLength;
+            length -= nameLength;
+            if (length < 11) {
                 return 4;
             }
-            p = b;
-            q = (u8 *) &f;
-            q[0] = p[0];
-            q[1] = p[1];
-            q[2] = p[2];
-            q[3] = p[3];
-            p = b + 4;
-            q = (u8 *) &g;
-            q[0] = p[0];
-            q[1] = p[1];
-            p = b + 6;
-            q = (u8 *) &h;
-            q[0] = p[0];
-            q[1] = p[1];
-            q[2] = p[2];
-            q[3] = p[3];
-            h = (h << 24 & 0xff000000) | ((h << 8 & 0xff0000) | ((h >> 24 & 0xff) | (h >> 8 & 0xff00)));
-            b += 10;
-            c -= 10;
-            m = func_ov000_0218d0c8(b, c);
-            if (m == -1) {
+            source = buffer;
+            destination = (u8 *) &ipAddress;
+            destination[0] = source[0];
+            destination[1] = source[1];
+            destination[2] = source[2];
+            destination[3] = source[3];
+            source = buffer + 4;
+            destination = (u8 *) &netPort;
+            destination[0] = source[0];
+            destination[1] = source[1];
+            source = buffer + 6;
+            destination = (u8 *) &lastSeenTime;
+            destination[0] = source[0];
+            destination[1] = source[1];
+            destination[2] = source[2];
+            destination[3] = source[3];
+            lastSeenTime =
+                (lastSeenTime << 24 & 0xff000000) |
+                ((lastSeenTime << 8 & 0xff0000) | ((lastSeenTime >> 24 & 0xff) | (lastSeenTime >> 8 & 0xff00)));
+            buffer += 10;
+            length -= 10;
+            gameNameLength = NTSLengthSB(buffer, length);
+            if (gameNameLength == -1) {
                 return 4;
             }
-            a->mUnk_490(a, l, f, g, h, b, a->mUnk_494);
-            b += m;
-            c -= m;
-            i++;
-        } while (i < e);
+            serverList->mPlayerSearchCallback(serverList, name, ipAddress, netPort, lastSeenTime, buffer,
+                                              serverList->mInstance);
+            buffer += gameNameLength;
+            length -= gameNameLength;
+            resultIndex++;
+        } while (resultIndex < entryCount);
     }
-    if (d != 0) {
-        a->mUnk_490(a, 0, 0, 0, 0, 0, a->mUnk_494);
+    if (isLastPage != 0) {
+        serverList->mPlayerSearchCallback(serverList, 0, 0, 0, 0, 0, serverList->mInstance);
     }
     return 0;
 }
 
-s32 func_ov000_0218be68(SbServerList *a, u8 *b, s32 c) {
-    u32 g;
-    u32 d;
-    u16 e;
-    u32 f;
-    s32 h;
+s32 ProcessMaploop(SbServerList *serverList, u8 *buffer, s32 length) {
+    u32 rotationTime;
+    u32 ipAddress;
+    u16 netPort;
+    u32 foundServer;
+    s32 nameCount;
     s32 i;
-    s32 j;
-    u8 *k[16];
-    u8 *p;
-    u8 *q;
+    s32 mapIndex;
+    u8 *mapNames[16];
+    u8 *source;
+    u8 *destination;
     u8 *l;
-    if (c < 11) {
+    if (length < 11) {
         return 4;
     }
-    p = b;
-    q = (u8 *) &d;
-    q[0] = p[0];
-    q[1] = p[1];
-    q[2] = p[2];
-    q[3] = p[3];
-    q = (u8 *) &e;
-    p = b + 4;
-    q[0] = p[0];
-    q[1] = p[1];
-    i = func_ov000_0218d2a8(a, d, e);
+    source = buffer;
+    destination = (u8 *) &ipAddress;
+    destination[0] = source[0];
+    destination[1] = source[1];
+    destination[2] = source[2];
+    destination[3] = source[3];
+    destination = (u8 *) &netPort;
+    source = buffer + 4;
+    destination[0] = source[0];
+    destination[1] = source[1];
+    i = SBServerListFindServerByIP(serverList, ipAddress, netPort);
     if (i == -1) {
         return 0;
     }
-    f = func_ov000_0218d218(a, i);
-    q = (u8 *) &g;
-    p = b + 6;
-    q[0] = p[0];
-    q[1] = p[1];
-    q[2] = p[2];
-    q[3] = p[3];
-    g = (g << 24 & 0xff000000) | ((g << 8 & 0xff0000) | ((g >> 24 & 0xff) | (g >> 8 & 0xff00)));
-    h = b[10];
-    b += 11;
-    c -= 11;
-    for (j = 0; j < h && j < 16;) {
-        if (c < 1) {
+    foundServer = SBServerListNth(serverList, i);
+    destination = (u8 *) &rotationTime;
+    source = buffer + 6;
+    destination[0] = source[0];
+    destination[1] = source[1];
+    destination[2] = source[2];
+    destination[3] = source[3];
+    rotationTime = (rotationTime << 24 & 0xff000000) |
+                 ((rotationTime << 8 & 0xff0000) | ((rotationTime >> 24 & 0xff) | (rotationTime >> 8 & 0xff00)));
+    nameCount = buffer[10];
+    buffer += 11;
+    length -= 11;
+    for (mapIndex = 0; mapIndex < nameCount && mapIndex < 16;) {
+        if (length < 1) {
             break;
         }
-        i = func_ov000_0218d0c8(b, c);
+        i = NTSLengthSB(buffer, length);
         if (i == -1) {
             return 4;
         }
-        k[j] = b;
-        b += i;
-        c -= i;
-        j++;
+        mapNames[mapIndex] = buffer;
+        buffer += i;
+        length -= i;
+        mapIndex++;
     }
-    if (a->mUnk_48c == NULL) {
+    if (serverList->mMaploopCallback == NULL) {
         return 0;
     }
-    a->mUnk_48c(a, f, g, j, k, a->mUnk_494);
+    serverList->mMaploopCallback(serverList, foundServer, rotationTime, mapIndex, mapNames, serverList->mInstance);
     return 0;
 }
 
-s32 func_ov000_0218be10(SbServerList *a, u8 *b, s32 c) {
-    u32 d;
-    u16 e;
-    s32 f;
-    u8 *p;
-    u8 *q;
-    if (c < 6) {
+s32 ProcessDeleteServer(SbServerList *serverList, u8 *buffer, s32 length) {
+    u32 ipAddress;
+    u16 netPort;
+    s32 serverIndex;
+    u8 *source;
+    u8 *destination;
+    if (length < 6) {
         return 4;
     }
-    p = b;
-    q = (u8 *) &d;
-    q[0] = p[0];
-    q[1] = p[1];
-    q[2] = p[2];
-    q[3] = p[3];
-    q = (u8 *) &e;
-    p = b + 4;
-    q[0] = p[0];
-    q[1] = p[1];
-    f = func_ov000_0218d2a8(a, d, e);
-    if (f != -1) {
-        func_ov000_0218d238(a, f);
+    source = buffer;
+    destination = (u8 *) &ipAddress;
+    destination[0] = source[0];
+    destination[1] = source[1];
+    destination[2] = source[2];
+    destination[3] = source[3];
+    destination = (u8 *) &netPort;
+    source = buffer + 4;
+    destination[0] = source[0];
+    destination[1] = source[1];
+    serverIndex = SBServerListFindServerByIP(serverList, ipAddress, netPort);
+    if (serverIndex != -1) {
+        SBServerListRemoveAt(serverList, serverIndex);
         return 0;
     }
     return 0;
 }
 
-s32 func_ov000_0218bd5c(SbServerList *a, u8 *b, s32 c) {
-    s32 d;
-    void *e;
-    u16 f;
-    u32 g;
-    if (c < 5) {
+s32 ProcessPushServer(SbServerList *serverList, u8 *buffer, s32 length) {
+    s32 serverIndex;
+    void *pushedServer;
+    u16 netPort;
+    u32 ipAddress;
+    if (length < 5) {
         return 4;
     }
-    func_ov000_0218c744(a, b, c, (u8 *) &g, &f);
-    d = func_ov000_0218d2a8(a, g, f);
-    if (d == -1) {
-        e = func_ov000_0218af28(a, g, f);
-        if (func_ov000_0218aefc(e) != 0) {
+    ParseServerIPPort(serverList, buffer, length, (u8 *) &ipAddress, &netPort);
+    serverIndex = SBServerListFindServerByIP(serverList, ipAddress, netPort);
+    if (serverIndex == -1) {
+        pushedServer = SBAllocServer(serverList, ipAddress, netPort);
+        if (SBIsNullServer(pushedServer) != 0) {
             return 5;
         }
     } else {
-        e = (void *) func_ov000_0218d218(a, d);
+        pushedServer = (void *) SBServerListNth(serverList, serverIndex);
     }
-    if (func_ov000_0218c550(a, e, b, c, 0) < 0) {
+    if (ParseServer(serverList, pushedServer, buffer, length, 0) < 0) {
         return 4;
     }
-    if (d == -1) {
-        func_ov000_0218d340(a, (u32) e);
+    if (serverIndex == -1) {
+        SBServerListAppendServer(serverList, (u32) pushedServer);
     }
-    a->mCallback(a, 1, e, a->mUnk_494);
+    serverList->mCallback(serverList, 1, pushedServer, serverList->mInstance);
     return 0;
 }
 
-s32 func_ov000_0218bc08(SbServerList *slist) {
-    s32 b;
-    u16 c;
-    u8 *q;
-    u8 *p;
-    b = 0;
+s32 ProcessAdHocData(SbServerList *slist) {
+    s32 error;
+    u16 messageLength;
+    u8 *lengthBytes;
+    u8 *inBuffer;
+    error = 0;
     while (slist->mInBufferLength >= 3) {
-        q = (u8 *) &c;
-        p = slist->mInBuffer;
-        q[0] = p[0];
-        q[1] = p[1];
-        c = (c >> 8 & 0xff) | (c << 8 & 0xff00);
-        if (c > 0x1000) {
-            b = 4;
+        lengthBytes = (u8 *) &messageLength;
+        inBuffer = slist->mInBuffer;
+        lengthBytes[0] = inBuffer[0];
+        lengthBytes[1] = inBuffer[1];
+        messageLength = (messageLength >> 8 & 0xff) | (messageLength << 8 & 0xff00);
+        if (messageLength > 0x1000) {
+            error = 4;
             break;
         }
-        if (slist->mInBufferLength < c) {
+        if (slist->mInBufferLength < messageLength) {
             return 0;
         }
         switch ((s8) slist->mInBuffer[2]) {
             case 1:
-                b = func_ov000_0218c0bc(slist, slist->mInBuffer + 3, c - 3);
+                error = ProcessPushKeyList(slist, slist->mInBuffer + 3, messageLength - 3);
                 break;
             case 2:
-                b = func_ov000_0218bd5c(slist, slist->mInBuffer + 3, c - 3);
+                error = ProcessPushServer(slist, slist->mInBuffer + 3, messageLength - 3);
                 break;
             case 3:
-                if (func_ov000_0218e420(slist->mUnk_4b0, slist->mInBuffer, c, 0) <= 0) {
+                if (func_ov000_0218e420(slist->mSocket, slist->mInBuffer, messageLength, 0) <= 0) {
                     return 3;
                 }
                 break;
             case 4:
-                b = func_ov000_0218be10(slist, slist->mInBuffer + 3, c - 3);
+                error = ProcessDeleteServer(slist, slist->mInBuffer + 3, messageLength - 3);
                 break;
             case 5:
-                b = func_ov000_0218be68(slist, slist->mInBuffer + 3, c - 3);
+                error = ProcessMaploop(slist, slist->mInBuffer + 3, messageLength - 3);
                 break;
             case 6:
-                b = func_ov000_0218bf78(slist, slist->mInBuffer + 3, c - 3);
+                error = ProcessPlayerSearch(slist, slist->mInBuffer + 3, messageLength - 3);
                 break;
         }
-        slist->mInBufferLength -= c;
+        slist->mInBufferLength -= messageLength;
         if (slist->mInBufferLength < 0) {
-            AssertionFailed(data_ov000_021b2200, data_ov000_021b2218, NULL, 0x5b4);
+            AssertionFailed(gInBufferLengthAssertText, gSBServerListFileName, NULL, 0x5b4);
         }
         if (slist->mInBufferLength != 0 && slist->mInBuffer != NULL) {
-            memmove(slist->mInBuffer, slist->mInBuffer + c, slist->mInBufferLength);
+            memmove(slist->mInBuffer, slist->mInBuffer + messageLength, slist->mInBufferLength);
         }
-        if (b != 0) {
+        if (error != 0) {
             break;
         }
     }
-    if (b != 0) {
-        func_ov000_0218cf30(slist);
+    if (error != 0) {
+        ErrorDisconnect(slist);
     }
-    return b;
+    return error;
 }
 
-s32 func_ov000_0218bb44(SbServerList *a) {
-    s32 b;
-    s32 c;
-    s32 d;
-    if (func_ov000_0218e668(a->mUnk_4b0) == 0) {
+s32 ProcessIncomingData(SbServerList *serverList) {
+    s32 oldLength;
+    s32 received;
+    s32 error;
+    if (func_ov000_0218e668(serverList->mSocket) == 0) {
         return 0;
     }
-    b = a->mInBufferLength;
-    c = func_ov000_0218e460(a->mUnk_4b0, a->mInBuffer + b, 0x1000 - b, 0);
-    if ((u32) (c + 1) <= 1) {
-        func_ov000_0218cf30(a);
+    oldLength = serverList->mInBufferLength;
+    received = func_ov000_0218e460(serverList->mSocket, serverList->mInBuffer + oldLength, 0x1000 - oldLength, 0);
+    if ((u32) (received + 1) <= 1) {
+        ErrorDisconnect(serverList);
         return 3;
     }
-    a->mInBufferLength += c;
-    d = 0;
-    if (a->mState == 2 || a->mUnk_5c8 > 0) {
-        GOADecrypt(a->mUnk_4bc, a->mInBuffer + b, a->mInBufferLength - b);
+    serverList->mInBufferLength += received;
+    error = 0;
+    if (serverList->mState == 2 || serverList->mParseState > 0) {
+        GOADecrypt(serverList->mCryptKey, serverList->mInBuffer + oldLength, serverList->mInBufferLength - oldLength);
     }
-    if (a->mState == 3) {
-        d = func_ov000_0218c15c(a);
+    if (serverList->mState == 3) {
+        error = ProcessMainListData(serverList);
     }
-    if (d != 0) {
-        return d;
+    if (error != 0) {
+        return error;
     }
-    if (a->mState == 2 && a->mInBufferLength > 0) {
-        return func_ov000_0218bc08(a);
+    if (serverList->mState == 2 && serverList->mInBufferLength > 0) {
+        return ProcessAdHocData(serverList);
     }
     return 0;
 }
 
-s32 func_ov000_0218ba88(SbServerList *a, u32 b, u16 c, u8 *d, s32 e) {
-    Unk0218ba88 g;
-    u16 h;
-    u8 *p;
-    u8 *q;
-    s32 r;
-    if (a->mState == 1) {
-        func_ov000_0218ca58(a, NULL, NULL, 2, 0);
+s32 SBSendMessageToServer(SbServerList *serverList, u32 publicIp, u16 port, u8 *data, s32 dataLength) {
+    SendMessageRequest request;
+    u16 messageLength;
+    u8 *destination;
+    u8 *source;
+    s32 error;
+    if (serverList->mState == 1) {
+        SBServerListConnectAndQuery(serverList, NULL, NULL, 2, 0);
     }
-    if (a->mState == 1) {
+    if (serverList->mState == 1) {
         return 3;
     }
-    h = e + 9;
-    g.mUnk_00 = (h >> 8 & 0xff) | (h << 8 & 0xff00);
-    p = g.mUnk_02;
-    q = (u8 *) &g.mUnk_00;
-    p[0] = q[0];
-    p[1] = q[1];
-    g.mUnk_04 = 2;
-    p = g.mUnk_05;
-    q = (u8 *) &b;
-    p[0] = q[0];
-    p[1] = q[1];
-    p[2] = q[2];
-    p[3] = q[3];
-    p = g.mUnk_09;
-    q = (u8 *) &c;
-    p[0] = q[0];
-    p[1] = q[1];
-    r = func_ov000_0218cc48(a, g.mUnk_02, 9);
-    if (r != 0) {
-        return r;
+    messageLength = dataLength + 9;
+    request.mNetLength = (messageLength >> 8 & 0xff) | (messageLength << 8 & 0xff00);
+    destination = request.mRequestLength;
+    source = (u8 *) &request.mNetLength;
+    destination[0] = source[0];
+    destination[1] = source[1];
+    request.mRequestType = 2;
+    destination = request.mRequestIp;
+    source = (u8 *) &publicIp;
+    destination[0] = source[0];
+    destination[1] = source[1];
+    destination[2] = source[2];
+    destination[3] = source[3];
+    destination = request.mRequestPort;
+    source = (u8 *) &port;
+    destination[0] = source[0];
+    destination[1] = source[1];
+    error = SendWithRetry(serverList, request.mRequestLength, 9);
+    if (error != 0) {
+        return error;
     }
-    if (func_ov000_0218e420(a->mUnk_4b0, d, e, 0) < 0) {
+    if (func_ov000_0218e420(serverList->mSocket, data, dataLength, 0) < 0) {
         return 3;
     }
     return 0;
 }
 
-s32 func_ov000_0218ba10(SbServerList *a, u32 b, u16 c, u32 d) {
-    u8 v[10];
-    u8 *p;
-    u8 *q;
-    v[0] = 0xfd;
-    v[1] = 0xfc;
-    v[2] = 0x1e;
-    v[3] = 0x66;
-    v[4] = 0x6a;
-    v[5] = 0xb2;
-    d = (d << 24 & 0xff000000) | ((d << 8 & 0xff0000) | ((d >> 24 & 0xff) | (d >> 8 & 0xff00)));
-    p = v + 6;
-    q = (u8 *) &d;
-    p[0] = q[0];
-    p[1] = q[1];
-    p[2] = q[2];
-    p[3] = q[3];
-    return func_ov000_0218ba88(a, b, c, v, 10);
+s32 SBSendNatNegotiateCookieToServer(SbServerList *serverList, u32 publicIp, u16 port, u32 cookie) {
+    u8 message[10];
+    u8 *destination;
+    u8 *source;
+    message[0] = 0xfd;
+    message[1] = 0xfc;
+    message[2] = 0x1e;
+    message[3] = 0x66;
+    message[4] = 0x6a;
+    message[5] = 0xb2;
+    cookie =
+        (cookie << 24 & 0xff000000) | ((cookie << 8 & 0xff0000) | ((cookie >> 24 & 0xff) | (cookie >> 8 & 0xff00)));
+    destination = message + 6;
+    source = (u8 *) &cookie;
+    destination[0] = source[0];
+    destination[1] = source[1];
+    destination[2] = source[2];
+    destination[3] = source[3];
+    return SBSendMessageToServer(serverList, publicIp, port, message, 10);
 }
 
-s32 func_ov000_0218b928(SbServerList *a) {
-    Unk0218b8f4 v1;
-    s32 v2;
-    u8 v3[0x5e0];
-    void *p;
-    v2 = 8;
-    while (func_ov000_0218e668(a->mUnk_4b0) != 0) {
-        if (func_ov000_0218e438(a->mUnk_4b0, v3, 0x5db, 0, (u8 *) &v1, &v2) != -1) {
-            if (func_ov000_0218d2a8(a, v1.mUnk_04, v1.mUnk_02) == -1) {
-                p = func_ov000_0218af28(a, v1.mUnk_04, v1.mUnk_02);
-                if (func_ov000_0218aefc(p) != 0) {
+s32 ProcessLanData(SbServerList *serverList) {
+    Unk0218b8f4 sender;
+    s32 senderLength;
+    u8 datagram[0x5e0];
+    void *lanServer;
+    senderLength = 8;
+    while (func_ov000_0218e668(serverList->mSocket) != 0) {
+        if (func_ov000_0218e438(serverList->mSocket, datagram, 0x5db, 0, (u8 *) &sender, &senderLength) != -1) {
+            if (SBServerListFindServerByIP(serverList, sender.mUnk_04, sender.mUnk_02) == -1) {
+                lanServer = SBAllocServer(serverList, sender.mUnk_04, sender.mUnk_02);
+                if (SBIsNullServer(lanServer) != 0) {
                     return 5;
                 }
-                func_ov000_0218af24(p, 0x11);
-                func_ov000_0218d340(a, (u32) p);
+                SBServerSetFlags(lanServer, 0x11);
+                SBServerListAppendServer(serverList, (u32) lanServer);
             }
         }
     }
-    if (func_ov000_0218e8c4() - a->mUnk_4b4 > 0x7d0) {
-        func_ov000_0218e53c(a->mUnk_4b0);
-        a->mUnk_4b0 = -1;
-        a->mState = 1;
-        a->mCallback(a, 3, data_ov000_021b4d1c, a->mUnk_494);
+    if (func_ov000_0218e8c4() - serverList->mLanStartTime > 0x7d0) {
+        func_ov000_0218e53c(serverList->mSocket);
+        serverList->mSocket = -1;
+        serverList->mState = 1;
+        serverList->mCallback(serverList, 3, gSBNullServer, serverList->mInstance);
     }
     return 0;
 }
 
-s32 func_ov000_0218b8e4(SbServerList *a) {
-    func_ov000_0218d1dc(a);
-    switch (a->mState) {
+s32 SBListThink(SbServerList *serverList) {
+    SBFreeDeadList(serverList);
+    switch (serverList->mState) {
         case 2:
         case 3:
-            return func_ov000_0218bb44(a);
+            return ProcessIncomingData(serverList);
         case 0:
-            return func_ov000_0218b928(a);
+            return ProcessLanData(serverList);
         case 1:
         default:
             return 0;
     }
 }
 
-void func_ov000_0218b780(SbServerList *a, s32 b, SbServer *c, MatchingServerList *d) {
-    switch (b) {
+void ListCallback(SbServerList *browserList, s32 reason, SbServer *server, MatchingServerList *matchingServerList) {
+    switch (reason) {
         case 0:
-            d->mUnk_630(d, 0, c, d->mUnk_634);
-            if (((c->mUnk_14 & 3) == 0 || (c->mUnk_14 & 0x40) == 0) && (c->mUnk_14 & 0x2c) == 0 && d->mUnk_624 == 0) {
-                s32 t;
-                if (c->mUnk_15 & 1) {
-                    if (d->mUnk_04c.mState == 0 || d->mUnk_000.mNumServerKeys == 0) {
-                        t = 1;
+            matchingServerList->mBrowserCallback(matchingServerList, 0, server, matchingServerList->mBrowserInstance);
+            if (((server->mStateFlags & 3) == 0 || (server->mStateFlags & 0x40) == 0) &&
+                (server->mStateFlags & 0x2c) == 0 && matchingServerList->mDontUpdate == 0) {
+                s32 queryType;
+                if (server->mFlags & 1) {
+                    if (matchingServerList->mList.mState == 0 || matchingServerList->mEngine.mNumServerKeys == 0) {
+                        queryType = 1;
                     } else {
-                        t = 0;
+                        queryType = 0;
                     }
                 } else {
-                    t = 2;
+                    queryType = 2;
                 }
-                SBQueryEngineUpdateServer(&d->mUnk_000, c, 0, t);
+                SBQueryEngineUpdateServer(&matchingServerList->mEngine, server, 0, queryType);
             }
             break;
         case 1:
-            if ((c->mUnk_14 & 0x43) == 0) {
-                d->mUnk_630(d, 2, c, d->mUnk_634);
+            if ((server->mStateFlags & 0x43) == 0) {
+                matchingServerList->mBrowserCallback(matchingServerList, 2, server,
+                                                     matchingServerList->mBrowserInstance);
             } else {
-                d->mUnk_630(d, 1, c, d->mUnk_634);
+                matchingServerList->mBrowserCallback(matchingServerList, 1, server,
+                                                     matchingServerList->mBrowserInstance);
             }
             break;
         case 2:
-            if ((c->mUnk_14 & 0x2c) != 0) {
-                SBQueryEngineRemoveServerFromFIFOs(d, c);
+            if ((server->mStateFlags & 0x2c) != 0) {
+                SBQueryEngineRemoveServerFromFIFOs(matchingServerList, server);
             }
-            d->mUnk_630(d, 3, c, d->mUnk_634);
+            matchingServerList->mBrowserCallback(matchingServerList, 3, server, matchingServerList->mBrowserInstance);
             break;
         case 3:
-            if (d->mUnk_620 != 0) {
-                func_ov000_0218c980(a);
+            if (matchingServerList->mDisconnectFlag != 0) {
+                SBServerListDisconnect(browserList);
             }
-            if (DarrayGetCount(a->mUnk_004) == 0 || d->mUnk_000.mQueryList.mCount == 0) {
-                d->mUnk_630(d, 4, 0, d->mUnk_634);
+            if (DarrayGetCount(browserList->mServers) == 0 || matchingServerList->mEngine.mQueryList.mCount == 0) {
+                matchingServerList->mBrowserCallback(matchingServerList, 4, 0, matchingServerList->mBrowserInstance);
             }
             break;
         case 5:
-            d->mUnk_630(d, 5, 0, d->mUnk_634);
+            matchingServerList->mBrowserCallback(matchingServerList, 5, 0, matchingServerList->mBrowserInstance);
             break;
         case 6:
-            SBQueryEngineSetPublicIP(d, d->mUnk_04c.mUnk_4a0);
+            SBQueryEngineSetPublicIP(matchingServerList, matchingServerList->mList.mMyPublicIp);
             break;
     }
-    if (c != NULL && c->mUnk_00 == d->mUnk_628 && c->mUnk_04 == d->mUnk_62c) {
-        d->mUnk_628 = 0;
+    if (server != NULL && server->mPublicIp == matchingServerList->mTriggerIp &&
+        server->mPublicPort == matchingServerList->mTriggerPort) {
+        matchingServerList->mTriggerIp = 0;
     }
 }
 
-void func_ov000_0218b708(void *a, s32 b, SbServer *c, MatchingServerList *d) {
-    switch (b) {
+void EngineCallback(void *engine, s32 reason, SbServer *server, MatchingServerList *matchingServerList) {
+    switch (reason) {
         case 1:
-            d->mUnk_630(d, 2, c, d->mUnk_634);
+            matchingServerList->mBrowserCallback(matchingServerList, 2, server, matchingServerList->mBrowserInstance);
             break;
         case 0:
-            d->mUnk_630(d, 1, c, d->mUnk_634);
+            matchingServerList->mBrowserCallback(matchingServerList, 1, server, matchingServerList->mBrowserInstance);
             break;
         case 2:
-            d->mUnk_630(d, 4, c, d->mUnk_634);
+            matchingServerList->mBrowserCallback(matchingServerList, 4, server, matchingServerList->mBrowserInstance);
             break;
     }
-    if (c != NULL && c->mUnk_00 == d->mUnk_628 && c->mUnk_04 == d->mUnk_62c) {
-        d->mUnk_628 = 0;
+    if (server != NULL && server->mPublicIp == matchingServerList->mTriggerIp &&
+        server->mPublicPort == matchingServerList->mTriggerPort) {
+        matchingServerList->mTriggerIp = 0;
     }
 }
 
-MatchingServerList *func_ov000_0218b668(const char *a, const char *b, const char *c, u32 d, u32 e, u32 f, s32 g,
-                                        UnkFunc *h, u32 l) {
-    MatchingServerList *p;
-    if (g == 0 && gGsiAcResult != 1) {
+MatchingServerList *ServerBrowserNewA(const char *targetName, const char *sourceName,
+                                      const char *queryFromKey, u32 queryFromVersion, u32 maxUpdates, u32 queryVersion,
+                                      s32 lanBrowse, UnkFunc *callback, u32 instance) {
+    MatchingServerList *matchingServerList;
+    if (lanBrowse == 0 && gGsiAcResult != 1) {
         return NULL;
     }
-    p = func_ov000_021a3690(0x638);
-    if (p == NULL) {
+    matchingServerList = func_ov000_021a3690(0x638);
+    if (matchingServerList == NULL) {
         return NULL;
     }
-    p->mUnk_630 = h;
-    p->mUnk_634 = l;
-    p->mUnk_624 = 0;
-    SbServerListInit(&p->mUnk_04c, a, b, c, d, g, func_ov000_0218b780, p);
-    SBQueryEngineInit(&p->mUnk_000, e, f, g, func_ov000_0218b708, p);
-    return p;
+    matchingServerList->mBrowserCallback = callback;
+    matchingServerList->mBrowserInstance = instance;
+    matchingServerList->mDontUpdate = 0;
+    SbServerListInit(&matchingServerList->mList, targetName, sourceName, queryFromKey, queryFromVersion,
+                     lanBrowse, ListCallback, matchingServerList);
+    SBQueryEngineInit(&matchingServerList->mEngine, maxUpdates, queryVersion, lanBrowse, EngineCallback,
+                      matchingServerList);
+    return matchingServerList;
 }
 
-void func_ov000_0218b64c(MatchingServerList *p) {
-    func_ov000_0218c958(&p->mUnk_04c);
-    SBEngineCleanup(p);
-    func_ov000_021a3668(p);
+void ServerBrowserFree(MatchingServerList *matchingServerList) {
+    SBServerListCleanup(&matchingServerList->mList);
+    SBEngineCleanup(matchingServerList);
+    func_ov000_021a3668(matchingServerList);
 }
 
-s32 func_ov000_0218b590(MatchingServerList *a, s32 b, u32 c, u8 *d, s32 e, const char *f, u32 g, u32 h) {
-    char v1[256] = {0};
-    s32 n;
-    s32 i;
-    s32 r;
-    const char *s;
-    n = 0;
-    a->mUnk_620 = c;
-    a->mUnk_000.mNumServerKeys = 0;
-    for (i = 0; i < e; i++) {
-        s = gQr2RegisteredKeyList[d[i]];
-        if (n + (s32) strlen(s) + 1 >= 256) {
+s32 ServerBrowserBeginUpdate2(MatchingServerList *matchingServerList, s32 async, u32 disconnectOnComplete,
+                              u8 *basicFields, s32 numBasicFields, const char *serverFilter, u32 updateOptions,
+                              u32 maxServers) {
+    char keyNames[256] = {0};
+    s32 listLength;
+    s32 fieldIndex;
+    s32 error;
+    const char *keyName;
+    listLength = 0;
+    matchingServerList->mDisconnectFlag = disconnectOnComplete;
+    matchingServerList->mEngine.mNumServerKeys = 0;
+    for (fieldIndex = 0; fieldIndex < numBasicFields; fieldIndex++) {
+        keyName = gQr2RegisteredKeyList[basicFields[fieldIndex]];
+        if (listLength + (s32) strlen(keyName) + 1 >= 256) {
             break;
         }
-        n += sprintf(v1 + n, data_ov000_021b21e8, s);
-        SBQueryEngineAddQueryKey(&a->mUnk_000, d[i]);
+        listLength += sprintf(keyNames + listLength, gKeyListEntryFormat, keyName);
+        SBQueryEngineAddQueryKey(&matchingServerList->mEngine, basicFields[fieldIndex]);
     }
-    r = func_ov000_0218ca58(&a->mUnk_04c, v1, f, g, h);
-    if (r == 0 && b == 0) {
-        n = 10;
-        while (a->mUnk_04c.mState == 3 || (a->mUnk_000.mQueryList.mCount > 0 && r == 0)) {
-            func_ov000_0218e8bc(n);
-            r = func_ov000_0218b4bc(a);
+    error = SBServerListConnectAndQuery(&matchingServerList->mList, keyNames, serverFilter, updateOptions, maxServers);
+    if (error == 0 && async == 0) {
+        listLength = 10;
+        while (matchingServerList->mList.mState == 3 ||
+               (matchingServerList->mEngine.mQueryList.mCount > 0 && error == 0)) {
+            func_ov000_0218e8bc(listLength);
+            error = ServerBrowserThink(matchingServerList);
         }
     }
-    return r;
+    return error;
 }
 
-u32 func_ov000_0218b570(MatchingServerList *p0, u32 p1, u32 p2, u8 *p3, u32 p4, u32 p5, u32 p6) {
-    u32 v2 = p4;
-    u32 v4 = p5;
-    u32 v8 = p6;
-    u32 v10 = func_ov000_0218b590(p0, p1, p2, p3, v2, (const char *) v4, 0x80u, v8);
-    return v10;
+u32 ServerBrowserLimitUpdateA(MatchingServerList *matchingServerList, u32 async, u32 disconnectOnComplete,
+                              u8 *basicFields, u32 numBasicFields, u32 serverFilter, u32 maxServers) {
+    u32 fieldCount = numBasicFields;
+    u32 filter = serverFilter;
+    u32 limit = maxServers;
+    u32 result = ServerBrowserBeginUpdate2(matchingServerList, async, disconnectOnComplete, basicFields, fieldCount,
+                                           (const char *) filter, 0x80u, limit);
+    return result;
 }
 
-s32 func_ov000_0218b530(MatchingServerList *a, u32 b, s32 c, u8 *d, s32 e) {
-    u32 f = func_ov000_0218e374(b);
-    return func_ov000_0218ba88(&a->mUnk_04c, f, ((c >> 8) & 0xff) | ((c << 8) & 0xff00), d, e);
+s32 ServerBrowserSendMessageToServerA(MatchingServerList *matchingServerList, u32 ipText, s32 port, u8 *data,
+                                      s32 dataLength) {
+    u32 publicIp = func_ov000_0218e374(ipText);
+    return SBSendMessageToServer(&matchingServerList->mList, publicIp, ((port >> 8) & 0xff) | ((port << 8) & 0xff00),
+                                 data, dataLength);
 }
 
-s32 func_ov000_0218b4f8(MatchingServerList *a, u32 b, s32 c, u32 d) {
-    u32 e = func_ov000_0218e374(b);
-    return func_ov000_0218ba10(&a->mUnk_04c, e, ((c >> 8) & 0xff) | ((c << 8) & 0xff00), d);
+s32 ServerBrowserSendNatNegotiateCookieToServerA(MatchingServerList *matchingServerList, u32 ipText, s32 port, u32 cookie) {
+    u32 publicIp = func_ov000_0218e374(ipText);
+    return SBSendNatNegotiateCookieToServer(&matchingServerList->mList, publicIp,
+                                            ((port >> 8) & 0xff) | ((port << 8) & 0xff00), cookie);
 }
 
-void func_ov000_0218b4d4(struct MatchingServerList *p, s32 a) {
-    s32 b;
-    b = func_ov000_0218d300(&p->mUnk_04c, a);
-    if (b != -1) {
-        func_ov000_0218d238(&p->mUnk_04c, b);
+void ServerBrowserRemoveServer(struct MatchingServerList *matchingServerList, s32 server) {
+    s32 serverIndex;
+    serverIndex = SBServerListFindServer(&matchingServerList->mList, server);
+    if (serverIndex != -1) {
+        SBServerListRemoveAt(&matchingServerList->mList, serverIndex);
     }
 }
 
-s32 func_ov000_0218b4bc(struct MatchingServerList *p) {
-    SBQueryEngineThink(p);
-    return func_ov000_0218b8e4(&p->mUnk_04c);
+s32 ServerBrowserThink(struct MatchingServerList *matchingServerList) {
+    SBQueryEngineThink(matchingServerList);
+    return SBListThink(&matchingServerList->mList);
 }
 
-void func_ov000_0218b4a4(struct MatchingServerList *p) {
-    func_ov000_0218c980(&p->mUnk_04c);
-    SBEngineHaltUpdates(p);
+void ServerBrowserHalt(struct MatchingServerList *matchingServerList) {
+    SBServerListDisconnect(&matchingServerList->mList);
+    SBEngineHaltUpdates(matchingServerList);
 }
 
-void func_ov000_0218b48c(struct MatchingServerList *p) {
-    func_ov000_0218b4a4(p);
-    func_ov000_0218d1a0(&p->mUnk_04c);
+void ServerBrowserClear(struct MatchingServerList *matchingServerList) {
+    ServerBrowserHalt(matchingServerList);
+    SBServerListClear(&matchingServerList->mList);
 }
 
-u32 func_ov000_0218b480(MatchingServerList *arg0, u32 arg1) {
-    u32 value0 = (u32) arg0;
-    u32 value1 = arg1;
-    u32 value3;
-    value0 = (value0) + 76u;
-    value3 = (u32) &func_ov000_0218d218;
-    value0 = func_ov000_0218d218((SbServerList *) value0, value1);
-    return value0;
+u32 ServerBrowserGetServer(MatchingServerList *matchingServerList, u32 index) {
+    u32 spareValue = (u32) matchingServerList;
+    u32 indexCopy = index;
+    u32 calleeAddress;
+    spareValue = (spareValue) + 76u;
+    calleeAddress = (u32) &SBServerListNth;
+    spareValue = SBServerListNth((SbServerList *) spareValue, indexCopy);
+    return spareValue;
 }
 
-u32 func_ov000_0218b474(MatchingServerList *arg0) {
-    u32 value0 = (u32) arg0;
-    u32 value3;
-    value0 = (value0) + 76u;
-    value3 = (u32) &func_ov000_0218d22c;
-    value0 = func_ov000_0218d22c((SbServerList *) value0);
-    return value0;
+u32 ServerBrowserCount(MatchingServerList *matchingServerList) {
+    u32 spareValue = (u32) matchingServerList;
+    u32 calleeAddress;
+    spareValue = (spareValue) + 76u;
+    calleeAddress = (u32) &SBServerListCount;
+    spareValue = SBServerListCount((SbServerList *) spareValue);
+    return spareValue;
 }
 
-void func_ov000_0218b464(MatchingServerList *p0, u32 p1, const char *p2, u32 p3) {
-    func_ov000_0218d374(&p0->mUnk_04c, p1, p2, p3);
+void ServerBrowserSortA(MatchingServerList *matchingServerList, u32 ascending, const char *sortField, u32 compareKind) {
+    SBServerListSort(&matchingServerList->mList, ascending, sortField, compareKind);
 }
 
-u32 func_ov000_0218b458(MatchingServerList *a) {
-    return a->mUnk_04c.mUnk_4a0;
+u32 ServerBrowserGetMyPublicIPAddr(MatchingServerList *matchingServerList) {
+    return matchingServerList->mList.mMyPublicIp;
 }
 
-u32 func_ov000_0218b44c(HashtableNameEntry *entry, u32 modulus) {
-    return func_ov000_0218afd4(entry->mName, modulus);
+u32 RefStringHash(HashtableNameEntry *entry, u32 modulus) {
+    return ServerStringHash(entry->mName, modulus);
 }
 
-s32 func_ov000_0218b440(const char *const *first, const char *const *second) {
+s32 RefStringCompare(const char *const *first, const char *const *second) {
     return CompareStringsMapped(*first, *second);
 }
 
-void func_ov000_0218b434(u32 arg0) {
-    u32 value0 = arg0;
+void RefStringFree(u32 element) {
+    u32 stringPointer = element;
     u32 value3;
-    value0 = *(const u32 *) ((value0) + 0u);
-    func_ov000_021a3668((void *) value0);
+    stringPointer = *(const u32 *) ((stringPointer) + 0u);
+    func_ov000_021a3668((void *) stringPointer);
 }
 
-struct Hashtable *func_ov000_0218b3f4(struct SbServerList *p) {
-    if (data_ov000_021b4d18 == NULL) {
-        data_ov000_021b4d18 =
-            HashtableCreate(8, 100, 2, (s32(*)(void *, s32)) func_ov000_0218b44c,
-                            (s32(*)(void *, void *)) func_ov000_0218b440, (void (*)(void *)) func_ov000_0218b434);
+struct Hashtable *SBRefStrHash(struct SbServerList *serverList) {
+    if (gSBRefStrList == NULL) {
+        gSBRefStrList = HashtableCreate(8, 100, 2, (s32(*)(void *, s32)) RefStringHash,
+                                        (s32(*)(void *, void *)) RefStringCompare, (void (*)(void *)) RefStringFree);
     }
-    return data_ov000_021b4d18;
+    return gSBRefStrList;
 }
 
-void func_ov000_0218b3c8(void *a) {
-    int v1;
-    if ((data_ov000_021b4d18 != NULL) && (v1 = HashtableGetCount(data_ov000_021b4d18), v1 == 0)) {
-        HashtableDelete(data_ov000_021b4d18);
-        *(s32 *) &data_ov000_021b4d18 = 0;
+void SBRefStrHashCleanup(void *serverList) {
+    int count;
+    if ((gSBRefStrList != NULL) && (count = HashtableGetCount(gSBRefStrList), count == 0)) {
+        HashtableDelete(gSBRefStrList);
+        *(s32 *) &gSBRefStrList = 0;
     }
 }
 
-void func_ov000_0218b3ac(int *a) {
-    int v1;
-    v1 = *a;
-    HashtableDelete((s32 *) (*(u32 *) (v1 + 0x18)));
-    *(u32 *) (v1 + 0x18) = 0;
-    func_ov000_021a3668((void *) v1);
+void SBServerFree(int *serverPointer) {
+    int serverRecord;
+    serverRecord = *serverPointer;
+    HashtableDelete((s32 *) (*(u32 *) (serverRecord + 0x18)));
+    *(u32 *) (serverRecord + 0x18) = 0;
+    func_ov000_021a3668((void *) serverRecord);
 }
 
-void SbServerSetValue(SbServer *e, const char *v1, const char *v2) {
-    char *a[2];
-    a[0] = func_ov000_0218d134(NULL, v1);
-    a[1] = func_ov000_0218d134(NULL, v2);
-    HashtableSet(e->mKeyValues, a);
+void SbServerSetValue(SbServer *server, const char *key, const char *value) {
+    char *pair[2];
+    pair[0] = SBRefStr(NULL, key);
+    pair[1] = SBRefStr(NULL, value);
+    HashtableSet(server->mKeyValues, pair);
 }
 
-void SbServerSetInt(SbServer *e, const char *v1, u32 c) {
-    char a[20];
-    sprintf(a, data_ov000_021b21e4, c);
-    SbServerSetValue(e, v1, a);
+void SbServerSetInt(SbServer *server, const char *key, u32 value) {
+    char valueText[20];
+    sprintf(valueText, gIntValueFormat, value);
+    SbServerSetValue(server, key, valueText);
 }
 
-char *SbServerGetValue(SbServer *server, const char *v1, char *d) {
-    Unk0218b30c a;
-    u32 *b;
+char *SbServerGetValue(SbServer *server, const char *key, char *defaultValue) {
+    KeyLookup probe;
+    u32 *entry;
     if (server == NULL) {
-        AssertionFailed(data_ov000_021b21d0, data_ov000_021b21d8, NULL, 0x97);
+        AssertionFailed(gServerAssertText, gSBServerFileName, NULL, 0x97);
     }
     if (server == NULL) {
         return NULL;
     }
-    a.mUnk_00 = v1;
-    b = HashtableFind(server->mKeyValues, &a);
-    if (b != NULL) {
-        d = (char *) b[1];
+    probe.mKey = key;
+    entry = HashtableFind(server->mKeyValues, &probe);
+    if (entry != NULL) {
+        defaultValue = (char *) entry[1];
     }
-    return d;
+    return defaultValue;
 }
 
-s32 SbServerGetInt(SbServer *e, const char *v1, s32 d) {
-    char *a;
-    s32 c;
-    if (strcmp(v1, data_ov000_021b21c8) == 0) {
-        return func_ov000_0218af9c(e);
+s32 SbServerGetInt(SbServer *server, const char *key, s32 defaultValue) {
+    char *text;
+    s32 firstChar;
+    if (strcmp(key, gPingKey) == 0) {
+        return SBServerGetPing(server);
     }
-    a = SbServerGetValue(e, v1, NULL);
-    if (a == NULL || (c = *a, !((c < 0 || c >= 0x80) ? 0 : (gCharClassFlags[c] & 8)))) {
-        return d;
+    text = SbServerGetValue(server, key, NULL);
+    if (text == NULL ||
+        (firstChar = *text, !((firstChar < 0 || firstChar >= 0x80) ? 0 : (gCharClassFlags[firstChar] & 8)))) {
+        return defaultValue;
     }
-    return StrtolBase10(a);
+    return StrtolBase10(text);
 }
 
-double SbServerGetDouble(SbServer *e, const char *v1, double d) {
-    char *a;
-    a = SbServerGetValue(e, v1, NULL);
-    if (a != NULL) {
-        d = atof(a);
+double SbServerGetDouble(SbServer *server, const char *key, double defaultValue) {
+    char *text;
+    text = SbServerGetValue(server, key, NULL);
+    if (text != NULL) {
+        defaultValue = atof(text);
     }
-    return d;
+    return defaultValue;
 }
 
-u32 func_ov000_0218b27c(u32 *a) {
-    return *a;
+u32 SBServerGetPublicInetAddress(u32 *server) {
+    return *server;
 }
 
-u32 func_ov000_0218b260(u32 arg0) {
-    u32 value0 = arg0;
-    u32 value1;
-    u32 value2;
-    value1 = *(const u16 *) ((value0) + 4u);
-    value2 = ((s32) value1 >> 8);
+u32 SBServerGetPublicQueryPort(u32 server) {
+    u32 value0 = server;
+    u32 port;
+    u32 swappedPort;
+    port = *(const u16 *) ((value0) + 4u);
+    swappedPort = ((s32) port >> 8);
     value0 = 255u;
-    value2 = (value2) & (value0);
-    value1 = (value1 << 8);
+    swappedPort = (swappedPort) & (value0);
+    port = (port << 8);
     value0 = 0xff00u;
-    value1 = (value1) & (value0);
-    value2 = (value2) | (value1);
-    value0 = (value2 << 16);
+    port = (port) & (value0);
+    swappedPort = (swappedPort) | (port);
+    value0 = (swappedPort << 16);
     value0 = (value0 >> 16);
     return value0;
 }
 
-u16 func_ov000_0218b25c(int a) {
-    return *(u16 *) (a + 4);
+u16 SBServerGetPublicQueryPortNBO(int server) {
+    return *(u16 *) (server + 4);
 }
 
-u32 func_ov000_0218b248(int a) {
-    if ((*(u8 *) (a + 0x15) & 2) == 2) {
+BOOL SBServerHasPrivateAddress(int server) {
+    if ((*(u8 *) (server + 0x15) & 2) == 2) {
         return 1;
     }
     return 0;
 }
 
-u32 func_ov000_0218b244(int a) {
-    return *(u32 *) (a + 8);
+u32 SBServerGetPrivateInetAddress(int server) {
+    return *(u32 *) (server + 8);
 }
 
-u32 func_ov000_0218b228(u32 arg0) {
-    u32 value0 = arg0;
-    u32 value1;
-    u32 value2;
-    value1 = *(const u16 *) ((value0) + 12u);
-    value2 = ((s32) value1 >> 8);
+u32 SBServerGetPrivateQueryPort(u32 server) {
+    u32 value0 = server;
+    u32 port;
+    u32 swappedPort;
+    port = *(const u16 *) ((value0) + 12u);
+    swappedPort = ((s32) port >> 8);
     value0 = 255u;
-    value2 = (value2) & (value0);
-    value1 = (value1 << 8);
+    swappedPort = (swappedPort) & (value0);
+    port = (port << 8);
     value0 = 0xff00u;
-    value1 = (value1) & (value0);
-    value2 = (value2) | (value1);
-    value0 = (value2 << 16);
+    port = (port) & (value0);
+    swappedPort = (swappedPort) | (port);
+    value0 = (swappedPort << 16);
     value0 = (value0 >> 16);
     return value0;
 }
 
-void func_ov000_0218b224(int a, u32 b) {
-    *(u32 *) (a + 0x20) = b;
+void SBServerSetNext(int server, u32 next) {
+    *(u32 *) (server + 0x20) = next;
 }
 
-u32 func_ov000_0218b220(int a) {
-    return *(u32 *) (a + 0x20);
+u32 SBServerGetNext(int server) {
+    return *(u32 *) (server + 0x20);
 }
 
-u32 func_ov000_0218b1e0(const char *s) {
-    Unk021b21ac t;
-    u32 i;
-    const char **p;
-    t = data_ov000_021b21ac;
-    p = t.mUnk_00;
-    for (i = 0; i < 2; i++) {
-        if (strcmp(s, *p) == 0) {
+BOOL CheckValidKey(const char *key) {
+    InvalidKeyNames invalidKeys;
+    u32 index;
+    const char **invalidName;
+    invalidKeys = gInvalidKeys;
+    invalidName = invalidKeys.mNames;
+    for (index = 0; index < 2; index++) {
+        if (strcmp(key, *invalidName) == 0) {
             return 0;
         }
-        p++;
+        invalidName++;
     }
     return 1;
 }
 
-s8 *func_ov000_0218b19c(s8 *s, s32 c) {
-    s8 *a;
-    s8 *b;
-    s32 d;
-    if (s != NULL) {
-        data_ov000_021b4d14 = s;
+s8 *mytok(s8 *text, s32 delimiter) {
+    s8 *tokenStart;
+    s8 *cursor;
+    s32 character;
+    if (text != NULL) {
+        gMytokPosition = text;
     }
-    a = data_ov000_021b4d14;
-    while ((d = *(b = data_ov000_021b4d14)) != 0 && d != c) {
-        data_ov000_021b4d14++;
+    tokenStart = gMytokPosition;
+    while ((character = *(cursor = gMytokPosition)) != 0 && character != delimiter) {
+        gMytokPosition++;
     }
-    if (b == a) {
-        a = NULL;
+    if (cursor == tokenStart) {
+        tokenStart = NULL;
     }
-    if (d != 0) {
-        data_ov000_021b4d14++;
-        *b = 0;
+    if (character != 0) {
+        gMytokPosition++;
+        *cursor = 0;
     }
-    return a;
+    return tokenStart;
 }
 
-void func_ov000_0218b148(SbServer *e, s8 *v1) {
-    s8 *a;
-    s8 *b;
-    a = func_ov000_0218b19c(v1 + 1, 0x5c);
-    while (a != NULL) {
-        b = func_ov000_0218b19c(NULL, 0x5c);
-        if (b == NULL) {
-            b = data_ov000_021b21c4;
+void SBServerParseKeyVals(SbServer *server, s8 *keyValues) {
+    s8 *key;
+    s8 *value;
+    key = mytok(keyValues + 1, 0x5c);
+    while (key != NULL) {
+        value = mytok(NULL, 0x5c);
+        if (value == NULL) {
+            value = data_ov000_021b21c4;
         }
-        if (func_ov000_0218b1e0((const char *) a) != 0) {
-            SbServerSetValue(e, (const char *) a, (const char *) b);
+        if (CheckValidKey((const char *) key) != 0) {
+            SbServerSetValue(server, (const char *) key, (const char *) value);
         }
-        a = func_ov000_0218b19c(NULL, 0x5c);
+        key = mytok(NULL, 0x5c);
     }
 }
 
-void func_ov000_0218b010(SbServer *e, s8 *v1, s32 n) {
-    Unk0218b010 t;
-    s8 *s;
-    s8 *p;
-    s8 *v;
-    s32 a;
-    s32 i;
-    s32 b;
-    s32 c;
-    s32 d;
-    s32 f;
-    u16 w;
-    while (*v1 != 0) {
-        f = func_ov000_0218d0c8(v1, n);
-        if (f < 0) {
+void SBServerParseQR2FullKeysSingle(SbServer *server, s8 *data, s32 length) {
+    FullKeysScratch scratch;
+    s8 *keyNames;
+    s8 *key;
+    s8 *value;
+    s32 keyCount;
+    s32 groupIndex;
+    s32 unitIndex;
+    s32 keyIndex;
+    s32 valueLength;
+    s32 stringLength;
+    u16 unitCount;
+    while (*data != 0) {
+        stringLength = NTSLengthSB(data, length);
+        if (stringLength < 0) {
             return;
         }
-        p = v1;
-        v1 += f;
-        n -= f;
-        f = func_ov000_0218d0c8(v1, n);
-        if (f < 0) {
+        key = data;
+        data += stringLength;
+        length -= stringLength;
+        stringLength = NTSLengthSB(data, length);
+        if (stringLength < 0) {
             return;
         }
-        v = v1;
-        v1 += f;
-        n -= f;
-        SbServerSetValue(e, (const char *) p, (const char *) v);
+        value = data;
+        data += stringLength;
+        length -= stringLength;
+        SbServerSetValue(server, (const char *) key, (const char *) value);
     }
-    v1++;
-    n--;
-    for (i = 0; i < 2; i++) {
-        if (n < 2) {
+    data++;
+    length--;
+    for (groupIndex = 0; groupIndex < 2; groupIndex++) {
+        if (length < 2) {
             return;
         }
-        __memcpy(t.mUnk_00, v1, 2);
-        w = *(u16 *) t.mUnk_00;
-        *(u16 *) t.mUnk_00 = ((w >> 8) & 0xff) | ((w << 8) & 0xff00);
-        v1 += 2;
-        n -= 2;
-        s = v1;
-        a = 0;
-        while (*v1 != 0) {
-            f = func_ov000_0218d0c8(v1, n);
-            if (f < 0 || f > 100) {
+        __memcpy(scratch.mUnitCount, data, 2);
+        unitCount = *(u16 *) scratch.mUnitCount;
+        *(u16 *) scratch.mUnitCount = ((unitCount >> 8) & 0xff) | ((unitCount << 8) & 0xff00);
+        data += 2;
+        length -= 2;
+        keyNames = data;
+        keyCount = 0;
+        while (*data != 0) {
+            stringLength = NTSLengthSB(data, length);
+            if (stringLength < 0 || stringLength > 100) {
                 return;
             }
-            a++;
-            v1 += f;
-            n -= f;
+            keyCount++;
+            data += stringLength;
+            length -= stringLength;
         }
-        v1++;
-        n--;
-        b = 0;
-        while (b < *(u16 *) t.mUnk_00) {
-            p = s;
-            c = 0;
-            while (c < a) {
-                d = func_ov000_0218d0c8(v1, n);
-                if (d < 0) {
+        data++;
+        length--;
+        unitIndex = 0;
+        while (unitIndex < *(u16 *) scratch.mUnitCount) {
+            key = keyNames;
+            keyIndex = 0;
+            while (keyIndex < keyCount) {
+                valueLength = NTSLengthSB(data, length);
+                if (valueLength < 0) {
                     return;
                 }
-                sprintf(t.mUnk_02, data_ov000_021b21bc, p, b);
-                SbServerSetValue(e, t.mUnk_02, (const char *) v1);
-                v1 += d;
-                n -= d;
-                p += strlen((const char *) p) + 1;
-                c++;
+                sprintf(scratch.mTempKey, gKeyIndexFormat, key, unitIndex);
+                SbServerSetValue(server, scratch.mTempKey, (const char *) data);
+                data += valueLength;
+                length -= valueLength;
+                key += strlen((const char *) key) + 1;
+                keyIndex++;
             }
-            b++;
+            unitIndex++;
         }
     }
 }
 
-u32 func_ov000_0218afd4(const s8 *v1, u32 v2) {
-    s32 c;
-    u32 a;
-    a = 0;
-    c = *v1;
-    while (c != 0) {
-        if (c >= 0 && c < 0x80) {
-            c = gLowerCaseMap[c];
+u32 ServerStringHash(const s8 *text, u32 modulus) {
+    s32 character;
+    u32 hash;
+    hash = 0;
+    character = *text;
+    while (character != 0) {
+        if (character >= 0 && character < 0x80) {
+            character = gLowerCaseMap[character];
         }
-        a *= 0x9ccf9319;
-        a += c;
-        v1++;
-        c = *v1;
+        hash *= 0x9ccf9319;
+        hash += character;
+        text++;
+        character = *text;
     }
-    return a % v2;
+    return hash % modulus;
 }
 
-void func_ov000_0218afb8(u32 *a) {
-    func_ov000_0218d0e4(0, *a);
-    func_ov000_0218d0e4(0, a[1]);
+void KeyValFree(u32 *pair) {
+    SBReleaseStr(0, *pair);
+    SBReleaseStr(0, pair[1]);
 }
 
-u32 func_ov000_0218afac(HashtableNameEntry *entry, u32 modulus) {
-    return func_ov000_0218afd4(entry->mName, modulus);
+u32 KeyValHashKey(HashtableNameEntry *entry, u32 modulus) {
+    return ServerStringHash(entry->mName, modulus);
 }
 
-s32 func_ov000_0218afa0(const char *const *first, const char *const *second) {
+s32 KeyValCompareKey(const char *const *first, const char *const *second) {
     return CompareStringsMapped(*first, *second);
 }
 
-u32 func_ov000_0218af9c(SbServer *a) {
-    return a->mPing;
+u32 SBServerGetPing(SbServer *server) {
+    return server->mPing;
 }
 
-SbServer *func_ov000_0218af28(SbServerList *a, u32 b, u16 c) {
-    SbServer *p;
-    p = func_ov000_021a3690(0x24);
-    if (p == NULL) {
+SbServer *SBAllocServer(SbServerList *serverList, u32 outerAddress, u16 outerPort) {
+    SbServer *newServer;
+    newServer = func_ov000_021a3690(0x24);
+    if (newServer == NULL) {
         return NULL;
     }
-    p->mKeyValues =
-        HashtableCreate(8, 8, 4, (s32(*)(void *, s32)) func_ov000_0218afac,
-                        (s32(*)(void *, void *)) func_ov000_0218afa0, (void (*)(void *)) func_ov000_0218afb8);
-    if (p->mKeyValues == NULL) {
-        func_ov000_021a3668(p);
+    newServer->mKeyValues = HashtableCreate(8, 8, 4, (s32(*)(void *, s32)) KeyValHashKey,
+                                         (s32(*)(void *, void *)) KeyValCompareKey, (void (*)(void *)) KeyValFree);
+    if (newServer->mKeyValues == NULL) {
+        func_ov000_021a3668(newServer);
         return NULL;
     }
-    p->mUnk_14 = 0;
-    p->mUnk_15 = 0;
-    p->mUnk_20 = NULL;
-    p->mPing = 0;
-    p->mUnk_10 = 0;
-    p->mUnk_00 = b;
-    p->mUnk_04 = c;
-    p->mUnk_08 = 0;
-    p->mUnk_0c = 0;
-    return p;
+    newServer->mStateFlags = 0;
+    newServer->mFlags = 0;
+    newServer->mNext = NULL;
+    newServer->mPing = 0;
+    newServer->mIcmpIp = 0;
+    newServer->mPublicIp = outerAddress;
+    newServer->mPublicPort = outerPort;
+    newServer->mPrivateIp = 0;
+    newServer->mPrivatePort = 0;
+    return newServer;
 }
 
-void func_ov000_0218af24(SbServer *a, s32 b) {
-    a->mUnk_15 = b;
+void SBServerSetFlags(SbServer *server, s32 flags) {
+    server->mFlags = flags;
 }
 
-void func_ov000_0218af1c(SbServer *a, u32 b, u16 c) {
-    a->mUnk_08 = b;
-    a->mUnk_0c = c;
+void SBServerSetPrivateAddr(SbServer *server, u32 innerAddress, u16 innerPort) {
+    server->mPrivateIp = innerAddress;
+    server->mPrivatePort = innerPort;
 }
 
-void func_ov000_0218af18(SbServer *a, u32 b) {
-    a->mUnk_10 = b;
+void SBServerSetICMPIP(SbServer *server, u32 targetAddr) {
+    server->mIcmpIp = targetAddr;
 }
 
-void func_ov000_0218af14(SbServer *a, u8 b) {
-    a->mUnk_14 = b;
+void SBServerSetState(SbServer *server, u8 state) {
+    server->mStateFlags = state;
 }
 
-u8 func_ov000_0218af10(SbServer *a) {
-    return a->mUnk_14;
+u8 SBServerGetState(SbServer *server) {
+    return server->mStateFlags;
 }
 
-u32 func_ov000_0218aefc(SbServer *a) {
-    if (a == data_ov000_021b4d1c) {
+BOOL SBIsNullServer(SbServer *server) {
+    if (server == gSBNullServer) {
         return 1;
     }
     return 0;
 }
 
-void func_ov000_0218aedc(SBServerFIFO *a, SbServer *b) {
-    if (a->mLast != NULL) {
-        a->mLast->mUnk_20 = b;
+void FIFOAddRear(SBServerFIFO *fifo, SbServer *server) {
+    if (fifo->mLast != NULL) {
+        fifo->mLast->mNext = server;
     }
-    a->mLast = b;
-    b->mUnk_20 = NULL;
-    if (a->mFirst == NULL) {
-        a->mFirst = b;
+    fifo->mLast = server;
+    server->mNext = NULL;
+    if (fifo->mFirst == NULL) {
+        fifo->mFirst = server;
     }
-    a->mCount = a->mCount + 1;
+    fifo->mCount = fifo->mCount + 1;
 }
 
-void func_ov000_0218aec4(SBServerFIFO *a, SbServer *b) {
-    b->mUnk_20 = a->mFirst;
-    a->mFirst = b;
-    if (a->mLast == NULL) {
-        a->mLast = b;
+void FIFOAddFront(SBServerFIFO *fifo, SbServer *server) {
+    server->mNext = fifo->mFirst;
+    fifo->mFirst = server;
+    if (fifo->mLast == NULL) {
+        fifo->mLast = server;
     }
-    a->mCount = a->mCount + 1;
+    fifo->mCount = fifo->mCount + 1;
 }
 
-SbServer *func_ov000_0218aea4(SBServerFIFO *a) {
-    SbServer *v1;
-    v1 = a->mFirst;
-    if (v1 != NULL) {
-        a->mFirst = v1->mUnk_20;
-        if (a->mFirst == NULL) {
-            a->mLast = NULL;
+SbServer *FIFOGetFirst(SBServerFIFO *fifo) {
+    SbServer *server;
+    server = fifo->mFirst;
+    if (server != NULL) {
+        fifo->mFirst = server->mNext;
+        if (fifo->mFirst == NULL) {
+            fifo->mLast = NULL;
         }
-        a->mCount = a->mCount + -1;
+        fifo->mCount = fifo->mCount + -1;
     }
-    return v1;
+    return server;
 }

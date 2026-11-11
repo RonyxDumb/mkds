@@ -12,28 +12,28 @@ typedef struct HashtableNameEntry {
 
 typedef struct SbServer SbServer;
 
-typedef struct Unk021b21ac {
-    /* 0 */ const char *mUnk_00[2];
-} Unk021b21ac;
+typedef struct InvalidKeyNames {
+    /* 0 */ const char *mNames[2];
+} InvalidKeyNames;
 
-typedef struct Unk0218b010 {
-    /* 00 */ u8 mUnk_00[2];
-    /* 02 */ char mUnk_02[0x86];
-} Unk0218b010;
+typedef struct FullKeysScratch {
+    /* 00 */ u8 mUnitCount[2];
+    /* 02 */ char mTempKey[0x86];
+} FullKeysScratch;
 
 typedef struct SbServer SbServer;
 
-typedef struct Unk0218b30c {
-    /* 0 */ const char *mUnk_00;
-} Unk0218b30c;
+typedef struct KeyLookup {
+    /* 0 */ const char *mKey;
+} KeyLookup;
 
 // Declared here until the code that defines it is decompiled.
 
-double SbServerGetDouble(SbServer *e, const char *key, double d);
-s32 SbServerGetInt(SbServer *e, const char *key, s32 d);
-char *SbServerGetValue(SbServer *server, const char *key, char *d);
-void SbServerSetInt(SbServer *e, const char *key, u32 c);
-void SbServerSetValue(SbServer *e, const char *key, const char *value);
+double SbServerGetDouble(SbServer *server, const char *key, double defaultValue);
+s32 SbServerGetInt(SbServer *server, const char *key, s32 defaultValue);
+char *SbServerGetValue(SbServer *server, const char *key, char *defaultValue);
+void SbServerSetInt(SbServer *server, const char *key, u32 value);
+void SbServerSetValue(SbServer *server, const char *key, const char *value);
 
 typedef struct SbServerList SbServerList;
 
@@ -41,28 +41,28 @@ typedef struct SbServer SbServer;
 typedef struct MatchingServerList MatchingServerList;
 typedef struct SbServerList SbServerList;
 
-// Object func_ov000_0218ba88 builds.
-typedef struct Unk0218ba88 {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u8 mUnk_02[2];
-    /* 04 */ u8 mUnk_04;
-    /* 05 */ u8 mUnk_05[4];
-    /* 09 */ u8 mUnk_09[2];
+// Object SBSendMessageToServer builds.
+typedef struct SendMessageRequest {
+    /* 00 */ u16 mNetLength;
+    /* 02 */ u8 mRequestLength[2];
+    /* 04 */ u8 mRequestType;
+    /* 05 */ u8 mRequestIp[4];
+    /* 09 */ u8 mRequestPort[2];
     /* 0b */ u8 mUnk_0b[8];
-} Unk0218ba88;
+} SendMessageRequest;
 
 typedef struct SbServerList SbServerList;
 
 typedef struct SbServerList SbServerList;
 
 // Four bytes copied byte by byte (func_ov000_0218ce14_inline in code_0218cdd8.c); the target may be unaligned.
-typedef struct Unk0218cd94 {
-    /* 0 */ u8 mUnk_00[4];
-} Unk0218cd94;
+typedef struct UnalignedWord {
+    /* 0 */ u8 mBytes[4];
+} UnalignedWord;
 
 typedef struct SbServerList SbServerList;
 
-// Object func_ov000_0218ce14 builds.
+// Object ServerListConnect builds.
 typedef struct Unk0218ce14 {
     /* 0 */ u8 mUnk_00;
     /* 1 */ u8 mUnk_01;
@@ -72,27 +72,28 @@ typedef struct Unk0218ce14 {
 
 // Declared here until the code that defines it is decompiled.
 
-void SbServerListInit(SbServerList *slist, const char *a, const char *b, const char *c, u32 d, s32 e, UnkFunc *callback,
-                      void *g);
+void SbServerListInit(SbServerList *slist, const char *targetName, const char *sourceName,
+                      const char *queryFromKey, u32 queryFromVersion, s32 lanBrowse, UnkFunc *callback, void *instance);
 
-unsigned int func_ov000_0218b570(MatchingServerList *p0, unsigned int p1, unsigned int p2, u8 *p3, unsigned int p4,
-                                 unsigned int p5, unsigned int p6);
+unsigned int ServerBrowserLimitUpdateA(MatchingServerList *matchingServerList, unsigned int async,
+                                       unsigned int disconnectOnComplete, u8 *basicFields, unsigned int numBasicFields,
+                                       unsigned int serverFilter, unsigned int maxServers);
 
 #include "00/unk_021b4000.h"
 #include "00/code_0218a9bc.h"
 
-// Object of 0x638 bytes func_ov000_0218b668 allocates. SBEngineCleanup passes 0x20 to func_ov000_0218e53c and
+// Object of 0x638 bytes ServerBrowserNewA allocates. SBEngineCleanup passes 0x20 to func_ov000_0218e53c and
 // the addresses of 0x14 and 0x08 to FIFOClear.
 typedef struct MatchingServerList {
-    /* 000 */ SBQueryEngine mUnk_000;
-    /* 04c */ SbServerList mUnk_04c;
-    /* 620 */ u32 mUnk_620;
-    /* 624 */ u32 mUnk_624;
-    /* 628 */ u32 mUnk_628;
-    /* 62c */ u16 mUnk_62c;
+    /* 000 */ SBQueryEngine mEngine;
+    /* 04c */ SbServerList mList;
+    /* 620 */ u32 mDisconnectFlag;
+    /* 624 */ u32 mDontUpdate;
+    /* 628 */ u32 mTriggerIp;
+    /* 62c */ u16 mTriggerPort;
     /* 62e */ u8 mUnk_62e[2];
-    /* 630 */ UnkFunc *mUnk_630;
-    /* 634 */ u32 mUnk_634;
+    /* 630 */ UnkFunc *mBrowserCallback;
+    /* 634 */ u32 mBrowserInstance;
 } MatchingServerList;
 
 struct MatchingServerList;
@@ -100,111 +101,117 @@ struct MatchingServerList;
 
 #include "00/code_0218acb0.h"
 
-extern Unk021b21ac data_ov000_021b21ac;
-extern char data_ov000_021b21bc[];
+extern InvalidKeyNames gInvalidKeys;
+extern char gKeyIndexFormat[];
 extern s8 data_ov000_021b21c4[];
-extern char data_ov000_021b21c8[];
-extern char data_ov000_021b21d0[];
-extern char data_ov000_021b21d8[];
-extern char data_ov000_021b21e4[];
-extern s8 *data_ov000_021b4d14;
+extern char gPingKey[];
+extern char gServerAssertText[];
+extern char gSBServerFileName[];
+extern char gIntValueFormat[];
+extern s8 *gMytokPosition;
 
-SbServer *func_ov000_0218aea4(SBServerFIFO *a);
-void func_ov000_0218aec4(SBServerFIFO *a, SbServer *b);
-void func_ov000_0218aedc(SBServerFIFO *a, SbServer *b);
-u32 func_ov000_0218aefc(SbServer *a);
-u8 func_ov000_0218af10(SbServer *a);
-void func_ov000_0218af14(SbServer *a, u8 b);
-void func_ov000_0218af18(SbServer *a, u32 b);
-void func_ov000_0218af1c(SbServer *a, u32 b, u16 c);
-void func_ov000_0218af24(SbServer *a, s32 b);
-SbServer *func_ov000_0218af28(SbServerList *a, u32 b, u16 c);
-u32 func_ov000_0218af9c(SbServer *a);
-s32 func_ov000_0218afa0(const char *const *first, const char *const *second);
-u32 func_ov000_0218afac(HashtableNameEntry *entry, u32 modulus);
-void func_ov000_0218afb8(u32 *a);
-u32 func_ov000_0218afd4(const s8 *name, u32 modulus);
-void func_ov000_0218b010(SbServer *e, s8 *buf, s32 n);
-void func_ov000_0218b148(SbServer *e, s8 *buf);
-s8 *func_ov000_0218b19c(s8 *s, s32 c);
-u32 func_ov000_0218b1e0(const char *s);
-u32 func_ov000_0218b220(int a);
-void func_ov000_0218b224(int a, u32 b);
-u32 func_ov000_0218b228(u32 arg0);
-u32 func_ov000_0218b244(int a);
-u32 func_ov000_0218b248(int a);
-u16 func_ov000_0218b25c(int a);
-u32 func_ov000_0218b260(u32 arg0);
-u32 func_ov000_0218b27c(u32 *a);
-void func_ov000_0218b3ac(int *a);
-void func_ov000_0218b3c8(void *a);
-struct Hashtable *func_ov000_0218b3f4(struct SbServerList *p);
-void func_ov000_0218b434(u32 arg0);
-s32 func_ov000_0218b440(const char *const *first, const char *const *second);
-u32 func_ov000_0218b44c(HashtableNameEntry *entry, u32 modulus);
-u32 func_ov000_0218b458(MatchingServerList *a);
-void func_ov000_0218b464(MatchingServerList *p0, unsigned int p1, const char *p2, unsigned int p3);
-u32 func_ov000_0218b474(MatchingServerList *arg0);
-u32 func_ov000_0218b480(MatchingServerList *arg0, u32 arg1);
-void func_ov000_0218b48c(struct MatchingServerList *p);
-void func_ov000_0218b4a4(struct MatchingServerList *p);
-s32 func_ov000_0218b4bc(struct MatchingServerList *p);
-void func_ov000_0218b4d4(struct MatchingServerList *p, s32 a);
-s32 func_ov000_0218b4f8(MatchingServerList *a, u32 b, s32 c, u32 d);
-s32 func_ov000_0218b530(MatchingServerList *a, u32 b, s32 c, u8 *d, s32 e);
-s32 func_ov000_0218b590(MatchingServerList *a, s32 b, u32 c, u8 *d, s32 e, const char *f, u32 g, u32 h);
-void func_ov000_0218b64c(MatchingServerList *p);
-MatchingServerList *func_ov000_0218b668(const char *a, const char *b, const char *c, u32 d, u32 e, u32 f, s32 g,
-                                        UnkFunc *h, u32 l);
-void func_ov000_0218b708(void *a, s32 b, SbServer *c, MatchingServerList *d);
-void func_ov000_0218b780(SbServerList *a, s32 b, SbServer *c, MatchingServerList *d);
-s32 func_ov000_0218b8e4(SbServerList *a);
-s32 func_ov000_0218b928(SbServerList *a);
-s32 func_ov000_0218ba10(SbServerList *a, u32 b, u16 c, u32 d);
-s32 func_ov000_0218ba88(SbServerList *a, u32 b, u16 c, u8 *d, s32 e);
-s32 func_ov000_0218bb44(SbServerList *a);
-s32 func_ov000_0218bc08(SbServerList *slist);
-s32 func_ov000_0218bd5c(SbServerList *a, u8 *b, s32 c);
-s32 func_ov000_0218be10(SbServerList *a, u8 *b, s32 c);
-s32 func_ov000_0218be68(SbServerList *a, u8 *b, s32 c);
-s32 func_ov000_0218bf78(SbServerList *a, u8 *b, s32 c);
-s32 func_ov000_0218c0bc(SbServerList *a, u8 *b, s32 c);
-s32 func_ov000_0218c15c(SbServerList *a);
-void func_ov000_0218c45c(SbServerList *a, char *b);
-s32 func_ov000_0218c468(SbServerList *a, u8 *b, s32 c);
-s32 func_ov000_0218c550(SbServerList *a, void *b, u8 *c, s32 d, s32 e);
-void func_ov000_0218c744(SbServerList *a, u8 *b, s32 c, u8 *d, u16 *e);
-BOOL func_ov000_0218c794(SbServerList *a, u8 *b, s32 c);
-BOOL func_ov000_0218c84c(u8 *a, s32 b);
-s32 func_ov000_0218c8ac(u32 a);
-void func_ov000_0218c8e0(SbServerList *a, s8 *b, s32 c);
-void func_ov000_0218c958(SbServerList *p);
-void func_ov000_0218c980(SbServerList *p);
-void func_ov000_0218c9d4(SbServerList *p);
-void func_ov000_0218ca1c(SbServerList *p);
-s32 func_ov000_0218ca58(SbServerList *p, const char *a, const char *b, u32 c, u32 d);
-s32 func_ov000_0218cc48(SbServerList *p, void *a, s32 b);
-void func_ov000_0218ccbc(SbServerList *p);
-void func_ov000_0218cd74(u8 **arg0, const void *arg1, s32 arg2, s32 *arg3);
-void func_ov000_0218cd94(u8 **a, u32 b, s32 *c);
-void func_ov000_0218cdc4(u8 **a, u8 b, s32 *c);
-void func_ov000_0218cdd8(u8 **a, const char *b, s32 *c);
-s32 func_ov000_0218ce14(SbServerList *p);
-u32 func_ov000_0218cef4(const s8 *a, u32 b);
-void func_ov000_0218cf30(SbServerList *p);
-int func_ov000_0218d0c8(const void *a, int b);
-void func_ov000_0218d0e4(SbServerList *p, u32 key);
-void *func_ov000_0218d134(SbServerList *p, const char *key);
-void func_ov000_0218d180(unsigned int p0);
-void func_ov000_0218d1a0(SbServerList *a);
-void func_ov000_0218d1dc(SbServerList *p);
-u32 func_ov000_0218d218(SbServerList *a, u32 b);
-u32 func_ov000_0218d22c(SbServerList *a);
-void func_ov000_0218d238(SbServerList *p, s32 a);
-void func_ov000_0218d278(SbServerList *p, u32 key);
-int func_ov000_0218d2a8(SbServerList *a, int b, int c);
-int func_ov000_0218d300(SbServerList *a, int b);
-void func_ov000_0218d340(SbServerList *p, u32 a);
-void func_ov000_0218d374(SbServerList *p, s32 a, const char *b, u32 c);
-s32 func_ov000_0218d3d8(u32 *a, u32 *b);
-s32 func_ov000_0218d430(u32 *c, u32 *d);
+SbServer *FIFOGetFirst(SBServerFIFO *fifo);
+void FIFOAddFront(SBServerFIFO *fifo, SbServer *server);
+void FIFOAddRear(SBServerFIFO *fifo, SbServer *server);
+BOOL SBIsNullServer(SbServer *server);
+u8 SBServerGetState(SbServer *server);
+void SBServerSetState(SbServer *server, u8 state);
+void SBServerSetICMPIP(SbServer *server, u32 targetAddr);
+void SBServerSetPrivateAddr(SbServer *server, u32 innerAddress, u16 innerPort);
+void SBServerSetFlags(SbServer *server, s32 flags);
+SbServer *SBAllocServer(SbServerList *serverList, u32 outerAddress, u16 outerPort);
+u32 SBServerGetPing(SbServer *server);
+s32 KeyValCompareKey(const char *const *first, const char *const *second);
+u32 KeyValHashKey(HashtableNameEntry *entry, u32 modulus);
+void KeyValFree(u32 *pair);
+u32 ServerStringHash(const s8 *name, u32 modulus);
+void SBServerParseQR2FullKeysSingle(SbServer *server, s8 *buf, s32 length);
+void SBServerParseKeyVals(SbServer *server, s8 *buf);
+s8 *mytok(s8 *text, s32 delimiter);
+BOOL CheckValidKey(const char *key);
+u32 SBServerGetNext(int server);
+void SBServerSetNext(int server, u32 next);
+u32 SBServerGetPrivateQueryPort(u32 server);
+u32 SBServerGetPrivateInetAddress(int server);
+BOOL SBServerHasPrivateAddress(int server);
+u16 SBServerGetPublicQueryPortNBO(int server);
+u32 SBServerGetPublicQueryPort(u32 server);
+u32 SBServerGetPublicInetAddress(u32 *server);
+void SBServerFree(int *serverPointer);
+void SBRefStrHashCleanup(void *serverList);
+struct Hashtable *SBRefStrHash(struct SbServerList *serverList);
+void RefStringFree(u32 element);
+s32 RefStringCompare(const char *const *first, const char *const *second);
+u32 RefStringHash(HashtableNameEntry *entry, u32 modulus);
+u32 ServerBrowserGetMyPublicIPAddr(MatchingServerList *matchingServerList);
+void ServerBrowserSortA(MatchingServerList *matchingServerList, unsigned int ascending, const char *sortField,
+                        unsigned int compareKind);
+u32 ServerBrowserCount(MatchingServerList *matchingServerList);
+u32 ServerBrowserGetServer(MatchingServerList *matchingServerList, u32 index);
+void ServerBrowserClear(struct MatchingServerList *matchingServerList);
+void ServerBrowserHalt(struct MatchingServerList *matchingServerList);
+s32 ServerBrowserThink(struct MatchingServerList *matchingServerList);
+void ServerBrowserRemoveServer(struct MatchingServerList *matchingServerList, s32 server);
+s32 ServerBrowserSendNatNegotiateCookieToServerA(MatchingServerList *matchingServerList, u32 ipText, s32 port, u32 cookie);
+s32 ServerBrowserSendMessageToServerA(MatchingServerList *matchingServerList, u32 ipText, s32 port, u8 *data,
+                                      s32 dataLength);
+s32 ServerBrowserBeginUpdate2(MatchingServerList *matchingServerList, s32 async, u32 disconnectOnComplete,
+                              u8 *basicFields, s32 numBasicFields, const char *serverFilter, u32 updateOptions,
+                              u32 maxServers);
+void ServerBrowserFree(MatchingServerList *matchingServerList);
+MatchingServerList *ServerBrowserNewA(const char *targetName, const char *sourceName,
+                                      const char *queryFromKey, u32 queryFromVersion, u32 maxUpdates, u32 queryVersion,
+                                      s32 lanBrowse, UnkFunc *callback, u32 instance);
+void EngineCallback(void *engine, s32 reason, SbServer *server, MatchingServerList *matchingServerList);
+void ListCallback(SbServerList *browserList, s32 reason, SbServer *server, MatchingServerList *matchingServerList);
+s32 SBListThink(SbServerList *serverList);
+s32 ProcessLanData(SbServerList *serverList);
+s32 SBSendNatNegotiateCookieToServer(SbServerList *serverList, u32 publicIp, u16 port, u32 cookie);
+s32 SBSendMessageToServer(SbServerList *serverList, u32 publicIp, u16 port, u8 *data, s32 dataLength);
+s32 ProcessIncomingData(SbServerList *serverList);
+s32 ProcessAdHocData(SbServerList *slist);
+s32 ProcessPushServer(SbServerList *serverList, u8 *buffer, s32 length);
+s32 ProcessDeleteServer(SbServerList *serverList, u8 *buffer, s32 length);
+s32 ProcessMaploop(SbServerList *serverList, u8 *buffer, s32 length);
+s32 ProcessPlayerSearch(SbServerList *serverList, u8 *buffer, s32 length);
+s32 ProcessPushKeyList(SbServerList *serverList, u8 *buffer, s32 length);
+s32 ProcessMainListData(SbServerList *serverList);
+void SBSetLastListErrorPtr(SbServerList *serverList, char *errorText);
+s32 IncomingListParseServer(SbServerList *serverList, u8 *buffer, s32 length);
+s32 ParseServer(SbServerList *serverList, void *server, u8 *buffer, s32 length, s32 popularOnly);
+void ParseServerIPPort(SbServerList *serverList, u8 *buffer, s32 length, u8 *ipOut, u16 *portOut);
+BOOL AllKeysPresent(SbServerList *serverList, u8 *buffer, s32 length);
+BOOL FullRulesPresent(u8 *buffer, s32 length);
+s32 ServerSizeForFlags(u32 flags);
+void InitCryptKey(SbServerList *serverList, s8 *serverBytes, s32 length);
+void SBServerListCleanup(SbServerList *serverList);
+void SBServerListDisconnect(SbServerList *serverList);
+void FreeKeyList(SbServerList *serverList);
+void FreePopularValues(SbServerList *serverList);
+s32 SBServerListConnectAndQuery(SbServerList *serverList, const char *fieldList, const char *serverFilter, u32 options,
+                                u32 maxServers);
+s32 SendWithRetry(SbServerList *serverList, void *data, s32 length);
+void SetupListChallenge(SbServerList *serverList);
+void BufferAddData(u8 **buffer, const void *data, s32 dataLength, s32 *length);
+void BufferAddInt(u8 **buffer, u32 value, s32 *length);
+void BufferAddByte(u8 **buffer, u8 value, s32 *length);
+void BufferAddNTS(u8 **buffer, const char *text, s32 *length);
+s32 ServerListConnect(SbServerList *serverList);
+u32 StringHash(const s8 *text, u32 modulus);
+void ErrorDisconnect(SbServerList *serverList);
+int NTSLengthSB(const void *buffer, int length);
+void SBReleaseStr(SbServerList *serverList, u32 key);
+void *SBRefStr(SbServerList *serverList, const char *key);
+void SBAllocateServerList(unsigned int serverList);
+void SBServerListClear(SbServerList *serverList);
+void SBFreeDeadList(SbServerList *serverList);
+u32 SBServerListNth(SbServerList *serverList, u32 index);
+u32 SBServerListCount(SbServerList *serverList);
+void SBServerListRemoveAt(SbServerList *serverList, s32 index);
+void AddServerToDeadlist(SbServerList *serverList, u32 key);
+int SBServerListFindServerByIP(SbServerList *serverList, int publicIp, int publicPort);
+int SBServerListFindServer(SbServerList *serverList, int server);
+void SBServerListAppendServer(SbServerList *serverList, u32 server);
+void SBServerListSort(SbServerList *serverList, s32 ascending, const char *sortField, u32 compareKind);
+s32 StrNoCaseKeyCompare(u32 *firstEntry, u32 *secondEntry);
+s32 StrCaseKeyCompare(u32 *firstEntry, u32 *secondEntry);

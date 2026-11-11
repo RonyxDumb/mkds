@@ -9,10 +9,10 @@ BOOL FIFORemove(SBServerFIFO *fifo, SbServer *server) {
     while (current != NULL) {
         if (current == server) {
             if (previous != NULL) {
-                previous->mUnk_20 = current->mUnk_20;
+                previous->mNext = current->mNext;
             }
             if (fifo->mFirst == current) {
-                fifo->mFirst = current->mUnk_20;
+                fifo->mFirst = current->mNext;
             }
             if (fifo->mLast == current) {
                 fifo->mLast = previous;
@@ -21,7 +21,7 @@ BOOL FIFORemove(SBServerFIFO *fifo, SbServer *server) {
             return 1;
         }
         previous = current;
-        current = current->mUnk_20;
+        current = current->mNext;
     }
     return 0;
 }

@@ -122,9 +122,9 @@ s32 func_ov000_0218d528(u32 *a, u32 *b) {
     s32 r;
     e = *a;
     f = *b;
-    x = SbServerGetInt((SbServer *) e, data_ov000_021b4d24->mUnk_498, 0);
-    r = x - SbServerGetInt((SbServer *) f, data_ov000_021b4d24->mUnk_498, 0);
-    if (data_ov000_021b4d24->mUnk_49c == 0) {
+    x = SbServerGetInt((SbServer *) e, gSortServerList->mSortKey, 0);
+    r = x - SbServerGetInt((SbServer *) f, gSortServerList->mSortKey, 0);
+    if (gSortServerList->mSortAscending == 0) {
         r = -r;
     }
     return r;
@@ -138,10 +138,10 @@ s32 func_ov000_0218d488(u32 *a, u32 *b) {
     double d;
     e = *a;
     f = *b;
-    x = SbServerGetDouble((SbServer *) e, data_ov000_021b4d24->mUnk_498, 0);
-    y = SbServerGetDouble((SbServer *) f, data_ov000_021b4d24->mUnk_498, 0);
+    x = SbServerGetDouble((SbServer *) e, gSortServerList->mSortKey, 0);
+    y = SbServerGetDouble((SbServer *) f, gSortServerList->mSortKey, 0);
     d = x - y;
-    if (data_ov000_021b4d24->mUnk_49c == 0) {
+    if (gSortServerList->mSortAscending == 0) {
         d = 0 - d;
     }
     if ((float) d > 0) {

@@ -9,8 +9,8 @@
 
 void SBQueryEngineUpdateServer(SBQueryEngine *engine, SbServer *server, s32 atFront, s32 updateKind) {
     u8 *statePtr;
-    statePtr = &server->mUnk_14;
-    server->mUnk_14 &= 0xc3;
+    statePtr = &server->mStateFlags;
+    server->mStateFlags &= 0xc3;
     if (updateKind == 0) {
         *statePtr |= 4;
     } else if (updateKind == 1) {
@@ -23,9 +23,9 @@ void SBQueryEngineUpdateServer(SBQueryEngine *engine, SbServer *server, s32 atFr
         return;
     }
     if (atFront != 0) {
-        func_ov000_0218aec4(&engine->mPendingList, server);
+        FIFOAddFront(&engine->mPendingList, server);
     } else {
-        func_ov000_0218aedc(&engine->mPendingList, server);
+        FIFOAddRear(&engine->mPendingList, server);
     }
 }
 
@@ -35,11 +35,11 @@ void ParseSingleQR2Reply(SBQueryEngine *engine, SbServer *server, s8 *data, s32 
     if (data[0] == 0) {
         data += 5;
         length -= 5;
-        if ((server->mUnk_14 & 4) != 0) {
+        if ((server->mStateFlags & 4) != 0) {
             keyIndex = 0;
             if (engine->mNumServerKeys > 0) {
                 do {
-                    valueLength = func_ov000_0218d0c8(data, length);
+                    valueLength = NTSLengthSB(data, length);
                     if (valueLength < 0) {
                         break;
                     }
@@ -49,12 +49,12 @@ void ParseSingleQR2Reply(SBQueryEngine *engine, SbServer *server, s8 *data, s32 
                     keyIndex++;
                 } while (keyIndex < engine->mNumServerKeys);
             }
-            server->mUnk_14 |= 0x41;
+            server->mStateFlags |= 0x41;
         } else {
-            func_ov000_0218b010(server, data, length);
-            server->mUnk_14 |= 0x43;
+            SBServerParseQR2FullKeysSingle(server, data, length);
+            server->mStateFlags |= 0x43;
         }
-        server->mUnk_14 &= 0xf3;
+        server->mStateFlags &= 0xf3;
         server->mPing = func_ov000_0218e8c4() - server->mPing;
         FIFORemove(&engine->mQueryList, server);
         engine->mListCallback(engine, 0, server, engine->mInstance);
@@ -68,14 +68,14 @@ void ParseSingleGOAReply(SBQueryEngine *engine, SbServer *server, s8 *data, s32 
     } else {
         isFinal = FALSE;
     }
-    func_ov000_0218b148(server, data);
+    SBServerParseKeyVals(server, data);
     if (isFinal != FALSE) {
-        if ((server->mUnk_14 & 4) != 0) {
-            server->mUnk_14 |= 0x41;
+        if ((server->mStateFlags & 4) != 0) {
+            server->mStateFlags |= 0x41;
         } else {
-            server->mUnk_14 |= 0x42;
+            server->mStateFlags |= 0x42;
         }
-        server->mUnk_14 &= 0xf3;
+        server->mStateFlags &= 0xf3;
         server->mPing = func_ov000_0218e8c4() - server->mPing;
         FIFORemove(&engine->mQueryList, server);
         engine->mListCallback(engine, 0, server, engine->mInstance);

@@ -8,21 +8,20 @@
 void QueueNextQueries(SBQueryEngine *engine) {
     SbServer *pendingServer;
     while ((engine->mQueryList.mCount < engine->mMaxUpdates && (0 < engine->mPendingList.mCount))) {
-        pendingServer = func_ov000_0218aea4(&engine->mPendingList);
+        pendingServer = FIFOGetFirst(&engine->mPendingList);
         QEStartQuery(engine, pendingServer);
     }
 }
 
 void SBQueryEngineThink(MatchingServerList *matchingServerList) {
-    if (matchingServerList->mUnk_000.mQueryList.mCount != 0) {
-        ProcessIncomingReplies(&matchingServerList->mUnk_000, 0);
-        TimeoutOldQueries(&matchingServerList->mUnk_000);
-        if (0 < matchingServerList->mUnk_000.mPendingList.mCount) {
-            QueueNextQueries(&matchingServerList->mUnk_000);
+    if (matchingServerList->mEngine.mQueryList.mCount != 0) {
+        ProcessIncomingReplies(&matchingServerList->mEngine, 0);
+        TimeoutOldQueries(&matchingServerList->mEngine);
+        if (0 < matchingServerList->mEngine.mPendingList.mCount) {
+            QueueNextQueries(&matchingServerList->mEngine);
         }
-        if (matchingServerList->mUnk_000.mQueryList.mCount == 0) {
-            matchingServerList->mUnk_000.mListCallback(matchingServerList, 2, 0,
-                                                       matchingServerList->mUnk_000.mInstance);
+        if (matchingServerList->mEngine.mQueryList.mCount == 0) {
+            matchingServerList->mEngine.mListCallback(matchingServerList, 2, 0, matchingServerList->mEngine.mInstance);
         }
     }
 }
@@ -38,8 +37,8 @@ void SBQueryEngineAddQueryKey(SBQueryEngine *engine, u8 keyId) {
 
 void SBQueryEngineRemoveServerFromFIFOs(MatchingServerList *matchingServerList, SbServer *server) {
     int removed;
-    removed = FIFORemove(&matchingServerList->mUnk_000.mQueryList, server);
+    removed = FIFORemove(&matchingServerList->mEngine.mQueryList, server);
     if (removed == 0) {
-        FIFORemove(&matchingServerList->mUnk_000.mPendingList, server);
+        FIFORemove(&matchingServerList->mEngine.mPendingList, server);
     }
 }

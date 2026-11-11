@@ -125,7 +125,7 @@ void ReleaseWiFiConnection(void) {
         }
         gWiFiConnection->mMatching.mUnk_18 = 0;
         if (gWiFiConnection->mMatching.mServerList != NULL) {
-            func_ov000_0218b64c(gWiFiConnection->mMatching.mServerList);
+            ServerBrowserFree(gWiFiConnection->mMatching.mServerList);
             gWiFiConnection->mMatching.mServerList = NULL;
         }
         func_ov000_0219b110();

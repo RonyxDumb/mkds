@@ -161,8 +161,8 @@ void StartMatchingWithFilter(u32 param_1, const void *param_2, u32 param_3, u32 
     gWiFiMatching->mState = 2;
     if (gWiFiMatching->mServerList == NULL) {
         gWiFiMatching->mServerList =
-            func_ov000_0218b668(gWiFiMatching->mGameName, gWiFiMatching->mGameName, gWiFiMatching->mUnk_2e0, 0, 20, 1,
-                                0, WiFiMatchingServerListCallback, 0);
+            ServerBrowserNewA(gWiFiMatching->mGameName, gWiFiMatching->mGameName, gWiFiMatching->mUnk_2e0, 0, 20, 1, 0,
+                              WiFiMatchingServerListCallback, 0);
     }
     if (gWiFiMatching->mServerList == NULL && ReportMatchingServerListResult(5) != 0) {
         return;
@@ -197,8 +197,8 @@ void StartMatchingWithBuddies(const void *param_1, s32 param_2, s32 param_3, s32
     gWiFiMatching->mState = 4;
     if (gWiFiMatching->mServerList == NULL) {
         gWiFiMatching->mServerList =
-            func_ov000_0218b668(gWiFiMatching->mGameName, gWiFiMatching->mGameName, gWiFiMatching->mUnk_2e0, 0, 20, 1,
-                                0, WiFiMatchingServerListCallback, 0);
+            ServerBrowserNewA(gWiFiMatching->mGameName, gWiFiMatching->mGameName, gWiFiMatching->mUnk_2e0, 0, 20, 1, 0,
+                              WiFiMatchingServerListCallback, 0);
     }
     if (gWiFiMatching->mServerList == NULL && ReportMatchingServerListResult(5) != 0) {
         return;
@@ -365,7 +365,7 @@ void UpdateMatching(s32 param_1) {
         }
     }
     if (gWiFiMatching->mServerList != NULL) {
-        func_ov000_0218b4bc(gWiFiMatching->mServerList);
+        ServerBrowserThink(gWiFiMatching->mServerList);
     }
     if (gWiFiMatching->mUnk_10 != NULL) {
         func_ov000_021a49a0(gWiFiMatching->mUnk_10);
@@ -982,7 +982,7 @@ void SetupMatching(u8 a, u8 b, UnkFunc *c, u32 d) {
 void StopMatching(void) {
     if (gWiFiMatching != NULL) {
         if (gWiFiMatching->mServerList != NULL) {
-            func_ov000_0218b64c(gWiFiMatching->mServerList);
+            ServerBrowserFree(gWiFiMatching->mServerList);
             gWiFiMatching->mServerList = NULL;
         }
         func_ov000_0219b110();
@@ -1043,9 +1043,9 @@ u32 StartMatchingServerList(u32 a) {
             gWiFiMatching->mReplyProfileId = a;
             break;
     }
-    func_ov000_0218b48c(gWiFiMatching->mServerList);
+    ServerBrowserClear(gWiFiMatching->mServerList);
     for (i = 0; i < 5; i++) {
-        r = func_ov000_0218b570(gWiFiMatching->mServerList, 1, 0, v2, n, (u32) v1, 0x10);
+        r = ServerBrowserLimitUpdateA(gWiFiMatching->mServerList, 1, 0, v2, n, (u32) v1, 0x10);
         if (r == 0 || r != 2) {
             break;
         }
@@ -1070,10 +1070,10 @@ u32 func_ov000_021a0cac(s32 a, s32 b, u32 c) {
     v2 = 0;
     if (a == 0) {
         b = (gWiFiMatching->mOwnProfileId & 0xffff) | (gWiFiMatching->mUnk_176 << 16);
-        if (func_ov000_0218b248(c) != 0) {
-            if (func_ov000_0218b27c((u32 *) c) == func_ov000_0218b458(gWiFiMatching->mServerList)) {
-                gWiFiMatching->mParticipantConnectAddresses[k] = func_ov000_0218b244(c);
-                gWiFiMatching->mParticipantConnectPorts[k] = func_ov000_0218b228(c);
+        if (SBServerHasPrivateAddress(c) != 0) {
+            if (SBServerGetPublicInetAddress((u32 *) c) == ServerBrowserGetMyPublicIPAddr(gWiFiMatching->mServerList)) {
+                gWiFiMatching->mParticipantConnectAddresses[k] = SBServerGetPrivateInetAddress(c);
+                gWiFiMatching->mParticipantConnectPorts[k] = SBServerGetPrivateQueryPort(c);
                 x = FALSE;
             } else {
                 x = TRUE;
@@ -1084,8 +1084,8 @@ u32 func_ov000_021a0cac(s32 a, s32 b, u32 c) {
                 ((v1 & 0xff) == 0xac && (v1 & 0xff00u) >= 0x1000 && (v1 & 0xff00u) <= 0x1f00) || (v1 & 0xff) == 0x10) {
                 x = TRUE;
             } else {
-                gWiFiMatching->mParticipantConnectAddresses[k] = func_ov000_0218b27c((u32 *) c);
-                gWiFiMatching->mParticipantConnectPorts[k] = func_ov000_0218b260(c);
+                gWiFiMatching->mParticipantConnectAddresses[k] = SBServerGetPublicInetAddress((u32 *) c);
+                gWiFiMatching->mParticipantConnectPorts[k] = SBServerGetPublicQueryPort(c);
                 x = FALSE;
             }
         }
@@ -1095,8 +1095,8 @@ u32 func_ov000_021a0cac(s32 a, s32 b, u32 c) {
         } else {
             t[0] = func_ov000_021a8ed4();
             t[1] = GetSocketPort(*gWiFiMatching->mConnectionSocket);
-            r = SendMatchingCommand(6, gWiFiMatching->mParticipantProfileIds[k], func_ov000_0218b27c((u32 *) c),
-                                    func_ov000_0218b260(c), t, 2);
+            r = SendMatchingCommand(6, gWiFiMatching->mParticipantProfileIds[k],
+                                    SBServerGetPublicInetAddress((u32 *) c), SBServerGetPublicQueryPort(c), t, 2);
             gWiFiMatching->mResendCount = 0;
             if (r != 0) {
                 return 2;
@@ -1105,8 +1105,8 @@ u32 func_ov000_021a0cac(s32 a, s32 b, u32 c) {
         }
         gWiFiMatching->mUnk_18c[0] = 0;
         gWiFiMatching->mUnk_18c[1] = 0;
-        *(u16 *) &gWiFiMatching->mUnk_18c[2] = func_ov000_0218b260(c);
-        *(u32 *) &gWiFiMatching->mUnk_18c[4] = func_ov000_0218b27c((u32 *) c);
+        *(u16 *) &gWiFiMatching->mUnk_18c[2] = SBServerGetPublicQueryPort(c);
+        *(u32 *) &gWiFiMatching->mUnk_18c[4] = SBServerGetPublicInetAddress((u32 *) c);
     } else {
         x = TRUE;
         gWiFiMatching->mUnk_18c[0] = 1;
@@ -1129,7 +1129,7 @@ u32 func_ov000_021a0c30(Unk021a0c30 *a) {
     s32 i;
 
     if (a->mUnk_00 == 0) {
-        if (ReportMatchingServerListResult(func_ov000_0218b4f8(
+        if (ReportMatchingServerListResult(ServerBrowserSendNatNegotiateCookieToServerA(
                 gWiFiMatching->mServerList, Gt2FormatAddress(a->mAddress, 0, 0), a->mPort, a->mUnk_08)) != 0) {
             return 2;
         }
@@ -1204,8 +1204,8 @@ u32 SendMatchingCommandToAddress(u32 command, u32 address, u32 port, u32 *values
     s.mAddress = gWiFiMatching->mOwnAddress;
     s.mProfileId = gWiFiMatching->mOwnProfileId;
     for (i = 0; i < 5; i++) {
-        r = func_ov000_0218b530(gWiFiMatching->mServerList, Gt2FormatAddress(address, 0, 0), port, (u8 *) &s,
-                                s.mValuesSize + 0x14);
+        r = ServerBrowserSendMessageToServerA(gWiFiMatching->mServerList, Gt2FormatAddress(address, 0, 0), port,
+                                              (u8 *) &s, s.mValuesSize + 0x14);
         if (r == 0 || r != 2) {
             break;
         }
@@ -1353,7 +1353,7 @@ s32 ReceiveMatchingCommand(s32 command, u32 profileId, u32 c, u16 d, u32 *values
                 }
                 gWiFiMatching->mState = 6;
                 if (func_ov000_0219e4a0(
-                        func_ov000_021a0cac(0, 0, func_ov000_0218b480(gWiFiMatching->mServerList, 0))) == 0) {
+                        func_ov000_021a0cac(0, 0, ServerBrowserGetServer(gWiFiMatching->mServerList, 0))) == 0) {
                     break;
                 }
                 return 0;
@@ -1703,10 +1703,10 @@ u32 func_ov000_0219fdc8(u32 a, s32 b) {
         return 0;
     }
     if (gWiFiMatching->mMode == 0) {
-        t = func_ov000_0218b480(gWiFiMatching->mServerList, 0);
+        t = ServerBrowserGetServer(gWiFiMatching->mServerList, 0);
         gWiFiMatching->mParticipantProfileIds[0] = SbServerGetInt((SbServer *) t, gDwcPidKey, 0);
-        gWiFiMatching->mParticipantCommandAddresses[0] = func_ov000_0218b27c((u32 *) t);
-        gWiFiMatching->mParticipantCommandPorts[0] = func_ov000_0218b260(t);
+        gWiFiMatching->mParticipantCommandAddresses[0] = SBServerGetPublicInetAddress((u32 *) t);
+        gWiFiMatching->mParticipantCommandPorts[0] = SBServerGetPublicQueryPort(t);
         gWiFiMatching->mReplyProfileId = gWiFiMatching->mParticipantProfileIds[0];
         m = 1;
     } else {
@@ -2064,7 +2064,7 @@ void func_ov000_0219f544(s32 a) {
                 StopMatching();
             } else {
                 if (p->mServerList != NULL) {
-                    func_ov000_0218b64c(p->mServerList);
+                    ServerBrowserFree(p->mServerList);
                     gWiFiMatching->mServerList = NULL;
                 }
                 func_ov000_0219b110();
@@ -2088,7 +2088,7 @@ void func_ov000_0219f544(s32 a) {
     if (f != 0) {
         p = gWiFiMatching;
         if (p->mMode != 3) {
-            func_ov000_0218b48c(p->mServerList);
+            ServerBrowserClear(p->mServerList);
         }
     }
 }
@@ -2962,31 +2962,32 @@ void WiFiMatchingServerListCallback(MatchingServerList *list, s32 event, s32 c) 
             return;
         case 4:
             d = 0;
-            if ((s32) func_ov000_0218b474(list) > 0) {
+            if ((s32) ServerBrowserCount(list) > 0) {
                 do {
-                    e = func_ov000_0218b480(list, d);
+                    e = ServerBrowserGetServer(list, d);
                     if (GetSbServerProfileIdIfComplete(e) == 0) {
-                        func_ov000_0218b4d4(list, e);
+                        ServerBrowserRemoveServer(list, e);
                         d--;
                     }
                     d++;
-                } while (d < (s32) func_ov000_0218b474(list));
+                } while (d < (s32) ServerBrowserCount(list));
             }
             switch (gWiFiMatching->mState) {
                 case 2:
                     d = 0;
-                    if ((s32) func_ov000_0218b474(list) > 0) {
+                    if ((s32) ServerBrowserCount(list) > 0) {
                         do {
-                            e = func_ov000_0218b480(list, d);
+                            e = ServerBrowserGetServer(list, d);
                             f = gWiFiMatching;
-                            if (f->mOwnAddress != NULL && f->mOwnAddress == (void *) func_ov000_0218b27c((u32 *) e) &&
-                                f->mOwnPort != 0 && gWiFiMatching->mOwnPort == func_ov000_0218b260(e)) {
+                            if (f->mOwnAddress != NULL &&
+                                f->mOwnAddress == (void *) SBServerGetPublicInetAddress((u32 *) e) &&
+                                f->mOwnPort != 0 && gWiFiMatching->mOwnPort == SBServerGetPublicQueryPort(e)) {
                                 break;
                             }
                             d++;
-                        } while (d < (s32) func_ov000_0218b474(list));
+                        } while (d < (s32) ServerBrowserCount(list));
                     }
-                    if (d < (s32) func_ov000_0218b474(list)) {
+                    if (d < (s32) ServerBrowserCount(list)) {
                         gWiFiMatching->mState = 3;
                         gWiFiMatching->mReplyProfileId = 0;
                         if (ReportMatchingServerListResult(StartMatchingServerList(gWiFiMatching->mReplyProfileId)) !=
@@ -3000,7 +3001,7 @@ void WiFiMatchingServerListCallback(MatchingServerList *list, s32 event, s32 c) 
                     return;
                 case 3:
                     FilterAndEvalMatchingServerList(1);
-                    if (func_ov000_0218b474(list) != 0) {
+                    if (ServerBrowserCount(list) != 0) {
                         if (ReportMatchingSendResult(func_ov000_0219fdc8(0, 0)) != 0) {
                             return;
                         }
@@ -3012,18 +3013,18 @@ void WiFiMatchingServerListCallback(MatchingServerList *list, s32 event, s32 c) 
                     gWiFiMatching->mUnk_ec = OS_GetTick();
                     return;
                 case 5:
-                    if (func_ov000_0218b474(list) != 0) {
+                    if (ServerBrowserCount(list) != 0) {
                         do {
-                            e = func_ov000_0218b480(list, 0);
-                            if (gWiFiMatching->mUnk_1ac == func_ov000_0218b27c((u32 *) e) &&
-                                gWiFiMatching->mUnk_1aa == func_ov000_0218b260(e)) {
+                            e = ServerBrowserGetServer(list, 0);
+                            if (gWiFiMatching->mUnk_1ac == SBServerGetPublicInetAddress((u32 *) e) &&
+                                gWiFiMatching->mUnk_1aa == SBServerGetPublicQueryPort(e)) {
                                 break;
                             }
-                            func_ov000_0218b4d4(list, e);
-                        } while (func_ov000_0218b474(list) != 0);
+                            ServerBrowserRemoveServer(list, e);
+                        } while (ServerBrowserCount(list) != 0);
                     }
-                    if (func_ov000_0218b474(list) != 0) {
-                        e = SbServerGetInt((SbServer *) func_ov000_0218b480(list, 0), gDwcPidKey, 0);
+                    if (ServerBrowserCount(list) != 0) {
+                        e = SbServerGetInt((SbServer *) ServerBrowserGetServer(list, 0), gDwcPidKey, 0);
                         f = gWiFiMatching;
                         if (f->mMode == 1 && e == f->mParticipantProfileIds[0]) {
                             if (FilterAndEvalMatchingServerList(0) != FALSE) {
@@ -3045,7 +3046,7 @@ void WiFiMatchingServerListCallback(MatchingServerList *list, s32 event, s32 c) 
                             }
                         }
                         gWiFiMatching->mState = 6;
-                        if (func_ov000_0219e4a0(func_ov000_021a0cac(0, 0, func_ov000_0218b480(list, 0))) != 0) {
+                        if (func_ov000_0219e4a0(func_ov000_021a0cac(0, 0, ServerBrowserGetServer(list, 0))) != 0) {
                             return;
                         }
                         return;
@@ -3073,14 +3074,14 @@ BOOL FilterAndEvalMatchingServerList(s32 a) {
     s32 h;
     c = FALSE;
     e = 0;
-    for (; e < (s32) func_ov000_0218b474(gWiFiMatching->mServerList); e++) {
-        f = func_ov000_0218b480(gWiFiMatching->mServerList, e);
+    for (; e < (s32) ServerBrowserCount(gWiFiMatching->mServerList); e++) {
+        f = ServerBrowserGetServer(gWiFiMatching->mServerList, e);
         if (gWiFiMatching->mMode == 0) {
             g = SbServerGetInt((SbServer *) f, gDwcPidKey, 0);
             d = FALSE;
             for (h = 1; h <= gWiFiMatching->mLastParticipantPos; h++) {
                 if (g == gWiFiMatching->mParticipantProfileIds[h]) {
-                    func_ov000_0218b4d4(gWiFiMatching->mServerList, f);
+                    ServerBrowserRemoveServer(gWiFiMatching->mServerList, f);
                     e--;
                     d = TRUE;
                     break;
@@ -3098,7 +3099,7 @@ BOOL FilterAndEvalMatchingServerList(s32 a) {
                 }
                 SbServerSetInt((SbServer *) f, gDwcEvalKey, (g << 8) | func_ov000_021a3448(0x100));
             } else {
-                func_ov000_0218b4d4(gWiFiMatching->mServerList, f);
+                ServerBrowserRemoveServer(gWiFiMatching->mServerList, f);
                 e--;
                 c = TRUE;
             }
@@ -3106,10 +3107,10 @@ BOOL FilterAndEvalMatchingServerList(s32 a) {
             SbServerSetInt((SbServer *) f, gDwcEvalKey, func_ov000_021a3448(0x80));
         }
     }
-    if (a != 0 && func_ov000_0218b474(gWiFiMatching->mServerList) != 0) {
-        func_ov000_0218b464(gWiFiMatching->mServerList, 0, gDwcEvalKey, 0);
+    if (a != 0 && ServerBrowserCount(gWiFiMatching->mServerList) != 0) {
+        ServerBrowserSortA(gWiFiMatching->mServerList, 0, gDwcEvalKey, 0);
     }
-    if (c != FALSE && func_ov000_0218b474(gWiFiMatching->mServerList) == 0) {
+    if (c != FALSE && ServerBrowserCount(gWiFiMatching->mServerList) == 0) {
         return FALSE;
     }
     return TRUE;

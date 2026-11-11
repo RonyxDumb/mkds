@@ -24,11 +24,11 @@ void ProcessIncomingReplies(SBQueryEngine *engine, s32 probeSocket) {
             break;
         }
         data[length] = 0;
-        for (queryEntry = engine->mQueryList.mFirst; queryEntry != NULL; queryEntry = queryEntry->mUnk_20) {
-            if ((probeSocket != 0 && (queryEntry->mUnk_15 & 8) != 0 && queryEntry->mUnk_10 == address.mUnk_04) ||
-                (queryEntry->mUnk_00 == address.mUnk_04 && (queryEntry->mUnk_04 == address.mUnk_02 || probeSocket != 0)) ||
-                (queryEntry->mUnk_00 == engine->mMyPublicIp && (queryEntry->mUnk_15 & 2) != 0 &&
-                 queryEntry->mUnk_08 == address.mUnk_04 && queryEntry->mUnk_0c == address.mUnk_02)) {
+        for (queryEntry = engine->mQueryList.mFirst; queryEntry != NULL; queryEntry = queryEntry->mNext) {
+            if ((probeSocket != 0 && (queryEntry->mFlags & 8) != 0 && queryEntry->mIcmpIp == address.mUnk_04) ||
+                (queryEntry->mPublicIp == address.mUnk_04 && (queryEntry->mPublicPort == address.mUnk_02 || probeSocket != 0)) ||
+                (queryEntry->mPublicIp == engine->mMyPublicIp && (queryEntry->mFlags & 2) != 0 &&
+                 queryEntry->mPrivateIp == address.mUnk_04 && queryEntry->mPrivatePort == address.mUnk_02)) {
                 if (probeSocket != 0) {
                     if (ParseSingleICMPReply(engine, queryEntry, data, length) != 0) {
                         break;
@@ -55,11 +55,11 @@ void TimeoutOldQueries(SBQueryEngine *engine) {
         if (currentTime <= server->mPing + 0x9c4) {
             break;
         }
-        server->mUnk_15 |= 0x10;
+        server->mFlags |= 0x10;
         engine->mQueryList.mFirst->mPing = 0x9c4;
-        engine->mQueryList.mFirst->mUnk_15 &= 0xd3;
+        engine->mQueryList.mFirst->mFlags &= 0xd3;
         engine->mListCallback(engine, 1, engine->mQueryList.mFirst, engine->mInstance);
-        func_ov000_0218aea4(&engine->mQueryList);
+        FIFOGetFirst(&engine->mQueryList);
         server = engine->mQueryList.mFirst;
     }
 }
