@@ -134,10 +134,10 @@ s32 CallKartCollisionCallbacks(s32 firstKartIndex, s32 secondKartIndex) {
     Kart *secondKart;
     KartStanding *firstStanding;
     KartStanding *secondStanding;
-    BOOL f5;
+    BOOL firstHitsSecond;
     s32 f4;
-    BOOL f11;
-    BOOL t;
+    BOOL firstGuarded;
+    BOOL secondGuarded;
 
     if (gStandings->mWinnerTeamId >= 0) {
         return 0;
@@ -146,10 +146,10 @@ s32 CallKartCollisionCallbacks(s32 firstKartIndex, s32 secondKartIndex) {
     secondKart = GetKart(secondKartIndex);
     secondStanding = &gStandings->mKarts[secondKartIndex];
     firstStanding = &gStandings->mKarts[firstKartIndex];
-    f5 = FALSE;
+    firstHitsSecond = FALSE;
     if (secondStanding->mHitSeenFromKart[firstKartIndex] == 0) {
         if ((firstKart->mUnk_48 & 0x100000) != 0) {
-            f5 = TRUE;
+            firstHitsSecond = TRUE;
         }
     }
     f4 = 0;
@@ -158,33 +158,33 @@ s32 CallKartCollisionCallbacks(s32 firstKartIndex, s32 secondKartIndex) {
             f4 = 1;
         }
     }
-    f11 = TRUE;
+    firstGuarded = TRUE;
     if ((firstKart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
         if (GetKartItemEffect(firstKartIndex) != 1) {
-            f11 = FALSE;
+            firstGuarded = FALSE;
         }
     }
-    t = TRUE;
+    secondGuarded = TRUE;
     if ((secondKart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
         if (GetKartItemEffect(secondKartIndex) != 1) {
-            t = FALSE;
+            secondGuarded = FALSE;
         }
     }
     if (f4 != 0) {
         firstStanding->mHitSeenFromKart[secondKartIndex] = 1;
     }
-    if (f5 != FALSE) {
+    if (firstHitsSecond != FALSE) {
         secondStanding->mHitSeenFromKart[firstKartIndex] = 1;
     }
-    if (f11 == FALSE && t == FALSE && f5 != FALSE && f4 != 0) {
+    if (firstGuarded == FALSE && secondGuarded == FALSE && firstHitsSecond != FALSE && f4 != 0) {
         if (gStandings->mKartsHitEachOtherCallback != NULL) {
             gStandings->mKartsHitEachOtherCallback(firstKartIndex, secondKartIndex);
             return 1;
         }
-    } else if (f11 == FALSE && f4 != 0) {
+    } else if (firstGuarded == FALSE && f4 != 0) {
         f4 = 0;
         if (GetKartItemEffect(secondKartIndex) == 1) {
-            firstStanding->mUnk_20 = TRUE;
+            firstStanding->mSkipNotNormalEnd = TRUE;
             if (gStandings->mKartHitByKartCallback != NULL) {
                 f4 = gStandings->mKartHitByKartCallback(firstKartIndex, secondKartIndex);
                 if ((firstKart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
@@ -198,10 +198,10 @@ s32 CallKartCollisionCallbacks(s32 firstKartIndex, s32 secondKartIndex) {
             }
         }
         return f4;
-    } else if (t == FALSE && f5 != FALSE) {
+    } else if (secondGuarded == FALSE && firstHitsSecond != FALSE) {
         f4 = 0;
         if (GetKartItemEffect(firstKartIndex) == 1) {
-            secondStanding->mUnk_20 = TRUE;
+            secondStanding->mSkipNotNormalEnd = TRUE;
             if (gStandings->mKartHitByKartCallback != NULL) {
                 f4 = gStandings->mKartHitByKartCallback(secondKartIndex, firstKartIndex);
                 if ((secondKart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
@@ -220,7 +220,7 @@ s32 CallKartCollisionCallbacks(s32 firstKartIndex, s32 secondKartIndex) {
 }
 
 void SetKartHitByKartIndexFromItem(s32 kartIndex, ItemObject *itemObject) {
-    u16 v;
+    u16 ownerKartIndexAndFlags;
 
     if (gStandings->mWinnerTeamId >= 0) {
         return;
@@ -231,11 +231,11 @@ void SetKartHitByKartIndexFromItem(s32 kartIndex, ItemObject *itemObject) {
     if (itemObject->mKind != 0 && itemObject->mKind != 1 && itemObject->mKind != 9) {
         return;
     }
-    v = itemObject->mOwnerKartIndexAndFlags;
-    if ((v & 0x8000) != 0) {
+    ownerKartIndexAndFlags = itemObject->mOwnerKartIndexAndFlags;
+    if ((ownerKartIndexAndFlags & 0x8000) != 0) {
         return;
     }
-    gStandings->mKarts[kartIndex].mHitByKartIndex = v & ~0xff00;
+    gStandings->mKarts[kartIndex].mHitByKartIndex = ownerKartIndexAndFlags & ~0xff00;
 }
 
 u32 StandingsReturnArgument(u32 value) {
@@ -453,8 +453,8 @@ void CallKartHitCallbackForSelf(u16 kartIndex) {
     KartStanding *kartStanding;
 
     kartStanding = &gStandings->mKarts[kartIndex];
-    kartStanding->mUnk_1c = -2;
-    kartStanding->mUnk_18 = -2;
+    kartStanding->mObjectsSkipEndPending = KART_STANDING_HIT_END_NONE;
+    kartStanding->mNotNormalEndPending = KART_STANDING_HIT_END_NONE;
     kartStanding->mHitByKartIndex = kartIndex;
     gStandings->mKartHitCallback(kartIndex, kartIndex);
 }
@@ -731,12 +731,12 @@ CourseMapPoint *MoveToRandomForwardBattlePoint(void) {
     randomState = &gRaceProgress->mRandom;
     randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
     pointStep = (u16) (((u64) (u32) (randomState->mValue >> 32) * 5) >> 32) + 1;
-    pointIndex = gStandings->mUnk_3b8 + pointStep;
+    pointIndex = gStandings->mBattlePointIndex + pointStep;
     if (pointIndex >= gCourseMap->mBattlePointCount) {
         pointIndex = 0;
     }
-    gStandings->mUnk_3b8 = pointIndex;
-    return &gCourseMap->mBattlePoints[gStandings->mUnk_3b8];
+    gStandings->mBattlePointIndex = pointIndex;
+    return &gCourseMap->mBattlePoints[gStandings->mBattlePointIndex];
 }
 
 // Allocates the Standings object and fills every entry (rank = own index, side id, status, count; the real karts first,
@@ -748,8 +748,8 @@ void InitStandings(void) {
     gStandings = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x3c0);
     for (i = 0; i < 8; i++) {
         kartStanding = &gStandings->mKarts[i];
-        kartStanding->mUnk_1c = -2;
-        kartStanding->mUnk_18 = -2;
+        kartStanding->mObjectsSkipEndPending = KART_STANDING_HIT_END_NONE;
+        kartStanding->mNotNormalEndPending = KART_STANDING_HIT_END_NONE;
         kartStanding->mHitByKartIndex = i;
         kartStanding->mRankIndex = i;
         if (i < gRaceSetup->mKartCount) {
@@ -786,9 +786,9 @@ void FinishStandings(void) {
 
 void UpdateStandings(void) {
     Kart *kart;
-    BOOL a;
-    BOOL b;
-    s32 v;
+    BOOL objectsSkipSet;
+    BOOL notNormalOrFlagged;
+    s32 nextMicInflateTimer;
     u32 kartFlags;
     s32 i;
     s32 kartCount;
@@ -823,11 +823,11 @@ void UpdateStandings(void) {
         } else if (gStandings->mWinnerTeamId < 0 && kartStanding->mBalloonOrShineCount > 0) {
             kart = GetKart((u16) i);
             kartStanding = &gStandings->mKarts[i];
-            v = kartStanding->mMicInflateTimer - 1;
-            if (v <= 0) {
-                v = 0;
+            nextMicInflateTimer = kartStanding->mMicInflateTimer - 1;
+            if (nextMicInflateTimer <= 0) {
+                nextMicInflateTimer = 0;
             }
-            kartStanding->mMicInflateTimer = v;
+            kartStanding->mMicInflateTimer = nextMicInflateTimer;
             gStandings->mKarts[i].mSelectKeyInflate = -(gStandings->mKarts[i].mSelectKeyInflate <= 0);
             if (IsKartNotNormalOrFlagged(kart) != FALSE ||
                 (u16) (gInputSlots[kart->mEntryIndex].mBits & (PAD_KEY_A | PAD_KEY_B)) != 0) {
@@ -841,18 +841,19 @@ void UpdateStandings(void) {
                 }
             }
             if (gStandings->mKartHitCallback != NULL) {
-                b = TRUE;
+                notNormalOrFlagged = TRUE;
                 kartFlags = kart->mUnk_48;
-                a = (kartFlags & 0x200) != 0;
+                objectsSkipSet = (kartFlags & 0x200) != 0;
                 if (kart->mState == KART_STATE_NORMAL && (kartFlags & 0x4000000) == 0) {
-                    b = FALSE;
+                    notNormalOrFlagged = FALSE;
                 }
-                if (kartStanding->mUnk_04 == FALSE && a != FALSE && (kart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
-                    kartStanding->mUnk_04 = TRUE;
-                    kartStanding->mUnk_00 = FALSE;
-                    kartStanding->mUnk_18 = -2;
+                if (kartStanding->mObjectsSkipSeen == FALSE && objectsSkipSet != FALSE &&
+                    (kart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
+                    kartStanding->mObjectsSkipSeen = TRUE;
+                    kartStanding->mNotNormalOrFlaggedSeen = FALSE;
+                    kartStanding->mNotNormalEndPending = KART_STANDING_HIT_END_NONE;
                     kartStanding->mHitByKartIndex = i;
-                    kartStanding->mUnk_20 = FALSE;
+                    kartStanding->mSkipNotNormalEnd = FALSE;
                     if (kartStanding->mBalloonOrShineCount <= 1) {
                         if ((gRaceSetup->mMode == MODE_BATTLE && gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON) ||
                             gRaceSetup->mMode == MODE_MISSION_RUN) {
@@ -860,45 +861,47 @@ void UpdateStandings(void) {
                             kart->mUnk_48 &= ~0x2000000;
                         }
                     }
-                } else if (kartStanding->mUnk_04 == TRUE && (kart->mUnk_44 & KART_44_LANDED) != 0) {
-                    kartStanding->mUnk_04 = FALSE;
-                    kartStanding->mUnk_1c = 0;
+                } else if (kartStanding->mObjectsSkipSeen == TRUE && (kart->mUnk_44 & KART_44_LANDED) != 0) {
+                    kartStanding->mObjectsSkipSeen = FALSE;
+                    kartStanding->mObjectsSkipEndPending = 0;
                     if ((kart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
                         StartKartBlink(kart);
                     }
                 }
-                if (kartStanding->mUnk_1c == 0) {
-                    kartStanding->mUnk_1c = -2;
+                if (kartStanding->mObjectsSkipEndPending == 0) {
+                    kartStanding->mObjectsSkipEndPending = KART_STANDING_HIT_END_NONE;
                     gStandings->mKartHitCallback(i, 8);
                     kartStanding->mHitByKartIndex = i;
-                } else if (kartStanding->mUnk_1c >= 0) {
-                    kartStanding->mUnk_1c = kartStanding->mUnk_1c + 1;
+                } else if (kartStanding->mObjectsSkipEndPending >= 0) {
+                    kartStanding->mObjectsSkipEndPending = kartStanding->mObjectsSkipEndPending + 1;
                 }
-                if (kartStanding->mUnk_00 == FALSE && b != FALSE && (kart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
-                    kartStanding->mUnk_00 = TRUE;
+                if (kartStanding->mNotNormalOrFlaggedSeen == FALSE && notNormalOrFlagged != FALSE &&
+                    (kart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
+                    kartStanding->mNotNormalOrFlaggedSeen = TRUE;
                     if (kartStanding->mBalloonOrShineCount <= 1) {
                         if ((gRaceSetup->mMode == MODE_BATTLE && gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON) ||
                             gRaceSetup->mMode == MODE_MISSION_RUN) {
                             kart->mUnk_7c |= 0x20000000;
                         }
                     }
-                } else if (kartStanding->mUnk_00 == TRUE && b == FALSE && (kart->mUnk_48 & 0x6052840) == 0) {
-                    kartStanding->mUnk_00 = FALSE;
-                    if (kartStanding->mUnk_20 == FALSE) {
-                        kartStanding->mUnk_18 = 0;
+                } else if (kartStanding->mNotNormalOrFlaggedSeen == TRUE && notNormalOrFlagged == FALSE &&
+                           (kart->mUnk_48 & 0x6052840) == 0) {
+                    kartStanding->mNotNormalOrFlaggedSeen = FALSE;
+                    if (kartStanding->mSkipNotNormalEnd == FALSE) {
+                        kartStanding->mNotNormalEndPending = 0;
                         if ((kart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
                             StartKartBlink(kart);
                         }
                     } else {
-                        kartStanding->mUnk_20 = FALSE;
+                        kartStanding->mSkipNotNormalEnd = FALSE;
                     }
                 }
-                if (kartStanding->mUnk_18 == 0) {
-                    kartStanding->mUnk_18 = -2;
+                if (kartStanding->mNotNormalEndPending == 0) {
+                    kartStanding->mNotNormalEndPending = KART_STANDING_HIT_END_NONE;
                     gStandings->mKartHitCallback(i, kartStanding->mHitByKartIndex);
                     kartStanding->mHitByKartIndex = i;
-                } else if (kartStanding->mUnk_18 >= 0) {
-                    kartStanding->mUnk_18 = kartStanding->mUnk_18 + 1;
+                } else if (kartStanding->mNotNormalEndPending >= 0) {
+                    kartStanding->mNotNormalEndPending = kartStanding->mNotNormalEndPending + 1;
                 }
             }
             kartStanding->mPos = kart->mPos;

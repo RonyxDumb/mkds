@@ -83,10 +83,10 @@ void UpdateViewFrustum(MtxFx43 *viewMatrix) {
     gViewFrustum.mViewDirection.x = -buf.mRows[2].x;
     gViewFrustum.mViewDirection.y = -buf.mRows[2].y;
     gViewFrustum.mViewDirection.z = -buf.mRows[2].z;
-    MTX_MultVec33(&gViewFrustumBeforeRotation.mUnk_20, &buf, &gViewFrustum.mUnk_20);
-    MTX_MultVec33(&gViewFrustumBeforeRotation.mUnk_2c, &buf, &gViewFrustum.mUnk_2c);
-    MTX_MultVec33(&gViewFrustumBeforeRotation.mUnk_38, &buf, &gViewFrustum.mUnk_38);
-    MTX_MultVec33(&gViewFrustumBeforeRotation.mUnk_44, &buf, &gViewFrustum.mUnk_44);
+    MTX_MultVec33(&gViewFrustumBeforeRotation.mLeftPlaneNormal, &buf, &gViewFrustum.mLeftPlaneNormal);
+    MTX_MultVec33(&gViewFrustumBeforeRotation.mRightPlaneNormal, &buf, &gViewFrustum.mRightPlaneNormal);
+    MTX_MultVec33(&gViewFrustumBeforeRotation.mTopPlaneNormal, &buf, &gViewFrustum.mTopPlaneNormal);
+    MTX_MultVec33(&gViewFrustumBeforeRotation.mBottomPlaneNormal, &buf, &gViewFrustum.mBottomPlaneNormal);
     if (gViewFrustum.mViewTestRefreshRequested != FALSE) {
         gViewFrustum.mViewTestRefreshRequested = FALSE;
         gViewFrustum.mViewTestRefreshPending = TRUE;
@@ -236,60 +236,64 @@ void InitMapObjectViewState(void) {
 #pragma thumb off
 
 #pragma thumb on
-void RefreshViewFrustumFromProjection(s32 a, s32 b, s32 c, s32 d, s32 nearDistance, s32 farDistance) {
+void RefreshViewFrustumFromProjection(s32 top, s32 bottom, s32 left, s32 right, s32 nearDistance, s32 farDistance) {
     gViewFrustumBeforeRotation.mNear = nearDistance << 4;
     gViewFrustum.mNear = nearDistance << 4;
     gViewFrustumBeforeRotation.mFar = farDistance << 4;
     gViewFrustum.mFar = farDistance << 4;
 
-    gViewFrustumBeforeRotation.mUnk_20.x = nearDistance;
-    gViewFrustumBeforeRotation.mUnk_20.y = 0;
-    gViewFrustumBeforeRotation.mUnk_20.z = -c;
-    if ((s64) gViewFrustumBeforeRotation.mUnk_20.z * gViewFrustumBeforeRotation.mUnk_20.z +
-            ((s64) gViewFrustumBeforeRotation.mUnk_20.x * gViewFrustumBeforeRotation.mUnk_20.x +
-             (s64) gViewFrustumBeforeRotation.mUnk_20.y * gViewFrustumBeforeRotation.mUnk_20.y) >=
+    gViewFrustumBeforeRotation.mLeftPlaneNormal.x = nearDistance;
+    gViewFrustumBeforeRotation.mLeftPlaneNormal.y = 0;
+    gViewFrustumBeforeRotation.mLeftPlaneNormal.z = -left;
+    if ((s64) gViewFrustumBeforeRotation.mLeftPlaneNormal.z * gViewFrustumBeforeRotation.mLeftPlaneNormal.z +
+            ((s64) gViewFrustumBeforeRotation.mLeftPlaneNormal.x * gViewFrustumBeforeRotation.mLeftPlaneNormal.x +
+             (s64) gViewFrustumBeforeRotation.mLeftPlaneNormal.y * gViewFrustumBeforeRotation.mLeftPlaneNormal.y) >=
         0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&gViewFrustumBeforeRotation.mUnk_20, &gViewFrustumBeforeRotation.mUnk_20);
+        Vec3NormalizeAndGetLengthUnchecked(&gViewFrustumBeforeRotation.mLeftPlaneNormal,
+                                           &gViewFrustumBeforeRotation.mLeftPlaneNormal);
     }
     if (gRaceSetup->mMirrorMode != 0) {
-        gViewFrustumBeforeRotation.mUnk_20.x = -gViewFrustumBeforeRotation.mUnk_20.x;
-        gViewFrustumBeforeRotation.mUnk_20.y = -gViewFrustumBeforeRotation.mUnk_20.y;
-        gViewFrustumBeforeRotation.mUnk_20.z = -gViewFrustumBeforeRotation.mUnk_20.z;
+        gViewFrustumBeforeRotation.mLeftPlaneNormal.x = -gViewFrustumBeforeRotation.mLeftPlaneNormal.x;
+        gViewFrustumBeforeRotation.mLeftPlaneNormal.y = -gViewFrustumBeforeRotation.mLeftPlaneNormal.y;
+        gViewFrustumBeforeRotation.mLeftPlaneNormal.z = -gViewFrustumBeforeRotation.mLeftPlaneNormal.z;
     }
 
-    gViewFrustumBeforeRotation.mUnk_2c.x = -nearDistance;
-    gViewFrustumBeforeRotation.mUnk_2c.y = 0;
-    gViewFrustumBeforeRotation.mUnk_2c.z = d;
-    if ((s64) gViewFrustumBeforeRotation.mUnk_2c.z * gViewFrustumBeforeRotation.mUnk_2c.z +
-            ((s64) gViewFrustumBeforeRotation.mUnk_2c.x * gViewFrustumBeforeRotation.mUnk_2c.x +
-             (s64) gViewFrustumBeforeRotation.mUnk_2c.y * gViewFrustumBeforeRotation.mUnk_2c.y) >=
+    gViewFrustumBeforeRotation.mRightPlaneNormal.x = -nearDistance;
+    gViewFrustumBeforeRotation.mRightPlaneNormal.y = 0;
+    gViewFrustumBeforeRotation.mRightPlaneNormal.z = right;
+    if ((s64) gViewFrustumBeforeRotation.mRightPlaneNormal.z * gViewFrustumBeforeRotation.mRightPlaneNormal.z +
+            ((s64) gViewFrustumBeforeRotation.mRightPlaneNormal.x * gViewFrustumBeforeRotation.mRightPlaneNormal.x +
+             (s64) gViewFrustumBeforeRotation.mRightPlaneNormal.y * gViewFrustumBeforeRotation.mRightPlaneNormal.y) >=
         0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&gViewFrustumBeforeRotation.mUnk_2c, &gViewFrustumBeforeRotation.mUnk_2c);
+        Vec3NormalizeAndGetLengthUnchecked(&gViewFrustumBeforeRotation.mRightPlaneNormal,
+                                           &gViewFrustumBeforeRotation.mRightPlaneNormal);
     }
     if (gRaceSetup->mMirrorMode != 0) {
-        gViewFrustumBeforeRotation.mUnk_2c.x = -gViewFrustumBeforeRotation.mUnk_2c.x;
-        gViewFrustumBeforeRotation.mUnk_2c.y = -gViewFrustumBeforeRotation.mUnk_2c.y;
-        gViewFrustumBeforeRotation.mUnk_2c.z = -gViewFrustumBeforeRotation.mUnk_2c.z;
+        gViewFrustumBeforeRotation.mRightPlaneNormal.x = -gViewFrustumBeforeRotation.mRightPlaneNormal.x;
+        gViewFrustumBeforeRotation.mRightPlaneNormal.y = -gViewFrustumBeforeRotation.mRightPlaneNormal.y;
+        gViewFrustumBeforeRotation.mRightPlaneNormal.z = -gViewFrustumBeforeRotation.mRightPlaneNormal.z;
     }
 
-    gViewFrustumBeforeRotation.mUnk_38.x = 0;
-    gViewFrustumBeforeRotation.mUnk_38.y = -nearDistance;
-    gViewFrustumBeforeRotation.mUnk_38.z = a;
-    if ((s64) gViewFrustumBeforeRotation.mUnk_38.z * gViewFrustumBeforeRotation.mUnk_38.z +
-            ((s64) gViewFrustumBeforeRotation.mUnk_38.x * gViewFrustumBeforeRotation.mUnk_38.x +
-             (s64) gViewFrustumBeforeRotation.mUnk_38.y * gViewFrustumBeforeRotation.mUnk_38.y) >=
+    gViewFrustumBeforeRotation.mTopPlaneNormal.x = 0;
+    gViewFrustumBeforeRotation.mTopPlaneNormal.y = -nearDistance;
+    gViewFrustumBeforeRotation.mTopPlaneNormal.z = top;
+    if ((s64) gViewFrustumBeforeRotation.mTopPlaneNormal.z * gViewFrustumBeforeRotation.mTopPlaneNormal.z +
+            ((s64) gViewFrustumBeforeRotation.mTopPlaneNormal.x * gViewFrustumBeforeRotation.mTopPlaneNormal.x +
+             (s64) gViewFrustumBeforeRotation.mTopPlaneNormal.y * gViewFrustumBeforeRotation.mTopPlaneNormal.y) >=
         0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&gViewFrustumBeforeRotation.mUnk_38, &gViewFrustumBeforeRotation.mUnk_38);
+        Vec3NormalizeAndGetLengthUnchecked(&gViewFrustumBeforeRotation.mTopPlaneNormal,
+                                           &gViewFrustumBeforeRotation.mTopPlaneNormal);
     }
 
-    gViewFrustumBeforeRotation.mUnk_44.x = 0;
-    gViewFrustumBeforeRotation.mUnk_44.y = nearDistance;
-    gViewFrustumBeforeRotation.mUnk_44.z = -b;
-    if ((s64) gViewFrustumBeforeRotation.mUnk_44.z * gViewFrustumBeforeRotation.mUnk_44.z +
-            ((s64) gViewFrustumBeforeRotation.mUnk_44.x * gViewFrustumBeforeRotation.mUnk_44.x +
-             (s64) gViewFrustumBeforeRotation.mUnk_44.y * gViewFrustumBeforeRotation.mUnk_44.y) >=
+    gViewFrustumBeforeRotation.mBottomPlaneNormal.x = 0;
+    gViewFrustumBeforeRotation.mBottomPlaneNormal.y = nearDistance;
+    gViewFrustumBeforeRotation.mBottomPlaneNormal.z = -bottom;
+    if ((s64) gViewFrustumBeforeRotation.mBottomPlaneNormal.z * gViewFrustumBeforeRotation.mBottomPlaneNormal.z +
+            ((s64) gViewFrustumBeforeRotation.mBottomPlaneNormal.x * gViewFrustumBeforeRotation.mBottomPlaneNormal.x +
+             (s64) gViewFrustumBeforeRotation.mBottomPlaneNormal.y * gViewFrustumBeforeRotation.mBottomPlaneNormal.y) >=
         0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&gViewFrustumBeforeRotation.mUnk_44, &gViewFrustumBeforeRotation.mUnk_44);
+        Vec3NormalizeAndGetLengthUnchecked(&gViewFrustumBeforeRotation.mBottomPlaneNormal,
+                                           &gViewFrustumBeforeRotation.mBottomPlaneNormal);
     }
 }
 #pragma thumb off

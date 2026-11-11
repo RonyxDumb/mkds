@@ -142,24 +142,24 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
                     }
                 }
                 grpconfRow = func_020d34e4_inline(row->mKind);
-                if (grpconfRow->mUnk_02 != 0) {
-                    descriptor->mKindData->mUnk_34 = grpconfRow->mUnk_02 >= 2 ? 1 : 0;
-                    tableValue = grpconfRow->mUnk_04;
+                if (grpconfRow->mViewTestKind != 0) {
+                    descriptor->mKindData->mUnk_34 = grpconfRow->mViewTestKind >= 2 ? 1 : 0;
+                    tableValue = grpconfRow->mViewRadius;
                     descriptor->mKindData->mUnk_2c =
                         tableValue != 0 ? (tableValue << 12) + 0.5f : (tableValue << 12) - 0.5f;
-                    tableValue = grpconfRow->mUnk_06;
+                    tableValue = grpconfRow->mDrawDistance;
                     descriptor->mKindData->mUnk_30 =
                         tableValue != 0 ? (tableValue << 12) + 0.5f : (tableValue << 12) - 0.5f;
                 }
                 if (grpconfRow->mShapeKind != 0) {
                     descriptor->mKindData->mShapeKind = grpconfRow->mShapeKind;
-                    tableValue = grpconfRow->mUnk_0a;
+                    tableValue = grpconfRow->mExtentX;
                     descriptor->mKindData->mUnk_0c =
                         tableValue != 0 ? (tableValue << 12) + 0.5f : (tableValue << 12) - 0.5f;
-                    tableValue = grpconfRow->mUnk_0c;
+                    tableValue = grpconfRow->mExtentY;
                     descriptor->mKindData->mUnk_10 =
                         tableValue != 0 ? (tableValue << 12) + 0.5f : (tableValue << 12) - 0.5f;
-                    tableValue = grpconfRow->mUnk_0e;
+                    tableValue = grpconfRow->mExtentZ;
                     descriptor->mKindData->mUnk_14 =
                         tableValue != 0 ? (tableValue << 12) + 0.5f : (tableValue << 12) - 0.5f;
                 }

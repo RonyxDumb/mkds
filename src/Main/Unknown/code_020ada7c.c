@@ -8,7 +8,7 @@
 #pragma thumb on
 
 void WriteTitleSceneRegisters(void) {
-    gTitleScene->mStateHandlers[gTitleScene->mState].mUnk_00();
+    gTitleScene->mStateHandlers[gTitleScene->mState].mWriteRegisters();
     gTitleScene->mStateChanged = FALSE;
     WriteSceneTextRegisters();
     UploadOamLists(&gTitleScene->mMainOam, &gTitleScene->mSubOam);

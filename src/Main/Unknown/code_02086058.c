@@ -83,9 +83,9 @@ void UpdateKartViewDistancesAndOutOfView(void) {
             } else {
                 isBeyondPlanes = FALSE;
                 marginWhole = margin >> 12;
-                if (VEC_DotProduct(&cameraToKartWhole, &viewFrustum->mUnk_20) - marginWhole > 0) {
+                if (VEC_DotProduct(&cameraToKartWhole, &viewFrustum->mLeftPlaneNormal) - marginWhole > 0) {
                     isBeyondPlanes = TRUE;
-                } else if (VEC_DotProduct(&cameraToKartWhole, &viewFrustum->mUnk_2c) - marginWhole > 0) {
+                } else if (VEC_DotProduct(&cameraToKartWhole, &viewFrustum->mRightPlaneNormal) - marginWhole > 0) {
                     isBeyondPlanes = TRUE;
                 }
                 if (isBeyondPlanes != FALSE) {

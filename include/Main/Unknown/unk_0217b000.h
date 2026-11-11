@@ -129,10 +129,10 @@ typedef struct ViewFrustum {
     /* 04 */ s32 mFar;
     /* 08 */ Vec3 mCameraPos;
     /* 14 */ Vec3 mViewDirection;
-    /* 20 */ Vec3 mUnk_20;
-    /* 2c */ Vec3 mUnk_2c;
-    /* 38 */ Vec3 mUnk_38;
-    /* 44 */ Vec3 mUnk_44;
+    /* 20 */ Vec3 mLeftPlaneNormal;
+    /* 2c */ Vec3 mRightPlaneNormal;
+    /* 38 */ Vec3 mTopPlaneNormal;
+    /* 44 */ Vec3 mBottomPlaneNormal;
     /* 50 */ BOOL mViewTestRefreshRequested;
     /* 54 */ BOOL mViewTestRefreshPending;
 } ViewFrustum;
@@ -162,13 +162,13 @@ typedef struct EmblemChoises {
 // 16-byte rows of the table behind gGrpconfTbl (CreateMapObject reads the halfwords).
 typedef struct GrpconfTblRow {
     /* 00 */ u16 mKind;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
+    /* 02 */ u16 mViewTestKind;
+    /* 04 */ u16 mViewRadius;
+    /* 06 */ u16 mDrawDistance;
     /* 08 */ u16 mShapeKind;
-    /* 0a */ u16 mUnk_0a;
-    /* 0c */ u16 mUnk_0c;
-    /* 0e */ u16 mUnk_0e;
+    /* 0a */ u16 mExtentX;
+    /* 0c */ u16 mExtentY;
+    /* 0e */ u16 mExtentZ;
 } GrpconfTblRow;
 
 extern MapObjectModel *gHole;
@@ -252,7 +252,7 @@ extern MapObjectModel *gSmanTop;
 // The 0x10 bytes at 0x784 of StemSets; the callbacks at 0x794 and 0x798 get their address.
 typedef struct TimedQuad {
     /* 00 */ u16 mTimer;
-    /* 02 */ s16 mUnk_02;
+    /* 02 */ s16 mAlpha;
     /* 04 */ u16 mColor;
     /* 06 */ u8 mUnk_06[2];
     /* 08 */ BOOL mEnabled;
@@ -277,20 +277,22 @@ typedef struct StemSets {
 extern StemSets *gStemSets;
 extern u32 gUnparkedTeresaCount;
 extern MapObjectModel *gChandelier;
+// Value of KartStanding.mNotNormalEndPending and mObjectsSkipEndPending when no hit end is waiting (s32).
+#define KART_STANDING_HIT_END_NONE -2
 // One kart's entry of Standings (0x70 bytes, indexed by kart index): its count, rank, side id, elimination status and
 // last position, and the hit tracking of the kart (those members keep their address names). Slots past the kart count
 // are unused: status 2, count -1.
 typedef struct KartStanding {
-    /* 00 */ BOOL mUnk_00;
-    /* 04 */ BOOL mUnk_04;
+    /* 00 */ BOOL mNotNormalOrFlaggedSeen;
+    /* 04 */ BOOL mObjectsSkipSeen;
     // 0 in play, 1 just eliminated (the update calls the kart handler once and sets 2), 2 eliminated and handled;
     // unused slots start at 2. Only compared, never switched on.
     /* 08 */ s32 mEliminationStatus;
     // Copy of the kart's position, refreshed every update while the kart's count is above 0 and no winner is decided.
     /* 0c */ Vec3 mPos;
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ s32 mUnk_1c;
-    /* 20 */ BOOL mUnk_20;
+    /* 18 */ s32 mNotNormalEndPending;
+    /* 1c */ s32 mObjectsSkipEndPending;
+    /* 20 */ BOOL mSkipNotNormalEnd;
     /* 24 */ s32 mHitSeenFromKart[8];
     /* 44 */ u16 mHitByKartIndex;
     // Id of the side the kart plays for: the entry's team index 0 gives 1, 1 gives 3, any other value gives the kart's
@@ -361,7 +363,7 @@ typedef struct Standings {
     // play has the id of the rank 0 kart. In mode 4 the ids are kart indices (it is compared with the local entry
     // index).
     /* 3b4 */ s32 mWinnerTeamId;
-    /* 3b8 */ u16 mUnk_3b8;
+    /* 3b8 */ u16 mBattlePointIndex;
     /* 3ba */ u8 mUnk_3ba[2];
     // Pointer to entry 0 of the kind 0x69 object's KartBalloons array; set once by InitKartBalloons.
     /* 3bc */ struct KartBalloons *mKartBalloons;
@@ -408,7 +410,7 @@ typedef struct RepeatCounter {
     /* 00 */ u16 mRepeatFrames;
     /* 02 */ u16 mFirstFireFrame;
     /* 04 */ u16 mRepeatFireFrame;
-    /* 06 */ u16 mUnk_06;
+    /* 06 */ u16 mFired;
 } RepeatCounter;
 
 // Object at gKeyboardKeyRepeat: an RepeatCounter followed by two halfwords (AdvanceKeyboardKeyRepeat,
@@ -449,15 +451,15 @@ extern KeyboardLayout data_0217b294;
 extern RepeatCounter data_0217b2ac;
 // Object at gKeyboardInput, 0x28 bytes (AdvanceKeyboardInput updates it, ClearKeyboardInput clears it).
 typedef struct KeyboardInput {
-    /* 00 */ s32 mUnk_00;
+    /* 00 */ s32 mCountedKeyFrames;
     /* 04 */ u16 mKeysPressed;
     /* 06 */ u16 mKeysDown;
     /* 08 */ u16 mKeysReleased;
-    /* 0a */ u16 mUnk_0a;
+    /* 0a */ u16 mCountedKeys;
     /* 0c */ u16 mPrevSample[4];
     /* 14 */ u16 mLastTouchX;
     /* 16 */ u16 mLastTouchY;
-    /* 18 */ s32 mUnk_18;
+    /* 18 */ s32 mTouchHeldFrames;
     /* 1c */ s32 mTouchStatus;
     /* 20 */ u16 mTouchDown;
     /* 22 */ u16 mUnk_22;
@@ -491,7 +493,7 @@ typedef struct KeyboardTextEntry {
     /* 40 */ u16 *mText;
     /* 44 */ u16 mTextCapacity;
     /* 46 */ u16 mTextIndex;
-    /* 48 */ u16 mUnk_48;
+    /* 48 */ u16 mTextIndexCopy;
     /* 4a */ u16 mTextLimit;
     /* 4c */ s32 mLayoutIndex;
     /* 50 */ s32 mOffsetX;
@@ -510,7 +512,7 @@ extern KeyboardTextEntry *gKeyboardTextEntry;
 extern u16 *gKbdmapHiragana;
 extern MapObjectModel *gShineBalloon;
 typedef struct TitleStateHandlers {
-    /* 00 */ UnkFunc *mUnk_00;
+    /* 00 */ UnkFunc *mWriteRegisters;
     /* 04 */ void (*mUpdate)(s32);
 } TitleStateHandlers;
 
@@ -930,12 +932,12 @@ extern u16 *gCharTablePair1[2];
 typedef struct KeyboardCanvas {
     /* 00 */ struct Unk02022aa8 *mFont;
     /* 04 */ void *mBg2Char;
-    /* 08 */ void *mUnk_08;
+    /* 08 */ void *mMarkedBg2Char;
     /* 0c */ u16 *mBg2Scr;
     /* 10 */ s32 mUnk_10;
     /* 14 */ s32 mUnk_14;
     /* 18 */ s32 mScreenMapTopBits;
-    /* 1c */ s32 mUnk_1c;
+    /* 1c */ s32 mScreenMapTileBase;
     /* 20 */ s32 mGlyphColor;
 } KeyboardCanvas;
 

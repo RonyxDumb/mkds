@@ -193,7 +193,7 @@ void InitKeyboardTextEntry(s32 a, s32 b, s32 textCapacity) {
     gKeyboardTextEntry->mTextCapacity = textCapacity;
     gKeyboardTextEntry->mTextLimit = textCapacity;
     gKeyboardTextEntry->mTextIndex = 0;
-    gKeyboardTextEntry->mUnk_48 = 0;
+    gKeyboardTextEntry->mTextIndexCopy = 0;
     gKeyboardTextEntry->mText = HeapAlloc(GetHeap(GetCurrentHeapCall()), (textCapacity + 1) * 2);
     gKeyboardTextEntry->mBg2ScrSize = b * (a * 2);
     gKeyboardTextEntry->mBg2Scr = HeapAlloc(GetHeap(GetCurrentHeapCall()), gKeyboardTextEntry->mBg2ScrSize);
@@ -260,7 +260,7 @@ void AdvanceKeyboardTextEntry(void) {
             MoveKeyboardCursorToValueWrapper(1);
         }
     } else if (GetKeyboardKeyValue() == 8) {
-        gKeyboardTextEntry->mUnk_48 = gKeyboardTextEntry->mTextIndex;
+        gKeyboardTextEntry->mTextIndexCopy = gKeyboardTextEntry->mTextIndex;
         keyboardTextEntry = gKeyboardTextEntry;
         if (keyboardTextEntry->mTextIndex != 0) {
             if (keyboardTextEntry->mText[keyboardTextEntry->mTextIndex] == 0) {
@@ -270,7 +270,7 @@ void AdvanceKeyboardTextEntry(void) {
             NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1e3);
         }
     } else if (GetKeyboardKeyValue() >= 0x20) {
-        gKeyboardTextEntry->mUnk_48 = gKeyboardTextEntry->mTextIndex;
+        gKeyboardTextEntry->mTextIndexCopy = gKeyboardTextEntry->mTextIndex;
         keyboardTextEntry = gKeyboardTextEntry;
         if (keyboardTextEntry->mTextIndex < keyboardTextEntry->mTextLimit) {
             if (keyboardTextEntry->mText[keyboardTextEntry->mTextIndex] != GetKeyboardKeyValue()) {
@@ -474,13 +474,13 @@ void SetKeyboardText(const u16 *text) {
         gKeyboardTextEntry->mText[i] = *text;
         if (*text == 0) {
             gKeyboardTextEntry->mTextIndex = i;
-            gKeyboardTextEntry->mUnk_48 = gKeyboardTextEntry->mTextIndex;
+            gKeyboardTextEntry->mTextIndexCopy = gKeyboardTextEntry->mTextIndex;
             return;
         }
         text++;
     }
     gKeyboardTextEntry->mTextIndex = gKeyboardTextEntry->mTextLimit - 1;
-    gKeyboardTextEntry->mUnk_48 = gKeyboardTextEntry->mTextIndex;
+    gKeyboardTextEntry->mTextIndexCopy = gKeyboardTextEntry->mTextIndex;
     gKeyboardTextEntry->mText[gKeyboardTextEntry->mTextLimit] = 0;
 }
 
@@ -500,7 +500,7 @@ void SetKeyboardTextLimit(u16 textLimit) {
     gKeyboardTextEntry->mTextLimit = textLimit;
     if (gKeyboardTextEntry->mTextIndex >= gKeyboardTextEntry->mTextLimit - 1) {
         gKeyboardTextEntry->mTextIndex = gKeyboardTextEntry->mTextLimit - 1;
-        gKeyboardTextEntry->mUnk_48 = gKeyboardTextEntry->mTextIndex;
+        gKeyboardTextEntry->mTextIndexCopy = gKeyboardTextEntry->mTextIndex;
         gKeyboardTextEntry->mText[gKeyboardTextEntry->mTextLimit] = 0;
     }
 }
@@ -542,10 +542,10 @@ void AdvanceKeyboardInput(u16 keys, volatile TPData touchPoint) {
     gKeyboardInput.mKeysPressed = keys & changedKeys;
     gKeyboardInput.mKeysReleased = ~keys & changedKeys;
     gKeyboardInput.mKeysDown = keys;
-    if ((gKeyboardInput.mKeysDown & gKeyboardInput.mUnk_0a) != 0) {
-        gKeyboardInput.mUnk_00++;
+    if ((gKeyboardInput.mKeysDown & gKeyboardInput.mCountedKeys) != 0) {
+        gKeyboardInput.mCountedKeyFrames++;
     } else {
-        gKeyboardInput.mUnk_00 = 0;
+        gKeyboardInput.mCountedKeyFrames = 0;
     }
     if (gKeyboardInput.mTouchEnabled != FALSE) {
         if (touchPoint.mValidity != 0) {
@@ -558,10 +558,10 @@ void AdvanceKeyboardInput(u16 keys, volatile TPData touchPoint) {
         touch = touchPoint.mTouch;
         if (touch != gKeyboardInput.mPrevSample[2]) {
             gKeyboardInput.mTouchStatus = touch != 0 ? 1 : 3;
-            gKeyboardInput.mUnk_18 = 0;
+            gKeyboardInput.mTouchHeldFrames = 0;
         } else if (touch != 0) {
             gKeyboardInput.mTouchStatus = 2;
-            gKeyboardInput.mUnk_18++;
+            gKeyboardInput.mTouchHeldFrames++;
         } else {
             gKeyboardInput.mTouchStatus = 0;
         }
@@ -645,14 +645,14 @@ u32 IsKeyboardTouchEnabled(void) {
 
 void SetupRepeatCounterDefault(RepeatCounter *repeatCounter) {
     repeatCounter->mRepeatFrames = 0x0u;
-    repeatCounter->mUnk_06 = 0x0u;
+    repeatCounter->mFired = 0x0u;
     repeatCounter->mFirstFireFrame = 0x28u;
     repeatCounter->mRepeatFireFrame = 0x2du;
 }
 
 void SetupRepeatCounter(RepeatCounter *repeatCounter, u32 firstFireFrame, u32 repeatGap) {
     repeatCounter->mRepeatFrames = 0x0u;
-    repeatCounter->mUnk_06 = 0x0u;
+    repeatCounter->mFired = 0x0u;
     repeatCounter->mFirstFireFrame = firstFireFrame;
     repeatCounter->mRepeatFireFrame = ((firstFireFrame) + (repeatGap));
 }
@@ -665,7 +665,7 @@ void AdvanceRepeatCounter(RepeatCounter *repeatCounter) {
     repeatCounter->mRepeatFrames = repeatCounter->mRepeatFrames + 1;
     if (repeatCounter->mRepeatFrames == repeatCounter->mFirstFireFrame ||
         repeatCounter->mRepeatFrames == repeatCounter->mRepeatFireFrame) {
-        repeatCounter->mUnk_06 = 1;
+        repeatCounter->mFired = 1;
     }
     if (repeatCounter->mRepeatFrames > repeatCounter->mRepeatFireFrame) {
         repeatCounter->mRepeatFrames = repeatCounter->mFirstFireFrame + 1;
@@ -678,7 +678,7 @@ void AdvanceRepeatCounter(RepeatCounter *repeatCounter) {
 
 void ResetRepeatCounter(RepeatCounter *repeatCounter) {
     repeatCounter->mRepeatFrames = 0x0u;
-    repeatCounter->mUnk_06 = 0x0u;
+    repeatCounter->mFired = 0x0u;
 }
 
 #pragma thumb off
@@ -938,15 +938,16 @@ void GetKeyboardCursorRectBounds(s32 *left, s32 *top, s32 *right, s32 *bottom) {
     }
 }
 
-void InitKeyboardKeysAndCanvas(struct Unk02022aa8 *font, void *bg2Char, u16 *bg2Scr, s32 d, s32 e, s32 f) {
+void InitKeyboardKeysAndCanvas(struct Unk02022aa8 *font, void *bg2Char, u16 *bg2Scr, s32 d, s32 e,
+                               s32 screenMapTileBase) {
     MI_CpuFill8(&gKeyboardKeys, 0, 0x54);
     gKeyboardCanvas.mFont = font;
     gKeyboardCanvas.mBg2Char = bg2Char;
-    gKeyboardCanvas.mUnk_08 = bg2Char;
+    gKeyboardCanvas.mMarkedBg2Char = bg2Char;
     gKeyboardCanvas.mBg2Scr = bg2Scr;
     gKeyboardCanvas.mUnk_10 = d;
     gKeyboardCanvas.mUnk_14 = e;
-    gKeyboardCanvas.mUnk_1c = f;
+    gKeyboardCanvas.mScreenMapTileBase = screenMapTileBase;
     InitKeyboardInput();
     SetupRepeatCounter(&data_0217b2ac, 0x28, 5);
     SetupKeyboardKeyRepeat(gKeyboardInputMasks[2] | (gKeyboardInputMasks[0] | 0xf0 | gKeyboardInputMasks[1]));
@@ -997,33 +998,34 @@ void CallKeyboardKeyCallback(s32 newPress) {
 }
 
 void FillKeyboardBg2Scr(KeyboardKeys *keyboardKeys) {
-    s32 w;
-    s32 h;
-    s32 i;
-    s32 v1;
-    BOOL j0;
-    s32 j;
-    volatile u16 n;
+    s32 rowCount;
+    s32 columnCount;
+    s32 row;
+    s32 rowFirstTile;
+    BOOL firstColumn;
+    s32 column;
+    volatile u16 clearValue;
 
-    h = keyboardKeys->mCurrentLayout->mNcgr->mUnk_02;
-    w = keyboardKeys->mCurrentLayout->mNcgr->mUnk_00;
-    n = h * w;
-    MIi_CpuClear16(n, gKeyboardCanvas.mBg2Scr, gKeyboardCanvas.mUnk_14 * (gKeyboardCanvas.mUnk_10 * 2));
-    i = 0;
-    v1 = 0;
-    v1 = (u32) v1;
-    j0 = FALSE;
-    if (i < w) {
-        v1 = 0;
-        v1 = (u32) v1;
+    columnCount = keyboardKeys->mCurrentLayout->mNcgr->mUnk_02;
+    rowCount = keyboardKeys->mCurrentLayout->mNcgr->mUnk_00;
+    clearValue = columnCount * rowCount;
+    MIi_CpuClear16(clearValue, gKeyboardCanvas.mBg2Scr, gKeyboardCanvas.mUnk_14 * (gKeyboardCanvas.mUnk_10 * 2));
+    row = 0;
+    rowFirstTile = 0;
+    rowFirstTile = (u32) rowFirstTile;
+    firstColumn = FALSE;
+    if (row < rowCount) {
+        rowFirstTile = 0;
+        rowFirstTile = (u32) rowFirstTile;
         do {
-            for (j = j0; j < h; j++) {
-                gKeyboardCanvas.mBg2Scr[j + i * gKeyboardCanvas.mUnk_14 / 2] =
-                    (gKeyboardCanvas.mScreenMapTopBits << 12) | (j + (gKeyboardCanvas.mUnk_1c + v1));
+            for (column = firstColumn; column < columnCount; column++) {
+                gKeyboardCanvas.mBg2Scr[column + row * gKeyboardCanvas.mUnk_14 / 2] =
+                    (gKeyboardCanvas.mScreenMapTopBits << 12) |
+                    (column + (gKeyboardCanvas.mScreenMapTileBase + rowFirstTile));
             }
-            v1 += h;
-            i++;
-        } while (i < w);
+            rowFirstTile += columnCount;
+            row++;
+        } while (row < rowCount);
     }
 }
 
@@ -1128,14 +1130,14 @@ void MarkKeyboardRects(KeyboardKeys *keyboardKeys) {
     KeyboardRect *ringRect;
 
     layout = keyboardKeys->mCurrentLayout;
-    MIi_CpuCopyFast(gKeyboardCanvas.mBg2Char, gKeyboardCanvas.mUnk_08, layout->mNcgr->mDataSize);
-    MemFillWordsByBlock_inline((u8 *) gKeyboardCanvas.mUnk_08 + (layout->mNcgr->mDataSize << 5), 0x20);
+    MIi_CpuCopyFast(gKeyboardCanvas.mBg2Char, gKeyboardCanvas.mMarkedBg2Char, layout->mNcgr->mDataSize);
+    MemFillWordsByBlock_inline((u8 *) gKeyboardCanvas.mMarkedBg2Char + (layout->mNcgr->mDataSize << 5), 0x20);
     if (keyboardKeys->mChosenKeyId != 0) {
         startRect = layout->mRects + (keyboardKeys->mChosenKeyId - 1);
         ringRect = startRect;
         do {
-            AddToNonzeroNibblesInRect(gKeyboardCanvas.mUnk_08, gKeyboardKeys.mCurrentLayout->mNcgr->mUnk_02 << 3, 8,
-                                      ringRect->mX, ringRect->mY, ringRect->mX + ringRect->mWidth,
+            AddToNonzeroNibblesInRect(gKeyboardCanvas.mMarkedBg2Char, gKeyboardKeys.mCurrentLayout->mNcgr->mUnk_02 << 3,
+                                      8, ringRect->mX, ringRect->mY, ringRect->mX + ringRect->mWidth,
                                       ringRect->mY + ringRect->mHeight);
             ringRect += ringRect->mNextRectOffset;
         } while (ringRect != startRect);
@@ -1144,8 +1146,8 @@ void MarkKeyboardRects(KeyboardKeys *keyboardKeys) {
         startRect = layout->mRects + (keyboardKeys->mToggledKeyId - 1);
         ringRect = startRect;
         do {
-            AddToNonzeroNibblesInRect(gKeyboardCanvas.mUnk_08, gKeyboardKeys.mCurrentLayout->mNcgr->mUnk_02 << 3, 8,
-                                      ringRect->mX, ringRect->mY, ringRect->mX + ringRect->mWidth,
+            AddToNonzeroNibblesInRect(gKeyboardCanvas.mMarkedBg2Char, gKeyboardKeys.mCurrentLayout->mNcgr->mUnk_02 << 3,
+                                      8, ringRect->mX, ringRect->mY, ringRect->mX + ringRect->mWidth,
                                       ringRect->mY + ringRect->mHeight);
             ringRect += ringRect->mNextRectOffset;
         } while (ringRect != startRect);
@@ -1156,9 +1158,9 @@ void MarkKeyboardRects(KeyboardKeys *keyboardKeys) {
         startRect != keyboardKeys->mTouchStartRect && startRect != keyboardKeys->mKeyDownRect) {
         ringRect = startRect;
         do {
-            AddToNonzeroNibblesOnRectEdge(gKeyboardCanvas.mUnk_08, gKeyboardKeys.mCurrentLayout->mNcgr->mUnk_02 << 3, 8,
-                                          ringRect->mX, ringRect->mY, ringRect->mX + ringRect->mWidth,
-                                          ringRect->mY + ringRect->mHeight);
+            AddToNonzeroNibblesOnRectEdge(
+                gKeyboardCanvas.mMarkedBg2Char, gKeyboardKeys.mCurrentLayout->mNcgr->mUnk_02 << 3, 8, ringRect->mX,
+                ringRect->mY, ringRect->mX + ringRect->mWidth, ringRect->mY + ringRect->mHeight);
             ringRect += ringRect->mNextRectOffset;
         } while (ringRect != startRect);
     }
@@ -1167,8 +1169,8 @@ void MarkKeyboardRects(KeyboardKeys *keyboardKeys) {
         startRect->mKeyId != data_0217b2b8[1] && startRect->mKeyId != data_0217b2b8[0]) {
         ringRect = startRect;
         do {
-            AddToNonzeroNibblesInRect(gKeyboardCanvas.mUnk_08, gKeyboardKeys.mCurrentLayout->mNcgr->mUnk_02 << 3, 8,
-                                      ringRect->mX, ringRect->mY, ringRect->mX + ringRect->mWidth,
+            AddToNonzeroNibblesInRect(gKeyboardCanvas.mMarkedBg2Char, gKeyboardKeys.mCurrentLayout->mNcgr->mUnk_02 << 3,
+                                      8, ringRect->mX, ringRect->mY, ringRect->mX + ringRect->mWidth,
                                       ringRect->mY + ringRect->mHeight);
             ringRect += ringRect->mNextRectOffset;
         } while (ringRect != startRect);
@@ -1180,18 +1182,18 @@ void MarkKeyboardRects(KeyboardKeys *keyboardKeys) {
         if (keyboardKeys->mTouchRect != NULL && startRect->mKeyId == keyboardKeys->mTouchRect->mKeyId) {
             ringRect = startRect;
             do {
-                AddToNonzeroNibblesInRect(gKeyboardCanvas.mUnk_08, gKeyboardKeys.mCurrentLayout->mNcgr->mUnk_02 << 3, 8,
-                                          ringRect->mX, ringRect->mY, ringRect->mX + ringRect->mWidth,
-                                          ringRect->mY + ringRect->mHeight);
+                AddToNonzeroNibblesInRect(
+                    gKeyboardCanvas.mMarkedBg2Char, gKeyboardKeys.mCurrentLayout->mNcgr->mUnk_02 << 3, 8, ringRect->mX,
+                    ringRect->mY, ringRect->mX + ringRect->mWidth, ringRect->mY + ringRect->mHeight);
                 ringRect += ringRect->mNextRectOffset;
             } while (ringRect != startRect);
             return;
         }
         ringRect = startRect;
         do {
-            AddToNonzeroNibblesOnRectEdge(gKeyboardCanvas.mUnk_08, gKeyboardKeys.mCurrentLayout->mNcgr->mUnk_02 << 3, 8,
-                                          ringRect->mX, ringRect->mY, ringRect->mX + ringRect->mWidth,
-                                          ringRect->mY + ringRect->mHeight);
+            AddToNonzeroNibblesOnRectEdge(
+                gKeyboardCanvas.mMarkedBg2Char, gKeyboardKeys.mCurrentLayout->mNcgr->mUnk_02 << 3, 8, ringRect->mX,
+                ringRect->mY, ringRect->mX + ringRect->mWidth, ringRect->mY + ringRect->mHeight);
             ringRect += ringRect->mNextRectOffset;
         } while (ringRect != startRect);
     }

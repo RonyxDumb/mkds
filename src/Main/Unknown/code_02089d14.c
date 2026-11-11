@@ -42,7 +42,7 @@ void InitStemSets(void *heap) {
     G3i_OrthoW_(0x60000, -0x60000, -0x80000, 0x80000, 0, 0x1000, 0x200, 1, &gStemSets->mOrthoMtx);
     timedQuad = &gStemSets->mTimedQuad;
     gStemSets->mTimedQuad.mTimer = 0;
-    timedQuad->mUnk_02 = 0;
+    timedQuad->mAlpha = 0;
     timedQuad->mColor = 0x7fff;
     timedQuad->mEnabled = FALSE;
 }
@@ -324,7 +324,7 @@ void DrawTimedQuad(TimedQuad *timedQuad) {
     u32 *scaleRegister;
     u32 *beginVtxsRegister;
     scaleRegister = ((u32 *) &reg_G3_MTX_SCALE);
-    reg_G3_POLYGON_ATTR = (0x090000c0u) | timedQuad->mUnk_02 << 0x10;
+    reg_G3_POLYGON_ATTR = (0x090000c0u) | timedQuad->mAlpha << 0x10;
     *scaleRegister = 0x8c000;
     *scaleRegister = 0x6e000;
     beginVtxsRegister = ((u32 *) &reg_G3_BEGIN_VTXS);

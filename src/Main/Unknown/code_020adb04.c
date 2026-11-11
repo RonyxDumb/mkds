@@ -133,7 +133,7 @@ void InitTitleStateHandlers(void) {
     s32 i;
 
     for (i = 0; i < 7; i++) {
-        gTitleScene->mStateHandlers[i].mUnk_00 = gTitleStateHandlers[i].mUnk_00;
+        gTitleScene->mStateHandlers[i].mWriteRegisters = gTitleStateHandlers[i].mWriteRegisters;
         gTitleScene->mStateHandlers[i].mUpdate = gTitleStateHandlers[i].mUpdate;
     }
 }

@@ -212,24 +212,29 @@ s32 ComputeViewTest(Vec3 *a, s32 b, s32 c, s32 d, u16 e) {
         gViewFrustum.mNear - b) {
         return r | 2;
     }
-    if (x * gViewFrustum.mUnk_20.x + y * gViewFrustum.mUnk_20.y + z * gViewFrustum.mUnk_20.z > b) {
+    if (x * gViewFrustum.mLeftPlaneNormal.x + y * gViewFrustum.mLeftPlaneNormal.y +
+            z * gViewFrustum.mLeftPlaneNormal.z >
+        b) {
         return r | 2;
     }
-    if (x * gViewFrustum.mUnk_2c.x + y * gViewFrustum.mUnk_2c.y + z * gViewFrustum.mUnk_2c.z > b) {
+    if (x * gViewFrustum.mRightPlaneNormal.x + y * gViewFrustum.mRightPlaneNormal.y +
+            z * gViewFrustum.mRightPlaneNormal.z >
+        b) {
         return r | 2;
     }
-    if (x * gViewFrustum.mUnk_38.x + y * gViewFrustum.mUnk_38.y + z * gViewFrustum.mUnk_38.z > b) {
+    if (x * gViewFrustum.mTopPlaneNormal.x + y * gViewFrustum.mTopPlaneNormal.y + z * gViewFrustum.mTopPlaneNormal.z >
+        b) {
         return r | 2;
     }
-    g = x * gViewFrustum.mUnk_44.x;
-    if (z * gViewFrustum.mUnk_44.z + (y * gViewFrustum.mUnk_44.y + g) > b) {
+    g = x * gViewFrustum.mBottomPlaneNormal.x;
+    if (z * gViewFrustum.mBottomPlaneNormal.z + (y * gViewFrustum.mBottomPlaneNormal.y + g) > b) {
         r |= 2;
     }
     return r;
 }
 
 static inline s32 func_01ffd648_inline(ViewFrustum *g) {
-    return g->mUnk_20.y;
+    return g->mLeftPlaneNormal.y;
 }
 
 s32 ComputeTwoPlaneViewTest(Vec3 *a, s32 b, s32 c, s32 d, u16 e) {
@@ -254,10 +259,14 @@ s32 ComputeTwoPlaneViewTest(Vec3 *a, s32 b, s32 c, s32 d, u16 e) {
     }
     v.y = (a->y - gViewFrustum.mCameraPos.y) >> 12;
     h = ((const Vec3 *) &v)->x;
-    if (v.y * func_01ffd648_inline(&gViewFrustum) + v.x * gViewFrustum.mUnk_20.x + v.z * gViewFrustum.mUnk_20.z > b) {
+    if (v.y * func_01ffd648_inline(&gViewFrustum) + v.x * gViewFrustum.mLeftPlaneNormal.x +
+            v.z * gViewFrustum.mLeftPlaneNormal.z >
+        b) {
         return r | 2;
     }
-    if (h * gViewFrustum.mUnk_2c.x + v.y * gViewFrustum.mUnk_2c.y + v.z * gViewFrustum.mUnk_2c.z > b) {
+    if (h * gViewFrustum.mRightPlaneNormal.x + v.y * gViewFrustum.mRightPlaneNormal.y +
+            v.z * gViewFrustum.mRightPlaneNormal.z >
+        b) {
         r |= 2;
     }
     return r;
