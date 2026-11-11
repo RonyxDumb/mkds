@@ -195,7 +195,7 @@ typedef struct MissionRunMapObjectEffect {
 typedef struct MissionRunMapObject {
     /* 000 */ MapObject mUnk_000;
     /* 0a0 */ MissionRunPrm *mPrm;
-    /* 0a4 */ struct Unk0218dabc *mUnk_0a4;
+    /* 0a4 */ struct MissionRunMapObject *mUnk_0a4;
     /* 0a8 */ s32 mUnk_0a8;
     /* 0ac */ s32 mUnk_0ac;
     /* 0b0 */ s32 mStateFrames;

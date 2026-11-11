@@ -13,9 +13,6 @@ typedef struct FullGoaQuery {
     /* 0 */ u8 mUnk_00[8];
 } FullGoaQuery;
 
-typedef struct Unk0218ad44 {
-    /* 0 */ u8 mUnk_00[4];
-} Unk0218ad44;
 
 extern BasicGoaQuery gBasicGoaQuery;
 extern FullGoaQuery gFullGoaQuery;

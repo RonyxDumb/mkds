@@ -288,10 +288,10 @@ void InitHanachanMapObject(MissionRunMapObject *mapObject) {
     secondFollower = (MissionRunMapObject *) CreateMapObjectFromObject(&mapObject->mUnk_000, 0x1fe);
     thirdFollower = (MissionRunMapObject *) CreateMapObjectFromObject(&mapObject->mUnk_000, 0x1fe);
     fourthFollower = (MissionRunMapObject *) CreateMapObjectFromObject(&mapObject->mUnk_000, 0x1fe);
-    firstFollower->mUnk_0a4 = (struct Unk0218dabc *) mapObject;
-    secondFollower->mUnk_0a4 = (struct Unk0218dabc *) firstFollower;
-    thirdFollower->mUnk_0a4 = (struct Unk0218dabc *) secondFollower;
-    fourthFollower->mUnk_0a4 = (struct Unk0218dabc *) thirdFollower;
+    firstFollower->mUnk_0a4 = mapObject;
+    secondFollower->mUnk_0a4 = firstFollower;
+    thirdFollower->mUnk_0a4 = secondFollower;
+    fourthFollower->mUnk_0a4 = thirdFollower;
     mapObject->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
     InitSoundSource(&mapObject->mUnk_000.mSound->mSoundSource, 0xd, &mapObject->mUnk_000.mPos);
     mapObject->mUnk_000.mFarDistanceSquared = gSoundFalloffs[13].mFarDistanceSquared;

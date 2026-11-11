@@ -3,16 +3,11 @@
 #include "types.h"
 
 typedef struct BgTextCanvas BgTextCanvas;
-
-// Object at 0x04 of Edit.
-typedef struct Unk021da1f8_04 {
-    /* 00 */ u32 mAttr01;
-    /* 04 */ u16 mAttr2;
-} Unk021da1f8_04;
+typedef struct OamEntry OamEntry;
 
 typedef struct Edit {
     /* 00 */ BgTextCanvas *mBgTextCanvas;
-    /* 04 */ Unk021da1f8_04 *mOamEntry;
+    /* 04 */ OamEntry *mOamEntry;
     /* 08 */ u8 mText[0x20];
     /* 28 */ u8 mUnk_28;
     /* 29 */ u8 mCharCount;

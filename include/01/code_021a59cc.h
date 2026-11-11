@@ -3,17 +3,6 @@
 #include "types.h"
 #include "code_02022030.h"
 
-// Object at LldEntry.mUnk_2c.
-typedef struct Unk021a5a58_2c {
-    /* 00 */ u8 mUnk_00[0x8];
-    /* 08 */ BOOL mUnk_08;
-    /* 0c */ u8 mUnk_0c[0x8];
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ u8 mUnk_18[0x14];
-    /* 2c */ NNSG2dCellDataWithBR *mUnk_2c;
-    /* 30 */ u8 mUnk_30[0x24];
-} Unk021a5a58_2c;
-
 // Object that the per-entry update callbacks around AdvanceEmblemButtonHold work on.
 typedef struct LldEntry {
     /* 00 */ u16 mAnimIndex;

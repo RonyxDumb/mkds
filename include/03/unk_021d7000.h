@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "03/code_021c2c94.h"
 
 typedef struct Bytes4 Bytes4;
 
@@ -21,16 +22,6 @@ typedef struct Bytes23 {
 typedef struct Bytes6 {
     /* 0 */ u8 mBytes[6];
 } Bytes6;
-
-// Twenty-two bytes moved as one value.
-typedef struct Unk021d75c8 {
-    /* 00 */ u8 mUnk_00[0x16];
-} Unk021d75c8;
-
-// Twenty-two bytes moved as one value.
-typedef struct Unk021d7654 {
-    /* 00 */ u8 mUnk_00[0x16];
-} Unk021d7654;
 
 // Four bytes moved as one value.
 typedef struct WayPaletteRows {
@@ -88,14 +79,14 @@ extern u8 gXb4MultiNscName6[];
 extern u8 gJbBgStep3NcgName6[];
 extern u8 gYbBgStep3NclName6[];
 extern u8 gXb4MultiNscName7[];
-extern Unk021d75c8 gYbBgStep11NclName2;
+extern YbBgStep11NclName gYbBgStep11NclName2;
 extern u8 gYbObjMainNclName5[];
 extern u8 gYbObjWayNclName[];
 extern u8 gJbBgStep1NcgName3[];
 extern u8 gJbBgStep1NclName3[];
 extern u8 gJb2ApNscName[];
 extern WayPaletteRows gWayPaletteRows;
-extern Unk021d7654 gYbBgStep21NclName2;
+extern Bytes22 gYbBgStep21NclName2;
 extern u8 gJbBgStep2NcgName2[];
 extern u8 gYbBgStep2NclName2[];
 extern u8 gJb3WayNscName[];

@@ -3,20 +3,15 @@
 #include "types.h"
 
 typedef struct BgTextCanvas BgTextCanvas;
-typedef struct Unk021da1f8_04 Unk021da1f8_04;
+typedef struct OamEntry OamEntry;
 
 typedef struct EditAddr {
     /* 00 */ BgTextCanvas *mBgTextCanvas;
-    /* 04 */ Unk021da1f8_04 *mOamEntry;
+    /* 04 */ OamEntry *mOamEntry;
     /* 08 */ u8 mText[0xc];
     /* 14 */ u8 mGroupIndex;
     /* 15 */ u8 mResult;
 } EditAddr;
-
-// Five functions called with the object at 0x08.
-typedef struct Unk021d7324 {
-    /* 00 */ void (*mUnk_00[5])(u8 *);
-} Unk021d7324;
 
 // Five functions called with the object at 0x08.
 typedef struct EditAddrTextFuncs {
@@ -29,7 +24,7 @@ extern u8 gEditAddrGroupMax[];
 extern u8 gEditAddrSubScreenMessageIndices[];
 extern u16 gEditAddrCharRect[];
 extern EditAddrTextFuncs gEditAddrFormatFuncs;
-extern Unk021d7324 gEditAddrStoreFuncs;
+extern EditAddrTextFuncs gEditAddrStoreFuncs;
 extern u8 gEditAddrZeroGroupText[];
 
 void UpdateEditAddrInvalidMessageClose(void);

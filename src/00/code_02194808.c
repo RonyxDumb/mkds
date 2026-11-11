@@ -2,7 +2,7 @@
 #include "00/code_02194828.h"
 #include "00/code_02194840.h"
 
-Unk02194828 *GpiFindProfileByBuddyIndex(GpConnection *a, u32 b) {
+GpiProfile *GpiFindProfileByBuddyIndex(GpConnection *a, u32 b) {
     GpiProfileSearch s;
 
     s.mKey = b;

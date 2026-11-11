@@ -3,6 +3,6 @@
 #include "types.h"
 
 typedef struct GpConnection GpConnection;
-typedef struct Unk02194828 Unk02194828;
+typedef struct GpiProfile GpiProfile;
 
-Unk02194828 *GpiFindProfileByBuddyIndex(GpConnection *a, u32 b);
+GpiProfile *GpiFindProfileByBuddyIndex(GpConnection *a, u32 b);

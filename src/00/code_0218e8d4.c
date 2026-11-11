@@ -214,7 +214,7 @@ u32 GpGetBuddyStatus(GpConnection *connection, s32 index, GpBuddyStatus *status)
         GpiSetErrorMessage(connection, gInvalidIndexErrorString);
         return 2;
     }
-    profileRec = (GpiProfile *) GpiFindProfileByBuddyIndex(connection, index);
+    profileRec = GpiFindProfileByBuddyIndex(connection, index);
     if (profileRec == NULL) {
         GpiSetErrorMessage(connection, gInvalidIndexErrorString);
         return 2;

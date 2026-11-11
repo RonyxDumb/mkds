@@ -55,7 +55,7 @@ void SetupWay(void) {
 }
 
 void LoadWayFilesAndSetBgCnt(void) {
-    Unk021d7654 ybBgStep21NclName = gYbBgStep21NclName2;
+    Bytes22 ybBgStep21NclName = gYbBgStep21NclName2;
     LoadFileToVram(gJbBgStep2NcgName2, GX_LoadBG2Char);
     LoadFileToVram(gYbBgStep2NclName2, GX_LoadBGPltt);
     LoadFileToVram(gJb3WayNscName, GX_LoadBG2Scr);

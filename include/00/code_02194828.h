@@ -1,15 +1,11 @@
 #pragma once
 
 #include "types.h"
-
-typedef struct Unk02194828 {
-    /* 00 */ u8 mUnk_00[8];
-    /* 08 */ u32 *mValue;
-} Unk02194828;
+#include "00/code_021947e4.h"
 
 typedef struct GpiProfileSearch {
     /* 00 */ u32 mKey;
-    /* 04 */ Unk02194828 *mEntry;
+    /* 04 */ GpiProfile *mEntry;
 } GpiProfileSearch;
 
-BOOL gpiCheckForBuddy(void *unused, Unk02194828 *entry, GpiProfileSearch *search);
+BOOL gpiCheckForBuddy(void *unused, GpiProfile *entry, GpiProfileSearch *search);

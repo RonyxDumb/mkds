@@ -32,9 +32,9 @@
 #include "code_02147cd8.h"
 
 void PlaceHanachanFollowerBehindXz(MissionRunMapObject *mapObject) {
-    Unk0218dabc *previousObject = mapObject->mUnk_0a4;
+    MissionRunMapObject *previousObject = mapObject->mUnk_0a4;
     int distance;
-    u16 oppositeAngle = (previousObject->mUnk_184 + 0x8000);
+    u16 oppositeAngle = (previousObject->mAngle + 0x8000);
 
     switch (mapObject->mUnk_0a8) {
         case 1:
@@ -50,9 +50,10 @@ void PlaceHanachanFollowerBehindXz(MissionRunMapObject *mapObject) {
             distance = mapObject->mPrm->mUnk_0cc;
             break;
     }
-    mapObject->mUnk_000.mPos.x = previousObject->mUnk_004 + MUL_FIXED12_NO_ROUND(distance, SIN_OF_ANGLE(oppositeAngle));
+    mapObject->mUnk_000.mPos.x =
+        previousObject->mUnk_000.mPos.x + MUL_FIXED12_NO_ROUND(distance, SIN_OF_ANGLE(oppositeAngle));
     mapObject->mUnk_000.mPos.z =
-        mapObject->mUnk_0a4->mUnk_00c + MUL_FIXED12_NO_ROUND(distance, COS_OF_ANGLE(oppositeAngle));
+        mapObject->mUnk_0a4->mUnk_000.mPos.z + MUL_FIXED12_NO_ROUND(distance, COS_OF_ANGLE(oppositeAngle));
 }
 
 void TurnHanachanFollowerToPrevious(MissionRunMapObject *mapObject) {
@@ -65,7 +66,7 @@ void TurnHanachanFollowerToPrevious(MissionRunMapObject *mapObject) {
     if (mapObject->mUnk_13c <= 0) {
         mapObject->mUnk_13c = 0;
         currentAngle = mapObject->mAngle;
-        diff = (u16) (mapObject->mUnk_0a4->mUnk_184 - currentAngle);
+        diff = (u16) (mapObject->mUnk_0a4->mAngle - currentAngle);
         if (diff > 0x8000) {
             diff -= 0x10000;
         }
@@ -77,9 +78,9 @@ void TurnHanachanFollowerToPrevious(MissionRunMapObject *mapObject) {
 }
 
 void PlaceHanachanFollowerBehind(MissionRunMapObject *mapObject) {
-    Unk0218dabc *previousObject = mapObject->mUnk_0a4;
+    MissionRunMapObject *previousObject = mapObject->mUnk_0a4;
     int distance;
-    u16 oppositeAngle = (previousObject->mUnk_184 + 0x8000);
+    u16 oppositeAngle = (previousObject->mAngle + 0x8000);
 
     switch (mapObject->mUnk_0a8) {
         case 1:
@@ -95,14 +96,15 @@ void PlaceHanachanFollowerBehind(MissionRunMapObject *mapObject) {
             distance = mapObject->mPrm->mUnk_0cc;
             break;
     }
-    mapObject->mUnk_000.mPos.x = previousObject->mUnk_004 + MUL_FIXED12_NO_ROUND(distance, SIN_OF_ANGLE(oppositeAngle));
-    mapObject->mUnk_000.mPos.y = mapObject->mUnk_0a4->mUnk_008;
+    mapObject->mUnk_000.mPos.x =
+        previousObject->mUnk_000.mPos.x + MUL_FIXED12_NO_ROUND(distance, SIN_OF_ANGLE(oppositeAngle));
+    mapObject->mUnk_000.mPos.y = mapObject->mUnk_0a4->mUnk_000.mPos.y;
     mapObject->mUnk_000.mPos.z =
-        mapObject->mUnk_0a4->mUnk_00c + MUL_FIXED12_NO_ROUND(distance, COS_OF_ANGLE(oppositeAngle));
+        mapObject->mUnk_0a4->mUnk_000.mPos.z + MUL_FIXED12_NO_ROUND(distance, COS_OF_ANGLE(oppositeAngle));
 }
 
 void CopyHanachanFollowerPreviousAngle(MissionRunMapObject *mapObject) {
-    mapObject->mAngle = mapObject->mUnk_0a4->mUnk_184;
+    mapObject->mAngle = mapObject->mUnk_0a4->mAngle;
     mapObject->mMoveAngle = mapObject->mAngle;
 }
 

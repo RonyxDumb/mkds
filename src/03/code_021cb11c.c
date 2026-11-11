@@ -114,7 +114,7 @@ void CreateAp(void) {
 }
 
 void LoadApFilesAndSetBgCnt(void) {
-    Unk021d75c8 ybBgStep11NclName = gYbBgStep11NclName2;
+    YbBgStep11NclName ybBgStep11NclName = gYbBgStep11NclName2;
     LoadFileToVram(gYbObjWayNclName, GX_LoadOBJPltt);
     LoadFileToVram(gJbBgStep1NcgName3, GX_LoadBG2Char);
     LoadFileToVram(gJbBgStep1NclName3, GX_LoadBGPltt);

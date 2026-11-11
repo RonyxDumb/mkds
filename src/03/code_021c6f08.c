@@ -380,7 +380,7 @@ void PrintEditAddrText(void) {
 
 void PlaceEditAddrGroupOam(void) {
     EditAddr *editAddr;
-    Unk021da1f8_04 *oamEntry;
+    OamEntry *oamEntry;
     u32 xBits;
     s32 groupIndex;
     editAddr = gEditAddr;
@@ -410,7 +410,7 @@ void UpdateEditAddrMessageResult(void) {
 }
 
 void UpdateEditAddrMessageClose(void) {
-    Unk021d7324 storeFuncs;
+    EditAddrTextFuncs storeFuncs;
     s32 secondaryPairFirst;
     storeFuncs = gEditAddrStoreFuncs;
     if (IsMessageBoxOpen() == 0) {
