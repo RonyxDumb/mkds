@@ -116,10 +116,10 @@ void FSi_ReleaseCommand(FSFile *file, s32 result);
 s32 FSi_CloseFileCommand(FSFile *file);
 
 // Two words FSi_OpenFileFastCommand reads into FSFile.mArg.
-typedef struct Unk02003234 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-} Unk02003234;
+typedef struct FSArchiveFAT {
+    /* 00 */ u32 mTop;
+    /* 04 */ u32 mBottom;
+} FSArchiveFAT;
 
 // FSi_ReadTable passes mUnk_04 to FSArchive.mTable of mUnk_00 and adds the count to it.
 typedef struct FSiSyncReadParam {
@@ -128,11 +128,11 @@ typedef struct FSiSyncReadParam {
 } FSiSyncReadParam;
 
 // Eight bytes read by FSi_SeekDirCommand.
-typedef struct Unk0200399c {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-} Unk0200399c;
+typedef struct FSArchiveFNT {
+    /* 00 */ u32 mStart;
+    /* 04 */ u16 mIndex;
+    /* 06 */ u16 mParent;
+} FSArchiveFNT;
 
 // Entry read by FSi_FindPathCommand, FSi_ReadDirCommand and FSi_GetPathCommand: a Unk02003024U, then a flag, a length
 // and the bytes.

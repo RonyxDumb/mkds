@@ -5,7 +5,8 @@
 
 typedef struct NNSSndSeqPlayer NNSSndSeqPlayer;
 
-// 0x08-byte entries behind gCourseSurfaceSoundEntries; GetSurfaceSoundId reads one as a sound id array, so the variant is also the id for entry index 1.
+// 0x08-byte entries behind gCourseSurfaceSoundEntries; GetSurfaceSoundId reads one as a sound id array, so the variant
+// is also the id for entry index 1.
 typedef struct CourseSurfaceSoundEntry {
     /* 00 */ u32 mSoundId;
     /* 04 */ u32 mSurfaceVariant;
@@ -14,13 +15,13 @@ typedef struct CourseSurfaceSoundEntry {
 extern CourseSurfaceSoundEntry gCourseSurfaceSoundEntries[];
 
 // Object behind data_0216c7e0.
-typedef struct Unk0216c7e0 {
-    /* 00 */ u32 mUnk_00[4];
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
-} Unk0216c7e0;
+typedef struct SurfaceSoundSetup {
+    /* 00 */ u32 mSoundIds[4];
+    /* 10 */ u32 mRowIndex;
+    /* 14 */ u32 mColumnIndex;
+} SurfaceSoundSetup;
 
-extern Unk0216c7e0 data_0216c7e0;
+extern SurfaceSoundSetup data_0216c7e0;
 
 // Object behind gLoadedSoundBanks.
 typedef struct LoadedSoundBanks {

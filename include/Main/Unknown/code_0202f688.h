@@ -18,11 +18,11 @@ typedef struct CellFileSet {
 } CellFileSet;
 
 // 12-byte entries at 0x58 of MultiSelectMemberGroup.
-typedef struct Unk02174e50_58 {
+typedef struct ScanSlotMemberRow {
     /* 00 */ s32 mHasText;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-} Unk02174e50_58;
+    /* 04 */ s32 mIsMultiBoot;
+    /* 08 */ s32 mChildCount;
+} ScanSlotMemberRow;
 
 // 0xa8 bytes.
 typedef struct MultiSelectMemberGroup {
@@ -34,7 +34,7 @@ typedef struct MultiSelectMemberGroup {
     /* 4c */ s32 mState;
     /* 50 */ s32 mUpdateState;
     /* 54 */ s32 mNextCallbacksIndex;
-    /* 58 */ Unk02174e50_58 mUnk_58[4];
+    /* 58 */ ScanSlotMemberRow mUnk_58[4];
     /* 88 */ BOOL mUnk_88;
     /* 8c */ s32 mBg3OffsetFrames;
     /* 90 */ s32 mBg3Offset;

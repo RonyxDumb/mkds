@@ -381,15 +381,15 @@ extern HeapCall *gCurrentHeapCall;
 
 // Object at data_02174e78: mUnk_0c is the pointer GetArenaHeap returns; mUnk_10 overlaps the first member of
 // gRootHeapCall.
-typedef struct Unk02174e78 {
+typedef struct StartupMemory {
     /* 00 */ u32 mUnk_00;
     /* 04 */ u32 mArm9TextStart;
     /* 08 */ void *mArenaLo;
     /* 0c */ void *mHeap;
     /* 10 */ const char *mUnk_10;
-} Unk02174e78;
+} StartupMemory;
 
-extern Unk02174e78 data_02174e78;
+extern StartupMemory data_02174e78;
 extern u8 data_usa_02174e80[];
 
 extern NNSG2dCellTransferState *data_02174e04; // first word of the cell transfer state manager

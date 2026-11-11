@@ -40,7 +40,7 @@ void FillNsbmdModel(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record)
     NNSG3dResShp *resShp;
     NNSG3dResMatData *matData;
     NNSG3dResShpData *shpData;
-    Unk020e6514_8 frameWork;
+    NsbmdTexFrameWork frameWork;
     u16 frameCount;
     u16 frame;
     void *heap;
@@ -59,7 +59,7 @@ void FillNsbmdModel(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record)
     record->mPolygonAttributes = matData->mPolyAttr & 0xfffffff0;
     record->mFrameIndex = 0;
     if (animation != NULL) {
-        frameWork.mUnk_00 = matData->mTexImageParam;
+        frameWork.mTexImageParam = matData->mTexImageParam;
         frameCount = GetModelAnimationFrameCountFixed(animation) >> 12;
         record->mFrameCount = frameCount;
         heap = GetHeap(GetCurrentHeapCall());
@@ -69,15 +69,15 @@ void FillNsbmdModel(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record)
         frame = 0;
         if (frame < frameCount) {
             mask = 0xc00f0000;
-            frameWork.mUnk_00 &= mask;
-            frameWork.mUnk_04 = 0;
+            frameWork.mTexImageParam &= mask;
+            frameWork.mDataIndex = 0;
             do {
                 animation->mHead.mFrameIndex = frame << 12;
                 animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
-                NNSi_G3dAnmCalcNsBtp(&frameWork.mUnk_08, animation->mAnmObjs[0], frameWork.mUnk_04);
-                record->mTexImageParams[frame] = frameWork.mUnk_08.mUnk_10 & 0x3ff0ffff;
-                record->mTexImageParams[frame] |= frameWork.mUnk_00;
-                record->mTexPlttBases[frame] = frameWork.mUnk_08.mUnk_14;
+                NNSi_G3dAnmCalcNsBtp(&frameWork.mResult, animation->mAnmObjs[0], frameWork.mDataIndex);
+                record->mTexImageParams[frame] = frameWork.mResult.mUnk_10 & 0x3ff0ffff;
+                record->mTexImageParams[frame] |= frameWork.mTexImageParam;
+                record->mTexPlttBases[frame] = frameWork.mResult.mUnk_14;
                 frame++;
             } while (frame < frameCount);
         }

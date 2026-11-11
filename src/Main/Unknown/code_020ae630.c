@@ -50,7 +50,7 @@ void HideUnusedOams(void *mainOam, void *subOam) {
         for (hiddenIndex = 0; hiddenIndex < 0x80 - usedEntryCount; hiddenIndex++) {
             mainOamList->mEntries[usedEntryCount + hiddenIndex].mUnk_00 =
                 (mainOamList->mEntries[usedEntryCount + hiddenIndex].mUnk_00 & 0xfe00ffff) | 0x1800000;
-            mainOamList->mEntries[usedEntryCount + hiddenIndex].mUnk_00_0 = 0xe0;
+            mainOamList->mEntries[usedEntryCount + hiddenIndex].mYPos = 0xe0;
         }
     }
     if (subOamList != NULL) {
@@ -59,7 +59,7 @@ void HideUnusedOams(void *mainOam, void *subOam) {
         for (hiddenIndex = 0; hiddenIndex < 0x80 - usedEntryCount; hiddenIndex++) {
             subOamList->mEntries[usedEntryCount + hiddenIndex].mUnk_00 =
                 (subOamList->mEntries[usedEntryCount + hiddenIndex].mUnk_00 & 0xfe00ffff) | 0x1800000;
-            subOamList->mEntries[usedEntryCount + hiddenIndex].mUnk_00_0 = 0xe0;
+            subOamList->mEntries[usedEntryCount + hiddenIndex].mYPos = 0xe0;
         }
     }
 }

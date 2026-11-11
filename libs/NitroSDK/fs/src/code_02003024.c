@@ -101,7 +101,7 @@ s32 FSi_WriteFileCommand(FSFile *file) {
 s32 FSi_SeekDirCommand(FSFile *dir) {
     FSArchive *archive;
     Unk02003024U *arg;
-    Unk0200399c tableEntry;
+    FSArchiveFNT tableEntry;
     FSiSyncReadParam readParam;
 
     archive = dir->mArc;
@@ -111,10 +111,10 @@ s32 FSi_SeekDirCommand(FSFile *dir) {
     FSi_ReadTable(&readParam, &tableEntry, 8);
     dir->mProp = *arg;
     if (arg->h.mUnk_06 == 0 && arg->h.mUnk_08 == 0) {
-        dir->mProp.h.mUnk_06 = tableEntry.mUnk_04;
-        dir->mProp.h.mUnk_08 = archive->mFnt + tableEntry.mUnk_00;
+        dir->mProp.h.mUnk_06 = tableEntry.mIndex;
+        dir->mProp.h.mUnk_08 = archive->mFnt + tableEntry.mStart;
     }
-    dir->mUnk_2c = tableEntry.mUnk_06 & 0xfff;
+    dir->mUnk_2c = tableEntry.mParent & 0xfff;
     return 0;
 }
 
@@ -394,7 +394,7 @@ s32 FSi_OpenFileFastCommand(FSFile *file) {
     FSArchive *archive;
     u32 index;
     u32 offset;
-    Unk02003234 range;
+    FSArchiveFAT range;
     FSiSyncReadParam readParam;
 
     archive = file->mArc;
@@ -406,8 +406,8 @@ s32 FSi_OpenFileFastCommand(FSFile *file) {
     readParam.mArc = archive;
     readParam.mPos = archive->mFat + offset;
     FSi_ReadTable(&readParam, &range, 8);
-    file->mArg.w.mUnk_00 = range.mUnk_00;
-    file->mArg.w.mUnk_04 = range.mUnk_04;
+    file->mArg.w.mUnk_00 = range.mTop;
+    file->mArg.w.mUnk_04 = range.mBottom;
     file->mArg.w.mUnk_08 = index;
     return FSi_TranslateCommand(file, 7);
 }

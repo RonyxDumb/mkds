@@ -167,7 +167,7 @@ void BuildCourseArchivePath(char *path, s32 courseId, s32 useTexture) {
     } else {
         dSuffix = data_usa_02165170;
     }
-    OS_SNPrintf(path, 0x80, data_usa_02165174, data_usa_02154228[courseId].mUnk_00, dSuffix, textureSuffix);
+    OS_SNPrintf(path, 0x80, data_usa_02165174, data_usa_02154228[courseId].mName, dSuffix, textureSuffix);
 }
 
 u32 GetLanguageCode(void) {

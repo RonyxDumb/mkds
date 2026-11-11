@@ -167,18 +167,18 @@ u16 KeyboardCursorCallback(s32 rectValue, u16 keys) {
             if ((keys & 0x20) != 0 || (keys & 0x10) != 0) {
                 nextRectValue = 2;
             } else if ((keys & 0x40) != 0) {
-                nextRectValue = data_02156808[gKeyboardTextEntry->mLayoutIndex].mUnk_00;
+                nextRectValue = data_02156808[gKeyboardTextEntry->mLayoutIndex].mUpFromRect1;
             } else if ((keys & 0x80) != 0) {
-                nextRectValue = data_02156808[gKeyboardTextEntry->mLayoutIndex].mUnk_02;
+                nextRectValue = data_02156808[gKeyboardTextEntry->mLayoutIndex].mDownFromRect1;
             }
             break;
         case 2:
             if ((keys & 0x20) != 0 || (keys & 0x10) != 0) {
                 nextRectValue = 1;
             } else if ((keys & 0x40) != 0) {
-                nextRectValue = data_02156808[gKeyboardTextEntry->mLayoutIndex].mUnk_04;
+                nextRectValue = data_02156808[gKeyboardTextEntry->mLayoutIndex].mUpFromRect2;
             } else if ((keys & 0x80) != 0) {
-                nextRectValue = data_02156808[gKeyboardTextEntry->mLayoutIndex].mUnk_06;
+                nextRectValue = data_02156808[gKeyboardTextEntry->mLayoutIndex].mDownFromRect2;
             }
             break;
     }

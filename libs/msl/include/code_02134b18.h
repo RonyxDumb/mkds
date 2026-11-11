@@ -2,20 +2,19 @@
 
 #include "types.h"
 
-// Two conversion functions called through data_0216eccc.mUnk_08: mUnk_00 has the shape of MbtowcSingleByte,
-// mUnk_04 that of WctombSingleByte.
-typedef struct Unk02134c94 {
-    /* 00 */ int (*mUnk_00)(u16 *dst, const char *src, u32 n);
-    /* 04 */ int (*mUnk_04)(char *dst, u16 c);
-} Unk02134c94;
+// The two conversion functions called through CharConversion.mFunctions.
+typedef struct CharConversionFunctions {
+    /* 00 */ int (*mMbtowc)(u16 *dst, const char *src, u32 n);
+    /* 04 */ int (*mWctomb)(char *dst, u16 c);
+} CharConversionFunctions;
 
 // wctomb and mbtowc read the pointer at 0x08.
-typedef struct Unk0216eccc {
+typedef struct CharConversion {
     /* 00 */ u8 mUnk_00[8];
-    /* 08 */ Unk02134c94 *mUnk_08;
-} Unk0216eccc;
+    /* 08 */ CharConversionFunctions *mFunctions;
+} CharConversion;
 
-extern Unk0216eccc data_0216eccc;
+extern CharConversion data_0216eccc;
 
 int wcstombs(char *dst, const u16 *src, u32 count);
 int mbstowcs(u16 *dst, const char *src, u32 count);

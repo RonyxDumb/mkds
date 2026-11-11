@@ -24,7 +24,7 @@ char *BuildCharacterNsbcaPath(u16 characterIndex, s32 animationIndex) {
     const char *pName = LookupCharacterPOrEName(characterIndex, 1);
 
     snprintf(gCharacterNsbcaPathBuffer, 0x100, gCharacterNsbcaFormat, dirPath, pName,
-             gCharacterNsbcaStems[animationIndex].mUnk_00);
+             gCharacterNsbcaStems[animationIndex].mStem);
     return gCharacterNsbcaPathBuffer;
 }
 

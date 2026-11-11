@@ -81,7 +81,7 @@ s32 IsSelectedMemberRowSelectable(void) {
     if (selectedIndex != 4) {
         memberChecksPass = FALSE;
         if (gMultiSelectMemberGroup->mUnk_58[selectedIndex].mHasText != 0 &&
-            gMultiSelectMemberGroup->mUnk_58[selectedIndex].mUnk_08 < 7) {
+            gMultiSelectMemberGroup->mUnk_58[selectedIndex].mChildCount < 7) {
             memberChecksPass = TRUE;
         }
         if (memberChecksPass == FALSE) {
@@ -242,8 +242,8 @@ void UpdateMemberRowsFromScanSlots(void) {
             }
             for (slotIndex = 0; slotIndex < 4; slotIndex++) {
                 oldHasText = gMultiSelectMemberGroup->mUnk_58[slotIndex].mHasText;
-                oldWord8 = gMultiSelectMemberGroup->mUnk_58[slotIndex].mUnk_08;
-                oldWord4 = gMultiSelectMemberGroup->mUnk_58[slotIndex].mUnk_04;
+                oldWord8 = gMultiSelectMemberGroup->mUnk_58[slotIndex].mChildCount;
+                oldWord4 = gMultiSelectMemberGroup->mUnk_58[slotIndex].mIsMultiBoot;
                 MultiSelectMI_CpuClear16(&entry, 0x16);
                 gMultiSelectMemberGroup->mUnk_58[slotIndex].mHasText = TryGetScanSlotName(slotIndex, &entry);
                 if (gMultiSelectMemberGroup->mUnk_58[slotIndex].mHasText != 0) {
@@ -251,15 +251,15 @@ void UpdateMemberRowsFromScanSlots(void) {
                     PrintLabelLayoutTextNoFixedAdvance(1, gMemberRowCellIndices[slotIndex].mLabelIndex,
                                                        cellFileSet->mLabelLayout, &entry, cellFileSet->mCellLayout,
                                                        cellFileSet->mCellTable);
-                    gMultiSelectMemberGroup->mUnk_58[slotIndex].mUnk_08 = GetScanSlotChildCount(slotIndex);
-                    gMultiSelectMemberGroup->mUnk_58[slotIndex].mUnk_04 = IsScanSlotMultiBoot(slotIndex);
+                    gMultiSelectMemberGroup->mUnk_58[slotIndex].mChildCount = GetScanSlotChildCount(slotIndex);
+                    gMultiSelectMemberGroup->mUnk_58[slotIndex].mIsMultiBoot = IsScanSlotMultiBoot(slotIndex);
                 } else {
                     PrintLabelLayoutTextNoFixedAdvance(1, gMemberRowCellIndices[slotIndex].mLabelIndex,
                                                        cellFileSet->mLabelLayout,
                                                        GetBmgEntry(gMultiSelectMemberGroup->mBannerMessages, 8),
                                                        cellFileSet->mCellLayout, cellFileSet->mCellTable);
-                    gMultiSelectMemberGroup->mUnk_58[slotIndex].mUnk_08 = 0;
-                    gMultiSelectMemberGroup->mUnk_58[slotIndex].mUnk_04 = 0;
+                    gMultiSelectMemberGroup->mUnk_58[slotIndex].mChildCount = 0;
+                    gMultiSelectMemberGroup->mUnk_58[slotIndex].mIsMultiBoot = 0;
                 }
                 if (oldHasText == 0 && gMultiSelectMemberGroup->mUnk_58[slotIndex].mHasText != 0) {
                     isNewEntry = TRUE;
@@ -280,8 +280,8 @@ void UpdateMemberRowsFromScanSlots(void) {
                     NNS_SndArcSetCurrent(&gFileSndArc);
                 }
                 changed |= oldHasText != gMultiSelectMemberGroup->mUnk_58[slotIndex].mHasText ? 1 : 0;
-                changed |= oldWord8 != gMultiSelectMemberGroup->mUnk_58[slotIndex].mUnk_08 ? 1 : 0;
-                changed |= oldWord4 != gMultiSelectMemberGroup->mUnk_58[slotIndex].mUnk_04 ? 1 : 0;
+                changed |= oldWord8 != gMultiSelectMemberGroup->mUnk_58[slotIndex].mChildCount ? 1 : 0;
+                changed |= oldWord4 != gMultiSelectMemberGroup->mUnk_58[slotIndex].mIsMultiBoot ? 1 : 0;
             }
             if (changed != 0) {
                 RefreshMultiSelectMemberGroup(1);
@@ -459,7 +459,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
                     if (IsRectInMemberRow(rectIndex, rowIndex) != 0) {
                         selectionChanged = gMultiSelectMemberGroup->mSelectedIndex != rowIndex ? 1 : 0;
                         if (gMultiSelectMemberGroup->mUnk_58[rowIndex].mHasText != 0 &&
-                            gMultiSelectMemberGroup->mUnk_58[rowIndex].mUnk_08 < 7) {
+                            gMultiSelectMemberGroup->mUnk_58[rowIndex].mChildCount < 7) {
                             NNS_SndArcSetCurrent(&gOnMemorySndArc);
                             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
                             NNS_SndArcSetCurrent(&gFileSndArc);

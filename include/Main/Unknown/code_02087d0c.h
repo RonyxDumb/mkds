@@ -42,14 +42,14 @@ typedef struct ModelAnimation {
 
 extern s32 (*gAnmFrameCountGetters[])(NNSG3dAnmObj *a);
 
-typedef struct Unk020882fc_08 {
+typedef struct AnmResourceHead {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ u16 mFrameCount;
-} Unk020882fc_08;
+} AnmResourceHead;
 
 typedef struct Unk020882fc {
     /* 00 */ u8 mUnk_00[8];
-    /* 08 */ Unk020882fc_08 *mUnk_08;
+    /* 08 */ AnmResourceHead *mUnk_08;
 } Unk020882fc;
 
 extern u32 gAnmObjSizeRequired;

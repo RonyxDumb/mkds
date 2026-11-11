@@ -19,22 +19,22 @@ typedef struct CTRDGWork {
 } CTRDGWork;
 
 // 0x40 bytes that CTRDGi_InitModuleInfo flushes and fills with a copy, then reads fields from.
-typedef struct Unk0216fea0 {
+typedef struct CartridgeHeaderTail {
     /* 00 */ u8 mUnk_00[0x2c];
-    /* 2c */ u32 mUnk_2c;
-    /* 30 */ u16 mUnk_30;
+    /* 2c */ u32 mGameCode;
+    /* 30 */ u16 mMakerCode;
     /* 32 */ u8 mUnk_32[3];
-    /* 35 */ u8 mUnk_35[3];
+    /* 35 */ u8 mExLsiId[3];
     /* 38 */ u8 mUnk_38[6];
-    /* 3e */ u16 mUnk_3e;
-} Unk0216fea0;
+    /* 3e */ u16 mModuleId;
+} CartridgeHeaderTail;
 
 typedef struct CartridgeHeaderCopy {
     /* 00 */ u32 mUnk_00;
     /* 04 */ u8 mUnk_04[0x7c];
     // The 0x40 bytes copied from 0x08000080; CTRDGi_InitModuleInfo reads the fields at +0x2c, +0x30, +0x35 and
     // +0x3e of it into the record.
-    /* 80 */ Unk0216fea0 mHeaderTailCopy;
+    /* 80 */ CartridgeHeaderTail mHeaderTailCopy;
 } CartridgeHeaderCopy;
 
 // Fixed-address object written by CTRDGi_InitModuleInfo and read by CTRDG_IsExisting.

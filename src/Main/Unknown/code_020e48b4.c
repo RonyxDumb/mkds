@@ -118,17 +118,17 @@ void SetupDrawPukupukuShadow(void) {
 }
 
 void DrawPukupukuShadow(u32 unused, Pukupuku *pukupuku, u32 unusedArg, u32 alpha) {
-    Unk020e4e08 shadowParams;
+    PukupukuShadowParams shadowParams;
 
     if (pukupuku->mPushedObject.mMapObject.mStateMachine.mState != 0 &&
         pukupuku->mPushedObject.mMapObject.mStateMachine.mState != 1) {
         return;
     }
-    shadowParams.mUnk_00 = pukupuku->mPushedObject.mMapObject.mPos.y - pukupuku->mInitialPos.y;
-    shadowParams.mUnk_00 = 0x1000 - (shadowParams.mUnk_00 >> 6);
-    shadowParams.mUnk_04 = pukupuku->mPushedObject.mMapObject.mPos;
-    shadowParams.mUnk_04.y = pukupuku->mInitialGroundY + pukupuku->mGroundYOffset;
-    SetShadowPositionRaised(&pukupuku->mShadowMatrix, &shadowParams.mUnk_04);
+    shadowParams.mScale = pukupuku->mPushedObject.mMapObject.mPos.y - pukupuku->mInitialPos.y;
+    shadowParams.mScale = 0x1000 - (shadowParams.mScale >> 6);
+    shadowParams.mPos = pukupuku->mPushedObject.mMapObject.mPos;
+    shadowParams.mPos.y = pukupuku->mInitialGroundY + pukupuku->mGroundYOffset;
+    SetShadowPositionRaised(&pukupuku->mShadowMatrix, &shadowParams.mPos);
     DrawObjShadowAfterMaterial(&pukupuku->mShadowMatrix, &shadowParams, 0, alpha);
 }
 

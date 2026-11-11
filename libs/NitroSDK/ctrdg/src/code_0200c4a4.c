@@ -76,12 +76,12 @@ void CTRDGi_InitModuleInfo(void) {
     CTRDGi_UnlockByProcessor(gCartridgeState.mLockId, &lockInfo);
     chb = &gCartridgeHeaderCopy;
     idInfo = &SYSTEM_WORK->mCartridgeModuleInfo;
-    idInfo->mIdHalfword = gCartridgeHeaderCopy.mHeaderTailCopy.mUnk_3e;
+    idInfo->mIdHalfword = gCartridgeHeaderCopy.mHeaderTailCopy.mModuleId;
     for (infoIndex = 0; infoIndex < 3; infoIndex++) {
-        idInfo->mExLsiId[infoIndex] = chb->mHeaderTailCopy.mUnk_35[infoIndex];
+        idInfo->mExLsiId[infoIndex] = chb->mHeaderTailCopy.mExLsiId[infoIndex];
     }
-    idInfo->mMakerCode = chb->mHeaderTailCopy.mUnk_30;
-    idInfo->mIdWord = chb->mHeaderTailCopy.mUnk_2c;
+    idInfo->mMakerCode = chb->mHeaderTailCopy.mMakerCode;
+    idInfo->mIdWord = chb->mHeaderTailCopy.mGameCode;
     MIi_CpuCopy32((void *) 0xffff0020, gCartridgeHeaderCopy.mUnk_04, 0x9c);
     DC_FlushAll();
     CTRDGi_SendtoPxi(((((u32) &gCartridgeHeaderCopy - 0x02000000) >> 5) << 6) | 1);

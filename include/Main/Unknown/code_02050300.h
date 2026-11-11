@@ -14,11 +14,11 @@ typedef struct MPMessage {
     /* 17 */ u8 mUnk_17;
 } MPMessage;
 
-typedef struct Unk02050320 {
-    /* 00 */ u16 mUnk_00;
+typedef struct MPKindWordMessage {
+    /* 00 */ u16 mKind;
     /* 02 */ u8 mUnk_02[2];
-    /* 04 */ s32 mUnk_04;
-} Unk02050320;
+    /* 04 */ s32 mWord;
+} MPKindWordMessage;
 
 typedef struct MPPlayerBitsMessage {
     /* 00 */ u16 mKind;

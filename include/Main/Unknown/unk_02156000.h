@@ -86,14 +86,14 @@ extern u16 data_021567e4;
 extern u16 data_021567e8;
 
 // 8-byte entries of the table at data_02156808.
-typedef struct Unk02156808 {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-} Unk02156808;
+typedef struct KeyboardCursorTargets {
+    /* 00 */ u16 mUpFromRect1;
+    /* 02 */ u16 mDownFromRect1;
+    /* 04 */ u16 mUpFromRect2;
+    /* 06 */ u16 mDownFromRect2;
+} KeyboardCursorTargets;
 
-extern Unk02156808 data_02156808[];
+extern KeyboardCursorTargets data_02156808[];
 extern u16 gKeyboardLayoutRectCounts[6];
 extern const s16 gFrameOffsets[6];
 extern const u16 data_02156840[20];

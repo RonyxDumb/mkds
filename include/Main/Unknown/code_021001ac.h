@@ -6,11 +6,11 @@ typedef struct NsbmdModel NsbmdModel;
 typedef struct ItemTeresa ItemTeresa;
 
 // Row of the table behind gItemTeresaItemOffsets.
-typedef struct Unk0215a190 {
+typedef struct ItemTeresaOffset {
     /* 00 */ u8 mUnk_00[0xc];
-} Unk0215a190;
+} ItemTeresaOffset;
 
-extern Unk0215a190 gItemTeresaItemOffsets[];
+extern ItemTeresaOffset gItemTeresaItemOffsets[];
 
 void DrawItemTeresa(ItemTeresa *teresa, s32 unusedValue, NsbmdModel *model);
 void SetItemTeresaFromPacket(ItemTeresa *teresa, u32 sel, s32 value);

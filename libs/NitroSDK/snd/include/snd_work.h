@@ -2,10 +2,10 @@
 
 #include "types.h"
 
-typedef struct Unk020217b4_20 {
+typedef struct SoundSharedPlayer {
     /* 00 */ s16 mVariable[16];
     /* 20 */ u32 mTickCounter;
-} Unk020217b4_20;
+} SoundSharedPlayer;
 
 // 0x280 bytes; the shared work area that the sound processor fills in.
 typedef struct SNDSharedWork {
@@ -14,7 +14,7 @@ typedef struct SNDSharedWork {
     /* 008 */ u16 mChannelStatus;
     /* 00a */ u16 mCaptureStatus;
     /* 00c */ u8 mPadding[0x14];
-    /* 020 */ Unk020217b4_20 mPlayer[16];
+    /* 020 */ SoundSharedPlayer mPlayer[16];
     /* 260 */ s16 mGlobalVariable[16];
 } SNDSharedWork;
 

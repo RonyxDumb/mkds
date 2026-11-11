@@ -565,10 +565,10 @@ BOOL QueueMPDataPlayerBits(s32 playerIndex, u16 destBitmap) {
 }
 
 BOOL QueueMPDataHalfwordAndWord(s32 kind, u16 destBitmap, s32 word) {
-    Unk02050320 message;
+    MPKindWordMessage message;
 
-    message.mUnk_00 = kind;
-    message.mUnk_04 = word;
+    message.mKind = kind;
+    message.mWord = word;
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_SEND_READY) == 0) {
         return FALSE;
     }

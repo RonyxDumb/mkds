@@ -5,13 +5,13 @@
 typedef struct NNSiFndHeapHead NNSiFndHeapHead;
 
 // 8-byte entries of two words: a string and a number.
-typedef struct Unk02154228 {
-    /* 00 */ const char *mUnk_00;
+typedef struct CourseNameEntry {
+    /* 00 */ const char *mName;
     /* 04 */ u8 mUnk_04;
     /* 05 */ u8 mUnk_05[0x3];
-} Unk02154228;
+} CourseNameEntry;
 
-extern Unk02154228 data_usa_02154228[];
+extern CourseNameEntry data_usa_02154228[];
 extern const char data_usa_02165164[];
 extern const char data_usa_02165168[];
 extern const char data_usa_0216516c[];

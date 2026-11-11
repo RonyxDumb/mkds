@@ -48,11 +48,11 @@ extern NsbmdModel gJgMain;
 
 // Work area of FillNsbmdModel on the stack: two words, then the object
 // NNSi_G3dAnmCalcNsBtp fills in.
-typedef struct Unk020e6514_8 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ NNSG3dMatAnmResult mUnk_08;
-} Unk020e6514_8;
+typedef struct NsbmdTexFrameWork {
+    /* 00 */ u32 mTexImageParam;
+    /* 04 */ u32 mDataIndex;
+    /* 08 */ NNSG3dMatAnmResult mResult;
+} NsbmdTexFrameWork;
 
 void SetupDrawObPakkunSf(void);
 MapObjectList *CreateObPakkunSfUpdateList(void);
